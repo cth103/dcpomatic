@@ -113,6 +113,34 @@ always_overwrite ()
 	return true;
 }
 
+void
+write_files (list<ScreenKDM> screen_kdms, bool zip, boost::filesystem::path output, dcp::NameFormat::Map values, bool verbose)
+{
+	if (zip) {
+		int const N = CinemaKDMs::write_zip_files (
+			CinemaKDMs::collect (screen_kdms),
+			output,
+			Config::instance()->kdm_container_name_format(),
+			Config::instance()->kdm_filename_format(),
+			values,
+			bind (&always_overwrite)
+			);
+
+		if (verbose) {
+			cout << "Wrote " << N << " ZIP files to " << output << "\n";
+		}
+	} else {
+		int const N = ScreenKDM::write_files (
+			screen_kdms, output, Config::instance()->kdm_filename_format(), values,
+			bind (&always_overwrite)
+			);
+
+		if (verbose) {
+			cout << "Wrote " << N << " KDM files to " << output << "\n";
+		}
+	}
+}
+
 int main (int argc, char* argv[])
 {
 	boost::filesystem::path output;
@@ -301,29 +329,7 @@ int main (int argc, char* argv[])
 				(*i)->screens(), cpl, valid_from.get(), valid_to.get(), formulation
 				);
 
-			if (zip) {
-				int const N = CinemaKDMs::write_zip_files (
-					CinemaKDMs::collect (screen_kdms),
-					output,
-					Config::instance()->kdm_container_name_format(),
-					Config::instance()->kdm_filename_format(),
-					values,
-					bind (&always_overwrite)
-					);
-
-				if (verbose) {
-					cout << "Wrote " << N << " ZIP files to " << output << "\n";
-				}
-			} else {
-				int const N = ScreenKDM::write_files (
-					screen_kdms, output, Config::instance()->kdm_filename_format(), values,
-					bind (&always_overwrite)
-					);
-
-				if (verbose) {
-					cout << "Wrote " << N << " KDM files to " << output << "\n";
-				}
-			}
+			write_files (screen_kdms, zip, output, values, verbose);
 		} catch (FileError& e) {
 			cerr << argv[0] << ": " << e.what() << " (" << e.file().string() << ")\n";
 			exit (EXIT_FAILURE);
