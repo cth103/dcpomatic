@@ -205,7 +205,7 @@ Image::crop_scale_window (
 
 	uint8_t* scale_out_data[out->planes()];
 	for (int c = 0; c < out->planes(); ++c) {
-		scale_out_data[c] = out->data()[c] + lrintf (out->bytes_per_pixel(c) * corner.x) + out->stride()[c] * corner.y;
+		scale_out_data[c] = out->data()[c] + lrintf (out->bytes_per_pixel(c) * corner.x) + out->stride()[c] * (corner.y / out->vertical_factor(c));
 	}
 
 	sws_scale (
