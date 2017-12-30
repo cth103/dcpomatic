@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -164,14 +164,14 @@ find_cinema (string cinema_name)
 
 int main (int argc, char* argv[])
 {
-	boost::filesystem::path output;
-	boost::optional<boost::posix_time::ptime> valid_from;
-	boost::optional<boost::posix_time::ptime> valid_to;
-	string certificate_file;
+	optional<boost::filesystem::path> output;
+	optional<boost::posix_time::ptime> valid_from;
+	optional<boost::posix_time::ptime> valid_to;
+	optional<string> certificate_file;
 	bool zip = false;
-	string cinema_name;
+	optional<string> cinema_name;
 	bool cinemas = false;
-	string duration_string;
+	optional<string> duration_string;
 	bool verbose = false;
 	dcp::Formulation formulation = dcp::MODIFIED_TRANSITIONAL_1;
 
@@ -252,7 +252,7 @@ int main (int argc, char* argv[])
 		exit (EXIT_SUCCESS);
 	}
 
-	if (duration_string.empty() && !valid_to) {
+	if (!duration_string && !valid_to) {
 		error ("you must specify a --valid-duration or --valid-to");
 	}
 
@@ -266,12 +266,12 @@ int main (int argc, char* argv[])
 		exit (EXIT_FAILURE);
 	}
 
-	if (cinema_name.empty() && certificate_file.empty()) {
+	if (!cinema_name && !certificate_file) {
 		error ("you must specify either a cinema, a screen or a certificate file");
 	}
 
-	if (!duration_string.empty ()) {
-		valid_to = valid_from.get() + duration_from_string (duration_string);
+	if (duration_string) {
+		valid_to = valid_from.get() + duration_from_string (*duration_string);
 	}
 
 	boost::filesystem::path const film_dir = argv[optind];
@@ -305,37 +305,37 @@ int main (int argc, char* argv[])
 
 	boost::filesystem::path cpl = cpls.front().cpl_file;
 
-	if (cinema_name.empty ()) {
+	if (!cinema_name) {
 
-		if (output.empty ()) {
+		if (!output) {
 			error ("you must specify --output");
 		}
 
-		dcp::Certificate certificate (dcp::file_to_string (certificate_file));
+		dcp::Certificate certificate (dcp::file_to_string (*certificate_file));
 		dcp::EncryptedKDM kdm = film->make_kdm (
-			certificate, vector<dcp::Certificate>(), cpl, dcp::LocalTime (valid_from.get()), dcp::LocalTime (valid_to.get()), formulation
+			certificate, vector<dcp::Certificate>(), cpl, dcp::LocalTime (*valid_from), dcp::LocalTime (*valid_to), formulation
 			);
-		kdm.as_xml (output);
+		kdm.as_xml (*output);
 		if (verbose) {
-			cout << "Generated KDM " << output << " for certificate.\n";
+			cout << "Generated KDM " << *output << " for certificate.\n";
 		}
 	} else {
 
-		if (output.empty ()) {
+		if (!output) {
 			output = ".";
 		}
 
 		dcp::NameFormat::Map values;
 		values['f'] = film->name();
-		values['b'] = dcp::LocalTime(valid_from.get()).date() + " " + dcp::LocalTime(valid_from.get()).time_of_day(true, false);
-		values['e'] = dcp::LocalTime(valid_to.get()).date() + " " + dcp::LocalTime(valid_to.get()).time_of_day(true, false);
+		values['b'] = dcp::LocalTime(*valid_from).date() + " " + dcp::LocalTime(*valid_from).time_of_day(true, false);
+		values['e'] = dcp::LocalTime(*valid_to).date() + " " + dcp::LocalTime(*valid_to).time_of_day(true, false);
 
 		try {
 			list<ScreenKDM> screen_kdms = film->make_kdms (
-				find_cinema(cinema_name)->screens(), cpl, valid_from.get(), valid_to.get(), formulation
+				find_cinema(*cinema_name)->screens(), cpl, valid_from.get(), valid_to.get(), formulation
 				);
 
-			write_files (screen_kdms, zip, output, values, verbose);
+			write_files (screen_kdms, zip, *output, values, verbose);
 		} catch (FileError& e) {
 			cerr << argv[0] << ": " << e.what() << " (" << e.file().string() << ")\n";
 			exit (EXIT_FAILURE);
