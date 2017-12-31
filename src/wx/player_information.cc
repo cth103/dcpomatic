@@ -22,10 +22,12 @@
 #include "wx_util.h"
 #include "film_viewer.h"
 #include "lib/playlist.h"
+#include "lib/compose.hpp"
 #include "lib/video_content.h"
 #include "lib/dcp_content.h"
 
 using std::cout;
+using std::string;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
@@ -114,14 +116,14 @@ PlayerInformation::triggered_update ()
 	optional<double> vfr;
 	vfr = dcp->video_frame_rate ();
 	DCPOMATIC_ASSERT (vfr);
-	checked_set (
-		_dcp[r++],
-		wxString::Format(
-			_("Length: %s (%" wxLongLongFmtSpec " frames)"),
-			std_to_wx(time_to_hmsf(dcp->full_length(), lrint(*vfr))).data(),
-			dcp->full_length().frames_round(*vfr)
-			)
+
+	string const len = String::compose(
+		wx_to_std(_("Length: %1 (%2 frames)")),
+		time_to_hmsf(dcp->full_length(), lrint(*vfr)),
+		dcp->full_length().frames_round(*vfr)
 		);
+
+	checked_set (_dcp[r++], std_to_wx(len));
 
 	dcp::Size decode = dcp->video->size();
 	optional<int> reduction = _viewer->dcp_decode_reduction();
