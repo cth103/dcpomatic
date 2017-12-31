@@ -117,7 +117,7 @@ PlayerInformation::triggered_update ()
 	checked_set (
 		_dcp[r++],
 		wxString::Format(
-			_("Length: %s (%ld frames)"),
+			_("Length: %s (%" wxLongLongFmtSpec " frames)"),
 			std_to_wx(time_to_hmsf(dcp->full_length(), lrint(*vfr))).data(),
 			dcp->full_length().frames_round(*vfr)
 			)
