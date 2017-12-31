@@ -1,5 +1,5 @@
 #
-#    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+#    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 #
 #    This file is part of DCP-o-matic.
 #
@@ -255,6 +255,17 @@ def configure(conf):
                    errmsg='not MagickCore',
                    includes=conf.env['INCLUDES_MAGICK'],
                    define_name='DCPOMATIC_MAGICKCORE_MAGICKCORE')
+
+    # See if we have advanced compare() methods in Magick
+    conf.check_cxx(fragment="""
+                            #include <Magick++.h>\n
+                            int main() { Magick::Image a; Magick::Image b; a.compare(b, Magick::RootMeanSquaredErrorMetric); }
+                            """,
+                   mandatory=False,
+                   msg='Checking for advanced compare() method in {Image/Graphics}Magick',
+                   uselib='MAGICK',
+                   define_name='DCPOMATIC_ADVANCED_MAGICK_COMPARE'
+                   )
 
     # libzip
     conf.check_cfg(package='libzip', args='--cflags --libs', uselib_store='ZIP', mandatory=True)

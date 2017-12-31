@@ -239,7 +239,7 @@ check_image (boost::filesystem::path ref, boost::filesystem::path check)
 	/* XXX: this is a hack; we really want the ImageMagick call but GraphicsMagick doesn't have it;
 	   this may cause random test failures on platforms that use GraphicsMagick.
 	*/
-#ifdef DCPOMATIC_IMAGE_MAGICK
+#ifdef DCPOMATIC_ADVANCED_MAGICK_COMPARE
 	double const dist = ref_image.compare(check_image, Magick::RootMeanSquaredErrorMetric);
 	BOOST_CHECK_MESSAGE (dist < 0.001, ref << " differs from " << check << " " << dist);
 #else
