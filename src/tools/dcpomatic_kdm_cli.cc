@@ -29,7 +29,11 @@
 #include "lib/config.h"
 #include "lib/exceptions.h"
 #include "lib/emailer.h"
+#include "lib/dkdm_wrapper.h"
+#include "lib/screen.h"
 #include <dcp/certificate.h>
+#include <dcp/decrypted_kdm.h>
+#include <dcp/encrypted_kdm.h>
 #include <getopt.h>
 #include <iostream>
 
@@ -41,11 +45,12 @@ using std::vector;
 using boost::shared_ptr;
 using boost::optional;
 using boost::bind;
+using boost::dynamic_pointer_cast;
 
 static void
 help ()
 {
-	cerr << "Syntax: " << program_name << " [OPTION] [<FILM>]\n"
+	cerr << "Syntax: " << program_name << " [OPTION] <FILM|CPL-ID>\n"
 		"  -h, --help             show this help\n"
 		"  -o, --output           output file or directory\n"
 		"  -f, --valid-from       valid from time (in local time zone of the cinema) (e.g. \"2013-09-28 01:41:51\") or \"now\"\n"
@@ -57,6 +62,7 @@ help ()
 		"  -c, --cinema           specify a cinema, either by name or email address\n"
 		"      --cinemas          list known cinemas from the DCP-o-matic settings\n"
 		"      --certificate file containing projector certificate\n\n"
+		"CPL-ID must be the ID of a CPL that is mentioned in DCP-o-matic's DKDM list.\n\n"
 		"For example:\n\n"
 		"Create KDMs for my_great_movie to play in all of Fred's Cinema's screens for the next two weeks and zip them up.\n"
 		"(Fred's Cinema must have been set up in DCP-o-matic's KDM window)\n\n"
@@ -238,6 +244,141 @@ from_film (
 	}
 }
 
+optional<dcp::EncryptedKDM>
+sub_find_dkdm (shared_ptr<DKDMGroup> group, string cpl_id)
+{
+	BOOST_FOREACH (shared_ptr<DKDMBase> i, group->children()) {
+		shared_ptr<DKDMGroup> g = dynamic_pointer_cast<DKDMGroup>(i);
+		if (g) {
+			optional<dcp::EncryptedKDM> dkdm = sub_find_dkdm (g, cpl_id);
+			if (dkdm) {
+				return dkdm;
+			}
+		} else {
+			shared_ptr<DKDM> d = dynamic_pointer_cast<DKDM>(i);
+			assert (d);
+			if (d->dkdm().cpl_id() == cpl_id) {
+				return d->dkdm();
+			}
+		}
+	}
+
+	return optional<dcp::EncryptedKDM>();
+}
+
+optional<dcp::EncryptedKDM>
+find_dkdm (string cpl_id)
+{
+	return sub_find_dkdm (Config::instance()->dkdms(), cpl_id);
+}
+
+dcp::EncryptedKDM
+kdm_from_dkdm (
+	dcp::EncryptedKDM dkdm,
+	dcp::Certificate target,
+	vector<dcp::Certificate> trusted_devices,
+	dcp::LocalTime valid_from,
+	dcp::LocalTime valid_to,
+	dcp::Formulation formulation
+	)
+{
+	/* Decrypted DKDM */
+	dcp::DecryptedKDM decrypted_dkdm (dkdm, Config::instance()->decryption_chain()->key().get());
+
+	/* Signer for new KDM */
+	shared_ptr<const dcp::CertificateChain> signer = Config::instance()->signer_chain ();
+	if (!signer->valid ()) {
+		error ("signing certificate chain is invalid.");
+	}
+
+	/* Make a new empty KDM and add the keys from the DKDM to it */
+	dcp::DecryptedKDM kdm (
+		valid_from,
+		valid_to,
+		dkdm.annotation_text().get_value_or(""),
+		dkdm.content_title_text(),
+		dcp::LocalTime().as_string()
+		);
+
+	BOOST_FOREACH (dcp::DecryptedKDMKey const & j, decrypted_dkdm.keys()) {
+		kdm.add_key(j);
+	}
+
+	return kdm.encrypt (signer, target, trusted_devices, formulation);
+}
+
+void
+from_dkdm (
+	dcp::EncryptedKDM dkdm,
+	bool verbose,
+	optional<string> cinema_name,
+ 	optional<boost::filesystem::path> output,
+	optional<boost::filesystem::path> certificate_file,
+	boost::posix_time::ptime valid_from,
+	boost::posix_time::ptime valid_to,
+	dcp::Formulation formulation,
+	bool zip
+	)
+{
+	if (!cinema_name) {
+		if (!output) {
+			error ("you must specify --output");
+		}
+
+		dcp::EncryptedKDM kdm = kdm_from_dkdm (
+			dkdm,
+			dcp::Certificate (dcp::file_to_string (*certificate_file)),
+			vector<dcp::Certificate>(),
+			dcp::LocalTime(valid_from), dcp::LocalTime(valid_to),
+			formulation
+			);
+
+		kdm.as_xml (*output);
+		if (verbose) {
+			cout << "Generated KDM " << *output << " for certificate.\n";
+		}
+	} else {
+
+		if (!output) {
+			output = ".";
+		}
+
+		dcp::NameFormat::Map values;
+		values['f'] = dkdm.annotation_text().get_value_or("");
+		values['b'] = dcp::LocalTime(valid_from).date() + " " + dcp::LocalTime(valid_from).time_of_day(true, false);
+		values['e'] = dcp::LocalTime(valid_to).date() + " " + dcp::LocalTime(valid_to).time_of_day(true, false);
+
+		try {
+			list<ScreenKDM> screen_kdms;
+			BOOST_FOREACH (shared_ptr<Screen> i, find_cinema(*cinema_name)->screens()) {
+				if (!i->recipient) {
+					continue;
+				}
+				screen_kdms.push_back (
+					ScreenKDM (
+						i,
+						kdm_from_dkdm (
+							dkdm,
+							i->recipient.get(),
+							i->trusted_devices,
+							dcp::LocalTime(valid_from, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
+							dcp::LocalTime(valid_to, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
+							formulation
+							)
+						)
+					);
+			}
+			write_files (screen_kdms, zip, *output, values, verbose);
+		} catch (FileError& e) {
+			cerr << program_name << ": " << e.what() << " (" << e.file().string() << ")\n";
+			exit (EXIT_FAILURE);
+		} catch (KDMError& e) {
+			cerr << program_name << ": " << e.what() << "\n";
+			exit (EXIT_FAILURE);
+		}
+	}
+}
+
 int main (int argc, char* argv[])
 {
 	optional<boost::filesystem::path> output;
@@ -350,8 +491,6 @@ int main (int argc, char* argv[])
 		valid_to = valid_from.get() + duration_from_string (*duration_string);
 	}
 
-	boost::filesystem::path const film_dir = argv[optind];
-
 	dcpomatic_setup_path_encoding ();
 	dcpomatic_setup ();
 
@@ -359,7 +498,16 @@ int main (int argc, char* argv[])
 		cout << "Making KDMs valid from " << valid_from.get() << " to " << valid_to.get() << "\n";
 	}
 
-	from_film (film_dir, verbose, cinema_name, output, certificate_file, *valid_from, *valid_to, formulation, zip);
+	string const thing = argv[optind];
+	if (boost::filesystem::is_directory(thing) && boost::filesystem::is_regular_file(boost::filesystem::path(thing) / "metadata.xml")) {
+		from_film (thing, verbose, cinema_name, output, certificate_file, *valid_from, *valid_to, formulation, zip);
+	} else {
+		optional<dcp::EncryptedKDM> dkdm = find_dkdm (thing);
+		if (!dkdm) {
+			error ("could not find film or CPL ID corresponding to " + thing);
+		}
+		from_dkdm (*dkdm, verbose, cinema_name, output, certificate_file, *valid_from, *valid_to, formulation, zip);
+	}
 
 	return 0;
 }
