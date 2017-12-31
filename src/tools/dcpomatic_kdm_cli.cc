@@ -60,8 +60,9 @@ help ()
 		"  -z, --zip              ZIP each cinema's KDMs into its own file\n"
 		"  -v, --verbose          be verbose\n"
 		"  -c, --cinema           specify a cinema, either by name or email address\n"
+		"      --certificate      file containing projector certificate\n"
 		"      --cinemas          list known cinemas from the DCP-o-matic settings\n"
-		"      --certificate file containing projector certificate\n\n"
+		"      --dkdm-cpls        list CPLs for which DCP-o-matic has DKDMs\n\n"
 		"CPL-ID must be the ID of a CPL that is mentioned in DCP-o-matic's DKDM list.\n\n"
 		"For example:\n\n"
 		"Create KDMs for my_great_movie to play in all of Fred's Cinema's screens for the next two weeks and zip them up.\n"
@@ -379,6 +380,30 @@ from_dkdm (
 	}
 }
 
+void
+dump_dkdm_group (shared_ptr<DKDMGroup> group, int indent)
+{
+	if (indent > 0) {
+		for (int i = 0; i < indent; ++i) {
+			cout << " ";
+		}
+		cout << group->name() << "\n";
+	}
+	BOOST_FOREACH (shared_ptr<DKDMBase> i, group->children()) {
+		shared_ptr<DKDMGroup> g = dynamic_pointer_cast<DKDMGroup>(i);
+		if (g) {
+			dump_dkdm_group (g, indent + 2);
+		} else {
+			for (int i = 0; i < indent; ++i) {
+				cout << " ";
+			}
+			shared_ptr<DKDM> d = dynamic_pointer_cast<DKDM>(i);
+			assert(d);
+			cout << d->dkdm().cpl_id() << "\n";
+		}
+	}
+}
+
 int main (int argc, char* argv[])
 {
 	optional<boost::filesystem::path> output;
@@ -388,6 +413,7 @@ int main (int argc, char* argv[])
 	bool zip = false;
 	optional<string> cinema_name;
 	bool cinemas = false;
+	bool dkdm_cpls = false;
 	optional<string> duration_string;
 	bool verbose = false;
 	dcp::Formulation formulation = dcp::MODIFIED_TRANSITIONAL_1;
@@ -404,6 +430,7 @@ int main (int argc, char* argv[])
 			{ "certificate", required_argument, 0, 'A' },
 			{ "cinema", required_argument, 0, 'c' },
 			{ "cinemas", no_argument, 0, 'B' },
+			{ "dkdm-cpls", no_argument, 0, 'D' },
 			{ "zip", no_argument, 0, 'z' },
 			{ "duration", required_argument, 0, 'd' },
 			{ "verbose", no_argument, 0, 'v' },
@@ -411,7 +438,7 @@ int main (int argc, char* argv[])
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "ho:f:t:c:A:Bzd:vC:", long_options, &option_index);
+		int c = getopt_long (argc, argv, "ho:f:t:c:A:Bzd:vC:D", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -438,6 +465,9 @@ int main (int argc, char* argv[])
 			break;
 		case 'B':
 			cinemas = true;
+			break;
+		case 'D':
+			dkdm_cpls = true;
 			break;
 		case 'z':
 			zip = true;
@@ -466,6 +496,11 @@ int main (int argc, char* argv[])
 		for (list<boost::shared_ptr<Cinema> >::const_iterator i = cinemas.begin(); i != cinemas.end(); ++i) {
 			cout << (*i)->name << " (" << Emailer::address_list ((*i)->emails) << ")\n";
 		}
+		exit (EXIT_SUCCESS);
+	}
+
+	if (dkdm_cpls) {
+		dump_dkdm_group (Config::instance()->dkdms(), 0);
 		exit (EXIT_SUCCESS);
 	}
 
