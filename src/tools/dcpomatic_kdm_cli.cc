@@ -162,12 +162,88 @@ find_cinema (string cinema_name)
 	return *i;
 }
 
+void
+from_film (
+	boost::filesystem::path film_dir,
+	bool verbose,
+	optional<string> cinema_name,
+	optional<boost::filesystem::path> output,
+	optional<boost::filesystem::path> certificate_file,
+	boost::posix_time::ptime valid_from,
+	boost::posix_time::ptime valid_to,
+	dcp::Formulation formulation,
+	bool zip
+	)
+{
+	shared_ptr<Film> film;
+	try {
+		film.reset (new Film (film_dir));
+		film->read_metadata ();
+		if (verbose) {
+			cout << "Read film " << film->name () << "\n";
+		}
+	} catch (std::exception& e) {
+		cerr << program_name << ": error reading film `" << film_dir.string() << "' (" << e.what() << ")\n";
+		exit (EXIT_FAILURE);
+	}
+
+	/* XXX: allow specification of this */
+	vector<CPLSummary> cpls = film->cpls ();
+	if (cpls.empty ()) {
+		error ("no CPLs found in film");
+	} else if (cpls.size() > 1) {
+		error ("more than one CPL found in film");
+	}
+
+	boost::filesystem::path cpl = cpls.front().cpl_file;
+
+	if (!cinema_name) {
+
+		if (!output) {
+			error ("you must specify --output");
+		}
+
+		dcp::Certificate certificate (dcp::file_to_string (*certificate_file));
+		dcp::EncryptedKDM kdm = film->make_kdm (
+			certificate, vector<dcp::Certificate>(), cpl, dcp::LocalTime (valid_from), dcp::LocalTime (valid_to), formulation
+			);
+		kdm.as_xml (*output);
+		if (verbose) {
+			cout << "Generated KDM " << *output << " for certificate.\n";
+		}
+	} else {
+
+		if (!output) {
+			output = ".";
+		}
+
+		dcp::NameFormat::Map values;
+		values['f'] = film->name();
+		values['b'] = dcp::LocalTime(valid_from).date() + " " + dcp::LocalTime(valid_from).time_of_day(true, false);
+		values['e'] = dcp::LocalTime(valid_to).date() + " " + dcp::LocalTime(valid_to).time_of_day(true, false);
+
+		try {
+			list<ScreenKDM> screen_kdms = film->make_kdms (
+				find_cinema(*cinema_name)->screens(), cpl, valid_from, valid_to, formulation
+				);
+
+			write_files (screen_kdms, zip, *output, values, verbose);
+		} catch (FileError& e) {
+			cerr << program_name << ": " << e.what() << " (" << e.file().string() << ")\n";
+			exit (EXIT_FAILURE);
+		} catch (KDMError& e) {
+			cerr << program_name << ": " << e.what() << "\n";
+			exit (EXIT_FAILURE);
+		}
+	}
+}
+
 int main (int argc, char* argv[])
 {
 	optional<boost::filesystem::path> output;
 	optional<boost::posix_time::ptime> valid_from;
 	optional<boost::posix_time::ptime> valid_to;
-	optional<string> certificate_file;
+	optional<boost::filesystem::path> certificate_file;
 	bool zip = false;
 	optional<string> cinema_name;
 	bool cinemas = false;
@@ -279,71 +355,11 @@ int main (int argc, char* argv[])
 	dcpomatic_setup_path_encoding ();
 	dcpomatic_setup ();
 
-	shared_ptr<Film> film;
-	try {
-		film.reset (new Film (film_dir));
-		film->read_metadata ();
-		if (verbose) {
-			cout << "Read film " << film->name () << "\n";
-		}
-	} catch (std::exception& e) {
-		cerr << program_name << ": error reading film `" << film_dir.string() << "' (" << e.what() << ")\n";
-		exit (EXIT_FAILURE);
-	}
-
 	if (verbose) {
 		cout << "Making KDMs valid from " << valid_from.get() << " to " << valid_to.get() << "\n";
 	}
 
-	/* XXX: allow specification of this */
-	vector<CPLSummary> cpls = film->cpls ();
-	if (cpls.empty ()) {
-		error ("no CPLs found in film");
-	} else if (cpls.size() > 1) {
-		error ("more than one CPL found in film");
-	}
-
-	boost::filesystem::path cpl = cpls.front().cpl_file;
-
-	if (!cinema_name) {
-
-		if (!output) {
-			error ("you must specify --output");
-		}
-
-		dcp::Certificate certificate (dcp::file_to_string (*certificate_file));
-		dcp::EncryptedKDM kdm = film->make_kdm (
-			certificate, vector<dcp::Certificate>(), cpl, dcp::LocalTime (*valid_from), dcp::LocalTime (*valid_to), formulation
-			);
-		kdm.as_xml (*output);
-		if (verbose) {
-			cout << "Generated KDM " << *output << " for certificate.\n";
-		}
-	} else {
-
-		if (!output) {
-			output = ".";
-		}
-
-		dcp::NameFormat::Map values;
-		values['f'] = film->name();
-		values['b'] = dcp::LocalTime(*valid_from).date() + " " + dcp::LocalTime(*valid_from).time_of_day(true, false);
-		values['e'] = dcp::LocalTime(*valid_to).date() + " " + dcp::LocalTime(*valid_to).time_of_day(true, false);
-
-		try {
-			list<ScreenKDM> screen_kdms = film->make_kdms (
-				find_cinema(*cinema_name)->screens(), cpl, valid_from.get(), valid_to.get(), formulation
-				);
-
-			write_files (screen_kdms, zip, *output, values, verbose);
-		} catch (FileError& e) {
-			cerr << argv[0] << ": " << e.what() << " (" << e.file().string() << ")\n";
-			exit (EXIT_FAILURE);
-		} catch (KDMError& e) {
-			cerr << argv[0] << ": " << e.what() << "\n";
-			exit (EXIT_FAILURE);
-		}
-	}
+	from_film (film_dir, verbose, cinema_name, output, certificate_file, *valid_from, *valid_to, formulation, zip);
 
 	return 0;
 }
