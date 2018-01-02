@@ -53,7 +53,7 @@ public:
 	virtual bool pass () = 0;
 	virtual void seek (ContentTime time, bool accurate);
 
-	virtual ContentTime position () const;
+	ContentTime position () const;
 };
 
 #endif
