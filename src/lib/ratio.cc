@@ -34,16 +34,16 @@ vector<Ratio const *> Ratio::_ratios;
 void
 Ratio::setup_ratios ()
 {
-	_ratios.push_back (new Ratio (float(1290) / 1080, "119",        _("1.19"),              optional<string>(),      "119"));
-	_ratios.push_back (new Ratio (float(1440) / 1080, "133",        _("1.33 (4:3)"),        optional<string>(),      "133"));
-	_ratios.push_back (new Ratio (float(1485) / 1080, "138",        _("1.38 (Academy)"),    optional<string>(),      "137"));
-	_ratios.push_back (new Ratio (float(1544) / 1080, "143",        _("1.43 (IMAX)"),       optional<string>(),      "143"));
-	_ratios.push_back (new Ratio (float(1800) / 1080, "166",        _("1.66"),              optional<string>(),      "166"));
-	_ratios.push_back (new Ratio (float(1920) / 1080, "178",        _("1.78 (16:9 or HD)"), optional<string>(),      "178"));
-	_ratios.push_back (new Ratio (float(1998) / 1080, "185",        _("1.85 (Flat)"),       string(_("DCI Flat")),   "F"));
-	_ratios.push_back (new Ratio (float(2048) /  872, "235",        _("2.35 (35mm Scope)"), optional<string>(),      "S"));
-	_ratios.push_back (new Ratio (float(2048) /  858, "239",        _("2.39 (Scope)"),      string(_("DCI Scope")),  "S"));
-	_ratios.push_back (new Ratio (float(2048) / 1080, "full-frame", _("1.90 (Full frame)"), string(_("Full frame")), "C"));
+	_ratios.push_back (new Ratio (float(1290) / 1080, "119", _("1.19"),              optional<string>(),      "119"));
+	_ratios.push_back (new Ratio (float(1440) / 1080, "133", _("1.33 (4:3)"),        optional<string>(),      "133"));
+	_ratios.push_back (new Ratio (float(1485) / 1080, "138", _("1.38 (Academy)"),    optional<string>(),      "137"));
+	_ratios.push_back (new Ratio (float(1544) / 1080, "143", _("1.43 (IMAX)"),       optional<string>(),      "143"));
+	_ratios.push_back (new Ratio (float(1800) / 1080, "166", _("1.66"),              optional<string>(),      "166"));
+	_ratios.push_back (new Ratio (float(1920) / 1080, "178", _("1.78 (16:9 or HD)"), optional<string>(),      "178"));
+	_ratios.push_back (new Ratio (float(1998) / 1080, "185", _("1.85 (Flat)"),       string(_("DCI Flat")),   "F"));
+	_ratios.push_back (new Ratio (float(2048) /  872, "235", _("2.35 (35mm Scope)"), optional<string>(),      "S"));
+	_ratios.push_back (new Ratio (float(2048) /  858, "239", _("2.39 (Scope)"),      string(_("DCI Scope")),  "S"));
+	_ratios.push_back (new Ratio (float(2048) / 1080, "190", _("1.90 (Full frame)"), string(_("Full frame")), "C"));
 }
 
 Ratio const *
@@ -105,7 +105,7 @@ Ratio::containers ()
 	vector<Ratio const *> r;
 	r.push_back (Ratio::from_id ("185"));
 	r.push_back (Ratio::from_id ("239"));
-	r.push_back (Ratio::from_id ("full-frame"));
+	r.push_back (Ratio::from_id ("190"));
 	return r;
 }
 

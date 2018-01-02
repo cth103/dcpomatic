@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE (ratio_test)
 	BOOST_CHECK (r);
 	BOOST_CHECK_EQUAL (fit_ratio_within (r->ratio(), dcp::Size (2048, 1080)), dcp::Size (2048, 858));
 
-	r = Ratio::from_id ("full-frame");
+	r = Ratio::from_id ("190");
 	BOOST_CHECK (r);
 	BOOST_CHECK_EQUAL (fit_ratio_within (r->ratio(), dcp::Size (2048, 1080)), dcp::Size (2048, 1080));
 }

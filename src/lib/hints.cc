@@ -83,7 +83,7 @@ get_hints (shared_ptr<const Film> film)
 			Ratio const * r = i->video->scale().ratio ();
 			if (r && r->id() == "239") {
 				++scope;
-			} else if (r && r->id() != "239" && r->id() != "full-frame") {
+			} else if (r && r->id() != "239" && r->id() != "190") {
 				++flat_or_narrower;
 			}
 		}
@@ -99,7 +99,7 @@ get_hints (shared_ptr<const Film> film)
 		hints.push_back (_("All of your content is at 1.85:1 or narrower but your DCP's container is Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) frame.  You may prefer to set your DCP's container to Flat (1.85:1) in the \"DCP\" tab."));
 	}
 
-	if (film_container != "185" && film_container != "239" && film_container != "full-frame") {
+	if (film_container != "185" && film_container != "239" && film_container != "190") {
 		hints.push_back (_("Your DCP uses an unusual container ratio.  This may cause problems on some projectors.  If possible, use Flat or Scope for the DCP container ratio"));
 	}
 

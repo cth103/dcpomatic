@@ -1,5 +1,7 @@
 2018-01-02  Carl Hetherington  <cth@carlh.net>
 
+	* Fix generated ISDCF name with full-frame content (#1118).
+
 	* Fix downloading of certificates on Windows (#1124).
 
 	* Version 2.11.34 released.

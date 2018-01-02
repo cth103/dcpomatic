@@ -97,6 +97,9 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 
 	content->video->set_scale (VideoContentScale (Ratio::from_id ("239")));
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_XSN-2_F-239_DE-fr_US-R_4K_DI_20140704_PP_SMPTE_OV");
+
+	content->video->set_scale (VideoContentScale (Ratio::from_id ("190")));
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_XSN-2_F-190_DE-fr_US-R_4K_DI_20140704_PP_SMPTE_OV");
 	content->video->set_scale (VideoContentScale (Ratio::from_id ("133")));
 
 	/* Test 3D */
