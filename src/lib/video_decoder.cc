@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -59,11 +59,9 @@ VideoDecoder::emit (shared_ptr<const ImageProxy> image, Frame frame)
 		return;
 	}
 
-	optional<bool> taken;
-
 	switch (_content->video->frame_type ()) {
 	case VIDEO_FRAME_TYPE_2D:
-		taken = Data (ContentVideo (image, frame, EYES_BOTH, PART_WHOLE));
+		Data (ContentVideo (image, frame, EYES_BOTH, PART_WHOLE));
 		break;
 	case VIDEO_FRAME_TYPE_3D:
 	{
@@ -71,35 +69,33 @@ VideoDecoder::emit (shared_ptr<const ImageProxy> image, Frame frame)
 		   frame this one is.
 		*/
 		bool const same = (_last_emitted && _last_emitted.get() == frame);
-		taken = Data (ContentVideo (image, frame, same ? EYES_RIGHT : EYES_LEFT, PART_WHOLE));
+		Data (ContentVideo (image, frame, same ? EYES_RIGHT : EYES_LEFT, PART_WHOLE));
 		_last_emitted = frame;
 		break;
 	}
 	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
-		taken = Data (ContentVideo (image, frame / 2, (frame % 2) ? EYES_RIGHT : EYES_LEFT, PART_WHOLE));
+		Data (ContentVideo (image, frame / 2, (frame % 2) ? EYES_RIGHT : EYES_LEFT, PART_WHOLE));
 		frame /= 2;
 		break;
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
-		taken = Data (ContentVideo (image, frame, EYES_LEFT, PART_LEFT_HALF));
-		taken = Data (ContentVideo (image, frame, EYES_RIGHT, PART_RIGHT_HALF));
+		Data (ContentVideo (image, frame, EYES_LEFT, PART_LEFT_HALF));
+		Data (ContentVideo (image, frame, EYES_RIGHT, PART_RIGHT_HALF));
 		break;
 	case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
-		taken = Data (ContentVideo (image, frame, EYES_LEFT, PART_TOP_HALF));
-		taken = Data (ContentVideo (image, frame, EYES_RIGHT, PART_BOTTOM_HALF));
+		Data (ContentVideo (image, frame, EYES_LEFT, PART_TOP_HALF));
+		Data (ContentVideo (image, frame, EYES_RIGHT, PART_BOTTOM_HALF));
 		break;
 	case VIDEO_FRAME_TYPE_3D_LEFT:
-		taken = Data (ContentVideo (image, frame, EYES_LEFT, PART_WHOLE));
+		Data (ContentVideo (image, frame, EYES_LEFT, PART_WHOLE));
 		break;
 	case VIDEO_FRAME_TYPE_3D_RIGHT:
-		taken = Data (ContentVideo (image, frame, EYES_RIGHT, PART_WHOLE));
+		Data (ContentVideo (image, frame, EYES_RIGHT, PART_WHOLE));
 		break;
 	default:
 		DCPOMATIC_ASSERT (false);
 	}
 
-	if (taken.get_value_or(false)) {
-		_position = ContentTime::from_frames (frame, _content->active_video_frame_rate ());
-	}
+	_position = ContentTime::from_frames (frame, _content->active_video_frame_rate ());
 }
 
 void

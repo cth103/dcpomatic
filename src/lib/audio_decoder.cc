@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -98,7 +98,8 @@ AudioDecoder::emit (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, 
 		data = ro;
 	}
 
-	_positions[stream] += Data(stream, ContentAudio (data, _positions[stream])).get_value_or(0);
+	Data(stream, ContentAudio (data, _positions[stream]));
+	_positions[stream] += data->frames();
 }
 
 /** @return Time just after the last thing that was emitted from a given stream */

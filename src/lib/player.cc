@@ -638,17 +638,17 @@ Player::subtitles_for_frame (DCPTime time) const
 	return merge (subtitles);
 }
 
-bool
+void
 Player::video (weak_ptr<Piece> wp, ContentVideo video)
 {
 	shared_ptr<Piece> piece = wp.lock ();
 	if (!piece) {
-		return false;
+		return;
 	}
 
 	FrameRateChange frc(piece->content->active_video_frame_rate(), _film->video_frame_rate());
 	if (frc.skip && (video.frame % 2) == 1) {
-		return false;
+		return;
 	}
 
 	/* Time of the first frame we will emit */
@@ -659,7 +659,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		time < piece->content->position() ||
 		time >= piece->content->end() ||
 		(_last_video_time && time < *_last_video_time)) {
-		return false;
+		return;
 	}
 
 	/* Fill gaps that we discover now that we have some video which needs to be emitted */
@@ -697,21 +697,16 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		emit_video (_last_video[wp], t);
 		t += one_video_frame ();
 	}
-
-	return true;
 }
 
-/** @return Number of input frames that were `accepted'.  This is the number of frames passed in
- *  unless some were discarded at the end of the block.
- */
-Frame
+void
 Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_audio)
 {
 	DCPOMATIC_ASSERT (content_audio.audio->frames() > 0);
 
 	shared_ptr<Piece> piece = wp.lock ();
 	if (!piece) {
-		return 0;
+		return;
 	}
 
 	shared_ptr<AudioContent> content = piece->content->audio;
@@ -722,33 +717,26 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 	/* And the end of this block in the DCP */
 	DCPTime end = time + DCPTime::from_frames(content_audio.audio->frames(), content->resampled_frame_rate());
 
-	/* We consider frames trimmed off the beginning to nevertheless be `accepted'; it's only frames trimmed
-	   off the end that are considered as discarded.  This logic is necessary to ensure correct reel lengths,
-	   although the precise details escape me at the moment.
-	*/
-	Frame accepted = content_audio.audio->frames();
-
 	/* Remove anything that comes before the start or after the end of the content */
 	if (time < piece->content->position()) {
 		pair<shared_ptr<AudioBuffers>, DCPTime> cut = discard_audio (content_audio.audio, time, piece->content->position());
 		if (!cut.first) {
 			/* This audio is entirely discarded */
-			return accepted;
+			return;
 		}
 		content_audio.audio = cut.first;
 		time = cut.second;
 	} else if (time > piece->content->end()) {
 		/* Discard it all */
-		return 0;
+		return;
 	} else if (end > piece->content->end()) {
 		Frame const remaining_frames = DCPTime(piece->content->end() - time).frames_round(_film->audio_frame_rate());
 		if (remaining_frames == 0) {
-			return 0;
+			return;
 		}
 		shared_ptr<AudioBuffers> cut (new AudioBuffers (content_audio.audio->channels(), remaining_frames));
 		cut->copy_from (content_audio.audio.get(), remaining_frames, 0, 0);
 		content_audio.audio = cut;
-		accepted = content_audio.audio->frames();
 	}
 
 	DCPOMATIC_ASSERT (content_audio.audio->frames() > 0);
@@ -776,7 +764,6 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 	_audio_merger.push (content_audio.audio, time);
 	DCPOMATIC_ASSERT (_stream_states.find (stream) != _stream_states.end ());
 	_stream_states[stream].last_push_end = time + DCPTime::from_frames (content_audio.audio->frames(), _film->audio_frame_rate());
-	return accepted;
 }
 
 void
