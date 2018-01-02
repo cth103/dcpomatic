@@ -140,7 +140,7 @@ alpha_blend_test_one (AVPixelFormat format, string suffix)
 {
 	shared_ptr<MagickImageProxy> proxy (new MagickImageProxy (private_data / "prophet_frame.tiff"));
 	shared_ptr<Image> raw = proxy->image();
-	shared_ptr<Image> background = raw->scale (raw->size(), dcp::YUV_TO_RGB_REC709, format, true, false);
+	shared_ptr<Image> background = raw->convert_pixel_format (dcp::YUV_TO_RGB_REC709, format, true, false);
 
 	shared_ptr<Image> overlay (new Image (AV_PIX_FMT_RGBA, raw->size(), true));
 	overlay->make_transparent ();
@@ -171,7 +171,7 @@ alpha_blend_test_one (AVPixelFormat format, string suffix)
 
 	background->alpha_blend (overlay, Position<int> (0, 0));
 
-	shared_ptr<Image> save = background->scale (background->size(), dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, false);
+	shared_ptr<Image> save = background->convert_pixel_format (dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, false);
 
 	write_image (save, "build/test/image_test_" + suffix + ".png", "RGB");
 	check_image ("build/test/image_test_" + suffix + ".png", private_data / ("image_test_" + suffix + ".png"));

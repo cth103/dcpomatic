@@ -220,6 +220,12 @@ Image::crop_scale_window (
 	return out;
 }
 
+shared_ptr<Image>
+Image::convert_pixel_format (dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool out_aligned, bool fast) const
+{
+	return scale(size(), yuv_to_rgb, out_format, out_aligned, fast);
+}
+
 /** @param out_size Size to scale to.
  *  @param yuv_to_rgb YUVToRGB transform transform to use, if required.
  *  @param out_format Output pixel format.
