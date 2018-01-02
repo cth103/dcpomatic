@@ -1,5 +1,7 @@
 2018-01-02  Carl Hetherington  <cth@carlh.net>
 
+	* Fix downloading of certificates on Windows (#1124).
+
 	* Version 2.11.34 released.
 
 2017-12-31  Carl Hetherington  <cth@carlh.net>
