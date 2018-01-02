@@ -26,6 +26,7 @@
 #include "lib/ratio.h"
 #include "lib/transcode_job.h"
 #include "lib/dcp_content.h"
+#include "lib/subtitle_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
@@ -63,9 +64,9 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_mp4)
 	encoder.go ();
 }
 
-BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_subs)
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_subs_h264)
 {
-	shared_ptr<Film> film = new_test_film ("ffmpeg_transcoder_basic_test_subs");
+	shared_ptr<Film> film = new_test_film ("ffmpeg_transcoder_basic_test_subs_h264");
 	film->set_name ("ffmpeg_transcoder_basic_test");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
@@ -77,9 +78,35 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_subs)
 	shared_ptr<TextSubtitleContent> s (new TextSubtitleContent (film, "test/data/subrip.srt"));
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
+	s->subtitle->set_colour (dcp::Colour (255, 255, 0));
+	s->subtitle->set_shadow (true);
+	s->subtitle->set_effect_colour (dcp::Colour (0, 255, 255));
 
 	shared_ptr<Job> job (new TranscodeJob (film));
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test_subs.mp4", FFmpegEncoder::FORMAT_H264, false);
+	encoder.go ();
+}
+
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_subs_prores)
+{
+	shared_ptr<Film> film = new_test_film ("ffmpeg_transcoder_basic_test_subs_prores");
+	film->set_name ("ffmpeg_transcoder_basic_test");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_audio_channels (6);
+
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
+	film->examine_and_add_content (c);
+	BOOST_REQUIRE (!wait_for_jobs ());
+
+	shared_ptr<TextSubtitleContent> s (new TextSubtitleContent (film, "test/data/subrip.srt"));
+	film->examine_and_add_content (s);
+	BOOST_REQUIRE (!wait_for_jobs ());
+	s->subtitle->set_colour (dcp::Colour (255, 255, 0));
+	s->subtitle->set_shadow (true);
+	s->subtitle->set_effect_colour (dcp::Colour (0, 255, 255));
+
+	shared_ptr<Job> job (new TranscodeJob (film));
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test_subs.mov", FFmpegEncoder::FORMAT_PRORES, false);
 	encoder.go ();
 }
 
