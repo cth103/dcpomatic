@@ -526,8 +526,14 @@ Player::pass ()
 	optional<DCPTime> earliest_time;
 
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
-		if (!i->done) {
-			DCPTime const t = content_time_to_dcp (i, i->decoder->position());
+		if (i->done) {
+			continue;
+		}
+
+		DCPTime const t = content_time_to_dcp (i, i->decoder->position());
+		if (t > i->content->end()) {
+			i->done = true;
+		} else {
 			/* Given two choices at the same time, pick the one with a subtitle so we see it before
 			   the video.
 			*/
