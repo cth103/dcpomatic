@@ -162,6 +162,7 @@ public:
 		}
 
 		_viewer->set_film (_film);
+		_viewer->set_position (DCPTime ());
 		_info->triggered_update ();
 	}
 
