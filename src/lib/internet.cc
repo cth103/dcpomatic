@@ -21,6 +21,7 @@
 #include "scoped_temporary.h"
 #include "compose.hpp"
 #include "exceptions.h"
+#include "cross.h"
 #include <curl/curl.h>
 #include <zip.h>
 #include <boost/function.hpp>
@@ -78,13 +79,23 @@ get_from_zip_url (string url, string file, bool pasv, function<void (boost::file
 
 	/* Open the ZIP file and read `file' out of it */
 
-	struct zip* zip = zip_open (temp_zip.c_str(), 0, 0);
+	FILE* zip_file = fopen_boost (temp_zip.file (), "rb");
+	if (!zip_file) {
+		return optional<string> (_("Could not open downloaded ZIP file"));
+	}
+
+	zip_source_t* zip_source = zip_source_filep_create (zip_file, 0, -1, 0);
+	if (!zip_source) {
+		return optional<string> (_("Could not open downloaded ZIP file"));
+	}
+
+	zip_t* zip = zip_open_from_source (zip_source, 0, 0);
 	if (!zip) {
 		return optional<string> (_("Could not open downloaded ZIP file"));
 	}
 
-	struct zip_file* zip_file = zip_fopen (zip, file.c_str(), 0);
-	if (!zip_file) {
+	struct zip_file* file_in_zip = zip_fopen (zip, file.c_str(), 0);
+	if (!file_in_zip) {
 		return optional<string> (_("Unexpected ZIP file contents"));
 	}
 
@@ -92,12 +103,14 @@ get_from_zip_url (string url, string file, bool pasv, function<void (boost::file
 	f = temp_cert.open ("wb");
 	char buffer[4096];
 	while (true) {
-		int const N = zip_fread (zip_file, buffer, sizeof (buffer));
+		int const N = zip_fread (file_in_zip, buffer, sizeof (buffer));
 		fwrite (buffer, 1, N, f);
 		if (N < int (sizeof (buffer))) {
 			break;
 		}
 	}
+	zip_fclose (file_in_zip);
+	zip_close (zip);
 	temp_cert.close ();
 
 	load (temp_cert.file ());

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,6 +19,8 @@
 */
 
 #include "scoped_temporary.h"
+#include "exceptions.h"
+#include "cross.h"
 
 /** Construct a ScopedTemporary.  A temporary filename is decided but the file is not opened
  *  until open() is called.
@@ -51,7 +53,10 @@ FILE*
 ScopedTemporary::open (char const * params)
 {
 	close ();
-	_open = fopen (c_str(), params);
+	_open = fopen_boost (_file, params);
+	if (!_open) {
+		throw FileError ("Could not open scoped temporary", _file);
+	}
 	return _open;
 }
 
