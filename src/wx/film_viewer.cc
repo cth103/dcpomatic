@@ -80,6 +80,7 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 	, _right_eye (new wxRadioButton (this, wxID_ANY, _("Right eye")))
 	, _jump_to_selected (0)
 	, _slider (new wxSlider (this, wxID_ANY, 0, 0, 4096))
+	, _rewind_button (new wxButton (this, wxID_ANY, wxT("|<")))
 	, _back_button (new wxButton (this, wxID_ANY, wxT("<")))
 	, _forward_button (new wxButton (this, wxID_ANY, wxT(">")))
 	, _frame_number (new wxStaticText (this, wxID_ANY, wxT("")))
@@ -125,6 +126,7 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 	time_sizer->Add (_frame_number, 0, wxEXPAND);
 	time_sizer->Add (_timecode, 0, wxEXPAND);
 
+	h_sizer->Add (_rewind_button, 0, wxALL, 2);
 	h_sizer->Add (_back_button, 0, wxALL, 2);
 	h_sizer->Add (time_sizer, 0, wxEXPAND);
 	h_sizer->Add (_forward_button, 0, wxALL, 2);
@@ -134,6 +136,7 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 	_v_sizer->Add (h_sizer, 0, wxEXPAND | wxALL, 6);
 
 	_frame_number->SetMinSize (wxSize (84, -1));
+	_rewind_button->SetMinSize (wxSize (32, -1));
 	_back_button->SetMinSize (wxSize (32, -1));
 	_forward_button->SetMinSize (wxSize (32, -1));
 
@@ -150,6 +153,7 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 	_slider->Bind           (wxEVT_SCROLL_CHANGED,    boost::bind (&FilmViewer::slider_moved,    this, true));
 	_play_button->Bind      (wxEVT_TOGGLEBUTTON,      boost::bind (&FilmViewer::play_clicked,    this));
 	_timer.Bind             (wxEVT_TIMER,             boost::bind (&FilmViewer::timer,           this));
+	_rewind_button->Bind    (wxEVT_LEFT_DOWN,         boost::bind (&FilmViewer::rewind_clicked,  this, _1));
 	_back_button->Bind      (wxEVT_LEFT_DOWN,         boost::bind (&FilmViewer::back_clicked,    this, _1));
 	_forward_button->Bind   (wxEVT_LEFT_DOWN,         boost::bind (&FilmViewer::forward_clicked, this, _1));
 	_frame_number->Bind     (wxEVT_LEFT_DOWN,         boost::bind (&FilmViewer::frame_number_clicked, this));
@@ -583,6 +587,13 @@ FilmViewer::go_to (DCPTime t)
 }
 
 void
+FilmViewer::rewind_clicked (wxMouseEvent& ev)
+{
+	go_to(DCPTime());
+	ev.Skip();
+}
+
+void
 FilmViewer::back_clicked (wxMouseEvent& ev)
 {
 	go_to (_video_position - nudge_amount (ev));
@@ -620,6 +631,7 @@ FilmViewer::setup_sensitivity ()
 	bool const c = _film && !_film->content().empty ();
 
 	_slider->Enable (c);
+	_rewind_button->Enable (c);
 	_back_button->Enable (c);
 	_forward_button->Enable (c);
 	_play_button->Enable (c);

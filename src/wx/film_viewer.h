@@ -78,6 +78,7 @@ private:
 	void calculate_sizes ();
 	void check_play_state ();
 	void active_jobs_changed (boost::optional<std::string>);
+	void rewind_clicked (wxMouseEvent &);
 	void back_clicked (wxMouseEvent &);
 	void forward_clicked (wxMouseEvent &);
 	void player_changed (bool);
@@ -112,6 +113,7 @@ private:
 	wxRadioButton* _right_eye;
 	wxCheckBox* _jump_to_selected;
 	wxSlider* _slider;
+	wxButton* _rewind_button;
 	wxButton* _back_button;
 	wxButton* _forward_button;
 	wxStaticText* _frame_number;

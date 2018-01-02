@@ -1,5 +1,7 @@
 2018-01-02  Carl Hetherington  <cth@carlh.net>
 
+	* Add rewind-to-zero button to player.
+
 	* Go back to zero when loading a new DCP into the player (#1152).
 
 	* Fix generated ISDCF name with full-frame content (#1118).
