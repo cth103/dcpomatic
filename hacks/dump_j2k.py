@@ -27,6 +27,14 @@ def require(f, data, what):
         raise Exception()
     print what
 
+def dump(f, n, p):
+    print '\t %s' % p,
+    for i in range(0, n):
+        print '%02x' % ord(f.read(1)),
+        if (i % 16) == 15:
+            print '\n\t %s' % p,
+    print '\n'
+
 f = open(sys.argv[1], 'rb')
 
 require(f, [0xff, 0x4f], 'SOC')
@@ -71,7 +79,7 @@ if coding_style & 1:
 require(f, [0xff, 0x5C], 'QCD')
 size = read_16(f)
 print '\tlength', size
-f.seek(size - 2, 1)
+dump(f, size - 2, 'QCD')
 
 tile_part_length = None
 
@@ -81,27 +89,27 @@ while True:
         print 'COC'
         size = read_16(f)
         print '\tlength', size
-        f.seek(size - 2, 1)
+        dump(f, size - 2, 'COC')
     elif r == [0xff, 0x5c]:
         print 'QCD'
         size = read_16(f)
         print '\tlength', size
-        f.seek(size - 2, 1)
+        dump(f, size - 2, 'QCD')
     elif r == [0xff, 0x5d]:
         print 'QCC'
         size = read_16(f)
         print '\tlength', size
-        f.seek(size - 2, 1)
+        dump(f, size - 2, 'QCC')
     elif r == [0xff, 0x64]:
         print 'COM'
         size = read_16(f)
         print '\tlength', size
-        f.seek(size - 2, 1)
+        dump(f, size - 2, 'COM')
     elif r == [0xff, 0x55]:
         print 'TLM'
         size = read_16(f)
         print '\tlength', size
-        f.seek(size - 2, 1)
+        dump(f, size - 2, 'TLM')
     elif r == [0xff, 0x90]:
         print 'SOT'
         size = read_16(f)
@@ -113,7 +121,7 @@ while True:
         print '\tnumber of tile-parts', read_8(f)
     elif r == [0xff, 0x93]:
         print 'SOD'
-        f.seek(tile_part_length - 14, 1)
+        dump(f, tile_part_length - 14, 'SOD')
     elif r == [0xff, 0xd9]:
         print 'EOC'
         sys.exit(0)
