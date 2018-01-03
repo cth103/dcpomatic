@@ -449,19 +449,23 @@ component (
 {
 	dcp::Size const base_size = base->sample_size(n);
 	dcp::Size const other_size = other->sample_size(n);
-	for (int by = start_base_y, oy = start_other_y; by < base_size.height && oy < other_size.height; ++by, ++oy) {
+	int const bhf = base->horizontal_factor(n);
+	int const bvf = base->vertical_factor(n);
+	int const ohf = other->horizontal_factor(n);
+	int const ovf = other->vertical_factor(n);
+	for (int by = start_base_y / bvf, oy = start_other_y / ovf, ry = start_other_y; by < base_size.height && oy < other_size.height; ++by, ++oy, ry += ovf) {
 		/* base image */
-		T* bp = ((T*) (base->data()[n] + by * base->stride()[n])) + start_base_x;
+		T* bp = ((T*) (base->data()[n] + by * base->stride()[n])) + start_base_x / bhf;
 		/* overlay image */
 		T* op = ((T*) (other->data()[n] + oy * other->stride()[n]));
 		/* original RGBA for alpha channel */
-		uint8_t* rp = rgba->data()[0] + oy * rgba->stride()[0];
-		for (int bx = start_base_x, ox = start_other_x; bx < base_size.width && ox < other_size.width; ++bx, ++ox) {
+		uint8_t* rp = rgba->data()[0] + ry * rgba->stride()[0];
+		for (int bx = start_base_x / bhf, ox = start_other_x / ohf; bx < base_size.width && ox < other_size.width; ++bx, ++ox) {
 			float const alpha = float (rp[3]) / 255;
 			*bp = *op * alpha + *bp * (1 - alpha);
 			++bp;
 			++op;
-			rp += 4;
+			rp += 4 * ohf;
 		}
 	}
 }
