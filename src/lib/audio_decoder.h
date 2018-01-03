@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -54,7 +54,7 @@ public:
 	ContentTime stream_position (AudioStreamPtr stream) const;
 
 	/** @return Number of frames of data that were accepted */
-	boost::signals2::signal<Frame (AudioStreamPtr, ContentAudio)> Data;
+	boost::signals2::signal<void (AudioStreamPtr, ContentAudio)> Data;
 
 private:
 	void silence (int milliseconds);

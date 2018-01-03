@@ -436,40 +436,6 @@ Image::make_transparent ()
 	memset (data()[0], 0, sample_size(0).height * stride()[0]);
 }
 
-template <class T>
-void
-component (
-	int n,
-	Image* base,
-	shared_ptr<const Image> other,
-	shared_ptr<const Image> rgba,
-	int start_base_x, int start_base_y,
-	int start_other_x, int start_other_y
-	)
-{
-	dcp::Size const base_size = base->sample_size(n);
-	dcp::Size const other_size = other->sample_size(n);
-	int const bhf = base->horizontal_factor(n);
-	int const bvf = base->vertical_factor(n);
-	int const ohf = other->horizontal_factor(n);
-	int const ovf = other->vertical_factor(n);
-	for (int by = start_base_y / bvf, oy = start_other_y / ovf, ry = start_other_y; by < base_size.height && oy < other_size.height; ++by, ++oy, ry += ovf) {
-		/* base image */
-		T* bp = ((T*) (base->data()[n] + by * base->stride()[n])) + start_base_x / bhf;
-		/* overlay image */
-		T* op = ((T*) (other->data()[n] + oy * other->stride()[n]));
-		/* original RGBA for alpha channel */
-		uint8_t* rp = rgba->data()[0] + ry * rgba->stride()[0];
-		for (int bx = start_base_x / bhf, ox = start_other_x / ohf; bx < base_size.width && ox < other_size.width; ++bx, ++ox) {
-			float const alpha = float (rp[3]) / 255;
-			*bp = *op * alpha + *bp * (1 - alpha);
-			++bp;
-			++op;
-			rp += 4 * ohf;
-		}
-	}
-}
-
 void
 Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 {
@@ -590,18 +556,66 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	case AV_PIX_FMT_YUV420P:
 	{
 		shared_ptr<Image> yuv = other->convert_pixel_format (dcp::YUV_TO_RGB_REC709, _pixel_format, false, false);
-		component<uint8_t> (0, this, yuv, other, start_tx, start_ty, start_ox, start_oy);
-		component<uint8_t> (1, this, yuv, other, start_tx, start_ty, start_ox, start_oy);
-		component<uint8_t> (2, this, yuv, other, start_tx, start_ty, start_ox, start_oy);
+		dcp::Size const ts = size();
+		dcp::Size const os = yuv->size();
+		for (int ty = start_ty, oy = start_oy; ty < ts.height && oy < os.height; ++ty, ++oy) {
+			int const hty = ty / 2;
+			int const hoy = oy / 2;
+			uint8_t* tY = data()[0] + (ty * stride()[0]) + start_tx;
+			uint8_t* tU = data()[1] + (hty * stride()[1]) + start_tx / 2;
+			uint8_t* tV = data()[2] + (hty * stride()[2]) + start_tx / 2;
+			uint8_t* oY = yuv->data()[0] + (oy * yuv->stride()[0]) + start_ox;
+			uint8_t* oU = yuv->data()[1] + (hoy * yuv->stride()[1]) + start_ox / 2;
+			uint8_t* oV = yuv->data()[2] + (hoy * yuv->stride()[2]) + start_ox / 2;
+			uint8_t* alpha = other->data()[0] + (oy * other->stride()[0]) + start_ox * 4;
+			for (int tx = start_tx, ox = start_ox; tx < ts.width && ox < os.width; ++tx, ++ox) {
+				float const a = float(alpha[3]) / 255;
+				*tY = *oY * a + *tY * (1 - a);
+				*tU = *oU * a + *tU * (1 - a);
+				*tV = *oV * a + *tV * (1 - a);
+				++tY;
+				++oY;
+				if (tx % 2) {
+					++tU;
+					++tV;
+				}
+				if (ox % 2) {
+					++oU;
+					++oV;
+				}
+				alpha += 4;
+			}
+		}
 		break;
 	}
 	case AV_PIX_FMT_YUV420P10:
 	case AV_PIX_FMT_YUV422P10LE:
 	{
 		shared_ptr<Image> yuv = other->convert_pixel_format (dcp::YUV_TO_RGB_REC709, _pixel_format, false, false);
-		component<uint16_t> (0, this, yuv, other, start_tx, start_ty, start_ox, start_oy);
-		component<uint8_t>  (1, this, yuv, other, start_tx, start_ty, start_ox, start_oy);
-		component<uint8_t>  (2, this, yuv, other, start_tx, start_ty, start_ox, start_oy);
+		dcp::Size const ts = size();
+		dcp::Size const os = yuv->size();
+		for (int ty = start_ty, oy = start_oy; ty < ts.height && oy < os.height; ++ty, ++oy) {
+			uint16_t* tY = (uint16_t *) (data()[0] + (ty * stride()[0])) + start_tx;
+			uint8_t* tU = data()[1] + (ty * stride()[1]) + start_tx;
+			uint8_t* tV = data()[2] + (ty * stride()[2]) + start_tx;
+			uint16_t* oY = (uint16_t *) (yuv->data()[0] + (oy * yuv->stride()[0])) + start_ox;
+			uint8_t* oU = yuv->data()[1] + (oy * yuv->stride()[1]) + start_ox;
+			uint8_t* oV = yuv->data()[2] + (oy * yuv->stride()[2]) + start_ox;
+			uint8_t* alpha = other->data()[0] + (oy * other->stride()[0]) + start_ox * 4;
+			for (int tx = start_tx, ox = start_ox; tx < ts.width && ox < os.width; ++tx, ++ox) {
+				float const a = float(alpha[3]) / 255;
+				*tY = *oY * a + *tY * (1 - a);
+				*tU = *oU * a + *tU * (1 - a);
+				*tV = *oV * a + *tV * (1 - a);
+				++tY;
+				++tU;
+				++tV;
+				++oY;
+				++oU;
+				++oV;
+				alpha += 4;
+			}
+		}
 		break;
 	}
 	default:

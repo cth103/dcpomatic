@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -60,7 +60,7 @@ public:
 	void emit (boost::shared_ptr<const ImageProxy>, Frame frame);
 
 	/** @return true if the emitted data was accepted, false if not */
-	boost::signals2::signal<bool (ContentVideo)> Data;
+	boost::signals2::signal<void (ContentVideo)> Data;
 
 private:
 	boost::shared_ptr<const Content> _content;
