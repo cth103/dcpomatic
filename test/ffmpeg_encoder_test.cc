@@ -78,6 +78,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_test_subs_h264_1)
 	s->subtitle->set_colour (dcp::Colour (255, 255, 0));
 	s->subtitle->set_shadow (true);
 	s->subtitle->set_effect_colour (dcp::Colour (0, 255, 255));
+	film->write_metadata();
 
 	shared_ptr<Job> job (new TranscodeJob (film));
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_test_subs_h264_1.mp4", FFmpegEncoder::FORMAT_H264, false);
@@ -102,6 +103,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_test_subs_h264_2)
 	s->subtitle->set_colour (dcp::Colour (255, 255, 0));
 	s->subtitle->set_shadow (true);
 	s->subtitle->set_effect_colour (dcp::Colour (0, 255, 255));
+	film->write_metadata();
 
 	shared_ptr<Job> job (new TranscodeJob (film));
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_test_subs_h264_2.mp4", FFmpegEncoder::FORMAT_H264, false);
@@ -122,6 +124,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_test_subs_prores_1)
 	s->subtitle->set_colour (dcp::Colour (255, 255, 0));
 	s->subtitle->set_shadow (true);
 	s->subtitle->set_effect_colour (dcp::Colour (0, 255, 255));
+	film->write_metadata();
 
 	shared_ptr<Job> job (new TranscodeJob (film));
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_test_subs_prores_1.mov", FFmpegEncoder::FORMAT_PRORES, false);
