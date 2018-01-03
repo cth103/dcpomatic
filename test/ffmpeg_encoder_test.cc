@@ -64,18 +64,15 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_mp4)
 	encoder.go ();
 }
 
-BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_subs_h264)
+/** Simplest possible export subtitle case: just the subtitles */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_test_subs_h264_1)
 {
-	shared_ptr<Film> film = new_test_film ("ffmpeg_transcoder_basic_test_subs_h264");
-	film->set_name ("ffmpeg_transcoder_basic_test");
+	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_test_subs_h264_1");
+	film->set_name ("ffmpeg_encoder_test_subs_h264_1");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
-	film->examine_and_add_content (c);
-	BOOST_REQUIRE (!wait_for_jobs ());
-
-	shared_ptr<TextSubtitleContent> s (new TextSubtitleContent (film, "test/data/subrip.srt"));
+	shared_ptr<TextSubtitleContent> s (new TextSubtitleContent (film, "test/data/subrip2.srt"));
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	s->subtitle->set_colour (dcp::Colour (255, 255, 0));
@@ -83,14 +80,15 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_subs_h264)
 	s->subtitle->set_effect_colour (dcp::Colour (0, 255, 255));
 
 	shared_ptr<Job> job (new TranscodeJob (film));
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test_subs.mp4", FFmpegEncoder::FORMAT_H264, false);
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_test_subs_h264_1.mp4", FFmpegEncoder::FORMAT_H264, false);
 	encoder.go ();
 }
 
-BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_subs_prores)
+/** Slightly more complicated example with longer subs and a video to overlay */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_test_subs_h264_2)
 {
-	shared_ptr<Film> film = new_test_film ("ffmpeg_transcoder_basic_test_subs_prores");
-	film->set_name ("ffmpeg_transcoder_basic_test");
+	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_test_subs_h264_2");
+	film->set_name ("ffmpeg_encoder_test_subs_h264_2");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
@@ -106,7 +104,51 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_subs_prores)
 	s->subtitle->set_effect_colour (dcp::Colour (0, 255, 255));
 
 	shared_ptr<Job> job (new TranscodeJob (film));
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test_subs.mov", FFmpegEncoder::FORMAT_PRORES, false);
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_test_subs_h264_2.mp4", FFmpegEncoder::FORMAT_H264, false);
+	encoder.go ();
+}
+
+/** Simplest possible export subtitle case: just the subtitles */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_test_subs_prores_1)
+{
+	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_test_subs_prores_1");
+	film->set_name ("ffmpeg_encoder_test_subs_prores_1");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_audio_channels (6);
+
+	shared_ptr<TextSubtitleContent> s (new TextSubtitleContent (film, "test/data/subrip2.srt"));
+	film->examine_and_add_content (s);
+	BOOST_REQUIRE (!wait_for_jobs ());
+	s->subtitle->set_colour (dcp::Colour (255, 255, 0));
+	s->subtitle->set_shadow (true);
+	s->subtitle->set_effect_colour (dcp::Colour (0, 255, 255));
+
+	shared_ptr<Job> job (new TranscodeJob (film));
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_test_subs_prores_1.mov", FFmpegEncoder::FORMAT_PRORES, false);
+	encoder.go ();
+}
+
+/** Slightly more complicated example with longer subs and a video to overlay */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_test_subs_prores_2)
+{
+	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_test_subs_prores_2");
+	film->set_name ("ffmpeg_encoder_test_subs_prores_2");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_audio_channels (6);
+
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
+	film->examine_and_add_content (c);
+	BOOST_REQUIRE (!wait_for_jobs ());
+
+	shared_ptr<TextSubtitleContent> s (new TextSubtitleContent (film, "test/data/subrip.srt"));
+	film->examine_and_add_content (s);
+	BOOST_REQUIRE (!wait_for_jobs ());
+	s->subtitle->set_colour (dcp::Colour (255, 255, 0));
+	s->subtitle->set_shadow (true);
+	s->subtitle->set_effect_colour (dcp::Colour (0, 255, 255));
+
+	shared_ptr<Job> job (new TranscodeJob (film));
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_test_subs_prores_2.mov", FFmpegEncoder::FORMAT_PRORES, false);
 	encoder.go ();
 }
 
