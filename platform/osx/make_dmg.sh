@@ -89,7 +89,6 @@ function copy_libs {
     universal_copy_lib $ENV libexpat "$dest"
     universal_copy_lib $ENV libltdl "$dest"
     universal_copy_lib $ENV libxmlsec1 "$dest"
-    universal_copy_lib $ENV libzip "$dest"
     universal_copy_lib $ENV libcurl "$dest"
     universal_copy_lib $ENV libffi "$dest"
     universal_copy_lib $ENV libpango "$dest"
