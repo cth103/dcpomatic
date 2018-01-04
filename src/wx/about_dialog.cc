@@ -177,6 +177,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Peter Ericson"));
 	supported_by.Add (wxT ("Darius Family"));
 	supported_by.Add (wxT ("Rasitha Ferdinando"));
+	supported_by.Add (wxT ("Santiago Ferreira"));
 	supported_by.Add (wxT ("Jose Angel Velasco Fernandez"));
 	supported_by.Add (wxT ("Traverso City Film Festival"));
 	supported_by.Add (wxT ("Andres Fink"));
