@@ -190,6 +190,7 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == SubtitleContentProperty::SHADOW ||
 		property == SubtitleContentProperty::EFFECT_COLOUR ||
 		property == FFmpegContentProperty::SUBTITLE_STREAM ||
+		property == FFmpegContentProperty::FILTERS ||
 		property == VideoContentProperty::COLOUR_CONVERSION
 		) {
 
