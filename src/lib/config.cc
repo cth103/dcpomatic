@@ -128,6 +128,7 @@ Config::set_defaults ()
 	}
 	_sound = false;
 	_sound_output = optional<string> ();
+	_last_kdm_write_type = KDM_WRITE_FLAT;
 
 	/* I think the scaling factor here should be the ratio of the longest frame
 	   encode time to the shortest; if the thread count is T, longest time is L
@@ -366,6 +367,15 @@ try
 		_cover_sheet = f.optional_string_child("CoverSheet").get();
 	}
 	_last_player_load_directory = f.optional_string_child("LastPlayerLoadDirectory");
+	if (f.optional_string_child("LastKDMWriteType")) {
+		if (f.optional_string_child("LastKDMWriteType").get() == "flat") {
+			_last_kdm_write_type = KDM_WRITE_FLAT;
+		} else if (f.optional_string_child("LastKDMWriteType").get() == "folder") {
+			_last_kdm_write_type = KDM_WRITE_FOLDER;
+		} else if (f.optional_string_child("LastKDMWriteType").get() == "zip") {
+			_last_kdm_write_type = KDM_WRITE_ZIP;
+		}
+	}
 	_frames_in_memory_multiplier = f.optional_number_child<int>("FramesInMemoryMultiplier").get_value_or(3);
 
 	/* Replace any cinemas from config.xml with those from the configured file */
@@ -646,6 +656,19 @@ Config::write_config () const
 	root->add_child("CoverSheet")->add_child_text (_cover_sheet);
 	if (_last_player_load_directory) {
 		root->add_child("LastPlayerLoadDirectory")->add_child_text(_last_player_load_directory->string());
+	}
+	if (_last_kdm_write_type) {
+		switch (_last_kdm_write_type.get()) {
+		case KDM_WRITE_FLAT:
+			root->add_child("LastKDMWriteType")->add_child_text("flat");
+			break;
+		case KDM_WRITE_FOLDER:
+			root->add_child("LastKDMWriteType")->add_child_text("folder");
+			break;
+		case KDM_WRITE_ZIP:
+			root->add_child("LastKDMWriteType")->add_child_text("zip");
+			break;
+		}
 	}
 	/* [XML] FramesInMemoryMultiplier value to multiply the encoding threads count by to get the maximum number of
 	   frames to be held in memory at once.

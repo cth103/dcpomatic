@@ -51,6 +51,8 @@ public:
 		);
 
 private:
+	void kdm_write_type_changed ();
+
 	wxChoice* _type;
 	NameFormatEditor* _container_name_format;
 	NameFormatEditor* _filename_format;

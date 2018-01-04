@@ -132,10 +132,25 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 	table->Add (_email, 1, wxEXPAND);
 	table->AddSpacer (0);
 
+	switch (Config::instance()->last_kdm_write_type().get_value_or(Config::KDM_WRITE_FLAT)) {
+	case Config::KDM_WRITE_FLAT:
+		_write_flat->SetValue (true);
+		break;
+	case Config::KDM_WRITE_FOLDER:
+		_write_folder->SetValue (true);
+		break;
+	case Config::KDM_WRITE_ZIP:
+		_write_zip->SetValue (true);
+		break;
+	}
+
 	_write_to->SetValue (true);
 
-	_write_to->Bind (wxEVT_CHECKBOX, boost::bind (&KDMOutputPanel::setup_sensitivity, this));
-	_email->Bind    (wxEVT_CHECKBOX, boost::bind (&KDMOutputPanel::setup_sensitivity, this));
+	_write_to->Bind     (wxEVT_CHECKBOX, boost::bind (&KDMOutputPanel::setup_sensitivity, this));
+	_email->Bind        (wxEVT_CHECKBOX, boost::bind (&KDMOutputPanel::setup_sensitivity, this));
+	_write_flat->Bind   (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
+	_write_folder->Bind (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
+	_write_zip->Bind    (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
 
 	SetSizer (table);
 }
@@ -148,6 +163,18 @@ KDMOutputPanel::setup_sensitivity ()
 	_write_flat->Enable (write);
 	_write_folder->Enable (write);
 	_write_zip->Enable (write);
+}
+
+void
+KDMOutputPanel::kdm_write_type_changed ()
+{
+	if (_write_flat->GetValue()) {
+		Config::instance()->set_last_kdm_write_type (Config::KDM_WRITE_FLAT);
+	} else if (_write_folder->GetValue()) {
+		Config::instance()->set_last_kdm_write_type (Config::KDM_WRITE_FOLDER);
+	} else if (_write_zip->GetValue()) {
+		Config::instance()->set_last_kdm_write_type (Config::KDM_WRITE_ZIP);
+	}
 }
 
 pair<shared_ptr<Job>, int>

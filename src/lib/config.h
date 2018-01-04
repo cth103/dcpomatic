@@ -345,6 +345,16 @@ public:
 		return _last_player_load_directory;
 	}
 
+	enum KDMWriteType {
+		KDM_WRITE_FLAT,
+		KDM_WRITE_FOLDER,
+		KDM_WRITE_ZIP
+	};
+
+	boost::optional<KDMWriteType> last_kdm_write_type () const {
+		return _last_kdm_write_type;
+	}
+
 	int frames_in_memory_multiplier () const {
 		return _frames_in_memory_multiplier;
 	}
@@ -583,6 +593,10 @@ public:
 		maybe_set (_last_player_load_directory, d);
 	}
 
+	void set_last_kdm_write_type (KDMWriteType t) {
+		maybe_set (_last_kdm_write_type, t);
+	}
+
 	void unset_sound_output () {
 		if (!_sound_output) {
 			return;
@@ -779,6 +793,7 @@ private:
 	boost::optional<std::string> _sound_output;
 	std::string _cover_sheet;
 	boost::optional<boost::filesystem::path> _last_player_load_directory;
+	boost::optional<KDMWriteType> _last_kdm_write_type;
 	int _frames_in_memory_multiplier;
 
 	/** Singleton instance, or 0 */
