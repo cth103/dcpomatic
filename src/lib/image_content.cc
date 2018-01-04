@@ -47,17 +47,7 @@ ImageContent::ImageContent (shared_ptr<const Film> film, boost::filesystem::path
 	if (boost::filesystem::is_regular_file (p) && valid_image_file (p)) {
 		_paths.push_back (p);
 	} else {
-		for (boost::filesystem::directory_iterator i(p); i != boost::filesystem::directory_iterator(); ++i) {
-			if (boost::filesystem::is_regular_file (i->path()) && valid_image_file (i->path())) {
-				_paths.push_back (i->path ());
-			}
-		}
-
-		if (_paths.empty()) {
-			throw FileError (_("No valid image files were found in the folder."), p);
-		}
-
-		sort (_paths.begin(), _paths.end(), ImageFilenameSorter ());
+		_path_to_scan = p;
 	}
 
 	set_default_colour_conversion ();
@@ -113,6 +103,22 @@ ImageContent::as_xml (xmlpp::Node* node, bool with_paths) const
 void
 ImageContent::examine (shared_ptr<Job> job)
 {
+	if (_path_to_scan) {
+		job->sub (_("Scanning image files"));
+		for (boost::filesystem::directory_iterator i(*_path_to_scan); i != boost::filesystem::directory_iterator(); ++i) {
+			if (boost::filesystem::is_regular_file (i->path()) && valid_image_file (i->path())) {
+				_paths.push_back (i->path ());
+			}
+			job->set_progress_unknown ();
+		}
+
+		if (_paths.empty()) {
+			throw FileError (_("No valid image files were found in the folder."), *_path_to_scan);
+		}
+
+		sort (_paths.begin(), _paths.end(), ImageFilenameSorter ());
+	}
+
 	Content::examine (job);
 
 	shared_ptr<const Film> film = _film.lock ();

@@ -47,6 +47,8 @@ public:
 
 private:
 	void add_properties (std::list<UserProperty>& p) const;
+
+	boost::optional<boost::filesystem::path> _path_to_scan;
 };
 
 #endif
