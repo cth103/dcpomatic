@@ -31,6 +31,7 @@
 #include "cross.h"
 #include "film.h"
 #include "dkdm_wrapper.h"
+#include "compose.hpp"
 #include <dcp/raw_convert.h>
 #include <dcp/name_format.h>
 #include <dcp/certificate_chain.h>
@@ -65,6 +66,7 @@ using dcp::raw_convert;
 Config* Config::_instance = 0;
 boost::signals2::signal<void ()> Config::FailedToLoad;
 boost::signals2::signal<void (string)> Config::Warning;
+boost::optional<boost::filesystem::path> Config::test_path;
 
 /** Construct default configuration */
 Config::Config ()
@@ -390,8 +392,13 @@ catch (...) {
 
 		/* Make a copy of the configuration */
 		try {
-			boost::filesystem::copy_file (path ("config.xml", false), path ("config.xml.backup", false));
-			boost::filesystem::copy_file (path ("cinemas.xml", false), path ("cinemas.xml.backup", false));
+			int n = 1;
+			while (n < 100 && boost::filesystem::exists(path(String::compose("config.xml.%1", n)))) {
+				++n;
+			}
+
+			boost::filesystem::copy_file(path("config.xml", false), path(String::compose("config.xml.%1", n), false));
+			boost::filesystem::copy_file(path("cinemas.xml", false), path(String::compose("cinemas.xml.%1", n), false));
 		} catch (...) {}
 
 		/* We have a config file but it didn't load */
@@ -410,16 +417,20 @@ boost::filesystem::path
 Config::path (string file, bool create_directories)
 {
 	boost::filesystem::path p;
+	if (test_path) {
+		p = test_path.get();
+	} else {
 #ifdef DCPOMATIC_OSX
-	p /= g_get_home_dir ();
-	p /= "Library";
-	p /= "Preferences";
-	p /= "com.dcpomatic";
-	p /= "2";
+		p /= g_get_home_dir ();
+		p /= "Library";
+		p /= "Preferences";
+		p /= "com.dcpomatic";
+		p /= "2";
 #else
-	p /= g_get_user_config_dir ();
-	p /= "dcpomatic2";
+		p /= g_get_user_config_dir ();
+		p /= "dcpomatic2";
 #endif
+	}
 	boost::system::error_code ec;
 	if (create_directories) {
 		boost::filesystem::create_directories (p, ec);

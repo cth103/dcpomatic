@@ -675,6 +675,8 @@ public:
 	static bool have_existing (std::string);
 	static boost::filesystem::path config_file ();
 
+	static boost::optional<boost::filesystem::path> test_path;
+
 private:
 	Config ();
 	static boost::filesystem::path path (std::string file, bool create_directories = true);
