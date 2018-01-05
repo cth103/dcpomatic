@@ -531,12 +531,19 @@ VideoContent::set_fade_out (Frame t)
 void
 VideoContent::take_settings_from (shared_ptr<const VideoContent> c)
 {
-	_colour_conversion = c->_colour_conversion;
-	_frame_type = c->_frame_type;
-	_crop = c->_crop;
-	_scale = c->_scale;
-	_fade_in = c->_fade_in;
-	_fade_out = c->_fade_out;
+	if (c->_colour_conversion) {
+		set_colour_conversion (c->_colour_conversion.get());
+	} else {
+		unset_colour_conversion ();
+	}
+	set_frame_type (c->_frame_type);
+	set_left_crop (c->_crop.left);
+	set_right_crop (c->_crop.right);
+	set_top_crop (c->_crop.top);
+	set_bottom_crop (c->_crop.bottom);
+	set_scale (c->_scale);
+	set_fade_in (c->_fade_in);
+	set_fade_out (c->_fade_out);
 }
 
 void

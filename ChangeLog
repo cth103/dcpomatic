@@ -1,5 +1,7 @@
 2018-01-05  Carl Hetherington  <cth@carlh.net>
 
+	* Add copy and paste for settings (#1051).
+
 	* Fix hanging subtitles in some cases (#1101).
 
 	* Version 2.11.36 released.

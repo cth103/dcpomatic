@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -42,6 +42,7 @@
 #include "wx/templates_dialog.h"
 #include "wx/nag_dialog.h"
 #include "wx/export_dialog.h"
+#include "wx/paste_dialog.h"
 #include "lib/film.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -67,6 +68,8 @@
 #include "lib/ffmpeg_encoder.h"
 #include "lib/transcode_job.h"
 #include "lib/dkdm_wrapper.h"
+#include "lib/audio_content.h"
+#include "lib/subtitle_content.h"
 #include <dcp/exceptions.h>
 #include <dcp/raw_convert.h>
 #include <wx/generic/aboutdlgg.h>
@@ -173,11 +176,14 @@ private:
 	wxMessageDialog* _dialog;
 };
 
-#define ALWAYS                       0x0
-#define NEEDS_FILM                   0x1
-#define NOT_DURING_DCP_CREATION      0x2
-#define NEEDS_CPL                    0x4
-#define NEEDS_SELECTED_VIDEO_CONTENT 0x8
+#define ALWAYS                        0x0
+#define NEEDS_FILM                    0x1
+#define NOT_DURING_DCP_CREATION       0x2
+#define NEEDS_CPL                     0x4
+#define NEEDS_SINGLE_SELECTED_CONTENT 0x8
+#define NEEDS_SELECTED_CONTENT        0x10
+#define NEEDS_SELECTED_VIDEO_CONTENT  0x20
+#define NEEDS_CLIPBOARD               0x40
 
 map<wxMenuItem*, int> menu_items;
 
@@ -190,7 +196,9 @@ enum {
 	ID_file_duplicate_and_open,
 	ID_file_history,
 	/* Allow spare IDs after _history for the recent files list */
-	ID_content_scale_to_fit_width = 100,
+	ID_edit_copy = 100,
+	ID_edit_paste,
+	ID_content_scale_to_fit_width,
 	ID_content_scale_to_fit_height,
 	ID_jobs_make_dcp,
 	ID_jobs_make_dcp_batch,
@@ -267,6 +275,8 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_duplicate_and_open, this), ID_file_duplicate_and_open);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_history, this, _1),        ID_file_history, ID_file_history + HISTORY_SIZE);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_exit, this),               wxID_EXIT);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_copy, this),               ID_edit_copy);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_paste, this),              ID_edit_paste);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_preferences, this),        wxID_PREFERENCES);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::content_scale_to_fit_width, this), ID_content_scale_to_fit_width);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::content_scale_to_fit_height, this), ID_content_scale_to_fit_height);
@@ -308,6 +318,7 @@ public:
 		set_menu_sensitivity ();
 
 		_film_editor->FileChanged.connect (bind (&DOMFrame::file_changed, this, _1));
+		_film_editor->content_panel()->SelectionChanged.connect (boost::bind (&DOMFrame::set_menu_sensitivity, this));
 		file_changed ("");
 
 		JobManager::instance()->ActiveJobsChanged.connect (boost::bind (&DOMFrame::set_menu_sensitivity, this));
@@ -504,6 +515,37 @@ private:
 	{
 		/* false here allows the close handler to veto the close request */
 		Close (false);
+	}
+
+	void edit_copy ()
+	{
+		ContentList const sel = _film_editor->content_panel()->selected();
+		DCPOMATIC_ASSERT (sel.size() == 1);
+		_clipboard = sel.front()->clone();
+	}
+
+	void edit_paste ()
+	{
+		DCPOMATIC_ASSERT (_clipboard);
+
+		PasteDialog* d = new PasteDialog (this, static_cast<bool>(_clipboard->video), static_cast<bool>(_clipboard->audio), static_cast<bool>(_clipboard->subtitle));
+		if (d->ShowModal() == wxID_OK) {
+			BOOST_FOREACH (shared_ptr<Content> i, _film_editor->content_panel()->selected()) {
+				if (d->video() && i->video) {
+					DCPOMATIC_ASSERT (_clipboard->video);
+					i->video->take_settings_from (_clipboard->video);
+				}
+				if (d->audio() && i->audio) {
+					DCPOMATIC_ASSERT (_clipboard->audio);
+					i->audio->take_settings_from (_clipboard->audio);
+				}
+				if (d->subtitle() && i->subtitle) {
+					DCPOMATIC_ASSERT (_clipboard->subtitle);
+					i->subtitle->take_settings_from (_clipboard->subtitle);
+				}
+			}
+		}
+		d->Destroy ();
 	}
 
 	void edit_preferences ()
@@ -901,6 +943,8 @@ private:
 		}
 		bool const dcp_creation = (i != jobs.end ()) && !(*i)->finished ();
 		bool const have_cpl = _film && !_film->cpls().empty ();
+		bool const have_single_selected_content = _film_editor->content_panel()->selected().size() == 1;
+		bool const have_selected_content = !_film_editor->content_panel()->selected().empty();
 		bool const have_selected_video_content = !_film_editor->content_panel()->selected_video().empty();
 
 		for (map<wxMenuItem*, int>::iterator j = menu_items.begin(); j != menu_items.end(); ++j) {
@@ -919,7 +963,19 @@ private:
 				enabled = false;
 			}
 
+			if ((j->second & NEEDS_SELECTED_CONTENT) && !have_selected_content) {
+				enabled = false;
+			}
+
+			if ((j->second & NEEDS_SINGLE_SELECTED_CONTENT) && !have_single_selected_content) {
+				enabled = false;
+			}
+
 			if ((j->second & NEEDS_SELECTED_VIDEO_CONTENT) && !have_selected_video_content) {
+				enabled = false;
+			}
+
+			if ((j->second & NEEDS_CLIPBOARD) && !_clipboard) {
 				enabled = false;
 			}
 
@@ -993,10 +1049,13 @@ private:
 		add_item (_file_menu, _("&Quit"), wxID_EXIT, ALWAYS);
 #endif
 
+		wxMenu* edit = new wxMenu;
+		add_item (edit, _("Copy settings\tCtrl-C"), ID_edit_copy, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_SINGLE_SELECTED_CONTENT);
+		add_item (edit, _("Paste settings...\tCtrl-V"), ID_edit_paste, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_SELECTED_CONTENT | NEEDS_CLIPBOARD);
+
 #ifdef __WXOSX__
 		add_item (_file_menu, _("&Preferences...\tCtrl-P"), wxID_PREFERENCES, ALWAYS);
 #else
-		wxMenu* edit = new wxMenu;
 		add_item (edit, _("&Preferences...\tCtrl-P"), wxID_PREFERENCES, ALWAYS);
 #endif
 
@@ -1034,9 +1093,7 @@ private:
 		add_item (help, _("Report a problem..."), ID_help_report_a_problem, NEEDS_FILM);
 
 		m->Append (_file_menu, _("&File"));
-#ifndef __WXOSX__
 		m->Append (edit, _("&Edit"));
-#endif
 		m->Append (content, _("&Content"));
 		m->Append (jobs_menu, _("&Jobs"));
 		m->Append (tools, _("&Tools"));
@@ -1146,6 +1203,7 @@ private:
 	wxMenuItem* _history_separator;
 	boost::signals2::scoped_connection _config_changed_connection;
 	bool _update_news_requested;
+	shared_ptr<Content> _clipboard;
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {

@@ -76,6 +76,7 @@ sources = """
           name_format_editor.cc
           new_dkdm_folder_dialog.cc
           normal_job_view.cc
+          paste_dialog.cc
           player_config_dialog.cc
           player_information.cc
           playhead_to_timecode_dialog.cc

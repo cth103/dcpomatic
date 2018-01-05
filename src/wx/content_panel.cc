@@ -266,6 +266,8 @@ ContentPanel::selection_changed ()
 	if (_timeline_dialog) {
 		_timeline_dialog->set_selection (selected ());
 	}
+
+	SelectionChanged ();
 }
 
 void

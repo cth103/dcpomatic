@@ -383,8 +383,8 @@ AudioContent::set_stream (AudioStreamPtr stream)
 void
 AudioContent::take_settings_from (shared_ptr<const AudioContent> c)
 {
-	_gain = c->_gain;
-	_delay = c->_delay;
+	set_gain (c->_gain);
+	set_delay (c->_delay);
 
 	size_t i = 0;
 	size_t j = 0;

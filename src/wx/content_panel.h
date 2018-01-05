@@ -70,6 +70,8 @@ public:
 	void add_file_clicked ();
 	bool remove_clicked (bool hotkey);
 
+	boost::signals2::signal<void (void)> SelectionChanged;
+
 private:
 	void selection_changed ();
 	void add_folder_clicked ();

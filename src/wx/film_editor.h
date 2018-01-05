@@ -43,6 +43,7 @@ public:
 	void set_film (boost::shared_ptr<Film>);
 
 	boost::signals2::signal<void (boost::filesystem::path)> FileChanged;
+	boost::signals2::signal<void (void)> SelectionChanged;
 
 	/* Stuff for panels */
 

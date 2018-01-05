@@ -415,19 +415,19 @@ SubtitleContent::set_outline_width (int w)
 void
 SubtitleContent::take_settings_from (shared_ptr<const SubtitleContent> c)
 {
-	_use = c->_use;
-	_burn = c->_burn;
-	_x_offset = c->_x_offset;
-	_y_offset = c->_y_offset;
-	_x_scale = c->_x_scale;
-	_y_scale = c->_y_scale;
-	_fonts = c->_fonts;
-	_colour = c->_colour;
-	_outline = c->_outline;
-	_shadow = c->_shadow;
-	_effect_colour = c->_effect_colour;
-	_line_spacing = c->_line_spacing;
-	_fade_in = c->_fade_in;
-	_fade_out = c->_fade_out;
-	_outline_width = c->_outline_width;
+	set_use (c->_use);
+	set_burn (c->_burn);
+	set_x_offset (c->_x_offset);
+	set_y_offset (c->_y_offset);
+	set_x_scale (c->_x_scale);
+	set_y_scale (c->_y_scale);
+	maybe_set (_fonts, c->_fonts, SubtitleContentProperty::FONTS);
+	set_colour (c->_colour);
+	set_outline (c->_outline);
+	set_shadow (c->_shadow);
+	set_effect_colour (c->_effect_colour);
+	set_line_spacing (c->_line_spacing);
+	set_fade_in (c->_fade_in);
+	set_fade_out (c->_fade_out);
+	set_outline_width (c->_outline_width);
 }
