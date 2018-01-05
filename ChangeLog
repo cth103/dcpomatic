@@ -1,5 +1,7 @@
 2018-01-05  Carl Hetherington  <cth@carlh.net>
 
+	* Fix hanging subtitles in some cases (#1101).
+
 	* Version 2.11.36 released.
 
 2018-01-04  Carl Hetherington  <cth@carlh.net>

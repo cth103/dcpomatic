@@ -563,6 +563,8 @@ FFmpegDecoder::decode_subtitle_packet ()
 	_have_current_subtitle = true;
 	if (sub_period.to) {
 		_current_subtitle_to = *sub_period.to + _pts_offset;
+	} else {
+		_current_subtitle_to = optional<ContentTime>();
 	}
 
 	for (unsigned int i = 0; i < sub.num_rects; ++i) {
@@ -581,6 +583,10 @@ FFmpegDecoder::decode_subtitle_packet ()
 			decode_ass_subtitle (rect->ass, from);
 			break;
 		}
+	}
+
+	if (_current_subtitle_to) {
+		subtitle->emit_stop (*_current_subtitle_to);
 	}
 
 	avsubtitle_free (&sub);
