@@ -531,7 +531,7 @@ DCPContent::can_reference_subtitle (list<string>& why_not) const
 }
 
 void
-DCPContent::use_template (shared_ptr<const Content> c)
+DCPContent::take_settings_from (shared_ptr<const Content> c)
 {
 	shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (c);
 	DCPOMATIC_ASSERT (dc);

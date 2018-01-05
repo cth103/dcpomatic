@@ -48,7 +48,7 @@ public:
 
 	void as_xml (xmlpp::Node *) const;
 	std::string technical_summary () const;
-	void use_template (boost::shared_ptr<const AudioContent> c);
+	void take_settings_from (boost::shared_ptr<const AudioContent> c);
 
 	AudioMapping mapping () const;
 	void set_mapping (AudioMapping);

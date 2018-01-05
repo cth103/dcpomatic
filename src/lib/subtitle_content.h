@@ -63,7 +63,7 @@ public:
 
 	void as_xml (xmlpp::Node *) const;
 	std::string identifier () const;
-	void use_template (boost::shared_ptr<const SubtitleContent> c);
+	void take_settings_from (boost::shared_ptr<const SubtitleContent> c);
 
 	void add_font (boost::shared_ptr<Font> font);
 

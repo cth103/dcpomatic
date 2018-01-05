@@ -76,7 +76,7 @@ public:
 	 */
 	virtual void examine (boost::shared_ptr<Job> job);
 
-	virtual void use_template (boost::shared_ptr<const Content> c);
+	virtual void take_settings_from (boost::shared_ptr<const Content> c);
 
 	/** @return Quick one-line summary of the content, as will be presented in the
 	 *  film editor.

@@ -67,7 +67,7 @@ public:
 	std::string technical_summary () const;
 	void as_xml (xmlpp::Node *, bool with_paths) const;
 	std::string identifier () const;
-	void use_template (boost::shared_ptr<const Content> c);
+	void take_settings_from (boost::shared_ptr<const Content> c);
 
 	void set_default_colour_conversion ();
 	std::list<DCPTime> reel_split_points () const;

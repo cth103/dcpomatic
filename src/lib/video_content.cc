@@ -529,7 +529,7 @@ VideoContent::set_fade_out (Frame t)
 }
 
 void
-VideoContent::use_template (shared_ptr<const VideoContent> c)
+VideoContent::take_settings_from (shared_ptr<const VideoContent> c)
 {
 	_colour_conversion = c->_colour_conversion;
 	_frame_type = c->_frame_type;

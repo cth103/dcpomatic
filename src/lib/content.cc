@@ -409,15 +409,15 @@ Content::add_properties (list<UserProperty>& p) const
 }
 
 void
-Content::use_template (shared_ptr<const Content> c)
+Content::take_settings_from (shared_ptr<const Content> c)
 {
 	if (video && c->video) {
-		video->use_template (c->video);
+		video->take_settings_from (c->video);
 	}
 	if (audio && c->audio) {
-		audio->use_template (c->audio);
+		audio->take_settings_from (c->audio);
 	}
 	if (subtitle && c->subtitle) {
-		subtitle->use_template (c->subtitle);
+		subtitle->take_settings_from (c->subtitle);
 	}
 }

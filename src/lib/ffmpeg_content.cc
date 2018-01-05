@@ -604,9 +604,9 @@ FFmpegContent::ffmpeg_audio_streams () const
 }
 
 void
-FFmpegContent::use_template (shared_ptr<const Content> c)
+FFmpegContent::take_settings_from (shared_ptr<const Content> c)
 {
-	Content::use_template (c);
+	Content::take_settings_from (c);
 
 	shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (c);
 	_filters = fc->_filters;

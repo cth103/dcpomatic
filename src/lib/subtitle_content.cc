@@ -413,7 +413,7 @@ SubtitleContent::set_outline_width (int w)
 }
 
 void
-SubtitleContent::use_template (shared_ptr<const SubtitleContent> c)
+SubtitleContent::take_settings_from (shared_ptr<const SubtitleContent> c)
 {
 	_use = c->_use;
 	_burn = c->_burn;
