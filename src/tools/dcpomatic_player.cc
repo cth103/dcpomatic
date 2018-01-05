@@ -414,20 +414,9 @@ private:
 		wxInitAllImageHandlers ();
 
 		Config::FailedToLoad.connect (boost::bind (&App::config_failed_to_load, this));
+		Config::Warning.connect (boost::bind (&App::config_warning, this, _1));
 
-		wxSplashScreen* splash = 0;
-		try {
-			if (!Config::have_existing ("config.xml")) {
-				wxBitmap bitmap;
-				boost::filesystem::path p = shared_path () / "splash.png";
-				if (bitmap.LoadFile (std_to_wx (p.string ()), wxBITMAP_TYPE_PNG)) {
-					splash = new wxSplashScreen (bitmap, wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_NO_TIMEOUT, 0, 0, -1);
-					wxYield ();
-				}
-			}
-		} catch (boost::filesystem::filesystem_error& e) {
-			/* Maybe we couldn't find the splash image; never mind */
-		}
+		wxSplashScreen* splash = maybe_show_splash ();
 
 		SetAppName (_("DCP-o-matic Player"));
 
@@ -559,6 +548,11 @@ private:
 	void config_failed_to_load ()
 	{
 		message_dialog (_frame, _("The existing configuration failed to load.  Default values will be used instead.  These may take a short time to create."));
+	}
+
+	void config_warning (string m)
+	{
+		message_dialog (_frame, std_to_wx (m));
 	}
 
 	DOMFrame* _frame;

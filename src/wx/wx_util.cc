@@ -26,8 +26,10 @@
 #include "file_picker_ctrl.h"
 #include "lib/config.h"
 #include "lib/util.h"
+#include "lib/cross.h"
 #include <dcp/locale_convert.h>
 #include <wx/spinctrl.h>
+#include <wx/splash.h>
 #include <boost/thread.hpp>
 
 using namespace std;
@@ -381,4 +383,24 @@ setup_audio_channels_choice (wxChoice* choice, int minimum)
 	}
 
 	checked_set (choice, items);
+}
+
+wxSplashScreen *
+maybe_show_splash ()
+{
+	wxSplashScreen* splash = 0;
+	try {
+		if (!Config::have_existing ("config.xml")) {
+			wxBitmap bitmap;
+			boost::filesystem::path p = shared_path () / "splash.png";
+			if (bitmap.LoadFile (std_to_wx (p.string ()), wxBITMAP_TYPE_PNG)) {
+				splash = new wxSplashScreen (bitmap, wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_NO_TIMEOUT, 0, 0, -1);
+				wxYield ();
+			}
+		}
+	} catch (boost::filesystem::filesystem_error& e) {
+		/* Maybe we couldn't find the splash image; never mind */
+	}
+
+	return splash;
 }

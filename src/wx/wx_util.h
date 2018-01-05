@@ -39,6 +39,7 @@ class FilePickerCtrl;
 class wxSpinCtrl;
 class wxSpinCtrlDouble;
 class wxGridBagSizer;
+class wxSplashScreen;
 
 #define DCPOMATIC_SIZER_X_GAP 8
 #define DCPOMATIC_SIZER_Y_GAP 8
@@ -80,6 +81,7 @@ extern wxString context_translation (wxString);
 extern std::string string_client_data (wxClientData* o);
 extern wxString time_to_timecode (DCPTime t, double fps);
 extern void setup_audio_channels_choice (wxChoice* choice, int minimum);
+extern wxSplashScreen* maybe_show_splash ();
 
 extern void checked_set (FilePickerCtrl* widget, boost::filesystem::path value);
 extern void checked_set (wxSpinCtrl* widget, int value);

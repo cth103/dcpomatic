@@ -42,11 +42,13 @@
 #include "lib/compose.hpp"
 #include "lib/cinema.h"
 #include "lib/dkdm_wrapper.h"
+#include "lib/cross.h"
 #include <dcp/encrypted_kdm.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/exceptions.h>
 #include <wx/wx.h>
 #include <wx/preferences.h>
+#include <wx/splash.h>
 #include <wx/filepicker.h>
 #ifdef __WXOSX__
 #include <ApplicationServices/ApplicationServices.h>
@@ -536,6 +538,11 @@ private:
 	{
 		wxInitAllImageHandlers ();
 
+		Config::FailedToLoad.connect (boost::bind (&App::config_failed_to_load, this));
+		Config::Warning.connect (boost::bind (&App::config_warning, this, _1));
+
+		wxSplashScreen* splash = maybe_show_splash ();
+
 		SetAppName (_("DCP-o-matic KDM Creator"));
 
 		if (!wxApp::OnInit()) {
@@ -575,6 +582,9 @@ private:
 		_frame = new DOMFrame (_("DCP-o-matic KDM Creator"));
 		SetTopWindow (_frame);
 		_frame->Maximize ();
+		if (splash) {
+			splash->Destroy ();
+		}
 		_frame->Show ();
 
 		signal_manager = new wxSignalManager (this);
@@ -626,6 +636,16 @@ private:
 	void idle ()
 	{
 		signal_manager->ui_idle ();
+	}
+
+	void config_failed_to_load ()
+	{
+		message_dialog (_frame, _("The existing configuration failed to load.  Default values will be used instead.  These may take a short time to create."));
+	}
+
+	void config_warning (string m)
+	{
+		message_dialog (_frame, std_to_wx (m));
 	}
 
 	DOMFrame* _frame;
