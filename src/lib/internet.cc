@@ -79,6 +79,12 @@ get_from_zip_url (string url, string file, bool pasv, function<void (boost::file
 
 	/* Open the ZIP file and read `file' out of it */
 
+#ifdef DCPOMATIC_HAVE_ZIP_SOURCE_T
+	/* This is the way to do it with newer versions of libzip, and is required on Windows.
+	   The zip_source_t API is missing in the libzip versions shipped with Ubuntu 14.04,
+	   Centos 6, Centos 7, Debian 7 and Debian 8.
+	*/
+
 	FILE* zip_file = fopen_boost (temp_zip.file (), "rb");
 	if (!zip_file) {
 		return optional<string> (_("Could not open downloaded ZIP file"));
@@ -93,6 +99,10 @@ get_from_zip_url (string url, string file, bool pasv, function<void (boost::file
 	if (!zip) {
 		return optional<string> (_("Could not open downloaded ZIP file"));
 	}
+
+#else
+	struct zip* zip = zip_open (temp_zip.c_str(), 0, 0);
+#endif
 
 	struct zip_file* file_in_zip = zip_fopen (zip, file.c_str(), 0);
 	if (!file_in_zip) {

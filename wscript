@@ -269,6 +269,15 @@ def configure(conf):
 
     # libzip
     conf.check_cfg(package='libzip', args='--cflags --libs', uselib_store='ZIP', mandatory=True)
+    conf.check_cxx(fragment="""
+                            #include <zip.h>
+                            int main() { zip_source_t* foo; }
+                            """,
+                   mandatory=False,
+                   msg="Checking for zip_source_t",
+                   uselib="ZIP",
+                   define_name='DCPOMATIC_HAVE_ZIP_SOURCE_T'
+                   )
 
     # fontconfig
     conf.check_cfg(package='fontconfig', args='--cflags --libs', uselib_store='FONTCONFIG', mandatory=True)
