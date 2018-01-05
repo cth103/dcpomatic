@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-24 21:11+0100\n"
+"POT-Creation-Date: 2018-01-05 23:30+0000\n"
 "PO-Revision-Date: 2017-11-04 14:03+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -71,7 +71,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " op %1"
 
-#: src/lib/config.cc:751
+#: src/lib/config.cc:785
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -308,7 +308,7 @@ msgstr "Midden (C)"
 msgid "Channels"
 msgstr "Kanalen"
 
-#: src/lib/reel_writer.cc:99
+#: src/lib/reel_writer.cc:98
 msgid "Checking existing image data"
 msgstr "Bestaande beelddata controleren"
 
@@ -344,7 +344,7 @@ msgstr "Kleurruimte"
 msgid "Computing digest"
 msgstr "Berekenen samenvatting"
 
-#: src/lib/writer.cc:484
+#: src/lib/writer.cc:509
 msgid "Computing digests"
 msgstr "Berekenen samenvattingen"
 
@@ -507,7 +507,7 @@ msgstr "Kan %1 niet openen"
 msgid "Could not open %1 to send"
 msgstr "Kan %1 niet openen om te verzenden"
 
-#: src/lib/internet.cc:83
+#: src/lib/internet.cc:90 src/lib/internet.cc:95 src/lib/internet.cc:100
 msgid "Could not open downloaded ZIP file"
 msgstr "Kan gedownload ZIP-bestand niet openen"
 
@@ -586,7 +586,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Deinterlacing"
 
-#: src/lib/config.cc:731
+#: src/lib/config.cc:765
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -616,7 +616,7 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 en CP750"
 
-#: src/lib/internet.cc:76
+#: src/lib/internet.cc:77
 msgid "Download failed (%1/%2 error %3)"
 msgstr "Download mislukt (%1/%2 fout %3)"
 
@@ -676,7 +676,7 @@ msgstr "Verzenden e-mail mislukt (%1)"
 msgid "Feature"
 msgstr "Feature"
 
-#: src/lib/content.cc:381
+#: src/lib/content.cc:386
 msgid "Filename"
 msgstr "Bestandsnaam"
 
@@ -688,7 +688,7 @@ msgstr "Film"
 msgid "Finding length"
 msgstr "Lengte bepalen"
 
-#: src/lib/content.cc:388
+#: src/lib/content.cc:393
 msgid "Frame rate"
 msgstr "Frame rate"
 
@@ -778,7 +778,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Het is onbekend hoe deze fout is ontstaan."
 
-#: src/lib/config.cc:284 src/lib/config.cc:728
+#: src/lib/config.cc:287 src/lib/config.cc:762
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-levering: $CPL_NAME"
 
@@ -870,7 +870,7 @@ msgstr "Ongelijke frame rates in DCP"
 msgid "Mismatched video sizes in DCP"
 msgstr "Ongelijke beeldgroottes in DCP"
 
-#: src/lib/writer.cc:583
+#: src/lib/writer.cc:608
 msgid "Mono"
 msgstr "Mono"
 
@@ -890,7 +890,7 @@ msgstr "Niet schalen"
 msgid "No stretch"
 msgstr "Niet uitvullen"
 
-#: src/lib/image_content.cc:57
+#: src/lib/image_content.cc:120
 msgid "No valid image files were found in the folder."
 msgstr "Geen geldige beeldbestanden gevonden in de map."
 
@@ -898,7 +898,7 @@ msgstr "Geen geldige beeldbestanden gevonden in de map."
 msgid "Noise reduction"
 msgstr "Ruisonderdrukking"
 
-#: src/lib/writer.cc:581
+#: src/lib/writer.cc:606
 msgid "None"
 msgstr "Geen"
 
@@ -934,7 +934,7 @@ msgstr "P3"
 msgid "Policy"
 msgstr "Policy"
 
-#: src/lib/content.cc:397
+#: src/lib/content.cc:402
 msgid "Prepared for video frame rate"
 msgstr "Voorbereid voor video frame rate"
 
@@ -1043,6 +1043,11 @@ msgstr "SMPTE ST 432-1 D65 (2010)"
 msgid "SSH error (%1)"
 msgstr "SSH-fout (%1)"
 
+#: src/lib/image_content.cc:107
+#, fuzzy
+msgid "Scanning image files"
+msgstr "E-mail verzenden"
+
 #: src/lib/send_problem_report_job.cc:74
 msgid "Sending email"
 msgstr "E-mail verzenden"
@@ -1059,7 +1064,7 @@ msgstr "Grootte"
 msgid "Some audio will be resampled to %1kHz"
 msgstr "Sommige audio wordt geresampled naar %1kHz"
 
-#: src/lib/writer.cc:585
+#: src/lib/writer.cc:610
 msgid "Stereo"
 msgstr "Stereo"
 
@@ -1139,6 +1144,16 @@ msgstr "Het bestand %1 is naar %2 milliseconden eerder verplaatst."
 #: src/lib/content_factory.cc:110
 msgid "The file %1 has been moved %2 milliseconds later."
 msgstr "Het bestand %1 is naar %2 milliseconden later verplaatst."
+
+#: src/lib/content_factory.cc:135
+#, fuzzy
+msgid "The file %1 has been trimmed by %2 milliseconds less."
+msgstr "Het bestand %1 is naar %2 milliseconden later verplaatst."
+
+#: src/lib/content_factory.cc:130
+#, fuzzy
+msgid "The file %1 has been trimmed by %2 milliseconds more."
+msgstr "Het bestand %1 is naar %2 milliseconden eerder verplaatst."
 
 #: src/lib/dcp_content.cc:447
 msgid "The film has a different frame rate to this DCP."
@@ -1226,7 +1241,7 @@ msgstr "Transcoderen %1"
 msgid "Transitional"
 msgstr "Transitional"
 
-#: src/lib/internet.cc:88
+#: src/lib/internet.cc:109
 msgid "Unexpected ZIP file contents"
 msgstr "Onverwachte inhoud ZIP-bestand"
 
@@ -1238,7 +1253,7 @@ msgstr "Onverwacht beeldtype ontvangen door server"
 msgid "Unknown error"
 msgstr "Onbekende fout"
 
-#: src/lib/ffmpeg_decoder.cc:318
+#: src/lib/ffmpeg_decoder.cc:319
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Niet herkend audio sample-formaat (%1)"
 
@@ -1361,7 +1376,7 @@ msgstr ""
 "Uw audio-niveau is zeer hoog (op %1).  U kunt beter de versterking van uw "
 "audio-content verminderen."
 
-#: src/lib/config.cc:241
+#: src/lib/config.cc:244
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr "Uw standaardcontainer is niet geldig en is gewijzigd in Flat (1,85:1)"
@@ -1372,11 +1387,19 @@ msgid ""
 msgstr ""
 "Uw project bevat video-content die niet was uitgelijnd op een framegrens."
 
-#: src/lib/image_content.cc:81
+#: src/lib/content_factory.cc:126
+#, fuzzy
+msgid ""
+"Your project contains video content whose trim was not aligned to a frame "
+"boundary."
+msgstr ""
+"Uw project bevat video-content die niet was uitgelijnd op een framegrens."
+
+#: src/lib/image_content.cc:71
 msgid "[moving images]"
 msgstr "[bewegende beelden]"
 
-#: src/lib/image_content.cc:79
+#: src/lib/image_content.cc:69
 msgid "[still]"
 msgstr "[stilstaand beeld]"
 
@@ -1412,7 +1435,7 @@ msgstr "kopiëren van %1"
 msgid "could not find stream information"
 msgstr "kan geen stream-informatie vinden"
 
-#: src/lib/reel_writer.cc:337
+#: src/lib/reel_writer.cc:336
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "kan audio asset niet naar de DCP verplaatsen (%1)"
 
@@ -1452,7 +1475,7 @@ msgstr "fout tijdens async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "fout tijdens async_write (%1)"
 
-#: src/lib/content.cc:390 src/lib/content.cc:399
+#: src/lib/content.cc:395 src/lib/content.cc:404
 msgid "frames per second"
 msgstr "frames per seconde"
 
@@ -1470,7 +1493,7 @@ msgstr "m"
 msgid "missing required setting %1"
 msgstr "ontbrekende verplichte instelling %1"
 
-#: src/lib/image_content.cc:96
+#: src/lib/image_content.cc:86
 msgid "moving"
 msgstr "verplaatsen"
 
@@ -1499,7 +1522,7 @@ msgstr "een deel van uw content heeft een KDM nodig"
 msgid "some of your content needs an OV"
 msgstr "een deel van uw content heeft een OV nodig"
 
-#: src/lib/image_content.cc:94
+#: src/lib/image_content.cc:84
 msgid "still"
 msgstr "stilstaand beeld"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-24 21:11+0100\n"
+"POT-Creation-Date: 2018-01-05 23:30+0000\n"
 "PO-Revision-Date: 2016-03-19 13:56+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -41,7 +41,7 @@ msgstr ""
 #: src/wx/about_dialog.cc:83
 #, fuzzy
 msgid ""
-"(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
 "(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
@@ -59,11 +59,11 @@ msgstr "(reinicie o DCP-o-matic para ver as alterações de idioma)"
 msgid "-6dB"
 msgstr "-6dB"
 
-#: src/wx/wx_util.cc:377
+#: src/wx/wx_util.cc:379
 msgid "12 - 7.1/HI/VI"
 msgstr ""
 
-#: src/wx/wx_util.cc:369
+#: src/wx/wx_util.cc:371
 msgid "2 - stereo"
 msgstr ""
 
@@ -107,7 +107,7 @@ msgstr "3D apenas direita"
 msgid "3D top/bottom"
 msgstr "3D superior/inferior"
 
-#: src/wx/wx_util.cc:371
+#: src/wx/wx_util.cc:373
 msgid "4 - L/C/R/Lfe"
 msgstr ""
 
@@ -115,11 +115,11 @@ msgstr ""
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/wx_util.cc:373
+#: src/wx/wx_util.cc:375
 msgid "6 - 5.1"
 msgstr ""
 
-#: src/wx/wx_util.cc:375
+#: src/wx/wx_util.cc:377
 msgid "8 - 5.1/HI/VI"
 msgstr ""
 
@@ -256,7 +256,7 @@ msgstr "Permitir qualquer cadência de fotogramas"
 msgid "Alpha   0"
 msgstr "Alfa   O"
 
-#: src/wx/kdm_output_panel.cc:265
+#: src/wx/kdm_output_panel.cc:292
 msgid "An unknown exception occurred."
 msgstr ""
 
@@ -361,7 +361,7 @@ msgstr "ID CPL"
 msgid "CPL annotation text"
 msgstr "Texto anotação CPL"
 
-#: src/wx/kdm_output_panel.cc:261
+#: src/wx/kdm_output_panel.cc:288
 msgid "CPL's content is not encrypted."
 msgstr ""
 
@@ -405,7 +405,7 @@ msgstr "Pesquisar por actualizações no arranque"
 msgid "Choose CPL..."
 msgstr ""
 
-#: src/wx/content_panel.cc:359
+#: src/wx/content_panel.cc:361
 #, fuzzy
 msgid "Choose a DCP folder"
 msgstr "Seleccionar pasta"
@@ -414,11 +414,11 @@ msgstr "Seleccionar pasta"
 msgid "Choose a file"
 msgstr "Seleccionar ficheiro"
 
-#: src/wx/content_panel.cc:286
+#: src/wx/content_panel.cc:288
 msgid "Choose a file or files"
 msgstr "Seleccionar ficheiro(s)"
 
-#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:314
+#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:316
 msgid "Choose a folder"
 msgstr "Seleccionar pasta"
 
@@ -525,7 +525,7 @@ msgstr "Não foi possível ler o ficheiro do certificado (%s)"
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Não foi possível ler o ficheiro da chave (%s)"
 
-#: src/wx/film_viewer.cc:761
+#: src/wx/film_viewer.cc:775
 #, c-format
 msgid ""
 "Could not set up audio output (%s).  There will be no audio during the "
@@ -549,7 +549,7 @@ msgid "Crop"
 msgstr "Aparar"
 
 #: src/wx/audio_mapping_view.cc:475 src/wx/audio_mapping_view.cc:477
-#: src/wx/film_editor.cc:55 src/wx/player_information.cc:47
+#: src/wx/film_editor.cc:55 src/wx/player_information.cc:49
 msgid "DCP"
 msgstr "DCP"
 
@@ -565,8 +565,8 @@ msgstr "Directório do DCP"
 msgid "DCP metadata filename format"
 msgstr ""
 
-#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:90 src/wx/wx_util.cc:102
-#: src/wx/wx_util.cc:110
+#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:92 src/wx/wx_util.cc:104
+#: src/wx/wx_util.cc:112
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
@@ -585,6 +585,11 @@ msgstr "Depuração: envio de email"
 #: src/wx/full_config_dialog.cc:1020
 msgid "Debug: encode"
 msgstr "Depuração: codificação"
+
+#: src/wx/player_information.cc:135
+#, c-format
+msgid "Decode resolution: %dx%d"
+msgstr ""
 
 #: src/wx/config_dialog.cc:721
 #, fuzzy
@@ -686,7 +691,7 @@ msgstr "Transferir..."
 msgid "Downloading certificate"
 msgstr "A transferir certificado"
 
-#: src/wx/player_information.cc:73
+#: src/wx/player_information.cc:76
 #, c-format
 msgid "Dropped frames: %d"
 msgstr ""
@@ -1063,7 +1068,7 @@ msgstr "Largura de banda JPEG2000"
 msgid "Join"
 msgstr "Unir"
 
-#: src/wx/film_viewer.cc:117
+#: src/wx/film_viewer.cc:118
 msgid "Jump to selected content"
 msgstr ""
 
@@ -1129,9 +1134,8 @@ msgstr "Esquerda"
 msgid "Length"
 msgstr ""
 
-#: src/wx/player_information.cc:118
-#, c-format
-msgid "Length: %s (%ld frames)"
+#: src/wx/player_information.cc:121
+msgid "Length: %1 (%2 frames)"
 msgstr ""
 
 #: src/wx/subtitle_panel.cc:108
@@ -1155,7 +1159,7 @@ msgstr "Variação de intensidade sonora %.2f LU"
 msgid "Lower priority"
 msgstr ""
 
-#: src/wx/content_panel.cc:552
+#: src/wx/content_panel.cc:554
 msgid "MISSING: "
 msgstr "EM FALTA:"
 
@@ -1257,11 +1261,11 @@ msgstr "Os meus documentos"
 msgid "My problem is"
 msgstr "O meu problema é"
 
-#: src/wx/content_panel.cc:556
+#: src/wx/content_panel.cc:558
 msgid "NEEDS KDM: "
 msgstr "NECESSITA DE KDM:"
 
-#: src/wx/content_panel.cc:560
+#: src/wx/content_panel.cc:562
 #, fuzzy
 msgid "NEEDS OV: "
 msgstr "NECESSITA DE KDM:"
@@ -1270,12 +1274,12 @@ msgstr "NECESSITA DE KDM:"
 msgid "Name"
 msgstr "Nome"
 
-#: src/wx/player_information.cc:104
+#: src/wx/player_information.cc:108
 #, fuzzy
 msgid "Needs KDM"
 msgstr "Seleccionar KDM"
 
-#: src/wx/player_information.cc:99
+#: src/wx/player_information.cc:103
 msgid "Needs OV"
 msgstr ""
 
@@ -1288,7 +1292,7 @@ msgstr "Nome de utilizador"
 msgid "New versions of DCP-o-matic are available."
 msgstr "Novas versões do DCP-o-matic disponíveis."
 
-#: src/wx/player_information.cc:88
+#: src/wx/player_information.cc:91
 #, fuzzy
 msgid "No DCP loaded."
 msgstr "Nenhum DCP seleccionado."
@@ -1302,7 +1306,7 @@ msgstr "Nenhum DCP seleccionado."
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "Não será passado audio do canal de conteúdo %d para o canal DCP %d."
 
-#: src/wx/content_panel.cc:333
+#: src/wx/content_panel.cc:335
 msgid "No content found in this folder."
 msgstr "Não foi encontrado conteúdo nesta pasta."
 
@@ -1369,7 +1373,7 @@ msgstr "Servidor de envio de email"
 msgid "Outline"
 msgstr "Contorno"
 
-#: src/wx/film_viewer.cc:111
+#: src/wx/film_viewer.cc:112
 msgid "Outline content"
 msgstr "Contornar conteúdo"
 
@@ -1404,6 +1408,23 @@ msgstr ""
 msgid "Password"
 msgstr "Palavra passe"
 
+#: src/wx/paste_dialog.cc:24
+msgid "Paste"
+msgstr ""
+
+#: src/wx/paste_dialog.cc:29
+msgid "Paste audio settings"
+msgstr ""
+
+#: src/wx/paste_dialog.cc:32
+#, fuzzy
+msgid "Paste subtitle settings"
+msgstr "Usar legendas"
+
+#: src/wx/paste_dialog.cc:26
+msgid "Paste video settings"
+msgstr ""
+
 #: src/wx/normal_job_view.cc:37 src/wx/normal_job_view.cc:53
 msgid "Pause"
 msgstr "Pausa"
@@ -1421,11 +1442,11 @@ msgstr "Pico: %.2fdB"
 msgid "Peak: unknown"
 msgstr "Pico: desconhecido"
 
-#: src/wx/player_information.cc:56
+#: src/wx/player_information.cc:58
 msgid "Performance"
 msgstr ""
 
-#: src/wx/film_viewer.cc:87
+#: src/wx/film_viewer.cc:88
 msgid "Play"
 msgstr "Reproduzir"
 
@@ -1787,7 +1808,7 @@ msgstr "Achatar curva de entrada de gama a valores pequenos"
 msgid "Single reel"
 msgstr "Bobina única"
 
-#: src/wx/player_information.cc:110
+#: src/wx/player_information.cc:114
 #, c-format
 msgid "Size: %dx%d"
 msgstr ""
@@ -1849,7 +1870,7 @@ msgstr "Aparência da legenda"
 msgid "Subtitles"
 msgstr "Legendas"
 
-#: src/wx/about_dialog.cc:320
+#: src/wx/about_dialog.cc:331
 msgid "Supported by"
 msgstr "Apoiado por "
 
@@ -1889,7 +1910,7 @@ msgstr "Território (e.g. PT)"
 msgid "Test version "
 msgstr "Versão de teste"
 
-#: src/wx/about_dialog.cc:377
+#: src/wx/about_dialog.cc:388
 msgid "Tested by"
 msgstr "Testado por"
 
@@ -1928,7 +1949,7 @@ msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
 msgstr ""
 
-#: src/wx/film_viewer.cc:204
+#: src/wx/film_viewer.cc:212
 msgid "There is not enough free memory to do that."
 msgstr "Não há memória livre para executar essa acção."
 
@@ -2241,13 +2262,13 @@ msgid ""
 "screen with this name."
 msgstr ""
 
-#: src/wx/kdm_output_panel.cc:180
+#: src/wx/kdm_output_panel.cc:207
 msgid ""
 "You have selected some cinemas that have no configured email address.  Do "
 "you want to continue?"
 msgstr ""
 
-#: src/wx/kdm_output_panel.cc:168
+#: src/wx/kdm_output_panel.cc:195
 msgid ""
 "You must set up a mail server in Preferences before you can send emails."
 msgstr ""

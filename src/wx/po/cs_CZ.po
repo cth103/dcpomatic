@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-24 21:11+0100\n"
+"POT-Creation-Date: 2018-01-05 23:30+0000\n"
 "PO-Revision-Date: 2017-10-09 11:57+0200\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -40,8 +40,9 @@ msgid "%d KDMs written to %s"
 msgstr "%d KDMs zapsány do %s"
 
 #: src/wx/about_dialog.cc:83
+#, fuzzy
 msgid ""
-"(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
 "(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
@@ -59,11 +60,11 @@ msgstr "(restartujte DCP-o-matic, aby se změnil jazyk)"
 msgid "-6dB"
 msgstr "-6dB"
 
-#: src/wx/wx_util.cc:377
+#: src/wx/wx_util.cc:379
 msgid "12 - 7.1/HI/VI"
 msgstr "12 - 7.1/HI/VI"
 
-#: src/wx/wx_util.cc:369
+#: src/wx/wx_util.cc:371
 msgid "2 - stereo"
 msgstr "2 - stereo"
 
@@ -107,7 +108,7 @@ msgstr "3D jen pravé"
 msgid "3D top/bottom"
 msgstr "3D horní/dolní (Pod sebou)"
 
-#: src/wx/wx_util.cc:371
+#: src/wx/wx_util.cc:373
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
@@ -115,11 +116,11 @@ msgstr "4 - L/C/R/Lfe"
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/wx_util.cc:373
+#: src/wx/wx_util.cc:375
 msgid "6 - 5.1"
 msgstr "6 - 5.1"
 
-#: src/wx/wx_util.cc:375
+#: src/wx/wx_util.cc:377
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
@@ -251,7 +252,7 @@ msgstr "Povolit všechny DCP frame rate"
 msgid "Alpha   0"
 msgstr "Alpha   0"
 
-#: src/wx/kdm_output_panel.cc:265
+#: src/wx/kdm_output_panel.cc:292
 msgid "An unknown exception occurred."
 msgstr "Došlo k neznámé výjimce."
 
@@ -355,7 +356,7 @@ msgstr "CPL ID"
 msgid "CPL annotation text"
 msgstr "CPL anotace textu"
 
-#: src/wx/kdm_output_panel.cc:261
+#: src/wx/kdm_output_panel.cc:288
 msgid "CPL's content is not encrypted."
 msgstr "CPL obsah není šifrovaný."
 
@@ -399,7 +400,7 @@ msgstr "Zkontrolovat aktualizace při startu programu "
 msgid "Choose CPL..."
 msgstr "Vyberte CPL…"
 
-#: src/wx/content_panel.cc:359
+#: src/wx/content_panel.cc:361
 msgid "Choose a DCP folder"
 msgstr "Vyberte DCP složku"
 
@@ -407,11 +408,11 @@ msgstr "Vyberte DCP složku"
 msgid "Choose a file"
 msgstr "Vyberte soubor"
 
-#: src/wx/content_panel.cc:286
+#: src/wx/content_panel.cc:288
 msgid "Choose a file or files"
 msgstr "Vyberte soubor nebo soubory"
 
-#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:314
+#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:316
 msgid "Choose a folder"
 msgstr "Vyberte složku"
 
@@ -515,7 +516,7 @@ msgstr "Nemůžu načíst soubor s certifikátem (%s)"
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Nemůžu přečíst soubor s klíčem; soubor je příliš dlouhý (%s)"
 
-#: src/wx/film_viewer.cc:761
+#: src/wx/film_viewer.cc:775
 #, c-format
 msgid ""
 "Could not set up audio output (%s).  There will be no audio during the "
@@ -540,7 +541,7 @@ msgid "Crop"
 msgstr "Ořezat"
 
 #: src/wx/audio_mapping_view.cc:475 src/wx/audio_mapping_view.cc:477
-#: src/wx/film_editor.cc:55 src/wx/player_information.cc:47
+#: src/wx/film_editor.cc:55 src/wx/player_information.cc:49
 msgid "DCP"
 msgstr "DCP"
 
@@ -556,8 +557,8 @@ msgstr "DCP adresář"
 msgid "DCP metadata filename format"
 msgstr "Formát názvu souboru DCP metadat"
 
-#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:90 src/wx/wx_util.cc:102
-#: src/wx/wx_util.cc:110
+#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:92 src/wx/wx_util.cc:104
+#: src/wx/wx_util.cc:112
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
@@ -576,6 +577,11 @@ msgstr "Ladění: odeslání emailu"
 #: src/wx/full_config_dialog.cc:1020
 msgid "Debug: encode"
 msgstr "Ladění: enkódování"
+
+#: src/wx/player_information.cc:135
+#, c-format
+msgid "Decode resolution: %dx%d"
+msgstr ""
 
 #: src/wx/config_dialog.cc:721
 msgid "Decrypting KDMs"
@@ -673,7 +679,7 @@ msgstr "Stáhnout…"
 msgid "Downloading certificate"
 msgstr "Stahuji certifikát"
 
-#: src/wx/player_information.cc:73
+#: src/wx/player_information.cc:76
 #, c-format
 msgid "Dropped frames: %d"
 msgstr "Vynechané snímky: %d"
@@ -1044,7 +1050,7 @@ msgstr ""
 msgid "Join"
 msgstr "Spojit"
 
-#: src/wx/film_viewer.cc:117
+#: src/wx/film_viewer.cc:118
 msgid "Jump to selected content"
 msgstr "Přeskočit na vybraný obsah"
 
@@ -1109,9 +1115,9 @@ msgstr "Levé oko"
 msgid "Length"
 msgstr "Délka"
 
-#: src/wx/player_information.cc:118
-#, c-format
-msgid "Length: %s (%ld frames)"
+#: src/wx/player_information.cc:121
+#, fuzzy
+msgid "Length: %1 (%2 frames)"
 msgstr "Délka: %s (%ld snímků)"
 
 #: src/wx/subtitle_panel.cc:108
@@ -1135,7 +1141,7 @@ msgstr "Rozsah hlasitosti %.2f LU"
 msgid "Lower priority"
 msgstr "Nižší priorita"
 
-#: src/wx/content_panel.cc:552
+#: src/wx/content_panel.cc:554
 msgid "MISSING: "
 msgstr "CHYBĚJÍCÍ: "
 
@@ -1232,11 +1238,11 @@ msgstr "Moje dokumenty"
 msgid "My problem is"
 msgstr "Můj problém je"
 
-#: src/wx/content_panel.cc:556
+#: src/wx/content_panel.cc:558
 msgid "NEEDS KDM: "
 msgstr "POTŘEBNÉ KDM: "
 
-#: src/wx/content_panel.cc:560
+#: src/wx/content_panel.cc:562
 msgid "NEEDS OV: "
 msgstr "POTŘEBNÉ OV: "
 
@@ -1244,12 +1250,12 @@ msgstr "POTŘEBNÉ OV: "
 msgid "Name"
 msgstr "Název"
 
-#: src/wx/player_information.cc:104
+#: src/wx/player_information.cc:108
 #, fuzzy
 msgid "Needs KDM"
 msgstr "Vybrat KDM"
 
-#: src/wx/player_information.cc:99
+#: src/wx/player_information.cc:103
 msgid "Needs OV"
 msgstr ""
 
@@ -1261,7 +1267,7 @@ msgstr "Nové jméno"
 msgid "New versions of DCP-o-matic are available."
 msgstr "Je k dispozici nová verze DCP-o-matic."
 
-#: src/wx/player_information.cc:88
+#: src/wx/player_information.cc:91
 msgid "No DCP loaded."
 msgstr "DCP nebyl načten."
 
@@ -1274,7 +1280,7 @@ msgstr "Nevybráno žádné DCP."
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "Žádné  audio nebude přeneseno z kanálu %d do DCP kanálu %d."
 
-#: src/wx/content_panel.cc:333
+#: src/wx/content_panel.cc:335
 msgid "No content found in this folder."
 msgstr "Žádný obsah nebyl ve složce nalezen."
 
@@ -1341,7 +1347,7 @@ msgstr "Server odchozí pošty"
 msgid "Outline"
 msgstr "Orámovaní"
 
-#: src/wx/film_viewer.cc:111
+#: src/wx/film_viewer.cc:112
 msgid "Outline content"
 msgstr "Orámovat obsah"
 
@@ -1373,6 +1379,23 @@ msgstr "Přepsat tento soubor aktuální konfigurací"
 msgid "Password"
 msgstr "Heslo"
 
+#: src/wx/paste_dialog.cc:24
+msgid "Paste"
+msgstr ""
+
+#: src/wx/paste_dialog.cc:29
+msgid "Paste audio settings"
+msgstr ""
+
+#: src/wx/paste_dialog.cc:32
+#, fuzzy
+msgid "Paste subtitle settings"
+msgstr "Použít titulky"
+
+#: src/wx/paste_dialog.cc:26
+msgid "Paste video settings"
+msgstr ""
+
 #: src/wx/normal_job_view.cc:37 src/wx/normal_job_view.cc:53
 msgid "Pause"
 msgstr "Pauza"
@@ -1390,11 +1413,11 @@ msgstr "Maximum: %.2fdB"
 msgid "Peak: unknown"
 msgstr "Maximum: neznámy"
 
-#: src/wx/player_information.cc:56
+#: src/wx/player_information.cc:58
 msgid "Performance"
 msgstr "Výkon"
 
-#: src/wx/film_viewer.cc:87
+#: src/wx/film_viewer.cc:88
 msgid "Play"
 msgstr "Přehrát"
 
@@ -1746,7 +1769,7 @@ msgstr "Linearizovat vstupní gama křivku pro malé hodnoty"
 msgid "Single reel"
 msgstr "Jeden reel"
 
-#: src/wx/player_information.cc:110
+#: src/wx/player_information.cc:114
 #, c-format
 msgid "Size: %dx%d"
 msgstr "Velikost: %dx%d"
@@ -1808,7 +1831,7 @@ msgstr "Vyhledat titulky"
 msgid "Subtitles"
 msgstr "Titulky"
 
-#: src/wx/about_dialog.cc:320
+#: src/wx/about_dialog.cc:331
 msgid "Supported by"
 msgstr "Podporovatelé"
 
@@ -1848,7 +1871,7 @@ msgstr "Území (např. SK)"
 msgid "Test version "
 msgstr "Testovací verze "
 
-#: src/wx/about_dialog.cc:377
+#: src/wx/about_dialog.cc:388
 msgid "Tested by"
 msgstr "Testeři"
 
@@ -1889,7 +1912,7 @@ msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
 msgstr "Šablona s tímto názvem již existuje. Chcete jej přepsat?"
 
-#: src/wx/film_viewer.cc:204
+#: src/wx/film_viewer.cc:212
 msgid "There is not enough free memory to do that."
 msgstr "Nemáte dostatek paměti."
 
@@ -2208,7 +2231,7 @@ msgstr ""
 "Nemůžete změnit obraz s názvem '% s', protože kino již obsahuje obraz s "
 "tímto názvem."
 
-#: src/wx/kdm_output_panel.cc:180
+#: src/wx/kdm_output_panel.cc:207
 msgid ""
 "You have selected some cinemas that have no configured email address.  Do "
 "you want to continue?"
@@ -2216,7 +2239,7 @@ msgstr ""
 "Vybrali jste některé kina, která nemají nakonfigurovanou e-mailovou adresu. "
 "Chcete pokračovat?"
 
-#: src/wx/kdm_output_panel.cc:168
+#: src/wx/kdm_output_panel.cc:195
 msgid ""
 "You must set up a mail server in Preferences before you can send emails."
 msgstr "Před odesláním e-mailů musíte nastavit poštovní server v Předvolbách."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-24 21:11+0100\n"
+"POT-Creation-Date: 2018-01-05 23:30+0000\n"
 "PO-Revision-Date: 2017-11-04 13:52+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -41,8 +41,9 @@ msgid "%d KDMs written to %s"
 msgstr "%d KDM's weggeschreven naar %s"
 
 #: src/wx/about_dialog.cc:83
+#, fuzzy
 msgid ""
-"(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
 "(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
@@ -60,11 +61,11 @@ msgstr "(herstart DCP-o-matic om taalwijzigingen te zien)"
 msgid "-6dB"
 msgstr "-6dB"
 
-#: src/wx/wx_util.cc:377
+#: src/wx/wx_util.cc:379
 msgid "12 - 7.1/HI/VI"
 msgstr "12 - 7.1/HI/VI"
 
-#: src/wx/wx_util.cc:369
+#: src/wx/wx_util.cc:371
 msgid "2 - stereo"
 msgstr "2 - Stereo"
 
@@ -108,7 +109,7 @@ msgstr "3D alleen rechts"
 msgid "3D top/bottom"
 msgstr "3D boven/onder"
 
-#: src/wx/wx_util.cc:371
+#: src/wx/wx_util.cc:373
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
@@ -116,11 +117,11 @@ msgstr "4 - L/C/R/Lfe"
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/wx_util.cc:373
+#: src/wx/wx_util.cc:375
 msgid "6 - 5.1"
 msgstr "6 - 5.1"
 
-#: src/wx/wx_util.cc:375
+#: src/wx/wx_util.cc:377
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
@@ -253,7 +254,7 @@ msgstr "Sta elke DCP frame rate toe"
 msgid "Alpha   0"
 msgstr "Alpha   0"
 
-#: src/wx/kdm_output_panel.cc:265
+#: src/wx/kdm_output_panel.cc:292
 msgid "An unknown exception occurred."
 msgstr "Er is een onbekende uitzondering opgetreden."
 
@@ -361,7 +362,7 @@ msgstr "CPL ID"
 msgid "CPL annotation text"
 msgstr "CPL annotatie-tekst"
 
-#: src/wx/kdm_output_panel.cc:261
+#: src/wx/kdm_output_panel.cc:288
 msgid "CPL's content is not encrypted."
 msgstr "De inhoud van de CPL is niet versleuteld."
 
@@ -405,7 +406,7 @@ msgstr "Zoek naar updates bij opstarten"
 msgid "Choose CPL..."
 msgstr "Kies CPL..."
 
-#: src/wx/content_panel.cc:359
+#: src/wx/content_panel.cc:361
 msgid "Choose a DCP folder"
 msgstr "Kies een DCP-map"
 
@@ -413,11 +414,11 @@ msgstr "Kies een DCP-map"
 msgid "Choose a file"
 msgstr "Kies een bestand"
 
-#: src/wx/content_panel.cc:286
+#: src/wx/content_panel.cc:288
 msgid "Choose a file or files"
 msgstr "Kies een of meer bestanden"
 
-#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:314
+#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:316
 msgid "Choose a folder"
 msgstr "Kies een map"
 
@@ -523,7 +524,7 @@ msgstr "Kan certificaat-bestand niet lezen (%s)"
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Kan sleutel-bestand niet lezen; bestand is te lang (%s)"
 
-#: src/wx/film_viewer.cc:761
+#: src/wx/film_viewer.cc:775
 #, c-format
 msgid ""
 "Could not set up audio output (%s).  There will be no audio during the "
@@ -549,7 +550,7 @@ msgid "Crop"
 msgstr "Snijd bij"
 
 #: src/wx/audio_mapping_view.cc:475 src/wx/audio_mapping_view.cc:477
-#: src/wx/film_editor.cc:55 src/wx/player_information.cc:47
+#: src/wx/film_editor.cc:55 src/wx/player_information.cc:49
 msgid "DCP"
 msgstr "DCP"
 
@@ -565,8 +566,8 @@ msgstr "DCP-map"
 msgid "DCP metadata filename format"
 msgstr "DCP metadata bestandsnaam-formaat"
 
-#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:90 src/wx/wx_util.cc:102
-#: src/wx/wx_util.cc:110
+#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:92 src/wx/wx_util.cc:104
+#: src/wx/wx_util.cc:112
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
@@ -585,6 +586,11 @@ msgstr "Debug: e-mail verzenden"
 #: src/wx/full_config_dialog.cc:1020
 msgid "Debug: encode"
 msgstr "Debug: encoderen"
+
+#: src/wx/player_information.cc:135
+#, c-format
+msgid "Decode resolution: %dx%d"
+msgstr ""
 
 #: src/wx/config_dialog.cc:721
 msgid "Decrypting KDMs"
@@ -682,7 +688,7 @@ msgstr "Download..."
 msgid "Downloading certificate"
 msgstr "Downloaden certificaat"
 
-#: src/wx/player_information.cc:73
+#: src/wx/player_information.cc:76
 #, c-format
 msgid "Dropped frames: %d"
 msgstr "Dropped frames: %d"
@@ -1053,7 +1059,7 @@ msgstr ""
 msgid "Join"
 msgstr "Voeg samen"
 
-#: src/wx/film_viewer.cc:117
+#: src/wx/film_viewer.cc:118
 msgid "Jump to selected content"
 msgstr "Ga naar geselecteerde content"
 
@@ -1118,9 +1124,9 @@ msgstr "Linkeroog"
 msgid "Length"
 msgstr "Lengte"
 
-#: src/wx/player_information.cc:118
-#, c-format
-msgid "Length: %s (%ld frames)"
+#: src/wx/player_information.cc:121
+#, fuzzy
+msgid "Length: %1 (%2 frames)"
 msgstr "Lengte: %s (%ld frames)"
 
 #: src/wx/subtitle_panel.cc:108
@@ -1144,7 +1150,7 @@ msgstr "Luidheidbereik %.2f LU"
 msgid "Lower priority"
 msgstr "Lagere prioriteit"
 
-#: src/wx/content_panel.cc:552
+#: src/wx/content_panel.cc:554
 msgid "MISSING: "
 msgstr "ONTBREKEND:"
 
@@ -1241,11 +1247,11 @@ msgstr "Mijn Documenten"
 msgid "My problem is"
 msgstr "Mijn probleem is"
 
-#: src/wx/content_panel.cc:556
+#: src/wx/content_panel.cc:558
 msgid "NEEDS KDM: "
 msgstr "HEEFT KDM NODIG: "
 
-#: src/wx/content_panel.cc:560
+#: src/wx/content_panel.cc:562
 msgid "NEEDS OV: "
 msgstr "HEEFT OV NODIG: "
 
@@ -1253,11 +1259,11 @@ msgstr "HEEFT OV NODIG: "
 msgid "Name"
 msgstr "Naam"
 
-#: src/wx/player_information.cc:104
+#: src/wx/player_information.cc:108
 msgid "Needs KDM"
 msgstr "Heeft KDM nodig"
 
-#: src/wx/player_information.cc:99
+#: src/wx/player_information.cc:103
 msgid "Needs OV"
 msgstr "Heeft OV nodig"
 
@@ -1269,7 +1275,7 @@ msgstr "Nieuwe naam"
 msgid "New versions of DCP-o-matic are available."
 msgstr "Er zijn nieuwe versies van DCP-o-matic beschikbaar."
 
-#: src/wx/player_information.cc:88
+#: src/wx/player_information.cc:91
 msgid "No DCP loaded."
 msgstr "Geen DCP geladen."
 
@@ -1283,7 +1289,7 @@ msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr ""
 "Er wordt geen audio van content-kanaal %d doorgestuurd naar DCP-kanaal %d."
 
-#: src/wx/content_panel.cc:333
+#: src/wx/content_panel.cc:335
 msgid "No content found in this folder."
 msgstr "Geen content gevonden in deze map."
 
@@ -1350,7 +1356,7 @@ msgstr "Uitgaande mailserver"
 msgid "Outline"
 msgstr "Omlijn"
 
-#: src/wx/film_viewer.cc:111
+#: src/wx/film_viewer.cc:112
 msgid "Outline content"
 msgstr "Omlijn content"
 
@@ -1383,6 +1389,23 @@ msgstr "Overschrijf dit bestand met huidige configuratie"
 msgid "Password"
 msgstr "Wachtwoord"
 
+#: src/wx/paste_dialog.cc:24
+msgid "Paste"
+msgstr ""
+
+#: src/wx/paste_dialog.cc:29
+msgid "Paste audio settings"
+msgstr ""
+
+#: src/wx/paste_dialog.cc:32
+#, fuzzy
+msgid "Paste subtitle settings"
+msgstr "Gebruik ondertitels"
+
+#: src/wx/paste_dialog.cc:26
+msgid "Paste video settings"
+msgstr ""
+
 #: src/wx/normal_job_view.cc:37 src/wx/normal_job_view.cc:53
 msgid "Pause"
 msgstr "Pauzeer"
@@ -1400,11 +1423,11 @@ msgstr "Piek: %.2fdB"
 msgid "Peak: unknown"
 msgstr "Piek: onbekend"
 
-#: src/wx/player_information.cc:56
+#: src/wx/player_information.cc:58
 msgid "Performance"
 msgstr "Prestaties"
 
-#: src/wx/film_viewer.cc:87
+#: src/wx/film_viewer.cc:88
 msgid "Play"
 msgstr "Speel af"
 
@@ -1755,7 +1778,7 @@ msgstr "Eenvoudige gamma, gelineariseerd voor kleine waarden"
 msgid "Single reel"
 msgstr "Enkele reel"
 
-#: src/wx/player_information.cc:110
+#: src/wx/player_information.cc:114
 #, c-format
 msgid "Size: %dx%d"
 msgstr "Grootte: %dx%d"
@@ -1817,7 +1840,7 @@ msgstr "Ondertitelings-uiterlijk"
 msgid "Subtitles"
 msgstr "Ondertitels"
 
-#: src/wx/about_dialog.cc:320
+#: src/wx/about_dialog.cc:331
 msgid "Supported by"
 msgstr "Ondersteund door"
 
@@ -1857,7 +1880,7 @@ msgstr "Gebied (bv. NL)"
 msgid "Test version "
 msgstr "Test-versie"
 
-#: src/wx/about_dialog.cc:377
+#: src/wx/about_dialog.cc:388
 msgid "Tested by"
 msgstr "Getest door"
 
@@ -1899,7 +1922,7 @@ msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
 msgstr "Er is al een template met deze naam.  Wilt u hem overschrijven?"
 
-#: src/wx/film_viewer.cc:204
+#: src/wx/film_viewer.cc:212
 msgid "There is not enough free memory to do that."
 msgstr "Er is niet genoeg geheugen om dat te doen."
 
@@ -2218,7 +2241,7 @@ msgstr ""
 "U kunt de naam van dit scherm niet in '%s' veranderen omdat de bioscoop al "
 "een scherm met deze naam heeft."
 
-#: src/wx/kdm_output_panel.cc:180
+#: src/wx/kdm_output_panel.cc:207
 msgid ""
 "You have selected some cinemas that have no configured email address.  Do "
 "you want to continue?"
@@ -2226,7 +2249,7 @@ msgstr ""
 "U heeft een aantal bioscopen geselecteerd die geen geconfigureerd e-"
 "mailadres hebben.  Wilt u doorgaan?"
 
-#: src/wx/kdm_output_panel.cc:168
+#: src/wx/kdm_output_panel.cc:195
 msgid ""
 "You must set up a mail server in Preferences before you can send emails."
 msgstr ""

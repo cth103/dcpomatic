@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-24 21:11+0100\n"
+"POT-Creation-Date: 2018-01-05 23:30+0000\n"
 "PO-Revision-Date: 2017-01-18 12:37+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Ukrainian\n"
@@ -38,7 +38,7 @@ msgstr ""
 #: src/wx/about_dialog.cc:83
 #, fuzzy
 msgid ""
-"(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
 "© 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
@@ -56,11 +56,11 @@ msgstr "(перезапустіть програму для зміни мови)
 msgid "-6dB"
 msgstr "-6 дБ"
 
-#: src/wx/wx_util.cc:377
+#: src/wx/wx_util.cc:379
 msgid "12 - 7.1/HI/VI"
 msgstr "12 - 7.1/HI/VI"
 
-#: src/wx/wx_util.cc:369
+#: src/wx/wx_util.cc:371
 msgid "2 - stereo"
 msgstr "2 - стерео"
 
@@ -104,7 +104,7 @@ msgstr "3D тільки правий"
 msgid "3D top/bottom"
 msgstr "3D верх/низ"
 
-#: src/wx/wx_util.cc:371
+#: src/wx/wx_util.cc:373
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - Л/Ц/П/НЧ"
 
@@ -112,11 +112,11 @@ msgstr "4 - Л/Ц/П/НЧ"
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/wx_util.cc:373
+#: src/wx/wx_util.cc:375
 msgid "6 - 5.1"
 msgstr "6 - 5.1"
 
-#: src/wx/wx_util.cc:375
+#: src/wx/wx_util.cc:377
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
@@ -249,7 +249,7 @@ msgstr "Дозволити будь яку частоту кадрів DCP"
 msgid "Alpha   0"
 msgstr "Альфа 0"
 
-#: src/wx/kdm_output_panel.cc:265
+#: src/wx/kdm_output_panel.cc:292
 msgid "An unknown exception occurred."
 msgstr "Виникла невідома помилка."
 
@@ -355,7 +355,7 @@ msgstr "CPL ID"
 msgid "CPL annotation text"
 msgstr "CPL анотація"
 
-#: src/wx/kdm_output_panel.cc:261
+#: src/wx/kdm_output_panel.cc:288
 msgid "CPL's content is not encrypted."
 msgstr "Зміст CPL-файлу не зашифрований."
 
@@ -399,7 +399,7 @@ msgstr "Перевіряти оновлення при запуску"
 msgid "Choose CPL..."
 msgstr "Выберіть CPL..."
 
-#: src/wx/content_panel.cc:359
+#: src/wx/content_panel.cc:361
 #, fuzzy
 msgid "Choose a DCP folder"
 msgstr "Обрати папку"
@@ -408,11 +408,11 @@ msgstr "Обрати папку"
 msgid "Choose a file"
 msgstr "Обрати файл"
 
-#: src/wx/content_panel.cc:286
+#: src/wx/content_panel.cc:288
 msgid "Choose a file or files"
 msgstr "Обрати файл або файли"
 
-#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:314
+#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:316
 msgid "Choose a folder"
 msgstr "Обрати папку"
 
@@ -518,7 +518,7 @@ msgstr "Не вдалося прочитати файл сертифікату (
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Не вдалося прочитати файл ключа; файл занадто довгий (%s)"
 
-#: src/wx/film_viewer.cc:761
+#: src/wx/film_viewer.cc:775
 #, c-format
 msgid ""
 "Could not set up audio output (%s).  There will be no audio during the "
@@ -542,7 +542,7 @@ msgid "Crop"
 msgstr "Кадрування"
 
 #: src/wx/audio_mapping_view.cc:475 src/wx/audio_mapping_view.cc:477
-#: src/wx/film_editor.cc:55 src/wx/player_information.cc:47
+#: src/wx/film_editor.cc:55 src/wx/player_information.cc:49
 msgid "DCP"
 msgstr "DCP"
 
@@ -558,8 +558,8 @@ msgstr "Папка DCP"
 msgid "DCP metadata filename format"
 msgstr "Формат найменування метаданних DCP"
 
-#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:90 src/wx/wx_util.cc:102
-#: src/wx/wx_util.cc:110
+#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:92 src/wx/wx_util.cc:104
+#: src/wx/wx_util.cc:112
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
@@ -578,6 +578,11 @@ msgstr "Відладка: відправка email"
 #: src/wx/full_config_dialog.cc:1020
 msgid "Debug: encode"
 msgstr "Відладка: кодування"
+
+#: src/wx/player_information.cc:135
+#, c-format
+msgid "Decode resolution: %dx%d"
+msgstr ""
 
 #: src/wx/config_dialog.cc:721
 #, fuzzy
@@ -678,7 +683,7 @@ msgstr "Завантаження..."
 msgid "Downloading certificate"
 msgstr "Завантаження сертифікату"
 
-#: src/wx/player_information.cc:73
+#: src/wx/player_information.cc:76
 #, c-format
 msgid "Dropped frames: %d"
 msgstr ""
@@ -1054,7 +1059,7 @@ msgstr ""
 msgid "Join"
 msgstr "Під'єднати"
 
-#: src/wx/film_viewer.cc:117
+#: src/wx/film_viewer.cc:118
 msgid "Jump to selected content"
 msgstr ""
 
@@ -1120,9 +1125,8 @@ msgstr "Ліве око"
 msgid "Length"
 msgstr "Тривалість"
 
-#: src/wx/player_information.cc:118
-#, c-format
-msgid "Length: %s (%ld frames)"
+#: src/wx/player_information.cc:121
+msgid "Length: %1 (%2 frames)"
 msgstr ""
 
 #: src/wx/subtitle_panel.cc:108
@@ -1146,7 +1150,7 @@ msgstr "Діапазон гучності %.2f LU"
 msgid "Lower priority"
 msgstr ""
 
-#: src/wx/content_panel.cc:552
+#: src/wx/content_panel.cc:554
 msgid "MISSING: "
 msgstr "ВІДСУТНЄ:"
 
@@ -1244,11 +1248,11 @@ msgstr "Мої документи"
 msgid "My problem is"
 msgstr "Моя проблема"
 
-#: src/wx/content_panel.cc:556
+#: src/wx/content_panel.cc:558
 msgid "NEEDS KDM: "
 msgstr "НЕОБХІДНИЙ KDM:"
 
-#: src/wx/content_panel.cc:560
+#: src/wx/content_panel.cc:562
 msgid "NEEDS OV: "
 msgstr "НЕОБХІДНИЙ OV:"
 
@@ -1256,12 +1260,12 @@ msgstr "НЕОБХІДНИЙ OV:"
 msgid "Name"
 msgstr "Назва"
 
-#: src/wx/player_information.cc:104
+#: src/wx/player_information.cc:108
 #, fuzzy
 msgid "Needs KDM"
 msgstr "Оберіть KDM"
 
-#: src/wx/player_information.cc:99
+#: src/wx/player_information.cc:103
 msgid "Needs OV"
 msgstr ""
 
@@ -1273,7 +1277,7 @@ msgstr "Нова назва"
 msgid "New versions of DCP-o-matic are available."
 msgstr "Доступні нові версії DCP-o-matic."
 
-#: src/wx/player_information.cc:88
+#: src/wx/player_information.cc:91
 #, fuzzy
 msgid "No DCP loaded."
 msgstr "Не обрано DCP."
@@ -1287,7 +1291,7 @@ msgstr "Не обрано DCP."
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "Аудіо не буде переміщено з каналу %d контенту в канал %d DCP."
 
-#: src/wx/content_panel.cc:333
+#: src/wx/content_panel.cc:335
 msgid "No content found in this folder."
 msgstr "У даній папці не знайдено контент."
 
@@ -1354,7 +1358,7 @@ msgstr "Вихідний поштовий сервер"
 msgid "Outline"
 msgstr "Обводка"
 
-#: src/wx/film_viewer.cc:111
+#: src/wx/film_viewer.cc:112
 msgid "Outline content"
 msgstr "Окреслити контент"
 
@@ -1388,6 +1392,23 @@ msgstr ""
 msgid "Password"
 msgstr "Пароль"
 
+#: src/wx/paste_dialog.cc:24
+msgid "Paste"
+msgstr ""
+
+#: src/wx/paste_dialog.cc:29
+msgid "Paste audio settings"
+msgstr ""
+
+#: src/wx/paste_dialog.cc:32
+#, fuzzy
+msgid "Paste subtitle settings"
+msgstr "заготовку субтитри"
+
+#: src/wx/paste_dialog.cc:26
+msgid "Paste video settings"
+msgstr ""
+
 #: src/wx/normal_job_view.cc:37 src/wx/normal_job_view.cc:53
 msgid "Pause"
 msgstr "Пазуа"
@@ -1405,11 +1426,11 @@ msgstr "Пікова гучність %.2fдБ"
 msgid "Peak: unknown"
 msgstr "Пікова гучність: невідома"
 
-#: src/wx/player_information.cc:56
+#: src/wx/player_information.cc:58
 msgid "Performance"
 msgstr ""
 
-#: src/wx/film_viewer.cc:87
+#: src/wx/film_viewer.cc:88
 msgid "Play"
 msgstr "Відтворення"
 
@@ -1763,7 +1784,7 @@ msgstr "Гамма, вирівняна для малих значень"
 msgid "Single reel"
 msgstr "Одна бобіна"
 
-#: src/wx/player_information.cc:110
+#: src/wx/player_information.cc:114
 #, c-format
 msgid "Size: %dx%d"
 msgstr ""
@@ -1825,7 +1846,7 @@ msgstr "Зовнішній вигляд субтитрів"
 msgid "Subtitles"
 msgstr "Субтитри"
 
-#: src/wx/about_dialog.cc:320
+#: src/wx/about_dialog.cc:331
 msgid "Supported by"
 msgstr "Фінансова підтримка"
 
@@ -1865,7 +1886,7 @@ msgstr "Територія (напр. RU)"
 msgid "Test version "
 msgstr "Тестова версія"
 
-#: src/wx/about_dialog.cc:377
+#: src/wx/about_dialog.cc:388
 msgid "Tested by"
 msgstr "Тестування"
 
@@ -1905,7 +1926,7 @@ msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
 msgstr "Вже є шаблон із такою назвою. Ви хочете перезаписати його?"
 
-#: src/wx/film_viewer.cc:204
+#: src/wx/film_viewer.cc:212
 msgid "There is not enough free memory to do that."
 msgstr "Недостатньо пам'яті, щоб зробити це."
 
@@ -2225,13 +2246,13 @@ msgstr ""
 "Ви не можете змінити назву екрана на '%s', так як у даного кінотеатру вже є "
 "екран з такою назвою."
 
-#: src/wx/kdm_output_panel.cc:180
+#: src/wx/kdm_output_panel.cc:207
 msgid ""
 "You have selected some cinemas that have no configured email address.  Do "
 "you want to continue?"
 msgstr ""
 
-#: src/wx/kdm_output_panel.cc:168
+#: src/wx/kdm_output_panel.cc:195
 msgid ""
 "You must set up a mail server in Preferences before you can send emails."
 msgstr ""

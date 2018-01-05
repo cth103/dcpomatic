@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-24 21:11+0100\n"
+"POT-Creation-Date: 2018-01-05 23:30+0000\n"
 "PO-Revision-Date: 2017-07-23 10:23+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -46,8 +46,9 @@ msgid "%d KDMs written to %s"
 msgstr "%d KDMs 保存到 %s"
 
 #: src/wx/about_dialog.cc:83
+#, fuzzy
 msgid ""
-"(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
 "(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
@@ -65,11 +66,11 @@ msgstr "(重启DCP-O-MATIC查看语言变化)"
 msgid "-6dB"
 msgstr "-6db"
 
-#: src/wx/wx_util.cc:377
+#: src/wx/wx_util.cc:379
 msgid "12 - 7.1/HI/VI"
 msgstr "12声道—7.1+听力障碍声道/视力障碍声道"
 
-#: src/wx/wx_util.cc:369
+#: src/wx/wx_util.cc:371
 msgid "2 - stereo"
 msgstr "2声道—立体声"
 
@@ -113,7 +114,7 @@ msgstr "仅右眼(3D)"
 msgid "3D top/bottom"
 msgstr "上下眼(3D)"
 
-#: src/wx/wx_util.cc:371
+#: src/wx/wx_util.cc:373
 msgid "4 - L/C/R/Lfe"
 msgstr "4声道—左/中/右/低音"
 
@@ -121,11 +122,11 @@ msgstr "4声道—左/中/右/低音"
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/wx_util.cc:373
+#: src/wx/wx_util.cc:375
 msgid "6 - 5.1"
 msgstr "6声道—5.1声道"
 
-#: src/wx/wx_util.cc:375
+#: src/wx/wx_util.cc:377
 msgid "8 - 5.1/HI/VI"
 msgstr "8声道—5.1+听力障碍声道/视力障碍声道"
 
@@ -251,7 +252,7 @@ msgstr "允许任何DCP帧速率"
 msgid "Alpha   0"
 msgstr "透明度 0"
 
-#: src/wx/kdm_output_panel.cc:265
+#: src/wx/kdm_output_panel.cc:292
 msgid "An unknown exception occurred."
 msgstr "出现未知错误。"
 
@@ -355,7 +356,7 @@ msgstr "CPL ID"
 msgid "CPL annotation text"
 msgstr "CPL注释文本"
 
-#: src/wx/kdm_output_panel.cc:261
+#: src/wx/kdm_output_panel.cc:288
 msgid "CPL's content is not encrypted."
 msgstr "该内容没有加密"
 
@@ -399,7 +400,7 @@ msgstr "启动时检查软件更新"
 msgid "Choose CPL..."
 msgstr "选择CPL"
 
-#: src/wx/content_panel.cc:359
+#: src/wx/content_panel.cc:361
 msgid "Choose a DCP folder"
 msgstr "选择一个DCP文件夹"
 
@@ -407,11 +408,11 @@ msgstr "选择一个DCP文件夹"
 msgid "Choose a file"
 msgstr "选择一个文件"
 
-#: src/wx/content_panel.cc:286
+#: src/wx/content_panel.cc:288
 msgid "Choose a file or files"
 msgstr "选择一个或多个文件"
 
-#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:314
+#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:316
 msgid "Choose a folder"
 msgstr "选择一个文件夹"
 
@@ -515,7 +516,7 @@ msgstr "无法读取证书文件 (%s)"
 msgid "Could not read key file; file is too long (%s)"
 msgstr "无法读取Key文件，因为文件过长 (%s)"
 
-#: src/wx/film_viewer.cc:761
+#: src/wx/film_viewer.cc:775
 #, c-format
 msgid ""
 "Could not set up audio output (%s).  There will be no audio during the "
@@ -539,7 +540,7 @@ msgid "Crop"
 msgstr "裁剪"
 
 #: src/wx/audio_mapping_view.cc:475 src/wx/audio_mapping_view.cc:477
-#: src/wx/film_editor.cc:55 src/wx/player_information.cc:47
+#: src/wx/film_editor.cc:55 src/wx/player_information.cc:49
 msgid "DCP"
 msgstr "DCP"
 
@@ -555,8 +556,8 @@ msgstr "DCP目录"
 msgid "DCP metadata filename format"
 msgstr "DCP元数据的文件名格式"
 
-#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:90 src/wx/wx_util.cc:102
-#: src/wx/wx_util.cc:110
+#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:92 src/wx/wx_util.cc:104
+#: src/wx/wx_util.cc:112
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
@@ -575,6 +576,11 @@ msgstr "发送到邮箱"
 #: src/wx/full_config_dialog.cc:1020
 msgid "Debug: encode"
 msgstr "编码"
+
+#: src/wx/player_information.cc:135
+#, c-format
+msgid "Decode resolution: %dx%d"
+msgstr ""
 
 #: src/wx/config_dialog.cc:721
 msgid "Decrypting KDMs"
@@ -672,7 +678,7 @@ msgstr "下载..."
 msgid "Downloading certificate"
 msgstr "下载证书"
 
-#: src/wx/player_information.cc:73
+#: src/wx/player_information.cc:76
 #, c-format
 msgid "Dropped frames: %d"
 msgstr ""
@@ -1038,7 +1044,7 @@ msgstr "JPEG2000码率"
 msgid "Join"
 msgstr "创建"
 
-#: src/wx/film_viewer.cc:117
+#: src/wx/film_viewer.cc:118
 msgid "Jump to selected content"
 msgstr "跳转到已选择的内容"
 
@@ -1103,9 +1109,8 @@ msgstr "左眼"
 msgid "Length"
 msgstr "长度"
 
-#: src/wx/player_information.cc:118
-#, c-format
-msgid "Length: %s (%ld frames)"
+#: src/wx/player_information.cc:121
+msgid "Length: %1 (%2 frames)"
 msgstr ""
 
 #: src/wx/subtitle_panel.cc:108
@@ -1129,7 +1134,7 @@ msgstr "响度范围 %.2f LU"
 msgid "Lower priority"
 msgstr "低场优先"
 
-#: src/wx/content_panel.cc:552
+#: src/wx/content_panel.cc:554
 msgid "MISSING: "
 msgstr "丢失:"
 
@@ -1227,11 +1232,11 @@ msgstr "我的文档"
 msgid "My problem is"
 msgstr "错误内容"
 
-#: src/wx/content_panel.cc:556
+#: src/wx/content_panel.cc:558
 msgid "NEEDS KDM: "
 msgstr "需要KDM:"
 
-#: src/wx/content_panel.cc:560
+#: src/wx/content_panel.cc:562
 msgid "NEEDS OV: "
 msgstr "需要OV:"
 
@@ -1239,12 +1244,12 @@ msgstr "需要OV:"
 msgid "Name"
 msgstr "名称"
 
-#: src/wx/player_information.cc:104
+#: src/wx/player_information.cc:108
 #, fuzzy
 msgid "Needs KDM"
 msgstr "选择KDM"
 
-#: src/wx/player_information.cc:99
+#: src/wx/player_information.cc:103
 msgid "Needs OV"
 msgstr ""
 
@@ -1256,7 +1261,7 @@ msgstr "新名称"
 msgid "New versions of DCP-o-matic are available."
 msgstr "DCP-o-Matic有新版！"
 
-#: src/wx/player_information.cc:88
+#: src/wx/player_information.cc:91
 #, fuzzy
 msgid "No DCP loaded."
 msgstr "没有选择DCP"
@@ -1270,7 +1275,7 @@ msgstr "没有选择DCP"
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "视频中没有音频，从 %d 到 %d 通道的DCP."
 
-#: src/wx/content_panel.cc:333
+#: src/wx/content_panel.cc:335
 msgid "No content found in this folder."
 msgstr "没有找到文件！"
 
@@ -1337,7 +1342,7 @@ msgstr "发送邮件服务器地址"
 msgid "Outline"
 msgstr "缩略视图"
 
-#: src/wx/film_viewer.cc:111
+#: src/wx/film_viewer.cc:112
 msgid "Outline content"
 msgstr "缩略视图内容"
 
@@ -1369,6 +1374,23 @@ msgstr ""
 msgid "Password"
 msgstr "密码"
 
+#: src/wx/paste_dialog.cc:24
+msgid "Paste"
+msgstr ""
+
+#: src/wx/paste_dialog.cc:29
+msgid "Paste audio settings"
+msgstr ""
+
+#: src/wx/paste_dialog.cc:32
+#, fuzzy
+msgid "Paste subtitle settings"
+msgstr "使用字幕"
+
+#: src/wx/paste_dialog.cc:26
+msgid "Paste video settings"
+msgstr ""
+
 #: src/wx/normal_job_view.cc:37 src/wx/normal_job_view.cc:53
 msgid "Pause"
 msgstr "暂停"
@@ -1386,11 +1408,11 @@ msgstr "最佳值 %.2fdB"
 msgid "Peak: unknown"
 msgstr "最佳值: 未知"
 
-#: src/wx/player_information.cc:56
+#: src/wx/player_information.cc:58
 msgid "Performance"
 msgstr ""
 
-#: src/wx/film_viewer.cc:87
+#: src/wx/film_viewer.cc:88
 msgid "Play"
 msgstr "播放"
 
@@ -1741,7 +1763,7 @@ msgstr "简单伽马值，低位对齐"
 msgid "Single reel"
 msgstr "签名卷"
 
-#: src/wx/player_information.cc:110
+#: src/wx/player_information.cc:114
 #, c-format
 msgid "Size: %dx%d"
 msgstr ""
@@ -1803,7 +1825,7 @@ msgstr "字幕外观"
 msgid "Subtitles"
 msgstr "字幕"
 
-#: src/wx/about_dialog.cc:320
+#: src/wx/about_dialog.cc:331
 msgid "Supported by"
 msgstr "技术支持"
 
@@ -1843,7 +1865,7 @@ msgstr "国别地区(例如:CN)"
 msgid "Test version "
 msgstr "测试版"
 
-#: src/wx/about_dialog.cc:377
+#: src/wx/about_dialog.cc:388
 msgid "Tested by"
 msgstr "测试"
 
@@ -1880,7 +1902,7 @@ msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
 msgstr "已存在同名模板，是否覆盖？"
 
-#: src/wx/film_viewer.cc:204
+#: src/wx/film_viewer.cc:212
 msgid "There is not enough free memory to do that."
 msgstr "内存不足！"
 
@@ -2193,13 +2215,13 @@ msgid ""
 "screen with this name."
 msgstr "存在同名银幕！不能将银幕名称设置为 '%s' ."
 
-#: src/wx/kdm_output_panel.cc:180
+#: src/wx/kdm_output_panel.cc:207
 msgid ""
 "You have selected some cinemas that have no configured email address.  Do "
 "you want to continue?"
 msgstr "您选择了一些没有邮箱信息的影院。需要继续吗？"
 
-#: src/wx/kdm_output_panel.cc:168
+#: src/wx/kdm_output_panel.cc:195
 msgid ""
 "You must set up a mail server in Preferences before you can send emails."
 msgstr "您必须先在偏好设置中设定邮件服务器才能发送邮件"

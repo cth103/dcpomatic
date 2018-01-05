@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-24 21:11+0100\n"
+"POT-Creation-Date: 2018-01-05 23:30+0000\n"
 "PO-Revision-Date: 2017-07-23 09:54+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -72,7 +72,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " on %1"
 
-#: src/lib/config.cc:751
+#: src/lib/config.cc:785
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -299,7 +299,7 @@ msgstr "中置音"
 msgid "Channels"
 msgstr "声音通道"
 
-#: src/lib/reel_writer.cc:99
+#: src/lib/reel_writer.cc:98
 msgid "Checking existing image data"
 msgstr "检查现有的图像数据"
 
@@ -335,7 +335,7 @@ msgstr "色彩空间"
 msgid "Computing digest"
 msgstr "计算Hash值中..."
 
-#: src/lib/writer.cc:484
+#: src/lib/writer.cc:509
 msgid "Computing digests"
 msgstr "计算Hash值中..."
 
@@ -481,7 +481,7 @@ msgstr "无法打开%1"
 msgid "Could not open %1 to send"
 msgstr "无法打开%1并发送"
 
-#: src/lib/internet.cc:83
+#: src/lib/internet.cc:90 src/lib/internet.cc:95 src/lib/internet.cc:100
 msgid "Could not open downloaded ZIP file"
 msgstr "无法打开下载的zip文件"
 
@@ -557,7 +557,7 @@ msgstr "不支持的格式`%1'。"
 msgid "De-interlacing"
 msgstr "去除隔行"
 
-#: src/lib/config.cc:731
+#: src/lib/config.cc:765
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -588,7 +588,7 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "杜比 CP 650和CP 750"
 
-#: src/lib/internet.cc:76
+#: src/lib/internet.cc:77
 msgid "Download failed (%1/%2 error %3)"
 msgstr "下载失败 (%1/%2 error %3)"
 
@@ -648,7 +648,7 @@ msgstr "发送电子邮件失败"
 msgid "Feature"
 msgstr "正片"
 
-#: src/lib/content.cc:381
+#: src/lib/content.cc:386
 msgid "Filename"
 msgstr "文件名"
 
@@ -660,7 +660,7 @@ msgstr "电影"
 msgid "Finding length"
 msgstr "定位长度"
 
-#: src/lib/content.cc:388
+#: src/lib/content.cc:393
 msgid "Frame rate"
 msgstr "帧率"
 
@@ -748,7 +748,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "未知错误！"
 
-#: src/lib/config.cc:284 src/lib/config.cc:728
+#: src/lib/config.cc:287 src/lib/config.cc:762
 msgid "KDM delivery: $CPL_NAME"
 msgstr "发行KDM: $CPL_NAME"
 
@@ -840,7 +840,7 @@ msgstr "DCP中的帧率不匹配。"
 msgid "Mismatched video sizes in DCP"
 msgstr "DCP中的视频分辨率不匹配。"
 
-#: src/lib/writer.cc:583
+#: src/lib/writer.cc:608
 msgid "Mono"
 msgstr "单声道"
 
@@ -860,7 +860,7 @@ msgstr "不缩放"
 msgid "No stretch"
 msgstr "不拉伸"
 
-#: src/lib/image_content.cc:57
+#: src/lib/image_content.cc:120
 msgid "No valid image files were found in the folder."
 msgstr "未发现有效的图片序列文件。"
 
@@ -868,7 +868,7 @@ msgstr "未发现有效的图片序列文件。"
 msgid "Noise reduction"
 msgstr "降噪"
 
-#: src/lib/writer.cc:581
+#: src/lib/writer.cc:606
 msgid "None"
 msgstr "无"
 
@@ -900,7 +900,7 @@ msgstr "P3"
 msgid "Policy"
 msgstr "政策相关"
 
-#: src/lib/content.cc:397
+#: src/lib/content.cc:402
 msgid "Prepared for video frame rate"
 msgstr "准备视频帧率"
 
@@ -1009,6 +1009,11 @@ msgstr "SMPTE ST 432-1 D65 (2010)"
 msgid "SSH error (%1)"
 msgstr "SSH错误 (%1)"
 
+#: src/lib/image_content.cc:107
+#, fuzzy
+msgid "Scanning image files"
+msgstr "计算图像Hash"
+
 #: src/lib/send_problem_report_job.cc:74
 msgid "Sending email"
 msgstr "发送电子邮件"
@@ -1025,7 +1030,7 @@ msgstr "大小"
 msgid "Some audio will be resampled to %1kHz"
 msgstr "部分音频将被重新采样到%1kHz"
 
-#: src/lib/writer.cc:585
+#: src/lib/writer.cc:610
 msgid "Stereo"
 msgstr "双声道"
 
@@ -1093,6 +1098,14 @@ msgstr ""
 
 #: src/lib/content_factory.cc:110
 msgid "The file %1 has been moved %2 milliseconds later."
+msgstr ""
+
+#: src/lib/content_factory.cc:135
+msgid "The file %1 has been trimmed by %2 milliseconds less."
+msgstr ""
+
+#: src/lib/content_factory.cc:130
+msgid "The file %1 has been trimmed by %2 milliseconds more."
 msgstr ""
 
 #: src/lib/dcp_content.cc:447
@@ -1169,7 +1182,7 @@ msgstr "转码 %1"
 msgid "Transitional"
 msgstr "过渡片"
 
-#: src/lib/internet.cc:88
+#: src/lib/internet.cc:109
 msgid "Unexpected ZIP file contents"
 msgstr "意外的ZIP文件的内容"
 
@@ -1181,7 +1194,7 @@ msgstr "服务器接收到意外的图像类型！"
 msgid "Unknown error"
 msgstr "未知错误"
 
-#: src/lib/ffmpeg_decoder.cc:318
+#: src/lib/ffmpeg_decoder.cc:319
 msgid "Unrecognised audio sample format (%1)"
 msgstr "无法识别的音频采样格式 (%1)"
 
@@ -1292,7 +1305,7 @@ msgid ""
 "audio content."
 msgstr "您的音频增益过大 (在%1)，请降低音频增益。"
 
-#: src/lib/config.cc:241
+#: src/lib/config.cc:244
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
@@ -1302,11 +1315,17 @@ msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
 msgstr ""
 
-#: src/lib/image_content.cc:81
+#: src/lib/content_factory.cc:126
+msgid ""
+"Your project contains video content whose trim was not aligned to a frame "
+"boundary."
+msgstr ""
+
+#: src/lib/image_content.cc:71
 msgid "[moving images]"
 msgstr "[动态图像]"
 
-#: src/lib/image_content.cc:79
+#: src/lib/image_content.cc:69
 msgid "[still]"
 msgstr "[静态图像]"
 
@@ -1342,7 +1361,7 @@ msgstr "复制中... %1"
 msgid "could not find stream information"
 msgstr "找不到流信息"
 
-#: src/lib/reel_writer.cc:337
+#: src/lib/reel_writer.cc:336
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "无法移动的音频文件 (%1)"
 
@@ -1382,7 +1401,7 @@ msgstr "异步读取错误 (%1)"
 msgid "error during async_write (%1)"
 msgstr "异步写入错误 (%1)"
 
-#: src/lib/content.cc:390 src/lib/content.cc:399
+#: src/lib/content.cc:395 src/lib/content.cc:404
 msgid "frames per second"
 msgstr "每秒帧数"
 
@@ -1400,7 +1419,7 @@ msgstr "分"
 msgid "missing required setting %1"
 msgstr "缺少必需的设置%1"
 
-#: src/lib/image_content.cc:96
+#: src/lib/image_content.cc:86
 msgid "moving"
 msgstr "移动"
 
@@ -1429,7 +1448,7 @@ msgstr "内容需要KDM密匙"
 msgid "some of your content needs an OV"
 msgstr "内容需要声明原创OV"
 
-#: src/lib/image_content.cc:94
+#: src/lib/image_content.cc:84
 msgid "still"
 msgstr "静止图像"
 
@@ -1494,9 +1513,6 @@ msgstr "您必须在创建DCP之前添加一些内容。"
 
 #~ msgid "Computing audio digest"
 #~ msgstr "计算音频Hash"
-
-#~ msgid "Computing image digest"
-#~ msgstr "计算图像Hash"
 
 #~ msgid "fps"
 #~ msgstr "fps"

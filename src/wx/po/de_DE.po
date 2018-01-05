@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-24 21:11+0100\n"
+"POT-Creation-Date: 2018-01-05 23:30+0000\n"
 "PO-Revision-Date: 2017-09-12 18:03+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -41,8 +41,9 @@ msgid "%d KDMs written to %s"
 msgstr "%d KDMs geschrieben nach %s"
 
 #: src/wx/about_dialog.cc:83
+#, fuzzy
 msgid ""
-"(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
 "(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
@@ -60,11 +61,11 @@ msgstr "(Programm zum Ändern der Sprache neu starten)"
 msgid "-6dB"
 msgstr "-6dB"
 
-#: src/wx/wx_util.cc:377
+#: src/wx/wx_util.cc:379
 msgid "12 - 7.1/HI/VI"
 msgstr "12 - 7.1/HI/VI"
 
-#: src/wx/wx_util.cc:369
+#: src/wx/wx_util.cc:371
 msgid "2 - stereo"
 msgstr "2 - Stereo"
 
@@ -108,7 +109,7 @@ msgstr "3D nur rechts"
 msgid "3D top/bottom"
 msgstr "3D Oben/Unten (OU)"
 
-#: src/wx/wx_util.cc:371
+#: src/wx/wx_util.cc:373
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/SUB"
 
@@ -116,11 +117,11 @@ msgstr "4 - L/C/R/SUB"
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/wx_util.cc:373
+#: src/wx/wx_util.cc:375
 msgid "6 - 5.1"
 msgstr "6 - 5.1"
 
-#: src/wx/wx_util.cc:375
+#: src/wx/wx_util.cc:377
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
@@ -257,7 +258,7 @@ msgstr "Auch Nicht-Standard-Bildraten erlauben (Vorsicht!)"
 msgid "Alpha   0"
 msgstr "Alpha 0"
 
-#: src/wx/kdm_output_panel.cc:265
+#: src/wx/kdm_output_panel.cc:292
 msgid "An unknown exception occurred."
 msgstr "Ein unbekannter Fehler ist aufgetreten."
 
@@ -365,7 +366,7 @@ msgstr "CPL ID"
 msgid "CPL annotation text"
 msgstr "CPL annotation text"
 
-#: src/wx/kdm_output_panel.cc:261
+#: src/wx/kdm_output_panel.cc:288
 msgid "CPL's content is not encrypted."
 msgstr "Die Mediendaten ('Assets') dieser CPL sind nicht verschlüsselt!"
 
@@ -409,7 +410,7 @@ msgstr "Beim Start auf Updates überprüfen."
 msgid "Choose CPL..."
 msgstr "CPL/Version auswählen..."
 
-#: src/wx/content_panel.cc:359
+#: src/wx/content_panel.cc:361
 msgid "Choose a DCP folder"
 msgstr "Ordner mit DCP wählen!"
 
@@ -417,11 +418,11 @@ msgstr "Ordner mit DCP wählen!"
 msgid "Choose a file"
 msgstr "Datei auswählen"
 
-#: src/wx/content_panel.cc:286
+#: src/wx/content_panel.cc:288
 msgid "Choose a file or files"
 msgstr "Eine oder mehrere Dateien auswählen"
 
-#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:314
+#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:316
 msgid "Choose a folder"
 msgstr "Ordner mit nummerierter Bildsequenz, oder DCP wählen!"
 
@@ -525,7 +526,7 @@ msgstr "Konnte die Zertifikatsdatei (%s) nicht lesen."
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Konnte Schlüssel nicht auswerten, Datei zu lang (%s)"
 
-#: src/wx/film_viewer.cc:761
+#: src/wx/film_viewer.cc:775
 #, c-format
 msgid ""
 "Could not set up audio output (%s).  There will be no audio during the "
@@ -552,7 +553,7 @@ msgid "Crop"
 msgstr "Beschneiden"
 
 #: src/wx/audio_mapping_view.cc:475 src/wx/audio_mapping_view.cc:477
-#: src/wx/film_editor.cc:55 src/wx/player_information.cc:47
+#: src/wx/film_editor.cc:55 src/wx/player_information.cc:49
 msgid "DCP"
 msgstr "DCP"
 
@@ -568,8 +569,8 @@ msgstr "DCP Verzeichnis"
 msgid "DCP metadata filename format"
 msgstr "Dateinamenformatierung der DCP Metadaten"
 
-#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:90 src/wx/wx_util.cc:102
-#: src/wx/wx_util.cc:110
+#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:92 src/wx/wx_util.cc:104
+#: src/wx/wx_util.cc:112
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
@@ -588,6 +589,11 @@ msgstr "Debug: email sending"
 #: src/wx/full_config_dialog.cc:1020
 msgid "Debug: encode"
 msgstr "Debug: encode"
+
+#: src/wx/player_information.cc:135
+#, c-format
+msgid "Decode resolution: %dx%d"
+msgstr ""
 
 #: src/wx/config_dialog.cc:721
 msgid "Decrypting KDMs"
@@ -685,7 +691,7 @@ msgstr "Download..."
 msgid "Downloading certificate"
 msgstr "Zertifikat wird heruntergeladen..."
 
-#: src/wx/player_information.cc:73
+#: src/wx/player_information.cc:76
 #, c-format
 msgid "Dropped frames: %d"
 msgstr "Übersprungene Bilder: %d"
@@ -1060,7 +1066,7 @@ msgstr "JPEG2000 Datenrate"
 msgid "Join"
 msgstr "Nahtlos verbinden (VOB, MTS...)"
 
-#: src/wx/film_viewer.cc:117
+#: src/wx/film_viewer.cc:118
 msgid "Jump to selected content"
 msgstr "Springe zu ausgewähltem Inhalt"
 
@@ -1129,9 +1135,9 @@ msgstr "3D: Linkes Auge"
 msgid "Length"
 msgstr "Länge"
 
-#: src/wx/player_information.cc:118
-#, c-format
-msgid "Length: %s (%ld frames)"
+#: src/wx/player_information.cc:121
+#, fuzzy
+msgid "Length: %1 (%2 frames)"
 msgstr "Länge: %s (%ld Bilder)"
 
 #: src/wx/subtitle_panel.cc:108
@@ -1155,7 +1161,7 @@ msgstr "LU - Relativer Lautheitsumfang (EBU R128): %.2f LU"
 msgid "Lower priority"
 msgstr "Niedrigere Priorität"
 
-#: src/wx/content_panel.cc:552
+#: src/wx/content_panel.cc:554
 msgid "MISSING: "
 msgstr "FEHLT:"
 
@@ -1252,11 +1258,11 @@ msgstr "Meine Dokumente"
 msgid "My problem is"
 msgstr "Ich habe folgendes Problem:"
 
-#: src/wx/content_panel.cc:556
+#: src/wx/content_panel.cc:558
 msgid "NEEDS KDM: "
 msgstr "Benötigt KDM:"
 
-#: src/wx/content_panel.cc:560
+#: src/wx/content_panel.cc:562
 msgid "NEEDS OV: "
 msgstr "Benötigt OV:"
 
@@ -1264,12 +1270,12 @@ msgstr "Benötigt OV:"
 msgid "Name"
 msgstr "Name"
 
-#: src/wx/player_information.cc:104
+#: src/wx/player_information.cc:108
 #, fuzzy
 msgid "Needs KDM"
 msgstr "KDM auswählen"
 
-#: src/wx/player_information.cc:99
+#: src/wx/player_information.cc:103
 msgid "Needs OV"
 msgstr ""
 
@@ -1281,7 +1287,7 @@ msgstr "Neuer Name"
 msgid "New versions of DCP-o-matic are available."
 msgstr "Eine neue Version von DCP-o-matic ist verfügbar."
 
-#: src/wx/player_information.cc:88
+#: src/wx/player_information.cc:91
 msgid "No DCP loaded."
 msgstr "Kein DCP ausgewählt"
 
@@ -1295,7 +1301,7 @@ msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr ""
 "Der Ton von Kanal %d (Quelle) wird nicht an Kanal %d (DCP) weitergegeben."
 
-#: src/wx/content_panel.cc:333
+#: src/wx/content_panel.cc:335
 msgid "No content found in this folder."
 msgstr "Keine Inhalte in diesem Ordner."
 
@@ -1363,7 +1369,7 @@ msgstr "Ausgehender/SMTP Mail Server"
 msgid "Outline"
 msgstr "Umrissdarstellung"
 
-#: src/wx/film_viewer.cc:111
+#: src/wx/film_viewer.cc:112
 msgid "Outline content"
 msgstr "Inhalt hervorheben"
 
@@ -1397,6 +1403,23 @@ msgstr "Diese Datei mit der aktuellen Konfiguration überschreiben"
 msgid "Password"
 msgstr "Passwort"
 
+#: src/wx/paste_dialog.cc:24
+msgid "Paste"
+msgstr ""
+
+#: src/wx/paste_dialog.cc:29
+msgid "Paste audio settings"
+msgstr ""
+
+#: src/wx/paste_dialog.cc:32
+#, fuzzy
+msgid "Paste subtitle settings"
+msgstr "Untertitel verwenden"
+
+#: src/wx/paste_dialog.cc:26
+msgid "Paste video settings"
+msgstr ""
+
 #: src/wx/normal_job_view.cc:37 src/wx/normal_job_view.cc:53
 msgid "Pause"
 msgstr "Pause"
@@ -1414,11 +1437,11 @@ msgstr "Spitzenwert: %.2fdB"
 msgid "Peak: unknown"
 msgstr "Spitzenwert: Unbekannt"
 
-#: src/wx/player_information.cc:56
+#: src/wx/player_information.cc:58
 msgid "Performance"
 msgstr "Wiedergabeleistung"
 
-#: src/wx/film_viewer.cc:87
+#: src/wx/film_viewer.cc:88
 msgid "Play"
 msgstr "Abspielen"
 
@@ -1770,7 +1793,7 @@ msgstr "Gammafunktion, lineares Segment für niedrige Helligkeitswerte"
 msgid "Single reel"
 msgstr "Einzelakt (nur eine MXF Datei)"
 
-#: src/wx/player_information.cc:110
+#: src/wx/player_information.cc:114
 #, c-format
 msgid "Size: %dx%d"
 msgstr "Größe: %dx%d"
@@ -1832,7 +1855,7 @@ msgstr "Untertitel Darstellung"
 msgid "Subtitles"
 msgstr "Untertitel"
 
-#: src/wx/about_dialog.cc:320
+#: src/wx/about_dialog.cc:331
 msgid "Supported by"
 msgstr "Unterstützt durch"
 
@@ -1872,7 +1895,7 @@ msgstr "Gebiet (z.B. UK)"
 msgid "Test version "
 msgstr "Test Version"
 
-#: src/wx/about_dialog.cc:377
+#: src/wx/about_dialog.cc:388
 msgid "Tested by"
 msgstr "Getestet von"
 
@@ -1919,7 +1942,7 @@ msgstr ""
 "Eine Projektvorlage dieses Namens existiert bereits. Wollen Sie sie "
 "überschreiben?"
 
-#: src/wx/film_viewer.cc:204
+#: src/wx/film_viewer.cc:212
 msgid "There is not enough free memory to do that."
 msgstr "Für diese Operation ist nicht genug freier Speicher verfügbar."
 
@@ -2239,7 +2262,7 @@ msgstr ""
 "existiert bereits in diesem Kino. Alle Einträge innerhalb eines Kinos müssen "
 "eindeutig sein."
 
-#: src/wx/kdm_output_panel.cc:180
+#: src/wx/kdm_output_panel.cc:207
 msgid ""
 "You have selected some cinemas that have no configured email address.  Do "
 "you want to continue?"
@@ -2247,7 +2270,7 @@ msgstr ""
 "Für einige der von ihnen ausgewählten Kinos wurden keine Email-"
 "Empfängeradressen konfiguriert. Möchten sie dennoch fort fahren?"
 
-#: src/wx/kdm_output_panel.cc:168
+#: src/wx/kdm_output_panel.cc:195
 msgid ""
 "You must set up a mail server in Preferences before you can send emails."
 msgstr ""

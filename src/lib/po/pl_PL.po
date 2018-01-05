@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-24 21:11+0100\n"
+"POT-Creation-Date: 2018-01-05 23:30+0000\n"
 "PO-Revision-Date: 2017-07-31 21:23+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -72,7 +72,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " w %1"
 
-#: src/lib/config.cc:751
+#: src/lib/config.cc:785
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -308,7 +308,7 @@ msgstr "Centralny"
 msgid "Channels"
 msgstr "Kanały dźwiękowe"
 
-#: src/lib/reel_writer.cc:99
+#: src/lib/reel_writer.cc:98
 msgid "Checking existing image data"
 msgstr "Sprawdzanie danych obrazu"
 
@@ -344,7 +344,7 @@ msgstr "Przestrzeń kolorów"
 msgid "Computing digest"
 msgstr "Obliczanie danych"
 
-#: src/lib/writer.cc:484
+#: src/lib/writer.cc:509
 msgid "Computing digests"
 msgstr "Obliczanie danych"
 
@@ -494,7 +494,7 @@ msgstr "Nie udało się otworzyć %1"
 msgid "Could not open %1 to send"
 msgstr "Nie udało się otworzyć %1 do wysłania"
 
-#: src/lib/internet.cc:83
+#: src/lib/internet.cc:90 src/lib/internet.cc:95 src/lib/internet.cc:100
 msgid "Could not open downloaded ZIP file"
 msgstr "Nie udało się otworzyć pobranego archiwum ZIP"
 
@@ -572,7 +572,7 @@ msgstr "DCP-o-matic nie wspiera już filtru `%1', więc został on wyłączony."
 msgid "De-interlacing"
 msgstr "Usuwanie przeplotu"
 
-#: src/lib/config.cc:731
+#: src/lib/config.cc:765
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -602,7 +602,7 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 i CP750"
 
-#: src/lib/internet.cc:76
+#: src/lib/internet.cc:77
 msgid "Download failed (%1/%2 error %3)"
 msgstr "Pobieranie nie powiodło się (%1/%2 błąd %3)"
 
@@ -662,7 +662,7 @@ msgstr "Nie udało się wysłać wiadomości (%1)"
 msgid "Feature"
 msgstr "Pełnometrażowy"
 
-#: src/lib/content.cc:381
+#: src/lib/content.cc:386
 msgid "Filename"
 msgstr "Nazwa pliku"
 
@@ -674,7 +674,7 @@ msgstr "Film"
 msgid "Finding length"
 msgstr "Obliczanie czasu trwania"
 
-#: src/lib/content.cc:388
+#: src/lib/content.cc:393
 msgid "Frame rate"
 msgstr "Liczba kl/s"
 
@@ -764,7 +764,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Wystąpił nieznany błąd."
 
-#: src/lib/config.cc:284 src/lib/config.cc:728
+#: src/lib/config.cc:287 src/lib/config.cc:762
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Wysyłanie klucza: $CPL_NAME"
 
@@ -856,7 +856,7 @@ msgstr "Nieprawidłowe liczby kl/s w DCP"
 msgid "Mismatched video sizes in DCP"
 msgstr "Nieprawidłowe rozmiary plików obrazu w DCP"
 
-#: src/lib/writer.cc:583
+#: src/lib/writer.cc:608
 msgid "Mono"
 msgstr "Mono"
 
@@ -876,7 +876,7 @@ msgstr "Nie skaluj"
 msgid "No stretch"
 msgstr "Nie rozciągaj"
 
-#: src/lib/image_content.cc:57
+#: src/lib/image_content.cc:120
 msgid "No valid image files were found in the folder."
 msgstr "W folderze nie znaleziono obsługiwanych plików."
 
@@ -884,7 +884,7 @@ msgstr "W folderze nie znaleziono obsługiwanych plików."
 msgid "Noise reduction"
 msgstr "Redukcja szumu"
 
-#: src/lib/writer.cc:581
+#: src/lib/writer.cc:606
 msgid "None"
 msgstr "Brak"
 
@@ -916,7 +916,7 @@ msgstr "P3"
 msgid "Policy"
 msgstr "Umowa"
 
-#: src/lib/content.cc:397
+#: src/lib/content.cc:402
 msgid "Prepared for video frame rate"
 msgstr "Przygotowany na liczbę kl/s"
 
@@ -1025,6 +1025,11 @@ msgstr "SMPTE ST 432-1 D65 (2010)"
 msgid "SSH error (%1)"
 msgstr "Błąd SSH (%1)"
 
+#: src/lib/image_content.cc:107
+#, fuzzy
+msgid "Scanning image files"
+msgstr "Obliczanie danych obrazu"
+
 #: src/lib/send_problem_report_job.cc:74
 msgid "Sending email"
 msgstr "Wysyłam wiadomość"
@@ -1041,7 +1046,7 @@ msgstr "Rozmiar"
 msgid "Some audio will be resampled to %1kHz"
 msgstr "Nastąpi zmiana częstotliwości niektórych ścieżek dźwiękowych do %1kHz"
 
-#: src/lib/writer.cc:585
+#: src/lib/writer.cc:610
 msgid "Stereo"
 msgstr "Stereo"
 
@@ -1120,6 +1125,14 @@ msgstr ""
 
 #: src/lib/content_factory.cc:110
 msgid "The file %1 has been moved %2 milliseconds later."
+msgstr ""
+
+#: src/lib/content_factory.cc:135
+msgid "The file %1 has been trimmed by %2 milliseconds less."
+msgstr ""
+
+#: src/lib/content_factory.cc:130
+msgid "The file %1 has been trimmed by %2 milliseconds more."
 msgstr ""
 
 #: src/lib/dcp_content.cc:447
@@ -1205,7 +1218,7 @@ msgstr "Transkodowanie %1"
 msgid "Transitional"
 msgstr "Tymczasowy"
 
-#: src/lib/internet.cc:88
+#: src/lib/internet.cc:109
 msgid "Unexpected ZIP file contents"
 msgstr "Archiwum ZIP zawiera nieobsługiwane pliki"
 
@@ -1217,7 +1230,7 @@ msgstr "Serwer otrzymał nieobsługiwany typ obrazu"
 msgid "Unknown error"
 msgstr "Nieznany błąd"
 
-#: src/lib/ffmpeg_decoder.cc:318
+#: src/lib/ffmpeg_decoder.cc:319
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Nieznany rodzaj pliku dźwiękowego (%1)"
 
@@ -1340,7 +1353,7 @@ msgstr ""
 "Poziom dźwięku jest bardzo wysoki (%1). Powinieneś zmniejszyć głośność "
 "materiału dźwiękowego."
 
-#: src/lib/config.cc:241
+#: src/lib/config.cc:244
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
@@ -1350,11 +1363,17 @@ msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
 msgstr ""
 
-#: src/lib/image_content.cc:81
+#: src/lib/content_factory.cc:126
+msgid ""
+"Your project contains video content whose trim was not aligned to a frame "
+"boundary."
+msgstr ""
+
+#: src/lib/image_content.cc:71
 msgid "[moving images]"
 msgstr "[ruchome obrazy]"
 
-#: src/lib/image_content.cc:79
+#: src/lib/image_content.cc:69
 msgid "[still]"
 msgstr "[stopklatka]"
 
@@ -1390,7 +1409,7 @@ msgstr "kopiowanie %1"
 msgid "could not find stream information"
 msgstr "nie udało się znaleźć informacji o strumieniu"
 
-#: src/lib/reel_writer.cc:337
+#: src/lib/reel_writer.cc:336
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "nie udało się przenieść dźwięku do DCP (%1)"
 
@@ -1430,7 +1449,7 @@ msgstr "wystąpił błąd podczas async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "wystąpił błąd podczas async_write (%1)"
 
-#: src/lib/content.cc:390 src/lib/content.cc:399
+#: src/lib/content.cc:395 src/lib/content.cc:404
 msgid "frames per second"
 msgstr "klatek na sekundę"
 
@@ -1448,7 +1467,7 @@ msgstr "m"
 msgid "missing required setting %1"
 msgstr "brakuje wymaganych ustawień %1"
 
-#: src/lib/image_content.cc:96
+#: src/lib/image_content.cc:86
 msgid "moving"
 msgstr "przenoszenie"
 
@@ -1477,7 +1496,7 @@ msgstr "część Twoich materiałów wymaga klucza KDM"
 msgid "some of your content needs an OV"
 msgstr "część Twoich materiałów wymaga wersji OV paczki DCP"
 
-#: src/lib/image_content.cc:94
+#: src/lib/image_content.cc:84
 msgid "still"
 msgstr "stopklatka"
 
@@ -1523,9 +1542,6 @@ msgstr "musisz najpierw dodać jakieś pliki zanim utworzysz DCP"
 
 #~ msgid "Computing audio digest"
 #~ msgstr "Obliczanie danych dźwięku"
-
-#~ msgid "Computing image digest"
-#~ msgstr "Obliczanie danych obrazu"
 
 #~ msgid "fps"
 #~ msgstr "kl/s"
