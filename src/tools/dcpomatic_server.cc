@@ -28,6 +28,7 @@
 #include "lib/signaller.h"
 #include "lib/cross.h"
 #include <wx/taskbar.h>
+#include <wx/splash.h>
 #include <wx/icon.h>
 #include <boost/thread.hpp>
 #include <boost/foreach.hpp>
@@ -268,6 +269,11 @@ private:
 
 		server_log.reset (new ServerLog);
 
+		Config::FailedToLoad.connect (boost::bind (&App::config_failed_to_load, this));
+		Config::Warning.connect (boost::bind (&App::config_warning, this, _1));
+
+		wxSplashScreen* splash = maybe_show_splash ();
+
 		dcpomatic_setup_path_encoding ();
 		dcpomatic_setup_i18n ();
 		dcpomatic_setup ();
@@ -282,6 +288,10 @@ private:
 		Bind (wxEVT_TIMER, boost::bind (&App::check, this));
 		_timer.reset (new wxTimer (this));
 		_timer->Start (1000);
+
+		if (splash) {
+			splash->Destroy ();
+		}
 
 		return true;
 	}
@@ -316,6 +326,16 @@ private:
 	void idle ()
 	{
 		signal_manager->ui_idle ();
+	}
+
+	void config_failed_to_load ()
+	{
+		message_dialog (0, _("The existing configuration failed to load.  Default values will be used instead.  These may take a short time to create."));
+	}
+
+	void config_warning (string m)
+	{
+		message_dialog (0, std_to_wx (m));
 	}
 
 	boost::thread* _thread;

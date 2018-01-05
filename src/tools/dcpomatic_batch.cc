@@ -34,6 +34,7 @@
 #include <wx/aboutdlg.h>
 #include <wx/stdpaths.h>
 #include <wx/cmdline.h>
+#include <wx/splash.h>
 #include <wx/preferences.h>
 #include <wx/wx.h>
 #include <boost/foreach.hpp>
@@ -280,6 +281,11 @@ class App : public wxApp
 	{
 		SetAppName (_("DCP-o-matic Batch Converter"));
 
+		Config::FailedToLoad.connect (boost::bind (&App::config_failed_to_load, this));
+		Config::Warning.connect (boost::bind (&App::config_warning, this, _1));
+
+		wxSplashScreen* splash = maybe_show_splash ();
+
 		if (!wxApp::OnInit()) {
 			return false;
 		}
@@ -308,12 +314,15 @@ class App : public wxApp
 		*/
 		Config::drop ();
 
-		DOMFrame* f = new DOMFrame (_("DCP-o-matic Batch Converter"));
-		SetTopWindow (f);
-		f->Maximize ();
-		f->Show ();
+		_frame = new DOMFrame (_("DCP-o-matic Batch Converter"));
+		SetTopWindow (_frame);
+		_frame->Maximize ();
+		if (splash) {
+			splash->Destroy ();
+		}
+		_frame->Show ();
 
-		JobServer* server = new JobServer (f);
+		JobServer* server = new JobServer (_frame);
 		new thread (boost::bind (&JobServer::run, server));
 
 		signal_manager = new wxSignalManager (this);
@@ -361,6 +370,18 @@ class App : public wxApp
 
 		return true;
 	}
+
+	void config_failed_to_load ()
+	{
+		message_dialog (_frame, _("The existing configuration failed to load.  Default values will be used instead.  These may take a short time to create."));
+	}
+
+	void config_warning (string m)
+	{
+		message_dialog (_frame, std_to_wx (m));
+	}
+
+	DOMFrame* _frame;
 };
 
 IMPLEMENT_APP (App)
