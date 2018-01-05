@@ -105,11 +105,15 @@ ImageContent::examine (shared_ptr<Job> job)
 {
 	if (_path_to_scan) {
 		job->sub (_("Scanning image files"));
+		int n = 0;
 		for (boost::filesystem::directory_iterator i(*_path_to_scan); i != boost::filesystem::directory_iterator(); ++i) {
 			if (boost::filesystem::is_regular_file (i->path()) && valid_image_file (i->path())) {
 				_paths.push_back (i->path ());
 			}
-			job->set_progress_unknown ();
+			++n;
+			if ((n % 1000) == 0) {
+				job->set_progress_unknown ();
+			}
 		}
 
 		if (_paths.empty()) {
