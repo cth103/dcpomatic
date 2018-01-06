@@ -22,9 +22,14 @@
 #include "nag_dialog.h"
 
 using std::string;
+using std::vector;
+using std::pair;
+using std::make_pair;
+using std::map;
 using boost::bind;
 using boost::optional;
 using boost::shared_ptr;
+using boost::function;
 
 static
 void
@@ -39,7 +44,7 @@ Page::Page (wxSize panel_size, int border)
 	, _panel_size (panel_size)
 	, _window_exists (false)
 {
-	_config_connection = Config::instance()->Changed.connect (boost::bind (&Page::config_changed_wrapper, this));
+	_config_connection = Config::instance()->Changed.connect (bind (&Page::config_changed_wrapper, this));
 }
 
 wxWindow*
@@ -53,7 +58,7 @@ Page::create_window (wxWindow* parent)
 	_window_exists = true;
 	config_changed ();
 
-	_panel->Bind (wxEVT_DESTROY, boost::bind (&Page::window_destroyed, this));
+	_panel->Bind (wxEVT_DESTROY, bind (&Page::window_destroyed, this));
 
 	return _panel;
 }
@@ -110,23 +115,23 @@ GeneralPage::add_language_controls (wxGridBagSizer* table, int& r)
 	_set_language = new wxCheckBox (_panel, wxID_ANY, _("Set language"));
 	table->Add (_set_language, wxGBPosition (r, 0));
 	_language = new wxChoice (_panel, wxID_ANY);
-	std::vector<std::pair<std::string, std::string> > languages;
-	languages.push_back (std::make_pair ("Čeština", "cs_CZ"));
-	languages.push_back (std::make_pair ("汉语/漢語", "zh_CN"));
-	languages.push_back (std::make_pair ("Dansk", "da_DK"));
-	languages.push_back (std::make_pair ("Deutsch", "de_DE"));
-	languages.push_back (std::make_pair ("English", "en_GB"));
-	languages.push_back (std::make_pair ("Español", "es_ES"));
-	languages.push_back (std::make_pair ("Français", "fr_FR"));
-	languages.push_back (std::make_pair ("Italiano", "it_IT"));
-	languages.push_back (std::make_pair ("Nederlands", "nl_NL"));
-	languages.push_back (std::make_pair ("Русский", "ru_RU"));
-	languages.push_back (std::make_pair ("Polski", "pl_PL"));
-	languages.push_back (std::make_pair ("Português europeu", "pt_PT"));
-	languages.push_back (std::make_pair ("Português do Brasil", "pt_BR"));
-	languages.push_back (std::make_pair ("Svenska", "sv_SE"));
-	languages.push_back (std::make_pair ("Slovenský jazyk", "sk_SK"));
-	languages.push_back (std::make_pair ("українська мова", "uk_UA"));
+	vector<pair<string, string> > languages;
+	languages.push_back (make_pair ("Čeština", "cs_CZ"));
+	languages.push_back (make_pair ("汉语/漢語", "zh_CN"));
+	languages.push_back (make_pair ("Dansk", "da_DK"));
+	languages.push_back (make_pair ("Deutsch", "de_DE"));
+	languages.push_back (make_pair ("English", "en_GB"));
+	languages.push_back (make_pair ("Español", "es_ES"));
+	languages.push_back (make_pair ("Français", "fr_FR"));
+	languages.push_back (make_pair ("Italiano", "it_IT"));
+	languages.push_back (make_pair ("Nederlands", "nl_NL"));
+	languages.push_back (make_pair ("Русский", "ru_RU"));
+	languages.push_back (make_pair ("Polski", "pl_PL"));
+	languages.push_back (make_pair ("Português europeu", "pt_PT"));
+	languages.push_back (make_pair ("Português do Brasil", "pt_BR"));
+	languages.push_back (make_pair ("Svenska", "sv_SE"));
+	languages.push_back (make_pair ("Slovenský jazyk", "sk_SK"));
+	languages.push_back (make_pair ("українська мова", "uk_UA"));
 	checked_set (_language, languages);
 	table->Add (_language, wxGBPosition (r, 1));
 	++r;
@@ -140,8 +145,8 @@ GeneralPage::add_language_controls (wxGridBagSizer* table, int& r)
 	restart->SetFont (font);
 	++r;
 
-	_set_language->Bind (wxEVT_CHECKBOX, boost::bind (&GeneralPage::set_language_changed, this));
-	_language->Bind     (wxEVT_CHOICE,   boost::bind (&GeneralPage::language_changed,     this));
+	_set_language->Bind (wxEVT_CHECKBOX, bind (&GeneralPage::set_language_changed, this));
+	_language->Bind     (wxEVT_CHOICE,   bind (&GeneralPage::language_changed,     this));
 }
 
 void
@@ -161,8 +166,8 @@ GeneralPage::add_play_sound_controls (wxGridBagSizer* table, int& r)
 		}
 	}
 
-	_sound->Bind        (wxEVT_CHECKBOX, boost::bind (&GeneralPage::sound_changed, this));
-	_sound_output->Bind (wxEVT_CHOICE,   boost::bind (&GeneralPage::sound_output_changed, this));
+	_sound->Bind        (wxEVT_CHECKBOX, bind (&GeneralPage::sound_changed, this));
+	_sound_output->Bind (wxEVT_CHOICE,   bind (&GeneralPage::sound_output_changed, this));
 }
 
 void
@@ -176,8 +181,8 @@ GeneralPage::add_update_controls (wxGridBagSizer* table, int& r)
 	table->Add (_check_for_test_updates, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
-	_check_for_updates->Bind (wxEVT_CHECKBOX, boost::bind (&GeneralPage::check_for_updates_changed, this));
-	_check_for_test_updates->Bind (wxEVT_CHECKBOX, boost::bind (&GeneralPage::check_for_test_updates_changed, this));
+	_check_for_updates->Bind (wxEVT_CHECKBOX, bind (&GeneralPage::check_for_updates_changed, this));
+	_check_for_test_updates->Bind (wxEVT_CHECKBOX, bind (&GeneralPage::check_for_test_updates_changed, this));
 }
 
 void
@@ -189,7 +194,7 @@ GeneralPage::config_changed ()
 
 	/* Backwards compatibility of config file */
 
-	std::map<std::string, std::string> compat_map;
+	map<string, string> compat_map;
 	compat_map["fr"] = "fr_FR";
 	compat_map["it"] = "it_IT";
 	compat_map["es"] = "es_ES";
@@ -204,7 +209,7 @@ GeneralPage::config_changed ()
 	compat_map["cs"] = "cs_CZ";
 	compat_map["uk"] = "uk_UA";
 
-	std::string lang = config->language().get_value_or ("en_GB");
+	string lang = config->language().get_value_or ("en_GB");
 	if (compat_map.find (lang) != compat_map.end ()) {
 		lang = compat_map[lang];
 	}
@@ -216,8 +221,8 @@ GeneralPage::config_changed ()
 
 	checked_set (_sound, config->sound ());
 
-	boost::optional<std::string> const current_so = get_sound_output ();
-	boost::optional<std::string> configured_so;
+	optional<string> const current_so = get_sound_output ();
+	optional<string> configured_so;
 
 	if (config->sound_output()) {
 		configured_so = config->sound_output().get();
@@ -255,12 +260,12 @@ GeneralPage::setup_sensitivity ()
 }
 
 /** @return Currently-selected preview sound output in the dialogue */
-boost::optional<std::string>
+optional<string>
 GeneralPage::get_sound_output ()
 {
 	int const sel = _sound_output->GetSelection ();
 	if (sel == wxNOT_FOUND) {
-		return boost::optional<std::string> ();
+		return optional<string> ();
 	}
 
 	return wx_to_std (_sound_output->GetString (sel));
@@ -310,7 +315,7 @@ void
 GeneralPage::sound_output_changed ()
 {
 	RtAudio audio (DCPOMATIC_RTAUDIO_API);
-	boost::optional<std::string> const so = get_sound_output();
+	optional<string> const so = get_sound_output();
 	if (!so || *so == audio.getDeviceInfo(audio.getDefaultOutputDevice()).name) {
 		Config::instance()->unset_sound_output ();
 	} else {
@@ -322,9 +327,9 @@ CertificateChainEditor::CertificateChainEditor (
 	wxWindow* parent,
 	wxString title,
 	int border,
-	boost::function<void (boost::shared_ptr<dcp::CertificateChain>)> set,
-	boost::function<boost::shared_ptr<const dcp::CertificateChain> (void)> get,
-	boost::function<void (void)> nag_remake
+	function<void (shared_ptr<dcp::CertificateChain>)> set,
+	function<shared_ptr<const dcp::CertificateChain> (void)> get,
+	function<void (void)> nag_remake
 	)
 	: wxDialog (parent, wxID_ANY, title)
 	, _set (set)
@@ -410,14 +415,14 @@ CertificateChainEditor::CertificateChainEditor (
 	table->Add (_private_key_bad, wxGBPosition (r, 0), wxGBSpan (1, 3));
 	++r;
 
-	_add_certificate->Bind     (wxEVT_BUTTON,       boost::bind (&CertificateChainEditor::add_certificate, this));
-	_remove_certificate->Bind  (wxEVT_BUTTON,       boost::bind (&CertificateChainEditor::remove_certificate, this));
-	_export_certificate->Bind  (wxEVT_BUTTON,       boost::bind (&CertificateChainEditor::export_certificate, this));
-	_certificates->Bind        (wxEVT_LIST_ITEM_SELECTED,   boost::bind (&CertificateChainEditor::update_sensitivity, this));
-	_certificates->Bind        (wxEVT_LIST_ITEM_DESELECTED, boost::bind (&CertificateChainEditor::update_sensitivity, this));
-	_remake_certificates->Bind (wxEVT_BUTTON,       boost::bind (&CertificateChainEditor::remake_certificates, this));
-	_import_private_key->Bind  (wxEVT_BUTTON,       boost::bind (&CertificateChainEditor::import_private_key, this));
-	_export_private_key->Bind  (wxEVT_BUTTON,       boost::bind (&CertificateChainEditor::export_private_key, this));
+	_add_certificate->Bind     (wxEVT_BUTTON,       bind (&CertificateChainEditor::add_certificate, this));
+	_remove_certificate->Bind  (wxEVT_BUTTON,       bind (&CertificateChainEditor::remove_certificate, this));
+	_export_certificate->Bind  (wxEVT_BUTTON,       bind (&CertificateChainEditor::export_certificate, this));
+	_certificates->Bind        (wxEVT_LIST_ITEM_SELECTED,   bind (&CertificateChainEditor::update_sensitivity, this));
+	_certificates->Bind        (wxEVT_LIST_ITEM_DESELECTED, bind (&CertificateChainEditor::update_sensitivity, this));
+	_remake_certificates->Bind (wxEVT_BUTTON,       bind (&CertificateChainEditor::remake_certificates, this));
+	_import_private_key->Bind  (wxEVT_BUTTON,       bind (&CertificateChainEditor::import_private_key, this));
+	_export_private_key->Bind  (wxEVT_BUTTON,       bind (&CertificateChainEditor::export_private_key, this));
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxCLOSE);
 	if (buttons) {
@@ -446,7 +451,7 @@ CertificateChainEditor::add_certificate ()
 	if (d->ShowModal() == wxID_OK) {
 		try {
 			dcp::Certificate c;
-			std::string extra;
+			string extra;
 			try {
 				extra = c.read_string (dcp::file_to_string (wx_to_std (d->GetPath ())));
 			} catch (boost::filesystem::filesystem_error& e) {
@@ -526,7 +531,7 @@ CertificateChainEditor::export_certificate ()
 			throw OpenFileError (wx_to_std (d->GetPath ()), errno, false);
 		}
 
-		std::string const s = j->certificate (true);
+		string const s = j->certificate (true);
 		fwrite (s.c_str(), 1, s.length(), f);
 		fclose (f);
 	}
@@ -570,13 +575,13 @@ CertificateChainEditor::update_certificate_list ()
 void
 CertificateChainEditor::remake_certificates ()
 {
-	boost::shared_ptr<const dcp::CertificateChain> chain = _get();
+	shared_ptr<const dcp::CertificateChain> chain = _get();
 
-	std::string subject_organization_name;
-	std::string subject_organizational_unit_name;
-	std::string root_common_name;
-	std::string intermediate_common_name;
-	std::string leaf_common_name;
+	string subject_organization_name;
+	string subject_organizational_unit_name;
+	string root_common_name;
+	string intermediate_common_name;
+	string leaf_common_name;
 
 	dcp::CertificateChain::List all = chain->root_to_leaf ();
 
@@ -679,7 +684,7 @@ CertificateChainEditor::import_private_key ()
 void
 CertificateChainEditor::export_private_key ()
 {
-	boost::optional<std::string> key = _get()->key();
+	optional<string> key = _get()->key();
 	if (!key) {
 		return;
 	}
@@ -695,7 +700,7 @@ CertificateChainEditor::export_private_key ()
 			throw OpenFileError (wx_to_std (d->GetPath ()), errno, false);
 		}
 
-		std::string const s = _get()->key().get ();
+		string const s = _get()->key().get ();
 		fwrite (s.c_str(), 1, s.length(), f);
 		fclose (f);
 	}
@@ -827,7 +832,6 @@ KeysPage::import_decryption_chain_and_key ()
 				new_chain->add (dcp::Certificate (current));
 				current = "";
 			} else if (strncmp (buffer, "-----END RSA PRIVATE KEY-----", 29) == 0) {
-				std::cout << "the key is " << current << "\n";
 				new_chain->set_key (current);
 				current = "";
 			}
@@ -867,7 +871,7 @@ KeysPage::export_decryption_chain ()
 			throw OpenFileError (wx_to_std (d->GetPath ()), errno, false);
 		}
 
-		std::string const s = Config::instance()->decryption_chain()->chain();
+		string const s = Config::instance()->decryption_chain()->chain();
 		fwrite (s.c_str(), 1, s.length(), f);
 		fclose (f);
 	}
@@ -888,7 +892,7 @@ KeysPage::export_decryption_certificate ()
 			throw OpenFileError (wx_to_std (d->GetPath ()), errno, false);
 		}
 
-		std::string const s = Config::instance()->decryption_chain()->leaf().certificate (true);
+		string const s = Config::instance()->decryption_chain()->leaf().certificate (true);
 		fwrite (s.c_str(), 1, s.length(), f);
 		fclose (f);
 	}
