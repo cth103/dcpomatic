@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -34,6 +34,7 @@
 #include "compose.hpp"
 #include "log.h"
 #include "encoded_log_entry.h"
+#include "version.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
@@ -222,7 +223,7 @@ EncodeServer::worker_thread ()
 void
 EncodeServer::run ()
 {
-	LOG_GENERAL ("Server starting with %1 threads", _num_threads);
+	LOG_GENERAL ("Server %1 (%2) starting with %3 threads", dcpomatic_version, dcpomatic_git_commit, _num_threads);
 	if (_verbose) {
 		cout << "DCP-o-matic server starting with " << _num_threads << " threads.\n";
 	}
