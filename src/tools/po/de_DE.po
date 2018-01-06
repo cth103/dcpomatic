@@ -197,14 +197,12 @@ msgid "Could not find batch converter."
 msgstr "Batchkonverter nicht gestartet!?"
 
 #: src/tools/dcpomatic_player.cc:471
-#, fuzzy
 msgid "Could not load DCP %1 (%2)"
-msgstr "Film %1 (%2) konnte nicht geladen werden"
+msgstr ""
 
 #: src/tools/dcpomatic_player.cc:288
-#, fuzzy, c-format
 msgid "Could not load KDM (%s)"
-msgstr "Film %1 (%2) konnte nicht geladen werden"
+msgstr ""
 
 #: src/tools/dcpomatic.cc:1288 src/tools/dcpomatic_batch.cc:342
 msgid "Could not load film %1 (%2)"

@@ -197,14 +197,12 @@ msgid "Could not find batch converter."
 msgstr "Não foi possível encontrar o conversor de lote"
 
 #: src/tools/dcpomatic_player.cc:471
-#, fuzzy
 msgid "Could not load DCP %1 (%2)"
-msgstr "Não foi possível carregar o filme %1 (%2)"
+msgstr ""
 
 #: src/tools/dcpomatic_player.cc:288
-#, fuzzy, c-format
 msgid "Could not load KDM (%s)"
-msgstr "Não foi possível carregar o filme %1 (%2)"
+msgstr ""
 
 #: src/tools/dcpomatic.cc:1288 src/tools/dcpomatic_batch.cc:342
 msgid "Could not load film %1 (%2)"
