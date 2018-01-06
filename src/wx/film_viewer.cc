@@ -88,7 +88,6 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 	, _play_button (new wxToggleButton (this, wxID_ANY, _("Play")))
 	, _coalesce_player_changes (false)
 	, _pending_player_change (false)
-	, _last_seek_accurate (true)
 	, _audio (DCPOMATIC_RTAUDIO_API)
 	, _audio_channels (0)
 	, _audio_block_size (1024)
@@ -660,7 +659,7 @@ FilmViewer::film_changed (Film::Property p)
 void
 FilmViewer::refresh ()
 {
-	seek (_video_position, _last_seek_accurate);
+	seek (_video_position, true);
 }
 
 void
@@ -722,7 +721,6 @@ FilmViewer::seek (DCPTime t, bool accurate)
 	bool const was_running = stop ();
 
 	_butler->seek (t, accurate);
-	_last_seek_accurate = accurate;
 	get ();
 
 	if (was_running) {

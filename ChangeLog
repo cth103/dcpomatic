@@ -1,5 +1,7 @@
 2018-01-06  Carl Hetherington  <cth@carlh.net>
 
+	* Fix playhead wandering on some operations (#1112).
+
 	* Simplify user interface for managing keys.
 
 	* Version 2.11.37 released.
