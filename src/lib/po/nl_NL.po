@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-05 23:30+0000\n"
-"PO-Revision-Date: 2017-11-04 14:03+0100\n"
+"PO-Revision-Date: 2018-01-06 01:40+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -1044,9 +1044,8 @@ msgid "SSH error (%1)"
 msgstr "SSH-fout (%1)"
 
 #: src/lib/image_content.cc:107
-#, fuzzy
 msgid "Scanning image files"
-msgstr "E-mail verzenden"
+msgstr "Beeldbestanden scannen"
 
 #: src/lib/send_problem_report_job.cc:74
 msgid "Sending email"
@@ -1146,14 +1145,12 @@ msgid "The file %1 has been moved %2 milliseconds later."
 msgstr "Het bestand %1 is naar %2 milliseconden later verplaatst."
 
 #: src/lib/content_factory.cc:135
-#, fuzzy
 msgid "The file %1 has been trimmed by %2 milliseconds less."
-msgstr "Het bestand %1 is naar %2 milliseconden later verplaatst."
+msgstr "Van het bestand %1 is %2 milliseconden minder weggeknipt."
 
 #: src/lib/content_factory.cc:130
-#, fuzzy
 msgid "The file %1 has been trimmed by %2 milliseconds more."
-msgstr "Het bestand %1 is naar %2 milliseconden eerder verplaatst."
+msgstr "Van het bestand %1 is %2 milliseconden meer weggeknipt."
 
 #: src/lib/dcp_content.cc:447
 msgid "The film has a different frame rate to this DCP."
@@ -1388,12 +1385,12 @@ msgstr ""
 "Uw project bevat video-content die niet was uitgelijnd op een framegrens."
 
 #: src/lib/content_factory.cc:126
-#, fuzzy
 msgid ""
 "Your project contains video content whose trim was not aligned to a frame "
 "boundary."
 msgstr ""
-"Uw project bevat video-content die niet was uitgelijnd op een framegrens."
+"Uw project bevat video-content waarvan het bijknippen niet was uitgelijnd op "
+"een framegrens."
 
 #: src/lib/image_content.cc:71
 msgid "[moving images]"
