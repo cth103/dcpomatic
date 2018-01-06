@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-06 19:06+0000\n"
-"PO-Revision-Date: 2017-09-12 18:03+0100\n"
+"POT-Creation-Date: 2018-01-05 23:30+0000\n"
+"PO-Revision-Date: 2018-01-06 17:28+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -41,17 +41,16 @@ msgid "%d KDMs written to %s"
 msgstr "%d KDMs geschrieben nach %s"
 
 #: src/wx/about_dialog.cc:83
-#, fuzzy
 msgid ""
 "(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:43 src/wx/file_picker_ctrl.cc:58
 msgid "(None)"
-msgstr "Keiner"
+msgstr "Auswählen..."
 
 #: src/wx/config_dialog.cc:132
 msgid "(restart DCP-o-matic to see language changes)"
@@ -184,11 +183,11 @@ msgstr "DKDM Ordner hinzufügen..."
 
 #: src/wx/content_menu.cc:77
 msgid "Add KDM..."
-msgstr "KDM hinzufügen..."
+msgstr "KDM zuweisen..."
 
 #: src/wx/content_menu.cc:78
 msgid "Add OV..."
-msgstr "OV hinzufügen..."
+msgstr "OV zu VF zuweisen..."
 
 #: src/wx/screens_panel.cc:206
 msgid "Add Screen"
@@ -593,7 +592,7 @@ msgstr "Debug: encode"
 #: src/wx/player_information.cc:135
 #, c-format
 msgid "Decode resolution: %dx%d"
-msgstr ""
+msgstr "Wiedergabeauflösung: %d x %d"
 
 #: src/wx/config_dialog.cc:721
 msgid "Decrypting KDMs"
@@ -1136,9 +1135,8 @@ msgid "Length"
 msgstr "Länge"
 
 #: src/wx/player_information.cc:121
-#, fuzzy
 msgid "Length: %1 (%2 frames)"
-msgstr "Länge: %s (%ld Bilder)"
+msgstr "Länge: %1 (%2 Bilder)"
 
 #: src/wx/subtitle_panel.cc:108
 msgid "Line spacing"
@@ -1211,7 +1209,7 @@ msgstr "Maximale JPEG2000 Datenrate (>240MBit/s - Vorsicht!)"
 
 #: src/wx/full_config_dialog.cc:969
 msgid "Maximum number of frames to store per thread"
-msgstr ""
+msgstr "Bildzwischenspeicher pro Thread"
 
 #: src/wx/dcp_panel.cc:684 src/wx/full_config_dialog.cc:315
 #: src/wx/full_config_dialog.cc:956
@@ -1266,18 +1264,18 @@ msgstr "Benötigt KDM:"
 msgid "NEEDS OV: "
 msgstr "Benötigt OV:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Name"
 
 #: src/wx/player_information.cc:108
-#, fuzzy
 msgid "Needs KDM"
-msgstr "KDM auswählen"
+msgstr "KDM zuweisen"
 
 #: src/wx/player_information.cc:103
 msgid "Needs OV"
-msgstr ""
+msgstr "OV DCP zuweisen"
 
 #: src/wx/rename_template_dialog.cc:26
 msgid "New name"
@@ -1405,20 +1403,19 @@ msgstr "Passwort"
 
 #: src/wx/paste_dialog.cc:24
 msgid "Paste"
-msgstr ""
+msgstr "Einfügen"
 
 #: src/wx/paste_dialog.cc:29
 msgid "Paste audio settings"
-msgstr ""
+msgstr "Audioeinstellungen übernehmen"
 
 #: src/wx/paste_dialog.cc:32
-#, fuzzy
 msgid "Paste subtitle settings"
-msgstr "Untertitel verwenden"
+msgstr "Untertiteleinstellungen übernehmen"
 
 #: src/wx/paste_dialog.cc:26
 msgid "Paste video settings"
-msgstr ""
+msgstr "Videoeinstellungen übernehmen"
 
 #: src/wx/normal_job_view.cc:37 src/wx/normal_job_view.cc:53
 msgid "Pause"
@@ -1450,9 +1447,8 @@ msgid "Play length"
 msgstr "Abspiellänge"
 
 #: src/wx/config_dialog.cc:147
-#, fuzzy
 msgid "Play sound via"
-msgstr "Audio während Vorschau wiedergeben"
+msgstr "Audio während Vorschau wiedergeben - über Ausgabegerät:"
 
 #: src/wx/report_problem_dialog.cc:104
 msgid ""

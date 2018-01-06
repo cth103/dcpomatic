@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-06 19:06+0000\n"
-"PO-Revision-Date: 2017-07-28 15:27+0100\n"
+"POT-Creation-Date: 2018-01-05 23:30+0000\n"
+"PO-Revision-Date: 2018-01-06 17:06+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -574,13 +574,12 @@ msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP verwendet nur jedes zweite Bild des Quelle.\n"
 
 #: src/lib/job.cc:123 src/lib/job.cc:138
-#, fuzzy
 msgid ""
 "DCP-o-matic could not open the file %1 (%2).  Perhaps it does not exist or "
 "is in an unexpected format."
 msgstr ""
-"DCP-o-matic konnte die Datei %1 nicht öffnen. Vielleicht existiert sie nicht "
-"oder ist in einem unerwarteten Format."
+"DCP-o-matic konnte die Datei %1 nicht öffnen (%2). Vielleicht existiert sie "
+"nicht oder ist in einem unerwarteten Format."
 
 #: src/lib/ffmpeg_content.cc:103
 msgid ""
@@ -1051,9 +1050,8 @@ msgid "SSH error (%1)"
 msgstr "SSH Fehler (%1)"
 
 #: src/lib/image_content.cc:107
-#, fuzzy
 msgid "Scanning image files"
-msgstr "Bildübersicht berechnen"
+msgstr "Analysiere Bildsequenz"
 
 #: src/lib/send_problem_report_job.cc:74
 msgid "Sending email"
@@ -1146,19 +1144,19 @@ msgstr ""
 
 #: src/lib/content_factory.cc:115
 msgid "The file %1 has been moved %2 milliseconds earlier."
-msgstr ""
+msgstr "Die Spur %1 wurde %2 Millisekunden vorgezogen."
 
 #: src/lib/content_factory.cc:110
 msgid "The file %1 has been moved %2 milliseconds later."
-msgstr ""
+msgstr "Die Spur %1 wurde %2 Millisekunden verzögert."
 
 #: src/lib/content_factory.cc:135
 msgid "The file %1 has been trimmed by %2 milliseconds less."
-msgstr ""
+msgstr "Die Spur %1 wurde um %2 Millisekunden gekürzt."
 
 #: src/lib/content_factory.cc:130
 msgid "The file %1 has been trimmed by %2 milliseconds more."
-msgstr ""
+msgstr "Die Spur %1 wurde um %2 Millisekunden verlängert."
 
 #: src/lib/dcp_content.cc:447
 msgid "The film has a different frame rate to this DCP."
@@ -1407,17 +1405,23 @@ msgstr ""
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
+"Ihr bisheriger Standard-Container ist in dieser Version nicht mehr gültig "
+"und wurde in Flat/BW (1.85:1) geändert."
 
 #: src/lib/content_factory.cc:106
 msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
 msgstr ""
+"Ihr Projekt enthält Videoinhalte die nicht exakt am Zeitraster ausgerichtet "
+"sind."
 
 #: src/lib/content_factory.cc:126
 msgid ""
 "Your project contains video content whose trim was not aligned to a frame "
 "boundary."
 msgstr ""
+"Ihr Projekt enthält Videoinhalte die nicht exakt im Zeitraster beschnitten "
+"sind."
 
 #: src/lib/image_content.cc:71
 msgid "[moving images]"
