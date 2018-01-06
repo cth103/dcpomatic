@@ -404,3 +404,9 @@ maybe_show_splash ()
 
 	return splash;
 }
+
+boost::filesystem::path
+path_from_file_dialog (wxFileDialog* dialog, string extension)
+{
+	return boost::filesystem::path(wx_to_std(dialog->GetPath())).replace_extension(extension);
+}

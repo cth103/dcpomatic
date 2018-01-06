@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -111,7 +111,7 @@ private:
 	wxCheckBox* _check_for_test_updates;
 };
 
-class CertificateChainEditor : public wxPanel
+class CertificateChainEditor : public wxDialog
 {
 public:
 	CertificateChainEditor (
@@ -123,7 +123,6 @@ public:
 		boost::function<void (void)> nag_remake
 		);
 
-	void config_changed ();
 	void add_button (wxWindow* button);
 
 private:
@@ -134,7 +133,7 @@ private:
 	void remake_certificates ();
 	void update_sensitivity ();
 	void update_private_key ();
-	void load_private_key ();
+	void import_private_key ();
 	void export_private_key ();
 
 	wxListCtrl* _certificates;
@@ -143,12 +142,11 @@ private:
 	wxButton* _remove_certificate;
 	wxButton* _remake_certificates;
 	wxStaticText* _private_key;
-	wxButton* _load_private_key;
+	wxButton* _import_private_key;
 	wxButton* _export_private_key;
 	wxStaticText* _private_key_bad;
 	wxSizer* _sizer;
 	wxBoxSizer* _button_sizer;
-	boost::shared_ptr<dcp::CertificateChain> _chain;
 	boost::function<void (boost::shared_ptr<dcp::CertificateChain>)> _set;
 	boost::function<boost::shared_ptr<const dcp::CertificateChain> (void)> _get;
 	boost::function<void (void)> _nag_remake;
@@ -177,13 +175,13 @@ private:
 
 	void export_decryption_certificate ();
 	void export_decryption_chain ();
-	void config_changed ();
+	void config_changed () {}
 	void nag_remake_decryption_chain ();
+	void decryption_advanced ();
+	void signing_advanced ();
+	void export_decryption_chain_and_key ();
+	void import_decryption_chain_and_key ();
 
-	CertificateChainEditor* _signer;
-	CertificateChainEditor* _decryption;
-	wxButton* _export_decryption_certificate;
-	wxButton* _export_decryption_chain;
 	bool _sign;
 };
 
