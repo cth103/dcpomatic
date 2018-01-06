@@ -406,9 +406,20 @@ private:
 		if (d->ShowModal() == wxID_OK) {
 			shared_ptr<DKDMBase> new_dkdm;
 			try {
-				new_dkdm.reset (
-					new DKDM (dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (d->GetPath ()), MAX_KDM_SIZE)))
-					);
+				dcp::EncryptedKDM ekdm(dcp::file_to_string (wx_to_std (d->GetPath ()), MAX_KDM_SIZE));
+
+				/* Decrypt the DKDM to make sure that we can */
+				shared_ptr<const dcp::CertificateChain> chain = Config::instance()->decryption_chain();
+				DCPOMATIC_ASSERT (chain->key());
+				dcp::DecryptedKDM dkdm(ekdm, chain->key().get());
+
+				new_dkdm.reset(new DKDM(ekdm));
+				shared_ptr<DKDMGroup> group = dynamic_pointer_cast<DKDMGroup> (selected_dkdm ());
+				if (!group) {
+					group = Config::instance()->dkdms ();
+				}
+				add_dkdm_model (new_dkdm, group);
+				add_dkdm_view (new_dkdm);
 			} catch (dcp::KDMFormatError& e) {
 				error_dialog (
 					this,
@@ -418,14 +429,12 @@ private:
 						)
 					);
 				return;
+			} catch (dcp::KDMDecryptionError) {
+				error_dialog (
+					this,
+					_("Could not decrypt the DKDM.  Perhaps it was not created with the correct certificate.")
+					);
 			}
-
-			shared_ptr<DKDMGroup> group = dynamic_pointer_cast<DKDMGroup> (selected_dkdm ());
-			if (!group) {
-				group = Config::instance()->dkdms ();
-			}
-			add_dkdm_model (new_dkdm, group);
-			add_dkdm_view (new_dkdm);
 		}
 		d->Destroy ();
 	}
