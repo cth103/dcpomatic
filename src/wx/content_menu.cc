@@ -143,6 +143,8 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 				}
 			} catch (dcp::DCPReadError) {
 				/* The DCP is probably missing */
+			} catch (dcp::KDMDecryptionError) {
+				/* We have an incorrect KDM */
 			}
 		} else {
 			_kdm->Enable (false);

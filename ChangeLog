@@ -1,5 +1,8 @@
 2018-01-06  Carl Hetherington  <cth@carlh.net>
 
+	* Fix crash in some cases when an incorrect KDM has been
+	added to a DCP (#1000).
+
 	* Updated de_DE translation from Carsten Kurz.
 
 	* Fix playhead wandering on some operations (#1112).
