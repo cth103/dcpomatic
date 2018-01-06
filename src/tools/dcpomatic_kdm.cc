@@ -380,7 +380,7 @@ private:
 	{
 		DKDMMap::iterator from = _dkdm_id.find (_dkdm->GetSelection ());
 		DKDMMap::iterator to = _dkdm_id.find (ev.GetItem ());
-		if (from == _dkdm_id.end() || to == _dkdm_id.end()) {
+		if (from == _dkdm_id.end() || to == _dkdm_id.end() || from->first == to->first) {
 			return;
 		}
 
