@@ -116,24 +116,22 @@ Windows version.
 
 <para>
 DCP-o-matic will run on Mac OS X version 10.6 (Snow Leopard) and
-higher.  To install it, download the <code>.dmg</code> from <ulink
-url="http://dcpomatic.com/">http://dcpomatic.com/</ulink> and double
-click to open it.  Then drag the DCP-o-matics icon to your
-<guilabel>Applications</guilabel> folder or wherever else you would
-like to install it.
+higher.  DCP-o-matic is split into four separate applications, each of
+which can be installed by downloading the <code>.dmg</code>,
+double-clicking to open and then dragging the icon to your
+<guilabel>Applications</guilabel> folder.
 </para>
 
 <para>
-You do not have to install all the applications, but you must always
-install <code>DCP-o-matic 2.app</code> as the other applications
-depend on it.
+If you are not sure which parts of DCP-o-matic to install, start
+with the first (main) part.
 </para>
 
 </section>
 
 <!-- ============================================================== -->
 <section>
-<title>Debian or Ubuntu Linux</title>
+<title>Debian, Ubuntu or Mint Linux</title>
 
 <para>
   You can install DCP-o-matic on:
@@ -143,9 +141,12 @@ depend on it.
   <listitem>Debian 7 (&lsquo;wheezy&rsquo;)</listitem>
   <listitem>Debian 8 (&lsquo;jessie&rsquo;)</listitem>
   <listitem>Debian unstable (&lsquo;sid&rsquo;)</listitem>
-  <listitem>Ubuntu 12.04 (&lsquo;Precise Pangolin&rsquo;)</listitem>
   <listitem>Ubuntu 14.04 (&lsquo;Trusty Tahr&rsquo;)</listitem>
   <listitem>Ubuntu 16.04 (&lsquo;Xenial Xerus&rsquo;)</listitem>
+  <listitem>Ubuntu 17.04 (&lsquo;Zesty Zapus&rsquo;)</listitem>
+  <listitem>Ubuntu 17.10 (&lsquo;Artful Aardvark&rsquo;)</listitem>
+  <listitem>Mint 17</listitem>
+  <listitem>Mint 18</listitem>
 </itemizedlist>
 
 <para>
@@ -160,24 +161,13 @@ pieces and set DCP-o-matic up for you.
 
 <!-- ============================================================== -->
 <section>
-  <title>Fedora Linux</title>
+  <title>Fedora, Centos and Mageia Linux</title>
 
-  <para>There are <code>.rpm</code> packages for Fedora 22 and 23 on
+  <para>There are <code>.rpm</code> packages for Fedora 25, 26 and 27, Centos 6 and 7 and Mageia 6 on
   <ulink url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>
   </para>
 </section>
 <!-- ============================================================== -->
-
-
-<!-- ============================================================== -->
-<section>
-  <title>Centos Linux</title>
-  <para>There are <code>.rpm</code> packages for Centos 5, 6.5 and 7 on
-  <ulink url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>
-  </para>
-</section>
-<!-- ============================================================== -->
-
 
 <!-- ============================================================== -->
 <section>
@@ -272,7 +262,7 @@ DCP-o-matic.  We will gloss over the details and look at the basics.
 Let's make a very simple DCP to see how DCP-o-matic works.  First, we
 need some content.  Download the low-resolution trailer for the open
 movie <ulink url="http://sintel.org/">Sintel</ulink> from <ulink
-url="http://ftp.nluug.nl/ftp/graphics/blender/apricot/trailer/Sintel_Trailer1.480p.DivX_Plus_HD.mkv">their
+url="https://download.blender.org/durian/trailer/Sintel_Trailer.480p.DivX_Plus_HD.mkv">their
 website</ulink>.  Generally one would want to use the
 highest-resolution material available, but for this test we will use
 the low-resolution version to save everyone's bandwidth bills.
@@ -378,15 +368,7 @@ the right of the window, as shown in <xref linkend="fig-examine-content"/>.
 
 <para>
 Dragging the slider will move through your video.  You can also click
-the <guilabel>Play</guilabel> button to play the content back.  <emphasis>Note
-that there will be no sound</emphasis>, and playback might not be entirely
-accurate (it may be slightly slower or faster than it should be, for
-example).  This player is really only intended for brief inspection of
-content; if you need to check it more thoroughly, use another player
-such as <ulink
-url="http://projects.gnome.org/totem/index.html">Totem</ulink>, <ulink
-url="http://www.mplayerhq.hu/design7/news.html">mplayer</ulink> or
-<ulink url="http://www.videolan.org/vlc/index.html">VLC</ulink>.
+the <guilabel>Play</guilabel> button to play the content back.
 </para>
 
 </section>
@@ -529,7 +511,7 @@ to take existing DCPs and modify them in various ways.
 
 <para>
 If you want to do something to an existing DCP the first step is to
-import it.  Click <guilabel>Add folder...</guilabel> and select your
+import it.  Click <guilabel>Add DCP...</guilabel> and select your
 DCP's folder.  It will be added to the DCP-o-matic project.  If the
 DCP is unencrypted you can preview it in the normal way, though
 playback will be very slow as decoding of DCPs is almost as
@@ -542,7 +524,7 @@ another DCP's assets, you should import it as follows:
 </para>
 
 <itemizedlist>
-<listitem>Use <guilabel>Add folder...</guilabel> to import the VF DCP.
+<listitem>Use <guilabel>Add DCP...</guilabel> to import the VF DCP.
 The VF DCP will be added to the content list and marked &ldquo;NEEDS
 OV&rdquo;.</listitem>
 <listitem>Right-click on the VF DCP in the content list and choose <guilabel>Add OV...</guilabel> from the menu.</listitem>
@@ -580,8 +562,8 @@ and they can create a KDM to allow DCP-o-matic to decrypt their DCP.
 
 <para>
 Once you have your KDM, right-click the DCP's name in DCP-o-matic and
-choose <guilabel>Add KDM...</guilabel>.  Specify your KDM and (all
-being well) the DCP will be decrypted and become available for preview.
+choose <guilabel>Add KDM...</guilabel>.  Specify your KDM and the DCP
+will be decrypted and become available for preview.
 </para>
 
 </section>
@@ -747,11 +729,15 @@ To add one or more movie, sound, still-image or subtitle files, select
 </para>
 
 <para>
-To add a directory (folder) of images or a DCP, choose <guilabel>Add
-folder...</guilabel> and choose the directory from the selector.  If
-you select a folder of images DCP-o-matic will open a small dialogue
-box where you can enter the frame rate that the image sequence should
-be run at.
+To add a directory (folder) of images, choose <guilabel>Add
+folder...</guilabel> and choose the directory from the selector.
+DCP-o-matic will open a small dialogue box where you can enter the
+frame rate that the image sequence should be run at.
+</para>
+
+<para>
+To add a DCP, choose <guilabel>Add DCP...</guilabel> and choose the
+DCP's directory from the selector.
 </para>
 
 <para>
@@ -1176,7 +1162,7 @@ shows the mapping of a 5.1 source into a 5.1 DCP.
   <title>Other controls</title>
 
 <para>
-The <guilabel>Refer to existing DCP</guilabel> checkbox isonly
+The <guilabel>Refer to existing DCP</guilabel> checkbox is only
 applicable if the selected content is an existing DCP.  It allows you
 to get the audio content from the existing DCP by referencing it
 (rather than copying).  See <xref linkend="sec-overlay"/>.
@@ -1264,7 +1250,7 @@ DCP-o-matic can either:
 <itemizedlist>
   <listitem>Extract subtitles that are embedded in video files, or</listitem>
   <listitem>Use subtitles from SubRip (<code>.srt</code>), SubStation
-  Alpha (<code>.ssa</code>) or DCP XML files.  You may find the great
+  Alpha (<code>.ssa</code> or <code>.ass</code>) or DCP XML files.  You may find the great
   free program <ulink
   url="http://www.nikse.dk/subtitleedit/">Subtitle Edit</ulink> useful
   for creating such files.</listitem>
@@ -1577,8 +1563,27 @@ linkend="fig-pipeline3"/>.
 
 </section>
 
+
+<section>
+  <title>Copy and paste settings</title>
+
+<para>
+Once you have set up a piece of content it is possible to copy the
+settings you have applied to another piece of content.  To do this,
+select the content to copy from and choose <guilabel>Copy</guilabel>
+from the <guilabel>Edit</guilabel> menu.  Then select the content to
+copy to and choose <guilabel>Paste</guilabel>.  A dialogue box will
+open to allow you to choose which settings you want to copy.  Clicking
+<guilabel>OK</guilabel> will apply the copied settings.
+</para>
+
+</section>
+
+
 </chapter>
 
+
+<!-- ============================================================== -->
 <chapter xml:id="ch-dcp" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
 <title>DCP settings</title>
 
@@ -2283,6 +2288,30 @@ opening <guilabel>Preferences</guilabel> and clicking <guilabel>Export
 DCP decryption certificate...</guilabel> in the <guilabel>Keys</guilabel>
 tab.
 
+</para>
+
+</section>
+
+<section>
+<title>Encryption keys</title>
+
+<para>
+  You must be careful when using encryption not to lose important keys.
+</para>
+
+<para>
+If you are making KDMs from a DCP-o-matic film you
+<emphasis>must</emphasis> ensure that you have a backup of the
+<code>metadata.xml</code> file from the project, as well as the DCP
+itself.
+</para>
+
+<para>
+If you are using a DKDM you <emphasis>must</emphasis> ensure that you
+have a backup of DCP-o-matic's <code>config.xml</code> file, since it
+contains the only key which can decrypt the DKDM.  The
+<code>config.xml</code> file location depends on your operating
+system; possible locations are listed in <xref linkend="ch-config"/>
 </para>
 
 </section>
@@ -3021,11 +3050,12 @@ to the cinema which is showing your DCP.
   </para>
 
   <para>
-    There are two command-line tools in DCP-o-matic.
+    There are three command-line tools in DCP-o-matic.
     <code>dcpomatic2_create</code> creates film directories, with the
     associated metadata, from a list of content files.  Then
     <code>dcpomatic2_cli</code> runs the transcode process on these
-    film directories.
+    film directories.  Finally, <code>dcpomatic2_kdm_cli</code> can be
+    used to create KDMs.
   </para>
 
   <para>
@@ -3128,6 +3158,35 @@ to the cinema which is showing your DCP.
     <para>
       <code>dcpomatic2_cli my_film</code>
     </para>
+  </section>
+
+  <section>
+    <title><code>dcpomatic2_kdm_cli</code></title>
+
+    <para>
+      The syntax for <code>dcpomatic2_kdm_cli</code> is:
+    </para>
+
+    <para>
+      <code>dcpomatic2_kdm_cli [OPTION] &lt;FILM|CPL-ID&gt;</code>
+    </para>
+
+    <para>
+      <itemizedlist>
+	<listitem><code>-o</code>, <code>--output</code> &#8212; output file or directory</listitem>
+	<listitem><code>-f</code>, <code>--valid-from</code> &#8212; valid from time (in local time zone of the cinema) (e.g. "2013-09-28 01:41:51") or "now"</listitem>
+	<listitem><code>-t</code>, <code>--valid-to</code> &#8212; valid to time (in local time zone of the cinema) (e.g. "2014-09-28 01:41:51")</listitem>
+	<listitem><code>-d</code>, <code>--valid-duration</code> &#8212; valid duration (e.g. "1 day", "4 hours", "2 weeks")</listitem>
+	<listitem><code>--formulation</code> &#8212; modified-transitional-1, dci-any or dci-specific [default modified-transitional-1]</listitem>
+	<listitem><code>-z</code>, <code>--zip</code> &#8212; ZIP each cinema's KDMs into its own file</listitem>
+	<listitem><code>-v</code>, <code>--verbose</code> &#8212; be verbose</listitem>
+	<listitem><code>-c</code>, <code>--cinema</code> &#8212; specify a cinema, either by name or email address</listitem>
+	<listitem><code>--certificate</code> &#8212; file containing projector certificate</listitem>
+	<listitem><code>--cinemas</code> &#8212; list known cinemas from the DCP-o-matic settings</listitem>
+	<listitem><code>--dkdm-cpls</code> &#8212; list CPLs for which DCP-o-matic has DKDMs</listitem>
+      </itemizedlist>
+    </para>
+
   </section>
 </chapter>
 
@@ -3318,7 +3377,7 @@ The full details of OV and VF files are discussed in <xref linkend="sec-overlay"
 </chapter>
 
 <!-- ============================================================== -->
-<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<chapter xml:id="ch-config" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
 <title>Configuration files</title>
 
 <para>Most of DCP-o-matic's configuration is stored in an XML file called <code>config.xml</code>.  This is stored in different places depending on your operating system:</para>
