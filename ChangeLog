@@ -2,6 +2,10 @@
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.
 
+	* Version 2.11.38 released.
+
+2018-01-07  Carl Hetherington  <cth@carlh.net>
+
 	* Make certificate re-creation cancellable and default nags
 	to not going away (#1158).
 
