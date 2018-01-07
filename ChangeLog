@@ -1,5 +1,7 @@
 2018-01-07  Carl Hetherington  <cth@carlh.net>
 
+	* Updated nl_NL translation from Rob van Nieuwkerk.
+
 	* Make certificate re-creation cancellable and default nags
 	to not going away (#1158).
 

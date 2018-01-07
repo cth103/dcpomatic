@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-06 19:06+0000\n"
-"PO-Revision-Date: 2018-01-06 01:46+0100\n"
+"PO-Revision-Date: 2018-01-07 03:00+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -33,18 +33,16 @@ msgid "&Add Film...\tCtrl-A"
 msgstr "&Voeg film toe...\tCtrl-A"
 
 #: src/tools/dcpomatic_player.cc:176
-#, fuzzy
 msgid "&Add KDM..."
-msgstr "Voeg film toe..."
+msgstr "&Voeg KDM toe..."
 
 #: src/tools/dcpomatic_player.cc:175
-#, fuzzy
 msgid "&Add OV..."
-msgstr "Voeg film toe..."
+msgstr "&Voeg OV toe..."
 
 #: src/tools/dcpomatic_player.cc:178
 msgid "&Close"
-msgstr ""
+msgstr "&Sluit"
 
 #: src/tools/dcpomatic.cc:1097
 msgid "&Content"
@@ -109,7 +107,7 @@ msgstr "&Tools"
 
 #: src/tools/dcpomatic_player.cc:215
 msgid "&View"
-msgstr ""
+msgstr "&Toon"
 
 #: src/tools/dcpomatic.cc:1091 src/tools/dcpomatic_batch.cc:81
 #: src/tools/dcpomatic_kdm.cc:245 src/tools/dcpomatic_player.cc:207
@@ -198,11 +196,11 @@ msgstr "Kan Batch Converter niet vinden."
 
 #: src/tools/dcpomatic_player.cc:471
 msgid "Could not load DCP %1 (%2)"
-msgstr ""
+msgstr "Kan DCP %1 niet laden (%2)"
 
 #: src/tools/dcpomatic_player.cc:288
 msgid "Could not load KDM (%s)"
-msgstr ""
+msgstr "Kan KDM niet laden (%s)"
 
 #: src/tools/dcpomatic.cc:1288 src/tools/dcpomatic_batch.cc:342
 msgid "Could not load film %1 (%2)"
@@ -282,9 +280,8 @@ msgstr "DCP-o-matic KDM Creator"
 
 #: src/tools/dcpomatic_player.cc:78 src/tools/dcpomatic_player.cc:143
 #: src/tools/dcpomatic_player.cc:421
-#, fuzzy
 msgid "DCP-o-matic Player"
-msgstr "DCP-o-matic"
+msgstr "DCP-o-matic Player"
 
 #: src/tools/dcpomatic_kdm.cc:145
 msgid "DKDM"
@@ -292,15 +289,15 @@ msgstr "DKDM"
 
 #: src/tools/dcpomatic_player.cc:196
 msgid "Decode at full resolution"
-msgstr ""
+msgstr "Decodeer op volledige resolutie"
 
 #: src/tools/dcpomatic_player.cc:197
 msgid "Decode at half resolution"
-msgstr ""
+msgstr "Decodeer op halve resolutie"
 
 #: src/tools/dcpomatic_player.cc:198
 msgid "Decode at quarter resolution"
-msgstr ""
+msgstr "Decodeer op kwart resolutie"
 
 #: src/tools/dcpomatic.cc:617
 #, c-format
@@ -365,7 +362,7 @@ msgstr "Tijdvenster"
 
 #: src/tools/dcpomatic_player.cc:143
 msgid "Loading DCP"
-msgstr ""
+msgstr "Laden DCP"
 
 #: src/tools/dcpomatic.cc:1070
 msgid "Make &KDMs...\tCtrl-K"
@@ -451,23 +448,20 @@ msgid "Screens"
 msgstr "Schermen"
 
 #: src/tools/dcpomatic_player.cc:227
-#, fuzzy
 msgid "Select DCP to open"
-msgstr "Kies film om te openen"
+msgstr "Selecteer DCP om te openen"
 
 #: src/tools/dcpomatic_player.cc:252
-#, fuzzy
 msgid "Select DCP to open as OV"
-msgstr "Kies film om te openen"
+msgstr "Selecteer DCP om te openen als OV"
 
 #: src/tools/dcpomatic_kdm.cc:405
 msgid "Select DKDM file"
 msgstr "Selecteer DKDM-bestand"
 
 #: src/tools/dcpomatic_player.cc:280
-#, fuzzy
 msgid "Select KDM"
-msgstr "Selecteer DKDM-bestand"
+msgstr "Selecteer KDM"
 
 #: src/tools/dcpomatic.cc:437 src/tools/dcpomatic_batch.cc:217
 msgid "Select film to open"
@@ -479,7 +473,7 @@ msgstr "Verzend KDM e-mails"
 
 #: src/tools/dcpomatic_player.cc:195
 msgid "Set decode resolution to match display"
-msgstr ""
+msgstr "Pas decodeer-resolutie aan aan weergave"
 
 #: src/tools/dcpomatic.cc:587
 #, c-format
