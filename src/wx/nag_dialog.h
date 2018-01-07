@@ -26,10 +26,10 @@ class wxRichTextCtrl;
 class NagDialog : public wxDialog
 {
 public:
-	static void maybe_nag (wxWindow* parent, Config::Nag nag, wxString message);
+	static bool maybe_nag (wxWindow* parent, Config::Nag nag, wxString message, bool can_cancel = false);
 
 private:
-	NagDialog (wxWindow* parent, Config::Nag nag, wxString message);
+	NagDialog (wxWindow* parent, Config::Nag nag, wxString message, bool can_cancel);
 	void shut_up (wxCommandEvent& ev);
 
 	wxStaticText* _text;

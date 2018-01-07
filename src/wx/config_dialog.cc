@@ -32,10 +32,10 @@ using boost::shared_ptr;
 using boost::function;
 
 static
-void
+bool
 do_nothing ()
 {
-
+	return false;
 }
 
 Page::Page (wxSize panel_size, int border)
@@ -329,7 +329,7 @@ CertificateChainEditor::CertificateChainEditor (
 	int border,
 	function<void (shared_ptr<dcp::CertificateChain>)> set,
 	function<shared_ptr<const dcp::CertificateChain> (void)> get,
-	function<void (void)> nag_remake
+	function<bool (void)> nag_remake
 	)
 	: wxDialog (parent, wxID_ANY, title)
 	, _set (set)
@@ -604,7 +604,10 @@ CertificateChainEditor::remake_certificates ()
 		intermediate_common_name = i->subject_common_name ();
 	}
 
-	_nag_remake ();
+	if (_nag_remake()) {
+		/* Cancel was clicked */
+		return;
+	}
 
 	MakeChainDialog* d = new MakeChainDialog (
 		this,
@@ -847,13 +850,14 @@ KeysPage::import_decryption_chain_and_key ()
 	d->Destroy ();
 }
 
-void
+bool
 KeysPage::nag_remake_decryption_chain ()
 {
-	NagDialog::maybe_nag (
+	return NagDialog::maybe_nag (
 		_panel,
 		Config::NAG_REMAKE_DECRYPTION_CHAIN,
-		_("If you continue with this operation you will no longer be able to use any DKDMs that you have created.  Also, any KDMs that have been sent to you will become useless.  Proceed with caution!")
+		_("If you continue with this operation you will no longer be able to use any DKDMs that you have created.  Also, any KDMs that have been sent to you will become useless.  Proceed with caution!"),
+		true
 		);
 }
 

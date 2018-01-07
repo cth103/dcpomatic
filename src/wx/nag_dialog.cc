@@ -25,7 +25,7 @@
 
 using boost::shared_ptr;
 
-NagDialog::NagDialog (wxWindow* parent, Config::Nag nag, wxString message)
+NagDialog::NagDialog (wxWindow* parent, Config::Nag nag, wxString message, bool can_cancel)
 	: wxDialog (parent, wxID_ANY, _("Important notice"))
 	, _nag (nag)
 {
@@ -34,15 +34,17 @@ NagDialog::NagDialog (wxWindow* parent, Config::Nag nag, wxString message)
 	sizer->Add (_text, 1, wxEXPAND | wxALL, 6);
 
 	wxCheckBox* b = new wxCheckBox (this, wxID_ANY, _("Don't show this message again"));
-	b->SetValue (true);
-	Config::instance()->set_nagged (_nag, true);
 	sizer->Add (b, 0, wxALL, 6);
 	b->Bind (wxEVT_CHECKBOX, bind (&NagDialog::shut_up, this, _1));
 
-	wxStdDialogButtonSizer* buttons = CreateStdDialogButtonSizer (0);
-	sizer->Add (CreateSeparatedSizer(buttons), wxSizerFlags().Expand().DoubleBorder());
-	buttons->SetAffirmativeButton (new wxButton (this, wxID_OK));
-	buttons->Realize ();
+	int flags = wxOK;
+	if (can_cancel) {
+		flags |= wxCANCEL;
+	}
+	wxSizer* buttons = CreateSeparatedButtonSizer (flags);
+	if (buttons) {
+		sizer->Add(buttons, wxSizerFlags().Expand().DoubleBorder());
+	}
 
 	SetSizer (sizer);
 	sizer->Layout ();
@@ -57,12 +59,17 @@ NagDialog::shut_up (wxCommandEvent& ev)
 	Config::instance()->set_nagged (_nag, ev.IsChecked());
 }
 
-void
-NagDialog::maybe_nag (wxWindow* parent, Config::Nag nag, wxString message)
+/** @return true if the user clicked Cancel */
+bool
+NagDialog::maybe_nag (wxWindow* parent, Config::Nag nag, wxString message, bool can_cancel)
 {
-	if (!Config::instance()->nagged (nag)) {
-		NagDialog* d = new NagDialog (parent, nag, message);
-		d->ShowModal ();
-		d->Destroy ();
+	if (Config::instance()->nagged(nag)) {
+		return false;
 	}
+
+	NagDialog* d = new NagDialog (parent, nag, message, can_cancel);
+	int const r = d->ShowModal();
+	d->Destroy ();
+
+	return r == wxID_CANCEL;
 }
