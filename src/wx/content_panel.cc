@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -39,6 +39,8 @@
 #include "lib/config.h"
 #include "lib/log.h"
 #include "lib/compose.hpp"
+#include "lib/text_subtitle_content.h"
+#include "lib/text_subtitle.h"
 #include <wx/wx.h>
 #include <wx/notebook.h>
 #include <wx/listctrl.h>
@@ -254,8 +256,19 @@ ContentPanel::selection_changed ()
 
 	optional<DCPTime> go_to;
 	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
-		if (!go_to || i->position() < go_to.get()) {
-			go_to = i->position ();
+		DCPTime p;
+		p = i->position();
+		if (dynamic_pointer_cast<TextSubtitleContent>(i)) {
+			/* Rather special case; if we select a text subtitle file jump to its
+			   first subtitle.
+			*/
+			TextSubtitle ts (dynamic_pointer_cast<TextSubtitleContent>(i));
+			if (ts.first()) {
+				p += DCPTime(ts.first().get(), _film->active_frame_rate_change(i->position()));
+			}
+		}
+		if (!go_to || p < go_to.get()) {
+			go_to = p;
 		}
 	}
 

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -36,6 +36,7 @@ using std::cout;
 using std::string;
 using boost::shared_ptr;
 using boost::scoped_array;
+using boost::optional;
 using dcp::Data;
 
 TextSubtitle::TextSubtitle (shared_ptr<const TextSubtitleContent> content)
@@ -83,6 +84,17 @@ TextSubtitle::TextSubtitle (shared_ptr<const TextSubtitleContent> content)
 	}
 
 	delete reader;
+}
+
+/** @return time of first subtitle, if there is one */
+optional<ContentTime>
+TextSubtitle::first () const
+{
+	if (_subtitles.empty()) {
+		return optional<ContentTime>();
+	}
+
+	return ContentTime::from_seconds(_subtitles[0].from.all_as_seconds());
 }
 
 ContentTime

@@ -1,3 +1,8 @@
+2018-01-08  Carl Hetherington  <cth@carlh.net>
+
+	* When doing jump-to-selected, jump to the first subtitle
+	in any text subtitle content (#1160).
+
 2018-01-07  Carl Hetherington  <cth@carlh.net>
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.
