@@ -456,6 +456,9 @@ DCPContent::can_reference (function<shared_ptr<ContentPart> (shared_ptr<const Co
 	} catch (dcp::DCPReadError) {
 		/* We couldn't read the DCP; it's probably missing */
 		return false;
+	} catch (dcp::KDMDecryptionError) {
+		/* We have an incorrect KDM */
+		return false;
 	}
 
 	/* fr must contain reels().  It can also contain other reels, but it must at
@@ -497,6 +500,9 @@ DCPContent::can_reference_audio (list<string>& why_not) const
 	} catch (dcp::DCPReadError) {
 		/* We couldn't read the DCP, so it's probably missing */
 		return false;
+	} catch (dcp::KDMDecryptionError) {
+		/* We have an incorrect KDM */
+		return false;
 	}
 
         BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder->reels()) {
@@ -517,6 +523,9 @@ DCPContent::can_reference_subtitle (list<string>& why_not) const
 		decoder.reset (new DCPDecoder (shared_from_this(), film()->log(), false));
 	} catch (dcp::DCPReadError) {
 		/* We couldn't read the DCP, so it's probably missing */
+		return false;
+	} catch (dcp::KDMDecryptionError) {
+		/* We have an incorrect KDM */
 		return false;
 	}
 
