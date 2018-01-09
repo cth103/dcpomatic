@@ -1,3 +1,7 @@
+2018-01-09  Carl Hetherington  <cth@carlh.net>
+
+	* Fix appearance controls for subtitles from DCP files (#1162).
+
 2018-01-08  Carl Hetherington  <cth@carlh.net>
 
 	* When doing jump-to-selected, jump to the first subtitle

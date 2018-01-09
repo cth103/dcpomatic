@@ -66,14 +66,25 @@ SubtitleDecoder::emit_image_start (ContentTime from, shared_ptr<Image> image, dc
 void
 SubtitleDecoder::emit_text_start (ContentTime from, list<dcp::SubtitleString> s)
 {
-	/* We must escape < and > in strings, otherwise they might confuse our subtitle
-	   renderer (which uses some HTML-esque markup to do bold/italic etc.)
-	*/
 	BOOST_FOREACH (dcp::SubtitleString& i, s) {
+		/* We must escape < and > in strings, otherwise they might confuse our subtitle
+		   renderer (which uses some HTML-esque markup to do bold/italic etc.)
+		*/
 		string t = i.text ();
 		boost::algorithm::replace_all (t, "<", "&lt;");
 		boost::algorithm::replace_all (t, ">", "&gt;");
 		i.set_text (t);
+
+		/* Force our configured appearance */
+		i.set_colour (content()->colour());
+		i.set_effect_colour (content()->effect_colour());
+		if (content()->outline()) {
+			i.set_effect (dcp::BORDER);
+		} else if (content()->shadow()) {
+			i.set_effect (dcp::SHADOW);
+		}
+		i.set_fade_up_time (dcp::Time(content()->fade_in().seconds(), 1000));
+		i.set_fade_down_time (dcp::Time(content()->fade_out().seconds(), 1000));
 	}
 
 	TextStart (ContentTextSubtitle (from, s));
@@ -155,13 +166,6 @@ SubtitleDecoder::emit_text_start (ContentTime from, sub::Subtitle const & subtit
 				}
 			}
 
-			dcp::Effect effect = dcp::NONE;
-			if (content()->outline()) {
-				effect = dcp::BORDER;
-			} else if (content()->shadow()) {
-				effect = dcp::SHADOW;
-			}
-
 			dcp::HAlign h_align;
 			switch (i.horizontal_position.reference) {
 			case sub::LEFT_OF_SCREEN:
@@ -178,14 +182,18 @@ SubtitleDecoder::emit_text_start (ContentTime from, sub::Subtitle const & subtit
 				break;
 			}
 
+			/* The idea here (rightly or wrongly) is that we set the appearance based on the
+			   values in the libsub objects, and these are overridden with values from the
+			   content by the other emit_text_start() above.
+			*/
+
 			out.push_back (
 				dcp::SubtitleString (
 					string(TEXT_FONT_ID),
 					j.italic,
 					j.bold,
 					j.underline,
-					/* force the colour to whatever is configured */
-					content()->colour(),
+					j.colour.dcp(),
 					j.font_size.points (72 * 11),
 					1.0,
 					dcp::Time (from.seconds(), 1000),
@@ -197,10 +205,10 @@ SubtitleDecoder::emit_text_start (ContentTime from, sub::Subtitle const & subtit
 					v_align,
 					dcp::DIRECTION_LTR,
 					j.text,
-					effect,
-					content()->effect_colour(),
-					dcp::Time (content()->fade_in().seconds(), 1000),
-					dcp::Time (content()->fade_out().seconds(), 1000)
+					dcp::NONE,
+					j.effect_colour.get_value_or(sub::Colour(0, 0, 0)).dcp(),
+					dcp::Time (subtitle.fade_up.get_value_or(sub::Time()).all_as_seconds(), 1000),
+					dcp::Time (subtitle.fade_down.get_value_or(sub::Time()).all_as_seconds(), 1000)
 					)
 				);
 		}
