@@ -244,11 +244,14 @@ render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp:
 	DCPTime const fade_in_end = fade_in_start + DCPTime::from_seconds (subtitles.front().fade_up_time().as_seconds ());
 	DCPTime const fade_out_end =  DCPTime::from_seconds (subtitles.front().out().as_seconds ());
 	DCPTime const fade_out_start = fade_out_end - DCPTime::from_seconds (subtitles.front().fade_down_time().as_seconds ());
+
 	if (fade_in_start <= time && time <= fade_in_end && fade_in_start != fade_in_end) {
-		fade_factor = DCPTime(time - fade_in_start).seconds() / DCPTime(fade_in_end - fade_in_start).seconds();
-	} else if (fade_out_start <= time && time <= fade_out_end && fade_out_start != fade_out_end) {
-		fade_factor = 1 - DCPTime(time - fade_out_start).seconds() / DCPTime(fade_out_end - fade_out_start).seconds();
-	} else if (time < fade_in_start || time > fade_out_end) {
+		fade_factor *= DCPTime(time - fade_in_start).seconds() / DCPTime(fade_in_end - fade_in_start).seconds();
+	}
+	if (fade_out_start <= time && time <= fade_out_end && fade_out_start != fade_out_end) {
+		fade_factor *= 1 - DCPTime(time - fade_out_start).seconds() / DCPTime(fade_out_end - fade_out_start).seconds();
+	}
+	if (time < fade_in_start || time > fade_out_end) {
 		fade_factor = 0;
 	}
 
