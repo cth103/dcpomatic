@@ -207,8 +207,14 @@ SubtitleDecoder::emit_text_start (ContentTime from, sub::Subtitle const & subtit
 					j.text,
 					dcp::NONE,
 					j.effect_colour.get_value_or(sub::Colour(0, 0, 0)).dcp(),
-					dcp::Time (subtitle.fade_up.get_value_or(sub::Time()).all_as_seconds(), 1000),
-					dcp::Time (subtitle.fade_down.get_value_or(sub::Time()).all_as_seconds(), 1000)
+					/* Hack: we should use subtitle.fade_up and subtitle.fade_down here
+					   but the times of these often don't have a frame rate associated
+					   with them so the sub::Time won't convert them to milliseconds without
+					   throwing an exception.  Since only DCP subs fill those in (and we don't
+					   use libsub for DCP subs) we can cheat by just putting 0 in here.
+					*/
+					dcp::Time (),
+					dcp::Time ()
 					)
 				);
 		}
