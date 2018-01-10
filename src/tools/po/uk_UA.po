@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-06 19:06+0000\n"
+"POT-Creation-Date: 2018-01-10 09:55+0000\n"
 "PO-Revision-Date: 2017-01-18 12:18+0200\n"
 "Last-Translator: Igor Voytovich <dcp@dualvfilms.com>\n"
 "Language-Team: Ukrainian\n"
@@ -132,7 +132,7 @@ msgstr "Додати проект..."
 msgid "Add..."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1360 src/tools/dcpomatic_kdm.cc:610
+#: src/tools/dcpomatic.cc:1360 src/tools/dcpomatic_kdm.cc:619
 #: src/tools/dcpomatic_player.cc:512
 #, c-format
 msgid ""
@@ -142,7 +142,7 @@ msgstr ""
 "Виникла помилка: %s (%s)\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:1369 src/tools/dcpomatic_kdm.cc:619
+#: src/tools/dcpomatic.cc:1369 src/tools/dcpomatic_kdm.cc:628
 #: src/tools/dcpomatic_player.cc:521
 #, c-format
 msgid ""
@@ -157,8 +157,8 @@ msgid "An unknown error has occurred with the DCP-o-matic server."
 msgstr "В сервері кодування DCP-o-matic виникла невідома помилка."
 
 #: src/tools/dcpomatic.cc:740 src/tools/dcpomatic.cc:1374
-#: src/tools/dcpomatic_kdm.cc:361 src/tools/dcpomatic_kdm.cc:624
-#: src/tools/dcpomatic_kdm.cc:633 src/tools/dcpomatic_player.cc:526
+#: src/tools/dcpomatic_kdm.cc:361 src/tools/dcpomatic_kdm.cc:633
+#: src/tools/dcpomatic_kdm.cc:642 src/tools/dcpomatic_player.cc:526
 msgid "An unknown exception occurred."
 msgstr "Виникла невідома помилка."
 
@@ -191,6 +191,12 @@ msgstr "Закрити без збереження проекту"
 msgid "Copy settings\tCtrl-C"
 msgstr ""
 
+#: src/tools/dcpomatic_kdm.cc:435
+msgid ""
+"Could not decrypt the DKDM.  Perhaps it was not created with the correct "
+"certificate."
+msgstr ""
+
 #: src/tools/dcpomatic.cc:699
 msgid "Could not find batch converter."
 msgstr "Не вдалося знайти пакетний конвертер."
@@ -200,6 +206,7 @@ msgid "Could not load DCP %1 (%2)"
 msgstr ""
 
 #: src/tools/dcpomatic_player.cc:288
+#, c-format
 msgid "Could not load KDM (%s)"
 msgstr ""
 
@@ -217,7 +224,7 @@ msgstr "Не вдалося зробити DCP: %s"
 msgid "Could not open film at %s (%s)"
 msgstr "Не вдалося відкрити проект на %s (%s)"
 
-#: src/tools/dcpomatic_kdm.cc:416
+#: src/tools/dcpomatic_kdm.cc:427
 #, c-format
 msgid ""
 "Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM "
@@ -267,7 +274,7 @@ msgstr "Пакетний конвертер DCP-o-matic"
 msgid "DCP-o-matic Encode Server"
 msgstr "DCP-o-matic Сервер Кодування"
 
-#: src/tools/dcpomatic_kdm.cc:546 src/tools/dcpomatic_kdm.cc:582
+#: src/tools/dcpomatic_kdm.cc:555 src/tools/dcpomatic_kdm.cc:591
 msgid "DCP-o-matic KDM Creator"
 msgstr "DCP-o-matic Створювач Ключів"
 
@@ -504,7 +511,7 @@ msgid "The DCP-o-matic download server could not be contacted."
 msgstr "DCP-o-matic не вдалося зв'язатися із сервером завантаження."
 
 #: src/tools/dcpomatic.cc:1407 src/tools/dcpomatic_batch.cc:376
-#: src/tools/dcpomatic_kdm.cc:643 src/tools/dcpomatic_server.cc:333
+#: src/tools/dcpomatic_kdm.cc:652 src/tools/dcpomatic_server.cc:333
 #: src/tools/dcpomatic_player.cc:550
 msgid ""
 "The existing configuration failed to load.  Default values will be used "

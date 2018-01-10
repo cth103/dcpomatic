@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-06 19:06+0000\n"
+"POT-Creation-Date: 2018-01-10 09:55+0000\n"
 "PO-Revision-Date: 2016-06-20 01:14-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -1098,11 +1098,11 @@ msgid ""
 "existing DCP' checkboxes."
 msgstr ""
 
-#: src/lib/dcp_content.cc:504
+#: src/lib/dcp_content.cc:510
 msgid "The DCP does not have sound in all reels."
 msgstr "O DCP não tem som em todos os rolos"
 
-#: src/lib/dcp_content.cc:525
+#: src/lib/dcp_content.cc:534
 msgid "The DCP does not have subtitles in all reels."
 msgstr "O DCP não tem legendas em todos os rolos"
 
@@ -1151,7 +1151,7 @@ msgstr "O filme está configurado como Interop e este DCP é SMPTE"
 msgid "The film is set to SMPTE and this DCP is Interop."
 msgstr "O filme está configurado como SMPTE e este DCP é Interop"
 
-#: src/lib/dcp_content.cc:466
+#: src/lib/dcp_content.cc:469
 #, fuzzy
 msgid ""
 "The reel lengths in the film differ from those in the DCP; set the reel mode "
@@ -1160,19 +1160,19 @@ msgstr ""
 "Duração de rolos no filme diferem da duração no DCP; coloque o modo 'Rolos' "
 "em 'Dividir por arquivo de vídeo'."
 
-#: src/lib/dcp_content.cc:484
+#: src/lib/dcp_content.cc:487
 msgid "The video frame size in the film differs from that in the DCP."
 msgstr ""
 
-#: src/lib/dcp_content.cc:509
+#: src/lib/dcp_content.cc:515
 msgid "There is other audio content overlapping this DCP; remove it."
 msgstr "Há outros conteúdos de áudio sobrepostos neste DCP. Remova-os."
 
-#: src/lib/dcp_content.cc:530
+#: src/lib/dcp_content.cc:539
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr "Há outros conteúdos de legenda sobrepostos neste DCP. Remova-os."
 
-#: src/lib/dcp_content.cc:488
+#: src/lib/dcp_content.cc:491
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr "Há outros conteúdos de vídeo sobrepostos neste DCP. Remova-os."
 

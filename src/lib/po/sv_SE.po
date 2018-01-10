@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-06 19:06+0000\n"
+"POT-Creation-Date: 2018-01-10 09:55+0000\n"
 "PO-Revision-Date: 2016-10-25 17:57+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -1100,11 +1100,11 @@ msgstr ""
 "Efter denna manöver behöver du också fylla i rätt checkbox under 'Referera "
 "till existerande DCP'."
 
-#: src/lib/dcp_content.cc:504
+#: src/lib/dcp_content.cc:510
 msgid "The DCP does not have sound in all reels."
 msgstr "DCP:n har inte ljud i alla rullar."
 
-#: src/lib/dcp_content.cc:525
+#: src/lib/dcp_content.cc:534
 msgid "The DCP does not have subtitles in all reels."
 msgstr "DCP:n har inte undertexter i alla rullar."
 
@@ -1153,7 +1153,7 @@ msgstr "Filmen är av typen Interop och denna DCP är SMPTE."
 msgid "The film is set to SMPTE and this DCP is Interop."
 msgstr "Filmen är av typen SMPTE och denna DCP är Interop."
 
-#: src/lib/dcp_content.cc:466
+#: src/lib/dcp_content.cc:469
 msgid ""
 "The reel lengths in the film differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
@@ -1161,19 +1161,19 @@ msgstr ""
 "Rull-längder i filmen skiljer sig från DCP:n; sätt rull-läget till 'dela upp "
 "enligt videoinnehåll'."
 
-#: src/lib/dcp_content.cc:484
+#: src/lib/dcp_content.cc:487
 msgid "The video frame size in the film differs from that in the DCP."
 msgstr "Bildstorleken i denna film skiljer sig från DCP:ns."
 
-#: src/lib/dcp_content.cc:509
+#: src/lib/dcp_content.cc:515
 msgid "There is other audio content overlapping this DCP; remove it."
 msgstr "Det finns annat audioinnehåll som överlappar denna DCP; ta bort det."
 
-#: src/lib/dcp_content.cc:530
+#: src/lib/dcp_content.cc:539
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr "Det finns annan undertext som överlappar denna DCP; ta bort den."
 
-#: src/lib/dcp_content.cc:488
+#: src/lib/dcp_content.cc:491
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr "Det finns annat videoinnehåll som överlappar denna DCP; ta bort det."
 

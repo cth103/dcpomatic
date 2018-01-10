@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-06 19:06+0000\n"
+"POT-Creation-Date: 2018-01-10 09:55+0000\n"
 "PO-Revision-Date: 2017-10-09 11:16+0200\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -1084,11 +1084,11 @@ msgstr ""
 "type' na 'rozdělit podle video obsahu' vám pravděpodobně pomůže. Poté budete "
 "muset znovu zaškrtnout příslušný checkboxes \"odkaz na existující DCP '."
 
-#: src/lib/dcp_content.cc:504
+#: src/lib/dcp_content.cc:510
 msgid "The DCP does not have sound in all reels."
 msgstr "DCP nemá zvuk ve všech reeloch."
 
-#: src/lib/dcp_content.cc:525
+#: src/lib/dcp_content.cc:534
 msgid "The DCP does not have subtitles in all reels."
 msgstr "DCP nemá titulky ve všech reeloch."
 
@@ -1136,7 +1136,7 @@ msgstr "Film je nastaven na Interop a toto DCP je SMPTE."
 msgid "The film is set to SMPTE and this DCP is Interop."
 msgstr "Film je nastaven na SMPTE a toto DCP je Interop."
 
-#: src/lib/dcp_content.cc:466
+#: src/lib/dcp_content.cc:469
 msgid ""
 "The reel lengths in the film differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
@@ -1144,19 +1144,19 @@ msgstr ""
 "Délka reelu v projektu se liší od těch v DCP; nastavte reel mod na 'rozdělit "
 "podle obsahu videa'."
 
-#: src/lib/dcp_content.cc:484
+#: src/lib/dcp_content.cc:487
 msgid "The video frame size in the film differs from that in the DCP."
 msgstr "Velikost frame size ve filmu se liší od toho v DCP."
 
-#: src/lib/dcp_content.cc:509
+#: src/lib/dcp_content.cc:515
 msgid "There is other audio content overlapping this DCP; remove it."
 msgstr "Už se tu nachází jiný zvuk, který se překrývá s DCP; odstraní ho."
 
-#: src/lib/dcp_content.cc:530
+#: src/lib/dcp_content.cc:539
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr "Už se tu nachází jiné titulky, které se překrývají s DCP; smaže je."
 
-#: src/lib/dcp_content.cc:488
+#: src/lib/dcp_content.cc:491
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr "Už se tu nachází jiné video, které se překrývá s DCP; smaže ho."
 

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-06 19:06+0000\n"
+"POT-Creation-Date: 2018-01-10 09:55+0000\n"
 "PO-Revision-Date: 2017-05-14 22:22+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -1104,11 +1104,11 @@ msgstr ""
 "Сделав это, вам потребуется повторно отметить необходимые чекбоксы "
 "\"ссылаться на\"."
 
-#: src/lib/dcp_content.cc:504
+#: src/lib/dcp_content.cc:510
 msgid "The DCP does not have sound in all reels."
 msgstr "Во всех бобинах данного DCP отсутствует звук."
 
-#: src/lib/dcp_content.cc:525
+#: src/lib/dcp_content.cc:534
 msgid "The DCP does not have subtitles in all reels."
 msgstr "Во всех бобинах данного DCP отсутствуют субтитры."
 
@@ -1156,7 +1156,7 @@ msgstr "Проект установлен в Interop , а этот DCP явля�
 msgid "The film is set to SMPTE and this DCP is Interop."
 msgstr "Проект установлен в SMPTE, а этот DCP является Interop."
 
-#: src/lib/dcp_content.cc:466
+#: src/lib/dcp_content.cc:469
 msgid ""
 "The reel lengths in the film differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
@@ -1164,19 +1164,19 @@ msgstr ""
 "Длительности бобин в проекте отличаются от таковых в DCP; установите режим "
 "бобины \"Разделять по видео-контенту\"."
 
-#: src/lib/dcp_content.cc:484
+#: src/lib/dcp_content.cc:487
 msgid "The video frame size in the film differs from that in the DCP."
 msgstr "Размер кадра видео в проекте отличается от размера видео DCP."
 
-#: src/lib/dcp_content.cc:509
+#: src/lib/dcp_content.cc:515
 msgid "There is other audio content overlapping this DCP; remove it."
 msgstr "Присутствует другое аудио, перекрывающее этот DCP. Уберите его!"
 
-#: src/lib/dcp_content.cc:530
+#: src/lib/dcp_content.cc:539
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr "Присутствуют другие субтитрі, перекрывающие этот DCP. Уберите их!"
 
-#: src/lib/dcp_content.cc:488
+#: src/lib/dcp_content.cc:491
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr "Присутствует другое видео, перекрывающее этот DCP. Уберите его!"
 
