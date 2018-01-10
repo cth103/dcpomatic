@@ -123,7 +123,8 @@ render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp:
 	/* ...and add a bit more for luck */
 	height += target.height / 11;
 
-	shared_ptr<Image> image (new Image (AV_PIX_FMT_RGBA, dcp::Size (target.width, height), false));
+	/* FFmpeg BGRA means first byte blue, second byte green, third byte red, fourth byte alpha */
+	shared_ptr<Image> image (new Image (AV_PIX_FMT_BGRA, dcp::Size (target.width, height), false));
 	image->make_black ();
 
 #ifdef DCPOMATIC_HAVE_FORMAT_STRIDE_FOR_WIDTH
@@ -132,6 +133,7 @@ render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp:
 		Cairo::FORMAT_ARGB32,
 		image->size().width,
 		image->size().height,
+		/* Cairo ARGB32 means first byte blue, second byte green, third byte red, fourth byte alpha */
 		Cairo::ImageSurface::format_stride_for_width (Cairo::FORMAT_ARGB32, image->size().width)
 		);
 #else

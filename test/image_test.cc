@@ -142,13 +142,13 @@ alpha_blend_test_one (AVPixelFormat format, string suffix)
 	shared_ptr<Image> raw = proxy->image();
 	shared_ptr<Image> background = raw->convert_pixel_format (dcp::YUV_TO_RGB_REC709, format, true, false);
 
-	shared_ptr<Image> overlay (new Image (AV_PIX_FMT_RGBA, raw->size(), true));
+	shared_ptr<Image> overlay (new Image (AV_PIX_FMT_BGRA, raw->size(), true));
 	overlay->make_transparent ();
 
 	for (int y = 0; y < 128; ++y) {
 		uint8_t* p = overlay->data()[0] + y * overlay->stride()[0];
 		for (int x = 0; x < 128; ++x) {
-			p[x * 4] = 255;
+			p[x * 4 + 2] = 255;
 			p[x * 4 + 3] = 255;
 		}
 	}
@@ -164,7 +164,7 @@ alpha_blend_test_one (AVPixelFormat format, string suffix)
 	for (int y = 256; y < 384; ++y) {
 		uint8_t* p = overlay->data()[0] + y * overlay->stride()[0];
 		for (int x = 0; x < 128; ++x) {
-			p[x * 4 + 2] = 255;
+			p[x * 4] = 255;
 			p[x * 4 + 3] = 255;
 		}
 	}
