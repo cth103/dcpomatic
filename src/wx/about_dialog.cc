@@ -323,7 +323,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Гуляев Михаил"));
 	supported_by.Add (wxT ("Arrow Media Services"));
 	supported_by.Add (wxT ("Cinéma de la Neuveville"));
-	supported_by.Add (wxT ("Cinetech Landfried GmbH"));
+	supported_by.Add (wxT ("cinetech Landfried GmbH"));
 	supported_by.Add (wxT ("Frechen-Film e.V."));
 	supported_by.Add (wxT ("Mobiles Kino e.V."));
 	supported_by.Add (wxT ("Kino Völkerfreundschaft"));
