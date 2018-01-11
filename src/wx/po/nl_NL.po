@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-10 09:55+0000\n"
-"PO-Revision-Date: 2018-01-06 01:52+0100\n"
+"PO-Revision-Date: 2018-01-11 01:10+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -246,9 +246,8 @@ msgid "Adjust white point to"
 msgstr "Pas witpunt aan naar"
 
 #: src/wx/config_dialog.cc:741 src/wx/config_dialog.cc:756
-#, fuzzy
 msgid "Advanced..."
-msgstr "Voeg toe..."
+msgstr "Geavanceerd..."
 
 #: src/wx/full_config_dialog.cc:960
 msgid "Allow any DCP frame rate"
@@ -508,9 +507,9 @@ msgid "Could not analyse audio."
 msgstr "Kan audio niet analyseren."
 
 #: src/wx/config_dialog.cc:458
-#, fuzzy, c-format
+#, c-format
 msgid "Could not import certificate (%s)"
-msgstr "Kan certificaat niet laden (%s)"
+msgstr "Kan certificaat niet importeren (%s)"
 
 #: src/wx/content_menu.cc:380
 #, c-format
@@ -766,25 +765,16 @@ msgid "Export"
 msgstr "Exporteer"
 
 #: src/wx/config_dialog.cc:733
-#, fuzzy
 msgid "Export KDM decryption certificate..."
-msgstr ""
-"Exporteer KDM-\n"
-"ontsleutelings-certificaat..."
+msgstr "Exporteer KDM-ontsleutelings-certificaat..."
 
 #: src/wx/config_dialog.cc:735
-#, fuzzy
 msgid "Export KDM decryption chain..."
-msgstr ""
-"Exporteer KDM-\n"
-"ontsleutelings-keten..."
+msgstr "Exporteer KDM-ontsleutelings-keten..."
 
 #: src/wx/config_dialog.cc:737
-#, fuzzy
 msgid "Export all KDM decryption settings..."
-msgstr ""
-"Exporteer KDM-\n"
-"ontsleutelings-keten..."
+msgstr "Exporteer alle KDM-ontsleutelings-instellingen..."
 
 #: src/wx/export_dialog.cc:46
 msgid "Export film"
@@ -1004,16 +994,12 @@ msgid "Image X position"
 msgstr "Beeld X-positie"
 
 #: src/wx/config_dialog.cc:739
-#, fuzzy
 msgid "Import all KDM decryption settings..."
-msgstr ""
-"Exporteer KDM-\n"
-"ontsleutelings-keten..."
+msgstr "Importeer alle KDM-ontsleutelings-instellingen..."
 
 #: src/wx/config_dialog.cc:399
-#, fuzzy
 msgid "Import..."
-msgstr "Exporteer..."
+msgstr "Importeer..."
 
 #: src/wx/nag_dialog.cc:29
 msgid "Important notice"
@@ -1054,7 +1040,7 @@ msgstr "Interop"
 
 #: src/wx/config_dialog.cc:847
 msgid "Invalid DCP-o-matic export file"
-msgstr ""
+msgstr "Ongeldig DCP-o-matic export-bestand"
 
 #: src/wx/colour_conversion_editor.cc:205
 msgid "Inverse 2.6 gamma correction on output"
@@ -1515,11 +1501,8 @@ msgid "Re-examine..."
 msgstr "Onderzoek opnieuw..."
 
 #: src/wx/config_dialog.cc:406
-#, fuzzy
 msgid "Re-make certificates and key..."
-msgstr ""
-"Maak certificaten\n"
-"en sleutel opnieuw..."
+msgstr "Maak certificaten en sleutel opnieuw..."
 
 #: src/wx/colour_conversion_editor.cc:110
 msgid "Rec. 601"
@@ -1697,14 +1680,12 @@ msgid "Select Chain File"
 msgstr "Selecteer keten-bestand"
 
 #: src/wx/config_dialog.cc:791
-#, fuzzy
 msgid "Select Export File"
-msgstr "Selecteer sleutel-bestand"
+msgstr "Selecteer export-bestand"
 
 #: src/wx/config_dialog.cc:816
-#, fuzzy
 msgid "Select File To Import"
-msgstr "Selecteer sleutel-bestand"
+msgstr "Selecteer bestand om te importeren"
 
 #: src/wx/content_menu.cc:374
 msgid "Select KDM"
