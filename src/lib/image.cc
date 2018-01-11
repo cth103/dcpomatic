@@ -607,18 +607,19 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		break;
 	}
 	case AV_PIX_FMT_YUV420P10:
-	case AV_PIX_FMT_YUV422P10LE:
 	{
 		shared_ptr<Image> yuv = other->convert_pixel_format (dcp::YUV_TO_RGB_REC709, _pixel_format, false, false);
 		dcp::Size const ts = size();
 		dcp::Size const os = yuv->size();
 		for (int ty = start_ty, oy = start_oy; ty < ts.height && oy < os.height; ++ty, ++oy) {
-			uint16_t* tY = (uint16_t *) (data()[0] + (ty * stride()[0])) + start_tx;
-			uint8_t* tU = data()[1] + (ty * stride()[1]) + start_tx;
-			uint8_t* tV = data()[2] + (ty * stride()[2]) + start_tx;
-			uint16_t* oY = (uint16_t *) (yuv->data()[0] + (oy * yuv->stride()[0])) + start_ox;
-			uint8_t* oU = yuv->data()[1] + (oy * yuv->stride()[1]) + start_ox;
-			uint8_t* oV = yuv->data()[2] + (oy * yuv->stride()[2]) + start_ox;
+			int const hty = ty / 2;
+			int const hoy = oy / 2;
+			uint16_t* tY = ((uint16_t *) (data()[0] + (ty * stride()[0]))) + start_tx;
+			uint16_t* tU = ((uint16_t *) (data()[1] + (hty * stride()[1]))) + start_tx / 2;
+			uint16_t* tV = ((uint16_t *) (data()[2] + (hty * stride()[2]))) + start_tx / 2;
+			uint16_t* oY = ((uint16_t *) (yuv->data()[0] + (oy * yuv->stride()[0]))) + start_ox;
+			uint16_t* oU = ((uint16_t *) (yuv->data()[1] + (hoy * yuv->stride()[1]))) + start_ox / 2;
+			uint16_t* oV = ((uint16_t *) (yuv->data()[2] + (hoy * yuv->stride()[2]))) + start_ox / 2;
 			uint8_t* alpha = other->data()[0] + (oy * other->stride()[0]) + start_ox * 4;
 			for (int tx = start_tx, ox = start_ox; tx < ts.width && ox < os.width; ++tx, ++ox) {
 				float const a = float(alpha[3]) / 255;
@@ -626,11 +627,48 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 				*tU = *oU * a + *tU * (1 - a);
 				*tV = *oV * a + *tV * (1 - a);
 				++tY;
-				++tU;
-				++tV;
 				++oY;
-				++oU;
-				++oV;
+				if (tx % 2) {
+					++tU;
+					++tV;
+				}
+				if (ox % 2) {
+					++oU;
+					++oV;
+				}
+				alpha += 4;
+			}
+		}
+		break;
+	}
+	case AV_PIX_FMT_YUV422P10LE:
+	{
+		shared_ptr<Image> yuv = other->convert_pixel_format (dcp::YUV_TO_RGB_REC709, _pixel_format, false, false);
+		dcp::Size const ts = size();
+		dcp::Size const os = yuv->size();
+		for (int ty = start_ty, oy = start_oy; ty < ts.height && oy < os.height; ++ty, ++oy) {
+			uint16_t* tY = ((uint16_t *) (data()[0] + (ty * stride()[0]))) + start_tx;
+			uint16_t* tU = ((uint16_t *) (data()[1] + (ty * stride()[1]))) + start_tx / 2;
+			uint16_t* tV = ((uint16_t *) (data()[2] + (ty * stride()[2]))) + start_tx / 2;
+			uint16_t* oY = ((uint16_t *) (yuv->data()[0] + (oy * yuv->stride()[0]))) + start_ox;
+			uint16_t* oU = ((uint16_t *) (yuv->data()[1] + (oy * yuv->stride()[1]))) + start_ox / 2;
+			uint16_t* oV = ((uint16_t *) (yuv->data()[2] + (oy * yuv->stride()[2]))) + start_ox / 2;
+			uint8_t* alpha = other->data()[0] + (oy * other->stride()[0]) + start_ox * 4;
+			for (int tx = start_tx, ox = start_ox; tx < ts.width && ox < os.width; ++tx, ++ox) {
+				float const a = float(alpha[3]) / 255;
+				*tY = *oY * a + *tY * (1 - a);
+				*tU = *oU * a + *tU * (1 - a);
+				*tV = *oV * a + *tV * (1 - a);
+				++tY;
+				++oY;
+				if (tx % 2) {
+					++tU;
+					++tV;
+				}
+				if (ox % 2) {
+					++oU;
+					++oV;
+				}
 				alpha += 4;
 			}
 		}

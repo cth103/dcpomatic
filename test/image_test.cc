@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -142,7 +142,7 @@ alpha_blend_test_one (AVPixelFormat format, string suffix)
 	shared_ptr<Image> raw = proxy->image();
 	shared_ptr<Image> background = raw->convert_pixel_format (dcp::YUV_TO_RGB_REC709, format, true, false);
 
-	shared_ptr<Image> overlay (new Image (AV_PIX_FMT_BGRA, raw->size(), true));
+	shared_ptr<Image> overlay (new Image (AV_PIX_FMT_BGRA, dcp::Size(431, 891), true));
 	overlay->make_transparent ();
 
 	for (int y = 0; y < 128; ++y) {
@@ -169,7 +169,7 @@ alpha_blend_test_one (AVPixelFormat format, string suffix)
 		}
 	}
 
-	background->alpha_blend (overlay, Position<int> (0, 0));
+	background->alpha_blend (overlay, Position<int> (13, 17));
 
 	shared_ptr<Image> save = background->convert_pixel_format (dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, false);
 
@@ -185,7 +185,8 @@ BOOST_AUTO_TEST_CASE (alpha_blend_test)
 	alpha_blend_test_one (AV_PIX_FMT_RGBA, "rgba");
 	alpha_blend_test_one (AV_PIX_FMT_RGB48LE, "rgb48le");
 	alpha_blend_test_one (AV_PIX_FMT_YUV420P, "yuv420p");
-	alpha_blend_test_one (AV_PIX_FMT_YUV420P10LE, "yuv420p10le");
+	alpha_blend_test_one (AV_PIX_FMT_YUV420P10, "yuv420p10");
+	alpha_blend_test_one (AV_PIX_FMT_YUV422P10LE, "yuv422p10le");
 }
 
 /** Test merge (list<PositionImage>) with a single image */
