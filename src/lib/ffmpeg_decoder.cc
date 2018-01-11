@@ -595,10 +595,10 @@ FFmpegDecoder::decode_subtitle_packet ()
 void
 FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime from)
 {
-	/* Note RGBA is expressed little-endian, so the first byte in the word is R, second
-	   G, third B, fourth A.
+	/* Note BGRA is expressed little-endian, so the first byte in the word is B, second
+	   G, third R, fourth A.
 	*/
-	shared_ptr<Image> image (new Image (AV_PIX_FMT_RGBA, dcp::Size (rect->w, rect->h), true));
+	shared_ptr<Image> image (new Image (AV_PIX_FMT_BGRA, dcp::Size (rect->w, rect->h), true));
 
 #ifdef DCPOMATIC_HAVE_AVSUBTITLERECT_PICT
 	/* Start of the first line in the subtitle */
@@ -642,8 +642,8 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime 
 		uint32_t* out_line_p = out_p;
 		for (int x = 0; x < rect->w; ++x) {
 			RGBA const p = mapped_palette[*sub_line_p++];
-			/* XXX: this seems to be wrong to me (isn't the output image RGBA?) but it looks right on screen */
-			*out_line_p++ = (p.a << 24) | (p.r << 16) | (p.g << 8) | p.b;
+			/* XXX: this seems to be wrong to me (isn't the output image BGRA?) but it looks right on screen */
+			*out_line_p++ = (p.a << 24) | (p.b << 16) | (p.g << 8) | p.r;
 		}
 #ifdef DCPOMATIC_HAVE_AVSUBTITLERECT_PICT
 		sub_p += rect->pict.linesize[0];
