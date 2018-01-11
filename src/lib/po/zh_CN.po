@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-06 19:06+0000\n"
+"POT-Creation-Date: 2018-01-10 09:55+0000\n"
 "PO-Revision-Date: 2017-07-23 09:54+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -1070,11 +1070,11 @@ msgid ""
 "existing DCP' checkboxes."
 msgstr "DCP中的电影内容太大，请使用 【 分卷模式 】后再试一次。"
 
-#: src/lib/dcp_content.cc:504
+#: src/lib/dcp_content.cc:510
 msgid "The DCP does not have sound in all reels."
 msgstr "该DCP的所有分卷无声音。"
 
-#: src/lib/dcp_content.cc:525
+#: src/lib/dcp_content.cc:534
 msgid "The DCP does not have subtitles in all reels."
 msgstr "该DCP的所有分卷无字幕。"
 
@@ -1120,25 +1120,25 @@ msgstr "打包内容被设置为Interop类型，而实际打包类型是 SMPTE�
 msgid "The film is set to SMPTE and this DCP is Interop."
 msgstr "打包内容被设置为SMPTE类型，而实际打包类型是 Interop。"
 
-#: src/lib/dcp_content.cc:466
+#: src/lib/dcp_content.cc:469
 msgid ""
 "The reel lengths in the film differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
 msgstr "影片时长与DCP中的分卷时长不一致，请设置 【 分卷模式 】 来分割该内容。"
 
-#: src/lib/dcp_content.cc:484
+#: src/lib/dcp_content.cc:487
 msgid "The video frame size in the film differs from that in the DCP."
 msgstr "视频帧大小与DCP不一致。"
 
-#: src/lib/dcp_content.cc:509
+#: src/lib/dcp_content.cc:515
 msgid "There is other audio content overlapping this DCP; remove it."
 msgstr "音频文件重复，请删除重复项"
 
-#: src/lib/dcp_content.cc:530
+#: src/lib/dcp_content.cc:539
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr "字幕文件重复，请删除重复项"
 
-#: src/lib/dcp_content.cc:488
+#: src/lib/dcp_content.cc:491
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr "视频文件重复，请删除重复项"
 

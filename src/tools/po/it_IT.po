@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-06 19:06+0000\n"
+"POT-Creation-Date: 2018-01-10 09:55+0000\n"
 "PO-Revision-Date: 2016-10-28 17:03+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -134,7 +134,7 @@ msgstr "&Aggiungi film..."
 msgid "Add..."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1360 src/tools/dcpomatic_kdm.cc:610
+#: src/tools/dcpomatic.cc:1360 src/tools/dcpomatic_kdm.cc:619
 #: src/tools/dcpomatic_player.cc:512
 #, c-format
 msgid ""
@@ -144,7 +144,7 @@ msgstr ""
 "Si è verificata un'eccezione: %s (%s)\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:1369 src/tools/dcpomatic_kdm.cc:619
+#: src/tools/dcpomatic.cc:1369 src/tools/dcpomatic_kdm.cc:628
 #: src/tools/dcpomatic_player.cc:521
 #, c-format
 msgid ""
@@ -159,8 +159,8 @@ msgid "An unknown error has occurred with the DCP-o-matic server."
 msgstr "Errore sconosciuto sul server di DCP-o-matic."
 
 #: src/tools/dcpomatic.cc:740 src/tools/dcpomatic.cc:1374
-#: src/tools/dcpomatic_kdm.cc:361 src/tools/dcpomatic_kdm.cc:624
-#: src/tools/dcpomatic_kdm.cc:633 src/tools/dcpomatic_player.cc:526
+#: src/tools/dcpomatic_kdm.cc:361 src/tools/dcpomatic_kdm.cc:633
+#: src/tools/dcpomatic_kdm.cc:642 src/tools/dcpomatic_player.cc:526
 msgid "An unknown exception occurred."
 msgstr "Si è verificata un'eccezione sconosciuta."
 
@@ -193,6 +193,12 @@ msgstr "Chiudi senza salvare il film"
 msgid "Copy settings\tCtrl-C"
 msgstr ""
 
+#: src/tools/dcpomatic_kdm.cc:435
+msgid ""
+"Could not decrypt the DKDM.  Perhaps it was not created with the correct "
+"certificate."
+msgstr ""
+
 #: src/tools/dcpomatic.cc:699
 msgid "Could not find batch converter."
 msgstr "Non trovo il convertitore batch."
@@ -202,6 +208,7 @@ msgid "Could not load DCP %1 (%2)"
 msgstr ""
 
 #: src/tools/dcpomatic_player.cc:288
+#, c-format
 msgid "Could not load KDM (%s)"
 msgstr ""
 
@@ -219,7 +226,7 @@ msgstr "Non posso creare DCP: %s"
 msgid "Could not open film at %s (%s)"
 msgstr "Non posso aprire il film a %s (%s)"
 
-#: src/tools/dcpomatic_kdm.cc:416
+#: src/tools/dcpomatic_kdm.cc:427
 #, c-format
 msgid ""
 "Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM "
@@ -269,7 +276,7 @@ msgstr "DCP-o-matic Convertitore batch"
 msgid "DCP-o-matic Encode Server"
 msgstr "DCP-o-matic Server per la Codifica"
 
-#: src/tools/dcpomatic_kdm.cc:546 src/tools/dcpomatic_kdm.cc:582
+#: src/tools/dcpomatic_kdm.cc:555 src/tools/dcpomatic_kdm.cc:591
 msgid "DCP-o-matic KDM Creator"
 msgstr "DCP-o-matic Creazione di KDM"
 
@@ -506,7 +513,7 @@ msgid "The DCP-o-matic download server could not be contacted."
 msgstr "Il download server di DCP-o-matic non può essere contattato."
 
 #: src/tools/dcpomatic.cc:1407 src/tools/dcpomatic_batch.cc:376
-#: src/tools/dcpomatic_kdm.cc:643 src/tools/dcpomatic_server.cc:333
+#: src/tools/dcpomatic_kdm.cc:652 src/tools/dcpomatic_server.cc:333
 #: src/tools/dcpomatic_player.cc:550
 msgid ""
 "The existing configuration failed to load.  Default values will be used "

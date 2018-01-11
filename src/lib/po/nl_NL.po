@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-06 19:06+0000\n"
+"POT-Creation-Date: 2018-01-10 09:55+0000\n"
 "PO-Revision-Date: 2018-01-06 01:40+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -1112,11 +1112,11 @@ msgstr ""
 "Nadat dat gebeurd is moeten de juiste 'Refereer aan bestaande DCP' "
 "selectievakjes weer worden aangevinkt."
 
-#: src/lib/dcp_content.cc:504
+#: src/lib/dcp_content.cc:510
 msgid "The DCP does not have sound in all reels."
 msgstr "De DCP heeft niet audio in alle reels."
 
-#: src/lib/dcp_content.cc:525
+#: src/lib/dcp_content.cc:534
 msgid "The DCP does not have subtitles in all reels."
 msgstr "De DCP heeft niet ondertitels in alle reels."
 
@@ -1164,7 +1164,7 @@ msgstr "De film is ingesteld op Interop en deze DCP is SMPTE."
 msgid "The film is set to SMPTE and this DCP is Interop."
 msgstr "De film is ingesteld op SMPTE en deze DCP is Interop."
 
-#: src/lib/dcp_content.cc:466
+#: src/lib/dcp_content.cc:469
 msgid ""
 "The reel lengths in the film differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
@@ -1172,20 +1172,20 @@ msgstr ""
 "De reel-lengtes in de film en die in de DCP verschillen; stel de reel-mode "
 "in op 'splits per video-content'."
 
-#: src/lib/dcp_content.cc:484
+#: src/lib/dcp_content.cc:487
 msgid "The video frame size in the film differs from that in the DCP."
 msgstr "De video beeldgrootte in de film verschilt van die in de DCP."
 
-#: src/lib/dcp_content.cc:509
+#: src/lib/dcp_content.cc:515
 msgid "There is other audio content overlapping this DCP; remove it."
 msgstr "Er is andere audio-content die overlapt met deze DCP; verwijder deze."
 
-#: src/lib/dcp_content.cc:530
+#: src/lib/dcp_content.cc:539
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr ""
 "Er is andere ondertitel-content die overlapt met deze DCP; verwijder deze."
 
-#: src/lib/dcp_content.cc:488
+#: src/lib/dcp_content.cc:491
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr "Er is andere video-content die overlapt met deze DCP; verwijder deze."
 
