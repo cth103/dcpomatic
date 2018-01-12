@@ -1,5 +1,7 @@
 2018-01-12  Carl Hetherington  <cth@carlh.net>
 
+	* Fix crash when loading an incorrect KDM into the player (#1167).
+
 	* Desensitize appropriate player menu options when there
 	is no loaded DCP (#1167).
 

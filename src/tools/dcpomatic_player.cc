@@ -289,13 +289,12 @@ private:
 			DCPOMATIC_ASSERT (dcp);
 			try {
 				dcp->add_kdm (dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (d->GetPath ()), MAX_KDM_SIZE)));
+				dcp->examine (shared_ptr<Job>());
 			} catch (exception& e) {
 				error_dialog (this, wxString::Format (_("Could not load KDM (%s)"), std_to_wx(e.what())));
 				d->Destroy ();
 				return;
 			}
-
-			dcp->examine (shared_ptr<Job>());
 		}
 
 		d->Destroy ();
