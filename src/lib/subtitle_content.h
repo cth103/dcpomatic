@@ -76,6 +76,7 @@ public:
 	void set_colour (dcp::Colour);
 	void unset_colour ();
 	void set_effect (dcp::Effect);
+	void unset_effect ();
 	void set_effect_colour (dcp::Colour);
 	void unset_effect_colour ();
 	void set_line_spacing (double s);
@@ -128,7 +129,7 @@ public:
 		return _colour;
 	}
 
-	dcp::Effect effect () const {
+	boost::optional<dcp::Effect> effect () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _effect;
 	}
@@ -189,7 +190,7 @@ private:
 	double _y_scale;
 	std::list<boost::shared_ptr<Font> > _fonts;
 	boost::optional<dcp::Colour> _colour;
-	dcp::Effect _effect;
+	boost::optional<dcp::Effect> _effect;
 	boost::optional<dcp::Colour> _effect_colour;
 	/** scaling factor for line spacing; 1 is "standard", < 1 is closer together, > 1 is further apart */
 	double _line_spacing;

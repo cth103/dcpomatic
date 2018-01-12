@@ -64,7 +64,6 @@ SubtitleContent::SubtitleContent (Content* parent)
 	, _y_offset (0)
 	, _x_scale (1)
 	, _y_scale (1)
-	, _effect (dcp::NONE)
 	, _line_spacing (1)
 	, _outline_width (2)
 {
@@ -271,16 +270,18 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 		root->add_child("Green")->add_child_text (raw_convert<string> (_colour->g));
 		root->add_child("Blue")->add_child_text (raw_convert<string> (_colour->b));
 	}
-	switch (_effect) {
-	case dcp::NONE:
-		root->add_child("none");
-		break;
-	case dcp::BORDER:
-		root->add_child("outline");
-		break;
-	case dcp::SHADOW:
-		root->add_child("shadow");
-		break;
+	if (_effect) {
+		switch (*_effect) {
+		case dcp::NONE:
+			root->add_child("none");
+			break;
+		case dcp::BORDER:
+			root->add_child("outline");
+			break;
+		case dcp::SHADOW:
+			root->add_child("shadow");
+			break;
+		}
 	}
 	if (_effect_colour) {
 		root->add_child("EffectRed")->add_child_text (raw_convert<string> (_effect_colour->r));
@@ -368,6 +369,12 @@ void
 SubtitleContent::set_effect (dcp::Effect e)
 {
 	maybe_set (_effect, e, SubtitleContentProperty::EFFECT);
+}
+
+void
+SubtitleContent::unset_effect ()
+{
+	maybe_set (_effect, optional<dcp::Effect>(), SubtitleContentProperty::EFFECT);
 }
 
 void
@@ -463,7 +470,9 @@ SubtitleContent::take_settings_from (shared_ptr<const SubtitleContent> c)
 	} else {
 		unset_colour ();
 	}
-	set_effect (c->_effect);
+	if (c->_effect) {
+		set_effect (*c->_effect);
+	}
 	if (c->_effect_colour) {
 		set_effect_colour (*c->_effect_colour);
 	} else {

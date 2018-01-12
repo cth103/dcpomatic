@@ -44,6 +44,7 @@ private:
 
 	wxCheckBox* _force_colour;
 	wxColourPickerCtrl* _colour;
+	wxCheckBox* _force_effect;
 	wxChoice* _effect;
 	wxCheckBox* _force_effect_colour;
 	wxColourPickerCtrl* _effect_colour;

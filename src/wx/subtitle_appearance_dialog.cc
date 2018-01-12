@@ -69,8 +69,14 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 	++r;
 
 	add_label_to_sizer (_table, this, _("Effect"), true, wxGBPosition (r, 0));
-	_effect = new wxChoice (this, wxID_ANY);
-	_table->Add (_effect, wxGBPosition (r, 1));
+	{
+		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_force_effect = new wxCheckBox (this, wxID_ANY, _("Set to"));
+		s->Add (_force_effect, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, 8);
+		_effect = new wxChoice (this, wxID_ANY);
+		s->Add (_effect, 0, wxALIGN_CENTER_VERTICAL);
+		_table->Add (s, wxGBPosition (r, 1));
+	}
 	++r;
 
 	add_label_to_sizer (_table, this, _("Effect colour"), true, wxGBPosition (r, 0));
@@ -157,16 +163,23 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 		_colour->SetColour (wxColour (255, 255, 255));
 	}
 
-	switch (_content->subtitle->effect()) {
-	case dcp::NONE:
+	optional<dcp::Effect> effect = _content->subtitle->effect();
+	if (effect) {
+		_force_effect->SetValue (true);
+		switch (*effect) {
+		case dcp::NONE:
+			_effect->SetSelection (NONE);
+			break;
+		case dcp::BORDER:
+			_effect->SetSelection (OUTLINE);
+			break;
+		case dcp::SHADOW:
+			_effect->SetSelection (SHADOW);
+			break;
+		}
+	} else {
+		_force_effect->SetValue (false);
 		_effect->SetSelection (NONE);
-		break;
-	case dcp::BORDER:
-		_effect->SetSelection (OUTLINE);
-		break;
-	case dcp::SHADOW:
-		_effect->SetSelection (SHADOW);
-		break;
 	}
 
 	optional<dcp::Colour> effect_colour = _content->subtitle->effect_colour();
@@ -184,6 +197,7 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 
 	_force_colour->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
 	_force_effect_colour->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
+	_force_effect->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
 	_effect->Bind (wxEVT_CHOICE, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
 	_content_connection = _content->Changed.connect (bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
 
@@ -245,6 +259,7 @@ SubtitleAppearanceDialog::setup_sensitivity ()
 {
 	_colour->Enable (_force_colour->GetValue ());
 	_effect_colour->Enable (_force_effect_colour->GetValue ());
+	_effect->Enable (_force_effect->GetValue ());
 
 	bool const can_outline_width = _effect->GetSelection() == OUTLINE && _content->subtitle->burn ();
 	_outline_width->Enable (can_outline_width);
