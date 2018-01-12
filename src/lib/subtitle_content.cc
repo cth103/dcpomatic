@@ -67,7 +67,6 @@ SubtitleContent::SubtitleContent (Content* parent)
 	, _y_scale (1)
 	, _outline (false)
 	, _shadow (false)
-	, _effect_colour (0, 0, 0)
 	, _line_spacing (1)
 	, _outline_width (2)
 {
@@ -137,11 +136,12 @@ SubtitleContent::SubtitleContent (Content* parent, cxml::ConstNodePtr node, int 
 	}
 
 	if (version >= 36) {
-		_effect_colour = dcp::Colour (
-			node->optional_number_child<int>("EffectRed").get_value_or(255),
-			node->optional_number_child<int>("EffectGreen").get_value_or(255),
-			node->optional_number_child<int>("EffectBlue").get_value_or(255)
-			);
+		optional<int> er = node->optional_number_child<int>("EffectRed");
+		optional<int> eg = node->optional_number_child<int>("EffectGreen");
+		optional<int> eb = node->optional_number_child<int>("EffectBlue");
+		if (er && eg && eb) {
+			_effect_colour = dcp::Colour (*er, *eg, *eb);
+		}
 	} else {
 		_effect_colour = dcp::Colour (
 			node->optional_number_child<int>("OutlineRed").get_value_or(255),
@@ -258,9 +258,11 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 	}
 	root->add_child("Outline")->add_child_text (_outline ? "1" : "0");
 	root->add_child("Shadow")->add_child_text (_shadow ? "1" : "0");
-	root->add_child("EffectRed")->add_child_text (raw_convert<string> (_effect_colour.r));
-	root->add_child("EffectGreen")->add_child_text (raw_convert<string> (_effect_colour.g));
-	root->add_child("EffectBlue")->add_child_text (raw_convert<string> (_effect_colour.b));
+	if (_effect_colour) {
+		root->add_child("EffectRed")->add_child_text (raw_convert<string> (_effect_colour->r));
+		root->add_child("EffectGreen")->add_child_text (raw_convert<string> (_effect_colour->g));
+		root->add_child("EffectBlue")->add_child_text (raw_convert<string> (_effect_colour->b));
+	}
 	root->add_child("LineSpacing")->add_child_text (raw_convert<string> (_line_spacing));
 	root->add_child("SubtitleFadeIn")->add_child_text (raw_convert<string> (_fade_in.get()));
 	root->add_child("SubtitleFadeOut")->add_child_text (raw_convert<string> (_fade_out.get()));
@@ -357,6 +359,12 @@ SubtitleContent::set_effect_colour (dcp::Colour colour)
 }
 
 void
+SubtitleContent::unset_effect_colour ()
+{
+	maybe_set (_effect_colour, optional<dcp::Colour>(), SubtitleContentProperty::EFFECT_COLOUR);
+}
+
+void
 SubtitleContent::set_use (bool u)
 {
 	maybe_set (_use, u, SubtitleContentProperty::USE);
@@ -439,7 +447,11 @@ SubtitleContent::take_settings_from (shared_ptr<const SubtitleContent> c)
 	}
 	set_outline (c->_outline);
 	set_shadow (c->_shadow);
-	set_effect_colour (c->_effect_colour);
+	if (c->_effect_colour) {
+		set_effect_colour (*c->_effect_colour);
+	} else {
+		unset_effect_colour ();
+	}
 	set_line_spacing (c->_line_spacing);
 	set_fade_in (c->_fade_in);
 	set_fade_out (c->_fade_out);

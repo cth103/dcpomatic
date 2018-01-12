@@ -79,7 +79,9 @@ SubtitleDecoder::emit_text_start (ContentTime from, list<dcp::SubtitleString> s)
 		if (content()->colour()) {
 			i.set_colour (*content()->colour());
 		}
-		i.set_effect_colour (content()->effect_colour());
+		if (content()->effect_colour()) {
+			i.set_effect_colour (*content()->effect_colour());
+		}
 		if (content()->outline()) {
 			i.set_effect (dcp::BORDER);
 		} else if (content()->shadow()) {

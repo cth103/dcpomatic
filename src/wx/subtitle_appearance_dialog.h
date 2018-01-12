@@ -45,6 +45,7 @@ private:
 	wxCheckBox* _force_colour;
 	wxColourPickerCtrl* _colour;
 	wxChoice* _effect;
+	wxCheckBox* _force_effect_colour;
 	wxColourPickerCtrl* _effect_colour;
 	Timecode<ContentTime>* _fade_in;
 	Timecode<ContentTime>* _fade_out;

@@ -79,6 +79,7 @@ public:
 	void set_outline (bool);
 	void set_shadow (bool);
 	void set_effect_colour (dcp::Colour);
+	void unset_effect_colour ();
 	void set_line_spacing (double s);
 	void set_fade_in (ContentTime);
 	void set_fade_out (ContentTime);
@@ -139,7 +140,7 @@ public:
 		return _shadow;
 	}
 
-	dcp::Colour effect_colour () const {
+	boost::optional<dcp::Colour> effect_colour () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _effect_colour;
 	}
@@ -197,7 +198,7 @@ private:
 	boost::optional<dcp::Colour> _colour;
 	bool _outline;
 	bool _shadow;
-	dcp::Colour _effect_colour;
+	boost::optional<dcp::Colour> _effect_colour;
 	/** scaling factor for line spacing; 1 is "standard", < 1 is closer together, > 1 is further apart */
 	double _line_spacing;
 	ContentTime _fade_in;
