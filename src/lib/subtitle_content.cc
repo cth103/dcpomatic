@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -37,6 +37,7 @@ using std::cout;
 using std::list;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using boost::optional;
 using dcp::raw_convert;
 
 int const SubtitleContentProperty::X_OFFSET = 500;
@@ -64,7 +65,6 @@ SubtitleContent::SubtitleContent (Content* parent)
 	, _y_offset (0)
 	, _x_scale (1)
 	, _y_scale (1)
-	, _colour (255, 255, 255)
 	, _outline (false)
 	, _shadow (false)
 	, _effect_colour (0, 0, 0)
@@ -103,11 +103,6 @@ SubtitleContent::SubtitleContent (Content* parent, cxml::ConstNodePtr node, int 
 	, _y_offset (0)
 	, _x_scale (1)
 	, _y_scale (1)
-	, _colour (
-		node->optional_number_child<int>("Red").get_value_or(255),
-		node->optional_number_child<int>("Green").get_value_or(255),
-		node->optional_number_child<int>("Blue").get_value_or(255)
-		)
 	, _outline (node->optional_bool_child("Outline").get_value_or(false))
 	, _shadow (node->optional_bool_child("Shadow").get_value_or(false))
 	, _line_spacing (node->optional_number_child<double>("LineSpacing").get_value_or (1))
@@ -132,6 +127,13 @@ SubtitleContent::SubtitleContent (Content* parent, cxml::ConstNodePtr node, int 
 		_y_scale = node->number_child<double> ("SubtitleYScale");
 	} else {
 		_x_scale = _y_scale = node->number_child<double> ("SubtitleScale");
+	}
+
+	optional<int> r = node->optional_number_child<int>("Red");
+	optional<int> g = node->optional_number_child<int>("Green");
+	optional<int> b = node->optional_number_child<int>("Blue");
+	if (r && g && b) {
+		_colour = dcp::Colour (*r, *g, *b);
 	}
 
 	if (version >= 36) {
@@ -249,9 +251,11 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 	root->add_child("SubtitleXScale")->add_child_text (raw_convert<string> (_x_scale));
 	root->add_child("SubtitleYScale")->add_child_text (raw_convert<string> (_y_scale));
 	root->add_child("SubtitleLanguage")->add_child_text (_language);
-	root->add_child("Red")->add_child_text (raw_convert<string> (_colour.r));
-	root->add_child("Green")->add_child_text (raw_convert<string> (_colour.g));
-	root->add_child("Blue")->add_child_text (raw_convert<string> (_colour.b));
+	if (_colour) {
+		root->add_child("Red")->add_child_text (raw_convert<string> (_colour->r));
+		root->add_child("Green")->add_child_text (raw_convert<string> (_colour->g));
+		root->add_child("Blue")->add_child_text (raw_convert<string> (_colour->b));
+	}
 	root->add_child("Outline")->add_child_text (_outline ? "1" : "0");
 	root->add_child("Shadow")->add_child_text (_shadow ? "1" : "0");
 	root->add_child("EffectRed")->add_child_text (raw_convert<string> (_effect_colour.r));
@@ -326,6 +330,12 @@ void
 SubtitleContent::set_colour (dcp::Colour colour)
 {
 	maybe_set (_colour, colour, SubtitleContentProperty::COLOUR);
+}
+
+void
+SubtitleContent::unset_colour ()
+{
+	maybe_set (_colour, optional<dcp::Colour>(), SubtitleContentProperty::COLOUR);
 }
 
 void
@@ -422,7 +432,11 @@ SubtitleContent::take_settings_from (shared_ptr<const SubtitleContent> c)
 	set_x_scale (c->_x_scale);
 	set_y_scale (c->_y_scale);
 	maybe_set (_fonts, c->_fonts, SubtitleContentProperty::FONTS);
-	set_colour (c->_colour);
+	if (c->_colour) {
+		set_colour (*c->_colour);
+	} else {
+		unset_colour ();
+	}
 	set_outline (c->_outline);
 	set_shadow (c->_shadow);
 	set_effect_colour (c->_effect_colour);

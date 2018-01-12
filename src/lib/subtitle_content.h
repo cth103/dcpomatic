@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -75,6 +75,7 @@ public:
 	void set_y_scale (double);
 	void set_language (std::string language);
 	void set_colour (dcp::Colour);
+	void unset_colour ();
 	void set_outline (bool);
 	void set_shadow (bool);
 	void set_effect_colour (dcp::Colour);
@@ -123,7 +124,7 @@ public:
 		return _language;
 	}
 
-	dcp::Colour colour () const {
+	boost::optional<dcp::Colour> colour () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _colour;
 	}
@@ -193,7 +194,7 @@ private:
 	/** y scale factor to apply to subtitles */
 	double _y_scale;
 	std::list<boost::shared_ptr<Font> > _fonts;
-	dcp::Colour _colour;
+	boost::optional<dcp::Colour> _colour;
 	bool _outline;
 	bool _shadow;
 	dcp::Colour _effect_colour;

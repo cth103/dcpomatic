@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -33,6 +33,7 @@ using std::map;
 using boost::shared_ptr;
 using boost::bind;
 using boost::dynamic_pointer_cast;
+using boost::optional;
 
 int const SubtitleAppearanceDialog::NONE = 0;
 int const SubtitleAppearanceDialog::OUTLINE = 1;
@@ -57,8 +58,14 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 	int r = 0;
 
 	add_label_to_sizer (_table, this, _("Colour"), true, wxGBPosition (r, 0));
-	_colour = new wxColourPickerCtrl (this, wxID_ANY);
-	_table->Add (_colour, wxGBPosition (r, 1));
+	{
+		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_force_colour = new wxCheckBox (this, wxID_ANY, _("Set to"));
+		s->Add (_force_colour, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, 8);
+		_colour = new wxColourPickerCtrl (this, wxID_ANY);
+		s->Add (_colour, 0, wxALIGN_CENTER_VERTICAL);
+		_table->Add (s, wxGBPosition (r, 1));
+	}
 	++r;
 
 	add_label_to_sizer (_table, this, _("Effect"), true, wxGBPosition (r, 0));
@@ -135,7 +142,15 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 	_effect->Append (_("Outline"));
 	_effect->Append (_("Shadow"));;
 
-	_colour->SetColour (wxColour (_content->subtitle->colour().r, _content->subtitle->colour().g, _content->subtitle->colour().b));
+	optional<dcp::Colour> colour = _content->subtitle->colour();
+	if (colour) {
+		_force_colour->SetValue (true);
+		_colour->SetColour (wxColour (colour->r, colour->g, colour->b));
+	} else {
+		_force_colour->SetValue (false);
+		_colour->SetColour (wxColour (255, 255, 255));
+	}
+
 	if (_content->subtitle->outline()) {
 		_effect->SetSelection (OUTLINE);
 	} else if (_content->subtitle->shadow()) {
@@ -150,6 +165,7 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 	_fade_out->set (_content->subtitle->fade_out(), _content->active_video_frame_rate ());
 	_outline_width->SetValue (_content->subtitle->outline_width ());
 
+	_force_colour->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
 	_effect->Bind (wxEVT_CHOICE, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
 	_content_connection = _content->Changed.connect (bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
 
@@ -159,8 +175,12 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 void
 SubtitleAppearanceDialog::apply ()
 {
-	wxColour const c = _colour->GetColour ();
-	_content->subtitle->set_colour (dcp::Colour (c.Red(), c.Green(), c.Blue()));
+	if (_force_colour->GetValue ()) {
+		wxColour const c = _colour->GetColour ();
+		_content->subtitle->set_colour (dcp::Colour (c.Red(), c.Green(), c.Blue()));
+	} else {
+		_content->subtitle->unset_colour ();
+	}
 	_content->subtitle->set_outline (_effect->GetSelection() == OUTLINE);
 	_content->subtitle->set_shadow (_effect->GetSelection() == SHADOW);
 	wxColour const ec = _effect_colour->GetColour ();
@@ -192,6 +212,7 @@ SubtitleAppearanceDialog::restore ()
 void
 SubtitleAppearanceDialog::setup_sensitivity ()
 {
+	_colour->Enable (_force_colour->GetValue ());
 	_effect_colour->Enable (_effect->GetSelection() != NONE);
 
 	bool const can_outline_width = _effect->GetSelection() == OUTLINE && _content->subtitle->burn ();

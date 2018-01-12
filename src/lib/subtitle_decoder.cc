@@ -75,8 +75,10 @@ SubtitleDecoder::emit_text_start (ContentTime from, list<dcp::SubtitleString> s)
 		boost::algorithm::replace_all (t, ">", "&gt;");
 		i.set_text (t);
 
-		/* Force our configured appearance */
-		i.set_colour (content()->colour());
+		/* Set any forced appearance */
+		if (content()->colour()) {
+			i.set_colour (*content()->colour());
+		}
 		i.set_effect_colour (content()->effect_colour());
 		if (content()->outline()) {
 			i.set_effect (dcp::BORDER);
