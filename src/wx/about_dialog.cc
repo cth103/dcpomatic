@@ -225,6 +225,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Timm Kröger"));
 	supported_by.Add (wxT ("Cihan Kulaber"));
 	supported_by.Add (wxT ("Carsten Kurz"));
+	supported_by.Add (wxT ("Stuart Leask"));
 	supported_by.Add (wxT ("David Armati Lechner"));
 	supported_by.Add (wxT ("Lilian Lefranc"));
 	supported_by.Add (wxT ("Robert Legato"));
