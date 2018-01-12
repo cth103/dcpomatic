@@ -82,11 +82,7 @@ SubtitleDecoder::emit_text_start (ContentTime from, list<dcp::SubtitleString> s)
 		if (content()->effect_colour()) {
 			i.set_effect_colour (*content()->effect_colour());
 		}
-		if (content()->outline()) {
-			i.set_effect (dcp::BORDER);
-		} else if (content()->shadow()) {
-			i.set_effect (dcp::SHADOW);
-		}
+		i.set_effect (content()->effect());
 		i.set_fade_up_time (dcp::Time(content()->fade_in().seconds(), 1000));
 		i.set_fade_down_time (dcp::Time(content()->fade_out().seconds(), 1000));
 	}

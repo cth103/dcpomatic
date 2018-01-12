@@ -49,13 +49,12 @@ int const SubtitleContentProperty::BURN = 505;
 int const SubtitleContentProperty::LANGUAGE = 506;
 int const SubtitleContentProperty::FONTS = 507;
 int const SubtitleContentProperty::COLOUR = 508;
-int const SubtitleContentProperty::OUTLINE = 509;
-int const SubtitleContentProperty::SHADOW = 510;
-int const SubtitleContentProperty::EFFECT_COLOUR = 511;
-int const SubtitleContentProperty::LINE_SPACING = 512;
-int const SubtitleContentProperty::FADE_IN = 513;
-int const SubtitleContentProperty::FADE_OUT = 514;
-int const SubtitleContentProperty::OUTLINE_WIDTH = 515;
+int const SubtitleContentProperty::EFFECT = 509;
+int const SubtitleContentProperty::EFFECT_COLOUR = 510;
+int const SubtitleContentProperty::LINE_SPACING = 511;
+int const SubtitleContentProperty::FADE_IN = 512;
+int const SubtitleContentProperty::FADE_OUT = 513;
+int const SubtitleContentProperty::OUTLINE_WIDTH = 514;
 
 SubtitleContent::SubtitleContent (Content* parent)
 	: ContentPart (parent)
@@ -65,8 +64,7 @@ SubtitleContent::SubtitleContent (Content* parent)
 	, _y_offset (0)
 	, _x_scale (1)
 	, _y_scale (1)
-	, _outline (false)
-	, _shadow (false)
+	, _effect (dcp::NONE)
 	, _line_spacing (1)
 	, _outline_width (2)
 {
@@ -102,8 +100,6 @@ SubtitleContent::SubtitleContent (Content* parent, cxml::ConstNodePtr node, int 
 	, _y_offset (0)
 	, _x_scale (1)
 	, _y_scale (1)
-	, _outline (node->optional_bool_child("Outline").get_value_or(false))
-	, _shadow (node->optional_bool_child("Shadow").get_value_or(false))
 	, _line_spacing (node->optional_number_child<double>("LineSpacing").get_value_or (1))
 	, _fade_in (node->optional_number_child<Frame>("SubtitleFadeIn").get_value_or (0))
 	, _fade_out (node->optional_number_child<Frame>("SubtitleFadeOut").get_value_or (0))
@@ -119,6 +115,25 @@ SubtitleContent::SubtitleContent (Content* parent, cxml::ConstNodePtr node, int 
 		_y_offset = node->number_child<double> ("SubtitleYOffset");
 	} else {
 		_y_offset = node->number_child<double> ("SubtitleOffset");
+	}
+
+	if (node->optional_bool_child("Outline").get_value_or(false)) {
+		_effect = dcp::BORDER;
+	} else if (node->optional_bool_child("Shadow").get_value_or(false)) {
+		_effect = dcp::SHADOW;
+	} else {
+		_effect = dcp::NONE;
+	}
+
+	optional<string> effect = node->optional_string_child("Effect");
+	if (effect) {
+		if (*effect == "none") {
+			_effect = dcp::NONE;
+		} else if (*effect == "outline") {
+			_effect = dcp::BORDER;
+		} else if (*effect == "shadow") {
+			_effect = dcp::SHADOW;
+		}
 	}
 
 	if (version >= 10) {
@@ -256,8 +271,17 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 		root->add_child("Green")->add_child_text (raw_convert<string> (_colour->g));
 		root->add_child("Blue")->add_child_text (raw_convert<string> (_colour->b));
 	}
-	root->add_child("Outline")->add_child_text (_outline ? "1" : "0");
-	root->add_child("Shadow")->add_child_text (_shadow ? "1" : "0");
+	switch (_effect) {
+	case dcp::NONE:
+		root->add_child("none");
+		break;
+	case dcp::BORDER:
+		root->add_child("outline");
+		break;
+	case dcp::SHADOW:
+		root->add_child("shadow");
+		break;
+	}
 	if (_effect_colour) {
 		root->add_child("EffectRed")->add_child_text (raw_convert<string> (_effect_colour->r));
 		root->add_child("EffectGreen")->add_child_text (raw_convert<string> (_effect_colour->g));
@@ -341,15 +365,9 @@ SubtitleContent::unset_colour ()
 }
 
 void
-SubtitleContent::set_outline (bool o)
+SubtitleContent::set_effect (dcp::Effect e)
 {
-	maybe_set (_outline, o, SubtitleContentProperty::OUTLINE);
-}
-
-void
-SubtitleContent::set_shadow (bool s)
-{
-	maybe_set (_shadow, s, SubtitleContentProperty::SHADOW);
+	maybe_set (_effect, e, SubtitleContentProperty::EFFECT);
 }
 
 void
@@ -445,8 +463,7 @@ SubtitleContent::take_settings_from (shared_ptr<const SubtitleContent> c)
 	} else {
 		unset_colour ();
 	}
-	set_outline (c->_outline);
-	set_shadow (c->_shadow);
+	set_effect (c->_effect);
 	if (c->_effect_colour) {
 		set_effect_colour (*c->_effect_colour);
 	} else {

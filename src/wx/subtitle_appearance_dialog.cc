@@ -157,12 +157,16 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 		_colour->SetColour (wxColour (255, 255, 255));
 	}
 
-	if (_content->subtitle->outline()) {
-		_effect->SetSelection (OUTLINE);
-	} else if (_content->subtitle->shadow()) {
-		_effect->SetSelection (SHADOW);
-	} else {
+	switch (_content->subtitle->effect()) {
+	case dcp::NONE:
 		_effect->SetSelection (NONE);
+		break;
+	case dcp::BORDER:
+		_effect->SetSelection (OUTLINE);
+		break;
+	case dcp::SHADOW:
+		_effect->SetSelection (SHADOW);
+		break;
 	}
 
 	optional<dcp::Colour> effect_colour = _content->subtitle->effect_colour();
@@ -195,8 +199,17 @@ SubtitleAppearanceDialog::apply ()
 	} else {
 		_content->subtitle->unset_colour ();
 	}
-	_content->subtitle->set_outline (_effect->GetSelection() == OUTLINE);
-	_content->subtitle->set_shadow (_effect->GetSelection() == SHADOW);
+	switch (_effect->GetSelection()) {
+	case NONE:
+		_content->subtitle->set_effect (dcp::NONE);
+		break;
+	case OUTLINE:
+		_content->subtitle->set_effect (dcp::BORDER);
+		break;
+	case SHADOW:
+		_content->subtitle->set_effect (dcp::SHADOW);
+		break;
+	}
 	if (_force_effect_colour->GetValue ()) {
 		wxColour const ec = _effect_colour->GetColour ();
 		_content->subtitle->set_effect_colour (dcp::Colour (ec.Red(), ec.Green(), ec.Blue()));

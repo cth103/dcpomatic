@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_test_subs_h264_1)
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	s->subtitle->set_colour (dcp::Colour (255, 255, 0));
-	s->subtitle->set_shadow (true);
+	s->subtitle->set_effect (dcp::SHADOW);
 	s->subtitle->set_effect_colour (dcp::Colour (0, 255, 255));
 	film->write_metadata();
 
@@ -101,7 +101,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_test_subs_h264_2)
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	s->subtitle->set_colour (dcp::Colour (255, 255, 0));
-	s->subtitle->set_shadow (true);
+	s->subtitle->set_effect (dcp::SHADOW);
 	s->subtitle->set_effect_colour (dcp::Colour (0, 255, 255));
 	film->write_metadata();
 
@@ -122,7 +122,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_test_subs_prores_1)
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	s->subtitle->set_colour (dcp::Colour (255, 255, 0));
-	s->subtitle->set_shadow (true);
+	s->subtitle->set_effect (dcp::SHADOW);
 	s->subtitle->set_effect_colour (dcp::Colour (0, 255, 255));
 	film->write_metadata();
 
@@ -147,7 +147,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_test_subs_prores_2)
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	s->subtitle->set_colour (dcp::Colour (255, 255, 0));
-	s->subtitle->set_shadow (true);
+	s->subtitle->set_effect (dcp::SHADOW);
 	s->subtitle->set_effect_colour (dcp::Colour (0, 255, 255));
 
 	shared_ptr<Job> job (new TranscodeJob (film));

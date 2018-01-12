@@ -186,8 +186,7 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == DCPContentProperty::NEEDS_ASSETS ||
 		property == DCPContentProperty::NEEDS_KDM ||
 		property == SubtitleContentProperty::COLOUR ||
-		property == SubtitleContentProperty::OUTLINE ||
-		property == SubtitleContentProperty::SHADOW ||
+		property == SubtitleContentProperty::EFFECT ||
 		property == SubtitleContentProperty::EFFECT_COLOUR ||
 		property == FFmpegContentProperty::SUBTITLE_STREAM ||
 		property == FFmpegContentProperty::FILTERS ||
