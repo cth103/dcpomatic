@@ -125,7 +125,7 @@ JobView::details_clicked (wxCommandEvent &)
 {
 	string s = _job->error_summary();
 	s[0] = toupper (s[0]);
-	error_dialog (_parent, std_to_wx (String::compose ("%1.\n\n%2", s, _job->error_details())));
+	error_dialog (_parent, std_to_wx(s), std_to_wx(_job->error_details()));
 }
 
 void

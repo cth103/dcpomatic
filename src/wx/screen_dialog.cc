@@ -155,7 +155,7 @@ ScreenDialog::load_recipient (boost::filesystem::path file)
 		dcp::CertificateChain c (dcp::file_to_string (file));
 		set_recipient (c.leaf ());
 	} catch (dcp::MiscError& e) {
-		error_dialog (this, wxString::Format (_("Could not read certificate file (%s)"), std_to_wx(e.what()).data()));
+		error_dialog (this, wxString::Format (_("Could not read certificate file.")), std_to_wx(e.what()));
 	}
 }
 

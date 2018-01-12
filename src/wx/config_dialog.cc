@@ -455,7 +455,7 @@ CertificateChainEditor::add_certificate ()
 			try {
 				extra = c.read_string (dcp::file_to_string (wx_to_std (d->GetPath ())));
 			} catch (boost::filesystem::filesystem_error& e) {
-				error_dialog (this, wxString::Format (_("Could not import certificate (%s)"), d->GetPath().data()));
+				error_dialog (this, _("Could not import certificate (%s)"), d->GetPath());
 				d->Destroy ();
 				return;
 			}
@@ -481,7 +481,7 @@ CertificateChainEditor::add_certificate ()
 				update_certificate_list ();
 			}
 		} catch (dcp::MiscError& e) {
-			error_dialog (this, wxString::Format (_("Could not read certificate file (%s)"), e.what ()));
+			error_dialog (this, _("Could not read certificate file."), std_to_wx(e.what()));
 		}
 	}
 
@@ -675,7 +675,7 @@ CertificateChainEditor::import_private_key ()
 			_set (chain);
 			update_private_key ();
 		} catch (dcp::MiscError& e) {
-			error_dialog (this, wxString::Format (_("Could not read certificate file (%s)"), e.what ()));
+			error_dialog (this, _("Could not read certificate file."), std_to_wx(e.what()));
 		}
 	}
 

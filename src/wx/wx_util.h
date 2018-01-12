@@ -69,7 +69,7 @@ class wxSplashScreen;
  */
 #define S_(x) context_translation(x)
 
-extern void error_dialog (wxWindow *, wxString);
+extern void error_dialog (wxWindow *, wxString, boost::optional<wxString> e = boost::optional<wxString>());
 extern void message_dialog (wxWindow *, wxString);
 extern bool confirm_dialog (wxWindow *, wxString);
 extern wxStaticText* add_label_to_sizer (wxSizer *, wxWindow *, wxString, bool left, int prop = 0);

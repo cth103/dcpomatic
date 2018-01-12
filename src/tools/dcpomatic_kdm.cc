@@ -356,7 +356,7 @@ private:
 		} catch (dcp::NotEncryptedError& e) {
 			error_dialog (this, _("CPL's content is not encrypted."));
 		} catch (exception& e) {
-			error_dialog (this, e.what ());
+			error_dialog (this, std_to_wx(e.what()));
 		} catch (...) {
 			error_dialog (this, _("An unknown exception occurred."));
 		}
@@ -423,10 +423,8 @@ private:
 			} catch (dcp::KDMFormatError& e) {
 				error_dialog (
 					this,
-					wxString::Format (
-						_("Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM at all.\n\n%s"),
-						std_to_wx(e.what()).data()
-						)
+					_("Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM at all."),
+					std_to_wx(e.what())
 					);
 				return;
 			} catch (dcp::KDMDecryptionError) {
@@ -603,7 +601,7 @@ private:
 	}
 	catch (exception& e)
 	{
-		error_dialog (0, wxString::Format ("DCP-o-matic could not start: %s", e.what ()));
+		error_dialog (0, _("DCP-o-matic could not start"), std_to_wx(e.what()));
 		return true;
 	}
 

@@ -386,7 +386,7 @@ public:
 	catch (std::exception& e) {
 		wxString p = std_to_wx (file.string ());
 		wxCharBuffer b = p.ToUTF8 ();
-		error_dialog (this, wxString::Format (_("Could not open film at %s (%s)"), p.data(), std_to_wx (e.what()).data()));
+		error_dialog (this, wxString::Format (_("Could not open film at %s"), p.data()), std_to_wx (e.what()));
 	}
 
 	void set_film (shared_ptr<Film> film)
@@ -627,9 +627,9 @@ private:
 			_film->write_metadata ();
 			_film->make_dcp ();
 		} catch (BadSettingError& e) {
-			error_dialog (this, wxString::Format (_("Bad setting for %s (%s)"), std_to_wx(e.setting()).data(), std_to_wx(e.what()).data()));
+			error_dialog (this, wxString::Format (_("Bad setting for %s."), std_to_wx(e.setting()).data()), std_to_wx(e.what()));
 		} catch (std::exception& e) {
-			error_dialog (this, wxString::Format (_("Could not make DCP: %s."), std_to_wx(e.what()).data()));
+			error_dialog (this, wxString::Format (_("Could not make DCP.")), std_to_wx(e.what()));
 		}
 	}
 
@@ -800,14 +800,14 @@ private:
 		if (WEXITSTATUS (r) == 0) {
 			r = system (String::compose("nautilus \"%1\"", _film->directory()->string()).c_str());
 			if (WEXITSTATUS (r)) {
-				error_dialog (this, _("Could not show DCP (could not run nautilus)"));
+				error_dialog (this, _("Could not show DCP."), _("Could not run nautilus"));
 			}
 		} else {
 			int r = system ("which konqueror");
 			if (WEXITSTATUS (r) == 0) {
 				r = system (String::compose ("konqueror \"%1\"", _film->directory()->string()).c_str());
 				if (WEXITSTATUS (r)) {
-					error_dialog (this, _("Could not show DCP (could not run konqueror)"));
+					error_dialog (this, _("Could not show DCP"), _("Could not run konqueror"));
 				}
 			}
 		}
@@ -1285,7 +1285,7 @@ private:
 			try {
 				_frame->load_film (_film_to_load);
 			} catch (exception& e) {
-				error_dialog (0, std_to_wx (String::compose (wx_to_std (_("Could not load film %1 (%2)")), _film_to_load, e.what())));
+				error_dialog (0, std_to_wx (String::compose (wx_to_std (_("Could not load film %1 (%2)")), _film_to_load)), std_to_wx(e.what()));
 			}
 		}
 
@@ -1316,7 +1316,7 @@ private:
 	}
 	catch (exception& e)
 	{
-		error_dialog (0, wxString::Format ("DCP-o-matic could not start: %s", e.what ()));
+		error_dialog (0, wxString::Format ("DCP-o-matic could not start."), std_to_wx(e.what()));
 		return true;
 	}
 

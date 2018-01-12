@@ -291,7 +291,7 @@ private:
 				dcp->add_kdm (dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (d->GetPath ()), MAX_KDM_SIZE)));
 				dcp->examine (shared_ptr<Job>());
 			} catch (exception& e) {
-				error_dialog (this, wxString::Format (_("Could not load KDM (%s)"), std_to_wx(e.what())));
+				error_dialog (this, wxString::Format (_("Could not load KDM.")), std_to_wx(e.what()));
 				d->Destroy ();
 				return;
 			}
@@ -482,7 +482,7 @@ private:
 			try {
 				_frame->load_dcp (_dcp_to_load);
 			} catch (exception& e) {
-				error_dialog (0, std_to_wx (String::compose (wx_to_std (_("Could not load DCP %1 (%2)")), _dcp_to_load, e.what())));
+				error_dialog (0, std_to_wx (String::compose (wx_to_std (_("Could not load DCP %1.")), _dcp_to_load)), std_to_wx(e.what()));
 			}
 		}
 
@@ -496,7 +496,7 @@ private:
 	}
 	catch (exception& e)
 	{
-		error_dialog (0, wxString::Format ("DCP-o-matic Player could not start: %s", std_to_wx(e.what())));
+		error_dialog (0, _("DCP-o-matic Player could not start."), std_to_wx(e.what()));
 		return true;
 	}
 

@@ -770,7 +770,7 @@ FilmViewer::config_changed (Config::Property p)
 #endif
 			error_dialog (
 				this,
-				wxString::Format (_("Could not set up audio output (%s).  There will be no audio during the preview."), e.what())
+				_("Could not set up audio output.  There will be no audio during the preview."), std_to_wx(e.what())
 				);
 		}
 		recreate_butler ();

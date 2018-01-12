@@ -53,7 +53,7 @@ DownloadCertificatePanel::load (boost::filesystem::path file)
 	try {
 		_certificate = dcp::Certificate (dcp::file_to_string (file));
 	} catch (dcp::MiscError& e) {
-		error_dialog (this, wxString::Format (_("Could not read certificate file (%s)"), std_to_wx(e.what()).data()));
+		error_dialog (this, _("Could not read certificate file."), std_to_wx(e.what()));
 	}
 }
 

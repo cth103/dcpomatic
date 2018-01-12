@@ -85,11 +85,15 @@ add_label_to_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, bool, wxGBPositi
 /** Pop up an error dialogue box.
  *  @param parent Parent.
  *  @param m Message.
+ *  @param e Extended message.
  */
 void
-error_dialog (wxWindow* parent, wxString m)
+error_dialog (wxWindow* parent, wxString m, optional<wxString> e)
 {
 	wxMessageDialog* d = new wxMessageDialog (parent, m, _("DCP-o-matic"), wxOK | wxICON_ERROR);
+	if (e) {
+		d->SetExtendedMessage (*e);
+	}
 	d->ShowModal ();
 	d->Destroy ();
 }

@@ -137,7 +137,7 @@ public:
 		} catch (std::exception& e) {
 			wxString p = std_to_wx (path.string ());
 			wxCharBuffer b = p.ToUTF8 ();
-			error_dialog (this, wxString::Format (_("Could not open film at %s (%s)"), p.data(), std_to_wx (e.what()).data()));
+			error_dialog (this, wxString::Format (_("Could not open film at %s"), p.data()), std_to_wx(e.what()));
 		}
 	}
 
@@ -337,12 +337,9 @@ class App : public wxApp
 					film->make_dcp ();
 				} catch (exception& e) {
 					error_dialog (
-						0, std_to_wx (
-							String::compose (
-								wx_to_std (_("Could not load film %1 (%2)")), i.string(),
-								e.what()
-								)
-							)
+						0,
+						std_to_wx (String::compose (wx_to_std (_("Could not load film %1")), i.string())),
+						std_to_wx(e.what())
 						);
 				}
 			}

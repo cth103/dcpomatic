@@ -287,7 +287,7 @@ KDMOutputPanel::make (
 	} catch (dcp::NotEncryptedError& e) {
 		error_dialog (this, _("CPL's content is not encrypted."));
 	} catch (exception& e) {
-		error_dialog (this, e.what ());
+		error_dialog (this, std_to_wx(e.what()));
 	} catch (...) {
 		error_dialog (this, _("An unknown exception occurred."));
 	}
