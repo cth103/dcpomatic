@@ -69,7 +69,7 @@ public:
 		return video_codec_context()->colorspace;
 	}
 
-	int bits_per_pixel () const;
+	boost::optional<int> bits_per_pixel () const;
 
 private:
 	void video_packet (AVCodecContext *);

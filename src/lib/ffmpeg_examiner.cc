@@ -260,11 +260,11 @@ FFmpegExaminer::stream_name (AVStream* s) const
 	return n;
 }
 
-int
+optional<int>
 FFmpegExaminer::bits_per_pixel () const
 {
 	if (video_codec_context()->pix_fmt == -1) {
-		throw DecodeError (_("Could not find pixel format for video."));
+		return optional<int>();
 	}
 
 	AVPixFmtDescriptor const * d = av_pix_fmt_desc_get (video_codec_context()->pix_fmt);
