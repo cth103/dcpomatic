@@ -89,6 +89,7 @@ public:
 
 		wxMenuBar* bar = new wxMenuBar;
 		setup_menu (bar);
+		set_menu_sensitivity ();
 		SetMenuBar (bar);
 
 #ifdef DCPOMATIC_WINDOWS
@@ -164,6 +165,8 @@ public:
 		_viewer->set_film (_film);
 		_viewer->set_position (DCPTime ());
 		_info->triggered_update ();
+
+		set_menu_sensitivity ();
 	}
 
 private:
@@ -172,8 +175,8 @@ private:
 	{
 		wxMenu* file = new wxMenu;
 		file->Append (ID_file_open, _("&Open...\tCtrl-O"));
-		file->Append (ID_file_add_ov, _("&Add OV..."));
-		file->Append (ID_file_add_kdm, _("&Add KDM..."));
+		_file_add_ov = file->Append (ID_file_add_ov, _("&Add OV..."));
+		_file_add_kdm = file->Append (ID_file_add_kdm, _("&Add KDM..."));
 		file->AppendSeparator ();
 		file->Append (ID_file_close, _("&Close"));
 		file->AppendSeparator ();
@@ -265,6 +268,7 @@ private:
 		}
 
 		if (r == wxID_OK) {
+			DCPOMATIC_ASSERT (_film);
 			shared_ptr<DCPContent> dcp = boost::dynamic_pointer_cast<DCPContent>(_film->content().front());
 			DCPOMATIC_ASSERT (dcp);
 			dcp->add_ov (wx_to_std(c->GetPath()));
@@ -280,6 +284,7 @@ private:
 		wxFileDialog* d = new wxFileDialog (this, _("Select KDM"));
 
 		if (d->ShowModal() == wxID_OK) {
+			DCPOMATIC_ASSERT (_film);
 			shared_ptr<DCPContent> dcp = boost::dynamic_pointer_cast<DCPContent>(_film->content().front());
 			DCPOMATIC_ASSERT (dcp);
 			try {
@@ -300,7 +305,9 @@ private:
 	void file_close ()
 	{
 		_viewer->set_film (shared_ptr<Film>());
+		_film.reset ();
 		_info->triggered_update ();
+		set_menu_sensitivity ();
 	}
 
 	void file_exit ()
@@ -382,12 +389,20 @@ private:
 		}
 	}
 
+	void set_menu_sensitivity ()
+	{
+		_file_add_ov->Enable (static_cast<bool>(_film));
+		_file_add_kdm->Enable (static_cast<bool>(_film));
+	}
+
 	bool _update_news_requested;
 	PlayerInformation* _info;
 	wxPreferencesEditor* _config_dialog;
 	FilmViewer* _viewer;
 	boost::shared_ptr<Film> _film;
 	boost::signals2::scoped_connection _config_changed_connection;
+	wxMenuItem* _file_add_ov;
+	wxMenuItem* _file_add_kdm;
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {

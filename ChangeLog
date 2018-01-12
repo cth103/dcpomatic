@@ -1,3 +1,8 @@
+2018-01-12  Carl Hetherington  <cth@carlh.net>
+
+	* Desensitize appropriate player menu options when there
+	is no loaded DCP (#1167).
+
 2018-01-11  Carl Hetherington  <cth@carlh.net>
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.
