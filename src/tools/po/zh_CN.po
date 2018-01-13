@@ -173,7 +173,7 @@ msgstr "确定要恢复默认设置？ 该操作不能撤销！"
 #: src/tools/dcpomatic.cc:630
 #, fuzzy, c-format
 msgid "Bad setting for %s."
-msgstr "配置错误 %s (%s)"
+msgstr "配置错误 %s."
 
 #: src/tools/dcpomatic.cc:736 src/tools/dcpomatic_kdm.cc:357
 msgid "CPL's content is not encrypted."
@@ -228,7 +228,7 @@ msgstr "DCP创建失败: %s。"
 #: src/tools/dcpomatic.cc:389 src/tools/dcpomatic_batch.cc:140
 #, fuzzy, c-format
 msgid "Could not open film at %s"
-msgstr "无法在 %s (%s)打开工程。"
+msgstr "无法在 %s 打开工程。"
 
 #: src/tools/dcpomatic_kdm.cc:426
 #, fuzzy

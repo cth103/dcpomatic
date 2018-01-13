@@ -175,7 +175,7 @@ msgstr ""
 #: src/tools/dcpomatic.cc:630
 #, fuzzy, c-format
 msgid "Bad setting for %s."
-msgstr "Parametro %s errato  (%s)"
+msgstr "Parametro %s errato."
 
 #: src/tools/dcpomatic.cc:736 src/tools/dcpomatic_kdm.cc:357
 msgid "CPL's content is not encrypted."
@@ -230,7 +230,7 @@ msgstr "Non posso creare DCP: %s"
 #: src/tools/dcpomatic.cc:389 src/tools/dcpomatic_batch.cc:140
 #, fuzzy, c-format
 msgid "Could not open film at %s"
-msgstr "Non posso aprire il film a %s (%s)"
+msgstr "Non posso aprire il film a %s"
 
 #: src/tools/dcpomatic_kdm.cc:426
 msgid ""

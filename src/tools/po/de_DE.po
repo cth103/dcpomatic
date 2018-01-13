@@ -172,7 +172,7 @@ msgstr "Voreinstellungen wirklich zurücksetzen?"
 #: src/tools/dcpomatic.cc:630
 #, fuzzy, c-format
 msgid "Bad setting for %s."
-msgstr "Falscher Parameter für %s (%s)"
+msgstr "Falscher Parameter für %s"
 
 #: src/tools/dcpomatic.cc:736 src/tools/dcpomatic_kdm.cc:357
 msgid "CPL's content is not encrypted."
@@ -229,7 +229,7 @@ msgstr "Konnte DCP nicht erstellen:  %s"
 #: src/tools/dcpomatic.cc:389 src/tools/dcpomatic_batch.cc:140
 #, fuzzy, c-format
 msgid "Could not open film at %s"
-msgstr "Der Film konnte nicht von %s geöffnet werden (%s)."
+msgstr "Der Film konnte nicht von %s geöffnet werden."
 
 #: src/tools/dcpomatic_kdm.cc:426
 #, fuzzy
