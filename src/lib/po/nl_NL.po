@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-10 09:55+0000\n"
+"POT-Creation-Date: 2018-01-13 01:41+0000\n"
 "PO-Revision-Date: 2018-01-06 01:40+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -374,13 +374,13 @@ msgstr ""
 "Samen te voegen content moet allemaal wel video, of allemaal geen video "
 "hebben."
 
-#: src/lib/subtitle_content.cc:175
+#: src/lib/subtitle_content.cc:198
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr ""
 "Samen te voegen content moeten dezelfde 'inbranden ondertitels'-instelling "
 "hebben."
 
-#: src/lib/subtitle_content.cc:171
+#: src/lib/subtitle_content.cc:194
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr ""
 "Samen te voegen content moet dezelfde 'gebruik ondertitels'-instelling "
@@ -406,7 +406,7 @@ msgstr "Samen te voegen content moet dezelfde bijsnijding hebben."
 msgid "Content to be joined must have the same fades."
 msgstr "Samen te voegen content moet dezelfde fade-instelling hebben."
 
-#: src/lib/subtitle_content.cc:203
+#: src/lib/subtitle_content.cc:226
 msgid "Content to be joined must have the same outline width."
 msgstr ""
 "Samen te voegen content moet dezelfde ondertitel omlijnings-breedte hebben."
@@ -419,30 +419,30 @@ msgstr "Samen te voegen content moet dezelfde beeldgrootte hebben."
 msgid "Content to be joined must have the same scale setting."
 msgstr "Samen te voegen content moet dezelfde schaalinstelling hebben."
 
-#: src/lib/subtitle_content.cc:179
+#: src/lib/subtitle_content.cc:202
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr ""
 "Samen te voegen content moet dezelfde ondertitel X-verschuiving hebben."
 
-#: src/lib/subtitle_content.cc:187
+#: src/lib/subtitle_content.cc:210
 msgid "Content to be joined must have the same subtitle X scale."
 msgstr "Samen te voegen content moet dezelfde ondertitel X-schaling hebben."
 
-#: src/lib/subtitle_content.cc:183
+#: src/lib/subtitle_content.cc:206
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr ""
 "Samen te voegen content moet dezelfde ondertitel Y-verschuiving hebben."
 
-#: src/lib/subtitle_content.cc:191
+#: src/lib/subtitle_content.cc:214
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Samen te voegen content moet dezelfde ondertitel Y-schaling hebben."
 
-#: src/lib/subtitle_content.cc:199
+#: src/lib/subtitle_content.cc:222
 msgid "Content to be joined must have the same subtitle fades."
 msgstr ""
 "Samen te voegen content moet dezelfde ondertitel fade-instelling hebben."
 
-#: src/lib/subtitle_content.cc:195
+#: src/lib/subtitle_content.cc:218
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr ""
 "Samen te voegen content moet dezelfde regelafstand voor ondertitels hebben."
@@ -455,7 +455,7 @@ msgstr "Samen te voegen content moet dezelfde video frame rate hebben."
 msgid "Content to be joined must have the same video frame type."
 msgstr "Samen te voegen content moet hetzelfde video frame type hebben."
 
-#: src/lib/subtitle_content.cc:208 src/lib/subtitle_content.cc:216
+#: src/lib/subtitle_content.cc:231 src/lib/subtitle_content.cc:239
 msgid "Content to be joined must use the same fonts."
 msgstr "Samen te voegen content moet hetzelfde lettertype gebruiken."
 
@@ -486,10 +486,6 @@ msgstr "Kan JPEG2000-bestand %1 niet decoderen (%2)"
 #: src/lib/magick_image_proxy.cc:102
 msgid "Could not decode image file (%1)"
 msgstr "Kan beeldbestand niet decoderen (%1)"
-
-#: src/lib/ffmpeg_examiner.cc:267
-msgid "Could not find pixel format for video."
-msgstr "Kan pixelformaat voor video niet vinden"
 
 #: src/lib/encode_server_finder.cc:162
 msgid ""
@@ -1534,6 +1530,9 @@ msgstr "video frames"
 #: src/lib/film.cc:304
 msgid "you must add some content to the DCP before creating it"
 msgstr "u moet content aan de DCP toevoegen voor hij gemaakt kan worden"
+
+#~ msgid "Could not find pixel format for video."
+#~ msgstr "Kan pixelformaat voor video niet vinden"
 
 #~ msgid "2.35"
 #~ msgstr "2,35:1"

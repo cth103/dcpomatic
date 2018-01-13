@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-10 09:55+0000\n"
+"POT-Creation-Date: 2018-01-13 01:41+0000\n"
 "PO-Revision-Date: 2016-06-20 01:15-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -58,11 +58,11 @@ msgstr "(reinicie o DCP-o-matic para visualizar alterações de idioma)"
 msgid "-6dB"
 msgstr "-6dB"
 
-#: src/wx/wx_util.cc:379
+#: src/wx/wx_util.cc:383
 msgid "12 - 7.1/HI/VI"
 msgstr ""
 
-#: src/wx/wx_util.cc:371
+#: src/wx/wx_util.cc:375
 msgid "2 - stereo"
 msgstr ""
 
@@ -106,7 +106,7 @@ msgstr "3D (olho direito)"
 msgid "3D top/bottom"
 msgstr "3D (metade superior/inferior)"
 
-#: src/wx/wx_util.cc:373
+#: src/wx/wx_util.cc:377
 msgid "4 - L/C/R/Lfe"
 msgstr ""
 
@@ -114,19 +114,19 @@ msgstr ""
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/wx_util.cc:375
+#: src/wx/wx_util.cc:379
 msgid "6 - 5.1"
 msgstr ""
 
-#: src/wx/wx_util.cc:377
+#: src/wx/wx_util.cc:381
 msgid "8 - 5.1/HI/VI"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:104
+#: src/wx/subtitle_appearance_dialog.cc:95
 msgid "<b>New colour</b>"
 msgstr "<b>Nova cor</b>"
 
-#: src/wx/subtitle_appearance_dialog.cc:101
+#: src/wx/subtitle_appearance_dialog.cc:92
 msgid "<b>Original colour</b>"
 msgstr "<b>Cor original</b>"
 
@@ -443,7 +443,7 @@ msgid "Click the button to set all selected content to the same value."
 msgstr ""
 "Clique no botão para aplicar a todos os vídeos selecionados o mesmo valor"
 
-#: src/wx/subtitle_appearance_dialog.cc:59
+#: src/wx/subtitle_appearance_dialog.cc:60
 msgid "Colour"
 msgstr "Cor"
 
@@ -513,14 +513,14 @@ msgid "Could not import certificate (%s)"
 msgstr "Impossível ler arquivo de certificado (%s)"
 
 #: src/wx/content_menu.cc:380
-#, c-format
-msgid "Could not load KDM (%s)"
+#, fuzzy
+msgid "Could not load KDM."
 msgstr "Impossível carregar KDM (%s)"
 
 #: src/wx/config_dialog.cc:484 src/wx/config_dialog.cc:678
 #: src/wx/download_certificate_panel.cc:56 src/wx/screen_dialog.cc:158
-#, c-format
-msgid "Could not read certificate file (%s)"
+#, fuzzy
+msgid "Could not read certificate file."
 msgstr "Impossível ler arquivo de certificado (%s)"
 
 #: src/wx/config_dialog.cc:668
@@ -529,10 +529,8 @@ msgid "Could not read key file; file is too long (%s)"
 msgstr "Impossível ler arquivo de chave; arquivo é muito longo (%s)"
 
 #: src/wx/film_viewer.cc:773
-#, c-format
 msgid ""
-"Could not set up audio output (%s).  There will be no audio during the "
-"preview."
+"Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
 
 #: src/wx/full_config_dialog.cc:863
@@ -568,8 +566,8 @@ msgstr "Diretório do DCP"
 msgid "DCP metadata filename format"
 msgstr ""
 
-#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:92 src/wx/wx_util.cc:104
-#: src/wx/wx_util.cc:112
+#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:93 src/wx/wx_util.cc:108
+#: src/wx/wx_util.cc:116
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
@@ -726,11 +724,11 @@ msgstr "Editar screen"
 msgid "Edit..."
 msgstr "Editar..."
 
-#: src/wx/subtitle_appearance_dialog.cc:64
+#: src/wx/subtitle_appearance_dialog.cc:63
 msgid "Effect"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:69
+#: src/wx/subtitle_appearance_dialog.cc:66
 msgid "Effect colour"
 msgstr ""
 
@@ -803,7 +801,7 @@ msgstr "Empresa (ex. DLA)"
 msgid "Fade in"
 msgstr "Fade in"
 
-#: src/wx/subtitle_appearance_dialog.cc:79
+#: src/wx/subtitle_appearance_dialog.cc:74
 #, fuzzy
 msgid "Fade in time"
 msgstr "Fade in"
@@ -812,7 +810,7 @@ msgstr "Fade in"
 msgid "Fade out"
 msgstr "Fade out"
 
-#: src/wx/subtitle_appearance_dialog.cc:84
+#: src/wx/subtitle_appearance_dialog.cc:77
 #, fuzzy
 msgid "Fade out time"
 msgstr "Fade out"
@@ -1320,7 +1318,7 @@ msgid "No content found in this folder."
 msgstr "Nenhum conteúdo encontrado nesta pasta."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:750 src/wx/subtitle_appearance_dialog.cc:134
+#: src/wx/dcp_panel.cc:750 src/wx/subtitle_appearance_dialog.cc:125
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
 #: src/wx/video_panel.cc:307
 msgid "None"
@@ -1378,7 +1376,7 @@ msgstr "Outros aparelhos confiáveis"
 msgid "Outgoing mail server"
 msgstr "Servidor de email de saída"
 
-#: src/wx/subtitle_appearance_dialog.cc:135
+#: src/wx/subtitle_appearance_dialog.cc:126
 msgid "Outline"
 msgstr "Borda"
 
@@ -1386,12 +1384,12 @@ msgstr "Borda"
 msgid "Outline content"
 msgstr "Mostrar borda no conteúdo"
 
-#: src/wx/subtitle_appearance_dialog.cc:74
+#: src/wx/subtitle_appearance_dialog.cc:69
 #, fuzzy
 msgid "Outline width"
 msgstr "Borda"
 
-#: src/wx/subtitle_appearance_dialog.cc:202
+#: src/wx/subtitle_appearance_dialog.cc:276
 msgid "Outline width cannot be set unless you are burning in subtitles"
 msgstr ""
 
@@ -1628,7 +1626,7 @@ msgstr "Redefinir assunto e texto para o padrão"
 msgid "Resolution"
 msgstr "Resolução"
 
-#: src/wx/subtitle_appearance_dialog.cc:120
+#: src/wx/subtitle_appearance_dialog.cc:111
 msgid "Restore to original colours"
 msgstr ""
 
@@ -1789,7 +1787,11 @@ msgstr "Definir de uma fonte do sistema..."
 msgid "Set language"
 msgstr "Definir idioma"
 
-#: src/wx/subtitle_appearance_dialog.cc:136
+#: src/wx/subtitle_appearance_dialog.cc:196
+msgid "Set to"
+msgstr ""
+
+#: src/wx/subtitle_appearance_dialog.cc:127
 msgid "Shadow"
 msgstr ""
 
@@ -1876,7 +1878,7 @@ msgstr "Legenda"
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Idioma de legenda (ex. ES)"
 
-#: src/wx/subtitle_appearance_dialog.cc:42
+#: src/wx/subtitle_appearance_dialog.cc:43
 msgid "Subtitle appearance"
 msgstr "Aparência da legenda"
 
@@ -1885,7 +1887,7 @@ msgstr "Aparência da legenda"
 msgid "Subtitles"
 msgstr "Legendas"
 
-#: src/wx/about_dialog.cc:331
+#: src/wx/about_dialog.cc:332
 msgid "Supported by"
 msgstr "Apoiado por"
 
@@ -1925,7 +1927,7 @@ msgstr "Território (ex. UK)"
 msgid "Test version "
 msgstr "Versão de teste"
 
-#: src/wx/about_dialog.cc:388
+#: src/wx/about_dialog.cc:389
 msgid "Tested by"
 msgstr "Testado por"
 

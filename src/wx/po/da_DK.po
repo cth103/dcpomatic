@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-10 09:55+0000\n"
+"POT-Creation-Date: 2018-01-13 01:41+0000\n"
 "PO-Revision-Date: 2017-10-04 22:06+0200\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -59,11 +59,11 @@ msgstr "(genstart DCP-o-matic for at se sprogændringerne)"
 msgid "-6dB"
 msgstr "-6dB"
 
-#: src/wx/wx_util.cc:379
+#: src/wx/wx_util.cc:383
 msgid "12 - 7.1/HI/VI"
 msgstr "12 - 7.1/HH/VI"
 
-#: src/wx/wx_util.cc:371
+#: src/wx/wx_util.cc:375
 msgid "2 - stereo"
 msgstr "2 - stereo"
 
@@ -107,7 +107,7 @@ msgstr "3D, kun højre"
 msgid "3D top/bottom"
 msgstr "3D, top/bund"
 
-#: src/wx/wx_util.cc:373
+#: src/wx/wx_util.cc:377
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - V/C/H/Sub"
 
@@ -115,19 +115,19 @@ msgstr "4 - V/C/H/Sub"
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/wx_util.cc:375
+#: src/wx/wx_util.cc:379
 msgid "6 - 5.1"
 msgstr "6 - 5.1"
 
-#: src/wx/wx_util.cc:377
+#: src/wx/wx_util.cc:381
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HH/VI"
 
-#: src/wx/subtitle_appearance_dialog.cc:104
+#: src/wx/subtitle_appearance_dialog.cc:95
 msgid "<b>New colour</b>"
 msgstr "<b>Ny farve</b>"
 
-#: src/wx/subtitle_appearance_dialog.cc:101
+#: src/wx/subtitle_appearance_dialog.cc:92
 msgid "<b>Original colour</b>"
 msgstr "<b>Oprindelig farve</b>"
 
@@ -435,7 +435,7 @@ msgstr "Biograf- og sals-database"
 msgid "Click the button to set all selected content to the same value."
 msgstr "Klik denne knap for at give alt valgt indhold samme værdi."
 
-#: src/wx/subtitle_appearance_dialog.cc:59
+#: src/wx/subtitle_appearance_dialog.cc:60
 msgid "Colour"
 msgstr "Farve"
 
@@ -504,14 +504,14 @@ msgid "Could not import certificate (%s)"
 msgstr "Kunne ikke læse certifikat (%s)"
 
 #: src/wx/content_menu.cc:380
-#, c-format
-msgid "Could not load KDM (%s)"
+#, fuzzy
+msgid "Could not load KDM."
 msgstr "Kunne ikke indlæse KDM (%s)"
 
 #: src/wx/config_dialog.cc:484 src/wx/config_dialog.cc:678
 #: src/wx/download_certificate_panel.cc:56 src/wx/screen_dialog.cc:158
-#, c-format
-msgid "Could not read certificate file (%s)"
+#, fuzzy
+msgid "Could not read certificate file."
 msgstr "Kunne ikke læse certifikatfil (%s)"
 
 #: src/wx/config_dialog.cc:668
@@ -520,10 +520,8 @@ msgid "Could not read key file; file is too long (%s)"
 msgstr "Kunne ikke læse nøgle fil, filen er for lang (%s)"
 
 #: src/wx/film_viewer.cc:773
-#, c-format
 msgid ""
-"Could not set up audio output (%s).  There will be no audio during the "
-"preview."
+"Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
 
 #: src/wx/full_config_dialog.cc:863
@@ -559,8 +557,8 @@ msgstr "DCP-folder"
 msgid "DCP metadata filename format"
 msgstr ""
 
-#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:92 src/wx/wx_util.cc:104
-#: src/wx/wx_util.cc:112
+#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:93 src/wx/wx_util.cc:108
+#: src/wx/wx_util.cc:116
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
@@ -713,11 +711,11 @@ msgstr "Rediger sal"
 msgid "Edit..."
 msgstr "Rediger..."
 
-#: src/wx/subtitle_appearance_dialog.cc:64
+#: src/wx/subtitle_appearance_dialog.cc:63
 msgid "Effect"
 msgstr "Effekt"
 
-#: src/wx/subtitle_appearance_dialog.cc:69
+#: src/wx/subtitle_appearance_dialog.cc:66
 msgid "Effect colour"
 msgstr "Effektfarve"
 
@@ -789,7 +787,7 @@ msgstr "Facility (f.eks. DLA)"
 msgid "Fade in"
 msgstr "Fade in"
 
-#: src/wx/subtitle_appearance_dialog.cc:79
+#: src/wx/subtitle_appearance_dialog.cc:74
 msgid "Fade in time"
 msgstr ""
 
@@ -797,7 +795,7 @@ msgstr ""
 msgid "Fade out"
 msgstr "Fade out"
 
-#: src/wx/subtitle_appearance_dialog.cc:84
+#: src/wx/subtitle_appearance_dialog.cc:77
 msgid "Fade out time"
 msgstr ""
 
@@ -1290,7 +1288,7 @@ msgid "No content found in this folder."
 msgstr "Fandt intet indhold i denne folder."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:750 src/wx/subtitle_appearance_dialog.cc:134
+#: src/wx/dcp_panel.cc:750 src/wx/subtitle_appearance_dialog.cc:125
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
 #: src/wx/video_panel.cc:307
 msgid "None"
@@ -1348,7 +1346,7 @@ msgstr ""
 msgid "Outgoing mail server"
 msgstr "Udgående mail server"
 
-#: src/wx/subtitle_appearance_dialog.cc:135
+#: src/wx/subtitle_appearance_dialog.cc:126
 msgid "Outline"
 msgstr "Omrids"
 
@@ -1356,11 +1354,11 @@ msgstr "Omrids"
 msgid "Outline content"
 msgstr "Indram indhold"
 
-#: src/wx/subtitle_appearance_dialog.cc:74
+#: src/wx/subtitle_appearance_dialog.cc:69
 msgid "Outline width"
 msgstr "Indram bredde"
 
-#: src/wx/subtitle_appearance_dialog.cc:202
+#: src/wx/subtitle_appearance_dialog.cc:276
 msgid "Outline width cannot be set unless you are burning in subtitles"
 msgstr ""
 "Bredde indramning kan ikke sættes med mindre du brænder underteksterne ind i "
@@ -1596,7 +1594,7 @@ msgstr "Nulstil til standard tekst"
 msgid "Resolution"
 msgstr "Opløsning"
 
-#: src/wx/subtitle_appearance_dialog.cc:120
+#: src/wx/subtitle_appearance_dialog.cc:111
 msgid "Restore to original colours"
 msgstr ""
 
@@ -1752,7 +1750,11 @@ msgstr ""
 msgid "Set language"
 msgstr "Indstil sprog"
 
-#: src/wx/subtitle_appearance_dialog.cc:136
+#: src/wx/subtitle_appearance_dialog.cc:196
+msgid "Set to"
+msgstr ""
+
+#: src/wx/subtitle_appearance_dialog.cc:127
 msgid "Shadow"
 msgstr "Skygge"
 
@@ -1837,7 +1839,7 @@ msgstr "Undertekster"
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Tekstningssprog (f.eks. FR)"
 
-#: src/wx/subtitle_appearance_dialog.cc:42
+#: src/wx/subtitle_appearance_dialog.cc:43
 msgid "Subtitle appearance"
 msgstr "Underteksters udseende"
 
@@ -1846,7 +1848,7 @@ msgstr "Underteksters udseende"
 msgid "Subtitles"
 msgstr "Undertekster"
 
-#: src/wx/about_dialog.cc:331
+#: src/wx/about_dialog.cc:332
 msgid "Supported by"
 msgstr "Støttet af"
 
@@ -1886,7 +1888,7 @@ msgstr "Område (f.eks. UK)"
 msgid "Test version "
 msgstr "Testversion "
 
-#: src/wx/about_dialog.cc:388
+#: src/wx/about_dialog.cc:389
 msgid "Tested by"
 msgstr "Testet af"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-10 09:55+0000\n"
+"POT-Creation-Date: 2018-01-13 01:41+0000\n"
 "PO-Revision-Date: 2017-07-23 10:23+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -66,11 +66,11 @@ msgstr "(重启DCP-O-MATIC查看语言变化)"
 msgid "-6dB"
 msgstr "-6db"
 
-#: src/wx/wx_util.cc:379
+#: src/wx/wx_util.cc:383
 msgid "12 - 7.1/HI/VI"
 msgstr "12声道—7.1+听力障碍声道/视力障碍声道"
 
-#: src/wx/wx_util.cc:371
+#: src/wx/wx_util.cc:375
 msgid "2 - stereo"
 msgstr "2声道—立体声"
 
@@ -114,7 +114,7 @@ msgstr "仅右眼(3D)"
 msgid "3D top/bottom"
 msgstr "上下眼(3D)"
 
-#: src/wx/wx_util.cc:373
+#: src/wx/wx_util.cc:377
 msgid "4 - L/C/R/Lfe"
 msgstr "4声道—左/中/右/低音"
 
@@ -122,19 +122,19 @@ msgstr "4声道—左/中/右/低音"
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/wx_util.cc:375
+#: src/wx/wx_util.cc:379
 msgid "6 - 5.1"
 msgstr "6声道—5.1声道"
 
-#: src/wx/wx_util.cc:377
+#: src/wx/wx_util.cc:381
 msgid "8 - 5.1/HI/VI"
 msgstr "8声道—5.1+听力障碍声道/视力障碍声道"
 
-#: src/wx/subtitle_appearance_dialog.cc:104
+#: src/wx/subtitle_appearance_dialog.cc:95
 msgid "<b>New colour</b>"
 msgstr "<b>新色彩空间</b>"
 
-#: src/wx/subtitle_appearance_dialog.cc:101
+#: src/wx/subtitle_appearance_dialog.cc:92
 msgid "<b>Original colour</b>"
 msgstr "<b>原色彩空间</b>"
 
@@ -437,7 +437,7 @@ msgstr "放映厅和银幕数据库文件"
 msgid "Click the button to set all selected content to the same value."
 msgstr "单击该按钮可将所有选定的内容为相同的值。"
 
-#: src/wx/subtitle_appearance_dialog.cc:59
+#: src/wx/subtitle_appearance_dialog.cc:60
 msgid "Colour"
 msgstr "色彩空间"
 
@@ -506,14 +506,14 @@ msgid "Could not import certificate (%s)"
 msgstr "无法加载证书文件 (%s)"
 
 #: src/wx/content_menu.cc:380
-#, c-format
-msgid "Could not load KDM (%s)"
+#, fuzzy
+msgid "Could not load KDM."
 msgstr "无法加载 KDM (%s)"
 
 #: src/wx/config_dialog.cc:484 src/wx/config_dialog.cc:678
 #: src/wx/download_certificate_panel.cc:56 src/wx/screen_dialog.cc:158
-#, c-format
-msgid "Could not read certificate file (%s)"
+#, fuzzy
+msgid "Could not read certificate file."
 msgstr "无法读取证书文件 (%s)"
 
 #: src/wx/config_dialog.cc:668
@@ -522,10 +522,9 @@ msgid "Could not read key file; file is too long (%s)"
 msgstr "无法读取Key文件，因为文件过长 (%s)"
 
 #: src/wx/film_viewer.cc:773
-#, c-format
+#, fuzzy
 msgid ""
-"Could not set up audio output (%s).  There will be no audio during the "
-"preview."
+"Could not set up audio output.  There will be no audio during the preview."
 msgstr "不能设置音频输出 (%s)。因此预览时将没有音频输出"
 
 #: src/wx/full_config_dialog.cc:863
@@ -561,8 +560,8 @@ msgstr "DCP目录"
 msgid "DCP metadata filename format"
 msgstr "DCP元数据的文件名格式"
 
-#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:92 src/wx/wx_util.cc:104
-#: src/wx/wx_util.cc:112
+#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:93 src/wx/wx_util.cc:108
+#: src/wx/wx_util.cc:116
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
@@ -715,11 +714,11 @@ msgstr "编辑放映厅服务器（证书）"
 msgid "Edit..."
 msgstr "编辑..."
 
-#: src/wx/subtitle_appearance_dialog.cc:64
+#: src/wx/subtitle_appearance_dialog.cc:63
 msgid "Effect"
 msgstr "效果"
 
-#: src/wx/subtitle_appearance_dialog.cc:69
+#: src/wx/subtitle_appearance_dialog.cc:66
 msgid "Effect colour"
 msgstr "效果颜色"
 
@@ -791,7 +790,7 @@ msgstr "设备(例如:DLA)"
 msgid "Fade in"
 msgstr "淡入"
 
-#: src/wx/subtitle_appearance_dialog.cc:79
+#: src/wx/subtitle_appearance_dialog.cc:74
 msgid "Fade in time"
 msgstr "淡入时间"
 
@@ -799,7 +798,7 @@ msgstr "淡入时间"
 msgid "Fade out"
 msgstr "淡出"
 
-#: src/wx/subtitle_appearance_dialog.cc:84
+#: src/wx/subtitle_appearance_dialog.cc:77
 msgid "Fade out time"
 msgstr "淡出时间"
 
@@ -1298,7 +1297,7 @@ msgid "No content found in this folder."
 msgstr "没有找到文件！"
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:750 src/wx/subtitle_appearance_dialog.cc:134
+#: src/wx/dcp_panel.cc:750 src/wx/subtitle_appearance_dialog.cc:125
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
 #: src/wx/video_panel.cc:307
 msgid "None"
@@ -1356,7 +1355,7 @@ msgstr "其它可信设备(服务器设备)"
 msgid "Outgoing mail server"
 msgstr "发送邮件服务器地址"
 
-#: src/wx/subtitle_appearance_dialog.cc:135
+#: src/wx/subtitle_appearance_dialog.cc:126
 msgid "Outline"
 msgstr "缩略视图"
 
@@ -1364,11 +1363,11 @@ msgstr "缩略视图"
 msgid "Outline content"
 msgstr "缩略视图内容"
 
-#: src/wx/subtitle_appearance_dialog.cc:74
+#: src/wx/subtitle_appearance_dialog.cc:69
 msgid "Outline width"
 msgstr "轮廓线宽度"
 
-#: src/wx/subtitle_appearance_dialog.cc:202
+#: src/wx/subtitle_appearance_dialog.cc:276
 msgid "Outline width cannot be set unless you are burning in subtitles"
 msgstr "只有选择烧录字幕才能显示轮廓线！"
 
@@ -1599,7 +1598,7 @@ msgstr "恢复到默认"
 msgid "Resolution"
 msgstr "解析度"
 
-#: src/wx/subtitle_appearance_dialog.cc:120
+#: src/wx/subtitle_appearance_dialog.cc:111
 msgid "Restore to original colours"
 msgstr "恢复为原始色彩"
 
@@ -1756,7 +1755,11 @@ msgstr "系统字体"
 msgid "Set language"
 msgstr "设置语言"
 
-#: src/wx/subtitle_appearance_dialog.cc:136
+#: src/wx/subtitle_appearance_dialog.cc:196
+msgid "Set to"
+msgstr ""
+
+#: src/wx/subtitle_appearance_dialog.cc:127
 msgid "Shadow"
 msgstr "字幕阴影"
 
@@ -1843,7 +1846,7 @@ msgstr "字幕"
 msgid "Subtitle Language (e.g. FR)"
 msgstr "字幕语言(例如:QMS)"
 
-#: src/wx/subtitle_appearance_dialog.cc:42
+#: src/wx/subtitle_appearance_dialog.cc:43
 msgid "Subtitle appearance"
 msgstr "字幕外观"
 
@@ -1852,7 +1855,7 @@ msgstr "字幕外观"
 msgid "Subtitles"
 msgstr "字幕"
 
-#: src/wx/about_dialog.cc:331
+#: src/wx/about_dialog.cc:332
 msgid "Supported by"
 msgstr "技术支持"
 
@@ -1892,7 +1895,7 @@ msgstr "国别地区(例如:CN)"
 msgid "Test version "
 msgstr "测试版"
 
-#: src/wx/about_dialog.cc:388
+#: src/wx/about_dialog.cc:389
 msgid "Tested by"
 msgstr "测试"
 

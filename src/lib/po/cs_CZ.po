@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-10 09:55+0000\n"
+"POT-Creation-Date: 2018-01-13 01:41+0000\n"
 "PO-Revision-Date: 2017-10-09 11:16+0200\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -366,11 +366,11 @@ msgstr "Veškerý obsah ke sloučení musí mít titulky nebo žádné titulky"
 msgid "Content to be joined must all have or not have video"
 msgstr "Veškerý obsah ke sloučení musí mít video nebo žádné video"
 
-#: src/lib/subtitle_content.cc:175
+#: src/lib/subtitle_content.cc:198
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení  ’vypálené titulky'."
 
-#: src/lib/subtitle_content.cc:171
+#: src/lib/subtitle_content.cc:194
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení ’použít titulky'."
 
@@ -394,7 +394,7 @@ msgstr "Aby se spojil obsah, musí mít stejné nastavení  ořezu."
 msgid "Content to be joined must have the same fades."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení  zeslabení."
 
-#: src/lib/subtitle_content.cc:203
+#: src/lib/subtitle_content.cc:226
 msgid "Content to be joined must have the same outline width."
 msgstr "Připojený obsah musí mít stejnou šířku obrysu."
 
@@ -406,27 +406,27 @@ msgstr "Aby se spojil obsah, musí mít stejné nastavení velikosti obrazu."
 msgid "Content to be joined must have the same scale setting."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení měřítka."
 
-#: src/lib/subtitle_content.cc:179
+#: src/lib/subtitle_content.cc:202
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení titulků X offset."
 
-#: src/lib/subtitle_content.cc:187
+#: src/lib/subtitle_content.cc:210
 msgid "Content to be joined must have the same subtitle X scale."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení titulky X měřítko."
 
-#: src/lib/subtitle_content.cc:183
+#: src/lib/subtitle_content.cc:206
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení  titulkový Y offset."
 
-#: src/lib/subtitle_content.cc:191
+#: src/lib/subtitle_content.cc:214
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení titulků Y měřítko."
 
-#: src/lib/subtitle_content.cc:199
+#: src/lib/subtitle_content.cc:222
 msgid "Content to be joined must have the same subtitle fades."
 msgstr "Veškerý obsah ke sloučení musí mít stejné zeslabení titulků."
 
-#: src/lib/subtitle_content.cc:195
+#: src/lib/subtitle_content.cc:218
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr "Veškerý obsah ke sloučení musí mít stejné mezery mezi řádky titulků."
 
@@ -438,7 +438,7 @@ msgstr "Veškerý obsah ke sloučení musí mít stejnou snímkovou rychlost"
 msgid "Content to be joined must have the same video frame type."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení typu videa."
 
-#: src/lib/subtitle_content.cc:208 src/lib/subtitle_content.cc:216
+#: src/lib/subtitle_content.cc:231 src/lib/subtitle_content.cc:239
 msgid "Content to be joined must use the same fonts."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení písma."
 
@@ -469,10 +469,6 @@ msgstr "Nemohu dekódovat JPEG2000 soubor %1 (%2)"
 #: src/lib/magick_image_proxy.cc:102
 msgid "Could not decode image file (%1)"
 msgstr "Nemohu dekódovat video soubor (%1)"
-
-#: src/lib/ffmpeg_examiner.cc:267
-msgid "Could not find pixel format for video."
-msgstr "Nemohu najít formát pixelu pro video."
 
 #: src/lib/encode_server_finder.cc:162
 msgid ""
@@ -1498,6 +1494,9 @@ msgstr "video snímky"
 #: src/lib/film.cc:304
 msgid "you must add some content to the DCP before creating it"
 msgstr "musíte přidat obsah do DCP před tím než ho vytvoříte"
+
+#~ msgid "Could not find pixel format for video."
+#~ msgstr "Nemohu najít formát pixelu pro video."
 
 #~ msgid "2.35"
 #~ msgstr "2.35"

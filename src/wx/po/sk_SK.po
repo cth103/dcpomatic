@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-10 09:55+0000\n"
+"POT-Creation-Date: 2018-01-13 01:41+0000\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -60,11 +60,11 @@ msgstr "(reštartujte DCP-o-matic, aby sa zmenil jazyk)"
 msgid "-6dB"
 msgstr "-6dB"
 
-#: src/wx/wx_util.cc:379
+#: src/wx/wx_util.cc:383
 msgid "12 - 7.1/HI/VI"
 msgstr ""
 
-#: src/wx/wx_util.cc:371
+#: src/wx/wx_util.cc:375
 msgid "2 - stereo"
 msgstr ""
 
@@ -108,7 +108,7 @@ msgstr "3D len pravé"
 msgid "3D top/bottom"
 msgstr "3D hore/dole (Pod sebou)"
 
-#: src/wx/wx_util.cc:373
+#: src/wx/wx_util.cc:377
 msgid "4 - L/C/R/Lfe"
 msgstr ""
 
@@ -116,19 +116,19 @@ msgstr ""
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/wx_util.cc:375
+#: src/wx/wx_util.cc:379
 msgid "6 - 5.1"
 msgstr ""
 
-#: src/wx/wx_util.cc:377
+#: src/wx/wx_util.cc:381
 msgid "8 - 5.1/HI/VI"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:104
+#: src/wx/subtitle_appearance_dialog.cc:95
 msgid "<b>New colour</b>"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:101
+#: src/wx/subtitle_appearance_dialog.cc:92
 msgid "<b>Original colour</b>"
 msgstr ""
 
@@ -440,7 +440,7 @@ msgstr ""
 msgid "Click the button to set all selected content to the same value."
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:59
+#: src/wx/subtitle_appearance_dialog.cc:60
 msgid "Colour"
 msgstr "Farba"
 
@@ -511,14 +511,14 @@ msgid "Could not import certificate (%s)"
 msgstr "Nemôžem načítať súbor s certifikátom (%s)"
 
 #: src/wx/content_menu.cc:380
-#, c-format
-msgid "Could not load KDM (%s)"
+#, fuzzy
+msgid "Could not load KDM."
 msgstr "Nemôžem načítať kDM (%s)"
 
 #: src/wx/config_dialog.cc:484 src/wx/config_dialog.cc:678
 #: src/wx/download_certificate_panel.cc:56 src/wx/screen_dialog.cc:158
-#, c-format
-msgid "Could not read certificate file (%s)"
+#, fuzzy
+msgid "Could not read certificate file."
 msgstr "Nemôžem načítať súbor s certifikátom (%s)"
 
 #: src/wx/config_dialog.cc:668
@@ -527,10 +527,8 @@ msgid "Could not read key file; file is too long (%s)"
 msgstr "Nemôžem prečítať súbor s kľúčom (%s)"
 
 #: src/wx/film_viewer.cc:773
-#, c-format
 msgid ""
-"Could not set up audio output (%s).  There will be no audio during the "
-"preview."
+"Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
 
 #: src/wx/full_config_dialog.cc:863
@@ -566,8 +564,8 @@ msgstr "DCP adresár"
 msgid "DCP metadata filename format"
 msgstr ""
 
-#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:92 src/wx/wx_util.cc:104
-#: src/wx/wx_util.cc:112
+#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:93 src/wx/wx_util.cc:108
+#: src/wx/wx_util.cc:116
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
@@ -726,11 +724,11 @@ msgstr "Upraviť sálu..."
 msgid "Edit..."
 msgstr "Upraviť..."
 
-#: src/wx/subtitle_appearance_dialog.cc:64
+#: src/wx/subtitle_appearance_dialog.cc:63
 msgid "Effect"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:69
+#: src/wx/subtitle_appearance_dialog.cc:66
 msgid "Effect colour"
 msgstr ""
 
@@ -803,7 +801,7 @@ msgstr "Štúdio (napr. DLA)"
 msgid "Fade in"
 msgstr "Postupný nábeh (Fade in)"
 
-#: src/wx/subtitle_appearance_dialog.cc:79
+#: src/wx/subtitle_appearance_dialog.cc:74
 #, fuzzy
 msgid "Fade in time"
 msgstr "Postupný nábeh (Fade in)"
@@ -812,7 +810,7 @@ msgstr "Postupný nábeh (Fade in)"
 msgid "Fade out"
 msgstr "Postupné stíšenie (Fade out)"
 
-#: src/wx/subtitle_appearance_dialog.cc:84
+#: src/wx/subtitle_appearance_dialog.cc:77
 #, fuzzy
 msgid "Fade out time"
 msgstr "Postupné stíšenie (Fade out)"
@@ -1317,7 +1315,7 @@ msgid "No content found in this folder."
 msgstr "Žiadny obsah v priečinku nebol nájdený."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:750 src/wx/subtitle_appearance_dialog.cc:134
+#: src/wx/dcp_panel.cc:750 src/wx/subtitle_appearance_dialog.cc:125
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
 #: src/wx/video_panel.cc:307
 msgid "None"
@@ -1375,7 +1373,7 @@ msgstr "Iné dôveryhodné zariadenia"
 msgid "Outgoing mail server"
 msgstr "Server odchádzajúcej pošty"
 
-#: src/wx/subtitle_appearance_dialog.cc:135
+#: src/wx/subtitle_appearance_dialog.cc:126
 msgid "Outline"
 msgstr "Orámovanie"
 
@@ -1383,12 +1381,12 @@ msgstr "Orámovanie"
 msgid "Outline content"
 msgstr "Farba orámovania"
 
-#: src/wx/subtitle_appearance_dialog.cc:74
+#: src/wx/subtitle_appearance_dialog.cc:69
 #, fuzzy
 msgid "Outline width"
 msgstr "Orámovanie"
 
-#: src/wx/subtitle_appearance_dialog.cc:202
+#: src/wx/subtitle_appearance_dialog.cc:276
 msgid "Outline width cannot be set unless you are burning in subtitles"
 msgstr ""
 
@@ -1625,7 +1623,7 @@ msgstr "Obnoviť predvolený predmet a text"
 msgid "Resolution"
 msgstr "Rozlíšenie"
 
-#: src/wx/subtitle_appearance_dialog.cc:120
+#: src/wx/subtitle_appearance_dialog.cc:111
 msgid "Restore to original colours"
 msgstr ""
 
@@ -1787,7 +1785,11 @@ msgstr "Nastaviť zo systémového písma..."
 msgid "Set language"
 msgstr "Nastaviť jazyk"
 
-#: src/wx/subtitle_appearance_dialog.cc:136
+#: src/wx/subtitle_appearance_dialog.cc:196
+msgid "Set to"
+msgstr ""
+
+#: src/wx/subtitle_appearance_dialog.cc:127
 msgid "Shadow"
 msgstr ""
 
@@ -1874,7 +1876,7 @@ msgstr "Titulky"
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Jazyk titulkov (napr. EN)"
 
-#: src/wx/subtitle_appearance_dialog.cc:42
+#: src/wx/subtitle_appearance_dialog.cc:43
 msgid "Subtitle appearance"
 msgstr "Vzhľad titulkov"
 
@@ -1883,7 +1885,7 @@ msgstr "Vzhľad titulkov"
 msgid "Subtitles"
 msgstr "Titulky"
 
-#: src/wx/about_dialog.cc:331
+#: src/wx/about_dialog.cc:332
 msgid "Supported by"
 msgstr "Podporované(ý)"
 
@@ -1923,7 +1925,7 @@ msgstr "Územie (napr. SK)"
 msgid "Test version "
 msgstr "Test verzia"
 
-#: src/wx/about_dialog.cc:388
+#: src/wx/about_dialog.cc:389
 msgid "Tested by"
 msgstr "Testované"
 

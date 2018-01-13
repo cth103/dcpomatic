@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-10 09:55+0000\n"
+"POT-Creation-Date: 2018-01-13 01:41+0000\n"
 "PO-Revision-Date: 2017-08-10 20:03+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -60,11 +60,11 @@ msgstr "(zmiana języka będzie widoczna po restarcie DCP-o-matic)"
 msgid "-6dB"
 msgstr "-6dB"
 
-#: src/wx/wx_util.cc:379
+#: src/wx/wx_util.cc:383
 msgid "12 - 7.1/HI/VI"
 msgstr "12 - 7.1/HI/VI"
 
-#: src/wx/wx_util.cc:371
+#: src/wx/wx_util.cc:375
 msgid "2 - stereo"
 msgstr "2 - stereo"
 
@@ -108,7 +108,7 @@ msgstr "3D tylko prawy"
 msgid "3D top/bottom"
 msgstr "3D góra/dół"
 
-#: src/wx/wx_util.cc:373
+#: src/wx/wx_util.cc:377
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
@@ -116,19 +116,19 @@ msgstr "4 - L/C/R/Lfe"
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/wx_util.cc:375
+#: src/wx/wx_util.cc:379
 msgid "6 - 5.1"
 msgstr "6 - 5.1"
 
-#: src/wx/wx_util.cc:377
+#: src/wx/wx_util.cc:381
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/subtitle_appearance_dialog.cc:104
+#: src/wx/subtitle_appearance_dialog.cc:95
 msgid "<b>New colour</b>"
 msgstr "<b>Nowy kolor</b>"
 
-#: src/wx/subtitle_appearance_dialog.cc:101
+#: src/wx/subtitle_appearance_dialog.cc:92
 msgid "<b>Original colour</b>"
 msgstr "<b>Kolor oryginalny</b>"
 
@@ -438,7 +438,7 @@ msgstr "Plik bazy Kin i Sal"
 msgid "Click the button to set all selected content to the same value."
 msgstr "Uzyj przycisku by ustawić zaznaczone pliki do tej samej wartości."
 
-#: src/wx/subtitle_appearance_dialog.cc:59
+#: src/wx/subtitle_appearance_dialog.cc:60
 msgid "Colour"
 msgstr "Kolor"
 
@@ -507,14 +507,14 @@ msgid "Could not import certificate (%s)"
 msgstr "Nie udało się odczytać certyfikatu (%s)"
 
 #: src/wx/content_menu.cc:380
-#, c-format
-msgid "Could not load KDM (%s)"
+#, fuzzy
+msgid "Could not load KDM."
 msgstr "Nie udało się załadować KDM (%s)"
 
 #: src/wx/config_dialog.cc:484 src/wx/config_dialog.cc:678
 #: src/wx/download_certificate_panel.cc:56 src/wx/screen_dialog.cc:158
-#, c-format
-msgid "Could not read certificate file (%s)"
+#, fuzzy
+msgid "Could not read certificate file."
 msgstr "Nie udało się odczytać pliku certyfikatu (%s)"
 
 #: src/wx/config_dialog.cc:668
@@ -523,10 +523,9 @@ msgid "Could not read key file; file is too long (%s)"
 msgstr "Nie udało się odczytać pliku klucza; plik jest zbyt długi (%s)"
 
 #: src/wx/film_viewer.cc:773
-#, c-format
+#, fuzzy
 msgid ""
-"Could not set up audio output (%s).  There will be no audio during the "
-"preview."
+"Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
 "Nie udało się ustawić wyjścia audio (%s). Nie będzie odsłuchu podczas "
 "odtwarzania podglądu."
@@ -564,8 +563,8 @@ msgstr "Katalog DCP"
 msgid "DCP metadata filename format"
 msgstr "Format nazewnictwa plików metadanych"
 
-#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:92 src/wx/wx_util.cc:104
-#: src/wx/wx_util.cc:112
+#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:93 src/wx/wx_util.cc:108
+#: src/wx/wx_util.cc:116
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
@@ -718,11 +717,11 @@ msgstr "Edytuj Salę"
 msgid "Edit..."
 msgstr "Edytuj..."
 
-#: src/wx/subtitle_appearance_dialog.cc:64
+#: src/wx/subtitle_appearance_dialog.cc:63
 msgid "Effect"
 msgstr "Efekt"
 
-#: src/wx/subtitle_appearance_dialog.cc:69
+#: src/wx/subtitle_appearance_dialog.cc:66
 msgid "Effect colour"
 msgstr "Efekt koloru"
 
@@ -800,7 +799,7 @@ msgstr "Placówka (np. DLA)"
 msgid "Fade in"
 msgstr "Rozjasnienie"
 
-#: src/wx/subtitle_appearance_dialog.cc:79
+#: src/wx/subtitle_appearance_dialog.cc:74
 msgid "Fade in time"
 msgstr "Czas rozjaśnienia"
 
@@ -808,7 +807,7 @@ msgstr "Czas rozjaśnienia"
 msgid "Fade out"
 msgstr "Wyciemnienie"
 
-#: src/wx/subtitle_appearance_dialog.cc:84
+#: src/wx/subtitle_appearance_dialog.cc:77
 msgid "Fade out time"
 msgstr "Czas wyciemnienia"
 
@@ -1311,7 +1310,7 @@ msgid "No content found in this folder."
 msgstr "W tym folderze brakuje plików."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:750 src/wx/subtitle_appearance_dialog.cc:134
+#: src/wx/dcp_panel.cc:750 src/wx/subtitle_appearance_dialog.cc:125
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
 #: src/wx/video_panel.cc:307
 msgid "None"
@@ -1369,7 +1368,7 @@ msgstr "Inne zaufane urządzenia (TDL)"
 msgid "Outgoing mail server"
 msgstr "Serwer poczty wychodzącej"
 
-#: src/wx/subtitle_appearance_dialog.cc:135
+#: src/wx/subtitle_appearance_dialog.cc:126
 msgid "Outline"
 msgstr "Obrys"
 
@@ -1377,11 +1376,11 @@ msgstr "Obrys"
 msgid "Outline content"
 msgstr "Obrysuj obraz"
 
-#: src/wx/subtitle_appearance_dialog.cc:74
+#: src/wx/subtitle_appearance_dialog.cc:69
 msgid "Outline width"
 msgstr "Grubość obrysu"
 
-#: src/wx/subtitle_appearance_dialog.cc:202
+#: src/wx/subtitle_appearance_dialog.cc:276
 msgid "Outline width cannot be set unless you are burning in subtitles"
 msgstr "Grubość obrysu można ustawić tylko, gdy wypalasz napisy na obrazie"
 
@@ -1614,7 +1613,7 @@ msgstr "Przywróć domyślny tekst"
 msgid "Resolution"
 msgstr "Rozdzielczość"
 
-#: src/wx/subtitle_appearance_dialog.cc:120
+#: src/wx/subtitle_appearance_dialog.cc:111
 msgid "Restore to original colours"
 msgstr "Przywróć oryginalne kolory"
 
@@ -1771,7 +1770,11 @@ msgstr "Ustaw czcionkę systmową..."
 msgid "Set language"
 msgstr "Wybierz język"
 
-#: src/wx/subtitle_appearance_dialog.cc:136
+#: src/wx/subtitle_appearance_dialog.cc:196
+msgid "Set to"
+msgstr ""
+
+#: src/wx/subtitle_appearance_dialog.cc:127
 msgid "Shadow"
 msgstr "Cień"
 
@@ -1856,7 +1859,7 @@ msgstr "Napisy"
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Język napisów (np. PL)"
 
-#: src/wx/subtitle_appearance_dialog.cc:42
+#: src/wx/subtitle_appearance_dialog.cc:43
 msgid "Subtitle appearance"
 msgstr "Wygląd napisów"
 
@@ -1865,7 +1868,7 @@ msgstr "Wygląd napisów"
 msgid "Subtitles"
 msgstr "Napisy"
 
-#: src/wx/about_dialog.cc:331
+#: src/wx/about_dialog.cc:332
 msgid "Supported by"
 msgstr "Wsparli"
 
@@ -1905,7 +1908,7 @@ msgstr "Region (np. PL)"
 msgid "Test version "
 msgstr "Wersja testowa "
 
-#: src/wx/about_dialog.cc:388
+#: src/wx/about_dialog.cc:389
 msgid "Tested by"
 msgstr "Testerzy"
 

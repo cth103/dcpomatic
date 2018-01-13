@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-10 09:55+0000\n"
+"POT-Creation-Date: 2018-01-13 01:41+0000\n"
 "PO-Revision-Date: 2016-10-25 17:57+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -359,13 +359,13 @@ msgstr "Innehåll som ska sammanfogas måste alla ha eller inte ha undertexter"
 msgid "Content to be joined must all have or not have video"
 msgstr "Innehåll som ska sammanfogas måste alla ha eller inte ha video"
 
-#: src/lib/subtitle_content.cc:175
+#: src/lib/subtitle_content.cc:198
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr ""
 "Innehåll som ska sammanfogas måste använda samma inställning på 'bränn in "
 "undertexter'."
 
-#: src/lib/subtitle_content.cc:171
+#: src/lib/subtitle_content.cc:194
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr ""
 "Innehåll som ska sammanfogas måste använda samma inställning på 'använd "
@@ -391,7 +391,7 @@ msgstr "Innehåll som ska sammanfogas måste använda samma beskärning."
 msgid "Content to be joined must have the same fades."
 msgstr "Innehåll som ska sammanfogas måste använda samma intoning."
 
-#: src/lib/subtitle_content.cc:203
+#: src/lib/subtitle_content.cc:226
 msgid "Content to be joined must have the same outline width."
 msgstr "Innehåll som ska sammanfogas måste ha samma konturbredd."
 
@@ -403,34 +403,34 @@ msgstr "Innehåll som ska sammanfogas måste använda samma bildstorlek."
 msgid "Content to be joined must have the same scale setting."
 msgstr "Innehåll som ska sammanfogas måste använda samma bildförhållande."
 
-#: src/lib/subtitle_content.cc:179
+#: src/lib/subtitle_content.cc:202
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr ""
 "Innehåll som ska sammanfogas måste använda samma X-förskjutning på "
 "undertexten."
 
-#: src/lib/subtitle_content.cc:187
+#: src/lib/subtitle_content.cc:210
 msgid "Content to be joined must have the same subtitle X scale."
 msgstr ""
 "Innehåll som ska sammanfogas måste använda samma X-skala på undertexten."
 
-#: src/lib/subtitle_content.cc:183
+#: src/lib/subtitle_content.cc:206
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr ""
 "Innehåll som ska sammanfogas måste använda samma Y-förskjutning på "
 "undertexten."
 
-#: src/lib/subtitle_content.cc:191
+#: src/lib/subtitle_content.cc:214
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr ""
 "Innehåll som ska sammanfogas måste använda samma Y-skala på undertexten."
 
-#: src/lib/subtitle_content.cc:199
+#: src/lib/subtitle_content.cc:222
 msgid "Content to be joined must have the same subtitle fades."
 msgstr ""
 "Innehåll som ska sammanfogas måste ha samma typ av toning för undertexter."
 
-#: src/lib/subtitle_content.cc:195
+#: src/lib/subtitle_content.cc:218
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr ""
 "Innehåll som ska sammanfogas måste ha samma linjeavstånd på undertexter."
@@ -443,7 +443,7 @@ msgstr "Innehåll som ska sammanfogas måste använda samma bildhastighet."
 msgid "Content to be joined must have the same video frame type."
 msgstr "Innehåll som ska sammanfogas måste använda samma videobildtyp."
 
-#: src/lib/subtitle_content.cc:208 src/lib/subtitle_content.cc:216
+#: src/lib/subtitle_content.cc:231 src/lib/subtitle_content.cc:239
 msgid "Content to be joined must use the same fonts."
 msgstr "Innehåll som ska sammanfogas måste använda samma typsnitt."
 
@@ -474,10 +474,6 @@ msgstr "Kunde inte avkoda JPEG2000-fil %1 (%2)"
 #: src/lib/magick_image_proxy.cc:102
 msgid "Could not decode image file (%1)"
 msgstr "Kunde inte avkoda bildfil (%1)"
-
-#: src/lib/ffmpeg_examiner.cc:267
-msgid "Could not find pixel format for video."
-msgstr "Kunde inte hitta information om pixel-formatet för videon."
 
 #: src/lib/encode_server_finder.cc:162
 msgid ""
@@ -1518,6 +1514,9 @@ msgstr "bildrutor"
 #, fuzzy
 msgid "you must add some content to the DCP before creating it"
 msgstr "Du måste lägga till något innehåll till DCP:n innan du skapar den"
+
+#~ msgid "Could not find pixel format for video."
+#~ msgstr "Kunde inte hitta information om pixel-formatet för videon."
 
 #~ msgid "2.35"
 #~ msgstr "2,35"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-10 09:55+0000\n"
+"POT-Creation-Date: 2018-01-13 01:41+0000\n"
 "PO-Revision-Date: 2017-11-07 23:35+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -367,11 +367,11 @@ msgstr ""
 msgid "Content to be joined must all have or not have video"
 msgstr "Les contenus à ajouter doivent tous avoir ou ne pas avoir de vidéo"
 
-#: src/lib/subtitle_content.cc:175
+#: src/lib/subtitle_content.cc:198
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr "Le contenu à ajouter doit avoir le même réglage 'sous-titres gravés'"
 
-#: src/lib/subtitle_content.cc:171
+#: src/lib/subtitle_content.cc:194
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr ""
 "Le contenu à ajouter doit avoir le même réglage 'utiliser les sous-titres'"
@@ -396,7 +396,7 @@ msgstr "le contenu à ajouter doit avoir les mêmes valeurs de rognage"
 msgid "Content to be joined must have the same fades."
 msgstr "Le contenu à ajouter doit avoir le même réglage de fondu."
 
-#: src/lib/subtitle_content.cc:203
+#: src/lib/subtitle_content.cc:226
 msgid "Content to be joined must have the same outline width."
 msgstr "Le contenu ajouté doit avoir la même taille de contour."
 
@@ -409,35 +409,35 @@ msgid "Content to be joined must have the same scale setting."
 msgstr ""
 "Le contenu à ajouter doit avoir les mêmes paramètres de mise à l'échelle"
 
-#: src/lib/subtitle_content.cc:179
+#: src/lib/subtitle_content.cc:202
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr ""
 "Le contenu à ajouter doit avoir le même positionnement horizontal des sous-"
 "titres"
 
-#: src/lib/subtitle_content.cc:187
+#: src/lib/subtitle_content.cc:210
 msgid "Content to be joined must have the same subtitle X scale."
 msgstr ""
 "Le contenu à ajouter doit avoir le même réglage d'échelle horizontale de "
 "sous-titres"
 
-#: src/lib/subtitle_content.cc:183
+#: src/lib/subtitle_content.cc:206
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr ""
 "Le contenu à ajouter doit avoir le même positionnement vertical des sous-"
 "titres"
 
-#: src/lib/subtitle_content.cc:191
+#: src/lib/subtitle_content.cc:214
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr ""
 "Le contenu à ajouter doit avoir le même réglage d'échelle verticale de sous-"
 "titres"
 
-#: src/lib/subtitle_content.cc:199
+#: src/lib/subtitle_content.cc:222
 msgid "Content to be joined must have the same subtitle fades."
 msgstr "Le contenu ajouté doit avoir le même réglage de fondu."
 
-#: src/lib/subtitle_content.cc:195
+#: src/lib/subtitle_content.cc:218
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr ""
 "Les contenus à ajouter doivent tous avoir le même espacement de lignes."
@@ -450,7 +450,7 @@ msgstr "Le contenu à ajouter doit avoir la même cadence vidéo."
 msgid "Content to be joined must have the same video frame type."
 msgstr "Le contenu à ajouter doit avoir le même type de trame vidéo"
 
-#: src/lib/subtitle_content.cc:208 src/lib/subtitle_content.cc:216
+#: src/lib/subtitle_content.cc:231 src/lib/subtitle_content.cc:239
 msgid "Content to be joined must use the same fonts."
 msgstr "Le contenu à ajouter doit avoir la même police de sous-titres"
 
@@ -481,10 +481,6 @@ msgstr "Ne parvient pas à décoder le fichier JPEG2000 %1 (%2)"
 #: src/lib/magick_image_proxy.cc:102
 msgid "Could not decode image file (%1)"
 msgstr "Ne parvient pas à décoder le fichier image (%1)"
-
-#: src/lib/ffmpeg_examiner.cc:267
-msgid "Could not find pixel format for video."
-msgstr "format du pixel pour la vidéo non determiné"
 
 #: src/lib/encode_server_finder.cc:162
 msgid ""
@@ -1527,6 +1523,9 @@ msgstr "images"
 #: src/lib/film.cc:304
 msgid "you must add some content to the DCP before creating it"
 msgstr "Vous devez ajouter des contenus pour créer le DCP"
+
+#~ msgid "Could not find pixel format for video."
+#~ msgstr "format du pixel pour la vidéo non determiné"
 
 #~ msgid "2.35"
 #~ msgstr "2.35"

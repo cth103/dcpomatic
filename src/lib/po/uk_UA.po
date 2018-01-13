@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-10 09:55+0000\n"
+"POT-Creation-Date: 2018-01-13 01:41+0000\n"
 "PO-Revision-Date: 2017-01-18 12:15+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Українська\n"
@@ -360,12 +360,12 @@ msgid "Content to be joined must all have or not have video"
 msgstr ""
 "Для приєднання цього контенту, всі інші мають містити або не містити відео"
 
-#: src/lib/subtitle_content.cc:175
+#: src/lib/subtitle_content.cc:198
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr ""
 "Для приєднання контенту мають бути такі самі налаштування \"вшити субтитри\"."
 
-#: src/lib/subtitle_content.cc:171
+#: src/lib/subtitle_content.cc:194
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr ""
 "Для приєднання контенту мають бути такі самі налаштування \"використовувати "
@@ -391,7 +391,7 @@ msgstr "Для приєднання контенту має бути таке с
 msgid "Content to be joined must have the same fades."
 msgstr "Для приєднання контенту має бути таке саме згасання."
 
-#: src/lib/subtitle_content.cc:203
+#: src/lib/subtitle_content.cc:226
 msgid "Content to be joined must have the same outline width."
 msgstr "Для приєднання контенту має бути однакова ширина обводки."
 
@@ -403,31 +403,31 @@ msgstr "Для приєднання контенту має бути такий 
 msgid "Content to be joined must have the same scale setting."
 msgstr "Для приєднання контенту мають бути такі самі параметри масштабування."
 
-#: src/lib/subtitle_content.cc:179
+#: src/lib/subtitle_content.cc:202
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr ""
 "Для приєднання контенту має бути таке саме горизонтальне зміщення субтитрів."
 
-#: src/lib/subtitle_content.cc:187
+#: src/lib/subtitle_content.cc:210
 msgid "Content to be joined must have the same subtitle X scale."
 msgstr ""
 "Для приєднання контенту має бути таке саме розмір субтитрів по горизонталі."
 
-#: src/lib/subtitle_content.cc:183
+#: src/lib/subtitle_content.cc:206
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr ""
 "Для приєднання контенту має бути таке саме вертикальне зміщення субтитрів."
 
-#: src/lib/subtitle_content.cc:191
+#: src/lib/subtitle_content.cc:214
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr ""
 "Для приєднання контенту має бути таке саме розмір субтитрів по вертикалі."
 
-#: src/lib/subtitle_content.cc:199
+#: src/lib/subtitle_content.cc:222
 msgid "Content to be joined must have the same subtitle fades."
 msgstr "Для приєднання контенту має бути однакове згасання субтитрів."
 
-#: src/lib/subtitle_content.cc:195
+#: src/lib/subtitle_content.cc:218
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr ""
 "Для приєднання контенту має бути такий самий інтервал між рядками субтитрів."
@@ -440,7 +440,7 @@ msgstr "Для приєднання контенту має бути така с
 msgid "Content to be joined must have the same video frame type."
 msgstr "Для приєднання контенту має бути такий самий тип відео."
 
-#: src/lib/subtitle_content.cc:208 src/lib/subtitle_content.cc:216
+#: src/lib/subtitle_content.cc:231 src/lib/subtitle_content.cc:239
 msgid "Content to be joined must use the same fonts."
 msgstr "Для приєднання контенту має бути такий самий шрифт."
 
@@ -471,10 +471,6 @@ msgstr "Не вдалось декодувати JPEG2000-файл %1 (%2)"
 #: src/lib/magick_image_proxy.cc:102
 msgid "Could not decode image file (%1)"
 msgstr "Не вдалося декодувати зображення (%1)"
-
-#: src/lib/ffmpeg_examiner.cc:267
-msgid "Could not find pixel format for video."
-msgstr "Не вдалося знайти формат пікселя відео."
 
 #: src/lib/encode_server_finder.cc:162
 msgid ""
@@ -1506,6 +1502,9 @@ msgstr "відеокадри"
 #, fuzzy
 msgid "you must add some content to the DCP before creating it"
 msgstr "Додайте контент в проект перед створенням DCP"
+
+#~ msgid "Could not find pixel format for video."
+#~ msgstr "Не вдалося знайти формат пікселя відео."
 
 #~ msgid "2.35"
 #~ msgstr "2.35"
