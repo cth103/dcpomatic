@@ -166,6 +166,7 @@ public:
 	}
 
 	void set_video_frame_rate (double r);
+	void unset_video_frame_rate ();
 
 	double active_video_frame_rate () const;
 

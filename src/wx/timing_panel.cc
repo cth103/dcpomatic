@@ -409,9 +409,16 @@ TimingPanel::video_frame_rate_changed ()
 void
 TimingPanel::set_video_frame_rate ()
 {
-	double const fr = locale_convert<double> (wx_to_std (_video_frame_rate->GetValue ()));
+	optional<double> fr;
+	if (_video_frame_rate->GetValue() != wxT("")) {
+		fr = locale_convert<double> (wx_to_std (_video_frame_rate->GetValue ()));
+	}
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
-		i->set_video_frame_rate (fr);
+		if (fr) {
+			i->set_video_frame_rate (*fr);
+		} else {
+			i->unset_video_frame_rate ();
+		}
 	}
 
 	_set_video_frame_rate->Enable (false);

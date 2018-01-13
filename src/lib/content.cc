@@ -48,6 +48,7 @@ using std::vector;
 using std::max;
 using std::pair;
 using boost::shared_ptr;
+using boost::optional;
 using dcp::raw_convert;
 using dcp::locale_convert;
 
@@ -356,6 +357,17 @@ Content::set_video_frame_rate (double r)
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_video_frame_rate = r;
+	}
+
+	signal_changed (ContentProperty::VIDEO_FRAME_RATE);
+}
+
+void
+Content::unset_video_frame_rate ()
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_video_frame_rate = optional<double>();
 	}
 
 	signal_changed (ContentProperty::VIDEO_FRAME_RATE);
