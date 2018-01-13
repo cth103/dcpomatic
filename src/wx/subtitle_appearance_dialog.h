@@ -30,6 +30,8 @@ class wxGridBagSizer;
 class Content;
 class RGBAColourPicker;
 class FFmpegSubtitleStream;
+class wxCheckBox;
+class wxWidget;
 
 class SubtitleAppearanceDialog : public wxDialog
 {
@@ -41,6 +43,7 @@ public:
 private:
 	void setup_sensitivity ();
 	void restore ();
+	wxCheckBox* set_to (wxWindow* w, int& r);
 
 	wxCheckBox* _force_colour;
 	wxColourPickerCtrl* _colour;
@@ -48,7 +51,9 @@ private:
 	wxChoice* _effect;
 	wxCheckBox* _force_effect_colour;
 	wxColourPickerCtrl* _effect_colour;
+	wxCheckBox* _force_fade_in;
 	Timecode<ContentTime>* _fade_in;
+	wxCheckBox* _force_fade_out;
 	Timecode<ContentTime>* _fade_out;
 	wxSpinCtrl* _outline_width;
 	wxGridBagSizer* _table;

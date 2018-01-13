@@ -81,8 +81,10 @@ public:
 	void unset_effect_colour ();
 	void set_line_spacing (double s);
 	void set_fade_in (ContentTime);
+	void unset_fade_in ();
 	void set_fade_out (ContentTime);
 	void set_outline_width (int);
+	void unset_fade_out ();
 
 	bool use () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -144,12 +146,12 @@ public:
 		return _line_spacing;
 	}
 
-	ContentTime fade_in () const {
+	boost::optional<ContentTime> fade_in () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _fade_in;
 	}
 
-	ContentTime fade_out () const {
+	boost::optional<ContentTime> fade_out () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _fade_out;
 	}
@@ -194,8 +196,8 @@ private:
 	boost::optional<dcp::Colour> _effect_colour;
 	/** scaling factor for line spacing; 1 is "standard", < 1 is closer together, > 1 is further apart */
 	double _line_spacing;
-	ContentTime _fade_in;
-	ContentTime _fade_out;
+	boost::optional<ContentTime> _fade_in;
+	boost::optional<ContentTime> _fade_out;
 	int _outline_width;
 };
 

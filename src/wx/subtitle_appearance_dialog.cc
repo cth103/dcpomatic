@@ -58,37 +58,13 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 	int r = 0;
 
 	add_label_to_sizer (_table, this, _("Colour"), true, wxGBPosition (r, 0));
-	{
-		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_force_colour = new wxCheckBox (this, wxID_ANY, _("Set to"));
-		s->Add (_force_colour, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, 8);
-		_colour = new wxColourPickerCtrl (this, wxID_ANY);
-		s->Add (_colour, 0, wxALIGN_CENTER_VERTICAL);
-		_table->Add (s, wxGBPosition (r, 1));
-	}
-	++r;
+	_force_colour = set_to (_colour = new wxColourPickerCtrl (this, wxID_ANY), r);
 
 	add_label_to_sizer (_table, this, _("Effect"), true, wxGBPosition (r, 0));
-	{
-		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_force_effect = new wxCheckBox (this, wxID_ANY, _("Set to"));
-		s->Add (_force_effect, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, 8);
-		_effect = new wxChoice (this, wxID_ANY);
-		s->Add (_effect, 0, wxALIGN_CENTER_VERTICAL);
-		_table->Add (s, wxGBPosition (r, 1));
-	}
-	++r;
+	_force_effect = set_to (_effect = new wxChoice (this, wxID_ANY), r);
 
 	add_label_to_sizer (_table, this, _("Effect colour"), true, wxGBPosition (r, 0));
-	{
-		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_force_effect_colour = new wxCheckBox (this, wxID_ANY, _("Set to"));
-		s->Add (_force_effect_colour, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, 8);
-		_effect_colour = new wxColourPickerCtrl (this, wxID_ANY);
-		s->Add (_effect_colour, 0, wxALIGN_CENTER_VERTICAL);
-		_table->Add (s, wxGBPosition (r, 1));
-	}
-	++r;
+	_force_effect_colour = set_to (_effect_colour = new wxColourPickerCtrl (this, wxID_ANY), r);
 
 	add_label_to_sizer (_table, this, _("Outline width"), true, wxGBPosition (r, 0));
 	_outline_width = new wxSpinCtrl (this, wxID_ANY);
@@ -96,14 +72,10 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 	++r;
 
 	add_label_to_sizer (_table, this, _("Fade in time"), true, wxGBPosition (r, 0));
-	_fade_in = new Timecode<ContentTime> (this);
-	_table->Add (_fade_in, wxGBPosition (r, 1));
-	++r;
+	_force_fade_in = set_to (_fade_in = new Timecode<ContentTime> (this), r);
 
 	add_label_to_sizer (_table, this, _("Fade out time"), true, wxGBPosition (r, 0));
-	_fade_out = new Timecode<ContentTime> (this);
-	_table->Add (_fade_out, wxGBPosition (r, 1));
-	++r;
+	_force_fade_out = set_to (_fade_out = new Timecode<ContentTime> (this), r);
 
 	if (_stream) {
 		wxScrolled<wxPanel>* colours_panel = new wxScrolled<wxPanel> (this);
@@ -155,17 +127,16 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 	_effect->Append (_("Shadow"));;
 
 	optional<dcp::Colour> colour = _content->subtitle->colour();
+	_force_effect_colour->SetValue (static_cast<bool>(colour));
 	if (colour) {
-		_force_colour->SetValue (true);
 		_colour->SetColour (wxColour (colour->r, colour->g, colour->b));
 	} else {
-		_force_colour->SetValue (false);
 		_colour->SetColour (wxColour (255, 255, 255));
 	}
 
 	optional<dcp::Effect> effect = _content->subtitle->effect();
+	_force_effect->SetValue (static_cast<bool>(effect));
 	if (effect) {
-		_force_effect->SetValue (true);
 		switch (*effect) {
 		case dcp::NONE:
 			_effect->SetSelection (NONE);
@@ -178,30 +149,56 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 			break;
 		}
 	} else {
-		_force_effect->SetValue (false);
 		_effect->SetSelection (NONE);
 	}
 
 	optional<dcp::Colour> effect_colour = _content->subtitle->effect_colour();
+	_force_effect_colour->SetValue (static_cast<bool>(_force_effect_colour));
 	if (effect_colour) {
-		_force_effect_colour->SetValue (true);
 		_effect_colour->SetColour (wxColour (effect_colour->r, effect_colour->g, effect_colour->b));
 	} else {
-		_force_effect_colour->SetValue (false);
 		_effect_colour->SetColour (wxColour (0, 0, 0));
 	}
 
-	_fade_in->set (_content->subtitle->fade_in(), _content->active_video_frame_rate ());
-	_fade_out->set (_content->subtitle->fade_out(), _content->active_video_frame_rate ());
+	optional<ContentTime> fade_in = _content->subtitle->fade_in();
+	_force_fade_in->SetValue (static_cast<bool>(fade_in));
+	if (fade_in) {
+		_fade_in->set (*fade_in, _content->active_video_frame_rate());
+	} else {
+		_fade_in->set (ContentTime(), _content->active_video_frame_rate());
+	}
+
+	optional<ContentTime> fade_out = _content->subtitle->fade_out();
+	_force_fade_out->SetValue (static_cast<bool>(fade_out));
+	if (fade_out) {
+		_fade_out->set (*fade_out, _content->active_video_frame_rate ());
+	} else {
+		_fade_out->set (ContentTime(), _content->active_video_frame_rate ());
+	}
+
 	_outline_width->SetValue (_content->subtitle->outline_width ());
 
 	_force_colour->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
 	_force_effect_colour->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
 	_force_effect->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
+	_force_fade_in->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
+	_force_fade_out->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
 	_effect->Bind (wxEVT_CHOICE, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
 	_content_connection = _content->Changed.connect (bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
 
 	setup_sensitivity ();
+}
+
+wxCheckBox*
+SubtitleAppearanceDialog::set_to (wxWindow* w, int& r)
+{
+	wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+	wxCheckBox* set_to = new wxCheckBox (this, wxID_ANY, _("Set to"));
+	s->Add (set_to, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, 8);
+	s->Add (w, 0, wxALIGN_CENTER_VERTICAL);
+	_table->Add (s, wxGBPosition (r, 1));
+	++r;
+	return set_to;
 }
 
 void
@@ -230,8 +227,16 @@ SubtitleAppearanceDialog::apply ()
 	} else {
 		_content->subtitle->unset_effect_colour ();
 	}
-	_content->subtitle->set_fade_in (_fade_in->get (_content->active_video_frame_rate ()));
-	_content->subtitle->set_fade_out (_fade_out->get (_content->active_video_frame_rate ()));
+	if (_force_fade_in->GetValue ()) {
+		_content->subtitle->set_fade_in (_fade_in->get (_content->active_video_frame_rate ()));
+	} else {
+		_content->subtitle->unset_fade_in ();
+	}
+	if (_force_fade_out->GetValue ()) {
+		_content->subtitle->set_fade_out (_fade_out->get (_content->active_video_frame_rate ()));
+	} else {
+		_content->subtitle->unset_fade_out ();
+	}
 	_content->subtitle->set_outline_width (_outline_width->GetValue ());
 
 	if (_stream) {
@@ -260,6 +265,8 @@ SubtitleAppearanceDialog::setup_sensitivity ()
 	_colour->Enable (_force_colour->GetValue ());
 	_effect_colour->Enable (_force_effect_colour->GetValue ());
 	_effect->Enable (_force_effect->GetValue ());
+	_fade_in->Enable (_force_fade_in->GetValue ());
+	_fade_out->Enable (_force_fade_out->GetValue ());
 
 	bool const can_outline_width = _effect->GetSelection() == OUTLINE && _content->subtitle->burn ();
 	_outline_width->Enable (can_outline_width);

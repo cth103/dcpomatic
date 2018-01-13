@@ -100,8 +100,6 @@ SubtitleContent::SubtitleContent (Content* parent, cxml::ConstNodePtr node, int 
 	, _x_scale (1)
 	, _y_scale (1)
 	, _line_spacing (node->optional_number_child<double>("LineSpacing").get_value_or (1))
-	, _fade_in (node->optional_number_child<Frame>("SubtitleFadeIn").get_value_or (0))
-	, _fade_out (node->optional_number_child<Frame>("SubtitleFadeOut").get_value_or (0))
 	, _outline_width (node->optional_number_child<int>("OutlineWidth").get_value_or (2))
 {
 	if (version >= 32) {
@@ -162,6 +160,15 @@ SubtitleContent::SubtitleContent (Content* parent, cxml::ConstNodePtr node, int 
 			node->optional_number_child<int>("OutlineGreen").get_value_or(255),
 			node->optional_number_child<int>("OutlineBlue").get_value_or(255)
 			);
+	}
+
+	optional<Frame> fi = node->optional_number_child<Frame>("SubtitleFadeIn");
+	if (fi) {
+		_fade_in = ContentTime (*fi);
+	}
+	optional<Frame> fo = node->optional_number_child<Frame>("SubtitleFadeOut");
+	if (fo) {
+		_fade_out = ContentTime (*fo);
 	}
 
 	_language = node->optional_string_child ("SubtitleLanguage").get_value_or ("");
@@ -289,8 +296,12 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 		root->add_child("EffectBlue")->add_child_text (raw_convert<string> (_effect_colour->b));
 	}
 	root->add_child("LineSpacing")->add_child_text (raw_convert<string> (_line_spacing));
-	root->add_child("SubtitleFadeIn")->add_child_text (raw_convert<string> (_fade_in.get()));
-	root->add_child("SubtitleFadeOut")->add_child_text (raw_convert<string> (_fade_out.get()));
+	if (_fade_in) {
+		root->add_child("SubtitleFadeIn")->add_child_text (raw_convert<string> (_fade_in->get()));
+	}
+	if (_fade_out) {
+		root->add_child("SubtitleFadeOut")->add_child_text (raw_convert<string> (_fade_out->get()));
+	}
 	root->add_child("OutlineWidth")->add_child_text (raw_convert<string> (_outline_width));
 
 	for (list<shared_ptr<Font> >::const_iterator i = _fonts.begin(); i != _fonts.end(); ++i) {
@@ -306,8 +317,8 @@ SubtitleContent::identifier () const
 		+ "_" + raw_convert<string> (x_offset())
 		+ "_" + raw_convert<string> (y_offset())
 		+ "_" + raw_convert<string> (line_spacing())
-		+ "_" + raw_convert<string> (fade_in().get())
-		+ "_" + raw_convert<string> (fade_out().get())
+		+ "_" + raw_convert<string> (fade_in().get_value_or(ContentTime()).get())
+		+ "_" + raw_convert<string> (fade_out().get_value_or(ContentTime()).get())
 		+ "_" + raw_convert<string> (outline_width());
 
 	/* XXX: I suppose really _fonts shouldn't be in here, since not all
@@ -444,9 +455,21 @@ SubtitleContent::set_fade_in (ContentTime t)
 }
 
 void
+SubtitleContent::unset_fade_in ()
+{
+	maybe_set (_fade_in, optional<ContentTime>(), SubtitleContentProperty::FADE_IN);
+}
+
+void
 SubtitleContent::set_fade_out (ContentTime t)
 {
 	maybe_set (_fade_out, t, SubtitleContentProperty::FADE_OUT);
+}
+
+void
+SubtitleContent::unset_fade_out ()
+{
+	maybe_set (_fade_out, optional<ContentTime>(), SubtitleContentProperty::FADE_OUT);
 }
 
 void
@@ -479,7 +502,11 @@ SubtitleContent::take_settings_from (shared_ptr<const SubtitleContent> c)
 		unset_effect_colour ();
 	}
 	set_line_spacing (c->_line_spacing);
-	set_fade_in (c->_fade_in);
-	set_fade_out (c->_fade_out);
+	if (c->_fade_in) {
+		set_fade_in (*c->_fade_in);
+	}
+	if (c->_fade_out) {
+		set_fade_out (*c->_fade_out);
+	}
 	set_outline_width (c->_outline_width);
 }
