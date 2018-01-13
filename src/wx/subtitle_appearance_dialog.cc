@@ -127,7 +127,7 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 	_effect->Append (_("Shadow"));;
 
 	optional<dcp::Colour> colour = _content->subtitle->colour();
-	_force_effect_colour->SetValue (static_cast<bool>(colour));
+	_force_colour->SetValue (static_cast<bool>(colour));
 	if (colour) {
 		_colour->SetColour (wxColour (colour->r, colour->g, colour->b));
 	} else {
@@ -153,7 +153,7 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 	}
 
 	optional<dcp::Colour> effect_colour = _content->subtitle->effect_colour();
-	_force_effect_colour->SetValue (static_cast<bool>(_force_effect_colour));
+	_force_effect_colour->SetValue (static_cast<bool>(effect_colour));
 	if (effect_colour) {
 		_effect_colour->SetColour (wxColour (effect_colour->r, effect_colour->g, effect_colour->b));
 	} else {
