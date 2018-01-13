@@ -280,13 +280,13 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 	if (_effect) {
 		switch (*_effect) {
 		case dcp::NONE:
-			root->add_child("none");
+			root->add_child("Effect")->add_child_text("none");
 			break;
 		case dcp::BORDER:
-			root->add_child("outline");
+			root->add_child("Effect")->add_child_text("outline");
 			break;
 		case dcp::SHADOW:
-			root->add_child("shadow");
+			root->add_child("Effect")->add_child_text("shadow");
 			break;
 		}
 	}
