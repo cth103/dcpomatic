@@ -188,12 +188,11 @@ DCPDecoder::pass_subtitles (ContentTime next)
 			true
 			);
 
-		if (!subs.empty ()) {
-			/* XXX: assuming that all `subs' are at the same time; maybe this is ok */
+		BOOST_FOREACH (dcp::SubtitleString i, subs) {
 			subtitle->emit_text (
 				ContentTimePeriod (
-					ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (subs.front().in().as_seconds ()),
-					ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (subs.front().out().as_seconds ())
+					ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (i.in().as_seconds ()),
+					ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (i.out().as_seconds ())
 					),
 				subs
 				);
