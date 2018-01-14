@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-13 01:41+0000\n"
-"PO-Revision-Date: 2018-01-11 00:55+0100\n"
+"PO-Revision-Date: 2018-01-13 05:16+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -170,7 +170,7 @@ msgstr ""
 "Dit kan niet ongedaan gemaakt worden."
 
 #: src/tools/dcpomatic.cc:630
-#, fuzzy, c-format
+#, c-format
 msgid "Bad setting for %s."
 msgstr "Verkeerde instelling voor %s."
 
@@ -203,63 +203,53 @@ msgid "Could not find batch converter."
 msgstr "Kan Batch Converter niet vinden."
 
 #: src/tools/dcpomatic_player.cc:485
-#, fuzzy
 msgid "Could not load DCP %1."
-msgstr "Kan DCP %1 niet laden (%2)"
+msgstr "Kan DCP %1 niet laden."
 
 #: src/tools/dcpomatic_player.cc:294
-#, fuzzy
 msgid "Could not load KDM."
-msgstr "Kan KDM niet laden (%s)"
+msgstr "Kan KDM niet laden."
 
 #: src/tools/dcpomatic_batch.cc:341
-#, fuzzy
 msgid "Could not load film %1"
-msgstr "Kan film %1 niet laden (%2)"
+msgstr "Kan film %1 niet laden."
 
 #: src/tools/dcpomatic.cc:1288
 msgid "Could not load film %1 (%2)"
 msgstr "Kan film %1 niet laden (%2)"
 
 #: src/tools/dcpomatic.cc:632
-#, fuzzy
 msgid "Could not make DCP."
-msgstr "Kan DCP niet maken: %s."
+msgstr "Kan DCP niet maken."
 
 #: src/tools/dcpomatic.cc:389 src/tools/dcpomatic_batch.cc:140
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open film at %s"
-msgstr "Kan film niet openen op %s"
+msgstr "Kan film niet openen op %s."
 
 #: src/tools/dcpomatic_kdm.cc:426
-#, fuzzy
 msgid ""
 "Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM "
 "at all."
 msgstr ""
 "Kan het bestand niet als een KDM lezen.  Misschien is het slecht "
-"geformatteerd, of helemaal geen KDM.\n"
-"\n"
-"%s"
+"geformatteerd, of helemaal geen KDM."
 
 #: src/tools/dcpomatic.cc:810
-#, fuzzy
 msgid "Could not run konqueror"
-msgstr "Kan DCP niet tonen (kan konqueror niet starten)"
+msgstr "Kan konqueror niet starten."
 
 #: src/tools/dcpomatic.cc:803
-#, fuzzy
 msgid "Could not run nautilus"
-msgstr "Kan DCP niet tonen (kan nautilus niet starten)"
+msgstr "Kan nautilus niet starten."
 
 #: src/tools/dcpomatic.cc:810 src/tools/dcpomatic.cc:819
 msgid "Could not show DCP"
 msgstr "Kan DCP niet tonen"
 
 #: src/tools/dcpomatic.cc:803
-#, fuzzy
 msgid "Could not show DCP."
-msgstr "Kan DCP niet tonen"
+msgstr "Kan DCP niet tonen."
 
 #: src/tools/dcpomatic.cc:1113
 #, c-format
@@ -304,14 +294,12 @@ msgid "DCP-o-matic Player"
 msgstr "DCP-o-matic Player"
 
 #: src/tools/dcpomatic_player.cc:499
-#, fuzzy
 msgid "DCP-o-matic Player could not start."
-msgstr "Kan geen verbinding maken met de DCP-o-matic download-server."
+msgstr "Kan DCP-o-matic Player niet starten."
 
 #: src/tools/dcpomatic_kdm.cc:604
-#, fuzzy
 msgid "DCP-o-matic could not start"
-msgstr "DCP-o-matic Player"
+msgstr "Kan DCP-o-matic niet starten."
 
 #: src/tools/dcpomatic_kdm.cc:145
 msgid "DKDM"

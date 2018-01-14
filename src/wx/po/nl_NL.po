@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-13 01:41+0000\n"
-"PO-Revision-Date: 2018-01-11 01:10+0100\n"
+"PO-Revision-Date: 2018-01-13 05:27+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -512,15 +512,13 @@ msgid "Could not import certificate (%s)"
 msgstr "Kan certificaat niet importeren (%s)"
 
 #: src/wx/content_menu.cc:380
-#, fuzzy
 msgid "Could not load KDM."
-msgstr "Kan KDM niet laden (%s)"
+msgstr "Kan KDM niet laden."
 
 #: src/wx/config_dialog.cc:484 src/wx/config_dialog.cc:678
 #: src/wx/download_certificate_panel.cc:56 src/wx/screen_dialog.cc:158
-#, fuzzy
 msgid "Could not read certificate file."
-msgstr "Kan certificaat-bestand niet lezen (%s)"
+msgstr "Kan certificaat-bestand niet lezen."
 
 #: src/wx/config_dialog.cc:668
 #, c-format
@@ -528,12 +526,10 @@ msgid "Could not read key file; file is too long (%s)"
 msgstr "Kan sleutel-bestand niet lezen; bestand is te lang (%s)"
 
 #: src/wx/film_viewer.cc:773
-#, fuzzy
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
-"Kan audio-output niet instellen (%s).  Er zal geen audio zijn tijdens de "
-"preview."
+"Kan audio-output niet instellen.  Er zal geen audio zijn tijdens de preview."
 
 #: src/wx/full_config_dialog.cc:863
 msgid "Cover Sheet"
@@ -1756,7 +1752,7 @@ msgstr "Stel taal in"
 
 #: src/wx/subtitle_appearance_dialog.cc:196
 msgid "Set to"
-msgstr ""
+msgstr "Stel in op"
 
 #: src/wx/subtitle_appearance_dialog.cc:127
 msgid "Shadow"
