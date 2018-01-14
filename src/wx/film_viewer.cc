@@ -492,6 +492,7 @@ FilmViewer::start ()
 	_playing = true;
 	_dropped = 0;
 	timer ();
+	_play_button->SetValue (true);
 }
 
 bool
