@@ -498,7 +498,7 @@ bool
 FilmViewer::stop ()
 {
 	if (_audio.isStreamRunning()) {
-		/* stop stream and discard any remainig queued samples */
+		/* stop stream and discard any remaining queued samples */
 		_audio.abortStream ();
 	}
 
