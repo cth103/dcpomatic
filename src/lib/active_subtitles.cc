@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -29,13 +29,14 @@ using std::pair;
 using std::make_pair;
 using boost::weak_ptr;
 using boost::shared_ptr;
+using boost::optional;
 
-/** Get the subtitles that should be burnt into a frame at a given time.
- *  @param time Frame time.
+/** Get the subtitles that should be burnt into a given period.
+ *  @param period Period of interest.
  *  @param always_burn_subtitles Always burn subtitles even if their content is not set to burn.
  */
 list<PlayerSubtitles>
-ActiveSubtitles::get_burnt (DCPTime time, bool always_burn_subtitles) const
+ActiveSubtitles::get_burnt (DCPTimePeriod period, bool always_burn_subtitles) const
 {
 	list<PlayerSubtitles> ps;
 
@@ -52,7 +53,9 @@ ActiveSubtitles::get_burnt (DCPTime time, bool always_burn_subtitles) const
 		}
 
 		BOOST_FOREACH (Period j, i->second) {
-			if (j.from <= time && (!j.to || j.to.get() > time)) {
+			DCPTimePeriod test (j.from, j.to.get_value_or(DCPTime::max()));
+			optional<DCPTimePeriod> overlap = period.overlap (test);
+			if (overlap && overlap->duration() > DCPTime(period.duration().get() / 2)) {
 				ps.push_back (j.subs);
 			}
 		}

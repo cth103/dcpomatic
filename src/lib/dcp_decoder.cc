@@ -189,12 +189,14 @@ DCPDecoder::pass_subtitles (ContentTime next)
 			);
 
 		BOOST_FOREACH (dcp::SubtitleString i, subs) {
+			list<dcp::SubtitleString> s;
+			s.push_back (i);
 			subtitle->emit_text (
 				ContentTimePeriod (
 					ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (i.in().as_seconds ()),
 					ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (i.out().as_seconds ())
 					),
-				subs
+				s
 				);
 		}
 	}
