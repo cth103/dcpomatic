@@ -77,6 +77,7 @@ public:
 	 */
 	boost::signals2::signal<void (bool)> Changed;
 
+	/** Emitted when a video frame is ready.  These emissions happen in the correct order. */
 	boost::signals2::signal<void (boost::shared_ptr<PlayerVideo>, DCPTime)> Video;
 	boost::signals2::signal<void (boost::shared_ptr<AudioBuffers>, DCPTime)> Audio;
 	/** Emitted when a subtitle is ready.  This signal may be emitted considerably
