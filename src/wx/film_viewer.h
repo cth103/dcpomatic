@@ -72,7 +72,8 @@ public:
 private:
 	void paint_panel ();
 	void panel_sized (wxSizeEvent &);
-	void slider_moved (bool update_slider);
+	void slider_moved (bool page);
+	void slider_released ();
 	void play_clicked ();
 	void timer ();
 	void calculate_sizes ();
@@ -122,6 +123,8 @@ private:
 	wxTimer _timer;
 	bool _coalesce_player_changes;
 	bool _pending_player_change;
+	bool _slider_being_moved;
+	bool _was_running_before_slider;
 
 	boost::shared_ptr<const Image> _frame;
 	DCPTime _video_position;

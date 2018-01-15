@@ -88,6 +88,8 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 	, _play_button (new wxToggleButton (this, wxID_ANY, _("Play")))
 	, _coalesce_player_changes (false)
 	, _pending_player_change (false)
+	, _slider_being_moved (false)
+	, _was_running_before_slider (false)
 	, _audio (DCPOMATIC_RTAUDIO_API)
 	, _audio_channels (0)
 	, _audio_block_size (1024)
@@ -147,9 +149,9 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 	_left_eye->Bind         (wxEVT_RADIOBUTTON,       boost::bind (&FilmViewer::refresh,         this));
 	_right_eye->Bind        (wxEVT_RADIOBUTTON,       boost::bind (&FilmViewer::refresh,         this));
 	_slider->Bind           (wxEVT_SCROLL_THUMBTRACK, boost::bind (&FilmViewer::slider_moved,    this, false));
-	_slider->Bind           (wxEVT_SCROLL_PAGEUP,     boost::bind (&FilmViewer::slider_moved,    this, false));
-	_slider->Bind           (wxEVT_SCROLL_PAGEDOWN,   boost::bind (&FilmViewer::slider_moved,    this, false));
-	_slider->Bind           (wxEVT_SCROLL_CHANGED,    boost::bind (&FilmViewer::slider_moved,    this, true));
+	_slider->Bind           (wxEVT_SCROLL_PAGEUP,     boost::bind (&FilmViewer::slider_moved,    this, true));
+	_slider->Bind           (wxEVT_SCROLL_PAGEDOWN,   boost::bind (&FilmViewer::slider_moved,    this, true));
+	_slider->Bind           (wxEVT_SCROLL_THUMBRELEASE, boost::bind (&FilmViewer::slider_released, this));
 	_play_button->Bind      (wxEVT_TOGGLEBUTTON,      boost::bind (&FilmViewer::play_clicked,    this));
 	_timer.Bind             (wxEVT_TIMER,             boost::bind (&FilmViewer::timer,           this));
 	_rewind_button->Bind    (wxEVT_LEFT_DOWN,         boost::bind (&FilmViewer::rewind_clicked,  this, _1));
@@ -400,13 +402,19 @@ FilmViewer::paint_panel ()
 	}
 }
 
+/** @param page true if this was a PAGEUP/PAGEDOWN event for which we won't receive a THUMBRELEASE */
 void
-FilmViewer::slider_moved (bool update_slider)
+FilmViewer::slider_moved (bool page)
 {
 	if (!_film) {
 		return;
 	}
 
+	if (!page && !_slider_being_moved) {
+		/* This is the first event of a drag; stop playback for the duration of the drag */
+		_was_running_before_slider = stop ();
+		_slider_being_moved = true;
+	}
 
 	DCPTime t (_slider->GetValue() * _film->length().get() / 4096);
 	/* Ensure that we hit the end of the film at the end of the slider */
@@ -415,9 +423,16 @@ FilmViewer::slider_moved (bool update_slider)
 	}
 	seek (t, false);
 	update_position_label ();
-	if (update_slider) {
-		update_position_slider ();
+}
+
+void
+FilmViewer::slider_released ()
+{
+	if (_was_running_before_slider) {
+		/* Restart after a drag */
+		start ();
 	}
+	_slider_being_moved = false;
 }
 
 void
