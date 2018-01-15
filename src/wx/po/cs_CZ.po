@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-13 01:41+0000\n"
-"PO-Revision-Date: 2017-10-09 11:57+0200\n"
+"POT-Creation-Date: 2018-01-10 09:55+0000\n"
+"PO-Revision-Date: 2018-01-11 15:08+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 2.0.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,369,-1,-1,-1,-1,-1\n"
 
@@ -40,12 +40,11 @@ msgid "%d KDMs written to %s"
 msgstr "%d KDMs zapsány do %s"
 
 #: src/wx/about_dialog.cc:83
-#, fuzzy
 msgid ""
 "(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:43 src/wx/file_picker_ctrl.cc:58
@@ -60,11 +59,11 @@ msgstr "(restartujte DCP-o-matic, aby se změnil jazyk)"
 msgid "-6dB"
 msgstr "-6dB"
 
-#: src/wx/wx_util.cc:383
+#: src/wx/wx_util.cc:379
 msgid "12 - 7.1/HI/VI"
 msgstr "12 - 7.1/HI/VI"
 
-#: src/wx/wx_util.cc:375
+#: src/wx/wx_util.cc:371
 msgid "2 - stereo"
 msgstr "2 - stereo"
 
@@ -108,7 +107,7 @@ msgstr "3D jen pravé"
 msgid "3D top/bottom"
 msgstr "3D horní/dolní (Pod sebou)"
 
-#: src/wx/wx_util.cc:377
+#: src/wx/wx_util.cc:373
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
@@ -116,19 +115,19 @@ msgstr "4 - L/C/R/Lfe"
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/wx_util.cc:379
+#: src/wx/wx_util.cc:375
 msgid "6 - 5.1"
 msgstr "6 - 5.1"
 
-#: src/wx/wx_util.cc:381
+#: src/wx/wx_util.cc:377
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/subtitle_appearance_dialog.cc:95
+#: src/wx/subtitle_appearance_dialog.cc:104
 msgid "<b>New colour</b>"
 msgstr "<b>Nová barva</b>"
 
-#: src/wx/subtitle_appearance_dialog.cc:92
+#: src/wx/subtitle_appearance_dialog.cc:101
 msgid "<b>Original colour</b>"
 msgstr "<b>Původní barva</b>"
 
@@ -245,9 +244,8 @@ msgid "Adjust white point to"
 msgstr "Nastavit bílý bod na"
 
 #: src/wx/config_dialog.cc:741 src/wx/config_dialog.cc:756
-#, fuzzy
 msgid "Advanced..."
-msgstr "Přidat…"
+msgstr "Pokročilé…"
 
 #: src/wx/full_config_dialog.cc:960
 msgid "Allow any DCP frame rate"
@@ -437,7 +435,7 @@ msgstr "Soubor databáze filmu a obrazovky"
 msgid "Click the button to set all selected content to the same value."
 msgstr "Kliknutím na tlačítko nastavíte veškerý obsah na stejné hodnoty."
 
-#: src/wx/subtitle_appearance_dialog.cc:60
+#: src/wx/subtitle_appearance_dialog.cc:59
 msgid "Colour"
 msgstr "Barva"
 
@@ -501,19 +499,19 @@ msgid "Could not analyse audio."
 msgstr "Nemůžu analyzovat zvuk."
 
 #: src/wx/config_dialog.cc:458
-#, fuzzy, c-format
+#, c-format
 msgid "Could not import certificate (%s)"
-msgstr "Nemůžu načíst certifikát (%s)"
+msgstr "Nemohu importovat certifikát (%s)"
 
 #: src/wx/content_menu.cc:380
-#, fuzzy
-msgid "Could not load KDM."
+#, c-format
+msgid "Could not load KDM (%s)"
 msgstr "Nemůžu načíst KDM (%s)"
 
 #: src/wx/config_dialog.cc:484 src/wx/config_dialog.cc:678
 #: src/wx/download_certificate_panel.cc:56 src/wx/screen_dialog.cc:158
-#, fuzzy
-msgid "Could not read certificate file."
+#, c-format
+msgid "Could not read certificate file (%s)"
 msgstr "Nemůžu načíst soubor s certifikátem (%s)"
 
 #: src/wx/config_dialog.cc:668
@@ -522,9 +520,10 @@ msgid "Could not read key file; file is too long (%s)"
 msgstr "Nemůžu přečíst soubor s klíčem; soubor je příliš dlouhý (%s)"
 
 #: src/wx/film_viewer.cc:773
-#, fuzzy
+#, c-format
 msgid ""
-"Could not set up audio output.  There will be no audio during the preview."
+"Could not set up audio output (%s).  There will be no audio during the "
+"preview."
 msgstr ""
 "Nelze nastavit výstup zvuku (%s).  Během přehrávání nebude slyšet zvuk."
 
@@ -561,8 +560,8 @@ msgstr "DCP adresář"
 msgid "DCP metadata filename format"
 msgstr "Formát názvu souboru DCP metadat"
 
-#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:93 src/wx/wx_util.cc:108
-#: src/wx/wx_util.cc:116
+#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:92 src/wx/wx_util.cc:104
+#: src/wx/wx_util.cc:112
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
@@ -585,7 +584,7 @@ msgstr "Ladění: enkódování"
 #: src/wx/player_information.cc:135
 #, c-format
 msgid "Decode resolution: %dx%d"
-msgstr ""
+msgstr "Rozlišení dekódování: %dx%d"
 
 #: src/wx/config_dialog.cc:728 src/wx/config_dialog.cc:765
 msgid "Decrypting KDMs"
@@ -715,11 +714,11 @@ msgstr "Upravit obraz"
 msgid "Edit..."
 msgstr "Upravit…"
 
-#: src/wx/subtitle_appearance_dialog.cc:63
+#: src/wx/subtitle_appearance_dialog.cc:64
 msgid "Effect"
 msgstr "Efekt"
 
-#: src/wx/subtitle_appearance_dialog.cc:66
+#: src/wx/subtitle_appearance_dialog.cc:69
 msgid "Effect colour"
 msgstr "Barva efektu"
 
@@ -757,25 +756,16 @@ msgid "Export"
 msgstr "Exportovat"
 
 #: src/wx/config_dialog.cc:733
-#, fuzzy
 msgid "Export KDM decryption certificate..."
-msgstr ""
-"Exportovat KDM dešifrováníí\n"
-"certifikát..."
+msgstr "Exportovat dešifrovací certifikát KDM …"
 
 #: src/wx/config_dialog.cc:735
-#, fuzzy
 msgid "Export KDM decryption chain..."
-msgstr ""
-"Exportovat KDM dešifrování\n"
-"řetězec…"
+msgstr "Exportovat dešifrovací řetězec KDM…"
 
 #: src/wx/config_dialog.cc:737
-#, fuzzy
 msgid "Export all KDM decryption settings..."
-msgstr ""
-"Exportovat KDM dešifrování\n"
-"řetězec…"
+msgstr "Exportovat veškeré dešifrovací nastavení KDM"
 
 #: src/wx/export_dialog.cc:46
 msgid "Export film"
@@ -797,7 +787,7 @@ msgstr "Studio (např. DLA)"
 msgid "Fade in"
 msgstr "Postupný náběh (Fade in)"
 
-#: src/wx/subtitle_appearance_dialog.cc:74
+#: src/wx/subtitle_appearance_dialog.cc:79
 msgid "Fade in time"
 msgstr "Postupný náběh v čase (Fade in)"
 
@@ -805,7 +795,7 @@ msgstr "Postupný náběh v čase (Fade in)"
 msgid "Fade out"
 msgstr "Postupné zeslabení (Fade out)"
 
-#: src/wx/subtitle_appearance_dialog.cc:77
+#: src/wx/subtitle_appearance_dialog.cc:84
 msgid "Fade out time"
 msgstr "Postupné zeslabení v čase (Fade out)"
 
@@ -995,16 +985,12 @@ msgid "Image X position"
 msgstr "Pozice obrázku X"
 
 #: src/wx/config_dialog.cc:739
-#, fuzzy
 msgid "Import all KDM decryption settings..."
-msgstr ""
-"Exportovat KDM dešifrování\n"
-"řetězec…"
+msgstr "Importovat veškeré dešifrovací nastavení KDM…"
 
 #: src/wx/config_dialog.cc:399
-#, fuzzy
 msgid "Import..."
-msgstr "Exportovat…"
+msgstr "Importovat…"
 
 #: src/wx/nag_dialog.cc:29
 msgid "Important notice"
@@ -1045,7 +1031,7 @@ msgstr "Interop"
 
 #: src/wx/config_dialog.cc:847
 msgid "Invalid DCP-o-matic export file"
-msgstr ""
+msgstr "Neplatný soubor exportu DCP-o-matic"
 
 #: src/wx/colour_conversion_editor.cc:205
 msgid "Inverse 2.6 gamma correction on output"
@@ -1141,9 +1127,8 @@ msgid "Length"
 msgstr "Délka"
 
 #: src/wx/player_information.cc:121
-#, fuzzy
 msgid "Length: %1 (%2 frames)"
-msgstr "Délka: %s (%ld snímků)"
+msgstr "Délka: %1 (%2 snímků)"
 
 #: src/wx/subtitle_panel.cc:108
 msgid "Line spacing"
@@ -1212,7 +1197,7 @@ msgstr "Maximální JPEG2000 šířka pásma (bandwidth)"
 
 #: src/wx/full_config_dialog.cc:969
 msgid "Maximum number of frames to store per thread"
-msgstr ""
+msgstr "Maximální počet snímků pro uložení na jeden podproces"
 
 #: src/wx/dcp_panel.cc:684 src/wx/full_config_dialog.cc:315
 #: src/wx/full_config_dialog.cc:956
@@ -1272,13 +1257,12 @@ msgid "Name"
 msgstr "Název"
 
 #: src/wx/player_information.cc:108
-#, fuzzy
 msgid "Needs KDM"
-msgstr "Vybrat KDM"
+msgstr "Potřebuje KDM"
 
 #: src/wx/player_information.cc:103
 msgid "Needs OV"
-msgstr ""
+msgstr "Potřebuje OV"
 
 #: src/wx/rename_template_dialog.cc:26
 msgid "New name"
@@ -1306,7 +1290,7 @@ msgid "No content found in this folder."
 msgstr "Žádný obsah nebyl ve složce nalezen."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:750 src/wx/subtitle_appearance_dialog.cc:125
+#: src/wx/dcp_panel.cc:750 src/wx/subtitle_appearance_dialog.cc:134
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
 #: src/wx/video_panel.cc:307
 msgid "None"
@@ -1364,7 +1348,7 @@ msgstr "Jiné důvěryhodné zařízení"
 msgid "Outgoing mail server"
 msgstr "Server odchozí pošty"
 
-#: src/wx/subtitle_appearance_dialog.cc:126
+#: src/wx/subtitle_appearance_dialog.cc:135
 msgid "Outline"
 msgstr "Orámovaní"
 
@@ -1372,11 +1356,11 @@ msgstr "Orámovaní"
 msgid "Outline content"
 msgstr "Orámovat obsah"
 
-#: src/wx/subtitle_appearance_dialog.cc:69
+#: src/wx/subtitle_appearance_dialog.cc:74
 msgid "Outline width"
 msgstr "Šířka orámování"
 
-#: src/wx/subtitle_appearance_dialog.cc:276
+#: src/wx/subtitle_appearance_dialog.cc:202
 msgid "Outline width cannot be set unless you are burning in subtitles"
 msgstr "Orámování nelze nastavit, pokud vypalujete v titulcích"
 
@@ -1402,20 +1386,19 @@ msgstr "Heslo"
 
 #: src/wx/paste_dialog.cc:24
 msgid "Paste"
-msgstr ""
+msgstr "Vložit"
 
 #: src/wx/paste_dialog.cc:29
 msgid "Paste audio settings"
-msgstr ""
+msgstr "Vložit nastavení audia"
 
 #: src/wx/paste_dialog.cc:32
-#, fuzzy
 msgid "Paste subtitle settings"
-msgstr "Použít titulky"
+msgstr "Vložit nastavení titulku"
 
 #: src/wx/paste_dialog.cc:26
 msgid "Paste video settings"
-msgstr ""
+msgstr "Vložit nastavení videa"
 
 #: src/wx/normal_job_view.cc:37 src/wx/normal_job_view.cc:53
 msgid "Pause"
@@ -1447,9 +1430,8 @@ msgid "Play length"
 msgstr "Délka přehrávání"
 
 #: src/wx/config_dialog.cc:155
-#, fuzzy
 msgid "Play sound via"
-msgstr "Přehrávejte zvuk v náhledu přes"
+msgstr "Přehrát zvuk přes"
 
 #: src/wx/report_problem_dialog.cc:104
 msgid ""
@@ -1508,11 +1490,8 @@ msgid "Re-examine..."
 msgstr "Znovu analyzovat…"
 
 #: src/wx/config_dialog.cc:406
-#, fuzzy
 msgid "Re-make certificates and key..."
-msgstr ""
-"Znovuvytvořit certifikáty\n"
-"a klíče…"
+msgstr "Znovuvytvořit certifikáty a klíče…"
 
 #: src/wx/colour_conversion_editor.cc:110
 msgid "Rec. 601"
@@ -1611,7 +1590,7 @@ msgstr "Obnovit výchozí text"
 msgid "Resolution"
 msgstr "Rozlišení"
 
-#: src/wx/subtitle_appearance_dialog.cc:111
+#: src/wx/subtitle_appearance_dialog.cc:120
 msgid "Restore to original colours"
 msgstr "Obnovit na originální barvy"
 
@@ -1690,14 +1669,12 @@ msgid "Select Chain File"
 msgstr "Vybrat Chain soubor"
 
 #: src/wx/config_dialog.cc:791
-#, fuzzy
 msgid "Select Export File"
-msgstr "Vybrat soubor s klíčem"
+msgstr "Vybrat soubor k exportování"
 
 #: src/wx/config_dialog.cc:816
-#, fuzzy
 msgid "Select File To Import"
-msgstr "Vybrat soubor s klíčem"
+msgstr "Vybrat soubor k importování"
 
 #: src/wx/content_menu.cc:374
 msgid "Select KDM"
@@ -1767,11 +1744,7 @@ msgstr "Nastavit ze systémového písma…"
 msgid "Set language"
 msgstr "Nastavit jazyk"
 
-#: src/wx/subtitle_appearance_dialog.cc:196
-msgid "Set to"
-msgstr ""
-
-#: src/wx/subtitle_appearance_dialog.cc:127
+#: src/wx/subtitle_appearance_dialog.cc:136
 msgid "Shadow"
 msgstr "Stín"
 
@@ -1856,7 +1829,7 @@ msgstr "Titulky"
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Jazyk titulků (např. CZ)"
 
-#: src/wx/subtitle_appearance_dialog.cc:43
+#: src/wx/subtitle_appearance_dialog.cc:42
 msgid "Subtitle appearance"
 msgstr "Vyhledat titulky"
 
@@ -1865,7 +1838,7 @@ msgstr "Vyhledat titulky"
 msgid "Subtitles"
 msgstr "Titulky"
 
-#: src/wx/about_dialog.cc:332
+#: src/wx/about_dialog.cc:331
 msgid "Supported by"
 msgstr "Podporovatelé"
 
@@ -1905,7 +1878,7 @@ msgstr "Území (např. SK)"
 msgid "Test version "
 msgstr "Testovací verze "
 
-#: src/wx/about_dialog.cc:389
+#: src/wx/about_dialog.cc:388
 msgid "Tested by"
 msgstr "Testeři"
 

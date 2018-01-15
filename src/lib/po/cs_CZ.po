@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-13 01:41+0000\n"
-"PO-Revision-Date: 2017-10-09 11:16+0200\n"
+"POT-Creation-Date: 2018-01-10 09:55+0000\n"
+"PO-Revision-Date: 2018-01-11 15:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
 "Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 2.0.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/video_content.cc:448
@@ -366,11 +366,11 @@ msgstr "Veškerý obsah ke sloučení musí mít titulky nebo žádné titulky"
 msgid "Content to be joined must all have or not have video"
 msgstr "Veškerý obsah ke sloučení musí mít video nebo žádné video"
 
-#: src/lib/subtitle_content.cc:198
+#: src/lib/subtitle_content.cc:175
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení  ’vypálené titulky'."
 
-#: src/lib/subtitle_content.cc:194
+#: src/lib/subtitle_content.cc:171
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení ’použít titulky'."
 
@@ -394,7 +394,7 @@ msgstr "Aby se spojil obsah, musí mít stejné nastavení  ořezu."
 msgid "Content to be joined must have the same fades."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení  zeslabení."
 
-#: src/lib/subtitle_content.cc:226
+#: src/lib/subtitle_content.cc:203
 msgid "Content to be joined must have the same outline width."
 msgstr "Připojený obsah musí mít stejnou šířku obrysu."
 
@@ -406,27 +406,27 @@ msgstr "Aby se spojil obsah, musí mít stejné nastavení velikosti obrazu."
 msgid "Content to be joined must have the same scale setting."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení měřítka."
 
-#: src/lib/subtitle_content.cc:202
+#: src/lib/subtitle_content.cc:179
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení titulků X offset."
 
-#: src/lib/subtitle_content.cc:210
+#: src/lib/subtitle_content.cc:187
 msgid "Content to be joined must have the same subtitle X scale."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení titulky X měřítko."
 
-#: src/lib/subtitle_content.cc:206
+#: src/lib/subtitle_content.cc:183
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení  titulkový Y offset."
 
-#: src/lib/subtitle_content.cc:214
+#: src/lib/subtitle_content.cc:191
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení titulků Y měřítko."
 
-#: src/lib/subtitle_content.cc:222
+#: src/lib/subtitle_content.cc:199
 msgid "Content to be joined must have the same subtitle fades."
 msgstr "Veškerý obsah ke sloučení musí mít stejné zeslabení titulků."
 
-#: src/lib/subtitle_content.cc:218
+#: src/lib/subtitle_content.cc:195
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr "Veškerý obsah ke sloučení musí mít stejné mezery mezi řádky titulků."
 
@@ -438,7 +438,7 @@ msgstr "Veškerý obsah ke sloučení musí mít stejnou snímkovou rychlost"
 msgid "Content to be joined must have the same video frame type."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení typu videa."
 
-#: src/lib/subtitle_content.cc:231 src/lib/subtitle_content.cc:239
+#: src/lib/subtitle_content.cc:208 src/lib/subtitle_content.cc:216
 msgid "Content to be joined must use the same fonts."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení písma."
 
@@ -469,6 +469,10 @@ msgstr "Nemohu dekódovat JPEG2000 soubor %1 (%2)"
 #: src/lib/magick_image_proxy.cc:102
 msgid "Could not decode image file (%1)"
 msgstr "Nemohu dekódovat video soubor (%1)"
+
+#: src/lib/ffmpeg_examiner.cc:267
+msgid "Could not find pixel format for video."
+msgstr "Nemohu najít formát pixelu pro video."
 
 #: src/lib/encode_server_finder.cc:162
 msgid ""
@@ -547,13 +551,12 @@ msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP bude používat každý druhý frame obsahu \n"
 
 #: src/lib/job.cc:123 src/lib/job.cc:138
-#, fuzzy
 msgid ""
 "DCP-o-matic could not open the file %1 (%2).  Perhaps it does not exist or "
 "is in an unexpected format."
 msgstr ""
-"DCP-o-matic nemohl otevřít %1.  Možná, že soubor neexistuje nebo není "
-"podporovaný."
+"DCP-o-matic nemohl otevřít soubor %1 (%2).  Možná, že soubor neexistuje nebo "
+"je v  nepodporovaném formátu."
 
 #: src/lib/ffmpeg_content.cc:103
 msgid ""
@@ -1016,9 +1019,8 @@ msgid "SSH error (%1)"
 msgstr "SSH chyba (%1)"
 
 #: src/lib/image_content.cc:107
-#, fuzzy
 msgid "Scanning image files"
-msgstr "Počítám souhrn videa"
+msgstr "Skenování obrazových souborů"
 
 #: src/lib/send_problem_report_job.cc:74
 msgid "Sending email"
@@ -1106,19 +1108,19 @@ msgstr ""
 
 #: src/lib/content_factory.cc:115
 msgid "The file %1 has been moved %2 milliseconds earlier."
-msgstr ""
+msgstr "Soubor %1 byl posunut o %2 milisekund dříve."
 
 #: src/lib/content_factory.cc:110
 msgid "The file %1 has been moved %2 milliseconds later."
-msgstr ""
+msgstr "Soubor %1 byl posunut o %2 milisekund později."
 
 #: src/lib/content_factory.cc:135
 msgid "The file %1 has been trimmed by %2 milliseconds less."
-msgstr ""
+msgstr "Soubor %1 byl oříznut o %2 milisekund méně."
 
 #: src/lib/content_factory.cc:130
 msgid "The file %1 has been trimmed by %2 milliseconds more."
-msgstr ""
+msgstr "Soubor %1 byl oříznut o %2 milisekund více."
 
 #: src/lib/dcp_content.cc:447
 msgid "The film has a different frame rate to this DCP."
@@ -1339,18 +1341,20 @@ msgstr ""
 #: src/lib/config.cc:244
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
-msgstr ""
+msgstr "Výchozí kontejner není platný a byl změněn na Flat (1,85: 1)"
 
 #: src/lib/content_factory.cc:106
 msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
 msgstr ""
+"Váš projekt obsahuje videoobsah, který nebyl zarovnán s hranicí snímku."
 
 #: src/lib/content_factory.cc:126
 msgid ""
 "Your project contains video content whose trim was not aligned to a frame "
 "boundary."
 msgstr ""
+"Váš projekt obsahuje videoobsah, jehož obrys nebyl zarovnán s hranicí snímku."
 
 #: src/lib/image_content.cc:71
 msgid "[moving images]"
@@ -1494,9 +1498,6 @@ msgstr "video snímky"
 #: src/lib/film.cc:304
 msgid "you must add some content to the DCP before creating it"
 msgstr "musíte přidat obsah do DCP před tím než ho vytvoříte"
-
-#~ msgid "Could not find pixel format for video."
-#~ msgstr "Nemohu najít formát pixelu pro video."
 
 #~ msgid "2.35"
 #~ msgstr "2.35"
