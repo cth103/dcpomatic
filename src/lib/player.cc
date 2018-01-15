@@ -592,11 +592,17 @@ Player::pass ()
 
 	/* Emit any audio that is ready */
 
+	/* Work out the time before which the audio is definitely all here.  This is the earliest last_push_end of one
+	   of our streams, or the position of the _silent.
+	*/
 	DCPTime pull_to = _film->length ();
 	for (map<AudioStreamPtr, StreamState>::const_iterator i = _stream_states.begin(); i != _stream_states.end(); ++i) {
 		if (!i->second.piece->done && i->second.last_push_end < pull_to) {
 			pull_to = i->second.last_push_end;
 		}
+	}
+	if (!_silent.done() && _silent.position() < pull_to) {
+		pull_to = _silent.position();
 	}
 
 	list<pair<shared_ptr<AudioBuffers>, DCPTime> > audio = _audio_merger.pull (pull_to);
@@ -921,6 +927,8 @@ Player::emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 void
 Player::emit_audio (shared_ptr<AudioBuffers> data, DCPTime time)
 {
+	/* This audio must follow on from the previous */
+	DCPOMATIC_ASSERT (!_last_audio_time || time == *_last_audio_time);
 	Audio (data, time);
 	_last_audio_time = time + DCPTime::from_frames (data->frames(), _film->audio_frame_rate());
 }
