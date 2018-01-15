@@ -35,6 +35,7 @@
 using std::cout;
 using boost::shared_ptr;
 
+/** Basic sanity check of 3D_LEFT_RIGHT */
 BOOST_AUTO_TEST_CASE (threed_test1)
 {
 	shared_ptr<Film> film = new_test_film ("threed_test1");
@@ -55,7 +56,7 @@ BOOST_AUTO_TEST_CASE (threed_test1)
 	BOOST_REQUIRE (!wait_for_jobs ());
 }
 
-/** Basic sanity check of 3D-alternate; at the moment this is just to make sure
+/** Basic sanity check of 3D_ALTERNATE; at the moment this is just to make sure
  *  that such a transcode completes without error.
  */
 BOOST_AUTO_TEST_CASE (threed_test2)
@@ -71,6 +72,28 @@ BOOST_AUTO_TEST_CASE (threed_test2)
 
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
+	film->set_three_d (true);
+	film->make_dcp ();
+	film->write_metadata ();
+
+	BOOST_REQUIRE (!wait_for_jobs ());
+}
+
+/** Basic sanity check of 3D_LEFT and 3D_RIGHT; at the moment this is just to make sure
+ *  that such a transcode completes without error.
+ */
+BOOST_AUTO_TEST_CASE (threed_test3)
+{
+	shared_ptr<Film> film = new_test_film2 ("threed_test3");
+	shared_ptr<FFmpegContent> L (new FFmpegContent (film, "test/data/test.mp4"));
+	film->examine_and_add_content (L);
+	shared_ptr<FFmpegContent> R (new FFmpegContent (film, "test/data/test.mp4"));
+	film->examine_and_add_content (R);
+	wait_for_jobs ();
+
+	L->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT);
+	R->video->set_frame_type (VIDEO_FRAME_TYPE_3D_RIGHT);
+
 	film->set_three_d (true);
 	film->make_dcp ();
 	film->write_metadata ();
