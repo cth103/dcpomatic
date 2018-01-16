@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -101,6 +101,7 @@ Config::set_defaults ()
 	_default_j2k_bandwidth = 100000000;
 	_default_audio_delay = 0;
 	_default_interop = true;
+	_default_upload_after_make_dcp = false;
 	_mail_server = "";
 	_mail_port = 25;
 	_mail_user = "";
@@ -263,6 +264,7 @@ try
 		_dcp_issuer = f.string_child ("DCPIssuer");
 	}
 
+	_default_upload_after_make_dcp = f.optional_bool_child("DefaultUploadAfterMakeDCP").get_value_or (false);
 	_dcp_creator = f.optional_string_child ("DCPCreator").get_value_or ("");
 
 	if (version && version.get() >= 2) {
@@ -539,6 +541,7 @@ Config::write_config () const
 	root->add_child("DCPIssuer")->add_child_text (_dcp_issuer);
 	/* [XML] DCPIssuer Creator text to write into CPL files. */
 	root->add_child("DCPCreator")->add_child_text (_dcp_creator);
+	root->add_child("DefaultUploadAfterMakeDCP")->add_child_text (_default_upload_after_make_dcp ? "1" : "0");
 
 	/* [XML] ISDCFMetadata Default ISDCF metadata to use for new films; child tags are <code>&lt;ContentVersion&gt;</code>,
 	   <code>&lt;AudioLanguage&gt;</code>, <code>&lt;SubtitleLanguage&gt;</code>, <code>&lt;Territory&gt;</code>,

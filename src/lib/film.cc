@@ -151,7 +151,7 @@ Film::Film (optional<boost::filesystem::path> dir)
 	, _audio_processor (0)
 	, _reel_type (REELTYPE_SINGLE)
 	, _reel_length (2000000000)
-	, _upload_after_make_dcp (false)
+	, _upload_after_make_dcp (Config::instance()->default_upload_after_make_dcp())
 	, _state_version (current_state_version)
 	, _dirty (false)
 {

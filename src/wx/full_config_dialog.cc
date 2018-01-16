@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -335,7 +335,11 @@ private:
 #else
 		_kdm_directory = new wxDirPickerCtrl (_panel, wxDD_DIR_MUST_EXIST);
 #endif
+
 		table->Add (_kdm_directory, 1, wxEXPAND);
+
+		_upload_after_make_dcp = new wxCheckBox (_panel, wxID_ANY, _("Default to enabling upload of DCP to TMS"));
+		table->Add (_upload_after_make_dcp, 1, wxEXPAND);
 
 		_still_length->SetRange (1, 3600);
 		_still_length->Bind (wxEVT_SPINCTRL, boost::bind (&DefaultsPage::still_length_changed, this));
@@ -377,6 +381,8 @@ private:
 		_standard->Append (_("SMPTE"));
 		_standard->Append (_("Interop"));
 		_standard->Bind (wxEVT_CHOICE, boost::bind (&DefaultsPage::standard_changed, this));
+
+		_upload_after_make_dcp->Bind (wxEVT_CHECKBOX, boost::bind (&DefaultsPage::upload_after_make_dcp_changed, this));
 	}
 
 	void config_changed ()
@@ -416,6 +422,7 @@ private:
 		checked_set (_dcp_audio_channels, locale_convert<string> (config->default_dcp_audio_channels()));
 		checked_set (_audio_delay, config->default_audio_delay ());
 		checked_set (_standard, config->default_interop() ? 1 : 0);
+		checked_set (_upload_after_make_dcp, config->default_upload_after_make_dcp());
 	}
 
 	void j2k_bandwidth_changed ()
@@ -489,6 +496,11 @@ private:
 		Config::instance()->set_default_interop (_standard->GetSelection() == 1);
 	}
 
+	void upload_after_make_dcp_changed ()
+	{
+		Config::instance()->set_default_upload_after_make_dcp (_upload_after_make_dcp->GetValue ());
+	}
+
 	wxSpinCtrl* _j2k_bandwidth;
 	wxSpinCtrl* _audio_delay;
 	wxButton* _isdcf_metadata_button;
@@ -505,6 +517,7 @@ private:
 	wxChoice* _dcp_content_type;
 	wxChoice* _dcp_audio_channels;
 	wxChoice* _standard;
+	wxCheckBox* _upload_after_make_dcp;
 };
 
 class EncodingServersPage : public StandardPage

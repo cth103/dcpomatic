@@ -1,3 +1,7 @@
+2018-01-16  Carl Hetherington  <cth@carlh.net>
+
+	* Allow configuration of default value of upload-to-TMS button.
+
 2018-01-15  Carl Hetherington  <cth@carlh.net>
 
 	* Updated cs_CZ translation from Tomáš Begeni.
