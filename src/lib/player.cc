@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -48,6 +48,7 @@
 #include "dcp_decoder.h"
 #include "image_decoder.h"
 #include "compose.hpp"
+#include "shuffler.h"
 #include <dcp/reel.h>
 #include <dcp/reel_sound_asset.h>
 #include <dcp/reel_subtitle_asset.h>
@@ -87,6 +88,7 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _fast (false)
 	, _play_referenced (false)
 	, _audio_merger (_film->audio_frame_rate())
+	, _shuffler (0)
 {
 	_film_changed_connection = _film->Changed.connect (bind (&Player::film_changed, this, _1));
 	_playlist_changed_connection = _playlist->Changed.connect (bind (&Player::playlist_changed, this));
@@ -98,10 +100,19 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	seek (DCPTime (), true);
 }
 
+Player::~Player ()
+{
+	delete _shuffler;
+}
+
 void
 Player::setup_pieces ()
 {
 	_pieces.clear ();
+
+	delete _shuffler;
+	_shuffler = new Shuffler();
+	_shuffler->Video.connect(bind(&Player::video, this, _1, _2));
 
 	BOOST_FOREACH (shared_ptr<Content> i, _playlist->content ()) {
 
@@ -137,7 +148,11 @@ Player::setup_pieces ()
 		_pieces.push_back (piece);
 
 		if (decoder->video) {
-			decoder->video->Data.connect (bind (&Player::video, this, weak_ptr<Piece> (piece), _1));
+			if (i->video->frame_type() == VIDEO_FRAME_TYPE_3D_LEFT || i->video->frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) {
+				decoder->video->Data.connect (bind (&Shuffler::video, _shuffler, weak_ptr<Piece>(piece), _1));
+			} else {
+				decoder->video->Data.connect (bind (&Player::video, this, weak_ptr<Piece>(piece), _1));
+			}
 		}
 
 		if (decoder->audio) {
@@ -164,6 +179,7 @@ Player::setup_pieces ()
 	_silent = Empty (_film->content(), _film->length(), bind(&Content::audio, _1));
 
 	_last_video_time = DCPTime ();
+	_last_video_eyes = EYES_BOTH;
 	_last_audio_time = DCPTime ();
 	_have_valid_pieces = true;
 }
@@ -309,7 +325,7 @@ Player::transform_image_subtitles (list<ImageSubtitle> subs) const
 }
 
 shared_ptr<PlayerVideo>
-Player::black_player_video_frame () const
+Player::black_player_video_frame (Eyes eyes) const
 {
 	return shared_ptr<PlayerVideo> (
 		new PlayerVideo (
@@ -318,7 +334,7 @@ Player::black_player_video_frame () const
 			optional<double> (),
 			_video_container_size,
 			_video_container_size,
-			EYES_BOTH,
+			eyes,
 			PART_WHOLE,
 			PresetColourConversion::all().front().conversion
 		)
@@ -516,7 +532,7 @@ Player::pass ()
 
 	if (_playlist->length() == DCPTime()) {
 		/* Special case of an empty Film; just give one black frame */
-		emit_video (black_player_video_frame(), DCPTime());
+		emit_video (black_player_video_frame(EYES_BOTH), DCPTime());
 		return true;
 	}
 
@@ -534,6 +550,7 @@ Player::pass ()
 		if (t > i->content->end()) {
 			i->done = true;
 		} else {
+
 			/* Given two choices at the same time, pick the one with a subtitle so we see it before
 			   the video.
 			*/
@@ -572,7 +589,7 @@ Player::pass ()
 		earliest_content->done = earliest_content->decoder->pass ();
 		break;
 	case BLACK:
-		emit_video (black_player_video_frame(), _black.position());
+		emit_video (black_player_video_frame(EYES_BOTH), _black.position());
 		_black.set_position (_black.position() + one_video_frame());
 		break;
 	case SILENT:
@@ -622,6 +639,9 @@ Player::pass ()
 		emit_audio (i->first, i->second);
 	}
 
+	if (done) {
+		_shuffler->flush ();
+	}
 	return done;
 }
 
@@ -677,14 +697,33 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	/* Fill gaps that we discover now that we have some video which needs to be emitted */
 
 	if (_last_video_time) {
-		/* XXX: this may not work for 3D */
 		DCPTime fill_from = max (*_last_video_time, piece->content->position());
-		for (DCPTime j = fill_from; j < time; j += one_video_frame()) {
-			LastVideoMap::const_iterator k = _last_video.find (wp);
-			if (k != _last_video.end ()) {
-				emit_video (k->second, j);
-			} else {
-				emit_video (black_player_video_frame(), j);
+		LastVideoMap::const_iterator last = _last_video.find (wp);
+		if (_film->three_d()) {
+			DCPTime j = fill_from;
+			Eyes eyes = _last_video_eyes.get_value_or(EYES_LEFT);
+			if (eyes == EYES_BOTH) {
+				eyes = EYES_LEFT;
+			}
+			while (j < time || eyes != video.eyes) {
+				if (last != _last_video.end()) {
+					last->second->set_eyes (eyes);
+					emit_video (last->second, j);
+				} else {
+					emit_video (black_player_video_frame(eyes), j);
+				}
+				if (eyes == EYES_RIGHT) {
+					j += one_video_frame();
+				}
+				eyes = increment_eyes (eyes);
+			}
+		} else {
+			for (DCPTime j = fill_from; j < time; j += one_video_frame()) {
+				if (last != _last_video.end()) {
+					emit_video (last->second, j);
+				} else {
+					emit_video (black_player_video_frame(EYES_BOTH), j);
+				}
 			}
 		}
 	}
@@ -872,6 +911,10 @@ Player::seek (DCPTime time, bool accurate)
 		setup_pieces ();
 	}
 
+	if (_shuffler) {
+		_shuffler->clear ();
+	}
+
 	if (_audio_processor) {
 		_audio_processor->flush ();
 	}
@@ -896,9 +939,11 @@ Player::seek (DCPTime time, bool accurate)
 
 	if (accurate) {
 		_last_video_time = time;
+		_last_video_eyes = EYES_LEFT;
 		_last_audio_time = time;
 	} else {
 		_last_video_time = optional<DCPTime>();
+		_last_video_eyes = optional<Eyes>();
 		_last_audio_time = optional<DCPTime>();
 	}
 
@@ -922,6 +967,7 @@ Player::emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 		_last_video_time = time + one_video_frame();
 		_active_subtitles.clear_before (time);
 	}
+	_last_video_eyes = increment_eyes (pv->eyes());
 }
 
 void

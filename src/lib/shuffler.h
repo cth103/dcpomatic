@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,29 +18,25 @@
 
 */
 
-#ifndef DCPOMATIC_PIECE_H
-#define DCPOMATIC_PIECE_H
-
 #include "types.h"
-#include "frame_rate_change.h"
+#include "content_video.h"
+#include <boost/signals2.hpp>
 
-class Content;
-class Decoder;
+class Piece;
 
-class Piece
+class Shuffler
 {
 public:
-	Piece (boost::shared_ptr<Content> c, boost::shared_ptr<Decoder> d, FrameRateChange f)
-		: content (c)
-		, decoder (d)
-		, frc (f)
-		, done (false)
-	{}
+	void clear ();
+	void flush ();
 
-	boost::shared_ptr<Content> content;
-	boost::shared_ptr<Decoder> decoder;
-	FrameRateChange frc;
-	bool done;
+	void video (boost::weak_ptr<Piece>, ContentVideo video);
+	boost::signals2::signal<void (boost::weak_ptr<Piece>, ContentVideo)> Video;
+
+	typedef std::pair<boost::weak_ptr<Piece>, ContentVideo> Store;
+
+private:
+
+	boost::optional<ContentVideo> _last;
+	std::list<Store> _store;
 };
-
-#endif

@@ -93,6 +93,7 @@ def build(bld):
                  render_subtitles_test.cc
                  scaling_test.cc
                  silence_padding_test.cc
+                 shuffler_test.cc
                  skip_frame_test.cc
                  srt_subtitle_test.cc
                  ssa_subtitle_test.cc

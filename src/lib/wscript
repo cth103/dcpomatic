@@ -129,6 +129,7 @@ sources = """
           send_kdm_email_job.cc
           send_problem_report_job.cc
           server.cc
+          shuffler.cc
           string_log_entry.cc
           subtitle_content.cc
           subtitle_decoder.cc

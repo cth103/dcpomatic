@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -46,6 +46,7 @@ class Playlist;
 class Font;
 class AudioBuffers;
 class ReferencedReelAsset;
+class Shuffler;
 
 /** @class Player
  *  @brief A class which can `play' a Playlist.
@@ -54,6 +55,7 @@ class Player : public boost::enable_shared_from_this<Player>, public boost::nonc
 {
 public:
 	Player (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist> playlist);
+	~Player ();
 
 	bool pass ();
 	void seek (DCPTime time, bool accurate);
@@ -105,7 +107,7 @@ private:
 	DCPTime resampled_audio_to_dcp (boost::shared_ptr<const Piece> piece, Frame f) const;
 	ContentTime dcp_to_content_time (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	DCPTime content_time_to_dcp (boost::shared_ptr<const Piece> piece, ContentTime t) const;
-	boost::shared_ptr<PlayerVideo> black_player_video_frame () const;
+	boost::shared_ptr<PlayerVideo> black_player_video_frame (Eyes eyes) const;
 	void video (boost::weak_ptr<Piece>, ContentVideo);
 	void audio (boost::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
 	void image_subtitle_start (boost::weak_ptr<Piece>, ContentImageSubtitle);
@@ -146,6 +148,7 @@ private:
 
 	/** Time just after the last video frame we emitted, or the time of the last accurate seek */
 	boost::optional<DCPTime> _last_video_time;
+	boost::optional<Eyes> _last_video_eyes;
 	/** Time just after the last audio frame we emitted, or the time of the last accurate seek */
 	boost::optional<DCPTime> _last_audio_time;
 
@@ -155,6 +158,7 @@ private:
 	LastVideoMap _last_video;
 
 	AudioMerger _audio_merger;
+	Shuffler* _shuffler;
 
 	class StreamState
 	{
