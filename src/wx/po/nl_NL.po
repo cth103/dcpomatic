@@ -870,9 +870,8 @@ msgid "Frame rate"
 msgstr "Frame rate"
 
 #: src/wx/player_information.cc:129
-#, fuzzy, c-format
 msgid "Frame rate: %d"
-msgstr "Frame rate"
+msgstr ""
 
 #: src/wx/about_dialog.cc:66
 msgid "Free, open-source DCP creation from almost anything."

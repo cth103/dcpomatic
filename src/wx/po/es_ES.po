@@ -291,9 +291,8 @@ msgid "Audio Language (e.g. EN)"
 msgstr "Idioma del audio (ej. ES)"
 
 #: src/wx/player_information.cc:132
-#, fuzzy, c-format
 msgid "Audio channels: %d"
-msgstr "Canales de audio"
+msgstr ""
 
 #: src/wx/audio_mapping_view.cc:345
 #, c-format
@@ -877,9 +876,8 @@ msgid "Frame rate"
 msgstr "Velocidad de imagen"
 
 #: src/wx/player_information.cc:129
-#, fuzzy, c-format
 msgid "Frame rate: %d"
-msgstr "Velocidad de imagen"
+msgstr ""
 
 #: src/wx/about_dialog.cc:66
 msgid "Free, open-source DCP creation from almost anything."

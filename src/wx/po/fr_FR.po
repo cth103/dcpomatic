@@ -883,9 +883,8 @@ msgid "Frame rate"
 msgstr "Cadence"
 
 #: src/wx/player_information.cc:129
-#, fuzzy, c-format
 msgid "Frame rate: %d"
-msgstr "Cadence"
+msgstr ""
 
 #: src/wx/about_dialog.cc:66
 msgid "Free, open-source DCP creation from almost anything."
