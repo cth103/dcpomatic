@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-17 00:30+0000\n"
-"PO-Revision-Date: 2018-01-13 05:27+0100\n"
+"PO-Revision-Date: 2018-01-17 05:47+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -294,7 +294,7 @@ msgstr "Taal audio (bv. NL)"
 #: src/wx/player_information.cc:132
 #, c-format
 msgid "Audio channels: %d"
-msgstr ""
+msgstr "Audio-kanalen: %d"
 
 #: src/wx/audio_mapping_view.cc:345
 #, c-format
@@ -645,7 +645,7 @@ msgstr "Standaard standaard"
 
 #: src/wx/full_config_dialog.cc:341
 msgid "Default to enabling upload of DCP to TMS"
-msgstr ""
+msgstr "Standaard upload van DCP naar TMS inschakelen"
 
 #: src/wx/full_config_dialog.cc:256
 msgid "Defaults"
@@ -871,7 +871,7 @@ msgstr "Frame rate"
 
 #: src/wx/player_information.cc:129
 msgid "Frame rate: %d"
-msgstr ""
+msgstr "Frame rate: %d"
 
 #: src/wx/about_dialog.cc:66
 msgid "Free, open-source DCP creation from almost anything."
@@ -1862,14 +1862,12 @@ msgid "Subtitles"
 msgstr "Ondertitels"
 
 #: src/wx/player_information.cc:137
-#, fuzzy
 msgid "Subtitles: no"
-msgstr "Ondertitels"
+msgstr "Ondertitels: nee"
 
 #: src/wx/player_information.cc:135
-#, fuzzy
 msgid "Subtitles: yes"
-msgstr "Ondertitels"
+msgstr "Ondertitels: ja"
 
 #: src/wx/about_dialog.cc:332
 msgid "Supported by"
