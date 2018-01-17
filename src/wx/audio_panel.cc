@@ -54,7 +54,7 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	int r = 0;
 
 	_reference = new wxCheckBox (this, wxID_ANY, _("Refer to existing DCP"));
-	grid->Add (_reference, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	grid->Add (_reference, wxGBPosition (r, 0), wxGBSpan (1, 3));
 	++r;
 
 	_show = new wxButton (this, wxID_ANY, _("Show graph of audio levels..."));
