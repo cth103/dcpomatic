@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,6 +24,7 @@
 #include "lib/playlist.h"
 #include "lib/compose.hpp"
 #include "lib/video_content.h"
+#include "lib/audio_content.h"
 #include "lib/dcp_content.h"
 
 using std::cout;
@@ -32,7 +33,8 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 
-static int const dcp_lines = 4;
+/* This should be even */
+static int const dcp_lines = 6;
 
 PlayerInformation::PlayerInformation (wxWindow* parent, FilmViewer* viewer)
 	: wxPanel (parent)
@@ -44,10 +46,21 @@ PlayerInformation::PlayerInformation (wxWindow* parent, FilmViewer* viewer)
 
 	_dcp = new wxStaticText*[dcp_lines];
 
+	DCPOMATIC_ASSERT ((dcp_lines % 2) == 0);
+
 	{
 		wxSizer* s = new wxBoxSizer (wxVERTICAL);
 		add_label_to_sizer(s, this, _("DCP"), false, 0)->SetFont(title_font);
-		for (int i = 0; i < dcp_lines; ++i) {
+		for (int i = 0; i < dcp_lines / 2; ++i) {
+			_dcp[i] = add_label_to_sizer(s, this, wxT(""), false, 0);
+		}
+		_sizer->Add (s, 1, wxEXPAND | wxALL, 6);
+	}
+
+	{
+		wxSizer* s = new wxBoxSizer (wxVERTICAL);
+		add_label_to_sizer(s, this, wxT(" "), false, 0);
+		for (int i = dcp_lines / 2; i < dcp_lines; ++i) {
 			_dcp[i] = add_label_to_sizer(s, this, wxT(""), false, 0);
 		}
 		_sizer->Add (s, 1, wxEXPAND | wxALL, 6);
@@ -58,7 +71,7 @@ PlayerInformation::PlayerInformation (wxWindow* parent, FilmViewer* viewer)
 		add_label_to_sizer(s, this, _("Performance"), false, 0)->SetFont(title_font);
 		_dropped = add_label_to_sizer(s, this, wxT(""), false, 0);
 		_decode_resolution = add_label_to_sizer(s, this, wxT(""), false, 0);
-		_sizer->Add (s, 1, wxEXPAND | wxALL, 6);
+		_sizer->Add (s, 2, wxEXPAND | wxALL, 6);
 	}
 
 	SetSizerAndFit (_sizer);
@@ -112,6 +125,17 @@ PlayerInformation::triggered_update ()
 	DCPOMATIC_ASSERT (dcp->video);
 
 	checked_set (_dcp[r++], wxString::Format(_("Size: %dx%d"), dcp->video->size().width, dcp->video->size().height));
+	if (dcp->video_frame_rate()) {
+		checked_set (_dcp[r++], wxString::Format(_("Frame rate: %d"), (int) lrint(*dcp->video_frame_rate())));
+	}
+	if (dcp->audio && !dcp->audio->streams().empty()) {
+		checked_set (_dcp[r++], wxString::Format(_("Audio channels: %d"), dcp->audio->streams().front()->channels()));
+	}
+	if (dcp->subtitle) {
+		checked_set (_dcp[r++], _("Subtitles: yes"));
+	} else {
+		checked_set (_dcp[r++], _("Subtitles: no"));
+	}
 
 	optional<double> vfr;
 	vfr = dcp->video_frame_rate ();
@@ -133,4 +157,6 @@ PlayerInformation::triggered_update ()
 	}
 
 	checked_set (_decode_resolution, wxString::Format(_("Decode resolution: %dx%d"), decode.width, decode.height));
+
+	DCPOMATIC_ASSERT(r <= dcp_lines);
 }

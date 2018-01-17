@@ -1,5 +1,7 @@
 2018-01-17  Carl Hetherington  <cth@carlh.net>
 
+	* Add some more DCP information to the player (#1170).
+
 	* Add recent files list to player (#1171).
 
 2018-01-16  Carl Hetherington  <cth@carlh.net>
