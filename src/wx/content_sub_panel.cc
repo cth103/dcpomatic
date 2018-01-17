@@ -44,18 +44,6 @@ ContentSubPanel::ContentSubPanel (ContentPanel* p, wxString name)
 void
 ContentSubPanel::setup_refer_button (wxCheckBox* button, shared_ptr<DCPContent> dcp, bool can_reference, list<string> why_not) const
 {
-	/* XXX: just for debugging */
-	if (dcp) {
-		dcp->film()->log()->log (
-			String::compose (
-				"setup_refer_button for %1; %2 %3",
-				dcp->path(0).string(),
-				int(can_reference),
-				int(why_not.size())),
-			LogEntry::TYPE_GENERAL
-			);
-	}
-
 	button->Enable (can_reference);
 
 	wxString s;
@@ -65,15 +53,6 @@ ContentSubPanel::setup_refer_button (wxCheckBox* button, shared_ptr<DCPContent> 
 		s = _("Cannot reference this DCP.  ");
 		BOOST_FOREACH (string i, why_not) {
 			s += std_to_wx(i) + wxT("  ");
-		}
-	}
-
-	/* XXX: more debugging */
-	if (dcp) {
-		if (!s.IsEmpty()) {
-			dcp->film()->log()->log (String::compose ("setting tooltip to %1", wx_to_std (s)), LogEntry::TYPE_GENERAL);
-		} else {
-			dcp->film()->log()->log ("clearing tooltip", LogEntry::TYPE_GENERAL);
 		}
 	}
 
