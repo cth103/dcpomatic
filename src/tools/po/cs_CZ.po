@@ -170,9 +170,8 @@ msgstr ""
 "nelze vrátit zpět."
 
 #: src/tools/dcpomatic.cc:630
-#, fuzzy, c-format
 msgid "Bad setting for %s."
-msgstr "Chybné nastavení pro %s (%s)."
+msgstr ""
 
 #: src/tools/dcpomatic.cc:736 src/tools/dcpomatic_kdm.cc:357
 msgid "CPL's content is not encrypted."
@@ -230,9 +229,8 @@ msgid "Could not make DCP."
 msgstr "Nemohu vytvořit DCP: %s."
 
 #: src/tools/dcpomatic.cc:389 src/tools/dcpomatic_batch.cc:140
-#, fuzzy, c-format
 msgid "Could not open film at %s"
-msgstr "Nemohu otevřít film na %s (%s)"
+msgstr ""
 
 #: src/tools/dcpomatic_kdm.cc:426
 #, fuzzy
