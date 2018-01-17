@@ -145,7 +145,14 @@ public:
 	void load_dcp (boost::filesystem::path dir)
 	{
 		_film.reset (new Film (optional<boost::filesystem::path>()));
-		shared_ptr<DCPContent> dcp (new DCPContent (_film, dir));
+		shared_ptr<DCPContent> dcp;
+		try {
+			dcp.reset (new DCPContent (_film, dir));
+		} catch (boost::filesystem::filesystem_error& e) {
+			error_dialog (this, _("Could not load DCP"), std_to_wx (e.what()));
+			return;
+		}
+
 		_film->examine_and_add_content (dcp, true);
 
 		JobManager* jm = JobManager::instance ();
