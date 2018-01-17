@@ -286,6 +286,10 @@ public:
 		return _history;
 	}
 
+	std::vector<boost::filesystem::path> player_history () const {
+		return _player_history;
+	}
+
 	boost::shared_ptr<DKDMGroup> dkdms () const {
 		return _dkdms;
 	}
@@ -639,7 +643,13 @@ public:
 		changed ();
 	}
 
+	void clear_player_history () {
+		_player_history.clear ();
+		changed ();
+	}
+
 	void add_to_history (boost::filesystem::path p);
+	void add_to_player_history (boost::filesystem::path p);
 
 	void set_jump_to_selected (bool j) {
 		maybe_set (_jump_to_selected, j);
@@ -695,6 +705,7 @@ private:
 	void read_cinemas (cxml::Document const & f);
 	boost::shared_ptr<dcp::CertificateChain> create_certificate_chain ();
 	boost::filesystem::path directory_or (boost::optional<boost::filesystem::path> dir, boost::filesystem::path a) const;
+	void add_to_history_internal (std::vector<boost::filesystem::path>& h, boost::filesystem::path p);
 
 	template <class T>
 	void maybe_set (T& member, T new_value, Property prop = OTHER) {
@@ -789,6 +800,7 @@ private:
 	bool _win32_console;
 #endif
 	std::vector<boost::filesystem::path> _history;
+	std::vector<boost::filesystem::path> _player_history;
 	boost::shared_ptr<DKDMGroup> _dkdms;
 	boost::filesystem::path _cinemas_file;
 	bool _show_hints_before_make_dcp;

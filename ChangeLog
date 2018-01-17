@@ -1,3 +1,7 @@
+2018-01-17  Carl Hetherington  <cth@carlh.net>
+
+	* Add recent files list to player (#1171).
+
 2018-01-16  Carl Hetherington  <cth@carlh.net>
 
 	* Allow configuration of default value of upload-to-TMS button.

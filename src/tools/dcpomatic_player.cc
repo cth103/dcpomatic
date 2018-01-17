@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -55,6 +55,7 @@
 using std::string;
 using std::cout;
 using std::exception;
+using std::vector;
 using boost::shared_ptr;
 using boost::optional;
 
@@ -62,7 +63,9 @@ enum {
 	ID_file_open = 1,
 	ID_file_add_ov,
 	ID_file_add_kdm,
-	ID_file_close,
+	ID_file_history,
+	/* Allow spare IDs after _history for the recent files list */
+	ID_file_close = 100,
 	ID_view_scale_appropriate,
 	ID_view_scale_full,
 	ID_view_scale_half,
@@ -79,6 +82,10 @@ public:
 		, _update_news_requested (false)
 		, _info (0)
 		, _config_dialog (0)
+		, _file_menu (0)
+		, _history_items (0)
+		, _history_position (0)
+		, _history_separator (0)
 		, _viewer (0)
 	{
 
@@ -97,10 +104,12 @@ public:
 #endif
 
 		_config_changed_connection = Config::instance()->Changed.connect (boost::bind (&DOMFrame::config_changed, this));
+		config_changed ();
 
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_open, this), ID_file_open);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_add_ov, this), ID_file_add_ov);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_add_kdm, this), ID_file_add_kdm);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_history, this, _1), ID_file_history, ID_file_history + HISTORY_SIZE);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_close, this), ID_file_close);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_exit, this), wxID_EXIT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_preferences, this), wxID_PREFERENCES);
@@ -166,6 +175,8 @@ public:
 		_viewer->set_position (DCPTime ());
 		_info->triggered_update ();
 
+		Config::instance()->add_to_player_history (dir);
+
 		set_menu_sensitivity ();
 	}
 
@@ -173,22 +184,25 @@ private:
 
 	void setup_menu (wxMenuBar* m)
 	{
-		wxMenu* file = new wxMenu;
-		file->Append (ID_file_open, _("&Open...\tCtrl-O"));
-		_file_add_ov = file->Append (ID_file_add_ov, _("&Add OV..."));
-		_file_add_kdm = file->Append (ID_file_add_kdm, _("&Add KDM..."));
-		file->AppendSeparator ();
-		file->Append (ID_file_close, _("&Close"));
-		file->AppendSeparator ();
+		_file_menu = new wxMenu;
+		_file_menu->Append (ID_file_open, _("&Open...\tCtrl-O"));
+		_file_add_ov = _file_menu->Append (ID_file_add_ov, _("&Add OV..."));
+		_file_add_kdm = _file_menu->Append (ID_file_add_kdm, _("&Add KDM..."));
+
+		_history_position = _file_menu->GetMenuItems().GetCount();
+
+		_file_menu->AppendSeparator ();
+		_file_menu->Append (ID_file_close, _("&Close"));
+		_file_menu->AppendSeparator ();
 
 #ifdef __WXOSX__
-		file->Append (wxID_EXIT, _("&Exit"));
+		_file_menu->Append (wxID_EXIT, _("&Exit"));
 #else
-		file->Append (wxID_EXIT, _("&Quit"));
+		_file_menu->Append (wxID_EXIT, _("&Quit"));
 #endif
 
 #ifdef __WXOSX__
-		file->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
+		_file_menu->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
 #else
 		wxMenu* edit = new wxMenu;
 		edit->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
@@ -211,7 +225,7 @@ private:
 #endif
 		help->Append (ID_help_report_a_problem, _("Report a problem..."));
 
-		m->Append (file, _("&File"));
+		m->Append (_file_menu, _("&File"));
 #ifndef __WXOSX__
 		m->Append (edit, _("&Edit"));
 #endif
@@ -301,6 +315,15 @@ private:
 		_info->triggered_update ();
 	}
 
+	void file_history (wxCommandEvent& event)
+	{
+		vector<boost::filesystem::path> history = Config::instance()->player_history ();
+		int n = event.GetId() - ID_file_history;
+		if (n >= 0 && n < static_cast<int> (history.size ())) {
+			load_dcp (history[n]);
+		}
+	}
+
 	void file_close ()
 	{
 		_viewer->set_film (shared_ptr<Film>());
@@ -386,6 +409,36 @@ private:
 					)
 				);
 		}
+
+		for (int i = 0; i < _history_items; ++i) {
+			delete _file_menu->Remove (ID_file_history + i);
+		}
+
+		if (_history_separator) {
+			_file_menu->Remove (_history_separator);
+		}
+		delete _history_separator;
+		_history_separator = 0;
+
+		int pos = _history_position;
+
+		vector<boost::filesystem::path> history = Config::instance()->player_history ();
+
+		if (!history.empty ()) {
+			_history_separator = _file_menu->InsertSeparator (pos++);
+		}
+
+		for (size_t i = 0; i < history.size(); ++i) {
+			string s;
+			if (i < 9) {
+				s = String::compose ("&%1 %2", i + 1, history[i].string());
+			} else {
+				s = history[i].string();
+			}
+			_file_menu->Insert (pos++, ID_file_history + i, std_to_wx (s));
+		}
+
+		_history_items = history.size ();
 	}
 
 	void set_menu_sensitivity ()
@@ -397,6 +450,10 @@ private:
 	bool _update_news_requested;
 	PlayerInformation* _info;
 	wxPreferencesEditor* _config_dialog;
+	wxMenu* _file_menu;
+	int _history_items;
+	int _history_position;
+	wxMenuItem* _history_separator;
 	FilmViewer* _viewer;
 	boost::shared_ptr<Film> _film;
 	boost::signals2::scoped_connection _config_changed_connection;

@@ -309,9 +309,12 @@ try
 	_win32_console = f.optional_bool_child ("Win32Console").get_value_or (false);
 #endif
 
-	list<cxml::NodePtr> his = f.node_children ("History");
 	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("History")) {
 		_history.push_back (i->content ());
+	}
+
+	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("PlayerHistory")) {
+		_player_history.push_back (i->content ());
 	}
 
 	cxml::NodePtr signer = f.optional_node_child ("Signer");
@@ -632,6 +635,10 @@ Config::write_config () const
 		root->add_child("History")->add_child_text (i.string ());
 	}
 
+	BOOST_FOREACH (boost::filesystem::path i, _player_history) {
+		root->add_child("PlayerHistory")->add_child_text (i.string ());
+	}
+
 	/* [XML] DKDMGroup A group of DKDMs, each with a <code>Name</code> attribute, containing other <code>&lt;DKDMGroup&gt;</code>
 	   or <code>&lt;DKDM&gt;</code> tags.
 	*/
@@ -799,12 +806,24 @@ Config::set_cover_sheet_to_default ()
 void
 Config::add_to_history (boost::filesystem::path p)
 {
-	/* Remove existing instances of this path in the history */
-	_history.erase (remove (_history.begin(), _history.end(), p), _history.end ());
+	add_to_history_internal (_history, p);
+}
 
-	_history.insert (_history.begin (), p);
-	if (_history.size() > HISTORY_SIZE) {
-		_history.pop_back ();
+void
+Config::add_to_player_history (boost::filesystem::path p)
+{
+	add_to_history_internal (_player_history, p);
+}
+
+void
+Config::add_to_history_internal (vector<boost::filesystem::path>& h, boost::filesystem::path p)
+{
+	/* Remove existing instances of this path in the history */
+	h.erase (remove (h.begin(), h.end(), p), h.end ());
+
+	h.insert (h.begin (), p);
+	if (h.size() > HISTORY_SIZE) {
+		h.pop_back ();
 	}
 
 	changed ();
