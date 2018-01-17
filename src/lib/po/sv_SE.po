@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-13 01:41+0000\n"
+"POT-Creation-Date: 2018-01-17 00:30+0000\n"
 "PO-Revision-Date: 2016-10-25 17:57+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -70,7 +70,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr ""
 
-#: src/lib/config.cc:785
+#: src/lib/config.cc:795
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -331,7 +331,7 @@ msgstr "Färgöversättningskarakteristik"
 msgid "Colourspace"
 msgstr "Färgrymd"
 
-#: src/lib/content.cc:163
+#: src/lib/content.cc:164
 msgid "Computing digest"
 msgstr "Beräknar sammanfattning"
 
@@ -435,7 +435,7 @@ msgid "Content to be joined must have the same subtitle line spacing."
 msgstr ""
 "Innehåll som ska sammanfogas måste ha samma linjeavstånd på undertexter."
 
-#: src/lib/content.cc:127 src/lib/content.cc:131
+#: src/lib/content.cc:128 src/lib/content.cc:132
 msgid "Content to be joined must have the same video frame rate"
 msgstr "Innehåll som ska sammanfogas måste använda samma bildhastighet."
 
@@ -571,7 +571,7 @@ msgstr "DCP-o-matic stödjer inte längre '%1'-filter, så det har stängts av."
 msgid "De-interlacing"
 msgstr "Avflätning"
 
-#: src/lib/config.cc:765
+#: src/lib/config.cc:775
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -662,7 +662,7 @@ msgstr "Misslyckades att skicka epost (%1)"
 msgid "Feature"
 msgstr "Feature"
 
-#: src/lib/content.cc:386
+#: src/lib/content.cc:398
 msgid "Filename"
 msgstr "Filnamn"
 
@@ -674,7 +674,7 @@ msgstr "Film"
 msgid "Finding length"
 msgstr "Söker längd"
 
-#: src/lib/content.cc:393
+#: src/lib/content.cc:405
 msgid "Frame rate"
 msgstr "Bildhastighet"
 
@@ -761,7 +761,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Det är inte känt vad som orsakade detta fel."
 
-#: src/lib/config.cc:287 src/lib/config.cc:762
+#: src/lib/config.cc:289 src/lib/config.cc:772
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-leverans: $CPL_NAME"
 
@@ -889,12 +889,12 @@ msgstr ""
 msgid "OK (ran for %1)"
 msgstr "OK (kördes %1)"
 
-#: src/lib/content.cc:116
+#: src/lib/content.cc:117
 msgid "Only the first piece of content to be joined can have a start trim."
 msgstr ""
 "Endast den första delen av innehållet som läggs ihop kan start-trimmas."
 
-#: src/lib/content.cc:120
+#: src/lib/content.cc:121
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Endast den sista delen av innehållet som läggs ihop kan slut-trimmas."
 
@@ -914,7 +914,7 @@ msgstr "P3"
 msgid "Policy"
 msgstr "Policy"
 
-#: src/lib/content.cc:402
+#: src/lib/content.cc:414
 msgid "Prepared for video frame rate"
 msgstr "Förberedd för videobildshastighet"
 
@@ -1354,7 +1354,7 @@ msgstr ""
 "Din ljudvolym är väldigt hög (på %1). Du borde dra ner volymen på ditt "
 "ljudinnehåll."
 
-#: src/lib/config.cc:244
+#: src/lib/config.cc:245
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
@@ -1450,7 +1450,7 @@ msgstr "fel vid async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "fel vid async_write (%1)"
 
-#: src/lib/content.cc:395 src/lib/content.cc:404
+#: src/lib/content.cc:407 src/lib/content.cc:416
 msgid "frames per second"
 msgstr "bilder per sekund"
 

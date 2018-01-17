@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-13 01:41+0000\n"
+"POT-Creation-Date: 2018-01-17 00:30+0000\n"
 "PO-Revision-Date: 2017-05-14 22:22+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -68,7 +68,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " на %1"
 
-#: src/lib/config.cc:785
+#: src/lib/config.cc:795
 #, fuzzy
 msgid ""
 "$CPL_NAME\n"
@@ -335,7 +335,7 @@ msgstr "Характеристика цветопередачи"
 msgid "Colourspace"
 msgstr "Цветовое пространство"
 
-#: src/lib/content.cc:163
+#: src/lib/content.cc:164
 msgid "Computing digest"
 msgstr "Рендеринг"
 
@@ -446,7 +446,7 @@ msgstr ""
 "Для присоединения контента должен быть одинаковый интервал между рядами "
 "субтитров."
 
-#: src/lib/content.cc:127 src/lib/content.cc:131
+#: src/lib/content.cc:128 src/lib/content.cc:132
 msgid "Content to be joined must have the same video frame rate"
 msgstr "Для присоединения контента должна быть одинаковой частота кадров видео"
 
@@ -583,7 +583,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Деинтерлейсинг"
 
-#: src/lib/config.cc:765
+#: src/lib/config.cc:775
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -673,7 +673,7 @@ msgstr "Ошибка отправки email (%1)"
 msgid "Feature"
 msgstr "FTR (Фильм)"
 
-#: src/lib/content.cc:386
+#: src/lib/content.cc:398
 msgid "Filename"
 msgstr "Имя файла"
 
@@ -685,7 +685,7 @@ msgstr "Проект"
 msgid "Finding length"
 msgstr "Расчет длительности"
 
-#: src/lib/content.cc:393
+#: src/lib/content.cc:405
 msgid "Frame rate"
 msgstr "Частота кадров"
 
@@ -769,7 +769,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Неизвестно, что вызвало эту ошибку."
 
-#: src/lib/config.cc:287 src/lib/config.cc:762
+#: src/lib/config.cc:289 src/lib/config.cc:772
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Назначение KDM: $CPL_NAME"
 
@@ -897,11 +897,11 @@ msgstr "Ничего"
 msgid "OK (ran for %1)"
 msgstr "Готово! (выполнено за %1)"
 
-#: src/lib/content.cc:116
+#: src/lib/content.cc:117
 msgid "Only the first piece of content to be joined can have a start trim."
 msgstr "Только первый элемент контента может иметь обрезку с начала."
 
-#: src/lib/content.cc:120
+#: src/lib/content.cc:121
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Только последний элемент контента может иметь обрезку с конца."
 
@@ -921,7 +921,7 @@ msgstr "P3"
 msgid "Policy"
 msgstr "POL (Стратегический)"
 
-#: src/lib/content.cc:402
+#: src/lib/content.cc:414
 msgid "Prepared for video frame rate"
 msgstr "Подготовлено для частоты кадров видео"
 
@@ -1361,7 +1361,7 @@ msgstr ""
 "Уровень вашего аудио слишком высок (на %1). Вам стоит понизить уровень "
 "громкости вашего аудио-контента."
 
-#: src/lib/config.cc:244
+#: src/lib/config.cc:245
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
@@ -1457,7 +1457,7 @@ msgstr "ошибка во время async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "ошибка во время async_write (%1)"
 
-#: src/lib/content.cc:395 src/lib/content.cc:404
+#: src/lib/content.cc:407 src/lib/content.cc:416
 msgid "frames per second"
 msgstr "кадра(ов) в секунду"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-13 01:41+0000\n"
+"POT-Creation-Date: 2018-01-17 00:30+0000\n"
 "PO-Revision-Date: 2017-07-23 10:23+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -236,7 +236,7 @@ msgstr ""
 "添加此证书将使链不一致，因此不会添加。 请按照root到intermediate到leaf顺序添加"
 "证书。"
 
-#: src/wx/cinema_dialog.cc:71 src/wx/full_config_dialog.cc:736
+#: src/wx/cinema_dialog.cc:71 src/wx/full_config_dialog.cc:749
 msgid "Address"
 msgstr "地址"
 
@@ -249,7 +249,7 @@ msgstr "调整白点"
 msgid "Advanced..."
 msgstr "添加..."
 
-#: src/wx/full_config_dialog.cc:960
+#: src/wx/full_config_dialog.cc:973
 msgid "Allow any DCP frame rate"
 msgstr "允许任何DCP帧速率"
 
@@ -291,6 +291,11 @@ msgstr "音频"
 msgid "Audio Language (e.g. EN)"
 msgstr "音频语言 (例如 CMN)"
 
+#: src/wx/player_information.cc:132
+#, c-format
+msgid "Audio channels: %d"
+msgstr ""
+
 #: src/wx/audio_mapping_view.cc:345
 #, c-format
 msgid ""
@@ -312,7 +317,7 @@ msgstr "自动解析源内容中的音频"
 msgid "B"
 msgstr "B"
 
-#: src/wx/full_config_dialog.cc:747
+#: src/wx/full_config_dialog.cc:760
 msgid "BCC address"
 msgstr "抄送地址"
 
@@ -344,7 +349,7 @@ msgstr "字幕以图像输出"
 msgid "But I have to use fader"
 msgstr "使用推子"
 
-#: src/wx/full_config_dialog.cc:737
+#: src/wx/full_config_dialog.cc:750
 msgid "CC addresses"
 msgstr "抄送地址 "
 
@@ -459,7 +464,7 @@ msgid "Configuration file"
 msgstr ""
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-#: src/wx/full_config_dialog.cc:1016
+#: src/wx/full_config_dialog.cc:1029
 msgid "Config|Timing"
 msgstr "时间设置"
 
@@ -521,13 +526,13 @@ msgstr "无法读取证书文件 (%s)"
 msgid "Could not read key file; file is too long (%s)"
 msgstr "无法读取Key文件，因为文件过长 (%s)"
 
-#: src/wx/film_viewer.cc:773
+#: src/wx/film_viewer.cc:789
 #, fuzzy
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr "不能设置音频输出 (%s)。因此预览时将没有音频输出"
 
-#: src/wx/full_config_dialog.cc:863
+#: src/wx/full_config_dialog.cc:876
 msgid "Cover Sheet"
 msgstr "封面"
 
@@ -544,11 +549,11 @@ msgid "Crop"
 msgstr "裁剪"
 
 #: src/wx/audio_mapping_view.cc:475 src/wx/audio_mapping_view.cc:477
-#: src/wx/film_editor.cc:55 src/wx/player_information.cc:49
+#: src/wx/film_editor.cc:55 src/wx/player_information.cc:53
 msgid "DCP"
 msgstr "DCP"
 
-#: src/wx/full_config_dialog.cc:989
+#: src/wx/full_config_dialog.cc:1002
 msgid "DCP asset filename format"
 msgstr "DCP内容的文件名格式"
 
@@ -556,7 +561,7 @@ msgstr "DCP内容的文件名格式"
 msgid "DCP directory"
 msgstr "DCP目录"
 
-#: src/wx/full_config_dialog.cc:977
+#: src/wx/full_config_dialog.cc:990
 msgid "DCP metadata filename format"
 msgstr "DCP元数据的文件名格式"
 
@@ -569,19 +574,19 @@ msgstr "DCP-o-matic"
 msgid "DCP-o-matic audio"
 msgstr "DCP-o-matic音频"
 
-#: src/wx/full_config_dialog.cc:1018
+#: src/wx/full_config_dialog.cc:1031
 msgid "Debug: decode"
 msgstr "解码"
 
-#: src/wx/full_config_dialog.cc:1022
+#: src/wx/full_config_dialog.cc:1035
 msgid "Debug: email sending"
 msgstr "发送到邮箱"
 
-#: src/wx/full_config_dialog.cc:1020
+#: src/wx/full_config_dialog.cc:1033
 msgid "Debug: encode"
 msgstr "编码"
 
-#: src/wx/player_information.cc:135
+#: src/wx/player_information.cc:159
 #, c-format
 msgid "Decode resolution: %dx%d"
 msgstr ""
@@ -634,6 +639,10 @@ msgstr "默认缩放比例"
 msgid "Default standard"
 msgstr "默认打包标准类型"
 
+#: src/wx/full_config_dialog.cc:341
+msgid "Default to enabling upload of DCP to TMS"
+msgstr ""
+
 #: src/wx/full_config_dialog.cc:256
 msgid "Defaults"
 msgstr "默认"
@@ -682,7 +691,7 @@ msgstr "下载..."
 msgid "Downloading certificate"
 msgstr "下载证书"
 
-#: src/wx/player_information.cc:76
+#: src/wx/player_information.cc:89
 #, c-format
 msgid "Dropped frames: %d"
 msgstr ""
@@ -747,7 +756,7 @@ msgstr "结束"
 msgid "Enter your email address for the contact, not %s"
 msgstr "请输入您的电子邮件地址，不是 %s"
 
-#: src/wx/full_config_dialog.cc:1013
+#: src/wx/full_config_dialog.cc:1026
 msgid "Errors"
 msgstr "错误"
 
@@ -778,7 +787,7 @@ msgstr "导出工程"
 msgid "Export..."
 msgstr "导出"
 
-#: src/wx/full_config_dialog.cc:617
+#: src/wx/full_config_dialog.cc:630
 msgid "FTP (for Dolby)"
 msgstr "FTP (Dolby)"
 
@@ -857,6 +866,11 @@ msgstr "帧率"
 msgid "Frame rate"
 msgstr "帧率"
 
+#: src/wx/player_information.cc:129
+#, fuzzy, c-format
+msgid "Frame rate: %d"
+msgstr "帧率"
+
 #: src/wx/about_dialog.cc:66
 msgid "Free, open-source DCP creation from almost anything."
 msgstr ""
@@ -867,7 +881,7 @@ msgstr ""
 msgid "From"
 msgstr "起始"
 
-#: src/wx/full_config_dialog.cc:731
+#: src/wx/full_config_dialog.cc:744
 msgid "From address"
 msgstr "发件人地址"
 
@@ -900,7 +914,7 @@ msgstr "增益计算"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "从内容通道  %d 到DCP %d 通道进行增益调整"
 
-#: src/wx/content_properties_dialog.cc:70 src/wx/full_config_dialog.cc:1009
+#: src/wx/content_properties_dialog.cc:70 src/wx/full_config_dialog.cc:1022
 msgid "General"
 msgstr "普通"
 
@@ -929,7 +943,7 @@ msgstr "跳转到时间码"
 msgid "Green chromaticity"
 msgstr "绿色色度"
 
-#: src/wx/full_config_dialog.cc:354
+#: src/wx/full_config_dialog.cc:358
 #, fuzzy
 msgid "Guess from content"
 msgstr "缩略视图内容"
@@ -962,11 +976,11 @@ msgstr "使用推子"
 msgid "ID"
 msgstr "ID"
 
-#: src/wx/full_config_dialog.cc:600
+#: src/wx/full_config_dialog.cc:613
 msgid "IP address"
 msgstr "IP地址"
 
-#: src/wx/full_config_dialog.cc:536
+#: src/wx/full_config_dialog.cc:549
 msgid "IP address / host name"
 msgstr "IP地址/服务器地址"
 
@@ -1030,7 +1044,7 @@ msgstr "公钥"
 msgid "Intermediate common name"
 msgstr "公钥名称"
 
-#: src/wx/dcp_panel.cc:190 src/wx/full_config_dialog.cc:378
+#: src/wx/dcp_panel.cc:190 src/wx/full_config_dialog.cc:382
 msgid "Interop"
 msgstr "Interop"
 
@@ -1065,11 +1079,11 @@ msgstr "JPEG2000码率"
 msgid "Join"
 msgstr "创建"
 
-#: src/wx/film_viewer.cc:117
+#: src/wx/film_viewer.cc:119
 msgid "Jump to selected content"
 msgstr "跳转到已选择的内容"
 
-#: src/wx/full_config_dialog.cc:690
+#: src/wx/full_config_dialog.cc:703
 msgid "KDM Email"
 msgstr "邮件发送 KDM"
 
@@ -1130,7 +1144,7 @@ msgstr "左眼"
 msgid "Length"
 msgstr "长度"
 
-#: src/wx/player_information.cc:121
+#: src/wx/player_information.cc:145
 msgid "Length: %1 (%2 frames)"
 msgstr ""
 
@@ -1138,7 +1152,7 @@ msgstr ""
 msgid "Line spacing"
 msgstr "行间距"
 
-#: src/wx/full_config_dialog.cc:1007
+#: src/wx/full_config_dialog.cc:1020
 msgid "Log"
 msgstr "日志"
 
@@ -1163,11 +1177,11 @@ msgstr "MOV 文件 (*.mov)|*.mov"
 msgid "MP4 files (*.mp4)|*.mp4"
 msgstr "MP4 文件 (*.mp4)|*.mp4"
 
-#: src/wx/full_config_dialog.cc:723
+#: src/wx/full_config_dialog.cc:736
 msgid "Mail password"
 msgstr "邮箱登录密码"
 
-#: src/wx/full_config_dialog.cc:719
+#: src/wx/full_config_dialog.cc:732
 msgid "Mail user name"
 msgstr "邮箱用户名"
 
@@ -1195,16 +1209,16 @@ msgstr "要求亮度(例如:14FL)"
 msgid "Matrix"
 msgstr "矩阵"
 
-#: src/wx/full_config_dialog.cc:952
+#: src/wx/full_config_dialog.cc:965
 msgid "Maximum JPEG2000 bandwidth"
 msgstr "最大JPEG2000码率"
 
-#: src/wx/full_config_dialog.cc:969
+#: src/wx/full_config_dialog.cc:982
 msgid "Maximum number of frames to store per thread"
 msgstr ""
 
 #: src/wx/dcp_panel.cc:684 src/wx/full_config_dialog.cc:315
-#: src/wx/full_config_dialog.cc:956
+#: src/wx/full_config_dialog.cc:969
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
@@ -1261,12 +1275,12 @@ msgstr "需要OV:"
 msgid "Name"
 msgstr "名称"
 
-#: src/wx/player_information.cc:108
+#: src/wx/player_information.cc:121
 #, fuzzy
 msgid "Needs KDM"
 msgstr "选择KDM"
 
-#: src/wx/player_information.cc:103
+#: src/wx/player_information.cc:116
 msgid "Needs OV"
 msgstr ""
 
@@ -1278,7 +1292,7 @@ msgstr "新名称"
 msgid "New versions of DCP-o-matic are available."
 msgstr "DCP-o-Matic有新版！"
 
-#: src/wx/player_information.cc:91
+#: src/wx/player_information.cc:104
 #, fuzzy
 msgid "No DCP loaded."
 msgstr "没有选择DCP"
@@ -1327,11 +1341,11 @@ msgstr "多个DCP-o-matic 将被使用"
 msgid "Off"
 msgstr "关闭"
 
-#: src/wx/full_config_dialog.cc:964
+#: src/wx/full_config_dialog.cc:977
 msgid "Only servers encode"
 msgstr "仅在编码服务器编码"
 
-#: src/wx/full_config_dialog.cc:1028
+#: src/wx/full_config_dialog.cc:1041
 msgid "Open console window"
 msgstr "打开控制台窗口"
 
@@ -1351,7 +1365,7 @@ msgstr "组织"
 msgid "Other trusted devices"
 msgstr "其它可信设备(服务器设备)"
 
-#: src/wx/full_config_dialog.cc:707
+#: src/wx/full_config_dialog.cc:720
 msgid "Outgoing mail server"
 msgstr "发送邮件服务器地址"
 
@@ -1359,7 +1373,7 @@ msgstr "发送邮件服务器地址"
 msgid "Outline"
 msgstr "缩略视图"
 
-#: src/wx/film_viewer.cc:111
+#: src/wx/film_viewer.cc:113
 msgid "Outline content"
 msgstr "缩略视图内容"
 
@@ -1387,7 +1401,7 @@ msgstr "输出伽玛校正"
 msgid "Overwrite this file with current configuration"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:612
+#: src/wx/full_config_dialog.cc:625
 msgid "Password"
 msgstr "密码"
 
@@ -1425,7 +1439,7 @@ msgstr "最佳值 %.2fdB"
 msgid "Peak: unknown"
 msgstr "最佳值: 未知"
 
-#: src/wx/player_information.cc:58
+#: src/wx/player_information.cc:71
 msgid "Performance"
 msgstr ""
 
@@ -1472,7 +1486,7 @@ msgstr "处理类型"
 msgid "Properties..."
 msgstr "属性..."
 
-#: src/wx/full_config_dialog.cc:596
+#: src/wx/full_config_dialog.cc:609
 msgid "Protocol"
 msgstr "协议"
 
@@ -1586,11 +1600,11 @@ msgstr "重复..."
 msgid "Report A Problem"
 msgstr "报告问题"
 
-#: src/wx/full_config_dialog.cc:754
+#: src/wx/full_config_dialog.cc:767
 msgid "Reset to default subject and text"
 msgstr "恢复到默认"
 
-#: src/wx/full_config_dialog.cc:879
+#: src/wx/full_config_dialog.cc:892
 msgid "Reset to default text"
 msgstr "恢复到默认"
 
@@ -1630,11 +1644,11 @@ msgstr "根名称"
 msgid "S-Gamut3"
 msgstr "索尼S-Gamut3"
 
-#: src/wx/full_config_dialog.cc:616
+#: src/wx/full_config_dialog.cc:629
 msgid "SCP (for AAM and Doremi)"
 msgstr "SCP (用于AAM和Doremi)"
 
-#: src/wx/dcp_panel.cc:189 src/wx/full_config_dialog.cc:377
+#: src/wx/dcp_panel.cc:189 src/wx/full_config_dialog.cc:381
 msgid "SMPTE"
 msgstr "SMPTE"
 
@@ -1659,7 +1673,7 @@ msgstr "缩放"
 msgid "Screens"
 msgstr "服务器"
 
-#: src/wx/full_config_dialog.cc:532
+#: src/wx/full_config_dialog.cc:545
 msgid "Search network for servers"
 msgstr "搜索网络服务器（局域网）"
 
@@ -1735,7 +1749,7 @@ msgstr "序列号"
 msgid "Server"
 msgstr "服务器"
 
-#: src/wx/full_config_dialog.cc:519
+#: src/wx/full_config_dialog.cc:532
 msgid "Servers"
 msgstr "服务器"
 
@@ -1793,7 +1807,7 @@ msgstr "简单伽马值，低位对齐"
 msgid "Single reel"
 msgstr "签名卷"
 
-#: src/wx/player_information.cc:114
+#: src/wx/player_information.cc:127
 #, c-format
 msgid "Size: %dx%d"
 msgstr ""
@@ -1834,7 +1848,7 @@ msgstr "流"
 msgid "Studio (e.g. TCF)"
 msgstr "工作室(例如:ROV)"
 
-#: src/wx/full_config_dialog.cc:727
+#: src/wx/full_config_dialog.cc:740
 msgid "Subject"
 msgstr "类目"
 
@@ -1855,15 +1869,25 @@ msgstr "字幕外观"
 msgid "Subtitles"
 msgstr "字幕"
 
+#: src/wx/player_information.cc:137
+#, fuzzy
+msgid "Subtitles: no"
+msgstr "字幕"
+
+#: src/wx/player_information.cc:135
+#, fuzzy
+msgid "Subtitles: yes"
+msgstr "字幕"
+
 #: src/wx/about_dialog.cc:332
 msgid "Supported by"
 msgstr "技术支持"
 
-#: src/wx/full_config_dialog.cc:579
+#: src/wx/full_config_dialog.cc:592
 msgid "TMS"
 msgstr "TMS"
 
-#: src/wx/full_config_dialog.cc:604
+#: src/wx/full_config_dialog.cc:617
 msgid "Target path"
 msgstr "目标路径"
 
@@ -1932,7 +1956,7 @@ msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
 msgstr "已存在同名模板，是否覆盖？"
 
-#: src/wx/film_viewer.cc:211
+#: src/wx/film_viewer.cc:213
 msgid "There is not enough free memory to do that."
 msgstr "内存不足！"
 
@@ -2149,7 +2173,7 @@ msgstr "使用字幕"
 msgid "Use this file as new configuration"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:608
+#: src/wx/full_config_dialog.cc:621
 msgid "User name"
 msgstr "用户名"
 
@@ -2171,7 +2195,7 @@ msgstr "视频帧率"
 msgid "View..."
 msgstr "视图窗口"
 
-#: src/wx/full_config_dialog.cc:1011
+#: src/wx/full_config_dialog.cc:1024
 msgid "Warnings"
 msgstr "警告"
 
@@ -2293,7 +2317,7 @@ msgstr "分"
 msgid "ms"
 msgstr "毫秒"
 
-#: src/wx/full_config_dialog.cc:712
+#: src/wx/full_config_dialog.cc:725
 msgid "port"
 msgstr "端口"
 

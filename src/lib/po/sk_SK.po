@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-13 01:41+0000\n"
+"POT-Creation-Date: 2018-01-17 00:30+0000\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -74,7 +74,7 @@ msgstr ""
 msgid " on %1"
 msgstr ""
 
-#: src/lib/config.cc:785
+#: src/lib/config.cc:795
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -327,7 +327,7 @@ msgstr "Charakteristika prenosu farieb"
 msgid "Colourspace"
 msgstr "Farebný priestor"
 
-#: src/lib/content.cc:163
+#: src/lib/content.cc:164
 msgid "Computing digest"
 msgstr "Počítam zhrnutie"
 
@@ -427,7 +427,7 @@ msgstr "Aby sa spojil obsah, musí mať rovnakú titulkovú X mierku. "
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr "Aby sa spojil obsah, musí mať rovnakú titulkovú X mierku. "
 
-#: src/lib/content.cc:127 src/lib/content.cc:131
+#: src/lib/content.cc:128 src/lib/content.cc:132
 #, fuzzy
 msgid "Content to be joined must have the same video frame rate"
 msgstr "Aby sa spojil obsah, musí mať rovnaký počet obrázkov za sekundu."
@@ -566,7 +566,7 @@ msgstr "DCP-o-matic nepodporuje `%1' filter, takže filter bude vypnutý."
 msgid "De-interlacing"
 msgstr "De-interlacing"
 
-#: src/lib/config.cc:765
+#: src/lib/config.cc:775
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -657,7 +657,7 @@ msgstr "Chyba pri posielaní emailu (%1)"
 msgid "Feature"
 msgstr "Feature"
 
-#: src/lib/content.cc:386
+#: src/lib/content.cc:398
 #, fuzzy
 msgid "Filename"
 msgstr "meno"
@@ -671,7 +671,7 @@ msgstr "Film"
 msgid "Finding length"
 msgstr "Dĺžka videa"
 
-#: src/lib/content.cc:393
+#: src/lib/content.cc:405
 #, fuzzy
 msgid "Frame rate"
 msgstr "Frame rate videa (počet obrázkov za sekundu)"
@@ -757,7 +757,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Neviem, čo zapríčinilo túto chybu."
 
-#: src/lib/config.cc:287 src/lib/config.cc:762
+#: src/lib/config.cc:289 src/lib/config.cc:772
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM donáška: $CPL_NAME"
 
@@ -885,11 +885,11 @@ msgstr ""
 msgid "OK (ran for %1)"
 msgstr "OK (hotovo za %1)"
 
-#: src/lib/content.cc:116
+#: src/lib/content.cc:117
 msgid "Only the first piece of content to be joined can have a start trim."
 msgstr "Iba prvá časť pripojeného obsahu môže byť upravená od začiatku."
 
-#: src/lib/content.cc:120
+#: src/lib/content.cc:121
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Iba posledná časť pripojeného obsahu môže byť upravená od konca."
 
@@ -909,7 +909,7 @@ msgstr "P3"
 msgid "Policy"
 msgstr "Policy"
 
-#: src/lib/content.cc:402
+#: src/lib/content.cc:414
 msgid "Prepared for video frame rate"
 msgstr ""
 
@@ -1322,7 +1322,7 @@ msgid ""
 "audio content."
 msgstr ""
 
-#: src/lib/config.cc:244
+#: src/lib/config.cc:245
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
@@ -1420,7 +1420,7 @@ msgstr "chyba počas  async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "chyba počas  async_write (%1)"
 
-#: src/lib/content.cc:395 src/lib/content.cc:404
+#: src/lib/content.cc:407 src/lib/content.cc:416
 msgid "frames per second"
 msgstr "obrázky za sekundu"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-13 01:41+0000\n"
+"POT-Creation-Date: 2018-01-17 00:30+0000\n"
 "PO-Revision-Date: 2017-11-07 23:35+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -70,7 +70,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " %1"
 
-#: src/lib/config.cc:785
+#: src/lib/config.cc:795
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -338,7 +338,7 @@ msgstr "Caractéristique conversion colorimétrique"
 msgid "Colourspace"
 msgstr "Espace colorimétrique"
 
-#: src/lib/content.cc:163
+#: src/lib/content.cc:164
 msgid "Computing digest"
 msgstr "fabrication rendu"
 
@@ -442,7 +442,7 @@ msgid "Content to be joined must have the same subtitle line spacing."
 msgstr ""
 "Les contenus à ajouter doivent tous avoir le même espacement de lignes."
 
-#: src/lib/content.cc:127 src/lib/content.cc:131
+#: src/lib/content.cc:128 src/lib/content.cc:132
 msgid "Content to be joined must have the same video frame rate"
 msgstr "Le contenu à ajouter doit avoir la même cadence vidéo."
 
@@ -575,7 +575,7 @@ msgstr "DCP-o-matic ne gère plus le filtre `%1'. Celui-ci a été désactivé."
 msgid "De-interlacing"
 msgstr "Désentrelacement"
 
-#: src/lib/config.cc:765
+#: src/lib/config.cc:775
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -666,7 +666,7 @@ msgstr "Echec d'envoi email (%1)"
 msgid "Feature"
 msgstr "Feature"
 
-#: src/lib/content.cc:386
+#: src/lib/content.cc:398
 msgid "Filename"
 msgstr "Nom de Fichier"
 
@@ -678,7 +678,7 @@ msgstr "Film"
 msgid "Finding length"
 msgstr "Recherche durée"
 
-#: src/lib/content.cc:393
+#: src/lib/content.cc:405
 msgid "Frame rate"
 msgstr "Cadence"
 
@@ -768,7 +768,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Erreur indéterminée."
 
-#: src/lib/config.cc:287 src/lib/config.cc:762
+#: src/lib/config.cc:289 src/lib/config.cc:772
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Envoi KDM: $CPL_NAME"
 
@@ -896,11 +896,11 @@ msgstr "Aucun"
 msgid "OK (ran for %1)"
 msgstr "OK (processus %1)"
 
-#: src/lib/content.cc:116
+#: src/lib/content.cc:117
 msgid "Only the first piece of content to be joined can have a start trim."
 msgstr "Seul le premier contenu à ajouter peut être rogné au point d'entrée."
 
-#: src/lib/content.cc:120
+#: src/lib/content.cc:121
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Seul le dernier contenu à ajouter peut être rogné au point de sortie."
 
@@ -920,7 +920,7 @@ msgstr "P3"
 msgid "Policy"
 msgstr "Policy"
 
-#: src/lib/content.cc:402
+#: src/lib/content.cc:414
 msgid "Prepared for video frame rate"
 msgstr "Préparé pour la cadence image"
 
@@ -1360,7 +1360,7 @@ msgstr ""
 "Votre volume sonore est très élevé (sur %1). Vous devriez réduire le dain de "
 "votre contenu audio."
 
-#: src/lib/config.cc:244
+#: src/lib/config.cc:245
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
@@ -1461,7 +1461,7 @@ msgstr "erreur pendant async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "erreur pendant async_write (%1)"
 
-#: src/lib/content.cc:395 src/lib/content.cc:404
+#: src/lib/content.cc:407 src/lib/content.cc:416
 msgid "frames per second"
 msgstr "images par seconde"
 

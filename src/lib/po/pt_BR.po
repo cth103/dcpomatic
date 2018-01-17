@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-13 01:41+0000\n"
+"POT-Creation-Date: 2018-01-17 00:30+0000\n"
 "PO-Revision-Date: 2018-01-15 16:19-0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -70,7 +70,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " em %1"
 
-#: src/lib/config.cc:785
+#: src/lib/config.cc:795
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -339,7 +339,7 @@ msgstr "Característica de transferência de cores"
 msgid "Colourspace"
 msgstr "Espaço de cor"
 
-#: src/lib/content.cc:163
+#: src/lib/content.cc:164
 msgid "Computing digest"
 msgstr "Computando processamento"
 
@@ -450,7 +450,7 @@ msgstr ""
 "O conteúdo a ser concatenado deve ter o mesmo espaçamento de linha de "
 "legenda."
 
-#: src/lib/content.cc:127 src/lib/content.cc:131
+#: src/lib/content.cc:128 src/lib/content.cc:132
 msgid "Content to be joined must have the same video frame rate"
 msgstr "O conteúdo a ser concatenado deve ter a mesma taxa de quadros"
 
@@ -584,7 +584,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Desentrelaçamento de conteúdo"
 
-#: src/lib/config.cc:765
+#: src/lib/config.cc:775
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -674,7 +674,7 @@ msgstr "Falha no envio de email (%1)"
 msgid "Feature"
 msgstr "Longa-metragem"
 
-#: src/lib/content.cc:386
+#: src/lib/content.cc:398
 msgid "Filename"
 msgstr "Nome do arquivo"
 
@@ -686,7 +686,7 @@ msgstr "Filme"
 msgid "Finding length"
 msgstr "Buscando duração"
 
-#: src/lib/content.cc:393
+#: src/lib/content.cc:405
 msgid "Frame rate"
 msgstr "Taxa de quadros"
 
@@ -776,7 +776,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Erro desconhecido."
 
-#: src/lib/config.cc:287 src/lib/config.cc:762
+#: src/lib/config.cc:289 src/lib/config.cc:772
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Entrega de KDM: $CPL_NAME"
 
@@ -904,12 +904,12 @@ msgstr "Nenhum"
 msgid "OK (ran for %1)"
 msgstr "OK (executou por %1)"
 
-#: src/lib/content.cc:116
+#: src/lib/content.cc:117
 msgid "Only the first piece of content to be joined can have a start trim."
 msgstr ""
 "Apenas o primeiro conteúdo a ser concatenado pode ter um corte de início."
 
-#: src/lib/content.cc:120
+#: src/lib/content.cc:121
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Apenas o último conteúdo a ser concatenado pode ter um corte de fim."
 
@@ -929,7 +929,7 @@ msgstr "P3"
 msgid "Policy"
 msgstr "Comunicado"
 
-#: src/lib/content.cc:402
+#: src/lib/content.cc:414
 msgid "Prepared for video frame rate"
 msgstr "Preparado para frame rate de vídeo"
 
@@ -1366,7 +1366,7 @@ msgid ""
 msgstr ""
 "Seu nível de áudio é muito alto (no %1). Reduza o ganho no conteúdo de áudio."
 
-#: src/lib/config.cc:244
+#: src/lib/config.cc:245
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr "Seu container padrão não é válido e foi alterado para Flat (1.85:1)"
@@ -1466,7 +1466,7 @@ msgstr "erro durante async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "erro durante async_write (%1)"
 
-#: src/lib/content.cc:395 src/lib/content.cc:404
+#: src/lib/content.cc:407 src/lib/content.cc:416
 msgid "frames per second"
 msgstr "quadros por segundo"
 
