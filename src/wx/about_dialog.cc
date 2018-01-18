@@ -175,6 +175,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Unwana Essien"));
 	supported_by.Add (wxT ("Maxime Estoppey"));
 	supported_by.Add (wxT ("Peter Ericson"));
+	supported_by.Add (wxT ("Arthur Factor"));
 	supported_by.Add (wxT ("Darius Family"));
 	supported_by.Add (wxT ("Rasitha Ferdinando"));
 	supported_by.Add (wxT ("Santiago Ferreira"));
