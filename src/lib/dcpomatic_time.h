@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -218,8 +218,8 @@ public:
 	}
 
 private:
-	friend struct dcptime_ceil_test;
-	friend struct dcptime_floor_test;
+	friend struct dcpomatic_time_ceil_test;
+	friend struct dcpomatic_time_floor_test;
 
 	Type _t;
 	static const int HZ = 96000;
