@@ -117,12 +117,12 @@ public:
 	 *  at some sampling rate.
 	 *  @param r Sampling rate.
 	 */
-	Time<S, O> ceil (float r) const {
-		return Time<S, O> (llrint (HZ * frames_ceil(r) / double(r)));
+	Time<S, O> ceil (double r) const {
+		return Time<S, O> (llrint (HZ * frames_ceil(r) / r));
 	}
 
-	Time<S, O> floor (float r) const {
-		return Time<S, O> (llrint (HZ * frames_floor(r) / double(r)));
+	Time<S, O> floor (double r) const {
+		return Time<S, O> (llrint (HZ * frames_floor(r) / r));
 	}
 
 	double seconds () const {

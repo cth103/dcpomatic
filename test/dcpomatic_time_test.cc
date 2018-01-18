@@ -316,6 +316,9 @@ BOOST_AUTO_TEST_CASE (dcpomatic_time_ceil_test)
 
 	/* Check that rounding up to non-integer frame rates works */
 	BOOST_CHECK_EQUAL (DCPTime(45312).ceil(29.976).get(), 48038);
+
+	/* Check another tricky case that used to fail */
+	BOOST_CHECK_EQUAL (DCPTime(212256039).ceil(23.976).get(), 212256256);
 }
 
 /* Straightforward test of DCPTime::floor */
