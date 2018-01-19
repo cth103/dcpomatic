@@ -326,6 +326,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Daniel Židek"));
 	supported_by.Add (wxT ("Гуляев Михаил"));
 	supported_by.Add (wxT ("Arrow Media Services"));
+	supported_by.Add (wxT ("Ceridwen Productions LLC"));
 	supported_by.Add (wxT ("Cinéma de la Neuveville"));
 	supported_by.Add (wxT ("cinetech Landfried GmbH"));
 	supported_by.Add (wxT ("Frechen-Film e.V."));
