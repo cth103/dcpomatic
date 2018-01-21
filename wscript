@@ -588,8 +588,12 @@ def configure(conf):
 
     Logs.pprint('YELLOW', '')
 
+def download_supporters():
+    os.system('curl https://dcpomatic.com/supporters.cc > build/supporters.cc')
+
 def build(bld):
     create_version_cc(VERSION, bld.env.CXXFLAGS)
+    download_supporters()
 
     bld.recurse('src')
     bld.recurse('graphics')
