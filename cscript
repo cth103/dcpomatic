@@ -32,8 +32,6 @@ deb_build_depends['14.04'] = copy.deepcopy(deb_build_depends_base)
 deb_build_depends['14.04'].extend(['libssh-dev'])
 deb_build_depends['16.04'] = copy.deepcopy(deb_build_depends_base)
 deb_build_depends['16.04'].extend(['libssh-dev'])
-deb_build_depends['17.04'] = copy.deepcopy(deb_build_depends_base)
-deb_build_depends['17.04'].extend(['libssh-dev'])
 deb_build_depends['17.10'] = copy.deepcopy(deb_build_depends_base)
 deb_build_depends['17.10'].extend(['libssh-dev'])
 deb_build_depends['7'] = copy.deepcopy(deb_build_depends_base)
@@ -75,20 +73,6 @@ deb_depends['16.04'].extend(['libboost-filesystem1.58.0',
                              'libpangomm-1.4-1v5',
                              'libwxgtk3.0-0v5',
                              'libicu55',
-                             'libnettle6',
-                             'libssh-4',
-                             'libx264-148'])
-
-deb_depends['17.04'] = copy.deepcopy(deb_depends_base)
-deb_depends['17.04'].extend(['libboost-filesystem1.62.0',
-                             'libboost-thread1.62.0',
-                             'libboost-regex1.62.0',
-                             'libmagick++-6.q16-7',
-                             'libxml++2.6-2v5',
-                             'libboost-date-time1.62.0',
-                             'libzip4',
-                             'libwxgtk3.0-0v5',
-                             'libicu57',
                              'libnettle6',
                              'libssh-4',
                              'libx264-148'])
