@@ -142,6 +142,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	wxArrayString tested_by;
 	tested_by.Add (wxT ("Manuel AC"));
 	tested_by.Add (wxT ("Trever Anderson"));
+	tested_by.Add (wxT ("JP Beauviala"));
 	tested_by.Add (wxT ("Mike Blakesley"));
 	tested_by.Add (wxT ("David Booty"));
 	tested_by.Add (wxT ("Roop Chand"));
