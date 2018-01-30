@@ -155,9 +155,8 @@ private:
 class KeysPage : public StandardPage
 {
 public:
-	KeysPage (wxSize panel_size, int border, bool sign)
+	KeysPage (wxSize panel_size, int border)
 		: StandardPage (panel_size, border)
-		, _sign (sign)
 	{}
 
 	wxString GetName () const;
@@ -181,8 +180,6 @@ private:
 	void signing_advanced ();
 	void export_decryption_chain_and_key ();
 	void import_decryption_chain_and_key ();
-
-	bool _sign;
 };
 
 
