@@ -133,9 +133,18 @@ deb_depends['9'].extend(['libboost-filesystem1.62.0',
                          'libxml++2.6-2v5',
                          'libgtk2.0-0',
                          'libzip4',
+                         'libcairomm-1.0-1v5',
+                         'libpangomm-1.4-1v5',
+                         'libwxgtk3.0-0v5',
+                         'libxcb-xfixes0',
+                         'libxcb-shape0',
+                         'libasound2',
                          'libicu57',
+                         'libssh-4',
+                         'libssh-gcrypt-4',
                          'libnettle6',
-                         'libx264-148'])
+                         'libx264-148',
+                         'libpulse0'])
 
 deb_depends['unstable'] = copy.deepcopy(deb_depends_base)
 deb_depends['unstable'].extend(['libboost-filesystem1.62.0',
