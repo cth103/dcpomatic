@@ -658,7 +658,9 @@ Player::subtitles_for_frame (DCPTime time) const
 {
 	list<PositionImage> subtitles;
 
-	BOOST_FOREACH (PlayerSubtitles i, _active_subtitles.get_burnt (DCPTimePeriod(time, time + DCPTime::from_frames(1, _film->video_frame_rate())),  _always_burn_subtitles)) {
+	int const vfr = _film->video_frame_rate();
+
+	BOOST_FOREACH (PlayerSubtitles i, _active_subtitles.get_burnt (DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_subtitles)) {
 
 		/* Image subtitles */
 		list<PositionImage> c = transform_image_subtitles (i.image);
@@ -666,7 +668,7 @@ Player::subtitles_for_frame (DCPTime time) const
 
 		/* Text subtitles (rendered to an image) */
 		if (!i.text.empty ()) {
-			list<PositionImage> s = render_subtitles (i.text, i.fonts, _video_container_size, time);
+			list<PositionImage> s = render_subtitles (i.text, i.fonts, _video_container_size, time, vfr);
 			copy (s.begin(), s.end(), back_inserter (subtitles));
 		}
 	}

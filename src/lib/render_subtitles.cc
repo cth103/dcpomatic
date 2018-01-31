@@ -85,7 +85,7 @@ set_source_rgba (Cairo::RefPtr<Cairo::Context> context, dcp::Colour colour, floa
  *  at the same time and with the same fade in/out.
  */
 static PositionImage
-render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target, DCPTime time)
+render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target, DCPTime time, int frame_rate)
 {
 	/* XXX: this method can only handle italic / bold changes mid-line,
 	   nothing else yet.
@@ -242,9 +242,12 @@ render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp:
 	/* Compute fade factor */
 	float fade_factor = 1;
 
-	DCPTime const fade_in_start = DCPTime::from_seconds (subtitles.front().in().as_seconds ());
+	/* Round the fade start/end to the nearest frame start.  Otherwise if a subtitle starts just after
+	   the start of a frame it will be faded out.
+	*/
+	DCPTime const fade_in_start = DCPTime::from_seconds(subtitles.front().in().as_seconds()).round(frame_rate);
 	DCPTime const fade_in_end = fade_in_start + DCPTime::from_seconds (subtitles.front().fade_up_time().as_seconds ());
-	DCPTime const fade_out_end =  DCPTime::from_seconds (subtitles.front().out().as_seconds ());
+	DCPTime const fade_out_end =  DCPTime::from_seconds (subtitles.front().out().as_seconds()).round(frame_rate);
 	DCPTime const fade_out_start = fade_out_end - DCPTime::from_seconds (subtitles.front().fade_down_time().as_seconds ());
 
 	if (fade_in_start <= time && time <= fade_in_end && fade_in_start != fade_in_end) {
@@ -347,23 +350,25 @@ render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp:
 	return PositionImage (image, Position<int> (max (0, x), max (0, y)));
 }
 
-/** @param time Time of the frame that these subtitles are going on */
+/** @param time Time of the frame that these subtitles are going on.
+ *  @param frame_rate DCP frame rate.
+ */
 list<PositionImage>
-render_subtitles (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target, DCPTime time)
+render_subtitles (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target, DCPTime time, int frame_rate)
 {
 	list<SubtitleString> pending;
 	list<PositionImage> images;
 
 	BOOST_FOREACH (SubtitleString const & i, subtitles) {
 		if (!pending.empty() && fabs (i.v_position() - pending.back().v_position()) > 1e-4) {
-			images.push_back (render_line (pending, fonts, target, time));
+			images.push_back (render_line (pending, fonts, target, time, frame_rate));
 			pending.clear ();
 		}
 		pending.push_back (i);
 	}
 
 	if (!pending.empty ()) {
-		images.push_back (render_line (pending, fonts, target, time));
+		images.push_back (render_line (pending, fonts, target, time, frame_rate));
 	}
 
 	return images;
