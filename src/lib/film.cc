@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -1589,4 +1589,30 @@ void
 Film::copy_from (shared_ptr<const Film> film)
 {
 	read_metadata (film->file (metadata_file));
+}
+
+bool
+Film::references_dcp_video () const
+{
+	BOOST_FOREACH (shared_ptr<Content> i, _playlist->content()) {
+		shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent>(i);
+		if (d && d->reference_video()) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool
+Film::references_dcp_audio () const
+{
+	BOOST_FOREACH (shared_ptr<Content> i, _playlist->content()) {
+		shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent>(i);
+		if (d && d->reference_audio()) {
+			return true;
+		}
+	}
+
+	return false;
 }

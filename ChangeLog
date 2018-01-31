@@ -1,5 +1,8 @@
 2018-01-31  Carl Hetherington  <cth@carlh.net>
 
+	* Disable things that cannot be altered when video/audio are being
+	referenced from another DCP (#1173).
+
 	* Version 2.11.46 released.
 
 2018-01-30  Carl Hetherington  <cth@carlh.net>

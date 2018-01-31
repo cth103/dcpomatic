@@ -437,6 +437,7 @@ DCPPanel::film_content_changed (int property)
 	    property == DCPContentProperty::REFERENCE_AUDIO ||
 	    property == DCPContentProperty::REFERENCE_SUBTITLE) {
 		setup_dcp_name ();
+		setup_sensitivity ();
 	}
 }
 
@@ -530,34 +531,41 @@ DCPPanel::set_film (shared_ptr<Film> film)
 void
 DCPPanel::set_general_sensitivity (bool s)
 {
-	_name->Enable (s);
-	_use_isdcf_name->Enable (s);
-	_edit_isdcf_button->Enable (s);
-	_dcp_content_type->Enable (s);
-	_copy_isdcf_name_button->Enable (s);
+	_generally_sensitive = s;
+	setup_sensitivity ();
+}
 
-	bool si = s;
+void
+DCPPanel::setup_sensitivity ()
+{
+	_name->Enable                   (_generally_sensitive);
+	_use_isdcf_name->Enable         (_generally_sensitive);
+	_edit_isdcf_button->Enable      (_generally_sensitive);
+	_dcp_content_type->Enable       (_generally_sensitive);
+	_copy_isdcf_name_button->Enable (_generally_sensitive);
+
+	bool si = _generally_sensitive;
 	if (_film && _film->encrypted ()) {
 		si = false;
 	}
 	_signed->Enable (si);
 
-	_encrypted->Enable (s);
-	_key->Enable (s && _film && _film->encrypted ());
-	_edit_key->Enable (s && _film && _film->encrypted ());
-	_reel_type->Enable (s);
-	_reel_length->Enable (s && _film && _film->reel_type() == REELTYPE_BY_LENGTH);
-	_upload_after_make_dcp->Enable (s);
-	_frame_rate_choice->Enable (s);
-	_frame_rate_spin->Enable (s);
-	_audio_channels->Enable (s);
-	_audio_processor->Enable (s);
-	_j2k_bandwidth->Enable (s);
-	_container->Enable (s);
-	_best_frame_rate->Enable (s && _film && _film->best_video_frame_rate () != _film->video_frame_rate ());
-	_resolution->Enable (s);
-	_three_d->Enable (s);
-	_standard->Enable (s);
+	_encrypted->Enable              (_generally_sensitive);
+	_key->Enable                    (_generally_sensitive && _film && _film->encrypted ());
+	_edit_key->Enable               (_generally_sensitive && _film && _film->encrypted ());
+	_reel_type->Enable              (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->references_dcp_audio());
+	_reel_length->Enable            (_generally_sensitive && _film && _film->reel_type() == REELTYPE_BY_LENGTH);
+	_upload_after_make_dcp->Enable  (_generally_sensitive);
+	_frame_rate_choice->Enable      (_generally_sensitive && _film && !_film->references_dcp_video());
+	_frame_rate_spin->Enable        (_generally_sensitive && _film && !_film->references_dcp_video());
+	_audio_channels->Enable         (_generally_sensitive && _film && !_film->references_dcp_audio());
+	_audio_processor->Enable        (_generally_sensitive && _film && !_film->references_dcp_audio());
+	_j2k_bandwidth->Enable          (_generally_sensitive && _film && !_film->references_dcp_video());
+	_container->Enable              (_generally_sensitive && _film && !_film->references_dcp_video());
+	_best_frame_rate->Enable        (_generally_sensitive && _film && _film->best_video_frame_rate () != _film->video_frame_rate ());
+	_resolution->Enable             (_generally_sensitive && _film && !_film->references_dcp_video());
+	_three_d->Enable                (_generally_sensitive && _film && !_film->references_dcp_video());
+	_standard->Enable               (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->references_dcp_audio());
 }
 
 void
