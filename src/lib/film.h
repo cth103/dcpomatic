@@ -165,8 +165,6 @@ public:
 
 	std::string content_summary (DCPTimePeriod period) const;
 
-	std::list<std::string> fix_conflicting_settings ();
-
 	bool references_dcp_video () const;
 	bool references_dcp_audio () const;
 
