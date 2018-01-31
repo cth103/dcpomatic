@@ -273,7 +273,7 @@ ContentPanel::selection_changed ()
 	}
 
 	if (go_to && Config::instance()->jump_to_selected ()) {
-		_film_viewer->set_position (go_to.get ());
+		_film_viewer->set_position (go_to.get().ceil(_film->video_frame_rate()));
 	}
 
 	if (_timeline_dialog) {
