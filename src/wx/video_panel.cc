@@ -79,7 +79,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 
 	int r = 0;
 
-	_reference = new wxCheckBox (this, wxID_ANY, _("Refer to existing DCP"));
+	_reference = new wxCheckBox (this, wxID_ANY, _("Use this DCP's video as OV and make VF"));
 	grid->Add (_reference, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
