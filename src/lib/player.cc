@@ -715,8 +715,9 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 			}
 			while (j < time || eyes != video.eyes) {
 				if (last != _last_video.end()) {
-					last->second->set_eyes (eyes);
-					emit_video (last->second, j);
+					shared_ptr<PlayerVideo> copy = last->second->shallow_copy();
+					copy->set_eyes (eyes);
+					emit_video (copy, j);
 				} else {
 					emit_video (black_player_video_frame(eyes), j);
 				}

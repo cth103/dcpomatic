@@ -258,3 +258,21 @@ PlayerVideo::memory_used () const
 {
 	return _in->memory_used();
 }
+
+/** @return Shallow copy of this; _in and _subtitle are shared between the original and the copy */
+shared_ptr<PlayerVideo>
+PlayerVideo::shallow_copy () const
+{
+	return shared_ptr<PlayerVideo>(
+		new PlayerVideo(
+			_in,
+			_crop,
+			_fade,
+			_inter_size,
+			_out_size,
+			_eyes,
+			_part,
+			_colour_conversion
+			)
+		);
+}

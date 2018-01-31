@@ -55,6 +55,8 @@ public:
 
 	PlayerVideo (boost::shared_ptr<cxml::Node>, boost::shared_ptr<Socket>);
 
+	boost::shared_ptr<PlayerVideo> shallow_copy () const;
+
 	void set_subtitle (PositionImage);
 
 	void prepare ();
