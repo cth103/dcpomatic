@@ -26,13 +26,16 @@ Hello, and welcome to DCP-o-matic!
 <section>
 <title>What is DCP-o-matic?</title>
 
-<para>
-DCP-o-matic is a set of programs to make <ulink
-url="http://en.wikipedia.org/wiki/Digital_Cinema_Package">Digital
-Cinema Packages</ulink> (DCPs) from almost any video, audio and/or
-subtitle files.  The resulting DCPs will play on modern digital
-cinema projectors.
-</para>
+<para>DCP-o-matic is a set of programs to perform the following tasks:</para>
+
+<itemizedlist>
+  <listitem>Creation of <ulink
+  url="http://en.wikipedia.org/wiki/Digital_Cinema_Package">Digital
+  Cinema Packages</ulink> (DCPs) from video, audio and/or
+  subtitle files.</listitem>
+  <listitem>Playback of DCPs on a PC.</listitem>
+  <listitem>Creation of KDMs for DCPs.</listitem>
+</itemizedlist>
 
 </section>
 
@@ -518,8 +521,8 @@ computationally intensive as encoding them.
 </para>
 
 <para>
-If your DCP is a Version File (VF), in other words it refers to
-another DCP's assets, you should import it as follows:
+If your DCP is a Version File (VF) (i.e.\ it refers to
+another DCP's assets) you should import it as follows:
 </para>
 
 <itemizedlist>
@@ -3373,6 +3376,35 @@ The full details of OV and VF files are discussed in <xref linkend="sec-overlay"
 </itemizedlist>
 
 </section>
+
+</chapter>
+
+<chapter xml:id="ch-player" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+  <title>Playing DCPs</title>
+
+  <para>DCP-o-matic includes a DCP player, and although it requires a
+  very high-speed CPU to play DCPs in full resolution, it can also
+  play DCPs at reduced resolutions with slower CPUs.</para>
+
+  <para>To use the player, start <guilabel>DCP-o-matic
+  Player</guilabel>, and load a DCP using the
+  <guilabel>Open</guilabel> option on the <guilabel>File</guilabel>
+  menu.</para>
+
+  <para>If you load a VF and/or encrypted DCP you can add your OV
+  and/or KDM using the appropriate options on the
+  <guilabel>File</guilabel> menu.</para>
+
+  <para>During playback the <guilabel>Performance</guilabel> area at
+  the bottom right of the window will give details of how many frames
+  are being dropped; these are frames that were not decoded from the
+  DCP quickly enough.  If this number is high you can increase
+  performance at the cost of rendering quality by choosing an option
+  from the <guilabel>View</guilabel> menu.  If you set the player to
+  decode at less than full resolution the DCP's data will be decoded
+  at this lower resolution, which is quicker than decoding at full
+  resolution.
+  </para>
 
 </chapter>
 
