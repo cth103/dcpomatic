@@ -144,7 +144,7 @@ FFmpeg::setup_general ()
 
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 		AVStream* s = _format_context->streams[i];
-		if (s->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
+		if (s->codec->codec_type == AVMEDIA_TYPE_VIDEO && avcodec_find_decoder(s->codec->codec_id)) {
 			if (s->avg_frame_rate.num > 0 && s->avg_frame_rate.den > 0) {
 				/* This is definitely our video stream */
 				_video_stream = i;
@@ -215,9 +215,12 @@ FFmpeg::setup_decoders ()
 			if (avcodec_open2 (context, codec, &options) < 0) {
 				throw DecodeError (N_("could not open decoder"));
 			}
+		} else {
+			shared_ptr<Log> log = _ffmpeg_log.lock ();
+			if (log) {
+				log->log (String::compose ("No codec found for stream %1", i), LogEntry::TYPE_WARNING);
+			}
 		}
-
-		/* We are silently ignoring any failures to find suitable decoders here */
 	}
 }
 
