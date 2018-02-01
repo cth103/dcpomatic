@@ -458,10 +458,12 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 		} else {
 
 			/* All our assets should be the same length; use the picture asset length here
-			   as a reference to set the subtitle one.
+			   as a reference to set the subtitle one.  We'll use the duration rather than
+			   the intrinsic duration; we don't care if the picture asset has been trimmed, we're
+			   just interested in its presentation length.
 			*/
 			dynamic_pointer_cast<dcp::SMPTESubtitleAsset>(_subtitle_asset)->set_intrinsic_duration (
-				reel_picture_asset->intrinsic_duration ()
+				reel_picture_asset->duration ()
 				);
 
 			_subtitle_asset->write (
@@ -473,7 +475,7 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 			new dcp::ReelSubtitleAsset (
 				_subtitle_asset,
 				dcp::Fraction (_film->video_frame_rate(), 1),
-				reel_picture_asset->intrinsic_duration (),
+				reel_picture_asset->duration(),
 				0
 				)
 			);

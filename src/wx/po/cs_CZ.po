@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-17 00:30+0000\n"
+"POT-Creation-Date: 2018-02-01 00:02+0000\n"
 "PO-Revision-Date: 2018-01-11 15:08+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -79,11 +79,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "2D verze obsahu je dostupná ve 3D"
 
-#: src/wx/dcp_panel.cc:710
+#: src/wx/dcp_panel.cc:718
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:675 src/wx/video_panel.cc:235
+#: src/wx/dcp_panel.cc:683 src/wx/video_panel.cc:235
 msgid "3D"
 msgstr "3D DCP"
 
@@ -111,7 +111,7 @@ msgstr "3D horní/dolní (Pod sebou)"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
-#: src/wx/dcp_panel.cc:711
+#: src/wx/dcp_panel.cc:719
 msgid "4K"
 msgstr "4K"
 
@@ -290,6 +290,7 @@ msgid "Audio Language (e.g. EN)"
 msgstr "Jazyk zvuku (napr. CZ)"
 
 #: src/wx/player_information.cc:132
+#, c-format
 msgid "Audio channels: %d"
 msgstr ""
 
@@ -375,7 +376,7 @@ msgstr "Vypočítat…"
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: src/wx/content_sub_panel.cc:65
+#: src/wx/content_sub_panel.cc:53
 msgid "Cannot reference this DCP.  "
 msgstr "Není možné odkazovat na toto DCP. "
 
@@ -391,7 +392,7 @@ msgstr "Řetěz"
 msgid "Channel gain"
 msgstr "Síla kanálu"
 
-#: src/wx/audio_dialog.cc:93 src/wx/dcp_panel.cc:742
+#: src/wx/audio_dialog.cc:93 src/wx/dcp_panel.cc:750
 msgid "Channels"
 msgstr "Kanály"
 
@@ -469,7 +470,7 @@ msgstr "Časování"
 msgid "Confirm KDM email"
 msgstr "Potvrdit KDM email"
 
-#: src/wx/dcp_panel.cc:645
+#: src/wx/dcp_panel.cc:653
 msgid "Container"
 msgstr "Kontejner"
 
@@ -855,7 +856,7 @@ msgstr "Písma..."
 msgid "Format"
 msgstr "Formát"
 
-#: src/wx/dcp_panel.cc:661
+#: src/wx/dcp_panel.cc:669
 msgid "Frame Rate"
 msgstr "Frekvence snímků (frame rate)"
 
@@ -864,6 +865,7 @@ msgid "Frame rate"
 msgstr "Frekvence snímků (frame rate)"
 
 #: src/wx/player_information.cc:129
+#, c-format
 msgid "Frame rate: %d"
 msgstr ""
 
@@ -1060,7 +1062,7 @@ msgstr "Soubor s kurzívou"
 msgid "Italic font"
 msgstr "Kurzíva (typ písma)"
 
-#: src/wx/dcp_panel.cc:680
+#: src/wx/dcp_panel.cc:688
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
@@ -1210,7 +1212,7 @@ msgstr "Maximální JPEG2000 šířka pásma (bandwidth)"
 msgid "Maximum number of frames to store per thread"
 msgstr "Maximální počet snímků pro uložení na jeden podproces"
 
-#: src/wx/dcp_panel.cc:684 src/wx/full_config_dialog.cc:315
+#: src/wx/dcp_panel.cc:692 src/wx/full_config_dialog.cc:315
 #: src/wx/full_config_dialog.cc:969
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -1287,7 +1289,7 @@ msgstr "Je k dispozici nová verze DCP-o-matic."
 msgid "No DCP loaded."
 msgstr "DCP nebyl načten."
 
-#: src/wx/content_sub_panel.cc:63
+#: src/wx/content_sub_panel.cc:51
 msgid "No DCP selected."
 msgstr "Nevybráno žádné DCP."
 
@@ -1301,7 +1303,7 @@ msgid "No content found in this folder."
 msgstr "Žádný obsah nebyl ve složce nalezen."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:750 src/wx/subtitle_appearance_dialog.cc:125
+#: src/wx/dcp_panel.cc:758 src/wx/subtitle_appearance_dialog.cc:125
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
 #: src/wx/video_panel.cc:307
 msgid "None"
@@ -1468,7 +1470,7 @@ msgstr "Předběžné vydání"
 msgid "ProRes"
 msgstr "ProRes"
 
-#: src/wx/dcp_panel.cc:748
+#: src/wx/dcp_panel.cc:756
 msgid "Processor"
 msgstr "Procesor"
 
@@ -1542,11 +1544,6 @@ msgstr "Reels"
 msgid "Reel|Custom"
 msgstr "Vlastní"
 
-#: src/wx/audio_panel.cc:56 src/wx/subtitle_panel.cc:55
-#: src/wx/video_panel.cc:82
-msgid "Refer to existing DCP"
-msgstr "Odkázat na existující DCP"
-
 #: src/wx/config_dialog.cc:382 src/wx/content_menu.cc:82
 #: src/wx/content_panel.cc:100 src/wx/templates_dialog.cc:52
 #: src/wx/editable_list.h:80
@@ -1597,7 +1594,7 @@ msgstr "Obnovit předvolený předmět a text"
 msgid "Reset to default text"
 msgstr "Obnovit výchozí text"
 
-#: src/wx/dcp_panel.cc:656
+#: src/wx/dcp_panel.cc:664
 msgid "Resolution"
 msgstr "Rozlišení"
 
@@ -1763,7 +1760,7 @@ msgstr ""
 msgid "Shadow"
 msgstr "Stín"
 
-#: src/wx/dcp_panel.cc:757
+#: src/wx/dcp_panel.cc:765
 msgid "Show audio..."
 msgstr "Zobrazit zvuk..."
 
@@ -1863,7 +1860,7 @@ msgstr "Titulky"
 msgid "Subtitles: yes"
 msgstr "Titulky"
 
-#: src/wx/about_dialog.cc:332
+#: src/wx/about_dialog.cc:140
 msgid "Supported by"
 msgstr "Podporovatelé"
 
@@ -1903,7 +1900,7 @@ msgstr "Území (např. SK)"
 msgid "Test version "
 msgstr "Testovací verze "
 
-#: src/wx/about_dialog.cc:389
+#: src/wx/about_dialog.cc:198
 msgid "Tested by"
 msgstr "Testeři"
 
@@ -2147,7 +2144,7 @@ msgstr "Nahrát DCP do TMS poté co je vytvořen"
 msgid "Use ISDCF name"
 msgstr "Použít ISDCF název"
 
-#: src/wx/dcp_panel.cc:669
+#: src/wx/dcp_panel.cc:677
 msgid "Use best"
 msgstr "Použít nejlepší"
 
@@ -2158,6 +2155,18 @@ msgstr "Použít přednastavení"
 #: src/wx/subtitle_panel.cc:59
 msgid "Use subtitles"
 msgstr "Použít titulky"
+
+#: src/wx/audio_panel.cc:56
+msgid "Use this DCP's audio as OV and make VF"
+msgstr ""
+
+#: src/wx/subtitle_panel.cc:55
+msgid "Use this DCP's subtitle as OV and make VF"
+msgstr ""
+
+#: src/wx/video_panel.cc:82
+msgid "Use this DCP's video as OV and make VF"
+msgstr ""
 
 #: src/wx/config_move_dialog.cc:29
 msgid "Use this file as new configuration"
@@ -2341,6 +2350,9 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:126
 msgid "y"
 msgstr "y"
+
+#~ msgid "Refer to existing DCP"
+#~ msgstr "Odkázat na existující DCP"
 
 #~ msgid "Load..."
 #~ msgstr "Načíst…"

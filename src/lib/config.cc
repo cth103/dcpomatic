@@ -129,7 +129,7 @@ Config::set_defaults ()
 	for (int i = 0; i < NAG_COUNT; ++i) {
 		_nagged[i] = false;
 	}
-	_sound = false;
+	_sound = true;
 	_sound_output = optional<string> ();
 	_last_kdm_write_type = KDM_WRITE_FLAT;
 
@@ -368,7 +368,7 @@ try
 		}
 	}
 	/* The variable was renamed but not the XML tag */
-	_sound = f.optional_bool_child("PreviewSound").get_value_or (false);
+	_sound = f.optional_bool_child("PreviewSound").get_value_or (true);
 	_sound_output = f.optional_string_child("PreviewSoundOutput");
 	if (f.optional_string_child("CoverSheet")) {
 		_cover_sheet = f.optional_string_child("CoverSheet").get();

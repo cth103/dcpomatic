@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-17 00:30+0000\n"
+"POT-Creation-Date: 2018-02-01 00:02+0000\n"
 "PO-Revision-Date: 2017-05-14 22:41+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -77,11 +77,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "2D версия контента, доступного в 3D"
 
-#: src/wx/dcp_panel.cc:710
+#: src/wx/dcp_panel.cc:718
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:675 src/wx/video_panel.cc:235
+#: src/wx/dcp_panel.cc:683 src/wx/video_panel.cc:235
 msgid "3D"
 msgstr "3D"
 
@@ -109,7 +109,7 @@ msgstr "3D верх/низ"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - Л/Ц/П/НЧ"
 
-#: src/wx/dcp_panel.cc:711
+#: src/wx/dcp_panel.cc:719
 msgid "4K"
 msgstr "4K"
 
@@ -376,7 +376,7 @@ msgstr "Просчитать..."
 msgid "Cancel"
 msgstr "Отмена"
 
-#: src/wx/content_sub_panel.cc:65
+#: src/wx/content_sub_panel.cc:53
 msgid "Cannot reference this DCP.  "
 msgstr "Не удается сделать ссылку на этот DCP.  "
 
@@ -392,7 +392,7 @@ msgstr "Цепочка"
 msgid "Channel gain"
 msgstr "Усиление канала"
 
-#: src/wx/audio_dialog.cc:93 src/wx/dcp_panel.cc:742
+#: src/wx/audio_dialog.cc:93 src/wx/dcp_panel.cc:750
 msgid "Channels"
 msgstr "Каналы"
 
@@ -472,7 +472,7 @@ msgstr "Тайминг"
 msgid "Confirm KDM email"
 msgstr "Подтверждение email KDM"
 
-#: src/wx/dcp_panel.cc:645
+#: src/wx/dcp_panel.cc:653
 msgid "Container"
 msgstr "Контейнер"
 
@@ -870,7 +870,7 @@ msgstr "Шрифты..."
 msgid "Format"
 msgstr "Формат"
 
-#: src/wx/dcp_panel.cc:661
+#: src/wx/dcp_panel.cc:669
 msgid "Frame Rate"
 msgstr "Частота Кадров"
 
@@ -879,6 +879,7 @@ msgid "Frame rate"
 msgstr "Частота кадров"
 
 #: src/wx/player_information.cc:129
+#, c-format
 msgid "Frame rate: %d"
 msgstr ""
 
@@ -1079,7 +1080,7 @@ msgstr "Файл курсивного шрифта"
 msgid "Italic font"
 msgstr "Курсивный шрифт"
 
-#: src/wx/dcp_panel.cc:680
+#: src/wx/dcp_panel.cc:688
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
@@ -1230,7 +1231,7 @@ msgstr "Максимальная пропускная способность JPE
 msgid "Maximum number of frames to store per thread"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:684 src/wx/full_config_dialog.cc:315
+#: src/wx/dcp_panel.cc:692 src/wx/full_config_dialog.cc:315
 #: src/wx/full_config_dialog.cc:969
 msgid "Mbit/s"
 msgstr "МБит/с"
@@ -1310,7 +1311,7 @@ msgstr "Доступны новые версии DCP-o-matic."
 msgid "No DCP loaded."
 msgstr "Не выбран DCP."
 
-#: src/wx/content_sub_panel.cc:63
+#: src/wx/content_sub_panel.cc:51
 msgid "No DCP selected."
 msgstr "Не выбран DCP."
 
@@ -1324,7 +1325,7 @@ msgid "No content found in this folder."
 msgstr "В данной папке не обнаружен контент."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:750 src/wx/subtitle_appearance_dialog.cc:125
+#: src/wx/dcp_panel.cc:758 src/wx/subtitle_appearance_dialog.cc:125
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
 #: src/wx/video_panel.cc:307
 msgid "None"
@@ -1496,7 +1497,7 @@ msgstr "Пре-релиз"
 msgid "ProRes"
 msgstr "ProRes"
 
-#: src/wx/dcp_panel.cc:748
+#: src/wx/dcp_panel.cc:756
 msgid "Processor"
 msgstr "Обработка"
 
@@ -1571,11 +1572,6 @@ msgstr "Бобины"
 msgid "Reel|Custom"
 msgstr "Пользовательское"
 
-#: src/wx/audio_panel.cc:56 src/wx/subtitle_panel.cc:55
-#: src/wx/video_panel.cc:82
-msgid "Refer to existing DCP"
-msgstr "Ссылаться на существующий DCP"
-
 #: src/wx/config_dialog.cc:382 src/wx/content_menu.cc:82
 #: src/wx/content_panel.cc:100 src/wx/templates_dialog.cc:52
 #: src/wx/editable_list.h:80
@@ -1626,7 +1622,7 @@ msgstr "Сбросить по умолчанию тему и текст"
 msgid "Reset to default text"
 msgstr "Сбросить по умолчанию текст"
 
-#: src/wx/dcp_panel.cc:656
+#: src/wx/dcp_panel.cc:664
 msgid "Resolution"
 msgstr "Разрешение"
 
@@ -1795,7 +1791,7 @@ msgstr ""
 msgid "Shadow"
 msgstr "Тень"
 
-#: src/wx/dcp_panel.cc:757
+#: src/wx/dcp_panel.cc:765
 msgid "Show audio..."
 msgstr "Показать аудио..."
 
@@ -1895,7 +1891,7 @@ msgstr "Субтитры"
 msgid "Subtitles: yes"
 msgstr "Субтитры"
 
-#: src/wx/about_dialog.cc:332
+#: src/wx/about_dialog.cc:140
 msgid "Supported by"
 msgstr "Финансовая поддержка"
 
@@ -1935,7 +1931,7 @@ msgstr "Территория (напр. UA)"
 msgid "Test version "
 msgstr "Тестовая версия "
 
-#: src/wx/about_dialog.cc:389
+#: src/wx/about_dialog.cc:198
 msgid "Tested by"
 msgstr "Тестирование"
 
@@ -2178,7 +2174,7 @@ msgstr "Загрузить DCP на TMS после окончания конве
 msgid "Use ISDCF name"
 msgstr "Использовать ISDCF"
 
-#: src/wx/dcp_panel.cc:669
+#: src/wx/dcp_panel.cc:677
 msgid "Use best"
 msgstr "Использовать лучшее"
 
@@ -2189,6 +2185,18 @@ msgstr "Использовать заготовку"
 #: src/wx/subtitle_panel.cc:59
 msgid "Use subtitles"
 msgstr "Использовать субтитры"
+
+#: src/wx/audio_panel.cc:56
+msgid "Use this DCP's audio as OV and make VF"
+msgstr ""
+
+#: src/wx/subtitle_panel.cc:55
+msgid "Use this DCP's subtitle as OV and make VF"
+msgstr ""
+
+#: src/wx/video_panel.cc:82
+msgid "Use this DCP's video as OV and make VF"
+msgstr ""
 
 #: src/wx/config_move_dialog.cc:29
 msgid "Use this file as new configuration"
@@ -2374,6 +2382,9 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:126
 msgid "y"
 msgstr "y"
+
+#~ msgid "Refer to existing DCP"
+#~ msgstr "Ссылаться на существующий DCP"
 
 #~ msgid "Load..."
 #~ msgstr "Загрузить..."

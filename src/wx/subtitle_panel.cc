@@ -52,7 +52,7 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	_sizer->Add (grid, 0, wxALL, 8);
 	int r = 0;
 
-	_reference = new wxCheckBox (this, wxID_ANY, _("Refer to existing DCP"));
+	_reference = new wxCheckBox (this, wxID_ANY, _("Use this DCP's subtitle as OV and make VF"));
 	grid->Add (_reference, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 

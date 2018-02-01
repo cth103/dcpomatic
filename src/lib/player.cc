@@ -595,6 +595,14 @@ Player::pass ()
 	case SILENT:
 	{
 		DCPTimePeriod period (_silent.period_at_position());
+		if (_last_audio_time) {
+			/* Sometimes the thing that happened last finishes fractionally before
+			   this silence.  Bodge the start time of the silence to fix it.  I'm
+			   not sure if this is the right solution --- maybe the last thing should
+			   be padded `forward' rather than this thing padding `back'.
+			*/
+			period.from = min(period.from, *_last_audio_time);
+		}
 		if (period.duration() > one_video_frame()) {
 			period.to = period.from + one_video_frame();
 		}
@@ -650,7 +658,9 @@ Player::subtitles_for_frame (DCPTime time) const
 {
 	list<PositionImage> subtitles;
 
-	BOOST_FOREACH (PlayerSubtitles i, _active_subtitles.get_burnt (DCPTimePeriod(time, time + DCPTime::from_frames(1, _film->video_frame_rate())),  _always_burn_subtitles)) {
+	int const vfr = _film->video_frame_rate();
+
+	BOOST_FOREACH (PlayerSubtitles i, _active_subtitles.get_burnt (DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_subtitles)) {
 
 		/* Image subtitles */
 		list<PositionImage> c = transform_image_subtitles (i.image);
@@ -658,7 +668,7 @@ Player::subtitles_for_frame (DCPTime time) const
 
 		/* Text subtitles (rendered to an image) */
 		if (!i.text.empty ()) {
-			list<PositionImage> s = render_subtitles (i.text, i.fonts, _video_container_size, time);
+			list<PositionImage> s = render_subtitles (i.text, i.fonts, _video_container_size, time, vfr);
 			copy (s.begin(), s.end(), back_inserter (subtitles));
 		}
 	}
@@ -707,8 +717,9 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 			}
 			while (j < time || eyes != video.eyes) {
 				if (last != _last_video.end()) {
-					last->second->set_eyes (eyes);
-					emit_video (last->second, j);
+					shared_ptr<PlayerVideo> copy = last->second->shallow_copy();
+					copy->set_eyes (eyes);
+					emit_video (copy, j);
 				} else {
 					emit_video (black_player_video_frame(eyes), j);
 				}

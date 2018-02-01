@@ -107,6 +107,6 @@ create_player_config_dialog ()
 #endif
 
 	e->AddPage (new PlayerGeneralPage (ps, border));
-	e->AddPage (new KeysPage (ps, border, false));
+	e->AddPage (new KeysPage (ps, border));
 	return e;
 }

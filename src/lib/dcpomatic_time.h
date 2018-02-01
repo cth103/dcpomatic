@@ -125,6 +125,10 @@ public:
 		return Time<S, O> (llrint (HZ * frames_floor(r) / r));
 	}
 
+	Time<S, O> round (double r) const {
+		return Time<S, O> (llrint (HZ * frames_round(r) / r));
+	}
+
 	double seconds () const {
 		return double (_t) / HZ;
 	}

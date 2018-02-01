@@ -76,11 +76,6 @@ FilmEditor::film_changed (Film::Property p)
 		return;
 	}
 
-	list<string> notes = _film->fix_conflicting_settings ();
-	BOOST_FOREACH (string i, notes) {
-		message_dialog (this, std_to_wx (i));
-	}
-
 	_content_panel->film_changed (p);
 	_dcp_panel->film_changed (p);
 

@@ -1184,7 +1184,7 @@ create_full_config_dialog ()
 	e->AddPage (new FullGeneralPage (ps, border));
 	e->AddPage (new DefaultsPage (ps, border));
 	e->AddPage (new EncodingServersPage (ps, border));
-	e->AddPage (new KeysPage (ps, border, true));
+	e->AddPage (new KeysPage (ps, border));
 	e->AddPage (new TMSPage (ps, border));
 	e->AddPage (new KDMEmailPage (ps, border));
 	e->AddPage (new CoverSheetPage (ps, border));

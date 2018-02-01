@@ -133,6 +133,14 @@ public:
 		main_sizer->Add (_info, 0, wxEXPAND | wxALL, 6);
 		overall_panel->SetSizer (main_sizer);
 
+#ifdef __WXOSX__
+		wxAcceleratorEntry* accel = new wxAcceleratorEntry[1];
+		accel[0].Set(wxACCEL_CTRL, static_cast<int>('W'), ID_file_close);
+		wxAcceleratorTable accel_table (1, accel);
+		SetAcceleratorTable (accel_table);
+		delete[] accel;
+#endif
+
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
 	}
 

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -33,14 +33,20 @@
 #include "lib/image_content.h"
 #include "lib/text_subtitle_content.h"
 #include "lib/content_factory.h"
+#include "lib/dcp_content.h"
+#include "lib/subtitle_content.h"
+#include "lib/butler.h"
+#include "lib/compose.hpp"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
 using std::cout;
 using std::list;
+using std::pair;
 using boost::shared_ptr;
 using boost::bind;
+using boost::optional;
 
 static shared_ptr<AudioBuffers> accumulated;
 
@@ -184,5 +190,42 @@ BOOST_AUTO_TEST_CASE (player_interleave_test)
 	video_frames = audio_frames = 0;
 	while (!player->pass ()) {
 		BOOST_CHECK (abs(video_frames - (audio_frames / 2000)) < 8);
+	}
+}
+
+static void
+note_handler (dcp::NoteType, std::string)
+{
+
+}
+
+/** Test some seeks towards the start of a DCP with awkward subtitles; see mantis #1085
+ *  and a number of others.  I thought this was a player seek bug but in fact it was
+ *  caused by the subtitle starting just after the start of the video frame and hence
+ *  being faded out.
+ */
+BOOST_AUTO_TEST_CASE (player_seek_test)
+{
+	shared_ptr<Film> film (new Film (optional<boost::filesystem::path>()));
+	shared_ptr<DCPContent> dcp (new DCPContent (film, private_data / "awkward_subs"));
+	film->examine_and_add_content (dcp, true);
+	BOOST_REQUIRE (!wait_for_jobs ());
+	dcp->subtitle->set_use (true);
+
+	shared_ptr<Player> player (new Player (film, film->playlist()));
+	player->set_fast ();
+	player->set_always_burn_subtitles (true);
+	player->set_play_referenced ();
+
+	shared_ptr<Butler> butler (new Butler (player, film->log(), AudioMapping(), 2));
+	butler->disable_audio();
+
+	for (int i = 0; i < 10; ++i) {
+		DCPTime t = DCPTime::from_frames (i, 24);
+		butler->seek (t, true);
+		pair<shared_ptr<PlayerVideo>, DCPTime> video = butler->get_video();
+		BOOST_CHECK_EQUAL(video.second.get(), t.get());
+		write_image(video.first->image(note_handler, PlayerVideo::always_rgb, false, true), String::compose("build/test/player_seek_test_%1.png", i), "RGB");
+		check_image(String::compose("test/data/player_seek_test_%1.png", i), String::compose("build/test/player_seek_test_%1.png", i));
 	}
 }
