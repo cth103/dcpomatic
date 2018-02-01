@@ -250,14 +250,14 @@ AudioContent::processing_description () const
 	}
 
 	if (not_resampled && resampled) {
-		return String::compose (_("Some audio will be resampled to %1kHz"), resampled_frame_rate ());
+		return String::compose (_("Some audio will be resampled to %1Hz"), resampled_frame_rate ());
 	}
 
 	if (!not_resampled && resampled) {
 		if (same) {
-			return String::compose (_("Audio will be resampled from %1kHz to %2kHz"), common_frame_rate.get(), resampled_frame_rate ());
+			return String::compose (_("Audio will be resampled from %1Hz to %2Hz"), common_frame_rate.get(), resampled_frame_rate ());
 		} else {
-			return String::compose (_("Audio will be resampled to %1kHz"), resampled_frame_rate ());
+			return String::compose (_("Audio will be resampled to %1Hz"), resampled_frame_rate ());
 		}
 	}
 
