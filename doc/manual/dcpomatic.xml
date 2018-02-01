@@ -27,10 +27,10 @@ Hello, and welcome to DCP-o-matic!
 <title>What is DCP-o-matic?</title>
 
 <para>
-DCP-o-matic is a program to generate <ulink
+DCP-o-matic is a set of programs to make <ulink
 url="http://en.wikipedia.org/wiki/Digital_Cinema_Package">Digital
 Cinema Packages</ulink> (DCPs) from almost any video, audio and/or
-subtitle source files.  The resulting DCPs will play on modern digital
+subtitle files.  The resulting DCPs will play on modern digital
 cinema projectors.
 </para>
 
@@ -143,7 +143,6 @@ with the first (main) part.
   <listitem>Debian unstable (&lsquo;sid&rsquo;)</listitem>
   <listitem>Ubuntu 14.04 (&lsquo;Trusty Tahr&rsquo;)</listitem>
   <listitem>Ubuntu 16.04 (&lsquo;Xenial Xerus&rsquo;)</listitem>
-  <listitem>Ubuntu 17.04 (&lsquo;Zesty Zapus&rsquo;)</listitem>
   <listitem>Ubuntu 17.10 (&lsquo;Artful Aardvark&rsquo;)</listitem>
   <listitem>Mint 17</listitem>
   <listitem>Mint 18</listitem>
@@ -662,9 +661,9 @@ To make a DCP like this:
 <listitem>Import your &lsquo;Content DCP&rsquo; to a DCP-o-matic project.</listitem>
 <listitem>Add whatever replacement you want in your new DCP (replacement subtitles or audio files, for example).</listitem>
 <listitem>Select the DCP in the content list</listitem>
-<listitem>Tick the <guilabel>Refer to existing DCP</guilabel> checkbox
+<listitem>Tick the <guilabel>Use's this DCP's ... as OV and make VF</guilabel> checkbox
 in the tabs for the parts of the DCP that you want to refer to in your
-new DCP.  For example, to refer to the Content DCP's video and audio you would select the <guilabel>Video</guilabel> tab, click <guilabel>Refer to existing DCP</guilabel> then select the <guilabel>Audio</guilabel> tab and do the same.</listitem>
+new DCP.  For example, to refer to the Content DCP's video and audio you would select the <guilabel>Video</guilabel> tab, click <guilabel>Use this DCP's video as OV and make VF</guilabel> then select the <guilabel>Audio</guilabel> tab and click <guilabel>Use this DCP's audio as OV and make VF</guilabel>.</listitem>
 <listitem>Do <guilabel>Make DCP</guilabel> as usual and your VF DCP will be created.</listitem>
 </itemizedlist>
 
@@ -821,12 +820,12 @@ The <guilabel>Video</guilabel> tab controls properties of the image, as shown in
 
 <!-- ============================================================== -->
 <section>
-<title>Refer to existing DCP</title>
+<title>Use this DCP's video as OV and make VF</title>
 
 <para>
 This option is only applicable if the selected content is an existing
-DCP.  It allows you to get the video content from the existing DCP by
-referencing it (rather than copying).  See <xref
+DCP.  It allows you make a VF DCP, using the video content from the
+existing DCP by referencing it (rather than copying).  See <xref
 linkend="sec-overlay"/>.
 </para>
 
@@ -1162,10 +1161,11 @@ shows the mapping of a 5.1 source into a 5.1 DCP.
   <title>Other controls</title>
 
 <para>
-The <guilabel>Refer to existing DCP</guilabel> checkbox is only
-applicable if the selected content is an existing DCP.  It allows you
-to get the audio content from the existing DCP by referencing it
-(rather than copying).  See <xref linkend="sec-overlay"/>.
+The <guilabel>Use this DCP's audio as OV and make VF</guilabel>
+checkbox is only applicable if the selected content is an existing
+DCP.  It allows you to make a VF DCP, using the audio content from the
+existing DCP by referencing it (rather than copying).  See <xref
+linkend="sec-overlay"/>.
 </para>
 
 <para>
@@ -3288,7 +3288,7 @@ sets.
 <listitem>Click <guilabel>Add folder...</guilabel> and specify your existing DCP's folder.</listitem>
 <listitem>Go to the <guilabel>DCP</guilabel> tab and choose <guilabel>Split by video content</guilabel> for <guilabel>Reel type</guilabel>.</listitem>
 <listitem>Go to the <guilabel>Video</guilabel> and
-<guilabel>Audio</guilabel> tabs in turn and tick the <guilabel>Refer to existing DCP</guilabel> checkboxes.</listitem>
+<guilabel>Audio</guilabel> tabs in turn and tick the <guilabel>Use this DCP's audio as OV and make VF</guilabel> checkboxes.</listitem>
 <listitem>Add your subtitles to the film in whatever format you have.</listitem>
 <listitem>Check the subtitle appearance in the preview; it will be
 slow to respond as it is having to decompress images from the existing
@@ -3367,7 +3367,7 @@ The full details of OV and VF files are discussed in <xref linkend="sec-overlay"
 <listitem>Create a new DCP-o-matic project for the OV, as normal, adding video and perhaps sound.  Make the DCP.</listitem>
 <listitem>Create a new DCP-o-matic project for the VF.</listitem>
 <listitem>Use <guilabel>Add folder...</guilabel> to add your OV DCP to the project.</listitem>
-<listitem>Select the video tab and tick <guilabel>Refer to existing DCP</guilabel> (you may need to select <guilabel>By video content</guilabel> for <guilabel>Reel type</guilabel> in the <guilabel>DCP</guilabel> tab).</listitem>
+<listitem>Select the video tab and tick <guilabel>Use this DCP's video as OV and make VF</guilabel> (you may need to select <guilabel>By video content</guilabel> for <guilabel>Reel type</guilabel> in the <guilabel>DCP</guilabel> tab).</listitem>
 <listitem>Do the same in the <guilabel>Audio</guilabel> tab if your OV has audio.</listitem>
 <listitem>Add your language-specific audio and/or subtitles and Make DCP.</listitem>
 </itemizedlist>
