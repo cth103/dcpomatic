@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 00:02+0000\n"
+"POT-Creation-Date: 2018-02-01 16:50+0000\n"
 "PO-Revision-Date: 2016-03-19 18:19+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -210,12 +210,12 @@ msgid "Analyse audio"
 msgstr "Analizar áudio"
 
 #: src/lib/audio_content.cc:258
-msgid "Audio will be resampled from %1kHz to %2kHz"
-msgstr "A taxa de amostragem será alterada de %1kHz para %2kHz"
+msgid "Audio will be resampled from %1Hz to %2Hz"
+msgstr "A taxa de amostragem será alterada de %1Hz para %2Hz"
 
 #: src/lib/audio_content.cc:260
-msgid "Audio will be resampled to %1kHz"
-msgstr "A taxa de amostragem será alterada para %1kHz"
+msgid "Audio will be resampled to %1Hz"
+msgstr "A taxa de amostragem será alterada para %1Hz"
 
 #: src/lib/audio_content.cc:249
 msgid "Audio will not be resampled"
@@ -1039,8 +1039,8 @@ msgid "Size"
 msgstr "Tamanho"
 
 #: src/lib/audio_content.cc:253
-msgid "Some audio will be resampled to %1kHz"
-msgstr "Algum áudio vais ser alterado para %1kHz"
+msgid "Some audio will be resampled to %1Hz"
+msgstr "Algum áudio vais ser alterado para %1Hz"
 
 #: src/lib/writer.cc:610
 msgid "Stereo"

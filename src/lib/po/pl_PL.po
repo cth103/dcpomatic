@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 00:02+0000\n"
+"POT-Creation-Date: 2018-02-01 16:50+0000\n"
 "PO-Revision-Date: 2017-07-31 21:23+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -224,12 +224,12 @@ msgid "Analyse audio"
 msgstr "Analizuj dźwięk"
 
 #: src/lib/audio_content.cc:258
-msgid "Audio will be resampled from %1kHz to %2kHz"
-msgstr "Próbkowanie dźwięku zostanie zmienione z %1kHz na %2kHz"
+msgid "Audio will be resampled from %1Hz to %2Hz"
+msgstr "Próbkowanie dźwięku zostanie zmienione z %1Hz na %2Hz"
 
 #: src/lib/audio_content.cc:260
-msgid "Audio will be resampled to %1kHz"
-msgstr "Próbkowanie dźwięku zostanie zmienione na %1kHz"
+msgid "Audio will be resampled to %1Hz"
+msgstr "Próbkowanie dźwięku zostanie zmienione na %1Hz"
 
 #: src/lib/audio_content.cc:249
 msgid "Audio will not be resampled"
@@ -1039,8 +1039,8 @@ msgid "Size"
 msgstr "Rozmiar"
 
 #: src/lib/audio_content.cc:253
-msgid "Some audio will be resampled to %1kHz"
-msgstr "Nastąpi zmiana częstotliwości niektórych ścieżek dźwiękowych do %1kHz"
+msgid "Some audio will be resampled to %1Hz"
+msgstr "Nastąpi zmiana częstotliwości niektórych ścieżek dźwiękowych do %1Hz"
 
 #: src/lib/writer.cc:610
 msgid "Stereo"

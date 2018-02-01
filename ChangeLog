@@ -2,6 +2,8 @@
 
 	* Don't try to use video streams for which we have no codec (#1184).
 
+	* Updated sv_SE translation from Adam Klotblixt.
+
 	* Updated nl_NL translation from Rob van Nieuwkerk.
 
 	* Version 2.11.47 released.

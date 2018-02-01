@@ -74,12 +74,12 @@ FilterGraph::setup (vector<Filter const *> filters)
 		throw DecodeError (N_("could not create filter graph."));
 	}
 
-	AVFilter* buffer_src = avfilter_get_by_name (src_name().c_str());
+	AVFilter const * buffer_src = avfilter_get_by_name (src_name().c_str());
 	if (!buffer_src) {
 		throw DecodeError (N_("could not find buffer src filter"));
 	}
 
-	AVFilter* buffer_sink = avfilter_get_by_name (sink_name().c_str());
+	AVFilter const * buffer_sink = avfilter_get_by_name (sink_name().c_str());
 	if (!buffer_sink) {
 		throw DecodeError (N_("Could not create buffer sink filter"));
 	}

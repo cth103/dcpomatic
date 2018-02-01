@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 00:02+0000\n"
-"PO-Revision-Date: 2016-10-25 17:57+0100\n"
+"POT-Creation-Date: 2018-02-01 16:50+0000\n"
+"PO-Revision-Date: 2018-02-01 10:36+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
 "Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: src/lib/video_content.cc:448
 #, c-format
@@ -68,7 +68,7 @@ msgstr " (%.2f:1)"
 #. / to say what day a job will finish.
 #: src/lib/job.cc:434
 msgid " on %1"
-msgstr ""
+msgstr "på %1"
 
 #: src/lib/config.cc:795
 msgid ""
@@ -82,6 +82,15 @@ msgid ""
 "Length: $LENGTH\n"
 "Size: $SIZE\n"
 msgstr ""
+"$CPL_NAME\n"
+"\n"
+"Typ: $TYPE\n"
+"Format: $CONTAINER\n"
+"Audio: $AUDIO\n"
+"Audio språk: $AUDIO_LANGUAGE\n"
+"Underspår språk: $SUBTITLE_LANGUAGE\n"
+"Längd: $LENGTH\n"
+"Size: $SIZE\n"
 
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
@@ -114,16 +123,15 @@ msgstr "1,19"
 
 #: src/lib/ratio.cc:38
 msgid "1.33 (4:3)"
-msgstr ""
+msgstr "1.33 (4:3)"
 
 #: src/lib/ratio.cc:39
-#, fuzzy
 msgid "1.38 (Academy)"
-msgstr "Academy"
+msgstr "1.38 (Academy)"
 
 #: src/lib/ratio.cc:40
 msgid "1.43 (IMAX)"
-msgstr ""
+msgstr "1.43 (IMAX)"
 
 #: src/lib/ratio.cc:41
 msgid "1.66"
@@ -131,24 +139,23 @@ msgstr "1,66"
 
 #: src/lib/ratio.cc:42
 msgid "1.78 (16:9 or HD)"
-msgstr ""
+msgstr "1.78 (16:9 eller HD)"
 
 #: src/lib/ratio.cc:43
 msgid "1.85 (Flat)"
-msgstr ""
+msgstr "1.85 (Flat)"
 
 #: src/lib/ratio.cc:46
-#, fuzzy
 msgid "1.90 (Full frame)"
-msgstr "Full frame"
+msgstr "1.90 (Full frame)"
 
 #: src/lib/ratio.cc:44
 msgid "2.35 (35mm Scope)"
-msgstr ""
+msgstr "2.35 (35mm Scope)"
 
 #: src/lib/ratio.cc:45
 msgid "2.39 (Scope)"
-msgstr ""
+msgstr "2.39 (Scope)"
 
 #: src/lib/filter.cc:71
 msgid "3D denoiser"
@@ -162,7 +169,7 @@ msgstr "; %.1f bps"
 
 #: src/lib/job.cc:439
 msgid "; %1 remaining; finishing at %2%3"
-msgstr ""
+msgstr ";%1 kvarstående; klar vid %2%3"
 
 #: src/lib/hints.cc:107
 msgid ""
@@ -215,12 +222,12 @@ msgid "Analyse audio"
 msgstr "Analysera audio"
 
 #: src/lib/audio_content.cc:258
-msgid "Audio will be resampled from %1kHz to %2kHz"
-msgstr "Audio kommer att samplas om från %1kHz till %2kHz"
+msgid "Audio will be resampled from %1Hz to %2Hz"
+msgstr "Audio kommer att samplas om från %1Hz till %2Hz"
 
 #: src/lib/audio_content.cc:260
-msgid "Audio will be resampled to %1kHz"
-msgstr "Audio kommer att samplas om till %1kHz"
+msgid "Audio will be resampled to %1Hz"
+msgstr "Audio kommer att samplas om till %1Hz"
 
 #: src/lib/audio_content.cc:249
 msgid "Audio will not be resampled"
@@ -528,14 +535,12 @@ msgid "DBS"
 msgstr "DBS"
 
 #: src/lib/ratio.cc:43
-#, fuzzy
 msgid "DCI Flat"
-msgstr "Flat"
+msgstr "DCI Flat"
 
 #: src/lib/ratio.cc:45
-#, fuzzy
 msgid "DCI Scope"
-msgstr "Scope"
+msgstr "DCI Scope"
 
 #: src/lib/dcp_subtitle_content.cc:100
 msgid "DCP XML subtitles"
@@ -554,12 +559,11 @@ msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP kommer att använda varannan bild från källan.\n"
 
 #: src/lib/job.cc:123 src/lib/job.cc:138
-#, fuzzy
 msgid ""
 "DCP-o-matic could not open the file %1 (%2).  Perhaps it does not exist or "
 "is in an unexpected format."
 msgstr ""
-"DCP-o-matic kunde inte öppna filen %1. Saknas den, eller har den ett "
+"DCP-o-matic kunde inte öppna filen %1 (%2). Saknas den, eller har den ett "
 "oförväntat format?"
 
 #: src/lib/ffmpeg_content.cc:103
@@ -632,7 +636,7 @@ msgstr "E-posta problemrapport för %1"
 
 #: src/lib/dcp_encoder.cc:95 src/lib/ffmpeg_encoder.cc:201
 msgid "Encoding"
-msgstr ""
+msgstr "Kodar"
 
 #: src/lib/exceptions.cc:67
 msgid "Error in subtitle file: saw %1 while expecting %2"
@@ -738,12 +742,18 @@ msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "slowdown of your content, and SMPTE DCPs are not supported by all projectors."
 msgstr ""
+"Att sätta DCP bildhastigheten till 24 eller 48 kommer att medföra en "
+"betydlig hastighetssänkning av innehållet, och SMPTE DCP:er stöds inte av "
+"alla projektorer."
 
 #: src/lib/hints.cc:119
 msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "speed-up of your content, and SMPTE DCPs are not supported by all projectors."
 msgstr ""
+"Att sätta DCP bildhastigheten till 24 eller 48 kommer att medföra en "
+"betydlig hastighetsökning av innehållet, och SMPTE DCP:er stöds inte av alla "
+"projektorer."
 
 #: src/lib/audio_content.cc:307 src/lib/audio_content.cc:327
 msgid "Hz"
@@ -855,7 +865,7 @@ msgstr "Icke-passande videostorlekar i DCP:n"
 
 #: src/lib/writer.cc:608
 msgid "Mono"
-msgstr ""
+msgstr "Mono"
 
 #: src/lib/filter.cc:66
 msgid "Motion compensating deinterlacer"
@@ -883,7 +893,7 @@ msgstr "Brusreducering"
 
 #: src/lib/writer.cc:606
 msgid "None"
-msgstr ""
+msgstr "Inget"
 
 #: src/lib/job.cc:444
 msgid "OK (ran for %1)"
@@ -919,9 +929,8 @@ msgid "Prepared for video frame rate"
 msgstr "Förberedd för videobildshastighet"
 
 #: src/lib/exceptions.cc:85
-#, fuzzy
 msgid "Programming error at %1:%2 %3"
-msgstr "Programmeringsfel vid %1:%2"
+msgstr "Programmeringsfel vid %1:%2 %3"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
@@ -981,7 +990,7 @@ msgstr "Hs"
 
 #: src/lib/colour_conversion.cc:287
 msgid "S-Gamut3/S-Log3"
-msgstr ""
+msgstr "S-Gamut3/S-Log3"
 
 #: src/lib/ffmpeg_content.cc:516 src/lib/ffmpeg_content.cc:535
 msgid "SMPTE 170M (BT601)"
@@ -993,7 +1002,7 @@ msgstr "SMPTE 170M (BT601-6)"
 
 #: src/lib/ffmpeg_content.cc:565
 msgid "SMPTE 2085, Y'D'zD'x"
-msgstr ""
+msgstr "SMPTE 2085, Y'D'zD'x"
 
 #: src/lib/ffmpeg_content.cc:517 src/lib/ffmpeg_content.cc:536
 #: src/lib/ffmpeg_content.cc:561
@@ -1013,23 +1022,20 @@ msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
 msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
 #: src/lib/ffmpeg_content.cc:521
-#, fuzzy
 msgid "SMPTE ST 431-2 (2011)"
-msgstr "SMPTE ST 428-1"
+msgstr "SMPTE ST 431-2 (2011)"
 
 #: src/lib/ffmpeg_content.cc:522
-#, fuzzy
 msgid "SMPTE ST 432-1 D65 (2010)"
-msgstr "SMPTE ST 428-1"
+msgstr "SMPTE ST 432-1 D65 (2010)"
 
 #: src/lib/scp_uploader.cc:56
 msgid "SSH error (%1)"
 msgstr "SSH fel (%1)"
 
 #: src/lib/image_content.cc:107
-#, fuzzy
 msgid "Scanning image files"
-msgstr "Beräknar bildsammanfattning"
+msgstr "Går igenom bildfiler"
 
 #: src/lib/send_problem_report_job.cc:74
 msgid "Sending email"
@@ -1044,12 +1050,12 @@ msgid "Size"
 msgstr "Storlek"
 
 #: src/lib/audio_content.cc:253
-msgid "Some audio will be resampled to %1kHz"
-msgstr "En del av audio kommer att samplas om till %1kHz"
+msgid "Some audio will be resampled to %1Hz"
+msgstr "En del av audio kommer att samplas om till %1Hz"
 
 #: src/lib/writer.cc:610
 msgid "Stereo"
-msgstr ""
+msgstr "Stereo"
 
 #: src/lib/upmixer_a.cc:46
 msgid "Stereo to 5.1 up-mixer A"
@@ -1088,9 +1094,8 @@ msgid "The certificate chain for signing is invalid"
 msgstr "Certifikatkedjan för att signera är ogiltigt"
 
 #: src/lib/exceptions.cc:79
-#, fuzzy
 msgid "The certificate chain for signing is invalid (%1)"
-msgstr "Certifikatkedjan för att signera är ogiltigt"
+msgstr "Certifikatkedjan för att signera är ogiltig (%1)"
 
 #: src/lib/job.cc:108
 msgid ""
@@ -1102,19 +1107,19 @@ msgstr ""
 
 #: src/lib/content_factory.cc:115
 msgid "The file %1 has been moved %2 milliseconds earlier."
-msgstr ""
+msgstr "Filen %1 har flyttats %2 millisekunder tidigare."
 
 #: src/lib/content_factory.cc:110
 msgid "The file %1 has been moved %2 milliseconds later."
-msgstr ""
+msgstr "Filen %1 har flyttats %2 millisekunder senare."
 
 #: src/lib/content_factory.cc:135
 msgid "The file %1 has been trimmed by %2 milliseconds less."
-msgstr ""
+msgstr "Filen %1 har trimmats med %2 millisekunder mindre."
 
 #: src/lib/content_factory.cc:130
 msgid "The file %1 has been trimmed by %2 milliseconds more."
-msgstr ""
+msgstr "Filen %1 har trimmats med %2 millisekunder mer."
 
 #: src/lib/dcp_content.cc:447
 msgid "The film has a different frame rate to this DCP."
@@ -1167,6 +1172,8 @@ msgid ""
 "This file is a KDM.  KDMs should be added to DCP content by right-clicking "
 "the content and choosing \"Add KDM\"."
 msgstr ""
+"Detta är en KDM-fil. KDM:er ska läggas till i DCP:er genom att högerklicka "
+"på innehållet och välja \"Lägg till KDM\"."
 
 #: src/lib/film.cc:439
 msgid ""
@@ -1265,7 +1272,6 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
 #: src/lib/hints.cc:124
-#, fuzzy
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
@@ -1273,17 +1279,18 @@ msgid ""
 "projectors)."
 msgstr ""
 "Du har valt Interop DCP med en bildhastighet som inte har officiellt stöd. "
-"Du uppmanas att skapa en SMPTE DCP istället."
+"Du uppmanas att skapa en SMPTE DCP istället (men SMPTE DCP:er stöds inte av "
+"alla projektorer)."
 
 #: src/lib/hints.cc:111
-#, fuzzy
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
 "to make a SMPTE DCP instead."
 msgstr ""
 "Du har valt Interop DCP med en bildhastighet som inte har officiellt stöd. "
-"Du uppmanas att skapa en SMPTE DCP istället."
+"Du uppmanas att antingen ändra bildhastigheten eller skapa en SMPTE DCP "
+"istället."
 
 #: src/lib/hints.cc:149
 msgid ""
@@ -1337,17 +1344,20 @@ msgstr ""
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
+"Din förvalda container är inte korrekt och har ändrats till Flat (1.85:1)"
 
 #: src/lib/content_factory.cc:106
 msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
-msgstr ""
+msgstr "Ditt  projekt innehåller video som inte passar mot en helbildsgräns."
 
 #: src/lib/content_factory.cc:126
 msgid ""
 "Your project contains video content whose trim was not aligned to a frame "
 "boundary."
 msgstr ""
+"Ditt  projekt innehåller video som är trimmat så att det inte passar mot en "
+"helbildsgräns."
 
 #: src/lib/image_content.cc:71
 msgid "[moving images]"
@@ -1467,15 +1477,15 @@ msgstr "sRGB"
 
 #: src/lib/film.cc:317
 msgid "some of your content is missing"
-msgstr ""
+msgstr "en del av ditt innehåll saknas"
 
 #: src/lib/film.cc:321
 msgid "some of your content needs a KDM"
-msgstr ""
+msgstr "en del av ditt innehåll behöver en KDM"
 
 #: src/lib/film.cc:324
 msgid "some of your content needs an OV"
-msgstr ""
+msgstr "en del av ditt innehåll behöver en OV"
 
 #: src/lib/image_content.cc:84
 msgid "still"
@@ -1490,7 +1500,6 @@ msgid "video frames"
 msgstr "bildrutor"
 
 #: src/lib/film.cc:304
-#, fuzzy
 msgid "you must add some content to the DCP before creating it"
 msgstr "Du måste lägga till något innehåll till DCP:n innan du skapar den"
 

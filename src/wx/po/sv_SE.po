@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 00:02+0000\n"
-"PO-Revision-Date: 2016-10-25 17:57+0100\n"
+"POT-Creation-Date: 2018-02-01 16:50+0000\n"
+"PO-Revision-Date: 2018-02-01 11:12+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
 "Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: src/wx/subtitle_panel.cc:72 src/wx/subtitle_panel.cc:82
 #: src/wx/subtitle_panel.cc:92 src/wx/subtitle_panel.cc:102
@@ -25,25 +25,24 @@ msgstr "%"
 
 #: src/wx/film_name_location_dialog.cc:130
 msgid "%1 already exists as a file, so you cannot use it for a film."
-msgstr ""
+msgstr "%1 finns redan som fil, så du kan inte använda den till en film."
 
 #: src/wx/kdm_dialog.cc:153
 #, c-format
 msgid "%d KDM written to %s"
-msgstr ""
+msgstr "%d KDM skriven till %s"
 
 #: src/wx/kdm_dialog.cc:153
 #, c-format
 msgid "%d KDMs written to %s"
-msgstr ""
+msgstr "%d KDM:er skrivna till %s"
 
 #: src/wx/about_dialog.cc:83
-#, fuzzy
 msgid ""
 "(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:43 src/wx/file_picker_ctrl.cc:58
@@ -171,11 +170,11 @@ msgstr "Lägg till Biograf..."
 
 #: src/wx/content_panel.cc:96
 msgid "Add DCP..."
-msgstr ""
+msgstr "Lägg till DCP..."
 
 #: src/wx/new_dkdm_folder_dialog.cc:24
 msgid "Add DKDM folder"
-msgstr ""
+msgstr "Lägg till en DKDM-katalog"
 
 #: src/wx/content_menu.cc:77
 msgid "Add KDM..."
@@ -195,16 +194,15 @@ msgstr "Lägg till Salong..."
 
 #: src/wx/content_panel.cc:97
 msgid "Add a DCP."
-msgstr ""
+msgstr "Lägg till en DCP."
 
 #: src/wx/content_panel.cc:93
-#, fuzzy
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
 msgstr ""
 "Lägg till en folder med bildfiler (som används som en rörlig bildsekvens) "
-"eller en DCP."
+"eller en katalog med ljudfiler."
 
 #: src/wx/content_panel.cc:88
 msgid "Add file(s)..."
@@ -219,9 +217,8 @@ msgid "Add image sequence"
 msgstr "Lägg till bildsekvens"
 
 #: src/wx/content_panel.cc:89
-#, fuzzy
 msgid "Add video, image, sound or subtitle files to the film."
-msgstr "Lägg till video-, bild- eller audio-filer till filmen."
+msgstr "Lägg till video-, bild-, ljud- eller undertextfiler till filmen."
 
 #: src/wx/config_dialog.cc:380 src/wx/editable_list.h:74
 msgid "Add..."
@@ -232,6 +229,9 @@ msgid ""
 "Adding this certificate would make the chain inconsistent, so it will not be "
 "added. Add certificates in order from root to intermediate to leaf."
 msgstr ""
+"Att lägga till detta certifikat skulle medföra en osammanhängande kejda, så "
+"den kommer inte att läggas till. Lägg till certifikat i ordningen från rot "
+"till mellanliggande till löv."
 
 #: src/wx/cinema_dialog.cc:71 src/wx/full_config_dialog.cc:749
 msgid "Address"
@@ -242,9 +242,8 @@ msgid "Adjust white point to"
 msgstr "Justera vitpunkten till"
 
 #: src/wx/config_dialog.cc:741 src/wx/config_dialog.cc:756
-#, fuzzy
 msgid "Advanced..."
-msgstr "Lägg till..."
+msgstr "Avancerat..."
 
 #: src/wx/full_config_dialog.cc:973
 msgid "Allow any DCP frame rate"
@@ -291,7 +290,7 @@ msgstr "Audiospråk (ex. SV)"
 #: src/wx/player_information.cc:132
 #, c-format
 msgid "Audio channels: %d"
-msgstr ""
+msgstr "Ljudkanaler: %d"
 
 #: src/wx/audio_mapping_view.cc:345
 #, c-format
@@ -412,9 +411,8 @@ msgid "Choose CPL..."
 msgstr "Välj CPL..."
 
 #: src/wx/content_panel.cc:374
-#, fuzzy
 msgid "Choose a DCP folder"
-msgstr "Välj en folder"
+msgstr "Välj en DCP-katalog"
 
 #: src/wx/content_menu.cc:296
 msgid "Choose a file"
@@ -463,7 +461,7 @@ msgstr "Komponent"
 
 #: src/wx/full_config_dialog.cc:98
 msgid "Configuration file"
-msgstr ""
+msgstr "Konfigurationsfil"
 
 # Svengelska
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
@@ -509,20 +507,18 @@ msgid "Could not analyse audio."
 msgstr "Kunde inte analysera audio."
 
 #: src/wx/config_dialog.cc:458
-#, fuzzy, c-format
+#, c-format
 msgid "Could not import certificate (%s)"
-msgstr "Kunde inte läsa certifikatfil (%s)"
+msgstr "Kunde inte importera certifikat (%s)"
 
 #: src/wx/content_menu.cc:380
-#, fuzzy
 msgid "Could not load KDM."
-msgstr "Kunde inte ladda KDM (%s)"
+msgstr "Kunde inte ladda KDM."
 
 #: src/wx/config_dialog.cc:484 src/wx/config_dialog.cc:678
 #: src/wx/download_certificate_panel.cc:56 src/wx/screen_dialog.cc:158
-#, fuzzy
 msgid "Could not read certificate file."
-msgstr "Kunde inte läsa certifikatfil (%s)"
+msgstr "Kunde inte läsa certifikatfil."
 
 #: src/wx/config_dialog.cc:668
 #, c-format
@@ -533,10 +529,12 @@ msgstr "Kunde inte läsa nyckelfil; filen är för lång (%s)"
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
+"Kunde inte initiera ljudutgången. Det blir inget ljud under "
+"förhandsvisningen."
 
 #: src/wx/full_config_dialog.cc:876
 msgid "Cover Sheet"
-msgstr ""
+msgstr "Omslagsblad"
 
 #: src/wx/film_name_location_dialog.cc:43
 msgid "Create in folder"
@@ -591,12 +589,11 @@ msgstr "Debug: kodar"
 #: src/wx/player_information.cc:159
 #, c-format
 msgid "Decode resolution: %dx%d"
-msgstr ""
+msgstr "Avkodningsupplösning: %dx%d"
 
 #: src/wx/config_dialog.cc:728 src/wx/config_dialog.cc:765
-#, fuzzy
 msgid "Decrypting KDMs"
-msgstr "Dekrypterar DCP:er"
+msgstr "Dekrypterar KDM:er"
 
 #: src/wx/full_config_dialog.cc:306
 msgid "Default DCP audio channels"
@@ -612,9 +609,8 @@ msgid "Default JPEG2000 bandwidth"
 msgstr "Förvald JPEG2000-bandbredd"
 
 #: src/wx/full_config_dialog.cc:332
-#, fuzzy
 msgid "Default KDM directory"
-msgstr "Förvald innehållstyp"
+msgstr "Förvalt KDM-katalog"
 
 #: src/wx/full_config_dialog.cc:320
 msgid "Default audio delay"
@@ -637,9 +633,8 @@ msgid "Default duration of still images"
 msgstr "Förvald varaktighet på stillbilder"
 
 #: src/wx/full_config_dialog.cc:298
-#, fuzzy
 msgid "Default scale-to"
-msgstr "Förvald innehållstyp"
+msgstr "Förvald skalning"
 
 #: src/wx/full_config_dialog.cc:328
 msgid "Default standard"
@@ -647,7 +642,7 @@ msgstr "Förvald standard"
 
 #: src/wx/full_config_dialog.cc:341
 msgid "Default to enabling upload of DCP to TMS"
-msgstr ""
+msgstr "Förvalt att ladda upp DCP till TMS"
 
 #: src/wx/full_config_dialog.cc:256
 msgid "Defaults"
@@ -678,9 +673,8 @@ msgid "Don't show hints again"
 msgstr "Visa inte förslag igen"
 
 #: src/wx/nag_dialog.cc:36
-#, fuzzy
 msgid "Don't show this message again"
-msgstr "Visa inte förslag igen"
+msgstr "Visa inte detta meddelande igen"
 
 #: src/wx/download_certificate_dialog.cc:39
 msgid "Download"
@@ -701,7 +695,7 @@ msgstr "Laddar ner certifikat"
 #: src/wx/player_information.cc:89
 #, c-format
 msgid "Dropped frames: %d"
-msgstr ""
+msgstr "Tappade bildrutor: %d"
 
 #: src/wx/content_panel.cc:104
 msgid "Earlier"
@@ -772,30 +766,20 @@ msgid "Export"
 msgstr "Exportera"
 
 #: src/wx/config_dialog.cc:733
-#, fuzzy
 msgid "Export KDM decryption certificate..."
-msgstr ""
-"Exportera DCP-\n"
-"dekrypteringscertifikat..."
+msgstr "Exportera KDM-dekrypteringscertifikatet..."
 
 #: src/wx/config_dialog.cc:735
-#, fuzzy
 msgid "Export KDM decryption chain..."
-msgstr ""
-"Exportera DCP-\n"
-"dekrypteringskedja..."
+msgstr "Exportera KDM-dekrypteringskedjan..."
 
 #: src/wx/config_dialog.cc:737
-#, fuzzy
 msgid "Export all KDM decryption settings..."
-msgstr ""
-"Exportera DCP-\n"
-"dekrypteringskedja..."
+msgstr "Exportera alla inställningar för KDM-dekryptering..."
 
 #: src/wx/export_dialog.cc:46
-#, fuzzy
 msgid "Export film"
-msgstr "Exportera"
+msgstr "Exportera film"
 
 #: src/wx/config_dialog.cc:401
 msgid "Export..."
@@ -828,7 +812,7 @@ msgstr "Tona ut-tid"
 #: src/wx/kdm_dialog.cc:132
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr ""
+msgstr "Filen %s finns redan. Vill du skriva över den?"
 
 #: src/wx/kdm_output_panel.cc:79
 msgid "Filename format"
@@ -853,14 +837,12 @@ msgid "Find missing..."
 msgstr "Hitta saknade..."
 
 #: src/wx/kdm_output_panel.cc:65
-#, fuzzy
 msgid "Folder / ZIP name format"
-msgstr "Filnamnsformat"
+msgstr "Katalog- / ZIP-namnsformat"
 
 #: src/wx/new_dkdm_folder_dialog.cc:26
-#, fuzzy
 msgid "Folder name"
-msgstr "Användarnamn"
+msgstr "Katalognamn"
 
 #: src/wx/fonts_dialog.cc:38 src/wx/font_files_dialog.cc:28
 #: src/wx/font_files_dialog.cc:30
@@ -886,7 +868,7 @@ msgstr "Bildhastighet"
 #: src/wx/player_information.cc:129
 #, c-format
 msgid "Frame rate: %d"
-msgstr ""
+msgstr "Bildhastighet: %d"
 
 #: src/wx/about_dialog.cc:66
 msgid "Free, open-source DCP creation from almost anything."
@@ -959,17 +941,16 @@ msgid "Green chromaticity"
 msgstr "Grönfärgning"
 
 #: src/wx/full_config_dialog.cc:358
-#, fuzzy
 msgid "Guess from content"
-msgstr "konturinnehåll"
+msgstr "Gissa från innehåll"
 
 #: src/wx/export_dialog.cc:32
 msgid "H.264"
-msgstr ""
+msgstr "H.264"
 
 #: src/wx/batch_job_view.cc:44
 msgid "Higher priority"
-msgstr ""
+msgstr "högre prioritet"
 
 #: src/wx/hints_dialog.cc:37
 msgid "Hints"
@@ -1009,26 +990,25 @@ msgid ""
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
 "become useless.  Proceed with caution!"
 msgstr ""
+"Om du fortsätter med denna operation så kommer du inte längre kunna använda "
+"några DKDM:er som du har skapat. Dessutom kommer alla KDM:er som skickats "
+"till dig att bli värdelösa. Fortsätt med försiktighet!"
 
 #: src/wx/video_waveform_dialog.cc:68
 msgid "Image X position"
 msgstr "Bild X position"
 
 #: src/wx/config_dialog.cc:739
-#, fuzzy
 msgid "Import all KDM decryption settings..."
-msgstr ""
-"Exportera DCP-\n"
-"dekrypteringskedja..."
+msgstr "Importera alla inställningar för KDM-dekryptering..."
 
 #: src/wx/config_dialog.cc:399
-#, fuzzy
 msgid "Import..."
-msgstr "Exportera..."
+msgstr "Importera..."
 
 #: src/wx/nag_dialog.cc:29
 msgid "Important notice"
-msgstr ""
+msgstr "Viktigt meddelande"
 
 #: src/wx/colour_conversion_editor.cc:66
 msgid "Input gamma"
@@ -1044,7 +1024,7 @@ msgstr "Input kraft"
 
 #: src/wx/colour_conversion_editor.cc:58
 msgid "Input transfer function"
-msgstr ""
+msgstr "Input överföringsfunktion"
 
 #: src/wx/audio_dialog.cc:355
 #, c-format
@@ -1065,12 +1045,11 @@ msgstr "Interop"
 
 #: src/wx/config_dialog.cc:847
 msgid "Invalid DCP-o-matic export file"
-msgstr ""
+msgstr "Felaktig DCP-o-matic exportfil"
 
 #: src/wx/colour_conversion_editor.cc:205
-#, fuzzy
 msgid "Inverse 2.6 gamma correction on output"
-msgstr "Input gammakorrigering"
+msgstr "Inverterad 2.6 gammakorrigering på output"
 
 #: src/wx/full_config_dialog.cc:125
 msgid "Issuer"
@@ -1098,7 +1077,7 @@ msgstr "Anslut"
 
 #: src/wx/film_viewer.cc:119
 msgid "Jump to selected content"
-msgstr ""
+msgstr "Hoppa till valt innehåll"
 
 #: src/wx/full_config_dialog.cc:703
 msgid "KDM Email"
@@ -1148,7 +1127,7 @@ msgstr "Löv privat nyckel"
 
 #: src/wx/config_dialog.cc:411
 msgid "Leaf private key does not match leaf certificate!"
-msgstr ""
+msgstr "Lövets privata nyckel matchar inte lövets certifikat!"
 
 #: src/wx/video_panel.cc:105
 msgid "Left"
@@ -1164,7 +1143,7 @@ msgstr "Längd"
 
 #: src/wx/player_information.cc:145
 msgid "Length: %1 (%2 frames)"
-msgstr ""
+msgstr "Längd: %1 (%2 bilder)"
 
 #: src/wx/subtitle_panel.cc:108
 msgid "Line spacing"
@@ -1181,7 +1160,7 @@ msgstr "Loudness-omfång %.2f LU"
 
 #: src/wx/batch_job_view.cc:47
 msgid "Lower priority"
-msgstr ""
+msgstr "Lägre prioritet"
 
 #: src/wx/content_panel.cc:567
 msgid "MISSING: "
@@ -1189,11 +1168,11 @@ msgstr "SAKNAS:"
 
 #: src/wx/export_dialog.cc:36
 msgid "MOV files (*.mov)|*.mov"
-msgstr ""
+msgstr "MOV filer (*.mov)|*.mov"
 
 #: src/wx/export_dialog.cc:37
 msgid "MP4 files (*.mp4)|*.mp4"
-msgstr ""
+msgstr "MP4 filer (*.mp4)|*.mp4"
 
 #: src/wx/full_config_dialog.cc:736
 msgid "Mail password"
@@ -1233,7 +1212,7 @@ msgstr "Maximal JPEG2000 bandbredd"
 
 #: src/wx/full_config_dialog.cc:982
 msgid "Maximum number of frames to store per thread"
-msgstr ""
+msgstr "Maximalt antal bilder att lagra per tråd"
 
 #: src/wx/dcp_panel.cc:692 src/wx/full_config_dialog.cc:315
 #: src/wx/full_config_dialog.cc:969
@@ -1242,12 +1221,11 @@ msgstr "Mbit/s"
 
 #: src/wx/export_dialog.cc:52
 msgid "Mix audio down to stereo"
-msgstr ""
+msgstr "Mixa audio till stereo"
 
 #: src/wx/config_move_dialog.cc:28
-#, fuzzy
 msgid "Move configuration"
-msgstr "Flytta innehåll"
+msgstr "Flytta konfiguration"
 
 #: src/wx/move_to_dialog.cc:31
 msgid "Move content"
@@ -1294,13 +1272,12 @@ msgid "Name"
 msgstr "Namn"
 
 #: src/wx/player_information.cc:121
-#, fuzzy
 msgid "Needs KDM"
-msgstr "Välj KDM"
+msgstr "Behöver KDM"
 
 #: src/wx/player_information.cc:116
 msgid "Needs OV"
-msgstr ""
+msgstr "Behöver OV"
 
 #: src/wx/rename_template_dialog.cc:26
 msgid "New name"
@@ -1311,9 +1288,8 @@ msgid "New versions of DCP-o-matic are available."
 msgstr "Nya versioner av DCP-o-matic finns tillgängligt."
 
 #: src/wx/player_information.cc:104
-#, fuzzy
 msgid "No DCP loaded."
-msgstr "Ingen DCP vald."
+msgstr "Ingen DCP laddad."
 
 #: src/wx/content_sub_panel.cc:51
 msgid "No DCP selected."
@@ -1351,11 +1327,11 @@ msgstr "Noteringar"
 
 #: src/wx/full_config_dialog.cc:93
 msgid "Number of threads DCP-o-matic encode server should use"
-msgstr ""
+msgstr "Antalet trådar som DCP-o-matics kodningsserver ska använda"
 
 #: src/wx/full_config_dialog.cc:88
 msgid "Number of threads DCP-o-matic should use"
-msgstr ""
+msgstr "Antalet trådar som DCP-o-matic ska använda"
 
 #: src/wx/audio_mapping_view.cc:166
 msgid "Off"
@@ -1410,18 +1386,16 @@ msgid "Output"
 msgstr "Utdata"
 
 #: src/wx/export_dialog.cc:54
-#, fuzzy
 msgid "Output file"
-msgstr "Utdata"
+msgstr "Utdatafil"
 
 #: src/wx/colour_conversion_editor.cc:203
-#, fuzzy
 msgid "Output gamma correction"
-msgstr "Input gammakorrigering"
+msgstr "Output gammakorrigering"
 
 #: src/wx/config_move_dialog.cc:30
 msgid "Overwrite this file with current configuration"
-msgstr ""
+msgstr "Skriv över denna fil med nuvarande konfiguration"
 
 #: src/wx/full_config_dialog.cc:625
 msgid "Password"
@@ -1429,20 +1403,19 @@ msgstr "Lösenord"
 
 #: src/wx/paste_dialog.cc:24
 msgid "Paste"
-msgstr ""
+msgstr "Klistra in"
 
 #: src/wx/paste_dialog.cc:29
 msgid "Paste audio settings"
-msgstr ""
+msgstr "Klistra in inställning för audio"
 
 #: src/wx/paste_dialog.cc:32
-#, fuzzy
 msgid "Paste subtitle settings"
-msgstr "Använd undertexter"
+msgstr "Klistra in inställning för undertexter"
 
 #: src/wx/paste_dialog.cc:26
 msgid "Paste video settings"
-msgstr ""
+msgstr "Klistra in inställning för video"
 
 #: src/wx/normal_job_view.cc:37 src/wx/normal_job_view.cc:53
 msgid "Pause"
@@ -1463,7 +1436,7 @@ msgstr "Maxvärde: unknown"
 
 #: src/wx/player_information.cc:71
 msgid "Performance"
-msgstr ""
+msgstr "Föreställning"
 
 #: src/wx/film_viewer.cc:88
 msgid "Play"
@@ -1475,7 +1448,7 @@ msgstr "Spellängd"
 
 #: src/wx/config_dialog.cc:155
 msgid "Play sound via"
-msgstr ""
+msgstr "Spela ljud via"
 
 #: src/wx/report_problem_dialog.cc:104
 msgid ""
@@ -1499,7 +1472,7 @@ msgstr "För-utgåva"
 
 #: src/wx/export_dialog.cc:31
 msgid "ProRes"
-msgstr ""
+msgstr "ProRes"
 
 #: src/wx/dcp_panel.cc:756
 msgid "Processor"
@@ -1534,11 +1507,8 @@ msgid "Re-examine..."
 msgstr "Undersök på nytt..."
 
 #: src/wx/config_dialog.cc:406
-#, fuzzy
 msgid "Re-make certificates and key..."
-msgstr ""
-"Gör om certifikat\n"
-"och nyckel..."
+msgstr "Gör om certifikat och nyckel..."
 
 #: src/wx/colour_conversion_editor.cc:110
 msgid "Rec. 601"
@@ -1625,9 +1595,8 @@ msgid "Reset to default subject and text"
 msgstr "Återställ till förvald rubrik och text"
 
 #: src/wx/full_config_dialog.cc:892
-#, fuzzy
 msgid "Reset to default text"
-msgstr "Återställ till förvald rubrik och text"
+msgstr "Återställ till förvald text"
 
 #: src/wx/dcp_panel.cc:664
 msgid "Resolution"
@@ -1635,7 +1604,7 @@ msgstr "Upplösning"
 
 #: src/wx/subtitle_appearance_dialog.cc:111
 msgid "Restore to original colours"
-msgstr ""
+msgstr "Återställ till originalfärger"
 
 #: src/wx/normal_job_view.cc:56
 msgid "Resume"
@@ -1663,7 +1632,7 @@ msgstr "Rot gemensamt namn"
 
 #: src/wx/colour_conversion_editor.cc:62
 msgid "S-Gamut3"
-msgstr ""
+msgstr "S-Gamut3"
 
 #: src/wx/full_config_dialog.cc:629
 msgid "SCP (for AAM and Doremi)"
@@ -1712,14 +1681,12 @@ msgid "Select Chain File"
 msgstr "Välj Kedjefil"
 
 #: src/wx/config_dialog.cc:791
-#, fuzzy
 msgid "Select Export File"
-msgstr "Välj Nyckelfil"
+msgstr "Välj exportfil"
 
 #: src/wx/config_dialog.cc:816
-#, fuzzy
 msgid "Select File To Import"
-msgstr "Välj Nyckelfil"
+msgstr "Välj importfil"
 
 #: src/wx/content_menu.cc:374
 msgid "Select KDM"
@@ -1742,14 +1709,12 @@ msgid "Select cinema and screen database file"
 msgstr "Välj biograf- och salongs-databasfil"
 
 #: src/wx/full_config_dialog.cc:99
-#, fuzzy
 msgid "Select configuration file"
-msgstr "Välj certifikatfil"
+msgstr "Välj konfigurationsfil"
 
 #: src/wx/export_dialog.cc:55
-#, fuzzy
 msgid "Select output file"
-msgstr "Välj certifikatfil"
+msgstr "Välj utfil"
 
 #: src/wx/kdm_output_panel.cc:131
 msgid "Send by email"
@@ -1793,7 +1758,7 @@ msgstr "Välj språk"
 
 #: src/wx/subtitle_appearance_dialog.cc:196
 msgid "Set to"
-msgstr ""
+msgstr "Sätt till"
 
 #: src/wx/subtitle_appearance_dialog.cc:127
 msgid "Shadow"
@@ -1816,14 +1781,12 @@ msgid "Signing DCPs and KDMs"
 msgstr "Signerar DCP:er och KDM:er"
 
 #: src/wx/colour_conversion_editor.cc:60
-#, fuzzy
 msgid "Simple gamma"
-msgstr "Indata gamma"
+msgstr "Enkel gamma"
 
 #: src/wx/colour_conversion_editor.cc:61
-#, fuzzy
 msgid "Simple gamma, linearised for small values"
-msgstr "Linjärisera input-gammakurvan för små värden"
+msgstr "Enkel gamma, linjäriserad för små värden"
 
 #: src/wx/dcp_panel.cc:182
 msgid "Single reel"
@@ -1832,7 +1795,7 @@ msgstr "Enskild rulle"
 #: src/wx/player_information.cc:127
 #, c-format
 msgid "Size: %dx%d"
-msgstr ""
+msgstr "Storlek: %dx%d"
 
 #: src/wx/audio_dialog.cc:127
 msgid "Smoothing"
@@ -1892,14 +1855,12 @@ msgid "Subtitles"
 msgstr "Undertexter"
 
 #: src/wx/player_information.cc:137
-#, fuzzy
 msgid "Subtitles: no"
-msgstr "Undertexter"
+msgstr "Undertexter: nej"
 
 #: src/wx/player_information.cc:135
-#, fuzzy
 msgid "Subtitles: yes"
-msgstr "Undertexter"
+msgstr "Undertexter: ja"
 
 #: src/wx/about_dialog.cc:140
 msgid "Supported by"
@@ -1963,6 +1924,8 @@ msgid ""
 "The directory %1 already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
+"Katalogen %1 finns redan och är inte tom. Är du säker på att du vill använda "
+"den?"
 
 #: src/wx/config_move_dialog.cc:34
 #, c-format
@@ -1970,6 +1933,8 @@ msgid ""
 "The file %s already exists.  Do you want to use it as your new configuration "
 "or overwrite it with your current configuration?"
 msgstr ""
+"Filen %s finns redan. Vill du använda den som din nya konfiguration eller "
+"skriva över den med din nuvarande konfiguration?"
 
 #: src/wx/hints_dialog.cc:89
 msgid "There are no hints: everything looks good!"
@@ -2117,9 +2082,8 @@ msgid "UTC+9"
 msgstr "UTC+9"
 
 #: src/wx/cinema_dialog.cc:110
-#, fuzzy
 msgid "UTC+9:30"
-msgstr "UTC+5:30"
+msgstr "UTC+9:30"
 
 #: src/wx/cinema_dialog.cc:98
 msgid "UTC-1"
@@ -2199,19 +2163,19 @@ msgstr "Använd undertexter"
 
 #: src/wx/audio_panel.cc:56
 msgid "Use this DCP's audio as OV and make VF"
-msgstr ""
+msgstr "Använd denna DCP:s audio som OV och skapa VF"
 
 #: src/wx/subtitle_panel.cc:55
 msgid "Use this DCP's subtitle as OV and make VF"
-msgstr ""
+msgstr "Använd denna DCP:s undertext som OV och skapa VF"
 
 #: src/wx/video_panel.cc:82
 msgid "Use this DCP's video as OV and make VF"
-msgstr ""
+msgstr "Använd denna DCP:s video som OV och skapa VF"
 
 #: src/wx/config_move_dialog.cc:29
 msgid "Use this file as new configuration"
-msgstr ""
+msgstr "Använd denna fil som ny konfiguration"
 
 #: src/wx/full_config_dialog.cc:621
 msgid "User name"
@@ -2253,15 +2217,15 @@ msgstr "Med hjälp av"
 
 #: src/wx/kdm_output_panel.cc:126
 msgid "Write a ZIP file for each cinema's KDMs"
-msgstr ""
+msgstr "Skriv en ZIP för varje biografs KDM:er"
 
 #: src/wx/kdm_output_panel.cc:124
 msgid "Write a folder for each cinema's KDMs"
-msgstr ""
+msgstr "Skriv en katalog för varje biografs KDM:er"
 
 #: src/wx/kdm_output_panel.cc:122
 msgid "Write all KDMs to the same folder"
-msgstr ""
+msgstr "Skriv alla KDM:er till samma katalog"
 
 #: src/wx/kdm_output_panel.cc:103 src/wx/self_dkdm_dialog.cc:75
 msgid "Write to"
@@ -2301,6 +2265,8 @@ msgid ""
 "You cannot add a screen called '%s' as the cinema already has a screen with "
 "this name."
 msgstr ""
+"Du kan inte lägga till duken '%s' eftersom biografen redan har en duk med "
+"detta namn."
 
 #: src/wx/screens_panel.cc:258
 #, c-format
@@ -2308,17 +2274,23 @@ msgid ""
 "You cannot change this screen's name to '%s' as the cinema already has a "
 "screen with this name."
 msgstr ""
+"Du kan inte byta denna duks namn till '%s' eftersom biografen redan har en "
+"duk med detta namn."
 
 #: src/wx/kdm_output_panel.cc:207
 msgid ""
 "You have selected some cinemas that have no configured email address.  Do "
 "you want to continue?"
 msgstr ""
+"Du har valt några biografer som inte har konfigurerade e-post adresser. Vill "
+"du fortsätta?"
 
 #: src/wx/kdm_output_panel.cc:195
 msgid ""
 "You must set up a mail server in Preferences before you can send emails."
 msgstr ""
+"Du måste konfigurera en e-post server i Preferenser innan du kan skicka e-"
+"post."
 
 #: src/wx/report_problem_dialog.cc:68
 msgid "Your email address"

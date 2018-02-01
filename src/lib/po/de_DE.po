@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 00:02+0000\n"
+"POT-Creation-Date: 2018-02-01 16:50+0000\n"
 "PO-Revision-Date: 2018-01-13 20:21+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -228,12 +228,12 @@ msgid "Analyse audio"
 msgstr "Audio analysieren"
 
 #: src/lib/audio_content.cc:258
-msgid "Audio will be resampled from %1kHz to %2kHz"
-msgstr "Audioabtastrate wird von %1kHz auf %2kHz angepasst."
+msgid "Audio will be resampled from %1Hz to %2Hz"
+msgstr "Audioabtastrate wird von %1Hz auf %2Hz angepasst."
 
 #: src/lib/audio_content.cc:260
-msgid "Audio will be resampled to %1kHz"
-msgstr "Audioabtastrate wird auf %1kHz angepasst."
+msgid "Audio will be resampled to %1Hz"
+msgstr "Audioabtastrate wird auf %1Hz angepasst."
 
 #: src/lib/audio_content.cc:249
 msgid "Audio will not be resampled"
@@ -1062,8 +1062,8 @@ msgid "Size"
 msgstr "Größe"
 
 #: src/lib/audio_content.cc:253
-msgid "Some audio will be resampled to %1kHz"
-msgstr "Einige Audioanteile werden in der Abtastrate geändert auf %1kHz"
+msgid "Some audio will be resampled to %1Hz"
+msgstr "Einige Audioanteile werden in der Abtastrate geändert auf %1Hz"
 
 #: src/lib/writer.cc:610
 msgid "Stereo"
