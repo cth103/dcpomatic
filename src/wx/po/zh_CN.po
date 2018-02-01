@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-17 00:30+0000\n"
+"POT-Creation-Date: 2018-02-01 00:02+0000\n"
 "PO-Revision-Date: 2017-07-23 10:23+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -86,11 +86,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "伪3D"
 
-#: src/wx/dcp_panel.cc:710
+#: src/wx/dcp_panel.cc:718
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:675 src/wx/video_panel.cc:235
+#: src/wx/dcp_panel.cc:683 src/wx/video_panel.cc:235
 msgid "3D"
 msgstr "3D"
 
@@ -118,7 +118,7 @@ msgstr "上下眼(3D)"
 msgid "4 - L/C/R/Lfe"
 msgstr "4声道—左/中/右/低音"
 
-#: src/wx/dcp_panel.cc:711
+#: src/wx/dcp_panel.cc:719
 msgid "4K"
 msgstr "4K"
 
@@ -378,7 +378,7 @@ msgstr "计算..."
 msgid "Cancel"
 msgstr "取消"
 
-#: src/wx/content_sub_panel.cc:65
+#: src/wx/content_sub_panel.cc:53
 msgid "Cannot reference this DCP.  "
 msgstr "不能引用该DCP"
 
@@ -394,7 +394,7 @@ msgstr "链接"
 msgid "Channel gain"
 msgstr "信道增益"
 
-#: src/wx/audio_dialog.cc:93 src/wx/dcp_panel.cc:742
+#: src/wx/audio_dialog.cc:93 src/wx/dcp_panel.cc:750
 msgid "Channels"
 msgstr "通道"
 
@@ -472,7 +472,7 @@ msgstr "时间设置"
 msgid "Confirm KDM email"
 msgstr "确认接收KDM的电子邮件地址"
 
-#: src/wx/dcp_panel.cc:645
+#: src/wx/dcp_panel.cc:653
 msgid "Container"
 msgstr "封装格式"
 
@@ -858,7 +858,7 @@ msgstr "字体..."
 msgid "Format"
 msgstr "格式"
 
-#: src/wx/dcp_panel.cc:661
+#: src/wx/dcp_panel.cc:669
 msgid "Frame Rate"
 msgstr "帧率"
 
@@ -867,6 +867,7 @@ msgid "Frame rate"
 msgstr "帧率"
 
 #: src/wx/player_information.cc:129
+#, c-format
 msgid "Frame rate: %d"
 msgstr ""
 
@@ -1068,7 +1069,7 @@ msgstr "斜体文件"
 msgid "Italic font"
 msgstr "斜体"
 
-#: src/wx/dcp_panel.cc:680
+#: src/wx/dcp_panel.cc:688
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
@@ -1216,7 +1217,7 @@ msgstr "最大JPEG2000码率"
 msgid "Maximum number of frames to store per thread"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:684 src/wx/full_config_dialog.cc:315
+#: src/wx/dcp_panel.cc:692 src/wx/full_config_dialog.cc:315
 #: src/wx/full_config_dialog.cc:969
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -1296,7 +1297,7 @@ msgstr "DCP-o-Matic有新版！"
 msgid "No DCP loaded."
 msgstr "没有选择DCP"
 
-#: src/wx/content_sub_panel.cc:63
+#: src/wx/content_sub_panel.cc:51
 msgid "No DCP selected."
 msgstr "没有选择DCP"
 
@@ -1310,7 +1311,7 @@ msgid "No content found in this folder."
 msgstr "没有找到文件！"
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:750 src/wx/subtitle_appearance_dialog.cc:125
+#: src/wx/dcp_panel.cc:758 src/wx/subtitle_appearance_dialog.cc:125
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
 #: src/wx/video_panel.cc:307
 msgid "None"
@@ -1477,7 +1478,7 @@ msgstr "预发布(点映版)"
 msgid "ProRes"
 msgstr "ProRes"
 
-#: src/wx/dcp_panel.cc:748
+#: src/wx/dcp_panel.cc:756
 msgid "Processor"
 msgstr "处理类型"
 
@@ -1552,11 +1553,6 @@ msgstr "卷"
 msgid "Reel|Custom"
 msgstr "分卷|自定义"
 
-#: src/wx/audio_panel.cc:56 src/wx/subtitle_panel.cc:55
-#: src/wx/video_panel.cc:82
-msgid "Refer to existing DCP"
-msgstr "参考现有的DCP"
-
 #: src/wx/config_dialog.cc:382 src/wx/content_menu.cc:82
 #: src/wx/content_panel.cc:100 src/wx/templates_dialog.cc:52
 #: src/wx/editable_list.h:80
@@ -1607,7 +1603,7 @@ msgstr "恢复到默认"
 msgid "Reset to default text"
 msgstr "恢复到默认"
 
-#: src/wx/dcp_panel.cc:656
+#: src/wx/dcp_panel.cc:664
 msgid "Resolution"
 msgstr "解析度"
 
@@ -1776,7 +1772,7 @@ msgstr ""
 msgid "Shadow"
 msgstr "字幕阴影"
 
-#: src/wx/dcp_panel.cc:757
+#: src/wx/dcp_panel.cc:765
 msgid "Show audio..."
 msgstr "显示音频"
 
@@ -1878,7 +1874,7 @@ msgstr "字幕"
 msgid "Subtitles: yes"
 msgstr "字幕"
 
-#: src/wx/about_dialog.cc:332
+#: src/wx/about_dialog.cc:140
 msgid "Supported by"
 msgstr "技术支持"
 
@@ -1918,7 +1914,7 @@ msgstr "国别地区(例如:CN)"
 msgid "Test version "
 msgstr "测试版"
 
-#: src/wx/about_dialog.cc:389
+#: src/wx/about_dialog.cc:198
 msgid "Tested by"
 msgstr "测试"
 
@@ -2156,7 +2152,7 @@ msgstr "制作好DCP后上传到TMS"
 msgid "Use ISDCF name"
 msgstr "使用ISDCF名称"
 
-#: src/wx/dcp_panel.cc:669
+#: src/wx/dcp_panel.cc:677
 msgid "Use best"
 msgstr "使用最佳"
 
@@ -2167,6 +2163,18 @@ msgstr "使用预设"
 #: src/wx/subtitle_panel.cc:59
 msgid "Use subtitles"
 msgstr "使用字幕"
+
+#: src/wx/audio_panel.cc:56
+msgid "Use this DCP's audio as OV and make VF"
+msgstr ""
+
+#: src/wx/subtitle_panel.cc:55
+msgid "Use this DCP's subtitle as OV and make VF"
+msgstr ""
+
+#: src/wx/video_panel.cc:82
+msgid "Use this DCP's video as OV and make VF"
+msgstr ""
 
 #: src/wx/config_move_dialog.cc:29
 msgid "Use this file as new configuration"
@@ -2344,6 +2352,9 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:126
 msgid "y"
 msgstr "y"
+
+#~ msgid "Refer to existing DCP"
+#~ msgstr "参考现有的DCP"
 
 #~ msgid "Load..."
 #~ msgstr "加载..."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-17 00:30+0000\n"
+"POT-Creation-Date: 2018-02-01 00:02+0000\n"
 "PO-Revision-Date: 2018-01-13 20:38+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -80,11 +80,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "2D Version eines Films, der auch in 3D verfügbar ist"
 
-#: src/wx/dcp_panel.cc:710
+#: src/wx/dcp_panel.cc:718
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:675 src/wx/video_panel.cc:235
+#: src/wx/dcp_panel.cc:683 src/wx/video_panel.cc:235
 msgid "3D"
 msgstr "3D DCP"
 
@@ -112,7 +112,7 @@ msgstr "3D Oben/Unten (OU)"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/SUB"
 
-#: src/wx/dcp_panel.cc:711
+#: src/wx/dcp_panel.cc:719
 msgid "4K"
 msgstr "4K"
 
@@ -296,6 +296,7 @@ msgid "Audio Language (e.g. EN)"
 msgstr "Ton Sprache (z.B. DE)"
 
 #: src/wx/player_information.cc:132
+#, c-format
 msgid "Audio channels: %d"
 msgstr ""
 
@@ -385,7 +386,7 @@ msgstr "Berechne CP Fader..."
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: src/wx/content_sub_panel.cc:65
+#: src/wx/content_sub_panel.cc:53
 msgid "Cannot reference this DCP.  "
 msgstr "Das DCP kann nicht eingebunden werden."
 
@@ -401,7 +402,7 @@ msgstr "Kinokette"
 msgid "Channel gain"
 msgstr "Kanal Verstärkung (+/-)"
 
-#: src/wx/audio_dialog.cc:93 src/wx/dcp_panel.cc:742
+#: src/wx/audio_dialog.cc:93 src/wx/dcp_panel.cc:750
 msgid "Channels"
 msgstr "Kanäle"
 
@@ -479,7 +480,7 @@ msgstr "Timing"
 msgid "Confirm KDM email"
 msgstr "KDM Emailversand bestätigen"
 
-#: src/wx/dcp_panel.cc:645
+#: src/wx/dcp_panel.cc:653
 msgid "Container"
 msgstr "DCI Containertyp"
 
@@ -866,7 +867,7 @@ msgstr "Zeichensätze..."
 msgid "Format"
 msgstr "Format"
 
-#: src/wx/dcp_panel.cc:661
+#: src/wx/dcp_panel.cc:669
 msgid "Frame Rate"
 msgstr "DCP Bildrate"
 
@@ -875,6 +876,7 @@ msgid "Frame rate"
 msgstr "Bildrate"
 
 #: src/wx/player_information.cc:129
+#, c-format
 msgid "Frame rate: %d"
 msgstr ""
 
@@ -1078,7 +1080,7 @@ msgstr "Kursiv Font-Datei"
 msgid "Italic font"
 msgstr "Kursiver Zeichensatz"
 
-#: src/wx/dcp_panel.cc:680
+#: src/wx/dcp_panel.cc:688
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
@@ -1230,7 +1232,7 @@ msgstr "Maximale JPEG2000 Datenrate (>240MBit/s - Vorsicht!)"
 msgid "Maximum number of frames to store per thread"
 msgstr "Bildzwischenspeicher pro Thread"
 
-#: src/wx/dcp_panel.cc:684 src/wx/full_config_dialog.cc:315
+#: src/wx/dcp_panel.cc:692 src/wx/full_config_dialog.cc:315
 #: src/wx/full_config_dialog.cc:969
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -1307,7 +1309,7 @@ msgstr "Eine neue Version von DCP-o-matic ist verfügbar."
 msgid "No DCP loaded."
 msgstr "Kein DCP ausgewählt"
 
-#: src/wx/content_sub_panel.cc:63
+#: src/wx/content_sub_panel.cc:51
 msgid "No DCP selected."
 msgstr "Kein DCP ausgewählt."
 
@@ -1322,7 +1324,7 @@ msgid "No content found in this folder."
 msgstr "Keine Inhalte in diesem Ordner."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:750 src/wx/subtitle_appearance_dialog.cc:125
+#: src/wx/dcp_panel.cc:758 src/wx/subtitle_appearance_dialog.cc:125
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
 #: src/wx/video_panel.cc:307
 msgid "None"
@@ -1494,7 +1496,7 @@ msgstr "Vorabversion"
 msgid "ProRes"
 msgstr "ProRes"
 
-#: src/wx/dcp_panel.cc:748
+#: src/wx/dcp_panel.cc:756
 msgid "Processor"
 msgstr "Prozessor"
 
@@ -1570,11 +1572,6 @@ msgstr "Aktaufteilung ('Reels')"
 msgid "Reel|Custom"
 msgstr "Nach MXF Dateigröße"
 
-#: src/wx/audio_panel.cc:56 src/wx/subtitle_panel.cc:55
-#: src/wx/video_panel.cc:82
-msgid "Refer to existing DCP"
-msgstr "Aus bestehendem DCP OV einbinden und Version File (VF) erzeugen"
-
 #: src/wx/config_dialog.cc:382 src/wx/content_menu.cc:82
 #: src/wx/content_panel.cc:100 src/wx/templates_dialog.cc:52
 #: src/wx/editable_list.h:80
@@ -1625,7 +1622,7 @@ msgstr "Auf Standardtext zurücksetzen"
 msgid "Reset to default text"
 msgstr "Auf Standardtext zurücksetzen"
 
-#: src/wx/dcp_panel.cc:656
+#: src/wx/dcp_panel.cc:664
 msgid "Resolution"
 msgstr "Auflösung"
 
@@ -1791,7 +1788,7 @@ msgstr ""
 msgid "Shadow"
 msgstr "Schattendarstellung"
 
-#: src/wx/dcp_panel.cc:757
+#: src/wx/dcp_panel.cc:765
 msgid "Show audio..."
 msgstr "Audiopegel anzeigen..."
 
@@ -1891,7 +1888,7 @@ msgstr "Untertitel"
 msgid "Subtitles: yes"
 msgstr "Untertitel"
 
-#: src/wx/about_dialog.cc:332
+#: src/wx/about_dialog.cc:140
 msgid "Supported by"
 msgstr "Unterstützt durch"
 
@@ -1931,7 +1928,7 @@ msgstr "Gebiet (z.B. UK)"
 msgid "Test version "
 msgstr "Test Version"
 
-#: src/wx/about_dialog.cc:389
+#: src/wx/about_dialog.cc:198
 msgid "Tested by"
 msgstr "Getestet von"
 
@@ -2182,7 +2179,7 @@ msgstr "Nach Fertigstellung DCP auf TMS kopieren"
 msgid "Use ISDCF name"
 msgstr "ISDCF Name erzeugen"
 
-#: src/wx/dcp_panel.cc:669
+#: src/wx/dcp_panel.cc:677
 msgid "Use best"
 msgstr "Beste wählen"
 
@@ -2193,6 +2190,18 @@ msgstr "Preset benutzen"
 #: src/wx/subtitle_panel.cc:59
 msgid "Use subtitles"
 msgstr "Untertitel verwenden"
+
+#: src/wx/audio_panel.cc:56
+msgid "Use this DCP's audio as OV and make VF"
+msgstr ""
+
+#: src/wx/subtitle_panel.cc:55
+msgid "Use this DCP's subtitle as OV and make VF"
+msgstr ""
+
+#: src/wx/video_panel.cc:82
+msgid "Use this DCP's video as OV and make VF"
+msgstr ""
 
 #: src/wx/config_move_dialog.cc:29
 msgid "Use this file as new configuration"
@@ -2379,6 +2388,9 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:126
 msgid "y"
 msgstr "y"
+
+#~ msgid "Refer to existing DCP"
+#~ msgstr "Aus bestehendem DCP OV einbinden und Version File (VF) erzeugen"
 
 #~ msgid "Load..."
 #~ msgstr "Lade..."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-17 00:30+0000\n"
+"POT-Creation-Date: 2018-02-01 00:02+0000\n"
 "PO-Revision-Date: 2016-03-19 18:19+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -1069,18 +1069,6 @@ msgstr "Teste"
 #: src/lib/text_subtitle_content.cc:74
 msgid "Text subtitles"
 msgstr "Legendas de texto"
-
-#: src/lib/film.cc:1553
-msgid ""
-"The DCP %1 was being referred to by this film.  This not now possible "
-"because the reel sizes in the film no longer agree with those in the "
-"imported DCP.\n"
-"\n"
-"Setting the 'Reel type' to 'split by video content' will probably help.\n"
-"\n"
-"After doing that you would need to re-tick the appropriate 'refer to "
-"existing DCP' checkboxes."
-msgstr ""
 
 #: src/lib/dcp_content.cc:510
 msgid "The DCP does not have sound in all reels."
