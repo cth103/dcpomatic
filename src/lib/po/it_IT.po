@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 00:02+0000\n"
+"POT-Creation-Date: 2018-02-01 16:50+0000\n"
 "PO-Revision-Date: 2016-10-28 15:19+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -215,12 +215,12 @@ msgid "Analyse audio"
 msgstr "Analizzare audio"
 
 #: src/lib/audio_content.cc:258
-msgid "Audio will be resampled from %1kHz to %2kHz"
-msgstr "L'Audio sarà ricampionato da %1kHz a %2kHz"
+msgid "Audio will be resampled from %1Hz to %2Hz"
+msgstr "L'Audio sarà ricampionato da %1Hz a %2Hz"
 
 #: src/lib/audio_content.cc:260
-msgid "Audio will be resampled to %1kHz"
-msgstr "L'Audio sarà ricampionato a %1kHz"
+msgid "Audio will be resampled to %1Hz"
+msgstr "L'Audio sarà ricampionato a %1Hz"
 
 #: src/lib/audio_content.cc:249
 msgid "Audio will not be resampled"
@@ -1033,8 +1033,8 @@ msgid "Size"
 msgstr "Dimensione"
 
 #: src/lib/audio_content.cc:253
-msgid "Some audio will be resampled to %1kHz"
-msgstr "Parte dell'audio sarà ricampionato a %1kHz"
+msgid "Some audio will be resampled to %1Hz"
+msgstr "Parte dell'audio sarà ricampionato a %1Hz"
 
 #: src/lib/writer.cc:610
 msgid "Stereo"

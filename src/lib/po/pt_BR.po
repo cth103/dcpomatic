@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 00:02+0000\n"
+"POT-Creation-Date: 2018-02-01 16:50+0000\n"
 "PO-Revision-Date: 2018-01-15 16:19-0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -223,12 +223,12 @@ msgid "Analyse audio"
 msgstr "Analisar áudio"
 
 #: src/lib/audio_content.cc:258
-msgid "Audio will be resampled from %1kHz to %2kHz"
-msgstr "O áudio será convertido de %1kHz para %2kHz"
+msgid "Audio will be resampled from %1Hz to %2Hz"
+msgstr "O áudio será convertido de %1Hz para %2Hz"
 
 #: src/lib/audio_content.cc:260
-msgid "Audio will be resampled to %1kHz"
-msgstr "O áudio será convertido para %1kHz"
+msgid "Audio will be resampled to %1Hz"
+msgstr "O áudio será convertido para %1Hz"
 
 #: src/lib/audio_content.cc:249
 msgid "Audio will not be resampled"
@@ -1055,8 +1055,8 @@ msgid "Size"
 msgstr "Tamanho"
 
 #: src/lib/audio_content.cc:253
-msgid "Some audio will be resampled to %1kHz"
-msgstr "Alguns áudios serão reamostrados para %1kHz"
+msgid "Some audio will be resampled to %1Hz"
+msgstr "Alguns áudios serão reamostrados para %1Hz"
 
 #: src/lib/writer.cc:610
 msgid "Stereo"

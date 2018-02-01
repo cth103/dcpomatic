@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 00:02+0000\n"
+"POT-Creation-Date: 2018-02-01 16:50+0000\n"
 "PO-Revision-Date: 2017-07-23 09:54+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -215,12 +215,12 @@ msgid "Analyse audio"
 msgstr "分析音频"
 
 #: src/lib/audio_content.cc:258
-msgid "Audio will be resampled from %1kHz to %2kHz"
-msgstr "音频重新采样频率设置为 %1kHz 到 %2kHz"
+msgid "Audio will be resampled from %1Hz to %2Hz"
+msgstr "音频重新采样频率设置为 %1Hz 到 %2Hz"
 
 #: src/lib/audio_content.cc:260
-msgid "Audio will be resampled to %1kHz"
-msgstr "音频将被重新采样至 %1kHz."
+msgid "Audio will be resampled to %1Hz"
+msgstr "音频将被重新采样至 %1Hz."
 
 #: src/lib/audio_content.cc:249
 msgid "Audio will not be resampled"
@@ -1023,8 +1023,8 @@ msgid "Size"
 msgstr "大小"
 
 #: src/lib/audio_content.cc:253
-msgid "Some audio will be resampled to %1kHz"
-msgstr "部分音频将被重新采样到%1kHz"
+msgid "Some audio will be resampled to %1Hz"
+msgstr "部分音频将被重新采样到%1Hz"
 
 #: src/lib/writer.cc:610
 msgid "Stereo"

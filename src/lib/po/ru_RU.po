@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 00:02+0000\n"
+"POT-Creation-Date: 2018-02-01 16:50+0000\n"
 "PO-Revision-Date: 2017-05-14 22:22+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -219,12 +219,12 @@ msgid "Analyse audio"
 msgstr "Анализ аудио"
 
 #: src/lib/audio_content.cc:258
-msgid "Audio will be resampled from %1kHz to %2kHz"
-msgstr "Аудио будет ресэмплировано из %1kГц в %2kГц"
+msgid "Audio will be resampled from %1Hz to %2Hz"
+msgstr "Аудио будет ресэмплировано из %1Гц в %2Гц"
 
 #: src/lib/audio_content.cc:260
-msgid "Audio will be resampled to %1kHz"
-msgstr "Аудио будет ресэмплировано в %1kГц"
+msgid "Audio will be resampled to %1Hz"
+msgstr "Аудио будет ресэмплировано в %1Гц"
 
 #: src/lib/audio_content.cc:249
 msgid "Audio will not be resampled"
@@ -1049,8 +1049,8 @@ msgid "Size"
 msgstr "Размер"
 
 #: src/lib/audio_content.cc:253
-msgid "Some audio will be resampled to %1kHz"
-msgstr "Некоторое аудио будет ресемплировано в %1kГц"
+msgid "Some audio will be resampled to %1Hz"
+msgstr "Некоторое аудио будет ресемплировано в %1Гц"
 
 #: src/lib/writer.cc:610
 msgid "Stereo"
