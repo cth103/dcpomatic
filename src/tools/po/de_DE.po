@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-01 16:50+0000\n"
-"PO-Revision-Date: 2018-01-13 20:20+0100\n"
+"PO-Revision-Date: 2018-02-02 04:47+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic <carl@dcpomatic.com>\n"
 "Language: de\n"
@@ -173,7 +173,7 @@ msgstr ""
 #: src/tools/dcpomatic.cc:630
 #, c-format
 msgid "Bad setting for %s."
-msgstr ""
+msgstr "Falscher Parameter für %s."
 
 #: src/tools/dcpomatic.cc:736 src/tools/dcpomatic_kdm.cc:357
 msgid "CPL's content is not encrypted."
@@ -206,67 +206,55 @@ msgid "Could not find batch converter."
 msgstr "Batchkonverter nicht gestartet!?"
 
 #: src/tools/dcpomatic_player.cc:160
-#, fuzzy
 msgid "Could not load DCP"
-msgstr "Konnte DCP nicht anzeigen."
+msgstr "Konnte DCP nicht laden."
 
 #: src/tools/dcpomatic_player.cc:557
-#, fuzzy
 msgid "Could not load DCP %1."
-msgstr "DCP %1 (%2) konnte nicht geladen werden"
+msgstr "DCP %1 konnte nicht geladen werden"
 
 #: src/tools/dcpomatic_player.cc:323
-#, fuzzy
 msgid "Could not load KDM."
-msgstr "Konnte KDM ( %s ) nicht laden"
+msgstr "Konnte KDM nicht laden."
 
 #: src/tools/dcpomatic_batch.cc:341
-#, fuzzy
 msgid "Could not load film %1"
-msgstr "Film %1 (%2) konnte nicht geladen werden"
+msgstr "Projektdatei %1 konnte nicht geladen werden"
 
 #: src/tools/dcpomatic.cc:1288
 msgid "Could not load film %1 (%2)"
 msgstr "Film %1 (%2) konnte nicht geladen werden"
 
 #: src/tools/dcpomatic.cc:632
-#, fuzzy
 msgid "Could not make DCP."
-msgstr "Konnte DCP nicht erstellen:  %s"
+msgstr "Konnte DCP nicht erstellen."
 
 #: src/tools/dcpomatic.cc:389 src/tools/dcpomatic_batch.cc:140
 #, c-format
 msgid "Could not open film at %s"
-msgstr ""
+msgstr "Konnte Projektdatei %s nicht laden"
 
 #: src/tools/dcpomatic_kdm.cc:426
-#, fuzzy
 msgid ""
 "Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM "
 "at all."
 msgstr ""
 "Konnte diese Datei nicht als KDM erkennen. Möglicherweise ist sie fehlerhaft "
-"formatiert, gepackt (ZIP), oder schlicht keine KDM.\n"
-"\n"
-"%s"
+"formatiert, gepackt (ZIP), oder schlicht keine KDM."
 
 #: src/tools/dcpomatic.cc:810
-#, fuzzy
 msgid "Could not run konqueror"
-msgstr ""
-"DCP kann nicht angezeigt werden (Konqueror konnte nicht gestartet werden)"
+msgstr "Konqueror konnte nicht gestartet werden"
 
 #: src/tools/dcpomatic.cc:803
-#, fuzzy
 msgid "Could not run nautilus"
-msgstr "DCP kann nicht angezeigt werden (Nautilus konnte nicht geladen werden)"
+msgstr "Nautilus konnte nicht gestartet werden"
 
 #: src/tools/dcpomatic.cc:810 src/tools/dcpomatic.cc:819
 msgid "Could not show DCP"
 msgstr "Konnte DCP nicht anzeigen."
 
 #: src/tools/dcpomatic.cc:803
-#, fuzzy
 msgid "Could not show DCP."
 msgstr "Konnte DCP nicht anzeigen."
 
@@ -313,14 +301,12 @@ msgid "DCP-o-matic Player"
 msgstr "DCP-o-matic Player"
 
 #: src/tools/dcpomatic_player.cc:571
-#, fuzzy
 msgid "DCP-o-matic Player could not start."
-msgstr "Der DCP-o-matic Download Server ist nicht erreichbar."
+msgstr "DCP-o-matic Player konnte nicht gestartet werden."
 
 #: src/tools/dcpomatic_kdm.cc:604
-#, fuzzy
 msgid "DCP-o-matic could not start"
-msgstr "DCP-o-matic Player"
+msgstr "DCP-o-matic konnte nicht gestartet werden"
 
 #: src/tools/dcpomatic_kdm.cc:145
 msgid "DKDM"

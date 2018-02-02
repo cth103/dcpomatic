@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-01 16:50+0000\n"
-"PO-Revision-Date: 2018-01-13 20:38+0100\n"
+"PO-Revision-Date: 2018-02-02 04:37+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -298,7 +298,7 @@ msgstr "Ton Sprache (z.B. DE)"
 #: src/wx/player_information.cc:132
 #, c-format
 msgid "Audio channels: %d"
-msgstr ""
+msgstr "Audio Kanäle: %d"
 
 #: src/wx/audio_mapping_view.cc:345
 #, c-format
@@ -519,15 +519,13 @@ msgid "Could not import certificate (%s)"
 msgstr "Konnte die Zertifikatsdatei (%s) nicht lesen."
 
 #: src/wx/content_menu.cc:380
-#, fuzzy
 msgid "Could not load KDM."
-msgstr "Konnte KDM %s nicht laden"
+msgstr "Konnte KDM nicht laden"
 
 #: src/wx/config_dialog.cc:484 src/wx/config_dialog.cc:678
 #: src/wx/download_certificate_panel.cc:56 src/wx/screen_dialog.cc:158
-#, fuzzy
 msgid "Could not read certificate file."
-msgstr "Konnte die Zertifikatsdatei (%s) nicht lesen."
+msgstr "Konnte die Zertifikatsdatei nicht lesen."
 
 #: src/wx/config_dialog.cc:668
 #, c-format
@@ -535,11 +533,10 @@ msgid "Could not read key file; file is too long (%s)"
 msgstr "Konnte Schlüssel nicht auswerten, Datei zu lang (%s)"
 
 #: src/wx/film_viewer.cc:789
-#, fuzzy
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
-"Konnte Audioausgang (%s) nicht konfigurieren. Die Wiedergabe der Vorschau "
+"Konnte den Audioausgang nicht konfigurieren. Die Wiedergabe der Vorschau "
 "wird stumm sein. \n"
 "Prüfen sie ihre Audiogeräte bzw. konfigurieren sie ein anderes Gerät!"
 
@@ -652,7 +649,7 @@ msgstr "Standard DCP 'Wrapping' "
 
 #: src/wx/full_config_dialog.cc:341
 msgid "Default to enabling upload of DCP to TMS"
-msgstr ""
+msgstr "Nach DCP Erstellung immer auf TMS speichern"
 
 #: src/wx/full_config_dialog.cc:256
 msgid "Defaults"
@@ -878,7 +875,7 @@ msgstr "Bildrate"
 #: src/wx/player_information.cc:129
 #, c-format
 msgid "Frame rate: %d"
-msgstr ""
+msgstr "Bildrate: %d"
 
 #: src/wx/about_dialog.cc:66
 msgid "Free, open-source DCP creation from almost anything."
@@ -1285,7 +1282,8 @@ msgstr "Benötigt KDM:"
 msgid "NEEDS OV: "
 msgstr "Benötigt OV:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Name"
 
@@ -1362,8 +1360,8 @@ msgstr "Nur Encoding Server komprimieren (keine lokale J2C Komprimierung!)"
 #: src/wx/full_config_dialog.cc:1041
 msgid "Open console window"
 msgstr ""
-"Immer Konsolenfenster öffnen <i>(Schließen des Konsolenfensters beendet "
-"Hauptanwendung!)</i>"
+"Immer Konsolenfenster öffnen (Schließen des Konsolenfensters beendet "
+"Hauptanwendung!)"
 
 #: src/wx/content_panel.cc:113
 msgid "Open the timeline for the film."
@@ -1782,7 +1780,7 @@ msgstr "Programm-Sprache einstellen"
 
 #: src/wx/subtitle_appearance_dialog.cc:196
 msgid "Set to"
-msgstr ""
+msgstr "Setzen auf"
 
 #: src/wx/subtitle_appearance_dialog.cc:127
 msgid "Shadow"
@@ -1879,14 +1877,12 @@ msgid "Subtitles"
 msgstr "Untertitel"
 
 #: src/wx/player_information.cc:137
-#, fuzzy
 msgid "Subtitles: no"
-msgstr "Untertitel"
+msgstr "Untertitel: Nein"
 
 #: src/wx/player_information.cc:135
-#, fuzzy
 msgid "Subtitles: yes"
-msgstr "Untertitel"
+msgstr "Untertitel: Ja"
 
 #: src/wx/about_dialog.cc:140
 msgid "Supported by"
@@ -2193,15 +2189,16 @@ msgstr "Untertitel verwenden"
 
 #: src/wx/audio_panel.cc:56
 msgid "Use this DCP's audio as OV and make VF"
-msgstr ""
+msgstr "Ton aus geladenem DCP als OV einbinden und Version File (VF) erzeugen"
 
 #: src/wx/subtitle_panel.cc:55
 msgid "Use this DCP's subtitle as OV and make VF"
 msgstr ""
+"Untertitel aus geladenem DCP als OV einbinden und Version File (VF) erzeugen"
 
 #: src/wx/video_panel.cc:82
 msgid "Use this DCP's video as OV and make VF"
-msgstr ""
+msgstr "Bild aus geladenem DCP als OV einbinden und Version File (VF) erzeugen"
 
 #: src/wx/config_move_dialog.cc:29
 msgid "Use this file as new configuration"
