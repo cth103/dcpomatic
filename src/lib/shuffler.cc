@@ -42,8 +42,6 @@ struct Comparator
 void
 Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 {
-	std::cout << "shuffler gets " << video.frame << " " << video.eyes << "\n";
-
 	/* Something has gong wrong if our store gets too big */
 	DCPOMATIC_ASSERT (_store.size() != 8);
 	/* We should only ever see 3D_LEFT / 3D_RIGHT */
@@ -71,7 +69,6 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 			)
 		) {
 
-		std::cout << "shuffler emits " << _store.front().second.frame << " " << _store.front().second.eyes << "\n";
 		Video (_store.front().first, _store.front().second);
 		_last = _store.front().second;
 		_store.pop_front ();
