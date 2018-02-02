@@ -38,6 +38,7 @@ static void scaling_test_for (shared_ptr<Film> film, shared_ptr<Content> content
 {
 	content->video->set_scale (VideoContentScale (Ratio::from_id (image)));
 	film->set_container (Ratio::from_id (container));
+	film->set_interop (false);
 	film->make_dcp ();
 
 	wait_for_jobs ();

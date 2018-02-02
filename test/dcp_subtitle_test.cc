@@ -47,7 +47,13 @@ optional<ContentTextSubtitle> stored;
 static void
 store (ContentTextSubtitle sub)
 {
-	stored = sub;
+	if (!stored) {
+		stored = sub;
+	} else {
+		BOOST_FOREACH (dcp::SubtitleString i, sub.subs) {
+			stored->subs.push_back (i);
+		}
+	}
 }
 
 /** Test pass-through of a very simple DCP subtitle file */
@@ -57,6 +63,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
+	film->set_interop (false);
 	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent (film, "test/data/dcp_sub.xml"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
