@@ -696,15 +696,19 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	/* Time of the first frame we will emit */
 	DCPTime const time = content_video_to_dcp (piece, video.frame);
 
-	/* Discard if it's outside the content's period or if it's before the last accurate seek */
-	if (
-		time < piece->content->position() ||
-		time >= piece->content->end() ||
-		(_last_video_time && time < *_last_video_time)) {
+	/* Discard if it's before the content's period or the last accurate seek.  We can't discard
+	   if it's after the content's period here as in that case we still need to fill any gap between
+	   `now' and the end of the content's period.
+	*/
+	if (time < piece->content->position() || (_last_video_time && time < *_last_video_time)) {
 		return;
 	}
 
-	/* Fill gaps that we discover now that we have some video which needs to be emitted */
+
+	/* Fill gaps that we discover now that we have some video which needs to be emitted.
+	   This is where we need to fill to.
+	*/
+	DCPTime fill_to = min (time, piece->content->end());
 
 	if (_last_video_time) {
 		DCPTime fill_from = max (*_last_video_time, piece->content->position());
@@ -715,7 +719,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 			if (eyes == EYES_BOTH) {
 				eyes = EYES_LEFT;
 			}
-			while (j < time || eyes != video.eyes) {
+			while (j < fill_to || eyes != video.eyes) {
 				if (last != _last_video.end()) {
 					shared_ptr<PlayerVideo> copy = last->second->shallow_copy();
 					copy->set_eyes (eyes);
@@ -729,7 +733,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 				eyes = increment_eyes (eyes);
 			}
 		} else {
-			for (DCPTime j = fill_from; j < time; j += one_video_frame()) {
+			for (DCPTime j = fill_from; j < fill_to; j += one_video_frame()) {
 				if (last != _last_video.end()) {
 					emit_video (last->second, j);
 				} else {
@@ -756,7 +760,9 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 
 	DCPTime t = time;
 	for (int i = 0; i < frc.repeat; ++i) {
-		emit_video (_last_video[wp], t);
+		if (t < piece->content->end()) {
+			emit_video (_last_video[wp], t);
+		}
 		t += one_video_frame ();
 	}
 }
