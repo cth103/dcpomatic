@@ -704,7 +704,6 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		return;
 	}
 
-
 	/* Fill gaps that we discover now that we have some video which needs to be emitted.
 	   This is where we need to fill to.
 	*/
