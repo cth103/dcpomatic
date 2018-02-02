@@ -194,14 +194,14 @@ BOOST_AUTO_TEST_CASE (merge_test1)
 {
 	int const stride = 48 * 4;
 
-	shared_ptr<Image> A (new Image (AV_PIX_FMT_RGBA, dcp::Size (48, 48), false));
+	shared_ptr<Image> A (new Image (AV_PIX_FMT_BGRA, dcp::Size (48, 48), false));
 	A->make_transparent ();
 	uint8_t* a = A->data()[0];
 
 	for (int y = 0; y < 48; ++y) {
 		uint8_t* p = a + y * stride;
 		for (int x = 0; x < 16; ++x) {
-			/* red */
+			/* blue */
 			p[x * 4] = 255;
 			/* opaque */
 			p[x * 4 + 3] = 255;
@@ -219,21 +219,21 @@ BOOST_AUTO_TEST_CASE (merge_test1)
 /** Test merge (list<PositionImage>) with two images */
 BOOST_AUTO_TEST_CASE (merge_test2)
 {
-	shared_ptr<Image> A (new Image (AV_PIX_FMT_RGBA, dcp::Size (48, 1), false));
+	shared_ptr<Image> A (new Image (AV_PIX_FMT_BGRA, dcp::Size (48, 1), false));
 	A->make_transparent ();
 	uint8_t* a = A->data()[0];
 	for (int x = 0; x < 16; ++x) {
-		/* red */
+		/* blue */
 		a[x * 4] = 255;
 		/* opaque */
 		a[x * 4 + 3] = 255;
 	}
 
-	shared_ptr<Image> B (new Image (AV_PIX_FMT_RGBA, dcp::Size (48, 1), false));
+	shared_ptr<Image> B (new Image (AV_PIX_FMT_BGRA, dcp::Size (48, 1), false));
 	B->make_transparent ();
 	uint8_t* b = B->data()[0];
 	for (int x = 0; x < 16; ++x) {
-		/* blue */
+		/* red */
 		b[(x + 32) * 4 + 2] = 255;
 		/* opaque */
 		b[(x + 32) * 4 + 3] = 255;

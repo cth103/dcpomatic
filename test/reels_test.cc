@@ -91,6 +91,7 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	shared_ptr<Film> film = new_test_film ("reels_test2");
 	film->set_name ("reels_test2");
 	film->set_container (Ratio::from_id ("185"));
+	film->set_interop (false);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 
 	{
@@ -194,6 +195,7 @@ BOOST_AUTO_TEST_CASE (reels_test4)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	film->set_interop (false);
 
 	/* 4 piece of 1s-long content */
 	shared_ptr<ImageContent> content[4];

@@ -46,6 +46,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	film->set_audio_channels (6);
+	film->set_interop (false);
 	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, "test/data/subrip2.srt"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
@@ -67,6 +68,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test2)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	film->set_audio_channels (6);
+	film->set_interop (false);
 	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, "test/data/subrip2.srt"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
@@ -118,6 +120,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 	film->set_name ("frobozz");
 	film->set_interop (true);
 	film->set_audio_channels (6);
+	film->set_interop (false);
 	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, private_data / "Ankoemmling_short.srt"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
@@ -138,6 +141,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test4)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
+	film->set_interop (false);
 	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, "test/data/subrip2.srt"));
 	content->subtitle->set_use (true);
 	content->subtitle->set_burn (false);

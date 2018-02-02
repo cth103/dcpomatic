@@ -92,6 +92,7 @@ BOOST_AUTO_TEST_CASE (player_black_fill_test)
 	film->set_name ("black_fill_test");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_sequence (false);
+	film->set_interop (false);
 	shared_ptr<ImageContent> contentA (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
 	shared_ptr<ImageContent> contentB (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
 
