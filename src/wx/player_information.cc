@@ -159,4 +159,6 @@ PlayerInformation::triggered_update ()
 	checked_set (_decode_resolution, wxString::Format(_("Decode resolution: %dx%d"), decode.width, decode.height));
 
 	DCPOMATIC_ASSERT(r <= dcp_lines);
+
+	_sizer->Layout ();
 }
