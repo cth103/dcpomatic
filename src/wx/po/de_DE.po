@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-01 16:50+0000\n"
-"PO-Revision-Date: 2018-02-02 04:37+0100\n"
+"PO-Revision-Date: 2018-02-03 02:01+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -2280,7 +2280,7 @@ msgstr "Y Skalierung"
 
 #: src/wx/colour_conversion_editor.cc:106
 msgid "YUV to RGB conversion"
-msgstr "YUV-RGB Konvertierung:"
+msgstr "YUV-RGB Konvertierung"
 
 #: src/wx/colour_conversion_editor.cc:108
 msgid "YUV to RGB matrix"
