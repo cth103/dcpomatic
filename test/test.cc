@@ -241,7 +241,7 @@ check_image (boost::filesystem::path ref, boost::filesystem::path check)
 	*/
 #ifdef DCPOMATIC_ADVANCED_MAGICK_COMPARE
 	double const dist = ref_image.compare(check_image, Magick::RootMeanSquaredErrorMetric);
-	BOOST_CHECK_MESSAGE (dist < 0.001, ref << " differs from " << check << " " << dist);
+	BOOST_CHECK_MESSAGE (dist < 0.01, ref << " differs from " << check << " " << dist);
 #else
 	BOOST_CHECK_MESSAGE (!ref_image.compare(check_image), ref << " differs from " << check);
 #endif
