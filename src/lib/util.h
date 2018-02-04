@@ -59,6 +59,7 @@ namespace dcp {
 #define MAX_KDM_SIZE (256 * 1024)
 
 extern std::string program_name;
+extern bool is_batch_converter;
 
 struct AVSubtitle;
 class AudioBuffers;

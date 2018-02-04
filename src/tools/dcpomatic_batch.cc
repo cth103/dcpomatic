@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -280,6 +280,7 @@ class App : public wxApp
 	bool OnInit ()
 	{
 		SetAppName (_("DCP-o-matic Batch Converter"));
+		is_batch_converter = true;
 
 		Config::FailedToLoad.connect (boost::bind (&App::config_failed_to_load, this));
 		Config::Warning.connect (boost::bind (&App::config_warning, this, _1));

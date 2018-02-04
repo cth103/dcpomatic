@@ -1,3 +1,8 @@
+2018-02-04  Carl Hetherington  <cth@carlh.net>
+
+	* Allow main DCP-o-matic and batch converter to run on the same
+	machine and both get access to encoding servers (#1190).
+
 2018-02-03  Carl Hetherington  <cth@carlh.net>
 
 	* Updated de_DE translation from Carsten Kurz.

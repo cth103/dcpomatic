@@ -74,10 +74,12 @@ namespace xmlpp {
 #define ENCODE_FRAME_PORT (Config::instance()->server_port_base())
 /** Port on which EncodeServer listens for DCPOMATIC_HELLO from masters */
 #define HELLO_PORT (Config::instance()->server_port_base()+1)
-/** Port on which EncodeServerFinder listens for replies to DCPOMATIC_HELLO from servers */
-#define SERVER_PRESENCE_PORT (Config::instance()->server_port_base()+2)
+/** Port on which EncodeServerFinder in the main DCP-o-matic listens for replies to DCPOMATIC_HELLO from servers */
+#define MAIN_SERVER_PRESENCE_PORT (Config::instance()->server_port_base()+2)
+/** Port on which EncodeServerFinder in the batch converter listens for replies to DCPOMATIC_HELLO from servers */
+#define BATCH_SERVER_PRESENCE_PORT (Config::instance()->server_port_base()+3)
 /** Port on which batch converter listens for job requests */
-#define BATCH_JOB_PORT (Config::instance()->server_port_base()+3)
+#define BATCH_JOB_PORT (Config::instance()->server_port_base()+4)
 
 typedef std::vector<boost::shared_ptr<Content> > ContentList;
 typedef std::vector<boost::shared_ptr<FFmpegContent> > FFmpegContentList;

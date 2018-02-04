@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -157,7 +157,9 @@ try {
 	using namespace boost::asio::ip;
 
 	try {
-		_listen_acceptor.reset (new tcp::acceptor (_listen_io_service, tcp::endpoint (tcp::v4(), SERVER_PRESENCE_PORT)));
+		_listen_acceptor.reset (
+			new tcp::acceptor (_listen_io_service, tcp::endpoint (tcp::v4(), is_batch_converter ? BATCH_SERVER_PRESENCE_PORT : MAIN_SERVER_PRESENCE_PORT))
+			);
 	} catch (...) {
 		boost::throw_exception (NetworkError (_("Could not listen for remote encode servers.  Perhaps another instance of DCP-o-matic is running.")));
 	}

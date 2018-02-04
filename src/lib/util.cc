@@ -104,6 +104,7 @@ using dcp::locale_convert;
  *  in during App::onInit().
  */
 string program_name;
+bool is_batch_converter = false;
 static boost::thread::id ui_thread;
 static boost::filesystem::path backtrace_file;
 
