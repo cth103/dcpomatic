@@ -244,7 +244,7 @@ def make_spec(filename, version, target):
         print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_kdm.png' % r, file=f)
         print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_server.png' % r, file=f)
         print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_player.png' % r, file=f)
-    for l in ['de_DE', 'es_ES', 'fr_FR', 'it_IT', 'sv_SE', 'nl_NL', 'ru_RU', 'pl_PL', 'da_DK', 'pt_PT', 'pt_BR', 'sk_SK', 'cs_CZ', 'uk_UA', 'zh_CN']:
+    for l in ['de_DE', 'es_ES', 'fr_FR', 'it_IT', 'sv_SE', 'nl_NL', 'ru_RU', 'pl_PL', 'da_DK', 'pt_PT', 'pt_BR', 'sk_SK', 'cs_CZ', 'uk_UA', 'zh_CN', 'ar_LB']:
         print('%%{_datadir}/locale/%s/LC_MESSAGES/dcpomatic2.mo' % l, file=f)
         print('%%{_datadir}/locale/%s/LC_MESSAGES/libdcpomatic2-wx.mo' % l, file=f)
         print('%%{_datadir}/locale/%s/LC_MESSAGES/libdcpomatic2.mo' % l, file=f)
