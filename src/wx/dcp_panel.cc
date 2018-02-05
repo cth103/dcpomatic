@@ -526,6 +526,8 @@ DCPPanel::set_film (shared_ptr<Film> film)
 	film_changed (Film::REEL_TYPE);
 	film_changed (Film::REEL_LENGTH);
 	film_changed (Film::UPLOAD_AFTER_MAKE_DCP);
+
+	set_general_sensitivity(static_cast<bool>(_film));
 }
 
 void
