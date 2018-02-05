@@ -181,7 +181,7 @@ AudioAnalysis::overall_sample_peak () const
 	DCPOMATIC_ASSERT (!_sample_peak.empty ());
 
 	optional<PeakTime> pt;
-	int c;
+	int c = 0;
 
 	for (size_t i = 0; i < _sample_peak.size(); ++i) {
 		if (!pt || _sample_peak[i].peak > pt->peak) {

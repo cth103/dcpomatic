@@ -211,9 +211,9 @@ FFmpegEncoder::go ()
 		_butler->get_audio (interleaved, audio_frames);
 		/* XXX: inefficient; butler interleaves and we deinterleave again */
 		float* p = interleaved;
-		for (int i = 0; i < audio_frames; ++i) {
-			for (int j = 0; j < _output_audio_channels; ++j) {
-				deinterleaved->data(j)[i] = *p++;
+		for (int j = 0; j < audio_frames; ++j) {
+			for (int k = 0; k < _output_audio_channels; ++k) {
+				deinterleaved->data(k)[j] = *p++;
 			}
 		}
 		audio (deinterleaved, i);

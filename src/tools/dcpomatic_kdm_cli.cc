@@ -394,7 +394,7 @@ dump_dkdm_group (shared_ptr<DKDMGroup> group, int indent)
 		if (g) {
 			dump_dkdm_group (g, indent + 2);
 		} else {
-			for (int i = 0; i < indent; ++i) {
+			for (int j = 0; j < indent; ++j) {
 				cout << " ";
 			}
 			shared_ptr<DKDM> d = dynamic_pointer_cast<DKDM>(i);
