@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,6 +24,7 @@
 #include "kdm_cpl_panel.h"
 #include "lib/film.h"
 #include "lib/screen.h"
+#include "lib/config.h"
 #include <libcxml/cxml.h>
 #ifdef DCPOMATIC_USE_OWN_PICKER
 #include "dir_picker_ctrl.h"
@@ -97,14 +98,34 @@ SelfDKDMDialog::SelfDKDMDialog (wxWindow* parent, boost::shared_ptr<const Film> 
 		overall_sizer->Add (buttons, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
 	}
 
-	setup_sensitivity ();
-
 	SetSizer (overall_sizer);
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
 
-	_internal->Bind (wxEVT_RADIOBUTTON, bind (&SelfDKDMDialog::setup_sensitivity, this));
-	_write_to->Bind (wxEVT_RADIOBUTTON, bind (&SelfDKDMDialog::setup_sensitivity, this));
+	switch (Config::instance()->last_dkdm_write_type().get_value_or(Config::DKDM_WRITE_INTERNAL)) {
+	case Config::DKDM_WRITE_INTERNAL:
+		_internal->SetValue (true);
+		break;
+	case Config::DKDM_WRITE_FILE:
+		_write_to->SetValue (true);
+		break;
+	}
+	setup_sensitivity ();
+
+	_internal->Bind (wxEVT_RADIOBUTTON, bind (&SelfDKDMDialog::dkdm_write_type_changed, this));
+	_write_to->Bind (wxEVT_RADIOBUTTON, bind (&SelfDKDMDialog::dkdm_write_type_changed, this));
+}
+
+void
+SelfDKDMDialog::dkdm_write_type_changed ()
+{
+	setup_sensitivity ();
+
+	if (_internal->GetValue ()) {
+		Config::instance()->set_last_dkdm_write_type (Config::DKDM_WRITE_INTERNAL);
+	} else if (_write_to->GetValue ()) {
+		Config::instance()->set_last_dkdm_write_type (Config::DKDM_WRITE_FILE);
+	}
 }
 
 void

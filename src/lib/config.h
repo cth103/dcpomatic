@@ -363,6 +363,15 @@ public:
 		return _last_kdm_write_type;
 	}
 
+	enum DKDMWriteType {
+		DKDM_WRITE_INTERNAL,
+		DKDM_WRITE_FILE
+	};
+
+	boost::optional<DKDMWriteType> last_dkdm_write_type () const {
+		return _last_dkdm_write_type;
+	}
+
 	int frames_in_memory_multiplier () const {
 		return _frames_in_memory_multiplier;
 	}
@@ -609,6 +618,10 @@ public:
 		maybe_set (_last_kdm_write_type, t);
 	}
 
+	void set_last_dkdm_write_type (DKDMWriteType t) {
+		maybe_set (_last_dkdm_write_type, t);
+	}
+
 	void unset_sound_output () {
 		if (!_sound_output) {
 			return;
@@ -817,6 +830,7 @@ private:
 	std::string _cover_sheet;
 	boost::optional<boost::filesystem::path> _last_player_load_directory;
 	boost::optional<KDMWriteType> _last_kdm_write_type;
+	boost::optional<DKDMWriteType> _last_dkdm_write_type;
 	int _frames_in_memory_multiplier;
 
 	/** Singleton instance, or 0 */

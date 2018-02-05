@@ -42,6 +42,7 @@ public:
 
 private:
 	void setup_sensitivity ();
+	void dkdm_write_type_changed ();
 
 	KDMCPLPanel* _cpl;
 	wxRadioButton* _internal;

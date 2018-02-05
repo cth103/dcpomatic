@@ -132,6 +132,7 @@ Config::set_defaults ()
 	_sound = true;
 	_sound_output = optional<string> ();
 	_last_kdm_write_type = KDM_WRITE_FLAT;
+	_last_dkdm_write_type = DKDM_WRITE_INTERNAL;
 
 	/* I think the scaling factor here should be the ratio of the longest frame
 	   encode time to the shortest; if the thread count is T, longest time is L
@@ -381,6 +382,13 @@ try
 			_last_kdm_write_type = KDM_WRITE_FOLDER;
 		} else if (f.optional_string_child("LastKDMWriteType").get() == "zip") {
 			_last_kdm_write_type = KDM_WRITE_ZIP;
+		}
+	}
+	if (f.optional_string_child("LastDKDMWriteType")) {
+		if (f.optional_string_child("LastDKDMWriteType").get() == "internal") {
+			_last_dkdm_write_type = DKDM_WRITE_INTERNAL;
+		} else if (f.optional_string_child("LastDKDMWriteType").get() == "file") {
+			_last_dkdm_write_type = DKDM_WRITE_FILE;
 		}
 	}
 	_frames_in_memory_multiplier = f.optional_number_child<int>("FramesInMemoryMultiplier").get_value_or(3);
@@ -688,6 +696,16 @@ Config::write_config () const
 			break;
 		case KDM_WRITE_ZIP:
 			root->add_child("LastKDMWriteType")->add_child_text("zip");
+			break;
+		}
+	}
+	if (_last_dkdm_write_type) {
+		switch (_last_dkdm_write_type.get()) {
+		case DKDM_WRITE_INTERNAL:
+			root->add_child("LastDKDMWriteType")->add_child_text("internal");
+			break;
+		case DKDM_WRITE_FILE:
+			root->add_child("LastDKDMWriteType")->add_child_text("file");
 			break;
 		}
 	}
