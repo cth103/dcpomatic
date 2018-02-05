@@ -1218,6 +1218,10 @@ Film::make_kdm (
 	dcp::Formulation formulation
 	) const
 {
+	if (!_encrypted) {
+		throw runtime_error (_("Cannot make a KDM as this project is not encrypted."));
+	}
+
 	shared_ptr<const dcp::CPL> cpl (new dcp::CPL (cpl_file));
 	shared_ptr<const dcp::CertificateChain> signer = Config::instance()->signer_chain ();
 	if (!signer->valid ()) {
