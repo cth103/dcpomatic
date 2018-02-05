@@ -184,6 +184,7 @@ private:
 #define NEEDS_SELECTED_CONTENT        0x10
 #define NEEDS_SELECTED_VIDEO_CONTENT  0x20
 #define NEEDS_CLIPBOARD               0x40
+#define NEEDS_ENCRYPTION              0x80
 
 map<wxMenuItem*, int> menu_items;
 
@@ -400,6 +401,7 @@ public:
 		if (_film->directory()) {
 			Config::instance()->add_to_history (_film->directory().get());
 		}
+		_film->Changed.connect (boost::bind (&DOMFrame::set_menu_sensitivity, this));
 	}
 
 	shared_ptr<Film> film () const {
@@ -979,6 +981,10 @@ private:
 				enabled = false;
 			}
 
+			if ((j->second & NEEDS_ENCRYPTION) && (!_film || !_film->encrypted())) {
+				enabled = false;
+			}
+
 			j->first->Enable (enabled);
 		}
 	}
@@ -1067,8 +1073,8 @@ private:
 		add_item (jobs_menu, _("&Make DCP\tCtrl-M"), ID_jobs_make_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION);
 		add_item (jobs_menu, _("Make DCP in &batch converter\tCtrl-B"), ID_jobs_make_dcp_batch, NEEDS_FILM | NOT_DURING_DCP_CREATION);
 		jobs_menu->AppendSeparator ();
-		add_item (jobs_menu, _("Make &KDMs...\tCtrl-K"), ID_jobs_make_kdms, NEEDS_FILM);
-		add_item (jobs_menu, _("Make DKDM for DCP-o-matic..."), ID_jobs_make_self_dkdm, NEEDS_FILM);
+		add_item (jobs_menu, _("Make &KDMs...\tCtrl-K"), ID_jobs_make_kdms, NEEDS_FILM | NEEDS_ENCRYPTION);
+		add_item (jobs_menu, _("Make DKDM for DCP-o-matic..."), ID_jobs_make_self_dkdm, NEEDS_FILM | NEEDS_ENCRYPTION);
 		jobs_menu->AppendSeparator ();
 		add_item (jobs_menu, _("Export...\tCtrl-E"), ID_jobs_export, NEEDS_FILM);
 		jobs_menu->AppendSeparator ();
