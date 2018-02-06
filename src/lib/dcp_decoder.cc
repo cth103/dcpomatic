@@ -77,6 +77,15 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log, boo
 		cpl = cpls().front ();
 	}
 
+	if (!_decode_referenced) {
+		if (c->reference_video()) {
+			video->set_ignore();
+		}
+		if (c->reference_audio()) {
+			audio->set_ignore();
+		}
+	}
+
 	_reels = cpl->reels ();
 
 	_reel = _reels.begin ();
