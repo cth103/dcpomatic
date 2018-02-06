@@ -43,6 +43,13 @@ TextSubtitle::TextSubtitle (shared_ptr<const TextSubtitleContent> content)
 {
 	Data in (content->path (0));
 
+	/* Fix OS X line endings */
+	for (int i = 0; i < in.size(); ++i) {
+		if (in.data()[i] == '\r' && ((i == in.size() - 1) || in.data()[i + 1] != '\n')) {
+			in.data()[i] = '\n';
+		}
+	}
+
 	UErrorCode status = U_ZERO_ERROR;
 	UCharsetDetector* detector = ucsdet_open (&status);
 	ucsdet_setText (detector, reinterpret_cast<const char *> (in.data().get()), in.size(), &status);
