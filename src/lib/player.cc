@@ -129,19 +129,19 @@ Player::setup_pieces ()
 		}
 
 		if (decoder->video && _ignore_video) {
-			decoder->video->set_ignore ();
+			decoder->video->set_ignore (true);
 		}
 
 		if (decoder->subtitle && _ignore_subtitle) {
-			decoder->subtitle->set_ignore ();
+			decoder->subtitle->set_ignore (true);
 		}
 
 		shared_ptr<DCPDecoder> dcp = dynamic_pointer_cast<DCPDecoder> (decoder);
-		if (dcp && _play_referenced) {
+		if (dcp) {
+			dcp->set_decode_referenced (_play_referenced);
 			if (_play_referenced) {
-				dcp->set_decode_referenced ();
+				dcp->set_forced_reduction (_dcp_decode_reduction);
 			}
-			dcp->set_forced_reduction (_dcp_decode_reduction);
 		}
 
 		shared_ptr<Piece> piece (new Piece (i, decoder, frc));

@@ -70,10 +70,10 @@ SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<
 	}
 
 	if (decoder->video) {
-		decoder->video->set_ignore ();
+		decoder->video->set_ignore (true);
 	}
 	if (decoder->audio) {
-		decoder->audio->set_ignore ();
+		decoder->audio->set_ignore (true);
 	}
 
 	_subs = 0;

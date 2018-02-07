@@ -45,7 +45,7 @@ public:
 		return _reels;
 	}
 
-	void set_decode_referenced ();
+	void set_decode_referenced (bool r);
 	void set_forced_reduction (boost::optional<int> reduction);
 
 	bool pass ();

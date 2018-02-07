@@ -35,8 +35,8 @@ public:
 
 	virtual ContentTime position () const = 0;
 
-	void set_ignore () {
-		_ignore = true;
+	void set_ignore (bool i) {
+		_ignore = i;
 	}
 
 	bool ignore () const {

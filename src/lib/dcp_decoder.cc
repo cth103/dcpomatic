@@ -77,14 +77,7 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log, boo
 		cpl = cpls().front ();
 	}
 
-	if (!_decode_referenced) {
-		if (c->reference_video()) {
-			video->set_ignore();
-		}
-		if (c->reference_audio()) {
-			audio->set_ignore();
-		}
-	}
+	set_decode_referenced (false);
 
 	_reels = cpl->reels ();
 
@@ -92,6 +85,7 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log, boo
 	_offset = 0;
 	get_readers ();
 }
+
 
 bool
 DCPDecoder::pass ()
@@ -299,9 +293,12 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 }
 
 void
-DCPDecoder::set_decode_referenced ()
+DCPDecoder::set_decode_referenced (bool r)
 {
-	_decode_referenced = true;
+	_decode_referenced = r;
+
+	video->set_ignore (_dcp_content->reference_video() && !_decode_referenced);
+	audio->set_ignore (_dcp_content->reference_audio() && !_decode_referenced);
 }
 
 void
