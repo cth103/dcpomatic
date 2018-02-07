@@ -177,6 +177,21 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test5)
 	check_dcp ("test/data/xml_subtitle_test2", film->dir (film->dcp_name ()));
 }
 
+BOOST_AUTO_TEST_CASE (srt_subtitle_test6)
+{
+	shared_ptr<Film> film = new_test_film2 ("srt_subtitle_test6");
+	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, "test/data/frames.srt"));
+	content->subtitle->set_use (true);
+	content->subtitle->set_burn (false);
+	film->examine_and_add_content (content);
+	BOOST_REQUIRE (!wait_for_jobs ());
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs ());
+	film->write_metadata ();
+
+	check_dcp ("test/data/srt_subtitle_test6", film->dir(film->dcp_name()));
+}
+
 #if 0
 /* XXX: this is disabled; there is some difference in font rendering
    between the test machine and others.
