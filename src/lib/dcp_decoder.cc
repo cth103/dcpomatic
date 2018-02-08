@@ -99,6 +99,11 @@ DCPDecoder::pass ()
 	/* Frame within the (played part of the) reel that is coming up next */
 	int64_t const frame = _next.frames_round (vfr);
 
+	/* We must emit subtitles first as when we emit the video for this frame
+	   it will expect already to have the subs.
+	*/
+	pass_subtitles (_next);
+
 	if ((_mono_reader || _stereo_reader) && (_decode_referenced || !_dcp_content->reference_video())) {
 		shared_ptr<dcp::PictureAsset> asset = (*_reel)->main_picture()->asset ();
 		int64_t const entry_point = (*_reel)->main_picture()->entry_point ();
@@ -161,8 +166,6 @@ DCPDecoder::pass ()
 
 		audio->emit (_dcp_content->audio->stream(), data, ContentTime::from_frames (_offset, vfr) + _next);
 	}
-
-	pass_subtitles (_next);
 
 	_next += ContentTime::from_frames (1, vfr);
 

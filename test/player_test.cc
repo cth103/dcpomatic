@@ -230,3 +230,32 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 		check_image(String::compose("test/data/player_seek_test_%1.png", i), String::compose("build/test/player_seek_test_%1.png", i));
 	}
 }
+
+/** Test some more seeks towards the start of a DCP with awkward subtitles */
+BOOST_AUTO_TEST_CASE (player_seek_test2)
+{
+	shared_ptr<Film> film (new Film (optional<boost::filesystem::path>()));
+	shared_ptr<DCPContent> dcp (new DCPContent (film, private_data / "awkward_subs2"));
+	film->examine_and_add_content (dcp, true);
+	BOOST_REQUIRE (!wait_for_jobs ());
+	dcp->subtitle->set_use (true);
+
+	shared_ptr<Player> player (new Player (film, film->playlist()));
+	player->set_fast ();
+	player->set_always_burn_subtitles (true);
+	player->set_play_referenced ();
+
+	shared_ptr<Butler> butler (new Butler (player, film->log(), AudioMapping(), 2));
+	butler->disable_audio();
+
+	butler->seek(DCPTime::from_seconds(5), true);
+
+	for (int i = 0; i < 10; ++i) {
+		DCPTime t = DCPTime::from_seconds(5) + DCPTime::from_frames (i, 24);
+		butler->seek (t, true);
+		pair<shared_ptr<PlayerVideo>, DCPTime> video = butler->get_video();
+		BOOST_CHECK_EQUAL(video.second.get(), t.get());
+		write_image(video.first->image(note_handler, PlayerVideo::always_rgb, false, true), String::compose("build/test/player_seek_test2_%1.png", i), "RGB");
+		check_image(String::compose("test/data/player_seek_test2_%1.png", i), String::compose("build/test/player_seek_test2_%1.png", i));
+	}
+}
