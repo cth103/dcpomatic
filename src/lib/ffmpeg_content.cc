@@ -606,8 +606,11 @@ FFmpegContent::ffmpeg_audio_streams () const
 void
 FFmpegContent::take_settings_from (shared_ptr<const Content> c)
 {
-	Content::take_settings_from (c);
-
 	shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (c);
+	if (!fc) {
+		return;
+		}
+
+	Content::take_settings_from (c);
 	_filters = fc->_filters;
 }

@@ -543,7 +543,9 @@ void
 DCPContent::take_settings_from (shared_ptr<const Content> c)
 {
 	shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (c);
-	DCPOMATIC_ASSERT (dc);
+	if (!dc) {
+		return;
+	}
 
 	_reference_video = dc->_reference_video;
 	_reference_audio = dc->_reference_audio;

@@ -420,6 +420,7 @@ Content::add_properties (list<UserProperty>& p) const
 	}
 }
 
+/** Take settings from the given content if it is of the correct type */
 void
 Content::take_settings_from (shared_ptr<const Content> c)
 {

@@ -1086,9 +1086,7 @@ Film::add_content (shared_ptr<Content> c)
 	if (_template_film) {
 		/* Take settings from the first piece of content of c's type in _template */
 		BOOST_FOREACH (shared_ptr<Content> i, _template_film->content()) {
-			if (typeid(i.get()) == typeid(c.get())) {
-				c->take_settings_from (i);
-			}
+			c->take_settings_from (i);
 		}
 	}
 
