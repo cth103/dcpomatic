@@ -259,30 +259,28 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 	_offset = 0;
 	get_readers ();
 
-	if (accurate) {
-		int const pre_roll_seconds = 2;
+	int const pre_roll_seconds = 2;
 
-		/* Pre-roll for subs */
+	/* Pre-roll for subs */
 
-		ContentTime pre = t - ContentTime::from_seconds (pre_roll_seconds);
-		if (pre < ContentTime()) {
-			pre = ContentTime ();
-		}
+	ContentTime pre = t - ContentTime::from_seconds (pre_roll_seconds);
+	if (pre < ContentTime()) {
+		pre = ContentTime ();
+	}
 
-		/* Seek to pre-roll position */
+	/* Seek to pre-roll position */
 
-		while (_reel != _reels.end() && pre >= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate ())) {
-			pre -= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate ());
-			next_reel ();
-		}
+	while (_reel != _reels.end() && pre >= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate ())) {
+		pre -= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate ());
+		next_reel ();
+	}
 
-		/* Pass subtitles in the pre-roll */
+	/* Pass subtitles in the pre-roll */
 
-		double const vfr = _dcp_content->active_video_frame_rate ();
-		for (int i = 0; i < pre_roll_seconds * vfr; ++i) {
-			pass_subtitles (pre);
-			pre += ContentTime::from_frames (1, vfr);
-		}
+	double const vfr = _dcp_content->active_video_frame_rate ();
+	for (int i = 0; i < pre_roll_seconds * vfr; ++i) {
+		pass_subtitles (pre);
+		pre += ContentTime::from_frames (1, vfr);
 	}
 
 	/* Seek to correct position */

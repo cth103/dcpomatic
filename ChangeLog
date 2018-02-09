@@ -1,5 +1,7 @@
 2018-02-09  Carl Hetherington  <cth@carlh.net>
 
+	* Always pre-roll when seeking in DCPs (#1085).
+
 	* Version 2.11.52 released.
 
 2018-02-09  Carl Hetherington  <cth@carlh.net>
