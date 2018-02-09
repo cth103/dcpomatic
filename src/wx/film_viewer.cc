@@ -668,6 +668,8 @@ FilmViewer::film_changed (Film::Property p)
 {
 	if (p == Film::CONTENT || p == Film::THREE_D) {
 		setup_sensitivity ();
+	} else if (p == Film::AUDIO_CHANNELS) {
+		recreate_butler ();
 	}
 }
 
