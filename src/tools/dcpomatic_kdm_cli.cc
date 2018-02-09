@@ -56,7 +56,7 @@ help ()
 		"  -f, --valid-from       valid from time (in local time zone of the cinema) (e.g. \"2013-09-28 01:41:51\") or \"now\"\n"
 		"  -t, --valid-to         valid to time (in local time zone of the cinema) (e.g. \"2014-09-28 01:41:51\")\n"
 		"  -d, --valid-duration   valid duration (e.g. \"1 day\", \"4 hours\", \"2 weeks\")\n"
-		"      --formulation      modified-transitional-1, dci-any or dci-specific [default modified-transitional-1]\n"
+		"      --formulation      modified-transitional-1, multiple-modified-transitional-1, dci-any or dci-specific [default modified-transitional-1]\n"
 		"  -z, --zip              ZIP each cinema's KDMs into its own file\n"
 		"  -v, --verbose          be verbose\n"
 		"  -c, --cinema           specify a cinema, either by name or email address\n"
@@ -481,6 +481,8 @@ int main (int argc, char* argv[])
 		case 'C':
 			if (string (optarg) == "modified-transitional-1") {
 				formulation = dcp::MODIFIED_TRANSITIONAL_1;
+			} else if (string (optarg) == "multiple-modified-transitional-1") {
+				formulation = dcp::MULTIPLE_MODIFIED_TRANSITIONAL_1;
 			} else if (string (optarg) == "dci-any") {
 				formulation = dcp::DCI_ANY;
 			} else if (string (optarg) == "dci-specific") {

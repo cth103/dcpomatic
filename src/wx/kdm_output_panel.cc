@@ -52,6 +52,7 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 	add_label_to_sizer (table, this, _("KDM type"), true);
 	_type = new wxChoice (this, wxID_ANY);
 	_type->Append ("Modified Transitional 1", ((void *) dcp::MODIFIED_TRANSITIONAL_1));
+	_type->Append ("Multiple Modified Transitional 1", ((void *) dcp::MULTIPLE_MODIFIED_TRANSITIONAL_1));
 	_type->Append ("Modified Transitional 1 (without AuthorizedDeviceInfo)", ((void *) dcp::MODIFIED_TRANSITIONAL_TEST));
 	if (!interop) {
 		_type->Append ("DCI Any", ((void *) dcp::DCI_ANY));
