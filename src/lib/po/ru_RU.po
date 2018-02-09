@@ -3,15 +3,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 16:50+0000\n"
-"PO-Revision-Date: 2017-05-14 22:22+0300\n"
+"POT-Creation-Date: 2018-02-01 00:02+0000\n"
+"PO-Revision-Date: 2018-02-08 23:44+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.1\n"
+"X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -69,7 +69,6 @@ msgid " on %1"
 msgstr " на %1"
 
 #: src/lib/config.cc:795
-#, fuzzy
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -86,7 +85,10 @@ msgstr ""
 "Тип: $TYPE\n"
 "Формат: $CONTAINER\n"
 "Аудио: $AUDIO\n"
+"Язык аудио: $AUDIO_LANGUAGE\n"
+"Язык субтитров: $SUBTITLE_LANGUAGE\n"
 "Длительность: $LENGTH\n"
+"Размер: $SIZE\n"
 
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
@@ -119,16 +121,15 @@ msgstr "1.19"
 
 #: src/lib/ratio.cc:38
 msgid "1.33 (4:3)"
-msgstr ""
+msgstr "1.33 (4:3)"
 
 #: src/lib/ratio.cc:39
-#, fuzzy
 msgid "1.38 (Academy)"
-msgstr "Academy (1.33:1)"
+msgstr "1.38 (Academy)"
 
 #: src/lib/ratio.cc:40
 msgid "1.43 (IMAX)"
-msgstr ""
+msgstr "1.43 (IMAX)"
 
 #: src/lib/ratio.cc:41
 msgid "1.66"
@@ -136,24 +137,23 @@ msgstr "1.66"
 
 #: src/lib/ratio.cc:42
 msgid "1.78 (16:9 or HD)"
-msgstr ""
+msgstr "1.78 (16:9 or HD)"
 
 #: src/lib/ratio.cc:43
 msgid "1.85 (Flat)"
-msgstr ""
+msgstr "1.85 (Flat)"
 
 #: src/lib/ratio.cc:46
-#, fuzzy
 msgid "1.90 (Full frame)"
-msgstr "FULL (2048x1080)"
+msgstr "1.90 (Full frame)"
 
 #: src/lib/ratio.cc:44
 msgid "2.35 (35mm Scope)"
-msgstr ""
+msgstr "2.35 (35mm Scope)"
 
 #: src/lib/ratio.cc:45
 msgid "2.39 (Scope)"
-msgstr ""
+msgstr "2.39 (Scope)"
 
 #: src/lib/filter.cc:71
 msgid "3D denoiser"
@@ -219,12 +219,12 @@ msgid "Analyse audio"
 msgstr "Анализ аудио"
 
 #: src/lib/audio_content.cc:258
-msgid "Audio will be resampled from %1Hz to %2Hz"
-msgstr "Аудио будет ресэмплировано из %1Гц в %2Гц"
+msgid "Audio will be resampled from %1kHz to %2kHz"
+msgstr "Аудио будет ресэмплировано из %1kГц в %2kГц"
 
 #: src/lib/audio_content.cc:260
-msgid "Audio will be resampled to %1Hz"
-msgstr "Аудио будет ресэмплировано в %1Гц"
+msgid "Audio will be resampled to %1kHz"
+msgstr "Аудио будет ресэмплировано в %1kГц"
 
 #: src/lib/audio_content.cc:249
 msgid "Audio will not be resampled"
@@ -539,14 +539,12 @@ msgid "DBS"
 msgstr "DBS"
 
 #: src/lib/ratio.cc:43
-#, fuzzy
 msgid "DCI Flat"
-msgstr "Flat (1998x1080)"
+msgstr "DCI Flat"
 
 #: src/lib/ratio.cc:45
-#, fuzzy
 msgid "DCI Scope"
-msgstr "Scope (2048x858)"
+msgstr "DCI Scope"
 
 #: src/lib/dcp_subtitle_content.cc:100
 msgid "DCP XML subtitles"
@@ -565,13 +563,12 @@ msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP будет использовать каждый второй кадр контента.\n"
 
 #: src/lib/job.cc:123 src/lib/job.cc:138
-#, fuzzy
 msgid ""
 "DCP-o-matic could not open the file %1 (%2).  Perhaps it does not exist or "
 "is in an unexpected format."
 msgstr ""
-"DCP-o-matic не удалось открыть файл %1. Возможно он не существует или имеет "
-"неожиданный формат."
+"DCP-o-matic не удалось открыть файл %1 (%2). Возможно он не существует или "
+"имеет неожиданный формат."
 
 #: src/lib/ffmpeg_content.cc:103
 msgid ""
@@ -746,12 +743,16 @@ msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "slowdown of your content, and SMPTE DCPs are not supported by all projectors."
 msgstr ""
+"Установка частоты кадров DCP в 24 или 48 приведет к значительному замедлению "
+"вашего контента, а DCP SMPTE не поддерживаются всеми проекторами."
 
 #: src/lib/hints.cc:119
 msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "speed-up of your content, and SMPTE DCPs are not supported by all projectors."
 msgstr ""
+"Установка частоты кадров DCP до 24 или 48 приведет к значительному ускорению "
+"вашего контента, а DCP SMPTE не поддерживаются всеми проекторами."
 
 #: src/lib/audio_content.cc:307 src/lib/audio_content.cc:327
 msgid "Hz"
@@ -926,9 +927,8 @@ msgid "Prepared for video frame rate"
 msgstr "Подготовлено для частоты кадров видео"
 
 #: src/lib/exceptions.cc:85
-#, fuzzy
 msgid "Programming error at %1:%2 %3"
-msgstr "Ошибка програмиирования %1:%2"
+msgstr "Ошибка программирования %1:%2 %3"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
@@ -1032,9 +1032,8 @@ msgid "SSH error (%1)"
 msgstr "Ошибка SSH (%1)"
 
 #: src/lib/image_content.cc:107
-#, fuzzy
 msgid "Scanning image files"
-msgstr "Рендеринг изображения"
+msgstr "Сканирование файлов изображений"
 
 #: src/lib/send_problem_report_job.cc:74
 msgid "Sending email"
@@ -1049,8 +1048,8 @@ msgid "Size"
 msgstr "Размер"
 
 #: src/lib/audio_content.cc:253
-msgid "Some audio will be resampled to %1Hz"
-msgstr "Некоторое аудио будет ресемплировано в %1Гц"
+msgid "Some audio will be resampled to %1kHz"
+msgstr "Некоторое аудио будет ресемплировано в %1kГц"
 
 #: src/lib/writer.cc:610
 msgid "Stereo"
@@ -1106,11 +1105,11 @@ msgstr ""
 
 #: src/lib/content_factory.cc:115
 msgid "The file %1 has been moved %2 milliseconds earlier."
-msgstr ""
+msgstr "Файл %1 перемещен на %2 миллисекунд ранее."
 
 #: src/lib/content_factory.cc:110
 msgid "The file %1 has been moved %2 milliseconds later."
-msgstr ""
+msgstr "Файл %1 перемещен на %2 миллисекунд позднее."
 
 #: src/lib/content_factory.cc:135
 msgid "The file %1 has been trimmed by %2 milliseconds less."
@@ -1345,17 +1344,22 @@ msgstr ""
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
+"Ваш контейнер по-умолчанию некорректен, поэтому был изменен на Flat (1.85:1)"
 
 #: src/lib/content_factory.cc:106
 msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
 msgstr ""
+"В вашем проекте содержится видеоконтент, который не был привязан к границе "
+"кадра."
 
 #: src/lib/content_factory.cc:126
 msgid ""
 "Your project contains video content whose trim was not aligned to a frame "
 "boundary."
 msgstr ""
+"В вашем проекте содержится видеоконтент, обрезка которого не была выровнена "
+"по границе кадра."
 
 #: src/lib/image_content.cc:71
 msgid "[moving images]"

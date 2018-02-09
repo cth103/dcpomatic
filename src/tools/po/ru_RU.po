@@ -3,15 +3,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 16:50+0000\n"
-"PO-Revision-Date: 2017-05-14 22:05+0300\n"
+"POT-Creation-Date: 2018-02-01 00:02+0000\n"
+"PO-Revision-Date: 2018-02-09 00:12+0200\n"
 "Last-Translator: Igor Voytovich <dcp@dualvfilms.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.1\n"
+"X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -30,18 +30,16 @@ msgid "&Add Film...\tCtrl-A"
 msgstr "&Добавить проект...\tCtrl-A"
 
 #: src/tools/dcpomatic_player.cc:205
-#, fuzzy
 msgid "&Add KDM..."
-msgstr "Добавить проект..."
+msgstr "Добавить KDM…"
 
 #: src/tools/dcpomatic_player.cc:204
-#, fuzzy
 msgid "&Add OV..."
-msgstr "Добавить проект..."
+msgstr "Добавить OV…"
 
 #: src/tools/dcpomatic_player.cc:210
 msgid "&Close"
-msgstr ""
+msgstr "&Закрыть"
 
 #: src/tools/dcpomatic.cc:1097
 msgid "&Content"
@@ -106,7 +104,7 @@ msgstr "&Инструменты"
 
 #: src/tools/dcpomatic_player.cc:247
 msgid "&View"
-msgstr ""
+msgstr "&Вид"
 
 #: src/tools/dcpomatic.cc:1091 src/tools/dcpomatic_batch.cc:81
 #: src/tools/dcpomatic_kdm.cc:245 src/tools/dcpomatic_player.cc:239
@@ -123,13 +121,12 @@ msgid "Add Film..."
 msgstr "Добавить проект..."
 
 #: src/tools/dcpomatic_kdm.cc:156
-#, fuzzy
 msgid "Add folder..."
-msgstr "Добавить проект..."
+msgstr "Добавить папку…"
 
 #: src/tools/dcpomatic_kdm.cc:154
 msgid "Add..."
-msgstr ""
+msgstr "Добавить…"
 
 #: src/tools/dcpomatic.cc:1360 src/tools/dcpomatic_kdm.cc:617
 #: src/tools/dcpomatic_player.cc:598
@@ -188,46 +185,43 @@ msgstr "Закрыть без сохранения проекта"
 
 #: src/tools/dcpomatic.cc:1053
 msgid "Copy settings\tCtrl-C"
-msgstr ""
+msgstr "Копировать настройки\tCtrl-C"
 
 #: src/tools/dcpomatic_kdm.cc:433
 msgid ""
 "Could not decrypt the DKDM.  Perhaps it was not created with the correct "
 "certificate."
 msgstr ""
+"Не удалось дешифровать этот DKDM. Возможно он был создан некорректным "
+"сертификатом."
 
 #: src/tools/dcpomatic.cc:699
 msgid "Could not find batch converter."
 msgstr "Не удалось найти пакетный конвертер."
 
 #: src/tools/dcpomatic_player.cc:160
-#, fuzzy
 msgid "Could not load DCP"
-msgstr "Не удалось сделать DCP: %s."
+msgstr "Не удалось загрузить DCP"
 
 #: src/tools/dcpomatic_player.cc:557
-#, fuzzy
 msgid "Could not load DCP %1."
-msgstr "Не удалось сделать DCP: %s."
+msgstr "Не удалось загрузить %1."
 
 #: src/tools/dcpomatic_player.cc:323
-#, fuzzy
 msgid "Could not load KDM."
-msgstr "Не удалось открыть каталог DCP"
+msgstr "Не удалось загрузить KDM"
 
 #: src/tools/dcpomatic_batch.cc:341
-#, fuzzy
 msgid "Could not load film %1"
-msgstr "Не удалось загрузить проект %1 (%2)"
+msgstr "Не удалось загрузить проект %1"
 
 #: src/tools/dcpomatic.cc:1288
 msgid "Could not load film %1 (%2)"
 msgstr "Не удалось загрузить проект %1 (%2)"
 
 #: src/tools/dcpomatic.cc:632
-#, fuzzy
 msgid "Could not make DCP."
-msgstr "Не удалось сделать DCP: %s."
+msgstr "Не удалось сделать DCP."
 
 #: src/tools/dcpomatic.cc:389 src/tools/dcpomatic_batch.cc:140
 #, fuzzy, c-format
@@ -239,25 +233,24 @@ msgid ""
 "Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM "
 "at all."
 msgstr ""
+"Не удалось прочитать файл как KDM. Возможно он имеет неправильным формат, "
+"или вовсе не является KDM"
 
 #: src/tools/dcpomatic.cc:810
-#, fuzzy
 msgid "Could not run konqueror"
-msgstr "Не удалось открыть каталог DCP (не удалось запустить konqueror)"
+msgstr "Не удалось запустить konqueror"
 
 #: src/tools/dcpomatic.cc:803
-#, fuzzy
 msgid "Could not run nautilus"
-msgstr "Не удалось открыть каталог DCP (не удалось запустить nautilus)"
+msgstr "Не удалось запустить nautilus"
 
 #: src/tools/dcpomatic.cc:810 src/tools/dcpomatic.cc:819
 msgid "Could not show DCP"
 msgstr "Не удалось открыть каталог DCP"
 
 #: src/tools/dcpomatic.cc:803
-#, fuzzy
 msgid "Could not show DCP."
-msgstr "Не удалось открыть каталог DCP"
+msgstr "Не удалось открыть каталог DCP."
 
 #: src/tools/dcpomatic.cc:1113
 #, c-format
@@ -298,19 +291,16 @@ msgstr "DCP-o-matic Создатель KDM-ключей"
 
 #: src/tools/dcpomatic_player.cc:81 src/tools/dcpomatic_player.cc:168
 #: src/tools/dcpomatic_player.cc:507
-#, fuzzy
 msgid "DCP-o-matic Player"
-msgstr "DCP-o-matic"
+msgstr "DCP-o-matic Player"
 
 #: src/tools/dcpomatic_player.cc:571
-#, fuzzy
 msgid "DCP-o-matic Player could not start."
-msgstr "DCP-o-matic не удалось связаться с сервером загрузки."
+msgstr "Не удалось запустить DCP-o-matic Player"
 
 #: src/tools/dcpomatic_kdm.cc:604
-#, fuzzy
 msgid "DCP-o-matic could not start"
-msgstr "DCP-o-matic"
+msgstr "Не удалось запустить DCP-o-matic"
 
 #: src/tools/dcpomatic_kdm.cc:145
 msgid "DKDM"
@@ -318,15 +308,15 @@ msgstr "DKDM (Distribution KDM)"
 
 #: src/tools/dcpomatic_player.cc:228
 msgid "Decode at full resolution"
-msgstr ""
+msgstr "Декодировать в полном разрешении"
 
 #: src/tools/dcpomatic_player.cc:229
 msgid "Decode at half resolution"
-msgstr ""
+msgstr "Декодировать с разрешением в половину"
 
 #: src/tools/dcpomatic_player.cc:230
 msgid "Decode at quarter resolution"
-msgstr ""
+msgstr "Декодировать с разрешением в четверть"
 
 #: src/tools/dcpomatic.cc:617
 #, c-format
@@ -391,7 +381,7 @@ msgstr "KDM|Тайминг"
 
 #: src/tools/dcpomatic_player.cc:168
 msgid "Loading DCP"
-msgstr ""
+msgstr "Загрузка DCP"
 
 #: src/tools/dcpomatic.cc:1070
 msgid "Make &KDMs...\tCtrl-K"
@@ -422,13 +412,12 @@ msgid "Output"
 msgstr "Вывод"
 
 #: src/tools/dcpomatic.cc:1054
-#, fuzzy
 msgid "Paste settings...\tCtrl-V"
-msgstr "&Настройки...\tCtrl-P"
+msgstr "Вставить настройки…\tCtrl-P"
 
 #: src/tools/dcpomatic_kdm.cc:158
 msgid "Remove"
-msgstr ""
+msgstr "Убрать"
 
 #: src/tools/dcpomatic.cc:1093 src/tools/dcpomatic_kdm.cc:247
 #: src/tools/dcpomatic_player.cc:241
@@ -478,23 +467,20 @@ msgid "Screens"
 msgstr "Экраны"
 
 #: src/tools/dcpomatic_player.cc:259
-#, fuzzy
 msgid "Select DCP to open"
-msgstr "Выберите проект"
+msgstr "Выберите DCP для открытия"
 
 #: src/tools/dcpomatic_player.cc:284
-#, fuzzy
 msgid "Select DCP to open as OV"
-msgstr "Выберите проект"
+msgstr "Выберите DCP для открытия как OV"
 
 #: src/tools/dcpomatic_kdm.cc:405
 msgid "Select DKDM file"
 msgstr "Выберите DKDM-файл"
 
 #: src/tools/dcpomatic_player.cc:313
-#, fuzzy
 msgid "Select KDM"
-msgstr "Выберите DKDM-файл"
+msgstr "Выберите KDM-файл"
 
 #: src/tools/dcpomatic.cc:437 src/tools/dcpomatic_batch.cc:217
 msgid "Select film to open"
@@ -505,8 +491,9 @@ msgid "Send KDM emails"
 msgstr "Отправить KDM-ключи по email"
 
 #: src/tools/dcpomatic_player.cc:227
+#, fuzzy
 msgid "Set decode resolution to match display"
-msgstr ""
+msgstr "Установить разрешение в соответствии предпросмотром"
 
 #: src/tools/dcpomatic.cc:587
 #, c-format
