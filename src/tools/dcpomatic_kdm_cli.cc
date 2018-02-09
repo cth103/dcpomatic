@@ -427,6 +427,7 @@ int main (int argc, char* argv[])
 			{ "output", required_argument, 0, 'o'},
 			{ "valid-from", required_argument, 0, 'f'},
 			{ "valid-to", required_argument, 0, 't'},
+			{ "valid-duration", required_argument, 0, 'd'},
 			{ "certificate", required_argument, 0, 'A' },
 			{ "cinema", required_argument, 0, 'c' },
 			{ "cinemas", no_argument, 0, 'B' },
