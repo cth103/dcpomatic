@@ -28,6 +28,7 @@
 #include "lib/job.h"
 #include "lib/video_content.h"
 #include "lib/subtitle_content.h"
+#include "lib/ratio.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/about_dialog.h"
@@ -184,6 +185,11 @@ public:
 
 		if (dcp->subtitle) {
 			dcp->subtitle->set_use (true);
+		}
+
+		Ratio const * r = Ratio::nearest_from_ratio(dcp->video->size().ratio());
+		if (r) {
+			_film->set_container(r);
 		}
 
 		_viewer->set_film (_film);
