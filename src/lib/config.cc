@@ -144,6 +144,7 @@ Config::set_defaults ()
 	   use about 240Mb with 72 encoding threads.
 	*/
 	_frames_in_memory_multiplier = 3;
+	_decode_reduction = optional<int>();
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -392,6 +393,7 @@ try
 		}
 	}
 	_frames_in_memory_multiplier = f.optional_number_child<int>("FramesInMemoryMultiplier").get_value_or(3);
+	_decode_reduction = f.optional_number_child<int>("DecodeReduction");
 
 	/* Replace any cinemas from config.xml with those from the configured file */
 	if (boost::filesystem::exists (_cinemas_file)) {
@@ -713,6 +715,11 @@ Config::write_config () const
 	   frames to be held in memory at once.
 	*/
 	root->add_child("FramesInMemoryMultiplier")->add_child_text(raw_convert<string>(_frames_in_memory_multiplier));
+
+	/* [XML] DecodeReduction power of 2 to reduce DCP images by before decoding in the player */
+	if (_decode_reduction) {
+		root->add_child("DecodeReduction")->add_child_text(raw_convert<string>(_decode_reduction.get()));
+	}
 
 	try {
 		doc.write_to_file_formatted(config_file().string());

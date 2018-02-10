@@ -376,6 +376,12 @@ public:
 		return _frames_in_memory_multiplier;
 	}
 
+	boost::optional<int> decode_reduction () const {
+		return _decode_reduction;
+	}
+
+	/* SET (mostly) */
+
 	void set_master_encoding_threads (int n) {
 		maybe_set (_master_encoding_threads, n);
 	}
@@ -651,6 +657,10 @@ public:
 		maybe_set (_frames_in_memory_multiplier, m);
 	}
 
+	void set_decode_reduction (boost::optional<int> r) {
+		maybe_set (_decode_reduction, r);
+	}
+
 	void clear_history () {
 		_history.clear ();
 		changed ();
@@ -832,6 +842,7 @@ private:
 	boost::optional<KDMWriteType> _last_kdm_write_type;
 	boost::optional<DKDMWriteType> _last_dkdm_write_type;
 	int _frames_in_memory_multiplier;
+	boost::optional<int> _decode_reduction;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

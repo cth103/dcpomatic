@@ -149,6 +149,7 @@ public:
 	{
 		_viewer->set_dcp_decode_reduction (reduction);
 		_info->triggered_update ();
+		Config::instance()->set_decode_reduction (reduction);
 	}
 
 	void load_dcp (boost::filesystem::path dir)
@@ -230,10 +231,11 @@ private:
 #endif
 
 		wxMenu* view = new wxMenu;
-		view->AppendRadioItem (ID_view_scale_appropriate, _("Set decode resolution to match display"));
-		view->AppendRadioItem (ID_view_scale_full, _("Decode at full resolution"));
-		view->AppendRadioItem (ID_view_scale_half, _("Decode at half resolution"));
-		view->AppendRadioItem (ID_view_scale_quarter, _("Decode at quarter resolution"));
+		optional<int> c = Config::instance()->decode_reduction();
+		view->AppendRadioItem(ID_view_scale_appropriate, _("Set decode resolution to match display"))->Check(!static_cast<bool>(c));
+		view->AppendRadioItem(ID_view_scale_full, _("Decode at full resolution"))->Check(c && c.get() == 0);
+		view->AppendRadioItem(ID_view_scale_half, _("Decode at half resolution"))->Check(c && c.get() == 1);
+		view->AppendRadioItem(ID_view_scale_quarter, _("Decode at quarter resolution"))->Check(c && c.get() == 2);
 
 		wxMenu* tools = new wxMenu;
 		tools->Append (ID_tools_check_for_updates, _("Check for updates"));
