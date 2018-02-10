@@ -193,11 +193,7 @@ optional<double>
 FFmpegExaminer::video_frame_rate () const
 {
 	DCPOMATIC_ASSERT (_video_stream);
-	/* This use of r_frame_rate is debateable; there's a few different
-	 * frame rates in the format context, but this one seems to be the most
-	 * reliable.
-	 */
-	return av_q2d (av_stream_get_r_frame_rate (_format_context->streams[_video_stream.get()]));
+	return av_q2d(av_guess_frame_rate(_format_context, _format_context->streams[_video_stream.get()], 0));
 }
 
 dcp::Size
