@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -44,7 +44,7 @@ class Filter;
 class AnalyseAudioJob : public Job
 {
 public:
-	AnalyseAudioJob (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist>);
+	AnalyseAudioJob (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist>, bool from_zero);
 	~AnalyseAudioJob ();
 
 	std::string name () const;
@@ -59,6 +59,8 @@ private:
 	void analyse (boost::shared_ptr<const AudioBuffers>, DCPTime time);
 
 	boost::shared_ptr<const Playlist> _playlist;
+	DCPTime _start;
+	bool _from_zero;
 
 	int64_t _done;
 	int64_t _samples_per_point;

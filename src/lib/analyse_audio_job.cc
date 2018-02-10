@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -50,9 +50,11 @@ using boost::dynamic_pointer_cast;
 
 int const AnalyseAudioJob::_num_points = 1024;
 
-AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist)
+/** @param from_zero true to analyse audio from time 0 in the playlist, otherwise begin at Playlist::start */
+AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist, bool from_zero)
 	: Job (film)
 	, _playlist (playlist)
+	, _from_zero (from_zero)
 	, _done (0)
 	, _samples_per_point (1)
 	, _current (0)
@@ -70,6 +72,10 @@ AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> film, shared_ptr<const 
 	for (int i = 0; i < film->audio_channels(); ++i) {
 		_sample_peak[i] = 0;
 		_sample_peak_frame[i] = 0;
+	}
+
+	if (!_from_zero) {
+		_start = _playlist->start().get_value_or(DCPTime());
 	}
 }
 
@@ -105,10 +111,9 @@ AnalyseAudioJob::run ()
 	player->set_play_referenced ();
 	player->Audio.connect (bind (&AnalyseAudioJob::analyse, this, _1, _2));
 
-	DCPTime const start = _playlist->start().get_value_or (DCPTime ());
 	DCPTime const length = _playlist->length ();
 
-	Frame const len = DCPTime (length - start).frames_round (_film->audio_frame_rate());
+	Frame const len = DCPTime (length - _start).frames_round (_film->audio_frame_rate());
 	_samples_per_point = max (int64_t (1), len / _num_points);
 
 	delete[] _current;
@@ -123,6 +128,7 @@ AnalyseAudioJob::run ()
 	}
 
 	if (has_any_audio) {
+		player->seek (_start, true);
 		_done = 0;
 		while (!player->pass ()) {}
 	}
@@ -166,6 +172,8 @@ AnalyseAudioJob::run ()
 void
 AnalyseAudioJob::analyse (shared_ptr<const AudioBuffers> b, DCPTime time)
 {
+	DCPOMATIC_ASSERT (time >= _start);
+
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 	if (Config::instance()->analyse_ebur128 ()) {
 		_ebur128->process (b);
@@ -203,7 +211,6 @@ AnalyseAudioJob::analyse (shared_ptr<const AudioBuffers> b, DCPTime time)
 
 	_done += frames;
 
-	DCPTime const start = _playlist->start().get_value_or (DCPTime ());
 	DCPTime const length = _playlist->length ();
-	set_progress ((time.seconds() - start.seconds()) / (length.seconds() - start.seconds()));
+	set_progress ((time.seconds() - _start.seconds()) / (length.seconds() - _start.seconds()));
 }

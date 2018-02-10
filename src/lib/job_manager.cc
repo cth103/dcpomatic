@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -182,6 +182,7 @@ void
 JobManager::analyse_audio (
 	shared_ptr<const Film> film,
 	shared_ptr<const Playlist> playlist,
+	bool from_zero,
 	boost::signals2::connection& connection,
 	function<void()> ready
 	)
@@ -203,7 +204,7 @@ JobManager::analyse_audio (
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 
-		job.reset (new AnalyseAudioJob (film, playlist));
+		job.reset (new AnalyseAudioJob (film, playlist, from_zero));
 		connection = job->Finished.connect (ready);
 		_jobs.push_back (job);
 	}

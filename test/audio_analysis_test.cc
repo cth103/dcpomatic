@@ -111,7 +111,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test)
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
-	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist ()));
+	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist(), false));
 	job->Finished.connect (boost::bind (&finished));
 	JobManager::instance()->add (job);
 	wait_for_jobs ();
@@ -128,7 +128,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_negative_delay_test)
 
 	c->audio->set_delay (-250);
 
-	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist ()));
+	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist(), false));
 	job->Finished.connect (boost::bind (&finished));
 	JobManager::instance()->add (job);
 	wait_for_jobs ();
@@ -143,7 +143,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test2)
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
-	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist ()));
+	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist(), false));
 	job->Finished.connect (boost::bind (&finished));
 	JobManager::instance()->add (job);
 	wait_for_jobs ();
@@ -174,7 +174,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test3)
 
 	film->set_audio_channels (12);
 	boost::signals2::connection connection;
-	JobManager::instance()->analyse_audio (film, film->playlist(), connection, boost::bind (&analysis_finished));
+	JobManager::instance()->analyse_audio (film, film->playlist(), false, connection, boost::bind (&analysis_finished));
 	wait_for_jobs ();
 	BOOST_CHECK (done);
 }
@@ -193,6 +193,6 @@ BOOST_AUTO_TEST_CASE (analyse_audio_test4)
 	shared_ptr<Playlist> playlist (new Playlist);
 	playlist->add (content);
 	boost::signals2::connection c;
-	JobManager::instance()->analyse_audio (film, playlist, c, boost::bind (&finished));
+	JobManager::instance()->analyse_audio (film, playlist, false, c, boost::bind (&finished));
 	BOOST_CHECK (!wait_for_jobs ());
 }

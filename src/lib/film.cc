@@ -1067,7 +1067,7 @@ Film::maybe_add_content (weak_ptr<Job> j, weak_ptr<Content> c, bool disable_audi
 		playlist->add (content);
 		boost::signals2::connection c;
 		JobManager::instance()->analyse_audio (
-			shared_from_this (), playlist, c, bind (&Film::audio_analysis_finished, this)
+			shared_from_this(), playlist, false, c, bind (&Film::audio_analysis_finished, this)
 			);
 		_audio_analysis_connections.push_back (c);
 	}
