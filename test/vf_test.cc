@@ -47,6 +47,7 @@ using boost::dynamic_pointer_cast;
 BOOST_AUTO_TEST_CASE (vf_test1)
 {
 	shared_ptr<Film> film = new_test_film ("vf_test1");
+	film->set_interop (false);
 	shared_ptr<DCPContent> dcp (new DCPContent (film, "test/data/reels_test2"));
 	film->examine_and_add_content (dcp);
 	wait_for_jobs ();
