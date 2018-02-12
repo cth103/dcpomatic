@@ -65,6 +65,7 @@ CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, dcp::NameFormat nam
 		}
 
 		name_values['s'] = i.screen->name;
+		name_values['i'] = i.kdm.id ();
 		string const name = name_format.get(name_values, ".xml");
 		if (zip_add (zip, name.c_str(), source) == -1) {
 			throw runtime_error ("failed to add KDM to ZIP archive");
