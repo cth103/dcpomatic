@@ -521,7 +521,7 @@ computationally intensive as encoding them.
 </para>
 
 <para>
-If your DCP is a Version File (VF) (i.e.\ it refers to
+If your DCP is a Version File (VF) (i.e. it refers to
 another DCP's assets) you should import it as follows:
 </para>
 
@@ -1725,7 +1725,7 @@ The <guilabel>JPEG2000 bandwidth</guilabel>; setting changes how big
 the final image files used within the DCP will be.  Larger numbers
 will give better quality, but correspondingly larger DCPs.  The
 bandwidth can be between 50 and 250 megabits per second (Mbit/s).
-Most commercial DCPs use bit rates between 75 and 125 MBit/s.
+Most commercial DCPs use bit rates between 75 and 125 Mbit/s.
 </para>
 
 <para>
@@ -2231,7 +2231,7 @@ create KDMs for its film.  Perhaps you want to archive the project to
 save space, or create KDMs on a different machine.  In such situations
 it is easier to use a DKDM.  This is a normal KDM, but instead of
 being targeted at a projection system (to allow it to decrypt the
-content) it is targeted at a particular users's certificate.  This
+content) it is targeted at a particular user's certificate.  This
 means that the certificate owner can create new KDMs for other users.
 The DKDM holds everything that is required to create further KDMs.
 </para>
@@ -2390,7 +2390,7 @@ read about how to contribute a translation.
 
 <!-- ============================================================== -->
 <section>
-<title>Threads</title>
+<title>Number of threads DCP-o-matic should use</title>
 
 <para>
 When DCP-o-matic is encoding DCPs it can use multiple parallel threads
@@ -2402,6 +2402,31 @@ to set this up correctly when you run it for the first time.
 
 </section>
 
+
+<!-- ============================================================== -->
+<section>
+<title>Number of threads DCP-o-matic encode server should use</title>
+
+<para>
+This is the number of threads that the encode server should use when
+it is running and helping another copy of DCP-o-matic to speed up its
+encode.
+</para>
+
+</section>
+
+
+<!-- ============================================================== -->
+<section>
+<title>Configuration file</title>
+
+<para>
+This is the location of DCP-o-matic's configuration file on disk.  You
+can use this to share configuration between several copies of
+DCP-o-matic, across a network share, for instance.
+</para>
+</section>
+
 <!-- ============================================================== -->
 <section>
 <title>Cinema and screen database file</title>
@@ -2410,9 +2435,22 @@ to set this up correctly when you run it for the first time.
 This option allows you to change the file that DCP-o-matic uses to
 store details of the cinemas and screens used to make KDMs.
 </para>
-
 </section>
 
+
+<!-- ============================================================== -->
+<section>
+<title>Play sound via</title>
+
+<para>
+The checkbox to the left of <guilabel>Play sound</guilabel> enables or
+disables DCP-o-matic use of sound.  On some machines there will be
+multiple options in the drop-down menu to decide how the sound should
+be played.
+</para>
+</section>
+
+<!-- ============================================================== -->
 <section>
 <title>Integrated loudness</title>
 
@@ -2424,6 +2462,15 @@ are useful to you.  If not, untick it and audio analysis will be
 faster.
 </para>
 
+</section>
+
+<!-- ============================================================== -->
+<section>
+<title>Automatically analyse content audio</title>
+
+<para>
+If this checkbox is ticked an audio analysis will be run whenever content is added that contains sound.
+</para>
 </section>
 
 <!-- ============================================================== -->
@@ -2520,7 +2567,7 @@ name or IP address of the server to use.
 <title>Keys</title>
 
 <para>
-The Keys tab (shown in <xref linkend="fig-prefs-keys"/>) holds options
+The Keys tab (shown in <xref linkend="fig-prefs-keys"/>) has controls
 related to the keys and certificates used in some parts of DCP
 creation.
 </para>
@@ -2535,9 +2582,43 @@ creation.
 </figure>
 
 <para>
-At the top of the tab is the chain of certificates that will be used
-to sign DCPs and KDMs.  DCP-o-matic creates a random chain when you
-first run it and if you are happy to use this chain you can ignore the
+<guilabel>Export KDM decryption certificate...</guilabel> allows you
+to save the certificate that DCP-o-matic uses when decrypting KDMs
+that you give it.  Use this option if somebody wants to make a KDM for
+you and asks for your certificate.
+</para>
+
+<para>
+<guilabel>Export KDM decryption chain...</guilabel> exports the whole
+KDM decryption chain rather than just its certificate.  This may also
+be requested by KDM creators.
+</para>
+
+<para>
+<guilabel>Export all KDM decryption settings...</guilabel> exports a
+file which contains all the DCP-o-matic settings related to the use of
+KDMs supplied by other people.  Use this button and <guilabel>Import
+all KDM decryption settings...</guilabel> to transfer settings between
+different copies of DCP-o-matic so that they can both use the same
+KDMs.
+</para>
+
+<para>
+The two <guilabel>Advanced...</guilabel> buttons open advanced
+dialogue boxes for detailed manipulation of DCP-o-matic's certificate
+chains.
+</para>
+
+</section>
+
+<section>
+<title>Advanced keys settings</title>
+
+<para>
+At the top of the <guilabel>Advanced</guilabel> dialogue for signing
+DCPs and KDMs is the chain of certificates that will be used to sign
+DCPs and KDMs.  DCP-o-matic creates a random chain when you first run
+it and if you are happy to use this chain you can ignore the
 preferences.  Otherwise, you can add or remove certificates from the
 chain using the <guilabel>Add...</guilabel> and
 <guilabel>Remove</guilabel> buttons.
@@ -2559,12 +2640,12 @@ corresponds to the public key held in the leaf certificate.
 </para>
 
 <para>
-Underneath the details of the certificate chain and private key for
-signing of DCPs and KDMs is a second chain and key which is used by
+At the top of the <guilabel>Advanced</guilabel> dialogue for decrypting DCPs is the chain and key which is used by
 DCP-o-matic when you import an encrypted DCP as a piece of content.
 The leaf certificate of this chain contains the public key that should
 be used when targeting a KDM at DCP-o-matic.
 </para>
+
 
 <para>
 If you want to import an encrypted DCP you will need to give the
@@ -2688,6 +2769,68 @@ The <guilabel>Reset to default text</guilabel> will replace the current KDM emai
 
 
 <!-- ============================================================== -->
+<section>
+<title>Cover sheet</title>
+
+<para>
+The DCP cover sheet configuration is shown in <xref linkend="fig-prefs-cover-sheet"/>.
+</para>
+
+<figure id="fig-prefs-cover-sheet">
+  <title>DCP cover sheet preferences</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="screenshots/prefs-cover-sheet&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+<para>
+This is a template for the cover sheet that is written next to every DCP that DCP-o-matic creates.  You can change it to say whatever you like.  A few
+&lsquo;magic&rsquo; strings will be replaced by information from the
+DCP that has been made:
+</para>
+
+<table>
+<title>&lsquo;Magic&rsquo; Cover sheet strings</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tbody>
+<row>
+<entry><code>$CPL_NAME</code></entry><entry>DCP title</entry>
+</row>
+<row>
+<entry><code>$TYPE</code></entry><entry>DCP content type (e.g. feature, trailer...)</entry>
+</row>
+<row>
+<entry><code>$CONTAINER</code></entry><entry>The container ratio (e.g. flat, scope...)</entry>
+</row>
+<row>
+<entry><code>$AUDIO</code></entry><entry>Details of the audio channels</entry>
+</row>
+<row>
+<entry><code>$AUDIO_LANGUAGE</code></entry><entry>Audio language</entry>
+</row>
+<row>
+<entry><code>$SUBTITLE_LANGUAGE</code></entry><entry>Subtitle language</entry>
+</row>
+<row>
+<entry><code>$LENGTH</code></entry><entry>DCP length in hours, minutes and seconds</entry>
+</row>
+<row>
+<entry><code>$SIZE</code></entry><entry>DCP size in gigabytes</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+<para>
+The <guilabel>Reset to default text</guilabel> will replace the current cover sheet with DCP-o-matic's default.
+</para>
+
+</section>
+
+
+<!-- ============================================================== -->
 <section xml:id="sec-prefs-advanced">
 <title>Advanced</title>
 <titleabbrev xml:id="sec-prefs-advanced-short">Advanced preferences</titleabbrev>
@@ -2722,7 +2865,7 @@ this unticked for normal use.
 <para>
 <guilabel>Only servers encode</guilabel> makes DCP-o-matic encode
 JPEG2000 data only on encoding servers and not on the host.  We
-suggest you leave this un-ticked unless you have a good reason to do otherwise.
+suggest you leave this unticked unless you have a good reason to do otherwise.
 </para>
 
 <para>
@@ -2743,7 +2886,7 @@ as this makes the log files useful for tracking down bugs.
 
 <para>
 The <guilabel>Timing</guilabel> checkbox will enable extra log entries
-to allow developers to investigate and optimize the speed of
+to allow developers to investigate and optimise the speed of
 DCP-o-matic.  It will significantly increase the size of the log files
 that are generated, so in normal use it is best to leave this
 unticked.
