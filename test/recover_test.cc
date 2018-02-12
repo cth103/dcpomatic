@@ -50,6 +50,7 @@ note (dcp::NoteType t, string n)
 BOOST_AUTO_TEST_CASE (recover_test_2d)
 {
 	shared_ptr<Film> film = new_test_film ("recover_test_2d");
+	film->set_interop (false);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name ("recover_test");
@@ -82,6 +83,7 @@ BOOST_AUTO_TEST_CASE (recover_test_2d)
 BOOST_AUTO_TEST_CASE (recover_test_3d)
 {
 	shared_ptr<Film> film = new_test_film ("recover_test_3d");
+	film->set_interop (false);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name ("recover_test");
@@ -118,6 +120,7 @@ BOOST_AUTO_TEST_CASE (recover_test_3d)
 BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted)
 {
 	shared_ptr<Film> film = new_test_film ("recover_test_2d_encrypted");
+	film->set_interop (false);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name ("recover_test");
