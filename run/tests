@@ -12,7 +12,8 @@ elif [ "$1" == "--backtrace" ]; then
     gdb -batch -ex "run" -ex "thread apply all bt" -return-child-result --args build/test/unit-tests --catch_system_errors=yes $*
 elif [ "$1" == "--valgrind" ]; then
     shift;
-    valgrind --tool="memcheck" --leak-check=full build/test/unit-tests $*
+#    valgrind --tool="memcheck" --vgdb=yes --vgdb-error=0 build/test/unit-tests $*
+    valgrind --tool="memcheck" build/test/unit-tests $*
 elif [ "$1" == "--callgrind" ]; then
     shift;
     valgrind --tool="callgrind" build/test/unit-tests $*
