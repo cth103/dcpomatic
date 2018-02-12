@@ -246,7 +246,7 @@ Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_fo
 	struct SwsContext* scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),
 		out_size.width, out_size.height, out_format,
-		fast ? SWS_FAST_BILINEAR : SWS_BICUBIC, 0, 0, 0
+		(fast ? SWS_FAST_BILINEAR : SWS_BICUBIC) | SWS_ACCURATE_RND, 0, 0, 0
 		);
 
 	DCPOMATIC_ASSERT (yuv_to_rgb < dcp::YUV_TO_RGB_COUNT);
