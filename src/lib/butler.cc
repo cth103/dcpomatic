@@ -94,11 +94,11 @@ Butler::~Butler ()
 bool
 Butler::should_run () const
 {
-	if (_video.size() >= MAXIMUM_VIDEO_READAHEAD) {
+	if (_video.size() >= MAXIMUM_VIDEO_READAHEAD * 2) {
 		LOG_WARNING ("Butler video buffers reached %1 frames (audio is %2)", _video.size(), _audio.size());
 	}
 
-	if (_audio.size() >= MAXIMUM_AUDIO_READAHEAD) {
+	if (_audio.size() >= MAXIMUM_AUDIO_READAHEAD * 2) {
 		LOG_WARNING ("Butler audio buffers reached %1 frames (video is %2)", _audio.size(), _video.size());
 	}
 
