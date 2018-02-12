@@ -322,6 +322,7 @@ from_dkdm (
 			if (!i->recipient) {
 				continue;
 			}
+
 			screen_kdms.push_back (
 				ScreenKDM (
 					i,
@@ -380,7 +381,6 @@ int main (int argc, char* argv[])
 	string screen_description = "";
 	list<shared_ptr<Screen> > screens;
 	optional<dcp::Certificate> certificate;
-	vector<dcp::Certificate> trusted_devices;
 	optional<dcp::EncryptedKDM> dkdm;
 	optional<boost::posix_time::ptime> valid_from;
 	optional<boost::posix_time::ptime> valid_to;
@@ -463,29 +463,24 @@ int main (int argc, char* argv[])
 			verbose = true;
 			break;
 		case 'c':
-			if (certificate) {
-				shared_ptr<Screen> screen (new Screen (screen_description, certificate, trusted_devices));
-				if (cinema_name) {
-					cinema->add_screen (screen);
-				}
-				screens.push_back (screen);
-
-				certificate = boost::none;
-				screen_description = "";
-				trusted_devices = vector<dcp::Certificate> ();
-			}
-
 			cinema_name = optarg;
 			cinema = shared_ptr<Cinema> (new Cinema (optarg, list<string> (), "", 0, 0 ));
 			break;
 		case 'S':
 			screen_description = optarg;
 			break;
-		case 'C':
+		case 'C': {
 			certificate = dcp::Certificate (dcp::file_to_string (optarg));
+			vector<dcp::Certificate> trusted_devices;
+			shared_ptr<Screen> screen (new Screen (screen_description, certificate, trusted_devices));
+			if (cinema_name) {
+				cinema->add_screen (screen);
+			}
+			screens.push_back (screen);
 			break;
+		}
 		case 'T':
-			trusted_devices.push_back (dcp::Certificate (dcp::file_to_string (optarg)));
+			screens.back()->trusted_devices.push_back (dcp::Certificate (dcp::file_to_string (optarg)));
 			break;
 		case 'B':
 			list_cinemas = true;
@@ -507,14 +502,6 @@ int main (int argc, char* argv[])
 	if (list_dkdm_cpls) {
 		dump_dkdm_group (Config::instance()->dkdms(), 0);
 		exit (EXIT_SUCCESS);
-	}
-
-	if (certificate) {
-		shared_ptr<Screen> screen (new Screen (screen_description, certificate, trusted_devices));
-		if (cinema_name) {
-			cinema->add_screen (screen);
-		}
-		screens.push_back (screen);
 	}
 
 	if (!duration_string && !valid_to) {
