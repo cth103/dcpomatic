@@ -25,6 +25,7 @@
 #include <boost/foreach.hpp>
 
 using std::string;
+using std::cout;
 using std::list;
 using boost::shared_ptr;
 
@@ -44,6 +45,16 @@ ScreenKDM::write_files (
 	)
 {
 	int written = 0;
+
+	if (directory == "-") {
+		/* Write KDMs to the stdout */
+		BOOST_FOREACH (ScreenKDM const & i, screen_kdms) {
+			cout << i.kdm.as_xml ();
+			++written;
+		}
+
+		return written;
+	}
 
 	if (!boost::filesystem::exists (directory)) {
 		boost::filesystem::create_directories (directory);
