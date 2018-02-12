@@ -45,6 +45,10 @@ ScreenKDM::write_files (
 {
 	int written = 0;
 
+	if (!boost::filesystem::exists (directory)) {
+		boost::filesystem::create_directories (directory);
+	}
+
 	/* Write KDMs to the specified directory */
 	BOOST_FOREACH (ScreenKDM const & i, screen_kdms) {
 		name_values['c'] = i.screen->cinema->name;

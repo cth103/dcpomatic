@@ -51,20 +51,22 @@ static void
 help ()
 {
 	cerr << "Syntax: " << program_name << " [OPTION] <FILM|CPL-ID|DKDM>\n"
-    "  -h, --help             show this help\n"
-    "  -o, --output           output file or directory\n"
-    "  -f, --valid-from       valid from time (in local time zone of the cinema) (e.g. \"2013-09-28 01:41:51\") or \"now\"\n"
-    "  -t, --valid-to         valid to time (in local time zone of the cinema) (e.g. \"2014-09-28 01:41:51\")\n"
-    "  -d, --valid-duration   valid duration (e.g. \"1 day\", \"4 hours\", \"2 weeks\")\n"
-    "  -F, --formulation      modified-transitional-1, multiple-modified-transitional-1, dci-any or dci-specific [default modified-transitional-1]\n"
-    "  -z, --zip              ZIP each cinema's KDMs into its own file\n"
-    "  -v, --verbose          be verbose\n"
-    "  -c, --cinema           specify a cinema, either by name or email address\n"
-    "  -S, --screen           screen description\n"
-    "  -C, --certificate      file containing projector certificate\n"
-    "  -T, --trusted-device   file containing a trusted device's certificate\n"
-    "      --list-cinemas     list known cinemas from the DCP-o-matic settings\n"
-    "      --list-dkdm-cpls   list CPLs for which DCP-o-matic has DKDMs\n\n"
+		"  -h, --help                    show this help\n"
+		"  -o, --output                  output file or directory\n"
+		"  -K, --filename-format         filename format for KDMs\n"
+		"  -Z, --container-name-format   filename format for ZIP containers\n"
+		"  -f, --valid-from              valid from time (in local time zone of the cinema) (e.g. \"2013-09-28 01:41:51\") or \"now\"\n"
+		"  -t, --valid-to                valid to time (in local time zone of the cinema) (e.g. \"2014-09-28 01:41:51\")\n"
+		"  -d, --valid-duration          valid duration (e.g. \"1 day\", \"4 hours\", \"2 weeks\")\n"
+		"  -F, --formulation             modified-transitional-1, multiple-modified-transitional-1, dci-any or dci-specific [default modified-transitional-1]\n"
+		"  -z, --zip                     ZIP each cinema's KDMs into its own file\n"
+		"  -v, --verbose                 be verbose\n"
+		"  -c, --cinema                  specify a cinema, either by name or email address\n"
+		"  -S, --screen                  screen description\n"
+		"  -C, --certificate             file containing projector certificate\n"
+		"  -T, --trusted-device          file containing a trusted device's certificate\n"
+		"      --list-cinemas            list known cinemas from the DCP-o-matic settings\n"
+		"      --list-dkdm-cpls          list CPLs for which DCP-o-matic has DKDMs\n\n"
 		"CPL-ID must be the ID of a CPL that is mentioned in DCP-o-matic's DKDM list.\n\n"
 		"For example:\n\n"
 		"Create KDMs for my_great_movie to play in all of Fred's Cinema's screens for the next two weeks and zip them up.\n"
@@ -123,14 +125,22 @@ always_overwrite ()
 }
 
 void
-write_files (list<ScreenKDM> screen_kdms, bool zip, boost::filesystem::path output, dcp::NameFormat::Map values, bool verbose)
+write_files (
+	list<ScreenKDM> screen_kdms,
+	bool zip,
+	boost::filesystem::path output,
+	dcp::NameFormat container_name_format,
+	dcp::NameFormat filename_format,
+	dcp::NameFormat::Map values,
+	bool verbose
+	)
 {
 	if (zip) {
 		int const N = CinemaKDMs::write_zip_files (
 			CinemaKDMs::collect (screen_kdms),
 			output,
-			Config::instance()->kdm_container_name_format(),
-			Config::instance()->kdm_filename_format(),
+			container_name_format,
+			filename_format,
 			values,
 			bind (&always_overwrite)
 			);
@@ -140,7 +150,7 @@ write_files (list<ScreenKDM> screen_kdms, bool zip, boost::filesystem::path outp
 		}
 	} else {
 		int const N = ScreenKDM::write_files (
-			screen_kdms, output, Config::instance()->kdm_filename_format(), values,
+			screen_kdms, output, filename_format, values,
 			bind (&always_overwrite)
 			);
 
@@ -176,7 +186,9 @@ from_film (
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path film_dir,
 	bool verbose,
-	optional<boost::filesystem::path> output,
+	boost::filesystem::path output,
+	dcp::NameFormat container_name_format,
+	dcp::NameFormat filename_format,
 	boost::posix_time::ptime valid_from,
 	boost::posix_time::ptime valid_to,
 	dcp::Formulation formulation,
@@ -205,10 +217,6 @@ from_film (
 
 	boost::filesystem::path cpl = cpls.front().cpl_file;
 
-	if (!output) {
-		output = ".";
-	}
-
 	dcp::NameFormat::Map values;
 	values['f'] = film->name();
 	values['b'] = dcp::LocalTime(valid_from).date() + " " + dcp::LocalTime(valid_from).time_of_day(true, false);
@@ -219,7 +227,7 @@ from_film (
 			screens, cpl, valid_from, valid_to, formulation
 			);
 
-		write_files (screen_kdms, zip, *output, values, verbose);
+		write_files (screen_kdms, zip, output, container_name_format, filename_format, values, verbose);
 	} catch (FileError& e) {
 		cerr << program_name << ": " << e.what() << " (" << e.file().string() << ")\n";
 		exit (EXIT_FAILURE);
@@ -294,17 +302,15 @@ from_dkdm (
 	list<shared_ptr<Screen> > screens,
 	dcp::DecryptedKDM dkdm,
 	bool verbose,
- 	optional<boost::filesystem::path> output,
+ 	boost::filesystem::path output,
+	dcp::NameFormat container_name_format,
+	dcp::NameFormat filename_format,
 	boost::posix_time::ptime valid_from,
 	boost::posix_time::ptime valid_to,
 	dcp::Formulation formulation,
 	bool zip
 	)
 {
-	if (!output) {
-		output = ".";
-	}
-
 	dcp::NameFormat::Map values;
 	values['f'] = dkdm.annotation_text().get_value_or("");
 	values['b'] = dcp::LocalTime(valid_from).date() + " " + dcp::LocalTime(valid_from).time_of_day(true, false);
@@ -330,7 +336,7 @@ from_dkdm (
 					)
 				);
 		}
-		write_files (screen_kdms, zip, *output, values, verbose);
+		write_files (screen_kdms, zip, output, container_name_format, filename_format, values, verbose);
 	} catch (FileError& e) {
 		cerr << program_name << ": " << e.what() << " (" << e.file().string() << ")\n";
 		exit (EXIT_FAILURE);
@@ -366,10 +372,12 @@ dump_dkdm_group (shared_ptr<DKDMGroup> group, int indent)
 
 int main (int argc, char* argv[])
 {
-	optional<boost::filesystem::path> output;
+	boost::filesystem::path output = ".";
+	dcp::NameFormat container_name_format = Config::instance()->kdm_container_name_format();
+	dcp::NameFormat filename_format = Config::instance()->kdm_filename_format();
 	optional<string> cinema_name;
 	shared_ptr<Cinema> cinema;
-	optional<string> screen_description;
+	string screen_description = "";
 	list<shared_ptr<Screen> > screens;
 	optional<dcp::Certificate> certificate;
 	vector<dcp::Certificate> trusted_devices;
@@ -390,6 +398,8 @@ int main (int argc, char* argv[])
 		static struct option long_options[] = {
 			{ "help", no_argument, 0, 'h'},
 			{ "output", required_argument, 0, 'o'},
+			{ "filename-format", required_argument, 0, 'K'},
+			{ "container-name-format", required_argument, 0, 'Z'},
 			{ "valid-from", required_argument, 0, 'f'},
 			{ "valid-to", required_argument, 0, 't'},
 			{ "valid-duration", required_argument, 0, 'd'},
@@ -405,7 +415,7 @@ int main (int argc, char* argv[])
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "ho:f:t:d:F:zvc:S:C:T:BD", long_options, &option_index);
+		int c = getopt_long (argc, argv, "ho:K:Z:f:t:d:F:zvc:S:C:T:BD", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -417,6 +427,12 @@ int main (int argc, char* argv[])
 			exit (EXIT_SUCCESS);
 		case 'o':
 			output = optarg;
+			break;
+		case 'K':
+			filename_format = dcp::NameFormat (optarg);
+			break;
+		case 'Z':
+			container_name_format = dcp::NameFormat (optarg);
 			break;
 		case 'f':
 			valid_from = time_from_string (optarg);
@@ -448,18 +464,14 @@ int main (int argc, char* argv[])
 			break;
 		case 'c':
 			if (certificate) {
-				if (!screen_description) {
-					screen_description = "";
-				}
-
-				shared_ptr<Screen> screen (new Screen (*screen_description, certificate, trusted_devices));
+				shared_ptr<Screen> screen (new Screen (screen_description, certificate, trusted_devices));
 				if (cinema_name) {
 					cinema->add_screen (screen);
 				}
 				screens.push_back (screen);
 
 				certificate = boost::none;
-				screen_description = boost::none;
+				screen_description = "";
 				trusted_devices = vector<dcp::Certificate> ();
 			}
 
@@ -498,11 +510,7 @@ int main (int argc, char* argv[])
 	}
 
 	if (certificate) {
-		if (!screen_description) {
-			screen_description = "";
-		}
-
-		shared_ptr<Screen> screen (new Screen (*screen_description, certificate, trusted_devices));
+		shared_ptr<Screen> screen (new Screen (screen_description, certificate, trusted_devices));
 		if (cinema_name) {
 			cinema->add_screen (screen);
 		}
@@ -529,8 +537,6 @@ int main (int argc, char* argv[])
 		}
 
 		screens = find_cinema (*cinema_name)->screens ();
-	}	else if (!cinema_name && !output) {
-		error ("you must specify either a cinema name or output format");
 	}
 
 	if (duration_string) {
@@ -546,7 +552,7 @@ int main (int argc, char* argv[])
 
 	string const thing = argv[optind];
 	if (boost::filesystem::is_directory(thing) && boost::filesystem::is_regular_file(boost::filesystem::path(thing) / "metadata.xml")) {
-		from_film (screens, thing, verbose, output, *valid_from, *valid_to, formulation, zip);
+		from_film (screens, thing, verbose, output, container_name_format, filename_format, *valid_from, *valid_to, formulation, zip);
 	} else {
 		if (boost::filesystem::is_regular_file(thing)) {
 			dkdm = dcp::EncryptedKDM (dcp::file_to_string (thing));
@@ -558,7 +564,7 @@ int main (int argc, char* argv[])
 			error ("could not find film or CPL ID corresponding to " + thing);
 		}
 
-		from_dkdm (screens, dcp::DecryptedKDM (*dkdm, Config::instance()->decryption_chain()->key().get()), verbose, output, *valid_from, *valid_to, formulation, zip);
+		from_dkdm (screens, dcp::DecryptedKDM (*dkdm, Config::instance()->decryption_chain()->key().get()), verbose, output, container_name_format, filename_format, *valid_from, *valid_to, formulation, zip);
 	}
 
 	return 0;
