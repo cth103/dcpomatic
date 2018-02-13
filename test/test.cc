@@ -69,6 +69,23 @@ using boost::dynamic_pointer_cast;
 
 boost::filesystem::path private_data = boost::filesystem::path ("..") / boost::filesystem::path ("dcpomatic-test-private");
 
+void
+setup_test_config ()
+{
+	Config::instance()->set_master_encoding_threads (1);
+	Config::instance()->set_server_encoding_threads (1);
+	Config::instance()->set_server_port_base (61921);
+	Config::instance()->set_default_isdcf_metadata (ISDCFMetadata ());
+	Config::instance()->set_default_container (Ratio::from_id ("185"));
+	Config::instance()->set_default_dcp_content_type (static_cast<DCPContentType*> (0));
+	Config::instance()->set_default_audio_delay (0);
+	Config::instance()->set_default_j2k_bandwidth (100000000);
+	Config::instance()->set_default_interop (false);
+	Config::instance()->set_default_still_length (10);
+	Config::instance()->set_log_types (LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR);
+	Config::instance()->set_automatic_audio_analysis (false);
+}
+
 class TestSignalManager : public SignalManager
 {
 public:
@@ -84,19 +101,7 @@ struct TestConfig
 	TestConfig ()
 	{
 		dcpomatic_setup ();
-
-		Config::instance()->set_master_encoding_threads (1);
-		Config::instance()->set_server_encoding_threads (1);
-		Config::instance()->set_server_port_base (61921);
-		Config::instance()->set_default_isdcf_metadata (ISDCFMetadata ());
-		Config::instance()->set_default_container (Ratio::from_id ("185"));
-		Config::instance()->set_default_dcp_content_type (static_cast<DCPContentType*> (0));
-		Config::instance()->set_default_audio_delay (0);
-		Config::instance()->set_default_j2k_bandwidth (100000000);
-		Config::instance()->set_default_interop (false);
-		Config::instance()->set_default_still_length (10);
-		Config::instance()->set_log_types (LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR);
-		Config::instance()->set_automatic_audio_analysis (false);
+		setup_test_config ();
 
 		EncodeServerFinder::instance()->stop ();
 

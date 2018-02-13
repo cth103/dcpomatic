@@ -19,6 +19,7 @@
 */
 
 #include "lib/config.h"
+#include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <fstream>
 
@@ -87,4 +88,9 @@ BOOST_AUTO_TEST_CASE (config_backup_test)
 	BOOST_CHECK (boost::filesystem::exists ("build/test/config.xml.2"));
 	BOOST_CHECK (boost::filesystem::exists ("build/test/config.xml.3"));
 	BOOST_CHECK (boost::filesystem::exists ("build/test/config.xml.4"));
+
+	/* This test has called Config::set_defaults(), so take us back
+	   to the config that we want for our tests.
+	*/
+	setup_test_config ();
 }
