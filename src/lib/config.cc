@@ -253,11 +253,7 @@ try
 		_default_scale_to = Ratio::from_id (c.get ());
 	}
 
-	c = f.optional_string_child ("DefaultDCPContentType");
-	if (c) {
-		_default_dcp_content_type = DCPContentType::from_isdcf_name (c.get ());
-	}
-
+	_default_dcp_content_type = DCPContentType::from_isdcf_name(f.optional_string_child("DefaultDCPContentType").get_value_or("FTR"));
 	_default_dcp_audio_channels = f.optional_number_child<int>("DefaultDCPAudioChannels").get_value_or (6);
 
 	if (f.optional_string_child ("DCPMetadataIssuer")) {
