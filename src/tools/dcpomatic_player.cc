@@ -128,6 +128,7 @@ public:
 		wxPanel* overall_panel = new wxPanel (this, wxID_ANY);
 
 		_viewer = new FilmViewer (overall_panel, false, false);
+		_viewer->set_dcp_decode_reduction (Config::instance()->decode_reduction ());
 		_info = new PlayerInformation (overall_panel, _viewer);
 		wxSizer* main_sizer = new wxBoxSizer (wxVERTICAL);
 		main_sizer->Add (_viewer, 1, wxEXPAND | wxALL, 6);
