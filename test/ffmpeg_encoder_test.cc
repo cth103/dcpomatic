@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -221,8 +221,5 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_mixdown)
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test_mixdown.mp4", FFmpegEncoder::FORMAT_H264, true);
 	encoder.go ();
 
-	/* Skip the first video packet when checking as it contains x264 options which can vary between machines
-	   (e.g. number of threads used for encoding).
-	*/
-	check_ffmpeg ("build/test/ffmpeg_encoder_basic_test_mixdown.mp4", "test/data/ffmpeg_encoder_basic_test_mixdown.mp4");
+	check_ffmpeg ("build/test/ffmpeg_encoder_basic_test_mixdown.mp4", "test/data/ffmpeg_encoder_basic_test_mixdown.mp4", 1);
 }

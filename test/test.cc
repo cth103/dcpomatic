@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -34,6 +34,8 @@
 #include "lib/ratio.h"
 #include "lib/dcp_content_type.h"
 #include "lib/log_entry.h"
+#include "lib/compose.hpp"
+#include "test.h"
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
@@ -436,9 +438,9 @@ write_image (shared_ptr<const Image> image, boost::filesystem::path file, string
 }
 
 void
-check_ffmpeg (boost::filesystem::path ref, boost::filesystem::path check)
+check_ffmpeg (boost::filesystem::path ref, boost::filesystem::path check, int audio_tolerance)
 {
-	int const r = system (string("ffcmp " + ref.string() + " " + check.string()).c_str());
+	int const r = system (String::compose("ffcmp -t %1 %2 %3", audio_tolerance, ref.string(), check.string()).c_str());
 	BOOST_REQUIRE_EQUAL (WEXITSTATUS(r), 0);
 }
 
