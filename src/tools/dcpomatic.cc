@@ -732,7 +732,9 @@ private:
 				d->cpl (),
 				dcp::LocalTime ("2012-01-01T01:00:00+00:00"),
 				dcp::LocalTime ("2112-01-01T01:00:00+00:00"),
-				dcp::MODIFIED_TRANSITIONAL_1
+				dcp::MODIFIED_TRANSITIONAL_1,
+				-1,
+				-1
 				);
 		} catch (dcp::NotEncryptedError& e) {
 			error_dialog (this, _("CPL's content is not encrypted."));

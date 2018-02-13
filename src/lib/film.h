@@ -130,7 +130,9 @@ public:
 		boost::filesystem::path cpl_file,
 		dcp::LocalTime from,
 		dcp::LocalTime until,
-		dcp::Formulation formulation
+		dcp::Formulation formulation,
+		int disable_forensic_marking_picture,
+		int disable_forensic_marking_audio
 		) const;
 
 	std::list<ScreenKDM> make_kdms (
@@ -138,7 +140,9 @@ public:
 		boost::filesystem::path cpl_file,
 		boost::posix_time::ptime from,
 		boost::posix_time::ptime until,
-		dcp::Formulation formulation
+		dcp::Formulation formulation,
+		int disable_forensic_marking_picture,
+		int disable_forensic_marking_audio
 		) const;
 
 	int state_version () const {

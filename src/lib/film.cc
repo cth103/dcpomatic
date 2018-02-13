@@ -1213,7 +1213,9 @@ Film::make_kdm (
 	boost::filesystem::path cpl_file,
 	dcp::LocalTime from,
 	dcp::LocalTime until,
-	dcp::Formulation formulation
+	dcp::Formulation formulation,
+	int disable_forensic_marking_picture,
+	int disable_forensic_marking_audio
 	) const
 {
 	if (!_encrypted) {
@@ -1264,7 +1266,7 @@ Film::make_kdm (
 
 	return dcp::DecryptedKDM (
 		cpl->id(), keys, from, until, cpl->content_title_text(), cpl->content_title_text(), dcp::LocalTime().as_string()
-		).encrypt (signer, recipient, trusted_devices, formulation);
+		).encrypt (signer, recipient, trusted_devices, formulation, disable_forensic_marking_picture, disable_forensic_marking_audio);
 }
 
 /** @param screens Screens to make KDMs for.
@@ -1279,7 +1281,9 @@ Film::make_kdms (
 	boost::filesystem::path cpl_file,
 	boost::posix_time::ptime from,
 	boost::posix_time::ptime until,
-	dcp::Formulation formulation
+	dcp::Formulation formulation,
+	int disable_forensic_marking_picture,
+	int disable_forensic_marking_audio
 	) const
 {
 	list<ScreenKDM> kdms;
@@ -1292,7 +1296,9 @@ Film::make_kdms (
 				cpl_file,
 				dcp::LocalTime (from, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
 				dcp::LocalTime (until, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
-				formulation
+				formulation,
+				disable_forensic_marking_picture,
+				disable_forensic_marking_audio
 				);
 
 			kdms.push_back (ScreenKDM (i, kdm));

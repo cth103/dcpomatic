@@ -51,22 +51,24 @@ static void
 help ()
 {
 	cerr << "Syntax: " << program_name << " [OPTION] <FILM|CPL-ID|DKDM>\n"
-		"  -h, --help                    show this help\n"
-		"  -o, --output                  output file or directory\n"
-		"  -K, --filename-format         filename format for KDMs\n"
-		"  -Z, --container-name-format   filename format for ZIP containers\n"
-		"  -f, --valid-from              valid from time (in local time zone of the cinema) (e.g. \"2013-09-28 01:41:51\") or \"now\"\n"
-		"  -t, --valid-to                valid to time (in local time zone of the cinema) (e.g. \"2014-09-28 01:41:51\")\n"
-		"  -d, --valid-duration          valid duration (e.g. \"1 day\", \"4 hours\", \"2 weeks\")\n"
-		"  -F, --formulation             modified-transitional-1, multiple-modified-transitional-1, dci-any or dci-specific [default modified-transitional-1]\n"
-		"  -z, --zip                     ZIP each cinema's KDMs into its own file\n"
-		"  -v, --verbose                 be verbose\n"
-		"  -c, --cinema                  specify a cinema, either by name or email address\n"
-		"  -S, --screen                  screen description\n"
-		"  -C, --certificate             file containing projector certificate\n"
-		"  -T, --trusted-device          file containing a trusted device's certificate\n"
-		"      --list-cinemas            list known cinemas from the DCP-o-matic settings\n"
-		"      --list-dkdm-cpls          list CPLs for which DCP-o-matic has DKDMs\n\n"
+		"  -h, --help                               show this help\n"
+		"  -o, --output                             output file or directory\n"
+		"  -K, --filename-format                    filename format for KDMs\n"
+		"  -Z, --container-name-format              filename format for ZIP containers\n"
+		"  -f, --valid-from                         valid from time (in local time zone of the cinema) (e.g. \"2013-09-28 01:41:51\") or \"now\"\n"
+		"  -t, --valid-to                           valid to time (in local time zone of the cinema) (e.g. \"2014-09-28 01:41:51\")\n"
+		"  -d, --valid-duration                     valid duration (e.g. \"1 day\", \"4 hours\", \"2 weeks\")\n"
+		"  -F, --formulation                        modified-transitional-1, multiple-modified-transitional-1, dci-any or dci-specific [default modified-transitional-1]\n"
+		"  -a, --disable-forensic-marking-picture   disable forensic of pictures essences\n"
+		"  -a, --disable-forensic-marking-audio     disable forensic of audio essences (optionally above a given channel, e.g 12)\n"
+		"  -z, --zip                                ZIP each cinema's KDMs into its own file\n"
+		"  -v, --verbose                            be verbose\n"
+		"  -c, --cinema                             specify a cinema, either by name or email address\n"
+		"  -S, --screen                             screen description\n"
+		"  -C, --certificate                        file containing projector certificate\n"
+		"  -T, --trusted-device                     file containing a trusted device's certificate\n"
+		"      --list-cinemas                       list known cinemas from the DCP-o-matic settings\n"
+		"      --list-dkdm-cpls                     list CPLs for which DCP-o-matic has DKDMs\n\n"
 		"CPL-ID must be the ID of a CPL that is mentioned in DCP-o-matic's DKDM list.\n\n"
 		"For example:\n\n"
 		"Create KDMs for my_great_movie to play in all of Fred's Cinema's screens for the next two weeks and zip them up.\n"
@@ -192,6 +194,8 @@ from_film (
 	boost::posix_time::ptime valid_from,
 	boost::posix_time::ptime valid_to,
 	dcp::Formulation formulation,
+	int disable_forensic_marking_picture,
+	int disable_forensic_marking_audio,
 	bool zip
 	)
 {
@@ -224,7 +228,7 @@ from_film (
 
 	try {
 		list<ScreenKDM> screen_kdms = film->make_kdms (
-			screens, cpl, valid_from, valid_to, formulation
+			screens, cpl, valid_from, valid_to, formulation, disable_forensic_marking_picture, disable_forensic_marking_audio
 			);
 
 		write_files (screen_kdms, zip, output, container_name_format, filename_format, values, verbose);
@@ -272,7 +276,9 @@ kdm_from_dkdm (
 	vector<dcp::Certificate> trusted_devices,
 	dcp::LocalTime valid_from,
 	dcp::LocalTime valid_to,
-	dcp::Formulation formulation
+	dcp::Formulation formulation,
+	int disable_forensic_marking_picture,
+	int disable_forensic_marking_audio
 	)
 {
 	/* Signer for new KDM */
@@ -294,7 +300,7 @@ kdm_from_dkdm (
 		kdm.add_key(j);
 	}
 
-	return kdm.encrypt (signer, target, trusted_devices, formulation);
+	return kdm.encrypt (signer, target, trusted_devices, formulation, disable_forensic_marking_picture, disable_forensic_marking_audio);
 }
 
 void
@@ -308,6 +314,8 @@ from_dkdm (
 	boost::posix_time::ptime valid_from,
 	boost::posix_time::ptime valid_to,
 	dcp::Formulation formulation,
+	int disable_forensic_marking_picture,
+	int disable_forensic_marking_audio,
 	bool zip
 	)
 {
@@ -332,7 +340,9 @@ from_dkdm (
 						i->trusted_devices,
 						dcp::LocalTime(valid_from, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
 						dcp::LocalTime(valid_to, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
-						formulation
+						formulation,
+						disable_forensic_marking_picture,
+						disable_forensic_marking_audio
 						)
 					)
 				);
@@ -390,6 +400,8 @@ int main (int argc, char* argv[])
 	optional<string> duration_string;
 	bool verbose = false;
 	dcp::Formulation formulation = dcp::MODIFIED_TRANSITIONAL_1;
+	int disable_forensic_marking_picture = 0;
+	int disable_forensic_marking_audio = 0;
 
 	program_name = argv[0];
 
@@ -404,6 +416,8 @@ int main (int argc, char* argv[])
 			{ "valid-to", required_argument, 0, 't'},
 			{ "valid-duration", required_argument, 0, 'd'},
 			{ "formulation", required_argument, 0, 'F' },
+			{ "disable-forensic-marking-picture", no_argument, 0, 'p' },
+			{ "disable-forensic-marking-audio", optional_argument, 0, 'a' },
 			{ "zip", no_argument, 0, 'z' },
 			{ "verbose", no_argument, 0, 'v' },
 			{ "cinema", required_argument, 0, 'c' },
@@ -415,7 +429,7 @@ int main (int argc, char* argv[])
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "ho:K:Z:f:t:d:F:zvc:S:C:T:BD", long_options, &option_index);
+		int c = getopt_long (argc, argv, "ho:K:Z:f:t:d:F:pa::zvc:S:C:T:BD", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -454,6 +468,17 @@ int main (int argc, char* argv[])
 				formulation = dcp::DCI_SPECIFIC;
 			} else {
 				error ("unrecognised KDM formulation " + string (optarg));
+			}
+			break;
+		case 'p':
+			disable_forensic_marking_picture = -1;
+			break;
+		case 'a':
+			disable_forensic_marking_audio = -1;
+			if (optarg == NULL && argv[optind] != NULL && argv[optind][0] != '-') {
+				disable_forensic_marking_audio = atoi (argv[optind++]);
+			} else if (optarg != NULL) {
+				disable_forensic_marking_audio = atoi (optarg);
 			}
 			break;
 		case 'z':
@@ -539,7 +564,20 @@ int main (int argc, char* argv[])
 
 	string const thing = argv[optind];
 	if (boost::filesystem::is_directory(thing) && boost::filesystem::is_regular_file(boost::filesystem::path(thing) / "metadata.xml")) {
-		from_film (screens, thing, verbose, output, container_name_format, filename_format, *valid_from, *valid_to, formulation, zip);
+		from_film (
+			screens,
+			thing,
+			verbose,
+			output,
+			container_name_format,
+			filename_format,
+			*valid_from,
+			*valid_to,
+			formulation,
+			disable_forensic_marking_picture,
+			disable_forensic_marking_audio,
+			zip
+			);
 	} else {
 		if (boost::filesystem::is_regular_file(thing)) {
 			dkdm = dcp::EncryptedKDM (dcp::file_to_string (thing));
@@ -551,7 +589,20 @@ int main (int argc, char* argv[])
 			error ("could not find film or CPL ID corresponding to " + thing);
 		}
 
-		from_dkdm (screens, dcp::DecryptedKDM (*dkdm, Config::instance()->decryption_chain()->key().get()), verbose, output, container_name_format, filename_format, *valid_from, *valid_to, formulation, zip);
+		from_dkdm (
+			screens,
+			dcp::DecryptedKDM (*dkdm, Config::instance()->decryption_chain()->key().get()),
+			verbose,
+			output,
+			container_name_format,
+			filename_format,
+			*valid_from,
+			*valid_to,
+			formulation,
+			disable_forensic_marking_picture,
+			disable_forensic_marking_audio,
+			zip
+			);
 	}
 
 	return 0;
