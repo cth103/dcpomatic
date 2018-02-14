@@ -390,7 +390,6 @@ int main (int argc, char* argv[])
 	shared_ptr<Cinema> cinema;
 	string screen_description = "";
 	list<shared_ptr<Screen> > screens;
-	optional<dcp::Certificate> certificate;
 	optional<dcp::EncryptedKDM> dkdm;
 	optional<boost::posix_time::ptime> valid_from;
 	optional<boost::posix_time::ptime> valid_to;
@@ -488,25 +487,29 @@ int main (int argc, char* argv[])
 			verbose = true;
 			break;
 		case 'c':
+			/* This could be a cinema to search for in the configured list or the name of a cinema being
+			   built up on-the-fly in the option.  Cater for both possilibities here by storing the name
+			   (for lookup) and by creating a Cinema which the next Screen will be added to.
+			*/
 			cinema_name = optarg;
-			cinema = shared_ptr<Cinema> (new Cinema (cinema_name, list<string>(), "", 0, 0));
+			cinema = shared_ptr<Cinema> (new Cinema (optarg, list<string>(), "", 0, 0));
 			break;
 		case 'S':
 			screen_description = optarg;
 			break;
 		case 'C':
-		{
-			certificate = dcp::Certificate (dcp::file_to_string (optarg));
-			vector<dcp::Certificate> trusted_devices;
-			shared_ptr<Screen> screen (new Screen (screen_description, certificate, trusted_devices));
+			/* Make a new screen and add it to the current cinema */
+			shared_ptr<Screen> screen (new Screen (screen_description, dcp::Certificate (dcp::file_to_string (optarg)), vector<dcp::Certificate>()));
 			if (cinema) {
 				cinema->add_screen (screen);
 			}
 			screens.push_back (screen);
 			break;
-		}
 		case 'T':
-			screens.back()->trusted_devices.push_back (dcp::Certificate (dcp::file_to_string (optarg)));
+			/* A trusted device ends up in the last screen we made */
+			if (!screens.empty ()) {
+				screens.back()->trusted_devices.push_back (dcp::Certificate (dcp::file_to_string (optarg)));
+			}
 			break;
 		case 'B':
 			list_cinemas = true;
