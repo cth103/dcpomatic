@@ -91,6 +91,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	wxArrayString written_by;
 	written_by.Add (wxT ("Carl Hetherington"));
 	written_by.Add (wxT ("Terrence Meiczinger"));
+	written_by.Add (wxT ("Mart Jansink"));
 	written_by.Add (wxT ("Ole Laursen"));
 	written_by.Add (wxT ("Brecht Sanders"));
 	written_by.Add (wxT ("Jianguo Huang"));
