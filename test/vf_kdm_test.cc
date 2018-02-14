@@ -66,7 +66,8 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 		A_dcp.cpls().front()->file().get(),
 		dcp::LocalTime ("2014-07-21T00:00:00+00:00"),
 		dcp::LocalTime ("2024-07-21T00:00:00+00:00"),
-		dcp::MODIFIED_TRANSITIONAL_1
+		dcp::MODIFIED_TRANSITIONAL_1,
+		true, 0
 		);
 
 	/* Import A into a new project, with the required KDM, and make a VF that refers to it */
@@ -95,7 +96,8 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 		B_dcp.cpls().front()->file().get(),
 		dcp::LocalTime ("2014-07-21T00:00:00+00:00"),
 		dcp::LocalTime ("2024-07-21T00:00:00+00:00"),
-		dcp::MODIFIED_TRANSITIONAL_1
+		dcp::MODIFIED_TRANSITIONAL_1,
+		true, 0
 		);
 
 	/* Import the OV and VF into a new project with the KDM that was created for the VF.

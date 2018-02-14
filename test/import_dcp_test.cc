@@ -66,7 +66,8 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 		A_dcp.cpls().front()->file().get(),
 		dcp::LocalTime ("2014-07-21T00:00:00+00:00"),
 		dcp::LocalTime ("2024-07-21T00:00:00+00:00"),
-		dcp::MODIFIED_TRANSITIONAL_1
+		dcp::MODIFIED_TRANSITIONAL_1,
+		true, 0
 		);
 
 	shared_ptr<Film> B = new_test_film ("import_dcp_test2");

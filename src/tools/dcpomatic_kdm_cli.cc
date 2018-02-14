@@ -498,6 +498,7 @@ int main (int argc, char* argv[])
 			screen_description = optarg;
 			break;
 		case 'C':
+		{
 			/* Make a new screen and add it to the current cinema */
 			shared_ptr<Screen> screen (new Screen (screen_description, dcp::Certificate (dcp::file_to_string (optarg)), vector<dcp::Certificate>()));
 			if (cinema) {
@@ -505,6 +506,7 @@ int main (int argc, char* argv[])
 			}
 			screens.push_back (screen);
 			break;
+		}
 		case 'T':
 			/* A trusted device ends up in the last screen we made */
 			if (!screens.empty ()) {

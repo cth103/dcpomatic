@@ -140,7 +140,7 @@ KDMDialog::make_clicked ()
 	DCPOMATIC_ASSERT (film);
 
 	list<ScreenKDM> screen_kdms = film->make_kdms (
-		_screens->screens(), _cpl->cpl(), _timing->from(), _timing->until(), _output->formulation()
+		_screens->screens(), _cpl->cpl(), _timing->from(), _timing->until(), _output->formulation(), true, 0
 		);
 
 	pair<shared_ptr<Job>, int> result = _output->make (screen_kdms, film->name(), _timing, bind (&KDMDialog::confirm_overwrite, this, _1), film->log());
