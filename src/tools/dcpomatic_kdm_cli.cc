@@ -489,16 +489,17 @@ int main (int argc, char* argv[])
 			break;
 		case 'c':
 			cinema_name = optarg;
-			cinema = shared_ptr<Cinema> (new Cinema (optarg, list<string> (), "", 0, 0 ));
+			cinema = shared_ptr<Cinema> (new Cinema (cinema_name, list<string>(), "", 0, 0));
 			break;
 		case 'S':
 			screen_description = optarg;
 			break;
-		case 'C': {
+		case 'C':
+		{
 			certificate = dcp::Certificate (dcp::file_to_string (optarg));
 			vector<dcp::Certificate> trusted_devices;
 			shared_ptr<Screen> screen (new Screen (screen_description, certificate, trusted_devices));
-			if (cinema_name) {
+			if (cinema) {
 				cinema->add_screen (screen);
 			}
 			screens.push_back (screen);
