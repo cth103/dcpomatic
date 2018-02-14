@@ -1205,6 +1205,9 @@ Film::frame_size () const
  *  @param from KDM from time expressed as a local time with an offset from UTC.
  *  @param until KDM to time expressed as a local time with an offset from UTC.
  *  @param formulation KDM formulation to use.
+ *  @param disable_forensic_marking_picture true to disable forensic marking of picture.
+ *  @param disable_forensic_marking_audio if not set, don't disable forensic marking of audio.  If set to 0,
+ *  disable all forensic marking; if set above 0, disable forensic marking above that channel.
  */
 dcp::EncryptedKDM
 Film::make_kdm (
@@ -1214,8 +1217,8 @@ Film::make_kdm (
 	dcp::LocalTime from,
 	dcp::LocalTime until,
 	dcp::Formulation formulation,
-	int disable_forensic_marking_picture,
-	int disable_forensic_marking_audio
+	bool disable_forensic_marking_picture,
+	optional<int> disable_forensic_marking_audio
 	) const
 {
 	if (!_encrypted) {
@@ -1274,6 +1277,9 @@ Film::make_kdm (
  *  @param from KDM from time expressed as a local time in the time zone of the Screen's Cinema.
  *  @param until KDM to time expressed as a local time in the time zone of the Screen's Cinema.
  *  @param formulation KDM formulation to use.
+ *  @param disable_forensic_marking_picture true to disable forensic marking of picture.
+ *  @param disable_forensic_marking_audio if not set, don't disable forensic marking of audio.  If set to 0,
+ *  disable all forensic marking; if set above 0, disable forensic marking above that channel.
  */
 list<ScreenKDM>
 Film::make_kdms (
@@ -1282,8 +1288,8 @@ Film::make_kdms (
 	boost::posix_time::ptime from,
 	boost::posix_time::ptime until,
 	dcp::Formulation formulation,
-	int disable_forensic_marking_picture,
-	int disable_forensic_marking_audio
+	bool disable_forensic_marking_picture,
+	optional<int> disable_forensic_marking_audio
 	) const
 {
 	list<ScreenKDM> kdms;

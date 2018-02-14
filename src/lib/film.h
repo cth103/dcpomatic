@@ -131,8 +131,8 @@ public:
 		dcp::LocalTime from,
 		dcp::LocalTime until,
 		dcp::Formulation formulation,
-		int disable_forensic_marking_picture,
-		int disable_forensic_marking_audio
+		bool disable_forensic_marking_picture,
+		boost::optional<int> disable_forensic_marking_audio
 		) const;
 
 	std::list<ScreenKDM> make_kdms (
@@ -141,8 +141,8 @@ public:
 		boost::posix_time::ptime from,
 		boost::posix_time::ptime until,
 		dcp::Formulation formulation,
-		int disable_forensic_marking_picture,
-		int disable_forensic_marking_audio
+		bool disable_forensic_marking_picture,
+		boost::optional<int> disable_forensic_marking_audio
 		) const;
 
 	int state_version () const {

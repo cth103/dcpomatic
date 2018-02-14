@@ -194,8 +194,8 @@ from_film (
 	boost::posix_time::ptime valid_from,
 	boost::posix_time::ptime valid_to,
 	dcp::Formulation formulation,
-	int disable_forensic_marking_picture,
-	int disable_forensic_marking_audio,
+	bool disable_forensic_marking_picture,
+	optional<int> disable_forensic_marking_audio,
 	bool zip
 	)
 {
@@ -277,8 +277,8 @@ kdm_from_dkdm (
 	dcp::LocalTime valid_from,
 	dcp::LocalTime valid_to,
 	dcp::Formulation formulation,
-	int disable_forensic_marking_picture,
-	int disable_forensic_marking_audio
+	bool disable_forensic_marking_picture,
+	optional<int> disable_forensic_marking_audio
 	)
 {
 	/* Signer for new KDM */
@@ -314,8 +314,8 @@ from_dkdm (
 	boost::posix_time::ptime valid_from,
 	boost::posix_time::ptime valid_to,
 	dcp::Formulation formulation,
-	int disable_forensic_marking_picture,
-	int disable_forensic_marking_audio,
+	bool disable_forensic_marking_picture,
+	optional<int> disable_forensic_marking_audio,
 	bool zip
 	)
 {
@@ -399,8 +399,8 @@ int main (int argc, char* argv[])
 	optional<string> duration_string;
 	bool verbose = false;
 	dcp::Formulation formulation = dcp::MODIFIED_TRANSITIONAL_1;
-	int disable_forensic_marking_picture = 0;
-	int disable_forensic_marking_audio = 0;
+	bool disable_forensic_marking_picture = false;
+	optional<int> disable_forensic_marking_audio;
 
 	program_name = argv[0];
 
@@ -470,13 +470,13 @@ int main (int argc, char* argv[])
 			}
 			break;
 		case 'p':
-			disable_forensic_marking_picture = -1;
+			disable_forensic_marking_picture = true;
 			break;
 		case 'a':
-			disable_forensic_marking_audio = -1;
-			if (optarg == NULL && argv[optind] != NULL && argv[optind][0] != '-') {
+			disable_forensic_marking_audio = 0;
+			if (optarg == 0 && argv[optind] != 0 && argv[optind][0] != '-') {
 				disable_forensic_marking_audio = atoi (argv[optind++]);
-			} else if (optarg != NULL) {
+			} else if (optarg) {
 				disable_forensic_marking_audio = atoi (optarg);
 			}
 			break;
