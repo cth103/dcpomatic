@@ -246,8 +246,9 @@ make_dmg "$appdir" "DCP-o-matic"
 # DCP-o-matic KDM Creator
 setup "DCP-o-matic 2 KDM Creator.app"
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm "$approot/MacOS"
+universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm_cli "$approot/MacOS"
 cp $ROOT/32/src/dcpomatic/build/platform/osx/dcpomatic2_kdm.Info.plist "$approot/Info.plist"
-rl=("$approot/MacOS/dcpomatic2_kdm" "$approot/lib/"*.dylib)
+rl=("$approot/MacOS/dcpomatic2_kdm" "$approot/MacOS/dcpomatic2_kdm_cli" "$approot/lib/"*.dylib)
 relink "${rl[@]}"
 make_dmg "$appdir" "DCP-o-matic KDM Creator"
 
