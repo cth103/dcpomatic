@@ -60,7 +60,9 @@ private:
 	void silence (int milliseconds);
 
 	boost::shared_ptr<const AudioContent> _content;
-	/** Frame after the last one that was emitted from Data for each AudioStream */
+	/** Frame after the last one that was emitted from Data (i.e. at the resampled rate, if applicable)
+	 *  for each AudioStream.
+	 */
 	std::map<AudioStreamPtr, Frame> _positions;
 	std::map<AudioStreamPtr, boost::shared_ptr<Resampler> > _resamplers;
 
