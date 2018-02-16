@@ -87,6 +87,9 @@ Job::start ()
 	_start_time = time (0);
 	_sub_start_time = time (0);
 	_thread = new boost::thread (boost::bind (&Job::run_wrapper, this));
+#ifdef DCPOMATIC_LINUX
+	pthread_setname_np (_thread->native_handle(), "job-wrapper");
+#endif
 }
 
 /** A wrapper for the ::run() method to catch exceptions */

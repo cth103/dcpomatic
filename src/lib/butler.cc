@@ -61,6 +61,9 @@ Butler::Butler (shared_ptr<Player> player, shared_ptr<Log> log, AudioMapping aud
 	_player_video_connection = _player->Video.connect (bind (&Butler::video, this, _1, _2));
 	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1));
 	_thread = new boost::thread (bind (&Butler::thread, this));
+#ifdef DCPOMATIC_LINUX
+	pthread_setname_np (_thread->native_handle(), "butler");
+#endif
 
 	/* Create some threads to do work on the PlayerVideos we are creating; at present this is used to
 	   multi-thread JPEG2000 decoding.

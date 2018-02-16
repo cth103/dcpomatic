@@ -344,6 +344,10 @@ public:
 		delete[] accel;
 
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
+
+#ifdef DCPOMATIC_LINUX
+		pthread_setname_np(pthread_self(), "gui");
+#endif
 	}
 
 	void remove_clicked (wxCommandEvent& ev)

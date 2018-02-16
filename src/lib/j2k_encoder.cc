@@ -400,6 +400,9 @@ J2KEncoder::servers_list_changed ()
 	if (!Config::instance()->only_servers_encode ()) {
 		for (int i = 0; i < Config::instance()->master_encoding_threads (); ++i) {
 			boost::thread* t = new boost::thread (boost::bind (&J2KEncoder::encoder_thread, this, optional<EncodeServerDescription> ()));
+#ifdef DCPOMATIC_LINUX
+			pthread_setname_np (t->native_handle(), "encode-worker");
+#endif
 			_threads.push_back (t);
 #ifdef BOOST_THREAD_PLATFORM_WIN32
 			if (windows_xp) {

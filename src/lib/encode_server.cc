@@ -229,10 +229,17 @@ EncodeServer::run ()
 	}
 
 	for (int i = 0; i < _num_threads; ++i) {
-		_worker_threads.push_back (new thread (bind (&EncodeServer::worker_thread, this)));
+		thread* t = new thread (bind (&EncodeServer::worker_thread, this));
+#ifdef DCPOMATIC_LINUX
+		pthread_setname_np (t->native_handle(), "encode-server-worker");
+#endif
+		_worker_threads.push_back (t);
 	}
 
 	_broadcast.thread = new thread (bind (&EncodeServer::broadcast_thread, this));
+#ifdef DCPOMATIC_LINUX
+	pthread_setname_np (_broadcast.thread->native_handle(), "encode-server-broadcast");
+#endif
 
 	Server::run ();
 }
