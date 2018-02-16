@@ -66,7 +66,7 @@ AudioDecoder::emit (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, 
 			silence (_content->delay ());
 		}
 		time += ContentTime::from_seconds (_content->delay() / 1000.0);
-		_positions[stream] = time.frames_round (stream->frame_rate ());
+		_positions[stream] = time.frames_round (_content->resampled_frame_rate ());
 	}
 
 	shared_ptr<Resampler> resampler;
