@@ -989,6 +989,11 @@ Player::emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 void
 Player::emit_audio (shared_ptr<AudioBuffers> data, DCPTime time)
 {
+	/* Log if the assert below is about to fail */
+	if (_last_audio_time && time != *_last_audio_time) {
+		_film->log()->log(String::compose("Out-of-sequence emit %1 vs %2", to_string(time), to_string(*_last_audio_time)), LogEntry::TYPE_WARNING);
+	}
+
 	/* This audio must follow on from the previous */
 	DCPOMATIC_ASSERT (!_last_audio_time || time == *_last_audio_time);
 	Audio (data, time);
