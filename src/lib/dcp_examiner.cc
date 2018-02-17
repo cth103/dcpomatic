@@ -200,6 +200,8 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 		}
 	} catch (dcp::DCPReadError& e) {
 		_kdm_valid = false;
+	} catch (dcp::MiscError& e) {
+		_kdm_valid = false;
 	}
 
 	DCPOMATIC_ASSERT (cpl->standard ());
