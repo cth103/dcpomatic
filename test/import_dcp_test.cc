@@ -30,6 +30,8 @@
 #include "lib/dcp_content_type.h"
 #include "lib/dcp_content.h"
 #include "lib/ffmpeg_content.h"
+#include "lib/examine_content_job.h"
+#include "lib/job_manager.h"
 #include "lib/config.h"
 #include "lib/cross.h"
 #include <dcp/cpl.h>
@@ -80,6 +82,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 	B->examine_and_add_content (d);
 	BOOST_CHECK (!wait_for_jobs ());
 	d->add_kdm (kdm);
+	JobManager::instance()->add (shared_ptr<Job> (new ExamineContentJob (B, d)));
 	BOOST_CHECK (!wait_for_jobs ());
 
 	B->make_dcp ();
