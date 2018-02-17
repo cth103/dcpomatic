@@ -50,10 +50,10 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 	shared_ptr<FFmpegContent> c (new FFmpegContent (A, "test/data/test.mp4"));
 	A->examine_and_add_content (c);
 	A->set_encrypted (true);
-	wait_for_jobs ();
+	BOOST_CHECK (!wait_for_jobs ());
 
 	A->make_dcp ();
-	wait_for_jobs ();
+	BOOST_CHECK (!wait_for_jobs ());
 
 	dcp::DCP A_dcp ("build/test/import_dcp_test/" + A->dcp_name());
 	A_dcp.read ();
@@ -76,12 +76,13 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 	B->set_interop (false);
 
 	shared_ptr<DCPContent> d (new DCPContent (B, "build/test/import_dcp_test/" + A->dcp_name()));
-	d->add_kdm (kdm);
 	B->examine_and_add_content (d);
-	wait_for_jobs ();
+	BOOST_CHECK (!wait_for_jobs ());
+	d->add_kdm (kdm);
+	BOOST_CHECK (!wait_for_jobs ());
 
 	B->make_dcp ();
-	wait_for_jobs ();
+	BOOST_CHECK (!wait_for_jobs ());
 
 	/* Should be 1s red, 1s green, 1s blue */
 	check_dcp ("test/data/import_dcp_test2", "build/test/import_dcp_test2/" + B->dcp_name());
