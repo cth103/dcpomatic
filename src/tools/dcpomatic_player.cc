@@ -311,6 +311,10 @@ private:
 			DCPOMATIC_ASSERT (dcp);
 			dcp->add_ov (wx_to_std(c->GetPath()));
 			dcp->examine (shared_ptr<Job>());
+			/* Maybe we just gained some subtitles */
+			if (dcp->subtitle) {
+				dcp->subtitle->set_use (true);
+			}
 		}
 
 		c->Destroy ();
