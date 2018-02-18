@@ -271,7 +271,9 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 	/* Seek to pre-roll position */
 
 	while (_reel != _reels.end() && pre >= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate ())) {
-		pre -= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate ());
+		ContentTime rd = ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate ());
+		pre -= rd;
+		t -= rd;
 		next_reel ();
 	}
 
