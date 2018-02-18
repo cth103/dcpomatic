@@ -214,12 +214,10 @@ Butler::prepare (weak_ptr<PlayerVideo> weak_video) const
 void
 Butler::video (shared_ptr<PlayerVideo> video, DCPTime time)
 {
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		if (_pending_seek_position) {
-			/* Don't store any video while a seek is pending */
-			return;
-		}
+	boost::mutex::scoped_lock lm (_mutex);
+	if (_pending_seek_position) {
+		/* Don't store any video while a seek is pending */
+		return;
 	}
 
 	_prepare_service.post (bind (&Butler::prepare, this, weak_ptr<PlayerVideo>(video)));
