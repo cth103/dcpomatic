@@ -34,6 +34,7 @@ public:
 	virtual ~DecoderPart () {}
 
 	virtual ContentTime position () const = 0;
+	virtual void seek () = 0;
 
 	void set_ignore (bool i) {
 		_ignore = i;
