@@ -63,6 +63,7 @@ sources = """
           decoder.cc
           decoder_factory.cc
           decoder_part.cc
+          delay.cc
           digester.cc
           dkdm_wrapper.cc
           dolby_cp750.cc
@@ -146,6 +147,7 @@ sources = """
           upmixer_a.cc
           upmixer_b.cc
           util.cc
+          video_adjuster.cc
           video_content.cc
           video_content_scale.cc
           video_decoder.cc

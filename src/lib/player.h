@@ -33,6 +33,7 @@
 #include "audio_stream.h"
 #include "audio_merger.h"
 #include "empty.h"
+#include "delay.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <list>
@@ -159,6 +160,7 @@ private:
 
 	AudioMerger _audio_merger;
 	Shuffler* _shuffler;
+	Delay* _delay;
 
 	class StreamState
 	{

@@ -18,20 +18,26 @@
 
 */
 
+#ifndef DCPOMATIC_DELAY_H
+#define DCPOMATIC_DELAY_H
+
 #include "types.h"
-#include "content_video.h"
 #include "video_adjuster.h"
+#include "content_video.h"
 #include <boost/signals2.hpp>
 
 class Piece;
 
-class Shuffler : public VideoAdjuster
+/** A class which `delays' received video by 2 frames; i.e. when it receives
+ *  a video frame it emits the last-but-one it received.
+ */
+class Delay : public VideoAdjuster
 {
 public:
-	void clear ();
-
 	void video (boost::weak_ptr<Piece>, ContentVideo video);
 
 private:
 	boost::optional<ContentVideo> _last;
 };
+
+#endif

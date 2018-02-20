@@ -18,20 +18,31 @@
 
 */
 
-#include "types.h"
-#include "content_video.h"
-#include "video_adjuster.h"
+#ifndef DCPOMATIC_VIDEO_ADJUSTER_H
+#define DCPOMATIC_VIDEO_ADJUSTER_H
+
 #include <boost/signals2.hpp>
 
 class Piece;
+class ContentVideo;
 
-class Shuffler : public VideoAdjuster
+/** Parent class for short delays of video content done by the Player
+ *  to work around various problems.
+ */
+class VideoAdjuster
 {
 public:
-	void clear ();
+	virtual ~VideoAdjuster() {}
 
-	void video (boost::weak_ptr<Piece>, ContentVideo video);
+	virtual void clear ();
+	void flush ();
 
-private:
-	boost::optional<ContentVideo> _last;
+	boost::signals2::signal<void (boost::weak_ptr<Piece>, ContentVideo)> Video;
+
+	typedef std::pair<boost::weak_ptr<Piece>, ContentVideo> Store;
+
+protected:
+	std::list<Store> _store;
 };
+
+#endif

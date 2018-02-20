@@ -18,20 +18,20 @@
 
 */
 
-#include "types.h"
-#include "content_video.h"
 #include "video_adjuster.h"
-#include <boost/signals2.hpp>
+#include "content_video.h"
+#include <boost/foreach.hpp>
 
-class Piece;
-
-class Shuffler : public VideoAdjuster
+void
+VideoAdjuster::flush ()
 {
-public:
-	void clear ();
+	BOOST_FOREACH (Store i, _store) {
+		Video (i.first, i.second);
+	}
+}
 
-	void video (boost::weak_ptr<Piece>, ContentVideo video);
-
-private:
-	boost::optional<ContentVideo> _last;
-};
+void
+VideoAdjuster::clear ()
+{
+	_store.clear ();
+}
