@@ -78,13 +78,6 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 void
 Shuffler::clear ()
 {
+	VideoAdjuster::clear ();
 	_last = optional<ContentVideo>();
-}
-
-void
-Shuffler::flush ()
-{
-	BOOST_FOREACH (Store i, _store) {
-		Video (i.first, i.second);
-	}
 }

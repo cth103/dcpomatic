@@ -21,6 +21,8 @@
 #ifndef DCPOMATIC_CONTENT_VIDEO_H
 #define DCPOMATIC_CONTENT_VIDEO_H
 
+#include "types.h"
+
 class ImageProxy;
 
 /** @class ContentVideo

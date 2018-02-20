@@ -18,20 +18,24 @@
 
 */
 
-#include "types.h"
+#include "delay.h"
 #include "content_video.h"
-#include "video_adjuster.h"
-#include <boost/signals2.hpp>
+#include "dcpomatic_assert.h"
+#include <boost/foreach.hpp>
+#include <iostream>
 
-class Piece;
+using std::make_pair;
+using boost::weak_ptr;
+using boost::shared_ptr;
+using boost::optional;
 
-class Shuffler : public VideoAdjuster
+void
+Delay::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 {
-public:
-	void clear ();
-
-	void video (boost::weak_ptr<Piece>, ContentVideo video);
-
-private:
-	boost::optional<ContentVideo> _last;
-};
+	_store.push_back (make_pair (weak_piece, video));
+	/* Delay by 2 frames */
+	while (_store.size() > 2) {
+		Video (_store.front().first, _store.front().second);
+		_store.pop_front ();
+	}
+}
