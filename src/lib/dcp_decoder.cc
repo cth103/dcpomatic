@@ -253,6 +253,10 @@ DCPDecoder::get_readers ()
 void
 DCPDecoder::seek (ContentTime t, bool accurate)
 {
+	if (!_dcp_content->can_be_played ()) {
+		return;
+	}
+
 	Decoder::seek (t, accurate);
 
 	_reel = _reels.begin ();
