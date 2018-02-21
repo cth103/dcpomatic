@@ -1264,7 +1264,7 @@ Film::make_kdm (
 
 	return dcp::DecryptedKDM (
 		cpl->id(), keys, from, until, cpl->content_title_text(), cpl->content_title_text(), dcp::LocalTime().as_string()
-		).encrypt (signer, recipient, trusted_devices, formulation);
+		).encrypt (signer, recipient, trusted_devices, formulation, true, 0);
 }
 
 /** @param screens Screens to make KDMs for.

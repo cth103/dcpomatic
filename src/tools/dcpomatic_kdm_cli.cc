@@ -305,7 +305,7 @@ kdm_from_dkdm (
 		kdm.add_key(j);
 	}
 
-	return kdm.encrypt (signer, target, trusted_devices, formulation);
+	return kdm.encrypt (signer, target, trusted_devices, formulation, true, 0);
 }
 
 void
