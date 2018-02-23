@@ -33,7 +33,6 @@
 #include "audio_stream.h"
 #include "audio_merger.h"
 #include "empty.h"
-#include "delay.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <list>
@@ -121,6 +120,7 @@ private:
 		) const;
 	boost::optional<PositionImage> subtitles_for_frame (DCPTime time) const;
 	void emit_video (boost::shared_ptr<PlayerVideo> pv, DCPTime time);
+	void do_emit_video (boost::shared_ptr<PlayerVideo> pv, DCPTime time);
 	void emit_audio (boost::shared_ptr<AudioBuffers> data, DCPTime time);
 
 	boost::shared_ptr<const Film> _film;
@@ -160,7 +160,7 @@ private:
 
 	AudioMerger _audio_merger;
 	Shuffler* _shuffler;
-	Delay* _delay;
+	std::list<std::pair<boost::shared_ptr<PlayerVideo>, DCPTime> > _delay;
 
 	class StreamState
 	{

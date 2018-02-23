@@ -49,7 +49,6 @@
 #include "image_decoder.h"
 #include "compose.hpp"
 #include "shuffler.h"
-#include "delay.h"
 #include <dcp/reel.h>
 #include <dcp/reel_sound_asset.h>
 #include <dcp/reel_subtitle_asset.h>
@@ -90,7 +89,6 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _play_referenced (false)
 	, _audio_merger (_film->audio_frame_rate())
 	, _shuffler (0)
-	, _delay (0)
 {
 	_film_changed_connection = _film->Changed.connect (bind (&Player::film_changed, this, _1));
 	_playlist_changed_connection = _playlist->Changed.connect (bind (&Player::playlist_changed, this));
@@ -105,7 +103,6 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 Player::~Player ()
 {
 	delete _shuffler;
-	delete _delay;
 }
 
 void
@@ -116,10 +113,6 @@ Player::setup_pieces ()
 	delete _shuffler;
 	_shuffler = new Shuffler();
 	_shuffler->Video.connect(bind(&Player::video, this, _1, _2));
-
-	delete _delay;
-	_delay = new Delay();
-	_delay->Video.connect(bind(&Player::video, this, _1, _2));
 
 	BOOST_FOREACH (shared_ptr<Content> i, _playlist->content ()) {
 
@@ -159,10 +152,7 @@ Player::setup_pieces ()
 				/* We need a Shuffler to cope with 3D L/R video data arriving out of sequence */
 				decoder->video->Data.connect (bind (&Shuffler::video, _shuffler, weak_ptr<Piece>(piece), _1));
 			} else {
-				/* We need a Delay to give a little wiggle room to ensure that relevent subtitles arrive at the
-				   player before the video that requires them.
-				*/
-				decoder->video->Data.connect (bind (&Delay::video, _delay, weak_ptr<Piece>(piece), _1));
+				decoder->video->Data.connect (bind (&Player::video, this, weak_ptr<Piece>(piece), _1));
 			}
 		}
 
@@ -660,8 +650,11 @@ Player::pass ()
 
 	if (done) {
 		_shuffler->flush ();
-		_delay->flush ();
+		for (list<pair<shared_ptr<PlayerVideo>, DCPTime> >::const_iterator i = _delay.begin(); i != _delay.end(); ++i) {
+			do_emit_video(i->first, i->second);
+		}
 	}
+
 	return done;
 }
 
@@ -943,9 +936,7 @@ Player::seek (DCPTime time, bool accurate)
 		_shuffler->clear ();
 	}
 
-	if (_delay) {
-		_delay->clear ();
-	}
+	_delay.clear ();
 
 	if (_audio_processor) {
 		_audio_processor->flush ();
@@ -987,6 +978,22 @@ Player::seek (DCPTime time, bool accurate)
 
 void
 Player::emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
+{
+	/* We need a delay to give a little wiggle room to ensure that relevent subtitles arrive at the
+	   player before the video that requires them.
+	*/
+	_delay.push_back (make_pair (pv, time));
+	if (_delay.size() < 2) {
+		return;
+	}
+
+	pair<shared_ptr<PlayerVideo>, DCPTime> to_do = _delay.front();
+	_delay.pop_front();
+	do_emit_video (to_do.first, to_do.second);
+}
+
+void
+Player::do_emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 {
 	optional<PositionImage> subtitles = subtitles_for_frame (time);
 	if (subtitles) {
