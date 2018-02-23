@@ -983,7 +983,14 @@ Player::emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 	   player before the video that requires them.
 	*/
 	_delay.push_back (make_pair (pv, time));
-	if (_delay.size() < 2) {
+
+	if (pv->eyes() == EYES_BOTH || pv->eyes() == EYES_RIGHT) {
+		_last_video_time = time + one_video_frame();
+		_active_subtitles.clear_before (time);
+	}
+	_last_video_eyes = increment_eyes (pv->eyes());
+
+	if (_delay.size() < 3) {
 		return;
 	}
 
@@ -1001,12 +1008,6 @@ Player::do_emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 	}
 
 	Video (pv, time);
-
-	if (pv->eyes() == EYES_BOTH || pv->eyes() == EYES_RIGHT) {
-		_last_video_time = time + one_video_frame();
-		_active_subtitles.clear_before (time);
-	}
-	_last_video_eyes = increment_eyes (pv->eyes());
 }
 
 void
