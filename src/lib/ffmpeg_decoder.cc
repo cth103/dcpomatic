@@ -129,7 +129,7 @@ FFmpegDecoder::flush ()
 	if (video) {
 		double const vfr = _ffmpeg_content->video_frame_rate().get();
 		Frame const f = full_length.frames_round (vfr);
-		Frame v = video->position().frames_round (vfr);
+		Frame v = video->position().frames_round (vfr) + 1;
 		while (v < f) {
 			video->emit (shared_ptr<const ImageProxy> (new RawImageProxy (_black_image)), v);
 			++v;

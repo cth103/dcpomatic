@@ -63,6 +63,7 @@ public:
 	boost::signals2::signal<void (ContentVideo)> Data;
 
 private:
+	/** Time of last thing to be emitted */
 	boost::shared_ptr<const Content> _content;
 	boost::optional<Frame> _last_emitted;
 	ContentTime _position;
