@@ -20,18 +20,22 @@
 
 #include "types.h"
 #include "content_video.h"
-#include "video_adjuster.h"
 #include <boost/signals2.hpp>
 
 class Piece;
 
-class Shuffler : public VideoAdjuster
+class Shuffler
 {
 public:
 	void clear ();
-
+	void flush ();
 	void video (boost::weak_ptr<Piece>, ContentVideo video);
 
+	boost::signals2::signal<void (boost::weak_ptr<Piece>, ContentVideo)> Video;
+
+	typedef std::pair<boost::weak_ptr<Piece>, ContentVideo> Store;
+
 private:
+	std::list<Store> _store;
 	boost::optional<ContentVideo> _last;
 };
