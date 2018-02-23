@@ -986,7 +986,6 @@ Player::emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 
 	if (pv->eyes() == EYES_BOTH || pv->eyes() == EYES_RIGHT) {
 		_last_video_time = time + one_video_frame();
-		_active_subtitles.clear_before (time);
 	}
 	_last_video_eyes = increment_eyes (pv->eyes());
 
@@ -1002,6 +1001,10 @@ Player::emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 void
 Player::do_emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 {
+	if (pv->eyes() == EYES_BOTH || pv->eyes() == EYES_RIGHT) {
+		_active_subtitles.clear_before (time);
+	}
+
 	optional<PositionImage> subtitles = subtitles_for_frame (time);
 	if (subtitles) {
 		pv->set_subtitle (subtitles.get ());
