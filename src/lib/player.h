@@ -48,6 +48,16 @@ class AudioBuffers;
 class ReferencedReelAsset;
 class Shuffler;
 
+class PlayerProperty
+{
+public:
+	static int const VIDEO_CONTAINER_SIZE;
+	static int const PLAYLIST;
+	static int const FILM_CONTAINER;
+	static int const FILM_VIDEO_FRAME_RATE;
+	static int const DCP_DECODE_REDUCTION;
+};
+
 /** @class Player
  *  @brief A class which can `play' a Playlist.
  */
@@ -62,6 +72,9 @@ public:
 
 	std::list<boost::shared_ptr<Font> > get_subtitle_fonts ();
 	std::list<ReferencedReelAsset> get_reel_assets ();
+	dcp::Size video_container_size () const {
+		return _video_container_size;
+	}
 
 	void set_video_container_size (dcp::Size);
 	void set_ignore_video ();
@@ -75,9 +88,10 @@ public:
 	 *  the last frame again it would look different.  This is not emitted after
 	 *  a seek.
 	 *
-	 *  The parameter is true if these signals are currently likely to be frequent.
+	 *  The first parameter is what changed.
+	 *  The second parameter is true if these signals are currently likely to be frequent.
 	 */
-	boost::signals2::signal<void (bool)> Changed;
+	boost::signals2::signal<void (int, bool)> Changed;
 
 	/** Emitted when a video frame is ready.  These emissions happen in the correct order. */
 	boost::signals2::signal<void (boost::shared_ptr<PlayerVideo>, DCPTime)> Video;

@@ -43,6 +43,7 @@ using std::list;
 using boost::shared_ptr;
 using boost::thread;
 using boost::optional;
+using boost::weak_ptr;
 using dcp::Data;
 
 void
@@ -94,7 +95,9 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 			dcp::Size (1998, 1080),
 			EYES_BOTH,
 			PART_WHOLE,
-			ColourConversion ()
+			ColourConversion(),
+			weak_ptr<Content>(),
+			optional<Frame>()
 			)
 		);
 
@@ -177,7 +180,9 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 			dcp::Size (1998, 1080),
 			EYES_BOTH,
 			PART_WHOLE,
-			ColourConversion ()
+			ColourConversion(),
+			weak_ptr<Content>(),
+			optional<Frame>()
 			)
 		);
 
@@ -247,7 +252,9 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 			dcp::Size (1998, 1080),
 			EYES_BOTH,
 			PART_WHOLE,
-			ColourConversion ()
+			ColourConversion(),
+			weak_ptr<Content>(),
+			optional<Frame>()
 			)
 		);
 
@@ -273,7 +280,9 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 			dcp::Size (1998, 1080),
 			EYES_BOTH,
 			PART_WHOLE,
-			PresetColourConversion::all().front().conversion
+			PresetColourConversion::all().front().conversion,
+			weak_ptr<Content>(),
+			optional<Frame>()
 			)
 		);
 

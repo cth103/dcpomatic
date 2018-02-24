@@ -87,7 +87,6 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 	, _timecode (new wxStaticText (this, wxID_ANY, wxT("")))
 	, _play_button (new wxToggleButton (this, wxID_ANY, _("Play")))
 	, _coalesce_player_changes (false)
-	, _pending_player_change (false)
 	, _slider_being_moved (false)
 	, _was_running_before_slider (false)
 	, _audio (DCPOMATIC_RTAUDIO_API)
@@ -146,8 +145,8 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 	if (_outline_content) {
 		_outline_content->Bind  (wxEVT_CHECKBOX, boost::bind (&FilmViewer::refresh_panel,   this));
 	}
-	_left_eye->Bind         (wxEVT_RADIOBUTTON,       boost::bind (&FilmViewer::refresh,         this));
-	_right_eye->Bind        (wxEVT_RADIOBUTTON,       boost::bind (&FilmViewer::refresh,         this));
+	_left_eye->Bind         (wxEVT_RADIOBUTTON,       boost::bind (&FilmViewer::slow_refresh,    this));
+	_right_eye->Bind        (wxEVT_RADIOBUTTON,       boost::bind (&FilmViewer::slow_refresh,    this));
 	_slider->Bind           (wxEVT_SCROLL_THUMBTRACK, boost::bind (&FilmViewer::slider_moved,    this, false));
 	_slider->Bind           (wxEVT_SCROLL_PAGEUP,     boost::bind (&FilmViewer::slider_moved,    this, true));
 	_slider->Bind           (wxEVT_SCROLL_PAGEDOWN,   boost::bind (&FilmViewer::slider_moved,    this, true));
@@ -222,7 +221,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	_player->set_play_referenced ();
 
 	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
-	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1));
+	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1, _2));
 
 	/* Keep about 1 second's worth of history samples */
 	_latency_history_count = _film->audio_frame_rate() / _audio_block_size;
@@ -230,7 +229,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	recreate_butler ();
 
 	calculate_sizes ();
-	refresh ();
+	slow_refresh ();
 
 	setup_sensitivity ();
 }
@@ -283,27 +282,32 @@ FilmViewer::get ()
 {
 	DCPOMATIC_ASSERT (_butler);
 
-	pair<shared_ptr<PlayerVideo>, DCPTime> video;
 	do {
-		video = _butler->get_video ();
+		_player_video = _butler->get_video ();
 	} while (
 		_film->three_d() &&
-		((_left_eye->GetValue() && video.first->eyes() == EYES_RIGHT) || (_right_eye->GetValue() && video.first->eyes() == EYES_LEFT))
+		((_left_eye->GetValue() && _player_video.first->eyes() == EYES_RIGHT) || (_right_eye->GetValue() && _player_video.first->eyes() == EYES_LEFT))
 		);
 
 	_butler->rethrow ();
 
-	if (!video.first) {
+	display_player_video ();
+}
+
+void
+FilmViewer::display_player_video ()
+{
+	if (!_player_video.first) {
 		_frame.reset ();
 		refresh_panel ();
 		return;
 	}
 
-	if (_playing && (time() - video.second) > one_video_frame()) {
+	if (_playing && (time() - _player_video.second) > one_video_frame()) {
 		/* Too late; just drop this frame before we try to get its image (which will be the time-consuming
 		   part if this frame is J2K).
 		*/
-		_video_position = video.second;
+		_video_position = _player_video.second;
 		++_dropped;
 		return;
 	}
@@ -326,17 +330,17 @@ FilmViewer::get ()
 	 * image and convert it (from whatever the user has said it is) to RGB.
 	 */
 
-	_frame = video.first->image (
+	_frame = _player_video.first->image (
 		bind (&Log::dcp_log, _film->log().get(), _1, _2),
 		bind (&PlayerVideo::always_rgb, _1),
 		false, true
 		);
 
-	ImageChanged (video.first);
+	ImageChanged (_player_video.first);
 
-	_video_position = video.second;
-	_inter_position = video.first->inter_position ();
-	_inter_size = video.first->inter_size ();
+	_video_position = _player_video.second;
+	_inter_position = _player_video.first->inter_position ();
+	_inter_size = _player_video.first->inter_size ();
 
 	refresh_panel ();
 }
@@ -442,7 +446,7 @@ FilmViewer::panel_sized (wxSizeEvent& ev)
 	_panel_size.height = ev.GetSize().GetHeight();
 
 	calculate_sizes ();
-	refresh ();
+	quick_refresh ();
 	update_position_label ();
 	update_position_slider ();
 }
@@ -623,19 +627,31 @@ FilmViewer::forward_clicked (wxMouseEvent& ev)
 }
 
 void
-FilmViewer::player_changed (bool frequent)
+FilmViewer::player_changed (int property, bool frequent)
 {
 	if (frequent) {
 		return;
 	}
 
 	if (_coalesce_player_changes) {
-		_pending_player_change = true;
+		_pending_player_changes.push_back (property);
 		return;
 	}
 
 	calculate_sizes ();
-	refresh ();
+	if (
+		property == VideoContentProperty::CROP ||
+		property == VideoContentProperty::SCALE ||
+		property == VideoContentProperty::FADE_IN ||
+		property == VideoContentProperty::FADE_OUT ||
+		property == VideoContentProperty::COLOUR_CONVERSION ||
+		property == PlayerProperty::VIDEO_CONTAINER_SIZE ||
+		property == PlayerProperty::FILM_CONTAINER
+		) {
+		quick_refresh ();
+	} else {
+		slow_refresh ();
+	}
 	update_position_label ();
 	update_position_slider ();
 }
@@ -673,11 +689,23 @@ FilmViewer::film_changed (Film::Property p)
 	}
 }
 
-/** Re-get the current frame */
+/** Re-get the current frame slowly by seeking */
 void
-FilmViewer::refresh ()
+FilmViewer::slow_refresh ()
 {
 	seek (_video_position, true);
+}
+
+/** Re-get the current frame quickly by resetting the metadata in the PlayerVideo that we used last time */
+void
+FilmViewer::quick_refresh ()
+{
+	if (!_player_video.first) {
+		return;
+	}
+
+	_player_video.first->reset_metadata (_player->video_container_size(), _film->frame_size());
+	display_player_video ();
 }
 
 void
@@ -694,12 +722,11 @@ FilmViewer::set_coalesce_player_changes (bool c)
 {
 	_coalesce_player_changes = c;
 
-	if (c) {
-		_pending_player_change = false;
-	} else {
-		if (_pending_player_change) {
-			player_changed (false);
+	if (!c) {
+		BOOST_FOREACH (int i, _pending_player_changes) {
+			player_changed (i, false);
 		}
+		_pending_player_changes.clear ();
 	}
 }
 

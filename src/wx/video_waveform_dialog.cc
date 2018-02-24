@@ -106,7 +106,7 @@ VideoWaveformDialog::shown (wxShowEvent& ev)
 {
 	_plot->set_enabled (ev.IsShown ());
 	if (ev.IsShown ()) {
-		_viewer->refresh ();
+		_viewer->slow_refresh ();
 	}
 }
 
