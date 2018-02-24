@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-01 16:50+0000\n"
-"PO-Revision-Date: 2017-11-07 23:35+0100\n"
+"PO-Revision-Date: 2018-02-24 14:30+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -1030,9 +1030,8 @@ msgid "SSH error (%1)"
 msgstr "Erreur SSH (%1)"
 
 #: src/lib/image_content.cc:107
-#, fuzzy
 msgid "Scanning image files"
-msgstr "Fabrication rendu image"
+msgstr "Vérification des fichiers images"
 
 #: src/lib/send_problem_report_job.cc:74
 msgid "Sending email"
@@ -1111,14 +1110,12 @@ msgid "The file %1 has been moved %2 milliseconds later."
 msgstr "Le fichier %1 a été déplacé de %2 millisecondes plus tard."
 
 #: src/lib/content_factory.cc:135
-#, fuzzy
 msgid "The file %1 has been trimmed by %2 milliseconds less."
-msgstr "Le fichier %1 a été déplacé de %2 millisecondes plus tard."
+msgstr "Le fichier %1 a été raccourci de %2 millisecondes."
 
 #: src/lib/content_factory.cc:130
-#, fuzzy
 msgid "The file %1 has been trimmed by %2 milliseconds more."
-msgstr "Le fichier %1 a été déplacé de %2 millisecondes plus tôt."
+msgstr "Le fichier %1 a été allongé de %2 millisecondes."
 
 #: src/lib/dcp_content.cc:447
 msgid "The film has a different frame rate to this DCP."
@@ -1354,12 +1351,12 @@ msgstr ""
 "Votre projet contient une vidéo qui n'est pas aligné sur la limite de trame."
 
 #: src/lib/content_factory.cc:126
-#, fuzzy
 msgid ""
 "Your project contains video content whose trim was not aligned to a frame "
 "boundary."
 msgstr ""
-"Votre projet contient une vidéo qui n'est pas aligné sur la limite de trame."
+"Votre projet contient une vidéo dont la longueur n'est pas correspondante à "
+"la limite de trame."
 
 #: src/lib/image_content.cc:71
 msgid "[moving images]"

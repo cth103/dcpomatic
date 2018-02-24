@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-01 16:50+0000\n"
-"PO-Revision-Date: 2017-11-07 23:37+0100\n"
+"PO-Revision-Date: 2018-02-24 14:54+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -40,12 +40,11 @@ msgid "%d KDMs written to %s"
 msgstr "KDMs %d écrites dans %s"
 
 #: src/wx/about_dialog.cc:83
-#, fuzzy
 msgid ""
 "(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"(C) 2012-2017 par Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2018 par Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:43 src/wx/file_picker_ctrl.cc:58
@@ -246,9 +245,8 @@ msgid "Adjust white point to"
 msgstr "Ajuster la valeur de blanc à"
 
 #: src/wx/config_dialog.cc:741 src/wx/config_dialog.cc:756
-#, fuzzy
 msgid "Advanced..."
-msgstr "Ajouter..."
+msgstr "Avancé..."
 
 #: src/wx/full_config_dialog.cc:973
 msgid "Allow any DCP frame rate"
@@ -295,7 +293,7 @@ msgstr "Langue audio (ex. FR)"
 #: src/wx/player_information.cc:132
 #, c-format
 msgid "Audio channels: %d"
-msgstr ""
+msgstr "Canaux Audio: %d"
 
 #: src/wx/audio_mapping_view.cc:345
 #, c-format
@@ -512,20 +510,18 @@ msgid "Could not analyse audio."
 msgstr "Analyse du son impossible"
 
 #: src/wx/config_dialog.cc:458
-#, fuzzy, c-format
+#, c-format
 msgid "Could not import certificate (%s)"
-msgstr "Chargement impossible du certificat (%s)"
+msgstr "Importation certificat impossible (%s)"
 
 #: src/wx/content_menu.cc:380
-#, fuzzy
 msgid "Could not load KDM."
-msgstr "Chargement KDM impossible (%s)"
+msgstr "Chargement KDM impossible"
 
 #: src/wx/config_dialog.cc:484 src/wx/config_dialog.cc:678
 #: src/wx/download_certificate_panel.cc:56 src/wx/screen_dialog.cc:158
-#, fuzzy
 msgid "Could not read certificate file."
-msgstr "Lecture du ficher de certificat (%s) impossible"
+msgstr "Lecture du ficher de certificat impossible"
 
 #: src/wx/config_dialog.cc:668
 #, c-format
@@ -533,12 +529,11 @@ msgid "Could not read key file; file is too long (%s)"
 msgstr "Fichier clé illisible car trop long (%s)"
 
 #: src/wx/film_viewer.cc:789
-#, fuzzy
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
-"Sortie audio (%s) non utilisable. Il n'y aura pas de monitoring audio "
-"pendant la prévisualisation. "
+"Réglage sortie audio impossible. Il n'y aura pas de monitoring audio pendant "
+"la prévisualisation. "
 
 #: src/wx/full_config_dialog.cc:876
 msgid "Cover Sheet"
@@ -597,7 +592,7 @@ msgstr "Deboguage: encodage"
 #: src/wx/player_information.cc:159
 #, c-format
 msgid "Decode resolution: %dx%d"
-msgstr ""
+msgstr "Résolution de décodage: %dx%d"
 
 #: src/wx/config_dialog.cc:728 src/wx/config_dialog.cc:765
 msgid "Decrypting KDMs"
@@ -649,7 +644,7 @@ msgstr "Standard par défaut"
 
 #: src/wx/full_config_dialog.cc:341
 msgid "Default to enabling upload of DCP to TMS"
-msgstr ""
+msgstr "Réglages par défaut d'envoi de DCP vers le TMS"
 
 #: src/wx/full_config_dialog.cc:256
 msgid "Defaults"
@@ -773,25 +768,16 @@ msgid "Export"
 msgstr "Export"
 
 #: src/wx/config_dialog.cc:733
-#, fuzzy
 msgid "Export KDM decryption certificate..."
-msgstr ""
-"Export du certificat\n"
-"de décryptage de la KDM..."
+msgstr "Export du certificat de décryptage KDM..."
 
 #: src/wx/config_dialog.cc:735
-#, fuzzy
 msgid "Export KDM decryption chain..."
-msgstr ""
-"Export de la chaine\n"
-" de décryptage KDM..."
+msgstr "Export de la chaine de décryptage KDM..."
 
 #: src/wx/config_dialog.cc:737
-#, fuzzy
 msgid "Export all KDM decryption settings..."
-msgstr ""
-"Export de la chaine\n"
-" de décryptage KDM..."
+msgstr "Export de tous les paramètres de décryptage KDM..."
 
 #: src/wx/export_dialog.cc:46
 msgid "Export film"
@@ -885,7 +871,7 @@ msgstr "Cadence"
 #: src/wx/player_information.cc:129
 #, c-format
 msgid "Frame rate: %d"
-msgstr ""
+msgstr "Cadence image: %d"
 
 #: src/wx/about_dialog.cc:66
 msgid "Free, open-source DCP creation from almost anything."
@@ -1016,16 +1002,12 @@ msgid "Image X position"
 msgstr "Position Hor. image"
 
 #: src/wx/config_dialog.cc:739
-#, fuzzy
 msgid "Import all KDM decryption settings..."
-msgstr ""
-"Export de la chaine\n"
-" de décryptage KDM..."
+msgstr "Import de tous les paramètres de décryptage KDM..."
 
 #: src/wx/config_dialog.cc:399
-#, fuzzy
 msgid "Import..."
-msgstr "Export..."
+msgstr "Import..."
 
 #: src/wx/nag_dialog.cc:29
 msgid "Important notice"
@@ -1066,7 +1048,7 @@ msgstr "MXF-Interop"
 
 #: src/wx/config_dialog.cc:847
 msgid "Invalid DCP-o-matic export file"
-msgstr ""
+msgstr "Fichier export DCP-o-matic invalide"
 
 #: src/wx/colour_conversion_editor.cc:205
 msgid "Inverse 2.6 gamma correction on output"
@@ -1162,9 +1144,8 @@ msgid "Length"
 msgstr "Longueur"
 
 #: src/wx/player_information.cc:145
-#, fuzzy
 msgid "Length: %1 (%2 frames)"
-msgstr "Durée: %s (%ld images)"
+msgstr "Durée: %1 (%2 images)"
 
 #: src/wx/subtitle_panel.cc:108
 msgid "Line spacing"
@@ -1288,7 +1269,8 @@ msgstr "DEMANDE de KDM:"
 msgid "NEEDS OV: "
 msgstr "OV Nécessaire:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Nom"
 
@@ -1425,20 +1407,19 @@ msgstr "Mot de passe"
 
 #: src/wx/paste_dialog.cc:24
 msgid "Paste"
-msgstr ""
+msgstr "Coller"
 
 #: src/wx/paste_dialog.cc:29
 msgid "Paste audio settings"
-msgstr ""
+msgstr "Coller paramètres audio"
 
 #: src/wx/paste_dialog.cc:32
-#, fuzzy
 msgid "Paste subtitle settings"
-msgstr "Utiliser les sous-titres"
+msgstr "Coller les paramètres de sous-titres"
 
 #: src/wx/paste_dialog.cc:26
 msgid "Paste video settings"
-msgstr ""
+msgstr "Coller paramètres vidéo"
 
 #: src/wx/normal_job_view.cc:37 src/wx/normal_job_view.cc:53
 msgid "Pause"
@@ -1530,11 +1511,8 @@ msgid "Re-examine..."
 msgstr "Examine à nouveau..."
 
 #: src/wx/config_dialog.cc:406
-#, fuzzy
 msgid "Re-make certificates and key..."
-msgstr ""
-"Re-créer les certificats\n"
-"et les clés..."
+msgstr "Re-créer les certificats et clés..."
 
 #: src/wx/colour_conversion_editor.cc:110
 msgid "Rec. 601"
@@ -1707,14 +1685,12 @@ msgid "Select Chain File"
 msgstr "Sélectionner fichier chaines"
 
 #: src/wx/config_dialog.cc:791
-#, fuzzy
 msgid "Select Export File"
-msgstr "Sélectionner fichier clé"
+msgstr "Sélectionner fichier d'export"
 
 #: src/wx/config_dialog.cc:816
-#, fuzzy
 msgid "Select File To Import"
-msgstr "Sélectionner fichier clé"
+msgstr "Sélectionner fichier à importer"
 
 #: src/wx/content_menu.cc:374
 msgid "Select KDM"
@@ -1786,7 +1762,7 @@ msgstr "Sélectionnez la langue"
 
 #: src/wx/subtitle_appearance_dialog.cc:196
 msgid "Set to"
-msgstr ""
+msgstr "Régler à"
 
 #: src/wx/subtitle_appearance_dialog.cc:127
 msgid "Shadow"
@@ -1883,14 +1859,12 @@ msgid "Subtitles"
 msgstr "Sous-titres"
 
 #: src/wx/player_information.cc:137
-#, fuzzy
 msgid "Subtitles: no"
-msgstr "Sous-titres"
+msgstr "Sous-titres: non"
 
 #: src/wx/player_information.cc:135
-#, fuzzy
 msgid "Subtitles: yes"
-msgstr "Sous-titres"
+msgstr "Sous-titres: oui"
 
 #: src/wx/about_dialog.cc:140
 msgid "Supported by"
@@ -2193,15 +2167,15 @@ msgstr "Utiliser les sous-titres"
 
 #: src/wx/audio_panel.cc:56
 msgid "Use this DCP's audio as OV and make VF"
-msgstr ""
+msgstr "Utiliser le son de ce DCP comme OV et faire un VF"
 
 #: src/wx/subtitle_panel.cc:55
 msgid "Use this DCP's subtitle as OV and make VF"
-msgstr ""
+msgstr "Utiliser les sous-titres de ce DCP comme OV et faire un VF"
 
 #: src/wx/video_panel.cc:82
 msgid "Use this DCP's video as OV and make VF"
-msgstr ""
+msgstr "Utiliser la vidéo de ce DCP comme OV et faire un VF"
 
 #: src/wx/config_move_dialog.cc:29
 msgid "Use this file as new configuration"
