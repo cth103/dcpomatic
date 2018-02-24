@@ -30,6 +30,7 @@ extern "C" {
 #include <libavutil/pixfmt.h>
 }
 #include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
 
 class Image;
 class ImageProxy;
@@ -50,7 +51,9 @@ public:
 		dcp::Size,
 		Eyes,
 		Part,
-		boost::optional<ColourConversion>
+		boost::optional<ColourConversion>,
+		boost::weak_ptr<Content>,
+		boost::optional<Frame>
 		);
 
 	PlayerVideo (boost::shared_ptr<cxml::Node>, boost::shared_ptr<Socket>);
@@ -67,6 +70,8 @@ public:
 
 	void add_metadata (xmlpp::Node* node) const;
 	void send_binary (boost::shared_ptr<Socket> socket) const;
+
+	void reset_metadata (dcp::Size video_container_size, dcp::Size film_frame_size);
 
 	bool has_j2k () const;
 	dcp::Data j2k () const;
@@ -105,6 +110,10 @@ private:
 	Part _part;
 	boost::optional<ColourConversion> _colour_conversion;
 	boost::optional<PositionImage> _subtitle;
+	/** Content that we came from.  This is so that reset_metadata() can work */
+	boost::weak_ptr<Content> _content;
+	/** Video frame that we came from.  Again, this is for reset_metadata() */
+	boost::optional<Frame> _video_frame;
 };
 
 #endif

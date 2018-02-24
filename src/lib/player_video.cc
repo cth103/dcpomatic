@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,6 +19,8 @@
 */
 
 #include "player_video.h"
+#include "content.h"
+#include "video_content.h"
 #include "image.h"
 #include "image_proxy.h"
 #include "j2k_image_proxy.h"
@@ -33,6 +35,7 @@ extern "C" {
 using std::string;
 using std::cout;
 using boost::shared_ptr;
+using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 using boost::function;
@@ -47,7 +50,9 @@ PlayerVideo::PlayerVideo (
 	dcp::Size out_size,
 	Eyes eyes,
 	Part part,
-	optional<ColourConversion> colour_conversion
+	optional<ColourConversion> colour_conversion,
+	weak_ptr<Content> content,
+	optional<Frame> video_frame
 	)
 	: _in (in)
 	, _crop (crop)
@@ -57,6 +62,8 @@ PlayerVideo::PlayerVideo (
 	, _eyes (eyes)
 	, _part (part)
 	, _colour_conversion (colour_conversion)
+	, _content (content)
+	, _video_frame (video_frame)
 {
 
 }
@@ -272,7 +279,24 @@ PlayerVideo::shallow_copy () const
 			_out_size,
 			_eyes,
 			_part,
-			_colour_conversion
+			_colour_conversion,
+			_content,
+			_video_frame
 			)
 		);
+}
+
+/** Re-read crop, fade, inter/out size and colour conversion from our content */
+void
+PlayerVideo::reset_metadata (dcp::Size video_container_size, dcp::Size film_frame_size)
+{
+	shared_ptr<Content> content = _content.lock();
+	DCPOMATIC_ASSERT (content);
+	DCPOMATIC_ASSERT (_video_frame);
+
+	_crop = content->video->crop();
+	_fade = content->video->fade(_video_frame.get());
+	_inter_size = content->video->scale().size(content->video, video_container_size, film_frame_size);
+	_out_size = video_container_size;
+	_colour_conversion = content->video->colour_conversion();
 }

@@ -78,6 +78,12 @@ using boost::dynamic_pointer_cast;
 using boost::optional;
 using boost::scoped_ptr;
 
+int const PlayerProperty::VIDEO_CONTAINER_SIZE = 700;
+int const PlayerProperty::PLAYLIST = 701;
+int const PlayerProperty::FILM_CONTAINER = 702;
+int const PlayerProperty::FILM_VIDEO_FRAME_RATE = 703;
+int const PlayerProperty::DCP_DECODE_REDUCTION = 704;
+
 Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist)
 	: _film (film)
 	, _playlist (playlist)
@@ -211,7 +217,7 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		) {
 
 		_have_valid_pieces = false;
-		Changed (frequent);
+		Changed (property, frequent);
 
 	} else if (
 		property == SubtitleContentProperty::LINE_SPACING ||
@@ -231,7 +237,7 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == VideoContentProperty::FADE_OUT
 		) {
 
-		Changed (frequent);
+		Changed (property, frequent);
 	}
 }
 
@@ -247,14 +253,14 @@ Player::set_video_container_size (dcp::Size s)
 	_black_image.reset (new Image (AV_PIX_FMT_RGB24, _video_container_size, true));
 	_black_image->make_black ();
 
-	Changed (false);
+	Changed (PlayerProperty::VIDEO_CONTAINER_SIZE, false);
 }
 
 void
 Player::playlist_changed ()
 {
 	_have_valid_pieces = false;
-	Changed (false);
+	Changed (PlayerProperty::PLAYLIST, false);
 }
 
 void
@@ -266,13 +272,13 @@ Player::film_changed (Film::Property p)
 	*/
 
 	if (p == Film::CONTAINER) {
-		Changed (false);
+		Changed (PlayerProperty::FILM_CONTAINER, false);
 	} else if (p == Film::VIDEO_FRAME_RATE) {
 		/* Pieces contain a FrameRateChange which contains the DCP frame rate,
 		   so we need new pieces here.
 		*/
 		_have_valid_pieces = false;
-		Changed (false);
+		Changed (PlayerProperty::FILM_VIDEO_FRAME_RATE, false);
 	} else if (p == Film::AUDIO_PROCESSOR) {
 		if (_film->audio_processor ()) {
 			_audio_processor = _film->audio_processor()->clone (_film->audio_frame_rate ());
@@ -337,7 +343,9 @@ Player::black_player_video_frame (Eyes eyes) const
 			_video_container_size,
 			eyes,
 			PART_WHOLE,
-			PresetColourConversion::all().front().conversion
+			PresetColourConversion::all().front().conversion,
+			boost::weak_ptr<Content>(),
+			boost::optional<Frame>()
 		)
 	);
 }
@@ -758,7 +766,9 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 			_video_container_size,
 			video.eyes,
 			video.part,
-			piece->content->video->colour_conversion ()
+			piece->content->video->colour_conversion(),
+			piece->content,
+			video.frame
 			)
 		);
 
@@ -1078,5 +1088,5 @@ Player::set_dcp_decode_reduction (optional<int> reduction)
 
 	_dcp_decode_reduction = reduction;
 	_have_valid_pieces = false;
-	Changed (false);
+	Changed (PlayerProperty::DCP_DECODE_REDUCTION, false);
 }

@@ -59,7 +59,8 @@ public:
 	void set_dcp_decode_reduction (boost::optional<int> reduction);
 	boost::optional<int> dcp_decode_reduction () const;
 
-	void refresh ();
+	void slow_refresh ();
+	void quick_refresh ();
 
 	int dropped () const {
 		return _dropped;
@@ -82,10 +83,11 @@ private:
 	void rewind_clicked (wxMouseEvent &);
 	void back_clicked (wxMouseEvent &);
 	void forward_clicked (wxMouseEvent &);
-	void player_changed (bool);
+	void player_changed (int, bool);
 	void update_position_label ();
 	void update_position_slider ();
 	void get ();
+	void display_player_video ();
 	void seek (DCPTime t, bool accurate);
 	void refresh_panel ();
 	void setup_sensitivity ();
@@ -122,10 +124,11 @@ private:
 	wxToggleButton* _play_button;
 	wxTimer _timer;
 	bool _coalesce_player_changes;
-	bool _pending_player_change;
+	std::list<int> _pending_player_changes;
 	bool _slider_being_moved;
 	bool _was_running_before_slider;
 
+	std::pair<boost::shared_ptr<PlayerVideo>, DCPTime> _player_video;
 	boost::shared_ptr<const Image> _frame;
 	DCPTime _video_position;
 	Position<int> _inter_position;
