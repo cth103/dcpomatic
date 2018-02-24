@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-01 16:50+0000\n"
-"PO-Revision-Date: 2017-11-07 23:37+0100\n"
+"PO-Revision-Date: 2018-02-24 14:42+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -32,18 +32,16 @@ msgid "&Add Film...\tCtrl-A"
 msgstr "& Ajouter Film ... Ctrl-A"
 
 #: src/tools/dcpomatic_player.cc:205
-#, fuzzy
 msgid "&Add KDM..."
-msgstr "Ajouter Film..."
+msgstr "&Ajouter KDM..."
 
 #: src/tools/dcpomatic_player.cc:204
-#, fuzzy
 msgid "&Add OV..."
-msgstr "Ajouter Film..."
+msgstr "&Ajouter OV..."
 
 #: src/tools/dcpomatic_player.cc:210
 msgid "&Close"
-msgstr ""
+msgstr "&Fermer"
 
 #: src/tools/dcpomatic.cc:1097
 msgid "&Content"
@@ -108,7 +106,7 @@ msgstr "&Outils"
 
 #: src/tools/dcpomatic_player.cc:247
 msgid "&View"
-msgstr ""
+msgstr "&Affichage"
 
 #: src/tools/dcpomatic.cc:1091 src/tools/dcpomatic_batch.cc:81
 #: src/tools/dcpomatic_kdm.cc:245 src/tools/dcpomatic_player.cc:239
@@ -171,9 +169,9 @@ msgstr ""
 "pourrez pas revenir en arrière."
 
 #: src/tools/dcpomatic.cc:630
-#, fuzzy, c-format
+#, c-format
 msgid "Bad setting for %s."
-msgstr "Mauvais paramètres pour %s."
+msgstr "Mauvais réglages pour %s."
 
 #: src/tools/dcpomatic.cc:736 src/tools/dcpomatic_kdm.cc:357
 msgid "CPL's content is not encrypted."
@@ -189,81 +187,72 @@ msgstr "Fermer sans sauvegarder le film"
 
 #: src/tools/dcpomatic.cc:1053
 msgid "Copy settings\tCtrl-C"
-msgstr ""
+msgstr "Copier les paramètres\tCtrl-C"
 
 #: src/tools/dcpomatic_kdm.cc:433
 msgid ""
 "Could not decrypt the DKDM.  Perhaps it was not created with the correct "
 "certificate."
 msgstr ""
+"Le décryptage du DKDM a échoué.  Il n'a peut-être pas été créé avec le bon "
+"certificat."
 
 #: src/tools/dcpomatic.cc:699
 msgid "Could not find batch converter."
 msgstr "Convertisseur par lots introuvable"
 
 #: src/tools/dcpomatic_player.cc:160
-#, fuzzy
 msgid "Could not load DCP"
-msgstr "N'a pas pu créer le DCP: %s."
+msgstr "Chargement du DCP impossible"
 
 #: src/tools/dcpomatic_player.cc:557
-#, fuzzy
 msgid "Could not load DCP %1."
-msgstr "N'a pas pu créer le DCP: %s."
+msgstr "N'a pas pu charger le DCP %1."
 
 #: src/tools/dcpomatic_player.cc:323
-#, fuzzy
 msgid "Could not load KDM."
-msgstr "Ouverture du DCP impossible"
+msgstr "Chargement de KDM impossible."
 
 #: src/tools/dcpomatic_batch.cc:341
-#, fuzzy
 msgid "Could not load film %1"
-msgstr "Impossible de charger le film %1 (%2)"
+msgstr "Chargement du film %1 impossible"
 
 #: src/tools/dcpomatic.cc:1288
 msgid "Could not load film %1 (%2)"
 msgstr "Impossible de charger le film %1 (%2)"
 
 #: src/tools/dcpomatic.cc:632
-#, fuzzy
 msgid "Could not make DCP."
-msgstr "N'a pas pu créer le DCP: %s."
+msgstr "Création du DCP impossible."
 
 #: src/tools/dcpomatic.cc:389 src/tools/dcpomatic_batch.cc:140
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open film at %s"
-msgstr "Impossible d'ouvrir le film à %s."
+msgstr "Impossible d'ouvrir le film à %s"
 
 #: src/tools/dcpomatic_kdm.cc:426
-#, fuzzy
 msgid ""
 "Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM "
 "at all."
 msgstr ""
-"Lecture du fichier KDM impossible. Peut-être est il mal formaté ou peut-être "
-"ne s'agit il pas du tout d'une KDM.\n"
-"\n"
-"%s"
+"Lecture du fichier en tant que KDM impossible. Peut-être est il mal formaté "
+"ou peut-être ne s'agit il pas du tout d'une KDM."
 
 #: src/tools/dcpomatic.cc:810
-#, fuzzy
 msgid "Could not run konqueror"
-msgstr "Ouverture du DCP impossible (konqueror est introuvable)"
+msgstr "Démarrage konqueror impossible"
 
 #: src/tools/dcpomatic.cc:803
-#, fuzzy
 msgid "Could not run nautilus"
-msgstr "Ouverture du DCP impossible (nautilus est introuvable)"
+msgstr "Démarrage nautilus impossible"
 
 #: src/tools/dcpomatic.cc:810 src/tools/dcpomatic.cc:819
 msgid "Could not show DCP"
 msgstr "Ouverture du DCP impossible"
 
 #: src/tools/dcpomatic.cc:803
-#, fuzzy
 msgid "Could not show DCP."
-msgstr "Ouverture du DCP impossible"
+msgstr "Affichage du DCP impossible"
 
 #: src/tools/dcpomatic.cc:1113
 #, c-format
@@ -304,19 +293,16 @@ msgstr "DCP-o-matic Créateur de KDM"
 
 #: src/tools/dcpomatic_player.cc:81 src/tools/dcpomatic_player.cc:168
 #: src/tools/dcpomatic_player.cc:507
-#, fuzzy
 msgid "DCP-o-matic Player"
-msgstr "DCP-o-matic"
+msgstr "DCP-o-matic Player"
 
 #: src/tools/dcpomatic_player.cc:571
-#, fuzzy
 msgid "DCP-o-matic Player could not start."
-msgstr "Le serveur de téléchargement de DCP-o-matic ne peut être contacté."
+msgstr "DCP-o-matic Player n'a pas pu démarrer."
 
 #: src/tools/dcpomatic_kdm.cc:604
-#, fuzzy
 msgid "DCP-o-matic could not start"
-msgstr "DCP-o-matic"
+msgstr "DCP-o-matic n'a pas pu démarré"
 
 #: src/tools/dcpomatic_kdm.cc:145
 msgid "DKDM"
@@ -324,15 +310,15 @@ msgstr "DKDM"
 
 #: src/tools/dcpomatic_player.cc:228
 msgid "Decode at full resolution"
-msgstr ""
+msgstr "Décoder en pleine résolution"
 
 #: src/tools/dcpomatic_player.cc:229
 msgid "Decode at half resolution"
-msgstr ""
+msgstr "Décoder en demi-résolution"
 
 #: src/tools/dcpomatic_player.cc:230
 msgid "Decode at quarter resolution"
-msgstr ""
+msgstr "Décoder en quart de résolution"
 
 #: src/tools/dcpomatic.cc:617
 #, c-format
@@ -397,7 +383,7 @@ msgstr "Durées"
 
 #: src/tools/dcpomatic_player.cc:168
 msgid "Loading DCP"
-msgstr ""
+msgstr "Chargement du DCP"
 
 #: src/tools/dcpomatic.cc:1070
 msgid "Make &KDMs...\tCtrl-K"
@@ -428,9 +414,8 @@ msgid "Output"
 msgstr "Sortie"
 
 #: src/tools/dcpomatic.cc:1054
-#, fuzzy
 msgid "Paste settings...\tCtrl-V"
-msgstr "&Préférences...\tCtrl-P"
+msgstr "Coller les paramètres...\tCtrl-P"
 
 #: src/tools/dcpomatic_kdm.cc:158
 msgid "Remove"
@@ -484,23 +469,20 @@ msgid "Screens"
 msgstr "Ecrans"
 
 #: src/tools/dcpomatic_player.cc:259
-#, fuzzy
 msgid "Select DCP to open"
-msgstr "Sélectionner le film à ouvrir"
+msgstr "Choisissez le DCP à ouvrir"
 
 #: src/tools/dcpomatic_player.cc:284
-#, fuzzy
 msgid "Select DCP to open as OV"
-msgstr "Sélectionner le film à ouvrir"
+msgstr "Choisissez le DCP à ouvrir en tant qu'OV"
 
 #: src/tools/dcpomatic_kdm.cc:405
 msgid "Select DKDM file"
 msgstr "Sélectionner le fichier DKDM"
 
 #: src/tools/dcpomatic_player.cc:313
-#, fuzzy
 msgid "Select KDM"
-msgstr "Sélectionner le fichier DKDM"
+msgstr "Choisissez KDM"
 
 #: src/tools/dcpomatic.cc:437 src/tools/dcpomatic_batch.cc:217
 msgid "Select film to open"
@@ -512,7 +494,7 @@ msgstr "Envoyer les e-mails de KDM"
 
 #: src/tools/dcpomatic_player.cc:227
 msgid "Set decode resolution to match display"
-msgstr ""
+msgstr "Régler la résolution de décodage en fonction de l'affichage"
 
 #: src/tools/dcpomatic.cc:587
 #, c-format
