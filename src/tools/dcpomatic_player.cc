@@ -181,7 +181,7 @@ public:
 
 		shared_ptr<Job> last = jm->get().back();
 		if (last->finished_in_error()) {
-			error_dialog (this, std_to_wx (last->error_summary()) + ".\n");
+			error_dialog(this, std_to_wx(last->error_summary()) + ".\n", std_to_wx(last->error_details()));
 			return;
 		}
 
