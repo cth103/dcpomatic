@@ -1,3 +1,7 @@
+2018-02-25  Carl Hetherington  <cth@carlh.net>
+
+	* Handle errors in subtitle XML better (#1209).
+
 2018-02-24  Carl Hetherington  <cth@carlh.net>
 
 	* Updated fr_FR translation from Thierry Journet.
