@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-01 16:50+0000\n"
-"PO-Revision-Date: 2017-08-26 01:42-0400\n"
+"PO-Revision-Date: 2018-02-25 14:45-0600\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.1\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: src/wx/subtitle_panel.cc:72 src/wx/subtitle_panel.cc:82
 #: src/wx/subtitle_panel.cc:92 src/wx/subtitle_panel.cc:102
@@ -38,12 +38,11 @@ msgid "%d KDMs written to %s"
 msgstr "%d KDMs guardadas en %s"
 
 #: src/wx/about_dialog.cc:83
-#, fuzzy
 msgid ""
 "(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:43 src/wx/file_picker_ctrl.cc:58
@@ -244,9 +243,8 @@ msgid "Adjust white point to"
 msgstr "Ajustar el punto de blanco a"
 
 #: src/wx/config_dialog.cc:741 src/wx/config_dialog.cc:756
-#, fuzzy
 msgid "Advanced..."
-msgstr "Añadir..."
+msgstr "Avanzado…"
 
 #: src/wx/full_config_dialog.cc:973
 msgid "Allow any DCP frame rate"
@@ -293,7 +291,7 @@ msgstr "Idioma del audio (ej. ES)"
 #: src/wx/player_information.cc:132
 #, c-format
 msgid "Audio channels: %d"
-msgstr ""
+msgstr "Canales de audio: %d"
 
 #: src/wx/audio_mapping_view.cc:345
 #, c-format
@@ -506,20 +504,18 @@ msgid "Could not analyse audio."
 msgstr "No se pudo analizar el audio."
 
 #: src/wx/config_dialog.cc:458
-#, fuzzy, c-format
+#, c-format
 msgid "Could not import certificate (%s)"
-msgstr "No se pudo leer el certificado (%s)"
+msgstr "No se pudo importar el certificado (%s)"
 
 #: src/wx/content_menu.cc:380
-#, fuzzy
 msgid "Could not load KDM."
-msgstr "No se pudo cargar la KDM (%s)"
+msgstr "No se pudo cargar la KDM."
 
 #: src/wx/config_dialog.cc:484 src/wx/config_dialog.cc:678
 #: src/wx/download_certificate_panel.cc:56 src/wx/screen_dialog.cc:158
-#, fuzzy
 msgid "Could not read certificate file."
-msgstr "No se pudo leer el fichero de certificado (%s)"
+msgstr "No se pudo leer el fichero de certificado."
 
 #: src/wx/config_dialog.cc:668
 #, c-format
@@ -528,11 +524,11 @@ msgstr ""
 "No se pudo leer el fichero de llave; el fichero es demasiado largo (%s)"
 
 #: src/wx/film_viewer.cc:789
-#, fuzzy
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
-"No se pudo enviar sonido a  (%s). No habrá sonido en la previsualización."
+"No se pudo activar la salida de sonido. No habrá sonido en la "
+"previsualización."
 
 #: src/wx/full_config_dialog.cc:876
 msgid "Cover Sheet"
@@ -591,7 +587,7 @@ msgstr "Depurar: codificación"
 #: src/wx/player_information.cc:159
 #, c-format
 msgid "Decode resolution: %dx%d"
-msgstr ""
+msgstr "Resolución de la decodificación: %dx%d"
 
 #: src/wx/config_dialog.cc:728 src/wx/config_dialog.cc:765
 msgid "Decrypting KDMs"
@@ -643,7 +639,7 @@ msgstr "Estándar por defecto"
 
 #: src/wx/full_config_dialog.cc:341
 msgid "Default to enabling upload of DCP to TMS"
-msgstr ""
+msgstr "Por defecto permitir la subida del DCP al TMS"
 
 #: src/wx/full_config_dialog.cc:256
 msgid "Defaults"
@@ -767,25 +763,16 @@ msgid "Export"
 msgstr "Exportar"
 
 #: src/wx/config_dialog.cc:733
-#, fuzzy
 msgid "Export KDM decryption certificate..."
-msgstr ""
-"Exportar el certificado de\n"
-" desencriptación de KDM..."
+msgstr "Exportar el certificado de desencriptación de KDM..."
 
 #: src/wx/config_dialog.cc:735
-#, fuzzy
 msgid "Export KDM decryption chain..."
-msgstr ""
-"Exportar la cadena de\n"
-" desencriptación de KDM..."
+msgstr "Exportar la cadena de desencriptación de KDM..."
 
 #: src/wx/config_dialog.cc:737
-#, fuzzy
 msgid "Export all KDM decryption settings..."
-msgstr ""
-"Exportar la cadena de\n"
-" desencriptación de KDM..."
+msgstr "Exportar la configuración completa de desencriptación de KDM..."
 
 #: src/wx/export_dialog.cc:46
 msgid "Export film"
@@ -879,7 +866,7 @@ msgstr "Velocidad de imagen"
 #: src/wx/player_information.cc:129
 #, c-format
 msgid "Frame rate: %d"
-msgstr ""
+msgstr "Velocidad de imagen: %d"
 
 #: src/wx/about_dialog.cc:66
 msgid "Free, open-source DCP creation from almost anything."
@@ -1011,16 +998,12 @@ msgid "Image X position"
 msgstr "Posición X de la imagen"
 
 #: src/wx/config_dialog.cc:739
-#, fuzzy
 msgid "Import all KDM decryption settings..."
-msgstr ""
-"Exportar la cadena de\n"
-" desencriptación de KDM..."
+msgstr "Importar la configuración completa de desencriptación de KDM..."
 
 #: src/wx/config_dialog.cc:399
-#, fuzzy
 msgid "Import..."
-msgstr "Exportar…"
+msgstr "Importar…"
 
 #: src/wx/nag_dialog.cc:29
 msgid "Important notice"
@@ -1061,7 +1044,7 @@ msgstr "Interop"
 
 #: src/wx/config_dialog.cc:847
 msgid "Invalid DCP-o-matic export file"
-msgstr ""
+msgstr "El fichero de exportación DCP-o-matic no es válido"
 
 #: src/wx/colour_conversion_editor.cc:205
 msgid "Inverse 2.6 gamma correction on output"
@@ -1157,9 +1140,8 @@ msgid "Length"
 msgstr "Longitud"
 
 #: src/wx/player_information.cc:145
-#, fuzzy
 msgid "Length: %1 (%2 frames)"
-msgstr "Longitud: %s (%ld imágenes)"
+msgstr "Longitud: %1 (%2 imágenes)"
 
 #: src/wx/subtitle_panel.cc:108
 msgid "Line spacing"
@@ -1228,7 +1210,7 @@ msgstr "Ancho de banda JPEG2000 máximo"
 
 #: src/wx/full_config_dialog.cc:982
 msgid "Maximum number of frames to store per thread"
-msgstr ""
+msgstr "Número máximo de cuadros a almacenar por hilo"
 
 #: src/wx/dcp_panel.cc:692 src/wx/full_config_dialog.cc:315
 #: src/wx/full_config_dialog.cc:969
@@ -1288,13 +1270,12 @@ msgid "Name"
 msgstr "Nombre"
 
 #: src/wx/player_information.cc:121
-#, fuzzy
 msgid "Needs KDM"
-msgstr "Seleccionar KDM"
+msgstr "Necesita KDM"
 
 #: src/wx/player_information.cc:116
 msgid "Needs OV"
-msgstr ""
+msgstr "Necesita OV"
 
 #: src/wx/rename_template_dialog.cc:26
 msgid "New name"
@@ -1421,20 +1402,19 @@ msgstr "Clave"
 
 #: src/wx/paste_dialog.cc:24
 msgid "Paste"
-msgstr ""
+msgstr "Pegar"
 
 #: src/wx/paste_dialog.cc:29
 msgid "Paste audio settings"
-msgstr ""
+msgstr "Pegar configuración de audio"
 
 #: src/wx/paste_dialog.cc:32
-#, fuzzy
 msgid "Paste subtitle settings"
-msgstr "Usar subtítulos"
+msgstr "Pegar la configuración de subtítulos"
 
 #: src/wx/paste_dialog.cc:26
 msgid "Paste video settings"
-msgstr ""
+msgstr "Pegar configuración de vídeo"
 
 #: src/wx/normal_job_view.cc:37 src/wx/normal_job_view.cc:53
 msgid "Pause"
@@ -1467,7 +1447,7 @@ msgstr "Duración"
 
 #: src/wx/config_dialog.cc:155
 msgid "Play sound via"
-msgstr ""
+msgstr "Reproducir el sonido con"
 
 #: src/wx/report_problem_dialog.cc:104
 msgid ""
@@ -1526,11 +1506,8 @@ msgid "Re-examine..."
 msgstr "Reexaminar..."
 
 #: src/wx/config_dialog.cc:406
-#, fuzzy
 msgid "Re-make certificates and key..."
-msgstr ""
-"Recrear certificados\n"
-" y llave…"
+msgstr "Recrear certificados y llave…"
 
 #: src/wx/colour_conversion_editor.cc:110
 msgid "Rec. 601"
@@ -1703,14 +1680,12 @@ msgid "Select Chain File"
 msgstr "Seleccionar fichero de la cadena de certificados"
 
 #: src/wx/config_dialog.cc:791
-#, fuzzy
 msgid "Select Export File"
-msgstr "Seleccionar fichero de llave"
+msgstr "Seleccionar fichero de exportación"
 
 #: src/wx/config_dialog.cc:816
-#, fuzzy
 msgid "Select File To Import"
-msgstr "Seleccionar fichero de llave"
+msgstr "Seleccionar el fichero a importar"
 
 #: src/wx/content_menu.cc:374
 msgid "Select KDM"
@@ -1782,7 +1757,7 @@ msgstr "Seleccionar idioma"
 
 #: src/wx/subtitle_appearance_dialog.cc:196
 msgid "Set to"
-msgstr ""
+msgstr "Definir como"
 
 #: src/wx/subtitle_appearance_dialog.cc:127
 msgid "Shadow"
@@ -1879,14 +1854,12 @@ msgid "Subtitles"
 msgstr "Subtítulos"
 
 #: src/wx/player_information.cc:137
-#, fuzzy
 msgid "Subtitles: no"
-msgstr "Subtítulos"
+msgstr "Subtítulos: no"
 
 #: src/wx/player_information.cc:135
-#, fuzzy
 msgid "Subtitles: yes"
-msgstr "Subtítulos"
+msgstr "Subtítulos: sí"
 
 #: src/wx/about_dialog.cc:140
 msgid "Supported by"
@@ -2187,15 +2160,15 @@ msgstr "Usar subtítulos"
 
 #: src/wx/audio_panel.cc:56
 msgid "Use this DCP's audio as OV and make VF"
-msgstr ""
+msgstr "Usar el audio de este DCP como OV y crear un VF"
 
 #: src/wx/subtitle_panel.cc:55
 msgid "Use this DCP's subtitle as OV and make VF"
-msgstr ""
+msgstr "Usar los subtítutlos de este DCP como OV y crear un VF"
 
 #: src/wx/video_panel.cc:82
 msgid "Use this DCP's video as OV and make VF"
-msgstr ""
+msgstr "Usar el vídeo de este DCP como OV y crear un VF"
 
 #: src/wx/config_move_dialog.cc:29
 msgid "Use this file as new configuration"
