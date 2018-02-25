@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-01 16:50+0000\n"
-"PO-Revision-Date: 2017-08-25 23:10-0400\n"
+"PO-Revision-Date: 2018-02-25 14:29-0600\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.1\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: src/lib/video_content.cc:448
 #, c-format
@@ -546,15 +546,14 @@ msgstr "El DCP se reproducirá al %1%% de la velocidad de la fuente.\n"
 
 #: src/lib/frame_rate_change.cc:70
 msgid "DCP will use every other frame of the content.\n"
-msgstr "El DCP usará imágenes alternas de la fuente.\n"
+msgstr "El DCP usará una de cada dos imágenes de la fuente.\n"
 
 #: src/lib/job.cc:123 src/lib/job.cc:138
-#, fuzzy
 msgid ""
 "DCP-o-matic could not open the file %1 (%2).  Perhaps it does not exist or "
 "is in an unexpected format."
 msgstr ""
-"DCP-o-matic no pudo abrir el fichero %1. Quizás no existe o está en un "
+"DCP-o-matic no pudo abrir el fichero %1 (%2). Quizás no existe o está en un "
 "formato inesperado."
 
 #: src/lib/ffmpeg_content.cc:103
@@ -1021,9 +1020,8 @@ msgid "SSH error (%1)"
 msgstr "Error SSH (%1)"
 
 #: src/lib/image_content.cc:107
-#, fuzzy
 msgid "Scanning image files"
-msgstr "Calculando la firma resumen de imagen"
+msgstr "Revisando los ficheros de imagen"
 
 #: src/lib/send_problem_report_job.cc:74
 msgid "Sending email"
@@ -1095,19 +1093,19 @@ msgstr ""
 
 #: src/lib/content_factory.cc:115
 msgid "The file %1 has been moved %2 milliseconds earlier."
-msgstr ""
+msgstr "El fichero %1 ha sido desplazado %2 milisegundos antes."
 
 #: src/lib/content_factory.cc:110
 msgid "The file %1 has been moved %2 milliseconds later."
-msgstr ""
+msgstr "El fichero %1 ha sido desplazado %2 milisegundos después."
 
 #: src/lib/content_factory.cc:135
 msgid "The file %1 has been trimmed by %2 milliseconds less."
-msgstr ""
+msgstr "El fichero %1 ha sido recortado en %2 milisegundos."
 
 #: src/lib/content_factory.cc:130
 msgid "The file %1 has been trimmed by %2 milliseconds more."
-msgstr ""
+msgstr "El fichero %1 ha sido alargado con %2 milisegundos."
 
 #: src/lib/dcp_content.cc:447
 msgid "The film has a different frame rate to this DCP."
@@ -1329,17 +1327,18 @@ msgstr ""
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
+"El contenedor por defecto no es válido y ha sido modificado a Flat (1.85:1)"
 
 #: src/lib/content_factory.cc:106
 msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
-msgstr ""
+msgstr "El proyecto contiene video que no está alineado a un cuadro."
 
 #: src/lib/content_factory.cc:126
 msgid ""
 "Your project contains video content whose trim was not aligned to a frame "
 "boundary."
-msgstr ""
+msgstr "El proyecto contiene video que no está alineado a un cuadro."
 
 #: src/lib/image_content.cc:71
 msgid "[moving images]"

@@ -1,5 +1,7 @@
 2018-02-25  Carl Hetherington  <cth@carlh.net>
 
+	* Updated es_ES translation from Manuel AC.
+
 	* Handle errors in subtitle XML better (#1209).
 
 2018-02-24  Carl Hetherington  <cth@carlh.net>
