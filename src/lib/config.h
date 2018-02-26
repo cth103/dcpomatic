@@ -729,6 +729,7 @@ private:
 	boost::shared_ptr<dcp::CertificateChain> create_certificate_chain ();
 	boost::filesystem::path directory_or (boost::optional<boost::filesystem::path> dir, boost::filesystem::path a) const;
 	void add_to_history_internal (std::vector<boost::filesystem::path>& h, boost::filesystem::path p);
+	void backup ();
 
 	template <class T>
 	void maybe_set (T& member, T new_value, Property prop = OTHER) {
@@ -843,6 +844,8 @@ private:
 	boost::optional<DKDMWriteType> _last_dkdm_write_type;
 	int _frames_in_memory_multiplier;
 	boost::optional<int> _decode_reduction;
+
+	static int const _current_version;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

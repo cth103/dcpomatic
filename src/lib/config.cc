@@ -64,6 +64,7 @@ using boost::algorithm::trim;
 using dcp::raw_convert;
 
 Config* Config::_instance = 0;
+int const Config::_current_version = 3;
 boost::signals2::signal<void ()> Config::FailedToLoad;
 boost::signals2::signal<void (string)> Config::Warning;
 boost::optional<boost::filesystem::path> Config::test_path;
@@ -181,6 +182,21 @@ Config::create_certificate_chain ()
 }
 
 void
+Config::backup ()
+{
+	/* Make a copy of the configuration */
+	try {
+		int n = 1;
+		while (n < 100 && boost::filesystem::exists(path(String::compose("config.xml.%1", n)))) {
+			++n;
+		}
+
+		boost::filesystem::copy_file(path("config.xml", false), path(String::compose("config.xml.%1", n), false));
+		boost::filesystem::copy_file(path("cinemas.xml", false), path(String::compose("cinemas.xml.%1", n), false));
+	} catch (...) {}
+}
+
+void
 Config::read ()
 try
 {
@@ -188,6 +204,10 @@ try
 	f.read_file (config_file ());
 
 	optional<int> version = f.optional_number_child<int> ("Version");
+	if (version && *version < _current_version) {
+		/* Back up the old config before we re-write it in a back-incompatible way */
+		backup ();
+	}
 
 	if (f.optional_number_child<int>("NumLocalEncodingThreads")) {
 		_master_encoding_threads = _server_encoding_threads = f.optional_number_child<int>("NumLocalEncodingThreads").get();
@@ -400,18 +420,7 @@ try
 }
 catch (...) {
 	if (have_existing ("config.xml")) {
-
-		/* Make a copy of the configuration */
-		try {
-			int n = 1;
-			while (n < 100 && boost::filesystem::exists(path(String::compose("config.xml.%1", n)))) {
-				++n;
-			}
-
-			boost::filesystem::copy_file(path("config.xml", false), path(String::compose("config.xml.%1", n), false));
-			boost::filesystem::copy_file(path("cinemas.xml", false), path(String::compose("cinemas.xml.%1", n), false));
-		} catch (...) {}
-
+		backup ();
 		/* We have a config file but it didn't load */
 		FailedToLoad ();
 	}
@@ -476,8 +485,8 @@ Config::write_config () const
 	xmlpp::Document doc;
 	xmlpp::Element* root = doc.create_root_node ("Config");
 
-	/* [XML] Version The version number of the configuration file format; currently 2. */
-	root->add_child("Version")->add_child_text ("2");
+	/* [XML] Version The version number of the configuration file format */
+	root->add_child("Version")->add_child_text (String::compose ("%1", _current_version));
 	/* [XML] MasterEncodingThreads Number of encoding threads to use when running as master. */
 	root->add_child("MasterEncodingThreads")->add_child_text (raw_convert<string> (_master_encoding_threads));
 	/* [XML] ServerEncodingThreads Number of encoding threads to use when running as server. */
