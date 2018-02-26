@@ -94,10 +94,10 @@ deb_depends['17.10'].extend(['libboost-filesystem1.62.0',
                              'libx264-148'])
 
 deb_depends['18.04'] = copy.deepcopy(deb_depends_base)
-deb_depends['18.04'].extend(['libboost-filesystem1.65.0',
-                             'libboost-thread1.65.0',
-                             'libboost-regex1.65.0',
-                             'libboost-date-time1.65.0',
+deb_depends['18.04'].extend(['libboost-filesystem1.65.1',
+                             'libboost-thread1.65.1',
+                             'libboost-regex1.65.1',
+                             'libboost-date-time1.65.1',
                              'libmagick++-6.q16-7',
                              'libxml++2.6-2v5',
                              'libzip4',
