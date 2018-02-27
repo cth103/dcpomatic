@@ -31,7 +31,7 @@ class Socket;
 class Server : public boost::noncopyable
 {
 public:
-	Server (int port);
+	explicit Server (int port);
 	virtual ~Server ();
 
 	virtual void run ();
