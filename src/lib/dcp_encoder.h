@@ -54,8 +54,6 @@ private:
 	void audio (boost::shared_ptr<AudioBuffers>, DCPTime);
 	void subtitle (PlayerSubtitles, DCPTimePeriod);
 
-	boost::shared_ptr<const Film> _film;
-	boost::weak_ptr<Job> _job;
 	boost::shared_ptr<Writer> _writer;
 	boost::shared_ptr<J2KEncoder> _j2k_encoder;
 	bool _finishing;

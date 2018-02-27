@@ -56,8 +56,6 @@ using boost::dynamic_pointer_cast;
  */
 DCPEncoder::DCPEncoder (shared_ptr<const Film> film, weak_ptr<Job> job)
 	: Encoder (film, job)
-	, _film (film)
-	, _job (job)
 	, _finishing (false)
 	, _non_burnt_subtitles (false)
 {
