@@ -176,7 +176,7 @@ Job::run_wrapper ()
 
 	} catch (dcp::DCPReadError& e) {
 
-		set_error (e.message(), e.detail().get_value_or(""));
+		set_error (e.what(), "");//message(), e.detail().get_value_or(""));
 		set_progress (1);
 		set_state (FINISHED_ERROR);
 
