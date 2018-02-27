@@ -29,7 +29,7 @@ struct Metrics;
 class AudioPlot : public wxPanel
 {
 public:
-	AudioPlot (wxWindow *);
+	explicit AudioPlot (wxWindow *);
 
 	void set_analysis (boost::shared_ptr<AudioAnalysis>);
 	void set_channel_visible (int c, bool v);

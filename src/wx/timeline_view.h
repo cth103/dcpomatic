@@ -34,7 +34,7 @@ class Timeline;
 class TimelineView : public boost::noncopyable
 {
 public:
-	TimelineView (Timeline& t);
+	explicit TimelineView (Timeline& t);
 	virtual ~TimelineView () {}
 
 	void paint (wxGraphicsContext* g, std::list<dcpomatic::Rect<int> > overlaps);

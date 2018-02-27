@@ -24,7 +24,7 @@
 class GainCalculatorDialog : public TableDialog
 {
 public:
-	GainCalculatorDialog (wxWindow* parent);
+	explicit GainCalculatorDialog (wxWindow* parent);
 
 	float actual_fader () const;
 	float wanted_fader () const;

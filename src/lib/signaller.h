@@ -71,7 +71,7 @@ template <class T>
 class Wrapper : public WrapperBase
 {
 public:
-	Wrapper (T signal)
+	explicit Wrapper (T signal)
 		: _signal (signal)
 	{
 

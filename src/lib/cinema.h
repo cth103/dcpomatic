@@ -48,7 +48,7 @@ public:
 		, _utc_offset_minute (utc_offset_minute)
 	{}
 
-	Cinema (cxml::ConstNodePtr);
+	explicit Cinema (cxml::ConstNodePtr);
 
 	void read_screens (cxml::ConstNodePtr);
 

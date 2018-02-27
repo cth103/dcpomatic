@@ -31,7 +31,7 @@
 class AudioMerger
 {
 public:
-	AudioMerger (int frame_rate);
+	explicit AudioMerger (int frame_rate);
 
 	std::list<std::pair<boost::shared_ptr<AudioBuffers>, DCPTime> > pull (DCPTime time);
 	void push (boost::shared_ptr<const AudioBuffers> audio, DCPTime time);

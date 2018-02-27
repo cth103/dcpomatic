@@ -39,7 +39,7 @@ extern "C" {
 class DecodeError : public std::runtime_error
 {
 public:
-	DecodeError (std::string s)
+	explicit DecodeError (std::string s)
 		: std::runtime_error (s)
 	{}
 };
@@ -50,7 +50,7 @@ public:
 class EncodeError : public std::runtime_error
 {
 public:
-	EncodeError (std::string s)
+	explicit EncodeError (std::string s)
 		: std::runtime_error (s)
 	{}
 };
@@ -84,7 +84,7 @@ private:
 class JoinError : public std::runtime_error
 {
 public:
-	JoinError (std::string s)
+	explicit JoinError (std::string s)
 		: std::runtime_error (s)
 	{}
 };
@@ -158,7 +158,7 @@ class MissingSettingError : public SettingError
 {
 public:
 	/** @param s Name of setting that was required */
-	MissingSettingError (std::string s);
+	explicit MissingSettingError (std::string s);
 };
 
 /** @class BadSettingError
@@ -181,7 +181,7 @@ public:
 class NetworkError : public std::runtime_error
 {
 public:
-	NetworkError (std::string s)
+	explicit NetworkError (std::string s)
 		: std::runtime_error (s)
 	{}
 };
@@ -192,7 +192,7 @@ public:
 class KDMError : public std::runtime_error
 {
 public:
-	KDMError (std::string s)
+	explicit KDMError (std::string s)
 		: std::runtime_error (s)
 	{}
 };
@@ -218,7 +218,7 @@ public:
 class DCPError : public std::runtime_error
 {
 public:
-	DCPError (std::string s)
+	explicit DCPError (std::string s)
 		: std::runtime_error (s)
 	{}
 };
@@ -227,7 +227,7 @@ class InvalidSignerError : public std::runtime_error
 {
 public:
 	InvalidSignerError ();
-	InvalidSignerError (std::string reason);
+	explicit InvalidSignerError (std::string reason);
 };
 
 class ProgrammingError : public std::runtime_error
@@ -239,7 +239,7 @@ public:
 class TextEncodingError : public std::runtime_error
 {
 public:
-	TextEncodingError (std::string s)
+	explicit TextEncodingError (std::string s)
 		: std::runtime_error (s)
 	{}
 };
@@ -247,7 +247,7 @@ public:
 class OldFormatError : public std::runtime_error
 {
 public:
-	OldFormatError (std::string s)
+	explicit OldFormatError (std::string s)
 		: std::runtime_error (s)
 	{}
 };

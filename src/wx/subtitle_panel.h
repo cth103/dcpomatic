@@ -28,7 +28,7 @@ class FontsDialog;
 class SubtitlePanel : public ContentSubPanel
 {
 public:
-	SubtitlePanel (ContentPanel *);
+	explicit SubtitlePanel (ContentPanel *);
 
 	void film_changed (Film::Property);
 	void film_content_changed (int);

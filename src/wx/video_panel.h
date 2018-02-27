@@ -39,7 +39,7 @@ class wxButton;
 class VideoPanel : public ContentSubPanel
 {
 public:
-	VideoPanel (ContentPanel *);
+	explicit VideoPanel (ContentPanel *);
 
 	void film_changed (Film::Property);
 	void film_content_changed (int);

@@ -29,7 +29,7 @@ namespace dcp {
 class VideoMXFExaminer : public VideoExaminer
 {
 public:
-	VideoMXFExaminer (boost::shared_ptr<const VideoMXFContent>);
+	explicit VideoMXFExaminer (boost::shared_ptr<const VideoMXFContent>);
 
 	boost::optional<double> video_frame_rate () const;
 	dcp::Size video_size () const;

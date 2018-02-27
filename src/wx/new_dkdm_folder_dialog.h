@@ -23,7 +23,7 @@
 class NewDKDMFolderDialog : public TableDialog
 {
 public:
-	NewDKDMFolderDialog (wxWindow* parent);
+	explicit NewDKDMFolderDialog (wxWindow* parent);
 
 	void set (wxString n);
 	wxString get () const;

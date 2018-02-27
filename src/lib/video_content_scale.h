@@ -40,9 +40,9 @@ class VideoContentScale
 {
 public:
 	VideoContentScale ();
-	VideoContentScale (Ratio const *);
-	VideoContentScale (bool);
-	VideoContentScale (boost::shared_ptr<cxml::Node>);
+	explicit VideoContentScale (Ratio const *);
+	explicit VideoContentScale (bool);
+	explicit VideoContentScale (boost::shared_ptr<cxml::Node>);
 
 	dcp::Size size (boost::shared_ptr<const VideoContent>, dcp::Size display_container, dcp::Size film_container) const;
 	std::string id () const;

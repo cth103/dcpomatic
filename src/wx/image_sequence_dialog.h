@@ -24,7 +24,7 @@
 class ImageSequenceDialog : public TableDialog
 {
 public:
-	ImageSequenceDialog (wxWindow* parent);
+	explicit ImageSequenceDialog (wxWindow* parent);
 
 	double frame_rate () const;
 

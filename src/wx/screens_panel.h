@@ -31,7 +31,7 @@ class Screen;
 class ScreensPanel : public wxPanel
 {
 public:
-	ScreensPanel (wxWindow* parent);
+	explicit ScreensPanel (wxWindow* parent);
 	~ScreensPanel ();
 
 	std::list<boost::shared_ptr<Screen> > screens () const;

@@ -67,7 +67,7 @@ struct isdcf_name_test;
 class Film : public boost::enable_shared_from_this<Film>, public Signaller, public boost::noncopyable
 {
 public:
-	Film (boost::optional<boost::filesystem::path> dir);
+	explicit Film (boost::optional<boost::filesystem::path> dir);
 	~Film ();
 
 	boost::filesystem::path info_file (DCPTimePeriod p) const;

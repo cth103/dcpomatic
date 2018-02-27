@@ -32,7 +32,7 @@ class Image;
 class ContentSubtitle
 {
 public:
-	ContentSubtitle (ContentTime f)
+	explicit ContentSubtitle (ContentTime f)
 		: _from (f)
 	{}
 

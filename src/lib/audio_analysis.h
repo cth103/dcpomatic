@@ -37,8 +37,8 @@ class Playlist;
 class AudioAnalysis : public boost::noncopyable
 {
 public:
-	AudioAnalysis (int c);
-	AudioAnalysis (boost::filesystem::path);
+	explicit AudioAnalysis (int c);
+	explicit AudioAnalysis (boost::filesystem::path);
 
 	void add_point (int c, AudioPoint const & p);
 

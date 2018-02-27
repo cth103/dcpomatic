@@ -26,7 +26,7 @@
 class RawImageProxy : public ImageProxy
 {
 public:
-	RawImageProxy (boost::shared_ptr<Image>);
+	explicit RawImageProxy (boost::shared_ptr<Image>);
 	RawImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
 
 	boost::shared_ptr<Image> image (

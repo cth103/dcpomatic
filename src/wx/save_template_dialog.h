@@ -23,7 +23,7 @@
 class SaveTemplateDialog : public TableDialog
 {
 public:
-	SaveTemplateDialog (wxWindow* parent);
+	explicit SaveTemplateDialog (wxWindow* parent);
 
 	std::string name () const;
 

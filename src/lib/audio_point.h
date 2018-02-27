@@ -37,7 +37,7 @@ public:
 	};
 
 	AudioPoint ();
-	AudioPoint (cxml::ConstNodePtr node);
+	explicit AudioPoint (cxml::ConstNodePtr node);
 	AudioPoint (AudioPoint const &);
 	AudioPoint& operator= (AudioPoint const &);
 

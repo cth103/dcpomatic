@@ -37,7 +37,7 @@ class ColourConversion : public dcp::ColourConversion
 {
 public:
 	ColourConversion ();
-	ColourConversion (dcp::ColourConversion);
+	explicit ColourConversion (dcp::ColourConversion);
 	ColourConversion (cxml::NodePtr, int version);
 	virtual ~ColourConversion () {}
 

@@ -34,7 +34,7 @@ using boost::shared_ptr;
 class TestJob : public Job
 {
 public:
-	TestJob (shared_ptr<Film> film)
+	explicit TestJob (shared_ptr<Film> film)
 		: Job (film)
 	{
 

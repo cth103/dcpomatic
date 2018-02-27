@@ -32,7 +32,7 @@ struct audio_filter_impulse_input_test;
 class AudioFilter
 {
 public:
-	AudioFilter (float transition_bandwidth)
+	explicit AudioFilter (float transition_bandwidth)
 		: _ir (0)
 	{
 		_M = 4 / transition_bandwidth;

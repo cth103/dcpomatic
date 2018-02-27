@@ -35,7 +35,7 @@ class text_subtitle_parse_test;
 class TextSubtitle
 {
 public:
-	TextSubtitle (boost::shared_ptr<const TextSubtitleContent>);
+	explicit TextSubtitle (boost::shared_ptr<const TextSubtitleContent>);
 
 	boost::optional<ContentTime> first () const;
 	ContentTime length () const;

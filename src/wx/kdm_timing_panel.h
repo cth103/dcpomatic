@@ -28,7 +28,7 @@ class TimePicker;
 class KDMTimingPanel : public wxPanel
 {
 public:
-	KDMTimingPanel (wxWindow* parent);
+	explicit KDMTimingPanel (wxWindow* parent);
 
 	/** @return KDM from time in local time */
 	boost::posix_time::ptime from () const;

@@ -25,7 +25,7 @@
 class TemplatesDialog : public wxDialog
 {
 public:
-	TemplatesDialog (wxWindow* parent);
+	explicit TemplatesDialog (wxWindow* parent);
 
 	void refresh ();
 	void layout ();

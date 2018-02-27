@@ -113,7 +113,7 @@ using dcp::raw_convert;
 class FilmChangedClosingDialog : public boost::noncopyable
 {
 public:
-	FilmChangedClosingDialog (string name)
+	explicit FilmChangedClosingDialog (string name)
 	{
 		_dialog = new wxMessageDialog (
 			0,
@@ -146,7 +146,7 @@ private:
 class FilmChangedDuplicatingDialog : public boost::noncopyable
 {
 public:
-	FilmChangedDuplicatingDialog (string name)
+	explicit FilmChangedDuplicatingDialog (string name)
 	{
 		_dialog = new wxMessageDialog (
 			0,
@@ -223,7 +223,7 @@ enum {
 class DOMFrame : public wxFrame
 {
 public:
-	DOMFrame (wxString const & title)
+	explicit DOMFrame (wxString const & title)
 		: wxFrame (NULL, -1, title)
 		, _video_waveform_dialog (0)
 		, _hints_dialog (0)

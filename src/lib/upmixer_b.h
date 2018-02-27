@@ -29,7 +29,7 @@
 class UpmixerB : public AudioProcessor
 {
 public:
-	UpmixerB (int sampling_rate);
+	explicit UpmixerB (int sampling_rate);
 
 	std::string name () const;
 	std::string id () const;

@@ -23,7 +23,7 @@
 class JSONServer
 {
 public:
-	JSONServer (int port);
+	explicit JSONServer (int port);
 
 private:
 	void run (int port);

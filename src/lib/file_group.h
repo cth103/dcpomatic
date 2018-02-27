@@ -35,8 +35,8 @@ class FileGroup
 {
 public:
 	FileGroup ();
-	FileGroup (boost::filesystem::path);
-	FileGroup (std::vector<boost::filesystem::path> const &);
+	explicit FileGroup (boost::filesystem::path);
+	explicit FileGroup (std::vector<boost::filesystem::path> const &);
 	~FileGroup ();
 
 	void set_paths (std::vector<boost::filesystem::path> const &);

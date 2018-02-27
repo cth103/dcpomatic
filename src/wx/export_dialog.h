@@ -28,7 +28,7 @@ class FilePickerCtrl;
 class ExportDialog : public TableDialog
 {
 public:
-	ExportDialog (wxWindow* parent);
+	explicit ExportDialog (wxWindow* parent);
 
 	boost::filesystem::path path () const;
 	FFmpegEncoder::Format format () const;

@@ -40,7 +40,7 @@ class Log;
 class FFmpeg
 {
 public:
-	FFmpeg (boost::shared_ptr<const FFmpegContent>);
+	explicit FFmpeg (boost::shared_ptr<const FFmpegContent>);
 	virtual ~FFmpeg ();
 
 	boost::shared_ptr<const FFmpegContent> ffmpeg_content () const {

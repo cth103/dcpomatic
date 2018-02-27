@@ -35,7 +35,7 @@ public:
 		, _id (i)
 	{}
 
-	FFmpegStream (cxml::ConstNodePtr);
+	explicit FFmpegStream (cxml::ConstNodePtr);
 
 	void as_xml (xmlpp::Node *) const;
 

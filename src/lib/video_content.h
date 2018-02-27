@@ -51,7 +51,7 @@ public:
 class VideoContent : public ContentPart, public boost::enable_shared_from_this<VideoContent>
 {
 public:
-	VideoContent (Content* parent);
+	explicit VideoContent (Content* parent);
 	VideoContent (Content* parent, std::vector<boost::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;

@@ -25,7 +25,7 @@
 class RepeatDialog : public TableDialog
 {
 public:
-	RepeatDialog (wxWindow *);
+	explicit RepeatDialog (wxWindow *);
 
 	int number () const;
 

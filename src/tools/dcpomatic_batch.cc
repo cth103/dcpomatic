@@ -91,7 +91,7 @@ setup_menu (wxMenuBar* m)
 class DOMFrame : public wxFrame
 {
 public:
-	DOMFrame (wxString const & title)
+	explicit DOMFrame (wxString const & title)
 		: wxFrame (NULL, -1, title)
 		, _sizer (new wxBoxSizer (wxVERTICAL))
 		, _config_dialog (0)
@@ -252,7 +252,7 @@ static const wxCmdLineEntryDesc command_line_description[] = {
 class JobServer : public Server
 {
 public:
-	JobServer (DOMFrame* frame)
+	explicit JobServer (DOMFrame* frame)
 		: Server (BATCH_JOB_PORT)
 		, _frame (frame)
 	{}

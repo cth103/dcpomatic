@@ -1,3 +1,4 @@
+
 /*
     Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
 
@@ -31,7 +32,7 @@ class Film;
 class ContentPart
 {
 public:
-	ContentPart (Content* parent)
+	explicit ContentPart (Content* parent)
 		: _parent (parent)
 	{}
 

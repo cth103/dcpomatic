@@ -34,7 +34,7 @@ class DCPContent;
 class ContentMenu : public boost::noncopyable
 {
 public:
-	ContentMenu (wxWindow* p);
+	explicit ContentMenu (wxWindow* p);
 
 	void popup (boost::weak_ptr<Film>, ContentList, TimelineContentViewList, wxPoint);
 

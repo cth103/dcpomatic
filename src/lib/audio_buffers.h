@@ -40,7 +40,7 @@ class AudioBuffers
 public:
 	AudioBuffers (int channels, int32_t frames);
 	AudioBuffers (AudioBuffers const &);
-	AudioBuffers (boost::shared_ptr<const AudioBuffers>);
+	explicit AudioBuffers (boost::shared_ptr<const AudioBuffers>);
 	~AudioBuffers ();
 
 	AudioBuffers & operator= (AudioBuffers const &);

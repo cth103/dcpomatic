@@ -134,7 +134,7 @@ struct Crop
 {
 	Crop () : left (0), right (0), top (0), bottom (0) {}
 	Crop (int l, int r, int t, int b) : left (l), right (r), top (t), bottom (b) {}
-	Crop (boost::shared_ptr<cxml::Node>);
+	explicit Crop (boost::shared_ptr<cxml::Node>);
 
 	/** Number of pixels to remove from the left-hand side */
 	int left;

@@ -24,7 +24,7 @@
 class FFmpegSubtitlePeriod
 {
 public:
-	FFmpegSubtitlePeriod (ContentTime f)
+	explicit FFmpegSubtitlePeriod (ContentTime f)
 		: from (f)
 	{}
 

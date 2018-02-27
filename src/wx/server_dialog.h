@@ -24,7 +24,7 @@
 class ServerDialog : public TableDialog
 {
 public:
-	ServerDialog (wxWindow *);
+	explicit ServerDialog (wxWindow *);
 
 	void set (std::string);
 	boost::optional<std::string> get () const;

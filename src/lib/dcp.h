@@ -33,7 +33,7 @@ public:
 	std::list<boost::shared_ptr<dcp::CPL> > cpls () const;
 
 protected:
-	DCP (boost::shared_ptr<const DCPContent> content)
+	explicit DCP (boost::shared_ptr<const DCPContent> content)
 		: _dcp_content (content)
 	{}
 

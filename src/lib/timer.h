@@ -37,7 +37,7 @@
 class PeriodTimer
 {
 public:
-	PeriodTimer (std::string n);
+	explicit PeriodTimer (std::string n);
 	~PeriodTimer ();
 
 private:

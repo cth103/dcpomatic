@@ -36,7 +36,7 @@ public:
 	static const int TYPE_TIMING;
 	static const int TYPE_DEBUG_EMAIL;
 
-	LogEntry (int type);
+	explicit LogEntry (int type);
 	virtual ~LogEntry () {}
 
 	virtual std::string message () const = 0;

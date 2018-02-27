@@ -26,7 +26,7 @@
 class MagickImageProxy : public ImageProxy
 {
 public:
-	MagickImageProxy (boost::filesystem::path);
+	explicit MagickImageProxy (boost::filesystem::path);
 	MagickImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
 
 	boost::shared_ptr<Image> image (

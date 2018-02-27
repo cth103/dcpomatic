@@ -30,7 +30,7 @@
 class Socket : public boost::noncopyable
 {
 public:
-	Socket (int timeout = 30);
+	explicit Socket (int timeout = 30);
 
 	/** @return Our underlying socket */
 	boost::asio::ip::tcp::socket& socket () {

@@ -25,7 +25,7 @@ class AudioBuffers;
 class AudioDelay
 {
 public:
-	AudioDelay (int samples);
+	explicit AudioDelay (int samples);
 	boost::shared_ptr<AudioBuffers> run (boost::shared_ptr<const AudioBuffers> in);
 	void flush ();
 

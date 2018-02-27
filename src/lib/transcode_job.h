@@ -33,7 +33,7 @@ class Encoder;
 class TranscodeJob : public Job
 {
 public:
-	TranscodeJob (boost::shared_ptr<const Film> film);
+	explicit TranscodeJob (boost::shared_ptr<const Film> film);
 
 	std::string name () const;
 	std::string json_name () const;

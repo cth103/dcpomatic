@@ -39,7 +39,7 @@ public:
 		, two_d_version_of_three_d (false)
 	{}
 
-	ISDCFMetadata (cxml::ConstNodePtr);
+	explicit ISDCFMetadata (cxml::ConstNodePtr);
 
 	void as_xml (xmlpp::Node *) const;
 	void read_old_metadata (std::string, std::string);

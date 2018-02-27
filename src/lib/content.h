@@ -63,7 +63,7 @@ public:
 class Content : public boost::enable_shared_from_this<Content>, public Signaller, public boost::noncopyable
 {
 public:
-	Content (boost::shared_ptr<const Film>);
+	explicit Content (boost::shared_ptr<const Film>);
 	Content (boost::shared_ptr<const Film>, DCPTime);
 	Content (boost::shared_ptr<const Film>, boost::filesystem::path);
 	Content (boost::shared_ptr<const Film>, cxml::ConstNodePtr);

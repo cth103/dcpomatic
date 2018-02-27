@@ -23,7 +23,7 @@
 class RenameTemplateDialog : public TableDialog
 {
 public:
-	RenameTemplateDialog (wxWindow* parent);
+	explicit RenameTemplateDialog (wxWindow* parent);
 
 	void set (wxString n);
 	wxString get () const;

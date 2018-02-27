@@ -52,7 +52,7 @@ private:
 class DKDM : public DKDMBase
 {
 public:
-	DKDM (dcp::EncryptedKDM k)
+	explicit DKDM (dcp::EncryptedKDM k)
 		: _dkdm (k)
 	{}
 
@@ -70,7 +70,7 @@ private:
 class DKDMGroup : public DKDMBase
 {
 public:
-	DKDMGroup (std::string name)
+	explicit DKDMGroup (std::string name)
 		: _name (name)
 	{}
 

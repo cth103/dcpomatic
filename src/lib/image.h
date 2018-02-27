@@ -41,8 +41,8 @@ class Image
 {
 public:
 	Image (AVPixelFormat p, dcp::Size s, bool aligned, int extra_pixels = 0);
-	Image (AVFrame *);
-	Image (Image const &);
+	explicit Image (AVFrame *);
+	explicit Image (Image const &);
 	Image (boost::shared_ptr<const Image>, bool);
 	Image& operator= (Image const &);
 	~Image ();

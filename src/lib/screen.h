@@ -40,7 +40,7 @@ public:
 		, trusted_devices (td)
 	{}
 
-	Screen (cxml::ConstNodePtr);
+	explicit Screen (cxml::ConstNodePtr);
 
 	void as_xml (xmlpp::Element *) const;
 

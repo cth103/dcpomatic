@@ -43,7 +43,7 @@ public:
 class AudioContent : public ContentPart
 {
 public:
-	AudioContent (Content* parent);
+	explicit AudioContent (Content* parent);
 	AudioContent (Content* parent, std::vector<boost::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;

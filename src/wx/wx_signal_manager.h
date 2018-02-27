@@ -29,7 +29,7 @@ class wxEvtHandler;
 class wxSignalManager : public SignalManager
 {
 public:
-	wxSignalManager (wxEvtHandler *);
+	explicit wxSignalManager (wxEvtHandler *);
 	void wake_ui ();
 
 private:

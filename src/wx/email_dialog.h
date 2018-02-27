@@ -24,7 +24,7 @@
 class EmailDialog : public TableDialog
 {
 public:
-	EmailDialog (wxWindow *);
+	explicit EmailDialog (wxWindow *);
 
 	void set (std::string);
 	boost::optional<std::string> get () const;

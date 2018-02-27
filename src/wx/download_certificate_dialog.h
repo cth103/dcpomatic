@@ -26,7 +26,7 @@ class DownloadCertificatePanel;
 class DownloadCertificateDialog : public wxDialog
 {
 public:
-	DownloadCertificateDialog (wxWindow* parent);
+	explicit DownloadCertificateDialog (wxWindow* parent);
 	~DownloadCertificateDialog ();
 
 	dcp::Certificate certificate () const;

@@ -30,7 +30,7 @@
 class SubtitleString : public dcp::SubtitleString
 {
 public:
-	SubtitleString (dcp::SubtitleString dcp_)
+	explicit SubtitleString (dcp::SubtitleString dcp_)
 		: dcp::SubtitleString (dcp_)
 		, outline_width (2)
 	{}

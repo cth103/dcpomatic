@@ -31,10 +31,10 @@
 class Font
 {
 public:
-	Font (std::string id)
+	explicit Font (std::string id)
 		: _id (id) {}
 
-	Font (cxml::NodePtr node);
+	explicit Font (cxml::NodePtr node);
 
 	void as_xml (xmlpp::Node* node);
 

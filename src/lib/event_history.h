@@ -27,7 +27,7 @@
 class EventHistory
 {
 public:
-	EventHistory (int size);
+	explicit EventHistory (int size);
 
 	float rate () const;
 	void event ();

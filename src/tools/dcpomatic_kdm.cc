@@ -79,7 +79,7 @@ enum {
 class DOMFrame : public wxFrame
 {
 public:
-	DOMFrame (wxString const & title)
+	explicit DOMFrame (wxString const & title)
 		: wxFrame (0, -1, title)
 		, _config_dialog (0)
 		, _job_view (0)

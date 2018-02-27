@@ -32,7 +32,7 @@ class AudioDialog;
 class AudioPanel : public ContentSubPanel
 {
 public:
-	AudioPanel (ContentPanel *);
+	explicit AudioPanel (ContentPanel *);
 	~AudioPanel ();
 
 	void film_changed (Film::Property);

@@ -26,7 +26,7 @@
 class ServersListDialog : public wxDialog
 {
 public:
-	ServersListDialog (wxWindow *);
+	explicit ServersListDialog (wxWindow *);
 
 private:
 	void servers_list_changed ();

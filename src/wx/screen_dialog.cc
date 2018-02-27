@@ -45,7 +45,7 @@ column (dcp::Certificate c)
 class CertificateFileDialogWrapper : public FileDialogWrapper<dcp::Certificate>
 {
 public:
-	CertificateFileDialogWrapper (wxWindow* parent)
+	explicit CertificateFileDialogWrapper (wxWindow* parent)
 		: FileDialogWrapper<dcp::Certificate> (parent, _("Select certificate file"))
 	{
 

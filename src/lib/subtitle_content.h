@@ -57,7 +57,7 @@ public:
 class SubtitleContent : public ContentPart
 {
 public:
-	SubtitleContent (Content* parent);
+	explicit SubtitleContent (Content* parent);
 	SubtitleContent (Content* parent, std::vector<boost::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;

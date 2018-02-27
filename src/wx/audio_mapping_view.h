@@ -46,7 +46,7 @@
 class AudioMappingView : public wxPanel
 {
 public:
-	AudioMappingView (wxWindow *);
+	explicit AudioMappingView (wxWindow *);
 
 	void set (AudioMapping);
 	void set_input_channels (std::vector<std::string> const & names);

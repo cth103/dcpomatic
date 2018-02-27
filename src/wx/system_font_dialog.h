@@ -36,7 +36,7 @@ class wxListCtrl;
 class SystemFontDialog : public wxDialog
 {
 public:
-	SystemFontDialog (wxWindow* parent);
+	explicit SystemFontDialog (wxWindow* parent);
 
 	boost::optional<boost::filesystem::path> get_font () const;
 
