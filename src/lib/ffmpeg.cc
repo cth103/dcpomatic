@@ -276,65 +276,6 @@ FFmpeg::subtitle_period (AVSubtitle const & sub)
 		);
 }
 
-string
-FFmpeg::subtitle_id (AVSubtitle const & sub)
-{
-	Digester digester;
-	digester.add (sub.pts);
-	for (unsigned int i = 0; i < sub.num_rects; ++i) {
-		AVSubtitleRect* rect = sub.rects[i];
-		if (rect->type == SUBTITLE_BITMAP) {
-			digester.add (rect->x);
-			digester.add (rect->y);
-			digester.add (rect->w);
-			digester.add (rect->h);
-#ifdef DCPOMATIC_HAVE_AVSUBTITLERECT_PICT
-			int const line = rect->pict.linesize[0];
-			for (int j = 0; j < rect->h; ++j) {
-				digester.add (rect->pict.data[0] + j * line, line);
-			}
-#else
-			int const line = rect->linesize[0];
-			for (int j = 0; j < rect->h; ++j) {
-				digester.add (rect->data[0] + j * line, line);
-			}
-#endif
-		} else if (rect->type == SUBTITLE_TEXT) {
-			digester.add (string (rect->text));
-		} else if (rect->type == SUBTITLE_ASS) {
-			digester.add (string (rect->ass));
-		}
-	}
-	return digester.get ();
-}
-
-/** @return true if sub starts a new image subtitle */
-bool
-FFmpeg::subtitle_starts_image (AVSubtitle const & sub)
-{
-	bool image = false;
-	bool text = false;
-
-	for (unsigned int i = 0; i < sub.num_rects; ++i) {
-		switch (sub.rects[i]->type) {
-		case SUBTITLE_BITMAP:
-			image = true;
-			break;
-		case SUBTITLE_TEXT:
-		case SUBTITLE_ASS:
-			text = true;
-			break;
-		default:
-			break;
-		}
-	}
-
-	/* We can't cope with mixed image/text in one AVSubtitle */
-	DCPOMATIC_ASSERT (!image || !text);
-
-	return image;
-}
-
 /** Compute the pts offset to use given a set of audio streams and some video details.
  *  Sometimes these parameters will have just been determined by an Examiner, sometimes
  *  they will have been retrieved from a piece of Content, hence the need for this method

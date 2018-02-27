@@ -544,51 +544,6 @@ Playlist::content_summary (DCPTimePeriod period) const
 	return best_summary;
 }
 
-bool
-Playlist::video_content_at (DCPTime time) const
-{
-	BOOST_FOREACH (shared_ptr<Content> i, _content) {
-		if (i->video && i->position() <= time && time < i->end()) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
-bool
-Playlist::audio_content_at (DCPTime time) const
-{
-	BOOST_FOREACH (shared_ptr<Content> i, _content) {
-		if (!i->audio) {
-			continue;
-		}
-		if (i->position() <= time && time < i->end()) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
-shared_ptr<Content>
-Playlist::next_audio_content (DCPTime time) const
-{
-	shared_ptr<Content> next;
-	DCPTime next_position;
-	BOOST_FOREACH (shared_ptr<Content> i, _content) {
-		if (!i->audio) {
-			continue;
-		}
-		if (i->position() >= time && (!next || i->position() < next_position)) {
-			next = i;
-			next_position = i->position();
-		}
-	}
-
-	return next;
-}
-
 pair<double, double>
 Playlist::speed_up_range (int dcp_video_frame_rate) const
 {

@@ -55,9 +55,6 @@ public:
 	void move_later (boost::shared_ptr<Content>);
 
 	ContentList content () const;
-	bool video_content_at (DCPTime time) const;
-	bool audio_content_at (DCPTime time) const;
-	boost::shared_ptr<Content> next_audio_content (DCPTime time) const;
 
 	std::string video_identifier () const;
 

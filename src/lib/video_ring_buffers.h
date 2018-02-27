@@ -37,7 +37,6 @@ public:
 	void clear ();
 	Frame size () const;
 	bool empty () const;
-	boost::optional<DCPTime> earliest () const;
 
 	std::pair<size_t, std::string> memory_used () const;
 
