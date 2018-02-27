@@ -78,8 +78,11 @@ def configure(conf):
                                        '-msse',
                                        '-fno-strict-aliasing',
                                        '-Wall',
-                                       '-Wno-attributes',
+                                       '-Wcast-align',
                                        '-Wextra',
+                                       '-Wwrite-strings',
+                                       '-Wunsafe-loop-optimizations',
+                                       '-Wlogical-op',
                                        # Remove auto_ptr warnings from libxml++-2.6
                                        '-Wno-deprecated-declarations',
                                        '-D_FILE_OFFSET_BITS=64'])
