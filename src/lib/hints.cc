@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,6 +24,7 @@
 #include "content.h"
 #include "video_content.h"
 #include "subtitle_content.h"
+#include "audio_processor.h"
 #include "font.h"
 #include "ratio.h"
 #include "audio_analysis.h"
@@ -74,6 +75,11 @@ get_hints (shared_ptr<const Film> film)
 
 	if (film->audio_channels() < 6) {
 		hints.push_back (_("Your DCP has fewer than 6 audio channels.  This may cause problems on some projectors."));
+	}
+
+	AudioProcessor const * ap = film->audio_processor();
+	if (ap && (ap->id() == "stereo-5.1-upmix-a" || ap->id() == "stereo-5.1-upmix-b")) {
+		hints.push_back (_("You are using DCP-o-matic's stereo-to-5.1 upmixer.  This is experimental and may result in poor-quality audio.  If you continue, you should listen to the resulting DCP in a cinema to make sure that it sounds good."));
 	}
 
 	int flat_or_narrower = 0;
