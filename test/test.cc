@@ -452,19 +452,21 @@ check_one_frame (boost::filesystem::path dcp_dir, int64_t index, boost::filesyst
 	shared_ptr<dcp::MonoPictureAsset> asset = dynamic_pointer_cast<dcp::MonoPictureAsset> (dcp.cpls().front()->reels().front()->main_picture()->asset());
 	BOOST_REQUIRE (asset);
 	shared_ptr<const dcp::MonoPictureFrame> frame = asset->start_read()->get_frame(index);
+	shared_ptr<const dcp::MonoPictureFrame> ref_frame (new dcp::MonoPictureFrame (ref));
 
-	boost::uintmax_t const ref_size = boost::filesystem::file_size(ref);
-	BOOST_CHECK_EQUAL (frame->j2k_size(), ref_size);
+	shared_ptr<dcp::OpenJPEGImage> image = frame->xyz_image ();
+	shared_ptr<dcp::OpenJPEGImage> ref_image = ref_frame->xyz_image ();
 
-	FILE* ref_file = fopen_boost(ref, "rb");
-	BOOST_REQUIRE (ref_file);
+	BOOST_REQUIRE (image->size() == ref_image->size());
 
-	uint8_t* ref_data = new uint8_t[ref_size];
-	fread (ref_data, ref_size, 1, ref_file);
-	fclose (ref_file);
-
-	BOOST_CHECK (memcmp(ref_data, frame->j2k_data(), ref_size) == 0);
-	delete[] ref_data;
+	int off = 0;
+	for (int y = 0; y < ref_image->size().height; ++y) {
+		for (int x = 0; x < ref_image->size().width; ++x) {
+			BOOST_REQUIRE_EQUAL (ref_image->data(0)[off], image->data(0)[off]);
+			BOOST_REQUIRE_EQUAL (ref_image->data(1)[off], image->data(1)[off]);
+			BOOST_REQUIRE_EQUAL (ref_image->data(2)[off], image->data(2)[off]);
+		}
+	}
 }
 
 boost::filesystem::path
