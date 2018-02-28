@@ -71,7 +71,7 @@ public:
 	void add_metadata (xmlpp::Node* node) const;
 	void send_binary (boost::shared_ptr<Socket> socket) const;
 
-	void reset_metadata (dcp::Size video_container_size, dcp::Size film_frame_size);
+	bool reset_metadata (dcp::Size video_container_size, dcp::Size film_frame_size);
 
 	bool has_j2k () const;
 	dcp::Data j2k () const;

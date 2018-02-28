@@ -286,17 +286,22 @@ PlayerVideo::shallow_copy () const
 		);
 }
 
-/** Re-read crop, fade, inter/out size and colour conversion from our content */
-void
+/** Re-read crop, fade, inter/out size and colour conversion from our content.
+ *  @return true if this was possible, false if not.
+ */
+bool
 PlayerVideo::reset_metadata (dcp::Size video_container_size, dcp::Size film_frame_size)
 {
 	shared_ptr<Content> content = _content.lock();
-	DCPOMATIC_ASSERT (content);
-	DCPOMATIC_ASSERT (_video_frame);
+	if (!content || !_video_frame) {
+		return false;
+	}
 
 	_crop = content->video->crop();
 	_fade = content->video->fade(_video_frame.get());
 	_inter_size = content->video->scale().size(content->video, video_container_size, film_frame_size);
 	_out_size = video_container_size;
 	_colour_conversion = content->video->colour_conversion();
+
+	return true;
 }
