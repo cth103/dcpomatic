@@ -174,7 +174,7 @@ function make_dmg {
     dmg="$full_name $version.dmg"
     vol_name=DCP-o-matic-$version
 
-    codesign --deep --force --verify --verbose --sign "3rd Party Mac Developer Application: Carl Hetherington (R82DXSR997)" $appdir
+    codesign --deep --force --verify --verbose --sign "3rd Party Mac Developer Application: Carl Hetherington (R82DXSR997)" "$appdir"
 
     mkdir -p $vol_name
     cp -a "$appdir" $vol_name
