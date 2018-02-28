@@ -465,6 +465,7 @@ check_one_frame (boost::filesystem::path dcp_dir, int64_t index, boost::filesyst
 			BOOST_REQUIRE_EQUAL (ref_image->data(0)[off], image->data(0)[off]);
 			BOOST_REQUIRE_EQUAL (ref_image->data(1)[off], image->data(1)[off]);
 			BOOST_REQUIRE_EQUAL (ref_image->data(2)[off], image->data(2)[off]);
+			++off;
 		}
 	}
 }
