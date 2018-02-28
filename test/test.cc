@@ -231,7 +231,7 @@ check_mxf_audio_file (boost::filesystem::path ref, boost::filesystem::path check
 }
 
 void
-check_image (boost::filesystem::path ref, boost::filesystem::path check)
+check_image (boost::filesystem::path ref, boost::filesystem::path check, double threshold)
 {
 #ifdef DCPOMATIC_IMAGE_MAGICK
 	using namespace MagickCore;
@@ -248,7 +248,7 @@ check_image (boost::filesystem::path ref, boost::filesystem::path check)
 	*/
 #ifdef DCPOMATIC_ADVANCED_MAGICK_COMPARE
 	double const dist = ref_image.compare(check_image, Magick::RootMeanSquaredErrorMetric);
-	BOOST_CHECK_MESSAGE (dist < 0.01, ref << " differs from " << check << " " << dist);
+	BOOST_CHECK_MESSAGE (dist < threshold, ref << " differs from " << check << " " << dist);
 #else
 	BOOST_CHECK_MESSAGE (!ref_image.compare(check_image), ref << " differs from " << check);
 #endif
