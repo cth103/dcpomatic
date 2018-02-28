@@ -81,8 +81,6 @@ def configure(conf):
                                        '-Wcast-align',
                                        '-Wextra',
                                        '-Wwrite-strings',
-                                       '-Wunsafe-loop-optimizations',
-                                       '-Wlogical-op',
                                        # Remove auto_ptr warnings from libxml++-2.6
                                        '-Wno-deprecated-declarations',
                                        '-D_FILE_OFFSET_BITS=64'])
@@ -140,6 +138,7 @@ def configure(conf):
     # POSIX
     if conf.env.TARGET_LINUX or conf.env.TARGET_OSX:
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_POSIX')
+        conf.env.append_value('CXXFLAGS', ['-Wunsafe-loop-optimizations', '-Wlogical-op'])
         boost_lib_suffix = ''
         boost_thread = 'boost_thread'
         conf.env.append_value('LINKFLAGS', '-pthread')
