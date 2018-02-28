@@ -446,7 +446,9 @@ FilmViewer::panel_sized (wxSizeEvent& ev)
 	_panel_size.height = ev.GetSize().GetHeight();
 
 	calculate_sizes ();
-	quick_refresh ();
+	if (!quick_refresh()) {
+		slow_refresh ();
+	}
 	update_position_label ();
 	update_position_slider ();
 }
@@ -639,6 +641,7 @@ FilmViewer::player_changed (int property, bool frequent)
 	}
 
 	calculate_sizes ();
+	bool refreshed = false;
 	if (
 		property == VideoContentProperty::CROP ||
 		property == VideoContentProperty::SCALE ||
@@ -648,8 +651,10 @@ FilmViewer::player_changed (int property, bool frequent)
 		property == PlayerProperty::VIDEO_CONTAINER_SIZE ||
 		property == PlayerProperty::FILM_CONTAINER
 		) {
-		quick_refresh ();
-	} else {
+		refreshed = quick_refresh ();
+	}
+
+	if (!refreshed) {
 		slow_refresh ();
 	}
 	update_position_label ();
@@ -696,16 +701,23 @@ FilmViewer::slow_refresh ()
 	seek (_video_position, true);
 }
 
-/** Re-get the current frame quickly by resetting the metadata in the PlayerVideo that we used last time */
-void
+/** Try to re-get the current frame quickly by resetting the metadata
+ *  in the PlayerVideo that we used last time.
+ *  @return true if this was possible, false if not.
+ */
+bool
 FilmViewer::quick_refresh ()
 {
 	if (!_player_video.first) {
-		return;
+		return false;
 	}
 
-	_player_video.first->reset_metadata (_player->video_container_size(), _film->frame_size());
+	if (!_player_video.first->reset_metadata (_player->video_container_size(), _film->frame_size())) {
+		return false;
+	}
+
 	display_player_video ();
+	return true;
 }
 
 void

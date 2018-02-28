@@ -60,7 +60,7 @@ public:
 	boost::optional<int> dcp_decode_reduction () const;
 
 	void slow_refresh ();
-	void quick_refresh ();
+	bool quick_refresh ();
 
 	int dropped () const {
 		return _dropped;
