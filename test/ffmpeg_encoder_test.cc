@@ -28,64 +28,95 @@
 #include "lib/transcode_job.h"
 #include "lib/dcp_content.h"
 #include "lib/subtitle_content.h"
+#include "lib/compose.hpp"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
+using std::string;
 using boost::shared_ptr;
 
-BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_mov)
+static void
+ffmpeg_content_test (int number, boost::filesystem::path content, FFmpegEncoder::Format format)
 {
-	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_basic_test_mov");
-	film->set_name ("ffmpeg_encoder_basic_test_mov");
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
+	string name = "ffmpeg_encoder_";
+	string extension;
+	switch (format) {
+	case FFmpegEncoder::FORMAT_H264:
+		name += "h264";
+		extension = "mp4";
+		break;
+	case FFmpegEncoder::FORMAT_PRORES:
+		name += "prores";
+		extension = "mov";
+		break;
+	}
+
+	name = String::compose("%1_test%2", name, number);
+
+	shared_ptr<Film> film = new_test_film (name);
+	film->set_name (name);
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, content));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
+	film->set_video_frame_rate (24);
+
 	shared_ptr<Job> job (new TranscodeJob (film));
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test.mov", FFmpegEncoder::FORMAT_PRORES, false);
+	FFmpegEncoder encoder (film, job, String::compose("build/test/%1.%2", name, extension), format, false);
 	encoder.go ();
 }
 
-BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test2_mov)
+/** Red / green / blue MP4 -> Prores */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test1)
 {
-	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_basic_test2_mov");
-	film->set_name ("ffmpeg_encoder_basic_test2_mov");
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, private_data / "dolby_aurora.vob"));
+	ffmpeg_content_test (1, "test/data/test.mp4", FFmpegEncoder::FORMAT_PRORES);
+}
+
+/** Dolby Aurora trailer VOB -> Prores */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test2)
+{
+	ffmpeg_content_test (2, private_data / "dolby_aurora.vob", FFmpegEncoder::FORMAT_PRORES);
+}
+
+/** Sintel trailer -> Prores */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test3)
+{
+	ffmpeg_content_test (3, private_data / "Sintel_Trailer1.480p.DivX_Plus_HD.mkv", FFmpegEncoder::FORMAT_PRORES);
+}
+
+/** Big Buck Bunny trailer -> Prores */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test4)
+{
+	ffmpeg_content_test (4, private_data / "big_buck_bunny_trailer_480p.mov", FFmpegEncoder::FORMAT_PRORES);
+}
+
+/** Still image -> Prores */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test5)
+{
+	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_prores_test5");
+	film->set_name ("ffmpeg_encoder_prores_test5");
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, private_data / "bbc405.png"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
+	c->video->set_length (240);
+
 	shared_ptr<Job> job (new TranscodeJob (film));
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test2.mov", FFmpegEncoder::FORMAT_PRORES, false);
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_test5.mov", FFmpegEncoder::FORMAT_PRORES, false);
 	encoder.go ();
 }
 
-BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_mp4)
+/** Subs -> Prores */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test6)
 {
-	shared_ptr<Film> film = new_test_film ("ffmpeg_transcoder_basic_test_mp4");
-	film->set_name ("ffmpeg_transcoder_basic_test");
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
-	film->set_container (Ratio::from_id ("185"));
-	film->set_audio_channels (6);
-
-	film->examine_and_add_content (c);
-	BOOST_REQUIRE (!wait_for_jobs ());
-
-	shared_ptr<Job> job (new TranscodeJob (film));
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test.mp4", FFmpegEncoder::FORMAT_H264, false);
-	encoder.go ();
-}
-
-/** Simplest possible export subtitle case: just the subtitles */
-BOOST_AUTO_TEST_CASE (ffmpeg_encoder_test_subs_h264_1)
-{
-	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_test_subs_h264_1");
-	film->set_name ("ffmpeg_encoder_test_subs_h264_1");
+	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_prores_test6");
+	film->set_name ("ffmpeg_encoder_prores_test6");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
@@ -98,15 +129,66 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_test_subs_h264_1)
 	film->write_metadata();
 
 	shared_ptr<Job> job (new TranscodeJob (film));
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_test_subs_h264_1.mp4", FFmpegEncoder::FORMAT_H264, false);
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_test6.mov", FFmpegEncoder::FORMAT_PRORES, false);
 	encoder.go ();
 }
 
-/** Slightly more complicated example with longer subs and a video to overlay */
-BOOST_AUTO_TEST_CASE (ffmpeg_encoder_test_subs_h264_2)
+/** Video + subs -> Prores */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test7)
 {
-	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_test_subs_h264_2");
-	film->set_name ("ffmpeg_encoder_test_subs_h264_2");
+	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_prores_test7");
+	film->set_name ("ffmpeg_encoder_prores_test7");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_audio_channels (6);
+
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
+	film->examine_and_add_content (c);
+	BOOST_REQUIRE (!wait_for_jobs ());
+
+	shared_ptr<TextSubtitleContent> s (new TextSubtitleContent (film, "test/data/subrip.srt"));
+	film->examine_and_add_content (s);
+	BOOST_REQUIRE (!wait_for_jobs ());
+	s->subtitle->set_colour (dcp::Colour (255, 255, 0));
+	s->subtitle->set_effect (dcp::SHADOW);
+	s->subtitle->set_effect_colour (dcp::Colour (0, 255, 255));
+
+	shared_ptr<Job> job (new TranscodeJob (film));
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_test7.mov", FFmpegEncoder::FORMAT_PRORES, false);
+	encoder.go ();
+}
+
+/** Red / green / blue MP4 -> H264 */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test1)
+{
+	ffmpeg_content_test(1, "test/data/test.mp4", FFmpegEncoder::FORMAT_H264);
+}
+
+/** Just subtitles -> H264 */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test2)
+{
+	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_h264_test2");
+	film->set_name ("ffmpeg_encoder_h264_test2");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_audio_channels (6);
+
+	shared_ptr<TextSubtitleContent> s (new TextSubtitleContent (film, "test/data/subrip2.srt"));
+	film->examine_and_add_content (s);
+	BOOST_REQUIRE (!wait_for_jobs ());
+	s->subtitle->set_colour (dcp::Colour (255, 255, 0));
+	s->subtitle->set_effect (dcp::SHADOW);
+	s->subtitle->set_effect_colour (dcp::Colour (0, 255, 255));
+	film->write_metadata();
+
+	shared_ptr<Job> job (new TranscodeJob (film));
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_h264_test2.mp4", FFmpegEncoder::FORMAT_H264, false);
+	encoder.go ();
+}
+
+/** Video + subs -> H264 */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test3)
+{
+	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_h264_test3");
+	film->set_name ("ffmpeg_encoder_h264_test3");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
@@ -123,73 +205,29 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_test_subs_h264_2)
 	film->write_metadata();
 
 	shared_ptr<Job> job (new TranscodeJob (film));
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_test_subs_h264_2.mp4", FFmpegEncoder::FORMAT_H264, false);
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_h264_test3.mp4", FFmpegEncoder::FORMAT_H264, false);
 	encoder.go ();
 }
 
-/** Simplest possible export subtitle case: just the subtitles */
-BOOST_AUTO_TEST_CASE (ffmpeg_encoder_test_subs_prores_1)
+/** Scope-in-flat DCP -> H264 */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test4)
 {
-	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_test_subs_prores_1");
-	film->set_name ("ffmpeg_encoder_test_subs_prores_1");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_audio_channels (6);
-
-	shared_ptr<TextSubtitleContent> s (new TextSubtitleContent (film, "test/data/subrip2.srt"));
-	film->examine_and_add_content (s);
-	BOOST_REQUIRE (!wait_for_jobs ());
-	s->subtitle->set_colour (dcp::Colour (255, 255, 0));
-	s->subtitle->set_effect (dcp::SHADOW);
-	s->subtitle->set_effect_colour (dcp::Colour (0, 255, 255));
-	film->write_metadata();
-
-	shared_ptr<Job> job (new TranscodeJob (film));
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_test_subs_prores_1.mov", FFmpegEncoder::FORMAT_PRORES, false);
-	encoder.go ();
-}
-
-/** Slightly more complicated example with longer subs and a video to overlay */
-BOOST_AUTO_TEST_CASE (ffmpeg_encoder_test_subs_prores_2)
-{
-	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_test_subs_prores_2");
-	film->set_name ("ffmpeg_encoder_test_subs_prores_2");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_audio_channels (6);
-
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
-	film->examine_and_add_content (c);
-	BOOST_REQUIRE (!wait_for_jobs ());
-
-	shared_ptr<TextSubtitleContent> s (new TextSubtitleContent (film, "test/data/subrip.srt"));
-	film->examine_and_add_content (s);
-	BOOST_REQUIRE (!wait_for_jobs ());
-	s->subtitle->set_colour (dcp::Colour (255, 255, 0));
-	s->subtitle->set_effect (dcp::SHADOW);
-	s->subtitle->set_effect_colour (dcp::Colour (0, 255, 255));
-
-	shared_ptr<Job> job (new TranscodeJob (film));
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_test_subs_prores_2.mov", FFmpegEncoder::FORMAT_PRORES, false);
-	encoder.go ();
-}
-
-/** Test a bug with export of scope-in-flat DCP content */
-BOOST_AUTO_TEST_CASE (ffmpeg_encoder_bug_test_scope)
-{
-	shared_ptr<Film> film = new_test_film2("ffmpeg_encoder_bug_test_scope");
+	shared_ptr<Film> film = new_test_film2("ffmpeg_encoder_h264_test4");
 	film->examine_and_add_content(shared_ptr<DCPContent>(new DCPContent(film, "test/data/scope_dcp")));
 	BOOST_REQUIRE(!wait_for_jobs());
 
 	film->set_container(Ratio::from_id("185"));
 
 	shared_ptr<Job> job(new TranscodeJob(film));
-	FFmpegEncoder encoder(film, job, "build/test/ffmpeg_encoder_bug_test_scope.mp4", FFmpegEncoder::FORMAT_H264, false);
+	FFmpegEncoder encoder(film, job, "build/test/ffmpeg_encoder_h264_test4.mp4", FFmpegEncoder::FORMAT_H264, false);
 	encoder.go();
 }
 
-BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_mixdown)
+/** Test mixdown from 5.1 to stereo */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test5)
 {
-	shared_ptr<Film> film = new_test_film ("ffmpeg_transcoder_basic_test_mixdown");
-	film->set_name ("ffmpeg_transcoder_basic_test");
+	shared_ptr<Film> film = new_test_film ("ffmpeg_transcoder_h264_test5");
+	film->set_name ("ffmpeg_transcoder_h264_test5");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
@@ -235,27 +273,8 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_mixdown)
 	Rs->audio->set_mapping (map);
 
 	shared_ptr<Job> job (new TranscodeJob (film));
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test_mixdown.mp4", FFmpegEncoder::FORMAT_H264, true);
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_h264_test5.mp4", FFmpegEncoder::FORMAT_H264, true);
 	encoder.go ();
 
-	check_ffmpeg ("build/test/ffmpeg_encoder_basic_test_mixdown.mp4", "test/data/ffmpeg_encoder_basic_test_mixdown.mp4", 1);
-}
-
-/** Test going from an image source to a MOV which has at times had big colour problems */
-BOOST_AUTO_TEST_CASE (ffmpeg_encoder_image_test_mov)
-{
-	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_image_test_mov");
-	film->set_name ("ffmpeg_encoder_image_test");
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, private_data / "bbc405.png"));
-	film->set_container (Ratio::from_id ("185"));
-	film->set_audio_channels (6);
-
-	film->examine_and_add_content (c);
-	BOOST_REQUIRE (!wait_for_jobs ());
-
-	c->video->set_length (240);
-
-	shared_ptr<Job> job (new TranscodeJob (film));
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_image_test.mov", FFmpegEncoder::FORMAT_PRORES, false);
-	encoder.go ();
+	check_ffmpeg ("build/test/ffmpeg_encoder_h264_test5.mp4", "test/data/ffmpeg_encoder_h264_test5.mp4", 1);
 }
