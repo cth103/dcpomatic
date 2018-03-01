@@ -53,7 +53,7 @@ public:
 
 private:
 	void video (boost::shared_ptr<PlayerVideo>, DCPTime);
-	void audio (boost::shared_ptr<AudioBuffers>, DCPTime);
+	void audio (boost::shared_ptr<AudioBuffers>);
 	void subtitle (PlayerSubtitles, DCPTimePeriod);
 
 	void setup_video ();
