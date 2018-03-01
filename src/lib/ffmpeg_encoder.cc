@@ -216,7 +216,7 @@ FFmpegEncoder::go ()
 				deinterleaved->data(k)[j] = *p++;
 			}
 		}
-		audio (deinterleaved, i);
+		audio (deinterleaved);
 	}
 	delete[] interleaved;
 
@@ -327,14 +327,14 @@ FFmpegEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 
 /** Called when the player gives us some audio */
 void
-FFmpegEncoder::audio (shared_ptr<AudioBuffers> audio, DCPTime)
+FFmpegEncoder::audio (shared_ptr<AudioBuffers> audio)
 {
 	_pending_audio->append (audio);
 
 	int frame_size = _audio_codec_context->frame_size;
 	if (frame_size == 0) {
 		/* codec has AV_CODEC_CAP_VARIABLE_FRAME_SIZE */
-		frame_size = 2000;
+		frame_size = _film->audio_frame_rate() / _film->video_frame_rate();
 	}
 
 	while (_pending_audio->frames() >= frame_size) {
