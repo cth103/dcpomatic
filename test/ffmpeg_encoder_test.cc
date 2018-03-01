@@ -21,6 +21,7 @@
 #include "lib/ffmpeg_encoder.h"
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"
+#include "lib/video_content.h"
 #include "lib/audio_content.h"
 #include "lib/text_subtitle_content.h"
 #include "lib/ratio.h"
@@ -34,8 +35,8 @@ using boost::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_mov)
 {
-	shared_ptr<Film> film = new_test_film ("ffmpeg_transcoder_basic_test_mov");
-	film->set_name ("ffmpeg_transcoder_basic_test");
+	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_basic_test_mov");
+	film->set_name ("ffmpeg_encoder_basic_test_mov");
 	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
@@ -45,6 +46,22 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_mov)
 
 	shared_ptr<Job> job (new TranscodeJob (film));
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test.mov", FFmpegEncoder::FORMAT_PRORES, false);
+	encoder.go ();
+}
+
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test2_mov)
+{
+	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_basic_test2_mov");
+	film->set_name ("ffmpeg_encoder_basic_test2_mov");
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, private_data / "dolby_aurora.vob"));
+	film->set_container (Ratio::from_id ("185"));
+	film->set_audio_channels (6);
+
+	film->examine_and_add_content (c);
+	BOOST_REQUIRE (!wait_for_jobs ());
+
+	shared_ptr<Job> job (new TranscodeJob (film));
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test2.mov", FFmpegEncoder::FORMAT_PRORES, false);
 	encoder.go ();
 }
 
@@ -222,4 +239,23 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_mixdown)
 	encoder.go ();
 
 	check_ffmpeg ("build/test/ffmpeg_encoder_basic_test_mixdown.mp4", "test/data/ffmpeg_encoder_basic_test_mixdown.mp4", 1);
+}
+
+/** Test going from an image source to a MOV which has at times had big colour problems */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_image_test_mov)
+{
+	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_image_test_mov");
+	film->set_name ("ffmpeg_encoder_image_test");
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, private_data / "bbc405.png"));
+	film->set_container (Ratio::from_id ("185"));
+	film->set_audio_channels (6);
+
+	film->examine_and_add_content (c);
+	BOOST_REQUIRE (!wait_for_jobs ());
+
+	c->video->set_length (240);
+
+	shared_ptr<Job> job (new TranscodeJob (film));
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_image_test.mov", FFmpegEncoder::FORMAT_PRORES, false);
+	encoder.go ();
 }
