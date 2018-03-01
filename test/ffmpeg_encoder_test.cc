@@ -62,8 +62,6 @@ ffmpeg_content_test (int number, boost::filesystem::path content, FFmpegEncoder:
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	film->set_video_frame_rate (24);
-
 	shared_ptr<Job> job (new TranscodeJob (film));
 	FFmpegEncoder encoder (film, job, String::compose("build/test/%1.%2", name, extension), format, false);
 	encoder.go ();
