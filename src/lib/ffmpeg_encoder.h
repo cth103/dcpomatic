@@ -61,6 +61,9 @@ private:
 
 	void audio_frame (int size);
 
+	static void buffer_free(void* opaque, uint8_t* data);
+	void buffer_free2(uint8_t* data);
+
 	AVCodec* _video_codec;
 	AVCodecContext* _video_codec_context;
 	AVCodec* _audio_codec;
@@ -89,6 +92,11 @@ private:
 	std::list<std::pair<boost::shared_ptr<PlayerVideo>, DCPTime> > _queue;
 
 	boost::shared_ptr<Butler> _butler;
+
+	/** Store of shared_ptr<Image> to keep them alive whilst raw pointers into
+	    their data have been passed to FFmpeg.
+	*/
+	std::map<uint8_t*, boost::shared_ptr<const Image> > _pending_images;
 
 	static int _video_stream_index;
 	static int _audio_stream_index;

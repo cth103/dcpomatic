@@ -280,12 +280,9 @@ FFmpegEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 	AVFrame* frame = av_frame_alloc ();
 	DCPOMATIC_ASSERT (frame);
 
+	_pending_images[image->data()[0]] = image;
 	for (int i = 0; i < 3; ++i) {
-		size_t const size = image->stride()[i] * image->sample_size(i).height;
-		AVBufferRef* buffer = av_buffer_alloc (size);
-		DCPOMATIC_ASSERT (buffer);
-		/* XXX: inefficient */
-		memcpy (buffer->data, image->data()[i], size);
+		AVBufferRef* buffer = av_buffer_create(image->data()[i], image->stride()[i] * image->size().height, &buffer_free, this, 0);
 		frame->buf[i] = av_buffer_ref (buffer);
 		frame->data[i] = buffer->data;
 		frame->linesize[i] = image->stride()[i];
@@ -430,4 +427,16 @@ FFmpegEncoder::frames_done () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	return _last_time.frames_round (_film->video_frame_rate ());
+}
+
+void
+FFmpegEncoder::buffer_free (void* opaque, uint8_t* data)
+{
+	reinterpret_cast<FFmpegEncoder*>(opaque)->buffer_free2(data);
+}
+
+void
+FFmpegEncoder::buffer_free2 (uint8_t* data)
+{
+	_pending_images.erase (data);
 }
