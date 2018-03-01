@@ -21,6 +21,7 @@
 #include "lib/ffmpeg_encoder.h"
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"
+#include "lib/image_content.h"
 #include "lib/video_content.h"
 #include "lib/audio_content.h"
 #include "lib/text_subtitle_content.h"
@@ -62,6 +63,7 @@ ffmpeg_content_test (int number, boost::filesystem::path content, FFmpegEncoder:
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
+	film->write_metadata ();
 	shared_ptr<Job> job (new TranscodeJob (film));
 	FFmpegEncoder encoder (film, job, String::compose("build/test/%1.%2", name, extension), format, false);
 	encoder.go ();
@@ -96,7 +98,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test5)
 {
 	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_prores_test5");
 	film->set_name ("ffmpeg_encoder_prores_test5");
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, private_data / "bbc405.png"));
+	shared_ptr<ImageContent> c (new ImageContent (film, private_data / "bbc405.png"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
@@ -105,6 +107,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test5)
 
 	c->video->set_length (240);
 
+	film->write_metadata ();
 	shared_ptr<Job> job (new TranscodeJob (film));
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_test5.mov", FFmpegEncoder::FORMAT_PRORES, false);
 	encoder.go ();
