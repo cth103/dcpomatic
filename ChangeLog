@@ -1,3 +1,7 @@
+2018-03-02  Carl Hetherington  <cth@carlh.net>
+
+	* Fix bad Prores exports in some cases (#1227).
+
 2018-02-27  Carl Hetherington  <cth@carlh.net>
 
 	* Add a hint about the stereo-to-5.1 upmixers being

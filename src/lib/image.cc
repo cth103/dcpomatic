@@ -183,8 +183,8 @@ Image::crop_scale_window (
 		0, 1 << 16, 1 << 16
 		);
 
-	AVPixFmtDescriptor const * desc = av_pix_fmt_desc_get (_pixel_format);
-	if (!desc) {
+	AVPixFmtDescriptor const * in_desc = av_pix_fmt_desc_get (_pixel_format);
+	if (!in_desc) {
 		throw PixelFormatError ("crop_scale_window()", _pixel_format);
 	}
 
@@ -196,16 +196,23 @@ Image::crop_scale_window (
 		   round down so that we don't crop a subsampled pixel until
 		   we've cropped all of its Y-channel pixels.
 		*/
-		int const x = lrintf (bytes_per_pixel(c) * crop.left) & ~ ((int) desc->log2_chroma_w);
+		int const x = lrintf (bytes_per_pixel(c) * crop.left) & ~ ((int) in_desc->log2_chroma_w);
 		scale_in_data[c] = data()[c] + x + stride()[c] * (crop.top / vertical_factor(c));
 	}
 
 	/* Corner of the image within out_size */
 	Position<int> const corner ((out_size.width - inter_size.width) / 2, (out_size.height - inter_size.height) / 2);
 
+	AVPixFmtDescriptor const * out_desc = av_pix_fmt_desc_get (out_format);
+	if (!out_desc) {
+		throw PixelFormatError ("crop_scale_window()", out_format);
+	}
+
 	uint8_t* scale_out_data[out->planes()];
 	for (int c = 0; c < out->planes(); ++c) {
-		scale_out_data[c] = out->data()[c] + lrintf (out->bytes_per_pixel(c) * corner.x) + out->stride()[c] * (corner.y / out->vertical_factor(c));
+		/* See the note in the crop loop above */
+		int const x = lrintf (out->bytes_per_pixel(c) * corner.x) & ~ ((int) out_desc->log2_chroma_w);
+		scale_out_data[c] = out->data()[c] + x + out->stride()[c] * (corner.y / out->vertical_factor(c));
 	}
 
 	sws_scale (
