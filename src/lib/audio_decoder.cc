@@ -70,7 +70,7 @@ AudioDecoder::emit (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, 
 	}
 
 	shared_ptr<Resampler> resampler;
-	map<AudioStreamPtr, shared_ptr<Resampler> >::iterator i = _resamplers.find(stream);
+	ResamplerMap::iterator i = _resamplers.find(stream);
 	if (i != _resamplers.end ()) {
 		resampler = i->second;
 	} else {
@@ -106,7 +106,7 @@ AudioDecoder::emit (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, 
 ContentTime
 AudioDecoder::stream_position (AudioStreamPtr stream) const
 {
-	map<AudioStreamPtr, Frame>::const_iterator i = _positions.find (stream);
+	PositionMap::const_iterator i = _positions.find (stream);
 	DCPOMATIC_ASSERT (i != _positions.end ());
 	return ContentTime::from_frames (i->second, _content->resampled_frame_rate());
 }
@@ -115,7 +115,7 @@ ContentTime
 AudioDecoder::position () const
 {
 	optional<ContentTime> p;
-	for (map<AudioStreamPtr, Frame>::const_iterator i = _positions.begin(); i != _positions.end(); ++i) {
+	for (PositionMap::const_iterator i = _positions.begin(); i != _positions.end(); ++i) {
 		ContentTime const ct = stream_position (i->first);
 		if (!p || ct < *p) {
 			p = ct;
@@ -128,12 +128,12 @@ AudioDecoder::position () const
 void
 AudioDecoder::seek ()
 {
-	for (map<AudioStreamPtr, shared_ptr<Resampler> >::iterator i = _resamplers.begin(); i != _resamplers.end(); ++i) {
+	for (ResamplerMap::iterator i = _resamplers.begin(); i != _resamplers.end(); ++i) {
 		i->second->flush ();
 		i->second->reset ();
 	}
 
-	for (map<AudioStreamPtr, Frame>::iterator i = _positions.begin(); i != _positions.end(); ++i) {
+	for (PositionMap::iterator i = _positions.begin(); i != _positions.end(); ++i) {
 		i->second = 0;
 	}
 }
@@ -141,7 +141,7 @@ AudioDecoder::seek ()
 void
 AudioDecoder::flush ()
 {
-	for (map<AudioStreamPtr, shared_ptr<Resampler> >::iterator i = _resamplers.begin(); i != _resamplers.end(); ++i) {
+	for (ResamplerMap::iterator i = _resamplers.begin(); i != _resamplers.end(); ++i) {
 		shared_ptr<const AudioBuffers> ro = i->second->flush ();
 		if (ro->frames() > 0) {
 			Data (i->first, ContentAudio (ro, _positions[i->first]));

@@ -63,8 +63,10 @@ private:
 	/** Frame after the last one that was emitted from Data (i.e. at the resampled rate, if applicable)
 	 *  for each AudioStream.
 	 */
-	std::map<AudioStreamPtr, Frame> _positions;
-	std::map<AudioStreamPtr, boost::shared_ptr<Resampler> > _resamplers;
+	typedef std::map<AudioStreamPtr, Frame> PositionMap;
+	PositionMap _positions;
+	typedef std::map<AudioStreamPtr, boost::shared_ptr<Resampler> > ResamplerMap;
+	ResamplerMap _resamplers;
 
 	bool _fast;
 };
