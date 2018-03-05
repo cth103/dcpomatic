@@ -138,12 +138,18 @@ FFmpegDecoder::flush ()
 
 	BOOST_FOREACH (shared_ptr<FFmpegAudioStream> i, _ffmpeg_content->ffmpeg_audio_streams ()) {
 		ContentTime a = audio->stream_position(i);
-		while (a < full_length) {
-			ContentTime to_do = min (full_length - a, ContentTime::from_seconds (0.1));
-			shared_ptr<AudioBuffers> silence (new AudioBuffers (i->channels(), to_do.frames_ceil (i->frame_rate())));
-			silence->make_silent ();
-			audio->emit (i, silence, a);
-			a += to_do;
+		/* Unfortunately if a is 0 that really means that we don't know the stream position since
+		   there has been no data on it since the last seek.  In this case we'll just do nothing
+		   here.  I'm not sure if that's the right idea.
+		*/
+		if (a > ContentTime()) {
+			while (a < full_length) {
+				ContentTime to_do = min (full_length - a, ContentTime::from_seconds (0.1));
+				shared_ptr<AudioBuffers> silence (new AudioBuffers (i->channels(), to_do.frames_ceil (i->frame_rate())));
+				silence->make_silent ();
+				audio->emit (i, silence, a);
+				a += to_do;
+			}
 		}
 	}
 
