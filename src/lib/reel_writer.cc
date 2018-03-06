@@ -78,10 +78,12 @@ ReelWriter::ReelWriter (
 	   it into the DCP later.
 	*/
 
+	dcp::Standard const standard = _film->interop() ? dcp::INTEROP : dcp::SMPTE;
+
 	if (_film->three_d ()) {
-		_picture_asset.reset (new dcp::StereoPictureAsset (dcp::Fraction (_film->video_frame_rate (), 1)));
+		_picture_asset.reset (new dcp::StereoPictureAsset (dcp::Fraction (_film->video_frame_rate(), 1), standard));
 	} else {
-		_picture_asset.reset (new dcp::MonoPictureAsset (dcp::Fraction (_film->video_frame_rate (), 1)));
+		_picture_asset.reset (new   dcp::MonoPictureAsset (dcp::Fraction (_film->video_frame_rate(), 1), standard));
 	}
 
 	_picture_asset->set_size (_film->frame_size ());
@@ -100,13 +102,12 @@ ReelWriter::ReelWriter (
 
 	_picture_asset_writer = _picture_asset->start_write (
 		_film->internal_video_asset_dir() / _film->internal_video_asset_filename(_period),
-		_film->interop() ? dcp::INTEROP : dcp::SMPTE,
 		_first_nonexistant_frame > 0
 		);
 
 	if (_film->audio_channels ()) {
 		_sound_asset.reset (
-			new dcp::SoundAsset (dcp::Fraction (_film->video_frame_rate(), 1), _film->audio_frame_rate (), _film->audio_channels ())
+			new dcp::SoundAsset (dcp::Fraction (_film->video_frame_rate(), 1), _film->audio_frame_rate (), _film->audio_channels (), standard)
 			);
 
 		if (_film->encrypted ()) {
@@ -119,8 +120,7 @@ ReelWriter::ReelWriter (
 		   of the DCP directory until the last minute.
 		*/
 		_sound_asset_writer = _sound_asset->start_write (
-			_film->directory().get() / audio_asset_filename (_sound_asset, _reel_index, _reel_count, _content_summary),
-			_film->interop() ? dcp::INTEROP : dcp::SMPTE
+			_film->directory().get() / audio_asset_filename (_sound_asset, _reel_index, _reel_count, _content_summary)
 			);
 	}
 }
