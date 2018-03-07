@@ -634,6 +634,11 @@ Writer::write_cover_sheet ()
 bool
 Writer::can_fake_write (Frame frame) const
 {
+	if (_film->encrypted()) {
+		/* We need to re-write the frame because the asset ID is embedded in the HMAC... I think... */
+		return false;
+	}
+
 	/* We have to do a proper write of the first frame so that we can set up the JPEG2000
 	   parameters in the asset writer.
 	*/
