@@ -74,9 +74,10 @@ BOOST_AUTO_TEST_CASE (remake_id_test2)
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	/* Remake it */
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs ());
+	/* Remove and remake it */
+	boost::filesystem::remove_all(film->dir(film->dcp_name()));
+	film->make_dcp();
+	BOOST_REQUIRE(!wait_for_jobs());
 
 	/* Find the CPL */
 	optional<boost::filesystem::path> cpl;
@@ -102,11 +103,11 @@ BOOST_AUTO_TEST_CASE (remake_id_test2)
 	/* Import the DCP into a new film */
 	shared_ptr<Film> film2 = new_test_film2("remake_id_test2_2");
 	shared_ptr<DCPContent> dcp_content(new DCPContent(film2, film->dir(film->dcp_name())));
-	film->examine_and_add_content(dcp_content);
+	film2->examine_and_add_content(dcp_content);
 	BOOST_REQUIRE(!wait_for_jobs());
 	dcp_content->add_kdm(kdm);
 	JobManager::instance()->add(shared_ptr<Job>(new ExamineContentJob(film2, dcp_content)));
 	BOOST_REQUIRE(!wait_for_jobs());
-	film->make_dcp();
+	film2->make_dcp();
 	BOOST_REQUIRE(!wait_for_jobs());
 }
