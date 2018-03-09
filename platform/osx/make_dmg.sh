@@ -175,6 +175,10 @@ function make_dmg {
     vol_name=DCP-o-matic-$version
 
     codesign --deep --force --verify --verbose --sign "3rd Party Mac Developer Application: Carl Hetherington (R82DXSR997)" "$appdir"
+    if [ "$?" != "0" ]; then
+	echo "Failed to sign .app"
+	exit 1
+    fi
 
     mkdir -p $vol_name
     cp -a "$appdir" $vol_name
