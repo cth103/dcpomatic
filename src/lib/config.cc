@@ -67,6 +67,7 @@ Config* Config::_instance = 0;
 int const Config::_current_version = 3;
 boost::signals2::signal<void ()> Config::FailedToLoad;
 boost::signals2::signal<void (string)> Config::Warning;
+boost::signals2::signal<bool (void)> Config::BadSignerChain;
 boost::optional<boost::filesystem::path> Config::test_path;
 
 /** Construct default configuration */
@@ -349,6 +350,30 @@ try
 		_signer_chain = create_certificate_chain ();
 	}
 
+	/* These must be done before we call BadSignerChain as that might set one
+	   of the nags.
+	*/
+	BOOST_FOREACH (cxml::NodePtr i, f.node_children("Nagged")) {
+		int const id = i->number_attribute<int>("Id");
+		if (id >= 0 && id < NAG_COUNT) {
+			_nagged[id] = raw_convert<int>(i->content());
+		}
+	}
+
+	bool bad_signer_chain = false;
+	BOOST_FOREACH (dcp::Certificate const & i, _signer_chain->unordered()) {
+		if (i.has_utf8_strings()) {
+			bad_signer_chain = true;
+		}
+	}
+
+	if (bad_signer_chain) {
+		optional<bool> const remake = BadSignerChain();
+		if (remake && *remake) {
+			_signer_chain = create_certificate_chain ();
+		}
+	}
+
 	cxml::NodePtr decryption = f.optional_node_child ("Decryption");
 	if (decryption) {
 		shared_ptr<dcp::CertificateChain> c (new dcp::CertificateChain ());
@@ -379,12 +404,6 @@ try
 	_dcp_metadata_filename_format = dcp::NameFormat (f.optional_string_child("DCPMetadataFilenameFormat").get_value_or ("%t"));
 	_dcp_asset_filename_format = dcp::NameFormat (f.optional_string_child("DCPAssetFilenameFormat").get_value_or ("%t"));
 	_jump_to_selected = f.optional_bool_child("JumpToSelected").get_value_or (true);
-	BOOST_FOREACH (cxml::NodePtr i, f.node_children("Nagged")) {
-		int const id = i->number_attribute<int>("Id");
-		if (id >= 0 && id < NAG_COUNT) {
-			_nagged[id] = raw_convert<int>(i->content());
-		}
-	}
 	/* The variable was renamed but not the XML tag */
 	_sound = f.optional_bool_child("PreviewSound").get_value_or (true);
 	_sound_output = f.optional_string_child("PreviewSoundOutput");

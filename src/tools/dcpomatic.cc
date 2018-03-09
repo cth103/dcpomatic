@@ -29,6 +29,7 @@
 #include "wx/wx_util.h"
 #include "wx/film_name_location_dialog.h"
 #include "wx/wx_signal_manager.h"
+#include "wx/recreate_chain_dialog.h"
 #include "wx/about_dialog.h"
 #include "wx/kdm_dialog.h"
 #include "wx/self_dkdm_dialog.h"
@@ -1279,6 +1280,8 @@ private:
 		*/
 		Config::drop ();
 
+		Config::BadSignerChain.connect (boost::bind (&App::config_bad_signer_chain, this));
+
 		_frame = new DOMFrame (_("DCP-o-matic"));
 		SetTopWindow (_frame);
 		_frame->Maximize ();
@@ -1416,6 +1419,18 @@ private:
 	void config_warning (string m)
 	{
 		message_dialog (_frame, std_to_wx (m));
+	}
+
+	bool config_bad_signer_chain ()
+	{
+		if (Config::instance()->nagged(Config::NAG_BAD_SIGNER_CHAIN)) {
+			return false;
+		}
+
+		RecreateChainDialog* d = new RecreateChainDialog (_frame);
+		int const r = d->ShowModal ();
+		d->Destroy ();
+		return r == wxID_OK;
 	}
 
 	DOMFrame* _frame;
