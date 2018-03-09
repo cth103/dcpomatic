@@ -34,7 +34,6 @@
 #include "email_dialog.h"
 #include "name_format_editor.h"
 #include "nag_dialog.h"
-#include "config_move_dialog.h"
 #include "config_dialog.h"
 #include "lib/config.h"
 #include "lib/ratio.h"
