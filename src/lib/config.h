@@ -330,6 +330,7 @@ public:
 		NAG_DKDM_CONFIG,
 		NAG_ENCRYPTED_METADATA,
 		NAG_REMAKE_DECRYPTION_CHAIN,
+		NAG_BAD_SIGNER_CHAIN,
 		NAG_COUNT
 	};
 
@@ -696,6 +697,10 @@ public:
 	static boost::signals2::signal<void ()> FailedToLoad;
 	/** Emitted if read() issued a warning which the user might want to know about */
 	static boost::signals2::signal<void (std::string)> Warning;
+	/** Emitted if there is a bad certificate in the signer chain.  Handler can call
+	 *  true to ask Config to re-create the chain.
+	 */
+	static boost::signals2::signal<bool (void)> BadSignerChain;
 
 	void write () const;
 	void write_config () const;
