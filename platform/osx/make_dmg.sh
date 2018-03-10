@@ -220,11 +220,6 @@ function make_dmg {
     DeRez -only icns "$appdir/Contents/Resources/dcpomatic2.icns" > "$appdir/Contents/Resources/DCP-o-matic.rsrc"
     Rez -append "$appdir/Contents/Resources/DCP-o-matic.rsrc" -o "$dmg"
     SetFile -a C "$dmg"
-    codesign --verify --verbose --sign "Developer ID Installer: Carl Hetherington (R82DXSR997)" "$dmg"
-    if [ "$?" != "0" ]; then
-	echo "Failed to sign .dmg"
-	exit 1
-    fi
     rm $tmp_dmg
     rm -rf $vol_name
 }
