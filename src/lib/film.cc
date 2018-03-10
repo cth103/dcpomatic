@@ -1555,6 +1555,7 @@ Film::use_template (string name)
 	_reel_type = _template_film->_reel_type;
 	_reel_length = _template_film->_reel_length;
 	_upload_after_make_dcp = _template_film->_upload_after_make_dcp;
+	_isdcf_metadata = _template_film->_isdcf_metadata;
 }
 
 pair<double, double>
