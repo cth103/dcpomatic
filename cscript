@@ -230,7 +230,6 @@ def make_spec(filename, version, target):
     print('License:GPL', file=f)
     print('Group:Applications/Multimedia', file=f)
     print('URL:http://dcpomatic.com/', file=f)
-    print('Requires: ImageMagick-c++, glibmm24, libzip', file=f)
     print('', file=f)
     print('%description', file=f)
     print('DCP-o-matic generates Digital Cinema Packages (DCPs) from video and audio ', file=f)
