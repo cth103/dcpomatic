@@ -1031,8 +1031,8 @@ Player::emit_audio (shared_ptr<AudioBuffers> data, DCPTime time)
 		_film->log()->log(String::compose("Out-of-sequence emit %1 vs %2", to_string(time), to_string(*_last_audio_time)), LogEntry::TYPE_WARNING);
 	}
 
-	/* This audio must follow on from the previous */
-	DCPOMATIC_ASSERT (!_last_audio_time || time == *_last_audio_time);
+	/* This audio must follow on from the previous, but I'll remove this check for the 2.12.x release */
+	// DCPOMATIC_ASSERT (!_last_audio_time || time == *_last_audio_time);
 	Audio (data, time);
 	_last_audio_time = time + DCPTime::from_frames (data->frames(), _film->audio_frame_rate());
 }
