@@ -27,7 +27,16 @@ import distutils.spawn
 from waflib import Logs, Context
 
 APPNAME = 'dcpomatic'
-VERSION = '2.13.0devel'
+
+this_version = subprocess.Popen(shlex.split('git tag -l --points-at HEAD'), stdout=subprocess.PIPE).communicate()[0]
+last_version = subprocess.Popen(shlex.split('git describe --abbrev=0'), stdout=subprocess.PIPE).communicate()[0]
+
+if this_version == '':
+    VERSION = '%sdevel' % last_version[1:].strip()
+else:
+    VERSION = this_version[1:].strip()
+
+print 'Version: %s' % VERSION
 
 def options(opt):
     opt.load('compiler_cxx')
