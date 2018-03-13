@@ -11,7 +11,7 @@ version=`cat wscript | egrep ^VERSION | awk '{print $3}' | sed -e "s/'//g"`
 
 # DMG size in megabytes
 DMG_SIZE=256
-ENV=/Users/carl/Environments/osx/10.6
+ENV=/Users/carl/Environments/dcpomatic
 ROOT=$1
 
 # This is our work area for making up the .dmgs
