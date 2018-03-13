@@ -300,7 +300,7 @@ def dependencies(target):
         ffmpeg_options = {}
 
     return (('ffmpeg-cdist', '5fce90f', ffmpeg_options),
-            ('libdcp', '2892aac'),
+            ('libdcp', '92d0468'),
             ('libsub', '708eff1'),
             ('rtaudio-cdist', '739969e'))
 
