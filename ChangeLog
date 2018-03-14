@@ -1,5 +1,7 @@
 2018-03-14  Carl Hetherington  <cth@carlh.net>
 
+	* Better error when loading a non-certificate as a certificate.
+
 	* Very basic DCP verification option in the player.
 
 2018-03-07  Carl Hetherington  <cth@carlh.net>

@@ -153,9 +153,13 @@ ScreenDialog::load_recipient (boost::filesystem::path file)
 	try {
 		/* Load this as a chain, in case it is one, and then pick the leaf certificate */
 		dcp::CertificateChain c (dcp::file_to_string (file));
+		if (c.unordered().empty()) {
+			error_dialog (this, _("Could not read certificate file."));
+			return;
+		}
 		set_recipient (c.leaf ());
 	} catch (dcp::MiscError& e) {
-		error_dialog (this, wxString::Format (_("Could not read certificate file.")), std_to_wx(e.what()));
+		error_dialog (this, _("Could not read certificate file."), std_to_wx(e.what()));
 	}
 }
 
