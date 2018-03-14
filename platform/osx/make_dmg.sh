@@ -157,7 +157,7 @@ function relink {
 	    base=`basename $dep`
 	    # $dep will be a path within 64/; make a 32/ path too
 	    dep32=`echo $dep | sed -e "s/\/64\//\/32\//g"`
-	    changes="$changes -change $dep @executable_path/../lib/$base -change $dep32 @executable_path/../lib/$base"
+	    changes="$changes -change $dep @executable_path/../Frameworks/$base -change $dep32 @executable_path/../Frameworks/$base"
 	done
 	if test "x$changes" != "x"; then
 	    install_name_tool $changes "$obj"
@@ -235,11 +235,11 @@ function setup {
     approot="$appdir/Contents"
     rm -rf "$appdir"
     mkdir -p "$approot/MacOS"
-    mkdir -p "$approot/lib"
+    mkdir -p "$approot/Frameworks"
     mkdir -p "$approot/Resources"
 
     to_relink="dcpomatic"
-    copy_libs "$approot/lib"
+    copy_libs "$approot/Frameworks"
     copy_resources "$approot/Resources"
 }
 
@@ -250,7 +250,7 @@ universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_cli "$approot/MacO
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_create "$approot/MacOS"
 universal_copy $ROOT bin/ffprobe "$approot/MacOS"
 cp $ROOT/32/src/dcpomatic/build/platform/osx/dcpomatic2.Info.plist "$approot/Info.plist"
-rl=("$approot/MacOS/dcpomatic2" "$approot/MacOS/dcpomatic2_cli" "$approot/MacOS/ffprobe" "$approot/lib/"*.dylib)
+rl=("$approot/MacOS/dcpomatic2" "$approot/MacOS/dcpomatic2_cli" "$approot/MacOS/ffprobe" "$approot/Frameworks/"*.dylib)
 relink "${rl[@]}"
 make_dmg "$appdir" "DCP-o-matic"
 
@@ -259,7 +259,7 @@ setup "DCP-o-matic 2 KDM Creator.app"
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm "$approot/MacOS"
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm_cli "$approot/MacOS"
 cp $ROOT/32/src/dcpomatic/build/platform/osx/dcpomatic2_kdm.Info.plist "$approot/Info.plist"
-rl=("$approot/MacOS/dcpomatic2_kdm" "$approot/MacOS/dcpomatic2_kdm_cli" "$approot/lib/"*.dylib)
+rl=("$approot/MacOS/dcpomatic2_kdm" "$approot/MacOS/dcpomatic2_kdm_cli" "$approot/Frameworks/"*.dylib)
 relink "${rl[@]}"
 make_dmg "$appdir" "DCP-o-matic KDM Creator"
 
@@ -268,7 +268,7 @@ setup "DCP-o-matic 2 Encode Server.app"
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server "$approot/MacOS"
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server_cli "$approot/MacOS"
 cp $ROOT/32/src/dcpomatic/build/platform/osx/dcpomatic2_server.Info.plist "$approot/Info.plist"
-rl=("$approot/MacOS/dcpomatic2_server" "$approot/MacOS/dcpomatic2_server_cli" "$approot/lib/"*.dylib)
+rl=("$approot/MacOS/dcpomatic2_server" "$approot/MacOS/dcpomatic2_server_cli" "$approot/Frameworks/"*.dylib)
 relink "${rl[@]}"
 make_dmg "$appdir" "DCP-o-matic Encode Server"
 
@@ -276,7 +276,7 @@ make_dmg "$appdir" "DCP-o-matic Encode Server"
 setup "DCP-o-matic 2 Batch converter.app"
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_batch "$approot/MacOS"
 cp $ROOT/32/src/dcpomatic/build/platform/osx/dcpomatic2_batch.Info.plist "$approot/Info.plist"
-rl=("$approot/MacOS/dcpomatic2_batch" "$approot/lib/"*.dylib)
+rl=("$approot/MacOS/dcpomatic2_batch" "$approot/Frameworks/"*.dylib)
 relink "${rl[@]}"
 make_dmg "$appdir" "DCP-o-matic Batch Converter"
 
@@ -284,6 +284,6 @@ make_dmg "$appdir" "DCP-o-matic Batch Converter"
 setup "DCP-o-matic 2 Player.app"
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_player "$approot/MacOS"
 cp $ROOT/32/src/dcpomatic/build/platform/osx/dcpomatic2_player.Info.plist "$approot/Info.plist"
-rl=("$approot/MacOS/dcpomatic2_player" "$approot/lib/"*.dylib)
+rl=("$approot/MacOS/dcpomatic2_player" "$approot/Frameworks/"*.dylib)
 relink "${rl[@]}"
 make_dmg "$appdir" "DCP-o-matic Player"
