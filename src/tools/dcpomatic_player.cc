@@ -29,6 +29,7 @@
 #include "lib/video_content.h"
 #include "lib/subtitle_content.h"
 #include "lib/ratio.h"
+#include "lib/verify_dcp_job.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/about_dialog.h"
@@ -37,6 +38,7 @@
 #include "wx/player_information.h"
 #include "wx/update_dialog.h"
 #include "wx/player_config_dialog.h"
+#include "wx/verify_dcp_dialog.h"
 #include <wx/wx.h>
 #include <wx/stdpaths.h>
 #include <wx/splash.h>
@@ -59,6 +61,7 @@ using std::exception;
 using std::vector;
 using boost::shared_ptr;
 using boost::optional;
+using boost::dynamic_pointer_cast;
 
 enum {
 	ID_file_open = 1,
@@ -72,6 +75,7 @@ enum {
 	ID_view_scale_half,
 	ID_view_scale_quarter,
 	ID_help_report_a_problem,
+	ID_tools_verify,
 	ID_tools_check_for_updates,
 };
 
@@ -120,6 +124,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>(2)), ID_view_scale_quarter);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_about, this), wxID_ABOUT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_report_a_problem, this), ID_help_report_a_problem);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_verify, this), ID_tools_verify);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_check_for_updates, this), ID_tools_check_for_updates);
 
 		/* Use a panel as the only child of the Frame so that we avoid
@@ -239,6 +244,8 @@ private:
 		view->AppendRadioItem(ID_view_scale_quarter, _("Decode at quarter resolution"))->Check(c && c.get() == 2);
 
 		wxMenu* tools = new wxMenu;
+		_tools_verify = tools->Append (ID_tools_verify, _("Verify DCP"));
+		tools->AppendSeparator ();
 		tools->Append (ID_tools_check_for_updates, _("Check for updates"));
 
 		wxMenu* help = new wxMenu;
@@ -373,6 +380,32 @@ private:
 		_config_dialog->Show (this);
 	}
 
+	void tools_verify ()
+	{
+		shared_ptr<DCPContent> dcp = boost::dynamic_pointer_cast<DCPContent>(_film->content().front());
+		DCPOMATIC_ASSERT (dcp);
+
+		JobManager* jm = JobManager::instance ();
+		jm->add (shared_ptr<Job> (new VerifyDCPJob (dcp->directories())));
+
+		wxProgressDialog* progress = new wxProgressDialog (_("DCP-o-matic Player"), _("Verifying DCP"));
+
+		while (jm->work_to_do() || signal_manager->ui_idle()) {
+			dcpomatic_sleep (1);
+			progress->Pulse ();
+		}
+
+		progress->Destroy ();
+
+		DCPOMATIC_ASSERT (!jm->get().empty());
+		shared_ptr<VerifyDCPJob> last = dynamic_pointer_cast<VerifyDCPJob> (jm->get().back());
+		DCPOMATIC_ASSERT (last);
+
+		VerifyDCPDialog* d = new VerifyDCPDialog (this, last->notes ());
+		d->ShowModal ();
+		d->Destroy ();
+	}
+
 	void tools_check_for_updates ()
 	{
 		UpdateChecker::instance()->run ();
@@ -471,6 +504,7 @@ private:
 
 	void set_menu_sensitivity ()
 	{
+		_tools_verify->Enable (static_cast<bool>(_film));
 		_file_add_ov->Enable (static_cast<bool>(_film));
 		_file_add_kdm->Enable (static_cast<bool>(_film));
 	}
@@ -487,6 +521,7 @@ private:
 	boost::signals2::scoped_connection _config_changed_connection;
 	wxMenuItem* _file_add_ov;
 	wxMenuItem* _file_add_kdm;
+	wxMenuItem* _tools_verify;
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {

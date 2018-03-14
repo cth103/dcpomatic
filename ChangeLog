@@ -1,3 +1,7 @@
+2018-03-14  Carl Hetherington  <cth@carlh.net>
+
+	* Very basic DCP verification option in the player.
+
 2018-03-07  Carl Hetherington  <cth@carlh.net>
 
 	* Fix bad DCPs when re-making in encrypted projects (#1232).

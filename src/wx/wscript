@@ -114,6 +114,7 @@ sources = """
           timeline_view.cc
           timing_panel.cc
           update_dialog.cc
+          verify_dcp_dialog.cc
           video_panel.cc
           video_waveform_dialog.cc
           video_waveform_plot.cc

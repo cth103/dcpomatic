@@ -146,6 +146,7 @@ sources = """
           upmixer_a.cc
           upmixer_b.cc
           util.cc
+          verify_dcp_job.cc
           video_content.cc
           video_content_scale.cc
           video_decoder.cc
