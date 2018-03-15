@@ -160,7 +160,7 @@ function relink {
 	    changes="$changes -change $dep @executable_path/../Frameworks/$base -change $dep32 @executable_path/../Frameworks/$base"
 	done
 	if test "x$changes" != "x"; then
-	    install_name_tool $changes "$obj"
+	    install_name_tool $changes -id `basename "$obj"` "$obj"
 	fi
     done
 }
