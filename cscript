@@ -220,7 +220,7 @@ def make_control(debian_version, bits, filename, debug):
         print('  This package contains the debugging symbols for dcpomatic.', file=f)
         print('', file=f)
 
-def make_spec(filename, version, target):
+def make_spec(filename, version, target, requires=None):
     """Make a .spec file for a RPM build"""
     f = open(filename, 'w')
     print('Summary:A program that generates Digital Cinema Packages (DCPs) from video and audio files', file=f)
@@ -230,6 +230,8 @@ def make_spec(filename, version, target):
     print('License:GPL', file=f)
     print('Group:Applications/Multimedia', file=f)
     print('URL:http://dcpomatic.com/', file=f)
+    if requires is not None:
+        print('Requires:%s' % requires, file=f)
     print('', file=f)
     print('%description', file=f)
     print('DCP-o-matic generates Digital Cinema Packages (DCPs) from video and audio ', file=f)
@@ -401,7 +403,11 @@ def package_rpm(target, cpu, version):
         "%s/SOURCES/dcpomatic-%s.tar.bz2" % (topdir, version)
         )
 
-    make_spec('build/platform/linux/dcpomatic2.spec', version, target)
+    requires = None
+    if target.distro == 'mageia':
+        requires = "lib64xmlsec1-devel"
+    
+    make_spec('build/platform/linux/dcpomatic2.spec', version, target, requires)
     cmd = 'rpmbuild --define "_topdir %s" -bb build/platform/linux/dcpomatic2.spec' % topdir
     target.command(cmd)
     rpms = []
