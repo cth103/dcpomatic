@@ -250,7 +250,7 @@ universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_cli "$approot/MacO
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_create "$approot/MacOS"
 universal_copy $ROOT bin/ffprobe "$approot/MacOS"
 cp $ROOT/32/src/dcpomatic/build/platform/osx/dcpomatic2.Info.plist "$approot/Info.plist"
-rl=("$approot/MacOS/dcpomatic2" "$approot/MacOS/dcpomatic2_cli" "$approot/MacOS/ffprobe" "$approot/Frameworks/"*.dylib)
+rl=("$approot/MacOS/dcpomatic2" "$approot/MacOS/dcpomatic2_cli" "$approot/MacOS/dcpomatic2_create" "$approot/MacOS/ffprobe" "$approot/Frameworks/"*.dylib)
 relink "${rl[@]}"
 make_dmg "$appdir" "DCP-o-matic"
 
