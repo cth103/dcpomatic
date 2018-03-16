@@ -388,7 +388,7 @@ def package_debian(target, cpu, version):
 
     return debs
 
-def package_rpm(target, cpu, version, requires):
+def package_rpm(target, cpu, version):
     topdir = os.path.realpath('build/rpmbuild')
     os.makedirs('%s/BUILD' % topdir)
     os.makedirs('%s/RPMS' % topdir)
