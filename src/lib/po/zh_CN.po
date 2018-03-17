@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 16:50+0000\n"
+"POT-Creation-Date: 2018-03-17 10:22+0000\n"
 "PO-Revision-Date: 2017-07-23 09:54+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -68,11 +68,11 @@ msgstr " (%.2f:1)"
 
 #. / TRANSLATORS: the %1 in this string will be filled in with a day of the week
 #. / to say what day a job will finish.
-#: src/lib/job.cc:434
+#: src/lib/job.cc:440
 msgid " on %1"
 msgstr " on %1"
 
-#: src/lib/config.cc:795
+#: src/lib/config.cc:844
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -169,11 +169,11 @@ msgstr "3D 降噪"
 msgid "; %.1f fps"
 msgstr "; %.1f fps"
 
-#: src/lib/job.cc:439
+#: src/lib/job.cc:445
 msgid "; %1 remaining; finishing at %2%3"
 msgstr "; 剩余 %1 ; 完成于 %2%3"
 
-#: src/lib/hints.cc:107
+#: src/lib/hints.cc:113
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
@@ -190,7 +190,7 @@ msgstr "ARIB STD-B67 (HDR-HLG)"
 msgid "Advertisement"
 msgstr "广告片"
 
-#: src/lib/hints.cc:99
+#: src/lib/hints.cc:105
 msgid ""
 "All of your content is at 1.85:1 or narrower but your DCP's container is "
 "Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) "
@@ -198,7 +198,7 @@ msgid ""
 "\"DCP\" tab."
 msgstr "遮幅(1.85：1)左右黑边。"
 
-#: src/lib/hints.cc:95
+#: src/lib/hints.cc:101
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -210,7 +210,7 @@ msgstr "宽幅(2.39：1)上下黑边。"
 msgid "An error occurred whilst handling the file %1."
 msgstr "执行错误 %1."
 
-#: src/lib/analyse_audio_job.cc:89
+#: src/lib/analyse_audio_job.cc:95
 msgid "Analyse audio"
 msgstr "分析音频"
 
@@ -271,19 +271,19 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "像素位"
 
-#: src/lib/util.cc:552
+#: src/lib/util.cc:553
 msgid "BsL"
 msgstr "左后环绕"
 
-#: src/lib/util.cc:553
+#: src/lib/util.cc:554
 msgid "BsR"
 msgstr "右后环绕"
 
-#: src/lib/util.cc:544
+#: src/lib/util.cc:545
 msgid "C"
 msgstr "中置"
 
-#: src/lib/job.cc:448
+#: src/lib/job.cc:454
 msgid "Cancelled"
 msgstr "取消"
 
@@ -291,7 +291,11 @@ msgstr "取消"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "在 %2不能处理图片格式 %1"
 
-#: src/lib/util.cc:513
+#: src/lib/film.cc:1220
+msgid "Cannot make a KDM as this project is not encrypted."
+msgstr ""
+
+#: src/lib/util.cc:514
 msgid "Centre"
 msgstr "中置音"
 
@@ -463,7 +467,7 @@ msgstr "无法解码JPEG2000文件%1 (%2)"
 msgid "Could not decode image file (%1)"
 msgstr "无法解码图像文件(%1)"
 
-#: src/lib/encode_server_finder.cc:162
+#: src/lib/encode_server_finder.cc:164
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
 "o-matic is running."
@@ -497,19 +501,19 @@ msgstr "传输失败！"
 msgid "Could not write to remote file (%1)"
 msgstr "写入远程文件 (%1)失败！"
 
-#: src/lib/util.cc:523
+#: src/lib/util.cc:524
 msgid "D-BOX primary"
 msgstr "一级D-BOX"
 
-#: src/lib/util.cc:524
+#: src/lib/util.cc:525
 msgid "D-BOX secondary"
 msgstr "二级D-BOX"
 
-#: src/lib/util.cc:554
+#: src/lib/util.cc:555
 msgid "DBP"
 msgstr "一级D-BOX通道"
 
-#: src/lib/util.cc:555
+#: src/lib/util.cc:556
 msgid "DBS"
 msgstr "DBS"
 
@@ -553,7 +557,7 @@ msgstr "不支持的格式`%1'。"
 msgid "De-interlacing"
 msgstr "去除隔行"
 
-#: src/lib/config.cc:775
+#: src/lib/config.cc:824
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -620,7 +624,7 @@ msgstr "编码中"
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "字幕文件错误: 执行为 %1 实际要求为%2"
 
-#: src/lib/job.cc:446
+#: src/lib/job.cc:452
 msgid "Error: %1"
 msgstr "错误: (%1)"
 
@@ -700,11 +704,11 @@ msgstr "伽玛 2.8 (BT470BG)"
 msgid "Gradient debander"
 msgstr "梯度"
 
-#: src/lib/util.cc:548
+#: src/lib/util.cc:549
 msgid "HI"
 msgstr "听力障碍"
 
-#: src/lib/util.cc:517
+#: src/lib/util.cc:518
 msgid "Hearing impaired"
 msgstr "听力障碍"
 
@@ -712,7 +716,7 @@ msgstr "听力障碍"
 msgid "High quality 3D denoiser"
 msgstr "高品质的3D降噪"
 
-#: src/lib/hints.cc:122
+#: src/lib/hints.cc:128
 msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "slowdown of your content, and SMPTE DCPs are not supported by all projectors."
@@ -720,7 +724,7 @@ msgstr ""
 "然而，将帧速率设置在24-48fps会在DCP包中声明高帧率，这不是每个放映机都能支持的"
 "格式。"
 
-#: src/lib/hints.cc:119
+#: src/lib/hints.cc:125
 msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "speed-up of your content, and SMPTE DCPs are not supported by all projectors."
@@ -740,11 +744,11 @@ msgstr "IEC61966-2-1 (sRGB或sYCC)"
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/job.cc:146 src/lib/job.cc:178 src/lib/job.cc:188
+#: src/lib/job.cc:146 src/lib/job.cc:184 src/lib/job.cc:194
 msgid "It is not known what caused this error."
 msgstr "未知错误！"
 
-#: src/lib/config.cc:289 src/lib/config.cc:772
+#: src/lib/config.cc:308 src/lib/config.cc:821
 msgid "KDM delivery: $CPL_NAME"
 msgstr "发行KDM: $CPL_NAME"
 
@@ -752,27 +756,27 @@ msgstr "发行KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "隔行扫描"
 
-#: src/lib/util.cc:542
+#: src/lib/util.cc:543
 msgid "L"
 msgstr "左声道"
 
-#: src/lib/util.cc:550
+#: src/lib/util.cc:551
 msgid "Lc"
 msgstr "左中"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:511
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:512
 msgid "Left"
 msgstr "左声道"
 
-#: src/lib/util.cc:519
+#: src/lib/util.cc:520
 msgid "Left centre"
 msgstr "左中"
 
-#: src/lib/util.cc:521
+#: src/lib/util.cc:522
 msgid "Left rear surround"
 msgstr "左后环绕"
 
-#: src/lib/util.cc:515
+#: src/lib/util.cc:516
 msgid "Left surround"
 msgstr "左环绕"
 
@@ -780,11 +784,11 @@ msgstr "左环绕"
 msgid "Length"
 msgstr "长度"
 
-#: src/lib/util.cc:545
+#: src/lib/util.cc:546
 msgid "Lfe"
 msgstr "次低"
 
-#: src/lib/util.cc:514
+#: src/lib/util.cc:515
 msgid "Lfe (sub)"
 msgstr "次低（重低音）"
 
@@ -808,7 +812,7 @@ msgstr "对数 (范围 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "对数 (范围 316:1)"
 
-#: src/lib/util.cc:546
+#: src/lib/util.cc:547
 msgid "Ls"
 msgstr "左环绕"
 
@@ -868,7 +872,7 @@ msgstr "降噪"
 msgid "None"
 msgstr "无"
 
-#: src/lib/job.cc:444
+#: src/lib/job.cc:450
 msgid "OK (ran for %1)"
 msgstr "确认 (运行 %1)"
 
@@ -908,7 +912,7 @@ msgstr "程序内部错误 %1:%2 %3"
 msgid "Public Service Announcement"
 msgstr "公共服务或公告"
 
-#: src/lib/util.cc:543
+#: src/lib/util.cc:544
 msgid "R"
 msgstr "右声道"
 
@@ -920,7 +924,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "分级"
 
-#: src/lib/util.cc:551
+#: src/lib/util.cc:552
 msgid "Rc"
 msgstr "右中"
 
@@ -940,23 +944,23 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:512
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:513
 msgid "Right"
 msgstr "右声道"
 
-#: src/lib/util.cc:520
+#: src/lib/util.cc:521
 msgid "Right centre"
 msgstr "右中"
 
-#: src/lib/util.cc:522
+#: src/lib/util.cc:523
 msgid "Right rear surround"
 msgstr "右后环绕"
 
-#: src/lib/util.cc:516
+#: src/lib/util.cc:517
 msgid "Right surround"
 msgstr "右环绕"
 
-#: src/lib/util.cc:547
+#: src/lib/util.cc:548
 msgid "Rs"
 msgstr "右环绕"
 
@@ -1174,11 +1178,11 @@ msgstr "意外的ZIP文件的内容"
 msgid "Unexpected image type received by server"
 msgstr "服务器接收到意外的图像类型！"
 
-#: src/lib/job.cc:187
+#: src/lib/job.cc:193
 msgid "Unknown error"
 msgstr "未知错误"
 
-#: src/lib/ffmpeg_decoder.cc:319
+#: src/lib/ffmpeg_decoder.cc:325
 msgid "Unrecognised audio sample format (%1)"
 msgstr "无法识别的音频采样格式 (%1)"
 
@@ -1198,7 +1202,7 @@ msgstr "未指定"
 msgid "Untitled"
 msgstr "无标题"
 
-#: src/lib/util.cc:525 src/lib/util.cc:526
+#: src/lib/util.cc:526 src/lib/util.cc:527
 msgid "Unused"
 msgstr "未使用"
 
@@ -1210,11 +1214,11 @@ msgstr "左混"
 msgid "Upmix R"
 msgstr "右混"
 
-#: src/lib/util.cc:549
+#: src/lib/util.cc:550
 msgid "VI"
 msgstr "视力障碍"
 
-#: src/lib/util.cc:518
+#: src/lib/util.cc:519
 msgid "Visually impaired"
 msgstr "视力障碍"
 
@@ -1230,7 +1234,7 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "反隔行扫描滤镜"
 
-#: src/lib/hints.cc:124
+#: src/lib/hints.cc:130
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
@@ -1240,7 +1244,7 @@ msgstr ""
 "你所设定的视频帧率不是SMPTE标准支持的，我们建议您制作SMPTE标准的DCP。（虽然"
 "SMPTE标准的DCP也不是每个放映机都能放映）"
 
-#: src/lib/hints.cc:111
+#: src/lib/hints.cc:117
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
@@ -1249,13 +1253,20 @@ msgstr ""
 "你所设定的视频帧率不是DCI标准（SMPTE）支持的，我们建议您制作DCI标准（SMPTE）"
 "的DCP。"
 
-#: src/lib/hints.cc:149
+#: src/lib/hints.cc:155
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
 msgstr "您添加的内容是3D内容，但您的DCP包设置为2D模式，请设置到3D模式。"
 
-#: src/lib/hints.cc:138
+#: src/lib/hints.cc:82
+msgid ""
+"You are using DCP-o-matic's stereo-to-5.1 upmixer.  This is experimental and "
+"may result in poor-quality audio.  If you continue, you should listen to the "
+"resulting DCP in a cinema to make sure that it sounds good."
+msgstr ""
+
+#: src/lib/hints.cc:144
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
@@ -1263,19 +1274,19 @@ msgstr ""
 "您已经添加了 %1 个VOB文件，如果他们来自一张DVD，请确保您已经导入了所有文件，"
 "否则可能无法正常播放。"
 
-#: src/lib/hints.cc:72
+#: src/lib/hints.cc:73
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
 msgstr "您添加的字体文件超过了640KB，部分服务器不支持超过640KB大小的字体。"
 
-#: src/lib/hints.cc:76
+#: src/lib/hints.cc:77
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
 msgstr "您的DCP声道数小于6个，在部分电影服务器上可能不能正常播放。"
 
-#: src/lib/hints.cc:103
+#: src/lib/hints.cc:109
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio"
@@ -1283,13 +1294,13 @@ msgstr ""
 "DCP使用了不常见的画幅比例，可能导致部分电影放映机无法正常播放，建议改成Flat "
 "(1.77/1.78/1.85) 或者Scope (2.35/2.39) 比例。"
 
-#: src/lib/hints.cc:175
+#: src/lib/hints.cc:181
 msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
 msgstr "您的音频增益过大 (在%1)，请降低音频增益。"
 
-#: src/lib/config.cc:245
+#: src/lib/config.cc:268
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
@@ -1390,12 +1401,12 @@ msgid "frames per second"
 msgstr "每秒帧数"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:166 src/lib/util.cc:169
+#: src/lib/util.cc:167 src/lib/util.cc:170
 msgid "h"
 msgstr "时"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:181 src/lib/util.cc:184
+#: src/lib/util.cc:182 src/lib/util.cc:185
 msgid "m"
 msgstr "分"
 
@@ -1412,7 +1423,7 @@ msgid "name"
 msgstr "名字"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:195
+#: src/lib/util.cc:196
 msgid "s"
 msgstr "秒"
 
@@ -1436,7 +1447,7 @@ msgstr "内容需要声明原创OV"
 msgid "still"
 msgstr "静止图像"
 
-#: src/lib/ffmpeg_examiner.cc:234
+#: src/lib/ffmpeg_examiner.cc:230
 msgid "unknown"
 msgstr "未知"
 

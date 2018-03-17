@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 16:50+0000\n"
+"POT-Creation-Date: 2018-03-17 10:22+0000\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -80,11 +80,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "2D verzia obsahu dostupná v 3D"
 
-#: src/wx/dcp_panel.cc:718
+#: src/wx/dcp_panel.cc:720
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:683 src/wx/video_panel.cc:235
+#: src/wx/dcp_panel.cc:685 src/wx/video_panel.cc:235
 msgid "3D"
 msgstr "3D DCP"
 
@@ -112,7 +112,7 @@ msgstr "3D hore/dole (Pod sebou)"
 msgid "4 - L/C/R/Lfe"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:719
+#: src/wx/dcp_panel.cc:721
 msgid "4K"
 msgstr "4K"
 
@@ -356,7 +356,7 @@ msgid "CC addresses"
 msgstr "CC adresa"
 
 #: src/wx/kdm_cpl_panel.cc:35 src/wx/kdm_dialog.cc:85
-#: src/wx/self_dkdm_dialog.cc:59
+#: src/wx/self_dkdm_dialog.cc:60
 msgid "CPL"
 msgstr "CPL"
 
@@ -384,6 +384,11 @@ msgstr "Zrušiť"
 msgid "Cannot reference this DCP.  "
 msgstr "Nemožno odkazovať na toto DCP."
 
+#: src/wx/recreate_chain_dialog.cc:31
+#, fuzzy
+msgid "Certificate chain"
+msgstr "Urobiť reťaz certifikátov"
+
 #: src/wx/dolby_doremi_certificate_panel.cc:204
 msgid "Certificate downloaded"
 msgstr "Certifikát stiahnutý"
@@ -396,7 +401,7 @@ msgstr "Reťaz"
 msgid "Channel gain"
 msgstr "Sila kanálu"
 
-#: src/wx/audio_dialog.cc:93 src/wx/dcp_panel.cc:750
+#: src/wx/audio_dialog.cc:93 src/wx/dcp_panel.cc:752
 msgid "Channels"
 msgstr "Kanály"
 
@@ -477,7 +482,7 @@ msgstr "Časovanie"
 msgid "Confirm KDM email"
 msgstr "KDM Email"
 
-#: src/wx/dcp_panel.cc:653
+#: src/wx/dcp_panel.cc:655
 msgid "Container"
 msgstr "Kontajner"
 
@@ -506,7 +511,7 @@ msgstr "Kontrast"
 msgid "Copy as name"
 msgstr "Kopírovať ako názov"
 
-#: src/wx/audio_dialog.cc:251
+#: src/wx/audio_dialog.cc:259
 msgid "Could not analyse audio."
 msgstr "Nemôžem analyzovať zvuk."
 
@@ -531,7 +536,7 @@ msgstr "Nemôžem načítať súbor s certifikátom (%s)"
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Nemôžem prečítať súbor s kľúčom (%s)"
 
-#: src/wx/film_viewer.cc:789
+#: src/wx/film_viewer.cc:830
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
@@ -662,11 +667,16 @@ msgstr "Oneskorenie"
 msgid "Details..."
 msgstr "Detaily..."
 
+#: src/wx/recreate_chain_dialog.cc:31
+#, fuzzy
+msgid "Do nothing"
+msgstr "Vyhladzovanie"
+
 #: src/wx/download_certificate_dialog.cc:37
 msgid "Dolby / Doremi"
 msgstr "Dolby / Doremi"
 
-#: src/wx/confirm_kdm_email_dialog.cc:40
+#: src/wx/confirm_kdm_email_dialog.cc:40 src/wx/recreate_chain_dialog.cc:39
 msgid "Don't ask this again"
 msgstr ""
 
@@ -874,7 +884,7 @@ msgstr "Písma..."
 msgid "Format"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:669
+#: src/wx/dcp_panel.cc:671
 msgid "Frame Rate"
 msgstr "Frekvencia snímok (frame rate)"
 
@@ -1044,7 +1054,7 @@ msgstr "Vstupná sila"
 msgid "Input transfer function"
 msgstr ""
 
-#: src/wx/audio_dialog.cc:355
+#: src/wx/audio_dialog.cc:363
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Integrovaná hlasitosť %.2f LUFS"
@@ -1082,7 +1092,7 @@ msgstr "Súbor s kurzívou"
 msgid "Italic font"
 msgstr "Kurzíva (typ písma)"
 
-#: src/wx/dcp_panel.cc:688
+#: src/wx/dcp_panel.cc:690
 #, fuzzy
 msgid ""
 "JPEG2000 bandwidth\n"
@@ -1093,7 +1103,7 @@ msgstr "JPEG2000 bandwidth (šírka pásma)"
 msgid "Join"
 msgstr "Spojiť"
 
-#: src/wx/film_viewer.cc:119
+#: src/wx/film_viewer.cc:118
 msgid "Jump to selected content"
 msgstr ""
 
@@ -1172,7 +1182,7 @@ msgstr ""
 msgid "Log"
 msgstr "Log"
 
-#: src/wx/audio_dialog.cc:364
+#: src/wx/audio_dialog.cc:372
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr "Rozsah hlasitosti %.2f LU"
@@ -1205,7 +1215,7 @@ msgstr "Prihlasovacie meno na email"
 msgid "Make DCP anyway"
 msgstr ""
 
-#: src/wx/self_dkdm_dialog.cc:49
+#: src/wx/self_dkdm_dialog.cc:50
 msgid "Make DKDM for DCP-o-matic"
 msgstr "Vytvoriť DKDM pre DCP-o-matic"
 
@@ -1233,7 +1243,7 @@ msgstr "Maximálna JPEG2000 šírka pásma (bandwidth)"
 msgid "Maximum number of frames to store per thread"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:692 src/wx/full_config_dialog.cc:315
+#: src/wx/dcp_panel.cc:694 src/wx/full_config_dialog.cc:315
 #: src/wx/full_config_dialog.cc:969
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -1329,7 +1339,7 @@ msgid "No content found in this folder."
 msgstr "Žiadny obsah v priečinku nebol nájdený."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:758 src/wx/subtitle_appearance_dialog.cc:125
+#: src/wx/dcp_panel.cc:760 src/wx/subtitle_appearance_dialog.cc:125
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
 #: src/wx/video_panel.cc:307
 msgid "None"
@@ -1391,7 +1401,7 @@ msgstr "Server odchádzajúcej pošty"
 msgid "Outline"
 msgstr "Orámovanie"
 
-#: src/wx/film_viewer.cc:113
+#: src/wx/film_viewer.cc:112
 msgid "Outline content"
 msgstr "Farba orámovania"
 
@@ -1404,7 +1414,7 @@ msgstr "Orámovanie"
 msgid "Outline width cannot be set unless you are burning in subtitles"
 msgstr ""
 
-#: src/wx/kdm_dialog.cc:92 src/wx/self_dkdm_dialog.cc:66
+#: src/wx/kdm_dialog.cc:92 src/wx/self_dkdm_dialog.cc:67
 msgid "Output"
 msgstr "Výstup"
 
@@ -1499,7 +1509,7 @@ msgstr "Predbežné vydanie"
 msgid "ProRes"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:756
+#: src/wx/dcp_panel.cc:758
 msgid "Processor"
 msgstr "Procesor"
 
@@ -1546,6 +1556,11 @@ msgstr "Rec. 709 (HD)"
 
 #: src/wx/screen_dialog.cc:85
 msgid "Recipient certificate"
+msgstr "Príjemca certifikátu"
+
+#: src/wx/recreate_chain_dialog.cc:31
+#, fuzzy
+msgid "Recreate signing certificates"
 msgstr "Príjemca certifikátu"
 
 #: src/wx/isdcf_metadata_dialog.cc:64
@@ -1628,7 +1643,7 @@ msgstr "Obnoviť predvolený predmet a text"
 msgid "Reset to default text"
 msgstr "Obnoviť predvolený predmet a text"
 
-#: src/wx/dcp_panel.cc:664
+#: src/wx/dcp_panel.cc:666
 msgid "Resolution"
 msgstr "Rozlíšenie"
 
@@ -1673,7 +1688,7 @@ msgstr "SCP (pre AAM a Doremi)"
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/audio_dialog.cc:324
+#: src/wx/audio_dialog.cc:332
 #, fuzzy, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "Vzorka najvyššej hlasitosti zvuku (sample peak) je %.2fdB na %s na %s"
@@ -1682,7 +1697,7 @@ msgstr "Vzorka najvyššej hlasitosti zvuku (sample peak) je %.2fdB na %s na %s"
 msgid "Save template"
 msgstr ""
 
-#: src/wx/self_dkdm_dialog.cc:70
+#: src/wx/self_dkdm_dialog.cc:71
 msgid "Save to KDM Creator tool's list"
 msgstr ""
 
@@ -1802,7 +1817,7 @@ msgstr ""
 msgid "Shadow"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:765
+#: src/wx/dcp_panel.cc:767
 msgid "Show audio..."
 msgstr "Zobraziť zvuk..."
 
@@ -1952,6 +1967,15 @@ msgstr "Testované"
 msgid "The 'until' time must be after the 'from' time."
 msgstr ""
 
+#: src/wx/recreate_chain_dialog.cc:33
+msgid ""
+"The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
+"contains a small error\n"
+"which will prevent DCPs from being validated correctly on some systems.  Do "
+"you want to re-create\n"
+"the certificate chain for signing DCPs and KDMs?"
+msgstr ""
+
 #: src/wx/content_menu.cc:360
 msgid ""
 "The content file(s) you specified are not the same as those that are "
@@ -1983,7 +2007,7 @@ msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
 msgstr ""
 
-#: src/wx/film_viewer.cc:213
+#: src/wx/film_viewer.cc:212
 msgid "There is not enough free memory to do that."
 msgstr "Nemáte dostatok pamäte."
 
@@ -2046,7 +2070,7 @@ msgstr "Odseknúť zo začiatku"
 msgid "Trim up to current position"
 msgstr "Orezať až do súčasnej pozície"
 
-#: src/wx/audio_dialog.cc:341
+#: src/wx/audio_dialog.cc:349
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr "Skutočné maximum je %.2fdB"
@@ -2184,7 +2208,7 @@ msgstr ""
 msgid "Use ISDCF name"
 msgstr "Použiť ISDCF názov"
 
-#: src/wx/dcp_panel.cc:677
+#: src/wx/dcp_panel.cc:679
 msgid "Use best"
 msgstr "Použiť najlepšie"
 
@@ -2262,7 +2286,7 @@ msgstr ""
 msgid "Write all KDMs to the same folder"
 msgstr ""
 
-#: src/wx/kdm_output_panel.cc:103 src/wx/self_dkdm_dialog.cc:75
+#: src/wx/kdm_output_panel.cc:103 src/wx/self_dkdm_dialog.cc:76
 msgid "Write to"
 msgstr "Napísať"
 

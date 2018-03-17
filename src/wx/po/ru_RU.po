@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 00:02+0000\n"
+"POT-Creation-Date: 2018-03-17 10:22+0000\n"
 "PO-Revision-Date: 2018-02-09 00:32+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -76,11 +76,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "2D версия контента, доступного в 3D"
 
-#: src/wx/dcp_panel.cc:718
+#: src/wx/dcp_panel.cc:720
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:683 src/wx/video_panel.cc:235
+#: src/wx/dcp_panel.cc:685 src/wx/video_panel.cc:235
 msgid "3D"
 msgstr "3D"
 
@@ -108,7 +108,7 @@ msgstr "3D верх/низ"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - Л/Ц/П/НЧ"
 
-#: src/wx/dcp_panel.cc:719
+#: src/wx/dcp_panel.cc:721
 msgid "4K"
 msgstr "4K"
 
@@ -352,7 +352,7 @@ msgid "CC addresses"
 msgstr "Получатели"
 
 #: src/wx/kdm_cpl_panel.cc:35 src/wx/kdm_dialog.cc:85
-#: src/wx/self_dkdm_dialog.cc:59
+#: src/wx/self_dkdm_dialog.cc:60
 msgid "CPL"
 msgstr "CPL"
 
@@ -380,6 +380,11 @@ msgstr "Отмена"
 msgid "Cannot reference this DCP.  "
 msgstr "Не удается сделать ссылку на этот DCP.  "
 
+#: src/wx/recreate_chain_dialog.cc:31
+#, fuzzy
+msgid "Certificate chain"
+msgstr "Создать цепочку сертификатов"
+
 #: src/wx/dolby_doremi_certificate_panel.cc:204
 msgid "Certificate downloaded"
 msgstr "Сертификат загружен"
@@ -392,7 +397,7 @@ msgstr "Цепочка"
 msgid "Channel gain"
 msgstr "Усиление канала"
 
-#: src/wx/audio_dialog.cc:93 src/wx/dcp_panel.cc:750
+#: src/wx/audio_dialog.cc:93 src/wx/dcp_panel.cc:752
 msgid "Channels"
 msgstr "Каналы"
 
@@ -472,7 +477,7 @@ msgstr "Тайминг"
 msgid "Confirm KDM email"
 msgstr "Подтверждение email KDM"
 
-#: src/wx/dcp_panel.cc:653
+#: src/wx/dcp_panel.cc:655
 msgid "Container"
 msgstr "Контейнер"
 
@@ -501,7 +506,7 @@ msgstr "Контраст"
 msgid "Copy as name"
 msgstr "Копировать в название"
 
-#: src/wx/audio_dialog.cc:251
+#: src/wx/audio_dialog.cc:259
 msgid "Could not analyse audio."
 msgstr "Не удалось проанализировать аудио."
 
@@ -524,7 +529,7 @@ msgstr "Не удалось прочитать файл сертификата."
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Не удалось прочитать файл ключа; файл слишком длинный (%s)"
 
-#: src/wx/film_viewer.cc:789
+#: src/wx/film_viewer.cc:830
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr "Не удалось настроить вывод аудио.  При предпросмотре не будет звука."
@@ -653,11 +658,16 @@ msgstr "Задержка"
 msgid "Details..."
 msgstr "Детали..."
 
+#: src/wx/recreate_chain_dialog.cc:31
+#, fuzzy
+msgid "Do nothing"
+msgstr "Сглаживание"
+
 #: src/wx/download_certificate_dialog.cc:37
 msgid "Dolby / Doremi"
 msgstr "Dolby / Doremi"
 
-#: src/wx/confirm_kdm_email_dialog.cc:40
+#: src/wx/confirm_kdm_email_dialog.cc:40 src/wx/recreate_chain_dialog.cc:39
 msgid "Don't ask this again"
 msgstr "Больше не спрашивать"
 
@@ -855,7 +865,7 @@ msgstr "Шрифты..."
 msgid "Format"
 msgstr "Формат"
 
-#: src/wx/dcp_panel.cc:669
+#: src/wx/dcp_panel.cc:671
 msgid "Frame Rate"
 msgstr "Частота Кадров"
 
@@ -1026,7 +1036,7 @@ msgstr "Входная мощность"
 msgid "Input transfer function"
 msgstr "Входная функция передачи"
 
-#: src/wx/audio_dialog.cc:355
+#: src/wx/audio_dialog.cc:363
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Интегрированная громкость %.2f LUFS"
@@ -1063,7 +1073,7 @@ msgstr "Файл курсивного шрифта"
 msgid "Italic font"
 msgstr "Курсивный шрифт"
 
-#: src/wx/dcp_panel.cc:688
+#: src/wx/dcp_panel.cc:690
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
@@ -1075,7 +1085,7 @@ msgstr ""
 msgid "Join"
 msgstr "Подсоединить"
 
-#: src/wx/film_viewer.cc:119
+#: src/wx/film_viewer.cc:118
 msgid "Jump to selected content"
 msgstr "Перейти к выбранному контенту"
 
@@ -1152,7 +1162,7 @@ msgstr "Интервал между рядами"
 msgid "Log"
 msgstr "Лог"
 
-#: src/wx/audio_dialog.cc:364
+#: src/wx/audio_dialog.cc:372
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr "Диапазон громкости %.2f LU"
@@ -1185,7 +1195,7 @@ msgstr "Пользователь почты"
 msgid "Make DCP anyway"
 msgstr "Сделать DCP в любом случае"
 
-#: src/wx/self_dkdm_dialog.cc:49
+#: src/wx/self_dkdm_dialog.cc:50
 msgid "Make DKDM for DCP-o-matic"
 msgstr "Сгенерировать DKDM для DCP-o-matic"
 
@@ -1213,7 +1223,7 @@ msgstr "Максимальная пропускная способность JPE
 msgid "Maximum number of frames to store per thread"
 msgstr "Максимальное число хранимых кадров на поток"
 
-#: src/wx/dcp_panel.cc:692 src/wx/full_config_dialog.cc:315
+#: src/wx/dcp_panel.cc:694 src/wx/full_config_dialog.cc:315
 #: src/wx/full_config_dialog.cc:969
 msgid "Mbit/s"
 msgstr "МБит/с"
@@ -1304,7 +1314,7 @@ msgid "No content found in this folder."
 msgstr "В данной папке не обнаружен контент."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:758 src/wx/subtitle_appearance_dialog.cc:125
+#: src/wx/dcp_panel.cc:760 src/wx/subtitle_appearance_dialog.cc:125
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
 #: src/wx/video_panel.cc:307
 msgid "None"
@@ -1368,7 +1378,7 @@ msgstr "Исходящий почтовый сервер"
 msgid "Outline"
 msgstr "Контур"
 
-#: src/wx/film_viewer.cc:113
+#: src/wx/film_viewer.cc:112
 msgid "Outline content"
 msgstr "Очертить контент"
 
@@ -1380,7 +1390,7 @@ msgstr "Ширина обводки"
 msgid "Outline width cannot be set unless you are burning in subtitles"
 msgstr "Ширина обводки может быть установлена только для вшитых субтитров"
 
-#: src/wx/kdm_dialog.cc:92 src/wx/self_dkdm_dialog.cc:66
+#: src/wx/kdm_dialog.cc:92 src/wx/self_dkdm_dialog.cc:67
 msgid "Output"
 msgstr "Вывод"
 
@@ -1473,7 +1483,7 @@ msgstr "Пре-релиз"
 msgid "ProRes"
 msgstr "ProRes"
 
-#: src/wx/dcp_panel.cc:756
+#: src/wx/dcp_panel.cc:758
 msgid "Processor"
 msgstr "Обработка"
 
@@ -1519,6 +1529,11 @@ msgstr "Rec. 709"
 
 #: src/wx/screen_dialog.cc:85
 msgid "Recipient certificate"
+msgstr "Сертификат получателя"
+
+#: src/wx/recreate_chain_dialog.cc:31
+#, fuzzy
+msgid "Recreate signing certificates"
 msgstr "Сертификат получателя"
 
 #: src/wx/isdcf_metadata_dialog.cc:64
@@ -1597,7 +1612,7 @@ msgstr "Сбросить по умолчанию тему и текст"
 msgid "Reset to default text"
 msgstr "Сбросить по умолчанию текст"
 
-#: src/wx/dcp_panel.cc:664
+#: src/wx/dcp_panel.cc:666
 msgid "Resolution"
 msgstr "Разрешение"
 
@@ -1641,7 +1656,7 @@ msgstr "SCP (для AAM и Doremi)"
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/audio_dialog.cc:324
+#: src/wx/audio_dialog.cc:332
 #, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "Пиковая громкость сэмпла %.2fдБ в %s на %s"
@@ -1650,7 +1665,7 @@ msgstr "Пиковая громкость сэмпла %.2fдБ в %s на %s"
 msgid "Save template"
 msgstr "Сохранить шаблон"
 
-#: src/wx/self_dkdm_dialog.cc:70
+#: src/wx/self_dkdm_dialog.cc:71
 msgid "Save to KDM Creator tool's list"
 msgstr "Сохранить в список инструмента генерации KDM"
 
@@ -1764,7 +1779,7 @@ msgstr "Установить"
 msgid "Shadow"
 msgstr "Тень"
 
-#: src/wx/dcp_panel.cc:765
+#: src/wx/dcp_panel.cc:767
 msgid "Show audio..."
 msgstr "Показать аудио..."
 
@@ -1910,6 +1925,15 @@ msgstr "Тестирование"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "Время \"до\" должно быть после времени \"от\"."
 
+#: src/wx/recreate_chain_dialog.cc:33
+msgid ""
+"The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
+"contains a small error\n"
+"which will prevent DCPs from being validated correctly on some systems.  Do "
+"you want to re-create\n"
+"the certificate chain for signing DCPs and KDMs?"
+msgstr ""
+
 #: src/wx/content_menu.cc:360
 msgid ""
 "The content file(s) you specified are not the same as those that are "
@@ -1943,7 +1967,7 @@ msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
 msgstr "Уже есть шаблон с таким названием. Вы хотите перезаписать его?"
 
-#: src/wx/film_viewer.cc:213
+#: src/wx/film_viewer.cc:212
 msgid "There is not enough free memory to do that."
 msgstr "Недостаточно памяти, чтобы сделать это."
 
@@ -2008,7 +2032,7 @@ msgstr "Обрезать с начала"
 msgid "Trim up to current position"
 msgstr "Обрезать до текущей позиции"
 
-#: src/wx/audio_dialog.cc:341
+#: src/wx/audio_dialog.cc:349
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr "Пиковая громкость %.2fдБ"
@@ -2146,7 +2170,7 @@ msgstr "Загрузить DCP на TMS после окончания конве
 msgid "Use ISDCF name"
 msgstr "Использовать ISDCF"
 
-#: src/wx/dcp_panel.cc:677
+#: src/wx/dcp_panel.cc:679
 msgid "Use best"
 msgstr "Использовать лучшее"
 
@@ -2224,7 +2248,7 @@ msgstr "Создать папку для каждого KDM кинотеатра
 msgid "Write all KDMs to the same folder"
 msgstr "Записать все KDM в одну папку"
 
-#: src/wx/kdm_output_panel.cc:103 src/wx/self_dkdm_dialog.cc:75
+#: src/wx/kdm_output_panel.cc:103 src/wx/self_dkdm_dialog.cc:76
 msgid "Write to"
 msgstr "Сохранить в"
 

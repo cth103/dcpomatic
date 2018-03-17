@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 16:50+0000\n"
+"POT-Creation-Date: 2018-03-17 10:22+0000\n"
 "PO-Revision-Date: 2017-08-10 20:03+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -80,11 +80,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "wersja 2D dostępna w 3D"
 
-#: src/wx/dcp_panel.cc:718
+#: src/wx/dcp_panel.cc:720
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:683 src/wx/video_panel.cc:235
+#: src/wx/dcp_panel.cc:685 src/wx/video_panel.cc:235
 msgid "3D"
 msgstr "3D"
 
@@ -112,7 +112,7 @@ msgstr "3D góra/dół"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
-#: src/wx/dcp_panel.cc:719
+#: src/wx/dcp_panel.cc:721
 msgid "4K"
 msgstr "4K"
 
@@ -355,7 +355,7 @@ msgid "CC addresses"
 msgstr "Adres CC"
 
 #: src/wx/kdm_cpl_panel.cc:35 src/wx/kdm_dialog.cc:85
-#: src/wx/self_dkdm_dialog.cc:59
+#: src/wx/self_dkdm_dialog.cc:60
 msgid "CPL"
 msgstr "CPL"
 
@@ -383,6 +383,11 @@ msgstr "Anuluj"
 msgid "Cannot reference this DCP.  "
 msgstr "Nie można użyć tego DCP jako referencji.  "
 
+#: src/wx/recreate_chain_dialog.cc:31
+#, fuzzy
+msgid "Certificate chain"
+msgstr "Stwórz łańcuch certyfikatu"
+
 #: src/wx/dolby_doremi_certificate_panel.cc:204
 msgid "Certificate downloaded"
 msgstr "Certyfikat pobrany"
@@ -395,7 +400,7 @@ msgstr "Łańcuch"
 msgid "Channel gain"
 msgstr "Wzmocnienie kanału"
 
-#: src/wx/audio_dialog.cc:93 src/wx/dcp_panel.cc:750
+#: src/wx/audio_dialog.cc:93 src/wx/dcp_panel.cc:752
 msgid "Channels"
 msgstr "Kanały"
 
@@ -473,7 +478,7 @@ msgstr "Konfiguracja|Czasy"
 msgid "Confirm KDM email"
 msgstr "Potwierdź wysłanie email dla KDM"
 
-#: src/wx/dcp_panel.cc:653
+#: src/wx/dcp_panel.cc:655
 msgid "Container"
 msgstr "Kontener"
 
@@ -502,7 +507,7 @@ msgstr "Kontrast"
 msgid "Copy as name"
 msgstr "Kopiuj jako nazwa"
 
-#: src/wx/audio_dialog.cc:251
+#: src/wx/audio_dialog.cc:259
 msgid "Could not analyse audio."
 msgstr "Nie udało się przeanalizować dźwięku."
 
@@ -527,7 +532,7 @@ msgstr "Nie udało się odczytać pliku certyfikatu (%s)"
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Nie udało się odczytać pliku klucza; plik jest zbyt długi (%s)"
 
-#: src/wx/film_viewer.cc:789
+#: src/wx/film_viewer.cc:830
 #, fuzzy
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
@@ -658,11 +663,16 @@ msgstr "Opóźnienie"
 msgid "Details..."
 msgstr "Szczegóły..."
 
+#: src/wx/recreate_chain_dialog.cc:31
+#, fuzzy
+msgid "Do nothing"
+msgstr "Wygładzanie"
+
 #: src/wx/download_certificate_dialog.cc:37
 msgid "Dolby / Doremi"
 msgstr "Dolby"
 
-#: src/wx/confirm_kdm_email_dialog.cc:40
+#: src/wx/confirm_kdm_email_dialog.cc:40 src/wx/recreate_chain_dialog.cc:39
 msgid "Don't ask this again"
 msgstr "Nie pytaj o to więcej"
 
@@ -869,7 +879,7 @@ msgstr "Czcionki..."
 msgid "Format"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:669
+#: src/wx/dcp_panel.cc:671
 msgid "Frame Rate"
 msgstr "Klatki/sek"
 
@@ -1042,7 +1052,7 @@ msgstr "Moc wejściowa"
 msgid "Input transfer function"
 msgstr "Funkcja wejściowa transferu"
 
-#: src/wx/audio_dialog.cc:355
+#: src/wx/audio_dialog.cc:363
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Zintegrowana głośność %.2f LUFS"
@@ -1079,7 +1089,7 @@ msgstr "Plik kursyw"
 msgid "Italic font"
 msgstr "Czcionka Kursyw"
 
-#: src/wx/dcp_panel.cc:688
+#: src/wx/dcp_panel.cc:690
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
@@ -1091,7 +1101,7 @@ msgstr ""
 msgid "Join"
 msgstr "Połącz"
 
-#: src/wx/film_viewer.cc:119
+#: src/wx/film_viewer.cc:118
 msgid "Jump to selected content"
 msgstr "Skocz do wybranych plików"
 
@@ -1168,7 +1178,7 @@ msgstr "Odstęp między liniami"
 msgid "Log"
 msgstr "Dziennik"
 
-#: src/wx/audio_dialog.cc:364
+#: src/wx/audio_dialog.cc:372
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr "Zakres głośności %2f LU"
@@ -1201,7 +1211,7 @@ msgstr "Nazwa użytkownika"
 msgid "Make DCP anyway"
 msgstr "Stwórz DCP mimo wszystko"
 
-#: src/wx/self_dkdm_dialog.cc:49
+#: src/wx/self_dkdm_dialog.cc:50
 msgid "Make DKDM for DCP-o-matic"
 msgstr "Stwórz DKDM dla DCP-o-matic"
 
@@ -1229,7 +1239,7 @@ msgstr "Maksymalna przepustowość JPEG2000"
 msgid "Maximum number of frames to store per thread"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:692 src/wx/full_config_dialog.cc:315
+#: src/wx/dcp_panel.cc:694 src/wx/full_config_dialog.cc:315
 #: src/wx/full_config_dialog.cc:969
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -1324,7 +1334,7 @@ msgid "No content found in this folder."
 msgstr "W tym folderze brakuje plików."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:758 src/wx/subtitle_appearance_dialog.cc:125
+#: src/wx/dcp_panel.cc:760 src/wx/subtitle_appearance_dialog.cc:125
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
 #: src/wx/video_panel.cc:307
 msgid "None"
@@ -1386,7 +1396,7 @@ msgstr "Serwer poczty wychodzącej"
 msgid "Outline"
 msgstr "Obrys"
 
-#: src/wx/film_viewer.cc:113
+#: src/wx/film_viewer.cc:112
 msgid "Outline content"
 msgstr "Obrysuj obraz"
 
@@ -1398,7 +1408,7 @@ msgstr "Grubość obrysu"
 msgid "Outline width cannot be set unless you are burning in subtitles"
 msgstr "Grubość obrysu można ustawić tylko, gdy wypalasz napisy na obrazie"
 
-#: src/wx/kdm_dialog.cc:92 src/wx/self_dkdm_dialog.cc:66
+#: src/wx/kdm_dialog.cc:92 src/wx/self_dkdm_dialog.cc:67
 msgid "Output"
 msgstr "Wyjście"
 
@@ -1491,7 +1501,7 @@ msgstr "Wydanie przedpremierowe"
 msgid "ProRes"
 msgstr "ProRes"
 
-#: src/wx/dcp_panel.cc:756
+#: src/wx/dcp_panel.cc:758
 msgid "Processor"
 msgstr "Mikser"
 
@@ -1540,6 +1550,11 @@ msgstr "Rec. 709"
 
 #: src/wx/screen_dialog.cc:85
 msgid "Recipient certificate"
+msgstr "Odbiorca certyfikatu"
+
+#: src/wx/recreate_chain_dialog.cc:31
+#, fuzzy
+msgid "Recreate signing certificates"
 msgstr "Odbiorca certyfikatu"
 
 #: src/wx/isdcf_metadata_dialog.cc:64
@@ -1618,7 +1633,7 @@ msgstr "Przywróć domyślny obiekt i tekst"
 msgid "Reset to default text"
 msgstr "Przywróć domyślny tekst"
 
-#: src/wx/dcp_panel.cc:664
+#: src/wx/dcp_panel.cc:666
 msgid "Resolution"
 msgstr "Rozdzielczość"
 
@@ -1662,7 +1677,7 @@ msgstr "SCP (dla AAM i Doremi)"
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/audio_dialog.cc:324
+#: src/wx/audio_dialog.cc:332
 #, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "Peak wynosi %.2fdB w %s w %s"
@@ -1671,7 +1686,7 @@ msgstr "Peak wynosi %.2fdB w %s w %s"
 msgid "Save template"
 msgstr "Zapisz szablon"
 
-#: src/wx/self_dkdm_dialog.cc:70
+#: src/wx/self_dkdm_dialog.cc:71
 msgid "Save to KDM Creator tool's list"
 msgstr "Zapisz na liście narzędzi Kreatora KDM"
 
@@ -1787,7 +1802,7 @@ msgstr ""
 msgid "Shadow"
 msgstr "Cień"
 
-#: src/wx/dcp_panel.cc:765
+#: src/wx/dcp_panel.cc:767
 msgid "Show audio..."
 msgstr "Pokaż podgląd dźwięku..."
 
@@ -1935,6 +1950,15 @@ msgstr "Testerzy"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "Czas 'do' musi być później niż 'od'."
 
+#: src/wx/recreate_chain_dialog.cc:33
+msgid ""
+"The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
+"contains a small error\n"
+"which will prevent DCPs from being validated correctly on some systems.  Do "
+"you want to re-create\n"
+"the certificate chain for signing DCPs and KDMs?"
+msgstr ""
+
 #: src/wx/content_menu.cc:360
 msgid ""
 "The content file(s) you specified are not the same as those that are "
@@ -1967,7 +1991,7 @@ msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
 msgstr "Istnieje już taki Szablon. Nadpisać?"
 
-#: src/wx/film_viewer.cc:213
+#: src/wx/film_viewer.cc:212
 msgid "There is not enough free memory to do that."
 msgstr "Brak pamięci RAM."
 
@@ -2032,7 +2056,7 @@ msgstr "Przytnij od początku"
 msgid "Trim up to current position"
 msgstr "Przytnij do obecnego miejsca"
 
-#: src/wx/audio_dialog.cc:341
+#: src/wx/audio_dialog.cc:349
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr "Peak wynosi %.2fdB"
@@ -2170,7 +2194,7 @@ msgstr "Wrzuć DCP na TMS po utworzeniu"
 msgid "Use ISDCF name"
 msgstr "Użyj nazwy ISDCF"
 
-#: src/wx/dcp_panel.cc:677
+#: src/wx/dcp_panel.cc:679
 msgid "Use best"
 msgstr "Użyj najlepszego"
 
@@ -2248,7 +2272,7 @@ msgstr "Zapisz KDMy każdego Kina do osobnego folderu"
 msgid "Write all KDMs to the same folder"
 msgstr "Zapisz wszystkie KDMy do wspólnego folderu"
 
-#: src/wx/kdm_output_panel.cc:103 src/wx/self_dkdm_dialog.cc:75
+#: src/wx/kdm_output_panel.cc:103 src/wx/self_dkdm_dialog.cc:76
 msgid "Write to"
 msgstr "Napisz do"
 

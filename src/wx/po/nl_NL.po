@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 16:50+0000\n"
+"POT-Creation-Date: 2018-03-17 10:22+0000\n"
 "PO-Revision-Date: 2018-02-01 02:16+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -80,11 +80,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "2D-versie van content beschikbaar in 3D"
 
-#: src/wx/dcp_panel.cc:718
+#: src/wx/dcp_panel.cc:720
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:683 src/wx/video_panel.cc:235
+#: src/wx/dcp_panel.cc:685 src/wx/video_panel.cc:235
 msgid "3D"
 msgstr "3D"
 
@@ -112,7 +112,7 @@ msgstr "3D boven/onder"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
-#: src/wx/dcp_panel.cc:719
+#: src/wx/dcp_panel.cc:721
 msgid "4K"
 msgstr "4K"
 
@@ -358,7 +358,7 @@ msgid "CC addresses"
 msgstr "CC-adressen"
 
 #: src/wx/kdm_cpl_panel.cc:35 src/wx/kdm_dialog.cc:85
-#: src/wx/self_dkdm_dialog.cc:59
+#: src/wx/self_dkdm_dialog.cc:60
 msgid "CPL"
 msgstr "CPL"
 
@@ -386,6 +386,11 @@ msgstr "Annuleer"
 msgid "Cannot reference this DCP.  "
 msgstr "Kan niet aan deze DCP refereren."
 
+#: src/wx/recreate_chain_dialog.cc:31
+#, fuzzy
+msgid "Certificate chain"
+msgstr "Maak certificaat-keten"
+
 #: src/wx/dolby_doremi_certificate_panel.cc:204
 msgid "Certificate downloaded"
 msgstr "Certificaat gedownload"
@@ -398,7 +403,7 @@ msgstr "Keten"
 msgid "Channel gain"
 msgstr "Kanaal-versterking"
 
-#: src/wx/audio_dialog.cc:93 src/wx/dcp_panel.cc:750
+#: src/wx/audio_dialog.cc:93 src/wx/dcp_panel.cc:752
 msgid "Channels"
 msgstr "Kanalen"
 
@@ -478,7 +483,7 @@ msgstr "Timing"
 msgid "Confirm KDM email"
 msgstr "Bevestig KDM e-mail"
 
-#: src/wx/dcp_panel.cc:653
+#: src/wx/dcp_panel.cc:655
 msgid "Container"
 msgstr "Container"
 
@@ -507,7 +512,7 @@ msgstr "Contrast"
 msgid "Copy as name"
 msgstr "Kopieer als naam"
 
-#: src/wx/audio_dialog.cc:251
+#: src/wx/audio_dialog.cc:259
 msgid "Could not analyse audio."
 msgstr "Kan audio niet analyseren."
 
@@ -530,7 +535,7 @@ msgstr "Kan certificaat-bestand niet lezen."
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Kan sleutel-bestand niet lezen; bestand is te lang (%s)"
 
-#: src/wx/film_viewer.cc:789
+#: src/wx/film_viewer.cc:830
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
@@ -659,11 +664,16 @@ msgstr "Vertraging"
 msgid "Details..."
 msgstr "Details..."
 
+#: src/wx/recreate_chain_dialog.cc:31
+#, fuzzy
+msgid "Do nothing"
+msgstr "Gladstrijken"
+
 #: src/wx/download_certificate_dialog.cc:37
 msgid "Dolby / Doremi"
 msgstr "Dolby / Doremi"
 
-#: src/wx/confirm_kdm_email_dialog.cc:40
+#: src/wx/confirm_kdm_email_dialog.cc:40 src/wx/recreate_chain_dialog.cc:39
 msgid "Don't ask this again"
 msgstr "Vraag dit niet opnieuw"
 
@@ -861,7 +871,7 @@ msgstr "Lettertypen..."
 msgid "Format"
 msgstr "Formaat"
 
-#: src/wx/dcp_panel.cc:669
+#: src/wx/dcp_panel.cc:671
 msgid "Frame Rate"
 msgstr "Frame Rate"
 
@@ -1030,7 +1040,7 @@ msgstr "Input-macht"
 msgid "Input transfer function"
 msgstr "Input-overdrachtsfunctie"
 
-#: src/wx/audio_dialog.cc:355
+#: src/wx/audio_dialog.cc:363
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Geïntegreerde luidheid %.2f LUFS"
@@ -1067,7 +1077,7 @@ msgstr "Cursief bestand"
 msgid "Italic font"
 msgstr "Cursief lettertype"
 
-#: src/wx/dcp_panel.cc:688
+#: src/wx/dcp_panel.cc:690
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
@@ -1079,7 +1089,7 @@ msgstr ""
 msgid "Join"
 msgstr "Voeg samen"
 
-#: src/wx/film_viewer.cc:119
+#: src/wx/film_viewer.cc:118
 msgid "Jump to selected content"
 msgstr "Ga naar geselecteerde content"
 
@@ -1156,7 +1166,7 @@ msgstr "Regelafstand"
 msgid "Log"
 msgstr "Log"
 
-#: src/wx/audio_dialog.cc:364
+#: src/wx/audio_dialog.cc:372
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr "Luidheidbereik %.2f LU"
@@ -1189,7 +1199,7 @@ msgstr "Mail-gebruikersnaam"
 msgid "Make DCP anyway"
 msgstr "Maak DCP toch"
 
-#: src/wx/self_dkdm_dialog.cc:49
+#: src/wx/self_dkdm_dialog.cc:50
 msgid "Make DKDM for DCP-o-matic"
 msgstr "Maak DKDM voor DCP-o-matic"
 
@@ -1217,7 +1227,7 @@ msgstr "Maximum JPEG2000-bandbreedte"
 msgid "Maximum number of frames to store per thread"
 msgstr "Maximum aantal frames dat per thread kan worden opgeslagen"
 
-#: src/wx/dcp_panel.cc:692 src/wx/full_config_dialog.cc:315
+#: src/wx/dcp_panel.cc:694 src/wx/full_config_dialog.cc:315
 #: src/wx/full_config_dialog.cc:969
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -1309,7 +1319,7 @@ msgid "No content found in this folder."
 msgstr "Geen content gevonden in deze map."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:758 src/wx/subtitle_appearance_dialog.cc:125
+#: src/wx/dcp_panel.cc:760 src/wx/subtitle_appearance_dialog.cc:125
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
 #: src/wx/video_panel.cc:307
 msgid "None"
@@ -1371,7 +1381,7 @@ msgstr "Uitgaande mailserver"
 msgid "Outline"
 msgstr "Omlijn"
 
-#: src/wx/film_viewer.cc:113
+#: src/wx/film_viewer.cc:112
 msgid "Outline content"
 msgstr "Omlijn content"
 
@@ -1384,7 +1394,7 @@ msgid "Outline width cannot be set unless you are burning in subtitles"
 msgstr ""
 "Omlijnings-breedte kan alleen bij ingebrande ondertitels ingesteld worden"
 
-#: src/wx/kdm_dialog.cc:92 src/wx/self_dkdm_dialog.cc:66
+#: src/wx/kdm_dialog.cc:92 src/wx/self_dkdm_dialog.cc:67
 msgid "Output"
 msgstr "Output"
 
@@ -1477,7 +1487,7 @@ msgstr "Pre-release"
 msgid "ProRes"
 msgstr "ProRes"
 
-#: src/wx/dcp_panel.cc:756
+#: src/wx/dcp_panel.cc:758
 msgid "Processor"
 msgstr "Processor"
 
@@ -1523,6 +1533,11 @@ msgstr "Rec. 709"
 
 #: src/wx/screen_dialog.cc:85
 msgid "Recipient certificate"
+msgstr "Ontvanger-certificaat"
+
+#: src/wx/recreate_chain_dialog.cc:31
+#, fuzzy
+msgid "Recreate signing certificates"
 msgstr "Ontvanger-certificaat"
 
 #: src/wx/isdcf_metadata_dialog.cc:64
@@ -1601,7 +1616,7 @@ msgstr "Stel standaard onderwerp en tekst opnieuw in"
 msgid "Reset to default text"
 msgstr "Stel standaard tekst opnieuw in"
 
-#: src/wx/dcp_panel.cc:664
+#: src/wx/dcp_panel.cc:666
 msgid "Resolution"
 msgstr "Resolutie"
 
@@ -1645,7 +1660,7 @@ msgstr "SCP (voor AAM and Doremi)"
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/audio_dialog.cc:324
+#: src/wx/audio_dialog.cc:332
 #, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "Sample-piek is %.2fdB op %s op %s"
@@ -1654,7 +1669,7 @@ msgstr "Sample-piek is %.2fdB op %s op %s"
 msgid "Save template"
 msgstr "Bewaar template"
 
-#: src/wx/self_dkdm_dialog.cc:70
+#: src/wx/self_dkdm_dialog.cc:71
 msgid "Save to KDM Creator tool's list"
 msgstr "Bewaar in lijst van KDM Creator tool"
 
@@ -1767,7 +1782,7 @@ msgstr "Stel in op"
 msgid "Shadow"
 msgstr "Schaduw"
 
-#: src/wx/dcp_panel.cc:765
+#: src/wx/dcp_panel.cc:767
 msgid "Show audio..."
 msgstr "Toon audio..."
 
@@ -1913,6 +1928,15 @@ msgstr "Getest door"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "De 'tot'-tijd moet na de 'van'-tijd zijn."
 
+#: src/wx/recreate_chain_dialog.cc:33
+msgid ""
+"The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
+"contains a small error\n"
+"which will prevent DCPs from being validated correctly on some systems.  Do "
+"you want to re-create\n"
+"the certificate chain for signing DCPs and KDMs?"
+msgstr ""
+
 #: src/wx/content_menu.cc:360
 msgid ""
 "The content file(s) you specified are not the same as those that are "
@@ -1947,7 +1971,7 @@ msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
 msgstr "Er is al een template met deze naam.  Wilt u hem overschrijven?"
 
-#: src/wx/film_viewer.cc:213
+#: src/wx/film_viewer.cc:212
 msgid "There is not enough free memory to do that."
 msgstr "Er is niet genoeg geheugen om dat te doen."
 
@@ -2012,7 +2036,7 @@ msgstr "Wegknippen van begin"
 msgid "Trim up to current position"
 msgstr "Wegknippen tot aan huidige positie"
 
-#: src/wx/audio_dialog.cc:341
+#: src/wx/audio_dialog.cc:349
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr "Piek (True peak) is %.2fdB"
@@ -2150,7 +2174,7 @@ msgstr "Upload DCP naar TMS nadat hij gemaakt is"
 msgid "Use ISDCF name"
 msgstr "Gebruik ISDCF-naam"
 
-#: src/wx/dcp_panel.cc:677
+#: src/wx/dcp_panel.cc:679
 msgid "Use best"
 msgstr "Gebruik de beste"
 
@@ -2228,7 +2252,7 @@ msgstr "Schrijf een map voor de KDM's van elke bioscoop"
 msgid "Write all KDMs to the same folder"
 msgstr "Schrijf alle KDM's naar dezelfde map"
 
-#: src/wx/kdm_output_panel.cc:103 src/wx/self_dkdm_dialog.cc:75
+#: src/wx/kdm_output_panel.cc:103 src/wx/self_dkdm_dialog.cc:76
 msgid "Write to"
 msgstr "Schrijf naar"
 

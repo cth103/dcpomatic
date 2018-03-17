@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 16:50+0000\n"
+"POT-Creation-Date: 2018-03-17 10:22+0000\n"
 "PO-Revision-Date: 2017-10-04 22:06+0200\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -79,11 +79,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "2D-version af 3D-indhold"
 
-#: src/wx/dcp_panel.cc:718
+#: src/wx/dcp_panel.cc:720
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:683 src/wx/video_panel.cc:235
+#: src/wx/dcp_panel.cc:685 src/wx/video_panel.cc:235
 msgid "3D"
 msgstr "3D"
 
@@ -111,7 +111,7 @@ msgstr "3D, top/bund"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - V/C/H/Sub"
 
-#: src/wx/dcp_panel.cc:719
+#: src/wx/dcp_panel.cc:721
 msgid "4K"
 msgstr "4K"
 
@@ -352,7 +352,7 @@ msgid "CC addresses"
 msgstr "CC-adresse"
 
 #: src/wx/kdm_cpl_panel.cc:35 src/wx/kdm_dialog.cc:85
-#: src/wx/self_dkdm_dialog.cc:59
+#: src/wx/self_dkdm_dialog.cc:60
 msgid "CPL"
 msgstr "CPL"
 
@@ -380,6 +380,11 @@ msgstr "Annuller"
 msgid "Cannot reference this DCP.  "
 msgstr "Kan ikke referere til denne DCP.  "
 
+#: src/wx/recreate_chain_dialog.cc:31
+#, fuzzy
+msgid "Certificate chain"
+msgstr "Certifikat"
+
 #: src/wx/dolby_doremi_certificate_panel.cc:204
 msgid "Certificate downloaded"
 msgstr "Certifikat downloadet"
@@ -392,7 +397,7 @@ msgstr "Kæde"
 msgid "Channel gain"
 msgstr "Kanalgain"
 
-#: src/wx/audio_dialog.cc:93 src/wx/dcp_panel.cc:750
+#: src/wx/audio_dialog.cc:93 src/wx/dcp_panel.cc:752
 msgid "Channels"
 msgstr "Kanaler"
 
@@ -470,7 +475,7 @@ msgstr "Timing"
 msgid "Confirm KDM email"
 msgstr "Bekræft KDM-e-mail"
 
-#: src/wx/dcp_panel.cc:653
+#: src/wx/dcp_panel.cc:655
 msgid "Container"
 msgstr "Container"
 
@@ -499,7 +504,7 @@ msgstr "Kontrast"
 msgid "Copy as name"
 msgstr "Kopier som navn"
 
-#: src/wx/audio_dialog.cc:251
+#: src/wx/audio_dialog.cc:259
 msgid "Could not analyse audio."
 msgstr "Kunne ikke analysere lyden."
 
@@ -524,7 +529,7 @@ msgstr "Kunne ikke læse certifikatfil (%s)"
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Kunne ikke læse nøgle fil, filen er for lang (%s)"
 
-#: src/wx/film_viewer.cc:789
+#: src/wx/film_viewer.cc:830
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
@@ -652,11 +657,16 @@ msgstr "Forsinkelse"
 msgid "Details..."
 msgstr "Detaljer..."
 
+#: src/wx/recreate_chain_dialog.cc:31
+#, fuzzy
+msgid "Do nothing"
+msgstr "Udjævning"
+
 #: src/wx/download_certificate_dialog.cc:37
 msgid "Dolby / Doremi"
 msgstr "Dolby / Doremi"
 
-#: src/wx/confirm_kdm_email_dialog.cc:40
+#: src/wx/confirm_kdm_email_dialog.cc:40 src/wx/recreate_chain_dialog.cc:39
 msgid "Don't ask this again"
 msgstr ""
 
@@ -855,7 +865,7 @@ msgstr "Skrifttyper..."
 msgid "Format"
 msgstr "Format"
 
-#: src/wx/dcp_panel.cc:669
+#: src/wx/dcp_panel.cc:671
 msgid "Frame Rate"
 msgstr "Billedhastighed"
 
@@ -1023,7 +1033,7 @@ msgstr ""
 msgid "Input transfer function"
 msgstr ""
 
-#: src/wx/audio_dialog.cc:355
+#: src/wx/audio_dialog.cc:363
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
 msgstr ""
@@ -1060,7 +1070,7 @@ msgstr "Kursiv fil"
 msgid "Italic font"
 msgstr "Kursiv skrift"
 
-#: src/wx/dcp_panel.cc:688
+#: src/wx/dcp_panel.cc:690
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
@@ -1072,7 +1082,7 @@ msgstr ""
 msgid "Join"
 msgstr "Sammensæt"
 
-#: src/wx/film_viewer.cc:119
+#: src/wx/film_viewer.cc:118
 msgid "Jump to selected content"
 msgstr ""
 
@@ -1149,7 +1159,7 @@ msgstr ""
 msgid "Log"
 msgstr "Log"
 
-#: src/wx/audio_dialog.cc:364
+#: src/wx/audio_dialog.cc:372
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr ""
@@ -1182,7 +1192,7 @@ msgstr "Mail brugernavn"
 msgid "Make DCP anyway"
 msgstr "Generer DCP alligevel"
 
-#: src/wx/self_dkdm_dialog.cc:49
+#: src/wx/self_dkdm_dialog.cc:50
 msgid "Make DKDM for DCP-o-matic"
 msgstr "Dan DKDM til DCP-o-matic"
 
@@ -1210,7 +1220,7 @@ msgstr "Maksimal JPEG2000-båndbredde"
 msgid "Maximum number of frames to store per thread"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:692 src/wx/full_config_dialog.cc:315
+#: src/wx/dcp_panel.cc:694 src/wx/full_config_dialog.cc:315
 #: src/wx/full_config_dialog.cc:969
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -1302,7 +1312,7 @@ msgid "No content found in this folder."
 msgstr "Fandt intet indhold i denne folder."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:758 src/wx/subtitle_appearance_dialog.cc:125
+#: src/wx/dcp_panel.cc:760 src/wx/subtitle_appearance_dialog.cc:125
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
 #: src/wx/video_panel.cc:307
 msgid "None"
@@ -1364,7 +1374,7 @@ msgstr "Udgående mail server"
 msgid "Outline"
 msgstr "Omrids"
 
-#: src/wx/film_viewer.cc:113
+#: src/wx/film_viewer.cc:112
 msgid "Outline content"
 msgstr "Indram indhold"
 
@@ -1378,7 +1388,7 @@ msgstr ""
 "Bredde indramning kan ikke sættes med mindre du brænder underteksterne ind i "
 "filmen"
 
-#: src/wx/kdm_dialog.cc:92 src/wx/self_dkdm_dialog.cc:66
+#: src/wx/kdm_dialog.cc:92 src/wx/self_dkdm_dialog.cc:67
 msgid "Output"
 msgstr "Output"
 
@@ -1472,7 +1482,7 @@ msgstr "Pre-release"
 msgid "ProRes"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:756
+#: src/wx/dcp_panel.cc:758
 msgid "Processor"
 msgstr "Processor"
 
@@ -1521,6 +1531,11 @@ msgstr "Rec. 709"
 
 #: src/wx/screen_dialog.cc:85
 msgid "Recipient certificate"
+msgstr "Modtager-certifikat"
+
+#: src/wx/recreate_chain_dialog.cc:31
+#, fuzzy
+msgid "Recreate signing certificates"
 msgstr "Modtager-certifikat"
 
 #: src/wx/isdcf_metadata_dialog.cc:64
@@ -1599,7 +1614,7 @@ msgstr "Nulstil til standard emne og tekst"
 msgid "Reset to default text"
 msgstr "Nulstil til standard tekst"
 
-#: src/wx/dcp_panel.cc:664
+#: src/wx/dcp_panel.cc:666
 msgid "Resolution"
 msgstr "Opløsning"
 
@@ -1643,7 +1658,7 @@ msgstr "SCP (til AAM og Doremi)"
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/audio_dialog.cc:324
+#: src/wx/audio_dialog.cc:332
 #, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr ""
@@ -1652,7 +1667,7 @@ msgstr ""
 msgid "Save template"
 msgstr "Gem skabelon"
 
-#: src/wx/self_dkdm_dialog.cc:70
+#: src/wx/self_dkdm_dialog.cc:71
 msgid "Save to KDM Creator tool's list"
 msgstr ""
 
@@ -1767,7 +1782,7 @@ msgstr ""
 msgid "Shadow"
 msgstr "Skygge"
 
-#: src/wx/dcp_panel.cc:765
+#: src/wx/dcp_panel.cc:767
 msgid "Show audio..."
 msgstr "Vis lyd..."
 
@@ -1915,6 +1930,15 @@ msgstr "Testet af"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "'Til' tidspunktet skal være efter 'fra' tidspunktet."
 
+#: src/wx/recreate_chain_dialog.cc:33
+msgid ""
+"The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
+"contains a small error\n"
+"which will prevent DCPs from being validated correctly on some systems.  Do "
+"you want to re-create\n"
+"the certificate chain for signing DCPs and KDMs?"
+msgstr ""
+
 #: src/wx/content_menu.cc:360
 msgid ""
 "The content file(s) you specified are not the same as those that are "
@@ -1946,7 +1970,7 @@ msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
 msgstr "Der er allerede en skabelon med dette navn. Vil du overskrive den?"
 
-#: src/wx/film_viewer.cc:213
+#: src/wx/film_viewer.cc:212
 msgid "There is not enough free memory to do that."
 msgstr "Der er ikke tilstrækkelig ledig hukommelse til at gøre dette."
 
@@ -2011,7 +2035,7 @@ msgstr "Trimning fra begyndelse"
 msgid "Trim up to current position"
 msgstr "Trim indtil nuværende position"
 
-#: src/wx/audio_dialog.cc:341
+#: src/wx/audio_dialog.cc:349
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr ""
@@ -2149,7 +2173,7 @@ msgstr "Upload DCP til TMS når den er færdig"
 msgid "Use ISDCF name"
 msgstr "Brug ISDCF-navn"
 
-#: src/wx/dcp_panel.cc:677
+#: src/wx/dcp_panel.cc:679
 msgid "Use best"
 msgstr "Brug bedste"
 
@@ -2227,7 +2251,7 @@ msgstr ""
 msgid "Write all KDMs to the same folder"
 msgstr ""
 
-#: src/wx/kdm_output_panel.cc:103 src/wx/self_dkdm_dialog.cc:75
+#: src/wx/kdm_output_panel.cc:103 src/wx/self_dkdm_dialog.cc:76
 msgid "Write to"
 msgstr "Skriv til"
 
@@ -2485,9 +2509,6 @@ msgstr "y"
 
 #~ msgid "video"
 #~ msgstr "video"
-
-#~ msgid "Certificate"
-#~ msgstr "Certifikat"
 
 #~ msgid "Check for testing updates as well as stable ones"
 #~ msgstr "Søg efter både test- og stabile-opdateringer"

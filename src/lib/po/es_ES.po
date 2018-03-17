@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 16:50+0000\n"
+"POT-Creation-Date: 2018-03-17 10:22+0000\n"
 "PO-Revision-Date: 2018-02-25 14:29-0600\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -66,11 +66,11 @@ msgstr " (%.2f:1)"
 
 #. / TRANSLATORS: the %1 in this string will be filled in with a day of the week
 #. / to say what day a job will finish.
-#: src/lib/job.cc:434
+#: src/lib/job.cc:440
 msgid " on %1"
 msgstr " el %1"
 
-#: src/lib/config.cc:795
+#: src/lib/config.cc:844
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -167,11 +167,11 @@ msgstr "reducción de ruido 3D"
 msgid "; %.1f fps"
 msgstr "; %.1f fps"
 
-#: src/lib/job.cc:439
+#: src/lib/job.cc:445
 msgid "; %1 remaining; finishing at %2%3"
 msgstr "; faltan %1 ; terminará a las %2%3"
 
-#: src/lib/hints.cc:107
+#: src/lib/hints.cc:113
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
@@ -189,7 +189,7 @@ msgstr "ARIB STD-B67 ('Log-gamma híbrido')"
 msgid "Advertisement"
 msgstr "Publicidad"
 
-#: src/lib/hints.cc:99
+#: src/lib/hints.cc:105
 msgid ""
 "All of your content is at 1.85:1 or narrower but your DCP's container is "
 "Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) "
@@ -200,7 +200,7 @@ msgstr ""
 "(2.39:1). Esto creará bandas negras verticales. Puede que prefieras "
 "seleccionar el contenedor DCP en Flat (1.85:1) en la pestaña \"DCP\"."
 
-#: src/lib/hints.cc:95
+#: src/lib/hints.cc:101
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -215,7 +215,7 @@ msgstr ""
 msgid "An error occurred whilst handling the file %1."
 msgstr "Ha ocurrido un error con el fichero %1."
 
-#: src/lib/analyse_audio_job.cc:89
+#: src/lib/analyse_audio_job.cc:95
 msgid "Analyse audio"
 msgstr "Analizar audio"
 
@@ -276,19 +276,19 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bits por pixel"
 
-#: src/lib/util.cc:552
+#: src/lib/util.cc:553
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:553
+#: src/lib/util.cc:554
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:544
+#: src/lib/util.cc:545
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:448
+#: src/lib/job.cc:454
 msgid "Cancelled"
 msgstr "Cancelado"
 
@@ -296,7 +296,11 @@ msgstr "Cancelado"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "No se puede usar el formato de pixel %1 para %2"
 
-#: src/lib/util.cc:513
+#: src/lib/film.cc:1220
+msgid "Cannot make a KDM as this project is not encrypted."
+msgstr ""
+
+#: src/lib/util.cc:514
 msgid "Centre"
 msgstr "Centro"
 
@@ -472,7 +476,7 @@ msgstr "No se pudo descodificar el fichero JPEG2000 %1 (%2)"
 msgid "Could not decode image file (%1)"
 msgstr "No se pudo descodificar el fichero de imagen (%1)"
 
-#: src/lib/encode_server_finder.cc:162
+#: src/lib/encode_server_finder.cc:164
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
 "o-matic is running."
@@ -508,19 +512,19 @@ msgstr "No se pudo iniciar la transferencia"
 msgid "Could not write to remote file (%1)"
 msgstr "No se pudo escribir el fichero remoto (%1)"
 
-#: src/lib/util.cc:523
+#: src/lib/util.cc:524
 msgid "D-BOX primary"
 msgstr "Primario D-BOX"
 
-#: src/lib/util.cc:524
+#: src/lib/util.cc:525
 msgid "D-BOX secondary"
 msgstr "Secundario D-BOX"
 
-#: src/lib/util.cc:554
+#: src/lib/util.cc:555
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:555
+#: src/lib/util.cc:556
 msgid "DBS"
 msgstr "DBS"
 
@@ -565,7 +569,7 @@ msgstr "DCP-o-matic ya no ofrece el filtro `%1', así que ha sido desactivado."
 msgid "De-interlacing"
 msgstr "Desentrelazado"
 
-#: src/lib/config.cc:775
+#: src/lib/config.cc:824
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -631,7 +635,7 @@ msgstr "Codificando"
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Error en el fichero de subtítulos: encontrado %1 cuando se esperaba %2"
 
-#: src/lib/job.cc:446
+#: src/lib/job.cc:452
 msgid "Error: %1"
 msgstr "Error: %1"
 
@@ -711,11 +715,11 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Gradient debander"
 
-#: src/lib/util.cc:548
+#: src/lib/util.cc:549
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:517
+#: src/lib/util.cc:518
 msgid "Hearing impaired"
 msgstr "Sordos"
 
@@ -723,7 +727,7 @@ msgstr "Sordos"
 msgid "High quality 3D denoiser"
 msgstr "Reductor de ruido 3D de alta calidad"
 
-#: src/lib/hints.cc:122
+#: src/lib/hints.cc:128
 msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "slowdown of your content, and SMPTE DCPs are not supported by all projectors."
@@ -732,7 +736,7 @@ msgstr ""
 "deceleración importante de su contenido, y los DCP SMPTE no son reconocidos "
 "por algunos proyectores."
 
-#: src/lib/hints.cc:119
+#: src/lib/hints.cc:125
 msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "speed-up of your content, and SMPTE DCPs are not supported by all projectors."
@@ -753,11 +757,11 @@ msgstr "IEC61966-2-1 (sRGB o sYCC)"
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/job.cc:146 src/lib/job.cc:178 src/lib/job.cc:188
+#: src/lib/job.cc:146 src/lib/job.cc:184 src/lib/job.cc:194
 msgid "It is not known what caused this error."
 msgstr "Error desconocido."
 
-#: src/lib/config.cc:289 src/lib/config.cc:772
+#: src/lib/config.cc:308 src/lib/config.cc:821
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Envío de KDM: $CPL_NAME"
 
@@ -765,27 +769,27 @@ msgstr "Envío de KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kernel deinterlacer"
 
-#: src/lib/util.cc:542
+#: src/lib/util.cc:543
 msgid "L"
 msgstr "L"
 
-#: src/lib/util.cc:550
+#: src/lib/util.cc:551
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:511
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:512
 msgid "Left"
 msgstr "Izquierda"
 
-#: src/lib/util.cc:519
+#: src/lib/util.cc:520
 msgid "Left centre"
 msgstr "Centro izquierda"
 
-#: src/lib/util.cc:521
+#: src/lib/util.cc:522
 msgid "Left rear surround"
 msgstr "Surround trasero izquierda"
 
-#: src/lib/util.cc:515
+#: src/lib/util.cc:516
 msgid "Left surround"
 msgstr "Surround izquierda"
 
@@ -793,11 +797,11 @@ msgstr "Surround izquierda"
 msgid "Length"
 msgstr "Duración"
 
-#: src/lib/util.cc:545
+#: src/lib/util.cc:546
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:514
+#: src/lib/util.cc:515
 msgid "Lfe (sub)"
 msgstr "Lfe (bajos)"
 
@@ -821,7 +825,7 @@ msgstr "Logarítmico (rango 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarítmico (rango 316:1)"
 
-#: src/lib/util.cc:546
+#: src/lib/util.cc:547
 msgid "Ls"
 msgstr "Ls"
 
@@ -881,7 +885,7 @@ msgstr "Reducción de ruido"
 msgid "None"
 msgstr "Ninguno"
 
-#: src/lib/job.cc:444
+#: src/lib/job.cc:450
 msgid "OK (ran for %1)"
 msgstr "OK (ejecución %1)"
 
@@ -922,7 +926,7 @@ msgstr "Error de programación en %1:%2 %3"
 msgid "Public Service Announcement"
 msgstr "Anuncio de servicio público"
 
-#: src/lib/util.cc:543
+#: src/lib/util.cc:544
 msgid "R"
 msgstr "R"
 
@@ -934,7 +938,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Clasificación"
 
-#: src/lib/util.cc:551
+#: src/lib/util.cc:552
 msgid "Rc"
 msgstr "Rc"
 
@@ -954,23 +958,23 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:512
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:513
 msgid "Right"
 msgstr "Derecha"
 
-#: src/lib/util.cc:520
+#: src/lib/util.cc:521
 msgid "Right centre"
 msgstr "Centro derecha"
 
-#: src/lib/util.cc:522
+#: src/lib/util.cc:523
 msgid "Right rear surround"
 msgstr "Surround trasero derecha"
 
-#: src/lib/util.cc:516
+#: src/lib/util.cc:517
 msgid "Right surround"
 msgstr "Surround derecha"
 
-#: src/lib/util.cc:547
+#: src/lib/util.cc:548
 msgid "Rs"
 msgstr "Rs"
 
@@ -1200,11 +1204,11 @@ msgstr "Contenidos inesperados del fichero ZIP"
 msgid "Unexpected image type received by server"
 msgstr "El servidor recibió un tipo de imagen inesperada"
 
-#: src/lib/job.cc:187
+#: src/lib/job.cc:193
 msgid "Unknown error"
 msgstr "Error desconocido"
 
-#: src/lib/ffmpeg_decoder.cc:319
+#: src/lib/ffmpeg_decoder.cc:325
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Formato de audio desconocido (%1)"
 
@@ -1224,7 +1228,7 @@ msgstr "Sin especificar"
 msgid "Untitled"
 msgstr "Sin título"
 
-#: src/lib/util.cc:525 src/lib/util.cc:526
+#: src/lib/util.cc:526 src/lib/util.cc:527
 msgid "Unused"
 msgstr "Sin uso"
 
@@ -1236,11 +1240,11 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/util.cc:549
+#: src/lib/util.cc:550
 msgid "VI"
 msgstr "VI"
 
-#: src/lib/util.cc:518
+#: src/lib/util.cc:519
 msgid "Visually impaired"
 msgstr "Ciegos"
 
@@ -1256,7 +1260,7 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
-#: src/lib/hints.cc:124
+#: src/lib/hints.cc:130
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
@@ -1266,7 +1270,7 @@ msgstr ""
 "Intenta hacer un DCP Interop con una velocidad que no está permitida "
 "oficialmente. Le recomendamos hacer un DCP SMPTE en su lugar."
 
-#: src/lib/hints.cc:111
+#: src/lib/hints.cc:117
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
@@ -1275,7 +1279,7 @@ msgstr ""
 "Intenta hacer un DCP Interop con una velocidad que no está permitida "
 "oficialmente. Le recomendamos hacer un DCP SMPTE en su lugar."
 
-#: src/lib/hints.cc:149
+#: src/lib/hints.cc:155
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
@@ -1283,7 +1287,14 @@ msgstr ""
 "Estás usando contenido 3D pero el DCP es 2D. Cambia el DCP a 3D si quieres "
 "que funcione en un sistema 3D (ej.: Real-D, MasterImage, etc.)"
 
-#: src/lib/hints.cc:138
+#: src/lib/hints.cc:82
+msgid ""
+"You are using DCP-o-matic's stereo-to-5.1 upmixer.  This is experimental and "
+"may result in poor-quality audio.  If you continue, you should listen to the "
+"resulting DCP in a cinema to make sure that it sounds good."
+msgstr ""
+
+#: src/lib/hints.cc:144
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
@@ -1291,7 +1302,7 @@ msgstr ""
 "Hay %1 ficheros que parecen VOBs de un DVD. Deberías unirlos para asegurarte "
 "transiciones suaves."
 
-#: src/lib/hints.cc:72
+#: src/lib/hints.cc:73
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
@@ -1299,7 +1310,7 @@ msgstr ""
 "Has seleccionado una fuente de más de 640 Kb. Es muy posible que cause "
 "problemas en la reproducción."
 
-#: src/lib/hints.cc:76
+#: src/lib/hints.cc:77
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
@@ -1307,7 +1318,7 @@ msgstr ""
 "Tu DCP tiene menos de 6 canales de audio. Esto puede causar problemas con "
 "algunos proyectores."
 
-#: src/lib/hints.cc:103
+#: src/lib/hints.cc:109
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio"
@@ -1315,7 +1326,7 @@ msgstr ""
 "El DCP utiliza un contenedor inusual.  Esto puede causar problemas en "
 "algunos proyectores.  Si es posible, utilice Flat o Scope como contenedor"
 
-#: src/lib/hints.cc:175
+#: src/lib/hints.cc:181
 msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
@@ -1323,7 +1334,7 @@ msgstr ""
 "El nivel de sonido es muy alto (en %1). Deberías reducir la ganancia del "
 "audio."
 
-#: src/lib/config.cc:245
+#: src/lib/config.cc:268
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
@@ -1425,12 +1436,12 @@ msgid "frames per second"
 msgstr "imágenes por segundo"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:166 src/lib/util.cc:169
+#: src/lib/util.cc:167 src/lib/util.cc:170
 msgid "h"
 msgstr "h"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:181 src/lib/util.cc:184
+#: src/lib/util.cc:182 src/lib/util.cc:185
 msgid "m"
 msgstr "m"
 
@@ -1447,7 +1458,7 @@ msgid "name"
 msgstr "nombre"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:195
+#: src/lib/util.cc:196
 msgid "s"
 msgstr "s"
 
@@ -1471,7 +1482,7 @@ msgstr "parte de su contenido necesita una OV"
 msgid "still"
 msgstr "imagen fija"
 
-#: src/lib/ffmpeg_examiner.cc:234
+#: src/lib/ffmpeg_examiner.cc:230
 msgid "unknown"
 msgstr "desconocido"
 
