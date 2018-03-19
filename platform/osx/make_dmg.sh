@@ -183,6 +183,11 @@ function make_dmg {
     mkdir -p $vol_name
     cp -a "$appdir" $vol_name
     ln -s /Applications "$vol_name/Applications"
+    cat<<EOF > "$vol_name/READ ME.txt"
+    Welcome to DCP-o-matic!  The first time you run the program there may be
+    a long (several-minute) delay while OS X checks that code for viruses and
+    other malware.  Please be patient!
+EOF
 
     rm -f $tmp_dmg "$dmg"
     hdiutil create -srcfolder $vol_name -volname $vol_name -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format UDRW -size $DMG_SIZE $tmp_dmg
