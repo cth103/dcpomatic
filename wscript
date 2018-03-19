@@ -41,7 +41,7 @@ print 'Version: %s' % VERSION
 def options(opt):
     opt.load('compiler_cxx')
     opt.load('winres')
-
+    
     opt.add_option('--enable-debug',      action='store_true', default=False, help='build with debugging information and without optimisation')
     opt.add_option('--disable-gui',       action='store_true', default=False, help='disable building of GUI tools')
     opt.add_option('--disable-tests',     action='store_true', default=False, help='disable building of tests')
@@ -63,6 +63,7 @@ def options(opt):
 
 def configure(conf):
     conf.load('compiler_cxx')
+    conf.load('clang_compilation_database', tooldir=['waf-tools'])
     if conf.options.target_windows:
         conf.load('winres')
 
