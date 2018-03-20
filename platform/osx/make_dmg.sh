@@ -197,18 +197,18 @@ EOF
 
     echo '
   tell application "Finder"
-    tell disk "'$vol_name'"
+    tell disk "$vol_name"
            open
            set current view of container window to icon view
            set toolbar visible of container window to false
            set statusbar visible of container window to false
+           set the bounds of container window to {400, 200, 940, 300}
            set theViewOptions to the icon view options of container window
            set arrangement of theViewOptions to not arranged
            set icon size of theViewOptions to 64
-           set the bounds of container window to {400, 200, 740, 370}
-           set position of item "'$appdir'" of container window to {90, 120}
-           set position of item "Applications" of container window to {220, 120}
-           set position of item "READ ME.txt" of container window to {310, 120}
+           set position of item "$appdir" of container window to {90, 80}
+           set position of item "Applications" of container window to {265, 80}
+           set position of item "READ ME.txt" of container window to {430, 80}
            close
            open
            update without registering applications
