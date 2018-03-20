@@ -183,6 +183,11 @@ function make_dmg {
     mkdir -p $vol_name
     cp -a "$appdir" $vol_name
     ln -s /Applications "$vol_name/Applications"
+    cat<<EOF > "$vol_name/READ ME.txt"
+Welcome to DCP-o-matic!  The first time you run the program there may be
+a long (several-minute) delay while OS X checks the code for viruses and
+other malware.  Please be patient!
+EOF
 
     rm -f $tmp_dmg "$dmg"
     hdiutil create -srcfolder $vol_name -volname $vol_name -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format UDRW -size $DMG_SIZE $tmp_dmg
@@ -192,17 +197,18 @@ function make_dmg {
 
     echo '
   tell application "Finder"
-    tell disk "'$vol_name'"
+    tell disk "$vol_name"
            open
            set current view of container window to icon view
            set toolbar visible of container window to false
            set statusbar visible of container window to false
-           set the bounds of container window to {400, 200, 650, 370}
+           set the bounds of container window to {400, 200, 940, 300}
            set theViewOptions to the icon view options of container window
            set arrangement of theViewOptions to not arranged
            set icon size of theViewOptions to 64
-           set position of item "'$appdir'" of container window to {90, 80}
-           set position of item "Applications" of container window to {220, 80}
+           set position of item "$appdir" of container window to {90, 80}
+           set position of item "Applications" of container window to {265, 80}
+           set position of item "READ ME.txt" of container window to {430, 80}
            close
            open
            update without registering applications
