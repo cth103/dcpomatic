@@ -59,7 +59,7 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, list<dcp::VerificationNote> 
 		case dcp::VerificationNote::VERIFY_WARNING:
 			_text->BeginStandardBullet (N_("standard/diamond"), 1, 50);
 			break;
-		case dcp::VerificationNote::VERIFY_NOTE:
+		case dcp::VerificationNote::VERIFY_ERROR:
 			_text->BeginSymbolBullet (N_("!"), 1, 50);
 			break;
 		}
