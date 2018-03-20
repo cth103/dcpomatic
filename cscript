@@ -302,8 +302,8 @@ def dependencies(target):
         ffmpeg_options = {}
 
     return (('ffmpeg-cdist', '5fce90f', ffmpeg_options),
-            ('libdcp', '623e197'),
-            ('libsub', 'debe9fb'),
+            ('libdcp', '1215fe2'),
+            ('libsub', '1899ddd'),
             ('rtaudio-cdist', '739969e'))
 
 def configure_options(target):
@@ -406,7 +406,7 @@ def package_rpm(target, cpu, version):
     requires = None
     if target.distro == 'mageia':
         requires = "lib64xmlsec1-devel"
-    
+
     make_spec('build/platform/linux/dcpomatic2.spec', version, target, requires)
     cmd = 'rpmbuild --define "_topdir %s" -bb build/platform/linux/dcpomatic2.spec' % topdir
     target.command(cmd)
