@@ -53,13 +53,13 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, list<dcp::VerificationNote> 
 
 	BOOST_FOREACH (dcp::VerificationNote i, notes) {
 		switch (i.type()) {
-		case dcp::VerificationNote::NOTE:
+		case dcp::VerificationNote::VERIFY_NOTE:
 			_text->BeginStandardBullet (N_("standard/circle"), 1, 50);
 			break;
-		case dcp::VerificationNote::WARNING:
+		case dcp::VerificationNote::VERIFY_WARNING:
 			_text->BeginStandardBullet (N_("standard/diamond"), 1, 50);
 			break;
-		case dcp::VerificationNote::ERROR:
+		case dcp::VerificationNote::VERIFY_NOTE:
 			_text->BeginSymbolBullet (N_("!"), 1, 50);
 			break;
 		}
@@ -68,11 +68,11 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, list<dcp::VerificationNote> 
 		_text->Newline ();
 
 		switch (i.type()) {
-		case dcp::VerificationNote::NOTE:
-		case dcp::VerificationNote::WARNING:
+		case dcp::VerificationNote::VERIFY_NOTE:
+		case dcp::VerificationNote::VERIFY_WARNING:
 			_text->EndStandardBullet ();
 			break;
-		case dcp::VerificationNote::ERROR:
+		case dcp::VerificationNote::VERIFY_ERROR:
 			_text->EndSymbolBullet ();
 			break;
 		}
