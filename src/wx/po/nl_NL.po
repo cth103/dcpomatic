@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-17 10:22+0000\n"
-"PO-Revision-Date: 2018-02-01 02:16+0100\n"
+"PO-Revision-Date: 2018-03-21 02:30+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.12\n"
+"X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/wx/subtitle_panel.cc:72 src/wx/subtitle_panel.cc:82
@@ -387,9 +387,8 @@ msgid "Cannot reference this DCP.  "
 msgstr "Kan niet aan deze DCP refereren."
 
 #: src/wx/recreate_chain_dialog.cc:31
-#, fuzzy
 msgid "Certificate chain"
-msgstr "Maak certificaat-keten"
+msgstr "Certificaat-keten"
 
 #: src/wx/dolby_doremi_certificate_panel.cc:204
 msgid "Certificate downloaded"
@@ -665,9 +664,8 @@ msgid "Details..."
 msgstr "Details..."
 
 #: src/wx/recreate_chain_dialog.cc:31
-#, fuzzy
 msgid "Do nothing"
-msgstr "Gladstrijken"
+msgstr "Doe niets"
 
 #: src/wx/download_certificate_dialog.cc:37
 msgid "Dolby / Doremi"
@@ -1536,9 +1534,8 @@ msgid "Recipient certificate"
 msgstr "Ontvanger-certificaat"
 
 #: src/wx/recreate_chain_dialog.cc:31
-#, fuzzy
 msgid "Recreate signing certificates"
-msgstr "Ontvanger-certificaat"
+msgstr "Maak ondertekenings-certificaten opnieuw"
 
 #: src/wx/isdcf_metadata_dialog.cc:64
 msgid "Red band"
@@ -1936,6 +1933,12 @@ msgid ""
 "you want to re-create\n"
 "the certificate chain for signing DCPs and KDMs?"
 msgstr ""
+"De certificaat-keten die DCP-o-matic gebruikt voor het ondertekenen van "
+"DCP's en KDM's bevat\n"
+"een kleine fout die ervoor zorgt dat DCP's als incorrect worden gevalideerd "
+"op sommige systemen.\n"
+"Wilt u de certificaat-keten voor het ondertekenen van DCP's en KDM's opnieuw "
+"aanmaken?"
 
 #: src/wx/content_menu.cc:360
 msgid ""
