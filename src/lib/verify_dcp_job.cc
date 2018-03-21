@@ -26,6 +26,7 @@
 using std::string;
 using std::vector;
 using boost::shared_ptr;
+using boost::optional;
 
 VerifyDCPJob::VerifyDCPJob (vector<boost::filesystem::path> directories)
 	: Job (shared_ptr<Film>())
@@ -47,9 +48,18 @@ VerifyDCPJob::json_name () const
 }
 
 void
+VerifyDCPJob::update_stage (string s, optional<boost::filesystem::path> path)
+{
+	if (path) {
+		s += ": " + path->string();
+	}
+	sub (s);
+}
+
+void
 VerifyDCPJob::run ()
 {
-	_notes = dcp::verify (_directories);
+	_notes = dcp::verify (_directories, bind (&VerifyDCPJob::update_stage, this, _1, _2), bind (&VerifyDCPJob::set_progress, this, _1, false));
 
 	bool failed = false;
 	BOOST_FOREACH (dcp::VerificationNote i, _notes) {
