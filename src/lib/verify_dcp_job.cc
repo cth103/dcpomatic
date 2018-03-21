@@ -53,7 +53,7 @@ VerifyDCPJob::run ()
 
 	bool failed = false;
 	BOOST_FOREACH (dcp::VerificationNote i, _notes) {
-		if (i.type() == dcp::VerificationNote::ERROR) {
+		if (i.type() == dcp::VerificationNote::VERIFY_ERROR) {
 			failed = true;
 		}
 	}

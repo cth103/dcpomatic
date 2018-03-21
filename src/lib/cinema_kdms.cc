@@ -131,15 +131,14 @@ CinemaKDMs::write_directories (
 
 	int written = 0;
 
-	if (!boost::filesystem::exists (directory)) {
-		boost::filesystem::create_directories (directory);
-	}
-
 	BOOST_FOREACH (CinemaKDMs const & i, cinema_kdms) {
 		boost::filesystem::path path = directory;
 		name_values['c'] = i.cinema->name;
 		path /= container_name_format.get(name_values, "");
-		ScreenKDM::write_files (i.screen_kdms, path, filename_format, name_values, confirm_overwrite);
+		if (!boost::filesystem::exists (path) || confirm_overwrite (path)) {
+			boost::filesystem::create_directories (path);
+			ScreenKDM::write_files (i.screen_kdms, path, filename_format, name_values, confirm_overwrite);
+		}
 		written += i.screen_kdms.size();
 	}
 
@@ -161,10 +160,6 @@ CinemaKDMs::write_zip_files (
 	name_values['s'] = "";
 
 	int written = 0;
-
-	if (!boost::filesystem::exists (directory)) {
-		boost::filesystem::create_directories (directory);
-	}
 
 	BOOST_FOREACH (CinemaKDMs const & i, cinema_kdms) {
 		boost::filesystem::path path = directory;
