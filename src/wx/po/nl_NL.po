@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 16:50+0000\n"
-"PO-Revision-Date: 2018-02-01 02:16+0100\n"
+"POT-Creation-Date: 2018-03-17 10:22+0000\n"
+"PO-Revision-Date: 2018-03-21 02:30+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.12\n"
+"X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/wx/subtitle_panel.cc:72 src/wx/subtitle_panel.cc:82
@@ -386,6 +386,10 @@ msgstr "Annuleer"
 msgid "Cannot reference this DCP.  "
 msgstr "Kan niet aan deze DCP refereren."
 
+#: src/wx/recreate_chain_dialog.cc:31
+msgid "Certificate chain"
+msgstr "Certificaat-keten"
+
 #: src/wx/dolby_doremi_certificate_panel.cc:204
 msgid "Certificate downloaded"
 msgstr "Certificaat gedownload"
@@ -658,6 +662,10 @@ msgstr "Vertraging"
 #: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:62
 msgid "Details..."
 msgstr "Details..."
+
+#: src/wx/recreate_chain_dialog.cc:31
+msgid "Do nothing"
+msgstr "Doe niets"
 
 #: src/wx/download_certificate_dialog.cc:37
 msgid "Dolby / Doremi"
@@ -1525,6 +1533,10 @@ msgstr "Rec. 709"
 msgid "Recipient certificate"
 msgstr "Ontvanger-certificaat"
 
+#: src/wx/recreate_chain_dialog.cc:31
+msgid "Recreate signing certificates"
+msgstr "Maak ondertekenings-certificaten opnieuw"
+
 #: src/wx/isdcf_metadata_dialog.cc:64
 msgid "Red band"
 msgstr "Red band"
@@ -1912,6 +1924,21 @@ msgstr "Getest door"
 #: src/wx/kdm_timing_panel.cc:114
 msgid "The 'until' time must be after the 'from' time."
 msgstr "De 'tot'-tijd moet na de 'van'-tijd zijn."
+
+#: src/wx/recreate_chain_dialog.cc:33
+msgid ""
+"The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
+"contains a small error\n"
+"which will prevent DCPs from being validated correctly on some systems.  Do "
+"you want to re-create\n"
+"the certificate chain for signing DCPs and KDMs?"
+msgstr ""
+"De certificaat-keten die DCP-o-matic gebruikt voor het ondertekenen van "
+"DCP's en KDM's bevat\n"
+"een kleine fout die ervoor zorgt dat DCP's als incorrect worden gevalideerd "
+"op sommige systemen.\n"
+"Wilt u de certificaat-keten voor het ondertekenen van DCP's en KDM's opnieuw "
+"aanmaken?"
 
 #: src/wx/content_menu.cc:360
 msgid ""

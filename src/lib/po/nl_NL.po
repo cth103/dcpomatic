@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 16:50+0000\n"
-"PO-Revision-Date: 2018-01-06 01:40+0100\n"
+"POT-Creation-Date: 2018-03-17 10:22+0000\n"
+"PO-Revision-Date: 2018-03-21 02:02+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.12\n"
+"X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/video_content.cc:448
@@ -300,7 +300,11 @@ msgstr "Geannuleerd"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kan pixelformaat %1 niet verwerken tijdens %2"
 
-#: src/lib/util.cc:513
+#: src/lib/film.cc:1220
+msgid "Cannot make a KDM as this project is not encrypted."
+msgstr "Kan geen KDM maken omdat dit project niet is versleuteld."
+
+#: src/lib/util.cc:514
 msgid "Centre"
 msgstr "Midden (C)"
 
@@ -1097,11 +1101,11 @@ msgstr "De DCP heeft niet ondertitels in alle reels."
 
 #: src/lib/exceptions.cc:73
 msgid "The certificate chain for signing is invalid"
-msgstr "De certificaatketen voor ondertekening is ongeldig"
+msgstr "De certificaat-keten voor ondertekening is ongeldig"
 
 #: src/lib/exceptions.cc:79
 msgid "The certificate chain for signing is invalid (%1)"
-msgstr "De certificaatketen voor ondertekening is ongeldig (%1)"
+msgstr "De certificaat-keten voor ondertekening is ongeldig (%1)"
 
 #: src/lib/job.cc:108
 msgid ""
@@ -1307,7 +1311,18 @@ msgstr ""
 "U gebruikt 3D-content, maar uw DCP is op 2D ingesteld.  Stel de DCP in op 3D "
 "als u hem wilt afspelen op een 3D-systeem (bv. Real-D, MasterImage etc.)"
 
-#: src/lib/hints.cc:138
+#: src/lib/hints.cc:82
+msgid ""
+"You are using DCP-o-matic's stereo-to-5.1 upmixer.  This is experimental and "
+"may result in poor-quality audio.  If you continue, you should listen to the "
+"resulting DCP in a cinema to make sure that it sounds good."
+msgstr ""
+"U gebruikt de stereo naar 5.1 up-mixer van DCP-o-matic.  Deze is "
+"experimenteel en kan leiden tot audio van slechte kwaliteit.  Als u "
+"doorgaat, kunt u beter in een bioscoop naar de resulterende DCP luisteren om "
+"er zeker van te zijn dat het goed klinkt."
+
+#: src/lib/hints.cc:144
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."

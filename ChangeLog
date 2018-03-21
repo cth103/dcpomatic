@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 2018-03-14  Carl Hetherington  <cth@carlh.net>
+=======
+2018-03-21  Carl Hetherington  <cth@carlh.net>
+
+	* Updated nl_NL translation from Rob van Nieuwkerk.
+
+2018-03-19  Carl Hetherington  <cth@carlh.net>
+>>>>>>> 15f3ff4... Updated nl_NL translation from Rob van Nieuwkerk.
 
 	* Better error when loading a non-certificate as a certificate.
 
