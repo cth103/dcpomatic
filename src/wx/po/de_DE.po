@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-17 10:22+0000\n"
-"PO-Revision-Date: 2018-02-03 02:01+0100\n"
+"PO-Revision-Date: 2018-03-22 19:07+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -391,9 +391,8 @@ msgid "Cannot reference this DCP.  "
 msgstr "Das DCP kann nicht eingebunden werden."
 
 #: src/wx/recreate_chain_dialog.cc:31
-#, fuzzy
 msgid "Certificate chain"
-msgstr "Zertifikatskette erzeugen"
+msgstr "Zertifikatskette"
 
 #: src/wx/dolby_doremi_certificate_panel.cc:204
 msgid "Certificate downloaded"
@@ -669,9 +668,8 @@ msgid "Details..."
 msgstr "Details..."
 
 #: src/wx/recreate_chain_dialog.cc:31
-#, fuzzy
 msgid "Do nothing"
-msgstr "Glätten"
+msgstr "Vorläufig nichts tun."
 
 #: src/wx/download_certificate_dialog.cc:37
 msgid "Dolby / Doremi"
@@ -1292,7 +1290,8 @@ msgstr "Benötigt KDM:"
 msgid "NEEDS OV: "
 msgstr "Benötigt OV:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Name"
 
@@ -1554,9 +1553,8 @@ msgid "Recipient certificate"
 msgstr "Serverzertifikat"
 
 #: src/wx/recreate_chain_dialog.cc:31
-#, fuzzy
 msgid "Recreate signing certificates"
-msgstr "Serverzertifikat"
+msgstr "Serverzertifikate für Signaturen neu erzeugen"
 
 #: src/wx/isdcf_metadata_dialog.cc:64
 msgid "Red band"
@@ -1956,11 +1954,16 @@ msgid ""
 "you want to re-create\n"
 "the certificate chain for signing DCPs and KDMs?"
 msgstr ""
-"Die Zertifikatskette, die bisher von DCP-o-matic zum Signieren von DCPs und KDMs benutzt wird, enthält einen kleinen formalen Fehler,\n"
-"der auf manchen DCI Servern oder Testsystemen eine Validierung von DCPs verhindern kann.\n"
-"Soll DCP-o-matic diese Signaturzertifikate neu erzeugen und diesen Fehler beheben?\n"
-"In der überwiegenden Mehrzahl der Fälle wird dieser Schritt keinerlei negative Konsequenzen haben."
-"Dies hat nur Auswirkungen auf Signaturen, nicht auf die Verschlüsselung existierender DCPs."
+"Die Zertifikatskette, die bisher von DCP-o-matic zum Signieren von DCPs und "
+"KDMs verwendet wurde, enthält einen kleinen formalen Fehler,\n"
+"der auf manchen DCI Servern oder Testsystemen eine Validierung von DCPs "
+"verhindern kann.\n"
+"Soll DCP-o-matic diese Signaturzertifikate neu erzeugen und damit diesen "
+"Fehler beheben?\n"
+"In der überwiegenden Mehrzahl der Installationen wird dieser Schritt keine "
+"negativen Konsequenzen haben.\n"
+"Dies hat ohnehin nur Auswirkungen auf Signaturen, nicht auf die "
+"Verschlüsselung existierender DCPs."
 
 #: src/wx/content_menu.cc:360
 msgid ""

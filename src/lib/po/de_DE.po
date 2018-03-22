@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-17 10:22+0000\n"
-"PO-Revision-Date: 2018-02-03 01:55+0100\n"
+"PO-Revision-Date: 2018-03-22 19:00+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -307,6 +307,8 @@ msgstr "Kann dieses Pixelformat %1 während %2 nicht bearbeiten"
 #: src/lib/film.cc:1220
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
+"KDM Erzeugung nicht möglich, da dieses Projekt keine Verschlüsselung "
+"verwendet!"
 
 #: src/lib/util.cc:514
 msgid "Centre"
@@ -1341,6 +1343,10 @@ msgid ""
 "may result in poor-quality audio.  If you continue, you should listen to the "
 "resulting DCP in a cinema to make sure that it sounds good."
 msgstr ""
+"Sie haben einen Stero-5.1 Upmixer im Projekt aktiviert. Diese Funktion ist "
+"experimentell und kann zu unerwünschten Resultaten führen. Sie sollten "
+"dieses DCP nach der Erzeugung in einer voll surroundfähigen Abhörumgebung "
+"testen, bevor Sie es zur Verbreitung frei geben!"
 
 #: src/lib/hints.cc:144
 msgid ""
