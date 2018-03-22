@@ -189,10 +189,13 @@ a long (several-minute) delay while OS X checks the code for viruses and
 other malware.  Please be patient!
 EOF
     cat<<EOF > "$vol_name/READ ME.de_DE.txt"
-Beim erstmaligen Start der DCP-o-matic Anwendungen kann ein längerer Verifikationsvorgang auftreten.
-Dies ist von der OS X Sicherheitsumgebung 'Gatekeeper' verursacht.
-Dieser je nach Rechner teils minutenlange Verifikationsvorgang ist gegenwärtig normal und nicht zu umgehen, es ist kein Programmfehler.
-Warten sie die Verifikation für jede der DCP-o-matic Anwendungen ab, bei weiteren Programmstarts wird sie nicht mehr auftreten.
+Beim erstmaligen Start der DCP-o-matic Anwendungen kann ein längerer
+Verifikationsvorgang auftreten.  Dies ist von der OS X Sicherheitsumgebung
+'Gatekeeper' verursacht.  Dieser je nach Rechner teils minutenlange
+Verifikationsvorgang ist gegenwärtig normal und nicht zu umgehen,
+es ist kein Programmfehler.  Warten sie die Verifikation für jede der
+DCP-o-matic Anwendungen ab, bei weiteren Programmstarts wird sie nicht
+mehr auftreten.
 EOF
 
     rm -f $tmp_dmg "$dmg"
