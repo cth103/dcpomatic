@@ -133,6 +133,30 @@ get_hints (shared_ptr<const Film> film)
 		hints.push_back (h);
 	}
 
+	optional<double> lowest_speed_up;
+	optional<double> highest_speed_up;
+	BOOST_FOREACH (shared_ptr<const Content> i, content) {
+		double spu = film->active_frame_rate_change(i->position()).speed_up;
+		if (!lowest_speed_up || spu < *lowest_speed_up) {
+			lowest_speed_up = spu;
+		}
+		if (!highest_speed_up || spu > *highest_speed_up) {
+			highest_speed_up = spu;
+		}
+	}
+
+	double worst_speed_up = 1;
+	if (highest_speed_up) {
+		worst_speed_up = *highest_speed_up;
+	}
+	if (lowest_speed_up) {
+		worst_speed_up = max (worst_speed_up, 1 / *lowest_speed_up);
+	}
+
+	if (worst_speed_up > 25.5/24.0) {
+		hints.push_back (_("There is a large difference between the frame rate of your DCP and that of some of your content.  This will cause your audio to play back at a much lower or higher pitch than it should.  You are advised to set your DCP frame rate to one closer to your content, provided that your target projection systems support your chosen DCP rate."));
+	}
+
 	int vob = 0;
 	BOOST_FOREACH (shared_ptr<const Content> i, content) {
 		if (boost::algorithm::starts_with (i->path(0).filename().string(), "VTS_")) {

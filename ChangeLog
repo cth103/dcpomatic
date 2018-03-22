@@ -1,3 +1,8 @@
+2018-03-22  Carl Hetherington  <cth@carlh.net>
+
+	* Add hint about making a DCP with a very different frame rate
+	to the content.
+
 2018-03-21  Carl Hetherington  <cth@carlh.net>
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.
