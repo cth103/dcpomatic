@@ -1956,6 +1956,11 @@ msgid ""
 "you want to re-create\n"
 "the certificate chain for signing DCPs and KDMs?"
 msgstr ""
+"Die Zertifikatskette, die bisher von DCP-o-matic zum Signieren von DCPs und KDMs benutzt wird, enthält einen kleinen formalen Fehler,\n"
+"der auf manchen DCI Servern oder Testsystemen eine Validierung von DCPs verhindern kann.\n"
+"Soll DCP-o-matic diese Signaturzertifikate neu erzeugen und diesen Fehler beheben?\n"
+"In der überwiegenden Mehrzahl der Fälle wird dieser Schritt keinerlei negative Konsequenzen haben."
+"Dies hat nur Auswirkungen auf Signaturen, nicht auf die Verschlüsselung existierender DCPs."
 
 #: src/wx/content_menu.cc:360
 msgid ""
