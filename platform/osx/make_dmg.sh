@@ -206,7 +206,7 @@ EOF
 
     echo '
   tell application "Finder"
-    tell disk "$vol_name"
+    tell disk "'$vol_name'"
            open
            set current view of container window to icon view
            set toolbar visible of container window to false
@@ -215,7 +215,7 @@ EOF
            set theViewOptions to the icon view options of container window
            set arrangement of theViewOptions to not arranged
            set icon size of theViewOptions to 64
-           set position of item "$appdir" of container window to {90, 80}
+           set position of item "'$appdir'" of container window to {90, 80}
            set position of item "Applications" of container window to {265, 80}
            set position of item "READ ME.txt" of container window to {430, 80}
            set position of item "READ ME.de_DE.txt" of container window to {595, 80}
