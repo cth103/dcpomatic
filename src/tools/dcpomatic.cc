@@ -427,7 +427,11 @@ private:
 		int const r = d->ShowModal ();
 
 		if (r == wxID_OK && d->check_path() && maybe_save_then_delete_film<FilmChangedClosingDialog>()) {
-			new_film (d->path(), d->template_name());
+			try {
+				new_film (d->path(), d->template_name());
+			} catch (boost::filesystem::filesystem_error& e) {
+				error_dialog (this, _("Could not create folder to store film"), std_to_wx(e.what()));
+			}
 		}
 
 		d->Destroy ();
