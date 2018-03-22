@@ -52,7 +52,7 @@ WriteFileError::WriteFileError (boost::filesystem::path f, int e)
 }
 
 MissingSettingError::MissingSettingError (string s)
-	: SettingError (s, String::compose (_("missing required setting %1"), s))
+	: SettingError (s, String::compose (_("Missing required setting %1"), s))
 {
 
 }

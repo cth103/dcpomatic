@@ -293,7 +293,7 @@ void
 Film::make_dcp ()
 {
 	if (dcp_name().find ("/") != string::npos) {
-		throw BadSettingError (_("name"), _("cannot contain slashes"));
+		throw BadSettingError (_("name"), _("Cannot contain slashes"));
 	}
 
 	if (container() == 0) {
@@ -301,7 +301,7 @@ Film::make_dcp ()
 	}
 
 	if (content().empty()) {
-		throw runtime_error (_("you must add some content to the DCP before creating it"));
+		throw runtime_error (_("You must add some content to the DCP before creating it"));
 	}
 
 	if (dcp_content_type() == 0) {
@@ -318,10 +318,10 @@ Film::make_dcp ()
 		}
 		shared_ptr<const DCPContent> dcp = dynamic_pointer_cast<const DCPContent> (i);
 		if (dcp && dcp->needs_kdm()) {
-			throw runtime_error (_("some of your content needs a KDM"));
+			throw runtime_error (_("Some of your content needs a KDM"));
 		}
 		if (dcp && dcp->needs_assets()) {
-			throw runtime_error (_("some of your content needs an OV"));
+			throw runtime_error (_("Some of your content needs an OV"));
 		}
 	}
 
