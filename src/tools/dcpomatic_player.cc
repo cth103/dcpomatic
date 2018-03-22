@@ -30,6 +30,7 @@
 #include "lib/subtitle_content.h"
 #include "lib/ratio.h"
 #include "lib/verify_dcp_job.h"
+#include "lib/dcp_examiner.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/about_dialog.h"
@@ -55,8 +56,11 @@
 #undef check
 #endif
 
+#define MAX_CPLS 32
+
 using std::string;
 using std::cout;
+using std::list;
 using std::exception;
 using std::vector;
 using boost::shared_ptr;
@@ -70,7 +74,9 @@ enum {
 	ID_file_history,
 	/* Allow spare IDs after _history for the recent files list */
 	ID_file_close = 100,
-	ID_view_scale_appropriate,
+	ID_view_cpl,
+	/* Allow spare IDs for CPLs */
+	ID_view_scale_appropriate = 200,
 	ID_view_scale_full,
 	ID_view_scale_half,
 	ID_view_scale_quarter,
@@ -118,7 +124,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_close, this), ID_file_close);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_exit, this), wxID_EXIT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_preferences, this), wxID_PREFERENCES);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>()), ID_view_scale_appropriate);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_cpl, this, _1), ID_view_cpl, ID_view_cpl + MAX_CPLS);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>(0)), ID_view_scale_full);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>(1)), ID_view_scale_half);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>(2)), ID_view_scale_quarter);
@@ -206,6 +212,20 @@ public:
 		Config::instance()->add_to_player_history (dir);
 
 		set_menu_sensitivity ();
+
+		wxMenuItemList old = _cpl_menu->GetMenuItems();
+		for (wxMenuItemList::iterator i = old.begin(); i != old.end(); ++i) {
+			_cpl_menu->Remove (*i);
+		}
+
+		DCPExaminer ex (dcp);
+		int id = ID_view_cpl;
+		BOOST_FOREACH (shared_ptr<dcp::CPL> i, ex.cpls()) {
+			wxMenuItem* j = _cpl_menu->AppendRadioItem(id, i->id());
+			if (!dcp->cpl() || i->id() == *dcp->cpl()) {
+				j->Check(true);
+			}
+		}
 	}
 
 private:
@@ -236,8 +256,12 @@ private:
 		edit->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
 #endif
 
+		_cpl_menu = new wxMenu;
+
 		wxMenu* view = new wxMenu;
 		optional<int> c = Config::instance()->decode_reduction();
+		_view_cpl = view->Append(ID_view_cpl, _("CPL"), _cpl_menu);
+		view->AppendSeparator();
 		view->AppendRadioItem(ID_view_scale_appropriate, _("Set decode resolution to match display"))->Check(!static_cast<bool>(c));
 		view->AppendRadioItem(ID_view_scale_full, _("Decode at full resolution"))->Check(c && c.get() == 0);
 		view->AppendRadioItem(ID_view_scale_half, _("Decode at half resolution"))->Check(c && c.get() == 1);
@@ -380,6 +404,25 @@ private:
 		_config_dialog->Show (this);
 	}
 
+	void view_cpl (wxCommandEvent& ev)
+	{
+		shared_ptr<DCPContent> dcp = boost::dynamic_pointer_cast<DCPContent>(_film->content().front());
+		DCPOMATIC_ASSERT (dcp);
+		DCPExaminer ex (dcp);
+		int id = ev.GetId() - ID_view_cpl;
+		DCPOMATIC_ASSERT (id >= 0);
+		DCPOMATIC_ASSERT (id < int(ex.cpls().size()));
+		list<shared_ptr<dcp::CPL> > cpls = ex.cpls();
+		list<shared_ptr<dcp::CPL> >::iterator i = cpls.begin();
+		while (id > 0) {
+			++i;
+			--id;
+		}
+
+		dcp->set_cpl ((*i)->id());
+		dcp->examine (shared_ptr<Job>());
+	}
+
 	void tools_verify ()
 	{
 		shared_ptr<DCPContent> dcp = boost::dynamic_pointer_cast<DCPContent>(_film->content().front());
@@ -507,12 +550,15 @@ private:
 		_tools_verify->Enable (static_cast<bool>(_film));
 		_file_add_ov->Enable (static_cast<bool>(_film));
 		_file_add_kdm->Enable (static_cast<bool>(_film));
+		_view_cpl->Enable (static_cast<bool>(_film));
 	}
 
 	bool _update_news_requested;
 	PlayerInformation* _info;
 	wxPreferencesEditor* _config_dialog;
 	wxMenu* _file_menu;
+	wxMenuItem* _view_cpl;
+	wxMenu* _cpl_menu;
 	int _history_items;
 	int _history_position;
 	wxMenuItem* _history_separator;

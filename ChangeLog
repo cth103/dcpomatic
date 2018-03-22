@@ -1,5 +1,7 @@
 2018-03-22  Carl Hetherington  <cth@carlh.net>
 
+	* Allow CPL selection in player (#1239).
+
 	* Add hint about making a DCP with a very different frame rate
 	to the content.
 
