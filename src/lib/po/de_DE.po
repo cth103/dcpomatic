@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 16:50+0000\n"
-"PO-Revision-Date: 2018-02-03 01:55+0100\n"
+"POT-Creation-Date: 2018-03-17 10:22+0000\n"
+"PO-Revision-Date: 2018-03-22 19:00+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -304,7 +304,13 @@ msgstr "Abbruch"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kann dieses Pixelformat %1 während %2 nicht bearbeiten"
 
-#: src/lib/util.cc:513
+#: src/lib/film.cc:1220
+msgid "Cannot make a KDM as this project is not encrypted."
+msgstr ""
+"KDM Erzeugung nicht möglich, da dieses Projekt keine Verschlüsselung "
+"verwendet!"
+
+#: src/lib/util.cc:514
 msgid "Centre"
 msgstr "Center"
 
@@ -1331,7 +1337,18 @@ msgstr ""
 "Sie ihre Inhalte in 3D wiedergeben wollen, wählen Sie unter dem DCP-Reiter "
 "'Bild' '3D DCP' aus. "
 
-#: src/lib/hints.cc:138
+#: src/lib/hints.cc:82
+msgid ""
+"You are using DCP-o-matic's stereo-to-5.1 upmixer.  This is experimental and "
+"may result in poor-quality audio.  If you continue, you should listen to the "
+"resulting DCP in a cinema to make sure that it sounds good."
+msgstr ""
+"Sie haben einen Stero-5.1 Upmixer im Projekt aktiviert. Diese Funktion ist "
+"experimentell und kann zu unerwünschten Resultaten führen. Sie sollten "
+"dieses DCP nach der Erzeugung in einer voll surroundfähigen Abhörumgebung "
+"testen, bevor Sie es zur Verbreitung frei geben!"
+
+#: src/lib/hints.cc:144
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
