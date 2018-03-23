@@ -66,6 +66,12 @@ public:
 		return _dropped;
 	}
 
+	void start ();
+	bool stop ();
+	bool playing () const {
+		return _playing;
+	}
+
 	int audio_callback (void* out, unsigned int frames);
 
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
@@ -100,8 +106,6 @@ private:
 	void recreate_butler ();
 	void config_changed (Config::Property);
 	DCPTime time () const;
-	void start ();
-	bool stop ();
 	Frame average_latency () const;
 	DCPTime one_video_frame () const;
 

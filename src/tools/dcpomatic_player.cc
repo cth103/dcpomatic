@@ -83,6 +83,8 @@ enum {
 	ID_help_report_a_problem,
 	ID_tools_verify,
 	ID_tools_check_for_updates,
+	/* IDs for shortcuts (with no associated menu item) */
+	ID_start_stop
 };
 
 class DOMFrame : public wxFrame
@@ -147,12 +149,21 @@ public:
 		overall_panel->SetSizer (main_sizer);
 
 #ifdef __WXOSX__
-		wxAcceleratorEntry* accel = new wxAcceleratorEntry[1];
-		accel[0].Set(wxACCEL_CTRL, static_cast<int>('W'), ID_file_close);
-		wxAcceleratorTable accel_table (1, accel);
+		int accelerators = 2;
+#else
+		int accelerators = 1;
+#endif
+
+		wxAcceleratorEntry* accel = new wxAcceleratorEntry[accelerators];
+		accel[0].Set(wxACCEL_NORMAL, WXK_SPACE, ID_start_stop);
+#ifdef __WXOSX__
+		accel[1].Set(wxACCEL_CTRL, static_cast<int>('W'), ID_file_close);
+#endif
+		wxAcceleratorTable accel_table (accelerators, accel);
 		SetAcceleratorTable (accel_table);
 		delete[] accel;
-#endif
+
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::start_stop_pressed, this), ID_start_stop);
 
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
 	}
@@ -551,6 +562,15 @@ private:
 		_file_add_ov->Enable (static_cast<bool>(_film));
 		_file_add_kdm->Enable (static_cast<bool>(_film));
 		_view_cpl->Enable (static_cast<bool>(_film));
+	}
+
+	void start_stop_pressed ()
+	{
+		if (_viewer->playing()) {
+			_viewer->stop();
+		} else {
+			_viewer->start();
+		}
 	}
 
 	bool _update_news_requested;

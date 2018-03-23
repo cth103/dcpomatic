@@ -218,7 +218,8 @@ enum {
 	ID_help_report_a_problem,
 	/* IDs for shortcuts (with no associated menu item) */
 	ID_add_file,
-	ID_remove
+	ID_remove,
+	ID_start_stop
 };
 
 class DOMFrame : public wxFrame
@@ -328,18 +329,20 @@ public:
 		overall_panel->SetSizer (main_sizer);
 
 #ifdef __WXOSX__
-		int accelerators = 3;
+		int accelerators = 4;
 #else
-		int accelerators = 2;
+		int accelerators = 3;
 #endif
 		wxAcceleratorEntry* accel = new wxAcceleratorEntry[accelerators];
 		accel[0].Set (wxACCEL_CTRL, static_cast<int>('A'), ID_add_file);
 		accel[1].Set (wxACCEL_NORMAL, WXK_DELETE, ID_remove);
+		accel[2].Set (wxACCEL_NORMAL, WXK_SPACE, ID_start_stop);
 #ifdef __WXOSX__
-		accel[2].Set (wxACCEL_CTRL, static_cast<int>('W'), wxID_EXIT);
+		accel[3].Set (wxACCEL_CTRL, static_cast<int>('W'), wxID_EXIT);
 #endif
 		Bind (wxEVT_MENU, boost::bind (&ContentPanel::add_file_clicked, _film_editor->content_panel()), ID_add_file);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::remove_clicked, this, _1), ID_remove);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::start_stop_pressed, this), ID_start_stop);
 		wxAcceleratorTable accel_table (accelerators, accel);
 		SetAcceleratorTable (accel_table);
 		delete[] accel;
@@ -1199,6 +1202,15 @@ private:
 		}
 
 		_update_news_requested = false;
+	}
+
+	void start_stop_pressed ()
+	{
+		if (_film_viewer->playing()) {
+			_film_viewer->stop();
+		} else {
+			_film_viewer->start();
+		}
 	}
 
 	FilmEditor* _film_editor;
