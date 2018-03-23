@@ -69,6 +69,7 @@ public:
 
 	void add_file_clicked ();
 	bool remove_clicked (bool hotkey);
+	void timeline_clicked ();
 
 	boost::signals2::signal<void (void)> SelectionChanged;
 
@@ -80,7 +81,6 @@ private:
 	void later_clicked ();
 	void right_click (wxListEvent &);
 	void files_dropped (wxDropFilesEvent &);
-	void timeline_clicked ();
 
 	void setup ();
 	void setup_sensitivity ();

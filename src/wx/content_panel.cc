@@ -409,6 +409,10 @@ ContentPanel::remove_clicked (bool hotkey)
 void
 ContentPanel::timeline_clicked ()
 {
+	if (!_film) {
+		return;
+	}
+
 	if (_timeline_dialog) {
 		_timeline_dialog->Destroy ();
 		_timeline_dialog = 0;
