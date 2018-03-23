@@ -580,7 +580,7 @@ FilmViewer::active_jobs_changed (optional<string> j)
 }
 
 DCPTime
-FilmViewer::nudge_amount (wxMouseEvent& ev)
+FilmViewer::nudge_amount (wxKeyboardState& ev)
 {
 	DCPTime amount = one_video_frame ();
 
@@ -619,17 +619,35 @@ FilmViewer::rewind_clicked (wxMouseEvent& ev)
 }
 
 void
-FilmViewer::back_clicked (wxMouseEvent& ev)
+FilmViewer::back_frame ()
 {
-	go_to (_video_position - nudge_amount (ev));
-	ev.Skip ();
+	if (!_film) {
+		return;
+	}
+
+	go_to (_video_position - one_video_frame());
 }
 
 void
-FilmViewer::forward_clicked (wxMouseEvent& ev)
+FilmViewer::forward_frame ()
+{
+	if (!_film) {
+		return;
+	}
+
+	go_to (_video_position + one_video_frame());
+}
+
+void
+FilmViewer::back_clicked (wxKeyboardState& ev)
+{
+	go_to (_video_position - nudge_amount (ev));
+}
+
+void
+FilmViewer::forward_clicked (wxKeyboardState& ev)
 {
 	go_to (_video_position + nudge_amount (ev));
-	ev.Skip ();
 }
 
 void

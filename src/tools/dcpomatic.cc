@@ -220,7 +220,9 @@ enum {
 	ID_add_file,
 	ID_remove,
 	ID_start_stop,
-	ID_timeline
+	ID_timeline,
+	ID_back_frame,
+	ID_forward_frame
 };
 
 class DOMFrame : public wxFrame
@@ -330,22 +332,26 @@ public:
 		overall_panel->SetSizer (main_sizer);
 
 #ifdef __WXOSX__
-		int accelerators = 5;
+		int accelerators = 7;
 #else
-		int accelerators = 4;
+		int accelerators = 6;
 #endif
 		wxAcceleratorEntry* accel = new wxAcceleratorEntry[accelerators];
 		accel[0].Set (wxACCEL_CTRL, static_cast<int>('A'), ID_add_file);
 		accel[1].Set (wxACCEL_NORMAL, WXK_DELETE, ID_remove);
 		accel[2].Set (wxACCEL_NORMAL, WXK_SPACE, ID_start_stop);
 		accel[3].Set (wxACCEL_CTRL, static_cast<int>('T'), ID_timeline);
+		accel[4].Set (wxACCEL_NORMAL, WXK_LEFT, ID_back_frame);
+		accel[5].Set (wxACCEL_NORMAL, WXK_RIGHT, ID_forward_frame);
 #ifdef __WXOSX__
-		accel[4].Set (wxACCEL_CTRL, static_cast<int>('W'), wxID_EXIT);
+		accel[6].Set (wxACCEL_CTRL, static_cast<int>('W'), wxID_EXIT);
 #endif
 		Bind (wxEVT_MENU, boost::bind (&ContentPanel::add_file_clicked, _film_editor->content_panel()), ID_add_file);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::remove_clicked, this, _1), ID_remove);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::start_stop_pressed, this), ID_start_stop);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::timeline_pressed, this), ID_timeline);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::back_frame, this), ID_back_frame);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::forward_frame, this), ID_forward_frame);
 		wxAcceleratorTable accel_table (accelerators, accel);
 		SetAcceleratorTable (accel_table);
 		delete[] accel;
@@ -1219,6 +1225,16 @@ private:
 	void timeline_pressed ()
 	{
 		_film_editor->content_panel()->timeline_clicked ();
+	}
+
+	void back_frame ()
+	{
+		_film_viewer->back_frame ();
+	}
+
+	void forward_frame ()
+	{
+		_film_viewer->forward_frame ();
 	}
 
 	FilmEditor* _film_editor;

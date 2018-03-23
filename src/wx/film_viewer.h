@@ -72,6 +72,9 @@ public:
 		return _playing;
 	}
 
+	void back_frame ();
+	void forward_frame ();
+
 	int audio_callback (void* out, unsigned int frames);
 
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
@@ -87,8 +90,8 @@ private:
 	void check_play_state ();
 	void active_jobs_changed (boost::optional<std::string>);
 	void rewind_clicked (wxMouseEvent &);
-	void back_clicked (wxMouseEvent &);
-	void forward_clicked (wxMouseEvent &);
+	void back_clicked (wxKeyboardState& s);
+	void forward_clicked (wxKeyboardState &);
 	void player_changed (int, bool);
 	void update_position_label ();
 	void update_position_slider ();
@@ -98,7 +101,7 @@ private:
 	void refresh_panel ();
 	void setup_sensitivity ();
 	void film_changed (Film::Property);
-	DCPTime nudge_amount (wxMouseEvent &);
+	DCPTime nudge_amount (wxKeyboardState &);
 	void timecode_clicked ();
 	void frame_number_clicked ();
 	void go_to (DCPTime t);
