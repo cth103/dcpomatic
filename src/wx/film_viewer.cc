@@ -505,6 +505,10 @@ FilmViewer::check_play_state ()
 void
 FilmViewer::start ()
 {
+	if (!_film) {
+		return;
+	}
+
 	if (_audio.isStreamOpen()) {
 		_audio.setStreamTime (_video_position.seconds());
 		_audio.startStream ();
