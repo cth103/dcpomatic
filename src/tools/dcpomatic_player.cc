@@ -84,7 +84,9 @@ enum {
 	ID_tools_verify,
 	ID_tools_check_for_updates,
 	/* IDs for shortcuts (with no associated menu item) */
-	ID_start_stop
+	ID_start_stop,
+	ID_back_frame,
+	ID_forward_frame
 };
 
 class DOMFrame : public wxFrame
@@ -149,21 +151,25 @@ public:
 		overall_panel->SetSizer (main_sizer);
 
 #ifdef __WXOSX__
-		int accelerators = 2;
+		int accelerators = 4;
 #else
-		int accelerators = 1;
+		int accelerators = 3;
 #endif
 
 		wxAcceleratorEntry* accel = new wxAcceleratorEntry[accelerators];
 		accel[0].Set(wxACCEL_NORMAL, WXK_SPACE, ID_start_stop);
+		accel[1].Set(wxACCEL_NORMAL, WXK_LEFT, ID_back_frame);
+		accel[2].Set(wxACCEL_NORMAL, WXK_RIGHT, ID_forward_frame);
 #ifdef __WXOSX__
-		accel[1].Set(wxACCEL_CTRL, static_cast<int>('W'), ID_file_close);
+		accel[3].Set(wxACCEL_CTRL, static_cast<int>('W'), ID_file_close);
 #endif
 		wxAcceleratorTable accel_table (accelerators, accel);
 		SetAcceleratorTable (accel_table);
 		delete[] accel;
 
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::start_stop_pressed, this), ID_start_stop);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::back_frame, this), ID_back_frame);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::forward_frame, this), ID_forward_frame);
 
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
 	}
@@ -571,6 +577,16 @@ private:
 		} else {
 			_viewer->start();
 		}
+	}
+
+	void back_frame ()
+	{
+		_viewer->back_frame ();
+	}
+
+	void forward_frame ()
+	{
+		_viewer->forward_frame ();
 	}
 
 	bool _update_news_requested;
