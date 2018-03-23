@@ -29,7 +29,7 @@ from waflib import Logs, Context
 APPNAME = 'dcpomatic'
 
 this_version = subprocess.Popen(shlex.split('git tag -l --points-at HEAD'), stdout=subprocess.PIPE).communicate()[0]
-last_version = subprocess.Popen(shlex.split('git describe --abbrev=0'), stdout=subprocess.PIPE).communicate()[0]
+last_version = subprocess.Popen(shlex.split('git describe --tags --abbrev=0'), stdout=subprocess.PIPE).communicate()[0]
 
 if this_version == '':
     VERSION = '%sdevel' % last_version[1:].strip()
@@ -41,7 +41,7 @@ print('Version: %s' % VERSION)
 def options(opt):
     opt.load('compiler_cxx')
     opt.load('winres')
-    
+
     opt.add_option('--enable-debug',      action='store_true', default=False, help='build with debugging information and without optimisation')
     opt.add_option('--disable-gui',       action='store_true', default=False, help='disable building of GUI tools')
     opt.add_option('--disable-tests',     action='store_true', default=False, help='disable building of tests')
