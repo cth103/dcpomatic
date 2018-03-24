@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 16:50+0000\n"
-"PO-Revision-Date: 2018-02-24 14:54+0100\n"
+"POT-Creation-Date: 2018-03-17 10:22+0000\n"
+"PO-Revision-Date: 2018-03-24 16:21+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -384,6 +384,10 @@ msgstr "Annuler"
 msgid "Cannot reference this DCP.  "
 msgstr "Ne peut pas se référer à ce DCP"
 
+#: src/wx/recreate_chain_dialog.cc:31
+msgid "Certificate chain"
+msgstr "Chaîne de certificat"
+
 #: src/wx/dolby_doremi_certificate_panel.cc:204
 msgid "Certificate downloaded"
 msgstr "Certificat téléchargé"
@@ -657,6 +661,10 @@ msgstr "Délai"
 #: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:62
 msgid "Details..."
 msgstr "Détails..."
+
+#: src/wx/recreate_chain_dialog.cc:31
+msgid "Do nothing"
+msgstr "Ne rien faire"
 
 #: src/wx/download_certificate_dialog.cc:37
 msgid "Dolby / Doremi"
@@ -1526,6 +1534,10 @@ msgstr "Rec. 709"
 msgid "Recipient certificate"
 msgstr "Certificat récipient"
 
+#: src/wx/recreate_chain_dialog.cc:31
+msgid "Recreate signing certificates"
+msgstr "Recréer les Certificats"
+
 #: src/wx/isdcf_metadata_dialog.cc:64
 msgid "Red band"
 msgstr "Red Band"
@@ -1913,6 +1925,20 @@ msgstr "Testé par"
 #: src/wx/kdm_timing_panel.cc:114
 msgid "The 'until' time must be after the 'from' time."
 msgstr "la date de fin doit logiquement être plus tardive que la date de début"
+
+#: src/wx/recreate_chain_dialog.cc:33
+msgid ""
+"The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
+"contains a small error\n"
+"which will prevent DCPs from being validated correctly on some systems.  Do "
+"you want to re-create\n"
+"the certificate chain for signing DCPs and KDMs?"
+msgstr ""
+"La chaîne de certificat que DCP-o-matic utilise pour signer les DCPs et KDMs "
+"contient une petite erreur\n"
+"qui peut enpecher des DCPs d'être validé correctement sur certains "
+"systèmes.  Souhaitez-vous recréer\n"
+"la chaîne de certificats pour signer les DCPs et KDMs?"
 
 #: src/wx/content_menu.cc:360
 msgid ""
