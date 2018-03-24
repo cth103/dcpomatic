@@ -1,5 +1,8 @@
 2018-03-24  Carl Hetherington  <cth@carlh.net>
 
+	* Fix update checker error when there is no test
+	version.
+
 	* Updated fr_FR translation from Thierry Journet.
 
 2018-03-22  Carl Hetherington  <cth@carlh.net>
