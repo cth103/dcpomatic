@@ -1,5 +1,7 @@
 2018-03-24  Carl Hetherington  <cth@carlh.net>
 
+	* Fix crash when changing DCP audio channel count (#1253).
+
 	* Fix update checker error when there is no test
 	version.
 
