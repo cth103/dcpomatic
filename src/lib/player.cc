@@ -283,6 +283,8 @@ Player::film_changed (Film::Property p)
 		if (_film->audio_processor ()) {
 			_audio_processor = _film->audio_processor()->clone (_film->audio_frame_rate ());
 		}
+	} else if (p == Film::AUDIO_CHANNELS) {
+		_audio_merger.clear ();
 	}
 }
 
