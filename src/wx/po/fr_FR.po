@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-17 10:22+0000\n"
-"PO-Revision-Date: 2018-02-24 14:54+0100\n"
+"PO-Revision-Date: 2018-03-24 16:21+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -385,9 +385,8 @@ msgid "Cannot reference this DCP.  "
 msgstr "Ne peut pas se référer à ce DCP"
 
 #: src/wx/recreate_chain_dialog.cc:31
-#, fuzzy
 msgid "Certificate chain"
-msgstr "Créer chaîne de certificat"
+msgstr "Chaîne de certificat"
 
 #: src/wx/dolby_doremi_certificate_panel.cc:204
 msgid "Certificate downloaded"
@@ -664,9 +663,8 @@ msgid "Details..."
 msgstr "Détails..."
 
 #: src/wx/recreate_chain_dialog.cc:31
-#, fuzzy
 msgid "Do nothing"
-msgstr "Lissage"
+msgstr "Ne rien faire"
 
 #: src/wx/download_certificate_dialog.cc:37
 msgid "Dolby / Doremi"
@@ -1279,7 +1277,8 @@ msgstr "DEMANDE de KDM:"
 msgid "NEEDS OV: "
 msgstr "OV Nécessaire:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Nom"
 
@@ -1536,9 +1535,8 @@ msgid "Recipient certificate"
 msgstr "Certificat récipient"
 
 #: src/wx/recreate_chain_dialog.cc:31
-#, fuzzy
 msgid "Recreate signing certificates"
-msgstr "Certificat récipient"
+msgstr "Recréer les Certificats"
 
 #: src/wx/isdcf_metadata_dialog.cc:64
 msgid "Red band"
@@ -1936,6 +1934,11 @@ msgid ""
 "you want to re-create\n"
 "the certificate chain for signing DCPs and KDMs?"
 msgstr ""
+"La chaîne de certificat que DCP-o-matic utilise pour signer les DCPs et KDMs "
+"contient une petite erreur\n"
+"qui peut enpecher des DCPs d'être validé correctement sur certains "
+"systèmes.  Souhaitez-vous recréer\n"
+"la chaîne de certificats pour signer les DCPs et KDMs?"
 
 #: src/wx/content_menu.cc:360
 msgid ""

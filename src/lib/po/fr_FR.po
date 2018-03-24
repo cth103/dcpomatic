@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-17 10:22+0000\n"
-"PO-Revision-Date: 2018-02-24 14:30+0100\n"
+"PO-Revision-Date: 2018-03-24 16:17+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -300,7 +300,7 @@ msgstr "Format du pixel %1 non géré par %2"
 
 #: src/lib/film.cc:1220
 msgid "Cannot make a KDM as this project is not encrypted."
-msgstr ""
+msgstr "Fabrication d'une KDM impossible car ce projet n'est pas crypté."
 
 #: src/lib/util.cc:514
 msgid "Centre"
@@ -1306,6 +1306,9 @@ msgid ""
 "may result in poor-quality audio.  If you continue, you should listen to the "
 "resulting DCP in a cinema to make sure that it sounds good."
 msgstr ""
+"Vous utilisez le surmixeur stéréo vers 5.1 de DCP-o-matic. Cet outil est "
+"expérimental et un son de mauvaise qualité pourrait en résulter. Si vous "
+"continuez, essayez d'écouter le résultat dans un cinéma afin de vérifier."
 
 #: src/lib/hints.cc:144
 msgid ""
