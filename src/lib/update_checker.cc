@@ -161,7 +161,7 @@ UpdateChecker::thread ()
 				_stable = stable;
 			}
 
-			if (version_less_than (dcpomatic_version, test)) {
+			if (!test.empty() && version_less_than (dcpomatic_version, test)) {
 				_test = test;
 			}
 
