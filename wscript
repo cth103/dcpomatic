@@ -34,7 +34,7 @@ last_version = subprocess.Popen(shlex.split('git describe --tags --abbrev=0'), s
 if this_version == '':
     VERSION = '%sdevel' % last_version[1:].strip()
 else:
-VERSION = '2.13.2'
+VERSION = '2.13.2devel'
 
 print('Version: %s' % VERSION)
 
