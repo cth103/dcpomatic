@@ -85,7 +85,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 	_loudness_range = new wxStaticText (this, wxID_ANY, wxT (""));
 	left->Add (_loudness_range, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
 
-	lr_sizer->Add (left, 1, wxALL, 12);
+	lr_sizer->Add (left, 1, wxALL | wxEXPAND, 12);
 
 	wxBoxSizer* right = new wxBoxSizer (wxVERTICAL);
 
@@ -135,7 +135,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 
 	lr_sizer->Add (right, 0, wxALL, 12);
 
-	overall_sizer->Add (lr_sizer);
+	overall_sizer->Add (lr_sizer, 0, wxEXPAND);
 
 #ifdef DCPOMATIC_LINUX
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxCLOSE);
