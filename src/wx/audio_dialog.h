@@ -35,6 +35,8 @@ public:
 
 	bool Show (bool show = true);
 
+	void set_cursor (boost::optional<DCPTime> time, boost::optional<float> db);
+
 private:
 	void content_changed (int);
 	void channel_clicked (wxCommandEvent &);
@@ -49,6 +51,7 @@ private:
 	boost::weak_ptr<Content> _content;
 	int _channels;
 	boost::shared_ptr<const Playlist> _playlist;
+	wxStaticText* _cursor;
 	AudioPlot* _plot;
 	wxStaticText* _sample_peak;
 	wxStaticText* _true_peak;

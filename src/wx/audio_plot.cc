@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -32,10 +32,13 @@ using std::vector;
 using std::list;
 using std::max;
 using std::min;
+using std::map;
 using boost::bind;
+using boost::optional;
 using boost::shared_ptr;
 
 int const AudioPlot::_minimum = -70;
+int const AudioPlot::_cursor_size = 8;
 int const AudioPlot::max_smoothing = 128;
 
 AudioPlot::AudioPlot (wxWindow* parent)
@@ -80,6 +83,8 @@ AudioPlot::AudioPlot (wxWindow* parent)
 #endif
 
 	Bind (wxEVT_PAINT, boost::bind (&AudioPlot::paint, this));
+	Bind (wxEVT_MOTION, boost::bind (&AudioPlot::mouse_moved, this, _1));
+	Bind (wxEVT_LEAVE_WINDOW, boost::bind (&AudioPlot::mouse_leave, this, _1));
 
 	SetMinSize (wxSize (640, 512));
 }
@@ -239,6 +244,17 @@ AudioPlot::paint ()
 	gc->SetPen (wxPen (wxColour (0, 0, 0)));
 	gc->StrokePath (axes);
 
+	if (_cursor) {
+		wxGraphicsPath cursor = gc->CreatePath ();
+		cursor.MoveToPoint (_cursor->draw.x - _cursor_size / 2, _cursor->draw.y - _cursor_size / 2);
+		cursor.AddLineToPoint (_cursor->draw.x + _cursor_size / 2, _cursor->draw.y + _cursor_size / 2);
+		cursor.MoveToPoint (_cursor->draw.x + _cursor_size / 2, _cursor->draw.y - _cursor_size / 2);
+		cursor.AddLineToPoint (_cursor->draw.x - _cursor_size / 2, _cursor->draw.y + _cursor_size / 2);
+		gc->StrokePath (cursor);
+
+
+	}
+
 	delete gc;
 }
 
@@ -276,7 +292,7 @@ AudioPlot::plot_peak (wxGraphicsPath& path, int channel, Metrics const & metrics
 			Point (
 				wxPoint (metrics.db_label_width + i * metrics.x_scale, y_for_linear (peak, metrics)),
 				DCPTime::from_frames (i * _analysis->samples_per_point(), _analysis->sample_rate()),
-				peak
+				20 * log10(peak)
 				)
 			);
 	}
@@ -345,7 +361,7 @@ AudioPlot::plot_rms (wxGraphicsPath& path, int channel, Metrics const & metrics)
 			Point (
 				wxPoint (metrics.db_label_width + i * metrics.x_scale, y_for_linear (p, metrics)),
 				DCPTime::from_frames (i * _analysis->samples_per_point(), _analysis->sample_rate()),
-				p
+				20 * log10(p)
 				)
 			);
 	}
@@ -393,4 +409,47 @@ AudioPlot::colour (int n) const
 {
 	DCPOMATIC_ASSERT (n < int(_colours.size()));
 	return _colours[n];
+}
+
+void
+AudioPlot::search (map<int, PointList> const & search, wxMouseEvent const & ev, double& min_dist, Point& min_point) const
+{
+	for (map<int, PointList>::const_iterator i = search.begin(); i != search.end(); ++i) {
+		BOOST_FOREACH (Point const & j, i->second) {
+			double const dist = pow(ev.GetX() - j.draw.x, 2) + pow(ev.GetY() - j.draw.y, 2);
+			if (dist < min_dist) {
+				min_dist = dist;
+				min_point = j;
+			}
+		}
+	}
+}
+
+void
+AudioPlot::mouse_moved (wxMouseEvent& ev)
+{
+	double min_dist = DBL_MAX;
+	Point min_point;
+
+	search (_rms, ev, min_dist, min_point);
+	search (_peak, ev, min_dist, min_point);
+
+	_cursor = optional<Point> ();
+
+	if (min_dist < DBL_MAX) {
+		wxRect before (min_point.draw.x - _cursor_size / 2, min_point.draw.y - _cursor_size / 2, _cursor_size, _cursor_size);
+		GetParent()->Refresh (true, &before);
+		_cursor = min_point;
+		wxRect after (min_point.draw.x - _cursor_size / 2, min_point.draw.y - _cursor_size / 2, _cursor_size, _cursor_size);
+		GetParent()->Refresh (true, &after);
+		Cursor (min_point.time, min_point.db);
+	}
+}
+
+void
+AudioPlot::mouse_leave (wxMouseEvent &)
+{
+	_cursor = optional<Point> ();
+	Refresh ();
+	Cursor (optional<DCPTime>(), optional<float>());
 }

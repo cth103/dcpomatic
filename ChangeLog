@@ -1,5 +1,7 @@
 2018-03-26  Carl Hetherington  <cth@carlh.net>
 
+	* Add real-time mouse cursor readout in audio analysis (rest of #1082)
+
 	* Add time axis to audio analysis (part of #1082).
 
 	* Note: from this point in the ChangeLog release versions

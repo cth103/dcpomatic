@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -74,6 +74,8 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 
 	wxBoxSizer* left = new wxBoxSizer (wxVERTICAL);
 
+	_cursor = new wxStaticText (this, wxID_ANY, wxT("Cursor: none"));
+	left->Add (_cursor, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
 	_plot = new AudioPlot (this);
 	left->Add (_plot, 1, wxTOP | wxEXPAND, 12);
 	_sample_peak = new wxStaticText (this, wxID_ANY, wxT (""));
@@ -157,6 +159,8 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 	} else {
 		_playlist = film->playlist ();
 	}
+
+	_plot->Cursor.connect (bind (&AudioDialog::set_cursor, this, _1, _2));
 }
 
 void
@@ -382,4 +386,17 @@ AudioDialog::Show (bool show)
 	bool const r = wxDialog::Show (show);
 	try_to_load_analysis ();
 	return r;
+}
+
+void
+AudioDialog::set_cursor (optional<DCPTime> time, optional<float> db)
+{
+	if (!time || !db) {
+		_cursor->SetLabel (_("Cursor: none"));
+		return;
+	}
+
+	shared_ptr<Film> film = _film.lock();
+	DCPOMATIC_ASSERT (film);
+	_cursor->SetLabel (wxString::Format (_("Cursor: %.1fdB at %s"), *db, time->timecode(film->video_frame_rate())));
 }

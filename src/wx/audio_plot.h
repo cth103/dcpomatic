@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,12 @@
 
 */
 
-#include <vector>
-#include <boost/shared_ptr.hpp>
-#include <wx/wx.h>
 #include "lib/util.h"
 #include "lib/audio_analysis.h"
+#include <wx/wx.h>
+#include <boost/shared_ptr.hpp>
+#include <boost/signals2.hpp>
+#include <vector>
 
 struct Metrics;
 
@@ -40,24 +41,17 @@ public:
 
 	wxColour colour (int n) const;
 
+	boost::signals2::signal<void (boost::optional<DCPTime>, boost::optional<float>)> Cursor;
+
 	static const int max_smoothing;
 
 private:
-	void paint ();
-	void plot_peak (wxGraphicsPath &, int, Metrics const &) const;
-	void plot_rms (wxGraphicsPath &, int, Metrics const &) const;
-	float y_for_linear (float, Metrics const &) const;
-	AudioPoint get_point (int channel, int point) const;
-
-	boost::shared_ptr<AudioAnalysis> _analysis;
-	bool _channel_visible[MAX_DCP_AUDIO_CHANNELS];
-	bool _type_visible[AudioPoint::COUNT];
-	int _smoothing;
-	std::vector<wxColour> _colours;
-	wxString _message;
-	float _gain_correction;
 
 	struct Point {
+		Point ()
+			: db(0)
+		{}
+
 		Point (wxPoint draw_, DCPTime time_, float db_)
 			: draw(draw_)
 			, time(time_)
@@ -71,8 +65,28 @@ private:
 
 	typedef std::vector<Point> PointList;
 
+	void paint ();
+	void plot_peak (wxGraphicsPath &, int, Metrics const &) const;
+	void plot_rms (wxGraphicsPath &, int, Metrics const &) const;
+	float y_for_linear (float, Metrics const &) const;
+	AudioPoint get_point (int channel, int point) const;
+	void mouse_moved (wxMouseEvent& ev);
+	void mouse_leave (wxMouseEvent& ev);
+	void search (std::map<int, PointList> const & search, wxMouseEvent const & ev, double& min_dist, Point& min_point) const;
+
+	boost::shared_ptr<AudioAnalysis> _analysis;
+	bool _channel_visible[MAX_DCP_AUDIO_CHANNELS];
+	bool _type_visible[AudioPoint::COUNT];
+	int _smoothing;
+	std::vector<wxColour> _colours;
+	wxString _message;
+	float _gain_correction;
+
 	mutable std::map<int, PointList> _peak;
 	mutable std::map<int, PointList> _rms;
 
+	boost::optional<Point> _cursor;
+
 	static const int _minimum;
+	static const int _cursor_size;
 };
