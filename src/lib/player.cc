@@ -862,13 +862,13 @@ Player::image_subtitle_start (weak_ptr<Piece> wp, ContentImageSubtitle subtitle)
 	subtitle.sub.rectangle.x += piece->content->subtitle->x_offset ();
 	subtitle.sub.rectangle.y += piece->content->subtitle->y_offset ();
 
+	/* Apply a corrective translation to keep the subtitle centred after the scale that is coming up */
+	subtitle.sub.rectangle.x -= subtitle.sub.rectangle.width * ((piece->content->subtitle->x_scale() - 1) / 2);
+	subtitle.sub.rectangle.y -= subtitle.sub.rectangle.height * ((piece->content->subtitle->y_scale() - 1) / 2);
+
 	/* Apply content's subtitle scale */
 	subtitle.sub.rectangle.width *= piece->content->subtitle->x_scale ();
 	subtitle.sub.rectangle.height *= piece->content->subtitle->y_scale ();
-
-	/* Apply a corrective translation to keep the subtitle centred after that scale */
-	subtitle.sub.rectangle.x -= subtitle.sub.rectangle.width * (piece->content->subtitle->x_scale() - 1);
-	subtitle.sub.rectangle.y -= subtitle.sub.rectangle.height * (piece->content->subtitle->y_scale() - 1);
 
 	PlayerSubtitles ps;
 	ps.image.push_back (subtitle.sub);
