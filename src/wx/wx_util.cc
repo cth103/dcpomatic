@@ -414,3 +414,26 @@ path_from_file_dialog (wxFileDialog* dialog, string extension)
 {
 	return boost::filesystem::path(wx_to_std(dialog->GetPath())).replace_extension(extension);
 }
+
+double
+calculate_mark_interval (double mark_interval)
+{
+	if (mark_interval > 5) {
+		mark_interval -= lrint (mark_interval) % 5;
+	}
+	if (mark_interval > 10) {
+		mark_interval -= lrint (mark_interval) % 10;
+	}
+	if (mark_interval > 60) {
+		mark_interval -= lrint (mark_interval) % 60;
+	}
+	if (mark_interval > 3600) {
+		mark_interval -= lrint (mark_interval) % 3600;
+	}
+
+	if (mark_interval < 1) {
+		mark_interval = 1;
+	}
+
+	return mark_interval;
+}

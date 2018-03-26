@@ -122,7 +122,7 @@ struct Metrics
 	double db_label_width;
 	int height;
 	int y_origin;
-	float x_scale;
+	float x_scale; ///< pixels per data point
 	float y_scale;
 };
 
@@ -142,7 +142,7 @@ AudioPlot::paint ()
 		return;
 	}
 
-	wxGraphicsPath grid = gc->CreatePath ();
+	wxGraphicsPath h_grid = gc->CreatePath ();
 	gc->SetFont (gc->CreateFont (*wxSMALL_FONT));
 	wxDouble db_label_height;
 	wxDouble db_label_descent;
@@ -161,15 +161,59 @@ AudioPlot::paint ()
 
 	for (int i = _minimum; i <= 0; i += 10) {
 		int const y = (metrics.height - (i - _minimum) * metrics.y_scale) - metrics.y_origin;
-		grid.MoveToPoint (metrics.db_label_width - 4, y);
-		grid.AddLineToPoint (metrics.db_label_width + data_width, y);
+		h_grid.MoveToPoint (metrics.db_label_width - 4, y);
+		h_grid.AddLineToPoint (metrics.db_label_width + data_width, y);
 		gc->DrawText (std_to_wx (String::compose ("%1dB", i)), 0, y - (db_label_height / 2));
 	}
 
 	gc->SetPen (wxPen (wxColour (200, 200, 200)));
-	gc->StrokePath (grid);
+	gc->StrokePath (h_grid);
 
-	gc->DrawText (_("Time"), data_width, metrics.height - metrics.y_origin + db_label_height / 2);
+	if (_analysis->samples_per_point() && _analysis->sample_rate()) {
+
+		/* Draw an x axis with marks */
+
+		wxGraphicsPath v_grid = gc->CreatePath ();
+
+		DCPOMATIC_ASSERT (_analysis->samples_per_point().get() != 0.0);
+		double const pps = _analysis->sample_rate().get() * metrics.x_scale / _analysis->samples_per_point().get();
+
+		gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 1, wxPENSTYLE_SOLID));
+
+		double const mark_interval = calculate_mark_interval (rint (128 / pps));
+
+		DCPTime t = DCPTime::from_seconds (mark_interval);
+		while ((t.seconds() * pps) < data_width) {
+			double tc = t.seconds ();
+			int const h = tc / 3600;
+			tc -= h * 3600;
+			int const m = tc / 60;
+			tc -= m * 60;
+			int const s = tc;
+
+			wxString str = wxString::Format (wxT ("%02d:%02d:%02d"), h, m, s);
+			wxDouble str_width;
+			wxDouble str_height;
+			wxDouble str_descent;
+			wxDouble str_leading;
+			gc->GetTextExtent (str, &str_width, &str_height, &str_descent, &str_leading);
+
+			int const tx = llrintf (metrics.db_label_width + t.seconds() * pps);
+			gc->DrawText (str, tx - str_width / 2, metrics.height - metrics.y_origin + db_label_height);
+
+			v_grid.MoveToPoint (tx, metrics.height - metrics.y_origin + 4);
+			v_grid.AddLineToPoint (tx, metrics.y_origin);
+
+			t += DCPTime::from_seconds (mark_interval);
+		}
+
+		gc->SetPen (wxPen (wxColour (200, 200, 200)));
+		gc->StrokePath (v_grid);
+
+	} else {
+		/* This is an old analysis without samples_per_point information */
+		gc->DrawText (_("Time"), data_width, metrics.height - metrics.y_origin + db_label_height / 2);
+	}
 
 	if (_type_visible[AudioPoint::PEAK]) {
 		for (int c = 0; c < MAX_DCP_AUDIO_CHANNELS; ++c) {

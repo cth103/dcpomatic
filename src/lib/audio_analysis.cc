@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -90,6 +90,8 @@ AudioAnalysis::AudioAnalysis (boost::filesystem::path filename)
 	_loudness_range = f.optional_number_child<float> ("LoudnessRange");
 
 	_analysis_gain = f.optional_number_child<double> ("AnalysisGain");
+	_samples_per_point = f.optional_number_child<int64_t> ("SamplesPerPoint");
+	_sample_rate = f.optional_number_child<int64_t> ("SampleRate");
 }
 
 void
@@ -154,6 +156,14 @@ AudioAnalysis::write (boost::filesystem::path filename)
 
 	if (_analysis_gain) {
 		root->add_child("AnalysisGain")->add_child_text (raw_convert<string> (_analysis_gain.get ()));
+	}
+
+	if (_samples_per_point) {
+		root->add_child("SamplesPerPoint")->add_child_text (raw_convert<string> (_samples_per_point.get()));
+	}
+
+	if (_sample_rate) {
+		root->add_child("SampleRate")->add_child_text (raw_convert<string> (_sample_rate.get()));
 	}
 
 	doc->write_to_file_formatted (filename.string ());

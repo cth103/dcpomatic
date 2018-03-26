@@ -163,6 +163,8 @@ AnalyseAudioJob::run ()
 		_analysis->set_analysis_gain (ac->gain ());
 	}
 
+	_analysis->set_samples_per_point (_samples_per_point);
+	_analysis->set_sample_rate (_film->audio_frame_rate ());
 	_analysis->write (_film->audio_analysis_path (_playlist));
 
 	set_progress (1);

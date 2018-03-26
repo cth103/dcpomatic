@@ -20,6 +20,7 @@
 
 #include "timeline_time_axis_view.h"
 #include "timeline.h"
+#include "wx_util.h"
 #include <wx/wx.h>
 #include <wx/graphics.h>
 
@@ -56,23 +57,7 @@ TimelineTimeAxisView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int>
 
 	gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 1, wxPENSTYLE_SOLID));
 
-	double mark_interval = rint (128 / pps);
-	if (mark_interval > 5) {
-		mark_interval -= lrint (mark_interval) % 5;
-	}
-	if (mark_interval > 10) {
-		mark_interval -= lrint (mark_interval) % 10;
-	}
-	if (mark_interval > 60) {
-		mark_interval -= lrint (mark_interval) % 60;
-	}
-	if (mark_interval > 3600) {
-		mark_interval -= lrint (mark_interval) % 3600;
-	}
-
-	if (mark_interval < 1) {
-		mark_interval = 1;
-	}
+	double const mark_interval = calculate_mark_interval (rint (128 / pps));
 
 	wxGraphicsPath path = gc->CreatePath ();
 	path.MoveToPoint (_timeline.tracks_position().x, _y);

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -100,6 +100,22 @@ public:
 		_analysis_gain = gain;
 	}
 
+	boost::optional<int64_t> samples_per_point () const {
+		return _samples_per_point;
+	}
+
+	void set_samples_per_point (int64_t spp) {
+		_samples_per_point = spp;
+	}
+
+	boost::optional<int> sample_rate () const {
+		return _sample_rate;
+	}
+
+	void set_sample_rate (int sr) {
+		_sample_rate = sr;
+	}
+
 	void write (boost::filesystem::path);
 
 	float gain_correction (boost::shared_ptr<const Playlist> playlist);
@@ -115,6 +131,8 @@ private:
 	 *  happened.
 	 */
 	boost::optional<double> _analysis_gain;
+	boost::optional<int64_t> _samples_per_point;
+	boost::optional<int> _sample_rate;
 
 	static int const _current_state_version;
 };
