@@ -100,7 +100,7 @@ public:
 		_analysis_gain = gain;
 	}
 
-	boost::optional<int64_t> samples_per_point () const {
+	int64_t samples_per_point () const {
 		return _samples_per_point;
 	}
 
@@ -108,7 +108,7 @@ public:
 		_samples_per_point = spp;
 	}
 
-	boost::optional<int> sample_rate () const {
+	int sample_rate () const {
 		return _sample_rate;
 	}
 
@@ -131,8 +131,8 @@ private:
 	 *  happened.
 	 */
 	boost::optional<double> _analysis_gain;
-	boost::optional<int64_t> _samples_per_point;
-	boost::optional<int> _sample_rate;
+	int64_t _samples_per_point;
+	int _sample_rate;
 
 	static int const _current_state_version;
 };

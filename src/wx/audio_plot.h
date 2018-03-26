@@ -57,5 +57,22 @@ private:
 	wxString _message;
 	float _gain_correction;
 
+	struct Point {
+		Point (wxPoint draw_, DCPTime time_, float db_)
+			: draw(draw_)
+			, time(time_)
+			, db(db_)
+		{}
+
+		wxPoint draw;
+		DCPTime time;
+		float db;
+	};
+
+	typedef std::vector<Point> PointList;
+
+	mutable std::map<int, PointList> _peak;
+	mutable std::map<int, PointList> _rms;
+
 	static const int _minimum;
 };
