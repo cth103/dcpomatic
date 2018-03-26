@@ -26,6 +26,7 @@
 #include <wx/graphics.h>
 #include <boost/bind.hpp>
 #include <iostream>
+#include <cfloat>
 
 using std::cout;
 using std::vector;
