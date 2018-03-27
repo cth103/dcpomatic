@@ -42,7 +42,7 @@ public:
 
 protected:
 
-	void setup_refer_button (wxCheckBox* button, boost::shared_ptr<DCPContent> dcp, bool can_reference, std::string why_not) const;
+	void setup_refer_button (wxCheckBox* button, wxStaticText* note, boost::shared_ptr<DCPContent> dcp, bool can_reference, std::string why_not) const;
 
 	ContentPanel* _parent;
 	wxSizer* _sizer;

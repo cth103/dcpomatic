@@ -52,6 +52,7 @@ private:
 	void setup_sensitivity ();
 
 	wxCheckBox* _reference;
+	wxStaticText* _reference_note;
 	wxCheckBox* _use;
 	wxCheckBox* _burn;
 	wxSpinCtrl* _x_offset;

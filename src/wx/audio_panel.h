@@ -51,6 +51,7 @@ private:
 	void reference_clicked ();
 
 	wxCheckBox* _reference;
+	wxStaticText* _reference_note;
 	wxButton* _show;
 	ContentSpinCtrlDouble<AudioContent>* _gain;
 	wxButton* _gain_calculate_button;

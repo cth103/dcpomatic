@@ -57,6 +57,7 @@ private:
 	void setup_sensitivity ();
 
 	wxCheckBox* _reference;
+	wxStaticText* _reference_note;
 	ContentChoice<VideoContent, VideoFrameType>*    _frame_type;
 	ContentSpinCtrl<VideoContent>*                  _left_crop;
 	ContentSpinCtrl<VideoContent>*                  _right_crop;

@@ -48,13 +48,24 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	, _subtitle_view (0)
 	, _fonts_dialog (0)
 {
+	wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
+
+	_reference = new wxCheckBox (this, wxID_ANY, _("Use this DCP's subtitle as OV and make VF"));
+	reference_sizer->Add (_reference, 0, wxLEFT | wxRIGHT | wxTOP, DCPOMATIC_SIZER_GAP);
+
+	_reference_note = new wxStaticText (this, wxID_ANY, _(""));
+	_reference_note->Wrap (200);
+	reference_sizer->Add (_reference_note, 0, wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
+	wxFont font = _reference_note->GetFont();
+	font.SetStyle(wxFONTSTYLE_ITALIC);
+	font.SetPointSize(font.GetPointSize() - 1);
+	_reference_note->SetFont(font);
+
+	_sizer->Add (reference_sizer);
+
 	wxGridBagSizer* grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	_sizer->Add (grid, 0, wxALL, 8);
 	int r = 0;
-
-	_reference = new wxCheckBox (this, wxID_ANY, _("Use this DCP's subtitle as OV and make VF"));
-	grid->Add (_reference, wxGBPosition (r, 0), wxGBSpan (1, 2));
-	++r;
 
 	_use = new wxCheckBox (this, wxID_ANY, _("Use subtitles"));
 	grid->Add (_use, wxGBPosition (r, 0), wxGBSpan (1, 2));
@@ -277,7 +288,7 @@ SubtitlePanel::setup_sensitivity ()
 
 	string why_not;
 	bool const can_reference = dcp && dcp->can_reference_subtitle (why_not);
-	setup_refer_button (_reference, dcp, can_reference, why_not);
+	setup_refer_button (_reference, _reference_note, dcp, can_reference, why_not);
 
 	bool const reference = _reference->GetValue ();
 
