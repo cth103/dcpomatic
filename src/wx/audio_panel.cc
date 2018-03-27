@@ -267,7 +267,7 @@ AudioPanel::setup_sensitivity ()
 		dcp = dynamic_pointer_cast<DCPContent> (sel.front ());
 	}
 
-	list<string> why_not;
+	string why_not;
 	bool const can_reference = dcp && dcp->can_reference_audio (why_not);
 	setup_refer_button (_reference, dcp, can_reference, why_not);
 

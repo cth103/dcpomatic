@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -429,22 +429,22 @@ DCPContent::reel_split_points () const
 }
 
 bool
-DCPContent::can_reference (function<shared_ptr<ContentPart> (shared_ptr<const Content>)> part, string overlapping, list<string>& why_not) const
+DCPContent::can_reference (function<shared_ptr<ContentPart> (shared_ptr<const Content>)> part, string overlapping, string& why_not) const
 {
 	/* We must be using the same standard as the film */
 	if (_standard) {
 		if (_standard.get() == dcp::INTEROP && !film()->interop()) {
-			why_not.push_back (_("The film is set to SMPTE and this DCP is Interop."));
+			why_not = _("The film is set to SMPTE and this DCP is Interop.");
 			return false;
 		} else if (_standard.get() == dcp::SMPTE && film()->interop()) {
-			why_not.push_back (_("The film is set to Interop and this DCP is SMPTE."));
+			why_not = _("The film is set to Interop and this DCP is SMPTE.");
 			return false;
 		}
 	}
 
 	/* And the same frame rate */
 	if (!video_frame_rate() || (lrint(video_frame_rate().get()) != film()->video_frame_rate())) {
-		why_not.push_back (_("The film has a different frame rate to this DCP."));
+		why_not = _("The film has a different frame rate to this DCP.");
 		return false;
 	}
 
@@ -466,14 +466,14 @@ DCPContent::can_reference (function<shared_ptr<ContentPart> (shared_ptr<const Co
 	*/
 	BOOST_FOREACH (DCPTimePeriod i, reel_list) {
 		if (find (fr.begin(), fr.end(), i) == fr.end ()) {
-			why_not.push_back (_("The reel lengths in the film differ from those in the DCP; set the reel mode to 'split by video content'."));
+			why_not = _("The reel lengths in the film differ from those in the DCP; set the reel mode to 'split by video content'.");
 			return false;
 		}
 	}
 
 	ContentList a = overlaps (film()->content(), part, position(), end());
 	if (a.size() != 1 || a.front().get() != this) {
-		why_not.push_back (overlapping);
+		why_not = overlapping;
 		return false;
 	}
 
@@ -481,10 +481,10 @@ DCPContent::can_reference (function<shared_ptr<ContentPart> (shared_ptr<const Co
 }
 
 bool
-DCPContent::can_reference_video (list<string>& why_not) const
+DCPContent::can_reference_video (string& why_not) const
 {
 	if (film()->frame_size() != video->size()) {
-		why_not.push_back (_("The video frame size in the film differs from that in the DCP."));
+		why_not = _("The video frame size in the film differs from that in the DCP.");
 		return false;
 	}
 
@@ -492,7 +492,7 @@ DCPContent::can_reference_video (list<string>& why_not) const
 }
 
 bool
-DCPContent::can_reference_audio (list<string>& why_not) const
+DCPContent::can_reference_audio (string& why_not) const
 {
 	shared_ptr<DCPDecoder> decoder;
 	try {
@@ -507,7 +507,7 @@ DCPContent::can_reference_audio (list<string>& why_not) const
 
         BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder->reels()) {
                 if (!i->main_sound()) {
-                        why_not.push_back (_("The DCP does not have sound in all reels."));
+                        why_not = _("The DCP does not have sound in all reels.");
                         return false;
                 }
         }
@@ -516,7 +516,7 @@ DCPContent::can_reference_audio (list<string>& why_not) const
 }
 
 bool
-DCPContent::can_reference_subtitle (list<string>& why_not) const
+DCPContent::can_reference_subtitle (string& why_not) const
 {
 	shared_ptr<DCPDecoder> decoder;
 	try {
@@ -531,7 +531,7 @@ DCPContent::can_reference_subtitle (list<string>& why_not) const
 
         BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder->reels()) {
                 if (!i->main_subtitle()) {
-                        why_not.push_back (_("The DCP does not have subtitles in all reels."));
+                        why_not = _("The DCP does not have subtitles in all reels.");
                         return false;
                 }
         }

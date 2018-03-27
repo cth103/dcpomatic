@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -97,7 +97,7 @@ public:
 		return _reference_video;
 	}
 
-	bool can_reference_video (std::list<std::string> &) const;
+	bool can_reference_video (std::string &) const;
 
 	void set_reference_audio (bool r);
 
@@ -106,7 +106,7 @@ public:
 		return _reference_audio;
 	}
 
-	bool can_reference_audio (std::list<std::string> &) const;
+	bool can_reference_audio (std::string &) const;
 
 	void set_reference_subtitle (bool r);
 
@@ -115,7 +115,7 @@ public:
 		return _reference_subtitle;
 	}
 
-	bool can_reference_subtitle (std::list<std::string> &) const;
+	bool can_reference_subtitle (std::string &) const;
 
 	void set_cpl (std::string id);
 
@@ -139,7 +139,7 @@ private:
 	bool can_reference (
 		boost::function <boost::shared_ptr<ContentPart> (boost::shared_ptr<const Content>)>,
 		std::string overlapping,
-		std::list<std::string>& why_not
+		std::string& why_not
 		) const;
 
 	std::string _name;

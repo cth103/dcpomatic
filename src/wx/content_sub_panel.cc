@@ -42,7 +42,7 @@ ContentSubPanel::ContentSubPanel (ContentPanel* p, wxString name)
 }
 
 void
-ContentSubPanel::setup_refer_button (wxCheckBox* button, shared_ptr<DCPContent> dcp, bool can_reference, list<string> why_not) const
+ContentSubPanel::setup_refer_button (wxCheckBox* button, shared_ptr<DCPContent> dcp, bool can_reference, string why_not) const
 {
 	button->Enable (can_reference);
 
@@ -50,10 +50,7 @@ ContentSubPanel::setup_refer_button (wxCheckBox* button, shared_ptr<DCPContent> 
 	if (!dcp) {
 		s = _("No DCP selected.");
 	} else if (!can_reference) {
-		s = _("Cannot reference this DCP.  ");
-		BOOST_FOREACH (string i, why_not) {
-			s += std_to_wx(i) + wxT("  ");
-		}
+		s = _("Cannot reference this DCP.  ") + std_to_wx(why_not);
 	}
 
 	button->SetToolTip (s);
