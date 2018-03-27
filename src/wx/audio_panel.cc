@@ -125,7 +125,7 @@ AudioPanel::AudioPanel (ContentPanel* p)
 
 	_mapping_connection = _mapping->Changed.connect (boost::bind (&AudioPanel::mapping_changed, this, _1));
 
-	JobManager::instance()->ActiveJobsChanged.connect (boost::bind (&AudioPanel::active_jobs_changed, this, _1));
+	JobManager::instance()->ActiveJobsChanged.connect (boost::bind (&AudioPanel::active_jobs_changed, this, _1, _2));
 }
 
 AudioPanel::~AudioPanel ()
@@ -347,10 +347,13 @@ AudioPanel::setup_peak ()
 }
 
 void
-AudioPanel::active_jobs_changed (optional<string> j)
+AudioPanel::active_jobs_changed (optional<string> old_active, optional<string> new_active)
 {
-	if (j && *j == "analyse_audio") {
+	if (old_active && *old_active == "analyse_audio") {
 		setup_peak ();
+		_mapping->Enable (true);
+	} else if (new_active && *new_active == "analyse_audio") {
+		_mapping->Enable (false);
 	}
 }
 

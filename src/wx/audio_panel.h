@@ -46,7 +46,7 @@ private:
 	void mapping_changed (AudioMapping);
 	void setup_description ();
 	void setup_peak ();
-	void active_jobs_changed (boost::optional<std::string>);
+	void active_jobs_changed (boost::optional<std::string>, boost::optional<std::string>);
 	void setup_sensitivity ();
 	void reference_clicked ();
 
