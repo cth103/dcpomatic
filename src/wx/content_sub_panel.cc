@@ -48,7 +48,11 @@ ContentSubPanel::setup_refer_button (wxCheckBox* button, wxStaticText* note, sha
 
 	wxString s;
 	if (dcp && !can_reference) {
-		s = _("Cannot reference this DCP.  ") + std_to_wx(why_not);
+		if (why_not.empty()) {
+			s = _("Cannot reference this DCP.");
+		} else {
+			s = _("Cannot reference this DCP: ") + std_to_wx(why_not);
+		}
 	}
 
 	note->SetLabel (s);

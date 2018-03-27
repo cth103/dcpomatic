@@ -434,17 +434,20 @@ DCPContent::can_reference (function<shared_ptr<ContentPart> (shared_ptr<const Co
 	/* We must be using the same standard as the film */
 	if (_standard) {
 		if (_standard.get() == dcp::INTEROP && !film()->interop()) {
-			why_not = _("The film is set to SMPTE and this DCP is Interop.");
+			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+			why_not = _("it is Interop and the film is set to SMPTE.");
 			return false;
 		} else if (_standard.get() == dcp::SMPTE && film()->interop()) {
-			why_not = _("The film is set to Interop and this DCP is SMPTE.");
+			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+			why_not = _("it is SMPTE and the film is set to Interop.");
 			return false;
 		}
 	}
 
 	/* And the same frame rate */
 	if (!video_frame_rate() || (lrint(video_frame_rate().get()) != film()->video_frame_rate())) {
-		why_not = _("The film has a different frame rate to this DCP.");
+		/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+		why_not = _("it has a different frame rate to the film.");
 		return false;
 	}
 
@@ -466,7 +469,8 @@ DCPContent::can_reference (function<shared_ptr<ContentPart> (shared_ptr<const Co
 	*/
 	BOOST_FOREACH (DCPTimePeriod i, reel_list) {
 		if (find (fr.begin(), fr.end(), i) == fr.end ()) {
-			why_not = _("The reel lengths in the film differ from those in the DCP; set the reel mode to 'split by video content'.");
+			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+			why_not = _("its reel lengths differ from those in the film; set the reel mode to 'split by video content'.");
 			return false;
 		}
 	}
@@ -484,11 +488,13 @@ bool
 DCPContent::can_reference_video (string& why_not) const
 {
 	if (film()->frame_size() != video->size()) {
-		why_not = _("The video frame size in the film differs from that in the DCP.");
+		/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+		why_not = _("its video frame size differs from the film's.");
 		return false;
 	}
 
-	return can_reference (bind (&Content::video, _1), _("There is other video content overlapping this DCP; remove it."), why_not);
+	/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+	return can_reference (bind (&Content::video, _1), _("it overlaps other video content; remove the other content."), why_not);
 }
 
 bool
@@ -507,12 +513,14 @@ DCPContent::can_reference_audio (string& why_not) const
 
         BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder->reels()) {
                 if (!i->main_sound()) {
-                        why_not = _("The DCP does not have sound in all reels.");
+			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+                        why_not = _("it does not have sound in all its reels.");
                         return false;
                 }
         }
 
-        return can_reference (bind (&Content::audio, _1), _("There is other audio content overlapping this DCP; remove it."), why_not);
+	/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+        return can_reference (bind (&Content::audio, _1), _("it overlaps other audio content; remove the other content."), why_not);
 }
 
 bool
@@ -531,12 +539,14 @@ DCPContent::can_reference_subtitle (string& why_not) const
 
         BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder->reels()) {
                 if (!i->main_subtitle()) {
-                        why_not = _("The DCP does not have subtitles in all reels.");
+			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+                        why_not = _("it does not have subtitles in all its reels.");
                         return false;
                 }
         }
 
-        return can_reference (bind (&Content::subtitle, _1), _("There is other subtitle content overlapping this DCP; remove it."), why_not);
+	/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+	return can_reference (bind (&Content::subtitle, _1), _("it overlaps other subtitle content; remove the other content."), why_not);
 }
 
 void
