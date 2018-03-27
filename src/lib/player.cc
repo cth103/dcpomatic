@@ -301,18 +301,6 @@ Player::transform_image_subtitles (list<ImageSubtitle> subs) const
 		/* We will scale the subtitle up to fit _video_container_size */
 		dcp::Size scaled_size (i->rectangle.width * _video_container_size.width, i->rectangle.height * _video_container_size.height);
 
-		/* Then we need a corrective translation, consisting of two parts:
-		 *
-		 * 1.  that which is the result of the scaling of the subtitle by _video_container_size; this will be
-		 *     rect.x * _video_container_size.width and rect.y * _video_container_size.height.
-		 *
-		 * 2.  that to shift the origin of the scale by subtitle_scale to the centre of the subtitle; this will be
-		 *     (width_before_subtitle_scale * (1 - subtitle_x_scale) / 2) and
-		 *     (height_before_subtitle_scale * (1 - subtitle_y_scale) / 2).
-		 *
-		 * Combining these two translations gives these expressions.
-		 */
-
 		all.push_back (
 			PositionImage (
 				i->image->scale (
