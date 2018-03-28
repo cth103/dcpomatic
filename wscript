@@ -148,7 +148,6 @@ def configure(conf):
     # POSIX
     if conf.env.TARGET_LINUX or conf.env.TARGET_OSX:
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_POSIX')
-        conf.env.append_value('CXXFLAGS', ['-Wunsafe-loop-optimizations', '-Wlogical-op'])
         boost_lib_suffix = ''
         boost_thread = 'boost_thread'
         conf.env.append_value('LINKFLAGS', '-pthread')
@@ -159,6 +158,7 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-DLINUX_LOCALE_PREFIX="%s/share/locale"' % conf.env['INSTALL_PREFIX'])
         conf.env.append_value('CXXFLAGS', '-DLINUX_SHARE_PREFIX="%s/share/dcpomatic2"' % conf.env['INSTALL_PREFIX'])
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_LINUX')
+        conf.env.append_value('CXXFLAGS', ['-Wunsafe-loop-optimizations', '-Wlogical-op'])
         if not conf.env.DISABLE_GUI:
             conf.check_cfg(package='gtk+-2.0', args='--cflags --libs', uselib_store='GTK', mandatory=True)
 
