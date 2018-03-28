@@ -7,7 +7,7 @@
 # Don't set -e here as egrep (used a few times) returns 1 if no matches
 # were found.
 
-version=`cat wscript | egrep ^VERSION | awk '{print $3}' | sed -e "s/'//g"`
+version=`git describe --tags --abbrev=0`
 
 # DMG size in megabytes
 DMG_SIZE=256
