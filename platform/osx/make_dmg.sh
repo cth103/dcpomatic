@@ -7,7 +7,7 @@
 # Don't set -e here as egrep (used a few times) returns 1 if no matches
 # were found.
 
-version=`git describe --tags --abbrev=0`
+version=`git describe --tags --abbrev=0 | sed -e "s/v//"`
 
 # DMG size in megabytes
 DMG_SIZE=256
