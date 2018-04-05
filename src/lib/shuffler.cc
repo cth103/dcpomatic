@@ -43,7 +43,7 @@ void
 Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 {
 	/* Something has gong wrong if our store gets too big */
-	DCPOMATIC_ASSERT (_store.size() != 8);
+	DCPOMATIC_ASSERT (_store.size() < 8);
 	/* We should only ever see 3D_LEFT / 3D_RIGHT */
 	DCPOMATIC_ASSERT (video.eyes == EYES_LEFT || video.eyes == EYES_RIGHT);
 
