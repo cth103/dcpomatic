@@ -50,8 +50,8 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 	shared_ptr<Piece> piece = weak_piece.lock ();
 	DCPOMATIC_ASSERT (piece);
 
-	if (!_last) {
-		/* We haven't seen anything since the last clear() so assume everything is OK */
+	if (!_last && video.eyes == EYES_LEFT) {
+		/* We haven't seen anything since the last clear() and we have some eyes-left so assume everything is OK */
 		Video (weak_piece, video);
 		_last = video;
 		return;
@@ -62,6 +62,7 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 
 	while (
 		!_store.empty() &&
+		_last &&
 		(
 			(_store.front().second.frame == _last->frame && _store.front().second.eyes == EYES_RIGHT && _last->eyes == EYES_LEFT) ||
 			(_store.front().second.frame == (_last->frame + 1) && _store.front().second.eyes == EYES_LEFT && _last->eyes == EYES_RIGHT) ||

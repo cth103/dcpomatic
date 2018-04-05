@@ -1,3 +1,7 @@
+2018-04-05  Carl Hetherington  <cth@carlh.net>
+
+	* Fix assertion failures with 3D content in some cases.
+
 2018-03-28  Carl Hetherington  <cth@carlh.net>
 
 	* Disable audio mapping control when analysing audio (#1250).
