@@ -1,5 +1,7 @@
 2018-04-05  Carl Hetherington  <cth@carlh.net>
 
+	* Updated zh_CN translation from 刘汉源.
+
 	* Fix crash on startup if there are no audio devices (#1265).
 
 	* Fix non-working arrow keys / space in text fields (#1263).
