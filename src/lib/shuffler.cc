@@ -42,8 +42,6 @@ struct Comparator
 void
 Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 {
-	/* Something has gong wrong if our store gets too big */
-	DCPOMATIC_ASSERT (_store.size() < 8);
 	/* We should only ever see 3D_LEFT / 3D_RIGHT */
 	DCPOMATIC_ASSERT (video.eyes == EYES_LEFT || video.eyes == EYES_RIGHT);
 
@@ -60,15 +58,19 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 	_store.push_back (make_pair (weak_piece, video));
 	_store.sort (Comparator());
 
-	while (
+	bool const store_front_in_sequence =
 		!_store.empty() &&
 		_last &&
 		(
 			(_store.front().second.frame == _last->frame && _store.front().second.eyes == EYES_RIGHT && _last->eyes == EYES_LEFT) ||
 			(_store.front().second.frame == (_last->frame + 1) && _store.front().second.eyes == EYES_LEFT && _last->eyes == EYES_RIGHT)
-			)
-		) {
+			);
 
+	/* store_front_in_sequence means everything is ok; otherwise if the store is getting too big just
+	   start emitting things as best we can.  This can easily happen if, for example, there is only content
+	   for one eye in some part of the timeline.
+	*/
+	while (store_front_in_sequence || _store.size() > 8) {
 		Video (_store.front().first, _store.front().second);
 		_last = _store.front().second;
 		_store.pop_front ();
