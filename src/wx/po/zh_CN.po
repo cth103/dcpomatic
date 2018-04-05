@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-17 10:22+0000\n"
-"PO-Revision-Date: 2017-07-23 10:23+0800\n"
+"PO-Revision-Date: 2018-04-05 20:48+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.2\n"
+"X-Generator: Poedit 2.0.6\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
@@ -33,7 +33,7 @@ msgstr "%"
 
 #: src/wx/film_name_location_dialog.cc:130
 msgid "%1 already exists as a file, so you cannot use it for a film."
-msgstr "%1 文件已经存在"
+msgstr "%1 文件已经存在，所以不能创建工程."
 
 #: src/wx/kdm_dialog.cc:153
 #, c-format
@@ -46,7 +46,6 @@ msgid "%d KDMs written to %s"
 msgstr "%d KDMs 保存到 %s"
 
 #: src/wx/about_dialog.cc:83
-#, fuzzy
 msgid ""
 "(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
@@ -56,7 +55,7 @@ msgstr ""
 
 #: src/wx/file_picker_ctrl.cc:43 src/wx/file_picker_ctrl.cc:58
 msgid "(None)"
-msgstr "无"
+msgstr "(无)"
 
 #: src/wx/config_dialog.cc:140
 msgid "(restart DCP-o-matic to see language changes)"
@@ -160,7 +159,7 @@ msgstr "A"
 
 #: src/wx/update_dialog.cc:36
 msgid "A new version of DCP-o-matic is available."
-msgstr "发现 DCP-O-MATIC 新版本"
+msgstr "发现新版本的DCP-o-matic可用."
 
 #: src/wx/about_dialog.cc:35
 msgid "About DCP-o-matic"
@@ -206,7 +205,7 @@ msgstr "添加 DCP..."
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
-msgstr "添加包含序列帧文件或音频的媒体文件夹"
+msgstr "添加包含序列帧文件或音频的媒体文件夹."
 
 #: src/wx/content_panel.cc:88
 msgid "Add file(s)..."
@@ -245,9 +244,8 @@ msgid "Adjust white point to"
 msgstr "调整白点"
 
 #: src/wx/config_dialog.cc:741 src/wx/config_dialog.cc:756
-#, fuzzy
 msgid "Advanced..."
-msgstr "添加..."
+msgstr "高级…"
 
 #: src/wx/full_config_dialog.cc:973
 msgid "Allow any DCP frame rate"
@@ -294,7 +292,7 @@ msgstr "音频语言 (例如 CMN)"
 #: src/wx/player_information.cc:132
 #, c-format
 msgid "Audio channels: %d"
-msgstr ""
+msgstr "音频通道: %d"
 
 #: src/wx/audio_mapping_view.cc:345
 #, c-format
@@ -351,7 +349,7 @@ msgstr "使用推子"
 
 #: src/wx/full_config_dialog.cc:750
 msgid "CC addresses"
-msgstr "抄送地址 "
+msgstr "抄送地址"
 
 #: src/wx/kdm_cpl_panel.cc:35 src/wx/kdm_dialog.cc:85
 #: src/wx/self_dkdm_dialog.cc:60
@@ -368,7 +366,7 @@ msgstr "CPL注释文本"
 
 #: src/wx/kdm_output_panel.cc:288
 msgid "CPL's content is not encrypted."
-msgstr "该内容没有加密"
+msgstr "该CPL内容没有加密."
 
 #: src/wx/audio_panel.cc:78
 msgid "Calculate..."
@@ -380,7 +378,11 @@ msgstr "取消"
 
 #: src/wx/content_sub_panel.cc:53
 msgid "Cannot reference this DCP.  "
-msgstr "不能引用该DCP"
+msgstr "不能引用该DCP. "
+
+#: src/wx/recreate_chain_dialog.cc:31
+msgid "Certificate chain"
+msgstr "证书秘钥"
 
 #: src/wx/recreate_chain_dialog.cc:31
 #, fuzzy
@@ -413,7 +415,7 @@ msgstr "启动时检查软件更新"
 
 #: src/wx/content_menu.cc:80
 msgid "Choose CPL..."
-msgstr "选择CPL"
+msgstr "选择CPL…"
 
 #: src/wx/content_panel.cc:374
 msgid "Choose a DCP folder"
@@ -466,7 +468,7 @@ msgstr "结构"
 
 #: src/wx/full_config_dialog.cc:98
 msgid "Configuration file"
-msgstr ""
+msgstr "配置文件"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
 #: src/wx/full_config_dialog.cc:1029
@@ -511,20 +513,18 @@ msgid "Could not analyse audio."
 msgstr "无法分析音频。"
 
 #: src/wx/config_dialog.cc:458
-#, fuzzy, c-format
+#, c-format
 msgid "Could not import certificate (%s)"
-msgstr "无法加载证书文件 (%s)"
+msgstr "无法导入证书文件 (%s)"
 
 #: src/wx/content_menu.cc:380
-#, fuzzy
 msgid "Could not load KDM."
-msgstr "无法加载 KDM (%s)"
+msgstr "无法加载 KDM."
 
 #: src/wx/config_dialog.cc:484 src/wx/config_dialog.cc:678
 #: src/wx/download_certificate_panel.cc:56 src/wx/screen_dialog.cc:158
-#, fuzzy
 msgid "Could not read certificate file."
-msgstr "无法读取证书文件 (%s)"
+msgstr "无法读取证书文件."
 
 #: src/wx/config_dialog.cc:668
 #, c-format
@@ -532,10 +532,9 @@ msgid "Could not read key file; file is too long (%s)"
 msgstr "无法读取Key文件，因为文件过长 (%s)"
 
 #: src/wx/film_viewer.cc:830
-#, fuzzy
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
-msgstr "不能设置音频输出 (%s)。因此预览时将没有音频输出"
+msgstr "不能设置音频输出 (%s)。因此预览时将没有音频输出."
 
 #: src/wx/full_config_dialog.cc:876
 msgid "Cover Sheet"
@@ -594,7 +593,7 @@ msgstr "编码"
 #: src/wx/player_information.cc:159
 #, c-format
 msgid "Decode resolution: %dx%d"
-msgstr ""
+msgstr "解码分辨率: %dx%d"
 
 #: src/wx/config_dialog.cc:728 src/wx/config_dialog.cc:765
 msgid "Decrypting KDMs"
@@ -646,7 +645,7 @@ msgstr "默认打包标准类型"
 
 #: src/wx/full_config_dialog.cc:341
 msgid "Default to enabling upload of DCP to TMS"
-msgstr ""
+msgstr "默认开启DCP自动上传到TMS"
 
 #: src/wx/full_config_dialog.cc:256
 msgid "Defaults"
@@ -661,9 +660,8 @@ msgid "Details..."
 msgstr "详细..."
 
 #: src/wx/recreate_chain_dialog.cc:31
-#, fuzzy
 msgid "Do nothing"
-msgstr "平滑"
+msgstr "不做更改"
 
 #: src/wx/download_certificate_dialog.cc:37
 msgid "Dolby / Doremi"
@@ -704,7 +702,7 @@ msgstr "下载证书"
 #: src/wx/player_information.cc:89
 #, c-format
 msgid "Dropped frames: %d"
-msgstr ""
+msgstr "丢帧: %d"
 
 #: src/wx/content_panel.cc:104
 msgid "Earlier"
@@ -712,7 +710,7 @@ msgstr "上移"
 
 #: src/wx/screens_panel.cc:59
 msgid "Edit Cinema..."
-msgstr "编辑影院"
+msgstr "编辑影院…"
 
 #: src/wx/screens_panel.cc:65
 msgid "Edit Screen..."
@@ -743,11 +741,11 @@ msgstr "效果颜色"
 
 #: src/wx/email_dialog.cc:29 src/wx/email_dialog.cc:31
 msgid "Email address"
-msgstr "发件人地址 "
+msgstr "发件人地址"
 
 #: src/wx/cinema_dialog.cc:65
 msgid "Email addresses for KDM delivery"
-msgstr "发送KDM到邮箱 "
+msgstr "发送KDM到邮箱"
 
 #: src/wx/servers_list_dialog.cc:33
 msgid "Encoding Servers"
@@ -775,19 +773,16 @@ msgid "Export"
 msgstr "导出"
 
 #: src/wx/config_dialog.cc:733
-#, fuzzy
 msgid "Export KDM decryption certificate..."
-msgstr "导出DCP证书"
+msgstr "导出KDM解密证书…"
 
 #: src/wx/config_dialog.cc:735
-#, fuzzy
 msgid "Export KDM decryption chain..."
-msgstr "导出DCP密匙"
+msgstr "导出KDM解密密匙…"
 
 #: src/wx/config_dialog.cc:737
-#, fuzzy
 msgid "Export all KDM decryption settings..."
-msgstr "导出DCP密匙"
+msgstr "导出所有KDM加密设置…"
 
 #: src/wx/export_dialog.cc:46
 msgid "Export film"
@@ -795,7 +790,7 @@ msgstr "导出工程"
 
 #: src/wx/config_dialog.cc:401
 msgid "Export..."
-msgstr "导出"
+msgstr "导出…"
 
 #: src/wx/full_config_dialog.cc:630
 msgid "FTP (for Dolby)"
@@ -841,7 +836,7 @@ msgstr "过滤器"
 #: src/wx/full_config_dialog.cc:111
 msgid ""
 "Find integrated loudness, true peak and loudness range when analysing audio"
-msgstr "分析音频时，发现综合响度，真实峰值和响度范围！"
+msgstr "发现响度，峰值和响度范围不合标准"
 
 #: src/wx/content_menu.cc:73
 msgid "Find missing..."
@@ -858,7 +853,7 @@ msgstr "文件夹名称"
 #: src/wx/fonts_dialog.cc:38 src/wx/font_files_dialog.cc:28
 #: src/wx/font_files_dialog.cc:30
 msgid "Fonts"
-msgstr "字体..."
+msgstr "字体"
 
 #: src/wx/subtitle_panel.cc:132
 msgid "Fonts..."
@@ -879,13 +874,11 @@ msgstr "帧率"
 #: src/wx/player_information.cc:129
 #, c-format
 msgid "Frame rate: %d"
-msgstr ""
+msgstr "帧速率: %d"
 
 #: src/wx/about_dialog.cc:66
 msgid "Free, open-source DCP creation from almost anything."
-msgstr ""
-"免费的DCP打包软件。 -汉化：Rov\n"
-"最新汉化请关注：放映员资料库 (www.rov8.com)"
+msgstr "免费的DCP打包软件."
 
 #: src/wx/kdm_timing_panel.cc:36
 msgid "From"
@@ -930,7 +923,7 @@ msgstr "普通"
 
 #: src/wx/screen_dialog.cc:90
 msgid "Get from file..."
-msgstr "外置字体 "
+msgstr "从文件获取…"
 
 #: src/wx/hints_dialog.cc:56
 msgid "Go back"
@@ -954,9 +947,8 @@ msgid "Green chromaticity"
 msgstr "绿色色度"
 
 #: src/wx/full_config_dialog.cc:358
-#, fuzzy
 msgid "Guess from content"
-msgstr "缩略视图内容"
+msgstr "匹配源"
 
 #: src/wx/export_dialog.cc:32
 msgid "H.264"
@@ -1005,21 +997,19 @@ msgid ""
 "become useless.  Proceed with caution!"
 msgstr ""
 "如果继续您将无法使用之前生成的所有数字母版DKDM和KDM。\n"
-"真的要继续吗？"
+"谨慎操作!"
 
 #: src/wx/video_waveform_dialog.cc:68
 msgid "Image X position"
 msgstr "画面 X 轴位置"
 
 #: src/wx/config_dialog.cc:739
-#, fuzzy
 msgid "Import all KDM decryption settings..."
-msgstr "导出DCP密匙"
+msgstr "导入所有KDM解密设置…"
 
 #: src/wx/config_dialog.cc:399
-#, fuzzy
 msgid "Import..."
-msgstr "导出"
+msgstr "导入…"
 
 #: src/wx/nag_dialog.cc:29
 msgid "Important notice"
@@ -1060,10 +1050,9 @@ msgstr "Interop"
 
 #: src/wx/config_dialog.cc:847
 msgid "Invalid DCP-o-matic export file"
-msgstr ""
+msgstr "DCP-o-matic无法输出此类格式"
 
 #: src/wx/colour_conversion_editor.cc:205
-#, fuzzy
 msgid "Inverse 2.6 gamma correction on output"
 msgstr "输出时添加反转的2.6伽马值"
 
@@ -1140,7 +1129,7 @@ msgstr "私钥"
 
 #: src/wx/config_dialog.cc:411
 msgid "Leaf private key does not match leaf certificate!"
-msgstr "私人秘钥private key于提供的证书certificate不匹配"
+msgstr "私人秘钥private key与提供的证书certificate不匹配!"
 
 #: src/wx/video_panel.cc:105
 msgid "Left"
@@ -1156,7 +1145,7 @@ msgstr "长度"
 
 #: src/wx/player_information.cc:145
 msgid "Length: %1 (%2 frames)"
-msgstr ""
+msgstr "长度: %1 (%2 帧)"
 
 #: src/wx/subtitle_panel.cc:108
 msgid "Line spacing"
@@ -1177,7 +1166,7 @@ msgstr "低场优先"
 
 #: src/wx/content_panel.cc:567
 msgid "MISSING: "
-msgstr "丢失:"
+msgstr "丢失: "
 
 #: src/wx/export_dialog.cc:36
 msgid "MOV files (*.mov)|*.mov"
@@ -1225,7 +1214,7 @@ msgstr "最大JPEG2000码率"
 
 #: src/wx/full_config_dialog.cc:982
 msgid "Maximum number of frames to store per thread"
-msgstr ""
+msgstr "设置每个线程处理的最大帧数"
 
 #: src/wx/dcp_panel.cc:694 src/wx/full_config_dialog.cc:315
 #: src/wx/full_config_dialog.cc:969
@@ -1237,9 +1226,8 @@ msgid "Mix audio down to stereo"
 msgstr "将所有音频轨混到一个双声道轨"
 
 #: src/wx/config_move_dialog.cc:28
-#, fuzzy
 msgid "Move configuration"
-msgstr "分卷内容"
+msgstr "移动设置"
 
 #: src/wx/move_to_dialog.cc:31
 msgid "Move content"
@@ -1247,11 +1235,11 @@ msgstr "分卷内容"
 
 #: src/wx/content_panel.cc:105
 msgid "Move the selected piece of content earlier in the film."
-msgstr "上移选择内容"
+msgstr "前移选择内容."
 
 #: src/wx/content_panel.cc:109
 msgid "Move the selected piece of content later in the film."
-msgstr "下移选择内容"
+msgstr "后移选择内容."
 
 #: src/wx/timing_panel.cc:93
 msgid "Move to start of reel"
@@ -1275,24 +1263,23 @@ msgstr "错误内容"
 
 #: src/wx/content_panel.cc:571
 msgid "NEEDS KDM: "
-msgstr "需要KDM:"
+msgstr "需要KDM: "
 
 #: src/wx/content_panel.cc:575
 msgid "NEEDS OV: "
-msgstr "需要OV:"
+msgstr "需要OV: "
 
 #: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "名称"
 
 #: src/wx/player_information.cc:121
-#, fuzzy
 msgid "Needs KDM"
-msgstr "选择KDM"
+msgstr "需要KDM"
 
 #: src/wx/player_information.cc:116
 msgid "Needs OV"
-msgstr ""
+msgstr "需要OV"
 
 #: src/wx/rename_template_dialog.cc:26
 msgid "New name"
@@ -1300,16 +1287,15 @@ msgstr "新名称"
 
 #: src/wx/update_dialog.cc:38
 msgid "New versions of DCP-o-matic are available."
-msgstr "DCP-o-Matic有新版！"
+msgstr "有新版本的DCP-o-matic可用."
 
 #: src/wx/player_information.cc:104
-#, fuzzy
 msgid "No DCP loaded."
-msgstr "没有选择DCP"
+msgstr "没有选择DCP."
 
 #: src/wx/content_sub_panel.cc:51
 msgid "No DCP selected."
-msgstr "没有选择DCP"
+msgstr "没有选择DCP."
 
 #: src/wx/audio_mapping_view.cc:343
 #, c-format
@@ -1318,7 +1304,7 @@ msgstr "视频中没有音频，从 %d 到 %d 通道的DCP."
 
 #: src/wx/content_panel.cc:348
 msgid "No content found in this folder."
-msgstr "没有找到文件！"
+msgstr "文件夹中没有找到文件."
 
 #. /OUTLINE/SHADOW variables
 #: src/wx/dcp_panel.cc:760 src/wx/subtitle_appearance_dialog.cc:125
@@ -1361,7 +1347,7 @@ msgstr "打开控制台窗口"
 
 #: src/wx/content_panel.cc:113
 msgid "Open the timeline for the film."
-msgstr "打开工程时间表"
+msgstr "打开工程时间线."
 
 #: src/wx/make_chain_dialog.cc:51
 msgid "Organisation"
@@ -1393,7 +1379,7 @@ msgstr "轮廓线宽度"
 
 #: src/wx/subtitle_appearance_dialog.cc:276
 msgid "Outline width cannot be set unless you are burning in subtitles"
-msgstr "只有选择烧录字幕才能显示轮廓线！"
+msgstr "只有选择烧录字幕才能显示轮廓线"
 
 #: src/wx/kdm_dialog.cc:92 src/wx/self_dkdm_dialog.cc:67
 msgid "Output"
@@ -1409,7 +1395,7 @@ msgstr "输出伽玛校正"
 
 #: src/wx/config_move_dialog.cc:30
 msgid "Overwrite this file with current configuration"
-msgstr ""
+msgstr "使用正确的设置改写这个文件"
 
 #: src/wx/full_config_dialog.cc:625
 msgid "Password"
@@ -1417,20 +1403,19 @@ msgstr "密码"
 
 #: src/wx/paste_dialog.cc:24
 msgid "Paste"
-msgstr ""
+msgstr "黏贴"
 
 #: src/wx/paste_dialog.cc:29
 msgid "Paste audio settings"
-msgstr ""
+msgstr "黏贴音频设置"
 
 #: src/wx/paste_dialog.cc:32
-#, fuzzy
 msgid "Paste subtitle settings"
-msgstr "使用字幕"
+msgstr "黏贴字幕设置"
 
 #: src/wx/paste_dialog.cc:26
 msgid "Paste video settings"
-msgstr ""
+msgstr "黏贴视频设置"
 
 #: src/wx/normal_job_view.cc:37 src/wx/normal_job_view.cc:53
 msgid "Pause"
@@ -1451,7 +1436,7 @@ msgstr "最佳值: 未知"
 
 #: src/wx/player_information.cc:71
 msgid "Performance"
-msgstr ""
+msgstr "偏好设置"
 
 #: src/wx/film_viewer.cc:88
 msgid "Play"
@@ -1462,9 +1447,8 @@ msgid "Play length"
 msgstr "播放长度"
 
 #: src/wx/config_dialog.cc:155
-#, fuzzy
 msgid "Play sound via"
-msgstr "在预览时播放声音"
+msgstr "声音播放设备"
 
 #: src/wx/report_problem_dialog.cc:104
 msgid ""
@@ -1521,9 +1505,8 @@ msgid "Re-examine..."
 msgstr "重新制作..."
 
 #: src/wx/config_dialog.cc:406
-#, fuzzy
 msgid "Re-make certificates and key..."
-msgstr "重新制作证书和密钥..."
+msgstr "重新创建证书和密钥..."
 
 #: src/wx/colour_conversion_editor.cc:110
 msgid "Rec. 601"
@@ -1538,9 +1521,8 @@ msgid "Recipient certificate"
 msgstr "接受证书(设备)"
 
 #: src/wx/recreate_chain_dialog.cc:31
-#, fuzzy
 msgid "Recreate signing certificates"
-msgstr "接受证书(设备)"
+msgstr "重新创建登录证书"
 
 #: src/wx/isdcf_metadata_dialog.cc:64
 msgid "Red band"
@@ -1584,7 +1566,7 @@ msgstr "移除厅放映服务器（证书）"
 
 #: src/wx/content_panel.cc:101
 msgid "Remove the selected piece of content from the film."
-msgstr "删除选择工程"
+msgstr "从工程中删除所选项目."
 
 #: src/wx/rename_template_dialog.cc:24
 msgid "Rename template"
@@ -1701,14 +1683,12 @@ msgid "Select Chain File"
 msgstr "选择私钥文件"
 
 #: src/wx/config_dialog.cc:791
-#, fuzzy
 msgid "Select Export File"
-msgstr "选择密钥文件"
+msgstr "选择文件以输出"
 
 #: src/wx/config_dialog.cc:816
-#, fuzzy
 msgid "Select File To Import"
-msgstr "选择密钥文件"
+msgstr "选择文件以导入"
 
 #: src/wx/content_menu.cc:374
 msgid "Select KDM"
@@ -1731,9 +1711,8 @@ msgid "Select cinema and screen database file"
 msgstr "选择电影和银幕的数据库文件"
 
 #: src/wx/full_config_dialog.cc:99
-#, fuzzy
 msgid "Select configuration file"
-msgstr "选择证书文件"
+msgstr "选择配置文件"
 
 #: src/wx/export_dialog.cc:55
 msgid "Select output file"
@@ -1769,11 +1748,11 @@ msgstr "设置"
 
 #: src/wx/font_files_dialog.cc:51
 msgid "Set from file..."
-msgstr "外置字体"
+msgstr "从文件中获取设置…"
 
 #: src/wx/font_files_dialog.cc:54
 msgid "Set from system font..."
-msgstr "系统字体"
+msgstr "使用系统字体…"
 
 #: src/wx/config_dialog.cc:115
 msgid "Set language"
@@ -1781,7 +1760,7 @@ msgstr "设置语言"
 
 #: src/wx/subtitle_appearance_dialog.cc:196
 msgid "Set to"
-msgstr ""
+msgstr "设置为"
 
 #: src/wx/subtitle_appearance_dialog.cc:127
 msgid "Shadow"
@@ -1789,11 +1768,11 @@ msgstr "字幕阴影"
 
 #: src/wx/dcp_panel.cc:767
 msgid "Show audio..."
-msgstr "显示音频"
+msgstr "显示音频…"
 
 #: src/wx/audio_panel.cc:60
 msgid "Show graph of audio levels..."
-msgstr "显示音频电平图"
+msgstr "显示音频电平图…"
 
 #: src/wx/dcp_panel.cc:117
 msgid "Signed"
@@ -1804,12 +1783,10 @@ msgid "Signing DCPs and KDMs"
 msgstr "签名DCP和KDM"
 
 #: src/wx/colour_conversion_editor.cc:60
-#, fuzzy
 msgid "Simple gamma"
 msgstr "简单伽马值"
 
 #: src/wx/colour_conversion_editor.cc:61
-#, fuzzy
 msgid "Simple gamma, linearised for small values"
 msgstr "简单伽马值，低位对齐"
 
@@ -1820,7 +1797,7 @@ msgstr "签名卷"
 #: src/wx/player_information.cc:127
 #, c-format
 msgid "Size: %dx%d"
-msgstr ""
+msgstr "大小: %dx%d"
 
 #: src/wx/audio_dialog.cc:127
 msgid "Smoothing"
@@ -1836,7 +1813,7 @@ msgstr "根据内容进行分割"
 
 #: src/wx/update_dialog.cc:46
 msgid "Stable version "
-msgstr "稳定版"
+msgstr "稳定版 "
 
 #: src/wx/dcp_panel.cc:156
 msgid "Standard"
@@ -1880,14 +1857,12 @@ msgid "Subtitles"
 msgstr "字幕"
 
 #: src/wx/player_information.cc:137
-#, fuzzy
 msgid "Subtitles: no"
-msgstr "字幕"
+msgstr "字幕: 关闭"
 
 #: src/wx/player_information.cc:135
-#, fuzzy
 msgid "Subtitles: yes"
-msgstr "字幕"
+msgstr "字幕: 开启"
 
 #: src/wx/about_dialog.cc:140
 msgid "Supported by"
@@ -1915,7 +1890,7 @@ msgstr "模板名称"
 
 #: src/wx/save_template_dialog.cc:52 src/wx/templates_dialog.cc:125
 msgid "Template names must not be empty."
-msgstr "模板名称不能为空"
+msgstr "模板名称不能为空."
 
 #: src/wx/templates_dialog.cc:32
 msgid "Templates"
@@ -1927,7 +1902,7 @@ msgstr "国别地区(例如:CN)"
 
 #: src/wx/update_dialog.cc:52
 msgid "Test version "
-msgstr "测试版"
+msgstr "测试版 "
 
 #: src/wx/about_dialog.cc:198
 msgid "Tested by"
@@ -1935,7 +1910,18 @@ msgstr "测试"
 
 #: src/wx/kdm_timing_panel.cc:114
 msgid "The 'until' time must be after the 'from' time."
-msgstr "结束时间必须大于开始时间！"
+msgstr "结束时间必须大于开始时间."
+
+#: src/wx/recreate_chain_dialog.cc:33
+msgid ""
+"The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
+"contains a small error\n"
+"which will prevent DCPs from being validated correctly on some systems.  Do "
+"you want to re-create\n"
+"the certificate chain for signing DCPs and KDMs?"
+msgstr ""
+"用于签署DCPS和KDMs的这份证书包含一个小错误\n"
+"这将导致DCP在某些系统上无法验证。要重新创建证书吗?"
 
 #: src/wx/recreate_chain_dialog.cc:33
 msgid ""
@@ -1951,7 +1937,7 @@ msgid ""
 "The content file(s) you specified are not the same as those that are "
 "missing.  Either try again with the correct content file or remove the "
 "missing content."
-msgstr "文件不匹配，请删除不规范的文件或添加正确的文件"
+msgstr "文件不匹配，请删除不规范的文件或添加正确的文件."
 
 #: src/wx/film_name_location_dialog.cc:120
 msgid ""
@@ -1964,7 +1950,7 @@ msgstr "已存在文件 %s 并不为空，是否覆盖？"
 msgid ""
 "The file %s already exists.  Do you want to use it as your new configuration "
 "or overwrite it with your current configuration?"
-msgstr ""
+msgstr "文件 %s 已经存在. 您希望将它作为新设置或是用现有设置覆盖他?"
 
 #: src/wx/hints_dialog.cc:89
 msgid "There are no hints: everything looks good!"
@@ -1977,7 +1963,7 @@ msgstr "已存在同名模板，是否覆盖？"
 
 #: src/wx/film_viewer.cc:212
 msgid "There is not enough free memory to do that."
-msgstr "内存不足！"
+msgstr "内存不足."
 
 #: src/wx/config_dialog.cc:466
 msgid ""
@@ -1987,7 +1973,7 @@ msgstr "该文件调用多个证书文件，但只使用第一个。"
 
 #: src/wx/kdm_cpl_panel.cc:120
 msgid "This is not a valid CPL file"
-msgstr "CPL文件无效！"
+msgstr "CPL文件无效"
 
 #: src/wx/servers_list_dialog.cc:51
 msgid "Threads"
@@ -2007,7 +1993,7 @@ msgstr "时间线"
 
 #: src/wx/content_panel.cc:112
 msgid "Timeline..."
-msgstr "时间线"
+msgstr "时间线…"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
 #: src/wx/timing_panel.cc:50
@@ -2190,19 +2176,19 @@ msgstr "使用字幕"
 
 #: src/wx/audio_panel.cc:56
 msgid "Use this DCP's audio as OV and make VF"
-msgstr ""
+msgstr "将此DCP中的音频作为OV然后制作VF"
 
 #: src/wx/subtitle_panel.cc:55
 msgid "Use this DCP's subtitle as OV and make VF"
-msgstr ""
+msgstr "将此DCP中的字幕作为OV然后制作VF"
 
 #: src/wx/video_panel.cc:82
 msgid "Use this DCP's video as OV and make VF"
-msgstr ""
+msgstr "将此DCP中的视频作为OV然后制作VF"
 
 #: src/wx/config_move_dialog.cc:29
 msgid "Use this file as new configuration"
-msgstr ""
+msgstr "将这个文件作为新设置"
 
 #: src/wx/full_config_dialog.cc:621
 msgid "User name"
@@ -2224,7 +2210,7 @@ msgstr "视频帧率"
 
 #: src/wx/subtitle_panel.cc:130
 msgid "View..."
-msgstr "视图窗口"
+msgstr "视图窗口…"
 
 #: src/wx/full_config_dialog.cc:1024
 msgid "Warnings"
@@ -2256,7 +2242,7 @@ msgstr "将所有KDM保存到同一个文件夹中"
 
 #: src/wx/kdm_output_panel.cc:103 src/wx/self_dkdm_dialog.cc:76
 msgid "Write to"
-msgstr "输出目录："
+msgstr "输出到"
 
 #: src/wx/about_dialog.cc:97
 msgid "Written by"
@@ -2309,7 +2295,7 @@ msgstr "您选择了一些没有邮箱信息的影院。需要继续吗？"
 #: src/wx/kdm_output_panel.cc:195
 msgid ""
 "You must set up a mail server in Preferences before you can send emails."
-msgstr "您必须先在偏好设置中设定邮件服务器才能发送邮件"
+msgstr "您必须先在偏好设置中设定邮件服务器才能发送邮件."
 
 #: src/wx/report_problem_dialog.cc:68
 msgid "Your email address"
