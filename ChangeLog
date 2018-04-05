@@ -1,5 +1,7 @@
 2018-04-05  Carl Hetherington  <cth@carlh.net>
 
+	* Fix non-working arrow keys / space in text fields (#1263).
+
 	* Fix assertion failures with 3D content in some cases.
 
 2018-03-28  Carl Hetherington  <cth@carlh.net>
