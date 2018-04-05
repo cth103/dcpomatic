@@ -796,7 +796,7 @@ FilmViewer::config_changed (Config::Property p)
 		_audio.closeStream ();
 	}
 
-	if (Config::instance()->sound()) {
+	if (Config::instance()->sound() && _audio.getDeviceCount() > 0) {
 		unsigned int st = 0;
 		if (Config::instance()->sound_output()) {
 			while (st < _audio.getDeviceCount()) {

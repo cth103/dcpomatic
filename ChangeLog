@@ -1,4 +1,6 @@
-2018-04-06  Carl Hetherington  <cth@carlh.net>
+2018-04-05  Carl Hetherington  <cth@carlh.net>
+
+	* Fix crash on startup if there are no audio devices (#1265).
 
 	* Fix missing start icon for the player in Linux.
 
