@@ -65,8 +65,7 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 		_last &&
 		(
 			(_store.front().second.frame == _last->frame && _store.front().second.eyes == EYES_RIGHT && _last->eyes == EYES_LEFT) ||
-			(_store.front().second.frame == (_last->frame + 1) && _store.front().second.eyes == EYES_LEFT && _last->eyes == EYES_RIGHT) ||
-			_store.size() > 8
+			(_store.front().second.frame == (_last->frame + 1) && _store.front().second.eyes == EYES_LEFT && _last->eyes == EYES_RIGHT)
 			)
 		) {
 
