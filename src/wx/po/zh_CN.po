@@ -384,11 +384,6 @@ msgstr "不能引用该DCP. "
 msgid "Certificate chain"
 msgstr "证书秘钥"
 
-#: src/wx/recreate_chain_dialog.cc:31
-#, fuzzy
-msgid "Certificate chain"
-msgstr "创建证书"
-
 #: src/wx/dolby_doremi_certificate_panel.cc:204
 msgid "Certificate downloaded"
 msgstr "证书下载"
@@ -1922,15 +1917,6 @@ msgid ""
 msgstr ""
 "用于签署DCPS和KDMs的这份证书包含一个小错误\n"
 "这将导致DCP在某些系统上无法验证。要重新创建证书吗?"
-
-#: src/wx/recreate_chain_dialog.cc:33
-msgid ""
-"The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
-"contains a small error\n"
-"which will prevent DCPs from being validated correctly on some systems.  Do "
-"you want to re-create\n"
-"the certificate chain for signing DCPs and KDMs?"
-msgstr ""
 
 #: src/wx/content_menu.cc:360
 msgid ""
