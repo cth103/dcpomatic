@@ -4093,7 +4093,6 @@
 	* Attempt to fix random crashes on OS X (especially during encodes)
 	thought to be caused by multiple threads using (different) stringstreams
 	at the same time; see src/lib/safe_stringstream.
->>>>>>> origin/master
 
 2014-08-09  Carl Hetherington  <cth@carlh.net>
 
