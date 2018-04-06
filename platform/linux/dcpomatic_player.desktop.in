@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Terminal=false
+Exec=@INSTALL_PREFIX@/bin/dcpomatic2_player
+Name=DCP-o-matic 2 Player
+Icon=dcpomatic2_player
+Comment=DCP player
+Categories=AudioVideo;Video

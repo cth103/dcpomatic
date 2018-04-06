@@ -252,6 +252,7 @@ def make_spec(filename, version, target, requires=None):
     print('%{_datadir}/applications/dcpomatic2_batch.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_server.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_kdm.desktop', file=f)
+    print('%{_datadir}/applications/dcpomatic2_player.desktop', file=f)
     print('%{_datadir}/dcpomatic2/dcpomatic2_server_small.png', file=f)
     print('%{_datadir}/dcpomatic2/LiberationSans-Regular.ttf', file=f)
     print('%{_datadir}/dcpomatic2/LiberationSans-Italic.ttf', file=f)

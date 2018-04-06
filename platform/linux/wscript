@@ -23,4 +23,10 @@ def build(bld):
     obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
     obj.VERSION = bld.env.VERSION
 
-    bld.install_files('${PREFIX}/share/applications', ['dcpomatic2.desktop', 'dcpomatic2_batch.desktop', 'dcpomatic2_server.desktop', 'dcpomatic2_kdm.desktop'])
+    obj = bld(features='subst')
+    obj.source = 'dcpomatic_player.desktop.in'
+    obj.target = 'dcpomatic2_player.desktop'
+    obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
+    obj.VERSION = bld.env.VERSION
+
+    bld.install_files('${PREFIX}/share/applications', ['dcpomatic2.desktop', 'dcpomatic2_batch.desktop', 'dcpomatic2_server.desktop', 'dcpomatic2_kdm.desktop', 'dcpomatic2_player.desktop'])
