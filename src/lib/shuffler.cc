@@ -58,19 +58,24 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 	_store.push_back (make_pair (weak_piece, video));
 	_store.sort (Comparator());
 
-	bool const store_front_in_sequence =
-		!_store.empty() &&
-		_last &&
-		(
-			(_store.front().second.frame == _last->frame && _store.front().second.eyes == EYES_RIGHT && _last->eyes == EYES_LEFT) ||
-			(_store.front().second.frame == (_last->frame + 1) && _store.front().second.eyes == EYES_LEFT && _last->eyes == EYES_RIGHT)
-			);
+	while (true) {
 
-	/* store_front_in_sequence means everything is ok; otherwise if the store is getting too big just
-	   start emitting things as best we can.  This can easily happen if, for example, there is only content
-	   for one eye in some part of the timeline.
-	*/
-	while (store_front_in_sequence || _store.size() > 8) {
+		bool const store_front_in_sequence =
+			!_store.empty() &&
+			_last &&
+			(
+				(_store.front().second.frame == _last->frame && _store.front().second.eyes == EYES_RIGHT && _last->eyes == EYES_LEFT) ||
+				(_store.front().second.frame == (_last->frame + 1) && _store.front().second.eyes == EYES_LEFT && _last->eyes == EYES_RIGHT)
+				);
+
+		if (!store_front_in_sequence && _store.size() <= 8) {
+			/* store_front_in_sequence means everything is ok; otherwise if the store is getting too big just
+			   start emitting things as best we can.  This can easily happen if, for example, there is only content
+			   for one eye in some part of the timeline.
+			*/
+			break;
+		}
+
 		Video (_store.front().first, _store.front().second);
 		_last = _store.front().second;
 		_store.pop_front ();
