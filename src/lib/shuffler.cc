@@ -42,8 +42,11 @@ struct Comparator
 void
 Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 {
-	/* We should only ever see 3D_LEFT / 3D_RIGHT */
-	DCPOMATIC_ASSERT (video.eyes == EYES_LEFT || video.eyes == EYES_RIGHT);
+	if (video.eyes != EYES_LEFT && video.eyes != EYES_RIGHT) {
+		/* Pass through anything that we don't care about */
+		Video (weak_piece, video);
+		return;
+	}
 
 	shared_ptr<Piece> piece = weak_piece.lock ();
 	DCPOMATIC_ASSERT (piece);
