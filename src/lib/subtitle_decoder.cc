@@ -61,6 +61,7 @@ void
 SubtitleDecoder::emit_image_start (ContentTime from, shared_ptr<Image> image, dcpomatic::Rect<double> rect)
 {
 	ImageStart (ContentImageSubtitle (from, image, rect));
+	_position = from;
 }
 
 void
