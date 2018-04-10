@@ -1,3 +1,8 @@
+2018-04-10  Carl Hetherington  <cth@carlh.net>
+
+	* Fix disappearing subtitles when they are added from text files
+	alongside video content which also contain subtitles (#1271).
+
 2018-04-05  Carl Hetherington  <cth@carlh.net>
 
 	* Fix crash on startup if there are no audio devices (#1265).
