@@ -189,6 +189,10 @@ public:
 			dcp->subtitle->set_use (true);
 		}
 
+		if (dcp->three_d()) {
+			_film->set_three_d (true);
+		}
+
 		Ratio const * r = Ratio::nearest_from_ratio(dcp->video->size().ratio());
 		if (r) {
 			_film->set_container(r);

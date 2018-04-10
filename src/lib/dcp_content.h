@@ -129,6 +129,11 @@ public:
 		return _name;
 	}
 
+	bool three_d () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _three_d;
+	}
+
 private:
 	friend class reels_test5;
 
