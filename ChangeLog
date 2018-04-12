@@ -1,5 +1,7 @@
 2018-04-13  Carl Hetherington  <cth@carlh.net>
 
+	* Update encoding server list when one goes away (#1176).
+
 	* Add servers with bad server-link versions in the list (#982).
 
 2018-04-12  Carl Hetherington  <cth@carlh.net>

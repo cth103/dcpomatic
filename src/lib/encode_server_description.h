@@ -21,6 +21,8 @@
 #ifndef DCPOMATIC_ENCODE_SERVER_DESCRIPTION_H
 #define DCPOMATIC_ENCODE_SERVER_DESCRIPTION_H
 
+#include <boost/date_time/posix_time/posix_time.hpp>
+
 /** @class EncodeServerDescription
  *  @brief Class to describe a server to which we can send encoding work.
  */
@@ -31,6 +33,7 @@ public:
 		: _host_name ("")
 		, _threads (1)
 		, _link_version (0)
+		, _last_seen (boost::posix_time::second_clock::local_time())
 	{}
 
 	/** @param h Server host name or IP address in string form.
@@ -41,6 +44,7 @@ public:
 		: _host_name (h)
 		, _threads (t)
 		, _link_version (l)
+		, _last_seen (boost::posix_time::second_clock::local_time())
 	{}
 
 	/* Default copy constructor is fine */
@@ -67,6 +71,14 @@ public:
 		_threads = t;
 	}
 
+	void set_seen () {
+		_last_seen = boost::posix_time::second_clock::local_time();
+	}
+
+	int last_seen_seconds () const {
+		return boost::posix_time::time_duration(boost::posix_time::second_clock::local_time() - _last_seen).total_seconds();
+	}
+
 private:
 	/** server's host name */
 	std::string _host_name;
@@ -74,6 +86,7 @@ private:
 	int _threads;
 	/** server link (i.e. protocol) version number */
 	int _link_version;
+	boost::posix_time::ptime _last_seen;
 };
 
 #endif
