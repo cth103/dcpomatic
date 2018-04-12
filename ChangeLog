@@ -1,3 +1,7 @@
+2018-04-13  Carl Hetherington  <cth@carlh.net>
+
+	* Add servers with bad server-link versions in the list (#982).
+
 2018-04-12  Carl Hetherington  <cth@carlh.net>
 
 	* Prevent error when starting export without specifying a filename (#1260).

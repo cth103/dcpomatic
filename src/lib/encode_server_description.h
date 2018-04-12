@@ -30,14 +30,17 @@ public:
 	EncodeServerDescription ()
 		: _host_name ("")
 		, _threads (1)
+		, _link_version (0)
 	{}
 
 	/** @param h Server host name or IP address in string form.
 	 *  @param t Number of threads to use on the server.
+	 *  @param l Server link version number of the server.
 	 */
-	EncodeServerDescription (std::string h, int t)
+	EncodeServerDescription (std::string h, int t, int l)
 		: _host_name (h)
 		, _threads (t)
+		, _link_version (l)
 	{}
 
 	/* Default copy constructor is fine */
@@ -50,6 +53,10 @@ public:
 	/** @return number of threads to use on the server */
 	int threads () const {
 		return _threads;
+	}
+
+	int link_version () const {
+		return _link_version;
 	}
 
 	void set_host_name (std::string n) {
@@ -65,6 +72,8 @@ private:
 	std::string _host_name;
 	/** number of threads to use on the server */
 	int _threads;
+	/** server link (i.e. protocol) version number */
+	int _link_version;
 };
 
 #endif

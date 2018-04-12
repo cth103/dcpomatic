@@ -48,7 +48,8 @@ public:
 
 	void stop ();
 
-	std::list<EncodeServerDescription> servers () const;
+	std::list<EncodeServerDescription> good_servers () const;
+	std::list<EncodeServerDescription> bad_servers () const;
 
 	/** Emitted whenever the list of servers changes */
 	boost::signals2::signal<void ()> ServersListChanged;
@@ -73,7 +74,11 @@ private:
 	/** Thread to listen to the responses from servers */
 	boost::thread* _listen_thread;
 
-	std::list<EncodeServerDescription> _servers;
+	/** Available servers with the correct link version */
+	std::list<EncodeServerDescription> _good_servers;
+	/** Available servers with an incorrect link version */
+	std::list<EncodeServerDescription> _bad_servers;
+	/** Mutex for _good_servers and _bad_servers */
 	mutable boost::mutex _servers_mutex;
 
 	boost::asio::io_service _listen_io_service;

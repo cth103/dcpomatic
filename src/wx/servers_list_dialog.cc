@@ -35,7 +35,7 @@ ServersListDialog::ServersListDialog (wxWindow* parent)
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 	SetSizer (s);
 
-	_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (400, 200), wxLC_REPORT | wxLC_SINGLE_SEL);
+	_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (500, 200), wxLC_REPORT | wxLC_SINGLE_SEL);
 
 	{
 		wxListItem ip;
@@ -49,7 +49,7 @@ ServersListDialog::ServersListDialog (wxWindow* parent)
 		wxListItem ip;
 		ip.SetId (1);
 		ip.SetText (_("Threads"));
-		ip.SetWidth (100);
+		ip.SetWidth (150);
 		_list->InsertColumn (1, ip);
 	}
 
@@ -76,13 +76,25 @@ ServersListDialog::servers_list_changed ()
 	_list->DeleteAllItems ();
 
 	int n = 0;
-	BOOST_FOREACH (EncodeServerDescription i, EncodeServerFinder::instance()->servers ()) {
+
+	BOOST_FOREACH (EncodeServerDescription i, EncodeServerFinder::instance()->good_servers()) {
 		wxListItem list_item;
 		list_item.SetId (n);
 		_list->InsertItem (list_item);
 
 		_list->SetItem (n, 0, std_to_wx (i.host_name ()));
 		_list->SetItem (n, 1, std_to_wx (lexical_cast<string> (i.threads ())));
+
+		++n;
+	}
+
+	BOOST_FOREACH (EncodeServerDescription i, EncodeServerFinder::instance()->bad_servers()) {
+		wxListItem list_item;
+		list_item.SetId (n);
+		_list->InsertItem (list_item);
+
+		_list->SetItem (n, 0, std_to_wx (i.host_name ()));
+		_list->SetItem (n, 1, _("Incorrect version"));
 
 		++n;
 	}

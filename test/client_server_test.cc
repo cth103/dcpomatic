@@ -124,7 +124,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 	dcpomatic_sleep (1);
 
 	/* "localhost" rather than "127.0.0.1" here fails on docker; go figure */
-	EncodeServerDescription description ("127.0.0.1", 1);
+	EncodeServerDescription description ("127.0.0.1", 1, SERVER_LINK_VERSION);
 
 	list<thread*> threads;
 	for (int i = 0; i < 8; ++i) {
@@ -209,7 +209,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 	dcpomatic_sleep (1);
 
 	/* "localhost" rather than "127.0.0.1" here fails on docker; go figure */
-	EncodeServerDescription description ("127.0.0.1", 2);
+	EncodeServerDescription description ("127.0.0.1", 2, SERVER_LINK_VERSION);
 
 	list<thread*> threads;
 	for (int i = 0; i < 8; ++i) {
@@ -307,7 +307,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 	dcpomatic_sleep (1);
 
 	/* "localhost" rather than "127.0.0.1" here fails on docker; go figure */
-	EncodeServerDescription description ("127.0.0.1", 2);
+	EncodeServerDescription description ("127.0.0.1", 2, SERVER_LINK_VERSION);
 
 	list<thread*> threads;
 	for (int i = 0; i < 8; ++i) {

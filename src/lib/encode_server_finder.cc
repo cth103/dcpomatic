@@ -98,7 +98,8 @@ EncodeServerFinder::stop ()
 	_listen_thread = 0;
 
 	boost::mutex::scoped_lock lm (_servers_mutex);
-	_servers.clear ();
+	_good_servers.clear ();
+	_bad_servers.clear ();
 }
 
 void
@@ -206,11 +207,14 @@ EncodeServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Sock
 	xml->read_string (s);
 
 	string const ip = socket->socket().remote_endpoint().address().to_string ();
-	if (!server_found (ip) && xml->optional_number_child<int>("Version").get_value_or (0) == SERVER_LINK_VERSION) {
-		EncodeServerDescription sd (ip, xml->number_child<int> ("Threads"));
-		{
+	if (!server_found (ip)) {
+		EncodeServerDescription sd (ip, xml->number_child<int>("Threads"), xml->optional_number_child<int>("Version").get_value_or(0));
+		if (sd.link_version() == SERVER_LINK_VERSION) {
 			boost::mutex::scoped_lock lm (_servers_mutex);
-			_servers.push_back (sd);
+			_good_servers.push_back (sd);
+		} else {
+			boost::mutex::scoped_lock lm (_servers_mutex);
+			_bad_servers.push_back (sd);
 		}
 		emit (boost::bind (boost::ref (ServersListChanged)));
 	}
@@ -222,12 +226,21 @@ bool
 EncodeServerFinder::server_found (string ip) const
 {
 	boost::mutex::scoped_lock lm (_servers_mutex);
-	list<EncodeServerDescription>::const_iterator i = _servers.begin();
-	while (i != _servers.end() && i->host_name() != ip) {
+	list<EncodeServerDescription>::const_iterator i = _good_servers.begin();
+	while (i != _good_servers.end() && i->host_name() != ip) {
 		++i;
 	}
 
-	return i != _servers.end ();
+	if (i != _good_servers.end()) {
+		return true;
+	}
+
+	i = _bad_servers.begin();
+	while (i != _bad_servers.end() && i->host_name() != ip) {
+		++i;
+	}
+
+	return i != _bad_servers.end ();
 }
 
 EncodeServerFinder*
@@ -249,10 +262,17 @@ EncodeServerFinder::drop ()
 }
 
 list<EncodeServerDescription>
-EncodeServerFinder::servers () const
+EncodeServerFinder::good_servers () const
 {
 	boost::mutex::scoped_lock lm (_servers_mutex);
-	return _servers;
+	return _good_servers;
+}
+
+list<EncodeServerDescription>
+EncodeServerFinder::bad_servers () const
+{
+	boost::mutex::scoped_lock lm (_servers_mutex);
+	return _bad_servers;
 }
 
 void
@@ -261,7 +281,8 @@ EncodeServerFinder::config_changed (Config::Property what)
 	if (what == Config::USE_ANY_SERVERS || what == Config::SERVERS) {
 		{
 			boost::mutex::scoped_lock lm (_servers_mutex);
-			_servers.clear ();
+			_good_servers.clear ();
+			_bad_servers.clear ();
 		}
 		ServersListChanged ();
 		_search_condition.notify_all ();

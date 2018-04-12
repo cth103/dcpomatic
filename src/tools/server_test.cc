@@ -142,7 +142,7 @@ main (int argc, char* argv[])
 	dcpomatic_setup ();
 
 	try {
-		server = new EncodeServerDescription (server_host, 1);
+		server = new EncodeServerDescription (server_host, 1, SERVER_LINK_VERSION);
 		film.reset (new Film (film_dir));
 		film->read_metadata ();
 

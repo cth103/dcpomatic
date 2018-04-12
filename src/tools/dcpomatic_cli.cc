@@ -121,7 +121,7 @@ list_servers ()
 {
 	while (true) {
 		int N = 0;
-		list<EncodeServerDescription> servers = EncodeServerFinder::instance()->servers ();
+		list<EncodeServerDescription> servers = EncodeServerFinder::instance()->good_servers ();
 
 		/* This is a bit fiddly because we want to list configured servers that are down as well
 		   as all those (configured and found by broadcast) that are up.
@@ -166,6 +166,11 @@ list_servers ()
 			BOOST_FOREACH (EncodeServerDescription const & i, servers) {
 				cout << std::left << setw(24) << i.host_name() << " UP     " << i.threads() << "\n";
 				++N;
+			}
+
+			/* And those that have a bad version */
+			BOOST_FOREACH (EncodeServerDescription i, EncodeServerFinder::instance()->good_servers()) {
+				cout << std::left << setw(24) << i.host_name() << " bad version\n";
 			}
 		}
 
