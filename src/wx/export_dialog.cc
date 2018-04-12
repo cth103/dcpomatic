@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -21,6 +21,7 @@
 #include "export_dialog.h"
 #include "file_picker_ctrl.h"
 #include "wx_util.h"
+#include <wx/filepicker.h>
 #include <boost/bind.hpp>
 
 using boost::bind;
@@ -61,8 +62,12 @@ ExportDialog::ExportDialog (wxWindow* parent)
 	_format->SetSelection (0);
 
 	_format->Bind (wxEVT_CHOICE, bind (&ExportDialog::format_changed, this));
+	_file->Bind (wxEVT_FILEPICKER_CHANGED, bind (&ExportDialog::file_changed, this));
 
 	layout ();
+
+	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
+	ok->Enable (false);
 }
 
 void
@@ -90,4 +95,11 @@ bool
 ExportDialog::mixdown_to_stereo () const
 {
 	return _mixdown->GetValue ();
+}
+
+void
+ExportDialog::file_changed ()
+{
+	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
+	ok->Enable (true);
 }

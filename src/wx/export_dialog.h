@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -36,6 +36,7 @@ public:
 
 private:
 	void format_changed ();
+	void file_changed ();
 
 	wxChoice* _format;
 	wxCheckBox* _mixdown;
