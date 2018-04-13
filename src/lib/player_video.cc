@@ -34,6 +34,7 @@ extern "C" {
 
 using std::string;
 using std::cout;
+using std::pair;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
@@ -112,7 +113,9 @@ PlayerVideo::set_subtitle (PositionImage image)
 shared_ptr<Image>
 PlayerVideo::image (dcp::NoteHandler note, function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast) const
 {
-	shared_ptr<Image> im = _in->image (optional<dcp::NoteHandler> (note), _inter_size);
+	pair<shared_ptr<Image>, int> prox = _in->image (optional<dcp::NoteHandler> (note), _inter_size);
+	shared_ptr<Image> im = prox.first;
+	int const reduce = prox.second;
 
 	Crop total_crop = _crop;
 	switch (_part) {
@@ -130,6 +133,15 @@ PlayerVideo::image (dcp::NoteHandler note, function<AVPixelFormat (AVPixelFormat
 		break;
 	default:
 		break;
+	}
+
+	if (reduce > 0) {
+		/* Scale the crop down to account for the scaling that has already happened in ImageProxy::image */
+		int const r = pow(2, reduce);
+		total_crop.left /= r;
+		total_crop.right /= r;
+		total_crop.top /= r;
+		total_crop.bottom /= r;
 	}
 
 	dcp::YUVToRGB yuv_to_rgb = dcp::YUV_TO_RGB_REC601;

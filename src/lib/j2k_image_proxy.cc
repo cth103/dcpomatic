@@ -21,6 +21,7 @@
 #include "j2k_image_proxy.h"
 #include "dcpomatic_socket.h"
 #include "image.h"
+#include "dcpomatic_assert.h"
 #include <dcp/raw_convert.h>
 #include <dcp/openjpeg_image.h>
 #include <dcp/mono_picture_frame.h>
@@ -38,6 +39,8 @@
 using std::string;
 using std::cout;
 using std::max;
+using std::pair;
+using std::make_pair;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
@@ -106,13 +109,14 @@ J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 	socket->read (_data.data().get (), _data.size ());
 }
 
-void
+int
 J2KImageProxy::prepare (optional<dcp::Size> target_size) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
 	if (_decompressed && target_size == _target_size) {
-		return;
+		DCPOMATIC_ASSERT (_reduce);
+		return *_reduce;
 	}
 
 	int reduce = 0;
@@ -143,12 +147,15 @@ J2KImageProxy::prepare (optional<dcp::Size> target_size) const
 	}
 
 	_target_size = target_size;
+	_reduce = reduce;
+
+	return reduce;
 }
 
-shared_ptr<Image>
+pair<shared_ptr<Image>, int>
 J2KImageProxy::image (optional<dcp::NoteHandler>, optional<dcp::Size> target_size) const
 {
-	prepare (target_size);
+	int const reduce = prepare (target_size);
 
 	shared_ptr<Image> image (new Image (_pixel_format, _decompressed->size(), true));
 
@@ -169,7 +176,7 @@ J2KImageProxy::image (optional<dcp::NoteHandler>, optional<dcp::Size> target_siz
 		}
 	}
 
-	return image;
+	return make_pair (image, reduce);
 }
 
 void

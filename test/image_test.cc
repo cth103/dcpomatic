@@ -139,7 +139,7 @@ void
 alpha_blend_test_one (AVPixelFormat format, string suffix)
 {
 	shared_ptr<MagickImageProxy> proxy (new MagickImageProxy (private_data / "prophet_frame.tiff"));
-	shared_ptr<Image> raw = proxy->image();
+	shared_ptr<Image> raw = proxy->image().first;
 	shared_ptr<Image> background = raw->convert_pixel_format (dcp::YUV_TO_RGB_REC709, format, true, false);
 
 	shared_ptr<Image> overlay (new Image (AV_PIX_FMT_BGRA, dcp::Size(431, 891), true));
@@ -261,7 +261,7 @@ BOOST_AUTO_TEST_CASE (merge_test2)
 BOOST_AUTO_TEST_CASE (crop_scale_window_test)
 {
 	shared_ptr<MagickImageProxy> proxy(new MagickImageProxy("test/data/flat_red.png"));
-	shared_ptr<Image> raw = proxy->image();
+	shared_ptr<Image> raw = proxy->image().first;
 	shared_ptr<Image> out = raw->crop_scale_window(Crop(), dcp::Size(1998, 836), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_YUV420P, true, false);
 	shared_ptr<Image> save = out->scale(dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, false);
 	write_image(save, "build/test/crop_scale_window_test.png", "RGB");
