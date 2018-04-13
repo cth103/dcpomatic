@@ -412,7 +412,11 @@ J2KEncoder::servers_list_changed ()
 		}
 	}
 
-	BOOST_FOREACH (EncodeServerDescription i, EncodeServerFinder::instance()->good_servers ()) {
+	BOOST_FOREACH (EncodeServerDescription i, EncodeServerFinder::instance()->servers()) {
+		if (!i.current_link_version()) {
+			continue;
+		}
+
 		LOG_GENERAL (N_("Adding %1 worker threads for remote %2"), i.threads(), i.host_name ());
 		for (int j = 0; j < i.threads(); ++j) {
 			_threads.push_back (new boost::thread (boost::bind (&J2KEncoder::encoder_thread, this, i)));

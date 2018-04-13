@@ -99,27 +99,7 @@ EncodeServerFinder::stop ()
 	_listen_thread = 0;
 
 	boost::mutex::scoped_lock lm (_servers_mutex);
-	_good_servers.clear ();
-	_bad_servers.clear ();
-}
-
-static bool
-remove_missing (list<EncodeServerDescription>& servers, int since)
-{
-	bool removed = false;
-	list<EncodeServerDescription>::iterator i = servers.begin();
-	while (i != servers.end()) {
-		if (i->last_seen_seconds() > since) {
-			list<EncodeServerDescription>::iterator j = i;
-			++j;
-			servers.erase (i);
-			i = j;
-			removed = true;
-		} else {
-			++i;
-		}
-	}
-	return removed;
+	_servers.clear ();
 }
 
 void
@@ -171,9 +151,22 @@ try
 		/* Discard servers that we haven't seen for a while */
 		{
 			boost::mutex::scoped_lock lm (_servers_mutex);
-			bool g = remove_missing(_good_servers, 2 * interval);
-			bool b = remove_missing(_bad_servers, 2 * interval);
-			if (g || b) {
+
+			bool removed = false;
+			list<EncodeServerDescription>::iterator i = _servers.begin();
+			while (i != _servers.end()) {
+				if (i->last_seen_seconds() > 2 * interval) {
+					list<EncodeServerDescription>::iterator j = i;
+					++j;
+					_servers.erase (i);
+					i = j;
+					removed = true;
+				} else {
+					++i;
+				}
+			}
+
+			if (removed) {
 				emit (boost::bind (boost::ref (ServersListChanged)));
 			}
 		}
@@ -243,13 +236,8 @@ EncodeServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Sock
 		(*found)->set_seen ();
 	} else {
 		EncodeServerDescription sd (ip, xml->number_child<int>("Threads"), xml->optional_number_child<int>("Version").get_value_or(0));
-		if (sd.link_version() == SERVER_LINK_VERSION) {
-			boost::mutex::scoped_lock lm (_servers_mutex);
-			_good_servers.push_back (sd);
-		} else {
-			boost::mutex::scoped_lock lm (_servers_mutex);
-			_bad_servers.push_back (sd);
-		}
+		boost::mutex::scoped_lock lm (_servers_mutex);
+		_servers.push_back (sd);
 		emit (boost::bind (boost::ref (ServersListChanged)));
 	}
 
@@ -260,21 +248,12 @@ optional<list<EncodeServerDescription>::iterator>
 EncodeServerFinder::server_found (string ip)
 {
 	boost::mutex::scoped_lock lm (_servers_mutex);
-	list<EncodeServerDescription>::iterator i = _good_servers.begin();
-	while (i != _good_servers.end() && i->host_name() != ip) {
+	list<EncodeServerDescription>::iterator i = _servers.begin();
+	while (i != _servers.end() && i->host_name() != ip) {
 		++i;
 	}
 
-	if (i != _good_servers.end()) {
-		return i;
-	}
-
-	i = _bad_servers.begin();
-	while (i != _bad_servers.end() && i->host_name() != ip) {
-		++i;
-	}
-
-	if (i != _bad_servers.end()) {
+	if (i != _servers.end()) {
 		return i;
 	}
 
@@ -300,17 +279,10 @@ EncodeServerFinder::drop ()
 }
 
 list<EncodeServerDescription>
-EncodeServerFinder::good_servers () const
+EncodeServerFinder::servers () const
 {
 	boost::mutex::scoped_lock lm (_servers_mutex);
-	return _good_servers;
-}
-
-list<EncodeServerDescription>
-EncodeServerFinder::bad_servers () const
-{
-	boost::mutex::scoped_lock lm (_servers_mutex);
-	return _bad_servers;
+	return _servers;
 }
 
 void
@@ -319,8 +291,7 @@ EncodeServerFinder::config_changed (Config::Property what)
 	if (what == Config::USE_ANY_SERVERS || what == Config::SERVERS) {
 		{
 			boost::mutex::scoped_lock lm (_servers_mutex);
-			_good_servers.clear ();
-			_bad_servers.clear ();
+			_servers.clear ();
 		}
 		ServersListChanged ();
 		_search_condition.notify_all ();

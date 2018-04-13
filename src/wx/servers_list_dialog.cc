@@ -77,25 +77,17 @@ ServersListDialog::servers_list_changed ()
 
 	int n = 0;
 
-	BOOST_FOREACH (EncodeServerDescription i, EncodeServerFinder::instance()->good_servers()) {
+	BOOST_FOREACH (EncodeServerDescription i, EncodeServerFinder::instance()->servers()) {
 		wxListItem list_item;
 		list_item.SetId (n);
 		_list->InsertItem (list_item);
 
 		_list->SetItem (n, 0, std_to_wx (i.host_name ()));
-		_list->SetItem (n, 1, std_to_wx (lexical_cast<string> (i.threads ())));
-
-		++n;
-	}
-
-	BOOST_FOREACH (EncodeServerDescription i, EncodeServerFinder::instance()->bad_servers()) {
-		wxListItem list_item;
-		list_item.SetId (n);
-		_list->InsertItem (list_item);
-
-		_list->SetItem (n, 0, std_to_wx (i.host_name ()));
-		_list->SetItem (n, 1, _("Incorrect version"));
-
+		if (i.current_link_version()) {
+			_list->SetItem (n, 1, std_to_wx (lexical_cast<string> (i.threads ())));
+		} else {
+			_list->SetItem (n, 1, _("Incorrect version"));
+		}
 		++n;
 	}
 }

@@ -21,6 +21,7 @@
 #ifndef DCPOMATIC_ENCODE_SERVER_DESCRIPTION_H
 #define DCPOMATIC_ENCODE_SERVER_DESCRIPTION_H
 
+#include "types.h"
 #include <boost/date_time/posix_time/posix_time.hpp>
 
 /** @class EncodeServerDescription
@@ -59,8 +60,8 @@ public:
 		return _threads;
 	}
 
-	int link_version () const {
-		return _link_version;
+	bool current_link_version () const {
+		return _link_version == SERVER_LINK_VERSION;
 	}
 
 	void set_host_name (std::string n) {
