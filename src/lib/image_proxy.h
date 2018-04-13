@@ -63,9 +63,11 @@ public:
 	/** @param note Handler for any notes that occur.
 	 *  @param size Size that the returned image will be scaled to, in case this
 	 *  can be used as an optimisation.
-	 *  @return Image (which must be aligned)
+	 *  @return Image (which must be aligned) and log2 of any scaling down that has
+	 *  already been applied to the image; e.g. if the the image is already half the size
+	 *  of the original, the second part of the return value will be 1.
 	 */
-	virtual boost::shared_ptr<Image> image (
+	virtual std::pair<boost::shared_ptr<Image>, int> image (
 		boost::optional<dcp::NoteHandler> note = boost::optional<dcp::NoteHandler> (),
 		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
 		) const = 0;
@@ -76,8 +78,9 @@ public:
 	virtual bool same (boost::shared_ptr<const ImageProxy>) const = 0;
 	/** Do any useful work that would speed up a subsequent call to ::image().
 	 *  This method may be called in a different thread to image().
+	 *  @return log2 of any scaling down that will be applied to the image.
 	 */
-	virtual void prepare (boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const {}
+	int prepare (boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const { return 0; }
 	virtual AVPixelFormat pixel_format () const = 0;
 	virtual size_t memory_used () const = 0;
 };

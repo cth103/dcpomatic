@@ -50,7 +50,7 @@ public:
 
 	J2KImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
 
-	boost::shared_ptr<Image> image (
+	std::pair<boost::shared_ptr<Image>, int> image (
 		boost::optional<dcp::NoteHandler> note = boost::optional<dcp::NoteHandler> (),
 		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
 		) const;
@@ -59,7 +59,7 @@ public:
 	void send_binary (boost::shared_ptr<Socket>) const;
 	/** @return true if our image is definitely the same as another, false if it is probably not */
 	bool same (boost::shared_ptr<const ImageProxy>) const;
-	void prepare (boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const;
+	int prepare (boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const;
 	AVPixelFormat pixel_format () const {
 		return _pixel_format;
 	}
@@ -85,6 +85,7 @@ private:
 	boost::optional<dcp::Eye> _eye;
 	mutable boost::shared_ptr<dcp::OpenJPEGImage> _decompressed;
 	mutable boost::optional<dcp::Size> _target_size;
+	mutable boost::optional<int> _reduce;
 	AVPixelFormat _pixel_format;
 	mutable boost::mutex _mutex;
 	boost::optional<int> _forced_reduction;

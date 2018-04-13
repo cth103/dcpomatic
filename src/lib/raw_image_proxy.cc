@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -31,6 +31,8 @@ extern "C" {
 #include "i18n.h"
 
 using std::string;
+using std::pair;
+using std::make_pair;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
@@ -52,10 +54,10 @@ RawImageProxy::RawImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 	_image->read_from_socket (socket);
 }
 
-shared_ptr<Image>
+pair<shared_ptr<Image>, int>
 RawImageProxy::image (optional<dcp::NoteHandler>, optional<dcp::Size>) const
 {
-	return _image;
+	return make_pair (_image, 0);
 }
 
 void
@@ -81,7 +83,7 @@ RawImageProxy::same (shared_ptr<const ImageProxy> other) const
 		return false;
 	}
 
-	return (*_image.get()) == (*rp->image().get());
+	return (*_image.get()) == (*rp->image().first.get());
 }
 
 AVPixelFormat

@@ -32,6 +32,8 @@
 
 using std::string;
 using std::cout;
+using std::pair;
+using std::make_pair;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
@@ -66,13 +68,13 @@ MagickImageProxy::MagickImageProxy (shared_ptr<cxml::Node>, shared_ptr<Socket> s
 	delete[] data;
 }
 
-shared_ptr<Image>
+pair<shared_ptr<Image>, int>
 MagickImageProxy::image (optional<dcp::NoteHandler>, optional<dcp::Size>) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
 	if (_image) {
-		return _image;
+		return make_pair (_image, 0);
 	}
 
 	Magick::Image* magick_image = 0;
@@ -137,7 +139,7 @@ MagickImageProxy::image (optional<dcp::NoteHandler>, optional<dcp::Size>) const
 
 	delete magick_image;
 
-	return _image;
+	return make_pair (_image, 0);
 }
 
 void
