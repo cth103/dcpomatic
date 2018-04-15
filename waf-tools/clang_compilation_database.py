@@ -37,7 +37,7 @@ def collect_compilation_db_tasks(self):
 def write_compilation_database(ctx):
 	"Write the clang compilation database as JSON"
 	database_file = ctx.bldnode.make_node('compile_commands.json')
-	Logs.info('Build commands will be stored in %s', database_file.path_from(ctx.path))
+	Logs.info('Build commands will be stored in %s' % database_file.path_from(ctx.path))
 	try:
 		root = json.load(database_file)
 	except IOError:
