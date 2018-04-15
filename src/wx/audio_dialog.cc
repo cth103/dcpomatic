@@ -151,7 +151,8 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 	overall_sizer->SetSizeHints (this);
 
 	_film_connection = film->ContentChanged.connect (boost::bind (&AudioDialog::content_changed, this, _2));
-	SetTitle (_("DCP-o-matic audio"));
+	DCPOMATIC_ASSERT (film->directory());
+	SetTitle(wxString::Format(_("DCP-o-matic audio - %s"), std_to_wx(film->directory().get().string())));
 
 	if (content) {
 		_playlist.reset (new Playlist ());
