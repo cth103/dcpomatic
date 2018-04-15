@@ -24,6 +24,7 @@ import sys
 import glob
 import distutils
 import distutils.spawn
+import urllib
 from waflib import Logs, Context
 
 APPNAME = 'dcpomatic'
@@ -601,7 +602,8 @@ def configure(conf):
     Logs.pprint('YELLOW', '')
 
 def download_supporters():
-    os.system('curl https://dcpomatic.com/supporters.cc > build/supporters.cc')
+    last_date = subprocess.Popen(shlex.split('git log -1 --format=%%ai %s' % last_version), stdout=subprocess.PIPE).communicate()[0]
+    os.system('curl https://dcpomatic.com/supporters.cc?%s > src/wx/supporters.cc' % urllib.urlencode({"until": last_date.strip()}))
 
 def build(bld):
     create_version_cc(VERSION, bld.env.CXXFLAGS)

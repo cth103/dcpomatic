@@ -137,7 +137,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	add_section (_("With help from"), with_help_from);
 
 	wxArrayString supported_by;
-	#include "../../build/supporters.cc"
+	#include "supporters.cc"
 	add_section (_("Supported by"), supported_by);
 
 	wxArrayString tested_by;
