@@ -959,8 +959,8 @@ Player::seek (DCPTime time, bool accurate)
 
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
 		if (time < i->content->position()) {
-			/* Before; seek to 0 */
-			i->decoder->seek (ContentTime(), accurate);
+			/* Before; seek to the start of the content */
+			i->decoder->seek (dcp_to_content_time (i, i->content->position()), accurate);
 			i->done = false;
 		} else if (i->content->position() <= time && time < i->content->end()) {
 			/* During; seek to position */
