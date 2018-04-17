@@ -549,13 +549,13 @@ VideoContent::take_settings_from (shared_ptr<const VideoContent> c)
 void
 VideoContent::modify_position (DCPTime& pos) const
 {
-	pos = pos.ceil (_parent->film()->video_frame_rate());
+	pos = pos.round (_parent->film()->video_frame_rate());
 }
 
 void
 VideoContent::modify_trim_start (ContentTime& trim) const
 {
 	if (_parent->video_frame_rate()) {
-		trim = trim.ceil (_parent->video_frame_rate().get());
+		trim = trim.round (_parent->video_frame_rate().get());
 	}
 }
