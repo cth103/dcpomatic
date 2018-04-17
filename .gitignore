@@ -36,3 +36,4 @@ test/README.log
 test/README.pdf
 test/README.aux
 .flatpak-builder
+src/wx/supporters.cc
