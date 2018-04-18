@@ -421,6 +421,7 @@ FilmViewer::slider_moved (bool page)
 	}
 
 	DCPTime t (_slider->GetValue() * _film->length().get() / 4096);
+	t = t.round (_film->video_frame_rate());
 	/* Ensure that we hit the end of the film at the end of the slider */
 	if (t >= _film->length ()) {
 		t = _film->length() - one_video_frame();
