@@ -664,6 +664,8 @@ Writer::write (PlayerSubtitles subs, DCPTimePeriod period)
 		++_subtitle_reel;
 	}
 
+	DCPOMATIC_ASSERT (_subtitle_reel != _reels.end());
+
 	_subtitle_reel->write (subs);
 }
 

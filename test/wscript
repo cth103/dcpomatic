@@ -99,6 +99,7 @@ def build(bld):
                  ssa_subtitle_test.cc
                  stream_test.cc
                  subtitle_reel_number_test.cc
+                 subtitle_trim_test.cc
                  test.cc
                  threed_test.cc
                  time_calculation_test.cc
