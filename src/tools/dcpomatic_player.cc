@@ -465,7 +465,7 @@ private:
 		shared_ptr<VerifyDCPJob> last = dynamic_pointer_cast<VerifyDCPJob> (jm->get().back());
 		DCPOMATIC_ASSERT (last);
 
-		VerifyDCPDialog* d = new VerifyDCPDialog (this, last->notes ());
+		VerifyDCPDialog* d = new VerifyDCPDialog (this, last);
 		d->ShowModal ();
 		d->Destroy ();
 	}

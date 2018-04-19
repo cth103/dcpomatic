@@ -23,11 +23,12 @@
 #include <list>
 
 class wxRichTextCtrl;
+class VerifyDCPJob;
 
 class VerifyDCPDialog : public wxDialog
 {
 public:
-	VerifyDCPDialog (wxWindow* parent, std::list<dcp::VerificationNote> notes);
+	VerifyDCPDialog (wxWindow* parent, boost::shared_ptr<VerifyDCPJob> job);
 
 private:
 	wxRichTextCtrl* _text;

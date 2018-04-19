@@ -20,13 +20,15 @@
 
 #include "verify_dcp_dialog.h"
 #include "wx_util.h"
+#include "lib/verify_dcp_job.h"
 #include <dcp/verify.h>
 #include <wx/richtext/richtextctrl.h>
 #include <boost/foreach.hpp>
 
 using std::list;
+using boost::shared_ptr;
 
-VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, list<dcp::VerificationNote> notes)
+VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job)
 	: wxDialog (parent, wxID_ANY, _("DCP verification"))
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
@@ -44,14 +46,21 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, list<dcp::VerificationNote> 
 
 	_text->GetCaret()->Hide ();
 
-	if (notes.empty ()) {
+	if (job->finished_ok() && job->notes().empty()) {
 		_text->BeginStandardBullet (N_("standard/circle"), 1, 50);
 		_text->WriteText (_("DCP validates OK."));
 		_text->EndStandardBullet ();
 		return;
 	}
 
-	BOOST_FOREACH (dcp::VerificationNote i, notes) {
+	/* We might have an error that did not come from dcp::verify; report it if so */
+	if (job->finished_in_error() && job->error_summary() != "") {
+		_text->BeginSymbolBullet (N_("!"), 1, 50);
+		_text->WriteText(std_to_wx(job->error_summary()));
+		_text->Newline();
+	}
+
+	BOOST_FOREACH (dcp::VerificationNote i, job->notes()) {
 		switch (i.type()) {
 		case dcp::VerificationNote::VERIFY_NOTE:
 			_text->BeginStandardBullet (N_("standard/circle"), 1, 50);
