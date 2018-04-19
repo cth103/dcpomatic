@@ -888,6 +888,10 @@ Player::text_subtitle_start (weak_ptr<Piece> wp, ContentTextSubtitle subtitle)
 	PlayerSubtitles ps;
 	DCPTime const from (content_time_to_dcp (piece, subtitle.from()));
 
+	if (from > piece->content->end()) {
+		return;
+	}
+
 	BOOST_FOREACH (dcp::SubtitleString s, subtitle.subs) {
 		s.set_h_position (s.h_position() + piece->content->subtitle->x_offset ());
 		s.set_v_position (s.v_position() + piece->content->subtitle->y_offset ());
@@ -929,6 +933,10 @@ Player::subtitle_stop (weak_ptr<Piece> wp, ContentTime to)
 	}
 
 	DCPTime const dcp_to = content_time_to_dcp (piece, to);
+
+	if (dcp_to > piece->content->end()) {
+		return;
+	}
 
 	pair<PlayerSubtitles, DCPTime> from = _active_subtitles.add_to (wp, dcp_to);
 
