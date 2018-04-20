@@ -597,9 +597,8 @@ msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
 #: src/wx/audio_dialog.cc:155
-#, fuzzy, c-format
 msgid "DCP-o-matic audio - %s"
-msgstr "DCP-o-matic音频"
+msgstr "DCP-o-matic音频 - %s"
 
 #: src/wx/full_config_dialog.cc:1031
 msgid "Debug: decode"
