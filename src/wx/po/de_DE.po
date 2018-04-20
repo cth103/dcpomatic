@@ -612,7 +612,7 @@ msgstr "DCP-o-matic"
 #: src/wx/audio_dialog.cc:155
 #, fuzzy, c-format
 msgid "DCP-o-matic audio - %s"
-msgstr "Audio Pegelverlauf und Analyse"
+msgstr "Audio Pegelverlauf und Analyse - %s"
 
 #: src/wx/full_config_dialog.cc:1031
 msgid "Debug: decode"
