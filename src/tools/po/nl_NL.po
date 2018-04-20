@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-20 00:58+0100\n"
-"PO-Revision-Date: 2018-01-17 05:38+0100\n"
+"PO-Revision-Date: 2018-04-21 00:31+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.12\n"
+"X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/tools/dcpomatic_kdm.cc:357
@@ -196,7 +196,7 @@ msgstr "Kopieer instellingen\tCtrl-C"
 
 #: src/tools/dcpomatic.cc:445
 msgid "Could not create folder to store film"
-msgstr ""
+msgstr "Kan map voor opslaan film niet aanmaken"
 
 #: src/tools/dcpomatic_kdm.cc:440
 msgid ""
@@ -566,11 +566,11 @@ msgstr "Onvoltooide taken"
 
 #: src/tools/dcpomatic_player.cc:292
 msgid "Verify DCP"
-msgstr ""
+msgstr "Controleer DCP"
 
 #: src/tools/dcpomatic_player.cc:455
 msgid "Verifying DCP"
-msgstr ""
+msgstr "Controleren DCP"
 
 #: src/tools/dcpomatic.cc:1104
 msgid "Video waveform..."

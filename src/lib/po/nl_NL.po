@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-20 00:58+0100\n"
-"PO-Revision-Date: 2018-03-21 02:02+0100\n"
+"PO-Revision-Date: 2018-04-21 00:48+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -297,9 +297,8 @@ msgid "Cancelled"
 msgstr "Geannuleerd"
 
 #: src/lib/film.cc:296
-#, fuzzy
 msgid "Cannot contain slashes"
-msgstr "mag geen slash bevatten"
+msgstr "Mag geen slash bevatten"
 
 #: src/lib/exceptions.cc:61
 msgid "Cannot handle pixel format %1 during %2"
@@ -369,19 +368,19 @@ msgstr "Content audio sample rate"
 msgid "Content to be joined must all have or not have audio"
 msgstr ""
 "Samen te voegen content moet allemaal wel audio, of allemaal geen audio "
-"hebben."
+"hebben"
 
 #: src/lib/ffmpeg_content.cc:145
 msgid "Content to be joined must all have or not have subtitles"
 msgstr ""
 "Samen te voegen content moet allemaal wel ondertitels, of allemaal geen "
-"ondertitels hebben."
+"ondertitels hebben"
 
 #: src/lib/ffmpeg_content.cc:139
 msgid "Content to be joined must all have or not have video"
 msgstr ""
 "Samen te voegen content moet allemaal wel video, of allemaal geen video "
-"hebben."
+"hebben"
 
 #: src/lib/subtitle_content.cc:198
 msgid "Content to be joined must have the same 'burn subtitles' setting."
@@ -458,7 +457,7 @@ msgstr ""
 
 #: src/lib/content.cc:128 src/lib/content.cc:132
 msgid "Content to be joined must have the same video frame rate"
-msgstr "Samen te voegen content moet dezelfde video frame rate hebben."
+msgstr "Samen te voegen content moet dezelfde video frame rate hebben"
 
 #: src/lib/video_content.cc:172
 msgid "Content to be joined must have the same video frame type."
@@ -876,9 +875,8 @@ msgid "Mismatched video sizes in DCP"
 msgstr "Ongelijke beeldgroottes in DCP"
 
 #: src/lib/exceptions.cc:55
-#, fuzzy
 msgid "Missing required setting %1"
-msgstr "ontbrekende verplichte instelling %1"
+msgstr "Ontbrekende verplichte instelling %1"
 
 #: src/lib/writer.cc:611
 msgid "Mono"
@@ -1071,17 +1069,15 @@ msgstr "Grootte"
 
 #: src/lib/audio_content.cc:253
 msgid "Some audio will be resampled to %1Hz"
-msgstr "Sommige audio wordt geresampled naar %1Hz"
+msgstr "Een deel van de audio wordt geresampled naar %1Hz"
 
 #: src/lib/film.cc:321
-#, fuzzy
 msgid "Some of your content needs a KDM"
-msgstr "een deel van uw content heeft een KDM nodig"
+msgstr "Een deel van uw content heeft een KDM nodig"
 
 #: src/lib/film.cc:324
-#, fuzzy
 msgid "Some of your content needs an OV"
-msgstr "een deel van uw content heeft een OV nodig"
+msgstr "Een deel van uw content heeft een OV nodig"
 
 #: src/lib/writer.cc:613
 msgid "Stereo"
@@ -1151,6 +1147,12 @@ msgid ""
 "rate to one closer to your content, provided that your target projection "
 "systems support your chosen DCP rate."
 msgstr ""
+"Er is een groot verschil tussen de frame rate van uw DCP en die van een deel "
+"van uw content.  Dit zorgt ervoor dat uw audio op een veel lagere of hogere "
+"toonhoogte wordt afgespeeld dan de bedoeling is.  U wordt geadviseerd om uw "
+"DCP frame rate in te stellen op een waarde die dichter bij uw content zit, "
+"op voorwaarde dat uw doelprojectiesystemen de door u gekozen DCP frame rate "
+"ondersteunen."
 
 #: src/lib/job.cc:173
 msgid ""
@@ -1187,7 +1189,7 @@ msgid ""
 msgstr ""
 "Deze film is aangemaakt met een oudere versie van DCP-o-matic en kan niet "
 "met deze versie geladen worden.  U moet een nieuwe film aanmaken en de "
-"content opnieuw importeren en configureren. Sorry!."
+"content opnieuw toevoegen en configureren. Sorry!"
 
 #: src/lib/dcp_content_type.cc:48
 msgid "Trailer"
@@ -1251,7 +1253,7 @@ msgstr "VI"
 
 #: src/lib/verify_dcp_job.cc:41
 msgid "Verify DCP"
-msgstr ""
+msgstr "Controleer DCP"
 
 #: src/lib/util.cc:519
 msgid "Visually impaired"
@@ -1327,9 +1329,8 @@ msgstr ""
 "zal zeer waarschijnlijk problemen bij het afspelen geven."
 
 #: src/lib/film.cc:304
-#, fuzzy
 msgid "You must add some content to the DCP before creating it"
-msgstr "u moet content aan de DCP toevoegen voor hij gemaakt kan worden"
+msgstr "U moet content aan de DCP toevoegen voor hij gemaakt kan worden"
 
 #: src/lib/hints.cc:77
 msgid ""
@@ -1346,7 +1347,7 @@ msgid ""
 msgstr ""
 "Uw DCP gebruikt een ongebruikelijke container-beeldverhouding.  Dit kan "
 "problemen geven met sommige projectoren.  Gebruik, indien mogelijk, Flat of "
-"Scope voor de container-beeldverhouding van de DCP."
+"Scope voor de container-beeldverhouding van de DCP"
 
 #: src/lib/hints.cc:205
 msgid ""
@@ -1462,68 +1463,58 @@ msgstr "h"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:517
-#, fuzzy
 msgid "it does not have sound in all its reels."
-msgstr "De DCP heeft niet audio in alle reels."
+msgstr "hij heeft niet audio in alle reels."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:543
-#, fuzzy
 msgid "it does not have subtitles in all its reels."
-msgstr "De DCP heeft niet ondertitels in alle reels."
+msgstr "hij heeft niet ondertitels in alle reels."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:450
-#, fuzzy
 msgid "it has a different frame rate to the film."
-msgstr "De film heeft een andere frame rate dan deze DCP."
+msgstr "hij heeft een andere frame rate dan de film."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:438
-#, fuzzy
 msgid "it is Interop and the film is set to SMPTE."
-msgstr "De film is ingesteld op Interop en deze DCP is SMPTE."
+msgstr "hij is Interop en de film is SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:442
-#, fuzzy
 msgid "it is SMPTE and the film is set to Interop."
-msgstr "De film is ingesteld op SMPTE en deze DCP is Interop."
+msgstr "hij is SMPTE en de film is Interop."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:523
-#, fuzzy
 msgid "it overlaps other audio content; remove the other content."
-msgstr "Er is andere audio-content die overlapt met deze DCP; verwijder deze."
+msgstr "hij overlapt met andere audio-content; verwijder deze andere content."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:549
-#, fuzzy
 msgid "it overlaps other subtitle content; remove the other content."
 msgstr ""
-"Er is andere ondertitel-content die overlapt met deze DCP; verwijder deze."
+"hij overlapt met andere ondertitel-content; verwijder deze andere content."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:497
-#, fuzzy
 msgid "it overlaps other video content; remove the other content."
-msgstr "Er is andere video-content die overlapt met deze DCP; verwijder deze."
+msgstr "hij overlapt met andere video-content; verwijder deze andere content."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:473
-#, fuzzy
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
 msgstr ""
-"De reel-lengtes in de film en die in de DCP verschillen; stel de reel-mode "
-"in op 'splits per video-content'."
+"zijn reel-lengtes verschillen van die in de film; stel de reel-mode in op "
+"'splits per video-content'."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:492
-#, fuzzy
 msgid "its video frame size differs from the film's."
-msgstr "De video beeldgrootte in de film verschilt van die in de DCP."
+msgstr "zijn video-beeldgrootte verschilt van die in de film."
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
 #: src/lib/util.cc:182 src/lib/util.cc:185

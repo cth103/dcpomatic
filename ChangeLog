@@ -1,3 +1,7 @@
+2018-04-21  Carl Hetherington  <cth@carlh.net>
+
+	* Updated nl_NL translation from Rob van Nieuwkerk.
+
 2018-04-19  Carl Hetherington  <cth@carlh.net>
 
 	* Fix crash on making a DCP after trimming the end of some text-based subtitles (#1275).
