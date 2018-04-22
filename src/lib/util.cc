@@ -718,7 +718,7 @@ careful_string_filter (string s)
 	*/
 
 	string out;
-	string const allowed = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_%.";
+	string const allowed = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_%.+";
 	for (size_t i = 0; i < s.size(); ++i) {
 		if (allowed.find (s[i]) != string::npos) {
 			out += s[i];
