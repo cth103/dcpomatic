@@ -730,7 +730,9 @@ Film::isdcf_name (bool if_created_now) const
 	/* Count mapped audio channels */
 
 	pair<int, int> ch = audio_channel_types (mapped_audio_channels(), audio_channels());
-	if (ch.first) {
+	if (!ch.first && !ch.second) {
+		d += "_MOS";
+	} else if (ch.first) {
 		d += String::compose("_%1%2", ch.first, ch.second);
 	}
 

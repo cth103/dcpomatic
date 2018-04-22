@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	m.facility = "FA";
 	film->set_isdcf_metadata (m);
 	film->set_interop (true);
-	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilm_FTR-1_F_EN-XX_UK-PG_2K_ST_20140704_FA_IOP_OV");
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilm_FTR-1_F_EN-XX_UK-PG_MOS_2K_ST_20140704_FA_IOP_OV");
 
 	/* Test a long name and some different data */
 
@@ -77,12 +77,12 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	m.facility = "PP";
 	film->set_isdcf_metadata (m);
 	film->set_interop (false);
-	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-R_4K_DI_20140704_PP_SMPTE_OV");
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-R_MOS_4K_DI_20140704_PP_SMPTE_OV");
 
 	/* Test to see that RU ratings like 6+ survive */
 	m.rating = "6+";
 	film->set_isdcf_metadata (m);
-	BOOST_CHECK_EQUAL (film->dcp_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-6+_4K_DI_20140704_PP_SMPTE_OV");
+	BOOST_CHECK_EQUAL (film->dcp_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-6+_MOS_4K_DI_20140704_PP_SMPTE_OV");
 	m.rating = "R";
 	film->set_isdcf_metadata (m);
 
@@ -93,26 +93,26 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	wait_for_jobs ();
 	content->video->set_scale (VideoContentScale (Ratio::from_id ("133")));
 	film->set_container (Ratio::from_id ("185"));
-	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_TLR-2_F_DE-fr_US-R_4K_DI_20140704_PP_SMPTE_OV");
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_TLR-2_F_DE-fr_US-R_MOS_4K_DI_20140704_PP_SMPTE_OV");
 
 	/* But should be shown for anything else */
 
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("XSN"));
-	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_XSN-2_F-133_DE-fr_US-R_4K_DI_20140704_PP_SMPTE_OV");
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_XSN-2_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PP_SMPTE_OV");
 
 	/* And it should always be numeric */
 
 	content->video->set_scale (VideoContentScale (Ratio::from_id ("239")));
-	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_XSN-2_F-239_DE-fr_US-R_4K_DI_20140704_PP_SMPTE_OV");
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_XSN-2_F-239_DE-fr_US-R_MOS_4K_DI_20140704_PP_SMPTE_OV");
 
 	content->video->set_scale (VideoContentScale (Ratio::from_id ("190")));
-	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_XSN-2_F-190_DE-fr_US-R_4K_DI_20140704_PP_SMPTE_OV");
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_XSN-2_F-190_DE-fr_US-R_MOS_4K_DI_20140704_PP_SMPTE_OV");
 	content->video->set_scale (VideoContentScale (Ratio::from_id ("133")));
 
 	/* Test 3D */
 
 	film->set_three_d (true);
-	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_XSN-2-3D_F-133_DE-fr_US-R_4K_DI_20140704_PP_SMPTE-3D_OV");
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_XSN-2-3D_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PP_SMPTE-3D_OV");
 
 	/* Test content type modifiers */
 
@@ -125,7 +125,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	m.mastered_luminance = "4fl";
 	film->set_isdcf_metadata (m);
 	film->set_video_frame_rate (48);
-	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_XSN-2-Temp-Pre-RedBand-MyChain-2D-4fl-48_F-133_DE-fr_US-R_4K_DI_20140704_PP_SMPTE_OV");
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_XSN-2-Temp-Pre-RedBand-MyChain-2D-4fl-48_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PP_SMPTE_OV");
 
 	/* Test a name which is already in camelCase */
 
@@ -139,12 +139,12 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_isdcf_metadata (m);
 	film->set_video_frame_rate (24);
 	film->set_name ("IKnowCamels");
-	BOOST_CHECK_EQUAL (film->isdcf_name(false), "IKnowCamels_XSN-2_F-133_DE-fr_US-R_4K_DI_20140704_PP_SMPTE_OV");
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "IKnowCamels_XSN-2_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PP_SMPTE_OV");
 
 	/* And one in capitals */
 
 	film->set_name ("LIKE SHOUTING");
-	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_4K_DI_20140704_PP_SMPTE_OV");
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PP_SMPTE_OV");
 
 	/* Test audio channel markup */
 
