@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	/* Test to see that RU ratings like 6+ survive */
 	m.rating = "6+";
 	film->set_isdcf_metadata (m);
-	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-6+_4K_DI_20140704_PP_SMPTE_OV");
+	BOOST_CHECK_EQUAL (film->dcp_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-6+_4K_DI_20140704_PP_SMPTE_OV");
 	m.rating = "R";
 	film->set_isdcf_metadata (m);
 
