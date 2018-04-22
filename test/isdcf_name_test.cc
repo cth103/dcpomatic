@@ -79,6 +79,13 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_interop (false);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-R_4K_DI_20140704_PP_SMPTE_OV");
 
+	/* Test to see that RU ratings like 6+ survive */
+	m.rating = "6+";
+	film->set_isdcf_metadata (m);
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-6+_4K_DI_20140704_PP_SMPTE_OV");
+	m.rating = "R";
+	film->set_isdcf_metadata (m);
+
 	/* Test interior aspect ratio: shouldn't be shown with trailers */
 
 	shared_ptr<ImageContent> content (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
