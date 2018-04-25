@@ -246,6 +246,7 @@ public:
 			if (!dcp->cpl() || i->id() == *dcp->cpl()) {
 				j->Check(true);
 			}
+			++id;
 		}
 	}
 
