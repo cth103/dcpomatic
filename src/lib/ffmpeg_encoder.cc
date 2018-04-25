@@ -123,7 +123,7 @@ FFmpegEncoder::setup_video ()
 	_video_codec_context->height = _film->frame_size().height;
 	_video_codec_context->time_base = (AVRational) { 1, _film->video_frame_rate() };
 	_video_codec_context->pix_fmt = _pixel_format;
-	_video_codec_context->flags |= CODEC_FLAG_QSCALE | CODEC_FLAG_GLOBAL_HEADER;
+	_video_codec_context->flags |= AV_CODEC_FLAG_QSCALE | AV_CODEC_FLAG_GLOBAL_HEADER;
 }
 
 void
