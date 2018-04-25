@@ -43,7 +43,6 @@ extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
-#include <libavfilter/avfiltergraph.h>
 #include <libavutil/pixfmt.h>
 }
 #include <boost/thread.hpp>
