@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/audio_panel.cc:56 src/wx/subtitle_panel.cc:56
-#: src/wx/video_panel.cc:82
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-20 00:58+0100\n"
-"PO-Revision-Date: 2018-03-24 16:21+0100\n"
+"PO-Revision-Date: 2018-04-24 22:35+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -383,14 +381,12 @@ msgid "Cancel"
 msgstr "Annuler"
 
 #: src/wx/content_sub_panel.cc:52
-#, fuzzy
 msgid "Cannot reference this DCP."
-msgstr "Ne peut pas se référer à ce DCP"
+msgstr "Ne peut se référer à ce DCP"
 
 #: src/wx/content_sub_panel.cc:54
-#, fuzzy
 msgid "Cannot reference this DCP: "
-msgstr "Ne peut pas se référer à ce DCP"
+msgstr "Ne peut se référer à ce DCP"
 
 #: src/wx/recreate_chain_dialog.cc:31
 msgid "Certificate chain"
@@ -567,11 +563,11 @@ msgstr "Rogner"
 #: src/wx/audio_dialog.cc:402
 #, c-format
 msgid "Cursor: %.1fdB at %s"
-msgstr ""
+msgstr "Curseur: %.1fdB à %s"
 
 #: src/wx/audio_dialog.cc:396
 msgid "Cursor: none"
-msgstr ""
+msgstr "Curseur: aucun"
 
 #: src/wx/audio_mapping_view.cc:475 src/wx/audio_mapping_view.cc:477
 #: src/wx/film_editor.cc:55 src/wx/player_information.cc:53
@@ -592,12 +588,11 @@ msgstr "Format du nom de fichier metadata du DCP"
 
 #: src/wx/verify_dcp_dialog.cc:51
 msgid "DCP validates OK."
-msgstr ""
+msgstr "Validation du DCP conforme."
 
 #: src/wx/verify_dcp_dialog.cc:32
-#, fuzzy
 msgid "DCP verification"
-msgstr "Chaîne de certificat"
+msgstr "Vérification du DCP"
 
 #: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:93 src/wx/wx_util.cc:108
 #: src/wx/wx_util.cc:116
@@ -605,7 +600,7 @@ msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
 #: src/wx/audio_dialog.cc:155
-#, fuzzy, c-format
+#, c-format
 msgid "DCP-o-matic audio - %s"
 msgstr "Son DCP-o-matic - %s"
 
@@ -1050,9 +1045,8 @@ msgid "Important notice"
 msgstr "Avertissement important"
 
 #: src/wx/servers_list_dialog.cc:89
-#, fuzzy
 msgid "Incorrect version"
-msgstr "Version du contenu"
+msgstr "Version incorrecte"
 
 #: src/wx/colour_conversion_editor.cc:66
 msgid "Input gamma"
@@ -1310,7 +1304,8 @@ msgstr "DEMANDE de KDM:"
 msgid "NEEDS OV: "
 msgstr "OV Nécessaire:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Nom"
 

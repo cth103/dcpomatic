@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-20 00:58+0100\n"
-"PO-Revision-Date: 2018-03-24 16:21+0100\n"
+"PO-Revision-Date: 2018-04-24 22:31+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -195,7 +195,7 @@ msgstr "Copier les paramètres\tCtrl-C"
 
 #: src/tools/dcpomatic.cc:445
 msgid "Could not create folder to store film"
-msgstr ""
+msgstr "Création du dossier du DCP impossible"
 
 #: src/tools/dcpomatic_kdm.cc:440
 msgid ""
@@ -563,11 +563,11 @@ msgstr "Travaux incomplets"
 
 #: src/tools/dcpomatic_player.cc:292
 msgid "Verify DCP"
-msgstr ""
+msgstr "Vérifier le DCP"
 
 #: src/tools/dcpomatic_player.cc:455
 msgid "Verifying DCP"
-msgstr ""
+msgstr "Vérification du DCP en cours"
 
 #: src/tools/dcpomatic.cc:1104
 msgid "Video waveform..."

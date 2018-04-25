@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-20 00:58+0100\n"
-"PO-Revision-Date: 2018-03-22 19:00+0100\n"
+"PO-Revision-Date: 2018-04-25 02:28+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -301,7 +301,6 @@ msgid "Cancelled"
 msgstr "Abbruch"
 
 #: src/lib/film.cc:296
-#, fuzzy
 msgid "Cannot contain slashes"
 msgstr "Darf keine Schrägstriche enthalten"
 
@@ -883,7 +882,6 @@ msgid "Mismatched video sizes in DCP"
 msgstr "Unterschiedliche Auflösungen im DCP"
 
 #: src/lib/exceptions.cc:55
-#, fuzzy
 msgid "Missing required setting %1"
 msgstr "Benötigte Einstellung %1 fehlt"
 
@@ -1082,12 +1080,10 @@ msgid "Some audio will be resampled to %1Hz"
 msgstr "Einige Audioanteile werden in der Abtastrate geändert auf %1Hz"
 
 #: src/lib/film.cc:321
-#, fuzzy
 msgid "Some of your content needs a KDM"
 msgstr "Teile ihrer Quellinhalte (DCP) benötigen eine KDM"
 
 #: src/lib/film.cc:324
-#, fuzzy
 msgid "Some of your content needs an OV"
 msgstr "Teile ihrer Quellinhalte (DCP) benötigen eine OV-CPL"
 
@@ -1159,6 +1155,12 @@ msgid ""
 "rate to one closer to your content, provided that your target projection "
 "systems support your chosen DCP rate."
 msgstr ""
+"In dem von Ihnen im Projekt verwendeten Inhalt weicht die Bildrate stark von "
+"der für die DCP-Erstellung eingestellten Bildrate ab. Dies wird dazu führen, "
+"dass der Ton mit sehr viel höherer oder niedrigerer Tonhöhe wiedergegeben "
+"werden wird. Sofern Sie sicher sind, dass das für die Wiedergabe dieses DCPs "
+"vorgesehene Projektionssystem diese Bildrate unterstützt, sollten Sie die "
+"DCP Bildrate auf den gleichen oder zumindest einen näheren Wert einstellen."
 
 #: src/lib/job.cc:173
 msgid ""
@@ -1260,7 +1262,7 @@ msgstr "VI"
 
 #: src/lib/verify_dcp_job.cc:41
 msgid "Verify DCP"
-msgstr ""
+msgstr "DCP Integrität prüfen"
 
 #: src/lib/util.cc:519
 msgid "Visually impaired"
@@ -1348,7 +1350,6 @@ msgstr ""
 "Compressor' und verwenden Sie ggfs. dieses Tool zur Behebung des Problems."
 
 #: src/lib/film.cc:304
-#, fuzzy
 msgid "You must add some content to the DCP before creating it"
 msgstr "Sie müssen erst Inhalte hinzufügen bevor Sie ein DCP erstellen können!"
 
@@ -1490,25 +1491,21 @@ msgstr "h"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:517
-#, fuzzy
 msgid "it does not have sound in all its reels."
 msgstr "Das DCP enthält in einigen Akten ('Reels') keinen Ton."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:543
-#, fuzzy
 msgid "it does not have subtitles in all its reels."
 msgstr "Das DCP enthält in einigen Akten ('Reels') keine Untertitel."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:450
-#, fuzzy
 msgid "it has a different frame rate to the film."
 msgstr "Dieses Projekt verwendet eine andere Bildrate als dieses DCP."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:438
-#, fuzzy
 msgid "it is Interop and the film is set to SMPTE."
 msgstr ""
 "Dieses Projekt ist auf 'INTEROP' Standard konfiguriert, das referenzierte "
@@ -1516,7 +1513,6 @@ msgstr ""
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:442
-#, fuzzy
 msgid "it is SMPTE and the film is set to Interop."
 msgstr ""
 "Dieses Projekt ist auf 'SMPTE' Standard konfiguriert, das referenzierte DCP "
@@ -1524,7 +1520,6 @@ msgstr ""
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:523
-#, fuzzy
 msgid "it overlaps other audio content; remove the other content."
 msgstr ""
 "Einige Audioanteile überlappen mit diesem DCP, bitte entfernen Sie diese (-"
@@ -1532,7 +1527,6 @@ msgstr ""
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:549
-#, fuzzy
 msgid "it overlaps other subtitle content; remove the other content."
 msgstr ""
 "Einige Untertitel überlappen mit diesem DCP, bitte entfernen Sie diese (-"
@@ -1540,7 +1534,6 @@ msgstr ""
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:497
-#, fuzzy
 msgid "it overlaps other video content; remove the other content."
 msgstr ""
 "Einige Videoanteile überlappen mit diesem DCP, bitte entfernen Sie diese (-"
@@ -1548,7 +1541,6 @@ msgstr ""
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:473
-#, fuzzy
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
@@ -1558,7 +1550,6 @@ msgstr ""
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:492
-#, fuzzy
 msgid "its video frame size differs from the film's."
 msgstr "Dieses Projekt verwendet eine andere Bildauflösung als dieses DCP."
 
