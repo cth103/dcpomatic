@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-20 00:58+0100\n"
-"PO-Revision-Date: 2018-03-24 16:17+0100\n"
+"PO-Revision-Date: 2018-04-24 22:27+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -295,9 +295,8 @@ msgid "Cancelled"
 msgstr "Annulé"
 
 #: src/lib/film.cc:296
-#, fuzzy
 msgid "Cannot contain slashes"
-msgstr "slash interdit"
+msgstr "slash non autorisés"
 
 #: src/lib/exceptions.cc:61
 msgid "Cannot handle pixel format %1 during %2"
@@ -870,9 +869,8 @@ msgid "Mismatched video sizes in DCP"
 msgstr "Problème de taille d'images dans le DCP"
 
 #: src/lib/exceptions.cc:55
-#, fuzzy
 msgid "Missing required setting %1"
-msgstr "paramètre %1 manquant"
+msgstr "Paramètre requis %1 manquant"
 
 #: src/lib/writer.cc:611
 msgid "Mono"
@@ -1064,12 +1062,10 @@ msgid "Some audio will be resampled to %1Hz"
 msgstr "Certains sons seront ré-échantillonné à %1Hz"
 
 #: src/lib/film.cc:321
-#, fuzzy
 msgid "Some of your content needs a KDM"
-msgstr "Certains de vos contenus nécessitent une KDM"
+msgstr "Certains de vos contenus nécessitent une clé"
 
 #: src/lib/film.cc:324
-#, fuzzy
 msgid "Some of your content needs an OV"
 msgstr "Certains de vos contenus nécessitent une OV"
 
@@ -1141,6 +1137,11 @@ msgid ""
 "rate to one closer to your content, provided that your target projection "
 "systems support your chosen DCP rate."
 msgstr ""
+"Il y a une grande différence entre la cadence de votre DCP et certains de "
+"vos contenus. Cela causera une lecture du son à un pitch beaucoup plus bas "
+"ou elevé que la normale. Nous vous conseillons de régler la cadence image de "
+"votre DCP à une vitesse plus proche de la cadence de vos contenus, en "
+"espérant que serveurs et projecteurs cibles supportent cette cadence."
 
 #: src/lib/job.cc:173
 msgid ""
@@ -1240,7 +1241,7 @@ msgstr "VI"
 
 #: src/lib/verify_dcp_job.cc:41
 msgid "Verify DCP"
-msgstr ""
+msgstr "Vérifier le DCP"
 
 #: src/lib/util.cc:519
 msgid "Visually impaired"
@@ -1316,9 +1317,8 @@ msgstr ""
 "kB. Cela peut poser des problèmes en lecture."
 
 #: src/lib/film.cc:304
-#, fuzzy
 msgid "You must add some content to the DCP before creating it"
-msgstr "Vous devez ajouter des contenus pour créer le DCP"
+msgstr "Vous devez ajouter des contenus au DCP avant de le créer"
 
 #: src/lib/hints.cc:77
 msgid ""
@@ -1453,67 +1453,57 @@ msgstr "h"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:517
-#, fuzzy
 msgid "it does not have sound in all its reels."
-msgstr "Ce DCP ne posséde pas de son dans chacune de ses bobines"
+msgstr "Pas de son dans toutes ses bobines"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:543
-#, fuzzy
 msgid "it does not have subtitles in all its reels."
-msgstr "Ce DCP ne posséde pas de sous-titres dans chacune de ses bobines"
+msgstr "Pas de sous-titres dans toutes ses bobines"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:450
-#, fuzzy
 msgid "it has a different frame rate to the film."
-msgstr "Le film à une vitesse de défilement différente de ce DCP."
+msgstr "Vitesse de défilement différente du film"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:438
-#, fuzzy
 msgid "it is Interop and the film is set to SMPTE."
-msgstr "La sortie film est réglée sur Interop mais ce DCP est SMPTE."
+msgstr "Format Interop alors que le DCP est SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:442
-#, fuzzy
 msgid "it is SMPTE and the film is set to Interop."
-msgstr "La sortie film est réglée sur SMPTE mais ce DCP est Interop."
+msgstr "Format SMPTE alors que le DCP est interop."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:523
-#, fuzzy
 msgid "it overlaps other audio content; remove the other content."
-msgstr "Il existe d'autres contenus audio dans ce DCP, enlevez les."
+msgstr "Contenus audio superposés, enlevez les autres contenus."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:549
-#, fuzzy
 msgid "it overlaps other subtitle content; remove the other content."
-msgstr "Il existe d'autres contenus de sous-titres dans ce DCP, enlevez les."
+msgstr "Sous-titres superposés, enlevez les autres contenus."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:497
-#, fuzzy
 msgid "it overlaps other video content; remove the other content."
-msgstr "Il existe d'autres contenus video dans ce DCP, enlevez les."
+msgstr "Contenus vidéo superposés, enlevez les autres contenus."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:473
-#, fuzzy
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
 msgstr ""
-"Les durées de bobines dans le projet diffèrent de celles du DCP; veuillez  "
-"choisir le mode 'découper par contenu vidéo'. "
+"Les durées de bobines dans le projet diffèrent de celles du DCP; choisissez "
+"le mode 'découper par contenu vidéo'. "
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:492
-#, fuzzy
 msgid "its video frame size differs from the film's."
-msgstr "La taille de l'image du film diffère  de celle du DCP"
+msgstr "La taille de l'image du film diffère de celle du DCP"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
 #: src/lib/util.cc:182 src/lib/util.cc:185
