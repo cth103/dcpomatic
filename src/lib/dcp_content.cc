@@ -155,16 +155,11 @@ DCPContent::examine (shared_ptr<Job> job)
 	video->take_from_examiner (examiner);
 	set_default_colour_conversion ();
 
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-
-		AudioStreamPtr as (new AudioStream (examiner->audio_frame_rate(), examiner->audio_length(), examiner->audio_channels()));
-		audio->set_stream (as);
-		AudioMapping m = as->mapping ();
-		film()->make_audio_mapping_default (m);
-		as->set_mapping (m);
-	}
-
+	AudioStreamPtr as (new AudioStream (examiner->audio_frame_rate(), examiner->audio_length(), examiner->audio_channels()));
+	audio->set_stream (as);
+	AudioMapping m = as->mapping ();
+	film()->make_audio_mapping_default (m);
+	as->set_mapping (m);
 	signal_changed (AudioContentProperty::STREAMS);
 
 	bool has_subtitles = false;
@@ -201,6 +196,8 @@ DCPContent::examine (shared_ptr<Job> job)
 	if (old_name != name ()) {
 		signal_changed (DCPContentProperty::NAME);
 	}
+
+	signal_changed (AudioContentProperty::STREAMS);
 
 	video->set_frame_type (_three_d ? VIDEO_FRAME_TYPE_3D : VIDEO_FRAME_TYPE_2D);
 }

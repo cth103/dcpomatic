@@ -206,14 +206,15 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == ContentProperty::TRIM_END ||
 		property == ContentProperty::PATH ||
 		property == VideoContentProperty::FRAME_TYPE ||
+		property == VideoContentProperty::COLOUR_CONVERSION ||
+		property == AudioContentProperty::STREAMS ||
 		property == DCPContentProperty::NEEDS_ASSETS ||
 		property == DCPContentProperty::NEEDS_KDM ||
 		property == SubtitleContentProperty::COLOUR ||
 		property == SubtitleContentProperty::EFFECT ||
 		property == SubtitleContentProperty::EFFECT_COLOUR ||
 		property == FFmpegContentProperty::SUBTITLE_STREAM ||
-		property == FFmpegContentProperty::FILTERS ||
-		property == VideoContentProperty::COLOUR_CONVERSION
+		property == FFmpegContentProperty::FILTERS
 		) {
 
 		_have_valid_pieces = false;
