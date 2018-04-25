@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-20 00:58+0100\n"
-"PO-Revision-Date: 2018-02-03 01:32+0100\n"
+"PO-Revision-Date: 2018-04-25 02:31+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic <carl@dcpomatic.com>\n"
 "Language: de\n"
@@ -199,7 +199,7 @@ msgstr "Inhaltseinstellungen kopieren\tCtrl-C"
 
 #: src/tools/dcpomatic.cc:445
 msgid "Could not create folder to store film"
-msgstr ""
+msgstr "Konnte den Zielordner für das Projekt nicht erzeugen"
 
 #: src/tools/dcpomatic_kdm.cc:440
 msgid ""
@@ -574,11 +574,11 @@ msgstr "Unerledigte Aufgaben"
 
 #: src/tools/dcpomatic_player.cc:292
 msgid "Verify DCP"
-msgstr ""
+msgstr "DCP Integrität prüfen"
 
 #: src/tools/dcpomatic_player.cc:455
 msgid "Verifying DCP"
-msgstr ""
+msgstr "Prüfe DCP Integrität"
 
 #: src/tools/dcpomatic.cc:1104
 msgid "Video waveform..."
