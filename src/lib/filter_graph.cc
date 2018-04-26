@@ -28,7 +28,6 @@
 #include "image.h"
 #include "compose.hpp"
 extern "C" {
-#include <libavfilter/avfiltergraph.h>
 #include <libavfilter/buffersrc.h>
 #include <libavfilter/buffersink.h>
 #include <libavformat/avio.h>
