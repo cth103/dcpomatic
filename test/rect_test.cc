@@ -29,10 +29,20 @@
 
 using boost::optional;
 
-BOOST_AUTO_TEST_CASE (rect_test)
+BOOST_AUTO_TEST_CASE (rect_test1)
 {
 	dcpomatic::Rect<int> a (0, 0, 100, 100);
 	dcpomatic::Rect<int> b (200, 200, 100, 100);
 	optional<dcpomatic::Rect<int> > c = a.intersection (b);
 	BOOST_CHECK (!c);
+}
+
+BOOST_AUTO_TEST_CASE (rect_test2)
+{
+	dcpomatic::Rect<int> a (0, 330, 100, 85);
+	a.extend (dcpomatic::Rect<int> (50, 235, 100, 85));
+	BOOST_CHECK_EQUAL (a.x, 0);
+	BOOST_CHECK_EQUAL (a.y, 235);
+	BOOST_CHECK_EQUAL (a.width, 150);
+	BOOST_CHECK_EQUAL (a.height, 180);
 }

@@ -91,10 +91,12 @@ public:
 
 	void extend (Rect<T> const & other)
 	{
+		T old_x = x;
+		T old_y = y;
 		x = std::min (x, other.x);
 		y = std::min (y, other.y);
-		width = std::max (x + width, other.x + other.width) - x;
-		height = std::max (y + height, other.y + other.height) - y;
+		width = std::max (old_x + width, other.x + other.width) - x;
+		height = std::max (old_y + height, other.y + other.height) - y;
 	}
 
 	Rect<T> extended (T amount) const {
