@@ -27,6 +27,9 @@ class ImageExaminer : public VideoExaminer
 public:
 	ImageExaminer (boost::shared_ptr<const Film>, boost::shared_ptr<const ImageContent>, boost::shared_ptr<Job>);
 
+	bool has_video () const {
+		return true;
+	}
 	boost::optional<double> video_frame_rate () const;
 	dcp::Size video_size () const;
 	Frame video_length () const {

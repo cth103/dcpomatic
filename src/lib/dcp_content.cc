@@ -72,9 +72,6 @@ DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	, _reference_subtitle (false)
 	, _three_d (false)
 {
-	video.reset (new VideoContent (this));
-	audio.reset (new AudioContent (this));
-
 	read_directory (p);
 	set_default_colour_conversion ();
 }
@@ -86,18 +83,20 @@ DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 	audio = AudioContent::from_xml (this, node, version);
 	subtitle = SubtitleContent::from_xml (this, node, version);
 
-	audio->set_stream (
-		AudioStreamPtr (
-			new AudioStream (
-				node->number_child<int> ("AudioFrameRate"),
-				/* AudioLength was not present in some old metadata versions */
-				node->optional_number_child<Frame>("AudioLength").get_value_or (
-					video->length() * node->number_child<int>("AudioFrameRate") / video_frame_rate().get()
-					),
-				AudioMapping (node->node_child ("AudioMapping"), version)
+	if (video && audio) {
+		audio->set_stream (
+			AudioStreamPtr (
+				new AudioStream (
+					node->number_child<int> ("AudioFrameRate"),
+					/* AudioLength was not present in some old metadata versions */
+					node->optional_number_child<Frame>("AudioLength").get_value_or (
+						video->length() * node->number_child<int>("AudioFrameRate") / video_frame_rate().get()
+						),
+					AudioMapping (node->node_child ("AudioMapping"), version)
+					)
 				)
-			)
-		);
+			);
+	}
 
 	_name = node->string_child ("Name");
 	_encrypted = node->bool_child ("Encrypted");
@@ -152,15 +151,28 @@ DCPContent::examine (shared_ptr<Job> job)
 	Content::examine (job);
 
 	shared_ptr<DCPExaminer> examiner (new DCPExaminer (shared_from_this ()));
-	video->take_from_examiner (examiner);
-	set_default_colour_conversion ();
 
-	AudioStreamPtr as (new AudioStream (examiner->audio_frame_rate(), examiner->audio_length(), examiner->audio_channels()));
-	audio->set_stream (as);
-	AudioMapping m = as->mapping ();
-	film()->make_audio_mapping_default (m);
-	as->set_mapping (m);
-	signal_changed (AudioContentProperty::STREAMS);
+	if (examiner->has_video()) {
+		{
+			boost::mutex::scoped_lock lm (_mutex);
+			video.reset (new VideoContent (this));
+		}
+		video->take_from_examiner (examiner);
+		set_default_colour_conversion ();
+	}
+
+	if (examiner->has_audio()) {
+		{
+			boost::mutex::scoped_lock lm (_mutex);
+			audio.reset (new AudioContent (this));
+		}
+		AudioStreamPtr as (new AudioStream (examiner->audio_frame_rate(), examiner->audio_length(), examiner->audio_channels()));
+		audio->set_stream (as);
+		AudioMapping m = as->mapping ();
+		film()->make_audio_mapping_default (m);
+		as->set_mapping (m);
+		signal_changed (AudioContentProperty::STREAMS);
+	}
 
 	bool has_subtitles = false;
 	{
@@ -199,7 +211,9 @@ DCPContent::examine (shared_ptr<Job> job)
 
 	signal_changed (AudioContentProperty::STREAMS);
 
-	video->set_frame_type (_three_d ? VIDEO_FRAME_TYPE_3D : VIDEO_FRAME_TYPE_2D);
+	if (video) {
+		video->set_frame_type (_three_d ? VIDEO_FRAME_TYPE_3D : VIDEO_FRAME_TYPE_2D);
+	}
 }
 
 string
@@ -212,9 +226,14 @@ DCPContent::summary () const
 string
 DCPContent::technical_summary () const
 {
-	return Content::technical_summary() + " - "
-		+ video->technical_summary() + " - "
-		+ audio->technical_summary() + " - ";
+	string s = Content::technical_summary() + " - ";
+	if (video) {
+		s += video->technical_summary() + " - ";
+	}
+	if (audio) {
+		s += audio->technical_summary() + " - ";
+	}
+	return s;
 }
 
 void
@@ -274,6 +293,9 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 DCPTime
 DCPContent::full_length () const
 {
+	if (!video) {
+		return DCPTime();
+	}
 	FrameRateChange const frc (active_video_frame_rate (), film()->video_frame_rate ());
 	return DCPTime::from_frames (llrint (video->length () * frc.factor ()), film()->video_frame_rate ());
 }
@@ -281,7 +303,12 @@ DCPContent::full_length () const
 string
 DCPContent::identifier () const
 {
-	string s = Content::identifier() + "_" + video->identifier() + "_";
+	string s = Content::identifier() + "_";
+
+	if (video) {
+		s += video->identifier() + "_";
+	}
+
 	if (subtitle) {
 		s += subtitle->identifier () + " ";
 	}
@@ -332,15 +359,21 @@ void
 DCPContent::add_properties (list<UserProperty>& p) const
 {
 	Content::add_properties (p);
-	video->add_properties (p);
-	audio->add_properties (p);
+	if (video) {
+		video->add_properties (p);
+	}
+	if (audio) {
+		audio->add_properties (p);
+	}
 }
 
 void
 DCPContent::set_default_colour_conversion ()
 {
 	/* Default to no colour conversion for DCPs */
-	video->unset_colour_conversion ();
+	if (video) {
+		video->unset_colour_conversion ();
+	}
 }
 
 void
@@ -484,6 +517,11 @@ DCPContent::can_reference (function<shared_ptr<ContentPart> (shared_ptr<const Co
 bool
 DCPContent::can_reference_video (string& why_not) const
 {
+	if (!video) {
+		why_not = _("There is no video in this DCP");
+		return false;
+	}
+
 	if (film()->frame_size() != video->size()) {
 		/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
 		why_not = _("its video frame size differs from the film's.");

@@ -1,5 +1,7 @@
 2018-04-27  Carl Hetherington  <cth@carlh.net>
 
+	* Fix incorrect container size when loading a OV/VF combination into the player.
+
 	* Fix obscured subtitles in some cases.
 
 2018-04-25  Carl Hetherington  <cth@carlh.net>

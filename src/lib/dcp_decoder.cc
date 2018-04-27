@@ -54,7 +54,9 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log, boo
 	: DCP (c)
 	, _decode_referenced (false)
 {
-	video.reset (new VideoDecoder (this, c, log));
+	if (c->video) {
+		video.reset (new VideoDecoder (this, c, log));
+	}
 	if (c->audio) {
 		audio.reset (new AudioDecoder (this, c->audio, log, fast));
 	}
@@ -304,8 +306,12 @@ DCPDecoder::set_decode_referenced (bool r)
 {
 	_decode_referenced = r;
 
-	video->set_ignore (_dcp_content->reference_video() && !_decode_referenced);
-	audio->set_ignore (_dcp_content->reference_audio() && !_decode_referenced);
+	if (video) {
+		video->set_ignore (_dcp_content->reference_video() && !_decode_referenced);
+	}
+	if (audio) {
+		audio->set_ignore (_dcp_content->reference_audio() && !_decode_referenced);
+	}
 }
 
 void

@@ -213,17 +213,10 @@ public:
 			return;
 		}
 
-		if (dcp->subtitle) {
-			dcp->subtitle->set_use (true);
-		}
+		setup_from_dcp (dcp);
 
 		if (dcp->three_d()) {
 			_film->set_three_d (true);
-		}
-
-		Ratio const * r = Ratio::nearest_from_ratio(dcp->video->size().ratio());
-		if (r) {
-			_film->set_container(r);
 		}
 
 		_viewer->set_film (_film);
@@ -364,10 +357,7 @@ private:
 			DCPOMATIC_ASSERT (dcp);
 			dcp->add_ov (wx_to_std(c->GetPath()));
 			dcp->examine (shared_ptr<Job>());
-			/* Maybe we just gained some subtitles */
-			if (dcp->subtitle) {
-				dcp->subtitle->set_use (true);
-			}
+			setup_from_dcp (dcp);
 		}
 
 		c->Destroy ();
@@ -592,6 +582,22 @@ private:
 	void forward_frame ()
 	{
 		_viewer->forward_frame ();
+	}
+
+private:
+
+	void setup_from_dcp (shared_ptr<DCPContent> dcp)
+	{
+		if (dcp->subtitle) {
+			dcp->subtitle->set_use (true);
+		}
+
+		if (dcp->video) {
+			Ratio const * r = Ratio::nearest_from_ratio(dcp->video->size().ratio());
+			if (r) {
+				_film->set_container(r);
+			}
+		}
 	}
 
 	bool _update_news_requested;

@@ -31,6 +31,9 @@ class VideoMXFExaminer : public VideoExaminer
 public:
 	explicit VideoMXFExaminer (boost::shared_ptr<const VideoMXFContent>);
 
+	bool has_video () const {
+		return true;
+	}
 	boost::optional<double> video_frame_rate () const;
 	dcp::Size video_size () const;
 	Frame video_length () const;

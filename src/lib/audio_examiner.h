@@ -35,6 +35,7 @@ class AudioExaminer
 public:
 	virtual ~AudioExaminer () {}
 
+	virtual bool has_audio () const = 0;
 	virtual int audio_channels () const = 0;
 	virtual Frame audio_length () const = 0;
 	virtual int audio_frame_rate () const = 0;

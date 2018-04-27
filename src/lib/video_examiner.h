@@ -33,11 +33,19 @@ class VideoExaminer
 {
 public:
 	virtual ~VideoExaminer () {}
+
+	virtual bool has_video () const = 0;
+
+	/** @return video frame rate (if known); must not be called if has_video() == false */
 	virtual boost::optional<double> video_frame_rate () const = 0;
+	/** @return video size; must not be called if has_video() == false */
 	virtual dcp::Size video_size () const = 0;
+	/** @return video length in frames; must not be called if has_video() == false */
 	virtual Frame video_length () const = 0;
+	/** @return video sample aspect ratio (if known); must not be called if has_video() == false */
 	virtual boost::optional<double> sample_aspect_ratio () const {
 		return boost::optional<double> ();
 	}
+	/** @return true if this video is in YUV; must not be called if has_video() == false */
 	virtual bool yuv () const = 0;
 };

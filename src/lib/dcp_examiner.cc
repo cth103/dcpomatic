@@ -55,6 +55,8 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 	: DCP (content)
 	, _video_length (0)
 	, _audio_length (0)
+	, _has_video (false)
+	, _has_audio (false)
 	, _has_subtitles (false)
 	, _encrypted (false)
 	, _needs_assets (false)
@@ -120,6 +122,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 				throw DCPError (_("Mismatched frame rates in DCP"));
 			}
 
+			_has_video = true;
 			shared_ptr<dcp::PictureAsset> asset = i->main_picture()->asset ();
 			if (!_video_size) {
 				_video_size = asset->size ();
@@ -137,6 +140,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 				return;
 			}
 
+			_has_audio = true;
 			shared_ptr<dcp::SoundAsset> asset = i->main_sound()->asset ();
 
 			if (!_audio_channels) {

@@ -33,12 +33,18 @@ class DCPExaminer : public DCP, public VideoExaminer, public AudioExaminer
 public:
 	explicit DCPExaminer (boost::shared_ptr<const DCPContent>);
 
+	bool has_video () const {
+		return _has_video;
+	}
+
 	boost::optional<double> video_frame_rate () const {
 		return _video_frame_rate;
 	}
 
 	dcp::Size video_size () const {
-		return _video_size.get_value_or (dcp::Size (1998, 1080));
+		DCPOMATIC_ASSERT (_has_video);
+		DCPOMATIC_ASSERT (_video_size);
+		return *_video_size;
 	}
 
 	Frame video_length () const {
@@ -63,6 +69,10 @@ public:
 
 	bool needs_assets () const {
 		return _needs_assets;
+	}
+
+	bool has_audio () const {
+		return _has_audio;
 	}
 
 	int audio_channels () const {
@@ -107,6 +117,10 @@ private:
 	std::string _name;
 	bool _has_subtitles;
 	bool _encrypted;
+	/** true if this DCP has video content (but false if it has unresolved references to video content) */
+	bool _has_video;
+	/** true if this DCP has audio content (but false if it has unresolved references to audio content) */
+	bool _has_audio;
 	bool _needs_assets;
 	bool _kdm_valid;
 	boost::optional<dcp::Standard> _standard;
