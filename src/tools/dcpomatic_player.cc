@@ -31,6 +31,7 @@
 #include "lib/ratio.h"
 #include "lib/verify_dcp_job.h"
 #include "lib/dcp_examiner.h"
+#include "lib/examine_content_job.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/about_dialog.h"
@@ -193,23 +194,8 @@ public:
 		}
 
 		_film->examine_and_add_content (dcp, true);
-
-		JobManager* jm = JobManager::instance ();
-
-		wxProgressDialog* progress = new wxProgressDialog (_("DCP-o-matic Player"), _("Loading DCP"));
-
-		while (jm->work_to_do() || signal_manager->ui_idle()) {
-			dcpomatic_sleep (1);
-			progress->Pulse ();
-		}
-
-		progress->Destroy ();
-
-		DCPOMATIC_ASSERT (!jm->get().empty());
-
-		shared_ptr<Job> last = jm->get().back();
-		if (last->finished_in_error()) {
-			error_dialog(this, std_to_wx(last->error_summary()) + ".\n", std_to_wx(last->error_details()));
+		progress (_("Loading DCP"));
+		if (!report_errors_from_last_job()) {
 			return;
 		}
 
@@ -356,7 +342,11 @@ private:
 			shared_ptr<DCPContent> dcp = boost::dynamic_pointer_cast<DCPContent>(_film->content().front());
 			DCPOMATIC_ASSERT (dcp);
 			dcp->add_ov (wx_to_std(c->GetPath()));
-			dcp->examine (shared_ptr<Job>());
+			JobManager::instance()->add(shared_ptr<Job>(new ExamineContentJob (_film, dcp)));
+			progress (_("Loading DCP"));
+			if (!report_errors_from_last_job()) {
+				return;
+			}
 			setup_from_dcp (dcp);
 		}
 
@@ -442,15 +432,7 @@ private:
 
 		JobManager* jm = JobManager::instance ();
 		jm->add (shared_ptr<Job> (new VerifyDCPJob (dcp->directories())));
-
-		wxProgressDialog* progress = new wxProgressDialog (_("DCP-o-matic Player"), _("Verifying DCP"));
-
-		while (jm->work_to_do() || signal_manager->ui_idle()) {
-			dcpomatic_sleep (1);
-			progress->Pulse ();
-		}
-
-		progress->Destroy ();
+		progress (_("Verifying DCP"));
 
 		DCPOMATIC_ASSERT (!jm->get().empty());
 		shared_ptr<VerifyDCPJob> last = dynamic_pointer_cast<VerifyDCPJob> (jm->get().back());
@@ -585,6 +567,35 @@ private:
 	}
 
 private:
+
+	void progress (wxString task)
+	{
+		JobManager* jm = JobManager::instance ();
+
+		wxProgressDialog* progress = new wxProgressDialog (_("DCP-o-matic Player"), task);
+
+		while (jm->work_to_do() || signal_manager->ui_idle()) {
+			dcpomatic_sleep (1);
+			progress->Pulse ();
+		}
+
+		progress->Destroy ();
+	}
+
+	bool report_errors_from_last_job ()
+	{
+		JobManager* jm = JobManager::instance ();
+
+		DCPOMATIC_ASSERT (!jm->get().empty());
+
+		shared_ptr<Job> last = jm->get().back();
+		if (last->finished_in_error()) {
+			error_dialog(this, std_to_wx(last->error_summary()) + ".\n", std_to_wx(last->error_details()));
+			return false;
+		}
+
+		return true;
+	}
 
 	void setup_from_dcp (shared_ptr<DCPContent> dcp)
 	{
