@@ -115,12 +115,12 @@ private:
 	boost::optional<int> _audio_frame_rate;
 	Frame _audio_length;
 	std::string _name;
-	bool _has_subtitles;
-	bool _encrypted;
 	/** true if this DCP has video content (but false if it has unresolved references to video content) */
 	bool _has_video;
 	/** true if this DCP has audio content (but false if it has unresolved references to audio content) */
 	bool _has_audio;
+	bool _has_subtitles;
+	bool _encrypted;
 	bool _needs_assets;
 	bool _kdm_valid;
 	boost::optional<dcp::Standard> _standard;
