@@ -68,7 +68,7 @@ int const Config::_current_version = 3;
 boost::signals2::signal<void ()> Config::FailedToLoad;
 boost::signals2::signal<void (string)> Config::Warning;
 boost::signals2::signal<bool (void)> Config::BadSignerChain;
-boost::optional<boost::filesystem::path> Config::test_path;
+boost::optional<boost::filesystem::path> Config::override_path;
 
 /** Construct default configuration */
 Config::Config ()
@@ -456,8 +456,8 @@ boost::filesystem::path
 Config::path (string file, bool create_directories)
 {
 	boost::filesystem::path p;
-	if (test_path) {
-		p = test_path.get();
+	if (override_path) {
+		p = *override_path;
 	} else {
 #ifdef DCPOMATIC_OSX
 		p /= g_get_home_dir ();

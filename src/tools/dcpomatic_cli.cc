@@ -65,6 +65,7 @@ help (string n)
 	     << "  -s, --servers <file> specify servers to use in a text file\n"
 	     << "  -l, --list-servers   just display a list of encoding servers that DCP-o-matic is configured to use; don't encode\n"
 	     << "  -d, --dcp-path       echo DCP's path to stdout on successful completion (implies -n)\n"
+	     << "  -c, --config <dir>   directory containing config.xml and cinemas.xml\n"
 	     << "      --dump           just dump a summary of the film's settings; don't encode\n"
 	     << "\n"
 	     << "<FILM> is the film directory.\n";
@@ -195,6 +196,7 @@ main (int argc, char* argv[])
 	optional<boost::filesystem::path> servers;
 	bool list_servers_ = false;
 	bool dcp_path = false;
+	optional<boost::filesystem::path> config;
 
 	int option_index = 0;
 	while (true) {
@@ -210,12 +212,13 @@ main (int argc, char* argv[])
 			{ "servers", required_argument, 0, 's' },
 			{ "list-servers", no_argument, 0, 'l' },
 			{ "dcp-path", no_argument, 0, 'd' },
+			{ "config", required_argument, 0, 'c' },
 			/* Just using A, B, C ... from here on */
 			{ "dump", no_argument, 0, 'A' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vhfnrt:j:kAs:ld", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhfnrt:j:kAs:ldc:", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -259,7 +262,14 @@ main (int argc, char* argv[])
 			dcp_path = true;
 			progress = false;
 			break;
+		case 'c':
+			config = optarg;
+			break;
 		}
+	}
+
+	if (config) {
+		Config::override_path = *config;
 	}
 
 	if (servers) {

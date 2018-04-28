@@ -30,6 +30,7 @@
 #include "lib/image_content.h"
 #include "lib/video_content.h"
 #include "lib/cross.h"
+#include "lib/config.h"
 #include "lib/dcp_content.h"
 #include <dcp/exceptions.h>
 #include <libxml++/libxml++.h>
@@ -66,6 +67,7 @@ syntax (string n)
 	     << "      --standard <standard>     SMPTE or interop (default SMPTE)\n"
 	     << "      --no-use-isdcf-name       do not use an ISDCF name; use the specified name unmodified\n"
 	     << "      --no-sign                 do not sign the DCP\n"
+	     << "      --config <dir>            directory containing config.xml and cinemas.xml\n"
 	     << "  -o, --output <dir>            output directory\n";
 }
 
@@ -105,6 +107,7 @@ main (int argc, char* argv[])
 	optional<boost::filesystem::path> output;
 	bool sign = true;
 	bool use_isdcf_name = true;
+	optional<boost::filesystem::path> config;
 
 	int option_index = 0;
 	while (true) {
@@ -122,10 +125,11 @@ main (int argc, char* argv[])
 			{ "no-use-isdcf-name", no_argument, 0, 'D'},
 			{ "no-sign", no_argument, 0, 'E'},
 			{ "output", required_argument, 0, 'o'},
+			{ "config", required_argument, 0, 'F'},
 			{ 0, 0, 0, 0}
 		};
 
-		int c = getopt_long (argc, argv, "vhn:f:c:f:A:B:C:s:o:DE", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhn:f:c:f:A:B:C:s:o:DEF:", long_options, &option_index);
 		if (c == -1) {
 			break;
 		}
@@ -185,6 +189,9 @@ main (int argc, char* argv[])
 		case 'E':
 			sign = false;
 			break;
+		case 'F':
+			config = optarg;
+			break;
 		case 's':
 			still_length = atoi (optarg);
 			break;
@@ -200,6 +207,10 @@ main (int argc, char* argv[])
 	if (optind > argc) {
 		help (argv[0]);
 		exit (EXIT_FAILURE);
+	}
+
+	if (config) {
+		Config::override_path = *config;
 	}
 
 	if (!content_ratio) {
