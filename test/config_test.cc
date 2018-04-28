@@ -31,7 +31,7 @@ rewrite_bad_config ()
 	boost::system::error_code ec;
 	boost::filesystem::remove ("build/test/config.xml", ec);
 
-	Config::test_path = "build/test";
+	Config::override_path = "build/test";
 	ofstream f ("build/test/config.xml");
 	f << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 	  << "<Config>\n"
