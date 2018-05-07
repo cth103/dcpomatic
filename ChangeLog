@@ -1,3 +1,7 @@
+2018-05-07  Carl Hetherington  <cth@carlh.net>
+
+	* Updated cs_CZ translation from Tomáš Begeni.
+
 2018-04-29  Carl Hetherington  <cth@carlh.net>
 
 	* Add command-line option to specify directory containing config (#1284).

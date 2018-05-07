@@ -3,21 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/audio_panel.cc:56 src/wx/subtitle_panel.cc:56
-#: src/wx/video_panel.cc:82
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-20 00:58+0100\n"
-"PO-Revision-Date: 2018-01-11 15:08+0100\n"
-"Last-Translator: Tomáš Hlaváč\n"
+"PO-Revision-Date: 2018-05-07 11:17+0200\n"
+"Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.5\n"
+"X-Generator: Poedit 2.0.7\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,369,-1,-1,-1,-1,-1\n"
 
@@ -294,7 +292,7 @@ msgstr "Jazyk zvuku (napr. CZ)"
 #: src/wx/player_information.cc:132
 #, c-format
 msgid "Audio channels: %d"
-msgstr ""
+msgstr "Zvukové kanály: %d"
 
 #: src/wx/audio_mapping_view.cc:345
 #, c-format
@@ -379,19 +377,16 @@ msgid "Cancel"
 msgstr "Zrušit"
 
 #: src/wx/content_sub_panel.cc:52
-#, fuzzy
 msgid "Cannot reference this DCP."
-msgstr "Není možné odkazovat na toto DCP. "
+msgstr "Není možné odkazovat na toto DCP."
 
 #: src/wx/content_sub_panel.cc:54
-#, fuzzy
 msgid "Cannot reference this DCP: "
-msgstr "Není možné odkazovat na toto DCP. "
+msgstr "Není možné odkazovat na toto DCP:"
 
 #: src/wx/recreate_chain_dialog.cc:31
-#, fuzzy
 msgid "Certificate chain"
-msgstr "Udělat řetěz certifikátoů"
+msgstr "Řetěz certifikátoů"
 
 #: src/wx/dolby_doremi_certificate_panel.cc:204
 msgid "Certificate downloaded"
@@ -522,16 +517,14 @@ msgid "Could not import certificate (%s)"
 msgstr "Nemohu importovat certifikát (%s)"
 
 #: src/wx/content_menu.cc:380
-#, fuzzy
 msgid "Could not load KDM."
-msgstr "Nemůžu načíst KDM (%s)"
+msgstr "Nemohu načíst KDM."
 
 #: src/wx/config_dialog.cc:484 src/wx/config_dialog.cc:678
 #: src/wx/download_certificate_panel.cc:56 src/wx/screen_dialog.cc:157
 #: src/wx/screen_dialog.cc:162
-#, fuzzy
 msgid "Could not read certificate file."
-msgstr "Nemůžu načíst soubor s certifikátem (%s)"
+msgstr "Nemohu načíst soubor s certifikátem."
 
 #: src/wx/config_dialog.cc:668
 #, c-format
@@ -539,11 +532,9 @@ msgid "Could not read key file; file is too long (%s)"
 msgstr "Nemůžu přečíst soubor s klíčem; soubor je příliš dlouhý (%s)"
 
 #: src/wx/film_viewer.cc:853
-#, fuzzy
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
-msgstr ""
-"Nelze nastavit výstup zvuku (%s).  Během přehrávání nebude slyšet zvuk."
+msgstr "Nelze nastavit výstup zvuku. Během přehrávání nebude slyšet zvuk."
 
 #: src/wx/full_config_dialog.cc:876
 msgid "Cover Sheet"
@@ -564,11 +555,11 @@ msgstr "Ořezat"
 #: src/wx/audio_dialog.cc:402
 #, c-format
 msgid "Cursor: %.1fdB at %s"
-msgstr ""
+msgstr "Kurzor: %1fdb v %s"
 
 #: src/wx/audio_dialog.cc:396
 msgid "Cursor: none"
-msgstr ""
+msgstr "Kurzor: žádný"
 
 #: src/wx/audio_mapping_view.cc:475 src/wx/audio_mapping_view.cc:477
 #: src/wx/film_editor.cc:55 src/wx/player_information.cc:53
@@ -589,12 +580,11 @@ msgstr "Formát názvu souboru DCP metadat"
 
 #: src/wx/verify_dcp_dialog.cc:51
 msgid "DCP validates OK."
-msgstr ""
+msgstr "DCP ověření OK."
 
 #: src/wx/verify_dcp_dialog.cc:32
-#, fuzzy
 msgid "DCP verification"
-msgstr "Zertifikat"
+msgstr "DCP ověření"
 
 #: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:93 src/wx/wx_util.cc:108
 #: src/wx/wx_util.cc:116
@@ -602,7 +592,7 @@ msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
 #: src/wx/audio_dialog.cc:155
-#, fuzzy, c-format
+#, c-format
 msgid "DCP-o-matic audio - %s"
 msgstr "DCP-o-matic zvuk - %s"
 
@@ -673,7 +663,7 @@ msgstr "DCP standard"
 
 #: src/wx/full_config_dialog.cc:341
 msgid "Default to enabling upload of DCP to TMS"
-msgstr ""
+msgstr "Výchozí pro povolení nahrávání DCP na TMS"
 
 #: src/wx/full_config_dialog.cc:256
 msgid "Defaults"
@@ -688,9 +678,8 @@ msgid "Details..."
 msgstr "Detaily..."
 
 #: src/wx/recreate_chain_dialog.cc:31
-#, fuzzy
 msgid "Do nothing"
-msgstr "Vyhlazování"
+msgstr "Nedělat nic"
 
 #: src/wx/download_certificate_dialog.cc:37
 msgid "Dolby / Doremi"
@@ -905,7 +894,7 @@ msgstr "Frekvence snímků (frame rate)"
 #: src/wx/player_information.cc:129
 #, c-format
 msgid "Frame rate: %d"
-msgstr ""
+msgstr "Frekvence snímků: %d"
 
 #: src/wx/about_dialog.cc:66
 msgid "Free, open-source DCP creation from almost anything."
@@ -1048,9 +1037,8 @@ msgid "Important notice"
 msgstr "Důležité oznámení"
 
 #: src/wx/servers_list_dialog.cc:89
-#, fuzzy
 msgid "Incorrect version"
-msgstr "Verze obsahu"
+msgstr "Nesprávná verze"
 
 #: src/wx/colour_conversion_editor.cc:66
 msgid "Input gamma"
@@ -1558,9 +1546,8 @@ msgid "Recipient certificate"
 msgstr "Příjemce certifikátu"
 
 #: src/wx/recreate_chain_dialog.cc:31
-#, fuzzy
 msgid "Recreate signing certificates"
-msgstr "Příjemce certifikátu"
+msgstr "Znovu vytvořit podpisové certifikáty"
 
 #: src/wx/isdcf_metadata_dialog.cc:64
 msgid "Red band"
@@ -1798,7 +1785,7 @@ msgstr "Nastavit jazyk"
 
 #: src/wx/subtitle_appearance_dialog.cc:196
 msgid "Set to"
-msgstr ""
+msgstr "Nastaven na"
 
 #: src/wx/subtitle_appearance_dialog.cc:127
 msgid "Shadow"
@@ -1895,14 +1882,12 @@ msgid "Subtitles"
 msgstr "Titulky"
 
 #: src/wx/player_information.cc:137
-#, fuzzy
 msgid "Subtitles: no"
-msgstr "Titulky"
+msgstr "Titulky: ne"
 
 #: src/wx/player_information.cc:135
-#, fuzzy
 msgid "Subtitles: yes"
-msgstr "Titulky"
+msgstr "Titulky: ano"
 
 #: src/wx/about_dialog.cc:141
 msgid "Supported by"
@@ -1960,6 +1945,11 @@ msgid ""
 "you want to re-create\n"
 "the certificate chain for signing DCPs and KDMs?"
 msgstr ""
+"Řetězec certifikátů, který DCP-o-matic používá pro podepisování DCP a KDM, "
+"obsahuje malou chybu\n"
+"což zabrání tomu, aby byly DCP v některých systémech správně ověřeny. Chcete "
+"znovu vytvořit\n"
+"řetězec certifikátů pro podepisování DCP a KDM?"
 
 #: src/wx/content_menu.cc:360
 msgid ""
@@ -2207,15 +2197,15 @@ msgstr "Použít titulky"
 
 #: src/wx/audio_panel.cc:53
 msgid "Use this DCP's audio as OV and make VF"
-msgstr ""
+msgstr "Použijte tento zvuk DCP jako OV a vytvořte VF"
 
 #: src/wx/subtitle_panel.cc:53
 msgid "Use this DCP's subtitle as OV and make VF"
-msgstr ""
+msgstr "Použijte titulky DCP jako OV a vytvořte VF"
 
 #: src/wx/video_panel.cc:79
 msgid "Use this DCP's video as OV and make VF"
-msgstr ""
+msgstr "Použijte video DCP jako OV a vytvořte VF"
 
 #: src/wx/config_move_dialog.cc:29
 msgid "Use this file as new configuration"

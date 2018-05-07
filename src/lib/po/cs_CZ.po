@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-20 00:58+0100\n"
-"PO-Revision-Date: 2018-01-11 15:23+0100\n"
-"Last-Translator: Tomáš Hlaváč\n"
+"PO-Revision-Date: 2018-05-07 11:34+0200\n"
+"Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: \n"
 "Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.5\n"
+"X-Generator: Poedit 2.0.7\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/video_content.cc:448
@@ -295,9 +295,8 @@ msgid "Cancelled"
 msgstr "Zrušené"
 
 #: src/lib/film.cc:296
-#, fuzzy
 msgid "Cannot contain slashes"
-msgstr "nemůže obsahovat lomítka"
+msgstr "Nemůže obsahovat lomítka"
 
 #: src/lib/exceptions.cc:61
 msgid "Cannot handle pixel format %1 during %2"
@@ -305,7 +304,7 @@ msgstr "Nemužu zpracovat formát pixelu %1 během %2"
 
 #: src/lib/film.cc:1225
 msgid "Cannot make a KDM as this project is not encrypted."
-msgstr ""
+msgstr "Nelze vytvořit KDM, protože tento projekt není zašifrován."
 
 #: src/lib/util.cc:514
 msgid "Centre"
@@ -855,9 +854,8 @@ msgid "Mismatched video sizes in DCP"
 msgstr "V DCP se neshoduje velikost videa"
 
 #: src/lib/exceptions.cc:55
-#, fuzzy
 msgid "Missing required setting %1"
-msgstr "chybí potřebná nastavení %1"
+msgstr "Chybí potřebná nastavení %1"
 
 #: src/lib/writer.cc:611
 msgid "Mono"
@@ -1049,14 +1047,12 @@ msgid "Some audio will be resampled to %1Hz"
 msgstr "Některé audio bude převzorkované na %1Hz"
 
 #: src/lib/film.cc:321
-#, fuzzy
 msgid "Some of your content needs a KDM"
-msgstr "část obsahu potřebuje KDM"
+msgstr "Část vašeho obsahu potřebuje KDM"
 
 #: src/lib/film.cc:324
-#, fuzzy
 msgid "Some of your content needs an OV"
-msgstr "část obsahu potřebuje OV"
+msgstr "Část vašeho obsahu potřebuje OV"
 
 #: src/lib/writer.cc:613
 msgid "Stereo"
@@ -1126,6 +1122,11 @@ msgid ""
 "rate to one closer to your content, provided that your target projection "
 "systems support your chosen DCP rate."
 msgstr ""
+"Mezi rámcovou frekvencí vašeho DCP a některým z vašich obsahů je velký "
+"rozdíl. To způsobí, že se váš zvuk přehrává na mnohem nižším nebo vyšším "
+"rozstupu, než by měl. Doporučuje se, abyste nastavili frekvenci snímků DCP "
+"tak, aby se přiblížila vašemu obsahu za předpokladu, že vaše cílové "
+"projekční systémy podporují zvolenou rychlost DCP."
 
 #: src/lib/job.cc:173
 msgid ""
@@ -1224,7 +1225,7 @@ msgstr "VI"
 
 #: src/lib/verify_dcp_job.cc:41
 msgid "Verify DCP"
-msgstr ""
+msgstr "Ověřit DCP"
 
 #: src/lib/util.cc:519
 msgid "Visually impaired"
@@ -1278,6 +1279,9 @@ msgid ""
 "may result in poor-quality audio.  If you continue, you should listen to the "
 "resulting DCP in a cinema to make sure that it sounds good."
 msgstr ""
+"Používáte DCP-o-matic’s stereo-to-5.1 mixer. Ten je experimentální a může "
+"mít za následek špatnou kvalitu zvuku. Pokud budete pokračovat, měli byste "
+"poslouchat výsledný DCP v kině, abyste se ujistili, že to zní dobře."
 
 #: src/lib/hints.cc:168
 msgid ""
@@ -1296,9 +1300,8 @@ msgstr ""
 "způsobit problémy při přehrávání."
 
 #: src/lib/film.cc:304
-#, fuzzy
 msgid "You must add some content to the DCP before creating it"
-msgstr "musíte přidat obsah do DCP před tím než ho vytvoříte"
+msgstr "Musíte přidat obsah do DCP před tím než ho vytvoříte"
 
 #: src/lib/hints.cc:77
 msgid ""
@@ -1428,67 +1431,57 @@ msgstr "h"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:517
-#, fuzzy
 msgid "it does not have sound in all its reels."
-msgstr "DCP nemá zvuk ve všech reeloch."
+msgstr "nemá zvuk ve všech reelech."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:543
-#, fuzzy
 msgid "it does not have subtitles in all its reels."
-msgstr "DCP nemá titulky ve všech reeloch."
+msgstr "nemá titulky ve všech reelech."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:450
-#, fuzzy
 msgid "it has a different frame rate to the film."
-msgstr "Film má jiný frame rate za sekundu než toto DCP."
+msgstr "má jinou snímkovou frekvenci za sekundu pro film."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:438
-#, fuzzy
 msgid "it is Interop and the film is set to SMPTE."
-msgstr "Film je nastaven na Interop a toto DCP je SMPTE."
+msgstr "to je Interop a film je nastaven na SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:442
-#, fuzzy
 msgid "it is SMPTE and the film is set to Interop."
-msgstr "Film je nastaven na SMPTE a toto DCP je Interop."
+msgstr "to je SMPTE a film je Interop."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:523
-#, fuzzy
 msgid "it overlaps other audio content; remove the other content."
-msgstr "Už se tu nachází jiný zvuk, který se překrývá s DCP; odstraní ho."
+msgstr "překrývá jiný zvukový obsah; odstranit jiný obsah."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:549
-#, fuzzy
 msgid "it overlaps other subtitle content; remove the other content."
-msgstr "Už se tu nachází jiné titulky, které se překrývají s DCP; smaže je."
+msgstr "překrývá se s jiným obsahem titulků; odstranit jiný obsah."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:497
-#, fuzzy
 msgid "it overlaps other video content; remove the other content."
-msgstr "Už se tu nachází jiné video, které se překrývá s DCP; smaže ho."
+msgstr "překrývá se s jiným videoobsahem; odstranit jiný obsah."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:473
-#, fuzzy
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
 msgstr ""
-"Délka reelu v projektu se liší od těch v DCP; nastavte reel mod na 'rozdělit "
-"podle obsahu videa'."
+"délka reelu se liší od délky filmu; nastavte reel mod na 'rozdělit podle "
+"obsahu videa’."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:492
-#, fuzzy
 msgid "its video frame size differs from the film's."
-msgstr "Velikost frame size ve filmu se liší od toho v DCP."
+msgstr "velikost video rámečku se liší od filmu."
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
 #: src/lib/util.cc:182 src/lib/util.cc:185
