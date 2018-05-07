@@ -1,4 +1,9 @@
-2018-05-14  Carl Hetherington  <cth@carlh.net>
+2018-05-08  Carl Hetherington  <cth@carlh.net>
+
+	* Look at subtitle colour and effect when deciding whether or not to
+	re-make video (should fix #1290).
+
+2018-05-07  Carl Hetherington  <cth@carlh.net>
 
 	* Fix invalid timings in SMPTE subtitle files (causing failure to play subtitles)
 	in some cases (#1293).

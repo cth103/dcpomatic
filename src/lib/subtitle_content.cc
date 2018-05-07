@@ -319,7 +319,10 @@ SubtitleContent::identifier () const
 		+ "_" + raw_convert<string> (line_spacing())
 		+ "_" + raw_convert<string> (fade_in().get_value_or(ContentTime()).get())
 		+ "_" + raw_convert<string> (fade_out().get_value_or(ContentTime()).get())
-		+ "_" + raw_convert<string> (outline_width());
+		+ "_" + raw_convert<string> (outline_width())
+		+ "_" + raw_convert<string> (colour().get_value_or(dcp::Colour(255, 255, 255)).to_argb_string())
+		+ "_" + raw_convert<string> (dcp::effect_to_string(effect().get_value_or(dcp::NONE)))
+		+ "_" + raw_convert<string> (effect_colour().get_value_or(dcp::Colour(0, 0, 0)).to_argb_string());
 
 	/* XXX: I suppose really _fonts shouldn't be in here, since not all
 	   types of subtitle content involve fonts.
