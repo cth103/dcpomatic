@@ -46,7 +46,7 @@ deb_build_depends['unstable'] = copy.deepcopy(deb_build_depends_base)
 
 deb_depends = dict()
 
-deb_depends_base = ['libc6', 'libsndfile1', 'libsamplerate0', 'libxmlsec1', 'libxmlsec1-openssl', 'libcurl3', 'libgtk2.0-0']
+deb_depends_base = ['libc6', 'libsndfile1', 'libsamplerate0', 'libxmlsec1', 'libxmlsec1-openssl', 'libgtk2.0-0']
 
 deb_depends['14.04'] = copy.deepcopy(deb_depends_base)
 deb_depends['14.04'].extend(['libboost-filesystem1.54.0',
@@ -61,7 +61,8 @@ deb_depends['14.04'].extend(['libboost-filesystem1.54.0',
                              'libicu52',
                              'libnettle4',
                              'libssh-4',
-                             'libx264-142'])
+                             'libx264-142',
+                             'libcurl3'])
 
 deb_depends['16.04'] = copy.deepcopy(deb_depends_base)
 deb_depends['16.04'].extend(['libboost-filesystem1.58.0',
@@ -77,7 +78,8 @@ deb_depends['16.04'].extend(['libboost-filesystem1.58.0',
                              'libicu55',
                              'libnettle6',
                              'libssh-4',
-                             'libx264-148'])
+                             'libx264-148',
+                             'libcurl3'])
 
 deb_depends['17.10'] = copy.deepcopy(deb_depends_base)
 deb_depends['17.10'].extend(['libboost-filesystem1.62.0',
@@ -91,7 +93,8 @@ deb_depends['17.10'].extend(['libboost-filesystem1.62.0',
                              'libicu57',
                              'libnettle6',
                              'libssh-4',
-                             'libx264-148'])
+                             'libx264-148',
+                             'libcurl3'])
 
 deb_depends['18.04'] = copy.deepcopy(deb_depends_base)
 deb_depends['18.04'].extend(['libboost-filesystem1.65.1',
@@ -107,22 +110,24 @@ deb_depends['18.04'].extend(['libboost-filesystem1.65.1',
                              'libicu60',
                              'libnettle6',
                              'libssh-4',
-                             'libx264-152'])
+                             'libx264-152',
+                             'libcurl4'])
 
 deb_depends['7'] = copy.deepcopy(deb_depends_base)
 deb_depends['7'].extend(['libboost-filesystem1.49.0',
-                             'libboost-thread1.49.0',
-                             'libboost-regex1.49.0',
-                             'libmagick++5',
-                             'libxml++2.6-2',
-                             'libboost-date-time1.49.0',
-                             'libzip2',
-                             'libcairomm-1.0-1',
-                             'libpangomm-1.4-1',
-                             'libicu48',
-                             'libnettle4',
-                             'libnotify4',
-                             'libx264-123'])
+                         'libboost-thread1.49.0',
+                         'libboost-regex1.49.0',
+                         'libmagick++5',
+                         'libxml++2.6-2',
+                         'libboost-date-time1.49.0',
+                         'libzip2',
+                         'libcairomm-1.0-1',
+                         'libpangomm-1.4-1',
+                         'libicu48',
+                         'libnettle4',
+                         'libnotify4',
+                         'libx264-123',
+                         'libcurl3'])
 
 deb_depends['8'] = copy.deepcopy(deb_depends_base)
 deb_depends['8'].extend(['libboost-filesystem1.55.0',
@@ -140,7 +145,8 @@ deb_depends['8'].extend(['libboost-filesystem1.55.0',
                          'libicu52',
                          'libnettle4',
                          'libssh-4',
-                         'libx264-142'])
+                         'libx264-142',
+                         'libcurl3'])
 
 deb_depends['9'] = copy.deepcopy(deb_depends_base)
 deb_depends['9'].extend(['libboost-filesystem1.62.0',
@@ -162,7 +168,8 @@ deb_depends['9'].extend(['libboost-filesystem1.62.0',
                          'libssh-gcrypt-4',
                          'libnettle6',
                          'libx264-148',
-                         'libpulse0'])
+                         'libpulse0',
+                         'libcurl3'])
 
 deb_depends['unstable'] = copy.deepcopy(deb_depends_base)
 deb_depends['unstable'].extend(['libboost-filesystem1.62.0',
@@ -175,7 +182,8 @@ deb_depends['unstable'].extend(['libboost-filesystem1.62.0',
                                 'libzip4',
                                 'libicu57',
                                 'libnettle6',
-                                'libx264-148'])
+                                'libx264-148',
+                                'libcurl3'])
 
 def packages(name, packages, f):
     s = '%s: ' % name
