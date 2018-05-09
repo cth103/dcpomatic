@@ -238,6 +238,11 @@ render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp:
 	layout->set_alignment (Pango::ALIGN_LEFT);
 
 	context->set_line_width (1);
+	context->set_antialias (Cairo::ANTIALIAS_GRAY);
+	Cairo::FontOptions fo;
+	context->get_font_options (fo);
+	fo.set_antialias (Cairo::ANTIALIAS_GRAY);
+	context->set_font_options (fo);
 
 	/* Compute fade factor */
 	float fade_factor = 1;
