@@ -381,6 +381,10 @@ public:
 		return _decode_reduction;
 	}
 
+	bool default_notify () const {
+		return _default_notify;
+	}
+
 	/* SET (mostly) */
 
 	void set_master_encoding_threads (int n) {
@@ -662,6 +666,10 @@ public:
 		maybe_set (_decode_reduction, r);
 	}
 
+	void set_default_notify (bool n) {
+		maybe_set (_default_notify, n);
+	}
+
 	void clear_history () {
 		_history.clear ();
 		changed ();
@@ -723,7 +731,7 @@ public:
 
 	/** If set, this overrides the standard path (in home, Library, AppData or wherever) for config.xml and cinemas.xml */
 	static boost::optional<boost::filesystem::path> override_path;
-	
+
 private:
 	Config ();
 	static boost::filesystem::path path (std::string file, bool create_directories = true);
@@ -850,6 +858,7 @@ private:
 	boost::optional<DKDMWriteType> _last_dkdm_write_type;
 	int _frames_in_memory_multiplier;
 	boost::optional<int> _decode_reduction;
+	bool _default_notify;
 
 	static int const _current_version;
 

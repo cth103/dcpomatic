@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -22,11 +22,13 @@
 #include "wx_util.h"
 #include "lib/job.h"
 #include "lib/compose.hpp"
+#include "lib/config.h"
 #include <wx/wx.h>
 
 using std::string;
 using std::min;
 using boost::shared_ptr;
+using boost::bind;
 
 JobView::JobView (shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table)
 	: _job (job)
@@ -66,7 +68,14 @@ JobView::setup ()
 
 	finish_setup (_container, _buttons);
 
-	_table->Insert (n, _buttons, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3);
+	_controls = new wxBoxSizer (wxVERTICAL);
+	_controls->Add (_buttons);
+	_notify = new wxCheckBox (_container, wxID_ANY, _("Notify when complete"));
+	_notify->Bind (wxEVT_CHECKBOX, bind (&JobView::notify_clicked, this));
+	_notify->SetValue (Config::instance()->default_notify());
+	_controls->Add (_notify);
+
+	_table->Insert (n, _controls, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3);
 
 	_progress_connection = _job->Progress.connect (boost::bind (&JobView::progress, this));
 	_finished_connection = _job->Finished.connect (boost::bind (&JobView::finished, this));
@@ -115,8 +124,13 @@ JobView::finished ()
 	}
 
 	_cancel->Enable (false);
+	_notify->Enable (false);
 	if (!_job->error_details().empty ()) {
 		_details->Enable (true);
+	}
+
+	if (_notify->GetValue ()) {
+		wxMessageBox (std_to_wx(_job->name() + ": " + _job->status()), _("DCP-o-matic"), wxICON_INFORMATION);
 	}
 }
 
@@ -140,7 +154,7 @@ void
 JobView::insert (int pos)
 {
 	_table->Insert (pos, _gauge_message, 1, wxEXPAND | wxLEFT | wxRIGHT);
-	_table->Insert (pos + 1, _buttons, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3);
+	_table->Insert (pos + 1, _controls, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3);
 	_table->Layout ();
 }
 
@@ -148,5 +162,11 @@ void
 JobView::detach ()
 {
 	_table->Detach (_gauge_message);
-	_table->Detach (_buttons);
+	_table->Detach (_controls);
+}
+
+void
+JobView::notify_clicked ()
+{
+	Config::instance()->set_default_notify (_notify->GetValue ());
 }

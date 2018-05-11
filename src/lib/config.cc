@@ -147,6 +147,7 @@ Config::set_defaults ()
 	*/
 	_frames_in_memory_multiplier = 3;
 	_decode_reduction = optional<int>();
+	_default_notify = false;
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -429,6 +430,7 @@ try
 	}
 	_frames_in_memory_multiplier = f.optional_number_child<int>("FramesInMemoryMultiplier").get_value_or(3);
 	_decode_reduction = f.optional_number_child<int>("DecodeReduction");
+	_default_notify = f.optional_bool_child("DefaultNotify").get_value_or(false);
 
 	/* Replace any cinemas from config.xml with those from the configured file */
 	if (boost::filesystem::exists (_cinemas_file)) {
@@ -744,6 +746,9 @@ Config::write_config () const
 	if (_decode_reduction) {
 		root->add_child("DecodeReduction")->add_child_text(raw_convert<string>(_decode_reduction.get()));
 	}
+
+	/* [XML] DefaultNotify 1 to default jobs to notify when complete, otherwise 0 */
+	root->add_child("DefaultNotify")->add_child_text(_default_notify ? "1" : "0");
 
 	try {
 		doc.write_to_file_formatted(config_file().string());

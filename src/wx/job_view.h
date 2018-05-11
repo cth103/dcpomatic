@@ -35,6 +35,7 @@ class wxGauge;
 class wxStaticText;
 class wxButton;
 class wxSizer;
+class wxCheckBox;
 
 class JobView : public boost::noncopyable
 {
@@ -59,7 +60,9 @@ protected:
 
 	boost::shared_ptr<Job> _job;
 	wxFlexGridSizer* _table;
+	/** sizer for buttons (cancel, details, pause etc.) */
 	wxBoxSizer* _buttons;
+	/** sizer for the guage and the message underneath it */
 	wxBoxSizer* _gauge_message;
 
 private:
@@ -69,6 +72,7 @@ private:
 	void progress ();
 	void details_clicked (wxCommandEvent &);
 	void cancel_clicked (wxCommandEvent &);
+	void notify_clicked ();
 
 	wxWindow* _parent;
 	wxWindow* _container;
@@ -76,6 +80,9 @@ private:
 	wxStaticText* _message;
 	wxButton* _cancel;
 	wxButton* _details;
+	wxCheckBox* _notify;
+	/** sizer for all right-hand-size controls */
+	wxBoxSizer* _controls;
 	std::string _last_message;
 
 	boost::signals2::scoped_connection _progress_connection;
