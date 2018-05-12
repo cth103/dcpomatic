@@ -685,6 +685,99 @@ column (string s)
 	return s;
 }
 
+class EmailPage : public StandardPage
+{
+public:
+	EmailPage (wxSize panel_size, int border)
+#ifdef DCPOMATIC_OSX
+		/* We have to force both width and height of this one */
+		: StandardPage (wxSize (480, 128), border)
+#else
+		: StandardPage (panel_size, border)
+#endif
+	{}
+
+	wxString GetName () const
+	{
+		return _("Email");
+	}
+
+#ifdef DCPOMATIC_OSX
+	wxBitmap GetLargeIcon () const
+	{
+		return wxBitmap ("email", wxBITMAP_TYPE_PNG_RESOURCE);
+	}
+#endif
+
+private:
+	void setup ()
+	{
+		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		table->AddGrowableCol (1, 1);
+		_panel->GetSizer()->Add (table, 1, wxEXPAND | wxALL, _border);
+
+		add_label_to_sizer (table, _panel, _("Outgoing mail server"), true);
+		{
+			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+			_server = new wxTextCtrl (_panel, wxID_ANY);
+			s->Add (_server, 1, wxEXPAND | wxALL);
+			add_label_to_sizer (s, _panel, _("port"), false);
+			_port = new wxSpinCtrl (_panel, wxID_ANY);
+			_port->SetRange (0, 65535);
+			s->Add (_port);
+			table->Add (s, 1, wxEXPAND | wxALL);
+		}
+
+		add_label_to_sizer (table, _panel, _("Mail user name"), true);
+		_user = new wxTextCtrl (_panel, wxID_ANY);
+		table->Add (_user, 1, wxEXPAND | wxALL);
+
+		add_label_to_sizer (table, _panel, _("Mail password"), true);
+		_password = new wxTextCtrl (_panel, wxID_ANY);
+		table->Add (_password, 1, wxEXPAND | wxALL);
+
+		_server->Bind (wxEVT_TEXT, boost::bind (&EmailPage::server_changed, this));
+		_port->Bind (wxEVT_SPINCTRL, boost::bind (&EmailPage::port_changed, this));
+		_user->Bind (wxEVT_TEXT, boost::bind (&EmailPage::user_changed, this));
+		_password->Bind (wxEVT_TEXT, boost::bind (&EmailPage::password_changed, this));
+	}
+
+	void config_changed ()
+	{
+		Config* config = Config::instance ();
+
+		checked_set (_server, config->mail_server ());
+		checked_set (_port, config->mail_port ());
+		checked_set (_user, config->mail_user ());
+		checked_set (_password, config->mail_password ());
+	}
+
+	void server_changed ()
+	{
+		Config::instance()->set_mail_server (wx_to_std (_server->GetValue ()));
+	}
+
+	void port_changed ()
+	{
+		Config::instance()->set_mail_port (_port->GetValue ());
+	}
+
+	void user_changed ()
+	{
+		Config::instance()->set_mail_user (wx_to_std (_user->GetValue ()));
+	}
+
+	void password_changed ()
+	{
+		Config::instance()->set_mail_password (wx_to_std (_password->GetValue ()));
+	}
+
+	wxTextCtrl* _server;
+	wxSpinCtrl* _port;
+	wxTextCtrl* _user;
+	wxTextCtrl* _password;
+};
+
 class KDMEmailPage : public StandardPage
 {
 public:
@@ -717,145 +810,93 @@ private:
 		table->AddGrowableCol (1, 1);
 		_panel->GetSizer()->Add (table, 1, wxEXPAND | wxALL, _border);
 
-		add_label_to_sizer (table, _panel, _("Outgoing mail server"), true);
-		{
-			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-			_mail_server = new wxTextCtrl (_panel, wxID_ANY);
-			s->Add (_mail_server, 1, wxEXPAND | wxALL);
-			add_label_to_sizer (s, _panel, _("port"), false);
-			_mail_port = new wxSpinCtrl (_panel, wxID_ANY);
-			_mail_port->SetRange (0, 65535);
-			s->Add (_mail_port);
-			table->Add (s, 1, wxEXPAND | wxALL);
-		}
-
-		add_label_to_sizer (table, _panel, _("Mail user name"), true);
-		_mail_user = new wxTextCtrl (_panel, wxID_ANY);
-		table->Add (_mail_user, 1, wxEXPAND | wxALL);
-
-		add_label_to_sizer (table, _panel, _("Mail password"), true);
-		_mail_password = new wxTextCtrl (_panel, wxID_ANY);
-		table->Add (_mail_password, 1, wxEXPAND | wxALL);
-
 		add_label_to_sizer (table, _panel, _("Subject"), true);
-		_kdm_subject = new wxTextCtrl (_panel, wxID_ANY);
-		table->Add (_kdm_subject, 1, wxEXPAND | wxALL);
+		_subject = new wxTextCtrl (_panel, wxID_ANY);
+		table->Add (_subject, 1, wxEXPAND | wxALL);
 
 		add_label_to_sizer (table, _panel, _("From address"), true);
-		_kdm_from = new wxTextCtrl (_panel, wxID_ANY);
-		table->Add (_kdm_from, 1, wxEXPAND | wxALL);
+		_from = new wxTextCtrl (_panel, wxID_ANY);
+		table->Add (_from, 1, wxEXPAND | wxALL);
 
 		vector<string> columns;
 		columns.push_back (wx_to_std (_("Address")));
 		add_label_to_sizer (table, _panel, _("CC addresses"), true);
-		_kdm_cc = new EditableList<string, EmailDialog> (
+		_cc = new EditableList<string, EmailDialog> (
 			_panel,
 			columns,
 			bind (&Config::kdm_cc, Config::instance()),
 			bind (&Config::set_kdm_cc, Config::instance(), _1),
 			bind (&column, _1)
 			);
-		table->Add (_kdm_cc, 1, wxEXPAND | wxALL);
+		table->Add (_cc, 1, wxEXPAND | wxALL);
 
 		add_label_to_sizer (table, _panel, _("BCC address"), true);
-		_kdm_bcc = new wxTextCtrl (_panel, wxID_ANY);
-		table->Add (_kdm_bcc, 1, wxEXPAND | wxALL);
+		_bcc = new wxTextCtrl (_panel, wxID_ANY);
+		table->Add (_bcc, 1, wxEXPAND | wxALL);
 
-		_kdm_email = new wxTextCtrl (_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (-1, 200), wxTE_MULTILINE);
-		_panel->GetSizer()->Add (_kdm_email, 0, wxEXPAND | wxALL, _border);
+		_email = new wxTextCtrl (_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (-1, 200), wxTE_MULTILINE);
+		_panel->GetSizer()->Add (_email, 0, wxEXPAND | wxALL, _border);
 
-		_reset_kdm_email = new wxButton (_panel, wxID_ANY, _("Reset to default subject and text"));
-		_panel->GetSizer()->Add (_reset_kdm_email, 0, wxEXPAND | wxALL, _border);
+		_reset_email = new wxButton (_panel, wxID_ANY, _("Reset to default subject and text"));
+		_panel->GetSizer()->Add (_reset_email, 0, wxEXPAND | wxALL, _border);
 
-		_kdm_cc->layout ();
+		_cc->layout ();
 
-		_mail_server->Bind (wxEVT_TEXT, boost::bind (&KDMEmailPage::mail_server_changed, this));
-		_mail_port->Bind (wxEVT_SPINCTRL, boost::bind (&KDMEmailPage::mail_port_changed, this));
-		_mail_user->Bind (wxEVT_TEXT, boost::bind (&KDMEmailPage::mail_user_changed, this));
-		_mail_password->Bind (wxEVT_TEXT, boost::bind (&KDMEmailPage::mail_password_changed, this));
-		_kdm_subject->Bind (wxEVT_TEXT, boost::bind (&KDMEmailPage::kdm_subject_changed, this));
-		_kdm_from->Bind (wxEVT_TEXT, boost::bind (&KDMEmailPage::kdm_from_changed, this));
-		_kdm_bcc->Bind (wxEVT_TEXT, boost::bind (&KDMEmailPage::kdm_bcc_changed, this));
-		_kdm_email->Bind (wxEVT_TEXT, boost::bind (&KDMEmailPage::kdm_email_changed, this));
-		_reset_kdm_email->Bind (wxEVT_BUTTON, boost::bind (&KDMEmailPage::reset_kdm_email, this));
+		_subject->Bind (wxEVT_TEXT, boost::bind (&KDMEmailPage::kdm_subject_changed, this));
+		_from->Bind (wxEVT_TEXT, boost::bind (&KDMEmailPage::kdm_from_changed, this));
+		_bcc->Bind (wxEVT_TEXT, boost::bind (&KDMEmailPage::kdm_bcc_changed, this));
+		_email->Bind (wxEVT_TEXT, boost::bind (&KDMEmailPage::kdm_email_changed, this));
+		_reset_email->Bind (wxEVT_BUTTON, boost::bind (&KDMEmailPage::reset_email, this));
 	}
 
 	void config_changed ()
 	{
 		Config* config = Config::instance ();
 
-		checked_set (_mail_server, config->mail_server ());
-		checked_set (_mail_port, config->mail_port ());
-		checked_set (_mail_user, config->mail_user ());
-		checked_set (_mail_password, config->mail_password ());
-		checked_set (_kdm_subject, config->kdm_subject ());
-		checked_set (_kdm_from, config->kdm_from ());
-		checked_set (_kdm_bcc, config->kdm_bcc ());
-		checked_set (_kdm_email, Config::instance()->kdm_email ());
-	}
-
-	void mail_server_changed ()
-	{
-		Config::instance()->set_mail_server (wx_to_std (_mail_server->GetValue ()));
-	}
-
-	void mail_port_changed ()
-	{
-		Config::instance()->set_mail_port (_mail_port->GetValue ());
-	}
-
-	void mail_user_changed ()
-	{
-		Config::instance()->set_mail_user (wx_to_std (_mail_user->GetValue ()));
-	}
-
-	void mail_password_changed ()
-	{
-		Config::instance()->set_mail_password (wx_to_std (_mail_password->GetValue ()));
+		checked_set (_subject, config->kdm_subject ());
+		checked_set (_from, config->kdm_from ());
+		checked_set (_bcc, config->kdm_bcc ());
+		checked_set (_email, Config::instance()->kdm_email ());
 	}
 
 	void kdm_subject_changed ()
 	{
-		Config::instance()->set_kdm_subject (wx_to_std (_kdm_subject->GetValue ()));
+		Config::instance()->set_kdm_subject (wx_to_std (_subject->GetValue ()));
 	}
 
 	void kdm_from_changed ()
 	{
-		Config::instance()->set_kdm_from (wx_to_std (_kdm_from->GetValue ()));
+		Config::instance()->set_kdm_from (wx_to_std (_from->GetValue ()));
 	}
 
 	void kdm_bcc_changed ()
 	{
-		Config::instance()->set_kdm_bcc (wx_to_std (_kdm_bcc->GetValue ()));
+		Config::instance()->set_kdm_bcc (wx_to_std (_bcc->GetValue ()));
 	}
 
 	void kdm_email_changed ()
 	{
-		if (_kdm_email->GetValue().IsEmpty ()) {
+		if (_email->GetValue().IsEmpty ()) {
 			/* Sometimes we get sent an erroneous notification that the email
 			   is empty; I don't know why.
 			*/
 			return;
 		}
-		Config::instance()->set_kdm_email (wx_to_std (_kdm_email->GetValue ()));
+		Config::instance()->set_kdm_email (wx_to_std (_email->GetValue ()));
 	}
 
-	void reset_kdm_email ()
+	void reset_email ()
 	{
 		Config::instance()->reset_kdm_email ();
-		checked_set (_kdm_email, Config::instance()->kdm_email ());
+		checked_set (_email, Config::instance()->kdm_email ());
 	}
 
-	wxTextCtrl* _mail_server;
-	wxSpinCtrl* _mail_port;
-	wxTextCtrl* _mail_user;
-	wxTextCtrl* _mail_password;
-	wxTextCtrl* _kdm_subject;
-	wxTextCtrl* _kdm_from;
-	EditableList<string, EmailDialog>* _kdm_cc;
-	wxTextCtrl* _kdm_bcc;
-	wxTextCtrl* _kdm_email;
-	wxButton* _reset_kdm_email;
+	wxTextCtrl* _subject;
+	wxTextCtrl* _from;
+	EditableList<string, EmailDialog>* _cc;
+	wxTextCtrl* _bcc;
+	wxTextCtrl* _email;
+	wxButton* _reset_email;
 };
 
 class CoverSheetPage : public StandardPage
@@ -1186,6 +1227,7 @@ create_full_config_dialog ()
 	e->AddPage (new EncodingServersPage (ps, border));
 	e->AddPage (new KeysPage (ps, border));
 	e->AddPage (new TMSPage (ps, border));
+	e->AddPage (new EmailPage (ps, border));
 	e->AddPage (new KDMEmailPage (ps, border));
 	e->AddPage (new CoverSheetPage (ps, border));
 	e->AddPage (new AdvancedPage (ps, border));

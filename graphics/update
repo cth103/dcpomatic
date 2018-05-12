@@ -55,7 +55,7 @@ else
     # OS X preferences icons
     # servers.png does not have an SVG version
     mkdir -p osx/preferences
-    for i in colour_conversions defaults kdm_email cover_sheet keys tms; do
+    for i in colour_conversions defaults email kdm_email cover_sheet keys tms; do
 	$INKSCAPE osx/preferences/$i.png src/$i.svg -w 32 -h 32
     done
 
