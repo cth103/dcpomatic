@@ -519,10 +519,20 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 			_("BT2020"),
 			_("SMPTE ST 428-1 (CIE 1931 XYZ)"),
 			_("SMPTE ST 431-2 (2011)"),
-			_("SMPTE ST 432-1 D65 (2010)")
+			_("SMPTE ST 432-1 D65 (2010)"), // 12
+			"", // 13
+			"", // 14
+			"", // 15
+			"", // 16
+			"", // 17
+			"", // 18
+			"", // 19
+			"", // 20
+			"", // 21
+			_("JEDEC P22")
 		};
 
-		DCPOMATIC_ASSERT (AVCOL_PRI_NB <= 13);
+		DCPOMATIC_ASSERT (AVCOL_PRI_NB <= 23);
 		p.push_back (UserProperty (UserProperty::VIDEO, _("Colour primaries"), primaries[_color_primaries]));
 
 		char const * transfers[] = {
@@ -563,9 +573,12 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 			_("BT2020 non-constant luminance"),
 			_("BT2020 constant luminance"),
 			_("SMPTE 2085, Y'D'zD'x"),
+			_("Chroma-derived non-constant luminance"),
+			_("Chroma-derived constant luminance"),
+			_("BT2100")
 		};
 
-		DCPOMATIC_ASSERT (AVCOL_SPC_NB == 12);
+		DCPOMATIC_ASSERT (AVCOL_SPC_NB == 15);
 		p.push_back (UserProperty (UserProperty::VIDEO, _("Colourspace"), spaces[_colorspace]));
 
 		if (_bits_per_pixel) {
