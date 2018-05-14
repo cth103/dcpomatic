@@ -362,11 +362,11 @@ def configure(conf):
 
     # libsub
     if conf.options.static_sub:
-        conf.check_cfg(package='libsub-1.0', atleast_version='1.3.2', args='--cflags', uselib_store='SUB', mandatory=True)
+        conf.check_cfg(package='libsub-1.0', atleast_version='1.3.3', args='--cflags', uselib_store='SUB', mandatory=True)
         conf.env.DEFINES_SUB = [f.replace('\\', '') for f in conf.env.DEFINES_SUB]
         conf.env.STLIB_SUB = ['sub-1.0']
     else:
-        conf.check_cfg(package='libsub-1.0', atleast_version='1.3.2', args='--cflags --libs', uselib_store='SUB', mandatory=True)
+        conf.check_cfg(package='libsub-1.0', atleast_version='1.3.3', args='--cflags --libs', uselib_store='SUB', mandatory=True)
         conf.env.DEFINES_SUB = [f.replace('\\', '') for f in conf.env.DEFINES_SUB]
 
     # libxml++
