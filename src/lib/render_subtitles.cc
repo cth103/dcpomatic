@@ -32,6 +32,7 @@
 #include <pango/pangocairo.h>
 #endif
 #include <boost/foreach.hpp>
+#include <boost/algorithm/string.hpp>
 #include <iostream>
 
 using std::list;
@@ -44,6 +45,7 @@ using std::cerr;
 using std::make_pair;
 using boost::shared_ptr;
 using boost::optional;
+using boost::algorithm::replace_all;
 
 static FcConfig* fc_config = 0;
 static list<pair<FontFiles, string> > fc_config_fonts;
@@ -68,7 +70,11 @@ marked_up (list<SubtitleString> subtitles, int target_height, float fade_factor)
 		/* Between 1-65535 inclusive, apparently... */
 		out += "alpha=\"" + dcp::raw_convert<string>(int(floor(fade_factor * 65534)) + 1) + "\" ";
 		out += "color=\"#" + i.colour().to_rgb_string() + "\">";
-		out += i.text ();
+
+		string t = i.text();
+		replace_all(t, "&", "&amp;");
+		out += t;
+
 		out += "</span>";
 	}
 
