@@ -1,5 +1,7 @@
 2018-05-15  Carl Hetherington  <cth@carlh.net>
 
+	* Fix crash on enabling telecine filter.
+
 	* Fix incorrect subtitle positining in a VF when there are more than
 	two consecutive reels with no subtitles.
 

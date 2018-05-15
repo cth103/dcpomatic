@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -35,9 +35,10 @@ using std::string;
 using std::make_pair;
 using boost::shared_ptr;
 
-VideoFilterGraph::VideoFilterGraph (dcp::Size s, AVPixelFormat p)
+VideoFilterGraph::VideoFilterGraph (dcp::Size s, AVPixelFormat p, dcp::Fraction r)
 	: _size (s)
 	, _pixel_format (p)
+	, _frame_rate (r)
 {
 
 }
@@ -85,7 +86,13 @@ string
 VideoFilterGraph::src_parameters () const
 {
 	char buffer[256];
-	snprintf (buffer, sizeof(buffer), "video_size=%dx%d:pix_fmt=%d:time_base=1/1:pixel_aspect=1/1", _size.width, _size.height, _pixel_format);
+	snprintf (
+		buffer, sizeof(buffer),
+		"video_size=%dx%d:pix_fmt=%d:frame_rate=%d/%d:time_base=1/1:pixel_aspect=1/1",
+		_size.width, _size.height,
+		_pixel_format,
+		_frame_rate.numerator, _frame_rate.denominator
+		);
 	return buffer;
 }
 

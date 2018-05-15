@@ -508,7 +508,8 @@ FFmpegDecoder::decode_video_packet ()
 	}
 
 	if (i == _filter_graphs.end ()) {
-		graph.reset (new VideoFilterGraph (dcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format));
+		dcp::Fraction vfr (lrint(_ffmpeg_content->video_frame_rate().get() * 1000), 1000);
+		graph.reset (new VideoFilterGraph (dcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format, vfr));
 		graph->setup (_ffmpeg_content->filters ());
 		_filter_graphs.push_back (graph);
 		LOG_GENERAL (N_("New graph for %1x%2, pixel format %3"), _frame->width, _frame->height, _frame->format);

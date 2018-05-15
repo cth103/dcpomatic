@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -23,7 +23,7 @@
 class VideoFilterGraph : public FilterGraph
 {
 public:
-	VideoFilterGraph (dcp::Size s, AVPixelFormat p);
+	VideoFilterGraph (dcp::Size s, AVPixelFormat p, dcp::Fraction r);
 
 	bool can_process (dcp::Size s, AVPixelFormat p) const;
 	std::list<std::pair<boost::shared_ptr<Image>, int64_t> > process (AVFrame * frame);
@@ -37,4 +37,5 @@ protected:
 private:
 	dcp::Size _size; ///< size of the images that this chain can process
 	AVPixelFormat _pixel_format; ///< pixel format of the images that this chain can process
+	dcp::Fraction _frame_rate;
 };
