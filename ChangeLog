@@ -1,5 +1,8 @@
 2018-05-15  Carl Hetherington  <cth@carlh.net>
 
+	* Fix incorrect subtitle positining in a VF when there are more than
+	two consecutive reels with no subtitles.
+
 	* Fix missing burnt-in / previewed subtitles containing ampersands.
 
 2018-05-08  Carl Hetherington  <cth@carlh.net>
