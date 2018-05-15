@@ -657,8 +657,9 @@ Writer::write (PlayerSubtitles subs, DCPTimePeriod period)
 		return;
 	}
 
-	if (_subtitle_reel->period().to <= period.from) {
+	while (_subtitle_reel->period().to <= period.from) {
 		++_subtitle_reel;
+		DCPOMATIC_ASSERT (_subtitle_reel != _reels.end());
 	}
 
 	_subtitle_reel->write (subs);
