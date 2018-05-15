@@ -1,11 +1,17 @@
-2018-05-18  Carl Hetherington  <cth@carlh.net>
+2018-05-15  Carl Hetherington  <cth@carlh.net>
+
+	* Fix missing burnt-in / previewed subtitles containing ampersands.
 
 	* Fix slow exports from DCP content (#1285).
 
 2018-05-15  Carl Hetherington  <cth@carlh.net>
 
-	* Fix incorrect subtitle positining in a VF when there are more than
+	* Fix incorrect subtitle positioning in a VF when there are more than
 	two consecutive reels with no subtitles.
+
+2018-05-15  Carl Hetherington  <cth@carlh.net>
+
+	* Version 2.12.5 released.
 
 2018-05-08  Carl Hetherington  <cth@carlh.net>
 
