@@ -1,8 +1,12 @@
+2018-05-16  Carl Hetherington  <cth@carlh.net>
+
+	* Add cancel button to DCP verification progress dialogue (#1294).
+
 2018-05-15  Carl Hetherington  <cth@carlh.net>
 
 	* Fix crash on enabling telecine filter.
 
-	* Fix incorrect subtitle positining in a VF when there are more than
+	* Fix incorrect subtitle positioning in a VF when there are more than
 	two consecutive reels with no subtitles.
 
 	* Fix missing burnt-in / previewed subtitles containing ampersands.

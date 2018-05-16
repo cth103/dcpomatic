@@ -194,8 +194,8 @@ public:
 		}
 
 		_film->examine_and_add_content (dcp, true);
-		progress (_("Loading DCP"));
-		if (!report_errors_from_last_job()) {
+		bool const ok = progress (_("Loading DCP"));
+		if (!ok || !report_errors_from_last_job()) {
 			return;
 		}
 
@@ -343,8 +343,8 @@ private:
 			DCPOMATIC_ASSERT (dcp);
 			dcp->add_ov (wx_to_std(c->GetPath()));
 			JobManager::instance()->add(shared_ptr<Job>(new ExamineContentJob (_film, dcp)));
-			progress (_("Loading DCP"));
-			if (!report_errors_from_last_job()) {
+			bool const ok = progress (_("Loading DCP"));
+			if (!ok || !report_errors_from_last_job()) {
 				return;
 			}
 			setup_from_dcp (dcp);
@@ -432,7 +432,10 @@ private:
 
 		JobManager* jm = JobManager::instance ();
 		jm->add (shared_ptr<Job> (new VerifyDCPJob (dcp->directories())));
-		progress (_("Verifying DCP"));
+		bool const ok = progress (_("Verifying DCP"));
+		if (!ok) {
+			return;
+		}
 
 		DCPOMATIC_ASSERT (!jm->get().empty());
 		shared_ptr<VerifyDCPJob> last = dynamic_pointer_cast<VerifyDCPJob> (jm->get().back());
@@ -568,18 +571,29 @@ private:
 
 private:
 
-	void progress (wxString task)
+	/** @return false if the task was cancelled */
+	bool progress (wxString task)
 	{
 		JobManager* jm = JobManager::instance ();
 
-		wxProgressDialog* progress = new wxProgressDialog (_("DCP-o-matic Player"), task);
+		wxProgressDialog* progress = new wxProgressDialog (_("DCP-o-matic Player"), task, 100, 0, wxPD_CAN_ABORT);
+
+		bool ok = true;
 
 		while (jm->work_to_do() || signal_manager->ui_idle()) {
 			dcpomatic_sleep (1);
-			progress->Pulse ();
+			if (!progress->Pulse()) {
+				/* user pressed cancel */
+				BOOST_FOREACH (shared_ptr<Job> i, jm->get()) {
+					i->cancel();
+				}
+				ok = false;
+				break;
+			}
 		}
 
 		progress->Destroy ();
+		return ok;
 	}
 
 	bool report_errors_from_last_job ()
