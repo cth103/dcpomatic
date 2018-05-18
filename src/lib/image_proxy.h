@@ -80,7 +80,7 @@ public:
 	 *  This method may be called in a different thread to image().
 	 *  @return log2 of any scaling down that will be applied to the image.
 	 */
-	int prepare (boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const { return 0; }
+	virtual int prepare (boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const { return 0; }
 	virtual AVPixelFormat pixel_format () const = 0;
 	virtual size_t memory_used () const = 0;
 };

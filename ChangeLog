@@ -1,3 +1,7 @@
+2018-05-18  Carl Hetherington  <cth@carlh.net>
+
+	* Fix slow exports from DCP content (#1285).
+
 2018-05-16  Carl Hetherington  <cth@carlh.net>
 
 	* Add cancel button to DCP verification progress dialogue (#1294).
