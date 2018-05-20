@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-20 00:58+0100\n"
+"POT-Creation-Date: 2018-05-20 20:14+0100\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -1000,10 +1000,6 @@ msgstr "Zelená farebnosť (Green chromaticity)"
 msgid "Guess from content"
 msgstr "Farba orámovania"
 
-#: src/wx/export_dialog.cc:33
-msgid "H.264"
-msgstr ""
-
 #: src/wx/batch_job_view.cc:44
 msgid "Higher priority"
 msgstr ""
@@ -1230,6 +1226,10 @@ msgstr "CHÝBAJÚCE:"
 
 #: src/wx/export_dialog.cc:37
 msgid "MOV files (*.mov)|*.mov"
+msgstr ""
+
+#: src/wx/export_dialog.cc:33
+msgid "MP4 / H.264"
 msgstr ""
 
 #: src/wx/export_dialog.cc:38

@@ -3,11 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: src/wx/audio_panel.cc:56 src/wx/subtitle_panel.cc:56
+#: src/wx/video_panel.cc:82
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-20 00:58+0100\n"
+"POT-Creation-Date: 2018-05-20 20:14+0100\n"
 "PO-Revision-Date: 2018-04-21 00:39+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -979,10 +981,6 @@ msgstr "Groen-chromaticiteit"
 msgid "Guess from content"
 msgstr "Raad van content"
 
-#: src/wx/export_dialog.cc:33
-msgid "H.264"
-msgstr "H.264"
-
 #: src/wx/batch_job_view.cc:44
 msgid "Higher priority"
 msgstr "Hogere prioriteit"
@@ -1207,6 +1205,11 @@ msgstr "ONTBREKEND:"
 #: src/wx/export_dialog.cc:37
 msgid "MOV files (*.mov)|*.mov"
 msgstr "MOV-bestanden (*.mov)|*.mov"
+
+#: src/wx/export_dialog.cc:33
+#, fuzzy
+msgid "MP4 / H.264"
+msgstr "H.264"
 
 #: src/wx/export_dialog.cc:38
 msgid "MP4 files (*.mp4)|*.mp4"

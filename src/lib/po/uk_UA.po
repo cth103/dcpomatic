@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-20 00:58+0100\n"
+"POT-Creation-Date: 2018-05-20 20:14+0100\n"
 "PO-Revision-Date: 2017-01-18 12:15+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Українська\n"
@@ -85,7 +85,7 @@ msgstr ""
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
-#: src/lib/dcp_content.cc:212
+#: src/lib/dcp_content.cc:223
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -172,7 +172,7 @@ msgstr ""
 "Гарною ідеєю було б знизити пропускну здатність JPEG2000 до 200Мбит/с; "
 "навряд чи це призведе до помітних змін зображення."
 
-#: src/lib/ffmpeg_content.cc:547
+#: src/lib/ffmpeg_content.cc:557
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
 msgstr "ARIB STD-B67 ('Hybrid log-gamma')"
 
@@ -223,7 +223,7 @@ msgstr "Аудіо будет ресемпловано в %1Гц"
 msgid "Audio will not be resampled"
 msgstr "Аудіо не буде ресемпловано"
 
-#: src/lib/ffmpeg_content.cc:541
+#: src/lib/ffmpeg_content.cc:551
 msgid "BT1361 extended colour gamut"
 msgstr "BT1361 розширена колірна гамма"
 
@@ -231,27 +231,31 @@ msgstr "BT1361 розширена колірна гамма"
 msgid "BT2020"
 msgstr "BT2020"
 
-#: src/lib/ffmpeg_content.cc:564
+#: src/lib/ffmpeg_content.cc:574
 msgid "BT2020 constant luminance"
 msgstr "BT2020 постійна яскравість"
 
-#: src/lib/ffmpeg_content.cc:543
+#: src/lib/ffmpeg_content.cc:553
 msgid "BT2020 for a 10-bit system"
 msgstr "BT2020 для 10-бітної системи"
 
-#: src/lib/ffmpeg_content.cc:544
+#: src/lib/ffmpeg_content.cc:554
 msgid "BT2020 for a 12-bit system"
 msgstr "BT2020 для 12-бітної системи"
 
-#: src/lib/ffmpeg_content.cc:563
+#: src/lib/ffmpeg_content.cc:573
 msgid "BT2020 non-constant luminance"
 msgstr "BT2020 непостійна яскравість"
+
+#: src/lib/ffmpeg_content.cc:578
+msgid "BT2100"
+msgstr ""
 
 #: src/lib/ffmpeg_content.cc:515
 msgid "BT470BG"
 msgstr "BT470BG"
 
-#: src/lib/ffmpeg_content.cc:559
+#: src/lib/ffmpeg_content.cc:569
 msgid "BT470BG (BT601-6)"
 msgstr "BT470BG (BT601-6)"
 
@@ -259,12 +263,12 @@ msgstr "BT470BG (BT601-6)"
 msgid "BT470M"
 msgstr "BT470M"
 
-#: src/lib/ffmpeg_content.cc:511 src/lib/ffmpeg_content.cc:530
-#: src/lib/ffmpeg_content.cc:555
+#: src/lib/ffmpeg_content.cc:511 src/lib/ffmpeg_content.cc:540
+#: src/lib/ffmpeg_content.cc:565
 msgid "BT709"
 msgstr "BT709"
 
-#: src/lib/ffmpeg_content.cc:572
+#: src/lib/ffmpeg_content.cc:585
 msgid "Bits per pixel"
 msgstr "Біт на піксель"
 
@@ -293,7 +297,7 @@ msgstr "не може містити розрізи"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Неможливо обробити формат пікселя %1 під час %2"
 
-#: src/lib/film.cc:1225
+#: src/lib/film.cc:1227
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 
@@ -309,7 +313,17 @@ msgstr "Канали"
 msgid "Checking existing image data"
 msgstr "Перевірка данних зображення"
 
-#: src/lib/ffmpeg_content.cc:526
+#: src/lib/ffmpeg_content.cc:577
+#, fuzzy
+msgid "Chroma-derived constant luminance"
+msgstr "BT2020 постійна яскравість"
+
+#: src/lib/ffmpeg_content.cc:576
+#, fuzzy
+msgid "Chroma-derived non-constant luminance"
+msgstr "BT2020 непостійна яскравість"
+
+#: src/lib/ffmpeg_content.cc:536
 msgid "Colour primaries"
 msgstr "Основні кольори"
 
@@ -329,11 +343,11 @@ msgstr "Основні кольори"
 msgid "Colour range"
 msgstr "Колірна гамма"
 
-#: src/lib/ffmpeg_content.cc:551
+#: src/lib/ffmpeg_content.cc:561
 msgid "Colour transfer characteristic"
 msgstr "Характеристика передачі кольору"
 
-#: src/lib/ffmpeg_content.cc:569
+#: src/lib/ffmpeg_content.cc:582
 msgid "Colourspace"
 msgstr "Кольорова палітра"
 
@@ -651,7 +665,7 @@ msgstr "Помилка: (%1)"
 msgid "Examine content"
 msgstr "Перевірка контенту"
 
-#: src/lib/ffmpeg_content.cc:558
+#: src/lib/ffmpeg_content.cc:568
 msgid "FCC"
 msgstr "FCC"
 
@@ -711,11 +725,11 @@ msgstr "Повна довжина відео-кадрів на швидкост�
 msgid "Full length in video frames at content rate"
 msgstr "Повна довжина відео-кадрів на швидкості контенту"
 
-#: src/lib/ffmpeg_content.cc:533
+#: src/lib/ffmpeg_content.cc:543
 msgid "Gamma 22 (BT470M)"
 msgstr "Гамма 22 (BT470M)"
 
-#: src/lib/ffmpeg_content.cc:534
+#: src/lib/ffmpeg_content.cc:544
 msgid "Gamma 28 (BT470BG)"
 msgstr "Гамма 28 (BT470BG)"
 
@@ -751,17 +765,21 @@ msgstr ""
 msgid "Hz"
 msgstr "Гц"
 
-#: src/lib/ffmpeg_content.cc:542
+#: src/lib/ffmpeg_content.cc:552
 msgid "IEC61966-2-1 (sRGB or sYCC)"
 msgstr "IEC61966-2-1 (sRGB или sYCC)"
 
-#: src/lib/ffmpeg_content.cc:540
+#: src/lib/ffmpeg_content.cc:550
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
 #: src/lib/job.cc:149 src/lib/job.cc:187 src/lib/job.cc:197
 msgid "It is not known what caused this error."
 msgstr "Невідомо, що викликало цю помилку."
+
+#: src/lib/ffmpeg_content.cc:532
+msgid "JEDEC P22"
+msgstr ""
 
 #: src/lib/config.cc:308 src/lib/config.cc:821
 msgid "KDM delivery: $CPL_NAME"
@@ -815,15 +833,15 @@ msgstr "Обмежено"
 msgid "Limited (%1-%2)"
 msgstr "Обмежено (%1-%2)"
 
-#: src/lib/ffmpeg_content.cc:537
+#: src/lib/ffmpeg_content.cc:547
 msgid "Linear"
 msgstr "Лінійний"
 
-#: src/lib/ffmpeg_content.cc:538
+#: src/lib/ffmpeg_content.cc:548
 msgid "Logarithmic (100:1 range)"
 msgstr "Логаріфмічний (діапазон 100:1)"
 
-#: src/lib/ffmpeg_content.cc:539
+#: src/lib/ffmpeg_content.cc:549
 msgid "Logarithmic (316:1 range)"
 msgstr "Логаріфмічний (діапазон 316:1)"
 
@@ -839,19 +857,19 @@ msgstr "Mid-side декодер"
 msgid "Misc"
 msgstr "Різне"
 
-#: src/lib/dcp_examiner.cc:145
+#: src/lib/dcp_examiner.cc:149
 msgid "Mismatched audio channel counts in DCP"
 msgstr "Невідповідна кількість аудіоканалів в DCP"
 
-#: src/lib/dcp_examiner.cc:151
+#: src/lib/dcp_examiner.cc:155
 msgid "Mismatched audio sample rates in DCP"
 msgstr "Невідповідність частоти дискретизації аудіо в DCP"
 
-#: src/lib/dcp_examiner.cc:120
+#: src/lib/dcp_examiner.cc:122
 msgid "Mismatched frame rates in DCP"
 msgstr "Невідповідність частоти кадрів в DCP"
 
-#: src/lib/dcp_examiner.cc:127
+#: src/lib/dcp_examiner.cc:130
 msgid "Mismatched video sizes in DCP"
 msgstr "Невідповідність розміру відео в DCP"
 
@@ -937,7 +955,7 @@ msgstr "PSA (Соціальна реклама)"
 msgid "R"
 msgstr "R"
 
-#: src/lib/ffmpeg_content.cc:554
+#: src/lib/ffmpeg_content.cc:564
 msgid "RGB / sRGB (IEC61966-2-1)"
 msgstr "RGB / sRGB (IEC61966-2-1)"
 
@@ -989,28 +1007,28 @@ msgstr "Rs"
 msgid "S-Gamut3/S-Log3"
 msgstr "S-Gamut3/S-Log3"
 
-#: src/lib/ffmpeg_content.cc:516 src/lib/ffmpeg_content.cc:535
+#: src/lib/ffmpeg_content.cc:516 src/lib/ffmpeg_content.cc:545
 msgid "SMPTE 170M (BT601)"
 msgstr "SMPTE 170M (BT601)"
 
-#: src/lib/ffmpeg_content.cc:560
+#: src/lib/ffmpeg_content.cc:570
 msgid "SMPTE 170M (BT601-6)"
 msgstr "SMPTE 170M (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:565
+#: src/lib/ffmpeg_content.cc:575
 msgid "SMPTE 2085, Y'D'zD'x"
 msgstr "SMPTE 2085, Y'D'zD'x"
 
-#: src/lib/ffmpeg_content.cc:517 src/lib/ffmpeg_content.cc:536
-#: src/lib/ffmpeg_content.cc:561
+#: src/lib/ffmpeg_content.cc:517 src/lib/ffmpeg_content.cc:546
+#: src/lib/ffmpeg_content.cc:571
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/ffmpeg_content.cc:545
+#: src/lib/ffmpeg_content.cc:555
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
 msgstr "SMPTE ST 2084 для 10, 12, 14 та 16-бітних систем"
 
-#: src/lib/ffmpeg_content.cc:546
+#: src/lib/ffmpeg_content.cc:556
 msgid "SMPTE ST 428-1"
 msgstr "SMPTE ST 428-1"
 
@@ -1129,6 +1147,10 @@ msgid ""
 "systems support your chosen DCP rate."
 msgstr ""
 
+#: src/lib/dcp_content.cc:521
+msgid "There is no video in this DCP"
+msgstr ""
+
 #: src/lib/job.cc:173
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
@@ -1197,9 +1219,9 @@ msgstr "Маска пониження різкості та Гауссово р�
 
 #: src/lib/ffmpeg_content.cc:468 src/lib/ffmpeg_content.cc:492
 #: src/lib/ffmpeg_content.cc:510 src/lib/ffmpeg_content.cc:512
-#: src/lib/ffmpeg_content.cc:513 src/lib/ffmpeg_content.cc:529
-#: src/lib/ffmpeg_content.cc:531 src/lib/ffmpeg_content.cc:532
-#: src/lib/ffmpeg_content.cc:556 src/lib/ffmpeg_content.cc:557
+#: src/lib/ffmpeg_content.cc:513 src/lib/ffmpeg_content.cc:539
+#: src/lib/ffmpeg_content.cc:541 src/lib/ffmpeg_content.cc:542
+#: src/lib/ffmpeg_content.cc:566 src/lib/ffmpeg_content.cc:567
 msgid "Unspecified"
 msgstr "Не визначено"
 
@@ -1235,7 +1257,7 @@ msgstr "Для людей з вадами зору"
 msgid "Waiting"
 msgstr "Очікування"
 
-#: src/lib/ffmpeg_content.cc:562
+#: src/lib/ffmpeg_content.cc:572
 msgid "YCOCG"
 msgstr "YCOCG"
 
@@ -1428,55 +1450,55 @@ msgid "h"
 msgstr "г"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:517
+#: src/lib/dcp_content.cc:552
 #, fuzzy
 msgid "it does not have sound in all its reels."
 msgstr "У всіх бобінах даного DCP відсутній звук."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:543
+#: src/lib/dcp_content.cc:578
 #, fuzzy
 msgid "it does not have subtitles in all its reels."
 msgstr "У всіх бобінах даного DCP відсутні субтитри."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:450
+#: src/lib/dcp_content.cc:480
 #, fuzzy
 msgid "it has a different frame rate to the film."
 msgstr "Частота кадрів проекту відрізняється від частоти кадрів DCP."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:438
+#: src/lib/dcp_content.cc:468
 #, fuzzy
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "Проект встановлений у Interop, а цей DCP є SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:442
+#: src/lib/dcp_content.cc:472
 #, fuzzy
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "Проект встановлений у SMPTE, а цей DCP є Interop."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:523
+#: src/lib/dcp_content.cc:558
 #, fuzzy
 msgid "it overlaps other audio content; remove the other content."
 msgstr "Присутнє інше аудіо, яке перекриває цей DCP. Приберіть його!"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:549
+#: src/lib/dcp_content.cc:584
 #, fuzzy
 msgid "it overlaps other subtitle content; remove the other content."
 msgstr "Присутні інші субтитри, які перекривають цей DCP. Приберіть їх!"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:497
+#: src/lib/dcp_content.cc:532
 #, fuzzy
 msgid "it overlaps other video content; remove the other content."
 msgstr "Присутнє інше відео, яке перекриває цей DCP. Приберіть його!"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:473
+#: src/lib/dcp_content.cc:503
 #, fuzzy
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
@@ -1486,7 +1508,7 @@ msgstr ""
 "бобіни \"Розділяти по відео-контенту\"."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:492
+#: src/lib/dcp_content.cc:527
 #, fuzzy
 msgid "its video frame size differs from the film's."
 msgstr "Розмір кадра відео у проекті відрізняється від розміра відео DCP."

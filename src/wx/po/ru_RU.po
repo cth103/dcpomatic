@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-20 00:58+0100\n"
+"POT-Creation-Date: 2018-05-20 20:14+0100\n"
 "PO-Revision-Date: 2018-02-09 00:32+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -982,10 +982,6 @@ msgstr "Зеленая цветность"
 msgid "Guess from content"
 msgstr "Угадать из контента"
 
-#: src/wx/export_dialog.cc:33
-msgid "H.264"
-msgstr "H.264"
-
 #: src/wx/batch_job_view.cc:44
 msgid "Higher priority"
 msgstr "Более высокий приоритет"
@@ -1211,6 +1207,11 @@ msgstr "ОТСУТСТВУЕТ: "
 #: src/wx/export_dialog.cc:37
 msgid "MOV files (*.mov)|*.mov"
 msgstr "MOV файлы (*.mov)|*.mov"
+
+#: src/wx/export_dialog.cc:33
+#, fuzzy
+msgid "MP4 / H.264"
+msgstr "H.264"
 
 #: src/wx/export_dialog.cc:38
 msgid "MP4 files (*.mp4)|*.mp4"

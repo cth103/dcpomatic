@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-20 00:58+0100\n"
+"POT-Creation-Date: 2018-05-20 20:14+0100\n"
 "PO-Revision-Date: 2018-04-24 22:27+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -96,7 +96,7 @@ msgstr ""
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
-#: src/lib/dcp_content.cc:212
+#: src/lib/dcp_content.cc:223
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -181,7 +181,7 @@ msgstr ""
 "débit. Ce pourrait être une bonne idée d'abaisser la bande passante JPEG2000 "
 "sous les 200Mbit/s. ceci n'aura pas de conséquence visible sur l'image."
 
-#: src/lib/ffmpeg_content.cc:547
+#: src/lib/ffmpeg_content.cc:557
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
 msgstr "ARIB STD-B67 ('Hybrid log-gamma')"
 
@@ -233,7 +233,7 @@ msgstr "Le son sera ré-échantillonné à %1Hz."
 msgid "Audio will not be resampled"
 msgstr "Le son ne sera pas ré-échantillonné."
 
-#: src/lib/ffmpeg_content.cc:541
+#: src/lib/ffmpeg_content.cc:551
 msgid "BT1361 extended colour gamut"
 msgstr "BT1361 gamme de couleurs étendue"
 
@@ -241,27 +241,31 @@ msgstr "BT1361 gamme de couleurs étendue"
 msgid "BT2020"
 msgstr "BT2020"
 
-#: src/lib/ffmpeg_content.cc:564
+#: src/lib/ffmpeg_content.cc:574
 msgid "BT2020 constant luminance"
 msgstr "BT2020 luminance constante"
 
-#: src/lib/ffmpeg_content.cc:543
+#: src/lib/ffmpeg_content.cc:553
 msgid "BT2020 for a 10-bit system"
 msgstr "BT2020 pour un système 10-bit"
 
-#: src/lib/ffmpeg_content.cc:544
+#: src/lib/ffmpeg_content.cc:554
 msgid "BT2020 for a 12-bit system"
 msgstr "BT2020 pour un système 12-bit"
 
-#: src/lib/ffmpeg_content.cc:563
+#: src/lib/ffmpeg_content.cc:573
 msgid "BT2020 non-constant luminance"
 msgstr "BT2020 luminance non-constante"
+
+#: src/lib/ffmpeg_content.cc:578
+msgid "BT2100"
+msgstr ""
 
 #: src/lib/ffmpeg_content.cc:515
 msgid "BT470BG"
 msgstr "BT470BG"
 
-#: src/lib/ffmpeg_content.cc:559
+#: src/lib/ffmpeg_content.cc:569
 msgid "BT470BG (BT601-6)"
 msgstr "BT470BG (BT601-6)"
 
@@ -269,12 +273,12 @@ msgstr "BT470BG (BT601-6)"
 msgid "BT470M"
 msgstr "BT470M"
 
-#: src/lib/ffmpeg_content.cc:511 src/lib/ffmpeg_content.cc:530
-#: src/lib/ffmpeg_content.cc:555
+#: src/lib/ffmpeg_content.cc:511 src/lib/ffmpeg_content.cc:540
+#: src/lib/ffmpeg_content.cc:565
 msgid "BT709"
 msgstr "BT709"
 
-#: src/lib/ffmpeg_content.cc:572
+#: src/lib/ffmpeg_content.cc:585
 msgid "Bits per pixel"
 msgstr "bits par pixel"
 
@@ -302,7 +306,7 @@ msgstr "slash non autorisés"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Format du pixel %1 non géré par %2"
 
-#: src/lib/film.cc:1225
+#: src/lib/film.cc:1227
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Fabrication d'une KDM impossible car ce projet n'est pas crypté."
 
@@ -318,7 +322,17 @@ msgstr "Canaux"
 msgid "Checking existing image data"
 msgstr "Recherche de données images existantes"
 
-#: src/lib/ffmpeg_content.cc:526
+#: src/lib/ffmpeg_content.cc:577
+#, fuzzy
+msgid "Chroma-derived constant luminance"
+msgstr "BT2020 luminance constante"
+
+#: src/lib/ffmpeg_content.cc:576
+#, fuzzy
+msgid "Chroma-derived non-constant luminance"
+msgstr "BT2020 luminance non-constante"
+
+#: src/lib/ffmpeg_content.cc:536
 msgid "Colour primaries"
 msgstr "Couleurs primaires"
 
@@ -338,11 +352,11 @@ msgstr "Couleurs primaires"
 msgid "Colour range"
 msgstr "Plage de couleurs"
 
-#: src/lib/ffmpeg_content.cc:551
+#: src/lib/ffmpeg_content.cc:561
 msgid "Colour transfer characteristic"
 msgstr "Caractéristique conversion colorimétrique"
 
-#: src/lib/ffmpeg_content.cc:569
+#: src/lib/ffmpeg_content.cc:582
 msgid "Colourspace"
 msgstr "Espace colorimétrique"
 
@@ -658,7 +672,7 @@ msgstr "Erreur: %1"
 msgid "Examine content"
 msgstr "Examen du contenu"
 
-#: src/lib/ffmpeg_content.cc:558
+#: src/lib/ffmpeg_content.cc:568
 msgid "FCC"
 msgstr "FCC"
 
@@ -718,11 +732,11 @@ msgstr "Pleine durée en images vidéo à la cadence du DCP"
 msgid "Full length in video frames at content rate"
 msgstr "Pleine durée en images vidéo à la cadence du contenu"
 
-#: src/lib/ffmpeg_content.cc:533
+#: src/lib/ffmpeg_content.cc:543
 msgid "Gamma 22 (BT470M)"
 msgstr "Gamma 22 (BT470M)"
 
-#: src/lib/ffmpeg_content.cc:534
+#: src/lib/ffmpeg_content.cc:544
 msgid "Gamma 28 (BT470BG)"
 msgstr "Gamma 28 (BT470BG)"
 
@@ -764,17 +778,21 @@ msgstr ""
 msgid "Hz"
 msgstr "Hz"
 
-#: src/lib/ffmpeg_content.cc:542
+#: src/lib/ffmpeg_content.cc:552
 msgid "IEC61966-2-1 (sRGB or sYCC)"
 msgstr "IEC61966-2-1 (sRGB or sYCC)"
 
-#: src/lib/ffmpeg_content.cc:540
+#: src/lib/ffmpeg_content.cc:550
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
 #: src/lib/job.cc:149 src/lib/job.cc:187 src/lib/job.cc:197
 msgid "It is not known what caused this error."
 msgstr "Erreur indéterminée."
+
+#: src/lib/ffmpeg_content.cc:532
+msgid "JEDEC P22"
+msgstr ""
 
 #: src/lib/config.cc:308 src/lib/config.cc:821
 msgid "KDM delivery: $CPL_NAME"
@@ -828,15 +846,15 @@ msgstr "Limité"
 msgid "Limited (%1-%2)"
 msgstr "Limité (%1-%2)"
 
-#: src/lib/ffmpeg_content.cc:537
+#: src/lib/ffmpeg_content.cc:547
 msgid "Linear"
 msgstr "Linéaire"
 
-#: src/lib/ffmpeg_content.cc:538
+#: src/lib/ffmpeg_content.cc:548
 msgid "Logarithmic (100:1 range)"
 msgstr "Logarithmique (plage 100:1)"
 
-#: src/lib/ffmpeg_content.cc:539
+#: src/lib/ffmpeg_content.cc:549
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarithmique (plage 316:1)"
 
@@ -852,19 +870,19 @@ msgstr "codage demi-canal"
 msgid "Misc"
 msgstr "Divers"
 
-#: src/lib/dcp_examiner.cc:145
+#: src/lib/dcp_examiner.cc:149
 msgid "Mismatched audio channel counts in DCP"
 msgstr "Problème de décompte de canaux audio dans le DCP"
 
-#: src/lib/dcp_examiner.cc:151
+#: src/lib/dcp_examiner.cc:155
 msgid "Mismatched audio sample rates in DCP"
 msgstr "Taux d'échantillonnage audio différents dans le DCP"
 
-#: src/lib/dcp_examiner.cc:120
+#: src/lib/dcp_examiner.cc:122
 msgid "Mismatched frame rates in DCP"
 msgstr "Problème de cadence image dans le DCP"
 
-#: src/lib/dcp_examiner.cc:127
+#: src/lib/dcp_examiner.cc:130
 msgid "Mismatched video sizes in DCP"
 msgstr "Problème de taille d'images dans le DCP"
 
@@ -948,7 +966,7 @@ msgstr "Public Service Announcement"
 msgid "R"
 msgstr "D"
 
-#: src/lib/ffmpeg_content.cc:554
+#: src/lib/ffmpeg_content.cc:564
 msgid "RGB / sRGB (IEC61966-2-1)"
 msgstr "RGB / sRGB (IEC61966-2-1)"
 
@@ -1000,28 +1018,28 @@ msgstr "ArD"
 msgid "S-Gamut3/S-Log3"
 msgstr "S-Gamut3/S-Log3"
 
-#: src/lib/ffmpeg_content.cc:516 src/lib/ffmpeg_content.cc:535
+#: src/lib/ffmpeg_content.cc:516 src/lib/ffmpeg_content.cc:545
 msgid "SMPTE 170M (BT601)"
 msgstr "SMPTE 170M (BT601)"
 
-#: src/lib/ffmpeg_content.cc:560
+#: src/lib/ffmpeg_content.cc:570
 msgid "SMPTE 170M (BT601-6)"
 msgstr "SMPTE 170M (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:565
+#: src/lib/ffmpeg_content.cc:575
 msgid "SMPTE 2085, Y'D'zD'x"
 msgstr "SMPTE 2085, Y'D'zD'x"
 
-#: src/lib/ffmpeg_content.cc:517 src/lib/ffmpeg_content.cc:536
-#: src/lib/ffmpeg_content.cc:561
+#: src/lib/ffmpeg_content.cc:517 src/lib/ffmpeg_content.cc:546
+#: src/lib/ffmpeg_content.cc:571
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/ffmpeg_content.cc:545
+#: src/lib/ffmpeg_content.cc:555
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
 msgstr "SMPTE ST 2084 pour systèmes 10, 12, 14 et 16 bits"
 
-#: src/lib/ffmpeg_content.cc:546
+#: src/lib/ffmpeg_content.cc:556
 msgid "SMPTE ST 428-1"
 msgstr "SMPTE ST 428-1"
 
@@ -1143,6 +1161,10 @@ msgstr ""
 "votre DCP à une vitesse plus proche de la cadence de vos contenus, en "
 "espérant que serveurs et projecteurs cibles supportent cette cadence."
 
+#: src/lib/dcp_content.cc:521
+msgid "There is no video in this DCP"
+msgstr ""
+
 #: src/lib/job.cc:173
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
@@ -1213,9 +1235,9 @@ msgstr "Adoucissement et flou Gaussien"
 
 #: src/lib/ffmpeg_content.cc:468 src/lib/ffmpeg_content.cc:492
 #: src/lib/ffmpeg_content.cc:510 src/lib/ffmpeg_content.cc:512
-#: src/lib/ffmpeg_content.cc:513 src/lib/ffmpeg_content.cc:529
-#: src/lib/ffmpeg_content.cc:531 src/lib/ffmpeg_content.cc:532
-#: src/lib/ffmpeg_content.cc:556 src/lib/ffmpeg_content.cc:557
+#: src/lib/ffmpeg_content.cc:513 src/lib/ffmpeg_content.cc:539
+#: src/lib/ffmpeg_content.cc:541 src/lib/ffmpeg_content.cc:542
+#: src/lib/ffmpeg_content.cc:566 src/lib/ffmpeg_content.cc:567
 msgid "Unspecified"
 msgstr "Non-spécifié"
 
@@ -1251,7 +1273,7 @@ msgstr "Déficients Visuels"
 msgid "Waiting"
 msgstr "En cours"
 
-#: src/lib/ffmpeg_content.cc:562
+#: src/lib/ffmpeg_content.cc:572
 msgid "YCOCG"
 msgstr "YCOCG"
 
@@ -1452,47 +1474,47 @@ msgid "h"
 msgstr "h"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:517
+#: src/lib/dcp_content.cc:552
 msgid "it does not have sound in all its reels."
 msgstr "Pas de son dans toutes ses bobines"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:543
+#: src/lib/dcp_content.cc:578
 msgid "it does not have subtitles in all its reels."
 msgstr "Pas de sous-titres dans toutes ses bobines"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:450
+#: src/lib/dcp_content.cc:480
 msgid "it has a different frame rate to the film."
 msgstr "Vitesse de défilement différente du film"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:438
+#: src/lib/dcp_content.cc:468
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "Format Interop alors que le DCP est SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:442
+#: src/lib/dcp_content.cc:472
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "Format SMPTE alors que le DCP est interop."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:523
+#: src/lib/dcp_content.cc:558
 msgid "it overlaps other audio content; remove the other content."
 msgstr "Contenus audio superposés, enlevez les autres contenus."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:549
+#: src/lib/dcp_content.cc:584
 msgid "it overlaps other subtitle content; remove the other content."
 msgstr "Sous-titres superposés, enlevez les autres contenus."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:497
+#: src/lib/dcp_content.cc:532
 msgid "it overlaps other video content; remove the other content."
 msgstr "Contenus vidéo superposés, enlevez les autres contenus."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:473
+#: src/lib/dcp_content.cc:503
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
@@ -1501,7 +1523,7 @@ msgstr ""
 "le mode 'découper par contenu vidéo'. "
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:492
+#: src/lib/dcp_content.cc:527
 msgid "its video frame size differs from the film's."
 msgstr "La taille de l'image du film diffère de celle du DCP"
 

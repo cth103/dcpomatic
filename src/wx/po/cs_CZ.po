@@ -3,11 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: src/wx/audio_panel.cc:56 src/wx/subtitle_panel.cc:56
+#: src/wx/video_panel.cc:82
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-20 00:58+0100\n"
+"POT-Creation-Date: 2018-05-20 20:14+0100\n"
 "PO-Revision-Date: 2018-05-07 11:17+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -970,10 +972,6 @@ msgstr "Zelená barevnost (Green chromaticity)"
 msgid "Guess from content"
 msgstr "Odhadnout z obsahu"
 
-#: src/wx/export_dialog.cc:33
-msgid "H.264"
-msgstr "H.264"
-
 #: src/wx/batch_job_view.cc:44
 msgid "Higher priority"
 msgstr "Vyšší priorita"
@@ -1198,6 +1196,11 @@ msgstr "CHYBĚJÍCÍ: "
 #: src/wx/export_dialog.cc:37
 msgid "MOV files (*.mov)|*.mov"
 msgstr "MOV soubor (*.mov)|*.mov"
+
+#: src/wx/export_dialog.cc:33
+#, fuzzy
+msgid "MP4 / H.264"
+msgstr "H.264"
 
 #: src/wx/export_dialog.cc:38
 msgid "MP4 files (*.mp4)|*.mp4"

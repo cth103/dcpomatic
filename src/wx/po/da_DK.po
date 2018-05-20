@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-20 00:58+0100\n"
+"POT-Creation-Date: 2018-05-20 20:14+0100\n"
 "PO-Revision-Date: 2017-10-04 22:06+0200\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -980,10 +980,6 @@ msgstr "Grøn farvetone"
 msgid "Guess from content"
 msgstr "Gæt udfra indhold"
 
-#: src/wx/export_dialog.cc:33
-msgid "H.264"
-msgstr "H.264"
-
 #: src/wx/batch_job_view.cc:44
 msgid "Higher priority"
 msgstr "Højere prioritet"
@@ -1208,6 +1204,11 @@ msgstr "MANGLER: "
 #: src/wx/export_dialog.cc:37
 msgid "MOV files (*.mov)|*.mov"
 msgstr "MOV filer (*.mov)|*.mov"
+
+#: src/wx/export_dialog.cc:33
+#, fuzzy
+msgid "MP4 / H.264"
+msgstr "H.264"
 
 #: src/wx/export_dialog.cc:38
 msgid "MP4 files (*.mp4)|*.mp4"

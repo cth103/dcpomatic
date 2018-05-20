@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-17 22:45+0100\n"
+"POT-Creation-Date: 2018-05-20 20:14+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -956,10 +956,6 @@ msgstr ""
 msgid "Guess from content"
 msgstr ""
 
-#: src/wx/export_dialog.cc:33
-msgid "H.264"
-msgstr ""
-
 #: src/wx/batch_job_view.cc:44
 msgid "Higher priority"
 msgstr ""
@@ -1178,6 +1174,10 @@ msgstr ""
 
 #: src/wx/export_dialog.cc:37
 msgid "MOV files (*.mov)|*.mov"
+msgstr ""
+
+#: src/wx/export_dialog.cc:33
+msgid "MP4 / H.264"
 msgstr ""
 
 #: src/wx/export_dialog.cc:38
