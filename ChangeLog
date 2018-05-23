@@ -1,3 +1,7 @@
+2018-05-23  Carl Hetherington  <cth@carlh.net>
+
+	* Fix failure to load image files from non-ASCII paths.
+
 2018-05-18  Carl Hetherington  <cth@carlh.net>
 
 	* Fix slow exports from DCP content (#1285).
