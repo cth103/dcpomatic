@@ -1,5 +1,7 @@
 2018-05-23  Carl Hetherington  <cth@carlh.net>
 
+	* Fix failure to load image files with non-ASCII names.
+
 	* Version 2.12.6 released.
 
 2018-05-15  Carl Hetherington  <cth@carlh.net>
