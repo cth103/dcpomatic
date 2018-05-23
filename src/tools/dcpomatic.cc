@@ -44,6 +44,7 @@
 #include "wx/nag_dialog.h"
 #include "wx/export_dialog.h"
 #include "wx/paste_dialog.h"
+#include "wx/focus_manager.h"
 #include "lib/film.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -331,6 +332,15 @@ public:
 
 		overall_panel->SetSizer (main_sizer);
 
+		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
+
+		FocusManager::instance()->SetFocus.connect (boost::bind (&DOMFrame::remove_accelerators, this));
+		FocusManager::instance()->KillFocus.connect (boost::bind (&DOMFrame::add_accelerators, this));
+		add_accelerators ();
+	}
+
+	void add_accelerators ()
+	{
 #ifdef __WXOSX__
 		int accelerators = 7;
 #else
@@ -348,15 +358,18 @@ public:
 #endif
 		Bind (wxEVT_MENU, boost::bind (&ContentPanel::add_file_clicked, _film_editor->content_panel()), ID_add_file);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::remove_clicked, this, _1), ID_remove);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::start_stop_pressed, this, _1), ID_start_stop);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::start_stop_pressed, this), ID_start_stop);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::timeline_pressed, this), ID_timeline);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::back_frame, this, _1), ID_back_frame);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::forward_frame, this, _1), ID_forward_frame);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::back_frame, this), ID_back_frame);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::forward_frame, this), ID_forward_frame);
 		wxAcceleratorTable accel_table (accelerators, accel);
 		SetAcceleratorTable (accel_table);
 		delete[] accel;
+	}
 
-		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
+	void remove_accelerators ()
+	{
+		SetAcceleratorTable (wxAcceleratorTable ());
 	}
 
 	void remove_clicked (wxCommandEvent& ev)
@@ -1213,26 +1226,8 @@ private:
 		_update_news_requested = false;
 	}
 
-	/** Skip the given event if we're focussed in a TextCtrl, so that hotkeys don't
-	 *  steal from text controls.
-	 */
-	bool maybe_pass (wxCommandEvent& ev)
+	void start_stop_pressed ()
 	{
-		wxWindow* f = wxWindow::FindFocus();
-		if (!f || !dynamic_cast<wxTextCtrl*>(f)) {
-			return false;
-		}
-
-		ev.Skip();
-		return true;
-	}
-
-	void start_stop_pressed (wxCommandEvent& ev)
-	{
-		if (maybe_pass(ev)) {
-			return;
-		}
-
 		if (_film_viewer->playing()) {
 			_film_viewer->stop();
 		} else {
@@ -1245,21 +1240,13 @@ private:
 		_film_editor->content_panel()->timeline_clicked ();
 	}
 
-	void back_frame (wxCommandEvent& ev)
+	void back_frame ()
 	{
-		if (maybe_pass(ev)) {
-			return;
-		}
-
 		_film_viewer->back_frame ();
 	}
 
-	void forward_frame (wxCommandEvent& ev)
+	void forward_frame ()
 	{
-		if (maybe_pass(ev)) {
-			return;
-		}
-
 		_film_viewer->forward_frame ();
 	}
 

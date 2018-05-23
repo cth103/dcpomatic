@@ -23,6 +23,7 @@
 #include "key_dialog.h"
 #include "isdcf_metadata_dialog.h"
 #include "audio_dialog.h"
+#include "focus_manager.h"
 #include "lib/ratio.h"
 #include "lib/config.h"
 #include "lib/dcp_content_type.h"
@@ -73,6 +74,8 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 	_name = new wxTextCtrl (_panel, wxID_ANY);
 	grid->Add (_name, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND | wxLEFT | wxRIGHT);
 	++r;
+
+	FocusManager::instance()->add(_name);
 
 	int flags = wxALIGN_CENTER_VERTICAL;
 #ifdef __WXOSX__

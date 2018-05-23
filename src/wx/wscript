@@ -57,6 +57,7 @@ sources = """
           film_viewer.cc
           filter_dialog.cc
           filter_editor.cc
+          focus_manager.cc
           fonts_dialog.cc
           font_files_dialog.cc
           full_config_dialog.cc
