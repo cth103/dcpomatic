@@ -238,8 +238,8 @@ BOOST_AUTO_TEST_CASE (reels_test5)
 	film->examine_and_add_content (dcp);
 	wait_for_jobs ();
 
-	/* Set to 123 but it will be rounded up to the next frame (4000) */
-	dcp->set_position(DCPTime(123));
+	/* Set to 2123 but it will be rounded up to the next frame (4000) */
+	dcp->set_position(DCPTime(2123));
 
 	{
 		list<DCPTimePeriod> p = dcp->reels ();
@@ -342,7 +342,6 @@ BOOST_AUTO_TEST_CASE (reels_test8)
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	A->set_trim_end (ContentTime::from_seconds (1));
-	cout << to_string(A->length_after_trim()) << "\n";
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());
 }
