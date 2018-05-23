@@ -26,6 +26,8 @@
 #include "config.h"
 #include "cross.h"
 #include "compose.hpp"
+#include "magick_image_proxy.h"
+#include "image.h"
 #include <dcp/openjpeg_image.h>
 #include <dcp/exceptions.h>
 #include <dcp/j2k.h>
@@ -65,9 +67,8 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 		}
 		delete[] buffer;
 	} else {
-		Magick::Image* image = new Magick::Image (content->path(0).string());
-		_video_size = dcp::Size (image->columns(), image->rows());
-		delete image;
+		MagickImageProxy proxy(content->path(0));
+		_video_size = proxy.image().first->size();
 	}
 
 	if (content->still ()) {
