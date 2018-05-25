@@ -45,6 +45,7 @@ deb_build_depends['9'].extend(['libssh-gcrypt-dev'])
 deb_build_depends['unstable'] = copy.deepcopy(deb_build_depends_base)
 
 deb_depends = dict()
+deb_depends_gui = dict()
 
 deb_depends_base = ['libc6', 'libsndfile1', 'libsamplerate0', 'libxmlsec1', 'libxmlsec1-openssl', 'libgtk2.0-0']
 
@@ -192,7 +193,7 @@ def packages(name, packages, f):
         s += str(p) + ', '
     print(s[:-2], file=f)
 
-def make_control(debian_version, bits, filename, debug, gui=True):
+def make_control(debian_version, bits, filename, debug, gui):
     f = open(filename, 'w')
     print('Source: dcpomatic', file=f)
     print('Section: video', file=f)
@@ -233,7 +234,7 @@ def make_control(debian_version, bits, filename, debug, gui=True):
         print('  This package contains the debugging symbols for dcpomatic.', file=f)
         print('', file=f)
 
-def make_spec(filename, version, target, requires=None):
+def make_spec(filename, version, target, options, requires=None):
     """Make a .spec file for a RPM build"""
     f = open(filename, 'w')
     print('Summary:A program that generates Digital Cinema Packages (DCPs) from video and audio files', file=f)
@@ -291,7 +292,7 @@ def make_spec(filename, version, target, requires=None):
     print('export PKG_CONFIG_PATH=%s/lib/pkgconfig:%s/lib64/pkgconfig:/usr/local/lib/pkgconfig:/usr/local/lib64/pkgconfig' % (target.directory, target.directory), file=f)
 
     print('CXXFLAGS="-I%s/include" LDFLAGS="-L%s/lib" ./waf configure --prefix=%%{buildroot}/usr --install-prefix=/usr %s' %
-          (target.directory, target.directory, configure_options(target)), file=f)
+          (target.directory, target.directory, configure_options(target, options)), file=f)
     print('./waf', file=f)
     print('%install', file=f)
     print('cd dcpomatic-%s' % version, file=f)
@@ -321,7 +322,10 @@ def dependencies(target):
             ('libsub', 'b24b081'),
             ('rtaudio-cdist', '739969e'))
 
-def configure_options(target):
+def option_defaults():
+    return { "gui": True }
+
+def configure_options(target, options):
     opt = ''
     if target.debug:
         opt += ' --enable-debug'
@@ -341,7 +345,7 @@ def configure_options(target):
                 # a better solution.
                 opt += ' --force-cpp11'
 
-    if target.option('gui', 'yes') == 'no':
+    if not options['gui']:
         opt += ' --disable-gui'
 
     # Build Windows debug versions with static linking as I think gdb works better then
@@ -351,7 +355,7 @@ def configure_options(target):
     return opt
 
 def build(target, options):
-    target.command('./waf configure --prefix=%s %s' % (target.directory, configure_options(target)))
+    target.command('./waf configure --prefix=%s %s' % (target.directory, configure_options(target, options)))
     target.command('./waf')
 
     if target.platform == 'linux' or target.platform == 'osx':
@@ -373,8 +377,8 @@ def package_windows(target):
     target.command('makensis build/platform/windows/installer2.%s.nsi' % identifier)
     return os.path.abspath(glob.glob('build/platform/windows/*%s*.exe' % target.bits)[0])
 
-def package_debian(target, cpu, version):
-    make_control(target.version, target.bits, 'debian/control', target.debug, target.option('gui', 'yes') == 'yes')
+def package_debian(target, cpu, version, options):
+    make_control(target.version, target.bits, 'debian/control', target.debug, options['gui'])
     target.command('./waf dist')
     f = open('debian/files', 'w')
     print('dcpomatic_%s-1_%s.deb video extra' % (version, cpu), file=f)
@@ -390,7 +394,7 @@ def package_debian(target, cpu, version):
     target.set('CDIST_CXXFLAGS', target.get('CXXFLAGS'))
     target.set('CDIST_PKG_CONFIG_PATH', target.get('PKG_CONFIG_PATH'))
 
-    target.set('CDIST_CONFIGURE', '"' + configure_options(target) + '"')
+    target.set('CDIST_CONFIGURE', '"' + configure_options(target, options) + '"')
     if target.debug:
         target.set('CDIST_DEBUG_PACKAGE', '--dbg-package=dcpomatic-dbg')
     if target.version in ['7', '14.04']:
@@ -406,8 +410,7 @@ def package_debian(target, cpu, version):
 
     return debs
 
-def package_rpm(target, cpu, version):
-    print('package_rpm %s %s %s' % (target, cpu, version))
+def package_rpm(target, cpu, version, options):
     topdir = os.path.realpath('build/rpmbuild')
     os.makedirs('%s/BUILD' % topdir)
     os.makedirs('%s/RPMS' % topdir)
@@ -425,7 +428,7 @@ def package_rpm(target, cpu, version):
     if target.distro == 'mageia':
         requires = "lib64xmlsec1-devel"
 
-    make_spec('build/platform/linux/dcpomatic2.spec', version, target, requires)
+    make_spec('build/platform/linux/dcpomatic2.spec', version, target, options, requires)
     cmd = 'rpmbuild --define "_topdir %s" -bb build/platform/linux/dcpomatic2.spec' % topdir
     target.command(cmd)
     rpms = []
@@ -442,7 +445,7 @@ def package_rpm(target, cpu, version):
 
     return rpms
 
-def package(target, version):
+def package(target, version, options):
     if target.platform == 'windows':
         return package_windows(target)
     elif target.platform == 'linux':
@@ -452,9 +455,9 @@ def package(target, version):
             cpu = 'amd64'
 
         if target.distro == 'debian' or target.distro == 'ubuntu':
-            return package_debian(target, cpu, version)
+            return package_debian(target, cpu, version, options)
         elif target.distro == 'centos' or target.distro == 'fedora' or target.distro == 'mageia':
-            return package_rpm(target, cpu, version)
+            return package_rpm(target, cpu, version, options)
     elif target.platform == 'osx':
         target.command('bash platform/osx/make_dmg.sh %s' % target.directory)
         return [os.path.abspath(x) for x in glob.glob('build/platform/osx/DCP-o-matic*.dmg')]
