@@ -159,17 +159,18 @@ deb_depends['9'].extend(['libboost-filesystem1.62.0',
                          'libzip4',
                          'libcairomm-1.0-1v5',
                          'libpangomm-1.4-1v5',
-                         'libwxgtk3.0-0v5',
-                         'libxcb-xfixes0',
-                         'libxcb-shape0',
-                         'libasound2',
                          'libicu57',
                          'libssh-4',
                          'libssh-gcrypt-4',
                          'libnettle6',
                          'libx264-148',
-                         'libpulse0',
                          'libcurl3'])
+
+deb_depends_gui['9'] = [ 'libwxgtk3.0-0v5',
+                         'libxcb-xfixes0',
+                         'libxcb-shape0',
+                         'libasound2',
+                         'libpulse0' ]
 
 deb_depends['unstable'] = copy.deepcopy(deb_depends_base)
 deb_depends['unstable'].extend(['libboost-filesystem1.62.0',
@@ -191,7 +192,7 @@ def packages(name, packages, f):
         s += str(p) + ', '
     print(s[:-2], file=f)
 
-def make_control(debian_version, bits, filename, debug):
+def make_control(debian_version, bits, filename, debug, gui=True):
     f = open(filename, 'w')
     print('Source: dcpomatic', file=f)
     print('Section: video', file=f)
@@ -199,7 +200,7 @@ def make_control(debian_version, bits, filename, debug):
     print('Maintainer: Carl Hetherington <carl@dcpomatic.com>', file=f)
     packages('Build-Depends', deb_build_depends[debian_version], f)
     print('Standards-Version: 3.9.3', file=f)
-    print('Homepage: http://dcpomatic.com/', file=f)
+    print('Homepage: https://dcpomatic.com/', file=f)
     print('', file=f)
     print('Package: dcpomatic', file=f)
     if bits == 32:
@@ -207,7 +208,11 @@ def make_control(debian_version, bits, filename, debug):
     else:
         print('Architecture: amd64', file=f)
 
-    packages('Depends', deb_depends[debian_version], f)
+    pkg = deb_depends[debian_version]
+    if gui and debian_version in deb_depends_gui:
+        pkg.extend(deb_depends_gui[debian_version])
+
+    packages('Depends', pkg, f)
 
     print('Description: Generator of Digital Cinema Packages (DCPs)', file=f)
     print('  DCP-o-matic generates Digital Cinema Packages (DCPs) from videos, images,', file=f)
@@ -223,7 +228,7 @@ def make_control(debian_version, bits, filename, debug):
             print('Architecture: amd64', file=f)
         print('Section: debug', file=f)
         print('Priority: extra', file=f)
-        packages('Depends', deb_depends[debian_version], f)
+        packages('Depends', pkg, f)
         print('Description: debugging symbols for dcpomatic', file=f)
         print('  This package contains the debugging symbols for dcpomatic.', file=f)
         print('', file=f)
@@ -237,7 +242,7 @@ def make_spec(filename, version, target, requires=None):
     print('Release:1%{?dist}', file=f)
     print('License:GPL', file=f)
     print('Group:Applications/Multimedia', file=f)
-    print('URL:http://dcpomatic.com/', file=f)
+    print('URL:https://dcpomatic.com/', file=f)
     if requires is not None:
         print('Requires:%s' % requires, file=f)
     print('', file=f)
@@ -336,7 +341,7 @@ def configure_options(target):
                 # a better solution.
                 opt += ' --force-cpp11'
 
-    if hasattr(target, 'gui') and target.gui == 'no':
+    if target.option('gui', 'yes') == 'no':
         opt += ' --disable-gui'
 
     # Build Windows debug versions with static linking as I think gdb works better then
@@ -369,7 +374,7 @@ def package_windows(target):
     return os.path.abspath(glob.glob('build/platform/windows/*%s*.exe' % target.bits)[0])
 
 def package_debian(target, cpu, version):
-    make_control(target.version, target.bits, 'debian/control', target.debug)
+    make_control(target.version, target.bits, 'debian/control', target.debug, target.option('gui', 'yes') == 'yes')
     target.command('./waf dist')
     f = open('debian/files', 'w')
     print('dcpomatic_%s-1_%s.deb video extra' % (version, cpu), file=f)
