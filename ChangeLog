@@ -1,5 +1,7 @@
 2018-05-27  Carl Hetherington  <cth@carlh.net>
 
+	* Support notifications on jobs finishing (#1286).
+
 	* Updated it_IT translation from Felice D'Andrea.
 
 2018-05-23  Carl Hetherington  <cth@carlh.net>
