@@ -127,6 +127,7 @@ sources = """
           screen.cc
           screen_kdm.cc
           send_kdm_email_job.cc
+          send_notification_email_job.cc
           send_problem_report_job.cc
           server.cc
           shuffler.cc

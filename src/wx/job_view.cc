@@ -21,14 +21,18 @@
 #include "job_view.h"
 #include "wx_util.h"
 #include "lib/job.h"
+#include "lib/job_manager.h"
 #include "lib/compose.hpp"
 #include "lib/config.h"
+#include "lib/send_notification_email_job.h"
+#include "lib/transcode_job.h"
 #include <wx/wx.h>
 
 using std::string;
 using std::min;
 using boost::shared_ptr;
 using boost::bind;
+using boost::dynamic_pointer_cast;
 
 JobView::JobView (shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table)
 	: _job (job)
@@ -129,12 +133,15 @@ JobView::finished ()
 		_details->Enable (true);
 	}
 
-	if (_notify->GetValue()) {
+	if (dynamic_pointer_cast<TranscodeJob>(_job) && _notify->GetValue()) {
 		if (Config::instance()->notification(Config::MESSAGE_BOX)) {
 			wxMessageBox (std_to_wx(_job->name() + ": " + _job->status()), _("DCP-o-matic"), wxICON_INFORMATION);
 		}
 		if (Config::instance()->notification(Config::EMAIL)) {
-
+			string body = Config::instance()->notification_email();
+			boost::algorithm::replace_all (body, "$JOB_NAME", _job->name());
+			boost::algorithm::replace_all (body, "$JOB_STATUS", _job->status());
+			JobManager::instance()->add (shared_ptr<Job> (new SendNotificationEmailJob (body)));
 		}
 	}
 }
