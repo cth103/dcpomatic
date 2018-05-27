@@ -111,6 +111,10 @@ Config::set_defaults ()
 	_kdm_from = "";
 	_kdm_cc.clear ();
 	_kdm_bcc = "";
+	_notification_from = "";
+	_notification_to = "";
+	_notification_cc.clear ();
+	_notification_bcc = "";
 	_check_for_updates = false;
 	_check_for_test_updates = false;
 	_maximum_j2k_bandwidth = 250000000;
@@ -148,6 +152,9 @@ Config::set_defaults ()
 	_frames_in_memory_multiplier = 3;
 	_decode_reduction = optional<int>();
 	_default_notify = false;
+	for (int i = 0; i < NOTIFICATION_COUNT; ++i) {
+		_notification[i] = false;
+	}
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -158,6 +165,7 @@ Config::set_defaults ()
 	_allowed_dcp_frame_rates.push_back (60);
 
 	set_kdm_email_to_default ();
+	set_notification_email_to_default ();
 	set_cover_sheet_to_default ();
 }
 
@@ -306,6 +314,7 @@ try
 	_mail_port = f.optional_number_child<int> ("MailPort").get_value_or (25);
 	_mail_user = f.optional_string_child("MailUser").get_value_or ("");
 	_mail_password = f.optional_string_child("MailPassword").get_value_or ("");
+
 	_kdm_subject = f.optional_string_child ("KDMSubject").get_value_or (_("KDM delivery: $CPL_NAME"));
 	_kdm_from = f.string_child ("KDMFrom");
 	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("KDMCC")) {
@@ -315,6 +324,19 @@ try
 	}
 	_kdm_bcc = f.optional_string_child ("KDMBCC").get_value_or ("");
 	_kdm_email = f.string_child ("KDMEmail");
+
+	_notification_subject = f.optional_string_child("NotificationSubject").get_value_or(_("DCP-o-matic notification"));
+	_notification_from = f.optional_string_child("NotificationFrom").get_value_or("");
+	_notification_to = f.optional_string_child("NotificationTo").get_value_or("");
+	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("NotificationCC")) {
+		if (!i->content().empty()) {
+			_notification_cc.push_back (i->content ());
+		}
+	}
+	_notification_bcc = f.optional_string_child("NotificationBCC").get_value_or("");
+	if (f.optional_string_child("NotificationEmail")) {
+		_notification_email = f.string_child("NotificationEmail");
+	}
 
 	_check_for_updates = f.optional_bool_child("CheckForUpdates").get_value_or (false);
 	_check_for_test_updates = f.optional_bool_child("CheckForTestUpdates").get_value_or (false);
@@ -431,6 +453,13 @@ try
 	_frames_in_memory_multiplier = f.optional_number_child<int>("FramesInMemoryMultiplier").get_value_or(3);
 	_decode_reduction = f.optional_number_child<int>("DecodeReduction");
 	_default_notify = f.optional_bool_child("DefaultNotify").get_value_or(false);
+
+	BOOST_FOREACH (cxml::NodePtr i, f.node_children("Notification")) {
+		int const id = i->number_attribute<int>("Id");
+		if (id >= 0 && id < NOTIFICATION_COUNT) {
+			_notification[id] = raw_convert<int>(i->content());
+		}
+	}
 
 	/* Replace any cinemas from config.xml with those from the configured file */
 	if (boost::filesystem::exists (_cinemas_file)) {
@@ -610,6 +639,7 @@ Config::write_config () const
 	root->add_child("MailUser")->add_child_text (_mail_user);
 	/* [XML] MailPassword Password to use on SMTP server. */
 	root->add_child("MailPassword")->add_child_text (_mail_password);
+
 	/* [XML] KDMSubject Subject to use for KDM emails. */
 	root->add_child("KDMSubject")->add_child_text (_kdm_subject);
 	/* [XML] KDMFrom From address to use for KDM emails. */
@@ -622,6 +652,21 @@ Config::write_config () const
 	root->add_child("KDMBCC")->add_child_text (_kdm_bcc);
 	/* [XML] KDMEmail Text of KDM email */
 	root->add_child("KDMEmail")->add_child_text (_kdm_email);
+
+	/* [XML] NotificationSubject Subject to use for Notification emails. */
+	root->add_child("NotificationSubject")->add_child_text (_notification_subject);
+	/* [XML] NotificationFrom From address to use for Notification emails. */
+	root->add_child("NotificationFrom")->add_child_text (_notification_from);
+	/* [XML] NotificationFrom To address to use for Notification emails. */
+	root->add_child("NotificationTo")->add_child_text (_notification_to);
+	BOOST_FOREACH (string i, _notification_cc) {
+		/* [XML] NotificationCC CC address to use for Notification emails; you can use as many of these tags as you like. */
+		root->add_child("NotificationCC")->add_child_text (i);
+	}
+	/* [XML] NotificationBCC BCC address to use for Notification emails */
+	root->add_child("NotificationBCC")->add_child_text (_notification_bcc);
+	/* [XML] NotificationEmail Text of Notification email */
+	root->add_child("NotificationEmail")->add_child_text (_notification_email);
 
 	/* [XML] CheckForUpdates 1 to check dcpomatic.com for new versions, 0 to check only on request */
 	root->add_child("CheckForUpdates")->add_child_text (_check_for_updates ? "1" : "0");
@@ -750,6 +795,13 @@ Config::write_config () const
 	/* [XML] DefaultNotify 1 to default jobs to notify when complete, otherwise 0 */
 	root->add_child("DefaultNotify")->add_child_text(_default_notify ? "1" : "0");
 
+	/* [XML] Notification 1 if a notification type is enabled, otherwise 0 */
+	for (int i = 0; i < NOTIFICATION_COUNT; ++i) {
+		xmlpp::Element* e = root->add_child ("Notification");
+		e->set_attribute ("Id", raw_convert<string>(i));
+		e->add_child_text (_notification[i] ? "1" : "0");
+	}
+
 	try {
 		doc.write_to_file_formatted(config_file().string());
 	} catch (xmlpp::exception& e) {
@@ -836,9 +888,26 @@ Config::set_kdm_email_to_default ()
 }
 
 void
+Config::set_notification_email_to_default ()
+{
+	_notification_subject = _("DCP-o-matic notification");
+
+	_notification_email = _(
+		"$JOB_NAME: $JOB_STATUS"
+		);
+}
+
+void
 Config::reset_kdm_email ()
 {
 	set_kdm_email_to_default ();
+	changed ();
+}
+
+void
+Config::reset_notification_email ()
+{
+	set_notification_email_to_default ();
 	changed ();
 }
 

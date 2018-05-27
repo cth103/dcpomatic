@@ -244,6 +244,30 @@ public:
 		return _kdm_email;
 	}
 
+	std::string notification_subject () const {
+		return _notification_subject;
+	}
+
+	std::string notification_from () const {
+		return _notification_from;
+	}
+
+	std::string notification_to () const {
+		return _notification_to;
+	}
+
+	std::vector<std::string> notification_cc () const {
+		return _notification_cc;
+	}
+
+	std::string notification_bcc () const {
+		return _notification_bcc;
+	}
+
+	std::string notification_email () const {
+		return _notification_email;
+	}
+
 	boost::shared_ptr<const dcp::CertificateChain> signer_chain () const {
 		return _signer_chain;
 	}
@@ -383,6 +407,16 @@ public:
 
 	bool default_notify () const {
 		return _default_notify;
+	}
+
+	enum Notification {
+		MESSAGE_BOX,
+		EMAIL,
+		NOTIFICATION_COUNT
+	};
+
+	bool notification (Notification n) const {
+		return _notification[n];
 	}
 
 	/* SET (mostly) */
@@ -557,6 +591,32 @@ public:
 
 	void reset_kdm_email ();
 
+	void set_notification_subject (std::string s) {
+		maybe_set (_notification_subject, s);
+	}
+
+	void set_notification_from (std::string f) {
+		maybe_set (_notification_from, f);
+	}
+
+	void set_notification_to (std::string t) {
+		maybe_set (_notification_to, t);
+	}
+
+	void set_notification_cc (std::vector<std::string> f) {
+		maybe_set (_notification_cc, f);
+	}
+
+	void set_notification_bcc (std::string f) {
+		maybe_set (_notification_bcc, f);
+	}
+
+	void set_notification_email (std::string e) {
+		maybe_set (_notification_email, e);
+	}
+
+	void reset_notification_email ();
+
 	void set_signer_chain (boost::shared_ptr<const dcp::CertificateChain> s) {
 		maybe_set (_signer_chain, s);
 	}
@@ -697,6 +757,10 @@ public:
 
 	void reset_cover_sheet ();
 
+	void set_notification (Notification n, bool v) {
+		maybe_set (_notification[n], v);
+	}
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -738,6 +802,7 @@ private:
 	void read ();
 	void set_defaults ();
 	void set_kdm_email_to_default ();
+	void set_notification_email_to_default ();
 	void set_cover_sheet_to_default ();
 	void read_cinemas (cxml::Document const & f);
 	boost::shared_ptr<dcp::CertificateChain> create_certificate_chain ();
@@ -821,6 +886,12 @@ private:
 	std::vector<std::string> _kdm_cc;
 	std::string _kdm_bcc;
 	std::string _kdm_email;
+	std::string _notification_subject;
+	std::string _notification_from;
+	std::string _notification_to;
+	std::vector<std::string> _notification_cc;
+	std::string _notification_bcc;
+	std::string _notification_email;
 	boost::shared_ptr<const dcp::CertificateChain> _signer_chain;
 	/** Chain used to decrypt KDMs; the leaf of this chain is the target
 	 *  certificate for making KDMs given to DCP-o-matic.
@@ -859,6 +930,7 @@ private:
 	int _frames_in_memory_multiplier;
 	boost::optional<int> _decode_reduction;
 	bool _default_notify;
+	bool _notification[NOTIFICATION_COUNT];
 
 	static int const _current_version;
 

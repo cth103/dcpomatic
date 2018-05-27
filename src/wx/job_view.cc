@@ -129,8 +129,13 @@ JobView::finished ()
 		_details->Enable (true);
 	}
 
-	if (_notify->GetValue ()) {
-		wxMessageBox (std_to_wx(_job->name() + ": " + _job->status()), _("DCP-o-matic"), wxICON_INFORMATION);
+	if (_notify->GetValue()) {
+		if (Config::instance()->notification(Config::MESSAGE_BOX)) {
+			wxMessageBox (std_to_wx(_job->name() + ": " + _job->status()), _("DCP-o-matic"), wxICON_INFORMATION);
+		}
+		if (Config::instance()->notification(Config::EMAIL)) {
+
+		}
 	}
 }
 

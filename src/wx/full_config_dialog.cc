@@ -899,6 +899,176 @@ private:
 	wxButton* _reset_email;
 };
 
+class NotificationsPage : public StandardPage
+{
+public:
+	NotificationsPage (wxSize panel_size, int border)
+#ifdef DCPOMATIC_OSX
+		/* We have to force both width and height of this one */
+		: StandardPage (wxSize (480, 128), border)
+#else
+		: StandardPage (panel_size, border)
+#endif
+	{}
+
+	wxString GetName () const
+	{
+		return _("Notifications");
+	}
+
+#ifdef DCPOMATIC_OSX
+	wxBitmap GetLargeIcon () const
+	{
+		return wxBitmap ("notifications", wxBITMAP_TYPE_PNG_RESOURCE);
+	}
+#endif
+
+private:
+	void setup ()
+	{
+		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		table->AddGrowableCol (1, 1);
+		_panel->GetSizer()->Add (table, 1, wxEXPAND | wxALL, _border);
+
+		_enable_message_box = new wxCheckBox (_panel, wxID_ANY, _("Message box"));
+		table->Add (_enable_message_box, 1, wxEXPAND | wxALL);
+		table->AddSpacer (0);
+
+		_enable_email = new wxCheckBox (_panel, wxID_ANY, _("Email"));
+		table->Add (_enable_email, 1, wxEXPAND | wxALL);
+		table->AddSpacer (0);
+
+		add_label_to_sizer (table, _panel, _("Subject"), true);
+		_subject = new wxTextCtrl (_panel, wxID_ANY);
+		table->Add (_subject, 1, wxEXPAND | wxALL);
+
+		add_label_to_sizer (table, _panel, _("From address"), true);
+		_from = new wxTextCtrl (_panel, wxID_ANY);
+		table->Add (_from, 1, wxEXPAND | wxALL);
+
+		add_label_to_sizer (table, _panel, _("To address"), true);
+		_to = new wxTextCtrl (_panel, wxID_ANY);
+		table->Add (_to, 1, wxEXPAND | wxALL);
+
+		vector<string> columns;
+		columns.push_back (wx_to_std (_("Address")));
+		add_label_to_sizer (table, _panel, _("CC addresses"), true);
+		_cc = new EditableList<string, EmailDialog> (
+			_panel,
+			columns,
+			bind (&Config::notification_cc, Config::instance()),
+			bind (&Config::set_notification_cc, Config::instance(), _1),
+			bind (&column, _1)
+			);
+		table->Add (_cc, 1, wxEXPAND | wxALL);
+
+		add_label_to_sizer (table, _panel, _("BCC address"), true);
+		_bcc = new wxTextCtrl (_panel, wxID_ANY);
+		table->Add (_bcc, 1, wxEXPAND | wxALL);
+
+		_email = new wxTextCtrl (_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (-1, 200), wxTE_MULTILINE);
+		_panel->GetSizer()->Add (_email, 0, wxEXPAND | wxALL, _border);
+
+		_reset_email = new wxButton (_panel, wxID_ANY, _("Reset to default subject and text"));
+		_panel->GetSizer()->Add (_reset_email, 0, wxEXPAND | wxALL, _border);
+
+		_cc->layout ();
+
+		_enable_message_box->Bind (wxEVT_CHECKBOX, boost::bind (&NotificationsPage::type_changed, this, _enable_message_box, Config::MESSAGE_BOX));
+		_enable_email->Bind (wxEVT_CHECKBOX, boost::bind (&NotificationsPage::type_changed, this, _enable_email, Config::EMAIL));
+
+		_subject->Bind (wxEVT_TEXT, boost::bind (&NotificationsPage::notification_subject_changed, this));
+		_from->Bind (wxEVT_TEXT, boost::bind (&NotificationsPage::notification_from_changed, this));
+		_to->Bind (wxEVT_TEXT, boost::bind (&NotificationsPage::notification_to_changed, this));
+		_bcc->Bind (wxEVT_TEXT, boost::bind (&NotificationsPage::notification_bcc_changed, this));
+		_email->Bind (wxEVT_TEXT, boost::bind (&NotificationsPage::notification_email_changed, this));
+		_reset_email->Bind (wxEVT_BUTTON, boost::bind (&NotificationsPage::reset_email, this));
+
+		update_sensitivity ();
+	}
+
+	void update_sensitivity ()
+	{
+		bool const s = _enable_email->GetValue();
+		_subject->Enable(s);
+		_from->Enable(s);
+		_to->Enable(s);
+		_cc->Enable(s);
+		_bcc->Enable(s);
+		_email->Enable(s);
+		_reset_email->Enable(s);
+	}
+
+	void config_changed ()
+	{
+		Config* config = Config::instance ();
+
+		checked_set (_enable_message_box, config->notification(Config::MESSAGE_BOX));
+		checked_set (_enable_email, config->notification(Config::EMAIL));
+		checked_set (_subject, config->notification_subject ());
+		checked_set (_from, config->notification_from ());
+		checked_set (_to, config->notification_to ());
+		checked_set (_bcc, config->notification_bcc ());
+		checked_set (_email, Config::instance()->notification_email ());
+
+		update_sensitivity ();
+	}
+
+	void notification_subject_changed ()
+	{
+		Config::instance()->set_notification_subject (wx_to_std (_subject->GetValue ()));
+	}
+
+	void notification_from_changed ()
+	{
+		Config::instance()->set_notification_from (wx_to_std (_from->GetValue ()));
+	}
+
+	void notification_to_changed ()
+	{
+		Config::instance()->set_notification_to (wx_to_std (_to->GetValue ()));
+	}
+
+	void notification_bcc_changed ()
+	{
+		Config::instance()->set_notification_bcc (wx_to_std (_bcc->GetValue ()));
+	}
+
+	void notification_email_changed ()
+	{
+		if (_email->GetValue().IsEmpty ()) {
+			/* Sometimes we get sent an erroneous notification that the email
+			   is empty; I don't know why.
+			*/
+			return;
+		}
+		Config::instance()->set_notification_email (wx_to_std (_email->GetValue ()));
+	}
+
+	void reset_email ()
+	{
+		Config::instance()->reset_notification_email ();
+		checked_set (_email, Config::instance()->notification_email ());
+	}
+
+	void type_changed (wxCheckBox* b, Config::Notification n)
+	{
+		Config::instance()->set_notification(n, b->GetValue());
+		update_sensitivity ();
+	}
+
+	wxCheckBox* _enable_message_box;
+	wxCheckBox* _enable_email;
+
+	wxTextCtrl* _subject;
+	wxTextCtrl* _from;
+	wxTextCtrl* _to;
+	EditableList<string, EmailDialog>* _cc;
+	wxTextCtrl* _bcc;
+	wxTextCtrl* _email;
+	wxButton* _reset_email;
+};
+
 class CoverSheetPage : public StandardPage
 {
 public:
@@ -1229,6 +1399,7 @@ create_full_config_dialog ()
 	e->AddPage (new TMSPage (ps, border));
 	e->AddPage (new EmailPage (ps, border));
 	e->AddPage (new KDMEmailPage (ps, border));
+	e->AddPage (new NotificationsPage (ps, border));
 	e->AddPage (new CoverSheetPage (ps, border));
 	e->AddPage (new AdvancedPage (ps, border));
 	return e;
