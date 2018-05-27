@@ -1,3 +1,7 @@
+2018-05-27  Carl Hetherington  <cth@carlh.net>
+
+	* Updated it_IT translation from Felice D'Andrea.
+
 2018-05-23  Carl Hetherington  <cth@carlh.net>
 
 	* Fix failure to load image files from non-ASCII paths.

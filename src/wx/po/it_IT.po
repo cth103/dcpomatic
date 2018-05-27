@@ -3,21 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/audio_panel.cc:56 src/wx/subtitle_panel.cc:56
-#: src/wx/video_panel.cc:82
 msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-20 20:14+0100\n"
-"PO-Revision-Date: 2016-10-28 17:22+0200\n"
+"PO-Revision-Date: 2018-05-25 14:19+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 2.0.7\n"
 
 #: src/wx/subtitle_panel.cc:83 src/wx/subtitle_panel.cc:93
 #: src/wx/subtitle_panel.cc:103 src/wx/subtitle_panel.cc:113
@@ -27,17 +25,17 @@ msgstr "%"
 
 #: src/wx/film_name_location_dialog.cc:130
 msgid "%1 already exists as a file, so you cannot use it for a film."
-msgstr ""
+msgstr "%1 esiste giá, non puoi usarlo come file per un film."
 
 #: src/wx/kdm_dialog.cc:153
 #, c-format
 msgid "%d KDM written to %s"
-msgstr ""
+msgstr "%d KDM scritto su %s"
 
 #: src/wx/kdm_dialog.cc:153
 #, c-format
 msgid "%d KDMs written to %s"
-msgstr ""
+msgstr "%d KDMs scritto su %s"
 
 #: src/wx/about_dialog.cc:83
 #, fuzzy
@@ -173,14 +171,12 @@ msgid "Add Cinema..."
 msgstr "Aggiungi Cinema..."
 
 #: src/wx/content_panel.cc:96
-#, fuzzy
 msgid "Add DCP..."
-msgstr "Aggiungi KDM..."
+msgstr "Aggiungi DCP..."
 
 #: src/wx/new_dkdm_folder_dialog.cc:24
-#, fuzzy
 msgid "Add DKDM folder"
-msgstr "Aggiungi cartella..."
+msgstr "Aggiungi cartella DKDM..."
 
 #: src/wx/content_menu.cc:77
 msgid "Add KDM..."
@@ -199,18 +195,16 @@ msgid "Add Screen..."
 msgstr "Aggiungi Schermo..."
 
 #: src/wx/content_panel.cc:97
-#, fuzzy
 msgid "Add a DCP."
-msgstr "Aggiungi KDM..."
+msgstr "Aggiungi DCP..."
 
 #: src/wx/content_panel.cc:93
-#, fuzzy
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
 msgstr ""
 "Aggiungi una cartella di immagini (che saranno usate come una sequenza di "
-"immagini in movimento) o un DCP."
+"immagini in movimento) o una cartella audio."
 
 #: src/wx/content_panel.cc:88
 msgid "Add file(s)..."
@@ -225,9 +219,8 @@ msgid "Add image sequence"
 msgstr "Aggiungi sequenza immagini"
 
 #: src/wx/content_panel.cc:89
-#, fuzzy
 msgid "Add video, image, sound or subtitle files to the film."
-msgstr "Aggiungi video, immagine o suoni al film."
+msgstr "Aggiungi video, immagini, suoni o sottotitoli al film."
 
 #: src/wx/config_dialog.cc:380 src/wx/editable_list.h:74
 msgid "Add..."
@@ -248,9 +241,8 @@ msgid "Adjust white point to"
 msgstr "Posiziona il punto bianco a"
 
 #: src/wx/config_dialog.cc:741 src/wx/config_dialog.cc:756
-#, fuzzy
 msgid "Advanced..."
-msgstr "Aggiungi..."
+msgstr "Avanzate..."
 
 #: src/wx/full_config_dialog.cc:973
 msgid "Allow any DCP frame rate"
@@ -297,7 +289,7 @@ msgstr "Lingua dell'audio (es. IT)"
 #: src/wx/player_information.cc:132
 #, c-format
 msgid "Audio channels: %d"
-msgstr ""
+msgstr "Canali audio: %d"
 
 #: src/wx/audio_mapping_view.cc:345
 #, c-format
@@ -325,7 +317,7 @@ msgstr "B"
 
 #: src/wx/full_config_dialog.cc:760
 msgid "BCC address"
-msgstr "indirizzo CCN"
+msgstr "indirizzo BCC"
 
 #: src/wx/colour_conversion_editor.cc:144
 msgid "Blue chromaticity"
@@ -385,12 +377,10 @@ msgid "Cancel"
 msgstr "Annulla"
 
 #: src/wx/content_sub_panel.cc:52
-#, fuzzy
 msgid "Cannot reference this DCP."
 msgstr "Non posso fare riferimento a questo DCP"
 
 #: src/wx/content_sub_panel.cc:54
-#, fuzzy
 msgid "Cannot reference this DCP: "
 msgstr "Non posso fare riferimento a questo DCP"
 
@@ -428,9 +418,8 @@ msgid "Choose CPL..."
 msgstr "Seleziona CPL..."
 
 #: src/wx/content_panel.cc:374
-#, fuzzy
 msgid "Choose a DCP folder"
-msgstr "Scegli una cartella"
+msgstr "Scegli una cartella DCP"
 
 #: src/wx/content_menu.cc:296
 msgid "Choose a file"
@@ -479,7 +468,7 @@ msgstr "Componente"
 
 #: src/wx/full_config_dialog.cc:98
 msgid "Configuration file"
-msgstr ""
+msgstr "File di configurazione"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
 #: src/wx/full_config_dialog.cc:1029
@@ -524,19 +513,17 @@ msgid "Could not analyse audio."
 msgstr "Non posso analizzare l'audio."
 
 #: src/wx/config_dialog.cc:458
-#, fuzzy, c-format
+#, c-format
 msgid "Could not import certificate (%s)"
-msgstr "Non posso leggere il file del certificato (%s)"
+msgstr "Non posso importare il file del certificato (%s)"
 
 #: src/wx/content_menu.cc:380
-#, fuzzy
 msgid "Could not load KDM."
 msgstr "Non posso caricare la KDM (%s)"
 
 #: src/wx/config_dialog.cc:484 src/wx/config_dialog.cc:678
 #: src/wx/download_certificate_panel.cc:56 src/wx/screen_dialog.cc:157
 #: src/wx/screen_dialog.cc:162
-#, fuzzy
 msgid "Could not read certificate file."
 msgstr "Non posso leggere il file del certificato (%s)"
 
@@ -549,6 +536,7 @@ msgstr "Non posso leggere il file della chiave; il file è troppo lungo (%s)"
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
+"Non posso settare l'uscita audio. Non ci sarà audio durante la preview."
 
 #: src/wx/full_config_dialog.cc:876
 msgid "Cover Sheet"
@@ -594,12 +582,11 @@ msgstr "Formato filename metadata DCP"
 
 #: src/wx/verify_dcp_dialog.cc:51
 msgid "DCP validates OK."
-msgstr ""
+msgstr "Validazione DPC OK."
 
 #: src/wx/verify_dcp_dialog.cc:32
-#, fuzzy
 msgid "DCP verification"
-msgstr "Certificato"
+msgstr "Verifica DCP"
 
 #: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:93 src/wx/wx_util.cc:108
 #: src/wx/wx_util.cc:116
@@ -607,7 +594,7 @@ msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
 #: src/wx/audio_dialog.cc:155
-#, fuzzy, c-format
+#, c-format
 msgid "DCP-o-matic audio - %s"
 msgstr "Audio DCP-o-matic - %s"
 
@@ -626,12 +613,11 @@ msgstr "Debug: codifica"
 #: src/wx/player_information.cc:159
 #, c-format
 msgid "Decode resolution: %dx%d"
-msgstr ""
+msgstr "Risoluzione decodifica: %dx%d"
 
 #: src/wx/config_dialog.cc:728 src/wx/config_dialog.cc:765
-#, fuzzy
 msgid "Decrypting KDMs"
-msgstr "Decriptazione DCP"
+msgstr "Decriptazione KDMs"
 
 #: src/wx/full_config_dialog.cc:306
 msgid "Default DCP audio channels"
@@ -646,9 +632,8 @@ msgid "Default JPEG2000 bandwidth"
 msgstr "Banda JPEG2000 predefinita"
 
 #: src/wx/full_config_dialog.cc:332
-#, fuzzy
 msgid "Default KDM directory"
-msgstr "Contenitore predefinito"
+msgstr "Contenitore KDM predefinito"
 
 #: src/wx/full_config_dialog.cc:320
 msgid "Default audio delay"
@@ -671,9 +656,8 @@ msgid "Default duration of still images"
 msgstr "Durata predefinita immagini statiche"
 
 #: src/wx/full_config_dialog.cc:298
-#, fuzzy
 msgid "Default scale-to"
-msgstr "Contenitore predefinito"
+msgstr "Scala predefinita"
 
 #: src/wx/full_config_dialog.cc:328
 msgid "Default standard"
@@ -717,9 +701,8 @@ msgid "Don't show hints again"
 msgstr "Non mostrare più suggerimenti"
 
 #: src/wx/nag_dialog.cc:36
-#, fuzzy
 msgid "Don't show this message again"
-msgstr "Non mostrare più suggerimenti"
+msgstr "Non mostrare più questo messaggio"
 
 #: src/wx/download_certificate_dialog.cc:39
 msgid "Download"
@@ -740,7 +723,7 @@ msgstr "Download del certificato"
 #: src/wx/player_information.cc:89
 #, c-format
 msgid "Dropped frames: %d"
-msgstr ""
+msgstr "Fotogrammi persi: %d"
 
 #: src/wx/content_panel.cc:104
 msgid "Earlier"
@@ -825,16 +808,14 @@ msgstr ""
 "decriptazione DCP..."
 
 #: src/wx/config_dialog.cc:737
-#, fuzzy
 msgid "Export all KDM decryption settings..."
 msgstr ""
-"Esporta la catena\n"
+"Esporta e impostazioni di\n"
 "decriptazione DCP..."
 
 #: src/wx/export_dialog.cc:47
-#, fuzzy
 msgid "Export film"
-msgstr "Esporta"
+msgstr "Esporta film"
 
 #: src/wx/config_dialog.cc:401
 msgid "Export..."

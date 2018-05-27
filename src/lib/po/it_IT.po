@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-20 20:14+0100\n"
-"PO-Revision-Date: 2016-10-28 15:19+0200\n"
+"PO-Revision-Date: 2018-05-25 10:00+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 2.0.7\n"
 
 #: src/lib/video_content.cc:448
 #, c-format
@@ -117,9 +117,8 @@ msgid "1.33 (4:3)"
 msgstr ""
 
 #: src/lib/ratio.cc:39
-#, fuzzy
 msgid "1.38 (Academy)"
-msgstr "Academy (Oscar)"
+msgstr "Academy"
 
 #: src/lib/ratio.cc:40
 msgid "1.43 (IMAX)"
@@ -138,9 +137,8 @@ msgid "1.85 (Flat)"
 msgstr ""
 
 #: src/lib/ratio.cc:46
-#, fuzzy
 msgid "1.90 (Full frame)"
-msgstr "Fill frame"
+msgstr "Full frame"
 
 #: src/lib/ratio.cc:44
 msgid "2.35 (35mm Scope)"
@@ -152,7 +150,7 @@ msgstr ""
 
 #: src/lib/filter.cc:71
 msgid "3D denoiser"
-msgstr "Riduttore di rumore 3D"
+msgstr "Riduzione rumore 3D"
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
 #: src/lib/transcode_job.cc:132
@@ -170,7 +168,7 @@ msgid ""
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
 "unlikely to have any visible effect on the image."
 msgstr ""
-"Alcuni proiettori hanno problemi durante la ripproduzione di DCP con un bit-"
+"Alcuni proiettori hanno problemi durante la riproduzione di DCP con un bit-"
 "rate molto alto. È consigliato mantenere la banda JPEG2000 intorno ai "
 "200Mbit/s; è improbabile che si vedranno effetti significativi sull'immagine."
 
@@ -292,9 +290,8 @@ msgid "Cancelled"
 msgstr "Cancellato"
 
 #: src/lib/film.cc:296
-#, fuzzy
 msgid "Cannot contain slashes"
-msgstr "non può contenere slash"
+msgstr "Non può contenere slash"
 
 #: src/lib/exceptions.cc:61
 msgid "Cannot handle pixel format %1 during %2"
@@ -303,6 +300,7 @@ msgstr "Non posso gestire il formato di pixel %1 durante %2"
 #: src/lib/film.cc:1227
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
+"Impossibile creare un KDM in quanto questo progetto non è crittografato."
 
 #: src/lib/util.cc:514
 msgid "Centre"
@@ -317,12 +315,10 @@ msgid "Checking existing image data"
 msgstr "Controllo dati immagine esistenti in corso"
 
 #: src/lib/ffmpeg_content.cc:577
-#, fuzzy
 msgid "Chroma-derived constant luminance"
 msgstr "BT2020 luminanza costante"
 
 #: src/lib/ffmpeg_content.cc:576
-#, fuzzy
 msgid "Chroma-derived non-constant luminance"
 msgstr "BT2020 luminanza non costante"
 
@@ -482,7 +478,7 @@ msgstr "Non posso connetermi al server %1 (%2)"
 
 #: src/lib/scp_uploader.cc:88
 msgid "Could not create remote directory %1 (%2)"
-msgstr "Non posso creare la directory remota %1 (%2)"
+msgstr "Non posso creare la cartella remota %1 (%2)"
 
 #: src/lib/image_examiner.cc:64
 msgid "Could not decode JPEG2000 file %1 (%2)"
@@ -545,14 +541,12 @@ msgid "DBS"
 msgstr "DBS"
 
 #: src/lib/ratio.cc:43
-#, fuzzy
 msgid "DCI Flat"
-msgstr "Flat"
+msgstr "DCI Flat"
 
 #: src/lib/ratio.cc:45
-#, fuzzy
 msgid "DCI Scope"
-msgstr "Scope"
+msgstr "DCI Scope"
 
 #: src/lib/dcp_subtitle_content.cc:100
 msgid "DCP XML subtitles"
@@ -571,12 +565,11 @@ msgid "DCP will use every other frame of the content.\n"
 msgstr "Il DCP utilizzerà ogni altro frame del sorgente.\n"
 
 #: src/lib/job.cc:126 src/lib/job.cc:141
-#, fuzzy
 msgid ""
 "DCP-o-matic could not open the file %1 (%2).  Perhaps it does not exist or "
 "is in an unexpected format."
 msgstr ""
-"DCP-o-matic non può aprire il file %1. Forse non esiste oppure è in un "
+"DCP-o-matic non può aprire il file %1 (%2). Forse non esiste oppure è in un "
 "formato non riconosciuto."
 
 #: src/lib/ffmpeg_content.cc:103
@@ -648,7 +641,7 @@ msgstr "Rapporto problemi Email per %1"
 
 #: src/lib/dcp_encoder.cc:93 src/lib/ffmpeg_encoder.cc:201
 msgid "Encoding"
-msgstr ""
+msgstr "Codifica"
 
 #: src/lib/exceptions.cc:67
 msgid "Error in subtitle file: saw %1 while expecting %2"
@@ -704,7 +697,7 @@ msgstr "Full (0-%1)"
 
 #: src/lib/ratio.cc:46
 msgid "Full frame"
-msgstr "Fill frame"
+msgstr "Full frame"
 
 #: src/lib/audio_content.cc:334
 msgid "Full length in audio samples at DCP rate"
@@ -751,12 +744,18 @@ msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "slowdown of your content, and SMPTE DCPs are not supported by all projectors."
 msgstr ""
+"Tuttavia, l'impostazione della frequenza dei fotogrammi DCP su 24 o 48 "
+"causerà un rallentamento significativo dei contenuti e i DCP SMPTE non sono "
+"supportati da tutti i proiettori."
 
 #: src/lib/hints.cc:125
 msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "speed-up of your content, and SMPTE DCPs are not supported by all projectors."
 msgstr ""
+"Tuttavia, l'impostazione della frequenza dei fotogrammi DCP su 24 o 48 "
+"causerà una significativa accelerazione del contenuto e i DCP SMPTE non sono "
+"supportati da tutti i proiettori."
 
 #: src/lib/audio_content.cc:307 src/lib/audio_content.cc:327
 msgid "Hz"
@@ -871,13 +870,12 @@ msgid "Mismatched video sizes in DCP"
 msgstr "La dimensione video nel DCP non corrisponde"
 
 #: src/lib/exceptions.cc:55
-#, fuzzy
 msgid "Missing required setting %1"
-msgstr "impostazione obbligatoria mancante %1"
+msgstr "Impostazione obbligatoria mancante %1"
 
 #: src/lib/writer.cc:611
 msgid "Mono"
-msgstr ""
+msgstr "Mono"
 
 #: src/lib/filter.cc:66
 msgid "Motion compensating deinterlacer"
@@ -905,7 +903,7 @@ msgstr "Riduzione del rumore"
 
 #: src/lib/writer.cc:609
 msgid "None"
-msgstr ""
+msgstr "Nulla"
 
 #: src/lib/job.cc:453
 msgid "OK (ran for %1)"
@@ -940,7 +938,6 @@ msgid "Prepared for video frame rate"
 msgstr "Preparato per frame rate video"
 
 #: src/lib/exceptions.cc:85
-#, fuzzy
 msgid "Programming error at %1:%2 %3"
 msgstr "Errore di programmazione a %1:%2"
 
@@ -1034,14 +1031,12 @@ msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
 msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
 #: src/lib/ffmpeg_content.cc:521
-#, fuzzy
 msgid "SMPTE ST 431-2 (2011)"
-msgstr "SMPTE ST 428-1"
+msgstr "SMPTE ST 431-2 (2011)"
 
 #: src/lib/ffmpeg_content.cc:522
-#, fuzzy
 msgid "SMPTE ST 432-1 D65 (2010)"
-msgstr "SMPTE ST 428-1"
+msgstr "SMPTE ST 432-1 D65 (2010)"
 
 #: src/lib/scp_uploader.cc:56
 msgid "SSH error (%1)"
@@ -1070,15 +1065,15 @@ msgstr "Parte dell'audio sarà ricampionato a %1Hz"
 
 #: src/lib/film.cc:321
 msgid "Some of your content needs a KDM"
-msgstr ""
+msgstr "Alcuni dei tuoi contenuti richiedono un KDM"
 
 #: src/lib/film.cc:324
 msgid "Some of your content needs an OV"
-msgstr ""
+msgstr "Alcuni dei tuoi contenuti richiedono un OV"
 
 #: src/lib/writer.cc:613
 msgid "Stereo"
-msgstr ""
+msgstr "Stereo"
 
 #: src/lib/upmixer_a.cc:46
 msgid "Stereo to 5.1 up-mixer A"
@@ -1102,16 +1097,15 @@ msgstr "Prova"
 
 #: src/lib/text_subtitle_content.cc:74
 msgid "Text subtitles"
-msgstr "sottotitoli"
+msgstr "Sottotitoli"
 
 #: src/lib/exceptions.cc:73
 msgid "The certificate chain for signing is invalid"
-msgstr "La catena del certificato per la firma non è valita"
+msgstr "La catena del certificato per la firma non è valida"
 
 #: src/lib/exceptions.cc:79
-#, fuzzy
 msgid "The certificate chain for signing is invalid (%1)"
-msgstr "La catena del certificato per la firma non è valita"
+msgstr "La catena del certificato per la firma non è valida (%1)"
 
 #: src/lib/job.cc:111
 msgid ""
@@ -1123,19 +1117,19 @@ msgstr ""
 
 #: src/lib/content_factory.cc:115
 msgid "The file %1 has been moved %2 milliseconds earlier."
-msgstr ""
+msgstr "Il file %1 é stato anticipato di %2 millisecondi"
 
 #: src/lib/content_factory.cc:110
 msgid "The file %1 has been moved %2 milliseconds later."
-msgstr ""
+msgstr "Il file %1 é stato posticipato di %2 millisecondi"
 
 #: src/lib/content_factory.cc:135
 msgid "The file %1 has been trimmed by %2 milliseconds less."
-msgstr ""
+msgstr "Il file %1 é stato tagliato di %2 millisecondi in meno."
 
 #: src/lib/content_factory.cc:130
 msgid "The file %1 has been trimmed by %2 milliseconds more."
-msgstr ""
+msgstr "Il file %1 é stato tagliato di %2 millisecondi in piú."
 
 #: src/lib/hints.cc:157
 msgid ""
@@ -1145,10 +1139,15 @@ msgid ""
 "rate to one closer to your content, provided that your target projection "
 "systems support your chosen DCP rate."
 msgstr ""
+"C'è una grande differenza tra la frequenza fotogrammi del tuo DCP e quella "
+"di alcuni dei tuoi contenuti. Ciò farà sì che l'audio venga riprodotto a un "
+"tono molto più basso o più alto di quanto dovrebbe. Si consiglia di "
+"impostare la frequenza fotogrammi DCP più vicina al contenuto, a condizione "
+"che i sistemi di proiezione selezionati supportino la velocità DCP scelta."
 
 #: src/lib/dcp_content.cc:521
 msgid "There is no video in this DCP"
-msgstr ""
+msgstr "Nessun video in questo DCP"
 
 #: src/lib/job.cc:173
 msgid ""
@@ -1165,6 +1164,9 @@ msgid ""
 "This file is a KDM.  KDMs should be added to DCP content by right-clicking "
 "the content and choosing \"Add KDM\"."
 msgstr ""
+"Questo file è un KDM. I contenuti KDM devono essere aggiunti al contenuto "
+"DCP facendo clic con il pulsante destro del mouse sul contenuto e scegliendo "
+"\"Aggiungi KDM\"."
 
 #: src/lib/film.cc:439
 msgid ""
@@ -1246,11 +1248,11 @@ msgstr "VI"
 
 #: src/lib/verify_dcp_job.cc:41
 msgid "Verify DCP"
-msgstr ""
+msgstr "Verifica DCP"
 
 #: src/lib/util.cc:519
 msgid "Visually impaired"
-msgstr "Ipovedente"
+msgstr ""
 
 #: src/lib/upload_job.cc:45
 msgid "Waiting"
@@ -1265,7 +1267,6 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Altro filtro di deinterlacciamento"
 
 #: src/lib/hints.cc:130
-#, fuzzy
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
@@ -1273,17 +1274,19 @@ msgid ""
 "projectors)."
 msgstr ""
 "Hai impostato un DCP Interop con una velocità frame non supportata "
-"ufficialmente.  Dovresti mare un DCP SMPTE piuttosto."
+"ufficialmente. Si consiglia di modificare la frequenza dei fotogrammi del "
+"DCP o di creare un DCP SMPTE (sebbene i DCP SMPTE non siano supportati da "
+"tutti i proiettori)."
 
 #: src/lib/hints.cc:117
-#, fuzzy
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
 "to make a SMPTE DCP instead."
 msgstr ""
 "Hai impostato un DCP Interop con una velocità frame non supportata "
-"ufficialmente.  Dovresti mare un DCP SMPTE piuttosto."
+"ufficialmente.Si consiglia di modificare la frequenza dei fotogrammi del DCP "
+"o di creare un DCP SMPTE."
 
 #: src/lib/hints.cc:179
 msgid ""
@@ -1300,13 +1303,17 @@ msgid ""
 "may result in poor-quality audio.  If you continue, you should listen to the "
 "resulting DCP in a cinema to make sure that it sounds good."
 msgstr ""
+"Stai utilizzando l'upmixer stereo-a-5.1 di DCP-o-matic. Questa funzione è "
+"sperimentale e potrebbe causare audio di scarsa qualità. Se continui, "
+"dovresti ascoltare il DCP risultante in un cinema per assicurarti che suoni "
+"bene."
 
 #: src/lib/hints.cc:168
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
 msgstr ""
-"Hai %1 files che dovrebbero provenire da un DVD (files VOB). Dovresti unirli "
+"Hai %1 files che sembrano provenire da un DVD (files VOB). Dovresti unirli "
 "per assicurare una transizione senza salti."
 
 #: src/lib/hints.cc:73
@@ -1314,11 +1321,10 @@ msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
 msgstr ""
-"Hai specificato un font la cui dimensione supera i 640kB. Facilmente ci "
+"Hai specificato un font la cui dimensione supera i 640kB. Probabilmente ci "
 "saranno problemi nella riproduzione."
 
 #: src/lib/film.cc:304
-#, fuzzy
 msgid "You must add some content to the DCP before creating it"
 msgstr "Devi aggiungere dei contenuti al DCP prima di crearlo"
 
@@ -1335,7 +1341,7 @@ msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio"
 msgstr ""
-"Il DCP usa un contenitore con un rapporto unusuale. Può causare problemi su "
+"Il DCP usa un contenitore con un rapporto inusuale. Può causare problemi su "
 "alcuni proiettori. Se possibile, usa Flat o Scope come contenitore per il "
 "DCP."
 
@@ -1344,24 +1350,28 @@ msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
 msgstr ""
-"Il livello dell'audio è molto alto (sul %1). Dovresto ridurre il gain del "
+"Il livello dell'audio è molto alto (sul %1). Dovresti ridurre il gain del "
 "contenuto audio."
 
 #: src/lib/config.cc:268
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
-msgstr ""
+msgstr "Contenitore non valido. Modificato automaticamente in Flat (1.85:1)"
 
 #: src/lib/content_factory.cc:106
 msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
 msgstr ""
+"Il tuo progetto contiene contenuti video non allineati a un bordo del "
+"fotogramma."
 
 #: src/lib/content_factory.cc:126
 msgid ""
 "Your project contains video content whose trim was not aligned to a frame "
 "boundary."
 msgstr ""
+"Il tuo progetto contiene contenuti video il cui assetto non era allineato al "
+"limite del frame."
 
 #: src/lib/image_content.cc:71
 msgid "[moving images]"
@@ -1450,56 +1460,47 @@ msgstr "h"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:552
-#, fuzzy
 msgid "it does not have sound in all its reels."
 msgstr "Il DCP non ha sonoro in nessuna delle parti."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:578
-#, fuzzy
 msgid "it does not have subtitles in all its reels."
 msgstr "Il DCP non ha sottotitoli in nessuna delle parti."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:480
-#, fuzzy
 msgid "it has a different frame rate to the film."
 msgstr "Il film ha un frame rate diverso rispetto a questo DCP."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:468
-#, fuzzy
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "Il film è impostato su Interop e questo DCP è SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:472
-#, fuzzy
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "Il film è impostato su SMPTE e questo DCP è Interop."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:558
-#, fuzzy
 msgid "it overlaps other audio content; remove the other content."
 msgstr "C'è un altro flusso audio che si sovrappone a questo DCP; rimuoverlo."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:584
-#, fuzzy
 msgid "it overlaps other subtitle content; remove the other content."
 msgstr ""
 "C'è un altro file di sottotitoli che si sovrappone a questo DCP; rimuoverlo."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:532
-#, fuzzy
 msgid "it overlaps other video content; remove the other content."
 msgstr "C'è un altro flusso video che si sovrappone a questo DCP; rimuoverlo."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:503
-#, fuzzy
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
@@ -1509,7 +1510,6 @@ msgstr ""
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:527
-#, fuzzy
 msgid "its video frame size differs from the film's."
 msgstr "La dimensione del frame nel film è diversa da quella del DCP."
 
@@ -1537,7 +1537,7 @@ msgstr "sRGB"
 
 #: src/lib/film.cc:317
 msgid "some of your content is missing"
-msgstr ""
+msgstr "alcuni dei tuoi contenuti sono mancanti"
 
 #: src/lib/image_content.cc:84
 msgid "still"
