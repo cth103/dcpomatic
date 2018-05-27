@@ -26,6 +26,7 @@
 #include "lib/config.h"
 #include "lib/send_notification_email_job.h"
 #include "lib/transcode_job.h"
+#include "lib/analyse_audio_job.h"
 #include <wx/wx.h>
 
 using std::string;
@@ -133,7 +134,7 @@ JobView::finished ()
 		_details->Enable (true);
 	}
 
-	if (dynamic_pointer_cast<TranscodeJob>(_job) && _notify->GetValue()) {
+	if ((dynamic_pointer_cast<TranscodeJob>(_job) || dynamic_pointer_cast<AnalyseAudioJob>(_job)) && _notify->GetValue()) {
 		if (Config::instance()->notification(Config::MESSAGE_BOX)) {
 			wxMessageBox (std_to_wx(_job->name() + ": " + _job->status()), _("DCP-o-matic"), wxICON_INFORMATION);
 		}
