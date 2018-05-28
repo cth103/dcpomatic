@@ -157,18 +157,27 @@ seconds_to_approximate_hms (int s)
 
 	string ap;
 
-	bool const hours = h > 0;
-	bool const minutes = h < 6 && m > 0;
-	bool const seconds = h == 0 && m < 10 && s > 0;
+	bool hours = h > 0;
+	bool minutes = h < 6 && m > 0;
+	bool seconds = h == 0 && m < 10 && s > 0;
+
+	if (m > 30 && !minutes) {
+		/* round up the hours */
+		++h;
+	}
+	if (s > 30 && !seconds) {
+		/* round up the minutes */
+		++m;
+		if (m == 60) {
+			m = 0;
+			minutes = false;
+			++h;
+		}
+	}
 
 	if (hours) {
-		if (m > 30 && !minutes) {
-			/// TRANSLATORS: h here is an abbreviation for hours
-			ap += locale_convert<string>(h + 1) + _("h");
-		} else {
-			/// TRANSLATORS: h here is an abbreviation for hours
-			ap += locale_convert<string>(h) + _("h");
-		}
+		/// TRANSLATORS: h here is an abbreviation for hours
+		ap += locale_convert<string>(h) + _("h");
 
 		if (minutes || seconds) {
 			ap += N_(" ");
@@ -176,14 +185,8 @@ seconds_to_approximate_hms (int s)
 	}
 
 	if (minutes) {
-		/* Minutes */
-		if (s > 30 && !seconds) {
-			/// TRANSLATORS: m here is an abbreviation for minutes
-			ap += locale_convert<string>(m + 1) + _("m");
-		} else {
-			/// TRANSLATORS: m here is an abbreviation for minutes
-			ap += locale_convert<string>(m) + _("m");
-		}
+		/// TRANSLATORS: m here is an abbreviation for minutes
+		ap += locale_convert<string>(m) + _("m");
 
 		if (seconds) {
 			ap += N_(" ");

@@ -68,6 +68,8 @@ BOOST_AUTO_TEST_CASE (seconds_to_approximate_hms_test)
 	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (17 * 60 + 20), "17m");
 	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (1 * 3600), "1h");
 	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (3600 + 40 * 60), "1h 40m");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (2 * 3600), "2h");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (2 * 3600 - 1), "2h");
 	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (13 * 3600 + 40 * 60), "14h");
 }
 
