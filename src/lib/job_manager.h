@@ -41,6 +41,7 @@ class JobManager : public Signaller, public boost::noncopyable
 {
 public:
 	boost::shared_ptr<Job> add (boost::shared_ptr<Job>);
+	boost::shared_ptr<Job> add_after (boost::shared_ptr<Job> after, boost::shared_ptr<Job> j);
 	std::list<boost::shared_ptr<Job> > get () const;
 	bool work_to_do () const;
 	bool errors () const;
