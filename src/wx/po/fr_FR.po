@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/audio_panel.cc:56 src/wx/subtitle_panel.cc:56
-#: src/wx/video_panel.cc:82
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-20 20:14+0100\n"
-"PO-Revision-Date: 2018-04-24 22:35+0100\n"
+"PO-Revision-Date: 2018-05-29 23:41+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -28,7 +26,7 @@ msgstr "%"
 #: src/wx/film_name_location_dialog.cc:130
 msgid "%1 already exists as a file, so you cannot use it for a film."
 msgstr ""
-"%1 existe déjà comme nom de fichier. VOus ne pouvez pas l'utiliser pour un "
+"%1 existe déjà comme nom de fichier. Vous ne pouvez pas l'utiliser pour un "
 "projet."
 
 #: src/wx/kdm_dialog.cc:153
@@ -290,7 +288,7 @@ msgstr "Audio"
 
 #: src/wx/isdcf_metadata_dialog.cc:40
 msgid "Audio Language (e.g. EN)"
-msgstr "Langue audio (ex. FR)"
+msgstr "Langue audio (par ex. : FR)"
 
 #: src/wx/player_information.cc:132
 #, c-format
@@ -323,7 +321,7 @@ msgstr "B"
 
 #: src/wx/full_config_dialog.cc:760
 msgid "BCC address"
-msgstr "Adresse BCC"
+msgstr "Adresse CCI"
 
 #: src/wx/colour_conversion_editor.cc:144
 msgid "Blue chromaticity"
@@ -1206,9 +1204,8 @@ msgid "MOV files (*.mov)|*.mov"
 msgstr "FIchiers MOV (*.mov)|*.mov"
 
 #: src/wx/export_dialog.cc:33
-#, fuzzy
 msgid "MP4 / H.264"
-msgstr "H.264"
+msgstr "MP4 / H.264"
 
 #: src/wx/export_dialog.cc:38
 msgid "MP4 files (*.mp4)|*.mp4"
@@ -1307,7 +1304,8 @@ msgstr "DEMANDE de KDM:"
 msgid "NEEDS OV: "
 msgstr "OV Nécessaire:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Nom"
 
