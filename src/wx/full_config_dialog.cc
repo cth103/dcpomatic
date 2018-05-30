@@ -689,12 +689,7 @@ class EmailPage : public StandardPage
 {
 public:
 	EmailPage (wxSize panel_size, int border)
-#ifdef DCPOMATIC_OSX
-		/* We have to force both width and height of this one */
-		: StandardPage (wxSize (480, 128), border)
-#else
 		: StandardPage (panel_size, border)
-#endif
 	{}
 
 	wxString GetName () const
@@ -785,7 +780,7 @@ public:
 	KDMEmailPage (wxSize panel_size, int border)
 #ifdef DCPOMATIC_OSX
 		/* We have to force both width and height of this one */
-		: StandardPage (wxSize (480, 128), border)
+		: StandardPage (wxSize (panel_size.GetWidth(), 128), border)
 #else
 		: StandardPage (panel_size, border)
 #endif
@@ -905,7 +900,7 @@ public:
 	NotificationsPage (wxSize panel_size, int border)
 #ifdef DCPOMATIC_OSX
 		/* We have to force both width and height of this one */
-		: StandardPage (wxSize (480, 128), border)
+		: StandardPage (wxSize (panel_size.GetWidth(), 128), border)
 #else
 		: StandardPage (panel_size, border)
 #endif
@@ -1076,7 +1071,7 @@ public:
 	CoverSheetPage (wxSize panel_size, int border)
 #ifdef DCPOMATIC_OSX
 		/* We have to force both width and height of this one */
-		: StandardPage (wxSize (480, 128), border)
+		: StandardPage (wxSize (panel_size.GetWidth(), 128), border)
 #else
 		: StandardPage (panel_size, border)
 #endif
@@ -1385,7 +1380,7 @@ create_full_config_dialog ()
 	   the containing window doesn't shrink too much when we select those panels.
 	   This is obviously an unpleasant hack.
 	*/
-	wxSize ps = wxSize (520, -1);
+	wxSize ps = wxSize (600, -1);
 	int const border = 16;
 #else
 	wxSize ps = wxSize (-1, -1);
