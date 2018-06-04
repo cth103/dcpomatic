@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-20 20:14+0100\n"
-"PO-Revision-Date: 2018-04-21 00:48+0200\n"
+"PO-Revision-Date: 2018-06-03 22:41+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.0.7\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/video_content.cc:448
@@ -261,7 +261,7 @@ msgstr "BT2020 niet-constante luminantie"
 
 #: src/lib/ffmpeg_content.cc:578
 msgid "BT2100"
-msgstr ""
+msgstr "BT2100"
 
 #: src/lib/ffmpeg_content.cc:515
 msgid "BT470BG"
@@ -325,14 +325,12 @@ msgid "Checking existing image data"
 msgstr "Bestaande beelddata controleren"
 
 #: src/lib/ffmpeg_content.cc:577
-#, fuzzy
 msgid "Chroma-derived constant luminance"
-msgstr "BT2020 constante luminantie"
+msgstr "Chroma-afgeleide constante luminantie"
 
 #: src/lib/ffmpeg_content.cc:576
-#, fuzzy
 msgid "Chroma-derived non-constant luminance"
-msgstr "BT2020 niet-constante luminantie"
+msgstr "Chroma-afgeleide niet-constante luminantie"
 
 #: src/lib/ffmpeg_content.cc:536
 msgid "Colour primaries"
@@ -798,7 +796,7 @@ msgstr "Het is onbekend hoe deze fout is ontstaan."
 
 #: src/lib/ffmpeg_content.cc:532
 msgid "JEDEC P22"
-msgstr ""
+msgstr "JEDEC P22"
 
 #: src/lib/config.cc:308 src/lib/config.cc:821
 msgid "KDM delivery: $CPL_NAME"
@@ -1174,7 +1172,7 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:521
 msgid "There is no video in this DCP"
-msgstr ""
+msgstr "Deze DCP heeft geen video"
 
 #: src/lib/job.cc:173
 msgid ""
