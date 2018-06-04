@@ -101,6 +101,8 @@ public:
 		setup_menu (bar);
 		SetMenuBar (bar);
 
+		Config::instance()->Changed.connect (boost::bind (&DOMFrame::config_changed, this, _1));
+
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_add_film, this),    ID_file_add_film);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_quit, this),        wxID_EXIT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_preferences, this), wxID_PREFERENCES);
@@ -236,6 +238,36 @@ private:
 		_last_parent = boost::filesystem::path (wx_to_std (c->GetPath ())).parent_path ();
 
 		c->Destroy ();
+	}
+
+	void config_changed (Config::Property what)
+	{
+		/* Instantly save any config changes when using the DCP-o-matic GUI */
+		if (what == Config::CINEMAS) {
+			try {
+				Config::instance()->write_cinemas();
+			} catch (exception& e) {
+				error_dialog (
+					this,
+					wxString::Format (
+						_("Could not write to cinemas file at %s.  Your changes have not been saved."),
+						std_to_wx (Config::instance()->cinemas_file().string()).data()
+						)
+					);
+			}
+		} else {
+			try {
+				Config::instance()->write_config();
+			} catch (exception& e) {
+				error_dialog (
+					this,
+					wxString::Format (
+						_("Could not write to config file at %s.  Your changes have not been saved."),
+						std_to_wx (Config::instance()->cinemas_file().string()).data()
+						)
+					);
+			}
+		}
 	}
 
 	boost::optional<boost::filesystem::path> _last_parent;

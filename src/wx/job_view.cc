@@ -142,7 +142,7 @@ JobView::finished ()
 			string body = Config::instance()->notification_email();
 			boost::algorithm::replace_all (body, "$JOB_NAME", _job->name());
 			boost::algorithm::replace_all (body, "$JOB_STATUS", _job->status());
-			JobManager::instance()->add (shared_ptr<Job> (new SendNotificationEmailJob (body)));
+			JobManager::instance()->add_after (_job, shared_ptr<Job> (new SendNotificationEmailJob (body)));
 		}
 	}
 }

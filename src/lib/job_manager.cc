@@ -90,6 +90,21 @@ JobManager::add (shared_ptr<Job> j)
 	return j;
 }
 
+shared_ptr<Job>
+JobManager::add_after (shared_ptr<Job> after, shared_ptr<Job> j)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		list<shared_ptr<Job> >::iterator i = find (_jobs.begin(), _jobs.end(), after);
+		DCPOMATIC_ASSERT (i != _jobs.end());
+		_jobs.insert (i, j);
+	}
+
+	emit (boost::bind (boost::ref (JobAdded), weak_ptr<Job> (j)));
+
+	return j;
+}
+
 list<shared_ptr<Job> >
 JobManager::get () const
 {
