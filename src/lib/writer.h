@@ -144,6 +144,7 @@ private:
 	 *  ordering
 	 */
 	int _maximum_frames_in_memory;
+	unsigned int _maximum_queue_size;
 
 	/** number of FULL written frames */
 	int _full_written;

@@ -75,6 +75,7 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 	, _finish (false)
 	, _queued_full_in_memory (0)
 	, _maximum_frames_in_memory (0)
+	, _maximum_queue_size (0)
 	, _full_written (0)
 	, _fake_written (0)
 	, _repeat_written (0)
@@ -128,7 +129,7 @@ Writer::write (Data encoded, Frame frame, Eyes eyes)
 	boost::mutex::scoped_lock lock (_state_mutex);
 
 	while (_queued_full_in_memory > _maximum_frames_in_memory) {
-		/* The queue is too big; wait until that is sorted out */
+		/* There are too many full frames in memory; wait until that is sorted out */
 		_full_condition.wait (lock);
 	}
 
@@ -171,7 +172,7 @@ Writer::repeat (Frame frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_state_mutex);
 
-	while (_queued_full_in_memory > _maximum_frames_in_memory) {
+	while (_queue.size() > _maximum_queue_size) {
 		/* The queue is too big; wait until that is sorted out */
 		_full_condition.wait (lock);
 	}
@@ -199,7 +200,7 @@ Writer::fake_write (Frame frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_state_mutex);
 
-	while (_queued_full_in_memory > _maximum_frames_in_memory) {
+	while (_queue.size() > _maximum_queue_size) {
 		/* The queue is too big; wait until that is sorted out */
 		_full_condition.wait (lock);
 	}
@@ -405,6 +406,7 @@ try
 			}
 
 			lock.lock ();
+			_full_condition.notify_all ();
 		}
 
 		while (_queued_full_in_memory > _maximum_frames_in_memory) {
@@ -440,10 +442,8 @@ try
 			lock.lock ();
 			i->encoded.reset ();
 			--_queued_full_in_memory;
+			_full_condition.notify_all ();
 		}
-
-		/* The queue has probably just gone down a bit; notify anything wait()ing on _full_condition */
-		_full_condition.notify_all ();
 	}
 }
 catch (...)
@@ -713,6 +713,7 @@ void
 Writer::set_encoder_threads (int threads)
 {
 	_maximum_frames_in_memory = lrint (threads * Config::instance()->frames_in_memory_multiplier());
+	_maximum_queue_size = lrint (threads * 16);
 }
 
 void

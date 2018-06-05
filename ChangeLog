@@ -1,3 +1,9 @@
+2018-06-05  Carl Hetherington  <cth@carlh.net>
+
+	* Don't allow the queue to get too big with repeat frames
+	otherwise there's a long delay at the end of the job
+	while they are written (#1317).
+
 2018-06-04  Carl Hetherington  <cth@carlh.net>
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.
