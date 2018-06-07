@@ -557,7 +557,11 @@ Player::pass ()
 			continue;
 		}
 
-		DCPTime const t = content_time_to_dcp (i, i->decoder->position());
+		/** decoder position may need to be trimmed like the
+		    content (but the decoder does not know it yet);
+		    check for that and fake it here if necessary.
+		*/
+		DCPTime const t = content_time_to_dcp (i, min(i->decoder->position(), i->content->trim_start()));
 		if (t > i->content->end()) {
 			i->done = true;
 		} else {
