@@ -561,7 +561,7 @@ Player::pass ()
 		    content (but the decoder does not know it yet);
 		    check for that and fake it here if necessary.
 		*/
-		DCPTime const t = content_time_to_dcp (i, min(i->decoder->position(), i->content->trim_start()));
+		DCPTime const t = content_time_to_dcp (i, max(i->decoder->position(), i->content->trim_start()));
 		if (t > i->content->end()) {
 			i->done = true;
 		} else {
