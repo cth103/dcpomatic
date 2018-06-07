@@ -263,3 +263,22 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 		check_image(String::compose("test/data/player_seek_test2_%1.png", i), String::compose("build/test/player_seek_test2_%1.png", i), 0.011);
 	}
 }
+
+/** Test a bug when trimmed content follows other content */
+BOOST_AUTO_TEST_CASE (player_trim_test)
+{
+       shared_ptr<Film> film = new_test_film2 ("player_trim_test");
+       shared_ptr<Content> A = content_factory(film, "test/data/flat_red.png").front();
+       film->examine_and_add_content (A);
+       BOOST_REQUIRE (!wait_for_jobs ());
+       A->video->set_length (10 * 24);
+       shared_ptr<Content> B = content_factory(film, "test/data/flat_red.png").front();
+       film->examine_and_add_content (B);
+       BOOST_REQUIRE (!wait_for_jobs ());
+       B->video->set_length (10 * 24);
+       B->set_position (DCPTime::from_seconds (10));
+       B->set_trim_start (ContentTime::from_seconds (2));
+
+       film->make_dcp ();
+       BOOST_REQUIRE (!wait_for_jobs ());
+}

@@ -74,8 +74,9 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 	, _thread (0)
 	, _finish (false)
 	, _queued_full_in_memory (0)
-	, _maximum_frames_in_memory (0)
-	, _maximum_queue_size (0)
+	/* These will be reset to sensible values when J2KEncoder is created */
+	, _maximum_frames_in_memory (8)
+	, _maximum_queue_size (8)
 	, _full_written (0)
 	, _fake_written (0)
 	, _repeat_written (0)
@@ -201,7 +202,12 @@ Writer::fake_write (Frame frame, Eyes eyes)
 	boost::mutex::scoped_lock lock (_state_mutex);
 
 	while (_queue.size() > _maximum_queue_size) {
-		/* The queue is too big; wait until that is sorted out */
+		/* The queue is too big; wait until that is sorted out.  We're assuming here
+		   that it will be sorted out either by time or by a necessary full-written
+		   frame being given to us.  fake_write() must be called more-or-less in
+		   order or this will deadlock due to the main write thread waiting for
+		   a frame that never arrives because we're waiting here.
+		*/
 		_full_condition.wait (lock);
 	}
 
@@ -341,8 +347,6 @@ try
 				/* We've got something to do: go and do it */
 				break;
 			}
-
-			DCPOMATIC_ASSERT (_queue.size() < _maximum_queue_size);
 
 			/* Nothing to do: wait until something happens which may indicate that we do */
 			LOG_TIMING (N_("writer-sleep queue=%1"), _queue.size());
@@ -714,8 +718,9 @@ operator== (QueueItem const & a, QueueItem const & b)
 void
 Writer::set_encoder_threads (int threads)
 {
+	boost::mutex::scoped_lock lm (_state_mutex);
 	_maximum_frames_in_memory = lrint (threads * Config::instance()->frames_in_memory_multiplier());
-	_maximum_queue_size = lrint (threads * 16);
+	_maximum_queue_size = threads * 16;
 }
 
 void
