@@ -546,7 +546,7 @@ Player::pass ()
 			continue;
 		}
 
-		DCPTime const t = content_time_to_dcp (i, i->decoder->position());
+		DCPTime const t = content_time_to_dcp (i, max(i->decoder->position(), i->content->trim_start()));
 		if (t > i->content->end()) {
 			i->done = true;
 		} else {
