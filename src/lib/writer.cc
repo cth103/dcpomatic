@@ -342,6 +342,8 @@ try
 				break;
 			}
 
+			DCPOMATIC_ASSERT (_queue.size() < _maximum_queue_size);
+
 			/* Nothing to do: wait until something happens which may indicate that we do */
 			LOG_TIMING (N_("writer-sleep queue=%1"), _queue.size());
 			_empty_condition.wait (lock);
