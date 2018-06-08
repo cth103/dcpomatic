@@ -142,7 +142,6 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 		}
 	}
 
-
 	if (_video_stream) {
 		/* This code taken from get_rotation() in ffmpeg:cmdutils.c */
 		AVStream* stream = _format_context->streams[*_video_stream];
