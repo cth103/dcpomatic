@@ -1172,6 +1172,10 @@ Film::audio_frame_rate () const
 void
 Film::set_sequence (bool s)
 {
+	if (s == _sequence) {
+		return;
+	}
+
 	_sequence = s;
 	_playlist->set_sequence (s);
 	signal_changed (SEQUENCE);
