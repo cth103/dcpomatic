@@ -75,6 +75,7 @@ private:
 
 	ContentTime _pts_offset;
 	boost::optional<ContentTime> _current_subtitle_to;
+	/** true if we have a subtitle which has not had emit_stop called for it yet */
 	bool _have_current_subtitle;
 
 	boost::shared_ptr<Image> _black_image;

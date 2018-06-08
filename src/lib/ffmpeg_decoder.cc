@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -567,11 +567,11 @@ FFmpegDecoder::decode_subtitle_packet ()
 	FFmpegSubtitlePeriod sub_period = subtitle_period (sub);
 	ContentTime from;
 	from = sub_period.from + _pts_offset;
-	_have_current_subtitle = true;
 	if (sub_period.to) {
 		_current_subtitle_to = *sub_period.to + _pts_offset;
 	} else {
 		_current_subtitle_to = optional<ContentTime>();
+		_have_current_subtitle = true;
 	}
 
 	for (unsigned int i = 0; i < sub.num_rects; ++i) {
