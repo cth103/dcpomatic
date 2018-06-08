@@ -1,3 +1,8 @@
+2018-06-08  Carl Hetherington  <cth@carlh.net>
+
+	* Add support for vertical and horizontal flipping of video
+	sources.
+
 2018-06-05  Carl Hetherington  <cth@carlh.net>
 
 	* Don't allow the queue to get too big with repeat frames
