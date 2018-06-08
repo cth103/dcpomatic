@@ -69,6 +69,17 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, boost::filesystem::pa
 
 }
 
+template <class T>
+optional<T>
+get_optional_enum (cxml::ConstNodePtr node, string name)
+{
+	optional<int> const v = node->optional_number_child<int>(name);
+	if (!v) {
+		return optional<T>();
+	}
+	return static_cast<T>(*v);
+}
+
 FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, list<string>& notes)
 	: Content (film, node)
 {
@@ -109,12 +120,10 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 		_first_video = ContentTime (f.get ());
 	}
 
-	_color_range = static_cast<AVColorRange> (node->optional_number_child<int>("ColorRange").get_value_or (AVCOL_RANGE_UNSPECIFIED));
-	_color_primaries = static_cast<AVColorPrimaries> (node->optional_number_child<int>("ColorPrimaries").get_value_or (AVCOL_PRI_UNSPECIFIED));
-	_color_trc = static_cast<AVColorTransferCharacteristic> (
-		node->optional_number_child<int>("ColorTransferCharacteristic").get_value_or (AVCOL_TRC_UNSPECIFIED)
-		);
-	_colorspace = static_cast<AVColorSpace> (node->optional_number_child<int>("Colorspace").get_value_or (AVCOL_SPC_UNSPECIFIED));
+	_color_range = get_optional_enum<AVColorRange>(node, "ColorRange");
+	_color_primaries = get_optional_enum<AVColorPrimaries>(node, "ColorPrimaries");
+	_color_trc = get_optional_enum<AVColorTransferCharacteristic>(node, "ColorTransferCharacteristic");
+	_colorspace = get_optional_enum<AVColorSpace>(node, "Colorspace");
 	_bits_per_pixel = node->optional_number_child<int> ("BitsPerPixel");
 
 }
@@ -222,12 +231,20 @@ FFmpegContent::as_xml (xmlpp::Node* node, bool with_paths) const
 		node->add_child("FirstVideo")->add_child_text (raw_convert<string> (_first_video.get().get()));
 	}
 
-	node->add_child("ColorRange")->add_child_text (raw_convert<string> (static_cast<int> (_color_range)));
-	node->add_child("ColorPrimaries")->add_child_text (raw_convert<string> (static_cast<int> (_color_primaries)));
-	node->add_child("ColorTransferCharacteristic")->add_child_text (raw_convert<string> (static_cast<int> (_color_trc)));
-	node->add_child("Colorspace")->add_child_text (raw_convert<string> (static_cast<int> (_colorspace)));
+	if (_color_range) {
+		node->add_child("ColorRange")->add_child_text (raw_convert<string> (static_cast<int> (*_color_range)));
+	}
+	if (_color_primaries) {
+		node->add_child("ColorPrimaries")->add_child_text (raw_convert<string> (static_cast<int> (*_color_primaries)));
+	}
+	if (_color_trc) {
+		node->add_child("ColorTransferCharacteristic")->add_child_text (raw_convert<string> (static_cast<int> (*_color_trc)));
+	}
+	if (_colorspace) {
+		node->add_child("Colorspace")->add_child_text (raw_convert<string> (static_cast<int> (*_colorspace)));
+	}
 	if (_bits_per_pixel) {
-		node->add_child("BitsPerPixel")->add_child_text (raw_convert<string> (_bits_per_pixel.get ()));
+		node->add_child("BitsPerPixel")->add_child_text (raw_convert<string> (*_bits_per_pixel));
 	}
 }
 
@@ -423,7 +440,7 @@ FFmpegContent::set_default_colour_conversion ()
 
 	boost::mutex::scoped_lock lm (_mutex);
 
-	switch (_colorspace) {
+	switch (_colorspace.get_value_or(AVCOL_SPC_UNSPECIFIED)) {
 	case AVCOL_SPC_RGB:
 		video->set_colour_conversion (PresetColourConversion::from_id ("srgb").conversion);
 		break;
@@ -461,7 +478,7 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 			int const sub = 219 * pow (2, _bits_per_pixel.get() - 8);
 			int const total = pow (2, _bits_per_pixel.get());
 
-			switch (_color_range) {
+			switch (_color_range.get_value_or(AVCOL_RANGE_UNSPECIFIED)) {
 			case AVCOL_RANGE_UNSPECIFIED:
 				/// TRANSLATORS: this means that the range of pixel values used in this
 				/// file is unknown (not specified in the file).
@@ -485,7 +502,7 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 				DCPOMATIC_ASSERT (false);
 			}
 		} else {
-			switch (_color_range) {
+			switch (_color_range.get_value_or(AVCOL_RANGE_UNSPECIFIED)) {
 			case AVCOL_RANGE_UNSPECIFIED:
 				/// TRANSLATORS: this means that the range of pixel values used in this
 				/// file is unknown (not specified in the file).
@@ -533,7 +550,7 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 		};
 
 		DCPOMATIC_ASSERT (AVCOL_PRI_NB <= 23);
-		p.push_back (UserProperty (UserProperty::VIDEO, _("Colour primaries"), primaries[_color_primaries]));
+		p.push_back (UserProperty (UserProperty::VIDEO, _("Colour primaries"), primaries[_color_primaries.get_value_or(AVCOL_PRI_UNSPECIFIED)]));
 
 		char const * transfers[] = {
 			_("Unspecified"),
@@ -558,7 +575,7 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 		};
 
 		DCPOMATIC_ASSERT (AVCOL_TRC_NB <= 19);
-		p.push_back (UserProperty (UserProperty::VIDEO, _("Colour transfer characteristic"), transfers[_color_trc]));
+		p.push_back (UserProperty (UserProperty::VIDEO, _("Colour transfer characteristic"), transfers[_color_trc.get_value_or(AVCOL_TRC_UNSPECIFIED)]));
 
 		char const * spaces[] = {
 			_("RGB / sRGB (IEC61966-2-1)"),
@@ -579,10 +596,10 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 		};
 
 		DCPOMATIC_ASSERT (AVCOL_SPC_NB == 15);
-		p.push_back (UserProperty (UserProperty::VIDEO, _("Colourspace"), spaces[_colorspace]));
+		p.push_back (UserProperty (UserProperty::VIDEO, _("Colourspace"), spaces[_colorspace.get_value_or(AVCOL_SPC_UNSPECIFIED)]));
 
 		if (_bits_per_pixel) {
-			p.push_back (UserProperty (UserProperty::VIDEO, _("Bits per pixel"), _bits_per_pixel.get ()));
+			p.push_back (UserProperty (UserProperty::VIDEO, _("Bits per pixel"), *_bits_per_pixel));
 		}
 	}
 

@@ -105,10 +105,10 @@ private:
 	/** Video filters that should be used when generating DCPs */
 	std::vector<Filter const *> _filters;
 
-	AVColorRange _color_range;
-	AVColorPrimaries _color_primaries;
-	AVColorTransferCharacteristic _color_trc;
-	AVColorSpace _colorspace;
+	boost::optional<AVColorRange> _color_range;
+	boost::optional<AVColorPrimaries> _color_primaries;
+	boost::optional<AVColorTransferCharacteristic> _color_trc;
+	boost::optional<AVColorSpace> _colorspace;
 	boost::optional<int> _bits_per_pixel;
 };
 
