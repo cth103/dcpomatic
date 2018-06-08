@@ -210,16 +210,20 @@ SubtitleAppearanceDialog::apply ()
 	} else {
 		_content->subtitle->unset_colour ();
 	}
-	switch (_effect->GetSelection()) {
-	case NONE:
-		_content->subtitle->set_effect (dcp::NONE);
-		break;
-	case OUTLINE:
-		_content->subtitle->set_effect (dcp::BORDER);
-		break;
-	case SHADOW:
-		_content->subtitle->set_effect (dcp::SHADOW);
-		break;
+	if (_force_effect->GetValue()) {
+		switch (_effect->GetSelection()) {
+		case NONE:
+			_content->subtitle->set_effect (dcp::NONE);
+			break;
+		case OUTLINE:
+			_content->subtitle->set_effect (dcp::BORDER);
+			break;
+		case SHADOW:
+			_content->subtitle->set_effect (dcp::SHADOW);
+			break;
+		}
+	} else {
+		_content->subtitle->unset_effect ();
 	}
 	if (_force_effect_colour->GetValue ()) {
 		wxColour const ec = _effect_colour->GetColour ();
