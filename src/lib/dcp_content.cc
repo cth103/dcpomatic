@@ -541,6 +541,9 @@ DCPContent::can_reference_audio (string& why_not) const
 	} catch (dcp::DCPReadError) {
 		/* We couldn't read the DCP, so it's probably missing */
 		return false;
+	} catch (DCPError) {
+		/* We couldn't read the DCP, so it's probably missing */
+		return false;
 	} catch (dcp::KDMDecryptionError) {
 		/* We have an incorrect KDM */
 		return false;

@@ -44,6 +44,8 @@
 #include <boost/foreach.hpp>
 #include <iostream>
 
+#include "i18n.h"
+
 using std::list;
 using std::cout;
 using boost::shared_ptr;
@@ -65,8 +67,14 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log, boo
 		subtitle.reset (new SubtitleDecoder (this, c->subtitle, log, ContentTime()));
 	}
 
+	list<shared_ptr<dcp::CPL> > cpl_list = cpls ();
+
+	if (cpl_list.empty()) {
+		throw DCPError (_("No CPLs found in DCP."));
+	}
+
 	shared_ptr<dcp::CPL> cpl;
-	BOOST_FOREACH (shared_ptr<dcp::CPL> i, cpls ()) {
+	BOOST_FOREACH (shared_ptr<dcp::CPL> i, cpl_list) {
 		if (_dcp_content->cpl() && i->id() == _dcp_content->cpl().get()) {
 			cpl = i;
 		}
