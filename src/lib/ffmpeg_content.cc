@@ -274,6 +274,18 @@ FFmpegContent::examine (shared_ptr<Job> job)
 			_color_trc = examiner->color_trc ();
 			_colorspace = examiner->colorspace ();
 			_bits_per_pixel = examiner->bits_per_pixel ();
+
+			if (examiner->rotation()) {
+				double rot = *examiner->rotation ();
+				if (fabs (rot - 180) < 1.0) {
+					_filters.push_back (Filter::from_id ("vflip"));
+					_filters.push_back (Filter::from_id ("hflip"));
+				} else if (fabs (rot - 90) < 1.0) {
+					_filters.push_back (Filter::from_id ("90clock"));
+				} else if (fabs (rot - 270) < 1.0) {
+					_filters.push_back (Filter::from_id ("90anticlock"));
+				}
+			}
 		}
 
 		if (!examiner->audio_streams().empty ()) {

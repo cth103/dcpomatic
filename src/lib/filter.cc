@@ -27,6 +27,7 @@ extern "C" {
 #include <libavfilter/avfilter.h>
 }
 #include <boost/foreach.hpp>
+#include <iostream>
 
 #include "i18n.h"
 
@@ -63,23 +64,31 @@ Filter::setup_filters ()
 {
 	/* Note: "none" is a magic id name, so don't use it here */
 
-	maybe_add (N_("vflip"),     _("Vertical flip"),                    _("Orientation"),     N_("vflip"));
-	maybe_add (N_("hflip"),     _("Horizontal flip"),                  _("Orientation"),     N_("hflip"));
-	maybe_add (N_("mcdeint"),   _("Motion compensating deinterlacer"), _("De-interlacing"),  N_("mcdeint"));
-	maybe_add (N_("kerndeint"), _("Kernel deinterlacer"),		   _("De-interlacing"),  N_("kerndeint"));
-	maybe_add (N_("yadif"),	    _("Yet Another Deinterlacing Filter"), _("De-interlacing"),  N_("yadif"));
-	maybe_add (N_("gradfun"),   _("Gradient debander"),	           _("Misc"),	         N_("gradfun"));
-	maybe_add (N_("unsharp"),   _("Unsharp mask and Gaussian blur"),   _("Misc"),	         N_("unsharp"));
-	maybe_add (N_("denoise3d"), _("3D denoiser"),		           _("Noise reduction"), N_("denoise3d"));
-	maybe_add (N_("hqdn3d"),    _("High quality 3D denoiser"),         _("Noise reduction"), N_("hqdn3d"));
-	maybe_add (N_("telecine"),  _("Telecine filter"),	           _("Misc"),	         N_("telecine"));
-	maybe_add (N_("ow"),	    _("Overcomplete wavelet denoiser"),	   _("Noise reduction"), N_("mp=ow"));
+	maybe_add (N_("vflip"),       _("Vertical flip"),                    _("Orientation"),     N_("vflip"));
+	maybe_add (N_("hflip"),       _("Horizontal flip"),                  _("Orientation"),     N_("hflip"));
+	maybe_add (N_("90clock"),     _("Rotate 90 degrees clockwise"),      _("Orientation"),     N_("transpose=dir=clock"));
+	maybe_add (N_("90anticlock"), _("Rotate 90 degrees anti-clockwise"), _("Orientation"),     N_("transpose=dir=cclock"));
+	maybe_add (N_("mcdeint"),     _("Motion compensating deinterlacer"), _("De-interlacing"),  N_("mcdeint"));
+	maybe_add (N_("kerndeint"),   _("Kernel deinterlacer"),		     _("De-interlacing"),  N_("kerndeint"));
+	maybe_add (N_("yadif"),	      _("Yet Another Deinterlacing Filter"), _("De-interlacing"),  N_("yadif"));
+	maybe_add (N_("gradfun"),     _("Gradient debander"),	             _("Misc"),	           N_("gradfun"));
+	maybe_add (N_("unsharp"),     _("Unsharp mask and Gaussian blur"),   _("Misc"),	           N_("unsharp"));
+	maybe_add (N_("denoise3d"),   _("3D denoiser"),		             _("Noise reduction"), N_("denoise3d"));
+	maybe_add (N_("hqdn3d"),      _("High quality 3D denoiser"),         _("Noise reduction"), N_("hqdn3d"));
+	maybe_add (N_("telecine"),    _("Telecine filter"),	             _("Misc"),	           N_("telecine"));
+	maybe_add (N_("ow"),	      _("Overcomplete wavelet denoiser"),    _("Noise reduction"), N_("mp=ow"));
 }
 
 void
 Filter::maybe_add (string i, string n, string c, string f)
 {
-	if (avfilter_get_by_name (i.c_str())) {
+	string check_name = f;
+	size_t end = check_name.find("=");
+	if (end != string::npos) {
+		check_name = check_name.substr (0, end);
+	}
+
+	if (avfilter_get_by_name (check_name.c_str())) {
 		_filters.push_back (new Filter (i, n, c, f));
 	}
 }

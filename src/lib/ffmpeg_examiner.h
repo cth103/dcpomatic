@@ -71,6 +71,10 @@ public:
 
 	boost::optional<int> bits_per_pixel () const;
 
+	boost::optional<double> rotation () const {
+		return _rotation;
+	}
+
 private:
 	void video_packet (AVCodecContext *);
 	void audio_packet (AVCodecContext *, boost::shared_ptr<FFmpegAudioStream>);
@@ -87,6 +91,8 @@ private:
 	 */
 	Frame _video_length;
 	bool _need_video_length;
+
+	boost::optional<double> _rotation;
 
 	struct SubtitleStart
 	{

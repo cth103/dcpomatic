@@ -23,6 +23,8 @@ extern "C" {
 #include <libavformat/avformat.h>
 #include <libavutil/pixfmt.h>
 #include <libavutil/pixdesc.h>
+#include <libavutil/eval.h>
+#include <libavutil/display.h>
 }
 #include "ffmpeg_examiner.h"
 #include "ffmpeg_content.h"
@@ -138,6 +140,31 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 			/* All done */
 			break;
 		}
+	}
+
+
+	if (_video_stream) {
+		/* This code taken from get_rotation() in ffmpeg:cmdutils.c */
+		AVStream* stream = _format_context->streams[*_video_stream];
+		AVDictionaryEntry* rotate_tag = av_dict_get (stream->metadata, "rotate", 0, 0);
+		uint8_t* displaymatrix = av_stream_get_side_data (stream, AV_PKT_DATA_DISPLAYMATRIX, 0);
+		_rotation = 0;
+
+		if (rotate_tag && *rotate_tag->value && strcmp(rotate_tag->value, "0")) {
+			char *tail;
+			_rotation = av_strtod (rotate_tag->value, &tail);
+			if (*tail) {
+				_rotation = 0;
+			}
+		}
+
+		if (displaymatrix && !_rotation) {
+			_rotation = - av_display_rotation_get ((int32_t*) displaymatrix);
+		}
+
+		_rotation = *_rotation - 360 * floor (*_rotation / 360 + 0.9 / 360);
+
+		DCPOMATIC_ASSERT (fabs (*_rotation - 90 * round (*_rotation / 90)) < 2);
 	}
 }
 

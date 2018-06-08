@@ -1,7 +1,7 @@
 2018-06-08  Carl Hetherington  <cth@carlh.net>
 
-	* Add support for vertical and horizontal flipping of video
-	sources.
+	* Add support for rotation and flipping of video sources,
+	and auto-detect when this is necessary (#966).
 
 2018-06-05  Carl Hetherington  <cth@carlh.net>
 
