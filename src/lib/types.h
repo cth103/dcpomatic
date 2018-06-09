@@ -80,6 +80,8 @@ namespace xmlpp {
 #define BATCH_SERVER_PRESENCE_PORT (Config::instance()->server_port_base()+3)
 /** Port on which batch converter listens for job requests */
 #define BATCH_JOB_PORT (Config::instance()->server_port_base()+4)
+/** Port on which player listens for play requests */
+#define PLAYER_PLAY_PORT (Config::instance()->server_port_base()+5)
 
 typedef std::vector<boost::shared_ptr<Content> > ContentList;
 typedef std::vector<boost::shared_ptr<FFmpegContent> > FFmpegContentList;

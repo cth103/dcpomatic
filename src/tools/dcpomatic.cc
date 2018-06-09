@@ -211,6 +211,7 @@ enum {
 	ID_jobs_export,
 	ID_jobs_send_dcp_to_tms,
 	ID_jobs_show_dcp,
+	ID_jobs_open_dcp_in_player,
 	ID_tools_video_waveform,
 	ID_tools_hints,
 	ID_tools_encoding_servers,
@@ -295,6 +296,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_export, this),             ID_jobs_export);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_send_dcp_to_tms, this),    ID_jobs_send_dcp_to_tms);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_show_dcp, this),           ID_jobs_show_dcp);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_open_dcp_in_player, this), ID_jobs_open_dcp_in_player);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_video_waveform, this),    ID_tools_video_waveform);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_hints, this),             ID_tools_hints);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_encoding_servers, this),  ID_tools_encoding_servers);
@@ -739,6 +741,17 @@ private:
 		}
 	}
 
+	void jobs_open_dcp_in_player ()
+	{
+		if (!_film) {
+			return;
+		}
+
+		if (send_to_other_tool (PLAYER_PLAY_PORT, bind (&start_player, _1), _film->dir(_film->dcp_name(false)).string())) {
+			error_dialog (this, _("Could not find player."));
+		}
+	}
+
 	void jobs_make_self_dkdm ()
 	{
 		if (!_film) {
@@ -1120,6 +1133,7 @@ private:
 		jobs_menu->AppendSeparator ();
 		add_item (jobs_menu, _("&Send DCP to TMS"), ID_jobs_send_dcp_to_tms, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
 		add_item (jobs_menu, _("S&how DCP"), ID_jobs_show_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
+		add_item (jobs_menu, _("Open DCP in &player"), ID_jobs_open_dcp_in_player, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
 
 		wxMenu* tools = new wxMenu;
 		add_item (tools, _("Video waveform..."), ID_tools_video_waveform, NEEDS_FILM);

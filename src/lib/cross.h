@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -52,6 +52,7 @@ extern boost::filesystem::path shared_path ();
 extern FILE * fopen_boost (boost::filesystem::path, std::string);
 extern int dcpomatic_fseek (FILE *, int64_t, int);
 extern void start_batch_converter (boost::filesystem::path dcpomatic);
+extern void start_player (boost::filesystem::path dcpomatic);
 extern uint64_t thread_id ();
 extern int avio_open_boost (AVIOContext** s, boost::filesystem::path file, int flags);
 

@@ -32,6 +32,8 @@
 #include "lib/verify_dcp_job.h"
 #include "lib/dcp_examiner.h"
 #include "lib/examine_content_job.h"
+#include "lib/server.h"
+#include "lib/dcpomatic_socket.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/about_dialog.h"
@@ -65,8 +67,10 @@ using std::list;
 using std::exception;
 using std::vector;
 using boost::shared_ptr;
+using boost::scoped_array;
 using boost::optional;
 using boost::dynamic_pointer_cast;
+using boost::thread;
 
 enum {
 	ID_file_open = 1,
@@ -647,6 +651,32 @@ static const wxCmdLineEntryDesc command_line_description[] = {
 	{ wxCMD_LINE_NONE, "", "", "", wxCmdLineParamType (0), 0 }
 };
 
+class PlayServer : public Server
+{
+public:
+	explicit PlayServer (DOMFrame* frame)
+		: Server (PLAYER_PLAY_PORT)
+		, _frame (frame)
+	{}
+
+	void handle (shared_ptr<Socket> socket)
+	{
+		try {
+			int const length = socket->read_uint32 ();
+			scoped_array<char> buffer (new char[length]);
+			socket->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
+			string s (buffer.get());
+			signal_manager->when_idle (bind (&DOMFrame::load_dcp, _frame, s));
+			socket->write (reinterpret_cast<uint8_t const *> ("OK"), 3);
+		} catch (...) {
+
+		}
+	}
+
+private:
+	DOMFrame* _frame;
+};
+
 /** @class App
  *  @brief The magic App class for wxWidgets.
  */
@@ -715,6 +745,9 @@ private:
 		_frame->Show ();
 
 		signal_manager = new wxSignalManager (this);
+
+		PlayServer* server = new PlayServer (_frame);
+		new thread (boost::bind (&PlayServer::run, server));
 
 		if (!_dcp_to_load.empty() && boost::filesystem::is_directory (_dcp_to_load)) {
 			try {
