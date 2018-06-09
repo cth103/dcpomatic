@@ -173,8 +173,10 @@ Writer::repeat (Frame frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_state_mutex);
 
-	while (_queue.size() > _maximum_queue_size) {
-		/* The queue is too big; wait until that is sorted out */
+	while (_queue.size() > _maximum_queue_size && have_sequenced_image_at_queue_head()) {
+		/* The queue is too big, and the main writer thread can run and fix it, so
+		   wait until it has done.
+		*/
 		_full_condition.wait (lock);
 	}
 
@@ -201,12 +203,9 @@ Writer::fake_write (Frame frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_state_mutex);
 
-	while (_queue.size() > _maximum_queue_size) {
-		/* The queue is too big; wait until that is sorted out.  We're assuming here
-		   that it will be sorted out either by time or by a necessary full-written
-		   frame being given to us.  fake_write() must be called more-or-less in
-		   order or this will deadlock due to the main write thread waiting for
-		   a frame that never arrives because we're waiting here.
+	while (_queue.size() > _maximum_queue_size && have_sequenced_image_at_queue_head()) {
+		/* The queue is too big, and the main writer thread can run and fix it, so
+		   wait until it has done.
 		*/
 		_full_condition.wait (lock);
 	}
