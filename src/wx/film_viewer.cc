@@ -251,13 +251,18 @@ FilmViewer::recreate_butler ()
 			map.set (i, i, 1);
 		}
 	} else {
-		/* Special case: stereo output, at least 3 channel input, map L+R to L/R and
-		   C to both, all 3dB down.
+		/* Special case: stereo output, at least 3 channel input.
+		   Map so that Lt = L(-3dB) + Ls(-3dB) + C(-6dB) + Lfe(-10dB)
+		               Rt = R(-3dB) + Rs(-3dB) + C(-6dB) + Lfe(-10dB)
 		*/
-		map.set (0, 0, 1 / sqrt(2)); // L -> L
-		map.set (1, 1, 1 / sqrt(2)); // R -> R
-		map.set (2, 0, 1 / sqrt(2)); // C -> L
-		map.set (2, 1, 1 / sqrt(2)); // C -> R
+		map.set (dcp::LEFT,   0, 1 / sqrt(2)); // L -> Lt
+		map.set (dcp::RIGHT,  1, 1 / sqrt(2)); // R -> Rt
+		map.set (dcp::CENTRE, 0, 1 / 2.0); // C -> Lt
+		map.set (dcp::CENTRE, 1, 1 / 2.0); // C -> Rt
+		map.set (dcp::LFE,    0, 1 / sqrt(10)); // Lfe -> Lt
+		map.set (dcp::LFE,    1, 1 / sqrt(10)); // Lfe -> Rt
+		map.set (dcp::LS,     0, 1 / sqrt(2)); // Ls -> Lt
+		map.set (dcp::RS,     1, 1 / sqrt(2)); // Rs -> Rt
 	}
 
 	_butler.reset (new Butler (_player, _film->log(), map, _audio_channels));
