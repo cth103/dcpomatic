@@ -679,16 +679,24 @@ FFmpegDecoder::decode_ass_subtitle (string ass, ContentTime from)
 	   produces a single format of Dialogue: lines...
 	*/
 
-	vector<string> bits;
-	split (bits, ass, is_any_of (","));
-	if (bits.size() < 10) {
+	int commas = 0;
+	string text;
+	for (size_t i = 0; i < ass.length(); ++i) {
+		if (commas < 9 && ass[i] == ',') {
+			++commas;
+		} else if (commas == 9) {
+			text += ass[i];
+		}
+	}
+
+	if (text.empty ()) {
 		return;
 	}
 
 	sub::RawSubtitle base;
 	list<sub::RawSubtitle> raw = sub::SSAReader::parse_line (
 		base,
-		bits[9],
+		text,
 		_ffmpeg_content->video->size().width,
 		_ffmpeg_content->video->size().height
 		);

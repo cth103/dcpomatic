@@ -1,8 +1,11 @@
 2018-06-09  Carl Hetherington  <cth@carlh.net>
 
+	* Fix bad parsing of ASS lines embedded into FFmpeg files
+	and containing commas.
+
 	* Add option to open a DCP in the player (#1312).
 
-a2018-06-08  Carl Hetherington  <cth@carlh.net>
+2018-06-08  Carl Hetherington  <cth@carlh.net>
 
 	* Add support for rotation and flipping of video sources,
 	and auto-detect when this is necessary (#966).
