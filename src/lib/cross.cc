@@ -362,10 +362,16 @@ Waker::~Waker ()
 }
 
 void
-start_batch_converter (boost::filesystem::path dcpomatic)
+start_tool (boost::filesystem::path dcpomatic, string executable,
+#ifdef DCPOMATIC_OSX
+	    string app
+#else
+	    string
+#endif
+	)
 {
 #if defined(DCPOMATIC_LINUX) || defined(DCPOMATIC_WINDOWS)
-	boost::filesystem::path batch = dcpomatic.parent_path() / "dcpomatic2_batch";
+	boost::filesystem::path batch = dcpomatic.parent_path() / executable;
 #endif
 
 #ifdef DCPOMATIC_OSX
@@ -374,10 +380,10 @@ start_batch_converter (boost::filesystem::path dcpomatic)
 	batch = batch.parent_path (); // Contents
 	batch = batch.parent_path (); // DCP-o-matic.app
 	batch = batch.parent_path (); // Applications
-	batch /= "DCP-o-matic\\ 2\\ Batch\\ Converter.app";
+	batch /= app;
 	batch /= "Contents";
 	batch /= "MacOS";
-	batch /= "dcpomatic2_batch";
+	batch /= executable;
 #endif
 
 #if defined(DCPOMATIC_LINUX) || defined(DCPOMATIC_OSX)
@@ -400,6 +406,12 @@ start_batch_converter (boost::filesystem::path dcpomatic)
 	MultiByteToWideChar (CP_UTF8, 0, batch.string().c_str(), -1, cmd, sizeof(cmd));
 	CreateProcess (0, cmd, 0, 0, FALSE, 0, 0, 0, &startup_info, &process_info);
 #endif
+}
+
+void
+start_batch_converter (boost::filesystem::path dcpomatic)
+{
+	start_tool (dcpomatic, "dcpomatic2_batch", "DCP-o-matic\\ 2\\ Batch\\ Converter.app");
 }
 
 uint64_t
