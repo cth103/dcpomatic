@@ -110,6 +110,7 @@ using std::exception;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
+using boost::function;
 using dcp::raw_convert;
 
 class FilmChangedClosingDialog : public boost::noncopyable
@@ -680,6 +681,42 @@ private:
 		_kdm_dialog->Show ();
 	}
 
+	/** @return false if we succeeded, true if not */
+	bool send_to_other_tool (int port, function<void(boost::filesystem::path)> start, string message)
+	{
+		/* i = 0; try to connect via socket
+		   i = 1; try again, and then try to start the tool
+		   i = 2 onwards; try again.
+		*/
+		for (int i = 0; i < 8; ++i) {
+			try {
+				boost::asio::io_service io_service;
+				boost::asio::ip::tcp::resolver resolver (io_service);
+				boost::asio::ip::tcp::resolver::query query ("127.0.0.1", raw_convert<string> (port));
+				boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
+				Socket socket (5);
+				socket.connect (*endpoint_iterator);
+				DCPOMATIC_ASSERT (_film->directory ());
+				socket.write (message.length() + 1);
+				socket.write ((uint8_t *) message.c_str(), message.length() + 1);
+				/* OK\0 */
+				uint8_t ok[3];
+				socket.read (ok, 3);
+				return false;
+			} catch (exception& e) {
+
+			}
+
+			if (i == 1) {
+				start (wx_to_std (wxStandardPaths::Get().GetExecutablePath()));
+			}
+
+			dcpomatic_sleep (1);
+		}
+
+		return true;
+	}
+
 	void jobs_make_dcp_batch ()
 	{
 		if (!_film) {
@@ -697,38 +734,9 @@ private:
 
 		_film->write_metadata ();
 
-		/* i = 0; try to connect via socket
-		   i = 1; try again, and then try to start the batch converter
-		   i = 2 onwards; try again.
-		*/
-		for (int i = 0; i < 8; ++i) {
-			try {
-				boost::asio::io_service io_service;
-				boost::asio::ip::tcp::resolver resolver (io_service);
-				boost::asio::ip::tcp::resolver::query query ("127.0.0.1", raw_convert<string> (BATCH_JOB_PORT));
-				boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
-				Socket socket (5);
-				socket.connect (*endpoint_iterator);
-				DCPOMATIC_ASSERT (_film->directory ());
-				string s = _film->directory()->string ();
-				socket.write (s.length() + 1);
-				socket.write ((uint8_t *) s.c_str(), s.length() + 1);
-				/* OK\0 */
-				uint8_t ok[3];
-				socket.read (ok, 3);
-				return;
-			} catch (exception& e) {
-
-			}
-
-			if (i == 1) {
-				start_batch_converter (wx_to_std (wxStandardPaths::Get().GetExecutablePath()));
-			}
-
-			dcpomatic_sleep (1);
+		if (send_to_other_tool (BATCH_JOB_PORT, bind (&start_batch_converter, _1), _film->directory()->string())) {
+			error_dialog (this, _("Could not find batch converter."));
 		}
-
-		error_dialog (this, _("Could not find batch converter."));
 	}
 
 	void jobs_make_self_dkdm ()
