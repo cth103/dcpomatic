@@ -1,0 +1,6 @@
+Subtitle becomes text.
+Then have text content/decoder which can be used-as subtitle or ccap.
+
+Doubling-up of subtitle/ccap starts in player: that emits subtitle or closedcaption, writer writes both.
+libdcp gets closedcaptionasset with some common ground with subtitleasset, maybe
+add_text_asset() which is called for subtitle + ccap by ReelWriter::create_reel()
