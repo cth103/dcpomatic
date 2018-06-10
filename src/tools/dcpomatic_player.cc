@@ -71,6 +71,7 @@ using boost::scoped_array;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 using boost::thread;
+using boost::bind;
 
 enum {
 	ID_file_open = 1,
