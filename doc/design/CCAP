@@ -4,3 +4,8 @@ Then have text content/decoder which can be used-as subtitle or ccap.
 Doubling-up of subtitle/ccap starts in player: that emits subtitle or closedcaption, writer writes both.
 libdcp gets closedcaptionasset with some common ground with subtitleasset, maybe
 add_text_asset() which is called for subtitle + ccap by ReelWriter::create_reel()
+
+CPLs can have CCAP and subtitle; actual files appear to be the same as subs.
+
+Maybe we just want a subtitle type with the emissions e.g. instead of emit(sub) do emit(TEXT_SUBTITLE, sub) or emit(TEXT_CCAP, sub).
+
