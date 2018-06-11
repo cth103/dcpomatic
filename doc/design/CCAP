@@ -9,7 +9,9 @@ CPLs can have CCAP and subtitle; actual files appear to be the same as subs.
 
 Maybe we just want a subtitle type with the emissions e.g. instead of emit(sub) do emit(TEXT_SUBTITLE, sub) or emit(TEXT_CCAP, sub).
 
-Try "bitmap" for bitmapped text and "plain" for actual text.
+Try "bitmap" for bitmapped text and "plain" for actual text?
 
 Should we try to preserve project back-compatibility here (i.e. do we change XML tag names...)
 on the one hand, it's just names, on the other hand...
+
+Content needs a list<TextContent> since DCP content may have multiple bits.
