@@ -23,6 +23,7 @@
 #include "util.h"
 #include "log.h"
 #include "compose.hpp"
+#include "exceptions.h"
 #include <boost/weak_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 
@@ -97,6 +98,18 @@ Butler::~Butler ()
 bool
 Butler::should_run () const
 {
+	if (_video.size() >= MAXIMUM_VIDEO_READAHEAD * 10) {
+		/* This is way too big */
+		throw ProgrammingError
+			(__FILE__, __LINE__, String::compose ("Butler video buffers reached %1 frames (audio is %2)", _video.size(), _audio.size()));
+	}
+
+	if (_audio.size() >= MAXIMUM_AUDIO_READAHEAD * 10) {
+		/* This is way too big */
+		throw ProgrammingError
+			(__FILE__, __LINE__, String::compose ("Butler audio buffers reached %1 frames (video is %2)", _audio.size(), _video.size()));
+	}
+
 	if (_video.size() >= MAXIMUM_VIDEO_READAHEAD * 2) {
 		LOG_WARNING ("Butler video buffers reached %1 frames (audio is %2)", _video.size(), _audio.size());
 	}
