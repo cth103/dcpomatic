@@ -25,16 +25,16 @@
 
 #include <boost/test/unit_test.hpp>
 #include "lib/film.h"
-#include "lib/dcp_subtitle_content.h"
+#include "lib/dcp_text_content.h"
 #include "lib/dcp_content.h"
 #include "lib/ratio.h"
 #include "lib/dcp_decoder.h"
 #include "lib/dcp_content_type.h"
-#include "lib/dcp_subtitle_decoder.h"
-#include "lib/subtitle_content.h"
+#include "lib/dcp_text_decoder.h"
+#include "lib/text_content.h"
 #include "lib/content_subtitle.h"
-#include "lib/subtitle_decoder.h"
 #include "lib/font.h"
+#include "lib/text_decoder.h"
 #include "test.h"
 #include <iostream>
 
@@ -65,7 +65,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	film->set_interop (false);
-	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent (film, "test/data/dcp_sub.xml"));
+	shared_ptr<DCPTextContent> content (new DCPTextContent (film, "test/data/dcp_sub.xml"));
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
@@ -109,11 +109,11 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test2)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent (film, "test/data/dcp_sub2.xml"));
+	shared_ptr<DCPTextContent> content (new DCPTextContent (film, "test/data/dcp_sub2.xml"));
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (content, film->log()));
+	shared_ptr<DCPTextDecoder> decoder (new DCPTextDecoder (content, film->log()));
 	decoder->subtitle->TextStart.connect (bind (store, _1));
 
 	stored = optional<ContentTextSubtitle> ();
@@ -132,14 +132,14 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test3)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	film->set_interop (true);
-	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent (film, "test/data/dcp_sub3.xml"));
+	shared_ptr<DCPTextContent> content (new DCPTextContent (film, "test/data/dcp_sub3.xml"));
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (content, film->log()));
+	shared_ptr<DCPTextDecoder> decoder (new DCPTextDecoder (content, film->log()));
 	stored = optional<ContentTextSubtitle> ();
 	while (!decoder->pass ()) {
 		decoder->subtitle->TextStart.connect (bind (store, _1));

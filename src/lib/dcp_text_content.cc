@@ -19,9 +19,9 @@
 */
 
 #include "font.h"
-#include "dcp_subtitle_content.h"
+#include "dcp_text_content.h"
 #include "film.h"
-#include "subtitle_content.h"
+#include "text_content.h"
 #include <dcp/raw_convert.h>
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/smpte_subtitle_asset.h>
@@ -37,21 +37,21 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using dcp::raw_convert;
 
-DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, boost::filesystem::path path)
+DCPTextContent::DCPTextContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
 {
-	subtitle.reset (new SubtitleContent (this));
+	subtitle.reset (new TextContent (this));
 }
 
-DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
+DCPTextContent::DCPTextContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 	, _length (node->number_child<ContentTime::Type> ("Length"))
 {
-	subtitle = SubtitleContent::from_xml (this, node, version);
+	subtitle = TextContent::from_xml (this, node, version);
 }
 
 void
-DCPSubtitleContent::examine (shared_ptr<Job> job)
+DCPTextContent::examine (shared_ptr<Job> job)
 {
 	Content::examine (job);
 
@@ -82,26 +82,26 @@ DCPSubtitleContent::examine (shared_ptr<Job> job)
 }
 
 DCPTime
-DCPSubtitleContent::full_length () const
+DCPTextContent::full_length () const
 {
 	FrameRateChange const frc (active_video_frame_rate(), film()->video_frame_rate());
 	return DCPTime (_length, frc);
 }
 
 string
-DCPSubtitleContent::summary () const
+DCPTextContent::summary () const
 {
 	return path_summary() + " " + _("[subtitles]");
 }
 
 string
-DCPSubtitleContent::technical_summary () const
+DCPTextContent::technical_summary () const
 {
 	return Content::technical_summary() + " - " + _("DCP XML subtitles");
 }
 
 void
-DCPSubtitleContent::as_xml (xmlpp::Node* node, bool with_paths) const
+DCPTextContent::as_xml (xmlpp::Node* node, bool with_paths) const
 {
 	node->add_child("Type")->add_child_text ("DCPSubtitle");
 	Content::as_xml (node, with_paths);

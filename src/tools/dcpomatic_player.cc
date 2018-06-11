@@ -27,7 +27,7 @@
 #include "lib/job_manager.h"
 #include "lib/job.h"
 #include "lib/video_content.h"
-#include "lib/subtitle_content.h"
+#include "lib/text_content.h"
 #include "lib/ratio.h"
 #include "lib/verify_dcp_job.h"
 #include "lib/dcp_examiner.h"

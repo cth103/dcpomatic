@@ -39,7 +39,7 @@ public:
 	 *  proportions of the image size; e.g. rectangle.x = 0.5 would mean that
 	 *  the rectangle starts half-way across the video.
 	 *
-	 *  This rectangle may or may not have had a SubtitleContent's offsets and
+	 *  This rectangle may or may not have had a TextContent's offsets and
 	 *  scale applied to it, depending on context.
 	 */
 	dcpomatic::Rect<double> rectangle;

@@ -26,13 +26,13 @@
 #include "fonts_dialog.h"
 #include "subtitle_appearance_dialog.h"
 #include "lib/ffmpeg_content.h"
-#include "lib/text_subtitle_content.h"
+#include "lib/text_text_content.h"
 #include "lib/ffmpeg_subtitle_stream.h"
-#include "lib/dcp_subtitle_content.h"
-#include "lib/text_subtitle_decoder.h"
-#include "lib/dcp_subtitle_decoder.h"
+#include "lib/dcp_text_content.h"
+#include "lib/text_text_decoder.h"
+#include "lib/dcp_text_decoder.h"
 #include "lib/dcp_content.h"
-#include "lib/subtitle_content.h"
+#include "lib/text_content.h"
 #include "lib/decoder_factory.h"
 #include <wx/spinctrl.h>
 #include <boost/foreach.hpp>
@@ -209,22 +209,22 @@ SubtitlePanel::film_content_changed (int property)
 			}
 		}
 		setup_sensitivity ();
-	} else if (property == SubtitleContentProperty::USE) {
+	} else if (property == TextContentProperty::USE) {
 		checked_set (_use, scs ? scs->subtitle->use() : false);
 		setup_sensitivity ();
-	} else if (property == SubtitleContentProperty::BURN) {
+	} else if (property == TextContentProperty::BURN) {
 		checked_set (_burn, scs ? scs->subtitle->burn() : false);
-	} else if (property == SubtitleContentProperty::X_OFFSET) {
+	} else if (property == TextContentProperty::X_OFFSET) {
 		checked_set (_x_offset, scs ? lrint (scs->subtitle->x_offset() * 100) : 0);
-	} else if (property == SubtitleContentProperty::Y_OFFSET) {
+	} else if (property == TextContentProperty::Y_OFFSET) {
 		checked_set (_y_offset, scs ? lrint (scs->subtitle->y_offset() * 100) : 0);
-	} else if (property == SubtitleContentProperty::X_SCALE) {
+	} else if (property == TextContentProperty::X_SCALE) {
 		checked_set (_x_scale, scs ? lrint (scs->subtitle->x_scale() * 100) : 100);
-	} else if (property == SubtitleContentProperty::Y_SCALE) {
+	} else if (property == TextContentProperty::Y_SCALE) {
 		checked_set (_y_scale, scs ? lrint (scs->subtitle->y_scale() * 100) : 100);
-	} else if (property == SubtitleContentProperty::LINE_SPACING) {
+	} else if (property == TextContentProperty::LINE_SPACING) {
 		checked_set (_line_spacing, scs ? lrint (scs->subtitle->line_spacing() * 100) : 100);
-	} else if (property == SubtitleContentProperty::LANGUAGE) {
+	} else if (property == TextContentProperty::LANGUAGE) {
 		checked_set (_language, scs ? scs->subtitle->language() : "");
 	} else if (property == DCPContentProperty::REFERENCE_SUBTITLE) {
 		if (scs) {
@@ -265,9 +265,9 @@ SubtitlePanel::setup_sensitivity ()
 	BOOST_FOREACH (shared_ptr<Content> i, sel) {
 		/* These are the content types that could include subtitles */
 		shared_ptr<const FFmpegContent> fc = boost::dynamic_pointer_cast<const FFmpegContent> (i);
-		shared_ptr<const TextSubtitleContent> sc = boost::dynamic_pointer_cast<const TextSubtitleContent> (i);
+		shared_ptr<const TextTextContent> sc = boost::dynamic_pointer_cast<const TextTextContent> (i);
 		shared_ptr<const DCPContent> dc = boost::dynamic_pointer_cast<const DCPContent> (i);
-		shared_ptr<const DCPSubtitleContent> dsc = boost::dynamic_pointer_cast<const DCPSubtitleContent> (i);
+		shared_ptr<const DCPTextContent> dsc = boost::dynamic_pointer_cast<const DCPTextContent> (i);
 		if (fc) {
 			if (fc->subtitle) {
 				++ffmpeg_subs;
@@ -383,15 +383,15 @@ void
 SubtitlePanel::content_selection_changed ()
 {
 	film_content_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
-	film_content_changed (SubtitleContentProperty::USE);
-	film_content_changed (SubtitleContentProperty::BURN);
-	film_content_changed (SubtitleContentProperty::X_OFFSET);
-	film_content_changed (SubtitleContentProperty::Y_OFFSET);
-	film_content_changed (SubtitleContentProperty::X_SCALE);
-	film_content_changed (SubtitleContentProperty::Y_SCALE);
-	film_content_changed (SubtitleContentProperty::LINE_SPACING);
-	film_content_changed (SubtitleContentProperty::LANGUAGE);
-	film_content_changed (SubtitleContentProperty::FONTS);
+	film_content_changed (TextContentProperty::USE);
+	film_content_changed (TextContentProperty::BURN);
+	film_content_changed (TextContentProperty::X_OFFSET);
+	film_content_changed (TextContentProperty::Y_OFFSET);
+	film_content_changed (TextContentProperty::X_SCALE);
+	film_content_changed (TextContentProperty::Y_SCALE);
+	film_content_changed (TextContentProperty::LINE_SPACING);
+	film_content_changed (TextContentProperty::LANGUAGE);
+	film_content_changed (TextContentProperty::FONTS);
 	film_content_changed (DCPContentProperty::REFERENCE_SUBTITLE);
 }
 

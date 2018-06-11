@@ -25,7 +25,7 @@
 #include "timeline_labels_view.h"
 #include "timeline_video_content_view.h"
 #include "timeline_audio_content_view.h"
-#include "timeline_subtitle_content_view.h"
+#include "timeline_text_content_view.h"
 #include "timeline_atmos_content_view.h"
 #include "content_panel.h"
 #include "wx_util.h"
@@ -34,7 +34,7 @@
 #include "lib/image_content.h"
 #include "lib/timer.h"
 #include "lib/audio_content.h"
-#include "lib/subtitle_content.h"
+#include "lib/text_content.h"
 #include "lib/video_content.h"
 #include "lib/atmos_mxf_content.h"
 #include <wx/graphics.h>
@@ -229,7 +229,7 @@ Timeline::recreate_views ()
 		}
 
 		if (i->subtitle) {
-			_views.push_back (shared_ptr<TimelineView> (new TimelineSubtitleContentView (*this, i)));
+			_views.push_back (shared_ptr<TimelineView> (new TimelineTextContentView (*this, i)));
 		}
 
 		if (dynamic_pointer_cast<AtmosMXFContent> (i)) {
@@ -375,7 +375,7 @@ Timeline::assign_tracks ()
 
 	/* Subtitle */
 
-	int const subtitle_tracks = place<TimelineSubtitleContentView> (_views, _tracks);
+	int const subtitle_tracks = place<TimelineTextContentView> (_views, _tracks);
 
 	/* Atmos */
 

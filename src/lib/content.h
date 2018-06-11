@@ -182,7 +182,7 @@ public:
 
 	boost::shared_ptr<VideoContent> video;
 	boost::shared_ptr<AudioContent> audio;
-	boost::shared_ptr<SubtitleContent> subtitle;
+	boost::shared_ptr<TextContent> subtitle;
 
 	void signal_changed (int);
 

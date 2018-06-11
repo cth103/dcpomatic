@@ -40,8 +40,8 @@
 #include "decoder.h"
 #include "video_decoder.h"
 #include "audio_decoder.h"
-#include "subtitle_content.h"
-#include "subtitle_decoder.h"
+#include "text_content.h"
+#include "text_decoder.h"
 #include "ffmpeg_content.h"
 #include "audio_content.h"
 #include "content_subtitle.h"
@@ -210,9 +210,9 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == AudioContentProperty::STREAMS ||
 		property == DCPContentProperty::NEEDS_ASSETS ||
 		property == DCPContentProperty::NEEDS_KDM ||
-		property == SubtitleContentProperty::COLOUR ||
-		property == SubtitleContentProperty::EFFECT ||
-		property == SubtitleContentProperty::EFFECT_COLOUR ||
+		property == TextContentProperty::COLOUR ||
+		property == TextContentProperty::EFFECT ||
+		property == TextContentProperty::EFFECT_COLOUR ||
 		property == FFmpegContentProperty::SUBTITLE_STREAM ||
 		property == FFmpegContentProperty::FILTERS
 		) {
@@ -221,17 +221,17 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		Changed (property, frequent);
 
 	} else if (
-		property == SubtitleContentProperty::LINE_SPACING ||
-		property == SubtitleContentProperty::OUTLINE_WIDTH ||
-		property == SubtitleContentProperty::Y_SCALE ||
-		property == SubtitleContentProperty::FADE_IN ||
-		property == SubtitleContentProperty::FADE_OUT ||
+		property == TextContentProperty::LINE_SPACING ||
+		property == TextContentProperty::OUTLINE_WIDTH ||
+		property == TextContentProperty::Y_SCALE ||
+		property == TextContentProperty::FADE_IN ||
+		property == TextContentProperty::FADE_OUT ||
 		property == ContentProperty::VIDEO_FRAME_RATE ||
-		property == SubtitleContentProperty::USE ||
-		property == SubtitleContentProperty::X_OFFSET ||
-		property == SubtitleContentProperty::Y_OFFSET ||
-		property == SubtitleContentProperty::X_SCALE ||
-		property == SubtitleContentProperty::FONTS ||
+		property == TextContentProperty::USE ||
+		property == TextContentProperty::X_OFFSET ||
+		property == TextContentProperty::Y_OFFSET ||
+		property == TextContentProperty::X_SCALE ||
+		property == TextContentProperty::FONTS ||
 		property == VideoContentProperty::CROP ||
 		property == VideoContentProperty::SCALE ||
 		property == VideoContentProperty::FADE_IN ||

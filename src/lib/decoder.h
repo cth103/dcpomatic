@@ -32,7 +32,7 @@
 class Decoded;
 class VideoDecoder;
 class AudioDecoder;
-class SubtitleDecoder;
+class TextDecoder;
 class DecoderPart;
 
 /** @class Decoder.
@@ -45,7 +45,7 @@ public:
 
 	boost::shared_ptr<VideoDecoder> video;
 	boost::shared_ptr<AudioDecoder> audio;
-	boost::shared_ptr<SubtitleDecoder> subtitle;
+	boost::shared_ptr<TextDecoder> subtitle;
 
 	/** Do some decoding and perhaps emit video, audio or subtitle data.
 	 *  @return true if this decoder will emit no more data unless a seek() happens.

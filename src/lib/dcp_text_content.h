@@ -18,26 +18,21 @@
 
 */
 
-#ifndef DCPOMATIC_TEXT_SUBTITLE_DECODER_H
-#define DCPOMATIC_TEXT_SUBTITLE_DECODER_H
+#include "dcp_subtitle.h"
+#include "content.h"
 
-#include "subtitle_decoder.h"
-#include "text_subtitle.h"
-
-class TextSubtitleContent;
-
-class TextSubtitleDecoder : public Decoder, public TextSubtitle
+class DCPTextContent : public DCPSubtitle, public Content
 {
 public:
-	TextSubtitleDecoder (boost::shared_ptr<const TextSubtitleContent>, boost::shared_ptr<Log> log);
+	DCPTextContent (boost::shared_ptr<const Film>, boost::filesystem::path);
+	DCPTextContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
 
-	void seek (ContentTime time, bool accurate);
-	bool pass ();
+	void examine (boost::shared_ptr<Job>);
+	std::string summary () const;
+	std::string technical_summary () const;
+	void as_xml (xmlpp::Node *, bool with_paths) const;
+	DCPTime full_length () const;
 
 private:
-	ContentTimePeriod content_time_period (sub::Subtitle s) const;
-
-	size_t _next;
+	ContentTime _length;
 };
-
-#endif

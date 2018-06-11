@@ -35,12 +35,12 @@ namespace sub {
 
 class Image;
 
-class SubtitleDecoder : public DecoderPart
+class TextDecoder : public DecoderPart
 {
 public:
-	SubtitleDecoder (
+	TextDecoder (
 		Decoder* parent,
-		boost::shared_ptr<const SubtitleContent>,
+		boost::shared_ptr<const TextContent>,
 		boost::shared_ptr<Log> log,
 		ContentTime first
 		);
@@ -58,7 +58,7 @@ public:
 
 	void seek ();
 
-	boost::shared_ptr<const SubtitleContent> content () const {
+	boost::shared_ptr<const TextContent> content () const {
 		return _content;
 	}
 
@@ -67,7 +67,7 @@ public:
 	boost::signals2::signal<void (ContentTime)> Stop;
 
 private:
-	boost::shared_ptr<const SubtitleContent> _content;
+	boost::shared_ptr<const TextContent> _content;
 	ContentTime _position;
 };
 

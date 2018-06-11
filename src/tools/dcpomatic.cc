@@ -71,7 +71,7 @@
 #include "lib/transcode_job.h"
 #include "lib/dkdm_wrapper.h"
 #include "lib/audio_content.h"
-#include "lib/subtitle_content.h"
+#include "lib/text_content.h"
 #include <dcp/exceptions.h>
 #include <dcp/raw_convert.h>
 #include <wx/generic/aboutdlgg.h>

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,21 +18,20 @@
 
 */
 
-#include "dcp_subtitle.h"
-#include "content.h"
+#include "timeline_content_view.h"
 
-class DCPSubtitleContent : public DCPSubtitle, public Content
+class TextContent;
+
+/** @class TimelineTextContentView
+ *  @brief Timeline view for TextContent.
+ */
+class TimelineTextContentView : public TimelineContentView
 {
 public:
-	DCPSubtitleContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	DCPSubtitleContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
-
-	void examine (boost::shared_ptr<Job>);
-	std::string summary () const;
-	std::string technical_summary () const;
-	void as_xml (xmlpp::Node *, bool with_paths) const;
-	DCPTime full_length () const;
+	TimelineTextContentView (Timeline& tl, boost::shared_ptr<Content> c);
 
 private:
-	ContentTime _length;
+	bool active () const;
+	wxColour background_colour () const;
+	wxColour foreground_colour () const;
 };

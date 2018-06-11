@@ -20,7 +20,7 @@
 
 #include "playlist.h"
 #include "video_content.h"
-#include "subtitle_content.h"
+#include "text_content.h"
 #include "ffmpeg_decoder.h"
 #include "ffmpeg_content.h"
 #include "image_decoder.h"

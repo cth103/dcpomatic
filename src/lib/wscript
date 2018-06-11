@@ -55,8 +55,8 @@ sources = """
           dcp_encoder.cc
           dcp_examiner.cc
           dcp_subtitle.cc
-          dcp_subtitle_content.cc
-          dcp_subtitle_decoder.cc
+          dcp_text_content.cc
+          dcp_text_decoder.cc
           dcp_video.cc
           dcpomatic_socket.cc
           dcpomatic_time.cc
@@ -132,11 +132,11 @@ sources = """
           server.cc
           shuffler.cc
           string_log_entry.cc
-          subtitle_content.cc
-          subtitle_decoder.cc
+          text_content.cc
+          text_decoder.cc
           text_subtitle.cc
-          text_subtitle_content.cc
-          text_subtitle_decoder.cc
+          text_text_content.cc
+          text_text_decoder.cc
           timer.cc
           transcode_job.cc
           types.cc

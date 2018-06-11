@@ -31,7 +31,7 @@
 class Content;
 class VideoContent;
 class AudioContent;
-class SubtitleContent;
+class TextContent;
 class FFmpegContent;
 
 namespace cxml {

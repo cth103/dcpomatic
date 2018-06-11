@@ -35,7 +35,7 @@
 #include "writer.h"
 #include "compose.hpp"
 #include "referenced_reel_asset.h"
-#include "subtitle_content.h"
+#include "text_content.h"
 #include "player_video.h"
 #include <boost/signals2.hpp>
 #include <boost/foreach.hpp>

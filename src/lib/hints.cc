@@ -23,7 +23,7 @@
 #include "film.h"
 #include "content.h"
 #include "video_content.h"
-#include "subtitle_content.h"
+#include "text_content.h"
 #include "audio_processor.h"
 #include "font.h"
 #include "ratio.h"

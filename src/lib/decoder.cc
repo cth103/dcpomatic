@@ -21,7 +21,7 @@
 #include "decoder.h"
 #include "video_decoder.h"
 #include "audio_decoder.h"
-#include "subtitle_decoder.h"
+#include "text_decoder.h"
 #include <boost/optional.hpp>
 #include <iostream>
 

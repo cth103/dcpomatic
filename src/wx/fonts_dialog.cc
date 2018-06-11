@@ -24,7 +24,7 @@
 #include "font_files_dialog.h"
 #include "lib/font.h"
 #include "lib/content.h"
-#include "lib/subtitle_content.h"
+#include "lib/text_content.h"
 #include <wx/wx.h>
 #include <boost/foreach.hpp>
 #include <iostream>

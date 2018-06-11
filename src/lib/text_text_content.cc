@@ -18,12 +18,12 @@
 
 */
 
-#include "text_subtitle_content.h"
+#include "text_text_content.h"
 #include "util.h"
 #include "text_subtitle.h"
 #include "film.h"
 #include "font.h"
-#include "subtitle_content.h"
+#include "text_content.h"
 #include <dcp/raw_convert.h>
 #include <libxml++/libxml++.h>
 #include <iostream>
@@ -35,21 +35,21 @@ using std::cout;
 using boost::shared_ptr;
 using dcp::raw_convert;
 
-TextSubtitleContent::TextSubtitleContent (shared_ptr<const Film> film, boost::filesystem::path path)
+TextTextContent::TextTextContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
 {
-	subtitle.reset (new SubtitleContent (this));
+	subtitle.reset (new TextContent (this));
 }
 
-TextSubtitleContent::TextSubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
+TextTextContent::TextTextContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 	, _length (node->number_child<ContentTime::Type> ("Length"))
 {
-	subtitle = SubtitleContent::from_xml (this, node, version);
+	subtitle = TextContent::from_xml (this, node, version);
 }
 
 void
-TextSubtitleContent::examine (boost::shared_ptr<Job> job)
+TextTextContent::examine (boost::shared_ptr<Job> job)
 {
 	Content::examine (job);
 	TextSubtitle s (shared_from_this ());
@@ -63,19 +63,19 @@ TextSubtitleContent::examine (boost::shared_ptr<Job> job)
 }
 
 string
-TextSubtitleContent::summary () const
+TextTextContent::summary () const
 {
 	return path_summary() + " " + _("[subtitles]");
 }
 
 string
-TextSubtitleContent::technical_summary () const
+TextTextContent::technical_summary () const
 {
 	return Content::technical_summary() + " - " + _("Text subtitles");
 }
 
 void
-TextSubtitleContent::as_xml (xmlpp::Node* node, bool with_paths) const
+TextTextContent::as_xml (xmlpp::Node* node, bool with_paths) const
 {
 	node->add_child("Type")->add_child_text ("TextSubtitle");
 	Content::as_xml (node, with_paths);
@@ -88,7 +88,7 @@ TextSubtitleContent::as_xml (xmlpp::Node* node, bool with_paths) const
 }
 
 DCPTime
-TextSubtitleContent::full_length () const
+TextTextContent::full_length () const
 {
 	FrameRateChange const frc (active_video_frame_rate(), film()->video_frame_rate ());
 	return DCPTime (_length, frc);

@@ -28,7 +28,7 @@
 #include "overlaps.h"
 #include "compose.hpp"
 #include "dcp_decoder.h"
-#include "subtitle_content.h"
+#include "text_content.h"
 #include <dcp/dcp.h>
 #include <dcp/raw_convert.h>
 #include <dcp/exceptions.h>
@@ -81,7 +81,7 @@ DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 {
 	video = VideoContent::from_xml (this, node, version);
 	audio = AudioContent::from_xml (this, node, version);
-	subtitle = SubtitleContent::from_xml (this, node, version);
+	subtitle = TextContent::from_xml (this, node, version);
 
 	if (video && audio) {
 		audio->set_stream (
@@ -179,7 +179,7 @@ DCPContent::examine (shared_ptr<Job> job)
 		boost::mutex::scoped_lock lm (_mutex);
 		_name = examiner->name ();
 		if (examiner->has_subtitles ()) {
-			subtitle.reset (new SubtitleContent (this));
+			subtitle.reset (new TextContent (this));
 		} else {
 			subtitle.reset ();
 		}

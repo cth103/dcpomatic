@@ -24,10 +24,10 @@
 #include "dcp_decoder.h"
 #include "image_content.h"
 #include "image_decoder.h"
-#include "text_subtitle_content.h"
-#include "text_subtitle_decoder.h"
-#include "dcp_subtitle_content.h"
-#include "dcp_subtitle_decoder.h"
+#include "text_text_content.h"
+#include "text_text_decoder.h"
+#include "dcp_text_content.h"
+#include "dcp_text_decoder.h"
 #include "video_mxf_content.h"
 #include "video_mxf_decoder.h"
 #include <boost/foreach.hpp>
@@ -54,14 +54,14 @@ decoder_factory (shared_ptr<const Content> content, shared_ptr<Log> log, bool fa
 		return shared_ptr<Decoder> (new ImageDecoder (ic, log));
 	}
 
-	shared_ptr<const TextSubtitleContent> rc = dynamic_pointer_cast<const TextSubtitleContent> (content);
+	shared_ptr<const TextTextContent> rc = dynamic_pointer_cast<const TextTextContent> (content);
 	if (rc) {
-		return shared_ptr<Decoder> (new TextSubtitleDecoder (rc, log));
+		return shared_ptr<Decoder> (new TextTextDecoder (rc, log));
 	}
 
-	shared_ptr<const DCPSubtitleContent> dsc = dynamic_pointer_cast<const DCPSubtitleContent> (content);
+	shared_ptr<const DCPTextContent> dsc = dynamic_pointer_cast<const DCPTextContent> (content);
 	if (dsc) {
-		return shared_ptr<Decoder> (new DCPSubtitleDecoder (dsc, log));
+		return shared_ptr<Decoder> (new DCPTextDecoder (dsc, log));
 	}
 
 	shared_ptr<const VideoMXFContent> vmc = dynamic_pointer_cast<const VideoMXFContent> (content);

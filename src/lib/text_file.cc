@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,10 @@
 
 */
 
-#include "text_subtitle.h"
+#include "text_file.h"
 #include "cross.h"
 #include "exceptions.h"
-#include "text_text_content.h"
+#include "text_file_content.h"
 #include <sub/subrip_reader.h>
 #include <sub/ssa_reader.h>
 #include <sub/collect.h>
@@ -36,10 +36,9 @@ using std::cout;
 using std::string;
 using boost::shared_ptr;
 using boost::scoped_array;
-using boost::optional;
 using dcp::Data;
 
-TextSubtitle::TextSubtitle (shared_ptr<const TextTextContent> content)
+TextFile::TextFile (shared_ptr<const TextFileContent> content)
 {
 	Data in (content->path (0));
 
@@ -64,14 +63,6 @@ TextSubtitle::TextSubtitle (shared_ptr<const TextTextContent> content)
 	scoped_array<char> utf8 (new char[utf16_len * 2]);
 	ucnv_fromUChars (to_utf8, utf8.get(), utf16_len * 2, reinterpret_cast<UChar*>(utf16.get()), utf16_len, &status);
 
-	/* Fix OS X line endings */
-	size_t utf8_len = strlen (utf8.get ());
-	for (size_t i = 0; i < utf8_len; ++i) {
-		if (utf8[i] == '\r' && ((i == utf8_len - 1) || utf8[i + 1] != '\n')) {
-			utf8[i] = '\n';
-		}
-	}
-
 	ucsdet_close (detector);
 	ucnv_close (to_utf16);
 	ucnv_close (to_utf8);
@@ -94,19 +85,8 @@ TextSubtitle::TextSubtitle (shared_ptr<const TextTextContent> content)
 	delete reader;
 }
 
-/** @return time of first subtitle, if there is one */
-optional<ContentTime>
-TextSubtitle::first () const
-{
-	if (_subtitles.empty()) {
-		return optional<ContentTime>();
-	}
-
-	return ContentTime::from_seconds(_subtitles[0].from.all_as_seconds());
-}
-
 ContentTime
-TextSubtitle::length () const
+TextFile::length () const
 {
 	if (_subtitles.empty ()) {
 		return ContentTime ();

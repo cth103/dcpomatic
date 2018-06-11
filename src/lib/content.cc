@@ -27,7 +27,7 @@
 #include "content_factory.h"
 #include "video_content.h"
 #include "audio_content.h"
-#include "subtitle_content.h"
+#include "text_content.h"
 #include "exceptions.h"
 #include "film.h"
 #include "job.h"

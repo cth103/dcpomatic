@@ -23,12 +23,12 @@
  *  @ingroup specific
  */
 
-#include "lib/text_subtitle_content.h"
-#include "lib/dcp_subtitle_content.h"
+#include "lib/text_text_content.h"
+#include "lib/dcp_text_content.h"
 #include "lib/film.h"
 #include "lib/ratio.h"
 #include "lib/dcp_content_type.h"
-#include "lib/subtitle_content.h"
+#include "lib/text_content.h"
 #include "lib/dcp_content.h"
 #include "lib/content_factory.h"
 #include "lib/config.h"
@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_subrip)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, "test/data/subrip2.srt"));
+	shared_ptr<TextTextContent> content (new TextTextContent (film, "test/data/subrip2.srt"));
 	content->subtitle->set_use (true);
 	content->subtitle->set_burn (true);
 	film->examine_and_add_content (content);
@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_dcp)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent (film, "test/data/dcp_sub.xml"));
+	shared_ptr<DCPTextContent> content (new DCPTextContent (film, "test/data/dcp_sub.xml"));
 	content->subtitle->set_use (true);
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
@@ -106,7 +106,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_onto_dcp)
 	film2->set_name ("frobozz");
 	shared_ptr<DCPContent> background_dcp (new DCPContent(film2, film->dir(film->dcp_name())));
 	film2->examine_and_add_content (background_dcp);
-	shared_ptr<TextSubtitleContent> sub = dynamic_pointer_cast<TextSubtitleContent> (
+	shared_ptr<TextTextContent> sub = dynamic_pointer_cast<TextTextContent> (
 		content_factory(film2, "test/data/subrip2.srt").front()
 		);
 	sub->subtitle->set_burn (true);

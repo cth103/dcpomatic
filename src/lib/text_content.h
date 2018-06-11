@@ -28,7 +28,7 @@
 
 class Font;
 
-class SubtitleContentProperty
+class TextContentProperty
 {
 public:
 	static int const X_OFFSET;
@@ -48,21 +48,21 @@ public:
 	static int const OUTLINE_WIDTH;
 };
 
-/** @class SubtitleContent
+/** @class TextContent
  *  @brief Description of how some subtitle content should be presented.
  *
  *  There are `image' subtitles (bitmaps) and `text' subtitles (plain text),
  *  and not all of the settings in this class correspond to both types.
  */
-class SubtitleContent : public ContentPart
+class TextContent : public ContentPart
 {
 public:
-	explicit SubtitleContent (Content* parent);
-	SubtitleContent (Content* parent, std::vector<boost::shared_ptr<Content> >);
+	explicit TextContent (Content* parent);
+	TextContent (Content* parent, std::vector<boost::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;
 	std::string identifier () const;
-	void take_settings_from (boost::shared_ptr<const SubtitleContent> c);
+	void take_settings_from (boost::shared_ptr<const TextContent> c);
 
 	void add_font (boost::shared_ptr<Font> font);
 
@@ -161,7 +161,7 @@ public:
 		return _outline_width;
 	}
 
-	static boost::shared_ptr<SubtitleContent> from_xml (Content* parent, cxml::ConstNodePtr, int version);
+	static boost::shared_ptr<TextContent> from_xml (Content* parent, cxml::ConstNodePtr, int version);
 
 protected:
 	/** subtitle language (e.g. "German") or empty if it is not known */
@@ -170,7 +170,7 @@ protected:
 private:
 	friend struct ffmpeg_pts_offset_test;
 
-	SubtitleContent (Content* parent, cxml::ConstNodePtr, int version);
+	TextContent (Content* parent, cxml::ConstNodePtr, int version);
 	void font_changed ();
 	void connect_to_fonts ();
 

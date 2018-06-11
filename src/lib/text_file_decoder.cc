@@ -18,9 +18,9 @@
 
 */
 
-#include "text_subtitle_decoder.h"
-#include "text_subtitle_content.h"
-#include "subtitle_content.h"
+#include "text_file_decoder.h"
+#include "text_file_content.h"
+#include "text_content.h"
 #include <dcp/subtitle_string.h>
 #include <boost/foreach.hpp>
 #include <iostream>
@@ -34,19 +34,15 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 
-TextSubtitleDecoder::TextSubtitleDecoder (shared_ptr<const TextSubtitleContent> content, shared_ptr<Log> log)
-	: TextSubtitle (content)
+TextTextDecoder::TextTextDecoder (shared_ptr<const TextFileContent> content, shared_ptr<Log> log)
+	: TextFile (content)
 	, _next (0)
 {
-	ContentTime first;
-	if (!_subtitles.empty()) {
-		first = content_time_period(_subtitles[0]).from;
-	}
-	subtitle.reset (new SubtitleDecoder (this, content->subtitle, log, first));
+	subtitle.reset (new TextDecoder (this, content->subtitle, log));
 }
 
 void
-TextSubtitleDecoder::seek (ContentTime time, bool accurate)
+TextTextDecoder::seek (ContentTime time, bool accurate)
 {
 	/* It's worth back-tracking a little here as decoding is cheap and it's nice if we don't miss
 	   too many subtitles when seeking.
@@ -65,7 +61,7 @@ TextSubtitleDecoder::seek (ContentTime time, bool accurate)
 }
 
 bool
-TextSubtitleDecoder::pass ()
+TextTextDecoder::pass ()
 {
 	if (_next >= _subtitles.size ()) {
 		return true;
@@ -79,7 +75,7 @@ TextSubtitleDecoder::pass ()
 }
 
 ContentTimePeriod
-TextSubtitleDecoder::content_time_period (sub::Subtitle s) const
+TextTextDecoder::content_time_period (sub::Subtitle s) const
 {
 	return ContentTimePeriod (
 		ContentTime::from_seconds (s.from.all_as_seconds()),

@@ -22,17 +22,17 @@
 
 class Job;
 
-/** @class TextSubtitleContent
+/** @class TextTextContent
  *  @brief SubRip or SSA subtitles.
  */
-class TextSubtitleContent : public Content
+class TextTextContent : public Content
 {
 public:
-	TextSubtitleContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	TextSubtitleContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
+	TextTextContent (boost::shared_ptr<const Film>, boost::filesystem::path);
+	TextTextContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
 
-	boost::shared_ptr<TextSubtitleContent> shared_from_this () {
-		return boost::dynamic_pointer_cast<TextSubtitleContent> (Content::shared_from_this ());
+	boost::shared_ptr<TextTextContent> shared_from_this () {
+		return boost::dynamic_pointer_cast<TextTextContent> (Content::shared_from_this ());
 	}
 
 	void examine (boost::shared_ptr<Job>);

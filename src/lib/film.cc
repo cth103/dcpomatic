@@ -46,7 +46,7 @@
 #include "screen.h"
 #include "audio_content.h"
 #include "video_content.h"
-#include "subtitle_content.h"
+#include "text_content.h"
 #include "ffmpeg_content.h"
 #include "dcp_content.h"
 #include "screen_kdm.h"

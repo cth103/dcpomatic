@@ -20,8 +20,8 @@
 
 #include "subtitle_appearance_dialog.h"
 #include "rgba_colour_picker.h"
-#include "lib/text_subtitle_content.h"
-#include "lib/subtitle_content.h"
+#include "lib/text_text_content.h"
+#include "lib/text_content.h"
 #include "lib/ffmpeg_subtitle_stream.h"
 #include "lib/ffmpeg_content.h"
 #include <wx/wx.h>

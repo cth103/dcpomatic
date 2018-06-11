@@ -20,7 +20,7 @@
 
 #include "active_subtitles.h"
 #include "piece.h"
-#include "subtitle_content.h"
+#include "text_content.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 

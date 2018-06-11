@@ -24,7 +24,7 @@
 #include "video_decoder.h"
 #include "audio_decoder.h"
 #include "j2k_image_proxy.h"
-#include "subtitle_decoder.h"
+#include "text_decoder.h"
 #include "image.h"
 #include "config.h"
 #include <dcp/dcp.h>
@@ -64,7 +64,7 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log, boo
 	}
 	if (c->subtitle) {
 		/* XXX: this time here should be the time of the first subtitle, not 0 */
-		subtitle.reset (new SubtitleDecoder (this, c->subtitle, log, ContentTime()));
+		subtitle.reset (new TextDecoder (this, c->subtitle, log, ContentTime()));
 	}
 
 	list<shared_ptr<dcp::CPL> > cpl_list = cpls ();

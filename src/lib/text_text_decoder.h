@@ -18,30 +18,26 @@
 
 */
 
-#ifndef DCPOMATIC_TEXT_SUBTITLE_H
-#define DCPOMATIC_TEXT_SUBTITLE_H
+#ifndef DCPOMATIC_TEXT_SUBTITLE_DECODER_H
+#define DCPOMATIC_TEXT_SUBTITLE_DECODER_H
 
-#include "dcpomatic_time.h"
-#include <sub/subtitle.h>
-#include <boost/shared_ptr.hpp>
-#include <vector>
+#include "text_decoder.h"
+#include "text_subtitle.h"
 
 class TextTextContent;
-class text_subtitle_time_test;
-class text_subtitle_coordinate_test;
-class text_text_content_test;
-class text_subtitle_parse_test;
 
-class TextSubtitle
+class TextTextDecoder : public Decoder, public TextSubtitle
 {
 public:
-	explicit TextSubtitle (boost::shared_ptr<const TextTextContent>);
+	TextTextDecoder (boost::shared_ptr<const TextTextContent>, boost::shared_ptr<Log> log);
 
-	boost::optional<ContentTime> first () const;
-	ContentTime length () const;
+	void seek (ContentTime time, bool accurate);
+	bool pass ();
 
-protected:
-	std::vector<sub::Subtitle> _subtitles;
+private:
+	ContentTimePeriod content_time_period (sub::Subtitle s) const;
+
+	size_t _next;
 };
 
 #endif

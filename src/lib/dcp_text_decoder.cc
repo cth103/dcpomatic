@@ -18,8 +18,8 @@
 
 */
 
-#include "dcp_subtitle_decoder.h"
-#include "dcp_subtitle_content.h"
+#include "dcp_text_decoder.h"
+#include "dcp_text_content.h"
 #include <dcp/interop_subtitle_asset.h>
 #include <iostream>
 
@@ -29,7 +29,7 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::bind;
 
-DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> content, shared_ptr<Log> log)
+DCPTextDecoder::DCPTextDecoder (shared_ptr<const DCPTextContent> content, shared_ptr<Log> log)
 {
 	shared_ptr<dcp::SubtitleAsset> c (load (content->path (0)));
 	_subtitles = c->subtitles ();
@@ -39,11 +39,11 @@ DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> con
 	if (_next != _subtitles.end()) {
 		first = content_time_period(*_next).from;
 	}
-	subtitle.reset (new SubtitleDecoder (this, content->subtitle, log, first));
+	subtitle.reset (new TextDecoder (this, content->subtitle, log, first));
 }
 
 void
-DCPSubtitleDecoder::seek (ContentTime time, bool accurate)
+DCPTextDecoder::seek (ContentTime time, bool accurate)
 {
 	Decoder::seek (time, accurate);
 
@@ -55,7 +55,7 @@ DCPSubtitleDecoder::seek (ContentTime time, bool accurate)
 }
 
 bool
-DCPSubtitleDecoder::pass ()
+DCPTextDecoder::pass ()
 {
 	if (_next == _subtitles.end ()) {
 		return true;
@@ -64,7 +64,7 @@ DCPSubtitleDecoder::pass ()
 	/* Gather all subtitles with the same time period that are next
 	   on the list.  We must emit all subtitles for the same time
 	   period with the same text_subtitle() call otherwise the
-	   SubtitleDecoder will assume there is nothing else at the
+	   TextDecoder will assume there is nothing else at the
 	   time of emit the first.
 	*/
 
@@ -86,7 +86,7 @@ DCPSubtitleDecoder::pass ()
 }
 
 ContentTimePeriod
-DCPSubtitleDecoder::content_time_period (shared_ptr<dcp::Subtitle> s) const
+DCPTextDecoder::content_time_period (shared_ptr<dcp::SubtitleString> s) const
 {
 	return ContentTimePeriod (
 		ContentTime::from_seconds (s->in().as_seconds ()),

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,22 +18,29 @@
 
 */
 
-#include "subtitle_decoder.h"
-#include "dcp_subtitle.h"
+#ifndef DCPOMATIC_TEXT_SUBTITLE_H
+#define DCPOMATIC_TEXT_SUBTITLE_H
 
-class DCPSubtitleContent;
+#include "dcpomatic_time.h"
+#include <sub/subtitle.h>
+#include <boost/shared_ptr.hpp>
+#include <vector>
 
-class DCPSubtitleDecoder : public DCPSubtitle, public Decoder
+class TextFileContent;
+class text_file_time_test;
+class text_file_coordinate_test;
+class text_text_content_test;
+class text_file_parse_test;
+
+class TextFile
 {
 public:
-	DCPSubtitleDecoder (boost::shared_ptr<const DCPSubtitleContent>, boost::shared_ptr<Log> log);
+	explicit TextFile (boost::shared_ptr<const TextFileContent>);
 
-	bool pass ();
-	void seek (ContentTime time, bool accurate);
+	ContentTime length () const;
 
-private:
-	ContentTimePeriod content_time_period (boost::shared_ptr<dcp::Subtitle> s) const;
-
-	std::list<boost::shared_ptr<dcp::Subtitle> > _subtitles;
-	std::list<boost::shared_ptr<dcp::Subtitle> >::const_iterator _next;
+protected:
+	std::vector<sub::Subtitle> _subtitles;
 };
+
+#endif

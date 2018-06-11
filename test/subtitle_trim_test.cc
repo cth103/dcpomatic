@@ -19,7 +19,7 @@
 */
 
 #include "lib/film.h"
-#include "lib/dcp_subtitle_content.h"
+#include "lib/dcp_text_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
@@ -29,7 +29,7 @@ using boost::shared_ptr;
 BOOST_AUTO_TEST_CASE (subtitle_trim_test1)
 {
 	shared_ptr<Film> film = new_test_film2 ("subtitle_trim_test1");
-	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent (film, "test/data/dcp_sub5.xml"));
+	shared_ptr<DCPTextContent> content (new DCPTextContent (film, "test/data/dcp_sub5.xml"));
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 

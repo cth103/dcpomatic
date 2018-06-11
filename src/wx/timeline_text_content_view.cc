@@ -18,20 +18,42 @@
 
 */
 
-#include "timeline_content_view.h"
+#include "timeline_text_content_view.h"
+#include "lib/text_content.h"
+#include "lib/content.h"
 
-class SubtitleContent;
+using boost::shared_ptr;
 
-/** @class TimelineSubtitleContentView
- *  @brief Timeline view for SubtitleContent.
- */
-class TimelineSubtitleContentView : public TimelineContentView
+TimelineTextContentView::TimelineTextContentView (Timeline& tl, shared_ptr<Content> c)
+	: TimelineContentView (tl, c)
 {
-public:
-	TimelineSubtitleContentView (Timeline& tl, boost::shared_ptr<Content> c);
 
-private:
-	bool active () const;
-	wxColour background_colour () const;
-	wxColour foreground_colour () const;
-};
+}
+
+wxColour
+TimelineTextContentView::background_colour () const
+{
+	if (!active ()) {
+		return wxColour (210, 210, 210, 128);
+	}
+
+	return wxColour (163, 255, 154, 255);
+}
+
+wxColour
+TimelineTextContentView::foreground_colour () const
+{
+	if (!active ()) {
+		return wxColour (180, 180, 180, 128);
+	}
+
+	return wxColour (0, 0, 0, 255);
+}
+
+bool
+TimelineTextContentView::active () const
+{
+	shared_ptr<Content> c = _content.lock ();
+	DCPOMATIC_ASSERT (c);
+	return c->subtitle && c->subtitle->use();
+}

@@ -18,8 +18,8 @@
 
 */
 
-#include "subtitle_decoder.h"
-#include "subtitle_content.h"
+#include "text_decoder.h"
+#include "text_content.h"
 #include "util.h"
 #include "log.h"
 #include "compose.hpp"
@@ -37,9 +37,9 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::function;
 
-SubtitleDecoder::SubtitleDecoder (
+TextDecoder::TextDecoder (
 	Decoder* parent,
-	shared_ptr<const SubtitleContent> c,
+	shared_ptr<const TextContent> c,
 	shared_ptr<Log> log,
 	ContentTime first
 	)
@@ -58,14 +58,14 @@ SubtitleDecoder::SubtitleDecoder (
  *  of the video frame)
  */
 void
-SubtitleDecoder::emit_image_start (ContentTime from, shared_ptr<Image> image, dcpomatic::Rect<double> rect)
+TextDecoder::emit_image_start (ContentTime from, shared_ptr<Image> image, dcpomatic::Rect<double> rect)
 {
 	ImageStart (ContentImageSubtitle (from, image, rect));
 	_position = from;
 }
 
 void
-SubtitleDecoder::emit_text_start (ContentTime from, list<dcp::SubtitleString> s)
+TextDecoder::emit_text_start (ContentTime from, list<dcp::SubtitleString> s)
 {
 	BOOST_FOREACH (dcp::SubtitleString& i, s) {
 		/* We must escape < and > in strings, otherwise they might confuse our subtitle
@@ -99,7 +99,7 @@ SubtitleDecoder::emit_text_start (ContentTime from, list<dcp::SubtitleString> s)
 }
 
 void
-SubtitleDecoder::emit_text_start (ContentTime from, sub::Subtitle const & subtitle)
+TextDecoder::emit_text_start (ContentTime from, sub::Subtitle const & subtitle)
 {
 	/* See if our next subtitle needs to be vertically placed on screen by us */
 	bool needs_placement = false;
@@ -231,27 +231,27 @@ SubtitleDecoder::emit_text_start (ContentTime from, sub::Subtitle const & subtit
 }
 
 void
-SubtitleDecoder::emit_stop (ContentTime to)
+TextDecoder::emit_stop (ContentTime to)
 {
 	Stop (to);
 }
 
 void
-SubtitleDecoder::emit_text (ContentTimePeriod period, list<dcp::SubtitleString> s)
+TextDecoder::emit_text (ContentTimePeriod period, list<dcp::SubtitleString> s)
 {
 	emit_text_start (period.from, s);
 	emit_stop (period.to);
 }
 
 void
-SubtitleDecoder::emit_text (ContentTimePeriod period, sub::Subtitle const & s)
+TextDecoder::emit_text (ContentTimePeriod period, sub::Subtitle const & s)
 {
 	emit_text_start (period.from, s);
 	emit_stop (period.to);
 }
 
 void
-SubtitleDecoder::seek ()
+TextDecoder::seek ()
 {
 	_position = ContentTime ();
 }

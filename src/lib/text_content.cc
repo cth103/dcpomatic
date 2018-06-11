@@ -18,7 +18,7 @@
 
 */
 
-#include "subtitle_content.h"
+#include "text_content.h"
 #include "util.h"
 #include "exceptions.h"
 #include "font.h"
@@ -40,23 +40,23 @@ using boost::dynamic_pointer_cast;
 using boost::optional;
 using dcp::raw_convert;
 
-int const SubtitleContentProperty::X_OFFSET = 500;
-int const SubtitleContentProperty::Y_OFFSET = 501;
-int const SubtitleContentProperty::X_SCALE = 502;
-int const SubtitleContentProperty::Y_SCALE = 503;
-int const SubtitleContentProperty::USE = 504;
-int const SubtitleContentProperty::BURN = 505;
-int const SubtitleContentProperty::LANGUAGE = 506;
-int const SubtitleContentProperty::FONTS = 507;
-int const SubtitleContentProperty::COLOUR = 508;
-int const SubtitleContentProperty::EFFECT = 509;
-int const SubtitleContentProperty::EFFECT_COLOUR = 510;
-int const SubtitleContentProperty::LINE_SPACING = 511;
-int const SubtitleContentProperty::FADE_IN = 512;
-int const SubtitleContentProperty::FADE_OUT = 513;
-int const SubtitleContentProperty::OUTLINE_WIDTH = 514;
+int const TextContentProperty::X_OFFSET = 500;
+int const TextContentProperty::Y_OFFSET = 501;
+int const TextContentProperty::X_SCALE = 502;
+int const TextContentProperty::Y_SCALE = 503;
+int const TextContentProperty::USE = 504;
+int const TextContentProperty::BURN = 505;
+int const TextContentProperty::LANGUAGE = 506;
+int const TextContentProperty::FONTS = 507;
+int const TextContentProperty::COLOUR = 508;
+int const TextContentProperty::EFFECT = 509;
+int const TextContentProperty::EFFECT_COLOUR = 510;
+int const TextContentProperty::LINE_SPACING = 511;
+int const TextContentProperty::FADE_IN = 512;
+int const TextContentProperty::FADE_OUT = 513;
+int const TextContentProperty::OUTLINE_WIDTH = 514;
 
-SubtitleContent::SubtitleContent (Content* parent)
+TextContent::TextContent (Content* parent)
 	: ContentPart (parent)
 	, _use (false)
 	, _burn (false)
@@ -70,28 +70,28 @@ SubtitleContent::SubtitleContent (Content* parent)
 
 }
 
-shared_ptr<SubtitleContent>
-SubtitleContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
+shared_ptr<TextContent>
+TextContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 {
 	if (version < 34) {
 		/* With old metadata FFmpeg content has the subtitle-related tags even with no
 		   subtitle streams, so check for that.
 		*/
 		if (node->string_child("Type") == "FFmpeg" && node->node_children("SubtitleStream").empty()) {
-			return shared_ptr<SubtitleContent> ();
+			return shared_ptr<TextContent> ();
 		}
 
 		/* Otherwise we can drop through to the newer logic */
 	}
 
 	if (!node->optional_number_child<double>("SubtitleXOffset") && !node->optional_number_child<double>("SubtitleOffset")) {
-		return shared_ptr<SubtitleContent> ();
+		return shared_ptr<TextContent> ();
 	}
 
-	return shared_ptr<SubtitleContent> (new SubtitleContent (parent, node, version));
+	return shared_ptr<TextContent> (new TextContent (parent, node, version));
 }
 
-SubtitleContent::SubtitleContent (Content* parent, cxml::ConstNodePtr node, int version)
+TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 	: ContentPart (parent)
 	, _use (false)
 	, _burn (false)
@@ -181,10 +181,10 @@ SubtitleContent::SubtitleContent (Content* parent, cxml::ConstNodePtr node, int 
 	connect_to_fonts ();
 }
 
-SubtitleContent::SubtitleContent (Content* parent, vector<shared_ptr<Content> > c)
+TextContent::TextContent (Content* parent, vector<shared_ptr<Content> > c)
 	: ContentPart (parent)
 {
-	shared_ptr<SubtitleContent> ref = c[0]->subtitle;
+	shared_ptr<TextContent> ref = c[0]->subtitle;
 	DCPOMATIC_ASSERT (ref);
 	list<shared_ptr<Font> > ref_fonts = ref->fonts ();
 
@@ -261,7 +261,7 @@ SubtitleContent::SubtitleContent (Content* parent, vector<shared_ptr<Content> > 
 
 /** _mutex must not be held on entry */
 void
-SubtitleContent::as_xml (xmlpp::Node* root) const
+TextContent::as_xml (xmlpp::Node* root) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
@@ -310,7 +310,7 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 }
 
 string
-SubtitleContent::identifier () const
+TextContent::identifier () const
 {
 	string s = raw_convert<string> (x_scale())
 		+ "_" + raw_convert<string> (y_scale())
@@ -341,14 +341,14 @@ SubtitleContent::identifier () const
 }
 
 void
-SubtitleContent::add_font (shared_ptr<Font> font)
+TextContent::add_font (shared_ptr<Font> font)
 {
 	_fonts.push_back (font);
 	connect_to_fonts ();
 }
 
 void
-SubtitleContent::connect_to_fonts ()
+TextContent::connect_to_fonts ()
 {
 	BOOST_FOREACH (boost::signals2::connection& i, _font_connections) {
 		i.disconnect ();
@@ -357,132 +357,132 @@ SubtitleContent::connect_to_fonts ()
 	_font_connections.clear ();
 
 	BOOST_FOREACH (shared_ptr<Font> i, _fonts) {
-		_font_connections.push_back (i->Changed.connect (boost::bind (&SubtitleContent::font_changed, this)));
+		_font_connections.push_back (i->Changed.connect (boost::bind (&TextContent::font_changed, this)));
 	}
 }
 
 void
-SubtitleContent::font_changed ()
+TextContent::font_changed ()
 {
-	_parent->signal_changed (SubtitleContentProperty::FONTS);
+	_parent->signal_changed (TextContentProperty::FONTS);
 }
 
 void
-SubtitleContent::set_colour (dcp::Colour colour)
+TextContent::set_colour (dcp::Colour colour)
 {
-	maybe_set (_colour, colour, SubtitleContentProperty::COLOUR);
+	maybe_set (_colour, colour, TextContentProperty::COLOUR);
 }
 
 void
-SubtitleContent::unset_colour ()
+TextContent::unset_colour ()
 {
-	maybe_set (_colour, optional<dcp::Colour>(), SubtitleContentProperty::COLOUR);
+	maybe_set (_colour, optional<dcp::Colour>(), TextContentProperty::COLOUR);
 }
 
 void
-SubtitleContent::set_effect (dcp::Effect e)
+TextContent::set_effect (dcp::Effect e)
 {
-	maybe_set (_effect, e, SubtitleContentProperty::EFFECT);
+	maybe_set (_effect, e, TextContentProperty::EFFECT);
 }
 
 void
-SubtitleContent::unset_effect ()
+TextContent::unset_effect ()
 {
-	maybe_set (_effect, optional<dcp::Effect>(), SubtitleContentProperty::EFFECT);
+	maybe_set (_effect, optional<dcp::Effect>(), TextContentProperty::EFFECT);
 }
 
 void
-SubtitleContent::set_effect_colour (dcp::Colour colour)
+TextContent::set_effect_colour (dcp::Colour colour)
 {
-	maybe_set (_effect_colour, colour, SubtitleContentProperty::EFFECT_COLOUR);
+	maybe_set (_effect_colour, colour, TextContentProperty::EFFECT_COLOUR);
 }
 
 void
-SubtitleContent::unset_effect_colour ()
+TextContent::unset_effect_colour ()
 {
-	maybe_set (_effect_colour, optional<dcp::Colour>(), SubtitleContentProperty::EFFECT_COLOUR);
+	maybe_set (_effect_colour, optional<dcp::Colour>(), TextContentProperty::EFFECT_COLOUR);
 }
 
 void
-SubtitleContent::set_use (bool u)
+TextContent::set_use (bool u)
 {
-	maybe_set (_use, u, SubtitleContentProperty::USE);
+	maybe_set (_use, u, TextContentProperty::USE);
 }
 
 void
-SubtitleContent::set_burn (bool b)
+TextContent::set_burn (bool b)
 {
-	maybe_set (_burn, b, SubtitleContentProperty::BURN);
+	maybe_set (_burn, b, TextContentProperty::BURN);
 }
 
 void
-SubtitleContent::set_x_offset (double o)
+TextContent::set_x_offset (double o)
 {
-	maybe_set (_x_offset, o, SubtitleContentProperty::X_OFFSET);
+	maybe_set (_x_offset, o, TextContentProperty::X_OFFSET);
 }
 
 void
-SubtitleContent::set_y_offset (double o)
+TextContent::set_y_offset (double o)
 {
-	maybe_set (_y_offset, o, SubtitleContentProperty::Y_OFFSET);
+	maybe_set (_y_offset, o, TextContentProperty::Y_OFFSET);
 }
 
 void
-SubtitleContent::set_x_scale (double s)
+TextContent::set_x_scale (double s)
 {
-	maybe_set (_x_scale, s, SubtitleContentProperty::X_SCALE);
+	maybe_set (_x_scale, s, TextContentProperty::X_SCALE);
 }
 
 void
-SubtitleContent::set_y_scale (double s)
+TextContent::set_y_scale (double s)
 {
-	maybe_set (_y_scale, s, SubtitleContentProperty::Y_SCALE);
+	maybe_set (_y_scale, s, TextContentProperty::Y_SCALE);
 }
 
 void
-SubtitleContent::set_language (string language)
+TextContent::set_language (string language)
 {
-	maybe_set (_language, language, SubtitleContentProperty::LANGUAGE);
+	maybe_set (_language, language, TextContentProperty::LANGUAGE);
 }
 
 void
-SubtitleContent::set_line_spacing (double s)
+TextContent::set_line_spacing (double s)
 {
-	maybe_set (_line_spacing, s, SubtitleContentProperty::LINE_SPACING);
+	maybe_set (_line_spacing, s, TextContentProperty::LINE_SPACING);
 }
 
 void
-SubtitleContent::set_fade_in (ContentTime t)
+TextContent::set_fade_in (ContentTime t)
 {
-	maybe_set (_fade_in, t, SubtitleContentProperty::FADE_IN);
+	maybe_set (_fade_in, t, TextContentProperty::FADE_IN);
 }
 
 void
-SubtitleContent::unset_fade_in ()
+TextContent::unset_fade_in ()
 {
-	maybe_set (_fade_in, optional<ContentTime>(), SubtitleContentProperty::FADE_IN);
+	maybe_set (_fade_in, optional<ContentTime>(), TextContentProperty::FADE_IN);
 }
 
 void
-SubtitleContent::set_fade_out (ContentTime t)
+TextContent::set_fade_out (ContentTime t)
 {
-	maybe_set (_fade_out, t, SubtitleContentProperty::FADE_OUT);
+	maybe_set (_fade_out, t, TextContentProperty::FADE_OUT);
 }
 
 void
-SubtitleContent::unset_fade_out ()
+TextContent::unset_fade_out ()
 {
-	maybe_set (_fade_out, optional<ContentTime>(), SubtitleContentProperty::FADE_OUT);
+	maybe_set (_fade_out, optional<ContentTime>(), TextContentProperty::FADE_OUT);
 }
 
 void
-SubtitleContent::set_outline_width (int w)
+TextContent::set_outline_width (int w)
 {
-	maybe_set (_outline_width, w, SubtitleContentProperty::OUTLINE_WIDTH);
+	maybe_set (_outline_width, w, TextContentProperty::OUTLINE_WIDTH);
 }
 
 void
-SubtitleContent::take_settings_from (shared_ptr<const SubtitleContent> c)
+TextContent::take_settings_from (shared_ptr<const TextContent> c)
 {
 	set_use (c->_use);
 	set_burn (c->_burn);
@@ -490,7 +490,7 @@ SubtitleContent::take_settings_from (shared_ptr<const SubtitleContent> c)
 	set_y_offset (c->_y_offset);
 	set_x_scale (c->_x_scale);
 	set_y_scale (c->_y_scale);
-	maybe_set (_fonts, c->_fonts, SubtitleContentProperty::FONTS);
+	maybe_set (_fonts, c->_fonts, TextContentProperty::FONTS);
 	if (c->_colour) {
 		set_colour (*c->_colour);
 	} else {

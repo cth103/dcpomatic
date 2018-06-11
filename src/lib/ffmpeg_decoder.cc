@@ -28,7 +28,7 @@
 #include "util.h"
 #include "log.h"
 #include "ffmpeg_decoder.h"
-#include "subtitle_decoder.h"
+#include "text_decoder.h"
 #include "ffmpeg_audio_stream.h"
 #include "ffmpeg_subtitle_stream.h"
 #include "video_filter_graph.h"
@@ -39,7 +39,7 @@
 #include "film.h"
 #include "audio_decoder.h"
 #include "compose.hpp"
-#include "subtitle_content.h"
+#include "text_content.h"
 #include "audio_content.h"
 #include <dcp/subtitle_string.h>
 #include <sub/ssa_reader.h>
@@ -99,7 +99,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log>
 
 	if (c->subtitle) {
 		/* XXX: this time here should be the time of the first subtitle, not 0 */
-		subtitle.reset (new SubtitleDecoder (this, c->subtitle, log, ContentTime()));
+		subtitle.reset (new TextDecoder (this, c->subtitle, log, ContentTime()));
 	}
 
 	_next_time.resize (_format_context->nb_streams);
