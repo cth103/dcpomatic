@@ -71,6 +71,7 @@ Filter::setup_filters ()
 	maybe_add (N_("mcdeint"),     _("Motion compensating deinterlacer"), _("De-interlacing"),  N_("mcdeint"));
 	maybe_add (N_("kerndeint"),   _("Kernel deinterlacer"),		     _("De-interlacing"),  N_("kerndeint"));
 	maybe_add (N_("yadif"),	      _("Yet Another Deinterlacing Filter"), _("De-interlacing"),  N_("yadif"));
+	maybe_add (N_("weave"),	      _("Weave filter"),                     _("De-interlacing"),  N_("weave"));
 	maybe_add (N_("gradfun"),     _("Gradient debander"),	             _("Misc"),	           N_("gradfun"));
 	maybe_add (N_("unsharp"),     _("Unsharp mask and Gaussian blur"),   _("Misc"),	           N_("unsharp"));
 	maybe_add (N_("denoise3d"),   _("3D denoiser"),		             _("Noise reduction"), N_("denoise3d"));
