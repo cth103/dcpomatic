@@ -129,6 +129,15 @@ enum ReelType
 	REELTYPE_BY_LENGTH
 };
 
+enum TextType
+{
+	TEXT_SUBTITLE,
+	TEXT_CLOSED_CAPTION
+};
+
+extern std::string text_type_to_string (TextType t);
+extern TextType string_to_text_type (std::string s);
+
 /** @struct Crop
  *  @brief A description of the crop of an image or video.
  */

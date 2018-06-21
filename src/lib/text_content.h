@@ -46,6 +46,7 @@ public:
 	static int const FADE_IN;
 	static int const FADE_OUT;
 	static int const OUTLINE_WIDTH;
+	static int const TYPE;
 };
 
 /** @class TextContent
@@ -85,6 +86,7 @@ public:
 	void set_fade_out (ContentTime);
 	void set_outline_width (int);
 	void unset_fade_out ();
+	void set_type (TextType type);
 
 	bool use () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -161,6 +163,11 @@ public:
 		return _outline_width;
 	}
 
+	TextType type () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _type;
+	}
+
 	static boost::shared_ptr<TextContent> from_xml (Content* parent, cxml::ConstNodePtr, int version);
 
 protected:
@@ -199,6 +206,7 @@ private:
 	boost::optional<ContentTime> _fade_in;
 	boost::optional<ContentTime> _fade_out;
 	int _outline_width;
+	TextType _type;
 };
 
 #endif

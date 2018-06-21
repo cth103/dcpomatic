@@ -255,6 +255,14 @@ public:
 	{}
 };
 
+class MetadataError : public std::runtime_error
+{
+public:
+	explicit MetadataError (std::string s)
+		: std::runtime_error (s)
+	{}
+};
+
 class OldFormatError : public std::runtime_error
 {
 public:

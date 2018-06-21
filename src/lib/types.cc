@@ -19,6 +19,7 @@
 */
 
 #include "types.h"
+#include "compose.hpp"
 #include "dcpomatic_assert.h"
 #include <dcp/raw_convert.h>
 #include <libxml++/libxml++.h>
@@ -88,6 +89,31 @@ Crop::as_xml (xmlpp::Node* node) const
 	node->add_child("RightCrop")->add_child_text (raw_convert<string> (right));
 	node->add_child("TopCrop")->add_child_text (raw_convert<string> (top));
 	node->add_child("BottomCrop")->add_child_text (raw_convert<string> (bottom));
+}
+
+TextType
+string_to_text_type (string s)
+{
+	if (s == "subtitle") {
+		return TEXT_SUBTITLE;
+	} else if (s == "ccap") {
+		return TEXT_CLOSED_CAPTION;
+	} else {
+		throw MetadataError (String::compose ("Unknown text type %1", s));
+	}
+}
+
+string
+text_type_to_string (TextType t)
+{
+	switch (t) {
+	case TEXT_SUBTITLE:
+		return "subtitle";
+	case TEXT_CLOSED_CAPTION:
+		return "ccap";
+	default:
+		DCPOMATIC_ASSERT (false);
+	}
 }
 
 string

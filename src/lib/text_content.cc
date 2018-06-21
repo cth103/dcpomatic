@@ -55,6 +55,7 @@ int const TextContentProperty::LINE_SPACING = 511;
 int const TextContentProperty::FADE_IN = 512;
 int const TextContentProperty::FADE_OUT = 513;
 int const TextContentProperty::OUTLINE_WIDTH = 514;
+int const TextContentProperty::TYPE = 515;
 
 TextContent::TextContent (Content* parent)
 	: ContentPart (parent)
@@ -66,6 +67,7 @@ TextContent::TextContent (Content* parent)
 	, _y_scale (1)
 	, _line_spacing (1)
 	, _outline_width (2)
+	, _type (TEXT_SUBTITLE)
 {
 
 }
@@ -101,6 +103,7 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 	, _y_scale (1)
 	, _line_spacing (node->optional_number_child<double>("LineSpacing").get_value_or (1))
 	, _outline_width (node->optional_number_child<int>("OutlineWidth").get_value_or (2))
+	, _type (TEXT_SUBTITLE)
 {
 	if (version >= 32) {
 		_use = node->bool_child ("UseSubtitles");
@@ -179,6 +182,8 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 	}
 
 	connect_to_fonts ();
+
+	_type = string_to_text_type (node->optional_string_child("TextType").get_value_or("subtitle"));
 }
 
 TextContent::TextContent (Content* parent, vector<shared_ptr<Content> > c)
@@ -307,6 +312,8 @@ TextContent::as_xml (xmlpp::Node* root) const
 	for (list<shared_ptr<Font> >::const_iterator i = _fonts.begin(); i != _fonts.end(); ++i) {
 		(*i)->as_xml (root->add_child("Font"));
 	}
+
+	root->add_child("TextType", text_type_to_string(_type));
 }
 
 string
@@ -473,6 +480,12 @@ void
 TextContent::unset_fade_out ()
 {
 	maybe_set (_fade_out, optional<ContentTime>(), TextContentProperty::FADE_OUT);
+}
+
+void
+TextContent::set_type (TextType type)
+{
+	maybe_set (_type, type, TextContentProperty::TYPE);
 }
 
 void
