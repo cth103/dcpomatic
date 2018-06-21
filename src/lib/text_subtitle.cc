@@ -43,13 +43,6 @@ TextSubtitle::TextSubtitle (shared_ptr<const TextSubtitleContent> content)
 {
 	Data in (content->path (0));
 
-	/* Fix OS X line endings */
-	for (int i = 0; i < in.size(); ++i) {
-		if (in.data()[i] == '\r' && ((i == in.size() - 1) || in.data()[i + 1] != '\n')) {
-			in.data()[i] = '\n';
-		}
-	}
-
 	UErrorCode status = U_ZERO_ERROR;
 	UCharsetDetector* detector = ucsdet_open (&status);
 	ucsdet_setText (detector, reinterpret_cast<const char *> (in.data().get()), in.size(), &status);
@@ -70,6 +63,14 @@ TextSubtitle::TextSubtitle (shared_ptr<const TextSubtitleContent> content)
 	/* Another guess */
 	scoped_array<char> utf8 (new char[utf16_len * 2]);
 	ucnv_fromUChars (to_utf8, utf8.get(), utf16_len * 2, reinterpret_cast<UChar*>(utf16.get()), utf16_len, &status);
+
+	/* Fix OS X line endings */
+	size_t utf8_len = strlen (utf8.get ());
+	for (size_t i = 0; i < utf8_len; ++i) {
+		if (utf8[i] == '\r' && ((i == utf8_len - 1) || utf8[i + 1] != '\n')) {
+			utf8[i] = '\n';
+		}
+	}
 
 	ucsdet_close (detector);
 	ucnv_close (to_utf16);
