@@ -98,6 +98,7 @@ def build(bld):
                  srt_subtitle_test.cc
                  ssa_subtitle_test.cc
                  stream_test.cc
+                 subtitle_charset_test.cc
                  subtitle_reel_number_test.cc
                  subtitle_trim_test.cc
                  test.cc
