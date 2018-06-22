@@ -22,10 +22,14 @@
 #include "player.h"
 #include "util.h"
 #include "log.h"
+#include "cross.h"
 #include "compose.hpp"
 #include "exceptions.h"
 #include <boost/weak_ptr.hpp>
 #include <boost/shared_ptr.hpp>
+
+#define LOG_TIMING(...)  _log->log (String::compose(__VA_ARGS__), LogEntry::TYPE_TIMING);
+#define LOG_WARNING(...) _log->log (String::compose(__VA_ARGS__), LogEntry::TYPE_WARNING);
 
 using std::cout;
 using std::pair;
@@ -44,8 +48,6 @@ using boost::optional;
 #define MINIMUM_AUDIO_READAHEAD (48000 * MINIMUM_VIDEO_READAHEAD / 24)
 /** Minimum audio readahead in frames; should never be reached unless there are bugs in Player */
 #define MAXIMUM_AUDIO_READAHEAD (48000 * MAXIMUM_VIDEO_READAHEAD / 24)
-
-#define LOG_WARNING(...) _log->log (String::compose(__VA_ARGS__), LogEntry::TYPE_WARNING);
 
 Butler::Butler (shared_ptr<Player> player, shared_ptr<Log> log, AudioMapping audio_mapping, int audio_channels)
 	: _player (player)
@@ -69,6 +71,8 @@ Butler::Butler (shared_ptr<Player> player, shared_ptr<Log> log, AudioMapping aud
 	/* Create some threads to do work on the PlayerVideos we are creating; at present this is used to
 	   multi-thread JPEG2000 decoding.
 	*/
+
+	LOG_TIMING("start-prepare-threads %1", boost::thread::hardware_concurrency());
 	for (size_t i = 0; i < boost::thread::hardware_concurrency(); ++i) {
 		_prepare_pool.create_thread (bind (&boost::asio::io_service::run, &_prepare_service));
 	}
@@ -220,7 +224,9 @@ Butler::prepare (weak_ptr<PlayerVideo> weak_video) const
 	shared_ptr<PlayerVideo> video = weak_video.lock ();
 	/* If the weak_ptr cannot be locked the video obviously no longer requires any work */
 	if (video) {
+		LOG_TIMING("start-prepare in %1", thread_id());
 		video->prepare ();
+		LOG_TIMING("finish-prepare in %1", thread_id());
 	}
 }
 
