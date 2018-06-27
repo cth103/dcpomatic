@@ -395,7 +395,7 @@ TimingPanel::play_length_changed ()
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		FrameRateChange const frc = _parent->film()->active_frame_rate_change (i->position ());
 		i->set_trim_end (
-			ContentTime (i->full_length() - play_length, frc) - i->trim_start ()
+			ContentTime (max(DCPTime(), i->full_length() - play_length), frc) - i->trim_start ()
 			);
 	}
 }
