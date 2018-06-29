@@ -1,3 +1,7 @@
+2018-06-29  Carl Hetherington  <cth@carlh.net>
+
+	* Jump to selected subtitle when "jump to selecte content" is enabled (#1200).
+
 2018-06-10  Carl Hetherington  <cth@carlh.net>
 
 	* Include Ls/Rs and Lfe in 5.1-to-stereo downmix in the player.
