@@ -409,7 +409,7 @@ SubtitlePanel::subtitle_view_clicked ()
 	shared_ptr<Decoder> decoder = decoder_factory (c.front(), _parent->film()->log(), false);
 
 	if (decoder) {
-		_subtitle_view = new SubtitleView (this, _parent->film(), decoder, c.front()->position ());
+		_subtitle_view = new SubtitleView (this, _parent->film(), c.front(), decoder, _parent->film_viewer());
 		_subtitle_view->Show ();
 	}
 }

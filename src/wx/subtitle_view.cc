@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,7 +24,9 @@
 #include "lib/audio_decoder.h"
 #include "lib/film.h"
 #include "lib/text_subtitle_content.h"
+#include "lib/config.h"
 #include "subtitle_view.h"
+#include "film_viewer.h"
 #include "wx_util.h"
 
 using std::list;
@@ -32,8 +34,10 @@ using boost::shared_ptr;
 using boost::bind;
 using boost::dynamic_pointer_cast;
 
-SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Decoder> decoder, DCPTime position)
+SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content> content, shared_ptr<Decoder> decoder, FilmViewer* viewer)
 	: wxDialog (parent, wxID_ANY, _("Subtitles"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+	, _content (content)
+	, _film_viewer (viewer)
 {
 	_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL);
 
@@ -64,6 +68,8 @@ SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 	sizer->Add (_list, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_X_GAP);
 
+	_list->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind (&SubtitleView::subtitle_selected, this, _1));
+
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {
 		sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
@@ -77,7 +83,7 @@ SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<
 	}
 
 	_subs = 0;
-	_frc = film->active_frame_rate_change (position);
+	_frc = film->active_frame_rate_change (content->position());
 	decoder->subtitle->TextStart.connect (bind (&SubtitleView::data_start, this, _1));
 	decoder->subtitle->Stop.connect (bind (&SubtitleView::data_stop, this, _1));
 	while (!decoder->pass ()) {}
@@ -93,6 +99,7 @@ SubtitleView::data_start (ContentTextSubtitle cts)
 		_list->InsertItem (list_item);
 		_list->SetItem (_subs, 0, std_to_wx (cts.from().timecode (_frc->source)));
 		_list->SetItem (_subs, 2, std_to_wx (i.text ()));
+		_start_times.push_back (cts.from ());
 		++_subs;
 	}
 
@@ -109,4 +116,17 @@ SubtitleView::data_stop (ContentTime time)
 	for (int i = _subs - *_last_count; i < _subs; ++i) {
 		_list->SetItem (i, 1, std_to_wx (time.timecode (_frc->source)));
 	}
+}
+
+void
+SubtitleView::subtitle_selected (wxListEvent& ev)
+{
+	if (!Config::instance()->jump_to_selected ()) {
+		return;
+	}
+
+	DCPOMATIC_ASSERT (ev.GetIndex() < int(_start_times.size()));
+	shared_ptr<Content> locked = _content.lock ();
+	DCPOMATIC_ASSERT (locked);
+	_film_viewer->set_position (locked, _start_times[ev.GetIndex()]);
 }

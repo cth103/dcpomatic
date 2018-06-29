@@ -71,6 +71,10 @@ public:
 	bool remove_clicked (bool hotkey);
 	void timeline_clicked ();
 
+	FilmViewer* film_viewer () const {
+		return _film_viewer;
+	}
+
 	boost::signals2::signal<void (void)> SelectionChanged;
 
 private:

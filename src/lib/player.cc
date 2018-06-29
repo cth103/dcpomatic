@@ -1089,3 +1089,20 @@ Player::set_dcp_decode_reduction (optional<int> reduction)
 	_have_valid_pieces = false;
 	Changed (PlayerProperty::DCP_DECODE_REDUCTION, false);
 }
+
+DCPTime
+Player::content_time_to_dcp (shared_ptr<Content> content, ContentTime t)
+{
+	if (_have_valid_pieces) {
+		setup_pieces ();
+	}
+
+	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
+		if (i->content == content) {
+			return content_time_to_dcp (i, t);
+		}
+	}
+
+	DCPOMATIC_ASSERT (false);
+	return DCPTime ();
+}

@@ -758,6 +758,12 @@ FilmViewer::set_position (DCPTime p)
 }
 
 void
+FilmViewer::set_position (shared_ptr<Content> content, ContentTime t)
+{
+	set_position (_player->content_time_to_dcp (content, t));
+}
+
+void
 FilmViewer::set_coalesce_player_changes (bool c)
 {
 	_coalesce_player_changes = c;

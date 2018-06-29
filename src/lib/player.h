@@ -84,6 +84,8 @@ public:
 	void set_play_referenced ();
 	void set_dcp_decode_reduction (boost::optional<int> reduction);
 
+	DCPTime content_time_to_dcp (boost::shared_ptr<Content> content, ContentTime t);
+
 	/** Emitted when something has changed such that if we went back and emitted
 	 *  the last frame again it would look different.  This is not emitted after
 	 *  a seek.

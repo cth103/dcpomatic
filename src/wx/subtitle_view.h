@@ -24,18 +24,23 @@
 #include <wx/listctrl.h>
 
 class Decoder;
+class FilmViewer;
 
 class SubtitleView : public wxDialog
 {
 public:
-	SubtitleView (wxWindow *, boost::shared_ptr<Film>, boost::shared_ptr<Decoder>, DCPTime position);
+	SubtitleView (wxWindow *, boost::shared_ptr<Film>, boost::shared_ptr<Content> content, boost::shared_ptr<Decoder>, FilmViewer* viewer);
 
 private:
 	void data_start (ContentTextSubtitle cts);
 	void data_stop (ContentTime time);
+	void subtitle_selected (wxListEvent &);
 
 	wxListCtrl* _list;
 	int _subs;
 	boost::optional<FrameRateChange> _frc;
 	boost::optional<int> _last_count;
+	std::vector<ContentTime> _start_times;
+	boost::weak_ptr<Content> _content;
+	FilmViewer* _film_viewer;
 };
