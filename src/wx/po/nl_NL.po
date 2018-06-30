@@ -3,21 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/audio_panel.cc:56 src/wx/subtitle_panel.cc:56
-#: src/wx/video_panel.cc:82
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-06-29 00:16+0100\n"
-"PO-Revision-Date: 2018-06-03 22:42+0200\n"
+"PO-Revision-Date: 2018-06-30 04:20+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.7\n"
+"X-Generator: Poedit 2.0.8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/wx/subtitle_panel.cc:83 src/wx/subtitle_panel.cc:93
@@ -770,9 +768,8 @@ msgid "Effect colour"
 msgstr "Effect-kleur"
 
 #: src/wx/full_config_dialog.cc:697 src/wx/full_config_dialog.cc:932
-#, fuzzy
 msgid "Email"
-msgstr "KDM E-mail"
+msgstr "E-mail"
 
 #: src/wx/email_dialog.cc:29 src/wx/email_dialog.cc:31
 msgid "Email address"
@@ -1267,7 +1264,7 @@ msgstr "Mbit/s"
 
 #: src/wx/full_config_dialog.cc:928
 msgid "Message box"
-msgstr ""
+msgstr " Berichtvenster"
 
 #: src/wx/export_dialog.cc:58
 msgid "Mix audio down to stereo"
@@ -1371,13 +1368,12 @@ msgid "Notes"
 msgstr "Aantekeningen"
 
 #: src/wx/full_config_dialog.cc:911
-#, fuzzy
 msgid "Notifications"
-msgstr "DCP-controle"
+msgstr "Notificaties"
 
 #: src/wx/job_view.cc:78
 msgid "Notify when complete"
-msgstr ""
+msgstr "Meld wanneer klaar"
 
 #: src/wx/full_config_dialog.cc:93
 msgid "Number of threads DCP-o-matic encode server should use"
@@ -2056,9 +2052,8 @@ msgid "Timing|Timing"
 msgstr "Timing"
 
 #: src/wx/full_config_dialog.cc:944
-#, fuzzy
 msgid "To address"
-msgstr "From-adres"
+msgstr "To-adres"
 
 #: src/wx/video_panel.cc:140
 msgid "Top"
