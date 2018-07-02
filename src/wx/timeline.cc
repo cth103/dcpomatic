@@ -79,6 +79,7 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 
 	wxSizer* sizer = new wxBoxSizer (wxHORIZONTAL);
 	sizer->Add (_labels_panel, 0, wxEXPAND);
+	_labels_panel->SetMinSize (wxSize (_labels_view->bbox().width, -1));
 	sizer->Add (_main_canvas, 1, wxEXPAND);
 	SetSizer (sizer);
 
@@ -106,7 +107,7 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 void
 Timeline::paint_labels ()
 {
-	wxPaintDC dc (this);
+	wxPaintDC dc (_labels_panel);
 
 	wxGraphicsContext* gc = wxGraphicsContext::Create (dc);
 	if (!gc) {
@@ -121,7 +122,7 @@ Timeline::paint_labels ()
 void
 Timeline::paint_main ()
 {
-	wxPaintDC dc (this);
+	wxPaintDC dc (_main_canvas);
 	_main_canvas->DoPrepareDC (dc);
 
 	wxGraphicsContext* gc = wxGraphicsContext::Create (dc);
