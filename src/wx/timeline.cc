@@ -55,7 +55,7 @@ using boost::optional;
 
 Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	: wxPanel (parent, wxID_ANY)
-	, _labels_panel (new wxPanel (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE))
+	, _labels_canvas (new wxScrolledCanvas (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE))
 	, _main_canvas (new wxScrolledCanvas (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE))
 	, _content_panel (cp)
 	, _film (film)
@@ -74,23 +74,23 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	, _track_height (48)
 {
 #ifndef __WXOSX__
-	_labels_panel->SetDoubleBuffered (true);
+	_labels_canvas->SetDoubleBuffered (true);
 	_main_canvas->SetDoubleBuffered (true);
 #endif
 
 	wxSizer* sizer = new wxBoxSizer (wxHORIZONTAL);
-	sizer->Add (_labels_panel, 0, wxEXPAND);
-	_labels_panel->SetMinSize (wxSize (_labels_view->bbox().width, -1));
+	sizer->Add (_labels_canvas, 0, wxEXPAND);
+	_labels_canvas->SetMinSize (wxSize (_labels_view->bbox().width, -1));
 	sizer->Add (_main_canvas, 1, wxEXPAND);
 	SetSizer (sizer);
 
-	_labels_panel->Bind (wxEVT_PAINT,      boost::bind (&Timeline::paint_labels, this));
-	_main_canvas->Bind  (wxEVT_PAINT,      boost::bind (&Timeline::paint_main,   this));
-	_main_canvas->Bind  (wxEVT_LEFT_DOWN,  boost::bind (&Timeline::left_down,    this, _1));
-	_main_canvas->Bind  (wxEVT_LEFT_UP,    boost::bind (&Timeline::left_up,      this, _1));
-	_main_canvas->Bind  (wxEVT_RIGHT_DOWN, boost::bind (&Timeline::right_down,   this, _1));
-	_main_canvas->Bind  (wxEVT_MOTION,     boost::bind (&Timeline::mouse_moved,  this, _1));
-	_main_canvas->Bind  (wxEVT_SIZE,       boost::bind (&Timeline::resized,      this));
+	_labels_canvas->Bind (wxEVT_PAINT,      boost::bind (&Timeline::paint_labels, this));
+	_main_canvas->Bind   (wxEVT_PAINT,      boost::bind (&Timeline::paint_main,   this));
+	_main_canvas->Bind   (wxEVT_LEFT_DOWN,  boost::bind (&Timeline::left_down,    this, _1));
+	_main_canvas->Bind   (wxEVT_LEFT_UP,    boost::bind (&Timeline::left_up,      this, _1));
+	_main_canvas->Bind   (wxEVT_RIGHT_DOWN, boost::bind (&Timeline::right_down,   this, _1));
+	_main_canvas->Bind   (wxEVT_MOTION,     boost::bind (&Timeline::mouse_moved,  this, _1));
+	_main_canvas->Bind   (wxEVT_SIZE,       boost::bind (&Timeline::resized,      this));
 
 	film_changed (Film::CONTENT);
 
@@ -102,18 +102,22 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	_pixels_per_second = max (0.01, static_cast<double>(640) / film->length().seconds ());
 
 	setup_scrollbars ();
-	_main_canvas->EnableScrolling (true, true);
+	_labels_canvas->ShowScrollbars (wxSHOW_SB_NEVER, wxSHOW_SB_NEVER);
 }
 
 void
 Timeline::paint_labels ()
 {
-	wxPaintDC dc (_labels_panel);
+	wxPaintDC dc (_labels_canvas);
 
 	wxGraphicsContext* gc = wxGraphicsContext::Create (dc);
 	if (!gc) {
 		return;
 	}
+
+	int vsx, vsy;
+	_labels_canvas->GetViewStart (&vsx, &vsy);
+	gc->Translate (-vsx * _x_scroll_rate, -vsy * _y_scroll_rate);
 
 	_labels_view->paint (gc, list<dcpomatic::Rect<int> >());
 
@@ -378,6 +382,8 @@ Timeline::setup_scrollbars ()
 	if (!film || !_pixels_per_second) {
 		return;
 	}
+	_labels_canvas->SetVirtualSize (_labels_view->bbox().width, tracks() * track_height() + 96);
+	_labels_canvas->SetScrollRate (_x_scroll_rate, _y_scroll_rate);
 	_main_canvas->SetVirtualSize (*_pixels_per_second * film->length().seconds(), tracks() * track_height() + 96);
 	_main_canvas->SetScrollRate (_x_scroll_rate, _y_scroll_rate);
 }
@@ -521,10 +527,10 @@ Timeline::left_up_zoom (wxMouseEvent& ev)
 	double const tracks_top = double(top_left.y) / _track_height;
 	double const tracks_bottom = double(bottom_right.y) / _track_height;
 	_track_height = GetSize().GetHeight() / (tracks_bottom - tracks_top);
-	cout << tracks_top << " " << tracks_bottom << "\n";
 
 	setup_scrollbars ();
 	_main_canvas->Scroll (time_left.seconds() * *_pixels_per_second / _x_scroll_rate, tracks_top * _track_height / _y_scroll_rate);
+	_labels_canvas->Scroll (0, tracks_top * _track_height / _y_scroll_rate);
 
 	_zoom_point = optional<wxPoint> ();
 	Refresh ();

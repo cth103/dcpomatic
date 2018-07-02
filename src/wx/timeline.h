@@ -104,7 +104,7 @@ private:
 	ContentList selected_content () const;
 	void maybe_snap (DCPTime a, DCPTime b, boost::optional<DCPTime>& nearest_distance) const;
 
-	wxPanel* _labels_panel;
+	wxScrolledCanvas* _labels_canvas;
 	wxScrolledCanvas* _main_canvas;
 	ContentPanel* _content_panel;
 	boost::weak_ptr<Film> _film;
