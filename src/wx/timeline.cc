@@ -71,6 +71,7 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	, _tool (SELECT)
 	, _x_scroll_rate (16)
 	, _y_scroll_rate (16)
+	, _track_height (48)
 {
 #ifndef __WXOSX__
 	_labels_panel->SetDoubleBuffered (true);
@@ -513,11 +514,17 @@ Timeline::left_up_zoom (wxMouseEvent& ev)
 	wxPoint top_left(min(_down_point.x, _zoom_point->x), min(_down_point.y, _zoom_point->y));
 	wxPoint bottom_right(max(_down_point.x, _zoom_point->x), max(_down_point.y, _zoom_point->y));
 
-	DCPTime time_left = DCPTime::from_seconds((top_left.x + vsx) / *_pixels_per_second);
-	DCPTime time_right = DCPTime::from_seconds((bottom_right.x + vsx) / *_pixels_per_second);
+	DCPTime const time_left = DCPTime::from_seconds((top_left.x + vsx) / *_pixels_per_second);
+	DCPTime const time_right = DCPTime::from_seconds((bottom_right.x + vsx) / *_pixels_per_second);
 	_pixels_per_second = GetSize().GetWidth() / (time_right.seconds() - time_left.seconds());
+
+	double const tracks_top = double(top_left.y) / _track_height;
+	double const tracks_bottom = double(bottom_right.y) / _track_height;
+	_track_height = GetSize().GetHeight() / (tracks_bottom - tracks_top);
+	cout << tracks_top << " " << tracks_bottom << "\n";
+
 	setup_scrollbars ();
-	_main_canvas->Scroll (time_left.seconds() * *_pixels_per_second / _x_scroll_rate, wxDefaultCoord);
+	_main_canvas->Scroll (time_left.seconds() * *_pixels_per_second / _x_scroll_rate, tracks_top * _track_height / _y_scroll_rate);
 
 	_zoom_point = optional<wxPoint> ();
 	Refresh ();
@@ -567,6 +574,7 @@ Timeline::right_down (wxMouseEvent& ev)
 	case ZOOM:
 		/* Zoom out */
 		_pixels_per_second = *_pixels_per_second / 2;
+		_track_height = max (8, _track_height / 2);
 		setup_scrollbars ();
 		break;
 	}

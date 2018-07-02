@@ -49,7 +49,7 @@ public:
 	}
 
 	int track_height () const {
-		return 48;
+		return _track_height;
 	}
 
 	boost::optional<double> pixels_per_second () const {
@@ -127,6 +127,7 @@ private:
 	Tool _tool;
 	int _x_scroll_rate;
 	int _y_scroll_rate;
+	int _track_height;
 
 	boost::signals2::scoped_connection _film_changed_connection;
 	boost::signals2::scoped_connection _film_content_changed_connection;
