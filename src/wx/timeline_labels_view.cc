@@ -66,23 +66,23 @@ TimelineLabelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> >
 
 	int fy = 0;
 	int ty = _threed ? 2 * h : h;
-	gc->DrawText (_("Video"), 0, _timeline.tracks_position().y + (ty + fy) / 2 - 8);
+	gc->DrawText (_("Video"), 0, (ty + fy) / 2 - 8);
 	fy = ty;
 
 	if (_subtitle_tracks) {
 		ty = fy + _subtitle_tracks * h;
-		gc->DrawText (_("Subtitles"), 0, _timeline.tracks_position().y + (ty + fy) / 2 - 8);
+		gc->DrawText (_("Subtitles"), 0, (ty + fy) / 2 - 8);
 		fy = ty;
 	}
 
 	if (_atmos) {
 		ty = fy + h;
-		gc->DrawText (_("Atmos"), 0, _timeline.tracks_position().y + (ty + fy) / 2 - 8);
+		gc->DrawText (_("Atmos"), 0, (ty + fy) / 2 - 8);
 		fy = ty;
 	}
 
 	ty = _timeline.tracks() * h;
-	gc->DrawText (_("Audio"), 0, _timeline.tracks_position().y + (ty + fy) / 2 - 8);
+	gc->DrawText (_("Audio"), 0, (ty + fy) / 2 - 8);
 }
 
 void

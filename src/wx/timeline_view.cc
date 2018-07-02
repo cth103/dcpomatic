@@ -49,5 +49,5 @@ TimelineView::force_redraw ()
 int
 TimelineView::time_x (DCPTime t) const
 {
-	return _timeline.tracks_position().x + t.seconds() * _timeline.pixels_per_second().get_value_or (0);
+	return t.seconds() * _timeline.pixels_per_second().get_value_or (0);
 }

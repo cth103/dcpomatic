@@ -156,7 +156,7 @@ TimelineContentView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> 
 int
 TimelineContentView::y_pos (int t) const
 {
-	return _timeline.tracks_position().y + t * _timeline.track_height();
+	return t * _timeline.track_height();
 }
 
 void

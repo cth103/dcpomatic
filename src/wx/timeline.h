@@ -35,7 +35,7 @@ class TimelineTimeAxisView;
 class TimelineReelsView;
 class TimelineLabelsView;
 
-class Timeline : public wxScrolledCanvas
+class Timeline : public wxPanel
 {
 public:
 	Timeline (wxWindow *, ContentPanel *, boost::shared_ptr<Film>);
@@ -54,10 +54,6 @@ public:
 
 	boost::optional<double> pixels_per_second () const {
 		return _pixels_per_second;
-	}
-
-	Position<int> tracks_position () const {
-		return _tracks_position;
 	}
 
 	int tracks () const;
@@ -82,7 +78,8 @@ public:
 	}
 
 private:
-	void paint ();
+	void paint_labels ();
+	void paint_main ();
 	void left_down (wxMouseEvent &);
 	void left_down_select (wxMouseEvent &);
 	void left_up (wxMouseEvent &);
@@ -107,6 +104,8 @@ private:
 	ContentList selected_content () const;
 	void maybe_snap (DCPTime a, DCPTime b, boost::optional<DCPTime>& nearest_distance) const;
 
+	wxPanel* _labels_panel;
+	wxScrolledCanvas* _main_canvas;
 	ContentPanel* _content_panel;
 	boost::weak_ptr<Film> _film;
 	TimelineViewList _views;
@@ -125,7 +124,6 @@ private:
 	bool _snap;
 	std::list<DCPTime> _start_snaps;
 	std::list<DCPTime> _end_snaps;
-	Position<int> _tracks_position;
 	Tool _tool;
 	int _x_scroll_rate;
 	int _y_scroll_rate;

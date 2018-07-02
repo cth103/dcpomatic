@@ -54,7 +54,9 @@ using boost::bind;
 using boost::optional;
 
 Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
-	: wxScrolledCanvas (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
+	: wxPanel (parent, wxID_ANY)
+	, _labels_panel (new wxPanel (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE))
+	, _main_canvas (new wxScrolledCanvas (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE))
 	, _content_panel (cp)
 	, _film (film)
 	, _time_axis_view (new TimelineTimeAxisView (*this, 64))
@@ -71,36 +73,56 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	, _y_scroll_rate (16)
 {
 #ifndef __WXOSX__
-	SetDoubleBuffered (true);
+	_labels_panel->SetDoubleBuffered (true);
+	_main_canvas->SetDoubleBuffered (true);
 #endif
 
-	Bind (wxEVT_PAINT,      boost::bind (&Timeline::paint,       this));
-	Bind (wxEVT_LEFT_DOWN,  boost::bind (&Timeline::left_down,   this, _1));
-	Bind (wxEVT_LEFT_UP,    boost::bind (&Timeline::left_up,     this, _1));
-	Bind (wxEVT_RIGHT_DOWN, boost::bind (&Timeline::right_down,  this, _1));
-	Bind (wxEVT_MOTION,     boost::bind (&Timeline::mouse_moved, this, _1));
-	Bind (wxEVT_SIZE,       boost::bind (&Timeline::resized,     this));
+	wxSizer* sizer = new wxBoxSizer (wxHORIZONTAL);
+	sizer->Add (_labels_panel, 0, wxEXPAND);
+	sizer->Add (_main_canvas, 1, wxEXPAND);
+	SetSizer (sizer);
+
+	_labels_panel->Bind (wxEVT_PAINT,      boost::bind (&Timeline::paint_labels, this));
+	_main_canvas->Bind  (wxEVT_PAINT,      boost::bind (&Timeline::paint_main,   this));
+	_main_canvas->Bind  (wxEVT_LEFT_DOWN,  boost::bind (&Timeline::left_down,    this, _1));
+	_main_canvas->Bind  (wxEVT_LEFT_UP,    boost::bind (&Timeline::left_up,      this, _1));
+	_main_canvas->Bind  (wxEVT_RIGHT_DOWN, boost::bind (&Timeline::right_down,   this, _1));
+	_main_canvas->Bind  (wxEVT_MOTION,     boost::bind (&Timeline::mouse_moved,  this, _1));
+	_main_canvas->Bind  (wxEVT_SIZE,       boost::bind (&Timeline::resized,      this));
 
 	film_changed (Film::CONTENT);
 
 	SetMinSize (wxSize (640, 4 * track_height() + 96));
 
-	_tracks_position = Position<int> (_labels_view->bbox().width, 32);
-
 	_film_changed_connection = film->Changed.connect (bind (&Timeline::film_changed, this, _1));
 	_film_content_changed_connection = film->ContentChanged.connect (bind (&Timeline::film_content_changed, this, _2, _3));
 
-	_pixels_per_second = max (0.01, static_cast<double>(640 - tracks_position().x * 2) / film->length().seconds ());
+	_pixels_per_second = max (0.01, static_cast<double>(640) / film->length().seconds ());
 
 	setup_scrollbars ();
-	EnableScrolling (true, true);
+	_main_canvas->EnableScrolling (true, true);
 }
 
 void
-Timeline::paint ()
+Timeline::paint_labels ()
 {
 	wxPaintDC dc (this);
-	DoPrepareDC (dc);
+
+	wxGraphicsContext* gc = wxGraphicsContext::Create (dc);
+	if (!gc) {
+		return;
+	}
+
+	_labels_view->paint (gc, list<dcpomatic::Rect<int> >());
+
+	delete gc;
+}
+
+void
+Timeline::paint_main ()
+{
+	wxPaintDC dc (this);
+	_main_canvas->DoPrepareDC (dc);
 
 	wxGraphicsContext* gc = wxGraphicsContext::Create (dc);
 	if (!gc) {
@@ -108,7 +130,7 @@ Timeline::paint ()
 	}
 
 	int vsx, vsy;
-	GetViewStart (&vsx, &vsy);
+	_main_canvas->GetViewStart (&vsx, &vsy);
 	gc->Translate (-vsx * _x_scroll_rate, -vsy * _y_scroll_rate);
 
 	gc->SetAntialiasMode (wxANTIALIAS_DEFAULT);
@@ -173,7 +195,6 @@ Timeline::recreate_views ()
 	_views.clear ();
 	_views.push_back (_time_axis_view);
 	_views.push_back (_reels_view);
-	_views.push_back (_labels_view);
 
 	BOOST_FOREACH (shared_ptr<Content> i, film->content ()) {
 		if (i->video) {
@@ -355,8 +376,8 @@ Timeline::setup_scrollbars ()
 	if (!film || !_pixels_per_second) {
 		return;
 	}
-	SetVirtualSize (*_pixels_per_second * film->length().seconds(), tracks() * track_height() + 96);
-	SetScrollRate (_x_scroll_rate, _y_scroll_rate);
+	_main_canvas->SetVirtualSize (*_pixels_per_second * film->length().seconds(), tracks() * track_height() + 96);
+	_main_canvas->SetScrollRate (_x_scroll_rate, _y_scroll_rate);
 }
 
 shared_ptr<TimelineView>
@@ -486,18 +507,16 @@ Timeline::left_up_zoom (wxMouseEvent& ev)
 	_zoom_point = ev.GetPosition ();
 
 	int vsx, vsy;
-	GetViewStart (&vsx, &vsy);
+	_main_canvas->GetViewStart (&vsx, &vsy);
 
 	wxPoint top_left(min(_down_point.x, _zoom_point->x), min(_down_point.y, _zoom_point->y));
 	wxPoint bottom_right(max(_down_point.x, _zoom_point->x), max(_down_point.y, _zoom_point->y));
 
-	DCPTime time_left = DCPTime::from_seconds((top_left.x + vsx - _tracks_position.x) / *_pixels_per_second);
-	DCPTime time_right = DCPTime::from_seconds((bottom_right.x + vsx - _tracks_position.x) / *_pixels_per_second);
+	DCPTime time_left = DCPTime::from_seconds((top_left.x + vsx) / *_pixels_per_second);
+	DCPTime time_right = DCPTime::from_seconds((bottom_right.x + vsx) / *_pixels_per_second);
 	_pixels_per_second = GetSize().GetWidth() / (time_right.seconds() - time_left.seconds());
-	cout << "Zoom range " << to_string(time_left) << " " << to_string(time_right) << " " << *_pixels_per_second << "\n";
 	setup_scrollbars ();
-	Scroll (time_left.seconds() * *_pixels_per_second / _x_scroll_rate, wxDefaultCoord);
-	cout << "Offset " << (time_left.seconds() * *_pixels_per_second / _x_scroll_rate) << "\n";
+	_main_canvas->Scroll (time_left.seconds() * *_pixels_per_second / _x_scroll_rate, wxDefaultCoord);
 
 	_zoom_point = optional<wxPoint> ();
 	Refresh ();
