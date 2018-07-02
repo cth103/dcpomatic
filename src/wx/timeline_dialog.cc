@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,14 +18,15 @@
 
 */
 
-#include <list>
-#include <wx/graphics.h>
-#include "lib/playlist.h"
 #include "film_editor.h"
 #include "timeline_dialog.h"
 #include "wx_util.h"
 #include "content_panel.h"
+#include "lib/playlist.h"
+#include "lib/cross.h"
+#include <wx/graphics.h>
 #include <iostream>
+#include <list>
 
 using std::list;
 using std::cout;
@@ -57,6 +58,16 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film)
 	controls->Add (_snap);
 	_sequence = new wxCheckBox (this, wxID_ANY, _("Keep video and subtitles in sequence"));
 	controls->Add (_sequence, 1, wxLEFT, 12);
+	wxToolBar* toolbar = new wxToolBar (this, wxID_ANY);
+
+#ifdef DCPOMATIC_LINUX
+	wxBitmap select (wxString::Format (wxT ("%s/select.png"), std_to_wx (shared_path().string())), wxBITMAP_TYPE_PNG);
+	wxBitmap zoom (wxString::Format (wxT ("%s/zoom.png"), std_to_wx (shared_path().string())), wxBITMAP_TYPE_PNG);
+#endif
+	toolbar->AddRadioTool ((int) Timeline::SELECT, _("Select"), select);
+	toolbar->AddRadioTool ((int) Timeline::ZOOM, _("Zoom"), zoom);
+	controls->Add (toolbar);
+	toolbar->Bind (wxEVT_TOOL, bind (&TimelineDialog::tool_changed, this, _1));
 
 	sizer->Add (controls, 0, wxALL, 12);
 	sizer->Add (&_timeline, 1, wxEXPAND | wxALL, 12);
@@ -114,4 +125,10 @@ void
 TimelineDialog::set_selection (ContentList selection)
 {
 	_timeline.set_selection (selection);
+}
+
+void
+TimelineDialog::tool_changed (wxCommandEvent& ev)
+{
+	_timeline.set_tool ((Timeline::Tool) ev.GetId());
 }

@@ -35,7 +35,7 @@ class TimelineTimeAxisView;
 class TimelineReelsView;
 class TimelineLabelsView;
 
-class Timeline : public wxPanel
+class Timeline : public wxScrolledCanvas
 {
 public:
 	Timeline (wxWindow *, ContentPanel *, boost::shared_ptr<Film>);
@@ -45,7 +45,7 @@ public:
 	void force_redraw (dcpomatic::Rect<int> const &);
 
 	int width () const {
-		return GetSize().GetWidth ();
+		return GetVirtualSize().GetWidth ();
 	}
 
 	int track_height () const {
@@ -62,8 +62,6 @@ public:
 
 	int tracks () const;
 
-	void setup_pixels_per_second ();
-
 	void set_snap (bool s) {
 		_snap = s;
 	}
@@ -74,12 +72,27 @@ public:
 
 	void set_selection (ContentList selection);
 
+	enum Tool {
+		SELECT,
+		ZOOM
+	};
+
+	void set_tool (Tool t) {
+		_tool = t;
+	}
+
 private:
 	void paint ();
 	void left_down (wxMouseEvent &);
+	void left_down_select (wxMouseEvent &);
 	void left_up (wxMouseEvent &);
+	void left_up_select (wxMouseEvent &);
+	void left_up_zoom (wxMouseEvent &);
 	void right_down (wxMouseEvent &);
+	void right_down_select (wxMouseEvent &);
 	void mouse_moved (wxMouseEvent &);
+	void mouse_moved_select (wxMouseEvent &);
+	void mouse_moved_zoom (wxMouseEvent &);
 	void film_changed (Film::Property);
 	void film_content_changed (int, bool frequent);
 	void resized ();
@@ -87,6 +100,7 @@ private:
 	void set_position_from_event (wxMouseEvent &);
 	void clear_selection ();
 	void recreate_views ();
+	void setup_scrollbars ();
 
 	boost::shared_ptr<TimelineView> event_to_view (wxMouseEvent &);
 	TimelineContentViewList selected_views () const;
@@ -103,6 +117,7 @@ private:
 	boost::optional<double> _pixels_per_second;
 	bool _left_down;
 	wxPoint _down_point;
+	boost::optional<wxPoint> _zoom_point;
 	boost::shared_ptr<TimelineContentView> _down_view;
 	DCPTime _down_view_position;
 	bool _first_move;
@@ -111,6 +126,9 @@ private:
 	std::list<DCPTime> _start_snaps;
 	std::list<DCPTime> _end_snaps;
 	Position<int> _tracks_position;
+	Tool _tool;
+	int _x_scroll_rate;
+	int _y_scroll_rate;
 
 	boost::signals2::scoped_connection _film_changed_connection;
 	boost::signals2::scoped_connection _film_content_changed_connection;

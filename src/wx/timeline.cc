@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -45,6 +45,7 @@
 
 using std::list;
 using std::cout;
+using std::min;
 using std::max;
 using boost::shared_ptr;
 using boost::weak_ptr;
@@ -53,7 +54,7 @@ using boost::bind;
 using boost::optional;
 
 Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
-	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
+	: wxScrolledCanvas (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 	, _content_panel (cp)
 	, _film (film)
 	, _time_axis_view (new TimelineTimeAxisView (*this, 64))
@@ -65,6 +66,9 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	, _first_move (false)
 	, _menu (this)
 	, _snap (true)
+	, _tool (SELECT)
+	, _x_scroll_rate (16)
+	, _y_scroll_rate (16)
 {
 #ifndef __WXOSX__
 	SetDoubleBuffered (true);
@@ -79,23 +83,33 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 
 	film_changed (Film::CONTENT);
 
-	SetMinSize (wxSize (640, tracks() * track_height() + 96));
+	SetMinSize (wxSize (640, 4 * track_height() + 96));
 
 	_tracks_position = Position<int> (_labels_view->bbox().width, 32);
 
 	_film_changed_connection = film->Changed.connect (bind (&Timeline::film_changed, this, _1));
 	_film_content_changed_connection = film->ContentChanged.connect (bind (&Timeline::film_content_changed, this, _2, _3));
+
+	_pixels_per_second = max (0.01, static_cast<double>(640 - tracks_position().x * 2) / film->length().seconds ());
+
+	setup_scrollbars ();
+	EnableScrolling (true, true);
 }
 
 void
 Timeline::paint ()
 {
 	wxPaintDC dc (this);
+	DoPrepareDC (dc);
 
 	wxGraphicsContext* gc = wxGraphicsContext::Create (dc);
 	if (!gc) {
 		return;
 	}
+
+	int vsx, vsy;
+	GetViewStart (&vsx, &vsy);
+	gc->Translate (-vsx * _x_scroll_rate, -vsy * _y_scroll_rate);
 
 	gc->SetAntialiasMode (wxANTIALIAS_DEFAULT);
 
@@ -103,7 +117,7 @@ Timeline::paint ()
 
 		shared_ptr<TimelineContentView> ic = dynamic_pointer_cast<TimelineContentView> (i);
 
-		/* Find areas of overlap */
+		/* Find areas of overlap with other content views, so that we can plot them */
 		list<dcpomatic::Rect<int> > overlaps;
 		BOOST_FOREACH (shared_ptr<TimelineView> j, _views) {
 			shared_ptr<TimelineContentView> jc = dynamic_pointer_cast<TimelineContentView> (j);
@@ -119,6 +133,19 @@ Timeline::paint ()
 		}
 
 		i->paint (gc, overlaps);
+	}
+
+	if (_zoom_point) {
+		/* Translate back as _down_point and _zoom_point do not take scroll into account */
+		gc->Translate (vsx * _x_scroll_rate, vsy * _y_scroll_rate);
+		gc->SetPen (*wxBLACK_PEN);
+		gc->SetBrush (*wxTRANSPARENT_BRUSH);
+		gc->DrawRectangle (
+			min (_down_point.x, _zoom_point->x),
+			min (_down_point.y, _zoom_point->y),
+			fabs (_down_point.x - _zoom_point->x),
+			fabs (_down_point.y - _zoom_point->y)
+			);
 	}
 
 	delete gc;
@@ -167,7 +194,7 @@ Timeline::recreate_views ()
 	}
 
 	assign_tracks ();
-	setup_pixels_per_second ();
+	setup_scrollbars ();
 	Refresh ();
 }
 
@@ -179,7 +206,7 @@ Timeline::film_content_changed (int property, bool frequent)
 	if (property == AudioContentProperty::STREAMS) {
 		recreate_views ();
 	} else if (!frequent) {
-		setup_pixels_per_second ();
+		setup_scrollbars ();
 		Refresh ();
 	}
 }
@@ -322,14 +349,14 @@ Timeline::tracks () const
 }
 
 void
-Timeline::setup_pixels_per_second ()
+Timeline::setup_scrollbars ()
 {
 	shared_ptr<const Film> film = _film.lock ();
-	if (!film || film->length() == DCPTime ()) {
+	if (!film || !_pixels_per_second) {
 		return;
 	}
-
-	_pixels_per_second = static_cast<double>(width() - tracks_position().x * 2) / film->length().seconds ();
+	SetVirtualSize (*_pixels_per_second * film->length().seconds(), tracks() * track_height() + 96);
+	SetScrollRate (_x_scroll_rate, _y_scroll_rate);
 }
 
 shared_ptr<TimelineView>
@@ -352,6 +379,22 @@ Timeline::event_to_view (wxMouseEvent& ev)
 
 void
 Timeline::left_down (wxMouseEvent& ev)
+{
+	_left_down = true;
+	_down_point = ev.GetPosition ();
+
+	switch (_tool) {
+	case SELECT:
+		left_down_select (ev);
+		break;
+	case ZOOM:
+		/* Nothing to do */
+		break;
+	}
+}
+
+void
+Timeline::left_down_select (wxMouseEvent& ev)
 {
 	shared_ptr<TimelineView> view = event_to_view (ev);
 	shared_ptr<TimelineContentView> content_view = dynamic_pointer_cast<TimelineContentView> (view);
@@ -378,8 +421,6 @@ Timeline::left_down (wxMouseEvent& ev)
 		content_view->set_selected (!content_view->selected ());
 	}
 
-	_left_down = true;
-	_down_point = ev.GetPosition ();
 	_first_move = false;
 
 	if (_down_view) {
@@ -410,6 +451,19 @@ Timeline::left_up (wxMouseEvent& ev)
 {
 	_left_down = false;
 
+	switch (_tool) {
+	case SELECT:
+		left_up_select (ev);
+		break;
+	case ZOOM:
+		left_up_zoom (ev);
+		break;
+	}
+}
+
+void
+Timeline::left_up_select (wxMouseEvent& ev)
+{
 	if (_down_view) {
 		_down_view->content()->set_change_signals_frequent (false);
 	}
@@ -419,7 +473,7 @@ Timeline::left_up (wxMouseEvent& ev)
 
 	/* Clear up up the stuff we don't do during drag */
 	assign_tracks ();
-	setup_pixels_per_second ();
+	setup_scrollbars ();
 	Refresh ();
 
 	_start_snaps.clear ();
@@ -427,7 +481,43 @@ Timeline::left_up (wxMouseEvent& ev)
 }
 
 void
+Timeline::left_up_zoom (wxMouseEvent& ev)
+{
+	_zoom_point = ev.GetPosition ();
+
+	int vsx, vsy;
+	GetViewStart (&vsx, &vsy);
+
+	wxPoint top_left(min(_down_point.x, _zoom_point->x), min(_down_point.y, _zoom_point->y));
+	wxPoint bottom_right(max(_down_point.x, _zoom_point->x), max(_down_point.y, _zoom_point->y));
+
+	DCPTime time_left = DCPTime::from_seconds((top_left.x + vsx - _tracks_position.x) / *_pixels_per_second);
+	DCPTime time_right = DCPTime::from_seconds((bottom_right.x + vsx - _tracks_position.x) / *_pixels_per_second);
+	_pixels_per_second = GetSize().GetWidth() / (time_right.seconds() - time_left.seconds());
+	cout << "Zoom range " << to_string(time_left) << " " << to_string(time_right) << " " << *_pixels_per_second << "\n";
+	setup_scrollbars ();
+	Scroll (time_left.seconds() * *_pixels_per_second / _x_scroll_rate, wxDefaultCoord);
+	cout << "Offset " << (time_left.seconds() * *_pixels_per_second / _x_scroll_rate) << "\n";
+
+	_zoom_point = optional<wxPoint> ();
+	Refresh ();
+}
+
+void
 Timeline::mouse_moved (wxMouseEvent& ev)
+{
+	switch (_tool) {
+	case SELECT:
+		mouse_moved_select (ev);
+		break;
+	case ZOOM:
+		mouse_moved_zoom (ev);
+		break;
+	}
+}
+
+void
+Timeline::mouse_moved_select (wxMouseEvent& ev)
 {
 	if (!_left_down) {
 		return;
@@ -437,7 +527,33 @@ Timeline::mouse_moved (wxMouseEvent& ev)
 }
 
 void
+Timeline::mouse_moved_zoom (wxMouseEvent& ev)
+{
+	if (!_left_down) {
+		return;
+	}
+
+	_zoom_point = ev.GetPosition ();
+	Refresh ();
+}
+
+void
 Timeline::right_down (wxMouseEvent& ev)
+{
+	switch (_tool) {
+	case SELECT:
+		right_down_select (ev);
+		break;
+	case ZOOM:
+		/* Zoom out */
+		_pixels_per_second = *_pixels_per_second / 2;
+		setup_scrollbars ();
+		break;
+	}
+}
+
+void
+Timeline::right_down_select (wxMouseEvent& ev)
 {
 	shared_ptr<TimelineView> view = event_to_view (ev);
 	shared_ptr<TimelineContentView> cv = dynamic_pointer_cast<TimelineContentView> (view);
@@ -542,7 +658,7 @@ Timeline::film () const
 void
 Timeline::resized ()
 {
-	setup_pixels_per_second ();
+	setup_scrollbars ();
 }
 
 void

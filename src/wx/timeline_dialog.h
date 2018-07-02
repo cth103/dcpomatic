@@ -36,6 +36,7 @@ private:
 	void snap_toggled ();
 	void sequence_toggled ();
 	void film_changed (Film::Property);
+	void tool_changed (wxCommandEvent& id);
 
 	boost::weak_ptr<Film> _film;
 	Timeline _timeline;

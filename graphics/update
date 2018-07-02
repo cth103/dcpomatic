@@ -65,6 +65,10 @@ else
     # Splash screen (all platforms)
     $INKSCAPE splash.png src/splash.svg -w 400 -h 300
 
+    # Timeline toolbar icons (all platforms)
+    $INKSCAPE select.png src/select.svg -w 24 -h 24
+    $INKSCAPE zoom.png src/zoom.svg -w 24 -h 24
+
     # favicon
     mkdir -p web
     convert src/web.png -resize 256x256 -transparent white web/favicon-256x256.png
