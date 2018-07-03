@@ -582,6 +582,7 @@ Timeline::right_down (wxMouseEvent& ev)
 		_pixels_per_second = *_pixels_per_second / 2;
 		_track_height = max (8, _track_height / 2);
 		setup_scrollbars ();
+		Refresh ();
 		break;
 	}
 }
