@@ -117,7 +117,7 @@ Timeline::paint_labels ()
 
 	int vsx, vsy;
 	_labels_canvas->GetViewStart (&vsx, &vsy);
-	gc->Translate (-vsx * _x_scroll_rate, -vsy * _y_scroll_rate);
+	gc->Translate (-vsx * _x_scroll_rate, -vsy * _y_scroll_rate + tracks_y_offset());
 
 	_labels_view->paint (gc, list<dcpomatic::Rect<int> >());
 
@@ -365,7 +365,7 @@ Timeline::assign_tracks ()
 	_labels_view->set_subtitle_tracks (subtitle_tracks);
 	_labels_view->set_atmos (have_atmos);
 
-	_time_axis_view->set_y (tracks() * track_height() + 64);
+	_time_axis_view->set_y (tracks());
 	_reels_view->set_y (8);
 }
 
@@ -744,4 +744,10 @@ Timeline::set_selection (ContentList selection)
 			cv->set_selected (find (selection.begin(), selection.end(), cv->content ()) != selection.end ());
 		}
 	}
+}
+
+int
+Timeline::tracks_y_offset () const
+{
+	return _reels_view->bbox().height + 4;
 }

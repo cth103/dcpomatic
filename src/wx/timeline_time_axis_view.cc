@@ -39,6 +39,7 @@ TimelineTimeAxisView::bbox () const
 	return dcpomatic::Rect<int> (0, _y - 4, _timeline.width(), 24);
 }
 
+/** @param y y position in tracks (not pixels) */
 void
 TimelineTimeAxisView::set_y (int y)
 {
@@ -59,9 +60,11 @@ TimelineTimeAxisView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int>
 
 	double const mark_interval = calculate_mark_interval (rint (128 / pps));
 
+	int y = _y * _timeline.track_height() + 32;
+
 	wxGraphicsPath path = gc->CreatePath ();
-	path.MoveToPoint (0, _y);
-	path.AddLineToPoint (_timeline.width(), _y);
+	path.MoveToPoint (0, y);
+	path.AddLineToPoint (_timeline.width(), y);
 	gc->StrokePath (path);
 
 	gc->SetFont (gc->CreateFont (*wxNORMAL_FONT));
@@ -70,8 +73,8 @@ TimelineTimeAxisView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int>
 	DCPTime t;
 	while ((t.seconds() * pps) < _timeline.width()) {
 		wxGraphicsPath path = gc->CreatePath ();
-		path.MoveToPoint (time_x (t), _y - 4);
-		path.AddLineToPoint (time_x (t), _y + 4);
+		path.MoveToPoint (time_x (t), y - 4);
+		path.AddLineToPoint (time_x (t), y + 4);
 		gc->StrokePath (path);
 
 		double tc = t.seconds ();
@@ -90,7 +93,7 @@ TimelineTimeAxisView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int>
 
 		int const tx = t.seconds() * pps;
 		if ((tx + str_width) < _timeline.width()) {
-			gc->DrawText (str, time_x (t), _y + 16);
+			gc->DrawText (str, time_x (t), y + 16);
 		}
 
 		t += DCPTime::from_seconds (mark_interval);

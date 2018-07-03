@@ -31,6 +31,5 @@ public:
 private:
 	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int> > overlaps);
 
-	int _y;
+	int _y; ///< y position in tracks (not pixels)
 };
-

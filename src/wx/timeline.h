@@ -77,6 +77,8 @@ public:
 		_tool = t;
 	}
 
+	int tracks_y_offset () const;
+
 private:
 	void paint_labels ();
 	void paint_main ();
