@@ -44,9 +44,7 @@ public:
 
 	void force_redraw (dcpomatic::Rect<int> const &);
 
-	int width () const {
-		return GetVirtualSize().GetWidth ();
-	}
+	int width () const;
 
 	int track_height () const {
 		return _track_height;

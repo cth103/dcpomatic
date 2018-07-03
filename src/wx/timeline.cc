@@ -751,3 +751,9 @@ Timeline::tracks_y_offset () const
 {
 	return _reels_view->bbox().height + 4;
 }
+
+int
+Timeline::width () const
+{
+	return _main_canvas->GetVirtualSize().GetWidth();
+}

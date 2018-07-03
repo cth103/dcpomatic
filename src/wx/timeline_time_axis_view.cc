@@ -25,6 +25,7 @@
 #include <wx/graphics.h>
 
 using std::list;
+using std::cout;
 
 TimelineTimeAxisView::TimelineTimeAxisView (Timeline& tl, int y)
 	: TimelineView (tl)
