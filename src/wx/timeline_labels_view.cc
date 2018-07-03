@@ -55,13 +55,13 @@ TimelineLabelsView::TimelineLabelsView (Timeline& tl)
 dcpomatic::Rect<int>
 TimelineLabelsView::bbox () const
 {
-	return dcpomatic::Rect<int> (0, 0, _width, _timeline.tracks() * _timeline.track_height());
+	return dcpomatic::Rect<int> (0, 0, _width, _timeline.tracks() * _timeline.pixels_per_track());
 }
 
 void
 TimelineLabelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> >)
 {
-	int const h = _timeline.track_height ();
+	int const h = _timeline.pixels_per_track ();
 	gc->SetFont (gc->CreateFont(wxNORMAL_FONT->Bold(), wxColour (0, 0, 0)));
 
 	int fy = 0;

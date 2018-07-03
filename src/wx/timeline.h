@@ -46,8 +46,8 @@ public:
 
 	int width () const;
 
-	int track_height () const {
-		return _track_height;
+	int pixels_per_track () const {
+		return _pixels_per_track;
 	}
 
 	boost::optional<double> pixels_per_second () const {
@@ -68,12 +68,11 @@ public:
 
 	enum Tool {
 		SELECT,
-		ZOOM
+		ZOOM,
+		ZOOM_ALL
 	};
 
-	void set_tool (Tool t) {
-		_tool = t;
-	}
+	void tool_clicked (Tool t);
 
 	int tracks_y_offset () const;
 
@@ -99,6 +98,8 @@ private:
 	void recreate_views ();
 	void setup_scrollbars ();
 	void scrolled (wxScrollWinEvent& ev);
+	void set_pixels_per_second (double pps);
+	void set_pixels_per_track (int h);
 
 	boost::shared_ptr<TimelineView> event_to_view (wxMouseEvent &);
 	TimelineContentViewList selected_views () const;
@@ -128,10 +129,10 @@ private:
 	Tool _tool;
 	int _x_scroll_rate;
 	int _y_scroll_rate;
-	int _track_height;
+	int _pixels_per_track;
 
 	static double const _minimum_pixels_per_second;
-	static int const _minimum_track_height;
+	static int const _minimum_pixels_per_track;
 
 	boost::signals2::scoped_connection _film_changed_connection;
 	boost::signals2::scoped_connection _film_content_changed_connection;

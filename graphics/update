@@ -66,8 +66,9 @@ else
     $INKSCAPE splash.png src/splash.svg -w 400 -h 300
 
     # Timeline toolbar icons (all platforms)
-    $INKSCAPE select.png src/select.svg -w 24 -h 24
-    $INKSCAPE zoom.png src/zoom.svg -w 24 -h 24
+    for i in select zoom zoom_all; do
+        $INKSCAPE $i.png src/$i.svg -w 24 -h 24
+    done
 
     # favicon
     mkdir -p web

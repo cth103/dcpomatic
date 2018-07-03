@@ -51,7 +51,7 @@ TimelineContentView::bbox () const
 		time_x (content->position ()),
 		y_pos (_track.get()),
 		content->length_after_trim().seconds() * _timeline.pixels_per_second().get_value_or(0),
-		_timeline.track_height()
+		_timeline.pixels_per_track()
 		);
 }
 
@@ -148,7 +148,7 @@ TimelineContentView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> 
 	wxDouble name_leading;
 	gc->SetFont (gc->CreateFont (*wxNORMAL_FONT, foreground_colour ()));
 	gc->GetTextExtent (name, &name_width, &name_height, &name_descent, &name_leading);
-	gc->Clip (wxRegion (time_x (position), y_pos (_track.get()), len.seconds() * _timeline.pixels_per_second().get_value_or(0), _timeline.track_height()));
+	gc->Clip (wxRegion (time_x (position), y_pos (_track.get()), len.seconds() * _timeline.pixels_per_second().get_value_or(0), _timeline.pixels_per_track()));
 	gc->DrawText (name, time_x (position) + 12, y_pos (_track.get() + 1) - name_height - 4);
 	gc->ResetClip ();
 }
@@ -156,7 +156,7 @@ TimelineContentView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> 
 int
 TimelineContentView::y_pos (int t) const
 {
-	return t * _timeline.track_height() + _timeline.tracks_y_offset();
+	return t * _timeline.pixels_per_track() + _timeline.tracks_y_offset();
 }
 
 void

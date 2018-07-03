@@ -55,7 +55,7 @@ using boost::optional;
 
 /* 3 hours in 640 pixels */
 double const Timeline::_minimum_pixels_per_second = 640.0 / (60 * 60 * 3);
-int const Timeline::_minimum_track_height = 16;
+int const Timeline::_minimum_pixels_per_track = 16;
 
 Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	: wxPanel (parent, wxID_ANY)
@@ -75,7 +75,7 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	, _tool (SELECT)
 	, _x_scroll_rate (16)
 	, _y_scroll_rate (16)
-	, _track_height (48)
+	, _pixels_per_track (48)
 {
 #ifndef __WXOSX__
 	_labels_canvas->SetDoubleBuffered (true);
@@ -99,15 +99,21 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 
 	film_changed (Film::CONTENT);
 
-	SetMinSize (wxSize (640, 4 * track_height() + 96));
+	SetMinSize (wxSize (640, 4 * pixels_per_track() + 96));
 
 	_film_changed_connection = film->Changed.connect (bind (&Timeline::film_changed, this, _1));
 	_film_content_changed_connection = film->ContentChanged.connect (bind (&Timeline::film_content_changed, this, _2, _3));
 
-	_pixels_per_second = max (_minimum_pixels_per_second, static_cast<double>(640) / film->length().seconds ());
+	set_pixels_per_second (static_cast<double>(640) / film->length().seconds ());
 
 	setup_scrollbars ();
 	_labels_canvas->ShowScrollbars (wxSHOW_SB_NEVER, wxSHOW_SB_NEVER);
+}
+
+void
+Timeline::set_pixels_per_second (double pps)
+{
+	_pixels_per_second = max (_minimum_pixels_per_second, pps);
 }
 
 void
@@ -387,9 +393,9 @@ Timeline::setup_scrollbars ()
 	if (!film || !_pixels_per_second) {
 		return;
 	}
-	_labels_canvas->SetVirtualSize (_labels_view->bbox().width, tracks() * track_height() + 96);
+	_labels_canvas->SetVirtualSize (_labels_view->bbox().width, tracks() * pixels_per_track() + 96);
 	_labels_canvas->SetScrollRate (_x_scroll_rate, _y_scroll_rate);
-	_main_canvas->SetVirtualSize (*_pixels_per_second * film->length().seconds(), tracks() * track_height() + 96);
+	_main_canvas->SetVirtualSize (*_pixels_per_second * film->length().seconds(), tracks() * pixels_per_track() + 96);
 	_main_canvas->SetScrollRate (_x_scroll_rate, _y_scroll_rate);
 }
 
@@ -422,6 +428,7 @@ Timeline::left_down (wxMouseEvent& ev)
 		left_down_select (ev);
 		break;
 	case ZOOM:
+	case ZOOM_ALL:
 		/* Nothing to do */
 		break;
 	}
@@ -492,6 +499,8 @@ Timeline::left_up (wxMouseEvent& ev)
 	case ZOOM:
 		left_up_zoom (ev);
 		break;
+	case ZOOM_ALL:
+		break;
 	}
 }
 
@@ -532,18 +541,24 @@ Timeline::left_up_zoom (wxMouseEvent& ev)
 
 	DCPTime const time_left = DCPTime::from_seconds((top_left.x + vsx) / *_pixels_per_second);
 	DCPTime const time_right = DCPTime::from_seconds((bottom_right.x + vsx) / *_pixels_per_second);
-	_pixels_per_second = max (_minimum_pixels_per_second, double(GetSize().GetWidth()) / (time_right.seconds() - time_left.seconds()));
+	set_pixels_per_second (double(GetSize().GetWidth()) / (time_right.seconds() - time_left.seconds()));
 
-	double const tracks_top = double(top_left.y) / _track_height;
-	double const tracks_bottom = double(bottom_right.y) / _track_height;
-	_track_height = max(_minimum_track_height, int(lrint(GetSize().GetHeight() / (tracks_bottom - tracks_top))));
+	double const tracks_top = double(top_left.y) / _pixels_per_track;
+	double const tracks_bottom = double(bottom_right.y) / _pixels_per_track;
+	set_pixels_per_track (lrint(GetSize().GetHeight() / (tracks_bottom - tracks_top)));
 
 	setup_scrollbars ();
-	_main_canvas->Scroll (time_left.seconds() * *_pixels_per_second / _x_scroll_rate, tracks_top * _track_height / _y_scroll_rate);
-	_labels_canvas->Scroll (0, tracks_top * _track_height / _y_scroll_rate);
+	_main_canvas->Scroll (time_left.seconds() * *_pixels_per_second / _x_scroll_rate, tracks_top * _pixels_per_track / _y_scroll_rate);
+	_labels_canvas->Scroll (0, tracks_top * _pixels_per_track / _y_scroll_rate);
 
 	_zoom_point = optional<wxPoint> ();
 	Refresh ();
+}
+
+void
+Timeline::set_pixels_per_track (int h)
+{
+	_pixels_per_track = max(_minimum_pixels_per_track, h);
 }
 
 void
@@ -555,6 +570,8 @@ Timeline::mouse_moved (wxMouseEvent& ev)
 		break;
 	case ZOOM:
 		mouse_moved_zoom (ev);
+		break;
+	case ZOOM_ALL:
 		break;
 	}
 }
@@ -589,10 +606,12 @@ Timeline::right_down (wxMouseEvent& ev)
 		break;
 	case ZOOM:
 		/* Zoom out */
-		_pixels_per_second = max (_minimum_pixels_per_second, *_pixels_per_second / 2);
-		_track_height = max (_minimum_track_height, _track_height / 2);
+		set_pixels_per_second (*_pixels_per_second / 2);
+		set_pixels_per_track (_pixels_per_track / 2);
 		setup_scrollbars ();
 		Refresh ();
+		break;
+	case ZOOM_ALL:
 		break;
 	}
 }
@@ -775,4 +794,22 @@ Timeline::scrolled (wxScrollWinEvent& ev)
 		_labels_canvas->Scroll (0, ev.GetPosition ());
 	}
 	ev.Skip ();
+}
+
+void
+Timeline::tool_clicked (Tool t)
+{
+	switch (t) {
+	case ZOOM:
+	case SELECT:
+		_tool = t;
+		break;
+	case ZOOM_ALL:
+		shared_ptr<Film> film = _film.lock ();
+		DCPOMATIC_ASSERT (film);
+		set_pixels_per_second ((_main_canvas->GetSize().GetWidth() - 32) / film->length().seconds());
+		set_pixels_per_track ((_main_canvas->GetSize().GetHeight() - tracks_y_offset() - _time_axis_view->bbox().height - 32) / _tracks);
+		Refresh ();
+		break;
+	}
 }

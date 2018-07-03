@@ -54,20 +54,23 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film)
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 
 	wxBoxSizer* controls = new wxBoxSizer (wxHORIZONTAL);
-	_snap = new wxCheckBox (this, wxID_ANY, _("Snap"));
-	controls->Add (_snap);
-	_sequence = new wxCheckBox (this, wxID_ANY, _("Keep video and subtitles in sequence"));
-	controls->Add (_sequence, 1, wxLEFT, 12);
-	wxToolBar* toolbar = new wxToolBar (this, wxID_ANY);
 
 #ifdef DCPOMATIC_LINUX
 	wxBitmap select (wxString::Format (wxT ("%s/select.png"), std_to_wx (shared_path().string())), wxBITMAP_TYPE_PNG);
 	wxBitmap zoom (wxString::Format (wxT ("%s/zoom.png"), std_to_wx (shared_path().string())), wxBITMAP_TYPE_PNG);
+	wxBitmap zoom_all (wxString::Format (wxT ("%s/zoom_all.png"), std_to_wx (shared_path().string())), wxBITMAP_TYPE_PNG);
 #endif
+	wxToolBar* toolbar = new wxToolBar (this, wxID_ANY);
 	toolbar->AddRadioTool ((int) Timeline::SELECT, _("Select"), select);
 	toolbar->AddRadioTool ((int) Timeline::ZOOM, _("Zoom"), zoom);
+	toolbar->AddTool ((int) Timeline::ZOOM_ALL, _("Zoom to whole project"), zoom_all);
 	controls->Add (toolbar);
-	toolbar->Bind (wxEVT_TOOL, bind (&TimelineDialog::tool_changed, this, _1));
+	toolbar->Bind (wxEVT_TOOL, bind (&TimelineDialog::tool_clicked, this, _1));
+
+	_snap = new wxCheckBox (this, wxID_ANY, _("Snap"));
+	controls->Add (_snap);
+	_sequence = new wxCheckBox (this, wxID_ANY, _("Keep video and subtitles in sequence"));
+	controls->Add (_sequence, 1, wxLEFT, 12);
 
 	sizer->Add (controls, 0, wxALL, 12);
 	sizer->Add (&_timeline, 1, wxEXPAND | wxALL, 12);
@@ -128,7 +131,7 @@ TimelineDialog::set_selection (ContentList selection)
 }
 
 void
-TimelineDialog::tool_changed (wxCommandEvent& ev)
+TimelineDialog::tool_clicked (wxCommandEvent& ev)
 {
-	_timeline.set_tool ((Timeline::Tool) ev.GetId());
+	_timeline.tool_clicked ((Timeline::Tool) ev.GetId());
 }
