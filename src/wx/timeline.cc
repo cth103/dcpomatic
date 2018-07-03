@@ -53,6 +53,10 @@ using boost::dynamic_pointer_cast;
 using boost::bind;
 using boost::optional;
 
+/* 3 hours in 640 pixels */
+double const Timeline::_minimum_pixels_per_second = 640.0 / (60 * 60 * 3);
+int const Timeline::_minimum_track_height = 16;
+
 Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	: wxPanel (parent, wxID_ANY)
 	, _labels_canvas (new wxScrolledCanvas (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE))
@@ -91,6 +95,7 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	_main_canvas->Bind   (wxEVT_RIGHT_DOWN, boost::bind (&Timeline::right_down,   this, _1));
 	_main_canvas->Bind   (wxEVT_MOTION,     boost::bind (&Timeline::mouse_moved,  this, _1));
 	_main_canvas->Bind   (wxEVT_SIZE,       boost::bind (&Timeline::resized,      this));
+	_main_canvas->Bind   (wxEVT_SCROLLWIN_THUMBTRACK,  boost::bind (&Timeline::scrolled,     this, _1));
 
 	film_changed (Film::CONTENT);
 
@@ -99,7 +104,7 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	_film_changed_connection = film->Changed.connect (bind (&Timeline::film_changed, this, _1));
 	_film_content_changed_connection = film->ContentChanged.connect (bind (&Timeline::film_content_changed, this, _2, _3));
 
-	_pixels_per_second = max (0.01, static_cast<double>(640) / film->length().seconds ());
+	_pixels_per_second = max (_minimum_pixels_per_second, static_cast<double>(640) / film->length().seconds ());
 
 	setup_scrollbars ();
 	_labels_canvas->ShowScrollbars (wxSHOW_SB_NEVER, wxSHOW_SB_NEVER);
@@ -520,13 +525,18 @@ Timeline::left_up_zoom (wxMouseEvent& ev)
 	wxPoint top_left(min(_down_point.x, _zoom_point->x), min(_down_point.y, _zoom_point->y));
 	wxPoint bottom_right(max(_down_point.x, _zoom_point->x), max(_down_point.y, _zoom_point->y));
 
+	if ((bottom_right.x - top_left.x) < 8 || (bottom_right.y - top_left.y) < 8) {
+		/* Very small zoom rectangle: we assume it wasn't intentional */
+		return;
+	}
+
 	DCPTime const time_left = DCPTime::from_seconds((top_left.x + vsx) / *_pixels_per_second);
 	DCPTime const time_right = DCPTime::from_seconds((bottom_right.x + vsx) / *_pixels_per_second);
-	_pixels_per_second = GetSize().GetWidth() / (time_right.seconds() - time_left.seconds());
+	_pixels_per_second = max (_minimum_pixels_per_second, double(GetSize().GetWidth()) / (time_right.seconds() - time_left.seconds()));
 
 	double const tracks_top = double(top_left.y) / _track_height;
 	double const tracks_bottom = double(bottom_right.y) / _track_height;
-	_track_height = GetSize().GetHeight() / (tracks_bottom - tracks_top);
+	_track_height = max(_minimum_track_height, int(lrint(GetSize().GetHeight() / (tracks_bottom - tracks_top))));
 
 	setup_scrollbars ();
 	_main_canvas->Scroll (time_left.seconds() * *_pixels_per_second / _x_scroll_rate, tracks_top * _track_height / _y_scroll_rate);
@@ -579,8 +589,8 @@ Timeline::right_down (wxMouseEvent& ev)
 		break;
 	case ZOOM:
 		/* Zoom out */
-		_pixels_per_second = *_pixels_per_second / 2;
-		_track_height = max (8, _track_height / 2);
+		_pixels_per_second = max (_minimum_pixels_per_second, *_pixels_per_second / 2);
+		_track_height = max (_minimum_track_height, _track_height / 2);
 		setup_scrollbars ();
 		Refresh ();
 		break;
@@ -756,4 +766,13 @@ int
 Timeline::width () const
 {
 	return _main_canvas->GetVirtualSize().GetWidth();
+}
+
+void
+Timeline::scrolled (wxScrollWinEvent& ev)
+{
+	if (ev.GetOrientation() == wxVERTICAL) {
+		_labels_canvas->Scroll (0, ev.GetPosition ());
+	}
+	ev.Skip ();
 }

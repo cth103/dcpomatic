@@ -98,6 +98,7 @@ private:
 	void clear_selection ();
 	void recreate_views ();
 	void setup_scrollbars ();
+	void scrolled (wxScrollWinEvent& ev);
 
 	boost::shared_ptr<TimelineView> event_to_view (wxMouseEvent &);
 	TimelineContentViewList selected_views () const;
@@ -128,6 +129,9 @@ private:
 	int _x_scroll_rate;
 	int _y_scroll_rate;
 	int _track_height;
+
+	static double const _minimum_pixels_per_second;
+	static int const _minimum_track_height;
 
 	boost::signals2::scoped_connection _film_changed_connection;
 	boost::signals2::scoped_connection _film_content_changed_connection;
