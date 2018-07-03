@@ -276,6 +276,9 @@ File "%resources%/../../fonts/LiberationSans-Regular.ttf"
 File "%resources%/../../fonts/LiberationSans-Italic.ttf"
 File "%resources%/../../fonts/LiberationSans-Bold.ttf"
 File "%graphics%/splash.png"
+File "%graphics%/zoom.png"
+File "%graphics%/zoom_all.png"
+File "%graphics%/select.png"
 
 SectionEnd
     """, file=f)
