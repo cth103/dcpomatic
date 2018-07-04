@@ -55,6 +55,13 @@ TimelineAudioContentView::label () const
 	wxString s = TimelineContentView::label ();
 	shared_ptr<AudioContent> ac = content()->audio;
 	DCPOMATIC_ASSERT (ac);
+
+	if (ac->gain() > 0.01) {
+		s += wxString::Format (" +%.1fdB", ac->gain());
+	} else if (ac->gain() < -0.01) {
+		s += wxString::Format (" %.1fdB", ac->gain());
+	}
+
 	list<int> mapped = ac->mapping().mapped_output_channels();
 	if (!mapped.empty ()) {
 		s += " → ";
@@ -63,5 +70,6 @@ TimelineAudioContentView::label () const
 		}
 		s = s.Left(s.Length() - 2);
 	}
+
 	return s;
 }
