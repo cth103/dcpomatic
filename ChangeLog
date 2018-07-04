@@ -1,3 +1,7 @@
+2018-07-04  Carl Hetherington  <cth@carlh.net>
+
+	* Add scrolling and zoom to the timeline (#1279, #1320).
+
 2018-07-01  Carl Hetherington  <cth@carlh.net>
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.
