@@ -375,9 +375,10 @@ Timeline::assign_tracks ()
 
 	/* Audio */
 
-	place<TimelineAudioContentView> (_views, _tracks);
+	int const audio_tracks = place<TimelineAudioContentView> (_views, _tracks);
 
 	_labels_view->set_3d (have_3d);
+	_labels_view->set_audio_tracks (audio_tracks);
 	_labels_view->set_subtitle_tracks (subtitle_tracks);
 	_labels_view->set_atmos (have_atmos);
 
@@ -398,9 +399,12 @@ Timeline::setup_scrollbars ()
 	if (!film || !_pixels_per_second) {
 		return;
 	}
-	_labels_canvas->SetVirtualSize (_labels_view->bbox().width, tracks() * pixels_per_track() + 96);
+
+	int const h = tracks() * pixels_per_track() + tracks_y_offset() + _time_axis_view->bbox().height;
+
+	_labels_canvas->SetVirtualSize (_labels_view->bbox().width, h);
 	_labels_canvas->SetScrollRate (_x_scroll_rate, _y_scroll_rate);
-	_main_canvas->SetVirtualSize (*_pixels_per_second * film->length().seconds(), tracks() * pixels_per_track() + tracks_y_offset() + _time_axis_view->bbox().height);
+	_main_canvas->SetVirtualSize (*_pixels_per_second * film->length().seconds(), h);
 	_main_canvas->SetScrollRate (_x_scroll_rate, _y_scroll_rate);
 }
 
@@ -552,13 +556,14 @@ Timeline::left_up_zoom (wxMouseEvent& ev)
 	DCPTime const time_right = DCPTime::from_seconds((bottom_right.x + vsx) / *_pixels_per_second);
 	set_pixels_per_second (double(GetSize().GetWidth()) / (time_right.seconds() - time_left.seconds()));
 
-	double const tracks_top = double(top_left.y) / _pixels_per_track;
-	double const tracks_bottom = double(bottom_right.y) / _pixels_per_track;
+	double const tracks_top = double(top_left.y - tracks_y_offset()) / _pixels_per_track;
+	double const tracks_bottom = double(bottom_right.y - tracks_y_offset()) / _pixels_per_track;
 	set_pixels_per_track (lrint(GetSize().GetHeight() / (tracks_bottom - tracks_top)));
 
 	setup_scrollbars ();
-	_main_canvas->Scroll (time_left.seconds() * *_pixels_per_second / _x_scroll_rate, tracks_top * _pixels_per_track / _y_scroll_rate);
-	_labels_canvas->Scroll (0, tracks_top * _pixels_per_track / _y_scroll_rate);
+	int const y = (tracks_top * _pixels_per_track + tracks_y_offset()) / _y_scroll_rate;
+	_main_canvas->Scroll (time_left.seconds() * *_pixels_per_second / _x_scroll_rate, y);
+	_labels_canvas->Scroll (0, y);
 
 	_zoom_point = optional<wxPoint> ();
 	Refresh ();
@@ -809,7 +814,7 @@ Timeline::scrolled (wxScrollWinEvent& ev)
 {
 	if (ev.GetOrientation() == wxVERTICAL) {
 		int x, y;
-		_main_canvas->GetViewState (&x, &y);
+		_main_canvas->GetViewStart (&x, &y);
 		_labels_canvas->Scroll (0, y);
 	}
 	ev.Skip ();

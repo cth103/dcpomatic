@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -31,6 +31,7 @@ using std::max;
 TimelineLabelsView::TimelineLabelsView (Timeline& tl)
 	: TimelineView (tl)
 	, _threed (true)
+	, _audio_tracks (0)
 	, _subtitle_tracks (0)
 	, _atmos (true)
 {
@@ -81,14 +82,22 @@ TimelineLabelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> >
 		fy = ty;
 	}
 
-	ty = _timeline.tracks() * h;
-	gc->DrawText (_("Audio"), 0, (ty + fy) / 2 - 8);
+	if (_audio_tracks) {
+		ty = _timeline.tracks() * h;
+		gc->DrawText (_("Audio"), 0, (ty + fy) / 2 - 8);
+	}
 }
 
 void
 TimelineLabelsView::set_3d (bool s)
 {
 	_threed = s;
+}
+
+void
+TimelineLabelsView::set_audio_tracks (int n)
+{
+	_audio_tracks = n;
 }
 
 void

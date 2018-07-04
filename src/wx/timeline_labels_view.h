@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -30,6 +30,7 @@ public:
 	dcpomatic::Rect<int> bbox () const;
 
 	void set_3d (bool s);
+	void set_audio_tracks (int n);
 	void set_subtitle_tracks (int n);
 	void set_atmos (bool s);
 
@@ -38,6 +39,7 @@ private:
 
 	int _width;
 	bool _threed;
+	int _audio_tracks;
 	int _subtitle_tracks;
 	bool _atmos;
 };
