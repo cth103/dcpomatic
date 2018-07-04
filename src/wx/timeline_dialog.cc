@@ -94,7 +94,8 @@ wxString
 TimelineDialog::bitmap_path (string name)
 {
 	boost::filesystem::path p = shared_path() / String::compose("%1.png", name);
-	return std_to_wx (p.string ());
+	cout << "Loading " << p.string() << "\n";
+	return std_to_wx (p.string());
 }
 
 void
