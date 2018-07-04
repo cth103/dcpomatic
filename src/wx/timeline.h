@@ -100,6 +100,7 @@ private:
 	void scrolled (wxScrollWinEvent& ev);
 	void set_pixels_per_second (double pps);
 	void set_pixels_per_track (int h);
+	void zoom_all ();
 
 	boost::shared_ptr<TimelineView> event_to_view (wxMouseEvent &);
 	TimelineContentViewList selected_views () const;
@@ -130,6 +131,7 @@ private:
 	int _x_scroll_rate;
 	int _y_scroll_rate;
 	int _pixels_per_track;
+	bool _first_resize;
 
 	static double const _minimum_pixels_per_second;
 	static int const _minimum_pixels_per_track;

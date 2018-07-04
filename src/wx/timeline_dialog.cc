@@ -55,15 +55,14 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film)
 
 	wxBoxSizer* controls = new wxBoxSizer (wxHORIZONTAL);
 
-#ifdef DCPOMATIC_LINUX
 	wxBitmap select (wxString::Format (wxT ("%s/select.png"), std_to_wx (shared_path().string())), wxBITMAP_TYPE_PNG);
 	wxBitmap zoom (wxString::Format (wxT ("%s/zoom.png"), std_to_wx (shared_path().string())), wxBITMAP_TYPE_PNG);
 	wxBitmap zoom_all (wxString::Format (wxT ("%s/zoom_all.png"), std_to_wx (shared_path().string())), wxBITMAP_TYPE_PNG);
-#endif
+
 	wxToolBar* toolbar = new wxToolBar (this, wxID_ANY);
-	toolbar->AddRadioTool ((int) Timeline::SELECT, _("Select"), select);
-	toolbar->AddRadioTool ((int) Timeline::ZOOM, _("Zoom"), zoom);
-	toolbar->AddTool ((int) Timeline::ZOOM_ALL, _("Zoom to whole project"), zoom_all);
+	toolbar->AddRadioTool ((int) Timeline::SELECT, _("Select"), select, wxNullBitmap, _("Select and move content"));
+	toolbar->AddRadioTool ((int) Timeline::ZOOM, _("Zoom"), zoom, wxNullBitmap, _("Zoom in / out"));
+	toolbar->AddTool ((int) Timeline::ZOOM_ALL, _("Zoom all"), zoom_all, _("Zoom out to whole film"));
 	controls->Add (toolbar);
 	toolbar->Bind (wxEVT_TOOL, bind (&TimelineDialog::tool_clicked, this, _1));
 

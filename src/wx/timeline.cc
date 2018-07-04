@@ -76,6 +76,7 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	, _x_scroll_rate (16)
 	, _y_scroll_rate (16)
 	, _pixels_per_track (48)
+	, _first_resize (true)
 {
 #ifndef __WXOSX__
 	_labels_canvas->SetDoubleBuffered (true);
@@ -103,8 +104,6 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 
 	_film_changed_connection = film->Changed.connect (bind (&Timeline::film_changed, this, _1));
 	_film_content_changed_connection = film->ContentChanged.connect (bind (&Timeline::film_content_changed, this, _2, _3));
-
-	set_pixels_per_second (static_cast<double>(640) / film->length().seconds ());
 
 	setup_scrollbars ();
 	_labels_canvas->ShowScrollbars (wxSHOW_SB_NEVER, wxSHOW_SB_NEVER);
@@ -395,7 +394,7 @@ Timeline::setup_scrollbars ()
 	}
 	_labels_canvas->SetVirtualSize (_labels_view->bbox().width, tracks() * pixels_per_track() + 96);
 	_labels_canvas->SetScrollRate (_x_scroll_rate, _y_scroll_rate);
-	_main_canvas->SetVirtualSize (*_pixels_per_second * film->length().seconds(), tracks() * pixels_per_track() + 96);
+	_main_canvas->SetVirtualSize (*_pixels_per_second * film->length().seconds(), tracks() * pixels_per_track() + tracks_y_offset() + _time_axis_view->bbox().height);
 	_main_canvas->SetScrollRate (_x_scroll_rate, _y_scroll_rate);
 }
 
@@ -722,6 +721,10 @@ Timeline::film () const
 void
 Timeline::resized ()
 {
+	if (_main_canvas->GetSize().GetWidth() > 0 && _first_resize) {
+		zoom_all ();
+		_first_resize = false;
+	}
 	setup_scrollbars ();
 }
 
@@ -805,11 +808,20 @@ Timeline::tool_clicked (Tool t)
 		_tool = t;
 		break;
 	case ZOOM_ALL:
-		shared_ptr<Film> film = _film.lock ();
-		DCPOMATIC_ASSERT (film);
-		set_pixels_per_second ((_main_canvas->GetSize().GetWidth() - 32) / film->length().seconds());
-		set_pixels_per_track ((_main_canvas->GetSize().GetHeight() - tracks_y_offset() - _time_axis_view->bbox().height - 32) / _tracks);
-		Refresh ();
+		zoom_all ();
 		break;
 	}
+}
+
+void
+Timeline::zoom_all ()
+{
+	shared_ptr<Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	set_pixels_per_second ((_main_canvas->GetSize().GetWidth() - 32) / film->length().seconds());
+	set_pixels_per_track ((_main_canvas->GetSize().GetHeight() - tracks_y_offset() - _time_axis_view->bbox().height - 32) / _tracks);
+	setup_scrollbars ();
+	_main_canvas->Scroll (0, 0);
+	_labels_canvas->Scroll (0, 0);
+	Refresh ();
 }
