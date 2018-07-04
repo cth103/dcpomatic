@@ -62,6 +62,12 @@ TimelineAudioContentView::label () const
 		s += wxString::Format (" %.1fdB", ac->gain());
 	}
 
+	if (ac->delay() > 0) {
+		s += wxString::Format (_(" delayed by %dms"), ac->delay());
+	} else if (ac->delay() < 0) {
+		s += wxString::Format (_(" advanced by %dms"), -ac->delay());
+	}
+
 	list<int> mapped = ac->mapping().mapped_output_channels();
 	if (!mapped.empty ()) {
 		s += " → ";
