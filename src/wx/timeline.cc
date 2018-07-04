@@ -306,6 +306,27 @@ place (TimelineViewList& views, int& tracks)
 	return tracks - base;
 }
 
+/** Compare the mapped output channels of two TimelineViews, so we can into
+ *  order of first mapped DCP channel.
+ */
+struct AudioMappingComparator {
+	bool operator()(shared_ptr<TimelineView> a, shared_ptr<TimelineView> b) {
+		int la = -1;
+		shared_ptr<TimelineAudioContentView> cva = dynamic_pointer_cast<TimelineAudioContentView>(a);
+		if (cva) {
+			list<int> oc = cva->content()->audio->mapping().mapped_output_channels();
+			la = *min_element(begin(oc), end(oc));
+		}
+		int lb = -1;
+		shared_ptr<TimelineAudioContentView> cvb = dynamic_pointer_cast<TimelineAudioContentView>(b);
+		if (cvb) {
+			list<int> oc = cvb->content()->audio->mapping().mapped_output_channels();
+			lb = *min_element(begin(oc), end(oc));
+		}
+		return la < lb;
+	}
+};
+
 void
 Timeline::assign_tracks ()
 {
@@ -373,9 +394,13 @@ Timeline::assign_tracks ()
 		++_tracks;
 	}
 
-	/* Audio */
+	/* Audio.  We're sorting the views so that we get the audio views in order of increasing
+	   DCP channel index.
+	*/
 
-	int const audio_tracks = place<TimelineAudioContentView> (_views, _tracks);
+	TimelineViewList views = _views;
+	sort(views.begin(), views.end(), AudioMappingComparator());
+	int const audio_tracks = place<TimelineAudioContentView> (views, _tracks);
 
 	_labels_view->set_3d (have_3d);
 	_labels_view->set_audio_tracks (audio_tracks);
