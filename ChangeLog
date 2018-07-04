@@ -1,6 +1,9 @@
 2018-07-04  Carl Hetherington  <cth@carlh.net>
 
-	* Label audio content with its DCP channel mapping in the timeline (#1279).
+	* Sort audio views in order of their first mapped DCP channel (#1279).
+
+	* Label audio content with its DCP channel mapping, gain and delay
+	in the timeline (#1279).
 
 	* Add scrolling and zoom to the timeline (#1279, #1320).
 
