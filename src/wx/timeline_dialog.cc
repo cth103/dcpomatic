@@ -61,6 +61,8 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film)
 	wxBitmap snap (bitmap_path("snap"), wxBITMAP_TYPE_PNG);
 	wxBitmap sequence (bitmap_path("sequence"), wxBITMAP_TYPE_PNG);
 
+	cout << "select OK: " << select.IsOk() << "\n";
+
 	_toolbar = new wxToolBar (this, wxID_ANY);
 	_toolbar->AddRadioTool ((int) Timeline::SELECT, _("Select"), select, wxNullBitmap, _("Select and move content"));
 	_toolbar->AddRadioTool ((int) Timeline::ZOOM, _("Zoom"), zoom, wxNullBitmap, _("Zoom in / out"));
