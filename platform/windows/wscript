@@ -279,6 +279,8 @@ File "%graphics%/splash.png"
 File "%graphics%/zoom.png"
 File "%graphics%/zoom_all.png"
 File "%graphics%/select.png"
+File "%graphics%/snap.png"
+File "%graphics%/sequence.png"
 
 SectionEnd
     """, file=f)

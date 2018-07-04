@@ -69,7 +69,9 @@ public:
 	enum Tool {
 		SELECT,
 		ZOOM,
-		ZOOM_ALL
+		ZOOM_ALL,
+		SNAP,
+		SEQUENCE
 	};
 
 	void tool_clicked (Tool t);

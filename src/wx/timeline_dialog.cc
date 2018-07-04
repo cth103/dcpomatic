@@ -24,12 +24,14 @@
 #include "content_panel.h"
 #include "lib/playlist.h"
 #include "lib/cross.h"
+#include "lib/compose.hpp"
 #include <wx/graphics.h>
 #include <iostream>
 #include <list>
 
 using std::list;
 using std::cout;
+using std::string;
 using boost::shared_ptr;
 
 TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film)
@@ -53,25 +55,22 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film)
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 
-	wxBoxSizer* controls = new wxBoxSizer (wxHORIZONTAL);
+	wxBitmap select (bitmap_path("select"), wxBITMAP_TYPE_PNG);
+	wxBitmap zoom (bitmap_path ("zoom"), wxBITMAP_TYPE_PNG);
+	wxBitmap zoom_all (bitmap_path ("zoom_all"), wxBITMAP_TYPE_PNG);
+	wxBitmap snap (bitmap_path ("snap"), wxBITMAP_TYPE_PNG);
+	wxBitmap sequence (bitmap_path ("sequence"), wxBITMAP_TYPE_PNG);
 
-	wxBitmap select (wxString::Format (wxT ("%s/select.png"), std_to_wx (shared_path().string())), wxBITMAP_TYPE_PNG);
-	wxBitmap zoom (wxString::Format (wxT ("%s/zoom.png"), std_to_wx (shared_path().string())), wxBITMAP_TYPE_PNG);
-	wxBitmap zoom_all (wxString::Format (wxT ("%s/zoom_all.png"), std_to_wx (shared_path().string())), wxBITMAP_TYPE_PNG);
+	_toolbar = new wxToolBar (this, wxID_ANY);
+	_toolbar->AddRadioTool ((int) Timeline::SELECT, _("Select"), select, wxNullBitmap, _("Select and move content"));
+	_toolbar->AddRadioTool ((int) Timeline::ZOOM, _("Zoom"), zoom, wxNullBitmap, _("Zoom in / out"));
+	_toolbar->AddTool ((int) Timeline::ZOOM_ALL, _("Zoom all"), zoom_all, _("Zoom out to whole film"));
+	_toolbar->AddCheckTool ((int) Timeline::SNAP, _("Snap"), snap, wxNullBitmap, _("Snap"));
+	_toolbar->AddCheckTool ((int) Timeline::SEQUENCE, _("Sequence"), sequence, wxNullBitmap, _("Keep video and subtitles in sequence"));
 
-	wxToolBar* toolbar = new wxToolBar (this, wxID_ANY);
-	toolbar->AddRadioTool ((int) Timeline::SELECT, _("Select"), select, wxNullBitmap, _("Select and move content"));
-	toolbar->AddRadioTool ((int) Timeline::ZOOM, _("Zoom"), zoom, wxNullBitmap, _("Zoom in / out"));
-	toolbar->AddTool ((int) Timeline::ZOOM_ALL, _("Zoom all"), zoom_all, _("Zoom out to whole film"));
-	controls->Add (toolbar);
-	toolbar->Bind (wxEVT_TOOL, bind (&TimelineDialog::tool_clicked, this, _1));
+	_toolbar->Bind (wxEVT_TOOL, bind (&TimelineDialog::tool_clicked, this, _1));
 
-	_snap = new wxCheckBox (this, wxID_ANY, _("Snap"));
-	controls->Add (_snap);
-	_sequence = new wxCheckBox (this, wxID_ANY, _("Keep video and subtitles in sequence"));
-	controls->Add (_sequence, 1, wxLEFT, 12);
-
-	sizer->Add (controls, 0, wxALL, 12);
+	sizer->Add (_toolbar, 0, wxALL, 12);
 	sizer->Add (&_timeline, 1, wxEXPAND | wxALL, 12);
 
 #ifdef DCPOMATIC_LINUX
@@ -85,29 +84,17 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film)
 	sizer->Layout ();
 	sizer->SetSizeHints (this);
 
-	_snap->SetValue (_timeline.snap ());
-	_snap->Bind (wxEVT_CHECKBOX, boost::bind (&TimelineDialog::snap_toggled, this));
+        _toolbar->ToggleTool ((int) Timeline::SNAP, _timeline.snap ());
 	film_changed (Film::SEQUENCE);
-	_sequence->Bind (wxEVT_CHECKBOX, boost::bind (&TimelineDialog::sequence_toggled, this));
 
 	_film_changed_connection = film->Changed.connect (bind (&TimelineDialog::film_changed, this, _1));
 }
 
-void
-TimelineDialog::snap_toggled ()
+wxString
+TimelineDialog::bitmap_path (string name)
 {
-	_timeline.set_snap (_snap->GetValue ());
-}
-
-void
-TimelineDialog::sequence_toggled ()
-{
-	shared_ptr<Film> film = _film.lock ();
-	if (!film) {
-		return;
-	}
-
-	film->set_sequence (_sequence->GetValue ());
+	boost::filesystem::path p = shared_path() / String::compose("%1.png", name);
+	return std_to_wx (p.string ());
 }
 
 void
@@ -119,7 +106,7 @@ TimelineDialog::film_changed (Film::Property p)
 	}
 
 	if (p == Film::SEQUENCE) {
-		_sequence->SetValue (film->sequence ());
+		_toolbar->ToggleTool ((int) Timeline::SEQUENCE, film->sequence ());
 	}
 }
 
@@ -132,5 +119,14 @@ TimelineDialog::set_selection (ContentList selection)
 void
 TimelineDialog::tool_clicked (wxCommandEvent& ev)
 {
-	_timeline.tool_clicked ((Timeline::Tool) ev.GetId());
+	Timeline::Tool t = (Timeline::Tool) ev.GetId();
+	_timeline.tool_clicked (t);
+	if (t == Timeline::SNAP) {
+		_timeline.set_snap (_snap->IsToggled());
+	} else if (t == Timeline::SEQUENCE) {
+		shared_ptr<Film> film = _film.lock ();
+		if (film) {
+			film->set_sequence (_sequence->IsToggled());
+		}
+	}
 }

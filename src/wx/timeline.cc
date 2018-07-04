@@ -428,6 +428,8 @@ Timeline::left_down (wxMouseEvent& ev)
 		break;
 	case ZOOM:
 	case ZOOM_ALL:
+	case SNAP:
+	case SEQUENCE:
 		/* Nothing to do */
 		break;
 	}
@@ -499,6 +501,8 @@ Timeline::left_up (wxMouseEvent& ev)
 		left_up_zoom (ev);
 		break;
 	case ZOOM_ALL:
+	case SNAP:
+	case SEQUENCE:
 		break;
 	}
 }
@@ -571,6 +575,8 @@ Timeline::mouse_moved (wxMouseEvent& ev)
 		mouse_moved_zoom (ev);
 		break;
 	case ZOOM_ALL:
+	case SNAP:
+	case SEQUENCE:
 		break;
 	}
 }
@@ -611,6 +617,8 @@ Timeline::right_down (wxMouseEvent& ev)
 		Refresh ();
 		break;
 	case ZOOM_ALL:
+	case SNAP:
+	case SEQUENCE:
 		break;
 	}
 }
@@ -809,6 +817,9 @@ Timeline::tool_clicked (Tool t)
 		break;
 	case ZOOM_ALL:
 		zoom_all ();
+		break;
+	case SNAP:
+	case SEQUENCE:
 		break;
 	}
 }

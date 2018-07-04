@@ -66,7 +66,7 @@ else
     $INKSCAPE splash.png src/splash.svg -w 400 -h 300
 
     # Timeline toolbar icons (all platforms)
-    for i in select zoom zoom_all; do
+    for i in select zoom zoom_all snap sequence; do
         $INKSCAPE $i.png src/$i.svg -w 24 -h 24
     done
 

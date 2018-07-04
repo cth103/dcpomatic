@@ -33,14 +33,14 @@ public:
 	void set_selection (ContentList selection);
 
 private:
-	void snap_toggled ();
-	void sequence_toggled ();
 	void film_changed (Film::Property);
 	void tool_clicked (wxCommandEvent& id);
+	wxString bitmap_path (std::string name);
 
 	boost::weak_ptr<Film> _film;
 	Timeline _timeline;
-	wxCheckBox* _snap;
-	wxCheckBox* _sequence;
+	wxToolBar* _toolbar;
+	wxToolBarToolBase* _snap;
+	wxToolBarToolBase* _sequence;
 	boost::signals2::scoped_connection _film_changed_connection;
 };

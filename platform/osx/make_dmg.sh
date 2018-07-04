@@ -134,6 +134,8 @@ function copy_resources {
     cp $ROOT/32/src/dcpomatic/graphics/zoom.png "$dest"
     cp $ROOT/32/src/dcpomatic/graphics/zoom_all.png "$dest"
     cp $ROOT/32/src/dcpomatic/graphics/select.png "$dest"
+    cp $ROOT/32/src/dcpomatic/graphics/snap.png "$dest"
+    cp $ROOT/32/src/dcpomatic/graphics/sequence.png "$dest"
 
     # i18n: DCP-o-matic .mo files
     for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL ru_RU pl_PL da_DK pt_PT pt_BR sk_SK cs_CZ uk_UA zh_CN ar_LB fi_FI el_GR; do
