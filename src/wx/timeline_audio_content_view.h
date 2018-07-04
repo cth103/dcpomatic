@@ -34,4 +34,5 @@ private:
 	}
 	wxColour background_colour () const;
 	wxColour foreground_colour () const;
+	wxString label () const;
 };

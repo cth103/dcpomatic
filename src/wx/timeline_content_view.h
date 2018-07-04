@@ -47,6 +47,7 @@ public:
 	virtual bool active () const = 0;
 	virtual wxColour background_colour () const = 0;
 	virtual wxColour foreground_colour () const = 0;
+	virtual wxString label () const;
 
 protected:
 

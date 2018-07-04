@@ -141,15 +141,15 @@ TimelineContentView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> 
 	}
 
 	/* Label text */
-	wxString name = std_to_wx (cont->summary());
-	wxDouble name_width;
-	wxDouble name_height;
-	wxDouble name_descent;
-	wxDouble name_leading;
+	wxString lab = label ();
+	wxDouble lab_width;
+	wxDouble lab_height;
+	wxDouble lab_descent;
+	wxDouble lab_leading;
 	gc->SetFont (gc->CreateFont (*wxNORMAL_FONT, foreground_colour ()));
-	gc->GetTextExtent (name, &name_width, &name_height, &name_descent, &name_leading);
+	gc->GetTextExtent (lab, &lab_width, &lab_height, &lab_descent, &lab_leading);
 	gc->Clip (wxRegion (time_x (position), y_pos (_track.get()), len.seconds() * _timeline.pixels_per_second().get_value_or(0), _timeline.pixels_per_track()));
-	gc->DrawText (name, time_x (position) + 12, y_pos (_track.get() + 1) - name_height - 4);
+	gc->DrawText (lab, time_x (position) + 12, y_pos (_track.get() + 1) - lab_height - 4);
 	gc->ResetClip ();
 }
 
@@ -167,4 +167,10 @@ TimelineContentView::content_changed (int p)
 	if (p == ContentProperty::POSITION || p == ContentProperty::LENGTH) {
 		force_redraw ();
 	}
+}
+
+wxString
+TimelineContentView::label () const
+{
+	return std_to_wx(content()->summary());
 }

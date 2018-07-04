@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,8 +19,13 @@
 */
 
 #include "timeline_audio_content_view.h"
+#include "wx_util.h"
+#include "lib/audio_content.h"
+#include "lib/util.h"
 
+using std::list;
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 
 /** @class TimelineAudioContentView
  *  @brief Timeline view for AudioContent.
@@ -42,4 +47,21 @@ wxColour
 TimelineAudioContentView::foreground_colour () const
 {
 	return wxColour (0, 0, 0, 255);
+}
+
+wxString
+TimelineAudioContentView::label () const
+{
+	wxString s = TimelineContentView::label ();
+	shared_ptr<AudioContent> ac = content()->audio;
+	DCPOMATIC_ASSERT (ac);
+	list<int> mapped = ac->mapping().mapped_output_channels();
+	if (!mapped.empty ()) {
+		s += " → ";
+		BOOST_FOREACH (int i, mapped) {
+			s += std_to_wx(short_audio_channel_name(i)) + ", ";
+		}
+		s = s.Left(s.Length() - 2);
+	}
+	return s;
 }
