@@ -40,7 +40,5 @@ private:
 	boost::weak_ptr<Film> _film;
 	Timeline _timeline;
 	wxToolBar* _toolbar;
-	wxToolBarToolBase* _snap;
-	wxToolBarToolBase* _sequence;
 	boost::signals2::scoped_connection _film_changed_connection;
 };

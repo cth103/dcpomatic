@@ -808,7 +808,9 @@ void
 Timeline::scrolled (wxScrollWinEvent& ev)
 {
 	if (ev.GetOrientation() == wxVERTICAL) {
-		_labels_canvas->Scroll (0, ev.GetPosition ());
+		int x, y;
+		_main_canvas->GetViewState (&x, &y);
+		_labels_canvas->Scroll (0, y);
 	}
 	ev.Skip ();
 }

@@ -61,7 +61,7 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film)
 	wxBitmap snap (bitmap_path("snap"), wxBITMAP_TYPE_PNG);
 	wxBitmap sequence (bitmap_path("sequence"), wxBITMAP_TYPE_PNG);
 
-	_toolbar = new wxToolBar (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTB_HORIZONTAL | wxTB_TEXT);
+	_toolbar = new wxToolBar (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTB_HORIZONTAL);
 	_toolbar->SetMargins (4, 4);
 	_toolbar->AddRadioTool ((int) Timeline::SELECT, _("Select"), select, wxNullBitmap, _("Select and move content"));
 	_toolbar->AddRadioTool ((int) Timeline::ZOOM, _("Zoom"), zoom, wxNullBitmap, _("Zoom in / out"));
@@ -96,7 +96,6 @@ wxString
 TimelineDialog::bitmap_path (string name)
 {
 	boost::filesystem::path p = shared_path() / String::compose("%1.png", name);
-	cout << "Loading " << p.string() << "\n";
 	return std_to_wx (p.string());
 }
 
@@ -125,11 +124,11 @@ TimelineDialog::tool_clicked (wxCommandEvent& ev)
 	Timeline::Tool t = (Timeline::Tool) ev.GetId();
 	_timeline.tool_clicked (t);
 	if (t == Timeline::SNAP) {
-		_timeline.set_snap (_snap->IsToggled());
+		_timeline.set_snap (_toolbar->GetToolState ((int) t));
 	} else if (t == Timeline::SEQUENCE) {
 		shared_ptr<Film> film = _film.lock ();
 		if (film) {
-			film->set_sequence (_sequence->IsToggled());
+			film->set_sequence (_toolbar->GetToolState ((int) t));
 		}
 	}
 }
