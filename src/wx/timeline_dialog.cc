@@ -61,14 +61,14 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film)
 	wxBitmap snap (bitmap_path("snap"), wxBITMAP_TYPE_PNG);
 	wxBitmap sequence (bitmap_path("sequence"), wxBITMAP_TYPE_PNG);
 
-	cout << "select OK: " << select.IsOk() << "\n";
-
-	_toolbar = new wxToolBar (this, wxID_ANY);
+	_toolbar = new wxToolBar (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTB_HORIZONTAL | wxTB_TEXT);
+	_toolbar->SetMargins (4, 4);
 	_toolbar->AddRadioTool ((int) Timeline::SELECT, _("Select"), select, wxNullBitmap, _("Select and move content"));
 	_toolbar->AddRadioTool ((int) Timeline::ZOOM, _("Zoom"), zoom, wxNullBitmap, _("Zoom in / out"));
 	_toolbar->AddTool ((int) Timeline::ZOOM_ALL, _("Zoom all"), zoom_all, _("Zoom out to whole film"));
 	_toolbar->AddCheckTool ((int) Timeline::SNAP, _("Snap"), snap, wxNullBitmap, _("Snap"));
 	_toolbar->AddCheckTool ((int) Timeline::SEQUENCE, _("Sequence"), sequence, wxNullBitmap, _("Keep video and subtitles in sequence"));
+	_toolbar->Realize ();
 
 	_toolbar->Bind (wxEVT_TOOL, bind (&TimelineDialog::tool_clicked, this, _1));
 

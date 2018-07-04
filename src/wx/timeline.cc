@@ -96,7 +96,13 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	_main_canvas->Bind   (wxEVT_RIGHT_DOWN, boost::bind (&Timeline::right_down,   this, _1));
 	_main_canvas->Bind   (wxEVT_MOTION,     boost::bind (&Timeline::mouse_moved,  this, _1));
 	_main_canvas->Bind   (wxEVT_SIZE,       boost::bind (&Timeline::resized,      this));
-	_main_canvas->Bind   (wxEVT_SCROLLWIN_THUMBTRACK,  boost::bind (&Timeline::scrolled,     this, _1));
+	_main_canvas->Bind   (wxEVT_SCROLLWIN_TOP,        boost::bind (&Timeline::scrolled,     this, _1));
+	_main_canvas->Bind   (wxEVT_SCROLLWIN_BOTTOM,     boost::bind (&Timeline::scrolled,     this, _1));
+	_main_canvas->Bind   (wxEVT_SCROLLWIN_LINEUP,     boost::bind (&Timeline::scrolled,     this, _1));
+	_main_canvas->Bind   (wxEVT_SCROLLWIN_LINEDOWN,   boost::bind (&Timeline::scrolled,     this, _1));
+	_main_canvas->Bind   (wxEVT_SCROLLWIN_PAGEUP,     boost::bind (&Timeline::scrolled,     this, _1));
+	_main_canvas->Bind   (wxEVT_SCROLLWIN_PAGEDOWN,   boost::bind (&Timeline::scrolled,     this, _1));
+	_main_canvas->Bind   (wxEVT_SCROLLWIN_THUMBTRACK, boost::bind (&Timeline::scrolled,     this, _1));
 
 	film_changed (Film::CONTENT);
 
