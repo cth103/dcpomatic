@@ -56,10 +56,10 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film)
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 
 	wxBitmap select (bitmap_path("select"), wxBITMAP_TYPE_PNG);
-	wxBitmap zoom (bitmap_path ("zoom"), wxBITMAP_TYPE_PNG);
-	wxBitmap zoom_all (bitmap_path ("zoom_all"), wxBITMAP_TYPE_PNG);
-	wxBitmap snap (bitmap_path ("snap"), wxBITMAP_TYPE_PNG);
-	wxBitmap sequence (bitmap_path ("sequence"), wxBITMAP_TYPE_PNG);
+	wxBitmap zoom (bitmap_path("zoom"), wxBITMAP_TYPE_PNG);
+	wxBitmap zoom_all (bitmap_path("zoom_all"), wxBITMAP_TYPE_PNG);
+	wxBitmap snap (bitmap_path("snap"), wxBITMAP_TYPE_PNG);
+	wxBitmap sequence (bitmap_path("sequence"), wxBITMAP_TYPE_PNG);
 
 	_toolbar = new wxToolBar (this, wxID_ANY);
 	_toolbar->AddRadioTool ((int) Timeline::SELECT, _("Select"), select, wxNullBitmap, _("Select and move content"));
