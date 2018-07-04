@@ -67,7 +67,7 @@ else
 
     # Timeline toolbar icons (all platforms)
     for i in select zoom zoom_all snap sequence; do
-        $INKSCAPE $i.png src/$i.svg -w 24 -h 24
+        $INKSCAPE $i.png src/$i.svg -w 32 -h 32
     done
 
     # favicon
