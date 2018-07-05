@@ -47,6 +47,8 @@ using std::list;
 using std::cout;
 using std::min;
 using std::max;
+using std::begin;
+using std::end;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
