@@ -48,8 +48,6 @@ using std::list;
 using std::cout;
 using std::min;
 using std::max;
-using std::begin;
-using std::end;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
@@ -318,13 +316,13 @@ struct AudioMappingComparator {
 		shared_ptr<TimelineAudioContentView> cva = dynamic_pointer_cast<TimelineAudioContentView>(a);
 		if (cva) {
 			list<int> oc = cva->content()->audio->mapping().mapped_output_channels();
-			la = *min_element(begin(oc), end(oc));
+			la = *min_element(boost::begin(oc), boost::end(oc));
 		}
 		int lb = -1;
 		shared_ptr<TimelineAudioContentView> cvb = dynamic_pointer_cast<TimelineAudioContentView>(b);
 		if (cvb) {
 			list<int> oc = cvb->content()->audio->mapping().mapped_output_channels();
-			lb = *min_element(begin(oc), end(oc));
+			lb = *min_element(boost::begin(oc), boost::end(oc));
 		}
 		return la < lb;
 	}
