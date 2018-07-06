@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -26,6 +26,7 @@
 #include "kdm_timing_panel.h"
 #include "confirm_kdm_email_dialog.h"
 #include "wx_util.h"
+#include "kdm_advanced_dialog.h"
 #include "name_format_editor.h"
 #include <dcp/exceptions.h>
 #include <dcp/types.h>
@@ -46,10 +47,14 @@ using boost::function;
 
 KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 	: wxPanel (parent, wxID_ANY)
+	, _forensic_mark_video (false)
+	, _forensic_mark_audio (false)
 {
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, 0);
 
 	add_label_to_sizer (table, this, _("KDM type"), true);
+
+	wxBoxSizer* type = new wxBoxSizer (wxHORIZONTAL);
 	_type = new wxChoice (this, wxID_ANY);
 	_type->Append ("Modified Transitional 1", ((void *) dcp::MODIFIED_TRANSITIONAL_1));
 	_type->Append ("Multiple Modified Transitional 1", ((void *) dcp::MULTIPLE_MODIFIED_TRANSITIONAL_1));
@@ -58,8 +63,11 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 		_type->Append ("DCI Any", ((void *) dcp::DCI_ANY));
 		_type->Append ("DCI Specific", ((void *) dcp::DCI_SPECIFIC));
 	}
-	table->Add (_type, 1, wxEXPAND);
+	type->Add (_type, 1, wxEXPAND);
 	_type->SetSelection (0);
+	wxButton* advanced = new wxButton (this, wxID_ANY, _("Advanced..."));
+	type->Add (advanced, 0, wxALIGN_CENTER_VERTICAL);
+	table->Add (type, 1, wxEXPAND);
 
 	add_label_to_sizer (table, this, _("Folder / ZIP name format"), true, 0, wxALIGN_TOP | wxTOP | wxLEFT | wxRIGHT);
 	_container_name_format = new NameFormatEditor (this, Config::instance()->kdm_container_name_format(), dcp::NameFormat::Map(), dcp::NameFormat::Map(), "");
@@ -132,6 +140,7 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 	_write_flat->Bind   (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
 	_write_folder->Bind (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
 	_write_zip->Bind    (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
+	advanced->Bind      (wxEVT_BUTTON, boost::bind (&KDMOutputPanel::advanced_clicked, this));
 
 	SetSizer (table);
 }
@@ -144,6 +153,16 @@ KDMOutputPanel::setup_sensitivity ()
 	_write_flat->Enable (write);
 	_write_folder->Enable (write);
 	_write_zip->Enable (write);
+}
+
+void
+KDMOutputPanel::advanced_clicked ()
+{
+	KDMAdvancedDialog* d = new KDMAdvancedDialog (this, _forensic_mark_video, _forensic_mark_audio);
+	d->ShowModal ();
+	_forensic_mark_video = d->forensic_mark_video ();
+	_forensic_mark_audio = d->forensic_mark_audio ();
+	d->Destroy ();
 }
 
 void

@@ -41,6 +41,12 @@ public:
 
 	boost::filesystem::path directory () const;
 	dcp::Formulation formulation () const;
+	bool forensic_mark_video () const {
+		return _forensic_mark_video;
+	}
+	bool forensic_mark_audio () const {
+		return _forensic_mark_audio;
+	}
 
 	std::pair<boost::shared_ptr<Job>, int> make (
 		std::list<ScreenKDM> screen_kdms,
@@ -52,6 +58,7 @@ public:
 
 private:
 	void kdm_write_type_changed ();
+	void advanced_clicked ();
 
 	wxChoice* _type;
 	NameFormatEditor* _container_name_format;
@@ -66,4 +73,6 @@ private:
 	wxRadioButton* _write_folder;
 	wxRadioButton* _write_zip;
 	wxCheckBox* _email;
+	bool _forensic_mark_video;
+	bool _forensic_mark_audio;
 };
