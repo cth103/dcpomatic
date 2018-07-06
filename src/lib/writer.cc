@@ -130,7 +130,9 @@ Writer::write (Data encoded, Frame frame, Eyes eyes)
 	boost::mutex::scoped_lock lock (_state_mutex);
 
 	while (_queued_full_in_memory > _maximum_frames_in_memory) {
-		/* There are too many full frames in memory; wait until that is sorted out */
+		/* There are too many full frames in memory; wake the main writer thread and
+		   wait until it sorts everything out */
+		_empty_condition.notify_all ();
 		_full_condition.wait (lock);
 	}
 
@@ -175,8 +177,9 @@ Writer::repeat (Frame frame, Eyes eyes)
 
 	while (_queue.size() > _maximum_queue_size && have_sequenced_image_at_queue_head()) {
 		/* The queue is too big, and the main writer thread can run and fix it, so
-		   wait until it has done.
+		   wake it and wait until it has done.
 		*/
+		_empty_condition.notify_all ();
 		_full_condition.wait (lock);
 	}
 
@@ -205,8 +208,9 @@ Writer::fake_write (Frame frame, Eyes eyes)
 
 	while (_queue.size() > _maximum_queue_size && have_sequenced_image_at_queue_head()) {
 		/* The queue is too big, and the main writer thread can run and fix it, so
-		   wait until it has done.
+		   wake it and wait until it has done.
 		*/
+		_empty_condition.notify_all ();
 		_full_condition.wait (lock);
 	}
 
