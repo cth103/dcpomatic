@@ -61,31 +61,11 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 	table->Add (_type, 1, wxEXPAND);
 	_type->SetSelection (0);
 
-	{
-		int flags = wxALIGN_TOP | wxTOP | wxLEFT | wxRIGHT;
-		wxString t = _("Folder / ZIP name format");
-#ifdef __WXOSX__
-		flags |= wxALIGN_RIGHT;
-		t += wxT (":");
-#endif
-		wxStaticText* m = new wxStaticText (this, wxID_ANY, t);
-		table->Add (m, 0, flags, DCPOMATIC_SIZER_Y_GAP);
-	}
-
+	add_label_to_sizer (table, this, _("Folder / ZIP name format"), true, 0, wxALIGN_TOP | wxTOP | wxLEFT | wxRIGHT);
 	_container_name_format = new NameFormatEditor (this, Config::instance()->kdm_container_name_format(), dcp::NameFormat::Map(), dcp::NameFormat::Map(), "");
 	table->Add (_container_name_format->panel(), 1, wxEXPAND);
 
-	{
-		int flags = wxALIGN_TOP | wxTOP | wxLEFT | wxRIGHT;
-		wxString t = _("Filename format");
-#ifdef __WXOSX__
-		flags |= wxALIGN_RIGHT;
-		t += wxT (":");
-#endif
-		wxStaticText* m = new wxStaticText (this, wxID_ANY, t);
-		table->Add (m, 0, flags, DCPOMATIC_SIZER_Y_GAP);
-	}
-
+	add_label_to_sizer (table, this, _("Filename format"), true, 0, wxALIGN_TOP | wxTOP | wxLEFT | wxRIGHT);
 	dcp::NameFormat::Map titles;
 	titles['f'] = "film name";
 	titles['c'] = "cinema";

@@ -46,12 +46,11 @@ using dcp::locale_convert;
  */
 wxStaticText *
 #ifdef __WXOSX__
-add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, bool left, int prop)
+add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, bool left, int prop, int flags)
 #else
-add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, bool, int prop)
+add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, bool, int prop, int flags)
 #endif
 {
-	int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT;
 #ifdef __WXOSX__
 	if (left) {
 		flags |= wxALIGN_RIGHT;
