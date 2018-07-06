@@ -258,7 +258,7 @@ ContentPanel::selection_changed ()
 	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
 		DCPTime p;
 		p = i->position();
-		if (dynamic_pointer_cast<TextSubtitleContent>(i)) {
+		if (dynamic_pointer_cast<TextSubtitleContent>(i) && i->paths_valid()) {
 			/* Rather special case; if we select a text subtitle file jump to its
 			   first subtitle.
 			*/
