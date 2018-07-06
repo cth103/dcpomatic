@@ -976,6 +976,10 @@ Config::read_cinemas (cxml::Document const & f)
 void
 Config::set_cinemas_file (boost::filesystem::path file)
 {
+	if (file == _cinemas_file) {
+		return;
+	}
+
 	_cinemas_file = file;
 
 	if (boost::filesystem::exists (_cinemas_file)) {
