@@ -1,5 +1,7 @@
 2018-07-07  Carl Hetherington  <cth@carlh.net>
 
+	* Add export buton for cinemas XML file (#1319).
+
 	* Give better errors when incorrect KDMs are used (#1326).
 
 2018-07-06  Carl Hetherington  <cth@carlh.net>

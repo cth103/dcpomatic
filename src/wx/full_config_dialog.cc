@@ -103,6 +103,8 @@ private:
 		add_label_to_sizer (table, _panel, _("Cinema and screen database file"), true, wxGBPosition (r, 0));
 		_cinemas_file = new FilePickerCtrl (_panel, _("Select cinema and screen database file"), "*.xml", true);
 		table->Add (_cinemas_file, wxGBPosition (r, 1));
+		wxButton* export_cinemas = new wxButton (_panel, wxID_ANY, _("Export..."));
+		table->Add (export_cinemas, wxGBPosition (r, 2));
 		++r;
 
 		add_play_sound_controls (table, r);
@@ -140,6 +142,7 @@ private:
 		_master_encoding_threads->Bind (wxEVT_SPINCTRL, boost::bind (&FullGeneralPage::master_encoding_threads_changed, this));
 		_server_encoding_threads->SetRange (1, 128);
 		_server_encoding_threads->Bind (wxEVT_SPINCTRL, boost::bind (&FullGeneralPage::server_encoding_threads_changed, this));
+		export_cinemas->Bind (wxEVT_BUTTON, boost::bind (&FullGeneralPage::export_cinemas_file, this));
 
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 		_analyse_ebur128->Bind (wxEVT_CHECKBOX, boost::bind (&FullGeneralPage::analyse_ebur128_changed, this));
@@ -166,6 +169,19 @@ private:
 		checked_set (_cinemas_file, config->cinemas_file());
 
 		GeneralPage::config_changed ();
+	}
+
+	void export_cinemas_file ()
+	{
+		wxFileDialog* d = new wxFileDialog (
+			_panel, _("Select Cinemas File"), wxEmptyString, wxEmptyString, wxT ("XML files (*.xml)|*.xml"),
+			wxFD_SAVE | wxFD_OVERWRITE_PROMPT
+                );
+
+		if (d->ShowModal () == wxID_OK) {
+			boost::filesystem::copy_file (Config::instance()->cinemas_file(), path_from_file_dialog (d, "xml"));
+		}
+		d->Destroy ();
 	}
 
 
