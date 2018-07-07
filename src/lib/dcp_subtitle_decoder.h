@@ -32,8 +32,8 @@ public:
 	void seek (ContentTime time, bool accurate);
 
 private:
-	ContentTimePeriod content_time_period (dcp::SubtitleString s) const;
+	ContentTimePeriod content_time_period (boost::shared_ptr<dcp::Subtitle> s) const;
 
-	std::list<dcp::SubtitleString> _subtitles;
-	std::list<dcp::SubtitleString>::const_iterator _next;
+	std::list<boost::shared_ptr<dcp::Subtitle> > _subtitles;
+	std::list<boost::shared_ptr<dcp::Subtitle> >::const_iterator _next;
 };

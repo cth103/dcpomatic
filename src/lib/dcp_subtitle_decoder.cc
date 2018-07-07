@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -26,6 +26,7 @@
 using std::list;
 using std::cout;
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 using boost::bind;
 
 DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> content, shared_ptr<Log> log)
@@ -47,8 +48,8 @@ DCPSubtitleDecoder::seek (ContentTime time, bool accurate)
 	Decoder::seek (time, accurate);
 
 	_next = _subtitles.begin ();
-	list<dcp::SubtitleString>::const_iterator i = _subtitles.begin ();
-	while (i != _subtitles.end() && ContentTime::from_seconds (_next->in().as_seconds()) < time) {
+	list<shared_ptr<dcp::Subtitle> >::const_iterator i = _subtitles.begin ();
+	while (i != _subtitles.end() && ContentTime::from_seconds ((*_next)->in().as_seconds()) < time) {
 		++i;
 	}
 }
@@ -71,8 +72,13 @@ DCPSubtitleDecoder::pass ()
 	ContentTimePeriod const p = content_time_period (*_next);
 
 	while (_next != _subtitles.end () && content_time_period (*_next) == p) {
-		s.push_back (*_next);
-		++_next;
+		shared_ptr<dcp::SubtitleString> ns = dynamic_pointer_cast<dcp::SubtitleString>(*_next);
+		if (ns) {
+			s.push_back (*ns);
+			++_next;
+		}
+
+		/* XXX: image subtitles */
 	}
 
 	subtitle->emit_text (p, s);
@@ -80,10 +86,10 @@ DCPSubtitleDecoder::pass ()
 }
 
 ContentTimePeriod
-DCPSubtitleDecoder::content_time_period (dcp::SubtitleString s) const
+DCPSubtitleDecoder::content_time_period (shared_ptr<dcp::Subtitle> s) const
 {
 	return ContentTimePeriod (
-		ContentTime::from_seconds (s.in().as_seconds ()),
-		ContentTime::from_seconds (s.out().as_seconds ())
+		ContentTime::from_seconds (s->in().as_seconds ()),
+		ContentTime::from_seconds (s->out().as_seconds ())
 		);
 }

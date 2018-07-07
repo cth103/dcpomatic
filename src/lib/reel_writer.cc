@@ -557,7 +557,7 @@ ReelWriter::write (PlayerSubtitles subs)
 	BOOST_FOREACH (SubtitleString i, subs.text) {
 		i.set_in  (i.in()  - dcp::Time (_period.from.seconds(), i.in().tcr));
 		i.set_out (i.out() - dcp::Time (_period.from.seconds(), i.out().tcr));
-		_subtitle_asset->add (i);
+		_subtitle_asset->add (shared_ptr<dcp::Subtitle>(new dcp::SubtitleString(i)));
 	}
 }
 

@@ -198,22 +198,27 @@ DCPDecoder::pass_subtitles (ContentTime next)
 
 	if ((*_reel)->main_subtitle() && (_decode_referenced || !_dcp_content->reference_subtitle())) {
 		int64_t const entry_point = (*_reel)->main_subtitle()->entry_point ();
-		list<dcp::SubtitleString> subs = (*_reel)->main_subtitle()->asset()->subtitles_during (
+		list<shared_ptr<dcp::Subtitle> > subs = (*_reel)->main_subtitle()->asset()->subtitles_during (
 			dcp::Time (entry_point + frame, vfr, vfr),
 			dcp::Time (entry_point + frame + 1, vfr, vfr),
 			true
 			);
 
-		BOOST_FOREACH (dcp::SubtitleString i, subs) {
-			list<dcp::SubtitleString> s;
-			s.push_back (i);
-			subtitle->emit_text (
-				ContentTimePeriod (
-					ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (i.in().as_seconds ()),
-					ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (i.out().as_seconds ())
-					),
-				s
-				);
+		BOOST_FOREACH (shared_ptr<dcp::Subtitle> i, subs) {
+			shared_ptr<dcp::SubtitleString> is = dynamic_pointer_cast<dcp::SubtitleString> (i);
+			if (is) {
+				list<dcp::SubtitleString> s;
+				s.push_back (*is);
+				subtitle->emit_text (
+					ContentTimePeriod (
+						ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (i->in().as_seconds ()),
+						ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (i->out().as_seconds ())
+						),
+					s
+					);
+			}
+
+			/* XXX: image subtitles */
 		}
 	}
 }
