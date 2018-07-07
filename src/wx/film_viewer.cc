@@ -462,7 +462,7 @@ FilmViewer::panel_sized (wxSizeEvent& ev)
 void
 FilmViewer::calculate_sizes ()
 {
-	if (!_film) {
+	if (!_film || !_player) {
 		return;
 	}
 
