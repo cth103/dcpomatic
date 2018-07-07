@@ -180,6 +180,12 @@ Job::run_wrapper ()
 		set_progress (1);
 		set_state (FINISHED_ERROR);
 
+	} catch (KDMError& e) {
+
+		set_error (e.summary(), e.detail());
+		set_progress (1);
+		set_state (FINISHED_ERROR);
+
 	} catch (std::exception& e) {
 
 		set_error (

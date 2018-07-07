@@ -89,4 +89,14 @@ ProgrammingError::ProgrammingError (string file, int line, string message)
 
 KDMAsContentError::KDMAsContentError ()
 	: runtime_error (_("This file is a KDM.  KDMs should be added to DCP content by right-clicking the content and choosing \"Add KDM\"."))
-{}
+{
+
+}
+
+KDMError::KDMError (string s, string d)
+	: runtime_error (String::compose ("%1 (%2)", s, d))
+	, _summary (s)
+	, _detail (d)
+{
+
+}

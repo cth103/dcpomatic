@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -23,9 +23,13 @@
 #include "dcp_content.h"
 #include <dcp/dcp.h>
 #include <dcp/decrypted_kdm.h>
+#include <dcp/exceptions.h>
 #include <boost/foreach.hpp>
 
+#include "i18n.h"
+
 using std::list;
+using std::string;
 using boost::shared_ptr;
 
 /** Find all the CPLs in our directories, cross-add assets and return the CPLs */
@@ -54,7 +58,24 @@ DCP::cpls () const
 
 	if (_dcp_content->kdm ()) {
 		BOOST_FOREACH (shared_ptr<dcp::DCP> i, dcps) {
-			i->add (dcp::DecryptedKDM (_dcp_content->kdm().get(), Config::instance()->decryption_chain()->key().get ()));
+			try {
+				i->add (dcp::DecryptedKDM (_dcp_content->kdm().get(), Config::instance()->decryption_chain()->key().get ()));
+			} catch (dcp::KDMDecryptionError& e) {
+				/* Flesh out the error a bit */
+				string const kdm_subject_name = _dcp_content->kdm()->recipient_x509_subject_name();
+				bool on_chain = false;
+				shared_ptr<const dcp::CertificateChain> dc = Config::instance()->decryption_chain();
+				BOOST_FOREACH (dcp::Certificate i, dc->root_to_leaf()) {
+					if (i.subject() == kdm_subject_name) {
+						on_chain = true;
+					}
+				}
+				if (!on_chain) {
+					throw KDMError (_("KDM was not made for DCP-o-matic's decryption certificate."), e.what());
+				} else if (on_chain && kdm_subject_name != dc->leaf().subject()) {
+					throw KDMError (_("KDM was made for DCP-o-matic but not for its leaf certificate."), e.what());
+				}
+			}
 		}
 	}
 

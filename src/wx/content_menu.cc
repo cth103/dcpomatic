@@ -35,6 +35,7 @@
 #include "lib/dcp_examiner.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/audio_content.h"
+#include "lib/config.h"
 #include <dcp/cpl.h>
 #include <dcp/exceptions.h>
 #include <wx/wx.h>
@@ -144,6 +145,8 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 			} catch (dcp::DCPReadError) {
 				/* The DCP is probably missing */
 			} catch (dcp::KDMDecryptionError) {
+				/* We have an incorrect KDM */
+			} catch (KDMError) {
 				/* We have an incorrect KDM */
 			}
 		} else {
@@ -377,7 +380,7 @@ ContentMenu::kdm ()
 		try {
 			dcp->add_kdm (dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (d->GetPath ()), MAX_KDM_SIZE)));
 		} catch (exception& e) {
-			error_dialog (_parent, wxString::Format (_("Could not load KDM.")), std_to_wx(e.what()));
+			error_dialog (_parent, _("Could not load KDM"), std_to_wx(e.what()));
 			d->Destroy ();
 			return;
 		}

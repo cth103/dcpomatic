@@ -219,7 +219,7 @@ Emailer::send (string server, int port, string user, string password)
 
 	CURLcode const r = curl_easy_perform (curl);
 	if (r != CURLE_OK) {
-		throw KDMError (String::compose (_("Failed to send email (%1)"), curl_easy_strerror (r)));
+		throw KDMError (_("Failed to send email"), curl_easy_strerror (r));
 	}
 
 	curl_slist_free_all (recipients);

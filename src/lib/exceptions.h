@@ -192,9 +192,19 @@ public:
 class KDMError : public std::runtime_error
 {
 public:
-	explicit KDMError (std::string s)
-		: std::runtime_error (s)
-	{}
+	KDMError (std::string s, std::string d);
+
+	std::string summary () const {
+		return _summary;
+	}
+
+	std::string detail () const {
+		return _detail;
+	}
+
+private:
+	std::string _summary;
+	std::string _detail;
 };
 
 /** @class PixelFormatError
