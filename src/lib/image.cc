@@ -30,6 +30,7 @@
 #include "dcpomatic_socket.h"
 #include <dcp/rgb_xyz.h>
 #include <dcp/transfer_function.h>
+#include <Magick++.h>
 extern "C" {
 #include <libswscale/swscale.h>
 #include <libavutil/pixfmt.h>
@@ -825,7 +826,8 @@ Image::allocate ()
 }
 
 Image::Image (Image const & other)
-	: _size (other._size)
+	: enable_shared_from_this<Image>(other)
+	, _size (other._size)
 	, _pixel_format (other._pixel_format)
 	, _aligned (other._aligned)
 	, _extra_pixels (other._extra_pixels)
@@ -1125,8 +1127,8 @@ Image::fade (float f)
 	}
 }
 
-shared_ptr<Image>
-Image::ensure_aligned (shared_ptr<Image> image)
+shared_ptr<const Image>
+Image::ensure_aligned (shared_ptr<const Image> image)
 {
 	if (image->aligned()) {
 		return image;
@@ -1143,4 +1145,39 @@ Image::memory_used () const
 		m += _stride[i] * sample_size(i).height;
 	}
 	return m;
+}
+
+dcp::Data
+Image::as_png () const
+{
+#ifdef DCPOMATIC_IMAGE_MAGICK
+		using namespace MagickCore;
+#else
+		using namespace MagickLib;
+#endif
+
+	string format;
+	switch (_pixel_format) {
+	case AV_PIX_FMT_RGB24:
+		format = "RGB";
+		break;
+	case AV_PIX_FMT_BGRA:
+		format = "BGRA";
+		break;
+	default:
+		DCPOMATIC_ASSERT (false);
+		break;
+	}
+
+	shared_ptr<const Image> use;
+	if (aligned()) {
+		use.reset (new Image(shared_from_this(), false));
+	}
+
+	Magick::Image m (size().width, size().height, format, CharPixel, (void *) use->data()[0]);
+	m.magick ("PNG");
+	Magick::Blob blob;
+	m.write (&blob);
+	/* XXX: could use a subclass of Data here (storing its data in a Blob) */
+	return dcp::Data (static_cast<const uint8_t*>(blob.data()), blob.length());
 }

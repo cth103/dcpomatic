@@ -665,10 +665,6 @@ Writer::can_fake_write (Frame frame) const
 void
 Writer::write (PlayerSubtitles subs, DCPTimePeriod period)
 {
-	if (subs.text.empty ()) {
-		return;
-	}
-
 	while (_subtitle_reel->period().to <= period.from) {
 		++_subtitle_reel;
 		DCPOMATIC_ASSERT (_subtitle_reel != _reels.end());
@@ -676,7 +672,7 @@ Writer::write (PlayerSubtitles subs, DCPTimePeriod period)
 
 	DCPOMATIC_ASSERT (_subtitle_reel != _reels.end());
 
-	_subtitle_reel->write (subs);
+	_subtitle_reel->write (subs, period);
 }
 
 void

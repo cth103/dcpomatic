@@ -33,11 +33,12 @@ extern "C" {
 }
 #include <dcp/colour_conversion.h>
 #include <boost/shared_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
 
 struct AVFrame;
 class Socket;
 
-class Image
+class Image : public boost::enable_shared_from_this<Image>
 {
 public:
 	Image (AVPixelFormat p, dcp::Size s, bool aligned, int extra_pixels = 0);
@@ -80,7 +81,9 @@ public:
 
 	size_t memory_used () const;
 
-	static boost::shared_ptr<Image> ensure_aligned (boost::shared_ptr<Image> image);
+	dcp::Data as_png () const;
+
+	static boost::shared_ptr<const Image> ensure_aligned (boost::shared_ptr<const Image> image);
 
 private:
 	friend struct pixel_formats_test;

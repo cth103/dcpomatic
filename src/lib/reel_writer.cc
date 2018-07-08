@@ -27,6 +27,7 @@
 #include "font.h"
 #include "compose.hpp"
 #include "audio_buffers.h"
+#include "image.h"
 #include <dcp/mono_picture_asset.h>
 #include <dcp/stereo_picture_asset.h>
 #include <dcp/sound_asset.h>
@@ -42,6 +43,7 @@
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/smpte_subtitle_asset.h>
 #include <dcp/raw_convert.h>
+#include <dcp/subtitle_image.h>
 #include <boost/foreach.hpp>
 
 #include "i18n.h"
@@ -526,7 +528,7 @@ ReelWriter::write (shared_ptr<const AudioBuffers> audio)
 }
 
 void
-ReelWriter::write (PlayerSubtitles subs)
+ReelWriter::write (PlayerSubtitles subs, DCPTimePeriod period)
 {
 	if (!_subtitle_asset) {
 		string lang = _film->subtitle_language ();
@@ -555,9 +557,24 @@ ReelWriter::write (PlayerSubtitles subs)
 	}
 
 	BOOST_FOREACH (SubtitleString i, subs.text) {
+		/* XXX: couldn't / shouldn't we use period here rather than getting time from the subtitle? */
 		i.set_in  (i.in()  - dcp::Time (_period.from.seconds(), i.in().tcr));
 		i.set_out (i.out() - dcp::Time (_period.from.seconds(), i.out().tcr));
 		_subtitle_asset->add (shared_ptr<dcp::Subtitle>(new dcp::SubtitleString(i)));
+	}
+
+	BOOST_FOREACH (ImageSubtitle i, subs.image) {
+		_subtitle_asset->add (
+			shared_ptr<dcp::Subtitle>(
+				new dcp::SubtitleImage(
+					i.image->as_png(),
+					dcp::Time(period.from.seconds(), _film->video_frame_rate()),
+					dcp::Time(period.to.seconds(), _film->video_frame_rate()),
+					i.rectangle.x, dcp::HALIGN_LEFT, i.rectangle.y, dcp::VALIGN_TOP,
+					dcp::Time(), dcp::Time()
+					)
+				)
+			);
 	}
 }
 
