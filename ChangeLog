@@ -1,5 +1,7 @@
 2018-07-09  Carl Hetherington  <cth@carlh.net>
 
+	* Maintain content sequence after trim (#1327).
+
 	* Keep video content position and trim on frame boundaries
 	even if the content's frame rate is forced to a new value (#1335).
 
