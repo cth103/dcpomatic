@@ -58,23 +58,7 @@ BOOST_AUTO_TEST_CASE (ssa_subtitle_test1)
 	wait_for_jobs ();
 
 	/* Find the subtitle file and check it */
-	for (
-		boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (film->directory().get() / film->dcp_name (false));
-		i != boost::filesystem::directory_iterator ();
-		++i) {
-
-		if (boost::filesystem::is_directory (i->path ())) {
-			for (
-				boost::filesystem::directory_iterator j = boost::filesystem::directory_iterator (i->path ());
-				j != boost::filesystem::directory_iterator ();
-				++j) {
-
-				if (boost::algorithm::starts_with (j->path().leaf().string(), "sub_")) {
-					list<string> ignore;
-					ignore.push_back ("SubtitleID");
-					check_xml (*j, private_data / "DKH_UT_EN20160601def.xml", ignore);
-				}
-			}
-		}
-	}
+	list<string> ignore;
+	ignore.push_back ("SubtitleID");
+	check_xml (subtitle_file(film), private_data / "DKH_UT_EN20160601def.xml", ignore);
 }

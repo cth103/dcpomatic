@@ -89,25 +89,9 @@ static void
 check_subtitle_file (shared_ptr<Film> film, boost::filesystem::path ref)
 {
 	/* Find the subtitle file and check it */
-	for (
-		boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (film->directory().get() / film->dcp_name (false));
-		i != boost::filesystem::directory_iterator ();
-		++i) {
-
-		if (boost::filesystem::is_directory (i->path ())) {
-			for (
-				boost::filesystem::directory_iterator j = boost::filesystem::directory_iterator (i->path ());
-				j != boost::filesystem::directory_iterator ();
-				++j) {
-
-				if (boost::algorithm::starts_with (j->path().leaf().string(), "sub_")) {
-					list<string> ignore;
-					ignore.push_back ("SubtitleID");
-					check_xml (*j, ref, ignore);
-				}
-			}
-		}
-	}
+	list<string> ignore;
+	ignore.push_back ("SubtitleID");
+	check_xml (subtitle_file(film), ref, ignore);
 }
 
 /** Make another DCP with a longer .srt file */

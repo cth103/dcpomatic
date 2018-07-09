@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -34,6 +34,7 @@
 #include "lib/subtitle_content.h"
 #include "lib/content_subtitle.h"
 #include "lib/subtitle_decoder.h"
+#include "lib/font.h"
 #include "test.h"
 #include <iostream>
 
@@ -66,14 +67,14 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test)
 	film->set_interop (false);
 	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent (film, "test/data/dcp_sub.xml"));
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs ());
 
 	BOOST_CHECK_EQUAL (content->full_length().get(), DCPTime::from_seconds(2).get());
 
 	content->subtitle->set_use (true);
 	content->subtitle->set_burn (false);
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs ());
 
 	check_dcp ("test/data/dcp_subtitle_test", film->dir (film->dcp_name ()));
 }
@@ -87,7 +88,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 	film->set_name ("frobozz");
 	shared_ptr<DCPContent> content (new DCPContent (film, private_data / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV"));
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs ());
 
 	shared_ptr<DCPDecoder> decoder (new DCPDecoder (content, film->log(), false));
 	decoder->subtitle->TextStart.connect (bind (store, _1));
@@ -110,7 +111,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test2)
 	film->set_name ("frobozz");
 	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent (film, "test/data/dcp_sub2.xml"));
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs ());
 
 	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (content, film->log()));
 	decoder->subtitle->TextStart.connect (bind (store, _1));
@@ -133,10 +134,10 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test3)
 	film->set_interop (true);
 	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent (film, "test/data/dcp_sub3.xml"));
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs ());
 
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs ());
 
 	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (content, film->log()));
 	stored = optional<ContentTextSubtitle> ();
@@ -156,4 +157,27 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test3)
 			BOOST_REQUIRE (i == s.end ());
 		}
 	}
+}
+
+/** Check that Interop DCPs aren't made with more than one <LoadFont> (#1273) */
+BOOST_AUTO_TEST_CASE (dcp_subtitle_test4)
+{
+	shared_ptr<Film> film = new_test_film2 ("dcp_subtitle_test4");
+	film->set_interop (true);
+
+	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent (film, "test/data/dcp_sub3.xml"));
+	film->examine_and_add_content (content);
+	shared_ptr<DCPSubtitleContent> content2 (new DCPSubtitleContent (film, "test/data/dcp_sub3.xml"));
+	film->examine_and_add_content (content2);
+	BOOST_REQUIRE (!wait_for_jobs ());
+
+	content->subtitle->add_font (shared_ptr<Font> (new Font ("font1")));
+	content2->subtitle->add_font (shared_ptr<Font> (new Font ("font2")));
+
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs ());
+
+	cxml::Document doc ("DCSubtitle");
+	doc.read_file (subtitle_file (film));
+	BOOST_REQUIRE_EQUAL (doc.node_children("LoadFont").size(), 1);
 }
