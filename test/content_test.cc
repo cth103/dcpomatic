@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -75,4 +75,53 @@ BOOST_AUTO_TEST_CASE (content_test2)
 	content->set_trim_start(ContentTime::from_seconds(0.5));
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());
+}
+
+/** Check that position and start trim of video content is forced to a frame boundary */
+BOOST_AUTO_TEST_CASE (content_test3)
+{
+	shared_ptr<Film> film = new_test_film2 ("content_test3");
+	film->set_sequence (false);
+
+	shared_ptr<Content> content = content_factory(film, "test/data/red_24.mp4").front();
+	film->examine_and_add_content (content);
+	BOOST_REQUIRE (!wait_for_jobs ());
+
+	/* Trim */
+
+	/* 12 frames */
+	content->set_trim_start (ContentTime::from_seconds (12.0 / 24.0));
+	BOOST_CHECK (content->trim_start() == ContentTime::from_seconds (12.0 / 24.0));
+
+	/* 11.2 frames */
+	content->set_trim_start (ContentTime::from_seconds (11.2 / 24.0));
+	BOOST_CHECK (content->trim_start() == ContentTime::from_seconds (11.0 / 24.0));
+
+	/* 13.9 frames */
+	content->set_trim_start (ContentTime::from_seconds (13.9 / 24.0));
+	BOOST_CHECK (content->trim_start() == ContentTime::from_seconds (14.0 / 24.0));
+
+	/* Position */
+
+	/* 12 frames */
+	content->set_position (DCPTime::from_seconds (12.0 / 24.0));
+	BOOST_CHECK (content->position() == DCPTime::from_seconds (12.0 / 24.0));
+
+	/* 11.2 frames */
+	content->set_position (DCPTime::from_seconds (11.2 / 24.0));
+	BOOST_CHECK (content->position() == DCPTime::from_seconds (11.0 / 24.0));
+
+	/* 13.9 frames */
+	content->set_position (DCPTime::from_seconds (13.9 / 24.0));
+	BOOST_CHECK (content->position() == DCPTime::from_seconds (14.0 / 24.0));
+
+	content->set_video_frame_rate (25);
+
+	/* Check that trim is fixed when the content's video frame rate is `forced' */
+
+	BOOST_CHECK (content->trim_start() == ContentTime::from_seconds (15.0 / 25.0));
+
+	/* Likewise position */
+
+	BOOST_CHECK (content->position() == DCPTime::from_seconds (15.0 / 25.0));
 }

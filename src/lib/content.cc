@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -360,6 +360,12 @@ Content::set_video_frame_rate (double r)
 	}
 
 	signal_changed (ContentProperty::VIDEO_FRAME_RATE);
+
+	/* Make sure things are still on frame boundaries */
+	if (video) {
+		set_position (position());
+		set_trim_start (trim_start());
+	}
 }
 
 void

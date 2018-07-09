@@ -1,3 +1,8 @@
+2018-07-09  Carl Hetherington  <cth@carlh.net>
+
+	* Keep video content position and trim on frame boundaries
+	even if the content's frame rate is forced to a new value (#1335).
+
 2018-07-07  Carl Hetherington  <cth@carlh.net>
 
 	* Add export buton for cinemas XML file (#1319).
