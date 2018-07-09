@@ -826,7 +826,7 @@ Image::allocate ()
 }
 
 Image::Image (Image const & other)
-	: enable_shared_from_this<Image>(other)
+	: boost::enable_shared_from_this<Image>(other)
 	, _size (other._size)
 	, _pixel_format (other._pixel_format)
 	, _aligned (other._aligned)
