@@ -193,6 +193,7 @@ class KDMError : public std::runtime_error
 {
 public:
 	KDMError (std::string s, std::string d);
+	~KDMError () throw() {}
 
 	std::string summary () const {
 		return _summary;
