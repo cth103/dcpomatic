@@ -123,21 +123,30 @@ sources = """
 
 def configure(conf):
     try:
-        wx_config = 'wx-config-3.0-gtk2'
-        conf.check_cfg(msg='Checking for wxWidgets using wx-config-3.0-gtk2',
+        wx_config = '/usr/lib64/wx/config/gtk2-unicode-3.0'
+        conf.check_cfg(msg='Checking for wxWidgets using gtk2-unicode-3.0',
                        package='',
                        path=wx_config,
                        args='--cppflags --cxxflags --libs std,richtext',
                        uselib_store='WXWIDGETS',
                        mandatory=True)
     except:
-        wx_config = 'wx-config'
-        conf.check_cfg(msg='Checking for wxWidgets using wx-config',
-                       package='',
-                       path=wx_config,
-                       args='--cppflags --cxxflags --libs std,richtext',
-                       uselib_store='WXWIDGETS',
-                       mandatory=True)
+        try:
+            wx_config = 'wx-config-3.0-gtk2'
+            conf.check_cfg(msg='Checking for wxWidgets using wx-config-3.0-gtk2',
+                           package='',
+                           path=wx_config,
+                           args='--cppflags --cxxflags --libs std,richtext',
+                           uselib_store='WXWIDGETS',
+                           mandatory=True)
+        except:
+            wx_config = 'wx-config'
+            conf.check_cfg(msg='Checking for wxWidgets using wx-config',
+                           package='',
+                           path=wx_config,
+                           args='--cppflags --cxxflags --libs std,richtext',
+                           uselib_store='WXWIDGETS',
+                           mandatory=True)
 
     if conf.options.static_wxwidgets:
 	# wx-config returns its static libraries as full paths, without -l prefixes, which confuses
