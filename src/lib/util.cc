@@ -577,7 +577,8 @@ valid_image_file (boost::filesystem::path f)
 	return (
 		ext == ".tif" || ext == ".tiff" || ext == ".jpg" || ext == ".jpeg" ||
 		ext == ".png" || ext == ".bmp" || ext == ".tga" || ext == ".dpx" ||
-		ext == ".j2c" || ext == ".j2k" || ext == ".jp2" || ext == ".exr"
+		ext == ".j2c" || ext == ".j2k" || ext == ".jp2" || ext == ".exr" ||
+		ext == ".jpf"
 		);
 }
 
