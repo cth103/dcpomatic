@@ -62,7 +62,7 @@ UpdateChecker::UpdateChecker ()
 {
 	_curl = curl_easy_init ();
 
-	curl_easy_setopt (_curl, CURLOPT_URL, "http://dcpomatic.com/update");
+	curl_easy_setopt (_curl, CURLOPT_URL, "https://dcpomatic.com/update");
 	curl_easy_setopt (_curl, CURLOPT_WRITEFUNCTION, write_callback_wrapper);
 	curl_easy_setopt (_curl, CURLOPT_WRITEDATA, this);
 	curl_easy_setopt (_curl, CURLOPT_TIMEOUT, 20);
