@@ -82,6 +82,7 @@ def configure(conf):
                                        '-Wextra',
                                        # Remove auto_ptr warnings from libxml++-2.6
                                        '-Wno-deprecated-declarations',
+                                       '-Wno-ignored-qualifiers',
                                        '-D_FILE_OFFSET_BITS=64'])
 
     if conf.options.force_cpp11:
