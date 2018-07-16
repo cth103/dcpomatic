@@ -233,10 +233,10 @@ BOOST_AUTO_TEST_CASE (reels_test4)
 
 BOOST_AUTO_TEST_CASE (reels_test5)
 {
-	shared_ptr<Film> film = new_test_film ("reels_test4");
-	shared_ptr<DCPContent> dcp (new DCPContent (film, "test/data/reels_test4"));
+	shared_ptr<Film> film = new_test_film ("reels_test5");
+	shared_ptr<DCPContent> dcp (new DCPContent (film, "test/data/reels_test5"));
 	film->examine_and_add_content (dcp);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs ());
 
 	/* Set to 2123 but it will be rounded up to the next frame (4000) */
 	dcp->set_position(DCPTime(2123));
