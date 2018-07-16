@@ -104,7 +104,6 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 	film->set_name ("frobozz");
 	film->set_interop (true);
 	film->set_audio_channels (6);
-	film->set_interop (false);
 	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, private_data / "Ankoemmling_short.srt"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
