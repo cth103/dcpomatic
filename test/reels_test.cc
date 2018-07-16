@@ -234,6 +234,7 @@ BOOST_AUTO_TEST_CASE (reels_test4)
 BOOST_AUTO_TEST_CASE (reels_test5)
 {
 	shared_ptr<Film> film = new_test_film ("reels_test5");
+	film->set_sequence (false);
 	shared_ptr<DCPContent> dcp (new DCPContent (film, "test/data/reels_test4"));
 	film->examine_and_add_content (dcp);
 	BOOST_REQUIRE (!wait_for_jobs ());
