@@ -227,7 +227,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 		pair<shared_ptr<PlayerVideo>, DCPTime> video = butler->get_video();
 		BOOST_CHECK_EQUAL(video.second.get(), t.get());
 		write_image(video.first->image(note_handler, PlayerVideo::always_rgb, false, true), String::compose("build/test/player_seek_test_%1.png", i), "RGB");
-		check_image(String::compose("test/data/player_seek_test_%1.png", i), String::compose("build/test/player_seek_test_%1.png", i));
+		check_image(String::compose("test/data/player_seek_test_%1.png", i), String::compose("build/test/player_seek_test_%1.png", i), 0.01);
 	}
 }
 
@@ -256,6 +256,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 		pair<shared_ptr<PlayerVideo>, DCPTime> video = butler->get_video();
 		BOOST_CHECK_EQUAL(video.second.get(), t.get());
 		write_image(video.first->image(note_handler, PlayerVideo::always_rgb, false, true), String::compose("build/test/player_seek_test2_%1.png", i), "RGB");
-		check_image(String::compose("test/data/player_seek_test2_%1.png", i), String::compose("build/test/player_seek_test2_%1.png", i));
+		/* Differences in font rendering appear here sometimes */
+		check_image(String::compose("test/data/player_seek_test2_%1.png", i), String::compose("build/test/player_seek_test2_%1.png", i), 0.015);
 	}
 }

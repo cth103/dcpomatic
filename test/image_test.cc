@@ -174,7 +174,7 @@ alpha_blend_test_one (AVPixelFormat format, string suffix)
 	shared_ptr<Image> save = background->convert_pixel_format (dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, false);
 
 	write_image (save, "build/test/image_test_" + suffix + ".png", "RGB");
-	check_image ("build/test/image_test_" + suffix + ".png", private_data / ("image_test_" + suffix + ".png"));
+	check_image ("build/test/image_test_" + suffix + ".png", private_data / ("image_test_" + suffix + ".png"), 0.01);
 }
 
 /** Test Image::alpha_blend */
@@ -265,5 +265,5 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test)
 	shared_ptr<Image> out = raw->crop_scale_window(Crop(), dcp::Size(1998, 836), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_YUV420P, true, false);
 	shared_ptr<Image> save = out->scale(dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, false);
 	write_image(save, "build/test/crop_scale_window_test.png", "RGB");
-	check_image("test/data/crop_scale_window_test.png", "build/test/crop_scale_window_test.png");
+	check_image("test/data/crop_scale_window_test.png", "build/test/crop_scale_window_test.png", 0.01);
 }
