@@ -34,6 +34,7 @@
 #include "lib/ratio.h"
 #include "lib/dcp_content_type.h"
 #include "lib/log_entry.h"
+#include "lib/j2k_image_proxy.h"
 #include "lib/compose.hpp"
 #include "test.h"
 #include <dcp/dcp.h>
@@ -68,6 +69,7 @@ using std::abs;
 using boost::shared_ptr;
 using boost::scoped_array;
 using boost::dynamic_pointer_cast;
+using boost::optional;
 
 boost::filesystem::path private_data = boost::filesystem::path ("..") / boost::filesystem::path ("dcpomatic-test-private");
 
@@ -445,7 +447,7 @@ check_ffmpeg (boost::filesystem::path ref, boost::filesystem::path check, int au
 }
 
 void
-check_one_frame (boost::filesystem::path dcp_dir, int64_t index, boost::filesystem::path ref)
+check_one_frame (boost::filesystem::path dcp_dir, int64_t index, dcp::Size dcp_size, boost::filesystem::path ref, dcp::Size ref_size)
 {
 	dcp::DCP dcp (dcp_dir);
 	dcp.read ();
@@ -453,18 +455,30 @@ check_one_frame (boost::filesystem::path dcp_dir, int64_t index, boost::filesyst
 	BOOST_REQUIRE (asset);
 	shared_ptr<const dcp::MonoPictureFrame> frame = asset->start_read()->get_frame(index);
 
-	boost::uintmax_t const ref_size = boost::filesystem::file_size(ref);
-	BOOST_CHECK_EQUAL (frame->j2k_size(), ref_size);
+	J2KImageProxy dcp_proxy (frame, dcp_size, AV_PIX_FMT_RGB48, optional<int>());
+	J2KImageProxy ref_proxy (ref, ref_size, AV_PIX_FMT_RGB48);
 
-	FILE* ref_file = fopen_boost(ref, "rb");
-	BOOST_REQUIRE (ref_file);
+	shared_ptr<Image> dcp_image = dcp_proxy.image().first->convert_pixel_format (dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, true, false);
+	shared_ptr<Image> ref_image = ref_proxy.image().first->convert_pixel_format (dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, true, false);
 
-	uint8_t* ref_data = new uint8_t[ref_size];
-	fread (ref_data, ref_size, 1, ref_file);
-	fclose (ref_file);
+#ifdef DCPOMATIC_IMAGE_MAGICK
+		using namespace MagickCore;
+#else
+		using namespace MagickLib;
+#endif
 
-	BOOST_CHECK (memcmp(ref_data, frame->j2k_data(), ref_size) == 0);
-	delete[] ref_data;
+	Magick::Image dcp_magick (dcp_image->size().width, dcp_image->size().height, "RGB", CharPixel, (void *) dcp_image->data()[0]);
+	Magick::Image ref_magick (ref_image->size().width, ref_image->size().height, "RGB", CharPixel, (void *) ref_image->data()[0]);
+
+	/* XXX: this is a hack; we really want the ImageMagick call but GraphicsMagick doesn't have it;
+	   this may cause random test failures on platforms that use GraphicsMagick.
+	*/
+#ifdef DCPOMATIC_ADVANCED_MAGICK_COMPARE
+	double const dist = ref_magick.compare(dcp_magick, Magick::RootMeanSquaredErrorMetric);
+	BOOST_CHECK_MESSAGE (dist < 0.001, ref << " differs from " << dcp_dir << ":" << index << " " << dist);
+#else
+	BOOST_CHECK_MESSAGE (!ref_magick.compare(dcp_magick), ref << " differs from " << check);
+#endif
 }
 
 boost::filesystem::path

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+#include <dcp/types.h>
 #include <boost/filesystem.hpp>
 
 class Film;
@@ -40,4 +41,4 @@ extern void check_image (boost::filesystem::path, boost::filesystem::path, doubl
 extern boost::filesystem::path test_film_dir (std::string);
 extern void write_image (boost::shared_ptr<const Image> image, boost::filesystem::path file, std::string format);
 boost::filesystem::path dcp_file (boost::shared_ptr<const Film> film, std::string prefix);
-void check_one_frame (boost::filesystem::path dcp, int64_t index, boost::filesystem::path ref);
+void check_one_frame (boost::filesystem::path dcp, int64_t index, dcp::Size dcp_size, boost::filesystem::path ref, dcp::Size ref_size);
