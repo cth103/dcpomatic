@@ -477,7 +477,7 @@ check_one_frame (boost::filesystem::path dcp_dir, int64_t index, dcp::Size dcp_s
 	double const dist = ref_magick.compare(dcp_magick, Magick::RootMeanSquaredErrorMetric);
 	BOOST_CHECK_MESSAGE (dist < 0.001, ref << " differs from " << dcp_dir << ":" << index << " " << dist);
 #else
-	BOOST_CHECK_MESSAGE (!ref_magick.compare(dcp_magick), ref << " differs from " << check);
+	BOOST_CHECK_MESSAGE (!ref_magick.compare(dcp_magick), ref << " differs from " << dcp_dir << ":" << index);
 #endif
 }
 
