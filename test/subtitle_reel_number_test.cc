@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_number_test)
 			shared_ptr<dcp::InteropSubtitleAsset> ass = dynamic_pointer_cast<dcp::InteropSubtitleAsset>(i->main_subtitle()->asset());
 			BOOST_REQUIRE (ass);
 			BOOST_CHECK_EQUAL (ass->reel_number(), dcp::raw_convert<string>(n));
-			++n;
 		}
+		++n;
 	}
 }
