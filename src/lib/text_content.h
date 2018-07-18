@@ -50,9 +50,9 @@ public:
 };
 
 /** @class TextContent
- *  @brief Description of how some subtitle content should be presented.
+ *  @brief Description of how some text content should be presented.
  *
- *  There are `image' subtitles (bitmaps) and `text' subtitles (plain text),
+ *  There are `bitmap' subtitles and `plain' subtitles (plain text),
  *  and not all of the settings in this class correspond to both types.
  */
 class TextContent : public ContentPart
