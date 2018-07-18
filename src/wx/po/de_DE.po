@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/audio_panel.cc:56 src/wx/subtitle_panel.cc:56
-#: src/wx/video_panel.cc:82
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-06-29 00:16+0100\n"
-"PO-Revision-Date: 2018-04-25 02:36+0100\n"
+"PO-Revision-Date: 2018-07-18 04:28+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -776,9 +774,8 @@ msgid "Effect colour"
 msgstr "Effektfarbe"
 
 #: src/wx/full_config_dialog.cc:697 src/wx/full_config_dialog.cc:932
-#, fuzzy
 msgid "Email"
-msgstr "KDM Emailversand"
+msgstr "Email"
 
 #: src/wx/email_dialog.cc:29 src/wx/email_dialog.cc:31
 msgid "Email address"
@@ -1227,9 +1224,8 @@ msgid "MOV files (*.mov)|*.mov"
 msgstr "MOV Dateien (*.mov)|*.mov"
 
 #: src/wx/export_dialog.cc:33
-#, fuzzy
 msgid "MP4 / H.264"
-msgstr "H.264"
+msgstr "MP4/H.264"
 
 #: src/wx/export_dialog.cc:38
 msgid "MP4 files (*.mp4)|*.mp4"
@@ -1282,7 +1278,7 @@ msgstr "Mbit/s"
 
 #: src/wx/full_config_dialog.cc:928
 msgid "Message box"
-msgstr ""
+msgstr "Hinweisfenster"
 
 #: src/wx/export_dialog.cc:58
 msgid "Mix audio down to stereo"
@@ -1332,7 +1328,8 @@ msgstr "Benötigt KDM:"
 msgid "NEEDS OV: "
 msgstr "Benötigt OV:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:73 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:73
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Name"
 
@@ -1386,13 +1383,12 @@ msgid "Notes"
 msgstr "Anmerkungen"
 
 #: src/wx/full_config_dialog.cc:911
-#, fuzzy
 msgid "Notifications"
-msgstr "DCP Integritätsprüfung"
+msgstr "Benachrichtigungen"
 
 #: src/wx/job_view.cc:78
 msgid "Notify when complete"
-msgstr ""
+msgstr "Nach Fertigstellung benachrichtigen"
 
 #: src/wx/full_config_dialog.cc:93
 msgid "Number of threads DCP-o-matic encode server should use"
@@ -2087,9 +2083,8 @@ msgid "Timing|Timing"
 msgstr "Timing/Trimmen"
 
 #: src/wx/full_config_dialog.cc:944
-#, fuzzy
 msgid "To address"
-msgstr "Absenderadresse"
+msgstr "Empfängeradresse"
 
 #: src/wx/video_panel.cc:140
 msgid "Top"
