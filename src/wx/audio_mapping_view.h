@@ -83,7 +83,7 @@ private:
 	void paint_top_labels ();
 	void mouse_moved_left_labels (wxMouseEvent &);
 	void setup_sizes ();
-	void grid_scrolled ();
+	void grid_scrolled (wxScrollWinEvent& ev);
 
 	void off ();
 	void full ();
@@ -91,8 +91,8 @@ private:
 	void edit ();
 
 	wxGrid* _grid;
-	wxPanel* _left_labels;
-	wxPanel* _top_labels;
+	wxScrolledCanvas* _left_labels;
+	wxScrolledCanvas* _top_labels;
 	AudioMapping _map;
 
 	wxMenu* _menu;
