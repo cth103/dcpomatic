@@ -18,8 +18,8 @@
 
 */
 
-#include "text_text_decoder.h"
-#include "text_text_content.h"
+#include "plain_text_decoder.h"
+#include "plain_text_content.h"
 #include "text_content.h"
 #include <dcp/subtitle_string.h>
 #include <boost/foreach.hpp>
@@ -34,7 +34,7 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 
-TextTextDecoder::TextTextDecoder (shared_ptr<const TextTextContent> content, shared_ptr<Log> log)
+TextTextDecoder::TextTextDecoder (shared_ptr<const PlainText> content, shared_ptr<Log> log)
 	: TextSubtitle (content)
 	, _next (0)
 {

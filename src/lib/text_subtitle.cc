@@ -21,7 +21,7 @@
 #include "text_subtitle.h"
 #include "cross.h"
 #include "exceptions.h"
-#include "text_text_content.h"
+#include "plain_text_content.h"
 #include <sub/subrip_reader.h>
 #include <sub/ssa_reader.h>
 #include <sub/collect.h>
@@ -39,7 +39,7 @@ using boost::scoped_array;
 using boost::optional;
 using dcp::Data;
 
-TextSubtitle::TextSubtitle (shared_ptr<const TextTextContent> content)
+TextSubtitle::TextSubtitle (shared_ptr<const PlainText> content)
 {
 	Data in (content->path (0));
 

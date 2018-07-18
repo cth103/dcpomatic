@@ -18,7 +18,7 @@
 
 */
 
-#include "text_text_content.h"
+#include "plain_text_content.h"
 #include "util.h"
 #include "text_subtitle.h"
 #include "film.h"
@@ -35,13 +35,13 @@ using std::cout;
 using boost::shared_ptr;
 using dcp::raw_convert;
 
-TextTextContent::TextTextContent (shared_ptr<const Film> film, boost::filesystem::path path)
+PlainText::PlainText (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
 {
 	subtitle.reset (new TextContent (this));
 }
 
-TextTextContent::TextTextContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
+PlainText::PlainText (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 	, _length (node->number_child<ContentTime::Type> ("Length"))
 {
@@ -49,7 +49,7 @@ TextTextContent::TextTextContent (shared_ptr<const Film> film, cxml::ConstNodePt
 }
 
 void
-TextTextContent::examine (boost::shared_ptr<Job> job)
+PlainText::examine (boost::shared_ptr<Job> job)
 {
 	Content::examine (job);
 	TextSubtitle s (shared_from_this ());
@@ -63,19 +63,19 @@ TextTextContent::examine (boost::shared_ptr<Job> job)
 }
 
 string
-TextTextContent::summary () const
+PlainText::summary () const
 {
 	return path_summary() + " " + _("[subtitles]");
 }
 
 string
-TextTextContent::technical_summary () const
+PlainText::technical_summary () const
 {
 	return Content::technical_summary() + " - " + _("Text subtitles");
 }
 
 void
-TextTextContent::as_xml (xmlpp::Node* node, bool with_paths) const
+PlainText::as_xml (xmlpp::Node* node, bool with_paths) const
 {
 	node->add_child("Type")->add_child_text ("TextSubtitle");
 	Content::as_xml (node, with_paths);
@@ -88,7 +88,7 @@ TextTextContent::as_xml (xmlpp::Node* node, bool with_paths) const
 }
 
 DCPTime
-TextTextContent::full_length () const
+PlainText::full_length () const
 {
 	FrameRateChange const frc (active_video_frame_rate(), film()->video_frame_rate ());
 	return DCPTime (_length, frc);

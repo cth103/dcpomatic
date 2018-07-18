@@ -29,7 +29,7 @@
 class TextFileContent;
 class text_file_time_test;
 class text_file_coordinate_test;
-class text_text_content_test;
+class plain_text_content_test;
 class text_file_parse_test;
 
 class TextFile

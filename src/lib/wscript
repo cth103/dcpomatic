@@ -135,8 +135,8 @@ sources = """
           text_content.cc
           text_decoder.cc
           text_subtitle.cc
-          text_text_content.cc
-          text_text_decoder.cc
+          plain_text_content.cc
+          plain_text_decoder.cc
           timer.cc
           transcode_job.cc
           types.cc
