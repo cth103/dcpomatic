@@ -53,7 +53,8 @@ J2KImageProxy::J2KImageProxy (boost::filesystem::path path, dcp::Size size, AVPi
 	, _size (size)
 	, _pixel_format (pixel_format)
 {
-
+	/* ::image assumes 16bpp */
+	DCPOMATIC_ASSERT (_pixel_format == AV_PIX_FMT_RGB48 || _pixel_format == AV_PIX_FMT_XYZ12LE);
 }
 
 J2KImageProxy::J2KImageProxy (
@@ -67,6 +68,8 @@ J2KImageProxy::J2KImageProxy (
 	, _pixel_format (pixel_format)
 	, _forced_reduction (forced_reduction)
 {
+	/* ::image assumes 16bpp */
+	DCPOMATIC_ASSERT (_pixel_format == AV_PIX_FMT_RGB48 || _pixel_format == AV_PIX_FMT_XYZ12LE);
 	memcpy (_data.data().get(), frame->j2k_data(), _data.size ());
 }
 
@@ -82,6 +85,8 @@ J2KImageProxy::J2KImageProxy (
 	, _pixel_format (pixel_format)
 	, _forced_reduction (forced_reduction)
 {
+	/* ::image assumes 16bpp */
+	DCPOMATIC_ASSERT (_pixel_format == AV_PIX_FMT_RGB48 || _pixel_format == AV_PIX_FMT_XYZ12LE);
 	switch (eye) {
 	case dcp::EYE_LEFT:
 		_data = Data (frame->left_j2k_size ());
@@ -217,7 +222,8 @@ J2KImageProxy::J2KImageProxy (Data data, dcp::Size size, AVPixelFormat pixel_for
 	, _size (size)
 	, _pixel_format (pixel_format)
 {
-
+	/* ::image assumes 16bpp */
+	DCPOMATIC_ASSERT (_pixel_format == AV_PIX_FMT_RGB48 || _pixel_format == AV_PIX_FMT_XYZ12LE);
 }
 
 size_t
