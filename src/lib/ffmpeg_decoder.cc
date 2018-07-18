@@ -669,7 +669,7 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime 
 		static_cast<double> (rect->h) / target_height
 		);
 
-	subtitle->emit_image_start (from, image, scaled_rect);
+	subtitle->emit_bitmap_start (from, image, scaled_rect);
 }
 
 void
@@ -702,6 +702,6 @@ FFmpegDecoder::decode_ass_subtitle (string ass, ContentTime from)
 		);
 
 	BOOST_FOREACH (sub::Subtitle const & i, sub::collect<list<sub::Subtitle> > (raw)) {
-		subtitle->emit_text_start (from, i);
+		subtitle->emit_plain_start (from, i);
 	}
 }

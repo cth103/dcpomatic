@@ -18,12 +18,12 @@
 
 */
 
-/** @file  test/render_subtitles_test.cc
+/** @file  test/render_text_test.cc
  *  @brief Check markup of subtitles for rendering.
  *  @ingroup specific
  */
 
-#include "lib/render_subtitles.h"
+#include "lib/render_text.h"
 #include <dcp/subtitle_string.h>
 #include <boost/test/unit_test.hpp>
 
@@ -57,7 +57,7 @@ add (std::list<SubtitleString>& s, std::string text, bool italic, bool bold, boo
 		);
 }
 
-/** Test marked_up() in render_subtitles.cc */
+/** Test marked_up() in render_text.cc */
 BOOST_AUTO_TEST_CASE (render_markup_test1)
 {
 	std::list<SubtitleString> s;
@@ -65,7 +65,7 @@ BOOST_AUTO_TEST_CASE (render_markup_test1)
 	BOOST_CHECK_EQUAL (marked_up (s, 1024, 1), "<span size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
 }
 
-/** Test marked_up() in render_subtitles.cc */
+/** Test marked_up() in render_text.cc */
 BOOST_AUTO_TEST_CASE (render_markup_test2)
 {
 	std::list<SubtitleString> s;
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE (render_markup_test2)
 }
 
 
-/** Test marked_up() in render_subtitles.cc */
+/** Test marked_up() in render_text.cc */
 BOOST_AUTO_TEST_CASE (render_markup_test3)
 {
 	std::list<SubtitleString> s;
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE (render_markup_test3)
 	BOOST_CHECK_EQUAL (marked_up (s, 1024, 1), "<span style=\"italic\" weight=\"bold\" size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
 }
 
-/** Test marked_up() in render_subtitles.cc */
+/** Test marked_up() in render_text.cc */
 BOOST_AUTO_TEST_CASE (render_markup_test4)
 {
 	std::list<SubtitleString> s;
@@ -90,7 +90,7 @@ BOOST_AUTO_TEST_CASE (render_markup_test4)
 	BOOST_CHECK_EQUAL (marked_up (s, 1024, 1), "<span style=\"italic\" weight=\"bold\" underline=\"single\" size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
 }
 
-/** Test marked_up() in render_subtitles.cc */
+/** Test marked_up() in render_text.cc */
 BOOST_AUTO_TEST_CASE (render_markup_test5)
 {
 	std::list<SubtitleString> s;
@@ -99,7 +99,7 @@ BOOST_AUTO_TEST_CASE (render_markup_test5)
 	BOOST_CHECK_EQUAL (marked_up (s, 1024, 1), "<span weight=\"bold\" size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span><span size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\"> world.</span>");
 }
 
-/** Test marked_up() in render_subtitles.cc */
+/** Test marked_up() in render_text.cc */
 BOOST_AUTO_TEST_CASE (render_markup_test6)
 {
 	std::list<SubtitleString> s;

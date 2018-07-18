@@ -18,14 +18,30 @@
 
 */
 
-#include "position_image.h"
+#ifndef DCPOMATIC_TEXT_SUBTITLE_H
+#define DCPOMATIC_TEXT_SUBTITLE_H
+
 #include "dcpomatic_time.h"
-#include "subtitle_string.h"
-#include <dcp/util.h>
+#include <sub/subtitle.h>
+#include <boost/shared_ptr.hpp>
+#include <vector>
 
-class Font;
+class PlainText;
+class plain_text_time_test;
+class plain_text_coordinate_test;
+class plain_text_content_test;
+class plain_text_parse_test;
 
-std::string marked_up (std::list<SubtitleString> subtitles, int target_height, float fade_factor);
-std::list<PositionImage> render_subtitles (
-	std::list<SubtitleString>, std::list<boost::shared_ptr<Font> > fonts, dcp::Size, DCPTime, int
-	);
+class TextSubtitle
+{
+public:
+	explicit TextSubtitle (boost::shared_ptr<const PlainText>);
+
+	boost::optional<ContentTime> first () const;
+	ContentTime length () const;
+
+protected:
+	std::vector<sub::Subtitle> _subtitles;
+};
+
+#endif

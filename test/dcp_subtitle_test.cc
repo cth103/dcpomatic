@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	shared_ptr<DCPDecoder> decoder (new DCPDecoder (content, film->log(), false));
-	decoder->subtitle->TextStart.connect (bind (store, _1));
+	decoder->subtitle->PlainStart.connect (bind (store, _1));
 
 	stored = optional<ContentTextSubtitle> ();
 	while (!decoder->pass() && !stored) {}
@@ -114,7 +114,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test2)
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	shared_ptr<DCPTextDecoder> decoder (new DCPTextDecoder (content, film->log()));
-	decoder->subtitle->TextStart.connect (bind (store, _1));
+	decoder->subtitle->PlainStart.connect (bind (store, _1));
 
 	stored = optional<ContentTextSubtitle> ();
 	while (!decoder->pass ()) {
@@ -142,7 +142,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test3)
 	shared_ptr<DCPTextDecoder> decoder (new DCPTextDecoder (content, film->log()));
 	stored = optional<ContentTextSubtitle> ();
 	while (!decoder->pass ()) {
-		decoder->subtitle->TextStart.connect (bind (store, _1));
+		decoder->subtitle->PlainStart.connect (bind (store, _1));
 		if (stored && stored->from() == ContentTime::from_seconds(0.08)) {
 			list<dcp::SubtitleString> s = stored->subs;
 			list<dcp::SubtitleString>::const_iterator i = s.begin ();

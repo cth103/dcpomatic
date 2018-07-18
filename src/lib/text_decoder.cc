@@ -58,14 +58,14 @@ TextDecoder::TextDecoder (
  *  of the video frame)
  */
 void
-TextDecoder::emit_image_start (ContentTime from, shared_ptr<Image> image, dcpomatic::Rect<double> rect)
+TextDecoder::emit_bitmap_start (ContentTime from, shared_ptr<Image> image, dcpomatic::Rect<double> rect)
 {
-	ImageStart (ContentImageSubtitle (from, image, rect));
+	BitmapStart (ContentBitmapText (from, image, rect));
 	_position = from;
 }
 
 void
-TextDecoder::emit_text_start (ContentTime from, list<dcp::SubtitleString> s)
+TextDecoder::emit_plain_start (ContentTime from, list<dcp::SubtitleString> s)
 {
 	BOOST_FOREACH (dcp::SubtitleString& i, s) {
 		/* We must escape < and > in strings, otherwise they might confuse our subtitle
@@ -94,12 +94,12 @@ TextDecoder::emit_text_start (ContentTime from, list<dcp::SubtitleString> s)
 		}
 	}
 
-	TextStart (ContentTextSubtitle (from, s));
+	PlainStart (ContentTextSubtitle (from, s));
 	_position = from;
 }
 
 void
-TextDecoder::emit_text_start (ContentTime from, sub::Subtitle const & subtitle)
+TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 {
 	/* See if our next subtitle needs to be vertically placed on screen by us */
 	bool needs_placement = false;
@@ -191,7 +191,7 @@ TextDecoder::emit_text_start (ContentTime from, sub::Subtitle const & subtitle)
 
 			/* The idea here (rightly or wrongly) is that we set the appearance based on the
 			   values in the libsub objects, and these are overridden with values from the
-			   content by the other emit_text_start() above.
+			   content by the other emit_plain_start() above.
 			*/
 
 			out.push_back (
@@ -227,7 +227,7 @@ TextDecoder::emit_text_start (ContentTime from, sub::Subtitle const & subtitle)
 		}
 	}
 
-	emit_text_start (from, out);
+	emit_plain_start (from, out);
 }
 
 void
@@ -237,16 +237,16 @@ TextDecoder::emit_stop (ContentTime to)
 }
 
 void
-TextDecoder::emit_text (ContentTimePeriod period, list<dcp::SubtitleString> s)
+TextDecoder::emit_plain (ContentTimePeriod period, list<dcp::SubtitleString> s)
 {
-	emit_text_start (period.from, s);
+	emit_plain_start (period.from, s);
 	emit_stop (period.to);
 }
 
 void
-TextDecoder::emit_text (ContentTimePeriod period, sub::Subtitle const & s)
+TextDecoder::emit_plain (ContentTimePeriod period, sub::Subtitle const & s)
 {
-	emit_text_start (period.from, s);
+	emit_plain_start (period.from, s);
 	emit_stop (period.to);
 }
 

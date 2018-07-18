@@ -40,7 +40,7 @@
 #include "lib/log.h"
 #include "lib/compose.hpp"
 #include "lib/plain_text_content.h"
-#include "lib/text_subtitle.h"
+#include "lib/plain_text.h"
 #include <wx/wx.h>
 #include <wx/notebook.h>
 #include <wx/listctrl.h>

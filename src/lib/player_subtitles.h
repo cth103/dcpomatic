@@ -21,7 +21,7 @@
 #ifndef DCPOMATIC_PLAYER_SUBTITLES_H
 #define DCPOMATIC_PLAYER_SUBTITLES_H
 
-#include "image_subtitle.h"
+#include "bitmap_text.h"
 #include "dcpomatic_time.h"
 #include "subtitle_string.h"
 
@@ -34,8 +34,8 @@ public:
 	void add_fonts (std::list<boost::shared_ptr<Font> > fonts_);
 	std::list<boost::shared_ptr<Font> > fonts;
 
-	/** ImageSubtitles, with their rectangles transformed as specified by their content */
-	std::list<ImageSubtitle> image;
+	/** BitmapTexts, with their rectangles transformed as specified by their content */
+	std::list<BitmapText> image;
 	std::list<SubtitleString> text;
 };
 

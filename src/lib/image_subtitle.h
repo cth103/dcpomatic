@@ -26,10 +26,10 @@
 
 class Image;
 
-class ImageSubtitle
+class BitmapText
 {
 public:
-	ImageSubtitle (boost::shared_ptr<Image> i, dcpomatic::Rect<double> r)
+	BitmapText (boost::shared_ptr<Image> i, dcpomatic::Rect<double> r)
 		: image (i)
 		, rectangle (r)
 	{}

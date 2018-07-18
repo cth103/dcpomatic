@@ -119,7 +119,7 @@ sources = """
           ratio.cc
           raw_image_proxy.cc
           reel_writer.cc
-          render_subtitles.cc
+          render_text.cc
           resampler.cc
           rgba.cc
           scoped_temporary.cc
@@ -134,7 +134,7 @@ sources = """
           string_log_entry.cc
           text_content.cc
           text_decoder.cc
-          text_subtitle.cc
+          plain_text.cc
           plain_text_content.cc
           plain_text_decoder.cc
           timer.cc

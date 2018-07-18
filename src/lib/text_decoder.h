@@ -49,11 +49,11 @@ public:
 		return _position;
 	}
 
-	void emit_image_start (ContentTime from, boost::shared_ptr<Image> image, dcpomatic::Rect<double> rect);
-	void emit_text_start (ContentTime from, std::list<dcp::SubtitleString> s);
-	void emit_text_start (ContentTime from, sub::Subtitle const & subtitle);
-	void emit_text (ContentTimePeriod period, std::list<dcp::SubtitleString> s);
-	void emit_text (ContentTimePeriod period, sub::Subtitle const & subtitle);
+	void emit_bitmap_start (ContentTime from, boost::shared_ptr<Image> image, dcpomatic::Rect<double> rect);
+	void emit_plain_start (ContentTime from, std::list<dcp::SubtitleString> s);
+	void emit_plain_start (ContentTime from, sub::Subtitle const & subtitle);
+	void emit_plain (ContentTimePeriod period, std::list<dcp::SubtitleString> s);
+	void emit_plain (ContentTimePeriod period, sub::Subtitle const & subtitle);
 	void emit_stop (ContentTime to);
 
 	void seek ();
@@ -62,8 +62,8 @@ public:
 		return _content;
 	}
 
-	boost::signals2::signal<void (ContentImageSubtitle)> ImageStart;
-	boost::signals2::signal<void (ContentTextSubtitle)> TextStart;
+	boost::signals2::signal<void (ContentBitmapText)> BitmapStart;
+	boost::signals2::signal<void (ContentTextSubtitle)> PlainStart;
 	boost::signals2::signal<void (ContentTime)> Stop;
 
 private:

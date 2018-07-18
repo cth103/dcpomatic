@@ -23,7 +23,7 @@
 
 #include "dcpomatic_time.h"
 #include "rect.h"
-#include "image_subtitle.h"
+#include "bitmap_text.h"
 #include <dcp/subtitle_string.h>
 #include <list>
 
@@ -44,16 +44,16 @@ private:
 	ContentTime _from;
 };
 
-class ContentImageSubtitle : public ContentSubtitle
+class ContentBitmapText : public ContentSubtitle
 {
 public:
-	ContentImageSubtitle (ContentTime f, boost::shared_ptr<Image> im, dcpomatic::Rect<double> r)
+	ContentBitmapText (ContentTime f, boost::shared_ptr<Image> im, dcpomatic::Rect<double> r)
 		: ContentSubtitle (f)
 		, sub (im, r)
 	{}
 
 	/* Our subtitle, with its rectangle unmodified by any offsets or scales that the content specifies */
-	ImageSubtitle sub;
+	BitmapText sub;
 };
 
 /** A text subtitle.  We store the time period separately (as well as in the dcp::SubtitleStrings)

@@ -18,7 +18,7 @@
 
 */
 
-#include "render_subtitles.h"
+#include "render_text.h"
 #include "types.h"
 #include "image.h"
 #include "cross.h"
@@ -365,7 +365,7 @@ render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp:
  *  @param frame_rate DCP frame rate.
  */
 list<PositionImage>
-render_subtitles (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target, DCPTime time, int frame_rate)
+render_text (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target, DCPTime time, int frame_rate)
 {
 	list<SubtitleString> pending;
 	list<PositionImage> images;

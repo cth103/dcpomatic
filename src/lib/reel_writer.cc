@@ -563,7 +563,7 @@ ReelWriter::write (PlayerSubtitles subs, DCPTimePeriod period)
 		_subtitle_asset->add (shared_ptr<dcp::Subtitle>(new dcp::SubtitleString(i)));
 	}
 
-	BOOST_FOREACH (ImageSubtitle i, subs.image) {
+	BOOST_FOREACH (BitmapText i, subs.image) {
 		_subtitle_asset->add (
 			shared_ptr<dcp::Subtitle>(
 				new dcp::SubtitleImage(

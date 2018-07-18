@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,26 +18,31 @@
 
 */
 
-#ifndef DCPOMATIC_TEXT_SUBTITLE_DECODER_H
-#define DCPOMATIC_TEXT_SUBTITLE_DECODER_H
+#ifndef DCPOMATIC_BITMAP_TEXT_H
+#define DCPOMATIC_BITMAP_TEXT_H
 
-#include "text_decoder.h"
-#include "plain_text.h"
+#include "rect.h"
+#include <boost/shared_ptr.hpp>
 
-class PlainText;
+class Image;
 
-class TextTextDecoder : public Decoder, public TextSubtitle
+class BitmapText
 {
 public:
-	TextTextDecoder (boost::shared_ptr<const PlainText>, boost::shared_ptr<Log> log);
+	BitmapText (boost::shared_ptr<Image> i, dcpomatic::Rect<double> r)
+		: image (i)
+		, rectangle (r)
+	{}
 
-	void seek (ContentTime time, bool accurate);
-	bool pass ();
-
-private:
-	ContentTimePeriod content_time_period (sub::Subtitle s) const;
-
-	size_t _next;
+	boost::shared_ptr<Image> image;
+	/** Area that the subtitle covers on its corresponding video, expressed in
+	 *  proportions of the image size; e.g. rectangle.x = 0.5 would mean that
+	 *  the rectangle starts half-way across the video.
+	 *
+	 *  This rectangle may or may not have had a TextContent's offsets and
+	 *  scale applied to it, depending on context.
+	 */
+	dcpomatic::Rect<double> rectangle;
 };
 
 #endif

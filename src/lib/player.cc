@@ -28,7 +28,7 @@
 #include "raw_image_proxy.h"
 #include "ratio.h"
 #include "log.h"
-#include "render_subtitles.h"
+#include "render_text.h"
 #include "config.h"
 #include "content_video.h"
 #include "player_video.h"
@@ -167,8 +167,8 @@ Player::setup_pieces ()
 		}
 
 		if (decoder->subtitle) {
-			decoder->subtitle->ImageStart.connect (bind (&Player::image_subtitle_start, this, weak_ptr<Piece> (piece), _1));
-			decoder->subtitle->TextStart.connect (bind (&Player::text_subtitle_start, this, weak_ptr<Piece> (piece), _1));
+			decoder->subtitle->BitmapStart.connect (bind (&Player::bitmap_text_start, this, weak_ptr<Piece> (piece), _1));
+			decoder->subtitle->PlainStart.connect (bind (&Player::plain_text_start, this, weak_ptr<Piece> (piece), _1));
 			decoder->subtitle->Stop.connect (bind (&Player::subtitle_stop, this, weak_ptr<Piece> (piece), _1));
 		}
 	}
@@ -290,11 +290,11 @@ Player::film_changed (Film::Property p)
 }
 
 list<PositionImage>
-Player::transform_image_subtitles (list<ImageSubtitle> subs) const
+Player::transform_bitmap_texts (list<BitmapText> subs) const
 {
 	list<PositionImage> all;
 
-	for (list<ImageSubtitle>::const_iterator i = subs.begin(); i != subs.end(); ++i) {
+	for (list<BitmapText>::const_iterator i = subs.begin(); i != subs.end(); ++i) {
 		if (!i->image) {
 			continue;
 		}
@@ -667,12 +667,12 @@ Player::subtitles_for_frame (DCPTime time) const
 	BOOST_FOREACH (PlayerSubtitles i, _active_subtitles.get_burnt (DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_subtitles)) {
 
 		/* Image subtitles */
-		list<PositionImage> c = transform_image_subtitles (i.image);
+		list<PositionImage> c = transform_bitmap_texts (i.image);
 		copy (c.begin(), c.end(), back_inserter (subtitles));
 
 		/* Text subtitles (rendered to an image) */
 		if (!i.text.empty ()) {
-			list<PositionImage> s = render_subtitles (i.text, i.fonts, _video_container_size, time, vfr);
+			list<PositionImage> s = render_text (i.text, i.fonts, _video_container_size, time, vfr);
 			copy (s.begin(), s.end(), back_inserter (subtitles));
 		}
 	}
@@ -840,7 +840,7 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 }
 
 void
-Player::image_subtitle_start (weak_ptr<Piece> wp, ContentImageSubtitle subtitle)
+Player::bitmap_text_start (weak_ptr<Piece> wp, ContentBitmapText subtitle)
 {
 	shared_ptr<Piece> piece = wp.lock ();
 	if (!piece) {
@@ -867,7 +867,7 @@ Player::image_subtitle_start (weak_ptr<Piece> wp, ContentImageSubtitle subtitle)
 }
 
 void
-Player::text_subtitle_start (weak_ptr<Piece> wp, ContentTextSubtitle subtitle)
+Player::plain_text_start (weak_ptr<Piece> wp, ContentTextSubtitle subtitle)
 {
 	shared_ptr<Piece> piece = wp.lock ();
 	if (!piece) {

@@ -209,7 +209,7 @@ DCPDecoder::pass_subtitles (ContentTime next)
 			if (is) {
 				list<dcp::SubtitleString> s;
 				s.push_back (*is);
-				subtitle->emit_text (
+				subtitle->emit_plain (
 					ContentTimePeriod (
 						ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (i->in().as_seconds ()),
 						ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (i->out().as_seconds ())

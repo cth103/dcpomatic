@@ -18,7 +18,7 @@
 
 */
 
-#include "text_subtitle.h"
+#include "plain_text.h"
 #include "cross.h"
 #include "exceptions.h"
 #include "plain_text_content.h"

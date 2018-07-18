@@ -20,7 +20,7 @@
 
 #include "plain_text_content.h"
 #include "util.h"
-#include "text_subtitle.h"
+#include "plain_text.h"
 #include "film.h"
 #include "font.h"
 #include "text_content.h"

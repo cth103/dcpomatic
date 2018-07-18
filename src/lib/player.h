@@ -116,7 +116,7 @@ private:
 	void film_changed (Film::Property);
 	void playlist_changed ();
 	void playlist_content_changed (boost::weak_ptr<Content>, int, bool);
-	std::list<PositionImage> transform_image_subtitles (std::list<ImageSubtitle>) const;
+	std::list<PositionImage> transform_bitmap_texts (std::list<BitmapText>) const;
 	Frame dcp_to_content_video (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	DCPTime content_video_to_dcp (boost::shared_ptr<const Piece> piece, Frame f) const;
 	Frame dcp_to_resampled_audio (boost::shared_ptr<const Piece> piece, DCPTime t) const;
@@ -126,8 +126,8 @@ private:
 	boost::shared_ptr<PlayerVideo> black_player_video_frame (Eyes eyes) const;
 	void video (boost::weak_ptr<Piece>, ContentVideo);
 	void audio (boost::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
-	void image_subtitle_start (boost::weak_ptr<Piece>, ContentImageSubtitle);
-	void text_subtitle_start (boost::weak_ptr<Piece>, ContentTextSubtitle);
+	void bitmap_text_start (boost::weak_ptr<Piece>, ContentBitmapText);
+	void plain_text_start (boost::weak_ptr<Piece>, ContentTextSubtitle);
 	void subtitle_stop (boost::weak_ptr<Piece>, ContentTime);
 	DCPTime one_video_frame () const;
 	void fill_audio (DCPTimePeriod period);

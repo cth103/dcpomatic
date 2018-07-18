@@ -72,7 +72,7 @@ TextTextDecoder::pass ()
 	}
 
 	ContentTimePeriod const p = content_time_period (_subtitles[_next]);
-	subtitle->emit_text (p, _subtitles[_next]);
+	subtitle->emit_plain (p, _subtitles[_next]);
 
 	++_next;
 	return false;

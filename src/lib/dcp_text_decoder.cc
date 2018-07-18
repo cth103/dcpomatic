@@ -63,7 +63,7 @@ DCPTextDecoder::pass ()
 
 	/* Gather all subtitles with the same time period that are next
 	   on the list.  We must emit all subtitles for the same time
-	   period with the same text_subtitle() call otherwise the
+	   period with the same plain_text() call otherwise the
 	   TextDecoder will assume there is nothing else at the
 	   time of emit the first.
 	*/
@@ -81,7 +81,7 @@ DCPTextDecoder::pass ()
 		/* XXX: image subtitles */
 	}
 
-	subtitle->emit_text (p, s);
+	subtitle->emit_plain (p, s);
 	return false;
 }
 

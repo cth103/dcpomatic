@@ -84,7 +84,7 @@ SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<
 
 	_subs = 0;
 	_frc = film->active_frame_rate_change (content->position());
-	decoder->subtitle->TextStart.connect (bind (&SubtitleView::data_start, this, _1));
+	decoder->subtitle->PlainStart.connect (bind (&SubtitleView::data_start, this, _1));
 	decoder->subtitle->Stop.connect (bind (&SubtitleView::data_stop, this, _1));
 	while (!decoder->pass ()) {}
 	SetSizerAndFit (sizer);
