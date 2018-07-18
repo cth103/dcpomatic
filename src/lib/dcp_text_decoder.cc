@@ -86,7 +86,7 @@ DCPTextDecoder::pass ()
 }
 
 ContentTimePeriod
-DCPTextDecoder::content_time_period (shared_ptr<dcp::SubtitleString> s) const
+DCPTextDecoder::content_time_period (shared_ptr<dcp::Subtitle> s) const
 {
 	return ContentTimePeriod (
 		ContentTime::from_seconds (s->in().as_seconds ()),

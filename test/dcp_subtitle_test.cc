@@ -165,9 +165,9 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test4)
 	shared_ptr<Film> film = new_test_film2 ("dcp_subtitle_test4");
 	film->set_interop (true);
 
-	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent (film, "test/data/dcp_sub3.xml"));
+	shared_ptr<DCPTextContent> content (new DCPTextContent (film, "test/data/dcp_sub3.xml"));
 	film->examine_and_add_content (content);
-	shared_ptr<DCPSubtitleContent> content2 (new DCPSubtitleContent (film, "test/data/dcp_sub3.xml"));
+	shared_ptr<DCPTextContent> content2 (new DCPTextContent (film, "test/data/dcp_sub3.xml"));
 	film->examine_and_add_content (content2);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
