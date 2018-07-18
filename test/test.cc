@@ -447,7 +447,7 @@ check_ffmpeg (boost::filesystem::path ref, boost::filesystem::path check, int au
 }
 
 void
-check_one_frame (boost::filesystem::path dcp_dir, int64_t index, dcp::Size dcp_size, boost::filesystem::path ref, dcp::Size ref_size)
+check_one_frame (boost::filesystem::path dcp_dir, int64_t index, dcp::Size dcp_size, boost::filesystem::path ref, dcp::Size ref_size, double dist_tolerance)
 {
 	dcp::DCP dcp (dcp_dir);
 	dcp.read ();
@@ -475,7 +475,7 @@ check_one_frame (boost::filesystem::path dcp_dir, int64_t index, dcp::Size dcp_s
 	*/
 #ifdef DCPOMATIC_ADVANCED_MAGICK_COMPARE
 	double const dist = ref_magick.compare(dcp_magick, Magick::RootMeanSquaredErrorMetric);
-	BOOST_CHECK_MESSAGE (dist < 0.001, ref << " differs from " << dcp_dir << ":" << index << " " << dist);
+	BOOST_CHECK_MESSAGE (dist < dist_tolerance, ref << " differs from " << dcp_dir << ":" << index << " " << dist);
 #else
 	BOOST_CHECK_MESSAGE (!ref_magick.compare(dcp_magick), ref << " differs from " << dcp_dir << ":" << index);
 #endif

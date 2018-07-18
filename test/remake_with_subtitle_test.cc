@@ -48,5 +48,5 @@ BOOST_AUTO_TEST_CASE (remake_with_subtitle_test)
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	check_one_frame (film->dir(film->dcp_name()), 325, dcp::Size(1998, 1080), private_data / "prophet_frame_325_no_subs.j2c", dcp::Size(1998, 1080));
+	check_one_frame (film->dir(film->dcp_name()), 325, dcp::Size(1998, 1080), private_data / "prophet_frame_325_no_subs.j2c", dcp::Size(1998, 1080), 0.04);
 }
