@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-06-29 00:16+0100\n"
-"PO-Revision-Date: 2018-04-25 02:28+0100\n"
+"PO-Revision-Date: 2018-07-18 04:26+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -96,7 +96,7 @@ msgstr ""
 
 #: src/lib/config.cc:896
 msgid "$JOB_NAME: $JOB_STATUS"
-msgstr ""
+msgstr "$JOB_NAME: $JOB_STATUS"
 
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
@@ -269,7 +269,7 @@ msgstr "BT2020 non-constant luminance"
 
 #: src/lib/ffmpeg_content.cc:607
 msgid "BT2100"
-msgstr ""
+msgstr "BT2100"
 
 #: src/lib/ffmpeg_content.cc:544
 msgid "BT470BG"
@@ -613,7 +613,7 @@ msgstr ""
 
 #: src/lib/config.cc:328 src/lib/config.cc:893
 msgid "DCP-o-matic notification"
-msgstr ""
+msgstr "DCP-o-matic Benachrichtigungen"
 
 #: src/lib/filter.cc:71 src/lib/filter.cc:72 src/lib/filter.cc:73
 #: src/lib/filter.cc:74
@@ -672,7 +672,7 @@ msgstr "Versende KDM Email(s) für %1 ..."
 
 #: src/lib/send_notification_email_job.cc:46
 msgid "Email notification"
-msgstr ""
+msgstr "Email Benachrichtigung"
 
 #: src/lib/send_problem_report_job.cc:59
 msgid "Email problem report"
@@ -783,9 +783,8 @@ msgid "High quality 3D denoiser"
 msgstr "3D Rauschunterdrückung hoher Qualität"
 
 #: src/lib/filter.cc:68
-#, fuzzy
 msgid "Horizontal flip"
-msgstr "Horizontaler De-Blocker"
+msgstr "Horizontal Spiegeln"
 
 #: src/lib/hints.cc:128
 msgid ""
@@ -823,7 +822,7 @@ msgstr "Ein unbekannter Fehler ist aufgetreten."
 
 #: src/lib/ffmpeg_content.cc:561
 msgid "JEDEC P22"
-msgstr ""
+msgstr "JEDEC P22"
 
 #: src/lib/config.cc:318 src/lib/config.cc:878
 msgid "KDM delivery: $CPL_NAME"
@@ -931,7 +930,7 @@ msgstr "Bewegungskompensierender De-Interlacer"
 
 #: src/lib/dcp_decoder.cc:73
 msgid "No CPLs found in DCP."
-msgstr ""
+msgstr "DCP enthält keine CPL/Titel"
 
 #: src/lib/cinema_kdms.cc:202 src/lib/send_notification_email_job.cc:61
 msgid "No mail server configured in preferences"
@@ -977,7 +976,7 @@ msgstr ""
 #: src/lib/filter.cc:67 src/lib/filter.cc:68 src/lib/filter.cc:69
 #: src/lib/filter.cc:70
 msgid "Orientation"
-msgstr ""
+msgstr "Ausrichtung"
 
 #: src/lib/job.cc:173
 msgid "Out of memory"
@@ -1057,11 +1056,11 @@ msgstr "Surround rechts"
 
 #: src/lib/filter.cc:70
 msgid "Rotate 90 degrees anti-clockwise"
-msgstr ""
+msgstr "90 Grad gegen den Uhrzeigersinn rotieren"
 
 #: src/lib/filter.cc:69
 msgid "Rotate 90 degrees clockwise"
-msgstr ""
+msgstr "90 Grad im Uhrzeigersinn rotieren"
 
 #: src/lib/util.cc:551
 msgid "Rs"
@@ -1217,7 +1216,7 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:521
 msgid "There is no video in this DCP"
-msgstr ""
+msgstr "Dieses DCP enthält kein Bild"
 
 #: src/lib/job.cc:173
 msgid ""
@@ -1323,7 +1322,7 @@ msgstr "DCP Integrität prüfen"
 
 #: src/lib/filter.cc:67
 msgid "Vertical flip"
-msgstr ""
+msgstr "Vertikal Spiegeln"
 
 #: src/lib/util.cc:522
 msgid "Visually impaired"
@@ -1334,9 +1333,8 @@ msgid "Waiting"
 msgstr "Warte..."
 
 #: src/lib/filter.cc:74
-#, fuzzy
 msgid "Weave filter"
-msgstr "Telecine Filter"
+msgstr "Weave Deinterlacer"
 
 #: src/lib/ffmpeg_content.cc:601
 msgid "YCOCG"

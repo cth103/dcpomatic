@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-06-29 00:16+0100\n"
-"PO-Revision-Date: 2018-04-25 02:31+0100\n"
+"PO-Revision-Date: 2018-07-18 04:27+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic <carl@dcpomatic.com>\n"
 "Language: de\n"
@@ -214,9 +214,8 @@ msgid "Could not find batch converter."
 msgstr "Batchkonverter nicht gestartet!?"
 
 #: src/tools/dcpomatic.cc:751
-#, fuzzy
 msgid "Could not find player."
-msgstr "Batchkonverter nicht gestartet!?"
+msgstr "Konnte den Player nicht starten!?"
 
 #: src/tools/dcpomatic_player.cc:197
 msgid "Could not load DCP"
@@ -433,7 +432,7 @@ msgstr "Neu...\tCtrl-N"
 
 #: src/tools/dcpomatic.cc:1136
 msgid "Open DCP in &player"
-msgstr ""
+msgstr "Öffne DCP im &Player"
 
 #: src/tools/dcpomatic_kdm.cc:165
 msgid "Output"
