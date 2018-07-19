@@ -18,13 +18,14 @@
 
 */
 
-#include "lib/plain_text_decoder.h"
+#include "lib/plain_text_file_decoder.h"
 #include "lib/content_text.h"
 #include "lib/video_decoder.h"
 #include "lib/audio_decoder.h"
 #include "lib/film.h"
 #include "lib/config.h"
-#include "lib/plain_text_content.h"
+#include "lib/plain_text_file_content.h"
+#include "lib/text_decoder.h"
 #include "subtitle_view.h"
 #include "film_viewer.h"
 #include "wx_util.h"

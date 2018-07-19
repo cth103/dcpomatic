@@ -18,9 +18,9 @@
 
 */
 
-#include "plain_text_content.h"
+#include "plain_text_file_content.h"
 #include "util.h"
-#include "plain_text.h"
+#include "plain_text_file.h"
 #include "film.h"
 #include "font.h"
 #include "text_content.h"
@@ -35,13 +35,13 @@ using std::cout;
 using boost::shared_ptr;
 using dcp::raw_convert;
 
-PlainTextContent::PlainTextContent (shared_ptr<const Film> film, boost::filesystem::path path)
+PlainTextFileContent::PlainTextFileContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
 {
 	subtitle.reset (new TextContent (this));
 }
 
-PlainTextContent::PlainTextContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
+PlainTextFileContent::PlainTextFileContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 	, _length (node->number_child<ContentTime::Type> ("Length"))
 {
@@ -49,10 +49,10 @@ PlainTextContent::PlainTextContent (shared_ptr<const Film> film, cxml::ConstNode
 }
 
 void
-PlainTextContent::examine (boost::shared_ptr<Job> job)
+PlainTextFileContent::examine (boost::shared_ptr<Job> job)
 {
 	Content::examine (job);
-	PlainText s (shared_from_this ());
+	PlainTextFile s (shared_from_this ());
 
 	/* Default to turning these subtitles on */
 	subtitle->set_use (true);
@@ -63,19 +63,19 @@ PlainTextContent::examine (boost::shared_ptr<Job> job)
 }
 
 string
-PlainTextContent::summary () const
+PlainTextFileContent::summary () const
 {
 	return path_summary() + " " + _("[subtitles]");
 }
 
 string
-PlainTextContent::technical_summary () const
+PlainTextFileContent::technical_summary () const
 {
 	return Content::technical_summary() + " - " + _("Text subtitles");
 }
 
 void
-PlainTextContent::as_xml (xmlpp::Node* node, bool with_paths) const
+PlainTextFileContent::as_xml (xmlpp::Node* node, bool with_paths) const
 {
 	node->add_child("Type")->add_child_text ("TextSubtitle");
 	Content::as_xml (node, with_paths);
@@ -88,7 +88,7 @@ PlainTextContent::as_xml (xmlpp::Node* node, bool with_paths) const
 }
 
 DCPTime
-PlainTextContent::full_length () const
+PlainTextFileContent::full_length () const
 {
 	FrameRateChange const frc (active_video_frame_rate(), film()->video_frame_rate ());
 	return DCPTime (_length, frc);

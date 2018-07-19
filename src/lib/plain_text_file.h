@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,24 +18,30 @@
 
 */
 
-#ifndef DCPOMATIC_TEXT_SUBTITLE_H
-#define DCPOMATIC_TEXT_SUBTITLE_H
+#ifndef DCPOMATIC_PLAIN_TEXT_FILE_H
+#define DCPOMATIC_PLAIN_TEXT_FILE_H
 
 #include "dcpomatic_time.h"
 #include <sub/subtitle.h>
 #include <boost/shared_ptr.hpp>
 #include <vector>
 
-class PlainTextContent;
+class PlainTextFileContent;
 class plain_text_time_test;
 class plain_text_coordinate_test;
 class plain_text_content_test;
 class plain_text_parse_test;
 
-class PlainText
+/** @class PlainTextFile
+ *  @brief Base for PlainTextFile decoder and examiner.
+ *
+ *  In fact this is sufficient for the examiner, so it's used as-is rather than deriving
+ *  a pointless PlainTextFileExaminer.
+ */
+class PlainTextFile
 {
 public:
-	explicit PlainText (boost::shared_ptr<const PlainTextContent>);
+	explicit PlainTextFile (boost::shared_ptr<const PlainTextFileContent>);
 
 	boost::optional<ContentTime> first () const;
 	ContentTime length () const;

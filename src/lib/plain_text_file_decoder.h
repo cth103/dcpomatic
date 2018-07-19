@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,18 +18,19 @@
 
 */
 
-#ifndef DCPOMATIC_TEXT_SUBTITLE_DECODER_H
-#define DCPOMATIC_TEXT_SUBTITLE_DECODER_H
+#ifndef DCPOMATIC_PLAIN_TEXT_FILE_DECODER_H
+#define DCPOMATIC_PLAIN_TEXT_FILE_DECODER_H
 
-#include "text_decoder.h"
-#include "plain_text.h"
+#include "plain_text_file.h"
+#include "decoder.h"
 
-class PlainText;
+class PlainTextFileContent;
+class Log;
 
-class PlainTextDecoder : public Decoder, public PlainText
+class PlainTextFileDecoder : public Decoder, public PlainTextFile
 {
 public:
-	PlainTextDecoder (boost::shared_ptr<const PlainTextContent>, boost::shared_ptr<Log> log);
+	PlainTextFileDecoder (boost::shared_ptr<const PlainTextFileContent>, boost::shared_ptr<Log> log);
 
 	void seek (ContentTime time, bool accurate);
 	bool pass ();

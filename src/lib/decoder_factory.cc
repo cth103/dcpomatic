@@ -24,8 +24,8 @@
 #include "dcp_decoder.h"
 #include "image_content.h"
 #include "image_decoder.h"
-#include "plain_text_content.h"
-#include "plain_text_decoder.h"
+#include "plain_text_file_content.h"
+#include "plain_text_file_decoder.h"
 #include "dcp_text_content.h"
 #include "dcp_text_decoder.h"
 #include "video_mxf_content.h"
@@ -54,9 +54,9 @@ decoder_factory (shared_ptr<const Content> content, shared_ptr<Log> log, bool fa
 		return shared_ptr<Decoder> (new ImageDecoder (ic, log));
 	}
 
-	shared_ptr<const PlainTextContent> rc = dynamic_pointer_cast<const PlainTextContent> (content);
+	shared_ptr<const PlainTextFileContent> rc = dynamic_pointer_cast<const PlainTextFileContent> (content);
 	if (rc) {
-		return shared_ptr<Decoder> (new PlainTextDecoder (rc, log));
+		return shared_ptr<Decoder> (new PlainTextFileDecoder (rc, log));
 	}
 
 	shared_ptr<const DCPTextContent> dsc = dynamic_pointer_cast<const DCPTextContent> (content);

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,10 @@
 
 */
 
-#include "plain_text_decoder.h"
-#include "plain_text_content.h"
+#include "plain_text_file_decoder.h"
+#include "plain_text_file_content.h"
 #include "text_content.h"
+#include "text_decoder.h"
 #include <dcp/subtitle_string.h>
 #include <boost/foreach.hpp>
 #include <iostream>
@@ -34,8 +35,8 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 
-PlainTextDecoder::PlainTextDecoder (shared_ptr<const PlainTextContent> content, shared_ptr<Log> log)
-	: PlainText (content)
+PlainTextFileDecoder::PlainTextFileDecoder (shared_ptr<const PlainTextFileContent> content, shared_ptr<Log> log)
+	: PlainTextFile (content)
 	, _next (0)
 {
 	ContentTime first;
@@ -46,7 +47,7 @@ PlainTextDecoder::PlainTextDecoder (shared_ptr<const PlainTextContent> content, 
 }
 
 void
-PlainTextDecoder::seek (ContentTime time, bool accurate)
+PlainTextFileDecoder::seek (ContentTime time, bool accurate)
 {
 	/* It's worth back-tracking a little here as decoding is cheap and it's nice if we don't miss
 	   too many subtitles when seeking.
@@ -65,7 +66,7 @@ PlainTextDecoder::seek (ContentTime time, bool accurate)
 }
 
 bool
-PlainTextDecoder::pass ()
+PlainTextFileDecoder::pass ()
 {
 	if (_next >= _subtitles.size ()) {
 		return true;
@@ -79,7 +80,7 @@ PlainTextDecoder::pass ()
 }
 
 ContentTimePeriod
-PlainTextDecoder::content_time_period (sub::Subtitle s) const
+PlainTextFileDecoder::content_time_period (sub::Subtitle s) const
 {
 	return ContentTimePeriod (
 		ContentTime::from_seconds (s.from.all_as_seconds()),

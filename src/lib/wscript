@@ -134,9 +134,9 @@ sources = """
           string_log_entry.cc
           text_content.cc
           text_decoder.cc
-          plain_text.cc
-          plain_text_content.cc
-          plain_text_decoder.cc
+          plain_text_file.cc
+          plain_text_file_content.cc
+          plain_text_file_decoder.cc
           timer.cc
           transcode_job.cc
           types.cc

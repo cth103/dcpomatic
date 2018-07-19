@@ -29,7 +29,7 @@
 #include "lib/text_content.h"
 #include "lib/dcp_text_content.h"
 #include "lib/audio_content.h"
-#include "lib/plain_text_content.h"
+#include "lib/plain_text_file_content.h"
 #include "lib/video_content.h"
 #include <dcp/locale_convert.h>
 #include <boost/foreach.hpp>

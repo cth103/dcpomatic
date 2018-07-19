@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -22,17 +22,17 @@
 
 class Job;
 
-/** @class PlainText
- *  @brief SubRip or SSA subtitles.
+/** @class PlainTextFileContent
+ *  @brief A SubRip, SSA or ASS file.
  */
-class PlainTextContent : public Content
+class PlainTextFileContent : public Content
 {
 public:
-	PlainTextContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	PlainTextContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
+	PlainTextFileContent (boost::shared_ptr<const Film>, boost::filesystem::path);
+	PlainTextFileContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
 
-	boost::shared_ptr<PlainTextContent> shared_from_this () {
-		return boost::dynamic_pointer_cast<PlainTextContent> (Content::shared_from_this ());
+	boost::shared_ptr<PlainTextFileContent> shared_from_this () {
+		return boost::dynamic_pointer_cast<PlainTextFileContent> (Content::shared_from_this ());
 	}
 
 	void examine (boost::shared_ptr<Job>);
