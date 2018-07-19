@@ -21,7 +21,7 @@
 #include "caption_panel.h"
 #include "film_editor.h"
 #include "wx_util.h"
-#include "subtitle_view.h"
+#include "caption_view.h"
 #include "content_panel.h"
 #include "fonts_dialog.h"
 #include "caption_appearance_dialog.h"
@@ -45,7 +45,7 @@ using boost::dynamic_pointer_cast;
 
 CaptionPanel::CaptionPanel (ContentPanel* p)
 	: ContentSubPanel (p, _("Captions"))
-	, _subtitle_view (0)
+	, _caption_view (0)
 	, _fonts_dialog (0)
 {
 	wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
@@ -144,8 +144,8 @@ CaptionPanel::CaptionPanel (ContentPanel* p)
 	{
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 
-		_subtitle_view_button = new wxButton (this, wxID_ANY, _("View..."));
-		s->Add (_subtitle_view_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
+		_caption_view_button = new wxButton (this, wxID_ANY, _("View..."));
+		s->Add (_caption_view_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
 		_fonts_dialog_button = new wxButton (this, wxID_ANY, _("Fonts..."));
 		s->Add (_fonts_dialog_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
 		_appearance_dialog_button = new wxButton (this, wxID_ANY, _("Appearance..."));
@@ -172,7 +172,7 @@ CaptionPanel::CaptionPanel (ContentPanel* p)
 	_line_spacing->Bind             (wxEVT_SPINCTRL, boost::bind (&CaptionPanel::line_spacing_changed, this));
 	_language->Bind                 (wxEVT_TEXT,     boost::bind (&CaptionPanel::language_changed, this));
 	_stream->Bind                   (wxEVT_CHOICE,   boost::bind (&CaptionPanel::stream_changed, this));
-	_subtitle_view_button->Bind     (wxEVT_BUTTON,   boost::bind (&CaptionPanel::subtitle_view_clicked, this));
+	_caption_view_button->Bind      (wxEVT_BUTTON,   boost::bind (&CaptionPanel::caption_view_clicked, this));
 	_fonts_dialog_button->Bind      (wxEVT_BUTTON,   boost::bind (&CaptionPanel::fonts_dialog_clicked, this));
 	_appearance_dialog_button->Bind (wxEVT_BUTTON,   boost::bind (&CaptionPanel::appearance_dialog_clicked, this));
 }
@@ -342,7 +342,7 @@ CaptionPanel::setup_sensitivity ()
 	_line_spacing->Enable (!reference && use);
 	_language->Enable (!reference && any_subs > 0 && use);
 	_stream->Enable (!reference && ffmpeg_subs == 1);
-	_subtitle_view_button->Enable (!reference);
+	_caption_view_button->Enable (!reference);
 	_fonts_dialog_button->Enable (!reference);
 	_appearance_dialog_button->Enable (!reference && any_subs > 0 && use);
 }
@@ -436,11 +436,11 @@ CaptionPanel::content_selection_changed ()
 }
 
 void
-CaptionPanel::subtitle_view_clicked ()
+CaptionPanel::caption_view_clicked ()
 {
-	if (_subtitle_view) {
-		_subtitle_view->Destroy ();
-		_subtitle_view = 0;
+	if (_caption_view) {
+		_caption_view->Destroy ();
+		_caption_view = 0;
 	}
 
 	ContentList c = _parent->selected_caption ();
@@ -449,8 +449,8 @@ CaptionPanel::subtitle_view_clicked ()
 	shared_ptr<Decoder> decoder = decoder_factory (c.front(), _parent->film()->log(), false);
 
 	if (decoder) {
-		_subtitle_view = new SubtitleView (this, _parent->film(), c.front(), decoder, _parent->film_viewer());
-		_subtitle_view->Show ();
+		_caption_view = new CaptionView (this, _parent->film(), c.front(), decoder, _parent->film_viewer());
+		_caption_view->Show ();
 	}
 }
 

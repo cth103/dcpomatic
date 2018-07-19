@@ -1,5 +1,5 @@
 #
-#    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+#    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 #
 #    This file is part of DCP-o-matic.
 #
@@ -34,6 +34,7 @@ sources = """
           batch_job_view.cc
           caption_appearance_dialog.cc
           caption_panel.cc
+          caption_view.cc
           cinema_dialog.cc
           colour_conversion_editor.cc
           config_dialog.cc
@@ -97,7 +98,6 @@ sources = """
           self_dkdm_dialog.cc
           server_dialog.cc
           servers_list_dialog.cc
-          subtitle_view.cc
           system_font_dialog.cc
           table_dialog.cc
           templates_dialog.cc

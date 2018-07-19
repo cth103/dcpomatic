@@ -26,7 +26,7 @@
 #include "lib/config.h"
 #include "lib/text_caption_file_content.h"
 #include "lib/caption_decoder.h"
-#include "subtitle_view.h"
+#include "caption_view.h"
 #include "film_viewer.h"
 #include "wx_util.h"
 
@@ -35,8 +35,8 @@ using boost::shared_ptr;
 using boost::bind;
 using boost::dynamic_pointer_cast;
 
-SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content> content, shared_ptr<Decoder> decoder, FilmViewer* viewer)
-	: wxDialog (parent, wxID_ANY, _("Subtitles"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+CaptionView::CaptionView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content> content, shared_ptr<Decoder> decoder, FilmViewer* viewer)
+	: wxDialog (parent, wxID_ANY, _("Captions"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 	, _content (content)
 	, _film_viewer (viewer)
 {
@@ -61,7 +61,7 @@ SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<
 	{
 		wxListItem ip;
 		ip.SetId (2);
-		ip.SetText (_("Subtitle"));
+		ip.SetText (_("Caption"));
 		ip.SetWidth (640);
 		_list->InsertColumn (2, ip);
 	}
@@ -69,7 +69,7 @@ SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 	sizer->Add (_list, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_X_GAP);
 
-	_list->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind (&SubtitleView::subtitle_selected, this, _1));
+	_list->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind (&CaptionView::subtitle_selected, this, _1));
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {
@@ -85,14 +85,14 @@ SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<
 
 	_subs = 0;
 	_frc = film->active_frame_rate_change (content->position());
-	decoder->caption->PlainStart.connect (bind (&SubtitleView::data_start, this, _1));
-	decoder->caption->Stop.connect (bind (&SubtitleView::data_stop, this, _1));
+	decoder->caption->PlainStart.connect (bind (&CaptionView::data_start, this, _1));
+	decoder->caption->Stop.connect (bind (&CaptionView::data_stop, this, _1));
 	while (!decoder->pass ()) {}
 	SetSizerAndFit (sizer);
 }
 
 void
-SubtitleView::data_start (ContentTextCaption cts)
+CaptionView::data_start (ContentTextCaption cts)
 {
 	BOOST_FOREACH (dcp::SubtitleString const & i, cts.subs) {
 		wxListItem list_item;
@@ -108,7 +108,7 @@ SubtitleView::data_start (ContentTextCaption cts)
 }
 
 void
-SubtitleView::data_stop (ContentTime time)
+CaptionView::data_stop (ContentTime time)
 {
 	if (!_last_count) {
 		return;
@@ -120,7 +120,7 @@ SubtitleView::data_stop (ContentTime time)
 }
 
 void
-SubtitleView::subtitle_selected (wxListEvent& ev)
+CaptionView::subtitle_selected (wxListEvent& ev)
 {
 	if (!Config::instance()->jump_to_selected ()) {
 		return;

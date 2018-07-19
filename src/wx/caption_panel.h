@@ -22,7 +22,7 @@
 
 class wxCheckBox;
 class wxSpinCtrl;
-class SubtitleView;
+class CaptionView;
 class FontsDialog;
 
 class CaptionPanel : public ContentSubPanel
@@ -45,7 +45,7 @@ private:
 	void line_spacing_changed ();
 	void language_changed ();
 	void stream_changed ();
-	void subtitle_view_clicked ();
+	void caption_view_clicked ();
 	void fonts_dialog_clicked ();
 	void reference_clicked ();
 	void appearance_dialog_clicked ();
@@ -64,8 +64,8 @@ private:
 	wxSpinCtrl* _line_spacing;
 	wxTextCtrl* _language;
 	wxChoice* _stream;
-	wxButton* _subtitle_view_button;
-	SubtitleView* _subtitle_view;
+	wxButton* _caption_view_button;
+	CaptionView* _caption_view;
 	wxButton* _fonts_dialog_button;
 	FontsDialog* _fonts_dialog;
 	wxButton* _appearance_dialog_button;
