@@ -901,7 +901,7 @@ Player::plain_text_start (weak_ptr<Piece> wp, ContentPlainText subtitle)
 		}
 
 		s.set_in (dcp::Time(from.seconds(), 1000));
-		ps.text.push_back (SubtitleString (s, piece->content->subtitle->outline_width()));
+		ps.text.push_back (PlainText (s, piece->content->subtitle->outline_width()));
 		ps.add_fonts (piece->content->subtitle->fonts ());
 	}
 

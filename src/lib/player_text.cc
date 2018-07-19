@@ -26,7 +26,7 @@ using std::list;
 using boost::shared_ptr;
 
 void
-PlayerSubtitles::add_fonts (list<shared_ptr<Font> > fonts_)
+PlayerText::add_fonts (list<shared_ptr<Font> > fonts_)
 {
 	BOOST_FOREACH (shared_ptr<Font> i, fonts_) {
 		bool got = false;

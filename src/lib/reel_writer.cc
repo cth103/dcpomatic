@@ -528,7 +528,7 @@ ReelWriter::write (shared_ptr<const AudioBuffers> audio)
 }
 
 void
-ReelWriter::write (PlayerSubtitles subs, DCPTimePeriod period)
+ReelWriter::write (PlayerText subs, DCPTimePeriod period)
 {
 	if (!_subtitle_asset) {
 		string lang = _film->subtitle_language ();
@@ -556,7 +556,7 @@ ReelWriter::write (PlayerSubtitles subs, DCPTimePeriod period)
 		}
 	}
 
-	BOOST_FOREACH (SubtitleString i, subs.text) {
+	BOOST_FOREACH (PlainText i, subs.text) {
 		/* XXX: couldn't / shouldn't we use period here rather than getting time from the subtitle? */
 		i.set_in  (i.in()  - dcp::Time (_period.from.seconds(), i.in().tcr));
 		i.set_out (i.out() - dcp::Time (_period.from.seconds(), i.out().tcr));
