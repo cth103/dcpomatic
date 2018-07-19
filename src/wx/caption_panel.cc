@@ -228,6 +228,8 @@ CaptionPanel::film_content_changed (int property)
 			case TEXT_CLOSED_CAPTION:
 				_type->SetSelection (1);
 				break;
+			default:
+				DCPOMATIC_ASSERT (false);
 			}
 		} else {
 			_type->SetSelection (0);
