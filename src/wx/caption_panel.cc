@@ -24,7 +24,7 @@
 #include "subtitle_view.h"
 #include "content_panel.h"
 #include "fonts_dialog.h"
-#include "subtitle_appearance_dialog.h"
+#include "caption_appearance_dialog.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/text_caption_file_content.h"
 #include "lib/ffmpeg_subtitle_stream.h"
@@ -491,7 +491,7 @@ CaptionPanel::appearance_dialog_clicked ()
 	ContentList c = _parent->selected_subtitle ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
-	SubtitleAppearanceDialog* d = new SubtitleAppearanceDialog (this, c.front());
+	CaptionAppearanceDialog* d = new CaptionAppearanceDialog (this, c.front());
 	if (d->ShowModal () == wxID_OK) {
 		d->apply ();
 	}

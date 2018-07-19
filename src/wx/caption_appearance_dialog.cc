@@ -18,7 +18,7 @@
 
 */
 
-#include "subtitle_appearance_dialog.h"
+#include "caption_appearance_dialog.h"
 #include "rgba_colour_picker.h"
 #include "lib/text_caption_file_content.h"
 #include "lib/caption_content.h"
@@ -35,12 +35,12 @@ using boost::bind;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 
-int const SubtitleAppearanceDialog::NONE = 0;
-int const SubtitleAppearanceDialog::OUTLINE = 1;
-int const SubtitleAppearanceDialog::SHADOW = 2;
+int const CaptionAppearanceDialog::NONE = 0;
+int const CaptionAppearanceDialog::OUTLINE = 1;
+int const CaptionAppearanceDialog::SHADOW = 2;
 
-SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr<Content> content)
-	: wxDialog (parent, wxID_ANY, _("Subtitle appearance"))
+CaptionAppearanceDialog::CaptionAppearanceDialog (wxWindow* parent, shared_ptr<Content> content)
+	: wxDialog (parent, wxID_ANY, _("Caption appearance"))
 	, _content (content)
 {
 	shared_ptr<FFmpegContent> ff = dynamic_pointer_cast<FFmpegContent> (content);
@@ -109,7 +109,7 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 		overall_sizer->Add (colours_panel, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 		wxButton* restore = new wxButton (this, wxID_ANY, _("Restore to original colours"));
-		restore->Bind (wxEVT_BUTTON, bind (&SubtitleAppearanceDialog::restore, this));
+		restore->Bind (wxEVT_BUTTON, bind (&CaptionAppearanceDialog::restore, this));
 		overall_sizer->Add (restore, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
 	}
 
@@ -178,19 +178,19 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 
 	_outline_width->SetValue (_content->caption->outline_width ());
 
-	_force_colour->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
-	_force_effect_colour->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
-	_force_effect->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
-	_force_fade_in->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
-	_force_fade_out->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
-	_effect->Bind (wxEVT_CHOICE, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
-	_content_connection = _content->Changed.connect (bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
+	_force_colour->Bind (wxEVT_CHECKBOX, bind (&CaptionAppearanceDialog::setup_sensitivity, this));
+	_force_effect_colour->Bind (wxEVT_CHECKBOX, bind (&CaptionAppearanceDialog::setup_sensitivity, this));
+	_force_effect->Bind (wxEVT_CHECKBOX, bind (&CaptionAppearanceDialog::setup_sensitivity, this));
+	_force_fade_in->Bind (wxEVT_CHECKBOX, bind (&CaptionAppearanceDialog::setup_sensitivity, this));
+	_force_fade_out->Bind (wxEVT_CHECKBOX, bind (&CaptionAppearanceDialog::setup_sensitivity, this));
+	_effect->Bind (wxEVT_CHOICE, bind (&CaptionAppearanceDialog::setup_sensitivity, this));
+	_content_connection = _content->Changed.connect (bind (&CaptionAppearanceDialog::setup_sensitivity, this));
 
 	setup_sensitivity ();
 }
 
 wxCheckBox*
-SubtitleAppearanceDialog::set_to (wxWindow* w, int& r)
+CaptionAppearanceDialog::set_to (wxWindow* w, int& r)
 {
 	wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 	wxCheckBox* set_to = new wxCheckBox (this, wxID_ANY, _("Set to"));
@@ -202,7 +202,7 @@ SubtitleAppearanceDialog::set_to (wxWindow* w, int& r)
 }
 
 void
-SubtitleAppearanceDialog::apply ()
+CaptionAppearanceDialog::apply ()
 {
 	if (_force_colour->GetValue ()) {
 		wxColour const c = _colour->GetColour ();
@@ -256,7 +256,7 @@ SubtitleAppearanceDialog::apply ()
 }
 
 void
-SubtitleAppearanceDialog::restore ()
+CaptionAppearanceDialog::restore ()
 {
 	for (map<RGBA, RGBAColourPicker*>::const_iterator i = _pickers.begin(); i != _pickers.end(); ++i) {
 		i->second->set (i->first);
@@ -264,7 +264,7 @@ SubtitleAppearanceDialog::restore ()
 }
 
 void
-SubtitleAppearanceDialog::setup_sensitivity ()
+CaptionAppearanceDialog::setup_sensitivity ()
 {
 	_colour->Enable (_force_colour->GetValue ());
 	_effect_colour->Enable (_force_effect_colour->GetValue ());

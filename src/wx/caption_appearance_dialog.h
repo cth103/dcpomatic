@@ -33,10 +33,10 @@ class FFmpegSubtitleStream;
 class wxCheckBox;
 class wxWidget;
 
-class SubtitleAppearanceDialog : public wxDialog
+class CaptionAppearanceDialog : public wxDialog
 {
 public:
-	SubtitleAppearanceDialog (wxWindow* parent, boost::shared_ptr<Content> content);
+	CaptionAppearanceDialog (wxWindow* parent, boost::shared_ptr<Content> content);
 
 	void apply ();
 
