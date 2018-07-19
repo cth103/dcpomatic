@@ -21,7 +21,7 @@
 #ifndef DCPOMATIC_PLAYER_H
 #define DCPOMATIC_PLAYER_H
 
-#include "player_subtitles.h"
+#include "player_text.h"
 #include "active_subtitles.h"
 #include "content_text.h"
 #include "film.h"
@@ -101,7 +101,7 @@ public:
 	/** Emitted when a subtitle is ready.  This signal may be emitted considerably
 	 *  after the corresponding Video.
 	 */
-	boost::signals2::signal<void (PlayerSubtitles, DCPTimePeriod)> Subtitle;
+	boost::signals2::signal<void (PlayerText, DCPTimePeriod)> Subtitle;
 
 private:
 	friend class PlayerWrapper;

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,25 +18,25 @@
 
 */
 
-#ifndef DCPOMATIC_PLAYER_SUBTITLES_H
-#define DCPOMATIC_PLAYER_SUBTITLES_H
+#include "player_text.h"
+#include "font.h"
+#include <boost/foreach.hpp>
 
-#include "bitmap_text.h"
-#include "dcpomatic_time.h"
-#include "subtitle_string.h"
+using std::list;
+using boost::shared_ptr;
 
-class Font;
-
-/** A set of subtitles which span the same time period */
-class PlayerSubtitles
+void
+PlayerSubtitles::add_fonts (list<shared_ptr<Font> > fonts_)
 {
-public:
-	void add_fonts (std::list<boost::shared_ptr<Font> > fonts_);
-	std::list<boost::shared_ptr<Font> > fonts;
-
-	/** BitmapTexts, with their rectangles transformed as specified by their content */
-	std::list<BitmapText> image;
-	std::list<SubtitleString> text;
-};
-
-#endif
+	BOOST_FOREACH (shared_ptr<Font> i, fonts_) {
+		bool got = false;
+		BOOST_FOREACH (shared_ptr<Font> j, fonts) {
+			if (*i == *j) {
+				got = true;
+			}
+		}
+		if (!got) {
+			fonts.push_back (i);
+		}
+	}
+}

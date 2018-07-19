@@ -411,7 +411,7 @@ FFmpegEncoder::audio_frame (int size)
 }
 
 void
-FFmpegEncoder::subtitle (PlayerSubtitles, DCPTimePeriod)
+FFmpegEncoder::subtitle (PlayerText, DCPTimePeriod)
 {
 
 }

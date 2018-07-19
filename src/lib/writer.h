@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -23,7 +23,7 @@
  */
 
 #include "types.h"
-#include "player_subtitles.h"
+#include "player_text.h"
 #include "exception_store.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
@@ -104,7 +104,7 @@ public:
 	bool can_repeat (Frame) const;
 	void repeat (Frame, Eyes);
 	void write (boost::shared_ptr<const AudioBuffers>, DCPTime time);
-	void write (PlayerSubtitles subs, DCPTimePeriod period);
+	void write (PlayerText subs, DCPTimePeriod period);
 	void write (std::list<boost::shared_ptr<Font> > fonts);
 	void write (ReferencedReelAsset asset);
 	void finish ();

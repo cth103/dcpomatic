@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,7 +20,7 @@
 
 #include "position_image.h"
 #include "dcpomatic_time.h"
-#include "subtitle_string.h"
+#include "plain_text.h"
 #include <dcp/util.h>
 
 class Font;

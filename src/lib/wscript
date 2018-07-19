@@ -112,7 +112,7 @@ sources = """
           mid_side_decoder.cc
           overlaps.cc
           player.cc
-          player_subtitles.cc
+          player_text.cc
           player_video.cc
           playlist.cc
           position_image.cc

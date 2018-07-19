@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -23,7 +23,7 @@
  */
 
 #include "dcpomatic_time.h"
-#include "player_subtitles.h"
+#include "player_text.h"
 #include <boost/noncopyable.hpp>
 #include <list>
 #include <map>
@@ -36,11 +36,11 @@ class Piece;
 class ActiveSubtitles : public boost::noncopyable
 {
 public:
-	std::list<PlayerSubtitles> get_burnt (DCPTimePeriod period, bool always_burn_subtitles) const;
+	std::list<PlayerText> get_burnt (DCPTimePeriod period, bool always_burn_subtitles) const;
 	void clear_before (DCPTime time);
 	void clear ();
-	void add_from (boost::weak_ptr<Piece> piece, PlayerSubtitles ps, DCPTime from);
-	std::pair<PlayerSubtitles, DCPTime> add_to (boost::weak_ptr<Piece> piece, DCPTime to);
+	void add_from (boost::weak_ptr<Piece> piece, PlayerText ps, DCPTime from);
+	std::pair<PlayerText, DCPTime> add_to (boost::weak_ptr<Piece> piece, DCPTime to);
 	bool have (boost::weak_ptr<Piece> piece) const;
 
 private:
@@ -49,12 +49,12 @@ private:
 	public:
 		Period () {}
 
-		Period (PlayerSubtitles s, DCPTime f)
+		Period (PlayerText s, DCPTime f)
 			: subs (s)
 			, from (f)
 		{}
 
-		PlayerSubtitles subs;
+		PlayerText subs;
 		DCPTime from;
 		boost::optional<DCPTime> to;
 	};

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,25 +18,29 @@
 
 */
 
-#include "player_subtitles.h"
-#include "font.h"
-#include <boost/foreach.hpp>
+#ifndef DCPOMATIC_PLAIN_TEXT_H
+#define DCPOMATIC_PLAIN_TEXT_H
 
-using std::list;
-using boost::shared_ptr;
+#include <dcp/subtitle_string.h>
 
-void
-PlayerSubtitles::add_fonts (list<shared_ptr<Font> > fonts_)
+/** A wrapper for SubtitleString which allows us to include settings that are not
+ *  applicable to true DCP subtitles.  For example, we can set outline width for burn-in
+ *  but this cannot be specified in DCP XML.
+ */
+class PlainText : public dcp::SubtitleString
 {
-	BOOST_FOREACH (shared_ptr<Font> i, fonts_) {
-		bool got = false;
-		BOOST_FOREACH (shared_ptr<Font> j, fonts) {
-			if (*i == *j) {
-				got = true;
-			}
-		}
-		if (!got) {
-			fonts.push_back (i);
-		}
-	}
-}
+public:
+	explicit PlainText (dcp::SubtitleString dcp_)
+		: dcp::SubtitleString (dcp_)
+		, outline_width (2)
+	{}
+
+	PlainText (dcp::SubtitleString dcp_, int outline_width_)
+		: dcp::SubtitleString (dcp_)
+		, outline_width (outline_width_)
+	{}
+
+	int outline_width;
+};
+
+#endif

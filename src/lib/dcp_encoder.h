@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,7 +19,7 @@
 */
 
 #include "types.h"
-#include "player_subtitles.h"
+#include "player_text.h"
 #include "encoder.h"
 #include <boost/weak_ptr.hpp>
 
@@ -52,7 +52,7 @@ private:
 
 	void video (boost::shared_ptr<PlayerVideo>, DCPTime);
 	void audio (boost::shared_ptr<AudioBuffers>, DCPTime);
-	void subtitle (PlayerSubtitles, DCPTimePeriod);
+	void subtitle (PlayerText, DCPTimePeriod);
 
 	boost::shared_ptr<Writer> _writer;
 	boost::shared_ptr<J2KEncoder> _j2k_encoder;

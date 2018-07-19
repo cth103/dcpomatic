@@ -663,7 +663,7 @@ Player::subtitles_for_frame (DCPTime time) const
 
 	int const vfr = _film->video_frame_rate();
 
-	BOOST_FOREACH (PlayerSubtitles i, _active_subtitles.get_burnt (DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_subtitles)) {
+	BOOST_FOREACH (PlayerText i, _active_subtitles.get_burnt (DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_subtitles)) {
 
 		/* Image subtitles */
 		list<PositionImage> c = transform_bitmap_texts (i.image);
@@ -858,7 +858,7 @@ Player::bitmap_text_start (weak_ptr<Piece> wp, ContentBitmapText subtitle)
 	subtitle.sub.rectangle.width *= piece->content->subtitle->x_scale ();
 	subtitle.sub.rectangle.height *= piece->content->subtitle->y_scale ();
 
-	PlayerSubtitles ps;
+	PlayerText ps;
 	ps.image.push_back (subtitle.sub);
 	DCPTime from (content_time_to_dcp (piece, subtitle.from()));
 
@@ -873,7 +873,7 @@ Player::plain_text_start (weak_ptr<Piece> wp, ContentPlainText subtitle)
 		return;
 	}
 
-	PlayerSubtitles ps;
+	PlayerText ps;
 	DCPTime const from (content_time_to_dcp (piece, subtitle.from()));
 
 	if (from > piece->content->end()) {
@@ -926,7 +926,7 @@ Player::subtitle_stop (weak_ptr<Piece> wp, ContentTime to)
 		return;
 	}
 
-	pair<PlayerSubtitles, DCPTime> from = _active_subtitles.add_to (wp, dcp_to);
+	pair<PlayerText, DCPTime> from = _active_subtitles.add_to (wp, dcp_to);
 
 	if (piece->content->subtitle->use() && !_always_burn_subtitles && !piece->content->subtitle->burn()) {
 		Subtitle (from.first, DCPTimePeriod (from.second, dcp_to));

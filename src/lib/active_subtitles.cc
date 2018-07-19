@@ -35,10 +35,10 @@ using boost::optional;
  *  @param period Period of interest.
  *  @param always_burn_subtitles Always burn subtitles even if their content is not set to burn.
  */
-list<PlayerSubtitles>
+list<PlayerText>
 ActiveSubtitles::get_burnt (DCPTimePeriod period, bool always_burn_subtitles) const
 {
-	list<PlayerSubtitles> ps;
+	list<PlayerText> ps;
 
 	for (Map::const_iterator i = _data.begin(); i != _data.end(); ++i) {
 
@@ -91,7 +91,7 @@ ActiveSubtitles::clear_before (DCPTime time)
  *  @param from From time for these subtitles.
  */
 void
-ActiveSubtitles::add_from (weak_ptr<Piece> piece, PlayerSubtitles ps, DCPTime from)
+ActiveSubtitles::add_from (weak_ptr<Piece> piece, PlayerText ps, DCPTime from)
 {
 	if (_data.find(piece) == _data.end()) {
 		_data[piece] = list<Period>();
@@ -104,14 +104,14 @@ ActiveSubtitles::add_from (weak_ptr<Piece> piece, PlayerSubtitles ps, DCPTime fr
  *  @param to To time for the last subtitle submitted to add_from for this piece.
  *  @return Return the corresponding subtitles and their from time.
  */
-pair<PlayerSubtitles, DCPTime>
+pair<PlayerText, DCPTime>
 ActiveSubtitles::add_to (weak_ptr<Piece> piece, DCPTime to)
 {
 	DCPOMATIC_ASSERT (_data.find(piece) != _data.end());
 
 	_data[piece].back().to = to;
 
-	BOOST_FOREACH (SubtitleString& i, _data[piece].back().subs.text) {
+	BOOST_FOREACH (PlainText& i, _data[piece].back().subs.text) {
 		i.set_out (dcp::Time(to.seconds(), 1000));
 	}
 

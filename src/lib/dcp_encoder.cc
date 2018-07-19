@@ -141,7 +141,7 @@ DCPEncoder::audio (shared_ptr<AudioBuffers> data, DCPTime time)
 }
 
 void
-DCPEncoder::subtitle (PlayerSubtitles data, DCPTimePeriod period)
+DCPEncoder::subtitle (PlayerText data, DCPTimePeriod period)
 {
 	if (_non_burnt_subtitles) {
 		_writer->write (data, period);

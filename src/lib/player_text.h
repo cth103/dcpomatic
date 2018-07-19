@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,29 +18,25 @@
 
 */
 
-#ifndef DCPOMATIC_SUBTITLE_STRING_H
-#define DCPOMATIC_SUBTITLE_STRING_H
+#ifndef DCPOMATIC_PLAYER_TEXT_H
+#define DCPOMATIC_PLAYER_TEXT_H
 
-#include <dcp/subtitle_string.h>
+#include "bitmap_text.h"
+#include "dcpomatic_time.h"
+#include "plain_text.h"
 
-/** A wrapper for SubtitleString which allows us to include settings that are not
- *  applicable to true DCP subtitles.  For example, we can set outline width for burn-in
- *  but this cannot be specified in DCP XML.
- */
-class SubtitleString : public dcp::SubtitleString
+class Font;
+
+/** A set of text (subtitle/CCAP) which span the same time period */
+class PlayerText
 {
 public:
-	explicit SubtitleString (dcp::SubtitleString dcp_)
-		: dcp::SubtitleString (dcp_)
-		, outline_width (2)
-	{}
+	void add_fonts (std::list<boost::shared_ptr<Font> > fonts_);
+	std::list<boost::shared_ptr<Font> > fonts;
 
-	SubtitleString (dcp::SubtitleString dcp_, int outline_width_)
-		: dcp::SubtitleString (dcp_)
-		, outline_width (outline_width_)
-	{}
-
-	int outline_width;
+	/** BitmapTexts, with their rectangles transformed as specified by their content */
+	std::list<BitmapText> image;
+	std::list<PlainText> text;
 };
 
 #endif
