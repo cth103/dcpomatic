@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,7 +19,7 @@
 */
 
 #include "timeline_text_content_view.h"
-#include "lib/text_content.h"
+#include "lib/caption_content.h"
 #include "lib/content.h"
 
 using boost::shared_ptr;
@@ -55,5 +55,5 @@ TimelineTextContentView::active () const
 {
 	shared_ptr<Content> c = _content.lock ();
 	DCPOMATIC_ASSERT (c);
-	return c->subtitle && c->subtitle->use();
+	return c->caption && c->caption->use();
 }

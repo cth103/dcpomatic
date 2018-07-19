@@ -20,8 +20,8 @@
 
 #include "text_caption_file_decoder.h"
 #include "text_caption_file_content.h"
-#include "text_content.h"
-#include "text_decoder.h"
+#include "caption_content.h"
+#include "caption_decoder.h"
 #include <dcp/subtitle_string.h>
 #include <boost/foreach.hpp>
 #include <iostream>
@@ -43,7 +43,7 @@ TextCaptionFileDecoder::TextCaptionFileDecoder (shared_ptr<const TextCaptionFile
 	if (!_subtitles.empty()) {
 		first = content_time_period(_subtitles[0]).from;
 	}
-	subtitle.reset (new TextDecoder (this, content->subtitle, log, first));
+	caption.reset (new CaptionDecoder (this, content->caption, log, first));
 }
 
 void
@@ -73,7 +73,7 @@ TextCaptionFileDecoder::pass ()
 	}
 
 	ContentTimePeriod const p = content_time_period (_subtitles[_next]);
-	subtitle->emit_plain (p, _subtitles[_next]);
+	caption->emit_plain (p, _subtitles[_next]);
 
 	++_next;
 	return false;

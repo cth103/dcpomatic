@@ -31,7 +31,7 @@
 class Content;
 class VideoContent;
 class AudioContent;
-class TextContent;
+class CaptionContent;
 class FFmpegContent;
 
 namespace cxml {
@@ -129,15 +129,15 @@ enum ReelType
 	REELTYPE_BY_LENGTH
 };
 
-enum TextType
+enum CaptionType
 {
-	TEXT_SUBTITLE,
-	TEXT_CLOSED_CAPTION,
-	TEXT_COUNT
+	CAPTION_OPEN,
+	CAPTION_CLOSED,
+	CAPTION_COUNT
 };
 
-extern std::string text_type_to_string (TextType t);
-extern TextType string_to_text_type (std::string s);
+extern std::string caption_type_to_string (CaptionType t);
+extern CaptionType string_to_caption_type (std::string s);
 
 /** @struct Crop
  *  @brief A description of the crop of an image or video.

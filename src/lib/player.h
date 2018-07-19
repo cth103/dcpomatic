@@ -23,7 +23,7 @@
 
 #include "player_caption.h"
 #include "active_captions.h"
-#include "content_text.h"
+#include "content_caption.h"
 #include "film.h"
 #include "content.h"
 #include "position_image.h"
@@ -101,7 +101,7 @@ public:
 	/** Emitted when a caption is ready.  This signal may be emitted considerably
 	 *  after the corresponding Video.
 	 */
-	boost::signals2::signal<void (PlayerCaption, TextType, DCPTimePeriod)> Text;
+	boost::signals2::signal<void (PlayerCaption, CaptionType, DCPTimePeriod)> Caption;
 
 private:
 	friend class PlayerWrapper;
@@ -116,7 +116,7 @@ private:
 	void film_changed (Film::Property);
 	void playlist_changed ();
 	void playlist_content_changed (boost::weak_ptr<Content>, int, bool);
-	std::list<PositionImage> transform_bitmap_texts (std::list<BitmapText>) const;
+	std::list<PositionImage> transform_bitmap_captions (std::list<BitmapCaption>) const;
 	Frame dcp_to_content_video (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	DCPTime content_video_to_dcp (boost::shared_ptr<const Piece> piece, Frame f) const;
 	Frame dcp_to_resampled_audio (boost::shared_ptr<const Piece> piece, DCPTime t) const;
@@ -128,7 +128,7 @@ private:
 	void audio (boost::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
 	void bitmap_text_start (boost::weak_ptr<Piece>, ContentBitmapCaption);
 	void plain_text_start (boost::weak_ptr<Piece>, ContentTextCaption);
-	void subtitle_stop (boost::weak_ptr<Piece>, ContentTime, TextType);
+	void subtitle_stop (boost::weak_ptr<Piece>, ContentTime, CaptionType);
 	DCPTime one_video_frame () const;
 	void fill_audio (DCPTimePeriod period);
 	std::pair<boost::shared_ptr<AudioBuffers>, DCPTime> discard_audio (
@@ -196,7 +196,7 @@ private:
 	Empty _black;
 	Empty _silent;
 
-	ActiveCaptions _active_text[TEXT_COUNT];
+	ActiveCaptions _active_captions[CAPTION_COUNT];
 	boost::shared_ptr<AudioProcessor> _audio_processor;
 
 	boost::signals2::scoped_connection _film_changed_connection;

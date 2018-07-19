@@ -19,13 +19,13 @@
 */
 
 #include "lib/text_caption_file_decoder.h"
-#include "lib/content_text.h"
+#include "lib/content_caption.h"
 #include "lib/video_decoder.h"
 #include "lib/audio_decoder.h"
 #include "lib/film.h"
 #include "lib/config.h"
 #include "lib/text_caption_file_content.h"
-#include "lib/text_decoder.h"
+#include "lib/caption_decoder.h"
 #include "subtitle_view.h"
 #include "film_viewer.h"
 #include "wx_util.h"
@@ -85,8 +85,8 @@ SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<
 
 	_subs = 0;
 	_frc = film->active_frame_rate_change (content->position());
-	decoder->subtitle->PlainStart.connect (bind (&SubtitleView::data_start, this, _1));
-	decoder->subtitle->Stop.connect (bind (&SubtitleView::data_stop, this, _1));
+	decoder->caption->PlainStart.connect (bind (&SubtitleView::data_start, this, _1));
+	decoder->caption->Stop.connect (bind (&SubtitleView::data_stop, this, _1));
 	while (!decoder->pass ()) {}
 	SetSizerAndFit (sizer);
 }

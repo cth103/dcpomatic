@@ -20,7 +20,7 @@
 
 #include "lib/ffmpeg_content.h"
 #include "lib/content_factory.h"
-#include "lib/text_content.h"
+#include "lib/caption_content.h"
 #include "lib/job_manager.h"
 #include "lib/film.h"
 #include "lib/dcp_content.h"

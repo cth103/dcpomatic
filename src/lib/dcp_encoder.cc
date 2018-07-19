@@ -35,7 +35,7 @@
 #include "writer.h"
 #include "compose.hpp"
 #include "referenced_reel_asset.h"
-#include "text_content.h"
+#include "caption_content.h"
 #include "player_video.h"
 #include <boost/signals2.hpp>
 #include <boost/foreach.hpp>
@@ -61,10 +61,10 @@ DCPEncoder::DCPEncoder (shared_ptr<const Film> film, weak_ptr<Job> job)
 {
 	_player_video_connection = _player->Video.connect (bind (&DCPEncoder::video, this, _1, _2));
 	_player_audio_connection = _player->Audio.connect (bind (&DCPEncoder::audio, this, _1, _2));
-	_player_text_connection = _player->Text.connect (bind (&DCPEncoder::text, this, _1, _2, _3));
+	_player_caption_connection = _player->Caption.connect (bind (&DCPEncoder::caption, this, _1, _2, _3));
 
 	BOOST_FOREACH (shared_ptr<const Content> c, film->content ()) {
-		if (c->subtitle && c->subtitle->use() && !c->subtitle->burn()) {
+		if (c->caption && c->caption->use() && !c->caption->burn()) {
 			_non_burnt_subtitles = true;
 		}
 	}
@@ -75,7 +75,7 @@ DCPEncoder::~DCPEncoder ()
 	/* We must stop receiving more video data before we die */
 	_player_video_connection.release ();
 	_player_audio_connection.release ();
-	_player_text_connection.release ();
+	_player_caption_connection.release ();
 }
 
 void
@@ -141,9 +141,9 @@ DCPEncoder::audio (shared_ptr<AudioBuffers> data, DCPTime time)
 }
 
 void
-DCPEncoder::text (PlayerCaption data, TextType type, DCPTimePeriod period)
+DCPEncoder::caption (PlayerCaption data, CaptionType type, DCPTimePeriod period)
 {
-	if (type == TEXT_CLOSED_CAPTION || _non_burnt_subtitles) {
+	if (type == CAPTION_CLOSED || _non_burnt_subtitles) {
 		_writer->write (data, type, period);
 	}
 }

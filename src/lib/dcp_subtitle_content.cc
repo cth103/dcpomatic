@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,9 +19,9 @@
 */
 
 #include "font.h"
-#include "dcp_text_content.h"
+#include "dcp_subtitle_content.h"
 #include "film.h"
-#include "text_content.h"
+#include "caption_content.h"
 #include <dcp/raw_convert.h>
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/smpte_subtitle_asset.h>
@@ -37,21 +37,21 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using dcp::raw_convert;
 
-DCPTextContent::DCPTextContent (shared_ptr<const Film> film, boost::filesystem::path path)
+DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
 {
-	subtitle.reset (new TextContent (this));
+	caption.reset (new CaptionContent (this));
 }
 
-DCPTextContent::DCPTextContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
+DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 	, _length (node->number_child<ContentTime::Type> ("Length"))
 {
-	subtitle = TextContent::from_xml (this, node, version);
+	caption = CaptionContent::from_xml (this, node, version);
 }
 
 void
-DCPTextContent::examine (shared_ptr<Job> job)
+DCPSubtitleContent::examine (shared_ptr<Job> job)
 {
 	Content::examine (job);
 
@@ -66,48 +66,48 @@ DCPTextContent::examine (shared_ptr<Job> job)
 	boost::mutex::scoped_lock lm (_mutex);
 
 	/* Default to turning these subtitles on */
-	subtitle->set_use (true);
+	caption->set_use (true);
 
 	if (iop) {
-		subtitle->set_language (iop->language ());
+		caption->set_language (iop->language ());
 	} else if (smpte) {
-		subtitle->set_language (smpte->language().get_value_or (""));
+		caption->set_language (smpte->language().get_value_or (""));
 	}
 
 	_length = ContentTime::from_seconds (sc->latest_subtitle_out().as_seconds ());
 
 	BOOST_FOREACH (shared_ptr<dcp::LoadFontNode> i, sc->load_font_nodes ()) {
-		subtitle->add_font (shared_ptr<Font> (new Font (i->id)));
+		caption->add_font (shared_ptr<Font> (new Font (i->id)));
 	}
 }
 
 DCPTime
-DCPTextContent::full_length () const
+DCPSubtitleContent::full_length () const
 {
 	FrameRateChange const frc (active_video_frame_rate(), film()->video_frame_rate());
 	return DCPTime (_length, frc);
 }
 
 string
-DCPTextContent::summary () const
+DCPSubtitleContent::summary () const
 {
 	return path_summary() + " " + _("[subtitles]");
 }
 
 string
-DCPTextContent::technical_summary () const
+DCPSubtitleContent::technical_summary () const
 {
 	return Content::technical_summary() + " - " + _("DCP XML subtitles");
 }
 
 void
-DCPTextContent::as_xml (xmlpp::Node* node, bool with_paths) const
+DCPSubtitleContent::as_xml (xmlpp::Node* node, bool with_paths) const
 {
 	node->add_child("Type")->add_child_text ("DCPSubtitle");
 	Content::as_xml (node, with_paths);
 
-	if (subtitle) {
-		subtitle->as_xml (node);
+	if (caption) {
+		caption->as_xml (node);
 	}
 
 	node->add_child("Length")->add_child_text (raw_convert<string> (_length.get ()));

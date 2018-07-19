@@ -28,7 +28,7 @@
 #include "atmos_mxf_content.h"
 #include "text_caption_file_content.h"
 #include "dcp_content.h"
-#include "dcp_text_content.h"
+#include "dcp_subtitle_content.h"
 #include "util.h"
 #include "ffmpeg_audio_stream.h"
 #include "video_mxf_content.h"
@@ -92,7 +92,7 @@ content_factory (shared_ptr<const Film> film, cxml::NodePtr node, int version, l
 	} else if (type == "DCP") {
 		content.reset (new DCPContent (film, node, version));
 	} else if (type == "DCPSubtitle") {
-		content.reset (new DCPTextContent (film, node, version));
+		content.reset (new DCPSubtitleContent (film, node, version));
 	} else if (type == "VideoMXF") {
 		content.reset (new VideoMXFContent (film, node, version));
 	} else if (type == "AtmosMXF") {
@@ -217,9 +217,9 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 			if (doc.root_name() == "DCinemaSecurityMessage") {
 				throw KDMAsContentError ();
 			}
-			single.reset (new DCPTextContent (film, path));
+			single.reset (new DCPSubtitleContent (film, path));
 		} else if (ext == ".mxf" && dcp::SMPTESubtitleAsset::valid_mxf (path)) {
-			single.reset (new DCPTextContent (film, path));
+			single.reset (new DCPSubtitleContent (film, path));
 		} else if (ext == ".mxf" && VideoMXFContent::valid_mxf (path)) {
 			single.reset (new VideoMXFContent (film, path));
 		} else if (ext == ".mxf" && AtmosMXFContent::valid_mxf (path)) {

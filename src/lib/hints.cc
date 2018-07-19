@@ -23,7 +23,7 @@
 #include "film.h"
 #include "content.h"
 #include "video_content.h"
-#include "text_content.h"
+#include "caption_content.h"
 #include "audio_processor.h"
 #include "font.h"
 #include "ratio.h"
@@ -56,8 +56,8 @@ get_hints (shared_ptr<const Film> film)
 	bool big_font_files = false;
 	if (film->interop ()) {
 		BOOST_FOREACH (shared_ptr<Content> i, content) {
-			if (i->subtitle) {
-				BOOST_FOREACH (shared_ptr<Font> j, i->subtitle->fonts ()) {
+			if (i->caption) {
+				BOOST_FOREACH (shared_ptr<Font> j, i->caption->fonts ()) {
 					for (int k = 0; k < FontFiles::VARIANTS; ++k) {
 						optional<boost::filesystem::path> const p = j->file (static_cast<FontFiles::Variant> (k));
 						if (p && boost::filesystem::file_size (p.get()) >= (640 * 1024)) {

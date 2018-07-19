@@ -18,8 +18,8 @@
 
 */
 
-#ifndef DCPOMATIC_SUBTITLE_CONTENT_H
-#define DCPOMATIC_SUBTITLE_CONTENT_H
+#ifndef DCPOMATIC_CAPTION_CONTENT_H
+#define DCPOMATIC_CAPTION_CONTENT_H
 
 #include "content_part.h"
 #include <libcxml/cxml.h>
@@ -28,7 +28,7 @@
 
 class Font;
 
-class TextContentProperty
+class CaptionContentProperty
 {
 public:
 	static int const X_OFFSET;
@@ -49,21 +49,21 @@ public:
 	static int const TYPE;
 };
 
-/** @class TextContent
+/** @class CaptionContent
  *  @brief Description of how some text content should be presented.
  *
  *  There are `bitmap' subtitles and `plain' subtitles (plain text),
  *  and not all of the settings in this class correspond to both types.
  */
-class TextContent : public ContentPart
+class CaptionContent : public ContentPart
 {
 public:
-	explicit TextContent (Content* parent);
-	TextContent (Content* parent, std::vector<boost::shared_ptr<Content> >);
+	explicit CaptionContent (Content* parent);
+	CaptionContent (Content* parent, std::vector<boost::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;
 	std::string identifier () const;
-	void take_settings_from (boost::shared_ptr<const TextContent> c);
+	void take_settings_from (boost::shared_ptr<const CaptionContent> c);
 
 	void add_font (boost::shared_ptr<Font> font);
 
@@ -86,7 +86,7 @@ public:
 	void set_fade_out (ContentTime);
 	void set_outline_width (int);
 	void unset_fade_out ();
-	void set_type (TextType type);
+	void set_type (CaptionType type);
 
 	bool use () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -163,12 +163,12 @@ public:
 		return _outline_width;
 	}
 
-	TextType type () const {
+	CaptionType type () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _type;
 	}
 
-	static boost::shared_ptr<TextContent> from_xml (Content* parent, cxml::ConstNodePtr, int version);
+	static boost::shared_ptr<CaptionContent> from_xml (Content* parent, cxml::ConstNodePtr, int version);
 
 protected:
 	/** subtitle language (e.g. "German") or empty if it is not known */
@@ -177,7 +177,7 @@ protected:
 private:
 	friend struct ffmpeg_pts_offset_test;
 
-	TextContent (Content* parent, cxml::ConstNodePtr, int version);
+	CaptionContent (Content* parent, cxml::ConstNodePtr, int version);
 	void font_changed ();
 	void connect_to_fonts ();
 
@@ -206,7 +206,7 @@ private:
 	boost::optional<ContentTime> _fade_in;
 	boost::optional<ContentTime> _fade_out;
 	int _outline_width;
-	TextType _type;
+	CaptionType _type;
 };
 
 #endif

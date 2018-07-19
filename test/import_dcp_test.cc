@@ -25,7 +25,7 @@
 
 #include "test.h"
 #include "lib/film.h"
-#include "lib/dcp_text_content.h"
+#include "lib/dcp_subtitle_content.h"
 #include "lib/ratio.h"
 #include "lib/dcp_content_type.h"
 #include "lib/dcp_content.h"

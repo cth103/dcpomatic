@@ -18,31 +18,36 @@
 
 */
 
-#ifndef DCPOMATIC_BITMAP_TEXT_H
-#define DCPOMATIC_BITMAP_TEXT_H
+#ifndef DCPOMATIC_TEXT_CAPTION_FILE_H
+#define DCPOMATIC_TEXT_CAPTION_FILE_H
 
-#include "rect.h"
+#include "dcpomatic_time.h"
+#include <sub/subtitle.h>
 #include <boost/shared_ptr.hpp>
+#include <vector>
 
-class Image;
+class TextCaptionFileContent;
+class plain_text_time_test;
+class plain_text_coordinate_test;
+class plain_text_content_test;
+class plain_text_parse_test;
 
-class BitmapText
+/** @class TextCaptionFile
+ *  @brief Base for TextCaptionFile decoder and examiner.
+ *
+ *  In fact this is sufficient for the examiner, so it's used as-is rather than deriving
+ *  a pointless TextCaptionFileExaminer.
+ */
+class TextCaptionFile
 {
 public:
-	BitmapText (boost::shared_ptr<Image> i, dcpomatic::Rect<double> r)
-		: image (i)
-		, rectangle (r)
-	{}
+	explicit TextCaptionFile (boost::shared_ptr<const TextCaptionFileContent>);
 
-	boost::shared_ptr<Image> image;
-	/** Area that the subtitle covers on its corresponding video, expressed in
-	 *  proportions of the image size; e.g. rectangle.x = 0.5 would mean that
-	 *  the rectangle starts half-way across the video.
-	 *
-	 *  This rectangle may or may not have had a TextContent's offsets and
-	 *  scale applied to it, depending on context.
-	 */
-	dcpomatic::Rect<double> rectangle;
+	boost::optional<ContentTime> first () const;
+	ContentTime length () const;
+
+protected:
+	std::vector<sub::Subtitle> _subtitles;
 };
 
 #endif

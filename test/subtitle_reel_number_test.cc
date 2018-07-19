@@ -21,7 +21,7 @@
 #include "lib/text_caption_file_content.h"
 #include "lib/film.h"
 #include "lib/ratio.h"
-#include "lib/text_content.h"
+#include "lib/caption_content.h"
 #include "lib/dcp_content_type.h"
 #include "test.h"
 #include <dcp/cpl.h>
@@ -46,8 +46,8 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_number_test)
 	shared_ptr<TextCaptionFileContent> content (new TextCaptionFileContent (film, "test/data/subrip5.srt"));
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
-	content->subtitle->set_use (true);
-	content->subtitle->set_burn (false);
+	content->caption->set_use (true);
+	content->caption->set_burn (false);
 	film->set_reel_type (REELTYPE_BY_LENGTH);
 	film->set_interop (true);
 	film->set_reel_length (1024 * 1024 * 512);

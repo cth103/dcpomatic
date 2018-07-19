@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,13 +18,13 @@
 
 */
 
-#ifndef DCPOMATIC_SUBTITLE_DECODER_H
-#define DCPOMATIC_SUBTITLE_DECODER_H
+#ifndef DCPOMATIC_CAPTION_DECODER_H
+#define DCPOMATIC_CAPTION_DECODER_H
 
 #include "decoder.h"
 #include "rect.h"
 #include "types.h"
-#include "content_text.h"
+#include "content_caption.h"
 #include "decoder_part.h"
 #include <dcp/subtitle_string.h>
 #include <boost/signals2.hpp>
@@ -35,12 +35,12 @@ namespace sub {
 
 class Image;
 
-class TextDecoder : public DecoderPart
+class CaptionDecoder : public DecoderPart
 {
 public:
-	TextDecoder (
+	CaptionDecoder (
 		Decoder* parent,
-		boost::shared_ptr<const TextContent>,
+		boost::shared_ptr<const CaptionContent>,
 		boost::shared_ptr<Log> log,
 		ContentTime first
 		);
@@ -58,16 +58,16 @@ public:
 
 	void seek ();
 
-	boost::shared_ptr<const TextContent> content () const {
+	boost::shared_ptr<const CaptionContent> content () const {
 		return _content;
 	}
 
 	boost::signals2::signal<void (ContentBitmapCaption)> BitmapStart;
 	boost::signals2::signal<void (ContentTextCaption)> PlainStart;
-	boost::signals2::signal<void (ContentTime, TextType)> Stop;
+	boost::signals2::signal<void (ContentTime, CaptionType)> Stop;
 
 private:
-	boost::shared_ptr<const TextContent> _content;
+	boost::shared_ptr<const CaptionContent> _content;
 	ContentTime _position;
 };
 

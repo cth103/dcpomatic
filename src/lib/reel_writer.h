@@ -60,7 +60,7 @@ public:
 	void fake_write (Frame frame, Eyes eyes, int size);
 	void repeat_write (Frame frame, Eyes eyes);
 	void write (boost::shared_ptr<const AudioBuffers> audio);
-	void write (PlayerCaption text, TextType type, DCPTimePeriod period);
+	void write (PlayerCaption text, CaptionType type, DCPTimePeriod period);
 
 	void finish ();
 	boost::shared_ptr<dcp::Reel> create_reel (std::list<ReferencedReelAsset> const & refs, std::list<boost::shared_ptr<Font> > const & fonts);

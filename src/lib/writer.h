@@ -104,7 +104,7 @@ public:
 	bool can_repeat (Frame) const;
 	void repeat (Frame, Eyes);
 	void write (boost::shared_ptr<const AudioBuffers>, DCPTime time);
-	void write (PlayerCaption text, TextType type, DCPTimePeriod period);
+	void write (PlayerCaption text, CaptionType type, DCPTimePeriod period);
 	void write (std::list<boost::shared_ptr<Font> > fonts);
 	void write (ReferencedReelAsset asset);
 	void finish ();
@@ -124,7 +124,7 @@ private:
 	boost::weak_ptr<Job> _job;
 	std::vector<ReelWriter> _reels;
 	std::vector<ReelWriter>::iterator _audio_reel;
-	std::vector<ReelWriter>::iterator _text_reel[TEXT_COUNT];
+	std::vector<ReelWriter>::iterator _caption_reel[CAPTION_COUNT];
 
 	/** our thread, or 0 */
 	boost::thread* _thread;

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -21,7 +21,7 @@
 #include "decoder.h"
 #include "video_decoder.h"
 #include "audio_decoder.h"
-#include "text_decoder.h"
+#include "caption_decoder.h"
 #include <boost/optional.hpp>
 #include <iostream>
 
@@ -42,8 +42,8 @@ Decoder::position () const
 		pos = audio->position();
 	}
 
-	if (subtitle && !subtitle->ignore() && (!pos || subtitle->position() < *pos)) {
-		pos = subtitle->position();
+	if (caption && !caption->ignore() && (!pos || caption->position() < *pos)) {
+		pos = caption->position();
 	}
 
 	return pos.get_value_or(ContentTime());
@@ -58,7 +58,7 @@ Decoder::seek (ContentTime, bool)
 	if (audio) {
 		audio->seek ();
 	}
-	if (subtitle) {
-		subtitle->seek ();
+	if (caption) {
+		caption->seek ();
 	}
 }

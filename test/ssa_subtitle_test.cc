@@ -28,7 +28,7 @@
 #include "lib/dcp_content_type.h"
 #include "lib/font.h"
 #include "lib/ratio.h"
-#include "lib/text_content.h"
+#include "lib/caption_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/algorithm/string.hpp>
@@ -51,8 +51,8 @@ BOOST_AUTO_TEST_CASE (ssa_subtitle_test1)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
-	content->subtitle->set_use (true);
-	content->subtitle->set_burn (false);
+	content->caption->set_use (true);
+	content->caption->set_burn (false);
 
 	film->make_dcp ();
 	wait_for_jobs ();

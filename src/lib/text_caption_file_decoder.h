@@ -18,10 +18,10 @@
 
 */
 
-#ifndef DCPOMATIC_PLAIN_TEXT_FILE_DECODER_H
-#define DCPOMATIC_PLAIN_TEXT_FILE_DECODER_H
+#ifndef DCPOMATIC_TEXT_CAPTION_FILE_DECODER_H
+#define DCPOMATIC_TEXT_CAPTION_FILE_DECODER_H
 
-#include "plain_text_file.h"
+#include "text_caption_file.h"
 #include "decoder.h"
 
 class TextCaptionFileContent;

@@ -91,26 +91,26 @@ Crop::as_xml (xmlpp::Node* node) const
 	node->add_child("BottomCrop")->add_child_text (raw_convert<string> (bottom));
 }
 
-TextType
-string_to_text_type (string s)
+CaptionType
+string_to_caption_type (string s)
 {
-	if (s == "subtitle") {
-		return TEXT_SUBTITLE;
-	} else if (s == "ccap") {
-		return TEXT_CLOSED_CAPTION;
+	if (s == "open") {
+		return CAPTION_OPEN;
+	} else if (s == "closed") {
+		return CAPTION_CLOSED;
 	} else {
-		throw MetadataError (String::compose ("Unknown text type %1", s));
+		throw MetadataError (String::compose ("Unknown caption type %1", s));
 	}
 }
 
 string
-text_type_to_string (TextType t)
+caption_type_to_string (CaptionType t)
 {
 	switch (t) {
-	case TEXT_SUBTITLE:
-		return "subtitle";
-	case TEXT_CLOSED_CAPTION:
-		return "ccap";
+	case CAPTION_OPEN:
+		return "open";
+	case CAPTION_CLOSED:
+		return "closed";
 	default:
 		DCPOMATIC_ASSERT (false);
 	}

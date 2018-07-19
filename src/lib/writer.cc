@@ -95,8 +95,8 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 	   and captions arrive to the Writer in sequence.  This is not so for video.
 	*/
 	_audio_reel = _reels.begin ();
-	for (int i = 0; i < TEXT_COUNT; ++i) {
-		_text_reel[i] = _reels.begin ();
+	for (int i = 0; i < CAPTION_COUNT; ++i) {
+		_caption_reel[i] = _reels.begin ();
 	}
 
 	/* Check that the signer is OK if we need one */
@@ -665,16 +665,16 @@ Writer::can_fake_write (Frame frame) const
 }
 
 void
-Writer::write (PlayerCaption text, TextType type, DCPTimePeriod period)
+Writer::write (PlayerCaption text, CaptionType type, DCPTimePeriod period)
 {
-	while (_text_reel[type]->period().to <= period.from) {
-		++_text_reel[type];
-		DCPOMATIC_ASSERT (_text_reel[type] != _reels.end());
+	while (_caption_reel[type]->period().to <= period.from) {
+		++_caption_reel[type];
+		DCPOMATIC_ASSERT (_caption_reel[type] != _reels.end());
 	}
 
-	DCPOMATIC_ASSERT (_text_reel[type] != _reels.end());
+	DCPOMATIC_ASSERT (_caption_reel[type] != _reels.end());
 
-	_text_reel[type]->write (text, type, period);
+	_caption_reel[type]->write (text, type, period);
 }
 
 void

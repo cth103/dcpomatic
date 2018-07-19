@@ -24,16 +24,16 @@
 #include "dcpomatic_time.h"
 #include "rect.h"
 #include "types.h"
-#include "bitmap_text.h"
+#include "bitmap_caption.h"
 #include <dcp/subtitle_string.h>
 #include <list>
 
 class Image;
 
-class ContentText
+class ContentCaption
 {
 public:
-	explicit ContentText (ContentTime f, TextType t)
+	explicit ContentCaption (ContentTime f, CaptionType t)
 		: _from (f)
 		, _type (t)
 	{}
@@ -42,36 +42,36 @@ public:
 		return _from;
 	}
 
-	TextType type () const {
+	CaptionType type () const {
 		return _type;
 	}
 
 private:
 	ContentTime _from;
-	TextType _type;
+	CaptionType _type;
 };
 
-class ContentBitmapCaption : public ContentText
+class ContentBitmapCaption : public ContentCaption
 {
 public:
-	ContentBitmapCaption (ContentTime f, TextType type, boost::shared_ptr<Image> im, dcpomatic::Rect<double> r)
-		: ContentText (f, type)
+	ContentBitmapCaption (ContentTime f, CaptionType type, boost::shared_ptr<Image> im, dcpomatic::Rect<double> r)
+		: ContentCaption (f, type)
 		, sub (im, r)
 	{}
 
 	/* Our text, with its rectangle unmodified by any offsets or scales that the content specifies */
-	BitmapText sub;
+	BitmapCaption sub;
 };
 
 /** A text caption.  We store the time period separately (as well as in the dcp::SubtitleStrings)
  *  as the dcp::SubtitleString timings are sometimes quite heavily quantised and this causes problems
  *  when we want to compare the quantised periods to the unquantised ones.
  */
-class ContentTextCaption : public ContentText
+class ContentTextCaption : public ContentCaption
 {
 public:
-	ContentTextCaption (ContentTime f, TextType type, std::list<dcp::SubtitleString> s)
-		: ContentText (f, type)
+	ContentTextCaption (ContentTime f, CaptionType type, std::list<dcp::SubtitleString> s)
+		: ContentCaption (f, type)
 		, subs (s)
 	{}
 

@@ -28,7 +28,7 @@
 #include "image_sequence_dialog.h"
 #include "film_viewer.h"
 #include "lib/audio_content.h"
-#include "lib/text_content.h"
+#include "lib/caption_content.h"
 #include "lib/video_content.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/content_factory.h"
@@ -40,7 +40,7 @@
 #include "lib/log.h"
 #include "lib/compose.hpp"
 #include "lib/text_caption_file_content.h"
-#include "lib/plain_text_file.h"
+#include "lib/text_caption_file.h"
 #include <wx/wx.h>
 #include <wx/notebook.h>
 #include <wx/listctrl.h>
@@ -196,7 +196,7 @@ ContentPanel::selected_subtitle ()
 	ContentList sc;
 
 	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
-		if (i->subtitle) {
+		if (i->caption) {
 			sc.push_back (i);
 		}
 	}
@@ -447,7 +447,7 @@ ContentPanel::setup_sensitivity ()
 
 	_video_panel->Enable	(_generally_sensitive && video_selection.size() > 0);
 	_audio_panel->Enable	(_generally_sensitive && audio_selection.size() > 0);
-	_caption_panel->Enable  (_generally_sensitive && selection.size() == 1 && selection.front()->subtitle);
+	_caption_panel->Enable  (_generally_sensitive && selection.size() == 1 && selection.front()->caption);
 	_timing_panel->Enable	(_generally_sensitive);
 }
 

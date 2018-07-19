@@ -18,10 +18,10 @@
 
 */
 
-#ifndef DCPOMATIC_PLAYER_TEXT_H
-#define DCPOMATIC_PLAYER_TEXT_H
+#ifndef DCPOMATIC_PLAYER_CAPTION_H
+#define DCPOMATIC_PLAYER_CAPTION_H
 
-#include "bitmap_text.h"
+#include "bitmap_caption.h"
 #include "dcpomatic_time.h"
 #include "text_caption.h"
 
@@ -34,8 +34,8 @@ public:
 	void add_fonts (std::list<boost::shared_ptr<Font> > fonts_);
 	std::list<boost::shared_ptr<Font> > fonts;
 
-	/** BitmapTexts, with their rectangles transformed as specified by their content */
-	std::list<BitmapText> image;
+	/** BitmapCaptions, with their rectangles transformed as specified by their content */
+	std::list<BitmapCaption> image;
 	std::list<TextCaption> text;
 };
 

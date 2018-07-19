@@ -27,7 +27,7 @@
 #include "lib/job_manager.h"
 #include "lib/job.h"
 #include "lib/video_content.h"
-#include "lib/text_content.h"
+#include "lib/caption_content.h"
 #include "lib/ratio.h"
 #include "lib/verify_dcp_job.h"
 #include "lib/dcp_examiner.h"
@@ -618,8 +618,8 @@ private:
 
 	void setup_from_dcp (shared_ptr<DCPContent> dcp)
 	{
-		if (dcp->subtitle) {
-			dcp->subtitle->set_use (true);
+		if (dcp->caption) {
+			dcp->caption->set_use (true);
 		}
 
 		if (dcp->video) {

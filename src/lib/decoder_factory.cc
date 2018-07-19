@@ -26,8 +26,8 @@
 #include "image_decoder.h"
 #include "text_caption_file_content.h"
 #include "text_caption_file_decoder.h"
-#include "dcp_text_content.h"
-#include "dcp_text_decoder.h"
+#include "dcp_subtitle_content.h"
+#include "dcp_subtitle_decoder.h"
 #include "video_mxf_content.h"
 #include "video_mxf_decoder.h"
 #include <boost/foreach.hpp>
@@ -59,9 +59,9 @@ decoder_factory (shared_ptr<const Content> content, shared_ptr<Log> log, bool fa
 		return shared_ptr<Decoder> (new TextCaptionFileDecoder (rc, log));
 	}
 
-	shared_ptr<const DCPTextContent> dsc = dynamic_pointer_cast<const DCPTextContent> (content);
+	shared_ptr<const DCPSubtitleContent> dsc = dynamic_pointer_cast<const DCPSubtitleContent> (content);
 	if (dsc) {
-		return shared_ptr<Decoder> (new DCPTextDecoder (dsc, log));
+		return shared_ptr<Decoder> (new DCPSubtitleDecoder (dsc, log));
 	}
 
 	shared_ptr<const VideoMXFContent> vmc = dynamic_pointer_cast<const VideoMXFContent> (content);

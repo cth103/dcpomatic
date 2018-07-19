@@ -20,7 +20,7 @@
 
 #include "active_captions.h"
 #include "piece.h"
-#include "text_content.h"
+#include "caption_content.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 
@@ -47,7 +47,7 @@ ActiveCaptions::get_burnt (DCPTimePeriod period, bool always_burn_subtitles) con
 			continue;
 		}
 
-		if (!piece->content->subtitle->use() || (!always_burn_subtitles && !piece->content->subtitle->burn())) {
+		if (!piece->content->caption->use() || (!always_burn_subtitles && !piece->content->caption->burn())) {
 			/* Not burning this piece */
 			continue;
 		}

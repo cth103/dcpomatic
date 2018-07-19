@@ -34,7 +34,7 @@
 #include "lib/text_caption_file_content.h"
 #include "lib/content_factory.h"
 #include "lib/dcp_content.h"
-#include "lib/text_content.h"
+#include "lib/caption_content.h"
 #include "lib/butler.h"
 #include "lib/compose.hpp"
 #include "test.h"
@@ -211,7 +211,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 	shared_ptr<DCPContent> dcp (new DCPContent (film, private_data / "awkward_subs"));
 	film->examine_and_add_content (dcp, true);
 	BOOST_REQUIRE (!wait_for_jobs ());
-	dcp->subtitle->set_use (true);
+	dcp->caption->set_use (true);
 
 	shared_ptr<Player> player (new Player (film, film->playlist()));
 	player->set_fast ();
@@ -242,7 +242,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 	shared_ptr<DCPContent> dcp (new DCPContent (film, private_data / "awkward_subs2"));
 	film->examine_and_add_content (dcp, true);
 	BOOST_REQUIRE (!wait_for_jobs ());
-	dcp->subtitle->set_use (true);
+	dcp->caption->set_use (true);
 
 	shared_ptr<Player> player (new Player (film, film->playlist()));
 	player->set_fast ();

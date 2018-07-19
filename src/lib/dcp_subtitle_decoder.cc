@@ -18,8 +18,8 @@
 
 */
 
-#include "dcp_text_decoder.h"
-#include "dcp_text_content.h"
+#include "dcp_subtitle_decoder.h"
+#include "dcp_subtitle_content.h"
 #include <dcp/interop_subtitle_asset.h>
 #include <iostream>
 
@@ -29,7 +29,7 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::bind;
 
-DCPTextDecoder::DCPTextDecoder (shared_ptr<const DCPTextContent> content, shared_ptr<Log> log)
+DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> content, shared_ptr<Log> log)
 {
 	shared_ptr<dcp::SubtitleAsset> c (load (content->path (0)));
 	_subtitles = c->subtitles ();
@@ -39,11 +39,11 @@ DCPTextDecoder::DCPTextDecoder (shared_ptr<const DCPTextContent> content, shared
 	if (_next != _subtitles.end()) {
 		first = content_time_period(*_next).from;
 	}
-	subtitle.reset (new TextDecoder (this, content->subtitle, log, first));
+	caption.reset (new CaptionDecoder (this, content->caption, log, first));
 }
 
 void
-DCPTextDecoder::seek (ContentTime time, bool accurate)
+DCPSubtitleDecoder::seek (ContentTime time, bool accurate)
 {
 	Decoder::seek (time, accurate);
 
@@ -55,7 +55,7 @@ DCPTextDecoder::seek (ContentTime time, bool accurate)
 }
 
 bool
-DCPTextDecoder::pass ()
+DCPSubtitleDecoder::pass ()
 {
 	if (_next == _subtitles.end ()) {
 		return true;
@@ -64,7 +64,7 @@ DCPTextDecoder::pass ()
 	/* Gather all subtitles with the same time period that are next
 	   on the list.  We must emit all subtitles for the same time
 	   period with the same plain_text() call otherwise the
-	   TextDecoder will assume there is nothing else at the
+	   CaptionDecoder will assume there is nothing else at the
 	   time of emit the first.
 	*/
 
@@ -81,12 +81,12 @@ DCPTextDecoder::pass ()
 		/* XXX: image subtitles */
 	}
 
-	subtitle->emit_plain (p, s);
+	caption->emit_plain (p, s);
 	return false;
 }
 
 ContentTimePeriod
-DCPTextDecoder::content_time_period (shared_ptr<dcp::Subtitle> s) const
+DCPSubtitleDecoder::content_time_period (shared_ptr<dcp::Subtitle> s) const
 {
 	return ContentTimePeriod (
 		ContentTime::from_seconds (s->in().as_seconds ()),

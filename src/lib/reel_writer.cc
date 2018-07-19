@@ -528,7 +528,7 @@ ReelWriter::write (shared_ptr<const AudioBuffers> audio)
 }
 
 void
-ReelWriter::write (PlayerCaption subs, TextType type, DCPTimePeriod period)
+ReelWriter::write (PlayerCaption subs, CaptionType type, DCPTimePeriod period)
 {
 	/* XXX: we need separate libdcp asset types here and to know how different they are */
 
@@ -565,7 +565,7 @@ ReelWriter::write (PlayerCaption subs, TextType type, DCPTimePeriod period)
 		_subtitle_asset->add (shared_ptr<dcp::Subtitle>(new dcp::SubtitleString(i)));
 	}
 
-	BOOST_FOREACH (BitmapText i, subs.image) {
+	BOOST_FOREACH (BitmapCaption i, subs.image) {
 		_subtitle_asset->add (
 			shared_ptr<dcp::Subtitle>(
 				new dcp::SubtitleImage(

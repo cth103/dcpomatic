@@ -28,7 +28,7 @@
 #include "util.h"
 #include "log.h"
 #include "ffmpeg_decoder.h"
-#include "text_decoder.h"
+#include "caption_decoder.h"
 #include "ffmpeg_audio_stream.h"
 #include "ffmpeg_subtitle_stream.h"
 #include "video_filter_graph.h"
@@ -39,7 +39,7 @@
 #include "film.h"
 #include "audio_decoder.h"
 #include "compose.hpp"
-#include "text_content.h"
+#include "caption_content.h"
 #include "audio_content.h"
 #include <dcp/subtitle_string.h>
 #include <sub/ssa_reader.h>
@@ -97,9 +97,9 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log>
 		audio.reset (new AudioDecoder (this, c->audio, log, fast));
 	}
 
-	if (c->subtitle) {
+	if (c->caption) {
 		/* XXX: this time here should be the time of the first subtitle, not 0 */
-		subtitle.reset (new TextDecoder (this, c->subtitle, log, ContentTime()));
+		caption.reset (new CaptionDecoder (this, c->caption, log, ContentTime()));
 	}
 
 	_next_time.resize (_format_context->nb_streams);
@@ -184,7 +184,7 @@ FFmpegDecoder::pass ()
 
 	if (_video_stream && si == _video_stream.get() && !video->ignore()) {
 		decode_video_packet ();
-	} else if (fc->subtitle_stream() && fc->subtitle_stream()->uses_index(_format_context, si) && !subtitle->ignore()) {
+	} else if (fc->subtitle_stream() && fc->subtitle_stream()->uses_index(_format_context, si) && !caption->ignore()) {
 		decode_subtitle_packet ();
 	} else {
 		decode_audio_packet ();
@@ -549,9 +549,9 @@ FFmpegDecoder::decode_subtitle_packet ()
 	/* Stop any current subtitle, either at the time it was supposed to stop, or now if now is sooner */
 	if (_have_current_subtitle) {
 		if (_current_subtitle_to) {
-			subtitle->emit_stop (min(*_current_subtitle_to, subtitle_period(sub).from + _pts_offset));
+			caption->emit_stop (min(*_current_subtitle_to, subtitle_period(sub).from + _pts_offset));
 		} else {
-			subtitle->emit_stop (subtitle_period(sub).from + _pts_offset);
+			caption->emit_stop (subtitle_period(sub).from + _pts_offset);
 		}
 		_have_current_subtitle = false;
 	}
@@ -593,7 +593,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 	}
 
 	if (_current_subtitle_to) {
-		subtitle->emit_stop (*_current_subtitle_to);
+		caption->emit_stop (*_current_subtitle_to);
 	}
 
 	avsubtitle_free (&sub);
@@ -669,7 +669,7 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime 
 		static_cast<double> (rect->h) / target_height
 		);
 
-	subtitle->emit_bitmap_start (from, image, scaled_rect);
+	caption->emit_bitmap_start (from, image, scaled_rect);
 }
 
 void
@@ -702,6 +702,6 @@ FFmpegDecoder::decode_ass_subtitle (string ass, ContentTime from)
 		);
 
 	BOOST_FOREACH (sub::Subtitle const & i, sub::collect<list<sub::Subtitle> > (raw)) {
-		subtitle->emit_plain_start (from, i);
+		caption->emit_plain_start (from, i);
 	}
 }

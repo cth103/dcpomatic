@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,7 +18,7 @@
 
 */
 
-#include "lib/content_text.h"
+#include "lib/content_caption.h"
 #include <boost/shared_ptr.hpp>
 #include <wx/wx.h>
 #include <wx/listctrl.h>

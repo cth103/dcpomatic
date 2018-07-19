@@ -18,7 +18,7 @@
 
 */
 
-#include "plain_text_file.h"
+#include "text_caption_file.h"
 #include "cross.h"
 #include "exceptions.h"
 #include "text_caption_file_content.h"

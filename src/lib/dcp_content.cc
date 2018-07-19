@@ -28,7 +28,7 @@
 #include "overlaps.h"
 #include "compose.hpp"
 #include "dcp_decoder.h"
-#include "text_content.h"
+#include "caption_content.h"
 #include <dcp/dcp.h>
 #include <dcp/raw_convert.h>
 #include <dcp/exceptions.h>
@@ -81,7 +81,7 @@ DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 {
 	video = VideoContent::from_xml (this, node, version);
 	audio = AudioContent::from_xml (this, node, version);
-	subtitle = TextContent::from_xml (this, node, version);
+	caption = CaptionContent::from_xml (this, node, version);
 
 	if (video && audio) {
 		audio->set_stream (
@@ -143,7 +143,7 @@ DCPContent::examine (shared_ptr<Job> job)
 	bool const needed_assets = needs_assets ();
 	bool const needed_kdm = needs_kdm ();
 	string const old_name = name ();
-	bool had_subtitles = static_cast<bool> (subtitle);
+	bool had_subtitles = static_cast<bool> (caption);
 
 	if (job) {
 		job->set_progress_unknown ();
@@ -179,11 +179,11 @@ DCPContent::examine (shared_ptr<Job> job)
 		boost::mutex::scoped_lock lm (_mutex);
 		_name = examiner->name ();
 		if (examiner->has_subtitles ()) {
-			subtitle.reset (new TextContent (this));
+			caption.reset (new CaptionContent (this));
 		} else {
-			subtitle.reset ();
+			caption.reset ();
 		}
-		has_subtitles = static_cast<bool> (subtitle);
+		has_subtitles = static_cast<bool> (caption);
 		_encrypted = examiner->encrypted ();
 		_needs_assets = examiner->needs_assets ();
 		_kdm_valid = examiner->kdm_valid ();
@@ -254,8 +254,8 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 		audio->stream()->mapping().as_xml (node->add_child("AudioMapping"));
 	}
 
-	if (subtitle) {
-		subtitle->as_xml (node);
+	if (caption) {
+		caption->as_xml (node);
 	}
 
 	boost::mutex::scoped_lock lm (_mutex);
@@ -309,8 +309,8 @@ DCPContent::identifier () const
 		s += video->identifier() + "_";
 	}
 
-	if (subtitle) {
-		s += subtitle->identifier () + " ";
+	if (caption) {
+		s += caption->identifier () + " ";
 	}
 
 	s += string (_reference_video ? "1" : "0") + string (_reference_subtitle ? "1" : "0");
@@ -584,7 +584,7 @@ DCPContent::can_reference_subtitle (string& why_not) const
         }
 
 	/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-	return can_reference (bind (&Content::subtitle, _1), _("it overlaps other subtitle content; remove the other content."), why_not);
+	return can_reference (bind (&Content::caption, _1), _("it overlaps other caption content; remove the other content."), why_not);
 }
 
 void

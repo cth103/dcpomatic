@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,7 +20,7 @@
 
 #include "playlist.h"
 #include "video_content.h"
-#include "text_content.h"
+#include "caption_content.h"
 #include "ffmpeg_decoder.h"
 #include "ffmpeg_content.h"
 #include "image_decoder.h"
@@ -135,7 +135,7 @@ Playlist::maybe_sequence ()
 
 	DCPTime next;
 	BOOST_FOREACH (shared_ptr<Content> i, _content) {
-		if (!i->subtitle || find (placed.begin(), placed.end(), i) != placed.end()) {
+		if (!i->caption || find (placed.begin(), placed.end(), i) != placed.end()) {
 			continue;
 		}
 
@@ -155,7 +155,7 @@ Playlist::video_identifier () const
 	string t;
 
 	BOOST_FOREACH (shared_ptr<const Content> i, _content) {
-		if (i->video || (i->subtitle && i->subtitle->burn())) {
+		if (i->video || (i->caption && i->caption->burn())) {
 			t += i->identifier ();
 		}
 	}
@@ -366,7 +366,7 @@ Playlist::subtitle_end () const
 {
 	DCPTime end;
 	BOOST_FOREACH (shared_ptr<Content> i, _content) {
-		if (i->subtitle) {
+		if (i->caption) {
 			end = max (end, i->end ());
 		}
 	}

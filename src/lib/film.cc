@@ -46,7 +46,7 @@
 #include "screen.h"
 #include "audio_content.h"
 #include "video_content.h"
-#include "text_content.h"
+#include "caption_content.h"
 #include "ffmpeg_content.h"
 #include "dcp_content.h"
 #include "screen_kdm.h"
@@ -696,11 +696,11 @@ Film::isdcf_name (bool if_created_now) const
 
 			bool burnt_in = true;
 			BOOST_FOREACH (shared_ptr<Content> i, content ()) {
-				if (!i->subtitle) {
+				if (!i->caption) {
 					continue;
 				}
 
-				if (i->subtitle->use() && !i->subtitle->burn()) {
+				if (i->caption->use() && !i->caption->burn()) {
 					burnt_in = false;
 				}
 			}
@@ -1081,7 +1081,7 @@ Film::add_content (shared_ptr<Content> c)
 	/* Add {video,subtitle} content after any existing {video,subtitle} content */
 	if (c->video) {
 		c->set_position (_playlist->video_end ());
-	} else if (c->subtitle) {
+	} else if (c->caption) {
 		c->set_position (_playlist->subtitle_end ());
 	}
 
@@ -1371,8 +1371,8 @@ Film::subtitle_language () const
 
 	ContentList cl = content ();
 	BOOST_FOREACH (shared_ptr<Content>& c, cl) {
-		if (c->subtitle) {
-			languages.insert (c->subtitle->language ());
+		if (c->caption) {
+			languages.insert (c->caption->language ());
 		}
 	}
 

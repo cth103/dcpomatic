@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,7 +24,7 @@
 #include "font_files_dialog.h"
 #include "lib/font.h"
 #include "lib/content.h"
-#include "lib/text_content.h"
+#include "lib/caption_content.h"
 #include <wx/wx.h>
 #include <boost/foreach.hpp>
 #include <iostream>
@@ -105,7 +105,7 @@ FontsDialog::setup ()
 
 	_fonts->DeleteAllItems ();
 	size_t n = 0;
-	BOOST_FOREACH (shared_ptr<Font> i, content->subtitle->fonts ()) {
+	BOOST_FOREACH (shared_ptr<Font> i, content->caption->fonts ()) {
 		wxListItem item;
 		item.SetId (n);
 		_fonts->InsertItem (item);
@@ -145,7 +145,7 @@ FontsDialog::edit_clicked ()
 	int const item = _fonts->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	string const id = wx_to_std (_fonts->GetItemText (item, 0));
 	shared_ptr<Font> font;
-	BOOST_FOREACH (shared_ptr<Font> i, content->subtitle->fonts()) {
+	BOOST_FOREACH (shared_ptr<Font> i, content->caption->fonts()) {
 		if (i->id() == id) {
 			font = i;
 		}

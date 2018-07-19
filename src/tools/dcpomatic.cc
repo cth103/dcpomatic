@@ -71,7 +71,7 @@
 #include "lib/transcode_job.h"
 #include "lib/dkdm_wrapper.h"
 #include "lib/audio_content.h"
-#include "lib/text_content.h"
+#include "lib/caption_content.h"
 #include <dcp/exceptions.h>
 #include <dcp/raw_convert.h>
 #include <wx/generic/aboutdlgg.h>
@@ -563,7 +563,7 @@ private:
 	{
 		DCPOMATIC_ASSERT (_clipboard);
 
-		PasteDialog* d = new PasteDialog (this, static_cast<bool>(_clipboard->video), static_cast<bool>(_clipboard->audio), static_cast<bool>(_clipboard->subtitle));
+		PasteDialog* d = new PasteDialog (this, static_cast<bool>(_clipboard->video), static_cast<bool>(_clipboard->audio), static_cast<bool>(_clipboard->caption));
 		if (d->ShowModal() == wxID_OK) {
 			BOOST_FOREACH (shared_ptr<Content> i, _film_editor->content_panel()->selected()) {
 				if (d->video() && i->video) {
@@ -574,9 +574,9 @@ private:
 					DCPOMATIC_ASSERT (_clipboard->audio);
 					i->audio->take_settings_from (_clipboard->audio);
 				}
-				if (d->subtitle() && i->subtitle) {
-					DCPOMATIC_ASSERT (_clipboard->subtitle);
-					i->subtitle->take_settings_from (_clipboard->subtitle);
+				if (d->caption() && i->caption) {
+					DCPOMATIC_ASSERT (_clipboard->caption);
+					i->caption->take_settings_from (_clipboard->caption);
 				}
 			}
 		}

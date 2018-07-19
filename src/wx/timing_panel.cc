@@ -26,8 +26,8 @@
 #include "move_to_dialog.h"
 #include "lib/content.h"
 #include "lib/image_content.h"
-#include "lib/text_content.h"
-#include "lib/dcp_text_content.h"
+#include "lib/caption_content.h"
+#include "lib/dcp_subtitle_content.h"
 #include "lib/audio_content.h"
 #include "lib/text_caption_file_content.h"
 #include "lib/video_content.h"
@@ -282,7 +282,7 @@ TimingPanel::film_content_changed (int property)
 				++count_ac;
 				content = i;
 			}
-			if (i->subtitle && i->video_frame_rate()) {
+			if (i->caption && i->video_frame_rate()) {
 				++count_sc;
 				content = i;
 			}

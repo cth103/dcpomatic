@@ -18,15 +18,15 @@
 
 */
 
-#include "text_decoder.h"
+#include "caption_decoder.h"
 #include "dcp_subtitle.h"
 
-class DCPTextContent;
+class DCPSubtitleContent;
 
-class DCPTextDecoder : public DCPSubtitle, public Decoder
+class DCPSubtitleDecoder : public DCPSubtitle, public Decoder
 {
 public:
-	DCPTextDecoder (boost::shared_ptr<const DCPTextContent>, boost::shared_ptr<Log> log);
+	DCPSubtitleDecoder (boost::shared_ptr<const DCPSubtitleContent>, boost::shared_ptr<Log> log);
 
 	bool pass ();
 	void seek (ContentTime time, bool accurate);

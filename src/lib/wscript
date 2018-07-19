@@ -38,6 +38,8 @@ sources = """
           audio_ring_buffers.cc
           audio_stream.cc
           butler.cc
+          caption_content.cc
+          caption_decoder.cc
           case_insensitive_sorter.cc
           cinema.cc
           cinema_kdms.cc
@@ -55,8 +57,8 @@ sources = """
           dcp_encoder.cc
           dcp_examiner.cc
           dcp_subtitle.cc
-          dcp_text_content.cc
-          dcp_text_decoder.cc
+          dcp_subtitle_content.cc
+          dcp_subtitle_decoder.cc
           dcp_video.cc
           dcpomatic_socket.cc
           dcpomatic_time.cc
@@ -132,9 +134,7 @@ sources = """
           server.cc
           shuffler.cc
           string_log_entry.cc
-          text_content.cc
-          text_decoder.cc
-          plain_text_file.cc
+          text_caption_file.cc
           text_caption_file_content.cc
           text_caption_file_decoder.cc
           timer.cc

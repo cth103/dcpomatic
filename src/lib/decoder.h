@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -32,7 +32,7 @@
 class Decoded;
 class VideoDecoder;
 class AudioDecoder;
-class TextDecoder;
+class CaptionDecoder;
 class DecoderPart;
 
 /** @class Decoder.
@@ -45,7 +45,7 @@ public:
 
 	boost::shared_ptr<VideoDecoder> video;
 	boost::shared_ptr<AudioDecoder> audio;
-	boost::shared_ptr<TextDecoder> subtitle;
+	boost::shared_ptr<CaptionDecoder> caption;
 
 	/** Do some decoding and perhaps emit video, audio or subtitle data.
 	 *  @return true if this decoder will emit no more data unless a seek() happens.

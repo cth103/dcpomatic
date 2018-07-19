@@ -20,7 +20,7 @@
 
 #include "lib/ffmpeg_content.h"
 #include "lib/content_factory.h"
-#include "lib/text_content.h"
+#include "lib/caption_content.h"
 #include "lib/film.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
@@ -37,14 +37,14 @@ BOOST_AUTO_TEST_CASE (remake_with_subtitle_test)
 	shared_ptr<FFmpegContent> content = dynamic_pointer_cast<FFmpegContent>(content_factory(film, private_data / "prophet_short_clip.mkv").front());
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
-	content->subtitle->set_burn (true);
-	content->subtitle->set_use (true);
+	content->caption->set_burn (true);
+	content->caption->set_use (true);
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	boost::filesystem::remove_all (film->dir (film->dcp_name(), false));
 
-	content->subtitle->set_use (false);
+	content->caption->set_use (false);
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());
 

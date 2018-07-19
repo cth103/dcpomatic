@@ -52,7 +52,7 @@ private:
 
 	void video (boost::shared_ptr<PlayerVideo>, DCPTime);
 	void audio (boost::shared_ptr<AudioBuffers>, DCPTime);
-	void text (PlayerCaption, TextType, DCPTimePeriod);
+	void caption (PlayerCaption, CaptionType, DCPTimePeriod);
 
 	boost::shared_ptr<Writer> _writer;
 	boost::shared_ptr<J2KEncoder> _j2k_encoder;
@@ -61,5 +61,5 @@ private:
 
 	boost::signals2::scoped_connection _player_video_connection;
 	boost::signals2::scoped_connection _player_audio_connection;
-	boost::signals2::scoped_connection _player_text_connection;
+	boost::signals2::scoped_connection _player_caption_connection;
 };

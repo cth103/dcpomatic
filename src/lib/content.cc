@@ -27,7 +27,7 @@
 #include "content_factory.h"
 #include "video_content.h"
 #include "audio_content.h"
-#include "text_content.h"
+#include "caption_content.h"
 #include "exceptions.h"
 #include "film.h"
 #include "job.h"
@@ -436,7 +436,7 @@ Content::take_settings_from (shared_ptr<const Content> c)
 	if (audio && c->audio) {
 		audio->take_settings_from (c->audio);
 	}
-	if (subtitle && c->subtitle) {
-		subtitle->take_settings_from (c->subtitle);
+	if (caption && c->caption) {
+		caption->take_settings_from (c->caption);
 	}
 }

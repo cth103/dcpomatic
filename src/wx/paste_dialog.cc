@@ -20,7 +20,7 @@
 
 #include "paste_dialog.h"
 
-PasteDialog::PasteDialog (wxWindow* parent, bool video, bool audio, bool subtitle)
+PasteDialog::PasteDialog (wxWindow* parent, bool video, bool audio, bool caption)
 	: TableDialog (parent, _("Paste"), 1, 0, true)
 {
 	_video = new wxCheckBox (this, wxID_ANY, _("Paste video settings"));
@@ -29,9 +29,9 @@ PasteDialog::PasteDialog (wxWindow* parent, bool video, bool audio, bool subtitl
 	_audio = new wxCheckBox (this, wxID_ANY, _("Paste audio settings"));
 	_audio->Enable (audio);
 	add (_audio);
-	_subtitle = new wxCheckBox (this, wxID_ANY, _("Paste subtitle settings"));
-	_subtitle->Enable (subtitle);
-	add (_subtitle);
+	_caption = new wxCheckBox (this, wxID_ANY, _("Paste caption settings"));
+	_caption->Enable (caption);
+	add (_caption);
 
 	layout ();
 }
@@ -49,7 +49,7 @@ PasteDialog::audio () const
 }
 
 bool
-PasteDialog::subtitle () const
+PasteDialog::caption () const
 {
-	return _subtitle->GetValue ();
+	return _caption->GetValue ();
 }

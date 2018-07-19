@@ -22,7 +22,7 @@
 #include "lib/content.h"
 #include "lib/film.h"
 #include "lib/content_factory.h"
-#include "lib/plain_text_file.h"
+#include "lib/text_caption_file.h"
 #include "lib/text_caption_file_content.h"
 #include <boost/test/unit_test.hpp>
 

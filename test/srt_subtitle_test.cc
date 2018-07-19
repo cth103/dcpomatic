@@ -28,7 +28,7 @@
 #include "lib/dcp_content_type.h"
 #include "lib/font.h"
 #include "lib/ratio.h"
-#include "lib/text_content.h"
+#include "lib/caption_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/algorithm/string.hpp>
@@ -51,8 +51,8 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
-	content->subtitle->set_use (true);
-	content->subtitle->set_burn (false);
+	content->caption->set_use (true);
+	content->caption->set_burn (false);
 	film->make_dcp ();
 	wait_for_jobs ();
 
@@ -73,10 +73,10 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test2)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
-	content->subtitle->set_use (true);
-	content->subtitle->set_burn (false);
+	content->caption->set_use (true);
+	content->caption->set_burn (false);
 	/* Use test/data/subrip2.srt as if it were a font file  */
-	content->subtitle->fonts().front()->set_file (FontFiles::NORMAL, "test/data/subrip2.srt");
+	content->caption->fonts().front()->set_file (FontFiles::NORMAL, "test/data/subrip2.srt");
 
 	film->make_dcp ();
 	wait_for_jobs ();
@@ -108,8 +108,8 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
-	content->subtitle->set_use (true);
-	content->subtitle->set_burn (false);
+	content->caption->set_use (true);
+	content->caption->set_burn (false);
 
 	film->make_dcp ();
 	wait_for_jobs ();
@@ -126,8 +126,8 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test4)
 	film->set_name ("frobozz");
 	film->set_interop (false);
 	shared_ptr<TextCaptionFileContent> content (new TextCaptionFileContent (film, "test/data/subrip2.srt"));
-	content->subtitle->set_use (true);
-	content->subtitle->set_burn (false);
+	content->caption->set_use (true);
+	content->caption->set_burn (false);
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 	film->make_dcp ();
@@ -147,8 +147,8 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test5)
 	film->set_interop (true);
 	film->set_sequence (false);
 	shared_ptr<TextCaptionFileContent> content (new TextCaptionFileContent (film, "test/data/subrip2.srt"));
-	content->subtitle->set_use (true);
-	content->subtitle->set_burn (false);
+	content->caption->set_use (true);
+	content->caption->set_burn (false);
 	film->examine_and_add_content (content);
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
@@ -165,8 +165,8 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test6)
 	shared_ptr<Film> film = new_test_film2 ("srt_subtitle_test6");
 	film->set_interop (false);
 	shared_ptr<TextCaptionFileContent> content (new TextCaptionFileContent (film, "test/data/frames.srt"));
-	content->subtitle->set_use (true);
-	content->subtitle->set_burn (false);
+	content->caption->set_use (true);
+	content->caption->set_burn (false);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	film->make_dcp ();
@@ -190,7 +190,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test4)
 	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds ((3 * 60) + 56.471));
 
 	shared_ptr<SubRipDecoder> decoder (new SubRipDecoder (content));
-	list<ContentTextSubtitle> cts = decoder->get_plain_texts (
+	list<ContentTextCaption> cts = decoder->get_plain_texts (
 		ContentTimePeriod (
 			ContentTime::from_seconds (109), ContentTime::from_seconds (110)
 			), false

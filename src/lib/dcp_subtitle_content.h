@@ -21,11 +21,11 @@
 #include "dcp_subtitle.h"
 #include "content.h"
 
-class DCPTextContent : public DCPSubtitle, public Content
+class DCPSubtitleContent : public DCPSubtitle, public Content
 {
 public:
-	DCPTextContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	DCPTextContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
+	DCPSubtitleContent (boost::shared_ptr<const Film>, boost::filesystem::path);
+	DCPSubtitleContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
 
 	void examine (boost::shared_ptr<Job>);
 	std::string summary () const;
