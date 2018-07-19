@@ -191,7 +191,7 @@ ContentPanel::selected_audio ()
 }
 
 ContentList
-ContentPanel::selected_subtitle ()
+ContentPanel::selected_caption ()
 {
 	ContentList sc;
 

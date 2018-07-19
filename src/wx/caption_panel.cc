@@ -189,7 +189,7 @@ void
 CaptionPanel::film_content_changed (int property)
 {
 	FFmpegContentList fc = _parent->selected_ffmpeg ();
-	ContentList sc = _parent->selected_subtitle ();
+	ContentList sc = _parent->selected_caption ();
 
 	shared_ptr<FFmpegContent> fcs;
 	if (fc.size() == 1) {
@@ -266,7 +266,7 @@ CaptionPanel::film_content_changed (int property)
 void
 CaptionPanel::use_toggled ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption()) {
 		i->caption->set_use (_use->GetValue());
 	}
 }
@@ -274,7 +274,7 @@ CaptionPanel::use_toggled ()
 void
 CaptionPanel::type_changed ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle()) {
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption()) {
 		switch (_type->GetSelection()) {
 		case 0:
 			i->caption->set_type (CAPTION_OPEN);
@@ -289,7 +289,7 @@ CaptionPanel::type_changed ()
 void
 CaptionPanel::burn_toggled ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption ()) {
 		i->caption->set_burn (_burn->GetValue());
 	}
 }
@@ -299,7 +299,7 @@ CaptionPanel::setup_sensitivity ()
 {
 	int any_subs = 0;
 	int ffmpeg_subs = 0;
-	ContentList sel = _parent->selected_subtitle ();
+	ContentList sel = _parent->selected_caption ();
 	BOOST_FOREACH (shared_ptr<Content> i, sel) {
 		/* These are the content types that could include subtitles */
 		shared_ptr<const FFmpegContent> fc = boost::dynamic_pointer_cast<const FFmpegContent> (i);
@@ -372,7 +372,7 @@ CaptionPanel::stream_changed ()
 void
 CaptionPanel::x_offset_changed ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption ()) {
 		i->caption->set_x_offset (_x_offset->GetValue() / 100.0);
 	}
 }
@@ -380,7 +380,7 @@ CaptionPanel::x_offset_changed ()
 void
 CaptionPanel::y_offset_changed ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption ()) {
 		i->caption->set_y_offset (_y_offset->GetValue() / 100.0);
 	}
 }
@@ -388,7 +388,7 @@ CaptionPanel::y_offset_changed ()
 void
 CaptionPanel::x_scale_changed ()
 {
-	ContentList c = _parent->selected_subtitle ();
+	ContentList c = _parent->selected_caption ();
 	if (c.size() == 1) {
 		c.front()->caption->set_x_scale (_x_scale->GetValue() / 100.0);
 	}
@@ -397,7 +397,7 @@ CaptionPanel::x_scale_changed ()
 void
 CaptionPanel::y_scale_changed ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption ()) {
 		i->caption->set_y_scale (_y_scale->GetValue() / 100.0);
 	}
 }
@@ -405,7 +405,7 @@ CaptionPanel::y_scale_changed ()
 void
 CaptionPanel::line_spacing_changed ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption ()) {
 		i->caption->set_line_spacing (_line_spacing->GetValue() / 100.0);
 	}
 }
@@ -413,7 +413,7 @@ CaptionPanel::line_spacing_changed ()
 void
 CaptionPanel::language_changed ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption ()) {
 		i->caption->set_language (wx_to_std (_language->GetValue()));
 	}
 }
@@ -443,7 +443,7 @@ CaptionPanel::subtitle_view_clicked ()
 		_subtitle_view = 0;
 	}
 
-	ContentList c = _parent->selected_subtitle ();
+	ContentList c = _parent->selected_caption ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
 	shared_ptr<Decoder> decoder = decoder_factory (c.front(), _parent->film()->log(), false);
@@ -462,7 +462,7 @@ CaptionPanel::fonts_dialog_clicked ()
 		_fonts_dialog = 0;
 	}
 
-	ContentList c = _parent->selected_subtitle ();
+	ContentList c = _parent->selected_caption ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
 	_fonts_dialog = new FontsDialog (this, c.front ());
@@ -488,7 +488,7 @@ CaptionPanel::reference_clicked ()
 void
 CaptionPanel::appearance_dialog_clicked ()
 {
-	ContentList c = _parent->selected_subtitle ();
+	ContentList c = _parent->selected_caption ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
 	CaptionAppearanceDialog* d = new CaptionAppearanceDialog (this, c.front());
