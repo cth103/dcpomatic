@@ -313,7 +313,7 @@ TextContent::as_xml (xmlpp::Node* root) const
 		(*i)->as_xml (root->add_child("Font"));
 	}
 
-	root->add_child("TextType", text_type_to_string(_type));
+	root->add_child("TextType")->add_child_text (text_type_to_string(_type));
 }
 
 string

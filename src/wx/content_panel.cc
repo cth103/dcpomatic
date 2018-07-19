@@ -22,7 +22,7 @@
 #include "wx_util.h"
 #include "video_panel.h"
 #include "audio_panel.h"
-#include "subtitle_panel.h"
+#include "caption_panel.h"
 #include "timing_panel.h"
 #include "timeline_dialog.h"
 #include "image_sequence_dialog.h"
@@ -125,8 +125,8 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmVie
 	_panels.push_back (_video_panel);
 	_audio_panel = new AudioPanel (this);
 	_panels.push_back (_audio_panel);
-	_subtitle_panel = new SubtitlePanel (this);
-	_panels.push_back (_subtitle_panel);
+	_caption_panel = new CaptionPanel (this);
+	_panels.push_back (_caption_panel);
 	_timing_panel = new TimingPanel (this, _film_viewer);
 	_panels.push_back (_timing_panel);
 
@@ -447,7 +447,7 @@ ContentPanel::setup_sensitivity ()
 
 	_video_panel->Enable	(_generally_sensitive && video_selection.size() > 0);
 	_audio_panel->Enable	(_generally_sensitive && audio_selection.size() > 0);
-	_subtitle_panel->Enable (_generally_sensitive && selection.size() == 1 && selection.front()->subtitle);
+	_caption_panel->Enable  (_generally_sensitive && selection.size() == 1 && selection.front()->subtitle);
 	_timing_panel->Enable	(_generally_sensitive);
 }
 

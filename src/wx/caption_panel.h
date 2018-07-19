@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -25,10 +25,10 @@ class wxSpinCtrl;
 class SubtitleView;
 class FontsDialog;
 
-class SubtitlePanel : public ContentSubPanel
+class CaptionPanel : public ContentSubPanel
 {
 public:
-	explicit SubtitlePanel (ContentPanel *);
+	explicit CaptionPanel (ContentPanel *);
 
 	void film_changed (Film::Property);
 	void film_content_changed (int);
@@ -36,6 +36,7 @@ public:
 
 private:
 	void use_toggled ();
+	void type_changed ();
 	void burn_toggled ();
 	void x_offset_changed ();
 	void y_offset_changed ();
@@ -54,6 +55,7 @@ private:
 	wxCheckBox* _reference;
 	wxStaticText* _reference_note;
 	wxCheckBox* _use;
+	wxChoice* _type;
 	wxCheckBox* _burn;
 	wxSpinCtrl* _x_offset;
 	wxSpinCtrl* _y_offset;

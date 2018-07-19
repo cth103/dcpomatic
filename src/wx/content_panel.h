@@ -104,7 +104,7 @@ private:
 	wxButton* _timeline;
 	ContentSubPanel* _video_panel;
 	AudioPanel* _audio_panel;
-	ContentSubPanel* _subtitle_panel;
+	ContentSubPanel* _caption_panel;
 	ContentSubPanel* _timing_panel;
 	std::list<ContentSubPanel *> _panels;
 	ContentMenu* _menu;

@@ -32,6 +32,7 @@ sources = """
           audio_panel.cc
           audio_plot.cc
           batch_job_view.cc
+          caption_panel.cc
           cinema_dialog.cc
           colour_conversion_editor.cc
           config_dialog.cc
@@ -96,7 +97,6 @@ sources = """
           server_dialog.cc
           servers_list_dialog.cc
           subtitle_appearance_dialog.cc
-          subtitle_panel.cc
           subtitle_view.cc
           system_font_dialog.cc
           table_dialog.cc

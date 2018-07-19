@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,7 +18,7 @@
 
 */
 
-#include "subtitle_panel.h"
+#include "caption_panel.h"
 #include "film_editor.h"
 #include "wx_util.h"
 #include "subtitle_view.h"
@@ -43,8 +43,8 @@ using std::list;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
-SubtitlePanel::SubtitlePanel (ContentPanel* p)
-	: ContentSubPanel (p, _("Subtitles"))
+CaptionPanel::CaptionPanel (ContentPanel* p)
+	: ContentSubPanel (p, _("Captions"))
 	, _subtitle_view (0)
 	, _fonts_dialog (0)
 {
@@ -67,8 +67,14 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	_sizer->Add (grid, 0, wxALL, 8);
 	int r = 0;
 
-	_use = new wxCheckBox (this, wxID_ANY, _("Use subtitles"));
-	grid->Add (_use, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	wxBoxSizer* use = new wxBoxSizer (wxHORIZONTAL);
+	_use = new wxCheckBox (this, wxID_ANY, _("Use as"));
+	use->Add (_use, 0, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
+	_type = new wxChoice (this, wxID_ANY);
+	_type->Append (_("subtitles (open captions)"));
+	_type->Append (_("closed captions"));
+	use->Add (_type, 1, wxEXPAND, 0);
+	grid->Add (use, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
 	_burn = new wxCheckBox (this, wxID_ANY, _("Burn subtitles into image"));
@@ -155,23 +161,24 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	_y_scale->SetRange (10, 1000);
 	_line_spacing->SetRange (10, 1000);
 
-	_reference->Bind                (wxEVT_CHECKBOX, boost::bind (&SubtitlePanel::reference_clicked, this));
-	_use->Bind                      (wxEVT_CHECKBOX, boost::bind (&SubtitlePanel::use_toggled, this));
-	_burn->Bind                     (wxEVT_CHECKBOX, boost::bind (&SubtitlePanel::burn_toggled, this));
-	_x_offset->Bind                 (wxEVT_SPINCTRL, boost::bind (&SubtitlePanel::x_offset_changed, this));
-	_y_offset->Bind                 (wxEVT_SPINCTRL, boost::bind (&SubtitlePanel::y_offset_changed, this));
-	_x_scale->Bind                  (wxEVT_SPINCTRL, boost::bind (&SubtitlePanel::x_scale_changed, this));
-	_y_scale->Bind                  (wxEVT_SPINCTRL, boost::bind (&SubtitlePanel::y_scale_changed, this));
-	_line_spacing->Bind             (wxEVT_SPINCTRL, boost::bind (&SubtitlePanel::line_spacing_changed, this));
-	_language->Bind                 (wxEVT_TEXT,     boost::bind (&SubtitlePanel::language_changed, this));
-	_stream->Bind                   (wxEVT_CHOICE,   boost::bind (&SubtitlePanel::stream_changed, this));
-	_subtitle_view_button->Bind     (wxEVT_BUTTON,   boost::bind (&SubtitlePanel::subtitle_view_clicked, this));
-	_fonts_dialog_button->Bind      (wxEVT_BUTTON,   boost::bind (&SubtitlePanel::fonts_dialog_clicked, this));
-	_appearance_dialog_button->Bind (wxEVT_BUTTON,   boost::bind (&SubtitlePanel::appearance_dialog_clicked, this));
+	_reference->Bind                (wxEVT_CHECKBOX, boost::bind (&CaptionPanel::reference_clicked, this));
+	_use->Bind                      (wxEVT_CHECKBOX, boost::bind (&CaptionPanel::use_toggled, this));
+	_type->Bind                     (wxEVT_CHOICE,   boost::bind (&CaptionPanel::type_changed, this));
+	_burn->Bind                     (wxEVT_CHECKBOX, boost::bind (&CaptionPanel::burn_toggled, this));
+	_x_offset->Bind                 (wxEVT_SPINCTRL, boost::bind (&CaptionPanel::x_offset_changed, this));
+	_y_offset->Bind                 (wxEVT_SPINCTRL, boost::bind (&CaptionPanel::y_offset_changed, this));
+	_x_scale->Bind                  (wxEVT_SPINCTRL, boost::bind (&CaptionPanel::x_scale_changed, this));
+	_y_scale->Bind                  (wxEVT_SPINCTRL, boost::bind (&CaptionPanel::y_scale_changed, this));
+	_line_spacing->Bind             (wxEVT_SPINCTRL, boost::bind (&CaptionPanel::line_spacing_changed, this));
+	_language->Bind                 (wxEVT_TEXT,     boost::bind (&CaptionPanel::language_changed, this));
+	_stream->Bind                   (wxEVT_CHOICE,   boost::bind (&CaptionPanel::stream_changed, this));
+	_subtitle_view_button->Bind     (wxEVT_BUTTON,   boost::bind (&CaptionPanel::subtitle_view_clicked, this));
+	_fonts_dialog_button->Bind      (wxEVT_BUTTON,   boost::bind (&CaptionPanel::fonts_dialog_clicked, this));
+	_appearance_dialog_button->Bind (wxEVT_BUTTON,   boost::bind (&CaptionPanel::appearance_dialog_clicked, this));
 }
 
 void
-SubtitlePanel::film_changed (Film::Property property)
+CaptionPanel::film_changed (Film::Property property)
 {
 	if (property == Film::CONTENT || property == Film::REEL_TYPE) {
 		setup_sensitivity ();
@@ -179,7 +186,7 @@ SubtitlePanel::film_changed (Film::Property property)
 }
 
 void
-SubtitlePanel::film_content_changed (int property)
+CaptionPanel::film_content_changed (int property)
 {
 	FFmpegContentList fc = _parent->selected_ffmpeg ();
 	ContentList sc = _parent->selected_subtitle ();
@@ -212,6 +219,20 @@ SubtitlePanel::film_content_changed (int property)
 	} else if (property == TextContentProperty::USE) {
 		checked_set (_use, scs ? scs->subtitle->use() : false);
 		setup_sensitivity ();
+	} else if (property == TextContentProperty::TYPE) {
+		if (scs) {
+			switch (scs->subtitle->type()) {
+			case TEXT_SUBTITLE:
+				_type->SetSelection (0);
+				break;
+			case TEXT_CLOSED_CAPTION:
+				_type->SetSelection (1);
+				break;
+			}
+		} else {
+			_type->SetSelection (0);
+		}
+		setup_sensitivity ();
 	} else if (property == TextContentProperty::BURN) {
 		checked_set (_burn, scs ? scs->subtitle->burn() : false);
 	} else if (property == TextContentProperty::X_OFFSET) {
@@ -241,7 +262,7 @@ SubtitlePanel::film_content_changed (int property)
 }
 
 void
-SubtitlePanel::use_toggled ()
+CaptionPanel::use_toggled ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
 		i->subtitle->set_use (_use->GetValue());
@@ -249,7 +270,22 @@ SubtitlePanel::use_toggled ()
 }
 
 void
-SubtitlePanel::burn_toggled ()
+CaptionPanel::type_changed ()
+{
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle()) {
+		switch (_type->GetSelection()) {
+		case 0:
+			i->subtitle->set_type (TEXT_SUBTITLE);
+			break;
+		case 1:
+			i->subtitle->set_type (TEXT_CLOSED_CAPTION);
+			break;
+		}
+	}
+}
+
+void
+CaptionPanel::burn_toggled ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
 		i->subtitle->set_burn (_burn->GetValue());
@@ -257,7 +293,7 @@ SubtitlePanel::burn_toggled ()
 }
 
 void
-SubtitlePanel::setup_sensitivity ()
+CaptionPanel::setup_sensitivity ()
 {
 	int any_subs = 0;
 	int ffmpeg_subs = 0;
@@ -295,7 +331,8 @@ SubtitlePanel::setup_sensitivity ()
 	/* Set up sensitivity */
 	_use->Enable (!reference && any_subs > 0);
 	bool const use = _use->GetValue ();
-	_burn->Enable (!reference && any_subs > 0 && use);
+	_type->Enable (!reference && any_subs > 0 && use);
+	_burn->Enable (!reference && any_subs > 0 && use && _type->GetSelection() == 0);
 	_x_offset->Enable (!reference && any_subs > 0 && use);
 	_y_offset->Enable (!reference && any_subs > 0 && use);
 	_x_scale->Enable (!reference && any_subs > 0 && use);
@@ -309,7 +346,7 @@ SubtitlePanel::setup_sensitivity ()
 }
 
 void
-SubtitlePanel::stream_changed ()
+CaptionPanel::stream_changed ()
 {
 	FFmpegContentList fc = _parent->selected_ffmpeg ();
 	if (fc.size() != 1) {
@@ -331,7 +368,7 @@ SubtitlePanel::stream_changed ()
 }
 
 void
-SubtitlePanel::x_offset_changed ()
+CaptionPanel::x_offset_changed ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
 		i->subtitle->set_x_offset (_x_offset->GetValue() / 100.0);
@@ -339,7 +376,7 @@ SubtitlePanel::x_offset_changed ()
 }
 
 void
-SubtitlePanel::y_offset_changed ()
+CaptionPanel::y_offset_changed ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
 		i->subtitle->set_y_offset (_y_offset->GetValue() / 100.0);
@@ -347,7 +384,7 @@ SubtitlePanel::y_offset_changed ()
 }
 
 void
-SubtitlePanel::x_scale_changed ()
+CaptionPanel::x_scale_changed ()
 {
 	ContentList c = _parent->selected_subtitle ();
 	if (c.size() == 1) {
@@ -356,7 +393,7 @@ SubtitlePanel::x_scale_changed ()
 }
 
 void
-SubtitlePanel::y_scale_changed ()
+CaptionPanel::y_scale_changed ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
 		i->subtitle->set_y_scale (_y_scale->GetValue() / 100.0);
@@ -364,7 +401,7 @@ SubtitlePanel::y_scale_changed ()
 }
 
 void
-SubtitlePanel::line_spacing_changed ()
+CaptionPanel::line_spacing_changed ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
 		i->subtitle->set_line_spacing (_line_spacing->GetValue() / 100.0);
@@ -372,7 +409,7 @@ SubtitlePanel::line_spacing_changed ()
 }
 
 void
-SubtitlePanel::language_changed ()
+CaptionPanel::language_changed ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
 		i->subtitle->set_language (wx_to_std (_language->GetValue()));
@@ -380,7 +417,7 @@ SubtitlePanel::language_changed ()
 }
 
 void
-SubtitlePanel::content_selection_changed ()
+CaptionPanel::content_selection_changed ()
 {
 	film_content_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
 	film_content_changed (TextContentProperty::USE);
@@ -392,11 +429,12 @@ SubtitlePanel::content_selection_changed ()
 	film_content_changed (TextContentProperty::LINE_SPACING);
 	film_content_changed (TextContentProperty::LANGUAGE);
 	film_content_changed (TextContentProperty::FONTS);
+	film_content_changed (TextContentProperty::TYPE);
 	film_content_changed (DCPContentProperty::REFERENCE_SUBTITLE);
 }
 
 void
-SubtitlePanel::subtitle_view_clicked ()
+CaptionPanel::subtitle_view_clicked ()
 {
 	if (_subtitle_view) {
 		_subtitle_view->Destroy ();
@@ -415,7 +453,7 @@ SubtitlePanel::subtitle_view_clicked ()
 }
 
 void
-SubtitlePanel::fonts_dialog_clicked ()
+CaptionPanel::fonts_dialog_clicked ()
 {
 	if (_fonts_dialog) {
 		_fonts_dialog->Destroy ();
@@ -430,7 +468,7 @@ SubtitlePanel::fonts_dialog_clicked ()
 }
 
 void
-SubtitlePanel::reference_clicked ()
+CaptionPanel::reference_clicked ()
 {
 	ContentList c = _parent->selected ();
 	if (c.size() != 1) {
@@ -446,7 +484,7 @@ SubtitlePanel::reference_clicked ()
 }
 
 void
-SubtitlePanel::appearance_dialog_clicked ()
+CaptionPanel::appearance_dialog_clicked ()
 {
 	ContentList c = _parent->selected_subtitle ();
 	DCPOMATIC_ASSERT (c.size() == 1);
