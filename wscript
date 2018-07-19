@@ -99,7 +99,6 @@ def configure(conf):
                                        '-Wwrite-strings',
                                        # Remove auto_ptr warnings from libxml++-2.6
                                        '-Wno-deprecated-declarations',
-                                       '-Wno-unsafe-loop-optimizations',
                                        '-Wno-ignored-qualifiers',
                                        '-D_FILE_OFFSET_BITS=64'])
 
@@ -166,7 +165,7 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-DLINUX_LOCALE_PREFIX="%s/share/locale"' % conf.env['INSTALL_PREFIX'])
         conf.env.append_value('CXXFLAGS', '-DLINUX_SHARE_PREFIX="%s/share/dcpomatic2"' % conf.env['INSTALL_PREFIX'])
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_LINUX')
-        conf.env.append_value('CXXFLAGS', ['-Wunsafe-loop-optimizations', '-Wlogical-op'])
+        conf.env.append_value('CXXFLAGS', ['-Wlogical-op'])
         if not conf.env.DISABLE_GUI:
             conf.check_cfg(package='gtk+-2.0', args='--cflags --libs', uselib_store='GTK', mandatory=True)
 
