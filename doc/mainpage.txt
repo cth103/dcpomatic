@@ -18,7 +18,7 @@
  * It is build with `waf`, using something like \code
  *
  * ./waf configure --enable-debug --prefix=/opt
- * ./waf -j4
+ * ./waf
  * sudo ./waf install
  *
  * \endcode
