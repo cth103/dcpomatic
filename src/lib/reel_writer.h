@@ -113,7 +113,7 @@ private:
 	boost::shared_ptr<dcp::PictureAssetWriter> _picture_asset_writer;
 	boost::shared_ptr<dcp::SoundAsset> _sound_asset;
 	boost::shared_ptr<dcp::SoundAssetWriter> _sound_asset_writer;
-	boost::shared_ptr<dcp::SubtitleAsset> _subtitle_asset;
+	boost::shared_ptr<dcp::SubtitleAsset> _caption_asset[CAPTION_COUNT];
 
 	static int const _info_size;
 };

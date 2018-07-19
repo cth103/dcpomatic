@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -37,6 +37,7 @@
 #include <dcp/reel_stereo_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
 #include <dcp/reel_subtitle_asset.h>
+#include <dcp/reel_closed_caption_asset.h>
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
 #include <dcp/certificate_chain.h>
@@ -332,6 +333,95 @@ ReelWriter::finish ()
 	}
 }
 
+template <class T>
+void
+maybe_add_captions (
+	shared_ptr<dcp::SubtitleAsset> asset,
+	int64_t picture_duration,
+	shared_ptr<dcp::Reel> reel,
+	list<ReferencedReelAsset> const & refs,
+	list<shared_ptr<Font> > const & fonts,
+	shared_ptr<const Film> film,
+	DCPTimePeriod period
+	)
+{
+	Frame const period_duration = period.duration().frames_round(film->video_frame_rate());
+
+	shared_ptr<T> reel_asset;
+
+	if (asset) {
+
+		boost::filesystem::path liberation_normal;
+		try {
+			liberation_normal = shared_path() / "LiberationSans-Regular.ttf";
+			if (!boost::filesystem::exists (liberation_normal)) {
+				/* Hack for unit tests */
+				liberation_normal = shared_path() / "fonts" / "LiberationSans-Regular.ttf";
+			}
+		} catch (boost::filesystem::filesystem_error& e) {
+
+		}
+
+		if (!boost::filesystem::exists(liberation_normal)) {
+			liberation_normal = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
+		}
+
+		/* Add all the fonts to the subtitle content */
+		BOOST_FOREACH (shared_ptr<Font> j, fonts) {
+			asset->add_font (j->id(), j->file(FontFiles::NORMAL).get_value_or(liberation_normal));
+		}
+
+		if (dynamic_pointer_cast<dcp::InteropSubtitleAsset> (asset)) {
+			boost::filesystem::path directory = film->dir (film->dcp_name ()) / asset->id ();
+			boost::filesystem::create_directories (directory);
+			asset->write (directory / ("sub_" + asset->id() + ".xml"));
+		} else {
+
+			/* All our assets should be the same length; use the picture asset length here
+			   as a reference to set the subtitle one.  We'll use the duration rather than
+			   the intrinsic duration; we don't care if the picture asset has been trimmed, we're
+			   just interested in its presentation length.
+			*/
+			dynamic_pointer_cast<dcp::SMPTESubtitleAsset>(asset)->set_intrinsic_duration (picture_duration);
+
+			asset->write (
+				film->dir(film->dcp_name()) / ("sub_" + asset->id() + ".mxf")
+				);
+		}
+
+		reel_asset.reset (
+			new T (
+				asset,
+				dcp::Fraction (film->video_frame_rate(), 1),
+				picture_duration,
+				0
+				)
+			);
+	} else {
+		/* We don't have a subtitle asset of our own; hopefully we have one to reference */
+		BOOST_FOREACH (ReferencedReelAsset j, refs) {
+			shared_ptr<T> k = dynamic_pointer_cast<T> (j.asset);
+			if (k && j.period == period) {
+				reel_asset = k;
+				/* If we have a hash for this asset in the CPL, assume that it is correct */
+				if (k->hash()) {
+					k->asset_ref()->set_hash (k->hash().get());
+				}
+			}
+		}
+	}
+
+	if (reel_asset) {
+		if (reel_asset->duration() != period_duration) {
+			throw ProgrammingError (
+				__FILE__, __LINE__,
+				String::compose ("%1 vs %2", reel_asset->duration(), period_duration)
+				);
+		}
+		reel->add (reel_asset);
+	}
+}
+
 shared_ptr<dcp::Reel>
 ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr<Font> > const & fonts)
 {
@@ -418,81 +508,8 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 	}
 	reel->add (reel_sound_asset);
 
-	shared_ptr<dcp::ReelSubtitleAsset> reel_subtitle_asset;
-
-	if (_subtitle_asset) {
-
-		boost::filesystem::path liberation_normal;
-		try {
-			liberation_normal = shared_path() / "LiberationSans-Regular.ttf";
-			if (!boost::filesystem::exists (liberation_normal)) {
-				/* Hack for unit tests */
-				liberation_normal = shared_path() / "fonts" / "LiberationSans-Regular.ttf";
-			}
-		} catch (boost::filesystem::filesystem_error& e) {
-
-		}
-
-		if (!boost::filesystem::exists(liberation_normal)) {
-			liberation_normal = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
-		}
-
-		/* Add all the fonts to the subtitle content */
-		BOOST_FOREACH (shared_ptr<Font> j, fonts) {
-			_subtitle_asset->add_font (j->id(), j->file(FontFiles::NORMAL).get_value_or(liberation_normal));
-		}
-
-		if (dynamic_pointer_cast<dcp::InteropSubtitleAsset> (_subtitle_asset)) {
-			boost::filesystem::path directory = _film->dir (_film->dcp_name ()) / _subtitle_asset->id ();
-			boost::filesystem::create_directories (directory);
-			_subtitle_asset->write (directory / ("sub_" + _subtitle_asset->id() + ".xml"));
-		} else {
-
-			/* All our assets should be the same length; use the picture asset length here
-			   as a reference to set the subtitle one.  We'll use the duration rather than
-			   the intrinsic duration; we don't care if the picture asset has been trimmed, we're
-			   just interested in its presentation length.
-			*/
-			dynamic_pointer_cast<dcp::SMPTESubtitleAsset>(_subtitle_asset)->set_intrinsic_duration (
-				reel_picture_asset->duration ()
-				);
-
-			_subtitle_asset->write (
-				_film->dir (_film->dcp_name ()) / ("sub_" + _subtitle_asset->id() + ".mxf")
-				);
-		}
-
-		reel_subtitle_asset.reset (
-			new dcp::ReelSubtitleAsset (
-				_subtitle_asset,
-				dcp::Fraction (_film->video_frame_rate(), 1),
-				reel_picture_asset->duration(),
-				0
-				)
-			);
-	} else {
-		/* We don't have a subtitle asset of our own; hopefully we have one to reference */
-		BOOST_FOREACH (ReferencedReelAsset j, refs) {
-			shared_ptr<dcp::ReelSubtitleAsset> k = dynamic_pointer_cast<dcp::ReelSubtitleAsset> (j.asset);
-			if (k && j.period == _period) {
-				reel_subtitle_asset = k;
-				/* If we have a hash for this asset in the CPL, assume that it is correct */
-				if (k->hash()) {
-					k->asset_ref()->set_hash (k->hash().get());
-				}
-			}
-		}
-	}
-
-	if (reel_subtitle_asset) {
-		if (reel_subtitle_asset->duration() != period_duration) {
-			throw ProgrammingError (
-				__FILE__, __LINE__,
-				String::compose ("%1 vs %2", reel_subtitle_asset->duration(), period_duration)
-				);
-		}
-		reel->add (reel_subtitle_asset);
-	}
+	maybe_add_captions<dcp::ReelSubtitleAsset>      (_caption_asset[CAPTION_OPEN],   reel_picture_asset->duration(), reel, refs, fonts, _film, _period);
+	maybe_add_captions<dcp::ReelClosedCaptionAsset> (_caption_asset[CAPTION_CLOSED], reel_picture_asset->duration(), reel, refs, fonts, _film, _period);
 
 	return reel;
 }
@@ -530,9 +547,7 @@ ReelWriter::write (shared_ptr<const AudioBuffers> audio)
 void
 ReelWriter::write (PlayerCaption subs, CaptionType type, DCPTimePeriod period)
 {
-	/* XXX: we need separate libdcp asset types here and to know how different they are */
-
-	if (!_subtitle_asset) {
+	if (!_caption_asset[type]) {
 		string lang = _film->subtitle_language ();
 		if (lang.empty ()) {
 			lang = "Unknown";
@@ -542,7 +557,7 @@ ReelWriter::write (PlayerCaption subs, CaptionType type, DCPTimePeriod period)
 			s->set_movie_title (_film->name ());
 			s->set_language (lang);
 			s->set_reel_number (raw_convert<string> (_reel_index + 1));
-			_subtitle_asset = s;
+			_caption_asset[type] = s;
 		} else {
 			shared_ptr<dcp::SMPTESubtitleAsset> s (new dcp::SMPTESubtitleAsset ());
 			s->set_content_title_text (_film->name ());
@@ -554,7 +569,7 @@ ReelWriter::write (PlayerCaption subs, CaptionType type, DCPTimePeriod period)
 			if (_film->encrypted ()) {
 				s->set_key (_film->key ());
 			}
-			_subtitle_asset = s;
+			_caption_asset[type] = s;
 		}
 	}
 
@@ -562,11 +577,11 @@ ReelWriter::write (PlayerCaption subs, CaptionType type, DCPTimePeriod period)
 		/* XXX: couldn't / shouldn't we use period here rather than getting time from the subtitle? */
 		i.set_in  (i.in()  - dcp::Time (_period.from.seconds(), i.in().tcr));
 		i.set_out (i.out() - dcp::Time (_period.from.seconds(), i.out().tcr));
-		_subtitle_asset->add (shared_ptr<dcp::Subtitle>(new dcp::SubtitleString(i)));
+		_caption_asset[type]->add (shared_ptr<dcp::Subtitle>(new dcp::SubtitleString(i)));
 	}
 
 	BOOST_FOREACH (BitmapCaption i, subs.image) {
-		_subtitle_asset->add (
+		_caption_asset[type]->add (
 			shared_ptr<dcp::Subtitle>(
 				new dcp::SubtitleImage(
 					i.image->as_png(),
