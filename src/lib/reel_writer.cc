@@ -85,7 +85,7 @@ ReelWriter::ReelWriter (
 	if (_film->three_d ()) {
 		_picture_asset.reset (new dcp::StereoPictureAsset (dcp::Fraction (_film->video_frame_rate(), 1), standard));
 	} else {
-		_picture_asset.reset (new   dcp::MonoPictureAsset (dcp::Fraction (_film->video_frame_rate(), 1), standard));
+		_picture_asset.reset (new dcp::MonoPictureAsset (dcp::Fraction (_film->video_frame_rate(), 1), standard));
 	}
 
 	_picture_asset->set_size (_film->frame_size ());
