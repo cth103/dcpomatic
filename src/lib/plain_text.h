@@ -26,16 +26,16 @@
 #include <boost/shared_ptr.hpp>
 #include <vector>
 
-class PlainText;
+class PlainTextContent;
 class plain_text_time_test;
 class plain_text_coordinate_test;
 class plain_text_content_test;
 class plain_text_parse_test;
 
-class TextSubtitle
+class PlainText
 {
 public:
-	explicit TextSubtitle (boost::shared_ptr<const PlainText>);
+	explicit PlainText (boost::shared_ptr<const PlainTextContent>);
 
 	boost::optional<ContentTime> first () const;
 	ContentTime length () const;

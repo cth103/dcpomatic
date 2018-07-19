@@ -54,9 +54,9 @@ decoder_factory (shared_ptr<const Content> content, shared_ptr<Log> log, bool fa
 		return shared_ptr<Decoder> (new ImageDecoder (ic, log));
 	}
 
-	shared_ptr<const PlainText> rc = dynamic_pointer_cast<const PlainText> (content);
+	shared_ptr<const PlainTextContent> rc = dynamic_pointer_cast<const PlainTextContent> (content);
 	if (rc) {
-		return shared_ptr<Decoder> (new TextTextDecoder (rc, log));
+		return shared_ptr<Decoder> (new PlainTextDecoder (rc, log));
 	}
 
 	shared_ptr<const DCPTextContent> dsc = dynamic_pointer_cast<const DCPTextContent> (content);

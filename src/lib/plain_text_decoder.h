@@ -26,10 +26,10 @@
 
 class PlainText;
 
-class TextTextDecoder : public Decoder, public TextSubtitle
+class PlainTextDecoder : public Decoder, public PlainText
 {
 public:
-	TextTextDecoder (boost::shared_ptr<const PlainText>, boost::shared_ptr<Log> log);
+	PlainTextDecoder (boost::shared_ptr<const PlainTextContent>, boost::shared_ptr<Log> log);
 
 	void seek (ContentTime time, bool accurate);
 	bool pass ();

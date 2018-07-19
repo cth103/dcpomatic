@@ -258,11 +258,11 @@ ContentPanel::selection_changed ()
 	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
 		DCPTime p;
 		p = i->position();
-		if (dynamic_pointer_cast<PlainText>(i) && i->paths_valid()) {
+		if (dynamic_pointer_cast<PlainTextContent>(i) && i->paths_valid()) {
 			/* Rather special case; if we select a text subtitle file jump to its
 			   first subtitle.
 			*/
-			TextSubtitle ts (dynamic_pointer_cast<PlainText>(i));
+			PlainText ts (dynamic_pointer_cast<PlainTextContent>(i));
 			if (ts.first()) {
 				p += DCPTime(ts.first().get(), _film->active_frame_rate_change(i->position()));
 			}

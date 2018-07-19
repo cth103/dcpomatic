@@ -181,7 +181,7 @@ BOOST_AUTO_TEST_CASE (player_interleave_test)
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<PlainText> s (new PlainText (film, "test/data/subrip.srt"));
+	shared_ptr<PlainTextContent> s (new PlainTextContent (film, "test/data/subrip.srt"));
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 

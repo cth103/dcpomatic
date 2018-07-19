@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test)
 	film->set_name ("frobozz");
 	film->set_audio_channels (6);
 	film->set_interop (false);
-	shared_ptr<PlainText> content (new PlainText (film, "test/data/subrip2.srt"));
+	shared_ptr<PlainTextContent> content (new PlainTextContent (film, "test/data/subrip2.srt"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test2)
 	film->set_name ("frobozz");
 	film->set_audio_channels (6);
 	film->set_interop (false);
-	shared_ptr<PlainText> content (new PlainText (film, "test/data/subrip2.srt"));
+	shared_ptr<PlainTextContent> content (new PlainTextContent (film, "test/data/subrip2.srt"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 	film->set_name ("frobozz");
 	film->set_interop (true);
 	film->set_audio_channels (6);
-	shared_ptr<PlainText> content (new PlainText (film, private_data / "Ankoemmling_short.srt"));
+	shared_ptr<PlainTextContent> content (new PlainTextContent (film, private_data / "Ankoemmling_short.srt"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
@@ -125,7 +125,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test4)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	film->set_interop (false);
-	shared_ptr<PlainText> content (new PlainText (film, "test/data/subrip2.srt"));
+	shared_ptr<PlainTextContent> content (new PlainTextContent (film, "test/data/subrip2.srt"));
 	content->subtitle->set_use (true);
 	content->subtitle->set_burn (false);
 	film->examine_and_add_content (content);
@@ -146,7 +146,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test5)
 	film->set_name ("frobozz");
 	film->set_interop (true);
 	film->set_sequence (false);
-	shared_ptr<PlainText> content (new PlainText (film, "test/data/subrip2.srt"));
+	shared_ptr<PlainTextContent> content (new PlainTextContent (film, "test/data/subrip2.srt"));
 	content->subtitle->set_use (true);
 	content->subtitle->set_burn (false);
 	film->examine_and_add_content (content);
@@ -164,7 +164,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test6)
 {
 	shared_ptr<Film> film = new_test_film2 ("srt_subtitle_test6");
 	film->set_interop (false);
-	shared_ptr<PlainText> content (new PlainText (film, "test/data/frames.srt"));
+	shared_ptr<PlainTextContent> content (new PlainTextContent (film, "test/data/frames.srt"));
 	content->subtitle->set_use (true);
 	content->subtitle->set_burn (false);
 	film->examine_and_add_content (content);

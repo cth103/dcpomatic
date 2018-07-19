@@ -121,7 +121,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test6)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
-	shared_ptr<PlainText> s (new PlainText (film, "test/data/subrip2.srt"));
+	shared_ptr<PlainTextContent> s (new PlainTextContent (film, "test/data/subrip2.srt"));
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	s->subtitle->set_colour (dcp::Colour (255, 255, 0));
@@ -146,7 +146,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test7)
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<PlainText> s (new PlainText (film, "test/data/subrip.srt"));
+	shared_ptr<PlainTextContent> s (new PlainTextContent (film, "test/data/subrip.srt"));
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	s->subtitle->set_colour (dcp::Colour (255, 255, 0));
@@ -172,7 +172,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test2)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
-	shared_ptr<PlainText> s (new PlainText (film, "test/data/subrip2.srt"));
+	shared_ptr<PlainTextContent> s (new PlainTextContent (film, "test/data/subrip2.srt"));
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	s->subtitle->set_colour (dcp::Colour (255, 255, 0));
@@ -197,7 +197,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test3)
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<PlainText> s (new PlainText (film, "test/data/subrip.srt"));
+	shared_ptr<PlainTextContent> s (new PlainTextContent (film, "test/data/subrip.srt"));
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	s->subtitle->set_colour (dcp::Colour (255, 255, 0));

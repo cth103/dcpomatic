@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE (ssa_subtitle_test1)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	film->set_interop (true);
-	shared_ptr<PlainText> content (new PlainText (film, private_data / "DKH_UT_EN20160601def.ssa"));
+	shared_ptr<PlainTextContent> content (new PlainTextContent (film, private_data / "DKH_UT_EN20160601def.ssa"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 

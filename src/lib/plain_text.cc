@@ -39,7 +39,7 @@ using boost::scoped_array;
 using boost::optional;
 using dcp::Data;
 
-TextSubtitle::TextSubtitle (shared_ptr<const PlainText> content)
+PlainText::PlainText (shared_ptr<const PlainTextContent> content)
 {
 	Data in (content->path (0));
 
@@ -96,7 +96,7 @@ TextSubtitle::TextSubtitle (shared_ptr<const PlainText> content)
 
 /** @return time of first subtitle, if there is one */
 optional<ContentTime>
-TextSubtitle::first () const
+PlainText::first () const
 {
 	if (_subtitles.empty()) {
 		return optional<ContentTime>();
@@ -106,7 +106,7 @@ TextSubtitle::first () const
 }
 
 ContentTime
-TextSubtitle::length () const
+PlainText::length () const
 {
 	if (_subtitles.empty ()) {
 		return ContentTime ();

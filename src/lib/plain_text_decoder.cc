@@ -34,8 +34,8 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 
-TextTextDecoder::TextTextDecoder (shared_ptr<const PlainText> content, shared_ptr<Log> log)
-	: TextSubtitle (content)
+PlainTextDecoder::PlainTextDecoder (shared_ptr<const PlainTextContent> content, shared_ptr<Log> log)
+	: PlainText (content)
 	, _next (0)
 {
 	ContentTime first;
@@ -46,7 +46,7 @@ TextTextDecoder::TextTextDecoder (shared_ptr<const PlainText> content, shared_pt
 }
 
 void
-TextTextDecoder::seek (ContentTime time, bool accurate)
+PlainTextDecoder::seek (ContentTime time, bool accurate)
 {
 	/* It's worth back-tracking a little here as decoding is cheap and it's nice if we don't miss
 	   too many subtitles when seeking.
@@ -65,7 +65,7 @@ TextTextDecoder::seek (ContentTime time, bool accurate)
 }
 
 bool
-TextTextDecoder::pass ()
+PlainTextDecoder::pass ()
 {
 	if (_next >= _subtitles.size ()) {
 		return true;
@@ -79,7 +79,7 @@ TextTextDecoder::pass ()
 }
 
 ContentTimePeriod
-TextTextDecoder::content_time_period (sub::Subtitle s) const
+PlainTextDecoder::content_time_period (sub::Subtitle s) const
 {
 	return ContentTimePeriod (
 		ContentTime::from_seconds (s.from.all_as_seconds()),

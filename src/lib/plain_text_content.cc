@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -35,13 +35,13 @@ using std::cout;
 using boost::shared_ptr;
 using dcp::raw_convert;
 
-PlainText::PlainText (shared_ptr<const Film> film, boost::filesystem::path path)
+PlainTextContent::PlainTextContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
 {
 	subtitle.reset (new TextContent (this));
 }
 
-PlainText::PlainText (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
+PlainTextContent::PlainTextContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 	, _length (node->number_child<ContentTime::Type> ("Length"))
 {
@@ -49,10 +49,10 @@ PlainText::PlainText (shared_ptr<const Film> film, cxml::ConstNodePtr node, int 
 }
 
 void
-PlainText::examine (boost::shared_ptr<Job> job)
+PlainTextContent::examine (boost::shared_ptr<Job> job)
 {
 	Content::examine (job);
-	TextSubtitle s (shared_from_this ());
+	PlainText s (shared_from_this ());
 
 	/* Default to turning these subtitles on */
 	subtitle->set_use (true);
@@ -63,19 +63,19 @@ PlainText::examine (boost::shared_ptr<Job> job)
 }
 
 string
-PlainText::summary () const
+PlainTextContent::summary () const
 {
 	return path_summary() + " " + _("[subtitles]");
 }
 
 string
-PlainText::technical_summary () const
+PlainTextContent::technical_summary () const
 {
 	return Content::technical_summary() + " - " + _("Text subtitles");
 }
 
 void
-PlainText::as_xml (xmlpp::Node* node, bool with_paths) const
+PlainTextContent::as_xml (xmlpp::Node* node, bool with_paths) const
 {
 	node->add_child("Type")->add_child_text ("TextSubtitle");
 	Content::as_xml (node, with_paths);
@@ -88,7 +88,7 @@ PlainText::as_xml (xmlpp::Node* node, bool with_paths) const
 }
 
 DCPTime
-PlainText::full_length () const
+PlainTextContent::full_length () const
 {
 	FrameRateChange const frc (active_video_frame_rate(), film()->video_frame_rate ());
 	return DCPTime (_length, frc);

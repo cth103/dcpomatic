@@ -88,7 +88,7 @@ content_factory (shared_ptr<const Film> film, cxml::NodePtr node, int version, l
 			);
 
 	} else if (type == "SubRip" || type == "TextSubtitle") {
-		content.reset (new PlainText (film, node, version));
+		content.reset (new PlainTextContent (film, node, version));
 	} else if (type == "DCP") {
 		content.reset (new DCPContent (film, node, version));
 	} else if (type == "DCPSubtitle") {
@@ -210,7 +210,7 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 		if (valid_image_file (path)) {
 			single.reset (new ImageContent (film, path));
 		} else if (ext == ".srt" || ext == ".ssa" || ext == ".ass") {
-			single.reset (new PlainText (film, path));
+			single.reset (new PlainTextContent (film, path));
 		} else if (ext == ".xml") {
 			cxml::Document doc;
 			doc.read_file (path);
