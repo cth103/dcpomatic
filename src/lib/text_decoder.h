@@ -64,7 +64,7 @@ public:
 
 	boost::signals2::signal<void (ContentBitmapText)> BitmapStart;
 	boost::signals2::signal<void (ContentPlainText)> PlainStart;
-	boost::signals2::signal<void (ContentTime)> Stop;
+	boost::signals2::signal<void (ContentTime, TextType)> Stop;
 
 private:
 	boost::shared_ptr<const TextContent> _content;

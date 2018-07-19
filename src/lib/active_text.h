@@ -18,8 +18,8 @@
 
 */
 
-/** @file  src/lib/active_subtitles.h
- *  @brief ActiveSubtitles class.
+/** @file  src/lib/active_text.h
+ *  @brief ActiveText class.
  */
 
 #include "dcpomatic_time.h"
@@ -30,10 +30,10 @@
 
 class Piece;
 
-/** @class ActiveSubtitles
+/** @class ActiveText
  *  @brief A class to maintain information on active subtitles for Player.
  */
-class ActiveSubtitles : public boost::noncopyable
+class ActiveText : public boost::noncopyable
 {
 public:
 	std::list<PlayerText> get_burnt (DCPTimePeriod period, bool always_burn_subtitles) const;

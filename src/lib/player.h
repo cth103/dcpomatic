@@ -22,7 +22,7 @@
 #define DCPOMATIC_PLAYER_H
 
 #include "player_text.h"
-#include "active_subtitles.h"
+#include "active_text.h"
 #include "content_text.h"
 #include "film.h"
 #include "content.h"
@@ -128,7 +128,7 @@ private:
 	void audio (boost::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
 	void bitmap_text_start (boost::weak_ptr<Piece>, ContentBitmapText);
 	void plain_text_start (boost::weak_ptr<Piece>, ContentPlainText);
-	void subtitle_stop (boost::weak_ptr<Piece>, ContentTime);
+	void subtitle_stop (boost::weak_ptr<Piece>, ContentTime, TextType);
 	DCPTime one_video_frame () const;
 	void fill_audio (DCPTimePeriod period);
 	std::pair<boost::shared_ptr<AudioBuffers>, DCPTime> discard_audio (
@@ -196,7 +196,7 @@ private:
 	Empty _black;
 	Empty _silent;
 
-	ActiveSubtitles _active_subtitles;
+	ActiveText _active_text[TEXT_COUNT];
 	boost::shared_ptr<AudioProcessor> _audio_processor;
 
 	boost::signals2::scoped_connection _film_changed_connection;

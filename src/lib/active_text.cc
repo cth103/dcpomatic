@@ -18,7 +18,7 @@
 
 */
 
-#include "active_subtitles.h"
+#include "active_text.h"
 #include "piece.h"
 #include "text_content.h"
 #include <boost/shared_ptr.hpp>
@@ -36,7 +36,7 @@ using boost::optional;
  *  @param always_burn_subtitles Always burn subtitles even if their content is not set to burn.
  */
 list<PlayerText>
-ActiveSubtitles::get_burnt (DCPTimePeriod period, bool always_burn_subtitles) const
+ActiveText::get_burnt (DCPTimePeriod period, bool always_burn_subtitles) const
 {
 	list<PlayerText> ps;
 
@@ -68,7 +68,7 @@ ActiveSubtitles::get_burnt (DCPTimePeriod period, bool always_burn_subtitles) co
  *  @param time Time to remove before.
  */
 void
-ActiveSubtitles::clear_before (DCPTime time)
+ActiveText::clear_before (DCPTime time)
 {
 	Map updated;
 	for (Map::const_iterator i = _data.begin(); i != _data.end(); ++i) {
@@ -91,7 +91,7 @@ ActiveSubtitles::clear_before (DCPTime time)
  *  @param from From time for these subtitles.
  */
 void
-ActiveSubtitles::add_from (weak_ptr<Piece> piece, PlayerText ps, DCPTime from)
+ActiveText::add_from (weak_ptr<Piece> piece, PlayerText ps, DCPTime from)
 {
 	if (_data.find(piece) == _data.end()) {
 		_data[piece] = list<Period>();
@@ -105,7 +105,7 @@ ActiveSubtitles::add_from (weak_ptr<Piece> piece, PlayerText ps, DCPTime from)
  *  @return Return the corresponding subtitles and their from time.
  */
 pair<PlayerText, DCPTime>
-ActiveSubtitles::add_to (weak_ptr<Piece> piece, DCPTime to)
+ActiveText::add_to (weak_ptr<Piece> piece, DCPTime to)
 {
 	DCPOMATIC_ASSERT (_data.find(piece) != _data.end());
 
@@ -122,7 +122,7 @@ ActiveSubtitles::add_to (weak_ptr<Piece> piece, DCPTime to)
  *  @return true if we have any active subtitles from this piece.
  */
 bool
-ActiveSubtitles::have (weak_ptr<Piece> piece) const
+ActiveText::have (weak_ptr<Piece> piece) const
 {
 	Map::const_iterator i = _data.find(piece);
 	if (i == _data.end()) {
@@ -133,7 +133,7 @@ ActiveSubtitles::have (weak_ptr<Piece> piece) const
 }
 
 void
-ActiveSubtitles::clear ()
+ActiveText::clear ()
 {
 	_data.clear ();
 }

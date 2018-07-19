@@ -132,7 +132,8 @@ enum ReelType
 enum TextType
 {
 	TEXT_SUBTITLE,
-	TEXT_CLOSED_CAPTION
+	TEXT_CLOSED_CAPTION,
+	TEXT_COUNT
 };
 
 extern std::string text_type_to_string (TextType t);

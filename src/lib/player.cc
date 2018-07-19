@@ -168,7 +168,7 @@ Player::setup_pieces ()
 		if (decoder->subtitle) {
 			decoder->subtitle->BitmapStart.connect (bind (&Player::bitmap_text_start, this, weak_ptr<Piece> (piece), _1));
 			decoder->subtitle->PlainStart.connect (bind (&Player::plain_text_start, this, weak_ptr<Piece> (piece), _1));
-			decoder->subtitle->Stop.connect (bind (&Player::subtitle_stop, this, weak_ptr<Piece> (piece), _1));
+			decoder->subtitle->Stop.connect (bind (&Player::subtitle_stop, this, weak_ptr<Piece> (piece), _1, _2));
 		}
 	}
 
@@ -663,7 +663,7 @@ Player::subtitles_for_frame (DCPTime time) const
 
 	int const vfr = _film->video_frame_rate();
 
-	BOOST_FOREACH (PlayerText i, _active_subtitles.get_burnt (DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_subtitles)) {
+	BOOST_FOREACH (PlayerText i, _active_text[TEXT_SUBTITLE].get_burnt (DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_subtitles)) {
 
 		/* Image subtitles */
 		list<PositionImage> c = transform_bitmap_texts (i.image);
@@ -862,7 +862,7 @@ Player::bitmap_text_start (weak_ptr<Piece> wp, ContentBitmapText subtitle)
 	ps.image.push_back (subtitle.sub);
 	DCPTime from (content_time_to_dcp (piece, subtitle.from()));
 
-	_active_subtitles.add_from (wp, ps, from);
+	_active_text[subtitle.type()].add_from (wp, ps, from);
 }
 
 void
@@ -905,13 +905,13 @@ Player::plain_text_start (weak_ptr<Piece> wp, ContentPlainText subtitle)
 		ps.add_fonts (piece->content->subtitle->fonts ());
 	}
 
-	_active_subtitles.add_from (wp, ps, from);
+	_active_text[subtitle.type()].add_from (wp, ps, from);
 }
 
 void
-Player::subtitle_stop (weak_ptr<Piece> wp, ContentTime to)
+Player::subtitle_stop (weak_ptr<Piece> wp, ContentTime to, TextType type)
 {
-	if (!_active_subtitles.have (wp)) {
+	if (!_active_text[type].have (wp)) {
 		return;
 	}
 
@@ -926,7 +926,7 @@ Player::subtitle_stop (weak_ptr<Piece> wp, ContentTime to)
 		return;
 	}
 
-	pair<PlayerText, DCPTime> from = _active_subtitles.add_to (wp, dcp_to);
+	pair<PlayerText, DCPTime> from = _active_text[type].add_to (wp, dcp_to);
 
 	if (piece->content->subtitle->use() && !_always_burn_subtitles && !piece->content->subtitle->burn()) {
 		Subtitle (from.first, DCPTimePeriod (from.second, dcp_to));
@@ -951,7 +951,9 @@ Player::seek (DCPTime time, bool accurate)
 	}
 
 	_audio_merger.clear ();
-	_active_subtitles.clear ();
+	for (int i = 0; i < TEXT_COUNT; ++i) {
+		_active_text[i].clear ();
+	}
 
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
 		if (time < i->content->position()) {
@@ -1010,7 +1012,9 @@ void
 Player::do_emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 {
 	if (pv->eyes() == EYES_BOTH || pv->eyes() == EYES_RIGHT) {
-		_active_subtitles.clear_before (time);
+		for (int i = 0; i < TEXT_COUNT; ++i) {
+			_active_text[i].clear_before (time);
+		}
 	}
 
 	optional<PositionImage> subtitles = subtitles_for_frame (time);
