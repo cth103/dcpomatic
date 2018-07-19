@@ -51,6 +51,7 @@ def build(bld):
                  audio_ring_buffers_test.cc
                  butler_test.cc
                  client_server_test.cc
+                 closed_caption_test.cc
                  colour_conversion_test.cc
                  config_test.cc
                  content_test.cc
