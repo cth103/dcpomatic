@@ -528,8 +528,10 @@ ReelWriter::write (shared_ptr<const AudioBuffers> audio)
 }
 
 void
-ReelWriter::write (PlayerText subs, DCPTimePeriod period)
+ReelWriter::write (PlayerText subs, TextType type, DCPTimePeriod period)
 {
+	/* XXX: we need separate libdcp asset types here and to know how different they are */
+
 	if (!_subtitle_asset) {
 		string lang = _film->subtitle_language ();
 		if (lang.empty ()) {

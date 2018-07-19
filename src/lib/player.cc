@@ -929,7 +929,7 @@ Player::subtitle_stop (weak_ptr<Piece> wp, ContentTime to, TextType type)
 	pair<PlayerText, DCPTime> from = _active_text[type].add_to (wp, dcp_to);
 
 	if (piece->content->subtitle->use() && !_always_burn_subtitles && !piece->content->subtitle->burn()) {
-		Subtitle (from.first, DCPTimePeriod (from.second, dcp_to));
+		Text (from.first, type, DCPTimePeriod (from.second, dcp_to));
 	}
 }
 

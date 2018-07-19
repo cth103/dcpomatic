@@ -91,11 +91,13 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 		_reels.push_back (ReelWriter (film, p, job, reel_index++, reels.size(), _film->content_summary(p)));
 	}
 
-	/* We can keep track of the current audio and subtitle reels easily because audio
-	   and subs arrive to the Writer in sequence.  This is not so for video.
+	/* We can keep track of the current audio, subtitle and closed caption reels easily because audio
+	   and captions arrive to the Writer in sequence.  This is not so for video.
 	*/
 	_audio_reel = _reels.begin ();
-	_subtitle_reel = _reels.begin ();
+	for (int i = 0; i < TEXT_COUNT; ++i) {
+		_text_reel[i] = _reels.begin ();
+	}
 
 	/* Check that the signer is OK if we need one */
 	string reason;
@@ -663,16 +665,16 @@ Writer::can_fake_write (Frame frame) const
 }
 
 void
-Writer::write (PlayerText subs, DCPTimePeriod period)
+Writer::write (PlayerText text, TextType type, DCPTimePeriod period)
 {
-	while (_subtitle_reel->period().to <= period.from) {
-		++_subtitle_reel;
-		DCPOMATIC_ASSERT (_subtitle_reel != _reels.end());
+	while (_text_reel[type]->period().to <= period.from) {
+		++_text_reel[type];
+		DCPOMATIC_ASSERT (_text_reel[type] != _reels.end());
 	}
 
-	DCPOMATIC_ASSERT (_subtitle_reel != _reels.end());
+	DCPOMATIC_ASSERT (_text_reel[type] != _reels.end());
 
-	_subtitle_reel->write (subs, period);
+	_text_reel[type]->write (text, type, period);
 }
 
 void

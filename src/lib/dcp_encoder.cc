@@ -61,7 +61,7 @@ DCPEncoder::DCPEncoder (shared_ptr<const Film> film, weak_ptr<Job> job)
 {
 	_player_video_connection = _player->Video.connect (bind (&DCPEncoder::video, this, _1, _2));
 	_player_audio_connection = _player->Audio.connect (bind (&DCPEncoder::audio, this, _1, _2));
-	_player_subtitle_connection = _player->Subtitle.connect (bind (&DCPEncoder::subtitle, this, _1, _2));
+	_player_text_connection = _player->Text.connect (bind (&DCPEncoder::text, this, _1, _2, _3));
 
 	BOOST_FOREACH (shared_ptr<const Content> c, film->content ()) {
 		if (c->subtitle && c->subtitle->use() && !c->subtitle->burn()) {
@@ -75,7 +75,7 @@ DCPEncoder::~DCPEncoder ()
 	/* We must stop receiving more video data before we die */
 	_player_video_connection.release ();
 	_player_audio_connection.release ();
-	_player_subtitle_connection.release ();
+	_player_text_connection.release ();
 }
 
 void
@@ -141,10 +141,10 @@ DCPEncoder::audio (shared_ptr<AudioBuffers> data, DCPTime time)
 }
 
 void
-DCPEncoder::subtitle (PlayerText data, DCPTimePeriod period)
+DCPEncoder::text (PlayerText data, TextType type, DCPTimePeriod period)
 {
-	if (_non_burnt_subtitles) {
-		_writer->write (data, period);
+	if (type == TEXT_CLOSED_CAPTION || _non_burnt_subtitles) {
+		_writer->write (data, type, period);
 	}
 }
 
