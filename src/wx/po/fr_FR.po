@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/audio_panel.cc:56 src/wx/subtitle_panel.cc:56
-#: src/wx/video_panel.cc:82
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-06-29 00:16+0100\n"
-"PO-Revision-Date: 2018-05-29 23:41+0100\n"
+"PO-Revision-Date: 2018-07-19 11:56+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -769,9 +767,8 @@ msgid "Effect colour"
 msgstr "Couleur de l'effet"
 
 #: src/wx/full_config_dialog.cc:697 src/wx/full_config_dialog.cc:932
-#, fuzzy
 msgid "Email"
-msgstr "e-mail KDM"
+msgstr "Email"
 
 #: src/wx/email_dialog.cc:29 src/wx/email_dialog.cc:31
 msgid "Email address"
@@ -1266,7 +1263,7 @@ msgstr "Mbit/s"
 
 #: src/wx/full_config_dialog.cc:928
 msgid "Message box"
-msgstr ""
+msgstr "Message"
 
 #: src/wx/export_dialog.cc:58
 msgid "Mix audio down to stereo"
@@ -1316,7 +1313,8 @@ msgstr "DEMANDE de KDM:"
 msgid "NEEDS OV: "
 msgstr "OV Nécessaire:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:73 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:73
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Nom"
 
@@ -1369,13 +1367,12 @@ msgid "Notes"
 msgstr "Notes"
 
 #: src/wx/full_config_dialog.cc:911
-#, fuzzy
 msgid "Notifications"
-msgstr "Vérification du DCP"
+msgstr "Notifications"
 
 #: src/wx/job_view.cc:78
 msgid "Notify when complete"
-msgstr ""
+msgstr "Notifier à la fin"
 
 #: src/wx/full_config_dialog.cc:93
 msgid "Number of threads DCP-o-matic encode server should use"
@@ -2057,9 +2054,8 @@ msgid "Timing|Timing"
 msgstr "Temps"
 
 #: src/wx/full_config_dialog.cc:944
-#, fuzzy
 msgid "To address"
-msgstr "Adresse source"
+msgstr "vers"
 
 #: src/wx/video_panel.cc:140
 msgid "Top"

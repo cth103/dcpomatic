@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-06-29 00:16+0100\n"
-"PO-Revision-Date: 2018-05-29 23:36+0100\n"
+"PO-Revision-Date: 2018-07-19 11:54+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -94,7 +94,7 @@ msgstr ""
 
 #: src/lib/config.cc:896
 msgid "$JOB_NAME: $JOB_STATUS"
-msgstr ""
+msgstr "$JOB_NAME: $JOB_STATUS"
 
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
@@ -597,7 +597,7 @@ msgstr "DCP-o-matic ne gère plus le filtre `%1'. Celui-ci a été désactivé."
 
 #: src/lib/config.cc:328 src/lib/config.cc:893
 msgid "DCP-o-matic notification"
-msgstr ""
+msgstr "Notification DCP-o-matic"
 
 #: src/lib/filter.cc:71 src/lib/filter.cc:72 src/lib/filter.cc:73
 #: src/lib/filter.cc:74
@@ -656,7 +656,7 @@ msgstr "Envoyer KDM par email pour %1"
 
 #: src/lib/send_notification_email_job.cc:46
 msgid "Email notification"
-msgstr ""
+msgstr "Notification Email"
 
 #: src/lib/send_problem_report_job.cc:59
 msgid "Email problem report"
@@ -768,9 +768,8 @@ msgid "High quality 3D denoiser"
 msgstr "Débruiteur 3D haute qualité"
 
 #: src/lib/filter.cc:68
-#, fuzzy
 msgid "Horizontal flip"
-msgstr "Filtre dé-bloc horizontal"
+msgstr "Inversion horizontale"
 
 #: src/lib/hints.cc:128
 msgid ""
@@ -916,7 +915,7 @@ msgstr "Désentrelaceur par compensation de mouvement"
 
 #: src/lib/dcp_decoder.cc:73
 msgid "No CPLs found in DCP."
-msgstr ""
+msgstr "Aucune CPL trouvée dans le DCP"
 
 #: src/lib/cinema_kdms.cc:202 src/lib/send_notification_email_job.cc:61
 msgid "No mail server configured in preferences"
@@ -957,7 +956,7 @@ msgstr "Seul le dernier contenu à ajouter peut être rogné au point de sortie.
 #: src/lib/filter.cc:67 src/lib/filter.cc:68 src/lib/filter.cc:69
 #: src/lib/filter.cc:70
 msgid "Orientation"
-msgstr ""
+msgstr "Orientation"
 
 #: src/lib/job.cc:173
 msgid "Out of memory"
@@ -1037,11 +1036,11 @@ msgstr "Ambiance droite"
 
 #: src/lib/filter.cc:70
 msgid "Rotate 90 degrees anti-clockwise"
-msgstr ""
+msgstr "Pivoter de 90 degrés à gauche"
 
 #: src/lib/filter.cc:69
 msgid "Rotate 90 degrees clockwise"
-msgstr ""
+msgstr "Pivoter de 90 degrés à droite"
 
 #: src/lib/util.cc:551
 msgid "Rs"
@@ -1300,7 +1299,7 @@ msgstr "Vérifier le DCP"
 
 #: src/lib/filter.cc:67
 msgid "Vertical flip"
-msgstr ""
+msgstr "Inversion verticale"
 
 #: src/lib/util.cc:522
 msgid "Visually impaired"
@@ -1311,9 +1310,8 @@ msgid "Waiting"
 msgstr "En cours"
 
 #: src/lib/filter.cc:74
-#, fuzzy
 msgid "Weave filter"
-msgstr "Filtre télécinéma"
+msgstr "Canevas"
 
 #: src/lib/ffmpeg_content.cc:601
 msgid "YCOCG"
