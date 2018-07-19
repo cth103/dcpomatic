@@ -62,8 +62,8 @@ public:
 		return _content;
 	}
 
-	boost::signals2::signal<void (ContentBitmapText)> BitmapStart;
-	boost::signals2::signal<void (ContentPlainText)> PlainStart;
+	boost::signals2::signal<void (ContentBitmapCaption)> BitmapStart;
+	boost::signals2::signal<void (ContentTextCaption)> PlainStart;
 	boost::signals2::signal<void (ContentTime, TextType)> Stop;
 
 private:

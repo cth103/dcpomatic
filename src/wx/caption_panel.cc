@@ -26,10 +26,10 @@
 #include "fonts_dialog.h"
 #include "subtitle_appearance_dialog.h"
 #include "lib/ffmpeg_content.h"
-#include "lib/plain_text_file_content.h"
+#include "lib/text_caption_file_content.h"
 #include "lib/ffmpeg_subtitle_stream.h"
 #include "lib/dcp_text_content.h"
-#include "lib/plain_text_file_decoder.h"
+#include "lib/text_caption_file_decoder.h"
 #include "lib/dcp_text_decoder.h"
 #include "lib/dcp_content.h"
 #include "lib/text_content.h"
@@ -303,7 +303,7 @@ CaptionPanel::setup_sensitivity ()
 	BOOST_FOREACH (shared_ptr<Content> i, sel) {
 		/* These are the content types that could include subtitles */
 		shared_ptr<const FFmpegContent> fc = boost::dynamic_pointer_cast<const FFmpegContent> (i);
-		shared_ptr<const PlainTextFileContent> sc = boost::dynamic_pointer_cast<const PlainTextFileContent> (i);
+		shared_ptr<const TextCaptionFileContent> sc = boost::dynamic_pointer_cast<const TextCaptionFileContent> (i);
 		shared_ptr<const DCPContent> dc = boost::dynamic_pointer_cast<const DCPContent> (i);
 		shared_ptr<const DCPTextContent> dsc = boost::dynamic_pointer_cast<const DCPTextContent> (i);
 		if (fc) {

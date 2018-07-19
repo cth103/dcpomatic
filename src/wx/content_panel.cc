@@ -39,7 +39,7 @@
 #include "lib/config.h"
 #include "lib/log.h"
 #include "lib/compose.hpp"
-#include "lib/plain_text_file_content.h"
+#include "lib/text_caption_file_content.h"
 #include "lib/plain_text_file.h"
 #include <wx/wx.h>
 #include <wx/notebook.h>
@@ -258,11 +258,11 @@ ContentPanel::selection_changed ()
 	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
 		DCPTime p;
 		p = i->position();
-		if (dynamic_pointer_cast<PlainTextFileContent>(i) && i->paths_valid()) {
+		if (dynamic_pointer_cast<TextCaptionFileContent>(i) && i->paths_valid()) {
 			/* Rather special case; if we select a text subtitle file jump to its
 			   first subtitle.
 			*/
-			PlainTextFile ts (dynamic_pointer_cast<PlainTextFileContent>(i));
+			TextCaptionFile ts (dynamic_pointer_cast<TextCaptionFileContent>(i));
 			if (ts.first()) {
 				p += DCPTime(ts.first().get(), _film->active_frame_rate_change(i->position()));
 			}

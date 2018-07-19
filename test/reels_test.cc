@@ -30,7 +30,7 @@
 #include "lib/dcp_content_type.h"
 #include "lib/dcp_content.h"
 #include "lib/video_content.h"
-#include "lib/plain_text_file_content.h"
+#include "lib/text_caption_file_content.h"
 #include "lib/content_factory.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
@@ -165,7 +165,7 @@ BOOST_AUTO_TEST_CASE (reels_test3)
 
 	shared_ptr<Content> dcp (new DCPContent (film, "test/data/reels_test2"));
 	film->examine_and_add_content (dcp);
-	shared_ptr<Content> sub (new PlainTextFileContent (film, "test/data/subrip.srt"));
+	shared_ptr<Content> sub (new TextCaptionFileContent (film, "test/data/subrip.srt"));
 	film->examine_and_add_content (sub);
 	wait_for_jobs ();
 
@@ -206,7 +206,7 @@ BOOST_AUTO_TEST_CASE (reels_test4)
 		content[i]->video->set_length (24);
 	}
 
-	shared_ptr<PlainTextFileContent> subs (new PlainTextFileContent (film, "test/data/subrip3.srt"));
+	shared_ptr<TextCaptionFileContent> subs (new TextCaptionFileContent (film, "test/data/subrip3.srt"));
 	film->examine_and_add_content (subs);
 	wait_for_jobs ();
 

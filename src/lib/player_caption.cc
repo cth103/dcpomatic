@@ -18,7 +18,7 @@
 
 */
 
-#include "player_text.h"
+#include "player_caption.h"
 #include "font.h"
 #include <boost/foreach.hpp>
 
@@ -26,7 +26,7 @@ using std::list;
 using boost::shared_ptr;
 
 void
-PlayerText::add_fonts (list<shared_ptr<Font> > fonts_)
+PlayerCaption::add_fonts (list<shared_ptr<Font> > fonts_)
 {
 	BOOST_FOREACH (shared_ptr<Font> i, fonts_) {
 		bool got = false;

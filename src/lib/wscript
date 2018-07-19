@@ -21,7 +21,7 @@ import os
 import i18n
 
 sources = """
-          active_text.cc
+          active_captions.cc
           analyse_audio_job.cc
           atmos_mxf_content.cc
           audio_analysis.cc
@@ -112,7 +112,7 @@ sources = """
           mid_side_decoder.cc
           overlaps.cc
           player.cc
-          player_text.cc
+          player_caption.cc
           player_video.cc
           playlist.cc
           position_image.cc
@@ -135,8 +135,8 @@ sources = """
           text_content.cc
           text_decoder.cc
           plain_text_file.cc
-          plain_text_file_content.cc
-          plain_text_file_decoder.cc
+          text_caption_file_content.cc
+          text_caption_file_decoder.cc
           timer.cc
           transcode_job.cc
           types.cc

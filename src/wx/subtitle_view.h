@@ -32,7 +32,7 @@ public:
 	SubtitleView (wxWindow *, boost::shared_ptr<Film>, boost::shared_ptr<Content> content, boost::shared_ptr<Decoder>, FilmViewer* viewer);
 
 private:
-	void data_start (ContentPlainText cts);
+	void data_start (ContentTextCaption cts);
 	void data_stop (ContentTime time);
 	void subtitle_selected (wxListEvent &);
 

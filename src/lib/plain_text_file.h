@@ -26,22 +26,22 @@
 #include <boost/shared_ptr.hpp>
 #include <vector>
 
-class PlainTextFileContent;
+class TextCaptionFileContent;
 class plain_text_time_test;
 class plain_text_coordinate_test;
 class plain_text_content_test;
 class plain_text_parse_test;
 
-/** @class PlainTextFile
- *  @brief Base for PlainTextFile decoder and examiner.
+/** @class TextCaptionFile
+ *  @brief Base for TextCaptionFile decoder and examiner.
  *
  *  In fact this is sufficient for the examiner, so it's used as-is rather than deriving
- *  a pointless PlainTextFileExaminer.
+ *  a pointless TextCaptionFileExaminer.
  */
-class PlainTextFile
+class TextCaptionFile
 {
 public:
-	explicit PlainTextFile (boost::shared_ptr<const PlainTextFileContent>);
+	explicit TextCaptionFile (boost::shared_ptr<const TextCaptionFileContent>);
 
 	boost::optional<ContentTime> first () const;
 	ContentTime length () const;

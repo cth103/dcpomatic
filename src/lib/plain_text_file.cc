@@ -21,7 +21,7 @@
 #include "plain_text_file.h"
 #include "cross.h"
 #include "exceptions.h"
-#include "plain_text_file_content.h"
+#include "text_caption_file_content.h"
 #include <sub/subrip_reader.h>
 #include <sub/ssa_reader.h>
 #include <sub/collect.h>
@@ -39,7 +39,7 @@ using boost::scoped_array;
 using boost::optional;
 using dcp::Data;
 
-PlainTextFile::PlainTextFile (shared_ptr<const PlainTextFileContent> content)
+TextCaptionFile::TextCaptionFile (shared_ptr<const TextCaptionFileContent> content)
 {
 	Data in (content->path (0));
 
@@ -96,7 +96,7 @@ PlainTextFile::PlainTextFile (shared_ptr<const PlainTextFileContent> content)
 
 /** @return time of first subtitle, if there is one */
 optional<ContentTime>
-PlainTextFile::first () const
+TextCaptionFile::first () const
 {
 	if (_subtitles.empty()) {
 		return optional<ContentTime>();
@@ -106,7 +106,7 @@ PlainTextFile::first () const
 }
 
 ContentTime
-PlainTextFile::length () const
+TextCaptionFile::length () const
 {
 	if (_subtitles.empty ()) {
 		return ContentTime ();

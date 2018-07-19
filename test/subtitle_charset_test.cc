@@ -23,7 +23,7 @@
 #include "lib/film.h"
 #include "lib/content_factory.h"
 #include "lib/plain_text_file.h"
-#include "lib/plain_text_file_content.h"
+#include "lib/text_caption_file_content.h"
 #include <boost/test/unit_test.hpp>
 
 using boost::shared_ptr;
@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE (subtitle_charset_test2)
 	shared_ptr<Content> content = content_factory (film, "test/data/osx.srt").front ();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
-	shared_ptr<PlainTextFile> ts = dynamic_pointer_cast<PlainTextFile> (content);
+	shared_ptr<TextCaptionFile> ts = dynamic_pointer_cast<TextCaptionFile> (content);
 	BOOST_REQUIRE (ts);
 	/* Make sure we got the subtitle data from the file */
 	BOOST_REQUIRE_EQUAL (content->full_length().get(), 6052032);

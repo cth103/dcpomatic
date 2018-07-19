@@ -20,12 +20,12 @@
 
 #include "position_image.h"
 #include "dcpomatic_time.h"
-#include "plain_text.h"
+#include "text_caption.h"
 #include <dcp/util.h>
 
 class Font;
 
-std::string marked_up (std::list<PlainText> subtitles, int target_height, float fade_factor);
+std::string marked_up (std::list<TextCaption> subtitles, int target_height, float fade_factor);
 std::list<PositionImage> render_text (
-	std::list<PlainText>, std::list<boost::shared_ptr<Font> > fonts, dcp::Size, DCPTime, int
+	std::list<TextCaption>, std::list<boost::shared_ptr<Font> > fonts, dcp::Size, DCPTime, int
 	);

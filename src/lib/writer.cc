@@ -665,7 +665,7 @@ Writer::can_fake_write (Frame frame) const
 }
 
 void
-Writer::write (PlayerText text, TextType type, DCPTimePeriod period)
+Writer::write (PlayerCaption text, TextType type, DCPTimePeriod period)
 {
 	while (_text_reel[type]->period().to <= period.from) {
 		++_text_reel[type];

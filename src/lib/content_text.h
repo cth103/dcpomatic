@@ -51,10 +51,10 @@ private:
 	TextType _type;
 };
 
-class ContentBitmapText : public ContentText
+class ContentBitmapCaption : public ContentText
 {
 public:
-	ContentBitmapText (ContentTime f, TextType type, boost::shared_ptr<Image> im, dcpomatic::Rect<double> r)
+	ContentBitmapCaption (ContentTime f, TextType type, boost::shared_ptr<Image> im, dcpomatic::Rect<double> r)
 		: ContentText (f, type)
 		, sub (im, r)
 	{}
@@ -67,10 +67,10 @@ public:
  *  as the dcp::SubtitleString timings are sometimes quite heavily quantised and this causes problems
  *  when we want to compare the quantised periods to the unquantised ones.
  */
-class ContentPlainText : public ContentText
+class ContentTextCaption : public ContentText
 {
 public:
-	ContentPlainText (ContentTime f, TextType type, std::list<dcp::SubtitleString> s)
+	ContentTextCaption (ContentTime f, TextType type, std::list<dcp::SubtitleString> s)
 		: ContentText (f, type)
 		, subs (s)
 	{}

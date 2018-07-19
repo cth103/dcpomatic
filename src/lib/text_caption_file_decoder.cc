@@ -18,8 +18,8 @@
 
 */
 
-#include "plain_text_file_decoder.h"
-#include "plain_text_file_content.h"
+#include "text_caption_file_decoder.h"
+#include "text_caption_file_content.h"
 #include "text_content.h"
 #include "text_decoder.h"
 #include <dcp/subtitle_string.h>
@@ -35,8 +35,8 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 
-PlainTextFileDecoder::PlainTextFileDecoder (shared_ptr<const PlainTextFileContent> content, shared_ptr<Log> log)
-	: PlainTextFile (content)
+TextCaptionFileDecoder::TextCaptionFileDecoder (shared_ptr<const TextCaptionFileContent> content, shared_ptr<Log> log)
+	: TextCaptionFile (content)
 	, _next (0)
 {
 	ContentTime first;
@@ -47,7 +47,7 @@ PlainTextFileDecoder::PlainTextFileDecoder (shared_ptr<const PlainTextFileConten
 }
 
 void
-PlainTextFileDecoder::seek (ContentTime time, bool accurate)
+TextCaptionFileDecoder::seek (ContentTime time, bool accurate)
 {
 	/* It's worth back-tracking a little here as decoding is cheap and it's nice if we don't miss
 	   too many subtitles when seeking.
@@ -66,7 +66,7 @@ PlainTextFileDecoder::seek (ContentTime time, bool accurate)
 }
 
 bool
-PlainTextFileDecoder::pass ()
+TextCaptionFileDecoder::pass ()
 {
 	if (_next >= _subtitles.size ()) {
 		return true;
@@ -80,7 +80,7 @@ PlainTextFileDecoder::pass ()
 }
 
 ContentTimePeriod
-PlainTextFileDecoder::content_time_period (sub::Subtitle s) const
+TextCaptionFileDecoder::content_time_period (sub::Subtitle s) const
 {
 	return ContentTimePeriod (
 		ContentTime::from_seconds (s.from.all_as_seconds()),

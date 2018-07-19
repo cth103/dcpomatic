@@ -21,8 +21,8 @@
 #ifndef DCPOMATIC_PLAYER_H
 #define DCPOMATIC_PLAYER_H
 
-#include "player_text.h"
-#include "active_text.h"
+#include "player_caption.h"
+#include "active_captions.h"
 #include "content_text.h"
 #include "film.h"
 #include "content.h"
@@ -101,7 +101,7 @@ public:
 	/** Emitted when a caption is ready.  This signal may be emitted considerably
 	 *  after the corresponding Video.
 	 */
-	boost::signals2::signal<void (PlayerText, TextType, DCPTimePeriod)> Text;
+	boost::signals2::signal<void (PlayerCaption, TextType, DCPTimePeriod)> Text;
 
 private:
 	friend class PlayerWrapper;
@@ -126,8 +126,8 @@ private:
 	boost::shared_ptr<PlayerVideo> black_player_video_frame (Eyes eyes) const;
 	void video (boost::weak_ptr<Piece>, ContentVideo);
 	void audio (boost::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
-	void bitmap_text_start (boost::weak_ptr<Piece>, ContentBitmapText);
-	void plain_text_start (boost::weak_ptr<Piece>, ContentPlainText);
+	void bitmap_text_start (boost::weak_ptr<Piece>, ContentBitmapCaption);
+	void plain_text_start (boost::weak_ptr<Piece>, ContentTextCaption);
 	void subtitle_stop (boost::weak_ptr<Piece>, ContentTime, TextType);
 	DCPTime one_video_frame () const;
 	void fill_audio (DCPTimePeriod period);
@@ -196,7 +196,7 @@ private:
 	Empty _black;
 	Empty _silent;
 
-	ActiveText _active_text[TEXT_COUNT];
+	ActiveCaptions _active_text[TEXT_COUNT];
 	boost::shared_ptr<AudioProcessor> _audio_processor;
 
 	boost::signals2::scoped_connection _film_changed_connection;

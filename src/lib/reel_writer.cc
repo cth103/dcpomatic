@@ -528,7 +528,7 @@ ReelWriter::write (shared_ptr<const AudioBuffers> audio)
 }
 
 void
-ReelWriter::write (PlayerText subs, TextType type, DCPTimePeriod period)
+ReelWriter::write (PlayerCaption subs, TextType type, DCPTimePeriod period)
 {
 	/* XXX: we need separate libdcp asset types here and to know how different they are */
 
@@ -558,7 +558,7 @@ ReelWriter::write (PlayerText subs, TextType type, DCPTimePeriod period)
 		}
 	}
 
-	BOOST_FOREACH (PlainText i, subs.text) {
+	BOOST_FOREACH (TextCaption i, subs.text) {
 		/* XXX: couldn't / shouldn't we use period here rather than getting time from the subtitle? */
 		i.set_in  (i.in()  - dcp::Time (_period.from.seconds(), i.in().tcr));
 		i.set_out (i.out() - dcp::Time (_period.from.seconds(), i.out().tcr));

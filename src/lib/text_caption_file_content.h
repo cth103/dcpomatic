@@ -18,27 +18,29 @@
 
 */
 
-#ifndef DCPOMATIC_PLAIN_TEXT_FILE_DECODER_H
-#define DCPOMATIC_PLAIN_TEXT_FILE_DECODER_H
+#include "content.h"
 
-#include "plain_text_file.h"
-#include "decoder.h"
+class Job;
 
-class PlainTextFileContent;
-class Log;
-
-class PlainTextFileDecoder : public Decoder, public PlainTextFile
+/** @class TextCaptionFileContent
+ *  @brief A SubRip, SSA or ASS file.
+ */
+class TextCaptionFileContent : public Content
 {
 public:
-	PlainTextFileDecoder (boost::shared_ptr<const PlainTextFileContent>, boost::shared_ptr<Log> log);
+	TextCaptionFileContent (boost::shared_ptr<const Film>, boost::filesystem::path);
+	TextCaptionFileContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
 
-	void seek (ContentTime time, bool accurate);
-	bool pass ();
+	boost::shared_ptr<TextCaptionFileContent> shared_from_this () {
+		return boost::dynamic_pointer_cast<TextCaptionFileContent> (Content::shared_from_this ());
+	}
+
+	void examine (boost::shared_ptr<Job>);
+	std::string summary () const;
+	std::string technical_summary () const;
+	void as_xml (xmlpp::Node *, bool with_paths) const;
+	DCPTime full_length () const;
 
 private:
-	ContentTimePeriod content_time_period (sub::Subtitle s) const;
-
-	size_t _next;
+	ContentTime _length;
 };
-
-#endif

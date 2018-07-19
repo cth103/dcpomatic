@@ -18,29 +18,29 @@
 
 */
 
-/** @file  src/lib/active_text.h
- *  @brief ActiveText class.
+/** @file  src/lib/active_captions.h
+ *  @brief ActiveCaptions class.
  */
 
 #include "dcpomatic_time.h"
-#include "player_text.h"
+#include "player_caption.h"
 #include <boost/noncopyable.hpp>
 #include <list>
 #include <map>
 
 class Piece;
 
-/** @class ActiveText
+/** @class ActiveCaptions
  *  @brief A class to maintain information on active subtitles for Player.
  */
-class ActiveText : public boost::noncopyable
+class ActiveCaptions : public boost::noncopyable
 {
 public:
-	std::list<PlayerText> get_burnt (DCPTimePeriod period, bool always_burn_subtitles) const;
+	std::list<PlayerCaption> get_burnt (DCPTimePeriod period, bool always_burn_subtitles) const;
 	void clear_before (DCPTime time);
 	void clear ();
-	void add_from (boost::weak_ptr<Piece> piece, PlayerText ps, DCPTime from);
-	std::pair<PlayerText, DCPTime> add_to (boost::weak_ptr<Piece> piece, DCPTime to);
+	void add_from (boost::weak_ptr<Piece> piece, PlayerCaption ps, DCPTime from);
+	std::pair<PlayerCaption, DCPTime> add_to (boost::weak_ptr<Piece> piece, DCPTime to);
 	bool have (boost::weak_ptr<Piece> piece) const;
 
 private:
@@ -49,12 +49,12 @@ private:
 	public:
 		Period () {}
 
-		Period (PlayerText s, DCPTime f)
+		Period (PlayerCaption s, DCPTime f)
 			: subs (s)
 			, from (f)
 		{}
 
-		PlayerText subs;
+		PlayerCaption subs;
 		DCPTime from;
 		boost::optional<DCPTime> to;
 	};

@@ -18,7 +18,7 @@
 
 */
 
-#include "active_text.h"
+#include "active_captions.h"
 #include "piece.h"
 #include "text_content.h"
 #include <boost/shared_ptr.hpp>
@@ -35,10 +35,10 @@ using boost::optional;
  *  @param period Period of interest.
  *  @param always_burn_subtitles Always burn subtitles even if their content is not set to burn.
  */
-list<PlayerText>
-ActiveText::get_burnt (DCPTimePeriod period, bool always_burn_subtitles) const
+list<PlayerCaption>
+ActiveCaptions::get_burnt (DCPTimePeriod period, bool always_burn_subtitles) const
 {
-	list<PlayerText> ps;
+	list<PlayerCaption> ps;
 
 	for (Map::const_iterator i = _data.begin(); i != _data.end(); ++i) {
 
@@ -68,7 +68,7 @@ ActiveText::get_burnt (DCPTimePeriod period, bool always_burn_subtitles) const
  *  @param time Time to remove before.
  */
 void
-ActiveText::clear_before (DCPTime time)
+ActiveCaptions::clear_before (DCPTime time)
 {
 	Map updated;
 	for (Map::const_iterator i = _data.begin(); i != _data.end(); ++i) {
@@ -91,7 +91,7 @@ ActiveText::clear_before (DCPTime time)
  *  @param from From time for these subtitles.
  */
 void
-ActiveText::add_from (weak_ptr<Piece> piece, PlayerText ps, DCPTime from)
+ActiveCaptions::add_from (weak_ptr<Piece> piece, PlayerCaption ps, DCPTime from)
 {
 	if (_data.find(piece) == _data.end()) {
 		_data[piece] = list<Period>();
@@ -104,14 +104,14 @@ ActiveText::add_from (weak_ptr<Piece> piece, PlayerText ps, DCPTime from)
  *  @param to To time for the last subtitle submitted to add_from for this piece.
  *  @return Return the corresponding subtitles and their from time.
  */
-pair<PlayerText, DCPTime>
-ActiveText::add_to (weak_ptr<Piece> piece, DCPTime to)
+pair<PlayerCaption, DCPTime>
+ActiveCaptions::add_to (weak_ptr<Piece> piece, DCPTime to)
 {
 	DCPOMATIC_ASSERT (_data.find(piece) != _data.end());
 
 	_data[piece].back().to = to;
 
-	BOOST_FOREACH (PlainText& i, _data[piece].back().subs.text) {
+	BOOST_FOREACH (TextCaption& i, _data[piece].back().subs.text) {
 		i.set_out (dcp::Time(to.seconds(), 1000));
 	}
 
@@ -122,7 +122,7 @@ ActiveText::add_to (weak_ptr<Piece> piece, DCPTime to)
  *  @return true if we have any active subtitles from this piece.
  */
 bool
-ActiveText::have (weak_ptr<Piece> piece) const
+ActiveCaptions::have (weak_ptr<Piece> piece) const
 {
 	Map::const_iterator i = _data.find(piece);
 	if (i == _data.end()) {
@@ -133,7 +133,7 @@ ActiveText::have (weak_ptr<Piece> piece) const
 }
 
 void
-ActiveText::clear ()
+ActiveCaptions::clear ()
 {
 	_data.clear ();
 }

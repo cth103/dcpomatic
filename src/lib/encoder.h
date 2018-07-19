@@ -22,7 +22,7 @@
 #define DCPOMATIC_ENCODER_H
 
 #include "types.h"
-#include "player_text.h"
+#include "player_caption.h"
 #include <boost/weak_ptr.hpp>
 #include <boost/signals2.hpp>
 

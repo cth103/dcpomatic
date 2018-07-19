@@ -663,7 +663,7 @@ Player::subtitles_for_frame (DCPTime time) const
 
 	int const vfr = _film->video_frame_rate();
 
-	BOOST_FOREACH (PlayerText i, _active_text[TEXT_SUBTITLE].get_burnt (DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_subtitles)) {
+	BOOST_FOREACH (PlayerCaption i, _active_text[TEXT_SUBTITLE].get_burnt (DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_subtitles)) {
 
 		/* Image subtitles */
 		list<PositionImage> c = transform_bitmap_texts (i.image);
@@ -839,7 +839,7 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 }
 
 void
-Player::bitmap_text_start (weak_ptr<Piece> wp, ContentBitmapText subtitle)
+Player::bitmap_text_start (weak_ptr<Piece> wp, ContentBitmapCaption subtitle)
 {
 	shared_ptr<Piece> piece = wp.lock ();
 	if (!piece) {
@@ -858,7 +858,7 @@ Player::bitmap_text_start (weak_ptr<Piece> wp, ContentBitmapText subtitle)
 	subtitle.sub.rectangle.width *= piece->content->subtitle->x_scale ();
 	subtitle.sub.rectangle.height *= piece->content->subtitle->y_scale ();
 
-	PlayerText ps;
+	PlayerCaption ps;
 	ps.image.push_back (subtitle.sub);
 	DCPTime from (content_time_to_dcp (piece, subtitle.from()));
 
@@ -866,14 +866,14 @@ Player::bitmap_text_start (weak_ptr<Piece> wp, ContentBitmapText subtitle)
 }
 
 void
-Player::plain_text_start (weak_ptr<Piece> wp, ContentPlainText subtitle)
+Player::plain_text_start (weak_ptr<Piece> wp, ContentTextCaption subtitle)
 {
 	shared_ptr<Piece> piece = wp.lock ();
 	if (!piece) {
 		return;
 	}
 
-	PlayerText ps;
+	PlayerCaption ps;
 	DCPTime const from (content_time_to_dcp (piece, subtitle.from()));
 
 	if (from > piece->content->end()) {
@@ -901,7 +901,7 @@ Player::plain_text_start (weak_ptr<Piece> wp, ContentPlainText subtitle)
 		}
 
 		s.set_in (dcp::Time(from.seconds(), 1000));
-		ps.text.push_back (PlainText (s, piece->content->subtitle->outline_width()));
+		ps.text.push_back (TextCaption (s, piece->content->subtitle->outline_width()));
 		ps.add_fonts (piece->content->subtitle->fonts ());
 	}
 
@@ -926,7 +926,7 @@ Player::subtitle_stop (weak_ptr<Piece> wp, ContentTime to, TextType type)
 		return;
 	}
 
-	pair<PlayerText, DCPTime> from = _active_text[type].add_to (wp, dcp_to);
+	pair<PlayerCaption, DCPTime> from = _active_text[type].add_to (wp, dcp_to);
 
 	if (piece->content->subtitle->use() && !_always_burn_subtitles && !piece->content->subtitle->burn()) {
 		Text (from.first, type, DCPTimePeriod (from.second, dcp_to));
