@@ -44,7 +44,6 @@
 #include "text_decoder.h"
 #include "ffmpeg_content.h"
 #include "audio_content.h"
-#include "content_subtitle.h"
 #include "dcp_decoder.h"
 #include "image_decoder.h"
 #include "compose.hpp"
@@ -867,7 +866,7 @@ Player::bitmap_text_start (weak_ptr<Piece> wp, ContentBitmapText subtitle)
 }
 
 void
-Player::plain_text_start (weak_ptr<Piece> wp, ContentTextSubtitle subtitle)
+Player::plain_text_start (weak_ptr<Piece> wp, ContentPlainText subtitle)
 {
 	shared_ptr<Piece> piece = wp.lock ();
 	if (!piece) {

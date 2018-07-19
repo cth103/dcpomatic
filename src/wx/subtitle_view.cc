@@ -19,7 +19,7 @@
 */
 
 #include "lib/plain_text_decoder.h"
-#include "lib/content_subtitle.h"
+#include "lib/content_text.h"
 #include "lib/video_decoder.h"
 #include "lib/audio_decoder.h"
 #include "lib/film.h"
@@ -91,7 +91,7 @@ SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<
 }
 
 void
-SubtitleView::data_start (ContentTextSubtitle cts)
+SubtitleView::data_start (ContentPlainText cts)
 {
 	BOOST_FOREACH (dcp::SubtitleString const & i, cts.subs) {
 		wxListItem list_item;

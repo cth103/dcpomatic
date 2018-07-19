@@ -24,7 +24,7 @@
 #include "decoder.h"
 #include "rect.h"
 #include "types.h"
-#include "content_subtitle.h"
+#include "content_text.h"
 #include "decoder_part.h"
 #include <dcp/subtitle_string.h>
 #include <boost/signals2.hpp>
@@ -63,7 +63,7 @@ public:
 	}
 
 	boost::signals2::signal<void (ContentBitmapText)> BitmapStart;
-	boost::signals2::signal<void (ContentTextSubtitle)> PlainStart;
+	boost::signals2::signal<void (ContentPlainText)> PlainStart;
 	boost::signals2::signal<void (ContentTime)> Stop;
 
 private:

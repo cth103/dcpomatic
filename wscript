@@ -99,6 +99,7 @@ def configure(conf):
                                        '-Wwrite-strings',
                                        # Remove auto_ptr warnings from libxml++-2.6
                                        '-Wno-deprecated-declarations',
+                                       '-Wno-unsafe-loop-optimizations',
                                        '-Wno-ignored-qualifiers',
                                        '-D_FILE_OFFSET_BITS=64'])
 

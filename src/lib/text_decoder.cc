@@ -94,7 +94,7 @@ TextDecoder::emit_plain_start (ContentTime from, list<dcp::SubtitleString> s)
 		}
 	}
 
-	PlainStart (ContentTextSubtitle (from, s));
+	PlainStart (ContentPlainText (from, s));
 	_position = from;
 }
 

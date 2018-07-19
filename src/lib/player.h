@@ -23,13 +23,13 @@
 
 #include "player_subtitles.h"
 #include "active_subtitles.h"
+#include "content_text.h"
 #include "film.h"
 #include "content.h"
 #include "position_image.h"
 #include "piece.h"
 #include "content_video.h"
 #include "content_audio.h"
-#include "content_subtitle.h"
 #include "audio_stream.h"
 #include "audio_merger.h"
 #include "empty.h"
@@ -127,7 +127,7 @@ private:
 	void video (boost::weak_ptr<Piece>, ContentVideo);
 	void audio (boost::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
 	void bitmap_text_start (boost::weak_ptr<Piece>, ContentBitmapText);
-	void plain_text_start (boost::weak_ptr<Piece>, ContentTextSubtitle);
+	void plain_text_start (boost::weak_ptr<Piece>, ContentPlainText);
 	void subtitle_stop (boost::weak_ptr<Piece>, ContentTime);
 	DCPTime one_video_frame () const;
 	void fill_audio (DCPTimePeriod period);
