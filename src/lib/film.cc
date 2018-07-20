@@ -124,8 +124,11 @@ string const Film::metadata_file = "metadata.xml";
  * VideoFrameType in VideoContent is a string rather than an integer.
  * 35 -> 36
  * EffectColour rather than OutlineColour in Subtitle.
+ * 36 -> 37
+ * CaptionContent can be in a Caption tag, and some of the tag names
+ * have had Subtitle prefixes or suffixes removed.
  */
-int const Film::current_state_version = 36;
+int const Film::current_state_version = 37;
 
 /** Construct a Film object in a given directory.
  *

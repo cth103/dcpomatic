@@ -86,11 +86,18 @@ CaptionContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 		/* Otherwise we can drop through to the newer logic */
 	}
 
-	if (!node->optional_number_child<double>("SubtitleXOffset") && !node->optional_number_child<double>("SubtitleOffset")) {
+	if (version < 37) {
+		if (!node->optional_number_child<double>("SubtitleXOffset") && !node->optional_number_child<double>("SubtitleOffset")) {
+			return shared_ptr<CaptionContent> ();
+		}
+		shared_ptr<CaptionContent> (new CaptionContent (parent, node, version));
+	}
+
+	if (!node->node_child("Caption")) {
 		return shared_ptr<CaptionContent> ();
 	}
 
-	return shared_ptr<CaptionContent> (new CaptionContent (parent, node, version));
+	return shared_ptr<CaptionContent> (new CaptionContent (parent, node->node_child("Caption"), version));
 }
 
 CaptionContent::CaptionContent (Content* parent, cxml::ConstNodePtr node, int version)
@@ -105,12 +112,18 @@ CaptionContent::CaptionContent (Content* parent, cxml::ConstNodePtr node, int ve
 	, _outline_width (node->optional_number_child<int>("OutlineWidth").get_value_or (2))
 	, _type (CAPTION_OPEN)
 {
-	if (version >= 32) {
+	if (version >= 37) {
+		_use = node->bool_child ("Use");
+		_burn = node->bool_child ("Burn");
+	} else if (version >= 32) {
 		_use = node->bool_child ("UseSubtitles");
 		_burn = node->bool_child ("BurnSubtitles");
 	}
 
-	if (version >= 7) {
+	if (version >= 37) {
+		_x_offset = node->number_child<double> ("XOffset");
+		_y_offset = node->number_child<double> ("YOffset");
+	} else if (version >= 7) {
 		_x_offset = node->number_child<double> ("SubtitleXOffset");
 		_y_offset = node->number_child<double> ("SubtitleYOffset");
 	} else {
@@ -136,7 +149,10 @@ CaptionContent::CaptionContent (Content* parent, cxml::ConstNodePtr node, int ve
 		}
 	}
 
-	if (version >= 10) {
+	if (version >= 37) {
+		_x_scale = node->number_child<double> ("XScale");
+		_y_scale = node->number_child<double> ("YScale");
+	} else if (version >= 10) {
 		_x_scale = node->number_child<double> ("SubtitleXScale");
 		_y_scale = node->number_child<double> ("SubtitleYScale");
 	} else {
@@ -165,16 +181,31 @@ CaptionContent::CaptionContent (Content* parent, cxml::ConstNodePtr node, int ve
 			);
 	}
 
-	optional<Frame> fi = node->optional_number_child<Frame>("SubtitleFadeIn");
+	optional<Frame> fi;
+	if (version >= 37) {
+		fi = node->optional_number_child<Frame>("FadeIn");
+	} else {
+		fi = node->optional_number_child<Frame>("SubtitleFadeIn");
+	}
 	if (fi) {
 		_fade_in = ContentTime (*fi);
 	}
-	optional<Frame> fo = node->optional_number_child<Frame>("SubtitleFadeOut");
+
+	optional<Frame> fo;
+	if (version >= 37) {
+		fo = node->optional_number_child<Frame>("FadeOut");
+	} else {
+		fo = node->optional_number_child<Frame>("SubtitleFadeOut");
+	}
 	if (fo) {
 		_fade_out = ContentTime (*fo);
 	}
 
-	_language = node->optional_string_child ("SubtitleLanguage").get_value_or ("");
+	if (version >= 37) {
+		_language = node->optional_string_child ("Language").get_value_or ("");
+	} else {
+		_language = node->optional_string_child ("SubtitleLanguage").get_value_or ("");
+	}
 
 	list<cxml::NodePtr> fonts = node->node_children ("Font");
 	for (list<cxml::NodePtr>::const_iterator i = fonts.begin(); i != fonts.end(); ++i) {
@@ -183,7 +214,7 @@ CaptionContent::CaptionContent (Content* parent, cxml::ConstNodePtr node, int ve
 
 	connect_to_fonts ();
 
-	_type = string_to_caption_type (node->optional_string_child("CaptionType").get_value_or("open"));
+	_type = string_to_caption_type (node->optional_string_child("Type").get_value_or("open"));
 }
 
 
@@ -193,50 +224,52 @@ CaptionContent::as_xml (xmlpp::Node* root) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	root->add_child("UseSubtitles")->add_child_text (_use ? "1" : "0");
-	root->add_child("BurnSubtitles")->add_child_text (_burn ? "1" : "0");
-	root->add_child("SubtitleXOffset")->add_child_text (raw_convert<string> (_x_offset));
-	root->add_child("SubtitleYOffset")->add_child_text (raw_convert<string> (_y_offset));
-	root->add_child("SubtitleXScale")->add_child_text (raw_convert<string> (_x_scale));
-	root->add_child("SubtitleYScale")->add_child_text (raw_convert<string> (_y_scale));
-	root->add_child("SubtitleLanguage")->add_child_text (_language);
+	xmlpp::Element* caption = root->add_child ("Caption");
+
+	caption->add_child("Use")->add_child_text (_use ? "1" : "0");
+	caption->add_child("Burn")->add_child_text (_burn ? "1" : "0");
+	caption->add_child("XOffset")->add_child_text (raw_convert<string> (_x_offset));
+	caption->add_child("YOffset")->add_child_text (raw_convert<string> (_y_offset));
+	caption->add_child("XScale")->add_child_text (raw_convert<string> (_x_scale));
+	caption->add_child("YScale")->add_child_text (raw_convert<string> (_y_scale));
+	caption->add_child("Language")->add_child_text (_language);
 	if (_colour) {
-		root->add_child("Red")->add_child_text (raw_convert<string> (_colour->r));
-		root->add_child("Green")->add_child_text (raw_convert<string> (_colour->g));
-		root->add_child("Blue")->add_child_text (raw_convert<string> (_colour->b));
+		caption->add_child("Red")->add_child_text (raw_convert<string> (_colour->r));
+		caption->add_child("Green")->add_child_text (raw_convert<string> (_colour->g));
+		caption->add_child("Blue")->add_child_text (raw_convert<string> (_colour->b));
 	}
 	if (_effect) {
 		switch (*_effect) {
 		case dcp::NONE:
-			root->add_child("Effect")->add_child_text("none");
+			caption->add_child("Effect")->add_child_text("none");
 			break;
 		case dcp::BORDER:
-			root->add_child("Effect")->add_child_text("outline");
+			caption->add_child("Effect")->add_child_text("outline");
 			break;
 		case dcp::SHADOW:
-			root->add_child("Effect")->add_child_text("shadow");
+			caption->add_child("Effect")->add_child_text("shadow");
 			break;
 		}
 	}
 	if (_effect_colour) {
-		root->add_child("EffectRed")->add_child_text (raw_convert<string> (_effect_colour->r));
-		root->add_child("EffectGreen")->add_child_text (raw_convert<string> (_effect_colour->g));
-		root->add_child("EffectBlue")->add_child_text (raw_convert<string> (_effect_colour->b));
+		caption->add_child("EffectRed")->add_child_text (raw_convert<string> (_effect_colour->r));
+		caption->add_child("EffectGreen")->add_child_text (raw_convert<string> (_effect_colour->g));
+		caption->add_child("EffectBlue")->add_child_text (raw_convert<string> (_effect_colour->b));
 	}
-	root->add_child("LineSpacing")->add_child_text (raw_convert<string> (_line_spacing));
+	caption->add_child("LineSpacing")->add_child_text (raw_convert<string> (_line_spacing));
 	if (_fade_in) {
-		root->add_child("SubtitleFadeIn")->add_child_text (raw_convert<string> (_fade_in->get()));
+		caption->add_child("FadeIn")->add_child_text (raw_convert<string> (_fade_in->get()));
 	}
 	if (_fade_out) {
-		root->add_child("SubtitleFadeOut")->add_child_text (raw_convert<string> (_fade_out->get()));
+		caption->add_child("FadeOut")->add_child_text (raw_convert<string> (_fade_out->get()));
 	}
-	root->add_child("OutlineWidth")->add_child_text (raw_convert<string> (_outline_width));
+	caption->add_child("OutlineWidth")->add_child_text (raw_convert<string> (_outline_width));
 
 	for (list<shared_ptr<Font> >::const_iterator i = _fonts.begin(); i != _fonts.end(); ++i) {
-		(*i)->as_xml (root->add_child("Font"));
+		(*i)->as_xml (caption->add_child("Font"));
 	}
 
-	root->add_child("CaptionType")->add_child_text (caption_type_to_string(_type));
+	caption->add_child("Type")->add_child_text (caption_type_to_string(_type));
 }
 
 string
