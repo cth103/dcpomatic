@@ -230,6 +230,7 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == CaptionContentProperty::Y_OFFSET ||
 		property == CaptionContentProperty::X_SCALE ||
 		property == CaptionContentProperty::FONTS ||
+		property == CaptionContentProperty::TYPE ||
 		property == VideoContentProperty::CROP ||
 		property == VideoContentProperty::SCALE ||
 		property == VideoContentProperty::FADE_IN ||
