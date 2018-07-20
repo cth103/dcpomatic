@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE (subtitle_charset_test2)
 	shared_ptr<Content> content = content_factory (film, "test/data/osx.srt").front ();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
-	shared_ptr<TextCaptionFile> ts = dynamic_pointer_cast<TextCaptionFile> (content);
+	shared_ptr<TextCaptionFileContent> ts = dynamic_pointer_cast<TextCaptionFileContent> (content);
 	BOOST_REQUIRE (ts);
 	/* Make sure we got the subtitle data from the file */
 	BOOST_REQUIRE_EQUAL (content->full_length().get(), 6052032);
