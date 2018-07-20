@@ -1155,6 +1155,7 @@ public:
 		: StockPage (Kind_Advanced, panel_size, border)
 		, _maximum_j2k_bandwidth (0)
 		, _allow_any_dcp_frame_rate (0)
+		, _allow_any_container (0)
 		, _only_servers_encode (0)
 		, _log_general (0)
 		, _log_warning (0)
@@ -1194,6 +1195,17 @@ private:
 
 		_allow_any_dcp_frame_rate = new wxCheckBox (_panel, wxID_ANY, _("Allow any DCP frame rate"));
 		table->Add (_allow_any_dcp_frame_rate, 1, wxEXPAND | wxALL);
+		table->AddSpacer (0);
+
+		_allow_any_container = new wxCheckBox (_panel, wxID_ANY, _("Allow non-standard container ratios"));
+		table->Add (_allow_any_container, 1, wxEXPAND | wxALL);
+		table->AddSpacer (0);
+
+		wxStaticText* restart = add_label_to_sizer (table, _panel, _("(restart DCP-o-matic to see all ratios)"), false);
+		wxFont font = restart->GetFont();
+		font.SetStyle (wxFONTSTYLE_ITALIC);
+		font.SetPointSize (font.GetPointSize() - 1);
+		restart->SetFont (font);
 		table->AddSpacer (0);
 
 		_only_servers_encode = new wxCheckBox (_panel, wxID_ANY, _("Only servers encode"));
@@ -1268,6 +1280,7 @@ private:
 		_maximum_j2k_bandwidth->SetRange (1, 1000);
 		_maximum_j2k_bandwidth->Bind (wxEVT_SPINCTRL, boost::bind (&AdvancedPage::maximum_j2k_bandwidth_changed, this));
 		_allow_any_dcp_frame_rate->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::allow_any_dcp_frame_rate_changed, this));
+		_allow_any_container->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::allow_any_container_changed, this));
 		_only_servers_encode->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::only_servers_encode_changed, this));
 		_frames_in_memory_multiplier->Bind (wxEVT_SPINCTRL, boost::bind(&AdvancedPage::frames_in_memory_multiplier_changed, this));
 		_dcp_metadata_filename_format->Changed.connect (boost::bind (&AdvancedPage::dcp_metadata_filename_format_changed, this));
@@ -1290,6 +1303,7 @@ private:
 
 		checked_set (_maximum_j2k_bandwidth, config->maximum_j2k_bandwidth() / 1000000);
 		checked_set (_allow_any_dcp_frame_rate, config->allow_any_dcp_frame_rate ());
+		checked_set (_allow_any_container, config->allow_any_container ());
 		checked_set (_only_servers_encode, config->only_servers_encode ());
 		checked_set (_log_general, config->log_types() & LogEntry::TYPE_GENERAL);
 		checked_set (_log_warning, config->log_types() & LogEntry::TYPE_WARNING);
@@ -1317,6 +1331,11 @@ private:
 	void allow_any_dcp_frame_rate_changed ()
 	{
 		Config::instance()->set_allow_any_dcp_frame_rate (_allow_any_dcp_frame_rate->GetValue ());
+	}
+
+	void allow_any_container_changed ()
+	{
+		Config::instance()->set_allow_any_container (_allow_any_container->GetValue ());
 	}
 
 	void only_servers_encode_changed ()
@@ -1371,6 +1390,7 @@ private:
 	wxSpinCtrl* _maximum_j2k_bandwidth;
 	wxSpinCtrl* _frames_in_memory_multiplier;
 	wxCheckBox* _allow_any_dcp_frame_rate;
+	wxCheckBox* _allow_any_container;
 	wxCheckBox* _only_servers_encode;
 	NameFormatEditor* _dcp_metadata_filename_format;
 	NameFormatEditor* _dcp_asset_filename_format;

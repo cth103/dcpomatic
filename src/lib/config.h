@@ -148,6 +148,10 @@ public:
 		return _allow_any_dcp_frame_rate;
 	}
 
+	bool allow_any_container () const {
+		return _allow_any_container;
+	}
+
 	ISDCFMetadata default_isdcf_metadata () const {
 		return _default_isdcf_metadata;
 	}
@@ -486,6 +490,10 @@ public:
 
 	void set_allow_any_dcp_frame_rate (bool a) {
 		maybe_set (_allow_any_dcp_frame_rate, a);
+	}
+
+	void set_allow_any_container (bool a) {
+		maybe_set (_allow_any_container, a);
 	}
 
 	void set_default_isdcf_metadata (ISDCFMetadata d) {
@@ -857,6 +865,11 @@ private:
 	std::list<int> _allowed_dcp_frame_rates;
 	/** Allow any video frame rate for the DCP; if true, overrides _allowed_dcp_frame_rates */
 	bool _allow_any_dcp_frame_rate;
+	/** Allow any container ratio, not just the standard ones.  GDC SX-2001 will not play Flat
+	    DCPs at 25fps but will play 16:9, so this is very useful for some users.
+	    https://www.dcpomatic.com/forum/viewtopic.php?f=2&t=1119&p=4468
+	*/
+	bool _allow_any_container;
 	/** Default ISDCF metadata for newly-created Films */
 	ISDCFMetadata _default_isdcf_metadata;
 	boost::optional<std::string> _language;

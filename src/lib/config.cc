@@ -94,6 +94,7 @@ Config::set_defaults ()
 	_tms_password = "";
 	_cinema_sound_processor = CinemaSoundProcessor::from_id (N_("dolby_cp750"));
 	_allow_any_dcp_frame_rate = false;
+	_allow_any_container = false;
 	_language = optional<string> ();
 	_default_still_length = 10;
 	_default_container = Ratio::from_id ("185");
@@ -343,6 +344,7 @@ try
 
 	_maximum_j2k_bandwidth = f.optional_number_child<int> ("MaximumJ2KBandwidth").get_value_or (250000000);
 	_allow_any_dcp_frame_rate = f.optional_bool_child ("AllowAnyDCPFrameRate").get_value_or (false);
+	_allow_any_container = f.optional_bool_child ("AllowAnyContainer").get_value_or (false);
 
 	_log_types = f.optional_number_child<int> ("LogTypes").get_value_or (LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR);
 	_analyse_ebur128 = f.optional_bool_child("AnalyseEBUR128").get_value_or (true);
@@ -677,6 +679,8 @@ Config::write_config () const
 	root->add_child("MaximumJ2KBandwidth")->add_child_text (raw_convert<string> (_maximum_j2k_bandwidth));
 	/* [XML] AllowAnyDCPFrameRate 1 to allow users to specify any frame rate when creating DCPs, 0 to limit the GUI to standard rates */
 	root->add_child("AllowAnyDCPFrameRate")->add_child_text (_allow_any_dcp_frame_rate ? "1" : "0");
+	/* [XML] AllowAnyContainer 1 to allow users to user any container ratio for their DCP, 0 to limit the GUI to standard containers */
+	root->add_child("AllowAnyContainer")->add_child_text (_allow_any_container ? "1" : "0");
 	/* [XML] LogTypes Types of logging to write; a bitfield where 1 is general notes, 2 warnings, 4 errors, 8 debug information related
 	   to encoding, 16 debug information related to encoding, 32 debug information for timing purposes, 64 debug information related
 	   to sending email.

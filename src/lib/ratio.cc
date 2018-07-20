@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,7 @@
 
 #include "ratio.h"
 #include "util.h"
+#include "config.h"
 #include <dcp/types.h>
 #include <cfloat>
 
@@ -102,6 +103,10 @@ Ratio::nearest_from_ratio (float r)
 vector<Ratio const *>
 Ratio::containers ()
 {
+	if (Config::instance()->allow_any_container()) {
+		return _ratios;
+	}
+
 	vector<Ratio const *> r;
 	r.push_back (Ratio::from_id ("185"));
 	r.push_back (Ratio::from_id ("239"));
@@ -112,6 +117,12 @@ Ratio::containers ()
 string
 Ratio::container_nickname () const
 {
-	DCPOMATIC_ASSERT (_container_nickname);
+	if (!_container_nickname) {
+		/* Fall back to the image nickname; this just for when non-standard container
+		   ratios are enabled.
+		*/
+		return _image_nickname;
+	}
+
 	return *_container_nickname;
 }
