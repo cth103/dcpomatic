@@ -128,67 +128,6 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 
 }
 
-FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
-	: Content (film, c)
-{
-	vector<shared_ptr<Content> >::const_iterator i = c.begin ();
-
-	bool need_video = false;
-	bool need_audio = false;
-	bool need_caption = false;
-
-	if (i != c.end ()) {
-		need_video = static_cast<bool> ((*i)->video);
-		need_audio = static_cast<bool> ((*i)->audio);
-		need_caption = static_cast<bool> ((*i)->caption);
-	}
-
-	while (i != c.end ()) {
-		if (need_video != static_cast<bool> ((*i)->video)) {
-			throw JoinError (_("Content to be joined must all have or not have video"));
-		}
-		if (need_audio != static_cast<bool> ((*i)->audio)) {
-			throw JoinError (_("Content to be joined must all have or not have audio"));
-		}
-		if (need_caption != static_cast<bool> ((*i)->caption)) {
-			throw JoinError (_("Content to be joined must all have or not have captions"));
-		}
-		++i;
-	}
-
-	if (need_video) {
-		video.reset (new VideoContent (this, c));
-	}
-	if (need_audio) {
-		audio.reset (new AudioContent (this, c));
-	}
-	if (need_caption) {
-		caption.reset (new CaptionContent (this, c));
-	}
-
-	shared_ptr<FFmpegContent> ref = dynamic_pointer_cast<FFmpegContent> (c[0]);
-	DCPOMATIC_ASSERT (ref);
-
-	for (size_t i = 0; i < c.size(); ++i) {
-		shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c[i]);
-		if (fc->caption && fc->caption->use() && *(fc->_subtitle_stream.get()) != *(ref->_subtitle_stream.get())) {
-			throw JoinError (_("Content to be joined must use the same subtitle stream."));
-		}
-	}
-
-	/* XXX: should probably check that more of the stuff below is the same in *this and ref */
-
-	_subtitle_streams = ref->subtitle_streams ();
-	_subtitle_stream = ref->subtitle_stream ();
-	_first_video = ref->_first_video;
-	_filters = ref->_filters;
-	_color_range = ref->_color_range;
-	_color_primaries = ref->_color_primaries;
-	_color_trc = ref->_color_trc;
-	_colorspace = ref->_colorspace;
-	_bits_per_pixel = ref->_bits_per_pixel;
-}
-
 void
 FFmpegContent::as_xml (xmlpp::Node* node, bool with_paths) const
 {

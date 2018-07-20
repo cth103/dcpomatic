@@ -1,5 +1,7 @@
 2018-07-20  Carl Hetherington  <cth@carlh.net>
 
+	* Remove Join function.
+
 	* Advanced configuration option to allow any container ratio.
 
 	* Support closed-caption creation (#725).

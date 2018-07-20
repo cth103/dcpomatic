@@ -59,7 +59,6 @@ class CaptionContent : public ContentPart
 {
 public:
 	explicit CaptionContent (Content* parent);
-	CaptionContent (Content* parent, std::vector<boost::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;
 	std::string identifier () const;

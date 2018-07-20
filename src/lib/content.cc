@@ -104,40 +104,6 @@ Content::Content (shared_ptr<const Film> film, cxml::ConstNodePtr node)
 	_video_frame_rate = node->optional_number_child<double> ("VideoFrameRate");
 }
 
-Content::Content (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
-	: _film (film)
-	, _position (c.front()->position ())
-	, _trim_start (c.front()->trim_start ())
-	, _trim_end (c.back()->trim_end ())
-	, _video_frame_rate (c.front()->video_frame_rate())
-	, _change_signals_frequent (false)
-{
-	for (size_t i = 0; i < c.size(); ++i) {
-		if (i > 0 && c[i]->trim_start() > ContentTime ()) {
-			throw JoinError (_("Only the first piece of content to be joined can have a start trim."));
-		}
-
-		if (i < (c.size() - 1) && c[i]->trim_end () > ContentTime ()) {
-			throw JoinError (_("Only the last piece of content to be joined can have an end trim."));
-		}
-
-		if (
-			(_video_frame_rate && !c[i]->_video_frame_rate) ||
-			(!_video_frame_rate && c[i]->_video_frame_rate)
-			) {
-			throw JoinError (_("Content to be joined must have the same video frame rate"));
-		}
-
-		if (_video_frame_rate && fabs (_video_frame_rate.get() - c[i]->_video_frame_rate.get()) > VIDEO_FRAME_RATE_EPSILON) {
-			throw JoinError (_("Content to be joined must have the same video frame rate"));
-		}
-
-		for (size_t j = 0; j < c[i]->number_of_paths(); ++j) {
-			_paths.push_back (c[i]->path (j));
-		}
-	}
-}
-
 void
 Content::as_xml (xmlpp::Node* node, bool with_paths) const
 {

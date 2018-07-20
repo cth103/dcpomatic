@@ -40,7 +40,6 @@ public:
 
 private:
 	void repeat ();
-	void join ();
 	void find_missing ();
 	void properties ();
 	void re_examine ();
@@ -59,7 +58,6 @@ private:
 	ContentList _content;
 	TimelineContentViewList _views;
 	wxMenuItem* _repeat;
-	wxMenuItem* _join;
 	wxMenuItem* _find_missing;
 	wxMenuItem* _properties;
 	wxMenuItem* _re_examine;
