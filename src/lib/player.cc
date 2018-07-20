@@ -165,9 +165,15 @@ Player::setup_pieces ()
 		}
 
 		if (decoder->caption) {
-			decoder->caption->BitmapStart.connect (bind (&Player::bitmap_text_start, this, weak_ptr<Piece> (piece), _1));
-			decoder->caption->PlainStart.connect (bind (&Player::plain_text_start, this, weak_ptr<Piece> (piece), _1));
-			decoder->caption->Stop.connect (bind (&Player::subtitle_stop, this, weak_ptr<Piece> (piece), _1, _2));
+			decoder->caption->BitmapStart.connect (
+				bind(&Player::bitmap_text_start, this, weak_ptr<Piece>(piece), weak_ptr<CaptionContent>(piece->content->caption), _1)
+				);
+			decoder->caption->PlainStart.connect (
+				bind(&Player::plain_text_start, this, weak_ptr<Piece>(piece), weak_ptr<CaptionContent>(piece->content->caption), _1)
+				);
+			decoder->caption->Stop.connect (
+				bind(&Player::subtitle_stop, this, weak_ptr<Piece>(piece), weak_ptr<CaptionContent>(piece->content->caption), _1, _2)
+				);
 		}
 	}
 
@@ -845,37 +851,39 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 }
 
 void
-Player::bitmap_text_start (weak_ptr<Piece> wp, ContentBitmapCaption subtitle)
+Player::bitmap_text_start (weak_ptr<Piece> wp, weak_ptr<CaptionContent> wc, ContentBitmapCaption subtitle)
 {
 	shared_ptr<Piece> piece = wp.lock ();
-	if (!piece) {
+	shared_ptr<CaptionContent> caption = wc.lock ();
+	if (!piece || !caption) {
 		return;
 	}
 
 	/* Apply content's subtitle offsets */
-	subtitle.sub.rectangle.x += piece->content->caption->x_offset ();
-	subtitle.sub.rectangle.y += piece->content->caption->y_offset ();
+	subtitle.sub.rectangle.x += caption->x_offset ();
+	subtitle.sub.rectangle.y += caption->y_offset ();
 
 	/* Apply a corrective translation to keep the subtitle centred after the scale that is coming up */
-	subtitle.sub.rectangle.x -= subtitle.sub.rectangle.width * ((piece->content->caption->x_scale() - 1) / 2);
-	subtitle.sub.rectangle.y -= subtitle.sub.rectangle.height * ((piece->content->caption->y_scale() - 1) / 2);
+	subtitle.sub.rectangle.x -= subtitle.sub.rectangle.width * ((caption->x_scale() - 1) / 2);
+	subtitle.sub.rectangle.y -= subtitle.sub.rectangle.height * ((caption->y_scale() - 1) / 2);
 
 	/* Apply content's subtitle scale */
-	subtitle.sub.rectangle.width *= piece->content->caption->x_scale ();
-	subtitle.sub.rectangle.height *= piece->content->caption->y_scale ();
+	subtitle.sub.rectangle.width *= caption->x_scale ();
+	subtitle.sub.rectangle.height *= caption->y_scale ();
 
 	PlayerCaption ps;
 	ps.image.push_back (subtitle.sub);
 	DCPTime from (content_time_to_dcp (piece, subtitle.from()));
 
-	_active_captions[subtitle.type()].add_from (wp, ps, from);
+	_active_captions[subtitle.type()].add_from (wc, ps, from);
 }
 
 void
-Player::plain_text_start (weak_ptr<Piece> wp, ContentTextCaption subtitle)
+Player::plain_text_start (weak_ptr<Piece> wp, weak_ptr<CaptionContent> wc, ContentTextCaption subtitle)
 {
 	shared_ptr<Piece> piece = wp.lock ();
-	if (!piece) {
+	shared_ptr<CaptionContent> caption = wc.lock ();
+	if (!piece || !caption) {
 		return;
 	}
 
@@ -887,10 +895,10 @@ Player::plain_text_start (weak_ptr<Piece> wp, ContentTextCaption subtitle)
 	}
 
 	BOOST_FOREACH (dcp::SubtitleString s, subtitle.subs) {
-		s.set_h_position (s.h_position() + piece->content->caption->x_offset ());
-		s.set_v_position (s.v_position() + piece->content->caption->y_offset ());
-		float const xs = piece->content->caption->x_scale();
-		float const ys = piece->content->caption->y_scale();
+		s.set_h_position (s.h_position() + caption->x_offset ());
+		s.set_v_position (s.v_position() + caption->y_offset ());
+		float const xs = caption->x_scale();
+		float const ys = caption->y_scale();
 		float size = s.size();
 
 		/* Adjust size to express the common part of the scaling;
@@ -907,22 +915,23 @@ Player::plain_text_start (weak_ptr<Piece> wp, ContentTextCaption subtitle)
 		}
 
 		s.set_in (dcp::Time(from.seconds(), 1000));
-		ps.text.push_back (TextCaption (s, piece->content->caption->outline_width()));
-		ps.add_fonts (piece->content->caption->fonts ());
+		ps.text.push_back (TextCaption (s, caption->outline_width()));
+		ps.add_fonts (caption->fonts ());
 	}
 
-	_active_captions[subtitle.type()].add_from (wp, ps, from);
+	_active_captions[subtitle.type()].add_from (wc, ps, from);
 }
 
 void
-Player::subtitle_stop (weak_ptr<Piece> wp, ContentTime to, CaptionType type)
+Player::subtitle_stop (weak_ptr<Piece> wp, weak_ptr<CaptionContent> wc, ContentTime to, CaptionType type)
 {
-	if (!_active_captions[type].have (wp)) {
+	if (!_active_captions[type].have (wc)) {
 		return;
 	}
 
 	shared_ptr<Piece> piece = wp.lock ();
-	if (!piece) {
+	shared_ptr<CaptionContent> caption = wc.lock ();
+	if (!piece || !caption) {
 		return;
 	}
 
@@ -932,10 +941,10 @@ Player::subtitle_stop (weak_ptr<Piece> wp, ContentTime to, CaptionType type)
 		return;
 	}
 
-	pair<PlayerCaption, DCPTime> from = _active_captions[type].add_to (wp, dcp_to);
+	pair<PlayerCaption, DCPTime> from = _active_captions[type].add_to (wc, dcp_to);
 
 	bool const always = _always_burn_captions && *_always_burn_captions == type;
-	if (piece->content->caption->use() && !always && !piece->content->caption->burn()) {
+	if (caption->use() && !always && !caption->burn()) {
 		Caption (from.first, type, DCPTimePeriod (from.second, dcp_to));
 	}
 }

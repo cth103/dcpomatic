@@ -28,7 +28,7 @@
 #include <list>
 #include <map>
 
-class Piece;
+class CaptionContent;
 
 /** @class ActiveCaptions
  *  @brief A class to maintain information on active subtitles for Player.
@@ -39,9 +39,9 @@ public:
 	std::list<PlayerCaption> get_burnt (DCPTimePeriod period, bool always_burn_captions) const;
 	void clear_before (DCPTime time);
 	void clear ();
-	void add_from (boost::weak_ptr<Piece> piece, PlayerCaption ps, DCPTime from);
-	std::pair<PlayerCaption, DCPTime> add_to (boost::weak_ptr<Piece> piece, DCPTime to);
-	bool have (boost::weak_ptr<Piece> piece) const;
+	void add_from (boost::weak_ptr<CaptionContent> content, PlayerCaption ps, DCPTime from);
+	std::pair<PlayerCaption, DCPTime> add_to (boost::weak_ptr<CaptionContent> content, DCPTime to);
+	bool have (boost::weak_ptr<CaptionContent> content) const;
 
 private:
 	class Period
@@ -59,7 +59,7 @@ private:
 		boost::optional<DCPTime> to;
 	};
 
-	typedef std::map<boost::weak_ptr<Piece>, std::list<Period> > Map;
+	typedef std::map<boost::weak_ptr<CaptionContent>, std::list<Period> > Map;
 
 	Map _data;
 };

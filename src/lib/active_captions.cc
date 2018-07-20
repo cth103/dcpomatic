@@ -19,7 +19,6 @@
 */
 
 #include "active_captions.h"
-#include "piece.h"
 #include "caption_content.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
@@ -42,13 +41,13 @@ ActiveCaptions::get_burnt (DCPTimePeriod period, bool always_burn_captions) cons
 
 	for (Map::const_iterator i = _data.begin(); i != _data.end(); ++i) {
 
-		shared_ptr<Piece> piece = i->first.lock ();
-		if (!piece) {
+		shared_ptr<CaptionContent> caption = i->first.lock ();
+		if (!caption) {
 			continue;
 		}
 
-		if (!piece->content->caption->use() || (!always_burn_captions && !piece->content->caption->burn())) {
-			/* Not burning this piece */
+		if (!caption->use() || (!always_burn_captions && !caption->burn())) {
+			/* Not burning this content */
 			continue;
 		}
 
@@ -86,45 +85,45 @@ ActiveCaptions::clear_before (DCPTime time)
 }
 
 /** Add a new subtitle with a from time.
- *  @param piece Piece that the subtitle is from.
+ *  @param content Content that the subtitle is from.
  *  @param ps Subtitles.
  *  @param from From time for these subtitles.
  */
 void
-ActiveCaptions::add_from (weak_ptr<Piece> piece, PlayerCaption ps, DCPTime from)
+ActiveCaptions::add_from (weak_ptr<CaptionContent> content, PlayerCaption ps, DCPTime from)
 {
-	if (_data.find(piece) == _data.end()) {
-		_data[piece] = list<Period>();
+	if (_data.find(content) == _data.end()) {
+		_data[content] = list<Period>();
 	}
-	_data[piece].push_back (Period (ps, from));
+	_data[content].push_back (Period (ps, from));
 }
 
-/** Add the to time for the last subtitle added from a piece.
- *  @param piece Piece that the subtitle is from.
- *  @param to To time for the last subtitle submitted to add_from for this piece.
+/** Add the to time for the last subtitle added from a piece of content.
+ *  @param content Content that the subtitle is from.
+ *  @param to To time for the last subtitle submitted to add_from for this content.
  *  @return Return the corresponding subtitles and their from time.
  */
 pair<PlayerCaption, DCPTime>
-ActiveCaptions::add_to (weak_ptr<Piece> piece, DCPTime to)
+ActiveCaptions::add_to (weak_ptr<CaptionContent> content, DCPTime to)
 {
-	DCPOMATIC_ASSERT (_data.find(piece) != _data.end());
+	DCPOMATIC_ASSERT (_data.find(content) != _data.end());
 
-	_data[piece].back().to = to;
+	_data[content].back().to = to;
 
-	BOOST_FOREACH (TextCaption& i, _data[piece].back().subs.text) {
+	BOOST_FOREACH (TextCaption& i, _data[content].back().subs.text) {
 		i.set_out (dcp::Time(to.seconds(), 1000));
 	}
 
-	return make_pair (_data[piece].back().subs, _data[piece].back().from);
+	return make_pair (_data[content].back().subs, _data[content].back().from);
 }
 
-/** @param piece A piece.
- *  @return true if we have any active subtitles from this piece.
+/** @param content Some content.
+ *  @return true if we have any active subtitles from this content.
  */
 bool
-ActiveCaptions::have (weak_ptr<Piece> piece) const
+ActiveCaptions::have (weak_ptr<CaptionContent> content) const
 {
-	Map::const_iterator i = _data.find(piece);
+	Map::const_iterator i = _data.find(content);
 	if (i == _data.end()) {
 		return false;
 	}
