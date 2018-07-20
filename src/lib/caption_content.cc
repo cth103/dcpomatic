@@ -90,7 +90,7 @@ CaptionContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 		if (!node->optional_number_child<double>("SubtitleXOffset") && !node->optional_number_child<double>("SubtitleOffset")) {
 			return shared_ptr<CaptionContent> ();
 		}
-		shared_ptr<CaptionContent> (new CaptionContent (parent, node, version));
+		return shared_ptr<CaptionContent> (new CaptionContent (parent, node, version));
 	}
 
 	if (!node->node_child("Caption")) {
