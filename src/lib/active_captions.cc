@@ -33,10 +33,10 @@ using boost::optional;
 
 /** Get the subtitles that should be burnt into a given period.
  *  @param period Period of interest.
- *  @param always_burn_subtitles Always burn subtitles even if their content is not set to burn.
+ *  @param always_burn_captions Always burn captions even if their content is not set to burn.
  */
 list<PlayerCaption>
-ActiveCaptions::get_burnt (DCPTimePeriod period, bool always_burn_subtitles) const
+ActiveCaptions::get_burnt (DCPTimePeriod period, bool always_burn_captions) const
 {
 	list<PlayerCaption> ps;
 
@@ -47,7 +47,7 @@ ActiveCaptions::get_burnt (DCPTimePeriod period, bool always_burn_subtitles) con
 			continue;
 		}
 
-		if (!piece->content->caption->use() || (!always_burn_subtitles && !piece->content->caption->burn())) {
+		if (!piece->content->caption->use() || (!always_burn_captions && !piece->content->caption->burn())) {
 			/* Not burning this piece */
 			continue;
 		}

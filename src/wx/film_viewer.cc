@@ -76,8 +76,7 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 	: wxPanel (p)
 	, _panel (new wxPanel (this))
 	, _outline_content (0)
-	, _left_eye (new wxRadioButton (this, wxID_ANY, _("Left eye"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP))
-	, _right_eye (new wxRadioButton (this, wxID_ANY, _("Right eye")))
+	, _eye (0)
 	, _jump_to_selected (0)
 	, _slider (new wxSlider (this, wxID_ANY, 0, 0, 4096))
 	, _rewind_button (new wxButton (this, wxID_ANY, wxT("|<")))
@@ -110,14 +109,26 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 	wxBoxSizer* view_options = new wxBoxSizer (wxHORIZONTAL);
 	if (outline_content) {
 		_outline_content = new wxCheckBox (this, wxID_ANY, _("Outline content"));
-		view_options->Add (_outline_content, 0, wxRIGHT, DCPOMATIC_SIZER_GAP);
+		view_options->Add (_outline_content, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
 	}
-	view_options->Add (_left_eye, 0, wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
-	view_options->Add (_right_eye, 0, wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
+
+	_eye = new wxChoice (this, wxID_ANY);
+	_eye->Append (_("Left"));
+	_eye->Append (_("Right"));
+	_eye->SetSelection (0);
+	view_options->Add (_eye, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
+
 	if (jump_to_selected) {
 		_jump_to_selected = new wxCheckBox (this, wxID_ANY, _("Jump to selected content"));
-		view_options->Add (_jump_to_selected, 0, wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
+		view_options->Add (_jump_to_selected, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
 	}
+
+	_captions = new wxChoice (this, wxID_ANY);
+	_captions->Append (_("Open captions (subtitles)"));
+	_captions->Append (_("Closed captions"));
+	_captions->SetSelection (0);
+	view_options->Add (_captions, 0, wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
+
 	_v_sizer->Add (view_options, 0, wxALL, DCPOMATIC_SIZER_GAP);
 
 	wxBoxSizer* h_sizer = new wxBoxSizer (wxHORIZONTAL);
@@ -145,8 +156,8 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 	if (_outline_content) {
 		_outline_content->Bind  (wxEVT_CHECKBOX, boost::bind (&FilmViewer::refresh_panel,   this));
 	}
-	_left_eye->Bind         (wxEVT_RADIOBUTTON,       boost::bind (&FilmViewer::slow_refresh,    this));
-	_right_eye->Bind        (wxEVT_RADIOBUTTON,       boost::bind (&FilmViewer::slow_refresh,    this));
+	_eye->Bind              (wxEVT_CHOICE,            boost::bind (&FilmViewer::slow_refresh,    this));
+	_captions->Bind         (wxEVT_CHOICE,            boost::bind (&FilmViewer::captions_changed, this));
 	_slider->Bind           (wxEVT_SCROLL_THUMBTRACK, boost::bind (&FilmViewer::slider_moved,    this, false));
 	_slider->Bind           (wxEVT_SCROLL_PAGEUP,     boost::bind (&FilmViewer::slider_moved,    this, true));
 	_slider->Bind           (wxEVT_SCROLL_PAGEDOWN,   boost::bind (&FilmViewer::slider_moved,    this, true));
@@ -214,10 +225,8 @@ FilmViewer::set_film (shared_ptr<Film> film)
 		return;
 	}
 
-	/* Always burn in subtitles, even if content is set not to, otherwise we won't see them
-	   in the preview.
-	*/
-	_player->set_always_burn_subtitles (true);
+	/* Start off burning in subtitles, as that's the initial setting of the dropdown */
+	_player->set_always_burn_captions (CAPTION_OPEN);
 	_player->set_play_referenced ();
 
 	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
@@ -291,7 +300,7 @@ FilmViewer::get ()
 		_player_video = _butler->get_video ();
 	} while (
 		_film->three_d() &&
-		((_left_eye->GetValue() && _player_video.first->eyes() == EYES_RIGHT) || (_right_eye->GetValue() && _player_video.first->eyes() == EYES_LEFT))
+		((_eye->GetSelection() == 0 && _player_video.first->eyes() == EYES_RIGHT) || (_eye->GetSelection() == 1 && _player_video.first->eyes() == EYES_LEFT))
 		);
 
 	_butler->rethrow ();
@@ -708,8 +717,7 @@ FilmViewer::setup_sensitivity ()
 		_jump_to_selected->Enable (c);
 	}
 
-	_left_eye->Enable (c && _film->three_d ());
-	_right_eye->Enable (c && _film->three_d ());
+	_eye->Enable (c && _film->three_d ());
 }
 
 void
@@ -720,6 +728,21 @@ FilmViewer::film_changed (Film::Property p)
 	} else if (p == Film::AUDIO_CHANNELS) {
 		recreate_butler ();
 	}
+}
+
+void
+FilmViewer::captions_changed ()
+{
+	switch (_captions->GetSelection()) {
+	case 0:
+		_player->set_always_burn_captions (CAPTION_OPEN);
+		break;
+	case 1:
+		_player->set_always_burn_captions (CAPTION_CLOSED);
+		break;
+	}
+
+	slow_refresh ();
 }
 
 /** Re-get the current frame slowly by seeking */

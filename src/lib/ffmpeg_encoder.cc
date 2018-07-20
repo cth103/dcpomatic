@@ -72,7 +72,7 @@ FFmpegEncoder::FFmpegEncoder (shared_ptr<const Film> film, weak_ptr<Job> job, bo
 		break;
 	}
 
-	_player->set_always_burn_subtitles (true);
+	_player->set_always_burn_captions (CAPTION_OPEN);
 	_player->set_play_referenced ();
 
 	int const ch = film->audio_channels ();

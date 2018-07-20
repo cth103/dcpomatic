@@ -89,7 +89,6 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _have_valid_pieces (false)
 	, _ignore_video (false)
 	, _ignore_subtitle (false)
-	, _always_burn_subtitles (false)
 	, _fast (false)
 	, _play_referenced (false)
 	, _audio_merger (_film->audio_frame_rate())
@@ -431,14 +430,14 @@ Player::set_ignore_subtitle ()
 	_ignore_subtitle = true;
 }
 
-/** Set whether or not this player should always burn text subtitles into the image,
+/** Set a type of caption that this player should always burn into the image,
  *  regardless of the content settings.
- *  @param burn true to always burn subtitles, false to obey content settings.
+ *  @param type type of captions to burn.
  */
 void
-Player::set_always_burn_subtitles (bool burn)
+Player::set_always_burn_captions (CaptionType type)
 {
-	_always_burn_subtitles = burn;
+	_always_burn_captions = type;
 }
 
 /** Sets up the player to be faster, possibly at the expense of quality */
@@ -657,30 +656,36 @@ Player::pass ()
 }
 
 optional<PositionImage>
-Player::subtitles_for_frame (DCPTime time) const
+Player::captions_for_frame (DCPTime time) const
 {
-	list<PositionImage> subtitles;
+	list<PositionImage> captions;
 
 	int const vfr = _film->video_frame_rate();
 
-	BOOST_FOREACH (PlayerCaption i, _active_captions[CAPTION_OPEN].get_burnt (DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_subtitles)) {
+	for (int i = 0; i < CAPTION_COUNT; ++i) {
+		bool const always = _always_burn_captions && *_always_burn_captions == i;
+		BOOST_FOREACH (
+			PlayerCaption j,
+			_active_captions[i].get_burnt(DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), always)
+			) {
 
-		/* Image subtitles */
-		list<PositionImage> c = transform_bitmap_captions (i.image);
-		copy (c.begin(), c.end(), back_inserter (subtitles));
+			/* Image subtitles */
+			list<PositionImage> c = transform_bitmap_captions (j.image);
+			copy (c.begin(), c.end(), back_inserter (captions));
 
-		/* Text subtitles (rendered to an image) */
-		if (!i.text.empty ()) {
-			list<PositionImage> s = render_text (i.text, i.fonts, _video_container_size, time, vfr);
-			copy (s.begin(), s.end(), back_inserter (subtitles));
+			/* Text subtitles (rendered to an image) */
+			if (!j.text.empty ()) {
+				list<PositionImage> s = render_text (j.text, j.fonts, _video_container_size, time, vfr);
+				copy (s.begin(), s.end(), back_inserter (captions));
+			}
 		}
 	}
 
-	if (subtitles.empty ()) {
+	if (captions.empty ()) {
 		return optional<PositionImage> ();
 	}
 
-	return merge (subtitles);
+	return merge (captions);
 }
 
 void
@@ -928,7 +933,8 @@ Player::subtitle_stop (weak_ptr<Piece> wp, ContentTime to, CaptionType type)
 
 	pair<PlayerCaption, DCPTime> from = _active_captions[type].add_to (wp, dcp_to);
 
-	if (piece->content->caption->use() && !_always_burn_subtitles && !piece->content->caption->burn()) {
+	bool const always = _always_burn_captions && *_always_burn_captions == type;
+	if (piece->content->caption->use() && !always && !piece->content->caption->burn()) {
 		Caption (from.first, type, DCPTimePeriod (from.second, dcp_to));
 	}
 }
@@ -1017,9 +1023,9 @@ Player::do_emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 		}
 	}
 
-	optional<PositionImage> subtitles = subtitles_for_frame (time);
-	if (subtitles) {
-		pv->set_subtitle (subtitles.get ());
+	optional<PositionImage> captions = captions_for_frame (time);
+	if (captions) {
+		pv->set_caption (captions.get ());
 	}
 
 	Video (pv, time);

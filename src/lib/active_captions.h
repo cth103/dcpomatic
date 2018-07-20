@@ -36,7 +36,7 @@ class Piece;
 class ActiveCaptions : public boost::noncopyable
 {
 public:
-	std::list<PlayerCaption> get_burnt (DCPTimePeriod period, bool always_burn_subtitles) const;
+	std::list<PlayerCaption> get_burnt (DCPTimePeriod period, bool always_burn_captions) const;
 	void clear_before (DCPTime time);
 	void clear ();
 	void add_from (boost::weak_ptr<Piece> piece, PlayerCaption ps, DCPTime from);

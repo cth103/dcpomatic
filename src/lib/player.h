@@ -79,7 +79,7 @@ public:
 	void set_video_container_size (dcp::Size);
 	void set_ignore_video ();
 	void set_ignore_subtitle ();
-	void set_always_burn_subtitles (bool burn);
+	void set_always_burn_captions (CaptionType type);
 	void set_fast ();
 	void set_play_referenced ();
 	void set_dcp_decode_reduction (boost::optional<int> reduction);
@@ -134,7 +134,7 @@ private:
 	std::pair<boost::shared_ptr<AudioBuffers>, DCPTime> discard_audio (
 		boost::shared_ptr<const AudioBuffers> audio, DCPTime time, DCPTime discard_to
 		) const;
-	boost::optional<PositionImage> subtitles_for_frame (DCPTime time) const;
+	boost::optional<PositionImage> captions_for_frame (DCPTime time) const;
 	void emit_video (boost::shared_ptr<PlayerVideo> pv, DCPTime time);
 	void do_emit_video (boost::shared_ptr<PlayerVideo> pv, DCPTime time);
 	void emit_audio (boost::shared_ptr<AudioBuffers> data, DCPTime time);
@@ -154,10 +154,10 @@ private:
 	bool _ignore_video;
 	/** true if the player should ignore all audio; i.e. never produce any */
 	bool _ignore_subtitle;
-	/** true if the player should always burn subtitles into the video regardless
-	    of content settings
+	/** Type of captions that the player should always burn into the video regardless
+	    of content settings.
 	*/
-	bool _always_burn_subtitles;
+	boost::optional<CaptionType> _always_burn_captions;
 	/** true if we should try to be fast rather than high quality */
 	bool _fast;
 	/** true if we should `play' (i.e output) referenced DCP data (e.g. for preview) */
