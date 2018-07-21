@@ -91,6 +91,27 @@ AudioContent::AudioContent (Content* parent, cxml::ConstNodePtr node)
 	}
 }
 
+AudioContent::AudioContent (Content* parent, vector<shared_ptr<Content> > c)
+	: ContentPart (parent)
+{
+	shared_ptr<AudioContent> ref = c[0]->audio;
+	DCPOMATIC_ASSERT (ref);
+
+	for (size_t i = 1; i < c.size(); ++i) {
+		if (c[i]->audio->gain() != ref->gain()) {
+			throw JoinError (_("Content to be joined must have the same audio gain."));
+		}
+
+		if (c[i]->audio->delay() != ref->delay()) {
+			throw JoinError (_("Content to be joined must have the same audio delay."));
+		}
+	}
+
+	_gain = ref->gain ();
+	_delay = ref->delay ();
+	_streams = ref->streams ();
+}
+
 void
 AudioContent::as_xml (xmlpp::Node* node) const
 {

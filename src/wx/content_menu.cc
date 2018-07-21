@@ -54,6 +54,7 @@ using boost::dynamic_pointer_cast;
 enum {
 	/* Start at 256 so we can have IDs on _cpl_menu from 1 to 255 */
 	ID_repeat = 256,
+	ID_join,
 	ID_find_missing,
 	ID_properties,
 	ID_re_examine,
@@ -69,6 +70,7 @@ ContentMenu::ContentMenu (wxWindow* p)
 	, _pop_up_open (false)
 {
 	_repeat = _menu->Append (ID_repeat, _("Repeat..."));
+	_join = _menu->Append (ID_join, _("Join"));
 	_find_missing = _menu->Append (ID_find_missing, _("Find missing..."));
 	_properties = _menu->Append (ID_properties, _("Properties..."));
 	_re_examine = _menu->Append (ID_re_examine, _("Re-examine..."));
@@ -81,6 +83,7 @@ ContentMenu::ContentMenu (wxWindow* p)
 	_remove = _menu->Append (ID_remove, _("Remove"));
 
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::repeat, this), ID_repeat);
+	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::join, this), ID_join);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::find_missing, this), ID_find_missing);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::properties, this), ID_properties);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::re_examine, this), ID_re_examine);
@@ -110,6 +113,8 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 			++n;
 		}
 	}
+
+	_join->Enable (n > 1);
 
 	_find_missing->Enable (_content.size() == 1 && !_content.front()->paths_valid ());
 	_properties->Enable (_content.size() == 1);
@@ -183,6 +188,33 @@ ContentMenu::repeat ()
 
 	_content.clear ();
 	_views.clear ();
+}
+
+void
+ContentMenu::join ()
+{
+	vector<shared_ptr<Content> > fc;
+	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+		shared_ptr<FFmpegContent> f = dynamic_pointer_cast<FFmpegContent> (i);
+		if (f) {
+			fc.push_back (f);
+		}
+	}
+
+	DCPOMATIC_ASSERT (fc.size() > 1);
+
+	shared_ptr<Film> film = _film.lock ();
+	if (!film) {
+		return;
+	}
+
+	try {
+		shared_ptr<FFmpegContent> joined (new FFmpegContent (film, fc));
+		film->remove_content (_content);
+		film->examine_and_add_content (joined);
+	} catch (JoinError& e) {
+		error_dialog (_parent, std_to_wx (e.what ()));
+	}
 }
 
 void

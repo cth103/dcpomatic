@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -52,6 +52,7 @@ class VideoContent : public ContentPart, public boost::enable_shared_from_this<V
 {
 public:
 	explicit VideoContent (Content* parent);
+	VideoContent (Content* parent, std::vector<boost::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;
 	std::string technical_summary () const;

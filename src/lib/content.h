@@ -67,6 +67,7 @@ public:
 	Content (boost::shared_ptr<const Film>, DCPTime);
 	Content (boost::shared_ptr<const Film>, boost::filesystem::path);
 	Content (boost::shared_ptr<const Film>, cxml::ConstNodePtr);
+	Content (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
 	virtual ~Content () {}
 
 	/** Examine the content to establish digest, frame rates and any other

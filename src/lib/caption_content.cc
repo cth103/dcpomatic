@@ -228,6 +228,83 @@ CaptionContent::CaptionContent (Content* parent, cxml::ConstNodePtr node, int ve
 	_original_type = string_to_caption_type (node->optional_string_child("Type").get_value_or("open"));
 }
 
+CaptionContent::CaptionContent (Content* parent, vector<shared_ptr<Content> > c)
+	: ContentPart (parent)
+{
+	shared_ptr<CaptionContent> ref = c[0]->caption;
+	DCPOMATIC_ASSERT (ref);
+	list<shared_ptr<Font> > ref_fonts = ref->fonts ();
+
+	for (size_t i = 1; i < c.size(); ++i) {
+
+		if (c[i]->caption->use() != ref->use()) {
+			throw JoinError (_("Content to be joined must have the same 'use subtitles' setting."));
+		}
+
+		if (c[i]->caption->burn() != ref->burn()) {
+			throw JoinError (_("Content to be joined must have the same 'burn subtitles' setting."));
+		}
+
+		if (c[i]->caption->x_offset() != ref->x_offset()) {
+			throw JoinError (_("Content to be joined must have the same subtitle X offset."));
+		}
+
+		if (c[i]->caption->y_offset() != ref->y_offset()) {
+			throw JoinError (_("Content to be joined must have the same subtitle Y offset."));
+		}
+
+		if (c[i]->caption->x_scale() != ref->x_scale()) {
+			throw JoinError (_("Content to be joined must have the same subtitle X scale."));
+		}
+
+		if (c[i]->caption->y_scale() != ref->y_scale()) {
+			throw JoinError (_("Content to be joined must have the same subtitle Y scale."));
+		}
+
+		if (c[i]->caption->line_spacing() != ref->line_spacing()) {
+			throw JoinError (_("Content to be joined must have the same subtitle line spacing."));
+		}
+
+		if ((c[i]->caption->fade_in() != ref->fade_in()) || (c[i]->caption->fade_out() != ref->fade_out())) {
+			throw JoinError (_("Content to be joined must have the same subtitle fades."));
+		}
+
+		if ((c[i]->caption->outline_width() != ref->outline_width())) {
+			throw JoinError (_("Content to be joined must have the same outline width."));
+		}
+
+		list<shared_ptr<Font> > fonts = c[i]->caption->fonts ();
+		if (fonts.size() != ref_fonts.size()) {
+			throw JoinError (_("Content to be joined must use the same fonts."));
+		}
+
+		list<shared_ptr<Font> >::const_iterator j = ref_fonts.begin ();
+		list<shared_ptr<Font> >::const_iterator k = fonts.begin ();
+
+		while (j != ref_fonts.end ()) {
+			if (**j != **k) {
+				throw JoinError (_("Content to be joined must use the same fonts."));
+			}
+			++j;
+			++k;
+		}
+	}
+
+	_use = ref->use ();
+	_burn = ref->burn ();
+	_x_offset = ref->x_offset ();
+	_y_offset = ref->y_offset ();
+	_x_scale = ref->x_scale ();
+	_y_scale = ref->y_scale ();
+	_language = ref->language ();
+	_fonts = ref_fonts;
+	_line_spacing = ref->line_spacing ();
+	_fade_in = ref->fade_in ();
+	_fade_out = ref->fade_out ();
+	_outline_width = ref->outline_width ();
+
+	connect_to_fonts ();
+}
 
 /** _mutex must not be held on entry */
 void

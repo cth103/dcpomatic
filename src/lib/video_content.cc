@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -152,6 +152,56 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 	} else {
 		_fade_in = _fade_out = 0;
 	}
+}
+
+VideoContent::VideoContent (Content* parent, vector<shared_ptr<Content> > c)
+	: ContentPart (parent)
+	, _length (0)
+	, _yuv (false)
+{
+	shared_ptr<VideoContent> ref = c[0]->video;
+	DCPOMATIC_ASSERT (ref);
+
+	for (size_t i = 1; i < c.size(); ++i) {
+
+		if (c[i]->video->size() != ref->size()) {
+			throw JoinError (_("Content to be joined must have the same picture size."));
+		}
+
+		if (c[i]->video->frame_type() != ref->frame_type()) {
+			throw JoinError (_("Content to be joined must have the same video frame type."));
+		}
+
+		if (c[i]->video->crop() != ref->crop()) {
+			throw JoinError (_("Content to be joined must have the same crop."));
+		}
+
+		if (c[i]->video->scale() != ref->scale()) {
+			throw JoinError (_("Content to be joined must have the same scale setting."));
+		}
+
+		if (c[i]->video->colour_conversion() != ref->colour_conversion()) {
+			throw JoinError (_("Content to be joined must have the same colour conversion."));
+		}
+
+		if (c[i]->video->fade_in() != ref->fade_in() || c[i]->video->fade_out() != ref->fade_out()) {
+			throw JoinError (_("Content to be joined must have the same fades."));
+		}
+
+		_length += c[i]->video->length ();
+
+		if (c[i]->video->yuv ()) {
+			_yuv = true;
+		}
+	}
+
+	_size = ref->size ();
+	_frame_type = ref->frame_type ();
+	_crop = ref->crop ();
+	_scale = ref->scale ();
+	_colour_conversion = ref->colour_conversion ();
+	_fade_in = ref->fade_in ();
+	_fade_out = ref->fade_out ();
 }
 
 void

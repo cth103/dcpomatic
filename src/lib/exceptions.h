@@ -81,6 +81,14 @@ private:
 	boost::filesystem::path _file;
 };
 
+class JoinError : public std::runtime_error
+{
+public:
+	explicit JoinError (std::string s)
+		: std::runtime_error (s)
+	{}
+};
+
 /** @class OpenFileError.
  *  @brief Indicates that some error occurred when trying to open a file.
  */
