@@ -99,7 +99,7 @@ CaptionContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 		return c;
 	}
 
-	if (!node->node_child("Caption")) {
+	if (!node->optional_node_child("Caption")) {
 		return list<shared_ptr<CaptionContent> >();
 	}
 
