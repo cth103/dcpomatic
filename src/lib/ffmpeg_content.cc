@@ -140,7 +140,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<shared_ptr<Con
 	if (i != c.end ()) {
 		need_video = static_cast<bool> ((*i)->video);
 		need_audio = static_cast<bool> ((*i)->audio);
-		need_caption = static_cast<bool> ((*i)->caption);
+		need_caption = !(*i)->caption.empty();
 	}
 
 	while (i != c.end ()) {
@@ -150,7 +150,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<shared_ptr<Con
 		if (need_audio != static_cast<bool> ((*i)->audio)) {
 			throw JoinError (_("Content to be joined must all have or not have audio"));
 		}
-		if (need_caption != static_cast<bool> ((*i)->caption)) {
+		if (need_caption != !(*i)->caption.empty()) {
 			throw JoinError (_("Content to be joined must all have or not have captions"));
 		}
 		++i;
@@ -163,7 +163,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<shared_ptr<Con
 		audio.reset (new AudioContent (this, c));
 	}
 	if (need_caption) {
-		caption.reset (new CaptionContent (this, c));
+		caption.push_back (shared_ptr<CaptionContent> (new CaptionContent (this, c)));
 	}
 
 	shared_ptr<FFmpegContent> ref = dynamic_pointer_cast<FFmpegContent> (c[0]);
@@ -171,7 +171,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<shared_ptr<Con
 
 	for (size_t i = 0; i < c.size(); ++i) {
 		shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c[i]);
-		if (fc->caption && fc->caption->use() && *(fc->_subtitle_stream.get()) != *(ref->_subtitle_stream.get())) {
+		if (fc->only_caption() && fc->only_caption()->use() && *(fc->_subtitle_stream.get()) != *(ref->_subtitle_stream.get())) {
 			throw JoinError (_("Content to be joined must use the same subtitle stream."));
 		}
 	}

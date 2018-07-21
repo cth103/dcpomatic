@@ -231,49 +231,52 @@ CaptionContent::CaptionContent (Content* parent, cxml::ConstNodePtr node, int ve
 CaptionContent::CaptionContent (Content* parent, vector<shared_ptr<Content> > c)
 	: ContentPart (parent)
 {
-	shared_ptr<CaptionContent> ref = c[0]->caption;
+	/* This constructor is for join which is only supported for content types
+	   that have a single caption, so we can use only_caption() here.
+	*/
+	shared_ptr<CaptionContent> ref = c[0]->only_caption();
 	DCPOMATIC_ASSERT (ref);
 	list<shared_ptr<Font> > ref_fonts = ref->fonts ();
 
 	for (size_t i = 1; i < c.size(); ++i) {
 
-		if (c[i]->caption->use() != ref->use()) {
+		if (c[i]->only_caption()->use() != ref->use()) {
 			throw JoinError (_("Content to be joined must have the same 'use subtitles' setting."));
 		}
 
-		if (c[i]->caption->burn() != ref->burn()) {
+		if (c[i]->only_caption()->burn() != ref->burn()) {
 			throw JoinError (_("Content to be joined must have the same 'burn subtitles' setting."));
 		}
 
-		if (c[i]->caption->x_offset() != ref->x_offset()) {
+		if (c[i]->only_caption()->x_offset() != ref->x_offset()) {
 			throw JoinError (_("Content to be joined must have the same subtitle X offset."));
 		}
 
-		if (c[i]->caption->y_offset() != ref->y_offset()) {
+		if (c[i]->only_caption()->y_offset() != ref->y_offset()) {
 			throw JoinError (_("Content to be joined must have the same subtitle Y offset."));
 		}
 
-		if (c[i]->caption->x_scale() != ref->x_scale()) {
+		if (c[i]->only_caption()->x_scale() != ref->x_scale()) {
 			throw JoinError (_("Content to be joined must have the same subtitle X scale."));
 		}
 
-		if (c[i]->caption->y_scale() != ref->y_scale()) {
+		if (c[i]->only_caption()->y_scale() != ref->y_scale()) {
 			throw JoinError (_("Content to be joined must have the same subtitle Y scale."));
 		}
 
-		if (c[i]->caption->line_spacing() != ref->line_spacing()) {
+		if (c[i]->only_caption()->line_spacing() != ref->line_spacing()) {
 			throw JoinError (_("Content to be joined must have the same subtitle line spacing."));
 		}
 
-		if ((c[i]->caption->fade_in() != ref->fade_in()) || (c[i]->caption->fade_out() != ref->fade_out())) {
+		if ((c[i]->only_caption()->fade_in() != ref->fade_in()) || (c[i]->only_caption()->fade_out() != ref->fade_out())) {
 			throw JoinError (_("Content to be joined must have the same subtitle fades."));
 		}
 
-		if ((c[i]->caption->outline_width() != ref->outline_width())) {
+		if ((c[i]->only_caption()->outline_width() != ref->outline_width())) {
 			throw JoinError (_("Content to be joined must have the same outline width."));
 		}
 
-		list<shared_ptr<Font> > fonts = c[i]->caption->fonts ();
+		list<shared_ptr<Font> > fonts = c[i]->only_caption()->fonts ();
 		if (fonts.size() != ref_fonts.size()) {
 			throw JoinError (_("Content to be joined must use the same fonts."));
 		}
