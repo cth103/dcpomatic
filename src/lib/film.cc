@@ -778,13 +778,17 @@ Film::isdcf_name (bool if_created_now) const
 	bool vf = false;
 	BOOST_FOREACH (shared_ptr<Content> i, content ()) {
 		shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (i);
+		if (!dc) {
+			continue;
+		}
+
 		bool any_caption = false;
 		for (int i = 0; i < CAPTION_COUNT; ++i) {
 			if (dc->reference_caption(static_cast<CaptionType>(i))) {
 				any_caption = true;
 			}
 		}
-		if (dc && (dc->reference_video() || dc->reference_audio() || any_caption)) {
+		if (dc->reference_video() || dc->reference_audio() || any_caption) {
 			vf = true;
 		}
 	}
