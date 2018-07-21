@@ -58,13 +58,16 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 	, _audio_length (0)
 	, _has_video (false)
 	, _has_audio (false)
-	, _captions (0)
 	, _encrypted (false)
 	, _needs_assets (false)
 	, _kdm_valid (false)
 	, _three_d (false)
 {
 	shared_ptr<dcp::CPL> cpl;
+
+	for (int i = 0; i < CAPTION_COUNT; ++i) {
+		_has_caption[i] = false;
+	}
 
 	if (content->cpl ()) {
 		/* Use the CPL that the content was using before */
@@ -166,7 +169,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 				return;
 			}
 
-			++_captions;
+			_has_caption[CAPTION_OPEN] = true;
 		}
 
 		if (i->closed_caption ()) {
@@ -176,7 +179,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 				return;
 			}
 
-			++_captions;
+			_has_caption[CAPTION_CLOSED] = true;
 		}
 
 		if (i->main_picture()) {

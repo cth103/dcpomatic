@@ -304,7 +304,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 		_subtitle_streams = examiner->subtitle_streams ();
 		if (!_subtitle_streams.empty ()) {
 			caption.clear ();
-			caption.push_back (shared_ptr<CaptionContent> (new CaptionContent (this)));
+			caption.push_back (shared_ptr<CaptionContent> (new CaptionContent (this, CAPTION_OPEN)));
 			_subtitle_stream = _subtitle_streams.front ();
 		}
 

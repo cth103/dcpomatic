@@ -59,10 +59,6 @@ public:
 		return _name;
 	}
 
-	int captions () const {
-		return _captions;
-	}
-
 	bool encrypted () const {
 		return _encrypted;
 	}
@@ -85,6 +81,10 @@ public:
 
 	int audio_frame_rate () const {
 		return _audio_frame_rate.get_value_or (48000);
+	}
+
+	bool has_caption (CaptionType type) const {
+		return _has_caption[type];
 	}
 
 	bool kdm_valid () const {
@@ -119,7 +119,7 @@ private:
 	bool _has_video;
 	/** true if this DCP has audio content (but false if it has unresolved references to audio content) */
 	bool _has_audio;
-	int _captions;
+	bool _has_caption[CAPTION_COUNT];
 	bool _encrypted;
 	bool _needs_assets;
 	bool _kdm_valid;

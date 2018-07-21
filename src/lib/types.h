@@ -147,6 +147,7 @@ enum CaptionType
 };
 
 extern std::string caption_type_to_string (CaptionType t);
+extern std::string caption_type_to_name (CaptionType t);
 extern CaptionType string_to_caption_type (std::string s);
 
 /** @struct Crop

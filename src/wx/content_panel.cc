@@ -52,6 +52,7 @@ using std::list;
 using std::string;
 using std::cout;
 using std::vector;
+using std::max;
 using std::exception;
 using boost::shared_ptr;
 using boost::weak_ptr;
@@ -63,6 +64,7 @@ using boost::optional;
 ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmViewer* viewer)
 	: _timeline_dialog (0)
 	, _parent (n)
+	, _last_selected_tab (0)
 	, _film (film)
 	, _film_viewer (viewer)
 	, _generally_sensitive (true)
@@ -125,8 +127,10 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmVie
 	_panels.push_back (_video_panel);
 	_audio_panel = new AudioPanel (this);
 	_panels.push_back (_audio_panel);
-	_caption_panel = new CaptionPanel (this);
-	_panels.push_back (_caption_panel);
+	for (int i = 0; i < CAPTION_COUNT; ++i) {
+		_caption_panel[i] = new CaptionPanel (this, static_cast<CaptionType>(i));
+		_panels.push_back (_caption_panel[i]);
+	}
 	_timing_panel = new TimingPanel (this, _film_viewer);
 	_panels.push_back (_timing_panel);
 
@@ -255,7 +259,7 @@ ContentPanel::selection_changed ()
 	}
 
 	optional<DCPTime> go_to;
-	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
+	BOOST_FOREACH (shared_ptr<Content> i, selected()) {
 		DCPTime p;
 		p = i->position();
 		if (dynamic_pointer_cast<TextCaptionFileContent>(i) && i->paths_valid()) {
@@ -277,7 +281,106 @@ ContentPanel::selection_changed ()
 	}
 
 	if (_timeline_dialog) {
-		_timeline_dialog->set_selection (selected ());
+		_timeline_dialog->set_selection (selected());
+	}
+
+	/* Make required tabs visible */
+
+	if (_notebook->GetPageCount() > 1) {
+		/* There's more than one tab in the notebook so the current selection could be meaningful
+		   to the user; store it so that we can try to restore it later.
+		*/
+		_last_selected_tab = 0;
+		if (_notebook->GetSelection() != wxNOT_FOUND) {
+			_last_selected_tab = _notebook->GetPage(_notebook->GetSelection());
+		}
+	}
+
+	bool have_video = false;
+	bool have_audio = false;
+	bool have_caption[CAPTION_COUNT] = { false, false };
+	BOOST_FOREACH (shared_ptr<Content> i, selected()) {
+		if (i->video) {
+			have_video = true;
+		}
+		if (i->audio) {
+			have_audio = true;
+		}
+		BOOST_FOREACH (shared_ptr<CaptionContent> j, i->caption) {
+			have_caption[j->original_type()] = true;
+		}
+	}
+
+	bool video_panel = false;
+	bool audio_panel = false;
+	bool caption_panel[CAPTION_COUNT] = { false, false };
+	for (size_t i = 0; i < _notebook->GetPageCount(); ++i) {
+		if (_notebook->GetPage(i) == _video_panel) {
+			video_panel = true;
+		} else if (_notebook->GetPage(i) == _audio_panel) {
+			audio_panel = true;
+		}
+		for (int j = 0; j < CAPTION_COUNT; ++j) {
+			if (_notebook->GetPage(i) == _caption_panel[j]) {
+				caption_panel[j] = true;
+			}
+		}
+	}
+
+	int off = 0;
+
+	if (have_video != video_panel) {
+		if (video_panel) {
+			_notebook->RemovePage (off);
+		}
+		if (have_video) {
+			_notebook->InsertPage (off, _video_panel, _video_panel->name());
+		}
+	}
+
+	if (have_video) {
+		++off;
+	}
+
+	if (have_audio != audio_panel) {
+		if (audio_panel) {
+			_notebook->RemovePage (off);
+		}
+		if (have_audio) {
+			_notebook->InsertPage (off, _audio_panel, _audio_panel->name());
+		}
+	}
+
+	if (have_audio) {
+		++off;
+	}
+
+	for (int i = 0; i < CAPTION_COUNT; ++i) {
+		if (have_caption[i] != caption_panel[i]) {
+			if (caption_panel[i]) {
+				_notebook->RemovePage (off);
+			}
+			if (have_caption[i]) {
+				_notebook->InsertPage (off, _caption_panel[i], _caption_panel[i]->name());
+			}
+		}
+		if (have_caption[i]) {
+			++off;
+		}
+	}
+
+	/* Set up the tab selection */
+
+	bool done = false;
+	for (size_t i = 0; i < _notebook->GetPageCount(); ++i) {
+		if (_notebook->GetPage(i) == _last_selected_tab) {
+			_notebook->SetSelection (i);
+			done = true;
+		}
+	}
+
+	if (!done) {
+		_notebook->SetSelection (0);
 	}
 
 	SelectionChanged ();
@@ -447,7 +550,9 @@ ContentPanel::setup_sensitivity ()
 
 	_video_panel->Enable	(_generally_sensitive && video_selection.size() > 0);
 	_audio_panel->Enable	(_generally_sensitive && audio_selection.size() > 0);
-	_caption_panel->Enable  (_generally_sensitive && selection.size() == 1 && !selection.front()->caption.empty());
+	for (int i = 0; i < CAPTION_COUNT; ++i) {
+		_caption_panel[i]->Enable  (_generally_sensitive && selection.size() == 1 && !selection.front()->caption.empty());
+	}
 	_timing_panel->Enable	(_generally_sensitive);
 }
 

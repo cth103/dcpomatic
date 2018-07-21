@@ -58,7 +58,7 @@ public:
 class CaptionContent : public ContentPart
 {
 public:
-	explicit CaptionContent (Content* parent);
+	CaptionContent (Content* parent, CaptionType original_type);
 	CaptionContent (Content* parent, std::vector<boost::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;

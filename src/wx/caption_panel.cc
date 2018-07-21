@@ -43,11 +43,11 @@ using std::list;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
-CaptionPanel::CaptionPanel (ContentPanel* p)
-	: ContentSubPanel (p, _("Captions"))
+CaptionPanel::CaptionPanel (ContentPanel* p, CaptionType t)
+	: ContentSubPanel (p, std_to_wx(caption_type_to_name(t)))
 	, _caption_view (0)
 	, _fonts_dialog (0)
-	, _original_type (CAPTION_OPEN)
+	, _original_type (t)
 {
 	wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
 
@@ -202,6 +202,11 @@ CaptionPanel::film_content_changed (int property)
 		scs = sc.front ();
 	}
 
+	shared_ptr<CaptionContent> caption;
+	if (scs) {
+		caption = scs->caption_of_original_type(_original_type);
+	}
+
 	if (property == FFmpegContentProperty::SUBTITLE_STREAMS) {
 		_stream->Clear ();
 		if (fcs) {
@@ -218,11 +223,11 @@ CaptionPanel::film_content_changed (int property)
 		}
 		setup_sensitivity ();
 	} else if (property == CaptionContentProperty::USE) {
-		checked_set (_use, scs ? scs->caption_of_original_type(_original_type)->use() : false);
+		checked_set (_use, caption ? caption->use() : false);
 		setup_sensitivity ();
 	} else if (property == CaptionContentProperty::TYPE) {
-		if (scs) {
-			switch (scs->caption_of_original_type(_original_type)->type()) {
+		if (caption) {
+			switch (caption->type()) {
 			case CAPTION_OPEN:
 				_type->SetSelection (0);
 				break;
@@ -237,19 +242,19 @@ CaptionPanel::film_content_changed (int property)
 		}
 		setup_sensitivity ();
 	} else if (property == CaptionContentProperty::BURN) {
-		checked_set (_burn, scs ? scs->caption_of_original_type(_original_type)->burn() : false);
+		checked_set (_burn, caption ? caption->burn() : false);
 	} else if (property == CaptionContentProperty::X_OFFSET) {
-		checked_set (_x_offset, scs ? lrint (scs->caption_of_original_type(_original_type)->x_offset() * 100) : 0);
+		checked_set (_x_offset, caption ? lrint (caption->x_offset() * 100) : 0);
 	} else if (property == CaptionContentProperty::Y_OFFSET) {
-		checked_set (_y_offset, scs ? lrint (scs->caption_of_original_type(_original_type)->y_offset() * 100) : 0);
+		checked_set (_y_offset, caption ? lrint (caption->y_offset() * 100) : 0);
 	} else if (property == CaptionContentProperty::X_SCALE) {
-		checked_set (_x_scale, scs ? lrint (scs->caption_of_original_type(_original_type)->x_scale() * 100) : 100);
+		checked_set (_x_scale, caption ? lrint (caption->x_scale() * 100) : 100);
 	} else if (property == CaptionContentProperty::Y_SCALE) {
-		checked_set (_y_scale, scs ? lrint (scs->caption_of_original_type(_original_type)->y_scale() * 100) : 100);
+		checked_set (_y_scale, caption ? lrint (caption->y_scale() * 100) : 100);
 	} else if (property == CaptionContentProperty::LINE_SPACING) {
-		checked_set (_line_spacing, scs ? lrint (scs->caption_of_original_type(_original_type)->line_spacing() * 100) : 100);
+		checked_set (_line_spacing, caption ? lrint (caption->line_spacing() * 100) : 100);
 	} else if (property == CaptionContentProperty::LANGUAGE) {
-		checked_set (_language, scs ? scs->caption_of_original_type(_original_type)->language() : "");
+		checked_set (_language, caption ? caption->language() : "");
 	} else if (property == DCPContentProperty::REFERENCE_CAPTION) {
 		if (scs) {
 			shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (scs);

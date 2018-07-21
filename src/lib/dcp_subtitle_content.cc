@@ -40,7 +40,7 @@ using dcp::raw_convert;
 DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
 {
-	caption.push_back (shared_ptr<CaptionContent> (new CaptionContent (this)));
+	caption.push_back (shared_ptr<CaptionContent> (new CaptionContent (this, CAPTION_OPEN)));
 }
 
 DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)

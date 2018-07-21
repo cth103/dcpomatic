@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -32,6 +32,7 @@ class wxListEvent;
 class TimelineDialog;
 class FilmEditor;
 class ContentSubPanel;
+class CaptionPanel;
 class AudioPanel;
 class Film;
 class FilmViewer;
@@ -104,13 +105,14 @@ private:
 	wxButton* _timeline;
 	ContentSubPanel* _video_panel;
 	AudioPanel* _audio_panel;
-	ContentSubPanel* _caption_panel;
+	CaptionPanel* _caption_panel[CAPTION_COUNT];
 	ContentSubPanel* _timing_panel;
 	std::list<ContentSubPanel *> _panels;
 	ContentMenu* _menu;
 	TimelineDialog* _timeline_dialog;
 	wxNotebook* _parent;
 	ContentList _last_selected;
+	wxWindow* _last_selected_tab;
 
 	boost::shared_ptr<Film> _film;
 	FilmViewer* _film_viewer;

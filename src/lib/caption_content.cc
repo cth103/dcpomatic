@@ -57,7 +57,7 @@ int const CaptionContentProperty::FADE_OUT = 513;
 int const CaptionContentProperty::OUTLINE_WIDTH = 514;
 int const CaptionContentProperty::TYPE = 515;
 
-CaptionContent::CaptionContent (Content* parent)
+CaptionContent::CaptionContent (Content* parent, CaptionType original_type)
 	: ContentPart (parent)
 	, _use (false)
 	, _burn (false)
@@ -68,7 +68,7 @@ CaptionContent::CaptionContent (Content* parent)
 	, _line_spacing (1)
 	, _outline_width (2)
 	, _type (CAPTION_OPEN)
-	, _original_type (CAPTION_OPEN)
+	, _original_type (original_type)
 {
 
 }

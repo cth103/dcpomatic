@@ -28,7 +28,7 @@ class FontsDialog;
 class CaptionPanel : public ContentSubPanel
 {
 public:
-	explicit CaptionPanel (ContentPanel *);
+	CaptionPanel (ContentPanel *, CaptionType t);
 
 	void film_changed (Film::Property);
 	void film_content_changed (int);

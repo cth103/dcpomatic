@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,6 +24,8 @@
 #include <dcp/raw_convert.h>
 #include <libxml++/libxml++.h>
 #include <libcxml/cxml.h>
+
+#include "i18n.h"
 
 using std::max;
 using std::min;
@@ -111,6 +113,19 @@ caption_type_to_string (CaptionType t)
 		return "open";
 	case CAPTION_CLOSED:
 		return "closed";
+	default:
+		DCPOMATIC_ASSERT (false);
+	}
+}
+
+string
+caption_type_to_name (CaptionType t)
+{
+	switch (t) {
+	case CAPTION_OPEN:
+		return _("Subtitles");
+	case CAPTION_CLOSED:
+		return _("Closed captions");
 	default:
 		DCPOMATIC_ASSERT (false);
 	}

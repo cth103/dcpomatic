@@ -191,8 +191,10 @@ DCPContent::examine (shared_ptr<Job> job)
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_name = examiner->name ();
-		for (int i = 0; i < examiner->captions(); ++i) {
-			caption.push_back (shared_ptr<CaptionContent> (new CaptionContent (this)));
+		for (int i = 0; i < CAPTION_COUNT; ++i) {
+			if (examiner->has_caption(static_cast<CaptionType>(i))) {
+				caption.push_back (shared_ptr<CaptionContent>(new CaptionContent(this, static_cast<CaptionType>(i))));
+			}
 		}
 		captions = caption.size ();
 		_encrypted = examiner->encrypted ();

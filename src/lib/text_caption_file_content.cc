@@ -38,7 +38,7 @@ using dcp::raw_convert;
 TextCaptionFileContent::TextCaptionFileContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
 {
-	caption.push_back (shared_ptr<CaptionContent> (new CaptionContent (this)));
+	caption.push_back (shared_ptr<CaptionContent> (new CaptionContent (this, CAPTION_OPEN)));
 }
 
 TextCaptionFileContent::TextCaptionFileContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)

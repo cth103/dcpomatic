@@ -40,12 +40,17 @@ public:
 	/** Called when the list of selected Contents changes */
 	virtual void content_selection_changed () = 0;
 
+	wxString name () const {
+		return _name;
+	}
+
 protected:
 
 	void setup_refer_button (wxCheckBox* button, wxStaticText* note, boost::shared_ptr<DCPContent> dcp, bool can_reference, std::string why_not) const;
 
 	ContentPanel* _parent;
 	wxSizer* _sizer;
+	wxString _name;
 };
 
 #endif
