@@ -36,9 +36,9 @@ public:
 	static int const NEEDS_ASSETS;
 	static int const REFERENCE_VIDEO;
 	static int const REFERENCE_AUDIO;
-	static int const REFERENCE_SUBTITLE;
+	static int const REFERENCE_CAPTION;
 	static int const NAME;
-	static int const HAS_SUBTITLES;
+	static int const CAPTIONS;
 };
 
 class ContentPart;
@@ -108,14 +108,17 @@ public:
 
 	bool can_reference_audio (std::string &) const;
 
-	void set_reference_subtitle (bool r);
+	void set_reference_caption (CaptionType type, bool r);
 
-	bool reference_subtitle () const {
+	/** @param type Original type of captions in the DCP.
+	 *  @return true if these captions are to be referenced.
+	 */
+	bool reference_caption (CaptionType type) const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _reference_subtitle;
+		return _reference_caption[type];
 	}
 
-	bool can_reference_subtitle (std::string &) const;
+	bool can_reference_caption (CaptionType type, std::string &) const;
 
 	void set_cpl (std::string id);
 
@@ -142,7 +145,7 @@ private:
 	void read_directory (boost::filesystem::path);
 	std::list<DCPTimePeriod> reels () const;
 	bool can_reference (
-		boost::function <boost::shared_ptr<ContentPart> (boost::shared_ptr<const Content>)>,
+		boost::function <bool (boost::shared_ptr<const Content>)>,
 		std::string overlapping,
 		std::string& why_not
 		) const;
@@ -163,10 +166,11 @@ private:
 	 *  rather than by rewrapping.
 	 */
 	bool _reference_audio;
-	/** true if the subtitle in this DCP should be included in the output by reference
-	 *  rather than by rewrapping.
+	/** true if the captions in this DCP should be included in the output by reference
+	 *  rather than by rewrapping.  The types here are the original caption types,
+	 *  not what they are being used for.
 	 */
-	bool _reference_subtitle;
+	bool _reference_caption[CAPTION_COUNT];
 
 	boost::optional<dcp::Standard> _standard;
 	bool _three_d;

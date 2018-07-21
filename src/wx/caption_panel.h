@@ -69,4 +69,5 @@ private:
 	wxButton* _fonts_dialog_button;
 	FontsDialog* _fonts_dialog;
 	wxButton* _appearance_dialog_button;
+	CaptionType _original_type;
 };

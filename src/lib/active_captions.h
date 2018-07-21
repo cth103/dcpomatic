@@ -39,9 +39,9 @@ public:
 	std::list<PlayerCaption> get_burnt (DCPTimePeriod period, bool always_burn_captions) const;
 	void clear_before (DCPTime time);
 	void clear ();
-	void add_from (boost::weak_ptr<CaptionContent> content, PlayerCaption ps, DCPTime from);
-	std::pair<PlayerCaption, DCPTime> add_to (boost::weak_ptr<CaptionContent> content, DCPTime to);
-	bool have (boost::weak_ptr<CaptionContent> content) const;
+	void add_from (boost::weak_ptr<const CaptionContent> content, PlayerCaption ps, DCPTime from);
+	std::pair<PlayerCaption, DCPTime> add_to (boost::weak_ptr<const CaptionContent> content, DCPTime to);
+	bool have (boost::weak_ptr<const CaptionContent> content) const;
 
 private:
 	class Period
@@ -59,7 +59,7 @@ private:
 		boost::optional<DCPTime> to;
 	};
 
-	typedef std::map<boost::weak_ptr<CaptionContent>, std::list<Period> > Map;
+	typedef std::map<boost::weak_ptr<const CaptionContent>, std::list<Period> > Map;
 
 	Map _data;
 };

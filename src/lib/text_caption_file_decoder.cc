@@ -43,7 +43,7 @@ TextCaptionFileDecoder::TextCaptionFileDecoder (shared_ptr<const TextCaptionFile
 	if (!_subtitles.empty()) {
 		first = content_time_period(_subtitles[0]).from;
 	}
-	caption.reset (new CaptionDecoder (this, content->caption, log, first));
+	caption.push_back (shared_ptr<CaptionDecoder> (new CaptionDecoder (this, content->only_caption(), log, first)));
 }
 
 void
@@ -73,7 +73,7 @@ TextCaptionFileDecoder::pass ()
 	}
 
 	ContentTimePeriod const p = content_time_period (_subtitles[_next]);
-	caption->emit_plain (p, _subtitles[_next]);
+	only_caption()->emit_plain (p, _subtitles[_next]);
 
 	++_next;
 	return false;

@@ -39,9 +39,10 @@ int const CaptionAppearanceDialog::NONE = 0;
 int const CaptionAppearanceDialog::OUTLINE = 1;
 int const CaptionAppearanceDialog::SHADOW = 2;
 
-CaptionAppearanceDialog::CaptionAppearanceDialog (wxWindow* parent, shared_ptr<Content> content)
+CaptionAppearanceDialog::CaptionAppearanceDialog (wxWindow* parent, shared_ptr<Content> content, shared_ptr<CaptionContent> caption)
 	: wxDialog (parent, wxID_ANY, _("Caption appearance"))
 	, _content (content)
+	, _caption (caption)
 {
 	shared_ptr<FFmpegContent> ff = dynamic_pointer_cast<FFmpegContent> (content);
 	if (ff) {
@@ -126,7 +127,7 @@ CaptionAppearanceDialog::CaptionAppearanceDialog (wxWindow* parent, shared_ptr<C
 	_effect->Append (_("Outline"));
 	_effect->Append (_("Shadow"));;
 
-	optional<dcp::Colour> colour = _content->caption->colour();
+	optional<dcp::Colour> colour = _caption->colour();
 	_force_colour->SetValue (static_cast<bool>(colour));
 	if (colour) {
 		_colour->SetColour (wxColour (colour->r, colour->g, colour->b));
@@ -134,7 +135,7 @@ CaptionAppearanceDialog::CaptionAppearanceDialog (wxWindow* parent, shared_ptr<C
 		_colour->SetColour (wxColour (255, 255, 255));
 	}
 
-	optional<dcp::Effect> effect = _content->caption->effect();
+	optional<dcp::Effect> effect = _caption->effect();
 	_force_effect->SetValue (static_cast<bool>(effect));
 	if (effect) {
 		switch (*effect) {
@@ -152,7 +153,7 @@ CaptionAppearanceDialog::CaptionAppearanceDialog (wxWindow* parent, shared_ptr<C
 		_effect->SetSelection (NONE);
 	}
 
-	optional<dcp::Colour> effect_colour = _content->caption->effect_colour();
+	optional<dcp::Colour> effect_colour = _caption->effect_colour();
 	_force_effect_colour->SetValue (static_cast<bool>(effect_colour));
 	if (effect_colour) {
 		_effect_colour->SetColour (wxColour (effect_colour->r, effect_colour->g, effect_colour->b));
@@ -160,7 +161,7 @@ CaptionAppearanceDialog::CaptionAppearanceDialog (wxWindow* parent, shared_ptr<C
 		_effect_colour->SetColour (wxColour (0, 0, 0));
 	}
 
-	optional<ContentTime> fade_in = _content->caption->fade_in();
+	optional<ContentTime> fade_in = _caption->fade_in();
 	_force_fade_in->SetValue (static_cast<bool>(fade_in));
 	if (fade_in) {
 		_fade_in->set (*fade_in, _content->active_video_frame_rate());
@@ -168,7 +169,7 @@ CaptionAppearanceDialog::CaptionAppearanceDialog (wxWindow* parent, shared_ptr<C
 		_fade_in->set (ContentTime(), _content->active_video_frame_rate());
 	}
 
-	optional<ContentTime> fade_out = _content->caption->fade_out();
+	optional<ContentTime> fade_out = _caption->fade_out();
 	_force_fade_out->SetValue (static_cast<bool>(fade_out));
 	if (fade_out) {
 		_fade_out->set (*fade_out, _content->active_video_frame_rate ());
@@ -176,7 +177,7 @@ CaptionAppearanceDialog::CaptionAppearanceDialog (wxWindow* parent, shared_ptr<C
 		_fade_out->set (ContentTime(), _content->active_video_frame_rate ());
 	}
 
-	_outline_width->SetValue (_content->caption->outline_width ());
+	_outline_width->SetValue (_caption->outline_width ());
 
 	_force_colour->Bind (wxEVT_CHECKBOX, bind (&CaptionAppearanceDialog::setup_sensitivity, this));
 	_force_effect_colour->Bind (wxEVT_CHECKBOX, bind (&CaptionAppearanceDialog::setup_sensitivity, this));
@@ -206,42 +207,42 @@ CaptionAppearanceDialog::apply ()
 {
 	if (_force_colour->GetValue ()) {
 		wxColour const c = _colour->GetColour ();
-		_content->caption->set_colour (dcp::Colour (c.Red(), c.Green(), c.Blue()));
+		_caption->set_colour (dcp::Colour (c.Red(), c.Green(), c.Blue()));
 	} else {
-		_content->caption->unset_colour ();
+		_caption->unset_colour ();
 	}
 	if (_force_effect->GetValue()) {
 		switch (_effect->GetSelection()) {
 		case NONE:
-			_content->caption->set_effect (dcp::NONE);
+			_caption->set_effect (dcp::NONE);
 			break;
 		case OUTLINE:
-			_content->caption->set_effect (dcp::BORDER);
+			_caption->set_effect (dcp::BORDER);
 			break;
 		case SHADOW:
-			_content->caption->set_effect (dcp::SHADOW);
+			_caption->set_effect (dcp::SHADOW);
 			break;
 		}
 	} else {
-		_content->caption->unset_effect ();
+		_caption->unset_effect ();
 	}
 	if (_force_effect_colour->GetValue ()) {
 		wxColour const ec = _effect_colour->GetColour ();
-		_content->caption->set_effect_colour (dcp::Colour (ec.Red(), ec.Green(), ec.Blue()));
+		_caption->set_effect_colour (dcp::Colour (ec.Red(), ec.Green(), ec.Blue()));
 	} else {
-		_content->caption->unset_effect_colour ();
+		_caption->unset_effect_colour ();
 	}
 	if (_force_fade_in->GetValue ()) {
-		_content->caption->set_fade_in (_fade_in->get (_content->active_video_frame_rate ()));
+		_caption->set_fade_in (_fade_in->get (_content->active_video_frame_rate ()));
 	} else {
-		_content->caption->unset_fade_in ();
+		_caption->unset_fade_in ();
 	}
 	if (_force_fade_out->GetValue ()) {
-		_content->caption->set_fade_out (_fade_out->get (_content->active_video_frame_rate ()));
+		_caption->set_fade_out (_fade_out->get (_content->active_video_frame_rate ()));
 	} else {
-		_content->caption->unset_fade_out ();
+		_caption->unset_fade_out ();
 	}
-	_content->caption->set_outline_width (_outline_width->GetValue ());
+	_caption->set_outline_width (_outline_width->GetValue ());
 
 	if (_stream) {
 		for (map<RGBA, RGBAColourPicker*>::const_iterator i = _pickers.begin(); i != _pickers.end(); ++i) {
@@ -272,7 +273,7 @@ CaptionAppearanceDialog::setup_sensitivity ()
 	_fade_in->Enable (_force_fade_in->GetValue ());
 	_fade_out->Enable (_force_fade_out->GetValue ());
 
-	bool const can_outline_width = _effect->GetSelection() == OUTLINE && _content->caption->burn ();
+	bool const can_outline_width = _effect->GetSelection() == OUTLINE && _caption->burn ();
 	_outline_width->Enable (can_outline_width);
 	if (can_outline_width) {
 		_outline_width->UnsetToolTip ();

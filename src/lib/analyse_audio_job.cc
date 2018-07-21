@@ -106,7 +106,7 @@ AnalyseAudioJob::run ()
 {
 	shared_ptr<Player> player (new Player (_film, _playlist));
 	player->set_ignore_video ();
-	player->set_ignore_subtitle ();
+	player->set_ignore_caption ();
 	player->set_fast ();
 	player->set_play_referenced ();
 	player->Audio.connect (bind (&AnalyseAudioJob::analyse, this, _1, _2));

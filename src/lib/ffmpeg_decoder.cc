@@ -97,9 +97,9 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log>
 		audio.reset (new AudioDecoder (this, c->audio, log, fast));
 	}
 
-	if (c->caption) {
+	if (c->only_caption()) {
 		/* XXX: this time here should be the time of the first subtitle, not 0 */
-		caption.reset (new CaptionDecoder (this, c->caption, log, ContentTime()));
+		caption.push_back (shared_ptr<CaptionDecoder> (new CaptionDecoder (this, c->only_caption(), log, ContentTime())));
 	}
 
 	_next_time.resize (_format_context->nb_streams);
@@ -184,7 +184,7 @@ FFmpegDecoder::pass ()
 
 	if (_video_stream && si == _video_stream.get() && !video->ignore()) {
 		decode_video_packet ();
-	} else if (fc->subtitle_stream() && fc->subtitle_stream()->uses_index(_format_context, si) && !caption->ignore()) {
+	} else if (fc->subtitle_stream() && fc->subtitle_stream()->uses_index(_format_context, si) && !only_caption()->ignore()) {
 		decode_subtitle_packet ();
 	} else {
 		decode_audio_packet ();
@@ -549,9 +549,9 @@ FFmpegDecoder::decode_subtitle_packet ()
 	/* Stop any current subtitle, either at the time it was supposed to stop, or now if now is sooner */
 	if (_have_current_subtitle) {
 		if (_current_subtitle_to) {
-			caption->emit_stop (min(*_current_subtitle_to, subtitle_period(sub).from + _pts_offset));
+			only_caption()->emit_stop (min(*_current_subtitle_to, subtitle_period(sub).from + _pts_offset));
 		} else {
-			caption->emit_stop (subtitle_period(sub).from + _pts_offset);
+			only_caption()->emit_stop (subtitle_period(sub).from + _pts_offset);
 		}
 		_have_current_subtitle = false;
 	}
@@ -593,7 +593,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 	}
 
 	if (_current_subtitle_to) {
-		caption->emit_stop (*_current_subtitle_to);
+		only_caption()->emit_stop (*_current_subtitle_to);
 	}
 
 	avsubtitle_free (&sub);
@@ -669,7 +669,7 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime 
 		static_cast<double> (rect->h) / target_height
 		);
 
-	caption->emit_bitmap_start (from, image, scaled_rect);
+	only_caption()->emit_bitmap_start (from, image, scaled_rect);
 }
 
 void
@@ -702,6 +702,6 @@ FFmpegDecoder::decode_ass_subtitle (string ass, ContentTime from)
 		);
 
 	BOOST_FOREACH (sub::Subtitle const & i, sub::collect<list<sub::Subtitle> > (raw)) {
-		caption->emit_plain_start (from, i);
+		only_caption()->emit_plain_start (from, i);
 	}
 }

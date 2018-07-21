@@ -618,8 +618,11 @@ private:
 
 	void setup_from_dcp (shared_ptr<DCPContent> dcp)
 	{
-		if (dcp->caption) {
-			dcp->caption->set_use (true);
+		BOOST_FOREACH (shared_ptr<CaptionContent> i, dcp->caption) {
+			/* XXX: we should offer the option to view closed captions */
+			if (i->type() == CAPTION_OPEN) {
+				i->set_use (true);
+			}
 		}
 
 		if (dcp->video) {

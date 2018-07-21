@@ -47,6 +47,7 @@ CaptionPanel::CaptionPanel (ContentPanel* p)
 	: ContentSubPanel (p, _("Captions"))
 	, _caption_view (0)
 	, _fonts_dialog (0)
+	, _original_type (CAPTION_OPEN)
 {
 	wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
 
@@ -163,7 +164,7 @@ CaptionPanel::CaptionPanel (ContentPanel* p)
 
 	_reference->Bind                (wxEVT_CHECKBOX, boost::bind (&CaptionPanel::reference_clicked, this));
 	_use->Bind                      (wxEVT_CHECKBOX, boost::bind (&CaptionPanel::use_toggled, this));
-	_type->Bind                     (wxEVT_CHOICE,   boost::bind (&CaptionPanel::type_changed, this));
+	_type->Bind              (wxEVT_CHOICE,   boost::bind (&CaptionPanel::type_changed, this));
 	_burn->Bind                     (wxEVT_CHECKBOX, boost::bind (&CaptionPanel::burn_toggled, this));
 	_x_offset->Bind                 (wxEVT_SPINCTRL, boost::bind (&CaptionPanel::x_offset_changed, this));
 	_y_offset->Bind                 (wxEVT_SPINCTRL, boost::bind (&CaptionPanel::y_offset_changed, this));
@@ -217,11 +218,11 @@ CaptionPanel::film_content_changed (int property)
 		}
 		setup_sensitivity ();
 	} else if (property == CaptionContentProperty::USE) {
-		checked_set (_use, scs ? scs->caption->use() : false);
+		checked_set (_use, scs ? scs->caption_of_original_type(_original_type)->use() : false);
 		setup_sensitivity ();
 	} else if (property == CaptionContentProperty::TYPE) {
 		if (scs) {
-			switch (scs->caption->type()) {
+			switch (scs->caption_of_original_type(_original_type)->type()) {
 			case CAPTION_OPEN:
 				_type->SetSelection (0);
 				break;
@@ -236,29 +237,29 @@ CaptionPanel::film_content_changed (int property)
 		}
 		setup_sensitivity ();
 	} else if (property == CaptionContentProperty::BURN) {
-		checked_set (_burn, scs ? scs->caption->burn() : false);
+		checked_set (_burn, scs ? scs->caption_of_original_type(_original_type)->burn() : false);
 	} else if (property == CaptionContentProperty::X_OFFSET) {
-		checked_set (_x_offset, scs ? lrint (scs->caption->x_offset() * 100) : 0);
+		checked_set (_x_offset, scs ? lrint (scs->caption_of_original_type(_original_type)->x_offset() * 100) : 0);
 	} else if (property == CaptionContentProperty::Y_OFFSET) {
-		checked_set (_y_offset, scs ? lrint (scs->caption->y_offset() * 100) : 0);
+		checked_set (_y_offset, scs ? lrint (scs->caption_of_original_type(_original_type)->y_offset() * 100) : 0);
 	} else if (property == CaptionContentProperty::X_SCALE) {
-		checked_set (_x_scale, scs ? lrint (scs->caption->x_scale() * 100) : 100);
+		checked_set (_x_scale, scs ? lrint (scs->caption_of_original_type(_original_type)->x_scale() * 100) : 100);
 	} else if (property == CaptionContentProperty::Y_SCALE) {
-		checked_set (_y_scale, scs ? lrint (scs->caption->y_scale() * 100) : 100);
+		checked_set (_y_scale, scs ? lrint (scs->caption_of_original_type(_original_type)->y_scale() * 100) : 100);
 	} else if (property == CaptionContentProperty::LINE_SPACING) {
-		checked_set (_line_spacing, scs ? lrint (scs->caption->line_spacing() * 100) : 100);
+		checked_set (_line_spacing, scs ? lrint (scs->caption_of_original_type(_original_type)->line_spacing() * 100) : 100);
 	} else if (property == CaptionContentProperty::LANGUAGE) {
-		checked_set (_language, scs ? scs->caption->language() : "");
-	} else if (property == DCPContentProperty::REFERENCE_SUBTITLE) {
+		checked_set (_language, scs ? scs->caption_of_original_type(_original_type)->language() : "");
+	} else if (property == DCPContentProperty::REFERENCE_CAPTION) {
 		if (scs) {
 			shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (scs);
-			checked_set (_reference, dcp ? dcp->reference_subtitle () : false);
+			checked_set (_reference, dcp ? dcp->reference_caption(_original_type) : false);
 		} else {
 			checked_set (_reference, false);
 		}
 
 		setup_sensitivity ();
-	} else if (property == DCPContentProperty::HAS_SUBTITLES) {
+	} else if (property == DCPContentProperty::CAPTIONS) {
 		setup_sensitivity ();
 	}
 }
@@ -267,7 +268,7 @@ void
 CaptionPanel::use_toggled ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption()) {
-		i->caption->set_use (_use->GetValue());
+		i->caption_of_original_type(_original_type)->set_use (_use->GetValue());
 	}
 }
 
@@ -277,10 +278,10 @@ CaptionPanel::type_changed ()
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption()) {
 		switch (_type->GetSelection()) {
 		case 0:
-			i->caption->set_type (CAPTION_OPEN);
+			i->caption_of_original_type(_original_type)->set_type (CAPTION_OPEN);
 			break;
 		case 1:
-			i->caption->set_type (CAPTION_CLOSED);
+			i->caption_of_original_type(_original_type)->set_type (CAPTION_CLOSED);
 			break;
 		}
 	}
@@ -290,7 +291,7 @@ void
 CaptionPanel::burn_toggled ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption ()) {
-		i->caption->set_burn (_burn->GetValue());
+		i->caption_of_original_type(_original_type)->set_burn (_burn->GetValue());
 	}
 }
 
@@ -307,7 +308,7 @@ CaptionPanel::setup_sensitivity ()
 		shared_ptr<const DCPContent> dc = boost::dynamic_pointer_cast<const DCPContent> (i);
 		shared_ptr<const DCPSubtitleContent> dsc = boost::dynamic_pointer_cast<const DCPSubtitleContent> (i);
 		if (fc) {
-			if (fc->caption) {
+			if (!fc->caption.empty()) {
 				++ffmpeg_subs;
 				++any_subs;
 			}
@@ -325,7 +326,7 @@ CaptionPanel::setup_sensitivity ()
 	}
 
 	string why_not;
-	bool const can_reference = dcp && dcp->can_reference_subtitle (why_not);
+	bool const can_reference = dcp && dcp->can_reference_caption (_original_type, why_not);
 	setup_refer_button (_reference, _reference_note, dcp, can_reference, why_not);
 
 	bool const reference = _reference->GetValue ();
@@ -373,7 +374,7 @@ void
 CaptionPanel::x_offset_changed ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption ()) {
-		i->caption->set_x_offset (_x_offset->GetValue() / 100.0);
+		i->caption_of_original_type(_original_type)->set_x_offset (_x_offset->GetValue() / 100.0);
 	}
 }
 
@@ -381,7 +382,7 @@ void
 CaptionPanel::y_offset_changed ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption ()) {
-		i->caption->set_y_offset (_y_offset->GetValue() / 100.0);
+		i->caption_of_original_type(_original_type)->set_y_offset (_y_offset->GetValue() / 100.0);
 	}
 }
 
@@ -390,7 +391,7 @@ CaptionPanel::x_scale_changed ()
 {
 	ContentList c = _parent->selected_caption ();
 	if (c.size() == 1) {
-		c.front()->caption->set_x_scale (_x_scale->GetValue() / 100.0);
+		c.front()->caption_of_original_type(_original_type)->set_x_scale (_x_scale->GetValue() / 100.0);
 	}
 }
 
@@ -398,7 +399,7 @@ void
 CaptionPanel::y_scale_changed ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption ()) {
-		i->caption->set_y_scale (_y_scale->GetValue() / 100.0);
+		i->caption_of_original_type(_original_type)->set_y_scale (_y_scale->GetValue() / 100.0);
 	}
 }
 
@@ -406,7 +407,7 @@ void
 CaptionPanel::line_spacing_changed ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption ()) {
-		i->caption->set_line_spacing (_line_spacing->GetValue() / 100.0);
+		i->caption_of_original_type(_original_type)->set_line_spacing (_line_spacing->GetValue() / 100.0);
 	}
 }
 
@@ -414,7 +415,7 @@ void
 CaptionPanel::language_changed ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption ()) {
-		i->caption->set_language (wx_to_std (_language->GetValue()));
+		i->caption_of_original_type(_original_type)->set_language (wx_to_std (_language->GetValue()));
 	}
 }
 
@@ -432,7 +433,7 @@ CaptionPanel::content_selection_changed ()
 	film_content_changed (CaptionContentProperty::LANGUAGE);
 	film_content_changed (CaptionContentProperty::FONTS);
 	film_content_changed (CaptionContentProperty::TYPE);
-	film_content_changed (DCPContentProperty::REFERENCE_SUBTITLE);
+	film_content_changed (DCPContentProperty::REFERENCE_CAPTION);
 }
 
 void
@@ -449,7 +450,7 @@ CaptionPanel::caption_view_clicked ()
 	shared_ptr<Decoder> decoder = decoder_factory (c.front(), _parent->film()->log(), false);
 
 	if (decoder) {
-		_caption_view = new CaptionView (this, _parent->film(), c.front(), decoder, _parent->film_viewer());
+		_caption_view = new CaptionView (this, _parent->film(), c.front(), c.front()->caption_of_original_type(_original_type), decoder, _parent->film_viewer());
 		_caption_view->Show ();
 	}
 }
@@ -465,7 +466,7 @@ CaptionPanel::fonts_dialog_clicked ()
 	ContentList c = _parent->selected_caption ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
-	_fonts_dialog = new FontsDialog (this, c.front ());
+	_fonts_dialog = new FontsDialog (this, c.front(), c.front()->caption_of_original_type(_original_type));
 	_fonts_dialog->Show ();
 }
 
@@ -482,7 +483,7 @@ CaptionPanel::reference_clicked ()
 		return;
 	}
 
-	d->set_reference_subtitle (_reference->GetValue ());
+	d->set_reference_caption (_original_type, _reference->GetValue ());
 }
 
 void
@@ -491,7 +492,7 @@ CaptionPanel::appearance_dialog_clicked ()
 	ContentList c = _parent->selected_caption ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
-	CaptionAppearanceDialog* d = new CaptionAppearanceDialog (this, c.front());
+	CaptionAppearanceDialog* d = new CaptionAppearanceDialog (this, c.front(), c.front()->caption_of_original_type(_original_type));
 	if (d->ShowModal () == wxID_OK) {
 		d->apply ();
 	}

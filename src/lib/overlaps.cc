@@ -26,7 +26,7 @@
 using boost::shared_ptr;
 using boost::function;
 
-ContentList overlaps (ContentList cl, function<shared_ptr<ContentPart> (shared_ptr<const Content>)> part, DCPTime from, DCPTime to)
+ContentList overlaps (ContentList cl, function<bool (shared_ptr<const Content>)> part, DCPTime from, DCPTime to)
 {
 	ContentList overlaps;
 	DCPTimePeriod period (from, to);

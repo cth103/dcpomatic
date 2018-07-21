@@ -282,7 +282,7 @@ TimingPanel::film_content_changed (int property)
 				++count_ac;
 				content = i;
 			}
-			if (i->caption && i->video_frame_rate()) {
+			if (!i->caption.empty() && i->video_frame_rate()) {
 				++count_sc;
 				content = i;
 			}

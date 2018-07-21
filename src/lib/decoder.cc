@@ -27,6 +27,7 @@
 
 using std::cout;
 using boost::optional;
+using boost::shared_ptr;
 
 /** @return Earliest time of content that the next pass() will emit */
 ContentTime
@@ -42,8 +43,10 @@ Decoder::position () const
 		pos = audio->position();
 	}
 
-	if (caption && !caption->ignore() && (!pos || caption->position() < *pos)) {
-		pos = caption->position();
+	BOOST_FOREACH (shared_ptr<CaptionDecoder> i, caption) {
+		if (!i->ignore() && (!pos || i->position() < *pos)) {
+			pos = i->position();
+		}
 	}
 
 	return pos.get_value_or(ContentTime());
@@ -58,7 +61,17 @@ Decoder::seek (ContentTime, bool)
 	if (audio) {
 		audio->seek ();
 	}
-	if (caption) {
-		caption->seek ();
+	BOOST_FOREACH (shared_ptr<CaptionDecoder> i, caption) {
+		i->seek ();
 	}
+}
+
+shared_ptr<CaptionDecoder>
+Decoder::only_caption () const
+{
+	DCPOMATIC_ASSERT (caption.size() < 2);
+	if (caption.empty ()) {
+		return shared_ptr<CaptionDecoder> ();
+	}
+	return caption.front ();
 }

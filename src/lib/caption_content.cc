@@ -68,11 +68,15 @@ CaptionContent::CaptionContent (Content* parent)
 	, _line_spacing (1)
 	, _outline_width (2)
 	, _type (CAPTION_OPEN)
+	, _original_type (CAPTION_OPEN)
 {
 
 }
 
-shared_ptr<CaptionContent>
+/** @return CaptionContents from node or <Caption> nodes under node (according to version).
+ *  The list could be empty if no CaptionContents are found.
+ */
+list<shared_ptr<CaptionContent> >
 CaptionContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 {
 	if (version < 34) {
@@ -80,7 +84,7 @@ CaptionContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 		   subtitle streams, so check for that.
 		*/
 		if (node->string_child("Type") == "FFmpeg" && node->node_children("SubtitleStream").empty()) {
-			return shared_ptr<CaptionContent> ();
+			return list<shared_ptr<CaptionContent> >();
 		}
 
 		/* Otherwise we can drop through to the newer logic */
@@ -88,16 +92,22 @@ CaptionContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 
 	if (version < 37) {
 		if (!node->optional_number_child<double>("SubtitleXOffset") && !node->optional_number_child<double>("SubtitleOffset")) {
-			return shared_ptr<CaptionContent> ();
+			return list<shared_ptr<CaptionContent> >();
 		}
-		return shared_ptr<CaptionContent> (new CaptionContent (parent, node, version));
+		list<shared_ptr<CaptionContent> > c;
+		c.push_back (shared_ptr<CaptionContent> (new CaptionContent (parent, node, version)));
+		return c;
 	}
 
 	if (!node->node_child("Caption")) {
-		return shared_ptr<CaptionContent> ();
+		return list<shared_ptr<CaptionContent> >();
 	}
 
-	return shared_ptr<CaptionContent> (new CaptionContent (parent, node->node_child("Caption"), version));
+	list<shared_ptr<CaptionContent> > c;
+	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("Caption")) {
+		c.push_back (shared_ptr<CaptionContent> (new CaptionContent (parent, i, version)));
+	}
+	return c;
 }
 
 CaptionContent::CaptionContent (Content* parent, cxml::ConstNodePtr node, int version)
@@ -215,6 +225,7 @@ CaptionContent::CaptionContent (Content* parent, cxml::ConstNodePtr node, int ve
 	connect_to_fonts ();
 
 	_type = string_to_caption_type (node->optional_string_child("Type").get_value_or("open"));
+	_original_type = string_to_caption_type (node->optional_string_child("Type").get_value_or("open"));
 }
 
 
@@ -270,6 +281,7 @@ CaptionContent::as_xml (xmlpp::Node* root) const
 	}
 
 	caption->add_child("Type")->add_child_text (caption_type_to_string(_type));
+	caption->add_child("OriginalType")->add_child_text (caption_type_to_string(_original_type));
 }
 
 string

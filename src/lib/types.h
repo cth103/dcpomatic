@@ -129,6 +129,16 @@ enum ReelType
 	REELTYPE_BY_LENGTH
 };
 
+/** Type of captions.
+ *  For better or worse DoM has uses two names for text that appears
+ *  with the DCP:
+ *
+ *  open captions:   text that is shown to everybody on-screen (aka subtitles).
+ *  closed captions: text that is shown to some viewers using some other method.
+ *
+ *  There is also still use of the word `subtitle' in the code; these are the
+ *  same as open captions in DoM.
+ */
 enum CaptionType
 {
 	CAPTION_OPEN,

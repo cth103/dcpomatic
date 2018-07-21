@@ -196,7 +196,7 @@ ContentPanel::selected_caption ()
 	ContentList sc;
 
 	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
-		if (i->caption) {
+		if (!i->caption.empty()) {
 			sc.push_back (i);
 		}
 	}
@@ -447,7 +447,7 @@ ContentPanel::setup_sensitivity ()
 
 	_video_panel->Enable	(_generally_sensitive && video_selection.size() > 0);
 	_audio_panel->Enable	(_generally_sensitive && audio_selection.size() > 0);
-	_caption_panel->Enable  (_generally_sensitive && selection.size() == 1 && selection.front()->caption);
+	_caption_panel->Enable  (_generally_sensitive && selection.size() == 1 && !selection.front()->caption.empty());
 	_timing_panel->Enable	(_generally_sensitive);
 }
 

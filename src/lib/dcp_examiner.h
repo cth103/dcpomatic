@@ -59,8 +59,8 @@ public:
 		return _name;
 	}
 
-	bool has_subtitles () const {
-		return _has_subtitles;
+	int captions () const {
+		return _captions;
 	}
 
 	bool encrypted () const {
@@ -119,7 +119,7 @@ private:
 	bool _has_video;
 	/** true if this DCP has audio content (but false if it has unresolved references to audio content) */
 	bool _has_audio;
-	bool _has_subtitles;
+	int _captions;
 	bool _encrypted;
 	bool _needs_assets;
 	bool _kdm_valid;

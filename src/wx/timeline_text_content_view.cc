@@ -24,8 +24,9 @@
 
 using boost::shared_ptr;
 
-TimelineTextContentView::TimelineTextContentView (Timeline& tl, shared_ptr<Content> c)
+TimelineTextContentView::TimelineTextContentView (Timeline& tl, shared_ptr<Content> c, shared_ptr<CaptionContent> caption)
 	: TimelineContentView (tl, c)
+	, _caption (caption)
 {
 
 }
@@ -55,5 +56,5 @@ TimelineTextContentView::active () const
 {
 	shared_ptr<Content> c = _content.lock ();
 	DCPOMATIC_ASSERT (c);
-	return c->caption && c->caption->use();
+	return _caption->use();
 }

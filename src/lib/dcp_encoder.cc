@@ -64,8 +64,10 @@ DCPEncoder::DCPEncoder (shared_ptr<const Film> film, weak_ptr<Job> job)
 	_player_caption_connection = _player->Caption.connect (bind (&DCPEncoder::caption, this, _1, _2, _3));
 
 	BOOST_FOREACH (shared_ptr<const Content> c, film->content ()) {
-		if (c->caption && c->caption->use() && !c->caption->burn()) {
-			_non_burnt_subtitles = true;
+		BOOST_FOREACH (shared_ptr<CaptionContent> i, c->caption) {
+			if (i->use() && !i->burn()) {
+				_non_burnt_subtitles = true;
+			}
 		}
 	}
 }

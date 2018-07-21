@@ -38,7 +38,7 @@ using dcp::raw_convert;
 TextCaptionFileContent::TextCaptionFileContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
 {
-	caption.reset (new CaptionContent (this));
+	caption.push_back (shared_ptr<CaptionContent> (new CaptionContent (this)));
 }
 
 TextCaptionFileContent::TextCaptionFileContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
@@ -55,11 +55,11 @@ TextCaptionFileContent::examine (boost::shared_ptr<Job> job)
 	TextCaptionFile s (shared_from_this ());
 
 	/* Default to turning these subtitles on */
-	caption->set_use (true);
+	only_caption()->set_use (true);
 
 	boost::mutex::scoped_lock lm (_mutex);
 	_length = s.length ();
-	caption->add_font (shared_ptr<Font> (new Font (TEXT_FONT_ID)));
+	only_caption()->add_font (shared_ptr<Font> (new Font (TEXT_FONT_ID)));
 }
 
 string
@@ -80,8 +80,8 @@ TextCaptionFileContent::as_xml (xmlpp::Node* node, bool with_paths) const
 	node->add_child("Type")->add_child_text ("TextSubtitle");
 	Content::as_xml (node, with_paths);
 
-	if (caption) {
-		caption->as_xml (node);
+	if (only_caption()) {
+		only_caption()->as_xml (node);
 	}
 
 	node->add_child("Length")->add_child_text (raw_convert<string> (_length.get ()));

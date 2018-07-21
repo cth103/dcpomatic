@@ -37,14 +37,14 @@ BOOST_AUTO_TEST_CASE (remake_with_subtitle_test)
 	shared_ptr<FFmpegContent> content = dynamic_pointer_cast<FFmpegContent>(content_factory(film, private_data / "prophet_short_clip.mkv").front());
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
-	content->caption->set_burn (true);
-	content->caption->set_use (true);
+	content->only_caption()->set_burn (true);
+	content->only_caption()->set_use (true);
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	boost::filesystem::remove_all (film->dir (film->dcp_name(), false));
 
-	content->caption->set_use (false);
+	content->only_caption()->set_use (false);
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());
 

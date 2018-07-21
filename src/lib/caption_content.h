@@ -167,7 +167,12 @@ public:
 		return _type;
 	}
 
-	static boost::shared_ptr<CaptionContent> from_xml (Content* parent, cxml::ConstNodePtr, int version);
+	CaptionType original_type () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _original_type;
+	}
+
+	static std::list<boost::shared_ptr<CaptionContent> > from_xml (Content* parent, cxml::ConstNodePtr, int version);
 
 protected:
 	/** subtitle language (e.g. "German") or empty if it is not known */
@@ -205,7 +210,12 @@ private:
 	boost::optional<ContentTime> _fade_in;
 	boost::optional<ContentTime> _fade_out;
 	int _outline_width;
+	/** what these captions will be used for in the output DCP (not necessarily what
+	 *  they were originally).
+	 */
 	CaptionType _type;
+	/** the original type of these captions in their content */
+	CaptionType _original_type;
 };
 
 #endif

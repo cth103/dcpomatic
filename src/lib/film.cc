@@ -697,14 +697,19 @@ Film::isdcf_name (bool if_created_now) const
 		d += "_" + dm.audio_language;
 		if (!dm.subtitle_language.empty()) {
 
-			bool burnt_in = true;
-			BOOST_FOREACH (shared_ptr<Content> i, content ()) {
-				if (!i->caption) {
-					continue;
-				}
+			/* I'm not clear on the precise details of the convention for CCAP labelling;
+			   for now I'm just appending -CCAP if we have any closed captions.
+			*/
 
-				if (i->caption->use() && !i->caption->burn()) {
-					burnt_in = false;
+			bool burnt_in = true;
+			bool ccap = false;
+			BOOST_FOREACH (shared_ptr<Content> i, content()) {
+				BOOST_FOREACH (shared_ptr<CaptionContent> j, i->caption) {
+					if (j->type() == CAPTION_OPEN && j->use() && !j->burn()) {
+						burnt_in = false;
+					} else if (j->type() == CAPTION_CLOSED) {
+						ccap = true;
+					}
 				}
 			}
 
@@ -716,6 +721,9 @@ Film::isdcf_name (bool if_created_now) const
 			}
 
 			d += "-" + language;
+			if (ccap) {
+				d += "-CCAP";
+			}
 		} else {
 			d += "-XX";
 		}
@@ -770,7 +778,13 @@ Film::isdcf_name (bool if_created_now) const
 	bool vf = false;
 	BOOST_FOREACH (shared_ptr<Content> i, content ()) {
 		shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (i);
-		if (dc && (dc->reference_video() || dc->reference_audio() || dc->reference_subtitle())) {
+		bool any_caption = false;
+		for (int i = 0; i < CAPTION_COUNT; ++i) {
+			if (dc->reference_caption(static_cast<CaptionType>(i))) {
+				any_caption = true;
+			}
+		}
+		if (dc && (dc->reference_video() || dc->reference_audio() || any_caption)) {
 			vf = true;
 		}
 	}
@@ -1083,9 +1097,9 @@ Film::add_content (shared_ptr<Content> c)
 {
 	/* Add {video,subtitle} content after any existing {video,subtitle} content */
 	if (c->video) {
-		c->set_position (_playlist->video_end ());
-	} else if (c->caption) {
-		c->set_position (_playlist->subtitle_end ());
+		c->set_position (_playlist->video_end());
+	} else if (!c->caption.empty()) {
+		c->set_position (_playlist->caption_end());
 	}
 
 	if (_template_film) {
@@ -1372,10 +1386,9 @@ Film::subtitle_language () const
 {
 	set<string> languages;
 
-	ContentList cl = content ();
-	BOOST_FOREACH (shared_ptr<Content>& c, cl) {
-		if (c->caption) {
-			languages.insert (c->caption->language ());
+	BOOST_FOREACH (shared_ptr<Content> i, content()) {
+		BOOST_FOREACH (shared_ptr<CaptionContent> j, i->caption) {
+			languages.insert (j->language ());
 		}
 	}
 

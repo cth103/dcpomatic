@@ -402,7 +402,34 @@ Content::take_settings_from (shared_ptr<const Content> c)
 	if (audio && c->audio) {
 		audio->take_settings_from (c->audio);
 	}
-	if (caption && c->caption) {
-		caption->take_settings_from (c->caption);
+
+	list<shared_ptr<CaptionContent> >::iterator i = caption.begin ();
+	list<shared_ptr<CaptionContent> >::const_iterator j = c->caption.begin ();
+	while (i != caption.end() && j != c->caption.end()) {
+		(*i)->take_settings_from (*j);
+		++i;
+		++j;
+ 	}
+}
+
+shared_ptr<CaptionContent>
+Content::only_caption () const
+{
+	DCPOMATIC_ASSERT (caption.size() < 2);
+	if (caption.empty ()) {
+		return shared_ptr<CaptionContent> ();
 	}
+	return caption.front ();
+}
+
+shared_ptr<CaptionContent>
+Content::caption_of_original_type (CaptionType type) const
+{
+	BOOST_FOREACH (shared_ptr<CaptionContent> i, caption) {
+		if (i->original_type() == type) {
+			return i;
+		}
+	}
+
+	return shared_ptr<CaptionContent> ();
 }

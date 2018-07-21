@@ -39,6 +39,7 @@
 #include <dcp/sound_asset_reader.h>
 #include <dcp/subtitle_asset.h>
 #include <dcp/reel_subtitle_asset.h>
+#include <dcp/reel_closed_caption_asset.h>
 #include <dcp/sound_asset.h>
 #include <boost/foreach.hpp>
 #include <iostream>
@@ -57,7 +58,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 	, _audio_length (0)
 	, _has_video (false)
 	, _has_audio (false)
-	, _has_subtitles (false)
+	, _captions (0)
 	, _encrypted (false)
 	, _needs_assets (false)
 	, _kdm_valid (false)
@@ -165,7 +166,17 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 				return;
 			}
 
-			_has_subtitles = true;
+			++_captions;
+		}
+
+		if (i->closed_caption ()) {
+			if (!i->closed_caption()->asset_ref().resolved()) {
+				/* We are missing this asset so we can't continue; examination will be repeated later */
+				_needs_assets = true;
+				return;
+			}
+
+			++_captions;
 		}
 
 		if (i->main_picture()) {
@@ -174,6 +185,8 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 			_reel_lengths.push_back (i->main_sound()->duration());
 		} else if (i->main_subtitle()) {
 			_reel_lengths.push_back (i->main_subtitle()->duration());
+		} else if (i->closed_caption()) {
+			_reel_lengths.push_back (i->closed_caption()->duration());
 		}
 	}
 

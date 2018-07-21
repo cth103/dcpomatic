@@ -51,8 +51,8 @@ BOOST_AUTO_TEST_CASE (ssa_subtitle_test1)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
-	content->caption->set_use (true);
-	content->caption->set_burn (false);
+	content->only_caption()->set_use (true);
+	content->only_caption()->set_burn (false);
 
 	film->make_dcp ();
 	wait_for_jobs ();

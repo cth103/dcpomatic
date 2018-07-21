@@ -56,10 +56,10 @@ get_hints (shared_ptr<const Film> film)
 	bool big_font_files = false;
 	if (film->interop ()) {
 		BOOST_FOREACH (shared_ptr<Content> i, content) {
-			if (i->caption) {
-				BOOST_FOREACH (shared_ptr<Font> j, i->caption->fonts ()) {
-					for (int k = 0; k < FontFiles::VARIANTS; ++k) {
-						optional<boost::filesystem::path> const p = j->file (static_cast<FontFiles::Variant> (k));
+			BOOST_FOREACH (shared_ptr<CaptionContent> j, i->caption) {
+				BOOST_FOREACH (shared_ptr<Font> k, j->fonts()) {
+					for (int l = 0; l < FontFiles::VARIANTS; ++l) {
+						optional<boost::filesystem::path> const p = k->file (static_cast<FontFiles::Variant>(l));
 						if (p && boost::filesystem::file_size (p.get()) >= (640 * 1024)) {
 							big_font_files = true;
 						}

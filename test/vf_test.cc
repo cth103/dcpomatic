@@ -57,14 +57,16 @@ BOOST_AUTO_TEST_CASE (vf_test1)
 	string why_not;
 	BOOST_CHECK (!dcp->can_reference_video(why_not));
 	BOOST_CHECK (!dcp->can_reference_audio(why_not));
-	BOOST_CHECK (!dcp->can_reference_subtitle(why_not));
+	BOOST_CHECK (!dcp->can_reference_caption(CAPTION_OPEN, why_not));
+	BOOST_CHECK (!dcp->can_reference_caption(CAPTION_CLOSED, why_not));
 
 	/* Multi-reel DCP can be referenced if we are using by-video-content */
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
 	BOOST_CHECK (dcp->can_reference_video(why_not));
 	BOOST_CHECK (dcp->can_reference_audio(why_not));
-	/* (but reels_test2 has no subtitles to reference) */
-	BOOST_CHECK (!dcp->can_reference_subtitle(why_not));
+	/* (but reels_test2 has no captions to reference) */
+	BOOST_CHECK (!dcp->can_reference_caption(CAPTION_OPEN, why_not));
+	BOOST_CHECK (!dcp->can_reference_caption(CAPTION_CLOSED, why_not));
 
 	shared_ptr<FFmpegContent> other (new FFmpegContent (film, "test/data/test.mp4"));
 	film->examine_and_add_content (other);
@@ -74,14 +76,16 @@ BOOST_AUTO_TEST_CASE (vf_test1)
 	other->set_position (DCPTime (0));
 	BOOST_CHECK (!dcp->can_reference_video(why_not));
 	BOOST_CHECK (!dcp->can_reference_audio(why_not));
-	BOOST_CHECK (!dcp->can_reference_subtitle(why_not));
+	BOOST_CHECK (!dcp->can_reference_caption(CAPTION_OPEN, why_not));
+	BOOST_CHECK (!dcp->can_reference_caption(CAPTION_CLOSED, why_not));
 
 	/* This should not be considered an overlap */
 	other->set_position (dcp->end ());
 	BOOST_CHECK (dcp->can_reference_video(why_not));
 	BOOST_CHECK (dcp->can_reference_audio(why_not));
-	/* (reels_test2 has no subtitles to reference) */
-	BOOST_CHECK (!dcp->can_reference_subtitle(why_not));
+	/* (reels_test2 has no captions to reference) */
+	BOOST_CHECK (!dcp->can_reference_caption(CAPTION_OPEN, why_not));
+	BOOST_CHECK (!dcp->can_reference_caption(CAPTION_CLOSED, why_not));
 }
 
 /** Make a OV with video and audio and a VF referencing the OV and adding subs */

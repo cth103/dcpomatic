@@ -148,8 +148,8 @@ FFmpegContent::as_xml (xmlpp::Node* node, bool with_paths) const
 		}
 	}
 
-	if (caption) {
-		caption->as_xml (node);
+	if (only_caption()) {
+		only_caption()->as_xml (node);
 	}
 
 	boost::mutex::scoped_lock lm (_mutex);
@@ -242,7 +242,8 @@ FFmpegContent::examine (shared_ptr<Job> job)
 
 		_subtitle_streams = examiner->subtitle_streams ();
 		if (!_subtitle_streams.empty ()) {
-			caption.reset (new CaptionContent (this));
+			caption.clear ();
+			caption.push_back (shared_ptr<CaptionContent> (new CaptionContent (this)));
 			_subtitle_stream = _subtitle_streams.front ();
 		}
 
@@ -365,8 +366,8 @@ FFmpegContent::identifier () const
 		s += "_" + video->identifier();
 	}
 
-	if (caption && caption->use() && caption->burn()) {
-		s += "_" + caption->identifier();
+	if (only_caption() && only_caption()->use() && only_caption()->burn()) {
+		s += "_" + only_caption()->identifier();
 	}
 
 	boost::mutex::scoped_lock lm (_mutex);

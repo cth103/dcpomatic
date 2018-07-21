@@ -124,9 +124,9 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test6)
 	shared_ptr<TextCaptionFileContent> s (new TextCaptionFileContent (film, "test/data/subrip2.srt"));
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
-	s->caption->set_colour (dcp::Colour (255, 255, 0));
-	s->caption->set_effect (dcp::SHADOW);
-	s->caption->set_effect_colour (dcp::Colour (0, 255, 255));
+	s->only_caption()->set_colour (dcp::Colour (255, 255, 0));
+	s->only_caption()->set_effect (dcp::SHADOW);
+	s->only_caption()->set_effect_colour (dcp::Colour (0, 255, 255));
 	film->write_metadata();
 
 	shared_ptr<Job> job (new TranscodeJob (film));
@@ -149,9 +149,9 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test7)
 	shared_ptr<TextCaptionFileContent> s (new TextCaptionFileContent (film, "test/data/subrip.srt"));
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
-	s->caption->set_colour (dcp::Colour (255, 255, 0));
-	s->caption->set_effect (dcp::SHADOW);
-	s->caption->set_effect_colour (dcp::Colour (0, 255, 255));
+	s->only_caption()->set_colour (dcp::Colour (255, 255, 0));
+	s->only_caption()->set_effect (dcp::SHADOW);
+	s->only_caption()->set_effect_colour (dcp::Colour (0, 255, 255));
 
 	shared_ptr<Job> job (new TranscodeJob (film));
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_test7.mov", FFmpegEncoder::FORMAT_PRORES, false);
@@ -175,9 +175,9 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test2)
 	shared_ptr<TextCaptionFileContent> s (new TextCaptionFileContent (film, "test/data/subrip2.srt"));
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
-	s->caption->set_colour (dcp::Colour (255, 255, 0));
-	s->caption->set_effect (dcp::SHADOW);
-	s->caption->set_effect_colour (dcp::Colour (0, 255, 255));
+	s->only_caption()->set_colour (dcp::Colour (255, 255, 0));
+	s->only_caption()->set_effect (dcp::SHADOW);
+	s->only_caption()->set_effect_colour (dcp::Colour (0, 255, 255));
 	film->write_metadata();
 
 	shared_ptr<Job> job (new TranscodeJob (film));
@@ -200,9 +200,9 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test3)
 	shared_ptr<TextCaptionFileContent> s (new TextCaptionFileContent (film, "test/data/subrip.srt"));
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
-	s->caption->set_colour (dcp::Colour (255, 255, 0));
-	s->caption->set_effect (dcp::SHADOW);
-	s->caption->set_effect_colour (dcp::Colour (0, 255, 255));
+	s->only_caption()->set_colour (dcp::Colour (255, 255, 0));
+	s->only_caption()->set_effect (dcp::SHADOW);
+	s->only_caption()->set_effect_colour (dcp::Colour (0, 255, 255));
 	film->write_metadata();
 
 	shared_ptr<Job> job (new TranscodeJob (film));

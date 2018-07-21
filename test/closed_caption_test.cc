@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE (closed_caption_test1)
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	content->caption->set_type (CAPTION_CLOSED);
+	content->only_caption()->set_type (CAPTION_CLOSED);
 
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());

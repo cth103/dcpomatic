@@ -40,7 +40,7 @@ using dcp::raw_convert;
 DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
 {
-	caption.reset (new CaptionContent (this));
+	caption.push_back (shared_ptr<CaptionContent> (new CaptionContent (this)));
 }
 
 DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
@@ -66,18 +66,18 @@ DCPSubtitleContent::examine (shared_ptr<Job> job)
 	boost::mutex::scoped_lock lm (_mutex);
 
 	/* Default to turning these subtitles on */
-	caption->set_use (true);
+	only_caption()->set_use (true);
 
 	if (iop) {
-		caption->set_language (iop->language ());
+		only_caption()->set_language (iop->language ());
 	} else if (smpte) {
-		caption->set_language (smpte->language().get_value_or (""));
+		only_caption()->set_language (smpte->language().get_value_or (""));
 	}
 
 	_length = ContentTime::from_seconds (sc->latest_subtitle_out().as_seconds ());
 
 	BOOST_FOREACH (shared_ptr<dcp::LoadFontNode> i, sc->load_font_nodes ()) {
-		caption->add_font (shared_ptr<Font> (new Font (i->id)));
+		only_caption()->add_font (shared_ptr<Font> (new Font (i->id)));
 	}
 }
 
@@ -106,8 +106,8 @@ DCPSubtitleContent::as_xml (xmlpp::Node* node, bool with_paths) const
 	node->add_child("Type")->add_child_text ("DCPSubtitle");
 	Content::as_xml (node, with_paths);
 
-	if (caption) {
-		caption->as_xml (node);
+	if (only_caption()) {
+		only_caption()->as_xml (node);
 	}
 
 	node->add_child("Length")->add_child_text (raw_convert<string> (_length.get ()));

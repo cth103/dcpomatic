@@ -78,7 +78,7 @@ public:
 
 	void set_video_container_size (dcp::Size);
 	void set_ignore_video ();
-	void set_ignore_subtitle ();
+	void set_ignore_caption ();
 	void set_always_burn_captions (CaptionType type);
 	void set_fast ();
 	void set_play_referenced ();
@@ -126,9 +126,9 @@ private:
 	boost::shared_ptr<PlayerVideo> black_player_video_frame (Eyes eyes) const;
 	void video (boost::weak_ptr<Piece>, ContentVideo);
 	void audio (boost::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
-	void bitmap_text_start (boost::weak_ptr<Piece>, boost::weak_ptr<CaptionContent>, ContentBitmapCaption);
-	void plain_text_start (boost::weak_ptr<Piece>, boost::weak_ptr<CaptionContent>, ContentTextCaption);
-	void subtitle_stop (boost::weak_ptr<Piece>, boost::weak_ptr<CaptionContent>, ContentTime, CaptionType);
+	void bitmap_text_start (boost::weak_ptr<Piece>, boost::weak_ptr<const CaptionContent>, ContentBitmapCaption);
+	void plain_text_start (boost::weak_ptr<Piece>, boost::weak_ptr<const CaptionContent>, ContentTextCaption);
+	void subtitle_stop (boost::weak_ptr<Piece>, boost::weak_ptr<const CaptionContent>, ContentTime, CaptionType);
 	DCPTime one_video_frame () const;
 	void fill_audio (DCPTimePeriod period);
 	std::pair<boost::shared_ptr<AudioBuffers>, DCPTime> discard_audio (
@@ -152,8 +152,8 @@ private:
 
 	/** true if the player should ignore all video; i.e. never produce any */
 	bool _ignore_video;
-	/** true if the player should ignore all audio; i.e. never produce any */
-	bool _ignore_subtitle;
+	/** true if the player should ignore all captions; i.e. never produce any */
+	bool _ignore_caption;
 	/** Type of captions that the player should always burn into the video regardless
 	    of content settings.
 	*/

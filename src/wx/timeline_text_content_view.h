@@ -21,6 +21,7 @@
 #include "timeline_content_view.h"
 
 class TextContent;
+class CaptionContent;
 
 /** @class TimelineTextContentView
  *  @brief Timeline view for TextContent.
@@ -28,10 +29,12 @@ class TextContent;
 class TimelineTextContentView : public TimelineContentView
 {
 public:
-	TimelineTextContentView (Timeline& tl, boost::shared_ptr<Content> c);
+	TimelineTextContentView (Timeline& tl, boost::shared_ptr<Content>, boost::shared_ptr<CaptionContent>);
 
 private:
 	bool active () const;
 	wxColour background_colour () const;
 	wxColour foreground_colour () const;
+
+	boost::shared_ptr<CaptionContent> _caption;
 };

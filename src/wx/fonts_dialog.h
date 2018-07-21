@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -25,11 +25,12 @@
 #include <boost/filesystem.hpp>
 
 class Content;
+class CaptionContent;
 
 class FontsDialog : public wxDialog
 {
 public:
-	FontsDialog (wxWindow* parent, boost::shared_ptr<Content>);
+	FontsDialog (wxWindow* parent, boost::shared_ptr<Content>, boost::shared_ptr<CaptionContent> caption);
 
 private:
 	void setup ();
@@ -38,6 +39,7 @@ private:
 	void edit_clicked ();
 
 	boost::weak_ptr<Content> _content;
+	boost::weak_ptr<CaptionContent> _caption;
 	wxListCtrl* _fonts;
 	wxButton* _edit;
 };

@@ -29,7 +29,9 @@ class FilmViewer;
 class CaptionView : public wxDialog
 {
 public:
-	CaptionView (wxWindow *, boost::shared_ptr<Film>, boost::shared_ptr<Content> content, boost::shared_ptr<Decoder>, FilmViewer* viewer);
+	CaptionView (
+		wxWindow *, boost::shared_ptr<Film>, boost::shared_ptr<Content> content, boost::shared_ptr<CaptionContent> caption, boost::shared_ptr<Decoder>, FilmViewer* viewer
+		);
 
 private:
 	void data_start (ContentTextCaption cts);
