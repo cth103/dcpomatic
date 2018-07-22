@@ -87,7 +87,6 @@ private:
 	void slider_released ();
 	void play_clicked ();
 	void timer ();
-	void captions_changed ();
 	void calculate_sizes ();
 	void check_play_state ();
 	void active_jobs_changed (boost::optional<std::string>);
@@ -123,7 +122,6 @@ private:
 	wxCheckBox* _outline_content;
 	wxChoice* _eye;
 	wxCheckBox* _jump_to_selected;
-	wxChoice* _captions;
 	wxSlider* _slider;
 	wxButton* _rewind_button;
 	wxButton* _back_button;

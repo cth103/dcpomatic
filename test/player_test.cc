@@ -215,7 +215,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 
 	shared_ptr<Player> player (new Player (film, film->playlist()));
 	player->set_fast ();
-	player->set_always_burn_captions (CAPTION_OPEN);
+	player->set_always_burn_open_captions ();
 	player->set_play_referenced ();
 
 	shared_ptr<Butler> butler (new Butler (player, film->log(), AudioMapping(), 2));
@@ -246,7 +246,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 
 	shared_ptr<Player> player (new Player (film, film->playlist()));
 	player->set_fast ();
-	player->set_always_burn_captions (CAPTION_OPEN);
+	player->set_always_burn_open_captions ();
 	player->set_play_referenced ();
 
 	shared_ptr<Butler> butler (new Butler (player, film->log(), AudioMapping(), 2));

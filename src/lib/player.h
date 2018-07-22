@@ -79,7 +79,7 @@ public:
 	void set_video_container_size (dcp::Size);
 	void set_ignore_video ();
 	void set_ignore_caption ();
-	void set_always_burn_captions (CaptionType type);
+	void set_always_burn_open_captions ();
 	void set_fast ();
 	void set_play_referenced ();
 	void set_dcp_decode_reduction (boost::optional<int> reduction);
@@ -154,10 +154,7 @@ private:
 	bool _ignore_video;
 	/** true if the player should ignore all captions; i.e. never produce any */
 	bool _ignore_caption;
-	/** Type of captions that the player should always burn into the video regardless
-	    of content settings.
-	*/
-	boost::optional<CaptionType> _always_burn_captions;
+	bool _always_burn_open_captions;
 	/** true if we should try to be fast rather than high quality */
 	bool _fast;
 	/** true if we should `play' (i.e output) referenced DCP data (e.g. for preview) */

@@ -444,14 +444,11 @@ Player::set_ignore_caption ()
 	_ignore_caption = true;
 }
 
-/** Set a type of caption that this player should always burn into the image,
- *  regardless of the content settings.
- *  @param type type of captions to burn.
- */
+/** Set the player to always burn open captions into the image regardless of the content settings */
 void
-Player::set_always_burn_captions (CaptionType type)
+Player::set_always_burn_open_captions ()
 {
-	_always_burn_captions = type;
+	_always_burn_open_captions = true;
 }
 
 /** Sets up the player to be faster, possibly at the expense of quality */
@@ -687,7 +684,7 @@ Player::captions_for_frame (DCPTime time) const
 	int const vfr = _film->video_frame_rate();
 
 	for (int i = 0; i < CAPTION_COUNT; ++i) {
-		bool const always = _always_burn_captions && *_always_burn_captions == i;
+		bool const always = i == CAPTION_OPEN && _always_burn_open_captions;
 		BOOST_FOREACH (
 			PlayerCaption j,
 			_active_captions[i].get_burnt(DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), always)
@@ -960,7 +957,7 @@ Player::subtitle_stop (weak_ptr<Piece> wp, weak_ptr<const CaptionContent> wc, Co
 
 	pair<PlayerCaption, DCPTime> from = _active_captions[type].add_to (wc, dcp_to);
 
-	bool const always = _always_burn_captions && *_always_burn_captions == type;
+	bool const always = type == CAPTION_OPEN && _always_burn_open_captions;
 	if (caption->use() && !always && !caption->burn()) {
 		Caption (from.first, type, DCPTimePeriod (from.second, dcp_to));
 	}

@@ -123,12 +123,6 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 		view_options->Add (_jump_to_selected, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
 	}
 
-	_captions = new wxChoice (this, wxID_ANY);
-	_captions->Append (_("Open captions (subtitles)"));
-	_captions->Append (_("Closed captions"));
-	_captions->SetSelection (0);
-	view_options->Add (_captions, 0, wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
-
 	_v_sizer->Add (view_options, 0, wxALL, DCPOMATIC_SIZER_GAP);
 
 	wxBoxSizer* h_sizer = new wxBoxSizer (wxHORIZONTAL);
@@ -157,7 +151,6 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 		_outline_content->Bind  (wxEVT_CHECKBOX, boost::bind (&FilmViewer::refresh_panel,   this));
 	}
 	_eye->Bind              (wxEVT_CHOICE,            boost::bind (&FilmViewer::slow_refresh,    this));
-	_captions->Bind         (wxEVT_CHOICE,            boost::bind (&FilmViewer::captions_changed, this));
 	_slider->Bind           (wxEVT_SCROLL_THUMBTRACK, boost::bind (&FilmViewer::slider_moved,    this, false));
 	_slider->Bind           (wxEVT_SCROLL_PAGEUP,     boost::bind (&FilmViewer::slider_moved,    this, true));
 	_slider->Bind           (wxEVT_SCROLL_PAGEDOWN,   boost::bind (&FilmViewer::slider_moved,    this, true));
@@ -225,8 +218,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 		return;
 	}
 
-	/* Start off burning in subtitles, as that's the initial setting of the dropdown */
-	_player->set_always_burn_captions (CAPTION_OPEN);
+	_player->set_always_burn_open_captions ();
 	_player->set_play_referenced ();
 
 	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
@@ -728,21 +720,6 @@ FilmViewer::film_changed (Film::Property p)
 	} else if (p == Film::AUDIO_CHANNELS) {
 		recreate_butler ();
 	}
-}
-
-void
-FilmViewer::captions_changed ()
-{
-	switch (_captions->GetSelection()) {
-	case 0:
-		_player->set_always_burn_captions (CAPTION_OPEN);
-		break;
-	case 1:
-		_player->set_always_burn_captions (CAPTION_CLOSED);
-		break;
-	}
-
-	slow_refresh ();
 }
 
 /** Re-get the current frame slowly by seeking */
