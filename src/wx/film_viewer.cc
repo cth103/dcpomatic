@@ -145,23 +145,23 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 	_back_button->SetMinSize (wxSize (32, -1));
 	_forward_button->SetMinSize (wxSize (32, -1));
 
-	_panel->Bind            (wxEVT_PAINT,             boost::bind (&FilmViewer::paint_panel,     this));
-	_panel->Bind            (wxEVT_SIZE,              boost::bind (&FilmViewer::panel_sized,     this, _1));
+	_panel->Bind            (wxEVT_PAINT,               boost::bind (&FilmViewer::paint_panel,     this));
+	_panel->Bind            (wxEVT_SIZE,                boost::bind (&FilmViewer::panel_sized,     this, _1));
 	if (_outline_content) {
-		_outline_content->Bind  (wxEVT_CHECKBOX, boost::bind (&FilmViewer::refresh_panel,   this));
+		_outline_content->Bind  (wxEVT_CHECKBOX,    boost::bind (&FilmViewer::refresh_panel,   this));
 	}
-	_eye->Bind              (wxEVT_CHOICE,            boost::bind (&FilmViewer::slow_refresh,    this));
-	_slider->Bind           (wxEVT_SCROLL_THUMBTRACK, boost::bind (&FilmViewer::slider_moved,    this, false));
-	_slider->Bind           (wxEVT_SCROLL_PAGEUP,     boost::bind (&FilmViewer::slider_moved,    this, true));
-	_slider->Bind           (wxEVT_SCROLL_PAGEDOWN,   boost::bind (&FilmViewer::slider_moved,    this, true));
+	_eye->Bind              (wxEVT_CHOICE,              boost::bind (&FilmViewer::slow_refresh,    this));
+	_slider->Bind           (wxEVT_SCROLL_THUMBTRACK,   boost::bind (&FilmViewer::slider_moved,    this, false));
+	_slider->Bind           (wxEVT_SCROLL_PAGEUP,       boost::bind (&FilmViewer::slider_moved,    this, true));
+	_slider->Bind           (wxEVT_SCROLL_PAGEDOWN,     boost::bind (&FilmViewer::slider_moved,    this, true));
 	_slider->Bind           (wxEVT_SCROLL_THUMBRELEASE, boost::bind (&FilmViewer::slider_released, this));
-	_play_button->Bind      (wxEVT_TOGGLEBUTTON,      boost::bind (&FilmViewer::play_clicked,    this));
-	_timer.Bind             (wxEVT_TIMER,             boost::bind (&FilmViewer::timer,           this));
-	_rewind_button->Bind    (wxEVT_LEFT_DOWN,         boost::bind (&FilmViewer::rewind_clicked,  this, _1));
-	_back_button->Bind      (wxEVT_LEFT_DOWN,         boost::bind (&FilmViewer::back_clicked,    this, _1));
-	_forward_button->Bind   (wxEVT_LEFT_DOWN,         boost::bind (&FilmViewer::forward_clicked, this, _1));
-	_frame_number->Bind     (wxEVT_LEFT_DOWN,         boost::bind (&FilmViewer::frame_number_clicked, this));
-	_timecode->Bind         (wxEVT_LEFT_DOWN,         boost::bind (&FilmViewer::timecode_clicked, this));
+	_play_button->Bind      (wxEVT_TOGGLEBUTTON,        boost::bind (&FilmViewer::play_clicked,    this));
+	_timer.Bind             (wxEVT_TIMER,               boost::bind (&FilmViewer::timer,           this));
+	_rewind_button->Bind    (wxEVT_LEFT_DOWN,           boost::bind (&FilmViewer::rewind_clicked,  this, _1));
+	_back_button->Bind      (wxEVT_LEFT_DOWN,           boost::bind (&FilmViewer::back_clicked,    this, _1));
+	_forward_button->Bind   (wxEVT_LEFT_DOWN,           boost::bind (&FilmViewer::forward_clicked, this, _1));
+	_frame_number->Bind     (wxEVT_LEFT_DOWN,           boost::bind (&FilmViewer::frame_number_clicked, this));
+	_timecode->Bind         (wxEVT_LEFT_DOWN,           boost::bind (&FilmViewer::timecode_clicked, this));
 	if (_jump_to_selected) {
 		_jump_to_selected->Bind (wxEVT_CHECKBOX, boost::bind (&FilmViewer::jump_to_selected_clicked, this));
 		_jump_to_selected->SetValue (Config::instance()->jump_to_selected ());
