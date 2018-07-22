@@ -212,7 +212,8 @@ enum {
 	ID_jobs_send_dcp_to_tms,
 	ID_jobs_show_dcp,
 	ID_jobs_open_dcp_in_player,
-	ID_tools_video_waveform,
+	ID_view_closed_captions,
+	ID_view_video_waveform,
 	ID_tools_hints,
 	ID_tools_encoding_servers,
 	ID_tools_manage_templates,
@@ -297,7 +298,8 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_send_dcp_to_tms, this),    ID_jobs_send_dcp_to_tms);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_show_dcp, this),           ID_jobs_show_dcp);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_open_dcp_in_player, this), ID_jobs_open_dcp_in_player);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_video_waveform, this),    ID_tools_video_waveform);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_closed_captions, this),    ID_view_closed_captions);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_video_waveform, this),     ID_view_video_waveform);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_hints, this),             ID_tools_hints);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_encoding_servers, this),  ID_tools_encoding_servers);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_manage_templates, this),  ID_tools_manage_templates);
@@ -424,8 +426,10 @@ public:
 		_film = film;
 		_film_viewer->set_film (_film);
 		_film_editor->set_film (_film);
-		delete _video_waveform_dialog;
-		_video_waveform_dialog = 0;
+		if (_video_waveform_dialog) {
+			_video_waveform_dialog->Destroy ();
+			_video_waveform_dialog = 0;
+		}
 		set_menu_sensitivity ();
 		if (_film->directory()) {
 			Config::instance()->add_to_history (_film->directory().get());
@@ -882,7 +886,12 @@ private:
 #endif
 	}
 
-	void tools_video_waveform ()
+	void view_closed_captions ()
+	{
+		_film_viewer->show_closed_captions ();
+	}
+
+	void view_video_waveform ()
 	{
 		if (!_video_waveform_dialog) {
 			_video_waveform_dialog = new VideoWaveformDialog (this, _film, _film_viewer);
@@ -1141,8 +1150,11 @@ private:
 		add_item (jobs_menu, _("S&how DCP"), ID_jobs_show_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
 		add_item (jobs_menu, _("Open DCP in &player"), ID_jobs_open_dcp_in_player, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
 
+		wxMenu* view = new wxMenu;
+		add_item (view, _("Closed captions..."), ID_view_closed_captions, NEEDS_FILM);
+		add_item (view, _("Video waveform..."), ID_view_video_waveform, NEEDS_FILM);
+
 		wxMenu* tools = new wxMenu;
-		add_item (tools, _("Video waveform..."), ID_tools_video_waveform, NEEDS_FILM);
 		add_item (tools, _("Hints..."), ID_tools_hints, 0);
 		add_item (tools, _("Encoding servers..."), ID_tools_encoding_servers, 0);
 		add_item (tools, _("Manage templates..."), ID_tools_manage_templates, 0);
@@ -1162,6 +1174,7 @@ private:
 		m->Append (edit, _("&Edit"));
 		m->Append (content, _("&Content"));
 		m->Append (jobs_menu, _("&Jobs"));
+		m->Append (view, _("&View"));
 		m->Append (tools, _("&Tools"));
 		m->Append (help, _("&Help"));
 	}

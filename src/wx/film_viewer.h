@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,6 +24,7 @@
 
 #include "lib/film.h"
 #include "lib/config.h"
+#include "lib/player_caption.h"
 #include <RtAudio.h>
 #include <wx/wx.h>
 
@@ -34,6 +35,7 @@ class RGBPlusAlphaImage;
 class PlayerVideo;
 class Player;
 class Butler;
+class ClosedCaptionsDialog;
 
 /** @class FilmViewer
  *  @brief A wx widget to view a preview of a Film.
@@ -78,6 +80,8 @@ public:
 
 	int audio_callback (void* out, unsigned int frames);
 
+	void show_closed_captions ();
+
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
 
 private:
@@ -112,6 +116,7 @@ private:
 	DCPTime time () const;
 	Frame average_latency () const;
 	DCPTime one_video_frame () const;
+	void caption (PlayerCaption caption, CaptionType type, DCPTimePeriod period);
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<Player> _player;
@@ -159,6 +164,8 @@ private:
 
 	int _dropped;
 	boost::optional<int> _dcp_decode_reduction;
+
+	ClosedCaptionsDialog* _closed_captions_dialog;
 
 	boost::signals2::scoped_connection _config_changed_connection;
 };
