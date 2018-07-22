@@ -60,11 +60,7 @@ ClosedCaptionsDialog::paint ()
 	dc.SetFont (font);
 
 	for (int i = 0; i < _num_lines; ++i) {
-		if (_lines[i].IsEmpty()) {
-			dc.DrawText (wxString::Format("Line %d", i + 1), 8, line_height * i);
-		} else {
-			dc.DrawText (_lines[i], 8, line_height * i);
-		}
+		dc.DrawText (_lines[i], 8, line_height * i);
 	}
 }
 
