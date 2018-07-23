@@ -36,6 +36,7 @@ class CaptionContent;
 class ActiveCaptions : public boost::noncopyable
 {
 public:
+	std::list<PlayerCaption> get (DCPTimePeriod period) const;
 	std::list<PlayerCaption> get_burnt (DCPTimePeriod period, bool always_burn_captions) const;
 	void clear_before (DCPTime time);
 	void clear ();
@@ -60,6 +61,8 @@ private:
 	};
 
 	typedef std::map<boost::weak_ptr<const CaptionContent>, std::list<Period> > Map;
+
+	void add (DCPTimePeriod period, std::list<PlayerCaption>& pc, std::list<Period> p) const;
 
 	Map _data;
 };

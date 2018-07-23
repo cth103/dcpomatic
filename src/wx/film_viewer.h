@@ -116,7 +116,6 @@ private:
 	DCPTime time () const;
 	Frame average_latency () const;
 	DCPTime one_video_frame () const;
-	void caption (PlayerCaption caption, CaptionType type, DCPTimePeriod period);
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<Player> _player;

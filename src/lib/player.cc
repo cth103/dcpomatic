@@ -676,29 +676,34 @@ Player::pass ()
 	return done;
 }
 
+list<PlayerCaption>
+Player::closed_captions_for_frame (DCPTime time) const
+{
+	return _active_captions[CAPTION_CLOSED].get (
+		DCPTimePeriod(time, time + DCPTime::from_frames(1, _film->video_frame_rate()))
+		);
+}
+
+/** @return Open captions for the frame at the given time, converted to images */
 optional<PositionImage>
-Player::captions_for_frame (DCPTime time) const
+Player::open_captions_for_frame (DCPTime time) const
 {
 	list<PositionImage> captions;
-
 	int const vfr = _film->video_frame_rate();
 
-	for (int i = 0; i < CAPTION_COUNT; ++i) {
-		bool const always = i == CAPTION_OPEN && _always_burn_open_captions;
-		BOOST_FOREACH (
-			PlayerCaption j,
-			_active_captions[i].get_burnt(DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), always)
-			) {
+	BOOST_FOREACH (
+		PlayerCaption j,
+		_active_captions[CAPTION_OPEN].get_burnt(DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_open_captions)
+		) {
 
-			/* Image subtitles */
-			list<PositionImage> c = transform_bitmap_captions (j.image);
-			copy (c.begin(), c.end(), back_inserter (captions));
+		/* Image subtitles */
+		list<PositionImage> c = transform_bitmap_captions (j.image);
+		copy (c.begin(), c.end(), back_inserter (captions));
 
-			/* Text subtitles (rendered to an image) */
-			if (!j.text.empty ()) {
-				list<PositionImage> s = render_text (j.text, j.fonts, _video_container_size, time, vfr);
-				copy (s.begin(), s.end(), back_inserter (captions));
-			}
+		/* Text subtitles (rendered to an image) */
+		if (!j.text.empty ()) {
+			list<PositionImage> s = render_text (j.text, j.fonts, _video_container_size, time, vfr);
+			copy (s.begin(), s.end(), back_inserter (captions));
 		}
 	}
 
@@ -1047,7 +1052,7 @@ Player::do_emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 		}
 	}
 
-	optional<PositionImage> captions = captions_for_frame (time);
+	optional<PositionImage> captions = open_captions_for_frame (time);
 	if (captions) {
 		pv->set_caption (captions.get ());
 	}

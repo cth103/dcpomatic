@@ -30,7 +30,37 @@ using boost::weak_ptr;
 using boost::shared_ptr;
 using boost::optional;
 
-/** Get the subtitles that should be burnt into a given period.
+void
+ActiveCaptions::add (DCPTimePeriod period, list<PlayerCaption>& pc, list<Period> p) const
+{
+	BOOST_FOREACH (Period i, p) {
+		DCPTimePeriod test (i.from, i.to.get_value_or(DCPTime::max()));
+		optional<DCPTimePeriod> overlap = period.overlap (test);
+		if (overlap && overlap->duration() > DCPTime(period.duration().get() / 2)) {
+			pc.push_back (i.subs);
+		}
+	}
+}
+
+list<PlayerCaption>
+ActiveCaptions::get (DCPTimePeriod period) const
+{
+	list<PlayerCaption> ps;
+
+	for (Map::const_iterator i = _data.begin(); i != _data.end(); ++i) {
+
+		shared_ptr<const CaptionContent> caption = i->first.lock ();
+		if (!caption || !caption->use()) {
+			continue;
+		}
+
+		add (period, ps, i->second);
+	}
+
+	return ps;
+}
+
+/** Get the open captions that should be burnt into a given period.
  *  @param period Period of interest.
  *  @param always_burn_captions Always burn captions even if their content is not set to burn.
  */
@@ -51,13 +81,7 @@ ActiveCaptions::get_burnt (DCPTimePeriod period, bool always_burn_captions) cons
 			continue;
 		}
 
-		BOOST_FOREACH (Period j, i->second) {
-			DCPTimePeriod test (j.from, j.to.get_value_or(DCPTime::max()));
-			optional<DCPTimePeriod> overlap = period.overlap (test);
-			if (overlap && overlap->duration() > DCPTime(period.duration().get() / 2)) {
-				ps.push_back (j.subs);
-			}
-		}
+		add (period, ps, i->second);
 	}
 
 	return ps;

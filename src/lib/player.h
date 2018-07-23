@@ -86,6 +86,8 @@ public:
 
 	DCPTime content_time_to_dcp (boost::shared_ptr<Content> content, ContentTime t);
 
+	std::list<PlayerCaption> closed_captions_for_frame (DCPTime time) const;
+
 	/** Emitted when something has changed such that if we went back and emitted
 	 *  the last frame again it would look different.  This is not emitted after
 	 *  a seek.
@@ -134,7 +136,7 @@ private:
 	std::pair<boost::shared_ptr<AudioBuffers>, DCPTime> discard_audio (
 		boost::shared_ptr<const AudioBuffers> audio, DCPTime time, DCPTime discard_to
 		) const;
-	boost::optional<PositionImage> captions_for_frame (DCPTime time) const;
+	boost::optional<PositionImage> open_captions_for_frame (DCPTime time) const;
 	void emit_video (boost::shared_ptr<PlayerVideo> pv, DCPTime time);
 	void do_emit_video (boost::shared_ptr<PlayerVideo> pv, DCPTime time);
 	void emit_audio (boost::shared_ptr<AudioBuffers> data, DCPTime time);

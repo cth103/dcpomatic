@@ -18,12 +18,15 @@
 
 */
 
-#include "closed_captions_view.h"
+#include "closed_captions_dialog.h"
+#include "lib/text_caption.h"
 #include <boost/bind.hpp>
 
 using std::list;
 using std::cout;
 using std::make_pair;
+using boost::shared_ptr;
+using boost::weak_ptr;
 
 int const ClosedCaptionsDialog::_num_lines = 3;
 int const ClosedCaptionsDialog::_num_chars_per_line = 30;
@@ -89,22 +92,14 @@ private:
 };
 
 void
-ClosedCaptionsDialog::refresh (DCPTime time)
+ClosedCaptionsDialog::update (DCPTime time)
 {
+	shared_ptr<Player> player = _player.lock ();
+	DCPOMATIC_ASSERT (player);
 	list<TextCaption> to_show;
-	list<Caption>::iterator i = _captions.begin ();
-	while (i != _captions.end ()) {
-		if (time > i->second.to) {
-			list<Caption>::iterator tmp = i;
-			++i;
-			_captions.erase (tmp);
-		} else if (i->second.contains (time)) {
-			BOOST_FOREACH (TextCaption j, i->first.text) {
-				to_show.push_back (j);
-			}
-			++i;
-		} else {
-			++i;
+	BOOST_FOREACH (PlayerCaption i, player->closed_captions_for_frame(time)) {
+		BOOST_FOREACH (TextCaption j, i.text) {
+			to_show.push_back (j);
 		}
 	}
 
@@ -126,14 +121,13 @@ ClosedCaptionsDialog::refresh (DCPTime time)
 }
 
 void
-ClosedCaptionsDialog::caption (PlayerCaption caption, DCPTimePeriod period)
+ClosedCaptionsDialog::clear ()
 {
-	_captions.push_back (make_pair (caption, period));
+	Refresh ();
 }
 
 void
-ClosedCaptionsDialog::clear ()
+ClosedCaptionsDialog::set_player (weak_ptr<Player> player)
 {
-	_captions.clear ();
-	Refresh ();
+	_player = player;
 }

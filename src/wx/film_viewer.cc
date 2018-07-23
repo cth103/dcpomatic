@@ -26,7 +26,7 @@
 #include "playhead_to_timecode_dialog.h"
 #include "playhead_to_frame_dialog.h"
 #include "wx_util.h"
-#include "closed_captions_view.h"
+#include "closed_captions_dialog.h"
 #include "lib/film.h"
 #include "lib/ratio.h"
 #include "lib/util.h"
@@ -203,6 +203,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 
 	if (!_film) {
 		_player.reset ();
+		_closed_captions_dialog->set_player (_player);
 		recreate_butler ();
 		_frame.reset ();
 		refresh_panel ();
@@ -221,12 +222,13 @@ FilmViewer::set_film (shared_ptr<Film> film)
 		return;
 	}
 
+	_closed_captions_dialog->set_player (_player);
+
 	_player->set_always_burn_open_captions ();
 	_player->set_play_referenced ();
 
 	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
 	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1, _2));
-	_player->Caption.connect (boost::bind (&FilmViewer::caption, this, _1, _2, _3));
 
 	/* Keep about 1 second's worth of history samples */
 	_latency_history_count = _film->audio_frame_rate() / _audio_block_size;
@@ -354,7 +356,7 @@ FilmViewer::display_player_video ()
 
 	refresh_panel ();
 
-	_closed_captions_dialog->refresh (time());
+	_closed_captions_dialog->update (time());
 }
 
 void
@@ -947,12 +949,4 @@ void
 FilmViewer::show_closed_captions ()
 {
 	_closed_captions_dialog->Show();
-}
-
-void
-FilmViewer::caption (PlayerCaption c, CaptionType t, DCPTimePeriod p)
-{
-	if (t == CAPTION_CLOSED) {
-		_closed_captions_dialog->caption (c, p);
-	}
 }

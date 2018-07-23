@@ -82,7 +82,8 @@ enum {
 	ID_file_close = 100,
 	ID_view_cpl,
 	/* Allow spare IDs for CPLs */
-	ID_view_scale_appropriate = 200,
+	ID_view_closed_captions = 200,
+	ID_view_scale_appropriate,
 	ID_view_scale_full,
 	ID_view_scale_half,
 	ID_view_scale_quarter,
@@ -134,6 +135,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_close, this), ID_file_close);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_exit, this), wxID_EXIT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_preferences, this), wxID_PREFERENCES);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_closed_captions, this), ID_view_closed_captions);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_cpl, this, _1), ID_view_cpl, ID_view_cpl + MAX_CPLS);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>(0)), ID_view_scale_full);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>(1)), ID_view_scale_half);
@@ -267,6 +269,7 @@ private:
 		wxMenu* view = new wxMenu;
 		optional<int> c = Config::instance()->decode_reduction();
 		_view_cpl = view->Append(ID_view_cpl, _("CPL"), _cpl_menu);
+		view->Append(ID_view_closed_captions, _("Closed captions..."));
 		view->AppendSeparator();
 		view->AppendRadioItem(ID_view_scale_appropriate, _("Set decode resolution to match display"))->Check(!static_cast<bool>(c));
 		view->AppendRadioItem(ID_view_scale_full, _("Decode at full resolution"))->Check(c && c.get() == 0);
@@ -428,6 +431,11 @@ private:
 
 		dcp->set_cpl ((*i)->id());
 		dcp->examine (shared_ptr<Job>());
+	}
+
+	void view_closed_captions ()
+	{
+		_viewer->show_closed_captions ();
 	}
 
 	void tools_verify ()
@@ -619,10 +627,7 @@ private:
 	void setup_from_dcp (shared_ptr<DCPContent> dcp)
 	{
 		BOOST_FOREACH (shared_ptr<CaptionContent> i, dcp->caption) {
-			/* XXX: we should offer the option to view closed captions */
-			if (i->type() == CAPTION_OPEN) {
-				i->set_use (true);
-			}
+			i->set_use (true);
 		}
 
 		if (dcp->video) {

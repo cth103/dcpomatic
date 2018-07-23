@@ -19,24 +19,25 @@
 */
 
 #include "lib/dcpomatic_time.h"
-#include "lib/player_caption.h"
+#include "lib/player.h"
 #include <wx/wx.h>
 
-class ClosedCaptionsView : public wxDialog
+class Player;
+
+class ClosedCaptionsDialog : public wxDialog
 {
 public:
-	ClosedCaptionsView (wxWindow* parent);
+	ClosedCaptionsDialog (wxWindow* parent);
 
-	void refresh (DCPTime);
-	void caption (PlayerCaption, DCPTimePeriod);
+	void update (DCPTime);
 	void clear ();
+	void set_player (boost::weak_ptr<Player>);
 
 private:
 	void paint ();
 
-	typedef std::pair<PlayerCaption, DCPTimePeriod> Caption;
-	std::list<Caption> _captions;
 	std::vector<wxString> _lines;
+	boost::weak_ptr<Player> _player;
 	static int const _num_lines;
 	static int const _num_chars_per_line;
 };

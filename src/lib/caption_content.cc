@@ -67,7 +67,7 @@ CaptionContent::CaptionContent (Content* parent, CaptionType original_type)
 	, _y_scale (1)
 	, _line_spacing (1)
 	, _outline_width (2)
-	, _type (CAPTION_OPEN)
+	, _type (original_type)
 	, _original_type (original_type)
 {
 
