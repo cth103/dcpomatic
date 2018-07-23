@@ -121,6 +121,7 @@ CaptionContent::CaptionContent (Content* parent, cxml::ConstNodePtr node, int ve
 	, _line_spacing (node->optional_number_child<double>("LineSpacing").get_value_or (1))
 	, _outline_width (node->optional_number_child<int>("OutlineWidth").get_value_or (2))
 	, _type (CAPTION_OPEN)
+	, _original_type (CAPTION_OPEN)
 {
 	if (version >= 37) {
 		_use = node->bool_child ("Use");
@@ -225,7 +226,7 @@ CaptionContent::CaptionContent (Content* parent, cxml::ConstNodePtr node, int ve
 	connect_to_fonts ();
 
 	_type = string_to_caption_type (node->optional_string_child("Type").get_value_or("open"));
-	_original_type = string_to_caption_type (node->optional_string_child("Type").get_value_or("open"));
+	_original_type = string_to_caption_type (node->optional_string_child("OriginalType").get_value_or("open"));
 }
 
 CaptionContent::CaptionContent (Content* parent, vector<shared_ptr<Content> > c)
@@ -305,6 +306,8 @@ CaptionContent::CaptionContent (Content* parent, vector<shared_ptr<Content> > c)
 	_fade_in = ref->fade_in ();
 	_fade_out = ref->fade_out ();
 	_outline_width = ref->outline_width ();
+	_type = ref->type ();
+	_original_type = ref->original_type ();
 
 	connect_to_fonts ();
 }
