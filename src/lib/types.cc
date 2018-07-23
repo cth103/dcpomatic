@@ -96,7 +96,9 @@ Crop::as_xml (xmlpp::Node* node) const
 TextType
 string_to_text_type (string s)
 {
-	if (s == "open-subtitle") {
+	if (s == "unknown") {
+		return TEXT_UNKNOWN;
+	} else if (s == "open-subtitle") {
 		return TEXT_OPEN_SUBTITLE;
 	} else if (s == "closed") {
 		return TEXT_CLOSED_CAPTION;
@@ -109,6 +111,8 @@ string
 text_type_to_string (TextType t)
 {
 	switch (t) {
+	case TEXT_UNKNOWN:
+		return "unknown";
 	case TEXT_OPEN_SUBTITLE:
 		return "open-subtitle";
 	case TEXT_CLOSED_CAPTION:
@@ -122,6 +126,8 @@ string
 text_type_to_name (TextType t)
 {
 	switch (t) {
+	case TEXT_UNKNOWN:
+		return _("Timed text");
 	case TEXT_OPEN_SUBTITLE:
 		return _("Open subtitles");
 	case TEXT_CLOSED_CAPTION:

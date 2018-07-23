@@ -58,7 +58,7 @@ public:
 class TextContent : public ContentPart
 {
 public:
-	TextContent (Content* parent, TextType original_type);
+	TextContent (Content* parent, TextType type, TextType original_type);
 	TextContent (Content* parent, std::vector<boost::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;

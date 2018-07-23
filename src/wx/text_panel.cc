@@ -42,8 +42,10 @@ using std::string;
 using std::list;
 using std::cout;
 using boost::shared_ptr;
+using boost::optional;
 using boost::dynamic_pointer_cast;
 
+/** @param t Original text type of the content, if known */
 TextPanel::TextPanel (ContentPanel* p, TextType t)
 	: ContentSubPanel (p, std_to_wx(text_type_to_name(t)))
 	, _text_view (0)
@@ -52,7 +54,12 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 {
 	wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
 
-	_reference = new wxCheckBox (this, wxID_ANY, _("Use this DCP's subtitle as OV and make VF"));
+	wxString refer = _("Use this DCP's subtitle as OV and make VF");
+	if (t == TEXT_CLOSED_CAPTION) {
+		refer = _("Use this DCP's closed caption as OV and make VF");
+	}
+
+	_reference = new wxCheckBox (this, wxID_ANY, refer);
 	reference_sizer->Add (_reference, 0, wxLEFT | wxRIGHT | wxTOP, DCPOMATIC_SIZER_GAP);
 
 	_reference_note = new wxStaticText (this, wxID_ANY, _(""));

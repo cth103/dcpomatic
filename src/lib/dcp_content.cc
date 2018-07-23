@@ -193,7 +193,7 @@ DCPContent::examine (shared_ptr<Job> job)
 		_name = examiner->name ();
 		for (int i = 0; i < TEXT_COUNT; ++i) {
 			if (examiner->has_text(static_cast<TextType>(i))) {
-				text.push_back (shared_ptr<TextContent>(new TextContent(this, static_cast<TextType>(i))));
+				text.push_back (shared_ptr<TextContent>(new TextContent(this, static_cast<TextType>(i), static_cast<TextType>(i))));
 			}
 		}
 		texts = text.size ();

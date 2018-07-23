@@ -144,6 +144,7 @@ enum ReelType
  */
 enum TextType
 {
+	TEXT_UNKNOWN,
 	TEXT_OPEN_SUBTITLE,
 	TEXT_CLOSED_CAPTION,
 	TEXT_COUNT

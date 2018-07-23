@@ -33,12 +33,13 @@
 using std::string;
 using std::cout;
 using boost::shared_ptr;
+using boost::optional;
 using dcp::raw_convert;
 
 StringTextFileContent::StringTextFileContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
 {
-	text.push_back (shared_ptr<TextContent> (new TextContent (this, TEXT_OPEN_SUBTITLE)));
+	text.push_back (shared_ptr<TextContent> (new TextContent (this, TEXT_OPEN_SUBTITLE, TEXT_UNKNOWN)));
 }
 
 StringTextFileContent::StringTextFileContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
