@@ -59,7 +59,7 @@ public:
 };
 
 /** @class Player
- *  @brief A class which can `play' a Playlist.
+ *  @brief A class which can play a Playlist.
  */
 class Player : public boost::enable_shared_from_this<Player>, public boost::noncopyable
 {

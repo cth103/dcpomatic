@@ -22,6 +22,9 @@
 
 class AudioBuffers;
 
+/** @class AudioDelay
+ *  @brief An audio delay line.
+ */
 class AudioDelay
 {
 public:
