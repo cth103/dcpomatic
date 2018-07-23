@@ -31,7 +31,7 @@
 class Content;
 class VideoContent;
 class AudioContent;
-class CaptionContent;
+class TextContent;
 class FFmpegContent;
 
 namespace cxml {
@@ -139,16 +139,16 @@ enum ReelType
  *  There is also still use of the word `subtitle' in the code; these are the
  *  same as open captions in DoM.
  */
-enum CaptionType
+enum TextType
 {
 	CAPTION_OPEN,
 	CAPTION_CLOSED,
 	CAPTION_COUNT
 };
 
-extern std::string caption_type_to_string (CaptionType t);
-extern std::string caption_type_to_name (CaptionType t);
-extern CaptionType string_to_caption_type (std::string s);
+extern std::string caption_type_to_string (TextType t);
+extern std::string caption_type_to_name (TextType t);
+extern TextType string_to_caption_type (std::string s);
 
 /** @struct Crop
  *  @brief A description of the crop of an image or video.

@@ -22,17 +22,17 @@
 
 class Job;
 
-/** @class TextCaptionFileContent
+/** @class StringTextFileContent
  *  @brief A SubRip, SSA or ASS file.
  */
-class TextCaptionFileContent : public Content
+class StringTextFileContent : public Content
 {
 public:
-	TextCaptionFileContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	TextCaptionFileContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
+	StringTextFileContent (boost::shared_ptr<const Film>, boost::filesystem::path);
+	StringTextFileContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
 
-	boost::shared_ptr<TextCaptionFileContent> shared_from_this () {
-		return boost::dynamic_pointer_cast<TextCaptionFileContent> (Content::shared_from_this ());
+	boost::shared_ptr<StringTextFileContent> shared_from_this () {
+		return boost::dynamic_pointer_cast<StringTextFileContent> (Content::shared_from_this ());
 	}
 
 	void examine (boost::shared_ptr<Job>);

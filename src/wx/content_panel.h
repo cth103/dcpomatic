@@ -32,7 +32,7 @@ class wxListEvent;
 class TimelineDialog;
 class FilmEditor;
 class ContentSubPanel;
-class CaptionPanel;
+class TextPanel;
 class AudioPanel;
 class Film;
 class FilmViewer;
@@ -105,7 +105,7 @@ private:
 	wxButton* _timeline;
 	ContentSubPanel* _video_panel;
 	AudioPanel* _audio_panel;
-	CaptionPanel* _caption_panel[CAPTION_COUNT];
+	TextPanel* _caption_panel[CAPTION_COUNT];
 	ContentSubPanel* _timing_panel;
 	std::list<ContentSubPanel *> _panels;
 	ContentMenu* _menu;

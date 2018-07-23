@@ -58,7 +58,7 @@ private:
 	void next_reel ();
 	void get_readers ();
 	void pass_captions (ContentTime next);
-	void pass_captions (ContentTime next, boost::shared_ptr<dcp::SubtitleAsset> asset, bool reference, int64_t entry_point, boost::shared_ptr<CaptionDecoder> decoder);
+	void pass_captions (ContentTime next, boost::shared_ptr<dcp::SubtitleAsset> asset, bool reference, int64_t entry_point, boost::shared_ptr<TextDecoder> decoder);
 
 	/** Time of next thing to return from pass relative to the start of _reel */
 	ContentTime _next;

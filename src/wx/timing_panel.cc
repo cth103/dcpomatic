@@ -26,10 +26,10 @@
 #include "move_to_dialog.h"
 #include "lib/content.h"
 #include "lib/image_content.h"
-#include "lib/caption_content.h"
+#include "lib/text_content.h"
 #include "lib/dcp_subtitle_content.h"
 #include "lib/audio_content.h"
-#include "lib/text_caption_file_content.h"
+#include "lib/string_text_file_content.h"
 #include "lib/video_content.h"
 #include <dcp/locale_convert.h>
 #include <boost/foreach.hpp>

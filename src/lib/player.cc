@@ -40,8 +40,8 @@
 #include "decoder.h"
 #include "video_decoder.h"
 #include "audio_decoder.h"
-#include "caption_content.h"
-#include "caption_decoder.h"
+#include "text_content.h"
+#include "text_decoder.h"
 #include "ffmpeg_content.h"
 #include "audio_content.h"
 #include "dcp_decoder.h"
@@ -138,7 +138,7 @@ Player::setup_pieces ()
 		}
 
 		if (_ignore_caption) {
-			BOOST_FOREACH (shared_ptr<CaptionDecoder> i, decoder->caption) {
+			BOOST_FOREACH (shared_ptr<TextDecoder> i, decoder->caption) {
 				i->set_ignore (true);
 			}
 		}
@@ -167,17 +167,17 @@ Player::setup_pieces ()
 			decoder->audio->Data.connect (bind (&Player::audio, this, weak_ptr<Piece> (piece), _1, _2));
 		}
 
-		list<shared_ptr<CaptionDecoder> >::const_iterator j = decoder->caption.begin();
+		list<shared_ptr<TextDecoder> >::const_iterator j = decoder->caption.begin();
 
 		while (j != decoder->caption.end()) {
 			(*j)->BitmapStart.connect (
-				bind(&Player::bitmap_text_start, this, weak_ptr<Piece>(piece), weak_ptr<const CaptionContent>((*j)->content()), _1)
+				bind(&Player::bitmap_text_start, this, weak_ptr<Piece>(piece), weak_ptr<const TextContent>((*j)->content()), _1)
 				);
 			(*j)->PlainStart.connect (
-				bind(&Player::plain_text_start, this, weak_ptr<Piece>(piece), weak_ptr<const CaptionContent>((*j)->content()), _1)
+				bind(&Player::plain_text_start, this, weak_ptr<Piece>(piece), weak_ptr<const TextContent>((*j)->content()), _1)
 				);
 			(*j)->Stop.connect (
-				bind(&Player::subtitle_stop, this, weak_ptr<Piece>(piece), weak_ptr<const CaptionContent>((*j)->content()), _1, _2)
+				bind(&Player::subtitle_stop, this, weak_ptr<Piece>(piece), weak_ptr<const TextContent>((*j)->content()), _1, _2)
 				);
 
 			++j;
@@ -221,9 +221,9 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == AudioContentProperty::STREAMS ||
 		property == DCPContentProperty::NEEDS_ASSETS ||
 		property == DCPContentProperty::NEEDS_KDM ||
-		property == CaptionContentProperty::COLOUR ||
-		property == CaptionContentProperty::EFFECT ||
-		property == CaptionContentProperty::EFFECT_COLOUR ||
+		property == TextContentProperty::COLOUR ||
+		property == TextContentProperty::EFFECT ||
+		property == TextContentProperty::EFFECT_COLOUR ||
 		property == FFmpegContentProperty::SUBTITLE_STREAM ||
 		property == FFmpegContentProperty::FILTERS
 		) {
@@ -232,18 +232,18 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		Changed (property, frequent);
 
 	} else if (
-		property == CaptionContentProperty::LINE_SPACING ||
-		property == CaptionContentProperty::OUTLINE_WIDTH ||
-		property == CaptionContentProperty::Y_SCALE ||
-		property == CaptionContentProperty::FADE_IN ||
-		property == CaptionContentProperty::FADE_OUT ||
+		property == TextContentProperty::LINE_SPACING ||
+		property == TextContentProperty::OUTLINE_WIDTH ||
+		property == TextContentProperty::Y_SCALE ||
+		property == TextContentProperty::FADE_IN ||
+		property == TextContentProperty::FADE_OUT ||
 		property == ContentProperty::VIDEO_FRAME_RATE ||
-		property == CaptionContentProperty::USE ||
-		property == CaptionContentProperty::X_OFFSET ||
-		property == CaptionContentProperty::Y_OFFSET ||
-		property == CaptionContentProperty::X_SCALE ||
-		property == CaptionContentProperty::FONTS ||
-		property == CaptionContentProperty::TYPE ||
+		property == TextContentProperty::USE ||
+		property == TextContentProperty::X_OFFSET ||
+		property == TextContentProperty::Y_OFFSET ||
+		property == TextContentProperty::X_SCALE ||
+		property == TextContentProperty::FONTS ||
+		property == TextContentProperty::TYPE ||
 		property == VideoContentProperty::CROP ||
 		property == VideoContentProperty::SCALE ||
 		property == VideoContentProperty::FADE_IN ||
@@ -302,11 +302,11 @@ Player::film_changed (Film::Property p)
 }
 
 list<PositionImage>
-Player::transform_bitmap_captions (list<BitmapCaption> subs) const
+Player::transform_bitmap_captions (list<BitmapText> subs) const
 {
 	list<PositionImage> all;
 
-	for (list<BitmapCaption>::const_iterator i = subs.begin(); i != subs.end(); ++i) {
+	for (list<BitmapText>::const_iterator i = subs.begin(); i != subs.end(); ++i) {
 		if (!i->image) {
 			continue;
 		}
@@ -419,7 +419,7 @@ Player::get_subtitle_fonts ()
 
 	list<shared_ptr<Font> > fonts;
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
-		BOOST_FOREACH (shared_ptr<CaptionContent> j, i->content->caption) {
+		BOOST_FOREACH (shared_ptr<TextContent> j, i->content->caption) {
 			/* XXX: things may go wrong if there are duplicate font IDs
 			   with different font files.
 			*/
@@ -676,7 +676,7 @@ Player::pass ()
 	return done;
 }
 
-list<PlayerCaption>
+list<PlayerText>
 Player::closed_captions_for_frame (DCPTime time) const
 {
 	return _active_captions[CAPTION_CLOSED].get (
@@ -692,7 +692,7 @@ Player::open_captions_for_frame (DCPTime time) const
 	int const vfr = _film->video_frame_rate();
 
 	BOOST_FOREACH (
-		PlayerCaption j,
+		PlayerText j,
 		_active_captions[CAPTION_OPEN].get_burnt(DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_open_captions)
 		) {
 
@@ -870,10 +870,10 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 }
 
 void
-Player::bitmap_text_start (weak_ptr<Piece> wp, weak_ptr<const CaptionContent> wc, ContentBitmapCaption subtitle)
+Player::bitmap_text_start (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, ContentBitmapText subtitle)
 {
 	shared_ptr<Piece> piece = wp.lock ();
-	shared_ptr<const CaptionContent> caption = wc.lock ();
+	shared_ptr<const TextContent> caption = wc.lock ();
 	if (!piece || !caption) {
 		return;
 	}
@@ -890,7 +890,7 @@ Player::bitmap_text_start (weak_ptr<Piece> wp, weak_ptr<const CaptionContent> wc
 	subtitle.sub.rectangle.width *= caption->x_scale ();
 	subtitle.sub.rectangle.height *= caption->y_scale ();
 
-	PlayerCaption ps;
+	PlayerText ps;
 	ps.image.push_back (subtitle.sub);
 	DCPTime from (content_time_to_dcp (piece, subtitle.from()));
 
@@ -898,15 +898,15 @@ Player::bitmap_text_start (weak_ptr<Piece> wp, weak_ptr<const CaptionContent> wc
 }
 
 void
-Player::plain_text_start (weak_ptr<Piece> wp, weak_ptr<const CaptionContent> wc, ContentTextCaption subtitle)
+Player::plain_text_start (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, ContentStringText subtitle)
 {
 	shared_ptr<Piece> piece = wp.lock ();
-	shared_ptr<const CaptionContent> caption = wc.lock ();
+	shared_ptr<const TextContent> caption = wc.lock ();
 	if (!piece || !caption) {
 		return;
 	}
 
-	PlayerCaption ps;
+	PlayerText ps;
 	DCPTime const from (content_time_to_dcp (piece, subtitle.from()));
 
 	if (from > piece->content->end()) {
@@ -934,7 +934,7 @@ Player::plain_text_start (weak_ptr<Piece> wp, weak_ptr<const CaptionContent> wc,
 		}
 
 		s.set_in (dcp::Time(from.seconds(), 1000));
-		ps.text.push_back (TextCaption (s, caption->outline_width()));
+		ps.text.push_back (StringText (s, caption->outline_width()));
 		ps.add_fonts (caption->fonts ());
 	}
 
@@ -942,14 +942,14 @@ Player::plain_text_start (weak_ptr<Piece> wp, weak_ptr<const CaptionContent> wc,
 }
 
 void
-Player::subtitle_stop (weak_ptr<Piece> wp, weak_ptr<const CaptionContent> wc, ContentTime to, CaptionType type)
+Player::subtitle_stop (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, ContentTime to, TextType type)
 {
 	if (!_active_captions[type].have (wc)) {
 		return;
 	}
 
 	shared_ptr<Piece> piece = wp.lock ();
-	shared_ptr<const CaptionContent> caption = wc.lock ();
+	shared_ptr<const TextContent> caption = wc.lock ();
 	if (!piece || !caption) {
 		return;
 	}
@@ -960,7 +960,7 @@ Player::subtitle_stop (weak_ptr<Piece> wp, weak_ptr<const CaptionContent> wc, Co
 		return;
 	}
 
-	pair<PlayerCaption, DCPTime> from = _active_captions[type].add_to (wc, dcp_to);
+	pair<PlayerText, DCPTime> from = _active_captions[type].add_to (wc, dcp_to);
 
 	bool const always = type == CAPTION_OPEN && _always_burn_open_captions;
 	if (caption->use() && !always && !caption->burn()) {

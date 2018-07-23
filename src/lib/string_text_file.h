@@ -18,25 +18,36 @@
 
 */
 
-#ifndef DCPOMATIC_PLAYER_CAPTION_H
-#define DCPOMATIC_PLAYER_CAPTION_H
+#ifndef DCPOMATIC_TEXT_CAPTION_FILE_H
+#define DCPOMATIC_TEXT_CAPTION_FILE_H
 
-#include "bitmap_caption.h"
 #include "dcpomatic_time.h"
-#include "text_caption.h"
+#include <sub/subtitle.h>
+#include <boost/shared_ptr.hpp>
+#include <vector>
 
-class Font;
+class StringTextFileContent;
+class plain_text_time_test;
+class plain_text_coordinate_test;
+class plain_text_content_test;
+class plain_text_parse_test;
 
-/** A set of text (subtitle/CCAP) which span the same time period */
-class PlayerCaption
+/** @class StringTextFile
+ *  @brief Base for StringTextFile decoder and examiner.
+ *
+ *  In fact this is sufficient for the examiner, so it's used as-is rather than deriving
+ *  a pointless StringTextFileExaminer.
+ */
+class StringTextFile
 {
 public:
-	void add_fonts (std::list<boost::shared_ptr<Font> > fonts_);
-	std::list<boost::shared_ptr<Font> > fonts;
+	explicit StringTextFile (boost::shared_ptr<const StringTextFileContent>);
 
-	/** BitmapCaptions, with their rectangles transformed as specified by their content */
-	std::list<BitmapCaption> image;
-	std::list<TextCaption> text;
+	boost::optional<ContentTime> first () const;
+	ContentTime length () const;
+
+protected:
+	std::vector<sub::Subtitle> _subtitles;
 };
 
 #endif

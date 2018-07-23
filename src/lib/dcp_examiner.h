@@ -83,7 +83,7 @@ public:
 		return _audio_frame_rate.get_value_or (48000);
 	}
 
-	bool has_caption (CaptionType type) const {
+	bool has_caption (TextType type) const {
 		return _has_caption[type];
 	}
 

@@ -18,8 +18,8 @@
 
 */
 
-#include "active_captions.h"
-#include "caption_content.h"
+#include "active_text.h"
+#include "text_content.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 
@@ -31,7 +31,7 @@ using boost::shared_ptr;
 using boost::optional;
 
 void
-ActiveCaptions::add (DCPTimePeriod period, list<PlayerCaption>& pc, list<Period> p) const
+ActiveText::add (DCPTimePeriod period, list<PlayerText>& pc, list<Period> p) const
 {
 	BOOST_FOREACH (Period i, p) {
 		DCPTimePeriod test (i.from, i.to.get_value_or(DCPTime::max()));
@@ -42,14 +42,14 @@ ActiveCaptions::add (DCPTimePeriod period, list<PlayerCaption>& pc, list<Period>
 	}
 }
 
-list<PlayerCaption>
-ActiveCaptions::get (DCPTimePeriod period) const
+list<PlayerText>
+ActiveText::get (DCPTimePeriod period) const
 {
-	list<PlayerCaption> ps;
+	list<PlayerText> ps;
 
 	for (Map::const_iterator i = _data.begin(); i != _data.end(); ++i) {
 
-		shared_ptr<const CaptionContent> caption = i->first.lock ();
+		shared_ptr<const TextContent> caption = i->first.lock ();
 		if (!caption || !caption->use()) {
 			continue;
 		}
@@ -64,14 +64,14 @@ ActiveCaptions::get (DCPTimePeriod period) const
  *  @param period Period of interest.
  *  @param always_burn_captions Always burn captions even if their content is not set to burn.
  */
-list<PlayerCaption>
-ActiveCaptions::get_burnt (DCPTimePeriod period, bool always_burn_captions) const
+list<PlayerText>
+ActiveText::get_burnt (DCPTimePeriod period, bool always_burn_captions) const
 {
-	list<PlayerCaption> ps;
+	list<PlayerText> ps;
 
 	for (Map::const_iterator i = _data.begin(); i != _data.end(); ++i) {
 
-		shared_ptr<const CaptionContent> caption = i->first.lock ();
+		shared_ptr<const TextContent> caption = i->first.lock ();
 		if (!caption) {
 			continue;
 		}
@@ -91,7 +91,7 @@ ActiveCaptions::get_burnt (DCPTimePeriod period, bool always_burn_captions) cons
  *  @param time Time to remove before.
  */
 void
-ActiveCaptions::clear_before (DCPTime time)
+ActiveText::clear_before (DCPTime time)
 {
 	Map updated;
 	for (Map::const_iterator i = _data.begin(); i != _data.end(); ++i) {
@@ -114,7 +114,7 @@ ActiveCaptions::clear_before (DCPTime time)
  *  @param from From time for these subtitles.
  */
 void
-ActiveCaptions::add_from (weak_ptr<const CaptionContent> content, PlayerCaption ps, DCPTime from)
+ActiveText::add_from (weak_ptr<const TextContent> content, PlayerText ps, DCPTime from)
 {
 	if (_data.find(content) == _data.end()) {
 		_data[content] = list<Period>();
@@ -127,14 +127,14 @@ ActiveCaptions::add_from (weak_ptr<const CaptionContent> content, PlayerCaption 
  *  @param to To time for the last subtitle submitted to add_from for this content.
  *  @return Return the corresponding subtitles and their from time.
  */
-pair<PlayerCaption, DCPTime>
-ActiveCaptions::add_to (weak_ptr<const CaptionContent> content, DCPTime to)
+pair<PlayerText, DCPTime>
+ActiveText::add_to (weak_ptr<const TextContent> content, DCPTime to)
 {
 	DCPOMATIC_ASSERT (_data.find(content) != _data.end());
 
 	_data[content].back().to = to;
 
-	BOOST_FOREACH (TextCaption& i, _data[content].back().subs.text) {
+	BOOST_FOREACH (StringText& i, _data[content].back().subs.text) {
 		i.set_out (dcp::Time(to.seconds(), 1000));
 	}
 
@@ -145,7 +145,7 @@ ActiveCaptions::add_to (weak_ptr<const CaptionContent> content, DCPTime to)
  *  @return true if we have any active subtitles from this content.
  */
 bool
-ActiveCaptions::have (weak_ptr<const CaptionContent> content) const
+ActiveText::have (weak_ptr<const TextContent> content) const
 {
 	Map::const_iterator i = _data.find(content);
 	if (i == _data.end()) {
@@ -156,7 +156,7 @@ ActiveCaptions::have (weak_ptr<const CaptionContent> content) const
 }
 
 void
-ActiveCaptions::clear ()
+ActiveText::clear ()
 {
 	_data.clear ();
 }

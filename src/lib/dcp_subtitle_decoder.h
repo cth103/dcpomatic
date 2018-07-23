@@ -18,7 +18,7 @@
 
 */
 
-#include "caption_decoder.h"
+#include "text_decoder.h"
 #include "dcp_subtitle.h"
 
 class DCPSubtitleContent;

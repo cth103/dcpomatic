@@ -71,7 +71,7 @@
 #include "lib/transcode_job.h"
 #include "lib/dkdm_wrapper.h"
 #include "lib/audio_content.h"
-#include "lib/caption_content.h"
+#include "lib/text_content.h"
 #include <dcp/exceptions.h>
 #include <dcp/raw_convert.h>
 #include <wx/generic/aboutdlgg.h>
@@ -580,8 +580,8 @@ private:
 				}
 
 				if (d->caption()) {
-					list<shared_ptr<CaptionContent> >::iterator j = i->caption.begin ();
-					list<shared_ptr<CaptionContent> >::const_iterator k = _clipboard->caption.begin ();
+					list<shared_ptr<TextContent> >::iterator j = i->caption.begin ();
+					list<shared_ptr<TextContent> >::const_iterator k = _clipboard->caption.begin ();
 					while (j != i->caption.end() && k != _clipboard->caption.end()) {
 						(*j)->take_settings_from (*k);
 						++j;

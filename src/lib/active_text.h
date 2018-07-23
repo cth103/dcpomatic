@@ -19,30 +19,30 @@
 */
 
 /** @file  src/lib/active_captions.h
- *  @brief ActiveCaptions class.
+ *  @brief ActiveText class.
  */
 
 #include "dcpomatic_time.h"
-#include "player_caption.h"
+#include "player_text.h"
 #include <boost/noncopyable.hpp>
 #include <list>
 #include <map>
 
-class CaptionContent;
+class TextContent;
 
-/** @class ActiveCaptions
+/** @class ActiveText
  *  @brief A class to maintain information on active subtitles for Player.
  */
-class ActiveCaptions : public boost::noncopyable
+class ActiveText : public boost::noncopyable
 {
 public:
-	std::list<PlayerCaption> get (DCPTimePeriod period) const;
-	std::list<PlayerCaption> get_burnt (DCPTimePeriod period, bool always_burn_captions) const;
+	std::list<PlayerText> get (DCPTimePeriod period) const;
+	std::list<PlayerText> get_burnt (DCPTimePeriod period, bool always_burn_captions) const;
 	void clear_before (DCPTime time);
 	void clear ();
-	void add_from (boost::weak_ptr<const CaptionContent> content, PlayerCaption ps, DCPTime from);
-	std::pair<PlayerCaption, DCPTime> add_to (boost::weak_ptr<const CaptionContent> content, DCPTime to);
-	bool have (boost::weak_ptr<const CaptionContent> content) const;
+	void add_from (boost::weak_ptr<const TextContent> content, PlayerText ps, DCPTime from);
+	std::pair<PlayerText, DCPTime> add_to (boost::weak_ptr<const TextContent> content, DCPTime to);
+	bool have (boost::weak_ptr<const TextContent> content) const;
 
 private:
 	class Period
@@ -50,19 +50,19 @@ private:
 	public:
 		Period () {}
 
-		Period (PlayerCaption s, DCPTime f)
+		Period (PlayerText s, DCPTime f)
 			: subs (s)
 			, from (f)
 		{}
 
-		PlayerCaption subs;
+		PlayerText subs;
 		DCPTime from;
 		boost::optional<DCPTime> to;
 	};
 
-	typedef std::map<boost::weak_ptr<const CaptionContent>, std::list<Period> > Map;
+	typedef std::map<boost::weak_ptr<const TextContent>, std::list<Period> > Map;
 
-	void add (DCPTimePeriod period, std::list<PlayerCaption>& pc, std::list<Period> p) const;
+	void add (DCPTimePeriod period, std::list<PlayerText>& pc, std::list<Period> p) const;
 
 	Map _data;
 };

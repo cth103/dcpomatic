@@ -18,10 +18,10 @@
 
 */
 
-#include "lib/text_caption_file_content.h"
+#include "lib/string_text_file_content.h"
 #include "lib/film.h"
 #include "lib/ratio.h"
-#include "lib/caption_content.h"
+#include "lib/text_content.h"
 #include "lib/dcp_content_type.h"
 #include "test.h"
 #include <dcp/cpl.h>
@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_number_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<TextCaptionFileContent> content (new TextCaptionFileContent (film, "test/data/subrip5.srt"));
+	shared_ptr<StringTextFileContent> content (new StringTextFileContent (film, "test/data/subrip5.srt"));
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	content->only_caption()->set_use (true);

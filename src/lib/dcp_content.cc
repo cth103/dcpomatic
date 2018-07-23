@@ -28,7 +28,7 @@
 #include "overlaps.h"
 #include "compose.hpp"
 #include "dcp_decoder.h"
-#include "caption_content.h"
+#include "text_content.h"
 #include <dcp/dcp.h>
 #include <dcp/raw_convert.h>
 #include <dcp/exceptions.h>
@@ -84,7 +84,7 @@ DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 {
 	video = VideoContent::from_xml (this, node, version);
 	audio = AudioContent::from_xml (this, node, version);
-	caption = CaptionContent::from_xml (this, node, version);
+	caption = TextContent::from_xml (this, node, version);
 
 	for (int i = 0; i < CAPTION_COUNT; ++i) {
 		_reference_caption[i] = false;
@@ -192,8 +192,8 @@ DCPContent::examine (shared_ptr<Job> job)
 		boost::mutex::scoped_lock lm (_mutex);
 		_name = examiner->name ();
 		for (int i = 0; i < CAPTION_COUNT; ++i) {
-			if (examiner->has_caption(static_cast<CaptionType>(i))) {
-				caption.push_back (shared_ptr<CaptionContent>(new CaptionContent(this, static_cast<CaptionType>(i))));
+			if (examiner->has_caption(static_cast<TextType>(i))) {
+				caption.push_back (shared_ptr<TextContent>(new TextContent(this, static_cast<TextType>(i))));
 			}
 		}
 		captions = caption.size ();
@@ -267,7 +267,7 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 		audio->stream()->mapping().as_xml (node->add_child("AudioMapping"));
 	}
 
-	BOOST_FOREACH (shared_ptr<CaptionContent> i, caption) {
+	BOOST_FOREACH (shared_ptr<TextContent> i, caption) {
 		i->as_xml (node);
 	}
 
@@ -323,7 +323,7 @@ DCPContent::identifier () const
 		s += video->identifier() + "_";
 	}
 
-	BOOST_FOREACH (shared_ptr<CaptionContent> i, caption) {
+	BOOST_FOREACH (shared_ptr<TextContent> i, caption) {
 		s += i->identifier () + " ";
 	}
 
@@ -416,7 +416,7 @@ DCPContent::set_reference_audio (bool r)
 }
 
 void
-DCPContent::set_reference_caption (CaptionType type, bool r)
+DCPContent::set_reference_caption (TextType type, bool r)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -596,7 +596,7 @@ bool check_caption (shared_ptr<const Content> c)
 	return !c->caption.empty();
 }
 bool
-DCPContent::can_reference_caption (CaptionType type, string& why_not) const
+DCPContent::can_reference_caption (TextType type, string& why_not) const
 {
 	shared_ptr<DCPDecoder> decoder;
 	try {

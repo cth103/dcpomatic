@@ -21,7 +21,7 @@ import os
 import i18n
 
 sources = """
-          active_captions.cc
+          active_text.cc
           analyse_audio_job.cc
           atmos_mxf_content.cc
           audio_analysis.cc
@@ -38,8 +38,8 @@ sources = """
           audio_ring_buffers.cc
           audio_stream.cc
           butler.cc
-          caption_content.cc
-          caption_decoder.cc
+          text_content.cc
+          text_decoder.cc
           case_insensitive_sorter.cc
           cinema.cc
           cinema_kdms.cc
@@ -114,7 +114,7 @@ sources = """
           mid_side_decoder.cc
           overlaps.cc
           player.cc
-          player_caption.cc
+          player_text.cc
           player_video.cc
           playlist.cc
           position_image.cc
@@ -134,9 +134,9 @@ sources = """
           server.cc
           shuffler.cc
           string_log_entry.cc
-          text_caption_file.cc
-          text_caption_file_content.cc
-          text_caption_file_decoder.cc
+          string_text_file.cc
+          string_text_file_content.cc
+          string_text_file_decoder.cc
           timer.cc
           transcode_job.cc
           types.cc

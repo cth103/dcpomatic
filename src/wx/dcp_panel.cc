@@ -32,7 +32,7 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/audio_processor.h"
 #include "lib/video_content.h"
-#include "lib/caption_content.h"
+#include "lib/text_content.h"
 #include "lib/dcp_content.h"
 #include "lib/audio_content.h"
 #include <dcp/locale_convert.h>
@@ -433,8 +433,8 @@ void
 DCPPanel::film_content_changed (int property)
 {
 	if (property == AudioContentProperty::STREAMS ||
-	    property == CaptionContentProperty::USE ||
-	    property == CaptionContentProperty::BURN ||
+	    property == TextContentProperty::USE ||
+	    property == TextContentProperty::BURN ||
 	    property == VideoContentProperty::SCALE ||
 	    property == DCPContentProperty::REFERENCE_VIDEO ||
 	    property == DCPContentProperty::REFERENCE_AUDIO ||

@@ -23,7 +23,7 @@
  */
 
 #include "types.h"
-#include "player_caption.h"
+#include "player_text.h"
 #include "exception_store.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
@@ -104,7 +104,7 @@ public:
 	bool can_repeat (Frame) const;
 	void repeat (Frame, Eyes);
 	void write (boost::shared_ptr<const AudioBuffers>, DCPTime time);
-	void write (PlayerCaption text, CaptionType type, DCPTimePeriod period);
+	void write (PlayerText text, TextType type, DCPTimePeriod period);
 	void write (std::list<boost::shared_ptr<Font> > fonts);
 	void write (ReferencedReelAsset asset);
 	void finish ();

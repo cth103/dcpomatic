@@ -31,10 +31,10 @@
 #include "lib/player.h"
 #include "lib/video_content.h"
 #include "lib/image_content.h"
-#include "lib/text_caption_file_content.h"
+#include "lib/string_text_file_content.h"
 #include "lib/content_factory.h"
 #include "lib/dcp_content.h"
-#include "lib/caption_content.h"
+#include "lib/text_content.h"
 #include "lib/butler.h"
 #include "lib/compose.hpp"
 #include "test.h"
@@ -181,7 +181,7 @@ BOOST_AUTO_TEST_CASE (player_interleave_test)
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<TextCaptionFileContent> s (new TextCaptionFileContent (film, "test/data/subrip.srt"));
+	shared_ptr<StringTextFileContent> s (new StringTextFileContent (film, "test/data/subrip.srt"));
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 

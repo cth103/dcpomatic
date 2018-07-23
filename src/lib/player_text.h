@@ -18,25 +18,25 @@
 
 */
 
-#include "player_caption.h"
-#include "font.h"
-#include <boost/foreach.hpp>
+#ifndef DCPOMATIC_PLAYER_CAPTION_H
+#define DCPOMATIC_PLAYER_CAPTION_H
 
-using std::list;
-using boost::shared_ptr;
+#include "bitmap_text.h"
+#include "dcpomatic_time.h"
+#include "string_text.h"
 
-void
-PlayerCaption::add_fonts (list<shared_ptr<Font> > fonts_)
+class Font;
+
+/** A set of text (subtitle/CCAP) which span the same time period */
+class PlayerText
 {
-	BOOST_FOREACH (shared_ptr<Font> i, fonts_) {
-		bool got = false;
-		BOOST_FOREACH (shared_ptr<Font> j, fonts) {
-			if (*i == *j) {
-				got = true;
-			}
-		}
-		if (!got) {
-			fonts.push_back (i);
-		}
-	}
-}
+public:
+	void add_fonts (std::list<boost::shared_ptr<Font> > fonts_);
+	std::list<boost::shared_ptr<Font> > fonts;
+
+	/** BitmapTexts, with their rectangles transformed as specified by their content */
+	std::list<BitmapText> image;
+	std::list<StringText> text;
+};
+
+#endif

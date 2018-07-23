@@ -18,10 +18,10 @@
 
 */
 
-#include "text_caption_file.h"
+#include "string_text_file.h"
 #include "cross.h"
 #include "exceptions.h"
-#include "text_caption_file_content.h"
+#include "string_text_file_content.h"
 #include <sub/subrip_reader.h>
 #include <sub/ssa_reader.h>
 #include <sub/collect.h>
@@ -39,7 +39,7 @@ using boost::scoped_array;
 using boost::optional;
 using dcp::Data;
 
-TextCaptionFile::TextCaptionFile (shared_ptr<const TextCaptionFileContent> content)
+StringTextFile::StringTextFile (shared_ptr<const StringTextFileContent> content)
 {
 	Data in (content->path (0));
 
@@ -96,7 +96,7 @@ TextCaptionFile::TextCaptionFile (shared_ptr<const TextCaptionFileContent> conte
 
 /** @return time of first subtitle, if there is one */
 optional<ContentTime>
-TextCaptionFile::first () const
+StringTextFile::first () const
 {
 	if (_subtitles.empty()) {
 		return optional<ContentTime>();
@@ -106,7 +106,7 @@ TextCaptionFile::first () const
 }
 
 ContentTime
-TextCaptionFile::length () const
+StringTextFile::length () const
 {
 	if (_subtitles.empty ()) {
 		return ContentTime ();

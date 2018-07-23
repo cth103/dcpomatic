@@ -31,10 +31,10 @@
 #include "lib/dcp_decoder.h"
 #include "lib/dcp_content_type.h"
 #include "lib/dcp_subtitle_decoder.h"
-#include "lib/caption_content.h"
-#include "lib/content_caption.h"
+#include "lib/text_content.h"
+#include "lib/content_text.h"
 #include "lib/font.h"
-#include "lib/caption_decoder.h"
+#include "lib/text_decoder.h"
 #include "test.h"
 #include <iostream>
 
@@ -43,10 +43,10 @@ using std::list;
 using boost::shared_ptr;
 using boost::optional;
 
-optional<ContentTextCaption> stored;
+optional<ContentStringText> stored;
 
 static void
-store (ContentTextCaption sub)
+store (ContentStringText sub)
 {
 	if (!stored) {
 		stored = sub;
@@ -93,7 +93,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 	shared_ptr<DCPDecoder> decoder (new DCPDecoder (content, film->log(), false));
 	decoder->only_caption()->PlainStart.connect (bind (store, _1));
 
-	stored = optional<ContentTextCaption> ();
+	stored = optional<ContentStringText> ();
 	while (!decoder->pass() && !stored) {}
 
 	BOOST_REQUIRE (stored);
@@ -116,7 +116,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test2)
 	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (content, film->log()));
 	decoder->only_caption()->PlainStart.connect (bind (store, _1));
 
-	stored = optional<ContentTextCaption> ();
+	stored = optional<ContentStringText> ();
 	while (!decoder->pass ()) {
 		if (stored && stored->from() == ContentTime(0)) {
 			BOOST_CHECK_EQUAL (stored->subs.front().text(), "&lt;b&gt;Hello world!&lt;/b&gt;");
@@ -140,7 +140,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test3)
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (content, film->log()));
-	stored = optional<ContentTextCaption> ();
+	stored = optional<ContentStringText> ();
 	while (!decoder->pass ()) {
 		decoder->only_caption()->PlainStart.connect (bind (store, _1));
 		if (stored && stored->from() == ContentTime::from_seconds(0.08)) {

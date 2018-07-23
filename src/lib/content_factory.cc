@@ -26,7 +26,7 @@
 #include "audio_content.h"
 #include "image_content.h"
 #include "atmos_mxf_content.h"
-#include "text_caption_file_content.h"
+#include "string_text_file_content.h"
 #include "dcp_content.h"
 #include "dcp_subtitle_content.h"
 #include "util.h"
@@ -88,7 +88,7 @@ content_factory (shared_ptr<const Film> film, cxml::NodePtr node, int version, l
 			);
 
 	} else if (type == "SubRip" || type == "TextSubtitle") {
-		content.reset (new TextCaptionFileContent (film, node, version));
+		content.reset (new StringTextFileContent (film, node, version));
 	} else if (type == "DCP") {
 		content.reset (new DCPContent (film, node, version));
 	} else if (type == "DCPSubtitle") {
@@ -210,7 +210,7 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 		if (valid_image_file (path)) {
 			single.reset (new ImageContent (film, path));
 		} else if (ext == ".srt" || ext == ".ssa" || ext == ".ass") {
-			single.reset (new TextCaptionFileContent (film, path));
+			single.reset (new StringTextFileContent (film, path));
 		} else if (ext == ".xml") {
 			cxml::Document doc;
 			doc.read_file (path);

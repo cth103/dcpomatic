@@ -18,7 +18,7 @@
 
 */
 
-#include "caption_content.h"
+#include "text_content.h"
 #include "util.h"
 #include "exceptions.h"
 #include "font.h"
@@ -40,24 +40,24 @@ using boost::dynamic_pointer_cast;
 using boost::optional;
 using dcp::raw_convert;
 
-int const CaptionContentProperty::X_OFFSET = 500;
-int const CaptionContentProperty::Y_OFFSET = 501;
-int const CaptionContentProperty::X_SCALE = 502;
-int const CaptionContentProperty::Y_SCALE = 503;
-int const CaptionContentProperty::USE = 504;
-int const CaptionContentProperty::BURN = 505;
-int const CaptionContentProperty::LANGUAGE = 506;
-int const CaptionContentProperty::FONTS = 507;
-int const CaptionContentProperty::COLOUR = 508;
-int const CaptionContentProperty::EFFECT = 509;
-int const CaptionContentProperty::EFFECT_COLOUR = 510;
-int const CaptionContentProperty::LINE_SPACING = 511;
-int const CaptionContentProperty::FADE_IN = 512;
-int const CaptionContentProperty::FADE_OUT = 513;
-int const CaptionContentProperty::OUTLINE_WIDTH = 514;
-int const CaptionContentProperty::TYPE = 515;
+int const TextContentProperty::X_OFFSET = 500;
+int const TextContentProperty::Y_OFFSET = 501;
+int const TextContentProperty::X_SCALE = 502;
+int const TextContentProperty::Y_SCALE = 503;
+int const TextContentProperty::USE = 504;
+int const TextContentProperty::BURN = 505;
+int const TextContentProperty::LANGUAGE = 506;
+int const TextContentProperty::FONTS = 507;
+int const TextContentProperty::COLOUR = 508;
+int const TextContentProperty::EFFECT = 509;
+int const TextContentProperty::EFFECT_COLOUR = 510;
+int const TextContentProperty::LINE_SPACING = 511;
+int const TextContentProperty::FADE_IN = 512;
+int const TextContentProperty::FADE_OUT = 513;
+int const TextContentProperty::OUTLINE_WIDTH = 514;
+int const TextContentProperty::TYPE = 515;
 
-CaptionContent::CaptionContent (Content* parent, CaptionType original_type)
+TextContent::TextContent (Content* parent, TextType original_type)
 	: ContentPart (parent)
 	, _use (false)
 	, _burn (false)
@@ -73,18 +73,18 @@ CaptionContent::CaptionContent (Content* parent, CaptionType original_type)
 
 }
 
-/** @return CaptionContents from node or <Caption> nodes under node (according to version).
- *  The list could be empty if no CaptionContents are found.
+/** @return TextContents from node or <Caption> nodes under node (according to version).
+ *  The list could be empty if no TextContents are found.
  */
-list<shared_ptr<CaptionContent> >
-CaptionContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
+list<shared_ptr<TextContent> >
+TextContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 {
 	if (version < 34) {
 		/* With old metadata FFmpeg content has the subtitle-related tags even with no
 		   subtitle streams, so check for that.
 		*/
 		if (node->string_child("Type") == "FFmpeg" && node->node_children("SubtitleStream").empty()) {
-			return list<shared_ptr<CaptionContent> >();
+			return list<shared_ptr<TextContent> >();
 		}
 
 		/* Otherwise we can drop through to the newer logic */
@@ -92,25 +92,25 @@ CaptionContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 
 	if (version < 37) {
 		if (!node->optional_number_child<double>("SubtitleXOffset") && !node->optional_number_child<double>("SubtitleOffset")) {
-			return list<shared_ptr<CaptionContent> >();
+			return list<shared_ptr<TextContent> >();
 		}
-		list<shared_ptr<CaptionContent> > c;
-		c.push_back (shared_ptr<CaptionContent> (new CaptionContent (parent, node, version)));
+		list<shared_ptr<TextContent> > c;
+		c.push_back (shared_ptr<TextContent> (new TextContent (parent, node, version)));
 		return c;
 	}
 
 	if (!node->optional_node_child("Caption")) {
-		return list<shared_ptr<CaptionContent> >();
+		return list<shared_ptr<TextContent> >();
 	}
 
-	list<shared_ptr<CaptionContent> > c;
+	list<shared_ptr<TextContent> > c;
 	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("Caption")) {
-		c.push_back (shared_ptr<CaptionContent> (new CaptionContent (parent, i, version)));
+		c.push_back (shared_ptr<TextContent> (new TextContent (parent, i, version)));
 	}
 	return c;
 }
 
-CaptionContent::CaptionContent (Content* parent, cxml::ConstNodePtr node, int version)
+TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 	: ContentPart (parent)
 	, _use (false)
 	, _burn (false)
@@ -229,13 +229,13 @@ CaptionContent::CaptionContent (Content* parent, cxml::ConstNodePtr node, int ve
 	_original_type = string_to_caption_type (node->optional_string_child("OriginalType").get_value_or("open"));
 }
 
-CaptionContent::CaptionContent (Content* parent, vector<shared_ptr<Content> > c)
+TextContent::TextContent (Content* parent, vector<shared_ptr<Content> > c)
 	: ContentPart (parent)
 {
 	/* This constructor is for join which is only supported for content types
 	   that have a single caption, so we can use only_caption() here.
 	*/
-	shared_ptr<CaptionContent> ref = c[0]->only_caption();
+	shared_ptr<TextContent> ref = c[0]->only_caption();
 	DCPOMATIC_ASSERT (ref);
 	list<shared_ptr<Font> > ref_fonts = ref->fonts ();
 
@@ -314,7 +314,7 @@ CaptionContent::CaptionContent (Content* parent, vector<shared_ptr<Content> > c)
 
 /** _mutex must not be held on entry */
 void
-CaptionContent::as_xml (xmlpp::Node* root) const
+TextContent::as_xml (xmlpp::Node* root) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
@@ -368,7 +368,7 @@ CaptionContent::as_xml (xmlpp::Node* root) const
 }
 
 string
-CaptionContent::identifier () const
+TextContent::identifier () const
 {
 	string s = raw_convert<string> (x_scale())
 		+ "_" + raw_convert<string> (y_scale())
@@ -399,14 +399,14 @@ CaptionContent::identifier () const
 }
 
 void
-CaptionContent::add_font (shared_ptr<Font> font)
+TextContent::add_font (shared_ptr<Font> font)
 {
 	_fonts.push_back (font);
 	connect_to_fonts ();
 }
 
 void
-CaptionContent::connect_to_fonts ()
+TextContent::connect_to_fonts ()
 {
 	BOOST_FOREACH (boost::signals2::connection& i, _font_connections) {
 		i.disconnect ();
@@ -415,138 +415,138 @@ CaptionContent::connect_to_fonts ()
 	_font_connections.clear ();
 
 	BOOST_FOREACH (shared_ptr<Font> i, _fonts) {
-		_font_connections.push_back (i->Changed.connect (boost::bind (&CaptionContent::font_changed, this)));
+		_font_connections.push_back (i->Changed.connect (boost::bind (&TextContent::font_changed, this)));
 	}
 }
 
 void
-CaptionContent::font_changed ()
+TextContent::font_changed ()
 {
-	_parent->signal_changed (CaptionContentProperty::FONTS);
+	_parent->signal_changed (TextContentProperty::FONTS);
 }
 
 void
-CaptionContent::set_colour (dcp::Colour colour)
+TextContent::set_colour (dcp::Colour colour)
 {
-	maybe_set (_colour, colour, CaptionContentProperty::COLOUR);
+	maybe_set (_colour, colour, TextContentProperty::COLOUR);
 }
 
 void
-CaptionContent::unset_colour ()
+TextContent::unset_colour ()
 {
-	maybe_set (_colour, optional<dcp::Colour>(), CaptionContentProperty::COLOUR);
+	maybe_set (_colour, optional<dcp::Colour>(), TextContentProperty::COLOUR);
 }
 
 void
-CaptionContent::set_effect (dcp::Effect e)
+TextContent::set_effect (dcp::Effect e)
 {
-	maybe_set (_effect, e, CaptionContentProperty::EFFECT);
+	maybe_set (_effect, e, TextContentProperty::EFFECT);
 }
 
 void
-CaptionContent::unset_effect ()
+TextContent::unset_effect ()
 {
-	maybe_set (_effect, optional<dcp::Effect>(), CaptionContentProperty::EFFECT);
+	maybe_set (_effect, optional<dcp::Effect>(), TextContentProperty::EFFECT);
 }
 
 void
-CaptionContent::set_effect_colour (dcp::Colour colour)
+TextContent::set_effect_colour (dcp::Colour colour)
 {
-	maybe_set (_effect_colour, colour, CaptionContentProperty::EFFECT_COLOUR);
+	maybe_set (_effect_colour, colour, TextContentProperty::EFFECT_COLOUR);
 }
 
 void
-CaptionContent::unset_effect_colour ()
+TextContent::unset_effect_colour ()
 {
-	maybe_set (_effect_colour, optional<dcp::Colour>(), CaptionContentProperty::EFFECT_COLOUR);
+	maybe_set (_effect_colour, optional<dcp::Colour>(), TextContentProperty::EFFECT_COLOUR);
 }
 
 void
-CaptionContent::set_use (bool u)
+TextContent::set_use (bool u)
 {
-	maybe_set (_use, u, CaptionContentProperty::USE);
+	maybe_set (_use, u, TextContentProperty::USE);
 }
 
 void
-CaptionContent::set_burn (bool b)
+TextContent::set_burn (bool b)
 {
-	maybe_set (_burn, b, CaptionContentProperty::BURN);
+	maybe_set (_burn, b, TextContentProperty::BURN);
 }
 
 void
-CaptionContent::set_x_offset (double o)
+TextContent::set_x_offset (double o)
 {
-	maybe_set (_x_offset, o, CaptionContentProperty::X_OFFSET);
+	maybe_set (_x_offset, o, TextContentProperty::X_OFFSET);
 }
 
 void
-CaptionContent::set_y_offset (double o)
+TextContent::set_y_offset (double o)
 {
-	maybe_set (_y_offset, o, CaptionContentProperty::Y_OFFSET);
+	maybe_set (_y_offset, o, TextContentProperty::Y_OFFSET);
 }
 
 void
-CaptionContent::set_x_scale (double s)
+TextContent::set_x_scale (double s)
 {
-	maybe_set (_x_scale, s, CaptionContentProperty::X_SCALE);
+	maybe_set (_x_scale, s, TextContentProperty::X_SCALE);
 }
 
 void
-CaptionContent::set_y_scale (double s)
+TextContent::set_y_scale (double s)
 {
-	maybe_set (_y_scale, s, CaptionContentProperty::Y_SCALE);
+	maybe_set (_y_scale, s, TextContentProperty::Y_SCALE);
 }
 
 void
-CaptionContent::set_language (string language)
+TextContent::set_language (string language)
 {
-	maybe_set (_language, language, CaptionContentProperty::LANGUAGE);
+	maybe_set (_language, language, TextContentProperty::LANGUAGE);
 }
 
 void
-CaptionContent::set_line_spacing (double s)
+TextContent::set_line_spacing (double s)
 {
-	maybe_set (_line_spacing, s, CaptionContentProperty::LINE_SPACING);
+	maybe_set (_line_spacing, s, TextContentProperty::LINE_SPACING);
 }
 
 void
-CaptionContent::set_fade_in (ContentTime t)
+TextContent::set_fade_in (ContentTime t)
 {
-	maybe_set (_fade_in, t, CaptionContentProperty::FADE_IN);
+	maybe_set (_fade_in, t, TextContentProperty::FADE_IN);
 }
 
 void
-CaptionContent::unset_fade_in ()
+TextContent::unset_fade_in ()
 {
-	maybe_set (_fade_in, optional<ContentTime>(), CaptionContentProperty::FADE_IN);
+	maybe_set (_fade_in, optional<ContentTime>(), TextContentProperty::FADE_IN);
 }
 
 void
-CaptionContent::set_fade_out (ContentTime t)
+TextContent::set_fade_out (ContentTime t)
 {
-	maybe_set (_fade_out, t, CaptionContentProperty::FADE_OUT);
+	maybe_set (_fade_out, t, TextContentProperty::FADE_OUT);
 }
 
 void
-CaptionContent::unset_fade_out ()
+TextContent::unset_fade_out ()
 {
-	maybe_set (_fade_out, optional<ContentTime>(), CaptionContentProperty::FADE_OUT);
+	maybe_set (_fade_out, optional<ContentTime>(), TextContentProperty::FADE_OUT);
 }
 
 void
-CaptionContent::set_type (CaptionType type)
+TextContent::set_type (TextType type)
 {
-	maybe_set (_type, type, CaptionContentProperty::TYPE);
+	maybe_set (_type, type, TextContentProperty::TYPE);
 }
 
 void
-CaptionContent::set_outline_width (int w)
+TextContent::set_outline_width (int w)
 {
-	maybe_set (_outline_width, w, CaptionContentProperty::OUTLINE_WIDTH);
+	maybe_set (_outline_width, w, TextContentProperty::OUTLINE_WIDTH);
 }
 
 void
-CaptionContent::take_settings_from (shared_ptr<const CaptionContent> c)
+TextContent::take_settings_from (shared_ptr<const TextContent> c)
 {
 	set_use (c->_use);
 	set_burn (c->_burn);
@@ -554,7 +554,7 @@ CaptionContent::take_settings_from (shared_ptr<const CaptionContent> c)
 	set_y_offset (c->_y_offset);
 	set_x_scale (c->_x_scale);
 	set_y_scale (c->_y_scale);
-	maybe_set (_fonts, c->_fonts, CaptionContentProperty::FONTS);
+	maybe_set (_fonts, c->_fonts, TextContentProperty::FONTS);
 	if (c->_colour) {
 		set_colour (*c->_colour);
 	} else {

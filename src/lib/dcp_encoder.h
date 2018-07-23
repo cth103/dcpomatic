@@ -19,7 +19,7 @@
 */
 
 #include "types.h"
-#include "player_caption.h"
+#include "player_text.h"
 #include "encoder.h"
 #include <boost/weak_ptr.hpp>
 
@@ -52,7 +52,7 @@ private:
 
 	void video (boost::shared_ptr<PlayerVideo>, DCPTime);
 	void audio (boost::shared_ptr<AudioBuffers>, DCPTime);
-	void caption (PlayerCaption, CaptionType, DCPTimePeriod);
+	void caption (PlayerText, TextType, DCPTimePeriod);
 
 	boost::shared_ptr<Writer> _writer;
 	boost::shared_ptr<J2KEncoder> _j2k_encoder;

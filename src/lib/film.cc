@@ -46,7 +46,7 @@
 #include "screen.h"
 #include "audio_content.h"
 #include "video_content.h"
-#include "caption_content.h"
+#include "text_content.h"
 #include "ffmpeg_content.h"
 #include "dcp_content.h"
 #include "screen_kdm.h"
@@ -125,7 +125,7 @@ string const Film::metadata_file = "metadata.xml";
  * 35 -> 36
  * EffectColour rather than OutlineColour in Subtitle.
  * 36 -> 37
- * CaptionContent can be in a Caption tag, and some of the tag names
+ * TextContent can be in a Caption tag, and some of the tag names
  * have had Subtitle prefixes or suffixes removed.
  */
 int const Film::current_state_version = 37;
@@ -704,7 +704,7 @@ Film::isdcf_name (bool if_created_now) const
 			bool burnt_in = true;
 			bool ccap = false;
 			BOOST_FOREACH (shared_ptr<Content> i, content()) {
-				BOOST_FOREACH (shared_ptr<CaptionContent> j, i->caption) {
+				BOOST_FOREACH (shared_ptr<TextContent> j, i->caption) {
 					if (j->type() == CAPTION_OPEN && j->use() && !j->burn()) {
 						burnt_in = false;
 					} else if (j->type() == CAPTION_CLOSED) {
@@ -784,7 +784,7 @@ Film::isdcf_name (bool if_created_now) const
 
 		bool any_caption = false;
 		for (int i = 0; i < CAPTION_COUNT; ++i) {
-			if (dc->reference_caption(static_cast<CaptionType>(i))) {
+			if (dc->reference_caption(static_cast<TextType>(i))) {
 				any_caption = true;
 			}
 		}
@@ -1391,7 +1391,7 @@ Film::subtitle_language () const
 	set<string> languages;
 
 	BOOST_FOREACH (shared_ptr<Content> i, content()) {
-		BOOST_FOREACH (shared_ptr<CaptionContent> j, i->caption) {
+		BOOST_FOREACH (shared_ptr<TextContent> j, i->caption) {
 			languages.insert (j->language ());
 		}
 	}

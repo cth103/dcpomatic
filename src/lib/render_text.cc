@@ -51,11 +51,11 @@ static FcConfig* fc_config = 0;
 static list<pair<FontFiles, string> > fc_config_fonts;
 
 string
-marked_up (list<TextCaption> subtitles, int target_height, float fade_factor)
+marked_up (list<StringText> subtitles, int target_height, float fade_factor)
 {
 	string out;
 
-	BOOST_FOREACH (TextCaption const & i, subtitles) {
+	BOOST_FOREACH (StringText const & i, subtitles) {
 		out += "<span ";
 		if (i.italic()) {
 			out += "style=\"italic\" ";
@@ -91,7 +91,7 @@ set_source_rgba (Cairo::RefPtr<Cairo::Context> context, dcp::Colour colour, floa
  *  at the same time and with the same fade in/out.
  */
 static PositionImage
-render_line (list<TextCaption> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target, DCPTime time, int frame_rate)
+render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target, DCPTime time, int frame_rate)
 {
 	/* XXX: this method can only handle italic / bold changes mid-line,
 	   nothing else yet.
@@ -365,12 +365,12 @@ render_line (list<TextCaption> subtitles, list<shared_ptr<Font> > fonts, dcp::Si
  *  @param frame_rate DCP frame rate.
  */
 list<PositionImage>
-render_text (list<TextCaption> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target, DCPTime time, int frame_rate)
+render_text (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target, DCPTime time, int frame_rate)
 {
-	list<TextCaption> pending;
+	list<StringText> pending;
 	list<PositionImage> images;
 
-	BOOST_FOREACH (TextCaption const & i, subtitles) {
+	BOOST_FOREACH (StringText const & i, subtitles) {
 		if (!pending.empty() && fabs (i.v_position() - pending.back().v_position()) > 1e-4) {
 			images.push_back (render_line (pending, fonts, target, time, frame_rate));
 			pending.clear ();

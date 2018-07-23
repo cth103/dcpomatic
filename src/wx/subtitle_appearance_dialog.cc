@@ -18,10 +18,10 @@
 
 */
 
-#include "caption_appearance_dialog.h"
+#include "subtitle_appearance_dialog.h"
 #include "rgba_colour_picker.h"
-#include "lib/text_caption_file_content.h"
-#include "lib/caption_content.h"
+#include "lib/string_text_file_content.h"
+#include "lib/text_content.h"
 #include "lib/ffmpeg_subtitle_stream.h"
 #include "lib/ffmpeg_content.h"
 #include <wx/wx.h>
@@ -35,11 +35,11 @@ using boost::bind;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 
-int const CaptionAppearanceDialog::NONE = 0;
-int const CaptionAppearanceDialog::OUTLINE = 1;
-int const CaptionAppearanceDialog::SHADOW = 2;
+int const SubtitleAppearanceDialog::NONE = 0;
+int const SubtitleAppearanceDialog::OUTLINE = 1;
+int const SubtitleAppearanceDialog::SHADOW = 2;
 
-CaptionAppearanceDialog::CaptionAppearanceDialog (wxWindow* parent, shared_ptr<Content> content, shared_ptr<CaptionContent> caption)
+SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr<Content> content, shared_ptr<TextContent> caption)
 	: wxDialog (parent, wxID_ANY, _("Caption appearance"))
 	, _content (content)
 	, _caption (caption)
@@ -110,7 +110,7 @@ CaptionAppearanceDialog::CaptionAppearanceDialog (wxWindow* parent, shared_ptr<C
 		overall_sizer->Add (colours_panel, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 		wxButton* restore = new wxButton (this, wxID_ANY, _("Restore to original colours"));
-		restore->Bind (wxEVT_BUTTON, bind (&CaptionAppearanceDialog::restore, this));
+		restore->Bind (wxEVT_BUTTON, bind (&SubtitleAppearanceDialog::restore, this));
 		overall_sizer->Add (restore, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
 	}
 
@@ -179,19 +179,19 @@ CaptionAppearanceDialog::CaptionAppearanceDialog (wxWindow* parent, shared_ptr<C
 
 	_outline_width->SetValue (_caption->outline_width ());
 
-	_force_colour->Bind (wxEVT_CHECKBOX, bind (&CaptionAppearanceDialog::setup_sensitivity, this));
-	_force_effect_colour->Bind (wxEVT_CHECKBOX, bind (&CaptionAppearanceDialog::setup_sensitivity, this));
-	_force_effect->Bind (wxEVT_CHECKBOX, bind (&CaptionAppearanceDialog::setup_sensitivity, this));
-	_force_fade_in->Bind (wxEVT_CHECKBOX, bind (&CaptionAppearanceDialog::setup_sensitivity, this));
-	_force_fade_out->Bind (wxEVT_CHECKBOX, bind (&CaptionAppearanceDialog::setup_sensitivity, this));
-	_effect->Bind (wxEVT_CHOICE, bind (&CaptionAppearanceDialog::setup_sensitivity, this));
-	_content_connection = _content->Changed.connect (bind (&CaptionAppearanceDialog::setup_sensitivity, this));
+	_force_colour->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
+	_force_effect_colour->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
+	_force_effect->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
+	_force_fade_in->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
+	_force_fade_out->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
+	_effect->Bind (wxEVT_CHOICE, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
+	_content_connection = _content->Changed.connect (bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
 
 	setup_sensitivity ();
 }
 
 wxCheckBox*
-CaptionAppearanceDialog::set_to (wxWindow* w, int& r)
+SubtitleAppearanceDialog::set_to (wxWindow* w, int& r)
 {
 	wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 	wxCheckBox* set_to = new wxCheckBox (this, wxID_ANY, _("Set to"));
@@ -203,7 +203,7 @@ CaptionAppearanceDialog::set_to (wxWindow* w, int& r)
 }
 
 void
-CaptionAppearanceDialog::apply ()
+SubtitleAppearanceDialog::apply ()
 {
 	if (_force_colour->GetValue ()) {
 		wxColour const c = _colour->GetColour ();
@@ -257,7 +257,7 @@ CaptionAppearanceDialog::apply ()
 }
 
 void
-CaptionAppearanceDialog::restore ()
+SubtitleAppearanceDialog::restore ()
 {
 	for (map<RGBA, RGBAColourPicker*>::const_iterator i = _pickers.begin(); i != _pickers.end(); ++i) {
 		i->second->set (i->first);
@@ -265,7 +265,7 @@ CaptionAppearanceDialog::restore ()
 }
 
 void
-CaptionAppearanceDialog::setup_sensitivity ()
+SubtitleAppearanceDialog::setup_sensitivity ()
 {
 	_colour->Enable (_force_colour->GetValue ());
 	_effect_colour->Enable (_force_effect_colour->GetValue ());

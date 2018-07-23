@@ -20,7 +20,7 @@
 
 #include "playlist.h"
 #include "video_content.h"
-#include "caption_content.h"
+#include "text_content.h"
 #include "ffmpeg_decoder.h"
 #include "ffmpeg_content.h"
 #include "image_decoder.h"
@@ -156,7 +156,7 @@ Playlist::video_identifier () const
 
 	BOOST_FOREACH (shared_ptr<const Content> i, _content) {
 		bool burn = false;
-		BOOST_FOREACH (shared_ptr<CaptionContent> j, i->caption) {
+		BOOST_FOREACH (shared_ptr<TextContent> j, i->caption) {
 			if (j->burn()) {
 				burn = true;
 			}

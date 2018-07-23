@@ -25,12 +25,12 @@
 #include <boost/filesystem.hpp>
 
 class Content;
-class CaptionContent;
+class TextContent;
 
 class FontsDialog : public wxDialog
 {
 public:
-	FontsDialog (wxWindow* parent, boost::shared_ptr<Content>, boost::shared_ptr<CaptionContent> caption);
+	FontsDialog (wxWindow* parent, boost::shared_ptr<Content>, boost::shared_ptr<TextContent> caption);
 
 private:
 	void setup ();
@@ -39,7 +39,7 @@ private:
 	void edit_clicked ();
 
 	boost::weak_ptr<Content> _content;
-	boost::weak_ptr<CaptionContent> _caption;
+	boost::weak_ptr<TextContent> _caption;
 	wxListCtrl* _fonts;
 	wxButton* _edit;
 };

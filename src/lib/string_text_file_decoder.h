@@ -21,16 +21,16 @@
 #ifndef DCPOMATIC_TEXT_CAPTION_FILE_DECODER_H
 #define DCPOMATIC_TEXT_CAPTION_FILE_DECODER_H
 
-#include "text_caption_file.h"
+#include "string_text_file.h"
 #include "decoder.h"
 
-class TextCaptionFileContent;
+class StringTextFileContent;
 class Log;
 
-class TextCaptionFileDecoder : public Decoder, public TextCaptionFile
+class StringTextFileDecoder : public Decoder, public StringTextFile
 {
 public:
-	TextCaptionFileDecoder (boost::shared_ptr<const TextCaptionFileContent>, boost::shared_ptr<Log> log);
+	StringTextFileDecoder (boost::shared_ptr<const StringTextFileContent>, boost::shared_ptr<Log> log);
 
 	void seek (ContentTime time, bool accurate);
 	bool pass ();

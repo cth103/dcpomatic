@@ -18,31 +18,25 @@
 
 */
 
-#include "lib/content_caption.h"
-#include <boost/shared_ptr.hpp>
-#include <wx/wx.h>
-#include <wx/listctrl.h>
+#include "player_text.h"
+#include "font.h"
+#include <boost/foreach.hpp>
 
-class Decoder;
-class FilmViewer;
+using std::list;
+using boost::shared_ptr;
 
-class CaptionView : public wxDialog
+void
+PlayerText::add_fonts (list<shared_ptr<Font> > fonts_)
 {
-public:
-	CaptionView (
-		wxWindow *, boost::shared_ptr<Film>, boost::shared_ptr<Content> content, boost::shared_ptr<CaptionContent> caption, boost::shared_ptr<Decoder>, FilmViewer* viewer
-		);
-
-private:
-	void data_start (ContentTextCaption cts);
-	void data_stop (ContentTime time);
-	void subtitle_selected (wxListEvent &);
-
-	wxListCtrl* _list;
-	int _subs;
-	boost::optional<FrameRateChange> _frc;
-	boost::optional<int> _last_count;
-	std::vector<ContentTime> _start_times;
-	boost::weak_ptr<Content> _content;
-	FilmViewer* _film_viewer;
-};
+	BOOST_FOREACH (shared_ptr<Font> i, fonts_) {
+		bool got = false;
+		BOOST_FOREACH (shared_ptr<Font> j, fonts) {
+			if (*i == *j) {
+				got = true;
+			}
+		}
+		if (!got) {
+			fonts.push_back (i);
+		}
+	}
+}

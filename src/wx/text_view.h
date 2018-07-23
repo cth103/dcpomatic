@@ -18,31 +18,31 @@
 
 */
 
-#ifndef DCPOMATIC_BITMAP_CAPTION_H
-#define DCPOMATIC_BITMAP_CAPTION_H
-
-#include "rect.h"
+#include "lib/content_text.h"
 #include <boost/shared_ptr.hpp>
+#include <wx/wx.h>
+#include <wx/listctrl.h>
 
-class Image;
+class Decoder;
+class FilmViewer;
 
-class BitmapCaption
+class TextView : public wxDialog
 {
 public:
-	BitmapCaption (boost::shared_ptr<Image> i, dcpomatic::Rect<double> r)
-		: image (i)
-		, rectangle (r)
-	{}
+	TextView (
+		wxWindow *, boost::shared_ptr<Film>, boost::shared_ptr<Content> content, boost::shared_ptr<TextContent> caption, boost::shared_ptr<Decoder>, FilmViewer* viewer
+		);
 
-	boost::shared_ptr<Image> image;
-	/** Area that the subtitle covers on its corresponding video, expressed in
-	 *  proportions of the image size; e.g. rectangle.x = 0.5 would mean that
-	 *  the rectangle starts half-way across the video.
-	 *
-	 *  This rectangle may or may not have had a TextContent's offsets and
-	 *  scale applied to it, depending on context.
-	 */
-	dcpomatic::Rect<double> rectangle;
+private:
+	void data_start (ContentStringText cts);
+	void data_stop (ContentTime time);
+	void subtitle_selected (wxListEvent &);
+
+	wxListCtrl* _list;
+	int _subs;
+	boost::optional<FrameRateChange> _frc;
+	boost::optional<int> _last_count;
+	std::vector<ContentTime> _start_times;
+	boost::weak_ptr<Content> _content;
+	FilmViewer* _film_viewer;
 };
-
-#endif

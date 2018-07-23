@@ -39,7 +39,7 @@ DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> con
 	if (_next != _subtitles.end()) {
 		first = content_time_period(*_next).from;
 	}
-	caption.push_back (shared_ptr<CaptionDecoder> (new CaptionDecoder (this, content->only_caption(), log, first)));
+	caption.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, content->only_caption(), log, first)));
 }
 
 void
@@ -64,7 +64,7 @@ DCPSubtitleDecoder::pass ()
 	/* Gather all subtitles with the same time period that are next
 	   on the list.  We must emit all subtitles for the same time
 	   period with the same plain_text() call otherwise the
-	   CaptionDecoder will assume there is nothing else at the
+	   TextDecoder will assume there is nothing else at the
 	   time of emit the first.
 	*/
 

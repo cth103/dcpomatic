@@ -20,7 +20,7 @@
 
 #include "lib/ffmpeg_content.h"
 #include "lib/content_factory.h"
-#include "lib/caption_content.h"
+#include "lib/text_content.h"
 #include "lib/film.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>

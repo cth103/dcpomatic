@@ -24,11 +24,11 @@
  */
 
 #include "lib/film.h"
-#include "lib/text_caption_file_content.h"
+#include "lib/string_text_file_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/font.h"
 #include "lib/ratio.h"
-#include "lib/caption_content.h"
+#include "lib/text_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/algorithm/string.hpp>
@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE (ssa_subtitle_test1)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	film->set_interop (true);
-	shared_ptr<TextCaptionFileContent> content (new TextCaptionFileContent (film, private_data / "DKH_UT_EN20160601def.ssa"));
+	shared_ptr<StringTextFileContent> content (new StringTextFileContent (film, private_data / "DKH_UT_EN20160601def.ssa"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 

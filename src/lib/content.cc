@@ -27,7 +27,7 @@
 #include "content_factory.h"
 #include "video_content.h"
 #include "audio_content.h"
-#include "caption_content.h"
+#include "text_content.h"
 #include "exceptions.h"
 #include "film.h"
 #include "job.h"
@@ -437,8 +437,8 @@ Content::take_settings_from (shared_ptr<const Content> c)
 		audio->take_settings_from (c->audio);
 	}
 
-	list<shared_ptr<CaptionContent> >::iterator i = caption.begin ();
-	list<shared_ptr<CaptionContent> >::const_iterator j = c->caption.begin ();
+	list<shared_ptr<TextContent> >::iterator i = caption.begin ();
+	list<shared_ptr<TextContent> >::const_iterator j = c->caption.begin ();
 	while (i != caption.end() && j != c->caption.end()) {
 		(*i)->take_settings_from (*j);
 		++i;
@@ -446,24 +446,24 @@ Content::take_settings_from (shared_ptr<const Content> c)
  	}
 }
 
-shared_ptr<CaptionContent>
+shared_ptr<TextContent>
 Content::only_caption () const
 {
 	DCPOMATIC_ASSERT (caption.size() < 2);
 	if (caption.empty ()) {
-		return shared_ptr<CaptionContent> ();
+		return shared_ptr<TextContent> ();
 	}
 	return caption.front ();
 }
 
-shared_ptr<CaptionContent>
-Content::caption_of_original_type (CaptionType type) const
+shared_ptr<TextContent>
+Content::caption_of_original_type (TextType type) const
 {
-	BOOST_FOREACH (shared_ptr<CaptionContent> i, caption) {
+	BOOST_FOREACH (shared_ptr<TextContent> i, caption) {
 		if (i->original_type() == type) {
 			return i;
 		}
 	}
 
-	return shared_ptr<CaptionContent> ();
+	return shared_ptr<TextContent> ();
 }

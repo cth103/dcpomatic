@@ -18,12 +18,12 @@
 
 */
 
-#include "text_caption_file_content.h"
+#include "string_text_file_content.h"
 #include "util.h"
-#include "text_caption_file.h"
+#include "string_text_file.h"
 #include "film.h"
 #include "font.h"
-#include "caption_content.h"
+#include "text_content.h"
 #include <dcp/raw_convert.h>
 #include <libxml++/libxml++.h>
 #include <iostream>
@@ -35,24 +35,24 @@ using std::cout;
 using boost::shared_ptr;
 using dcp::raw_convert;
 
-TextCaptionFileContent::TextCaptionFileContent (shared_ptr<const Film> film, boost::filesystem::path path)
+StringTextFileContent::StringTextFileContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
 {
-	caption.push_back (shared_ptr<CaptionContent> (new CaptionContent (this, CAPTION_OPEN)));
+	caption.push_back (shared_ptr<TextContent> (new TextContent (this, CAPTION_OPEN)));
 }
 
-TextCaptionFileContent::TextCaptionFileContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
+StringTextFileContent::StringTextFileContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 	, _length (node->number_child<ContentTime::Type> ("Length"))
 {
-	caption = CaptionContent::from_xml (this, node, version);
+	caption = TextContent::from_xml (this, node, version);
 }
 
 void
-TextCaptionFileContent::examine (boost::shared_ptr<Job> job)
+StringTextFileContent::examine (boost::shared_ptr<Job> job)
 {
 	Content::examine (job);
-	TextCaptionFile s (shared_from_this ());
+	StringTextFile s (shared_from_this ());
 
 	/* Default to turning these subtitles on */
 	only_caption()->set_use (true);
@@ -63,19 +63,19 @@ TextCaptionFileContent::examine (boost::shared_ptr<Job> job)
 }
 
 string
-TextCaptionFileContent::summary () const
+StringTextFileContent::summary () const
 {
 	return path_summary() + " " + _("[subtitles]");
 }
 
 string
-TextCaptionFileContent::technical_summary () const
+StringTextFileContent::technical_summary () const
 {
 	return Content::technical_summary() + " - " + _("Text subtitles");
 }
 
 void
-TextCaptionFileContent::as_xml (xmlpp::Node* node, bool with_paths) const
+StringTextFileContent::as_xml (xmlpp::Node* node, bool with_paths) const
 {
 	node->add_child("Type")->add_child_text ("TextSubtitle");
 	Content::as_xml (node, with_paths);
@@ -88,7 +88,7 @@ TextCaptionFileContent::as_xml (xmlpp::Node* node, bool with_paths) const
 }
 
 DCPTime
-TextCaptionFileContent::full_length () const
+StringTextFileContent::full_length () const
 {
 	FrameRateChange const frc (active_video_frame_rate(), film()->video_frame_rate ());
 	return DCPTime (_length, frc);

@@ -108,17 +108,17 @@ public:
 
 	bool can_reference_audio (std::string &) const;
 
-	void set_reference_caption (CaptionType type, bool r);
+	void set_reference_caption (TextType type, bool r);
 
 	/** @param type Original type of captions in the DCP.
 	 *  @return true if these captions are to be referenced.
 	 */
-	bool reference_caption (CaptionType type) const {
+	bool reference_caption (TextType type) const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _reference_caption[type];
 	}
 
-	bool can_reference_caption (CaptionType type, std::string &) const;
+	bool can_reference_caption (TextType type, std::string &) const;
 
 	void set_cpl (std::string id);
 

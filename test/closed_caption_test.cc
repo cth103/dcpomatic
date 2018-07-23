@@ -19,8 +19,8 @@
 */
 
 #include "lib/film.h"
-#include "lib/caption_content.h"
-#include "lib/text_caption_file_content.h"
+#include "lib/text_content.h"
+#include "lib/string_text_file_content.h"
 #include "test.h"
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
@@ -33,7 +33,7 @@ using boost::shared_ptr;
 BOOST_AUTO_TEST_CASE (closed_caption_test1)
 {
 	shared_ptr<Film> film = new_test_film2 ("closed_caption_test1");
-	shared_ptr<TextCaptionFileContent> content (new TextCaptionFileContent (film, "test/data/subrip.srt"));
+	shared_ptr<StringTextFileContent> content (new StringTextFileContent (film, "test/data/subrip.srt"));
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 

@@ -24,7 +24,7 @@
 #include "font_files_dialog.h"
 #include "lib/font.h"
 #include "lib/content.h"
-#include "lib/caption_content.h"
+#include "lib/text_content.h"
 #include <wx/wx.h>
 #include <boost/foreach.hpp>
 #include <iostream>
@@ -34,7 +34,7 @@ using std::string;
 using std::cout;
 using boost::shared_ptr;
 
-FontsDialog::FontsDialog (wxWindow* parent, shared_ptr<Content> content, shared_ptr<CaptionContent> caption)
+FontsDialog::FontsDialog (wxWindow* parent, shared_ptr<Content> content, shared_ptr<TextContent> caption)
 	: wxDialog (parent, wxID_ANY, _("Fonts"))
 	, _content (content)
 	, _caption (caption)
@@ -100,7 +100,7 @@ void
 FontsDialog::setup ()
 {
 	shared_ptr<Content> content = _content.lock ();
-	shared_ptr<CaptionContent> caption = _caption.lock ();
+	shared_ptr<TextContent> caption = _caption.lock ();
 	if (!content || !caption) {
 		return;
 	}
@@ -140,7 +140,7 @@ void
 FontsDialog::edit_clicked ()
 {
 	shared_ptr<Content> content = _content.lock ();
-	shared_ptr<CaptionContent> caption = _caption.lock ();
+	shared_ptr<TextContent> caption = _caption.lock ();
 	if (!content || !caption) {
 		return;
 	}

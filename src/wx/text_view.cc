@@ -18,15 +18,15 @@
 
 */
 
-#include "lib/text_caption_file_decoder.h"
-#include "lib/content_caption.h"
+#include "lib/string_text_file_decoder.h"
+#include "lib/content_text.h"
 #include "lib/video_decoder.h"
 #include "lib/audio_decoder.h"
 #include "lib/film.h"
 #include "lib/config.h"
-#include "lib/text_caption_file_content.h"
-#include "lib/caption_decoder.h"
-#include "caption_view.h"
+#include "lib/string_text_file_content.h"
+#include "lib/text_decoder.h"
+#include "text_view.h"
 #include "film_viewer.h"
 #include "wx_util.h"
 
@@ -35,7 +35,7 @@ using boost::shared_ptr;
 using boost::bind;
 using boost::dynamic_pointer_cast;
 
-CaptionView::CaptionView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content> content, shared_ptr<CaptionContent> caption, shared_ptr<Decoder> decoder, FilmViewer* viewer)
+TextView::TextView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content> content, shared_ptr<TextContent> caption, shared_ptr<Decoder> decoder, FilmViewer* viewer)
 	: wxDialog (parent, wxID_ANY, _("Captions"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 	, _content (content)
 	, _film_viewer (viewer)
@@ -69,7 +69,7 @@ CaptionView::CaptionView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 	sizer->Add (_list, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_X_GAP);
 
-	_list->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind (&CaptionView::subtitle_selected, this, _1));
+	_list->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind (&TextView::subtitle_selected, this, _1));
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {
@@ -86,11 +86,11 @@ CaptionView::CaptionView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 	_subs = 0;
 	_frc = film->active_frame_rate_change (content->position());
 
-	/* Find the decoder that is being used for our CaptionContent and attach to it */
-	BOOST_FOREACH (shared_ptr<CaptionDecoder> i, decoder->caption) {
+	/* Find the decoder that is being used for our TextContent and attach to it */
+	BOOST_FOREACH (shared_ptr<TextDecoder> i, decoder->caption) {
 		if (i->content() == caption) {
-			i->PlainStart.connect (bind (&CaptionView::data_start, this, _1));
-			i->Stop.connect (bind (&CaptionView::data_stop, this, _1));
+			i->PlainStart.connect (bind (&TextView::data_start, this, _1));
+			i->Stop.connect (bind (&TextView::data_stop, this, _1));
 		}
 	}
 	while (!decoder->pass ()) {}
@@ -98,7 +98,7 @@ CaptionView::CaptionView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 }
 
 void
-CaptionView::data_start (ContentTextCaption cts)
+TextView::data_start (ContentStringText cts)
 {
 	BOOST_FOREACH (dcp::SubtitleString const & i, cts.subs) {
 		wxListItem list_item;
@@ -114,7 +114,7 @@ CaptionView::data_start (ContentTextCaption cts)
 }
 
 void
-CaptionView::data_stop (ContentTime time)
+TextView::data_stop (ContentTime time)
 {
 	if (!_last_count) {
 		return;
@@ -126,7 +126,7 @@ CaptionView::data_stop (ContentTime time)
 }
 
 void
-CaptionView::subtitle_selected (wxListEvent& ev)
+TextView::subtitle_selected (wxListEvent& ev)
 {
 	if (!Config::instance()->jump_to_selected ()) {
 		return;

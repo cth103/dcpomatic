@@ -1,0 +1,44 @@
+#!/usr/bin/python
+
+import re
+import os
+
+files = "src/lib/*.cc src/lib/*.h src/wx/*.cc src/wx/*.h src/tools/*.cc test/*.cc"
+
+def convert(name):
+    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
+    return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+
+def try_to_rename(f, t):
+    try:
+        print '%s -> %s' % (f, t),
+        os.rename(f, t)
+        print 'OK'
+    except:
+        print 'Failed'
+
+def rename_class(f, t):
+    os.system('sed -i "s/%s/%s/g" %s' % (f, t, files))
+    os.system('sed -i "s/%s/%s/g" src/lib/wscript src/wx/wscript' % (convert(f), convert(t)))
+    try_to_rename('src/lib/%s.cc' % convert(f), 'src/lib/%s.cc' % convert(t))
+    try_to_rename('src/lib/%s.h' % convert(f), 'src/lib/%s.h' % convert(t))
+    try_to_rename('src/wx/%s.cc' % convert(f), 'src/wx/%s.cc' % convert(t))
+    try_to_rename('src/wx/%s.h' % convert(f), 'src/wx/%s.h' % convert(t))
+    os.system('sed -i "s/include \\"%s.h\\"/include \\"%s.h\\"/g" %s' % (convert(f), convert(t), files))
+    os.system('sed -i "s/include \\"lib\/%s.h\\"/include \\"lib\/%s.h\\"/g" %s' % (convert(f), convert(t), files))
+
+rename_class("ActiveCaptions", "ActiveText")
+rename_class("BitmapCaption", "BitmapText")
+rename_class("ContentCaption", "ContentText")
+rename_class("ContentTextCaption", "ContentStringText")
+rename_class("TextCaptionFileContent", "StringTextFileContent")
+rename_class("TextCaptionFileDecoder", "StringTextFileDecoder")
+rename_class("TextCaptionFile", "StringTextFile")
+rename_class("TextCaption", "StringText")
+rename_class("PlayerCaption", "PlayerText")
+rename_class("CaptionContent", "TextContent")
+rename_class("CaptionDecoder", "TextDecoder")
+rename_class("CaptionPanel", "TextPanel")
+rename_class("CaptionView", "TextView")
+rename_class("CaptionAppearanceDialog", "SubtitleAppearanceDialog")
+rename_class("CaptionType", "TextType")

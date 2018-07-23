@@ -21,7 +21,7 @@
 #include "decoder.h"
 #include "video_decoder.h"
 #include "audio_decoder.h"
-#include "caption_decoder.h"
+#include "text_decoder.h"
 #include <boost/optional.hpp>
 #include <iostream>
 
@@ -43,7 +43,7 @@ Decoder::position () const
 		pos = audio->position();
 	}
 
-	BOOST_FOREACH (shared_ptr<CaptionDecoder> i, caption) {
+	BOOST_FOREACH (shared_ptr<TextDecoder> i, caption) {
 		if (!i->ignore() && (!pos || i->position() < *pos)) {
 			pos = i->position();
 		}
@@ -61,17 +61,17 @@ Decoder::seek (ContentTime, bool)
 	if (audio) {
 		audio->seek ();
 	}
-	BOOST_FOREACH (shared_ptr<CaptionDecoder> i, caption) {
+	BOOST_FOREACH (shared_ptr<TextDecoder> i, caption) {
 		i->seek ();
 	}
 }
 
-shared_ptr<CaptionDecoder>
+shared_ptr<TextDecoder>
 Decoder::only_caption () const
 {
 	DCPOMATIC_ASSERT (caption.size() < 2);
 	if (caption.empty ()) {
-		return shared_ptr<CaptionDecoder> ();
+		return shared_ptr<TextDecoder> ();
 	}
 	return caption.front ();
 }

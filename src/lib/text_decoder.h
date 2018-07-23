@@ -24,7 +24,7 @@
 #include "decoder.h"
 #include "rect.h"
 #include "types.h"
-#include "content_caption.h"
+#include "content_text.h"
 #include "decoder_part.h"
 #include <dcp/subtitle_string.h>
 #include <boost/signals2.hpp>
@@ -35,12 +35,12 @@ namespace sub {
 
 class Image;
 
-class CaptionDecoder : public DecoderPart
+class TextDecoder : public DecoderPart
 {
 public:
-	CaptionDecoder (
+	TextDecoder (
 		Decoder* parent,
-		boost::shared_ptr<const CaptionContent>,
+		boost::shared_ptr<const TextContent>,
 		boost::shared_ptr<Log> log,
 		ContentTime first
 		);
@@ -58,16 +58,16 @@ public:
 
 	void seek ();
 
-	boost::shared_ptr<const CaptionContent> content () const {
+	boost::shared_ptr<const TextContent> content () const {
 		return _content;
 	}
 
-	boost::signals2::signal<void (ContentBitmapCaption)> BitmapStart;
-	boost::signals2::signal<void (ContentTextCaption)> PlainStart;
-	boost::signals2::signal<void (ContentTime, CaptionType)> Stop;
+	boost::signals2::signal<void (ContentBitmapText)> BitmapStart;
+	boost::signals2::signal<void (ContentStringText)> PlainStart;
+	boost::signals2::signal<void (ContentTime, TextType)> Stop;
 
 private:
-	boost::shared_ptr<const CaptionContent> _content;
+	boost::shared_ptr<const TextContent> _content;
 	ContentTime _position;
 };
 

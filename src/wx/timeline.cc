@@ -34,7 +34,7 @@
 #include "lib/image_content.h"
 #include "lib/timer.h"
 #include "lib/audio_content.h"
-#include "lib/caption_content.h"
+#include "lib/text_content.h"
 #include "lib/video_content.h"
 #include "lib/atmos_mxf_content.h"
 #include <wx/graphics.h>
@@ -228,7 +228,7 @@ Timeline::recreate_views ()
 			_views.push_back (shared_ptr<TimelineView> (new TimelineAudioContentView (*this, i)));
 		}
 
-		BOOST_FOREACH (shared_ptr<CaptionContent> j, i->caption) {
+		BOOST_FOREACH (shared_ptr<TextContent> j, i->caption) {
 			_views.push_back (shared_ptr<TimelineView> (new TimelineTextContentView (*this, i, j)));
 		}
 

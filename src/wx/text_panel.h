@@ -22,13 +22,13 @@
 
 class wxCheckBox;
 class wxSpinCtrl;
-class CaptionView;
+class TextView;
 class FontsDialog;
 
-class CaptionPanel : public ContentSubPanel
+class TextPanel : public ContentSubPanel
 {
 public:
-	CaptionPanel (ContentPanel *, CaptionType t);
+	TextPanel (ContentPanel *, TextType t);
 
 	void film_changed (Film::Property);
 	void film_content_changed (int);
@@ -65,9 +65,9 @@ private:
 	wxTextCtrl* _language;
 	wxChoice* _stream;
 	wxButton* _caption_view_button;
-	CaptionView* _caption_view;
+	TextView* _caption_view;
 	wxButton* _fonts_dialog_button;
 	FontsDialog* _fonts_dialog;
 	wxButton* _appearance_dialog_button;
-	CaptionType _original_type;
+	TextType _original_type;
 };

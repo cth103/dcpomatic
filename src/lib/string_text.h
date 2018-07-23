@@ -27,15 +27,15 @@
  *  applicable to true DCP subtitles.  For example, we can set outline width for burn-in
  *  but this cannot be specified in DCP XML.
  */
-class TextCaption : public dcp::SubtitleString
+class StringText : public dcp::SubtitleString
 {
 public:
-	explicit TextCaption (dcp::SubtitleString dcp_)
+	explicit StringText (dcp::SubtitleString dcp_)
 		: dcp::SubtitleString (dcp_)
 		, outline_width (2)
 	{}
 
-	TextCaption (dcp::SubtitleString dcp_, int outline_width_)
+	StringText (dcp::SubtitleString dcp_, int outline_width_)
 		: dcp::SubtitleString (dcp_)
 		, outline_width (outline_width_)
 	{}

@@ -24,7 +24,7 @@
 
 #include "lib/film.h"
 #include "lib/config.h"
-#include "lib/player_caption.h"
+#include "lib/player_text.h"
 #include <RtAudio.h>
 #include <wx/wx.h>
 

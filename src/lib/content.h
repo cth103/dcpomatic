@@ -182,10 +182,10 @@ public:
 
 	boost::shared_ptr<VideoContent> video;
 	boost::shared_ptr<AudioContent> audio;
-	std::list<boost::shared_ptr<CaptionContent> > caption;
+	std::list<boost::shared_ptr<TextContent> > caption;
 
-	boost::shared_ptr<CaptionContent> only_caption () const;
-	boost::shared_ptr<CaptionContent> caption_of_original_type (CaptionType type) const;
+	boost::shared_ptr<TextContent> only_caption () const;
+	boost::shared_ptr<TextContent> caption_of_original_type (TextType type) const;
 
 	void signal_changed (int);
 

@@ -19,7 +19,7 @@
 */
 
 #include "closed_captions_dialog.h"
-#include "lib/text_caption.h"
+#include "lib/string_text.h"
 #include <boost/bind.hpp>
 
 using std::list;
@@ -70,13 +70,13 @@ ClosedCaptionsDialog::paint ()
 class ClosedCaptionSorter
 {
 public:
-	bool operator() (TextCaption const & a, TextCaption const & b)
+	bool operator() (StringText const & a, StringText const & b)
 	{
 		return from_top(a) < from_top(b);
 	}
 
 private:
-	float from_top (TextCaption const & c) const
+	float from_top (StringText const & c) const
 	{
 		switch (c.v_align()) {
 		case dcp::VALIGN_TOP:
@@ -96,9 +96,9 @@ ClosedCaptionsDialog::update (DCPTime time)
 {
 	shared_ptr<Player> player = _player.lock ();
 	DCPOMATIC_ASSERT (player);
-	list<TextCaption> to_show;
-	BOOST_FOREACH (PlayerCaption i, player->closed_captions_for_frame(time)) {
-		BOOST_FOREACH (TextCaption j, i.text) {
+	list<StringText> to_show;
+	BOOST_FOREACH (PlayerText i, player->closed_captions_for_frame(time)) {
+		BOOST_FOREACH (StringText j, i.text) {
 			to_show.push_back (j);
 		}
 	}
@@ -109,7 +109,7 @@ ClosedCaptionsDialog::update (DCPTime time)
 
 	to_show.sort (ClosedCaptionSorter());
 
-	list<TextCaption>::const_iterator j = to_show.begin();
+	list<StringText>::const_iterator j = to_show.begin();
 	int k = 0;
 	while (j != to_show.end() && k < _num_lines) {
 		_lines[k] = j->text();

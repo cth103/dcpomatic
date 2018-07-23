@@ -19,12 +19,12 @@
 */
 
 #include "timeline_text_content_view.h"
-#include "lib/caption_content.h"
+#include "lib/text_content.h"
 #include "lib/content.h"
 
 using boost::shared_ptr;
 
-TimelineTextContentView::TimelineTextContentView (Timeline& tl, shared_ptr<Content> c, shared_ptr<CaptionContent> caption)
+TimelineTextContentView::TimelineTextContentView (Timeline& tl, shared_ptr<Content> c, shared_ptr<TextContent> caption)
 	: TimelineContentView (tl, c)
 	, _caption (caption)
 {

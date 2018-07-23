@@ -93,7 +93,7 @@ Crop::as_xml (xmlpp::Node* node) const
 	node->add_child("BottomCrop")->add_child_text (raw_convert<string> (bottom));
 }
 
-CaptionType
+TextType
 string_to_caption_type (string s)
 {
 	if (s == "open") {
@@ -106,7 +106,7 @@ string_to_caption_type (string s)
 }
 
 string
-caption_type_to_string (CaptionType t)
+caption_type_to_string (TextType t)
 {
 	switch (t) {
 	case CAPTION_OPEN:
@@ -119,7 +119,7 @@ caption_type_to_string (CaptionType t)
 }
 
 string
-caption_type_to_name (CaptionType t)
+caption_type_to_name (TextType t)
 {
 	switch (t) {
 	case CAPTION_OPEN:

@@ -21,7 +21,7 @@
 #include "font.h"
 #include "dcp_subtitle_content.h"
 #include "film.h"
-#include "caption_content.h"
+#include "text_content.h"
 #include <dcp/raw_convert.h>
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/smpte_subtitle_asset.h>
@@ -40,14 +40,14 @@ using dcp::raw_convert;
 DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
 {
-	caption.push_back (shared_ptr<CaptionContent> (new CaptionContent (this, CAPTION_OPEN)));
+	caption.push_back (shared_ptr<TextContent> (new TextContent (this, CAPTION_OPEN)));
 }
 
 DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 	, _length (node->number_child<ContentTime::Type> ("Length"))
 {
-	caption = CaptionContent::from_xml (this, node, version);
+	caption = TextContent::from_xml (this, node, version);
 }
 
 void

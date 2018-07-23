@@ -32,7 +32,7 @@
 #include "log.h"
 #include "exceptions.h"
 #include "frame_rate_change.h"
-#include "caption_content.h"
+#include "text_content.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 extern "C" {
@@ -85,7 +85,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 {
 	video = VideoContent::from_xml (this, node, version);
 	audio = AudioContent::from_xml (this, node, version);
-	caption = CaptionContent::from_xml (this, node, version);
+	caption = TextContent::from_xml (this, node, version);
 
 	list<cxml::NodePtr> c = node->node_children ("SubtitleStream");
 	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
@@ -163,7 +163,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<shared_ptr<Con
 		audio.reset (new AudioContent (this, c));
 	}
 	if (need_caption) {
-		caption.push_back (shared_ptr<CaptionContent> (new CaptionContent (this, c)));
+		caption.push_back (shared_ptr<TextContent> (new TextContent (this, c)));
 	}
 
 	shared_ptr<FFmpegContent> ref = dynamic_pointer_cast<FFmpegContent> (c[0]);
@@ -304,7 +304,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 		_subtitle_streams = examiner->subtitle_streams ();
 		if (!_subtitle_streams.empty ()) {
 			caption.clear ();
-			caption.push_back (shared_ptr<CaptionContent> (new CaptionContent (this, CAPTION_OPEN)));
+			caption.push_back (shared_ptr<TextContent> (new TextContent (this, CAPTION_OPEN)));
 			_subtitle_stream = _subtitle_streams.front ();
 		}
 

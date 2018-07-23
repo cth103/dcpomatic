@@ -24,11 +24,11 @@
 #include "lib/image_content.h"
 #include "lib/video_content.h"
 #include "lib/audio_content.h"
-#include "lib/text_caption_file_content.h"
+#include "lib/string_text_file_content.h"
 #include "lib/ratio.h"
 #include "lib/transcode_job.h"
 #include "lib/dcp_content.h"
-#include "lib/caption_content.h"
+#include "lib/text_content.h"
 #include "lib/compose.hpp"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
@@ -121,7 +121,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test6)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
-	shared_ptr<TextCaptionFileContent> s (new TextCaptionFileContent (film, "test/data/subrip2.srt"));
+	shared_ptr<StringTextFileContent> s (new StringTextFileContent (film, "test/data/subrip2.srt"));
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	s->only_caption()->set_colour (dcp::Colour (255, 255, 0));
@@ -146,7 +146,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test7)
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<TextCaptionFileContent> s (new TextCaptionFileContent (film, "test/data/subrip.srt"));
+	shared_ptr<StringTextFileContent> s (new StringTextFileContent (film, "test/data/subrip.srt"));
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	s->only_caption()->set_colour (dcp::Colour (255, 255, 0));
@@ -172,7 +172,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test2)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
-	shared_ptr<TextCaptionFileContent> s (new TextCaptionFileContent (film, "test/data/subrip2.srt"));
+	shared_ptr<StringTextFileContent> s (new StringTextFileContent (film, "test/data/subrip2.srt"));
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	s->only_caption()->set_colour (dcp::Colour (255, 255, 0));
@@ -197,7 +197,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test3)
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<TextCaptionFileContent> s (new TextCaptionFileContent (film, "test/data/subrip.srt"));
+	shared_ptr<StringTextFileContent> s (new StringTextFileContent (film, "test/data/subrip.srt"));
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	s->only_caption()->set_colour (dcp::Colour (255, 255, 0));

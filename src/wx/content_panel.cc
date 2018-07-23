@@ -22,13 +22,13 @@
 #include "wx_util.h"
 #include "video_panel.h"
 #include "audio_panel.h"
-#include "caption_panel.h"
+#include "text_panel.h"
 #include "timing_panel.h"
 #include "timeline_dialog.h"
 #include "image_sequence_dialog.h"
 #include "film_viewer.h"
 #include "lib/audio_content.h"
-#include "lib/caption_content.h"
+#include "lib/text_content.h"
 #include "lib/video_content.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/content_factory.h"
@@ -39,8 +39,8 @@
 #include "lib/config.h"
 #include "lib/log.h"
 #include "lib/compose.hpp"
-#include "lib/text_caption_file_content.h"
-#include "lib/text_caption_file.h"
+#include "lib/string_text_file_content.h"
+#include "lib/string_text_file.h"
 #include <wx/wx.h>
 #include <wx/notebook.h>
 #include <wx/listctrl.h>
@@ -128,7 +128,7 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmVie
 	_audio_panel = new AudioPanel (this);
 	_panels.push_back (_audio_panel);
 	for (int i = 0; i < CAPTION_COUNT; ++i) {
-		_caption_panel[i] = new CaptionPanel (this, static_cast<CaptionType>(i));
+		_caption_panel[i] = new TextPanel (this, static_cast<TextType>(i));
 		_panels.push_back (_caption_panel[i]);
 	}
 	_timing_panel = new TimingPanel (this, _film_viewer);
@@ -262,11 +262,11 @@ ContentPanel::selection_changed ()
 	BOOST_FOREACH (shared_ptr<Content> i, selected()) {
 		DCPTime p;
 		p = i->position();
-		if (dynamic_pointer_cast<TextCaptionFileContent>(i) && i->paths_valid()) {
+		if (dynamic_pointer_cast<StringTextFileContent>(i) && i->paths_valid()) {
 			/* Rather special case; if we select a text subtitle file jump to its
 			   first subtitle.
 			*/
-			TextCaptionFile ts (dynamic_pointer_cast<TextCaptionFileContent>(i));
+			StringTextFile ts (dynamic_pointer_cast<StringTextFileContent>(i));
 			if (ts.first()) {
 				p += DCPTime(ts.first().get(), _film->active_frame_rate_change(i->position()));
 			}
@@ -306,7 +306,7 @@ ContentPanel::selection_changed ()
 		if (i->audio) {
 			have_audio = true;
 		}
-		BOOST_FOREACH (shared_ptr<CaptionContent> j, i->caption) {
+		BOOST_FOREACH (shared_ptr<TextContent> j, i->caption) {
 			have_caption[j->original_type()] = true;
 		}
 	}

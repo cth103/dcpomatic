@@ -33,10 +33,10 @@ class FFmpegSubtitleStream;
 class wxCheckBox;
 class wxWidget;
 
-class CaptionAppearanceDialog : public wxDialog
+class SubtitleAppearanceDialog : public wxDialog
 {
 public:
-	CaptionAppearanceDialog (wxWindow* parent, boost::shared_ptr<Content> content, boost::shared_ptr<CaptionContent> caption);
+	SubtitleAppearanceDialog (wxWindow* parent, boost::shared_ptr<Content> content, boost::shared_ptr<TextContent> caption);
 
 	void apply ();
 
@@ -60,7 +60,7 @@ private:
 	std::map<RGBA, RGBAColourPicker*> _pickers;
 
 	boost::shared_ptr<Content> _content;
-	boost::shared_ptr<CaptionContent> _caption;
+	boost::shared_ptr<TextContent> _caption;
 	boost::shared_ptr<FFmpegSubtitleStream> _stream;
 
 	boost::signals2::scoped_connection _content_connection;

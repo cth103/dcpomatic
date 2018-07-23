@@ -21,9 +21,9 @@
 #ifndef DCPOMATIC_PLAYER_H
 #define DCPOMATIC_PLAYER_H
 
-#include "player_caption.h"
-#include "active_captions.h"
-#include "content_caption.h"
+#include "player_text.h"
+#include "active_text.h"
+#include "content_text.h"
 #include "film.h"
 #include "content.h"
 #include "position_image.h"
@@ -86,7 +86,7 @@ public:
 
 	DCPTime content_time_to_dcp (boost::shared_ptr<Content> content, ContentTime t);
 
-	std::list<PlayerCaption> closed_captions_for_frame (DCPTime time) const;
+	std::list<PlayerText> closed_captions_for_frame (DCPTime time) const;
 
 	/** Emitted when something has changed such that if we went back and emitted
 	 *  the last frame again it would look different.  This is not emitted after
@@ -103,7 +103,7 @@ public:
 	/** Emitted when a caption is ready.  This signal may be emitted considerably
 	 *  after the corresponding Video.
 	 */
-	boost::signals2::signal<void (PlayerCaption, CaptionType, DCPTimePeriod)> Caption;
+	boost::signals2::signal<void (PlayerText, TextType, DCPTimePeriod)> Caption;
 
 private:
 	friend class PlayerWrapper;
@@ -118,7 +118,7 @@ private:
 	void film_changed (Film::Property);
 	void playlist_changed ();
 	void playlist_content_changed (boost::weak_ptr<Content>, int, bool);
-	std::list<PositionImage> transform_bitmap_captions (std::list<BitmapCaption>) const;
+	std::list<PositionImage> transform_bitmap_captions (std::list<BitmapText>) const;
 	Frame dcp_to_content_video (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	DCPTime content_video_to_dcp (boost::shared_ptr<const Piece> piece, Frame f) const;
 	Frame dcp_to_resampled_audio (boost::shared_ptr<const Piece> piece, DCPTime t) const;
@@ -128,9 +128,9 @@ private:
 	boost::shared_ptr<PlayerVideo> black_player_video_frame (Eyes eyes) const;
 	void video (boost::weak_ptr<Piece>, ContentVideo);
 	void audio (boost::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
-	void bitmap_text_start (boost::weak_ptr<Piece>, boost::weak_ptr<const CaptionContent>, ContentBitmapCaption);
-	void plain_text_start (boost::weak_ptr<Piece>, boost::weak_ptr<const CaptionContent>, ContentTextCaption);
-	void subtitle_stop (boost::weak_ptr<Piece>, boost::weak_ptr<const CaptionContent>, ContentTime, CaptionType);
+	void bitmap_text_start (boost::weak_ptr<Piece>, boost::weak_ptr<const TextContent>, ContentBitmapText);
+	void plain_text_start (boost::weak_ptr<Piece>, boost::weak_ptr<const TextContent>, ContentStringText);
+	void subtitle_stop (boost::weak_ptr<Piece>, boost::weak_ptr<const TextContent>, ContentTime, TextType);
 	DCPTime one_video_frame () const;
 	void fill_audio (DCPTimePeriod period);
 	std::pair<boost::shared_ptr<AudioBuffers>, DCPTime> discard_audio (
@@ -195,7 +195,7 @@ private:
 	Empty _black;
 	Empty _silent;
 
-	ActiveCaptions _active_captions[CAPTION_COUNT];
+	ActiveText _active_captions[CAPTION_COUNT];
 	boost::shared_ptr<AudioProcessor> _audio_processor;
 
 	boost::signals2::scoped_connection _film_changed_connection;

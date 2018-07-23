@@ -32,9 +32,9 @@ sources = """
           audio_panel.cc
           audio_plot.cc
           batch_job_view.cc
-          caption_appearance_dialog.cc
-          caption_panel.cc
-          caption_view.cc
+          subtitle_appearance_dialog.cc
+          text_panel.cc
+          text_view.cc
           cinema_dialog.cc
           colour_conversion_editor.cc
           config_dialog.cc
