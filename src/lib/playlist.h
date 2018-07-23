@@ -64,7 +64,7 @@ public:
 
 	int best_video_frame_rate () const;
 	DCPTime video_end () const;
-	DCPTime caption_end () const;
+	DCPTime text_end () const;
 	FrameRateChange active_frame_rate_change (DCPTime, int dcp_frame_rate) const;
 	std::string content_summary (DCPTimePeriod period) const;
 	std::pair<double, double> speed_up_range (int dcp_video_frame_rate) const;

@@ -101,7 +101,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 			)
 		);
 
-	pvf->set_caption (PositionImage (sub_image, Position<int> (50, 60)));
+	pvf->set_text (PositionImage (sub_image, Position<int> (50, 60)));
 
 	shared_ptr<DCPVideo> frame (
 		new DCPVideo (
@@ -186,7 +186,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 			)
 		);
 
-	pvf->set_caption (PositionImage (sub_image, Position<int> (50, 60)));
+	pvf->set_text (PositionImage (sub_image, Position<int> (50, 60)));
 
 	shared_ptr<DCPVideo> frame (
 		new DCPVideo (

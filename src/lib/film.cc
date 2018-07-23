@@ -704,10 +704,10 @@ Film::isdcf_name (bool if_created_now) const
 			bool burnt_in = true;
 			bool ccap = false;
 			BOOST_FOREACH (shared_ptr<Content> i, content()) {
-				BOOST_FOREACH (shared_ptr<TextContent> j, i->caption) {
-					if (j->type() == CAPTION_OPEN && j->use() && !j->burn()) {
+				BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
+					if (j->type() == TEXT_OPEN_SUBTITLE && j->use() && !j->burn()) {
 						burnt_in = false;
-					} else if (j->type() == CAPTION_CLOSED) {
+					} else if (j->type() == TEXT_CLOSED_CAPTION) {
 						ccap = true;
 					}
 				}
@@ -782,13 +782,13 @@ Film::isdcf_name (bool if_created_now) const
 			continue;
 		}
 
-		bool any_caption = false;
-		for (int i = 0; i < CAPTION_COUNT; ++i) {
-			if (dc->reference_caption(static_cast<TextType>(i))) {
-				any_caption = true;
+		bool any_text = false;
+		for (int i = 0; i < TEXT_COUNT; ++i) {
+			if (dc->reference_text(static_cast<TextType>(i))) {
+				any_text = true;
 			}
 		}
-		if (dc->reference_video() || dc->reference_audio() || any_caption) {
+		if (dc->reference_video() || dc->reference_audio() || any_text) {
 			vf = true;
 		}
 	}
@@ -1102,8 +1102,8 @@ Film::add_content (shared_ptr<Content> c)
 	/* Add {video,subtitle} content after any existing {video,subtitle} content */
 	if (c->video) {
 		c->set_position (_playlist->video_end());
-	} else if (!c->caption.empty()) {
-		c->set_position (_playlist->caption_end());
+	} else if (!c->text.empty()) {
+		c->set_position (_playlist->text_end());
 	}
 
 	if (_template_film) {
@@ -1391,7 +1391,7 @@ Film::subtitle_language () const
 	set<string> languages;
 
 	BOOST_FOREACH (shared_ptr<Content> i, content()) {
-		BOOST_FOREACH (shared_ptr<TextContent> j, i->caption) {
+		BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
 			languages.insert (j->language ());
 		}
 	}

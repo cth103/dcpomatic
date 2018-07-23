@@ -124,7 +124,7 @@ private:
 	boost::weak_ptr<Job> _job;
 	std::vector<ReelWriter> _reels;
 	std::vector<ReelWriter>::iterator _audio_reel;
-	std::vector<ReelWriter>::iterator _caption_reel[CAPTION_COUNT];
+	std::vector<ReelWriter>::iterator _caption_reel[TEXT_COUNT];
 
 	/** our thread, or 0 */
 	boost::thread* _thread;

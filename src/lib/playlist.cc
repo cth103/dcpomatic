@@ -135,7 +135,7 @@ Playlist::maybe_sequence ()
 
 	DCPTime next;
 	BOOST_FOREACH (shared_ptr<Content> i, _content) {
-		if (i->caption.empty() || find (placed.begin(), placed.end(), i) != placed.end()) {
+		if (i->text.empty() || find (placed.begin(), placed.end(), i) != placed.end()) {
 			continue;
 		}
 
@@ -156,7 +156,7 @@ Playlist::video_identifier () const
 
 	BOOST_FOREACH (shared_ptr<const Content> i, _content) {
 		bool burn = false;
-		BOOST_FOREACH (shared_ptr<TextContent> j, i->caption) {
+		BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
 			if (j->burn()) {
 				burn = true;
 			}
@@ -368,11 +368,11 @@ Playlist::video_end () const
 }
 
 DCPTime
-Playlist::caption_end () const
+Playlist::text_end () const
 {
 	DCPTime end;
 	BOOST_FOREACH (shared_ptr<Content> i, _content) {
-		if (!i->caption.empty ()) {
+		if (!i->text.empty ()) {
 			end = max (end, i->end ());
 		}
 	}

@@ -95,7 +95,7 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 	   and captions arrive to the Writer in sequence.  This is not so for video.
 	*/
 	_audio_reel = _reels.begin ();
-	for (int i = 0; i < CAPTION_COUNT; ++i) {
+	for (int i = 0; i < TEXT_COUNT; ++i) {
 		_caption_reel[i] = _reels.begin ();
 	}
 

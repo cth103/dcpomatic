@@ -120,8 +120,8 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 	, _y_scale (1)
 	, _line_spacing (node->optional_number_child<double>("LineSpacing").get_value_or (1))
 	, _outline_width (node->optional_number_child<int>("OutlineWidth").get_value_or (2))
-	, _type (CAPTION_OPEN)
-	, _original_type (CAPTION_OPEN)
+	, _type (TEXT_OPEN_SUBTITLE)
+	, _original_type (TEXT_OPEN_SUBTITLE)
 {
 	if (version >= 37) {
 		_use = node->bool_child ("Use");
@@ -225,59 +225,59 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 
 	connect_to_fonts ();
 
-	_type = string_to_caption_type (node->optional_string_child("Type").get_value_or("open"));
-	_original_type = string_to_caption_type (node->optional_string_child("OriginalType").get_value_or("open"));
+	_type = string_to_text_type (node->optional_string_child("Type").get_value_or("open"));
+	_original_type = string_to_text_type (node->optional_string_child("OriginalType").get_value_or("open"));
 }
 
 TextContent::TextContent (Content* parent, vector<shared_ptr<Content> > c)
 	: ContentPart (parent)
 {
 	/* This constructor is for join which is only supported for content types
-	   that have a single caption, so we can use only_caption() here.
+	   that have a single text, so we can use only_text() here.
 	*/
-	shared_ptr<TextContent> ref = c[0]->only_caption();
+	shared_ptr<TextContent> ref = c[0]->only_text();
 	DCPOMATIC_ASSERT (ref);
 	list<shared_ptr<Font> > ref_fonts = ref->fonts ();
 
 	for (size_t i = 1; i < c.size(); ++i) {
 
-		if (c[i]->only_caption()->use() != ref->use()) {
+		if (c[i]->only_text()->use() != ref->use()) {
 			throw JoinError (_("Content to be joined must have the same 'use subtitles' setting."));
 		}
 
-		if (c[i]->only_caption()->burn() != ref->burn()) {
+		if (c[i]->only_text()->burn() != ref->burn()) {
 			throw JoinError (_("Content to be joined must have the same 'burn subtitles' setting."));
 		}
 
-		if (c[i]->only_caption()->x_offset() != ref->x_offset()) {
+		if (c[i]->only_text()->x_offset() != ref->x_offset()) {
 			throw JoinError (_("Content to be joined must have the same subtitle X offset."));
 		}
 
-		if (c[i]->only_caption()->y_offset() != ref->y_offset()) {
+		if (c[i]->only_text()->y_offset() != ref->y_offset()) {
 			throw JoinError (_("Content to be joined must have the same subtitle Y offset."));
 		}
 
-		if (c[i]->only_caption()->x_scale() != ref->x_scale()) {
+		if (c[i]->only_text()->x_scale() != ref->x_scale()) {
 			throw JoinError (_("Content to be joined must have the same subtitle X scale."));
 		}
 
-		if (c[i]->only_caption()->y_scale() != ref->y_scale()) {
+		if (c[i]->only_text()->y_scale() != ref->y_scale()) {
 			throw JoinError (_("Content to be joined must have the same subtitle Y scale."));
 		}
 
-		if (c[i]->only_caption()->line_spacing() != ref->line_spacing()) {
+		if (c[i]->only_text()->line_spacing() != ref->line_spacing()) {
 			throw JoinError (_("Content to be joined must have the same subtitle line spacing."));
 		}
 
-		if ((c[i]->only_caption()->fade_in() != ref->fade_in()) || (c[i]->only_caption()->fade_out() != ref->fade_out())) {
+		if ((c[i]->only_text()->fade_in() != ref->fade_in()) || (c[i]->only_text()->fade_out() != ref->fade_out())) {
 			throw JoinError (_("Content to be joined must have the same subtitle fades."));
 		}
 
-		if ((c[i]->only_caption()->outline_width() != ref->outline_width())) {
+		if ((c[i]->only_text()->outline_width() != ref->outline_width())) {
 			throw JoinError (_("Content to be joined must have the same outline width."));
 		}
 
-		list<shared_ptr<Font> > fonts = c[i]->only_caption()->fonts ();
+		list<shared_ptr<Font> > fonts = c[i]->only_text()->fonts ();
 		if (fonts.size() != ref_fonts.size()) {
 			throw JoinError (_("Content to be joined must use the same fonts."));
 		}
@@ -318,53 +318,53 @@ TextContent::as_xml (xmlpp::Node* root) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	xmlpp::Element* caption = root->add_child ("Caption");
+	xmlpp::Element* text = root->add_child ("Text");
 
-	caption->add_child("Use")->add_child_text (_use ? "1" : "0");
-	caption->add_child("Burn")->add_child_text (_burn ? "1" : "0");
-	caption->add_child("XOffset")->add_child_text (raw_convert<string> (_x_offset));
-	caption->add_child("YOffset")->add_child_text (raw_convert<string> (_y_offset));
-	caption->add_child("XScale")->add_child_text (raw_convert<string> (_x_scale));
-	caption->add_child("YScale")->add_child_text (raw_convert<string> (_y_scale));
-	caption->add_child("Language")->add_child_text (_language);
+	text->add_child("Use")->add_child_text (_use ? "1" : "0");
+	text->add_child("Burn")->add_child_text (_burn ? "1" : "0");
+	text->add_child("XOffset")->add_child_text (raw_convert<string> (_x_offset));
+	text->add_child("YOffset")->add_child_text (raw_convert<string> (_y_offset));
+	text->add_child("XScale")->add_child_text (raw_convert<string> (_x_scale));
+	text->add_child("YScale")->add_child_text (raw_convert<string> (_y_scale));
+	text->add_child("Language")->add_child_text (_language);
 	if (_colour) {
-		caption->add_child("Red")->add_child_text (raw_convert<string> (_colour->r));
-		caption->add_child("Green")->add_child_text (raw_convert<string> (_colour->g));
-		caption->add_child("Blue")->add_child_text (raw_convert<string> (_colour->b));
+		text->add_child("Red")->add_child_text (raw_convert<string> (_colour->r));
+		text->add_child("Green")->add_child_text (raw_convert<string> (_colour->g));
+		text->add_child("Blue")->add_child_text (raw_convert<string> (_colour->b));
 	}
 	if (_effect) {
 		switch (*_effect) {
 		case dcp::NONE:
-			caption->add_child("Effect")->add_child_text("none");
+			text->add_child("Effect")->add_child_text("none");
 			break;
 		case dcp::BORDER:
-			caption->add_child("Effect")->add_child_text("outline");
+			text->add_child("Effect")->add_child_text("outline");
 			break;
 		case dcp::SHADOW:
-			caption->add_child("Effect")->add_child_text("shadow");
+			text->add_child("Effect")->add_child_text("shadow");
 			break;
 		}
 	}
 	if (_effect_colour) {
-		caption->add_child("EffectRed")->add_child_text (raw_convert<string> (_effect_colour->r));
-		caption->add_child("EffectGreen")->add_child_text (raw_convert<string> (_effect_colour->g));
-		caption->add_child("EffectBlue")->add_child_text (raw_convert<string> (_effect_colour->b));
+		text->add_child("EffectRed")->add_child_text (raw_convert<string> (_effect_colour->r));
+		text->add_child("EffectGreen")->add_child_text (raw_convert<string> (_effect_colour->g));
+		text->add_child("EffectBlue")->add_child_text (raw_convert<string> (_effect_colour->b));
 	}
-	caption->add_child("LineSpacing")->add_child_text (raw_convert<string> (_line_spacing));
+	text->add_child("LineSpacing")->add_child_text (raw_convert<string> (_line_spacing));
 	if (_fade_in) {
-		caption->add_child("FadeIn")->add_child_text (raw_convert<string> (_fade_in->get()));
+		text->add_child("FadeIn")->add_child_text (raw_convert<string> (_fade_in->get()));
 	}
 	if (_fade_out) {
-		caption->add_child("FadeOut")->add_child_text (raw_convert<string> (_fade_out->get()));
+		text->add_child("FadeOut")->add_child_text (raw_convert<string> (_fade_out->get()));
 	}
-	caption->add_child("OutlineWidth")->add_child_text (raw_convert<string> (_outline_width));
+	text->add_child("OutlineWidth")->add_child_text (raw_convert<string> (_outline_width));
 
 	for (list<shared_ptr<Font> >::const_iterator i = _fonts.begin(); i != _fonts.end(); ++i) {
-		(*i)->as_xml (caption->add_child("Font"));
+		(*i)->as_xml (text->add_child("Font"));
 	}
 
-	caption->add_child("Type")->add_child_text (caption_type_to_string(_type));
-	caption->add_child("OriginalType")->add_child_text (caption_type_to_string(_original_type));
+	text->add_child("Type")->add_child_text (text_type_to_string(_type));
+	text->add_child("OriginalType")->add_child_text (text_type_to_string(_original_type));
 }
 
 string

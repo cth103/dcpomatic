@@ -43,7 +43,7 @@ StringTextFileDecoder::StringTextFileDecoder (shared_ptr<const StringTextFileCon
 	if (!_subtitles.empty()) {
 		first = content_time_period(_subtitles[0]).from;
 	}
-	caption.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, content->only_caption(), log, first)));
+	text.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, content->only_text(), log, first)));
 }
 
 void
@@ -73,7 +73,7 @@ StringTextFileDecoder::pass ()
 	}
 
 	ContentTimePeriod const p = content_time_period (_subtitles[_next]);
-	only_caption()->emit_plain (p, _subtitles[_next]);
+	only_text()->emit_plain (p, _subtitles[_next]);
 
 	++_next;
 	return false;

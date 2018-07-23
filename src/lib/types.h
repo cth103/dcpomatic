@@ -130,25 +130,28 @@ enum ReelType
 };
 
 /** Type of captions.
- *  For better or worse DoM has uses two names for text that appears
- *  with the DCP:
  *
- *  open captions:   text that is shown to everybody on-screen (aka subtitles).
- *  closed captions: text that is shown to some viewers using some other method.
+ *  The generally accepted definitions seem to be:
+ *  - subtitles: text for an audience who doesn't speak the film's language
+ *  - captions:  text for a hearing-impaired audience
+ *  - open:      on-screen
+ *  - closed:    only visible by some audience members
  *
- *  There is also still use of the word `subtitle' in the code; these are the
- *  same as open captions in DoM.
+ *  At the moment DoM supports open subtitles and closed captions.
+ *
+ *  There is some use of the word `subtitle' in the code which may mean
+ *  caption in some contexts.
  */
 enum TextType
 {
-	CAPTION_OPEN,
-	CAPTION_CLOSED,
-	CAPTION_COUNT
+	TEXT_OPEN_SUBTITLE,
+	TEXT_CLOSED_CAPTION,
+	TEXT_COUNT
 };
 
-extern std::string caption_type_to_string (TextType t);
-extern std::string caption_type_to_name (TextType t);
-extern TextType string_to_caption_type (std::string s);
+extern std::string text_type_to_string (TextType t);
+extern std::string text_type_to_name (TextType t);
+extern TextType string_to_text_type (std::string s);
 
 /** @struct Crop
  *  @brief A description of the crop of an image or video.

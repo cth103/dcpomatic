@@ -89,7 +89,7 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _playlist (playlist)
 	, _have_valid_pieces (false)
 	, _ignore_video (false)
-	, _ignore_caption (false)
+	, _ignore_text (false)
 	, _fast (false)
 	, _play_referenced (false)
 	, _audio_merger (_film->audio_frame_rate())
@@ -137,8 +137,8 @@ Player::setup_pieces ()
 			decoder->video->set_ignore (true);
 		}
 
-		if (_ignore_caption) {
-			BOOST_FOREACH (shared_ptr<TextDecoder> i, decoder->caption) {
+		if (_ignore_text) {
+			BOOST_FOREACH (shared_ptr<TextDecoder> i, decoder->text) {
 				i->set_ignore (true);
 			}
 		}
@@ -167,9 +167,9 @@ Player::setup_pieces ()
 			decoder->audio->Data.connect (bind (&Player::audio, this, weak_ptr<Piece> (piece), _1, _2));
 		}
 
-		list<shared_ptr<TextDecoder> >::const_iterator j = decoder->caption.begin();
+		list<shared_ptr<TextDecoder> >::const_iterator j = decoder->text.begin();
 
-		while (j != decoder->caption.end()) {
+		while (j != decoder->text.end()) {
 			(*j)->BitmapStart.connect (
 				bind(&Player::bitmap_text_start, this, weak_ptr<Piece>(piece), weak_ptr<const TextContent>((*j)->content()), _1)
 				);
@@ -302,7 +302,7 @@ Player::film_changed (Film::Property p)
 }
 
 list<PositionImage>
-Player::transform_bitmap_captions (list<BitmapText> subs) const
+Player::transform_bitmap_texts (list<BitmapText> subs) const
 {
 	list<PositionImage> all;
 
@@ -419,7 +419,7 @@ Player::get_subtitle_fonts ()
 
 	list<shared_ptr<Font> > fonts;
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
-		BOOST_FOREACH (shared_ptr<TextContent> j, i->content->caption) {
+		BOOST_FOREACH (shared_ptr<TextContent> j, i->content->text) {
 			/* XXX: things may go wrong if there are duplicate font IDs
 			   with different font files.
 			*/
@@ -439,16 +439,16 @@ Player::set_ignore_video ()
 }
 
 void
-Player::set_ignore_caption ()
+Player::set_ignore_text ()
 {
-	_ignore_caption = true;
+	_ignore_text = true;
 }
 
-/** Set the player to always burn open captions into the image regardless of the content settings */
+/** Set the player to always burn open texts into the image regardless of the content settings */
 void
-Player::set_always_burn_open_captions ()
+Player::set_always_burn_open_subtitles ()
 {
-	_always_burn_open_captions = true;
+	_always_burn_open_subtitles = true;
 }
 
 /** Sets up the player to be faster, possibly at the expense of quality */
@@ -514,7 +514,7 @@ Player::get_reel_assets ()
 					);
 			}
 
-			if (j->reference_caption (CAPTION_OPEN)) {
+			if (j->reference_text (TEXT_OPEN_SUBTITLE)) {
 				shared_ptr<dcp::ReelAsset> ra = k->main_subtitle ();
 				DCPOMATIC_ASSERT (ra);
 				ra->set_entry_point (ra->entry_point() + trim_start);
@@ -524,7 +524,7 @@ Player::get_reel_assets ()
 					);
 			}
 
-			if (j->reference_caption (CAPTION_CLOSED)) {
+			if (j->reference_text (TEXT_CLOSED_CAPTION)) {
 				shared_ptr<dcp::ReelAsset> ra = k->closed_caption ();
 				DCPOMATIC_ASSERT (ra);
 				ra->set_entry_point (ra->entry_point() + trim_start);
@@ -570,10 +570,10 @@ Player::pass ()
 			i->done = true;
 		} else {
 
-			/* Given two choices at the same time, pick the one with captions so we see it before
+			/* Given two choices at the same time, pick the one with texts so we see it before
 			   the video.
 			*/
-			if (!earliest_time || t < *earliest_time || (t == *earliest_time && !i->decoder->caption.empty())) {
+			if (!earliest_time || t < *earliest_time || (t == *earliest_time && !i->decoder->text.empty())) {
 				earliest_time = t;
 				earliest_content = i;
 			}
@@ -679,25 +679,25 @@ Player::pass ()
 list<PlayerText>
 Player::closed_captions_for_frame (DCPTime time) const
 {
-	return _active_captions[CAPTION_CLOSED].get (
+	return _active_texts[TEXT_CLOSED_CAPTION].get (
 		DCPTimePeriod(time, time + DCPTime::from_frames(1, _film->video_frame_rate()))
 		);
 }
 
-/** @return Open captions for the frame at the given time, converted to images */
+/** @return Open subtitles for the frame at the given time, converted to images */
 optional<PositionImage>
-Player::open_captions_for_frame (DCPTime time) const
+Player::open_subtitles_for_frame (DCPTime time) const
 {
 	list<PositionImage> captions;
 	int const vfr = _film->video_frame_rate();
 
 	BOOST_FOREACH (
 		PlayerText j,
-		_active_captions[CAPTION_OPEN].get_burnt(DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_open_captions)
+		_active_texts[TEXT_OPEN_SUBTITLE].get_burnt(DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_open_subtitles)
 		) {
 
 		/* Image subtitles */
-		list<PositionImage> c = transform_bitmap_captions (j.image);
+		list<PositionImage> c = transform_bitmap_texts (j.image);
 		copy (c.begin(), c.end(), back_inserter (captions));
 
 		/* Text subtitles (rendered to an image) */
@@ -873,36 +873,36 @@ void
 Player::bitmap_text_start (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, ContentBitmapText subtitle)
 {
 	shared_ptr<Piece> piece = wp.lock ();
-	shared_ptr<const TextContent> caption = wc.lock ();
-	if (!piece || !caption) {
+	shared_ptr<const TextContent> text = wc.lock ();
+	if (!piece || !text) {
 		return;
 	}
 
 	/* Apply content's subtitle offsets */
-	subtitle.sub.rectangle.x += caption->x_offset ();
-	subtitle.sub.rectangle.y += caption->y_offset ();
+	subtitle.sub.rectangle.x += text->x_offset ();
+	subtitle.sub.rectangle.y += text->y_offset ();
 
 	/* Apply a corrective translation to keep the subtitle centred after the scale that is coming up */
-	subtitle.sub.rectangle.x -= subtitle.sub.rectangle.width * ((caption->x_scale() - 1) / 2);
-	subtitle.sub.rectangle.y -= subtitle.sub.rectangle.height * ((caption->y_scale() - 1) / 2);
+	subtitle.sub.rectangle.x -= subtitle.sub.rectangle.width * ((text->x_scale() - 1) / 2);
+	subtitle.sub.rectangle.y -= subtitle.sub.rectangle.height * ((text->y_scale() - 1) / 2);
 
 	/* Apply content's subtitle scale */
-	subtitle.sub.rectangle.width *= caption->x_scale ();
-	subtitle.sub.rectangle.height *= caption->y_scale ();
+	subtitle.sub.rectangle.width *= text->x_scale ();
+	subtitle.sub.rectangle.height *= text->y_scale ();
 
 	PlayerText ps;
 	ps.image.push_back (subtitle.sub);
 	DCPTime from (content_time_to_dcp (piece, subtitle.from()));
 
-	_active_captions[subtitle.type()].add_from (wc, ps, from);
+	_active_texts[subtitle.type()].add_from (wc, ps, from);
 }
 
 void
 Player::plain_text_start (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, ContentStringText subtitle)
 {
 	shared_ptr<Piece> piece = wp.lock ();
-	shared_ptr<const TextContent> caption = wc.lock ();
-	if (!piece || !caption) {
+	shared_ptr<const TextContent> text = wc.lock ();
+	if (!piece || !text) {
 		return;
 	}
 
@@ -914,10 +914,10 @@ Player::plain_text_start (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, Co
 	}
 
 	BOOST_FOREACH (dcp::SubtitleString s, subtitle.subs) {
-		s.set_h_position (s.h_position() + caption->x_offset ());
-		s.set_v_position (s.v_position() + caption->y_offset ());
-		float const xs = caption->x_scale();
-		float const ys = caption->y_scale();
+		s.set_h_position (s.h_position() + text->x_offset ());
+		s.set_v_position (s.v_position() + text->y_offset ());
+		float const xs = text->x_scale();
+		float const ys = text->y_scale();
 		float size = s.size();
 
 		/* Adjust size to express the common part of the scaling;
@@ -934,23 +934,23 @@ Player::plain_text_start (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, Co
 		}
 
 		s.set_in (dcp::Time(from.seconds(), 1000));
-		ps.text.push_back (StringText (s, caption->outline_width()));
-		ps.add_fonts (caption->fonts ());
+		ps.text.push_back (StringText (s, text->outline_width()));
+		ps.add_fonts (text->fonts ());
 	}
 
-	_active_captions[subtitle.type()].add_from (wc, ps, from);
+	_active_texts[subtitle.type()].add_from (wc, ps, from);
 }
 
 void
 Player::subtitle_stop (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, ContentTime to, TextType type)
 {
-	if (!_active_captions[type].have (wc)) {
+	if (!_active_texts[type].have (wc)) {
 		return;
 	}
 
 	shared_ptr<Piece> piece = wp.lock ();
-	shared_ptr<const TextContent> caption = wc.lock ();
-	if (!piece || !caption) {
+	shared_ptr<const TextContent> text = wc.lock ();
+	if (!piece || !text) {
 		return;
 	}
 
@@ -960,11 +960,11 @@ Player::subtitle_stop (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, Conte
 		return;
 	}
 
-	pair<PlayerText, DCPTime> from = _active_captions[type].add_to (wc, dcp_to);
+	pair<PlayerText, DCPTime> from = _active_texts[type].add_to (wc, dcp_to);
 
-	bool const always = type == CAPTION_OPEN && _always_burn_open_captions;
-	if (caption->use() && !always && !caption->burn()) {
-		Caption (from.first, type, DCPTimePeriod (from.second, dcp_to));
+	bool const always = type == TEXT_OPEN_SUBTITLE && _always_burn_open_subtitles;
+	if (text->use() && !always && !text->burn()) {
+		Text (from.first, type, DCPTimePeriod (from.second, dcp_to));
 	}
 }
 
@@ -986,8 +986,8 @@ Player::seek (DCPTime time, bool accurate)
 	}
 
 	_audio_merger.clear ();
-	for (int i = 0; i < CAPTION_COUNT; ++i) {
-		_active_captions[i].clear ();
+	for (int i = 0; i < TEXT_COUNT; ++i) {
+		_active_texts[i].clear ();
 	}
 
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
@@ -1047,14 +1047,14 @@ void
 Player::do_emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 {
 	if (pv->eyes() == EYES_BOTH || pv->eyes() == EYES_RIGHT) {
-		for (int i = 0; i < CAPTION_COUNT; ++i) {
-			_active_captions[i].clear_before (time);
+		for (int i = 0; i < TEXT_COUNT; ++i) {
+			_active_texts[i].clear_before (time);
 		}
 	}
 
-	optional<PositionImage> captions = open_captions_for_frame (time);
-	if (captions) {
-		pv->set_caption (captions.get ());
+	optional<PositionImage> subtitles = open_subtitles_for_frame (time);
+	if (subtitles) {
+		pv->set_text (subtitles.get ());
 	}
 
 	Video (pv, time);

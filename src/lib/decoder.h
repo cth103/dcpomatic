@@ -45,9 +45,9 @@ public:
 
 	boost::shared_ptr<VideoDecoder> video;
 	boost::shared_ptr<AudioDecoder> audio;
-	std::list<boost::shared_ptr<TextDecoder> > caption;
+	std::list<boost::shared_ptr<TextDecoder> > text;
 
-	boost::shared_ptr<TextDecoder> only_caption () const;
+	boost::shared_ptr<TextDecoder> only_text () const;
 
 	/** Do some decoding and perhaps emit video, audio or subtitle data.
 	 *  @return true if this decoder will emit no more data unless a seek() happens.

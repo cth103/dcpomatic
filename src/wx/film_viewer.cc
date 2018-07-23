@@ -224,7 +224,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 
 	_closed_captions_dialog->set_player (_player);
 
-	_player->set_always_burn_open_captions ();
+	_player->set_always_burn_open_subtitles ();
 	_player->set_play_referenced ();
 
 	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));

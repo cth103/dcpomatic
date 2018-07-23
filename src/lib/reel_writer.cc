@@ -508,8 +508,8 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 	}
 	reel->add (reel_sound_asset);
 
-	maybe_add_captions<dcp::ReelSubtitleAsset>      (_caption_asset[CAPTION_OPEN],   reel_picture_asset->duration(), reel, refs, fonts, _film, _period);
-	maybe_add_captions<dcp::ReelClosedCaptionAsset> (_caption_asset[CAPTION_CLOSED], reel_picture_asset->duration(), reel, refs, fonts, _film, _period);
+	maybe_add_captions<dcp::ReelSubtitleAsset>      (_caption_asset[TEXT_OPEN_SUBTITLE],   reel_picture_asset->duration(), reel, refs, fonts, _film, _period);
+	maybe_add_captions<dcp::ReelClosedCaptionAsset> (_caption_asset[TEXT_CLOSED_CAPTION], reel_picture_asset->duration(), reel, refs, fonts, _film, _period);
 
 	return reel;
 }

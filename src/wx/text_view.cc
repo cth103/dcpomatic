@@ -35,7 +35,7 @@ using boost::shared_ptr;
 using boost::bind;
 using boost::dynamic_pointer_cast;
 
-TextView::TextView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content> content, shared_ptr<TextContent> caption, shared_ptr<Decoder> decoder, FilmViewer* viewer)
+TextView::TextView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content> content, shared_ptr<TextContent> text, shared_ptr<Decoder> decoder, FilmViewer* viewer)
 	: wxDialog (parent, wxID_ANY, _("Captions"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 	, _content (content)
 	, _film_viewer (viewer)
@@ -87,8 +87,8 @@ TextView::TextView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content>
 	_frc = film->active_frame_rate_change (content->position());
 
 	/* Find the decoder that is being used for our TextContent and attach to it */
-	BOOST_FOREACH (shared_ptr<TextDecoder> i, decoder->caption) {
-		if (i->content() == caption) {
+	BOOST_FOREACH (shared_ptr<TextDecoder> i, decoder->text) {
+		if (i->content() == text) {
 			i->PlainStart.connect (bind (&TextView::data_start, this, _1));
 			i->Stop.connect (bind (&TextView::data_stop, this, _1));
 		}

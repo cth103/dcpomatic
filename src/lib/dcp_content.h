@@ -36,9 +36,9 @@ public:
 	static int const NEEDS_ASSETS;
 	static int const REFERENCE_VIDEO;
 	static int const REFERENCE_AUDIO;
-	static int const REFERENCE_CAPTION;
+	static int const REFERENCE_TEXT;
 	static int const NAME;
-	static int const CAPTIONS;
+	static int const TEXTS;
 };
 
 class ContentPart;
@@ -108,17 +108,17 @@ public:
 
 	bool can_reference_audio (std::string &) const;
 
-	void set_reference_caption (TextType type, bool r);
+	void set_reference_text (TextType type, bool r);
 
-	/** @param type Original type of captions in the DCP.
-	 *  @return true if these captions are to be referenced.
+	/** @param type Original type of texts in the DCP.
+	 *  @return true if these texts are to be referenced.
 	 */
-	bool reference_caption (TextType type) const {
+	bool reference_text (TextType type) const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _reference_caption[type];
+		return _reference_text[type];
 	}
 
-	bool can_reference_caption (TextType type, std::string &) const;
+	bool can_reference_text (TextType type, std::string &) const;
 
 	void set_cpl (std::string id);
 
@@ -166,11 +166,11 @@ private:
 	 *  rather than by rewrapping.
 	 */
 	bool _reference_audio;
-	/** true if the captions in this DCP should be included in the output by reference
-	 *  rather than by rewrapping.  The types here are the original caption types,
+	/** true if the texts in this DCP should be included in the output by reference
+	 *  rather than by rewrapping.  The types here are the original text types,
 	 *  not what they are being used for.
 	 */
-	bool _reference_caption[CAPTION_COUNT];
+	bool _reference_text[TEXT_COUNT];
 
 	boost::optional<dcp::Standard> _standard;
 	bool _three_d;

@@ -438,7 +438,7 @@ DCPPanel::film_content_changed (int property)
 	    property == VideoContentProperty::SCALE ||
 	    property == DCPContentProperty::REFERENCE_VIDEO ||
 	    property == DCPContentProperty::REFERENCE_AUDIO ||
-	    property == DCPContentProperty::REFERENCE_CAPTION) {
+	    property == DCPContentProperty::REFERENCE_TEXT) {
 		setup_dcp_name ();
 		setup_sensitivity ();
 	}

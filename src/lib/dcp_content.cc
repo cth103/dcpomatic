@@ -58,9 +58,9 @@ int const DCPContentProperty::NEEDS_ASSETS       = 600;
 int const DCPContentProperty::NEEDS_KDM          = 601;
 int const DCPContentProperty::REFERENCE_VIDEO    = 602;
 int const DCPContentProperty::REFERENCE_AUDIO    = 603;
-int const DCPContentProperty::REFERENCE_CAPTION  = 604;
+int const DCPContentProperty::REFERENCE_TEXT     = 604;
 int const DCPContentProperty::NAME               = 605;
-int const DCPContentProperty::CAPTIONS           = 606;
+int const DCPContentProperty::TEXTS              = 606;
 
 DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film)
@@ -74,8 +74,8 @@ DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	read_directory (p);
 	set_default_colour_conversion ();
 
-	for (int i = 0; i < CAPTION_COUNT; ++i) {
-		_reference_caption[i] = false;
+	for (int i = 0; i < TEXT_COUNT; ++i) {
+		_reference_text[i] = false;
 	}
 }
 
@@ -84,10 +84,10 @@ DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 {
 	video = VideoContent::from_xml (this, node, version);
 	audio = AudioContent::from_xml (this, node, version);
-	caption = TextContent::from_xml (this, node, version);
+	text = TextContent::from_xml (this, node, version);
 
-	for (int i = 0; i < CAPTION_COUNT; ++i) {
-		_reference_caption[i] = false;
+	for (int i = 0; i < TEXT_COUNT; ++i) {
+		_reference_text[i] = false;
 	}
 
 	if (video && audio) {
@@ -115,11 +115,11 @@ DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 	_reference_video = node->optional_bool_child ("ReferenceVideo").get_value_or (false);
 	_reference_audio = node->optional_bool_child ("ReferenceAudio").get_value_or (false);
 	if (version >= 37) {
-		_reference_caption[CAPTION_OPEN] = node->optional_bool_child("ReferenceOpenCaption").get_value_or(false);
-		_reference_caption[CAPTION_CLOSED] = node->optional_bool_child("ReferenceClosedCaption").get_value_or(false);
+		_reference_text[TEXT_OPEN_SUBTITLE] = node->optional_bool_child("ReferenceOpenSubtitle").get_value_or(false);
+		_reference_text[TEXT_CLOSED_CAPTION] = node->optional_bool_child("ReferenceClosedCaption").get_value_or(false);
 	} else {
-		_reference_caption[CAPTION_OPEN] = node->optional_bool_child("ReferenceSubtitle").get_value_or(false);
-		_reference_caption[CAPTION_CLOSED] = false;
+		_reference_text[TEXT_OPEN_SUBTITLE] = node->optional_bool_child("ReferenceSubtitle").get_value_or(false);
+		_reference_text[TEXT_CLOSED_CAPTION] = false;
 	}
 	if (node->optional_string_child("Standard")) {
 		string const s = node->optional_string_child("Standard").get();
@@ -156,7 +156,7 @@ DCPContent::examine (shared_ptr<Job> job)
 	bool const needed_assets = needs_assets ();
 	bool const needed_kdm = needs_kdm ();
 	string const old_name = name ();
-	int const old_captions = caption.size ();
+	int const old_texts = text.size ();
 
 	if (job) {
 		job->set_progress_unknown ();
@@ -187,16 +187,16 @@ DCPContent::examine (shared_ptr<Job> job)
 		signal_changed (AudioContentProperty::STREAMS);
 	}
 
-	int captions = 0;
+	int texts = 0;
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_name = examiner->name ();
-		for (int i = 0; i < CAPTION_COUNT; ++i) {
-			if (examiner->has_caption(static_cast<TextType>(i))) {
-				caption.push_back (shared_ptr<TextContent>(new TextContent(this, static_cast<TextType>(i))));
+		for (int i = 0; i < TEXT_COUNT; ++i) {
+			if (examiner->has_text(static_cast<TextType>(i))) {
+				text.push_back (shared_ptr<TextContent>(new TextContent(this, static_cast<TextType>(i))));
 			}
 		}
-		captions = caption.size ();
+		texts = text.size ();
 		_encrypted = examiner->encrypted ();
 		_needs_assets = examiner->needs_assets ();
 		_kdm_valid = examiner->kdm_valid ();
@@ -206,8 +206,8 @@ DCPContent::examine (shared_ptr<Job> job)
 		_reel_lengths = examiner->reel_lengths ();
 	}
 
-	if (old_captions != captions) {
-		signal_changed (DCPContentProperty::CAPTIONS);
+	if (old_texts != texts) {
+		signal_changed (DCPContentProperty::TEXTS);
 	}
 
 	if (needed_assets != needs_assets ()) {
@@ -267,7 +267,7 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 		audio->stream()->mapping().as_xml (node->add_child("AudioMapping"));
 	}
 
-	BOOST_FOREACH (shared_ptr<TextContent> i, caption) {
+	BOOST_FOREACH (shared_ptr<TextContent> i, text) {
 		i->as_xml (node);
 	}
 
@@ -281,8 +281,8 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 	node->add_child("KDMValid")->add_child_text (_kdm_valid ? "1" : "0");
 	node->add_child("ReferenceVideo")->add_child_text (_reference_video ? "1" : "0");
 	node->add_child("ReferenceAudio")->add_child_text (_reference_audio ? "1" : "0");
-	node->add_child("ReferenceOpenCaption")->add_child_text(_reference_caption[CAPTION_OPEN] ? "1" : "0");
-	node->add_child("ReferenceClosedCaption")->add_child_text(_reference_caption[CAPTION_CLOSED] ? "1" : "0");
+	node->add_child("ReferenceOpenSubtitle")->add_child_text(_reference_text[TEXT_OPEN_SUBTITLE] ? "1" : "0");
+	node->add_child("ReferenceClosedCaption")->add_child_text(_reference_text[TEXT_CLOSED_CAPTION] ? "1" : "0");
 	if (_standard) {
 		switch (_standard.get ()) {
 		case dcp::INTEROP:
@@ -323,13 +323,13 @@ DCPContent::identifier () const
 		s += video->identifier() + "_";
 	}
 
-	BOOST_FOREACH (shared_ptr<TextContent> i, caption) {
+	BOOST_FOREACH (shared_ptr<TextContent> i, text) {
 		s += i->identifier () + " ";
 	}
 
 	s += string (_reference_video ? "1" : "0");
-	for (int i = 0; i < CAPTION_COUNT; ++i) {
-		s += string (_reference_caption[i] ? "1" : "0");
+	for (int i = 0; i < TEXT_COUNT; ++i) {
+		s += string (_reference_text[i] ? "1" : "0");
 	}
 	return s;
 }
@@ -416,14 +416,14 @@ DCPContent::set_reference_audio (bool r)
 }
 
 void
-DCPContent::set_reference_caption (TextType type, bool r)
+DCPContent::set_reference_text (TextType type, bool r)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		_reference_caption[type] = r;
+		_reference_text[type] = r;
 	}
 
-	signal_changed (DCPContentProperty::REFERENCE_CAPTION);
+	signal_changed (DCPContentProperty::REFERENCE_TEXT);
 }
 
 list<DCPTimePeriod>
@@ -591,12 +591,12 @@ DCPContent::can_reference_audio (string& why_not) const
 }
 
 static
-bool check_caption (shared_ptr<const Content> c)
+bool check_text (shared_ptr<const Content> c)
 {
-	return !c->caption.empty();
+	return !c->text.empty();
 }
 bool
-DCPContent::can_reference_caption (TextType type, string& why_not) const
+DCPContent::can_reference_text (TextType type, string& why_not) const
 {
 	shared_ptr<DCPDecoder> decoder;
 	try {
@@ -610,12 +610,12 @@ DCPContent::can_reference_caption (TextType type, string& why_not) const
 	}
 
         BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder->reels()) {
-                if (type == CAPTION_OPEN && !i->main_subtitle()) {
+                if (type == TEXT_OPEN_SUBTITLE && !i->main_subtitle()) {
 			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-                        why_not = _("it does not have subtitles in all its reels.");
+                        why_not = _("it does not have open subtitles in all its reels.");
                         return false;
                 }
-		if (type == CAPTION_CLOSED && !i->closed_caption()) {
+		if (type == TEXT_CLOSED_CAPTION && !i->closed_caption()) {
 			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
                         why_not = _("it does not have closed captions in all its reels.");
                         return false;
@@ -623,7 +623,7 @@ DCPContent::can_reference_caption (TextType type, string& why_not) const
         }
 
 	/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-	return can_reference (bind (&check_caption, _1), _("it overlaps other caption content; remove the other content."), why_not);
+	return can_reference (bind (&check_text, _1), _("it overlaps other text content; remove the other content."), why_not);
 }
 
 void
@@ -636,8 +636,8 @@ DCPContent::take_settings_from (shared_ptr<const Content> c)
 
 	_reference_video = dc->_reference_video;
 	_reference_audio = dc->_reference_audio;
-	for (int i = 0; i < CAPTION_COUNT; ++i) {
-		_reference_caption[i] = dc->_reference_caption[i];
+	for (int i = 0; i < TEXT_COUNT; ++i) {
+		_reference_text[i] = dc->_reference_text[i];
 	}
 }
 

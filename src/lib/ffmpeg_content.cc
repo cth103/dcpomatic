@@ -85,7 +85,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 {
 	video = VideoContent::from_xml (this, node, version);
 	audio = AudioContent::from_xml (this, node, version);
-	caption = TextContent::from_xml (this, node, version);
+	text = TextContent::from_xml (this, node, version);
 
 	list<cxml::NodePtr> c = node->node_children ("SubtitleStream");
 	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
@@ -135,12 +135,12 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<shared_ptr<Con
 
 	bool need_video = false;
 	bool need_audio = false;
-	bool need_caption = false;
+	bool need_text = false;
 
 	if (i != c.end ()) {
 		need_video = static_cast<bool> ((*i)->video);
 		need_audio = static_cast<bool> ((*i)->audio);
-		need_caption = !(*i)->caption.empty();
+		need_text = !(*i)->text.empty();
 	}
 
 	while (i != c.end ()) {
@@ -150,8 +150,8 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<shared_ptr<Con
 		if (need_audio != static_cast<bool> ((*i)->audio)) {
 			throw JoinError (_("Content to be joined must all have or not have audio"));
 		}
-		if (need_caption != !(*i)->caption.empty()) {
-			throw JoinError (_("Content to be joined must all have or not have captions"));
+		if (need_text != !(*i)->text.empty()) {
+			throw JoinError (_("Content to be joined must all have or not have subtitles or captions"));
 		}
 		++i;
 	}
@@ -162,8 +162,8 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<shared_ptr<Con
 	if (need_audio) {
 		audio.reset (new AudioContent (this, c));
 	}
-	if (need_caption) {
-		caption.push_back (shared_ptr<TextContent> (new TextContent (this, c)));
+	if (need_text) {
+		text.push_back (shared_ptr<TextContent> (new TextContent (this, c)));
 	}
 
 	shared_ptr<FFmpegContent> ref = dynamic_pointer_cast<FFmpegContent> (c[0]);
@@ -171,7 +171,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<shared_ptr<Con
 
 	for (size_t i = 0; i < c.size(); ++i) {
 		shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c[i]);
-		if (fc->only_caption() && fc->only_caption()->use() && *(fc->_subtitle_stream.get()) != *(ref->_subtitle_stream.get())) {
+		if (fc->only_text() && fc->only_text()->use() && *(fc->_subtitle_stream.get()) != *(ref->_subtitle_stream.get())) {
 			throw JoinError (_("Content to be joined must use the same subtitle stream."));
 		}
 	}
@@ -209,8 +209,8 @@ FFmpegContent::as_xml (xmlpp::Node* node, bool with_paths) const
 		}
 	}
 
-	if (only_caption()) {
-		only_caption()->as_xml (node);
+	if (only_text()) {
+		only_text()->as_xml (node);
 	}
 
 	boost::mutex::scoped_lock lm (_mutex);
@@ -303,8 +303,8 @@ FFmpegContent::examine (shared_ptr<Job> job)
 
 		_subtitle_streams = examiner->subtitle_streams ();
 		if (!_subtitle_streams.empty ()) {
-			caption.clear ();
-			caption.push_back (shared_ptr<TextContent> (new TextContent (this, CAPTION_OPEN)));
+			text.clear ();
+			text.push_back (shared_ptr<TextContent> (new TextContent (this, TEXT_OPEN_SUBTITLE)));
 			_subtitle_stream = _subtitle_streams.front ();
 		}
 
@@ -427,8 +427,8 @@ FFmpegContent::identifier () const
 		s += "_" + video->identifier();
 	}
 
-	if (only_caption() && only_caption()->use() && only_caption()->burn()) {
-		s += "_" + only_caption()->identifier();
+	if (only_text() && only_text()->use() && only_text()->burn()) {
+		s += "_" + only_text()->identifier();
 	}
 
 	boost::mutex::scoped_lock lm (_mutex);

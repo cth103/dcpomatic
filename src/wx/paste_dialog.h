@@ -23,14 +23,14 @@
 class PasteDialog : public TableDialog
 {
 public:
-	PasteDialog (wxWindow* parent, bool video, bool audio, bool caption);
+	PasteDialog (wxWindow* parent, bool video, bool audio, bool text);
 
 	bool video () const;
 	bool audio () const;
-	bool caption () const;
+	bool text () const;
 
 private:
 	wxCheckBox* _video;
 	wxCheckBox* _audio;
-	wxCheckBox* _caption;
+	wxCheckBox* _text;
 };

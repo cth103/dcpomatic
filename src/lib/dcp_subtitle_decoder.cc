@@ -39,7 +39,7 @@ DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> con
 	if (_next != _subtitles.end()) {
 		first = content_time_period(*_next).from;
 	}
-	caption.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, content->only_caption(), log, first)));
+	text.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, content->only_text(), log, first)));
 }
 
 void
@@ -81,7 +81,7 @@ DCPSubtitleDecoder::pass ()
 		/* XXX: image subtitles */
 	}
 
-	only_caption()->emit_plain (p, s);
+	only_text()->emit_plain (p, s);
 	return false;
 }
 

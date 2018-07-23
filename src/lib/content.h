@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -182,10 +182,10 @@ public:
 
 	boost::shared_ptr<VideoContent> video;
 	boost::shared_ptr<AudioContent> audio;
-	std::list<boost::shared_ptr<TextContent> > caption;
+	std::list<boost::shared_ptr<TextContent> > text;
 
-	boost::shared_ptr<TextContent> only_caption () const;
-	boost::shared_ptr<TextContent> caption_of_original_type (TextType type) const;
+	boost::shared_ptr<TextContent> only_text () const;
+	boost::shared_ptr<TextContent> text_of_original_type (TextType type) const;
 
 	void signal_changed (int);
 

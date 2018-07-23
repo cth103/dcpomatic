@@ -92,14 +92,14 @@ PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket
 
 		image->read_from_socket (socket);
 
-		_caption = PositionImage (image, Position<int> (node->number_child<int> ("SubtitleX"), node->number_child<int> ("SubtitleY")));
+		_text = PositionImage (image, Position<int> (node->number_child<int> ("SubtitleX"), node->number_child<int> ("SubtitleY")));
 	}
 }
 
 void
-PlayerVideo::set_caption (PositionImage image)
+PlayerVideo::set_text (PositionImage image)
 {
-	_caption = image;
+	_text = image;
 }
 
 /** Create an image for this frame.
@@ -153,8 +153,8 @@ PlayerVideo::image (dcp::NoteHandler note, function<AVPixelFormat (AVPixelFormat
 		total_crop, _inter_size, _out_size, yuv_to_rgb, pixel_format (_in->pixel_format()), aligned, fast
 		);
 
-	if (_caption) {
-		out->alpha_blend (Image::ensure_aligned (_caption->image), _caption->position);
+	if (_text) {
+		out->alpha_blend (Image::ensure_aligned (_text->image), _text->position);
 	}
 
 	if (_fade) {
@@ -181,11 +181,11 @@ PlayerVideo::add_metadata (xmlpp::Node* node) const
 	if (_colour_conversion) {
 		_colour_conversion.get().as_xml (node);
 	}
-	if (_caption) {
-		node->add_child ("SubtitleWidth")->add_child_text (raw_convert<string> (_caption->image->size().width));
-		node->add_child ("SubtitleHeight")->add_child_text (raw_convert<string> (_caption->image->size().height));
-		node->add_child ("SubtitleX")->add_child_text (raw_convert<string> (_caption->position.x));
-		node->add_child ("SubtitleY")->add_child_text (raw_convert<string> (_caption->position.y));
+	if (_text) {
+		node->add_child ("SubtitleWidth")->add_child_text (raw_convert<string> (_text->image->size().width));
+		node->add_child ("SubtitleHeight")->add_child_text (raw_convert<string> (_text->image->size().height));
+		node->add_child ("SubtitleX")->add_child_text (raw_convert<string> (_text->position.x));
+		node->add_child ("SubtitleY")->add_child_text (raw_convert<string> (_text->position.y));
 	}
 }
 
@@ -193,8 +193,8 @@ void
 PlayerVideo::send_binary (shared_ptr<Socket> socket) const
 {
 	_in->send_binary (socket);
-	if (_caption) {
-		_caption->image->write_to_socket (socket);
+	if (_text) {
+		_text->image->write_to_socket (socket);
 	}
 }
 
@@ -208,7 +208,7 @@ PlayerVideo::has_j2k () const
 		return false;
 	}
 
-	return _crop == Crop () && _out_size == j2k->size() && !_caption && !_fade && !_colour_conversion;
+	return _crop == Crop () && _out_size == j2k->size() && !_text && !_fade && !_colour_conversion;
 }
 
 Data
@@ -239,13 +239,13 @@ PlayerVideo::same (shared_ptr<const PlayerVideo> other) const
 		return false;
 	}
 
-	if ((!_caption && other->_caption) || (_caption && !other->_caption)) {
-		/* One has a caption and the other doesn't */
+	if ((!_text && other->_text) || (_text && !other->_text)) {
+		/* One has a text and the other doesn't */
 		return false;
 	}
 
-	if (_caption && other->_caption && !_caption->same (other->_caption.get ())) {
-		/* They both have captions but they are different */
+	if (_text && other->_text && !_text->same (other->_text.get ())) {
+		/* They both have texts but they are different */
 		return false;
 	}
 
@@ -278,7 +278,7 @@ PlayerVideo::memory_used () const
 	return _in->memory_used();
 }
 
-/** @return Shallow copy of this; _in and _caption are shared between the original and the copy */
+/** @return Shallow copy of this; _in and _text are shared between the original and the copy */
 shared_ptr<PlayerVideo>
 PlayerVideo::shallow_copy () const
 {

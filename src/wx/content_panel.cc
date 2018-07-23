@@ -127,9 +127,9 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmVie
 	_panels.push_back (_video_panel);
 	_audio_panel = new AudioPanel (this);
 	_panels.push_back (_audio_panel);
-	for (int i = 0; i < CAPTION_COUNT; ++i) {
-		_caption_panel[i] = new TextPanel (this, static_cast<TextType>(i));
-		_panels.push_back (_caption_panel[i]);
+	for (int i = 0; i < TEXT_COUNT; ++i) {
+		_text_panel[i] = new TextPanel (this, static_cast<TextType>(i));
+		_panels.push_back (_text_panel[i]);
 	}
 	_timing_panel = new TimingPanel (this, _film_viewer);
 	_panels.push_back (_timing_panel);
@@ -195,12 +195,12 @@ ContentPanel::selected_audio ()
 }
 
 ContentList
-ContentPanel::selected_caption ()
+ContentPanel::selected_text ()
 {
 	ContentList sc;
 
 	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
-		if (!i->caption.empty()) {
+		if (!i->text.empty()) {
 			sc.push_back (i);
 		}
 	}
@@ -298,7 +298,7 @@ ContentPanel::selection_changed ()
 
 	bool have_video = false;
 	bool have_audio = false;
-	bool have_caption[CAPTION_COUNT] = { false, false };
+	bool have_text[TEXT_COUNT] = { false, false };
 	BOOST_FOREACH (shared_ptr<Content> i, selected()) {
 		if (i->video) {
 			have_video = true;
@@ -306,23 +306,23 @@ ContentPanel::selection_changed ()
 		if (i->audio) {
 			have_audio = true;
 		}
-		BOOST_FOREACH (shared_ptr<TextContent> j, i->caption) {
-			have_caption[j->original_type()] = true;
+		BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
+			have_text[j->original_type()] = true;
 		}
 	}
 
 	bool video_panel = false;
 	bool audio_panel = false;
-	bool caption_panel[CAPTION_COUNT] = { false, false };
+	bool text_panel[TEXT_COUNT] = { false, false };
 	for (size_t i = 0; i < _notebook->GetPageCount(); ++i) {
 		if (_notebook->GetPage(i) == _video_panel) {
 			video_panel = true;
 		} else if (_notebook->GetPage(i) == _audio_panel) {
 			audio_panel = true;
 		}
-		for (int j = 0; j < CAPTION_COUNT; ++j) {
-			if (_notebook->GetPage(i) == _caption_panel[j]) {
-				caption_panel[j] = true;
+		for (int j = 0; j < TEXT_COUNT; ++j) {
+			if (_notebook->GetPage(i) == _text_panel[j]) {
+				text_panel[j] = true;
 			}
 		}
 	}
@@ -355,16 +355,16 @@ ContentPanel::selection_changed ()
 		++off;
 	}
 
-	for (int i = 0; i < CAPTION_COUNT; ++i) {
-		if (have_caption[i] != caption_panel[i]) {
-			if (caption_panel[i]) {
+	for (int i = 0; i < TEXT_COUNT; ++i) {
+		if (have_text[i] != text_panel[i]) {
+			if (text_panel[i]) {
 				_notebook->RemovePage (off);
 			}
-			if (have_caption[i]) {
-				_notebook->InsertPage (off, _caption_panel[i], _caption_panel[i]->name());
+			if (have_text[i]) {
+				_notebook->InsertPage (off, _text_panel[i], _text_panel[i]->name());
 			}
 		}
-		if (have_caption[i]) {
+		if (have_text[i]) {
 			++off;
 		}
 	}
@@ -550,8 +550,8 @@ ContentPanel::setup_sensitivity ()
 
 	_video_panel->Enable	(_generally_sensitive && video_selection.size() > 0);
 	_audio_panel->Enable	(_generally_sensitive && audio_selection.size() > 0);
-	for (int i = 0; i < CAPTION_COUNT; ++i) {
-		_caption_panel[i]->Enable  (_generally_sensitive && selection.size() == 1 && !selection.front()->caption.empty());
+	for (int i = 0; i < TEXT_COUNT; ++i) {
+		_text_panel[i]->Enable  (_generally_sensitive && selection.size() == 1 && !selection.front()->text.empty());
 	}
 	_timing_panel->Enable	(_generally_sensitive);
 }

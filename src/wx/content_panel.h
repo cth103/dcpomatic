@@ -65,7 +65,7 @@ public:
 	ContentList selected ();
 	ContentList selected_video ();
 	ContentList selected_audio ();
-	ContentList selected_caption ();
+	ContentList selected_text ();
 	FFmpegContentList selected_ffmpeg ();
 
 	void add_file_clicked ();
@@ -105,7 +105,7 @@ private:
 	wxButton* _timeline;
 	ContentSubPanel* _video_panel;
 	AudioPanel* _audio_panel;
-	TextPanel* _caption_panel[CAPTION_COUNT];
+	TextPanel* _text_panel[TEXT_COUNT];
 	ContentSubPanel* _timing_panel;
 	std::list<ContentSubPanel *> _panels;
 	ContentMenu* _menu;

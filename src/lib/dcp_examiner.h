@@ -83,8 +83,8 @@ public:
 		return _audio_frame_rate.get_value_or (48000);
 	}
 
-	bool has_caption (TextType type) const {
-		return _has_caption[type];
+	bool has_text (TextType type) const {
+		return _has_text[type];
 	}
 
 	bool kdm_valid () const {
@@ -119,7 +119,7 @@ private:
 	bool _has_video;
 	/** true if this DCP has audio content (but false if it has unresolved references to audio content) */
 	bool _has_audio;
-	bool _has_caption[CAPTION_COUNT];
+	bool _has_text[TEXT_COUNT];
 	bool _encrypted;
 	bool _needs_assets;
 	bool _kdm_valid;

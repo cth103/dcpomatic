@@ -32,13 +32,13 @@ TimelineLabelsView::TimelineLabelsView (Timeline& tl)
 	: TimelineView (tl)
 	, _threed (true)
 	, _audio_tracks (0)
-	, _caption_tracks (0)
+	, _text_tracks (0)
 	, _atmos (true)
 {
 	wxString labels[] = {
 		_("Video"),
 		_("Audio"),
-		_("Captions"),
+		_("Subtitles/captions"),
 		_("Atmos")
 	};
 
@@ -70,9 +70,9 @@ TimelineLabelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> >
 	gc->DrawText (_("Video"), 0, (ty + fy) / 2 - 8);
 	fy = ty;
 
-	if (_caption_tracks) {
-		ty = fy + _caption_tracks * h;
-		gc->DrawText (_("Captions"), 0, (ty + fy) / 2 - 8);
+	if (_text_tracks) {
+		ty = fy + _text_tracks * h;
+		gc->DrawText (_("Subtitle/captions"), 0, (ty + fy) / 2 - 8);
 		fy = ty;
 	}
 
@@ -101,9 +101,9 @@ TimelineLabelsView::set_audio_tracks (int n)
 }
 
 void
-TimelineLabelsView::set_caption_tracks (int n)
+TimelineLabelsView::set_text_tracks (int n)
 {
-	_caption_tracks = n;
+	_text_tracks = n;
 }
 
 void

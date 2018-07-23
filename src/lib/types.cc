@@ -94,37 +94,37 @@ Crop::as_xml (xmlpp::Node* node) const
 }
 
 TextType
-string_to_caption_type (string s)
+string_to_text_type (string s)
 {
-	if (s == "open") {
-		return CAPTION_OPEN;
+	if (s == "open-subtitle") {
+		return TEXT_OPEN_SUBTITLE;
 	} else if (s == "closed") {
-		return CAPTION_CLOSED;
+		return TEXT_CLOSED_CAPTION;
 	} else {
-		throw MetadataError (String::compose ("Unknown caption type %1", s));
+		throw MetadataError (String::compose ("Unknown text type %1", s));
 	}
 }
 
 string
-caption_type_to_string (TextType t)
+text_type_to_string (TextType t)
 {
 	switch (t) {
-	case CAPTION_OPEN:
-		return "open";
-	case CAPTION_CLOSED:
-		return "closed";
+	case TEXT_OPEN_SUBTITLE:
+		return "open-subtitle";
+	case TEXT_CLOSED_CAPTION:
+		return "closed-caption";
 	default:
 		DCPOMATIC_ASSERT (false);
 	}
 }
 
 string
-caption_type_to_name (TextType t)
+text_type_to_name (TextType t)
 {
 	switch (t) {
-	case CAPTION_OPEN:
-		return _("Subtitles");
-	case CAPTION_CLOSED:
+	case TEXT_OPEN_SUBTITLE:
+		return _("Open subtitles");
+	case TEXT_CLOSED_CAPTION:
 		return _("Closed captions");
 	default:
 		DCPOMATIC_ASSERT (false);

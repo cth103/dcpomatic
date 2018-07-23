@@ -567,7 +567,7 @@ private:
 	{
 		DCPOMATIC_ASSERT (_clipboard);
 
-		PasteDialog* d = new PasteDialog (this, static_cast<bool>(_clipboard->video), static_cast<bool>(_clipboard->audio), !_clipboard->caption.empty());
+		PasteDialog* d = new PasteDialog (this, static_cast<bool>(_clipboard->video), static_cast<bool>(_clipboard->audio), !_clipboard->text.empty());
 		if (d->ShowModal() == wxID_OK) {
 			BOOST_FOREACH (shared_ptr<Content> i, _film_editor->content_panel()->selected()) {
 				if (d->video() && i->video) {
@@ -579,10 +579,10 @@ private:
 					i->audio->take_settings_from (_clipboard->audio);
 				}
 
-				if (d->caption()) {
-					list<shared_ptr<TextContent> >::iterator j = i->caption.begin ();
-					list<shared_ptr<TextContent> >::const_iterator k = _clipboard->caption.begin ();
-					while (j != i->caption.end() && k != _clipboard->caption.end()) {
+				if (d->text()) {
+					list<shared_ptr<TextContent> >::iterator j = i->text.begin ();
+					list<shared_ptr<TextContent> >::const_iterator k = _clipboard->text.begin ();
+					while (j != i->text.end() && k != _clipboard->text.end()) {
 						(*j)->take_settings_from (*k);
 						++j;
 						++k;

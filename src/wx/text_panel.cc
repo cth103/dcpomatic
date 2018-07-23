@@ -45,8 +45,8 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
 TextPanel::TextPanel (ContentPanel* p, TextType t)
-	: ContentSubPanel (p, std_to_wx(caption_type_to_name(t)))
-	, _caption_view (0)
+	: ContentSubPanel (p, std_to_wx(text_type_to_name(t)))
+	, _text_view (0)
 	, _fonts_dialog (0)
 	, _original_type (t)
 {
@@ -73,7 +73,7 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	_use = new wxCheckBox (this, wxID_ANY, _("Use as"));
 	use->Add (_use, 0, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 	_type = new wxChoice (this, wxID_ANY);
-	_type->Append (_("subtitles (open captions)"));
+	_type->Append (_("open subtitles"));
 	_type->Append (_("closed captions"));
 	use->Add (_type, 1, wxEXPAND, 0);
 	grid->Add (use, wxGBPosition (r, 0), wxGBSpan (1, 2));
@@ -146,8 +146,8 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	{
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 
-		_caption_view_button = new wxButton (this, wxID_ANY, _("View..."));
-		s->Add (_caption_view_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
+		_text_view_button = new wxButton (this, wxID_ANY, _("View..."));
+		s->Add (_text_view_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
 		_fonts_dialog_button = new wxButton (this, wxID_ANY, _("Fonts..."));
 		s->Add (_fonts_dialog_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
 		_appearance_dialog_button = new wxButton (this, wxID_ANY, _("Appearance..."));
@@ -165,7 +165,7 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 
 	_reference->Bind                (wxEVT_CHECKBOX, boost::bind (&TextPanel::reference_clicked, this));
 	_use->Bind                      (wxEVT_CHECKBOX, boost::bind (&TextPanel::use_toggled, this));
-	_type->Bind              (wxEVT_CHOICE,   boost::bind (&TextPanel::type_changed, this));
+	_type->Bind                     (wxEVT_CHOICE,   boost::bind (&TextPanel::type_changed, this));
 	_burn->Bind                     (wxEVT_CHECKBOX, boost::bind (&TextPanel::burn_toggled, this));
 	_x_offset->Bind                 (wxEVT_SPINCTRL, boost::bind (&TextPanel::x_offset_changed, this));
 	_y_offset->Bind                 (wxEVT_SPINCTRL, boost::bind (&TextPanel::y_offset_changed, this));
@@ -174,7 +174,7 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	_line_spacing->Bind             (wxEVT_SPINCTRL, boost::bind (&TextPanel::line_spacing_changed, this));
 	_language->Bind                 (wxEVT_TEXT,     boost::bind (&TextPanel::language_changed, this));
 	_stream->Bind                   (wxEVT_CHOICE,   boost::bind (&TextPanel::stream_changed, this));
-	_caption_view_button->Bind      (wxEVT_BUTTON,   boost::bind (&TextPanel::caption_view_clicked, this));
+	_text_view_button->Bind         (wxEVT_BUTTON,   boost::bind (&TextPanel::text_view_clicked, this));
 	_fonts_dialog_button->Bind      (wxEVT_BUTTON,   boost::bind (&TextPanel::fonts_dialog_clicked, this));
 	_appearance_dialog_button->Bind (wxEVT_BUTTON,   boost::bind (&TextPanel::appearance_dialog_clicked, this));
 }
@@ -191,7 +191,7 @@ void
 TextPanel::film_content_changed (int property)
 {
 	FFmpegContentList fc = _parent->selected_ffmpeg ();
-	ContentList sc = _parent->selected_caption ();
+	ContentList sc = _parent->selected_text ();
 
 	shared_ptr<FFmpegContent> fcs;
 	if (fc.size() == 1) {
@@ -203,9 +203,9 @@ TextPanel::film_content_changed (int property)
 		scs = sc.front ();
 	}
 
-	shared_ptr<TextContent> caption;
+	shared_ptr<TextContent> text;
 	if (scs) {
-		caption = scs->caption_of_original_type(_original_type);
+		text = scs->text_of_original_type(_original_type);
 	}
 
 	if (property == FFmpegContentProperty::SUBTITLE_STREAMS) {
@@ -224,15 +224,15 @@ TextPanel::film_content_changed (int property)
 		}
 		setup_sensitivity ();
 	} else if (property == TextContentProperty::USE) {
-		checked_set (_use, caption ? caption->use() : false);
+		checked_set (_use, text ? text->use() : false);
 		setup_sensitivity ();
 	} else if (property == TextContentProperty::TYPE) {
-		if (caption) {
-			switch (caption->type()) {
-			case CAPTION_OPEN:
+		if (text) {
+			switch (text->type()) {
+			case TEXT_OPEN_SUBTITLE:
 				_type->SetSelection (0);
 				break;
-			case CAPTION_CLOSED:
+			case TEXT_CLOSED_CAPTION:
 				_type->SetSelection (1);
 				break;
 			default:
@@ -243,29 +243,29 @@ TextPanel::film_content_changed (int property)
 		}
 		setup_sensitivity ();
 	} else if (property == TextContentProperty::BURN) {
-		checked_set (_burn, caption ? caption->burn() : false);
+		checked_set (_burn, text ? text->burn() : false);
 	} else if (property == TextContentProperty::X_OFFSET) {
-		checked_set (_x_offset, caption ? lrint (caption->x_offset() * 100) : 0);
+		checked_set (_x_offset, text ? lrint (text->x_offset() * 100) : 0);
 	} else if (property == TextContentProperty::Y_OFFSET) {
-		checked_set (_y_offset, caption ? lrint (caption->y_offset() * 100) : 0);
+		checked_set (_y_offset, text ? lrint (text->y_offset() * 100) : 0);
 	} else if (property == TextContentProperty::X_SCALE) {
-		checked_set (_x_scale, caption ? lrint (caption->x_scale() * 100) : 100);
+		checked_set (_x_scale, text ? lrint (text->x_scale() * 100) : 100);
 	} else if (property == TextContentProperty::Y_SCALE) {
-		checked_set (_y_scale, caption ? lrint (caption->y_scale() * 100) : 100);
+		checked_set (_y_scale, text ? lrint (text->y_scale() * 100) : 100);
 	} else if (property == TextContentProperty::LINE_SPACING) {
-		checked_set (_line_spacing, caption ? lrint (caption->line_spacing() * 100) : 100);
+		checked_set (_line_spacing, text ? lrint (text->line_spacing() * 100) : 100);
 	} else if (property == TextContentProperty::LANGUAGE) {
-		checked_set (_language, caption ? caption->language() : "");
-	} else if (property == DCPContentProperty::REFERENCE_CAPTION) {
+		checked_set (_language, text ? text->language() : "");
+	} else if (property == DCPContentProperty::REFERENCE_TEXT) {
 		if (scs) {
 			shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (scs);
-			checked_set (_reference, dcp ? dcp->reference_caption(_original_type) : false);
+			checked_set (_reference, dcp ? dcp->reference_text(_original_type) : false);
 		} else {
 			checked_set (_reference, false);
 		}
 
 		setup_sensitivity ();
-	} else if (property == DCPContentProperty::CAPTIONS) {
+	} else if (property == DCPContentProperty::TEXTS) {
 		setup_sensitivity ();
 	}
 }
@@ -273,21 +273,21 @@ TextPanel::film_content_changed (int property)
 void
 TextPanel::use_toggled ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption()) {
-		i->caption_of_original_type(_original_type)->set_use (_use->GetValue());
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text()) {
+		i->text_of_original_type(_original_type)->set_use (_use->GetValue());
 	}
 }
 
 void
 TextPanel::type_changed ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption()) {
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text()) {
 		switch (_type->GetSelection()) {
 		case 0:
-			i->caption_of_original_type(_original_type)->set_type (CAPTION_OPEN);
+			i->text_of_original_type(_original_type)->set_type (TEXT_OPEN_SUBTITLE);
 			break;
 		case 1:
-			i->caption_of_original_type(_original_type)->set_type (CAPTION_CLOSED);
+			i->text_of_original_type(_original_type)->set_type (TEXT_CLOSED_CAPTION);
 			break;
 		}
 	}
@@ -296,8 +296,8 @@ TextPanel::type_changed ()
 void
 TextPanel::burn_toggled ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption ()) {
-		i->caption_of_original_type(_original_type)->set_burn (_burn->GetValue());
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text ()) {
+		i->text_of_original_type(_original_type)->set_burn (_burn->GetValue());
 	}
 }
 
@@ -306,7 +306,7 @@ TextPanel::setup_sensitivity ()
 {
 	int any_subs = 0;
 	int ffmpeg_subs = 0;
-	ContentList sel = _parent->selected_caption ();
+	ContentList sel = _parent->selected_text ();
 	BOOST_FOREACH (shared_ptr<Content> i, sel) {
 		/* These are the content types that could include subtitles */
 		shared_ptr<const FFmpegContent> fc = boost::dynamic_pointer_cast<const FFmpegContent> (i);
@@ -314,7 +314,7 @@ TextPanel::setup_sensitivity ()
 		shared_ptr<const DCPContent> dc = boost::dynamic_pointer_cast<const DCPContent> (i);
 		shared_ptr<const DCPSubtitleContent> dsc = boost::dynamic_pointer_cast<const DCPSubtitleContent> (i);
 		if (fc) {
-			if (!fc->caption.empty()) {
+			if (!fc->text.empty()) {
 				++ffmpeg_subs;
 				++any_subs;
 			}
@@ -332,7 +332,7 @@ TextPanel::setup_sensitivity ()
 	}
 
 	string why_not;
-	bool const can_reference = dcp && dcp->can_reference_caption (_original_type, why_not);
+	bool const can_reference = dcp && dcp->can_reference_text (_original_type, why_not);
 	setup_refer_button (_reference, _reference_note, dcp, can_reference, why_not);
 
 	bool const reference = _reference->GetValue ();
@@ -349,7 +349,7 @@ TextPanel::setup_sensitivity ()
 	_line_spacing->Enable (!reference && use);
 	_language->Enable (!reference && any_subs > 0 && use);
 	_stream->Enable (!reference && ffmpeg_subs == 1);
-	_caption_view_button->Enable (!reference);
+	_text_view_button->Enable (!reference);
 	_fonts_dialog_button->Enable (!reference);
 	_appearance_dialog_button->Enable (!reference && any_subs > 0 && use);
 }
@@ -379,49 +379,49 @@ TextPanel::stream_changed ()
 void
 TextPanel::x_offset_changed ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption ()) {
-		i->caption_of_original_type(_original_type)->set_x_offset (_x_offset->GetValue() / 100.0);
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text ()) {
+		i->text_of_original_type(_original_type)->set_x_offset (_x_offset->GetValue() / 100.0);
 	}
 }
 
 void
 TextPanel::y_offset_changed ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption ()) {
-		i->caption_of_original_type(_original_type)->set_y_offset (_y_offset->GetValue() / 100.0);
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text ()) {
+		i->text_of_original_type(_original_type)->set_y_offset (_y_offset->GetValue() / 100.0);
 	}
 }
 
 void
 TextPanel::x_scale_changed ()
 {
-	ContentList c = _parent->selected_caption ();
+	ContentList c = _parent->selected_text ();
 	if (c.size() == 1) {
-		c.front()->caption_of_original_type(_original_type)->set_x_scale (_x_scale->GetValue() / 100.0);
+		c.front()->text_of_original_type(_original_type)->set_x_scale (_x_scale->GetValue() / 100.0);
 	}
 }
 
 void
 TextPanel::y_scale_changed ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption ()) {
-		i->caption_of_original_type(_original_type)->set_y_scale (_y_scale->GetValue() / 100.0);
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text ()) {
+		i->text_of_original_type(_original_type)->set_y_scale (_y_scale->GetValue() / 100.0);
 	}
 }
 
 void
 TextPanel::line_spacing_changed ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption ()) {
-		i->caption_of_original_type(_original_type)->set_line_spacing (_line_spacing->GetValue() / 100.0);
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text ()) {
+		i->text_of_original_type(_original_type)->set_line_spacing (_line_spacing->GetValue() / 100.0);
 	}
 }
 
 void
 TextPanel::language_changed ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_caption ()) {
-		i->caption_of_original_type(_original_type)->set_language (wx_to_std (_language->GetValue()));
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text ()) {
+		i->text_of_original_type(_original_type)->set_language (wx_to_std (_language->GetValue()));
 	}
 }
 
@@ -439,25 +439,25 @@ TextPanel::content_selection_changed ()
 	film_content_changed (TextContentProperty::LANGUAGE);
 	film_content_changed (TextContentProperty::FONTS);
 	film_content_changed (TextContentProperty::TYPE);
-	film_content_changed (DCPContentProperty::REFERENCE_CAPTION);
+	film_content_changed (DCPContentProperty::REFERENCE_TEXT);
 }
 
 void
-TextPanel::caption_view_clicked ()
+TextPanel::text_view_clicked ()
 {
-	if (_caption_view) {
-		_caption_view->Destroy ();
-		_caption_view = 0;
+	if (_text_view) {
+		_text_view->Destroy ();
+		_text_view = 0;
 	}
 
-	ContentList c = _parent->selected_caption ();
+	ContentList c = _parent->selected_text ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
 	shared_ptr<Decoder> decoder = decoder_factory (c.front(), _parent->film()->log(), false);
 
 	if (decoder) {
-		_caption_view = new TextView (this, _parent->film(), c.front(), c.front()->caption_of_original_type(_original_type), decoder, _parent->film_viewer());
-		_caption_view->Show ();
+		_text_view = new TextView (this, _parent->film(), c.front(), c.front()->text_of_original_type(_original_type), decoder, _parent->film_viewer());
+		_text_view->Show ();
 	}
 }
 
@@ -469,10 +469,10 @@ TextPanel::fonts_dialog_clicked ()
 		_fonts_dialog = 0;
 	}
 
-	ContentList c = _parent->selected_caption ();
+	ContentList c = _parent->selected_text ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
-	_fonts_dialog = new FontsDialog (this, c.front(), c.front()->caption_of_original_type(_original_type));
+	_fonts_dialog = new FontsDialog (this, c.front(), c.front()->text_of_original_type(_original_type));
 	_fonts_dialog->Show ();
 }
 
@@ -489,16 +489,16 @@ TextPanel::reference_clicked ()
 		return;
 	}
 
-	d->set_reference_caption (_original_type, _reference->GetValue ());
+	d->set_reference_text (_original_type, _reference->GetValue ());
 }
 
 void
 TextPanel::appearance_dialog_clicked ()
 {
-	ContentList c = _parent->selected_caption ();
+	ContentList c = _parent->selected_text ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
-	SubtitleAppearanceDialog* d = new SubtitleAppearanceDialog (this, c.front(), c.front()->caption_of_original_type(_original_type));
+	SubtitleAppearanceDialog* d = new SubtitleAppearanceDialog (this, c.front(), c.front()->text_of_original_type(_original_type));
 	if (d->ShowModal () == wxID_OK) {
 		d->apply ();
 	}

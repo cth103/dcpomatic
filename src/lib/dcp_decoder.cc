@@ -63,9 +63,9 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log, boo
 	if (c->audio) {
 		audio.reset (new AudioDecoder (this, c->audio, log, fast));
 	}
-	BOOST_FOREACH (shared_ptr<TextContent> i, c->caption) {
+	BOOST_FOREACH (shared_ptr<TextContent> i, c->text) {
 		/* XXX: this time here should be the time of the first subtitle, not 0 */
-		caption.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, i, log, ContentTime())));
+		text.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, i, log, ContentTime())));
 	}
 
 	list<shared_ptr<dcp::CPL> > cpl_list = cpls ();
@@ -110,10 +110,10 @@ DCPDecoder::pass ()
 	/* Frame within the (played part of the) reel that is coming up next */
 	int64_t const frame = _next.frames_round (vfr);
 
-	/* We must emit captions first as when we emit the video for this frame
-	   it will expect already to have the captions.
+	/* We must emit texts first as when we emit the video for this frame
+	   it will expect already to have the texts.
 	*/
-	pass_captions (_next);
+	pass_texts (_next);
 
 	if ((_mono_reader || _stereo_reader) && (_decode_referenced || !_dcp_content->reference_video())) {
 		shared_ptr<dcp::PictureAsset> asset = (*_reel)->main_picture()->asset ();
@@ -191,25 +191,25 @@ DCPDecoder::pass ()
 }
 
 void
-DCPDecoder::pass_captions (ContentTime next)
+DCPDecoder::pass_texts (ContentTime next)
 {
-	list<shared_ptr<TextDecoder> >::const_iterator decoder = caption.begin ();
+	list<shared_ptr<TextDecoder> >::const_iterator decoder = text.begin ();
 	if ((*_reel)->main_subtitle()) {
-		pass_captions (
-			next, (*_reel)->main_subtitle()->asset(), _dcp_content->reference_caption(CAPTION_OPEN), (*_reel)->main_subtitle()->entry_point(), *decoder
+		pass_texts (
+			next, (*_reel)->main_subtitle()->asset(), _dcp_content->reference_text(TEXT_OPEN_SUBTITLE), (*_reel)->main_subtitle()->entry_point(), *decoder
 			);
 		++decoder;
 	}
 	if ((*_reel)->closed_caption()) {
-		pass_captions (
-			next, (*_reel)->closed_caption()->asset(), _dcp_content->reference_caption(CAPTION_CLOSED), (*_reel)->closed_caption()->entry_point(), *decoder
+		pass_texts (
+			next, (*_reel)->closed_caption()->asset(), _dcp_content->reference_text(TEXT_CLOSED_CAPTION), (*_reel)->closed_caption()->entry_point(), *decoder
 			);
 		++decoder;
 	}
 }
 
 void
-DCPDecoder::pass_captions (ContentTime next, shared_ptr<dcp::SubtitleAsset> asset, bool reference, int64_t entry_point, shared_ptr<TextDecoder> decoder)
+DCPDecoder::pass_texts (ContentTime next, shared_ptr<dcp::SubtitleAsset> asset, bool reference, int64_t entry_point, shared_ptr<TextDecoder> decoder)
 {
 	double const vfr = _dcp_content->active_video_frame_rate ();
 	/* Frame within the (played part of the) reel that is coming up next */
@@ -314,11 +314,11 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 		next_reel ();
 	}
 
-	/* Pass captions in the pre-roll */
+	/* Pass texts in the pre-roll */
 
 	double const vfr = _dcp_content->active_video_frame_rate ();
 	for (int i = 0; i < pre_roll_seconds * vfr; ++i) {
-		pass_captions (pre);
+		pass_texts (pre);
 		pre += ContentTime::from_frames (1, vfr);
 	}
 

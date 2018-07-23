@@ -437,9 +437,9 @@ Content::take_settings_from (shared_ptr<const Content> c)
 		audio->take_settings_from (c->audio);
 	}
 
-	list<shared_ptr<TextContent> >::iterator i = caption.begin ();
-	list<shared_ptr<TextContent> >::const_iterator j = c->caption.begin ();
-	while (i != caption.end() && j != c->caption.end()) {
+	list<shared_ptr<TextContent> >::iterator i = text.begin ();
+	list<shared_ptr<TextContent> >::const_iterator j = c->text.begin ();
+	while (i != text.end() && j != c->text.end()) {
 		(*i)->take_settings_from (*j);
 		++i;
 		++j;
@@ -447,19 +447,19 @@ Content::take_settings_from (shared_ptr<const Content> c)
 }
 
 shared_ptr<TextContent>
-Content::only_caption () const
+Content::only_text () const
 {
-	DCPOMATIC_ASSERT (caption.size() < 2);
-	if (caption.empty ()) {
+	DCPOMATIC_ASSERT (text.size() < 2);
+	if (text.empty ()) {
 		return shared_ptr<TextContent> ();
 	}
-	return caption.front ();
+	return text.front ();
 }
 
 shared_ptr<TextContent>
-Content::caption_of_original_type (TextType type) const
+Content::text_of_original_type (TextType type) const
 {
-	BOOST_FOREACH (shared_ptr<TextContent> i, caption) {
+	BOOST_FOREACH (shared_ptr<TextContent> i, text) {
 		if (i->original_type() == type) {
 			return i;
 		}

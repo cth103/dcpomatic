@@ -71,8 +71,8 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test)
 
 	BOOST_CHECK_EQUAL (content->full_length().get(), DCPTime::from_seconds(2).get());
 
-	content->only_caption()->set_use (true);
-	content->only_caption()->set_burn (false);
+	content->only_text()->set_use (true);
+	content->only_text()->set_burn (false);
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());
 
@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	shared_ptr<DCPDecoder> decoder (new DCPDecoder (content, film->log(), false));
-	decoder->only_caption()->PlainStart.connect (bind (store, _1));
+	decoder->only_text()->PlainStart.connect (bind (store, _1));
 
 	stored = optional<ContentStringText> ();
 	while (!decoder->pass() && !stored) {}
@@ -114,7 +114,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test2)
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (content, film->log()));
-	decoder->only_caption()->PlainStart.connect (bind (store, _1));
+	decoder->only_text()->PlainStart.connect (bind (store, _1));
 
 	stored = optional<ContentStringText> ();
 	while (!decoder->pass ()) {
@@ -142,7 +142,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test3)
 	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (content, film->log()));
 	stored = optional<ContentStringText> ();
 	while (!decoder->pass ()) {
-		decoder->only_caption()->PlainStart.connect (bind (store, _1));
+		decoder->only_text()->PlainStart.connect (bind (store, _1));
 		if (stored && stored->from() == ContentTime::from_seconds(0.08)) {
 			list<dcp::SubtitleString> s = stored->subs;
 			list<dcp::SubtitleString>::const_iterator i = s.begin ();
@@ -171,8 +171,8 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test4)
 	film->examine_and_add_content (content2);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	content->only_caption()->add_font (shared_ptr<Font> (new Font ("font1")));
-	content2->only_caption()->add_font (shared_ptr<Font> (new Font ("font2")));
+	content->only_text()->add_font (shared_ptr<Font> (new Font ("font1")));
+	content2->only_text()->add_font (shared_ptr<Font> (new Font ("font2")));
 
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());

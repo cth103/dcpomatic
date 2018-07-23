@@ -131,7 +131,7 @@ PlayerInformation::triggered_update ()
 	if (dcp->audio && !dcp->audio->streams().empty()) {
 		checked_set (_dcp[r++], wxString::Format(_("Audio channels: %d"), dcp->audio->streams().front()->channels()));
 	}
-	if (!dcp->caption.empty()) {
+	if (!dcp->text.empty()) {
 		checked_set (_dcp[r++], _("Subtitles: yes"));
 	} else {
 		checked_set (_dcp[r++], _("Subtitles: no"));

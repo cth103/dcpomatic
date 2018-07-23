@@ -31,7 +31,7 @@ public:
 
 	void set_3d (bool s);
 	void set_audio_tracks (int n);
-	void set_caption_tracks (int n);
+	void set_text_tracks (int n);
 	void set_atmos (bool s);
 
 private:
@@ -40,6 +40,6 @@ private:
 	int _width;
 	bool _threed;
 	int _audio_tracks;
-	int _caption_tracks;
+	int _text_tracks;
 	bool _atmos;
 };

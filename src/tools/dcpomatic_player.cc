@@ -626,7 +626,7 @@ private:
 
 	void setup_from_dcp (shared_ptr<DCPContent> dcp)
 	{
-		BOOST_FOREACH (shared_ptr<TextContent> i, dcp->caption) {
+		BOOST_FOREACH (shared_ptr<TextContent> i, dcp->text) {
 			i->set_use (true);
 		}
 

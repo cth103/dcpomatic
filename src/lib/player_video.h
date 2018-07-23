@@ -60,7 +60,7 @@ public:
 
 	boost::shared_ptr<PlayerVideo> shallow_copy () const;
 
-	void set_caption (PositionImage);
+	void set_text (PositionImage);
 
 	void prepare ();
 	boost::shared_ptr<Image> image (dcp::NoteHandler note, boost::function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast) const;
@@ -109,7 +109,7 @@ private:
 	Eyes _eyes;
 	Part _part;
 	boost::optional<ColourConversion> _colour_conversion;
-	boost::optional<PositionImage> _caption;
+	boost::optional<PositionImage> _text;
 	/** Content that we came from.  This is so that reset_metadata() can work */
 	boost::weak_ptr<Content> _content;
 	/** Video frame that we came from.  Again, this is for reset_metadata() */

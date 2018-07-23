@@ -43,7 +43,7 @@ Decoder::position () const
 		pos = audio->position();
 	}
 
-	BOOST_FOREACH (shared_ptr<TextDecoder> i, caption) {
+	BOOST_FOREACH (shared_ptr<TextDecoder> i, text) {
 		if (!i->ignore() && (!pos || i->position() < *pos)) {
 			pos = i->position();
 		}
@@ -61,17 +61,17 @@ Decoder::seek (ContentTime, bool)
 	if (audio) {
 		audio->seek ();
 	}
-	BOOST_FOREACH (shared_ptr<TextDecoder> i, caption) {
+	BOOST_FOREACH (shared_ptr<TextDecoder> i, text) {
 		i->seek ();
 	}
 }
 
 shared_ptr<TextDecoder>
-Decoder::only_caption () const
+Decoder::only_text () const
 {
-	DCPOMATIC_ASSERT (caption.size() < 2);
-	if (caption.empty ()) {
+	DCPOMATIC_ASSERT (text.size() < 2);
+	if (text.empty ()) {
 		return shared_ptr<TextDecoder> ();
 	}
-	return caption.front ();
+	return text.front ();
 }

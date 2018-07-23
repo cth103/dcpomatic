@@ -38,14 +38,14 @@ using dcp::raw_convert;
 StringTextFileContent::StringTextFileContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
 {
-	caption.push_back (shared_ptr<TextContent> (new TextContent (this, CAPTION_OPEN)));
+	text.push_back (shared_ptr<TextContent> (new TextContent (this, TEXT_OPEN_SUBTITLE)));
 }
 
 StringTextFileContent::StringTextFileContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 	, _length (node->number_child<ContentTime::Type> ("Length"))
 {
-	caption = TextContent::from_xml (this, node, version);
+	text = TextContent::from_xml (this, node, version);
 }
 
 void
@@ -55,11 +55,11 @@ StringTextFileContent::examine (boost::shared_ptr<Job> job)
 	StringTextFile s (shared_from_this ());
 
 	/* Default to turning these subtitles on */
-	only_caption()->set_use (true);
+	only_text()->set_use (true);
 
 	boost::mutex::scoped_lock lm (_mutex);
 	_length = s.length ();
-	only_caption()->add_font (shared_ptr<Font> (new Font (TEXT_FONT_ID)));
+	only_text()->add_font (shared_ptr<Font> (new Font (TEXT_FONT_ID)));
 }
 
 string
@@ -80,8 +80,8 @@ StringTextFileContent::as_xml (xmlpp::Node* node, bool with_paths) const
 	node->add_child("Type")->add_child_text ("TextSubtitle");
 	Content::as_xml (node, with_paths);
 
-	if (only_caption()) {
-		only_caption()->as_xml (node);
+	if (only_text()) {
+		only_text()->as_xml (node);
 	}
 
 	node->add_child("Length")->add_child_text (raw_convert<string> (_length.get ()));

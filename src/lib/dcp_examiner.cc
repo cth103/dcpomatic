@@ -65,8 +65,8 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 {
 	shared_ptr<dcp::CPL> cpl;
 
-	for (int i = 0; i < CAPTION_COUNT; ++i) {
-		_has_caption[i] = false;
+	for (int i = 0; i < TEXT_COUNT; ++i) {
+		_has_text[i] = false;
 	}
 
 	if (content->cpl ()) {
@@ -169,7 +169,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 				return;
 			}
 
-			_has_caption[CAPTION_OPEN] = true;
+			_has_text[TEXT_OPEN_SUBTITLE] = true;
 		}
 
 		if (i->closed_caption ()) {
@@ -179,7 +179,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 				return;
 			}
 
-			_has_caption[CAPTION_CLOSED] = true;
+			_has_text[TEXT_CLOSED_CAPTION] = true;
 		}
 
 		if (i->main_picture()) {

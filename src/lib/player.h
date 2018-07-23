@@ -78,8 +78,8 @@ public:
 
 	void set_video_container_size (dcp::Size);
 	void set_ignore_video ();
-	void set_ignore_caption ();
-	void set_always_burn_open_captions ();
+	void set_ignore_text ();
+	void set_always_burn_open_subtitles ();
 	void set_fast ();
 	void set_play_referenced ();
 	void set_dcp_decode_reduction (boost::optional<int> reduction);
@@ -100,10 +100,10 @@ public:
 	/** Emitted when a video frame is ready.  These emissions happen in the correct order. */
 	boost::signals2::signal<void (boost::shared_ptr<PlayerVideo>, DCPTime)> Video;
 	boost::signals2::signal<void (boost::shared_ptr<AudioBuffers>, DCPTime)> Audio;
-	/** Emitted when a caption is ready.  This signal may be emitted considerably
+	/** Emitted when a text is ready.  This signal may be emitted considerably
 	 *  after the corresponding Video.
 	 */
-	boost::signals2::signal<void (PlayerText, TextType, DCPTimePeriod)> Caption;
+	boost::signals2::signal<void (PlayerText, TextType, DCPTimePeriod)> Text;
 
 private:
 	friend class PlayerWrapper;
@@ -118,7 +118,7 @@ private:
 	void film_changed (Film::Property);
 	void playlist_changed ();
 	void playlist_content_changed (boost::weak_ptr<Content>, int, bool);
-	std::list<PositionImage> transform_bitmap_captions (std::list<BitmapText>) const;
+	std::list<PositionImage> transform_bitmap_texts (std::list<BitmapText>) const;
 	Frame dcp_to_content_video (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	DCPTime content_video_to_dcp (boost::shared_ptr<const Piece> piece, Frame f) const;
 	Frame dcp_to_resampled_audio (boost::shared_ptr<const Piece> piece, DCPTime t) const;
@@ -136,7 +136,7 @@ private:
 	std::pair<boost::shared_ptr<AudioBuffers>, DCPTime> discard_audio (
 		boost::shared_ptr<const AudioBuffers> audio, DCPTime time, DCPTime discard_to
 		) const;
-	boost::optional<PositionImage> open_captions_for_frame (DCPTime time) const;
+	boost::optional<PositionImage> open_subtitles_for_frame (DCPTime time) const;
 	void emit_video (boost::shared_ptr<PlayerVideo> pv, DCPTime time);
 	void do_emit_video (boost::shared_ptr<PlayerVideo> pv, DCPTime time);
 	void emit_audio (boost::shared_ptr<AudioBuffers> data, DCPTime time);
@@ -154,9 +154,9 @@ private:
 
 	/** true if the player should ignore all video; i.e. never produce any */
 	bool _ignore_video;
-	/** true if the player should ignore all captions; i.e. never produce any */
-	bool _ignore_caption;
-	bool _always_burn_open_captions;
+	/** true if the player should ignore all text; i.e. never produce any */
+	bool _ignore_text;
+	bool _always_burn_open_subtitles;
 	/** true if we should try to be fast rather than high quality */
 	bool _fast;
 	/** true if we should `play' (i.e output) referenced DCP data (e.g. for preview) */
@@ -195,7 +195,7 @@ private:
 	Empty _black;
 	Empty _silent;
 
-	ActiveText _active_captions[CAPTION_COUNT];
+	ActiveText _active_texts[TEXT_COUNT];
 	boost::shared_ptr<AudioProcessor> _audio_processor;
 
 	boost::signals2::scoped_connection _film_changed_connection;

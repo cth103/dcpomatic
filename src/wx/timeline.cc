@@ -228,7 +228,7 @@ Timeline::recreate_views ()
 			_views.push_back (shared_ptr<TimelineView> (new TimelineAudioContentView (*this, i)));
 		}
 
-		BOOST_FOREACH (shared_ptr<TextContent> j, i->caption) {
+		BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
 			_views.push_back (shared_ptr<TimelineView> (new TimelineTextContentView (*this, i, j)));
 		}
 
@@ -334,9 +334,9 @@ Timeline::assign_tracks ()
 	/* Tracks are:
 	   Video (mono or left-eye)
 	   Video (right-eye)
-	   Caption 1
-	   Caption 2
-	   Caption N
+	   Text 1
+	   Text 2
+	   Text N
 	   Atmos
 	   Audio 1
 	   Audio 2
@@ -373,9 +373,9 @@ Timeline::assign_tracks ()
 
 	_tracks = max (_tracks, 1);
 
-	/* Captions */
+	/* Texts */
 
-	int const caption_tracks = place<TimelineTextContentView> (_views, _tracks);
+	int const text_tracks = place<TimelineTextContentView> (_views, _tracks);
 
 	/* Atmos */
 
@@ -405,7 +405,7 @@ Timeline::assign_tracks ()
 
 	_labels_view->set_3d (have_3d);
 	_labels_view->set_audio_tracks (audio_tracks);
-	_labels_view->set_caption_tracks (caption_tracks);
+	_labels_view->set_text_tracks (text_tracks);
 	_labels_view->set_atmos (have_atmos);
 
 	_time_axis_view->set_y (tracks());
