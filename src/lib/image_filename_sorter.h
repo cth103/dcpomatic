@@ -27,5 +27,5 @@ public:
 	bool operator() (boost::filesystem::path a, boost::filesystem::path b);
 
 private:
-	boost::optional<int> extract_numbers (boost::filesystem::path p);
+	std::string extract_numbers (boost::filesystem::path p);
 };

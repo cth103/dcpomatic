@@ -33,16 +33,22 @@ using boost::optional;
 bool
 ImageFilenameSorter::operator() (boost::filesystem::path a, boost::filesystem::path b)
 {
-	optional<int> na = extract_numbers (a);
-	optional<int> nb = extract_numbers (b);
-	if (!na || !nb) {
-		return a.string() < b.string();
+	string an = extract_numbers (a);
+	string bn = extract_numbers (b);
+
+	int const anl = an.length ();
+	int const bnl = bn.length ();
+
+	if (anl > bnl) {
+		bn = string(anl - bnl, '0') + bn;
+	} else if (bnl > anl) {
+		an = string(bnl - anl, '0') + an;
 	}
 
-	return *na < *nb;
+	return an < bn;
 }
 
-optional<int>
+string
 ImageFilenameSorter::extract_numbers (boost::filesystem::path p)
 {
 	string numbers;
@@ -52,13 +58,5 @@ ImageFilenameSorter::extract_numbers (boost::filesystem::path p)
 			numbers += ps[i];
 		}
 	}
-
-	if (numbers.empty ()) {
-		return optional<int> ();
-	}
-
-	/* locale_convert is quicker than raw_convert and numbers can only contain
-	   things which are isdigit() so locale_convert is fine to use.
-	*/
-	return locale_convert<int> (numbers);
+	return numbers;
 }
