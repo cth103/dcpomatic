@@ -37,7 +37,6 @@ ContentSubPanel::ContentSubPanel (ContentPanel* p, wxString name)
 	, _sizer (new wxBoxSizer (wxVERTICAL))
 	, _name (name)
 {
-	p->notebook()->AddPage (this, _name, false);
 	SetScrollRate (-1, 8);
 	SetSizer (_sizer);
 }

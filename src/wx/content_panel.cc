@@ -379,7 +379,7 @@ ContentPanel::selection_changed ()
 		}
 	}
 
-	if (!done) {
+	if (!done && _notebook->GetPageCount() > 0) {
 		_notebook->SetSelection (0);
 	}
 
