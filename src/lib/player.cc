@@ -90,6 +90,7 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _have_valid_pieces (false)
 	, _ignore_video (false)
 	, _ignore_text (false)
+	, _always_burn_open_subtitles (false)
 	, _fast (false)
 	, _play_referenced (false)
 	, _audio_merger (_film->audio_frame_rate())
@@ -962,7 +963,7 @@ Player::subtitle_stop (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, Conte
 
 	pair<PlayerText, DCPTime> from = _active_texts[type].add_to (wc, dcp_to);
 
-	bool const always = type == TEXT_OPEN_SUBTITLE && _always_burn_open_subtitles;
+	bool const always = (type == TEXT_OPEN_SUBTITLE && _always_burn_open_subtitles);
 	if (text->use() && !always && !text->burn()) {
 		Text (from.first, type, DCPTimePeriod (from.second, dcp_to));
 	}
