@@ -22,8 +22,8 @@
 	    "sources": [
 		{
 		    "type": "archive",
-		    "url": "https://www.imagemagick.org/download/ImageMagick.tar.gz",
-		    "sha256": "3cabd2988d7809046694859d1d3b2adf4de8ada7f8eea8cd9e29da030ba4b778"
+		    "url": "https://www.imagemagick.org/download/ImageMagick-7.0.8-8.tar.bz2",
+		    "sha256": "bc678d7fe5fc7e22af0d0268fabc6559a3052a589220cec50d3da0c842de17c3"
 		}
 	    ]
 	},
