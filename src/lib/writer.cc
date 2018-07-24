@@ -435,7 +435,7 @@ try
 			DCPOMATIC_ASSERT (i != _queue.rend());
 			++_pushed_to_disk;
 			/* For the log message below */
-			int const awaiting = _reels[_queue.front().reel].last_written_video_frame();
+			int const awaiting = _reels[_queue.front().reel].last_written_video_frame() + 1;
 			lock.unlock ();
 
 			/* i is valid here, even though we don't hold a lock on the mutex,
