@@ -1,6 +1,6 @@
 # -*- mode: python -*-
 #
-#    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+#    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 #
 #    This file is part of DCP-o-matic.
 #
@@ -23,6 +23,7 @@ import glob
 import shutil
 import os
 import copy
+import json
 
 deb_build_depends = dict()
 
@@ -360,11 +361,142 @@ def configure_options(target, options):
     return opt
 
 def build(target, options):
-    target.command('./waf configure --prefix=%s %s' % (target.directory, configure_options(target, options)))
-    target.command('./waf')
+    if target.platform == 'flatpak':
+        target.checkout_dependencies()
+        modules = []
+        modules.append({'name': 'libzip',
+                        'buildsystem': 'cmake',
+                        'sources': [{'type': 'archive',
+                                     'url': 'https://libzip.org/download/libzip-1.4.0.tar.xz',
+		                     'sha256': 'e508aba025f5f94b267d5120fc33761bcd98440ebe49dbfe2ed3df3afeacc7b1'}]})
+        modules.append({'name': 'imagemagick',
+                        'cleanup': ['/bin'],
+                        'sources': [{'type': 'archive',
+		                     'url': 'https://www.imagemagick.org/download/ImageMagick-7.0.8-8.tar.bz2',
+		                     'sha256': 'bc678d7fe5fc7e22af0d0268fabc6559a3052a589220cec50d3da0c842de17c3'}]})
+        modules.append({'name': 'libsigc++',
+                        'sources': [{'type': 'archive',
+                                     'url': 'https://download.gnome.org/sources/libsigc++/2.10/libsigc++-2.10.0.tar.xz',
+                                     'sha256': 'f843d6346260bfcb4426259e314512b99e296e8ca241d771d21ac64f28298d81'}]})
+        modules.append({'name': 'glibmm',
+                        'sources': [{'type': 'archive',
+                                     'url': 'http://ftp.gnome.org/pub/GNOME/sources/glibmm/2.48/glibmm-2.48.1.tar.xz',
+                                     'sha256': 'dc225f7d2f466479766332483ea78f82dc349d59399d30c00de50e5073157cdf'}]})
+        modules.append({'name': 'cairomm',
+                        'sources': [{'type': 'archive',
+                                     'url': 'https://www.cairographics.org/releases/cairomm-1.12.2.tar.gz',
+                                     'sha256': '45c47fd4d0aa77464a75cdca011143fea3ef795c4753f6e860057da5fb8bd599'}]})
+        modules.append({'name': 'pangomm',
+	                'sources': [{'type': 'archive',
+		                     'url': 'http://ftp.gnome.org/pub/GNOME/sources/pangomm/2.40/pangomm-2.40.1.tar.xz',
+		                     'sha256': '9762ee2a2d5781be6797448d4dd2383ce14907159b30bc12bf6b08e7227be3af'}]})
+	modules.append({'name': 'libxml++',
+	                'sources': [{'type': 'archive',
+		                     'url': 'https://ftp.gnome.org/pub/GNOME/sources/libxml++/2.40/libxml++-2.40.1.tar.xz',
+		                     'sha256': '4ad4abdd3258874f61c2e2a41d08e9930677976d303653cd1670d3e9f35463e9'}]})
+        modules.append({'name': 'xmlsec1',
+	                'sources': [{'type': 'archive',
+		                     'url': 'http://www.aleksey.com/xmlsec/download/xmlsec1-1.2.25.tar.gz',
+		                     'sha256': '967ca83edf25ccb5b48a3c4a09ad3405a63365576503bf34290a42de1b92fcd2'}]})
+	modules.append({'name': 'openjpeg2',
+	                'buildsystem': 'cmake',
+	                'sources': [{'type': 'dir', 'path': os.path.abspath('../openjpeg2-cdist')}]})
+	modules.append({'name': 'boost',
+	                'buildsystem': 'simple',
+	                'build-commands': [
+		            './bootstrap.sh --prefix=/app',
+		            './b2 install'
+	                ],
+	                'sources': [{'type': 'archive',
+		                     'url': 'https://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_66_0.tar.bz2',
+		                     'sha256': '5721818253e6a0989583192f96782c4a98eb6204965316df9f5ad75819225ca9'}]})
+	modules.append({'name': 'icu',
+	                'subdir': 'source',
+	                'buildsystem': 'simple',
+	                'build-commands': [
+		            './configure --prefix=/app',
+		            'make -j $(nprocs)',
+		            'make install'
+	                ],
+	                'sources': [{'type': 'archive',
+		                     'url': 'http://download.icu-project.org/files/icu4c/62.1/icu4c-62_1-src.tgz',
+		                     'sha256': '3dd9868d666350dda66a6e305eecde9d479fb70b30d5b55d78a1deffb97d5aa3'}],
+	                'cleanup': ['/include', '/lib/*.a', '/lib/*.la', '/lib/pkgconfig']})
+	modules.append({'name': 'asdcplib',
+	                'buildsystem': 'simple',
+	                'build-commands': [
+		            './waf configure --prefix=/app  --libdir=/app/lib build install'
+	                ],
+	                'sources': [{'type': 'dir', 'path': os.path.abspath('../asdcplib-cth')}]})
+	modules.append({'name': 'locked_sstream',
+	                'buildsystem': 'simple',
+	                'build-commands': [
+		            './waf configure --prefix=/app build install'
+	                ],
+	                'sources': [{'type': 'dir', 'path': os.path.abspath('../locked_sstream')}]})
+	modules.append({'name': 'libcxml',
+	                'buildsystem': 'simple',
+	                'build-commands': [
+		            './waf configure --prefix=/app  --libdir=/app/lib build install'
+	                ],
+	                'sources': [{'type': 'dir', 'path': os.path.abspath('../libcxml')}]})
+	modules.append({'name': 'libdcp',
+	                'buildsystem': 'simple',
+	                'build-commands': [
+		            './waf configure --prefix=/app --libdir=/app/lib build install'
+	                ],
+	                'sources': [{'type': 'dir', 'path': os.path.abspath('../libdcp')}]})
+	modules.append({'name': 'libsub',
+	                'buildsystem': 'simple',
+	                'build-commands': [
+		            './waf configure --prefix=/app --libdir=/app/lib build install'
+	                ],
+	                'sources': [{'type': 'dir', 'path': os.path.abspath('../libsub')}]})
+	modules.append({'name': 'rtaudio',
+	                'build-options': {
+		            'config-opts': [
+		                '--prefix=/app',
+		                '--with-pulse',
+		                '--with-alsa'
+		            ]
+	                },
+	                'sources': [{'type': 'dir', 'path': os.path.abspath('../rtaudio-cdist')}]})
+	modules.append({'name': 'wxwidgets',
+	                'sources': [{'type': 'archive',
+		                     'url': 'https://github.com/wxWidgets/wxWidgets/releases/download/v3.0.3/wxWidgets-3.0.3.tar.bz2',
+		                     'sha256': '08c8033f48ec1b23520f036cde37b5ae925a6a65f137ded665633ca159b9307b'}]})
+	modules.append({'name': 'libssh',
+	                'buildsystem': 'cmake',
+	                'builddir': True,
+	                'sources': [{'type': 'archive',
+		                     'url': 'https://www.libssh.org/files/0.7/libssh-0.7.5.tar.xz',
+		                     'sha256': '54e86dd5dc20e5367e58f3caab337ce37675f863f80df85b6b1614966a337095'}]})
+	modules.append({'name': 'dcpomatic',
+	                'buildsystem': 'simple',
+	                'build-commands': [
+		            './waf configure --prefix=/app build install'
+	                ],
+                        'build-options': {
+                            'build-args': ['--share=network']
+                        },
+	                'sources': [{'type': 'dir', 'path': os.path.abspath('.')}]})
+        desc = {'app-id': 'com.dcpomatic.DCP-o-matic',
+                'runtime': 'org.gnome.Platform',
+                'runtime-version': '3.26',
+                'sdk': 'org.gnome.Sdk',
+                'command': 'dcpomatic2',
+                'finish-args': ['--socket=x11', '--share=ipc', '--share=network', '--socket=pulseaudio', '--filesystem=host'],
+                'modules': modules}
+        os.makedirs('build/platform')
+        with open('build/com.dcpomatic.DCP-o-matic.json', 'w') as outfile:
+            json.dump(desc, outfile)
+        target.command('flatpak-builder --repo=build/platform/repo build/platform/flatpak build/com.dcpomatic.DCP-o-matic.json')
+    else:
+        target.command('./waf configure --prefix=%s %s' % (target.directory, configure_options(target, options)))
+        target.command('./waf')
 
-    if target.platform == 'linux' or target.platform == 'osx':
-        target.command('./waf install')
+        if target.platform == 'linux' or target.platform == 'osx':
+            target.command('./waf install')
 
 def package_windows(target):
     identifier = ''
@@ -481,6 +613,9 @@ def package(target, version, options):
         f.close()
         target.command('docker build build/platform/docker -t dcpomatic-server:%s' % version)
         target.command('docker save dcpomatic-server:%s -o dcpomatic-server-%s-docker.tar' % (version, version))
+    elif target.platform == 'flatpak':
+        target.command('flatpak build-bundle build/platform/repo build/dcpomatic.flatpak com.dcpomatic.DCP-o-matic')
+        return os.path.abspath('build/dcpomatic.flatpak')
 
 def make_pot(target):
     target.command('./waf pot')
