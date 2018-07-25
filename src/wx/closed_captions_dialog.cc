@@ -63,7 +63,15 @@ ClosedCaptionsDialog::paint ()
 	dc.SetFont (font);
 
 	for (int i = 0; i < _num_lines; ++i) {
-		dc.DrawText (_lines[i], 8, line_height * i);
+		wxString const good = _lines[i].Left (_num_chars_per_line);
+		dc.DrawText (good, 8, line_height * i);
+		if (_lines[i].Length() > _num_chars_per_line) {
+			wxString const bad = _lines[i].Right (_lines[i].Length() - _num_chars_per_line);
+			wxSize size = dc.GetTextExtent (good);
+			dc.SetTextForeground (*wxRED);
+			dc.DrawText (bad, 8 + size.GetWidth(), line_height * i);
+			dc.SetTextForeground (*wxWHITE);
+		}
 	}
 }
 
