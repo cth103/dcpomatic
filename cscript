@@ -469,7 +469,7 @@ def build(target, options):
                         },
 	                'sources': [{'type': 'dir', 'path': os.path.abspath('.')}]})
         desc = {'app-id': 'com.dcpomatic.DCP-o-matic',
-                'runtime': 'org.gnome.Platform',
+                'runtime': 'org.gnome.Sdk',
                 'runtime-version': '3.26',
                 'sdk': 'org.gnome.Sdk',
                 'command': 'dcpomatic2',
