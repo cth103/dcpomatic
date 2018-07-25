@@ -133,6 +133,7 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmVie
 	}
 	_timing_panel = new TimingPanel (this, _film_viewer);
 	_panels.push_back (_timing_panel);
+	_notebook->AddPage (_timing_panel, _("Timing"), false);
 
 	_content->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind (&ContentPanel::selection_changed, this));
 	_content->Bind (wxEVT_LIST_ITEM_DESELECTED, boost::bind (&ContentPanel::selection_changed, this));
