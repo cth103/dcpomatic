@@ -410,18 +410,6 @@ def build(target, options):
 	                'sources': [{'type': 'archive',
 		                     'url': 'https://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_66_0.tar.bz2',
 		                     'sha256': '5721818253e6a0989583192f96782c4a98eb6204965316df9f5ad75819225ca9'}]})
-	modules.append({'name': 'icu',
-	                'subdir': 'source',
-	                'buildsystem': 'simple',
-	                'build-commands': [
-		            './configure --prefix=/app',
-		            'make -j $(nprocs)',
-		            'make install'
-	                ],
-	                'sources': [{'type': 'archive',
-		                     'url': 'http://download.icu-project.org/files/icu4c/62.1/icu4c-62_1-src.tgz',
-		                     'sha256': '3dd9868d666350dda66a6e305eecde9d479fb70b30d5b55d78a1deffb97d5aa3'}],
-	                'cleanup': ['/include', '/lib/*.a', '/lib/*.la', '/lib/pkgconfig']})
 	modules.append({'name': 'asdcplib',
 	                'buildsystem': 'simple',
 	                'build-commands': [
