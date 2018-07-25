@@ -100,7 +100,7 @@ string_to_text_type (string s)
 		return TEXT_UNKNOWN;
 	} else if (s == "open-subtitle") {
 		return TEXT_OPEN_SUBTITLE;
-	} else if (s == "closed") {
+	} else if (s == "closed-caption") {
 		return TEXT_CLOSED_CAPTION;
 	} else {
 		throw MetadataError (String::compose ("Unknown text type %1", s));

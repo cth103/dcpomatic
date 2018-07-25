@@ -73,7 +73,7 @@ TextContent::TextContent (Content* parent, TextType type, TextType original_type
 
 }
 
-/** @return TextContents from node or <Caption> nodes under node (according to version).
+/** @return TextContents from node or <Text> nodes under node (according to version).
  *  The list could be empty if no TextContents are found.
  */
 list<shared_ptr<TextContent> >
@@ -99,12 +99,12 @@ TextContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 		return c;
 	}
 
-	if (!node->optional_node_child("Caption")) {
+	if (!node->optional_node_child("Text")) {
 		return list<shared_ptr<TextContent> >();
 	}
 
 	list<shared_ptr<TextContent> > c;
-	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("Caption")) {
+	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("Text")) {
 		c.push_back (shared_ptr<TextContent> (new TextContent (parent, i, version)));
 	}
 	return c;
