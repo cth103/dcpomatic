@@ -25,6 +25,7 @@
 #include "dcpomatic_time.h"
 #include "player_text.h"
 #include <boost/noncopyable.hpp>
+#include <boost/thread/mutex.hpp>
 #include <list>
 #include <map>
 
@@ -64,5 +65,6 @@ private:
 
 	void add (DCPTimePeriod period, std::list<PlayerText>& pc, std::list<Period> p) const;
 
+	mutable boost::mutex _mutex;
 	Map _data;
 };

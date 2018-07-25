@@ -45,6 +45,8 @@ ActiveText::add (DCPTimePeriod period, list<PlayerText>& pc, list<Period> p) con
 list<PlayerText>
 ActiveText::get (DCPTimePeriod period) const
 {
+	boost::mutex::scoped_lock lm (_mutex);
+
 	list<PlayerText> ps;
 
 	for (Map::const_iterator i = _data.begin(); i != _data.end(); ++i) {
@@ -67,6 +69,8 @@ ActiveText::get (DCPTimePeriod period) const
 list<PlayerText>
 ActiveText::get_burnt (DCPTimePeriod period, bool always_burn_captions) const
 {
+	boost::mutex::scoped_lock lm (_mutex);
+
 	list<PlayerText> ps;
 
 	for (Map::const_iterator i = _data.begin(); i != _data.end(); ++i) {
@@ -93,6 +97,8 @@ ActiveText::get_burnt (DCPTimePeriod period, bool always_burn_captions) const
 void
 ActiveText::clear_before (DCPTime time)
 {
+	boost::mutex::scoped_lock lm (_mutex);
+
 	Map updated;
 	for (Map::const_iterator i = _data.begin(); i != _data.end(); ++i) {
 		list<Period> as;
@@ -116,6 +122,8 @@ ActiveText::clear_before (DCPTime time)
 void
 ActiveText::add_from (weak_ptr<const TextContent> content, PlayerText ps, DCPTime from)
 {
+	boost::mutex::scoped_lock lm (_mutex);
+
 	if (_data.find(content) == _data.end()) {
 		_data[content] = list<Period>();
 	}
@@ -130,6 +138,8 @@ ActiveText::add_from (weak_ptr<const TextContent> content, PlayerText ps, DCPTim
 pair<PlayerText, DCPTime>
 ActiveText::add_to (weak_ptr<const TextContent> content, DCPTime to)
 {
+	boost::mutex::scoped_lock lm (_mutex);
+
 	DCPOMATIC_ASSERT (_data.find(content) != _data.end());
 
 	_data[content].back().to = to;
@@ -147,6 +157,8 @@ ActiveText::add_to (weak_ptr<const TextContent> content, DCPTime to)
 bool
 ActiveText::have (weak_ptr<const TextContent> content) const
 {
+	boost::mutex::scoped_lock lm (_mutex);
+
 	Map::const_iterator i = _data.find(content);
 	if (i == _data.end()) {
 		return false;
@@ -158,5 +170,6 @@ ActiveText::have (weak_ptr<const TextContent> content) const
 void
 ActiveText::clear ()
 {
+	boost::mutex::scoped_lock lm (_mutex);
 	_data.clear ();
 }
