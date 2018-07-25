@@ -583,6 +583,7 @@ def package_rpm(target, cpu, version, options):
     return rpms
 
 def package(target, version, options):
+    """version: DCP-o-matic version string"""
     if target.platform == 'windows':
         return package_windows(target)
     elif target.platform == 'linux':
@@ -614,8 +615,8 @@ def package(target, version, options):
         target.command('docker build build/platform/docker -t dcpomatic-server:%s' % version)
         target.command('docker save dcpomatic-server:%s -o dcpomatic-server-%s-docker.tar' % (version, version))
     elif target.platform == 'flatpak':
-        target.command('flatpak build-bundle build/platform/repo build/dcpomatic.flatpak com.dcpomatic.DCP-o-matic')
-        return os.path.abspath('build/dcpomatic.flatpak')
+        target.command('flatpak build-bundle build/platform/repo build/dcpomatic_%s.flatpak com.dcpomatic.DCP-o-matic' % version)
+        return os.path.abspath('build/dcpomatic_%s.flatpak' % version)
 
 def make_pot(target):
     target.command('./waf pot')
