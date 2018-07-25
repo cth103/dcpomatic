@@ -121,6 +121,7 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 	, _line_spacing (node->optional_number_child<double>("LineSpacing").get_value_or (1))
 	, _outline_width (node->optional_number_child<int>("OutlineWidth").get_value_or (2))
 	, _type (TEXT_OPEN_SUBTITLE)
+	, _original_type (TEXT_OPEN_SUBTITLE)
 {
 	if (version >= 37) {
 		_use = node->bool_child ("Use");
@@ -224,9 +225,11 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 
 	connect_to_fonts ();
 
-	_type = string_to_text_type (node->optional_string_child("Type").get_value_or("open"));
-	if (node->optional_string_child("OriginalType")) {
-		_original_type = string_to_text_type (node->optional_string_child("OriginalType").get());
+	if (version >= 37) {
+		_type = string_to_text_type (node->optional_string_child("Type").get_value_or("open"));
+		if (node->optional_string_child("OriginalType")) {
+			_original_type = string_to_text_type (node->optional_string_child("OriginalType").get());
+		}
 	}
 }
 
