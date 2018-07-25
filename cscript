@@ -478,7 +478,7 @@ def build(target, options):
         os.makedirs('build/platform')
         with open('build/com.dcpomatic.DCP-o-matic.json', 'w') as outfile:
             json.dump(desc, outfile)
-        target.command('flatpak-builder --repo=build/platform/repo build/platform/flatpak build/com.dcpomatic.DCP-o-matic.json')
+        target.command('%s --repo=build/platform/repo build/platform/flatpak build/com.dcpomatic.DCP-o-matic.json' % target.flatpak_builder())
     else:
         target.command('./waf configure --prefix=%s %s' % (target.directory, configure_options(target, options)))
         target.command('./waf')
@@ -603,7 +603,7 @@ def package(target, version, options):
         target.command('docker build build/platform/docker -t dcpomatic-server:%s' % version)
         target.command('docker save dcpomatic-server:%s -o dcpomatic-server-%s-docker.tar' % (version, version))
     elif target.platform == 'flatpak':
-        target.command('flatpak build-bundle build/platform/repo build/dcpomatic_%s.flatpak com.dcpomatic.DCP-o-matic' % version)
+        target.command('%s build-bundle build/platform/repo build/dcpomatic_%s.flatpak com.dcpomatic.DCP-o-matic' % (target.flatpak(), version))
         return os.path.abspath('build/dcpomatic_%s.flatpak' % version)
 
 def make_pot(target):
