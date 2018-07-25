@@ -195,12 +195,14 @@ DCPDecoder::pass_texts (ContentTime next)
 {
 	list<shared_ptr<TextDecoder> >::const_iterator decoder = text.begin ();
 	if ((*_reel)->main_subtitle()) {
+		DCPOMATIC_ASSERT (decoder != text.end ());
 		pass_texts (
 			next, (*_reel)->main_subtitle()->asset(), _dcp_content->reference_text(TEXT_OPEN_SUBTITLE), (*_reel)->main_subtitle()->entry_point(), *decoder
 			);
 		++decoder;
 	}
 	if ((*_reel)->closed_caption()) {
+		DCPOMATIC_ASSERT (decoder != text.end ());
 		pass_texts (
 			next, (*_reel)->closed_caption()->asset(), _dcp_content->reference_text(TEXT_CLOSED_CAPTION), (*_reel)->closed_caption()->entry_point(), *decoder
 			);
