@@ -23,6 +23,7 @@
 #include <boost/bind.hpp>
 
 using std::list;
+using std::max;
 using std::cout;
 using std::make_pair;
 using boost::shared_ptr;
@@ -57,7 +58,7 @@ ClosedCaptionsDialog::paint ()
 	dc.SetTextForeground (*wxWHITE);
 
 	/* Choose a font which fits vertically */
-	int const line_height = dc.GetSize().GetHeight() / _num_lines;
+	int const line_height = max (8, dc.GetSize().GetHeight() / _num_lines);
 	wxFont font (*wxNORMAL_FONT);
 	font.SetPixelSize (wxSize (0, line_height * 0.8));
 	dc.SetFont (font);
