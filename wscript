@@ -607,15 +607,15 @@ def configure(conf):
 
     Logs.pprint('YELLOW', '')
 
-def download_supporters():
+def download_supporters(can_fail):
     last_date = subprocess.Popen(shlex.split('git log -1 --format=%%ai %s' % last_version), stdout=subprocess.PIPE).communicate()[0]
     r = os.system('curl -f https://dcpomatic.com/supporters.cc?%s > src/wx/supporters.cc' % urlencode({"until": last_date.strip()}))
-    if (r >> 8) != 0:
+    if (r >> 8) != 0 and can_fail:
         raise Exception("Could not download supporters list")
 
 def build(bld):
     create_version_cc(VERSION, bld.env.CXXFLAGS)
-    download_supporters()
+    download_supporters(not bld.env.DEBUG)
 
     bld.recurse('src')
     bld.recurse('graphics')
