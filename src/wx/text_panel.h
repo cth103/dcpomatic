@@ -49,6 +49,7 @@ private:
 	void fonts_dialog_clicked ();
 	void reference_clicked ();
 	void appearance_dialog_clicked ();
+	TextType current_type () const;
 
 	void setup_sensitivity ();
 

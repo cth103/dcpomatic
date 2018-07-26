@@ -285,18 +285,25 @@ TextPanel::use_toggled ()
 	}
 }
 
+/** @return the text type that is currently selected in the drop-down */
+TextType
+TextPanel::current_type () const
+{
+	switch (_type->GetSelection()) {
+	case 0:
+		return TEXT_OPEN_SUBTITLE;
+	case 1:
+		return TEXT_CLOSED_CAPTION;
+	}
+
+	return TEXT_UNKNOWN;
+}
+
 void
 TextPanel::type_changed ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text()) {
-		switch (_type->GetSelection()) {
-		case 0:
-			i->text_of_original_type(_original_type)->set_type (TEXT_OPEN_SUBTITLE);
-			break;
-		case 1:
-			i->text_of_original_type(_original_type)->set_type (TEXT_CLOSED_CAPTION);
-			break;
-		}
+		i->text_of_original_type(_original_type)->set_type (current_type ());
 	}
 }
 
@@ -344,21 +351,23 @@ TextPanel::setup_sensitivity ()
 
 	bool const reference = _reference->GetValue ();
 
+	TextType const type = current_type ();
+
 	/* Set up sensitivity */
 	_use->Enable (!reference && any_subs > 0);
 	bool const use = _use->GetValue ();
 	_type->Enable (!reference && any_subs > 0 && use);
-	_burn->Enable (!reference && any_subs > 0 && use && _type->GetSelection() == 0);
-	_x_offset->Enable (!reference && any_subs > 0 && use);
-	_y_offset->Enable (!reference && any_subs > 0 && use);
-	_x_scale->Enable (!reference && any_subs > 0 && use);
-	_y_scale->Enable (!reference && any_subs > 0 && use);
-	_line_spacing->Enable (!reference && use);
+	_burn->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
+	_x_offset->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
+	_y_offset->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
+	_x_scale->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
+	_y_scale->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
+	_line_spacing->Enable (!reference && use && type == TEXT_OPEN_SUBTITLE);
 	_language->Enable (!reference && any_subs > 0 && use);
 	_stream->Enable (!reference && ffmpeg_subs == 1);
 	_text_view_button->Enable (!reference);
-	_fonts_dialog_button->Enable (!reference);
-	_appearance_dialog_button->Enable (!reference && any_subs > 0 && use);
+	_fonts_dialog_button->Enable (!reference && type == TEXT_OPEN_SUBTITLE);
+	_appearance_dialog_button->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
 }
 
 void
