@@ -78,6 +78,7 @@ public:
 
 	void set_video_container_size (dcp::Size);
 	void set_ignore_video ();
+	void set_ignore_audio ();
 	void set_ignore_text ();
 	void set_always_burn_open_subtitles ();
 	void set_fast ();
@@ -154,6 +155,7 @@ private:
 
 	/** true if the player should ignore all video; i.e. never produce any */
 	bool _ignore_video;
+	bool _ignore_audio;
 	/** true if the player should ignore all text; i.e. never produce any */
 	bool _ignore_text;
 	bool _always_burn_open_subtitles;
