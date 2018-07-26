@@ -18,10 +18,38 @@
 
 */
 
-#include <boost/shared_ptr.hpp>
+#include "signaller.h"
+#include "player_text.h"
+#include "types.h"
+#include "dcpomatic_time.h"
+#include <boost/weak_ptr.hpp>
+#include <boost/signals2.hpp>
 #include <vector>
 #include <string>
 
 class Film;
 
-std::vector<std::string> get_hints (boost::shared_ptr<const Film> film);
+class Hints : public Signaller
+{
+public:
+	Hints (boost::weak_ptr<const Film> film);
+	~Hints ();
+
+	void start ();
+
+	boost::signals2::signal<void (std::string)> Hint;
+	boost::signals2::signal<void (std::string)> Progress;
+	boost::signals2::signal<void (void)> Pulse;
+	boost::signals2::signal<void (void)> Finished;
+
+private:
+	void thread ();
+	void stop_thread ();
+	void hint (std::string h);
+	void text (PlayerText text, TextType type, DCPTimePeriod period);
+
+	boost::weak_ptr<const Film> _film;
+	boost::thread* _thread;
+
+	bool _long_ccap;
+};

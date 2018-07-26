@@ -636,7 +636,7 @@ private:
 			}
 		}
 
-		if (!get_hints(_film).empty() && Config::instance()->show_hints_before_make_dcp()) {
+		if (Config::instance()->show_hints_before_make_dcp()) {
 			HintsDialog* hints = new HintsDialog (this, _film, false);
 			int const r = hints->ShowModal();
 			hints->Destroy ();
@@ -735,7 +735,7 @@ private:
 			return;
 		}
 
-		if (!get_hints(_film).empty() && Config::instance()->show_hints_before_make_dcp()) {
+		if (Config::instance()->show_hints_before_make_dcp()) {
 			HintsDialog* hints = new HintsDialog (this, _film, false);
 			int const r = hints->ShowModal();
 			hints->Destroy ();
