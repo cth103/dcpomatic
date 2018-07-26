@@ -73,6 +73,7 @@ public:
 	std::list<boost::shared_ptr<Font> > get_subtitle_fonts ();
 	std::list<ReferencedReelAsset> get_reel_assets ();
 	dcp::Size video_container_size () const {
+		boost::mutex::scoped_lock lm (_mutex);
 		return _video_container_size;
 	}
 
@@ -140,6 +141,12 @@ private:
 	void emit_video (boost::shared_ptr<PlayerVideo> pv, DCPTime time);
 	void do_emit_video (boost::shared_ptr<PlayerVideo> pv, DCPTime time);
 	void emit_audio (boost::shared_ptr<AudioBuffers> data, DCPTime time);
+
+	/** Mutex to protect the whole Player state.  When it's used for the preview we have
+	    seek() and pass() called from the Butler thread and lots of other stuff called
+	    from the GUI thread.
+	*/
+	mutable boost::mutex _mutex;
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;

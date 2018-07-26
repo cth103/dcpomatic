@@ -258,14 +258,18 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 void
 Player::set_video_container_size (dcp::Size s)
 {
-	if (s == _video_container_size) {
-		return;
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+
+		if (s == _video_container_size) {
+			return;
+		}
+
+		_video_container_size = s;
+
+		_black_image.reset (new Image (AV_PIX_FMT_RGB24, _video_container_size, true));
+		_black_image->make_black ();
 	}
-
-	_video_container_size = s;
-
-	_black_image.reset (new Image (AV_PIX_FMT_RGB24, _video_container_size, true));
-	_black_image->make_black ();
 
 	Changed (PlayerProperty::VIDEO_CONTAINER_SIZE, false);
 }
@@ -414,6 +418,8 @@ Player::content_time_to_dcp (shared_ptr<const Piece> piece, ContentTime t) const
 list<shared_ptr<Font> >
 Player::get_subtitle_fonts ()
 {
+	/* Does not require a lock on _mutex as it's only called from DCPEncoder */
+
 	if (!_have_valid_pieces) {
 		setup_pieces ();
 	}
@@ -436,12 +442,14 @@ Player::get_subtitle_fonts ()
 void
 Player::set_ignore_video ()
 {
+	boost::mutex::scoped_lock lm (_mutex);
 	_ignore_video = true;
 }
 
 void
 Player::set_ignore_text ()
 {
+	boost::mutex::scoped_lock lm (_mutex);
 	_ignore_text = true;
 }
 
@@ -449,6 +457,7 @@ Player::set_ignore_text ()
 void
 Player::set_always_burn_open_subtitles ()
 {
+	boost::mutex::scoped_lock lm (_mutex);
 	_always_burn_open_subtitles = true;
 }
 
@@ -456,6 +465,7 @@ Player::set_always_burn_open_subtitles ()
 void
 Player::set_fast ()
 {
+	boost::mutex::scoped_lock lm (_mutex);
 	_fast = true;
 	_have_valid_pieces = false;
 }
@@ -463,6 +473,7 @@ Player::set_fast ()
 void
 Player::set_play_referenced ()
 {
+	boost::mutex::scoped_lock lm (_mutex);
 	_play_referenced = true;
 	_have_valid_pieces = false;
 }
@@ -470,6 +481,8 @@ Player::set_play_referenced ()
 list<ReferencedReelAsset>
 Player::get_reel_assets ()
 {
+	/* Does not require a lock on _mutex as it's only called from DCPEncoder */
+
 	list<ReferencedReelAsset> a;
 
 	BOOST_FOREACH (shared_ptr<Content> i, _playlist->content ()) {
@@ -546,6 +559,8 @@ Player::get_reel_assets ()
 bool
 Player::pass ()
 {
+	boost::mutex::scoped_lock lm (_mutex);
+
 	if (!_have_valid_pieces) {
 		setup_pieces ();
 	}
@@ -680,6 +695,7 @@ Player::pass ()
 list<PlayerText>
 Player::closed_captions_for_frame (DCPTime time) const
 {
+	boost::mutex::scoped_lock _lm (_mutex);
 	return _active_texts[TEXT_CLOSED_CAPTION].get (
 		DCPTimePeriod(time, time + DCPTime::from_frames(1, _film->video_frame_rate()))
 		);
@@ -972,6 +988,8 @@ Player::subtitle_stop (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, Conte
 void
 Player::seek (DCPTime time, bool accurate)
 {
+	boost::mutex::scoped_lock lm (_mutex);
+
 	if (!_have_valid_pieces) {
 		setup_pieces ();
 	}
@@ -1120,18 +1138,25 @@ Player::discard_audio (shared_ptr<const AudioBuffers> audio, DCPTime time, DCPTi
 void
 Player::set_dcp_decode_reduction (optional<int> reduction)
 {
-	if (reduction == _dcp_decode_reduction) {
-		return;
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+
+		if (reduction == _dcp_decode_reduction) {
+			return;
+		}
+
+		_dcp_decode_reduction = reduction;
+		_have_valid_pieces = false;
 	}
 
-	_dcp_decode_reduction = reduction;
-	_have_valid_pieces = false;
 	Changed (PlayerProperty::DCP_DECODE_REDUCTION, false);
 }
 
 DCPTime
 Player::content_time_to_dcp (shared_ptr<Content> content, ContentTime t)
 {
+	boost::mutex::scoped_lock lm (_mutex);
+
 	if (_have_valid_pieces) {
 		setup_pieces ();
 	}

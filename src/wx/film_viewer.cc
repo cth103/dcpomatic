@@ -529,6 +529,8 @@ FilmViewer::start ()
 		_audio.startStream ();
 	}
 
+	cout << "start playback at " << to_string(_video_position) << "\n";
+
 	_playing = true;
 	_dropped = 0;
 	timer ();
