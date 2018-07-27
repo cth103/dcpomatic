@@ -305,7 +305,7 @@ Hints::text (PlayerText text, TextType type, DCPTimePeriod period)
 
 	if (!_overlap_ccap && _last && _last->overlap(period)) {
 		_overlap_ccap = true;
-		hint (_("You have overlapping closed captions, which is not allowed."));
+		hint (_("You have overlapping closed captions, which are not allowed."));
 	}
 
 	_last = period;
