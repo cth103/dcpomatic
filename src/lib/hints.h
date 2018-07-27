@@ -52,4 +52,7 @@ private:
 	boost::thread* _thread;
 
 	bool _long_ccap;
+	bool _overlap_ccap;
+	bool _too_many_ccap_lines;
+	boost::optional<DCPTimePeriod> _last;
 };

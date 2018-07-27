@@ -38,6 +38,4 @@ private:
 
 	std::vector<wxString> _lines;
 	boost::weak_ptr<Player> _player;
-	static int const _num_lines;
-	static int const _num_chars_per_line;
 };

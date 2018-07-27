@@ -54,6 +54,8 @@ Hints::Hints (weak_ptr<const Film> film)
 	: _film (film)
 	, _thread (0)
 	, _long_ccap (false)
+	, _overlap_ccap (false)
+	, _too_many_ccap_lines (false)
 {
 
 }
@@ -84,6 +86,8 @@ Hints::start ()
 {
 	stop_thread ();
 	_long_ccap = false;
+	_overlap_ccap = false;
+	_too_many_ccap_lines = false;
 	_thread = new boost::thread (bind(&Hints::thread, this));
 }
 
@@ -283,10 +287,26 @@ Hints::text (PlayerText text, TextType type, DCPTimePeriod period)
 		return;
 	}
 
+	int lines = text.text.size();
 	BOOST_FOREACH (StringText i, text.text) {
-		if (!_long_ccap && i.text().length() > 30) {
-			_long_ccap = true;
-			hint (_("Some of your closed captions have lines longer than 30 characters, so they will probably be word-wrapped."));
+		if (i.text().length() > CLOSED_CAPTION_LENGTH) {
+			++lines;
+			if (!_long_ccap) {
+				_long_ccap = true;
+				hint (String::compose(_("Some of your closed captions have lines longer than %1 characters, so they will probably be word-wrapped."), CLOSED_CAPTION_LENGTH));
+			}
 		}
 	}
+
+	if (!_too_many_ccap_lines && lines > CLOSED_CAPTION_LINES) {
+		hint (String::compose(_("Some of your closed captions span more than %1 lines, so they will be truncated."), CLOSED_CAPTION_LINES));
+		_too_many_ccap_lines = true;
+	}
+
+	if (!_overlap_ccap && _last && _last->overlap(period)) {
+		_overlap_ccap = true;
+		hint (_("You have overlapping closed captions, which is not allowed."));
+	}
+
+	_last = period;
 }
