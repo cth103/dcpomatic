@@ -282,3 +282,42 @@ BOOST_AUTO_TEST_CASE (player_trim_test)
        film->make_dcp ();
        BOOST_REQUIRE (!wait_for_jobs ());
 }
+
+struct Sub {
+	PlayerText text;
+	TextType type;
+	DCPTimePeriod period;
+};
+
+static void
+store (list<Sub>* out, PlayerText text, TextType type, DCPTimePeriod period)
+{
+	Sub s;
+	s.text = text;
+	s.type = type;
+	s.period = period;
+	out->push_back (s);
+}
+
+/** Test ignoring both video and audio */
+BOOST_AUTO_TEST_CASE (player_ignore_video_and_audio_test)
+{
+	shared_ptr<Film> film = new_test_film2 ("player_ignore_video_and_audio_test");
+	shared_ptr<Content> ff = content_factory(film, private_data / "boon_telly.mkv").front();
+	film->examine_and_add_content (ff);
+	shared_ptr<Content> text = content_factory(film, "test/data/subrip.srt").front();
+	film->examine_and_add_content (text);
+	BOOST_REQUIRE (!wait_for_jobs());
+	text->only_text()->set_type (TEXT_CLOSED_CAPTION);
+	text->only_text()->set_use (true);
+
+	shared_ptr<Player> player (new Player(film, film->playlist()));
+	player->set_ignore_video ();
+	player->set_ignore_audio ();
+
+	list<Sub> out;
+	player->Text.connect (bind (&store, &out, _1, _2, _3));
+	while (!player->pass ()) {}
+
+	BOOST_CHECK_EQUAL (out.size(), 6);
+}

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,6 +24,7 @@
 
 class wxRichTextCtrl;
 class Film;
+class Hints;
 
 class HintsDialog : public wxDialog
 {
@@ -33,9 +34,18 @@ public:
 private:
 	void film_changed ();
 	void shut_up (wxCommandEvent& ev);
+	void update ();
+	void hint (std::string text);
+	void pulse ();
+	void finished ();
+	void progress (std::string m);
 
 	boost::weak_ptr<Film> _film;
+	wxGauge* _gauge;
+	wxStaticText* _gauge_message;
 	wxRichTextCtrl* _text;
+	boost::shared_ptr<Hints> _hints;
+	std::list<std::string> _current;
 
 	boost::signals2::scoped_connection _film_changed_connection;
 	boost::signals2::scoped_connection _film_content_changed_connection;

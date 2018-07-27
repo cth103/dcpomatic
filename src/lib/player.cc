@@ -89,6 +89,7 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _playlist (playlist)
 	, _have_valid_pieces (false)
 	, _ignore_video (false)
+	, _ignore_audio (false)
 	, _ignore_text (false)
 	, _always_burn_open_subtitles (false)
 	, _fast (false)
@@ -126,6 +127,11 @@ Player::setup_pieces ()
 			continue;
 		}
 
+		if (_ignore_video && _ignore_audio && i->text.empty()) {
+			/* We're only interested in text and this content has none */
+			continue;
+		}
+
 		shared_ptr<Decoder> decoder = decoder_factory (i, _film->log(), _fast);
 		FrameRateChange frc (i->active_video_frame_rate(), _film->video_frame_rate());
 
@@ -136,6 +142,10 @@ Player::setup_pieces ()
 
 		if (decoder->video && _ignore_video) {
 			decoder->video->set_ignore (true);
+		}
+
+		if (decoder->audio && _ignore_audio) {
+			decoder->audio->set_ignore (true);
 		}
 
 		if (_ignore_text) {
@@ -444,6 +454,14 @@ Player::set_ignore_video ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	_ignore_video = true;
+	_have_valid_pieces = false;
+}
+
+void
+Player::set_ignore_audio ()
+{
+	_ignore_audio = true;
+	_have_valid_pieces = false;
 }
 
 void

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -29,15 +29,24 @@
 using std::max;
 using std::vector;
 using std::string;
+using std::cout;
 using boost::shared_ptr;
 using boost::optional;
+using boost::bind;
 using boost::dynamic_pointer_cast;
 
 HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> film, bool ok)
 	: wxDialog (parent, wxID_ANY, _("Hints"))
 	, _film (film)
+	, _hints (new Hints (film))
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+
+	_gauge = new wxGauge (this, wxID_ANY, 100);
+	sizer->Add (_gauge, 0, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
+	_gauge_message = new wxStaticText (this, wxID_ANY, wxT(""));
+	sizer->Add (_gauge_message, 0, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
+
 	_text = new wxRichTextCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (400, 300), wxRE_READONLY);
 	sizer->Add (_text, 1, wxEXPAND | wxALL, 6);
 
@@ -70,6 +79,11 @@ HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> film, bool ok)
 		_film_content_changed_connection = locked_film->ContentChanged.connect (boost::bind (&HintsDialog::film_changed, this));
 	}
 
+	_hints->Hint.connect (bind (&HintsDialog::hint, this, _1));
+	_hints->Progress.connect (bind (&HintsDialog::progress, this, _1));
+	_hints->Pulse.connect (bind (&HintsDialog::pulse, this));
+	_hints->Finished.connect (bind (&HintsDialog::finished, this));
+
 	film_changed ();
 }
 
@@ -77,19 +91,30 @@ void
 HintsDialog::film_changed ()
 {
 	_text->Clear ();
+	_current.clear ();
 
 	boost::shared_ptr<Film> film = _film.lock ();
 	if (!film) {
 		return;
 	}
 
-	vector<string> hints = get_hints (film);
+	_gauge->Show ();
+	_gauge_message->Show ();
+	Layout ();
+	_gauge->SetValue (0);
+	update ();
+	_hints->start ();
+}
 
-	if (hints.empty ()) {
+void
+HintsDialog::update ()
+{
+	_text->Clear ();
+	if (_current.empty ()) {
 		_text->WriteText (_("There are no hints: everything looks good!"));
 	} else {
 		_text->BeginStandardBullet (N_("standard/circle"), 1, 50);
-		BOOST_FOREACH (string i, hints) {
+		BOOST_FOREACH (string i, _current) {
 			_text->WriteText (std_to_wx (i));
 			_text->Newline ();
 		}
@@ -98,7 +123,34 @@ HintsDialog::film_changed ()
 }
 
 void
+HintsDialog::hint (string text)
+{
+	_current.push_back (text);
+	update ();
+}
+
+void
 HintsDialog::shut_up (wxCommandEvent& ev)
 {
 	Config::instance()->set_show_hints_before_make_dcp (!ev.IsChecked());
+}
+
+void
+HintsDialog::pulse ()
+{
+	_gauge->Pulse ();
+}
+
+void
+HintsDialog::finished ()
+{
+	_gauge->Hide ();
+	_gauge_message->Hide ();
+	Layout ();
+}
+
+void
+HintsDialog::progress (string m)
+{
+	_gauge_message->SetLabel (std_to_wx(m));
 }

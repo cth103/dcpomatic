@@ -29,9 +29,6 @@ using std::make_pair;
 using boost::shared_ptr;
 using boost::weak_ptr;
 
-int const ClosedCaptionsDialog::_num_lines = 3;
-int const ClosedCaptionsDialog::_num_chars_per_line = 30;
-
 ClosedCaptionsDialog::ClosedCaptionsDialog (wxWindow* parent)
 	: wxDialog (parent, wxID_ANY, _("Closed captions"), wxDefaultPosition, wxDefaultSize,
 #ifdef DCPOMATIC_OSX
@@ -45,7 +42,7 @@ ClosedCaptionsDialog::ClosedCaptionsDialog (wxWindow* parent)
 		)
 
 {
-	_lines.resize (_num_lines);
+	_lines.resize (CLOSED_CAPTION_LINES);
 	Bind (wxEVT_PAINT, boost::bind (&ClosedCaptionsDialog::paint, this));
 }
 
@@ -58,16 +55,16 @@ ClosedCaptionsDialog::paint ()
 	dc.SetTextForeground (*wxWHITE);
 
 	/* Choose a font which fits vertically */
-	int const line_height = max (8, dc.GetSize().GetHeight() / _num_lines);
+	int const line_height = max (8, dc.GetSize().GetHeight() / CLOSED_CAPTION_LINES);
 	wxFont font (*wxNORMAL_FONT);
 	font.SetPixelSize (wxSize (0, line_height * 0.8));
 	dc.SetFont (font);
 
-	for (int i = 0; i < _num_lines; ++i) {
-		wxString const good = _lines[i].Left (_num_chars_per_line);
+	for (int i = 0; i < CLOSED_CAPTION_LINES; ++i) {
+		wxString const good = _lines[i].Left (CLOSED_CAPTION_LENGTH);
 		dc.DrawText (good, 8, line_height * i);
-		if (_lines[i].Length() > _num_chars_per_line) {
-			wxString const bad = _lines[i].Right (_lines[i].Length() - _num_chars_per_line);
+		if (_lines[i].Length() > CLOSED_CAPTION_LENGTH) {
+			wxString const bad = _lines[i].Right (_lines[i].Length() - CLOSED_CAPTION_LENGTH);
 			wxSize size = dc.GetTextExtent (good);
 			dc.SetTextForeground (*wxRED);
 			dc.DrawText (bad, 8 + size.GetWidth(), line_height * i);
@@ -112,7 +109,7 @@ ClosedCaptionsDialog::update (DCPTime time)
 		}
 	}
 
-	for (int j = 0; j < _num_lines; ++j) {
+	for (int j = 0; j < CLOSED_CAPTION_LINES; ++j) {
 		_lines[j] = "";
 	}
 
@@ -120,7 +117,7 @@ ClosedCaptionsDialog::update (DCPTime time)
 
 	list<StringText>::const_iterator j = to_show.begin();
 	int k = 0;
-	while (j != to_show.end() && k < _num_lines) {
+	while (j != to_show.end() && k < CLOSED_CAPTION_LINES) {
 		_lines[k] = j->text();
 		++j;
 		++k;

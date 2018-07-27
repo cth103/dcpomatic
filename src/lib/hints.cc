@@ -30,6 +30,8 @@
 #include "audio_analysis.h"
 #include "compose.hpp"
 #include "util.h"
+#include "cross.h"
+#include "player.h"
 #include <dcp/raw_convert.h>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
@@ -44,12 +46,58 @@ using std::min;
 using std::max;
 using std::cout;
 using boost::shared_ptr;
+using boost::weak_ptr;
 using boost::optional;
+using boost::bind;
 
-vector<string>
-get_hints (shared_ptr<const Film> film)
+Hints::Hints (weak_ptr<const Film> film)
+	: _film (film)
+	, _thread (0)
+	, _long_ccap (false)
+	, _overlap_ccap (false)
+	, _too_many_ccap_lines (false)
 {
-	vector<string> hints;
+
+}
+
+void
+Hints::stop_thread ()
+{
+	if (_thread) {
+		try {
+			_thread->interrupt ();
+			_thread->join ();
+		} catch (...) {
+
+		}
+
+		delete _thread;
+		_thread = 0;
+	}
+}
+
+Hints::~Hints ()
+{
+	stop_thread ();
+}
+
+void
+Hints::start ()
+{
+	stop_thread ();
+	_long_ccap = false;
+	_overlap_ccap = false;
+	_too_many_ccap_lines = false;
+	_thread = new boost::thread (bind(&Hints::thread, this));
+}
+
+void
+Hints::thread ()
+{
+	shared_ptr<const Film> film = _film.lock ();
+	if (!film) {
+		return;
+	}
 
 	ContentList content = film->content ();
 
@@ -70,16 +118,16 @@ get_hints (shared_ptr<const Film> film)
 	}
 
 	if (big_font_files) {
-		hints.push_back (_("You have specified a font file which is larger than 640kB.  This is very likely to cause problems on playback."));
+		hint (_("You have specified a font file which is larger than 640kB.  This is very likely to cause problems on playback."));
 	}
 
 	if (film->audio_channels() < 6) {
-		hints.push_back (_("Your DCP has fewer than 6 audio channels.  This may cause problems on some projectors."));
+		hint (_("Your DCP has fewer than 6 audio channels.  This may cause problems on some projectors."));
 	}
 
 	AudioProcessor const * ap = film->audio_processor();
 	if (ap && (ap->id() == "stereo-5.1-upmix-a" || ap->id() == "stereo-5.1-upmix-b")) {
-		hints.push_back (_("You are using DCP-o-matic's stereo-to-5.1 upmixer.  This is experimental and may result in poor-quality audio.  If you continue, you should listen to the resulting DCP in a cinema to make sure that it sounds good."));
+		hint (_("You are using DCP-o-matic's stereo-to-5.1 upmixer.  This is experimental and may result in poor-quality audio.  If you continue, you should listen to the resulting DCP in a cinema to make sure that it sounds good."));
 	}
 
 	int flat_or_narrower = 0;
@@ -98,19 +146,19 @@ get_hints (shared_ptr<const Film> film)
 	string const film_container = film->container()->id();
 
 	if (scope && !flat_or_narrower && film_container == "185") {
-		hints.push_back (_("All of your content is in Scope (2.39:1) but your DCP's container is Flat (1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  You may prefer to set your DCP's container to Scope (2.39:1) in the \"DCP\" tab."));
+		hint (_("All of your content is in Scope (2.39:1) but your DCP's container is Flat (1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  You may prefer to set your DCP's container to Scope (2.39:1) in the \"DCP\" tab."));
 	}
 
 	if (!scope && flat_or_narrower && film_container == "239") {
-		hints.push_back (_("All of your content is at 1.85:1 or narrower but your DCP's container is Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) frame.  You may prefer to set your DCP's container to Flat (1.85:1) in the \"DCP\" tab."));
+		hint (_("All of your content is at 1.85:1 or narrower but your DCP's container is Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) frame.  You may prefer to set your DCP's container to Flat (1.85:1) in the \"DCP\" tab."));
 	}
 
 	if (film_container != "185" && film_container != "239" && film_container != "190") {
-		hints.push_back (_("Your DCP uses an unusual container ratio.  This may cause problems on some projectors.  If possible, use Flat or Scope for the DCP container ratio"));
+		hint (_("Your DCP uses an unusual container ratio.  This may cause problems on some projectors.  If possible, use Flat or Scope for the DCP container ratio"));
 	}
 
 	if (film->j2k_bandwidth() >= 245000000) {
-		hints.push_back (_("A few projectors have problems playing back very high bit-rate DCPs.  It is a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is unlikely to have any visible effect on the image."));
+		hint (_("A few projectors have problems playing back very high bit-rate DCPs.  It is a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is unlikely to have any visible effect on the image."));
 	}
 
 	if (film->interop() && film->video_frame_rate() != 24 && film->video_frame_rate() != 48) {
@@ -130,7 +178,7 @@ get_hints (shared_ptr<const Film> film)
 			h = _("You are set up for an Interop DCP at a frame rate which is not officially supported.  You are advised either to change the frame rate of your DCP or to make a SMPTE DCP instead (although SMPTE DCPs are not supported by all projectors).");
 		}
 
-		hints.push_back (h);
+		hint (h);
 	}
 
 	optional<double> lowest_speed_up;
@@ -154,7 +202,7 @@ get_hints (shared_ptr<const Film> film)
 	}
 
 	if (worst_speed_up > 25.5/24.0) {
-		hints.push_back (_("There is a large difference between the frame rate of your DCP and that of some of your content.  This will cause your audio to play back at a much lower or higher pitch than it should.  You are advised to set your DCP frame rate to one closer to your content, provided that your target projection systems support your chosen DCP rate."));
+		hint (_("There is a large difference between the frame rate of your DCP and that of some of your content.  This will cause your audio to play back at a much lower or higher pitch than it should.  You are advised to set your DCP frame rate to one closer to your content, provided that your target projection systems support your chosen DCP rate."));
 	}
 
 	int vob = 0;
@@ -165,7 +213,7 @@ get_hints (shared_ptr<const Film> film)
 	}
 
 	if (vob > 1) {
-		hints.push_back (String::compose (_("You have %1 files that look like they are VOB files from DVD. You should join them to ensure smooth joins between the files."), vob));
+		hint (String::compose (_("You have %1 files that look like they are VOB files from DVD. You should join them to ensure smooth joins between the files."), vob));
 	}
 
 	int three_d = 0;
@@ -176,7 +224,7 @@ get_hints (shared_ptr<const Film> film)
 	}
 
 	if (three_d > 0 && !film->three_d()) {
-		hints.push_back (_("You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"));
+		hint (_("You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"));
 	}
 
 	boost::filesystem::path path = film->audio_analysis_path (film->playlist ());
@@ -200,11 +248,10 @@ get_hints (shared_ptr<const Film> film)
 			ch = ch.substr (0, ch.length() - 2);
 
 			if (!ch.empty ()) {
-				hints.push_back (
-					String::compose (
-						_("Your audio level is very high (on %1).  You should reduce the gain of your audio content."),
-						ch
-						)
+				hint (String::compose (
+					      _("Your audio level is very high (on %1).  You should reduce the gain of your audio content."),
+					      ch
+					      )
 					);
 			}
 		} catch (OldFormatError& e) {
@@ -214,5 +261,52 @@ get_hints (shared_ptr<const Film> film)
 		}
 	}
 
-	return hints;
+	emit (bind(boost::ref(Progress), _("Examining closed captions")));
+
+	shared_ptr<Player> player (new Player (film, film->playlist ()));
+	player->set_ignore_video ();
+	player->set_ignore_audio ();
+	player->Text.connect (bind(&Hints::text, this, _1, _2, _3));
+	while (!player->pass ()) {
+		bind (boost::ref(Pulse));
+	}
+
+	emit (bind(boost::ref(Finished)));
+}
+
+void
+Hints::hint (string h)
+{
+	emit(bind(boost::ref(Hint), h));
+}
+
+void
+Hints::text (PlayerText text, TextType type, DCPTimePeriod period)
+{
+	if (type != TEXT_CLOSED_CAPTION) {
+		return;
+	}
+
+	int lines = text.text.size();
+	BOOST_FOREACH (StringText i, text.text) {
+		if (i.text().length() > CLOSED_CAPTION_LENGTH) {
+			++lines;
+			if (!_long_ccap) {
+				_long_ccap = true;
+				hint (String::compose(_("Some of your closed captions have lines longer than %1 characters, so they will probably be word-wrapped."), CLOSED_CAPTION_LENGTH));
+			}
+		}
+	}
+
+	if (!_too_many_ccap_lines && lines > CLOSED_CAPTION_LINES) {
+		hint (String::compose(_("Some of your closed captions span more than %1 lines, so they will be truncated."), CLOSED_CAPTION_LINES));
+		_too_many_ccap_lines = true;
+	}
+
+	if (!_overlap_ccap && _last && _last->overlap(period)) {
+		_overlap_ccap = true;
+		hint (_("You have overlapping closed captions, which are not allowed."));
+	}
+
+	_last = period;
 }
