@@ -198,7 +198,6 @@ Butler::get_video ()
 	}
 
 	pair<shared_ptr<PlayerVideo>, DCPTime> const r = _video.get ();
-	cout << "BGV " << to_string(r.second) << " " << _video.size() << "\n";
 	_summon.notify_all ();
 	return r;
 }
@@ -234,7 +233,6 @@ Butler::prepare (weak_ptr<PlayerVideo> weak_video) const
 void
 Butler::video (shared_ptr<PlayerVideo> video, DCPTime time)
 {
-	cout << "BV: " << to_string(time) << " " << _video.size() << " " << (float(_video.size()) / 24) << "\n";
 	boost::mutex::scoped_lock lm (_mutex);
 	if (_pending_seek_position) {
 		/* Don't store any video while a seek is pending */
@@ -248,7 +246,6 @@ Butler::video (shared_ptr<PlayerVideo> video, DCPTime time)
 void
 Butler::audio (shared_ptr<AudioBuffers> audio)
 {
-	cout << "BA: " << audio->frames() << " " << _audio.size() << " " << (float(_audio.size()) / 48000) << "\n";
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		if (_pending_seek_position || _disable_audio) {
@@ -268,7 +265,6 @@ bool
 Butler::get_audio (float* out, Frame frames)
 {
 	bool const underrun = _audio.get (out, _audio_channels, frames);
-	cout << "BGA: " << frames << " " << _audio.size() << " " << (float(_audio.size()) / 48000) << "\n";
 	_summon.notify_all ();
 	return underrun;
 }
