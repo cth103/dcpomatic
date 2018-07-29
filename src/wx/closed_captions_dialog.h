@@ -27,7 +27,7 @@ class Player;
 class ClosedCaptionsDialog : public wxDialog
 {
 public:
-	ClosedCaptionsDialog (explicit wxWindow* parent);
+	explicit ClosedCaptionsDialog (wxWindow* parent);
 
 	void update (DCPTime);
 	void clear ();
