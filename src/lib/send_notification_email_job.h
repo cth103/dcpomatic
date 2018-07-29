@@ -23,7 +23,7 @@
 class SendNotificationEmailJob : public Job
 {
 public:
-	SendNotificationEmailJob (std::string body);
+	SendNotificationEmailJob (explicit std::string body);
 
 	std::string name () const;
 	std::string json_name () const;

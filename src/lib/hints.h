@@ -32,7 +32,7 @@ class Film;
 class Hints : public Signaller
 {
 public:
-	Hints (boost::weak_ptr<const Film> film);
+	Hints (explicit boost::weak_ptr<const Film> film);
 	~Hints ();
 
 	void start ();
