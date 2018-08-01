@@ -395,3 +395,15 @@ AudioContent::take_settings_from (shared_ptr<const AudioContent> c)
 		++j;
 	}
 }
+
+void
+AudioContent::modify_position (DCPTime& pos) const
+{
+	pos = pos.round (_parent->film()->audio_frame_rate());
+}
+
+void
+AudioContent::modify_trim_start (ContentTime& trim) const
+{
+	trim = trim.round (stream()->frame_rate());
+}

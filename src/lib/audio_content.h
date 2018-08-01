@@ -83,6 +83,9 @@ public:
 
 	void add_properties (std::list<UserProperty> &) const;
 
+	void modify_position (DCPTime& pos) const;
+	void modify_trim_start (ContentTime& pos) const;
+
 	static boost::shared_ptr<AudioContent> from_xml (Content* parent, cxml::ConstNodePtr, int version);
 
 private:

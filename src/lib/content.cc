@@ -191,9 +191,14 @@ Content::signal_changed (int p)
 void
 Content::set_position (DCPTime p)
 {
-	/* video content can modify its position */
+	/* video and audio content can modify its position */
+
 	if (video) {
 		video->modify_position (p);
+	}
+
+	if (audio) {
+		audio->modify_position (p);
 	}
 
 	{
@@ -211,9 +216,14 @@ Content::set_position (DCPTime p)
 void
 Content::set_trim_start (ContentTime t)
 {
-	/* video content can modify its start trim */
+	/* video and audio content can modify its start trim */
+
 	if (video) {
 		video->modify_trim_start (t);
+	}
+
+	if (audio) {
+		audio->modify_trim_start (t);
 	}
 
 	{
