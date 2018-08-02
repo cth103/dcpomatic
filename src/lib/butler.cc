@@ -63,6 +63,7 @@ Butler::Butler (shared_ptr<Player> player, shared_ptr<Log> log, AudioMapping aud
 {
 	_player_video_connection = _player->Video.connect (bind (&Butler::video, this, _1, _2));
 	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1));
+	_player_changed_connection = _player->Changed.connect (bind (&Butler::player_changed, this, _1));
 	_thread = new boost::thread (bind (&Butler::thread, this));
 #ifdef DCPOMATIC_LINUX
 	pthread_setname_np (_thread->native_handle(), "butler");
@@ -206,12 +207,22 @@ void
 Butler::seek (DCPTime position, bool accurate)
 {
 	boost::mutex::scoped_lock lm (_mutex);
+	seek_unlocked (position, accurate);
+}
+
+void
+Butler::seek_unlocked (DCPTime position, bool accurate)
+{
 	if (_died) {
 		return;
 	}
 
-	_video.clear ();
-	_audio.clear ();
+	{
+		boost::mutex::scoped_lock lm (_video_audio_mutex);
+		_video.clear ();
+		_audio.clear ();
+	}
+
 	_finished = false;
 	_pending_seek_position = position;
 	_pending_seek_accurate = accurate;
@@ -234,12 +245,15 @@ void
 Butler::video (shared_ptr<PlayerVideo> video, DCPTime time)
 {
 	boost::mutex::scoped_lock lm (_mutex);
+
 	if (_pending_seek_position) {
 		/* Don't store any video while a seek is pending */
 		return;
 	}
 
 	_prepare_service.post (bind (&Butler::prepare, this, weak_ptr<PlayerVideo>(video)));
+
+	boost::mutex::scoped_lock lm2 (_video_audio_mutex);
 	_video.put (video, time);
 }
 
@@ -254,6 +268,7 @@ Butler::audio (shared_ptr<AudioBuffers> audio)
 		}
 	}
 
+	boost::mutex::scoped_lock lm2 (_video_audio_mutex);
 	_audio.put (remap (audio, _audio_channels, _audio_mapping));
 }
 
@@ -281,4 +296,36 @@ Butler::memory_used () const
 {
 	/* XXX: should also look at _audio.memory_used() */
 	return _video.memory_used();
+}
+
+void
+Butler::player_changed (int what)
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	if (_died || _pending_seek_position) {
+		return;
+	}
+
+	DCPTime seek_to;
+	DCPTime next = _video.get().second;
+	if (_awaiting && _awaiting > next) {
+		/* We have recently done a player_changed seek and our buffers haven't been refilled yet,
+		   so assume that we're seeking to the same place as last time.
+		*/
+		seek_to = *_awaiting;
+	} else {
+		seek_to = next;
+	}
+
+	{
+		boost::mutex::scoped_lock lm (_video_audio_mutex);
+		_video.clear ();
+		_audio.clear ();
+	}
+
+	_finished = false;
+	_summon.notify_all ();
+
+	seek_unlocked (seek_to, true);
+	_awaiting = seek_to;
 }

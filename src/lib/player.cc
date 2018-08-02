@@ -239,7 +239,11 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == FFmpegContentProperty::FILTERS
 		) {
 
-		_have_valid_pieces = false;
+		{
+			boost::mutex::scoped_lock lm (_mutex);
+			_have_valid_pieces = false;
+		}
+
 		Changed (property, frequent);
 
 	} else if (
@@ -287,7 +291,11 @@ Player::set_video_container_size (dcp::Size s)
 void
 Player::playlist_changed ()
 {
-	_have_valid_pieces = false;
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_have_valid_pieces = false;
+	}
+
 	Changed (PlayerProperty::PLAYLIST, false);
 }
 
@@ -305,13 +313,18 @@ Player::film_changed (Film::Property p)
 		/* Pieces contain a FrameRateChange which contains the DCP frame rate,
 		   so we need new pieces here.
 		*/
-		_have_valid_pieces = false;
+		{
+			boost::mutex::scoped_lock lm (_mutex);
+			_have_valid_pieces = false;
+		}
 		Changed (PlayerProperty::FILM_VIDEO_FRAME_RATE, false);
 	} else if (p == Film::AUDIO_PROCESSOR) {
 		if (_film->audio_processor ()) {
+			boost::mutex::scoped_lock lm (_mutex);
 			_audio_processor = _film->audio_processor()->clone (_film->audio_frame_rate ());
 		}
 	} else if (p == Film::AUDIO_CHANNELS) {
+		boost::mutex::scoped_lock lm (_mutex);
 		_audio_merger.clear ();
 	}
 }
@@ -460,6 +473,7 @@ Player::set_ignore_video ()
 void
 Player::set_ignore_audio ()
 {
+	boost::mutex::scoped_lock lm (_mutex);
 	_ignore_audio = true;
 	_have_valid_pieces = false;
 }

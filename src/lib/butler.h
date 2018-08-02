@@ -53,11 +53,17 @@ private:
 	void audio (boost::shared_ptr<AudioBuffers> audio);
 	bool should_run () const;
 	void prepare (boost::weak_ptr<PlayerVideo> video) const;
+	void player_changed (int);
+	void seek_unlocked (DCPTime position, bool accurate);
 
 	boost::shared_ptr<Player> _player;
 	boost::shared_ptr<Log> _log;
 	boost::thread* _thread;
 
+	/** mutex to protect _video and _audio for when we are clearing them and they both need to be
+	    cleared together without any data being inserted in the interim.
+	*/
+	boost::mutex _video_audio_mutex;
 	VideoRingBuffers _video;
 	AudioRingBuffers _audio;
 
@@ -80,6 +86,12 @@ private:
 
 	bool _disable_audio;
 
+	/** If we are waiting to be refilled following a seek, this is the time we were
+	    seeking to.
+	*/
+	boost::optional<DCPTime> _awaiting;
+
 	boost::signals2::scoped_connection _player_video_connection;
 	boost::signals2::scoped_connection _player_audio_connection;
+	boost::signals2::scoped_connection _player_changed_connection;
 };
