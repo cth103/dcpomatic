@@ -573,14 +573,14 @@ ReelWriter::write (PlayerText subs, TextType type, DCPTimePeriod period)
 		}
 	}
 
-	BOOST_FOREACH (StringText i, subs.text) {
+	BOOST_FOREACH (StringText i, subs.string) {
 		/* XXX: couldn't / shouldn't we use period here rather than getting time from the subtitle? */
 		i.set_in  (i.in()  - dcp::Time (_period.from.seconds(), i.in().tcr));
 		i.set_out (i.out() - dcp::Time (_period.from.seconds(), i.out().tcr));
 		_caption_asset[type]->add (shared_ptr<dcp::Subtitle>(new dcp::SubtitleString(i)));
 	}
 
-	BOOST_FOREACH (BitmapText i, subs.image) {
+	BOOST_FOREACH (BitmapText i, subs.bitmap) {
 		_caption_asset[type]->add (
 			shared_ptr<dcp::Subtitle>(
 				new dcp::SubtitleImage(

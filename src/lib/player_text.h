@@ -35,8 +35,8 @@ public:
 	std::list<boost::shared_ptr<Font> > fonts;
 
 	/** BitmapTexts, with their rectangles transformed as specified by their content */
-	std::list<BitmapText> image;
-	std::list<StringText> text;
+	std::list<BitmapText> bitmap;
+	std::list<StringText> string;
 };
 
 #endif

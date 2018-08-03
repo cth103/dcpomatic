@@ -144,7 +144,7 @@ ActiveText::add_to (weak_ptr<const TextContent> content, DCPTime to)
 
 	_data[content].back().to = to;
 
-	BOOST_FOREACH (StringText& i, _data[content].back().subs.text) {
+	BOOST_FOREACH (StringText& i, _data[content].back().subs.string) {
 		i.set_out (dcp::Time(to.seconds(), 1000));
 	}
 

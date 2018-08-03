@@ -745,13 +745,13 @@ Player::open_subtitles_for_frame (DCPTime time) const
 		_active_texts[TEXT_OPEN_SUBTITLE].get_burnt(DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_open_subtitles)
 		) {
 
-		/* Image subtitles */
-		list<PositionImage> c = transform_bitmap_texts (j.image);
+		/* Bitmap subtitles */
+		list<PositionImage> c = transform_bitmap_texts (j.bitmap);
 		copy (c.begin(), c.end(), back_inserter (captions));
 
-		/* Text subtitles (rendered to an image) */
-		if (!j.text.empty ()) {
-			list<PositionImage> s = render_text (j.text, j.fonts, _video_container_size, time, vfr);
+		/* String subtitles (rendered to an image) */
+		if (!j.string.empty ()) {
+			list<PositionImage> s = render_text (j.string, j.fonts, _video_container_size, time, vfr);
 			copy (s.begin(), s.end(), back_inserter (captions));
 		}
 	}
@@ -940,7 +940,7 @@ Player::bitmap_text_start (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, C
 	subtitle.sub.rectangle.height *= text->y_scale ();
 
 	PlayerText ps;
-	ps.image.push_back (subtitle.sub);
+	ps.bitmap.push_back (subtitle.sub);
 	DCPTime from (content_time_to_dcp (piece, subtitle.from()));
 
 	_active_texts[subtitle.type()].add_from (wc, ps, from);
@@ -983,7 +983,7 @@ Player::plain_text_start (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, Co
 		}
 
 		s.set_in (dcp::Time(from.seconds(), 1000));
-		ps.text.push_back (StringText (s, text->outline_width()));
+		ps.string.push_back (StringText (s, text->outline_width()));
 		ps.add_fonts (text->fonts ());
 	}
 

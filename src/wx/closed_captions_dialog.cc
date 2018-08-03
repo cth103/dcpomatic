@@ -104,7 +104,7 @@ ClosedCaptionsDialog::update (DCPTime time)
 	DCPOMATIC_ASSERT (player);
 	list<StringText> to_show;
 	BOOST_FOREACH (PlayerText i, player->closed_captions_for_frame(time)) {
-		BOOST_FOREACH (StringText j, i.text) {
+		BOOST_FOREACH (StringText j, i.string) {
 			to_show.push_back (j);
 		}
 	}
