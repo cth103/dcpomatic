@@ -53,7 +53,7 @@ private:
 	void audio (boost::shared_ptr<AudioBuffers> audio, DCPTime time);
 	bool should_run () const;
 	void prepare (boost::weak_ptr<PlayerVideo> video) const;
-	void player_changed (int);
+	void player_changed ();
 	void seek_unlocked (DCPTime position, bool accurate);
 
 	boost::shared_ptr<Player> _player;
