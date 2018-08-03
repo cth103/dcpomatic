@@ -114,6 +114,7 @@ private:
 	void recreate_butler ();
 	void config_changed (Config::Property);
 	DCPTime time () const;
+	DCPTime uncorrected_time () const;
 	Frame average_latency () const;
 	DCPTime one_video_frame () const;
 

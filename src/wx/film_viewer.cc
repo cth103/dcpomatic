@@ -882,6 +882,16 @@ FilmViewer::config_changed (Config::Property p)
 }
 
 DCPTime
+FilmViewer::uncorrected_time () const
+{
+	if (_audio.isStreamRunning ()) {
+		return DCPTime::from_seconds (const_cast<RtAudio*>(&_audio)->getStreamTime());
+	}
+
+	return _video_position;
+}
+
+DCPTime
 FilmViewer::time () const
 {
 	if (_audio.isStreamRunning ()) {
@@ -895,7 +905,14 @@ FilmViewer::time () const
 int
 FilmViewer::audio_callback (void* out_p, unsigned int frames)
 {
-	_butler->get_audio (reinterpret_cast<float*> (out_p), frames);
+	while (true) {
+		optional<DCPTime> t = _butler->get_audio (reinterpret_cast<float*> (out_p), frames);
+		if (!t || DCPTime(uncorrected_time() - *t) < one_video_frame()) {
+			/* There was an underrun or this audio is on time; carry on */
+			break;
+		}
+		/* The audio we just got was (very) late; drop it and get some more. */
+	}
 
         boost::mutex::scoped_lock lm (_latency_history_mutex, boost::try_to_lock);
         if (lm) {

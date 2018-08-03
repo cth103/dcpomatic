@@ -62,7 +62,7 @@ Butler::Butler (shared_ptr<Player> player, shared_ptr<Log> log, AudioMapping aud
 	, _disable_audio (false)
 {
 	_player_video_connection = _player->Video.connect (bind (&Butler::video, this, _1, _2));
-	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1));
+	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1, _2));
 	_player_changed_connection = _player->Changed.connect (bind (&Butler::player_changed, this, _1));
 	_thread = new boost::thread (bind (&Butler::thread, this));
 #ifdef DCPOMATIC_LINUX
@@ -258,7 +258,7 @@ Butler::video (shared_ptr<PlayerVideo> video, DCPTime time)
 }
 
 void
-Butler::audio (shared_ptr<AudioBuffers> audio)
+Butler::audio (shared_ptr<AudioBuffers> audio, DCPTime time)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -269,19 +269,19 @@ Butler::audio (shared_ptr<AudioBuffers> audio)
 	}
 
 	boost::mutex::scoped_lock lm2 (_video_audio_mutex);
-	_audio.put (remap (audio, _audio_channels, _audio_mapping));
+	_audio.put (remap (audio, _audio_channels, _audio_mapping), time);
 }
 
 /** Try to get `frames' frames of audio and copy it into `out'.  Silence
  *  will be filled if no audio is available.
- *  @return true if there was a buffer underrun, otherwise false.
+ *  @return time of this audio, or unset if there was a buffer underrun.
  */
-bool
+optional<DCPTime>
 Butler::get_audio (float* out, Frame frames)
 {
-	bool const underrun = _audio.get (out, _audio_channels, frames);
+	optional<DCPTime> t = _audio.get (out, _audio_channels, frames);
 	_summon.notify_all ();
-	return underrun;
+	return t;
 }
 
 void

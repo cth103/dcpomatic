@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -27,6 +27,8 @@ using boost::shared_ptr;
 
 #define CANARY 9999
 
+/* XXX: these tests don't check the timestamping in AudioRingBuffers */
+
 /** Basic tests fetching the same number of channels as went in */
 BOOST_AUTO_TEST_CASE (audio_ring_buffers_test1)
 {
@@ -38,7 +40,7 @@ BOOST_AUTO_TEST_CASE (audio_ring_buffers_test1)
 	/* Getting some data should give an underrun and write zeros */
 	float buffer[256 * 6];
 	buffer[240 * 6] = CANARY;
-	BOOST_CHECK_EQUAL (rb.get (buffer, 6, 240), true);
+	BOOST_CHECK (!rb.get(buffer, 6, 240));
 	for (int i = 0; i < 240 * 6; ++i) {
 		BOOST_REQUIRE_EQUAL (buffer[i], 0);
 	}
@@ -48,7 +50,7 @@ BOOST_AUTO_TEST_CASE (audio_ring_buffers_test1)
 	rb.clear ();
 	BOOST_CHECK_EQUAL (rb.size(), 0);
 	buffer[240 * 6] = CANARY;
-	BOOST_CHECK_EQUAL (rb.get (buffer, 6, 240), true);
+	BOOST_CHECK (rb.get(buffer, 6, 240) == boost::optional<DCPTime>());
 	for (int i = 0; i < 240 * 6; ++i) {
 		BOOST_REQUIRE_EQUAL (buffer[i], 0);
 	}
@@ -62,12 +64,12 @@ BOOST_AUTO_TEST_CASE (audio_ring_buffers_test1)
 			data->data(j)[i] = value++;
 		}
 	}
-	rb.put (data);
+	rb.put (data, DCPTime());
 	BOOST_CHECK_EQUAL (rb.size(), 91);
 
 	/* Get part of it out */
 	buffer[40 * 6] = CANARY;
-	BOOST_CHECK_EQUAL (rb.get (buffer, 6, 40), false);
+	BOOST_CHECK (*rb.get(buffer, 6, 40) == DCPTime());
 	int check = 0;
 	for (int i = 0; i < 40 * 6; ++i) {
 		BOOST_REQUIRE_EQUAL (buffer[i], check++);
@@ -77,7 +79,7 @@ BOOST_AUTO_TEST_CASE (audio_ring_buffers_test1)
 
 	/* Get the rest */
 	buffer[51 * 6] = CANARY;
-	BOOST_CHECK_EQUAL (rb.get (buffer, 6, 51), false);
+	BOOST_CHECK (*rb.get(buffer, 6, 51) == DCPTime());
 	for (int i = 0; i < 51 * 6; ++i) {
 		BOOST_REQUIRE_EQUAL (buffer[i], check++);
 	}
@@ -86,7 +88,7 @@ BOOST_AUTO_TEST_CASE (audio_ring_buffers_test1)
 
 	/* Now there should be an underrun */
 	buffer[240 * 6] = CANARY;
-	BOOST_CHECK_EQUAL (rb.get (buffer, 6, 240), true);
+	BOOST_CHECK (!rb.get(buffer, 6, 240));
 	BOOST_CHECK_EQUAL (buffer[240 * 6], CANARY);
 }
 
@@ -103,13 +105,13 @@ BOOST_AUTO_TEST_CASE (audio_ring_buffers_test2)
 			data->data(j)[i] = value++;
 		}
 	}
-	rb.put (data);
+	rb.put (data, DCPTime());
 	BOOST_CHECK_EQUAL (rb.size(), 91);
 
 	/* Get part of it out */
 	float buffer[256 * 6];
 	buffer[40 * 6] = CANARY;
-	BOOST_CHECK_EQUAL (rb.get (buffer, 6, 40), false);
+	BOOST_CHECK (*rb.get(buffer, 6, 40) == DCPTime());
 	int check = 0;
 	for (int i = 0; i < 40; ++i) {
 		for (int j = 0; j < 2; ++j) {
@@ -124,7 +126,7 @@ BOOST_AUTO_TEST_CASE (audio_ring_buffers_test2)
 
 	/* Get the rest */
 	buffer[51 * 6] = CANARY;
-	BOOST_CHECK_EQUAL (rb.get (buffer, 6, 51), false);
+	BOOST_CHECK (*rb.get(buffer, 6, 51) == DCPTime());
 	for (int i = 0; i < 51; ++i) {
 		for (int j = 0; j < 2; ++j) {
 			BOOST_REQUIRE_EQUAL (buffer[i * 6 + j], check++);
@@ -138,7 +140,7 @@ BOOST_AUTO_TEST_CASE (audio_ring_buffers_test2)
 
 	/* Now there should be an underrun */
 	buffer[240 * 6] = CANARY;
-	BOOST_CHECK_EQUAL (rb.get (buffer, 6, 240), true);
+	BOOST_CHECK (!rb.get(buffer, 6, 240));
 	BOOST_CHECK_EQUAL (buffer[240 * 6], CANARY);
 }
 
@@ -155,13 +157,13 @@ BOOST_AUTO_TEST_CASE (audio_ring_buffers_test3)
 			data->data(j)[i] = value++;
 		}
 	}
-	rb.put (data);
+	rb.put (data, DCPTime ());
 	BOOST_CHECK_EQUAL (rb.size(), 91);
 
 	/* Get part of it out */
 	float buffer[256 * 6];
 	buffer[40 * 2] = CANARY;
-	BOOST_CHECK_EQUAL (rb.get (buffer, 2, 40), false);
+	BOOST_CHECK (*rb.get(buffer, 2, 40) == DCPTime());
 	int check = 0;
 	for (int i = 0; i < 40; ++i) {
 		for (int j = 0; j < 2; ++j) {
@@ -174,7 +176,7 @@ BOOST_AUTO_TEST_CASE (audio_ring_buffers_test3)
 
 	/* Get the rest */
 	buffer[51 * 2] = CANARY;
-	BOOST_CHECK_EQUAL (rb.get (buffer, 2, 51), false);
+	BOOST_CHECK (*rb.get(buffer, 2, 51) == DCPTime());
 	for (int i = 0; i < 51; ++i) {
 		for (int j = 0; j < 2; ++j)  {
 			BOOST_REQUIRE_EQUAL (buffer[i * 2 + j], check++);
@@ -186,6 +188,6 @@ BOOST_AUTO_TEST_CASE (audio_ring_buffers_test3)
 
 	/* Now there should be an underrun */
 	buffer[240 * 2] = CANARY;
-	BOOST_CHECK_EQUAL (rb.get (buffer, 2, 240), true);
+	BOOST_CHECK (!rb.get(buffer, 2, 240));
 	BOOST_CHECK_EQUAL (buffer[240 * 2], CANARY);
 }

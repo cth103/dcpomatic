@@ -41,7 +41,7 @@ public:
 
 	void seek (DCPTime position, bool accurate);
 	std::pair<boost::shared_ptr<PlayerVideo>, DCPTime> get_video ();
-	bool get_audio (float* out, Frame frames);
+	boost::optional<DCPTime> get_audio (float* out, Frame frames);
 
 	void disable_audio ();
 
@@ -50,7 +50,7 @@ public:
 private:
 	void thread ();
 	void video (boost::shared_ptr<PlayerVideo> video, DCPTime time);
-	void audio (boost::shared_ptr<AudioBuffers> audio);
+	void audio (boost::shared_ptr<AudioBuffers> audio, DCPTime time);
 	bool should_run () const;
 	void prepare (boost::weak_ptr<PlayerVideo> video) const;
 	void player_changed (int);
