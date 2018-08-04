@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_CASE (audio_ring_buffers_test1)
 
 	/* Get the rest */
 	buffer[51 * 6] = CANARY;
-	BOOST_CHECK (*rb.get(buffer, 6, 51) == DCPTime());
+	BOOST_CHECK (*rb.get(buffer, 6, 51) == DCPTime::from_frames(40, 48000));
 	for (int i = 0; i < 51 * 6; ++i) {
 		BOOST_REQUIRE_EQUAL (buffer[i], check++);
 	}
@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_CASE (audio_ring_buffers_test2)
 
 	/* Get the rest */
 	buffer[51 * 6] = CANARY;
-	BOOST_CHECK (*rb.get(buffer, 6, 51) == DCPTime());
+	BOOST_CHECK (*rb.get(buffer, 6, 51) == DCPTime::from_frames(40, 48000));
 	for (int i = 0; i < 51; ++i) {
 		for (int j = 0; j < 2; ++j) {
 			BOOST_REQUIRE_EQUAL (buffer[i * 6 + j], check++);
@@ -176,7 +176,7 @@ BOOST_AUTO_TEST_CASE (audio_ring_buffers_test3)
 
 	/* Get the rest */
 	buffer[51 * 2] = CANARY;
-	BOOST_CHECK (*rb.get(buffer, 2, 51) == DCPTime());
+	BOOST_CHECK (*rb.get(buffer, 2, 51) == DCPTime::from_frames(40, 48000));
 	for (int i = 0; i < 51; ++i) {
 		for (int j = 0; j < 2; ++j)  {
 			BOOST_REQUIRE_EQUAL (buffer[i * 2 + j], check++);
