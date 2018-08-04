@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE (butler_test1)
 	/* XXX: check the frame contents */
 
 	float buffer[256 * 6];
-	BOOST_REQUIRE (!butler.get_audio (buffer, 256));
+	BOOST_REQUIRE (butler.get_audio (buffer, 256) == DCPTime());
 	for (int i = 0; i < 256; ++i) {
 		BOOST_REQUIRE_EQUAL (buffer[i * 6 + 0], 0);
 		BOOST_REQUIRE_EQUAL (buffer[i * 6 + 1], 0);
