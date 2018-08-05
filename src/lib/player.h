@@ -88,8 +88,6 @@ public:
 
 	DCPTime content_time_to_dcp (boost::shared_ptr<Content> content, ContentTime t);
 
-	std::list<PlayerText> closed_captions_for_frame (DCPTime time) const;
-
 	/** Emitted when something has changed such that if we went back and emitted
 	 *  the last frame again it would look different.  This is not emitted after
 	 *  a seek.

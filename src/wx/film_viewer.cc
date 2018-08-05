@@ -203,7 +203,6 @@ FilmViewer::set_film (shared_ptr<Film> film)
 
 	if (!_film) {
 		_player.reset ();
-		_closed_captions_dialog->set_player (_player);
 		recreate_butler ();
 		_frame.reset ();
 		refresh_panel ();
@@ -221,8 +220,6 @@ FilmViewer::set_film (shared_ptr<Film> film)
 		_film.reset ();
 		return;
 	}
-
-	_closed_captions_dialog->set_player (_player);
 
 	_player->set_always_burn_open_subtitles ();
 	_player->set_play_referenced ();
@@ -276,6 +273,8 @@ FilmViewer::recreate_butler ()
 	if (!Config::instance()->sound() && !_audio.isStreamOpen()) {
 		_butler->disable_audio ();
 	}
+
+	_closed_captions_dialog->set_butler (_butler);
 
 	if (was_running) {
 		start ();

@@ -22,7 +22,7 @@
 #include "lib/player.h"
 #include <wx/wx.h>
 
-class Player;
+class Butler;
 
 class ClosedCaptionsDialog : public wxDialog
 {
@@ -31,11 +31,13 @@ public:
 
 	void update (DCPTime);
 	void clear ();
-	void set_player (boost::weak_ptr<Player>);
+	void set_butler (boost::weak_ptr<Butler>);
 
 private:
 	void paint ();
 
+	boost::optional<std::pair<PlayerText, DCPTimePeriod> > _current;
+	bool _current_in_lines;
 	std::vector<wxString> _lines;
-	boost::weak_ptr<Player> _player;
+	boost::weak_ptr<Butler> _butler;
 };

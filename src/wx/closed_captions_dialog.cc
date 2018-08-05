@@ -20,14 +20,17 @@
 
 #include "closed_captions_dialog.h"
 #include "lib/string_text.h"
+#include "lib/butler.h"
 #include <boost/bind.hpp>
 
 using std::list;
 using std::max;
 using std::cout;
+using std::pair;
 using std::make_pair;
 using boost::shared_ptr;
 using boost::weak_ptr;
+using boost::optional;
 
 ClosedCaptionsDialog::ClosedCaptionsDialog (wxWindow* parent)
 	: wxDialog (parent, wxID_ANY, _("Closed captions"), wxDefaultPosition, wxDefaultSize,
@@ -40,7 +43,7 @@ ClosedCaptionsDialog::ClosedCaptionsDialog (wxWindow* parent)
 		wxDEFAULT_FRAME_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE | wxFRAME_FLOAT_ON_PARENT
 #endif
 		)
-
+	, _current_in_lines (false)
 {
 	_lines.resize (CLOSED_CAPTION_LINES);
 	Bind (wxEVT_PAINT, boost::bind (&ClosedCaptionsDialog::paint, this));
@@ -100,40 +103,62 @@ private:
 void
 ClosedCaptionsDialog::update (DCPTime time)
 {
-	shared_ptr<Player> player = _player.lock ();
-	DCPOMATIC_ASSERT (player);
-	list<StringText> to_show;
-	BOOST_FOREACH (PlayerText i, player->closed_captions_for_frame(time)) {
-		BOOST_FOREACH (StringText j, i.string) {
-			to_show.push_back (j);
+	if (_current_in_lines && _current->second.to > time) {
+		/* Current one is fine */
+		return;
+	}
+
+	if (_current && _current->second.to < time) {
+		/* Current one has finished; clear out */
+		for (int j = 0; j < CLOSED_CAPTION_LINES; ++j) {
+			_lines[j] = "";
 		}
+		Refresh ();
+		_current = optional<pair<PlayerText, DCPTimePeriod> >();
 	}
 
-	for (int j = 0; j < CLOSED_CAPTION_LINES; ++j) {
-		_lines[j] = "";
+	if (!_current) {
+		/* We have no current one: get another */
+		shared_ptr<Butler> butler = _butler.lock ();
+		DCPOMATIC_ASSERT (butler);
+		_current = butler->get_closed_caption ();
+		_current_in_lines = false;
 	}
 
-	to_show.sort (ClosedCaptionSorter());
+	if (_current && _current->second.contains(time)) {
+		/* We need to set this new one up */
 
-	list<StringText>::const_iterator j = to_show.begin();
-	int k = 0;
-	while (j != to_show.end() && k < CLOSED_CAPTION_LINES) {
-		_lines[k] = j->text();
-		++j;
-		++k;
+		list<StringText> to_show = _current->first.string;
+
+		for (int j = 0; j < CLOSED_CAPTION_LINES; ++j) {
+			_lines[j] = "";
+		}
+
+		to_show.sort (ClosedCaptionSorter());
+
+		list<StringText>::const_iterator j = to_show.begin();
+		int k = 0;
+		while (j != to_show.end() && k < CLOSED_CAPTION_LINES) {
+			_lines[k] = j->text();
+			++j;
+			++k;
+		}
+
+		Refresh ();
+		_current_in_lines = true;
 	}
-
-	Refresh ();
 }
 
 void
 ClosedCaptionsDialog::clear ()
 {
+	_current = optional<pair<PlayerText, DCPTimePeriod> >();
+	_current_in_lines = false;
 	Refresh ();
 }
 
 void
-ClosedCaptionsDialog::set_player (weak_ptr<Player> player)
+ClosedCaptionsDialog::set_butler (weak_ptr<Butler> butler)
 {
-	_player = player;
+	_butler = butler;
 }

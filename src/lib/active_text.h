@@ -37,7 +37,6 @@ class TextContent;
 class ActiveText : public boost::noncopyable
 {
 public:
-	std::list<PlayerText> get (DCPTimePeriod period) const;
 	std::list<PlayerText> get_burnt (DCPTimePeriod period, bool always_burn_captions) const;
 	void clear_before (DCPTime time);
 	void clear ();
@@ -62,8 +61,6 @@ private:
 	};
 
 	typedef std::map<boost::weak_ptr<const TextContent>, std::list<Period> > Map;
-
-	void add (DCPTimePeriod period, std::list<PlayerText>& pc, std::list<Period> p) const;
 
 	mutable boost::mutex _mutex;
 	Map _data;

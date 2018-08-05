@@ -63,6 +63,7 @@ Butler::Butler (shared_ptr<Player> player, shared_ptr<Log> log, AudioMapping aud
 {
 	_player_video_connection = _player->Video.connect (bind (&Butler::video, this, _1, _2));
 	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1, _2));
+	_player_text_connection = _player->Text.connect (bind (&Butler::text, this, _1, _2, _3));
 	_player_changed_connection = _player->Changed.connect (bind (&Butler::player_changed, this));
 	_thread = new boost::thread (bind (&Butler::thread, this));
 #ifdef DCPOMATIC_LINUX
@@ -203,6 +204,13 @@ Butler::get_video ()
 	return r;
 }
 
+optional<pair<PlayerText, DCPTimePeriod> >
+Butler::get_closed_caption ()
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	return _closed_caption.get ();
+}
+
 void
 Butler::seek (DCPTime position, bool accurate)
 {
@@ -218,9 +226,10 @@ Butler::seek_unlocked (DCPTime position, bool accurate)
 	}
 
 	{
-		boost::mutex::scoped_lock lm (_video_audio_mutex);
+		boost::mutex::scoped_lock lm (_buffers_mutex);
 		_video.clear ();
 		_audio.clear ();
+		_closed_caption.clear ();
 	}
 
 	_finished = false;
@@ -253,7 +262,7 @@ Butler::video (shared_ptr<PlayerVideo> video, DCPTime time)
 
 	_prepare_service.post (bind (&Butler::prepare, this, weak_ptr<PlayerVideo>(video)));
 
-	boost::mutex::scoped_lock lm2 (_video_audio_mutex);
+	boost::mutex::scoped_lock lm2 (_buffers_mutex);
 	_video.put (video, time);
 }
 
@@ -268,7 +277,7 @@ Butler::audio (shared_ptr<AudioBuffers> audio, DCPTime time)
 		}
 	}
 
-	boost::mutex::scoped_lock lm2 (_video_audio_mutex);
+	boost::mutex::scoped_lock lm2 (_buffers_mutex);
 	_audio.put (remap (audio, _audio_channels, _audio_mapping), time);
 }
 
@@ -318,9 +327,10 @@ Butler::player_changed ()
 	}
 
 	{
-		boost::mutex::scoped_lock lm (_video_audio_mutex);
+		boost::mutex::scoped_lock lm (_buffers_mutex);
 		_video.clear ();
 		_audio.clear ();
+		_closed_caption.clear ();
 	}
 
 	_finished = false;
@@ -328,4 +338,15 @@ Butler::player_changed ()
 
 	seek_unlocked (seek_to, true);
 	_awaiting = seek_to;
+}
+
+void
+Butler::text (PlayerText pt, TextType type, DCPTimePeriod period)
+{
+	if (type != TEXT_CLOSED_CAPTION) {
+		return;
+	}
+
+	boost::mutex::scoped_lock lm2 (_buffers_mutex);
+	_closed_caption.put (make_pair(pt, period));
 }

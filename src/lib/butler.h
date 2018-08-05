@@ -20,6 +20,7 @@
 
 #include "video_ring_buffers.h"
 #include "audio_ring_buffers.h"
+#include "text_ring_buffers.h"
 #include "audio_mapping.h"
 #include "exception_store.h"
 #include <boost/shared_ptr.hpp>
@@ -42,6 +43,7 @@ public:
 	void seek (DCPTime position, bool accurate);
 	std::pair<boost::shared_ptr<PlayerVideo>, DCPTime> get_video ();
 	boost::optional<DCPTime> get_audio (float* out, Frame frames);
+	boost::optional<std::pair<PlayerText, DCPTimePeriod> > get_closed_caption ();
 
 	void disable_audio ();
 
@@ -51,6 +53,7 @@ private:
 	void thread ();
 	void video (boost::shared_ptr<PlayerVideo> video, DCPTime time);
 	void audio (boost::shared_ptr<AudioBuffers> audio, DCPTime time);
+	void text (PlayerText pt, TextType type, DCPTimePeriod period);
 	bool should_run () const;
 	void prepare (boost::weak_ptr<PlayerVideo> video) const;
 	void player_changed ();
@@ -60,12 +63,15 @@ private:
 	boost::shared_ptr<Log> _log;
 	boost::thread* _thread;
 
-	/** mutex to protect _video and _audio for when we are clearing them and they both need to be
-	    cleared together without any data being inserted in the interim.
+	/** mutex to protect _video, _audio and _closed_caption for when we are clearing them and they all need to be
+	    cleared together without any data being inserted in the interim;
+	    XXX: is this necessary now that all butler output data is timestamped? Perhaps the locked clear-out
+	    is only required if we guarantee that get_video() and get_audio() calls are in sync.
 	*/
-	boost::mutex _video_audio_mutex;
+	boost::mutex _buffers_mutex;
 	VideoRingBuffers _video;
 	AudioRingBuffers _audio;
+	TextRingBuffers _closed_caption;
 
 	boost::thread_group _prepare_pool;
 	boost::asio::io_service _prepare_service;
@@ -93,5 +99,6 @@ private:
 
 	boost::signals2::scoped_connection _player_video_connection;
 	boost::signals2::scoped_connection _player_audio_connection;
+	boost::signals2::scoped_connection _player_text_connection;
 	boost::signals2::scoped_connection _player_changed_connection;
 };

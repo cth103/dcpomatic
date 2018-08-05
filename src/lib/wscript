@@ -137,6 +137,7 @@ sources = """
           string_text_file.cc
           string_text_file_content.cc
           string_text_file_decoder.cc
+          text_ring_buffers.cc
           timer.cc
           transcode_job.cc
           types.cc

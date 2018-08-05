@@ -724,15 +724,6 @@ Player::pass ()
 	return done;
 }
 
-list<PlayerText>
-Player::closed_captions_for_frame (DCPTime time) const
-{
-	boost::mutex::scoped_lock _lm (_mutex);
-	return _active_texts[TEXT_CLOSED_CAPTION].get (
-		DCPTimePeriod(time, time + DCPTime::from_frames(1, _film->video_frame_rate()))
-		);
-}
-
 /** @return Open subtitles for the frame at the given time, converted to images */
 optional<PositionImage>
 Player::open_subtitles_for_frame (DCPTime time) const
