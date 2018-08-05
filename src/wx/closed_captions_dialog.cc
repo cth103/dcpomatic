@@ -33,7 +33,8 @@ using boost::weak_ptr;
 using boost::optional;
 
 ClosedCaptionsDialog::ClosedCaptionsDialog (wxWindow* parent)
-	: wxDialog (parent, wxID_ANY, _("Closed captions"), wxDefaultPosition, wxDefaultSize,
+        /* XXX: empirical and probably unhelpful default size here; needs to be related to font metrics */
+	: wxDialog (parent, wxID_ANY, _("Closed captions"), wxDefaultPosition, wxSize(640, (640 / 10) + 64),
 #ifdef DCPOMATIC_OSX
 		/* I can't get wxFRAME_FLOAT_ON_PARENT to work on OS X, and although wxSTAY_ON_TOP keeps
 		   the window above all others (and not just our own) it's better than nothing for now.
