@@ -61,7 +61,7 @@ HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> film, bool ok)
 	if (ok) {
 		buttons->SetAffirmativeButton (new wxButton (this, wxID_OK));
 	} else {
-		buttons->SetAffirmativeButton (new wxButton (this, wxID_OK, _("Make DCP anyway")));
+		buttons->SetAffirmativeButton (new wxButton (this, wxID_OK, _("Make DCP")));
 		buttons->SetNegativeButton (new wxButton (this, wxID_CANCEL, _("Go back")));
 	}
 
