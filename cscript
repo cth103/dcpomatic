@@ -570,20 +570,49 @@ def package_rpm(target, cpu, version, options):
 
     return rpms
 
+def make_appimage(target, nice_name, internal_name, version):
+    nice_filename = nice_name.replace(' ', '_')
+    os.makedirs('build/%s.AppDir/usr/bin' % nice_filename)
+    target.command('cp %s/bin/%s build/%s.AppDir/usr/bin' % (target.directory, internal_name, nice_filename))
+    with open('build/%s.AppDir/AppRun' % nice_filename, 'w') as f:
+        print('#!/bin/bash', file=f)
+        print('export APPDIR="$(dirname "$(readlink -f "$0")")"', file=f)
+        print('export PATH=$APPDIR/usr/bin:$PATH', file=f)
+        print('export XDG_DATA_DIRS="$APPDIR/usr/share/:/usr/share/:$XDG_DATA_DIRS"', file=f)
+        print('"$APPDIR"/usr/bin/%s $@' % internal_name, file=f)
+    target.command('chmod a+rx build/%s.AppDir/AppRun' % nice_filename)
+    with open('build/%s.AppDir/%s.desktop' % (nice_filename, internal_name), 'w') as f:
+        print('[Desktop Entry]', file=f)
+        print('Type=Application', file=f)
+        print('Name=%s' % nice_name, file=f)
+        print('Icon=%s' % internal_name, file=f)
+    target.command('cp graphics/linux/256/%s.png build/%s.AppDir' % (internal_name, nice_filename))
+    target.command('appimagetool-x86_64.AppImage build/%s.AppDir' % nice_filename)
+    target.command('mv %s-x86_64.AppImage build/%s-%s-x86_64.AppImage' % (nice_filename, nice_filename, version))
+    return os.path.abspath('build/%s-%s-x86_64.AppImage' % (nice_filename, version))
+
 def package(target, version, options):
     """version: DCP-o-matic version string"""
     if target.platform == 'windows':
         return package_windows(target)
     elif target.platform == 'linux':
-        if target.bits == 32:
-            cpu = 'i386'
+        if target.detail == 'appimage':
+            out = []
+            out.append(make_appimage(target, 'DCP-o-matic', 'dcpomatic2', version))
+            out.append(make_appimage(target, 'DCP-o-matic Player', 'dcpomatic2_player', version))
+            out.append(make_appimage(target, 'DCP-o-matic KDM Creator', 'dcpomatic2_kdm', version))
+            out.append(make_appimage(target, 'DCP-o-matic Batch Converter', 'dcpomatic2_batch', version))
+            return out
         else:
-            cpu = 'amd64'
+            if target.bits == 32:
+                cpu = 'i386'
+            else:
+                cpu = 'amd64'
 
-        if target.distro == 'debian' or target.distro == 'ubuntu':
-            return package_debian(target, cpu, version, options)
-        elif target.distro == 'centos' or target.distro == 'fedora' or target.distro == 'mageia':
-            return package_rpm(target, cpu, version, options)
+            if target.distro == 'debian' or target.distro == 'ubuntu':
+                return package_debian(target, cpu, version, options)
+            elif target.distro == 'centos' or target.distro == 'fedora' or target.distro == 'mageia':
+                return package_rpm(target, cpu, version, options)
     elif target.platform == 'osx':
         target.command('bash platform/osx/make_dmg.sh %s' % target.directory)
         return [os.path.abspath(x) for x in glob.glob('build/platform/osx/DCP-o-matic*.dmg')]
