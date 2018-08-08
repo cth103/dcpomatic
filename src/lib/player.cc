@@ -594,7 +594,13 @@ Player::pass ()
 	boost::mutex::scoped_lock lm (_mutex);
 
 	if (!_have_valid_pieces) {
-		setup_pieces ();
+		/* This should only happen when we are under the control of the butler.  In this case, _have_valid_pieces
+		   will be false if something in the Player has changed and we are waiting for the butler to notice
+		   and do a seek back to the place we were at before.  During this time we don't want pass() to do anything,
+		   as just after setup_pieces the new decoders will be back to time 0 until the seek has gone through.  Just do nothing
+		   here and assume that the seek will be forthcoming.
+		*/
+		return false;
 	}
 
 	if (_playlist->length() == DCPTime()) {
