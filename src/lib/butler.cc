@@ -225,6 +225,10 @@ Butler::seek_unlocked (DCPTime position, bool accurate)
 		return;
 	}
 
+	_finished = false;
+	_pending_seek_position = position;
+	_pending_seek_accurate = accurate;
+
 	{
 		boost::mutex::scoped_lock lm (_buffers_mutex);
 		_video.clear ();
@@ -232,9 +236,6 @@ Butler::seek_unlocked (DCPTime position, bool accurate)
 		_closed_caption.clear ();
 	}
 
-	_finished = false;
-	_pending_seek_position = position;
-	_pending_seek_accurate = accurate;
 	_summon.notify_all ();
 }
 
@@ -325,16 +326,6 @@ Butler::player_changed ()
 	} else {
 		seek_to = next;
 	}
-
-	{
-		boost::mutex::scoped_lock lm (_buffers_mutex);
-		_video.clear ();
-		_audio.clear ();
-		_closed_caption.clear ();
-	}
-
-	_finished = false;
-	_summon.notify_all ();
 
 	seek_unlocked (seek_to, true);
 	_awaiting = seek_to;
