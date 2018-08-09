@@ -525,9 +525,10 @@ FFmpegDecoder::decode_video_packet ()
 
 		if (i->second != AV_NOPTS_VALUE) {
 			double const pts = i->second * av_q2d (_format_context->streams[_video_stream.get()]->time_base) + _pts_offset.seconds ();
+
 			video->emit (
 				shared_ptr<ImageProxy> (new RawImageProxy (image)),
-				llrint (pts * _ffmpeg_content->active_video_frame_rate ())
+				llrint(pts * _ffmpeg_content->active_video_frame_rate())
 				);
 		} else {
 			LOG_WARNING_NC ("Dropping frame without PTS");
