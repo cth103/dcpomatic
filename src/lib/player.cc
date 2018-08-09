@@ -793,12 +793,17 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		DCPTime fill_from = max (*_last_video_time, piece->content->position());
 		LastVideoMap::const_iterator last = _last_video.find (wp);
 		if (_film->three_d()) {
+			Eyes fill_to_eyes = video.eyes;
+			if (fill_to == piece->content->end()) {
+				/* Don't fill after the end of the content */
+				fill_to_eyes = EYES_LEFT;
+			}
 			DCPTime j = fill_from;
 			Eyes eyes = _last_video_eyes.get_value_or(EYES_LEFT);
 			if (eyes == EYES_BOTH) {
 				eyes = EYES_LEFT;
 			}
-			while (j < fill_to || eyes != video.eyes) {
+			while (j < fill_to || eyes != fill_to_eyes) {
 				if (last != _last_video.end()) {
 					shared_ptr<PlayerVideo> copy = last->second->shallow_copy();
 					copy->set_eyes (eyes);
