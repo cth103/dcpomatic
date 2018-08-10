@@ -83,9 +83,6 @@ int const PlayerProperty::PLAYLIST = 701;
 int const PlayerProperty::FILM_CONTAINER = 702;
 int const PlayerProperty::FILM_VIDEO_FRAME_RATE = 703;
 int const PlayerProperty::DCP_DECODE_REDUCTION = 704;
-int const PlayerProperty::IGNORE_COMPONENTS = 705;
-int const PlayerProperty::FAST = 706;
-int const PlayerProperty::PLAY_REFERENCED = 707;
 
 Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist)
 	: _film (film)
@@ -468,37 +465,25 @@ Player::get_subtitle_fonts ()
 void
 Player::set_ignore_video ()
 {
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_ignore_video = true;
-		_have_valid_pieces = false;
-	}
-
-	Changed (PlayerProperty::IGNORE_COMPONENTS, false);
+	boost::mutex::scoped_lock lm (_mutex);
+	_ignore_video = true;
+	setup_pieces ();
 }
 
 void
 Player::set_ignore_audio ()
 {
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_ignore_audio = true;
-		_have_valid_pieces = false;
-	}
-
-	Changed (PlayerProperty::IGNORE_COMPONENTS, false);
+	boost::mutex::scoped_lock lm (_mutex);
+	_ignore_audio = true;
+	setup_pieces ();
 }
 
 void
 Player::set_ignore_text ()
 {
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_ignore_text = true;
-		_have_valid_pieces = false;
-	}
-
-	Changed (PlayerProperty::IGNORE_COMPONENTS, false);
+	boost::mutex::scoped_lock lm (_mutex);
+	_ignore_text = true;
+	setup_pieces ();
 }
 
 /** Set the player to always burn open texts into the image regardless of the content settings */
@@ -513,25 +498,17 @@ Player::set_always_burn_open_subtitles ()
 void
 Player::set_fast ()
 {
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_fast = true;
-		_have_valid_pieces = false;
-	}
-
-	Changed (PlayerProperty::FAST, false);
+	boost::mutex::scoped_lock lm (_mutex);
+	_fast = true;
+	setup_pieces ();
 }
 
 void
 Player::set_play_referenced ()
 {
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_play_referenced = true;
-		_have_valid_pieces = false;
-	}
-
-	Changed (PlayerProperty::PLAY_REFERENCED, false);
+	boost::mutex::scoped_lock lm (_mutex);
+	_play_referenced = true;
+	setup_pieces ();
 }
 
 list<ReferencedReelAsset>
