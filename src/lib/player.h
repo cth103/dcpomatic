@@ -56,6 +56,9 @@ public:
 	static int const FILM_CONTAINER;
 	static int const FILM_VIDEO_FRAME_RATE;
 	static int const DCP_DECODE_REDUCTION;
+	static int const IGNORE;
+	static int const FAST;
+	static int const PLAY_REFERENCED;
 };
 
 /** @class Player
