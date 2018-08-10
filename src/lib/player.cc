@@ -83,7 +83,7 @@ int const PlayerProperty::PLAYLIST = 701;
 int const PlayerProperty::FILM_CONTAINER = 702;
 int const PlayerProperty::FILM_VIDEO_FRAME_RATE = 703;
 int const PlayerProperty::DCP_DECODE_REDUCTION = 704;
-int const PlayerProperty::IGNORE = 705;
+int const PlayerProperty::IGNORE_COMPONENTS = 705;
 int const PlayerProperty::FAST = 706;
 int const PlayerProperty::PLAY_REFERENCED = 707;
 
@@ -474,7 +474,7 @@ Player::set_ignore_video ()
 		_have_valid_pieces = false;
 	}
 
-	Changed (PlayerProperty::IGNORE, false);
+	Changed (PlayerProperty::IGNORE_COMPONENTS, false);
 }
 
 void
@@ -486,7 +486,7 @@ Player::set_ignore_audio ()
 		_have_valid_pieces = false;
 	}
 
-	Changed (PlayerProperty::IGNORE, false);
+	Changed (PlayerProperty::IGNORE_COMPONENTS, false);
 }
 
 void
@@ -498,7 +498,7 @@ Player::set_ignore_text ()
 		_have_valid_pieces = false;
 	}
 
-	Changed (PlayerProperty::IGNORE, false);
+	Changed (PlayerProperty::IGNORE_COMPONENTS, false);
 }
 
 /** Set the player to always burn open texts into the image regardless of the content settings */
