@@ -56,7 +56,7 @@ private:
 	void text (PlayerText pt, TextType type, DCPTimePeriod period);
 	bool should_run () const;
 	void prepare (boost::weak_ptr<PlayerVideo> video) const;
-	void player_changed ();
+	void player_changed (bool frequent);
 	void seek_unlocked (DCPTime position, bool accurate);
 
 	boost::shared_ptr<Player> _player;
