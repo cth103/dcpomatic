@@ -754,7 +754,7 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 void
 Timeline::force_redraw (dcpomatic::Rect<int> const & r)
 {
-	RefreshRect (wxRect (r.x, r.y, r.width, r.height), false);
+	_main_canvas->RefreshRect (wxRect (r.x, r.y, r.width, r.height), false);
 }
 
 shared_ptr<const Film>
