@@ -249,6 +249,8 @@ Timeline::film_content_changed (int property, bool frequent)
 
 	if (property == AudioContentProperty::STREAMS) {
 		recreate_views ();
+	} else if (property == ContentProperty::POSITION || property == ContentProperty::LENGTH) {
+		_reels_view->force_redraw ();
 	} else if (!frequent) {
 		setup_scrollbars ();
 		Refresh ();
