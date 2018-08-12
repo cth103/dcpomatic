@@ -82,7 +82,6 @@ StateTimer::~StateTimer ()
 		return;
 	}
 
-
 	set_state (N_(""));
 
 	cout << _name << N_(":\n");
