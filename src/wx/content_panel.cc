@@ -277,8 +277,8 @@ ContentPanel::selection_changed ()
 		}
 	}
 
-	if (go_to && Config::instance()->jump_to_selected ()) {
-		_film_viewer->set_position (go_to.get().ceil(_film->video_frame_rate()));
+	if (go_to && Config::instance()->jump_to_selected() && signal_manager) {
+		signal_manager->when_idle(boost::bind(&FilmViewer::set_position, _film_viewer, go_to.get().ceil(_film->video_frame_rate())));
 	}
 
 	if (_timeline_dialog) {
