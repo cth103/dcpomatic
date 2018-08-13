@@ -132,7 +132,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 				/* We can't have 0 as a menu item ID on OS X */
 				int id = 1;
 				BOOST_FOREACH (shared_ptr<dcp::CPL> i, cpls) {
-					wxMenuItem* item = _cpl_menu->AppendCheckItem (
+					wxMenuItem* item = _cpl_menu->AppendRadioItem (
 						id++,
 						wxString::Format (
 							"%s (%s)",
