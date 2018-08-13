@@ -86,7 +86,9 @@ public:
 	void set_play_referenced ();
 	void set_dcp_decode_reduction (boost::optional<int> reduction);
 
-	DCPTime content_time_to_dcp (boost::shared_ptr<Content> content, ContentTime t);
+	boost::optional<DCPTime> content_time_to_dcp (boost::shared_ptr<Content> content, ContentTime t);
+
+	boost::signals2::signal<void ()> MayChange;
 
 	/** Emitted when something has changed such that if we went back and emitted
 	 *  the last frame again it would look different.  This is not emitted after
@@ -96,6 +98,7 @@ public:
 	 *  The second parameter is true if these signals are currently likely to be frequent.
 	 */
 	boost::signals2::signal<void (int, bool)> Changed;
+	boost::signals2::signal<void ()> NotChanged;
 
 	/** Emitted when a video frame is ready.  These emissions happen in the correct order. */
 	boost::signals2::signal<void (boost::shared_ptr<PlayerVideo>, DCPTime)> Video;
@@ -114,10 +117,13 @@ private:
 	friend struct player_subframe_test;
 
 	void setup_pieces ();
+	void setup_pieces_unlocked ();
 	void flush ();
 	void film_changed (Film::Property);
 	void playlist_changed ();
+	void playlist_content_may_change ();
 	void playlist_content_changed (boost::weak_ptr<Content>, int, bool);
+	void playlist_content_not_changed ();
 	std::list<PositionImage> transform_bitmap_texts (std::list<BitmapText>) const;
 	Frame dcp_to_content_video (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	DCPTime content_video_to_dcp (boost::shared_ptr<const Piece> piece, Frame f) const;
@@ -150,8 +156,8 @@ private:
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;
 
-	/** Our pieces are ready to go; if this is false the pieces must be (re-)created before they are used */
-	bool _have_valid_pieces;
+	/** We can pass() and seek() */
+	bool _can_run;
 	std::list<boost::shared_ptr<Piece> > _pieces;
 
 	/** Size of the image in the DCP (e.g. 1990x1080 for flat) */
@@ -207,7 +213,9 @@ private:
 
 	boost::signals2::scoped_connection _film_changed_connection;
 	boost::signals2::scoped_connection _playlist_changed_connection;
+	boost::signals2::scoped_connection _playlist_content_may_change_connection;
 	boost::signals2::scoped_connection _playlist_content_changed_connection;
+	boost::signals2::scoped_connection _playlist_content_not_changed_connection;
 };
 
 #endif

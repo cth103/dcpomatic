@@ -251,6 +251,9 @@ FFmpegContent::as_xml (xmlpp::Node* node, bool with_paths) const
 void
 FFmpegContent::examine (shared_ptr<Job> job)
 {
+	ContentChange cc1 (this, FFmpegContentProperty::SUBTITLE_STREAMS);
+	ContentChange cc2 (this, FFmpegContentProperty::SUBTITLE_STREAM);
+
 	job->set_progress_unknown ();
 
 	Content::examine (job);
@@ -313,9 +316,6 @@ FFmpegContent::examine (shared_ptr<Job> job)
 	if (examiner->has_video ()) {
 		set_default_colour_conversion ();
 	}
-
-	signal_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
-	signal_changed (FFmpegContentProperty::SUBTITLE_STREAM);
 }
 
 string
@@ -369,12 +369,12 @@ FFmpegContent::technical_summary () const
 void
 FFmpegContent::set_subtitle_stream (shared_ptr<FFmpegSubtitleStream> s)
 {
+	ContentChange cc (this, FFmpegContentProperty::SUBTITLE_STREAM);
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_subtitle_stream = s;
 	}
-
-	signal_changed (FFmpegContentProperty::SUBTITLE_STREAM);
 }
 
 bool
@@ -410,12 +410,12 @@ FFmpegContent::full_length () const
 void
 FFmpegContent::set_filters (vector<Filter const *> const & filters)
 {
+	ContentChange cc (this, FFmpegContentProperty::FILTERS);
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_filters = filters;
 	}
-
-	signal_changed (FFmpegContentProperty::FILTERS);
 }
 
 string
@@ -629,7 +629,8 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 void
 FFmpegContent::signal_subtitle_stream_changed ()
 {
-	signal_changed (FFmpegContentProperty::SUBTITLE_STREAM);
+	/* XXX: this is too late; really it should be before the change */
+	ContentChange cc (this, FFmpegContentProperty::SUBTITLE_STREAM);
 }
 
 vector<shared_ptr<FFmpegAudioStream> >

@@ -767,7 +767,10 @@ FilmViewer::set_position (DCPTime p)
 void
 FilmViewer::set_position (shared_ptr<Content> content, ContentTime t)
 {
-	set_position (_player->content_time_to_dcp (content, t));
+	optional<DCPTime> dt = _player->content_time_to_dcp (content, t);
+	if (dt) {
+		set_position (*dt);
+	}
 }
 
 void

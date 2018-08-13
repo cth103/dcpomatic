@@ -65,6 +65,18 @@ Playlist::~Playlist ()
 }
 
 void
+Playlist::content_may_change ()
+{
+	ContentMayChange ();
+}
+
+void
+Playlist::content_not_changed ()
+{
+	ContentNotChanged ();
+}
+
+void
 Playlist::content_changed (weak_ptr<Content> content, int property, bool frequent)
 {
 	if (
@@ -350,7 +362,9 @@ Playlist::reconnect ()
 	_content_connections.clear ();
 
 	BOOST_FOREACH (shared_ptr<Content> i, _content) {
-		_content_connections.push_back (i->Changed.connect (bind (&Playlist::content_changed, this, _1, _2, _3)));
+		_content_connections.push_back (i->MayChange.connect(boost::bind(&Playlist::content_may_change, this)));
+		_content_connections.push_back (i->Changed.connect(boost::bind(&Playlist::content_changed, this, _1, _2, _3)));
+		_content_connections.push_back (i->NotChanged.connect(boost::bind(&Playlist::content_not_changed, this)));
 	}
 }
 

@@ -182,7 +182,7 @@ void
 Content::signal_changed (int p)
 {
 	try {
-		emit (boost::bind (boost::ref (Changed), shared_from_this (), p, _change_signals_frequent));
+		emit (boost::bind (boost::ref(Changed), shared_from_this(), p, _change_signals_frequent));
 	} catch (boost::bad_weak_ptr) {
 		/* This must be during construction; never mind */
 	}
@@ -201,16 +201,17 @@ Content::set_position (DCPTime p)
 		audio->modify_position (p);
 	}
 
+	ContentChange cc (this, ContentProperty::POSITION);
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		if (p == _position) {
+			cc.abort ();
 			return;
 		}
 
 		_position = p;
 	}
-
-	signal_changed (ContentProperty::POSITION);
 }
 
 void
@@ -226,23 +227,23 @@ Content::set_trim_start (ContentTime t)
 		audio->modify_trim_start (t);
 	}
 
+	ContentChange cc (this, ContentProperty::TRIM_START);
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_trim_start = t;
 	}
-
-	signal_changed (ContentProperty::TRIM_START);
 }
 
 void
 Content::set_trim_end (ContentTime t)
 {
+	ContentChange cc (this, ContentProperty::TRIM_END);
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_trim_end = t;
 	}
-
-	signal_changed (ContentProperty::TRIM_END);
 }
 
 
@@ -305,16 +306,16 @@ Content::paths_valid () const
 void
 Content::set_path (boost::filesystem::path path)
 {
+	ContentChange cc (this, ContentProperty::PATH);
 	_paths.clear ();
 	_paths.push_back (path);
-	signal_changed (ContentProperty::PATH);
 }
 
 void
 Content::set_paths (vector<boost::filesystem::path> paths)
 {
+	ContentChange cc (this, ContentProperty::PATH);
 	_paths = paths;
-	signal_changed (ContentProperty::PATH);
 }
 
 string
@@ -364,12 +365,12 @@ Content::reel_split_points () const
 void
 Content::set_video_frame_rate (double r)
 {
+	ContentChange cc (this, ContentProperty::VIDEO_FRAME_RATE);
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_video_frame_rate = r;
 	}
-
-	signal_changed (ContentProperty::VIDEO_FRAME_RATE);
 
 	/* Make sure things are still on frame boundaries */
 	if (video) {
@@ -381,12 +382,12 @@ Content::set_video_frame_rate (double r)
 void
 Content::unset_video_frame_rate ()
 {
+	ContentChange cc (this, ContentProperty::VIDEO_FRAME_RATE);
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_video_frame_rate = optional<double>();
 	}
-
-	signal_changed (ContentProperty::VIDEO_FRAME_RATE);
 }
 
 double

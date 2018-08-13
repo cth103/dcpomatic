@@ -64,7 +64,8 @@ Butler::Butler (shared_ptr<Player> player, shared_ptr<Log> log, AudioMapping aud
 	_player_video_connection = _player->Video.connect (bind (&Butler::video, this, _1, _2));
 	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1, _2));
 	_player_text_connection = _player->Text.connect (bind (&Butler::text, this, _1, _2, _3));
-	_player_changed_connection = _player->Changed.connect (bind (&Butler::player_changed, this, _2));
+	_player_changed_connection = _player->Changed.connect (bind (&Butler::return_seek, this, _2));
+	_player_not_changed_connection = _player->NotChanged.connect (bind (&Butler::return_seek, this, false));
 	_thread = new boost::thread (bind (&Butler::thread, this));
 #ifdef DCPOMATIC_LINUX
 	pthread_setname_np (_thread->native_handle(), "butler");
@@ -309,7 +310,7 @@ Butler::memory_used () const
 }
 
 void
-Butler::player_changed (bool frequent)
+Butler::return_seek (bool frequent)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	if (_died || _pending_seek_position || frequent) {

@@ -426,7 +426,8 @@ TextContent::connect_to_fonts ()
 void
 TextContent::font_changed ()
 {
-	_parent->signal_changed (TextContentProperty::FONTS);
+	/* XXX: too late */
+	ContentChange cc (_parent, TextContentProperty::FONTS);
 }
 
 void

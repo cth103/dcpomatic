@@ -87,7 +87,7 @@ int const PlayerProperty::DCP_DECODE_REDUCTION = 704;
 Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist)
 	: _film (film)
 	, _playlist (playlist)
-	, _have_valid_pieces (false)
+	, _can_run (false)
 	, _ignore_video (false)
 	, _ignore_audio (false)
 	, _ignore_text (false)
@@ -99,11 +99,14 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 {
 	_film_changed_connection = _film->Changed.connect (bind (&Player::film_changed, this, _1));
 	_playlist_changed_connection = _playlist->Changed.connect (bind (&Player::playlist_changed, this));
-	_playlist_content_changed_connection = _playlist->ContentChanged.connect (bind (&Player::playlist_content_changed, this, _1, _2, _3));
+	_playlist_content_may_change_connection = _playlist->ContentMayChange.connect (bind(&Player::playlist_content_may_change, this));
+	_playlist_content_changed_connection = _playlist->ContentChanged.connect (bind(&Player::playlist_content_changed, this, _1, _2, _3));
+	_playlist_content_not_changed_connection = _playlist->ContentNotChanged.connect (bind(&Player::playlist_content_not_changed, this));
 	set_video_container_size (_film->frame_size ());
 
 	film_changed (Film::AUDIO_PROCESSOR);
 
+	setup_pieces ();
 	seek (DCPTime (), true);
 }
 
@@ -114,6 +117,13 @@ Player::~Player ()
 
 void
 Player::setup_pieces ()
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	setup_pieces_unlocked ();
+}
+
+void
+Player::setup_pieces_unlocked ()
 {
 	_pieces.clear ();
 
@@ -210,16 +220,37 @@ Player::setup_pieces ()
 	_last_video_time = DCPTime ();
 	_last_video_eyes = EYES_BOTH;
 	_last_audio_time = DCPTime ();
-	_have_valid_pieces = true;
+	_can_run = true;
+}
+
+void
+Player::playlist_content_may_change ()
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		/* The player content is probably about to change, so we can't carry on
+		   until that has happened and we've rebuilt our pieces.  Stop pass()
+		   and seek() from working until then.
+		*/
+		_can_run = false;
+	}
+
+	MayChange ();
 }
 
 void
 Player::playlist_content_changed (weak_ptr<Content> w, int property, bool frequent)
 {
+	/* A change in our content has gone through.  Re-build our pieces and signal
+	   it to anybody that is interested.
+	*/
+
 	shared_ptr<Content> c = w.lock ();
 	if (!c) {
 		return;
 	}
+
+	setup_pieces ();
 
 	if (
 		property == ContentProperty::POSITION ||
@@ -232,21 +263,12 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == AudioContentProperty::STREAMS ||
 		property == DCPContentProperty::NEEDS_ASSETS ||
 		property == DCPContentProperty::NEEDS_KDM ||
+		property == DCPContentProperty::CPL ||
 		property == TextContentProperty::COLOUR ||
 		property == TextContentProperty::EFFECT ||
 		property == TextContentProperty::EFFECT_COLOUR ||
 		property == FFmpegContentProperty::SUBTITLE_STREAM ||
-		property == FFmpegContentProperty::FILTERS
-		) {
-
-		{
-			boost::mutex::scoped_lock lm (_mutex);
-			_have_valid_pieces = false;
-		}
-
-		Changed (property, frequent);
-
-	} else if (
+		property == FFmpegContentProperty::FILTERS ||
 		property == TextContentProperty::LINE_SPACING ||
 		property == TextContentProperty::OUTLINE_WIDTH ||
 		property == TextContentProperty::Y_SCALE ||
@@ -267,6 +289,14 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 
 		Changed (property, frequent);
 	}
+}
+
+void
+Player::playlist_content_not_changed ()
+{
+	/* A possible content change did end up happening for some reason */
+	setup_pieces ();
+	NotChanged ();
 }
 
 void
@@ -291,11 +321,7 @@ Player::set_video_container_size (dcp::Size s)
 void
 Player::playlist_changed ()
 {
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_have_valid_pieces = false;
-	}
-
+	setup_pieces ();
 	Changed (PlayerProperty::PLAYLIST, false);
 }
 
@@ -313,10 +339,7 @@ Player::film_changed (Film::Property p)
 		/* Pieces contain a FrameRateChange which contains the DCP frame rate,
 		   so we need new pieces here.
 		*/
-		{
-			boost::mutex::scoped_lock lm (_mutex);
-			_have_valid_pieces = false;
-		}
+		setup_pieces ();
 		Changed (PlayerProperty::FILM_VIDEO_FRAME_RATE, false);
 	} else if (p == Film::AUDIO_PROCESSOR) {
 		if (_film->audio_processor ()) {
@@ -441,11 +464,7 @@ Player::content_time_to_dcp (shared_ptr<const Piece> piece, ContentTime t) const
 list<shared_ptr<Font> >
 Player::get_subtitle_fonts ()
 {
-	/* Does not require a lock on _mutex as it's only called from DCPEncoder */
-
-	if (!_have_valid_pieces) {
-		setup_pieces ();
-	}
+	boost::mutex::scoped_lock lm (_mutex);
 
 	list<shared_ptr<Font> > fonts;
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
@@ -467,7 +486,7 @@ Player::set_ignore_video ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	_ignore_video = true;
-	setup_pieces ();
+	setup_pieces_unlocked ();
 }
 
 void
@@ -475,7 +494,7 @@ Player::set_ignore_audio ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	_ignore_audio = true;
-	setup_pieces ();
+	setup_pieces_unlocked ();
 }
 
 void
@@ -483,7 +502,7 @@ Player::set_ignore_text ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	_ignore_text = true;
-	setup_pieces ();
+	setup_pieces_unlocked ();
 }
 
 /** Set the player to always burn open texts into the image regardless of the content settings */
@@ -500,7 +519,7 @@ Player::set_fast ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	_fast = true;
-	setup_pieces ();
+	setup_pieces_unlocked ();
 }
 
 void
@@ -508,7 +527,7 @@ Player::set_play_referenced ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	_play_referenced = true;
-	setup_pieces ();
+	setup_pieces_unlocked ();
 }
 
 list<ReferencedReelAsset>
@@ -594,13 +613,8 @@ Player::pass ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	if (!_have_valid_pieces) {
-		/* This should only happen when we are under the control of the butler.  In this case, _have_valid_pieces
-		   will be false if something in the Player has changed and we are waiting for the butler to notice
-		   and do a seek back to the place we were at before.  During this time we don't want pass() to do anything,
-		   as just after setup_pieces the new decoders will be back to time 0 until the seek has gone through.  Just do nothing
-		   here and assume that the seek will be forthcoming.
-		*/
+	if (!_can_run) {
+		/* We can't pass in this state */
 		return false;
 	}
 
@@ -1025,8 +1039,9 @@ Player::seek (DCPTime time, bool accurate)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	if (!_have_valid_pieces) {
-		setup_pieces ();
+	if (!_can_run) {
+		/* We can't seek in this state */
+		return;
 	}
 
 	if (_shuffler) {
@@ -1181,20 +1196,16 @@ Player::set_dcp_decode_reduction (optional<int> reduction)
 		}
 
 		_dcp_decode_reduction = reduction;
-		_have_valid_pieces = false;
+		setup_pieces_unlocked ();
 	}
 
 	Changed (PlayerProperty::DCP_DECODE_REDUCTION, false);
 }
 
-DCPTime
+optional<DCPTime>
 Player::content_time_to_dcp (shared_ptr<Content> content, ContentTime t)
 {
 	boost::mutex::scoped_lock lm (_mutex);
-
-	if (_have_valid_pieces) {
-		setup_pieces ();
-	}
 
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
 		if (i->content == content) {
@@ -1202,6 +1213,6 @@ Player::content_time_to_dcp (shared_ptr<Content> content, ContentTime t)
 		}
 	}
 
-	DCPOMATIC_ASSERT (false);
-	return DCPTime ();
+	/* We couldn't find this content; perhaps things are being changed over */
+	return optional<DCPTime>();
 }

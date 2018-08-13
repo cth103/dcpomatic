@@ -146,6 +146,8 @@ AudioContent::technical_summary () const
 void
 AudioContent::set_mapping (AudioMapping mapping)
 {
+	ContentChange cc (_parent, AudioContentProperty::STREAMS);
+
 	int c = 0;
 	BOOST_FOREACH (AudioStreamPtr i, streams ()) {
 		AudioMapping stream_mapping (i->channels (), MAX_DCP_AUDIO_CHANNELS);
@@ -157,8 +159,6 @@ AudioContent::set_mapping (AudioMapping mapping)
 		}
 		i->set_mapping (stream_mapping);
 	}
-
-	_parent->signal_changed (AudioContentProperty::STREAMS);
 }
 
 AudioMapping
@@ -341,12 +341,12 @@ AudioContent::add_properties (list<UserProperty>& p) const
 void
 AudioContent::set_streams (vector<AudioStreamPtr> streams)
 {
+	ContentChange cc (_parent, AudioContentProperty::STREAMS);
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_streams = streams;
 	}
-
-	_parent->signal_changed (AudioContentProperty::STREAMS);
 }
 
 AudioStreamPtr
@@ -360,24 +360,24 @@ AudioContent::stream () const
 void
 AudioContent::add_stream (AudioStreamPtr stream)
 {
+	ContentChange cc (_parent, AudioContentProperty::STREAMS);
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_streams.push_back (stream);
 	}
-
-	_parent->signal_changed (AudioContentProperty::STREAMS);
 }
 
 void
 AudioContent::set_stream (AudioStreamPtr stream)
 {
+	ContentChange cc (_parent, AudioContentProperty::STREAMS);
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_streams.clear ();
 		_streams.push_back (stream);
 	}
-
-	_parent->signal_changed (AudioContentProperty::STREAMS);
 }
 
 void

@@ -39,6 +39,7 @@ public:
 	static int const REFERENCE_TEXT;
 	static int const NAME;
 	static int const TEXTS;
+	static int const CPL;
 };
 
 class ContentPart;

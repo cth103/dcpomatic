@@ -178,7 +178,14 @@ public:
 
 	std::list<UserProperty> user_properties () const;
 
+	/* May be emitted from any thread */
+	boost::signals2::signal<void ()> MayChange;
+
+	/* Emitted from the GUI thread */
 	boost::signals2::signal<void (boost::weak_ptr<Content>, int, bool)> Changed;
+
+	/* May be emitted from any thread */
+	boost::signals2::signal<void ()> NotChanged;
 
 	boost::shared_ptr<VideoContent> video;
 	boost::shared_ptr<AudioContent> audio;
@@ -186,8 +193,6 @@ public:
 
 	boost::shared_ptr<TextContent> only_text () const;
 	boost::shared_ptr<TextContent> text_of_original_type (TextType type) const;
-
-	void signal_changed (int);
 
 protected:
 
@@ -208,6 +213,9 @@ private:
 	friend struct best_dcp_frame_rate_test_single;
 	friend struct best_dcp_frame_rate_test_double;
 	friend struct audio_sampling_rate_test;
+	friend class ContentChange;
+
+	void signal_changed (int);
 
 	std::string _digest;
 	DCPTime _position;

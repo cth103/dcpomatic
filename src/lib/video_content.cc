@@ -234,6 +234,10 @@ VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
 	optional<double> const ar = d->sample_aspect_ratio ();
 	bool const yuv = d->yuv ();
 
+	ContentChange cc1 (_parent, VideoContentProperty::SIZE);
+	ContentChange cc2 (_parent, VideoContentProperty::SCALE);
+	ContentChange cc3 (_parent, ContentProperty::LENGTH);
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_size = vs;
@@ -256,10 +260,6 @@ VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
 	if (d->video_frame_rate()) {
 		_parent->set_video_frame_rate (d->video_frame_rate().get());
 	}
-
-	_parent->signal_changed (VideoContentProperty::SIZE);
-	_parent->signal_changed (VideoContentProperty::SCALE);
-	_parent->signal_changed (ContentProperty::LENGTH);
 }
 
 /** @return string which includes everything about how this content looks */

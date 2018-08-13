@@ -61,6 +61,7 @@ int const DCPContentProperty::REFERENCE_AUDIO    = 603;
 int const DCPContentProperty::REFERENCE_TEXT     = 604;
 int const DCPContentProperty::NAME               = 605;
 int const DCPContentProperty::TEXTS              = 606;
+int const DCPContentProperty::CPL                = 607;
 
 DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film)
@@ -158,6 +159,12 @@ DCPContent::examine (shared_ptr<Job> job)
 	string const old_name = name ();
 	int const old_texts = text.size ();
 
+	ContentChange cc_texts (this, DCPContentProperty::TEXTS);
+	ContentChange cc_assets (this, DCPContentProperty::NEEDS_ASSETS);
+	ContentChange cc_kdm (this, DCPContentProperty::NEEDS_KDM);
+	ContentChange cc_name (this, DCPContentProperty::NAME);
+	ContentChange cc_streams (this, AudioContentProperty::STREAMS);
+
 	if (job) {
 		job->set_progress_unknown ();
 	}
@@ -175,6 +182,7 @@ DCPContent::examine (shared_ptr<Job> job)
 	}
 
 	if (examiner->has_audio()) {
+		ContentChange cc (this, AudioContentProperty::STREAMS);
 		{
 			boost::mutex::scoped_lock lm (_mutex);
 			audio.reset (new AudioContent (this));
@@ -184,7 +192,6 @@ DCPContent::examine (shared_ptr<Job> job)
 		AudioMapping m = as->mapping ();
 		film()->make_audio_mapping_default (m);
 		as->set_mapping (m);
-		signal_changed (AudioContentProperty::STREAMS);
 	}
 
 	int texts = 0;
@@ -206,23 +213,21 @@ DCPContent::examine (shared_ptr<Job> job)
 		_reel_lengths = examiner->reel_lengths ();
 	}
 
-	if (old_texts != texts) {
-		signal_changed (DCPContentProperty::TEXTS);
+	if (old_texts == texts) {
+		cc_texts.abort ();
 	}
 
-	if (needed_assets != needs_assets ()) {
-		signal_changed (DCPContentProperty::NEEDS_ASSETS);
+	if (needed_assets == needs_assets()) {
+		cc_assets.abort ();
 	}
 
-	if (needed_kdm != needs_kdm ()) {
-		signal_changed (DCPContentProperty::NEEDS_KDM);
+	if (needed_kdm == needs_kdm()) {
+		cc_kdm.abort ();
 	}
 
-	if (old_name != name ()) {
-		signal_changed (DCPContentProperty::NAME);
+	if (old_name == name()) {
+		cc_name.abort ();
 	}
-
-	signal_changed (AudioContentProperty::STREAMS);
 
 	if (video) {
 		video->set_frame_type (_three_d ? VIDEO_FRAME_TYPE_3D : VIDEO_FRAME_TYPE_2D);
@@ -396,34 +401,34 @@ DCPContent::set_default_colour_conversion ()
 void
 DCPContent::set_reference_video (bool r)
 {
+	ContentChange cc (this, DCPContentProperty::REFERENCE_VIDEO);
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_reference_video = r;
 	}
-
-	signal_changed (DCPContentProperty::REFERENCE_VIDEO);
 }
 
 void
 DCPContent::set_reference_audio (bool r)
 {
+	ContentChange cc (this, DCPContentProperty::REFERENCE_AUDIO);
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_reference_audio = r;
 	}
-
-	signal_changed (DCPContentProperty::REFERENCE_AUDIO);
 }
 
 void
 DCPContent::set_reference_text (TextType type, bool r)
 {
+	ContentChange cc (this, DCPContentProperty::REFERENCE_TEXT);
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_reference_text[type] = r;
 	}
-
-	signal_changed (DCPContentProperty::REFERENCE_TEXT);
 }
 
 list<DCPTimePeriod>
@@ -644,6 +649,10 @@ DCPContent::take_settings_from (shared_ptr<const Content> c)
 void
 DCPContent::set_cpl (string id)
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	_cpl = id;
+	ContentChange cc (this, DCPContentProperty::CPL);
+
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_cpl = id;
+	}
 }

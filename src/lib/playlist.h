@@ -77,14 +77,19 @@ public:
 	/** Emitted when content has been added to or removed from the playlist; implies OrderChanged */
 	mutable boost::signals2::signal<void ()> Changed;
 	mutable boost::signals2::signal<void ()> OrderChanged;
+
+	mutable boost::signals2::signal<void ()> ContentMayChange;
 	/** Emitted when something about a piece of our content has changed;
 	 *  these emissions include when the position of the content changes.
 	 *  Third parameter is true if signals are currently being emitted frequently.
 	 */
 	mutable boost::signals2::signal<void (boost::weak_ptr<Content>, int, bool)> ContentChanged;
+	mutable boost::signals2::signal<void ()> ContentNotChanged;
 
 private:
+	void content_may_change ();
 	void content_changed (boost::weak_ptr<Content>, int, bool);
+	void content_not_changed ();
 	void reconnect ();
 
 	/** List of content.  Kept sorted in position order. */
