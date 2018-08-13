@@ -228,10 +228,11 @@ public:
 		DCPExaminer ex (dcp);
 		int id = ID_view_cpl;
 		BOOST_FOREACH (shared_ptr<dcp::CPL> i, ex.cpls()) {
-			wxMenuItem* j = _cpl_menu->AppendRadioItem(id, i->id());
-			if (!dcp->cpl() || i->id() == *dcp->cpl()) {
-				j->Check(true);
-			}
+			wxMenuItem* j = _cpl_menu->AppendRadioItem(
+				id,
+				wxString::Format("%s (%s)", std_to_wx(i->annotation_text()).data(), std_to_wx(i->id()).data())
+				);
+			j->Check(!dcp->cpl() || i->id() == *dcp->cpl());
 			++id;
 		}
 	}
