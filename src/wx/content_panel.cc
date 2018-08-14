@@ -62,13 +62,19 @@ using boost::optional;
 #define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
 ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmViewer* viewer)
-	: _timeline_dialog (0)
+	: _video_panel (0)
+	, _audio_panel (0)
+	, _timeline_dialog (0)
 	, _parent (n)
 	, _last_selected_tab (0)
 	, _film (film)
 	, _film_viewer (viewer)
 	, _generally_sensitive (true)
 {
+	for (int i = 0; i < TEXT_COUNT; ++i) {
+		_text_panel[i] = 0;
+	}
+
 	_panel = new wxPanel (n);
 	_sizer = new wxBoxSizer (wxVERTICAL);
 	_panel->SetSizer (_sizer);
@@ -123,16 +129,7 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmVie
 	_notebook = new wxNotebook (_panel, wxID_ANY);
 	_sizer->Add (_notebook, 1, wxEXPAND | wxTOP, 6);
 
-	_video_panel = new VideoPanel (this);
-	_panels.push_back (_video_panel);
-	_audio_panel = new AudioPanel (this);
-	_panels.push_back (_audio_panel);
-	for (int i = 0; i < TEXT_COUNT; ++i) {
-		_text_panel[i] = new TextPanel (this, static_cast<TextType>(i));
-		_panels.push_back (_text_panel[i]);
-	}
 	_timing_panel = new TimingPanel (this, _film_viewer);
-	_panels.push_back (_timing_panel);
 	_notebook->AddPage (_timing_panel, _("Timing"), false);
 
 	_content->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind (&ContentPanel::selection_changed, this));
@@ -159,8 +156,9 @@ ContentPanel::selected ()
 			break;
 		}
 
-		if (s < int (_film->content().size ())) {
-			sel.push_back (_film->content()[s]);
+		ContentList cl = _film->content();
+		if (s < int (cl.size())) {
+			sel.push_back (cl[s]);
 		}
 	}
 
@@ -236,7 +234,7 @@ ContentPanel::film_changed (Film::Property p)
 		break;
 	}
 
-	BOOST_FOREACH (ContentSubPanel* i, _panels) {
+	BOOST_FOREACH (ContentSubPanel* i, panels()) {
 		i->film_changed (p);
 	}
 }
@@ -255,7 +253,7 @@ ContentPanel::selection_changed ()
 
 	setup_sensitivity ();
 
-	BOOST_FOREACH (ContentSubPanel* i, _panels) {
+	BOOST_FOREACH (ContentSubPanel* i, panels()) {
 		i->content_selection_changed ();
 	}
 
@@ -312,44 +310,27 @@ ContentPanel::selection_changed ()
 		}
 	}
 
-	bool video_panel = false;
-	bool audio_panel = false;
-	bool text_panel[TEXT_COUNT] = { false, false };
-	for (size_t i = 0; i < _notebook->GetPageCount(); ++i) {
-		if (_notebook->GetPage(i) == _video_panel) {
-			video_panel = true;
-		} else if (_notebook->GetPage(i) == _audio_panel) {
-			audio_panel = true;
-		}
-		for (int j = 0; j < TEXT_COUNT; ++j) {
-			if (_notebook->GetPage(i) == _text_panel[j]) {
-				text_panel[j] = true;
-			}
-		}
-	}
-
 	int off = 0;
 
-	if (have_video != video_panel) {
-		if (video_panel) {
-			_notebook->RemovePage (off);
-		}
-		if (have_video) {
-			_notebook->InsertPage (off, _video_panel, _video_panel->name());
-		}
+	if (have_video && !_video_panel) {
+		_video_panel = new VideoPanel (this);
+		_notebook->InsertPage (off, _video_panel, _video_panel->name());
+	} else if (!have_video && _video_panel) {
+		_notebook->DeletePage (off);
+		_video_panel = 0;
 	}
 
 	if (have_video) {
 		++off;
 	}
 
-	if (have_audio != audio_panel) {
-		if (audio_panel) {
-			_notebook->RemovePage (off);
-		}
-		if (have_audio) {
-			_notebook->InsertPage (off, _audio_panel, _audio_panel->name());
-		}
+	if (have_audio && !_audio_panel) {
+		_audio_panel = new AudioPanel (this);
+		_audio_panel->set_film (_film);
+		_notebook->InsertPage (off, _audio_panel, _audio_panel->name());
+	} else if (!have_audio && _audio_panel) {
+		_notebook->DeletePage (off);
+		_audio_panel = 0;
 	}
 
 	if (have_audio) {
@@ -357,13 +338,12 @@ ContentPanel::selection_changed ()
 	}
 
 	for (int i = 0; i < TEXT_COUNT; ++i) {
-		if (have_text[i] != text_panel[i]) {
-			if (text_panel[i]) {
-				_notebook->RemovePage (off);
-			}
-			if (have_text[i]) {
-				_notebook->InsertPage (off, _text_panel[i], _text_panel[i]->name());
-			}
+		if (have_text[i] && !_text_panel[i]) {
+			_text_panel[i] = new TextPanel (this, static_cast<TextType>(i));
+			_notebook->InsertPage (off, _text_panel[i], _text_panel[i]->name());
+		} else if (!have_text[i] && _text_panel[i]) {
+			_notebook->DeletePage (off);
+			_text_panel[i] = 0;
 		}
 		if (have_text[i]) {
 			++off;
@@ -384,6 +364,7 @@ ContentPanel::selection_changed ()
 		_notebook->SetSelection (0);
 	}
 
+	setup_sensitivity ();
 	SelectionChanged ();
 }
 
@@ -550,10 +531,16 @@ ContentPanel::setup_sensitivity ()
 	_later->Enable    (_generally_sensitive && selection.size() == 1);
 	_timeline->Enable (_generally_sensitive && _film && !_film->content().empty());
 
-	_video_panel->Enable	(_generally_sensitive && video_selection.size() > 0);
-	_audio_panel->Enable	(_generally_sensitive && audio_selection.size() > 0);
+	if (_video_panel) {
+		_video_panel->Enable (_generally_sensitive && video_selection.size() > 0);
+	}
+	if (_audio_panel) {
+		_audio_panel->Enable (_generally_sensitive && audio_selection.size() > 0);
+	}
 	for (int i = 0; i < TEXT_COUNT; ++i) {
-		_text_panel[i]->Enable  (_generally_sensitive && selection.size() == 1 && !selection.front()->text.empty());
+		if (_text_panel[i]) {
+			_text_panel[i]->Enable (_generally_sensitive && selection.size() == 1 && !selection.front()->text.empty());
+		}
 	}
 	_timing_panel->Enable	(_generally_sensitive);
 }
@@ -561,7 +548,9 @@ ContentPanel::setup_sensitivity ()
 void
 ContentPanel::set_film (shared_ptr<Film> film)
 {
-	_audio_panel->set_film (film);
+	if (_audio_panel) {
+		_audio_panel->set_film (film);
+	}
 
 	_film = film;
 
@@ -637,7 +626,7 @@ ContentPanel::film_content_changed (int property)
 		setup ();
 	}
 
-	BOOST_FOREACH (ContentSubPanel* i, _panels) {
+	BOOST_FOREACH (ContentSubPanel* i, panels()) {
 		i->film_content_changed (property);
 	}
 }
@@ -746,4 +735,23 @@ ContentPanel::add_files (list<boost::filesystem::path> paths)
 	} catch (exception& e) {
 		error_dialog (_parent, e.what());
 	}
+}
+
+list<ContentSubPanel*>
+ContentPanel::panels () const
+{
+	list<ContentSubPanel*> p;
+	if (_video_panel) {
+		p.push_back (_video_panel);
+	}
+	if (_audio_panel) {
+		p.push_back (_audio_panel);
+	}
+	for (int i = 0; i < TEXT_COUNT; ++i) {
+		if (_text_panel[i]) {
+			p.push_back (_text_panel[i]);
+		}
+	}
+	p.push_back (_timing_panel);
+	return p;
 }

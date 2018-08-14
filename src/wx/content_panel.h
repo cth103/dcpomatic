@@ -33,7 +33,9 @@ class TimelineDialog;
 class FilmEditor;
 class ContentSubPanel;
 class TextPanel;
+class VideoPanel;
 class AudioPanel;
+class TimingPanel;
 class Film;
 class FilmViewer;
 
@@ -91,6 +93,7 @@ private:
 	void setup_sensitivity ();
 
 	void add_files (std::list<boost::filesystem::path>);
+	std::list<ContentSubPanel *> panels () const;
 
 	wxPanel* _panel;
 	wxSizer* _sizer;
@@ -103,11 +106,10 @@ private:
 	wxButton* _earlier;
 	wxButton* _later;
 	wxButton* _timeline;
-	ContentSubPanel* _video_panel;
+	VideoPanel* _video_panel;
 	AudioPanel* _audio_panel;
 	TextPanel* _text_panel[TEXT_COUNT];
-	ContentSubPanel* _timing_panel;
-	std::list<ContentSubPanel *> _panels;
+	TimingPanel* _timing_panel;
 	ContentMenu* _menu;
 	TimelineDialog* _timeline_dialog;
 	wxNotebook* _parent;
