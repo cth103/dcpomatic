@@ -137,9 +137,13 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	with_help_from.Add (wxT ("Julian van Mil"));
 	add_section (_("With help from"), with_help_from);
 
+	wxArrayString subscribers;
+	#include "subscribers.cc"
+	add_section (_("Subscribers"), subscribers);
+
 	wxArrayString supported_by;
 	#include "supporters.cc"
-	add_section (_("Supported by"), supported_by);
+	add_section (_("Also supported by"), supported_by);
 
 	wxArrayString tested_by;
 	tested_by.Add (wxT ("Manuel AC"));
