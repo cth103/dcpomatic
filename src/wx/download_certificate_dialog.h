@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -39,7 +39,6 @@ private:
 
 	wxNotebook* _notebook;
 	std::vector<DownloadCertificatePanel*> _pages;
-	std::vector<bool> _setup;
 	wxButton* _download;
 	wxStaticText* _message;
 };

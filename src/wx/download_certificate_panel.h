@@ -32,8 +32,6 @@ class DownloadCertificatePanel : public wxPanel
 public:
 	DownloadCertificatePanel (wxWindow* parent, DownloadCertificateDialog* dialog);
 
-	/* Do any setup that may take a noticeable amount of time */
-	virtual void setup () {}
 	virtual bool ready_to_download () const = 0;
 	virtual void do_download (wxStaticText* message) = 0;
 	virtual wxString name () const = 0;

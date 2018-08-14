@@ -33,7 +33,6 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 	sizer->Add (_notebook, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	_pages.push_back (new DolbyDoremiCertificatePanel (_notebook, this));
-	_setup.push_back (false);
 
 	BOOST_FOREACH (DownloadCertificatePanel* i, _pages) {
 		_notebook->AddPage (i, i->name(), true);
@@ -92,17 +91,10 @@ DownloadCertificateDialog::setup_sensitivity ()
 	if (ok) {
 		ok->Enable (static_cast<bool>(p->certificate ()));
 	}
-
 }
 
 void
 DownloadCertificateDialog::page_changed (wxNotebookEvent &)
 {
-	int const n = _notebook->GetSelection();
-	if (!_setup[n]) {
-		_pages[n]->setup ();
-		_setup[n] = true;
-	}
-
 	setup_sensitivity ();
 }
