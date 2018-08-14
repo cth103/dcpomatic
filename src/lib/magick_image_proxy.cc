@@ -39,6 +39,7 @@ using boost::optional;
 using boost::dynamic_pointer_cast;
 
 MagickImageProxy::MagickImageProxy (boost::filesystem::path path)
+	: _path (path)
 {
 	/* Read the file into a Blob */
 
@@ -101,7 +102,11 @@ MagickImageProxy::image (optional<dcp::NoteHandler>, optional<dcp::Size>) const
 		/* If we failed both an auto-detect and a forced-Targa we give the error from
 		   the auto-detect.
 		*/
-		throw DecodeError (String::compose (_("Could not decode image file (%1)"), error));
+		if (_path) {
+			throw DecodeError (String::compose (_("Could not decode image file %1 (%2)"), _path->string(), error));
+		} else {
+			throw DecodeError (String::compose (_("Could not decode image file (%1)"), error));
+		}
 	}
 
 	unsigned char const * data = static_cast<unsigned char const *>(_blob.data());

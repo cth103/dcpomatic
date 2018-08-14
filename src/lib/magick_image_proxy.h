@@ -42,6 +42,10 @@ public:
 
 private:
 	Magick::Blob _blob;
+	/** Path of a file that this image came from, if applicable; stored so that
+	    failed-decode errors can give more detail.
+	*/
+	boost::optional<boost::filesystem::path> _path;
 	mutable boost::shared_ptr<Image> _image;
 	mutable boost::mutex _mutex;
 };
