@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,7 @@
 
 #include "wx_util.h"
 #include "download_certificate_panel.h"
+#include "lib/signal_manager.h"
 #include <dcp/util.h>
 #include <dcp/exceptions.h>
 #include <boost/bind.hpp>
@@ -61,4 +62,15 @@ optional<dcp::Certificate>
 DownloadCertificatePanel::certificate () const
 {
 	return _certificate;
+}
+
+void
+DownloadCertificatePanel::download (wxStaticText* message)
+{
+	message->SetLabel (_("Downloading certificate"));
+
+	/* Hack: without this the SetLabel() above has no visible effect */
+	wxMilliSleep (200);
+
+	signal_manager->when_idle (boost::bind (&DownloadCertificatePanel::do_download, this, message));
 }

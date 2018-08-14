@@ -34,7 +34,10 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 
 	_pages.push_back (new DolbyDoremiCertificatePanel (_notebook, this));
 	_setup.push_back (false);
-	_notebook->AddPage (_pages.back(), _("Dolby / Doremi"), true);
+
+	BOOST_FOREACH (DownloadCertificatePanel* i, _pages) {
+		_notebook->AddPage (i, i->name(), true);
+	}
 
 	_download = new wxButton (this, wxID_ANY, _("Download"));
 	sizer->Add (_download, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);

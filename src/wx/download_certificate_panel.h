@@ -35,8 +35,10 @@ public:
 	/* Do any setup that may take a noticeable amount of time */
 	virtual void setup () {}
 	virtual bool ready_to_download () const = 0;
-	virtual void download (wxStaticText* message) = 0;
+	virtual void do_download (wxStaticText* message) = 0;
+	virtual wxString name () const = 0;
 
+	void download (wxStaticText* message);
 	void load (boost::filesystem::path);
 	boost::optional<dcp::Certificate> certificate () const;
 
