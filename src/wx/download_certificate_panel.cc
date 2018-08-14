@@ -20,6 +20,7 @@
 
 #include "wx_util.h"
 #include "download_certificate_panel.h"
+#include "download_certificate_dialog.h"
 #include "lib/signal_manager.h"
 #include <dcp/util.h>
 #include <dcp/exceptions.h>
@@ -28,9 +29,10 @@
 using boost::function;
 using boost::optional;
 
-DownloadCertificatePanel::DownloadCertificatePanel (wxWindow* parent, DownloadCertificateDialog* dialog)
+DownloadCertificatePanel::DownloadCertificatePanel (wxWindow* parent, wxStaticText* message, DownloadCertificateDialog* dialog)
 	: wxPanel (parent, wxID_ANY)
 	, _dialog (dialog)
+	, _message (message)
 {
 	_overall_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (_overall_sizer);
@@ -39,11 +41,13 @@ DownloadCertificatePanel::DownloadCertificatePanel (wxWindow* parent, DownloadCe
 	_table->AddGrowableCol (1, 1);
 
 	_overall_sizer->Add (_table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
-}
 
-void
-DownloadCertificatePanel::layout ()
-{
+	add_label_to_sizer (_table, this, _("Serial number"), true);
+	_serial = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxSize (300, -1));
+	_table->Add (_serial, 1, wxEXPAND);
+
+	_serial->Bind (wxEVT_TEXT, boost::bind (&DownloadCertificateDialog::setup_sensitivity, _dialog));
+
 	_overall_sizer->Layout ();
 	_overall_sizer->SetSizeHints (this);
 }
@@ -65,12 +69,18 @@ DownloadCertificatePanel::certificate () const
 }
 
 void
-DownloadCertificatePanel::download (wxStaticText* message)
+DownloadCertificatePanel::download ()
 {
-	message->SetLabel (_("Downloading certificate"));
+	_message->SetLabel (_("Downloading certificate"));
 
 	/* Hack: without this the SetLabel() above has no visible effect */
 	wxMilliSleep (200);
 
-	signal_manager->when_idle (boost::bind (&DownloadCertificatePanel::do_download, this, message));
+	signal_manager->when_idle (boost::bind (&DownloadCertificatePanel::do_download, this, wx_to_std(_serial->GetValue())));
+}
+
+bool
+DownloadCertificatePanel::ready_to_download () const
+{
+	return !_serial->IsEmpty ();
 }

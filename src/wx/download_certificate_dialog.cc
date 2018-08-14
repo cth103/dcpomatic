@@ -32,12 +32,6 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 	_notebook = new wxNotebook (this, wxID_ANY);
 	sizer->Add (_notebook, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	_pages.push_back (new DolbyDoremiCertificatePanel (_notebook, this));
-
-	BOOST_FOREACH (DownloadCertificatePanel* i, _pages) {
-		_notebook->AddPage (i, i->name(), true);
-	}
-
 	_download = new wxButton (this, wxID_ANY, _("Download"));
 	sizer->Add (_download, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 
@@ -47,6 +41,12 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 	font.SetStyle (wxFONTSTYLE_ITALIC);
 	font.SetPointSize (font.GetPointSize() - 1);
 	_message->SetFont (font);
+
+	_pages.push_back (new DolbyDoremiCertificatePanel (_notebook, _message, this));
+
+	BOOST_FOREACH (DownloadCertificatePanel* i, _pages) {
+		_notebook->AddPage (i, i->name(), true);
+	}
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
 	if (buttons) {
@@ -71,7 +71,7 @@ DownloadCertificateDialog::~DownloadCertificateDialog ()
 void
 DownloadCertificateDialog::download ()
 {
-	_pages[_notebook->GetSelection()]->download (_message);
+	_pages[_notebook->GetSelection()]->download ();
 }
 
 dcp::Certificate

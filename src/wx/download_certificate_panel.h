@@ -30,25 +30,25 @@ class DownloadCertificateDialog;
 class DownloadCertificatePanel : public wxPanel
 {
 public:
-	DownloadCertificatePanel (wxWindow* parent, DownloadCertificateDialog* dialog);
+	DownloadCertificatePanel (wxWindow* parent, wxStaticText* message, DownloadCertificateDialog* dialog);
 
-	virtual bool ready_to_download () const = 0;
-	virtual void do_download (wxStaticText* message) = 0;
+	virtual void do_download (std::string serial) = 0;
 	virtual wxString name () const = 0;
 
-	void download (wxStaticText* message);
+	bool ready_to_download () const;
+	void download ();
 	void load (boost::filesystem::path);
 	boost::optional<dcp::Certificate> certificate () const;
 
 protected:
-	void layout ();
-
 	DownloadCertificateDialog* _dialog;
 	wxFlexGridSizer* _table;
+	wxStaticText* _message;
 
 private:
 	wxSizer* _overall_sizer;
 	boost::optional<dcp::Certificate> _certificate;
+	wxTextCtrl* _serial;
 };
 
 #endif
