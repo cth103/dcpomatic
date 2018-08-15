@@ -158,6 +158,8 @@ Config::set_defaults ()
 	}
 	_barco_username = optional<string>();
 	_barco_password = optional<string>();
+	_christie_username = optional<string>();
+	_christie_password = optional<string>();
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -467,6 +469,8 @@ try
 
 	_barco_username = f.optional_string_child("BarcoUsername");
 	_barco_password = f.optional_string_child("BarcoPassword");
+	_christie_username = f.optional_string_child("ChristieUsername");
+	_christie_password = f.optional_string_child("ChristiePassword");
 
 	/* Replace any cinemas from config.xml with those from the configured file */
 	if (boost::filesystem::exists (_cinemas_file)) {
@@ -816,6 +820,13 @@ Config::write_config () const
 	}
 	if (_barco_password) {
 		root->add_child("BarcoPassword")->add_child_text(*_barco_password);
+	}
+
+	if (_christie_username) {
+		root->add_child("ChristieUsername")->add_child_text(*_christie_username);
+	}
+	if (_christie_password) {
+		root->add_child("ChristiePassword")->add_child_text(*_christie_password);
 	}
 
 	try {

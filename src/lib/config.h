@@ -431,6 +431,14 @@ public:
 		return _barco_password;
 	}
 
+	boost::optional<std::string> christie_username () const {
+		return _christie_username;
+	}
+
+	boost::optional<std::string> christie_password () const {
+		return _christie_password;
+	}
+
 	/* SET (mostly) */
 
 	void set_master_encoding_threads (int n) {
@@ -793,6 +801,22 @@ public:
 		maybe_set (_barco_password, boost::optional<std::string>());
 	}
 
+	void set_christie_username (std::string u) {
+		maybe_set (_christie_username, u);
+	}
+
+	void unset_christie_username () {
+		maybe_set (_christie_username, boost::optional<std::string>());
+	}
+
+	void set_christie_password (std::string p) {
+		maybe_set (_christie_password, p);
+	}
+
+	void unset_christie_password () {
+		maybe_set (_christie_password, boost::optional<std::string>());
+	}
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -970,6 +994,8 @@ private:
 	bool _notification[NOTIFICATION_COUNT];
 	boost::optional<std::string> _barco_username;
 	boost::optional<std::string> _barco_password;
+	boost::optional<std::string> _christie_username;
+	boost::optional<std::string> _christie_password;
 
 	static int const _current_version;
 

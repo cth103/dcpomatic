@@ -36,6 +36,7 @@ sources = """
           subtitle_appearance_dialog.cc
           text_panel.cc
           text_view.cc
+          christie_certificate_panel.cc
           cinema_dialog.cc
           colour_conversion_editor.cc
           config_dialog.cc

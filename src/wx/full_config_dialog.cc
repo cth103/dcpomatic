@@ -943,8 +943,18 @@ public:
 		_barco_password = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_barco_password, 1, wxEXPAND | wxALL);
 
+		add_label_to_sizer (table, _panel, _("certificates.christiedigital.com username"), true);
+		_christie_username = new wxTextCtrl (_panel, wxID_ANY);
+		table->Add (_christie_username, 1, wxEXPAND | wxALL);
+
+		add_label_to_sizer (table, _panel, _("certificates.christiedigital.com password"), true);
+		_christie_password = new wxTextCtrl (_panel, wxID_ANY);
+		table->Add (_christie_password, 1, wxEXPAND | wxALL);
+
 		_barco_username->Bind (wxEVT_TEXT, boost::bind(&AccountsPage::barco_username_changed, this));
 		_barco_password->Bind (wxEVT_TEXT, boost::bind(&AccountsPage::barco_password_changed, this));
+		_christie_username->Bind (wxEVT_TEXT, boost::bind(&AccountsPage::christie_username_changed, this));
+		_christie_password->Bind (wxEVT_TEXT, boost::bind(&AccountsPage::christie_password_changed, this));
 	}
 
 	void config_changed ()
@@ -953,6 +963,8 @@ public:
 
 		checked_set (_barco_username, config->barco_username().get_value_or(""));
 		checked_set (_barco_password, config->barco_password().get_value_or(""));
+		checked_set (_christie_username, config->christie_username().get_value_or(""));
+		checked_set (_christie_password, config->christie_password().get_value_or(""));
 	}
 
 	void barco_username_changed ()
@@ -975,9 +987,31 @@ public:
 		}
 	}
 
+	void christie_username_changed ()
+	{
+		wxString const s = _christie_username->GetValue();
+		if (!s.IsEmpty()) {
+			Config::instance()->set_christie_username (wx_to_std(s));
+		} else {
+			Config::instance()->unset_christie_username ();
+		}
+	}
+
+	void christie_password_changed ()
+	{
+		wxString const s = _christie_password->GetValue();
+		if (!s.IsEmpty()) {
+			Config::instance()->set_christie_password (wx_to_std(s));
+		} else {
+			Config::instance()->unset_christie_password ();
+		}
+	}
+
 private:
 	wxTextCtrl* _barco_username;
 	wxTextCtrl* _barco_password;
+	wxTextCtrl* _christie_username;
+	wxTextCtrl* _christie_password;
 };
 
 

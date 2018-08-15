@@ -20,6 +20,7 @@
 
 #include "dolby_doremi_certificate_panel.h"
 #include "barco_alchemy_certificate_panel.h"
+#include "christie_certificate_panel.h"
 #include "download_certificate_dialog.h"
 #include "wx_util.h"
 
@@ -45,6 +46,7 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 
 	_pages.push_back (new DolbyDoremiCertificatePanel (this));
 	_pages.push_back (new BarcoAlchemyCertificatePanel (this));
+	_pages.push_back (new ChristieCertificatePanel (this));
 
 	BOOST_FOREACH (DownloadCertificatePanel* i, _pages) {
 		_notebook->AddPage (i, i->name(), true);
