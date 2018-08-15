@@ -439,6 +439,14 @@ public:
 		return _christie_password;
 	}
 
+	boost::optional<std::string> gdc_username () const {
+		return _gdc_username;
+	}
+
+	boost::optional<std::string> gdc_password () const {
+		return _gdc_password;
+	}
+
 	/* SET (mostly) */
 
 	void set_master_encoding_threads (int n) {
@@ -817,6 +825,22 @@ public:
 		maybe_set (_christie_password, boost::optional<std::string>());
 	}
 
+	void set_gdc_username (std::string u) {
+		maybe_set (_gdc_username, u);
+	}
+
+	void unset_gdc_username () {
+		maybe_set (_gdc_username, boost::optional<std::string>());
+	}
+
+	void set_gdc_password (std::string p) {
+		maybe_set (_gdc_password, p);
+	}
+
+	void unset_gdc_password () {
+		maybe_set (_gdc_password, boost::optional<std::string>());
+	}
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -996,6 +1020,8 @@ private:
 	boost::optional<std::string> _barco_password;
 	boost::optional<std::string> _christie_username;
 	boost::optional<std::string> _christie_password;
+	boost::optional<std::string> _gdc_username;
+	boost::optional<std::string> _gdc_password;
 
 	static int const _current_version;
 

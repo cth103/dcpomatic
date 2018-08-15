@@ -160,6 +160,8 @@ Config::set_defaults ()
 	_barco_password = optional<string>();
 	_christie_username = optional<string>();
 	_christie_password = optional<string>();
+	_gdc_username = optional<string>();
+	_gdc_password = optional<string>();
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -471,6 +473,8 @@ try
 	_barco_password = f.optional_string_child("BarcoPassword");
 	_christie_username = f.optional_string_child("ChristieUsername");
 	_christie_password = f.optional_string_child("ChristiePassword");
+	_gdc_username = f.optional_string_child("GDCUsername");
+	_gdc_password = f.optional_string_child("GDCPassword");
 
 	/* Replace any cinemas from config.xml with those from the configured file */
 	if (boost::filesystem::exists (_cinemas_file)) {
@@ -827,6 +831,13 @@ Config::write_config () const
 	}
 	if (_christie_password) {
 		root->add_child("ChristiePassword")->add_child_text(*_christie_password);
+	}
+
+	if (_gdc_username) {
+		root->add_child("GDCUsername")->add_child_text(*_gdc_username);
+	}
+	if (_gdc_password) {
+		root->add_child("GDCPassword")->add_child_text(*_gdc_password);
 	}
 
 	try {

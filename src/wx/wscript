@@ -68,6 +68,7 @@ sources = """
           font_files_dialog.cc
           full_config_dialog.cc
           gain_calculator_dialog.cc
+          gdc_certificate_panel.cc
           hints_dialog.cc
           job_view.cc
           job_view_dialog.cc
