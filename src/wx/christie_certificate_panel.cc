@@ -44,13 +44,16 @@ ChristieCertificatePanel::do_download ()
 		return;
 	}
 
-	string const serial = wx_to_std (_serial->GetValue());
-	string const url = String::compose (
-		"ftp://%1:%2@certificates.christiedigital.com/Certificates/F-IMB/F-IMB_000000%3_sha256.pem",
+	string const prefix = String::compose(
+		"ftp://%1:%2@certificates.christiedigital.com/Certificates/",
 		Config::instance()->christie_username().get(),
-		Config::instance()->christie_password().get(),
-		serial
+		Config::instance()->christie_password().get()
 		);
+
+	string serial = wx_to_std (_serial->GetValue());
+	serial.insert (0, 12 - serial.length(), '0');
+
+	string const url = String::compose ("%1F-IMB/F-IMB_%2_sha256.pem", prefix, serial);
 
 	optional<string> all_errors;
 
@@ -58,12 +61,7 @@ ChristieCertificatePanel::do_download ()
 	if (error) {
 		all_errors = *error;
 
-		string const url = String::compose (
-			"ftp://%1:%2@certificates.christiedigital.com/Certificates/F-IMB/F-IMB_000000%3_sha256.pem",
-			Config::instance()->christie_username().get(),
-			Config::instance()->christie_password().get(),
-			serial
-			);
+		string const url = String::compose ("%1IMB-S2/IMB-S2_%2_sha256.pem", prefix, serial);
 
 		error = get_from_url (url, true, boost::bind (&DownloadCertificatePanel::load, this, _1));
 		if (error) {
