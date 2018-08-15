@@ -48,7 +48,7 @@ GDCCertificatePanel::do_download ()
 		"ftp://%1:%2@ftp.gdc-tech.com/SHA256/A%3",
 		Config::instance()->gdc_username().get(),
 		Config::instance()->gdc_password().get(),
-		serial
+		wx_to_std(_serial->GetValue())
 		);
 
 	optional<string> error = get_from_url (url, true, boost::bind (&DownloadCertificatePanel::load, this, _1));
