@@ -45,7 +45,7 @@ GDCCertificatePanel::do_download ()
 	}
 
 	string const url = String::compose(
-		"ftp://%1:%2@ftp.gdc-tech.com/SHA256/A%3",
+		"ftp://%1:%2@ftp.gdc-tech.com/SHA256/A%3.crt.pem",
 		Config::instance()->gdc_username().get(),
 		Config::instance()->gdc_password().get(),
 		wx_to_std(_serial->GetValue())
