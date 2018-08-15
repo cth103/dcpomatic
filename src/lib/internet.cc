@@ -38,27 +38,23 @@ using boost::optional;
 using boost::function;
 using boost::algorithm::trim;
 
+
 static size_t
-get_from_zip_url_data (void* buffer, size_t size, size_t nmemb, void* stream)
+get_from_url_data (void* buffer, size_t size, size_t nmemb, void* stream)
 {
 	FILE* f = reinterpret_cast<FILE*> (stream);
 	return fwrite (buffer, size, nmemb, f);
 }
 
-/** @param url URL of ZIP file.
- *  @param file Filename within ZIP file.
- *  @param load Function passed a (temporary) filesystem path of the unpacked file.
- */
+static
 optional<string>
-get_from_zip_url (string url, string file, bool pasv, function<void (boost::filesystem::path)> load)
+get_from_url (string url, bool pasv, ScopedTemporary& temp)
 {
-	/* Download the ZIP file to temp_zip */
 	CURL* curl = curl_easy_init ();
-	curl_easy_setopt (curl, CURLOPT_URL, url.c_str ());
+	curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
 
-	ScopedTemporary temp_zip;
-	FILE* f = temp_zip.open ("wb");
-	curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, get_from_zip_url_data);
+	FILE* f = temp.open ("w");
+	curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, get_from_url_data);
 	curl_easy_setopt (curl, CURLOPT_WRITEDATA, f);
 	curl_easy_setopt (curl, CURLOPT_FTP_USE_EPSV, 0);
 	curl_easy_setopt (curl, CURLOPT_FTP_USE_EPRT, 0);
@@ -71,10 +67,39 @@ get_from_zip_url (string url, string file, bool pasv, function<void (boost::file
 
 	CURLcode const cr = curl_easy_perform (curl);
 
-	temp_zip.close ();
+	temp.close ();
 	curl_easy_cleanup (curl);
 	if (cr != CURLE_OK) {
-		return String::compose (_("Download failed (%1/%2 error %3)"), url, file, (int) cr);
+		return String::compose (_("Download failed (%1 error %2)"), url, (int) cr);
+	}
+
+	return optional<string>();
+}
+
+optional<string>
+get_from_url (string url, bool pasv, function<void (boost::filesystem::path)> load)
+{
+	ScopedTemporary temp;
+	optional<string> e = get_from_url (url, pasv, temp);
+	if (e) {
+		return e;
+	}
+	load (temp.file());
+	return optional<string>();
+}
+
+/** @param url URL of ZIP file.
+ *  @param file Filename within ZIP file.
+ *  @param load Function passed a (temporary) filesystem path of the unpacked file.
+ */
+optional<string>
+get_from_zip_url (string url, string file, bool pasv, function<void (boost::filesystem::path)> load)
+{
+	/* Download the ZIP file to temp_zip */
+	ScopedTemporary temp_zip;
+	optional<string> e = get_from_url (url, pasv, temp_zip);
+	if (e) {
+		return e;
 	}
 
 	/* Open the ZIP file and read `file' out of it */
@@ -110,7 +135,7 @@ get_from_zip_url (string url, string file, bool pasv, function<void (boost::file
 	}
 
 	ScopedTemporary temp_cert;
-	f = temp_cert.open ("wb");
+	FILE* f = temp_cert.open ("wb");
 	char buffer[4096];
 	while (true) {
 		int const N = zip_fread (file_in_zip, buffer, sizeof (buffer));

@@ -1,3 +1,8 @@
+2018-08-15  Carl Hetherington  <cth@carlh.net>
+
+	* Support download of Barco Alchemy, Christie and GDC certificates
+	from their FTP site.
+
 2018-07-20  Carl Hetherington  <cth@carlh.net>
 
 	* Advanced configuration option to allow any container ratio.

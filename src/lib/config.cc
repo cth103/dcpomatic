@@ -156,6 +156,12 @@ Config::set_defaults ()
 	for (int i = 0; i < NOTIFICATION_COUNT; ++i) {
 		_notification[i] = false;
 	}
+	_barco_username = optional<string>();
+	_barco_password = optional<string>();
+	_christie_username = optional<string>();
+	_christie_password = optional<string>();
+	_gdc_username = optional<string>();
+	_gdc_password = optional<string>();
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -462,6 +468,13 @@ try
 			_notification[id] = raw_convert<int>(i->content());
 		}
 	}
+
+	_barco_username = f.optional_string_child("BarcoUsername");
+	_barco_password = f.optional_string_child("BarcoPassword");
+	_christie_username = f.optional_string_child("ChristieUsername");
+	_christie_password = f.optional_string_child("ChristiePassword");
+	_gdc_username = f.optional_string_child("GDCUsername");
+	_gdc_password = f.optional_string_child("GDCPassword");
 
 	/* Replace any cinemas from config.xml with those from the configured file */
 	if (boost::filesystem::exists (_cinemas_file)) {
@@ -804,6 +817,27 @@ Config::write_config () const
 		xmlpp::Element* e = root->add_child ("Notification");
 		e->set_attribute ("Id", raw_convert<string>(i));
 		e->add_child_text (_notification[i] ? "1" : "0");
+	}
+
+	if (_barco_username) {
+		root->add_child("BarcoUsername")->add_child_text(*_barco_username);
+	}
+	if (_barco_password) {
+		root->add_child("BarcoPassword")->add_child_text(*_barco_password);
+	}
+
+	if (_christie_username) {
+		root->add_child("ChristieUsername")->add_child_text(*_christie_username);
+	}
+	if (_christie_password) {
+		root->add_child("ChristiePassword")->add_child_text(*_christie_password);
+	}
+
+	if (_gdc_username) {
+		root->add_child("GDCUsername")->add_child_text(*_gdc_username);
+	}
+	if (_gdc_password) {
+		root->add_child("GDCPassword")->add_child_text(*_gdc_password);
 	}
 
 	try {

@@ -19,6 +19,9 @@
 */
 
 #include "dolby_doremi_certificate_panel.h"
+#include "barco_alchemy_certificate_panel.h"
+#include "christie_certificate_panel.h"
+#include "gdc_certificate_panel.h"
 #include "download_certificate_dialog.h"
 #include "wx_util.h"
 
@@ -32,10 +35,6 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 	_notebook = new wxNotebook (this, wxID_ANY);
 	sizer->Add (_notebook, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	_pages.push_back (new DolbyDoremiCertificatePanel (_notebook, this));
-	_setup.push_back (false);
-	_notebook->AddPage (_pages.back(), _("Dolby / Doremi"), true);
-
 	_download = new wxButton (this, wxID_ANY, _("Download"));
 	sizer->Add (_download, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 
@@ -45,6 +44,15 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 	font.SetStyle (wxFONTSTYLE_ITALIC);
 	font.SetPointSize (font.GetPointSize() - 1);
 	_message->SetFont (font);
+
+	_pages.push_back (new DolbyDoremiCertificatePanel (this));
+	_pages.push_back (new BarcoAlchemyCertificatePanel (this));
+	_pages.push_back (new ChristieCertificatePanel (this));
+	_pages.push_back (new GDCCertificatePanel (this));
+
+	BOOST_FOREACH (DownloadCertificatePanel* i, _pages) {
+		_notebook->AddPage (i, i->name(), true);
+	}
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
 	if (buttons) {
@@ -57,8 +65,9 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 	_download->Bind (wxEVT_BUTTON, boost::bind (&DownloadCertificateDialog::download, this));
 	_download->Enable (false);
 
-	wxNotebookEvent ev;
-	page_changed (ev);
+	_notebook->SetSelection (0);
+
+	setup_sensitivity ();
 }
 
 DownloadCertificateDialog::~DownloadCertificateDialog ()
@@ -69,7 +78,7 @@ DownloadCertificateDialog::~DownloadCertificateDialog ()
 void
 DownloadCertificateDialog::download ()
 {
-	_pages[_notebook->GetSelection()]->download (_message);
+	_pages[_notebook->GetSelection()]->download ();
 }
 
 dcp::Certificate
@@ -89,17 +98,10 @@ DownloadCertificateDialog::setup_sensitivity ()
 	if (ok) {
 		ok->Enable (static_cast<bool>(p->certificate ()));
 	}
-
 }
 
 void
 DownloadCertificateDialog::page_changed (wxNotebookEvent &)
 {
-	int const n = _notebook->GetSelection();
-	if (!_setup[n]) {
-		_pages[n]->setup ();
-		_setup[n] = true;
-	}
-
 	setup_sensitivity ();
 }

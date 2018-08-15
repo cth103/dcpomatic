@@ -38,27 +38,10 @@ using boost::function;
 using boost::optional;
 using dcp::raw_convert;
 
-DolbyDoremiCertificatePanel::DolbyDoremiCertificatePanel (wxWindow* parent, DownloadCertificateDialog* dialog)
-	: DownloadCertificatePanel (parent, dialog)
+DolbyDoremiCertificatePanel::DolbyDoremiCertificatePanel (DownloadCertificateDialog* dialog)
+	: DownloadCertificatePanel (dialog)
 {
-	add_label_to_sizer (_table, this, _("Serial number"), true);
-	_serial = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxSize (300, -1));
-	_table->Add (_serial, 1, wxEXPAND);
 
-	_serial->Bind (wxEVT_TEXT, boost::bind (&DownloadCertificateDialog::setup_sensitivity, _dialog));
-
-	layout ();
-}
-
-void
-DolbyDoremiCertificatePanel::download (wxStaticText* message)
-{
-	message->SetLabel (_("Downloading certificate"));
-
-	/* Hack: without this the SetLabel() above has no visible effect */
-	wxMilliSleep (200);
-
-	signal_manager->when_idle (boost::bind (&DolbyDoremiCertificatePanel::finish_download, this, wx_to_std (_serial->GetValue ()), message));
 }
 
 static void
@@ -156,8 +139,10 @@ try_cp850 (list<string>& urls, list<string>& files, string prefix, string serial
 }
 
 void
-DolbyDoremiCertificatePanel::finish_download (string serial, wxStaticText* message)
+DolbyDoremiCertificatePanel::do_download ()
 {
+	string const serial = wx_to_std (_serial->GetValue());
+
 	/* Try dcp2000, imb and ims prefixes (see mantis #375) */
 
 	string const prefix = "ftp://anonymous@ftp.cinema.dolby.com/Certificates/";
@@ -201,10 +186,10 @@ DolbyDoremiCertificatePanel::finish_download (string serial, wxStaticText* messa
 	}
 
 	if (ok) {
-		message->SetLabel (_("Certificate downloaded"));
+		_dialog->message()->SetLabel (_("Certificate downloaded"));
 		_dialog->setup_sensitivity ();
 	} else {
-		message->SetLabel (wxT (""));
+		_dialog->message()->SetLabel (wxT (""));
 
 		string s;
 		BOOST_FOREACH (string e, errors) {
@@ -215,8 +200,8 @@ DolbyDoremiCertificatePanel::finish_download (string serial, wxStaticText* messa
 	}
 }
 
-bool
-DolbyDoremiCertificatePanel::ready_to_download () const
+wxString
+DolbyDoremiCertificatePanel::name () const
 {
-	return !_serial->IsEmpty ();
+	return _("Dolby / Doremi");
 }

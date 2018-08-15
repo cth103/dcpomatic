@@ -423,6 +423,30 @@ public:
 		return _notification[n];
 	}
 
+	boost::optional<std::string> barco_username () const {
+		return _barco_username;
+	}
+
+	boost::optional<std::string> barco_password () const {
+		return _barco_password;
+	}
+
+	boost::optional<std::string> christie_username () const {
+		return _christie_username;
+	}
+
+	boost::optional<std::string> christie_password () const {
+		return _christie_password;
+	}
+
+	boost::optional<std::string> gdc_username () const {
+		return _gdc_username;
+	}
+
+	boost::optional<std::string> gdc_password () const {
+		return _gdc_password;
+	}
+
 	/* SET (mostly) */
 
 	void set_master_encoding_threads (int n) {
@@ -769,6 +793,54 @@ public:
 		maybe_set (_notification[n], v);
 	}
 
+	void set_barco_username (std::string u) {
+		maybe_set (_barco_username, u);
+	}
+
+	void unset_barco_username () {
+		maybe_set (_barco_username, boost::optional<std::string>());
+	}
+
+	void set_barco_password (std::string p) {
+		maybe_set (_barco_password, p);
+	}
+
+	void unset_barco_password () {
+		maybe_set (_barco_password, boost::optional<std::string>());
+	}
+
+	void set_christie_username (std::string u) {
+		maybe_set (_christie_username, u);
+	}
+
+	void unset_christie_username () {
+		maybe_set (_christie_username, boost::optional<std::string>());
+	}
+
+	void set_christie_password (std::string p) {
+		maybe_set (_christie_password, p);
+	}
+
+	void unset_christie_password () {
+		maybe_set (_christie_password, boost::optional<std::string>());
+	}
+
+	void set_gdc_username (std::string u) {
+		maybe_set (_gdc_username, u);
+	}
+
+	void unset_gdc_username () {
+		maybe_set (_gdc_username, boost::optional<std::string>());
+	}
+
+	void set_gdc_password (std::string p) {
+		maybe_set (_gdc_password, p);
+	}
+
+	void unset_gdc_password () {
+		maybe_set (_gdc_password, boost::optional<std::string>());
+	}
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -944,6 +1016,12 @@ private:
 	boost::optional<int> _decode_reduction;
 	bool _default_notify;
 	bool _notification[NOTIFICATION_COUNT];
+	boost::optional<std::string> _barco_username;
+	boost::optional<std::string> _barco_password;
+	boost::optional<std::string> _christie_username;
+	boost::optional<std::string> _christie_password;
+	boost::optional<std::string> _gdc_username;
+	boost::optional<std::string> _gdc_password;
 
 	static int const _current_version;
 

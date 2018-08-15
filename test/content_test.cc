@@ -123,5 +123,6 @@ BOOST_AUTO_TEST_CASE (content_test3)
 
 	/* Likewise position */
 
+	std::cout << to_string(content->position()) << " " << to_string(DCPTime::from_seconds(15.0 / 25.0)) << "\n";
 	BOOST_CHECK (content->position() == DCPTime::from_seconds (15.0 / 25.0));
 }

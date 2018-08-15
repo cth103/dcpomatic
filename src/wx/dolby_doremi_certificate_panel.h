@@ -23,13 +23,8 @@
 class DolbyDoremiCertificatePanel : public DownloadCertificatePanel
 {
 public:
-	DolbyDoremiCertificatePanel (wxWindow* parent, DownloadCertificateDialog* dialog);
+	DolbyDoremiCertificatePanel (DownloadCertificateDialog* dialog);
 
-	bool ready_to_download () const;
-	void download (wxStaticText* message);
-
-private:
-	void finish_download (std::string serial, wxStaticText* message);
-
-	wxTextCtrl* _serial;
+	void do_download ();
+	wxString name () const;
 };
