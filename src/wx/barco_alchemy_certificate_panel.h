@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,14 @@
 
 */
 
-#include <boost/optional.hpp>
-#include <boost/function.hpp>
-#include <boost/filesystem.hpp>
+#include "download_certificate_panel.h"
 
-boost::optional<std::string> get_from_url (std::string url, bool pasv, boost::function<void (boost::filesystem::path)> load);
-boost::optional<std::string> get_from_zip_url (std::string url, std::string file, bool pasv, boost::function<void (boost::filesystem::path)> load);
+class BarcoAlchemyCertificatePanel : public DownloadCertificatePanel
+{
+public:
+	BarcoAlchemyCertificatePanel (DownloadCertificateDialog* dialog);
+
+	bool ready_to_download () const;
+	void do_download ();
+	wxString name () const;
+};

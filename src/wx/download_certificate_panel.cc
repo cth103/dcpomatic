@@ -29,10 +29,9 @@
 using boost::function;
 using boost::optional;
 
-DownloadCertificatePanel::DownloadCertificatePanel (wxWindow* parent, wxStaticText* message, DownloadCertificateDialog* dialog)
-	: wxPanel (parent, wxID_ANY)
+DownloadCertificatePanel::DownloadCertificatePanel (DownloadCertificateDialog* dialog)
+	: wxPanel (dialog->notebook(), wxID_ANY)
 	, _dialog (dialog)
-	, _message (message)
 {
 	_overall_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (_overall_sizer);
@@ -71,12 +70,12 @@ DownloadCertificatePanel::certificate () const
 void
 DownloadCertificatePanel::download ()
 {
-	_message->SetLabel (_("Downloading certificate"));
+	_dialog->message()->SetLabel (_("Downloading certificate"));
 
 	/* Hack: without this the SetLabel() above has no visible effect */
 	wxMilliSleep (200);
 
-	signal_manager->when_idle (boost::bind (&DownloadCertificatePanel::do_download, this, wx_to_std(_serial->GetValue())));
+	signal_manager->when_idle (boost::bind (&DownloadCertificatePanel::do_download, this));
 }
 
 bool

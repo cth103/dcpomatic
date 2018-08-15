@@ -19,6 +19,7 @@
 */
 
 #include "dolby_doremi_certificate_panel.h"
+#include "barco_alchemy_certificate_panel.h"
 #include "download_certificate_dialog.h"
 #include "wx_util.h"
 
@@ -42,7 +43,8 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 	font.SetPointSize (font.GetPointSize() - 1);
 	_message->SetFont (font);
 
-	_pages.push_back (new DolbyDoremiCertificatePanel (_notebook, _message, this));
+	_pages.push_back (new DolbyDoremiCertificatePanel (this));
+	_pages.push_back (new BarcoAlchemyCertificatePanel (this));
 
 	BOOST_FOREACH (DownloadCertificatePanel* i, _pages) {
 		_notebook->AddPage (i, i->name(), true);
@@ -59,8 +61,9 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 	_download->Bind (wxEVT_BUTTON, boost::bind (&DownloadCertificateDialog::download, this));
 	_download->Enable (false);
 
-	wxNotebookEvent ev;
-	page_changed (ev);
+	_notebook->SetSelection (0);
+
+	setup_sensitivity ();
 }
 
 DownloadCertificateDialog::~DownloadCertificateDialog ()

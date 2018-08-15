@@ -910,6 +910,77 @@ private:
 	wxButton* _reset_email;
 };
 
+class AccountsPage : public StandardPage
+{
+public:
+	AccountsPage (wxSize panel_size, int border)
+		: StandardPage (panel_size, border)
+	{}
+
+	wxString GetName () const
+	{
+		return _("Accounts");
+	}
+
+#ifdef DCPOMATIC_OSX
+	wxBitmap GetLargeIcon () const
+	{
+		return wxBitmap ("accounts", wxBITMAP_TYPE_PNG_RESOURCE);
+	}
+#endif
+
+	void setup ()
+	{
+		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		table->AddGrowableCol (1, 1);
+		_panel->GetSizer()->Add (table, 1, wxEXPAND | wxALL, _border);
+
+		add_label_to_sizer (table, _panel, _("certificates.barco.com username"), true);
+		_barco_username = new wxTextCtrl (_panel, wxID_ANY);
+		table->Add (_barco_username, 1, wxEXPAND | wxALL);
+
+		add_label_to_sizer (table, _panel, _("certificates.barco.com password"), true);
+		_barco_password = new wxTextCtrl (_panel, wxID_ANY);
+		table->Add (_barco_password, 1, wxEXPAND | wxALL);
+
+		_barco_username->Bind (wxEVT_TEXT, boost::bind(&AccountsPage::barco_username_changed, this));
+		_barco_password->Bind (wxEVT_TEXT, boost::bind(&AccountsPage::barco_password_changed, this));
+	}
+
+	void config_changed ()
+	{
+		Config* config = Config::instance ();
+
+		checked_set (_barco_username, config->barco_username().get_value_or(""));
+		checked_set (_barco_password, config->barco_password().get_value_or(""));
+	}
+
+	void barco_username_changed ()
+	{
+		wxString const s = _barco_username->GetValue();
+		if (!s.IsEmpty()) {
+			Config::instance()->set_barco_username (wx_to_std(s));
+		} else {
+			Config::instance()->unset_barco_username ();
+		}
+	}
+
+	void barco_password_changed ()
+	{
+		wxString const s = _barco_password->GetValue();
+		if (!s.IsEmpty()) {
+			Config::instance()->set_barco_password (wx_to_std(s));
+		} else {
+			Config::instance()->unset_barco_password ();
+		}
+	}
+
+private:
+	wxTextCtrl* _barco_username;
+	wxTextCtrl* _barco_password;
+};
+
+
 class NotificationsPage : public StandardPage
 {
 public:
@@ -1430,6 +1501,7 @@ create_full_config_dialog ()
 	e->AddPage (new TMSPage (ps, border));
 	e->AddPage (new EmailPage (ps, border));
 	e->AddPage (new KDMEmailPage (ps, border));
+	e->AddPage (new AccountsPage (ps, border));
 	e->AddPage (new NotificationsPage (ps, border));
 	e->AddPage (new CoverSheetPage (ps, border));
 	e->AddPage (new AdvancedPage (ps, border));

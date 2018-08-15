@@ -33,6 +33,14 @@ public:
 
 	void setup_sensitivity ();
 
+	wxNotebook* notebook () const {
+		return _notebook;
+	}
+
+	wxStaticText* message () const {
+		return _message;
+	}
+
 private:
 	void download ();
 	void page_changed (wxNotebookEvent &);

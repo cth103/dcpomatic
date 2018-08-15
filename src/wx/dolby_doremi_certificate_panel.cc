@@ -38,8 +38,8 @@ using boost::function;
 using boost::optional;
 using dcp::raw_convert;
 
-DolbyDoremiCertificatePanel::DolbyDoremiCertificatePanel (wxWindow* parent, wxStaticText* message, DownloadCertificateDialog* dialog)
-	: DownloadCertificatePanel (parent, message, dialog)
+DolbyDoremiCertificatePanel::DolbyDoremiCertificatePanel (DownloadCertificateDialog* dialog)
+	: DownloadCertificatePanel (dialog)
 {
 
 }
@@ -139,8 +139,10 @@ try_cp850 (list<string>& urls, list<string>& files, string prefix, string serial
 }
 
 void
-DolbyDoremiCertificatePanel::do_download (string serial)
+DolbyDoremiCertificatePanel::do_download ()
 {
+	string const serial = wx_to_std (_serial->GetValue());
+
 	/* Try dcp2000, imb and ims prefixes (see mantis #375) */
 
 	string const prefix = "ftp://anonymous@ftp.cinema.dolby.com/Certificates/";
@@ -184,10 +186,10 @@ DolbyDoremiCertificatePanel::do_download (string serial)
 	}
 
 	if (ok) {
-		_message->SetLabel (_("Certificate downloaded"));
+		_dialog->message()->SetLabel (_("Certificate downloaded"));
 		_dialog->setup_sensitivity ();
 	} else {
-		_message->SetLabel (wxT (""));
+		_dialog->message()->SetLabel (wxT (""));
 
 		string s;
 		BOOST_FOREACH (string e, errors) {
