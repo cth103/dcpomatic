@@ -519,13 +519,27 @@ Job::cancel ()
 	_thread = 0;
 }
 
-void
+/** @return true if the job was paused, false if it was not running */
+bool
 Job::pause_by_user ()
 {
-	if (running ()) {
-		set_state (PAUSED_BY_USER);
+	bool paused = false;
+	{
+		boost::mutex::scoped_lock lm (_state_mutex);
+		/* We can set _state here directly because we have a lock and we aren't
+		   setting the job to FINISHED_*
+		*/
+		if (_state == RUNNING) {
+			paused = true;
+			_state = PAUSED_BY_USER;
+		}
+	}
+
+	if (paused) {
 		_pause_changed.notify_all ();
 	}
+
+	return paused;
 }
 
 void

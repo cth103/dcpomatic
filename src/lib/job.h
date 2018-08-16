@@ -50,7 +50,7 @@ public:
 	virtual void run () = 0;
 
 	void start ();
-	void pause_by_user ();
+	bool pause_by_user ();
 	void pause_by_priority ();
 	void resume ();
 	void cancel ();

@@ -30,6 +30,7 @@
 #include "lib/util.h"
 #include "lib/film.h"
 #include "lib/job_manager.h"
+#include "lib/job.h"
 #include "lib/dcpomatic_socket.h"
 #include <wx/aboutdlg.h>
 #include <wx/stdpaths.h>
@@ -121,6 +122,14 @@ public:
 		wxButton* add = new wxButton (panel, wxID_ANY, _("Add Film..."));
 		add->Bind (wxEVT_BUTTON, boost::bind (&DOMFrame::add_film, this));
 		buttons->Add (add, 1, wxALL, 6);
+		_pause = new wxButton (panel, wxID_ANY, _("Pause"));
+		_pause->Bind (wxEVT_BUTTON, boost::bind(&DOMFrame::pause, this));
+		buttons->Add (_pause, 1, wxALL, 6);
+		_resume = new wxButton (panel, wxID_ANY, _("Resume"));
+		_resume->Bind (wxEVT_BUTTON, boost::bind(&DOMFrame::resume, this));
+		buttons->Add (_resume, 1, wxALL, 6);
+
+		setup_sensitivity ();
 
 		_sizer->Add (buttons, 0, wxALL, 6);
 
@@ -128,6 +137,24 @@ public:
 
 		Bind (wxEVT_CLOSE_WINDOW, boost::bind (&DOMFrame::close, this, _1));
 		Bind (wxEVT_SIZE, boost::bind (&DOMFrame::sized, this, _1));
+	}
+
+	void setup_sensitivity ()
+	{
+		_pause->Enable (!JobManager::instance()->paused());
+		_resume->Enable (JobManager::instance()->paused());
+	}
+
+	void pause ()
+	{
+		JobManager::instance()->pause ();
+		setup_sensitivity ();
+	}
+
+	void resume ()
+	{
+		JobManager::instance()->resume ();
+		setup_sensitivity ();
 	}
 
 	void start_job (boost::filesystem::path path)
@@ -274,6 +301,8 @@ private:
 	wxSizer* _sizer;
 	wxPreferencesEditor* _config_dialog;
 	ServersListDialog* _servers_list_dialog;
+	wxButton* _pause;
+	wxButton* _resume;
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {

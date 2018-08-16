@@ -47,6 +47,12 @@ public:
 	bool errors () const;
 	void increase_priority (boost::shared_ptr<Job>);
 	void decrease_priority (boost::shared_ptr<Job>);
+	void pause ();
+	void resume ();
+	bool paused () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _paused;
+	}
 
 	void analyse_audio (
 		boost::shared_ptr<const Film> film,
@@ -77,6 +83,8 @@ private:
 	/** List of jobs in the order that they will be executed */
 	std::list<boost::shared_ptr<Job> > _jobs;
 	bool _terminate;
+	bool _paused;
+	boost::shared_ptr<Job> _paused_job;
 
 	boost::optional<std::string> _last_active_job;
 	boost::thread* _scheduler;

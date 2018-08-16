@@ -44,6 +44,7 @@ JobManager* JobManager::_instance = 0;
 
 JobManager::JobManager ()
 	: _terminate (false)
+	, _paused (false)
 	, _scheduler (0)
 {
 
@@ -150,21 +151,23 @@ JobManager::scheduler ()
 				return;
 			}
 
-			BOOST_FOREACH (shared_ptr<Job> i, _jobs) {
+			if (!_paused) {
+				BOOST_FOREACH (shared_ptr<Job> i, _jobs) {
 
-				if (!i->finished ()) {
-					active_job = i->json_name ();
-				}
+					if (!i->finished ()) {
+						active_job = i->json_name ();
+					}
 
-				if (i->running ()) {
-					/* Something is already happening */
-					break;
-				}
+					if (i->running ()) {
+						/* Something is already happening */
+						break;
+					}
 
-				if (i->is_new()) {
-					i->start ();
-					/* Only start one job at once */
-					break;
+					if (i->is_new()) {
+						i->start ();
+						/* Only start one job at once */
+						break;
+					}
 				}
 			}
 		}
@@ -284,17 +287,54 @@ JobManager::decrease_priority (shared_ptr<Job> job)
 {
 	bool changed = false;
 
- 	for (list<shared_ptr<Job> >::iterator i = _jobs.begin(); i != _jobs.end(); ++i) {
-		list<shared_ptr<Job> >::iterator next = i;
-		++next;
-		if (*i == job && next != _jobs.end()) {
-			swap (*i, *next);
-			changed = true;
-			break;
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		for (list<shared_ptr<Job> >::iterator i = _jobs.begin(); i != _jobs.end(); ++i) {
+			list<shared_ptr<Job> >::iterator next = i;
+			++next;
+			if (*i == job && next != _jobs.end()) {
+				swap (*i, *next);
+				changed = true;
+				break;
+			}
 		}
 	}
 
 	if (changed) {
 		priority_changed ();
 	}
+}
+
+void
+JobManager::pause ()
+{
+	boost::mutex::scoped_lock lm (_mutex);
+
+	if (_paused) {
+		return;
+	}
+
+	BOOST_FOREACH (shared_ptr<Job> i, _jobs) {
+		if (i->pause_by_user()) {
+			_paused_job = i;
+		}
+	}
+
+	_paused = true;
+}
+
+void
+JobManager::resume ()
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	if (!_paused) {
+		return;
+	}
+
+	if (_paused_job) {
+		_paused_job->resume ();
+	}
+
+	_paused_job.reset ();
+	_paused = false;
 }

@@ -1,3 +1,7 @@
+2018-08-16  Carl Hetherington  <cth@carlh.net>
+
+	* Add pause/resume to the batch converter (#1248).
+
 2018-08-15  Carl Hetherington  <cth@carlh.net>
 
 	* Support download of Barco Alchemy, Christie and GDC certificates
