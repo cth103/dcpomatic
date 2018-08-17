@@ -120,9 +120,4 @@ BOOST_AUTO_TEST_CASE (content_test3)
 	/* Check that trim is fixed when the content's video frame rate is `forced' */
 
 	BOOST_CHECK (content->trim_start() == ContentTime::from_seconds (15.0 / 25.0));
-
-	/* Likewise position */
-
-	std::cout << to_string(content->position()) << " " << to_string(DCPTime::from_seconds(15.0 / 25.0)) << "\n";
-	BOOST_CHECK (content->position() == DCPTime::from_seconds (15.0 / 25.0));
 }

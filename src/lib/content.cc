@@ -372,9 +372,8 @@ Content::set_video_frame_rate (double r)
 		_video_frame_rate = r;
 	}
 
-	/* Make sure things are still on frame boundaries */
+	/* Make sure trim is still on a frame boundary */
 	if (video) {
-		set_position (position());
 		set_trim_start (trim_start());
 	}
 }
