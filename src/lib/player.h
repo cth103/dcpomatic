@@ -88,16 +88,21 @@ public:
 
 	boost::optional<DCPTime> content_time_to_dcp (boost::shared_ptr<Content> content, ContentTime t);
 
+	/* The player's internal state may be about to change such so
+	   that its emissions from Video and Audio will suddenly be
+	   from an undefined position.  Listeners should prepare
+	   themselves for this possibility.
+	*/
 	boost::signals2::signal<void ()> MayChange;
 
-	/** Emitted when something has changed such that if we went back and emitted
-	 *  the last frame again it would look different.  This is not emitted after
-	 *  a seek.
+	/** The player's internal state has now changed.
 	 *
 	 *  The first parameter is what changed.
 	 *  The second parameter is true if these signals are currently likely to be frequent.
 	 */
 	boost::signals2::signal<void (int, bool)> Changed;
+
+	/** The change suggested by a MayChange did not happen */
 	boost::signals2::signal<void ()> NotChanged;
 
 	/** Emitted when a video frame is ready.  These emissions happen in the correct order. */
@@ -156,8 +161,8 @@ private:
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;
 
-	/** We can pass() and seek() */
-	bool _can_run;
+	/** true if we are suspended (i.e. pass() and seek() do nothing */
+	bool _suspended;
 	std::list<boost::shared_ptr<Piece> > _pieces;
 
 	/** Size of the image in the DCP (e.g. 1990x1080 for flat) */

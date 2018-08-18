@@ -87,7 +87,7 @@ int const PlayerProperty::DCP_DECODE_REDUCTION = 704;
 Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist)
 	: _film (film)
 	, _playlist (playlist)
-	, _can_run (false)
+	, _suspended (false)
 	, _ignore_video (false)
 	, _ignore_audio (false)
 	, _ignore_text (false)
@@ -220,7 +220,7 @@ Player::setup_pieces_unlocked ()
 	_last_video_time = DCPTime ();
 	_last_video_eyes = EYES_BOTH;
 	_last_audio_time = DCPTime ();
-	_can_run = true;
+	_suspended = false;
 }
 
 void
@@ -232,7 +232,7 @@ Player::playlist_content_may_change ()
 		   until that has happened and we've rebuilt our pieces.  Stop pass()
 		   and seek() from working until then.
 		*/
-		_can_run = false;
+		_suspended = true;
 	}
 
 	MayChange ();
@@ -295,7 +295,6 @@ void
 Player::playlist_content_not_changed ()
 {
 	/* A possible content change did end up happening for some reason */
-	setup_pieces ();
 	NotChanged ();
 }
 
@@ -613,7 +612,7 @@ Player::pass ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	if (!_can_run) {
+	if (_suspended) {
 		/* We can't pass in this state */
 		return false;
 	}
@@ -1039,7 +1038,7 @@ Player::seek (DCPTime time, bool accurate)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	if (!_can_run) {
+	if (_suspended) {
 		/* We can't seek in this state */
 		return;
 	}

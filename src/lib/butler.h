@@ -56,6 +56,7 @@ private:
 	void text (PlayerText pt, TextType type, DCPTimePeriod period);
 	bool should_run () const;
 	void prepare (boost::weak_ptr<PlayerVideo> video) const;
+	void suspend ();
 	void return_seek (bool frequent);
 	void seek_unlocked (DCPTime position, bool accurate);
 
@@ -83,6 +84,7 @@ private:
 	boost::condition _arrived;
 	boost::optional<DCPTime> _pending_seek_position;
 	bool _pending_seek_accurate;
+	bool _suspended;
 	bool _finished;
 	bool _died;
 	bool _stop_thread;
@@ -100,6 +102,7 @@ private:
 	boost::signals2::scoped_connection _player_video_connection;
 	boost::signals2::scoped_connection _player_audio_connection;
 	boost::signals2::scoped_connection _player_text_connection;
+	boost::signals2::scoped_connection _player_may_change_connection;
 	boost::signals2::scoped_connection _player_changed_connection;
 	boost::signals2::scoped_connection _player_not_changed_connection;
 };

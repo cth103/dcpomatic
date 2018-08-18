@@ -54,6 +54,7 @@ Butler::Butler (shared_ptr<Player> player, shared_ptr<Log> log, AudioMapping aud
 	, _log (log)
 	, _prepare_work (new boost::asio::io_service::work (_prepare_service))
 	, _pending_seek_accurate (false)
+	, _suspended (false)
 	, _finished (false)
 	, _died (false)
 	, _stop_thread (false)
@@ -64,6 +65,7 @@ Butler::Butler (shared_ptr<Player> player, shared_ptr<Log> log, AudioMapping aud
 	_player_video_connection = _player->Video.connect (bind (&Butler::video, this, _1, _2));
 	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1, _2));
 	_player_text_connection = _player->Text.connect (bind (&Butler::text, this, _1, _2, _3));
+	_player_may_change_connection = _player->MayChange.connect (bind (&Butler::suspend, this));
 	_player_changed_connection = _player->Changed.connect (bind (&Butler::return_seek, this, _2));
 	_player_not_changed_connection = _player->NotChanged.connect (bind (&Butler::return_seek, this, false));
 	_thread = new boost::thread (bind (&Butler::thread, this));
@@ -105,6 +107,10 @@ Butler::~Butler ()
 bool
 Butler::should_run () const
 {
+	if (_suspended) {
+		return false;
+	}
+
 	if (_video.size() >= MAXIMUM_VIDEO_READAHEAD * 10) {
 		/* This is way too big */
 		throw ProgrammingError
@@ -257,8 +263,8 @@ Butler::video (shared_ptr<PlayerVideo> video, DCPTime time)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	if (_pending_seek_position) {
-		/* Don't store any video while a seek is pending */
+	if (_pending_seek_position || _suspended) {
+		/* Don't store any video in these cases */
 		return;
 	}
 
@@ -273,8 +279,8 @@ Butler::audio (shared_ptr<AudioBuffers> audio, DCPTime time)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		if (_pending_seek_position || _disable_audio) {
-			/* Don't store any audio while a seek is pending, or if audio is disabled */
+		if (_pending_seek_position || _disable_audio || _suspended) {
+			/* Don't store any audio in these cases */
 			return;
 		}
 	}
@@ -329,6 +335,7 @@ Butler::return_seek (bool frequent)
 	}
 
 	seek_unlocked (seek_to, true);
+	_suspended = false;
 	_awaiting = seek_to;
 }
 
@@ -341,4 +348,11 @@ Butler::text (PlayerText pt, TextType type, DCPTimePeriod period)
 
 	boost::mutex::scoped_lock lm2 (_buffers_mutex);
 	_closed_caption.put (make_pair(pt, period));
+}
+
+void
+Butler::suspend ()
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	_suspended = true;
 }
