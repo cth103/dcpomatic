@@ -37,7 +37,7 @@ ContentSubPanel::ContentSubPanel (ContentPanel* p, wxString name)
 	, _sizer (new wxBoxSizer (wxVERTICAL))
 	, _name (name)
 {
-	SetScrollRate (-1, 8);
+	SetScrollRate (8, 8);
 	SetSizer (_sizer);
 }
 
