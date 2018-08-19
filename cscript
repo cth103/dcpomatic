@@ -323,10 +323,16 @@ def dependencies(target):
     else:
         ffmpeg_options = {}
 
-    return (('ffmpeg-cdist', '27f25fb', ffmpeg_options),
-            ('libdcp', '348aaa6'),
-            ('libsub', '75d9785'),
-            ('rtaudio-cdist', '739969e'))
+    if target.platform == 'windows' and target.version == 'xp':
+        deps = [('ffmpeg-cdist', '65c6d9e', ffmpeg_options)]
+    else:
+        deps = [('ffmpeg-cdist', '27f25fb', ffmpeg_options)]
+
+    deps.append(('libdcp', '348aaa6'))
+    deps.append(('libsub', '75d9785'))
+    deps.append(('rtaudio-cdist', '739969e'))
+
+    return deps
 
 def option_defaults():
     return { "gui": True }
