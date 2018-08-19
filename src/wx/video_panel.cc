@@ -252,7 +252,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 
 	_reference->Bind                     (wxEVT_CHECKBOX, boost::bind (&VideoPanel::reference_clicked, this));
 	_filters_button->Bind                (wxEVT_BUTTON,   boost::bind (&VideoPanel::edit_filters_clicked, this));
-	_colour_conversion->Bind             (wxEVT_CHOICE,  boost::bind (&VideoPanel::colour_conversion_changed, this));
+	_colour_conversion->Bind             (wxEVT_CHOICE,   boost::bind (&VideoPanel::colour_conversion_changed, this));
 	_edit_colour_conversion_button->Bind (wxEVT_BUTTON,   boost::bind (&VideoPanel::edit_colour_conversion_clicked, this));
 }
 
