@@ -165,7 +165,8 @@ File "%static_deps%/bin/libpangoft2-1.0-0.dll"
 File "%static_deps%/bin/libx264-152.dll"
 
 File "%cdist_deps%/bin/asdcp-cth.dll"
-File "%cdist_deps%/bin/kumu-cth.dll""", file=f)
+File "%cdist_deps%/bin/kumu-cth.dll"
+    """, file=f)
 
     if windows_version == 'xp':
         print("""
