@@ -170,6 +170,8 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	_y_scale->SetRange (10, 1000);
 	_line_spacing->SetRange (10, 1000);
 
+	content_selection_changed ();
+
 	_reference->Bind                (wxEVT_CHECKBOX, boost::bind (&TextPanel::reference_clicked, this));
 	_use->Bind                      (wxEVT_CHECKBOX, boost::bind (&TextPanel::use_toggled, this));
 	_type->Bind                     (wxEVT_CHOICE,   boost::bind (&TextPanel::type_changed, this));

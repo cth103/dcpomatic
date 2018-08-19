@@ -119,6 +119,8 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	_gain->wrapped()->SetIncrement (0.5);
 	_delay->wrapped()->SetRange (-1000, 1000);
 
+	content_selection_changed ();
+
 	_reference->Bind             (wxEVT_CHECKBOX, boost::bind (&AudioPanel::reference_clicked, this));
 	_show->Bind                  (wxEVT_BUTTON,   boost::bind (&AudioPanel::show_clicked, this));
 	_gain_calculate_button->Bind (wxEVT_BUTTON,   boost::bind (&AudioPanel::gain_calculate_button_clicked, this));

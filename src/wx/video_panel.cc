@@ -247,6 +247,8 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_frame_type->wrapped()->Append (_("3D left only"));
 	_frame_type->wrapped()->Append (_("3D right only"));
 
+	content_selection_changed ();
+
 	_fade_in->Changed.connect (boost::bind (&VideoPanel::fade_in_changed, this));
 	_fade_out->Changed.connect (boost::bind (&VideoPanel::fade_out_changed, this));
 
