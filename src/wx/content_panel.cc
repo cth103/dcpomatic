@@ -70,6 +70,7 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmVie
 	, _film (film)
 	, _film_viewer (viewer)
 	, _generally_sensitive (true)
+	, _ignore_deselect (false)
 {
 	for (int i = 0; i < TEXT_COUNT; ++i) {
 		_text_panel[i] = 0;
@@ -132,8 +133,8 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmVie
 	_timing_panel = new TimingPanel (this, _film_viewer);
 	_notebook->AddPage (_timing_panel, _("Timing"), false);
 
-	_content->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind (&ContentPanel::selection_changed, this));
-	_content->Bind (wxEVT_LIST_ITEM_DESELECTED, boost::bind (&ContentPanel::selection_changed, this));
+	_content->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind (&ContentPanel::item_selected, this));
+	_content->Bind (wxEVT_LIST_ITEM_DESELECTED, boost::bind (&ContentPanel::item_deselected, this));
 	_content->Bind (wxEVT_LIST_ITEM_RIGHT_CLICK, boost::bind (&ContentPanel::right_click, this, _1));
 	_content->Bind (wxEVT_DROP_FILES, boost::bind (&ContentPanel::files_dropped, this, _1));
 	_add_file->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::add_file_clicked, this));
@@ -240,7 +241,32 @@ ContentPanel::film_changed (Film::Property p)
 }
 
 void
-ContentPanel::selection_changed ()
+ContentPanel::item_deselected ()
+{
+	/* Maybe this is just a re-click on the same item; if not, _ignore_deselect will stay
+	   false and item_deselected_foo will handle the deselection.
+	*/
+	_ignore_deselect = false;
+	signal_manager->when_idle (boost::bind (&ContentPanel::item_deselected_idle, this));
+}
+
+void
+ContentPanel::item_deselected_idle ()
+{
+	if (!_ignore_deselect) {
+		check_selection ();
+	}
+}
+
+void
+ContentPanel::item_selected ()
+{
+	_ignore_deselect = true;
+	check_selection ();
+}
+
+void
+ContentPanel::check_selection ()
 {
 	if (_last_selected == selected()) {
 		/* This was triggered by a re-build of the view but the selection
@@ -486,7 +512,7 @@ ContentPanel::remove_clicked (bool hotkey)
 		_film->remove_content (i);
 	}
 
-	selection_changed ();
+	check_selection ();
 	return false;
 }
 
@@ -555,7 +581,7 @@ ContentPanel::set_film (shared_ptr<Film> film)
 
 	film_changed (Film::CONTENT);
 	film_changed (Film::AUDIO_CHANNELS);
-	selection_changed ();
+	check_selection ();
 	setup_sensitivity ();
 }
 
@@ -572,7 +598,7 @@ ContentPanel::earlier_clicked ()
 	ContentList sel = selected ();
 	if (sel.size() == 1) {
 		_film->move_content_earlier (sel.front ());
-		selection_changed ();
+		check_selection ();
 	}
 }
 
@@ -582,7 +608,7 @@ ContentPanel::later_clicked ()
 	ContentList sel = selected ();
 	if (sel.size() == 1) {
 		_film->move_content_later (sel.front ());
-		selection_changed ();
+		check_selection ();
 	}
 }
 

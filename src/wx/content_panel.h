@@ -81,7 +81,10 @@ public:
 	boost::signals2::signal<void (void)> SelectionChanged;
 
 private:
-	void selection_changed ();
+	void item_selected ();
+	void item_deselected ();
+	void item_deselected_idle ();
+	void check_selection ();
 	void add_folder_clicked ();
 	void add_dcp_clicked ();
 	void earlier_clicked ();
@@ -119,4 +122,5 @@ private:
 	boost::shared_ptr<Film> _film;
 	FilmViewer* _film_viewer;
 	bool _generally_sensitive;
+	bool _ignore_deselect;
 };
