@@ -324,7 +324,7 @@ def dependencies(target):
         ffmpeg_options = {}
 
     if target.platform == 'windows' and target.version == 'xp':
-        deps = [('ffmpeg-cdist', '65c6d93', ffmpeg_options)]
+        deps = [('ffmpeg-cdist', '5783efa', ffmpeg_options)]
     else:
         deps = [('ffmpeg-cdist', '27f25fb', ffmpeg_options)]
 
