@@ -1,0 +1,23 @@
+\documentclass{article}
+\begin{document}
+
+If the data which the player relies on changes, the player must \texttt{setup\_pieces()} before it \texttt{pass()}es otherwise it may crash.
+
+I think there are two approaches to this:
+
+\begin{enumerate}
+
+\item Playlist signals that it is going to change; player and
+butler respond by suspending themselves (so they don't touch the `bad'
+playlist), playlist signals when the change has been made and
+\texttt{setup\_pieces()} has happened.  Player and butler resume.
+
+\item There is some RCU system so that changes to the playlist happen in a copy
+which is made into the `current' version at a convenient time to the
+player/butler.  This seems a bit tricky because the player's output also
+depends on the state of \texttt{Film}, so it seems that the copy would need to
+include the film's state (and possibly other bits).
+
+\end{enumerate}
+
+\end{document}
