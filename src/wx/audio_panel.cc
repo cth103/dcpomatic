@@ -120,6 +120,9 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	_delay->wrapped()->SetRange (-1000, 1000);
 
 	content_selection_changed ();
+	film_changed (Film::AUDIO_CHANNELS);
+	film_changed (Film::VIDEO_FRAME_RATE);
+	film_changed (Film::REEL_TYPE);
 
 	_reference->Bind             (wxEVT_CHECKBOX, boost::bind (&AudioPanel::reference_clicked, this));
 	_show->Bind                  (wxEVT_BUTTON,   boost::bind (&AudioPanel::show_clicked, this));
@@ -262,6 +265,7 @@ AudioPanel::content_selection_changed ()
 	_delay->set_content (sel);
 
 	film_content_changed (AudioContentProperty::STREAMS);
+	film_content_changed (AudioContentProperty::GAIN);
 	film_content_changed (DCPContentProperty::REFERENCE_AUDIO);
 
 	setup_sensitivity ();
