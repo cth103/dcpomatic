@@ -68,8 +68,12 @@ FilmEditor::FilmEditor (wxWindow* parent, FilmViewer* viewer)
  *  @param p Property of the Film that has changed.
  */
 void
-FilmEditor::film_changed (Film::Property p)
+FilmEditor::film_change (ChangeType type, Film::Property p)
 {
+	if (type != CHANGE_TYPE_DONE) {
+		return;
+	}
+
 	ensure_ui_thread ();
 
 	if (!_film) {
@@ -121,7 +125,7 @@ FilmEditor::set_film (shared_ptr<Film> film)
 	_dcp_panel->set_film (_film);
 
 	if (_film) {
-		_film->Changed.connect (bind (&FilmEditor::film_changed, this, _1));
+		_film->Change.connect (bind (&FilmEditor::film_change, this, _1, _2));
 		_film->ContentChange.connect (bind (&FilmEditor::film_content_change, this, _1, _3));
 	}
 

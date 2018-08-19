@@ -33,7 +33,7 @@ public:
 	void set_selection (ContentList selection);
 
 private:
-	void film_changed (Film::Property);
+	void film_change (ChangeType type, Film::Property);
 	void tool_clicked (wxCommandEvent& id);
 	wxString bitmap_path (std::string name);
 

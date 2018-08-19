@@ -434,7 +434,7 @@ public:
 		if (_film->directory()) {
 			Config::instance()->add_to_history (_film->directory().get());
 		}
-		_film->Changed.connect (boost::bind (&DOMFrame::set_menu_sensitivity, this));
+		_film->Change.connect (boost::bind (&DOMFrame::film_change, this, _1));
 	}
 
 	shared_ptr<Film> film () const {
@@ -442,6 +442,13 @@ public:
 	}
 
 private:
+
+	void film_change (ChangeType type)
+	{
+		if (type == CHANGE_TYPE_DONE) {
+			set_menu_sensitivity ();
+		}
+	}
 
 	void file_changed (boost::filesystem::path f)
 	{

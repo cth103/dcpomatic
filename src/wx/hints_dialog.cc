@@ -75,8 +75,8 @@ HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> film, bool ok)
 
 	boost::shared_ptr<Film> locked_film = _film.lock ();
 	if (locked_film) {
-		_film_changed_connection = locked_film->Changed.connect (boost::bind (&HintsDialog::film_changed, this));
-		_film_content_changed_connection = locked_film->ContentChange.connect (boost::bind (&HintsDialog::film_content_change, this, _1));
+		_film_change_connection = locked_film->Change.connect (boost::bind (&HintsDialog::film_change, this, _1));
+		_film_content_change_connection = locked_film->ContentChange.connect (boost::bind (&HintsDialog::film_content_change, this, _1));
 	}
 
 	_hints->Hint.connect (bind (&HintsDialog::hint, this, _1));
@@ -84,12 +84,16 @@ HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> film, bool ok)
 	_hints->Pulse.connect (bind (&HintsDialog::pulse, this));
 	_hints->Finished.connect (bind (&HintsDialog::finished, this));
 
-	film_changed ();
+	film_change (CHANGE_TYPE_DONE);
 }
 
 void
-HintsDialog::film_changed ()
+HintsDialog::film_change (ChangeType type)
 {
+	if (type != CHANGE_TYPE_DONE) {
+		return;
+	}
+
 	_text->Clear ();
 	_current.clear ();
 
@@ -109,9 +113,7 @@ HintsDialog::film_changed ()
 void
 HintsDialog::film_content_change (ChangeType type)
 {
-	if (type == CHANGE_TYPE_DONE) {
-		film_changed ();
-	}
+	film_change (type);
 }
 
 void

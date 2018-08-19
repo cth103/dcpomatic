@@ -105,11 +105,11 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	_main_canvas->Bind   (wxEVT_SCROLLWIN_PAGEDOWN,   boost::bind (&Timeline::scrolled,     this, _1));
 	_main_canvas->Bind   (wxEVT_SCROLLWIN_THUMBTRACK, boost::bind (&Timeline::scrolled,     this, _1));
 
-	film_changed (Film::CONTENT);
+	film_change (CHANGE_TYPE_DONE, Film::CONTENT);
 
 	SetMinSize (wxSize (640, 4 * pixels_per_track() + 96));
 
-	_film_changed_connection = film->Changed.connect (bind (&Timeline::film_changed, this, _1));
+	_film_changed_connection = film->Change.connect (bind (&Timeline::film_change, this, _1, _2));
 	_film_content_change_connection = film->ContentChange.connect (bind (&Timeline::film_content_change, this, _1, _3, _4));
 
 	setup_scrollbars ();
@@ -197,8 +197,12 @@ Timeline::paint_main ()
 }
 
 void
-Timeline::film_changed (Film::Property p)
+Timeline::film_change (ChangeType type, Film::Property p)
 {
+	if (type != CHANGE_TYPE_DONE) {
+		return;
+	}
+
 	if (p == Film::CONTENT || p == Film::REEL_TYPE || p == Film::REEL_LENGTH) {
 		ensure_ui_thread ();
 		recreate_views ();

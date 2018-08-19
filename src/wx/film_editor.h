@@ -56,7 +56,7 @@ public:
 	}
 
 	/* Handle changes to the model */
-	void film_changed (Film::Property);
+	void film_change (ChangeType, Film::Property);
 	void film_content_change (ChangeType type, int);
 
 	void set_general_sensitivity (bool);

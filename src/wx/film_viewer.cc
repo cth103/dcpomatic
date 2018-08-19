@@ -224,7 +224,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	_player->set_always_burn_open_subtitles ();
 	_player->set_play_referenced ();
 
-	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
+	_film->Change.connect (boost::bind (&FilmViewer::film_change, this, _1, _2));
 	_player->Change.connect (boost::bind (&FilmViewer::player_change, this, _1, _2, _3));
 
 	/* Keep about 1 second's worth of history samples */
@@ -720,8 +720,12 @@ FilmViewer::setup_sensitivity ()
 }
 
 void
-FilmViewer::film_changed (Film::Property p)
+FilmViewer::film_change (ChangeType type, Film::Property p)
 {
+	if (type != CHANGE_TYPE_DONE) {
+		return;
+	}
+
 	if (p == Film::CONTENT || p == Film::THREE_D) {
 		setup_sensitivity ();
 	} else if (p == Film::AUDIO_CHANNELS) {

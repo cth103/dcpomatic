@@ -87,9 +87,9 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film)
 	sizer->SetSizeHints (this);
 
         _toolbar->ToggleTool ((int) Timeline::SNAP, _timeline.snap ());
-	film_changed (Film::SEQUENCE);
+	film_change (CHANGE_TYPE_DONE, Film::SEQUENCE);
 
-	_film_changed_connection = film->Changed.connect (bind (&TimelineDialog::film_changed, this, _1));
+	_film_changed_connection = film->Change.connect (bind (&TimelineDialog::film_change, this, _1, _2));
 }
 
 wxString
@@ -100,8 +100,12 @@ TimelineDialog::bitmap_path (string name)
 }
 
 void
-TimelineDialog::film_changed (Film::Property p)
+TimelineDialog::film_change (ChangeType type, Film::Property p)
 {
+	if (type != CHANGE_TYPE_DONE) {
+		return;
+	}
+
 	shared_ptr<Film> film = _film.lock ();
 	if (!film) {
 		return;

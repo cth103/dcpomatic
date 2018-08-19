@@ -938,19 +938,28 @@ Film::signal_changed (Property p)
 {
 	_dirty = true;
 
+	Change (CHANGE_TYPE_PENDING, p);
+	bool changed = false;
+
 	switch (p) {
 	case Film::CONTENT:
 		set_video_frame_rate (_playlist->best_video_frame_rate ());
+		changed = true;
 		break;
 	case Film::VIDEO_FRAME_RATE:
 	case Film::SEQUENCE:
 		_playlist->maybe_sequence ();
+		changed = true;
 		break;
 	default:
 		break;
 	}
 
-	emit (boost::bind (boost::ref (Changed), p));
+	if (changed) {
+		emit (boost::bind (boost::ref (Change), CHANGE_TYPE_DONE, p));
+	} else {
+		Change (CHANGE_TYPE_CANCELLED, p);
+	}
 }
 
 void

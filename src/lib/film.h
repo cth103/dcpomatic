@@ -323,8 +323,8 @@ public:
 	void set_reel_length (int64_t);
 	void set_upload_after_make_dcp (bool);
 
-	/** Emitted when some property has of the Film has changed */
-	mutable boost::signals2::signal<void (Property)> Changed;
+	/** Emitted when some property has of the Film is about to change or has changed */
+	mutable boost::signals2::signal<void (ChangeType, Property)> Change;
 
 	/** Emitted when some property of our content has changed */
 	mutable boost::signals2::signal<void (ChangeType, boost::weak_ptr<Content>, int, bool)> ContentChange;

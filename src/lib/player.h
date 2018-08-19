@@ -112,7 +112,7 @@ private:
 	void setup_pieces ();
 	void setup_pieces_unlocked ();
 	void flush ();
-	void film_changed (Film::Property);
+	void film_change (ChangeType, Film::Property);
 	void playlist_change (ChangeType);
 	void playlist_content_change (ChangeType, int, bool);
 	std::list<PositionImage> transform_bitmap_texts (std::list<BitmapText>) const;

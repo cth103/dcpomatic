@@ -97,12 +97,12 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _audio_merger (_film->audio_frame_rate())
 	, _shuffler (0)
 {
-	_film_changed_connection = _film->Changed.connect (bind (&Player::film_changed, this, _1));
+	_film_changed_connection = _film->Change.connect (bind (&Player::film_change, this, _1, _2));
 	_playlist_change_connection = _playlist->Change.connect (bind (&Player::playlist_change, this, _1));
 	_playlist_content_change_connection = _playlist->ContentChange.connect (bind(&Player::playlist_content_change, this, _1, _3, _4));
 	set_video_container_size (_film->frame_size ());
 
-	film_changed (Film::AUDIO_PROCESSOR);
+	film_change (CHANGE_TYPE_DONE, Film::AUDIO_PROCESSOR);
 
 	setup_pieces ();
 	seek (DCPTime (), true);
@@ -268,7 +268,7 @@ Player::playlist_change (ChangeType type)
 }
 
 void
-Player::film_changed (Film::Property p)
+Player::film_change (ChangeType type, Film::Property p)
 {
 	/* Here we should notice Film properties that affect our output, and
 	   alert listeners that our output now would be different to how it was
@@ -276,22 +276,25 @@ Player::film_changed (Film::Property p)
 	*/
 
 	if (p == Film::CONTAINER) {
-		Change (CHANGE_TYPE_PENDING, PlayerProperty::FILM_CONTAINER, false);
+		Change (type, PlayerProperty::FILM_CONTAINER, false);
 	} else if (p == Film::VIDEO_FRAME_RATE) {
 		/* Pieces contain a FrameRateChange which contains the DCP frame rate,
 		   so we need new pieces here.
 		*/
-		/* XXX: missing PENDING! */
-		setup_pieces ();
-		Change (CHANGE_TYPE_DONE, PlayerProperty::FILM_VIDEO_FRAME_RATE, false);
+		if (type == CHANGE_TYPE_DONE) {
+			setup_pieces ();
+		}
+		Change (type, PlayerProperty::FILM_VIDEO_FRAME_RATE, false);
 	} else if (p == Film::AUDIO_PROCESSOR) {
-		if (_film->audio_processor ()) {
+		if (type == CHANGE_TYPE_DONE && _film->audio_processor ()) {
 			boost::mutex::scoped_lock lm (_mutex);
 			_audio_processor = _film->audio_processor()->clone (_film->audio_frame_rate ());
 		}
 	} else if (p == Film::AUDIO_CHANNELS) {
-		boost::mutex::scoped_lock lm (_mutex);
-		_audio_merger.clear ();
+		if (type == CHANGE_TYPE_DONE) {
+			boost::mutex::scoped_lock lm (_mutex);
+			_audio_merger.clear ();
+		}
 	}
 }
 

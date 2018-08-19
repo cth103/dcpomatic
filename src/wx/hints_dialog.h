@@ -33,7 +33,7 @@ public:
 	HintsDialog (wxWindow* parent, boost::weak_ptr<Film>, bool ok);
 
 private:
-	void film_changed ();
+	void film_change (ChangeType);
 	void film_content_change (ChangeType type);
 	void shut_up (wxCommandEvent& ev);
 	void update ();
@@ -49,6 +49,6 @@ private:
 	boost::shared_ptr<Hints> _hints;
 	std::list<std::string> _current;
 
-	boost::signals2::scoped_connection _film_changed_connection;
-	boost::signals2::scoped_connection _film_content_changed_connection;
+	boost::signals2::scoped_connection _film_change_connection;
+	boost::signals2::scoped_connection _film_content_change_connection;
 };

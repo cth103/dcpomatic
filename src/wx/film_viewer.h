@@ -105,7 +105,7 @@ private:
 	void seek (DCPTime t, bool accurate);
 	void refresh_panel ();
 	void setup_sensitivity ();
-	void film_changed (Film::Property);
+	void film_change (ChangeType, Film::Property);
 	DCPTime nudge_amount (wxKeyboardState &);
 	void timecode_clicked ();
 	void frame_number_clicked ();

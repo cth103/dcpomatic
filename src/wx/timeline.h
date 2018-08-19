@@ -91,7 +91,7 @@ private:
 	void mouse_moved (wxMouseEvent &);
 	void mouse_moved_select (wxMouseEvent &);
 	void mouse_moved_zoom (wxMouseEvent &);
-	void film_changed (Film::Property);
+	void film_change (ChangeType type, Film::Property);
 	void film_content_change (ChangeType type, int, bool frequent);
 	void resized ();
 	void assign_tracks ();
