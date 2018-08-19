@@ -86,8 +86,12 @@ FilmEditor::film_changed (Film::Property p)
 }
 
 void
-FilmEditor::film_content_changed (int property)
+FilmEditor::film_content_change (ChangeType type, int property)
 {
+	if (type != CHANGE_TYPE_DONE) {
+		return;
+	}
+
 	ensure_ui_thread ();
 
 	if (!_film) {
@@ -118,7 +122,7 @@ FilmEditor::set_film (shared_ptr<Film> film)
 
 	if (_film) {
 		_film->Changed.connect (bind (&FilmEditor::film_changed, this, _1));
-		_film->ContentChanged.connect (bind (&FilmEditor::film_content_changed, this, _2));
+		_film->ContentChange.connect (bind (&FilmEditor::film_content_change, this, _1, _3));
 	}
 
 	if (_film && _film->directory()) {

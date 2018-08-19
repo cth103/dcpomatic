@@ -98,10 +98,8 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _shuffler (0)
 {
 	_film_changed_connection = _film->Changed.connect (bind (&Player::film_changed, this, _1));
-	_playlist_changed_connection = _playlist->Changed.connect (bind (&Player::playlist_changed, this));
-	_playlist_content_may_change_connection = _playlist->ContentMayChange.connect (bind(&Player::playlist_content_may_change, this));
-	_playlist_content_changed_connection = _playlist->ContentChanged.connect (bind(&Player::playlist_content_changed, this, _1, _2, _3));
-	_playlist_content_not_changed_connection = _playlist->ContentNotChanged.connect (bind(&Player::playlist_content_not_changed, this));
+	_playlist_change_connection = _playlist->Change.connect (bind (&Player::playlist_change, this, _1));
+	_playlist_content_change_connection = _playlist->ContentChange.connect (bind(&Player::playlist_content_change, this, _1, _3, _4));
 	set_video_container_size (_film->frame_size ());
 
 	film_changed (Film::AUDIO_PROCESSOR);
@@ -224,78 +222,21 @@ Player::setup_pieces_unlocked ()
 }
 
 void
-Player::playlist_content_may_change ()
+Player::playlist_content_change (ChangeType type, int property, bool frequent)
 {
-	{
+	if (type == CHANGE_TYPE_PENDING) {
 		boost::mutex::scoped_lock lm (_mutex);
 		/* The player content is probably about to change, so we can't carry on
 		   until that has happened and we've rebuilt our pieces.  Stop pass()
 		   and seek() from working until then.
 		*/
 		_suspended = true;
+	} else if (type == CHANGE_TYPE_DONE) {
+		/* A change in our content has gone through.  Re-build our pieces. */
+		setup_pieces ();
 	}
 
-	MayChange ();
-}
-
-void
-Player::playlist_content_changed (weak_ptr<Content> w, int property, bool frequent)
-{
-	/* A change in our content has gone through.  Re-build our pieces and signal
-	   it to anybody that is interested.
-	*/
-
-	shared_ptr<Content> c = w.lock ();
-	if (!c) {
-		return;
-	}
-
-	setup_pieces ();
-
-	if (
-		property == ContentProperty::POSITION ||
-		property == ContentProperty::LENGTH ||
-		property == ContentProperty::TRIM_START ||
-		property == ContentProperty::TRIM_END ||
-		property == ContentProperty::PATH ||
-		property == VideoContentProperty::FRAME_TYPE ||
-		property == VideoContentProperty::COLOUR_CONVERSION ||
-		property == AudioContentProperty::STREAMS ||
-		property == DCPContentProperty::NEEDS_ASSETS ||
-		property == DCPContentProperty::NEEDS_KDM ||
-		property == DCPContentProperty::CPL ||
-		property == TextContentProperty::COLOUR ||
-		property == TextContentProperty::EFFECT ||
-		property == TextContentProperty::EFFECT_COLOUR ||
-		property == FFmpegContentProperty::SUBTITLE_STREAM ||
-		property == FFmpegContentProperty::FILTERS ||
-		property == TextContentProperty::LINE_SPACING ||
-		property == TextContentProperty::OUTLINE_WIDTH ||
-		property == TextContentProperty::Y_SCALE ||
-		property == TextContentProperty::FADE_IN ||
-		property == TextContentProperty::FADE_OUT ||
-		property == ContentProperty::VIDEO_FRAME_RATE ||
-		property == TextContentProperty::USE ||
-		property == TextContentProperty::X_OFFSET ||
-		property == TextContentProperty::Y_OFFSET ||
-		property == TextContentProperty::X_SCALE ||
-		property == TextContentProperty::FONTS ||
-		property == TextContentProperty::TYPE ||
-		property == VideoContentProperty::CROP ||
-		property == VideoContentProperty::SCALE ||
-		property == VideoContentProperty::FADE_IN ||
-		property == VideoContentProperty::FADE_OUT
-		) {
-
-		Changed (property, frequent);
-	}
-}
-
-void
-Player::playlist_content_not_changed ()
-{
-	/* A possible content change did end up happening for some reason */
-	NotChanged ();
+	Change (type, property, frequent);
 }
 
 void
@@ -314,14 +255,16 @@ Player::set_video_container_size (dcp::Size s)
 		_black_image->make_black ();
 	}
 
-	Changed (PlayerProperty::VIDEO_CONTAINER_SIZE, false);
+	Change (CHANGE_TYPE_DONE, PlayerProperty::VIDEO_CONTAINER_SIZE, false);
 }
 
 void
-Player::playlist_changed ()
+Player::playlist_change (ChangeType type)
 {
-	setup_pieces ();
-	Changed (PlayerProperty::PLAYLIST, false);
+	if (type == CHANGE_TYPE_DONE) {
+		setup_pieces ();
+	}
+	Change (type, PlayerProperty::PLAYLIST, false);
 }
 
 void
@@ -333,13 +276,14 @@ Player::film_changed (Film::Property p)
 	*/
 
 	if (p == Film::CONTAINER) {
-		Changed (PlayerProperty::FILM_CONTAINER, false);
+		Change (CHANGE_TYPE_PENDING, PlayerProperty::FILM_CONTAINER, false);
 	} else if (p == Film::VIDEO_FRAME_RATE) {
 		/* Pieces contain a FrameRateChange which contains the DCP frame rate,
 		   so we need new pieces here.
 		*/
+		/* XXX: missing PENDING! */
 		setup_pieces ();
-		Changed (PlayerProperty::FILM_VIDEO_FRAME_RATE, false);
+		Change (CHANGE_TYPE_DONE, PlayerProperty::FILM_VIDEO_FRAME_RATE, false);
 	} else if (p == Film::AUDIO_PROCESSOR) {
 		if (_film->audio_processor ()) {
 			boost::mutex::scoped_lock lm (_mutex);
@@ -1187,10 +1131,14 @@ Player::discard_audio (shared_ptr<const AudioBuffers> audio, DCPTime time, DCPTi
 void
 Player::set_dcp_decode_reduction (optional<int> reduction)
 {
+	Change (CHANGE_TYPE_PENDING, PlayerProperty::DCP_DECODE_REDUCTION, false);
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 
 		if (reduction == _dcp_decode_reduction) {
+			lm.unlock ();
+			Change (CHANGE_TYPE_CANCELLED, PlayerProperty::DCP_DECODE_REDUCTION, false);
 			return;
 		}
 
@@ -1198,7 +1146,7 @@ Player::set_dcp_decode_reduction (optional<int> reduction)
 		setup_pieces_unlocked ();
 	}
 
-	Changed (PlayerProperty::DCP_DECODE_REDUCTION, false);
+	Change (CHANGE_TYPE_DONE, PlayerProperty::DCP_DECODE_REDUCTION, false);
 }
 
 optional<DCPTime>

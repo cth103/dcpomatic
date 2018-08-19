@@ -57,7 +57,7 @@ public:
 
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
-	void film_content_changed (int);
+	void film_content_change (ChangeType type, int);
 
 	void set_general_sensitivity (bool);
 	void active_jobs_changed (boost::optional<std::string>);

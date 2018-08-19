@@ -65,48 +65,38 @@ Playlist::~Playlist ()
 }
 
 void
-Playlist::content_may_change ()
+Playlist::content_change (ChangeType type, weak_ptr<Content> content, int property, bool frequent)
 {
-	ContentMayChange ();
-}
+	if (type == CHANGE_TYPE_DONE) {
+		if (
+			property == ContentProperty::TRIM_START ||
+			property == ContentProperty::TRIM_END ||
+			property == ContentProperty::LENGTH ||
+			property == VideoContentProperty::FRAME_TYPE
+			) {
+			/* Don't respond to position changes here, as:
+			   - sequencing after earlier/later changes is handled by move_earlier/move_later
+			   - any other position changes will be timeline drags which should not result in content
+			   being sequenced.
+			*/
+			maybe_sequence ();
+		}
 
-void
-Playlist::content_not_changed ()
-{
-	ContentNotChanged ();
-}
+		if (
+			property == ContentProperty::POSITION ||
+			property == ContentProperty::LENGTH ||
+			property == ContentProperty::TRIM_START ||
+			property == ContentProperty::TRIM_END) {
 
-void
-Playlist::content_changed (weak_ptr<Content> content, int property, bool frequent)
-{
-	if (
-		property == ContentProperty::TRIM_START ||
-		property == ContentProperty::TRIM_END ||
-		property == ContentProperty::LENGTH ||
-		property == VideoContentProperty::FRAME_TYPE
-		) {
-		/* Don't respond to position changes here, as:
-		   - sequencing after earlier/later changes is handled by move_earlier/move_later
-		   - any other position changes will be timeline drags which should not result in content
-		   being sequenced.
-		*/
-		maybe_sequence ();
-	}
-
-	if (
-		property == ContentProperty::POSITION ||
-		property == ContentProperty::LENGTH ||
-		property == ContentProperty::TRIM_START ||
-		property == ContentProperty::TRIM_END) {
-
-		ContentList old = _content;
-		sort (_content.begin(), _content.end(), ContentSorter ());
-		if (_content != old) {
-			OrderChanged ();
+			ContentList old = _content;
+			sort (_content.begin(), _content.end(), ContentSorter ());
+			if (_content != old) {
+				OrderChanged ();
+			}
 		}
 	}
 
-	ContentChanged (content, property, frequent);
+	ContentChange (type, content, property, frequent);
 }
 
 void
@@ -215,15 +205,18 @@ Playlist::as_xml (xmlpp::Node* node, bool with_content_paths)
 void
 Playlist::add (shared_ptr<Content> c)
 {
+	Change (CHANGE_TYPE_PENDING);
 	_content.push_back (c);
 	sort (_content.begin(), _content.end(), ContentSorter ());
 	reconnect ();
-	Changed ();
+	Change (CHANGE_TYPE_DONE);
 }
 
 void
 Playlist::remove (shared_ptr<Content> c)
 {
+	Change (CHANGE_TYPE_PENDING);
+
 	ContentList::iterator i = _content.begin ();
 	while (i != _content.end() && *i != c) {
 		++i;
@@ -231,7 +224,9 @@ Playlist::remove (shared_ptr<Content> c)
 
 	if (i != _content.end ()) {
 		_content.erase (i);
-		Changed ();
+		Change (CHANGE_TYPE_DONE);
+	} else {
+		Change (CHANGE_TYPE_CANCELLED);
 	}
 
 	/* This won't change order, so it does not need a sort */
@@ -240,6 +235,8 @@ Playlist::remove (shared_ptr<Content> c)
 void
 Playlist::remove (ContentList c)
 {
+	Change (CHANGE_TYPE_PENDING);
+
 	BOOST_FOREACH (shared_ptr<Content> i, c) {
 		ContentList::iterator j = _content.begin ();
 		while (j != _content.end() && *j != i) {
@@ -253,7 +250,7 @@ Playlist::remove (ContentList c)
 
 	/* This won't change order, so it does not need a sort */
 
-	Changed ();
+	Change (CHANGE_TYPE_DONE);
 }
 
 class FrameRateCandidate
@@ -362,9 +359,7 @@ Playlist::reconnect ()
 	_content_connections.clear ();
 
 	BOOST_FOREACH (shared_ptr<Content> i, _content) {
-		_content_connections.push_back (i->MayChange.connect(boost::bind(&Playlist::content_may_change, this)));
-		_content_connections.push_back (i->Changed.connect(boost::bind(&Playlist::content_changed, this, _1, _2, _3)));
-		_content_connections.push_back (i->NotChanged.connect(boost::bind(&Playlist::content_not_changed, this)));
+		_content_connections.push_back (i->Change.connect(boost::bind(&Playlist::content_change, this, _1, _2, _3, _4)));
 	}
 }
 
@@ -461,6 +456,8 @@ Playlist::repeat (ContentList c, int n)
 		range.second = max (range.second, i->end ());
 	}
 
+	Change (CHANGE_TYPE_PENDING);
+
 	DCPTime pos = range.second;
 	for (int i = 0; i < n; ++i) {
 		BOOST_FOREACH (shared_ptr<Content> j, c) {
@@ -474,7 +471,7 @@ Playlist::repeat (ContentList c, int n)
 	sort (_content.begin(), _content.end(), ContentSorter ());
 
 	reconnect ();
-	Changed ();
+	Change (CHANGE_TYPE_DONE);
 }
 
 void

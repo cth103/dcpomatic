@@ -38,7 +38,7 @@ public:
 	void set_cursor (boost::optional<DCPTime> time, boost::optional<float> db);
 
 private:
-	void content_changed (int);
+	void content_change (ChangeType, int);
 	void channel_clicked (wxCommandEvent &);
 	void type_clicked (wxCommandEvent &);
 	void smoothing_changed ();

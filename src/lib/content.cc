@@ -179,10 +179,14 @@ Content::examine (shared_ptr<Job> job)
 }
 
 void
-Content::signal_changed (int p)
+Content::signal_change (ChangeType c, int p)
 {
 	try {
-		emit (boost::bind (boost::ref(Changed), shared_from_this(), p, _change_signals_frequent));
+		if (c == CHANGE_TYPE_PENDING || c == CHANGE_TYPE_CANCELLED) {
+			Change (c, shared_from_this(), p, _change_signals_frequent);
+		} else {
+			emit (boost::bind (boost::ref(Change), c, shared_from_this(), p, _change_signals_frequent));
+		}
 	} catch (boost::bad_weak_ptr) {
 		/* This must be during construction; never mind */
 	}

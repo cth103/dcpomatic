@@ -21,6 +21,7 @@
 #ifndef DCPOMATIC_TIMELINE_CONTENT_VIEW_H
 #define DCPOMATIC_TIMELINE_CONTENT_VIEW_H
 
+#include "lib/types.h"
 #include "timeline_view.h"
 #include <wx/wx.h>
 #include <boost/signals2.hpp>
@@ -57,7 +58,7 @@ private:
 
 	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int> > overlaps);
 	int y_pos (int t) const;
-	void content_changed (int p);
+	void content_change (ChangeType type, int p);
 
 	boost::optional<int> _track;
 	bool _selected;

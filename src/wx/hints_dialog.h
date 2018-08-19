@@ -18,6 +18,7 @@
 
 */
 
+#include "lib/types.h"
 #include <wx/wx.h>
 #include <boost/weak_ptr.hpp>
 #include <boost/signals2.hpp>
@@ -33,6 +34,7 @@ public:
 
 private:
 	void film_changed ();
+	void film_content_change (ChangeType type);
 	void shut_up (wxCommandEvent& ev);
 	void update ();
 	void hint (std::string text);

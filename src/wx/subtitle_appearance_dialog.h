@@ -44,6 +44,7 @@ private:
 	void setup_sensitivity ();
 	void restore ();
 	wxCheckBox* set_to (wxWindow* w, int& r);
+	void content_change (ChangeType type);
 
 	wxCheckBox* _force_colour;
 	wxColourPickerCtrl* _colour;

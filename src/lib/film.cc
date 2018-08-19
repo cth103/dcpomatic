@@ -160,9 +160,9 @@ Film::Film (optional<boost::filesystem::path> dir)
 {
 	set_isdcf_date_today ();
 
-	_playlist_changed_connection = _playlist->Changed.connect (bind (&Film::playlist_changed, this));
+	_playlist_change_connection = _playlist->Change.connect (bind (&Film::playlist_change, this, _1));
 	_playlist_order_changed_connection = _playlist->OrderChanged.connect (bind (&Film::playlist_order_changed, this));
-	_playlist_content_changed_connection = _playlist->ContentChanged.connect (bind (&Film::playlist_content_changed, this, _1, _2, _3));
+	_playlist_content_change_connection = _playlist->ContentChange.connect (bind (&Film::playlist_content_change, this, _1, _2, _3, _4));
 
 	if (dir) {
 		/* Make state.directory a complete path without ..s (where possible)
@@ -1154,8 +1154,12 @@ Film::active_frame_rate_change (DCPTime t) const
 }
 
 void
-Film::playlist_content_changed (weak_ptr<Content> c, int p, bool frequent)
+Film::playlist_content_change (ChangeType type, weak_ptr<Content> c, int p, bool frequent)
 {
+	if (type != CHANGE_TYPE_DONE) {
+		return;
+	}
+
 	_dirty = true;
 
 	if (p == ContentProperty::VIDEO_FRAME_RATE) {
@@ -1164,14 +1168,16 @@ Film::playlist_content_changed (weak_ptr<Content> c, int p, bool frequent)
 		signal_changed (NAME);
 	}
 
-	emit (boost::bind (boost::ref (ContentChanged), c, p, frequent));
+	emit (boost::bind (boost::ref (ContentChange), type, c, p, frequent));
 }
 
 void
-Film::playlist_changed ()
+Film::playlist_change (ChangeType type)
 {
-	signal_changed (CONTENT);
-	signal_changed (NAME);
+	if (type == CHANGE_TYPE_DONE) {
+		signal_changed (CONTENT);
+		signal_changed (NAME);
+	}
 }
 
 void

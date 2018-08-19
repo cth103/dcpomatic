@@ -105,7 +105,7 @@ public:
 		update_from_model ();
 
 		for (typename List::iterator i = _content.begin(); i != _content.end(); ++i) {
-			_connections.push_back ((*i)->Changed.connect (boost::bind (&ContentWidget::model_changed, this, _2)));
+			_connections.push_back ((*i)->Change.connect (boost::bind (&ContentWidget::model_changed, this, _1, _3)));
 		}
 	}
 
@@ -185,9 +185,9 @@ private:
 		}
 	}
 
-	void model_changed (int property)
+	void model_changed (ChangeType type, int property)
 	{
-		if (property == _property && !_ignore_model_changes) {
+		if (type == CHANGE_TYPE_DONE && property == _property && !_ignore_model_changes) {
 			update_from_model ();
 		}
 	}

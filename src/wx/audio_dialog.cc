@@ -150,7 +150,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
 
-	_film_connection = film->ContentChanged.connect (boost::bind (&AudioDialog::content_changed, this, _2));
+	_film_connection = film->ContentChange.connect (boost::bind (&AudioDialog::content_change, this, _1, _3));
 	DCPOMATIC_ASSERT (film->directory());
 	SetTitle(wxString::Format(_("DCP-o-matic audio - %s"), std_to_wx(film->directory().get().string())));
 
@@ -282,8 +282,12 @@ AudioDialog::channel_clicked (wxCommandEvent& ev)
 }
 
 void
-AudioDialog::content_changed (int p)
+AudioDialog::content_change (ChangeType type, int p)
 {
+	if (type != CHANGE_TYPE_DONE) {
+		return;
+	}
+
 	if (p == AudioContentProperty::STREAMS) {
 		try_to_load_analysis ();
 	} else if (p == AudioContentProperty::GAIN) {

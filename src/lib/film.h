@@ -327,7 +327,7 @@ public:
 	mutable boost::signals2::signal<void (Property)> Changed;
 
 	/** Emitted when some property of our content has changed */
-	mutable boost::signals2::signal<void (boost::weak_ptr<Content>, int, bool)> ContentChanged;
+	mutable boost::signals2::signal<void (ChangeType, boost::weak_ptr<Content>, int, bool)> ContentChange;
 
 	/** Current version number of the state file */
 	static int const current_state_version;
@@ -338,9 +338,9 @@ private:
 
 	void signal_changed (Property);
 	std::string video_identifier () const;
-	void playlist_changed ();
+	void playlist_change (ChangeType);
 	void playlist_order_changed ();
-	void playlist_content_changed (boost::weak_ptr<Content>, int, bool frequent);
+	void playlist_content_change (ChangeType type, boost::weak_ptr<Content>, int, bool frequent);
 	void maybe_add_content (boost::weak_ptr<Job>, boost::weak_ptr<Content>, bool disable_audio_analysis);
 	void audio_analysis_finished ();
 
@@ -401,9 +401,9 @@ private:
 	/** film being used as a template, or 0 */
 	boost::shared_ptr<Film> _template_film;
 
-	boost::signals2::scoped_connection _playlist_changed_connection;
+	boost::signals2::scoped_connection _playlist_change_connection;
 	boost::signals2::scoped_connection _playlist_order_changed_connection;
-	boost::signals2::scoped_connection _playlist_content_changed_connection;
+	boost::signals2::scoped_connection _playlist_content_change_connection;
 	std::list<boost::signals2::connection> _job_connections;
 	std::list<boost::signals2::connection> _audio_analysis_connections;
 

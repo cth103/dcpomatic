@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -92,7 +92,7 @@ private:
 	void mouse_moved_select (wxMouseEvent &);
 	void mouse_moved_zoom (wxMouseEvent &);
 	void film_changed (Film::Property);
-	void film_content_changed (int, bool frequent);
+	void film_content_change (ChangeType type, int, bool frequent);
 	void resized ();
 	void assign_tracks ();
 	void set_position_from_event (wxMouseEvent &);
@@ -139,5 +139,5 @@ private:
 	static int const _minimum_pixels_per_track;
 
 	boost::signals2::scoped_connection _film_changed_connection;
-	boost::signals2::scoped_connection _film_content_changed_connection;
+	boost::signals2::scoped_connection _film_content_change_connection;
 };

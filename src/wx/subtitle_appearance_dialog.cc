@@ -185,9 +185,17 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 	_force_fade_in->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
 	_force_fade_out->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
 	_effect->Bind (wxEVT_CHOICE, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
-	_content_connection = _content->Changed.connect (bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
+	_content_connection = _content->Change.connect (bind (&SubtitleAppearanceDialog::content_change, this, _1));
 
 	setup_sensitivity ();
+}
+
+void
+SubtitleAppearanceDialog::content_change (ChangeType type)
+{
+	if (type == CHANGE_TYPE_DONE) {
+		setup_sensitivity ();
+	}
 }
 
 wxCheckBox*

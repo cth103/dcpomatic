@@ -225,7 +225,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	_player->set_play_referenced ();
 
 	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
-	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1, _2));
+	_player->Change.connect (boost::bind (&FilmViewer::player_change, this, _1, _2, _3));
 
 	/* Keep about 1 second's worth of history samples */
 	_latency_history_count = _film->audio_frame_rate() / _audio_block_size;
@@ -665,9 +665,9 @@ FilmViewer::forward_clicked (wxKeyboardState& ev)
 }
 
 void
-FilmViewer::player_changed (int property, bool frequent)
+FilmViewer::player_change (ChangeType type, int property, bool frequent)
 {
-	if (frequent) {
+	if (type != CHANGE_TYPE_DONE || frequent) {
 		return;
 	}
 
@@ -780,7 +780,7 @@ FilmViewer::set_coalesce_player_changes (bool c)
 
 	if (!c) {
 		BOOST_FOREACH (int i, _pending_player_changes) {
-			player_changed (i, false);
+			player_change (CHANGE_TYPE_DONE, i, false);
 		}
 		_pending_player_changes.clear ();
 	}

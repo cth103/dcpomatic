@@ -76,7 +76,7 @@ HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> film, bool ok)
 	boost::shared_ptr<Film> locked_film = _film.lock ();
 	if (locked_film) {
 		_film_changed_connection = locked_film->Changed.connect (boost::bind (&HintsDialog::film_changed, this));
-		_film_content_changed_connection = locked_film->ContentChanged.connect (boost::bind (&HintsDialog::film_changed, this));
+		_film_content_changed_connection = locked_film->ContentChange.connect (boost::bind (&HintsDialog::film_content_change, this, _1));
 	}
 
 	_hints->Hint.connect (bind (&HintsDialog::hint, this, _1));
@@ -104,6 +104,14 @@ HintsDialog::film_changed ()
 	_gauge->SetValue (0);
 	update ();
 	_hints->start ();
+}
+
+void
+HintsDialog::film_content_change (ChangeType type)
+{
+	if (type == CHANGE_TYPE_DONE) {
+		film_changed ();
+	}
 }
 
 void

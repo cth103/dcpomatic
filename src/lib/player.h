@@ -88,19 +88,7 @@ public:
 
 	boost::optional<DCPTime> content_time_to_dcp (boost::shared_ptr<Content> content, ContentTime t);
 
-	/* The player's internal state may be about to change such so
-	   that its emissions from Video and Audio will suddenly be
-	   from an undefined position.  Listeners should prepare
-	   themselves for this possibility.
-	*/
-	boost::signals2::signal<void ()> MayChange;
-
-	/** The player's internal state has now changed.
-	 *
-	 *  The first parameter is what changed.
-	 *  The second parameter is true if these signals are currently likely to be frequent.
-	 */
-	boost::signals2::signal<void (int, bool)> Changed;
+	boost::signals2::signal<void (ChangeType, int, bool)> Change;
 
 	/** The change suggested by a MayChange did not happen */
 	boost::signals2::signal<void ()> NotChanged;
@@ -125,10 +113,8 @@ private:
 	void setup_pieces_unlocked ();
 	void flush ();
 	void film_changed (Film::Property);
-	void playlist_changed ();
-	void playlist_content_may_change ();
-	void playlist_content_changed (boost::weak_ptr<Content>, int, bool);
-	void playlist_content_not_changed ();
+	void playlist_change (ChangeType);
+	void playlist_content_change (ChangeType, int, bool);
 	std::list<PositionImage> transform_bitmap_texts (std::list<BitmapText>) const;
 	Frame dcp_to_content_video (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	DCPTime content_video_to_dcp (boost::shared_ptr<const Piece> piece, Frame f) const;
@@ -217,10 +203,8 @@ private:
 	boost::shared_ptr<AudioProcessor> _audio_processor;
 
 	boost::signals2::scoped_connection _film_changed_connection;
-	boost::signals2::scoped_connection _playlist_changed_connection;
-	boost::signals2::scoped_connection _playlist_content_may_change_connection;
-	boost::signals2::scoped_connection _playlist_content_changed_connection;
-	boost::signals2::scoped_connection _playlist_content_not_changed_connection;
+	boost::signals2::scoped_connection _playlist_change_connection;
+	boost::signals2::scoped_connection _playlist_content_change_connection;
 };
 
 #endif

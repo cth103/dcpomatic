@@ -110,7 +110,7 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	SetMinSize (wxSize (640, 4 * pixels_per_track() + 96));
 
 	_film_changed_connection = film->Changed.connect (bind (&Timeline::film_changed, this, _1));
-	_film_content_changed_connection = film->ContentChanged.connect (bind (&Timeline::film_content_changed, this, _2, _3));
+	_film_content_change_connection = film->ContentChange.connect (bind (&Timeline::film_content_change, this, _1, _3, _4));
 
 	setup_scrollbars ();
 	_labels_canvas->ShowScrollbars (wxSHOW_SB_NEVER, wxSHOW_SB_NEVER);
@@ -243,8 +243,12 @@ Timeline::recreate_views ()
 }
 
 void
-Timeline::film_content_changed (int property, bool frequent)
+Timeline::film_content_change (ChangeType type, int property, bool frequent)
 {
+	if (type != CHANGE_TYPE_DONE) {
+		return;
+	}
+
 	ensure_ui_thread ();
 
 	if (property == AudioContentProperty::STREAMS) {

@@ -178,14 +178,8 @@ public:
 
 	std::list<UserProperty> user_properties () const;
 
-	/* May be emitted from any thread */
-	boost::signals2::signal<void ()> MayChange;
-
-	/* Emitted from the GUI thread */
-	boost::signals2::signal<void (boost::weak_ptr<Content>, int, bool)> Changed;
-
-	/* May be emitted from any thread */
-	boost::signals2::signal<void ()> NotChanged;
+	/* CHANGE_PENDING and CHANGE_CANCELLED may be emitted from any thread; CHANGE_DONE always from GUI thread */
+	boost::signals2::signal<void (ChangeType, boost::weak_ptr<Content>, int, bool)> Change;
 
 	boost::shared_ptr<VideoContent> video;
 	boost::shared_ptr<AudioContent> audio;
@@ -215,7 +209,7 @@ private:
 	friend struct audio_sampling_rate_test;
 	friend class ContentChange;
 
-	void signal_changed (int);
+	void signal_change (ChangeType, int);
 
 	std::string _digest;
 	DCPTime _position;

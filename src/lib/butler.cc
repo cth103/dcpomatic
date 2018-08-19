@@ -65,9 +65,7 @@ Butler::Butler (shared_ptr<Player> player, shared_ptr<Log> log, AudioMapping aud
 	_player_video_connection = _player->Video.connect (bind (&Butler::video, this, _1, _2));
 	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1, _2));
 	_player_text_connection = _player->Text.connect (bind (&Butler::text, this, _1, _2, _3));
-	_player_may_change_connection = _player->MayChange.connect (bind (&Butler::suspend, this));
-	_player_changed_connection = _player->Changed.connect (bind (&Butler::return_seek, this, _2));
-	_player_not_changed_connection = _player->NotChanged.connect (bind (&Butler::return_seek, this, false));
+	_player_change_connection = _player->Change.connect (bind (&Butler::player_change, this, _1, _3));
 	_thread = new boost::thread (bind (&Butler::thread, this));
 #ifdef DCPOMATIC_LINUX
 	pthread_setname_np (_thread->native_handle(), "butler");
@@ -107,10 +105,6 @@ Butler::~Butler ()
 bool
 Butler::should_run () const
 {
-	if (_suspended) {
-		return false;
-	}
-
 	if (_video.size() >= MAXIMUM_VIDEO_READAHEAD * 10) {
 		/* This is way too big */
 		throw ProgrammingError
@@ -131,7 +125,7 @@ Butler::should_run () const
 		LOG_WARNING ("Butler audio buffers reached %1 frames (video is %2)", _audio.size(), _video.size());
 	}
 
-	if (_stop_thread || _finished || _died) {
+	if (_stop_thread || _finished || _died || _suspended) {
 		/* Definitely do not run */
 		return false;
 	}
@@ -198,7 +192,7 @@ Butler::get_video ()
 	boost::mutex::scoped_lock lm (_mutex);
 
 	/* Wait for data if we have none */
-	while (_video.empty() && !_finished && !_died) {
+	while (_video.empty() && !_finished && !_died && !_suspended) {
 		_arrived.wait (lm);
 	}
 
@@ -316,27 +310,33 @@ Butler::memory_used () const
 }
 
 void
-Butler::return_seek (bool frequent)
+Butler::player_change (ChangeType type, bool frequent)
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	if (_died || _pending_seek_position || frequent) {
-		return;
-	}
 
-	DCPTime seek_to;
-	DCPTime next = _video.get().second;
-	if (_awaiting && _awaiting > next) {
-		/* We have recently done a player_changed seek and our buffers haven't been refilled yet,
-		   so assume that we're seeking to the same place as last time.
-		*/
-		seek_to = *_awaiting;
-	} else {
-		seek_to = next;
-	}
+	if (type == CHANGE_TYPE_PENDING) {
+		_suspended = true;
+	} else if (type == CHANGE_TYPE_DONE) {
 
-	seek_unlocked (seek_to, true);
-	_suspended = false;
-	_awaiting = seek_to;
+		if (_died || _pending_seek_position || frequent) {
+			return;
+		}
+
+		DCPTime seek_to;
+		DCPTime next = _video.get().second;
+		if (_awaiting && _awaiting > next) {
+			/* We have recently done a player_changed seek and our buffers haven't been refilled yet,
+			   so assume that we're seeking to the same place as last time.
+			*/
+			seek_to = *_awaiting;
+		} else {
+			seek_to = next;
+		}
+
+		seek_unlocked (seek_to, true);
+		_suspended = false;
+		_awaiting = seek_to;
+	}
 }
 
 void
@@ -348,11 +348,4 @@ Butler::text (PlayerText pt, TextType type, DCPTimePeriod period)
 
 	boost::mutex::scoped_lock lm2 (_buffers_mutex);
 	_closed_caption.put (make_pair(pt, period));
-}
-
-void
-Butler::suspend ()
-{
-	boost::mutex::scoped_lock lm (_mutex);
-	_suspended = true;
 }

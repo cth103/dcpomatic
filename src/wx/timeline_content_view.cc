@@ -33,7 +33,7 @@ TimelineContentView::TimelineContentView (Timeline& tl, shared_ptr<Content> c)
 	, _content (c)
 	, _selected (false)
 {
-	_content_connection = c->Changed.connect (bind (&TimelineContentView::content_changed, this, _2));
+	_content_connection = c->Change.connect (bind (&TimelineContentView::content_change, this, _1, _3));
 }
 
 dcpomatic::Rect<int>
@@ -160,8 +160,12 @@ TimelineContentView::y_pos (int t) const
 }
 
 void
-TimelineContentView::content_changed (int p)
+TimelineContentView::content_change (ChangeType type, int p)
 {
+	if (type != CHANGE_TYPE_DONE) {
+		return;
+	}
+
 	ensure_ui_thread ();
 
 	if (p == ContentProperty::POSITION || p == ContentProperty::LENGTH) {

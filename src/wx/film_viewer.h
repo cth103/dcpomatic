@@ -97,7 +97,7 @@ private:
 	void rewind_clicked (wxMouseEvent &);
 	void back_clicked (wxKeyboardState& s);
 	void forward_clicked (wxKeyboardState &);
-	void player_changed (int, bool);
+	void player_change (ChangeType type, int, bool);
 	void update_position_label ();
 	void update_position_slider ();
 	void get ();

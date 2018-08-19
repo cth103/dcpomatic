@@ -56,8 +56,7 @@ private:
 	void text (PlayerText pt, TextType type, DCPTimePeriod period);
 	bool should_run () const;
 	void prepare (boost::weak_ptr<PlayerVideo> video) const;
-	void suspend ();
-	void return_seek (bool frequent);
+	void player_change (ChangeType type, bool frequent);
 	void seek_unlocked (DCPTime position, bool accurate);
 
 	boost::shared_ptr<Player> _player;
@@ -102,7 +101,5 @@ private:
 	boost::signals2::scoped_connection _player_video_connection;
 	boost::signals2::scoped_connection _player_audio_connection;
 	boost::signals2::scoped_connection _player_text_connection;
-	boost::signals2::scoped_connection _player_may_change_connection;
-	boost::signals2::scoped_connection _player_changed_connection;
-	boost::signals2::scoped_connection _player_not_changed_connection;
+	boost::signals2::scoped_connection _player_change_connection;
 };

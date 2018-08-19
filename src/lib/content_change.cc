@@ -26,16 +26,16 @@ ContentChange::ContentChange (Content* c, int p)
 	, _property (p)
 	, _done (true)
 {
-	_content->MayChange ();
+	_content->signal_change (CHANGE_TYPE_PENDING, _property);
 }
 
 
 ContentChange::~ContentChange ()
 {
 	if (_done) {
-		_content->signal_changed (_property);
+		_content->signal_change (CHANGE_TYPE_DONE, _property);
 	} else {
-		_content->NotChanged ();
+		_content->signal_change (CHANGE_TYPE_CANCELLED, _property);
 	}
 }
 

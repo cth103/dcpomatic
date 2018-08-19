@@ -129,6 +129,13 @@ enum ReelType
 	REELTYPE_BY_LENGTH
 };
 
+enum ChangeType
+{
+	CHANGE_TYPE_PENDING,
+	CHANGE_TYPE_DONE,
+	CHANGE_TYPE_CANCELLED
+};
+
 /** Type of captions.
  *
  *  The generally accepted definitions seem to be:
