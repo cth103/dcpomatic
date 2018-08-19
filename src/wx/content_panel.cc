@@ -326,7 +326,6 @@ ContentPanel::selection_changed ()
 
 	if (have_audio && !_audio_panel) {
 		_audio_panel = new AudioPanel (this);
-		_audio_panel->set_film (_film);
 		_notebook->InsertPage (off, _audio_panel, _audio_panel->name());
 	} else if (!have_audio && _audio_panel) {
 		_notebook->DeletePage (off);
