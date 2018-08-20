@@ -28,6 +28,7 @@
 #include "types.h"
 #include "signaller.h"
 #include "dcpomatic_time.h"
+#include "change_signaller.h"
 #include "user_property.h"
 #include <libcxml/cxml.h>
 #include <boost/filesystem.hpp>
@@ -207,7 +208,7 @@ private:
 	friend struct best_dcp_frame_rate_test_single;
 	friend struct best_dcp_frame_rate_test_double;
 	friend struct audio_sampling_rate_test;
-	friend class ContentChange;
+	template<class> friend class ChangeSignaller;
 
 	void signal_change (ChangeType, int);
 

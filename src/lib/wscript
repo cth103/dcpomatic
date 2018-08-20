@@ -47,7 +47,6 @@ sources = """
           colour_conversion.cc
           config.cc
           content.cc
-          content_change.cc
           content_factory.cc
           cross.cc
           curl_uploader.cc

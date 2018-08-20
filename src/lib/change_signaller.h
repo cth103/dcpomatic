@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,18 +18,41 @@
 
 */
 
-class Content;
+#ifndef DCPOMATIC_CHANGE_H
+#define DCPOMATIC_CHANGE_H
 
-class ContentChange
+#include <boost/noncopyable.hpp>
+
+template <class T>
+class ChangeSignaller : public boost::noncopyable
 {
 public:
-	ContentChange (Content* c, int p);
-	~ContentChange ();
+	ChangeSignaller (T* t, int p)
+		: _thing (t)
+		, _property (p)
+		, _done (true)
+	{
+		_thing->signal_change (CHANGE_TYPE_PENDING, _property);
+	}
 
-	void abort ();
+	~ChangeSignaller ()
+	{
+		if (_done) {
+			_thing->signal_change (CHANGE_TYPE_DONE, _property);
+		} else {
+			_thing->signal_change (CHANGE_TYPE_CANCELLED, _property);
+		}
+	}
+
+	void abort ()
+	{
+		_done = false;
+	}
 
 private:
-	Content* _content;
+	T* _thing;
 	int _property;
 	bool _done;
 };
+
+#endif

@@ -335,8 +335,10 @@ public:
 private:
 
 	friend struct ::isdcf_name_test;
+	template <typename> friend class ChangeSignaller;
 
-	void signal_changed (Property);
+	void signal_change (ChangeType, Property);
+	void signal_change (ChangeType, int);
 	std::string video_identifier () const;
 	void playlist_change (ChangeType);
 	void playlist_order_changed ();

@@ -159,11 +159,11 @@ DCPContent::examine (shared_ptr<Job> job)
 	string const old_name = name ();
 	int const old_texts = text.size ();
 
-	ContentChange cc_texts (this, DCPContentProperty::TEXTS);
-	ContentChange cc_assets (this, DCPContentProperty::NEEDS_ASSETS);
-	ContentChange cc_kdm (this, DCPContentProperty::NEEDS_KDM);
-	ContentChange cc_name (this, DCPContentProperty::NAME);
-	ContentChange cc_streams (this, AudioContentProperty::STREAMS);
+	ChangeSignaller<Content> cc_texts (this, DCPContentProperty::TEXTS);
+	ChangeSignaller<Content> cc_assets (this, DCPContentProperty::NEEDS_ASSETS);
+	ChangeSignaller<Content> cc_kdm (this, DCPContentProperty::NEEDS_KDM);
+	ChangeSignaller<Content> cc_name (this, DCPContentProperty::NAME);
+	ChangeSignaller<Content> cc_streams (this, AudioContentProperty::STREAMS);
 
 	if (job) {
 		job->set_progress_unknown ();
@@ -182,7 +182,7 @@ DCPContent::examine (shared_ptr<Job> job)
 	}
 
 	if (examiner->has_audio()) {
-		ContentChange cc (this, AudioContentProperty::STREAMS);
+		ChangeSignaller<Content> cc (this, AudioContentProperty::STREAMS);
 		{
 			boost::mutex::scoped_lock lm (_mutex);
 			audio.reset (new AudioContent (this));
@@ -401,7 +401,7 @@ DCPContent::set_default_colour_conversion ()
 void
 DCPContent::set_reference_video (bool r)
 {
-	ContentChange cc (this, DCPContentProperty::REFERENCE_VIDEO);
+	ChangeSignaller<Content> cc (this, DCPContentProperty::REFERENCE_VIDEO);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -412,7 +412,7 @@ DCPContent::set_reference_video (bool r)
 void
 DCPContent::set_reference_audio (bool r)
 {
-	ContentChange cc (this, DCPContentProperty::REFERENCE_AUDIO);
+	ChangeSignaller<Content> cc (this, DCPContentProperty::REFERENCE_AUDIO);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -423,7 +423,7 @@ DCPContent::set_reference_audio (bool r)
 void
 DCPContent::set_reference_text (TextType type, bool r)
 {
-	ContentChange cc (this, DCPContentProperty::REFERENCE_TEXT);
+	ChangeSignaller<Content> cc (this, DCPContentProperty::REFERENCE_TEXT);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -649,7 +649,7 @@ DCPContent::take_settings_from (shared_ptr<const Content> c)
 void
 DCPContent::set_cpl (string id)
 {
-	ContentChange cc (this, DCPContentProperty::CPL);
+	ChangeSignaller<Content> cc (this, DCPContentProperty::CPL);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);

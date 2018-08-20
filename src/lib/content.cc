@@ -23,6 +23,7 @@
  */
 
 #include "content.h"
+#include "change_signaller.h"
 #include "util.h"
 #include "content_factory.h"
 #include "video_content.h"
@@ -205,7 +206,7 @@ Content::set_position (DCPTime p)
 		audio->modify_position (p);
 	}
 
-	ContentChange cc (this, ContentProperty::POSITION);
+	ChangeSignaller<Content> cc (this, ContentProperty::POSITION);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -231,7 +232,7 @@ Content::set_trim_start (ContentTime t)
 		audio->modify_trim_start (t);
 	}
 
-	ContentChange cc (this, ContentProperty::TRIM_START);
+	ChangeSignaller<Content> cc (this, ContentProperty::TRIM_START);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -242,7 +243,7 @@ Content::set_trim_start (ContentTime t)
 void
 Content::set_trim_end (ContentTime t)
 {
-	ContentChange cc (this, ContentProperty::TRIM_END);
+	ChangeSignaller<Content> cc (this, ContentProperty::TRIM_END);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -310,7 +311,7 @@ Content::paths_valid () const
 void
 Content::set_path (boost::filesystem::path path)
 {
-	ContentChange cc (this, ContentProperty::PATH);
+	ChangeSignaller<Content> cc (this, ContentProperty::PATH);
 	_paths.clear ();
 	_paths.push_back (path);
 }
@@ -318,7 +319,7 @@ Content::set_path (boost::filesystem::path path)
 void
 Content::set_paths (vector<boost::filesystem::path> paths)
 {
-	ContentChange cc (this, ContentProperty::PATH);
+	ChangeSignaller<Content> cc (this, ContentProperty::PATH);
 	_paths = paths;
 }
 
@@ -369,7 +370,7 @@ Content::reel_split_points () const
 void
 Content::set_video_frame_rate (double r)
 {
-	ContentChange cc (this, ContentProperty::VIDEO_FRAME_RATE);
+	ChangeSignaller<Content> cc (this, ContentProperty::VIDEO_FRAME_RATE);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -385,7 +386,7 @@ Content::set_video_frame_rate (double r)
 void
 Content::unset_video_frame_rate ()
 {
-	ContentChange cc (this, ContentProperty::VIDEO_FRAME_RATE);
+	ChangeSignaller<Content> cc (this, ContentProperty::VIDEO_FRAME_RATE);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);

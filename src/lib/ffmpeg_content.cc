@@ -251,8 +251,8 @@ FFmpegContent::as_xml (xmlpp::Node* node, bool with_paths) const
 void
 FFmpegContent::examine (shared_ptr<Job> job)
 {
-	ContentChange cc1 (this, FFmpegContentProperty::SUBTITLE_STREAMS);
-	ContentChange cc2 (this, FFmpegContentProperty::SUBTITLE_STREAM);
+	ChangeSignaller<Content> cc1 (this, FFmpegContentProperty::SUBTITLE_STREAMS);
+	ChangeSignaller<Content> cc2 (this, FFmpegContentProperty::SUBTITLE_STREAM);
 
 	job->set_progress_unknown ();
 
@@ -369,7 +369,7 @@ FFmpegContent::technical_summary () const
 void
 FFmpegContent::set_subtitle_stream (shared_ptr<FFmpegSubtitleStream> s)
 {
-	ContentChange cc (this, FFmpegContentProperty::SUBTITLE_STREAM);
+	ChangeSignaller<Content> cc (this, FFmpegContentProperty::SUBTITLE_STREAM);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -410,7 +410,7 @@ FFmpegContent::full_length () const
 void
 FFmpegContent::set_filters (vector<Filter const *> const & filters)
 {
-	ContentChange cc (this, FFmpegContentProperty::FILTERS);
+	ChangeSignaller<Content> cc (this, FFmpegContentProperty::FILTERS);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -630,7 +630,7 @@ void
 FFmpegContent::signal_subtitle_stream_changed ()
 {
 	/* XXX: this is too late; really it should be before the change */
-	ContentChange cc (this, FFmpegContentProperty::SUBTITLE_STREAM);
+	ChangeSignaller<Content> cc (this, FFmpegContentProperty::SUBTITLE_STREAM);
 }
 
 vector<shared_ptr<FFmpegAudioStream> >

@@ -51,6 +51,7 @@
 #include "dcp_content.h"
 #include "screen_kdm.h"
 #include "cinema.h"
+#include "change_signaller.h"
 #include <libcxml/cxml.h>
 #include <dcp/cpl.h>
 #include <dcp/certificate_chain.h>
@@ -824,141 +825,142 @@ Film::set_directory (boost::filesystem::path d)
 void
 Film::set_name (string n)
 {
+	ChangeSignaller<Film> ch (this, NAME);
 	_name = n;
-	signal_changed (NAME);
 }
 
 void
 Film::set_use_isdcf_name (bool u)
 {
+	ChangeSignaller<Film> ch (this, USE_ISDCF_NAME);
 	_use_isdcf_name = u;
-	signal_changed (USE_ISDCF_NAME);
 }
 
 void
 Film::set_dcp_content_type (DCPContentType const * t)
 {
+	ChangeSignaller<Film> ch (this, DCP_CONTENT_TYPE);
 	_dcp_content_type = t;
-	signal_changed (DCP_CONTENT_TYPE);
 }
 
 void
 Film::set_container (Ratio const * c)
 {
+	ChangeSignaller<Film> ch (this, CONTAINER);
 	_container = c;
-	signal_changed (CONTAINER);
 }
 
 void
 Film::set_resolution (Resolution r)
 {
+	ChangeSignaller<Film> ch (this, RESOLUTION);
 	_resolution = r;
-	signal_changed (RESOLUTION);
 }
 
 void
 Film::set_j2k_bandwidth (int b)
 {
+	ChangeSignaller<Film> ch (this, J2K_BANDWIDTH);
 	_j2k_bandwidth = b;
-	signal_changed (J2K_BANDWIDTH);
 }
 
 void
 Film::set_isdcf_metadata (ISDCFMetadata m)
 {
+	ChangeSignaller<Film> ch (this, ISDCF_METADATA);
 	_isdcf_metadata = m;
-	signal_changed (ISDCF_METADATA);
 }
 
 void
 Film::set_video_frame_rate (int f)
 {
+	ChangeSignaller<Film> ch (this, VIDEO_FRAME_RATE);
 	_video_frame_rate = f;
-	signal_changed (VIDEO_FRAME_RATE);
 }
 
 void
 Film::set_audio_channels (int c)
 {
+	ChangeSignaller<Film> ch (this, AUDIO_CHANNELS);
 	_audio_channels = c;
-	signal_changed (AUDIO_CHANNELS);
 }
 
 void
 Film::set_three_d (bool t)
 {
+	ChangeSignaller<Film> ch (this, THREE_D);
 	_three_d = t;
-	signal_changed (THREE_D);
 
 	if (_three_d && _isdcf_metadata.two_d_version_of_three_d) {
+		ChangeSignaller<Film> ch (this, ISDCF_METADATA);
 		_isdcf_metadata.two_d_version_of_three_d = false;
-		signal_changed (ISDCF_METADATA);
 	}
 }
 
 void
 Film::set_interop (bool i)
 {
+	ChangeSignaller<Film> ch (this, INTEROP);
 	_interop = i;
-	signal_changed (INTEROP);
 }
 
 void
 Film::set_audio_processor (AudioProcessor const * processor)
 {
+	ChangeSignaller<Film> ch1 (this, AUDIO_PROCESSOR);
+	ChangeSignaller<Film> ch2 (this, AUDIO_CHANNELS);
 	_audio_processor = processor;
-	signal_changed (AUDIO_PROCESSOR);
-	signal_changed (AUDIO_CHANNELS);
 }
 
 void
 Film::set_reel_type (ReelType t)
 {
+	ChangeSignaller<Film> ch (this, REEL_TYPE);
 	_reel_type = t;
-	signal_changed (REEL_TYPE);
 }
 
 /** @param r Desired reel length in bytes */
 void
 Film::set_reel_length (int64_t r)
 {
+	ChangeSignaller<Film> ch (this, REEL_LENGTH);
 	_reel_length = r;
-	signal_changed (REEL_LENGTH);
 }
 
 void
 Film::set_upload_after_make_dcp (bool u)
 {
+	ChangeSignaller<Film> ch (this, UPLOAD_AFTER_MAKE_DCP);
 	_upload_after_make_dcp = u;
-	signal_changed (UPLOAD_AFTER_MAKE_DCP);
 }
 
 void
-Film::signal_changed (Property p)
+Film::signal_change (ChangeType type, int p)
 {
-	_dirty = true;
+	signal_change (type, static_cast<Property>(p));
+}
 
-	Change (CHANGE_TYPE_PENDING, p);
-	bool changed = false;
+void
+Film::signal_change (ChangeType type, Property p)
+{
+	if (type == CHANGE_TYPE_DONE) {
+		_dirty = true;
 
-	switch (p) {
-	case Film::CONTENT:
-		set_video_frame_rate (_playlist->best_video_frame_rate ());
-		changed = true;
-		break;
-	case Film::VIDEO_FRAME_RATE:
-	case Film::SEQUENCE:
-		_playlist->maybe_sequence ();
-		changed = true;
-		break;
-	default:
-		break;
-	}
+		switch (p) {
+		case Film::CONTENT:
+			set_video_frame_rate (_playlist->best_video_frame_rate ());
+			break;
+		case Film::VIDEO_FRAME_RATE:
+		case Film::SEQUENCE:
+			_playlist->maybe_sequence ();
+			break;
+		default:
+			break;
+		}
 
-	if (changed) {
-		emit (boost::bind (boost::ref (Change), CHANGE_TYPE_DONE, p));
+		emit (boost::bind (boost::ref (Change), type, p));
 	} else {
-		Change (CHANGE_TYPE_CANCELLED, p);
+		Change (type, p);
 	}
 }
 
@@ -1036,22 +1038,22 @@ Film::cpls () const
 void
 Film::set_signed (bool s)
 {
+	ChangeSignaller<Film> ch (this, SIGNED);
 	_signed = s;
-	signal_changed (SIGNED);
 }
 
 void
 Film::set_encrypted (bool e)
 {
+	ChangeSignaller<Film> ch (this, ENCRYPTED);
 	_encrypted = e;
-	signal_changed (ENCRYPTED);
 }
 
 void
 Film::set_key (dcp::Key key)
 {
+	ChangeSignaller<Film> ch (this, KEY);
 	_key = key;
-	signal_changed (KEY);
 }
 
 ContentList
@@ -1165,34 +1167,31 @@ Film::active_frame_rate_change (DCPTime t) const
 void
 Film::playlist_content_change (ChangeType type, weak_ptr<Content> c, int p, bool frequent)
 {
-	if (type != CHANGE_TYPE_DONE) {
-		return;
-	}
-
-	_dirty = true;
-
 	if (p == ContentProperty::VIDEO_FRAME_RATE) {
-		set_video_frame_rate (_playlist->best_video_frame_rate ());
+		signal_change (type, Film::CONTENT);
 	} else if (p == AudioContentProperty::STREAMS) {
-		signal_changed (NAME);
+		signal_change (type, Film::NAME);
 	}
 
-	emit (boost::bind (boost::ref (ContentChange), type, c, p, frequent));
+	if (type == CHANGE_TYPE_DONE) {
+		emit (boost::bind (boost::ref (ContentChange), type, c, p, frequent));
+	} else {
+		ContentChange (type, c, p, frequent);
+	}
 }
 
 void
 Film::playlist_change (ChangeType type)
 {
-	if (type == CHANGE_TYPE_DONE) {
-		signal_changed (CONTENT);
-		signal_changed (NAME);
-	}
+	signal_change (type, CONTENT);
+	signal_change (type, NAME);
 }
 
 void
 Film::playlist_order_changed ()
 {
-	signal_changed (CONTENT_ORDER);
+	/* XXX: missing PENDING */
+	signal_change (CHANGE_TYPE_DONE, CONTENT_ORDER);
 }
 
 int
@@ -1214,9 +1213,9 @@ Film::set_sequence (bool s)
 		return;
 	}
 
+	ChangeSignaller<Film> cc (this, SEQUENCE);
 	_sequence = s;
 	_playlist->set_sequence (s);
-	signal_changed (SEQUENCE);
 }
 
 /** @return Size of the largest possible image in whatever resolution we are using */

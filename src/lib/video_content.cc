@@ -234,9 +234,9 @@ VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
 	optional<double> const ar = d->sample_aspect_ratio ();
 	bool const yuv = d->yuv ();
 
-	ContentChange cc1 (_parent, VideoContentProperty::SIZE);
-	ContentChange cc2 (_parent, VideoContentProperty::SCALE);
-	ContentChange cc3 (_parent, ContentProperty::LENGTH);
+	ChangeSignaller<Content> cc1 (_parent, VideoContentProperty::SIZE);
+	ChangeSignaller<Content> cc2 (_parent, VideoContentProperty::SCALE);
+	ChangeSignaller<Content> cc3 (_parent, ContentProperty::LENGTH);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);

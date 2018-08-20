@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -146,7 +146,7 @@ AudioContent::technical_summary () const
 void
 AudioContent::set_mapping (AudioMapping mapping)
 {
-	ContentChange cc (_parent, AudioContentProperty::STREAMS);
+	ChangeSignaller<Content> cc (_parent, AudioContentProperty::STREAMS);
 
 	int c = 0;
 	BOOST_FOREACH (AudioStreamPtr i, streams ()) {
@@ -341,7 +341,7 @@ AudioContent::add_properties (list<UserProperty>& p) const
 void
 AudioContent::set_streams (vector<AudioStreamPtr> streams)
 {
-	ContentChange cc (_parent, AudioContentProperty::STREAMS);
+	ChangeSignaller<Content> cc (_parent, AudioContentProperty::STREAMS);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -360,7 +360,7 @@ AudioContent::stream () const
 void
 AudioContent::add_stream (AudioStreamPtr stream)
 {
-	ContentChange cc (_parent, AudioContentProperty::STREAMS);
+	ChangeSignaller<Content> cc (_parent, AudioContentProperty::STREAMS);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -371,7 +371,7 @@ AudioContent::add_stream (AudioStreamPtr stream)
 void
 AudioContent::set_stream (AudioStreamPtr stream)
 {
-	ContentChange cc (_parent, AudioContentProperty::STREAMS);
+	ChangeSignaller<Content> cc (_parent, AudioContentProperty::STREAMS);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);

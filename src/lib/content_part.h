@@ -23,7 +23,7 @@
 #define DCPOMATIC_CONTENT_PART_H
 
 #include "content.h"
-#include "content_change.h"
+#include "change_signaller.h"
 #include <boost/weak_ptr.hpp>
 #include <boost/thread/mutex.hpp>
 
@@ -42,7 +42,7 @@ protected:
 	void
 	maybe_set (T& member, T new_value, int property) const
 	{
-		ContentChange cc (_parent, property);
+		ChangeSignaller<Content> cc (_parent, property);
 		{
 			boost::mutex::scoped_lock lm (_mutex);
 			if (member == new_value) {
@@ -57,7 +57,7 @@ protected:
 	void
 	maybe_set (boost::optional<T>& member, T new_value, int property) const
 	{
-		ContentChange cc (_parent, property);
+		ChangeSignaller<Content> cc (_parent, property);
 		{
 			boost::mutex::scoped_lock lm (_mutex);
 			if (member && member.get() == new_value) {
