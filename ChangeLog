@@ -1,3 +1,7 @@
+2018-08-20  Carl Hetherington  <cth@carlh.net>
+
+	* Updated ru_RU and uk_UA translations from Igor Voytovich.
+
 2018-08-16  Carl Hetherington  <cth@carlh.net>
 
 	* Add pause/resume to the batch converter (#1248).

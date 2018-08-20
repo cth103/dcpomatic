@@ -4,14 +4,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-06-29 00:16+0100\n"
-"PO-Revision-Date: 2017-01-18 12:15+0200\n"
+"PO-Revision-Date: 2018-08-20 19:32+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Українська\n"
 "Language: uk_UA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 2.1.1\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -66,7 +66,7 @@ msgstr " (%.2f:1)"
 #. / to say what day a job will finish.
 #: src/lib/job.cc:443
 msgid " on %1"
-msgstr ""
+msgstr " на %1"
 
 #: src/lib/config.cc:918
 msgid ""
@@ -80,10 +80,19 @@ msgid ""
 "Length: $LENGTH\n"
 "Size: $SIZE\n"
 msgstr ""
+"$CPL_NAME\n"
+"\n"
+"Тип: $TYPE\n"
+"Формат: $CONTAINER\n"
+"Аудіо: $AUDIO\n"
+"Мова аудіо: $AUDIO_LANGUAGE\n"
+"Мова субтитрів: $SUBTITLE_LANGUAGE\n"
+"Тривалість: $LENGTH\n"
+"Розмір: $SIZE\n"
 
 #: src/lib/config.cc:896
 msgid "$JOB_NAME: $JOB_STATUS"
-msgstr ""
+msgstr "$JOB_NAME: $JOB_STATUS"
 
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
@@ -116,16 +125,15 @@ msgstr "1.19"
 
 #: src/lib/ratio.cc:38
 msgid "1.33 (4:3)"
-msgstr ""
+msgstr "1.33 (4:3)"
 
 #: src/lib/ratio.cc:39
-#, fuzzy
 msgid "1.38 (Academy)"
-msgstr "Academy (1.33:1)"
+msgstr "1.38 (Academy)"
 
 #: src/lib/ratio.cc:40
 msgid "1.43 (IMAX)"
-msgstr ""
+msgstr "1.43 (IMAX)"
 
 #: src/lib/ratio.cc:41
 msgid "1.66"
@@ -133,24 +141,23 @@ msgstr "1.66"
 
 #: src/lib/ratio.cc:42
 msgid "1.78 (16:9 or HD)"
-msgstr ""
+msgstr "1.78 (16:9 або HD)"
 
 #: src/lib/ratio.cc:43
 msgid "1.85 (Flat)"
-msgstr ""
+msgstr "1.85 (Flat)"
 
 #: src/lib/ratio.cc:46
-#, fuzzy
 msgid "1.90 (Full frame)"
-msgstr "FULL (2048x1080)"
+msgstr "1.90 (Full frame)"
 
 #: src/lib/ratio.cc:44
 msgid "2.35 (35mm Scope)"
-msgstr ""
+msgstr "2.35 (35mm Scope)"
 
 #: src/lib/ratio.cc:45
 msgid "2.39 (Scope)"
-msgstr ""
+msgstr "2.39 (Scope)"
 
 #: src/lib/filter.cc:77
 msgid "3D denoiser"
@@ -164,7 +171,7 @@ msgstr "; %.1f кадр/сек"
 
 #: src/lib/job.cc:448
 msgid "; %1 remaining; finishing at %2%3"
-msgstr ""
+msgstr "; %1 залишилось; час завершення %2%3"
 
 #: src/lib/hints.cc:113
 msgid ""
@@ -253,7 +260,7 @@ msgstr "BT2020 непостійна яскравість"
 
 #: src/lib/ffmpeg_content.cc:607
 msgid "BT2100"
-msgstr ""
+msgstr "BT2100"
 
 #: src/lib/ffmpeg_content.cc:544
 msgid "BT470BG"
@@ -293,9 +300,8 @@ msgid "Cancelled"
 msgstr "Відмінено"
 
 #: src/lib/film.cc:296
-#, fuzzy
 msgid "Cannot contain slashes"
-msgstr "не може містити розрізи"
+msgstr "Не може містити слеші"
 
 #: src/lib/exceptions.cc:61
 msgid "Cannot handle pixel format %1 during %2"
@@ -303,7 +309,7 @@ msgstr "Неможливо обробити формат пікселя %1 пі�
 
 #: src/lib/film.cc:1231
 msgid "Cannot make a KDM as this project is not encrypted."
-msgstr ""
+msgstr "Не можна створити KDM так як цей проект не зашифрований."
 
 #: src/lib/util.cc:517
 msgid "Centre"
@@ -318,14 +324,12 @@ msgid "Checking existing image data"
 msgstr "Перевірка данних зображення"
 
 #: src/lib/ffmpeg_content.cc:606
-#, fuzzy
 msgid "Chroma-derived constant luminance"
-msgstr "BT2020 постійна яскравість"
+msgstr "Хроматична постійна яскравість"
 
 #: src/lib/ffmpeg_content.cc:605
-#, fuzzy
 msgid "Chroma-derived non-constant luminance"
-msgstr "BT2020 непостійна яскравість"
+msgstr "Хроматична непостійна яскравість"
 
 #: src/lib/ffmpeg_content.cc:565
 msgid "Colour primaries"
@@ -357,12 +361,11 @@ msgstr "Кольорова палітра"
 
 #: src/lib/content.cc:164
 msgid "Computing digest"
-msgstr "Рендеринг"
+msgstr "Перевірка цілостності"
 
 #: src/lib/writer.cc:517
-#, fuzzy
 msgid "Computing digests"
-msgstr "Рендеринг"
+msgstr "Перевірка цілостності"
 
 #: src/lib/frame_rate_change.cc:67
 msgid "Content and DCP have the same rate.\n"
@@ -529,7 +532,7 @@ msgstr "Не вдалося запустити SCP-сесію (%1)"
 
 #: src/lib/curl_uploader.cc:49
 msgid "Could not start transfer"
-msgstr "не вдалося почати передачу"
+msgstr "Не вдалося почати передачу"
 
 #: src/lib/curl_uploader.cc:93 src/lib/scp_uploader.cc:118
 msgid "Could not write to remote file (%1)"
@@ -552,14 +555,12 @@ msgid "DBS"
 msgstr "DBS"
 
 #: src/lib/ratio.cc:43
-#, fuzzy
 msgid "DCI Flat"
-msgstr "Flat (1998x1080)"
+msgstr "DCI Flat"
 
 #: src/lib/ratio.cc:45
-#, fuzzy
 msgid "DCI Scope"
-msgstr "Scope (2048x858)"
+msgstr "DCI Scope"
 
 #: src/lib/dcp_subtitle_content.cc:100
 msgid "DCP XML subtitles"
@@ -578,12 +579,11 @@ msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP буде використовувати кажний другий кадр контенту.\n"
 
 #: src/lib/job.cc:126 src/lib/job.cc:141
-#, fuzzy
 msgid ""
 "DCP-o-matic could not open the file %1 (%2).  Perhaps it does not exist or "
 "is in an unexpected format."
 msgstr ""
-"DCP-o-matic не вдалося відкрити файл %1. Можливо він не існує або має "
+"DCP-o-matic не вдалося відкрити файл %1 (%2). Можливо він не існує або має "
 "неочікуваний формат."
 
 #: src/lib/ffmpeg_content.cc:114
@@ -593,7 +593,7 @@ msgstr "DCP-o-matic більше не підтримує фильтр `%1', то
 
 #: src/lib/config.cc:328 src/lib/config.cc:893
 msgid "DCP-o-matic notification"
-msgstr ""
+msgstr "Повідомлення DCP-o-matic"
 
 #: src/lib/filter.cc:71 src/lib/filter.cc:72 src/lib/filter.cc:73
 #: src/lib/filter.cc:74
@@ -652,7 +652,7 @@ msgstr "Відправка ключей %1 по Email"
 
 #: src/lib/send_notification_email_job.cc:46
 msgid "Email notification"
-msgstr ""
+msgstr "E-mail повідомлення"
 
 #: src/lib/send_problem_report_job.cc:59
 msgid "Email problem report"
@@ -664,7 +664,7 @@ msgstr "Помилка відправки ключей %1 по Email"
 
 #: src/lib/dcp_encoder.cc:93 src/lib/ffmpeg_encoder.cc:201
 msgid "Encoding"
-msgstr ""
+msgstr "Кодування"
 
 #: src/lib/exceptions.cc:67
 msgid "Error in subtitle file: saw %1 while expecting %2"
@@ -764,19 +764,23 @@ msgstr "Високоякісне придушення шуму 3D"
 
 #: src/lib/filter.cc:68
 msgid "Horizontal flip"
-msgstr ""
+msgstr "Перевернути по горизонталі"
 
 #: src/lib/hints.cc:128
 msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "slowdown of your content, and SMPTE DCPs are not supported by all projectors."
 msgstr ""
+"Проте встановлення частоти кадрів DCP у 24 або 48 призведе до значного "
+"уповільнення вашого контенту, а DCP SMPTE не підтримуються усіма проекторами."
 
 #: src/lib/hints.cc:125
 msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "speed-up of your content, and SMPTE DCPs are not supported by all projectors."
 msgstr ""
+"Проте встановлення частоти кадрів DCP у 24 або 48 призведе до значного "
+"прискорення вашого контенту, а DCP SMPTE не підтримуються усіма проекторами."
 
 #: src/lib/audio_content.cc:307 src/lib/audio_content.cc:327
 msgid "Hz"
@@ -796,7 +800,7 @@ msgstr "Невідомо, що викликало цю помилку."
 
 #: src/lib/ffmpeg_content.cc:561
 msgid "JEDEC P22"
-msgstr ""
+msgstr "JEDEC P22"
 
 #: src/lib/config.cc:318 src/lib/config.cc:878
 msgid "KDM delivery: $CPL_NAME"
@@ -891,13 +895,12 @@ msgid "Mismatched video sizes in DCP"
 msgstr "Невідповідність розміру відео в DCP"
 
 #: src/lib/exceptions.cc:55
-#, fuzzy
 msgid "Missing required setting %1"
-msgstr "відсутня обов'язкове налаштування: %1"
+msgstr "Відсутнє обов'язкове налаштування %1"
 
 #: src/lib/writer.cc:616
 msgid "Mono"
-msgstr ""
+msgstr "Моно"
 
 #: src/lib/filter.cc:71
 msgid "Motion compensating deinterlacer"
@@ -905,11 +908,11 @@ msgstr "Деінтерлейсер компенсації руху"
 
 #: src/lib/dcp_decoder.cc:73
 msgid "No CPLs found in DCP."
-msgstr ""
+msgstr "У DCP не виявлені CPL-файли."
 
 #: src/lib/cinema_kdms.cc:202 src/lib/send_notification_email_job.cc:61
 msgid "No mail server configured in preferences"
-msgstr "Не настроєний поштовий сервер в меню \"Налаштування...\""
+msgstr "Не настроєний поштовий сервер у налаштуваннях"
 
 #: src/lib/video_content_scale.cc:105
 msgid "No scale"
@@ -929,7 +932,7 @@ msgstr "Придушення шуму"
 
 #: src/lib/writer.cc:614
 msgid "None"
-msgstr ""
+msgstr "Нічого"
 
 #: src/lib/job.cc:453
 msgid "OK (ran for %1)"
@@ -946,7 +949,7 @@ msgstr "Тільки останній елемент контенту може �
 #: src/lib/filter.cc:67 src/lib/filter.cc:68 src/lib/filter.cc:69
 #: src/lib/filter.cc:70
 msgid "Orientation"
-msgstr ""
+msgstr "Оріентація"
 
 #: src/lib/job.cc:173
 msgid "Out of memory"
@@ -969,9 +972,8 @@ msgid "Prepared for video frame rate"
 msgstr "Підготовлене для частоти кадрів відео"
 
 #: src/lib/exceptions.cc:85
-#, fuzzy
 msgid "Programming error at %1:%2 %3"
-msgstr "Помилка програмування %1:%2"
+msgstr "Помилка програмування %1:%2 %3"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
@@ -1027,11 +1029,11 @@ msgstr "Правий surround"
 
 #: src/lib/filter.cc:70
 msgid "Rotate 90 degrees anti-clockwise"
-msgstr ""
+msgstr "Повернути на 90º проти часової стрілкі"
 
 #: src/lib/filter.cc:69
 msgid "Rotate 90 degrees clockwise"
-msgstr ""
+msgstr "Повернути на 90º по часовій стрілці"
 
 #: src/lib/util.cc:551
 msgid "Rs"
@@ -1083,9 +1085,8 @@ msgid "SSH error (%1)"
 msgstr "Помилка SSH (%1)"
 
 #: src/lib/image_content.cc:107
-#, fuzzy
 msgid "Scanning image files"
-msgstr "Рендеринг зображення"
+msgstr "Сканування файлів зображення"
 
 #: src/lib/send_problem_report_job.cc:74
 msgid "Sending email"
@@ -1105,15 +1106,15 @@ msgstr "Деяке аудіо будет ресемпловано в %1Гц"
 
 #: src/lib/film.cc:321
 msgid "Some of your content needs a KDM"
-msgstr ""
+msgstr "Частина вашого контенту потребує KDM"
 
 #: src/lib/film.cc:324
 msgid "Some of your content needs an OV"
-msgstr ""
+msgstr "Часть вашего контента требует OV"
 
 #: src/lib/writer.cc:618
 msgid "Stereo"
-msgstr ""
+msgstr "Стерео"
 
 #: src/lib/upmixer_a.cc:46
 msgid "Stereo to 5.1 up-mixer A"
@@ -1144,9 +1145,8 @@ msgid "The certificate chain for signing is invalid"
 msgstr "Ланцюг сертифікатів для підпису невірний"
 
 #: src/lib/exceptions.cc:79
-#, fuzzy
 msgid "The certificate chain for signing is invalid (%1)"
-msgstr "Ланцюг сертифікатів для підпису невірний"
+msgstr "Ланцюг сертифікатів для підпису невірний (%1)"
 
 #: src/lib/job.cc:111
 msgid ""
@@ -1158,19 +1158,19 @@ msgstr ""
 
 #: src/lib/content_factory.cc:115
 msgid "The file %1 has been moved %2 milliseconds earlier."
-msgstr ""
+msgstr "Файл %1 переміщений на %2 мілісекунди раніше."
 
 #: src/lib/content_factory.cc:110
 msgid "The file %1 has been moved %2 milliseconds later."
-msgstr ""
+msgstr "Файл %1 переміщений на %2 мілісекунди пізніше."
 
 #: src/lib/content_factory.cc:135
 msgid "The file %1 has been trimmed by %2 milliseconds less."
-msgstr ""
+msgstr "Файл %1 був обрізаний на %2 мілісекунд менше."
 
 #: src/lib/content_factory.cc:130
 msgid "The file %1 has been trimmed by %2 milliseconds more."
-msgstr ""
+msgstr "Файл %1 був обрізаний на %2 мілісекунд більше."
 
 #: src/lib/hints.cc:157
 msgid ""
@@ -1180,10 +1180,15 @@ msgid ""
 "rate to one closer to your content, provided that your target projection "
 "systems support your chosen DCP rate."
 msgstr ""
+"Є велика різниця у частоті кадрів між вашим DCP і вашим контентом. Це "
+"призведе до відтворення вашого аудіо на значно нижчій або вищчій частоті "
+"аніж це має бути. Рекомендується настроїти частоту кадрів DCP ближче до "
+"вашого контенту, при умові, що ваша цільова проекційна система підтримує "
+"обрану вами швидкість DCP."
 
 #: src/lib/dcp_content.cc:521
 msgid "There is no video in this DCP"
-msgstr ""
+msgstr "У даному DCP немає відео"
 
 #: src/lib/job.cc:173
 msgid ""
@@ -1200,6 +1205,8 @@ msgid ""
 "This file is a KDM.  KDMs should be added to DCP content by right-clicking "
 "the content and choosing \"Add KDM\"."
 msgstr ""
+"Цей файл - ключ (KDM). Ключі додаються до DCP натисканням правої клавіші на "
+"контент і вибором «Додати KDM» у контекстному меню."
 
 #: src/lib/film.cc:439
 msgid ""
@@ -1237,7 +1244,7 @@ msgstr "Неочікуваний зміст ZIP-файла"
 
 #: src/lib/image_proxy.cc:49
 msgid "Unexpected image type received by server"
-msgstr "Сервером отриманий неочікуваний тип зображення."
+msgstr "Сервером отриманий неочікуваний тип зображення"
 
 #: src/lib/job.cc:196
 msgid "Unknown error"
@@ -1281,11 +1288,11 @@ msgstr "VI"
 
 #: src/lib/verify_dcp_job.cc:41
 msgid "Verify DCP"
-msgstr ""
+msgstr "Перевірити DCP"
 
 #: src/lib/filter.cc:67
 msgid "Vertical flip"
-msgstr ""
+msgstr "Перевернути по вертикалі"
 
 #: src/lib/util.cc:522
 msgid "Visually impaired"
@@ -1296,9 +1303,8 @@ msgid "Waiting"
 msgstr "Очікування"
 
 #: src/lib/filter.cc:74
-#, fuzzy
 msgid "Weave filter"
-msgstr "Фільтр Telecine"
+msgstr "Фільтр Weave"
 
 #: src/lib/ffmpeg_content.cc:601
 msgid "YCOCG"
@@ -1309,25 +1315,25 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Ще один фільтр деінтерлейсинга"
 
 #: src/lib/hints.cc:130
-#, fuzzy
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
 "to make a SMPTE DCP instead (although SMPTE DCPs are not supported by all "
 "projectors)."
 msgstr ""
-"Ви вибрали для Interop DCP частоту кадрів, яка офіційно не підтримується. "
-"Радимо замість цього зробити SMPTE DCP."
+"Ви обрали для Interop DCP частоту кадрів, яка офіційно не підтримується. "
+"Радимо змінити частоту кадрів вашого DCP або замість цього зробити SMPTE DCP "
+"(незважаючи на те, що DCP SMPTE-стандарту не підтримуютсья усіма "
+"проекторами)."
 
 #: src/lib/hints.cc:117
-#, fuzzy
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
 "to make a SMPTE DCP instead."
 msgstr ""
-"Ви вибрали для Interop DCP частоту кадрів, яка офіційно не підтримується. "
-"Радимо замість цього зробити SMPTE DCP."
+"Ви обрали для Interop DCP частоту кадрів, яка офіційно не підтримується. "
+"Радимо змінити частоту кадрів вашого DCP або замість цього зробити SMPTE DCP."
 
 #: src/lib/hints.cc:179
 msgid ""
@@ -1344,6 +1350,10 @@ msgid ""
 "may result in poor-quality audio.  If you continue, you should listen to the "
 "resulting DCP in a cinema to make sure that it sounds good."
 msgstr ""
+"Ви використовуєте посилювач DCP-o-matic для стерео-в-5.1. Це є "
+"експерементальна функція и вона може призвести до неякісного аудіо. Якщо ви "
+"продовжите, ви маєте прослухати отриманий DCP у кінотеатрі, щоб впевнитись, "
+"що він звучить добре."
 
 #: src/lib/hints.cc:168
 msgid ""
@@ -1362,9 +1372,8 @@ msgstr ""
 "викликає проблеми при відтворенні."
 
 #: src/lib/film.cc:304
-#, fuzzy
 msgid "You must add some content to the DCP before creating it"
-msgstr "Додайте контент в проект перед створенням DCP"
+msgstr "Вам необхідно додати контент в DCP перед його створенням"
 
 #: src/lib/hints.cc:77
 msgid ""
@@ -1381,7 +1390,7 @@ msgid ""
 msgstr ""
 "У вашому DCP використовується незвичне співвідношення сторін. Це може "
 "призвести к проблемам на деяких проекторах. Якщо можливо, використовуйте "
-"співвідношення сторін Flat або Scope для DCP."
+"співвідношення сторін Flat або Scope для DCP"
 
 #: src/lib/hints.cc:205
 msgid ""
@@ -1395,17 +1404,23 @@ msgstr ""
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
+"Ваш контейнер за-замовчанням не є коректним, тому він був змінений на Flat "
+"(1.85:1)"
 
 #: src/lib/content_factory.cc:106
 msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
 msgstr ""
+"У вашому проекті міститься відеоконтент, який не був прив’язаний до межі "
+"кадру."
 
 #: src/lib/content_factory.cc:126
 msgid ""
 "Your project contains video content whose trim was not aligned to a frame "
 "boundary."
 msgstr ""
+"У вашому проекті міститься відеоконтент, обрізка якого не була вирівнена по "
+"межі кадру."
 
 #: src/lib/image_content.cc:71
 msgid "[moving images]"
@@ -1465,7 +1480,7 @@ msgstr "не вдалося запустити SCP-сесію (%1)"
 
 #: src/lib/scp_uploader.cc:41
 msgid "could not start SSH session"
-msgstr "Не вдалося запустити SSH-сесію"
+msgstr "не вдалося запустити SSH-сесію"
 
 #: src/lib/exceptions.cc:49
 msgid "could not write to file %1 (%2)"
@@ -1494,67 +1509,58 @@ msgstr "г"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:555
-#, fuzzy
 msgid "it does not have sound in all its reels."
-msgstr "У всіх бобінах даного DCP відсутній звук."
+msgstr "у всіх бобінах відсутній звук."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:581
-#, fuzzy
 msgid "it does not have subtitles in all its reels."
-msgstr "У всіх бобінах даного DCP відсутні субтитри."
+msgstr "у всіх бобінах відсутні субтитри."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:480
 #, fuzzy
 msgid "it has a different frame rate to the film."
-msgstr "Частота кадрів проекту відрізняється від частоти кадрів DCP."
+msgstr "частота кадрів проекту відрізняється від частоти кадрів DCP."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:468
-#, fuzzy
 msgid "it is Interop and the film is set to SMPTE."
-msgstr "Проект встановлений у Interop, а цей DCP є SMPTE."
+msgstr "є Interop , а проект настроений як SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:472
-#, fuzzy
 msgid "it is SMPTE and the film is set to Interop."
-msgstr "Проект встановлений у SMPTE, а цей DCP є Interop."
+msgstr "є SMPTE, а проект настроений як Interop."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:561
-#, fuzzy
 msgid "it overlaps other audio content; remove the other content."
-msgstr "Присутнє інше аудіо, яке перекриває цей DCP. Приберіть його!"
+msgstr "перекриває інший аудіо-контент; приберіть інший аудіо-контент."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:587
-#, fuzzy
 msgid "it overlaps other subtitle content; remove the other content."
-msgstr "Присутні інші субтитри, які перекривають цей DCP. Приберіть їх!"
+msgstr "перекриває інші субтитри; приберіть інші субтитри."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:532
-#, fuzzy
 msgid "it overlaps other video content; remove the other content."
-msgstr "Присутнє інше відео, яке перекриває цей DCP. Приберіть його!"
+msgstr "перекриває інший відео-контент; приберіть інший відео-контент."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:503
-#, fuzzy
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
 msgstr ""
-"Довжини бобін у проекті відрізняються від таких у DCP; встановіть режим "
-"бобіни \"Розділяти по відео-контенту\"."
+"довжини бобін у проекті відрізняються від довжин у DCP; встановіть режим "
+"бобін «Розділяти по відео-контенту»."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:527
-#, fuzzy
 msgid "its video frame size differs from the film's."
-msgstr "Розмір кадра відео у проекті відрізняється від розміра відео DCP."
+msgstr "розмір кадру відео у проекті відрізняється вид розміру відео DCP."
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
 #: src/lib/util.cc:189
@@ -1580,7 +1586,7 @@ msgstr "sRGB"
 
 #: src/lib/film.cc:317
 msgid "some of your content is missing"
-msgstr ""
+msgstr "частина вашого контенту відсутня"
 
 #: src/lib/image_content.cc:84
 msgid "still"
