@@ -83,7 +83,7 @@ private:
 	boost::condition _arrived;
 	boost::optional<DCPTime> _pending_seek_position;
 	bool _pending_seek_accurate;
-	bool _suspended;
+	int _suspended;
 	bool _finished;
 	bool _died;
 	bool _stop_thread;

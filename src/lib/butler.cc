@@ -54,7 +54,7 @@ Butler::Butler (shared_ptr<Player> player, shared_ptr<Log> log, AudioMapping aud
 	, _log (log)
 	, _prepare_work (new boost::asio::io_service::work (_prepare_service))
 	, _pending_seek_accurate (false)
-	, _suspended (false)
+	, _suspended (0)
 	, _finished (false)
 	, _died (false)
 	, _stop_thread (false)
@@ -315,9 +315,9 @@ Butler::player_change (ChangeType type, bool frequent)
 	boost::mutex::scoped_lock lm (_mutex);
 
 	if (type == CHANGE_TYPE_PENDING) {
-		_suspended = true;
+		++_suspended;
 	} else if (type == CHANGE_TYPE_DONE) {
-
+		--_suspended;
 		if (_died || _pending_seek_position || frequent) {
 			return;
 		}
@@ -334,8 +334,9 @@ Butler::player_change (ChangeType type, bool frequent)
 		}
 
 		seek_unlocked (seek_to, true);
-		_suspended = false;
 		_awaiting = seek_to;
+	} else if (type == CHANGE_TYPE_CANCELLED) {
+		--_suspended;
 	}
 }
 
