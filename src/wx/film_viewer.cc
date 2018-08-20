@@ -296,6 +296,7 @@ FilmViewer::get ()
 	do {
 		_player_video = _butler->get_video ();
 	} while (
+		_player_video.first &&
 		_film->three_d() &&
 		((_eye->GetSelection() == 0 && _player_video.first->eyes() == EYES_RIGHT) || (_eye->GetSelection() == 1 && _player_video.first->eyes() == EYES_LEFT))
 		);
