@@ -242,10 +242,14 @@ Player::playlist_content_change (ChangeType type, int property, bool frequent)
 void
 Player::set_video_container_size (dcp::Size s)
 {
+	Change (CHANGE_TYPE_PENDING, PlayerProperty::VIDEO_CONTAINER_SIZE, false);
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 
 		if (s == _video_container_size) {
+			lm.unlock ();
+			Change (CHANGE_TYPE_CANCELLED, PlayerProperty::VIDEO_CONTAINER_SIZE, false);
 			return;
 		}
 
@@ -755,6 +759,9 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		LastVideoMap::const_iterator last = _last_video.find (wp);
 		if (_film->three_d()) {
 			Eyes fill_to_eyes = video.eyes;
+			if (fill_to_eyes == EYES_BOTH) {
+				fill_to_eyes = EYES_LEFT;
+			}
 			if (fill_to == piece->content->end()) {
 				/* Don't fill after the end of the content */
 				fill_to_eyes = EYES_LEFT;
