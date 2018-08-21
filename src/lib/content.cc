@@ -97,7 +97,7 @@ Content::Content (shared_ptr<const Film> film, cxml::ConstNodePtr node)
 	list<cxml::NodePtr> path_children = node->node_children ("Path");
 	BOOST_FOREACH (cxml::NodePtr i, path_children) {
 		_paths.push_back (i->content());
-		optional<time_t> const mod = i->optional_number_child<time_t>("mtime");
+		optional<time_t> const mod = i->optional_number_attribute<time_t>("mtime");
 		if (mod) {
 			_last_write_times.push_back (*mod);
 		} else if (boost::filesystem::exists(i->content())) {
@@ -169,13 +169,9 @@ Content::as_xml (xmlpp::Node* node, bool with_paths) const
 	}
 }
 
-void
-Content::examine (shared_ptr<Job> job)
+string
+Content::calculate_digest () const
 {
-	if (job) {
-		job->sub (_("Computing digest"));
-	}
-
 	boost::mutex::scoped_lock lm (_mutex);
 	vector<boost::filesystem::path> p = _paths;
 	lm.unlock ();
@@ -184,9 +180,19 @@ Content::examine (shared_ptr<Job> job)
 	   digest here: a digest of the first and last 1e6 bytes with the
 	   size of the first file tacked on the end as a string.
 	*/
-	string const d = digest_head_tail (p, 1000000) + raw_convert<string> (boost::filesystem::file_size (p.front ()));
+	return digest_head_tail(p, 1000000) + raw_convert<string>(boost::filesystem::file_size(p.front()));
+}
 
-	lm.lock ();
+void
+Content::examine (shared_ptr<Job> job)
+{
+	if (job) {
+		job->sub (_("Computing digest"));
+	}
+
+	string const d = calculate_digest ();
+
+	boost::mutex::scoped_lock lm (_mutex);
 	_digest = d;
 }
 

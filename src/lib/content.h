@@ -118,6 +118,11 @@ public:
 		return _paths[i];
 	}
 
+	std::time_t last_write_time (size_t i) const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _last_write_times[i];
+	}
+
 	bool paths_valid () const;
 
 	/** @return Digest of the content's file(s).  Note: this is
@@ -177,6 +182,8 @@ public:
 	boost::shared_ptr<const Film> film () const;
 
 	std::list<UserProperty> user_properties () const;
+
+	std::string calculate_digest () const;
 
 	/* CHANGE_PENDING and CHANGE_CANCELLED may be emitted from any thread; CHANGE_DONE always from GUI thread */
 	boost::signals2::signal<void (ChangeType, boost::weak_ptr<Content>, int, bool)> Change;

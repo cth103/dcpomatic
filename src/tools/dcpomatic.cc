@@ -71,6 +71,7 @@
 #include "lib/transcode_job.h"
 #include "lib/dkdm_wrapper.h"
 #include "lib/audio_content.h"
+#include "lib/check_content_change_job.h"
 #include "lib/text_content.h"
 #include <dcp/exceptions.h>
 #include <dcp/raw_convert.h>
@@ -414,6 +415,8 @@ public:
 		}
 
 		set_film (film);
+
+		JobManager::instance()->add(shared_ptr<Job>(new CheckContentChangeJob(film)));
 	}
 	catch (std::exception& e) {
 		wxString p = std_to_wx (file.string ());
