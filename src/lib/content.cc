@@ -194,6 +194,11 @@ Content::examine (shared_ptr<Job> job)
 
 	boost::mutex::scoped_lock lm (_mutex);
 	_digest = d;
+
+	_last_write_times.clear ();
+	BOOST_FOREACH (boost::filesystem::path i, _paths) {
+		_last_write_times.push_back (boost::filesystem::last_write_time(i));
+	}
 }
 
 void
