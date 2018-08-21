@@ -212,6 +212,7 @@ private:
 
 	/** Paths of our data files */
 	std::vector<boost::filesystem::path> _paths;
+	std::vector<std::time_t> _last_write_times;
 
 	std::string _digest;
 	DCPTime _position;

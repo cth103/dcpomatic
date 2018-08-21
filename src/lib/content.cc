@@ -95,8 +95,16 @@ Content::Content (shared_ptr<const Film> film, cxml::ConstNodePtr node)
 	, _change_signals_frequent (false)
 {
 	list<cxml::NodePtr> path_children = node->node_children ("Path");
-	for (list<cxml::NodePtr>::const_iterator i = path_children.begin(); i != path_children.end(); ++i) {
-		_paths.push_back ((*i)->content ());
+	BOOST_FOREACH (cxml::NodePtr i, path_children) {
+		_paths.push_back (i->content());
+		optional<time_t> const mod = i->optional_number_child<time_t>("mtime");
+		if (mod) {
+			_last_write_times.push_back (*mod);
+		} else if (boost::filesystem::exists(i->content())) {
+			_last_write_times.push_back (boost::filesystem::last_write_time(i->content()));
+		} else {
+			_last_write_times.push_back (0);
+		}
 	}
 	_digest = node->optional_string_child ("Digest").get_value_or ("X");
 	_position = DCPTime (node->number_child<DCPTime::Type> ("Position"));
@@ -134,7 +142,8 @@ Content::Content (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
 		}
 
 		for (size_t j = 0; j < c[i]->number_of_paths(); ++j) {
-			_paths.push_back (c[i]->path (j));
+			_paths.push_back (c[i]->path(j));
+			_last_write_times.push_back (c[i]->_last_write_times[j]);
 		}
 	}
 }
@@ -145,8 +154,10 @@ Content::as_xml (xmlpp::Node* node, bool with_paths) const
 	boost::mutex::scoped_lock lm (_mutex);
 
 	if (with_paths) {
-		BOOST_FOREACH (boost::filesystem::path i, _paths) {
-			node->add_child("Path")->add_child_text (i.string());
+		for (size_t i = 0; i < _paths.size(); ++i) {
+			xmlpp::Element* p = node->add_child("Path");
+			p->add_child_text (_paths[i].string());
+			p->set_attribute ("mtime", raw_convert<string>(_last_write_times[i]));
 		}
 	}
 	node->add_child("Digest")->add_child_text (_digest);
@@ -316,6 +327,10 @@ Content::set_paths (vector<boost::filesystem::path> paths)
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_paths = paths;
+		_last_write_times.clear ();
+		BOOST_FOREACH (boost::filesystem::path i, _paths) {
+			_last_write_times.push_back (boost::filesystem::last_write_time(i));
+		}
 	}
 }
 
@@ -484,4 +499,5 @@ Content::add_path (boost::filesystem::path p)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	_paths.push_back (p);
+	_last_write_times.push_back (boost::filesystem::last_write_time(p));
 }
