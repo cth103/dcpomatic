@@ -570,3 +570,17 @@ Job::when_finished (boost::signals2::connection& connection, function<void()> fi
 		connection = Finished.connect (finished);
 	}
 }
+
+optional<string>
+Job::message () const
+{
+	boost::mutex::scoped_lock lm (_state_mutex);
+	return _message;
+}
+
+void
+Job::set_message (string m)
+{
+	boost::mutex::scoped_lock lm (_state_mutex);
+	_message = m;
+}

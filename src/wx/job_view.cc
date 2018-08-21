@@ -20,6 +20,7 @@
 
 #include "job_view.h"
 #include "wx_util.h"
+#include "message_dialog.h"
 #include "lib/job.h"
 #include "lib/job_manager.h"
 #include "lib/compose.hpp"
@@ -132,6 +133,12 @@ JobView::finished ()
 	_notify->Enable (false);
 	if (!_job->error_details().empty ()) {
 		_details->Enable (true);
+	}
+
+	if (_job->message()) {
+		MessageDialog* d = new MessageDialog (_parent, _job->name(), _job->message().get());
+		d->ShowModal ();
+		d->Destroy ();
 	}
 
 	if ((dynamic_pointer_cast<TranscodeJob>(_job) || dynamic_pointer_cast<AnalyseAudioJob>(_job)) && _notify->GetValue()) {

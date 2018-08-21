@@ -61,25 +61,25 @@ CheckContentChangeJob::run ()
 	BOOST_FOREACH (shared_ptr<Content> i, _film->content()) {
 		bool ic = false;
 		for (size_t j = 0; j < i->number_of_paths(); ++j) {
-			cout << boost::filesystem::last_write_time(i->path(j)) << " " << i->last_write_time(j) << "\n";
 			if (boost::filesystem::last_write_time(i->path(j)) != i->last_write_time(j)) {
-				cout << "last write differs.\n";
 				ic = true;
 				break;
 			}
 		}
 		if (!ic && i->calculate_digest() != i->digest()) {
-			cout << "digest differs.\n";
 			ic = true;
 		}
 		if (ic) {
-			cout << i->path(0) << " changed.\n";
 			changed.push_back (i);
 		}
 	}
 
 	BOOST_FOREACH (shared_ptr<Content> i, changed) {
 		JobManager::instance()->add(shared_ptr<Job>(new ExamineContentJob(_film, i)));
+	}
+
+	if (!changed.empty()) {
+		set_message (_("Some files were changed since they were added to the project.\n\nThese files will now be re-examined, so you may need to check their settings."));
 	}
 
 	set_progress (1);

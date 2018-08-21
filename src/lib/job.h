@@ -67,6 +67,8 @@ public:
 	std::string error_summary () const;
 	std::string error_details () const;
 
+	boost::optional<std::string> message () const;
+
 	virtual std::string status () const;
 	std::string json_status () const;
 	std::string sub_name () const {
@@ -105,6 +107,7 @@ protected:
 
 	void set_state (State);
 	void set_error (std::string s, std::string d);
+	void set_message (std::string m);
 	int elapsed_sub_time () const;
 	void check_for_interruption_or_pause ();
 
@@ -117,13 +120,15 @@ private:
 
 	boost::thread* _thread;
 
-	/** mutex for _state and _error */
+	/** mutex for _state, _error*, _message */
 	mutable boost::mutex _state_mutex;
 	/** current state of the job */
 	State _state;
 	/** summary of an error that has occurred (when state == FINISHED_ERROR) */
 	std::string _error_summary;
 	std::string _error_details;
+	/** a message that should be given to the user when the job finishes */
+	boost::optional<std::string> _message;
 
 	/** time that this job was started */
 	time_t _start_time;

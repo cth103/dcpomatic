@@ -80,6 +80,7 @@ sources = """
           kdm_timing_panel.cc
           key_dialog.cc
           make_chain_dialog.cc
+          message_dialog.cc
           move_to_dialog.cc
           nag_dialog.cc
           name_format_editor.cc
