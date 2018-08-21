@@ -52,6 +52,7 @@
 #include "screen_kdm.h"
 #include "cinema.h"
 #include "change_signaller.h"
+#include "check_content_change_job.h"
 #include <libcxml/cxml.h>
 #include <dcp/cpl.h>
 #include <dcp/certificate_chain.h>
@@ -348,7 +349,8 @@ Film::make_dcp ()
 
 	shared_ptr<TranscodeJob> tj (new TranscodeJob (shared_from_this()));
 	tj->set_encoder (shared_ptr<Encoder> (new DCPEncoder (shared_from_this(), tj)));
-	JobManager::instance()->add (tj);
+	shared_ptr<CheckContentChangeJob> cc (new CheckContentChangeJob (shared_from_this(), tj));
+	JobManager::instance()->add (cc);
 }
 
 /** Start a job to send our DCP to the configured TMS */

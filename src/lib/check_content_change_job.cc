@@ -33,8 +33,9 @@ using std::list;
 using std::cout;
 using boost::shared_ptr;
 
-CheckContentChangeJob::CheckContentChangeJob (shared_ptr<const Film> film)
+CheckContentChangeJob::CheckContentChangeJob (shared_ptr<const Film> film, shared_ptr<Job> following)
 	: Job (film)
+	, _following (following)
 {
 
 }
@@ -78,10 +79,18 @@ CheckContentChangeJob::run ()
 		JobManager::instance()->add(shared_ptr<Job>(new ExamineContentJob(_film, i)));
 	}
 
-	if (!changed.empty()) {
-		set_message (_("Some files were changed since they were added to the project.\n\nThese files will now be re-examined, so you may need to check their settings."));
-	}
-
 	set_progress (1);
 	set_state (FINISHED_OK);
+
+	if (!changed.empty()) {
+		string m = _("Some files have been changed since they were added to the project.\n\nThese files will now be re-examined, so you may need to check their settings.");
+		if (_following) {
+			/* I'm assuming that _following is a make DCP job */
+			m += "  ";
+			m += _("Choose 'Make DCP' again when you have done this.");
+		}
+		set_message (m);
+	} else if (_following) {
+		JobManager::instance()->add (_following);
+	}
 }
