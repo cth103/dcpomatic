@@ -199,8 +199,7 @@ protected:
 	 */
 	mutable boost::mutex _mutex;
 
-	/** Paths of our data files */
-	std::vector<boost::filesystem::path> _paths;
+	void add_path (boost::filesystem::path p);
 
 private:
 	friend struct ffmpeg_pts_offset_test;
@@ -210,6 +209,9 @@ private:
 	template<class> friend class ChangeSignaller;
 
 	void signal_change (ChangeType, int);
+
+	/** Paths of our data files */
+	std::vector<boost::filesystem::path> _paths;
 
 	std::string _digest;
 	DCPTime _position;

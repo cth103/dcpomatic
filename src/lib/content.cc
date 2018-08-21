@@ -87,7 +87,7 @@ Content::Content (shared_ptr<const Film> film, boost::filesystem::path p)
 	, _trim_end (0)
 	, _change_signals_frequent (false)
 {
-	_paths.push_back (p);
+	add_path (p);
 }
 
 Content::Content (shared_ptr<const Film> film, cxml::ConstNodePtr node)
@@ -145,8 +145,8 @@ Content::as_xml (xmlpp::Node* node, bool with_paths) const
 	boost::mutex::scoped_lock lm (_mutex);
 
 	if (with_paths) {
-		for (vector<boost::filesystem::path>::const_iterator i = _paths.begin(); i != _paths.end(); ++i) {
-			node->add_child("Path")->add_child_text (i->string ());
+		BOOST_FOREACH (boost::filesystem::path i, _paths) {
+			node->add_child("Path")->add_child_text (i.string());
 		}
 	}
 	node->add_child("Digest")->add_child_text (_digest);
@@ -299,8 +299,8 @@ Content::identifier () const
 bool
 Content::paths_valid () const
 {
-	for (vector<boost::filesystem::path>::const_iterator i = _paths.begin(); i != _paths.end(); ++i) {
-		if (!boost::filesystem::exists (*i)) {
+	BOOST_FOREACH (boost::filesystem::path i, _paths) {
+		if (!boost::filesystem::exists (i)) {
 			return false;
 		}
 	}
@@ -312,7 +312,11 @@ void
 Content::set_paths (vector<boost::filesystem::path> paths)
 {
 	ChangeSignaller<Content> cc (this, ContentProperty::PATH);
-	_paths = paths;
+
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_paths = paths;
+	}
 }
 
 string
@@ -473,4 +477,11 @@ Content::text_of_original_type (TextType type) const
 	}
 
 	return shared_ptr<TextContent> ();
+}
+
+void
+Content::add_path (boost::filesystem::path p)
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	_paths.push_back (p);
 }

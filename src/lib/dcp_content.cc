@@ -144,7 +144,7 @@ DCPContent::read_directory (boost::filesystem::path p)
 {
 	for (boost::filesystem::directory_iterator i(p); i != boost::filesystem::directory_iterator(); ++i) {
 		if (boost::filesystem::is_regular_file (i->path())) {
-			_paths.push_back (i->path());
+			add_path (i->path());
 		} else if (boost::filesystem::is_directory (i->path ())) {
 			read_directory (i->path());
 		}

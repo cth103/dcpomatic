@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -37,6 +37,7 @@
 using std::string;
 using std::cout;
 using std::list;
+using std::vector;
 using boost::shared_ptr;
 
 ImageContent::ImageContent (shared_ptr<const Film> film, boost::filesystem::path p)
@@ -45,7 +46,7 @@ ImageContent::ImageContent (shared_ptr<const Film> film, boost::filesystem::path
 	video.reset (new VideoContent (this));
 
 	if (boost::filesystem::is_regular_file (p) && valid_image_file (p)) {
-		_paths.push_back (p);
+		add_path (p);
 	} else {
 		_path_to_scan = p;
 	}
@@ -105,10 +106,11 @@ ImageContent::examine (shared_ptr<Job> job)
 {
 	if (_path_to_scan) {
 		job->sub (_("Scanning image files"));
+		vector<boost::filesystem::path> paths;
 		int n = 0;
 		for (boost::filesystem::directory_iterator i(*_path_to_scan); i != boost::filesystem::directory_iterator(); ++i) {
 			if (boost::filesystem::is_regular_file (i->path()) && valid_image_file (i->path())) {
-				_paths.push_back (i->path ());
+				add_path (i->path());
 			}
 			++n;
 			if ((n % 1000) == 0) {
@@ -116,11 +118,12 @@ ImageContent::examine (shared_ptr<Job> job)
 			}
 		}
 
-		if (_paths.empty()) {
+		if (paths.empty()) {
 			throw FileError (_("No valid image files were found in the folder."), *_path_to_scan);
 		}
 
-		sort (_paths.begin(), _paths.end(), ImageFilenameSorter ());
+		sort (paths.begin(), paths.end(), ImageFilenameSorter());
+		set_paths (paths);
 	}
 
 	Content::examine (job);
@@ -159,7 +162,7 @@ ImageContent::still () const
 void
 ImageContent::set_default_colour_conversion ()
 {
-	BOOST_FOREACH (boost::filesystem::path i, _paths) {
+	BOOST_FOREACH (boost::filesystem::path i, paths()) {
 		if (valid_j2k_file (i)) {
 			/* We default to no colour conversion if we have JPEG2000 files */
 			video->unset_colour_conversion ();
