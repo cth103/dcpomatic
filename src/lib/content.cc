@@ -309,14 +309,6 @@ Content::paths_valid () const
 }
 
 void
-Content::set_path (boost::filesystem::path path)
-{
-	ChangeSignaller<Content> cc (this, ContentProperty::PATH);
-	_paths.clear ();
-	_paths.push_back (path);
-}
-
-void
 Content::set_paths (vector<boost::filesystem::path> paths)
 {
 	ChangeSignaller<Content> cc (this, ContentProperty::PATH);
