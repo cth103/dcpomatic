@@ -504,4 +504,6 @@ subtitle_file (shared_ptr<Film> film)
 	}
 
 	BOOST_REQUIRE (false);
+	/* Remove warning */
+	return boost::filesystem::path("/");
 }
