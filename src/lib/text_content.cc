@@ -46,16 +46,17 @@ int const TextContentProperty::X_SCALE = 502;
 int const TextContentProperty::Y_SCALE = 503;
 int const TextContentProperty::USE = 504;
 int const TextContentProperty::BURN = 505;
-int const TextContentProperty::LANGUAGE = 506;
-int const TextContentProperty::FONTS = 507;
-int const TextContentProperty::COLOUR = 508;
-int const TextContentProperty::EFFECT = 509;
-int const TextContentProperty::EFFECT_COLOUR = 510;
-int const TextContentProperty::LINE_SPACING = 511;
-int const TextContentProperty::FADE_IN = 512;
-int const TextContentProperty::FADE_OUT = 513;
-int const TextContentProperty::OUTLINE_WIDTH = 514;
-int const TextContentProperty::TYPE = 515;
+int const TextContentProperty::NAME = 506;
+int const TextContentProperty::LANGUAGE = 507;
+int const TextContentProperty::FONTS = 508;
+int const TextContentProperty::COLOUR = 509;
+int const TextContentProperty::EFFECT = 510;
+int const TextContentProperty::EFFECT_COLOUR = 511;
+int const TextContentProperty::LINE_SPACING = 512;
+int const TextContentProperty::FADE_IN = 513;
+int const TextContentProperty::FADE_OUT = 514;
+int const TextContentProperty::OUTLINE_WIDTH = 515;
+int const TextContentProperty::TYPE = 516;
 
 TextContent::TextContent (Content* parent, TextType type, TextType original_type)
 	: ContentPart (parent)
@@ -218,6 +219,8 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 		_language = node->optional_string_child ("SubtitleLanguage").get_value_or ("");
 	}
 
+	_name = node->optional_string_child("Name").get_value_or("");
+
 	list<cxml::NodePtr> fonts = node->node_children ("Font");
 	for (list<cxml::NodePtr>::const_iterator i = fonts.begin(); i != fonts.end(); ++i) {
 		_fonts.push_back (shared_ptr<Font> (new Font (*i)));
@@ -304,6 +307,7 @@ TextContent::TextContent (Content* parent, vector<shared_ptr<Content> > c)
 	_y_offset = ref->y_offset ();
 	_x_scale = ref->x_scale ();
 	_y_scale = ref->y_scale ();
+	_name = ref->name ();
 	_language = ref->language ();
 	_fonts = ref_fonts;
 	_line_spacing = ref->line_spacing ();
@@ -330,6 +334,7 @@ TextContent::as_xml (xmlpp::Node* root) const
 	text->add_child("YOffset")->add_child_text (raw_convert<string> (_y_offset));
 	text->add_child("XScale")->add_child_text (raw_convert<string> (_x_scale));
 	text->add_child("YScale")->add_child_text (raw_convert<string> (_y_scale));
+	text->add_child("Name")->add_child_text (_name);
 	text->add_child("Language")->add_child_text (_language);
 	if (_colour) {
 		text->add_child("Red")->add_child_text (raw_convert<string> (_colour->r));
@@ -395,7 +400,7 @@ TextContent::identifier () const
 		}
 	}
 
-	/* The language is for metadata only, and doesn't affect
+	/* The name and language are for metadata only, and don't affect
 	   how this content looks.
 	*/
 
@@ -500,6 +505,12 @@ void
 TextContent::set_y_scale (double s)
 {
 	maybe_set (_y_scale, s, TextContentProperty::Y_SCALE);
+}
+
+void
+TextContent::set_name (string name)
+{
+	maybe_set (_name, name, TextContentProperty::NAME);
 }
 
 void
