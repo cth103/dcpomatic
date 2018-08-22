@@ -37,7 +37,6 @@ public:
 	static int const Y_SCALE;
 	static int const USE;
 	static int const BURN;
-	static int const NAME;
 	static int const LANGUAGE;
 	static int const FONTS;
 	static int const COLOUR;
@@ -74,7 +73,6 @@ public:
 	void set_y_offset (double);
 	void set_x_scale (double);
 	void set_y_scale (double);
-	void set_name (std::string name);
 	void set_language (std::string language);
 	void set_colour (dcp::Colour);
 	void unset_colour ();
@@ -123,11 +121,6 @@ public:
 	std::list<boost::shared_ptr<Font> > fonts () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _fonts;
-	}
-
-	std::string name () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _name;
 	}
 
 	std::string language () const {
@@ -183,8 +176,6 @@ public:
 	static std::list<boost::shared_ptr<TextContent> > from_xml (Content* parent, cxml::ConstNodePtr, int version);
 
 protected:
-	/** Name (annotation text) for this subtitle */
-	std::string _name;
 	/** subtitle language (e.g. "German") or empty if it is not known */
 	std::string _language;
 

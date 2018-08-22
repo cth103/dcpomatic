@@ -43,7 +43,6 @@ private:
 	void x_scale_changed ();
 	void y_scale_changed ();
 	void line_spacing_changed ();
-	void name_changed ();
 	void language_changed ();
 	void stream_changed ();
 	void text_view_clicked ();
@@ -64,7 +63,6 @@ private:
 	wxSpinCtrl* _x_scale;
 	wxSpinCtrl* _y_scale;
 	wxSpinCtrl* _line_spacing;
-	wxTextCtrl* _name;
 	wxTextCtrl* _language;
 	wxChoice* _stream;
 	wxButton* _text_view_button;

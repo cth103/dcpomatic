@@ -25,7 +25,6 @@
 #include "content_panel.h"
 #include "fonts_dialog.h"
 #include "subtitle_appearance_dialog.h"
-#include "focus_manager.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/string_text_file_content.h"
 #include "lib/ffmpeg_subtitle_stream.h"
@@ -122,22 +121,15 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	{
 		add_label_to_sizer (grid, this, _("Line spacing"), true, wxGBPosition (r, 0));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_line_spacing = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
+		_line_spacing = new wxSpinCtrl (this);
 		s->Add (_line_spacing);
 		add_label_to_sizer (s, this, _("%"), false);
 		grid->Add (s, wxGBPosition (r, 1));
 		++r;
 	}
 
-	add_label_to_sizer (grid, this, _("Name"), true, wxGBPosition(r, 0));
-	_name = new wxTextCtrl (this, wxID_ANY);
-	FocusManager::instance()->add (_name);
-	grid->Add (_name, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
-	++r;
-
 	add_label_to_sizer (grid, this, _("Language"), true, wxGBPosition (r, 0));
 	_language = new wxTextCtrl (this, wxID_ANY);
-	FocusManager::instance()->add (_language);
 	grid->Add (_language, wxGBPosition (r, 1));
 	++r;
 
@@ -177,7 +169,6 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	_x_scale->Bind                  (wxEVT_SPINCTRL, boost::bind (&TextPanel::x_scale_changed, this));
 	_y_scale->Bind                  (wxEVT_SPINCTRL, boost::bind (&TextPanel::y_scale_changed, this));
 	_line_spacing->Bind             (wxEVT_SPINCTRL, boost::bind (&TextPanel::line_spacing_changed, this));
-	_name->Bind                     (wxEVT_TEXT,     boost::bind (&TextPanel::name_changed, this));
 	_language->Bind                 (wxEVT_TEXT,     boost::bind (&TextPanel::language_changed, this));
 	_stream->Bind                   (wxEVT_CHOICE,   boost::bind (&TextPanel::stream_changed, this));
 	_text_view_button->Bind         (wxEVT_BUTTON,   boost::bind (&TextPanel::text_view_clicked, this));
@@ -260,8 +251,6 @@ TextPanel::film_content_changed (int property)
 		checked_set (_y_scale, text ? lrint (text->y_scale() * 100) : 100);
 	} else if (property == TextContentProperty::LINE_SPACING) {
 		checked_set (_line_spacing, text ? lrint (text->line_spacing() * 100) : 100);
-	} else if (property == TextContentProperty::NAME) {
-		checked_set (_name, text ? text->name() : "");
 	} else if (property == TextContentProperty::LANGUAGE) {
 		checked_set (_language, text ? text->language() : "");
 	} else if (property == DCPContentProperty::REFERENCE_TEXT) {
@@ -364,7 +353,6 @@ TextPanel::setup_sensitivity ()
 	_x_scale->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
 	_y_scale->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
 	_line_spacing->Enable (!reference && use && type == TEXT_OPEN_SUBTITLE);
-	_name->Enable (!reference && any_subs > 0 && use);
 	_language->Enable (!reference && any_subs > 0 && use);
 	_stream->Enable (!reference && ffmpeg_subs == 1);
 	_text_view_button->Enable (!reference);
@@ -436,14 +424,6 @@ TextPanel::line_spacing_changed ()
 }
 
 void
-TextPanel::name_changed ()
-{
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text ()) {
-		i->text_of_original_type(_original_type)->set_name (wx_to_std (_name->GetValue()));
-	}
-}
-
-void
 TextPanel::language_changed ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text ()) {
@@ -462,7 +442,6 @@ TextPanel::content_selection_changed ()
 	film_content_changed (TextContentProperty::X_SCALE);
 	film_content_changed (TextContentProperty::Y_SCALE);
 	film_content_changed (TextContentProperty::LINE_SPACING);
-	film_content_changed (TextContentProperty::NAME);
 	film_content_changed (TextContentProperty::LANGUAGE);
 	film_content_changed (TextContentProperty::FONTS);
 	film_content_changed (TextContentProperty::TYPE);
