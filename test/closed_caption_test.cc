@@ -51,5 +51,5 @@ BOOST_AUTO_TEST_CASE (closed_caption_test1)
 
 	BOOST_REQUIRE_EQUAL (check.cpls().size(), 1);
 	BOOST_REQUIRE_EQUAL (check.cpls().front()->reels().size(), 1);
-	BOOST_REQUIRE (check.cpls().front()->reels().front()->closed_caption());
+	BOOST_REQUIRE (!check.cpls().front()->reels().front()->closed_captions().empty());
 }
