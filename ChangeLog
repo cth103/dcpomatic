@@ -1,3 +1,7 @@
+2018-08-22  Carl Hetherington  <cth@carlh.net>
+
+	* Disable the whole interface during audio analysis (#1278).
+
 2018-08-20  Carl Hetherington  <cth@carlh.net>
 
 	* Updated ru_RU and uk_UA translations from Igor Voytovich.

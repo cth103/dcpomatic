@@ -150,5 +150,5 @@ FilmEditor::set_general_sensitivity (bool s)
 void
 FilmEditor::active_jobs_changed (optional<string> j)
 {
-	set_general_sensitivity (!j || *j == "analyse_audio");
+	set_general_sensitivity (!j);
 }
