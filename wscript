@@ -42,8 +42,6 @@ if this_version == '':
 else:
     VERSION = this_version[1:].strip()
 
-print('Version: %s' % VERSION)
-
 def options(opt):
     opt.load('compiler_cxx')
     opt.load('winres')
