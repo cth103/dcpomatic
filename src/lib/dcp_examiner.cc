@@ -172,8 +172,8 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 			_has_text[TEXT_OPEN_SUBTITLE] = true;
 		}
 
-		if (i->closed_caption ()) {
-			if (!i->closed_caption()->asset_ref().resolved()) {
+		BOOST_FOREACH (shared_ptr<dcp::ReelClosedCaptionAsset> j, i->closed_captions()) {
+			if (!j->asset_ref().resolved()) {
 				/* We are missing this asset so we can't continue; examination will be repeated later */
 				_needs_assets = true;
 				return;
@@ -188,8 +188,8 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 			_reel_lengths.push_back (i->main_sound()->duration());
 		} else if (i->main_subtitle()) {
 			_reel_lengths.push_back (i->main_subtitle()->duration());
-		} else if (i->closed_caption()) {
-			_reel_lengths.push_back (i->closed_caption()->duration());
+		} else if (!i->closed_captions().empty()) {
+			_reel_lengths.push_back (i->closed_captions().front()->duration());
 		}
 	}
 

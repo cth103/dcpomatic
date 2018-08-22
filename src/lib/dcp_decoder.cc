@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -201,10 +201,10 @@ DCPDecoder::pass_texts (ContentTime next)
 			);
 		++decoder;
 	}
-	if ((*_reel)->closed_caption()) {
+	BOOST_FOREACH (shared_ptr<dcp::ReelClosedCaptionAsset> i, (*_reel)->closed_captions()) {
 		DCPOMATIC_ASSERT (decoder != text.end ());
 		pass_texts (
-			next, (*_reel)->closed_caption()->asset(), _dcp_content->reference_text(TEXT_CLOSED_CAPTION), (*_reel)->closed_caption()->entry_point(), *decoder
+			next, i->asset(), _dcp_content->reference_text(TEXT_CLOSED_CAPTION), i->entry_point(), *decoder
 			);
 		++decoder;
 	}
