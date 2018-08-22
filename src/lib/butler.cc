@@ -65,7 +65,10 @@ Butler::Butler (shared_ptr<Player> player, shared_ptr<Log> log, AudioMapping aud
 	_player_video_connection = _player->Video.connect (bind (&Butler::video, this, _1, _2));
 	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1, _2));
 	_player_text_connection = _player->Text.connect (bind (&Butler::text, this, _1, _2, _3));
-	_player_change_connection = _player->Change.connect (bind (&Butler::player_change, this, _1, _3));
+	/* The butler must here about things first, otherwise it might not sort out suspensions in time for
+	   get_video() to be called in response to this signal.
+	*/
+	_player_change_connection = _player->Change.connect (bind (&Butler::player_change, this, _1, _3), boost::signals2::at_front);
 	_thread = new boost::thread (bind (&Butler::thread, this));
 #ifdef DCPOMATIC_LINUX
 	pthread_setname_np (_thread->native_handle(), "butler");
@@ -192,7 +195,7 @@ Butler::get_video ()
 	boost::mutex::scoped_lock lm (_mutex);
 
 	/* Wait for data if we have none */
-	while (_video.empty() && !_finished && !_died && !_suspended) {
+	while (_video.empty() && !_finished && !_died) {
 		_arrived.wait (lm);
 	}
 
@@ -319,6 +322,8 @@ Butler::player_change (ChangeType type, bool frequent)
 	} else if (type == CHANGE_TYPE_DONE) {
 		--_suspended;
 		if (_died || _pending_seek_position || frequent) {
+			lm.unlock ();
+			_summon.notify_all ();
 			return;
 		}
 
@@ -338,6 +343,9 @@ Butler::player_change (ChangeType type, bool frequent)
 	} else if (type == CHANGE_TYPE_CANCELLED) {
 		--_suspended;
 	}
+
+	lm.unlock ();
+	_summon.notify_all ();
 }
 
 void
