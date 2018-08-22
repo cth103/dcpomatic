@@ -110,7 +110,7 @@ ImageContent::examine (shared_ptr<Job> job)
 		int n = 0;
 		for (boost::filesystem::directory_iterator i(*_path_to_scan); i != boost::filesystem::directory_iterator(); ++i) {
 			if (boost::filesystem::is_regular_file (i->path()) && valid_image_file (i->path())) {
-				add_path (i->path());
+				paths.push_back (i->path());
 			}
 			++n;
 			if ((n % 1000) == 0) {
