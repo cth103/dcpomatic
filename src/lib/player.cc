@@ -541,13 +541,14 @@ Player::get_reel_assets ()
 			}
 
 			if (j->reference_text (TEXT_CLOSED_CAPTION)) {
-				shared_ptr<dcp::ReelAsset> ra = k->closed_caption ();
-				DCPOMATIC_ASSERT (ra);
-				ra->set_entry_point (ra->entry_point() + trim_start);
-				ra->set_duration (ra->duration() - trim_start - trim_end);
-				a.push_back (
-					ReferencedReelAsset (ra, DCPTimePeriod (from, from + DCPTime::from_frames (ra->duration(), ffr)))
-					);
+				BOOST_FOREACH (shared_ptr<dcp::ReelClosedCaptionAsset> l, k->closed_captions()) {
+					DCPOMATIC_ASSERT (l);
+					l->set_entry_point (l->entry_point() + trim_start);
+					l->set_duration (l->duration() - trim_start - trim_end);
+					a.push_back (
+						ReferencedReelAsset (l, DCPTimePeriod (from, from + DCPTime::from_frames (l->duration(), ffr)))
+						);
+				}
 			}
 
 			/* Assume that main picture duration is the length of the reel */

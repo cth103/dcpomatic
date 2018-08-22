@@ -600,6 +600,7 @@ bool check_text (shared_ptr<const Content> c)
 {
 	return !c->text.empty();
 }
+
 bool
 DCPContent::can_reference_text (TextType type, string& why_not) const
 {
@@ -620,7 +621,7 @@ DCPContent::can_reference_text (TextType type, string& why_not) const
                         why_not = _("it does not have open subtitles in all its reels.");
                         return false;
                 }
-		if (type == TEXT_CLOSED_CAPTION && !i->closed_caption()) {
+		if (type == TEXT_CLOSED_CAPTION && i->closed_captions().empty()) {
 			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
                         why_not = _("it does not have closed captions in all its reels.");
                         return false;
