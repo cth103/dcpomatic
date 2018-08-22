@@ -94,8 +94,9 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	wxBoxSizer* offset = new wxBoxSizer (wxHORIZONTAL);
 	add_label_to_sizer (offset, this, _("X"), true);
 	_x_offset = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
-	offset->Add (_x_offset);
-	add_label_to_sizer (offset, this, _("%"), false);
+	offset->Add (_x_offset, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
+	wxStaticText* pc = new wxStaticText (this, wxID_ANY, _("%"));
+	offset->Add (pc, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP * 2);
 	add_label_to_sizer (offset, this, _("Y"), true);
 	_y_offset = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
 	offset->Add (_y_offset, 0);
@@ -107,8 +108,9 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	wxBoxSizer* scale = new wxBoxSizer (wxHORIZONTAL);
 	add_label_to_sizer (scale, this, _("X"), true);
 	_x_scale = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
-	scale->Add (_x_scale);
-	add_label_to_sizer (scale, this, _("%"), false);
+	scale->Add (_x_scale, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
+	pc = new wxStaticText (this, wxID_ANY, _("%"));
+	scale->Add (pc, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP * 2);
 	add_label_to_sizer (scale, this, _("Y"), true);
 	_y_scale = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
 	scale->Add (_y_scale, 0);
