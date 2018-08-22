@@ -98,7 +98,10 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _shuffler (0)
 {
 	_film_changed_connection = _film->Change.connect (bind (&Player::film_change, this, _1, _2));
-	_playlist_change_connection = _playlist->Change.connect (bind (&Player::playlist_change, this, _1));
+	/* The butler must hear about this first, so since we are proxying this through to the butler we must
+	   be first.
+	*/
+	_playlist_change_connection = _playlist->Change.connect (bind (&Player::playlist_change, this, _1), boost::signals2::at_front);
 	_playlist_content_change_connection = _playlist->ContentChange.connect (bind(&Player::playlist_content_change, this, _1, _3, _4));
 	set_video_container_size (_film->frame_size ());
 
