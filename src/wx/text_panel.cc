@@ -90,45 +90,31 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	grid->Add (_burn, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
-	{
-		add_label_to_sizer (grid, this, _("X Offset"), true, wxGBPosition (r, 0));
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_x_offset = new wxSpinCtrl (this);
-		s->Add (_x_offset);
-		add_label_to_sizer (s, this, _("%"), false);
-		grid->Add (s, wxGBPosition (r, 1));
-		++r;
-	}
+	add_label_to_sizer (grid, this, _("Offset"), true, wxGBPosition (r, 0));
+	wxBoxSizer* offset = new wxBoxSizer (wxHORIZONTAL);
+	add_label_to_sizer (offset, this, _("X"), true);
+	_x_offset = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
+	offset->Add (_x_offset);
+	add_label_to_sizer (offset, this, _("%"), false);
+	add_label_to_sizer (offset, this, _("Y"), true);
+	_y_offset = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
+	offset->Add (_y_offset, 0);
+	add_label_to_sizer (offset, this, _("%"), false);
+	grid->Add (offset, wxGBPosition (r, 1));
+	++r;
 
-	{
-		add_label_to_sizer (grid, this, _("Y Offset"), true, wxGBPosition (r, 0));
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_y_offset = new wxSpinCtrl (this);
-		s->Add (_y_offset);
-		add_label_to_sizer (s, this, _("%"), false);
-		grid->Add (s, wxGBPosition (r, 1));
-		++r;
-	}
-
-	{
-		add_label_to_sizer (grid, this, _("X Scale"), true, wxGBPosition (r, 0));
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_x_scale = new wxSpinCtrl (this);
-		s->Add (_x_scale);
-		add_label_to_sizer (s, this, _("%"), false);
-		grid->Add (s, wxGBPosition (r, 1));
-		++r;
-	}
-
-	{
-		add_label_to_sizer (grid, this, _("Y Scale"), true, wxGBPosition (r, 0));
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_y_scale = new wxSpinCtrl (this);
-		s->Add (_y_scale);
-		add_label_to_sizer (s, this, _("%"), false);
-		grid->Add (s, wxGBPosition (r, 1));
-		++r;
-	}
+	add_label_to_sizer (grid, this, _("Scale"), true, wxGBPosition (r, 0));
+	wxBoxSizer* scale = new wxBoxSizer (wxHORIZONTAL);
+	add_label_to_sizer (scale, this, _("X"), true);
+	_x_scale = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
+	scale->Add (_x_scale);
+	add_label_to_sizer (scale, this, _("%"), false);
+	add_label_to_sizer (scale, this, _("Y"), true);
+	_y_scale = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
+	scale->Add (_y_scale, 0);
+	add_label_to_sizer (scale, this, _("%"), false);
+	grid->Add (scale, wxGBPosition (r, 1));
+	++r;
 
 	{
 		add_label_to_sizer (grid, this, _("Line spacing"), true, wxGBPosition (r, 0));
