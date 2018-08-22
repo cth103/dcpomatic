@@ -47,6 +47,7 @@ using std::pair;
 using std::cout;
 using std::vector;
 using std::make_pair;
+using std::runtime_error;
 using boost::shared_ptr;
 using boost::bind;
 
@@ -139,10 +140,18 @@ KDMDialog::make_clicked ()
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 
-	list<ScreenKDM> screen_kdms = film->make_kdms (
-		_screens->screens(), _cpl->cpl(), _timing->from(), _timing->until(), _output->formulation(),
-		!_output->forensic_mark_video(), _output->forensic_mark_audio() ? boost::optional<int>() : 0
-		);
+	list<ScreenKDM> screen_kdms;
+	try {
+
+		screen_kdms = film->make_kdms (
+			_screens->screens(), _cpl->cpl(), _timing->from(), _timing->until(), _output->formulation(),
+			!_output->forensic_mark_video(), _output->forensic_mark_audio() ? boost::optional<int>() : 0
+			);
+
+	} catch (runtime_error& e) {
+		error_dialog (this, std_to_wx(e.what()));
+		return;
+	}
 
 	pair<shared_ptr<Job>, int> result = _output->make (screen_kdms, film->name(), _timing, bind (&KDMDialog::confirm_overwrite, this, _1), film->log());
 	if (result.first) {
