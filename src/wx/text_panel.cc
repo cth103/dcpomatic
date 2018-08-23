@@ -443,7 +443,7 @@ TextPanel::setup_sensitivity ()
 	_y_scale->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
 	_line_spacing->Enable (!reference && use && type == TEXT_OPEN_SUBTITLE);
 	_dcp_track->Enable (!reference && any_subs > 0 && use && type == TEXT_CLOSED_CAPTION);
-	_language->Enable (!reference && any_subs > 0 && use);
+	_language->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
 	_stream->Enable (!reference && ffmpeg_subs == 1);
 	_text_view_button->Enable (!reference);
 	_fonts_dialog_button->Enable (!reference && type == TEXT_OPEN_SUBTITLE);
