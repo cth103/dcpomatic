@@ -53,3 +53,33 @@ BOOST_AUTO_TEST_CASE (closed_caption_test1)
 	BOOST_REQUIRE_EQUAL (check.cpls().front()->reels().size(), 1);
 	BOOST_REQUIRE (!check.cpls().front()->reels().front()->closed_captions().empty());
 }
+
+/** Test multiple closed captions */
+BOOST_AUTO_TEST_CASE (closed_caption_test2)
+{
+	shared_ptr<Film> film = new_test_film2 ("closed_caption_test2");
+	shared_ptr<StringTextFileContent> content1 (new StringTextFileContent (film, "test/data/subrip.srt"));
+	film->examine_and_add_content (content1);
+	shared_ptr<StringTextFileContent> content2 (new StringTextFileContent (film, "test/data/subrip2.srt"));
+	film->examine_and_add_content (content2);
+	shared_ptr<StringTextFileContent> content3 (new StringTextFileContent (film, "test/data/subrip3.srt"));
+	film->examine_and_add_content (content3);
+	BOOST_REQUIRE (!wait_for_jobs ());
+
+	content1->only_text()->set_type (TEXT_CLOSED_CAPTION);
+	content1->only_text()->set_dcp_track (DCPTextTrack("First track", "French"));
+	content2->only_text()->set_type (TEXT_CLOSED_CAPTION);
+	content2->only_text()->set_dcp_track (DCPTextTrack("Second track", "German"));
+	content3->only_text()->set_type (TEXT_CLOSED_CAPTION);
+	content3->only_text()->set_dcp_track (DCPTextTrack("Third track", "Italian"));
+
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs ());
+
+	dcp::DCP check (film->dir(film->dcp_name()));
+	check.read ();
+
+	BOOST_REQUIRE_EQUAL (check.cpls().size(), 1);
+	BOOST_REQUIRE_EQUAL (check.cpls().front()->reels().size(), 1);
+	BOOST_REQUIRE_EQUAL (!check.cpls().front()->reels().front()->closed_captions().size(), 3);
+}
