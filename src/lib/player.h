@@ -127,7 +127,7 @@ private:
 	void audio (boost::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
 	void bitmap_text_start (boost::weak_ptr<Piece>, boost::weak_ptr<const TextContent>, ContentBitmapText);
 	void plain_text_start (boost::weak_ptr<Piece>, boost::weak_ptr<const TextContent>, ContentStringText);
-	void subtitle_stop (boost::weak_ptr<Piece>, boost::weak_ptr<const TextContent>, ContentTime, TextType);
+	void subtitle_stop (boost::weak_ptr<Piece>, boost::weak_ptr<const TextContent>, ContentTime);
 	DCPTime one_video_frame () const;
 	void fill_audio (DCPTimePeriod period);
 	std::pair<boost::shared_ptr<AudioBuffers>, DCPTime> discard_audio (

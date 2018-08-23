@@ -199,7 +199,7 @@ Player::setup_pieces_unlocked ()
 				bind(&Player::plain_text_start, this, weak_ptr<Piece>(piece), weak_ptr<const TextContent>((*j)->content()), _1)
 				);
 			(*j)->Stop.connect (
-				bind(&Player::subtitle_stop, this, weak_ptr<Piece>(piece), weak_ptr<const TextContent>((*j)->content()), _1, _2)
+				bind(&Player::subtitle_stop, this, weak_ptr<Piece>(piece), weak_ptr<const TextContent>((*j)->content()), _1)
 				);
 
 			++j;
@@ -917,7 +917,7 @@ Player::bitmap_text_start (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, C
 	ps.bitmap.push_back (subtitle.sub);
 	DCPTime from (content_time_to_dcp (piece, subtitle.from()));
 
-	_active_texts[subtitle.type()].add_from (wc, ps, from);
+	_active_texts[text->type()].add_from (wc, ps, from);
 }
 
 void
@@ -961,19 +961,23 @@ Player::plain_text_start (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, Co
 		ps.add_fonts (text->fonts ());
 	}
 
-	_active_texts[subtitle.type()].add_from (wc, ps, from);
+	_active_texts[text->type()].add_from (wc, ps, from);
 }
 
 void
-Player::subtitle_stop (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, ContentTime to, TextType type)
+Player::subtitle_stop (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, ContentTime to)
 {
-	if (!_active_texts[type].have (wc)) {
+	shared_ptr<const TextContent> text = wc.lock ();
+	if (!text) {
+		return;
+	}
+
+	if (!_active_texts[text->type()].have(wc)) {
 		return;
 	}
 
 	shared_ptr<Piece> piece = wp.lock ();
-	shared_ptr<const TextContent> text = wc.lock ();
-	if (!piece || !text) {
+	if (!piece) {
 		return;
 	}
 
@@ -983,11 +987,11 @@ Player::subtitle_stop (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, Conte
 		return;
 	}
 
-	pair<PlayerText, DCPTime> from = _active_texts[type].add_to (wc, dcp_to);
+	pair<PlayerText, DCPTime> from = _active_texts[text->type()].add_to (wc, dcp_to);
 
-	bool const always = (type == TEXT_OPEN_SUBTITLE && _always_burn_open_subtitles);
+	bool const always = (text->type() == TEXT_OPEN_SUBTITLE && _always_burn_open_subtitles);
 	if (text->use() && !always && !text->burn()) {
-		Text (from.first, type, DCPTimePeriod (from.second, dcp_to));
+		Text (from.first, text->type(), DCPTimePeriod (from.second, dcp_to));
 	}
 }
 
