@@ -335,7 +335,7 @@ ReelWriter::finish ()
 
 template <class T>
 void
-maybe_add_captions (
+maybe_add_text (
 	shared_ptr<dcp::SubtitleAsset> asset,
 	int64_t picture_duration,
 	shared_ptr<dcp::Reel> reel,
@@ -508,8 +508,8 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 	}
 	reel->add (reel_sound_asset);
 
-	maybe_add_captions<dcp::ReelSubtitleAsset>      (_caption_asset[TEXT_OPEN_SUBTITLE],  reel_picture_asset->duration(), reel, refs, fonts, _film, _period);
-	maybe_add_captions<dcp::ReelClosedCaptionAsset> (_caption_asset[TEXT_CLOSED_CAPTION], reel_picture_asset->duration(), reel, refs, fonts, _film, _period);
+	maybe_add_text<dcp::ReelSubtitleAsset>      (_text_asset[TEXT_OPEN_SUBTITLE],  reel_picture_asset->duration(), reel, refs, fonts, _film, _period);
+	maybe_add_text<dcp::ReelClosedCaptionAsset> (_text_asset[TEXT_CLOSED_CAPTION], reel_picture_asset->duration(), reel, refs, fonts, _film, _period);
 
 	return reel;
 }
@@ -547,7 +547,7 @@ ReelWriter::write (shared_ptr<const AudioBuffers> audio)
 void
 ReelWriter::write (PlayerText subs, TextType type, DCPTimePeriod period)
 {
-	if (!_caption_asset[type]) {
+	if (!_text_asset[type]) {
 		string lang = _film->subtitle_language ();
 		if (lang.empty ()) {
 			lang = "Unknown";
@@ -557,7 +557,7 @@ ReelWriter::write (PlayerText subs, TextType type, DCPTimePeriod period)
 			s->set_movie_title (_film->name ());
 			s->set_language (lang);
 			s->set_reel_number (raw_convert<string> (_reel_index + 1));
-			_caption_asset[type] = s;
+			_text_asset[type] = s;
 		} else {
 			shared_ptr<dcp::SMPTESubtitleAsset> s (new dcp::SMPTESubtitleAsset ());
 			s->set_content_title_text (_film->name ());
@@ -569,7 +569,7 @@ ReelWriter::write (PlayerText subs, TextType type, DCPTimePeriod period)
 			if (_film->encrypted ()) {
 				s->set_key (_film->key ());
 			}
-			_caption_asset[type] = s;
+			_text_asset[type] = s;
 		}
 	}
 
@@ -577,11 +577,11 @@ ReelWriter::write (PlayerText subs, TextType type, DCPTimePeriod period)
 		/* XXX: couldn't / shouldn't we use period here rather than getting time from the subtitle? */
 		i.set_in  (i.in()  - dcp::Time (_period.from.seconds(), i.in().tcr));
 		i.set_out (i.out() - dcp::Time (_period.from.seconds(), i.out().tcr));
-		_caption_asset[type]->add (shared_ptr<dcp::Subtitle>(new dcp::SubtitleString(i)));
+		_text_asset[type]->add (shared_ptr<dcp::Subtitle>(new dcp::SubtitleString(i)));
 	}
 
 	BOOST_FOREACH (BitmapText i, subs.bitmap) {
-		_caption_asset[type]->add (
+		_text_asset[type]->add (
 			shared_ptr<dcp::Subtitle>(
 				new dcp::SubtitleImage(
 					i.image->as_png(),
