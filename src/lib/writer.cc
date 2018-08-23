@@ -96,7 +96,7 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 	*/
 	_audio_reel = _reels.begin ();
 	for (int i = 0; i < TEXT_COUNT; ++i) {
-		_caption_reel[i] = _reels.begin ();
+		_text_reel[i] = _reels.begin ();
 	}
 
 	/* Check that the signer is OK if we need one */
@@ -667,14 +667,14 @@ Writer::can_fake_write (Frame frame) const
 void
 Writer::write (PlayerText text, TextType type, DCPTimePeriod period)
 {
-	while (_caption_reel[type]->period().to <= period.from) {
-		++_caption_reel[type];
-		DCPOMATIC_ASSERT (_caption_reel[type] != _reels.end());
+	while (_text_reel[type]->period().to <= period.from) {
+		++_text_reel[type];
+		DCPOMATIC_ASSERT (_text_reel[type] != _reels.end());
 	}
 
-	DCPOMATIC_ASSERT (_caption_reel[type] != _reels.end());
+	DCPOMATIC_ASSERT (_text_reel[type] != _reels.end());
 
-	_caption_reel[type]->write (text, type, period);
+	_text_reel[type]->write (text, type, period);
 }
 
 void
