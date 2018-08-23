@@ -52,6 +52,7 @@ sources = """
           email_dialog.cc
           image_sequence_dialog.cc
           isdcf_metadata_dialog.cc
+          dcp_text_track_dialog.cc
           dir_picker_ctrl.cc
           dolby_doremi_certificate_panel.cc
           download_certificate_dialog.cc

@@ -31,6 +31,7 @@
 #include "isdcf_metadata.h"
 #include "frame_rate_change.h"
 #include "signaller.h"
+#include "dcp_text_track.h"
 #include <dcp/key.h>
 #include <dcp/encrypted_kdm.h>
 #include <boost/signals2.hpp>
@@ -112,6 +113,8 @@ public:
 	std::vector<CPLSummary> cpls () const;
 
 	int audio_frame_rate () const;
+
+	std::list<DCPTextTrack> closed_caption_tracks () const;
 
 	uint64_t required_disk_space () const;
 	bool should_be_enough_disk_space (double& required, double& available, bool& can_hard_link) const;

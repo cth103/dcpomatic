@@ -56,6 +56,7 @@ int const TextContentProperty::FADE_IN = 512;
 int const TextContentProperty::FADE_OUT = 513;
 int const TextContentProperty::OUTLINE_WIDTH = 514;
 int const TextContentProperty::TYPE = 515;
+int const TextContentProperty::DCP_TRACK = 516;
 
 TextContent::TextContent (Content* parent, TextType type, TextType original_type)
 	: ContentPart (parent)
@@ -107,6 +108,7 @@ TextContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("Text")) {
 		c.push_back (shared_ptr<TextContent> (new TextContent (parent, i, version)));
 	}
+
 	return c;
 }
 
@@ -231,6 +233,11 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 			_original_type = string_to_text_type (node->optional_string_child("OriginalType").get());
 		}
 	}
+
+	cxml::ConstNodePtr dt = node->optional_node_child("DCPTrack");
+	if (dt) {
+		_dcp_track = DCPTextTrack (dt);
+	}
 }
 
 TextContent::TextContent (Content* parent, vector<shared_ptr<Content> > c)
@@ -286,6 +293,10 @@ TextContent::TextContent (Content* parent, vector<shared_ptr<Content> > c)
 			throw JoinError (_("Content to be joined must use the same fonts."));
 		}
 
+		if (c[i]->only_text()->dcp_track() != ref->dcp_track()) {
+			throw JoinError (_("Content to be joined must use the same DCP track."));
+		}
+
 		list<shared_ptr<Font> >::const_iterator j = ref_fonts.begin ();
 		list<shared_ptr<Font> >::const_iterator k = fonts.begin ();
 
@@ -312,6 +323,7 @@ TextContent::TextContent (Content* parent, vector<shared_ptr<Content> > c)
 	_outline_width = ref->outline_width ();
 	_type = ref->type ();
 	_original_type = ref->original_type ();
+	_dcp_track = ref->dcp_track ();
 
 	connect_to_fonts ();
 }
@@ -369,6 +381,9 @@ TextContent::as_xml (xmlpp::Node* root) const
 
 	text->add_child("Type")->add_child_text (text_type_to_string(_type));
 	text->add_child("OriginalType")->add_child_text (text_type_to_string(_original_type));
+	if (_dcp_track) {
+		_dcp_track->as_xml(text->add_child("DCPTrack"));
+	}
 }
 
 string
@@ -395,7 +410,7 @@ TextContent::identifier () const
 		}
 	}
 
-	/* The language is for metadata only, and doesn't affect
+	/* The DCP track and language are for metadata only, and don't affect
 	   how this content looks.
 	*/
 
@@ -551,6 +566,18 @@ TextContent::set_outline_width (int w)
 }
 
 void
+TextContent::set_dcp_track (DCPTextTrack t)
+{
+	maybe_set (_dcp_track, t, TextContentProperty::DCP_TRACK);
+}
+
+void
+TextContent::unset_dcp_track ()
+{
+	maybe_set (_dcp_track, optional<DCPTextTrack>(), TextContentProperty::DCP_TRACK);
+}
+
+void
 TextContent::take_settings_from (shared_ptr<const TextContent> c)
 {
 	set_use (c->_use);
@@ -581,4 +608,9 @@ TextContent::take_settings_from (shared_ptr<const TextContent> c)
 		set_fade_out (*c->_fade_out);
 	}
 	set_outline_width (c->_outline_width);
+	if (c->_dcp_track) {
+		set_dcp_track (c->_dcp_track.get());
+	} else {
+		unset_dcp_track ();
+	}
 }

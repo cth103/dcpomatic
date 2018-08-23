@@ -1637,3 +1637,18 @@ Film::references_dcp_audio () const
 
 	return false;
 }
+
+list<DCPTextTrack>
+Film::closed_caption_tracks () const
+{
+	list<DCPTextTrack> tt;
+	BOOST_FOREACH (shared_ptr<Content> i, content()) {
+		BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
+			if (j->type() == TEXT_CLOSED_CAPTION && j->dcp_track() && find(tt.begin(), tt.end(), j->dcp_track().get()) == tt.end()) {
+				tt.push_back (j->dcp_track().get());
+			}
+		}
+	}
+
+	return tt;
+}

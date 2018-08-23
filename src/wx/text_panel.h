@@ -43,6 +43,7 @@ private:
 	void x_scale_changed ();
 	void y_scale_changed ();
 	void line_spacing_changed ();
+	void dcp_track_changed ();
 	void language_changed ();
 	void stream_changed ();
 	void text_view_clicked ();
@@ -50,6 +51,8 @@ private:
 	void reference_clicked ();
 	void appearance_dialog_clicked ();
 	TextType current_type () const;
+	void update_dcp_tracks ();
+	void update_dcp_track_selection ();
 
 	void setup_sensitivity ();
 
@@ -63,6 +66,7 @@ private:
 	wxSpinCtrl* _x_scale;
 	wxSpinCtrl* _y_scale;
 	wxSpinCtrl* _line_spacing;
+	wxChoice* _dcp_track;
 	wxTextCtrl* _language;
 	wxChoice* _stream;
 	wxButton* _text_view_button;

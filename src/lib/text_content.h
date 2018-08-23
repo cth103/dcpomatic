@@ -22,6 +22,7 @@
 #define DCPOMATIC_CAPTION_CONTENT_H
 
 #include "content_part.h"
+#include "dcp_text_track.h"
 #include <libcxml/cxml.h>
 #include <dcp/types.h>
 #include <boost/signals2.hpp>
@@ -47,6 +48,7 @@ public:
 	static int const FADE_OUT;
 	static int const OUTLINE_WIDTH;
 	static int const TYPE;
+	static int const DCP_TRACK;
 };
 
 /** @class TextContent
@@ -87,6 +89,8 @@ public:
 	void set_outline_width (int);
 	void unset_fade_out ();
 	void set_type (TextType type);
+	void set_dcp_track (DCPTextTrack track);
+	void unset_dcp_track ();
 
 	bool use () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -173,6 +177,11 @@ public:
 		return _original_type;
 	}
 
+	boost::optional<DCPTextTrack> dcp_track () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _dcp_track;
+	}
+
 	static std::list<boost::shared_ptr<TextContent> > from_xml (Content* parent, cxml::ConstNodePtr, int version);
 
 protected:
@@ -217,6 +226,8 @@ private:
 	TextType _type;
 	/** the original type of these captions in their content */
 	TextType _original_type;
+	/** the track of closed captions that this content should be put in, or empty to put in the default (only) track */
+	boost::optional<DCPTextTrack> _dcp_track;
 };
 
 #endif
