@@ -210,7 +210,7 @@ TextPanel::update_dcp_track_selection ()
 		++n;
 	}
 
-	if (many) {
+	if (!selected || many) {
 		_dcp_track->SetSelection (wxNOT_FOUND);
 	}
 }
@@ -325,6 +325,7 @@ TextPanel::film_content_changed (int property)
 			_type->SetSelection (0);
 		}
 		setup_sensitivity ();
+		update_dcp_track_selection ();
 	} else if (property == TextContentProperty::BURN) {
 		checked_set (_burn, text ? text->burn() : false);
 	} else if (property == TextContentProperty::X_OFFSET) {
