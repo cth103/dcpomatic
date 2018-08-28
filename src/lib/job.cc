@@ -399,8 +399,6 @@ void
 Job::set_error (string s, string d)
 {
 	if (_film) {
-		LOG_ERROR_NC (s);
-		LOG_ERROR_NC (d);
 		_film->log()->log (String::compose ("Error in job: %1 (%2)", s, d), LogEntry::TYPE_ERROR);
 	}
 
