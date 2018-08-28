@@ -43,7 +43,7 @@ public:
 	void seek (DCPTime position, bool accurate);
 	std::pair<boost::shared_ptr<PlayerVideo>, DCPTime> get_video ();
 	boost::optional<DCPTime> get_audio (float* out, Frame frames);
-	boost::optional<std::pair<PlayerText, DCPTimePeriod> > get_closed_caption ();
+	boost::optional<TextRingBuffers::Data> get_closed_caption ();
 
 	void disable_audio ();
 
@@ -53,7 +53,7 @@ private:
 	void thread ();
 	void video (boost::shared_ptr<PlayerVideo> video, DCPTime time);
 	void audio (boost::shared_ptr<AudioBuffers> audio, DCPTime time);
-	void text (PlayerText pt, TextType type, DCPTimePeriod period);
+	void text (PlayerText pt, TextType type, boost::optional<DCPTextTrack> track, DCPTimePeriod period);
 	bool should_run () const;
 	void prepare (boost::weak_ptr<PlayerVideo> video) const;
 	void player_change (ChangeType type, bool frequent);

@@ -24,21 +24,21 @@ using std::pair;
 using boost::optional;
 
 void
-TextRingBuffers::put (pair<PlayerText, DCPTimePeriod> text)
+TextRingBuffers::put (PlayerText text, DCPTextTrack track, DCPTimePeriod period)
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	_data.push_back (text);
+	_data.push_back (Data(text, track, period));
 }
 
-optional<pair<PlayerText, DCPTimePeriod> >
+optional<TextRingBuffers::Data>
 TextRingBuffers::get ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	if (_data.empty ()) {
-		return pair<PlayerText, DCPTimePeriod>();
+		return optional<Data>();
 	}
 
-	pair<PlayerText, DCPTimePeriod> r = _data.front ();
+	Data r = _data.front ();
 	_data.pop_front ();
 	return r;
 }

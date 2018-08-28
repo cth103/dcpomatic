@@ -20,6 +20,7 @@
 
 #include "lib/dcpomatic_time.h"
 #include "lib/player.h"
+#include "lib/text_ring_buffers.h"
 #include <wx/wx.h>
 
 class Butler;
@@ -36,7 +37,7 @@ public:
 private:
 	void paint ();
 
-	boost::optional<std::pair<PlayerText, DCPTimePeriod> > _current;
+	boost::optional<TextRingBuffers::Data> _current;
 	bool _current_in_lines;
 	std::vector<wxString> _lines;
 	boost::weak_ptr<Butler> _butler;

@@ -99,7 +99,7 @@ public:
 	/** Emitted when a text is ready.  This signal may be emitted considerably
 	 *  after the corresponding Video.
 	 */
-	boost::signals2::signal<void (PlayerText, TextType, DCPTimePeriod)> Text;
+	boost::signals2::signal<void (PlayerText, TextType, boost::optional<DCPTextTrack>, DCPTimePeriod)> Text;
 
 private:
 	friend class PlayerWrapper;

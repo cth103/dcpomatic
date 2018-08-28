@@ -286,15 +286,17 @@ BOOST_AUTO_TEST_CASE (player_trim_test)
 struct Sub {
 	PlayerText text;
 	TextType type;
+	optional<DCPTextTrack> track;
 	DCPTimePeriod period;
 };
 
 static void
-store (list<Sub>* out, PlayerText text, TextType type, DCPTimePeriod period)
+store (list<Sub>* out, PlayerText text, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
 {
 	Sub s;
 	s.text = text;
 	s.type = type;
+	s.track = track;
 	s.period = period;
 	out->push_back (s);
 }
@@ -316,7 +318,7 @@ BOOST_AUTO_TEST_CASE (player_ignore_video_and_audio_test)
 	player->set_ignore_audio ();
 
 	list<Sub> out;
-	player->Text.connect (bind (&store, &out, _1, _2, _3));
+	player->Text.connect (bind (&store, &out, _1, _2, _3, _4));
 	while (!player->pass ()) {}
 
 	BOOST_CHECK_EQUAL (out.size(), 6);

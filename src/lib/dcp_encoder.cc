@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -49,6 +49,7 @@ using std::list;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
+using boost::optional;
 
 /** Construct a DCP encoder.
  *  @param film Film that we are encoding.
@@ -61,7 +62,7 @@ DCPEncoder::DCPEncoder (shared_ptr<const Film> film, weak_ptr<Job> job)
 {
 	_player_video_connection = _player->Video.connect (bind (&DCPEncoder::video, this, _1, _2));
 	_player_audio_connection = _player->Audio.connect (bind (&DCPEncoder::audio, this, _1, _2));
-	_player_text_connection = _player->Text.connect (bind (&DCPEncoder::text, this, _1, _2, _3));
+	_player_text_connection = _player->Text.connect (bind (&DCPEncoder::text, this, _1, _2, _3, _4));
 
 	BOOST_FOREACH (shared_ptr<const Content> c, film->content ()) {
 		BOOST_FOREACH (shared_ptr<TextContent> i, c->text) {
@@ -143,10 +144,10 @@ DCPEncoder::audio (shared_ptr<AudioBuffers> data, DCPTime time)
 }
 
 void
-DCPEncoder::text (PlayerText data, TextType type, DCPTimePeriod period)
+DCPEncoder::text (PlayerText data, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
 {
 	if (type == TEXT_CLOSED_CAPTION || _non_burnt_subtitles) {
-		_writer->write (data, type, period);
+		_writer->write (data, type, track, period);
 	}
 }
 

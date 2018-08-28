@@ -27,6 +27,7 @@
 class DCPTextTrack
 {
 public:
+	DCPTextTrack () {}
 	DCPTextTrack (cxml::ConstNodePtr node);
 	DCPTextTrack (std::string name_, std::string language_);
 
@@ -39,5 +40,6 @@ public:
 
 bool operator== (DCPTextTrack const & a, DCPTextTrack const & b);
 bool operator!= (DCPTextTrack const & a, DCPTextTrack const & b);
+bool operator< (DCPTextTrack const & a, DCPTextTrack const & b);
 
 #endif

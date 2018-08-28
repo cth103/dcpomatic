@@ -25,6 +25,7 @@
 #include "types.h"
 #include "player_text.h"
 #include "exception_store.h"
+#include "dcp_text_track.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/thread.hpp>
@@ -104,7 +105,7 @@ public:
 	bool can_repeat (Frame) const;
 	void repeat (Frame, Eyes);
 	void write (boost::shared_ptr<const AudioBuffers>, DCPTime time);
-	void write (PlayerText text, TextType type, DCPTimePeriod period);
+	void write (PlayerText text, TextType type, boost::optional<DCPTextTrack>, DCPTimePeriod period);
 	void write (std::list<boost::shared_ptr<Font> > fonts);
 	void write (ReferencedReelAsset asset);
 	void finish ();
@@ -124,7 +125,8 @@ private:
 	boost::weak_ptr<Job> _job;
 	std::vector<ReelWriter> _reels;
 	std::vector<ReelWriter>::iterator _audio_reel;
-	std::vector<ReelWriter>::iterator _text_reel[TEXT_COUNT];
+	std::vector<ReelWriter>::iterator _subtitle_reel;
+	std::map<DCPTextTrack, std::vector<ReelWriter>::iterator> _caption_reels;
 
 	/** our thread, or 0 */
 	boost::thread* _thread;

@@ -64,7 +64,7 @@ Butler::Butler (shared_ptr<Player> player, shared_ptr<Log> log, AudioMapping aud
 {
 	_player_video_connection = _player->Video.connect (bind (&Butler::video, this, _1, _2));
 	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1, _2));
-	_player_text_connection = _player->Text.connect (bind (&Butler::text, this, _1, _2, _3));
+	_player_text_connection = _player->Text.connect (bind (&Butler::text, this, _1, _2, _3, _4));
 	/* The butler must here about things first, otherwise it might not sort out suspensions in time for
 	   get_video() to be called in response to this signal.
 	*/
@@ -208,7 +208,7 @@ Butler::get_video ()
 	return r;
 }
 
-optional<pair<PlayerText, DCPTimePeriod> >
+optional<TextRingBuffers::Data>
 Butler::get_closed_caption ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
@@ -349,12 +349,14 @@ Butler::player_change (ChangeType type, bool frequent)
 }
 
 void
-Butler::text (PlayerText pt, TextType type, DCPTimePeriod period)
+Butler::text (PlayerText pt, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
 {
 	if (type != TEXT_CLOSED_CAPTION) {
 		return;
 	}
 
+	DCPOMATIC_ASSERT (track);
+
 	boost::mutex::scoped_lock lm2 (_buffers_mutex);
-	_closed_caption.put (make_pair(pt, period));
+	_closed_caption.put (pt, *track, period);
 }

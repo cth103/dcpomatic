@@ -57,6 +57,7 @@
 using std::list;
 using std::string;
 using std::cout;
+using std::map;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
@@ -350,7 +351,6 @@ maybe_add_text (
 	shared_ptr<T> reel_asset;
 
 	if (asset) {
-
 		boost::filesystem::path liberation_normal;
 		try {
 			liberation_normal = shared_path() / "LiberationSans-Regular.ttf";
@@ -376,7 +376,6 @@ maybe_add_text (
 			boost::filesystem::create_directories (directory);
 			asset->write (directory / ("sub_" + asset->id() + ".xml"));
 		} else {
-
 			/* All our assets should be the same length; use the picture asset length here
 			   as a reference to set the subtitle one.  We'll use the duration rather than
 			   the intrinsic duration; we don't care if the picture asset has been trimmed, we're
@@ -508,8 +507,10 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 	}
 	reel->add (reel_sound_asset);
 
-	maybe_add_text<dcp::ReelSubtitleAsset>      (_text_asset[TEXT_OPEN_SUBTITLE],  reel_picture_asset->duration(), reel, refs, fonts, _film, _period);
-	maybe_add_text<dcp::ReelClosedCaptionAsset> (_text_asset[TEXT_CLOSED_CAPTION], reel_picture_asset->duration(), reel, refs, fonts, _film, _period);
+	maybe_add_text<dcp::ReelSubtitleAsset> (_subtitle_asset,  reel_picture_asset->duration(), reel, refs, fonts, _film, _period);
+	for (map<DCPTextTrack, shared_ptr<dcp::SubtitleAsset> >::const_iterator i = _closed_caption_assets.begin(); i != _closed_caption_assets.end(); ++i) {
+		maybe_add_text<dcp::ReelClosedCaptionAsset> (i->second, reel_picture_asset->duration(), reel, refs, fonts, _film, _period);
+	}
 
 	return reel;
 }
@@ -545,9 +546,23 @@ ReelWriter::write (shared_ptr<const AudioBuffers> audio)
 }
 
 void
-ReelWriter::write (PlayerText subs, TextType type, DCPTimePeriod period)
+ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
 {
-	if (!_text_asset[type]) {
+	shared_ptr<dcp::SubtitleAsset> asset;
+
+	switch (type) {
+	case TEXT_OPEN_SUBTITLE:
+		asset = _subtitle_asset;
+		break;
+	case TEXT_CLOSED_CAPTION:
+		DCPOMATIC_ASSERT (track);
+		asset = _closed_caption_assets[*track];
+		break;
+	default:
+		DCPOMATIC_ASSERT (false);
+	}
+
+	if (!asset) {
 		string lang = _film->subtitle_language ();
 		if (lang.empty ()) {
 			lang = "Unknown";
@@ -557,7 +572,7 @@ ReelWriter::write (PlayerText subs, TextType type, DCPTimePeriod period)
 			s->set_movie_title (_film->name ());
 			s->set_language (lang);
 			s->set_reel_number (raw_convert<string> (_reel_index + 1));
-			_text_asset[type] = s;
+			asset = s;
 		} else {
 			shared_ptr<dcp::SMPTESubtitleAsset> s (new dcp::SMPTESubtitleAsset ());
 			s->set_content_title_text (_film->name ());
@@ -569,19 +584,31 @@ ReelWriter::write (PlayerText subs, TextType type, DCPTimePeriod period)
 			if (_film->encrypted ()) {
 				s->set_key (_film->key ());
 			}
-			_text_asset[type] = s;
+			asset = s;
 		}
+	}
+
+	switch (type) {
+	case TEXT_OPEN_SUBTITLE:
+		_subtitle_asset = asset;
+		break;
+	case TEXT_CLOSED_CAPTION:
+		DCPOMATIC_ASSERT (track);
+		_closed_caption_assets[*track] = asset;
+		break;
+	default:
+		DCPOMATIC_ASSERT (false);
 	}
 
 	BOOST_FOREACH (StringText i, subs.string) {
 		/* XXX: couldn't / shouldn't we use period here rather than getting time from the subtitle? */
 		i.set_in  (i.in()  - dcp::Time (_period.from.seconds(), i.in().tcr));
 		i.set_out (i.out() - dcp::Time (_period.from.seconds(), i.out().tcr));
-		_text_asset[type]->add (shared_ptr<dcp::Subtitle>(new dcp::SubtitleString(i)));
+		asset->add (shared_ptr<dcp::Subtitle>(new dcp::SubtitleString(i)));
 	}
 
 	BOOST_FOREACH (BitmapText i, subs.bitmap) {
-		_text_asset[type]->add (
+		asset->add (
 			shared_ptr<dcp::Subtitle>(
 				new dcp::SubtitleImage(
 					i.image->as_png(),

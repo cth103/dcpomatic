@@ -991,7 +991,7 @@ Player::subtitle_stop (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, Conte
 
 	bool const always = (text->type() == TEXT_OPEN_SUBTITLE && _always_burn_open_subtitles);
 	if (text->use() && !always && !text->burn()) {
-		Text (from.first, text->type(), DCPTimePeriod (from.second, dcp_to));
+		Text (from.first, text->type(), text->dcp_track().get_value_or(DCPTextTrack()), DCPTimePeriod (from.second, dcp_to));
 	}
 }
 

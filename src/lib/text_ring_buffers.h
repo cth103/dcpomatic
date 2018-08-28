@@ -18,18 +18,38 @@
 
 */
 
+#ifndef DCPOMATIC_TEXT_RING_BUFFERS_H
+#define DCPOMATIC_TEXT_RING_BUFFERS_H
+
 #include "player_text.h"
+#include "dcp_text_track.h"
 #include <boost/thread.hpp>
 #include <utility>
 
 class TextRingBuffers
 {
 public:
-	void put (std::pair<PlayerText, DCPTimePeriod> text);
-	boost::optional<std::pair<PlayerText, DCPTimePeriod> > get ();
+	void put (PlayerText text, DCPTextTrack track, DCPTimePeriod period);
+
+	struct Data {
+		Data (PlayerText text_, DCPTextTrack track_, DCPTimePeriod period_)
+			: text (text_)
+			, track (track_)
+			, period (period_)
+		{}
+
+		PlayerText text;
+		DCPTextTrack track;
+		DCPTimePeriod period;
+	};
+
+	boost::optional<Data> get ();
 	void clear ();
 
 private:
 	boost::mutex _mutex;
-	std::list<std::pair<PlayerText, DCPTimePeriod> > _data;
+
+	std::list<Data> _data;
 };
+
+#endif

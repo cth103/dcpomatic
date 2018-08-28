@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -63,9 +63,11 @@ using std::cout;
 using std::map;
 using std::min;
 using std::max;
+using std::vector;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
+using boost::optional;
 using dcp::Data;
 
 Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
@@ -95,8 +97,9 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 	   and captions arrive to the Writer in sequence.  This is not so for video.
 	*/
 	_audio_reel = _reels.begin ();
-	for (int i = 0; i < TEXT_COUNT; ++i) {
-		_text_reel[i] = _reels.begin ();
+	_subtitle_reel = _reels.begin ();
+	BOOST_FOREACH (DCPTextTrack i, _film->closed_caption_tracks()) {
+		_caption_reels[i] = _reels.begin ();
 	}
 
 	/* Check that the signer is OK if we need one */
@@ -664,17 +667,29 @@ Writer::can_fake_write (Frame frame) const
 	return (frame != 0 && frame < reel.first_nonexistant_frame());
 }
 
+/** @param track Closed caption track if type == TEXT_CLOSED_CAPTION */
 void
-Writer::write (PlayerText text, TextType type, DCPTimePeriod period)
+Writer::write (PlayerText text, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
 {
-	while (_text_reel[type]->period().to <= period.from) {
-		++_text_reel[type];
-		DCPOMATIC_ASSERT (_text_reel[type] != _reels.end());
+	vector<ReelWriter>::iterator* reel = 0;
+
+	switch (type) {
+	case TEXT_OPEN_SUBTITLE:
+		reel = &_subtitle_reel;
+		break;
+	case TEXT_CLOSED_CAPTION:
+		reel = &_caption_reels[*track];
+		break;
+	default:
+		DCPOMATIC_ASSERT (false);
 	}
 
-	DCPOMATIC_ASSERT (_text_reel[type] != _reels.end());
+	while ((*reel)->period().to <= period.from) {
+		++(*reel);
+		DCPOMATIC_ASSERT (*reel != _reels.end());
+	}
 
-	_text_reel[type]->write (text, type, period);
+	(*reel)->write (text, type, track, period);
 }
 
 void

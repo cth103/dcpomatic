@@ -61,3 +61,13 @@ operator!= (DCPTextTrack const & a, DCPTextTrack const & b)
 {
 	return !(a == b);
 }
+
+bool
+operator< (DCPTextTrack const & a, DCPTextTrack const & b)
+{
+	if (a.name != b.name) {
+		return a.name < b.name;
+	}
+
+	return a.language < b.language;
+}

@@ -104,18 +104,18 @@ private:
 void
 ClosedCaptionsDialog::update (DCPTime time)
 {
-	if (_current_in_lines && _current->second.to > time) {
+	if (_current_in_lines && _current->period.to > time) {
 		/* Current one is fine */
 		return;
 	}
 
-	if (_current && _current->second.to < time) {
+	if (_current && _current->period.to < time) {
 		/* Current one has finished; clear out */
 		for (int j = 0; j < CLOSED_CAPTION_LINES; ++j) {
 			_lines[j] = "";
 		}
 		Refresh ();
-		_current = optional<pair<PlayerText, DCPTimePeriod> >();
+		_current = optional<TextRingBuffers::Data>();
 	}
 
 	if (!_current) {
@@ -126,10 +126,10 @@ ClosedCaptionsDialog::update (DCPTime time)
 		_current_in_lines = false;
 	}
 
-	if (_current && _current->second.contains(time)) {
+	if (_current && _current->period.contains(time)) {
 		/* We need to set this new one up */
 
-		list<StringText> to_show = _current->first.string;
+		list<StringText> to_show = _current->text.string;
 
 		for (int j = 0; j < CLOSED_CAPTION_LINES; ++j) {
 			_lines[j] = "";
@@ -153,7 +153,7 @@ ClosedCaptionsDialog::update (DCPTime time)
 void
 ClosedCaptionsDialog::clear ()
 {
-	_current = optional<pair<PlayerText, DCPTimePeriod> >();
+	_current = optional<TextRingBuffers::Data>();
 	_current_in_lines = false;
 	Refresh ();
 }

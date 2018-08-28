@@ -21,6 +21,7 @@
 #include "signaller.h"
 #include "player_text.h"
 #include "types.h"
+#include "dcp_text_track.h"
 #include "dcpomatic_time.h"
 #include <boost/weak_ptr.hpp>
 #include <boost/signals2.hpp>
@@ -46,7 +47,7 @@ private:
 	void thread ();
 	void stop_thread ();
 	void hint (std::string h);
-	void text (PlayerText text, TextType type, DCPTimePeriod period);
+	void text (PlayerText text, TextType type, boost::optional<DCPTextTrack> track, DCPTimePeriod period);
 
 	boost::weak_ptr<const Film> _film;
 	boost::thread* _thread;

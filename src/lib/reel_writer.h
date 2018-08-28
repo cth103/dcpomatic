@@ -22,6 +22,7 @@
 #include "dcpomatic_time.h"
 #include "referenced_reel_asset.h"
 #include "player_text.h"
+#include "dcp_text_track.h"
 #include <dcp/picture_asset_writer.h>
 #include <boost/shared_ptr.hpp>
 
@@ -60,7 +61,7 @@ public:
 	void fake_write (Frame frame, Eyes eyes, int size);
 	void repeat_write (Frame frame, Eyes eyes);
 	void write (boost::shared_ptr<const AudioBuffers> audio);
-	void write (PlayerText text, TextType type, DCPTimePeriod period);
+	void write (PlayerText text, TextType type, boost::optional<DCPTextTrack> track, DCPTimePeriod period);
 
 	void finish ();
 	boost::shared_ptr<dcp::Reel> create_reel (std::list<ReferencedReelAsset> const & refs, std::list<boost::shared_ptr<Font> > const & fonts);
@@ -113,7 +114,8 @@ private:
 	boost::shared_ptr<dcp::PictureAssetWriter> _picture_asset_writer;
 	boost::shared_ptr<dcp::SoundAsset> _sound_asset;
 	boost::shared_ptr<dcp::SoundAssetWriter> _sound_asset_writer;
-	boost::shared_ptr<dcp::SubtitleAsset> _text_asset[TEXT_COUNT];
+	boost::shared_ptr<dcp::SubtitleAsset> _subtitle_asset;
+	std::map<DCPTextTrack, boost::shared_ptr<dcp::SubtitleAsset> > _closed_caption_assets;
 
 	static int const _info_size;
 };
