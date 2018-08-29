@@ -678,12 +678,16 @@ Writer::write (PlayerText text, TextType type, optional<DCPTextTrack> track, DCP
 		reel = &_subtitle_reel;
 		break;
 	case TEXT_CLOSED_CAPTION:
+		DCPOMATIC_ASSERT (track);
+		DCPOMATIC_ASSERT (_caption_reels.find(*track) != _caption_reels.end());
 		reel = &_caption_reels[*track];
 		break;
 	default:
 		DCPOMATIC_ASSERT (false);
 	}
 
+
+	DCPOMATIC_ASSERT (*reel != _reels.end());
 	while ((*reel)->period().to <= period.from) {
 		++(*reel);
 		DCPOMATIC_ASSERT (*reel != _reels.end());
