@@ -25,8 +25,10 @@
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
+#include <dcp/reel_closed_caption_asset.h>
 #include <boost/test/unit_test.hpp>
 
+using std::list;
 using boost::shared_ptr;
 
 /** Basic test that Interop closed captions are written */
@@ -81,6 +83,19 @@ BOOST_AUTO_TEST_CASE (closed_caption_test2)
 
 	BOOST_REQUIRE_EQUAL (check.cpls().size(), 1);
 	BOOST_REQUIRE_EQUAL (check.cpls().front()->reels().size(), 1);
-	std::cout << !check.cpls().front()->reels().front()->closed_captions().size() << "\n";
-	BOOST_REQUIRE_EQUAL (!check.cpls().front()->reels().front()->closed_captions().size(), 3);
+	list<shared_ptr<dcp::ReelClosedCaptionAsset> > ccaps = check.cpls().front()->reels().front()->closed_captions();
+	BOOST_REQUIRE_EQUAL (ccaps.size(), 3);
+
+	list<shared_ptr<dcp::ReelClosedCaptionAsset> >::const_iterator i = ccaps.begin ();
+	BOOST_CHECK_EQUAL ((*i)->annotation_text(), "First track");
+	BOOST_REQUIRE (static_cast<bool>((*i)->language()));
+	BOOST_CHECK_EQUAL ((*i)->language().get(), "French");
+	++i;
+	BOOST_CHECK_EQUAL ((*i)->annotation_text(), "Second track");
+	BOOST_REQUIRE (static_cast<bool>((*i)->language()));
+	BOOST_CHECK_EQUAL ((*i)->language().get(), "German");
+	++i;
+	BOOST_CHECK_EQUAL ((*i)->annotation_text(), "Third track");
+	BOOST_REQUIRE (static_cast<bool>((*i)->language()));
+	BOOST_CHECK_EQUAL ((*i)->language().get(), "Italian");
 }

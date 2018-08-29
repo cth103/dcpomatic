@@ -335,7 +335,7 @@ ReelWriter::finish ()
 }
 
 template <class T>
-void
+shared_ptr<T>
 maybe_add_text (
 	shared_ptr<dcp::SubtitleAsset> asset,
 	int64_t picture_duration,
@@ -419,6 +419,8 @@ maybe_add_text (
 		}
 		reel->add (reel_asset);
 	}
+
+	return reel_asset;
 }
 
 shared_ptr<dcp::Reel>
@@ -507,9 +509,13 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 	}
 	reel->add (reel_sound_asset);
 
-	maybe_add_text<dcp::ReelSubtitleAsset> (_subtitle_asset,  reel_picture_asset->duration(), reel, refs, fonts, _film, _period);
+	maybe_add_text<dcp::ReelSubtitleAsset> (_subtitle_asset, reel_picture_asset->duration(), reel, refs, fonts, _film, _period);
 	for (map<DCPTextTrack, shared_ptr<dcp::SubtitleAsset> >::const_iterator i = _closed_caption_assets.begin(); i != _closed_caption_assets.end(); ++i) {
-		maybe_add_text<dcp::ReelClosedCaptionAsset> (i->second, reel_picture_asset->duration(), reel, refs, fonts, _film, _period);
+		shared_ptr<dcp::ReelClosedCaptionAsset> a = maybe_add_text<dcp::ReelClosedCaptionAsset> (
+			i->second, reel_picture_asset->duration(), reel, refs, fonts, _film, _period
+			);
+		a->set_annotation_text (i->first.name);
+		a->set_language (i->first.language);
 	}
 
 	return reel;
