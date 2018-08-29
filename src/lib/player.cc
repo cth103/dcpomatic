@@ -237,6 +237,8 @@ Player::playlist_content_change (ChangeType type, int property, bool frequent)
 	} else if (type == CHANGE_TYPE_DONE) {
 		/* A change in our content has gone through.  Re-build our pieces. */
 		setup_pieces ();
+	} else if (type == CHANGE_TYPE_CANCELLED) {
+		_suspended = false;
 	}
 
 	Change (type, property, frequent);
