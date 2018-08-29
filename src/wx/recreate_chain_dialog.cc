@@ -47,6 +47,5 @@ RecreateChainDialog::RecreateChainDialog (wxWindow* parent)
 void
 RecreateChainDialog::shut_up (wxCommandEvent& ev)
 {
-	std::cout << "set nagged " << ev.IsChecked() << "\n";
 	Config::instance()->set_nagged (Config::NAG_BAD_SIGNER_CHAIN, ev.IsChecked());
 }
