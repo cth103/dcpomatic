@@ -378,8 +378,8 @@ def build(target, options):
         modules.append({'name': 'imagemagick',
                         'cleanup': ['/bin'],
                         'sources': [{'type': 'archive',
-		                     'url': 'https://www.imagemagick.org/download/ImageMagick-7.0.8-10.tar.bz2',
-		                     'sha256': 'f9d99573f8b8d7f90319fdf22a1a41a6764ac247b1c3f6ae08d9a3657ec977a5'}]})
+		                     'url': 'https://www.imagemagick.org/download/ImageMagick-7.0.8-11.tar.bz2',
+		                     'sha256': 'a1aef96c89a9a9fac51a6e141deffa0b2f8db2062a24f6ba9fe3846dde7491ac'}]})
         modules.append({'name': 'libsigc++',
                         'sources': [{'type': 'archive',
                                      'url': 'https://download.gnome.org/sources/libsigc++/2.10/libsigc++-2.10.0.tar.xz',
