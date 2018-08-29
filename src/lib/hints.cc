@@ -266,7 +266,7 @@ Hints::thread ()
 	shared_ptr<Player> player (new Player (film, film->playlist ()));
 	player->set_ignore_video ();
 	player->set_ignore_audio ();
-	player->Text.connect (bind(&Hints::text, this, _1, _2, _3, _4));
+	player->Text.connect (bind(&Hints::text, this, _1, _2, _4));
 	while (!player->pass ()) {
 		bind (boost::ref(Pulse));
 	}
@@ -281,7 +281,7 @@ Hints::hint (string h)
 }
 
 void
-Hints::text (PlayerText text, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
+Hints::text (PlayerText text, TextType type, DCPTimePeriod period)
 {
 	if (type != TEXT_CLOSED_CAPTION) {
 		return;

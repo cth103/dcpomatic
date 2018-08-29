@@ -47,7 +47,7 @@ private:
 	void thread ();
 	void stop_thread ();
 	void hint (std::string h);
-	void text (PlayerText text, TextType type, boost::optional<DCPTextTrack> track, DCPTimePeriod period);
+	void text (PlayerText text, TextType type, DCPTimePeriod period);
 
 	boost::weak_ptr<const Film> _film;
 	boost::thread* _thread;
