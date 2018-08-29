@@ -948,19 +948,19 @@ Film::signal_change (ChangeType type, Property p)
 	if (type == CHANGE_TYPE_DONE) {
 		_dirty = true;
 
-		switch (p) {
-		case Film::CONTENT:
+		if (p == Film::CONTENT) {
 			set_video_frame_rate (_playlist->best_video_frame_rate ());
-			break;
-		case Film::VIDEO_FRAME_RATE:
-		case Film::SEQUENCE:
-			_playlist->maybe_sequence ();
-			break;
-		default:
-			break;
 		}
 
 		emit (boost::bind (boost::ref (Change), type, p));
+
+		if (p == Film::VIDEO_FRAME_RATE || p == Film::SEQUENCE) {
+			/* We want to call Playlist::maybe_sequence but this must happen after the
+			   main signal emission (since the butler will see that emission and un-suspend itself).
+			   Doing it this way ensures that the Change signal above is emitted first.
+			*/
+			signal_manager->when_idle (boost::bind(&Playlist::maybe_sequence, _playlist.get()));
+		}
 	} else {
 		Change (type, p);
 	}
