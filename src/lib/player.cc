@@ -916,7 +916,10 @@ Player::bitmap_text_start (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, C
 	subtitle.sub.rectangle.height *= text->y_scale ();
 
 	PlayerText ps;
-	ps.bitmap.push_back (subtitle.sub);
+	shared_ptr<Image> image = subtitle.sub.image;
+	/* We will scale the subtitle up to fit _video_container_size */
+	dcp::Size scaled_size (subtitle.sub.rectangle.width * _video_container_size.width, subtitle.sub.rectangle.height * _video_container_size.height);
+	ps.bitmap.push_back (BitmapText(image->scale(scaled_size, dcp::YUV_TO_RGB_REC601, image->pixel_format(), true, _fast), subtitle.sub.rectangle));
 	DCPTime from (content_time_to_dcp (piece, subtitle.from()));
 
 	_active_texts[text->type()].add_from (wc, ps, from);
