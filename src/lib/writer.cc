@@ -686,7 +686,6 @@ Writer::write (PlayerText text, TextType type, optional<DCPTextTrack> track, DCP
 		DCPOMATIC_ASSERT (false);
 	}
 
-
 	DCPOMATIC_ASSERT (*reel != _reels.end());
 	while ((*reel)->period().to <= period.from) {
 		++(*reel);
