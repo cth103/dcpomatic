@@ -405,5 +405,7 @@ AudioContent::modify_position (DCPTime& pos) const
 void
 AudioContent::modify_trim_start (ContentTime& trim) const
 {
-	trim = trim.round (stream()->frame_rate());
+	DCPOMATIC_ASSERT (!_streams.empty());
+	/* XXX: we're in trouble if streams have different rates */
+	trim = trim.round (_streams.front()->frame_rate());
 }
