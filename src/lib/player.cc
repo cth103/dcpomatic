@@ -307,39 +307,6 @@ Player::film_change (ChangeType type, Film::Property p)
 	}
 }
 
-list<PositionImage>
-Player::transform_bitmap_texts (list<BitmapText> subs) const
-{
-	list<PositionImage> all;
-
-	for (list<BitmapText>::const_iterator i = subs.begin(); i != subs.end(); ++i) {
-		if (!i->image) {
-			continue;
-		}
-
-		/* We will scale the subtitle up to fit _video_container_size */
-		dcp::Size scaled_size (i->rectangle.width * _video_container_size.width, i->rectangle.height * _video_container_size.height);
-
-		all.push_back (
-			PositionImage (
-				i->image->scale (
-					scaled_size,
-					dcp::YUV_TO_RGB_REC601,
-					i->image->pixel_format (),
-					true,
-					_fast
-					),
-				Position<int> (
-					lrint (_video_container_size.width * i->rectangle.x),
-					lrint (_video_container_size.height * i->rectangle.y)
-					)
-				)
-			);
-	}
-
-	return all;
-}
-
 shared_ptr<PlayerVideo>
 Player::black_player_video_frame (Eyes eyes) const
 {
@@ -714,8 +681,24 @@ Player::open_subtitles_for_frame (DCPTime time) const
 		) {
 
 		/* Bitmap subtitles */
-		list<PositionImage> c = transform_bitmap_texts (j.bitmap);
-		copy (c.begin(), c.end(), back_inserter (captions));
+		BOOST_FOREACH (BitmapText i, j.bitmap) {
+			if (!i.image) {
+				continue;
+			}
+
+			/* i.image will already have been scaled to fit _video_container_size */
+			dcp::Size scaled_size (i.rectangle.width * _video_container_size.width, i.rectangle.height * _video_container_size.height);
+
+			captions.push_back (
+				PositionImage (
+					i.image,
+					Position<int> (
+						lrint (_video_container_size.width * i.rectangle.x),
+						lrint (_video_container_size.height * i.rectangle.y)
+						)
+					)
+				);
+		}
 
 		/* String subtitles (rendered to an image) */
 		if (!j.string.empty ()) {
