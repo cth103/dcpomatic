@@ -35,7 +35,7 @@ protected:
 		return w;
 	}
 
-	void add (wxString text, bool label);
+	wxStaticText* add (wxString text, bool label);
 	void add_spacer ();
 
 	void layout ();

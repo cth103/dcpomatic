@@ -57,6 +57,16 @@ ExportDialog::ExportDialog (wxWindow* parent)
 	add_spacer ();
 	_mixdown = new wxCheckBox (this, wxID_ANY, _("Mix audio down to stereo"));
 	add (_mixdown, false);
+	_x264_crf_label[0] = add (_("Quality"), true);
+	_x264_crf = new wxSlider (this, wxID_ANY, 23, 0, 51, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL | wxSL_LABELS);
+	add (_x264_crf, false);
+	add_spacer ();
+	_x264_crf_label[1] = add (_("0 is best, 51 is worst"), false);
+	wxFont font = _x264_crf_label[1]->GetFont();
+	font.SetStyle(wxFONTSTYLE_ITALIC);
+	font.SetPointSize(font.GetPointSize() - 1);
+	_x264_crf_label[1]->SetFont(font);
+
 	add (_("Output file"), true);
 	_file = new FilePickerCtrl (this, _("Select output file"), format_filters[0], false);
 	add (_file);
@@ -65,6 +75,11 @@ ExportDialog::ExportDialog (wxWindow* parent)
 		_format->Append (format_names[i]);
 	}
 	_format->SetSelection (0);
+
+	_x264_crf->Enable (false);
+	for (int i = 0; i < 2; ++i) {
+		_x264_crf_label[i]->Enable (false);
+	}
 
 	_format->Bind (wxEVT_CHOICE, bind (&ExportDialog::format_changed, this));
 	_file->Bind (wxEVT_FILEPICKER_CHANGED, bind (&ExportDialog::file_changed, this));
@@ -81,6 +96,10 @@ ExportDialog::format_changed ()
 	DCPOMATIC_ASSERT (_format->GetSelection() >= 0 && _format->GetSelection() < FORMATS);
 	_file->SetWildcard (format_filters[_format->GetSelection()]);
 	_file->SetPath ("");
+	_x264_crf->Enable (_format->GetSelection() == 1);
+	for (int i = 0; i < 2; ++i) {
+		_x264_crf_label[i]->Enable (_format->GetSelection() == 1);
+	}
 }
 
 boost::filesystem::path
@@ -102,6 +121,12 @@ bool
 ExportDialog::mixdown_to_stereo () const
 {
 	return _mixdown->GetValue ();
+}
+
+int
+ExportDialog::x264_crf () const
+{
+	return _x264_crf->GetValue ();
 }
 
 void

@@ -49,7 +49,7 @@ force_pixel_format (AVPixelFormat, AVPixelFormat out)
 	return out;
 }
 
-FFmpegEncoder::FFmpegEncoder (shared_ptr<const Film> film, weak_ptr<Job> job, boost::filesystem::path output, Format format, bool mixdown_to_stereo)
+FFmpegEncoder::FFmpegEncoder (shared_ptr<const Film> film, weak_ptr<Job> job, boost::filesystem::path output, Format format, bool mixdown_to_stereo, int x264_crf)
 	: Encoder (film, job)
 	, _video_options (0)
 	, _history (1000)
@@ -69,6 +69,7 @@ FFmpegEncoder::FFmpegEncoder (shared_ptr<const Film> film, weak_ptr<Job> job, bo
 		_sample_format = AV_SAMPLE_FMT_FLTP;
 		_video_codec_name = "libx264";
 		_audio_codec_name = "aac";
+		av_dict_set_int (&_video_options, "crf", x264_crf, 0);
 		break;
 	}
 

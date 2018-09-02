@@ -33,6 +33,7 @@ public:
 	boost::filesystem::path path () const;
 	FFmpegEncoder::Format format () const;
 	bool mixdown_to_stereo () const;
+	int x264_crf () const;
 
 private:
 	void format_changed ();
@@ -40,5 +41,7 @@ private:
 
 	wxChoice* _format;
 	wxCheckBox* _mixdown;
+	wxSlider* _x264_crf;
+	wxStaticText* _x264_crf_label[2];
 	FilePickerCtrl* _file;
 };

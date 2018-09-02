@@ -50,7 +50,7 @@ TableDialog::layout ()
 	_overall_sizer->SetSizeHints (this);
 }
 
-void
+wxStaticText *
 #ifdef DCPOMATIC_OSX
 TableDialog::add (wxString text, bool label)
 #else
@@ -67,6 +67,7 @@ TableDialog::add (wxString text, bool)
 	wxStaticText* m = new wxStaticText (this, wxID_ANY, wxT (""));
 	m->SetLabelMarkup (text);
 	_table->Add (m, 0, flags, 6);
+	return m;
 }
 
 void

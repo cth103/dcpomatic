@@ -41,7 +41,7 @@ public:
 		FORMAT_H264
 	};
 
-	FFmpegEncoder (boost::shared_ptr<const Film> film, boost::weak_ptr<Job> job, boost::filesystem::path output, Format format, bool mixdown_to_stereo);
+	FFmpegEncoder (boost::shared_ptr<const Film> film, boost::weak_ptr<Job> job, boost::filesystem::path output, Format format, bool mixdown_to_stereo, int x264_crf);
 
 	void go ();
 
