@@ -791,6 +791,34 @@ Image::Image (AVPixelFormat p, dcp::Size s, bool aligned, int extra_pixels)
 	allocate ();
 }
 
+/** Construct an Image from some PNG data */
+Image::Image (dcp::Data png)
+{
+	Magick::Blob blob;
+	blob.update (png.data().get(), png.size());
+	Magick::Image* magick_image = new Magick::Image (blob);
+	_size = dcp::Size(magick_image->columns(), magick_image->rows());
+	_pixel_format = AV_PIX_FMT_BGRA;
+	_aligned = true;
+	_extra_pixels = 0;
+	allocate ();
+
+	/* Write line-by-line here as _image must be aligned, and write() cannot be told about strides */
+	uint8_t* p = data()[0];
+	for (int i = 0; i < _size.height; ++i) {
+#ifdef DCPOMATIC_HAVE_MAGICKCORE_NAMESPACE
+		using namespace MagickCore;
+#endif
+#ifdef DCPOMATIC_HAVE_MAGICKLIB_NAMESPACE
+		using namespace MagickLib;
+#endif
+		magick_image->write (0, i, _size.width, 1, "BGRA", CharPixel, p);
+		p += stride()[0];
+	}
+
+	delete magick_image;
+}
+
 void
 Image::allocate ()
 {

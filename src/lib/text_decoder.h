@@ -50,6 +50,7 @@ public:
 	}
 
 	void emit_bitmap_start (ContentTime from, boost::shared_ptr<Image> image, dcpomatic::Rect<double> rect);
+	void emit_bitmap (ContentTimePeriod period, boost::shared_ptr<Image> image, dcpomatic::Rect<double> rect);
 	void emit_plain_start (ContentTime from, std::list<dcp::SubtitleString> s);
 	void emit_plain_start (ContentTime from, sub::Subtitle const & subtitle);
 	void emit_plain (ContentTimePeriod period, std::list<dcp::SubtitleString> s);

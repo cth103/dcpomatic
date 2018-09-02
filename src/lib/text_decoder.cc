@@ -250,6 +250,17 @@ TextDecoder::emit_plain (ContentTimePeriod period, sub::Subtitle const & s)
 	emit_stop (period.to);
 }
 
+/*  @param rect Area expressed as a fraction of the video frame that this subtitle
+ *  is for (e.g. a width of 0.5 means the width of the subtitle is half the width
+ *  of the video frame)
+ */
+void
+TextDecoder::emit_bitmap (ContentTimePeriod period, shared_ptr<Image> image, dcpomatic::Rect<double> rect)
+{
+	emit_bitmap_start (period.from, image, rect);
+	emit_stop (period.to);
+}
+
 void
 TextDecoder::seek ()
 {

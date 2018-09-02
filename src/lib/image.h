@@ -44,6 +44,7 @@ public:
 	Image (AVPixelFormat p, dcp::Size s, bool aligned, int extra_pixels = 0);
 	explicit Image (AVFrame *);
 	explicit Image (Image const &);
+	explicit Image (dcp::Data);
 	Image (boost::shared_ptr<const Image>, bool);
 	Image& operator= (Image const &);
 	~Image ();

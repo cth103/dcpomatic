@@ -42,6 +42,7 @@
 #include <dcp/stereo_picture_frame.h>
 #include <dcp/sound_frame.h>
 #include <dcp/sound_asset_reader.h>
+#include <dcp/subtitle_image.h>
 #include <boost/foreach.hpp>
 #include <iostream>
 
@@ -110,20 +111,22 @@ DCPDecoder::pass ()
 	/* Frame within the (played part of the) reel that is coming up next */
 	int64_t const frame = _next.frames_round (vfr);
 
+	shared_ptr<dcp::PictureAsset> picture_asset = (*_reel)->main_picture()->asset();
+	DCPOMATIC_ASSERT (picture_asset);
+
 	/* We must emit texts first as when we emit the video for this frame
 	   it will expect already to have the texts.
 	*/
-	pass_texts (_next);
+	pass_texts (_next, picture_asset->size());
 
 	if ((_mono_reader || _stereo_reader) && (_decode_referenced || !_dcp_content->reference_video())) {
-		shared_ptr<dcp::PictureAsset> asset = (*_reel)->main_picture()->asset ();
 		int64_t const entry_point = (*_reel)->main_picture()->entry_point ();
 		if (_mono_reader) {
 			video->emit (
 				shared_ptr<ImageProxy> (
 					new J2KImageProxy (
 						_mono_reader->get_frame (entry_point + frame),
-						asset->size(),
+						picture_asset->size(),
 						AV_PIX_FMT_XYZ12LE,
 						_forced_reduction
 						)
@@ -135,7 +138,7 @@ DCPDecoder::pass ()
 				shared_ptr<ImageProxy> (
 					new J2KImageProxy (
 						_stereo_reader->get_frame (entry_point + frame),
-						asset->size(),
+						picture_asset->size(),
 						dcp::EYE_LEFT,
 						AV_PIX_FMT_XYZ12LE,
 						_forced_reduction
@@ -148,7 +151,7 @@ DCPDecoder::pass ()
 				shared_ptr<ImageProxy> (
 					new J2KImageProxy (
 						_stereo_reader->get_frame (entry_point + frame),
-						asset->size(),
+						picture_asset->size(),
 						dcp::EYE_RIGHT,
 						AV_PIX_FMT_XYZ12LE,
 						_forced_reduction
@@ -191,27 +194,27 @@ DCPDecoder::pass ()
 }
 
 void
-DCPDecoder::pass_texts (ContentTime next)
+DCPDecoder::pass_texts (ContentTime next, dcp::Size size)
 {
 	list<shared_ptr<TextDecoder> >::const_iterator decoder = text.begin ();
 	if ((*_reel)->main_subtitle()) {
 		DCPOMATIC_ASSERT (decoder != text.end ());
 		pass_texts (
-			next, (*_reel)->main_subtitle()->asset(), _dcp_content->reference_text(TEXT_OPEN_SUBTITLE), (*_reel)->main_subtitle()->entry_point(), *decoder
+			next, (*_reel)->main_subtitle()->asset(), _dcp_content->reference_text(TEXT_OPEN_SUBTITLE), (*_reel)->main_subtitle()->entry_point(), *decoder, size
 			);
 		++decoder;
 	}
 	BOOST_FOREACH (shared_ptr<dcp::ReelClosedCaptionAsset> i, (*_reel)->closed_captions()) {
 		DCPOMATIC_ASSERT (decoder != text.end ());
 		pass_texts (
-			next, i->asset(), _dcp_content->reference_text(TEXT_CLOSED_CAPTION), i->entry_point(), *decoder
+			next, i->asset(), _dcp_content->reference_text(TEXT_CLOSED_CAPTION), i->entry_point(), *decoder, size
 			);
 		++decoder;
 	}
 }
 
 void
-DCPDecoder::pass_texts (ContentTime next, shared_ptr<dcp::SubtitleAsset> asset, bool reference, int64_t entry_point, shared_ptr<TextDecoder> decoder)
+DCPDecoder::pass_texts (ContentTime next, shared_ptr<dcp::SubtitleAsset> asset, bool reference, int64_t entry_point, shared_ptr<TextDecoder> decoder, dcp::Size size)
 {
 	double const vfr = _dcp_content->active_video_frame_rate ();
 	/* Frame within the (played part of the) reel that is coming up next */
@@ -238,7 +241,46 @@ DCPDecoder::pass_texts (ContentTime next, shared_ptr<dcp::SubtitleAsset> asset, 
 					);
 			}
 
-			/* XXX: image subtitles */
+			shared_ptr<dcp::SubtitleImage> ii = dynamic_pointer_cast<dcp::SubtitleImage> (i);
+			if (ii) {
+				shared_ptr<Image> image(new Image(ii->png_image()));
+				/* set up rect with height and width */
+				dcpomatic::Rect<double> rect(0, 0, image->size().width / double(size.width), image->size().height / double(size.height));
+
+				/* add in position */
+
+				switch (ii->h_align()) {
+				case dcp::HALIGN_LEFT:
+					rect.x += ii->h_position();
+					break;
+				case dcp::HALIGN_CENTER:
+					rect.x += 0.5 + ii->h_position() - rect.width / 2;
+					break;
+				case dcp::HALIGN_RIGHT:
+					rect.x += 1 - ii->h_position() - rect.width;
+					break;
+				}
+
+				switch (ii->v_align()) {
+				case dcp::VALIGN_TOP:
+					rect.y += ii->v_position();
+					break;
+				case dcp::VALIGN_CENTER:
+					rect.y += 0.5 + ii->v_position() - rect.height / 2;
+					break;
+				case dcp::VALIGN_BOTTOM:
+					rect.y += 1 - ii->v_position() - rect.height;
+					break;
+				}
+
+				decoder->emit_bitmap (
+					ContentTimePeriod (
+						ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (i->in().as_seconds ()),
+						ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (i->out().as_seconds ())
+						),
+					image, rect
+					);
+			}
 		}
 	}
 }
@@ -320,7 +362,7 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 
 	double const vfr = _dcp_content->active_video_frame_rate ();
 	for (int i = 0; i < pre_roll_seconds * vfr; ++i) {
-		pass_texts (pre);
+		pass_texts (pre, (*_reel)->main_picture()->asset()->size());
 		pre += ContentTime::from_frames (1, vfr);
 	}
 
