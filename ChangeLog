@@ -1,3 +1,7 @@
+2018-09-03  Carl Hetherington  <cth@carlh.net>
+
+	* Updated nl_NL translation from Rob van Nieuwkerk.
+
 2018-08-22  Carl Hetherington  <cth@carlh.net>
 
 	* Disable the whole interface during audio analysis (#1278).

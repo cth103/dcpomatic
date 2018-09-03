@@ -3,31 +3,30 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/audio_panel.cc:56 src/wx/text_panel.cc:66 src/wx/video_panel.cc:82
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-03 00:14+0100\n"
-"PO-Revision-Date: 2018-06-30 04:20+0200\n"
+"PO-Revision-Date: 2018-09-03 06:23+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.8\n"
+"X-Generator: Poedit 2.0.9\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/wx/timeline_audio_content_view.cc:68
 #, c-format
 msgid " advanced by %dms"
-msgstr ""
+msgstr " vervroegd met %dms"
 
 #: src/wx/timeline_audio_content_view.cc:66
 #, c-format
 msgid " delayed by %dms"
-msgstr ""
+msgstr " vertraagd met %dms"
 
 #: src/wx/text_panel.cc:99 src/wx/text_panel.cc:104 src/wx/text_panel.cc:113
 #: src/wx/text_panel.cc:118 src/wx/text_panel.cc:127
@@ -63,9 +62,8 @@ msgid "(None)"
 msgstr "(Geen)"
 
 #: src/wx/full_config_dialog.cc:1309
-#, fuzzy
 msgid "(restart DCP-o-matic to see all ratios)"
-msgstr "(herstart DCP-o-matic om taalwijzigingen te zien)"
+msgstr "(herstart DCP-o-matic om alle beeldverhoudingen te zien)"
 
 #: src/wx/config_dialog.cc:140
 msgid "(restart DCP-o-matic to see language changes)"
@@ -77,7 +75,7 @@ msgstr "-6dB"
 
 #: src/wx/export_dialog.cc:64
 msgid "0 is best, 51 is worst"
-msgstr ""
+msgstr "0 is het best, 51 is het slechtst"
 
 #: src/wx/wx_util.cc:382
 msgid "12 - 7.1/HI/VI"
@@ -185,7 +183,7 @@ msgstr "Over DCP-o-matic"
 
 #: src/wx/full_config_dialog.cc:922
 msgid "Accounts"
-msgstr ""
+msgstr "Accounts"
 
 #: src/wx/screens_panel.cc:150
 msgid "Add Cinema"
@@ -244,9 +242,8 @@ msgid "Add image sequence"
 msgstr "Voeg beeldsequentie toe"
 
 #: src/wx/text_panel.cc:227
-#, fuzzy
 msgid "Add new..."
-msgstr "Voeg Bioscoop toe..."
+msgstr "Voeg nieuwe toe..."
 
 #: src/wx/content_panel.cc:98
 msgid "Add video, image, sound or subtitle files to the film."
@@ -276,7 +273,7 @@ msgstr "Pas witpunt aan naar"
 
 #: src/wx/kdm_advanced_dialog.cc:24
 msgid "Advanced KDM options"
-msgstr ""
+msgstr "Geavanceerde KDM-opties"
 
 #: src/wx/config_dialog.cc:741 src/wx/config_dialog.cc:756
 #: src/wx/kdm_output_panel.cc:68
@@ -289,16 +286,15 @@ msgstr "Sta elke DCP frame rate toe"
 
 #: src/wx/full_config_dialog.cc:1305
 msgid "Allow non-standard container ratios"
-msgstr ""
+msgstr "Sta niet-standaard container-beeldverhoudingen toe"
 
 #: src/wx/rgba_colour_picker.cc:33
 msgid "Alpha   0"
 msgstr "Alpha   0"
 
 #: src/wx/about_dialog.cc:146
-#, fuzzy
 msgid "Also supported by"
-msgstr "Ondersteund door"
+msgstr "Ook ondersteund door"
 
 #: src/wx/kdm_output_panel.cc:292
 msgid "An unknown exception occurred."
@@ -370,7 +366,7 @@ msgstr "BCC-adres"
 
 #: src/wx/barco_alchemy_certificate_panel.cc:76
 msgid "Barco Alchemy"
-msgstr ""
+msgstr "Barco Alchemy"
 
 #: src/wx/colour_conversion_editor.cc:144
 msgid "Blue chromaticity"
@@ -439,16 +435,15 @@ msgstr "Kan niet aan deze DCP refereren: "
 
 #: src/wx/text_view.cc:64
 msgid "Caption"
-msgstr ""
+msgstr "Caption"
 
 #: src/wx/subtitle_appearance_dialog.cc:43
-#, fuzzy
 msgid "Caption appearance"
-msgstr "Ondertitelings-uiterlijk"
+msgstr "Caption-uiterlijk"
 
 #: src/wx/text_view.cc:39
 msgid "Captions"
-msgstr ""
+msgstr "Captions"
 
 #: src/wx/recreate_chain_dialog.cc:31
 msgid "Certificate chain"
@@ -511,7 +506,7 @@ msgstr "Kies een lettertype-bestand"
 
 #: src/wx/christie_certificate_panel.cc:84
 msgid "Christie"
-msgstr ""
+msgstr "Christie"
 
 #: src/wx/full_config_dialog.cc:103
 msgid "Cinema and screen database file"
@@ -525,7 +520,7 @@ msgstr ""
 
 #: src/wx/closed_captions_dialog.cc:37
 msgid "Closed captions"
-msgstr ""
+msgstr "Closed captions"
 
 #: src/wx/subtitle_appearance_dialog.cc:61
 msgid "Colour"
@@ -596,9 +591,8 @@ msgid "Could not import certificate (%s)"
 msgstr "Kan certificaat niet importeren (%s)"
 
 #: src/wx/content_menu.cc:383
-#, fuzzy
 msgid "Could not load KDM"
-msgstr "Kan KDM niet laden."
+msgstr "Kan KDM niet laden"
 
 #: src/wx/config_dialog.cc:484 src/wx/config_dialog.cc:678
 #: src/wx/download_certificate_panel.cc:60 src/wx/screen_dialog.cc:157
@@ -649,7 +643,7 @@ msgstr "DCP"
 
 #: src/wx/dcp_text_track_dialog.cc:27
 msgid "DCP Text Track"
-msgstr ""
+msgstr "DCP tekst-track"
 
 #: src/wx/full_config_dialog.cc:1341
 msgid "DCP asset filename format"
@@ -665,7 +659,7 @@ msgstr "DCP metadata bestandsnaam-formaat"
 
 #: src/wx/text_panel.cc:132
 msgid "DCP track"
-msgstr ""
+msgstr "DCP track"
 
 #: src/wx/verify_dcp_dialog.cc:51
 msgid "DCP validates OK."
@@ -974,11 +968,11 @@ msgstr "Lettertypen..."
 
 #: src/wx/kdm_advanced_dialog.cc:30
 msgid "Forensically mark audio"
-msgstr ""
+msgstr "Markeer audio forensisch"
 
 #: src/wx/kdm_advanced_dialog.cc:26
 msgid "Forensically mark video"
-msgstr ""
+msgstr "Markeer video forensisch"
 
 #: src/wx/export_dialog.cc:54
 msgid "Format"
@@ -1026,9 +1020,8 @@ msgid "GB"
 msgstr "GB"
 
 #: src/wx/gdc_certificate_panel.cc:68
-#, fuzzy
 msgid "GDC"
-msgstr "DCP"
+msgstr "GDC"
 
 #: src/wx/audio_panel.cc:77
 msgid "Gain"
@@ -1258,7 +1251,7 @@ msgstr "Leaf privé-sleutel"
 
 #: src/wx/config_dialog.cc:411
 msgid "Leaf private key does not match leaf certificate!"
-msgstr "Leaf privé-sleutel komt niet overeen met leaf certificaat!"
+msgstr "Leaf privé-sleutel komt niet overeen met leaf-certificaat!"
 
 #: src/wx/film_viewer.cc:118 src/wx/video_panel.cc:116
 msgid "Left"
@@ -1314,9 +1307,8 @@ msgid "Mail user name"
 msgstr "Mail-gebruikersnaam"
 
 #: src/wx/hints_dialog.cc:64
-#, fuzzy
 msgid "Make DCP"
-msgstr "Maak KDM's"
+msgstr "Maak DCP"
 
 #: src/wx/self_dkdm_dialog.cc:50
 msgid "Make DKDM for DCP-o-matic"
@@ -1429,12 +1421,16 @@ msgid ""
 "No Barco username/password configured.  Add your account details to the "
 "Accounts page in Preferences."
 msgstr ""
+"Geen Barco gebruikersnaam/wachtwoord geconfigureerd.  Voeg uw "
+"accountgegevens toe in het Accounts-tabblad bij Voorkeuren."
 
 #: src/wx/christie_certificate_panel.cc:43
 msgid ""
 "No Christie username/password configured.  Add your account details to the "
 "Accounts page in Preferences."
 msgstr ""
+"Geen Christie gebruikersnaam/wachtwoord geconfigureerd.  Voeg uw "
+"accountgegevens toe in het Accounts-tabblad bij Voorkeuren."
 
 #: src/wx/player_information.cc:104
 msgid "No DCP loaded."
@@ -1445,6 +1441,8 @@ msgid ""
 "No GDC username/password configured.  Add your account details to the "
 "Accounts page in Preferences."
 msgstr ""
+"Geen GDC gebruikersnaam/wachtwoord geconfigureerd.  Voeg uw accountgegevens "
+"toe in het Accounts-tabblad bij Voorkeuren."
 
 #: src/wx/audio_mapping_view.cc:346
 #, c-format
@@ -1496,9 +1494,8 @@ msgid "Off"
 msgstr "Uit"
 
 #: src/wx/text_panel.cc:94
-#, fuzzy
 msgid "Offset"
-msgstr "X-verschuiving"
+msgstr "Verschuiving"
 
 #: src/wx/full_config_dialog.cc:1316
 msgid "Only servers encode"
@@ -1541,10 +1538,8 @@ msgid "Outline width"
 msgstr "Omlijnings-breedte"
 
 #: src/wx/subtitle_appearance_dialog.cc:289
-#, fuzzy
 msgid "Outline width cannot be set unless you are burning in captions"
-msgstr ""
-"Omlijnings-breedte kan alleen bij ingebrande ondertitels ingesteld worden"
+msgstr "Omlijnings-breedte kan alleen bij ingebrande captions ingesteld worden"
 
 #: src/wx/kdm_dialog.cc:93 src/wx/self_dkdm_dialog.cc:67
 msgid "Output"
@@ -1575,9 +1570,8 @@ msgid "Paste audio settings"
 msgstr "Plak audio-instellingen"
 
 #: src/wx/paste_dialog.cc:32
-#, fuzzy
 msgid "Paste subtitle and caption settings"
-msgstr "Plak ondertitel-instellingen"
+msgstr "Plak ondertitel- en caption-instellingen"
 
 #: src/wx/paste_dialog.cc:26
 msgid "Paste video settings"
@@ -1654,7 +1648,7 @@ msgstr "Protocol"
 
 #: src/wx/export_dialog.cc:60
 msgid "Quality"
-msgstr ""
+msgstr "Kwaliteit"
 
 #: src/wx/colour_conversion_editor.cc:123
 msgid "RGB to XYZ conversion"
@@ -1826,9 +1820,8 @@ msgid "Save to KDM Creator tool's list"
 msgstr "Bewaar in lijst van KDM Creator tool"
 
 #: src/wx/text_panel.cc:108
-#, fuzzy
 msgid "Scale"
-msgstr "X-schaling"
+msgstr "Schaling"
 
 #: src/wx/video_panel.cc:175
 msgid "Scale to"
@@ -1843,9 +1836,8 @@ msgid "Search network for servers"
 msgstr "Zoek op netwerk naar servers"
 
 #: src/wx/timeline_dialog.cc:66
-#, fuzzy
 msgid "Select"
-msgstr "Selecteer OV"
+msgstr "Selecteer"
 
 #: src/wx/kdm_cpl_panel.cc:95
 msgid "Select CPL XML file"
@@ -1861,9 +1853,8 @@ msgid "Select Chain File"
 msgstr "Selecteer keten-bestand"
 
 #: src/wx/full_config_dialog.cc:177
-#, fuzzy
 msgid "Select Cinemas File"
-msgstr "Selecteer keten-bestand"
+msgstr "Selecteer bioscopen-bestand"
 
 #: src/wx/config_dialog.cc:791
 msgid "Select Export File"
@@ -1886,9 +1877,8 @@ msgid "Select OV"
 msgstr "Selecteer OV"
 
 #: src/wx/timeline_dialog.cc:66
-#, fuzzy
 msgid "Select and move content"
-msgstr "Splits per video-content"
+msgstr "Selecteer en verplaats content"
 
 #: src/wx/screen_dialog.cc:49
 msgid "Select certificate file"
@@ -1920,7 +1910,7 @@ msgstr "Verzend logs"
 
 #: src/wx/timeline_dialog.cc:70
 msgid "Sequence"
-msgstr ""
+msgstr "Volgorde"
 
 #: src/wx/download_certificate_panel.cc:44
 msgid "Serial number"
@@ -2033,21 +2023,19 @@ msgstr "Onderwerp"
 
 #: src/wx/about_dialog.cc:142
 msgid "Subscribers"
-msgstr ""
+msgstr "Abonnees"
 
 #: src/wx/isdcf_metadata_dialog.cc:43
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Taal ondertiteling (bv. NL)"
 
 #: src/wx/timeline_labels_view.cc:75
-#, fuzzy
 msgid "Subtitle/captions"
-msgstr "Ondertitels"
+msgstr "Ondertitels/captions"
 
 #: src/wx/timeline_labels_view.cc:41
-#, fuzzy
 msgid "Subtitles/captions"
-msgstr "Ondertitels"
+msgstr "Ondertitels/captions"
 
 #: src/wx/player_information.cc:137
 msgid "Subtitles: no"
@@ -2183,9 +2171,8 @@ msgid "Timeline..."
 msgstr "Tijdlijn..."
 
 #: src/wx/content_panel.cc:134
-#, fuzzy
 msgid "Timing"
-msgstr "Tijdvenster"
+msgstr "Timing"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
 #: src/wx/timing_panel.cc:50
@@ -2359,9 +2346,8 @@ msgid "Use ISDCF name"
 msgstr "Gebruik ISDCF-naam"
 
 #: src/wx/text_panel.cc:81
-#, fuzzy
 msgid "Use as"
-msgstr "Gebruik de beste"
+msgstr "Gebruik als"
 
 #: src/wx/dcp_panel.cc:682
 msgid "Use best"
@@ -2376,9 +2362,8 @@ msgid "Use this DCP's audio as OV and make VF"
 msgstr "Gebruik de audio van deze DCP als OV en maak VF"
 
 #: src/wx/text_panel.cc:60
-#, fuzzy
 msgid "Use this DCP's closed caption as OV and make VF"
-msgstr "Gebruik de audio van deze DCP als OV en maak VF"
+msgstr "Gebruik de closed captions van deze DCP als OV en maak VF"
 
 #: src/wx/text_panel.cc:58
 msgid "Use this DCP's subtitle as OV and make VF"
@@ -2452,11 +2437,11 @@ msgstr "Geschreven door"
 
 #: src/wx/text_panel.cc:96 src/wx/text_panel.cc:110
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #: src/wx/text_panel.cc:101 src/wx/text_panel.cc:115
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 #: src/wx/colour_conversion_editor.cc:106
 msgid "YUV to RGB conversion"
@@ -2505,39 +2490,39 @@ msgstr "Uw e-mailadres"
 
 #: src/wx/timeline_dialog.cc:67
 msgid "Zoom"
-msgstr ""
+msgstr "Zoom"
 
 #: src/wx/timeline_dialog.cc:68
 msgid "Zoom all"
-msgstr ""
+msgstr "Zoom alles"
 
 #: src/wx/timeline_dialog.cc:67
 msgid "Zoom in / out"
-msgstr ""
+msgstr "Zoom in / uit"
 
 #: src/wx/timeline_dialog.cc:68
 msgid "Zoom out to whole film"
-msgstr ""
+msgstr "Zoom uit naar hele film"
 
 #: src/wx/full_config_dialog.cc:942
 msgid "certificates.barco.com password"
-msgstr ""
+msgstr "certificates.barco.com wachtwoord"
 
 #: src/wx/full_config_dialog.cc:938
 msgid "certificates.barco.com username"
-msgstr ""
+msgstr "certificates.barco.com gebruikersnaam"
 
 #: src/wx/full_config_dialog.cc:950
 msgid "certificates.christiedigital.com password"
-msgstr ""
+msgstr "certificates.christiedigital.com wachtwoord"
 
 #: src/wx/full_config_dialog.cc:946
 msgid "certificates.christiedigital.com username"
-msgstr ""
+msgstr "certificates.christiedigital.com gebruikersnaam"
 
 #: src/wx/text_panel.cc:85
 msgid "closed captions"
-msgstr ""
+msgstr "closed captions"
 
 #: src/wx/video_waveform_dialog.cc:72
 msgid "component value"
@@ -2573,9 +2558,8 @@ msgid "ms"
 msgstr "ms"
 
 #: src/wx/text_panel.cc:84
-#, fuzzy
 msgid "open subtitles"
-msgstr "Gebruik ondertitels"
+msgstr "open ondertitels"
 
 #: src/wx/full_config_dialog.cc:735
 msgid "port"
