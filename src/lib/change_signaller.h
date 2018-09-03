@@ -18,8 +18,8 @@
 
 */
 
-#ifndef DCPOMATIC_CHANGE_H
-#define DCPOMATIC_CHANGE_H
+#ifndef DCPOMATIC_CHANGE_SIGNALLER_H
+#define DCPOMATIC_CHANGE_SIGNALLER_H
 
 #include <boost/noncopyable.hpp>
 
