@@ -25,6 +25,7 @@
 #include "content_part.h"
 #include "dcp_content.h"
 #include "dcpomatic_time_coalesce.h"
+#include "piece.h"
 #include <boost/foreach.hpp>
 #include <iostream>
 
@@ -34,12 +35,12 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::function;
 
-Empty::Empty (ContentList content, DCPTime length, function<shared_ptr<ContentPart> (Content *)> part)
+Empty::Empty (list<shared_ptr<Piece> > pieces, DCPTime length, function<bool (shared_ptr<Piece>)> part)
 {
 	list<DCPTimePeriod> full;
-	BOOST_FOREACH (shared_ptr<Content> i, content) {
-		if (part (i.get())) {
-			full.push_back (DCPTimePeriod (i->position(), i->end()));
+	BOOST_FOREACH (shared_ptr<Piece> i, pieces) {
+		if (part(i)) {
+			full.push_back (DCPTimePeriod (i->content->position(), i->content->end()));
 		}
 	}
 

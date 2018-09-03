@@ -90,9 +90,6 @@ public:
 
 	boost::signals2::signal<void (ChangeType, int, bool)> Change;
 
-	/** The change suggested by a MayChange did not happen */
-	boost::signals2::signal<void ()> NotChanged;
-
 	/** Emitted when a video frame is ready.  These emissions happen in the correct order. */
 	boost::signals2::signal<void (boost::shared_ptr<PlayerVideo>, DCPTime)> Video;
 	boost::signals2::signal<void (boost::shared_ptr<AudioBuffers>, DCPTime)> Audio;
@@ -108,6 +105,8 @@ private:
 	friend struct player_time_calculation_test2;
 	friend struct player_time_calculation_test3;
 	friend struct player_subframe_test;
+	friend struct empty_test1;
+	friend struct empty_test2;
 
 	void setup_pieces ();
 	void setup_pieces_unlocked ();
@@ -146,7 +145,7 @@ private:
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;
 
-	/** true if we are suspended (i.e. pass() and seek() do nothing */
+	/** true if we are suspended (i.e. pass() and seek() do nothing) */
 	bool _suspended;
 	std::list<boost::shared_ptr<Piece> > _pieces;
 

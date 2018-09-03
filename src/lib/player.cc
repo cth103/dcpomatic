@@ -123,6 +123,18 @@ Player::setup_pieces ()
 	setup_pieces_unlocked ();
 }
 
+bool
+have_video (shared_ptr<Piece> piece)
+{
+	return piece->decoder && piece->decoder->video;
+}
+
+bool
+have_audio (shared_ptr<Piece> piece)
+{
+	return piece->decoder && piece->decoder->audio;
+}
+
 void
 Player::setup_pieces_unlocked ()
 {
@@ -215,8 +227,8 @@ Player::setup_pieces_unlocked ()
 		}
 	}
 
-	_black = Empty (_film->content(), _film->length(), bind(&Content::video, _1));
-	_silent = Empty (_film->content(), _film->length(), bind(&Content::audio, _1));
+	_black = Empty (_pieces, _film->length(), bind(&have_video, _1));
+	_silent = Empty (_pieces, _film->length(), bind(&have_audio, _1));
 
 	_last_video_time = DCPTime ();
 	_last_video_eyes = EYES_BOTH;
@@ -238,6 +250,7 @@ Player::playlist_content_change (ChangeType type, int property, bool frequent)
 		/* A change in our content has gone through.  Re-build our pieces. */
 		setup_pieces ();
 	} else if (type == CHANGE_TYPE_CANCELLED) {
+		boost::mutex::scoped_lock lm (_mutex);
 		_suspended = false;
 	}
 

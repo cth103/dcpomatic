@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,9 @@
 
 */
 
+#ifndef DCPOMATIC_EMPTY_H
+#define DCPOMATIC_EMPTY_H
+
 #include "playlist.h"
 #include "dcpomatic_time.h"
 #include "content_part.h"
@@ -26,12 +29,13 @@
 struct empty_test1;
 struct empty_test2;
 struct player_subframe_test;
+class Piece;
 
 class Empty
 {
 public:
 	Empty () {}
-	Empty (ContentList content, DCPTime length, boost::function<boost::shared_ptr<ContentPart> (Content *)> part);
+	Empty (std::list<boost::shared_ptr<Piece> > pieces, DCPTime length, boost::function<bool (boost::shared_ptr<Piece>)> part);
 
 	DCPTime position () const {
 		return _position;
@@ -51,3 +55,5 @@ private:
 	std::list<DCPTimePeriod> _periods;
 	DCPTime _position;
 };
+
+#endif

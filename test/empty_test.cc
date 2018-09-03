@@ -24,10 +24,18 @@
 #include "lib/video_content.h"
 #include "lib/image_content.h"
 #include "lib/empty.h"
+#include "lib/player.h"
+#include "lib/decoder.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
 using boost::shared_ptr;
+
+bool
+has_video (shared_ptr<Piece> piece)
+{
+        return piece->decoder && piece->decoder->video;
+}
 
 BOOST_AUTO_TEST_CASE (empty_test1)
 {
@@ -52,7 +60,8 @@ BOOST_AUTO_TEST_CASE (empty_test1)
 	contentB->video->set_length (1);
 	contentB->set_position (DCPTime::from_frames (7, vfr));
 
-	Empty black (film->content(), film->length(), bind(&Content::video, _1));
+	shared_ptr<Player> player (new Player(film, film->playlist()));
+	Empty black (player->_pieces, film->length(), bind(&has_video, _1));
 	BOOST_REQUIRE_EQUAL (black._periods.size(), 2);
 	BOOST_CHECK (black._periods.front().from == DCPTime());
 	BOOST_CHECK (black._periods.front().to == DCPTime::from_frames(2, vfr));
@@ -84,7 +93,8 @@ BOOST_AUTO_TEST_CASE (empty_test2)
 	contentB->video->set_length (1);
 	contentB->set_position (DCPTime::from_frames (7, vfr));
 
-	Empty black (film->content(), film->length(), bind(&Content::video, _1));
+	shared_ptr<Player> player (new Player(film, film->playlist()));
+	Empty black (player->_pieces, film->length(), bind(&has_video, _1));
 	BOOST_REQUIRE_EQUAL (black._periods.size(), 1);
 	BOOST_CHECK (black._periods.front().from == DCPTime::from_frames(3, vfr));
 	BOOST_CHECK (black._periods.front().to == DCPTime::from_frames(7, vfr));
