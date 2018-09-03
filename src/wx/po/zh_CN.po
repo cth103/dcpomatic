@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-03 00:14+0100\n"
+"POT-Creation-Date: 2018-09-03 10:11+0100\n"
 "PO-Revision-Date: 2018-04-05 20:48+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -2028,12 +2028,7 @@ msgstr ""
 msgid "Subtitle Language (e.g. FR)"
 msgstr "字幕语言(例如:QMS)"
 
-#: src/wx/timeline_labels_view.cc:75
-#, fuzzy
-msgid "Subtitle/captions"
-msgstr "字幕"
-
-#: src/wx/timeline_labels_view.cc:41
+#: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:75
 #, fuzzy
 msgid "Subtitles/captions"
 msgstr "字幕"
@@ -2576,6 +2571,10 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:126
 msgid "y"
 msgstr "y"
+
+#, fuzzy
+#~ msgid "Subtitle/captions"
+#~ msgstr "字幕"
 
 #~ msgid "Left eye"
 #~ msgstr "左眼"

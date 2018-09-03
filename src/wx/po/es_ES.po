@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-03 00:14+0100\n"
+"POT-Creation-Date: 2018-09-03 10:11+0100\n"
 "PO-Revision-Date: 2018-02-25 14:45-0600\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -2045,12 +2045,7 @@ msgstr ""
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Idioma del subtítulo (ej. EN)"
 
-#: src/wx/timeline_labels_view.cc:75
-#, fuzzy
-msgid "Subtitle/captions"
-msgstr "Subtítulos"
-
-#: src/wx/timeline_labels_view.cc:41
+#: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:75
 #, fuzzy
 msgid "Subtitles/captions"
 msgstr "Subtítulos"
@@ -2605,6 +2600,10 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:126
 msgid "y"
 msgstr "y"
+
+#, fuzzy
+#~ msgid "Subtitle/captions"
+#~ msgstr "Subtítulos"
 
 #~ msgid "Left eye"
 #~ msgstr "Ojo izquierdo"

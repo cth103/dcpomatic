@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-03 00:14+0100\n"
+"POT-Creation-Date: 2018-09-03 10:11+0100\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -2080,12 +2080,7 @@ msgstr ""
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Jazyk titulkov (napr. EN)"
 
-#: src/wx/timeline_labels_view.cc:75
-#, fuzzy
-msgid "Subtitle/captions"
-msgstr "Titulky"
-
-#: src/wx/timeline_labels_view.cc:41
+#: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:75
 #, fuzzy
 msgid "Subtitles/captions"
 msgstr "Titulky"
@@ -2631,6 +2626,10 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:126
 msgid "y"
 msgstr "y"
+
+#, fuzzy
+#~ msgid "Subtitle/captions"
+#~ msgstr "Titulky"
 
 #, fuzzy
 #~ msgid "Left eye"

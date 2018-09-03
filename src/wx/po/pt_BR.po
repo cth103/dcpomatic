@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-03 00:14+0100\n"
+"POT-Creation-Date: 2018-09-03 10:11+0100\n"
 "PO-Revision-Date: 2018-01-15 18:18-0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -2043,12 +2043,7 @@ msgstr ""
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Idioma de legenda (ex. ES)"
 
-#: src/wx/timeline_labels_view.cc:75
-#, fuzzy
-msgid "Subtitle/captions"
-msgstr "Legendas"
-
-#: src/wx/timeline_labels_view.cc:41
+#: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:75
 #, fuzzy
 msgid "Subtitles/captions"
 msgstr "Legendas"
@@ -2606,6 +2601,10 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:126
 msgid "y"
 msgstr "y"
+
+#, fuzzy
+#~ msgid "Subtitle/captions"
+#~ msgstr "Legendas"
 
 #~ msgid "Left eye"
 #~ msgstr "Olho esquerdo"

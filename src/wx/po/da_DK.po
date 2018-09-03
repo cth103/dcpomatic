@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-03 00:14+0100\n"
+"POT-Creation-Date: 2018-09-03 10:11+0100\n"
 "PO-Revision-Date: 2017-10-04 22:06+0200\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -2047,12 +2047,7 @@ msgstr ""
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Tekstningssprog (f.eks. FR)"
 
-#: src/wx/timeline_labels_view.cc:75
-#, fuzzy
-msgid "Subtitle/captions"
-msgstr "Undertekster"
-
-#: src/wx/timeline_labels_view.cc:41
+#: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:75
 #, fuzzy
 msgid "Subtitles/captions"
 msgstr "Undertekster"
@@ -2598,6 +2593,10 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:126
 msgid "y"
 msgstr "y"
+
+#, fuzzy
+#~ msgid "Subtitle/captions"
+#~ msgstr "Undertekster"
 
 #~ msgid "Left eye"
 #~ msgstr "Venstre øje"
