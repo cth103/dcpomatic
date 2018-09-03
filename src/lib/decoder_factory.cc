@@ -46,7 +46,12 @@ decoder_factory (shared_ptr<const Content> content, shared_ptr<Log> log, bool fa
 
 	shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (content);
 	if (dc) {
-		return shared_ptr<Decoder> (new DCPDecoder (dc, log, fast));
+		try {
+			return shared_ptr<Decoder> (new DCPDecoder (dc, log, fast));
+		} catch (KDMError& e) {
+			/* This will be found and reported to the user when the content is examined */
+			return 0;
+		}
 	}
 
 	shared_ptr<const ImageContent> ic = dynamic_pointer_cast<const ImageContent> (content);
