@@ -72,7 +72,7 @@ TimelineLabelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> >
 
 	if (_text_tracks) {
 		ty = fy + _text_tracks * h;
-		gc->DrawText (_("Subtitle/captions"), 0, (ty + fy) / 2 - 8);
+		gc->DrawText (_("Subtitles/captions"), 0, (ty + fy) / 2 - 8);
 		fy = ty;
 	}
 
