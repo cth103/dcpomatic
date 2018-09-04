@@ -244,7 +244,6 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 	layout->set_alignment (Pango::ALIGN_LEFT);
 
 	context->set_line_width (1);
-	context->set_antialias (Cairo::ANTIALIAS_GRAY);
 	Cairo::FontOptions fo;
 	context->get_font_options (fo);
 	fo.set_antialias (Cairo::ANTIALIAS_GRAY);
