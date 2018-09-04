@@ -190,9 +190,16 @@ try
 }
 
 pair<shared_ptr<PlayerVideo>, DCPTime>
-Butler::get_video ()
+Butler::get_video (Error* e)
 {
 	boost::mutex::scoped_lock lm (_mutex);
+
+	if (_suspended) {
+		if (e) {
+			*e = AGAIN;
+		}
+		return make_pair(shared_ptr<PlayerVideo>(), DCPTime());
+	}
 
 	/* Wait for data if we have none */
 	while (_video.empty() && !_finished && !_died) {
@@ -200,7 +207,10 @@ Butler::get_video ()
 	}
 
 	if (_video.empty()) {
-		return make_pair (shared_ptr<PlayerVideo>(), DCPTime());
+		if (e) {
+			*e = NONE;
+		}
+		return make_pair(shared_ptr<PlayerVideo>(), DCPTime());
 	}
 
 	pair<shared_ptr<PlayerVideo>, DCPTime> const r = _video.get ();

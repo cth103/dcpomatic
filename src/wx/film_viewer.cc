@@ -294,7 +294,12 @@ FilmViewer::get ()
 	DCPOMATIC_ASSERT (_butler);
 
 	do {
-		_player_video = _butler->get_video ();
+		Butler::Error e;
+		_player_video = _butler->get_video (&e);
+		if (!_player_video.first && e == Butler::AGAIN) {
+			signal_manager->when_idle (boost::bind(&FilmViewer::get, this));
+			return;
+		}
 	} while (
 		_player_video.first &&
 		_film->three_d() &&
