@@ -127,6 +127,7 @@ function copy_resources {
     cp $ROOT/32/src/dcpomatic/graphics/osx/preferences/keys.png "$dest"
     cp $ROOT/32/src/dcpomatic/graphics/osx/preferences/cover_sheet.png "$dest"
     cp $ROOT/32/src/dcpomatic/graphics/osx/preferences/notifications.png "$dest"
+    cp $ROOT/32/src/dcpomatic/graphics/osx/preferences/accounts.png "$dest"
     cp $ROOT/32/src/dcpomatic/fonts/LiberationSans-Regular.ttf "$dest"
     cp $ROOT/32/src/dcpomatic/fonts/LiberationSans-Italic.ttf "$dest"
     cp $ROOT/32/src/dcpomatic/fonts/LiberationSans-Bold.ttf "$dest"
