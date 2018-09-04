@@ -50,7 +50,7 @@ decoder_factory (shared_ptr<const Content> content, shared_ptr<Log> log, bool fa
 			return shared_ptr<Decoder> (new DCPDecoder (dc, log, fast));
 		} catch (KDMError& e) {
 			/* This will be found and reported to the user when the content is examined */
-			return 0;
+			return shared_ptr<Decoder>();
 		}
 	}
 

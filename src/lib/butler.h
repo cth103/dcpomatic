@@ -41,7 +41,13 @@ public:
 	~Butler ();
 
 	void seek (DCPTime position, bool accurate);
-	std::pair<boost::shared_ptr<PlayerVideo>, DCPTime> get_video ();
+
+	enum Error {
+		NONE,
+		AGAIN
+	};
+
+	std::pair<boost::shared_ptr<PlayerVideo>, DCPTime> get_video (Error* e = 0);
 	boost::optional<DCPTime> get_audio (float* out, Frame frames);
 	boost::optional<TextRingBuffers::Data> get_closed_caption ();
 
