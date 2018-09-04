@@ -246,7 +246,7 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 	context->set_line_width (1);
 	Cairo::FontOptions fo;
 	context->get_font_options (fo);
-	fo.set_antialias (Cairo::ANTIALIAS_GRAY);
+	fo.set_antialias (Cairo::ANTIALIAS_NONE);
 	context->set_font_options (fo);
 
 	/* Compute fade factor */
