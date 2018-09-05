@@ -13,7 +13,7 @@ elif [ "$1" == "--backtrace" ]; then
 elif [ "$1" == "--valgrind" ]; then
     shift;
 #    valgrind --tool="memcheck" --vgdb=yes --vgdb-error=0 build/test/unit-tests $*
-    valgrind --tool="memcheck" build/test/unit-tests $*
+    valgrind --tool="memcheck" --suppressions=suppressions build/test/unit-tests $*
 elif [ "$1" == "--callgrind" ]; then
     shift;
     valgrind --tool="callgrind" build/test/unit-tests $*
