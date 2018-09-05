@@ -72,6 +72,8 @@ BOOST_AUTO_TEST_CASE (audio_analysis_serialisation_test)
 	}
 	a.set_sample_peak (peak);
 
+	a.set_samples_per_point (100);
+	a.set_sample_rate (48000);
 	a.write ("build/test/audio_analysis_serialisation_test");
 
 	srand (1);
@@ -91,6 +93,9 @@ BOOST_AUTO_TEST_CASE (audio_analysis_serialisation_test)
 		BOOST_CHECK_CLOSE (b.sample_peak()[i].peak, peak[i].peak, 1);
 		BOOST_CHECK_EQUAL (b.sample_peak()[i].time.get(), peak[i].time.get());
 	}
+
+	BOOST_CHECK_EQUAL (a.samples_per_point(), 100);
+	BOOST_CHECK_EQUAL (a.sample_rate(), 48000);
 }
 
 static void
