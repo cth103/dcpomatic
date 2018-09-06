@@ -158,7 +158,7 @@ private:
 
 	void set_single ()
 	{
-		if (_wrapped->IsShown ()) {
+		if (_wrapped->IsShown() || !_sizer) {
 			return;
 		}
 
@@ -171,7 +171,7 @@ private:
 
 	void set_multiple ()
 	{
-		if (_button->IsShown ()) {
+		if (_button->IsShown() || !_sizer) {
 			return;
 		}
 

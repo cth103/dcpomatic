@@ -74,20 +74,13 @@ scale_to_index (VideoContentScale scale)
 VideoPanel::VideoPanel (ContentPanel* p)
 	: ContentSubPanel (p, _("Video"))
 {
-	wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
-
 	_reference = new wxCheckBox (this, wxID_ANY, _("Use this DCP's video as OV and make VF"));
-	reference_sizer->Add (_reference, 0, wxLEFT | wxRIGHT | wxTOP, DCPOMATIC_SIZER_GAP);
-
 	_reference_note = new wxStaticText (this, wxID_ANY, _(""));
 	_reference_note->Wrap (200);
-	reference_sizer->Add (_reference_note, 0, wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
 	wxFont font = _reference_note->GetFont();
 	font.SetStyle(wxFONTSTYLE_ITALIC);
 	font.SetPointSize(font.GetPointSize() - 1);
 	_reference_note->SetFont(font);
-
-	_sizer->Add (reference_sizer);
 
 	_grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	_sizer->Add (_grid, 0, wxALL, 8);
@@ -237,11 +230,26 @@ VideoPanel::add_to_grid ()
 
 	int r = 0;
 
+	_reference->Show (interface == Config::INTERFACE_FULL);
+	_reference_note->Show (interface == Config::INTERFACE_FULL);
+
+	if (interface == Config::INTERFACE_FULL) {
+		wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
+		reference_sizer->Add (_reference, 0);
+		reference_sizer->Add (_reference_note, 0);
+		_grid->Add (reference_sizer, wxGBPosition(r, 0), wxGBSpan(1, 3));
+		++r;
+	}
+
 	add_label_to_sizer (_grid, _type_label, true, wxGBPosition(r, 0));
-	_frame_type->add (_grid, wxGBPosition (r, 1), wxGBSpan (1, 2));
+	_frame_type->add (_grid, wxGBPosition(r, 1), wxGBSpan(1, 2));
 	++r;
 
-	add_label_to_sizer (_grid, _crop_label, true, wxGBPosition(r, 0));
+	int flags = wxTOP;
+#ifdef __WXOSX__
+	flags |= wxALIGN_RIGHT;
+#endif
+	_grid->Add (_crop_label, wxGBPosition(r, 0), wxDefaultSpan, flags, DCPOMATIC_SIZER_Y_GAP / 2);
 
 	int cr = 0;
 	wxGridBagSizer* crop = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
