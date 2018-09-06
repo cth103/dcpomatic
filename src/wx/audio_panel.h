@@ -49,13 +49,18 @@ private:
 	void active_jobs_changed (boost::optional<std::string>, boost::optional<std::string>);
 	void setup_sensitivity ();
 	void reference_clicked ();
+	void add_to_grid ();
 
 	wxCheckBox* _reference;
 	wxStaticText* _reference_note;
 	wxButton* _show;
+	wxStaticText* _gain_label;
+	wxStaticText* _gain_db_label;
 	ContentSpinCtrlDouble<AudioContent>* _gain;
 	wxButton* _gain_calculate_button;
 	wxStaticText* _peak;
+	wxStaticText* _delay_label;
+	wxStaticText* _delay_ms_label;
 	ContentSpinCtrl<AudioContent>* _delay;
 	AudioMappingView* _mapping;
 	wxStaticText* _description;

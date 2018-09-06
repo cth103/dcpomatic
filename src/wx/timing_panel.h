@@ -46,6 +46,7 @@ private:
 	void update_full_length ();
 	void update_play_length ();
 	void setup_sensitivity ();
+	void add_to_grid ();
 
 	FilmViewer* _viewer;
 

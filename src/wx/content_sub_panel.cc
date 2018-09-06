@@ -39,6 +39,23 @@ ContentSubPanel::ContentSubPanel (ContentPanel* p, wxString name)
 {
 	SetScrollRate (8, 8);
 	SetSizer (_sizer);
+
+	_grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	_sizer->Add (_grid, 0, wxALL, 8);
+
+	Config::instance()->Changed.connect (boost::bind (&ContentSubPanel::config_changed, this, _1));
+}
+
+
+void
+ContentSubPanel::config_changed (Config::Property p)
+{
+	if (p == Config::INTERFACE_COMPLEXITY) {
+		_grid->Clear ();
+		add_to_grid ();
+		_sizer->Layout ();
+		_grid->Layout ();
+	}
 }
 
 void

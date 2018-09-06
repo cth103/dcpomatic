@@ -82,9 +82,6 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	font.SetPointSize(font.GetPointSize() - 1);
 	_reference_note->SetFont(font);
 
-	_grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	_sizer->Add (_grid, 0, wxALL, 8);
-
 	_type_label = create_label (this, _("Type"), true);
 	_frame_type = new ContentChoice<VideoContent, VideoFrameType> (
 		this,
@@ -205,20 +202,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_colour_conversion->Bind             (wxEVT_CHOICE,   boost::bind (&VideoPanel::colour_conversion_changed, this));
 	_edit_colour_conversion_button->Bind (wxEVT_BUTTON,   boost::bind (&VideoPanel::edit_colour_conversion_clicked, this));
 
-	Config::instance()->Changed.connect (boost::bind (&VideoPanel::config_changed, this, _1));
-
 	add_to_grid ();
-}
-
-void
-VideoPanel::config_changed (Config::Property p)
-{
-	if (p == Config::INTERFACE_COMPLEXITY) {
-		_grid->Clear ();
-		add_to_grid ();
-		_sizer->Layout ();
-		_grid->Layout ();
-	}
 }
 
 void

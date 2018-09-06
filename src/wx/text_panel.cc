@@ -186,6 +186,12 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 }
 
 void
+TextPanel::add_to_grid ()
+{
+
+}
+
+void
 TextPanel::update_dcp_track_selection ()
 {
 	optional<DCPTextTrack> selected;

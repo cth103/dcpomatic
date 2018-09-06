@@ -171,6 +171,12 @@ TimingPanel::TimingPanel (ContentPanel* p, FilmViewer* viewer)
 }
 
 void
+TimingPanel::add_to_grid ()
+{
+
+}
+
+void
 TimingPanel::update_full_length ()
 {
 	set<DCPTime> check;

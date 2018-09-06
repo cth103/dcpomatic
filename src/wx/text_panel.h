@@ -53,6 +53,7 @@ private:
 	TextType current_type () const;
 	void update_dcp_tracks ();
 	void update_dcp_track_selection ();
+	void add_to_grid ();
 
 	void setup_sensitivity ();
 

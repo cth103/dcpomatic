@@ -48,33 +48,18 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	: ContentSubPanel (p, _("Audio"))
 	, _audio_dialog (0)
 {
-	wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
-
 	_reference = new wxCheckBox (this, wxID_ANY, _("Use this DCP's audio as OV and make VF"));
-	reference_sizer->Add (_reference, 0, wxLEFT | wxRIGHT | wxTOP, DCPOMATIC_SIZER_GAP);
-
 	_reference_note = new wxStaticText (this, wxID_ANY, _(""));
 	_reference_note->Wrap (200);
-	reference_sizer->Add (_reference_note, 0, wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
 	wxFont font = _reference_note->GetFont();
 	font.SetStyle(wxFONTSTYLE_ITALIC);
 	font.SetPointSize(font.GetPointSize() - 1);
 	_reference_note->SetFont(font);
 
-	_sizer->Add (reference_sizer);
-
-	wxGridBagSizer* grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	_sizer->Add (grid, 0, wxALL, 8);
-
-	int r = 0;
-
 	_show = new wxButton (this, wxID_ANY, _("Show graph of audio levels..."));
-	grid->Add (_show, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	_peak = new wxStaticText (this, wxID_ANY, wxT (""));
-	grid->Add (_peak, wxGBPosition (r, 2), wxGBSpan (1, 2), wxALIGN_CENTER_VERTICAL);
-	++r;
 
-	add_label_to_sizer (grid, this, _("Gain"), true, wxGBPosition (r, 0));
+	_gain_label = create_label (this, _("Gain"), true);
 	_gain = new ContentSpinCtrlDouble<AudioContent> (
 		this,
 		new wxSpinCtrlDouble (this),
@@ -84,13 +69,10 @@ AudioPanel::AudioPanel (ContentPanel* p)
 		boost::mem_fn (&AudioContent::set_gain)
 		);
 
-	_gain->add (grid, wxGBPosition (r, 1));
-	add_label_to_sizer (grid, this, _("dB"), false, wxGBPosition (r, 2));
+	_gain_db_label = create_label (this, _("dB"), false);
 	_gain_calculate_button = new wxButton (this, wxID_ANY, _("Calculate..."));
-	grid->Add (_gain_calculate_button, wxGBPosition (r, 3));
-	++r;
 
-	add_label_to_sizer (grid, this, _("Delay"), true, wxGBPosition (r, 0));
+	_delay_label = create_label (this, _("Delay"), true);
 	_delay = new ContentSpinCtrl<AudioContent> (
 		this,
 		new wxSpinCtrl (this),
@@ -100,19 +82,15 @@ AudioPanel::AudioPanel (ContentPanel* p)
 		boost::mem_fn (&AudioContent::set_delay)
 		);
 
-	_delay->add (grid, wxGBPosition (r, 1));
 	/// TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-	add_label_to_sizer (grid, this, _("ms"), false, wxGBPosition (r, 2));
-	++r;
+	_delay_ms_label = create_label (this, _("ms"), false);
 
 	_mapping = new AudioMappingView (this);
 	_sizer->Add (_mapping, 1, wxEXPAND | wxALL, 6);
-	++r;
 
 	_description = new wxStaticText (this, wxID_ANY, wxT (" \n"), wxDefaultPosition, wxDefaultSize);
 	_sizer->Add (_description, 0, wxALL, 12);
 	_description->SetFont (font);
-	++r;
 
 	_gain->wrapped()->SetRange (-60, 60);
 	_gain->wrapped()->SetDigits (1);
@@ -131,6 +109,42 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	_mapping_connection = _mapping->Changed.connect (boost::bind (&AudioPanel::mapping_changed, this, _1));
 
 	JobManager::instance()->ActiveJobsChanged.connect (boost::bind (&AudioPanel::active_jobs_changed, this, _1, _2));
+
+	add_to_grid ();
+}
+
+void
+AudioPanel::add_to_grid ()
+{
+	Config::Interface const interface = Config::instance()->interface_complexity();
+
+	int r = 0;
+
+	_reference->Show (interface == Config::INTERFACE_FULL);
+	_reference_note->Show (interface == Config::INTERFACE_FULL);
+
+	if (interface == Config::INTERFACE_FULL) {
+		wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
+		reference_sizer->Add (_reference, 0, wxLEFT | wxRIGHT | wxTOP, DCPOMATIC_SIZER_GAP);
+		reference_sizer->Add (_reference_note, 0, wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
+		_grid->Add (reference_sizer, wxGBPosition(r, 0), wxGBSpan(1, 4));
+		++r;
+	}
+
+	_grid->Add (_show, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	_grid->Add (_peak, wxGBPosition (r, 2), wxGBSpan (1, 2), wxALIGN_CENTER_VERTICAL);
+	++r;
+
+	add_label_to_sizer (_grid, _gain_label, true, wxGBPosition(r, 0));
+	_gain->add (_grid, wxGBPosition(r, 1));
+	add_label_to_sizer (_grid, _gain_db_label, false, wxGBPosition(r, 2));
+	_grid->Add (_gain_calculate_button, wxGBPosition(r, 3));
+	++r;
+
+	add_label_to_sizer (_grid, _delay_label, true, wxGBPosition(r, 0));
+	_delay->add (_grid, wxGBPosition (r, 1));
+	add_label_to_sizer (_grid, _delay_ms_label, false, wxGBPosition(r, 2));
+	++r;
 }
 
 AudioPanel::~AudioPanel ()

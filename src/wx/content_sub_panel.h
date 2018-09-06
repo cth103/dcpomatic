@@ -24,10 +24,12 @@
 #include <boost/shared_ptr.hpp>
 #include <wx/wx.h>
 #include "lib/film.h"
+#include "lib/config.h"
 
 class ContentPanel;
 class Content;
 class DCPContent;
+class wxGridBagSizer;
 
 class ContentSubPanel : public wxScrolledWindow
 {
@@ -47,10 +49,15 @@ public:
 protected:
 
 	void setup_refer_button (wxCheckBox* button, wxStaticText* note, boost::shared_ptr<DCPContent> dcp, bool can_reference, std::string why_not) const;
+	virtual void add_to_grid () = 0;
 
 	ContentPanel* _parent;
 	wxSizer* _sizer;
+	wxGridBagSizer* _grid;
 	wxString _name;
+
+private:
+	void config_changed (Config::Property);
 };
 
 #endif

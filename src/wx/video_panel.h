@@ -27,7 +27,6 @@
 #include "timecode.h"
 #include "lib/video_content_scale.h"
 #include "lib/film.h"
-#include "lib/config.h"
 
 class wxChoice;
 class wxStaticText;
@@ -54,12 +53,10 @@ private:
 	void fade_in_changed ();
 	void fade_out_changed ();
 	void add_to_grid ();
-	void config_changed (Config::Property p);
 
 	void setup_description ();
 	void setup_sensitivity ();
 
-	wxGridBagSizer* _grid;
 	wxCheckBox* _reference;
 	wxStaticText* _reference_note;
 	wxStaticText* _type_label;
