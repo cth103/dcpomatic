@@ -125,8 +125,8 @@ AudioPanel::add_to_grid ()
 
 	if (interface == Config::INTERFACE_FULL) {
 		wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
-		reference_sizer->Add (_reference, 0, wxLEFT | wxRIGHT | wxTOP, DCPOMATIC_SIZER_GAP);
-		reference_sizer->Add (_reference_note, 0, wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
+		reference_sizer->Add (_reference, 0);
+		reference_sizer->Add (_reference_note, 0);
 		_grid->Add (reference_sizer, wxGBPosition(r, 0), wxGBSpan(1, 4));
 		++r;
 	}
