@@ -37,6 +37,9 @@ extern "C" {
 #include <libavutil/pixdesc.h>
 #include <libavutil/frame.h>
 }
+#if HAVE_VALGRIND_MEMCHECK_H
+#include <valgrind/memcheck.h>
+#endif
 #include <iostream>
 
 #include "i18n.h"
@@ -850,6 +853,12 @@ Image::allocate ()
 		   testing suggests that it works.
 		*/
 		_data[i] = (uint8_t *) wrapped_av_malloc (_stride[i] * sample_size(i).height + _extra_pixels * bytes_per_pixel(i) + 32);
+#if HAVE_VALGRIND_MEMCHECK_H
+		/* The data between the end of the line size and the stride is undefined but processed by
+		   libswscale, causing lots of valgrind errors.  Mark it all defined to quell these errors.
+		*/
+		VALGRIND_MAKE_MEM_DEFINED (_data[i], _stride[i] * sample_size(i).height + _extra_pixels * bytes_per_pixel(i) + 32);
+#endif
 	}
 }
 
