@@ -43,7 +43,7 @@ ContentSubPanel::ContentSubPanel (ContentPanel* p, wxString name)
 	_grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	_sizer->Add (_grid, 0, wxALL, 8);
 
-	Config::instance()->Changed.connect (boost::bind (&ContentSubPanel::config_changed, this, _1));
+	_config_connection = Config::instance()->Changed.connect (boost::bind (&ContentSubPanel::config_changed, this, _1));
 }
 
 

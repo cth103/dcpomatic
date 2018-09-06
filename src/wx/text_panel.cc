@@ -53,110 +53,58 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	, _fonts_dialog (0)
 	, _original_type (t)
 {
-	wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
-
 	wxString refer = _("Use this DCP's subtitle as OV and make VF");
 	if (t == TEXT_CLOSED_CAPTION) {
 		refer = _("Use this DCP's closed caption as OV and make VF");
 	}
 
 	_reference = new wxCheckBox (this, wxID_ANY, refer);
-	reference_sizer->Add (_reference, 0, wxLEFT | wxRIGHT | wxTOP, DCPOMATIC_SIZER_GAP);
-
 	_reference_note = new wxStaticText (this, wxID_ANY, _(""));
 	_reference_note->Wrap (200);
-	reference_sizer->Add (_reference_note, 0, wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
 	wxFont font = _reference_note->GetFont();
 	font.SetStyle(wxFONTSTYLE_ITALIC);
 	font.SetPointSize(font.GetPointSize() - 1);
 	_reference_note->SetFont(font);
 
-	_sizer->Add (reference_sizer);
-
-	wxGridBagSizer* grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	_sizer->Add (grid, 0, wxALL, 8);
-	int r = 0;
-
-	wxBoxSizer* use = new wxBoxSizer (wxHORIZONTAL);
 	_use = new wxCheckBox (this, wxID_ANY, _("Use as"));
-	use->Add (_use, 0, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 	_type = new wxChoice (this, wxID_ANY);
 	_type->Append (_("open subtitles"));
 	_type->Append (_("closed captions"));
-	use->Add (_type, 1, wxEXPAND, 0);
-	grid->Add (use, wxGBPosition (r, 0), wxGBSpan (1, 2));
-	++r;
 
 	_burn = new wxCheckBox (this, wxID_ANY, _("Burn subtitles into image"));
-	grid->Add (_burn, wxGBPosition (r, 0), wxGBSpan (1, 2));
-	++r;
 
-	add_label_to_sizer (grid, this, _("Offset"), true, wxGBPosition (r, 0));
-	wxBoxSizer* offset = new wxBoxSizer (wxHORIZONTAL);
-	add_label_to_sizer (offset, this, _("X"), true);
+	_offset_label = create_label (this, _("Offset"), true);
+	_x_offset_label = create_label (this, _("X"), true);
 	_x_offset = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
-	offset->Add (_x_offset, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
-	wxStaticText* pc = new wxStaticText (this, wxID_ANY, _("%"));
-	offset->Add (pc, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP * 2);
-	add_label_to_sizer (offset, this, _("Y"), true);
+	_x_offset_pc_label = new wxStaticText (this, wxID_ANY, _("%"));
+	_y_offset_label = create_label (this, _("Y"), true);
 	_y_offset = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
-	offset->Add (_y_offset, 0);
-	add_label_to_sizer (offset, this, _("%"), false);
-	grid->Add (offset, wxGBPosition (r, 1));
-	++r;
+	_y_offset_pc_label = new wxStaticText (this, wxID_ANY, _("%"));
 
-	add_label_to_sizer (grid, this, _("Scale"), true, wxGBPosition (r, 0));
-	wxBoxSizer* scale = new wxBoxSizer (wxHORIZONTAL);
-	add_label_to_sizer (scale, this, _("X"), true);
+	_scale_label = create_label (this, _("Scale"), true);
+	_x_scale_label = create_label (this, _("X"), true);
 	_x_scale = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
-	scale->Add (_x_scale, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
-	pc = new wxStaticText (this, wxID_ANY, _("%"));
-	scale->Add (pc, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP * 2);
-	add_label_to_sizer (scale, this, _("Y"), true);
+	_x_scale_pc_label = new wxStaticText (this, wxID_ANY, _("%"));
+	_y_scale_label = create_label (this, _("Y"), true);
 	_y_scale = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
-	scale->Add (_y_scale, 0);
-	add_label_to_sizer (scale, this, _("%"), false);
-	grid->Add (scale, wxGBPosition (r, 1));
-	++r;
+	_y_scale_pc_label = new wxStaticText (this, wxID_ANY, _("%"));
 
-	{
-		add_label_to_sizer (grid, this, _("Line spacing"), true, wxGBPosition (r, 0));
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_line_spacing = new wxSpinCtrl (this);
-		s->Add (_line_spacing);
-		add_label_to_sizer (s, this, _("%"), false);
-		grid->Add (s, wxGBPosition (r, 1));
-		++r;
-	}
+	_line_spacing_label = create_label (this, _("Line spacing"), true);
+	_line_spacing = new wxSpinCtrl (this);
+	_line_spacing_pc_label = new wxStaticText (this, wxID_ANY, _("%"));
 
-	add_label_to_sizer (grid, this, _("DCP track"), true, wxGBPosition(r, 0));
+	_dcp_track_label = create_label (this, _("DCP track"), true);
 	_dcp_track = new wxChoice (this, wxID_ANY);
-	grid->Add (_dcp_track, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
-	++r;
 
-	add_label_to_sizer (grid, this, _("Language"), true, wxGBPosition (r, 0));
+	_language_label = create_label (this, _("Language"), true);
 	_language = new wxTextCtrl (this, wxID_ANY);
-	grid->Add (_language, wxGBPosition (r, 1));
-	++r;
 
-	add_label_to_sizer (grid, this, _("Stream"), true, wxGBPosition (r, 0));
+	_stream_label = create_label (this, _("Stream"), true);
 	_stream = new wxChoice (this, wxID_ANY);
-	grid->Add (_stream, wxGBPosition (r, 1));
-	++r;
 
-	{
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-
-		_text_view_button = new wxButton (this, wxID_ANY, _("View..."));
-		s->Add (_text_view_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
-		_fonts_dialog_button = new wxButton (this, wxID_ANY, _("Fonts..."));
-		s->Add (_fonts_dialog_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
-		_appearance_dialog_button = new wxButton (this, wxID_ANY, _("Appearance..."));
-		s->Add (_appearance_dialog_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
-
-		grid->Add (s, wxGBPosition (r, 0), wxGBSpan (1, 2));
-		++r;
-	}
+	_text_view_button = new wxButton (this, wxID_ANY, _("View..."));
+	_fonts_dialog_button = new wxButton (this, wxID_ANY, _("Fonts..."));
+	_appearance_dialog_button = new wxButton (this, wxID_ANY, _("Appearance..."));
 
 	_x_offset->SetRange (-100, 100);
 	_y_offset->SetRange (-100, 100);
@@ -183,12 +131,90 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	_text_view_button->Bind         (wxEVT_BUTTON,   boost::bind (&TextPanel::text_view_clicked, this));
 	_fonts_dialog_button->Bind      (wxEVT_BUTTON,   boost::bind (&TextPanel::fonts_dialog_clicked, this));
 	_appearance_dialog_button->Bind (wxEVT_BUTTON,   boost::bind (&TextPanel::appearance_dialog_clicked, this));
+
+	add_to_grid();
 }
 
 void
 TextPanel::add_to_grid ()
 {
+	Config::Interface const interface = Config::instance()->interface_complexity();
 
+	int r = 0;
+
+	_reference->Show (interface == Config::INTERFACE_FULL);
+	_reference_note->Show (interface == Config::INTERFACE_FULL);
+
+	if (interface == Config::INTERFACE_FULL) {
+		wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
+		reference_sizer->Add (_reference, 0);
+		reference_sizer->Add (_reference_note, 0);
+		_grid->Add (reference_sizer, wxGBPosition(r, 0), wxGBSpan(1, 4));
+		++r;
+	}
+
+	wxBoxSizer* use = new wxBoxSizer (wxHORIZONTAL);
+	use->Add (_use, 0, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
+	use->Add (_type, 1, wxEXPAND, 0);
+	_grid->Add (use, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	++r;
+
+	_grid->Add (_burn, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	++r;
+
+	add_label_to_sizer (_grid, _offset_label, true, wxGBPosition (r, 0));
+	wxBoxSizer* offset = new wxBoxSizer (wxHORIZONTAL);
+	add_label_to_sizer (offset, _x_offset_label, true);
+	offset->Add (_x_offset, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
+	offset->Add (_x_offset_pc_label, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP * 2);
+	add_label_to_sizer (offset, _y_offset_label, true);
+	offset->Add (_y_offset, 0);
+	add_label_to_sizer (offset, _y_offset_pc_label, false);
+	_grid->Add (offset, wxGBPosition (r, 1));
+	++r;
+
+	add_label_to_sizer (_grid, _scale_label, true, wxGBPosition (r, 0));
+	wxBoxSizer* scale = new wxBoxSizer (wxHORIZONTAL);
+	add_label_to_sizer (scale, _x_scale_label, true);
+	scale->Add (_x_scale, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
+	scale->Add (_x_scale_pc_label, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP * 2);
+	add_label_to_sizer (scale, _y_scale_label, true);
+	scale->Add (_y_scale, 0);
+	add_label_to_sizer (scale, _y_scale_pc_label, false);
+	_grid->Add (scale, wxGBPosition (r, 1));
+	++r;
+
+	{
+		add_label_to_sizer (_grid, _line_spacing_label, true, wxGBPosition (r, 0));
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		s->Add (_line_spacing);
+		add_label_to_sizer (s, _line_spacing_pc_label, false);
+		_grid->Add (s, wxGBPosition (r, 1));
+		++r;
+	}
+
+	add_label_to_sizer (_grid, _dcp_track_label, true, wxGBPosition(r, 0));
+	_grid->Add (_dcp_track, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
+	++r;
+
+	add_label_to_sizer (_grid, _language_label, true, wxGBPosition (r, 0));
+	_grid->Add (_language, wxGBPosition (r, 1));
+	++r;
+
+	add_label_to_sizer (_grid, _stream_label, true, wxGBPosition (r, 0));
+	_grid->Add (_stream, wxGBPosition (r, 1));
+	++r;
+
+	{
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+
+		s->Add (_text_view_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
+		s->Add (_fonts_dialog_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
+		s->Add (_appearance_dialog_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
+
+		_grid->Add (s, wxGBPosition (r, 0), wxGBSpan (1, 2));
+		++r;
+	}
 }
 
 void

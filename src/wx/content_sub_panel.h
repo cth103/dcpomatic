@@ -58,6 +58,7 @@ protected:
 
 private:
 	void config_changed (Config::Property);
+	boost::signals2::scoped_connection _config_connection;
 };
 
 #endif
