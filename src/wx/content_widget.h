@@ -149,6 +149,11 @@ public:
 		_ignore_model_changes = false;
 	}
 
+	void show (bool s)
+	{
+		_wrapped->Show (s);
+	}
+
 private:
 
 	void set_single ()
