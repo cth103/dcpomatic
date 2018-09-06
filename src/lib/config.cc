@@ -162,6 +162,7 @@ Config::set_defaults ()
 	_christie_password = optional<string>();
 	_gdc_username = optional<string>();
 	_gdc_password = optional<string>();
+	_interface_complexity = INTERFACE_FULL;
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -475,6 +476,11 @@ try
 	_christie_password = f.optional_string_child("ChristiePassword");
 	_gdc_username = f.optional_string_child("GDCUsername");
 	_gdc_password = f.optional_string_child("GDCPassword");
+
+	optional<string> ic = f.optional_string_child("InterfaceComplexity");
+	if (ic && *ic == "simple") {
+		_interface_complexity = INTERFACE_SIMPLE;
+	}
 
 	/* Replace any cinemas from config.xml with those from the configured file */
 	if (boost::filesystem::exists (_cinemas_file)) {
@@ -838,6 +844,15 @@ Config::write_config () const
 	}
 	if (_gdc_password) {
 		root->add_child("GDCPassword")->add_child_text(*_gdc_password);
+	}
+
+	switch (_interface_complexity) {
+	case INTERFACE_SIMPLE:
+		root->add_child("InterfaceComplexity")->add_child_text("simple");
+		break;
+	case INTERFACE_FULL:
+		root->add_child("InterfaceComplexity")->add_child_text("full");
+		break;
 	}
 
 	try {

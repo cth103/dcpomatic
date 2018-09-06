@@ -36,6 +36,21 @@ using namespace std;
 using namespace boost;
 using dcp::locale_convert;
 
+wxStaticText *
+#ifdef __WXOSX__
+create_label (wxWindow* p, wxString t, bool left)
+#else
+create_label (wxWindow* p, wxString t, bool)
+#endif
+{
+#ifdef __WXOSX__
+	if (left) {
+		t += wxT (":");
+	}
+#endif
+	return new wxStaticText (p, wxID_ANY, t);
+}
+
 /** Add a wxStaticText to a wxSizer, aligning it at vertical centre.
  *  @param s Sizer to add to.
  *  @param p Parent window for the wxStaticText.
@@ -45,40 +60,63 @@ using dcp::locale_convert;
  *  @param prop Proportion to pass when calling Add() on the wxSizer.
  */
 wxStaticText *
-#ifdef __WXOSX__
 add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, bool left, int prop, int flags)
-#else
-add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, bool, int prop, int flags)
-#endif
 {
 #ifdef __WXOSX__
 	if (left) {
 		flags |= wxALIGN_RIGHT;
-		t += wxT (":");
 	}
 #endif
-	wxStaticText* m = new wxStaticText (p, wxID_ANY, t);
+	wxStaticText* m = create_label (p, t, left);
 	s->Add (m, prop, flags, 6);
 	return m;
 }
 
 wxStaticText *
 #ifdef __WXOSX__
-add_label_to_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, bool left, wxGBPosition pos, wxGBSpan span)
+add_label_to_sizer (wxSizer* s, wxStaticText* t, bool left, int prop, int flags)
 #else
-add_label_to_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, bool, wxGBPosition pos, wxGBSpan span)
+add_label_to_sizer (wxSizer* s, wxStaticText* t, bool, int prop, int flags)
+#endif
+{
+#ifdef __WXOSX__
+	if (left) {
+		flags |= wxALIGN_RIGHT;
+	}
+#endif
+	s->Add (t, prop, flags, 6);
+	return t;
+}
+
+wxStaticText *
+add_label_to_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, bool left, wxGBPosition pos, wxGBSpan span)
+{
+	int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT;
+#ifdef __WXOSX__
+	if (left) {
+		flags |= wxALIGN_RIGHT;
+	}
+#endif
+	wxStaticText* m = create_label (p, t, left);
+	s->Add (m, pos, span, flags);
+	return m;
+}
+
+wxStaticText *
+#ifdef __WXOSX__
+add_label_to_sizer (wxGridBagSizer* s, wxStaticText* t, bool left, wxGBPosition pos, wxGBSpan span)
+#else
+add_label_to_sizer (wxGridBagSizer* s, wxStaticText* t, bool, wxGBPosition pos, wxGBSpan span)
 #endif
 {
 	int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT;
 #ifdef __WXOSX__
 	if (left) {
 		flags |= wxALIGN_RIGHT;
-		t += wxT (":");
 	}
 #endif
-	wxStaticText* m = new wxStaticText (p, wxID_ANY, t);
-	s->Add (m, pos, span, flags);
-	return m;
+	s->Add (t, pos, span, flags);
+	return t;
 }
 
 /** Pop up an error dialogue box.

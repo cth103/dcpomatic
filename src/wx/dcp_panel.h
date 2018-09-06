@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+#include "lib/config.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
 
@@ -31,6 +32,7 @@ class wxChoice;
 class wxButton;
 class wxSpinCtrl;
 class wxSizer;
+class wxGridBagSizer;
 
 class AudioDialog;
 class Film;
@@ -79,6 +81,7 @@ private:
 	void setup_frame_rate_widget ();
 	void setup_container ();
 	void setup_dcp_name ();
+	void add_to_grid ();
 
 	int minimum_allowed_audio_channels () const;
 
@@ -86,14 +89,16 @@ private:
 	wxPanel* make_video_panel ();
 	wxPanel* make_audio_panel ();
 
-	void config_changed ();
+	void config_changed (Config::Property p);
 
 	void setup_sensitivity ();
 
 	wxPanel* _panel;
 	wxNotebook* _notebook;
 	wxBoxSizer* _sizer;
+	wxGridBagSizer* _grid;
 
+	wxStaticText* _name_label;
 	wxTextCtrl* _name;
 	wxStaticText* _dcp_name;
 	wxCheckBox* _use_isdcf_name;
@@ -102,6 +107,7 @@ private:
 	wxButton* _edit_isdcf_button;
 	wxButton* _copy_isdcf_name_button;
  	wxSpinCtrl* _j2k_bandwidth;
+	wxStaticText* _dcp_content_type_label;
 	wxChoice* _dcp_content_type;
 	wxChoice* _frame_rate_choice;
 	wxSpinCtrl* _frame_rate_spin;
@@ -112,12 +118,17 @@ private:
 	wxButton* _best_frame_rate;
 	wxCheckBox* _three_d;
 	wxChoice* _resolution;
+	wxStaticText* _standard_label;
 	wxChoice* _standard;
 	wxCheckBox* _signed;
 	wxCheckBox* _encrypted;
+	wxStaticText* _key_label;
 	wxStaticText* _key;
 	wxButton* _edit_key;
+	wxStaticText* _reels_label;
 	wxChoice* _reel_type;
+	wxStaticText* _reel_length_label;
+	wxStaticText* _reel_length_gb_label;
 	wxSpinCtrl* _reel_length;
 	wxCheckBox* _upload_after_make_dcp;
 

@@ -85,6 +85,11 @@ private:
 		int r = 0;
 		add_language_controls (table, r);
 
+		add_label_to_sizer (table, _panel, _("Interface complexity"), true, wxGBPosition(r, 0));
+		_interface_complexity = new wxChoice (_panel, wxID_ANY);
+		table->Add (_interface_complexity, wxGBPosition (r, 1));
+		++r;
+
 		add_label_to_sizer (table, _panel, _("Number of threads DCP-o-matic should use"), true, wxGBPosition (r, 0));
 		_master_encoding_threads = new wxSpinCtrl (_panel);
 		table->Add (_master_encoding_threads, wxGBPosition (r, 1));
@@ -138,6 +143,10 @@ private:
 		_config_file->Bind  (wxEVT_FILEPICKER_CHANGED, boost::bind (&FullGeneralPage::config_file_changed,   this));
 		_cinemas_file->Bind (wxEVT_FILEPICKER_CHANGED, boost::bind (&FullGeneralPage::cinemas_file_changed,  this));
 
+		_interface_complexity->Append (_("Simple"));
+		_interface_complexity->Append (_("Full"));
+		_interface_complexity->Bind (wxEVT_CHOICE, boost::bind(&FullGeneralPage::interface_complexity_changed, this));
+
 		_master_encoding_threads->SetRange (1, 128);
 		_master_encoding_threads->Bind (wxEVT_SPINCTRL, boost::bind (&FullGeneralPage::master_encoding_threads_changed, this));
 		_server_encoding_threads->SetRange (1, 128);
@@ -157,6 +166,14 @@ private:
 	{
 		Config* config = Config::instance ();
 
+		switch (config->interface_complexity()) {
+		case Config::INTERFACE_SIMPLE:
+			checked_set (_interface_complexity, 0);
+			break;
+		case Config::INTERFACE_FULL:
+			checked_set (_interface_complexity, 1);
+			break;
+		}
 		checked_set (_master_encoding_threads, config->master_encoding_threads ());
 		checked_set (_server_encoding_threads, config->server_encoding_threads ());
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
@@ -182,6 +199,15 @@ private:
 			boost::filesystem::copy_file (Config::instance()->cinemas_file(), path_from_file_dialog (d, "xml"));
 		}
 		d->Destroy ();
+	}
+
+	void interface_complexity_changed ()
+	{
+		if (_interface_complexity->GetSelection() == 0) {
+			Config::instance()->set_interface_complexity (Config::INTERFACE_SIMPLE);
+		} else {
+			Config::instance()->set_interface_complexity (Config::INTERFACE_FULL);
+		}
 	}
 
 
@@ -248,6 +274,7 @@ private:
 		Config::instance()->set_cinemas_file (wx_to_std (_cinemas_file->GetPath ()));
 	}
 
+	wxChoice* _interface_complexity;
 	wxSpinCtrl* _master_encoding_threads;
 	wxSpinCtrl* _server_encoding_threads;
 	FilePickerCtrl* _config_file;

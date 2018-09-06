@@ -75,6 +75,7 @@ public:
 		CINEMAS,
 		SOUND,
 		SOUND_OUTPUT,
+		INTERFACE_COMPLEXITY,
 		OTHER
 	};
 
@@ -445,6 +446,15 @@ public:
 
 	boost::optional<std::string> gdc_password () const {
 		return _gdc_password;
+	}
+
+	enum Interface {
+		INTERFACE_SIMPLE,
+		INTERFACE_FULL
+	};
+
+	Interface interface_complexity () const {
+		return _interface_complexity;
 	}
 
 	/* SET (mostly) */
@@ -841,6 +851,10 @@ public:
 		maybe_set (_gdc_password, boost::optional<std::string>());
 	}
 
+	void set_interface_complexity (Interface i) {
+		maybe_set (_interface_complexity, i, INTERFACE_COMPLEXITY);
+	}
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -1022,6 +1036,7 @@ private:
 	boost::optional<std::string> _christie_password;
 	boost::optional<std::string> _gdc_username;
 	boost::optional<std::string> _gdc_password;
+	Interface _interface_complexity;
 
 	static int const _current_version;
 

@@ -65,35 +65,16 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 	_sizer = new wxBoxSizer (wxVERTICAL);
 	_panel->SetSizer (_sizer);
 
-	wxGridBagSizer* grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	_sizer->Add (grid, 0, wxEXPAND | wxALL, 8);
+	_grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	_sizer->Add (_grid, 0, wxEXPAND | wxALL, 8);
 
-	int r = 0;
-
-	add_label_to_sizer (grid, _panel, _("Name"), true, wxGBPosition (r, 0));
+	_name_label = create_label (_panel, _("Name"), true);
 	_name = new wxTextCtrl (_panel, wxID_ANY);
-	grid->Add (_name, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND | wxLEFT | wxRIGHT);
-	++r;
-
 	FocusManager::instance()->add(_name);
 
-	int flags = wxALIGN_CENTER_VERTICAL;
-#ifdef __WXOSX__
-	flags |= wxALIGN_RIGHT;
-#endif
-
 	_use_isdcf_name = new wxCheckBox (_panel, wxID_ANY, _("Use ISDCF name"));
-	grid->Add (_use_isdcf_name, wxGBPosition (r, 0), wxDefaultSpan, flags);
-
-	{
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_edit_isdcf_button = new wxButton (_panel, wxID_ANY, _("Details..."));
-		s->Add (_edit_isdcf_button, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
-		_copy_isdcf_name_button = new wxButton (_panel, wxID_ANY, _("Copy as name"));
-		s->Add (_copy_isdcf_name_button, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_X_GAP);
-		grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxEXPAND);
-		++r;
-	}
+	_edit_isdcf_button = new wxButton (_panel, wxID_ANY, _("Details..."));
+	_copy_isdcf_name_button = new wxButton (_panel, wxID_ANY, _("Copy as name"));
 
 	/* wxST_ELLIPSIZE_MIDDLE works around a bug in GTK2 and/or wxWidgets, see
 	   http://trac.wxwidgets.org/ticket/12539
@@ -103,13 +84,31 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 		wxALIGN_CENTRE_HORIZONTAL | wxST_NO_AUTORESIZE | wxST_ELLIPSIZE_MIDDLE
 		);
 
-	grid->Add (_dcp_name, wxGBPosition(r, 0), wxGBSpan (1, 2), wxALIGN_CENTER_VERTICAL | wxEXPAND);
-	++r;
-
-	add_label_to_sizer (grid, _panel, _("Content Type"), true, wxGBPosition (r, 0));
+	_dcp_content_type_label = create_label (_panel, _("Content Type"), true);
 	_dcp_content_type = new wxChoice (_panel, wxID_ANY);
-	grid->Add (_dcp_content_type, wxGBPosition (r, 1));
-	++r;
+
+	_signed = new wxCheckBox (_panel, wxID_ANY, _("Signed"));
+	_encrypted = new wxCheckBox (_panel, wxID_ANY, _("Encrypted"));
+
+        wxClientDC dc (_panel);
+        wxSize size = dc.GetTextExtent (wxT ("GGGGGGGG..."));
+        size.SetHeight (-1);
+
+	_key_label = create_label (_panel, _("Key"), true);
+	_key = new wxStaticText (_panel, wxID_ANY, "", wxDefaultPosition, size);
+	_edit_key = new wxButton (_panel, wxID_ANY, _("Edit..."));
+
+	_reels_label = create_label (_panel, _("Reels"), true);
+	_reel_type = new wxChoice (_panel, wxID_ANY);
+
+	_reel_length_label = create_label (_panel, _("Reel length"), true);
+	_reel_length = new wxSpinCtrl (_panel, wxID_ANY);
+	_reel_length_gb_label = create_label (_panel, _("GB"), false);
+
+	_standard_label = create_label (_panel, _("Standard"), true);
+	_standard = new wxChoice (_panel, wxID_ANY);
+
+	_upload_after_make_dcp = new wxCheckBox (_panel, wxID_ANY, _("Upload DCP to TMS after it is made"));
 
 	_notebook = new wxNotebook (_panel, wxID_ANY);
 	_sizer->Add (_notebook, 1, wxEXPAND | wxTOP, 6);
@@ -117,65 +116,17 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 	_notebook->AddPage (make_video_panel (), _("Video"), false);
 	_notebook->AddPage (make_audio_panel (), _("Audio"), false);
 
-	_signed = new wxCheckBox (_panel, wxID_ANY, _("Signed"));
-	grid->Add (_signed, wxGBPosition (r, 0), wxGBSpan (1, 2));
-	++r;
-
-	_encrypted = new wxCheckBox (_panel, wxID_ANY, _("Encrypted"));
-	grid->Add (_encrypted, wxGBPosition (r, 0), wxGBSpan (1, 2));
-	++r;
-
-        wxClientDC dc (_panel);
-        wxSize size = dc.GetTextExtent (wxT ("GGGGGGGG..."));
-        size.SetHeight (-1);
-
-	{
-               add_label_to_sizer (grid, _panel, _("Key"), true, wxGBPosition (r, 0));
-               wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-               _key = new wxStaticText (_panel, wxID_ANY, "", wxDefaultPosition, size);
-               s->Add (_key, 1, wxALIGN_CENTER_VERTICAL);
-               _edit_key = new wxButton (_panel, wxID_ANY, _("Edit..."));
-               s->Add (_edit_key);
-               grid->Add (s, wxGBPosition (r, 1));
-               ++r;
-	}
-
-	add_label_to_sizer (grid, _panel, _("Reels"), true, wxGBPosition (r, 0));
-	_reel_type = new wxChoice (_panel, wxID_ANY);
-	grid->Add (_reel_type, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-	++r;
-
-	add_label_to_sizer (grid, _panel, _("Reel length"), true, wxGBPosition (r, 0));
-
-	{
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_reel_length = new wxSpinCtrl (_panel, wxID_ANY);
-		s->Add (_reel_length);
-		add_label_to_sizer (s, _panel, _("GB"), false);
-		grid->Add (s, wxGBPosition (r, 1));
-		++r;
-	}
-
-	add_label_to_sizer (grid, _panel, _("Standard"), true, wxGBPosition (r, 0));
-	_standard = new wxChoice (_panel, wxID_ANY);
-	grid->Add (_standard, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-	++r;
-
-	_upload_after_make_dcp = new wxCheckBox (_panel, wxID_ANY, _("Upload DCP to TMS after it is made"));
-	grid->Add (_upload_after_make_dcp, wxGBPosition (r, 0), wxGBSpan (1, 2));
-	++r;
-
 	_name->Bind		     (wxEVT_TEXT,     boost::bind (&DCPPanel::name_changed, this));
 	_use_isdcf_name->Bind	     (wxEVT_CHECKBOX, boost::bind (&DCPPanel::use_isdcf_name_toggled, this));
 	_edit_isdcf_button->Bind     (wxEVT_BUTTON,   boost::bind (&DCPPanel::edit_isdcf_button_clicked, this));
 	_copy_isdcf_name_button->Bind(wxEVT_BUTTON,   boost::bind (&DCPPanel::copy_isdcf_name_button_clicked, this));
-	_dcp_content_type->Bind	     (wxEVT_CHOICE,  boost::bind (&DCPPanel::dcp_content_type_changed, this));
+	_dcp_content_type->Bind	     (wxEVT_CHOICE,   boost::bind (&DCPPanel::dcp_content_type_changed, this));
 	_signed->Bind                (wxEVT_CHECKBOX, boost::bind (&DCPPanel::signed_toggled, this));
 	_encrypted->Bind             (wxEVT_CHECKBOX, boost::bind (&DCPPanel::encrypted_toggled, this));
 	_edit_key->Bind              (wxEVT_BUTTON,   boost::bind (&DCPPanel::edit_key_clicked, this));
-	_reel_type->Bind             (wxEVT_CHOICE,  boost::bind (&DCPPanel::reel_type_changed, this));
+	_reel_type->Bind             (wxEVT_CHOICE,   boost::bind (&DCPPanel::reel_type_changed, this));
 	_reel_length->Bind           (wxEVT_SPINCTRL, boost::bind (&DCPPanel::reel_length_changed, this));
-	_standard->Bind              (wxEVT_CHOICE,  boost::bind (&DCPPanel::standard_changed, this));
+	_standard->Bind              (wxEVT_CHOICE,   boost::bind (&DCPPanel::standard_changed, this));
 	_upload_after_make_dcp->Bind (wxEVT_CHECKBOX, boost::bind (&DCPPanel::upload_after_make_dcp_changed, this));
 
 	BOOST_FOREACH (DCPContentType const * i, DCPContentType::all()) {
@@ -192,7 +143,100 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 	_standard->Append (_("SMPTE"));
 	_standard->Append (_("Interop"));
 
-	Config::instance()->Changed.connect (boost::bind (&DCPPanel::config_changed, this));
+	Config::instance()->Changed.connect (boost::bind (&DCPPanel::config_changed, this, _1));
+
+	add_to_grid ();
+}
+
+void
+DCPPanel::add_to_grid ()
+{
+	Config::Interface interface = Config::instance()->interface_complexity ();
+
+	int r = 0;
+
+	add_label_to_sizer (_grid, _name_label, true, wxGBPosition (r, 0));
+	_grid->Add (_name, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND | wxLEFT | wxRIGHT);
+	++r;
+
+	int flags = wxALIGN_CENTER_VERTICAL;
+#ifdef __WXOSX__
+	flags |= wxALIGN_RIGHT;
+#endif
+
+	_use_isdcf_name->Show (interface == Config::INTERFACE_FULL);
+	_edit_isdcf_button->Show (interface == Config::INTERFACE_FULL);
+	_copy_isdcf_name_button->Show (interface == Config::INTERFACE_FULL);
+
+	if (interface == Config::INTERFACE_FULL) {
+		_grid->Add (_use_isdcf_name, wxGBPosition (r, 0), wxDefaultSpan, flags);
+		{
+			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+			s->Add (_edit_isdcf_button, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
+			s->Add (_copy_isdcf_name_button, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_X_GAP);
+			_grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxEXPAND);
+		}
+		++r;
+	}
+
+	_grid->Add (_dcp_name, wxGBPosition(r, 0), wxGBSpan (1, 2), wxALIGN_CENTER_VERTICAL | wxEXPAND);
+	++r;
+
+	add_label_to_sizer (_grid, _dcp_content_type_label, true, wxGBPosition (r, 0));
+	_grid->Add (_dcp_content_type, wxGBPosition (r, 1));
+	++r;
+
+	_signed->Show (interface == Config::INTERFACE_FULL);
+	if (interface == Config::INTERFACE_FULL) {
+		_grid->Add (_signed, wxGBPosition (r, 0), wxGBSpan (1, 2));
+		++r;
+	}
+
+	_grid->Add (_encrypted, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	++r;
+
+	_key_label->Show (interface == Config::INTERFACE_FULL);
+	_key->Show (interface == Config::INTERFACE_FULL);
+	_edit_key->Show (interface == Config::INTERFACE_FULL);
+	_reels_label->Show (interface == Config::INTERFACE_FULL);
+	_reel_type->Show (interface == Config::INTERFACE_FULL);
+	_reel_length_label->Show (interface == Config::INTERFACE_FULL);
+	_reel_length->Show (interface == Config::INTERFACE_FULL);
+	_reel_length_gb_label->Show (interface == Config::INTERFACE_FULL);
+	_standard_label->Show (interface == Config::INTERFACE_FULL);
+	_standard->Show (interface == Config::INTERFACE_FULL);
+	_upload_after_make_dcp->Show (interface == Config::INTERFACE_FULL);
+
+	if (interface == Config::INTERFACE_FULL) {
+		add_label_to_sizer (_grid, _key_label, true, wxGBPosition (r, 0));
+		{
+			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+			s->Add (_key, 1, wxALIGN_CENTER_VERTICAL);
+			s->Add (_edit_key);
+			_grid->Add (s, wxGBPosition (r, 1));
+		}
+		++r;
+
+		add_label_to_sizer (_grid, _reels_label, true, wxGBPosition (r, 0));
+		_grid->Add (_reel_type, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+		++r;
+
+		add_label_to_sizer (_grid, _reel_length_label, true, wxGBPosition (r, 0));
+		{
+			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+			s->Add (_reel_length);
+			add_label_to_sizer (s, _reel_length_gb_label, false);
+			_grid->Add (s, wxGBPosition (r, 1));
+		}
+		++r;
+
+		add_label_to_sizer (_grid, _standard_label, true, wxGBPosition (r, 0));
+		_grid->Add (_standard, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+		++r;
+
+		_grid->Add (_upload_after_make_dcp, wxGBPosition (r, 0), wxGBSpan (1, 2));
+		++r;
+	}
 }
 
 void
@@ -624,10 +668,17 @@ DCPPanel::three_d_changed ()
 }
 
 void
-DCPPanel::config_changed ()
+DCPPanel::config_changed (Config::Property p)
 {
 	_j2k_bandwidth->SetRange (1, Config::instance()->maximum_j2k_bandwidth() / 1000000);
 	setup_frame_rate_widget ();
+
+	if (p == Config::INTERFACE_COMPLEXITY) {
+		_grid->Clear ();
+		add_to_grid ();
+		_sizer->Layout ();
+		_grid->Layout ();
+	}
 }
 
 void
