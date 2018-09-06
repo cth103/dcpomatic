@@ -97,9 +97,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		&caster<VideoFrameType, int>
 		);
 
-	_crop_label = create_label (this, _("Crop"), true);
-
-	_left_crop_label = create_label (this, _("Left"), true);
+	_left_crop_label = create_label (this, _("Left crop"), true);
 	_left_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
@@ -109,7 +107,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		boost::mem_fn (&VideoContent::set_left_crop)
 		);
 
-	_right_crop_label = create_label (this, _("Right"), true);
+	_right_crop_label = create_label (this, _("Right crop"), true);
 	_right_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
@@ -119,7 +117,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		boost::mem_fn (&VideoContent::set_right_crop)
 		);
 
-	_top_crop_label = create_label (this, _("Top"), true);
+	_top_crop_label = create_label (this, _("Top crop"), true);
 	_top_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
@@ -129,7 +127,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		boost::mem_fn (&VideoContent::set_top_crop)
 		);
 
-	_bottom_crop_label = create_label (this, _("Bottom"), true);
+	_bottom_crop_label = create_label (this, _("Bottom crop"), true);
 	_bottom_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
@@ -249,8 +247,6 @@ VideoPanel::add_to_grid ()
 #ifdef __WXOSX__
 	flags |= wxALIGN_RIGHT;
 #endif
-	_grid->Add (_crop_label, wxGBPosition(r, 0), wxDefaultSpan, flags, DCPOMATIC_SIZER_Y_GAP / 2);
-
 	int cr = 0;
 	wxGridBagSizer* crop = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	add_label_to_sizer (crop, _left_crop_label, true, wxGBPosition (cr, 0));
@@ -262,7 +258,7 @@ VideoPanel::add_to_grid ()
 	_top_crop->add (crop, wxGBPosition (cr, 1));
 	add_label_to_sizer (crop, _bottom_crop_label, true, wxGBPosition (cr, 2));
 	_bottom_crop->add (crop, wxGBPosition (cr, 3));
-	_grid->Add (crop, wxGBPosition (r, 1), wxGBSpan (2, 3));
+	_grid->Add (crop, wxGBPosition (r, 0), wxGBSpan (2, 4));
 	r += 2;
 
 	_fade_in_label->Show (interface == Config::INTERFACE_FULL);
