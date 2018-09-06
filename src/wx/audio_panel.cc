@@ -136,14 +136,23 @@ AudioPanel::add_to_grid ()
 	++r;
 
 	add_label_to_sizer (_grid, _gain_label, true, wxGBPosition(r, 0));
-	_gain->add (_grid, wxGBPosition(r, 1));
-	add_label_to_sizer (_grid, _gain_db_label, false, wxGBPosition(r, 2));
-	_grid->Add (_gain_calculate_button, wxGBPosition(r, 3));
+	{
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		s->Add (_gain->wrapped(), 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
+		s->Add (_gain_db_label, 0, wxALIGN_CENTER_VERTICAL);
+		_grid->Add (s, wxGBPosition(r, 1));
+	}
+	_grid->Add (_gain_calculate_button, wxGBPosition(r, 2), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+
 	++r;
 
 	add_label_to_sizer (_grid, _delay_label, true, wxGBPosition(r, 0));
-	_delay->add (_grid, wxGBPosition (r, 1));
-	add_label_to_sizer (_grid, _delay_ms_label, false, wxGBPosition(r, 2));
+	{
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		s->Add (_delay->wrapped(), 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
+		s->Add (_delay_ms_label, 0, wxALIGN_CENTER_VERTICAL);
+		_grid->Add (s, wxGBPosition(r, 1));
+	}
 	++r;
 }
 
