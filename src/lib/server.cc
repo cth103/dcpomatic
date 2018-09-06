@@ -25,9 +25,10 @@
 
 using boost::shared_ptr;
 
-Server::Server (int port)
+Server::Server (int port, int timeout)
 	: _terminate (false)
 	, _acceptor (_io_service, boost::asio::ip::tcp::endpoint (boost::asio::ip::tcp::v4(), port))
+	, _timeout (timeout)
 {
 
 }
@@ -60,7 +61,7 @@ Server::start_accept ()
 		}
 	}
 
-	shared_ptr<Socket> socket (new Socket);
+	shared_ptr<Socket> socket (new Socket(_timeout));
 	_acceptor.async_accept (socket->socket (), boost::bind (&Server::handle_accept, this, socket, boost::asio::placeholders::error));
 }
 

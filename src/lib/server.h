@@ -31,7 +31,7 @@ class Socket;
 class Server : public boost::noncopyable
 {
 public:
-	explicit Server (int port);
+	explicit Server (int port, int timeout = 30);
 	virtual ~Server ();
 
 	virtual void run ();
@@ -49,6 +49,7 @@ private:
 
 	boost::asio::io_service _io_service;
 	boost::asio::ip::tcp::acceptor _acceptor;
+	int _timeout;
 };
 
 #endif

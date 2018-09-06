@@ -564,6 +564,7 @@ def configure(conf):
     # Other stuff
 
     conf.find_program('msgfmt', var='MSGFMT')
+    conf.check(header_name='valgrind/memcheck.h', mandatory=False)
 
     datadir = conf.env.DATADIR
     if not datadir:

@@ -41,6 +41,9 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/scoped_array.hpp>
 #include <boost/foreach.hpp>
+#ifdef HAVE_VALGRIND_H
+#include <valgrind/memcheck.h>
+#endif
 #include <string>
 #include <vector>
 #include <iostream>
@@ -68,7 +71,11 @@ using dcp::Data;
 using dcp::raw_convert;
 
 EncodeServer::EncodeServer (shared_ptr<Log> log, bool verbose, int num_threads)
+#if !defined(RUNNING_ON_VALGRIND) || RUNNING_ON_VALGRIND == 0
 	: Server (ENCODE_FRAME_PORT)
+#else
+	: Server (ENCODE_FRAME_PORT, 2400)
+#endif
 	, _log (log)
 	, _verbose (verbose)
 	, _num_threads (num_threads)
