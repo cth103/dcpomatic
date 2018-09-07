@@ -867,9 +867,14 @@ DCPPanel::add_audio_panel_to_grid ()
 
 	int r = 0;
 
-	add_label_to_sizer (_audio_grid, _channels_label, true, wxGBPosition (r, 0));
-	_audio_grid->Add (_audio_channels, wxGBPosition (r, 1));
-	++r;
+	_channels_label->Show (full);
+	_audio_channels->Show (full);
+
+	if (full) {
+		add_label_to_sizer (_audio_grid, _channels_label, true, wxGBPosition (r, 0));
+		_audio_grid->Add (_audio_channels, wxGBPosition (r, 1));
+		++r;
+	}
 
 	_processor_label->Show (full);
 	_audio_processor->Show (full);
