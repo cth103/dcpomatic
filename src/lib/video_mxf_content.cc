@@ -24,6 +24,7 @@
 #include "job.h"
 #include "film.h"
 #include "compose.hpp"
+#include <asdcp/KM_log.h>
 #include <dcp/mono_picture_asset.h>
 #include <dcp/stereo_picture_asset.h>
 #include <dcp/exceptions.h>
@@ -50,6 +51,8 @@ VideoMXFContent::VideoMXFContent (shared_ptr<const Film> film, cxml::ConstNodePt
 bool
 VideoMXFContent::valid_mxf (boost::filesystem::path path)
 {
+	Kumu::DefaultLogSink().UnsetFilterFlag(Kumu::LOG_ALLOW_ALL);
+
 	try {
 		shared_ptr<dcp::MonoPictureAsset> mp (new dcp::MonoPictureAsset (path));
 		return true;
@@ -60,6 +63,7 @@ VideoMXFContent::valid_mxf (boost::filesystem::path path)
 	}
 
 	try {
+		Kumu::DefaultLogSink().SetFilterFlag(0);
 		shared_ptr<dcp::StereoPictureAsset> sp (new dcp::StereoPictureAsset (path));
 		return true;
 	} catch (dcp::MXFFileError& e) {
@@ -67,6 +71,8 @@ VideoMXFContent::valid_mxf (boost::filesystem::path path)
 	} catch (dcp::DCPReadError& e) {
 
 	}
+
+	Kumu::DefaultLogSink().SetFilterFlag(Kumu::LOG_ALLOW_ALL);
 
 	return false;
 }

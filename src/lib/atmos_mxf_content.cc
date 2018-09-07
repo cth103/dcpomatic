@@ -22,6 +22,7 @@
 #include "job.h"
 #include "film.h"
 #include "compose.hpp"
+#include <asdcp/KM_log.h>
 #include <dcp/atmos_asset.h>
 #include <dcp/exceptions.h>
 #include <libxml++/libxml++.h>
@@ -47,6 +48,8 @@ AtmosMXFContent::AtmosMXFContent (shared_ptr<const Film> film, cxml::ConstNodePt
 bool
 AtmosMXFContent::valid_mxf (boost::filesystem::path path)
 {
+	Kumu::DefaultLogSink().UnsetFilterFlag(Kumu::LOG_ALLOW_ALL);
+
 	try {
 		shared_ptr<dcp::AtmosAsset> a (new dcp::AtmosAsset (path));
 		return true;
@@ -55,6 +58,8 @@ AtmosMXFContent::valid_mxf (boost::filesystem::path path)
 	} catch (dcp::DCPReadError& e) {
 
 	}
+
+	Kumu::DefaultLogSink().SetFilterFlag(Kumu::LOG_ALLOW_ALL);
 
 	return false;
 }
