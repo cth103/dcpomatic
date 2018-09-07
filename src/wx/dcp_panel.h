@@ -82,6 +82,8 @@ private:
 	void setup_container ();
 	void setup_dcp_name ();
 	void add_to_grid ();
+	void add_video_panel_to_grid ();
+	void add_audio_panel_to_grid ();
 
 	int minimum_allowed_audio_channels () const;
 
@@ -97,26 +99,35 @@ private:
 	wxNotebook* _notebook;
 	wxBoxSizer* _sizer;
 	wxGridBagSizer* _grid;
+	wxGridBagSizer* _video_grid;
+	wxGridBagSizer* _audio_grid;
 
 	wxStaticText* _name_label;
 	wxTextCtrl* _name;
 	wxStaticText* _dcp_name;
 	wxCheckBox* _use_isdcf_name;
+	wxStaticText* _container_label;
 	wxChoice* _container;
 	wxStaticText* _container_size;
 	wxButton* _edit_isdcf_button;
 	wxButton* _copy_isdcf_name_button;
+	wxStaticText* _j2k_bandwidth_label;
+	wxStaticText* _mbits_label;
  	wxSpinCtrl* _j2k_bandwidth;
 	wxStaticText* _dcp_content_type_label;
 	wxChoice* _dcp_content_type;
+	wxStaticText* _frame_rate_label;
 	wxChoice* _frame_rate_choice;
 	wxSpinCtrl* _frame_rate_spin;
 	wxSizer* _frame_rate_sizer;
+	wxStaticText* _channels_label;
 	wxChoice* _audio_channels;
+	wxStaticText* _processor_label;
 	wxChoice* _audio_processor;
 	wxButton* _show_audio;
 	wxButton* _best_frame_rate;
 	wxCheckBox* _three_d;
+	wxStaticText* _resolution_label;
 	wxChoice* _resolution;
 	wxStaticText* _standard_label;
 	wxChoice* _standard;

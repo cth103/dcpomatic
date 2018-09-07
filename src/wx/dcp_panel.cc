@@ -678,6 +678,14 @@ DCPPanel::config_changed (Config::Property p)
 		add_to_grid ();
 		_sizer->Layout ();
 		_grid->Layout ();
+
+		_video_grid->Clear ();
+		add_video_panel_to_grid ();
+		_video_grid->Layout ();
+
+		_audio_grid->Clear ();
+		add_audio_panel_to_grid ();
+		_audio_grid->Layout ();
 	}
 }
 
@@ -700,55 +708,35 @@ DCPPanel::make_video_panel ()
 {
 	wxPanel* panel = new wxPanel (_notebook);
 	wxSizer* sizer = new wxBoxSizer (wxVERTICAL);
-	wxGridBagSizer* grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	sizer->Add (grid, 0, wxALL, 8);
+	_video_grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	sizer->Add (_video_grid, 0, wxALL, 8);
 	panel->SetSizer (sizer);
 
 	int r = 0;
 
-	add_label_to_sizer (grid, panel, _("Container"), true, wxGBPosition (r, 0));
-	{
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_container = new wxChoice (panel, wxID_ANY);
-		s->Add (_container, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
-		_container_size = new wxStaticText (panel, wxID_ANY, wxT (""));
-		s->Add (_container_size, 1, wxLEFT | wxALIGN_CENTER_VERTICAL);
-		grid->Add (s, wxGBPosition (r,1 ), wxDefaultSpan, wxEXPAND);
-		++r;
-	}
+	_container_label = create_label (panel, _("Container"), true);
+	_container = new wxChoice (panel, wxID_ANY);
+	_container_size = new wxStaticText (panel, wxID_ANY, wxT (""));
 
-	add_label_to_sizer (grid, panel, _("Resolution"), true, wxGBPosition (r, 0));
+	_resolution_label = create_label (panel, _("Resolution"), true);
 	_resolution = new wxChoice (panel, wxID_ANY);
-	grid->Add (_resolution, wxGBPosition (r, 1));
-	++r;
 
-	add_label_to_sizer (grid, panel, _("Frame Rate"), true, wxGBPosition (r, 0));
-	{
-		_frame_rate_sizer = new wxBoxSizer (wxHORIZONTAL);
-		_frame_rate_choice = new wxChoice (panel, wxID_ANY);
-		_frame_rate_sizer->Add (_frame_rate_choice, 1, wxALIGN_CENTER_VERTICAL);
-		_frame_rate_spin = new wxSpinCtrl (panel, wxID_ANY);
-		_frame_rate_sizer->Add (_frame_rate_spin, 1, wxALIGN_CENTER_VERTICAL);
-		setup_frame_rate_widget ();
-		_best_frame_rate = new wxButton (panel, wxID_ANY, _("Use best"));
-		_frame_rate_sizer->Add (_best_frame_rate, 1, wxALIGN_CENTER_VERTICAL);
-		grid->Add (_frame_rate_sizer, wxGBPosition (r, 1));
-		++r;
-	}
+	_frame_rate_label = create_label (panel, _("Frame Rate"), true);
+	_frame_rate_choice = new wxChoice (panel, wxID_ANY);
+	_frame_rate_sizer = new wxBoxSizer (wxHORIZONTAL);
+	_frame_rate_sizer->Add (_frame_rate_choice, 1, wxALIGN_CENTER_VERTICAL);
+	_frame_rate_spin = new wxSpinCtrl (panel, wxID_ANY);
+	_frame_rate_sizer->Add (_frame_rate_spin, 1, wxALIGN_CENTER_VERTICAL);
+	setup_frame_rate_widget ();
+	_best_frame_rate = new wxButton (panel, wxID_ANY, _("Use best"));
+	_frame_rate_sizer->Add (_best_frame_rate, 1, wxALIGN_CENTER_VERTICAL);
 
 	_three_d = new wxCheckBox (panel, wxID_ANY, _("3D"));
-	grid->Add (_three_d, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
-	{
-		add_label_to_sizer (grid, panel, _("JPEG2000 bandwidth\nfor newly-encoded data"), true, wxGBPosition (r, 0));
-		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_j2k_bandwidth = new wxSpinCtrl (panel, wxID_ANY);
-		s->Add (_j2k_bandwidth, 1);
-		add_label_to_sizer (s, panel, _("Mbit/s"), false);
-		grid->Add (s, wxGBPosition (r, 1));
-	}
-	++r;
+	_j2k_bandwidth_label = create_label (panel, _("JPEG2000 bandwidth\nfor newly-encoded data"), true);
+	_j2k_bandwidth = new wxSpinCtrl (panel, wxID_ANY);
+	_mbits_label = create_label (panel, _("Mbit/s"), false);
 
 	_container->Bind	(wxEVT_CHOICE,	      boost::bind (&DCPPanel::container_changed, this));
 	_frame_rate_choice->Bind(wxEVT_CHOICE,	      boost::bind (&DCPPanel::frame_rate_choice_changed, this));
@@ -774,7 +762,56 @@ DCPPanel::make_video_panel ()
 	_resolution->Append (_("2K"));
 	_resolution->Append (_("4K"));
 
+	add_video_panel_to_grid ();
+
 	return panel;
+}
+
+void
+DCPPanel::add_video_panel_to_grid ()
+{
+	bool const full = Config::instance()->interface_complexity() == Config::INTERFACE_FULL;
+
+	int r = 0;
+
+	add_label_to_sizer (_video_grid, _container_label, true, wxGBPosition (r, 0));
+	{
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		s->Add (_container, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
+		s->Add (_container_size, 1, wxLEFT | wxALIGN_CENTER_VERTICAL);
+		_video_grid->Add (s, wxGBPosition(r, 1));
+		++r;
+	}
+
+	add_label_to_sizer (_video_grid, _resolution_label, true, wxGBPosition (r, 0));
+	_video_grid->Add (_resolution, wxGBPosition (r, 1));
+	++r;
+
+	add_label_to_sizer (_video_grid, _frame_rate_label, true, wxGBPosition (r, 0));
+	{
+		_frame_rate_sizer = new wxBoxSizer (wxHORIZONTAL);
+		_frame_rate_sizer->Add (_frame_rate_choice, 1, wxALIGN_CENTER_VERTICAL);
+		_frame_rate_sizer->Add (_frame_rate_spin, 1, wxALIGN_CENTER_VERTICAL);
+		_frame_rate_sizer->Add (_best_frame_rate, 1, wxALIGN_CENTER_VERTICAL);
+		_video_grid->Add (_frame_rate_sizer, wxGBPosition (r, 1));
+		++r;
+	}
+
+	_video_grid->Add (_three_d, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	++r;
+
+	_j2k_bandwidth_label->Show (full);
+	_j2k_bandwidth->Show (full);
+	_mbits_label->Show (full);
+
+	if (full) {
+		add_label_to_sizer (_video_grid, _j2k_bandwidth_label, true, wxGBPosition (r, 0));
+		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		s->Add (_j2k_bandwidth, 1);
+		add_label_to_sizer (s, _mbits_label, false);
+		_video_grid->Add (s, wxGBPosition (r, 1));
+		++r;
+	}
 }
 
 int
@@ -797,36 +834,54 @@ DCPPanel::make_audio_panel ()
 {
 	wxPanel* panel = new wxPanel (_notebook);
 	wxSizer* sizer = new wxBoxSizer (wxVERTICAL);
-	wxGridBagSizer* grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	sizer->Add (grid, 0, wxALL, 8);
+	_audio_grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	sizer->Add (_audio_grid, 0, wxALL, 8);
 	panel->SetSizer (sizer);
 
-	int r = 0;
-
-	add_label_to_sizer (grid, panel, _("Channels"), true, wxGBPosition (r, 0));
+	_channels_label = create_label (panel, _("Channels"), true);
 	_audio_channels = new wxChoice (panel, wxID_ANY);
 	setup_audio_channels_choice (_audio_channels, minimum_allowed_audio_channels ());
-	grid->Add (_audio_channels, wxGBPosition (r, 1));
-	++r;
 
-	add_label_to_sizer (grid, panel, _("Processor"), true, wxGBPosition (r, 0));
+	_processor_label = create_label (panel, _("Processor"), true);
 	_audio_processor = new wxChoice (panel, wxID_ANY);
 	_audio_processor->Append (_("None"), new wxStringClientData (N_("none")));
 	BOOST_FOREACH (AudioProcessor const * ap, AudioProcessor::all ()) {
 		_audio_processor->Append (std_to_wx (ap->name ()), new wxStringClientData (std_to_wx (ap->id ())));
 	}
-	grid->Add (_audio_processor, wxGBPosition (r, 1));
-	++r;
 
 	_show_audio = new wxButton (panel, wxID_ANY, _("Show audio..."));
-	grid->Add (_show_audio, wxGBPosition (r, 0), wxGBSpan (1, 2));
-	++r;
 
 	_audio_channels->Bind (wxEVT_CHOICE, boost::bind (&DCPPanel::audio_channels_changed, this));
 	_audio_processor->Bind (wxEVT_CHOICE, boost::bind (&DCPPanel::audio_processor_changed, this));
 	_show_audio->Bind (wxEVT_BUTTON, boost::bind (&DCPPanel::show_audio_clicked, this));
 
+	add_audio_panel_to_grid ();
+
 	return panel;
+}
+
+void
+DCPPanel::add_audio_panel_to_grid ()
+{
+	bool const full = Config::instance()->interface_complexity() == Config::INTERFACE_FULL;
+
+	int r = 0;
+
+	add_label_to_sizer (_audio_grid, _channels_label, true, wxGBPosition (r, 0));
+	_audio_grid->Add (_audio_channels, wxGBPosition (r, 1));
+	++r;
+
+	_processor_label->Show (full);
+	_audio_processor->Show (full);
+
+	if (full) {
+		add_label_to_sizer (_audio_grid, _processor_label, true, wxGBPosition (r, 0));
+		_audio_grid->Add (_audio_processor, wxGBPosition (r, 1));
+		++r;
+	}
+
+	_audio_grid->Add (_show_audio, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	++r;
 }
 
 void

@@ -208,14 +208,14 @@ VideoPanel::VideoPanel (ContentPanel* p)
 void
 VideoPanel::add_to_grid ()
 {
-	Config::Interface const interface = Config::instance()->interface_complexity();
+	bool const full = Config::instance()->interface_complexity() == Config::INTERFACE_FULL;
 
 	int r = 0;
 
-	_reference->Show (interface == Config::INTERFACE_FULL);
-	_reference_note->Show (interface == Config::INTERFACE_FULL);
+	_reference->Show (full);
+	_reference_note->Show (full);
 
-	if (interface == Config::INTERFACE_FULL) {
+	if (full) {
 		wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
 		reference_sizer->Add (_reference, 0);
 		reference_sizer->Add (_reference_note, 0);
@@ -245,20 +245,20 @@ VideoPanel::add_to_grid ()
 	_grid->Add (crop, wxGBPosition (r, 0), wxGBSpan (2, 4));
 	r += 2;
 
-	_fade_in_label->Show (interface == Config::INTERFACE_FULL);
-	_fade_in->Show (interface == Config::INTERFACE_FULL);
-	_fade_out_label->Show (interface == Config::INTERFACE_FULL);
-	_fade_out->Show (interface == Config::INTERFACE_FULL);
-	_scale_to_label->Show (interface == Config::INTERFACE_FULL);
-	_scale->show (interface == Config::INTERFACE_FULL);
-	_filters_label->Show (interface == Config::INTERFACE_FULL);
-	_filters->Show (interface == Config::INTERFACE_FULL);
-	_filters_button->Show (interface == Config::INTERFACE_FULL);
-	_colour_conversion_label->Show (interface == Config::INTERFACE_FULL);
-	_colour_conversion->Show (interface == Config::INTERFACE_FULL);
-	_edit_colour_conversion_button->Show (interface == Config::INTERFACE_FULL);
+	_fade_in_label->Show (full);
+	_fade_in->Show (full);
+	_fade_out_label->Show (full);
+	_fade_out->Show (full);
+	_scale_to_label->Show (full);
+	_scale->show (full);
+	_filters_label->Show (full);
+	_filters->Show (full);
+	_filters_button->Show (full);
+	_colour_conversion_label->Show (full);
+	_colour_conversion->Show (full);
+	_edit_colour_conversion_button->Show (full);
 
-	if (interface == Config::INTERFACE_FULL) {
+	if (full) {
 		add_label_to_sizer (_grid, _fade_in_label, true, wxGBPosition (r, 0));
 		_grid->Add (_fade_in, wxGBPosition (r, 1), wxGBSpan (1, 3));
 		++r;
