@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-03 10:11+0100\n"
-"PO-Revision-Date: 2018-05-07 11:04+0200\n"
+"PO-Revision-Date: 2018-09-07 09:01+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: \n"
 "Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.7\n"
+"X-Generator: Poedit 2.1.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/tools/dcpomatic_kdm.cc:358
@@ -192,7 +192,7 @@ msgstr "Zavřít bez uložení filmu"
 
 #: src/tools/dcpomatic.cc:1164 src/tools/dcpomatic_player.cc:273
 msgid "Closed captions..."
-msgstr ""
+msgstr "Skryté tytulky…"
 
 #: src/tools/dcpomatic.cc:1137
 msgid "Copy settings\tCtrl-C"
@@ -213,9 +213,8 @@ msgid "Could not find batch converter."
 msgstr "Konvertor nebyl nalezen."
 
 #: src/tools/dcpomatic.cc:771
-#, fuzzy
 msgid "Could not find player."
-msgstr "Konvertor nebyl nalezen."
+msgstr "Nemohu najít přehrávač."
 
 #: src/tools/dcpomatic_player.cc:199
 msgid "Could not load DCP"
@@ -425,7 +424,7 @@ msgstr "Nový...\tCtrl-N"
 
 #: src/tools/dcpomatic.cc:1161
 msgid "Open DCP in &player"
-msgstr ""
+msgstr "Otevřít DCP v &player"
 
 #: src/tools/dcpomatic_kdm.cc:165
 msgid "Output"
@@ -437,7 +436,7 @@ msgstr "Vložit nastavení…\tCtrl-V"
 
 #: src/tools/dcpomatic_batch.cc:125
 msgid "Pause"
-msgstr ""
+msgstr "Pauza"
 
 #: src/tools/dcpomatic_kdm.cc:158
 msgid "Remove"
@@ -454,7 +453,7 @@ msgstr "Obnovit původní nastavení"
 
 #: src/tools/dcpomatic_batch.cc:128
 msgid "Resume"
-msgstr ""
+msgstr "Pokračovat"
 
 #: src/tools/dcpomatic.cc:1160
 msgid "S&how DCP"
