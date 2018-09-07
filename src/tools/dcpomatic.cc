@@ -45,6 +45,7 @@
 #include "wx/export_dialog.h"
 #include "wx/paste_dialog.h"
 #include "wx/focus_manager.h"
+#include "wx/initial_setup_dialog.h"
 #include "lib/film.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -1394,6 +1395,14 @@ private:
 		if (splash) {
 			splash->Destroy ();
 		}
+
+		if (!Config::instance()->nagged(Config::NAG_INITIAL_SETUP)) {
+			InitialSetupDialog* d = new InitialSetupDialog ();
+			d->ShowModal ();
+			d->Destroy ();
+			Config::instance()->set_nagged(Config::NAG_INITIAL_SETUP, true);
+		}
+
 		_frame->Show ();
 
 		if (!_film_to_load.empty() && boost::filesystem::is_directory (_film_to_load)) {

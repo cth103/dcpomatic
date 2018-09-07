@@ -162,7 +162,7 @@ Config::set_defaults ()
 	_christie_password = optional<string>();
 	_gdc_username = optional<string>();
 	_gdc_password = optional<string>();
-	_interface_complexity = INTERFACE_FULL;
+	_interface_complexity = INTERFACE_SIMPLE;
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);

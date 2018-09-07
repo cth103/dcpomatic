@@ -360,6 +360,8 @@ public:
 		NAG_ENCRYPTED_METADATA,
 		NAG_REMAKE_DECRYPTION_CHAIN,
 		NAG_BAD_SIGNER_CHAIN,
+		/* Not really a nag but it's the same idea */
+		NAG_INITIAL_SETUP,
 		NAG_COUNT
 	};
 
