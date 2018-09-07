@@ -50,14 +50,26 @@ private:
 
 	FilmViewer* _viewer;
 
+	wxStaticText* _h_label;
+	wxStaticText* _m_label;
+	wxStaticText* _s_label;
+	wxStaticText* _f_label;
+	wxStaticText* _colon[3];
+	wxStaticText* _tip;
+	wxStaticText* _position_label;
 	Timecode<DCPTime>* _position;
 	wxButton* _move_to_start_of_reel;
+	wxStaticText* _full_length_label;
 	Timecode<DCPTime>* _full_length;
+	wxStaticText* _trim_start_label;
 	Timecode<ContentTime>* _trim_start;
 	wxButton* _trim_start_to_playhead;
 	wxButton* _trim_end_to_playhead;
+	wxStaticText* _trim_end_label;
 	Timecode<ContentTime>* _trim_end;
+	wxStaticText* _play_length_label;
 	Timecode<DCPTime>* _play_length;
+	wxStaticText* _video_frame_rate_label;
 	wxTextCtrl* _video_frame_rate;
 	wxButton* _set_video_frame_rate;
 };

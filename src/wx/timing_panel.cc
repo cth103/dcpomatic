@@ -50,80 +50,52 @@ TimingPanel::TimingPanel (ContentPanel* p, FilmViewer* viewer)
 	: ContentSubPanel (p, S_("Timing|Timing"))
 	, _viewer (viewer)
 {
-	wxFlexGridSizer* grid = new wxFlexGridSizer (2, 4, 4);
-	_sizer->Add (grid, 0, wxALL, 8);
-
 	wxSize size = TimecodeBase::size (this);
 
-	wxSizer* labels = new wxBoxSizer (wxHORIZONTAL);
-	//// TRANSLATORS: this is an abbreviation for "hours"
-	wxStaticText* t = new wxStaticText (this, wxID_ANY, _("h"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
-#ifdef DCPOMATIC_LINUX
-	/* Hack to work around failure to centre text on GTK */
-	gtk_label_set_line_wrap (GTK_LABEL (t->GetHandle()), FALSE);
-#endif
-	labels->Add (t, 1, wxEXPAND);
-	add_label_to_sizer (labels, this, wxT (":"), false);
-	//// TRANSLATORS: this is an abbreviation for "minutes"
-	t = new wxStaticText (this, wxID_ANY, _("m"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
-#ifdef DCPOMATIC_LINUX
-	gtk_label_set_line_wrap (GTK_LABEL (t->GetHandle()), FALSE);
-#endif
-	labels->Add (t, 1, wxEXPAND);
-	add_label_to_sizer (labels, this, wxT (":"), false);
-	//// TRANSLATORS: this is an abbreviation for "seconds"
-	t = new wxStaticText (this, wxID_ANY, _("s"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
-#ifdef DCPOMATIC_LINUX
-	gtk_label_set_line_wrap (GTK_LABEL (t->GetHandle()), FALSE);
-#endif
-	labels->Add (t, 1, wxEXPAND);
-	add_label_to_sizer (labels, this, wxT (":"), false);
-	//// TRANSLATORS: this is an abbreviation for "frames"
-	t = new wxStaticText (this, wxID_ANY, _("f"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
-#ifdef DCPOMATIC_LINUX
-	gtk_label_set_line_wrap (GTK_LABEL (t->GetHandle()), FALSE);
-#endif
-	labels->Add (t, 1, wxEXPAND);
-	grid->Add (new wxStaticText (this, wxID_ANY, wxT ("")));
-	grid->Add (labels);
-
-	add_label_to_sizer (grid, this, _("Position"), true);
-	_position = new Timecode<DCPTime> (this);
-	grid->Add (_position);
-	_move_to_start_of_reel = new wxButton (this, wxID_ANY, _("Move to start of reel"));
-	grid->AddSpacer (0);
-	grid->Add (_move_to_start_of_reel);
-	add_label_to_sizer (grid, this, _("Full length"), true);
-	_full_length = new Timecode<DCPTime> (this);
-	grid->Add (_full_length);
-	add_label_to_sizer (grid, this, _("Trim from start"), true);
-	_trim_start = new Timecode<ContentTime> (this);
-	grid->Add (_trim_start);
-	_trim_start_to_playhead = new wxButton (this, wxID_ANY, _("Trim up to current position"));
-	grid->AddSpacer (0);
-	grid->Add (_trim_start_to_playhead);
-	add_label_to_sizer (grid, this, _("Trim from end"), true);
-	_trim_end = new Timecode<ContentTime> (this);
-	grid->Add (_trim_end);
-	_trim_end_to_playhead = new wxButton (this, wxID_ANY, _("Trim after current position"));
-	grid->AddSpacer (0);
-	grid->Add (_trim_end_to_playhead);
-	add_label_to_sizer (grid, this, _("Play length"), true);
-	_play_length = new Timecode<DCPTime> (this);
-	grid->Add (_play_length);
-
-	{
-		add_label_to_sizer (grid, this, _("Video frame rate"), true);
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_video_frame_rate = new wxTextCtrl (this, wxID_ANY);
-		s->Add (_video_frame_rate, 1, wxEXPAND);
-		_set_video_frame_rate = new wxButton (this, wxID_ANY, _("Set"));
-		_set_video_frame_rate->Enable (false);
-		s->Add (_set_video_frame_rate, 0, wxLEFT | wxRIGHT, 8);
-		grid->Add (s, 1, wxEXPAND);
+	for (int i = 0; i < 3; ++i) {
+		_colon[i] = create_label (this, wxT(":"), false);
 	}
 
-	grid->AddSpacer (0);
+	//// TRANSLATORS: this is an abbreviation for "hours"
+	_h_label = new wxStaticText (this, wxID_ANY, _("h"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
+#ifdef DCPOMATIC_LINUX
+	/* Hack to work around failure to centre text on GTK */
+	gtk_label_set_line_wrap (GTK_LABEL(_h_label->GetHandle()), FALSE);
+#endif
+	//// TRANSLATORS: this is an abbreviation for "minutes"
+	_m_label = new wxStaticText (this, wxID_ANY, _("m"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
+#ifdef DCPOMATIC_LINUX
+	gtk_label_set_line_wrap (GTK_LABEL (_m_label->GetHandle()), FALSE);
+#endif
+	//// TRANSLATORS: this is an abbreviation for "seconds"
+	_s_label = new wxStaticText (this, wxID_ANY, _("s"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
+#ifdef DCPOMATIC_LINUX
+	gtk_label_set_line_wrap (GTK_LABEL(_s_label->GetHandle()), FALSE);
+#endif
+	//// TRANSLATORS: this is an abbreviation for "frames"
+	_f_label = new wxStaticText (this, wxID_ANY, _("f"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
+#ifdef DCPOMATIC_LINUX
+	gtk_label_set_line_wrap (GTK_LABEL(_f_label->GetHandle()), FALSE);
+#endif
+
+	_position_label = create_label (this, _("Position"), true);
+	_position = new Timecode<DCPTime> (this);
+	_move_to_start_of_reel = new wxButton (this, wxID_ANY, _("Move to start of reel"));
+	_full_length_label = create_label (this, _("Full length"), true);
+	_full_length = new Timecode<DCPTime> (this);
+	_trim_start_label = create_label (this, _("Trim from start"), true);
+	_trim_start = new Timecode<ContentTime> (this);
+	_trim_start_to_playhead = new wxButton (this, wxID_ANY, _("Trim up to current position"));
+	_trim_end_label = create_label (this, _("Trim from end"), true);
+	_trim_end = new Timecode<ContentTime> (this);
+	_trim_end_to_playhead = new wxButton (this, wxID_ANY, _("Trim after current position"));
+	_play_length_label = create_label (this, _("Play length"), true);
+	_play_length = new Timecode<DCPTime> (this);
+
+	_video_frame_rate_label = create_label (this, _("Video frame rate"), true);
+	_video_frame_rate = new wxTextCtrl (this, wxID_ANY);
+	_set_video_frame_rate = new wxButton (this, wxID_ANY, _("Set"));
+	_set_video_frame_rate->Enable (false);
 
 	/* We can't use Wrap() here as it doesn't work with markup:
 	 * http://trac.wxwidgets.org/ticket/13389
@@ -143,16 +115,12 @@ TimingPanel::TimingPanel (ContentPanel* p, FilmViewer* viewer)
 		}
 	}
 
-	t = new wxStaticText (this, wxID_ANY, wxT (""));
-	t->SetLabelMarkup (out);
+	_tip = new wxStaticText (this, wxID_ANY, wxT (""));
+	_tip->SetLabelMarkup (out);
 #ifdef DCPOMATIC_OSX
 	/* Hack to stop hidden text on some versions of OS X */
-	t->SetMinSize (wxSize (-1, 256));
+	_tip->SetMinSize (wxSize (-1, 256));
 #endif
-	grid->Add (t, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, 6);
-
-	/* Completely speculative fix for #891 */
-	grid->Layout ();
 
 	_position->Changed.connect    (boost::bind (&TimingPanel::position_changed, this));
 	_move_to_start_of_reel->Bind  (wxEVT_BUTTON, boost::bind (&TimingPanel::move_to_start_of_reel_clicked, this));
@@ -168,12 +136,87 @@ TimingPanel::TimingPanel (ContentPanel* p, FilmViewer* viewer)
 	_viewer->ImageChanged.connect (boost::bind (&TimingPanel::setup_sensitivity, this));
 
 	setup_sensitivity ();
+	add_to_grid ();
 }
 
 void
 TimingPanel::add_to_grid ()
 {
+	bool const full = Config::instance()->interface_complexity() == Config::INTERFACE_FULL;
 
+	int r = 0;
+
+	wxSizer* labels = new wxBoxSizer (wxHORIZONTAL);
+	labels->Add (_h_label, 1, wxEXPAND);
+	add_label_to_sizer (labels, _colon[0], false);
+	labels->Add (_m_label, 1, wxEXPAND);
+	add_label_to_sizer (labels, _colon[1], false);
+	labels->Add (_s_label, 1, wxEXPAND);
+	add_label_to_sizer (labels, _colon[2], false);
+	labels->Add (_f_label, 1, wxEXPAND);
+	_grid->Add (labels, wxGBPosition(r, 1));
+	++r;
+
+	add_label_to_sizer (_grid, _position_label, true, wxGBPosition(r, 0));
+	_grid->Add (_position, wxGBPosition(r, 1));
+	++r;
+
+	_move_to_start_of_reel->Show (full);
+	_full_length_label->Show (full);
+	_full_length->Show (full);
+	_trim_start_label->Show (full);
+	_trim_start->Show (full);
+	_trim_start_to_playhead->Show (full);
+	_trim_end_label->Show (full);
+	_trim_end->Show (full);
+	_trim_end_to_playhead->Show (full);
+	_play_length_label->Show (full);
+	_play_length->Show (full);
+	_video_frame_rate_label->Show (full);
+	_video_frame_rate->Show (full);
+	_set_video_frame_rate->Show (full);
+	_tip->Show (full);
+
+	if (full) {
+		_grid->Add (_move_to_start_of_reel, wxGBPosition(r, 1));
+		++r;
+
+		add_label_to_sizer (_grid, _full_length_label, true, wxGBPosition(r, 0));
+		_grid->Add (_full_length, wxGBPosition(r, 1));
+		++r;
+
+		add_label_to_sizer (_grid, _trim_start_label, true, wxGBPosition(r, 0));
+		_grid->Add (_trim_start, wxGBPosition(r, 1));
+		++r;
+
+		_grid->Add (_trim_start_to_playhead, wxGBPosition(r, 1));
+		++r;
+
+		add_label_to_sizer (_grid, _trim_end_label, true, wxGBPosition(r, 0));
+		_grid->Add (_trim_end, wxGBPosition(r, 1));
+		++r;
+
+		_grid->Add (_trim_end_to_playhead, wxGBPosition(r, 1));
+		++r;
+
+		add_label_to_sizer (_grid, _play_length_label, true, wxGBPosition(r, 0));
+		_grid->Add (_play_length, wxGBPosition(r, 1));
+		++r;
+
+		{
+			add_label_to_sizer (_grid, _video_frame_rate_label, true, wxGBPosition(r, 0));
+			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+			s->Add (_video_frame_rate, 1, wxEXPAND);
+			s->Add (_set_video_frame_rate, 0, wxLEFT | wxRIGHT, 8);
+			_grid->Add (s, wxGBPosition(r, 1), wxGBSpan(1, 2));
+		}
+		++r;
+
+		_grid->Add (_tip, wxGBPosition(r, 1), wxGBSpan(1, 2));
+	}
+
+	/* Completely speculative fix for #891 */
+	_grid->Layout ();
 }
 
 void
