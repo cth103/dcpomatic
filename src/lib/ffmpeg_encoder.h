@@ -87,10 +87,6 @@ private:
 
 	boost::shared_ptr<AudioBuffers> _pending_audio;
 
-	mutable boost::mutex _queue_mutex;
-	boost::condition _queue_full;
-	std::list<std::pair<boost::shared_ptr<PlayerVideo>, DCPTime> > _queue;
-
 	boost::shared_ptr<Butler> _butler;
 
 	/** Store of shared_ptr<Image> to keep them alive whilst raw pointers into
