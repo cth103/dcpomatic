@@ -227,10 +227,6 @@ VideoPanel::add_to_grid ()
 	_frame_type->add (_grid, wxGBPosition(r, 1), wxGBSpan(1, 2));
 	++r;
 
-	int flags = wxTOP;
-#ifdef __WXOSX__
-	flags |= wxALIGN_RIGHT;
-#endif
 	int cr = 0;
 	wxGridBagSizer* crop = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	add_label_to_sizer (crop, _left_crop_label, true, wxGBPosition (cr, 0));
