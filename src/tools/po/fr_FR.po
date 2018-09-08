@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-03 10:11+0100\n"
-"PO-Revision-Date: 2018-07-19 11:55+0100\n"
+"PO-Revision-Date: 2018-09-07 16:05+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -191,7 +191,7 @@ msgstr "Fermer sans sauvegarder le film"
 
 #: src/tools/dcpomatic.cc:1164 src/tools/dcpomatic_player.cc:273
 msgid "Closed captions..."
-msgstr ""
+msgstr "Sous-titres codés..."
 
 #: src/tools/dcpomatic.cc:1137
 msgid "Copy settings\tCtrl-C"
@@ -440,7 +440,7 @@ msgstr "Coller les paramètres...\tCtrl-P"
 
 #: src/tools/dcpomatic_batch.cc:125
 msgid "Pause"
-msgstr ""
+msgstr "Pause"
 
 #: src/tools/dcpomatic_kdm.cc:158
 msgid "Remove"
@@ -457,7 +457,7 @@ msgstr "Rétablir préférences par défaut"
 
 #: src/tools/dcpomatic_batch.cc:128
 msgid "Resume"
-msgstr ""
+msgstr "Reprendre"
 
 #: src/tools/dcpomatic.cc:1160
 msgid "S&how DCP"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-03 10:11+0100\n"
-"PO-Revision-Date: 2018-07-19 11:54+0100\n"
+"PO-Revision-Date: 2018-09-07 16:04+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -324,7 +324,7 @@ msgstr "Canaux"
 
 #: src/lib/check_content_change_job.cc:46
 msgid "Check content for changes"
-msgstr ""
+msgstr "Vérifier les changements dans les contenus"
 
 #: src/lib/reel_writer.cc:104
 msgid "Checking existing image data"
@@ -332,7 +332,7 @@ msgstr "Recherche de données images existantes"
 
 #: src/lib/check_content_change_job.cc:90
 msgid "Choose 'Make DCP' again when you have done this."
-msgstr ""
+msgstr "Choisir \"Faire DCP\" à nouveau, une fois ceci fait."
 
 #: src/lib/ffmpeg_content.cc:607
 msgid "Chroma-derived constant luminance"
@@ -343,9 +343,8 @@ msgid "Chroma-derived non-constant luminance"
 msgstr "Luminance non constante dérivée de la chrominance"
 
 #: src/lib/types.cc:134
-#, fuzzy
 msgid "Closed captions"
-msgstr "Réduction de bruit"
+msgstr "Sous-titres codés"
 
 #: src/lib/ffmpeg_content.cc:566
 msgid "Colour primaries"
@@ -396,10 +395,10 @@ msgid "Content to be joined must all have or not have audio"
 msgstr "Les contenus à ajouter doivent tous avoir ou ne pas avoir de son"
 
 #: src/lib/ffmpeg_content.cc:154
-#, fuzzy
 msgid "Content to be joined must all have or not have subtitles or captions"
 msgstr ""
-"Les contenus à ajouter doivent tous avoir ou ne pas avoir de sous-titres"
+"Les contenus à ajouter doivent TOUS avoir ou ne pas avoir de sous-titres, "
+"codés ou non."
 
 #: src/lib/ffmpeg_content.cc:148
 msgid "Content to be joined must all have or not have video"
@@ -489,9 +488,8 @@ msgid "Content to be joined must have the same video frame type."
 msgstr "Le contenu à ajouter doit avoir le même type de trame vidéo"
 
 #: src/lib/text_content.cc:297
-#, fuzzy
 msgid "Content to be joined must use the same DCP track."
-msgstr "Le contenu à ajouter doit avoir la même police de sous-titres"
+msgstr "Le contenu à ajouter doit utiliser la même piste de DCP"
 
 #: src/lib/text_content.cc:293 src/lib/text_content.cc:305
 msgid "Content to be joined must use the same fonts."
@@ -522,9 +520,8 @@ msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Ne parvient pas à décoder le fichier JPEG2000 %1 (%2)"
 
 #: src/lib/magick_image_proxy.cc:106
-#, fuzzy
 msgid "Could not decode image file %1 (%2)"
-msgstr "Ne parvient pas à décoder le fichier image (%1)"
+msgstr "Ne parvient pas à décoder le fichier image %1 (%2)"
 
 #: src/lib/magick_image_proxy.cc:108
 msgid "Could not decode image file (%1)"
@@ -659,9 +656,8 @@ msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 et CP750"
 
 #: src/lib/internet.cc:73
-#, fuzzy
 msgid "Download failed (%1 error %2)"
-msgstr "Echec de téléchargement (%1/%2 erreur %3)"
+msgstr "Echec de téléchargement (%1 error %2)"
 
 #: src/lib/frame_rate_change.cc:72
 msgid "Each content frame will be doubled in the DCP.\n"
@@ -709,9 +705,8 @@ msgid "Examine content"
 msgstr "Examen du contenu"
 
 #: src/lib/hints.cc:264
-#, fuzzy
 msgid "Examining closed captions"
-msgstr "Examen du contenu"
+msgstr "Examen des sous-titres codés"
 
 #: src/lib/ffmpeg_content.cc:598
 msgid "FCC"
@@ -722,9 +717,8 @@ msgid "Failed to authenticate with server (%1)"
 msgstr "L'authentification du serveur (%1) a échouée"
 
 #: src/lib/emailer.cc:222
-#, fuzzy
 msgid "Failed to send email"
-msgstr "Echec d'envoi email (%1)"
+msgstr "Echec d'envoi email"
 
 #: src/lib/dcp_content_type.cc:46
 msgid "Feature"
@@ -846,11 +840,12 @@ msgstr "Envoi KDM: $CPL_NAME"
 
 #: src/lib/dcp.cc:76
 msgid "KDM was made for DCP-o-matic but not for its leaf certificate."
-msgstr ""
+msgstr "La clé a été créée pour DCP-o-matic mais pas pour son certificat."
 
 #: src/lib/dcp.cc:74
 msgid "KDM was not made for DCP-o-matic's decryption certificate."
 msgstr ""
+"La clé n'a pas été créée pour le certificat de décryptage de DCP-o-matic."
 
 #: src/lib/filter.cc:72
 msgid "Kernel deinterlacer"
@@ -993,9 +988,8 @@ msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Seul le dernier contenu à ajouter peut être rogné au point de sortie."
 
 #: src/lib/types.cc:132
-#, fuzzy
 msgid "Open subtitles"
-msgstr "Sous-titres textes"
+msgstr "Sous-titres"
 
 #: src/lib/filter.cc:67 src/lib/filter.cc:68 src/lib/filter.cc:69
 #: src/lib/filter.cc:70
@@ -1161,18 +1155,25 @@ msgid ""
 "\n"
 "These files will now be re-examined, so you may need to check their settings."
 msgstr ""
+"Certains fichiers ont été modifiés depuis leur ajout au projet.\n"
+"\n"
+"Ces fichiers vont être réexaminés. Vous devriez vérifier leurs réglages."
 
 #: src/lib/hints.cc:296
 msgid ""
 "Some of your closed captions have lines longer than %1 characters, so they "
 "will probably be word-wrapped."
 msgstr ""
+"Certains de vos sous-titres ont des lignes plus longues que %1 caractères, "
+"aussi certains mots seront-ils probablement coupés."
 
 #: src/lib/hints.cc:302
 msgid ""
 "Some of your closed captions span more than %1 lines, so they will be "
 "truncated."
 msgstr ""
+"Certains de vos sous-titres font plus de %1 lignes, aussi seront ils "
+"tronqués."
 
 #: src/lib/film.cc:326
 msgid "Some of your content needs a KDM"
@@ -1298,7 +1299,7 @@ msgstr ""
 
 #: src/lib/types.cc:130
 msgid "Timed text"
-msgstr ""
+msgstr "Texte chronométré"
 
 #: src/lib/dcp_content_type.cc:48
 msgid "Trailer"
@@ -1439,7 +1440,7 @@ msgstr ""
 
 #: src/lib/hints.cc:308
 msgid "You have overlapping closed captions, which are not allowed."
-msgstr ""
+msgstr "Des sous-titres codés et non autorisés sont présents."
 
 #: src/lib/hints.cc:121
 msgid ""
@@ -1586,15 +1587,13 @@ msgstr "h"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:626
-#, fuzzy
 msgid "it does not have closed captions in all its reels."
-msgstr "Pas de son dans toutes ses bobines"
+msgstr "Pas de sous-titres dans toutes ses bobines"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:621
-#, fuzzy
 msgid "it does not have open subtitles in all its reels."
-msgstr "Pas de sous-titres dans toutes ses bobines"
+msgstr "Pas de sous-titres ouverts dans toutes ses bobines"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:589
@@ -1623,9 +1622,8 @@ msgstr "Contenus audio superposés, enlevez les autres contenus."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:632
-#, fuzzy
 msgid "it overlaps other text content; remove the other content."
-msgstr "Contenus vidéo superposés, enlevez les autres contenus."
+msgstr "Contenus sous-titres superposés, enlevez les autres contenus."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:560
