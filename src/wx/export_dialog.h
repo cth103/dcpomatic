@@ -31,7 +31,7 @@ public:
 	explicit ExportDialog (wxWindow* parent);
 
 	boost::filesystem::path path () const;
-	FFmpegEncoder::Format format () const;
+	ExportFormat format () const;
 	bool mixdown_to_stereo () const;
 	int x264_crf () const;
 

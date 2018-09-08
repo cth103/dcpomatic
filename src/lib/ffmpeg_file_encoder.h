@@ -1,0 +1,93 @@
+/*
+    Copyright (C) 2017-2018 Carl Hetherington <cth@carlh.net>
+
+    This file is part of DCP-o-matic.
+
+    DCP-o-matic is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    DCP-o-matic is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+#ifndef DCPOMATIC_FFMPEG_FILE_ENCODER_H
+#define DCPOMATIC_FFMPEG_FILE_ENCODER_H
+
+#include "encoder.h"
+#include "event_history.h"
+#include "audio_mapping.h"
+#include "log.h"
+extern "C" {
+#include <libavcodec/avcodec.h>
+#include <libavformat/avformat.h>
+}
+
+class FFmpegFileEncoder
+{
+public:
+	FFmpegFileEncoder (
+		dcp::Size video_frame_size,
+		int video_frame_rate,
+		int audio_frame_rate,
+		int channels,
+		boost::shared_ptr<Log> log,
+		ExportFormat,
+		int x264_crf,
+		boost::filesystem::path output
+		);
+
+	void video (boost::shared_ptr<PlayerVideo>, DCPTime);
+	void audio (boost::shared_ptr<AudioBuffers>);
+	void subtitle (PlayerText, DCPTimePeriod);
+
+	void flush ();
+
+private:
+	void setup_video ();
+	void setup_audio ();
+
+	void audio_frame (int size);
+
+	static void buffer_free(void* opaque, uint8_t* data);
+	void buffer_free2(uint8_t* data);
+
+	AVCodec* _video_codec;
+	AVCodecContext* _video_codec_context;
+	AVCodec* _audio_codec;
+	AVCodecContext* _audio_codec_context;
+	AVFormatContext* _format_context;
+	AVStream* _video_stream;
+	AVStream* _audio_stream;
+	AVPixelFormat _pixel_format;
+	AVSampleFormat _sample_format;
+	AVDictionary* _video_options;
+	std::string _video_codec_name;
+	std::string _audio_codec_name;
+	int _audio_channels;
+
+	boost::filesystem::path _output;
+	dcp::Size _video_frame_size;
+	int _video_frame_rate;
+	int _audio_frame_rate;
+	boost::shared_ptr<Log> _log;
+
+	boost::shared_ptr<AudioBuffers> _pending_audio;
+
+	/** Store of shared_ptr<Image> to keep them alive whilst raw pointers into
+	    their data have been passed to FFmpeg.
+	*/
+	std::map<uint8_t*, boost::shared_ptr<const Image> > _pending_images;
+
+	static int _video_stream_index;
+	static int _audio_stream_index;
+};
+
+#endif

@@ -43,9 +43,9 @@ wxString format_extensions[] = {
 	"mp4"
 };
 
-FFmpegEncoder::Format formats[] = {
-	FFmpegEncoder::FORMAT_PRORES,
-	FFmpegEncoder::FORMAT_H264,
+ExportFormat formats[] = {
+	EXPORT_FORMAT_PRORES,
+	EXPORT_FORMAT_H264,
 };
 
 ExportDialog::ExportDialog (wxWindow* parent)
@@ -110,7 +110,7 @@ ExportDialog::path () const
 	return wx_to_std (fn.GetFullPath());
 }
 
-FFmpegEncoder::Format
+ExportFormat
 ExportDialog::format () const
 {
 	DCPOMATIC_ASSERT (_format->GetSelection() >= 0 && _format->GetSelection() < FORMATS);

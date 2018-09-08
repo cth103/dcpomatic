@@ -161,6 +161,12 @@ extern std::string text_type_to_string (TextType t);
 extern std::string text_type_to_name (TextType t);
 extern TextType string_to_text_type (std::string s);
 
+enum ExportFormat
+{
+	EXPORT_FORMAT_PRORES,
+	EXPORT_FORMAT_H264
+};
+
 /** @struct Crop
  *  @brief A description of the crop of an image or video.
  */
