@@ -478,8 +478,8 @@ try
 	_gdc_password = f.optional_string_child("GDCPassword");
 
 	optional<string> ic = f.optional_string_child("InterfaceComplexity");
-	if (ic && *ic == "simple") {
-		_interface_complexity = INTERFACE_SIMPLE;
+	if (ic && *ic == "full") {
+		_interface_complexity = INTERFACE_FULL;
 	}
 
 	/* Replace any cinemas from config.xml with those from the configured file */
