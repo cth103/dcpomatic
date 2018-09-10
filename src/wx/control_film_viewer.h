@@ -58,6 +58,8 @@ private:
 	void outline_content_changed ();
 	void eye_changed ();
 	void position_changed ();
+	void started ();
+	void stopped ();
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<FilmViewer> _viewer;

@@ -411,6 +411,7 @@ FilmViewer::start ()
 	_playing = true;
 	_dropped = 0;
 	timer ();
+	Started ();
 }
 
 bool
@@ -426,6 +427,7 @@ FilmViewer::stop ()
 	}
 
 	_playing = false;
+	Stopped ();
 	return true;
 }
 

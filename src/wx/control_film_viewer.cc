@@ -96,6 +96,8 @@ ControlFilmViewer::ControlFilmViewer (wxWindow* parent, bool outline_content, bo
 
 	_viewer->ImageChanged.connect (boost::bind(&ControlFilmViewer::image_changed, this, _1));
 	_viewer->PositionChanged.connect (boost::bind(&ControlFilmViewer::position_changed, this));
+	_viewer->Started.connect (boost::bind(&ControlFilmViewer::started, this));
+	_viewer->Stopped.connect (boost::bind(&ControlFilmViewer::stopped, this));
 
 	set_film (shared_ptr<Film> ());
 
@@ -104,6 +106,18 @@ ControlFilmViewer::ControlFilmViewer (wxWindow* parent, bool outline_content, bo
 	JobManager::instance()->ActiveJobsChanged.connect (
 		bind (&ControlFilmViewer::active_jobs_changed, this, _2)
 		);
+}
+
+void
+ControlFilmViewer::started ()
+{
+	_play_button->SetValue (true);
+}
+
+void
+ControlFilmViewer::stopped ()
+{
+	_play_button->SetValue (false);
 }
 
 void
@@ -380,14 +394,12 @@ ControlFilmViewer::show_closed_captions ()
 void
 ControlFilmViewer::start ()
 {
-	_play_button->SetValue (true);
 	_viewer->start ();
 }
 
 bool
 ControlFilmViewer::stop ()
 {
-	_play_button->SetValue (false);
 	return _viewer->stop ();
 }
 

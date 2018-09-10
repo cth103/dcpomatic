@@ -95,6 +95,8 @@ public:
 
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
 	boost::signals2::signal<void ()> PositionChanged;
+	boost::signals2::signal<void ()> Started;
+	boost::signals2::signal<void ()> Stopped;
 
 private:
 	void paint_panel ();
