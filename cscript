@@ -328,8 +328,8 @@ def dependencies(target):
     else:
         deps = [('ffmpeg-cdist', '27f25fb', ffmpeg_options)]
 
-    deps.append(('libdcp', '5d8a158'))
-    deps.append(('libsub', '7adea71'))
+    deps.append(('libdcp', 'c2fd4f2'))
+    deps.append(('libsub', '549c7c1'))
     deps.append(('rtaudio-cdist', '739969e'))
 
     return deps
