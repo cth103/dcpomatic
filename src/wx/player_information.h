@@ -21,7 +21,7 @@
 #include <wx/wx.h>
 #include <boost/scoped_ptr.hpp>
 
-class FilmViewer;
+class ControlFilmViewer;
 
 class PlayerInformation : public wxPanel
 {

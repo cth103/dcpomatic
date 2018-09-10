@@ -1,15 +1,28 @@
 #include "control_film_viewer.h"
 #include "film_viewer.h"
 #include "wx_util.h"
+#include "playhead_to_timecode_dialog.h"
+#include "playhead_to_frame_dialog.h"
+#include "lib/job_manager.h"
 #include <wx/wx.h>
 #include <wx/tglbtn.h>
 
 using std::string;
 using boost::optional;
+using boost::shared_ptr;
+using boost::weak_ptr;
 
+/** @param outline_content true if viewer should present an "outline content" checkbox.
+ *  @param jump_to_selected true if viewer should present a "jump to selected" checkbox.
+ */
 ControlFilmViewer::ControlFilmViewer (wxWindow* parent, bool outline_content, bool jump_to_selected)
 	: wxPanel (parent)
-	, _viewer (new FilmViewer(this, outline_content, jump_to_selected))
+	, _viewer (new FilmViewer(this))
+	, _slider_being_moved (false)
+	, _was_running_before_slider (false)
+	, _outline_content (0)
+	, _eye (0)
+	, _jump_to_selected (0)
 	, _slider (new wxSlider (this, wxID_ANY, 0, 0, 4096))
 	, _rewind_button (new wxButton (this, wxID_ANY, wxT("|<")))
 	, _back_button (new wxButton (this, wxID_ANY, wxT("<")))
@@ -61,7 +74,11 @@ ControlFilmViewer::ControlFilmViewer (wxWindow* parent, bool outline_content, bo
 	_back_button->SetMinSize (wxSize (32, -1));
 	_forward_button->SetMinSize (wxSize (32, -1));
 
-	_eye->Bind              (wxEVT_CHOICE,              boost::bind (&FilmViewer::slow_refresh, _viewer.get()));
+	_eye->Bind (wxEVT_CHOICE, boost::bind (&ControlFilmViewer::eye_changed, this));
+	if (_outline_content) {
+		_outline_content->Bind (wxEVT_CHECKBOX, boost::bind (&ControlFilmViewer::outline_content_changed, this));
+	}
+
 	_slider->Bind           (wxEVT_SCROLL_THUMBTRACK,   boost::bind (&ControlFilmViewer::slider_moved,    this, false));
 	_slider->Bind           (wxEVT_SCROLL_PAGEUP,       boost::bind (&ControlFilmViewer::slider_moved,    this, true));
 	_slider->Bind           (wxEVT_SCROLL_PAGEDOWN,     boost::bind (&ControlFilmViewer::slider_moved,    this, true));
@@ -76,6 +93,56 @@ ControlFilmViewer::ControlFilmViewer (wxWindow* parent, bool outline_content, bo
 		_jump_to_selected->Bind (wxEVT_CHECKBOX, boost::bind (&ControlFilmViewer::jump_to_selected_clicked, this));
 		_jump_to_selected->SetValue (Config::instance()->jump_to_selected ());
 	}
+
+	_viewer->ImageChanged.connect (boost::bind(&ControlFilmViewer::image_changed, this, _1));
+	_viewer->PositionChanged.connect (boost::bind(&ControlFilmViewer::position_changed, this));
+
+	set_film (shared_ptr<Film> ());
+
+	setup_sensitivity ();
+
+	JobManager::instance()->ActiveJobsChanged.connect (
+		bind (&ControlFilmViewer::active_jobs_changed, this, _2)
+		);
+
+	_film->Change.connect (boost::bind (&ControlFilmViewer::film_change, this, _1, _2));
+}
+
+void
+ControlFilmViewer::position_changed ()
+{
+	update_position_label ();
+	update_position_slider ();
+}
+
+void
+ControlFilmViewer::eye_changed ()
+{
+	_viewer->set_eyes (_eye->GetSelection() == 0 ? EYES_LEFT : EYES_RIGHT);
+}
+
+void
+ControlFilmViewer::outline_content_changed ()
+{
+	_viewer->set_outline_content (_outline_content->GetValue());
+}
+
+void
+ControlFilmViewer::film_change (ChangeType type, Film::Property p)
+{
+	if (type != CHANGE_TYPE_DONE) {
+		return;
+	}
+
+	if (p == Film::CONTENT || p == Film::THREE_D) {
+		setup_sensitivity ();
+	}
+}
+
+void
+ControlFilmViewer::image_changed (weak_ptr<PlayerVideo> pv)
+{
+	ImageChanged (pv);
 }
 
 /** @param page true if this was a PAGEUP/PAGEDOWN event for which we won't receive a THUMBRELEASE */
@@ -280,6 +347,8 @@ ControlFilmViewer::set_film (shared_ptr<Film> film)
 
 	_film = film;
 
+	setup_sensitivity ();
+
 	update_position_slider ();
 	update_position_label ();
 }
@@ -311,12 +380,14 @@ ControlFilmViewer::show_closed_captions ()
 void
 ControlFilmViewer::start ()
 {
+	_play_button->SetValue (true);
 	_viewer->start ();
 }
 
 bool
 ControlFilmViewer::stop ()
 {
+	_play_button->SetValue (false);
 	return _viewer->stop ();
 }
 
@@ -324,4 +395,40 @@ bool
 ControlFilmViewer::playing () const
 {
 	return _viewer->playing ();
+}
+
+void
+ControlFilmViewer::slow_refresh ()
+{
+	_viewer->slow_refresh ();
+}
+
+int
+ControlFilmViewer::dropped () const
+{
+	return _viewer->dropped ();
+}
+
+shared_ptr<Film>
+ControlFilmViewer::film () const
+{
+	return _film;
+}
+
+optional<int>
+ControlFilmViewer::dcp_decode_reduction () const
+{
+	return _viewer->dcp_decode_reduction ();
+}
+
+DCPTime
+ControlFilmViewer::position () const
+{
+	return _viewer->position ();
+}
+
+void
+ControlFilmViewer::set_coalesce_player_changes (bool c)
+{
+	_viewer->set_coalesce_player_changes (c);
 }

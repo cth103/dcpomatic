@@ -20,7 +20,7 @@
 
 #include "timing_panel.h"
 #include "wx_util.h"
-#include "film_viewer.h"
+#include "control_film_viewer.h"
 #include "timecode.h"
 #include "content_panel.h"
 #include "move_to_dialog.h"

@@ -22,6 +22,7 @@
 #include "control_film_viewer.h"
 #include "wx_util.h"
 #include "lib/image.h"
+#include "lib/film.h"
 #include "lib/dcp_video.h"
 #include <dcp/locale_convert.h>
 #include <dcp/openjpeg_image.h>

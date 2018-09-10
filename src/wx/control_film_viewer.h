@@ -1,11 +1,15 @@
 #include "lib/dcpomatic_time.h"
+#include "lib/types.h"
+#include "lib/film.h"
 #include <wx/wx.h>
 #include <boost/shared_ptr.hpp>
+#include <boost/signals2.hpp>
 
 class FilmViewer;
 class Film;
 class ClosedCaptionsDialog;
 class Content;
+class PlayerVideo;
 class wxToggleButton;
 
 class ControlFilmViewer : public wxPanel
@@ -14,6 +18,8 @@ public:
 	ControlFilmViewer (wxWindow* parent, bool outline_content = true, bool jump_to_selected = true);
 
 	void set_film (boost::shared_ptr<Film> film);
+	void back_frame ();
+	void forward_frame ();
 
 	/* FilmViewer proxies */
 	void set_position (DCPTime p);
@@ -23,8 +29,13 @@ public:
 	void start ();
 	bool stop ();
 	bool playing () const;
-	void back_frame ();
-	void forward_frame ();
+	void slow_refresh ();
+	int dropped () const;
+	boost::shared_ptr<Film> film () const;
+	boost::optional<int> dcp_decode_reduction () const;
+	DCPTime position () const;
+	void set_coalesce_player_changes (bool c);
+	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
 
 private:
 	void update_position_label ();
@@ -41,6 +52,12 @@ private:
 	void timecode_clicked ();
 	void check_play_state ();
 	void active_jobs_changed (boost::optional<std::string>);
+	DCPTime nudge_amount (wxKeyboardState& ev);
+	void image_changed (boost::weak_ptr<PlayerVideo>);
+	void film_change (ChangeType type, Film::Property p);
+	void outline_content_changed ();
+	void eye_changed ();
+	void position_changed ();
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<FilmViewer> _viewer;

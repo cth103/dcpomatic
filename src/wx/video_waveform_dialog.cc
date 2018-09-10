@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,7 +20,7 @@
 
 #include "video_waveform_dialog.h"
 #include "video_waveform_plot.h"
-#include "film_viewer.h"
+#include "control_film_viewer.h"
 #include "wx_util.h"
 #include <boost/bind.hpp>
 #include <iostream>

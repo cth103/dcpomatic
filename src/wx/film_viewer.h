@@ -43,7 +43,7 @@ class ClosedCaptionsDialog;
 class FilmViewer
 {
 public:
-	FilmViewer (wxWindow *, bool outline_content = true, bool jump_to_selected = true);
+	FilmViewer (wxWindow *);
 	~FilmViewer ();
 
 	wxPanel* panel () const {
@@ -85,12 +85,16 @@ public:
 	DCPTime video_position () const {
 		return _video_position;
 	}
+	void go_to (DCPTime t);
+	void set_outline_content (bool o);
+	void set_eyes (Eyes e);
 
 	int audio_callback (void* out, unsigned int frames);
 
 	void show_closed_captions ();
 
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
+	boost::signals2::signal<void ()> PositionChanged;
 
 private:
 	void paint_panel ();
@@ -101,16 +105,14 @@ private:
 	void player_change (ChangeType type, int, bool);
 	void get ();
 	void display_player_video ();
-	void refresh_panel ();
 	void film_change (ChangeType, Film::Property);
-	DCPTime nudge_amount (wxKeyboardState &);
 	void timecode_clicked ();
-	void go_to (DCPTime t);
 	void recreate_butler ();
 	void config_changed (Config::Property);
 	DCPTime time () const;
 	DCPTime uncorrected_time () const;
 	Frame average_latency () const;
+	void refresh_panel ();
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<Player> _player;
@@ -147,6 +149,9 @@ private:
 	boost::optional<int> _dcp_decode_reduction;
 
 	ClosedCaptionsDialog* _closed_captions_dialog;
+
+	bool _outline_content;
+	Eyes _eyes;
 
 	boost::signals2::scoped_connection _config_changed_connection;
 };

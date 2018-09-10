@@ -30,7 +30,7 @@ namespace dcp {
 class PlayerVideo;
 class Image;
 class Film;
-class FilmViewer;
+class ControlFilmViewer;
 
 class VideoWaveformPlot : public wxPanel
 {

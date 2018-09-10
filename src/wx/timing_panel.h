@@ -21,7 +21,7 @@
 #include "content_sub_panel.h"
 #include "timecode.h"
 
-class FilmViewer;
+class ControlFilmViewer;
 
 class TimingPanel : public ContentSubPanel
 {

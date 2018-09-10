@@ -73,21 +73,18 @@ rtaudio_callback (void* out, void *, unsigned int frames, double, RtAudioStreamS
 	return reinterpret_cast<FilmViewer*>(data)->audio_callback (out, frames);
 }
 
-FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected)
+FilmViewer::FilmViewer (wxWindow* p)
 	: _panel (new wxPanel (p))
-	, _outline_content (0)
-	, _eye (0)
-	, _jump_to_selected (0)
 	, _coalesce_player_changes (false)
-	, _slider_being_moved (false)
-	, _was_running_before_slider (false)
 	, _audio (DCPOMATIC_RTAUDIO_API)
 	, _audio_channels (0)
 	, _audio_block_size (1024)
 	, _playing (false)
 	, _latency_history_count (0)
 	, _dropped (0)
-	, _closed_captions_dialog (new ClosedCaptionsDialog(GetParent()))
+	, _closed_captions_dialog (new ClosedCaptionsDialog(p))
+	, _outline_content (false)
+	, _eyes (EYES_LEFT)
 {
 #ifndef __WXOSX__
 	_panel->SetDoubleBuffered (true);
@@ -97,18 +94,9 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 
 	_panel->Bind            (wxEVT_PAINT,               boost::bind (&FilmViewer::paint_panel,     this));
 	_panel->Bind            (wxEVT_SIZE,                boost::bind (&FilmViewer::panel_sized,     this, _1));
-	if (_outline_content) {
-		_outline_content->Bind  (wxEVT_CHECKBOX,    boost::bind (&FilmViewer::refresh_panel,   this));
-	}
 	_timer.Bind             (wxEVT_TIMER,               boost::bind (&FilmViewer::timer,           this));
 
 	set_film (shared_ptr<Film> ());
-
-	JobManager::instance()->ActiveJobsChanged.connect (
-		bind (&FilmViewer::active_jobs_changed, this, _2)
-		);
-
-	setup_sensitivity ();
 
 	_config_changed_connection = Config::instance()->Changed.connect (bind (&FilmViewer::config_changed, this, _1));
 	config_changed (Config::SOUND_OUTPUT);
@@ -146,7 +134,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 			_player->set_dcp_decode_reduction (_dcp_decode_reduction);
 		}
 	} catch (bad_alloc) {
-		error_dialog (this, _("There is not enough free memory to do that."));
+		error_dialog (_panel, _("There is not enough free memory to do that."));
 		_film.reset ();
 		return;
 	}
@@ -164,8 +152,6 @@ FilmViewer::set_film (shared_ptr<Film> film)
 
 	calculate_sizes ();
 	slow_refresh ();
-
-	setup_sensitivity ();
 }
 
 void
@@ -233,7 +219,7 @@ FilmViewer::get ()
 	} while (
 		_player_video.first &&
 		_film->three_d() &&
-		((_eye->GetSelection() == 0 && _player_video.first->eyes() == EYES_RIGHT) || (_eye->GetSelection() == 1 && _player_video.first->eyes() == EYES_LEFT))
+		(_eyes != _player_video.first->eyes())
 		);
 
 	_butler->rethrow ();
@@ -302,8 +288,7 @@ FilmViewer::timer ()
 	}
 
 	get ();
-	update_position_label ();
-	update_position_slider ();
+	PositionChanged ();
 	DCPTime const next = _video_position + one_video_frame();
 
 	if (next >= _film->length()) {
@@ -332,27 +317,41 @@ FilmViewer::paint_panel ()
 	dc.DrawBitmap (frame_bitmap, 0, 0);
 
 	if (_out_size.width < _panel_size.width) {
-		wxPen p (GetBackgroundColour ());
-		wxBrush b (GetBackgroundColour ());
+		wxPen p (_panel->GetParent()->GetBackgroundColour());
+		wxBrush b (_panel->GetParent()->GetBackgroundColour());
 		dc.SetPen (p);
 		dc.SetBrush (b);
 		dc.DrawRectangle (_out_size.width, 0, _panel_size.width - _out_size.width, _panel_size.height);
 	}
 
 	if (_out_size.height < _panel_size.height) {
-		wxPen p (GetBackgroundColour ());
-		wxBrush b (GetBackgroundColour ());
+		wxPen p (_panel->GetParent()->GetBackgroundColour());
+		wxBrush b (_panel->GetParent()->GetBackgroundColour());
 		dc.SetPen (p);
 		dc.SetBrush (b);
 		dc.DrawRectangle (0, _out_size.height, _panel_size.width, _panel_size.height - _out_size.height);
 	}
 
-	if (_outline_content && _outline_content->GetValue ()) {
+	if (_outline_content) {
 		wxPen p (wxColour (255, 0, 0), 2);
 		dc.SetPen (p);
 		dc.SetBrush (*wxTRANSPARENT_BRUSH);
 		dc.DrawRectangle (_inter_position.x, _inter_position.y, _inter_size.width, _inter_size.height);
 	}
+}
+
+void
+FilmViewer::set_outline_content (bool o)
+{
+	_outline_content = o;
+	refresh_panel ();
+}
+
+void
+FilmViewer::set_eyes (Eyes e)
+{
+	_eyes = e;
+	slow_refresh ();
 }
 
 void
@@ -365,8 +364,7 @@ FilmViewer::panel_sized (wxSizeEvent& ev)
 	if (!quick_refresh()) {
 		slow_refresh ();
 	}
-	update_position_label ();
-	update_position_slider ();
+	PositionChanged ();
 }
 
 void
@@ -413,7 +411,6 @@ FilmViewer::start ()
 	_playing = true;
 	_dropped = 0;
 	timer ();
-	_play_button->SetValue (true);
 }
 
 bool
@@ -429,7 +426,6 @@ FilmViewer::stop ()
 	}
 
 	_playing = false;
-	_play_button->SetValue (false);
 	return true;
 }
 
@@ -445,8 +441,7 @@ FilmViewer::go_to (DCPTime t)
 	}
 
 	seek (t, true);
-	update_position_label ();
-	update_position_slider ();
+	PositionChanged ();
 }
 
 void
@@ -478,20 +473,13 @@ FilmViewer::player_change (ChangeType type, int property, bool frequent)
 	if (!refreshed) {
 		slow_refresh ();
 	}
-	update_position_label ();
-	update_position_slider ();
+	PositionChanged ();
 }
 
 void
 FilmViewer::film_change (ChangeType type, Film::Property p)
 {
-	if (type != CHANGE_TYPE_DONE) {
-		return;
-	}
-
-	if (p == Film::CONTENT || p == Film::THREE_D) {
-		setup_sensitivity ();
-	} else if (p == Film::AUDIO_CHANNELS) {
+	if (type == CHANGE_TYPE_DONE && p == Film::AUDIO_CHANNELS) {
 		recreate_butler ();
 	}
 }
@@ -527,8 +515,7 @@ FilmViewer::set_position (DCPTime p)
 {
 	_video_position = p;
 	seek (p, true);
-	update_position_label ();
-	update_position_slider ();
+	PositionChanged ();
 }
 
 void
@@ -612,7 +599,7 @@ FilmViewer::config_changed (Config::Property p)
 		} catch (RtAudioError& e) {
 #endif
 			error_dialog (
-				this,
+				_panel,
 				_("Could not set up audio output.  There will be no audio during the preview."), std_to_wx(e.what())
 				);
 		}
@@ -712,7 +699,7 @@ FilmViewer::show_closed_captions ()
 }
 
 void
-FilmViewer::back_frame (DCPTime by)
+FilmViewer::move (DCPTime by)
 {
 	if (!_film) {
 		return;
