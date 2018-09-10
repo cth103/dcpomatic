@@ -104,8 +104,6 @@ ControlFilmViewer::ControlFilmViewer (wxWindow* parent, bool outline_content, bo
 	JobManager::instance()->ActiveJobsChanged.connect (
 		bind (&ControlFilmViewer::active_jobs_changed, this, _2)
 		);
-
-	_film->Change.connect (boost::bind (&ControlFilmViewer::film_change, this, _1, _2));
 }
 
 void
@@ -351,6 +349,8 @@ ControlFilmViewer::set_film (shared_ptr<Film> film)
 
 	update_position_slider ();
 	update_position_label ();
+
+	_film->Change.connect (boost::bind (&ControlFilmViewer::film_change, this, _1, _2));
 }
 
 void
