@@ -30,7 +30,7 @@ class wxNotebook;
 class Film;
 class ContentPanel;
 class DCPPanel;
-class FilmViewer;
+class ControlFilmViewer;
 
 /** @class FilmEditor
  *  @brief A wx widget to edit a film's metadata, and perform various functions.
@@ -38,7 +38,7 @@ class FilmViewer;
 class FilmEditor : public wxPanel
 {
 public:
-	FilmEditor (wxWindow *, FilmViewer* viewer);
+	FilmEditor (wxWindow *, ControlFilmViewer* viewer);
 
 	void set_film (boost::shared_ptr<Film>);
 

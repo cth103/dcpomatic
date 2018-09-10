@@ -26,7 +26,7 @@ class FilmViewer;
 class PlayerInformation : public wxPanel
 {
 public:
-	PlayerInformation (wxWindow* parent, FilmViewer* viewer);
+	PlayerInformation (wxWindow* parent, ControlFilmViewer* viewer);
 
 	void triggered_update ();
 
@@ -34,7 +34,7 @@ private:
 
 	void periodic_update ();
 
-	FilmViewer* _viewer;
+	ControlFilmViewer* _viewer;
 	wxSizer* _sizer;
 	wxStaticText** _dcp;
 	wxStaticText* _dropped;

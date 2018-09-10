@@ -26,7 +26,7 @@
 #include "timing_panel.h"
 #include "timeline_dialog.h"
 #include "image_sequence_dialog.h"
-#include "film_viewer.h"
+#include "control_film_viewer.h"
 #include "lib/audio_content.h"
 #include "lib/text_content.h"
 #include "lib/video_content.h"
@@ -61,7 +61,7 @@ using boost::optional;
 
 #define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
-ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmViewer* viewer)
+ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, ControlFilmViewer* viewer)
 	: _video_panel (0)
 	, _audio_panel (0)
 	, _timeline_dialog (0)
@@ -302,7 +302,7 @@ ContentPanel::check_selection ()
 	}
 
 	if (go_to && Config::instance()->jump_to_selected() && signal_manager) {
-		signal_manager->when_idle(boost::bind(&FilmViewer::set_position, _film_viewer, go_to.get().ceil(_film->video_frame_rate())));
+		signal_manager->when_idle(boost::bind(&ControlFilmViewer::set_position, _film_viewer, go_to.get().ceil(_film->video_frame_rate())));
 	}
 
 	if (_timeline_dialog) {

@@ -36,7 +36,7 @@ using boost::optional;
 /* This should be even */
 static int const dcp_lines = 6;
 
-PlayerInformation::PlayerInformation (wxWindow* parent, FilmViewer* viewer)
+PlayerInformation::PlayerInformation (wxWindow* parent, ControlFilmViewer* viewer)
 	: wxPanel (parent)
 	, _viewer (viewer)
 	, _sizer (new wxBoxSizer (wxHORIZONTAL))

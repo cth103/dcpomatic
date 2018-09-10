@@ -29,7 +29,7 @@ using std::cout;
 using boost::bind;
 using boost::weak_ptr;
 
-VideoWaveformDialog::VideoWaveformDialog (wxWindow* parent, weak_ptr<const Film> film, FilmViewer* viewer)
+VideoWaveformDialog::VideoWaveformDialog (wxWindow* parent, weak_ptr<const Film> film, ControlFilmViewer* viewer)
 	: wxDialog (
 		parent,
 		wxID_ANY,

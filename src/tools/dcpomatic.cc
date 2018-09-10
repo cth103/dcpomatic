@@ -22,7 +22,7 @@
  *  @brief The main DCP-o-matic GUI.
  */
 
-#include "wx/film_viewer.h"
+#include "wx/control_film_viewer.h"
 #include "wx/film_editor.h"
 #include "wx/job_manager_view.h"
 #include "wx/full_config_dialog.h"
@@ -317,7 +317,7 @@ public:
 		*/
 		wxPanel* overall_panel = new wxPanel (this, wxID_ANY);
 
-		_film_viewer = new FilmViewer (overall_panel);
+		_film_viewer = new ControlFilmViewer (overall_panel);
 		_film_editor = new FilmEditor (overall_panel, _film_viewer);
 		JobManagerView* job_manager_view = new JobManagerView (overall_panel, false);
 
@@ -1307,7 +1307,7 @@ private:
 	}
 
 	FilmEditor* _film_editor;
-	FilmViewer* _film_viewer;
+	ControlFilmViewer* _film_viewer;
 	VideoWaveformDialog* _video_waveform_dialog;
 	HintsDialog* _hints_dialog;
 	ServersListDialog* _servers_list_dialog;

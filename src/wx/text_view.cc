@@ -27,7 +27,7 @@
 #include "lib/string_text_file_content.h"
 #include "lib/text_decoder.h"
 #include "text_view.h"
-#include "film_viewer.h"
+#include "control_film_viewer.h"
 #include "wx_util.h"
 
 using std::list;
@@ -35,7 +35,9 @@ using boost::shared_ptr;
 using boost::bind;
 using boost::dynamic_pointer_cast;
 
-TextView::TextView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content> content, shared_ptr<TextContent> text, shared_ptr<Decoder> decoder, FilmViewer* viewer)
+TextView::TextView (
+	wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content> content, shared_ptr<TextContent> text, shared_ptr<Decoder> decoder, ControlFilmViewer* viewer
+	)
 	: wxDialog (parent, wxID_ANY, _("Captions"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 	, _content (content)
 	, _film_viewer (viewer)

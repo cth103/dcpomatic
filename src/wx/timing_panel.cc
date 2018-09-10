@@ -44,7 +44,7 @@ using boost::dynamic_pointer_cast;
 using boost::optional;
 using dcp::locale_convert;
 
-TimingPanel::TimingPanel (ContentPanel* p, FilmViewer* viewer)
+TimingPanel::TimingPanel (ContentPanel* p, ControlFilmViewer* viewer)
 	/* horrid hack for apparent lack of context support with wxWidgets i18n code */
 	/// TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
 	: ContentSubPanel (p, S_("Timing|Timing"))

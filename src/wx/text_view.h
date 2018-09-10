@@ -24,13 +24,18 @@
 #include <wx/listctrl.h>
 
 class Decoder;
-class FilmViewer;
+class ControlFilmViewer;
 
 class TextView : public wxDialog
 {
 public:
 	TextView (
-		wxWindow *, boost::shared_ptr<Film>, boost::shared_ptr<Content> content, boost::shared_ptr<TextContent> caption, boost::shared_ptr<Decoder>, FilmViewer* viewer
+		wxWindow *,
+		boost::shared_ptr<Film>,
+		boost::shared_ptr<Content> content,
+		boost::shared_ptr<TextContent> caption,
+		boost::shared_ptr<Decoder>,
+		ControlFilmViewer* viewer
 		);
 
 private:
@@ -44,5 +49,5 @@ private:
 	boost::optional<int> _last_count;
 	std::vector<ContentTime> _start_times;
 	boost::weak_ptr<Content> _content;
-	FilmViewer* _film_viewer;
+	ControlFilmViewer* _film_viewer;
 };

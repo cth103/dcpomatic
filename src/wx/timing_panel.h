@@ -26,7 +26,7 @@ class FilmViewer;
 class TimingPanel : public ContentSubPanel
 {
 public:
-	TimingPanel (ContentPanel *, FilmViewer* viewer);
+	TimingPanel (ContentPanel *, ControlFilmViewer* viewer);
 
 	void film_changed (Film::Property);
 	void film_content_changed (int);
@@ -48,7 +48,7 @@ private:
 	void setup_sensitivity ();
 	void add_to_grid ();
 
-	FilmViewer* _viewer;
+	ControlFilmViewer* _viewer;
 
 	wxStaticText* _h_label;
 	wxStaticText* _m_label;

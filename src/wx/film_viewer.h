@@ -40,11 +40,15 @@ class ClosedCaptionsDialog;
 /** @class FilmViewer
  *  @brief A wx widget to view a preview of a Film.
  */
-class FilmViewer : public wxPanel
+class FilmViewer
 {
 public:
 	FilmViewer (wxWindow *, bool outline_content = true, bool jump_to_selected = true);
 	~FilmViewer ();
+
+	wxPanel* panel () const {
+		return _panel;
+	}
 
 	void set_film (boost::shared_ptr<Film>);
 	boost::shared_ptr<Film> film () const {
@@ -75,8 +79,12 @@ public:
 		return _playing;
 	}
 
-	void back_frame ();
-	void forward_frame ();
+	void move (DCPTime by);
+	DCPTime one_video_frame () const;
+	void seek (DCPTime t, bool accurate);
+	DCPTime video_position () const {
+		return _video_position;
+	}
 
 	int audio_callback (void* out, unsigned int frames);
 
@@ -87,58 +95,31 @@ public:
 private:
 	void paint_panel ();
 	void panel_sized (wxSizeEvent &);
-	void slider_moved (bool page);
-	void slider_released ();
-	void play_clicked ();
 	void timer ();
 	void calculate_sizes ();
 	void check_play_state ();
-	void active_jobs_changed (boost::optional<std::string>);
-	void rewind_clicked (wxMouseEvent &);
-	void back_clicked (wxKeyboardState& s);
-	void forward_clicked (wxKeyboardState &);
 	void player_change (ChangeType type, int, bool);
-	void update_position_label ();
-	void update_position_slider ();
 	void get ();
 	void display_player_video ();
-	void seek (DCPTime t, bool accurate);
 	void refresh_panel ();
-	void setup_sensitivity ();
 	void film_change (ChangeType, Film::Property);
 	DCPTime nudge_amount (wxKeyboardState &);
 	void timecode_clicked ();
-	void frame_number_clicked ();
 	void go_to (DCPTime t);
-	void jump_to_selected_clicked ();
 	void recreate_butler ();
 	void config_changed (Config::Property);
 	DCPTime time () const;
 	DCPTime uncorrected_time () const;
 	Frame average_latency () const;
-	DCPTime one_video_frame () const;
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<Player> _player;
 
-	wxSizer* _v_sizer;
 	/** The area that we put our image in */
 	wxPanel* _panel;
-	wxCheckBox* _outline_content;
-	wxChoice* _eye;
-	wxCheckBox* _jump_to_selected;
-	wxSlider* _slider;
-	wxButton* _rewind_button;
-	wxButton* _back_button;
-	wxButton* _forward_button;
-	wxStaticText* _frame_number;
-	wxStaticText* _timecode;
-	wxToggleButton* _play_button;
 	wxTimer _timer;
 	bool _coalesce_player_changes;
 	std::list<int> _pending_player_changes;
-	bool _slider_being_moved;
-	bool _was_running_before_slider;
 
 	std::pair<boost::shared_ptr<PlayerVideo>, DCPTime> _player_video;
 	boost::shared_ptr<const Image> _frame;

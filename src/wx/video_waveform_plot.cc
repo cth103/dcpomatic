@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,7 +19,7 @@
 */
 
 #include "video_waveform_plot.h"
-#include "film_viewer.h"
+#include "control_film_viewer.h"
 #include "wx_util.h"
 #include "lib/image.h"
 #include "lib/dcp_video.h"
@@ -42,7 +42,7 @@ int const VideoWaveformPlot::_vertical_margin = 8;
 int const VideoWaveformPlot::_pixel_values = 4096;
 int const VideoWaveformPlot::_x_axis_width = 52;
 
-VideoWaveformPlot::VideoWaveformPlot (wxWindow* parent, weak_ptr<const Film> film, FilmViewer* viewer)
+VideoWaveformPlot::VideoWaveformPlot (wxWindow* parent, weak_ptr<const Film> film, ControlFilmViewer* viewer)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 	, _film (film)
 	, _dirty (true)

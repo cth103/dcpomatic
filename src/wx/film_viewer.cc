@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -74,18 +74,10 @@ rtaudio_callback (void* out, void *, unsigned int frames, double, RtAudioStreamS
 }
 
 FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected)
-	: wxPanel (p)
-	, _panel (new wxPanel (this))
+	: _panel (new wxPanel (p))
 	, _outline_content (0)
 	, _eye (0)
 	, _jump_to_selected (0)
-	, _slider (new wxSlider (this, wxID_ANY, 0, 0, 4096))
-	, _rewind_button (new wxButton (this, wxID_ANY, wxT("|<")))
-	, _back_button (new wxButton (this, wxID_ANY, wxT("<")))
-	, _forward_button (new wxButton (this, wxID_ANY, wxT(">")))
-	, _frame_number (new wxStaticText (this, wxID_ANY, wxT("")))
-	, _timecode (new wxStaticText (this, wxID_ANY, wxT("")))
-	, _play_button (new wxToggleButton (this, wxID_ANY, _("Play")))
 	, _coalesce_player_changes (false)
 	, _slider_being_moved (false)
 	, _was_running_before_slider (false)
@@ -103,71 +95,12 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 
 	_panel->SetBackgroundStyle (wxBG_STYLE_PAINT);
 
-	_v_sizer = new wxBoxSizer (wxVERTICAL);
-	SetSizer (_v_sizer);
-
-	_v_sizer->Add (_panel, 1, wxEXPAND);
-
-	wxBoxSizer* view_options = new wxBoxSizer (wxHORIZONTAL);
-	if (outline_content) {
-		_outline_content = new wxCheckBox (this, wxID_ANY, _("Outline content"));
-		view_options->Add (_outline_content, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
-	}
-
-	_eye = new wxChoice (this, wxID_ANY);
-	_eye->Append (_("Left"));
-	_eye->Append (_("Right"));
-	_eye->SetSelection (0);
-	view_options->Add (_eye, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
-
-	if (jump_to_selected) {
-		_jump_to_selected = new wxCheckBox (this, wxID_ANY, _("Jump to selected content"));
-		view_options->Add (_jump_to_selected, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
-	}
-
-	_v_sizer->Add (view_options, 0, wxALL, DCPOMATIC_SIZER_GAP);
-
-	wxBoxSizer* h_sizer = new wxBoxSizer (wxHORIZONTAL);
-
-	wxBoxSizer* time_sizer = new wxBoxSizer (wxVERTICAL);
-	time_sizer->Add (_frame_number, 0, wxEXPAND);
-	time_sizer->Add (_timecode, 0, wxEXPAND);
-
-	h_sizer->Add (_rewind_button, 0, wxALL, 2);
-	h_sizer->Add (_back_button, 0, wxALL, 2);
-	h_sizer->Add (time_sizer, 0, wxEXPAND);
-	h_sizer->Add (_forward_button, 0, wxALL, 2);
-	h_sizer->Add (_play_button, 0, wxEXPAND);
-	h_sizer->Add (_slider, 1, wxEXPAND);
-
-	_v_sizer->Add (h_sizer, 0, wxEXPAND | wxALL, 6);
-
-	_frame_number->SetMinSize (wxSize (84, -1));
-	_rewind_button->SetMinSize (wxSize (32, -1));
-	_back_button->SetMinSize (wxSize (32, -1));
-	_forward_button->SetMinSize (wxSize (32, -1));
-
 	_panel->Bind            (wxEVT_PAINT,               boost::bind (&FilmViewer::paint_panel,     this));
 	_panel->Bind            (wxEVT_SIZE,                boost::bind (&FilmViewer::panel_sized,     this, _1));
 	if (_outline_content) {
 		_outline_content->Bind  (wxEVT_CHECKBOX,    boost::bind (&FilmViewer::refresh_panel,   this));
 	}
-	_eye->Bind              (wxEVT_CHOICE,              boost::bind (&FilmViewer::slow_refresh,    this));
-	_slider->Bind           (wxEVT_SCROLL_THUMBTRACK,   boost::bind (&FilmViewer::slider_moved,    this, false));
-	_slider->Bind           (wxEVT_SCROLL_PAGEUP,       boost::bind (&FilmViewer::slider_moved,    this, true));
-	_slider->Bind           (wxEVT_SCROLL_PAGEDOWN,     boost::bind (&FilmViewer::slider_moved,    this, true));
-	_slider->Bind           (wxEVT_SCROLL_THUMBRELEASE, boost::bind (&FilmViewer::slider_released, this));
-	_play_button->Bind      (wxEVT_TOGGLEBUTTON,        boost::bind (&FilmViewer::play_clicked,    this));
 	_timer.Bind             (wxEVT_TIMER,               boost::bind (&FilmViewer::timer,           this));
-	_rewind_button->Bind    (wxEVT_LEFT_DOWN,           boost::bind (&FilmViewer::rewind_clicked,  this, _1));
-	_back_button->Bind      (wxEVT_LEFT_DOWN,           boost::bind (&FilmViewer::back_clicked,    this, _1));
-	_forward_button->Bind   (wxEVT_LEFT_DOWN,           boost::bind (&FilmViewer::forward_clicked, this, _1));
-	_frame_number->Bind     (wxEVT_LEFT_DOWN,           boost::bind (&FilmViewer::frame_number_clicked, this));
-	_timecode->Bind         (wxEVT_LEFT_DOWN,           boost::bind (&FilmViewer::timecode_clicked, this));
-	if (_jump_to_selected) {
-		_jump_to_selected->Bind (wxEVT_CHECKBOX, boost::bind (&FilmViewer::jump_to_selected_clicked, this));
-		_jump_to_selected->SetValue (Config::instance()->jump_to_selected ());
-	}
 
 	set_film (shared_ptr<Film> ());
 
@@ -197,9 +130,6 @@ FilmViewer::set_film (shared_ptr<Film> film)
 
 	_frame.reset ();
 	_closed_captions_dialog->clear ();
-
-	update_position_slider ();
-	update_position_label ();
 
 	if (!_film) {
 		_player.reset ();
@@ -425,40 +355,6 @@ FilmViewer::paint_panel ()
 	}
 }
 
-/** @param page true if this was a PAGEUP/PAGEDOWN event for which we won't receive a THUMBRELEASE */
-void
-FilmViewer::slider_moved (bool page)
-{
-	if (!_film) {
-		return;
-	}
-
-	if (!page && !_slider_being_moved) {
-		/* This is the first event of a drag; stop playback for the duration of the drag */
-		_was_running_before_slider = stop ();
-		_slider_being_moved = true;
-	}
-
-	DCPTime t (_slider->GetValue() * _film->length().get() / 4096);
-	t = t.round (_film->video_frame_rate());
-	/* Ensure that we hit the end of the film at the end of the slider */
-	if (t >= _film->length ()) {
-		t = _film->length() - one_video_frame();
-	}
-	seek (t, false);
-	update_position_label ();
-}
-
-void
-FilmViewer::slider_released ()
-{
-	if (_was_running_before_slider) {
-		/* Restart after a drag */
-		start ();
-	}
-	_slider_being_moved = false;
-}
-
 void
 FilmViewer::panel_sized (wxSizeEvent& ev)
 {
@@ -503,26 +399,6 @@ FilmViewer::calculate_sizes ()
 }
 
 void
-FilmViewer::play_clicked ()
-{
-	check_play_state ();
-}
-
-void
-FilmViewer::check_play_state ()
-{
-	if (!_film || _film->video_frame_rate() == 0) {
-		return;
-	}
-
-	if (_play_button->GetValue()) {
-		start ();
-	} else {
-		stop ();
-	}
-}
-
-void
 FilmViewer::start ()
 {
 	if (!_film) {
@@ -558,64 +434,6 @@ FilmViewer::stop ()
 }
 
 void
-FilmViewer::update_position_slider ()
-{
-	if (!_film) {
-		_slider->SetValue (0);
-		return;
-	}
-
-	DCPTime const len = _film->length ();
-
-	if (len.get ()) {
-		int const new_slider_position = 4096 * _video_position.get() / len.get();
-		if (new_slider_position != _slider->GetValue()) {
-			_slider->SetValue (new_slider_position);
-		}
-	}
-}
-
-void
-FilmViewer::update_position_label ()
-{
-	if (!_film) {
-		_frame_number->SetLabel ("0");
-		_timecode->SetLabel ("0:0:0.0");
-		return;
-	}
-
-	double const fps = _film->video_frame_rate ();
-	/* Count frame number from 1 ... not sure if this is the best idea */
-	_frame_number->SetLabel (wxString::Format (wxT("%ld"), lrint (_video_position.seconds() * fps) + 1));
-	_timecode->SetLabel (time_to_timecode (_video_position, fps));
-}
-
-void
-FilmViewer::active_jobs_changed (optional<string> j)
-{
-	/* examine content is the only job which stops the viewer working */
-	bool const a = !j || *j != "examine_content";
-	_slider->Enable (a);
-	_play_button->Enable (a);
-}
-
-DCPTime
-FilmViewer::nudge_amount (wxKeyboardState& ev)
-{
-	DCPTime amount = one_video_frame ();
-
-	if (ev.ShiftDown() && !ev.ControlDown()) {
-		amount = DCPTime::from_seconds (1);
-	} else if (!ev.ShiftDown() && ev.ControlDown()) {
-		amount = DCPTime::from_seconds (10);
-	} else if (ev.ShiftDown() && ev.ControlDown()) {
-		amount = DCPTime::from_seconds (60);
-	}
-
-	return amount;
-}
-
-void
 FilmViewer::go_to (DCPTime t)
 {
 	if (t < DCPTime ()) {
@@ -629,45 +447,6 @@ FilmViewer::go_to (DCPTime t)
 	seek (t, true);
 	update_position_label ();
 	update_position_slider ();
-}
-
-void
-FilmViewer::rewind_clicked (wxMouseEvent& ev)
-{
-	go_to(DCPTime());
-	ev.Skip();
-}
-
-void
-FilmViewer::back_frame ()
-{
-	if (!_film) {
-		return;
-	}
-
-	go_to (_video_position - one_video_frame());
-}
-
-void
-FilmViewer::forward_frame ()
-{
-	if (!_film) {
-		return;
-	}
-
-	go_to (_video_position + one_video_frame());
-}
-
-void
-FilmViewer::back_clicked (wxKeyboardState& ev)
-{
-	go_to (_video_position - nudge_amount (ev));
-}
-
-void
-FilmViewer::forward_clicked (wxKeyboardState& ev)
-{
-	go_to (_video_position + nudge_amount (ev));
 }
 
 void
@@ -701,28 +480,6 @@ FilmViewer::player_change (ChangeType type, int property, bool frequent)
 	}
 	update_position_label ();
 	update_position_slider ();
-}
-
-void
-FilmViewer::setup_sensitivity ()
-{
-	bool const c = _film && !_film->content().empty ();
-
-	_slider->Enable (c);
-	_rewind_button->Enable (c);
-	_back_button->Enable (c);
-	_forward_button->Enable (c);
-	_play_button->Enable (c);
-	if (_outline_content) {
-		_outline_content->Enable (c);
-	}
-	_frame_number->Enable (c);
-	_timecode->Enable (c);
-	if (_jump_to_selected) {
-		_jump_to_selected->Enable (c);
-	}
-
-	_eye->Enable (c && _film->three_d ());
 }
 
 void
@@ -794,32 +551,6 @@ FilmViewer::set_coalesce_player_changes (bool c)
 		}
 		_pending_player_changes.clear ();
 	}
-}
-
-void
-FilmViewer::timecode_clicked ()
-{
-	PlayheadToTimecodeDialog* dialog = new PlayheadToTimecodeDialog (this, _film->video_frame_rate ());
-	if (dialog->ShowModal() == wxID_OK) {
-		go_to (dialog->get ());
-	}
-	dialog->Destroy ();
-}
-
-void
-FilmViewer::frame_number_clicked ()
-{
-	PlayheadToFrameDialog* dialog = new PlayheadToFrameDialog (this, _film->video_frame_rate ());
-	if (dialog->ShowModal() == wxID_OK) {
-		go_to (dialog->get ());
-	}
-	dialog->Destroy ();
-}
-
-void
-FilmViewer::jump_to_selected_clicked ()
-{
-	Config::instance()->set_jump_to_selected (_jump_to_selected->GetValue ());
 }
 
 void
@@ -978,4 +709,14 @@ void
 FilmViewer::show_closed_captions ()
 {
 	_closed_captions_dialog->Show();
+}
+
+void
+FilmViewer::back_frame (DCPTime by)
+{
+	if (!_film) {
+		return;
+	}
+
+	go_to (_video_position + by);
 }

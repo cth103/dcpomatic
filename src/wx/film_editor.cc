@@ -22,14 +22,14 @@
  *  @brief FilmEditor class.
  */
 
-#include "lib/film.h"
-#include "lib/job_manager.h"
-#include "lib/content.h"
-#include "lib/dcp_content.h"
 #include "wx_util.h"
 #include "film_editor.h"
 #include "dcp_panel.h"
 #include "content_panel.h"
+#include "lib/film.h"
+#include "lib/job_manager.h"
+#include "lib/content.h"
+#include "lib/dcp_content.h"
 #include <wx/wx.h>
 #include <wx/notebook.h>
 #include <boost/foreach.hpp>
@@ -41,7 +41,7 @@ using std::list;
 using boost::shared_ptr;
 using boost::optional;
 
-FilmEditor::FilmEditor (wxWindow* parent, FilmViewer* viewer)
+FilmEditor::FilmEditor (wxWindow* parent, ControlFilmViewer* viewer)
 	: wxPanel (parent)
 {
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
