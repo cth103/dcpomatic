@@ -18,6 +18,7 @@ public:
 	ControlFilmViewer (wxWindow* parent, bool outline_content = true, bool jump_to_selected = true);
 
 	void set_film (boost::shared_ptr<Film> film);
+	boost::shared_ptr<Film> film () const;
 	void back_frame ();
 	void forward_frame ();
 
@@ -31,7 +32,6 @@ public:
 	bool playing () const;
 	void slow_refresh ();
 	int dropped () const;
-	boost::shared_ptr<Film> film () const;
 	boost::optional<int> dcp_decode_reduction () const;
 	DCPTime position () const;
 	void set_coalesce_player_changes (bool c);
