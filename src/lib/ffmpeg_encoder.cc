@@ -36,25 +36,52 @@ using std::string;
 using std::runtime_error;
 using std::cout;
 using std::pair;
+using std::list;
 using boost::shared_ptr;
 using boost::bind;
 using boost::weak_ptr;
 
-
-FFmpegEncoder::FFmpegEncoder (shared_ptr<const Film> film, weak_ptr<Job> job, boost::filesystem::path output, ExportFormat format, bool mixdown_to_stereo, int x264_crf)
+FFmpegEncoder::FFmpegEncoder (
+	shared_ptr<const Film> film,
+	weak_ptr<Job> job,
+	boost::filesystem::path output,
+	ExportFormat format,
+	bool mixdown_to_stereo,
+	bool split_reels,
+	int x264_crf
+	)
 	: Encoder (film, job)
-	, _file_encoder (
-		_film->frame_size(),
-		_film->video_frame_rate(),
-		_film->audio_frame_rate(),
-		mixdown_to_stereo ? 2 : film->audio_channels(),
-		_film->log(),
-		format,
-		x264_crf,
-		output
-		)
 	, _history (1000)
 {
+	int const files = split_reels ? film->reels().size() : 1;
+	for (int i = 0; i < files; ++i) {
+
+		boost::filesystem::path filename = output;
+		if (files > 1) {
+			string extension = boost::filesystem::extension (filename);
+			filename = boost::filesystem::change_extension (filename, "");
+			/// TRANSLATORS: _reel%1.%2 here is to be added to an export filename to indicate
+			/// which reel it is.  Preserve the %1 and %2; %1 will be replaced with the reel number
+			/// and %2 with the file extension.
+			filename = filename.string() + String::compose(_("_reel%1%2"), i + 1, extension);
+		}
+
+		_file_encoders.push_back (
+			shared_ptr<FFmpegFileEncoder>(
+				new FFmpegFileEncoder(
+					_film->frame_size(),
+					_film->video_frame_rate(),
+					_film->audio_frame_rate(),
+					mixdown_to_stereo ? 2 : film->audio_channels(),
+					_film->log(),
+					format,
+					x264_crf,
+					filename
+					)
+				)
+			);
+	}
+
 	_player->set_always_burn_open_subtitles ();
 	_player->set_play_referenced ();
 
@@ -92,13 +119,25 @@ FFmpegEncoder::go ()
 		job->sub (_("Encoding"));
 	}
 
+	list<DCPTimePeriod> reel_periods = _film->reels ();
+	list<DCPTimePeriod>::const_iterator reel = reel_periods.begin ();
+	list<shared_ptr<FFmpegFileEncoder> >::iterator encoder = _file_encoders.begin ();
+
 	DCPTime const video_frame = DCPTime::from_frames (1, _film->video_frame_rate ());
 	int const audio_frames = video_frame.frames_round(_film->audio_frame_rate());
 	float* interleaved = new float[_output_audio_channels * audio_frames];
 	shared_ptr<AudioBuffers> deinterleaved (new AudioBuffers (_output_audio_channels, audio_frames));
 	for (DCPTime i; i < _film->length(); i += video_frame) {
+
+		if (!reel->contains(i)) {
+			++reel;
+			++encoder;
+			DCPOMATIC_ASSERT (reel != reel_periods.end());
+			DCPOMATIC_ASSERT (encoder != _file_encoders.end());
+		}
+
 		pair<shared_ptr<PlayerVideo>, DCPTime> v = _butler->get_video ();
-		_file_encoder.video (v.first, v.second);
+		(*encoder)->video (v.first, v.second);
 
 		_history.event ();
 
@@ -120,11 +159,13 @@ FFmpegEncoder::go ()
 				deinterleaved->data(k)[j] = *p++;
 			}
 		}
-		_file_encoder.audio (deinterleaved);
+		(*encoder)->audio (deinterleaved);
 	}
 	delete[] interleaved;
 
-	_file_encoder.flush ();
+	BOOST_FOREACH (shared_ptr<FFmpegFileEncoder> i, _file_encoders) {
+		i->flush ();
+	}
 }
 
 float

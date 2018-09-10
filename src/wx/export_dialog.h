@@ -33,6 +33,7 @@ public:
 	boost::filesystem::path path () const;
 	ExportFormat format () const;
 	bool mixdown_to_stereo () const;
+	bool split_reels () const;
 	int x264_crf () const;
 
 private:
@@ -41,6 +42,7 @@ private:
 
 	wxChoice* _format;
 	wxCheckBox* _mixdown;
+	wxCheckBox* _split_reels;
 	wxSlider* _x264_crf;
 	wxStaticText* _x264_crf_label[2];
 	FilePickerCtrl* _file;

@@ -31,7 +31,15 @@ class Butler;
 class FFmpegEncoder : public Encoder
 {
 public:
-	FFmpegEncoder (boost::shared_ptr<const Film> film, boost::weak_ptr<Job> job, boost::filesystem::path output, ExportFormat format, bool mixdown_to_stereo, int x264_crf);
+	FFmpegEncoder (
+		boost::shared_ptr<const Film> film,
+		boost::weak_ptr<Job> job,
+		boost::filesystem::path output,
+		ExportFormat format,
+		bool mixdown_to_stereo,
+		bool split_reels,
+		int x264_crf
+		);
 
 	void go ();
 
@@ -42,7 +50,7 @@ public:
 	}
 
 private:
-	FFmpegFileEncoder _file_encoder;
+	std::list<boost::shared_ptr<FFmpegFileEncoder> > _file_encoders;
 	int _output_audio_channels;
 
 	mutable boost::mutex _mutex;

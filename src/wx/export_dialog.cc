@@ -57,6 +57,9 @@ ExportDialog::ExportDialog (wxWindow* parent)
 	add_spacer ();
 	_mixdown = new wxCheckBox (this, wxID_ANY, _("Mix audio down to stereo"));
 	add (_mixdown, false);
+	add_spacer ();
+	_split_reels = new wxCheckBox (this, wxID_ANY, _("Write reels into separate files"));
+	add (_split_reels, false);
 	_x264_crf_label[0] = add (_("Quality"), true);
 	_x264_crf = new wxSlider (this, wxID_ANY, 23, 0, 51, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL | wxSL_LABELS);
 	add (_x264_crf, false);
@@ -121,6 +124,12 @@ bool
 ExportDialog::mixdown_to_stereo () const
 {
 	return _mixdown->GetValue ();
+}
+
+bool
+ExportDialog::split_reels () const
+{
+	return _split_reels->GetValue ();
 }
 
 int
