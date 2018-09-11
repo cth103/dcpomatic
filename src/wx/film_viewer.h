@@ -80,7 +80,6 @@ public:
 	void set_eyes (Eyes e);
 
 	void slow_refresh ();
-	bool quick_refresh ();
 
 	int dropped () const {
 		return _dropped;
@@ -111,6 +110,7 @@ private:
 	DCPTime uncorrected_time () const;
 	Frame average_latency () const;
 	void refresh_panel ();
+	bool quick_refresh ();
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<Player> _player;
