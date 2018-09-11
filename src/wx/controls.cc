@@ -122,8 +122,10 @@ Controls::stopped ()
 void
 Controls::position_changed ()
 {
-	update_position_label ();
-	update_position_slider ();
+	if (!_slider_being_moved) {
+		update_position_label ();
+		update_position_slider ();
+	}
 }
 
 void
