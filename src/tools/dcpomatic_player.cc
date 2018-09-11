@@ -85,7 +85,8 @@ enum {
 	ID_file_close = 100,
 	ID_view_cpl,
 	/* Allow spare IDs for CPLs */
-	ID_view_closed_captions = 200,
+	ID_view_full_screen = 200,
+	ID_view_closed_captions,
 	ID_view_scale_appropriate,
 	ID_view_scale_full,
 	ID_view_scale_half,
@@ -107,6 +108,7 @@ public:
 		, _update_news_requested (false)
 		, _info (0)
 		, _config_dialog (0)
+		, _full_screen (false)
 		, _file_menu (0)
 		, _history_items (0)
 		, _history_position (0)
@@ -137,6 +139,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_close, this), ID_file_close);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_exit, this), wxID_EXIT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_preferences, this), wxID_PREFERENCES);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_full_screen, this), ID_view_full_screen);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_closed_captions, this), ID_view_closed_captions);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_cpl, this, _1), ID_view_cpl, ID_view_cpl + MAX_CPLS);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>(0)), ID_view_scale_full);
@@ -150,17 +153,17 @@ public:
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
 		*/
-		wxPanel* overall_panel = new wxPanel (this, wxID_ANY);
+		_overall_panel = new wxPanel (this, wxID_ANY);
 
-		_viewer.reset (new FilmViewer (overall_panel));
-		_controls = new Controls (overall_panel, _viewer);
+		_viewer.reset (new FilmViewer (_overall_panel));
+		_controls = new Controls (_overall_panel, _viewer);
 		_viewer->set_dcp_decode_reduction (Config::instance()->decode_reduction ());
-		_info = new PlayerInformation (overall_panel, _viewer);
+		_info = new PlayerInformation (_overall_panel, _viewer);
 		wxSizer* main_sizer = new wxBoxSizer (wxVERTICAL);
-		main_sizer->Add (_viewer->panel(), 1, wxEXPAND | wxALL, 6);
+		main_sizer->Add (_viewer->panel(), 1, wxEXPAND);
 		main_sizer->Add (_controls, 0, wxEXPAND | wxALL, 6);
 		main_sizer->Add (_info, 0, wxEXPAND | wxALL, 6);
-		overall_panel->SetSizer (main_sizer);
+		_overall_panel->SetSizer (main_sizer);
 
 #ifdef __WXOSX__
 		int accelerators = 4;
@@ -274,6 +277,7 @@ private:
 		wxMenu* view = new wxMenu;
 		optional<int> c = Config::instance()->decode_reduction();
 		_view_cpl = view->Append(ID_view_cpl, _("CPL"), _cpl_menu);
+		view->AppendCheckItem(ID_view_full_screen, _("Full screen\tF11"))->Check(_full_screen);
 		view->Append(ID_view_closed_captions, _("Closed captions..."));
 		view->AppendSeparator();
 		view->AppendRadioItem(ID_view_scale_appropriate, _("Set decode resolution to match display"))->Check(!static_cast<bool>(c));
@@ -436,6 +440,15 @@ private:
 
 		dcp->set_cpl ((*i)->id());
 		dcp->examine (shared_ptr<Job>());
+	}
+
+	void view_full_screen ()
+	{
+		_full_screen = !_full_screen;
+		_controls->Show (!_full_screen);
+		_info->Show (!_full_screen);
+		_overall_panel->SetBackgroundColour (_full_screen ? wxColour(0, 0, 0) : wxNullColour);
+		ShowFullScreen (_full_screen);
 	}
 
 	void view_closed_captions ()
@@ -646,6 +659,8 @@ private:
 	bool _update_news_requested;
 	PlayerInformation* _info;
 	wxPreferencesEditor* _config_dialog;
+	bool _full_screen;
+	wxPanel* _overall_panel;
 	wxMenu* _file_menu;
 	wxMenuItem* _view_cpl;
 	wxMenu* _cpl_menu;

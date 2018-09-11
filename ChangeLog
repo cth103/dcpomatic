@@ -1,3 +1,7 @@
+2018-09-11  Carl Hetherington  <cth@carlh.net>
+
+	* Full-screen mode for player (#1329).
+
 2018-09-10  Carl Hetherington  <cth@carlh.net>
 
 	* Basic export of multiple reels to multiple files.
