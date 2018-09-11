@@ -98,17 +98,17 @@ private:
 	void panel_sized (wxSizeEvent &);
 	void timer ();
 	void calculate_sizes ();
-	void check_play_state ();
 	void player_change (ChangeType type, int, bool);
 	void get ();
 	void display_player_video ();
 	void film_change (ChangeType, Film::Property);
-	void timecode_clicked ();
 	void recreate_butler ();
 	void config_changed (Config::Property);
+
 	DCPTime time () const;
 	DCPTime uncorrected_time () const;
 	Frame average_latency () const;
+
 	void refresh_panel ();
 	bool quick_refresh ();
 
