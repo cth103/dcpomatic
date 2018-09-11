@@ -270,8 +270,8 @@ Butler::video (shared_ptr<PlayerVideo> video, DCPTime time)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	if (_pending_seek_position || _suspended) {
-		/* Don't store any video in these cases */
+	if (_pending_seek_position) {
+		/* Don't store any video in this case */
 		return;
 	}
 
@@ -286,7 +286,7 @@ Butler::audio (shared_ptr<AudioBuffers> audio, DCPTime time)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		if (_pending_seek_position || _disable_audio || _suspended) {
+		if (_pending_seek_position || _disable_audio) {
 			/* Don't store any audio in these cases */
 			return;
 		}
