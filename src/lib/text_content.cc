@@ -67,7 +67,7 @@ TextContent::TextContent (Content* parent, TextType type, TextType original_type
 	, _x_scale (1)
 	, _y_scale (1)
 	, _line_spacing (1)
-	, _outline_width (2)
+	, _outline_width (4)
 	, _type (type)
 	, _original_type (original_type)
 {
@@ -121,7 +121,7 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 	, _x_scale (1)
 	, _y_scale (1)
 	, _line_spacing (node->optional_number_child<double>("LineSpacing").get_value_or (1))
-	, _outline_width (node->optional_number_child<int>("OutlineWidth").get_value_or (2))
+	, _outline_width (node->optional_number_child<int>("OutlineWidth").get_value_or (4))
 	, _type (TEXT_OPEN_SUBTITLE)
 	, _original_type (TEXT_OPEN_SUBTITLE)
 {
