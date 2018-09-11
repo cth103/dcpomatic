@@ -47,7 +47,7 @@ sources = """
           content_panel.cc
           content_properties_dialog.cc
           content_sub_panel.cc
-          control_film_viewer.cc
+          controls.cc
           closed_captions_dialog.cc
           dcp_panel.cc
           email_dialog.cc

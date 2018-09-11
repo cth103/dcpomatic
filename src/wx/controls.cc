@@ -1,4 +1,4 @@
-#include "control_film_viewer.h"
+#include "controls.h"
 #include "film_viewer.h"
 #include "wx_util.h"
 #include "playhead_to_timecode_dialog.h"

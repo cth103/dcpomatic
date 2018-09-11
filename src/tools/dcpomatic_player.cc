@@ -28,7 +28,7 @@
 #include "wx/update_dialog.h"
 #include "wx/player_config_dialog.h"
 #include "wx/verify_dcp_dialog.h"
-#include "wx/control_film_viewer.h"
+#include "wx/controls.h"
 #include "lib/cross.h"
 #include "lib/config.h"
 #include "lib/util.h"

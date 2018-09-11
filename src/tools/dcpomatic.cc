@@ -22,7 +22,7 @@
  *  @brief The main DCP-o-matic GUI.
  */
 
-#include "wx/control_film_viewer.h"
+#include "wx/controls.h"
 #include "wx/film_viewer.h"
 #include "wx/film_editor.h"
 #include "wx/job_manager_view.h"
