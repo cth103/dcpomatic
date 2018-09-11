@@ -23,6 +23,7 @@
  */
 
 #include "wx/control_film_viewer.h"
+#include "wx/film_viewer.h"
 #include "wx/film_editor.h"
 #include "wx/job_manager_view.h"
 #include "wx/full_config_dialog.h"
@@ -317,12 +318,14 @@ public:
 		*/
 		wxPanel* overall_panel = new wxPanel (this, wxID_ANY);
 
-		_film_viewer = new ControlFilmViewer (overall_panel);
+		_film_viewer.reset (new FilmViewer (overall_panel));
+		_controls = new Controls (overall_panel, _film_viewer);
 		_film_editor = new FilmEditor (overall_panel, _film_viewer);
 		JobManagerView* job_manager_view = new JobManagerView (overall_panel, false);
 
 		wxBoxSizer* right_sizer = new wxBoxSizer (wxVERTICAL);
-		right_sizer->Add (_film_viewer, 2, wxEXPAND | wxALL, 6);
+		right_sizer->Add (_film_viewer->panel(), 2, wxEXPAND | wxALL, 6);
+		right_sizer->Add (_controls, 0, wxEXPAND | wxALL, 6);
 		right_sizer->Add (job_manager_view, 1, wxEXPAND | wxALL, 6);
 
 		wxBoxSizer* main_sizer = new wxBoxSizer (wxHORIZONTAL);
@@ -1298,16 +1301,17 @@ private:
 
 	void back_frame ()
 	{
-		_film_viewer->back_frame ();
+		_film_viewer->move (-_film_viewer->one_video_frame());
 	}
 
 	void forward_frame ()
 	{
-		_film_viewer->forward_frame ();
+		_film_viewer->move (_film_viewer->one_video_frame());
 	}
 
 	FilmEditor* _film_editor;
-	ControlFilmViewer* _film_viewer;
+	boost::shared_ptr<FilmViewer> _film_viewer;
+	Controls* _controls;
 	VideoWaveformDialog* _video_waveform_dialog;
 	HintsDialog* _hints_dialog;
 	ServersListDialog* _servers_list_dialog;

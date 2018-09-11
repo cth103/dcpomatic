@@ -18,6 +18,17 @@
 
 */
 
+
+#include "wx/wx_signal_manager.h"
+#include "wx/wx_util.h"
+#include "wx/about_dialog.h"
+#include "wx/report_problem_dialog.h"
+#include "wx/film_viewer.h"
+#include "wx/player_information.h"
+#include "wx/update_dialog.h"
+#include "wx/player_config_dialog.h"
+#include "wx/verify_dcp_dialog.h"
+#include "wx/control_film_viewer.h"
 #include "lib/cross.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -35,15 +46,6 @@
 #include "lib/examine_content_job.h"
 #include "lib/server.h"
 #include "lib/dcpomatic_socket.h"
-#include "wx/wx_signal_manager.h"
-#include "wx/wx_util.h"
-#include "wx/about_dialog.h"
-#include "wx/report_problem_dialog.h"
-#include "wx/control_film_viewer.h"
-#include "wx/player_information.h"
-#include "wx/update_dialog.h"
-#include "wx/player_config_dialog.h"
-#include "wx/verify_dcp_dialog.h"
 #include <wx/wx.h>
 #include <wx/stdpaths.h>
 #include <wx/splash.h>
@@ -109,7 +111,6 @@ public:
 		, _history_items (0)
 		, _history_position (0)
 		, _history_separator (0)
-		, _viewer (0)
 	{
 
 #if defined(DCPOMATIC_WINDOWS)
@@ -151,11 +152,13 @@ public:
 		*/
 		wxPanel* overall_panel = new wxPanel (this, wxID_ANY);
 
-		_viewer = new ControlFilmViewer (overall_panel, false, false);
+		_viewer.reset (new FilmViewer (overall_panel));
+		_controls = new Controls (overall_panel, _viewer);
 		_viewer->set_dcp_decode_reduction (Config::instance()->decode_reduction ());
 		_info = new PlayerInformation (overall_panel, _viewer);
 		wxSizer* main_sizer = new wxBoxSizer (wxVERTICAL);
-		main_sizer->Add (_viewer, 1, wxEXPAND | wxALL, 6);
+		main_sizer->Add (_viewer->panel(), 1, wxEXPAND | wxALL, 6);
+		main_sizer->Add (_controls, 0, wxEXPAND | wxALL, 6);
 		main_sizer->Add (_info, 0, wxEXPAND | wxALL, 6);
 		overall_panel->SetSizer (main_sizer);
 
@@ -576,12 +579,12 @@ private:
 
 	void back_frame ()
 	{
-		_viewer->back_frame ();
+		_viewer->move (-_viewer->one_video_frame());
 	}
 
 	void forward_frame ()
 	{
-		_viewer->forward_frame ();
+		_viewer->move (_viewer->one_video_frame());
 	}
 
 private:
@@ -649,7 +652,8 @@ private:
 	int _history_items;
 	int _history_position;
 	wxMenuItem* _history_separator;
-	ControlFilmViewer* _viewer;
+	shared_ptr<FilmViewer> _viewer;
+	Controls* _controls;
 	boost::shared_ptr<Film> _film;
 	boost::signals2::scoped_connection _config_changed_connection;
 	wxMenuItem* _file_add_ov;

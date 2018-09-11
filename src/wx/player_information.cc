@@ -20,7 +20,7 @@
 
 #include "player_information.h"
 #include "wx_util.h"
-#include "control_film_viewer.h"
+#include "film_viewer.h"
 #include "lib/playlist.h"
 #include "lib/compose.hpp"
 #include "lib/video_content.h"
@@ -31,13 +31,14 @@
 using std::cout;
 using std::string;
 using boost::shared_ptr;
+using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 
 /* This should be even */
 static int const dcp_lines = 6;
 
-PlayerInformation::PlayerInformation (wxWindow* parent, ControlFilmViewer* viewer)
+PlayerInformation::PlayerInformation (wxWindow* parent, weak_ptr<FilmViewer> viewer)
 	: wxPanel (parent)
 	, _viewer (viewer)
 	, _sizer (new wxBoxSizer (wxHORIZONTAL))
@@ -87,15 +88,23 @@ PlayerInformation::PlayerInformation (wxWindow* parent, ControlFilmViewer* viewe
 void
 PlayerInformation::periodic_update ()
 {
-	checked_set (_dropped, wxString::Format(_("Dropped frames: %d"), _viewer->dropped()));
+	shared_ptr<FilmViewer> fv = _viewer.lock ();
+	if (fv) {
+		checked_set (_dropped, wxString::Format(_("Dropped frames: %d"), fv->dropped()));
+	}
 }
 
 void
 PlayerInformation::triggered_update ()
 {
+	shared_ptr<FilmViewer> fv = _viewer.lock ();
+	if (!fv) {
+		return;
+	}
+
 	shared_ptr<DCPContent> dcp;
-	if (_viewer->film()) {
-		ContentList content = _viewer->film()->content();
+	if (fv->film()) {
+		ContentList content = fv->film()->content();
 		if (content.size() == 1) {
 			dcp = dynamic_pointer_cast<DCPContent>(content.front());
 		}
@@ -151,7 +160,7 @@ PlayerInformation::triggered_update ()
 	checked_set (_dcp[r++], std_to_wx(len));
 
 	dcp::Size decode = dcp->video->size();
-	optional<int> reduction = _viewer->dcp_decode_reduction();
+	optional<int> reduction = fv->dcp_decode_reduction();
 	if (reduction) {
 		decode.width /= pow(2, *reduction);
 		decode.height /= pow(2, *reduction);

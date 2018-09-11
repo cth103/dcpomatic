@@ -30,12 +30,12 @@ namespace dcp {
 class PlayerVideo;
 class Image;
 class Film;
-class ControlFilmViewer;
+class FilmViewer;
 
 class VideoWaveformPlot : public wxPanel
 {
 public:
-	VideoWaveformPlot (wxWindow* parent, boost::weak_ptr<const Film> film, ControlFilmViewer* viewer);
+	VideoWaveformPlot (wxWindow* parent, boost::weak_ptr<const Film> film, boost::weak_ptr<FilmViewer> viewer);
 
 	void set_enabled (bool e);
 	void set_component (int c);

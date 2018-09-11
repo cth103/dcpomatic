@@ -39,9 +39,10 @@ using std::cout;
 using std::string;
 using std::list;
 using boost::shared_ptr;
+using boost::weak_ptr;
 using boost::optional;
 
-FilmEditor::FilmEditor (wxWindow* parent, ControlFilmViewer* viewer)
+FilmEditor::FilmEditor (wxWindow* parent, weak_ptr<FilmViewer> viewer)
 	: wxPanel (parent)
 {
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);

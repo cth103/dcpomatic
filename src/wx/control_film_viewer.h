@@ -12,30 +12,14 @@ class Content;
 class PlayerVideo;
 class wxToggleButton;
 
-class ControlFilmViewer : public wxPanel
+class Controls : public wxPanel
 {
 public:
-	ControlFilmViewer (wxWindow* parent, bool outline_content = true, bool jump_to_selected = true);
+	Controls (wxWindow* parent, boost::shared_ptr<FilmViewer>, bool outline_content = true, bool jump_to_selected = true);
 
-	void set_film (boost::shared_ptr<Film> film);
 	boost::shared_ptr<Film> film () const;
 	void back_frame ();
 	void forward_frame ();
-
-	/* FilmViewer proxies */
-	void set_position (DCPTime p);
-	void set_position (boost::shared_ptr<Content> content, ContentTime p);
-	void set_dcp_decode_reduction (boost::optional<int> reduction);
-	void show_closed_captions ();
-	void start ();
-	bool stop ();
-	bool playing () const;
-	void slow_refresh ();
-	int dropped () const;
-	boost::optional<int> dcp_decode_reduction () const;
-	DCPTime position () const;
-	void set_coalesce_player_changes (bool c);
-	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
 
 private:
 	void update_position_label ();
@@ -60,6 +44,7 @@ private:
 	void position_changed ();
 	void started ();
 	void stopped ();
+	void film_changed ();
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<FilmViewer> _viewer;

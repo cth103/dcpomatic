@@ -15,9 +15,9 @@ using boost::weak_ptr;
 /** @param outline_content true if viewer should present an "outline content" checkbox.
  *  @param jump_to_selected true if viewer should present a "jump to selected" checkbox.
  */
-ControlFilmViewer::ControlFilmViewer (wxWindow* parent, bool outline_content, bool jump_to_selected)
+Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool outline_content, bool jump_to_selected)
 	: wxPanel (parent)
-	, _viewer (new FilmViewer(this))
+	, _viewer (viewer)
 	, _slider_being_moved (false)
 	, _was_running_before_slider (false)
 	, _outline_content (0)
@@ -33,7 +33,6 @@ ControlFilmViewer::ControlFilmViewer (wxWindow* parent, bool outline_content, bo
 {
 	_v_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (_v_sizer);
-	_v_sizer->Add (_viewer->panel(), 1, wxEXPAND);
 
 	wxBoxSizer* view_options = new wxBoxSizer (wxHORIZONTAL);
 	if (outline_content) {
@@ -74,73 +73,73 @@ ControlFilmViewer::ControlFilmViewer (wxWindow* parent, bool outline_content, bo
 	_back_button->SetMinSize (wxSize (32, -1));
 	_forward_button->SetMinSize (wxSize (32, -1));
 
-	_eye->Bind (wxEVT_CHOICE, boost::bind (&ControlFilmViewer::eye_changed, this));
+	_eye->Bind (wxEVT_CHOICE, boost::bind (&Controls::eye_changed, this));
 	if (_outline_content) {
-		_outline_content->Bind (wxEVT_CHECKBOX, boost::bind (&ControlFilmViewer::outline_content_changed, this));
+		_outline_content->Bind (wxEVT_CHECKBOX, boost::bind (&Controls::outline_content_changed, this));
 	}
 
-	_slider->Bind           (wxEVT_SCROLL_THUMBTRACK,   boost::bind (&ControlFilmViewer::slider_moved,    this, false));
-	_slider->Bind           (wxEVT_SCROLL_PAGEUP,       boost::bind (&ControlFilmViewer::slider_moved,    this, true));
-	_slider->Bind           (wxEVT_SCROLL_PAGEDOWN,     boost::bind (&ControlFilmViewer::slider_moved,    this, true));
-	_slider->Bind           (wxEVT_SCROLL_THUMBRELEASE, boost::bind (&ControlFilmViewer::slider_released, this));
-	_play_button->Bind      (wxEVT_TOGGLEBUTTON,        boost::bind (&ControlFilmViewer::play_clicked,    this));
-	_rewind_button->Bind    (wxEVT_LEFT_DOWN,           boost::bind (&ControlFilmViewer::rewind_clicked,  this, _1));
-	_back_button->Bind      (wxEVT_LEFT_DOWN,           boost::bind (&ControlFilmViewer::back_clicked,    this, _1));
-	_forward_button->Bind   (wxEVT_LEFT_DOWN,           boost::bind (&ControlFilmViewer::forward_clicked, this, _1));
-	_frame_number->Bind     (wxEVT_LEFT_DOWN,           boost::bind (&ControlFilmViewer::frame_number_clicked, this));
-	_timecode->Bind         (wxEVT_LEFT_DOWN,           boost::bind (&ControlFilmViewer::timecode_clicked, this));
+	_slider->Bind           (wxEVT_SCROLL_THUMBTRACK,   boost::bind (&Controls::slider_moved,    this, false));
+	_slider->Bind           (wxEVT_SCROLL_PAGEUP,       boost::bind (&Controls::slider_moved,    this, true));
+	_slider->Bind           (wxEVT_SCROLL_PAGEDOWN,     boost::bind (&Controls::slider_moved,    this, true));
+	_slider->Bind           (wxEVT_SCROLL_THUMBRELEASE, boost::bind (&Controls::slider_released, this));
+	_play_button->Bind      (wxEVT_TOGGLEBUTTON,        boost::bind (&Controls::play_clicked,    this));
+	_rewind_button->Bind    (wxEVT_LEFT_DOWN,           boost::bind (&Controls::rewind_clicked,  this, _1));
+	_back_button->Bind      (wxEVT_LEFT_DOWN,           boost::bind (&Controls::back_clicked,    this, _1));
+	_forward_button->Bind   (wxEVT_LEFT_DOWN,           boost::bind (&Controls::forward_clicked, this, _1));
+	_frame_number->Bind     (wxEVT_LEFT_DOWN,           boost::bind (&Controls::frame_number_clicked, this));
+	_timecode->Bind         (wxEVT_LEFT_DOWN,           boost::bind (&Controls::timecode_clicked, this));
 	if (_jump_to_selected) {
-		_jump_to_selected->Bind (wxEVT_CHECKBOX, boost::bind (&ControlFilmViewer::jump_to_selected_clicked, this));
+		_jump_to_selected->Bind (wxEVT_CHECKBOX, boost::bind (&Controls::jump_to_selected_clicked, this));
 		_jump_to_selected->SetValue (Config::instance()->jump_to_selected ());
 	}
 
-	_viewer->ImageChanged.connect (boost::bind(&ControlFilmViewer::image_changed, this, _1));
-	_viewer->PositionChanged.connect (boost::bind(&ControlFilmViewer::position_changed, this));
-	_viewer->Started.connect (boost::bind(&ControlFilmViewer::started, this));
-	_viewer->Stopped.connect (boost::bind(&ControlFilmViewer::stopped, this));
+	_viewer->PositionChanged.connect (boost::bind(&Controls::position_changed, this));
+	_viewer->Started.connect (boost::bind(&Controls::started, this));
+	_viewer->Stopped.connect (boost::bind(&Controls::stopped, this));
+	_viewer->FilmChanged.connect (boost::bind(&Controls::film_changed, this));
 
-	set_film (shared_ptr<Film> ());
+	film_changed ();
 
 	setup_sensitivity ();
 
 	JobManager::instance()->ActiveJobsChanged.connect (
-		bind (&ControlFilmViewer::active_jobs_changed, this, _2)
+		bind (&Controls::active_jobs_changed, this, _2)
 		);
 }
 
 void
-ControlFilmViewer::started ()
+Controls::started ()
 {
 	_play_button->SetValue (true);
 }
 
 void
-ControlFilmViewer::stopped ()
+Controls::stopped ()
 {
 	_play_button->SetValue (false);
 }
 
 void
-ControlFilmViewer::position_changed ()
+Controls::position_changed ()
 {
 	update_position_label ();
 	update_position_slider ();
 }
 
 void
-ControlFilmViewer::eye_changed ()
+Controls::eye_changed ()
 {
 	_viewer->set_eyes (_eye->GetSelection() == 0 ? EYES_LEFT : EYES_RIGHT);
 }
 
 void
-ControlFilmViewer::outline_content_changed ()
+Controls::outline_content_changed ()
 {
 	_viewer->set_outline_content (_outline_content->GetValue());
 }
 
 void
-ControlFilmViewer::film_change (ChangeType type, Film::Property p)
+Controls::film_change (ChangeType type, Film::Property p)
 {
 	if (type != CHANGE_TYPE_DONE) {
 		return;
@@ -151,15 +150,9 @@ ControlFilmViewer::film_change (ChangeType type, Film::Property p)
 	}
 }
 
-void
-ControlFilmViewer::image_changed (weak_ptr<PlayerVideo> pv)
-{
-	ImageChanged (pv);
-}
-
 /** @param page true if this was a PAGEUP/PAGEDOWN event for which we won't receive a THUMBRELEASE */
 void
-ControlFilmViewer::slider_moved (bool page)
+Controls::slider_moved (bool page)
 {
 	if (!_film) {
 		return;
@@ -167,7 +160,7 @@ ControlFilmViewer::slider_moved (bool page)
 
 	if (!page && !_slider_being_moved) {
 		/* This is the first event of a drag; stop playback for the duration of the drag */
-		_was_running_before_slider = stop ();
+		_was_running_before_slider = _viewer->stop ();
 		_slider_being_moved = true;
 	}
 
@@ -182,37 +175,37 @@ ControlFilmViewer::slider_moved (bool page)
 }
 
 void
-ControlFilmViewer::slider_released ()
+Controls::slider_released ()
 {
 	if (_was_running_before_slider) {
 		/* Restart after a drag */
-		start ();
+		_viewer->start ();
 	}
 	_slider_being_moved = false;
 }
 
 void
-ControlFilmViewer::play_clicked ()
+Controls::play_clicked ()
 {
 	check_play_state ();
 }
 
 void
-ControlFilmViewer::check_play_state ()
+Controls::check_play_state ()
 {
 	if (!_film || _film->video_frame_rate() == 0) {
 		return;
 	}
 
 	if (_play_button->GetValue()) {
-		start ();
+		_viewer->start ();
 	} else {
-		stop ();
+		_viewer->stop ();
 	}
 }
 
 void
-ControlFilmViewer::update_position_slider ()
+Controls::update_position_slider ()
 {
 	if (!_film) {
 		_slider->SetValue (0);
@@ -230,7 +223,7 @@ ControlFilmViewer::update_position_slider ()
 }
 
 void
-ControlFilmViewer::update_position_label ()
+Controls::update_position_label ()
 {
 	if (!_film) {
 		_frame_number->SetLabel ("0");
@@ -245,7 +238,7 @@ ControlFilmViewer::update_position_label ()
 }
 
 void
-ControlFilmViewer::active_jobs_changed (optional<string> j)
+Controls::active_jobs_changed (optional<string> j)
 {
 	/* examine content is the only job which stops the viewer working */
 	bool const a = !j || *j != "examine_content";
@@ -254,7 +247,7 @@ ControlFilmViewer::active_jobs_changed (optional<string> j)
 }
 
 DCPTime
-ControlFilmViewer::nudge_amount (wxKeyboardState& ev)
+Controls::nudge_amount (wxKeyboardState& ev)
 {
 	DCPTime amount = _viewer->one_video_frame ();
 
@@ -270,38 +263,38 @@ ControlFilmViewer::nudge_amount (wxKeyboardState& ev)
 }
 
 void
-ControlFilmViewer::rewind_clicked (wxMouseEvent& ev)
+Controls::rewind_clicked (wxMouseEvent& ev)
 {
 	_viewer->go_to (DCPTime());
 	ev.Skip();
 }
 
 void
-ControlFilmViewer::back_frame ()
+Controls::back_frame ()
 {
 	_viewer->move (-_viewer->one_video_frame());
 }
 
 void
-ControlFilmViewer::forward_frame ()
+Controls::forward_frame ()
 {
 	_viewer->move (_viewer->one_video_frame());
 }
 
 void
-ControlFilmViewer::back_clicked (wxKeyboardState& ev)
+Controls::back_clicked (wxKeyboardState& ev)
 {
 	_viewer->move (-nudge_amount(ev));
 }
 
 void
-ControlFilmViewer::forward_clicked (wxKeyboardState& ev)
+Controls::forward_clicked (wxKeyboardState& ev)
 {
 	_viewer->move (nudge_amount(ev));
 }
 
 void
-ControlFilmViewer::setup_sensitivity ()
+Controls::setup_sensitivity ()
 {
 	bool const c = _film && !_film->content().empty ();
 
@@ -323,7 +316,7 @@ ControlFilmViewer::setup_sensitivity ()
 }
 
 void
-ControlFilmViewer::timecode_clicked ()
+Controls::timecode_clicked ()
 {
 	PlayheadToTimecodeDialog* dialog = new PlayheadToTimecodeDialog (this, _film->video_frame_rate ());
 	if (dialog->ShowModal() == wxID_OK) {
@@ -333,7 +326,7 @@ ControlFilmViewer::timecode_clicked ()
 }
 
 void
-ControlFilmViewer::frame_number_clicked ()
+Controls::frame_number_clicked ()
 {
 	PlayheadToFrameDialog* dialog = new PlayheadToFrameDialog (this, _film->video_frame_rate ());
 	if (dialog->ShowModal() == wxID_OK) {
@@ -343,15 +336,15 @@ ControlFilmViewer::frame_number_clicked ()
 }
 
 void
-ControlFilmViewer::jump_to_selected_clicked ()
+Controls::jump_to_selected_clicked ()
 {
 	Config::instance()->set_jump_to_selected (_jump_to_selected->GetValue ());
 }
 
 void
-ControlFilmViewer::set_film (shared_ptr<Film> film)
+Controls::film_changed ()
 {
-	_viewer->set_film (film);
+	shared_ptr<Film> film = _viewer->film ();
 
 	if (_film == film) {
 		return;
@@ -364,83 +357,11 @@ ControlFilmViewer::set_film (shared_ptr<Film> film)
 	update_position_slider ();
 	update_position_label ();
 
-	_film->Change.connect (boost::bind (&ControlFilmViewer::film_change, this, _1, _2));
-}
-
-void
-ControlFilmViewer::set_position (DCPTime p)
-{
-	_viewer->set_position (p);
-}
-
-void
-ControlFilmViewer::set_position (shared_ptr<Content> content, ContentTime t)
-{
-	_viewer->set_position (content, t);
-}
-
-void
-ControlFilmViewer::set_dcp_decode_reduction (boost::optional<int> reduction)
-{
-	_viewer->set_dcp_decode_reduction (reduction);
-}
-
-void
-ControlFilmViewer::show_closed_captions ()
-{
-	_viewer->show_closed_captions ();
-}
-
-void
-ControlFilmViewer::start ()
-{
-	_viewer->start ();
-}
-
-bool
-ControlFilmViewer::stop ()
-{
-	return _viewer->stop ();
-}
-
-bool
-ControlFilmViewer::playing () const
-{
-	return _viewer->playing ();
-}
-
-void
-ControlFilmViewer::slow_refresh ()
-{
-	_viewer->slow_refresh ();
-}
-
-int
-ControlFilmViewer::dropped () const
-{
-	return _viewer->dropped ();
+	_film->Change.connect (boost::bind (&Controls::film_change, this, _1, _2));
 }
 
 shared_ptr<Film>
-ControlFilmViewer::film () const
+Controls::film () const
 {
 	return _film;
-}
-
-optional<int>
-ControlFilmViewer::dcp_decode_reduction () const
-{
-	return _viewer->dcp_decode_reduction ();
-}
-
-DCPTime
-ControlFilmViewer::position () const
-{
-	return _viewer->position ();
-}
-
-void
-ControlFilmViewer::set_coalesce_player_changes (bool c)
-{
-	_viewer->set_coalesce_player_changes (c);
 }

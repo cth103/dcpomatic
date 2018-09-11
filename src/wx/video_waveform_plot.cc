@@ -19,7 +19,7 @@
 */
 
 #include "video_waveform_plot.h"
-#include "control_film_viewer.h"
+#include "film_viewer.h"
 #include "wx_util.h"
 #include "lib/image.h"
 #include "lib/film.h"
@@ -43,7 +43,7 @@ int const VideoWaveformPlot::_vertical_margin = 8;
 int const VideoWaveformPlot::_pixel_values = 4096;
 int const VideoWaveformPlot::_x_axis_width = 52;
 
-VideoWaveformPlot::VideoWaveformPlot (wxWindow* parent, weak_ptr<const Film> film, ControlFilmViewer* viewer)
+VideoWaveformPlot::VideoWaveformPlot (wxWindow* parent, weak_ptr<const Film> film, weak_ptr<FilmViewer> viewer)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 	, _film (film)
 	, _dirty (true)
@@ -55,7 +55,10 @@ VideoWaveformPlot::VideoWaveformPlot (wxWindow* parent, weak_ptr<const Film> fil
 	SetDoubleBuffered (true);
 #endif
 
-	_viewer_connection = viewer->ImageChanged.connect (boost::bind (&VideoWaveformPlot::set_image, this, _1));
+	shared_ptr<FilmViewer> fv = viewer.lock ();
+	DCPOMATIC_ASSERT (fv);
+
+	_viewer_connection = fv->ImageChanged.connect (boost::bind (&VideoWaveformPlot::set_image, this, _1));
 
 	Bind (wxEVT_PAINT, boost::bind (&VideoWaveformPlot::paint, this));
 	Bind (wxEVT_SIZE,  boost::bind (&VideoWaveformPlot::sized, this, _1));

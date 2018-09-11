@@ -22,13 +22,13 @@
 #include <boost/weak_ptr.hpp>
 
 class VideoWaveformPlot;
-class ControlFilmViewer;
+class FilmViewer;
 class Film;
 
 class VideoWaveformDialog : public wxDialog
 {
 public:
-	VideoWaveformDialog (wxWindow* parent, boost::weak_ptr<const Film> film, ControlFilmViewer* viewer);
+	VideoWaveformDialog (wxWindow* parent, boost::weak_ptr<const Film> film, boost::weak_ptr<FilmViewer> viewer);
 
 private:
 	void shown (wxShowEvent &);
@@ -36,7 +36,7 @@ private:
 	void contrast_changed ();
 	void mouse_moved (int x1, int x2, int y1, int y2);
 
-	ControlFilmViewer* _viewer;
+	boost::weak_ptr<FilmViewer> _viewer;
 	VideoWaveformPlot* _plot;
 	wxChoice* _component;
 	wxSlider* _contrast;

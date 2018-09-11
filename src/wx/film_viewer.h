@@ -97,6 +97,7 @@ public:
 	boost::signals2::signal<void ()> PositionChanged;
 	boost::signals2::signal<void ()> Started;
 	boost::signals2::signal<void ()> Stopped;
+	boost::signals2::signal<void ()> FilmChanged;
 
 private:
 	void paint_panel ();

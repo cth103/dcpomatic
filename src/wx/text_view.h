@@ -19,12 +19,14 @@
 */
 
 #include "lib/content_text.h"
-#include <boost/shared_ptr.hpp>
 #include <wx/wx.h>
 #include <wx/listctrl.h>
+#include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
 
 class Decoder;
-class ControlFilmViewer;
+class FilmViewer;
+class Film;
 
 class TextView : public wxDialog
 {
@@ -35,7 +37,7 @@ public:
 		boost::shared_ptr<Content> content,
 		boost::shared_ptr<TextContent> caption,
 		boost::shared_ptr<Decoder>,
-		ControlFilmViewer* viewer
+		boost::weak_ptr<FilmViewer> viewer
 		);
 
 private:
@@ -49,5 +51,5 @@ private:
 	boost::optional<int> _last_count;
 	std::vector<ContentTime> _start_times;
 	boost::weak_ptr<Content> _content;
-	ControlFilmViewer* _film_viewer;
+	boost::weak_ptr<FilmViewer> _film_viewer;
 };

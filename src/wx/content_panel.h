@@ -37,12 +37,12 @@ class VideoPanel;
 class AudioPanel;
 class TimingPanel;
 class Film;
-class ControlFilmViewer;
+class FilmViewer;
 
 class ContentPanel : public boost::noncopyable
 {
 public:
-	ContentPanel (wxNotebook *, boost::shared_ptr<Film>, ControlFilmViewer* viewer);
+	ContentPanel (wxNotebook *, boost::shared_ptr<Film>, boost::weak_ptr<FilmViewer> viewer);
 
 	boost::shared_ptr<Film> film () const {
 		return _film;
@@ -74,7 +74,7 @@ public:
 	bool remove_clicked (bool hotkey);
 	void timeline_clicked ();
 
-	ControlFilmViewer* film_viewer () const {
+	boost::weak_ptr<FilmViewer> film_viewer () const {
 		return _film_viewer;
 	}
 
@@ -120,7 +120,7 @@ private:
 	wxWindow* _last_selected_tab;
 
 	boost::shared_ptr<Film> _film;
-	ControlFilmViewer* _film_viewer;
+	boost::weak_ptr<FilmViewer> _film_viewer;
 	bool _generally_sensitive;
 	bool _ignore_deselect;
 };

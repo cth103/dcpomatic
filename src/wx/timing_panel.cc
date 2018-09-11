@@ -20,7 +20,7 @@
 
 #include "timing_panel.h"
 #include "wx_util.h"
-#include "control_film_viewer.h"
+#include "film_viewer.h"
 #include "timecode.h"
 #include "content_panel.h"
 #include "move_to_dialog.h"
@@ -40,11 +40,12 @@ using std::cout;
 using std::string;
 using std::set;
 using boost::shared_ptr;
+using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 using dcp::locale_convert;
 
-TimingPanel::TimingPanel (ContentPanel* p, ControlFilmViewer* viewer)
+TimingPanel::TimingPanel (ContentPanel* p, weak_ptr<FilmViewer> viewer)
 	/* horrid hack for apparent lack of context support with wxWidgets i18n code */
 	/// TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
 	: ContentSubPanel (p, S_("Timing|Timing"))
@@ -133,7 +134,9 @@ TimingPanel::TimingPanel (ContentPanel* p, ControlFilmViewer* viewer)
 	_video_frame_rate->Bind       (wxEVT_TEXT, boost::bind (&TimingPanel::video_frame_rate_changed, this));
 	_set_video_frame_rate->Bind   (wxEVT_BUTTON, boost::bind (&TimingPanel::set_video_frame_rate, this));
 
-	_viewer->ImageChanged.connect (boost::bind (&TimingPanel::setup_sensitivity, this));
+	shared_ptr<FilmViewer> fv = _viewer.lock ();
+	DCPOMATIC_ASSERT (fv);
+	fv->ImageChanged.connect (boost::bind (&TimingPanel::setup_sensitivity, this));
 
 	setup_sensitivity ();
 	add_to_grid ();
@@ -388,9 +391,14 @@ TimingPanel::full_length_changed ()
 void
 TimingPanel::trim_start_changed ()
 {
-	DCPTime const ph = _viewer->position ();
+	shared_ptr<FilmViewer> fv = _viewer.lock ();
+	if (!fv) {
+		return;
+	}
 
-	_viewer->set_coalesce_player_changes (true);
+	DCPTime const ph = fv->position ();
+
+	fv->set_coalesce_player_changes (true);
 
 	shared_ptr<Content> ref;
 	optional<FrameRateChange> ref_frc;
@@ -413,16 +421,21 @@ TimingPanel::trim_start_changed ()
 	}
 
 	if (ref) {
-		_viewer->set_position (max (DCPTime(), ref_ph.get() + ref->position() - DCPTime (ref->trim_start(), ref_frc.get())));
+		fv->set_position (max (DCPTime(), ref_ph.get() + ref->position() - DCPTime (ref->trim_start(), ref_frc.get())));
 	}
 
-	_viewer->set_coalesce_player_changes (false);
+	fv->set_coalesce_player_changes (false);
 }
 
 void
 TimingPanel::trim_end_changed ()
 {
-	_viewer->set_coalesce_player_changes (true);
+	shared_ptr<FilmViewer> fv = _viewer.lock ();
+	if (!fv) {
+		return;
+	}
+
+	fv->set_coalesce_player_changes (true);
 
 	ContentTime const trim = _trim_end->get (_parent->film()->video_frame_rate ());
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
@@ -430,11 +443,11 @@ TimingPanel::trim_end_changed ()
 	}
 
 	/* XXX: maybe playhead-off-the-end-of-the-film should be handled elsewhere */
-	if (_viewer->position() >= _parent->film()->length()) {
-		_viewer->set_position (_parent->film()->length() - DCPTime::from_frames (1, _parent->film()->video_frame_rate()));
+	if (fv->position() >= _parent->film()->length()) {
+		fv->set_position (_parent->film()->length() - DCPTime::from_frames (1, _parent->film()->video_frame_rate()));
 	}
 
-	_viewer->set_coalesce_player_changes (true);
+	fv->set_coalesce_player_changes (true);
 }
 
 void
@@ -497,11 +510,16 @@ TimingPanel::film_changed (Film::Property p)
 void
 TimingPanel::trim_start_to_playhead_clicked ()
 {
+	shared_ptr<FilmViewer> fv = _viewer.lock ();
+	if (!fv) {
+		return;
+	}
+
 	shared_ptr<const Film> film = _parent->film ();
-	DCPTime const ph = _viewer->position().floor (film->video_frame_rate ());
+	DCPTime const ph = fv->position().floor (film->video_frame_rate ());
 	optional<DCPTime> new_ph;
 
-	_viewer->set_coalesce_player_changes (true);
+	fv->set_coalesce_player_changes (true);
 
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		if (i->position() < ph && ph < i->end ()) {
@@ -512,17 +530,22 @@ TimingPanel::trim_start_to_playhead_clicked ()
 	}
 
 	if (new_ph) {
-		_viewer->set_position (new_ph.get());
+		fv->set_position (new_ph.get());
 	}
 
-	_viewer->set_coalesce_player_changes (false);
+	fv->set_coalesce_player_changes (false);
 }
 
 void
 TimingPanel::trim_end_to_playhead_clicked ()
 {
+	shared_ptr<FilmViewer> fv = _viewer.lock ();
+	if (!fv) {
+		return;
+	}
+
 	shared_ptr<const Film> film = _parent->film ();
-	DCPTime const ph = _viewer->position().floor (film->video_frame_rate ());
+	DCPTime const ph = fv->position().floor (film->video_frame_rate ());
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		if (i->position() < ph && ph < i->end ()) {
 			FrameRateChange const frc = film->active_frame_rate_change (i->position ());
@@ -544,7 +567,9 @@ TimingPanel::setup_sensitivity ()
 	_play_length->Enable (e);
 	_video_frame_rate->Enable (e);
 
-	DCPTime const ph = _viewer->position ();
+	shared_ptr<FilmViewer> fv = _viewer.lock ();
+	DCPOMATIC_ASSERT (fv);
+	DCPTime const ph = fv->position ();
 	bool any_over_ph = false;
 	BOOST_FOREACH (shared_ptr<const Content> i, _parent->selected ()) {
 		if (i->position() <= ph && ph < i->end()) {

@@ -20,13 +20,14 @@
 
 #include <wx/wx.h>
 #include <boost/scoped_ptr.hpp>
+#include <boost/weak_ptr.hpp>
 
-class ControlFilmViewer;
+class FilmViewer;
 
 class PlayerInformation : public wxPanel
 {
 public:
-	PlayerInformation (wxWindow* parent, ControlFilmViewer* viewer);
+	PlayerInformation (wxWindow* parent, boost::weak_ptr<FilmViewer> viewer);
 
 	void triggered_update ();
 
@@ -34,7 +35,7 @@ private:
 
 	void periodic_update ();
 
-	ControlFilmViewer* _viewer;
+	boost::weak_ptr<FilmViewer> _viewer;
 	wxSizer* _sizer;
 	wxStaticText** _dcp;
 	wxStaticText* _dropped;

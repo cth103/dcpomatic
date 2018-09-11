@@ -18,6 +18,9 @@
 
 */
 
+#include "text_view.h"
+#include "film_viewer.h"
+#include "wx_util.h"
 #include "lib/string_text_file_decoder.h"
 #include "lib/content_text.h"
 #include "lib/video_decoder.h"
@@ -26,17 +29,15 @@
 #include "lib/config.h"
 #include "lib/string_text_file_content.h"
 #include "lib/text_decoder.h"
-#include "text_view.h"
-#include "control_film_viewer.h"
-#include "wx_util.h"
 
 using std::list;
 using boost::shared_ptr;
+using boost::weak_ptr;
 using boost::bind;
 using boost::dynamic_pointer_cast;
 
 TextView::TextView (
-	wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content> content, shared_ptr<TextContent> text, shared_ptr<Decoder> decoder, ControlFilmViewer* viewer
+	wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content> content, shared_ptr<TextContent> text, shared_ptr<Decoder> decoder, weak_ptr<FilmViewer> viewer
 	)
 	: wxDialog (parent, wxID_ANY, _("Captions"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 	, _content (content)
@@ -135,7 +136,9 @@ TextView::subtitle_selected (wxListEvent& ev)
 	}
 
 	DCPOMATIC_ASSERT (ev.GetIndex() < int(_start_times.size()));
-	shared_ptr<Content> locked = _content.lock ();
-	DCPOMATIC_ASSERT (locked);
-	_film_viewer->set_position (locked, _start_times[ev.GetIndex()]);
+	shared_ptr<Content> lc = _content.lock ();
+	DCPOMATIC_ASSERT (lc);
+	shared_ptr<FilmViewer> fv = _film_viewer.lock ();
+	DCPOMATIC_ASSERT (fv);
+	fv->set_position (lc, _start_times[ev.GetIndex()]);
 }

@@ -20,7 +20,7 @@
 
 #include "video_waveform_dialog.h"
 #include "video_waveform_plot.h"
-#include "control_film_viewer.h"
+#include "film_viewer.h"
 #include "wx_util.h"
 #include <boost/bind.hpp>
 #include <iostream>
@@ -28,8 +28,9 @@
 using std::cout;
 using boost::bind;
 using boost::weak_ptr;
+using boost::shared_ptr;
 
-VideoWaveformDialog::VideoWaveformDialog (wxWindow* parent, weak_ptr<const Film> film, ControlFilmViewer* viewer)
+VideoWaveformDialog::VideoWaveformDialog (wxWindow* parent, weak_ptr<const Film> film, weak_ptr<FilmViewer> viewer)
 	: wxDialog (
 		parent,
 		wxID_ANY,
@@ -106,7 +107,9 @@ VideoWaveformDialog::shown (wxShowEvent& ev)
 {
 	_plot->set_enabled (ev.IsShown ());
 	if (ev.IsShown ()) {
-		_viewer->slow_refresh ();
+		shared_ptr<FilmViewer> fv = _viewer.lock ();
+		DCPOMATIC_ASSERT (fv);
+		fv->slow_refresh ();
 	}
 }
 

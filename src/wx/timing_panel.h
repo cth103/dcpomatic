@@ -21,12 +21,12 @@
 #include "content_sub_panel.h"
 #include "timecode.h"
 
-class ControlFilmViewer;
+class FilmViewer;
 
 class TimingPanel : public ContentSubPanel
 {
 public:
-	TimingPanel (ContentPanel *, ControlFilmViewer* viewer);
+	TimingPanel (ContentPanel *, boost::weak_ptr<FilmViewer> viewer);
 
 	void film_changed (Film::Property);
 	void film_content_changed (int);
@@ -48,7 +48,7 @@ private:
 	void setup_sensitivity ();
 	void add_to_grid ();
 
-	ControlFilmViewer* _viewer;
+	boost::weak_ptr<FilmViewer> _viewer;
 
 	wxStaticText* _h_label;
 	wxStaticText* _m_label;
