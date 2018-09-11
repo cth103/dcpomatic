@@ -434,21 +434,6 @@ FilmViewer::stop ()
 }
 
 void
-FilmViewer::go_to (DCPTime t)
-{
-	if (t < DCPTime ()) {
-		t = DCPTime ();
-	}
-
-	if (t >= _film->length ()) {
-		t = _film->length ();
-	}
-
-	seek (t, true);
-	PositionChanged ();
-}
-
-void
 FilmViewer::player_change (ChangeType type, int property, bool frequent)
 {
 	if (type != CHANGE_TYPE_DONE || frequent) {
@@ -515,19 +500,11 @@ FilmViewer::quick_refresh ()
 }
 
 void
-FilmViewer::set_position (DCPTime p)
-{
-	_video_position = p;
-	seek (p, true);
-	PositionChanged ();
-}
-
-void
-FilmViewer::set_position (shared_ptr<Content> content, ContentTime t)
+FilmViewer::seek (shared_ptr<Content> content, ContentTime t, bool accurate)
 {
 	optional<DCPTime> dt = _player->content_time_to_dcp (content, t);
 	if (dt) {
-		set_position (*dt);
+		seek (*dt, accurate);
 	}
 }
 
@@ -551,6 +528,14 @@ FilmViewer::seek (DCPTime t, bool accurate)
 		return;
 	}
 
+	if (t < DCPTime ()) {
+		t = DCPTime ();
+	}
+
+	if (t >= _film->length ()) {
+		t = _film->length ();
+	}
+
 	bool const was_running = stop ();
 
 	_closed_captions_dialog->clear ();
@@ -560,6 +545,8 @@ FilmViewer::seek (DCPTime t, bool accurate)
 	if (was_running) {
 		start ();
 	}
+
+	PositionChanged ();
 }
 
 void
@@ -696,6 +683,7 @@ FilmViewer::one_video_frame () const
 	return DCPTime::from_frames (1, _film->video_frame_rate());
 }
 
+/** Open a dialog box showing our film's closed captions */
 void
 FilmViewer::show_closed_captions ()
 {
@@ -703,11 +691,7 @@ FilmViewer::show_closed_captions ()
 }
 
 void
-FilmViewer::move (DCPTime by)
+FilmViewer::seek_by (DCPTime by, bool accurate)
 {
-	if (!_film) {
-		return;
-	}
-
-	go_to (_video_position + by);
+	seek (_video_position + by, accurate);
 }

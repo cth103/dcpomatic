@@ -1301,12 +1301,12 @@ private:
 
 	void back_frame ()
 	{
-		_film_viewer->move (-_film_viewer->one_video_frame());
+		_film_viewer->seek_by (-_film_viewer->one_video_frame(), true);
 	}
 
 	void forward_frame ()
 	{
-		_film_viewer->move (_film_viewer->one_video_frame());
+		_film_viewer->seek_by (_film_viewer->one_video_frame(), true);
 	}
 
 	FilmEditor* _film_editor;

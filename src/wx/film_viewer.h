@@ -19,7 +19,7 @@
 */
 
 /** @file  src/film_viewer.h
- *  @brief A wx widget to view `thumbnails' of a Film.
+ *  @brief FilmViewer class.
  */
 
 #include "lib/film.h"
@@ -38,7 +38,7 @@ class Butler;
 class ClosedCaptionsDialog;
 
 /** @class FilmViewer
- *  @brief A wx widget to view a preview of a Film.
+ *  @brief A wx widget to view a Film.
  */
 class FilmViewer
 {
@@ -46,25 +46,38 @@ public:
 	FilmViewer (wxWindow *);
 	~FilmViewer ();
 
+	/** @return the panel showing the film's video */
 	wxPanel* panel () const {
 		return _panel;
 	}
+
+	void show_closed_captions ();
 
 	void set_film (boost::shared_ptr<Film>);
 	boost::shared_ptr<Film> film () const {
 		return _film;
 	}
 
+	void seek (DCPTime t, bool accurate);
+	void seek (boost::shared_ptr<Content> content, ContentTime p, bool accurate);
+	void seek_by (DCPTime by, bool accurate);
 	/** @return our `playhead' position; this may not lie exactly on a frame boundary */
 	DCPTime position () const {
 		return _video_position;
 	}
+	DCPTime one_video_frame () const;
 
-	void set_position (DCPTime p);
-	void set_position (boost::shared_ptr<Content> content, ContentTime p);
+	void start ();
+	bool stop ();
+	bool playing () const {
+		return _playing;
+	}
+
 	void set_coalesce_player_changes (bool c);
 	void set_dcp_decode_reduction (boost::optional<int> reduction);
 	boost::optional<int> dcp_decode_reduction () const;
+	void set_outline_content (bool o);
+	void set_eyes (Eyes e);
 
 	void slow_refresh ();
 	bool quick_refresh ();
@@ -73,25 +86,7 @@ public:
 		return _dropped;
 	}
 
-	void start ();
-	bool stop ();
-	bool playing () const {
-		return _playing;
-	}
-
-	void move (DCPTime by);
-	DCPTime one_video_frame () const;
-	void seek (DCPTime t, bool accurate);
-	DCPTime video_position () const {
-		return _video_position;
-	}
-	void go_to (DCPTime t);
-	void set_outline_content (bool o);
-	void set_eyes (Eyes e);
-
 	int audio_callback (void* out, unsigned int frames);
-
-	void show_closed_captions ();
 
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
 	boost::signals2::signal<void ()> PositionChanged;

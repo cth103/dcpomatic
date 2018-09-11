@@ -304,7 +304,7 @@ ContentPanel::check_selection ()
 	if (go_to && Config::instance()->jump_to_selected() && signal_manager) {
 		shared_ptr<FilmViewer> fv = _film_viewer.lock ();
 		DCPOMATIC_ASSERT (fv);
-		signal_manager->when_idle(boost::bind(&FilmViewer::set_position, fv.get(), go_to.get().ceil(_film->video_frame_rate())));
+		signal_manager->when_idle(boost::bind(&FilmViewer::seek, fv.get(), go_to.get().ceil(_film->video_frame_rate()), true));
 	}
 
 	if (_timeline_dialog) {

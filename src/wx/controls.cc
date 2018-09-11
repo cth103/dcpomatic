@@ -215,7 +215,7 @@ Controls::update_position_slider ()
 	DCPTime const len = _film->length ();
 
 	if (len.get ()) {
-		int const new_slider_position = 4096 * _viewer->video_position().get() / len.get();
+		int const new_slider_position = 4096 * _viewer->position().get() / len.get();
 		if (new_slider_position != _slider->GetValue()) {
 			_slider->SetValue (new_slider_position);
 		}
@@ -233,8 +233,8 @@ Controls::update_position_label ()
 
 	double const fps = _film->video_frame_rate ();
 	/* Count frame number from 1 ... not sure if this is the best idea */
-	_frame_number->SetLabel (wxString::Format (wxT("%ld"), lrint (_viewer->video_position().seconds() * fps) + 1));
-	_timecode->SetLabel (time_to_timecode (_viewer->video_position(), fps));
+	_frame_number->SetLabel (wxString::Format (wxT("%ld"), lrint (_viewer->position().seconds() * fps) + 1));
+	_timecode->SetLabel (time_to_timecode (_viewer->position(), fps));
 }
 
 void
@@ -265,32 +265,32 @@ Controls::nudge_amount (wxKeyboardState& ev)
 void
 Controls::rewind_clicked (wxMouseEvent& ev)
 {
-	_viewer->go_to (DCPTime());
+	_viewer->seek (DCPTime(), true);
 	ev.Skip();
 }
 
 void
 Controls::back_frame ()
 {
-	_viewer->move (-_viewer->one_video_frame());
+	_viewer->seek_by (-_viewer->one_video_frame(), true);
 }
 
 void
 Controls::forward_frame ()
 {
-	_viewer->move (_viewer->one_video_frame());
+	_viewer->seek_by (_viewer->one_video_frame(), true);
 }
 
 void
 Controls::back_clicked (wxKeyboardState& ev)
 {
-	_viewer->move (-nudge_amount(ev));
+	_viewer->seek_by (-nudge_amount(ev), true);
 }
 
 void
 Controls::forward_clicked (wxKeyboardState& ev)
 {
-	_viewer->move (nudge_amount(ev));
+	_viewer->seek_by (nudge_amount(ev), true);
 }
 
 void
@@ -320,7 +320,7 @@ Controls::timecode_clicked ()
 {
 	PlayheadToTimecodeDialog* dialog = new PlayheadToTimecodeDialog (this, _film->video_frame_rate ());
 	if (dialog->ShowModal() == wxID_OK) {
-		_viewer->go_to (dialog->get ());
+		_viewer->seek (dialog->get(), true);
 	}
 	dialog->Destroy ();
 }
@@ -330,7 +330,7 @@ Controls::frame_number_clicked ()
 {
 	PlayheadToFrameDialog* dialog = new PlayheadToFrameDialog (this, _film->video_frame_rate ());
 	if (dialog->ShowModal() == wxID_OK) {
-		_viewer->go_to (dialog->get ());
+		_viewer->seek (dialog->get(), true);
 	}
 	dialog->Destroy ();
 }

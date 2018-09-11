@@ -140,5 +140,5 @@ TextView::subtitle_selected (wxListEvent& ev)
 	DCPOMATIC_ASSERT (lc);
 	shared_ptr<FilmViewer> fv = _film_viewer.lock ();
 	DCPOMATIC_ASSERT (fv);
-	fv->set_position (lc, _start_times[ev.GetIndex()]);
+	fv->seek (lc, _start_times[ev.GetIndex()], true);
 }

@@ -217,7 +217,7 @@ public:
 		}
 
 		_viewer->set_film (_film);
-		_viewer->set_position (DCPTime ());
+		_viewer->seek (DCPTime(), true);
 		_info->triggered_update ();
 
 		Config::instance()->add_to_player_history (dir);
@@ -579,12 +579,12 @@ private:
 
 	void back_frame ()
 	{
-		_viewer->move (-_viewer->one_video_frame());
+		_viewer->seek_by (-_viewer->one_video_frame(), true);
 	}
 
 	void forward_frame ()
 	{
-		_viewer->move (_viewer->one_video_frame());
+		_viewer->seek_by (_viewer->one_video_frame(), true);
 	}
 
 private:

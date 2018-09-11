@@ -421,7 +421,7 @@ TimingPanel::trim_start_changed ()
 	}
 
 	if (ref) {
-		fv->set_position (max (DCPTime(), ref_ph.get() + ref->position() - DCPTime (ref->trim_start(), ref_frc.get())));
+		fv->seek (max(DCPTime(), ref_ph.get() + ref->position() - DCPTime(ref->trim_start(), ref_frc.get())), true);
 	}
 
 	fv->set_coalesce_player_changes (false);
@@ -444,7 +444,7 @@ TimingPanel::trim_end_changed ()
 
 	/* XXX: maybe playhead-off-the-end-of-the-film should be handled elsewhere */
 	if (fv->position() >= _parent->film()->length()) {
-		fv->set_position (_parent->film()->length() - DCPTime::from_frames (1, _parent->film()->video_frame_rate()));
+		fv->seek (_parent->film()->length() - DCPTime::from_frames(1, _parent->film()->video_frame_rate()), true);
 	}
 
 	fv->set_coalesce_player_changes (true);
@@ -530,7 +530,7 @@ TimingPanel::trim_start_to_playhead_clicked ()
 	}
 
 	if (new_ph) {
-		fv->set_position (new_ph.get());
+		fv->seek (new_ph.get(), true);
 	}
 
 	fv->set_coalesce_player_changes (false);
