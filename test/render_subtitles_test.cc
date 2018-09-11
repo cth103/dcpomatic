@@ -52,7 +52,8 @@ add (std::list<StringText>& s, std::string text, bool italic, bool bold, bool un
 				dcp::Colour (0, 0, 0),
 				dcp::Time (),
 				dcp::Time ()
-				)
+				),
+			2
 			)
 		);
 }

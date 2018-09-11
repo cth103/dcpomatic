@@ -30,11 +30,6 @@
 class StringText : public dcp::SubtitleString
 {
 public:
-	explicit StringText (dcp::SubtitleString dcp_)
-		: dcp::SubtitleString (dcp_)
-		, outline_width (2)
-	{}
-
 	StringText (dcp::SubtitleString dcp_, int outline_width_)
 		: dcp::SubtitleString (dcp_)
 		, outline_width (outline_width_)
