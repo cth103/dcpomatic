@@ -459,6 +459,16 @@ public:
 		return _interface_complexity;
 	}
 
+	enum PlayerMode {
+		PLAYER_MODE_WINDOW,
+		PLAYER_MODE_FULL,
+		PLAYER_MODE_DUAL
+	};
+
+	PlayerMode player_mode () const {
+		return _player_mode;
+	}
+
 	/* SET (mostly) */
 
 	void set_master_encoding_threads (int n) {
@@ -857,6 +867,10 @@ public:
 		maybe_set (_interface_complexity, i, INTERFACE_COMPLEXITY);
 	}
 
+	void set_player_mode (PlayerMode m) {
+		maybe_set (_player_mode, m);
+	}
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -1039,6 +1053,7 @@ private:
 	boost::optional<std::string> _gdc_username;
 	boost::optional<std::string> _gdc_password;
 	Interface _interface_complexity;
+	PlayerMode _player_mode;
 
 	static int const _current_version;
 

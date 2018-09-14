@@ -105,18 +105,12 @@ enum {
 class DOMFrame : public wxFrame
 {
 public:
-	enum Screen {
-		SCREEN_WINDOW,
-		SCREEN_FULL,
-		SCREEN_DUAL
-	};
-
 	DOMFrame ()
 		: wxFrame (0, -1, _("DCP-o-matic Player"))
 		, _update_news_requested (false)
 		, _info (0)
+		, _mode (Config::instance()->player_mode())
 		, _config_dialog (0)
-		, _screen (SCREEN_WINDOW)
 		, _cinema_dialog (0)
 		, _file_menu (0)
 		, _history_items (0)
@@ -199,6 +193,8 @@ public:
 		_cinema_dialog = new CinemaPlayerDialog (this, _viewer);
 
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
+
+		setup_screen ();
 	}
 
 	void set_decode_reduction (optional<int> reduction)
@@ -289,8 +285,8 @@ private:
 		wxMenu* view = new wxMenu;
 		optional<int> c = Config::instance()->decode_reduction();
 		_view_cpl = view->Append(ID_view_cpl, _("CPL"), _cpl_menu);
-		view->AppendCheckItem(ID_view_full_screen, _("Full screen\tF11"))->Check(_screen == SCREEN_FULL);
-		view->AppendCheckItem(ID_view_dual_screen, _("Dual screen\tShift+F11"))->Check(_screen == SCREEN_DUAL);
+		view->AppendCheckItem(ID_view_full_screen, _("Full screen\tF11"))->Check(_mode == Config::PLAYER_MODE_FULL);
+		view->AppendCheckItem(ID_view_dual_screen, _("Dual screen\tShift+F11"))->Check(_mode == Config::PLAYER_MODE_DUAL);
 		view->Append(ID_view_closed_captions, _("Closed captions..."));
 		view->AppendSeparator();
 		view->AppendRadioItem(ID_view_scale_appropriate, _("Set decode resolution to match display"))->Check(!static_cast<bool>(c));
@@ -457,31 +453,31 @@ private:
 
 	void view_full_screen ()
 	{
-		if (_screen == SCREEN_FULL) {
-			_screen = SCREEN_WINDOW;
+		if (_mode == Config::PLAYER_MODE_FULL) {
+			_mode = Config::PLAYER_MODE_WINDOW;
 		} else {
-			_screen = SCREEN_FULL;
+			_mode = Config::PLAYER_MODE_FULL;
 		}
 		setup_screen ();
 	}
 
 	void view_dual_screen ()
 	{
-		if (_screen == SCREEN_DUAL) {
-			_screen = SCREEN_WINDOW;
+		if (_mode == Config::PLAYER_MODE_DUAL) {
+			_mode = Config::PLAYER_MODE_WINDOW;
 		} else {
-			_screen = SCREEN_DUAL;
+			_mode = Config::PLAYER_MODE_DUAL;
 		}
 		setup_screen ();
 	}
 
 	void setup_screen ()
 	{
-		_controls->Show (_screen == SCREEN_WINDOW);
-		_info->Show (_screen == SCREEN_WINDOW);
-		_overall_panel->SetBackgroundColour (_screen == SCREEN_WINDOW ? wxNullColour : wxColour(0, 0, 0));
-		ShowFullScreen (_screen != SCREEN_WINDOW);
-		if (_screen == SCREEN_DUAL) {
+		_controls->Show (_mode == Config::PLAYER_MODE_WINDOW);
+		_info->Show (_mode == Config::PLAYER_MODE_WINDOW);
+		_overall_panel->SetBackgroundColour (_mode == Config::PLAYER_MODE_WINDOW ? wxNullColour : wxColour(0, 0, 0));
+		ShowFullScreen (_mode != Config::PLAYER_MODE_WINDOW);
+		if (_mode == Config::PLAYER_MODE_DUAL) {
 			_cinema_dialog->Show ();
 			if (wxDisplay::GetCount() > 1) {
 				this->Move (0, 0);
@@ -697,8 +693,8 @@ private:
 
 	bool _update_news_requested;
 	PlayerInformation* _info;
+	Config::PlayerMode _mode;
 	wxPreferencesEditor* _config_dialog;
-	Screen _screen;
 	CinemaPlayerDialog* _cinema_dialog;
 	wxPanel* _overall_panel;
 	wxMenu* _file_menu;

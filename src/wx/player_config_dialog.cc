@@ -85,7 +85,52 @@ private:
 		add_language_controls (table, r);
 		add_play_sound_controls (table, r);
 		add_update_controls (table, r);
+
+		add_label_to_sizer (table, _panel, _("Start player as"), true, wxGBPosition(r, 0));
+		_player_mode = new wxChoice (_panel, wxID_ANY);
+		_player_mode->Append (_("window"));
+		_player_mode->Append (_("full screen"));
+		_player_mode->Append (_("full screen with controls on second monitor"));
+		table->Add (_player_mode, wxGBPosition(r, 1));
+		++r;
+
+		_player_mode->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::player_mode_changed, this));
 	}
+
+	void config_changed ()
+	{
+		GeneralPage::config_changed ();
+
+		switch (Config::instance()->player_mode()) {
+		case Config::PLAYER_MODE_WINDOW:
+			checked_set (_player_mode, 0);
+			break;
+		case Config::PLAYER_MODE_FULL:
+			checked_set (_player_mode, 1);
+			break;
+		case Config::PLAYER_MODE_DUAL:
+			checked_set (_player_mode, 2);
+			break;
+		}
+	}
+
+private:
+	void player_mode_changed ()
+	{
+		switch (_player_mode->GetSelection()) {
+		case 0:
+			Config::instance()->set_player_mode(Config::PLAYER_MODE_WINDOW);
+			break;
+		case 1:
+			Config::instance()->set_player_mode(Config::PLAYER_MODE_FULL);
+			break;
+		case 2:
+			Config::instance()->set_player_mode(Config::PLAYER_MODE_DUAL);
+			break;
+		}
+	}
+
+	wxChoice* _player_mode;
 };
 
 wxPreferencesEditor*

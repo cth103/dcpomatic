@@ -163,6 +163,7 @@ Config::set_defaults ()
 	_gdc_username = optional<string>();
 	_gdc_password = optional<string>();
 	_interface_complexity = INTERFACE_SIMPLE;
+	_player_mode = PLAYER_MODE_WINDOW;
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -480,6 +481,14 @@ try
 	optional<string> ic = f.optional_string_child("InterfaceComplexity");
 	if (ic && *ic == "full") {
 		_interface_complexity = INTERFACE_FULL;
+	}
+	optional<string> pm = f.optional_string_child("PlayerMode");
+	if (pm && *pm == "window") {
+		_player_mode = PLAYER_MODE_WINDOW;
+	} else if (pm && *pm == "full") {
+		_player_mode = PLAYER_MODE_FULL;
+	} else if (pm && *pm == "dual") {
+		_player_mode = PLAYER_MODE_DUAL;
 	}
 
 	/* Replace any cinemas from config.xml with those from the configured file */
@@ -852,6 +861,18 @@ Config::write_config () const
 		break;
 	case INTERFACE_FULL:
 		root->add_child("InterfaceComplexity")->add_child_text("full");
+		break;
+	}
+
+	switch (_player_mode) {
+	case PLAYER_MODE_WINDOW:
+		root->add_child("PlayerMode")->add_child_text("window");
+		break;
+	case PLAYER_MODE_FULL:
+		root->add_child("PlayerMode")->add_child_text("full");
+		break;
+	case PLAYER_MODE_DUAL:
+		root->add_child("PlayerMode")->add_child_text("dual");
 		break;
 	}
 
