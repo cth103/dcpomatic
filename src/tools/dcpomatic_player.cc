@@ -18,7 +18,6 @@
 
 */
 
-
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/about_dialog.h"
@@ -29,6 +28,7 @@
 #include "wx/player_config_dialog.h"
 #include "wx/verify_dcp_dialog.h"
 #include "wx/controls.h"
+#include "wx/cinema_player_dialog.h"
 #include "lib/cross.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -52,6 +52,7 @@
 #include <wx/cmdline.h>
 #include <wx/preferences.h>
 #include <wx/progdlg.h>
+#include <wx/display.h>
 #ifdef __WXOSX__
 #include <ApplicationServices/ApplicationServices.h>
 #endif
@@ -86,6 +87,7 @@ enum {
 	ID_view_cpl,
 	/* Allow spare IDs for CPLs */
 	ID_view_full_screen = 200,
+	ID_view_dual_screen,
 	ID_view_closed_captions,
 	ID_view_scale_appropriate,
 	ID_view_scale_full,
@@ -103,12 +105,19 @@ enum {
 class DOMFrame : public wxFrame
 {
 public:
+	enum Screen {
+		SCREEN_WINDOW,
+		SCREEN_FULL,
+		SCREEN_DUAL
+	};
+
 	DOMFrame ()
 		: wxFrame (0, -1, _("DCP-o-matic Player"))
 		, _update_news_requested (false)
 		, _info (0)
 		, _config_dialog (0)
-		, _full_screen (false)
+		, _screen (SCREEN_WINDOW)
+		, _cinema_dialog (0)
 		, _file_menu (0)
 		, _history_items (0)
 		, _history_position (0)
@@ -140,6 +149,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_exit, this), wxID_EXIT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_preferences, this), wxID_PREFERENCES);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_full_screen, this), ID_view_full_screen);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_dual_screen, this), ID_view_dual_screen);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_closed_captions, this), ID_view_closed_captions);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_cpl, this, _1), ID_view_cpl, ID_view_cpl + MAX_CPLS);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>(0)), ID_view_scale_full);
@@ -185,6 +195,8 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::start_stop_pressed, this), ID_start_stop);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::back_frame, this), ID_back_frame);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::forward_frame, this), ID_forward_frame);
+
+		_cinema_dialog = new CinemaPlayerDialog (this, _viewer);
 
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
 	}
@@ -277,7 +289,8 @@ private:
 		wxMenu* view = new wxMenu;
 		optional<int> c = Config::instance()->decode_reduction();
 		_view_cpl = view->Append(ID_view_cpl, _("CPL"), _cpl_menu);
-		view->AppendCheckItem(ID_view_full_screen, _("Full screen\tF11"))->Check(_full_screen);
+		view->AppendCheckItem(ID_view_full_screen, _("Full screen\tF11"))->Check(_screen == SCREEN_FULL);
+		view->AppendCheckItem(ID_view_dual_screen, _("Dual screen\tShift+F11"))->Check(_screen == SCREEN_DUAL);
 		view->Append(ID_view_closed_captions, _("Closed captions..."));
 		view->AppendSeparator();
 		view->AppendRadioItem(ID_view_scale_appropriate, _("Set decode resolution to match display"))->Check(!static_cast<bool>(c));
@@ -444,11 +457,37 @@ private:
 
 	void view_full_screen ()
 	{
-		_full_screen = !_full_screen;
-		_controls->Show (!_full_screen);
-		_info->Show (!_full_screen);
-		_overall_panel->SetBackgroundColour (_full_screen ? wxColour(0, 0, 0) : wxNullColour);
-		ShowFullScreen (_full_screen);
+		if (_screen == SCREEN_FULL) {
+			_screen = SCREEN_WINDOW;
+		} else {
+			_screen = SCREEN_FULL;
+		}
+		setup_screen ();
+	}
+
+	void view_dual_screen ()
+	{
+		if (_screen == SCREEN_DUAL) {
+			_screen = SCREEN_WINDOW;
+		} else {
+			_screen = SCREEN_DUAL;
+		}
+		setup_screen ();
+	}
+
+	void setup_screen ()
+	{
+		_controls->Show (_screen == SCREEN_WINDOW);
+		_info->Show (_screen == SCREEN_WINDOW);
+		_overall_panel->SetBackgroundColour (_screen == SCREEN_WINDOW ? wxNullColour : wxColour(0, 0, 0));
+		ShowFullScreen (_screen != SCREEN_WINDOW);
+		if (_screen == SCREEN_DUAL) {
+			_cinema_dialog->Show ();
+			if (wxDisplay::GetCount() > 1) {
+				this->Move (0, 0);
+				_cinema_dialog->Move (wxDisplay(0).GetClientArea().GetWidth(), 0);
+			}
+		}
 	}
 
 	void view_closed_captions ()
@@ -659,7 +698,8 @@ private:
 	bool _update_news_requested;
 	PlayerInformation* _info;
 	wxPreferencesEditor* _config_dialog;
-	bool _full_screen;
+	Screen _screen;
+	CinemaPlayerDialog* _cinema_dialog;
 	wxPanel* _overall_panel;
 	wxMenu* _file_menu;
 	wxMenuItem* _view_cpl;

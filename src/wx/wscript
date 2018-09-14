@@ -38,6 +38,7 @@ sources = """
           text_view.cc
           christie_certificate_panel.cc
           cinema_dialog.cc
+          cinema_player_dialog.cc
           colour_conversion_editor.cc
           config_dialog.cc
           config_move_dialog.cc

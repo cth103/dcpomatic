@@ -15,7 +15,7 @@ class wxToggleButton;
 class Controls : public wxPanel
 {
 public:
-	Controls (wxWindow* parent, boost::shared_ptr<FilmViewer>, bool outline_content = true, bool jump_to_selected = true);
+	Controls (wxWindow* parent, boost::shared_ptr<FilmViewer>, bool outline_content = true, bool jump_to_selected = true, bool eyes = true);
 
 	boost::shared_ptr<Film> film () const;
 	void back_frame ();

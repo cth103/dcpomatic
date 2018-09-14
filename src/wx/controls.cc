@@ -15,7 +15,7 @@ using boost::weak_ptr;
 /** @param outline_content true if viewer should present an "outline content" checkbox.
  *  @param jump_to_selected true if viewer should present a "jump to selected" checkbox.
  */
-Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool outline_content, bool jump_to_selected)
+Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool outline_content, bool jump_to_selected, bool eye)
 	: wxPanel (parent)
 	, _viewer (viewer)
 	, _slider_being_moved (false)
@@ -40,11 +40,13 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool outlin
 		view_options->Add (_outline_content, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
 	}
 
-	_eye = new wxChoice (this, wxID_ANY);
-	_eye->Append (_("Left"));
-	_eye->Append (_("Right"));
-	_eye->SetSelection (0);
-	view_options->Add (_eye, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
+	if (eye) {
+		_eye = new wxChoice (this, wxID_ANY);
+		_eye->Append (_("Left"));
+		_eye->Append (_("Right"));
+		_eye->SetSelection (0);
+		view_options->Add (_eye, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
+	}
 
 	if (jump_to_selected) {
 		_jump_to_selected = new wxCheckBox (this, wxID_ANY, _("Jump to selected content"));
@@ -73,7 +75,9 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool outlin
 	_back_button->SetMinSize (wxSize (32, -1));
 	_forward_button->SetMinSize (wxSize (32, -1));
 
-	_eye->Bind (wxEVT_CHOICE, boost::bind (&Controls::eye_changed, this));
+	if (_eye) {
+		_eye->Bind (wxEVT_CHOICE, boost::bind (&Controls::eye_changed, this));
+	}
 	if (_outline_content) {
 		_outline_content->Bind (wxEVT_CHECKBOX, boost::bind (&Controls::outline_content_changed, this));
 	}
@@ -314,7 +318,9 @@ Controls::setup_sensitivity ()
 		_jump_to_selected->Enable (c);
 	}
 
-	_eye->Enable (c && _film->three_d ());
+	if (_eye) {
+		_eye->Enable (c && _film->three_d ());
+	}
 }
 
 void
