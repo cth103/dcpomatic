@@ -1,5 +1,7 @@
 2018-09-14  Carl Hetherington  <cth@carlh.net>
 
+	* Very basic logging in player.
+
 	* Basic dual-screen mode for player.
 
 2018-09-11  Carl Hetherington  <cth@carlh.net>

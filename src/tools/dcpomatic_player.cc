@@ -163,6 +163,8 @@ public:
 		_controls = new Controls (_overall_panel, _viewer);
 		_viewer->set_dcp_decode_reduction (Config::instance()->decode_reduction ());
 		_viewer->PlaybackPermitted.connect (bind(&DOMFrame::playback_permitted, this));
+		_viewer->Started.connect (bind(&DOMFrame::playback_started, this));
+		_viewer->Stopped.connect (bind(&DOMFrame::playback_stopped, this));
 		_info = new PlayerInformation (_overall_panel, _viewer);
 		wxSizer* main_sizer = new wxBoxSizer (wxVERTICAL);
 		main_sizer->Add (_viewer->panel(), 1, wxEXPAND);
@@ -217,6 +219,47 @@ public:
 		}
 
 		return ok;
+	}
+
+	void playback_started ()
+	{
+		optional<boost::filesystem::path> log = Config::instance()->player_log_file();
+		if (!log) {
+			return;
+		}
+
+		shared_ptr<DCPContent> dcp = boost::dynamic_pointer_cast<DCPContent>(_film->content().front());
+		DCPOMATIC_ASSERT (dcp);
+		DCPExaminer ex (dcp);
+		shared_ptr<dcp::CPL> playing_cpl;
+		BOOST_FOREACH (shared_ptr<dcp::CPL> i, ex.cpls()) {
+			if (!dcp->cpl() || i->id() == *dcp->cpl()) {
+				playing_cpl = i;
+			}
+		}
+		DCPOMATIC_ASSERT (playing_cpl)
+
+		FILE* f = fopen_boost(*log, "a");
+		fprintf (
+			f,
+			"%s playback-started %s %s\n",
+			dcp::LocalTime().as_string().c_str(),
+			dcp->directories().front().string().c_str(),
+			playing_cpl->annotation_text().c_str()
+			);
+		fclose (f);
+	}
+
+	void playback_stopped ()
+	{
+		optional<boost::filesystem::path> log = Config::instance()->player_log_file();
+		if (!log) {
+			return;
+		}
+
+		FILE* f = fopen_boost(*log, "a");
+		fprintf (f, "%s playback-stopped\n", dcp::LocalTime().as_string().c_str());
+		fclose (f);
 	}
 
 	void set_decode_reduction (optional<int> reduction)

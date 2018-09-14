@@ -165,6 +165,7 @@ Config::set_defaults ()
 	_interface_complexity = INTERFACE_SIMPLE;
 	_player_mode = PLAYER_MODE_WINDOW;
 	_respect_kdm_validity_periods = false;
+	_player_log_file = boost::none;
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -493,6 +494,7 @@ try
 	}
 
 	_respect_kdm_validity_periods = f.optional_bool_child("RespectKDMValidityPeriods").get_value_or(false);
+	_player_log_file = f.optional_string_child("PlayerLogFile");
 
 	/* Replace any cinemas from config.xml with those from the configured file */
 	if (boost::filesystem::exists (_cinemas_file)) {
@@ -880,6 +882,9 @@ Config::write_config () const
 	}
 
 	root->add_child("RespectKDMValidityPeriods")->add_child_text(_respect_kdm_validity_periods ? "1" : "0");
+	if (_player_log_file) {
+		root->add_child("PlayerLogFile")->add_child_text(_player_log_file->string());
+	}
 
 	try {
 		doc.write_to_file_formatted(config_file().string());

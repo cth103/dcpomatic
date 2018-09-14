@@ -98,15 +98,23 @@ private:
 		table->Add (_respect_kdm, wxGBPosition(r, 0), wxGBSpan(1, 2));
 		++r;
 
+		add_label_to_sizer (table, _panel, _("Log file"), true, wxGBPosition (r, 0));
+		_log_file = new FilePickerCtrl (_panel, _("Select log file"), "*", true);
+		table->Add (_log_file, wxGBPosition (r, 1));
+		++r;
+
 		_player_mode->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::player_mode_changed, this));
 		_respect_kdm->Bind (wxEVT_CHECKBOX, bind(&PlayerGeneralPage::respect_kdm_changed, this));
+		_log_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::log_file_changed, this));
 	}
 
 	void config_changed ()
 	{
 		GeneralPage::config_changed ();
 
-		switch (Config::instance()->player_mode()) {
+		Config* config = Config::instance ();
+
+		switch (config->player_mode()) {
 		case Config::PLAYER_MODE_WINDOW:
 			checked_set (_player_mode, 0);
 			break;
@@ -118,7 +126,10 @@ private:
 			break;
 		}
 
-		checked_set (_respect_kdm, Config::instance()->respect_kdm_validity_periods());
+		checked_set (_respect_kdm, config->respect_kdm_validity_periods());
+		if (config->player_log_file()) {
+			checked_set (_log_file, *config->player_log_file());
+		}
 	}
 
 private:
@@ -142,8 +153,14 @@ private:
 		Config::instance()->set_respect_kdm_validity_periods(_respect_kdm->GetValue());
 	}
 
+	void log_file_changed ()
+	{
+		Config::instance()->set_player_log_file(wx_to_std(_log_file->GetPath()));
+	}
+
 	wxChoice* _player_mode;
 	wxCheckBox* _respect_kdm;
+	FilePickerCtrl* _log_file;
 };
 
 wxPreferencesEditor*
