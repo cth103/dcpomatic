@@ -406,6 +406,12 @@ FilmViewer::start ()
 		return;
 	}
 
+	optional<bool> v = PlaybackPermitted ();
+	if (v && !*v) {
+		/* Computer says no */
+		return;
+	}
+
 	if (_audio.isStreamOpen()) {
 		_audio.setStreamTime (_video_position.seconds());
 		_audio.startStream ();

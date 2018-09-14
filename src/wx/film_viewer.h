@@ -93,6 +93,8 @@ public:
 	boost::signals2::signal<void ()> Stopped;
 	boost::signals2::signal<void ()> FilmChanged;
 
+	boost::signals2::signal<bool ()> PlaybackPermitted;
+
 private:
 	void paint_panel ();
 	void panel_sized (wxSizeEvent &);

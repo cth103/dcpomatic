@@ -94,7 +94,12 @@ private:
 		table->Add (_player_mode, wxGBPosition(r, 1));
 		++r;
 
+		_respect_kdm = new wxCheckBox (_panel, wxID_ANY, _("Respect KDM validity periods"));
+		table->Add (_respect_kdm, wxGBPosition(r, 0), wxGBSpan(1, 2));
+		++r;
+
 		_player_mode->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::player_mode_changed, this));
+		_respect_kdm->Bind (wxEVT_CHECKBOX, bind(&PlayerGeneralPage::respect_kdm_changed, this));
 	}
 
 	void config_changed ()
@@ -112,6 +117,8 @@ private:
 			checked_set (_player_mode, 2);
 			break;
 		}
+
+		checked_set (_respect_kdm, Config::instance()->respect_kdm_validity_periods());
 	}
 
 private:
@@ -130,7 +137,13 @@ private:
 		}
 	}
 
+	void respect_kdm_changed ()
+	{
+		Config::instance()->set_respect_kdm_validity_periods(_respect_kdm->GetValue());
+	}
+
 	wxChoice* _player_mode;
+	wxCheckBox* _respect_kdm;
 };
 
 wxPreferencesEditor*

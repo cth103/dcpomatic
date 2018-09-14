@@ -164,6 +164,7 @@ Config::set_defaults ()
 	_gdc_password = optional<string>();
 	_interface_complexity = INTERFACE_SIMPLE;
 	_player_mode = PLAYER_MODE_WINDOW;
+	_respect_kdm_validity_periods = false;
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -490,6 +491,8 @@ try
 	} else if (pm && *pm == "dual") {
 		_player_mode = PLAYER_MODE_DUAL;
 	}
+
+	_respect_kdm_validity_periods = f.optional_bool_child("RespectKDMValidityPeriods").get_value_or(false);
 
 	/* Replace any cinemas from config.xml with those from the configured file */
 	if (boost::filesystem::exists (_cinemas_file)) {
@@ -875,6 +878,8 @@ Config::write_config () const
 		root->add_child("PlayerMode")->add_child_text("dual");
 		break;
 	}
+
+	root->add_child("RespectKDMValidityPeriods")->add_child_text(_respect_kdm_validity_periods ? "1" : "0");
 
 	try {
 		doc.write_to_file_formatted(config_file().string());

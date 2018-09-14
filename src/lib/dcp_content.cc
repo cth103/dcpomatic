@@ -657,3 +657,14 @@ DCPContent::set_cpl (string id)
 		_cpl = id;
 	}
 }
+
+bool
+DCPContent::kdm_timing_window_valid () const
+{
+	if (!_kdm) {
+		return true;
+	}
+
+	dcp::LocalTime now;
+	return _kdm->not_valid_before() < now && now < _kdm->not_valid_after();
+}

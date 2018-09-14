@@ -138,6 +138,8 @@ public:
 		return _three_d;
 	}
 
+	bool kdm_timing_window_valid () const;
+
 private:
 	friend class reels_test5;
 

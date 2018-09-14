@@ -162,6 +162,7 @@ public:
 		_viewer.reset (new FilmViewer (_overall_panel));
 		_controls = new Controls (_overall_panel, _viewer);
 		_viewer->set_dcp_decode_reduction (Config::instance()->decode_reduction ());
+		_viewer->PlaybackPermitted.connect (bind(&DOMFrame::playback_permitted, this));
 		_info = new PlayerInformation (_overall_panel, _viewer);
 		wxSizer* main_sizer = new wxBoxSizer (wxVERTICAL);
 		main_sizer->Add (_viewer->panel(), 1, wxEXPAND);
@@ -195,6 +196,27 @@ public:
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
 
 		setup_screen ();
+	}
+
+	bool playback_permitted ()
+	{
+		if (!_film || !Config::instance()->respect_kdm_validity_periods()) {
+			return true;
+		}
+
+		bool ok = true;
+		BOOST_FOREACH (shared_ptr<Content> i, _film->content()) {
+			shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent>(i);
+			if (d && !d->kdm_timing_window_valid()) {
+				ok = false;
+			}
+		}
+
+		if (!ok) {
+			error_dialog (this, _("The KDM does not allow playback of this content at this time."));
+		}
+
+		return ok;
 	}
 
 	void set_decode_reduction (optional<int> reduction)

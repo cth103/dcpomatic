@@ -469,6 +469,10 @@ public:
 		return _player_mode;
 	}
 
+	bool respect_kdm_validity_periods () const {
+		return _respect_kdm_validity_periods;
+	}
+
 	/* SET (mostly) */
 
 	void set_master_encoding_threads (int n) {
@@ -871,6 +875,10 @@ public:
 		maybe_set (_player_mode, m);
 	}
 
+	void set_respect_kdm_validity_periods (bool r) {
+		maybe_set (_respect_kdm_validity_periods, r);
+	}
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -1054,6 +1062,7 @@ private:
 	boost::optional<std::string> _gdc_password;
 	Interface _interface_complexity;
 	PlayerMode _player_mode;
+	bool _respect_kdm_validity_periods;
 
 	static int const _current_version;
 
