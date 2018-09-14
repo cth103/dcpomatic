@@ -507,8 +507,9 @@ private:
 		if (_mode == Config::PLAYER_MODE_DUAL) {
 			_cinema_dialog->Show ();
 			if (wxDisplay::GetCount() > 1) {
-				this->Move (0, 0);
-				_cinema_dialog->Move (wxDisplay(0).GetClientArea().GetWidth(), 0);
+				this->Move (wxDisplay(0).GetClientArea().GetWidth(), 0);
+				/* (0, 0) doesn't seem to work for some strange reason */
+				_cinema_dialog->Move (8, 8);
 			}
 		}
 	}
