@@ -39,3 +39,9 @@ CinemaPlayerDialog::CinemaPlayerDialog (wxWindow* parent, shared_ptr<FilmViewer>
 
 	SetSizer (s);
 }
+
+void
+CinemaPlayerDialog::triggered_update ()
+{
+	_info->triggered_update ();
+}

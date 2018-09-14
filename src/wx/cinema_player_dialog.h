@@ -30,6 +30,8 @@ class CinemaPlayerDialog : public wxDialog
 public:
 	CinemaPlayerDialog (wxWindow* parent, boost::shared_ptr<FilmViewer> viewer);
 
+	void triggered_update ();
+
 private:
 	Controls* _controls;
 	PlayerInformation* _info;

@@ -223,6 +223,7 @@ public:
 	{
 		_viewer->set_dcp_decode_reduction (reduction);
 		_info->triggered_update ();
+		_cinema_dialog->triggered_update ();
 		Config::instance()->set_decode_reduction (reduction);
 	}
 
@@ -252,6 +253,7 @@ public:
 		_viewer->set_film (_film);
 		_viewer->seek (DCPTime(), true);
 		_info->triggered_update ();
+		_cinema_dialog->triggered_update ();
 
 		Config::instance()->add_to_player_history (dir);
 
@@ -400,6 +402,7 @@ private:
 
 		c->Destroy ();
 		_info->triggered_update ();
+		_cinema_dialog->triggered_update ();
 	}
 
 	void file_add_kdm ()
@@ -422,6 +425,7 @@ private:
 
 		d->Destroy ();
 		_info->triggered_update ();
+		_cinema_dialog->triggered_update ();
 	}
 
 	void file_history (wxCommandEvent& event)
@@ -438,6 +442,7 @@ private:
 		_viewer->set_film (shared_ptr<Film>());
 		_film.reset ();
 		_info->triggered_update ();
+		_cinema_dialog->triggered_update ();
 		set_menu_sensitivity ();
 	}
 
