@@ -113,7 +113,7 @@ void
 GeneralPage::add_language_controls (wxGridBagSizer* table, int& r)
 {
 	_set_language = new wxCheckBox (_panel, wxID_ANY, _("Set language"));
-	table->Add (_set_language, wxGBPosition (r, 0));
+	table->Add (_set_language, wxGBPosition (r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	_language = new wxChoice (_panel, wxID_ANY);
 	vector<pair<string, string> > languages;
 	languages.push_back (make_pair ("Čeština", "cs_CZ"));
@@ -153,7 +153,7 @@ void
 GeneralPage::add_play_sound_controls (wxGridBagSizer* table, int& r)
 {
 	_sound = new wxCheckBox (_panel, wxID_ANY, _("Play sound via"));
-	table->Add (_sound, wxGBPosition (r, 0));
+	table->Add (_sound, wxGBPosition (r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	_sound_output = new wxChoice (_panel, wxID_ANY);
 	table->Add (_sound_output, wxGBPosition (r, 1));
 	++r;
