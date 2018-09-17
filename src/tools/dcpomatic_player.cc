@@ -358,8 +358,10 @@ private:
 		wxMenu* view = new wxMenu;
 		optional<int> c = Config::instance()->decode_reduction();
 		_view_cpl = view->Append(ID_view_cpl, _("CPL"), _cpl_menu);
+		view->AppendSeparator();
 		view->AppendCheckItem(ID_view_full_screen, _("Full screen\tF11"))->Check(_mode == Config::PLAYER_MODE_FULL);
 		view->AppendCheckItem(ID_view_dual_screen, _("Dual screen\tShift+F11"))->Check(_mode == Config::PLAYER_MODE_DUAL);
+		view->AppendSeparator();
 		view->Append(ID_view_closed_captions, _("Closed captions..."));
 		view->AppendSeparator();
 		view->AppendRadioItem(ID_view_scale_appropriate, _("Set decode resolution to match display"))->Check(!static_cast<bool>(c));
