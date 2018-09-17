@@ -194,10 +194,16 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::forward_frame, this), ID_forward_frame);
 
 		_cinema_dialog = new CinemaPlayerDialog (this, _viewer);
+		_cinema_dialog->Bind (wxEVT_CLOSE_WINDOW, boost::bind(&DOMFrame::close, this));
 
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
 
 		setup_screen ();
+	}
+
+	void close ()
+	{
+		Close ();
 	}
 
 	bool playback_permitted ()
