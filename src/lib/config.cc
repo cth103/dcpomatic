@@ -164,7 +164,7 @@ Config::set_defaults ()
 	_gdc_password = optional<string>();
 	_interface_complexity = INTERFACE_SIMPLE;
 	_player_mode = PLAYER_MODE_WINDOW;
-	_respect_kdm_validity_periods = false;
+	_respect_kdm_validity_periods = true;
 	_player_log_file = boost::none;
 
 	_allowed_dcp_frame_rates.clear ();
@@ -493,7 +493,7 @@ try
 		_player_mode = PLAYER_MODE_DUAL;
 	}
 
-	_respect_kdm_validity_periods = f.optional_bool_child("RespectKDMValidityPeriods").get_value_or(false);
+	_respect_kdm_validity_periods = f.optional_bool_child("RespectKDMValidityPeriods").get_value_or(true);
 	_player_log_file = f.optional_string_child("PlayerLogFile");
 
 	/* Replace any cinemas from config.xml with those from the configured file */
