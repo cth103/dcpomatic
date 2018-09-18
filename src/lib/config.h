@@ -469,6 +469,10 @@ public:
 		return _player_mode;
 	}
 
+	int image_display () const {
+		return _image_display;
+	}
+
 	bool respect_kdm_validity_periods () const {
 		return _respect_kdm_validity_periods;
 	}
@@ -879,6 +883,10 @@ public:
 		maybe_set (_player_mode, m);
 	}
 
+	void set_image_display (int n) {
+		maybe_set (_image_display, n);
+	}
+
 	void set_respect_kdm_validity_periods (bool r) {
 		maybe_set (_respect_kdm_validity_periods, r);
 	}
@@ -1078,6 +1086,7 @@ private:
 	boost::optional<std::string> _gdc_password;
 	Interface _interface_complexity;
 	PlayerMode _player_mode;
+	int _image_display;
 	bool _respect_kdm_validity_periods;
 	boost::optional<boost::filesystem::path> _player_log_file;
 

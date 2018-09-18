@@ -164,6 +164,7 @@ Config::set_defaults ()
 	_gdc_password = optional<string>();
 	_interface_complexity = INTERFACE_SIMPLE;
 	_player_mode = PLAYER_MODE_WINDOW;
+	_image_display = 0;
 	_respect_kdm_validity_periods = true;
 	_player_log_file = boost::none;
 
@@ -493,6 +494,7 @@ try
 		_player_mode = PLAYER_MODE_DUAL;
 	}
 
+	_image_display = f.optional_number_child<int>("ImageDisplay").get_value_or(0);
 	_respect_kdm_validity_periods = f.optional_bool_child("RespectKDMValidityPeriods").get_value_or(true);
 	_player_log_file = f.optional_string_child("PlayerLogFile");
 
@@ -881,6 +883,7 @@ Config::write_config () const
 		break;
 	}
 
+	root->add_child("ImageDisplay")->add_child_text(raw_convert<string>(_image_display));
 	root->add_child("RespectKDMValidityPeriods")->add_child_text(_respect_kdm_validity_periods ? "1" : "0");
 	if (_player_log_file) {
 		root->add_child("PlayerLogFile")->add_child_text(_player_log_file->string());

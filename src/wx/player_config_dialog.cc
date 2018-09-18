@@ -90,8 +90,15 @@ private:
 		_player_mode = new wxChoice (_panel, wxID_ANY);
 		_player_mode->Append (_("window"));
 		_player_mode->Append (_("full screen"));
-		_player_mode->Append (_("full screen with controls on second monitor"));
+		_player_mode->Append (_("full screen with controls on other monitor"));
 		table->Add (_player_mode, wxGBPosition(r, 1));
+		++r;
+
+		add_label_to_sizer (table, _panel, _("Displays"), true, wxGBPosition(r, 0));
+		_image_display = new wxChoice (_panel, wxID_ANY);
+		_image_display->Append (_("Image on primary, controls on secondary"));
+		_image_display->Append (_("Image on secondary, controls on primary"));
+		table->Add (_image_display, wxGBPosition(r, 1));
 		++r;
 
 		_respect_kdm = new wxCheckBox (_panel, wxID_ANY, _("Respect KDM validity periods"));
@@ -104,6 +111,7 @@ private:
 		++r;
 
 		_player_mode->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::player_mode_changed, this));
+		_image_display->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::image_display_changed, this));
 		_respect_kdm->Bind (wxEVT_CHECKBOX, bind(&PlayerGeneralPage::respect_kdm_changed, this));
 		_log_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::log_file_changed, this));
 	}
@@ -126,6 +134,7 @@ private:
 			break;
 		}
 
+		checked_set (_image_display, config->image_display());
 		checked_set (_respect_kdm, config->respect_kdm_validity_periods());
 		if (config->player_log_file()) {
 			checked_set (_log_file, *config->player_log_file());
@@ -148,6 +157,11 @@ private:
 		}
 	}
 
+	void image_display_changed ()
+	{
+		Config::instance()->set_image_display(_image_display->GetSelection());
+	}
+
 	void respect_kdm_changed ()
 	{
 		Config::instance()->set_respect_kdm_validity_periods(_respect_kdm->GetValue());
@@ -159,6 +173,7 @@ private:
 	}
 
 	wxChoice* _player_mode;
+	wxChoice* _image_display;
 	wxCheckBox* _respect_kdm;
 	FilePickerCtrl* _log_file;
 };
