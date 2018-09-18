@@ -28,7 +28,6 @@
 #include "wx/player_config_dialog.h"
 #include "wx/verify_dcp_dialog.h"
 #include "wx/controls.h"
-#include "wx/cinema_player_dialog.h"
 #include "lib/cross.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -107,11 +106,11 @@ class DOMFrame : public wxFrame
 public:
 	DOMFrame ()
 		: wxFrame (0, -1, _("DCP-o-matic Player"))
+		, _dual_screen (0)
 		, _update_news_requested (false)
 		, _info (0)
 		, _mode (Config::instance()->player_mode())
 		, _config_dialog (0)
-		, _cinema_dialog (0)
 		, _file_menu (0)
 		, _history_items (0)
 		, _history_position (0)
@@ -166,12 +165,7 @@ public:
 		_viewer->Started.connect (bind(&DOMFrame::playback_started, this));
 		_viewer->Stopped.connect (bind(&DOMFrame::playback_stopped, this));
 		_info = new PlayerInformation (_overall_panel, _viewer);
-		wxSizer* main_sizer = new wxBoxSizer (wxVERTICAL);
-		main_sizer->Add (_viewer->panel(), 1, wxEXPAND | wxALIGN_CENTER_VERTICAL);
-		main_sizer->Add (_controls, 0, wxEXPAND | wxALL, 6);
-		main_sizer->Add (_info, 0, wxEXPAND | wxALL, 6);
-		_overall_panel->SetSizer (main_sizer);
-
+		setup_main_sizer (true);
 #ifdef __WXOSX__
 		int accelerators = 4;
 #else
@@ -193,17 +187,21 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::back_frame, this), ID_back_frame);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::forward_frame, this), ID_forward_frame);
 
-		_cinema_dialog = new CinemaPlayerDialog (this, _viewer);
-		_cinema_dialog->Bind (wxEVT_CLOSE_WINDOW, boost::bind(&DOMFrame::close, this));
-
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
 
 		setup_screen ();
 	}
 
-	void close ()
+	void setup_main_sizer (bool with_viewer)
 	{
-		Close ();
+		wxSizer* main_sizer = new wxBoxSizer (wxVERTICAL);
+		if (with_viewer) {
+			main_sizer->Add (_viewer->panel(), 1, wxEXPAND | wxALIGN_CENTER_VERTICAL);
+		}
+		main_sizer->Add (_controls, 0, wxEXPAND | wxALL, 6);
+		main_sizer->Add (_info, 0, wxEXPAND | wxALL, 6);
+		_overall_panel->SetSizer (main_sizer);
+		_overall_panel->Layout ();
 	}
 
 	bool playback_permitted ()
@@ -272,7 +270,6 @@ public:
 	{
 		_viewer->set_dcp_decode_reduction (reduction);
 		_info->triggered_update ();
-		_cinema_dialog->triggered_update ();
 		Config::instance()->set_decode_reduction (reduction);
 	}
 
@@ -302,7 +299,6 @@ public:
 		_viewer->set_film (_film);
 		_viewer->seek (DCPTime(), true);
 		_info->triggered_update ();
-		_cinema_dialog->triggered_update ();
 
 		Config::instance()->add_to_player_history (dir);
 
@@ -359,8 +355,9 @@ private:
 		optional<int> c = Config::instance()->decode_reduction();
 		_view_cpl = view->Append(ID_view_cpl, _("CPL"), _cpl_menu);
 		view->AppendSeparator();
-		view->AppendCheckItem(ID_view_full_screen, _("Full screen\tF11"))->Check(_mode == Config::PLAYER_MODE_FULL);
-		view->AppendCheckItem(ID_view_dual_screen, _("Dual screen\tShift+F11"))->Check(_mode == Config::PLAYER_MODE_DUAL);
+		_view_full_screen = view->AppendCheckItem(ID_view_full_screen, _("Full screen\tF11"));
+		_view_dual_screen = view->AppendCheckItem(ID_view_dual_screen, _("Dual screen\tShift+F11"));
+		setup_menu ();
 		view->AppendSeparator();
 		view->Append(ID_view_closed_captions, _("Closed captions..."));
 		view->AppendSeparator();
@@ -453,7 +450,6 @@ private:
 
 		c->Destroy ();
 		_info->triggered_update ();
-		_cinema_dialog->triggered_update ();
 	}
 
 	void file_add_kdm ()
@@ -476,7 +472,6 @@ private:
 
 		d->Destroy ();
 		_info->triggered_update ();
-		_cinema_dialog->triggered_update ();
 	}
 
 	void file_history (wxCommandEvent& event)
@@ -493,7 +488,6 @@ private:
 		_viewer->set_film (shared_ptr<Film>());
 		_film.reset ();
 		_info->triggered_update ();
-		_cinema_dialog->triggered_update ();
 		set_menu_sensitivity ();
 	}
 
@@ -537,6 +531,7 @@ private:
 			_mode = Config::PLAYER_MODE_FULL;
 		}
 		setup_screen ();
+		setup_menu ();
 	}
 
 	void view_dual_screen ()
@@ -547,30 +542,50 @@ private:
 			_mode = Config::PLAYER_MODE_DUAL;
 		}
 		setup_screen ();
+		setup_menu ();
+	}
+
+	void setup_menu ()
+	{
+		_view_full_screen->Check (_mode == Config::PLAYER_MODE_FULL);
+		_view_dual_screen->Check (_mode == Config::PLAYER_MODE_DUAL);
 	}
 
 	void setup_screen ()
 	{
-		_controls->Show (_mode == Config::PLAYER_MODE_WINDOW);
-		_info->Show (_mode == Config::PLAYER_MODE_WINDOW);
-		_overall_panel->SetBackgroundColour (_mode == Config::PLAYER_MODE_WINDOW ? wxNullColour : wxColour(0, 0, 0));
-		ShowFullScreen (_mode != Config::PLAYER_MODE_WINDOW);
+		_controls->Show (_mode != Config::PLAYER_MODE_FULL);
+		_info->Show (_mode != Config::PLAYER_MODE_FULL);
+		_overall_panel->SetBackgroundColour (_mode == Config::PLAYER_MODE_FULL ? wxColour(0, 0, 0) : wxNullColour);
+		ShowFullScreen (_mode == Config::PLAYER_MODE_FULL);
+
 		if (_mode == Config::PLAYER_MODE_DUAL) {
-			_cinema_dialog->Show ();
+			_dual_screen = new wxFrame (this, wxID_ANY, wxT(""));
+			_dual_screen->SetBackgroundColour (wxColour(0, 0, 0));
+			_dual_screen->ShowFullScreen (true);
+			_viewer->panel()->Reparent (_dual_screen);
+			_dual_screen->Show ();
 			if (wxDisplay::GetCount() > 1) {
 				switch (Config::instance()->image_display()) {
 				case 0:
-					this->Move (0, 0);
-					_cinema_dialog->Move (wxDisplay(0).GetClientArea().GetWidth(), 0);
+					_dual_screen->Move (0, 0);
+					Move (wxDisplay(0).GetClientArea().GetWidth(), 0);
 					break;
 				case 1:
-					this->Move (wxDisplay(0).GetClientArea().GetWidth(), 0);
-					/* (0, 0) doesn't seem to work for some strange reason */
-					_cinema_dialog->Move (8, 8);
+					_dual_screen->Move (wxDisplay(0).GetClientArea().GetWidth(), 0);
+					// (0, 0) doesn't seem to work for some strange reason
+					Move (8, 8);
 					break;
 				}
 			}
+		} else {
+			if (_dual_screen) {
+				_viewer->panel()->Reparent (_overall_panel);
+				_dual_screen->Destroy ();
+				_dual_screen = 0;
+			}
 		}
+
+		setup_main_sizer (_mode != Config::PLAYER_MODE_DUAL);
 	}
 
 	void view_closed_captions ()
@@ -778,11 +793,11 @@ private:
 		}
 	}
 
+	wxFrame* _dual_screen;
 	bool _update_news_requested;
 	PlayerInformation* _info;
 	Config::PlayerMode _mode;
 	wxPreferencesEditor* _config_dialog;
-	CinemaPlayerDialog* _cinema_dialog;
 	wxPanel* _overall_panel;
 	wxMenu* _file_menu;
 	wxMenuItem* _view_cpl;
@@ -797,6 +812,8 @@ private:
 	wxMenuItem* _file_add_ov;
 	wxMenuItem* _file_add_kdm;
 	wxMenuItem* _tools_verify;
+	wxMenuItem* _view_full_screen;
+	wxMenuItem* _view_dual_screen;
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {
