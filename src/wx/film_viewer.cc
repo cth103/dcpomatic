@@ -317,7 +317,7 @@ FilmViewer::paint_panel ()
 
 	wxImage frame (_out_size.width, _out_size.height, _frame->data()[0], true);
 	wxBitmap frame_bitmap (frame);
-	dc.DrawBitmap (frame_bitmap, 0, 0);
+	dc.DrawBitmap (frame_bitmap, 0, max(0, (_panel_size.height - _out_size.height) / 2));
 
 	if (_out_size.width < _panel_size.width) {
 		wxPen p (_panel->GetParent()->GetBackgroundColour());
@@ -332,7 +332,9 @@ FilmViewer::paint_panel ()
 		wxBrush b (_panel->GetParent()->GetBackgroundColour());
 		dc.SetPen (p);
 		dc.SetBrush (b);
-		dc.DrawRectangle (0, _out_size.height, _panel_size.width, _panel_size.height - _out_size.height);
+		int const gap = (_panel_size.height - _out_size.height) / 2;
+		dc.DrawRectangle (0, gap, _panel_size.width, gap);
+		dc.DrawRectangle (0, gap + _out_size.height, _panel_size.width, gap);
 	}
 
 	if (_outline_content) {

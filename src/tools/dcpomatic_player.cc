@@ -167,7 +167,7 @@ public:
 		_viewer->Stopped.connect (bind(&DOMFrame::playback_stopped, this));
 		_info = new PlayerInformation (_overall_panel, _viewer);
 		wxSizer* main_sizer = new wxBoxSizer (wxVERTICAL);
-		main_sizer->Add (_viewer->panel(), 1, wxEXPAND);
+		main_sizer->Add (_viewer->panel(), 1, wxEXPAND | wxALIGN_CENTER_VERTICAL);
 		main_sizer->Add (_controls, 0, wxEXPAND | wxALL, 6);
 		main_sizer->Add (_info, 0, wxEXPAND | wxALL, 6);
 		_overall_panel->SetSizer (main_sizer);
