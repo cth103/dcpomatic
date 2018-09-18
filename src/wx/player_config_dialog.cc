@@ -94,7 +94,7 @@ private:
 		table->Add (_player_mode, wxGBPosition(r, 1));
 		++r;
 
-		add_label_to_sizer (table, _panel, _("Displays"), true, wxGBPosition(r, 0));
+		add_label_to_sizer (table, _panel, _("Dual-screen displays"), true, wxGBPosition(r, 0));
 		_image_display = new wxChoice (_panel, wxID_ANY);
 		_image_display->Append (_("Image on primary, controls on secondary"));
 		_image_display->Append (_("Image on secondary, controls on primary"));
