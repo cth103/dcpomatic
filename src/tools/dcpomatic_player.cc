@@ -159,7 +159,7 @@ public:
 		_overall_panel = new wxPanel (this, wxID_ANY);
 
 		_viewer.reset (new FilmViewer (_overall_panel));
-		_controls = new Controls (_overall_panel, _viewer);
+		_controls = new Controls (_overall_panel, _viewer, false, false, false);
 		_viewer->set_dcp_decode_reduction (Config::instance()->decode_reduction ());
 		_viewer->PlaybackPermitted.connect (bind(&DOMFrame::playback_permitted, this));
 		_viewer->Started.connect (bind(&DOMFrame::playback_started, this));
