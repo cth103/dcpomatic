@@ -91,7 +91,7 @@ FilmViewer::FilmViewer (wxWindow* p)
 #endif
 
 	_panel->SetBackgroundStyle (wxBG_STYLE_PAINT);
-	_panel->SetBackgroundColour (*wxBLACK);
+	_panel->SetBackgroundColour (wxNullColour);
 
 	_panel->Bind (wxEVT_PAINT, boost::bind (&FilmViewer::paint_panel, this));
 	_panel->Bind (wxEVT_SIZE,  boost::bind (&FilmViewer::panel_sized, this, _1));
@@ -333,7 +333,7 @@ FilmViewer::paint_panel ()
 		dc.SetPen (p);
 		dc.SetBrush (b);
 		int const gap = (_panel_size.height - _out_size.height) / 2;
-		dc.DrawRectangle (0, gap, _panel_size.width, gap);
+		dc.DrawRectangle (0, 0, _panel_size.width, gap);
 		dc.DrawRectangle (0, gap + _out_size.height, _panel_size.width, gap);
 	}
 
