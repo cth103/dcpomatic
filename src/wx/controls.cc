@@ -365,7 +365,9 @@ Controls::film_changed ()
 	update_position_slider ();
 	update_position_label ();
 
-	_film->Change.connect (boost::bind (&Controls::film_change, this, _1, _2));
+	if (_film) {
+		_film->Change.connect (boost::bind (&Controls::film_change, this, _1, _2));
+	}
 }
 
 shared_ptr<Film>
