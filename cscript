@@ -363,6 +363,9 @@ def configure_options(target, options):
     if not options['gui']:
         opt += ' --disable-gui'
 
+    if options['player-only']:
+        opt += ' --player-only'
+
     # Build Windows debug versions with static linking as I think gdb works better then
     if target.debug and target.platform == 'windows':
         opt += ' --static-dcpomatic'

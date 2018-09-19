@@ -35,31 +35,38 @@ def build(bld):
     if bld.env.TARGET_WINDOWS:
         uselib += 'WINSOCK2 DBGHELP SHLWAPI MSWSOCK BOOST_LOCALE WINSOCK2 OLE32 DSOUND WINMM KSUSER '
 
-    for t in ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test', 'dcpomatic_kdm_cli', 'dcpomatic_create']:
-        obj = bld(features='cxx cxxprogram')
-        obj.uselib = uselib
-        obj.includes = ['..']
-        obj.use    = ['libdcpomatic2']
-        obj.source = '%s.cc' % t
-        obj.target = t.replace('dcpomatic', 'dcpomatic2')
-        if t == 'server_test':
-            obj.install_path = None
-
-    if not bld.env.DISABLE_GUI:
-        for t in ['dcpomatic', 'dcpomatic_batch', 'dcpomatic_server', 'dcpomatic_kdm', 'dcpomatic_player']:
+    if not bld.env.PLAYER_ONLY:
+        for t in ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test', 'dcpomatic_kdm_cli', 'dcpomatic_create']:
             obj = bld(features='cxx cxxprogram')
             obj.uselib = uselib
-            if bld.env.BUILD_STATIC or bld.env.TARGET_LINUX:
-                obj.uselib += ' GTK'
-            obj.uselib += ' WXWIDGETS'
             obj.includes = ['..']
-            obj.use    = ['libdcpomatic2', 'libdcpomatic2-wx']
+            obj.use    = ['libdcpomatic2']
             obj.source = '%s.cc' % t
-            if bld.env.TARGET_WINDOWS:
-                obj.source += ' ../../platform/windows/%s.rc' % t
             obj.target = t.replace('dcpomatic', 'dcpomatic2')
+            if t == 'server_test':
+                obj.install_path = None
 
-        i18n.po_to_mo(os.path.join('src', 'tools'), 'dcpomatic2', bld)
+    gui_tools = []
+    if not bld.env.DISABLE_GUI:
+        if bld.env.PLAYER_ONLY:
+            gui_tools = ['dcpomatic_player']
+        else:
+            gui_tools = ['dcpomatic', 'dcpomatic_batch', 'dcpomatic_server', 'dcpomatic_kdm', 'dcpomatic_player']
+
+    for t in gui_tools:
+        obj = bld(features='cxx cxxprogram')
+        obj.uselib = uselib
+        if bld.env.BUILD_STATIC or bld.env.TARGET_LINUX:
+            obj.uselib += ' GTK'
+        obj.uselib += ' WXWIDGETS'
+        obj.includes = ['..']
+        obj.use    = ['libdcpomatic2', 'libdcpomatic2-wx']
+        obj.source = '%s.cc' % t
+        if bld.env.TARGET_WINDOWS:
+            obj.source += ' ../../platform/windows/%s.rc' % t
+        obj.target = t.replace('dcpomatic', 'dcpomatic2')
+
+    i18n.po_to_mo(os.path.join('src', 'tools'), 'dcpomatic2', bld)
 
 def pot(bld):
     i18n.pot(os.path.join('src', 'tools'), 'dcpomatic.cc dcpomatic_batch.cc dcpomatic_kdm.cc dcpomatic_server.cc dcpomatic_player.cc', 'dcpomatic')
