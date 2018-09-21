@@ -89,8 +89,8 @@ public:
 
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
 	boost::signals2::signal<void ()> PositionChanged;
-	boost::signals2::signal<void ()> Started;
-	boost::signals2::signal<void ()> Stopped;
+	boost::signals2::signal<void (DCPTime)> Started;
+	boost::signals2::signal<void (DCPTime)> Stopped;
 	boost::signals2::signal<void ()> FilmChanged;
 
 	boost::signals2::signal<bool ()> PlaybackPermitted;

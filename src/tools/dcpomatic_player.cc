@@ -164,8 +164,8 @@ public:
 		_controls = new Controls (_overall_panel, _viewer, false, false, false);
 		_viewer->set_dcp_decode_reduction (Config::instance()->decode_reduction ());
 		_viewer->PlaybackPermitted.connect (bind(&DOMFrame::playback_permitted, this));
-		_viewer->Started.connect (bind(&DOMFrame::playback_started, this));
-		_viewer->Stopped.connect (bind(&DOMFrame::playback_stopped, this));
+		_viewer->Started.connect (bind(&DOMFrame::playback_started, this, _1));
+		_viewer->Stopped.connect (bind(&DOMFrame::playback_stopped, this, _1));
 		_info = new PlayerInformation (_overall_panel, _viewer);
 		setup_main_sizer (true);
 #ifdef __WXOSX__
@@ -227,7 +227,7 @@ public:
 		return ok;
 	}
 
-	void playback_started ()
+	void playback_started (DCPTime time)
 	{
 		optional<boost::filesystem::path> log = Config::instance()->player_log_file();
 		if (!log) {
@@ -248,15 +248,16 @@ public:
 		FILE* f = fopen_boost(*log, "a");
 		fprintf (
 			f,
-			"%s playback-started %s %s\n",
+			"%s playback-started %s %s %s\n",
 			dcp::LocalTime().as_string().c_str(),
+			time.timecode(_film->video_frame_rate()).c_str(),
 			dcp->directories().front().string().c_str(),
 			playing_cpl->annotation_text().c_str()
 			);
 		fclose (f);
 	}
 
-	void playback_stopped ()
+	void playback_stopped (DCPTime time)
 	{
 		optional<boost::filesystem::path> log = Config::instance()->player_log_file();
 		if (!log) {
@@ -264,7 +265,7 @@ public:
 		}
 
 		FILE* f = fopen_boost(*log, "a");
-		fprintf (f, "%s playback-stopped\n", dcp::LocalTime().as_string().c_str());
+		fprintf (f, "%s playback-stopped %s\n", dcp::LocalTime().as_string().c_str(), time.timecode(_film->video_frame_rate()).c_str());
 		fclose (f);
 	}
 

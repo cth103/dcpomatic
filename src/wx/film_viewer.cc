@@ -422,7 +422,7 @@ FilmViewer::start ()
 	_playing = true;
 	_dropped = 0;
 	timer ();
-	Started ();
+	Started (position());
 }
 
 bool
@@ -438,7 +438,7 @@ FilmViewer::stop ()
 	}
 
 	_playing = false;
-	Stopped ();
+	Stopped (position());
 	return true;
 }
 
