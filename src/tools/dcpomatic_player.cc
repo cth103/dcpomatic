@@ -115,6 +115,8 @@ public:
 		, _history_items (0)
 		, _history_position (0)
 		, _history_separator (0)
+		, _view_full_screen (0)
+		, _view_dual_screen (0)
 	{
 
 #if defined(DCPOMATIC_WINDOWS)
@@ -355,8 +357,10 @@ private:
 		optional<int> c = Config::instance()->decode_reduction();
 		_view_cpl = view->Append(ID_view_cpl, _("CPL"), _cpl_menu);
 		view->AppendSeparator();
+#ifndef DCPOMATIC_VARIANT_SWAROOP
 		_view_full_screen = view->AppendCheckItem(ID_view_full_screen, _("Full screen\tF11"));
 		_view_dual_screen = view->AppendCheckItem(ID_view_dual_screen, _("Dual screen\tShift+F11"));
+#endif
 		setup_menu ();
 		view->AppendSeparator();
 		view->Append(ID_view_closed_captions, _("Closed captions..."));
@@ -547,8 +551,12 @@ private:
 
 	void setup_menu ()
 	{
-		_view_full_screen->Check (_mode == Config::PLAYER_MODE_FULL);
-		_view_dual_screen->Check (_mode == Config::PLAYER_MODE_DUAL);
+		if (_view_full_screen) {
+			_view_full_screen->Check (_mode == Config::PLAYER_MODE_FULL);
+		}
+		if (_view_dual_screen) {
+			_view_dual_screen->Check (_mode == Config::PLAYER_MODE_DUAL);
+		}
 	}
 
 	void setup_screen ()
