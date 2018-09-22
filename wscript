@@ -48,7 +48,6 @@ def options(opt):
 
     opt.add_option('--enable-debug',      action='store_true', default=False, help='build with debugging information and without optimisation')
     opt.add_option('--disable-gui',       action='store_true', default=False, help='disable building of GUI tools')
-    opt.add_option('--player-only',       action='store_true', default=False, help='just build the player; no other tools')
     opt.add_option('--disable-tests',     action='store_true', default=False, help='disable building of tests')
     opt.add_option('--install-prefix',                         default=None,  help='prefix of where DCP-o-matic will be installed')
     opt.add_option('--target-windows',    action='store_true', default=False, help='set up to do a cross-compile to make a Windows package')
@@ -75,7 +74,6 @@ def configure(conf):
 
     # Save conf.options that we need elsewhere in conf.env
     conf.env.DISABLE_GUI = conf.options.disable_gui
-    conf.env.PLAYER_ONLY = conf.options.player_only
     conf.env.DISABLE_TESTS = conf.options.disable_tests
     conf.env.TARGET_WINDOWS = conf.options.target_windows
     conf.env.TARGET_OSX = sys.platform == 'darwin'
@@ -117,6 +115,7 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-O2')
 
     if conf.options.variant is not None:
+        conf.env.VARIANT = conf.options.variant
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_VARIANT_%s' % conf.options.variant.upper())
 
     #

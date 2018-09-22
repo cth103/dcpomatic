@@ -35,7 +35,7 @@ def build(bld):
     if bld.env.TARGET_WINDOWS:
         uselib += 'WINSOCK2 DBGHELP SHLWAPI MSWSOCK BOOST_LOCALE WINSOCK2 OLE32 DSOUND WINMM KSUSER '
 
-    if not bld.env.PLAYER_ONLY:
+    if bld.env.VARIANT != "swaroop":
         for t in ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test', 'dcpomatic_kdm_cli', 'dcpomatic_create']:
             obj = bld(features='cxx cxxprogram')
             obj.uselib = uselib
@@ -48,7 +48,7 @@ def build(bld):
 
     gui_tools = []
     if not bld.env.DISABLE_GUI:
-        if bld.env.PLAYER_ONLY:
+        if bld.env.VARIANT == 'swaroop':
             gui_tools = ['dcpomatic_player']
         else:
             gui_tools = ['dcpomatic', 'dcpomatic_batch', 'dcpomatic_server', 'dcpomatic_kdm', 'dcpomatic_player']

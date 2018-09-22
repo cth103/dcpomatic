@@ -338,7 +338,7 @@ def dependencies(target):
     return deps
 
 def option_defaults():
-    return { "player-only": False, "gui": True, "variant": None }
+    return { "gui": True, "variant": None }
 
 def configure_options(target, options):
     opt = ''
@@ -362,9 +362,6 @@ def configure_options(target, options):
 
     if not options['gui']:
         opt += ' --disable-gui'
-
-    if options['player-only']:
-        opt += ' --player-only'
 
     if options['variant'] is not None:
         opt += ' --variant=%s' % options['variant']
