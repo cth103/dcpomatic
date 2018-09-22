@@ -556,6 +556,7 @@ FilmViewer::seek (DCPTime t, bool accurate)
 	}
 
 	PositionChanged ();
+	Seeked (position());
 }
 
 void

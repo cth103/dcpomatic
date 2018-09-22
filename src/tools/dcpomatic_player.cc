@@ -165,6 +165,7 @@ public:
 		_viewer->set_dcp_decode_reduction (Config::instance()->decode_reduction ());
 		_viewer->PlaybackPermitted.connect (bind(&DOMFrame::playback_permitted, this));
 		_viewer->Started.connect (bind(&DOMFrame::playback_started, this, _1));
+		_viewer->Seeked.connect (bind(&DOMFrame::playback_seeked, this, _1));
 		_viewer->Stopped.connect (bind(&DOMFrame::playback_stopped, this, _1));
 		_info = new PlayerInformation (_overall_panel, _viewer);
 		setup_main_sizer (true);
@@ -254,6 +255,18 @@ public:
 			dcp->directories().front().string().c_str(),
 			playing_cpl->annotation_text().c_str()
 			);
+		fclose (f);
+	}
+
+	void playback_seeked (DCPTime time)
+	{
+		optional<boost::filesystem::path> log = Config::instance()->player_log_file();
+		if (!log) {
+			return;
+		}
+
+		FILE* f = fopen_boost(*log, "a");
+		fprintf (f, "%s playback-seeked %s\n", dcp::LocalTime().as_string().c_str(), time.timecode(_film->video_frame_rate()).c_str());
 		fclose (f);
 	}
 

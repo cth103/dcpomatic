@@ -91,6 +91,7 @@ public:
 	boost::signals2::signal<void ()> PositionChanged;
 	boost::signals2::signal<void (DCPTime)> Started;
 	boost::signals2::signal<void (DCPTime)> Stopped;
+	boost::signals2::signal<void (DCPTime)> Seeked;
 	boost::signals2::signal<void ()> FilmChanged;
 
 	boost::signals2::signal<bool ()> PlaybackPermitted;
