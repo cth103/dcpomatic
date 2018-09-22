@@ -600,7 +600,7 @@ def make_appimage(target, nice_name, internal_name, version):
     with open('build/%s.AppDir/%s.desktop' % (nice_filename, internal_name), 'w') as f:
         print('[Desktop Entry]', file=f)
         print('Type=Application', file=f)
-        print('Categories=AudioVideo', file=f)
+        print('Categories=AudioVideo;', file=f)
         print('Name=%s' % nice_name, file=f)
         print('Icon=%s' % internal_name, file=f)
     target.command('cp graphics/linux/256/%s.png build/%s.AppDir' % (internal_name, nice_filename))
