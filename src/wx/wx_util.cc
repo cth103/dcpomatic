@@ -30,6 +30,7 @@
 #include <dcp/locale_convert.h>
 #include <wx/spinctrl.h>
 #include <wx/splash.h>
+#include <wx/filepicker.h>
 #include <boost/thread.hpp>
 
 using namespace std;
@@ -183,6 +184,20 @@ string_client_data (wxClientData* o)
 
 void
 checked_set (FilePickerCtrl* widget, boost::filesystem::path value)
+{
+	if (widget->GetPath() != std_to_wx (value.string())) {
+		if (value.empty()) {
+			/* Hack to make wxWidgets clear the control when we are passed
+			   an empty value.
+			*/
+			value = " ";
+		}
+		widget->SetPath (std_to_wx (value.string()));
+	}
+}
+
+void
+checked_set (wxDirPickerCtrl* widget, boost::filesystem::path value)
 {
 	if (widget->GetPath() != std_to_wx (value.string())) {
 		if (value.empty()) {

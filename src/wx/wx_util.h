@@ -36,6 +36,7 @@
 #endif
 
 class FilePickerCtrl;
+class wxDirPickerCtrl;
 class wxSpinCtrl;
 class wxSpinCtrlDouble;
 class wxGridBagSizer;
@@ -89,6 +90,7 @@ extern boost::filesystem::path path_from_file_dialog (wxFileDialog* dialog, std:
 extern double calculate_mark_interval (double start);
 
 extern void checked_set (FilePickerCtrl* widget, boost::filesystem::path value);
+extern void checked_set (wxDirPickerCtrl* widget, boost::filesystem::path value);
 extern void checked_set (wxSpinCtrl* widget, int value);
 extern void checked_set (wxSpinCtrlDouble* widget, double value);
 extern void checked_set (wxChoice* widget, int value);
