@@ -18,6 +18,9 @@
 
 */
 
+#ifndef DCPOMATIC_DIR_PICKER_CTRL
+#define DCPOMATIC_DIR_PICKER_CTRL
+
 #include <wx/wx.h>
 
 class DirPickerCtrl : public wxPanel
@@ -36,3 +39,5 @@ private:
 	wxString _path;
 	wxSizer* _sizer;
 };
+
+#endif
