@@ -481,6 +481,10 @@ public:
 		return _player_log_file;
 	}
 
+	boost::optional<boost::filesystem::path> player_dcp_directory () const {
+		return _player_dcp_directory;
+	}
+
 	/* SET (mostly) */
 
 	void set_master_encoding_threads (int n) {
@@ -903,6 +907,18 @@ public:
 		changed ();
 	}
 
+	void set_player_dcp_directory (boost::filesystem::path p) {
+		maybe_set (_player_dcp_directory, p);
+	}
+
+	void unset_player_dcp_directory () {
+		if (!_player_dcp_directory) {
+			return;
+		}
+		_player_dcp_directory = boost::none;
+		changed ();
+	}
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -1089,6 +1105,11 @@ private:
 	int _image_display;
 	bool _respect_kdm_validity_periods;
 	boost::optional<boost::filesystem::path> _player_log_file;
+	/** A directory containing DCPs whose contents are presented to the user
+	    in the dual-screen player mode.  DCPs on the list can be loaded
+	    for playback.
+	*/
+	boost::optional<boost::filesystem::path> _player_dcp_directory;
 
 	static int const _current_version;
 

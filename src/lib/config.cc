@@ -167,6 +167,7 @@ Config::set_defaults ()
 	_image_display = 0;
 	_respect_kdm_validity_periods = true;
 	_player_log_file = boost::none;
+	_player_dcp_directory = boost::none;
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -497,6 +498,7 @@ try
 	_image_display = f.optional_number_child<int>("ImageDisplay").get_value_or(0);
 	_respect_kdm_validity_periods = f.optional_bool_child("RespectKDMValidityPeriods").get_value_or(true);
 	_player_log_file = f.optional_string_child("PlayerLogFile");
+	_player_dcp_directory = f.optional_string_child("PlayerDCPDirectory");
 
 	/* Replace any cinemas from config.xml with those from the configured file */
 	if (boost::filesystem::exists (_cinemas_file)) {
@@ -887,6 +889,9 @@ Config::write_config () const
 	root->add_child("RespectKDMValidityPeriods")->add_child_text(_respect_kdm_validity_periods ? "1" : "0");
 	if (_player_log_file) {
 		root->add_child("PlayerLogFile")->add_child_text(_player_log_file->string());
+	}
+	if (_player_dcp_directory) {
+		root->add_child("PlayerDCPDirectory")->add_child_text(_player_dcp_directory->string());
 	}
 
 	try {
