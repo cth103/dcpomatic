@@ -52,6 +52,7 @@ public:
 	void show_dcp_directory (bool s);
 
 	boost::signals2::signal<void (boost::filesystem::path)> DCPDirectorySelected;
+	boost::signals2::signal<void ()> DCPEjected;
 
 private:
 	void update_position_label ();
@@ -66,7 +67,9 @@ private:
 	void jump_to_selected_clicked ();
 	void setup_sensitivity ();
 	void timecode_clicked ();
+#ifndef DCPOMATIC_PLAYER_SWAROOP
 	void check_play_state ();
+#endif
 	void active_jobs_changed (boost::optional<std::string>);
 	DCPTime nudge_amount (wxKeyboardState& ev);
 	void image_changed (boost::weak_ptr<PlayerVideo>);
@@ -81,6 +84,10 @@ private:
 	void dcp_directory_changed ();
 	void dcp_directory_selected ();
 	void config_changed (int property);
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	void pause_clicked ();
+	void stop_clicked ();
+#endif
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<FilmViewer> _viewer;
@@ -100,7 +107,14 @@ private:
 	wxButton* _forward_button;
 	wxStaticText* _frame_number;
 	wxStaticText* _timecode;
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	wxButton* _play_button;
+	wxButton* _pause_button;
+	wxButton* _stop_button;
+#else
 	wxToggleButton* _play_button;
+#endif
+	boost::optional<std::string> _active_job;
 
 	ClosedCaptionsDialog* _closed_captions_dialog;
 

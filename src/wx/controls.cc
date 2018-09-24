@@ -50,7 +50,13 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool outlin
 	, _forward_button (new wxButton (this, wxID_ANY, wxT(">")))
 	, _frame_number (new wxStaticText (this, wxID_ANY, wxT("")))
 	, _timecode (new wxStaticText (this, wxID_ANY, wxT("")))
-	, _play_button (new wxToggleButton (this, wxID_ANY, _("Play")))
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	, _play_button (new wxButton(this, wxID_ANY, _("Play")))
+	, _pause_button (new wxButton(this, wxID_ANY, _("Pause")))
+	, _stop_button (new wxButton(this, wxID_ANY, _("Stop")))
+#else
+	, _play_button (new wxToggleButton(this, wxID_ANY, _("Play")))
+#endif
 {
 	_v_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (_v_sizer);
@@ -92,6 +98,10 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool outlin
 	h_sizer->Add (time_sizer, 0, wxEXPAND);
 	h_sizer->Add (_forward_button, 0, wxALL, 2);
 	h_sizer->Add (_play_button, 0, wxEXPAND);
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	h_sizer->Add (_pause_button, 0, wxEXPAND);
+	h_sizer->Add (_stop_button, 0, wxEXPAND);
+#endif
 	h_sizer->Add (_slider, 1, wxEXPAND);
 
 	_v_sizer->Add (h_sizer, 0, wxEXPAND | wxALL, 6);
@@ -111,8 +121,14 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool outlin
 	_slider->Bind           (wxEVT_SCROLL_THUMBTRACK,   boost::bind (&Controls::slider_moved,    this, false));
 	_slider->Bind           (wxEVT_SCROLL_PAGEUP,       boost::bind (&Controls::slider_moved,    this, true));
 	_slider->Bind           (wxEVT_SCROLL_PAGEDOWN,     boost::bind (&Controls::slider_moved,    this, true));
-	_slider->Bind           (wxEVT_SCROLL_THUMBRELEASE, boost::bind (&Controls::slider_released, this));
+	_slider->Bind           (wxEVT_SCROLL_CHANGED,      boost::bind (&Controls::slider_released, this));
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	_play_button->Bind      (wxEVT_BUTTON,              boost::bind (&Controls::play_clicked,    this));
+	_pause_button->Bind     (wxEVT_BUTTON,              boost::bind (&Controls::pause_clicked,   this));
+	_stop_button->Bind      (wxEVT_BUTTON,              boost::bind (&Controls::stop_clicked,    this));
+#else
 	_play_button->Bind      (wxEVT_TOGGLEBUTTON,        boost::bind (&Controls::play_clicked,    this));
+#endif
 	_rewind_button->Bind    (wxEVT_LEFT_DOWN,           boost::bind (&Controls::rewind_clicked,  this, _1));
 	_back_button->Bind      (wxEVT_LEFT_DOWN,           boost::bind (&Controls::back_clicked,    this, _1));
 	_forward_button->Bind   (wxEVT_LEFT_DOWN,           boost::bind (&Controls::forward_clicked, this, _1));
@@ -152,13 +168,25 @@ Controls::config_changed (int property)
 void
 Controls::started ()
 {
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	_play_button->Enable (false);
+	_pause_button->Enable (true);
+#else
 	_play_button->SetValue (true);
+#endif
+	setup_sensitivity ();
 }
 
 void
 Controls::stopped ()
 {
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	_play_button->Enable (true);
+	_pause_button->Enable (false);
+#else
 	_play_button->SetValue (false);
+#endif
+	setup_sensitivity ();
 }
 
 void
@@ -231,9 +259,15 @@ Controls::slider_released ()
 void
 Controls::play_clicked ()
 {
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	_viewer->start ();
+#else
 	check_play_state ();
+#endif
 }
 
+
+#ifndef DCPOMATIC_VARIANT_SWAROOP
 void
 Controls::check_play_state ()
 {
@@ -247,6 +281,7 @@ Controls::check_play_state ()
 		_viewer->stop ();
 	}
 }
+#endif
 
 void
 Controls::update_position_slider ()
@@ -284,10 +319,8 @@ Controls::update_position_label ()
 void
 Controls::active_jobs_changed (optional<string> j)
 {
-	/* examine content is the only job which stops the viewer working */
-	bool const a = !j || *j != "examine_content";
-	_slider->Enable (a);
-	_play_button->Enable (a);
+	_active_job = j;
+	setup_sensitivity ();
 }
 
 DCPTime
@@ -340,13 +373,20 @@ Controls::forward_clicked (wxKeyboardState& ev)
 void
 Controls::setup_sensitivity ()
 {
-	bool const c = _film && !_film->content().empty ();
+	/* examine content is the only job which stops the viewer working */
+	bool const c = _film && !_film->content().empty() && (!_active_job || *_active_job != "examine_content");
 
 	_slider->Enable (c);
 	_rewind_button->Enable (c);
 	_back_button->Enable (c);
 	_forward_button->Enable (c);
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	_play_button->Enable (c && !_viewer->playing());
+	_pause_button->Enable (c && _viewer->playing());
+	_stop_button->Enable (c);
+#else
 	_play_button->Enable (c);
+#endif
 	if (_outline_content) {
 		_outline_content->Enable (c);
 	}
@@ -456,3 +496,18 @@ Controls::dcp_directory_selected ()
 	DCPOMATIC_ASSERT (s < int(_dcp_directories.size()));
 	DCPDirectorySelected (*Config::instance()->player_dcp_directory() / _dcp_directories[s]);
 }
+
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+void
+Controls::pause_clicked ()
+{
+	_viewer->stop ();
+}
+
+void
+Controls::stop_clicked ()
+{
+	_viewer->stop ();
+	DCPEjected ();
+}
+#endif

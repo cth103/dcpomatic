@@ -192,6 +192,7 @@ public:
 
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
 		_controls->DCPDirectorySelected.connect (boost::bind(&DOMFrame::load_dcp, this, _1));
+		_controls->DCPEjected.connect (boost::bind(&DOMFrame::eject_dcp, this));
 
 		setup_screen ();
 	}
@@ -288,6 +289,13 @@ public:
 		_viewer->set_dcp_decode_reduction (reduction);
 		_info->triggered_update ();
 		Config::instance()->set_decode_reduction (reduction);
+	}
+
+	void eject_dcp ()
+	{
+		_film.reset (new Film (optional<boost::filesystem::path>()));
+		_viewer->set_film (_film);
+		_info->triggered_update ();
 	}
 
 	void load_dcp (boost::filesystem::path dir)
