@@ -115,11 +115,17 @@ private:
 		table->Add (_dcp_directory, wxGBPosition (r, 1));
 		++r;
 
+		add_label_to_sizer (table, _panel, _("KDM directory"), true, wxGBPosition (r, 0));
+		_kdm_directory = new wxDirPickerCtrl (_panel, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
+		table->Add (_kdm_directory, wxGBPosition (r, 1));
+		++r;
+
 		_player_mode->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::player_mode_changed, this));
 		_image_display->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::image_display_changed, this));
 		_respect_kdm->Bind (wxEVT_CHECKBOX, bind(&PlayerGeneralPage::respect_kdm_changed, this));
 		_log_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::log_file_changed, this));
 		_dcp_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&PlayerGeneralPage::dcp_directory_changed, this));
+		_kdm_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&PlayerGeneralPage::kdm_directory_changed, this));
 	}
 
 	void config_changed ()
@@ -147,6 +153,9 @@ private:
 		}
 		if (config->player_dcp_directory()) {
 			checked_set (_dcp_directory, *config->player_dcp_directory());
+		}
+		if (config->player_kdm_directory()) {
+			checked_set (_kdm_directory, *config->player_kdm_directory());
 		}
 	}
 
@@ -186,11 +195,17 @@ private:
 		Config::instance()->set_player_dcp_directory(wx_to_std(_dcp_directory->GetPath()));
 	}
 
+	void kdm_directory_changed ()
+	{
+		Config::instance()->set_player_kdm_directory(wx_to_std(_kdm_directory->GetPath()));
+	}
+
 	wxChoice* _player_mode;
 	wxChoice* _image_display;
 	wxCheckBox* _respect_kdm;
 	FilePickerCtrl* _log_file;
 	wxDirPickerCtrl* _dcp_directory;
+	wxDirPickerCtrl* _kdm_directory;
 };
 
 wxPreferencesEditor*
