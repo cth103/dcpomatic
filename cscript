@@ -331,8 +331,8 @@ def dependencies(target):
         # Use distro-provided FFmpeg on Arch
         deps = []
 
-    deps.append(('libdcp', 'ee05b1c'))
-    deps.append(('libsub', '1cf5cdf'))
+    deps.append(('libdcp', '9eb185c'))
+    deps.append(('libsub', '04d5701'))
     deps.append(('rtaudio-cdist', '739969e'))
 
     return deps
@@ -601,6 +601,7 @@ def make_appimage(target, nice_name, internal_name, version):
         print('Name=%s' % nice_name, file=f)
         print('Icon=%s' % internal_name, file=f)
     target.command('cp graphics/linux/256/%s.png build/%s.AppDir' % (internal_name, nice_filename))
+    target.command('linuxdeploy-x86_64.AppImage --appdir build/%s.AppDir' % nice_filename)
     target.command('appimagetool-x86_64.AppImage build/%s.AppDir' % nice_filename)
     target.command('mv %s-x86_64.AppImage build/%s-%s-x86_64.AppImage' % (nice_filename, nice_filename, version))
     return os.path.abspath('build/%s-%s-x86_64.AppImage' % (nice_filename, version))
