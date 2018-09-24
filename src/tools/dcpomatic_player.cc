@@ -344,6 +344,8 @@ public:
 			j->Check(!dcp->cpl() || i->id() == *dcp->cpl());
 			++id;
 		}
+
+		_controls->log (wxString::Format(_("Load DCP %s"), dir.filename().string().c_str()));
 	}
 
 private:

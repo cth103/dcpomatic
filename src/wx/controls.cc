@@ -73,10 +73,18 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 
 	_v_sizer->Add (view_options, 0, wxALL, DCPOMATIC_SIZER_GAP);
 
-	_dcp_directory = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize(600, -1), wxLC_REPORT | wxLC_NO_HEADER);
+	wxBoxSizer* e_sizer = new wxBoxSizer (wxHORIZONTAL);
+
+	_dcp_directory = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
 	_dcp_directory->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 580);
-	_v_sizer->Add (_dcp_directory, 0, wxALL, DCPOMATIC_SIZER_GAP);
+	e_sizer->Add (_dcp_directory, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
+
+	_log = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(-1, 400), wxTE_READONLY | wxTE_MULTILINE);
+	e_sizer->Add (_log, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
+
 	_dcp_directory->Show (false);
+
+	_v_sizer->Add (e_sizer, 0, wxEXPAND);
 
 	wxBoxSizer* h_sizer = new wxBoxSizer (wxHORIZONTAL);
 
@@ -502,3 +510,16 @@ Controls::stop_clicked ()
 	DCPEjected ();
 }
 #endif
+
+void
+Controls::log (wxString s)
+{
+	struct timeval time;
+	gettimeofday (&time, 0);
+	char buffer[64];
+	time_t const sec = time.tv_sec;
+	struct tm* t = localtime (&sec);
+	strftime (buffer, 64, "%c", t);
+	wxString ts = std_to_wx(string(buffer)) + N_(": ");
+	_log->SetValue(_log->GetValue() + ts + s + "\n");
+}

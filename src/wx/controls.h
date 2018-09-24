@@ -47,6 +47,7 @@ public:
 	void forward_frame ();
 
 	void show_extended_player_controls (bool s);
+	void log (wxString s);
 
 	boost::signals2::signal<void (boost::filesystem::path)> DCPDirectorySelected;
 	boost::signals2::signal<void ()> DCPEjected;
@@ -97,6 +98,7 @@ private:
 	wxChoice* _eye;
 	wxCheckBox* _jump_to_selected;
 	wxListCtrl* _dcp_directory;
+	wxTextCtrl* _log;
 	std::vector<boost::filesystem::path> _dcp_directories;
 	wxSlider* _slider;
 	wxButton* _rewind_button;
