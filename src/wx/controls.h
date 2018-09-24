@@ -39,9 +39,7 @@ public:
 	Controls (
 		wxWindow* parent,
 		boost::shared_ptr<FilmViewer>,
-		bool outline_content = true,
-		bool jump_to_selected = true,
-		bool eyes = true,
+		bool editor_controls = true,
 		bool dcp_directory = false
 		);
 

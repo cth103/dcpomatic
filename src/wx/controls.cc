@@ -33,10 +33,7 @@ using boost::optional;
 using boost::shared_ptr;
 using boost::weak_ptr;
 
-/** @param outline_content true if viewer should present an "outline content" checkbox.
- *  @param jump_to_selected true if viewer should present a "jump to selected" checkbox.
- */
-Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool outline_content, bool jump_to_selected, bool eye, bool dcp_directory)
+Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor_controls, bool dcp_directory)
 	: wxPanel (parent)
 	, _viewer (viewer)
 	, _slider_being_moved (false)
@@ -62,20 +59,14 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool outlin
 	SetSizer (_v_sizer);
 
 	wxBoxSizer* view_options = new wxBoxSizer (wxHORIZONTAL);
-	if (outline_content) {
+	if (editor_controls) {
 		_outline_content = new wxCheckBox (this, wxID_ANY, _("Outline content"));
 		view_options->Add (_outline_content, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
-	}
-
-	if (eye) {
 		_eye = new wxChoice (this, wxID_ANY);
 		_eye->Append (_("Left"));
 		_eye->Append (_("Right"));
 		_eye->SetSelection (0);
 		view_options->Add (_eye, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
-	}
-
-	if (jump_to_selected) {
 		_jump_to_selected = new wxCheckBox (this, wxID_ANY, _("Jump to selected content"));
 		view_options->Add (_jump_to_selected, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
 	}
