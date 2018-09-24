@@ -1,3 +1,23 @@
+/*
+    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+
+    This file is part of DCP-o-matic.
+
+    DCP-o-matic is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    DCP-o-matic is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
 #include "controls.h"
 #include "film_viewer.h"
 #include "wx_util.h"
@@ -6,6 +26,7 @@
 #include "lib/job_manager.h"
 #include <wx/wx.h>
 #include <wx/tglbtn.h>
+#include <wx/listctrl.h>
 
 using std::string;
 using boost::optional;
@@ -15,7 +36,7 @@ using boost::weak_ptr;
 /** @param outline_content true if viewer should present an "outline content" checkbox.
  *  @param jump_to_selected true if viewer should present a "jump to selected" checkbox.
  */
-Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool outline_content, bool jump_to_selected, bool eye)
+Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool outline_content, bool jump_to_selected, bool eye, bool dcp_directory)
 	: wxPanel (parent)
 	, _viewer (viewer)
 	, _slider_being_moved (false)
@@ -55,6 +76,11 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool outlin
 
 	_v_sizer->Add (view_options, 0, wxALL, DCPOMATIC_SIZER_GAP);
 
+	_dcp_directory = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize(600, -1), wxLC_REPORT | wxLC_NO_HEADER);
+	_dcp_directory->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 580);
+	_v_sizer->Add (_dcp_directory, 0, wxALL, DCPOMATIC_SIZER_GAP);
+	_dcp_directory->Show (dcp_directory);
+
 	wxBoxSizer* h_sizer = new wxBoxSizer (wxHORIZONTAL);
 
 	wxBoxSizer* time_sizer = new wxBoxSizer (wxVERTICAL);
@@ -92,6 +118,7 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool outlin
 	_forward_button->Bind   (wxEVT_LEFT_DOWN,           boost::bind (&Controls::forward_clicked, this, _1));
 	_frame_number->Bind     (wxEVT_LEFT_DOWN,           boost::bind (&Controls::frame_number_clicked, this));
 	_timecode->Bind         (wxEVT_LEFT_DOWN,           boost::bind (&Controls::timecode_clicked, this));
+	_dcp_directory->Bind    (wxEVT_LIST_ITEM_SELECTED,  boost::bind (&Controls::dcp_directory_selected, this));
 	if (_jump_to_selected) {
 		_jump_to_selected->Bind (wxEVT_CHECKBOX, boost::bind (&Controls::jump_to_selected_clicked, this));
 		_jump_to_selected->SetValue (Config::instance()->jump_to_selected ());
@@ -105,10 +132,21 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool outlin
 	film_changed ();
 
 	setup_sensitivity ();
+	update_dcp_directory ();
 
 	JobManager::instance()->ActiveJobsChanged.connect (
 		bind (&Controls::active_jobs_changed, this, _2)
 		);
+
+	_config_changed_connection = Config::instance()->Changed.connect (bind(&Controls::config_changed, this, _1));
+}
+
+void
+Controls::config_changed (int property)
+{
+	if (property == Config::PLAYER_DCP_DIRECTORY) {
+		update_dcp_directory ();
+	}
 }
 
 void
@@ -374,4 +412,47 @@ shared_ptr<Film>
 Controls::film () const
 {
 	return _film;
+}
+
+void
+Controls::show_dcp_directory (bool s)
+{
+	_dcp_directory->Show (s);
+}
+
+void
+Controls::update_dcp_directory ()
+{
+	using namespace boost::filesystem;
+
+	_dcp_directory->DeleteAllItems ();
+	_dcp_directories.clear ();
+	optional<path> dir = Config::instance()->player_dcp_directory();
+	if (!dir) {
+		return;
+	}
+
+	for (directory_iterator i = directory_iterator(*dir); i != directory_iterator(); ++i) {
+		try {
+			if (is_directory(*i) && (is_regular_file(*i / "ASSETMAP") || is_regular_file(*i / "ASSETMAP.xml"))) {
+				string const x = i->path().string().substr(dir->string().length() + 1);
+				_dcp_directory->InsertItem(_dcp_directory->GetItemCount(), std_to_wx(x));
+				_dcp_directories.push_back(x);
+			}
+		} catch (boost::filesystem::filesystem_error& e) {
+			/* Never mind */
+		}
+	}
+}
+
+void
+Controls::dcp_directory_selected ()
+{
+	long int s = _dcp_directory->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	if (s == -1) {
+		return;
+	}
+
+	DCPOMATIC_ASSERT (s < int(_dcp_directories.size()));
+	DCPDirectorySelected (*Config::instance()->player_dcp_directory() / _dcp_directories[s]);
 }

@@ -76,6 +76,7 @@ public:
 		SOUND,
 		SOUND_OUTPUT,
 		INTERFACE_COMPLEXITY,
+		PLAYER_DCP_DIRECTORY,
 		OTHER
 	};
 
@@ -908,7 +909,7 @@ public:
 	}
 
 	void set_player_dcp_directory (boost::filesystem::path p) {
-		maybe_set (_player_dcp_directory, p);
+		maybe_set (_player_dcp_directory, p, PLAYER_DCP_DIRECTORY);
 	}
 
 	void unset_player_dcp_directory () {
@@ -916,7 +917,7 @@ public:
 			return;
 		}
 		_player_dcp_directory = boost::none;
-		changed ();
+		changed (PLAYER_DCP_DIRECTORY);
 	}
 
 	void changed (Property p = OTHER);

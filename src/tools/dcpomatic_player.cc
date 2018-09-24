@@ -191,6 +191,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::forward_frame, this), ID_forward_frame);
 
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
+		_controls->DCPDirectorySelected.connect (boost::bind(&DOMFrame::load_dcp, this, _1));
 
 		setup_screen ();
 	}
@@ -576,6 +577,7 @@ private:
 	void setup_screen ()
 	{
 		_controls->Show (_mode != Config::PLAYER_MODE_FULL);
+		_controls->show_dcp_directory (_mode == Config::PLAYER_MODE_DUAL);
 		_info->Show (_mode != Config::PLAYER_MODE_FULL);
 		_overall_panel->SetBackgroundColour (_mode == Config::PLAYER_MODE_FULL ? wxColour(0, 0, 0) : wxNullColour);
 		ShowFullScreen (_mode == Config::PLAYER_MODE_FULL);
