@@ -585,7 +585,7 @@ private:
 	void setup_screen ()
 	{
 		_controls->Show (_mode != Config::PLAYER_MODE_FULL);
-		_controls->show_dcp_directory (_mode == Config::PLAYER_MODE_DUAL);
+		_controls->show_extended_player_controls (_mode == Config::PLAYER_MODE_DUAL);
 		_info->Show (_mode != Config::PLAYER_MODE_FULL);
 		_overall_panel->SetBackgroundColour (_mode == Config::PLAYER_MODE_FULL ? wxColour(0, 0, 0) : wxNullColour);
 		ShowFullScreen (_mode == Config::PLAYER_MODE_FULL);

@@ -33,7 +33,7 @@ using boost::optional;
 using boost::shared_ptr;
 using boost::weak_ptr;
 
-Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor_controls, bool dcp_directory)
+Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor_controls)
 	: wxPanel (parent)
 	, _viewer (viewer)
 	, _slider_being_moved (false)
@@ -76,7 +76,7 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	_dcp_directory = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize(600, -1), wxLC_REPORT | wxLC_NO_HEADER);
 	_dcp_directory->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 580);
 	_v_sizer->Add (_dcp_directory, 0, wxALL, DCPOMATIC_SIZER_GAP);
-	_dcp_directory->Show (dcp_directory);
+	_dcp_directory->Show (false);
 
 	wxBoxSizer* h_sizer = new wxBoxSizer (wxHORIZONTAL);
 
@@ -446,7 +446,7 @@ Controls::film () const
 }
 
 void
-Controls::show_dcp_directory (bool s)
+Controls::show_extended_player_controls (bool s)
 {
 	_dcp_directory->Show (s);
 }

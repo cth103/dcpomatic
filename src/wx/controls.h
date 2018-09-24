@@ -39,15 +39,14 @@ public:
 	Controls (
 		wxWindow* parent,
 		boost::shared_ptr<FilmViewer>,
-		bool editor_controls = true,
-		bool dcp_directory = false
+		bool editor_controls = true
 		);
 
 	boost::shared_ptr<Film> film () const;
 	void back_frame ();
 	void forward_frame ();
 
-	void show_dcp_directory (bool s);
+	void show_extended_player_controls (bool s);
 
 	boost::signals2::signal<void (boost::filesystem::path)> DCPDirectorySelected;
 	boost::signals2::signal<void ()> DCPEjected;
