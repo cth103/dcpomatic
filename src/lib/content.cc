@@ -295,7 +295,11 @@ Content::clone () const
 string
 Content::technical_summary () const
 {
-	return String::compose ("%1 %2 %3", path_summary(), digest(), position().seconds());
+	string s = String::compose ("%1 %2 %3", path_summary(), digest(), position().seconds());
+	if (_video_frame_rate) {
+		s += String::compose(" %1", *_video_frame_rate);
+	}
+	return s;
 }
 
 DCPTime
