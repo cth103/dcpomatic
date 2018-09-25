@@ -315,6 +315,27 @@ public:
 			return;
 		}
 
+		/* The DCP has been examined and loaded */
+
+		optional<boost::filesystem::path> kdm_dir = Config::instance()->player_kdm_directory();
+		if (dcp->needs_kdm() && kdm_dir) {
+			/* Look for a KDM */
+			using namespace boost::filesystem;
+			for (directory_iterator i = directory_iterator(*kdm_dir); i != directory_iterator(); ++i) {
+				if (file_size(i->path()) < MAX_KDM_SIZE) {
+					try {
+						dcp::EncryptedKDM kdm(dcp::file_to_string(i->path()));
+						if (kdm.cpl_id() == dcp->cpl()) {
+							dcp->add_kdm (kdm);
+							dcp->examine (shared_ptr<Job>());
+						}
+					} catch (...) {
+						/* Hey well */
+					}
+				}
+			}
+		}
+
 		setup_from_dcp (dcp);
 
 		if (dcp->three_d()) {

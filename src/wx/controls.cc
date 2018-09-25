@@ -83,6 +83,7 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	e_sizer->Add (_log, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
 	_dcp_directory->Show (false);
+	_log->Show (false);
 
 	_v_sizer->Add (e_sizer, 0, wxEXPAND);
 
@@ -457,6 +458,7 @@ void
 Controls::show_extended_player_controls (bool s)
 {
 	_dcp_directory->Show (s);
+	_log->Show (s);
 }
 
 void
