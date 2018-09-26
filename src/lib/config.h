@@ -490,6 +490,12 @@ public:
 		return _player_kdm_directory;
 	}
 
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	boost::optional<boost::filesystem::path> player_background_image () const {
+		return _player_background_image;
+	}
+#endif
+
 	/* SET (mostly) */
 
 	void set_master_encoding_threads (int n) {
@@ -936,6 +942,20 @@ public:
 		changed ();
 	}
 
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	void set_player_background_image (boost::filesystem::path p) {
+		maybe_set (_player_background_image, p);
+	}
+
+	void unset_player_background_image () {
+		if (!_player_background_image) {
+			return;
+		}
+		_player_background_image = boost::none;
+		changed ();
+	}
+#endif
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -1128,6 +1148,9 @@ private:
 	*/
 	boost::optional<boost::filesystem::path> _player_dcp_directory;
 	boost::optional<boost::filesystem::path> _player_kdm_directory;
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	boost::optional<boost::filesystem::path> _player_background_image;
+#endif
 
 	static int const _current_version;
 

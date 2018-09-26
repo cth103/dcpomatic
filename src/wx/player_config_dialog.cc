@@ -120,12 +120,22 @@ private:
 		table->Add (_kdm_directory, wxGBPosition (r, 1));
 		++r;
 
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+		add_label_to_sizer (table, _panel, _("Background image"), true, wxGBPosition (r, 0));
+		_background_image = new FilePickerCtrl (_panel, _("Select image file"), "*.png;*.jpg;*.jpeg;*.tif;*.tiff", true);
+		table->Add (_background_image, wxGBPosition (r, 1));
+		++r;
+#endif
+
 		_player_mode->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::player_mode_changed, this));
 		_image_display->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::image_display_changed, this));
 		_respect_kdm->Bind (wxEVT_CHECKBOX, bind(&PlayerGeneralPage::respect_kdm_changed, this));
 		_log_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::log_file_changed, this));
 		_dcp_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&PlayerGeneralPage::dcp_directory_changed, this));
 		_kdm_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&PlayerGeneralPage::kdm_directory_changed, this));
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+		_background_image->Bind (wxEVT_DIRPICKER_CHANGED, bind(&PlayerGeneralPage::background_image_changed, this));
+#endif
 	}
 
 	void config_changed ()
@@ -157,6 +167,11 @@ private:
 		if (config->player_kdm_directory()) {
 			checked_set (_kdm_directory, *config->player_kdm_directory());
 		}
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+		if (config->player_background_image()) {
+			checked_set (_background_image, *config->player_background_image());
+		}
+#endif
 	}
 
 private:
@@ -200,12 +215,22 @@ private:
 		Config::instance()->set_player_kdm_directory(wx_to_std(_kdm_directory->GetPath()));
 	}
 
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	void background_image_changed ()
+	{
+		Config::instance()->set_player_background_image(wx_to_std(_background_image->GetPath()));
+	}
+#endif
+
 	wxChoice* _player_mode;
 	wxChoice* _image_display;
 	wxCheckBox* _respect_kdm;
 	FilePickerCtrl* _log_file;
 	wxDirPickerCtrl* _dcp_directory;
 	wxDirPickerCtrl* _kdm_directory;
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	FilePickerCtrl* _background_image;
+#endif
 };
 
 wxPreferencesEditor*

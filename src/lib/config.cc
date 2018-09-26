@@ -169,6 +169,9 @@ Config::set_defaults ()
 	_player_log_file = boost::none;
 	_player_dcp_directory = boost::none;
 	_player_kdm_directory = boost::none;
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	_player_background_image = boost::none;
+#endif
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -501,6 +504,9 @@ try
 	_player_log_file = f.optional_string_child("PlayerLogFile");
 	_player_dcp_directory = f.optional_string_child("PlayerDCPDirectory");
 	_player_kdm_directory = f.optional_string_child("PlayerKDMDirectory");
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	_player_background_image = f.optional_string_child("PlayerBackgroundImage");
+#endif
 
 	/* Replace any cinemas from config.xml with those from the configured file */
 	if (boost::filesystem::exists (_cinemas_file)) {
@@ -898,6 +904,11 @@ Config::write_config () const
 	if (_player_kdm_directory) {
 		root->add_child("PlayerKDMDirectory")->add_child_text(_player_kdm_directory->string());
 	}
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	if (_player_background_image) {
+		root->add_child("PlayerBackgroundImage")->add_child_text(_player_background_image->string());
+	}
+#endif
 
 	try {
 		doc.write_to_file_formatted(config_file().string());
