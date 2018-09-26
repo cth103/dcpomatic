@@ -125,6 +125,11 @@ private:
 		_background_image = new FilePickerCtrl (_panel, _("Select image file"), "*.png;*.jpg;*.jpeg;*.tif;*.tiff", true);
 		table->Add (_background_image, wxGBPosition (r, 1));
 		++r;
+
+		add_label_to_sizer (table, _panel, _("KDM server URL"), true, wxGBPosition(r, 0));
+		_kdm_server_url = new wxTextCtrl (_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(400, -1));
+		table->Add (_kdm_server_url, wxGBPosition (r, 1));
+		++r;
 #endif
 
 		_player_mode->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::player_mode_changed, this));
@@ -135,6 +140,7 @@ private:
 		_kdm_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&PlayerGeneralPage::kdm_directory_changed, this));
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		_background_image->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::background_image_changed, this));
+		_kdm_server_url->Bind (wxEVT_TEXT, bind(&PlayerGeneralPage::kdm_server_url_changed, this));
 #endif
 	}
 
@@ -171,6 +177,7 @@ private:
 		if (config->player_background_image()) {
 			checked_set (_background_image, *config->player_background_image());
 		}
+		checked_set (_kdm_server_url, config->kdm_server_url());
 #endif
 	}
 
@@ -220,6 +227,11 @@ private:
 	{
 		Config::instance()->set_player_background_image(wx_to_std(_background_image->GetPath()));
 	}
+
+	void kdm_server_url_changed ()
+	{
+		Config::instance()->set_kdm_server_url(wx_to_std(_kdm_server_url->GetValue()));
+	}
 #endif
 
 	wxChoice* _player_mode;
@@ -230,6 +242,7 @@ private:
 	wxDirPickerCtrl* _kdm_directory;
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	FilePickerCtrl* _background_image;
+	wxTextCtrl* _kdm_server_url;
 #endif
 };
 

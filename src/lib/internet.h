@@ -22,5 +22,8 @@
 #include <boost/function.hpp>
 #include <boost/filesystem.hpp>
 
+class ScopedTemporary;
+
+boost::optional<std::string> get_from_url (std::string url, bool pasv, ScopedTemporary& temp);
 boost::optional<std::string> get_from_url (std::string url, bool pasv, boost::function<void (boost::filesystem::path)> load);
 boost::optional<std::string> get_from_zip_url (std::string url, std::string file, bool pasv, boost::function<void (boost::filesystem::path)> load);

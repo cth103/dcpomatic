@@ -31,6 +31,7 @@
 #include "lib/cross.h"
 #include "lib/config.h"
 #include "lib/util.h"
+#include "lib/internet.h"
 #include "lib/update_checker.h"
 #include "lib/compose.hpp"
 #include "lib/dcp_content.h"
@@ -45,6 +46,7 @@
 #include "lib/examine_content_job.h"
 #include "lib/server.h"
 #include "lib/dcpomatic_socket.h"
+#include "lib/scoped_temporary.h"
 #include <wx/wx.h>
 #include <wx/stdpaths.h>
 #include <wx/splash.h>
@@ -320,19 +322,42 @@ public:
 		optional<boost::filesystem::path> kdm_dir = Config::instance()->player_kdm_directory();
 		if (dcp->needs_kdm() && kdm_dir) {
 			/* Look for a KDM */
-			using namespace boost::filesystem;
-			for (directory_iterator i = directory_iterator(*kdm_dir); i != directory_iterator(); ++i) {
-				if (file_size(i->path()) < MAX_KDM_SIZE) {
-					try {
-						dcp::EncryptedKDM kdm(dcp::file_to_string(i->path()));
-						if (kdm.cpl_id() == dcp->cpl()) {
-							dcp->add_kdm (kdm);
-							dcp->examine (shared_ptr<Job>());
+
+			optional<dcp::EncryptedKDM> kdm;
+
+			ScopedTemporary temp;
+			string url = Config::instance()->kdm_server_url();
+			boost::algorithm::replace_all (url, "{CPL}", "%1");
+			if (dcp->cpl() && !get_from_url(String::compose(url, *dcp->cpl()), false, temp)) {
+				try {
+					kdm = dcp::EncryptedKDM (dcp::file_to_string(temp.file()));
+					if (kdm->cpl_id() != dcp->cpl()) {
+						kdm = boost::none;
+					}
+				} catch (std::exception& e) {
+					/* Hey well */
+				}
+			}
+
+			if (!kdm) {
+				using namespace boost::filesystem;
+				for (directory_iterator i = directory_iterator(*kdm_dir); i != directory_iterator(); ++i) {
+					if (file_size(i->path()) < MAX_KDM_SIZE) {
+						try {
+							kdm = dcp::EncryptedKDM(dcp::file_to_string(i->path()));
+							if (kdm->cpl_id() == dcp->cpl()) {
+								break;
+							}
+						} catch (std::exception& e) {
+							/* Hey well */
 						}
-					} catch (...) {
-						/* Hey well */
 					}
 				}
+			}
+
+			if (kdm) {
+				dcp->add_kdm (*kdm);
+				dcp->examine (shared_ptr<Job>());
 			}
 		}
 

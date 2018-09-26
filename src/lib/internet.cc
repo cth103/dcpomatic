@@ -46,7 +46,6 @@ get_from_url_data (void* buffer, size_t size, size_t nmemb, void* stream)
 	return fwrite (buffer, size, nmemb, f);
 }
 
-static
 optional<string>
 get_from_url (string url, bool pasv, ScopedTemporary& temp)
 {

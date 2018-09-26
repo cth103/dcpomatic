@@ -171,6 +171,7 @@ Config::set_defaults ()
 	_player_kdm_directory = boost::none;
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	_player_background_image = boost::none;
+	_kdm_server_url = "http://localhost:8000/{CPL}";
 #endif
 
 	_allowed_dcp_frame_rates.clear ();
@@ -506,6 +507,7 @@ try
 	_player_kdm_directory = f.optional_string_child("PlayerKDMDirectory");
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	_player_background_image = f.optional_string_child("PlayerBackgroundImage");
+	_kdm_server_url = f.optional_string_child("KDMServerURL").get_value_or("http://localhost:8000/{CPL}");
 #endif
 
 	/* Replace any cinemas from config.xml with those from the configured file */
@@ -908,6 +910,7 @@ Config::write_config () const
 	if (_player_background_image) {
 		root->add_child("PlayerBackgroundImage")->add_child_text(_player_background_image->string());
 	}
+	root->add_child("KDMServerURL")->add_child_text(_kdm_server_url);
 #endif
 
 	try {

@@ -497,6 +497,10 @@ public:
 	boost::optional<boost::filesystem::path> player_background_image () const {
 		return _player_background_image;
 	}
+
+	std::string kdm_server_url () const {
+		return _kdm_server_url;
+	}
 #endif
 
 	/* SET (mostly) */
@@ -957,6 +961,10 @@ public:
 		_player_background_image = boost::none;
 		changed (PLAYER_BACKGROUND_IMAGE);
 	}
+
+	void set_kdm_server_url (std::string s) {
+		maybe_set (_kdm_server_url, s);
+	}
 #endif
 
 	void changed (Property p = OTHER);
@@ -1153,6 +1161,7 @@ private:
 	boost::optional<boost::filesystem::path> _player_kdm_directory;
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	boost::optional<boost::filesystem::path> _player_background_image;
+	std::string _kdm_server_url;
 #endif
 
 	static int const _current_version;
