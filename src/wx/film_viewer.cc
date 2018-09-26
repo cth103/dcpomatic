@@ -91,7 +91,7 @@ FilmViewer::FilmViewer (wxWindow* p)
 #endif
 
 	_panel->SetBackgroundStyle (wxBG_STYLE_PAINT);
-	_panel->SetBackgroundColour (wxNullColour);
+	_panel->SetBackgroundColour (*wxBLACK);
 
 	_panel->Bind (wxEVT_PAINT, boost::bind (&FilmViewer::paint_panel, this));
 	_panel->Bind (wxEVT_SIZE,  boost::bind (&FilmViewer::panel_sized, this, _1));
