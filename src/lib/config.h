@@ -77,6 +77,9 @@ public:
 		SOUND_OUTPUT,
 		INTERFACE_COMPLEXITY,
 		PLAYER_DCP_DIRECTORY,
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+		PLAYER_BACKGROUND_IMAGE,
+#endif
 		OTHER
 	};
 
@@ -944,7 +947,7 @@ public:
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	void set_player_background_image (boost::filesystem::path p) {
-		maybe_set (_player_background_image, p);
+		maybe_set (_player_background_image, p, PLAYER_BACKGROUND_IMAGE);
 	}
 
 	void unset_player_background_image () {
@@ -952,7 +955,7 @@ public:
 			return;
 		}
 		_player_background_image = boost::none;
-		changed ();
+		changed (PLAYER_BACKGROUND_IMAGE);
 	}
 #endif
 

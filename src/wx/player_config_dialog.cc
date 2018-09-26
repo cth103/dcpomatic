@@ -134,7 +134,7 @@ private:
 		_dcp_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&PlayerGeneralPage::dcp_directory_changed, this));
 		_kdm_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&PlayerGeneralPage::kdm_directory_changed, this));
 #ifdef DCPOMATIC_VARIANT_SWAROOP
-		_background_image->Bind (wxEVT_DIRPICKER_CHANGED, bind(&PlayerGeneralPage::background_image_changed, this));
+		_background_image->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::background_image_changed, this));
 #endif
 	}
 
