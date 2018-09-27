@@ -36,14 +36,18 @@ InitialSetupDialog::InitialSetupDialog ()
 			"<i>Simple mode</i> is ideal for producing straightforward DCPs without too many confusing "
 			"options.\n\n"
 			"<i>Full mode</i> gives you the most control over the DCPs you make.\n\n"
-			"Please choose which mode you would like to start DCP-o-matic in:\n\n"
+			"Please choose which mode you would like to start DCP-o-matic in:"
 			)
 		);
 
+	wxBoxSizer* mode_sizer = new wxBoxSizer (wxVERTICAL);
+
 	_simple = new wxRadioButton (this, wxID_ANY, _("Simple mode"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
-	sizer->Add (_simple, 0, wxLEFT, 24);
+	mode_sizer->Add (_simple, 0, wxTOP, 12);
 	_full = new wxRadioButton (this, wxID_ANY, _("Full mode"));
-	sizer->Add (_full, 0, wxLEFT, 24);
+	mode_sizer->Add (_full, 0, wxTOP, 8);
+
+	sizer->Add (mode_sizer, 0, wxLEFT, 24);
 
 	if (Config::instance()->interface_complexity() == Config::INTERFACE_SIMPLE) {
 		_simple->SetValue (true);
