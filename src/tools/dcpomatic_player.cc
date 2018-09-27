@@ -325,6 +325,7 @@ public:
 
 			optional<dcp::EncryptedKDM> kdm;
 
+#ifdef DCPOMATIC_VARIANT_SWAROOP
 			ScopedTemporary temp;
 			string url = Config::instance()->kdm_server_url();
 			boost::algorithm::replace_all (url, "{CPL}", "%1");
@@ -338,6 +339,7 @@ public:
 					/* Hey well */
 				}
 			}
+#endif
 
 			if (!kdm) {
 				using namespace boost::filesystem;
