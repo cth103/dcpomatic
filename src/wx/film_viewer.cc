@@ -101,6 +101,7 @@ FilmViewer::FilmViewer (wxWindow* p)
 
 	_config_changed_connection = Config::instance()->Changed.connect (bind (&FilmViewer::config_changed, this, _1));
 	config_changed (Config::SOUND_OUTPUT);
+	config_changed (Config::PLAYER_WATERMARK);
 }
 
 FilmViewer::~FilmViewer ()
@@ -326,6 +327,14 @@ FilmViewer::paint_panel ()
 	wxImage frame (_out_size.width, _out_size.height, _frame->data()[0], true);
 	wxBitmap frame_bitmap (frame);
 	dc.DrawBitmap (frame_bitmap, 0, max(0, (_panel_size.height - _out_size.height) / 2));
+
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	if (_watermark && (_video_position.get() % 960000) == 0) {
+		int x = rand() % (_panel_size.width - _watermark->GetWidth());
+		int y = rand() % (_panel_size.height - _watermark->GetHeight());
+		dc.DrawBitmap (*_watermark, x, y);
+	}
+#endif
 
 	if (_out_size.width < _panel_size.width) {
 		wxPen p (_panel->GetParent()->GetBackgroundColour());
@@ -571,6 +580,16 @@ void
 FilmViewer::config_changed (Config::Property p)
 {
 #ifdef DCPOMATIC_VARIANT_SWAROOP
+	if (p == Config::PLAYER_WATERMARK) {
+		optional<boost::filesystem::path> f = Config::instance()->player_watermark();
+		if (f) {
+			_watermark = wxBitmap(wxImage(std_to_wx(f->string())));
+		} else {
+			_watermark = boost::none;
+		}
+		return;
+	}
+
 	if (p == Config::PLAYER_BACKGROUND_IMAGE) {
 		refresh_panel ();
 		return;

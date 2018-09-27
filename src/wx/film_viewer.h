@@ -154,5 +154,9 @@ private:
 	bool _outline_content;
 	Eyes _eyes;
 
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	boost::optional<wxBitmap> _watermark;
+#endif
+
 	boost::signals2::scoped_connection _config_changed_connection;
 };

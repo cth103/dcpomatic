@@ -79,6 +79,7 @@ public:
 		PLAYER_DCP_DIRECTORY,
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		PLAYER_BACKGROUND_IMAGE,
+		PLAYER_WATERMARK,
 #endif
 		OTHER
 	};
@@ -500,6 +501,10 @@ public:
 
 	std::string kdm_server_url () const {
 		return _kdm_server_url;
+	}
+
+	boost::optional<boost::filesystem::path> player_watermark () const {
+		return _player_watermark;
 	}
 #endif
 
@@ -965,6 +970,18 @@ public:
 	void set_kdm_server_url (std::string s) {
 		maybe_set (_kdm_server_url, s);
 	}
+
+	void set_player_watermark (boost::filesystem::path p) {
+		maybe_set (_player_watermark, p, PLAYER_WATERMARK);
+	}
+
+	void unset_player_watermark () {
+		if (!_player_watermark) {
+			return;
+		}
+		_player_watermark = boost::none;
+		changed (PLAYER_WATERMARK);
+	}
 #endif
 
 	void changed (Property p = OTHER);
@@ -1162,6 +1179,7 @@ private:
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	boost::optional<boost::filesystem::path> _player_background_image;
 	std::string _kdm_server_url;
+	boost::optional<boost::filesystem::path> _player_watermark;
 #endif
 
 	static int const _current_version;

@@ -126,6 +126,11 @@ private:
 		table->Add (_background_image, wxGBPosition (r, 1));
 		++r;
 
+		add_label_to_sizer (table, _panel, _("Watermark image"), true, wxGBPosition (r, 0));
+		_watermark = new FilePickerCtrl (_panel, _("Select image file"), "*.png;*.jpg;*.jpeg;*.tif;*.tiff", true);
+		table->Add (_watermark, wxGBPosition (r, 1));
+		++r;
+
 		add_label_to_sizer (table, _panel, _("KDM server URL"), true, wxGBPosition(r, 0));
 		_kdm_server_url = new wxTextCtrl (_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(400, -1));
 		table->Add (_kdm_server_url, wxGBPosition (r, 1));
@@ -141,6 +146,7 @@ private:
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		_background_image->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::background_image_changed, this));
 		_kdm_server_url->Bind (wxEVT_TEXT, bind(&PlayerGeneralPage::kdm_server_url_changed, this));
+		_watermark->Bind (wxEVT_TEXT, bind(&PlayerGeneralPage::watermark_changed, this));
 #endif
 	}
 
@@ -178,6 +184,9 @@ private:
 			checked_set (_background_image, *config->player_background_image());
 		}
 		checked_set (_kdm_server_url, config->kdm_server_url());
+		if (config->player_watermark()) {
+			checked_set (_watermark, *config->player_watermark());
+		}
 #endif
 	}
 
@@ -232,6 +241,11 @@ private:
 	{
 		Config::instance()->set_kdm_server_url(wx_to_std(_kdm_server_url->GetValue()));
 	}
+
+	void watermark_changed ()
+	{
+		Config::instance()->set_player_watermark(wx_to_std(_watermark->GetPath()));
+	}
 #endif
 
 	wxChoice* _player_mode;
@@ -243,6 +257,7 @@ private:
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	FilePickerCtrl* _background_image;
 	wxTextCtrl* _kdm_server_url;
+	FilePickerCtrl* _watermark;
 #endif
 };
 
