@@ -1002,6 +1002,7 @@ public:
 	void write_cinemas () const;
 	void link (boost::filesystem::path new_file) const;
 	void copy_and_link (boost::filesystem::path new_file) const;
+	bool have_write_permission () const;
 
 	void save_template (boost::shared_ptr<const Film> film, std::string name) const;
 	bool existing_template (std::string name) const;

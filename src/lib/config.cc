@@ -1201,3 +1201,15 @@ Config::copy_and_link (boost::filesystem::path new_file) const
 	boost::filesystem::copy_file (config_file(), new_file, boost::filesystem::copy_option::overwrite_if_exists);
 	link (new_file);
 }
+
+bool
+Config::have_write_permission () const
+{
+	FILE* f = fopen_boost (config_file(), "r+");
+	if (!f) {
+		return false;
+	}
+
+	fclose (f);
+	return true;
+}

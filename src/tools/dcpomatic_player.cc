@@ -136,7 +136,7 @@ public:
 #endif
 
 		_config_changed_connection = Config::instance()->Changed.connect (boost::bind (&DOMFrame::config_changed, this));
-		config_changed ();
+		update_from_config ();
 
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_open, this), ID_file_open);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_add_ov, this), ID_file_add_ov);
@@ -467,11 +467,13 @@ private:
 #endif
 
 #ifdef __WXOSX__
-		_file_menu->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
+		wxMenuItem* prefs = _file_menu->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
 #else
 		wxMenu* edit = new wxMenu;
-		edit->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
+		wxMenuItem* prefs = edit->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
 #endif
+
+		prefs->Enable (Config::instance()->have_write_permission());
 
 		_cpl_menu = new wxMenu;
 
@@ -632,6 +634,10 @@ private:
 
 	void edit_preferences ()
 	{
+		if (!Config::instance()->have_write_permission()) {
+			return;
+		}
+
 		if (!_config_dialog) {
 			_config_dialog = create_player_config_dialog ();
 		}
@@ -808,16 +814,26 @@ private:
 		/* Instantly save any config changes when using the player GUI */
 		try {
 			Config::instance()->write_config();
+		} catch (FileError& e) {
+			error_dialog (
+				this,
+				wxString::Format(
+					_("Could not write to config file at %s.  Your changes have not been saved."),
+					std_to_wx(e.file().string())
+					)
+				);
 		} catch (exception& e) {
 			error_dialog (
 				this,
-				wxString::Format (
-					_("Could not write to config file at %s.  Your changes have not been saved."),
-					std_to_wx (Config::instance()->cinemas_file().string()).data()
-					)
+				_("Could not write to config file.  Your changes have not been saved.")
 				);
 		}
 
+		update_from_config ();
+	}
+
+	void update_from_config ()
+	{
 		for (int i = 0; i < _history_items; ++i) {
 			delete _file_menu->Remove (ID_file_history + i);
 		}
