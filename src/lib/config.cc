@@ -229,6 +229,14 @@ void
 Config::read ()
 try
 {
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	if (geteuid() == 0) {
+		/* Take ownership of the config file if we're root */
+		chown (config_file().string().c_str(), 0, 0);
+		chmod (config_file().string().c_str(), 0644);
+	}
+#endif
+
 	cxml::Document f ("Config");
 	f.read_file (config_file ());
 
