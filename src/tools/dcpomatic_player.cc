@@ -300,6 +300,7 @@ public:
 		Config::instance()->add_to_player_history (dir);
 	}
 
+#ifdef DCPOMATIC_VARIANT_SWAROOP
 	optional<dcp::EncryptedKDM> get_kdm_from_url (shared_ptr<DCPContent> dcp)
 	{
 		ScopedTemporary temp;
@@ -318,6 +319,7 @@ public:
 		}
 		return kdm;
 	}
+#endif
 
 	optional<dcp::EncryptedKDM> get_kdm_from_directory (shared_ptr<DCPContent> dcp)
 	{
