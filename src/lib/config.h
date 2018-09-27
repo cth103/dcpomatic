@@ -79,7 +79,6 @@ public:
 		PLAYER_DCP_DIRECTORY,
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		PLAYER_BACKGROUND_IMAGE,
-		PLAYER_WATERMARK,
 #endif
 		OTHER
 	};
@@ -503,8 +502,16 @@ public:
 		return _kdm_server_url;
 	}
 
-	boost::optional<boost::filesystem::path> player_watermark () const {
-		return _player_watermark;
+	std::string player_watermark_theatre () const {
+		return _player_watermark_theatre;
+	}
+
+	int player_watermark_period () const {
+		return _player_watermark_period;
+	}
+
+	int player_watermark_duration () const {
+		return _player_watermark_duration;
 	}
 #endif
 
@@ -971,16 +978,16 @@ public:
 		maybe_set (_kdm_server_url, s);
 	}
 
-	void set_player_watermark (boost::filesystem::path p) {
-		maybe_set (_player_watermark, p, PLAYER_WATERMARK);
+	void set_player_watermark_theatre (std::string p) {
+		maybe_set (_player_watermark_theatre, p);
 	}
 
-	void unset_player_watermark () {
-		if (!_player_watermark) {
-			return;
-		}
-		_player_watermark = boost::none;
-		changed (PLAYER_WATERMARK);
+	void set_player_watermark_period (int minutes) {
+		maybe_set (_player_watermark_period, minutes);
+	}
+
+	void set_player_watermark_duration (int milliseconds) {
+		maybe_set (_player_watermark_duration, milliseconds);
 	}
 #endif
 
@@ -1180,7 +1187,9 @@ private:
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	boost::optional<boost::filesystem::path> _player_background_image;
 	std::string _kdm_server_url;
-	boost::optional<boost::filesystem::path> _player_watermark;
+	std::string _player_watermark_theatre;
+	int _player_watermark_period;
+	int _player_watermark_duration;
 #endif
 
 	static int const _current_version;

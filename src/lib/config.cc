@@ -172,7 +172,9 @@ Config::set_defaults ()
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	_player_background_image = boost::none;
 	_kdm_server_url = "http://localhost:8000/{CPL}";
-	_player_watermark = boost::none;
+	_player_watermark_theatre = "";
+	_player_watermark_period = 1;
+	_player_watermark_duration = 50;
 #endif
 
 	_allowed_dcp_frame_rates.clear ();
@@ -517,7 +519,9 @@ try
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	_player_background_image = f.optional_string_child("PlayerBackgroundImage");
 	_kdm_server_url = f.optional_string_child("KDMServerURL").get_value_or("http://localhost:8000/{CPL}");
-	_player_watermark = f.optional_string_child("PlayerWatermark");
+	_player_watermark_theatre = f.optional_string_child("PlayerWatermarkTheatre").get_value_or("");
+	_player_watermark_period = f.optional_number_child<int>("PlayerWatermarkPeriod").get_value_or(1);
+	_player_watermark_duration = f.optional_number_child<int>("PlayerWatermarkDuration").get_value_or(150);
 #endif
 
 	/* Replace any cinemas from config.xml with those from the configured file */
@@ -921,9 +925,9 @@ Config::write_config () const
 		root->add_child("PlayerBackgroundImage")->add_child_text(_player_background_image->string());
 	}
 	root->add_child("KDMServerURL")->add_child_text(_kdm_server_url);
-	if (_player_watermark) {
-		root->add_child("PlayerWatermark")->add_child_text(_player_watermark->string());
-	}
+	root->add_child("PlayerWatermarkTheatre")->add_child_text(_player_watermark_theatre);
+	root->add_child("PlayerWatermarkPeriod")->add_child_text(raw_convert<string>(_player_watermark_period));
+	root->add_child("PlayerWatermarkDuration")->add_child_text(raw_convert<string>(_player_watermark_duration));
 #endif
 
 	try {

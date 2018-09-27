@@ -126,11 +126,6 @@ private:
 		table->Add (_background_image, wxGBPosition (r, 1));
 		++r;
 
-		add_label_to_sizer (table, _panel, _("Watermark image"), true, wxGBPosition (r, 0));
-		_watermark = new FilePickerCtrl (_panel, _("Select image file"), "*.png;*.jpg;*.jpeg;*.tif;*.tiff", true);
-		table->Add (_watermark, wxGBPosition (r, 1));
-		++r;
-
 		add_label_to_sizer (table, _panel, _("KDM server URL"), true, wxGBPosition(r, 0));
 		_kdm_server_url = new wxTextCtrl (_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(400, -1));
 		table->Add (_kdm_server_url, wxGBPosition (r, 1));
@@ -146,7 +141,6 @@ private:
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		_background_image->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::background_image_changed, this));
 		_kdm_server_url->Bind (wxEVT_TEXT, bind(&PlayerGeneralPage::kdm_server_url_changed, this));
-		_watermark->Bind (wxEVT_TEXT, bind(&PlayerGeneralPage::watermark_changed, this));
 #endif
 	}
 
@@ -184,9 +178,6 @@ private:
 			checked_set (_background_image, *config->player_background_image());
 		}
 		checked_set (_kdm_server_url, config->kdm_server_url());
-		if (config->player_watermark()) {
-			checked_set (_watermark, *config->player_watermark());
-		}
 #endif
 	}
 
@@ -241,11 +232,6 @@ private:
 	{
 		Config::instance()->set_kdm_server_url(wx_to_std(_kdm_server_url->GetValue()));
 	}
-
-	void watermark_changed ()
-	{
-		Config::instance()->set_player_watermark(wx_to_std(_watermark->GetPath()));
-	}
 #endif
 
 	wxChoice* _player_mode;
@@ -257,9 +243,82 @@ private:
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	FilePickerCtrl* _background_image;
 	wxTextCtrl* _kdm_server_url;
-	FilePickerCtrl* _watermark;
 #endif
 };
+
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+class WatermarkPage : public StandardPage
+{
+public:
+	WatermarkPage (wxSize panel_size, int border)
+		: StandardPage (panel_size, border)
+	{}
+
+	wxString GetName () const
+	{
+		return _("Watermark");
+	}
+
+private:
+	void setup ()
+	{
+		wxGridBagSizer* table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
+
+		int r = 0;
+
+		add_label_to_sizer (table, _panel, _("Theatre name"), true, wxGBPosition(r, 0));
+		_theatre = new wxTextCtrl (_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(300, -1));
+		table->Add (_theatre, wxGBPosition(r, 1), wxGBSpan(1, 2));
+		++r;
+
+		add_label_to_sizer (table, _panel, _("Period"), true, wxGBPosition(r, 0));
+		_period = new wxSpinCtrl (_panel, wxID_ANY);
+		_period->SetRange (1, 60);
+		table->Add (_period, wxGBPosition(r, 1));
+		add_label_to_sizer (table, _panel, _("minutes"), false, wxGBPosition(r, 2));
+		++r;
+
+		add_label_to_sizer (table, _panel, _("Duration"), true, wxGBPosition(r, 0));
+		_duration = new wxSpinCtrl (_panel, wxID_ANY);
+		_duration->SetRange (1, 200);
+		table->Add (_duration, wxGBPosition(r, 1));
+		add_label_to_sizer (table, _panel, _("milliseconds"), false, wxGBPosition(r, 2));
+		++r;
+
+		_theatre->Bind (wxEVT_TEXT, bind(&WatermarkPage::theatre_changed, this));
+		_duration->Bind (wxEVT_SPINCTRL, bind(&WatermarkPage::duration_changed, this));
+		_period->Bind (wxEVT_SPINCTRL, bind(&WatermarkPage::period_changed, this));
+	}
+
+	void config_changed ()
+	{
+		Config* config = Config::instance ();
+		checked_set (_theatre, config->player_watermark_theatre());
+		checked_set (_duration, config->player_watermark_duration());
+		checked_set (_period, config->player_watermark_period());
+	}
+
+	void theatre_changed ()
+	{
+		Config::instance()->set_player_watermark_theatre(wx_to_std(_theatre->GetValue()));
+	}
+
+	void period_changed ()
+	{
+		Config::instance()->set_player_watermark_period(_period->GetValue());
+	}
+
+	void duration_changed ()
+	{
+		Config::instance()->set_player_watermark_duration(_duration->GetValue());
+	}
+
+	wxTextCtrl* _theatre;
+	wxSpinCtrl* _period;
+	wxSpinCtrl* _duration;
+};
+#endif
 
 wxPreferencesEditor*
 create_player_config_dialog ()
@@ -280,5 +339,8 @@ create_player_config_dialog ()
 
 	e->AddPage (new PlayerGeneralPage (ps, border));
 	e->AddPage (new KeysPage (ps, border));
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	e->AddPage (new WatermarkPage (ps, border));
+#endif
 	return e;
 }
