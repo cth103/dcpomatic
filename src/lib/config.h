@@ -1188,7 +1188,9 @@ private:
 	boost::optional<boost::filesystem::path> _player_background_image;
 	std::string _kdm_server_url;
 	std::string _player_watermark_theatre;
+	/** watermark period in minutes */
 	int _player_watermark_period;
+	/** watermark duration in milliseconds */
 	int _player_watermark_duration;
 #endif
 

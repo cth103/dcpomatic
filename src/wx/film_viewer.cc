@@ -85,6 +85,9 @@ FilmViewer::FilmViewer (wxWindow* p)
 	, _closed_captions_dialog (new ClosedCaptionsDialog(p))
 	, _outline_content (false)
 	, _eyes (EYES_LEFT)
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	, _in_watermark (false)
+#endif
 {
 #ifndef __WXOSX__
 	_panel->SetDoubleBuffered (true);
@@ -328,7 +331,21 @@ FilmViewer::paint_panel ()
 	dc.DrawBitmap (frame_bitmap, 0, max(0, (_panel_size.height - _out_size.height) / 2));
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
-	/* XXX: watermark */
+	DCPTime const period = DCPTime::from_seconds(Config::instance()->player_watermark_period() * 60);
+	int64_t n = _video_position.get() / period.get();
+	DCPTime from(n * period.get());
+	DCPTime to = from + DCPTime::from_seconds(Config::instance()->player_watermark_duration() / 1000.0);
+	if (from <= _video_position && _video_position <= to) {
+		if (!_in_watermark) {
+			_in_watermark = true;
+			_watermark_x = rand() % _panel_size.width;
+			_watermark_y = rand() % _panel_size.height;
+		}
+		dc.SetTextForeground(*wxWHITE);
+		dc.DrawText(std_to_wx(Config::instance()->player_watermark_theatre()), _watermark_x, _watermark_y);
+	} else {
+		_in_watermark = false;
+	}
 #endif
 
 	if (_out_size.width < _panel_size.width) {
