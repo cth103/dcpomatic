@@ -21,6 +21,7 @@
 #include "lib/dcpomatic_time.h"
 #include "lib/types.h"
 #include "lib/film.h"
+#include "lib/spl_entry.h"
 #include <wx/wx.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
@@ -49,8 +50,7 @@ public:
 	void show_extended_player_controls (bool s);
 	void log (wxString s);
 
-	boost::signals2::signal<void (boost::filesystem::path)> DCPDirectorySelected;
-	boost::signals2::signal<void ()> DCPEjected;
+	boost::signals2::signal<void (std::list<SPLEntry>)> SPLChanged;
 
 private:
 	void update_position_label ();
@@ -80,12 +80,13 @@ private:
 	void film_changed ();
 	void update_dcp_directory ();
 	void dcp_directory_changed ();
-	void dcp_directory_selected ();
 	void config_changed (int property);
+	boost::optional<boost::filesystem::path> selected_dcp () const;
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	void pause_clicked ();
 	void stop_clicked ();
 #endif
+	void add_clicked ();
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<FilmViewer> _viewer;
@@ -98,7 +99,9 @@ private:
 	wxChoice* _eye;
 	wxCheckBox* _jump_to_selected;
 	wxListCtrl* _dcp_directory;
+	wxListCtrl* _spl_view;
 	wxTextCtrl* _log;
+	wxButton* _add_button;
 	std::vector<boost::filesystem::path> _dcp_directories;
 	wxSlider* _slider;
 	wxButton* _rewind_button;
@@ -114,6 +117,7 @@ private:
 	wxToggleButton* _play_button;
 #endif
 	boost::optional<std::string> _active_job;
+	std::list<SPLEntry> _spl;
 
 	ClosedCaptionsDialog* _closed_captions_dialog;
 

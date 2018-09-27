@@ -79,13 +79,24 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	_dcp_directory->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 580);
 	e_sizer->Add (_dcp_directory, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
-	_log = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(-1, 400), wxTE_READONLY | wxTE_MULTILINE);
-	e_sizer->Add (_log, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
+	_spl_view = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
+	_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 580);
+	e_sizer->Add (_spl_view, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
+
+	wxBoxSizer* buttons_sizer = new wxBoxSizer (wxVERTICAL);
+	_add_button = new wxButton(this, wxID_ANY, _("Add"));
+	buttons_sizer->Add (_add_button);
+	e_sizer->Add (buttons_sizer, 0, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
+
+	_v_sizer->Add (e_sizer, 1, wxEXPAND);
+
+	_log = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(-1, 200), wxTE_READONLY | wxTE_MULTILINE);
+	_v_sizer->Add (_log, 0, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
 	_dcp_directory->Show (false);
+	_spl_view->Show (false);
+	_add_button->Show (false);
 	_log->Show (false);
-
-	_v_sizer->Add (e_sizer, 0, wxEXPAND);
 
 	wxBoxSizer* h_sizer = new wxBoxSizer (wxHORIZONTAL);
 
@@ -118,27 +129,29 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 		_outline_content->Bind (wxEVT_CHECKBOX, boost::bind (&Controls::outline_content_changed, this));
 	}
 
-	_slider->Bind           (wxEVT_SCROLL_THUMBTRACK,   boost::bind (&Controls::slider_moved,    this, false));
-	_slider->Bind           (wxEVT_SCROLL_PAGEUP,       boost::bind (&Controls::slider_moved,    this, true));
-	_slider->Bind           (wxEVT_SCROLL_PAGEDOWN,     boost::bind (&Controls::slider_moved,    this, true));
-	_slider->Bind           (wxEVT_SCROLL_CHANGED,      boost::bind (&Controls::slider_released, this));
+	_slider->Bind           (wxEVT_SCROLL_THUMBTRACK,    boost::bind(&Controls::slider_moved,    this, false));
+	_slider->Bind           (wxEVT_SCROLL_PAGEUP,        boost::bind(&Controls::slider_moved,    this, true));
+	_slider->Bind           (wxEVT_SCROLL_PAGEDOWN,      boost::bind(&Controls::slider_moved,    this, true));
+	_slider->Bind           (wxEVT_SCROLL_CHANGED,       boost::bind(&Controls::slider_released, this));
 #ifdef DCPOMATIC_VARIANT_SWAROOP
-	_play_button->Bind      (wxEVT_BUTTON,              boost::bind (&Controls::play_clicked,    this));
-	_pause_button->Bind     (wxEVT_BUTTON,              boost::bind (&Controls::pause_clicked,   this));
-	_stop_button->Bind      (wxEVT_BUTTON,              boost::bind (&Controls::stop_clicked,    this));
+	_play_button->Bind      (wxEVT_BUTTON,               boost::bind(&Controls::play_clicked,    this));
+	_pause_button->Bind     (wxEVT_BUTTON,               boost::bind(&Controls::pause_clicked,   this));
+	_stop_button->Bind      (wxEVT_BUTTON,               boost::bind(&Controls::stop_clicked,    this));
 #else
-	_play_button->Bind      (wxEVT_TOGGLEBUTTON,        boost::bind (&Controls::play_clicked,    this));
+	_play_button->Bind      (wxEVT_TOGGLEBUTTON,         boost::bind(&Controls::play_clicked,    this));
 #endif
-	_rewind_button->Bind    (wxEVT_LEFT_DOWN,           boost::bind (&Controls::rewind_clicked,  this, _1));
-	_back_button->Bind      (wxEVT_LEFT_DOWN,           boost::bind (&Controls::back_clicked,    this, _1));
-	_forward_button->Bind   (wxEVT_LEFT_DOWN,           boost::bind (&Controls::forward_clicked, this, _1));
-	_frame_number->Bind     (wxEVT_LEFT_DOWN,           boost::bind (&Controls::frame_number_clicked, this));
-	_timecode->Bind         (wxEVT_LEFT_DOWN,           boost::bind (&Controls::timecode_clicked, this));
-	_dcp_directory->Bind    (wxEVT_LIST_ITEM_SELECTED,  boost::bind (&Controls::dcp_directory_selected, this));
+	_rewind_button->Bind    (wxEVT_LEFT_DOWN,            boost::bind(&Controls::rewind_clicked,  this, _1));
+	_back_button->Bind      (wxEVT_LEFT_DOWN,            boost::bind(&Controls::back_clicked,    this, _1));
+	_forward_button->Bind   (wxEVT_LEFT_DOWN,            boost::bind(&Controls::forward_clicked, this, _1));
+	_frame_number->Bind     (wxEVT_LEFT_DOWN,            boost::bind(&Controls::frame_number_clicked, this));
+	_timecode->Bind         (wxEVT_LEFT_DOWN,            boost::bind(&Controls::timecode_clicked, this));
+	_dcp_directory->Bind    (wxEVT_LIST_ITEM_SELECTED,   boost::bind(&Controls::setup_sensitivity, this));
+	_dcp_directory->Bind    (wxEVT_LIST_ITEM_DESELECTED, boost::bind(&Controls::setup_sensitivity, this));
 	if (_jump_to_selected) {
 		_jump_to_selected->Bind (wxEVT_CHECKBOX, boost::bind (&Controls::jump_to_selected_clicked, this));
 		_jump_to_selected->SetValue (Config::instance()->jump_to_selected ());
 	}
+	_add_button->Bind       (wxEVT_BUTTON,              boost::bind(&Controls::add_clicked, this));
 
 	_viewer->PositionChanged.connect (boost::bind(&Controls::position_changed, this));
 	_viewer->Started.connect (boost::bind(&Controls::started, this));
@@ -155,6 +168,17 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 		);
 
 	_config_changed_connection = Config::instance()->Changed.connect (bind(&Controls::config_changed, this, _1));
+}
+
+void
+Controls::add_clicked ()
+{
+	optional<boost::filesystem::path> sel = selected_dcp ();
+	DCPOMATIC_ASSERT (sel);
+	_spl.push_back (SPLEntry(*sel));
+	_spl_view->InsertItem(_spl_view->GetItemCount(), std_to_wx(sel->filename().string()));
+	SPLChanged (_spl);
+	setup_sensitivity ();
 }
 
 void
@@ -374,7 +398,8 @@ void
 Controls::setup_sensitivity ()
 {
 	/* examine content is the only job which stops the viewer working */
-	bool const c = _film && !_film->content().empty() && (!_active_job || *_active_job != "examine_content");
+	bool const active_job = _active_job && *_active_job != "examine_content";
+	bool const c = ((_film && !_film->content().empty()) || !_spl.empty()) && !active_job;
 
 	_slider->Enable (c);
 	_rewind_button->Enable (c);
@@ -399,6 +424,20 @@ Controls::setup_sensitivity ()
 	if (_eye) {
 		_eye->Enable (c && _film->three_d ());
 	}
+
+	_add_button->Enable (static_cast<bool>(selected_dcp()));
+}
+
+optional<boost::filesystem::path>
+Controls::selected_dcp () const
+{
+	long int s = _dcp_directory->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	if (s == -1) {
+		return optional<boost::filesystem::path>();
+	}
+
+	DCPOMATIC_ASSERT (s < int(_dcp_directories.size()));
+	return _dcp_directories[s];
 }
 
 void
@@ -458,7 +497,10 @@ void
 Controls::show_extended_player_controls (bool s)
 {
 	_dcp_directory->Show (s);
+	_spl_view->Show (s);
 	_log->Show (s);
+	_add_button->Show (s);
+	_v_sizer->Layout ();
 }
 
 void
@@ -478,24 +520,12 @@ Controls::update_dcp_directory ()
 			if (is_directory(*i) && (is_regular_file(*i / "ASSETMAP") || is_regular_file(*i / "ASSETMAP.xml"))) {
 				string const x = i->path().string().substr(dir->string().length() + 1);
 				_dcp_directory->InsertItem(_dcp_directory->GetItemCount(), std_to_wx(x));
-				_dcp_directories.push_back(x);
+				_dcp_directories.push_back(*i);
 			}
 		} catch (boost::filesystem::filesystem_error& e) {
 			/* Never mind */
 		}
 	}
-}
-
-void
-Controls::dcp_directory_selected ()
-{
-	long int s = _dcp_directory->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	if (s == -1) {
-		return;
-	}
-
-	DCPOMATIC_ASSERT (s < int(_dcp_directories.size()));
-	DCPDirectorySelected (*Config::instance()->player_dcp_directory() / _dcp_directories[s]);
 }
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
@@ -509,7 +539,7 @@ void
 Controls::stop_clicked ()
 {
 	_viewer->stop ();
-	DCPEjected ();
+	_viewer->seek (DCPTime(), true);
 }
 #endif
 

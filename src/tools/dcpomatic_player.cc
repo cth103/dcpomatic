@@ -170,7 +170,7 @@ public:
 		_viewer->Seeked.connect (bind(&DOMFrame::playback_seeked, this, _1));
 		_viewer->Stopped.connect (bind(&DOMFrame::playback_stopped, this, _1));
 		_info = new PlayerInformation (_overall_panel, _viewer);
-		setup_main_sizer (true);
+		setup_main_sizer (Config::instance()->player_mode());
 #ifdef __WXOSX__
 		int accelerators = 4;
 #else
@@ -193,19 +193,18 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::forward_frame, this), ID_forward_frame);
 
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
-		_controls->DCPDirectorySelected.connect (boost::bind(&DOMFrame::load_dcp, this, _1));
-		_controls->DCPEjected.connect (boost::bind(&DOMFrame::eject_dcp, this));
+		_controls->SPLChanged.connect (boost::bind(&DOMFrame::set_spl, this, _1));
 
 		setup_screen ();
 	}
 
-	void setup_main_sizer (bool with_viewer)
+	void setup_main_sizer (Config::PlayerMode mode)
 	{
 		wxSizer* main_sizer = new wxBoxSizer (wxVERTICAL);
-		if (with_viewer) {
+		if (mode != Config::PLAYER_MODE_DUAL) {
 			main_sizer->Add (_viewer->panel(), 1, wxEXPAND | wxALIGN_CENTER_VERTICAL);
 		}
-		main_sizer->Add (_controls, 0, wxEXPAND | wxALL, 6);
+		main_sizer->Add (_controls, mode == Config::PLAYER_MODE_DUAL ? 1 : 0, wxEXPAND | wxALL, 6);
 		main_sizer->Add (_info, 0, wxEXPAND | wxALL, 6);
 		_overall_panel->SetSizer (main_sizer);
 		_overall_panel->Layout ();
@@ -293,107 +292,157 @@ public:
 		Config::instance()->set_decode_reduction (reduction);
 	}
 
-	void eject_dcp ()
-	{
-		_film.reset (new Film (optional<boost::filesystem::path>()));
-		_viewer->set_film (_film);
-		_info->triggered_update ();
-	}
-
 	void load_dcp (boost::filesystem::path dir)
 	{
-		_film.reset (new Film (optional<boost::filesystem::path>()));
-		shared_ptr<DCPContent> dcp;
-		try {
-			dcp.reset (new DCPContent (_film, dir));
-		} catch (boost::filesystem::filesystem_error& e) {
-			error_dialog (this, _("Could not load DCP"), std_to_wx (e.what()));
-			return;
+		list<SPLEntry> spl;
+		spl.push_back (SPLEntry(dir));
+		set_spl (spl);
+		Config::instance()->add_to_player_history (dir);
+	}
+
+	optional<dcp::EncryptedKDM> get_kdm_from_url (shared_ptr<DCPContent> dcp)
+	{
+		ScopedTemporary temp;
+		string url = Config::instance()->kdm_server_url();
+		boost::algorithm::replace_all (url, "{CPL}", *dcp->cpl());
+		optional<dcp::EncryptedKDM> kdm;
+		if (dcp->cpl() && !get_from_url(url, false, temp)) {
+			try {
+				kdm = dcp::EncryptedKDM (dcp::file_to_string(temp.file()));
+				if (kdm->cpl_id() != dcp->cpl()) {
+					kdm = boost::none;
+				}
+			} catch (std::exception& e) {
+				/* Hey well */
+			}
 		}
+		return kdm;
+	}
 
-		_film->examine_and_add_content (dcp, true);
-		bool const ok = progress (_("Loading DCP"));
-		if (!ok || !report_errors_from_last_job()) {
-			return;
+	optional<dcp::EncryptedKDM> get_kdm_from_directory (shared_ptr<DCPContent> dcp)
+	{
+		using namespace boost::filesystem;
+		optional<path> kdm_dir = Config::instance()->player_kdm_directory();
+		if (!kdm_dir) {
+			return optional<dcp::EncryptedKDM>();
 		}
-
-		/* The DCP has been examined and loaded */
-
-		optional<boost::filesystem::path> kdm_dir = Config::instance()->player_kdm_directory();
-		if (dcp->needs_kdm() && kdm_dir) {
-			/* Look for a KDM */
-
-			optional<dcp::EncryptedKDM> kdm;
-
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-			ScopedTemporary temp;
-			string url = Config::instance()->kdm_server_url();
-			boost::algorithm::replace_all (url, "{CPL}", "%1");
-			if (dcp->cpl() && !get_from_url(String::compose(url, *dcp->cpl()), false, temp)) {
+		for (directory_iterator i = directory_iterator(*kdm_dir); i != directory_iterator(); ++i) {
+			if (file_size(i->path()) < MAX_KDM_SIZE) {
 				try {
-					kdm = dcp::EncryptedKDM (dcp::file_to_string(temp.file()));
-					if (kdm->cpl_id() != dcp->cpl()) {
-						kdm = boost::none;
+					dcp::EncryptedKDM kdm (dcp::file_to_string(i->path()));
+					if (kdm.cpl_id() == dcp->cpl()) {
+						return kdm;
 					}
 				} catch (std::exception& e) {
 					/* Hey well */
 				}
 			}
-#endif
+		}
+		return optional<dcp::EncryptedKDM>();
+	}
 
-			if (!kdm) {
-				using namespace boost::filesystem;
-				for (directory_iterator i = directory_iterator(*kdm_dir); i != directory_iterator(); ++i) {
-					if (file_size(i->path()) < MAX_KDM_SIZE) {
-						try {
-							kdm = dcp::EncryptedKDM(dcp::file_to_string(i->path()));
-							if (kdm->cpl_id() == dcp->cpl()) {
-								break;
-							}
-						} catch (std::exception& e) {
-							/* Hey well */
-						}
-					}
+	void set_spl (list<SPLEntry> spl)
+	{
+		if (_viewer->playing ()) {
+			_viewer->stop ();
+		}
+
+		_film.reset (new Film (optional<boost::filesystem::path>()));
+
+		if (spl.empty ()) {
+			_viewer->set_film (_film);
+			_info->triggered_update ();
+			return;
+		}
+
+		/* Start off as Flat */
+		_film->set_container (Ratio::from_id("185"));
+
+		DCPTime position;
+		shared_ptr<DCPContent> first;
+
+		BOOST_FOREACH (SPLEntry i, spl) {
+			shared_ptr<DCPContent> dcp;
+			try {
+				dcp.reset (new DCPContent (_film, i.dcp));
+			} catch (boost::filesystem::filesystem_error& e) {
+				error_dialog (this, _("Could not load DCP"), std_to_wx (e.what()));
+				return;
+			}
+
+			if (!first) {
+				first = dcp;
+			}
+
+			_film->examine_and_add_content (dcp, true);
+			bool const ok = progress (_("Loading DCP"));
+			if (!ok || !report_errors_from_last_job()) {
+				return;
+			}
+
+			dcp->set_position (position + i.black_before);
+			position += dcp->length_after_trim() + i.black_before;
+
+			/* This DCP has been examined and loaded */
+
+			if (dcp->needs_kdm()) {
+				optional<dcp::EncryptedKDM> kdm;
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+				kdm = get_kdm_from_url (dcp);
+#endif
+				if (!kdm) {
+					get_kdm_from_directory (dcp);
+				}
+
+				if (kdm) {
+					dcp->add_kdm (*kdm);
+					dcp->examine (shared_ptr<Job>());
 				}
 			}
 
-			if (kdm) {
-				dcp->add_kdm (*kdm);
-				dcp->examine (shared_ptr<Job>());
+			BOOST_FOREACH (shared_ptr<TextContent> j, dcp->text) {
+				j->set_use (true);
 			}
+
+			if (dcp->video) {
+				Ratio const * r = Ratio::nearest_from_ratio(dcp->video->size().ratio());
+				if (r->id() == "239") {
+					/* Any scope content means we use scope */
+					_film->set_container(r);
+				}
+			}
+
+			/* Any 3D content means we use 3D mode */
+			if (dcp->three_d()) {
+				_film->set_three_d (true);
+			}
+
+			_viewer->set_film (_film);
+			_viewer->seek (DCPTime(), true);
+			_info->triggered_update ();
+
+			set_menu_sensitivity ();
+			_controls->log (wxString::Format(_("Load DCP %s"), i.dcp.filename().string().c_str()));
 		}
-
-		setup_from_dcp (dcp);
-
-		if (dcp->three_d()) {
-			_film->set_three_d (true);
-		}
-
-		_viewer->set_film (_film);
-		_viewer->seek (DCPTime(), true);
-		_info->triggered_update ();
-
-		Config::instance()->add_to_player_history (dir);
-
-		set_menu_sensitivity ();
 
 		wxMenuItemList old = _cpl_menu->GetMenuItems();
 		for (wxMenuItemList::iterator i = old.begin(); i != old.end(); ++i) {
 			_cpl_menu->Remove (*i);
 		}
 
-		DCPExaminer ex (dcp);
-		int id = ID_view_cpl;
-		BOOST_FOREACH (shared_ptr<dcp::CPL> i, ex.cpls()) {
-			wxMenuItem* j = _cpl_menu->AppendRadioItem(
-				id,
-				wxString::Format("%s (%s)", std_to_wx(i->annotation_text()).data(), std_to_wx(i->id()).data())
-				);
-			j->Check(!dcp->cpl() || i->id() == *dcp->cpl());
-			++id;
+		if (spl.size() == 1) {
+			/* Offer a CPL menu */
+			DCPExaminer ex (first);
+			int id = ID_view_cpl;
+			BOOST_FOREACH (shared_ptr<dcp::CPL> i, ex.cpls()) {
+				wxMenuItem* j = _cpl_menu->AppendRadioItem(
+					id,
+					wxString::Format("%s (%s)", std_to_wx(i->annotation_text()).data(), std_to_wx(i->id()).data())
+					);
+				j->Check(!first->cpl() || i->id() == *first->cpl());
+				++id;
+			}
 		}
-
-		_controls->log (wxString::Format(_("Load DCP %s"), dir.filename().string().c_str()));
 	}
 
 private:
@@ -522,7 +571,15 @@ private:
 			if (!ok || !report_errors_from_last_job()) {
 				return;
 			}
-			setup_from_dcp (dcp);
+			BOOST_FOREACH (shared_ptr<TextContent> i, dcp->text) {
+				i->set_use (true);
+			}
+			if (dcp->video) {
+				Ratio const * r = Ratio::nearest_from_ratio(dcp->video->size().ratio());
+				if (r) {
+					_film->set_container(r);
+				}
+			}
 		}
 
 		c->Destroy ();
@@ -667,7 +724,7 @@ private:
 			}
 		}
 
-		setup_main_sizer (_mode != Config::PLAYER_MODE_DUAL);
+		setup_main_sizer (_mode);
 	}
 
 	void view_closed_captions ()
@@ -859,20 +916,6 @@ private:
 		}
 
 		return true;
-	}
-
-	void setup_from_dcp (shared_ptr<DCPContent> dcp)
-	{
-		BOOST_FOREACH (shared_ptr<TextContent> i, dcp->text) {
-			i->set_use (true);
-		}
-
-		if (dcp->video) {
-			Ratio const * r = Ratio::nearest_from_ratio(dcp->video->size().ratio());
-			if (r) {
-				_film->set_container(r);
-			}
-		}
 	}
 
 	wxFrame* _dual_screen;
