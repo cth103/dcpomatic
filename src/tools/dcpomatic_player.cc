@@ -334,15 +334,15 @@ public:
 			return optional<dcp::EncryptedKDM>();
 		}
 		for (directory_iterator i = directory_iterator(*kdm_dir); i != directory_iterator(); ++i) {
-			if (file_size(i->path()) < MAX_KDM_SIZE) {
-				try {
+			try {
+				if (file_size(i->path()) < MAX_KDM_SIZE) {
 					dcp::EncryptedKDM kdm (dcp::file_to_string(i->path()));
 					if (kdm.cpl_id() == dcp->cpl()) {
 						return kdm;
 					}
-				} catch (std::exception& e) {
-					/* Hey well */
 				}
+			} catch (std::exception& e) {
+				/* Hey well */
 			}
 		}
 		return optional<dcp::EncryptedKDM>();
