@@ -510,6 +510,9 @@ void
 Controls::show_extended_player_controls (bool s)
 {
 	_cpl->Show (s);
+	if (s) {
+		update_dcp_directory ();
+	}
 	_spl_view->Show (s);
 	_log->Show (s);
 	_add_button->Show (s);
@@ -550,6 +553,10 @@ Controls::add_cpl_to_list (shared_ptr<dcp::CPL> cpl, wxListCtrl* ctrl)
 void
 Controls::update_dcp_directory ()
 {
+	if (!_cpl->IsShown()) {
+		return;
+	}
+
 	using namespace boost::filesystem;
 
 	_cpl->DeleteAllItems ();
