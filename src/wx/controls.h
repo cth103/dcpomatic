@@ -34,6 +34,10 @@ class PlayerVideo;
 class wxToggleButton;
 class wxListCtrl;
 
+namespace dcp {
+	class CPL;
+}
+
 class Controls : public wxPanel
 {
 public:
@@ -81,12 +85,16 @@ private:
 	void update_dcp_directory ();
 	void dcp_directory_changed ();
 	void config_changed (int property);
-	boost::optional<boost::filesystem::path> selected_dcp () const;
+
+	typedef std::pair<boost::shared_ptr<dcp::CPL>, boost::filesystem::path> CPL;
+
+	boost::optional<CPL> selected_cpl () const;
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	void pause_clicked ();
 	void stop_clicked ();
 #endif
 	void add_clicked ();
+	void add_cpl_to_list (boost::shared_ptr<dcp::CPL> cpl, wxListCtrl* list);
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<FilmViewer> _viewer;
@@ -98,11 +106,11 @@ private:
 	wxCheckBox* _outline_content;
 	wxChoice* _eye;
 	wxCheckBox* _jump_to_selected;
-	wxListCtrl* _dcp_directory;
+	wxListCtrl* _cpl;
 	wxListCtrl* _spl_view;
 	wxTextCtrl* _log;
 	wxButton* _add_button;
-	std::vector<boost::filesystem::path> _dcp_directories;
+	std::vector<CPL> _cpls;
 	wxSlider* _slider;
 	wxButton* _rewind_button;
 	wxButton* _back_button;

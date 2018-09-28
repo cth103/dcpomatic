@@ -47,6 +47,7 @@
 #include "lib/server.h"
 #include "lib/dcpomatic_socket.h"
 #include "lib/scoped_temporary.h"
+#include <dcp/dcp.h>
 #include <wx/wx.h>
 #include <wx/stdpaths.h>
 #include <wx/splash.h>
@@ -294,8 +295,12 @@ public:
 
 	void load_dcp (boost::filesystem::path dir)
 	{
+		dcp::DCP dcp (dir);
+		dcp.read ();
 		list<SPLEntry> spl;
-		spl.push_back (SPLEntry(dir));
+		BOOST_FOREACH (shared_ptr<dcp::CPL> j, dcp.cpls()) {
+			spl.push_back (SPLEntry(j, dir));
+		}
 		set_spl (spl);
 		Config::instance()->add_to_player_history (dir);
 	}
@@ -366,7 +371,7 @@ public:
 		BOOST_FOREACH (SPLEntry i, spl) {
 			shared_ptr<DCPContent> dcp;
 			try {
-				dcp.reset (new DCPContent (_film, i.dcp));
+				dcp.reset (new DCPContent (_film, i.directory));
 			} catch (boost::filesystem::filesystem_error& e) {
 				error_dialog (this, _("Could not load DCP"), std_to_wx (e.what()));
 				return;
@@ -424,7 +429,7 @@ public:
 			_info->triggered_update ();
 
 			set_menu_sensitivity ();
-			_controls->log (wxString::Format(_("Load DCP %s"), i.dcp.filename().string().c_str()));
+			_controls->log (wxString::Format(_("Load DCP %s"), i.directory.filename().string().c_str()));
 		}
 
 		wxMenuItemList old = _cpl_menu->GetMenuItems();

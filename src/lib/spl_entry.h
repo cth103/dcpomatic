@@ -18,14 +18,20 @@
 
 */
 
+namespace dcp {
+	class CPL;
+}
+
 class SPLEntry
 {
 public:
-	SPLEntry (boost::filesystem::path p)
-		: dcp (p)
+	SPLEntry (boost::shared_ptr<dcp::CPL> cpl_, boost::filesystem::path directory_)
+		: cpl (cpl_)
+		, directory (directory_)
 	{}
 
 	/* Length of black before this DCP */
 	DCPTime black_before;
-	boost::filesystem::path dcp;
+	boost::shared_ptr<dcp::CPL> cpl;
+	boost::filesystem::path directory;
 };

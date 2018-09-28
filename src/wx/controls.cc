@@ -24,11 +24,17 @@
 #include "playhead_to_timecode_dialog.h"
 #include "playhead_to_frame_dialog.h"
 #include "lib/job_manager.h"
+#include <dcp/dcp.h>
+#include <dcp/cpl.h>
+#include <dcp/reel.h>
+#include <dcp/reel_picture_asset.h>
 #include <wx/wx.h>
 #include <wx/tglbtn.h>
 #include <wx/listctrl.h>
 
 using std::string;
+using std::list;
+using std::make_pair;
 using boost::optional;
 using boost::shared_ptr;
 using boost::weak_ptr;
@@ -75,11 +81,18 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 
 	wxBoxSizer* e_sizer = new wxBoxSizer (wxHORIZONTAL);
 
-	_dcp_directory = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
-	_dcp_directory->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 580);
-	e_sizer->Add (_dcp_directory, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
+	_cpl = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
+	/* time */
+	_cpl->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 80);
+	/* type */
+	_cpl->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 80);
+	/* annotation text */
+	_cpl->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 580);
+	e_sizer->Add (_cpl, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
 	_spl_view = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
+	_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 80);
+	_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 80);
 	_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 580);
 	e_sizer->Add (_spl_view, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
@@ -93,7 +106,7 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	_log = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(-1, 200), wxTE_READONLY | wxTE_MULTILINE);
 	_v_sizer->Add (_log, 0, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
-	_dcp_directory->Show (false);
+	_cpl->Show (false);
 	_spl_view->Show (false);
 	_add_button->Show (false);
 	_log->Show (false);
@@ -145,8 +158,8 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	_forward_button->Bind   (wxEVT_LEFT_DOWN,            boost::bind(&Controls::forward_clicked, this, _1));
 	_frame_number->Bind     (wxEVT_LEFT_DOWN,            boost::bind(&Controls::frame_number_clicked, this));
 	_timecode->Bind         (wxEVT_LEFT_DOWN,            boost::bind(&Controls::timecode_clicked, this));
-	_dcp_directory->Bind    (wxEVT_LIST_ITEM_SELECTED,   boost::bind(&Controls::setup_sensitivity, this));
-	_dcp_directory->Bind    (wxEVT_LIST_ITEM_DESELECTED, boost::bind(&Controls::setup_sensitivity, this));
+	_cpl->Bind              (wxEVT_LIST_ITEM_SELECTED,   boost::bind(&Controls::setup_sensitivity, this));
+	_cpl->Bind              (wxEVT_LIST_ITEM_DESELECTED, boost::bind(&Controls::setup_sensitivity, this));
 	if (_jump_to_selected) {
 		_jump_to_selected->Bind (wxEVT_CHECKBOX, boost::bind (&Controls::jump_to_selected_clicked, this));
 		_jump_to_selected->SetValue (Config::instance()->jump_to_selected ());
@@ -173,10 +186,10 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 void
 Controls::add_clicked ()
 {
-	optional<boost::filesystem::path> sel = selected_dcp ();
+	optional<CPL> sel = selected_cpl ();
 	DCPOMATIC_ASSERT (sel);
-	_spl.push_back (SPLEntry(*sel));
-	_spl_view->InsertItem(_spl_view->GetItemCount(), std_to_wx(sel->filename().string()));
+	_spl.push_back (SPLEntry(sel->first, sel->second));
+	add_cpl_to_list (sel->first, _spl_view);
 	SPLChanged (_spl);
 	setup_sensitivity ();
 }
@@ -425,19 +438,19 @@ Controls::setup_sensitivity ()
 		_eye->Enable (c && _film->three_d ());
 	}
 
-	_add_button->Enable (static_cast<bool>(selected_dcp()));
+	_add_button->Enable (static_cast<bool>(selected_cpl()));
 }
 
-optional<boost::filesystem::path>
-Controls::selected_dcp () const
+optional<Controls::CPL>
+Controls::selected_cpl () const
 {
-	long int s = _dcp_directory->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	long int s = _cpl->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (s == -1) {
-		return optional<boost::filesystem::path>();
+		return optional<CPL>();
 	}
 
-	DCPOMATIC_ASSERT (s < int(_dcp_directories.size()));
-	return _dcp_directories[s];
+	DCPOMATIC_ASSERT (s < int(_cpls.size()));
+	return _cpls[s];
 }
 
 void
@@ -496,7 +509,7 @@ Controls::film () const
 void
 Controls::show_extended_player_controls (bool s)
 {
-	_dcp_directory->Show (s);
+	_cpl->Show (s);
 	_spl_view->Show (s);
 	_log->Show (s);
 	_add_button->Show (s);
@@ -504,12 +517,43 @@ Controls::show_extended_player_controls (bool s)
 }
 
 void
+Controls::add_cpl_to_list (shared_ptr<dcp::CPL> cpl, wxListCtrl* ctrl)
+{
+	list<shared_ptr<dcp::Reel> > reels = cpl->reels ();
+
+	int const N = ctrl->GetItemCount();
+
+	wxListItem it;
+	if (!reels.empty() && reels.front()->main_picture()) {
+		it.SetId(N);
+		it.SetColumn(0);
+		int seconds = rint(double(cpl->duration()) / reels.front()->main_picture()->frame_rate().as_float());
+		int minutes = seconds / 60;
+		seconds -= minutes * 60;
+		int hours = minutes / 60;
+		minutes -= hours * 60;
+		it.SetText(wxString::Format("%02d:%02d:%02d", hours, minutes, seconds));
+		ctrl->InsertItem(it);
+	}
+
+	it.SetId(N);
+	it.SetColumn(1);
+	it.SetText(std_to_wx(dcp::content_kind_to_string(cpl->content_kind())));
+	ctrl->SetItem(it);
+
+	it.SetId(N);
+	it.SetColumn(2);
+	it.SetText(std_to_wx(cpl->annotation_text()));
+	ctrl->SetItem(it);
+}
+
+void
 Controls::update_dcp_directory ()
 {
 	using namespace boost::filesystem;
 
-	_dcp_directory->DeleteAllItems ();
-	_dcp_directories.clear ();
+	_cpl->DeleteAllItems ();
+	_cpls.clear ();
 	optional<path> dir = Config::instance()->player_dcp_directory();
 	if (!dir) {
 		return;
@@ -519,8 +563,12 @@ Controls::update_dcp_directory ()
 		try {
 			if (is_directory(*i) && (is_regular_file(*i / "ASSETMAP") || is_regular_file(*i / "ASSETMAP.xml"))) {
 				string const x = i->path().string().substr(dir->string().length() + 1);
-				_dcp_directory->InsertItem(_dcp_directory->GetItemCount(), std_to_wx(x));
-				_dcp_directories.push_back(*i);
+				dcp::DCP dcp (*i);
+				dcp.read ();
+				BOOST_FOREACH (shared_ptr<dcp::CPL> j, dcp.cpls()) {
+					add_cpl_to_list (j, _cpl);
+					_cpls.push_back (make_pair(j, *i));
+				}
 			}
 		} catch (boost::filesystem::filesystem_error& e) {
 			/* Never mind */
