@@ -100,6 +100,10 @@ public:
 
 	size_t memory_used () const;
 
+	boost::weak_ptr<Content> content () const {
+		return _content;
+	}
+
 private:
 	boost::shared_ptr<const ImageProxy> _in;
 	Crop _crop;
@@ -110,7 +114,9 @@ private:
 	Part _part;
 	boost::optional<ColourConversion> _colour_conversion;
 	boost::optional<PositionImage> _text;
-	/** Content that we came from.  This is so that reset_metadata() can work */
+	/** Content that we came from.  This is so that reset_metadata() can work, and also
+	 *  for variant:swaroop's non-skippable ads.
+	 */
 	boost::weak_ptr<Content> _content;
 	/** Video frame that we came from.  Again, this is for reset_metadata() */
 	boost::optional<Frame> _video_frame;

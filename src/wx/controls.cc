@@ -24,6 +24,8 @@
 #include "playhead_to_timecode_dialog.h"
 #include "playhead_to_frame_dialog.h"
 #include "lib/job_manager.h"
+#include "lib/player_video.h"
+#include "lib/dcp_content.h"
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
@@ -38,6 +40,7 @@ using std::make_pair;
 using boost::optional;
 using boost::shared_ptr;
 using boost::weak_ptr;
+using boost::dynamic_pointer_cast;
 
 Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor_controls)
 	: wxPanel (parent)
@@ -170,6 +173,7 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	_viewer->Started.connect (boost::bind(&Controls::started, this));
 	_viewer->Stopped.connect (boost::bind(&Controls::stopped, this));
 	_viewer->FilmChanged.connect (boost::bind(&Controls::film_changed, this));
+	_viewer->ImageChanged.connect (boost::bind(&Controls::image_changed, this, _1));
 
 	film_changed ();
 
@@ -420,8 +424,9 @@ Controls::setup_sensitivity ()
 	_forward_button->Enable (c);
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	_play_button->Enable (c && !_viewer->playing());
-	_pause_button->Enable (c && _viewer->playing());
-	_stop_button->Enable (c);
+	_pause_button->Enable (c && (!_current_kind || _current_kind != dcp::ADVERTISEMENT) && _viewer->playing());
+	_stop_button->Enable (c && (!_current_kind || _current_kind != dcp::ADVERTISEMENT));
+	_slider->Enable (c && (!_current_kind || _current_kind != dcp::ADVERTISEMENT));
 #else
 	_play_button->Enable (c);
 #endif
@@ -609,4 +614,30 @@ Controls::log (wxString s)
 	strftime (buffer, 64, "%c", t);
 	wxString ts = std_to_wx(string(buffer)) + N_(": ");
 	_log->SetValue(_log->GetValue() + ts + s + "\n");
+}
+
+void
+Controls::image_changed (boost::weak_ptr<PlayerVideo> weak_pv)
+{
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	shared_ptr<PlayerVideo> pv = weak_pv.lock ();
+	if (!pv) {
+		return;
+	}
+
+	shared_ptr<Content> c = pv->content().lock();
+	if (!c) {
+		return;
+	}
+
+	shared_ptr<DCPContent> dc = dynamic_pointer_cast<DCPContent> (c);
+	if (!dc) {
+		return;
+	}
+
+	if (!_current_kind || *_current_kind != dc->content_kind()) {
+		_current_kind = dc->content_kind ();
+		setup_sensitivity ();
+	}
+#endif
 }

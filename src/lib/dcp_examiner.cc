@@ -108,6 +108,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 
 	_cpl = cpl->id ();
 	_name = cpl->content_title_text ();
+	_content_kind = cpl->content_kind ();
 
 	BOOST_FOREACH (shared_ptr<dcp::Reel> i, cpl->reels()) {
 

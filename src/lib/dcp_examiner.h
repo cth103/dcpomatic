@@ -99,6 +99,10 @@ public:
 		return _three_d;
 	}
 
+	dcp::ContentKind content_kind () const {
+		return _content_kind;
+	}
+
 	std::string cpl () const {
 		return _cpl;
 	}
@@ -125,6 +129,7 @@ private:
 	bool _kdm_valid;
 	boost::optional<dcp::Standard> _standard;
 	bool _three_d;
+	dcp::ContentKind _content_kind;
 	std::string _cpl;
 	std::list<int64_t> _reel_lengths;
 };

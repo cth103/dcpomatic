@@ -133,6 +133,11 @@ DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 		}
 	}
 	_three_d = node->optional_bool_child("ThreeD").get_value_or (false);
+
+	optional<string> ck = node->optional_string_child("ContentKind");
+	if (ck) {
+		_content_kind = dcp::content_kind_from_string (*ck);
+	}
 	_cpl = node->optional_string_child("CPL");
 	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("ReelLength")) {
 		_reel_lengths.push_back (raw_convert<int64_t> (i->content ()));
@@ -209,6 +214,7 @@ DCPContent::examine (shared_ptr<Job> job)
 		_kdm_valid = examiner->kdm_valid ();
 		_standard = examiner->standard ();
 		_three_d = examiner->three_d ();
+		_content_kind = examiner->content_kind ();
 		_cpl = examiner->cpl ();
 		_reel_lengths = examiner->reel_lengths ();
 	}
@@ -301,6 +307,9 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 		}
 	}
 	node->add_child("ThreeD")->add_child_text (_three_d ? "1" : "0");
+	if (_content_kind) {
+		node->add_child("ContentKind")->add_child_text(dcp::content_kind_to_string(*_content_kind));
+	}
 	if (_cpl) {
 		node->add_child("CPL")->add_child_text (_cpl.get ());
 	}

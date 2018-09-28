@@ -129,5 +129,9 @@ private:
 
 	ClosedCaptionsDialog* _closed_captions_dialog;
 
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	boost::optional<dcp::ContentKind> _current_kind;
+#endif
+
 	boost::signals2::scoped_connection _config_changed_connection;
 };

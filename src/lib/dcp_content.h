@@ -138,6 +138,11 @@ public:
 		return _three_d;
 	}
 
+	boost::optional<dcp::ContentKind> content_kind () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _content_kind;
+	}
+
 	bool kdm_timing_window_valid () const;
 
 private:
@@ -176,6 +181,7 @@ private:
 	bool _reference_text[TEXT_COUNT];
 
 	boost::optional<dcp::Standard> _standard;
+	boost::optional<dcp::ContentKind> _content_kind;
 	bool _three_d;
 	/** ID of the CPL to use; older metadata might not specify this: in that case
 	 *  just use the only CPL.
