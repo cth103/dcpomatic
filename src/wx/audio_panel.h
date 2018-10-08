@@ -67,4 +67,5 @@ private:
 	AudioDialog* _audio_dialog;
 
 	boost::signals2::scoped_connection _mapping_connection;
+	boost::signals2::scoped_connection _active_jobs_connection;
 };
