@@ -26,6 +26,7 @@
 #include "lib/job_manager.h"
 #include "lib/player_video.h"
 #include "lib/dcp_content.h"
+#include "lib/spl_entry.h"
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
@@ -192,7 +193,7 @@ Controls::add_clicked ()
 {
 	optional<CPL> sel = selected_cpl ();
 	DCPOMATIC_ASSERT (sel);
-	_spl.push_back (SPLEntry(sel->first, sel->second));
+	_spl.playlist.push_back (SPLEntry(sel->first, sel->second));
 	add_cpl_to_list (sel->first, _spl_view);
 	SPLChanged (_spl);
 	setup_sensitivity ();
@@ -416,7 +417,7 @@ Controls::setup_sensitivity ()
 {
 	/* examine content is the only job which stops the viewer working */
 	bool const active_job = _active_job && *_active_job != "examine_content";
-	bool const c = ((_film && !_film->content().empty()) || !_spl.empty()) && !active_job;
+	bool const c = ((_film && !_film->content().empty()) || !_spl.playlist.empty()) && !active_job;
 
 	_slider->Enable (c);
 	_rewind_button->Enable (c);

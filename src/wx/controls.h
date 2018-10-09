@@ -21,7 +21,7 @@
 #include "lib/dcpomatic_time.h"
 #include "lib/types.h"
 #include "lib/film.h"
-#include "lib/spl_entry.h"
+#include "lib/spl.h"
 #include <wx/wx.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
@@ -54,7 +54,7 @@ public:
 	void show_extended_player_controls (bool s);
 	void log (wxString s);
 
-	boost::signals2::signal<void (std::list<SPLEntry>)> SPLChanged;
+	boost::signals2::signal<void (SPL)> SPLChanged;
 
 private:
 	void update_position_label ();
@@ -125,7 +125,7 @@ private:
 	wxToggleButton* _play_button;
 #endif
 	boost::optional<std::string> _active_job;
-	std::list<SPLEntry> _spl;
+	SPL _spl;
 
 	ClosedCaptionsDialog* _closed_captions_dialog;
 

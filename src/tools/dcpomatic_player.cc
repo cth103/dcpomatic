@@ -36,6 +36,8 @@
 #include "lib/compose.hpp"
 #include "lib/dcp_content.h"
 #include "lib/job_manager.h"
+#include "lib/spl.h"
+#include "lib/spl_entry.h"
 #include "lib/job.h"
 #include "lib/film.h"
 #include "lib/video_content.h"
@@ -315,9 +317,9 @@ public:
 	{
 		dcp::DCP dcp (dir);
 		dcp.read ();
-		list<SPLEntry> spl;
+		SPL spl;
 		BOOST_FOREACH (shared_ptr<dcp::CPL> j, dcp.cpls()) {
-			spl.push_back (SPLEntry(j, dir));
+			spl.playlist.push_back (SPLEntry(j, dir));
 		}
 		set_spl (spl);
 		Config::instance()->add_to_player_history (dir);
@@ -366,7 +368,7 @@ public:
 		return optional<dcp::EncryptedKDM>();
 	}
 
-	void set_spl (list<SPLEntry> spl)
+	void set_spl (SPL spl)
 	{
 		if (_viewer->playing ()) {
 			_viewer->stop ();
@@ -374,7 +376,7 @@ public:
 
 		_film.reset (new Film (optional<boost::filesystem::path>()));
 
-		if (spl.empty ()) {
+		if (spl.playlist.empty ()) {
 			_viewer->set_film (_film);
 			_info->triggered_update ();
 			return;
@@ -387,7 +389,7 @@ public:
 		DCPTime position = DCPTime::from_frames(1, _film->video_frame_rate());
 		shared_ptr<DCPContent> first;
 
-		BOOST_FOREACH (SPLEntry i, spl) {
+		BOOST_FOREACH (SPLEntry i, spl.playlist) {
 			shared_ptr<DCPContent> dcp;
 			try {
 				dcp.reset (new DCPContent (_film, i.directory));
@@ -456,7 +458,7 @@ public:
 			_cpl_menu->Remove (*i);
 		}
 
-		if (spl.size() == 1) {
+		if (spl.playlist.size() == 1) {
 			/* Offer a CPL menu */
 			DCPExaminer ex (first);
 			int id = ID_view_cpl;

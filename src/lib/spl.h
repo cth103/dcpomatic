@@ -18,22 +18,20 @@
 
 */
 
-#include "dcpomatic_time.h"
+#ifndef DCPOMATIC_SPL_H
+#define DCPOMATIC_SPL_H
 
-namespace dcp {
-	class CPL;
-}
+#include <boost/filesystem.hpp>
 
-class SPLEntry
+class SPLEntry;
+
+class SPL
 {
 public:
-	SPLEntry (boost::shared_ptr<dcp::CPL> cpl_, boost::filesystem::path directory_)
-		: cpl (cpl_)
-		, directory (directory_)
-	{}
+	void as_xml (boost::filesystem::path file) const;
 
-	/* Length of black before this DCP */
-	DCPTime black_before;
-	boost::shared_ptr<dcp::CPL> cpl;
-	boost::filesystem::path directory;
+	std::string name;
+	std::list<SPLEntry> playlist;
 };
+
+#endif

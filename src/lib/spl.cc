@@ -18,22 +18,24 @@
 
 */
 
-#include "dcpomatic_time.h"
+#include "spl.h"
+#include "spl_entry.h"
+#include <dcp/cpl.h>
+#include <libxml++/libxml++.h>
+#include <boost/foreach.hpp>
 
-namespace dcp {
-	class CPL;
-}
-
-class SPLEntry
+void
+SPL::as_xml (boost::filesystem::path file) const
 {
-public:
-	SPLEntry (boost::shared_ptr<dcp::CPL> cpl_, boost::filesystem::path directory_)
-		: cpl (cpl_)
-		, directory (directory_)
-	{}
+	xmlpp::Document doc;
+	xmlpp::Element* root = doc.create_root_node ("DCPPlaylist");
+	root->set_attribute ("Name", name);
 
-	/* Length of black before this DCP */
-	DCPTime black_before;
-	boost::shared_ptr<dcp::CPL> cpl;
-	boost::filesystem::path directory;
-};
+	BOOST_FOREACH (SPLEntry i, playlist) {
+		xmlpp::Element* d = root->add_child ("DCP");
+		d->set_attribute ("CPL", i.cpl->id());
+		d->add_child_text (i.directory.string());
+	}
+
+	doc.write_to_file_formatted(file.string());
+}

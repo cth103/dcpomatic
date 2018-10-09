@@ -138,6 +138,7 @@ sources = """
           send_problem_report_job.cc
           server.cc
           shuffler.cc
+          spl.cc
           string_log_entry.cc
           string_text_file.cc
           string_text_file_content.cc
