@@ -43,6 +43,7 @@
 #include "lib/butler.h"
 #include "lib/log.h"
 #include "lib/config.h"
+#include "lib/compose.hpp"
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
@@ -342,7 +343,10 @@ FilmViewer::paint_panel ()
 			_watermark_y = rand() % _panel_size.height;
 		}
 		dc.SetTextForeground(*wxWHITE);
-		dc.DrawText(std_to_wx(Config::instance()->player_watermark_theatre()), _watermark_x, _watermark_y);
+		string wm = Config::instance()->player_watermark_theatre();
+		boost::posix_time::ptime t = boost::posix_time::second_clock::local_time();
+		wm += "\n" + boost::posix_time::to_iso_extended_string(t);
+		dc.DrawText(std_to_wx(wm), _watermark_x, _watermark_y);
 	} else {
 		_in_watermark = false;
 	}
