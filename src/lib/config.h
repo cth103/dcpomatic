@@ -27,6 +27,7 @@
 
 #include "isdcf_metadata.h"
 #include "types.h"
+#include "edid.h"
 #include <dcp/name_format.h>
 #include <dcp/certificate_chain.h>
 #include <dcp/encrypted_kdm.h>
@@ -513,6 +514,10 @@ public:
 	int player_watermark_duration () const {
 		return _player_watermark_duration;
 	}
+
+	std::vector<Monitor> required_monitors () const {
+		return _required_monitors;
+	}
 #endif
 
 	/* SET (mostly) */
@@ -989,6 +994,10 @@ public:
 	void set_player_watermark_duration (int milliseconds) {
 		maybe_set (_player_watermark_duration, milliseconds);
 	}
+
+	void set_required_monitors (std::vector<Monitor> monitors) {
+		maybe_set (_required_monitors, monitors);
+	}
 #endif
 
 	void changed (Property p = OTHER);
@@ -1192,6 +1201,7 @@ private:
 	int _player_watermark_period;
 	/** watermark duration in milliseconds */
 	int _player_watermark_duration;
+	std::vector<Monitor> _required_monitors;
 #endif
 
 	static int const _current_version;

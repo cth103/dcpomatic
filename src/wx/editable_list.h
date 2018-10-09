@@ -41,7 +41,8 @@ public:
 		boost::function<void (std::vector<T>)> set,
 		boost::function<std::string (T, int)> column,
 		bool can_edit = true,
-		bool title = true
+		bool title = true,
+		int column_width = 200
 		)
 		: wxPanel (parent)
 		, _get (get)
@@ -57,13 +58,13 @@ public:
 		if (title) {
 			style |= wxLC_NO_HEADER;
 		}
-		_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (columns.size() * 200, 100), style);
+		_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (columns.size() * column_width, 100), style);
 
 		for (size_t i = 0; i < columns.size(); ++i) {
 			wxListItem ip;
 			ip.SetId (i);
 			ip.SetText (std_to_wx (columns[i]));
-			ip.SetWidth (200);
+			ip.SetWidth (column_width);
 			_list->InsertColumn (i, ip);
 		}
 

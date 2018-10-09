@@ -34,7 +34,7 @@
 #include "email_dialog.h"
 #include "name_format_editor.h"
 #include "nag_dialog.h"
-#include "config_dialog.h"
+#include "monitor_dialog.h"
 #include "lib/config.h"
 #include "lib/ratio.h"
 #include "lib/filter.h"
@@ -318,6 +318,80 @@ private:
 	wxSpinCtrl* _period;
 	wxSpinCtrl* _duration;
 };
+
+class DevicesPage : public StandardPage
+{
+public:
+	DevicesPage (wxSize panel_size, int border)
+		: StandardPage (panel_size, border)
+	{}
+
+	wxString GetName () const
+	{
+		return _("Devices");
+	}
+
+private:
+	void setup ()
+	{
+		vector<string> columns;
+		columns.push_back(wx_to_std(_("Manufacturer ID")));
+		columns.push_back(wx_to_std(_("Product code")));
+		columns.push_back(wx_to_std(_("Serial")));
+		columns.push_back(wx_to_std(_("Manufacture week")));
+		columns.push_back(wx_to_std(_("Manufacture year")));
+		_monitor_list = new EditableList<Monitor, MonitorDialog> (
+			_panel,
+			columns,
+			boost::bind (&Config::required_monitors, Config::instance()),
+			boost::bind (&Config::set_required_monitors, Config::instance(), _1),
+			boost::bind (&DevicesPage::monitor_column, this, _1, _2),
+			true,
+			true,
+			100
+			);
+		_panel->GetSizer()->Add(_monitor_list, 1, wxEXPAND | wxALL, _border);
+
+		wxButton* get = new wxButton(_panel, wxID_ANY, _("Read current devices"));
+		_panel->GetSizer()->Add(get, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
+		get->Bind(wxEVT_BUTTON, bind(&DevicesPage::get_clicked, this));
+	}
+
+	void get_clicked ()
+	{
+		Config::instance()->set_required_monitors(get_monitors());
+		_monitor_list->refresh ();
+	}
+
+	string monitor_column (Monitor m, int c)
+	{
+		switch (c) {
+		case 0:
+			return m.manufacturer_id;
+		case 1:
+			return locale_convert<string>(m.manufacturer_product_code);
+		case 2:
+			return locale_convert<string>(m.serial_number);
+		case 3:
+			return locale_convert<string>(m.week_of_manufacture);
+		case 4:
+			return locale_convert<string>(m.year_of_manufacture);
+		default:
+			DCPOMATIC_ASSERT(false);
+		}
+
+		return "";
+	}
+
+	void config_changed ()
+	{
+		_monitor_list->refresh ();
+	}
+
+private:
+	EditableList<Monitor, MonitorDialog>* _monitor_list;
+};
+
 #endif
 
 wxPreferencesEditor*
@@ -337,10 +411,11 @@ create_player_config_dialog ()
 	int const border = 8;
 #endif
 
-	e->AddPage (new PlayerGeneralPage (ps, border));
-	e->AddPage (new KeysPage (ps, border));
+	e->AddPage (new PlayerGeneralPage(ps, border));
+	e->AddPage (new KeysPage(ps, border));
 #ifdef DCPOMATIC_VARIANT_SWAROOP
-	e->AddPage (new WatermarkPage (ps, border));
+	e->AddPage (new WatermarkPage(ps, border));
+	e->AddPage (new DevicesPage(ps, border));
 #endif
 	return e;
 }

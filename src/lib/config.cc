@@ -522,6 +522,9 @@ try
 	_player_watermark_theatre = f.optional_string_child("PlayerWatermarkTheatre").get_value_or("");
 	_player_watermark_period = f.optional_number_child<int>("PlayerWatermarkPeriod").get_value_or(1);
 	_player_watermark_duration = f.optional_number_child<int>("PlayerWatermarkDuration").get_value_or(150);
+	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("RequiredMonitor")) {
+		_required_monitors.push_back(Monitor(i));
+	}
 #endif
 
 	/* Replace any cinemas from config.xml with those from the configured file */
@@ -928,6 +931,9 @@ Config::write_config () const
 	root->add_child("PlayerWatermarkTheatre")->add_child_text(_player_watermark_theatre);
 	root->add_child("PlayerWatermarkPeriod")->add_child_text(raw_convert<string>(_player_watermark_period));
 	root->add_child("PlayerWatermarkDuration")->add_child_text(raw_convert<string>(_player_watermark_duration));
+	BOOST_FOREACH (Monitor i, _required_monitors) {
+		i.as_xml(root->add_child("RequiredMonitor"));
+	}
 #endif
 
 	try {

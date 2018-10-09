@@ -47,6 +47,7 @@
 #include "lib/server.h"
 #include "lib/dcpomatic_socket.h"
 #include "lib/scoped_temporary.h"
+#include "lib/monitor_checker.h"
 #include <dcp/dcp.h>
 #include <wx/wx.h>
 #include <wx/stdpaths.h>
@@ -195,8 +196,19 @@ public:
 
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
 		_controls->SPLChanged.connect (boost::bind(&DOMFrame::set_spl, this, _1));
-
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+		MonitorChecker::instance()->StateChanged.connect(boost::bind(&DOMFrame::monitor_checker_state_changed, this));
+		MonitorChecker::instance()->run ();
+#endif
 		setup_screen ();
+	}
+
+	void monitor_checker_state_changed ()
+	{
+		if (!MonitorChecker::instance()->ok()) {
+			error_dialog (this, _("The required display devices are not connected correctly."));
+			_viewer->stop ();
+		}
 	}
 
 	void setup_main_sizer (Config::PlayerMode mode)
@@ -213,6 +225,12 @@ public:
 
 	bool playback_permitted ()
 	{
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+		if (!MonitorChecker::instance()->ok()) {
+			error_dialog (this, _("The required display devices are not connected correctly."));
+			return false;
+		}
+#endif
 		if (!_film || !Config::instance()->respect_kdm_validity_periods()) {
 			return true;
 		}

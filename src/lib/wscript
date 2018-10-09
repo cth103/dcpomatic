@@ -70,6 +70,7 @@ sources = """
           digester.cc
           dkdm_wrapper.cc
           dolby_cp750.cc
+          edid.cc
           emailer.cc
           empty.cc
           encoder.cc
@@ -115,6 +116,7 @@ sources = """
           log_entry.cc
           magick_image_proxy.cc
           mid_side_decoder.cc
+          monitor_checker.cc
           overlaps.cc
           player.cc
           player_text.cc
