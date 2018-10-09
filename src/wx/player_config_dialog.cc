@@ -110,22 +110,7 @@ private:
 		table->Add (_log_file, wxGBPosition (r, 1));
 		++r;
 
-		add_label_to_sizer (table, _panel, _("DCP directory"), true, wxGBPosition (r, 0));
-		_dcp_directory = new wxDirPickerCtrl (_panel, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
-		table->Add (_dcp_directory, wxGBPosition (r, 1));
-		++r;
-
-		add_label_to_sizer (table, _panel, _("KDM directory"), true, wxGBPosition (r, 0));
-		_kdm_directory = new wxDirPickerCtrl (_panel, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
-		table->Add (_kdm_directory, wxGBPosition (r, 1));
-		++r;
-
 #ifdef DCPOMATIC_VARIANT_SWAROOP
-		add_label_to_sizer (table, _panel, _("Background image"), true, wxGBPosition (r, 0));
-		_background_image = new FilePickerCtrl (_panel, _("Select image file"), "*.png;*.jpg;*.jpeg;*.tif;*.tiff", true);
-		table->Add (_background_image, wxGBPosition (r, 1));
-		++r;
-
 		add_label_to_sizer (table, _panel, _("KDM server URL"), true, wxGBPosition(r, 0));
 		_kdm_server_url = new wxTextCtrl (_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(400, -1));
 		table->Add (_kdm_server_url, wxGBPosition (r, 1));
@@ -136,10 +121,7 @@ private:
 		_image_display->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::image_display_changed, this));
 		_respect_kdm->Bind (wxEVT_CHECKBOX, bind(&PlayerGeneralPage::respect_kdm_changed, this));
 		_log_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::log_file_changed, this));
-		_dcp_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&PlayerGeneralPage::dcp_directory_changed, this));
-		_kdm_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&PlayerGeneralPage::kdm_directory_changed, this));
 #ifdef DCPOMATIC_VARIANT_SWAROOP
-		_background_image->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::background_image_changed, this));
 		_kdm_server_url->Bind (wxEVT_TEXT, bind(&PlayerGeneralPage::kdm_server_url_changed, this));
 #endif
 	}
@@ -167,16 +149,7 @@ private:
 		if (config->player_log_file()) {
 			checked_set (_log_file, *config->player_log_file());
 		}
-		if (config->player_dcp_directory()) {
-			checked_set (_dcp_directory, *config->player_dcp_directory());
-		}
-		if (config->player_kdm_directory()) {
-			checked_set (_kdm_directory, *config->player_kdm_directory());
-		}
 #ifdef DCPOMATIC_VARIANT_SWAROOP
-		if (config->player_background_image()) {
-			checked_set (_background_image, *config->player_background_image());
-		}
 		checked_set (_kdm_server_url, config->kdm_server_url());
 #endif
 	}
@@ -212,6 +185,91 @@ private:
 		Config::instance()->set_player_log_file(wx_to_std(_log_file->GetPath()));
 	}
 
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	void kdm_server_url_changed ()
+	{
+		Config::instance()->set_kdm_server_url(wx_to_std(_kdm_server_url->GetValue()));
+	}
+#endif
+
+	wxChoice* _player_mode;
+	wxChoice* _image_display;
+	wxCheckBox* _respect_kdm;
+	FilePickerCtrl* _log_file;
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	wxTextCtrl* _kdm_server_url;
+#endif
+};
+
+class LocationsPage : public StandardPage
+{
+public:
+	LocationsPage (wxSize panel_size, int border)
+		: StandardPage (panel_size, border)
+	{}
+
+	wxString GetName () const
+	{
+		return _("Locations");
+	}
+
+#ifdef DCPOMATIC_OSX
+	wxBitmap GetLargeIcon () const
+	{
+		return wxBitmap ("locations", wxBITMAP_TYPE_PNG_RESOURCE);
+	}
+#endif
+
+private:
+	void setup ()
+	{
+
+		int r = 0;
+
+		wxGridBagSizer* table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
+
+		add_label_to_sizer (table, _panel, _("DCP directory"), true, wxGBPosition (r, 0));
+		_dcp_directory = new wxDirPickerCtrl (_panel, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
+		table->Add (_dcp_directory, wxGBPosition (r, 1));
+		++r;
+
+		add_label_to_sizer (table, _panel, _("KDM directory"), true, wxGBPosition (r, 0));
+		_kdm_directory = new wxDirPickerCtrl (_panel, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
+		table->Add (_kdm_directory, wxGBPosition (r, 1));
+		++r;
+
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+		add_label_to_sizer (table, _panel, _("Background image"), true, wxGBPosition (r, 0));
+		_background_image = new FilePickerCtrl (_panel, _("Select image file"), "*.png;*.jpg;*.jpeg;*.tif;*.tiff", true);
+		table->Add (_background_image, wxGBPosition (r, 1));
+		++r;
+#endif
+
+		_dcp_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&LocationsPage::dcp_directory_changed, this));
+		_kdm_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&LocationsPage::kdm_directory_changed, this));
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+		_background_image->Bind (wxEVT_FILEPICKER_CHANGED, bind(&LocationsPage::background_image_changed, this));
+#endif
+	}
+
+	void config_changed ()
+	{
+		Config* config = Config::instance ();
+
+		if (config->player_dcp_directory()) {
+			checked_set (_dcp_directory, *config->player_dcp_directory());
+		}
+		if (config->player_kdm_directory()) {
+			checked_set (_kdm_directory, *config->player_kdm_directory());
+		}
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+		if (config->player_background_image()) {
+			checked_set (_background_image, *config->player_background_image());
+		}
+#endif
+	}
+
 	void dcp_directory_changed ()
 	{
 		Config::instance()->set_player_dcp_directory(wx_to_std(_dcp_directory->GetPath()));
@@ -227,22 +285,12 @@ private:
 	{
 		Config::instance()->set_player_background_image(wx_to_std(_background_image->GetPath()));
 	}
-
-	void kdm_server_url_changed ()
-	{
-		Config::instance()->set_kdm_server_url(wx_to_std(_kdm_server_url->GetValue()));
-	}
 #endif
 
-	wxChoice* _player_mode;
-	wxChoice* _image_display;
-	wxCheckBox* _respect_kdm;
-	FilePickerCtrl* _log_file;
 	wxDirPickerCtrl* _dcp_directory;
 	wxDirPickerCtrl* _kdm_directory;
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	FilePickerCtrl* _background_image;
-	wxTextCtrl* _kdm_server_url;
 #endif
 };
 
@@ -411,7 +459,8 @@ create_player_config_dialog ()
 	int const border = 8;
 #endif
 
-	e->AddPage (new PlayerGeneralPage(ps, border));
+	e->AddPage (new PlayerGeneralPage(wxSize(-1, 500), border));
+	e->AddPage (new LocationsPage(ps, border));
 	e->AddPage (new KeysPage(ps, border));
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	e->AddPage (new WatermarkPage(ps, border));
