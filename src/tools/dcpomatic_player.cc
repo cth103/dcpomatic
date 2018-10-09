@@ -51,6 +51,7 @@
 #include "lib/scoped_temporary.h"
 #include "lib/monitor_checker.h"
 #include <dcp/dcp.h>
+#include <dcp/raw_convert.h>
 #include <wx/wx.h>
 #include <wx/stdpaths.h>
 #include <wx/splash.h>
@@ -173,6 +174,9 @@ public:
 		_viewer->Started.connect (bind(&DOMFrame::playback_started, this, _1));
 		_viewer->Seeked.connect (bind(&DOMFrame::playback_seeked, this, _1));
 		_viewer->Stopped.connect (bind(&DOMFrame::playback_stopped, this, _1));
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+		_viewer->PositionChanged.connect (bind(&DOMFrame::position_changed, this));
+#endif
 		_info = new PlayerInformation (_overall_panel, _viewer);
 		setup_main_sizer (Config::instance()->player_mode());
 #ifdef __WXOSX__
@@ -203,6 +207,38 @@ public:
 		MonitorChecker::instance()->run ();
 #endif
 		setup_screen ();
+
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+		if (
+			boost::filesystem::is_regular_file(Config::path("position")) &&
+			boost::filesystem::is_regular_file(Config::path("spl.xml"))) {
+
+			set_spl (SPL(Config::path("spl.xml")));
+			FILE* f = fopen_boost (Config::path("position"), "r");
+			if (f) {
+				char buffer[64];
+				fscanf (f, "%63s", buffer);
+				_viewer->seek (DCPTime(atoi(buffer)), true);
+				_viewer->start ();
+				fclose (f);
+			}
+		}
+
+#endif
+	}
+
+	void position_changed ()
+	{
+		if (!_viewer->playing() || _viewer->position().get() % DCPTime::HZ) {
+			return;
+		}
+
+		FILE* f = fopen_boost (Config::path("position"), "w");
+		if (f) {
+			string const p = dcp::raw_convert<string> (_viewer->position().get());
+			fwrite (p.c_str(), p.length(), 1, f);
+			fclose (f);
+		}
 	}
 
 	void monitor_checker_state_changed ()
@@ -296,6 +332,14 @@ public:
 
 	void playback_stopped (DCPTime time)
 	{
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+		try {
+			boost::filesystem::remove (Config::path("position"));
+		} catch (...) {
+			/* Never mind */
+		}
+#endif
+
 		optional<boost::filesystem::path> log = Config::instance()->player_log_file();
 		if (!log) {
 			return;
@@ -370,6 +414,10 @@ public:
 
 	void set_spl (SPL spl)
 	{
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+		spl.as_xml (Config::path("spl.xml"));
+#endif
+
 		if (_viewer->playing ()) {
 			_viewer->stop ();
 		}
@@ -1077,6 +1125,8 @@ private:
 		*/
 		Config::drop ();
 
+		signal_manager = new wxSignalManager (this);
+
 		_frame = new DOMFrame ();
 		SetTopWindow (_frame);
 		_frame->Maximize ();
@@ -1084,8 +1134,6 @@ private:
 			splash->Destroy ();
 		}
 		_frame->Show ();
-
-		signal_manager = new wxSignalManager (this);
 
 		PlayServer* server = new PlayServer (_frame);
 		new thread (boost::bind (&PlayServer::run, server));

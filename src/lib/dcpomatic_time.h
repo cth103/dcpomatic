@@ -221,12 +221,13 @@ public:
 		return Time<S, O> (INT64_MAX);
 	}
 
+	static const int HZ = 96000;
+
 private:
 	friend struct dcpomatic_time_ceil_test;
 	friend struct dcpomatic_time_floor_test;
 
 	Type _t;
-	static const int HZ = 96000;
 };
 
 class ContentTimeDifferentiator {};

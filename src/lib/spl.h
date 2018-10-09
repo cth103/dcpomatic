@@ -28,6 +28,9 @@ class SPLEntry;
 class SPL
 {
 public:
+	SPL () {}
+	SPL (boost::filesystem::path file);
+
 	void as_xml (boost::filesystem::path file) const;
 
 	std::string name;

@@ -21,8 +21,29 @@
 #include "spl.h"
 #include "spl_entry.h"
 #include <dcp/cpl.h>
+#include <dcp/dcp.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
+
+using boost::shared_ptr;
+
+SPL::SPL (boost::filesystem::path file)
+{
+	cxml::Document f ("DCPPlaylist");
+	f.read_file (file);
+
+	name = f.string_attribute ("Name");
+	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("DCP")) {
+		boost::filesystem::path dir(i->content());
+		dcp::DCP dcp (dir);
+		dcp.read ();
+		BOOST_FOREACH (shared_ptr<dcp::CPL> j, dcp.cpls()) {
+			if (j->id() == i->string_attribute("CPL")) {
+				playlist.push_back (SPLEntry(j, dir));
+			}
+		}
+	}
+}
 
 void
 SPL::as_xml (boost::filesystem::path file) const

@@ -1033,13 +1033,13 @@ public:
 	static void restore_defaults ();
 	static bool have_existing (std::string);
 	static boost::filesystem::path config_file ();
+	static boost::filesystem::path path (std::string file, bool create_directories = true);
 
 	/** If set, this overrides the standard path (in home, Library, AppData or wherever) for config.xml and cinemas.xml */
 	static boost::optional<boost::filesystem::path> override_path;
 
 private:
 	Config ();
-	static boost::filesystem::path path (std::string file, bool create_directories = true);
 	void read ();
 	void set_defaults ();
 	void set_kdm_email_to_default ();
