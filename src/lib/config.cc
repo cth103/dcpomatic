@@ -1083,7 +1083,7 @@ Config::add_to_history_internal (vector<boost::filesystem::path>& h, boost::file
 		h.pop_back ();
 	}
 
-	changed ();
+	changed (HISTORY);
 }
 
 bool

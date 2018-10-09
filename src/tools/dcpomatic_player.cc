@@ -137,7 +137,7 @@ public:
 		SetIcon (wxIcon (std_to_wx ("id")));
 #endif
 
-		_config_changed_connection = Config::instance()->Changed.connect (boost::bind (&DOMFrame::config_changed, this));
+		_config_changed_connection = Config::instance()->Changed.connect (boost::bind (&DOMFrame::config_changed, this, _1));
 		update_from_config ();
 
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_open, this), ID_file_open);
@@ -835,19 +835,21 @@ private:
 		_update_news_requested = false;
 	}
 
-	void config_changed ()
+	void config_changed (Config::Property prop)
 	{
 		/* Instantly save any config changes when using the player GUI */
 		try {
 			Config::instance()->write_config();
 		} catch (FileError& e) {
-			error_dialog (
-				this,
-				wxString::Format(
-					_("Could not write to config file at %s.  Your changes have not been saved."),
-					std_to_wx(e.file().string())
-					)
-				);
+			if (prop != Config::HISTORY) {
+				error_dialog (
+					this,
+					wxString::Format(
+						_("Could not write to config file at %s.  Your changes have not been saved."),
+						std_to_wx(e.file().string())
+						)
+					);
+			}
 		} catch (exception& e) {
 			error_dialog (
 				this,
