@@ -281,7 +281,7 @@ private:
 
 		add_label_to_sizer (table, _panel, _("Duration"), true, wxGBPosition(r, 0));
 		_duration = new wxSpinCtrl (_panel, wxID_ANY);
-		_duration->SetRange (1, 200);
+		_duration->SetRange (100, 5000);
 		table->Add (_duration, wxGBPosition(r, 1));
 		add_label_to_sizer (table, _panel, _("milliseconds"), false, wxGBPosition(r, 2));
 		++r;
