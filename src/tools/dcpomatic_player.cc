@@ -383,7 +383,8 @@ public:
 		/* Start off as Flat */
 		_film->set_container (Ratio::from_id("185"));
 
-		DCPTime position;
+		/* Put 1 frame of black at the start so when we seek to 0 we don't see anything */
+		DCPTime position = DCPTime::from_frames(1, _film->video_frame_rate());
 		shared_ptr<DCPContent> first;
 
 		BOOST_FOREACH (SPLEntry i, spl) {
