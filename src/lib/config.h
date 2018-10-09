@@ -519,6 +519,10 @@ public:
 	std::vector<Monitor> required_monitors () const {
 		return _required_monitors;
 	}
+
+	bool allow_spl_editing () const {
+		return _allow_spl_editing;
+	}
 #endif
 
 	/* SET (mostly) */
@@ -999,6 +1003,10 @@ public:
 	void set_required_monitors (std::vector<Monitor> monitors) {
 		maybe_set (_required_monitors, monitors);
 	}
+
+	void set_allow_spl_editing (bool s) {
+		maybe_set (_allow_spl_editing, s);
+	}
 #endif
 
 	void changed (Property p = OTHER);
@@ -1203,6 +1211,7 @@ private:
 	/** watermark duration in milliseconds */
 	int _player_watermark_duration;
 	std::vector<Monitor> _required_monitors;
+	bool _allow_spl_editing;
 #endif
 
 	static int const _current_version;

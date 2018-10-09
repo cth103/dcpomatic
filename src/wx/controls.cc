@@ -103,6 +103,10 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	wxBoxSizer* buttons_sizer = new wxBoxSizer (wxVERTICAL);
 	_add_button = new wxButton(this, wxID_ANY, _("Add"));
 	buttons_sizer->Add (_add_button);
+	_save_button = new wxButton(this, wxID_ANY, _("Save..."));
+	buttons_sizer->Add (_save_button);
+	_load_button = new wxButton(this, wxID_ANY, _("Load..."));
+	buttons_sizer->Add (_load_button);
 	e_sizer->Add (buttons_sizer, 0, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
 	_v_sizer->Add (e_sizer, 1, wxEXPAND);
@@ -113,6 +117,8 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	_cpl->Show (false);
 	_spl_view->Show (false);
 	_add_button->Show (false);
+	_save_button->Show (false);
+	_load_button->Show (false);
 	_log->Show (false);
 
 	wxBoxSizer* h_sizer = new wxBoxSizer (wxHORIZONTAL);
@@ -169,6 +175,8 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 		_jump_to_selected->SetValue (Config::instance()->jump_to_selected ());
 	}
 	_add_button->Bind       (wxEVT_BUTTON,              boost::bind(&Controls::add_clicked, this));
+	_save_button->Bind      (wxEVT_BUTTON,              boost::bind(&Controls::save_clicked, this));
+	_load_button->Bind      (wxEVT_BUTTON,              boost::bind(&Controls::load_clicked, this));
 
 	_viewer->PositionChanged.connect (boost::bind(&Controls::position_changed, this));
 	_viewer->Started.connect (boost::bind(&Controls::started, this));
@@ -186,6 +194,7 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 		);
 
 	_config_changed_connection = Config::instance()->Changed.connect (bind(&Controls::config_changed, this, _1));
+	config_changed (Config::OTHER);
 }
 
 void
@@ -200,10 +209,46 @@ Controls::add_clicked ()
 }
 
 void
+Controls::save_clicked ()
+{
+	wxFileDialog* d = new wxFileDialog (
+		this, _("Select playlist file"), wxEmptyString, wxEmptyString, wxT ("XML files (*.xml)|*.xml"),
+		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
+		);
+
+	if (d->ShowModal() == wxID_OK) {
+		_spl.as_xml (boost::filesystem::path(wx_to_std(d->GetPath())));
+	}
+
+	d->Destroy ();
+}
+
+void
+Controls::load_clicked ()
+{
+	wxFileDialog* d = new wxFileDialog (
+		this, _("Select playlist file"), wxEmptyString, wxEmptyString, wxT ("XML files (*.xml)|*.xml")
+		);
+
+	if (d->ShowModal() == wxID_OK) {
+		_spl = SPL (boost::filesystem::path(wx_to_std(d->GetPath())));
+		_spl_view->DeleteAllItems ();
+		BOOST_FOREACH (SPLEntry i, _spl.playlist) {
+			add_cpl_to_list (i.cpl, _spl_view);
+		}
+		SPLChanged (_spl);
+	}
+
+	d->Destroy ();
+}
+
+void
 Controls::config_changed (int property)
 {
 	if (property == Config::PLAYER_DCP_DIRECTORY) {
 		update_dcp_directory ();
+	} else {
+		setup_sensitivity ();
 	}
 }
 
@@ -444,7 +489,8 @@ Controls::setup_sensitivity ()
 		_eye->Enable (c && _film->three_d ());
 	}
 
-	_add_button->Enable (static_cast<bool>(selected_cpl()));
+	_add_button->Enable (Config::instance()->allow_spl_editing() && static_cast<bool>(selected_cpl()));
+	_save_button->Enable (Config::instance()->allow_spl_editing());
 }
 
 optional<Controls::CPL>
@@ -522,6 +568,8 @@ Controls::show_extended_player_controls (bool s)
 	_spl_view->Show (s);
 	_log->Show (s);
 	_add_button->Show (s);
+	_save_button->Show (s);
+	_load_button->Show (s);
 	_v_sizer->Layout ();
 }
 

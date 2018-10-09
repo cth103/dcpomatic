@@ -175,6 +175,7 @@ Config::set_defaults ()
 	_player_watermark_theatre = "";
 	_player_watermark_period = 1;
 	_player_watermark_duration = 50;
+	_allow_spl_editing = true;
 #endif
 
 	_allowed_dcp_frame_rates.clear ();
@@ -525,6 +526,7 @@ try
 	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("RequiredMonitor")) {
 		_required_monitors.push_back(Monitor(i));
 	}
+	_allow_spl_editing = f.optional_bool_child("AllowSPLEditing").get_value_or(true);
 #endif
 
 	/* Replace any cinemas from config.xml with those from the configured file */
@@ -934,6 +936,7 @@ Config::write_config () const
 	BOOST_FOREACH (Monitor i, _required_monitors) {
 		i.as_xml(root->add_child("RequiredMonitor"));
 	}
+	root->add_child("AllowSPLEditing")->add_child_text(_allow_spl_editing ? "1" : "0");
 #endif
 
 	try {

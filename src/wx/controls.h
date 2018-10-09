@@ -94,6 +94,8 @@ private:
 	void stop_clicked ();
 #endif
 	void add_clicked ();
+	void save_clicked ();
+	void load_clicked ();
 	void add_cpl_to_list (boost::shared_ptr<dcp::CPL> cpl, wxListCtrl* list);
 
 	boost::shared_ptr<Film> _film;
@@ -110,6 +112,8 @@ private:
 	wxListCtrl* _spl_view;
 	wxTextCtrl* _log;
 	wxButton* _add_button;
+	wxButton* _save_button;
+	wxButton* _load_button;
 	std::vector<CPL> _cpls;
 	wxSlider* _slider;
 	wxButton* _rewind_button;
