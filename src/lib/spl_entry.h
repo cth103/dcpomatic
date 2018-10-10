@@ -18,6 +18,9 @@
 
 */
 
+#ifndef DCPOMATIC_SPL_ENTRY_H
+#define DCPOMATIC_SPL_ENTRY_H
+
 #include "dcpomatic_time.h"
 
 namespace dcp {
@@ -37,3 +40,5 @@ public:
 	boost::shared_ptr<dcp::CPL> cpl;
 	boost::filesystem::path directory;
 };
+
+#endif

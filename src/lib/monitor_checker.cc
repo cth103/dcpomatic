@@ -18,6 +18,8 @@
 
 */
 
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+
 #include "monitor_checker.h"
 #include "config.h"
 #include "cross.h"
@@ -100,3 +102,5 @@ MonitorChecker::instance ()
 
 	return _instance;
 }
+
+#endif

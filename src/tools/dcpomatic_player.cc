@@ -241,6 +241,7 @@ public:
 		}
 	}
 
+#ifdef DCPOMATIC_VARIANT_SWAROOP
 	void monitor_checker_state_changed ()
 	{
 		if (!MonitorChecker::instance()->ok()) {
@@ -248,6 +249,7 @@ public:
 			_viewer->stop ();
 		}
 	}
+#endif
 
 	void setup_main_sizer (Config::PlayerMode mode)
 	{

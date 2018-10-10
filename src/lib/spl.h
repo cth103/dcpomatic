@@ -21,9 +21,9 @@
 #ifndef DCPOMATIC_SPL_H
 #define DCPOMATIC_SPL_H
 
+#include "spl_entry.h"
 #include <boost/filesystem.hpp>
 
-class SPLEntry;
 
 class SPL
 {
