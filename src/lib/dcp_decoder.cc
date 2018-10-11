@@ -25,6 +25,7 @@
 #include "audio_decoder.h"
 #include "j2k_image_proxy.h"
 #include "text_decoder.h"
+#include "ffmpeg_image_proxy.h"
 #include "image.h"
 #include "config.h"
 #include <dcp/dcp.h>
@@ -243,7 +244,8 @@ DCPDecoder::pass_texts (ContentTime next, shared_ptr<dcp::SubtitleAsset> asset, 
 
 			shared_ptr<dcp::SubtitleImage> ii = dynamic_pointer_cast<dcp::SubtitleImage> (i);
 			if (ii) {
-				shared_ptr<Image> image(new Image(ii->png_image()));
+				FFmpegImageProxy proxy (ii->png_image());
+				shared_ptr<Image> image = proxy.image().first;
 				/* set up rect with height and width */
 				dcpomatic::Rect<double> rect(0, 0, image->size().width / double(size.width), image->size().height / double(size.height));
 

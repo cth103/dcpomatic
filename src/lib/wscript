@@ -95,6 +95,7 @@ sources = """
           ffmpeg_subtitle_stream.cc
           film.cc
           filter.cc
+          ffmpeg_image_proxy.cc
           font.cc
           font_files.cc
           frame_rate_change.cc
@@ -114,7 +115,6 @@ sources = """
           json_server.cc
           log.cc
           log_entry.cc
-          magick_image_proxy.cc
           mid_side_decoder.cc
           monitor_checker.cc
           overlaps.cc
@@ -177,7 +177,7 @@ def build(bld):
     obj.uselib = """
                  AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE
                  BOOST_FILESYSTEM BOOST_THREAD BOOST_DATETIME BOOST_SIGNALS2 BOOST_REGEX
-                 SAMPLERATE POSTPROC TIFF MAGICK SSH DCP CXML GLIB LZMA XML++
+                 SAMPLERATE POSTPROC TIFF SSH DCP CXML GLIB LZMA XML++
                  CURL ZIP FONTCONFIG PANGOMM CAIROMM XMLSEC SUB ICU NETTLE
                  """
 

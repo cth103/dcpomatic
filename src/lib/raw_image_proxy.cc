@@ -86,12 +86,6 @@ RawImageProxy::same (shared_ptr<const ImageProxy> other) const
 	return (*_image.get()) == (*rp->image().first.get());
 }
 
-AVPixelFormat
-RawImageProxy::pixel_format () const
-{
-	return _image->pixel_format ();
-}
-
 size_t
 RawImageProxy::memory_used () const
 {

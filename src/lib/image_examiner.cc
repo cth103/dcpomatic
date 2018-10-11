@@ -26,12 +26,11 @@
 #include "config.h"
 #include "cross.h"
 #include "compose.hpp"
-#include "magick_image_proxy.h"
+#include "ffmpeg_image_proxy.h"
 #include "image.h"
 #include <dcp/openjpeg_image.h>
 #include <dcp/exceptions.h>
 #include <dcp/j2k.h>
-#include <Magick++.h>
 #include <iostream>
 
 #include "i18n.h"
@@ -46,9 +45,6 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 	: _film (film)
 	, _image_content (content)
 {
-#ifdef DCPOMATIC_HAVE_MAGICKCORE_NAMESPACE
-	using namespace MagickCore;
-#endif
 	boost::filesystem::path path = content->path(0).string ();
 	if (valid_j2k_file (path)) {
 		boost::uintmax_t size = boost::filesystem::file_size (path);
@@ -67,7 +63,7 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 		}
 		delete[] buffer;
 	} else {
-		MagickImageProxy proxy(content->path(0));
+		FFmpegImageProxy proxy(content->path(0));
 		_video_size = proxy.image().first->size();
 	}
 

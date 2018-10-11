@@ -46,7 +46,6 @@
 #include <asdcp/AS_DCP.h>
 #include <sndfile.h>
 #include <libxml++/libxml++.h>
-#include <Magick++.h>
 extern "C" {
 #include <libavformat/avformat.h>
 }
@@ -233,25 +232,7 @@ check_mxf_audio_file (boost::filesystem::path ref, boost::filesystem::path check
 void
 check_image (boost::filesystem::path ref, boost::filesystem::path check, double threshold)
 {
-#ifdef DCPOMATIC_IMAGE_MAGICK
-	using namespace MagickCore;
-#else
-	using namespace MagickLib;
-#endif
-
-	Magick::Image ref_image;
-	ref_image.read (ref.string ());
-	Magick::Image check_image;
-	check_image.read (check.string ());
-	/* XXX: this is a hack; we really want the ImageMagick call but GraphicsMagick doesn't have it;
-	   this may cause random test failures on platforms that use GraphicsMagick.
-	*/
-#ifdef DCPOMATIC_ADVANCED_MAGICK_COMPARE
-	double const dist = ref_image.compare(check_image, Magick::RootMeanSquaredErrorMetric);
-	BOOST_CHECK_MESSAGE (dist < threshold, ref << " differs from " << check << " " << dist);
-#else
-	BOOST_CHECK_MESSAGE (!ref_image.compare(check_image), ref << " differs from " << check);
-#endif
+	/* XXX */
 }
 
 void
@@ -427,14 +408,7 @@ wait_for_jobs ()
 void
 write_image (shared_ptr<const Image> image, boost::filesystem::path file, string format)
 {
-#ifdef DCPOMATIC_IMAGE_MAGICK
-		using namespace MagickCore;
-#else
-		using namespace MagickLib;
-#endif
-
-	Magick::Image m (image->size().width, image->size().height, format.c_str(), CharPixel, (void *) image->data()[0]);
-	m.write (file.string ());
+	/* XXX */
 }
 
 void

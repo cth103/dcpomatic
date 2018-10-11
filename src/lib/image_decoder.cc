@@ -22,12 +22,11 @@
 #include "image_decoder.h"
 #include "video_decoder.h"
 #include "image.h"
-#include "magick_image_proxy.h"
+#include "ffmpeg_image_proxy.h"
 #include "j2k_image_proxy.h"
 #include "film.h"
 #include "exceptions.h"
 #include "video_content.h"
-#include <Magick++.h>
 #include <boost/filesystem.hpp>
 #include <iostream>
 
@@ -68,7 +67,7 @@ ImageDecoder::pass ()
 			*/
 			_image.reset (new J2KImageProxy (path, _image_content->video->size(), pf));
 		} else {
-			_image.reset (new MagickImageProxy (path));
+			_image.reset (new FFmpegImageProxy (path));
 		}
 	}
 

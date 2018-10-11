@@ -60,9 +60,6 @@ public:
 	/** @return true if our image is definitely the same as another, false if it is probably not */
 	bool same (boost::shared_ptr<const ImageProxy>) const;
 	int prepare (boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const;
-	AVPixelFormat pixel_format () const {
-		return _pixel_format;
-	}
 
 	dcp::Data j2k () const {
 		return _data;

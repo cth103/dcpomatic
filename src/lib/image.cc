@@ -30,7 +30,6 @@
 #include "dcpomatic_socket.h"
 #include <dcp/rgb_xyz.h>
 #include <dcp/transfer_function.h>
-#include <Magick++.h>
 extern "C" {
 #include <libswscale/swscale.h>
 #include <libavutil/pixfmt.h>
@@ -794,34 +793,6 @@ Image::Image (AVPixelFormat p, dcp::Size s, bool aligned, int extra_pixels)
 	allocate ();
 }
 
-/** Construct an Image from some PNG data */
-Image::Image (dcp::Data png)
-{
-	Magick::Blob blob;
-	blob.update (png.data().get(), png.size());
-	Magick::Image* magick_image = new Magick::Image (blob);
-	_size = dcp::Size(magick_image->columns(), magick_image->rows());
-	_pixel_format = AV_PIX_FMT_BGRA;
-	_aligned = true;
-	_extra_pixels = 0;
-	allocate ();
-
-	/* Write line-by-line here as _image must be aligned, and write() cannot be told about strides */
-	uint8_t* p = data()[0];
-	for (int i = 0; i < _size.height; ++i) {
-#ifdef DCPOMATIC_HAVE_MAGICKCORE_NAMESPACE
-		using namespace MagickCore;
-#endif
-#ifdef DCPOMATIC_HAVE_MAGICKLIB_NAMESPACE
-		using namespace MagickLib;
-#endif
-		magick_image->write (0, i, _size.width, 1, "BGRA", CharPixel, p);
-		p += stride()[0];
-	}
-
-	delete magick_image;
-}
-
 void
 Image::allocate ()
 {
@@ -1187,34 +1158,6 @@ Image::memory_used () const
 dcp::Data
 Image::as_png () const
 {
-#ifdef DCPOMATIC_IMAGE_MAGICK
-		using namespace MagickCore;
-#else
-		using namespace MagickLib;
-#endif
-
-	string format;
-	switch (_pixel_format) {
-	case AV_PIX_FMT_RGB24:
-		format = "RGB";
-		break;
-	case AV_PIX_FMT_BGRA:
-		format = "BGRA";
-		break;
-	default:
-		DCPOMATIC_ASSERT (false);
-		break;
-	}
-
-	shared_ptr<const Image> use;
-	if (aligned()) {
-		use.reset (new Image(shared_from_this(), false));
-	}
-
-	Magick::Image m (size().width, size().height, format, CharPixel, (void *) use->data()[0]);
-	m.magick ("PNG");
-	Magick::Blob blob;
-	m.write (&blob);
-	/* XXX: could use a subclass of Data here (storing its data in a Blob) */
-	return dcp::Data (static_cast<const uint8_t*>(blob.data()), blob.length());
+	/* XXX */
+	return dcp::Data();
 }

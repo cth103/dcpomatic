@@ -24,21 +24,6 @@
 #include "cross.h"
 #include <dcp/version.h>
 #include <libssh/libssh.h>
-#ifdef DCPOMATIC_IMAGE_MAGICK
-/* ImageMagick */
-#ifdef DCPOMATIC_MAGICKCORE_MAGICK
-#include <magick/MagickCore.h>
-#include <magick/version.h>
-#else
-#include <MagickCore/MagickCore.h>
-#include <MagickCore/version.h>
-#endif
-#else
-/* GraphicsMagick */
-#include <magick/common.h>
-#include <magick/magick_config.h>
-#include <magick/version.h>
-#endif
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -77,13 +62,12 @@ dependency_version_summary ()
 {
 	char buffer[512];
 	snprintf (
-		buffer, sizeof(buffer), "libavcodec %s, libavfilter %s, libavformat %s, libavutil %s, libswscale %s, %s, libssh %s, libdcp %s git %s",
+		buffer, sizeof(buffer), "libavcodec %s, libavfilter %s, libavformat %s, libavutil %s, libswscale %s, libssh %s, libdcp %s git %s",
 		ffmpeg_version_to_string(avcodec_version()).c_str(),
 		ffmpeg_version_to_string(avfilter_version()).c_str(),
 		ffmpeg_version_to_string(avformat_version()).c_str(),
 		ffmpeg_version_to_string(avutil_version()).c_str(),
 		ffmpeg_version_to_string(swscale_version()).c_str(),
-		MagickVersion,
 		ssh_version(0),
 		dcp::version, dcp::git_commit
 		);

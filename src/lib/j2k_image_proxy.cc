@@ -31,7 +31,6 @@
 #include <dcp/j2k.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
-#include <Magick++.h>
 #include <iostream>
 
 #include "i18n.h"

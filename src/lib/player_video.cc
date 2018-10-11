@@ -150,7 +150,7 @@ PlayerVideo::image (dcp::NoteHandler note, function<AVPixelFormat (AVPixelFormat
 	}
 
 	shared_ptr<Image> out = im->crop_scale_window (
-		total_crop, _inter_size, _out_size, yuv_to_rgb, pixel_format (_in->pixel_format()), aligned, fast
+		total_crop, _inter_size, _out_size, yuv_to_rgb, pixel_format (im->pixel_format()), aligned, fast
 		);
 
 	if (_text) {

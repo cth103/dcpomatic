@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,15 +19,16 @@
 */
 
 #include "image_proxy.h"
-#include <Magick++.h>
+#include <dcp/data.h>
 #include <boost/thread/mutex.hpp>
 #include <boost/filesystem.hpp>
 
-class MagickImageProxy : public ImageProxy
+class FFmpegImageProxy : public ImageProxy
 {
 public:
-	explicit MagickImageProxy (boost::filesystem::path);
-	MagickImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
+	explicit FFmpegImageProxy (boost::filesystem::path);
+	explicit FFmpegImageProxy (dcp::Data);
+	FFmpegImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
 
 	std::pair<boost::shared_ptr<Image>, int> image (
 		boost::optional<dcp::NoteHandler> note = boost::optional<dcp::NoteHandler> (),
@@ -37,11 +38,14 @@ public:
 	void add_metadata (xmlpp::Node *) const;
 	void send_binary (boost::shared_ptr<Socket>) const;
 	bool same (boost::shared_ptr<const ImageProxy> other) const;
-	AVPixelFormat pixel_format () const;
 	size_t memory_used () const;
 
+	int avio_read (uint8_t* buffer, int const amount);
+	int64_t avio_seek (int64_t const pos, int whence);
+
 private:
-	Magick::Blob _blob;
+	dcp::Data _data;
+	mutable int64_t _pos;
 	/** Path of a file that this image came from, if applicable; stored so that
 	    failed-decode errors can give more detail.
 	*/

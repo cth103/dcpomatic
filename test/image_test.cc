@@ -25,9 +25,8 @@
  */
 
 #include "lib/image.h"
-#include "lib/magick_image_proxy.h"
+#include "lib/ffmpeg_image_proxy.h"
 #include "test.h"
-#include <Magick++.h>
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
@@ -138,7 +137,7 @@ BOOST_AUTO_TEST_CASE (compact_image_test)
 void
 alpha_blend_test_one (AVPixelFormat format, string suffix)
 {
-	shared_ptr<MagickImageProxy> proxy (new MagickImageProxy (private_data / "prophet_frame.tiff"));
+	shared_ptr<FFmpegImageProxy> proxy (new FFmpegImageProxy (private_data / "prophet_frame.tiff"));
 	shared_ptr<Image> raw = proxy->image().first;
 	shared_ptr<Image> background = raw->convert_pixel_format (dcp::YUV_TO_RGB_REC709, format, true, false);
 
@@ -260,7 +259,7 @@ BOOST_AUTO_TEST_CASE (merge_test2)
 /** Test Image::crop_scale_window with YUV420P and some windowing */
 BOOST_AUTO_TEST_CASE (crop_scale_window_test)
 {
-	shared_ptr<MagickImageProxy> proxy(new MagickImageProxy("test/data/flat_red.png"));
+	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/flat_red.png"));
 	shared_ptr<Image> raw = proxy->image().first;
 	shared_ptr<Image> out = raw->crop_scale_window(Crop(), dcp::Size(1998, 836), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_YUV420P, true, false);
 	shared_ptr<Image> save = out->scale(dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, false);
