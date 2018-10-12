@@ -337,6 +337,9 @@ def configure(conf):
     # nettle
     conf.check_cfg(package="nettle", args='--cflags --libs', uselib_store='NETTLE', mandatory=True)
 
+    # libpng
+    conf.check_cfg(package='libpng', args='--cflags --libs', uselib_store='PNG', mandatory=True)
+
     # FFmpeg
     if conf.options.static_ffmpeg:
         names = ['avformat', 'avfilter', 'avcodec', 'avutil', 'swscale', 'postproc', 'swresample']
@@ -417,7 +420,7 @@ def configure(conf):
                    mandatory=False)
 
     # Hack: the previous two check_cxx calls end up copying their (necessary) cxxflags
-    # to these variables.  We don't want to use these for the actual build, so clearn them out.
+    # to these variables.  We don't want to use these for the actual build, so clean them out.
     conf.env['CXXFLAGS_AVCODEC'] = []
     conf.env['CXXFLAGS_AVUTIL'] = []
 
