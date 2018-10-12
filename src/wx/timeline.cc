@@ -48,6 +48,7 @@ using std::list;
 using std::cout;
 using std::min;
 using std::max;
+using std::abs;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
@@ -188,8 +189,8 @@ Timeline::paint_main ()
 		gc->DrawRectangle (
 			min (_down_point.x, _zoom_point->x),
 			min (_down_point.y, _zoom_point->y),
-			fabs (_down_point.x - _zoom_point->x),
-			fabs (_down_point.y - _zoom_point->y)
+			abs (_down_point.x - _zoom_point->x),
+			abs (_down_point.y - _zoom_point->y)
 			);
 	}
 
