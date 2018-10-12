@@ -367,7 +367,7 @@ FilmViewer::paint_panel ()
 		dc.SetBrush (b);
 		int const gap = (_panel_size.height - _out_size.height) / 2;
 		dc.DrawRectangle (0, 0, _panel_size.width, gap);
-		dc.DrawRectangle (0, gap + _out_size.height, _panel_size.width, gap);
+		dc.DrawRectangle (0, gap + _out_size.height + 1, _panel_size.width, gap);
 	}
 
 	if (_outline_content) {
