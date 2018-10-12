@@ -83,6 +83,8 @@ public:
 
 	dcp::Data as_png () const;
 
+	void png_error (char const * message);
+
 	static boost::shared_ptr<const Image> ensure_aligned (boost::shared_ptr<const Image> image);
 
 private:

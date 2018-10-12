@@ -27,6 +27,7 @@
 #include "timer.h"
 #include "rect.h"
 #include "util.h"
+#include "compose.hpp"
 #include "dcpomatic_socket.h"
 #include <dcp/rgb_xyz.h>
 #include <dcp/transfer_function.h>
@@ -36,6 +37,7 @@ extern "C" {
 #include <libavutil/pixdesc.h>
 #include <libavutil/frame.h>
 }
+#include <png.h>
 #if HAVE_VALGRIND_MEMCHECK_H
 #include <valgrind/memcheck.h>
 #endif
@@ -1155,9 +1157,97 @@ Image::memory_used () const
 	return m;
 }
 
+class Memory
+{
+public:
+	Memory ()
+		: data(0)
+		, size(0)
+	{}
+
+	~Memory ()
+	{
+		free (data);
+	}
+
+	uint8_t* data;
+	size_t size;
+};
+
+static void
+png_write_data (png_structp png_ptr, png_bytep data, png_size_t length)
+{
+	Memory* mem = reinterpret_cast<Memory*>(png_get_io_ptr(png_ptr));
+	size_t size = mem->size + length;
+
+	if (mem->data) {
+		mem->data = reinterpret_cast<uint8_t*>(realloc(mem->data, size));
+	} else {
+		mem->data = reinterpret_cast<uint8_t*>(malloc(size));
+	}
+
+	if (!mem->data) {
+		throw EncodeError (N_("could not allocate memory for PNG"));
+	}
+
+	memcpy (mem->data + mem->size, data, length);
+	mem->size += length;
+}
+
+static void
+png_flush (png_structp)
+{
+
+}
+
+static void
+png_error_fn (png_structp png_ptr, char const * message)
+{
+	reinterpret_cast<Image*>(png_get_error_ptr(png_ptr))->png_error (message);
+}
+
+void
+Image::png_error (char const * message)
+{
+	throw EncodeError (String::compose ("Error during PNG write: %1", message));
+}
+
 dcp::Data
 Image::as_png () const
 {
-	/* XXX */
-	return dcp::Data();
+	DCPOMATIC_ASSERT (bytes_per_pixel(0) == 4);
+	DCPOMATIC_ASSERT (planes() == 1);
+	DCPOMATIC_ASSERT (pixel_format() == AV_PIX_FMT_BGRA);
+
+	/* error handling? */
+	png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, reinterpret_cast<void*>(const_cast<Image*>(this)), png_error_fn, 0);
+	if (!png_ptr) {
+		throw EncodeError (N_("could not create PNG write struct"));
+	}
+
+	Memory state;
+
+	png_set_write_fn (png_ptr, &state, png_write_data, png_flush);
+
+	png_infop info_ptr = png_create_info_struct(png_ptr);
+	if (!info_ptr) {
+		png_destroy_write_struct (&png_ptr, &info_ptr);
+		throw EncodeError (N_("could not create PNG info struct"));
+	}
+
+	png_set_IHDR (png_ptr, info_ptr, size().width, size().height, 8, PNG_COLOR_TYPE_RGBA, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+
+	png_byte ** row_pointers = reinterpret_cast<png_byte **>(png_malloc(png_ptr, size().height * sizeof(png_byte *)));
+	for (int i = 0; i < size().height; ++i) {
+		row_pointers[i] = (png_byte *) (data()[0] + i * stride()[0]);
+	}
+
+	png_write_info (png_ptr, info_ptr);
+	png_write_image (png_ptr, row_pointers);
+	png_write_end (png_ptr, info_ptr);
+
+	png_destroy_write_struct (&png_ptr, &info_ptr);
+	png_free (png_ptr, row_pointers);
+
+	return dcp::Data (state.data, state.size);
 }
