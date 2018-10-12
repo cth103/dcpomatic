@@ -353,16 +353,17 @@ FilmViewer::paint_panel ()
 #endif
 
 	if (_out_size.width < _panel_size.width) {
-		wxPen p (_panel->GetParent()->GetBackgroundColour());
-		wxBrush b (_panel->GetParent()->GetBackgroundColour());
+		/* XXX: these colours are right for GNOME; may need adjusting for other OS */
+		wxPen p (wxColour (240, 240, 240));
+		wxBrush b (wxColour (240, 240, 240));
 		dc.SetPen (p);
 		dc.SetBrush (b);
 		dc.DrawRectangle (_out_size.width, 0, _panel_size.width - _out_size.width, _panel_size.height);
 	}
 
 	if (_out_size.height < _panel_size.height) {
-		wxPen p (_panel->GetParent()->GetBackgroundColour());
-		wxBrush b (_panel->GetParent()->GetBackgroundColour());
+		wxPen p (wxColour (240, 240, 240));
+		wxBrush b (wxColour (240, 240, 240));
 		dc.SetPen (p);
 		dc.SetBrush (b);
 		int const gap = (_panel_size.height - _out_size.height) / 2;
@@ -374,7 +375,7 @@ FilmViewer::paint_panel ()
 		wxPen p (wxColour (255, 0, 0), 2);
 		dc.SetPen (p);
 		dc.SetBrush (*wxTRANSPARENT_BRUSH);
-		dc.DrawRectangle (_inter_position.x, _inter_position.y, _inter_size.width, _inter_size.height);
+		dc.DrawRectangle (_inter_position.x, _inter_position.y + (_panel_size.height - _out_size.height) / 2, _inter_size.width, _inter_size.height);
 	}
 }
 
