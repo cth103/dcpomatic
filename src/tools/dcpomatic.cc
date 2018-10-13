@@ -480,7 +480,7 @@ private:
 				new_film (d->path(), d->template_name());
 			} catch (boost::filesystem::filesystem_error& e) {
 #ifdef DCPOMATIC_WINDOWS
-				string bad_chars = "<>:\"/\\|?*";
+				string bad_chars = "<>:\"/|?*";
 				string const filename = d->path().string();
 				string found_bad_chars;
 				for (size_t i = 0; i < bad_chars.length(); ++i) {
