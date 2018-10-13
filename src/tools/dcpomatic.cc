@@ -488,11 +488,12 @@ private:
 						found_bad_chars += bad_chars[i];
 					}
 				}
-				error_dialog (
-					this,
-					String::compose(_("Could not create folder to store film.  Try removing the %1 characters from your folder name.", found_bad_chars)),
-					std_to_wx(e.what())
-					);
+				wxString message = _("Could not create folder to store film.");
+				if (!found_bad_chars.empty()) {
+					message += "  ";
+					message += wxString::Format (_("Try removing the %s characters from your folder name.", std_to_wx(found_bad_chars).data()));
+				}
+				error_dialog (this, message, std_to_wx(e.what()));
 #else
 				error_dialog (this, _("Could not create folder to store film."), std_to_wx(e.what()));
 #endif
