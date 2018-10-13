@@ -491,7 +491,7 @@ private:
 				wxString message = _("Could not create folder to store film.");
 				if (!found_bad_chars.empty()) {
 					message += "  ";
-					message += wxString::Format (_("Try removing the %s characters from your folder name.", std_to_wx(found_bad_chars).data()));
+					message += wxString::Format (_("Try removing the %s characters from your folder name."), std_to_wx(found_bad_chars).data());
 				}
 				error_dialog (this, message, std_to_wx(e.what()));
 #else
