@@ -408,6 +408,7 @@ void
 Film::write_metadata () const
 {
 	DCPOMATIC_ASSERT (directory());
+	throw DecodeError("can't do that");
 	boost::filesystem::create_directories (directory().get());
 	shared_ptr<xmlpp::Document> doc = metadata ();
 	doc->write_to_file_formatted (file(metadata_file).string ());

@@ -91,6 +91,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/foreach.hpp>
+#include <boost/algorithm/string.hpp>
 #include <iostream>
 #include <fstream>
 /* This is OK as it's only used with DCPOMATIC_WINDOWS */
@@ -114,6 +115,8 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 using boost::function;
+using boost::is_any_of;
+using boost::algorithm::find;
 using dcp::raw_convert;
 
 class FilmChangedClosingDialog : public boost::noncopyable
@@ -476,7 +479,23 @@ private:
 			try {
 				new_film (d->path(), d->template_name());
 			} catch (boost::filesystem::filesystem_error& e) {
-				error_dialog (this, _("Could not create folder to store film"), std_to_wx(e.what()));
+#ifdef DCPOMATIC_WINDOWS
+				string bad_chars = "<>:\"/\\|?*";
+				string const filename = d->path().string();
+				string found_bad_chars;
+				for (size_t i = 0; i < bad_chars.length(); ++i) {
+					if (filename.find(bad_chars[i]) != string::npos && found_bad_chars.find(bad_chars[i]) == string::npos) {
+						found_bad_chars += bad_chars[i];
+					}
+				}
+				error_dialog (
+					this,
+					String::compose(_("Could not create folder to store film.  Try removing the %1 characters from your folder name.", found_bad_chars)),
+					std_to_wx(e.what())
+					);
+#else
+				error_dialog (this, _("Could not create folder to store film."), std_to_wx(e.what()));
+#endif
 			}
 		}
 
