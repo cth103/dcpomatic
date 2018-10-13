@@ -559,7 +559,21 @@ DCPContent::can_reference_video (string& why_not) const
 		return false;
 	}
 
-	if (film()->frame_size() != video->size()) {
+	Resolution video_res = RESOLUTION_2K;
+	if (video->size().width > 2048 || video->size().height > 1080) {
+		video_res = RESOLUTION_4K;
+	}
+
+	if (film()->resolution() != video_res) {
+		if (video_res == RESOLUTION_4K) {
+			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+			why_not = _("it is 4K and the film is 2K.");
+		} else {
+			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+			why_not = _("it is 2K and the film is 4K.");
+		}
+		return false;
+	} else if (film()->frame_size() != video->size()) {
 		/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
 		why_not = _("its video frame size differs from the film's.");
 		return false;
