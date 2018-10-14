@@ -122,7 +122,7 @@ get_from_zip_url (string url, string file, bool pasv, function<void (boost::file
 	zip_error_t error;
 	zip_t* zip = zip_open_from_source (zip_source, ZIP_RDONLY, &error);
 	if (!zip) {
-		return String::compose (_("Could not open downloaded ZIP file (%1: 2)"), error.sys_err, error.str ? error.str : "");
+		return String::compose (_("Could not open downloaded ZIP file (%1: %2)"), error.sys_err, error.str ? error.str : "");
 	}
 
 #else
