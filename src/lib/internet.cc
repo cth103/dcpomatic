@@ -34,6 +34,7 @@
 
 using std::string;
 using std::list;
+using std::cout;
 using boost::optional;
 using boost::function;
 using boost::algorithm::trim;
@@ -52,7 +53,7 @@ get_from_url (string url, bool pasv, ScopedTemporary& temp)
 	CURL* curl = curl_easy_init ();
 	curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
 
-	FILE* f = temp.open ("w");
+	FILE* f = temp.open ("wb");
 	curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, get_from_url_data);
 	curl_easy_setopt (curl, CURLOPT_WRITEDATA, f);
 	curl_easy_setopt (curl, CURLOPT_FTP_USE_EPSV, 0);
@@ -120,9 +121,10 @@ get_from_zip_url (string url, string file, bool pasv, function<void (boost::file
 	}
 
 	zip_error_t error;
+	zip_error_init (&error);
 	zip_t* zip = zip_open_from_source (zip_source, ZIP_RDONLY, &error);
 	if (!zip) {
-		return String::compose (_("Could not open downloaded ZIP file (%1: %2)"), error.sys_err, error.str ? error.str : "");
+		return String::compose (_("Could not open downloaded ZIP file (%1:%2: %3)"), error.zip_err, error.sys_err, error.str ? error.str : "");
 	}
 
 #else
