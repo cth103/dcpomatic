@@ -119,9 +119,10 @@ get_from_zip_url (string url, string file, bool pasv, function<void (boost::file
 		return optional<string> (_("Could not open downloaded ZIP file"));
 	}
 
-	zip_t* zip = zip_open_from_source (zip_source, 0, 0);
+	zip_error_t error;
+	zip_t* zip = zip_open_from_source (zip_source, ZIP_RDONLY, &error);
 	if (!zip) {
-		return optional<string> (_("Could not open downloaded ZIP file"));
+		return String::compose (_("Could not open downloaded ZIP file (%1)"), error.str ? error.str : "");
 	}
 
 #else
