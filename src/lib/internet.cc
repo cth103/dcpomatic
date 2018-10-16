@@ -34,7 +34,6 @@
 
 using std::string;
 using std::list;
-using std::cout;
 using boost::optional;
 using boost::function;
 using boost::algorithm::trim;
