@@ -130,7 +130,9 @@ error_dialog (wxWindow* parent, wxString m, optional<wxString> e)
 {
 	wxMessageDialog* d = new wxMessageDialog (parent, m, _("DCP-o-matic"), wxOK | wxICON_ERROR);
 	if (e) {
-		d->SetExtendedMessage (*e);
+		wxString em = *e;
+		em[0] = wxToupper (em[0]);
+		d->SetExtendedMessage (em);
 	}
 	d->ShowModal ();
 	d->Destroy ();
