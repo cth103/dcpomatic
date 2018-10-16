@@ -228,18 +228,24 @@ DCPDecoder::pass_texts (ContentTime next, shared_ptr<dcp::SubtitleAsset> asset, 
 			true
 			);
 
+		list<dcp::SubtitleString> strings;
+
 		BOOST_FOREACH (shared_ptr<dcp::Subtitle> i, subs) {
 			shared_ptr<dcp::SubtitleString> is = dynamic_pointer_cast<dcp::SubtitleString> (i);
 			if (is) {
-				list<dcp::SubtitleString> s;
-				s.push_back (*is);
-				decoder->emit_plain (
-					ContentTimePeriod (
-						ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (i->in().as_seconds ()),
-						ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (i->out().as_seconds ())
-						),
-					s
-					);
+				if (!strings.empty() && (strings.back().in() != is->in() || strings.back().out() != is->out())) {
+					dcp::SubtitleString b = strings.back();
+					decoder->emit_plain (
+						ContentTimePeriod (
+							ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(b.in().as_seconds()),
+							ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(b.out().as_seconds())
+							),
+						strings
+						);
+					strings.clear ();
+				}
+
+				strings.push_back (*is);
 			}
 
 			shared_ptr<dcp::SubtitleImage> ii = dynamic_pointer_cast<dcp::SubtitleImage> (i);
@@ -283,6 +289,18 @@ DCPDecoder::pass_texts (ContentTime next, shared_ptr<dcp::SubtitleAsset> asset, 
 					image, rect
 					);
 			}
+		}
+
+		if (!strings.empty()) {
+			dcp::SubtitleString b = strings.back();
+			decoder->emit_plain (
+				ContentTimePeriod (
+					ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(b.in().as_seconds()),
+					ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(b.out().as_seconds())
+					),
+				strings
+				);
+			strings.clear ();
 		}
 	}
 }
