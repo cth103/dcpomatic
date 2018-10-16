@@ -52,6 +52,7 @@
 #include "lib/monitor_checker.h"
 #include <dcp/dcp.h>
 #include <dcp/raw_convert.h>
+#include <dcp/exceptions.h>
 #include <wx/wx.h>
 #include <wx/stdpaths.h>
 #include <wx/splash.h>
@@ -361,14 +362,18 @@ public:
 
 	void load_dcp (boost::filesystem::path dir)
 	{
-		dcp::DCP dcp (dir);
-		dcp.read ();
-		SPL spl;
-		BOOST_FOREACH (shared_ptr<dcp::CPL> j, dcp.cpls()) {
-			spl.playlist.push_back (SPLEntry(j, dir));
+		try {
+			dcp::DCP dcp (dir);
+			dcp.read ();
+			SPL spl;
+			BOOST_FOREACH (shared_ptr<dcp::CPL> j, dcp.cpls()) {
+				spl.playlist.push_back (SPLEntry(j, dir));
+			}
+			set_spl (spl);
+			Config::instance()->add_to_player_history (dir);
+		} catch (dcp::DCPReadError& e) {
+			error_dialog (this, wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())), std_to_wx(e.what()));
 		}
-		set_spl (spl);
-		Config::instance()->add_to_player_history (dir);
 	}
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
