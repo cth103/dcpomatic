@@ -515,7 +515,8 @@ CertificateChainEditor::export_certificate ()
 	}
 
 	wxFileDialog* d = new wxFileDialog (
-		this, _("Select Certificate File"), wxEmptyString, wxEmptyString, wxT ("PEM files (*.pem)|*.pem"), wxFD_SAVE
+		this, _("Select Certificate File"), wxEmptyString, wxEmptyString, wxT ("PEM files (*.pem)|*.pem"),
+		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
 	dcp::CertificateChain::List all = _get()->root_to_leaf ();
@@ -695,7 +696,8 @@ CertificateChainEditor::export_private_key ()
 	}
 
 	wxFileDialog* d = new wxFileDialog (
-		this, _("Select Key File"), wxEmptyString, wxEmptyString, wxT ("PEM files (*.pem)|*.pem"), wxFD_SAVE
+		this, _("Select Key File"), wxEmptyString, wxEmptyString, wxT ("PEM files (*.pem)|*.pem"),
+		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
 	if (d->ShowModal () == wxID_OK) {
@@ -792,7 +794,8 @@ void
 KeysPage::export_decryption_chain_and_key ()
 {
 	wxFileDialog* d = new wxFileDialog (
-		_panel, _("Select Export File"), wxEmptyString, wxEmptyString, wxT ("DOM files (*.dom)|*.dom"), wxFD_SAVE
+		_panel, _("Select Export File"), wxEmptyString, wxEmptyString, wxT ("DOM files (*.dom)|*.dom"),
+		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
 	if (d->ShowModal () == wxID_OK) {
@@ -871,7 +874,8 @@ void
 KeysPage::export_decryption_chain ()
 {
 	wxFileDialog* d = new wxFileDialog (
-		_panel, _("Select Chain File"), wxEmptyString, _("dcpomatic_kdm_decryption_chain.pem"), wxT ("PEM files (*.pem)|*.pem"), wxFD_SAVE
+		_panel, _("Select Chain File"), wxEmptyString, _("dcpomatic_kdm_decryption_chain.pem"), wxT ("PEM files (*.pem)|*.pem"),
+		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
 	if (d->ShowModal () == wxID_OK) {
@@ -894,7 +898,8 @@ void
 KeysPage::export_decryption_certificate ()
 {
 	wxFileDialog* d = new wxFileDialog (
-		_panel, _("Select Certificate File"), wxEmptyString, _("dcpomatic_kdm_decryption_cert.pem"), wxT ("PEM files (*.pem)|*.pem"), wxFD_SAVE
+		_panel, _("Select Certificate File"), wxEmptyString, _("dcpomatic_kdm_decryption_cert.pem"), wxT ("PEM files (*.pem)|*.pem"),
+		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
 	if (d->ShowModal () == wxID_OK) {

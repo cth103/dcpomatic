@@ -191,7 +191,8 @@ private:
 	void export_cinemas_file ()
 	{
 		wxFileDialog* d = new wxFileDialog (
-			_panel, _("Select Cinemas File"), wxEmptyString, wxEmptyString, wxT ("XML files (*.xml)|*.xml"), wxFD_SAVE
+			_panel, _("Select Cinemas File"), wxEmptyString, wxEmptyString, wxT ("XML files (*.xml)|*.xml"),
+			wxFD_SAVE | wxFD_OVERWRITE_PROMPT
                 );
 
 		if (d->ShowModal () == wxID_OK) {
