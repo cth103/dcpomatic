@@ -86,7 +86,6 @@ extern std::string string_client_data (wxClientData* o);
 extern wxString time_to_timecode (DCPTime t, double fps);
 extern void setup_audio_channels_choice (wxChoice* choice, int minimum);
 extern wxSplashScreen* maybe_show_splash ();
-extern boost::optional<boost::filesystem::path> path_from_file_dialog (wxFileDialog* dialog, std::string extension);
 extern double calculate_mark_interval (double start);
 
 extern void checked_set (FilePickerCtrl* widget, boost::filesystem::path value);

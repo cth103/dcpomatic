@@ -526,17 +526,15 @@ CertificateChainEditor::export_certificate ()
 	}
 
 	if (d->ShowModal () == wxID_OK) {
-		optional<boost::filesystem::path> path = path_from_file_dialog (d, "pem");
-		if (path) {
-			FILE* f = fopen_boost (*path, "w");
-			if (!f) {
-				throw OpenFileError (*path, errno, false);
-			}
-
-			string const s = j->certificate (true);
-			fwrite (s.c_str(), 1, s.length(), f);
-			fclose (f);
+		boost::filesystem::path path (wx_to_std(d->GetPath()));
+		FILE* f = fopen_boost (path, "w");
+		if (!f) {
+			throw OpenFileError (path, errno, false);
 		}
+
+		string const s = j->certificate (true);
+		fwrite (s.c_str(), 1, s.length(), f);
+		fclose (f);
 	}
 	d->Destroy ();
 }
@@ -701,17 +699,15 @@ CertificateChainEditor::export_private_key ()
 		);
 
 	if (d->ShowModal () == wxID_OK) {
-		optional<boost::filesystem::path> path = path_from_file_dialog (d, "pem");
-		if (path) {
-			FILE* f = fopen_boost (*path, "w");
-			if (!f) {
-				throw OpenFileError (*path, errno, false);
-			}
-
-			string const s = _get()->key().get ();
-			fwrite (s.c_str(), 1, s.length(), f);
-			fclose (f);
+		boost::filesystem::path path (wx_to_std(d->GetPath()));
+		FILE* f = fopen_boost (path, "w");
+		if (!f) {
+			throw OpenFileError (path, errno, false);
 		}
+
+		string const s = _get()->key().get ();
+		fwrite (s.c_str(), 1, s.length(), f);
+		fclose (f);
 	}
 	d->Destroy ();
 }
@@ -799,20 +795,18 @@ KeysPage::export_decryption_chain_and_key ()
 		);
 
 	if (d->ShowModal () == wxID_OK) {
-		optional<boost::filesystem::path> path = path_from_file_dialog (d, "dom");
-		if (path) {
-			FILE* f = fopen_boost (*path, "w");
-			if (!f) {
-				throw OpenFileError (wx_to_std (d->GetPath ()), errno, false);
-			}
-
-			string const chain = Config::instance()->decryption_chain()->chain();
-			fwrite (chain.c_str(), 1, chain.length(), f);
-			optional<string> const key = Config::instance()->decryption_chain()->key();
-			DCPOMATIC_ASSERT (key);
-			fwrite (key->c_str(), 1, key->length(), f);
-			fclose (f);
+		boost::filesystem::path path (wx_to_std(d->GetPath()));
+		FILE* f = fopen_boost (path, "w");
+		if (!f) {
+			throw OpenFileError (path, errno, false);
 		}
+
+		string const chain = Config::instance()->decryption_chain()->chain();
+		fwrite (chain.c_str(), 1, chain.length(), f);
+		optional<string> const key = Config::instance()->decryption_chain()->key();
+		DCPOMATIC_ASSERT (key);
+		fwrite (key->c_str(), 1, key->length(), f);
+		fclose (f);
 	}
 	d->Destroy ();
 
@@ -879,17 +873,15 @@ KeysPage::export_decryption_chain ()
 		);
 
 	if (d->ShowModal () == wxID_OK) {
-		optional<boost::filesystem::path> path = path_from_file_dialog (d, "pem");
-		if (path) {
-			FILE* f = fopen_boost (*path, "w");
-			if (!f) {
-				throw OpenFileError (*path, errno, false);
-			}
-
-			string const s = Config::instance()->decryption_chain()->chain();
-			fwrite (s.c_str(), 1, s.length(), f);
-			fclose (f);
+		boost::filesystem::path path (wx_to_std(d->GetPath()));
+		FILE* f = fopen_boost (path, "w");
+		if (!f) {
+			throw OpenFileError (path, errno, false);
 		}
+
+		string const s = Config::instance()->decryption_chain()->chain();
+		fwrite (s.c_str(), 1, s.length(), f);
+		fclose (f);
 	}
 	d->Destroy ();
 }
@@ -903,17 +895,15 @@ KeysPage::export_decryption_certificate ()
 		);
 
 	if (d->ShowModal () == wxID_OK) {
-		optional<boost::filesystem::path> path = path_from_file_dialog (d, "pem");
-		if (path) {
-			FILE* f = fopen_boost (*path, "w");
-			if (!f) {
-				throw OpenFileError (*path, errno, false);
-			}
-
-			string const s = Config::instance()->decryption_chain()->leaf().certificate (true);
-			fwrite (s.c_str(), 1, s.length(), f);
-			fclose (f);
+		boost::filesystem::path path (wx_to_std(d->GetPath()));
+		FILE* f = fopen_boost (path, "w");
+		if (!f) {
+			throw OpenFileError (path, errno, false);
 		}
+
+		string const s = Config::instance()->decryption_chain()->leaf().certificate (true);
+		fwrite (s.c_str(), 1, s.length(), f);
+		fclose (f);
 	}
 
 	d->Destroy ();

@@ -463,17 +463,6 @@ maybe_show_splash ()
 	return splash;
 }
 
-optional<boost::filesystem::path>
-path_from_file_dialog (wxFileDialog* dialog, string extension)
-{
-	boost::filesystem::path p(wx_to_std(dialog->GetPath()));
-	p.replace_extension(extension);
-	if (boost::filesystem::is_regular_file(p) && !confirm_dialog(dialog, wxString::Format(_("A file named %s already exists.  Do you want to replace it?"), std_to_wx(p.filename().string())))) {
-		return optional<boost::filesystem::path>();
-	}
-	return p;
-}
-
 double
 calculate_mark_interval (double mark_interval)
 {
