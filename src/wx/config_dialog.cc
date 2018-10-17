@@ -865,7 +865,7 @@ void
 KeysPage::export_decryption_chain ()
 {
 	wxFileDialog* d = new wxFileDialog (
-		_panel, _("Select Chain File"), wxEmptyString, wxEmptyString, wxT ("PEM files (*.pem)|*.pem"),
+		_panel, _("Select Chain File"), wxEmptyString, _("dcpomatic_kdm_decryption_chain.pem"), wxT ("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
@@ -886,7 +886,7 @@ void
 KeysPage::export_decryption_certificate ()
 {
 	wxFileDialog* d = new wxFileDialog (
-		_panel, _("Select Certificate File"), wxEmptyString, wxEmptyString, wxT ("PEM files (*.pem)|*.pem"),
+		_panel, _("Select Certificate File"), wxEmptyString, _("dcpomatic_kdm_decryption_cert.pem"), wxT ("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
