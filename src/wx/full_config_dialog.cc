@@ -196,7 +196,10 @@ private:
                 );
 
 		if (d->ShowModal () == wxID_OK) {
-			boost::filesystem::copy_file (Config::instance()->cinemas_file(), path_from_file_dialog (d, "xml"));
+			optional<boost::filesystem::path> path = path_from_file_dialog (d, "xml");
+			if (path) {
+				boost::filesystem::copy_file (Config::instance()->cinemas_file(), *path);
+			}
 		}
 		d->Destroy ();
 	}
