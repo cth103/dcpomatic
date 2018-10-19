@@ -77,7 +77,7 @@ public:
 		SOUND,
 		SOUND_OUTPUT,
 		INTERFACE_COMPLEXITY,
-		PLAYER_DCP_DIRECTORY,
+		PLAYER_CONTENT_DIRECTORY,
 		HISTORY,
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		PLAYER_BACKGROUND_IMAGE,
@@ -487,8 +487,8 @@ public:
 		return _player_log_file;
 	}
 
-	boost::optional<boost::filesystem::path> player_dcp_directory () const {
-		return _player_dcp_directory;
+	boost::optional<boost::filesystem::path> player_content_directory () const {
+		return _player_content_directory;
 	}
 
 	boost::optional<boost::filesystem::path> player_kdm_directory () const {
@@ -947,16 +947,16 @@ public:
 		changed ();
 	}
 
-	void set_player_dcp_directory (boost::filesystem::path p) {
-		maybe_set (_player_dcp_directory, p, PLAYER_DCP_DIRECTORY);
+	void set_player_content_directory (boost::filesystem::path p) {
+		maybe_set (_player_content_directory, p, PLAYER_CONTENT_DIRECTORY);
 	}
 
-	void unset_player_dcp_directory () {
-		if (!_player_dcp_directory) {
+	void unset_player_content_directory () {
+		if (!_player_content_directory) {
 			return;
 		}
-		_player_dcp_directory = boost::none;
-		changed (PLAYER_DCP_DIRECTORY);
+		_player_content_directory = boost::none;
+		changed (PLAYER_CONTENT_DIRECTORY);
 	}
 
 	void set_player_kdm_directory (boost::filesystem::path p) {
@@ -1200,7 +1200,7 @@ private:
 	    in the dual-screen player mode.  DCPs on the list can be loaded
 	    for playback.
 	*/
-	boost::optional<boost::filesystem::path> _player_dcp_directory;
+	boost::optional<boost::filesystem::path> _player_content_directory;
 	boost::optional<boost::filesystem::path> _player_kdm_directory;
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	boost::optional<boost::filesystem::path> _player_background_image;

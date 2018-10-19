@@ -167,7 +167,7 @@ Config::set_defaults ()
 	_image_display = 0;
 	_respect_kdm_validity_periods = true;
 	_player_log_file = boost::none;
-	_player_dcp_directory = boost::none;
+	_player_content_directory = boost::none;
 	_player_kdm_directory = boost::none;
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	_player_background_image = boost::none;
@@ -515,7 +515,7 @@ try
 	_image_display = f.optional_number_child<int>("ImageDisplay").get_value_or(0);
 	_respect_kdm_validity_periods = f.optional_bool_child("RespectKDMValidityPeriods").get_value_or(true);
 	_player_log_file = f.optional_string_child("PlayerLogFile");
-	_player_dcp_directory = f.optional_string_child("PlayerDCPDirectory");
+	_player_content_directory = f.optional_string_child("PlayerContentDirectory");
 	_player_kdm_directory = f.optional_string_child("PlayerKDMDirectory");
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	_player_background_image = f.optional_string_child("PlayerBackgroundImage");
@@ -919,8 +919,8 @@ Config::write_config () const
 	if (_player_log_file) {
 		root->add_child("PlayerLogFile")->add_child_text(_player_log_file->string());
 	}
-	if (_player_dcp_directory) {
-		root->add_child("PlayerDCPDirectory")->add_child_text(_player_dcp_directory->string());
+	if (_player_content_directory) {
+		root->add_child("PlayerContentDirectory")->add_child_text(_player_content_directory->string());
 	}
 	if (_player_kdm_directory) {
 		root->add_child("PlayerKDMDirectory")->add_child_text(_player_kdm_directory->string());

@@ -229,9 +229,9 @@ private:
 		wxGridBagSizer* table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 
-		add_label_to_sizer (table, _panel, _("DCP directory"), true, wxGBPosition (r, 0));
-		_dcp_directory = new wxDirPickerCtrl (_panel, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
-		table->Add (_dcp_directory, wxGBPosition (r, 1));
+		add_label_to_sizer (table, _panel, _("Content directory"), true, wxGBPosition (r, 0));
+		_content_directory = new wxDirPickerCtrl (_panel, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
+		table->Add (_content_directory, wxGBPosition (r, 1));
 		++r;
 
 		add_label_to_sizer (table, _panel, _("KDM directory"), true, wxGBPosition (r, 0));
@@ -246,7 +246,7 @@ private:
 		++r;
 #endif
 
-		_dcp_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&LocationsPage::dcp_directory_changed, this));
+		_content_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&LocationsPage::content_directory_changed, this));
 		_kdm_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&LocationsPage::kdm_directory_changed, this));
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		_background_image->Bind (wxEVT_FILEPICKER_CHANGED, bind(&LocationsPage::background_image_changed, this));
@@ -257,8 +257,8 @@ private:
 	{
 		Config* config = Config::instance ();
 
-		if (config->player_dcp_directory()) {
-			checked_set (_dcp_directory, *config->player_dcp_directory());
+		if (config->player_content_directory()) {
+			checked_set (_content_directory, *config->player_content_directory());
 		}
 		if (config->player_kdm_directory()) {
 			checked_set (_kdm_directory, *config->player_kdm_directory());
@@ -270,9 +270,9 @@ private:
 #endif
 	}
 
-	void dcp_directory_changed ()
+	void content_directory_changed ()
 	{
-		Config::instance()->set_player_dcp_directory(wx_to_std(_dcp_directory->GetPath()));
+		Config::instance()->set_player_content_directory(wx_to_std(_content_directory->GetPath()));
 	}
 
 	void kdm_directory_changed ()
@@ -287,7 +287,7 @@ private:
 	}
 #endif
 
-	wxDirPickerCtrl* _dcp_directory;
+	wxDirPickerCtrl* _content_directory;
 	wxDirPickerCtrl* _kdm_directory;
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	FilePickerCtrl* _background_image;

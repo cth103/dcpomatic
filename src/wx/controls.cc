@@ -245,7 +245,7 @@ Controls::load_clicked ()
 void
 Controls::config_changed (int property)
 {
-	if (property == Config::PLAYER_DCP_DIRECTORY) {
+	if (property == Config::PLAYER_CONTENT_DIRECTORY) {
 		update_dcp_directory ();
 	} else {
 		setup_sensitivity ();
@@ -615,7 +615,7 @@ Controls::update_dcp_directory ()
 
 	_cpl->DeleteAllItems ();
 	_cpls.clear ();
-	optional<path> dir = Config::instance()->player_dcp_directory();
+	optional<path> dir = Config::instance()->player_content_directory();
 	if (!dir) {
 		return;
 	}
@@ -632,6 +632,8 @@ Controls::update_dcp_directory ()
 				}
 			}
 		} catch (boost::filesystem::filesystem_error& e) {
+			/* Never mind */
+		} catch (dcp::DCPReadError& e) {
 			/* Never mind */
 		}
 	}
