@@ -93,6 +93,11 @@ public:
 
 	void signal_subtitle_stream_changed ();
 
+	boost::optional<std::string> decryption_key () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _decryption_key;
+	}
+
 private:
 	void add_properties (std::list<UserProperty> &) const;
 
@@ -110,6 +115,7 @@ private:
 	boost::optional<AVColorTransferCharacteristic> _color_trc;
 	boost::optional<AVColorSpace> _colorspace;
 	boost::optional<int> _bits_per_pixel;
+	boost::optional<std::string> _decryption_key;
 };
 
 #endif

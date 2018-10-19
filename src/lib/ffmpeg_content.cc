@@ -125,7 +125,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 	_color_trc = get_optional_enum<AVColorTransferCharacteristic>(node, "ColorTransferCharacteristic");
 	_colorspace = get_optional_enum<AVColorSpace>(node, "Colorspace");
 	_bits_per_pixel = node->optional_number_child<int> ("BitsPerPixel");
-
+	_decryption_key = node->optional_string_child ("DecryptionKey");
 }
 
 FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
@@ -245,6 +245,9 @@ FFmpegContent::as_xml (xmlpp::Node* node, bool with_paths) const
 	}
 	if (_bits_per_pixel) {
 		node->add_child("BitsPerPixel")->add_child_text (raw_convert<string> (*_bits_per_pixel));
+	}
+	if (_decryption_key) {
+		node->add_child("DecryptionKey")->add_child_text (_decryption_key.get());
 	}
 }
 
