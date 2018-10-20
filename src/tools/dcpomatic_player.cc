@@ -500,13 +500,14 @@ public:
 				_film->set_three_d (true);
 			}
 
-			_viewer->set_film (_film);
-			_viewer->seek (DCPTime(), true);
-			_info->triggered_update ();
-
-			set_menu_sensitivity ();
 			_controls->log (wxString::Format(_("Load DCP %s"), i.directory.filename().string().c_str()));
 		}
+
+		_viewer->set_film (_film);
+		_viewer->seek (DCPTime(), true);
+		_info->triggered_update ();
+
+		set_menu_sensitivity ();
 
 		wxMenuItemList old = _cpl_menu->GetMenuItems();
 		for (wxMenuItemList::iterator i = old.begin(); i != old.end(); ++i) {
