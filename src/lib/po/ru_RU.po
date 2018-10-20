@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-03 10:11+0100\n"
+"POT-Creation-Date: 2018-10-20 21:26+0100\n"
 "PO-Revision-Date: 2018-08-20 18:46+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -68,7 +68,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " на %1"
 
-#: src/lib/config.cc:956
+#: src/lib/config.cc:1055
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -90,27 +90,27 @@ msgstr ""
 "Длительность: $LENGTH\n"
 "Размер: $SIZE\n"
 
-#: src/lib/config.cc:934
+#: src/lib/config.cc:1033
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
-#: src/lib/atmos_mxf_content.cc:78
+#: src/lib/atmos_mxf_content.cc:83
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
-#: src/lib/dcp_content.cc:241
+#: src/lib/dcp_content.cc:247
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
-#: src/lib/ffmpeg_content.cc:329
+#: src/lib/ffmpeg_content.cc:332
 msgid "%1 [audio]"
 msgstr "%1 [аудио]"
 
-#: src/lib/ffmpeg_content.cc:325
+#: src/lib/ffmpeg_content.cc:328
 msgid "%1 [movie]"
 msgstr "%1 [видео]"
 
-#: src/lib/ffmpeg_content.cc:327 src/lib/video_mxf_content.cc:90
+#: src/lib/ffmpeg_content.cc:330 src/lib/video_mxf_content.cc:96
 msgid "%1 [video]"
 msgstr "%1 [видео]"
 
@@ -183,7 +183,7 @@ msgstr ""
 "битрейтом. Хорошей идеей было бы снизить пропускную способность JPEG2000 до "
 "200Мбит/с; вряд ли это приведёт к заметным изменениям изображения."
 
-#: src/lib/ffmpeg_content.cc:587
+#: src/lib/ffmpeg_content.cc:590
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
 msgstr "ARIB STD-B67 ('Гибрид log-gamma')"
 
@@ -234,64 +234,64 @@ msgstr "Аудио будет ресэмплировано на %1Гц"
 msgid "Audio will not be resampled"
 msgstr "Аудио не будет ресэмплировано"
 
-#: src/lib/ffmpeg_content.cc:581
+#: src/lib/ffmpeg_content.cc:584
 msgid "BT1361 extended colour gamut"
 msgstr "BT1361 расширенная цветовая гамма"
 
-#: src/lib/ffmpeg_content.cc:549
+#: src/lib/ffmpeg_content.cc:552
 msgid "BT2020"
 msgstr "BT2020"
 
-#: src/lib/ffmpeg_content.cc:604
+#: src/lib/ffmpeg_content.cc:607
 msgid "BT2020 constant luminance"
 msgstr "BT2020 постоянная яркость"
 
-#: src/lib/ffmpeg_content.cc:583
+#: src/lib/ffmpeg_content.cc:586
 msgid "BT2020 for a 10-bit system"
 msgstr "BT2020 для 10-битной системы"
 
-#: src/lib/ffmpeg_content.cc:584
+#: src/lib/ffmpeg_content.cc:587
 msgid "BT2020 for a 12-bit system"
 msgstr "BT2020 для 12-битной системы"
 
-#: src/lib/ffmpeg_content.cc:603
+#: src/lib/ffmpeg_content.cc:606
 msgid "BT2020 non-constant luminance"
 msgstr "BT2020 непостоянная яркость"
 
-#: src/lib/ffmpeg_content.cc:608
+#: src/lib/ffmpeg_content.cc:611
 msgid "BT2100"
 msgstr "BT2100"
 
-#: src/lib/ffmpeg_content.cc:545
+#: src/lib/ffmpeg_content.cc:548
 msgid "BT470BG"
 msgstr "BT470BG"
 
-#: src/lib/ffmpeg_content.cc:599
+#: src/lib/ffmpeg_content.cc:602
 msgid "BT470BG (BT601-6)"
 msgstr "BT470BG (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:544
+#: src/lib/ffmpeg_content.cc:547
 msgid "BT470M"
 msgstr "BT470M"
 
-#: src/lib/ffmpeg_content.cc:541 src/lib/ffmpeg_content.cc:570
-#: src/lib/ffmpeg_content.cc:595
+#: src/lib/ffmpeg_content.cc:544 src/lib/ffmpeg_content.cc:573
+#: src/lib/ffmpeg_content.cc:598
 msgid "BT709"
 msgstr "BT709"
 
-#: src/lib/ffmpeg_content.cc:615
+#: src/lib/ffmpeg_content.cc:618
 msgid "Bits per pixel"
 msgstr "Бит на пиксель"
 
-#: src/lib/util.cc:556
+#: src/lib/util.cc:549
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:557
+#: src/lib/util.cc:550
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:548
+#: src/lib/util.cc:541
 msgid "C"
 msgstr "C"
 
@@ -307,11 +307,11 @@ msgstr "Не может содержать символ /"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Невозможно обработать формат пикселя %1 во время %2"
 
-#: src/lib/film.cc:1268
+#: src/lib/film.cc:1267
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Нельзя создать KDM т.к. этот проект не зашифрован."
 
-#: src/lib/util.cc:517
+#: src/lib/util.cc:510
 msgid "Centre"
 msgstr "Центральный"
 
@@ -331,11 +331,11 @@ msgstr "Проверка данных изображения"
 msgid "Choose 'Make DCP' again when you have done this."
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:607
+#: src/lib/ffmpeg_content.cc:610
 msgid "Chroma-derived constant luminance"
 msgstr "Хроматическая постоянная яркость"
 
-#: src/lib/ffmpeg_content.cc:606
+#: src/lib/ffmpeg_content.cc:609
 msgid "Chroma-derived non-constant luminance"
 msgstr "Хроматическая непостоянная яркость"
 
@@ -344,7 +344,7 @@ msgstr "Хроматическая непостоянная яркость"
 msgid "Closed captions"
 msgstr "Подавление шума"
 
-#: src/lib/ffmpeg_content.cc:566
+#: src/lib/ffmpeg_content.cc:569
 msgid "Colour primaries"
 msgstr "Основные цвета"
 
@@ -358,17 +358,17 @@ msgstr "Основные цвета"
 #. / file is limited, so that not all possible values are valid.
 #. / TRANSLATORS: this means that the range of pixel values used in this
 #. / file is full, so that all possible pixel values are valid.
-#: src/lib/ffmpeg_content.cc:498 src/lib/ffmpeg_content.cc:505
-#: src/lib/ffmpeg_content.cc:512 src/lib/ffmpeg_content.cc:522
-#: src/lib/ffmpeg_content.cc:527 src/lib/ffmpeg_content.cc:532
+#: src/lib/ffmpeg_content.cc:501 src/lib/ffmpeg_content.cc:508
+#: src/lib/ffmpeg_content.cc:515 src/lib/ffmpeg_content.cc:525
+#: src/lib/ffmpeg_content.cc:530 src/lib/ffmpeg_content.cc:535
 msgid "Colour range"
 msgstr "Цветовая гамма"
 
-#: src/lib/ffmpeg_content.cc:591
+#: src/lib/ffmpeg_content.cc:594
 msgid "Colour transfer characteristic"
 msgstr "Характеристика цветопередачи"
 
-#: src/lib/ffmpeg_content.cc:612
+#: src/lib/ffmpeg_content.cc:615
 msgid "Colourspace"
 msgstr "Цветовое пространство"
 
@@ -520,18 +520,9 @@ msgstr "Не удалось подключиться к серверу %1 (%2)"
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Не удалось создать удалённый каталог %1 (%2)"
 
-#: src/lib/image_examiner.cc:66
+#: src/lib/image_examiner.cc:62
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Не удалось декодировать JPEG2000-файл(ы) %1 (%2)"
-
-#: src/lib/magick_image_proxy.cc:106
-#, fuzzy
-msgid "Could not decode image file %1 (%2)"
-msgstr "Не удалось декодировать изображение (%1)"
-
-#: src/lib/magick_image_proxy.cc:108
-msgid "Could not decode image file (%1)"
-msgstr "Не удалось декодировать изображение (%1)"
 
 #: src/lib/encode_server_finder.cc:193
 msgid ""
@@ -549,8 +540,13 @@ msgstr "Не удалось открыть %1"
 msgid "Could not open %1 to send"
 msgstr "Не удалось открыть %1 для отправки"
 
-#: src/lib/internet.cc:115 src/lib/internet.cc:120 src/lib/internet.cc:125
+#: src/lib/internet.cc:114 src/lib/internet.cc:119
 msgid "Could not open downloaded ZIP file"
+msgstr "Не удалось открыть загруженный ZIP-архив"
+
+#: src/lib/internet.cc:126
+#, fuzzy
+msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Не удалось открыть загруженный ZIP-архив"
 
 #: src/lib/dcp_subtitle.cc:55
@@ -569,19 +565,19 @@ msgstr "Не удалось начать передачу"
 msgid "Could not write to remote file (%1)"
 msgstr "Не удалось записать в удаленный файл (%1)"
 
-#: src/lib/util.cc:527
+#: src/lib/util.cc:520
 msgid "D-BOX primary"
 msgstr "D-BOX основной (DBP)"
 
-#: src/lib/util.cc:528
+#: src/lib/util.cc:521
 msgid "D-BOX secondary"
 msgstr "D-BOX второстепенный (DBS)"
 
-#: src/lib/util.cc:558
+#: src/lib/util.cc:551
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:559
+#: src/lib/util.cc:552
 msgid "DBS"
 msgstr "DBS"
 
@@ -623,7 +619,7 @@ msgid ""
 msgstr ""
 "DCP-o-matic больше не поддерживает фильтр `%1', поэтому он был выключен."
 
-#: src/lib/config.cc:335 src/lib/config.cc:931
+#: src/lib/config.cc:358 src/lib/config.cc:1030
 msgid "DCP-o-matic notification"
 msgstr "Уведомление DCP-o-matic"
 
@@ -632,7 +628,7 @@ msgstr "Уведомление DCP-o-matic"
 msgid "De-interlacing"
 msgstr "Деинтерлейсинг"
 
-#: src/lib/config.cc:919
+#: src/lib/config.cc:1018
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -662,7 +658,7 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 и CP750"
 
-#: src/lib/internet.cc:73
+#: src/lib/internet.cc:72
 #, fuzzy
 msgid "Download failed (%1 error %2)"
 msgstr "Ошибка загрузки (%1/%2 ошибка %3)"
@@ -695,7 +691,7 @@ msgstr "Сообщить о проблеме"
 msgid "Email problem report for %1"
 msgstr "Ошибка отправки ключей %1 по E-mail"
 
-#: src/lib/dcp_encoder.cc:96 src/lib/ffmpeg_encoder.cc:202
+#: src/lib/dcp_encoder.cc:96 src/lib/ffmpeg_encoder.cc:119
 msgid "Encoding"
 msgstr "Кодирование"
 
@@ -715,7 +711,7 @@ msgstr "Проверка контента"
 msgid "Examining closed captions"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:598
+#: src/lib/ffmpeg_content.cc:601
 msgid "FCC"
 msgstr "FCC"
 
@@ -732,11 +728,11 @@ msgstr "Ошибка отправки email (%1)"
 msgid "Feature"
 msgstr "FTR (Фильм)"
 
-#: src/lib/content.cc:441
+#: src/lib/content.cc:445
 msgid "Filename"
 msgstr "Имя файла"
 
-#: src/lib/ffmpeg_content.cc:548
+#: src/lib/ffmpeg_content.cc:551
 msgid "Film"
 msgstr "Проект"
 
@@ -744,15 +740,15 @@ msgstr "Проект"
 msgid "Finding length"
 msgstr "Расчет длительности"
 
-#: src/lib/content.cc:448
+#: src/lib/content.cc:452
 msgid "Frame rate"
 msgstr "Частота кадров"
 
-#: src/lib/ffmpeg_content.cc:532
+#: src/lib/ffmpeg_content.cc:535
 msgid "Full"
 msgstr "Полный"
 
-#: src/lib/ffmpeg_content.cc:512
+#: src/lib/ffmpeg_content.cc:515
 msgid "Full (0-%1)"
 msgstr "Полный (0-%1)"
 
@@ -776,11 +772,11 @@ msgstr "Полная длина видео-кадров на скорости DC
 msgid "Full length in video frames at content rate"
 msgstr "Полная длина видео-кадров на скорости контента"
 
-#: src/lib/ffmpeg_content.cc:573
+#: src/lib/ffmpeg_content.cc:576
 msgid "Gamma 22 (BT470M)"
 msgstr "Гамма 22 (BT470M)"
 
-#: src/lib/ffmpeg_content.cc:574
+#: src/lib/ffmpeg_content.cc:577
 msgid "Gamma 28 (BT470BG)"
 msgstr "Гамма 28 (BT470BG)"
 
@@ -788,11 +784,11 @@ msgstr "Гамма 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Разбиение градиента"
 
-#: src/lib/util.cc:552
+#: src/lib/util.cc:545
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:521
+#: src/lib/util.cc:514
 msgid "Hearing impaired"
 msgstr "Для слабослышащих"
 
@@ -824,11 +820,11 @@ msgstr ""
 msgid "Hz"
 msgstr "Гц"
 
-#: src/lib/ffmpeg_content.cc:582
+#: src/lib/ffmpeg_content.cc:585
 msgid "IEC61966-2-1 (sRGB or sYCC)"
 msgstr "IEC61966-2-1 (sRGB или sYCC)"
 
-#: src/lib/ffmpeg_content.cc:580
+#: src/lib/ffmpeg_content.cc:583
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
@@ -836,11 +832,11 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Неизвестно, что вызвало эту ошибку."
 
-#: src/lib/ffmpeg_content.cc:562
+#: src/lib/ffmpeg_content.cc:565
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:325 src/lib/config.cc:916
+#: src/lib/config.cc:348 src/lib/config.cc:1015
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Назначение KDM: $CPL_NAME"
 
@@ -856,27 +852,27 @@ msgstr ""
 msgid "Kernel deinterlacer"
 msgstr "Деинтерлейсинг ядром"
 
-#: src/lib/util.cc:546
+#: src/lib/util.cc:539
 msgid "L"
 msgstr "L"
 
-#: src/lib/util.cc:554
+#: src/lib/util.cc:547
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:515
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:508
 msgid "Left"
 msgstr "Левый"
 
-#: src/lib/util.cc:523
+#: src/lib/util.cc:516
 msgid "Left centre"
 msgstr "Левый центральный"
 
-#: src/lib/util.cc:525
+#: src/lib/util.cc:518
 msgid "Left rear surround"
 msgstr "Левый тыловой surround"
 
-#: src/lib/util.cc:519
+#: src/lib/util.cc:512
 msgid "Left surround"
 msgstr "Левый surround"
 
@@ -884,35 +880,35 @@ msgstr "Левый surround"
 msgid "Length"
 msgstr "Длительность"
 
-#: src/lib/util.cc:549
+#: src/lib/util.cc:542
 msgid "Lfe"
 msgstr "LFE"
 
-#: src/lib/util.cc:518
+#: src/lib/util.cc:511
 msgid "Lfe (sub)"
 msgstr "НЧ (sub)"
 
-#: src/lib/ffmpeg_content.cc:527
+#: src/lib/ffmpeg_content.cc:530
 msgid "Limited"
 msgstr "Ограничен"
 
-#: src/lib/ffmpeg_content.cc:505
+#: src/lib/ffmpeg_content.cc:508
 msgid "Limited (%1-%2)"
 msgstr "Ограничен (%1-%2)"
 
-#: src/lib/ffmpeg_content.cc:577
+#: src/lib/ffmpeg_content.cc:580
 msgid "Linear"
 msgstr "Линейный"
 
-#: src/lib/ffmpeg_content.cc:578
+#: src/lib/ffmpeg_content.cc:581
 msgid "Logarithmic (100:1 range)"
 msgstr "Логарифмический (диапазон 100:1)"
 
-#: src/lib/ffmpeg_content.cc:579
+#: src/lib/ffmpeg_content.cc:582
 msgid "Logarithmic (316:1 range)"
 msgstr "Логарифмический (диапазон 316:1)"
 
-#: src/lib/util.cc:550
+#: src/lib/util.cc:543
 msgid "Ls"
 msgstr "Ls"
 
@@ -924,19 +920,19 @@ msgstr "Mid-side декодер"
 msgid "Misc"
 msgstr "Разное"
 
-#: src/lib/dcp_examiner.cc:153
+#: src/lib/dcp_examiner.cc:154
 msgid "Mismatched audio channel counts in DCP"
 msgstr "Несоответствие количества аудиоканалов в DCP"
 
-#: src/lib/dcp_examiner.cc:159
+#: src/lib/dcp_examiner.cc:160
 msgid "Mismatched audio sample rates in DCP"
 msgstr "Несоответствие частоты дискретизации аудио в DCP"
 
-#: src/lib/dcp_examiner.cc:126
+#: src/lib/dcp_examiner.cc:127
 msgid "Mismatched frame rates in DCP"
 msgstr "Несоответствие частоты кадров в DCP"
 
-#: src/lib/dcp_examiner.cc:134
+#: src/lib/dcp_examiner.cc:135
 msgid "Mismatched video sizes in DCP"
 msgstr "Несоответствие размера видео в DCP"
 
@@ -952,7 +948,7 @@ msgstr "Моно"
 msgid "Motion compensating deinterlacer"
 msgstr "Диентерлейсер компенсации движения"
 
-#: src/lib/dcp_decoder.cc:75
+#: src/lib/dcp_decoder.cc:76
 msgid "No CPLs found in DCP."
 msgstr "В DCP не обнаружены CPL-файлы."
 
@@ -1014,11 +1010,17 @@ msgstr "Сверхполный подавитель шума небольшой 
 msgid "P3"
 msgstr "P3"
 
+#: src/lib/util.h:56
+msgid ""
+"Please report this problem by using Help -> Report a problem or via email to "
+"carl@dcpomatic.com"
+msgstr ""
+
 #: src/lib/dcp_content_type.cc:53
 msgid "Policy"
 msgstr "POL (Стратегический)"
 
-#: src/lib/content.cc:457
+#: src/lib/content.cc:461
 msgid "Prepared for video frame rate"
 msgstr "Подготовлено для частоты кадров видео"
 
@@ -1030,11 +1032,11 @@ msgstr "Ошибка программирования %1:%2 %3"
 msgid "Public Service Announcement"
 msgstr "PSA (Социальная реклама)"
 
-#: src/lib/util.cc:547
+#: src/lib/util.cc:540
 msgid "R"
 msgstr "R"
 
-#: src/lib/ffmpeg_content.cc:594
+#: src/lib/ffmpeg_content.cc:597
 msgid "RGB / sRGB (IEC61966-2-1)"
 msgstr "RGB / sRGB (IEC61966-2-1)"
 
@@ -1042,7 +1044,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "RTG (Рейтинг)"
 
-#: src/lib/util.cc:555
+#: src/lib/util.cc:548
 msgid "Rc"
 msgstr "Rc"
 
@@ -1062,19 +1064,19 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:516
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:509
 msgid "Right"
 msgstr "Правый"
 
-#: src/lib/util.cc:524
+#: src/lib/util.cc:517
 msgid "Right centre"
 msgstr "Правый центральный"
 
-#: src/lib/util.cc:526
+#: src/lib/util.cc:519
 msgid "Right rear surround"
 msgstr "Правый тыловой surround"
 
-#: src/lib/util.cc:520
+#: src/lib/util.cc:513
 msgid "Right surround"
 msgstr "Правый surround"
 
@@ -1086,7 +1088,7 @@ msgstr "Повернуть на 90º против часовой стрелки"
 msgid "Rotate 90 degrees clockwise"
 msgstr "Повернуть на 90º по часовой стрелке"
 
-#: src/lib/util.cc:551
+#: src/lib/util.cc:544
 msgid "Rs"
 msgstr "Rs"
 
@@ -1094,40 +1096,40 @@ msgstr "Rs"
 msgid "S-Gamut3/S-Log3"
 msgstr "S-Gamut3/S-Log3"
 
-#: src/lib/ffmpeg_content.cc:546 src/lib/ffmpeg_content.cc:575
+#: src/lib/ffmpeg_content.cc:549 src/lib/ffmpeg_content.cc:578
 msgid "SMPTE 170M (BT601)"
 msgstr "SMPTE 170M (BT601)"
 
-#: src/lib/ffmpeg_content.cc:600
+#: src/lib/ffmpeg_content.cc:603
 msgid "SMPTE 170M (BT601-6)"
 msgstr "SMPTE 170M (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:605
+#: src/lib/ffmpeg_content.cc:608
 msgid "SMPTE 2085, Y'D'zD'x"
 msgstr "SMPTE 2085, Y'D'zD'x"
 
-#: src/lib/ffmpeg_content.cc:547 src/lib/ffmpeg_content.cc:576
-#: src/lib/ffmpeg_content.cc:601
+#: src/lib/ffmpeg_content.cc:550 src/lib/ffmpeg_content.cc:579
+#: src/lib/ffmpeg_content.cc:604
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/ffmpeg_content.cc:585
+#: src/lib/ffmpeg_content.cc:588
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
 msgstr "SMPTE ST 2084 для 10, 12, 14 и 16-битных систем"
 
-#: src/lib/ffmpeg_content.cc:586
+#: src/lib/ffmpeg_content.cc:589
 msgid "SMPTE ST 428-1"
 msgstr "SMPTE ST 428-1"
 
-#: src/lib/ffmpeg_content.cc:550
+#: src/lib/ffmpeg_content.cc:553
 msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
 msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
-#: src/lib/ffmpeg_content.cc:551
+#: src/lib/ffmpeg_content.cc:554
 msgid "SMPTE ST 431-2 (2011)"
 msgstr "SMPTE ST 431-2 (2011)"
 
-#: src/lib/ffmpeg_content.cc:552
+#: src/lib/ffmpeg_content.cc:555
 msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr "SMPTE ST 432-1 D65 (2010)"
 
@@ -1256,7 +1258,7 @@ msgstr ""
 "вашему контенту, при условии, что ваши целевая проекционная система "
 "поддерживает выбранную вами скорость DCP."
 
-#: src/lib/dcp_content.cc:549
+#: src/lib/dcp_content.cc:558
 msgid "There is no video in this DCP"
 msgstr "В данном DCP нет видео"
 
@@ -1312,7 +1314,7 @@ msgstr "Транскодирование %1"
 msgid "Transitional"
 msgstr "XSN (Транзитный)"
 
-#: src/lib/internet.cc:134
+#: src/lib/internet.cc:135
 msgid "Unexpected ZIP file contents"
 msgstr "Неожиданное содержимое ZIP-файла"
 
@@ -1332,11 +1334,11 @@ msgstr "Нераспознанный формат аудио (%1)"
 msgid "Unsharp mask and Gaussian blur"
 msgstr "Маска понижения резкости и Гауссово размытие"
 
-#: src/lib/ffmpeg_content.cc:498 src/lib/ffmpeg_content.cc:522
-#: src/lib/ffmpeg_content.cc:540 src/lib/ffmpeg_content.cc:542
-#: src/lib/ffmpeg_content.cc:543 src/lib/ffmpeg_content.cc:569
-#: src/lib/ffmpeg_content.cc:571 src/lib/ffmpeg_content.cc:572
-#: src/lib/ffmpeg_content.cc:596 src/lib/ffmpeg_content.cc:597
+#: src/lib/ffmpeg_content.cc:501 src/lib/ffmpeg_content.cc:525
+#: src/lib/ffmpeg_content.cc:543 src/lib/ffmpeg_content.cc:545
+#: src/lib/ffmpeg_content.cc:546 src/lib/ffmpeg_content.cc:572
+#: src/lib/ffmpeg_content.cc:574 src/lib/ffmpeg_content.cc:575
+#: src/lib/ffmpeg_content.cc:599 src/lib/ffmpeg_content.cc:600
 msgid "Unspecified"
 msgstr "Не определено"
 
@@ -1344,7 +1346,7 @@ msgstr "Не определено"
 msgid "Untitled"
 msgstr "Безымянный"
 
-#: src/lib/util.cc:529 src/lib/util.cc:530
+#: src/lib/util.cc:522 src/lib/util.cc:523
 msgid "Unused"
 msgstr "Не используется"
 
@@ -1356,7 +1358,7 @@ msgstr "Преобразовать Л"
 msgid "Upmix R"
 msgstr "Преобразовать П"
 
-#: src/lib/util.cc:553
+#: src/lib/util.cc:546
 msgid "VI"
 msgstr "VI"
 
@@ -1368,7 +1370,7 @@ msgstr "Проверить DCP"
 msgid "Vertical flip"
 msgstr "Перевернуть по вертикали"
 
-#: src/lib/util.cc:522
+#: src/lib/util.cc:515
 msgid "Visually impaired"
 msgstr "Для слабовидящих"
 
@@ -1380,7 +1382,7 @@ msgstr "Ожидание"
 msgid "Weave filter"
 msgstr "Фильтр Weave"
 
-#: src/lib/ffmpeg_content.cc:602
+#: src/lib/ffmpeg_content.cc:605
 msgid "YCOCG"
 msgstr "YCOCG"
 
@@ -1480,7 +1482,7 @@ msgstr ""
 "Уровень вашего аудио слишком высок (на %1). Вам стоит понизить уровень "
 "громкости вашего аудио-контента."
 
-#: src/lib/config.cc:284
+#: src/lib/config.cc:307
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
@@ -1513,6 +1515,13 @@ msgstr "[статичный]"
 msgid "[subtitles]"
 msgstr "[субтитры]"
 
+#. / TRANSLATORS: _reel%1.%2 here is to be added to an export filename to indicate
+#. / which reel it is.  Preserve the %1 and %2; %1 will be replaced with the reel number
+#. / and %2 with the file extension.
+#: src/lib/ffmpeg_encoder.cc:66
+msgid "_reel%1%2"
+msgstr ""
+
 #: src/lib/dcpomatic_socket.cc:69
 msgid "connect timed out"
 msgstr "таймаут соединения"
@@ -1533,7 +1542,7 @@ msgstr "тип контента"
 msgid "copying %1"
 msgstr "копирование %1"
 
-#: src/lib/ffmpeg.cc:138
+#: src/lib/ffmpeg.cc:141 src/lib/ffmpeg_image_proxy.cc:139
 msgid "could not find stream information"
 msgstr "не удалось найти информацию о потоке"
 
@@ -1577,65 +1586,77 @@ msgstr "ошибка во время async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "ошибка во время async_write (%1)"
 
-#: src/lib/content.cc:450 src/lib/content.cc:459
+#: src/lib/content.cc:454 src/lib/content.cc:463
 msgid "frames per second"
 msgstr "кадра(ов) в секунду"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:180
+#: src/lib/util.cc:177
 msgid "h"
 msgstr "ч"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:626
+#: src/lib/dcp_content.cc:649
 #, fuzzy
 msgid "it does not have closed captions in all its reels."
 msgstr "во всех бобинах нет звука."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:621
+#: src/lib/dcp_content.cc:644
 #, fuzzy
 msgid "it does not have open subtitles in all its reels."
 msgstr "во всех бобинах нет субтитров."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:589
+#: src/lib/dcp_content.cc:612
 msgid "it does not have sound in all its reels."
 msgstr "во всех бобинах нет звука."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:502
+#: src/lib/dcp_content.cc:511
 msgid "it has a different frame rate to the film."
 msgstr "частота кадров проекта отличается от частоты кадров DCP."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:490
+#: src/lib/dcp_content.cc:573
+#, fuzzy
+msgid "it is 2K and the film is 4K."
+msgstr "является в Interop , а проект настроен как SMPTE."
+
+#. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
+#: src/lib/dcp_content.cc:570
+#, fuzzy
+msgid "it is 4K and the film is 2K."
+msgstr "является в Interop , а проект настроен как SMPTE."
+
+#. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
+#: src/lib/dcp_content.cc:499
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "является в Interop , а проект настроен как SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:494
+#: src/lib/dcp_content.cc:503
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "является SMPTE, а этот проект настроен как Interop."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:595
+#: src/lib/dcp_content.cc:618
 msgid "it overlaps other audio content; remove the other content."
 msgstr "перекрывает другой аудио-контент; уберите другой аудио-контент."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:632
+#: src/lib/dcp_content.cc:655
 #, fuzzy
 msgid "it overlaps other text content; remove the other content."
 msgstr "перекрывает другой видео-контент; уберите другой видео-контент."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:560
+#: src/lib/dcp_content.cc:583
 msgid "it overlaps other video content; remove the other content."
 msgstr "перекрывает другой видео-контент; уберите другой видео-контент."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:525
+#: src/lib/dcp_content.cc:534
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
@@ -1644,12 +1665,12 @@ msgstr ""
 "бобины \"Разделять по видео-контенту\"."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:555
+#: src/lib/dcp_content.cc:578
 msgid "its video frame size differs from the film's."
 msgstr "размер кадра видео в проекте отличается от размера видео DCP."
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:189
+#: src/lib/util.cc:186
 msgid "m"
 msgstr "м"
 
@@ -1662,7 +1683,7 @@ msgid "name"
 msgstr "название"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:199
+#: src/lib/util.cc:196
 msgid "s"
 msgstr "с"
 
@@ -1685,6 +1706,13 @@ msgstr "неизвестно"
 #: src/lib/video_content.cc:461
 msgid "video frames"
 msgstr "видеокадры"
+
+#, fuzzy
+#~ msgid "Could not decode image file %1 (%2)"
+#~ msgstr "Не удалось декодировать изображение (%1)"
+
+#~ msgid "Could not decode image file (%1)"
+#~ msgstr "Не удалось декодировать изображение (%1)"
 
 #~ msgid "it overlaps other subtitle content; remove the other content."
 #~ msgstr "перекрывает другие субтитры; уберите другие субтитры."

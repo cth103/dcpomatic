@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-03 10:11+0100\n"
+"POT-Creation-Date: 2018-10-20 21:26+0100\n"
 "PO-Revision-Date: 2017-10-04 21:45+0200\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -70,7 +70,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " på %1"
 
-#: src/lib/config.cc:956
+#: src/lib/config.cc:1055
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -92,27 +92,27 @@ msgstr ""
 "Længde: $LENGTH\n"
 "Størrelse: $SIZE\n"
 
-#: src/lib/config.cc:934
+#: src/lib/config.cc:1033
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr ""
 
-#: src/lib/atmos_mxf_content.cc:78
+#: src/lib/atmos_mxf_content.cc:83
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
-#: src/lib/dcp_content.cc:241
+#: src/lib/dcp_content.cc:247
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
-#: src/lib/ffmpeg_content.cc:329
+#: src/lib/ffmpeg_content.cc:332
 msgid "%1 [audio]"
 msgstr "%1 [lyd]"
 
-#: src/lib/ffmpeg_content.cc:325
+#: src/lib/ffmpeg_content.cc:328
 msgid "%1 [movie]"
 msgstr "%1 [film]"
 
-#: src/lib/ffmpeg_content.cc:327 src/lib/video_mxf_content.cc:90
+#: src/lib/ffmpeg_content.cc:330 src/lib/video_mxf_content.cc:96
 msgid "%1 [video]"
 msgstr "%1 [video]"
 
@@ -185,7 +185,7 @@ msgstr ""
 "bithastighed. Det vil være en god ide at sætte JPEG2000 båndbredden ned til "
 "ca. 200Mbit/s - det bør ikke have nogen synlig effekt på billedet."
 
-#: src/lib/ffmpeg_content.cc:587
+#: src/lib/ffmpeg_content.cc:590
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
 msgstr "ARIB STD-B67 ('Hybrid log-gamma')"
 
@@ -237,64 +237,64 @@ msgstr "Lyd resamples til %1Hz"
 msgid "Audio will not be resampled"
 msgstr "Lyd bliver ikke resamplet"
 
-#: src/lib/ffmpeg_content.cc:581
+#: src/lib/ffmpeg_content.cc:584
 msgid "BT1361 extended colour gamut"
 msgstr "BT1361 udvidet farveskala"
 
-#: src/lib/ffmpeg_content.cc:549
+#: src/lib/ffmpeg_content.cc:552
 msgid "BT2020"
 msgstr "BT2020"
 
-#: src/lib/ffmpeg_content.cc:604
+#: src/lib/ffmpeg_content.cc:607
 msgid "BT2020 constant luminance"
 msgstr "BT2020 konstant luminans"
 
-#: src/lib/ffmpeg_content.cc:583
+#: src/lib/ffmpeg_content.cc:586
 msgid "BT2020 for a 10-bit system"
 msgstr "BT2020 til 10 bit system"
 
-#: src/lib/ffmpeg_content.cc:584
+#: src/lib/ffmpeg_content.cc:587
 msgid "BT2020 for a 12-bit system"
 msgstr "BT2020 til 12 bit system"
 
-#: src/lib/ffmpeg_content.cc:603
+#: src/lib/ffmpeg_content.cc:606
 msgid "BT2020 non-constant luminance"
 msgstr "BT2020 variabel luminans"
 
-#: src/lib/ffmpeg_content.cc:608
+#: src/lib/ffmpeg_content.cc:611
 msgid "BT2100"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:545
+#: src/lib/ffmpeg_content.cc:548
 msgid "BT470BG"
 msgstr "BT470BG"
 
-#: src/lib/ffmpeg_content.cc:599
+#: src/lib/ffmpeg_content.cc:602
 msgid "BT470BG (BT601-6)"
 msgstr "BT470BG (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:544
+#: src/lib/ffmpeg_content.cc:547
 msgid "BT470M"
 msgstr "BT470M"
 
-#: src/lib/ffmpeg_content.cc:541 src/lib/ffmpeg_content.cc:570
-#: src/lib/ffmpeg_content.cc:595
+#: src/lib/ffmpeg_content.cc:544 src/lib/ffmpeg_content.cc:573
+#: src/lib/ffmpeg_content.cc:598
 msgid "BT709"
 msgstr "BT709"
 
-#: src/lib/ffmpeg_content.cc:615
+#: src/lib/ffmpeg_content.cc:618
 msgid "Bits per pixel"
 msgstr "Bits per pixel"
 
-#: src/lib/util.cc:556
+#: src/lib/util.cc:549
 msgid "BsL"
 msgstr "BsV"
 
-#: src/lib/util.cc:557
+#: src/lib/util.cc:550
 msgid "BsR"
 msgstr "BsH"
 
-#: src/lib/util.cc:548
+#: src/lib/util.cc:541
 msgid "C"
 msgstr "C"
 
@@ -311,11 +311,11 @@ msgstr "må ikke indeholde skråstreger"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kan ikke håndtere pixelformat %1 under %2"
 
-#: src/lib/film.cc:1268
+#: src/lib/film.cc:1267
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 
-#: src/lib/util.cc:517
+#: src/lib/util.cc:510
 msgid "Centre"
 msgstr "Center"
 
@@ -335,12 +335,12 @@ msgstr "Verificerer eksisterende billeddata"
 msgid "Choose 'Make DCP' again when you have done this."
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:607
+#: src/lib/ffmpeg_content.cc:610
 #, fuzzy
 msgid "Chroma-derived constant luminance"
 msgstr "BT2020 konstant luminans"
 
-#: src/lib/ffmpeg_content.cc:606
+#: src/lib/ffmpeg_content.cc:609
 #, fuzzy
 msgid "Chroma-derived non-constant luminance"
 msgstr "BT2020 variabel luminans"
@@ -350,7 +350,7 @@ msgstr "BT2020 variabel luminans"
 msgid "Closed captions"
 msgstr "Støjreduktion"
 
-#: src/lib/ffmpeg_content.cc:566
+#: src/lib/ffmpeg_content.cc:569
 msgid "Colour primaries"
 msgstr "Primærfarver"
 
@@ -364,17 +364,17 @@ msgstr "Primærfarver"
 #. / file is limited, so that not all possible values are valid.
 #. / TRANSLATORS: this means that the range of pixel values used in this
 #. / file is full, so that all possible pixel values are valid.
-#: src/lib/ffmpeg_content.cc:498 src/lib/ffmpeg_content.cc:505
-#: src/lib/ffmpeg_content.cc:512 src/lib/ffmpeg_content.cc:522
-#: src/lib/ffmpeg_content.cc:527 src/lib/ffmpeg_content.cc:532
+#: src/lib/ffmpeg_content.cc:501 src/lib/ffmpeg_content.cc:508
+#: src/lib/ffmpeg_content.cc:515 src/lib/ffmpeg_content.cc:525
+#: src/lib/ffmpeg_content.cc:530 src/lib/ffmpeg_content.cc:535
 msgid "Colour range"
 msgstr "Farveskala"
 
-#: src/lib/ffmpeg_content.cc:591
+#: src/lib/ffmpeg_content.cc:594
 msgid "Colour transfer characteristic"
 msgstr "Farveoverføringskarakteristik"
 
-#: src/lib/ffmpeg_content.cc:612
+#: src/lib/ffmpeg_content.cc:615
 msgid "Colourspace"
 msgstr "Farverum"
 
@@ -518,18 +518,9 @@ msgstr "Kunne ikke få forbindelse til server %1 (%2)"
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Kunne ikke danne fjernkatalog %1 (%2)"
 
-#: src/lib/image_examiner.cc:66
+#: src/lib/image_examiner.cc:62
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Kunne ikke læse JPEG2000 fil %1 (%2)"
-
-#: src/lib/magick_image_proxy.cc:106
-#, fuzzy
-msgid "Could not decode image file %1 (%2)"
-msgstr "Kunne ikke afkode billedfil (%1)"
-
-#: src/lib/magick_image_proxy.cc:108
-msgid "Could not decode image file (%1)"
-msgstr "Kunne ikke afkode billedfil (%1)"
 
 #: src/lib/encode_server_finder.cc:193
 msgid ""
@@ -547,8 +538,13 @@ msgstr "Kunne ikke åbne %1"
 msgid "Could not open %1 to send"
 msgstr "Kunne ikke åbne %1 til afsendelse"
 
-#: src/lib/internet.cc:115 src/lib/internet.cc:120 src/lib/internet.cc:125
+#: src/lib/internet.cc:114 src/lib/internet.cc:119
 msgid "Could not open downloaded ZIP file"
+msgstr "Kunne ikke åbne downloadet ZIP-fil"
+
+#: src/lib/internet.cc:126
+#, fuzzy
+msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Kunne ikke åbne downloadet ZIP-fil"
 
 #: src/lib/dcp_subtitle.cc:55
@@ -567,19 +563,19 @@ msgstr "Kunne ikke starte overførsel"
 msgid "Could not write to remote file (%1)"
 msgstr "Kunne ikke skrive til fjernfil. (%1)"
 
-#: src/lib/util.cc:527
+#: src/lib/util.cc:520
 msgid "D-BOX primary"
 msgstr "primær D-BOX"
 
-#: src/lib/util.cc:528
+#: src/lib/util.cc:521
 msgid "D-BOX secondary"
 msgstr "sekundær D-BOX"
 
-#: src/lib/util.cc:558
+#: src/lib/util.cc:551
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:559
+#: src/lib/util.cc:552
 msgid "DBS"
 msgstr "DBS"
 
@@ -623,7 +619,7 @@ msgstr ""
 "DCP-o-matic understøtter ikke længere `%1'-filteret, så det er blevet slået "
 "fra."
 
-#: src/lib/config.cc:335 src/lib/config.cc:931
+#: src/lib/config.cc:358 src/lib/config.cc:1030
 msgid "DCP-o-matic notification"
 msgstr ""
 
@@ -632,7 +628,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Sammenfletning (de-interlacing)"
 
-#: src/lib/config.cc:919
+#: src/lib/config.cc:1018
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -662,7 +658,7 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 og CP750"
 
-#: src/lib/internet.cc:73
+#: src/lib/internet.cc:72
 #, fuzzy
 msgid "Download failed (%1 error %2)"
 msgstr "Download fejlede (%1/%2 fejl %3)"
@@ -696,7 +692,7 @@ msgstr "Send problemrapport som mail"
 msgid "Email problem report for %1"
 msgstr "Send problemrapport som mail til %1"
 
-#: src/lib/dcp_encoder.cc:96 src/lib/ffmpeg_encoder.cc:202
+#: src/lib/dcp_encoder.cc:96 src/lib/ffmpeg_encoder.cc:119
 #, fuzzy
 msgid "Encoding"
 msgstr "Kodning"
@@ -717,7 +713,7 @@ msgstr "Undersøg indhold"
 msgid "Examining closed captions"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:598
+#: src/lib/ffmpeg_content.cc:601
 msgid "FCC"
 msgstr "FCC"
 
@@ -734,11 +730,11 @@ msgstr "Kunne ikke sende email (%1)"
 msgid "Feature"
 msgstr "Feature"
 
-#: src/lib/content.cc:441
+#: src/lib/content.cc:445
 msgid "Filename"
 msgstr "Filnavn"
 
-#: src/lib/ffmpeg_content.cc:548
+#: src/lib/ffmpeg_content.cc:551
 msgid "Film"
 msgstr "Film"
 
@@ -746,15 +742,15 @@ msgstr "Film"
 msgid "Finding length"
 msgstr "Beregner længde"
 
-#: src/lib/content.cc:448
+#: src/lib/content.cc:452
 msgid "Frame rate"
 msgstr "Billedhastighed"
 
-#: src/lib/ffmpeg_content.cc:532
+#: src/lib/ffmpeg_content.cc:535
 msgid "Full"
 msgstr "Fuld"
 
-#: src/lib/ffmpeg_content.cc:512
+#: src/lib/ffmpeg_content.cc:515
 msgid "Full (0-%1)"
 msgstr "Fuld (0-%1)"
 
@@ -778,11 +774,11 @@ msgstr ""
 msgid "Full length in video frames at content rate"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:573
+#: src/lib/ffmpeg_content.cc:576
 msgid "Gamma 22 (BT470M)"
 msgstr "Gamma 22 (BT470M)"
 
-#: src/lib/ffmpeg_content.cc:574
+#: src/lib/ffmpeg_content.cc:577
 msgid "Gamma 28 (BT470BG)"
 msgstr "Gamma 28 (BT470BG)"
 
@@ -790,11 +786,11 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr ""
 
-#: src/lib/util.cc:552
+#: src/lib/util.cc:545
 msgid "HI"
 msgstr "HH"
 
-#: src/lib/util.cc:521
+#: src/lib/util.cc:514
 msgid "Hearing impaired"
 msgstr "Hørehæmmede"
 
@@ -828,11 +824,11 @@ msgstr ""
 msgid "Hz"
 msgstr "Hz"
 
-#: src/lib/ffmpeg_content.cc:582
+#: src/lib/ffmpeg_content.cc:585
 msgid "IEC61966-2-1 (sRGB or sYCC)"
 msgstr "IEC61966-2-1 (sRGB eller sYCC)"
 
-#: src/lib/ffmpeg_content.cc:580
+#: src/lib/ffmpeg_content.cc:583
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
@@ -840,11 +836,11 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Det er uklart hvad der forårsagede denne fejl."
 
-#: src/lib/ffmpeg_content.cc:562
+#: src/lib/ffmpeg_content.cc:565
 msgid "JEDEC P22"
 msgstr ""
 
-#: src/lib/config.cc:325 src/lib/config.cc:916
+#: src/lib/config.cc:348 src/lib/config.cc:1015
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-levering: $CPL_NAME"
 
@@ -860,27 +856,27 @@ msgstr ""
 msgid "Kernel deinterlacer"
 msgstr "Kerne sammenfletter"
 
-#: src/lib/util.cc:546
+#: src/lib/util.cc:539
 msgid "L"
 msgstr "L"
 
-#: src/lib/util.cc:554
+#: src/lib/util.cc:547
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:515
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:508
 msgid "Left"
 msgstr "Venstre"
 
-#: src/lib/util.cc:523
+#: src/lib/util.cc:516
 msgid "Left centre"
 msgstr "Venstre center"
 
-#: src/lib/util.cc:525
+#: src/lib/util.cc:518
 msgid "Left rear surround"
 msgstr "Venstre bag surround"
 
-#: src/lib/util.cc:519
+#: src/lib/util.cc:512
 msgid "Left surround"
 msgstr "Venstre surround"
 
@@ -888,35 +884,35 @@ msgstr "Venstre surround"
 msgid "Length"
 msgstr "Længde"
 
-#: src/lib/util.cc:549
+#: src/lib/util.cc:542
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:518
+#: src/lib/util.cc:511
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
-#: src/lib/ffmpeg_content.cc:527
+#: src/lib/ffmpeg_content.cc:530
 msgid "Limited"
 msgstr "Begrænset"
 
-#: src/lib/ffmpeg_content.cc:505
+#: src/lib/ffmpeg_content.cc:508
 msgid "Limited (%1-%2)"
 msgstr "Begrænset (%1-%2)"
 
-#: src/lib/ffmpeg_content.cc:577
+#: src/lib/ffmpeg_content.cc:580
 msgid "Linear"
 msgstr "Lineær"
 
-#: src/lib/ffmpeg_content.cc:578
+#: src/lib/ffmpeg_content.cc:581
 msgid "Logarithmic (100:1 range)"
 msgstr "Logaritmisk (100:1 range)"
 
-#: src/lib/ffmpeg_content.cc:579
+#: src/lib/ffmpeg_content.cc:582
 msgid "Logarithmic (316:1 range)"
 msgstr "Logaritmisk  (316:1 range)"
 
-#: src/lib/util.cc:550
+#: src/lib/util.cc:543
 msgid "Ls"
 msgstr "Ls"
 
@@ -928,19 +924,19 @@ msgstr ""
 msgid "Misc"
 msgstr "Diverse"
 
-#: src/lib/dcp_examiner.cc:153
+#: src/lib/dcp_examiner.cc:154
 msgid "Mismatched audio channel counts in DCP"
 msgstr "Antallet af lydkanaler passer ikke i DCP"
 
-#: src/lib/dcp_examiner.cc:159
+#: src/lib/dcp_examiner.cc:160
 msgid "Mismatched audio sample rates in DCP"
 msgstr ""
 
-#: src/lib/dcp_examiner.cc:126
+#: src/lib/dcp_examiner.cc:127
 msgid "Mismatched frame rates in DCP"
 msgstr "Billedhastigheder passer ikke i DCP"
 
-#: src/lib/dcp_examiner.cc:134
+#: src/lib/dcp_examiner.cc:135
 msgid "Mismatched video sizes in DCP"
 msgstr "Videostørrelser passer ikke i DCP"
 
@@ -957,7 +953,7 @@ msgstr "Mono"
 msgid "Motion compensating deinterlacer"
 msgstr "Bevægelseskompenserende deinterlacer"
 
-#: src/lib/dcp_decoder.cc:75
+#: src/lib/dcp_decoder.cc:76
 msgid "No CPLs found in DCP."
 msgstr ""
 
@@ -1019,11 +1015,17 @@ msgstr ""
 msgid "P3"
 msgstr ""
 
+#: src/lib/util.h:56
+msgid ""
+"Please report this problem by using Help -> Report a problem or via email to "
+"carl@dcpomatic.com"
+msgstr ""
+
 #: src/lib/dcp_content_type.cc:53
 msgid "Policy"
 msgstr "Metode (Policy)"
 
-#: src/lib/content.cc:457
+#: src/lib/content.cc:461
 msgid "Prepared for video frame rate"
 msgstr "Forberedt til video billedhastighed"
 
@@ -1035,11 +1037,11 @@ msgstr "Programmerings fejl ved %1: %2 %3"
 msgid "Public Service Announcement"
 msgstr "Publikumsorientering (PSA)"
 
-#: src/lib/util.cc:547
+#: src/lib/util.cc:540
 msgid "R"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:594
+#: src/lib/ffmpeg_content.cc:597
 msgid "RGB / sRGB (IEC61966-2-1)"
 msgstr "RGB / sRGB (IEC61966-2-1)"
 
@@ -1047,7 +1049,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Censur"
 
-#: src/lib/util.cc:555
+#: src/lib/util.cc:548
 msgid "Rc"
 msgstr ""
 
@@ -1067,19 +1069,19 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:516
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:509
 msgid "Right"
 msgstr "Højre"
 
-#: src/lib/util.cc:524
+#: src/lib/util.cc:517
 msgid "Right centre"
 msgstr "Højre center"
 
-#: src/lib/util.cc:526
+#: src/lib/util.cc:519
 msgid "Right rear surround"
 msgstr "Højre bag surround"
 
-#: src/lib/util.cc:520
+#: src/lib/util.cc:513
 msgid "Right surround"
 msgstr "Højre surround"
 
@@ -1091,7 +1093,7 @@ msgstr ""
 msgid "Rotate 90 degrees clockwise"
 msgstr ""
 
-#: src/lib/util.cc:551
+#: src/lib/util.cc:544
 msgid "Rs"
 msgstr ""
 
@@ -1099,40 +1101,40 @@ msgstr ""
 msgid "S-Gamut3/S-Log3"
 msgstr "S-Gamut3/S-Log3"
 
-#: src/lib/ffmpeg_content.cc:546 src/lib/ffmpeg_content.cc:575
+#: src/lib/ffmpeg_content.cc:549 src/lib/ffmpeg_content.cc:578
 msgid "SMPTE 170M (BT601)"
 msgstr "SMPTE 170M (BT601)"
 
-#: src/lib/ffmpeg_content.cc:600
+#: src/lib/ffmpeg_content.cc:603
 msgid "SMPTE 170M (BT601-6)"
 msgstr "SMPTE 170M (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:605
+#: src/lib/ffmpeg_content.cc:608
 msgid "SMPTE 2085, Y'D'zD'x"
 msgstr "SMPTE 2085, Y'D'zD'x"
 
-#: src/lib/ffmpeg_content.cc:547 src/lib/ffmpeg_content.cc:576
-#: src/lib/ffmpeg_content.cc:601
+#: src/lib/ffmpeg_content.cc:550 src/lib/ffmpeg_content.cc:579
+#: src/lib/ffmpeg_content.cc:604
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/ffmpeg_content.cc:585
+#: src/lib/ffmpeg_content.cc:588
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
 msgstr "SMPTE ST 2084 til systemer på 10, 12, 14 og 16 bit"
 
-#: src/lib/ffmpeg_content.cc:586
+#: src/lib/ffmpeg_content.cc:589
 msgid "SMPTE ST 428-1"
 msgstr "SMPTE ST 428-1"
 
-#: src/lib/ffmpeg_content.cc:550
+#: src/lib/ffmpeg_content.cc:553
 msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
 msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
-#: src/lib/ffmpeg_content.cc:551
+#: src/lib/ffmpeg_content.cc:554
 msgid "SMPTE ST 431-2 (2011)"
 msgstr "SMPTE ST 431-2 (2011)"
 
-#: src/lib/ffmpeg_content.cc:552
+#: src/lib/ffmpeg_content.cc:555
 msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr "SMPTE ST 432-1 D65 (2010)"
 
@@ -1259,7 +1261,7 @@ msgid ""
 "systems support your chosen DCP rate."
 msgstr ""
 
-#: src/lib/dcp_content.cc:549
+#: src/lib/dcp_content.cc:558
 msgid "There is no video in this DCP"
 msgstr ""
 
@@ -1315,7 +1317,7 @@ msgstr "Transcode %1"
 msgid "Transitional"
 msgstr "Transitional"
 
-#: src/lib/internet.cc:134
+#: src/lib/internet.cc:135
 msgid "Unexpected ZIP file contents"
 msgstr "Uventet indhold af ZIP arkiv"
 
@@ -1335,11 +1337,11 @@ msgstr "Kunne ikke genkende lydsekvensens format (%1)"
 msgid "Unsharp mask and Gaussian blur"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:498 src/lib/ffmpeg_content.cc:522
-#: src/lib/ffmpeg_content.cc:540 src/lib/ffmpeg_content.cc:542
-#: src/lib/ffmpeg_content.cc:543 src/lib/ffmpeg_content.cc:569
-#: src/lib/ffmpeg_content.cc:571 src/lib/ffmpeg_content.cc:572
-#: src/lib/ffmpeg_content.cc:596 src/lib/ffmpeg_content.cc:597
+#: src/lib/ffmpeg_content.cc:501 src/lib/ffmpeg_content.cc:525
+#: src/lib/ffmpeg_content.cc:543 src/lib/ffmpeg_content.cc:545
+#: src/lib/ffmpeg_content.cc:546 src/lib/ffmpeg_content.cc:572
+#: src/lib/ffmpeg_content.cc:574 src/lib/ffmpeg_content.cc:575
+#: src/lib/ffmpeg_content.cc:599 src/lib/ffmpeg_content.cc:600
 msgid "Unspecified"
 msgstr "Uspecificeret"
 
@@ -1347,7 +1349,7 @@ msgstr "Uspecificeret"
 msgid "Untitled"
 msgstr "Uden titel"
 
-#: src/lib/util.cc:529 src/lib/util.cc:530
+#: src/lib/util.cc:522 src/lib/util.cc:523
 msgid "Unused"
 msgstr "Ubenyttet"
 
@@ -1359,7 +1361,7 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/util.cc:553
+#: src/lib/util.cc:546
 msgid "VI"
 msgstr ""
 
@@ -1371,7 +1373,7 @@ msgstr ""
 msgid "Vertical flip"
 msgstr ""
 
-#: src/lib/util.cc:522
+#: src/lib/util.cc:515
 msgid "Visually impaired"
 msgstr "Synshandicappet"
 
@@ -1384,7 +1386,7 @@ msgstr "Venter"
 msgid "Weave filter"
 msgstr "Telecinefilter"
 
-#: src/lib/ffmpeg_content.cc:602
+#: src/lib/ffmpeg_content.cc:605
 msgid "YCOCG"
 msgstr "YCOCG"
 
@@ -1477,7 +1479,7 @@ msgid ""
 "audio content."
 msgstr "Lydniveauet er meget højt (%1). Du bør sænke gain på lyden."
 
-#: src/lib/config.cc:284
+#: src/lib/config.cc:307
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
@@ -1505,6 +1507,13 @@ msgstr "[stillbillede]"
 msgid "[subtitles]"
 msgstr "[undertekster]"
 
+#. / TRANSLATORS: _reel%1.%2 here is to be added to an export filename to indicate
+#. / which reel it is.  Preserve the %1 and %2; %1 will be replaced with the reel number
+#. / and %2 with the file extension.
+#: src/lib/ffmpeg_encoder.cc:66
+msgid "_reel%1%2"
+msgstr ""
+
 #: src/lib/dcpomatic_socket.cc:69
 msgid "connect timed out"
 msgstr "forbindelsestimeout"
@@ -1525,7 +1534,7 @@ msgstr "indholdstype"
 msgid "copying %1"
 msgstr "kopierer %1"
 
-#: src/lib/ffmpeg.cc:138
+#: src/lib/ffmpeg.cc:141 src/lib/ffmpeg_image_proxy.cc:139
 msgid "could not find stream information"
 msgstr "kunne ikke finde information om strøm"
 
@@ -1569,71 +1578,83 @@ msgstr "fejl ved async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "fejl ved async_write (%1)"
 
-#: src/lib/content.cc:450 src/lib/content.cc:459
+#: src/lib/content.cc:454 src/lib/content.cc:463
 msgid "frames per second"
 msgstr "billeder pr. sekund"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:180
+#: src/lib/util.cc:177
 msgid "h"
 msgstr "t"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:626
+#: src/lib/dcp_content.cc:649
 #, fuzzy
 msgid "it does not have closed captions in all its reels."
 msgstr "DCPen har ikke lyd på alle spoler."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:621
+#: src/lib/dcp_content.cc:644
 #, fuzzy
 msgid "it does not have open subtitles in all its reels."
 msgstr "DCPen har ikke undertekster på alle spoler."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:589
+#: src/lib/dcp_content.cc:612
 #, fuzzy
 msgid "it does not have sound in all its reels."
 msgstr "DCPen har ikke lyd på alle spoler."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:502
+#: src/lib/dcp_content.cc:511
 #, fuzzy
 msgid "it has a different frame rate to the film."
 msgstr "Filmen har en anden billedhastighed end DCPen."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:490
+#: src/lib/dcp_content.cc:573
+#, fuzzy
+msgid "it is 2K and the film is 4K."
+msgstr "Denne film er i Interop formatet og DCPen er i SMPTE."
+
+#. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
+#: src/lib/dcp_content.cc:570
+#, fuzzy
+msgid "it is 4K and the film is 2K."
+msgstr "Denne film er i Interop formatet og DCPen er i SMPTE."
+
+#. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
+#: src/lib/dcp_content.cc:499
 #, fuzzy
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "Denne film er i Interop formatet og DCPen er i SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:494
+#: src/lib/dcp_content.cc:503
 #, fuzzy
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "Denne film er i SMPTE formatet og DCPen er i Interop."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:595
+#: src/lib/dcp_content.cc:618
 #, fuzzy
 msgid "it overlaps other audio content; remove the other content."
 msgstr "Der er anden lyd, der overlapper i denne DCP; fjern den."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:632
+#: src/lib/dcp_content.cc:655
 #, fuzzy
 msgid "it overlaps other text content; remove the other content."
 msgstr "Der er andet billedindhold, der overlapper i denne DCP; fjern det."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:560
+#: src/lib/dcp_content.cc:583
 #, fuzzy
 msgid "it overlaps other video content; remove the other content."
 msgstr "Der er andet billedindhold, der overlapper i denne DCP; fjern det."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:525
+#: src/lib/dcp_content.cc:534
 #, fuzzy
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
@@ -1643,13 +1664,13 @@ msgstr ""
 "indstillingen til 'opdel efter videoindhold'."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:555
+#: src/lib/dcp_content.cc:578
 #, fuzzy
 msgid "its video frame size differs from the film's."
 msgstr "Billedstørrelsen i filmen er forskellig fra DCPens."
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:189
+#: src/lib/util.cc:186
 msgid "m"
 msgstr "m"
 
@@ -1662,7 +1683,7 @@ msgid "name"
 msgstr "navn"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:199
+#: src/lib/util.cc:196
 msgid "s"
 msgstr "s"
 
@@ -1685,6 +1706,13 @@ msgstr "ukendt"
 #: src/lib/video_content.cc:461
 msgid "video frames"
 msgstr "videobilleder"
+
+#, fuzzy
+#~ msgid "Could not decode image file %1 (%2)"
+#~ msgstr "Kunne ikke afkode billedfil (%1)"
+
+#~ msgid "Could not decode image file (%1)"
+#~ msgstr "Kunne ikke afkode billedfil (%1)"
 
 #, fuzzy
 #~ msgid "it overlaps other subtitle content; remove the other content."
