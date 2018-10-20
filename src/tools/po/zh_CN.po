@@ -410,9 +410,8 @@ msgid "KDM|Timing"
 msgstr "KDM有效期"
 
 #: src/tools/dcpomatic_player.cc:503
-#, fuzzy, c-format
 msgid "Load DCP %s"
-msgstr "正在载入DCP"
+msgstr ""
 
 #: src/tools/dcpomatic_player.cc:461 src/tools/dcpomatic_player.cc:656
 msgid "Loading DCP"

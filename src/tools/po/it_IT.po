@@ -231,9 +231,8 @@ msgid "Could not load KDM."
 msgstr "Impossibile caricare KDM."
 
 #: src/tools/dcpomatic_player.cc:375
-#, fuzzy, c-format
 msgid "Could not load a DCP from %s"
-msgstr "Impossibile caricare DCP %1."
+msgstr ""
 
 #: src/tools/dcpomatic_batch.cc:403
 msgid "Could not load film %1"
@@ -418,9 +417,8 @@ msgid "KDM|Timing"
 msgstr "KDM|Timing"
 
 #: src/tools/dcpomatic_player.cc:503
-#, fuzzy, c-format
 msgid "Load DCP %s"
-msgstr "Caricamento DCP"
+msgstr ""
 
 #: src/tools/dcpomatic_player.cc:461 src/tools/dcpomatic_player.cc:656
 msgid "Loading DCP"
