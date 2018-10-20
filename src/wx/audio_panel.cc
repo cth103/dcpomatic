@@ -49,7 +49,7 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	, _audio_dialog (0)
 {
 	_reference = new wxCheckBox (this, wxID_ANY, _("Use this DCP's audio as OV and make VF"));
-	_reference_note = new wxStaticText (this, wxID_ANY, _(""));
+	_reference_note = new wxStaticText (this, wxID_ANY, wxT(""));
 	_reference_note->Wrap (200);
 	wxFont font = _reference_note->GetFont();
 	font.SetStyle(wxFONTSTYLE_ITALIC);

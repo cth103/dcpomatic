@@ -59,7 +59,7 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	}
 
 	_reference = new wxCheckBox (this, wxID_ANY, refer);
-	_reference_note = new wxStaticText (this, wxID_ANY, _(""));
+	_reference_note = new wxStaticText (this, wxID_ANY, wxT(""));
 	_reference_note->Wrap (200);
 	wxFont font = _reference_note->GetFont();
 	font.SetStyle(wxFONTSTYLE_ITALIC);

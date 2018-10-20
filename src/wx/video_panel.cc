@@ -75,7 +75,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	: ContentSubPanel (p, _("Video"))
 {
 	_reference = new wxCheckBox (this, wxID_ANY, _("Use this DCP's video as OV and make VF"));
-	_reference_note = new wxStaticText (this, wxID_ANY, _(""));
+	_reference_note = new wxStaticText (this, wxID_ANY, wxT(""));
 	_reference_note->Wrap (200);
 	wxFont font = _reference_note->GetFont();
 	font.SetStyle(wxFONTSTYLE_ITALIC);
