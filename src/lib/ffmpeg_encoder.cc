@@ -129,7 +129,8 @@ FFmpegEncoder::go ()
 	shared_ptr<AudioBuffers> deinterleaved (new AudioBuffers (_output_audio_channels, audio_frames));
 	for (DCPTime i; i < _film->length(); i += video_frame) {
 
-		if (!reel->contains(i)) {
+		if (_file_encoders.size() > 1 && !reel->contains(i)) {
+			/* Next reel and file */
 			++reel;
 			++encoder;
 			DCPOMATIC_ASSERT (reel != reel_periods.end());
