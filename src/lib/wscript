@@ -196,7 +196,7 @@ def build(bld):
     i18n.po_to_mo(os.path.join('src', 'lib'), 'libdcpomatic2', bld)
 
 def pot(bld):
-    i18n.pot(os.path.join('src', 'lib'), sources, 'libdcpomatic')
+    i18n.pot(os.path.join('src', 'lib'), sources + " util.h", 'libdcpomatic')
 
 def pot_merge(bld):
     i18n.pot_merge(os.path.join('src', 'lib'), 'libdcpomatic')
