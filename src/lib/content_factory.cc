@@ -57,7 +57,7 @@ using boost::optional;
  *  @return Content object, or 0 if no content was recognised in the XML.
  */
 shared_ptr<Content>
-content_factory (shared_ptr<const Film> film, cxml::NodePtr node, int version, list<string>& notes)
+content_factory (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, list<string>& notes)
 {
 	string const type = node->string_child ("Type");
 
