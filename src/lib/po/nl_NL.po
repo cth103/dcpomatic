@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-20 21:26+0100\n"
-"PO-Revision-Date: 2018-09-03 06:18+0200\n"
+"PO-Revision-Date: 2018-10-21 23:59+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -544,9 +544,8 @@ msgid "Could not open downloaded ZIP file"
 msgstr "Kan gedownload ZIP-bestand niet openen"
 
 #: src/lib/internet.cc:126
-#, fuzzy
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
-msgstr "Kan gedownload ZIP-bestand niet openen"
+msgstr "Kan gedownload ZIP-bestand niet openen (%1:%2: %3)"
 
 #: src/lib/dcp_subtitle.cc:55
 msgid "Could not read subtitles (%1 / %2)"
@@ -1019,6 +1018,8 @@ msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
 "carl@dcpomatic.com"
 msgstr ""
+"Rapporteer dit probleem a.u.b. via \"Help -> Meld een probleem\" of per e-"
+"mail naar carl@dcpomatic.com"
 
 #: src/lib/dcp_content_type.cc:53
 msgid "Policy"
@@ -1530,7 +1531,7 @@ msgstr "[ondertitels]"
 #. / and %2 with the file extension.
 #: src/lib/ffmpeg_encoder.cc:66
 msgid "_reel%1%2"
-msgstr ""
+msgstr "_reel%1%2"
 
 #: src/lib/dcpomatic_socket.cc:69
 msgid "connect timed out"
@@ -1627,15 +1628,13 @@ msgstr "hij heeft een andere frame rate dan de film."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:573
-#, fuzzy
 msgid "it is 2K and the film is 4K."
-msgstr "hij is Interop en de film is SMPTE."
+msgstr "hij is 2K en de film is 4k."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:570
-#, fuzzy
 msgid "it is 4K and the film is 2K."
-msgstr "hij is Interop en de film is SMPTE."
+msgstr "hij is 4K en de film is 2K."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:499

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-20 21:26+0100\n"
-"PO-Revision-Date: 2018-09-03 06:23+0200\n"
+"PO-Revision-Date: 2018-10-22 03:42+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -23,6 +23,9 @@ msgid ""
 "\n"
 "You can change the mode at any time from the General page of Preferences."
 msgstr ""
+"\n"
+"U kunt de modus op elk gewenst moment wijzigen in het Algemeen-tabblad bij "
+"Voorkeuren."
 
 #: src/wx/timeline_audio_content_view.cc:68
 #, c-format
@@ -188,6 +191,18 @@ msgid ""
 "\n"
 "Please choose which mode you would like to start DCP-o-matic in:"
 msgstr ""
+"<span weight=\"bold\" size=\"larger\">Welkom bij DCP-o-matic!</span>\n"
+"\n"
+"DCP-o-matic kan in twee modi werken: '<i>eenvoudig</i>' of '<i>volledig</"
+"i>'.\n"
+"\n"
+"<i>Eenvoudige modus</i> is ideaal voor het produceren van eenvoudige DCP's "
+"zonder al te veel verwarrende opties.\n"
+"\n"
+"<i>Volledige modus</i> geeft u de meeste controle over de DCP's die u "
+"maakt.\n"
+"\n"
+"Kies a.u.b. in welke modus u DCP-o-matic wilt starten:"
 
 #: src/wx/colour_conversion_editor.cc:79
 msgid "A"
@@ -206,7 +221,6 @@ msgid "Accounts"
 msgstr "Accounts"
 
 #: src/wx/controls.cc:104
-#, fuzzy
 msgid "Add"
 msgstr "Voeg toe..."
 
@@ -391,7 +405,7 @@ msgstr "BCC-adres"
 
 #: src/wx/player_config_dialog.cc:243
 msgid "Background image"
-msgstr ""
+msgstr "Achtergrondbeeld"
 
 #: src/wx/barco_alchemy_certificate_panel.cc:76
 msgid "Barco Alchemy"
@@ -410,9 +424,8 @@ msgid "Bold font"
 msgstr "Vet lettertype"
 
 #: src/wx/video_panel.cc:127
-#, fuzzy
 msgid "Bottom crop"
-msgstr "Onder"
+msgstr "Bijsnijden onder"
 
 #: src/wx/dir_picker_ctrl.cc:38 src/wx/kdm_cpl_panel.cc:38
 msgid "Browse..."
@@ -600,9 +613,8 @@ msgid "Content Type"
 msgstr "Content-type"
 
 #: src/wx/player_config_dialog.cc:232
-#, fuzzy
 msgid "Content directory"
-msgstr "DCP-map"
+msgstr "Content-map"
 
 #: src/wx/isdcf_metadata_dialog.cc:37
 msgid "Content version"
@@ -711,9 +723,8 @@ msgid "DCP-o-matic audio - %s"
 msgstr "DCP-o-matic audio - %s"
 
 #: src/wx/initial_setup_dialog.cc:26
-#, fuzzy
 msgid "DCP-o-matic setup"
-msgstr "DCP-o-matic"
+msgstr "DCP-o-matic instelling"
 
 #: src/wx/full_config_dialog.cc:1397
 msgid "Debug: decode"
@@ -798,11 +809,11 @@ msgstr "Details..."
 
 #: src/wx/monitor_dialog.cc:32
 msgid "Device"
-msgstr ""
+msgstr "Apparaat"
 
 #: src/wx/player_config_dialog.cc:379
 msgid "Devices"
-msgstr ""
+msgstr "Apparaten"
 
 #: src/wx/recreate_chain_dialog.cc:31
 msgid "Do nothing"
@@ -851,12 +862,11 @@ msgstr "Dropped frames: %d"
 
 #: src/wx/player_config_dialog.cc:97
 msgid "Dual-screen displays"
-msgstr ""
+msgstr "Dubbel scherm weergave"
 
 #: src/wx/player_config_dialog.cc:330
-#, fuzzy
 msgid "Duration"
-msgstr "Caption"
+msgstr "Duur"
 
 #: src/wx/content_panel.cc:113
 msgid "Earlier"
@@ -1069,9 +1079,8 @@ msgid "Full length"
 msgstr "Volledige duur"
 
 #: src/wx/initial_setup_dialog.cc:47
-#, fuzzy
 msgid "Full mode"
-msgstr "Volledig"
+msgstr "Volledige modus"
 
 #: src/wx/dcp_panel.cc:106
 msgid "GB"
@@ -1179,11 +1188,11 @@ msgstr "Beeld X-positie"
 
 #: src/wx/player_config_dialog.cc:99
 msgid "Image on primary, controls on secondary"
-msgstr ""
+msgstr "Beeld op primair, bediening op secundair"
 
 #: src/wx/player_config_dialog.cc:100
 msgid "Image on secondary, controls on primary"
-msgstr ""
+msgstr "Beeld op secundair, bediening op primair"
 
 #: src/wx/config_dialog.cc:741
 msgid "Import all KDM decryption settings..."
@@ -1224,7 +1233,7 @@ msgstr "Geïntegreerde luidheid %.2f LUFS"
 
 #: src/wx/full_config_dialog.cc:88
 msgid "Interface complexity"
-msgstr ""
+msgstr "Interface-complexiteit"
 
 #: src/wx/config_dialog.cc:559
 msgid "Intermediate"
@@ -1279,13 +1288,12 @@ msgid "KDM Email"
 msgstr "KDM E-mail"
 
 #: src/wx/player_config_dialog.cc:237
-#, fuzzy
 msgid "KDM directory"
-msgstr "DCP-map"
+msgstr "KDM-map"
 
 #: src/wx/player_config_dialog.cc:114
 msgid "KDM server URL"
-msgstr ""
+msgstr "KDM server URL"
 
 #: src/wx/kdm_output_panel.cc:55
 msgid "KDM type"
@@ -1337,9 +1345,8 @@ msgid "Left"
 msgstr "Links"
 
 #: src/wx/video_panel.cc:97
-#, fuzzy
 msgid "Left crop"
-msgstr "Links"
+msgstr "Bijsnijden links"
 
 #: src/wx/content_properties_dialog.cc:79
 msgid "Length"
@@ -1358,18 +1365,16 @@ msgid "Load..."
 msgstr "Laad..."
 
 #: src/wx/player_config_dialog.cc:213
-#, fuzzy
 msgid "Locations"
-msgstr "Notificaties"
+msgstr "Locaties"
 
 #: src/wx/full_config_dialog.cc:1386
 msgid "Log"
 msgstr "Log"
 
 #: src/wx/player_config_dialog.cc:108
-#, fuzzy
 msgid "Log file"
-msgstr "Vet bestand"
+msgstr "Logbestand"
 
 #: src/wx/audio_dialog.cc:381
 #, c-format
@@ -1422,19 +1427,19 @@ msgstr "Maak certificaat-keten"
 
 #: src/wx/player_config_dialog.cc:389
 msgid "Manufacture week"
-msgstr ""
+msgstr "Productie-week"
 
 #: src/wx/player_config_dialog.cc:390
 msgid "Manufacture year"
-msgstr ""
+msgstr "Productie-jaar"
 
 #: src/wx/monitor_dialog.cc:34 src/wx/player_config_dialog.cc:386
 msgid "Manufacturer ID"
-msgstr ""
+msgstr "Fabrikant-ID"
 
 #: src/wx/monitor_dialog.cc:36
 msgid "Manufacturer product code"
-msgstr ""
+msgstr "Fabrikant-productcode"
 
 #: src/wx/isdcf_metadata_dialog.cc:77
 msgid "Mastered luminance (e.g. 14fl)"
@@ -1715,7 +1720,7 @@ msgstr "Prestaties"
 
 #: src/wx/player_config_dialog.cc:323
 msgid "Period"
-msgstr ""
+msgstr "Periode"
 
 #: src/wx/controls.cc:61 src/wx/controls.cc:65
 msgid "Play"
@@ -1759,7 +1764,7 @@ msgstr "Processor"
 
 #: src/wx/player_config_dialog.cc:387
 msgid "Product code"
-msgstr ""
+msgstr "Productcode"
 
 #: src/wx/content_menu.cc:75
 msgid "Properties..."
@@ -1799,7 +1804,7 @@ msgstr "Maak certificaten en sleutel opnieuw..."
 
 #: src/wx/player_config_dialog.cc:403
 msgid "Read current devices"
-msgstr ""
+msgstr "Lees huidige apparaten"
 
 #: src/wx/colour_conversion_editor.cc:110
 msgid "Rec. 601"
@@ -1899,7 +1904,7 @@ msgstr "Resolutie"
 
 #: src/wx/player_config_dialog.cc:104
 msgid "Respect KDM validity periods"
-msgstr ""
+msgstr "Respecteer KDM-geldigheidsperioden"
 
 #: src/wx/subtitle_appearance_dialog.cc:112
 msgid "Restore to original colours"
@@ -1918,9 +1923,8 @@ msgid "Right click to change gain."
 msgstr "Klik met de rechtermuisknop om versterking te wijzigen."
 
 #: src/wx/video_panel.cc:107
-#, fuzzy
 msgid "Right crop"
-msgstr "Rechts"
+msgstr "Bijsnijden rechts"
 
 #: src/wx/config_dialog.cc:555
 msgid "Root"
@@ -1956,9 +1960,8 @@ msgid "Save to KDM Creator tool's list"
 msgstr "Bewaar in lijst van KDM Creator tool"
 
 #: src/wx/controls.cc:106
-#, fuzzy
 msgid "Save..."
-msgstr "Hernoem..."
+msgstr "Bewaar..."
 
 #: src/wx/text_panel.cc:84
 msgid "Scale"
@@ -2034,23 +2037,20 @@ msgid "Select configuration file"
 msgstr "Selecteer configuratiebestand"
 
 #: src/wx/player_config_dialog.cc:244
-#, fuzzy
 msgid "Select image file"
-msgstr "Selecteer bioscopen-bestand"
+msgstr "Selecteer beeldbestand"
 
 #: src/wx/player_config_dialog.cc:109
-#, fuzzy
 msgid "Select log file"
-msgstr "Selecteer output-bestand"
+msgstr "Selecteer logbestand"
 
 #: src/wx/export_dialog.cc:74
 msgid "Select output file"
 msgstr "Selecteer output-bestand"
 
 #: src/wx/controls.cc:215 src/wx/controls.cc:230
-#, fuzzy
 msgid "Select playlist file"
-msgstr "Selecteer output-bestand"
+msgstr "Selecteer afspeellijst-bestand"
 
 #: src/wx/kdm_output_panel.cc:120
 msgid "Send by email"
@@ -2069,7 +2069,6 @@ msgid "Sequence"
 msgstr "Volgorde"
 
 #: src/wx/player_config_dialog.cc:388
-#, fuzzy
 msgid "Serial"
 msgstr "Serienummer"
 
@@ -2126,9 +2125,8 @@ msgid "Signing DCPs and KDMs"
 msgstr "Ondertekenen van DCP's en KDM's"
 
 #: src/wx/full_config_dialog.cc:146
-#, fuzzy
 msgid "Simple"
-msgstr "Eenvoudige gamma"
+msgstr "Eenvoudig"
 
 #: src/wx/colour_conversion_editor.cc:60
 msgid "Simple gamma"
@@ -2139,9 +2137,8 @@ msgid "Simple gamma, linearised for small values"
 msgstr "Eenvoudige gamma, gelineariseerd voor kleine waarden"
 
 #: src/wx/initial_setup_dialog.cc:45
-#, fuzzy
 msgid "Simple mode"
-msgstr "Eenvoudige gamma"
+msgstr "Eenvoudige modus"
 
 #: src/wx/dcp_panel.cc:136
 msgid "Single reel"
@@ -2182,11 +2179,11 @@ msgstr "Begin van reel"
 
 #: src/wx/player_config_dialog.cc:89
 msgid "Start player as"
-msgstr ""
+msgstr "Start player als"
 
 #: src/wx/controls.cc:63
 msgid "Stop"
-msgstr ""
+msgstr "Stop"
 
 #: src/wx/text_panel.cc:102
 msgid "Stream"
@@ -2305,9 +2302,8 @@ msgstr ""
 "of wilt u het met uw huidige configuratie overschrijven?"
 
 #: src/wx/player_config_dialog.cc:318
-#, fuzzy
 msgid "Theatre name"
-msgstr "Template-naam"
+msgstr "Bioscoop-naam"
 
 #: src/wx/hints_dialog.cc:124
 msgid "There are no hints: everything looks good!"
@@ -2365,7 +2361,7 @@ msgstr "To-adres"
 
 #: src/wx/video_panel.cc:117
 msgid "Top crop"
-msgstr ""
+msgstr "Bijsnijden boven"
 
 #: src/wx/about_dialog.cc:131
 msgid "Translated by"
@@ -2585,11 +2581,11 @@ msgstr "Waarschuwingen"
 
 #: src/wx/player_config_dialog.cc:307
 msgid "Watermark"
-msgstr ""
+msgstr "Watermerk"
 
 #: src/wx/monitor_dialog.cc:40
 msgid "Week of manufacture"
-msgstr ""
+msgstr "Productie-week"
 
 #: src/wx/colour_conversion_editor.cc:151
 msgid "White point"
@@ -2617,7 +2613,7 @@ msgstr "Schrijf alle KDM's naar dezelfde map"
 
 #: src/wx/export_dialog.cc:61
 msgid "Write reels into separate files"
-msgstr ""
+msgstr "Schrijf reels in afzonderlijke bestanden"
 
 #: src/wx/kdm_output_panel.cc:92 src/wx/self_dkdm_dialog.cc:76
 msgid "Write to"
@@ -2645,7 +2641,7 @@ msgstr "YUV naar RGB matrix"
 
 #: src/wx/monitor_dialog.cc:42
 msgid "Year of manufacture"
-msgstr ""
+msgstr "Productie-jaar"
 
 #: src/wx/screens_panel.cc:217
 #, c-format
@@ -2730,11 +2726,11 @@ msgstr "dB"
 
 #: src/wx/config_dialog.cc:893
 msgid "dcpomatic_kdm_decryption_cert.pem"
-msgstr ""
+msgstr "dcpomatic_kdm_decryption_cert.pem"
 
 #: src/wx/config_dialog.cc:871
 msgid "dcpomatic_kdm_decryption_chain.pem"
-msgstr ""
+msgstr "dcpomatic_kdm_decryption_chain.pem"
 
 #: src/wx/name_format_editor.cc:74
 #, c-format
@@ -2747,13 +2743,12 @@ msgid "f"
 msgstr "f"
 
 #: src/wx/player_config_dialog.cc:92
-#, fuzzy
 msgid "full screen"
-msgstr "Wijzig scherm"
+msgstr "Volledig scherm"
 
 #: src/wx/player_config_dialog.cc:93
 msgid "full screen with controls on other monitor"
-msgstr ""
+msgstr "volledig scherm met bediening op andere monitor"
 
 #. // TRANSLATORS: this is an abbreviation for "hours"
 #: src/wx/timing_panel.cc:61
@@ -2767,11 +2762,11 @@ msgstr "m"
 
 #: src/wx/player_config_dialog.cc:334
 msgid "milliseconds"
-msgstr ""
+msgstr "milliseconden"
 
 #: src/wx/player_config_dialog.cc:327
 msgid "minutes"
-msgstr ""
+msgstr "minuten"
 
 #. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
 #: src/wx/audio_panel.cc:86 src/wx/full_config_dialog.cc:367
@@ -2805,7 +2800,7 @@ msgstr "tot"
 
 #: src/wx/player_config_dialog.cc:91
 msgid "window"
-msgstr ""
+msgstr "venster"
 
 #: src/wx/colour_conversion_editor.cc:125
 msgid "x"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-20 21:26+0100\n"
-"PO-Revision-Date: 2018-09-03 06:09+0200\n"
+"PO-Revision-Date: 2018-10-22 00:28+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -199,9 +199,8 @@ msgid "Copy settings\tCtrl-C"
 msgstr "Kopieer instellingen\tCtrl-C"
 
 #: src/tools/dcpomatic.cc:491 src/tools/dcpomatic.cc:498
-#, fuzzy
 msgid "Could not create folder to store film."
-msgstr "Kan map voor opslaan film niet aanmaken"
+msgstr "Kan map voor opslaan film niet aanmaken."
 
 #: src/tools/dcpomatic_kdm.cc:441
 msgid ""
@@ -233,7 +232,7 @@ msgstr "Kan KDM niet laden."
 
 #: src/tools/dcpomatic_player.cc:375
 msgid "Could not load a DCP from %s"
-msgstr ""
+msgstr "Kan DCP niet laden van %s"
 
 #: src/tools/dcpomatic_batch.cc:403
 msgid "Could not load film %1"
@@ -294,11 +293,9 @@ msgstr ""
 "bewaard."
 
 #: src/tools/dcpomatic_player.cc:914
-#, fuzzy
 msgid "Could not write to config file.  Your changes have not been saved."
 msgstr ""
-"Kan niet naar config-bestand schrijven op %s.  Uw wijzigingen zijn niet "
-"bewaard."
+"Kan niet naar config-bestand schrijven.  Uw wijzigingen zijn niet bewaard."
 
 #: src/tools/dcpomatic_kdm.cc:172
 msgid "Create KDMs"
@@ -365,7 +362,7 @@ msgstr "Dupliceer niet"
 
 #: src/tools/dcpomatic_player.cc:570
 msgid "Dual screen\tShift+F11"
-msgstr ""
+msgstr "Dubbel scherm\tShift+F11"
 
 #: src/tools/dcpomatic.cc:549 src/tools/dcpomatic.cc:564
 msgid "Duplicate Film"
@@ -408,7 +405,7 @@ msgstr "Frames per seconde"
 
 #: src/tools/dcpomatic_player.cc:569
 msgid "Full screen\tF11"
-msgstr ""
+msgstr "Volledig scherm\tF11"
 
 #: src/tools/dcpomatic.cc:1196
 msgid "Hints..."
@@ -421,7 +418,7 @@ msgstr "Tijdvenster"
 
 #: src/tools/dcpomatic_player.cc:503
 msgid "Load DCP %s"
-msgstr ""
+msgstr "Laad DCP %s"
 
 #: src/tools/dcpomatic_player.cc:461 src/tools/dcpomatic_player.cc:656
 msgid "Loading DCP"
@@ -580,7 +577,7 @@ msgstr "Kan geen verbinding maken met de DCP-o-matic download-server."
 
 #: src/tools/dcpomatic_player.cc:288
 msgid "The KDM does not allow playback of this content at this time."
-msgstr ""
+msgstr "De KDM staat afspelen niet toe op dit moment."
 
 #: src/tools/dcpomatic.cc:1559 src/tools/dcpomatic_batch.cc:435
 #: src/tools/dcpomatic_kdm.cc:658 src/tools/dcpomatic_server.cc:333
@@ -594,7 +591,7 @@ msgstr ""
 
 #: src/tools/dcpomatic_player.cc:249 src/tools/dcpomatic_player.cc:271
 msgid "The required display devices are not connected correctly."
-msgstr ""
+msgstr "De vereiste beeldschermen zijn niet correct aangesloten."
 
 #: src/tools/dcpomatic.cc:1302 src/tools/dcpomatic_player.cc:890
 msgid "There are no new versions of DCP-o-matic available."
@@ -616,7 +613,7 @@ msgstr ""
 #: src/tools/dcpomatic.cc:494
 #, c-format
 msgid "Try removing the %s characters from your folder name."
-msgstr ""
+msgstr "Probeer de %s tekens uit uw mapnaam te verwijderen."
 
 #: src/tools/dcpomatic.cc:999 src/tools/dcpomatic_batch.cc:189
 msgid "Unfinished jobs"
