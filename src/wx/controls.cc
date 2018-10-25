@@ -28,6 +28,7 @@
 #include "lib/dcp_content.h"
 #include "lib/job.h"
 #include "lib/examine_content_job.h"
+#include "lib/content_factory.h"
 #include "lib/cross.h"
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
@@ -190,7 +191,7 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	film_changed ();
 
 	setup_sensitivity ();
-	update_dcp_directory ();
+	update_content_directory ();
 
 	JobManager::instance()->ActiveJobsChanged.connect (
 		bind (&Controls::active_jobs_changed, this, _2)
@@ -256,7 +257,7 @@ void
 Controls::config_changed (int property)
 {
 	if (property == Config::PLAYER_CONTENT_DIRECTORY) {
-		update_dcp_directory ();
+		update_content_directory ();
 	} else {
 		setup_sensitivity ();
 	}
@@ -573,7 +574,7 @@ Controls::show_extended_player_controls (bool s)
 {
 	_content_view->Show (s);
 	if (s) {
-		update_dcp_directory ();
+		update_content_directory ();
 	}
 	_spl_view->Show (s);
 	_log->Show (s);
@@ -615,7 +616,7 @@ Controls::add_content_to_list (shared_ptr<Content> content, wxListCtrl* ctrl)
 }
 
 void
-Controls::update_dcp_directory ()
+Controls::update_content_directory ()
 {
 	if (!_content_view->IsShown()) {
 		return;
@@ -630,13 +631,19 @@ Controls::update_dcp_directory ()
 		return;
 	}
 
-	wxProgressDialog progress (_("DCP-o-matic"), _("Reading DCP directory"));
+	wxProgressDialog progress (_("DCP-o-matic"), _("Reading content directory"));
 	JobManager* jm = JobManager::instance ();
 
 	for (directory_iterator i = directory_iterator(*dir); i != directory_iterator(); ++i) {
 		try {
+			shared_ptr<Content> content;
 			if (is_directory(*i) && (is_regular_file(*i / "ASSETMAP") || is_regular_file(*i / "ASSETMAP.xml"))) {
-				shared_ptr<DCPContent> content (new DCPContent(_film, *i));
+				content.reset (new DCPContent(_film, *i));
+			} else if (i->path().extension() == ".mp4") {
+				content = content_factory(_film, *i).front();
+			}
+
+			if (content) {
 				jm->add (shared_ptr<Job>(new ExamineContentJob(_film, content)));
 				while (jm->work_to_do()) {
 					if (!progress.Pulse()) {

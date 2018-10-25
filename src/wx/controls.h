@@ -79,8 +79,7 @@ private:
 	void started ();
 	void stopped ();
 	void film_changed ();
-	void update_dcp_directory ();
-	void dcp_directory_changed ();
+	void update_content_directory ();
 	void config_changed (int property);
 
 	typedef std::pair<boost::shared_ptr<dcp::CPL>, boost::filesystem::path> CPL;

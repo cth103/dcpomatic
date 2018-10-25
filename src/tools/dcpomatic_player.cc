@@ -444,11 +444,8 @@ public:
 		_film->set_container (Ratio::from_id("185"));
 
 		BOOST_FOREACH (shared_ptr<Content> i, _film->content()) {
-			/* This DCP has been examined and loaded */
-
 			shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent>(i);
-			DCPOMATIC_ASSERT (dcp);
-			if (dcp->needs_kdm()) {
+			if (dcp && dcp->needs_kdm()) {
 				optional<dcp::EncryptedKDM> kdm;
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 				kdm = get_kdm_from_url (dcp);
@@ -463,12 +460,12 @@ public:
 				}
 			}
 
-			BOOST_FOREACH (shared_ptr<TextContent> j, dcp->text) {
+			BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
 				j->set_use (true);
 			}
 
-			if (dcp->video) {
-				Ratio const * r = Ratio::nearest_from_ratio(dcp->video->size().ratio());
+			if (i->video) {
+				Ratio const * r = Ratio::nearest_from_ratio(i->video->size().ratio());
 				if (r->id() == "239") {
 					/* Any scope content means we use scope */
 					_film->set_container(r);
@@ -476,7 +473,7 @@ public:
 			}
 
 			/* Any 3D content means we use 3D mode */
-			if (dcp->three_d()) {
+			if (i->video && i->video->frame_type() != VIDEO_FRAME_TYPE_2D) {
 				_film->set_three_d (true);
 			}
 		}
@@ -494,16 +491,17 @@ public:
 		if (_film->content().size() == 1) {
 			/* Offer a CPL menu */
 			shared_ptr<DCPContent> first = dynamic_pointer_cast<DCPContent>(_film->content().front());
-			DCPOMATIC_ASSERT (first);
-			DCPExaminer ex (first);
-			int id = ID_view_cpl;
-			BOOST_FOREACH (shared_ptr<dcp::CPL> i, ex.cpls()) {
-				wxMenuItem* j = _cpl_menu->AppendRadioItem(
-					id,
-					wxString::Format("%s (%s)", std_to_wx(i->annotation_text()).data(), std_to_wx(i->id()).data())
-					);
-				j->Check(!first->cpl() || i->id() == *first->cpl());
-				++id;
+			if (first) {
+				DCPExaminer ex (first);
+				int id = ID_view_cpl;
+				BOOST_FOREACH (shared_ptr<dcp::CPL> i, ex.cpls()) {
+					wxMenuItem* j = _cpl_menu->AppendRadioItem(
+						id,
+						wxString::Format("%s (%s)", std_to_wx(i->annotation_text()).data(), std_to_wx(i->id()).data())
+						);
+					j->Check(!first->cpl() || i->id() == *first->cpl());
+					++id;
+				}
 			}
 		}
 	}
