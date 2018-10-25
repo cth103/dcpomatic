@@ -403,6 +403,13 @@ Film::metadata (bool with_content_paths) const
 	return doc;
 }
 
+void
+Film::write_metadata (boost::filesystem::path path) const
+{
+	shared_ptr<xmlpp::Document> doc = metadata ();
+	doc->write_to_file_formatted (path.string());
+}
+
 /** Write state to our `metadata' file */
 void
 Film::write_metadata () const

@@ -36,8 +36,6 @@
 #include "lib/compose.hpp"
 #include "lib/dcp_content.h"
 #include "lib/job_manager.h"
-#include "lib/spl.h"
-#include "lib/spl_entry.h"
 #include "lib/job.h"
 #include "lib/film.h"
 #include "lib/video_content.h"
@@ -201,8 +199,9 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::back_frame, this), ID_back_frame);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::forward_frame, this), ID_forward_frame);
 
+		reset_film ();
+
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
-		_controls->SPLChanged.connect (boost::bind(&DOMFrame::set_spl, this, _1));
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		MonitorChecker::instance()->StateChanged.connect(boost::bind(&DOMFrame::monitor_checker_state_changed, this));
 		MonitorChecker::instance()->run ();
@@ -214,7 +213,9 @@ public:
 			boost::filesystem::is_regular_file(Config::path("position")) &&
 			boost::filesystem::is_regular_file(Config::path("spl.xml"))) {
 
-			set_spl (SPL(Config::path("spl.xml")));
+			shared_ptr<Film> film (new Film(boost::optional<boost::filesystem::path>()));
+			film->read_metadata (Config::path("spl.xml"));
+			reset_film (film);
 			FILE* f = fopen_boost (Config::path("position"), "r");
 			if (f) {
 				char buffer[64];
@@ -362,14 +363,15 @@ public:
 
 	void load_dcp (boost::filesystem::path dir)
 	{
+		DCPOMATIC_ASSERT (_film);
+
 		try {
-			dcp::DCP dcp (dir);
-			dcp.read ();
-			SPL spl;
-			BOOST_FOREACH (shared_ptr<dcp::CPL> j, dcp.cpls()) {
-				spl.playlist.push_back (SPLEntry(j, dir));
+			shared_ptr<DCPContent> dcp (new DCPContent(_film, dir));
+			_film->examine_and_add_content (dcp);
+			bool const ok = display_progress (_("DCP-o-matic Player"), _("Loading DCP"));
+			if (!ok || !report_errors_from_last_job(this)) {
+				return;
 			}
-			set_spl (spl);
 			Config::instance()->add_to_player_history (dir);
 		} catch (dcp::DCPReadError& e) {
 			error_dialog (this, wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())), std_to_wx(e.what()));
@@ -419,55 +421,33 @@ public:
 		return optional<dcp::EncryptedKDM>();
 	}
 
-	void set_spl (SPL spl)
+	void reset_film (shared_ptr<Film> film = shared_ptr<Film>(new Film(optional<boost::filesystem::path>())))
 	{
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-		spl.as_xml (Config::path("spl.xml"));
-#endif
+		_film = film;
+		_viewer->set_film (_film);
+		_film->Change.connect (bind(&DOMFrame::film_changed, this, _1, _2));
+	}
+
+	void film_changed (ChangeType type, Film::Property property)
+	{
+		if (type != CHANGE_TYPE_DONE || property != Film::CONTENT) {
+			return;
+		}
+
+		_film->write_metadata (Config::path("spl.xml"));
 
 		if (_viewer->playing ()) {
 			_viewer->stop ();
 		}
 
-		_film.reset (new Film (optional<boost::filesystem::path>()));
-
-		if (spl.playlist.empty ()) {
-			_viewer->set_film (_film);
-			_info->triggered_update ();
-			return;
-		}
-
 		/* Start off as Flat */
 		_film->set_container (Ratio::from_id("185"));
 
-		/* Put 1 frame of black at the start so when we seek to 0 we don't see anything */
-		DCPTime position = DCPTime::from_frames(1, _film->video_frame_rate());
-		shared_ptr<DCPContent> first;
-
-		BOOST_FOREACH (SPLEntry i, spl.playlist) {
-			shared_ptr<DCPContent> dcp;
-			try {
-				dcp.reset (new DCPContent (_film, i.directory));
-			} catch (boost::filesystem::filesystem_error& e) {
-				error_dialog (this, _("Could not load DCP"), std_to_wx (e.what()));
-				return;
-			}
-
-			if (!first) {
-				first = dcp;
-			}
-
-			_film->examine_and_add_content (dcp, true);
-			bool const ok = progress (_("Loading DCP"));
-			if (!ok || !report_errors_from_last_job()) {
-				return;
-			}
-
-			dcp->set_position (position + i.black_before);
-			position += dcp->length_after_trim() + i.black_before;
-
+		BOOST_FOREACH (shared_ptr<Content> i, _film->content()) {
 			/* This DCP has been examined and loaded */
 
+			shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent>(i);
+			DCPOMATIC_ASSERT (dcp);
 			if (dcp->needs_kdm()) {
 				optional<dcp::EncryptedKDM> kdm;
 #ifdef DCPOMATIC_VARIANT_SWAROOP
@@ -499,11 +479,8 @@ public:
 			if (dcp->three_d()) {
 				_film->set_three_d (true);
 			}
-
-			_controls->log (wxString::Format(_("Load DCP %s"), i.directory.filename().string().c_str()));
 		}
 
-		_viewer->set_film (_film);
 		_viewer->seek (DCPTime(), true);
 		_info->triggered_update ();
 
@@ -514,8 +491,10 @@ public:
 			_cpl_menu->Remove (*i);
 		}
 
-		if (spl.playlist.size() == 1) {
+		if (_film->content().size() == 1) {
 			/* Offer a CPL menu */
+			shared_ptr<DCPContent> first = dynamic_pointer_cast<DCPContent>(_film->content().front());
+			DCPOMATIC_ASSERT (first);
 			DCPExaminer ex (first);
 			int id = ID_view_cpl;
 			BOOST_FOREACH (shared_ptr<dcp::CPL> i, ex.cpls()) {
@@ -653,8 +632,8 @@ private:
 			DCPOMATIC_ASSERT (dcp);
 			dcp->add_ov (wx_to_std(c->GetPath()));
 			JobManager::instance()->add(shared_ptr<Job>(new ExamineContentJob (_film, dcp)));
-			bool const ok = progress (_("Loading DCP"));
-			if (!ok || !report_errors_from_last_job()) {
+			bool const ok = display_progress (_("DCP-o-matic Player"), _("Loading DCP"));
+			if (!ok || !report_errors_from_last_job(this)) {
 				return;
 			}
 			BOOST_FOREACH (shared_ptr<TextContent> i, dcp->text) {
@@ -705,8 +684,7 @@ private:
 
 	void file_close ()
 	{
-		_viewer->set_film (shared_ptr<Film>());
-		_film.reset ();
+		reset_film ();
 		_info->triggered_update ();
 		set_menu_sensitivity ();
 	}
@@ -829,7 +807,7 @@ private:
 
 		JobManager* jm = JobManager::instance ();
 		jm->add (shared_ptr<Job> (new VerifyDCPJob (dcp->directories())));
-		bool const ok = progress (_("Verifying DCP"));
+		bool const ok = display_progress (_("DCP-o-matic Player"), _("Verifying DCP"));
 		if (!ok) {
 			return;
 		}
@@ -979,46 +957,6 @@ private:
 	}
 
 private:
-
-	/** @return false if the task was cancelled */
-	bool progress (wxString task)
-	{
-		JobManager* jm = JobManager::instance ();
-
-		wxProgressDialog* progress = new wxProgressDialog (_("DCP-o-matic Player"), task, 100, 0, wxPD_CAN_ABORT);
-
-		bool ok = true;
-
-		while (jm->work_to_do() || signal_manager->ui_idle()) {
-			dcpomatic_sleep (1);
-			if (!progress->Pulse()) {
-				/* user pressed cancel */
-				BOOST_FOREACH (shared_ptr<Job> i, jm->get()) {
-					i->cancel();
-				}
-				ok = false;
-				break;
-			}
-		}
-
-		progress->Destroy ();
-		return ok;
-	}
-
-	bool report_errors_from_last_job ()
-	{
-		JobManager* jm = JobManager::instance ();
-
-		DCPOMATIC_ASSERT (!jm->get().empty());
-
-		shared_ptr<Job> last = jm->get().back();
-		if (last->finished_in_error()) {
-			error_dialog(this, std_to_wx(last->error_summary()) + ".\n", std_to_wx(last->error_details()));
-			return false;
-		}
-
-		return true;
-	}
 
 	wxFrame* _dual_screen;
 	bool _update_news_requested;

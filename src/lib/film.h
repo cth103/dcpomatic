@@ -94,6 +94,7 @@ public:
 	void use_template (std::string name);
 	std::list<std::string> read_metadata (boost::optional<boost::filesystem::path> path = boost::optional<boost::filesystem::path> ());
 	void write_metadata () const;
+	void write_metadata (boost::filesystem::path path) const;
 	void write_template (boost::filesystem::path path) const;
 	boost::shared_ptr<xmlpp::Document> metadata (bool with_content_paths = true) const;
 

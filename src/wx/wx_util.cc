@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -25,16 +25,22 @@
 #include "wx_util.h"
 #include "file_picker_ctrl.h"
 #include "lib/config.h"
+#include "lib/job_manager.h"
 #include "lib/util.h"
 #include "lib/cross.h"
+#include "lib/job.h"
 #include <dcp/locale_convert.h>
 #include <wx/spinctrl.h>
 #include <wx/splash.h>
+#include <wx/progdlg.h>
 #include <wx/filepicker.h>
 #include <boost/thread.hpp>
 
-using namespace std;
-using namespace boost;
+using std::string;
+using std::vector;
+using std::pair;
+using boost::shared_ptr;
+using boost::optional;
 using dcp::locale_convert;
 
 wxStaticText *
@@ -484,4 +490,46 @@ calculate_mark_interval (double mark_interval)
 	}
 
 	return mark_interval;
+}
+
+
+/** @return false if the task was cancelled */
+bool
+display_progress (wxString title, wxString task)
+{
+	JobManager* jm = JobManager::instance ();
+
+	wxProgressDialog progress (title, task, 100, 0, wxPD_CAN_ABORT);
+
+	bool ok = true;
+
+	while (jm->work_to_do()) {
+		dcpomatic_sleep (1);
+		if (!progress.Pulse()) {
+			/* user pressed cancel */
+			BOOST_FOREACH (shared_ptr<Job> i, jm->get()) {
+				i->cancel();
+			}
+			ok = false;
+			break;
+		}
+	}
+
+	return ok;
+}
+
+bool
+report_errors_from_last_job (wxWindow* parent)
+{
+	JobManager* jm = JobManager::instance ();
+
+	DCPOMATIC_ASSERT (!jm->get().empty());
+
+	shared_ptr<Job> last = jm->get().back();
+	if (last->finished_in_error()) {
+		error_dialog(parent, std_to_wx(last->error_summary()) + ".\n", std_to_wx(last->error_details()));
+		return false;
+	}
+
+	return true;
 }

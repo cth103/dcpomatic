@@ -21,7 +21,6 @@
 #include "lib/dcpomatic_time.h"
 #include "lib/types.h"
 #include "lib/film.h"
-#include "lib/spl.h"
 #include <wx/wx.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
@@ -53,8 +52,6 @@ public:
 
 	void show_extended_player_controls (bool s);
 	void log (wxString s);
-
-	boost::signals2::signal<void (SPL)> SPLChanged;
 
 private:
 	void update_position_label ();
@@ -88,7 +85,7 @@ private:
 
 	typedef std::pair<boost::shared_ptr<dcp::CPL>, boost::filesystem::path> CPL;
 
-	boost::optional<CPL> selected_cpl () const;
+	boost::shared_ptr<Content> selected_content () const;
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	void pause_clicked ();
 	void stop_clicked ();
@@ -96,7 +93,7 @@ private:
 	void add_clicked ();
 	void save_clicked ();
 	void load_clicked ();
-	void add_cpl_to_list (boost::shared_ptr<dcp::CPL> cpl, wxListCtrl* list);
+	void add_content_to_list (boost::shared_ptr<Content> content, wxListCtrl* list);
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<FilmViewer> _viewer;
@@ -108,13 +105,13 @@ private:
 	wxCheckBox* _outline_content;
 	wxChoice* _eye;
 	wxCheckBox* _jump_to_selected;
-	wxListCtrl* _cpl;
+	wxListCtrl* _content_view;
 	wxListCtrl* _spl_view;
 	wxTextCtrl* _log;
 	wxButton* _add_button;
 	wxButton* _save_button;
 	wxButton* _load_button;
-	std::vector<CPL> _cpls;
+	std::vector<boost::shared_ptr<Content> > _content;
 	wxSlider* _slider;
 	wxButton* _rewind_button;
 	wxButton* _back_button;
@@ -129,7 +126,6 @@ private:
 	wxToggleButton* _play_button;
 #endif
 	boost::optional<std::string> _active_job;
-	SPL _spl;
 
 	ClosedCaptionsDialog* _closed_captions_dialog;
 
