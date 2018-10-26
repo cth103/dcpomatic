@@ -87,7 +87,7 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 
 	_v_sizer->Add (view_options, 0, wxALL, DCPOMATIC_SIZER_GAP);
 
-	wxBoxSizer* e_sizer = new wxBoxSizer (wxHORIZONTAL);
+	wxBoxSizer* left_sizer = new wxBoxSizer (wxVERTICAL);
 
 	_content_view = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
 	/* time */
@@ -96,13 +96,20 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	_content_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 80);
 	/* annotation text */
 	_content_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 580);
-	e_sizer->Add (_content_view, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
+	left_sizer->Add (_content_view, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
 	_spl_view = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
-	_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 80);
-	_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 80);
-	_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 580);
-	e_sizer->Add (_spl_view, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
+	_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 740);
+	left_sizer->Add (_spl_view, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
+
+	wxBoxSizer* e_sizer = new wxBoxSizer (wxHORIZONTAL);
+	e_sizer->Add (left_sizer, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
+
+	_current_spl_view = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
+	_current_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 80);
+	_current_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 80);
+	_current_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 580);
+	e_sizer->Add (_current_spl_view, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
 	wxBoxSizer* buttons_sizer = new wxBoxSizer (wxVERTICAL);
 	_add_button = new wxButton(this, wxID_ANY, _("Add"));
@@ -120,6 +127,7 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 
 	_content_view->Show (false);
 	_spl_view->Show (false);
+	_current_spl_view->Show (false);
 	_add_button->Show (false);
 	_save_button->Show (false);
 	_load_button->Show (false);
@@ -215,7 +223,7 @@ Controls::add_clicked ()
 		/* Put 1 frame of black at the start so when we seek to 0 we don't see anything */
 		sel->set_position (DCPTime::from_frames(1, _film->video_frame_rate()));
 	}
-	add_content_to_list (sel, _spl_view);
+	add_content_to_list (sel, _current_spl_view);
 	setup_sensitivity ();
 }
 
@@ -243,10 +251,10 @@ Controls::load_clicked ()
 
 	if (d->ShowModal() == wxID_OK) {
 		_film->read_metadata (boost::filesystem::path(wx_to_std(d->GetPath())));
-		_spl_view->DeleteAllItems ();
+		_current_spl_view->DeleteAllItems ();
 		BOOST_FOREACH (shared_ptr<Content> i, _film->content()) {
 			shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent>(i);
-			add_content_to_list (dcp, _spl_view);
+			add_content_to_list (dcp, _current_spl_view);
 		}
 	}
 
@@ -577,6 +585,7 @@ Controls::show_extended_player_controls (bool s)
 		update_content_directory ();
 	}
 	_spl_view->Show (s);
+	_current_spl_view->Show (s);
 	_log->Show (s);
 	_add_button->Show (s);
 	_save_button->Show (s);

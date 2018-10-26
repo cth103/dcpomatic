@@ -234,6 +234,11 @@ private:
 		table->Add (_content_directory, wxGBPosition (r, 1));
 		++r;
 
+		add_label_to_sizer (table, _panel, _("Playlist directory"), true, wxGBPosition (r, 0));
+		_playlist_directory = new wxDirPickerCtrl (_panel, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
+		table->Add (_playlist_directory, wxGBPosition (r, 1));
+		++r;
+
 		add_label_to_sizer (table, _panel, _("KDM directory"), true, wxGBPosition (r, 0));
 		_kdm_directory = new wxDirPickerCtrl (_panel, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
 		table->Add (_kdm_directory, wxGBPosition (r, 1));
@@ -247,6 +252,7 @@ private:
 #endif
 
 		_content_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&LocationsPage::content_directory_changed, this));
+		_playlist_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&LocationsPage::playlist_directory_changed, this));
 		_kdm_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&LocationsPage::kdm_directory_changed, this));
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		_background_image->Bind (wxEVT_FILEPICKER_CHANGED, bind(&LocationsPage::background_image_changed, this));
@@ -259,6 +265,9 @@ private:
 
 		if (config->player_content_directory()) {
 			checked_set (_content_directory, *config->player_content_directory());
+		}
+		if (config->player_playlist_directory()) {
+			checked_set (_playlist_directory, *config->player_playlist_directory());
 		}
 		if (config->player_kdm_directory()) {
 			checked_set (_kdm_directory, *config->player_kdm_directory());
@@ -275,6 +284,11 @@ private:
 		Config::instance()->set_player_content_directory(wx_to_std(_content_directory->GetPath()));
 	}
 
+	void playlist_directory_changed ()
+	{
+		Config::instance()->set_player_playlist_directory(wx_to_std(_playlist_directory->GetPath()));
+	}
+
 	void kdm_directory_changed ()
 	{
 		Config::instance()->set_player_kdm_directory(wx_to_std(_kdm_directory->GetPath()));
@@ -288,6 +302,7 @@ private:
 #endif
 
 	wxDirPickerCtrl* _content_directory;
+	wxDirPickerCtrl* _playlist_directory;
 	wxDirPickerCtrl* _kdm_directory;
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	FilePickerCtrl* _background_image;

@@ -106,6 +106,7 @@ private:
 	wxCheckBox* _jump_to_selected;
 	wxListCtrl* _content_view;
 	wxListCtrl* _spl_view;
+	wxListCtrl* _current_spl_view;
 	wxTextCtrl* _log;
 	wxButton* _add_button;
 	wxButton* _save_button;

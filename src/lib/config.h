@@ -491,6 +491,10 @@ public:
 		return _player_content_directory;
 	}
 
+	boost::optional<boost::filesystem::path> player_playlist_directory () const {
+		return _player_playlist_directory;
+	}
+
 	boost::optional<boost::filesystem::path> player_kdm_directory () const {
 		return _player_kdm_directory;
 	}
@@ -959,6 +963,18 @@ public:
 		changed (PLAYER_CONTENT_DIRECTORY);
 	}
 
+	void set_player_playlist_directory (boost::filesystem::path p) {
+		maybe_set (_player_playlist_directory, p);
+	}
+
+	void unset_player_playlist_directory () {
+		if (!_player_playlist_directory) {
+			return;
+		}
+		_player_playlist_directory = boost::none;
+		changed ();
+	}
+
 	void set_player_kdm_directory (boost::filesystem::path p) {
 		maybe_set (_player_kdm_directory, p);
 	}
@@ -1201,6 +1217,7 @@ private:
 	    for playback.
 	*/
 	boost::optional<boost::filesystem::path> _player_content_directory;
+	boost::optional<boost::filesystem::path> _player_playlist_directory;
 	boost::optional<boost::filesystem::path> _player_kdm_directory;
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	boost::optional<boost::filesystem::path> _player_background_image;
