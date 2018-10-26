@@ -89,6 +89,10 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 
 	wxBoxSizer* left_sizer = new wxBoxSizer (wxVERTICAL);
 
+	_spl_view = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
+	_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 740);
+	left_sizer->Add (_spl_view, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
+
 	_content_view = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
 	/* time */
 	_content_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 80);
@@ -97,10 +101,6 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	/* annotation text */
 	_content_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 580);
 	left_sizer->Add (_content_view, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
-
-	_spl_view = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
-	_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 740);
-	left_sizer->Add (_spl_view, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
 	wxBoxSizer* e_sizer = new wxBoxSizer (wxHORIZONTAL);
 	e_sizer->Add (left_sizer, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
