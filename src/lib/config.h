@@ -78,6 +78,7 @@ public:
 		SOUND_OUTPUT,
 		INTERFACE_COMPLEXITY,
 		PLAYER_CONTENT_DIRECTORY,
+		PLAYER_PLAYLIST_DIRECTORY,
 		HISTORY,
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		PLAYER_BACKGROUND_IMAGE,
@@ -964,7 +965,7 @@ public:
 	}
 
 	void set_player_playlist_directory (boost::filesystem::path p) {
-		maybe_set (_player_playlist_directory, p);
+		maybe_set (_player_playlist_directory, p, PLAYER_PLAYLIST_DIRECTORY);
 	}
 
 	void unset_player_playlist_directory () {
@@ -972,7 +973,7 @@ public:
 			return;
 		}
 		_player_playlist_directory = boost::none;
-		changed ();
+		changed (PLAYER_PLAYLIST_DIRECTORY);
 	}
 
 	void set_player_kdm_directory (boost::filesystem::path p) {

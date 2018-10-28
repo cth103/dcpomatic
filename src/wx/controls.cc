@@ -42,6 +42,7 @@
 using std::string;
 using std::list;
 using std::make_pair;
+using std::exception;
 using boost::optional;
 using boost::shared_ptr;
 using boost::weak_ptr;
@@ -200,6 +201,7 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 
 	setup_sensitivity ();
 	update_content_directory ();
+	update_playlist_directory ();
 
 	JobManager::instance()->ActiveJobsChanged.connect (
 		bind (&Controls::active_jobs_changed, this, _2)
@@ -236,7 +238,9 @@ Controls::save_clicked ()
 		);
 
 	if (d->ShowModal() == wxID_OK) {
-		_film->write_metadata(wx_to_std(d->GetPath()));
+		boost::filesystem::path p(wx_to_std(d->GetPath()));
+		_film->set_name(p.stem().string());
+		_film->write_metadata(p);
 	}
 
 	d->Destroy ();
@@ -266,6 +270,8 @@ Controls::config_changed (int property)
 {
 	if (property == Config::PLAYER_CONTENT_DIRECTORY) {
 		update_content_directory ();
+	} else if (property == Config::PLAYER_PLAYLIST_DIRECTORY) {
+		update_playlist_directory ();
 	} else {
 		setup_sensitivity ();
 	}
@@ -581,10 +587,11 @@ void
 Controls::show_extended_player_controls (bool s)
 {
 	_content_view->Show (s);
+	_spl_view->Show (s);
 	if (s) {
 		update_content_directory ();
+		update_playlist_directory ();
 	}
-	_spl_view->Show (s);
 	_current_spl_view->Show (s);
 	_log->Show (s);
 	_add_button->Show (s);
@@ -622,6 +629,18 @@ Controls::add_content_to_list (shared_ptr<Content> content, wxListCtrl* ctrl)
 	it.SetColumn(2);
 	it.SetText(std_to_wx(content->summary()));
 	ctrl->SetItem(it);
+}
+
+void
+Controls::add_playlist_to_list (shared_ptr<Film> film)
+{
+	int const N = _spl_view->GetItemCount();
+
+	wxListItem it;
+	it.SetId(N);
+	it.SetColumn(0);
+	it.SetText (std_to_wx(film->name()));
+	_spl_view->InsertItem (it);
 }
 
 void
@@ -672,6 +691,33 @@ Controls::update_content_directory ()
 		} catch (boost::filesystem::filesystem_error& e) {
 			/* Never mind */
 		} catch (dcp::DCPReadError& e) {
+			/* Never mind */
+		}
+	}
+}
+
+void
+Controls::update_playlist_directory ()
+{
+	if (!_spl_view->IsShown()) {
+		return;
+	}
+
+	using namespace boost::filesystem;
+
+	_spl_view->DeleteAllItems ();
+	optional<path> dir = Config::instance()->player_playlist_directory();
+	if (!dir) {
+		return;
+	}
+
+	for (directory_iterator i = directory_iterator(*dir); i != directory_iterator(); ++i) {
+		try {
+			shared_ptr<Film> film (new Film(optional<path>()));
+			film->read_metadata (i->path());
+			_playlists.push_back (film);
+			add_playlist_to_list (film);
+		} catch (exception& e) {
 			/* Never mind */
 		}
 	}

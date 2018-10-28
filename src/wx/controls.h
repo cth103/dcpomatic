@@ -80,6 +80,7 @@ private:
 	void stopped ();
 	void film_changed ();
 	void update_content_directory ();
+	void update_playlist_directory ();
 	void config_changed (int property);
 
 	typedef std::pair<boost::shared_ptr<dcp::CPL>, boost::filesystem::path> CPL;
@@ -93,6 +94,7 @@ private:
 	void save_clicked ();
 	void load_clicked ();
 	void add_content_to_list (boost::shared_ptr<Content> content, wxListCtrl* list);
+	void add_playlist_to_list (boost::shared_ptr<Film> film);
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<FilmViewer> _viewer;
@@ -112,6 +114,7 @@ private:
 	wxButton* _save_button;
 	wxButton* _load_button;
 	std::vector<boost::shared_ptr<Content> > _content;
+	std::vector<boost::shared_ptr<Film> > _playlists;
 	wxSlider* _slider;
 	wxButton* _rewind_button;
 	wxButton* _back_button;
