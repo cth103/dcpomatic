@@ -381,9 +381,7 @@ def configure(conf):
                             int main () { av_ebur128_get_true_peaks (0); }\n
                             """,
                    msg='Checking for EBUR128-patched FFmpeg',
-                   libpath=conf.env['LIBPATH_AVFORMAT'],
-                   lib='avfilter avutil swresample avcodec avformat swscale postproc',
-                   includes=conf.env['INCLUDES_AVFORMAT'],
+                   uselib='AVCODEC AVFILTER',
                    define_name='DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG',
                    mandatory=False)
 
@@ -397,9 +395,7 @@ def configure(conf):
                             """,
                    msg='Checking for AVSubtitleRect::pict',
                    cxxflags='-Wno-unused-result -Wno-unused-value -Wdeprecated-declarations -Werror',
-                   libpath=conf.env['LIBPATH_AVCODEC'],
-                   lib='avcodec',
-                   includes=conf.env['INCLUDES_AVCODEC'],
+                   uselib='AVCODEC',
                    define_name='DCPOMATIC_HAVE_AVSUBTITLERECT_PICT',
                    mandatory=False)
 
@@ -413,9 +409,7 @@ def configure(conf):
                             """,
                    msg='Checking for AVComponentDescriptor::depth_minus1',
                    cxxflags='-Wno-unused-result -Wno-unused-value -Wdeprecated-declarations -Werror',
-                   libpath=conf.env['LIBPATH_AVUTIL'],
-                   lib='avutil',
-                   includes=conf.env['INCLUDES_AVUTIL'],
+                   uselib='AVUTIL',
                    define_name='DCPOMATIC_HAVE_AVCOMPONENTDESCRIPTOR_DEPTH_MINUS1',
                    mandatory=False)
 
