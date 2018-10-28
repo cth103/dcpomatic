@@ -382,7 +382,7 @@ def configure(conf):
                             """,
                    msg='Checking for EBUR128-patched FFmpeg',
                    libpath=conf.env['LIBPATH_AVFORMAT'],
-                   lib='avfilter avutil swresample',
+                   lib='avfilter avutil swresample avcodec avformat',
                    includes=conf.env['INCLUDES_AVFORMAT'],
                    define_name='DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG',
                    mandatory=False)
