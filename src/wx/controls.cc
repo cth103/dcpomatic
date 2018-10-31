@@ -667,7 +667,7 @@ Controls::update_content_directory ()
 			shared_ptr<Content> content;
 			if (is_directory(*i) && (is_regular_file(*i / "ASSETMAP") || is_regular_file(*i / "ASSETMAP.xml"))) {
 				content.reset (new DCPContent(_film, *i));
-			} else if (i->path().extension() == ".mp4") {
+			} else if (i->path().extension() == ".mp4" || i->path().extension() == ".ecinema") {
 				content = content_factory(_film, *i).front();
 			}
 

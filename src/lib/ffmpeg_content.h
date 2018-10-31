@@ -98,6 +98,11 @@ public:
 		return _decryption_key;
 	}
 
+	bool encrypted () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _encrypted;
+	}
+
 private:
 	void add_properties (std::list<UserProperty> &) const;
 
@@ -116,6 +121,7 @@ private:
 	boost::optional<AVColorSpace> _colorspace;
 	boost::optional<int> _bits_per_pixel;
 	boost::optional<std::string> _decryption_key;
+	bool _encrypted;
 };
 
 #endif

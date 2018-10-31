@@ -65,6 +65,7 @@ int const FFmpegContentProperty::FILTERS = 102;
 
 FFmpegContent::FFmpegContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film, p)
+	, _encrypted (false)
 {
 
 }
@@ -126,6 +127,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 	_colorspace = get_optional_enum<AVColorSpace>(node, "Colorspace");
 	_bits_per_pixel = node->optional_number_child<int> ("BitsPerPixel");
 	_decryption_key = node->optional_string_child ("DecryptionKey");
+	_encrypted = node->optional_bool_child("Encrypted").get_value_or(false);
 }
 
 FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
@@ -187,6 +189,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<shared_ptr<Con
 	_color_trc = ref->_color_trc;
 	_colorspace = ref->_colorspace;
 	_bits_per_pixel = ref->_bits_per_pixel;
+	_encrypted = ref->_encrypted;
 }
 
 void
@@ -248,6 +251,9 @@ FFmpegContent::as_xml (xmlpp::Node* node, bool with_paths) const
 	}
 	if (_decryption_key) {
 		node->add_child("DecryptionKey")->add_child_text (_decryption_key.get());
+	}
+	if (_encrypted) {
+		node->add_child("Encypted")->add_child_text ("1");
 	}
 }
 
@@ -314,6 +320,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 			_subtitle_stream = _subtitle_streams.front ();
 		}
 
+		_encrypted = first_path.extension() == ".ecinema";
 	}
 
 	if (examiner->has_video ()) {
