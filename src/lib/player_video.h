@@ -65,7 +65,7 @@ public:
 	void prepare ();
 	boost::shared_ptr<Image> image (boost::function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast) const;
 
-	static AVPixelFormat always_rgb (AVPixelFormat);
+	static AVPixelFormat force (AVPixelFormat, AVPixelFormat);
 	static AVPixelFormat keep_xyz_or_rgb (AVPixelFormat);
 
 	void add_metadata (xmlpp::Node* node) const;

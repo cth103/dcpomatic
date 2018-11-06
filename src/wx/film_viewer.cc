@@ -267,12 +267,12 @@ FilmViewer::display_player_video ()
 	 * The content's specified colour conversion indicates the colourspace
 	 * which the content is in (according to the user).
 	 *
-	 * PlayerVideo::image (bound to PlayerVideo::always_rgb) will take the source
+	 * PlayerVideo::image (bound to PlayerVideo::force) will take the source
 	 * image and convert it (from whatever the user has said it is) to RGB.
 	 */
 
 	_frame = _player_video.first->image (
-		bind (&PlayerVideo::always_rgb, _1),
+		bind (&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),
 		false, true
 		);
 

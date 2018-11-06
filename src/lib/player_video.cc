@@ -105,7 +105,7 @@ PlayerVideo::set_text (PositionImage image)
 /** Create an image for this frame.
  *  @param pixel_format Function which is called to decide what pixel format the output image should be;
  *  it is passed the pixel format of the input image from the ImageProxy, and should return the desired
- *  output pixel format.  Two functions always_rgb and keep_xyz_or_rgb are provided for use here.
+ *  output pixel format.  Two functions force and keep_xyz_or_rgb are provided for use here.
  *  @param aligned true if the output image should be aligned to 32-byte boundaries.
  *  @param fast true to be fast at the expense of quality.
  */
@@ -254,9 +254,9 @@ PlayerVideo::same (shared_ptr<const PlayerVideo> other) const
 }
 
 AVPixelFormat
-PlayerVideo::always_rgb (AVPixelFormat)
+PlayerVideo::force (AVPixelFormat, AVPixelFormat force_to)
 {
-	return AV_PIX_FMT_RGB24;
+	return force_to;
 }
 
 AVPixelFormat

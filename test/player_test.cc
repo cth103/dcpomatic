@@ -220,7 +220,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 		butler->seek (t, true);
 		pair<shared_ptr<PlayerVideo>, DCPTime> video = butler->get_video();
 		BOOST_CHECK_EQUAL(video.second.get(), t.get());
-		write_image(video.first->image(PlayerVideo::always_rgb, false, true), String::compose("build/test/player_seek_test_%1.png", i), "RGB");
+		write_image(video.first->image(bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true), String::compose("build/test/player_seek_test_%1.png", i), "RGB");
 		/* This 0.011 is empirically chosen (hopefully) to accept changes in rendering between the reference and a test machine
 		   (17.10 and 16.04 seem to anti-alias a little differently) but to reject gross errors e.g. missing fonts or missing
 		   text altogether.
@@ -253,7 +253,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 		butler->seek (t, true);
 		pair<shared_ptr<PlayerVideo>, DCPTime> video = butler->get_video();
 		BOOST_CHECK_EQUAL(video.second.get(), t.get());
-		write_image(video.first->image(PlayerVideo::always_rgb, false, true), String::compose("build/test/player_seek_test2_%1.png", i), "RGB");
+		write_image(video.first->image(bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true), String::compose("build/test/player_seek_test2_%1.png", i), "RGB");
 		check_image(String::compose("test/data/player_seek_test2_%1.png", i), String::compose("build/test/player_seek_test2_%1.png", i), 0.011);
 	}
 }

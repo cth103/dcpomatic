@@ -43,12 +43,6 @@ using boost::weak_ptr;
 int FFmpegFileEncoder::_video_stream_index = 0;
 int FFmpegFileEncoder::_audio_stream_index = 1;
 
-static AVPixelFormat
-force_pixel_format (AVPixelFormat, AVPixelFormat out)
-{
-	return out;
-}
-
 FFmpegFileEncoder::FFmpegFileEncoder (
 	dcp::Size video_frame_size,
 	int video_frame_rate,
@@ -230,7 +224,7 @@ void
 FFmpegFileEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 {
 	shared_ptr<Image> image = video->image (
-		bind (&force_pixel_format, _1, _pixel_format),
+		bind (&PlayerVideo::force, _1, _pixel_format),
 		true,
 		false
 		);
