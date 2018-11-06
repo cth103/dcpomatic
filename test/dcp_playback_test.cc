@@ -37,7 +37,16 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
-	shared_ptr<Butler> butler (new Butler(shared_ptr<Player>(new Player(film, film->playlist())), shared_ptr<Log>(), AudioMapping(6, 6), 6));
+	shared_ptr<Butler> butler (
+		new Butler(
+			shared_ptr<Player>(new Player(film, film->playlist())),
+			shared_ptr<Log>(),
+			AudioMapping(6, 6),
+			6,
+			bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),
+			false,
+			true)
+		);
 	float* audio_buffer = new float[2000*6];
 	while (true) {
 		pair<shared_ptr<PlayerVideo>, DCPTime> p = butler->get_video ();

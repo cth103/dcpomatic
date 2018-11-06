@@ -62,7 +62,7 @@ public:
 
 	void set_text (PositionImage);
 
-	void prepare ();
+	void prepare (boost::function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast);
 	boost::shared_ptr<Image> image (boost::function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast) const;
 
 	static AVPixelFormat force (AVPixelFormat, AVPixelFormat);
@@ -105,6 +105,8 @@ public:
 	}
 
 private:
+	void make_image (boost::function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast) const;
+
 	boost::shared_ptr<const ImageProxy> _in;
 	Crop _crop;
 	boost::optional<double> _fade;
@@ -120,6 +122,9 @@ private:
 	boost::weak_ptr<Content> _content;
 	/** Video frame that we came from.  Again, this is for reset_metadata() */
 	boost::optional<Frame> _video_frame;
+
+	mutable boost::mutex _mutex;
+	mutable boost::shared_ptr<Image> _image;
 };
 
 #endif

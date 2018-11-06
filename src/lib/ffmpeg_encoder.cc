@@ -107,7 +107,7 @@ FFmpegEncoder::FFmpegEncoder (
 		}
 	}
 
-	_butler.reset (new Butler (_player, film->log(), map, _output_audio_channels));
+	_butler.reset (new Butler (_player, film->log(), map, _output_audio_channels, bind(&PlayerVideo::force, _1, FFmpegFileEncoder::pixel_format(format)), true, false));
 }
 
 void

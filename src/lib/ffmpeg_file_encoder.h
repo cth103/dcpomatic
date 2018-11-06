@@ -50,6 +50,8 @@ public:
 
 	void flush ();
 
+	static AVPixelFormat pixel_format (ExportFormat format);
+
 private:
 	void setup_video ();
 	void setup_audio ();

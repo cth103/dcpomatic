@@ -37,7 +37,16 @@ class Log;
 class Butler : public ExceptionStore, public boost::noncopyable
 {
 public:
-	Butler (boost::shared_ptr<Player> player, boost::shared_ptr<Log> log, AudioMapping map, int audio_channels);
+	Butler (
+		boost::shared_ptr<Player> player,
+		boost::shared_ptr<Log> log,
+		AudioMapping map,
+		int audio_channels,
+		boost::function<AVPixelFormat (AVPixelFormat)> pixel_format,
+		bool aligned,
+		bool fast
+		);
+
 	~Butler ();
 
 	void seek (DCPTime position, bool accurate);
@@ -98,6 +107,10 @@ private:
 	int _audio_channels;
 
 	bool _disable_audio;
+
+	boost::function<AVPixelFormat (AVPixelFormat)> _pixel_format;
+	bool _aligned;
+	bool _fast;
 
 	/** If we are waiting to be refilled following a seek, this is the time we were
 	    seeking to.

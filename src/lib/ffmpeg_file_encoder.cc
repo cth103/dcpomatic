@@ -26,7 +26,6 @@
 #include "log.h"
 #include "image.h"
 #include "cross.h"
-#include "butler.h"
 #include "compose.hpp"
 #include <iostream>
 
@@ -61,9 +60,10 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 	, _audio_frame_rate (audio_frame_rate)
 	, _log (log)
 {
+	_pixel_format = pixel_format (format);
+
 	switch (format) {
 	case EXPORT_FORMAT_PRORES:
-		_pixel_format = AV_PIX_FMT_YUV422P10;
 		_sample_format = AV_SAMPLE_FMT_S16;
 		_video_codec_name = "prores_ks";
 		_audio_codec_name = "pcm_s16le";
@@ -71,7 +71,6 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 		av_dict_set (&_video_options, "threads", "auto", 0);
 		break;
 	case EXPORT_FORMAT_H264:
-		_pixel_format = AV_PIX_FMT_YUV420P;
 		_sample_format = AV_SAMPLE_FMT_FLTP;
 		_video_codec_name = "libx264";
 		_audio_codec_name = "aac";
@@ -123,6 +122,21 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 	}
 
 	_pending_audio.reset (new AudioBuffers(channels, 0));
+}
+
+AVPixelFormat
+FFmpegFileEncoder::pixel_format (ExportFormat format)
+{
+	switch (format) {
+	case EXPORT_FORMAT_PRORES:
+		return AV_PIX_FMT_YUV422P10;
+	case EXPORT_FORMAT_H264:
+		return AV_PIX_FMT_YUV420P;
+	default:
+		DCPOMATIC_ASSERT (false);
+	}
+
+	return AV_PIX_FMT_YUV422P10;
 }
 
 void

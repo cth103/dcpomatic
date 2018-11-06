@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -39,6 +39,7 @@ using boost::weak_ptr;
 using boost::shared_ptr;
 using boost::bind;
 using boost::optional;
+using boost::function;
 
 /** Minimum video readahead in frames */
 #define MINIMUM_VIDEO_READAHEAD 10
@@ -49,7 +50,20 @@ using boost::optional;
 /** Minimum audio readahead in frames; should never be reached unless there are bugs in Player */
 #define MAXIMUM_AUDIO_READAHEAD (48000 * MAXIMUM_VIDEO_READAHEAD / 24)
 
-Butler::Butler (shared_ptr<Player> player, shared_ptr<Log> log, AudioMapping audio_mapping, int audio_channels)
+/** @param pixel_format Pixel format functor that will be used when calling ::image on PlayerVideos coming out of this
+ *  butler.  This will be used (where possible) to prepare the PlayerVideos so that calling image() on them is quick().
+ *  @param aligned Same as above for the `aligned' flag.
+ *  @param fast Same as above for the `fast' flag.
+ */
+Butler::Butler (
+	shared_ptr<Player> player,
+	shared_ptr<Log> log,
+	AudioMapping audio_mapping,
+	int audio_channels,
+	function<AVPixelFormat (AVPixelFormat)> pixel_format,
+	bool aligned,
+	bool fast
+	)
 	: _player (player)
 	, _log (log)
 	, _prepare_work (new boost::asio::io_service::work (_prepare_service))
@@ -61,6 +75,9 @@ Butler::Butler (shared_ptr<Player> player, shared_ptr<Log> log, AudioMapping aud
 	, _audio_mapping (audio_mapping)
 	, _audio_channels (audio_channels)
 	, _disable_audio (false)
+	, _pixel_format (pixel_format)
+	, _aligned (aligned)
+	, _fast (fast)
 {
 	_player_video_connection = _player->Video.connect (bind (&Butler::video, this, _1, _2));
 	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1, _2));
@@ -266,7 +283,7 @@ Butler::prepare (weak_ptr<PlayerVideo> weak_video) const
 			LOG_TIMING("start-prepare in %1", thread_id());
 		}
 
-		video->prepare ();
+		video->prepare (_pixel_format, _aligned, _fast);
 
 		if (_log) {
 			LOG_TIMING("finish-prepare in %1", thread_id());
