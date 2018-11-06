@@ -78,6 +78,7 @@ public:
 	boost::optional<int> dcp_decode_reduction () const;
 	void set_outline_content (bool o);
 	void set_eyes (Eyes e);
+	void set_pad_black (bool p);
 
 	void slow_refresh ();
 
@@ -153,6 +154,10 @@ private:
 
 	bool _outline_content;
 	Eyes _eyes;
+	/** true to pad the viewer panel with black, false to use
+	    the normal window background colour.
+	*/
+	bool _pad_black;
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	bool _in_watermark;

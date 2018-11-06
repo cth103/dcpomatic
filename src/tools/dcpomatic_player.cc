@@ -763,6 +763,7 @@ private:
 		_info->Show (_mode != Config::PLAYER_MODE_FULL);
 		_overall_panel->SetBackgroundColour (_mode == Config::PLAYER_MODE_FULL ? wxColour(0, 0, 0) : wxNullColour);
 		ShowFullScreen (_mode == Config::PLAYER_MODE_FULL);
+		_viewer->set_pad_black (_mode != Config::PLAYER_MODE_WINDOW);
 
 		if (_mode == Config::PLAYER_MODE_DUAL) {
 			_dual_screen = new wxFrame (this, wxID_ANY, wxT(""));

@@ -86,6 +86,7 @@ FilmViewer::FilmViewer (wxWindow* p)
 	, _closed_captions_dialog (new ClosedCaptionsDialog(p))
 	, _outline_content (false)
 	, _eyes (EYES_LEFT)
+	, _pad_black (false)
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	, _in_watermark (false)
 #endif
@@ -354,16 +355,16 @@ FilmViewer::paint_panel ()
 
 	if (_out_size.width < _panel_size.width) {
 		/* XXX: these colours are right for GNOME; may need adjusting for other OS */
-		wxPen p (wxColour (240, 240, 240));
-		wxBrush b (wxColour (240, 240, 240));
+		wxPen   p (_pad_black ? wxColour(0, 0, 0) : wxColour(240, 240, 240));
+		wxBrush b (_pad_black ? wxColour(0, 0, 0) : wxColour(240, 240, 240));
 		dc.SetPen (p);
 		dc.SetBrush (b);
 		dc.DrawRectangle (_out_size.width, 0, _panel_size.width - _out_size.width, _panel_size.height);
 	}
 
 	if (_out_size.height < _panel_size.height) {
-		wxPen p (wxColour (240, 240, 240));
-		wxBrush b (wxColour (240, 240, 240));
+		wxPen   p (_pad_black ? wxColour(0, 0, 0) : wxColour(240, 240, 240));
+		wxBrush b (_pad_black ? wxColour(0, 0, 0) : wxColour(240, 240, 240));
 		dc.SetPen (p);
 		dc.SetBrush (b);
 		int const gap = (_panel_size.height - _out_size.height) / 2;
@@ -745,4 +746,10 @@ void
 FilmViewer::seek_by (DCPTime by, bool accurate)
 {
 	seek (_video_position + by, accurate);
+}
+
+void
+FilmViewer::set_pad_black (bool p)
+{
+	_pad_black = p;
 }
