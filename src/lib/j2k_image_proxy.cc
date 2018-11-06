@@ -170,12 +170,15 @@ J2KImageProxy::image (optional<dcp::NoteHandler>, optional<dcp::Size> target_siz
 	int const width = _decompressed->size().width;
 
 	int p = 0;
+	int* decomp_0 = _decompressed->data (0);
+	int* decomp_1 = _decompressed->data (1);
+	int* decomp_2 = _decompressed->data (2);
 	for (int y = 0; y < _decompressed->size().height; ++y) {
 		uint16_t* q = (uint16_t *) (image->data()[0] + y * image->stride()[0]);
 		for (int x = 0; x < width; ++x) {
-			for (int c = 0; c < 3; ++c) {
-				*q++ = _decompressed->data(c)[p] << 4;
-			}
+			*q++ = decomp_0[p] << 4;
+			*q++ = decomp_1[p] << 4;
+			*q++ = decomp_2[p] << 4;
 			++p;
 		}
 	}
