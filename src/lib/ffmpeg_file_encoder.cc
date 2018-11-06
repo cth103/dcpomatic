@@ -230,7 +230,7 @@ void
 FFmpegFileEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 {
 	shared_ptr<Image> image = video->image (
-		bind (&Log::dcp_log, _log.get(), _1, _2),
+		boost::optional<dcp::NoteHandler>(bind(&Log::dcp_log, _log.get(), _1, _2)),
 		bind (&force_pixel_format, _1, _pixel_format),
 		true,
 		false

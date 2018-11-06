@@ -65,7 +65,7 @@ Butler::Butler (shared_ptr<Player> player, shared_ptr<Log> log, AudioMapping aud
 	_player_video_connection = _player->Video.connect (bind (&Butler::video, this, _1, _2));
 	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1, _2));
 	_player_text_connection = _player->Text.connect (bind (&Butler::text, this, _1, _2, _3, _4));
-	/* The butler must here about things first, otherwise it might not sort out suspensions in time for
+	/* The butler must hear about things first, otherwise it might not sort out suspensions in time for
 	   get_video() to be called in response to this signal.
 	*/
 	_player_change_connection = _player->Change.connect (bind (&Butler::player_change, this, _1, _3), boost::signals2::at_front);
@@ -78,7 +78,10 @@ Butler::Butler (shared_ptr<Player> player, shared_ptr<Log> log, AudioMapping aud
 	   multi-thread JPEG2000 decoding.
 	*/
 
-	LOG_TIMING("start-prepare-threads %1", boost::thread::hardware_concurrency());
+	if (_log) {
+		LOG_TIMING("start-prepare-threads %1", boost::thread::hardware_concurrency());
+	}
+
 	for (size_t i = 0; i < boost::thread::hardware_concurrency(); ++i) {
 		_prepare_pool.create_thread (bind (&boost::asio::io_service::run, &_prepare_service));
 	}
@@ -120,11 +123,11 @@ Butler::should_run () const
 			(__FILE__, __LINE__, String::compose ("Butler audio buffers reached %1 frames (video is %2)", _audio.size(), _video.size()));
 	}
 
-	if (_video.size() >= MAXIMUM_VIDEO_READAHEAD * 2) {
+	if (_video.size() >= MAXIMUM_VIDEO_READAHEAD * 2 && _log) {
 		LOG_WARNING ("Butler video buffers reached %1 frames (audio is %2)", _video.size(), _audio.size());
 	}
 
-	if (_audio.size() >= MAXIMUM_AUDIO_READAHEAD * 2) {
+	if (_audio.size() >= MAXIMUM_AUDIO_READAHEAD * 2 && _log) {
 		LOG_WARNING ("Butler audio buffers reached %1 frames (video is %2)", _audio.size(), _video.size());
 	}
 
@@ -259,9 +262,15 @@ Butler::prepare (weak_ptr<PlayerVideo> weak_video) const
 	shared_ptr<PlayerVideo> video = weak_video.lock ();
 	/* If the weak_ptr cannot be locked the video obviously no longer requires any work */
 	if (video) {
-		LOG_TIMING("start-prepare in %1", thread_id());
+		if (_log) {
+			LOG_TIMING("start-prepare in %1", thread_id());
+		}
+
 		video->prepare ();
-		LOG_TIMING("finish-prepare in %1", thread_id());
+
+		if (_log) {
+			LOG_TIMING("finish-prepare in %1", thread_id());
+		}
 	}
 }
 

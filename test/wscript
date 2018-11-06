@@ -58,6 +58,7 @@ def build(bld):
                  config_test.cc
                  content_test.cc
                  dcpomatic_time_test.cc
+                 dcp_playback_test.cc
                  dcp_subtitle_test.cc
                  digest_test.cc
                  empty_test.cc

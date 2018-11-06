@@ -111,7 +111,7 @@ PlayerVideo::set_text (PositionImage image)
  *  @param fast true to be fast at the expense of quality.
  */
 shared_ptr<Image>
-PlayerVideo::image (dcp::NoteHandler note, function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast) const
+PlayerVideo::image (optional<dcp::NoteHandler> note, function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast) const
 {
 	pair<shared_ptr<Image>, int> prox = _in->image (optional<dcp::NoteHandler> (note), _inter_size);
 	shared_ptr<Image> im = prox.first;

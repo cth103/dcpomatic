@@ -271,7 +271,7 @@ FilmViewer::display_player_video ()
 	 */
 
 	_frame = _player_video.first->image (
-		bind (&Log::dcp_log, _film->log().get(), _1, _2),
+		optional<dcp::NoteHandler>(bind(&Log::dcp_log, _film->log().get(), _1, _2)),
 		bind (&PlayerVideo::always_rgb, _1),
 		false, true
 		);
