@@ -368,7 +368,7 @@ public:
 		try {
 			shared_ptr<DCPContent> dcp (new DCPContent(_film, dir));
 			_film->examine_and_add_content (dcp);
-			bool const ok = display_progress (_("DCP-o-matic Player"), _("Loading DCP"));
+			bool const ok = display_progress (_("DCP-o-matic Player"), _("Loading content"));
 			if (!ok || !report_errors_from_last_job(this)) {
 				return;
 			}
@@ -630,7 +630,7 @@ private:
 			DCPOMATIC_ASSERT (dcp);
 			dcp->add_ov (wx_to_std(c->GetPath()));
 			JobManager::instance()->add(shared_ptr<Job>(new ExamineContentJob (_film, dcp)));
-			bool const ok = display_progress (_("DCP-o-matic Player"), _("Loading DCP"));
+			bool const ok = display_progress (_("DCP-o-matic Player"), _("Loading content"));
 			if (!ok || !report_errors_from_last_job(this)) {
 				return;
 			}
