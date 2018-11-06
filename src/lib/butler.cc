@@ -43,7 +43,7 @@ using boost::optional;
 /** Minimum video readahead in frames */
 #define MINIMUM_VIDEO_READAHEAD 10
 /** Maximum video readahead in frames; should never be reached unless there are bugs in Player */
-#define MAXIMUM_VIDEO_READAHEAD 24
+#define MAXIMUM_VIDEO_READAHEAD 48
 /** Minimum audio readahead in frames */
 #define MINIMUM_AUDIO_READAHEAD (48000 * MINIMUM_VIDEO_READAHEAD / 24)
 /** Minimum audio readahead in frames; should never be reached unless there are bugs in Player */
@@ -79,10 +79,10 @@ Butler::Butler (shared_ptr<Player> player, shared_ptr<Log> log, AudioMapping aud
 	*/
 
 	if (_log) {
-		LOG_TIMING("start-prepare-threads %1", boost::thread::hardware_concurrency());
+		LOG_TIMING("start-prepare-threads %1", boost::thread::hardware_concurrency() * 2);
 	}
 
-	for (size_t i = 0; i < boost::thread::hardware_concurrency(); ++i) {
+	for (size_t i = 0; i < boost::thread::hardware_concurrency() * 2; ++i) {
 		_prepare_pool.create_thread (bind (&boost::asio::io_service::run, &_prepare_service));
 	}
 }
