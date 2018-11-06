@@ -60,7 +60,7 @@ class ImageProxy : public boost::noncopyable
 public:
 	virtual ~ImageProxy () {}
 
-	/** @param note Handler for any notes that occur.
+	/** @param log Log to write to, or 0.
 	 *  @param size Size that the returned image will be scaled to, in case this
 	 *  can be used as an optimisation.
 	 *  @return Image (which must be aligned) and log2 of any scaling down that has
@@ -68,7 +68,6 @@ public:
 	 *  of the original, the second part of the return value will be 1.
 	 */
 	virtual std::pair<boost::shared_ptr<Image>, int> image (
-		boost::optional<dcp::NoteHandler> note = boost::optional<dcp::NoteHandler> (),
 		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
 		) const = 0;
 

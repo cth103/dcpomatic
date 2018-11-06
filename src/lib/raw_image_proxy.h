@@ -30,7 +30,6 @@ public:
 	RawImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
 
 	std::pair<boost::shared_ptr<Image>, int> image (
-		boost::optional<dcp::NoteHandler> note = boost::optional<dcp::NoteHandler> (),
 		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
 		) const;
 

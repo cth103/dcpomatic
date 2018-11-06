@@ -103,7 +103,6 @@ PlayerVideo::set_text (PositionImage image)
 }
 
 /** Create an image for this frame.
- *  @param note Handler for any notes that are made during the process.
  *  @param pixel_format Function which is called to decide what pixel format the output image should be;
  *  it is passed the pixel format of the input image from the ImageProxy, and should return the desired
  *  output pixel format.  Two functions always_rgb and keep_xyz_or_rgb are provided for use here.
@@ -111,9 +110,9 @@ PlayerVideo::set_text (PositionImage image)
  *  @param fast true to be fast at the expense of quality.
  */
 shared_ptr<Image>
-PlayerVideo::image (optional<dcp::NoteHandler> note, function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast) const
+PlayerVideo::image (function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast) const
 {
-	pair<shared_ptr<Image>, int> prox = _in->image (optional<dcp::NoteHandler> (note), _inter_size);
+	pair<shared_ptr<Image>, int> prox = _in->image (_inter_size);
 	shared_ptr<Image> im = prox.first;
 	int const reduce = prox.second;
 

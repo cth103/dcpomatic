@@ -110,7 +110,7 @@ FFmpegImageProxy::avio_seek (int64_t const pos, int whence)
 }
 
 pair<shared_ptr<Image>, int>
-FFmpegImageProxy::image (optional<dcp::NoteHandler>, optional<dcp::Size>) const
+FFmpegImageProxy::image (optional<dcp::Size>) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 

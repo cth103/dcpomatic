@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 		}
 		/* assuming DCP is 24fps/48kHz */
 		butler->get_audio (audio_buffer, 2000);
-		p.first->image(optional<dcp::NoteHandler>(), bind(&PlayerVideo::always_rgb, _1), false, true);
+		p.first->image(bind(&PlayerVideo::always_rgb, _1), false, true);
 	}
 	delete[] audio_buffer;
 }
