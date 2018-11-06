@@ -365,6 +365,7 @@ public:
 	{
 		DCPOMATIC_ASSERT (_film);
 
+		reset_film ();
 		try {
 			shared_ptr<DCPContent> dcp (new DCPContent(_film, dir));
 			_film->examine_and_add_content (dcp);
