@@ -221,10 +221,6 @@ Controls::add_clicked ()
 	if (!ok || !report_errors_from_last_job(this)) {
 		return;
 	}
-	if (_film->content().size() == 1) {
-		/* Put 1 frame of black at the start so when we seek to 0 we don't see anything */
-		sel->set_position (DCPTime::from_frames(1, _film->video_frame_rate()));
-	}
 	add_content_to_list (sel, _current_spl_view);
 	setup_sensitivity ();
 }

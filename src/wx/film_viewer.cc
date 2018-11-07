@@ -306,6 +306,22 @@ FilmViewer::timer ()
 	}
 }
 
+bool
+FilmViewer::maybe_draw_background_image (wxPaintDC& dc)
+{
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	optional<boost::filesystem::path> bg = Config::instance()->player_background_image();
+	if (bg) {
+		wxImage image (std_to_wx(bg->string()));
+		wxBitmap bitmap (image);
+		dc.DrawBitmap (bitmap, max(0, (_panel_size.width - image.GetSize().GetWidth()) / 2), max(0, (_panel_size.height - image.GetSize().GetHeight()) / 2));
+		return true;
+	}
+#endif
+
+	return false;
+}
+
 void
 FilmViewer::paint_panel ()
 {
@@ -313,14 +329,11 @@ FilmViewer::paint_panel ()
 
 	if (!_frame || !_film || !_out_size.width || !_out_size.height || _out_size != _frame->size()) {
 		dc.Clear ();
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-		optional<boost::filesystem::path> bg = Config::instance()->player_background_image();
-		if (bg) {
-			wxImage image (std_to_wx(bg->string()));
-			wxBitmap bitmap (image);
-			dc.DrawBitmap (bitmap, max(0, (_panel_size.width - image.GetSize().GetWidth()) / 2), max(0, (_panel_size.height - image.GetSize().GetHeight()) / 2));
-		}
-#endif
+		maybe_draw_background_image (dc);
+		return;
+	}
+
+	if (_video_position == DCPTime() && maybe_draw_background_image (dc)) {
 		return;
 	}
 

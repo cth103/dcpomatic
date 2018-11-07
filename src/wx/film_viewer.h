@@ -108,6 +108,7 @@ private:
 	void film_change (ChangeType, Film::Property);
 	void recreate_butler ();
 	void config_changed (Config::Property);
+	bool maybe_draw_background_image (wxPaintDC& dc);
 
 	DCPTime time () const;
 	DCPTime uncorrected_time () const;
