@@ -400,6 +400,9 @@ Content::set_video_frame_rate (double r)
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
+		if (_video_frame_rate && fabs(r - *_video_frame_rate) < VIDEO_FRAME_RATE_EPSILON) {
+			cc.abort();
+		}
 		_video_frame_rate = r;
 	}
 
