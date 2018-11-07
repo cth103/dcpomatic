@@ -214,7 +214,7 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 void
 Controls::add_clicked ()
 {
-	shared_ptr<Content> sel = selected_content ();
+	shared_ptr<Content> sel = selected_content()->clone();
 	DCPOMATIC_ASSERT (sel);
 	_film->examine_and_add_content (sel);
 	bool const ok = display_progress (_("DCP-o-matic"), _("Loading DCP"));
