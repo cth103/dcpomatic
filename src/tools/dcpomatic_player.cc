@@ -48,6 +48,7 @@
 #include "lib/dcpomatic_socket.h"
 #include "lib/scoped_temporary.h"
 #include "lib/monitor_checker.h"
+#include "lib/ffmpeg_content.h"
 #include <dcp/dcp.h>
 #include <dcp/raw_convert.h>
 #include <dcp/exceptions.h>
@@ -299,26 +300,42 @@ public:
 			return;
 		}
 
-		shared_ptr<DCPContent> dcp = boost::dynamic_pointer_cast<DCPContent>(_film->content().front());
-		DCPOMATIC_ASSERT (dcp);
-		DCPExaminer ex (dcp);
-		shared_ptr<dcp::CPL> playing_cpl;
-		BOOST_FOREACH (shared_ptr<dcp::CPL> i, ex.cpls()) {
-			if (!dcp->cpl() || i->id() == *dcp->cpl()) {
-				playing_cpl = i;
-			}
-		}
-		DCPOMATIC_ASSERT (playing_cpl)
-
 		FILE* f = fopen_boost(*log, "a");
-		fprintf (
-			f,
-			"%s playback-started %s %s %s\n",
-			dcp::LocalTime().as_string().c_str(),
-			time.timecode(_film->video_frame_rate()).c_str(),
-			dcp->directories().front().string().c_str(),
-			playing_cpl->annotation_text().c_str()
-			);
+
+		/* XXX: this only logs the first piece of content; probably should be each piece? */
+
+		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent>(_film->content().front());
+		if (dcp) {
+			DCPExaminer ex (dcp);
+			shared_ptr<dcp::CPL> playing_cpl;
+			BOOST_FOREACH (shared_ptr<dcp::CPL> i, ex.cpls()) {
+				if (!dcp->cpl() || i->id() == *dcp->cpl()) {
+					playing_cpl = i;
+				}
+			}
+			DCPOMATIC_ASSERT (playing_cpl);
+
+			fprintf (
+				f,
+				"%s playback-started %s %s %s\n",
+				dcp::LocalTime().as_string().c_str(),
+				time.timecode(_film->video_frame_rate()).c_str(),
+				dcp->directories().front().string().c_str(),
+				playing_cpl->annotation_text().c_str()
+				);
+		}
+
+		shared_ptr<FFmpegContent> ffmpeg = dynamic_pointer_cast<FFmpegContent>(_film->content().front());
+		if (ffmpeg) {
+			fprintf (
+				f,
+				"%s playback-started %s %s\n",
+				dcp::LocalTime().as_string().c_str(),
+				time.timecode(_film->video_frame_rate()).c_str(),
+				ffmpeg->path(0).string().c_str()
+				);
+		}
+
 		fclose (f);
 	}
 
