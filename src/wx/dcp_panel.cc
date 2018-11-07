@@ -442,6 +442,9 @@ DCPPanel::film_changed (int p)
 		checked_set (_three_d, _film->three_d ());
 		setup_dcp_name ();
 		break;
+	case Film::REENCODE_J2K:
+		checked_set (_reencode_j2k, _film->reencode_j2k());
+		break;
 	case Film::INTEROP:
 		checked_set (_standard, _film->interop() ? 1 : 0);
 		setup_dcp_name ();
@@ -573,6 +576,7 @@ DCPPanel::set_film (shared_ptr<Film> film)
 	film_changed (Film::REEL_TYPE);
 	film_changed (Film::REEL_LENGTH);
 	film_changed (Film::UPLOAD_AFTER_MAKE_DCP);
+	film_changed (Film::REENCODE_J2K);
 
 	set_general_sensitivity(static_cast<bool>(_film));
 }
@@ -668,6 +672,16 @@ DCPPanel::three_d_changed ()
 }
 
 void
+DCPPanel::reencode_j2k_changed ()
+{
+	if (!_film) {
+		return;
+	}
+
+	_film->set_reencode_j2k (_reencode_j2k->GetValue());
+}
+
+void
 DCPPanel::config_changed (Config::Property p)
 {
 	_j2k_bandwidth->SetRange (1, Config::instance()->maximum_j2k_bandwidth() / 1000000);
@@ -712,8 +726,6 @@ DCPPanel::make_video_panel ()
 	sizer->Add (_video_grid, 0, wxALL, 8);
 	panel->SetSizer (sizer);
 
-	int r = 0;
-
 	_container_label = create_label (panel, _("Container"), true);
 	_container = new wxChoice (panel, wxID_ANY);
 	_container_size = new wxStaticText (panel, wxID_ANY, wxT (""));
@@ -732,21 +744,23 @@ DCPPanel::make_video_panel ()
 	_frame_rate_sizer->Add (_best_frame_rate, 1, wxALIGN_CENTER_VERTICAL);
 
 	_three_d = new wxCheckBox (panel, wxID_ANY, _("3D"));
-	++r;
 
 	_j2k_bandwidth_label = create_label (panel, _("JPEG2000 bandwidth\nfor newly-encoded data"), true);
 	_j2k_bandwidth = new wxSpinCtrl (panel, wxID_ANY);
 	_mbits_label = create_label (panel, _("Mbit/s"), false);
 
-	_container->Bind	(wxEVT_CHOICE,	      boost::bind (&DCPPanel::container_changed, this));
-	_frame_rate_choice->Bind(wxEVT_CHOICE,	      boost::bind (&DCPPanel::frame_rate_choice_changed, this));
-	_frame_rate_spin->Bind  (wxEVT_SPINCTRL,      boost::bind (&DCPPanel::frame_rate_spin_changed, this));
-	_best_frame_rate->Bind	(wxEVT_BUTTON,	      boost::bind (&DCPPanel::best_frame_rate_clicked, this));
-	_j2k_bandwidth->Bind	(wxEVT_SPINCTRL,      boost::bind (&DCPPanel::j2k_bandwidth_changed, this));
+	_reencode_j2k = new wxCheckBox (panel, wxID_ANY, _("Re-encode JPEG2000 data from input"));
+
+	_container->Bind	 (wxEVT_CHOICE,	  boost::bind(&DCPPanel::container_changed, this));
+	_frame_rate_choice->Bind (wxEVT_CHOICE,	  boost::bind(&DCPPanel::frame_rate_choice_changed, this));
+	_frame_rate_spin->Bind   (wxEVT_SPINCTRL, boost::bind(&DCPPanel::frame_rate_spin_changed, this));
+	_best_frame_rate->Bind	 (wxEVT_BUTTON,	  boost::bind(&DCPPanel::best_frame_rate_clicked, this));
+	_j2k_bandwidth->Bind	 (wxEVT_SPINCTRL, boost::bind(&DCPPanel::j2k_bandwidth_changed, this));
 	/* Also listen to wxEVT_TEXT so that typing numbers directly in is always noticed */
-	_j2k_bandwidth->Bind	(wxEVT_TEXT,          boost::bind (&DCPPanel::j2k_bandwidth_changed, this));
-	_resolution->Bind       (wxEVT_CHOICE,        boost::bind (&DCPPanel::resolution_changed, this));
-	_three_d->Bind	 	(wxEVT_CHECKBOX,      boost::bind (&DCPPanel::three_d_changed, this));
+	_j2k_bandwidth->Bind	 (wxEVT_TEXT,     boost::bind(&DCPPanel::j2k_bandwidth_changed, this));
+	_resolution->Bind        (wxEVT_CHOICE,   boost::bind(&DCPPanel::resolution_changed, this));
+	_three_d->Bind	 	 (wxEVT_CHECKBOX, boost::bind(&DCPPanel::three_d_changed, this));
+	_reencode_j2k->Bind      (wxEVT_CHECKBOX, boost::bind(&DCPPanel::reencode_j2k_changed, this));
 
 	BOOST_FOREACH (Ratio const * i, Ratio::containers()) {
 		_container->Append (std_to_wx(i->container_nickname()));
@@ -811,6 +825,7 @@ DCPPanel::add_video_panel_to_grid ()
 		add_label_to_sizer (s, _mbits_label, false);
 		_video_grid->Add (s, wxGBPosition (r, 1));
 		++r;
+		_video_grid->Add (_reencode_j2k, wxGBPosition(r, 0), wxGBSpan(1, 2));
 	}
 }
 

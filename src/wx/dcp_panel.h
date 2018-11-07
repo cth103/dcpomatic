@@ -77,6 +77,7 @@ private:
 	void reel_type_changed ();
 	void reel_length_changed ();
 	void upload_after_make_dcp_changed ();
+	void reencode_j2k_changed ();
 
 	void setup_frame_rate_widget ();
 	void setup_container ();
@@ -127,6 +128,7 @@ private:
 	wxButton* _show_audio;
 	wxButton* _best_frame_rate;
 	wxCheckBox* _three_d;
+	wxCheckBox* _reencode_j2k;
 	wxStaticText* _resolution_label;
 	wxChoice* _resolution;
 	wxStaticText* _standard_label;

@@ -157,6 +157,7 @@ Film::Film (optional<boost::filesystem::path> dir)
 	, _reel_type (REELTYPE_SINGLE)
 	, _reel_length (2000000000)
 	, _upload_after_make_dcp (Config::instance()->default_upload_after_make_dcp())
+	, _reencode_j2k (false)
 	, _state_version (current_state_version)
 	, _dirty (false)
 {
@@ -398,6 +399,7 @@ Film::metadata (bool with_content_paths) const
 	root->add_child("ReelType")->add_child_text (raw_convert<string> (static_cast<int> (_reel_type)));
 	root->add_child("ReelLength")->add_child_text (raw_convert<string> (_reel_length));
 	root->add_child("UploadAfterMakeDCP")->add_child_text (_upload_after_make_dcp ? "1" : "0");
+	root->add_child("ReencodeJ2K")->add_child_text (_reencode_j2k ? "1" : "0");
 	_playlist->as_xml (root->add_child ("Playlist"), with_content_paths);
 
 	return doc;
@@ -512,6 +514,7 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	_reel_type = static_cast<ReelType> (f.optional_number_child<int>("ReelType").get_value_or (static_cast<int>(REELTYPE_SINGLE)));
 	_reel_length = f.optional_number_child<int64_t>("ReelLength").get_value_or (2000000000);
 	_upload_after_make_dcp = f.optional_bool_child("UploadAfterMakeDCP").get_value_or (false);
+	_reencode_j2k = f.optional_bool_child("ReencodeJ2K").get_value_or(false);
 
 	list<string> notes;
 	/* This method is the only one that can return notes (so far) */
@@ -941,6 +944,13 @@ Film::set_upload_after_make_dcp (bool u)
 {
 	ChangeSignaller<Film> ch (this, UPLOAD_AFTER_MAKE_DCP);
 	_upload_after_make_dcp = u;
+}
+
+void
+Film::set_reencode_j2k (bool r)
+{
+	ChangeSignaller<Film> ch (this, REENCODE_J2K);
+	_reencode_j2k = r;
 }
 
 void

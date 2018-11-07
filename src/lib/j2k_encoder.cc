@@ -216,7 +216,7 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 		LOG_DEBUG_ENCODE("Frame @ %1 FAKE", to_string(time));
 		_writer->fake_write (position, pv->eyes ());
 		frame_done ();
-	} else if (pv->has_j2k ()) {
+	} else if (pv->has_j2k() && !_film->reencode_j2k()) {
 		LOG_DEBUG_ENCODE("Frame @ %1 J2K", to_string(time));
 		/* This frame already has J2K data, so just write it */
 		_writer->write (pv->j2k(), position, pv->eyes ());
