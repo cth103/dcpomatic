@@ -452,7 +452,7 @@ public:
 				kdm = get_kdm_from_url (dcp);
 #endif
 				if (!kdm) {
-					get_kdm_from_directory (dcp);
+					kdm = get_kdm_from_directory (dcp);
 				}
 
 				if (kdm) {
