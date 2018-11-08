@@ -536,7 +536,7 @@ OV&rdquo;.</listitem>
 </section>
 
 
-<section>
+<section xml:id="sec-decrypting">
 <title>Decrypting encrypted DCPs</title>
 
 <para>
@@ -2002,7 +2002,7 @@ delivery message (KDM) can play the DCP.
 
 <!-- ============================================================== -->
 <section>
-<title>How it works (in a nutshell)</title>
+<title>How it works</title>
 
 <para>
 This section attempts to summarise how DCP encryption works.  You can
@@ -2052,9 +2052,16 @@ key from the public key.
 <para>
 Public-key encryption allows us to distribute the DCP's key to Alice
 securely.  The manufacturer of Alice's projector generates a public
-and private key.  They hide the private key deep inside the bowels of
-the projector (inside an integrated circuit) where no-one can read it.
-They then make the public key available to anyone who is interested.
+and private key.  They hide the private key inside the projector where
+no-one can read it.  They then make the public key available to anyone
+who is interested.
+</para>
+
+<para>
+DCP-o-matic has a similar arrangement except that it stores its
+private keys in the user's configuration file. See <xref
+linkend="sec-decrypting"/> for details of how to share DCP-o-matic's
+certificate so that others can make encrypted DCPs for DCP-o-matic.
 </para>
 
 <para>
