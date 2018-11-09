@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,13 +19,14 @@
 */
 
 #include "editable_list.h"
+#include "lib/screen.h"
 #include <dcp/certificate.h>
 #include <wx/wx.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/optional.hpp>
 
 class Progress;
-class CertificateFileDialogWrapper;
+class TrustedDeviceDialog;
 
 class ScreenDialog : public wxDialog
 {
@@ -36,13 +37,13 @@ public:
 		std::string name = "",
 		std::string notes = "",
 		boost::optional<dcp::Certificate> c = boost::optional<dcp::Certificate> (),
-		std::vector<dcp::Certificate> d = std::vector<dcp::Certificate> ()
+		std::vector<TrustedDevice> d = std::vector<TrustedDevice>()
 		);
 
 	std::string name () const;
 	std::string notes () const;
 	boost::optional<dcp::Certificate> recipient () const;
-	std::vector<dcp::Certificate> trusted_devices () {
+	std::vector<TrustedDevice> trusted_devices () {
 		return _trusted_devices;
 	}
 
@@ -53,7 +54,7 @@ private:
 	void setup_sensitivity ();
 	void set_recipient (boost::optional<dcp::Certificate>);
 
-	void set_trusted_devices (std::vector<dcp::Certificate> d) {
+	void set_trusted_devices (std::vector<TrustedDevice> d) {
 		_trusted_devices = d;
 	}
 
@@ -63,8 +64,8 @@ private:
 	wxStaticText* _recipient_thumbprint;
 	wxButton* _get_recipient_from_file;
 	wxButton* _download_recipient;
-	EditableList<dcp::Certificate, CertificateFileDialogWrapper>* _trusted_device_list;
+	EditableList<TrustedDevice, TrustedDeviceDialog>* _trusted_device_list;
 
 	boost::optional<dcp::Certificate> _recipient;
-	std::vector<dcp::Certificate> _trusted_devices;
+	std::vector<TrustedDevice> _trusted_devices;
 };

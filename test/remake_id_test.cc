@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_CASE (remake_id_test2)
 	/* Make a DKDM */
 	dcp::EncryptedKDM kdm = film->make_kdm (
 		Config::instance()->decryption_chain()->leaf(),
-		vector<dcp::Certificate>(),
+		vector<string>(),
 		*cpl,
 		dcp::LocalTime ("2012-01-01T01:00:00+00:00"),
 		dcp::LocalTime ("2112-01-01T01:00:00+00:00"),

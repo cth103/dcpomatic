@@ -1259,7 +1259,7 @@ Film::frame_size () const
 }
 
 /** @param recipient KDM recipient certificate.
- *  @param trusted_devices Certificates of other trusted devices (can be empty).
+ *  @param trusted_devices Certificate thumbprints of other trusted devices (can be empty).
  *  @param cpl_file CPL filename.
  *  @param from KDM from time expressed as a local time with an offset from UTC.
  *  @param until KDM to time expressed as a local time with an offset from UTC.
@@ -1271,7 +1271,7 @@ Film::frame_size () const
 dcp::EncryptedKDM
 Film::make_kdm (
 	dcp::Certificate recipient,
-	vector<dcp::Certificate> trusted_devices,
+	vector<string> trusted_devices,
 	boost::filesystem::path cpl_file,
 	dcp::LocalTime from,
 	dcp::LocalTime until,
@@ -1357,7 +1357,7 @@ Film::make_kdms (
 		if (i->recipient) {
 			dcp::EncryptedKDM const kdm = make_kdm (
 				i->recipient.get(),
-				i->trusted_devices,
+				i->trusted_device_thumbprints(),
 				cpl_file,
 				dcp::LocalTime (from, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
 				dcp::LocalTime (until, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),

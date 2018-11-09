@@ -273,7 +273,7 @@ dcp::EncryptedKDM
 kdm_from_dkdm (
 	dcp::DecryptedKDM dkdm,
 	dcp::Certificate target,
-	vector<dcp::Certificate> trusted_devices,
+	vector<string> trusted_devices,
 	dcp::LocalTime valid_from,
 	dcp::LocalTime valid_to,
 	dcp::Formulation formulation,
@@ -337,7 +337,7 @@ from_dkdm (
 					kdm_from_dkdm (
 						dkdm,
 						i->recipient.get(),
-						i->trusted_devices,
+						i->trusted_device_thumbprints(),
 						dcp::LocalTime(valid_from, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
 						dcp::LocalTime(valid_to, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
 						formulation,
@@ -500,7 +500,7 @@ int main (int argc, char* argv[])
 		case 'C':
 		{
 			/* Make a new screen and add it to the current cinema */
-			shared_ptr<Screen> screen (new Screen (screen_description, dcp::Certificate (dcp::file_to_string (optarg)), vector<dcp::Certificate>()));
+			shared_ptr<Screen> screen (new Screen (screen_description, dcp::Certificate (dcp::file_to_string (optarg)), vector<TrustedDevice>()));
 			if (cinema) {
 				cinema->add_screen (screen);
 			}
@@ -510,7 +510,7 @@ int main (int argc, char* argv[])
 		case 'T':
 			/* A trusted device ends up in the last screen we made */
 			if (!screens.empty ()) {
-				screens.back()->trusted_devices.push_back (dcp::Certificate (dcp::file_to_string (optarg)));
+				screens.back()->trusted_devices.push_back(TrustedDevice(dcp::Certificate(dcp::file_to_string(optarg))));
 			}
 			break;
 		case 'B':

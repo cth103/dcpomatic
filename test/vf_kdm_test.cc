@@ -32,10 +32,12 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/config.h"
 #include "lib/cross.h"
+#include "lib/screen.h"
 #include <dcp/cpl.h>
 #include <boost/test/unit_test.hpp>
 
 using std::vector;
+using std::string;
 using boost::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (vf_kdm_test)
@@ -62,7 +64,7 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 
 	dcp::EncryptedKDM A_kdm = A->make_kdm (
 		Config::instance()->decryption_chain()->leaf (),
-		vector<dcp::Certificate> (),
+		vector<string>(),
 		A_dcp.cpls().front()->file().get(),
 		dcp::LocalTime ("2014-07-21T00:00:00+00:00"),
 		dcp::LocalTime ("2024-07-21T00:00:00+00:00"),
@@ -92,7 +94,7 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 
 	dcp::EncryptedKDM B_kdm = B->make_kdm (
 		Config::instance()->decryption_chain()->leaf (),
-		vector<dcp::Certificate> (),
+		vector<string>(),
 		B_dcp.cpls().front()->file().get(),
 		dcp::LocalTime ("2014-07-21T00:00:00+00:00"),
 		dcp::LocalTime ("2024-07-21T00:00:00+00:00"),

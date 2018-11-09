@@ -332,7 +332,7 @@ private:
 					ScreenKDM (
 						i,
 						kdm.encrypt (
-							signer, i->recipient.get(), i->trusted_devices, _output->formulation(),
+							signer, i->recipient.get(), i->trusted_device_thumbprints(), _output->formulation(),
 							!_output->forensic_mark_video(), _output->forensic_mark_audio() ? boost::optional<int>() : 0
 							)
 						)

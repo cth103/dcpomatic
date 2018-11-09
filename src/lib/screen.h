@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,9 @@
 
 */
 
+#ifndef DCPOMATIC_SCREEN_H
+#define DCPOMATIC_SCREEN_H
+
 #include <dcp/certificate.h>
 #include <libcxml/cxml.h>
 #include <boost/optional.hpp>
@@ -25,16 +28,35 @@
 
 class Cinema;
 
+class TrustedDevice
+{
+public:
+	explicit TrustedDevice (std::string);
+	explicit TrustedDevice (dcp::Certificate);
+
+	boost::optional<dcp::Certificate> certificate () const {
+		return _certificate;
+	}
+
+	std::string thumbprint () const;
+	std::string as_string () const;
+
+private:
+	boost::optional<dcp::Certificate> _certificate;
+	boost::optional<std::string> _thumbprint;
+};
+
 /** @class Screen
  *  @brief A representation of a Screen for KDM generation.
  *
- *  This is the name of the screen and the certificate of its
- *  `recipient' (i.e. the servers).
+ *  This is the name of the screen, the certificate of its
+ *  `recipient' (i.e. the mediablock) and the certificates/thumbprints
+ *  of any trusted devices.
  */
 class Screen
 {
 public:
-	Screen (std::string const & n, boost::optional<dcp::Certificate> rec, std::vector<dcp::Certificate> td)
+	Screen (std::string const & n, boost::optional<dcp::Certificate> rec, std::vector<TrustedDevice> td)
 		: name (n)
 		, recipient (rec)
 		, trusted_devices (td)
@@ -43,10 +65,13 @@ public:
 	explicit Screen (cxml::ConstNodePtr);
 
 	void as_xml (xmlpp::Element *) const;
+	std::vector<std::string> trusted_device_thumbprints () const;
 
 	boost::shared_ptr<Cinema> cinema;
 	std::string name;
 	std::string notes;
 	boost::optional<dcp::Certificate> recipient;
-	std::vector<dcp::Certificate> trusted_devices;
+	std::vector<TrustedDevice> trusted_devices;
 };
+
+#endif

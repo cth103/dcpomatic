@@ -55,6 +55,7 @@
 #include "lib/version.h"
 #include "lib/signal_manager.h"
 #include "lib/log.h"
+#include "lib/screen.h"
 #include "lib/job_manager.h"
 #include "lib/exceptions.h"
 #include "lib/cinema.h"
@@ -823,7 +824,7 @@ private:
 		try {
 			kdm = _film->make_kdm (
 				Config::instance()->decryption_chain()->leaf(),
-				vector<dcp::Certificate> (),
+				vector<string>(),
 				d->cpl (),
 				dcp::LocalTime ("2012-01-01T01:00:00+00:00"),
 				dcp::LocalTime ("2112-01-01T01:00:00+00:00"),

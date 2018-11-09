@@ -1,3 +1,7 @@
+2018-11-09  Carl Hetherington  <cth@carlh.net>
+
+	* Allow specification of trusted devices by thumbprint rather than full certificate.
+
 2018-11-07  Carl Hetherington  <cth@carlh.net>
 
 	* Add button to force re-encode of JPEG2000 content.

@@ -21,6 +21,10 @@
 #include "screen.h"
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
+#include <boost/algorithm/string.hpp>
+
+using std::string;
+using std::vector;
 
 Screen::Screen (cxml::ConstNodePtr node)
 	: name (node->string_child("Name"))
@@ -33,7 +37,11 @@ Screen::Screen (cxml::ConstNodePtr node)
 	}
 
 	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children ("TrustedDevice")) {
-		trusted_devices.push_back (dcp::Certificate (i->content ()));
+		if (boost::algorithm::starts_with(i->content(), "-----BEGIN CERTIFICATE-----")) {
+			trusted_devices.push_back (TrustedDevice(dcp::Certificate(i->content())));
+		} else {
+			trusted_devices.push_back (TrustedDevice(i->content()));
+		}
 	}
 }
 
@@ -47,7 +55,49 @@ Screen::as_xml (xmlpp::Element* parent) const
 
 	parent->add_child("Notes")->add_child_text (notes);
 
-	BOOST_FOREACH (dcp::Certificate const & i, trusted_devices) {
-		parent->add_child("TrustedDevice")->add_child_text (i.certificate (true));
+	BOOST_FOREACH (TrustedDevice i, trusted_devices) {
+		parent->add_child("TrustedDevice")->add_child_text(i.as_string());
 	}
+}
+
+vector<string>
+Screen::trusted_device_thumbprints () const
+{
+	vector<string> t;
+	BOOST_FOREACH (TrustedDevice i, trusted_devices) {
+		t.push_back (i.thumbprint());
+	}
+	return t;
+}
+
+TrustedDevice::TrustedDevice (string thumbprint)
+	: _thumbprint (thumbprint)
+{
+
+}
+
+TrustedDevice::TrustedDevice (dcp::Certificate certificate)
+	: _certificate (certificate)
+{
+
+}
+
+string
+TrustedDevice::as_string () const
+{
+	if (_certificate) {
+		return _certificate->certificate(true);
+	}
+
+	return *_thumbprint;
+}
+
+string
+TrustedDevice::thumbprint () const
+{
+	if (_certificate) {
+		return _certificate->thumbprint ();
+	}
+
+	return *_thumbprint;
 }

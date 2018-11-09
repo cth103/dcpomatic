@@ -22,6 +22,7 @@
 #include "wx_util.h"
 #include "file_dialog_wrapper.h"
 #include "download_certificate_dialog.h"
+#include "table_dialog.h"
 #include "lib/compose.hpp"
 #include "lib/util.h"
 #include <dcp/exceptions.h>
@@ -37,23 +38,64 @@ using boost::optional;
 using boost::bind;
 
 static string
-column (dcp::Certificate c)
+column (TrustedDevice d)
 {
-	return c.thumbprint ();
+	return d.thumbprint ();
 }
 
-class CertificateFileDialogWrapper : public FileDialogWrapper<dcp::Certificate>
+class TrustedDeviceDialog : public TableDialog
 {
 public:
-	explicit CertificateFileDialogWrapper (wxWindow* parent)
-		: FileDialogWrapper<dcp::Certificate> (parent, _("Select certificate file"))
+	explicit TrustedDeviceDialog (wxWindow* parent)
+		: TableDialog (parent, _("Trusted Device"), 3, 1, true)
 	{
+		add (_("Thumbprint"), true);
+		_thumbprint = add (new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(300, -1)));
+		_file = add (new wxButton(this, wxID_ANY, _("Load certificate...")));
 
+		layout ();
+
+		_file->Bind (wxEVT_BUTTON, bind(&TrustedDeviceDialog::load_certificate, this));
 	}
+
+	void load_certificate ()
+	{
+		wxFileDialog* d = new wxFileDialog (this, _("Trusted Device certificate"));
+		d->ShowModal ();
+		try {
+			_certificate = dcp::Certificate(dcp::file_to_string(wx_to_std(d->GetPath())));
+			_thumbprint->SetValue (std_to_wx(_certificate->thumbprint()));
+		} catch (dcp::MiscError& e) {
+			error_dialog (this, wxString::Format(_("Could not load certficate (%s)"), std_to_wx(e.what())));
+		}
+	}
+
+	void set (TrustedDevice t)
+	{
+		_certificate = t.certificate ();
+		_thumbprint->SetValue (std_to_wx(t.thumbprint()));
+	}
+
+	optional<TrustedDevice> get ()
+	{
+		string const t = wx_to_std (_thumbprint->GetValue ());
+		if (_certificate && _certificate->thumbprint() == t) {
+			return TrustedDevice (*_certificate);
+		} else if (t.length() == 28) {
+			return TrustedDevice (t);
+		}
+
+		return optional<TrustedDevice> ();
+	}
+
+private:
+	wxTextCtrl* _thumbprint;
+	wxButton* _file;
+	boost::optional<dcp::Certificate> _certificate;
 };
 
 ScreenDialog::ScreenDialog (
-	wxWindow* parent, wxString title, string name, string notes, optional<dcp::Certificate> recipient, vector<dcp::Certificate> trusted_devices
+	wxWindow* parent, wxString title, string name, string notes, optional<dcp::Certificate> recipient, vector<TrustedDevice> trusted_devices
 	)
 	: wxDialog (parent, wxID_ANY, title)
 	, _recipient (recipient)
@@ -100,7 +142,7 @@ ScreenDialog::ScreenDialog (
 
 	vector<string> columns;
 	columns.push_back (wx_to_std (_("Thumbprint")));
-	_trusted_device_list = new EditableList<dcp::Certificate, CertificateFileDialogWrapper> (
+	_trusted_device_list = new EditableList<TrustedDevice, TrustedDeviceDialog> (
 		this,
 		columns,
 		bind (&ScreenDialog::trusted_devices, this),
