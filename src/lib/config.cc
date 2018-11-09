@@ -233,7 +233,7 @@ void
 Config::read ()
 try
 {
-#ifdef DCPOMATIC_VARIANT_SWAROOP
+#if defined(DCPOMATIC_VARIANT_SWAROOP) && defined(DCPOMATIC_LINUX)
 	if (geteuid() == 0) {
 		/* Take ownership of the config file if we're root */
 		chown (config_file().string().c_str(), 0, 0);

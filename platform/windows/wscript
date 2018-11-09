@@ -1,7 +1,7 @@
 from __future__ import print_function
 import os
 
-def write_installer(bits, windows_version, dcpomatic_version, debug):
+def write_installer(bits, windows_version, dcpomatic_version, debug, variant):
     try:
         os.makedirs('build/platform/windows')
     except:
@@ -312,29 +312,35 @@ SectionEnd
     else:
         print('CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"', file=f)
 
-    print("""
+    if variant != 'swaroop':
+        print("""
 File "%binaries%/src/tools/dcpomatic2.exe"
 File "%binaries%/src/tools/dcpomatic2_batch.exe"
 File "%binaries%/src/tools/dcpomatic2_cli.exe"
 File "%binaries%/src/tools/dcpomatic2_create.exe"
 File "%binaries%/src/tools/dcpomatic2_kdm.exe"
+    """, file=f)
+
+    print("""
 File "%binaries%/src/tools/dcpomatic2_player.exe"
     """, file=f)
 
     if debug:
-        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 debug.lnk" "$INSTDIR\\bin\\dcpomatic2_debug.bat"', file=f)
-        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 batch converter debug.lnk" "$INSTDIR\\bin\\dcpomatic2_batch_debug.bat" ""', file=f)
-        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 KDM creator debug.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm_debug.bat" ""', file=f)
+        if variant != "swaroop":
+            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 debug.lnk" "$INSTDIR\\bin\\dcpomatic2_debug.bat"', file=f)
+            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 batch converter debug.lnk" "$INSTDIR\\bin\\dcpomatic2_batch_debug.bat" ""', file=f)
+            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 KDM creator debug.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm_debug.bat" ""', file=f)
+            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\Uninstall DCP-o-matic 2 debug.lnk" "$INSTDIR\\Uninstall.exe"', file=f)
         print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 Player debug.lnk" "$INSTDIR\\bin\\dcpomatic2_player_debug.bat" ""', file=f)
-        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\Uninstall DCP-o-matic 2 debug.lnk" "$INSTDIR\\Uninstall.exe"', file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 debug" "DisplayName" "DCP-o-matic 2 debug (remove only)"', file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 debug" "UninstallString" "$INSTDIR\\Uninstall.exe"', file=f)
     else:
-        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe"', file=f)
-        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 batch converter.lnk" "$INSTDIR\\bin\\dcpomatic2_batch.exe"', file=f)
-        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 KDM creator.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm.exe"', file=f)
+        if variant != "swaroop":
+            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe"', file=f)
+            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 batch converter.lnk" "$INSTDIR\\bin\\dcpomatic2_batch.exe"', file=f)
+            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 KDM creator.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm.exe"', file=f)
+            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\Uninstall DCP-o-matic 2.lnk" "$INSTDIR\\Uninstall.exe"', file=f)
         print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 Player.lnk" "$INSTDIR\\bin\\dcpomatic2_player.exe"', file=f)
-        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\Uninstall DCP-o-matic 2.lnk" "$INSTDIR\\Uninstall.exe"', file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "DisplayName" "DCP-o-matic 2 (remove only)"', file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "UninstallString" "$INSTDIR\\Uninstall.exe"', file=f)
 
@@ -342,20 +348,22 @@ File "%binaries%/src/tools/dcpomatic2_player.exe"
 
     if debug:
         print('Section "DCP-o-matic 2 debug desktop shortcuts" SEC_MASTER_DESKTOP', file=f)
-        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 debug.lnk" "$INSTDIR\\bin\\dcpomatic2_debug.bat" ""', file=f)
-        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 batch converter debug.lnk" "$INSTDIR\\bin\\dcpomatic2_batch_debug.bat" ""', file=f)
-        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 KDM creator debug.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm_debug.bat" ""', file=f)
         print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Player debug.lnk" "$INSTDIR\\bin\\dcpomatic2_player_debug.bat" ""', file=f)
+        if variant != "swaroop":
+            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 debug.lnk" "$INSTDIR\\bin\\dcpomatic2_debug.bat" ""', file=f)
+            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 batch converter debug.lnk" "$INSTDIR\\bin\\dcpomatic2_batch_debug.bat" ""', file=f)
+            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 KDM creator debug.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm_debug.bat" ""', file=f)
     else:
         print('Section "DCP-o-matic 2 desktop shortcuts" SEC_MASTER_DESKTOP', file=f)
-        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe" ""', file=f)
-        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 batch converter.lnk" "$INSTDIR\\bin\\dcpomatic2_batch.exe"', file=f)
-        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 KDM creator.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm.exe"', file=f)
         print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Player.lnk" "$INSTDIR\\bin\\dcpomatic2_player.exe"', file=f)
+        if variant != "swaroop":
+            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe" ""', file=f)
+            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 batch converter.lnk" "$INSTDIR\\bin\\dcpomatic2_batch.exe"', file=f)
+            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 KDM creator.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm.exe"', file=f)
 
     print("SectionEnd", file=f)
 
-    if not debug:
+    if not debug and variant != "swaroop":
         print("""
 Section "Encode server" SEC_SERVER
 SetOutPath "$INSTDIR\\bin"
@@ -373,14 +381,15 @@ CreateShortCut "$DESKTOP\\DCP-o-matic 2 encode server.lnk" "$INSTDIR\\bin\\dcpom
 SectionEnd
     """, file=f)
 
-    if debug:
-        print('LangString DESC_SEC_MASTER ${LANG_ENGLISH} "DCP-o-matic 2 debug"', file=f)
-        print('LangString DESC_SEC_MASTER_DESKTOP ${LANG_ENGLISH} "DCP-o-matic 2 debug desktop shortcuts"', file=f)
-    else:
-        print('LangString DESC_SEC_MASTER ${LANG_ENGLISH} "DCP-o-matic 2"', file=f)
-        print('LangString DESC_SEC_MASTER_DESKTOP ${LANG_ENGLISH} "DCP-o-matic 2 desktop shortcuts"', file=f)
-        print('LangString DESC_SEC_SERVER ${LANG_ENGLISH} "DCP-o-matic 2 encode server"', file=f)
-        print('LangString DESC_SEC_SERVER_DESKTOP ${LANG_ENGLISH} "DCP-o-matic 2 encode server desktop shortcuts"', file=f)
+    if variant != "swaroop":
+        if debug:
+            print('LangString DESC_SEC_MASTER ${LANG_ENGLISH} "DCP-o-matic 2 debug"', file=f)
+            print('LangString DESC_SEC_MASTER_DESKTOP ${LANG_ENGLISH} "DCP-o-matic 2 debug desktop shortcuts"', file=f)
+        else:
+            print('LangString DESC_SEC_MASTER ${LANG_ENGLISH} "DCP-o-matic 2"', file=f)
+            print('LangString DESC_SEC_MASTER_DESKTOP ${LANG_ENGLISH} "DCP-o-matic 2 desktop shortcuts"', file=f)
+            print('LangString DESC_SEC_SERVER ${LANG_ENGLISH} "DCP-o-matic 2 encode server"', file=f)
+            print('LangString DESC_SEC_SERVER_DESKTOP ${LANG_ENGLISH} "DCP-o-matic 2 encode server desktop shortcuts"', file=f)
 
     print("""
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
@@ -432,7 +441,7 @@ DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\U
 
 
 def build(bld):
-    write_installer(32, None, bld.env.VERSION, bld.env.DEBUG)
-    write_installer(64, None, bld.env.VERSION, bld.env.DEBUG)
-    write_installer(32, 'xp', bld.env.VERSION, bld.env.DEBUG)
-    write_installer(64, 'xp', bld.env.VERSION, bld.env.DEBUG)
+    write_installer(32, None, bld.env.VERSION, bld.env.DEBUG, bld.env.VARIANT)
+    write_installer(64, None, bld.env.VERSION, bld.env.DEBUG, bld.env.VARIANT)
+    write_installer(32, 'xp', bld.env.VERSION, bld.env.DEBUG, bld.env.VARIANT)
+    write_installer(64, 'xp', bld.env.VERSION, bld.env.DEBUG, bld.env.VARIANT)
