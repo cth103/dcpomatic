@@ -20,6 +20,9 @@
 
 #include "dcp.h"
 #include "config.h"
+#include "film.h"
+#include "log.h"
+#include "compose.hpp"
 #include "dcp_content.h"
 #include <dcp/dcp.h>
 #include <dcp/decrypted_kdm.h>
@@ -32,6 +35,8 @@ using std::list;
 using std::string;
 using boost::shared_ptr;
 
+#define LOG_GENERAL(...) _dcp_content->film()->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
+
 /** Find all the CPLs in our directories, cross-add assets and return the CPLs */
 list<shared_ptr<dcp::CPL> >
 DCP::cpls () const
@@ -43,6 +48,7 @@ DCP::cpls () const
 		shared_ptr<dcp::DCP> dcp (new dcp::DCP (i));
 		dcp->read (false, 0, true);
 		dcps.push_back (dcp);
+		LOG_GENERAL ("Reading DCP %1: %2 CPLs", i.string(), dcp->cpls().size());
 		BOOST_FOREACH (shared_ptr<dcp::CPL> i, dcp->cpls()) {
 			cpls.push_back (i);
 		}
