@@ -28,6 +28,7 @@
 #include "overlaps.h"
 #include "compose.hpp"
 #include "dcp_decoder.h"
+#include "log.h"
 #include "text_content.h"
 #include <dcp/dcp.h>
 #include <dcp/raw_convert.h>
@@ -63,6 +64,8 @@ int const DCPContentProperty::NAME               = 605;
 int const DCPContentProperty::TEXTS              = 606;
 int const DCPContentProperty::CPL                = 607;
 
+#define LOG_GENERAL(...) this->film()->log()->log(String::compose(__VA_ARGS__), LogEntry::TYPE_GENERAL);
+
 DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film)
 	, _encrypted (false)
@@ -72,6 +75,8 @@ DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	, _reference_audio (false)
 	, _three_d (false)
 {
+	LOG_GENERAL ("Creating DCP content from %1", p.string());
+
 	read_directory (p);
 	set_default_colour_conversion ();
 
@@ -147,10 +152,13 @@ DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 void
 DCPContent::read_directory (boost::filesystem::path p)
 {
+	LOG_GENERAL ("DCPContent::read_directory reads %1", p.string());
 	for (boost::filesystem::directory_iterator i(p); i != boost::filesystem::directory_iterator(); ++i) {
 		if (boost::filesystem::is_regular_file (i->path())) {
+			LOG_GENERAL ("Inside there's regular file %1", i->path().string());
 			add_path (i->path());
 		} else if (boost::filesystem::is_directory (i->path ())) {
+			LOG_GENERAL ("Inside there's directory %1", i->path().string());
 			read_directory (i->path());
 		}
 	}
