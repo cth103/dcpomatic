@@ -174,10 +174,10 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_description = new wxStaticText (this, wxID_ANY, wxT ("\n \n \n \n \n"), wxDefaultPosition, wxDefaultSize);
 	_description->SetFont(font);
 
-	_left_crop->wrapped()->SetRange (0, 1024);
-	_top_crop->wrapped()->SetRange (0, 1024);
-	_right_crop->wrapped()->SetRange (0, 1024);
-	_bottom_crop->wrapped()->SetRange (0, 1024);
+	_left_crop->wrapped()->SetRange (0, 4096);
+	_top_crop->wrapped()->SetRange (0, 4096);
+	_right_crop->wrapped()->SetRange (0, 4096);
+	_bottom_crop->wrapped()->SetRange (0, 4096);
 
 	_scale->wrapped()->Clear ();
 	BOOST_FOREACH (VideoContentScale const & i, VideoContentScale::all ()) {
