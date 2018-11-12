@@ -218,8 +218,7 @@ def configure(conf):
                             int main() { throw RtError("Hello"); }
 			    """,
                    msg='Checking for RtError class',
-                   libpath='/usr/local/lib',
-                   lib=['rtaudio'],
+                   use='RTAUDIO',
                    uselib_store='',
                    define_name='DCPOMATIC_USE_RTERROR',
                    mandatory=False)
