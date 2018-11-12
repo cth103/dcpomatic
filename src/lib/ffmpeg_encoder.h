@@ -50,7 +50,32 @@ public:
 	}
 
 private:
-	std::list<boost::shared_ptr<FFmpegFileEncoder> > _file_encoders;
+
+	class FileEncoderSet
+	{
+	public:
+		FileEncoderSet (
+			dcp::Size video_frame_size,
+			int video_frame_rate,
+			int audio_frame_rate,
+			int channels,
+			boost::shared_ptr<Log> log,
+			ExportFormat,
+			int x264_crf,
+			bool three_d,
+			boost::filesystem::path output,
+			std::string extension
+			);
+
+		boost::shared_ptr<FFmpegFileEncoder> get (Eyes eyes) const;
+		void flush ();
+		void audio (boost::shared_ptr<AudioBuffers>);
+
+	private:
+		std::map<Eyes, boost::shared_ptr<FFmpegFileEncoder> > _encoders;
+	};
+
+	std::list<FileEncoderSet> _file_encoders;
 	int _output_audio_channels;
 
 	mutable boost::mutex _mutex;

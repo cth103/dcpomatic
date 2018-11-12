@@ -37,6 +37,7 @@ using std::runtime_error;
 using std::cout;
 using std::pair;
 using std::list;
+using std::map;
 using boost::shared_ptr;
 using boost::bind;
 using boost::weak_ptr;
@@ -57,27 +58,27 @@ FFmpegEncoder::FFmpegEncoder (
 	for (int i = 0; i < files; ++i) {
 
 		boost::filesystem::path filename = output;
+		string extension = boost::filesystem::extension (filename);
+		filename = boost::filesystem::change_extension (filename, "");
+
 		if (files > 1) {
-			string extension = boost::filesystem::extension (filename);
-			filename = boost::filesystem::change_extension (filename, "");
-			/// TRANSLATORS: _reel%1.%2 here is to be added to an export filename to indicate
-			/// which reel it is.  Preserve the %1 and %2; %1 will be replaced with the reel number
-			/// and %2 with the file extension.
-			filename = filename.string() + String::compose(_("_reel%1%2"), i + 1, extension);
+			/// TRANSLATORS: _reel%1 here is to be added to an export filename to indicate
+			/// which reel it is.  Preserve the %1; it will be replaced with the reel number.
+			filename = filename.string() + String::compose(_("_reel%1"), i + 1);
 		}
 
 		_file_encoders.push_back (
-			shared_ptr<FFmpegFileEncoder>(
-				new FFmpegFileEncoder(
-					_film->frame_size(),
-					_film->video_frame_rate(),
-					_film->audio_frame_rate(),
-					mixdown_to_stereo ? 2 : film->audio_channels(),
-					_film->log(),
-					format,
-					x264_crf,
-					filename
-					)
+			FileEncoderSet (
+				_film->frame_size(),
+				_film->video_frame_rate(),
+				_film->audio_frame_rate(),
+				mixdown_to_stereo ? 2 : film->audio_channels(),
+				_film->log(),
+				format,
+				x264_crf,
+				_film->three_d(),
+				filename,
+				extension
 				)
 			);
 	}
@@ -121,12 +122,13 @@ FFmpegEncoder::go ()
 
 	list<DCPTimePeriod> reel_periods = _film->reels ();
 	list<DCPTimePeriod>::const_iterator reel = reel_periods.begin ();
-	list<shared_ptr<FFmpegFileEncoder> >::iterator encoder = _file_encoders.begin ();
+	list<FileEncoderSet>::iterator encoder = _file_encoders.begin ();
 
 	DCPTime const video_frame = DCPTime::from_frames (1, _film->video_frame_rate ());
 	int const audio_frames = video_frame.frames_round(_film->audio_frame_rate());
 	float* interleaved = new float[_output_audio_channels * audio_frames];
 	shared_ptr<AudioBuffers> deinterleaved (new AudioBuffers (_output_audio_channels, audio_frames));
+	int const gets_per_frame = _film->three_d() ? 2 : 1;
 	for (DCPTime i; i < _film->length(); i += video_frame) {
 
 		if (_file_encoders.size() > 1 && !reel->contains(i)) {
@@ -137,8 +139,10 @@ FFmpegEncoder::go ()
 			DCPOMATIC_ASSERT (encoder != _file_encoders.end());
 		}
 
-		pair<shared_ptr<PlayerVideo>, DCPTime> v = _butler->get_video ();
-		(*encoder)->video (v.first, v.second);
+		for (int j = 0; j < gets_per_frame; ++j) {
+			pair<shared_ptr<PlayerVideo>, DCPTime> v = _butler->get_video ();
+			encoder->get(v.first->eyes())->video(v.first, v.second);
+		}
 
 		_history.event ();
 
@@ -160,12 +164,12 @@ FFmpegEncoder::go ()
 				deinterleaved->data(k)[j] = *p++;
 			}
 		}
-		(*encoder)->audio (deinterleaved);
+		encoder->audio (deinterleaved);
 	}
 	delete[] interleaved;
 
-	BOOST_FOREACH (shared_ptr<FFmpegFileEncoder> i, _file_encoders) {
-		i->flush ();
+	BOOST_FOREACH (FileEncoderSet i, _file_encoders) {
+		i.flush ();
 	}
 }
 
@@ -180,4 +184,57 @@ FFmpegEncoder::frames_done () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	return _last_time.frames_round (_film->video_frame_rate ());
+}
+
+FFmpegEncoder::FileEncoderSet::FileEncoderSet (
+	dcp::Size video_frame_size,
+	int video_frame_rate,
+	int audio_frame_rate,
+	int channels,
+	shared_ptr<Log> log,
+	ExportFormat format,
+	int x264_crf,
+	bool three_d,
+	boost::filesystem::path output,
+	string extension
+	)
+{
+	if (three_d) {
+		/// TRANSLATORS: L here is an abbreviation for "left", to indicate the left-eye part of a 3D export
+		_encoders[EYES_LEFT] = shared_ptr<FFmpegFileEncoder>(
+			new FFmpegFileEncoder(video_frame_size, video_frame_rate, audio_frame_rate, channels, log, format, x264_crf, String::compose("%1_%2%3", output.string(), _("L"), extension))
+			);
+		/// TRANSLATORS: R here is an abbreviation for "left", to indicate the left-eye part of a 3D export
+		_encoders[EYES_RIGHT] = shared_ptr<FFmpegFileEncoder>(
+			new FFmpegFileEncoder(video_frame_size, video_frame_rate, audio_frame_rate, channels, log, format, x264_crf, String::compose("%1_%2%3", output.string(), _("R"), extension))
+			);
+	} else {
+		_encoders[EYES_BOTH]  = shared_ptr<FFmpegFileEncoder>(
+			new FFmpegFileEncoder(video_frame_size, video_frame_rate, audio_frame_rate, channels, log, format, x264_crf, String::compose("%1%2", output.string(), extension))
+			);
+	}
+}
+
+shared_ptr<FFmpegFileEncoder>
+FFmpegEncoder::FileEncoderSet::get (Eyes eyes) const
+{
+	map<Eyes, boost::shared_ptr<FFmpegFileEncoder> >::const_iterator i = _encoders.find (eyes);
+	DCPOMATIC_ASSERT (i != _encoders.end());
+	return i->second;
+}
+
+void
+FFmpegEncoder::FileEncoderSet::flush ()
+{
+	for (map<Eyes, boost::shared_ptr<FFmpegFileEncoder> >::iterator i = _encoders.begin(); i != _encoders.end(); ++i) {
+		i->second->flush ();
+	}
+}
+
+void
+FFmpegEncoder::FileEncoderSet::audio (shared_ptr<AudioBuffers> a)
+{
+	for (map<Eyes, boost::shared_ptr<FFmpegFileEncoder> >::iterator i = _encoders.begin(); i != _encoders.end(); ++i) {
+		i->second->audio (a);
+	}
 }
