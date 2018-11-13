@@ -115,6 +115,11 @@ private:
 		_kdm_server_url = new wxTextCtrl (_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(400, -1));
 		table->Add (_kdm_server_url, wxGBPosition (r, 1));
 		++r;
+
+		add_label_to_sizer (table, _panel, _("Lock file"), true, wxGBPosition(r, 0));
+		_lock_file = new FilePickerCtrl (_panel, _("Select lock file"), "*", true);
+		table->Add (_lock_file, wxGBPosition (r, 1));
+		++r;
 #endif
 
 		_player_mode->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::player_mode_changed, this));
@@ -123,6 +128,7 @@ private:
 		_log_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::log_file_changed, this));
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		_kdm_server_url->Bind (wxEVT_TEXT, bind(&PlayerGeneralPage::kdm_server_url_changed, this));
+		_lock_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::lock_file_changed, this));
 #endif
 	}
 
@@ -151,6 +157,9 @@ private:
 		}
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		checked_set (_kdm_server_url, config->kdm_server_url());
+		if (config->player_lock_file()) {
+			checked_set (_lock_file, config->player_lock_file().get());
+		}
 #endif
 	}
 
@@ -190,6 +199,11 @@ private:
 	{
 		Config::instance()->set_kdm_server_url(wx_to_std(_kdm_server_url->GetValue()));
 	}
+
+	void lock_file_changed ()
+	{
+		Config::instance()->set_player_lock_file(wx_to_std(_lock_file->GetPath()));
+	}
 #endif
 
 	wxChoice* _player_mode;
@@ -198,6 +212,7 @@ private:
 	FilePickerCtrl* _log_file;
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	wxTextCtrl* _kdm_server_url;
+	FilePickerCtrl* _lock_file;
 #endif
 };
 

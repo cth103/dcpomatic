@@ -20,30 +20,32 @@
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 
-#include "monitor_checker.h"
+#include "lock_file_checker.h"
 #include "config.h"
 #include "cross.h"
 
-MonitorChecker* MonitorChecker::_instance = 0;
+using boost::bind;
+using boost::ref;
 
-MonitorChecker::MonitorChecker ()
-	: Checker (60)
+LockFileChecker* LockFileChecker::_instance = 0;
+
+LockFileChecker::LockFileChecker ()
+	: Checker (10)
 {
 
 }
 
 bool
-MonitorChecker::check () const
+LockFileChecker::check () const
 {
-	return Config::instance()->required_monitors().empty() || get_monitors() == Config::instance()->required_monitors();
+	return !Config::instance()->player_lock_file() || boost::filesystem::is_regular_file(Config::instance()->player_lock_file().get());
 }
 
-
-MonitorChecker *
-MonitorChecker::instance ()
+LockFileChecker *
+LockFileChecker::instance ()
 {
 	if (!_instance) {
-		_instance = new MonitorChecker ();
+		_instance = new LockFileChecker ();
 	}
 
 	return _instance;

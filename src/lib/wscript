@@ -41,6 +41,7 @@ sources = """
           text_content.cc
           text_decoder.cc
           case_insensitive_sorter.cc
+          checker.cc
           check_content_change_job.cc
           cinema.cc
           cinema_kdms.cc
@@ -113,6 +114,7 @@ sources = """
           job_manager.cc
           j2k_encoder.cc
           json_server.cc
+          lock_file_checker.cc
           log.cc
           log_entry.cc
           mid_side_decoder.cc

@@ -18,35 +18,19 @@
 
 */
 
-#ifdef DCPOMATIC_VARIANT_SWAROOP
+#include "checker.h"
+#include <boost/signals2.hpp>
 
-#include "monitor_checker.h"
-#include "config.h"
-#include "cross.h"
-
-MonitorChecker* MonitorChecker::_instance = 0;
-
-MonitorChecker::MonitorChecker ()
-	: Checker (60)
+class LockFileChecker : public Checker
 {
+public:
+	LockFileChecker ();
 
-}
+	static LockFileChecker* instance ();
 
-bool
-MonitorChecker::check () const
-{
-	return Config::instance()->required_monitors().empty() || get_monitors() == Config::instance()->required_monitors();
-}
+protected:
+	bool check () const;
 
-
-MonitorChecker *
-MonitorChecker::instance ()
-{
-	if (!_instance) {
-		_instance = new MonitorChecker ();
-	}
-
-	return _instance;
-}
-
-#endif
+private:
+	static LockFileChecker* _instance;
+};

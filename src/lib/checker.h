@@ -18,19 +18,48 @@
 
 */
 
-#include "checker.h"
+/** @file  src/lib/checker.h
+ *  @brief Checker class.
+ */
+
+#ifndef DCPOMATIC_CHECKER_H
+#define DCPOMATIC_CHECKER_H
+
+#include "signaller.h"
 #include <boost/signals2.hpp>
 
-class MonitorChecker : public Checker
+/** Parent for classes which check some condition every so often and signal
+ *  when the state of the condition changes.
+ */
+class Checker : public Signaller, public boost::noncopyable
 {
 public:
-	MonitorChecker ();
+	virtual ~Checker ();
 
-	static MonitorChecker* instance ();
+	void run ();
+
+	bool ok () const;
+
+	/** Emitted when the state of our condition changes */
+	boost::signals2::signal<void (void)> StateChanged;
 
 protected:
-	bool check () const;
+
+	Checker (int period);
+
+	/** @return true if the condition is `ok', otherwise false */
+	virtual bool check () const = 0;
 
 private:
-	static MonitorChecker* _instance;
+
+	void thread ();
+
+	boost::thread* _thread;
+	mutable boost::mutex _mutex;
+	bool _terminate;
+	bool _ok;
+	/** check period in seconds */
+	int _period;
 };
+
+#endif

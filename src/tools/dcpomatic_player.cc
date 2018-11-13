@@ -48,6 +48,7 @@
 #include "lib/dcpomatic_socket.h"
 #include "lib/scoped_temporary.h"
 #include "lib/monitor_checker.h"
+#include "lib/lock_file_checker.h"
 #include "lib/ffmpeg_content.h"
 #include <dcp/dcp.h>
 #include <dcp/raw_convert.h>
@@ -206,6 +207,8 @@ public:
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		MonitorChecker::instance()->StateChanged.connect(boost::bind(&DOMFrame::monitor_checker_state_changed, this));
 		MonitorChecker::instance()->run ();
+		LockFileChecker::instance()->StateChanged.connect(boost::bind(&DOMFrame::lock_checker_state_changed, this));
+		LockFileChecker::instance()->run ();
 #endif
 		setup_screen ();
 
@@ -248,8 +251,16 @@ public:
 	void monitor_checker_state_changed ()
 	{
 		if (!MonitorChecker::instance()->ok()) {
-			error_dialog (this, _("The required display devices are not connected correctly."));
 			_viewer->stop ();
+			error_dialog (this, _("The required display devices are not connected correctly."));
+		}
+	}
+
+	void lock_checker_state_changed ()
+	{
+		if (!LockFileChecker::instance()->ok()) {
+			_viewer->stop ();
+			error_dialog (this, _("The lock file is not present."));
 		}
 	}
 #endif
@@ -271,6 +282,10 @@ public:
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		if (!MonitorChecker::instance()->ok()) {
 			error_dialog (this, _("The required display devices are not connected correctly."));
+			return false;
+		}
+		if (!LockFileChecker::instance()->ok()) {
+			error_dialog (this, _("The lock file is not present."));
 			return false;
 		}
 #endif

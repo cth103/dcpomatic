@@ -524,6 +524,10 @@ public:
 	std::vector<Monitor> required_monitors () const {
 		return _required_monitors;
 	}
+
+	boost::optional<boost::filesystem::path> player_lock_file () const {
+		return _player_lock_file;
+	}
 #endif
 
 	bool allow_spl_editing () const {
@@ -1020,6 +1024,18 @@ public:
 	void set_required_monitors (std::vector<Monitor> monitors) {
 		maybe_set (_required_monitors, monitors);
 	}
+
+	void set_player_lock_file (boost::filesystem::path p) {
+		maybe_set (_player_lock_file, p);
+	}
+
+	void unset_player_lock_file () {
+		if (!_player_lock_file) {
+			return;
+		}
+		_player_lock_file = boost::none;
+		changed ();
+	}
 #endif
 
 	void set_allow_spl_editing (bool s) {
@@ -1229,6 +1245,8 @@ private:
 	/** watermark duration in milliseconds */
 	int _player_watermark_duration;
 	std::vector<Monitor> _required_monitors;
+	/** a file which, if specified, must be present for the player to work */
+	boost::optional<boost::filesystem::path> _player_lock_file;
 #endif
 	bool _allow_spl_editing;
 
