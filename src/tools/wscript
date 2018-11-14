@@ -49,7 +49,7 @@ def build(bld):
     gui_tools = []
     if not bld.env.DISABLE_GUI:
         if bld.env.VARIANT == 'swaroop':
-            gui_tools = ['dcpomatic_player']
+            gui_tools = ['dcpomatic_player', 'dcpomatic_playlist']
         else:
             gui_tools = ['dcpomatic', 'dcpomatic_batch', 'dcpomatic_server', 'dcpomatic_kdm', 'dcpomatic_player']
 
