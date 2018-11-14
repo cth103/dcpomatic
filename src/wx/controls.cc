@@ -605,12 +605,9 @@ Controls::add_content_to_list (shared_ptr<Content> content, wxListCtrl* ctrl)
 	it.SetId(N);
 	it.SetColumn(0);
 	DCPTime length = content->length_after_trim (_film);
-	int seconds = length.seconds();
-	int minutes = seconds / 60;
-	seconds -= minutes * 60;
-	int hours = minutes / 60;
-	minutes -= hours * 60;
-	it.SetText(wxString::Format("%02d:%02d:%02d", hours, minutes, seconds));
+	int h, m, s, f;
+	length.split (24, h, m, s, f);
+	it.SetText(wxString::Format("%02d:%02d:%02d", h, m, s));
 	ctrl->InsertItem(it);
 
 	shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent>(content);
