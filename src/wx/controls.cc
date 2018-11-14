@@ -23,6 +23,7 @@
 #include "wx_util.h"
 #include "playhead_to_timecode_dialog.h"
 #include "playhead_to_frame_dialog.h"
+#include "content_view.h"
 #include "lib/job_manager.h"
 #include "lib/player_video.h"
 #include "lib/dcp_content.h"
@@ -94,13 +95,7 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 740);
 	left_sizer->Add (_spl_view, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
-	_content_view = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
-	/* time */
-	_content_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 80);
-	/* type */
-	_content_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 80);
-	/* annotation text */
-	_content_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 580);
+	_content_view = new ContentView (this, _film);
 	left_sizer->Add (_content_view, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
 	wxBoxSizer* e_sizer = new wxBoxSizer (wxHORIZONTAL);
@@ -200,7 +195,7 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	film_changed ();
 
 	setup_sensitivity ();
-	update_content_directory ();
+	_content_view->update ();
 	update_playlist_directory ();
 
 	JobManager::instance()->ActiveJobsChanged.connect (
@@ -214,7 +209,7 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 void
 Controls::add_clicked ()
 {
-	shared_ptr<Content> sel = selected_content()->clone();
+	shared_ptr<Content> sel = _content_view->selected()->clone();
 	DCPOMATIC_ASSERT (sel);
 	_film->examine_and_add_content (sel);
 	bool const ok = display_progress (_("DCP-o-matic"), _("Loading DCP"));
@@ -265,7 +260,7 @@ void
 Controls::config_changed (int property)
 {
 	if (property == Config::PLAYER_CONTENT_DIRECTORY) {
-		update_content_directory ();
+		_content_view->update ();
 	} else if (property == Config::PLAYER_PLAYLIST_DIRECTORY) {
 		update_playlist_directory ();
 	} else {
@@ -510,20 +505,8 @@ Controls::setup_sensitivity ()
 		_eye->Enable (c && _film->three_d ());
 	}
 
-	_add_button->Enable (Config::instance()->allow_spl_editing() && static_cast<bool>(selected_content()));
+	_add_button->Enable (Config::instance()->allow_spl_editing() && static_cast<bool>(_content_view->selected()));
 	_save_button->Enable (Config::instance()->allow_spl_editing());
-}
-
-shared_ptr<Content>
-Controls::selected_content () const
-{
-	long int s = _content_view->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	if (s == -1) {
-		return shared_ptr<Content>();
-	}
-
-	DCPOMATIC_ASSERT (s < int(_content.size()));
-	return _content[s];
 }
 
 void
@@ -585,7 +568,7 @@ Controls::show_extended_player_controls (bool s)
 	_content_view->Show (s);
 	_spl_view->Show (s);
 	if (s) {
-		update_content_directory ();
+		_content_view->update ();
 		update_playlist_directory ();
 	}
 	_current_spl_view->Show (s);
@@ -634,59 +617,6 @@ Controls::add_playlist_to_list (shared_ptr<Film> film)
 	it.SetColumn(0);
 	it.SetText (std_to_wx(film->name()));
 	_spl_view->InsertItem (it);
-}
-
-void
-Controls::update_content_directory ()
-{
-	if (!_content_view->IsShown()) {
-		return;
-	}
-
-	using namespace boost::filesystem;
-
-	_content_view->DeleteAllItems ();
-	_content.clear ();
-	optional<path> dir = Config::instance()->player_content_directory();
-	if (!dir) {
-		return;
-	}
-
-	wxProgressDialog progress (_("DCP-o-matic"), _("Reading content directory"));
-	JobManager* jm = JobManager::instance ();
-
-	for (directory_iterator i = directory_iterator(*dir); i != directory_iterator(); ++i) {
-		try {
-			shared_ptr<Content> content;
-			if (is_directory(*i) && (is_regular_file(*i / "ASSETMAP") || is_regular_file(*i / "ASSETMAP.xml"))) {
-				content.reset (new DCPContent(*i));
-			} else if (i->path().extension() == ".mp4" || i->path().extension() == ".ecinema") {
-				content = content_factory(*i).front();
-			}
-
-			if (content) {
-				jm->add (shared_ptr<Job>(new ExamineContentJob(_film, content)));
-				while (jm->work_to_do()) {
-					if (!progress.Pulse()) {
-						/* user pressed cancel */
-						BOOST_FOREACH (shared_ptr<Job> i, jm->get()) {
-							i->cancel();
-						}
-						return;
-					}
-					dcpomatic_sleep (1);
-				}
-				if (report_errors_from_last_job (this)) {
-					add_content_to_list (content, _content_view);
-					_content.push_back (content);
-				}
-			}
-		} catch (boost::filesystem::filesystem_error& e) {
-			/* Never mind */
-		} catch (dcp::DCPReadError& e) {
-			/* Never mind */
-		}
-	}
 }
 
 void

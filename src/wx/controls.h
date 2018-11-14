@@ -32,6 +32,7 @@ class Content;
 class PlayerVideo;
 class wxToggleButton;
 class wxListCtrl;
+class ContentView;
 
 namespace dcp {
 	class CPL;
@@ -85,7 +86,6 @@ private:
 
 	typedef std::pair<boost::shared_ptr<dcp::CPL>, boost::filesystem::path> CPL;
 
-	boost::shared_ptr<Content> selected_content () const;
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	void pause_clicked ();
 	void stop_clicked ();
@@ -106,14 +106,13 @@ private:
 	wxCheckBox* _outline_content;
 	wxChoice* _eye;
 	wxCheckBox* _jump_to_selected;
-	wxListCtrl* _content_view;
+	ContentView* _content_view;
 	wxListCtrl* _spl_view;
 	wxListCtrl* _current_spl_view;
 	wxTextCtrl* _log;
 	wxButton* _add_button;
 	wxButton* _save_button;
 	wxButton* _load_button;
-	std::vector<boost::shared_ptr<Content> > _content;
 	std::vector<boost::shared_ptr<Film> > _playlists;
 	wxSlider* _slider;
 	wxButton* _rewind_button;

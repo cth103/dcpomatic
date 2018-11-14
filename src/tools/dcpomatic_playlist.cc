@@ -20,9 +20,12 @@
 
 #include "../wx/wx_util.h"
 #include "../wx/wx_signal_manager.h"
+#include "../wx/content_view.h"
 #include "../lib/util.h"
 #include "../lib/config.h"
 #include "../lib/cross.h"
+#include "../lib/film.h"
+#include "../lib/dcp_content.h"
 #include <wx/wx.h>
 #include <wx/listctrl.h>
 #include <wx/imaglist.h>
@@ -30,10 +33,32 @@
 using std::exception;
 using std::cout;
 using boost::optional;
+using boost::shared_ptr;
+using boost::weak_ptr;
+using boost::bind;
+using boost::dynamic_pointer_cast;
 
 class PlaylistEntry
 {
 public:
+	PlaylistEntry (boost::shared_ptr<Content> content)
+		: skippable (false)
+		, disable_timeline (false)
+		, stop_after_play (false)
+	{
+		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (content);
+		if (dcp) {
+			name = dcp->name ();
+			cpl_id = dcp->cpl().get_value_or("");
+			kind = dcp->content_kind().get_value_or(dcp::FEATURE);
+			type = DCP;
+			encrypted = dcp->encrypted ();
+		} else {
+			name = content->path(0).filename().string();
+			type = ECINEMA;
+		}
+	}
+
 	std::string name;
 	std::string cpl_id;
 	dcp::ContentKind kind;
@@ -48,12 +73,45 @@ public:
 	bool stop_after_play;
 };
 
+class ContentDialog : public wxDialog
+{
+public:
+	ContentDialog (wxWindow* parent, weak_ptr<Film> film)
+		: wxDialog (parent, wxID_ANY, _("Add content"), wxDefaultPosition, wxSize(800, 640))
+		, _content_view (new ContentView(this, film))
+	{
+		_content_view->update ();
+
+		wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+		SetSizer (overall_sizer);
+
+		overall_sizer->Add (_content_view, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+
+		wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
+		if (buttons) {
+			overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
+		}
+
+		overall_sizer->Layout ();
+	}
+
+	shared_ptr<Content> selected () const
+	{
+		return _content_view->selected ();
+	}
+
+private:
+	ContentView* _content_view;
+};
 
 class DOMFrame : public wxFrame
 {
 public:
 	explicit DOMFrame (wxString const & title)
 		: wxFrame (0, -1, title)
+		/* XXX: this is a bit of a hack, but we need it to be able to use the Content class hierarchy */
+		, _film (new Film(optional<boost::filesystem::path>()))
+		, _content_dialog (new ContentDialog(this, _film))
 	{
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
@@ -66,8 +124,8 @@ public:
 			);
 
 		_list->AppendColumn (_("Name"), wxLIST_FORMAT_LEFT, 400);
-		_list->AppendColumn (_("CPL"), wxLIST_FORMAT_LEFT, 400);
-		_list->AppendColumn (_("Type"), wxLIST_FORMAT_CENTRE, 75);
+		_list->AppendColumn (_("CPL"), wxLIST_FORMAT_LEFT, 350);
+		_list->AppendColumn (_("Type"), wxLIST_FORMAT_CENTRE, 100);
 		_list->AppendColumn (_("Format"), wxLIST_FORMAT_CENTRE, 75);
 		_list->AppendColumn (_("Encrypted"), wxLIST_FORMAT_CENTRE, 90);
 		_list->AppendColumn (_("Skippable"), wxLIST_FORMAT_CENTRE, 90);
@@ -111,16 +169,12 @@ public:
 		overall_panel->SetSizer (main_sizer);
 
 		_list->Bind (wxEVT_LEFT_DOWN, bind(&DOMFrame::list_left_click, this, _1));
-
-		PlaylistEntry pe;
-		pe.name = "Shit";
-		pe.cpl_id = "sh-1t";
-		pe.kind = dcp::FEATURE;
-		pe.type = PlaylistEntry::ECINEMA;
-		pe.encrypted = true;
-		pe.disable_timeline = false;
-		pe.stop_after_play = true;
-		add (pe);
+		_list->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, boost::bind (&DOMFrame::selection_changed, this));
+		_list->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&DOMFrame::selection_changed, this));
+		_up->Bind (wxEVT_BUTTON, bind(&DOMFrame::up_clicked, this));
+		_down->Bind (wxEVT_BUTTON, bind(&DOMFrame::down_clicked, this));
+		_add->Bind (wxEVT_BUTTON, bind(&DOMFrame::add_clicked, this));
+		_remove->Bind (wxEVT_BUTTON, bind(&DOMFrame::remove_clicked, this));
 
 		setup_sensitivity ();
 	}
@@ -130,10 +184,15 @@ private:
 	void add (PlaylistEntry e)
 	{
 		wxListItem item;
-		item.SetId (0);
+		item.SetId (_list->GetItemCount());
 		long const N = _list->InsertItem (item);
 		set_item (N, e);
 		_playlist.push_back (e);
+	}
+
+	void selection_changed ()
+	{
+		setup_sensitivity ();
 	}
 
 	void set_item (long N, PlaylistEntry e)
@@ -150,10 +209,11 @@ private:
 
 	void setup_sensitivity ()
 	{
-		int const selected = _list->GetSelectedItemCount ();
+		int const num_selected = _list->GetSelectedItemCount ();
+		long int selected = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 		_up->Enable (selected > 0);
-		_down->Enable (selected > 0);
-		_remove->Enable (selected > 0);
+		_down->Enable (selected != -1 && selected < (_list->GetItemCount() - 1));
+		_remove->Enable (num_selected > 0);
 	}
 
 	void list_left_click (wxMouseEvent& ev)
@@ -190,6 +250,58 @@ private:
 		}
 	}
 
+	void add_clicked ()
+	{
+		int const r = _content_dialog->ShowModal ();
+		if (r == wxID_OK) {
+			shared_ptr<Content> content = _content_dialog->selected ();
+			if (content) {
+				add (PlaylistEntry(content));
+			}
+		}
+	}
+
+	void up_clicked ()
+	{
+		long int s = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		if (s < 1) {
+			return;
+		}
+
+		PlaylistEntry tmp = _playlist[s];
+		_playlist[s] = _playlist[s-1];
+		_playlist[s-1] = tmp;
+
+		set_item (s - 1, _playlist[s-1]);
+		set_item (s, _playlist[s]);
+	}
+
+	void down_clicked ()
+	{
+		long int s = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		if (s > (_list->GetItemCount() - 1)) {
+			return;
+		}
+
+		PlaylistEntry tmp = _playlist[s];
+		_playlist[s] = _playlist[s+1];
+		_playlist[s+1] = tmp;
+
+		set_item (s + 1, _playlist[s+1]);
+		set_item (s, _playlist[s]);
+	}
+
+	void remove_clicked ()
+	{
+		long int s = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		if (s == -1) {
+			return;
+		}
+
+		_playlist.erase (_playlist.begin() + s);
+		_list->DeleteItem (s);
+	}
+
 	wxListCtrl* _list;
 	wxButton* _up;
 	wxButton* _down;
@@ -197,7 +309,9 @@ private:
 	wxButton* _remove;
 	wxButton* _save;
 	wxButton* _load;
+	boost::shared_ptr<Film> _film;
 	std::vector<PlaylistEntry> _playlist;
+	ContentDialog* _content_dialog;
 
 	enum {
 		COLUMN_SKIPPABLE = 5,
@@ -258,7 +372,7 @@ private:
 		*/
 		Config::drop ();
 
-		_frame = new DOMFrame (_("DCP-o-matic KDM Creator"));
+		_frame = new DOMFrame (_("DCP-o-matic Playlist Editor"));
 		SetTopWindow (_frame);
 		_frame->Maximize ();
 		_frame->Show ();
