@@ -70,6 +70,10 @@ else
         $INKSCAPE $i.png src/$i.svg -w 32 -h 32
     done
 
+    # Playlist editor tick/no-tick
+    $INKSCAPE tick.png src/tick.svg -w 16 -h 16
+    $INKSCAPE no_tick.png src/no_tick.svg -w 16 -h 16
+
     # favicon
     mkdir -p web
     convert src/web.png -resize 256x256 -transparent white web/favicon-256x256.png

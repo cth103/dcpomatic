@@ -22,11 +22,32 @@
 #include "../wx/wx_signal_manager.h"
 #include "../lib/util.h"
 #include "../lib/config.h"
+#include "../lib/cross.h"
 #include <wx/wx.h>
 #include <wx/listctrl.h>
 #include <wx/imaglist.h>
 
 using std::exception;
+using std::cout;
+using boost::optional;
+
+class PlaylistEntry
+{
+public:
+	std::string name;
+	std::string cpl_id;
+	dcp::ContentKind kind;
+	enum Type {
+		DCP,
+		ECINEMA
+	};
+	Type type;
+	bool encrypted;
+	bool skippable;
+	bool disable_timeline;
+	bool stop_after_play;
+};
+
 
 class DOMFrame : public wxFrame
 {
@@ -46,45 +67,143 @@ public:
 
 		_list->AppendColumn (_("Name"), wxLIST_FORMAT_LEFT, 400);
 		_list->AppendColumn (_("CPL"), wxLIST_FORMAT_LEFT, 400);
-		_list->AppendColumn (_("Type"), wxLIST_FORMAT_LEFT, 75);
-		_list->AppendColumn (_("Format"), wxLIST_FORMAT_LEFT, 75);
-		_list->AppendColumn (_("Encrypted"), wxLIST_FORMAT_LEFT, 90);
-		_list->AppendColumn (_("Skippable"), wxLIST_FORMAT_LEFT, 90);
-		_list->AppendColumn (_("Disable timeline"), wxLIST_FORMAT_LEFT, 125);
-		_list->AppendColumn (_("Stop after play"), wxLIST_FORMAT_LEFT, 125);
+		_list->AppendColumn (_("Type"), wxLIST_FORMAT_CENTRE, 75);
+		_list->AppendColumn (_("Format"), wxLIST_FORMAT_CENTRE, 75);
+		_list->AppendColumn (_("Encrypted"), wxLIST_FORMAT_CENTRE, 90);
+		_list->AppendColumn (_("Skippable"), wxLIST_FORMAT_CENTRE, 90);
+		_list->AppendColumn (_("Disable timeline"), wxLIST_FORMAT_CENTRE, 125);
+		_list->AppendColumn (_("Stop after play"), wxLIST_FORMAT_CENTRE, 125);
 
-		/*
 		wxImageList* images = new wxImageList (16, 16);
-		wxIcon icon;
-		icon.LoadFile ("test.png", wxBITMAP_TYPE_PNG);
-		images->Add (icon);
-		_list->SetImageList (images, wxIMAGE_LIST_SMALL);
-		*/
+		wxIcon tick_icon;
+		wxIcon no_tick_icon;
+#ifdef DCPOMATIX_OSX
+		tick_icon.LoadFile ("tick.png", wxBITMAP_TYPE_PNG_RESOURCE);
+		no_tick_icon.LoadFile ("no_tick.png", wxBITMAP_TYPE_PNG_RESOURCE);
+#else
+		boost::filesystem::path tick_path = shared_path() / "tick.png";
+		tick_icon.LoadFile (std_to_wx(tick_path.string()));
+		boost::filesystem::path no_tick_path = shared_path() / "no_tick.png";
+		no_tick_icon.LoadFile (std_to_wx(no_tick_path.string()));
+#endif
+		images->Add (tick_icon);
+		images->Add (no_tick_icon);
 
-		wxListItem item;
-		item.SetId (0);
-		item.SetImage (0);
-		_list->InsertItem (item);
+		_list->SetImageList (images, wxIMAGE_LIST_SMALL);
 
 		main_sizer->Add (_list, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 
 		wxBoxSizer* button_sizer = new wxBoxSizer (wxVERTICAL);
 		_up = new wxButton (overall_panel, wxID_ANY, _("Up"));
-		button_sizer->Add (_up, 0, wxALL, DCPOMATIC_SIZER_GAP);
+		_down = new wxButton (overall_panel, wxID_ANY, _("Down"));
+		_add = new wxButton (overall_panel, wxID_ANY, _("Add"));
+		_remove = new wxButton (overall_panel, wxID_ANY, _("Remove"));
+		_save = new wxButton (overall_panel, wxID_ANY, _("Save playlist"));
+		_load = new wxButton (overall_panel, wxID_ANY, _("Load playlist"));
+		button_sizer->Add (_up, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+		button_sizer->Add (_down, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+		button_sizer->Add (_add, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+		button_sizer->Add (_remove, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+		button_sizer->Add (_save, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+		button_sizer->Add (_load, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 
 		main_sizer->Add (button_sizer, 0, wxALL, DCPOMATIC_SIZER_GAP);
 		overall_panel->SetSizer (main_sizer);
 
+		_list->Bind (wxEVT_LEFT_DOWN, bind(&DOMFrame::list_left_click, this, _1));
+
+		PlaylistEntry pe;
+		pe.name = "Shit";
+		pe.cpl_id = "sh-1t";
+		pe.kind = dcp::FEATURE;
+		pe.type = PlaylistEntry::ECINEMA;
+		pe.encrypted = true;
+		pe.disable_timeline = false;
+		pe.stop_after_play = true;
+		add (pe);
+
 		setup_sensitivity ();
+	}
+
+private:
+
+	void add (PlaylistEntry e)
+	{
+		wxListItem item;
+		item.SetId (0);
+		long const N = _list->InsertItem (item);
+		set_item (N, e);
+		_playlist.push_back (e);
+	}
+
+	void set_item (long N, PlaylistEntry e)
+	{
+		_list->SetItem (N, 0, std_to_wx(e.name));
+		_list->SetItem (N, 1, std_to_wx(e.cpl_id));
+		_list->SetItem (N, 2, std_to_wx(dcp::content_kind_to_string(e.kind)));
+		_list->SetItem (N, 3, e.type == PlaylistEntry::DCP ? _("DCP") : _("E-cinema"));
+		_list->SetItem (N, 4, e.encrypted ? _("Y") : _("N"));
+		_list->SetItem (N, COLUMN_SKIPPABLE, wxEmptyString, e.skippable ? 0 : 1);
+		_list->SetItem (N, COLUMN_DISABLE_TIMELINE, wxEmptyString, e.disable_timeline ? 0 : 1);
+		_list->SetItem (N, COLUMN_STOP_AFTER_PLAY, wxEmptyString, e.stop_after_play ? 0 : 1);
 	}
 
 	void setup_sensitivity ()
 	{
+		int const selected = _list->GetSelectedItemCount ();
+		_up->Enable (selected > 0);
+		_down->Enable (selected > 0);
+		_remove->Enable (selected > 0);
+	}
 
+	void list_left_click (wxMouseEvent& ev)
+	{
+		int flags;
+		long item = _list->HitTest (ev.GetPosition(), flags, 0);
+		int x = ev.GetPosition().x;
+		optional<int> column;
+		for (int i = 0; i < _list->GetColumnCount(); ++i) {
+			x -= _list->GetColumnWidth (i);
+			if (x < 0) {
+				column = i;
+				break;
+			}
+		}
+
+		if (item != -1 && column) {
+			switch (*column) {
+			case COLUMN_SKIPPABLE:
+				_playlist[item].skippable = !_playlist[item].skippable;
+				break;
+			case COLUMN_DISABLE_TIMELINE:
+				_playlist[item].disable_timeline = !_playlist[item].disable_timeline;
+				break;
+			case COLUMN_STOP_AFTER_PLAY:
+				_playlist[item].stop_after_play = !_playlist[item].stop_after_play;
+				break;
+			default:
+				ev.Skip ();
+			}
+			set_item (item, _playlist[item]);
+		} else {
+			ev.Skip ();
+		}
 	}
 
 	wxListCtrl* _list;
 	wxButton* _up;
+	wxButton* _down;
+	wxButton* _add;
+	wxButton* _remove;
+	wxButton* _save;
+	wxButton* _load;
+	std::vector<PlaylistEntry> _playlist;
+
+	enum {
+		COLUMN_SKIPPABLE = 5,
+		COLUMN_DISABLE_TIMELINE = 6,
+		COLUMN_STOP_AFTER_PLAY = 7
+	};
 };
 
 /** @class App
