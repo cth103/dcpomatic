@@ -176,7 +176,6 @@ Config::set_defaults ()
 	_player_watermark_theatre = "";
 	_player_watermark_period = 1;
 	_player_watermark_duration = 50;
-	_allow_spl_editing = true;
 	_player_lock_file = boost::none;
 #endif
 
@@ -529,7 +528,6 @@ try
 	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("RequiredMonitor")) {
 		_required_monitors.push_back(Monitor(i));
 	}
-	_allow_spl_editing = f.optional_bool_child("AllowSPLEditing").get_value_or(true);
 	_player_lock_file = f.optional_string_child("PlayerLockFile");
 #endif
 
@@ -943,7 +941,6 @@ Config::write_config () const
 	BOOST_FOREACH (Monitor i, _required_monitors) {
 		i.as_xml(root->add_child("RequiredMonitor"));
 	}
-	root->add_child("AllowSPLEditing")->add_child_text(_allow_spl_editing ? "1" : "0");
 	if (_player_lock_file) {
 		root->add_child("PlayerLockFile")->add_child_text(_player_lock_file->string());
 	}

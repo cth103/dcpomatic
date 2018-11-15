@@ -108,15 +108,6 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	_current_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 580);
 	e_sizer->Add (_current_spl_view, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
-	wxBoxSizer* buttons_sizer = new wxBoxSizer (wxVERTICAL);
-	_add_button = new wxButton(this, wxID_ANY, _("Add"));
-	buttons_sizer->Add (_add_button);
-	_save_button = new wxButton(this, wxID_ANY, _("Save..."));
-	buttons_sizer->Add (_save_button);
-	_load_button = new wxButton(this, wxID_ANY, _("Load..."));
-	buttons_sizer->Add (_load_button);
-	e_sizer->Add (buttons_sizer, 0, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
-
 	_v_sizer->Add (e_sizer, 1, wxEXPAND);
 
 	_log = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(-1, 200), wxTE_READONLY | wxTE_MULTILINE);
@@ -125,9 +116,6 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	_content_view->Show (false);
 	_spl_view->Show (false);
 	_current_spl_view->Show (false);
-	_add_button->Show (false);
-	_save_button->Show (false);
-	_load_button->Show (false);
 	_log->Show (false);
 
 	wxBoxSizer* h_sizer = new wxBoxSizer (wxHORIZONTAL);
@@ -183,9 +171,6 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 		_jump_to_selected->Bind (wxEVT_CHECKBOX, boost::bind (&Controls::jump_to_selected_clicked, this));
 		_jump_to_selected->SetValue (Config::instance()->jump_to_selected ());
 	}
-	_add_button->Bind       (wxEVT_BUTTON,              boost::bind(&Controls::add_clicked, this));
-	_save_button->Bind      (wxEVT_BUTTON,              boost::bind(&Controls::save_clicked, this));
-	_load_button->Bind      (wxEVT_BUTTON,              boost::bind(&Controls::load_clicked, this));
 
 	_viewer->PositionChanged.connect (boost::bind(&Controls::position_changed, this));
 	_viewer->Started.connect (boost::bind(&Controls::started, this));
@@ -204,56 +189,6 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 
 	_config_changed_connection = Config::instance()->Changed.connect (bind(&Controls::config_changed, this, _1));
 	config_changed (Config::OTHER);
-}
-
-void
-Controls::add_clicked ()
-{
-	shared_ptr<Content> sel = _content_view->selected()->clone();
-	DCPOMATIC_ASSERT (sel);
-	_film->examine_and_add_content (sel);
-	bool const ok = display_progress (_("DCP-o-matic"), _("Loading DCP"));
-	if (!ok || !report_errors_from_last_job(this)) {
-		return;
-	}
-	add_content_to_list (sel, _current_spl_view);
-	setup_sensitivity ();
-}
-
-void
-Controls::save_clicked ()
-{
-	wxFileDialog* d = new wxFileDialog (
-		this, _("Select playlist file"), wxEmptyString, wxEmptyString, wxT ("XML files (*.xml)|*.xml"),
-		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
-		);
-
-	if (d->ShowModal() == wxID_OK) {
-		boost::filesystem::path p(wx_to_std(d->GetPath()));
-		_film->set_name(p.stem().string());
-		_film->write_metadata(p);
-	}
-
-	d->Destroy ();
-}
-
-void
-Controls::load_clicked ()
-{
-	wxFileDialog* d = new wxFileDialog (
-		this, _("Select playlist file"), wxEmptyString, wxEmptyString, wxT ("XML files (*.xml)|*.xml")
-		);
-
-	if (d->ShowModal() == wxID_OK) {
-		_film->read_metadata (boost::filesystem::path(wx_to_std(d->GetPath())));
-		_current_spl_view->DeleteAllItems ();
-		BOOST_FOREACH (shared_ptr<Content> i, _film->content()) {
-			shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent>(i);
-			add_content_to_list (dcp, _current_spl_view);
-		}
-	}
-
-	d->Destroy ();
 }
 
 void
@@ -504,9 +439,6 @@ Controls::setup_sensitivity ()
 	if (_eye) {
 		_eye->Enable (c && _film->three_d ());
 	}
-
-	_add_button->Enable (Config::instance()->allow_spl_editing() && static_cast<bool>(_content_view->selected()));
-	_save_button->Enable (Config::instance()->allow_spl_editing());
 }
 
 void
@@ -576,38 +508,7 @@ Controls::show_extended_player_controls (bool s)
 	}
 	_current_spl_view->Show (s);
 	_log->Show (s);
-	_add_button->Show (s);
-	_save_button->Show (s);
-	_load_button->Show (s);
 	_v_sizer->Layout ();
-}
-
-void
-Controls::add_content_to_list (shared_ptr<Content> content, wxListCtrl* ctrl)
-{
-	int const N = ctrl->GetItemCount();
-
-	wxListItem it;
-	it.SetId(N);
-	it.SetColumn(0);
-	DCPTime length = content->length_after_trim (_film);
-	int h, m, s, f;
-	length.split (24, h, m, s, f);
-	it.SetText(wxString::Format("%02d:%02d:%02d", h, m, s));
-	ctrl->InsertItem(it);
-
-	shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent>(content);
-	if (dcp && dcp->content_kind()) {
-		it.SetId(N);
-		it.SetColumn(1);
-		it.SetText(std_to_wx(dcp::content_kind_to_string(*dcp->content_kind())));
-		ctrl->SetItem(it);
-	}
-
-	it.SetId(N);
-	it.SetColumn(2);
-	it.SetText(std_to_wx(content->summary()));
-	ctrl->SetItem(it);
 }
 
 void

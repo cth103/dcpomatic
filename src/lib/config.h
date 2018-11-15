@@ -530,10 +530,6 @@ public:
 	}
 #endif
 
-	bool allow_spl_editing () const {
-		return _allow_spl_editing;
-	}
-
 	/* SET (mostly) */
 
 	void set_master_encoding_threads (int n) {
@@ -1038,10 +1034,6 @@ public:
 	}
 #endif
 
-	void set_allow_spl_editing (bool s) {
-		maybe_set (_allow_spl_editing, s);
-	}
-
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -1248,7 +1240,6 @@ private:
 	/** a file which, if specified, must be present for the player to work */
 	boost::optional<boost::filesystem::path> _player_lock_file;
 #endif
-	bool _allow_spl_editing;
 
 	static int const _current_version;
 

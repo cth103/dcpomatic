@@ -90,10 +90,6 @@ private:
 	void pause_clicked ();
 	void stop_clicked ();
 #endif
-	void add_clicked ();
-	void save_clicked ();
-	void load_clicked ();
-	void add_content_to_list (boost::shared_ptr<Content> content, wxListCtrl* list);
 	void add_playlist_to_list (boost::shared_ptr<Film> film);
 
 	boost::shared_ptr<Film> _film;
@@ -110,9 +106,6 @@ private:
 	wxListCtrl* _spl_view;
 	wxListCtrl* _current_spl_view;
 	wxTextCtrl* _log;
-	wxButton* _add_button;
-	wxButton* _save_button;
-	wxButton* _load_button;
 	std::vector<boost::shared_ptr<Film> > _playlists;
 	wxSlider* _slider;
 	wxButton* _rewind_button;
