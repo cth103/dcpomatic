@@ -288,6 +288,7 @@ Job::set_state (State s)
 
 	if (finished) {
 		emit (boost::bind (boost::ref (Finished)));
+		FinishedImmediate ();
 	}
 }
 

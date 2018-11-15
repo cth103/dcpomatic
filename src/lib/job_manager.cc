@@ -39,6 +39,7 @@ using boost::weak_ptr;
 using boost::function;
 using boost::dynamic_pointer_cast;
 using boost::optional;
+using boost::bind;
 
 JobManager* JobManager::_instance = 0;
 
@@ -61,6 +62,10 @@ JobManager::start ()
 
 JobManager::~JobManager ()
 {
+	BOOST_FOREACH (boost::signals2::connection& i, _connections) {
+		i.disconnect ();
+	}
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_terminate = true;
@@ -84,6 +89,7 @@ JobManager::add (shared_ptr<Job> j)
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_jobs.push_back (j);
+		_empty_condition.notify_all ();
 	}
 
 	emit (boost::bind (boost::ref (JobAdded), weak_ptr<Job> (j)));
@@ -99,6 +105,7 @@ JobManager::add_after (shared_ptr<Job> after, shared_ptr<Job> j)
 		list<shared_ptr<Job> >::iterator i = find (_jobs.begin(), _jobs.end(), after);
 		DCPOMATIC_ASSERT (i != _jobs.end());
 		_jobs.insert (i, j);
+		_empty_condition.notify_all ();
 	}
 
 	emit (boost::bind (boost::ref (JobAdded), weak_ptr<Job> (j)));
@@ -143,42 +150,56 @@ JobManager::scheduler ()
 {
 	while (true) {
 
+		boost::mutex::scoped_lock lm (_mutex);
+
 		optional<string> active_job;
 
-		{
-			boost::mutex::scoped_lock lm (_mutex);
-			if (_terminate) {
-				return;
-			}
-
-			if (!_paused) {
-				BOOST_FOREACH (shared_ptr<Job> i, _jobs) {
-
-					if (!i->finished ()) {
-						active_job = i->json_name ();
-					}
-
-					if (i->running ()) {
-						/* Something is already happening */
-						break;
-					}
-
-					if (i->is_new()) {
-						i->start ();
-						/* Only start one job at once */
-						break;
-					}
+		while (true) {
+			bool have_new = false;
+			bool have_running = false;
+			BOOST_FOREACH (shared_ptr<Job> i, _jobs) {
+				if (i->running()) {
+					have_running = true;
+					active_job = i->json_name();
+				}
+				if (i->is_new()) {
+					have_new = true;
 				}
 			}
+
+			if ((!have_running && have_new) || _terminate) {
+				break;
+			}
+
+			_empty_condition.wait (lm);
 		}
+
+		if (_terminate) {
+			break;
+		}
+
+		BOOST_FOREACH (shared_ptr<Job> i, _jobs) {
+			if (i->is_new()) {
+				_connections.push_back (i->FinishedImmediate.connect(bind(&JobManager::job_finished, this)));
+				i->start ();
+				/* Only start one job at once */
+				break;
+			}
+		}
+
+		lm.unlock ();
 
 		if (active_job != _last_active_job) {
 			emit (boost::bind (boost::ref (ActiveJobsChanged), _last_active_job, active_job));
 			_last_active_job = active_job;
 		}
-
-		dcpomatic_sleep (1);
 	}
+}
+
+void
+JobManager::job_finished ()
+{
+	_empty_condition.notify_all ();
 }
 
 JobManager *

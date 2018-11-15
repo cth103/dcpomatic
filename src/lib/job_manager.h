@@ -26,6 +26,7 @@
 #include <boost/thread/mutex.hpp>
 #include <boost/thread.hpp>
 #include <boost/signals2.hpp>
+#include <boost/thread/condition.hpp>
 #include <list>
 
 class Job;
@@ -78,10 +79,13 @@ private:
 	void scheduler ();
 	void start ();
 	void priority_changed ();
+	void job_finished ();
 
 	mutable boost::mutex _mutex;
+	boost::condition _empty_condition;
 	/** List of jobs in the order that they will be executed */
 	std::list<boost::shared_ptr<Job> > _jobs;
+	std::list<boost::signals2::connection> _connections;
 	bool _terminate;
 	bool _paused;
 	boost::shared_ptr<Job> _paused_job;

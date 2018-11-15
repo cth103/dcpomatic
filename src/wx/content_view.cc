@@ -34,6 +34,7 @@
 
 using std::string;
 using std::cout;
+using std::list;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::optional;
@@ -82,6 +83,8 @@ ContentView::update ()
 	wxProgressDialog progress (_("DCP-o-matic"), _("Reading content directory"));
 	JobManager* jm = JobManager::instance ();
 
+	list<shared_ptr<ExamineContentJob> > jobs;
+
 	for (directory_iterator i = directory_iterator(*dir); i != directory_iterator(); ++i) {
 		try {
 			shared_ptr<Content> content;
@@ -92,26 +95,34 @@ ContentView::update ()
 			}
 
 			if (content) {
-				jm->add (shared_ptr<Job>(new ExamineContentJob(film, content)));
-				while (jm->work_to_do()) {
-					if (!progress.Pulse()) {
-						/* user pressed cancel */
-						BOOST_FOREACH (shared_ptr<Job> i, jm->get()) {
-							i->cancel();
-						}
-						return;
-					}
-					dcpomatic_sleep (1);
-				}
-				if (report_errors_from_last_job (this)) {
-					add (content);
-					_content.push_back (content);
-				}
+				shared_ptr<ExamineContentJob> job(new ExamineContentJob(film, content));
+				jm->add (job);
+				jobs.push_back (job);
 			}
 		} catch (boost::filesystem::filesystem_error& e) {
 			/* Never mind */
 		} catch (dcp::DCPReadError& e) {
 			/* Never mind */
+		}
+	}
+
+	while (jm->work_to_do()) {
+		if (!progress.Pulse()) {
+			/* user pressed cancel */
+			BOOST_FOREACH (shared_ptr<Job> i, jm->get()) {
+				i->cancel();
+			}
+			return;
+		}
+		dcpomatic_sleep (1);
+	}
+
+	/* Add content from successful jobs and report errors */
+	BOOST_FOREACH (shared_ptr<ExamineContentJob> i, jobs) {
+		if (i->finished_in_error()) {
+			error_dialog(this, std_to_wx(i->error_summary()) + ".\n", std_to_wx(i->error_details()));
+		} else {
+			add (i->content());
 		}
 	}
 }

@@ -89,6 +89,8 @@ public:
 	boost::signals2::signal<void()> Progress;
 	/** Emitted from the UI thread when the job is finished */
 	boost::signals2::signal<void()> Finished;
+	/** Emitted from the job thread when the job is finished */
+	boost::signals2::signal<void()> FinishedImmediate;
 
 protected:
 

@@ -32,6 +32,10 @@ public:
 	std::string json_name () const;
 	void run ();
 
+	boost::shared_ptr<Content> content () const {
+		return _content;
+	}
+
 private:
 	boost::shared_ptr<Content> _content;
 };
