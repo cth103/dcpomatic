@@ -123,6 +123,7 @@ ContentView::update ()
 			error_dialog(this, std_to_wx(i->error_summary()) + ".\n", std_to_wx(i->error_details()));
 		} else {
 			add (i->content());
+			_content.push_back (i->content());
 		}
 	}
 }
