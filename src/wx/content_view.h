@@ -35,6 +35,7 @@ public:
 	void update ();
 
 	boost::shared_ptr<Content> get (std::string digest) const;
+	void set_film (boost::weak_ptr<Film> film);
 
 private:
 	void add (boost::shared_ptr<Content> content);

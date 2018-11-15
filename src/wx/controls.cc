@@ -42,6 +42,7 @@
 
 using std::string;
 using std::list;
+using std::cout;
 using std::make_pair;
 using std::exception;
 using boost::optional;
@@ -195,7 +196,6 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	film_changed ();
 
 	setup_sensitivity ();
-	_content_view->update ();
 	update_playlist_directory ();
 
 	JobManager::instance()->ActiveJobsChanged.connect (
@@ -554,6 +554,9 @@ Controls::film_changed ()
 	if (_film) {
 		_film->Change.connect (boost::bind (&Controls::film_change, this, _1, _2));
 	}
+
+	_content_view->set_film (film);
+	_content_view->update ();
 }
 
 shared_ptr<Film>

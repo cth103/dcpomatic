@@ -33,6 +33,7 @@
 #include <wx/progdlg.h>
 
 using std::string;
+using std::cout;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::optional;
@@ -64,10 +65,6 @@ ContentView::selected () const
 void
 ContentView::update ()
 {
-	if (!IsShown()) {
-		return;
-	}
-
 	shared_ptr<Film> film = _film.lock ();
 	if (!film) {
 		return;
@@ -157,4 +154,10 @@ ContentView::get (string digest) const
 	}
 
 	return shared_ptr<Content>();
+}
+
+void
+ContentView::set_film (weak_ptr<Film> film)
+{
+	_film = film;
 }
