@@ -162,6 +162,17 @@ DCPContent::read_directory (boost::filesystem::path p)
 			read_directory (i->path());
 		}
 	}
+
+	bool have_assetmap = false;
+	BOOST_FOREACH (boost::filesystem::path i, paths()) {
+		if (i.filename() == "ASSETMAP" || i.filename() == "ASSETMAP.xml") {
+			have_assetmap = true;
+		}
+	}
+
+	if (!have_assetmap) {
+		throw DCPError ("No ASSETMAP or ASSETMAP.xml file found: is this a DCP?");
+	}
 }
 
 void
