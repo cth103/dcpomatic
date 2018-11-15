@@ -34,6 +34,8 @@ public:
 	boost::shared_ptr<Content> selected () const;
 	void update ();
 
+	boost::shared_ptr<Content> get (std::string digest) const;
+
 private:
 	void add (boost::shared_ptr<Content> content);
 

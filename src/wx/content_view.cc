@@ -32,6 +32,7 @@
 #include <boost/optional.hpp>
 #include <wx/progdlg.h>
 
+using std::string;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::optional;
@@ -144,4 +145,16 @@ ContentView::add (shared_ptr<Content> content)
 	it.SetColumn(2);
 	it.SetText(std_to_wx(content->summary()));
 	SetItem(it);
+}
+
+shared_ptr<Content>
+ContentView::get (string digest) const
+{
+	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+		if (i->digest() == digest) {
+			return i;
+		}
+	}
+
+	return shared_ptr<Content>();
 }
