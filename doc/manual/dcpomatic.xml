@@ -143,12 +143,14 @@ with the first (main) part.
 <itemizedlist>
   <listitem>Debian 7 (&lsquo;wheezy&rsquo;)</listitem>
   <listitem>Debian 8 (&lsquo;jessie&rsquo;)</listitem>
+  <listitem>Debian 9 (&lsquo;squeeze&rsquo;)</listitem>
   <listitem>Debian unstable (&lsquo;sid&rsquo;)</listitem>
   <listitem>Ubuntu 14.04 (&lsquo;Trusty Tahr&rsquo;)</listitem>
   <listitem>Ubuntu 16.04 (&lsquo;Xenial Xerus&rsquo;)</listitem>
-  <listitem>Ubuntu 17.10 (&lsquo;Artful Aardvark&rsquo;)</listitem>
+  <listitem>Ubuntu 18.04 (&lsquo;Bionic Beaver&rsquo;)</listitem>
   <listitem>Mint 17</listitem>
   <listitem>Mint 18</listitem>
+  <listitem>Mint 19</listitem>
 </itemizedlist>
 
 <para>
@@ -165,7 +167,7 @@ pieces and set DCP-o-matic up for you.
 <section>
   <title>Fedora, Centos and Mageia Linux</title>
 
-  <para>There are <code>.rpm</code> packages for Fedora 25, 26 and 27, Centos 6 and 7 and Mageia 6 on
+  <para>There are <code>.rpm</code> packages for Fedora 27 and 28, Centos 6 and 7 and Mageia 6 on
   <ulink url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>
   </para>
 </section>
@@ -211,9 +213,12 @@ The following dependencies are required:
 <listitem><ulink url="http://www.aleksey.com/xmlsec/">xmlsec</ulink></listitem>
 <listitem><ulink url="http://curl.haxx.se/">curl</ulink></listitem>
 <listitem><ulink url="http://www.nih.at/libzip/">libzip</ulink></listitem>
+<listitem><ulink url="http://carlh.net/asdcplib/">asdcplib with some patches</ulink></listitem>
 <listitem><ulink url="http://carlh.net/libdcp/">libdcp</ulink></listitem>
 <listitem><ulink url="http://carlh.net/libsub/">libsub</ulink></listitem>
 <listitem><ulink url="http://carlh.net/libcxml/">libcxml</ulink></listitem>
+<listitem><ulink url="https://carlh.net/locked_sstream">locked_sstream</ulink></listitem>
+<listitem><ulink url="https://www.music.mcgill.ca/~gary/rtaudio/">rtaudio</ulink></listitem>
 <listitem><ulink url="http://site.icu-project.org">libicu</ulink></listitem>
 </itemizedlist>
 </para>

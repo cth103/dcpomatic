@@ -658,8 +658,8 @@ Config::write_config () const
 	}
 	if (_default_container) {
 		/* [XML:opt] DefaultContainer ID of default container
-		 * to use when creating new films (<code>185</code>,<code>239</code> or
-		 * <code>190</code>).
+		   to use when creating new films (<code>185</code>,<code>239</code> or
+		   <code>190</code>).
 		*/
 		root->add_child("DefaultContainer")->add_child_text (_default_container->id ());
 	}
