@@ -213,10 +213,10 @@ The following dependencies are required:
 <listitem><ulink url="http://www.aleksey.com/xmlsec/">xmlsec</ulink></listitem>
 <listitem><ulink url="http://curl.haxx.se/">curl</ulink></listitem>
 <listitem><ulink url="http://www.nih.at/libzip/">libzip</ulink></listitem>
-<listitem><ulink url="http://carlh.net/asdcplib/">asdcplib with some patches</ulink></listitem>
-<listitem><ulink url="http://carlh.net/libdcp/">libdcp</ulink></listitem>
-<listitem><ulink url="http://carlh.net/libsub/">libsub</ulink></listitem>
-<listitem><ulink url="http://carlh.net/libcxml/">libcxml</ulink></listitem>
+<listitem><ulink url="http://carlh.net/asdcplib">asdcplib with some patches</ulink></listitem>
+<listitem><ulink url="http://carlh.net/libdcp">libdcp</ulink></listitem>
+<listitem><ulink url="http://carlh.net/libsub">libsub</ulink></listitem>
+<listitem><ulink url="http://carlh.net/libcxml">libcxml</ulink></listitem>
 <listitem><ulink url="https://carlh.net/locked_sstream">locked_sstream</ulink></listitem>
 <listitem><ulink url="https://www.music.mcgill.ca/~gary/rtaudio/">rtaudio</ulink></listitem>
 <listitem><ulink url="http://site.icu-project.org">libicu</ulink></listitem>
