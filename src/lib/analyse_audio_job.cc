@@ -159,8 +159,9 @@ AnalyseAudioJob::run ()
 		   gain was when we analysed it.
 		*/
 		shared_ptr<const AudioContent> ac = _playlist->content().front()->audio;
-		DCPOMATIC_ASSERT (ac);
-		_analysis->set_analysis_gain (ac->gain ());
+		if (ac) {
+			_analysis->set_analysis_gain (ac->gain());
+		}
 	}
 
 	_analysis->set_samples_per_point (_samples_per_point);
