@@ -103,9 +103,8 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	e_sizer->Add (left_sizer, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
 	_current_spl_view = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
+	_current_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 500);
 	_current_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 80);
-	_current_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 80);
-	_current_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 580);
 	e_sizer->Add (_current_spl_view, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
 	_v_sizer->Add (e_sizer, 1, wxEXPAND);
@@ -165,12 +164,12 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	_forward_button->Bind   (wxEVT_LEFT_DOWN,            boost::bind(&Controls::forward_clicked, this, _1));
 	_frame_number->Bind     (wxEVT_LEFT_DOWN,            boost::bind(&Controls::frame_number_clicked, this));
 	_timecode->Bind         (wxEVT_LEFT_DOWN,            boost::bind(&Controls::timecode_clicked, this));
-	_content_view->Bind     (wxEVT_LIST_ITEM_SELECTED,   boost::bind(&Controls::setup_sensitivity, this));
-	_content_view->Bind     (wxEVT_LIST_ITEM_DESELECTED, boost::bind(&Controls::setup_sensitivity, this));
 	if (_jump_to_selected) {
 		_jump_to_selected->Bind (wxEVT_CHECKBOX, boost::bind (&Controls::jump_to_selected_clicked, this));
 		_jump_to_selected->SetValue (Config::instance()->jump_to_selected ());
 	}
+	_spl_view->Bind         (wxEVT_LIST_ITEM_SELECTED,   boost::bind(&Controls::spl_selection_changed, this));
+	_spl_view->Bind         (wxEVT_LIST_ITEM_DESELECTED, boost::bind(&Controls::spl_selection_changed, this));
 
 	_viewer->PositionChanged.connect (boost::bind(&Controls::position_changed, this));
 	_viewer->Started.connect (boost::bind(&Controls::started, this));
@@ -189,6 +188,31 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 
 	_config_changed_connection = Config::instance()->Changed.connect (bind(&Controls::config_changed, this, _1));
 	config_changed (Config::OTHER);
+}
+
+void
+Controls::spl_selection_changed ()
+{
+	long int selected = _spl_view->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	if (selected == -1) {
+		_current_spl_view->DeleteAllItems ();
+		return;
+	}
+
+	shared_ptr<Film> film (new Film(optional<boost::filesystem::path>()));
+
+	int N = 0;
+	BOOST_FOREACH (SPLEntry i, _playlists[selected].get()) {
+		wxListItem it;
+		it.SetId (N);
+		it.SetColumn (0);
+		it.SetText (std_to_wx(i.name));
+		_current_spl_view->InsertItem (it);
+		film->add_content (i.content);
+		++N;
+	}
+
+	_viewer->set_film (film);
 }
 
 void
@@ -246,18 +270,6 @@ void
 Controls::outline_content_changed ()
 {
 	_viewer->set_outline_content (_outline_content->GetValue());
-}
-
-void
-Controls::film_change (ChangeType type, Film::Property p)
-{
-	if (type != CHANGE_TYPE_DONE) {
-		return;
-	}
-
-	if (p == Film::CONTENT || p == Film::THREE_D) {
-		setup_sensitivity ();
-	}
 }
 
 /** @param page true if this was a PAGEUP/PAGEDOWN event for which we won't receive a THUMBRELEASE */
@@ -483,10 +495,6 @@ Controls::film_changed ()
 	update_position_slider ();
 	update_position_label ();
 
-	if (_film) {
-		_film->Change.connect (boost::bind (&Controls::film_change, this, _1, _2));
-	}
-
 	_content_view->set_film (film);
 	_content_view->update ();
 }
@@ -512,14 +520,14 @@ Controls::show_extended_player_controls (bool s)
 }
 
 void
-Controls::add_playlist_to_list (shared_ptr<Film> film)
+Controls::add_playlist_to_list (SPL spl)
 {
 	int const N = _spl_view->GetItemCount();
 
 	wxListItem it;
 	it.SetId(N);
 	it.SetColumn(0);
-	it.SetText (std_to_wx(film->name()));
+	it.SetText (std_to_wx(spl.name()));
 	_spl_view->InsertItem (it);
 }
 
@@ -540,10 +548,12 @@ Controls::update_playlist_directory ()
 
 	for (directory_iterator i = directory_iterator(*dir); i != directory_iterator(); ++i) {
 		try {
-			shared_ptr<Film> film (new Film(optional<path>()));
-			film->read_metadata (i->path());
-			_playlists.push_back (film);
-			add_playlist_to_list (film);
+			if (is_regular_file(i->path()) && i->path().extension() == ".xml") {
+				SPL spl;
+				spl.read (i->path(), _content_view);
+				_playlists.push_back (spl);
+				add_playlist_to_list (spl);
+			}
 		} catch (exception& e) {
 			/* Never mind */
 		}

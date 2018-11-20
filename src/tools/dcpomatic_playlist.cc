@@ -26,6 +26,8 @@
 #include "../lib/cross.h"
 #include "../lib/film.h"
 #include "../lib/dcp_content.h"
+#include "../lib/spl_entry.h"
+#include "../lib/spl.h"
 #include <wx/wx.h>
 #include <wx/listctrl.h>
 #include <wx/imaglist.h>
@@ -39,69 +41,7 @@ using boost::weak_ptr;
 using boost::bind;
 using boost::dynamic_pointer_cast;
 
-class PlaylistEntry
-{
-public:
-	PlaylistEntry (boost::shared_ptr<Content> content)
-		: skippable (false)
-		, disable_timeline (false)
-		, stop_after_play (false)
-	{
-		construct (content);
-	}
-
-	PlaylistEntry (boost::shared_ptr<Content> content, cxml::ConstNodePtr node)
-		: skippable (node->bool_child("Skippable"))
-		, disable_timeline (node->bool_child("DisableTimeline"))
-		, stop_after_play (node->bool_child("StopAfterPlay"))
-	{
-		construct (content);
-	}
-
-	void construct (shared_ptr<Content> content)
-	{
-		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (content);
-		digest = content->digest ();
-		if (dcp) {
-			name = dcp->name ();
-			DCPOMATIC_ASSERT (dcp->cpl());
-			id = *dcp->cpl();
-			kind = dcp->content_kind().get_value_or(dcp::FEATURE);
-			type = DCP;
-			encrypted = dcp->encrypted ();
-		} else {
-			name = content->path(0).filename().string();
-			type = ECINEMA;
-			kind = dcp::FEATURE;
-		}
-	}
-
-	void as_xml (xmlpp::Element* e)
-	{
-		e->add_child("Digest")->add_child_text(digest);
-		e->add_child("Skippable")->add_child_text(skippable ? "1" : "0");
-		e->add_child("DisableTimeline")->add_child_text(disable_timeline ? "1" : "0");
-		e->add_child("StopAfterPlay")->add_child_text(stop_after_play ? "1" : "0");
-	}
-
-	std::string name;
-	/** Digest of this content */
-	std::string digest;
-	/** CPL ID or something else for MP4 (?) */
-	std::string id;
-	dcp::ContentKind kind;
-	enum Type {
-		DCP,
-		ECINEMA
-	};
-	Type type;
-	bool encrypted;
-	bool skippable;
-	bool disable_timeline;
-	bool stop_after_play;
-};
-
-class ContentDialog : public wxDialog
+class ContentDialog : public wxDialog, public ContentStore
 {
 public:
 	ContentDialog (wxWindow* parent, weak_ptr<Film> film)
@@ -216,13 +156,13 @@ public:
 
 private:
 
-	void add (PlaylistEntry e)
+	void add (SPLEntry e)
 	{
 		wxListItem item;
 		item.SetId (_list->GetItemCount());
 		long const N = _list->InsertItem (item);
 		set_item (N, e);
-		_playlist.push_back (e);
+		_playlist.add (e);
 	}
 
 	void selection_changed ()
@@ -230,12 +170,12 @@ private:
 		setup_sensitivity ();
 	}
 
-	void set_item (long N, PlaylistEntry e)
+	void set_item (long N, SPLEntry e)
 	{
 		_list->SetItem (N, 0, std_to_wx(e.name));
 		_list->SetItem (N, 1, std_to_wx(e.id));
 		_list->SetItem (N, 2, std_to_wx(dcp::content_kind_to_string(e.kind)));
-		_list->SetItem (N, 3, e.type == PlaylistEntry::DCP ? _("DCP") : _("E-cinema"));
+		_list->SetItem (N, 3, e.type == SPLEntry::DCP ? _("DCP") : _("E-cinema"));
 		_list->SetItem (N, 4, e.encrypted ? _("Y") : _("N"));
 		_list->SetItem (N, COLUMN_SKIPPABLE, wxEmptyString, e.skippable ? 0 : 1);
 		_list->SetItem (N, COLUMN_DISABLE_TIMELINE, wxEmptyString, e.disable_timeline ? 0 : 1);
@@ -291,7 +231,7 @@ private:
 		if (r == wxID_OK) {
 			shared_ptr<Content> content = _content_dialog->selected ();
 			if (content) {
-				add (PlaylistEntry(content));
+				add (SPLEntry(content));
 			}
 		}
 	}
@@ -303,7 +243,7 @@ private:
 			return;
 		}
 
-		PlaylistEntry tmp = _playlist[s];
+		SPLEntry tmp = _playlist[s];
 		_playlist[s] = _playlist[s-1];
 		_playlist[s-1] = tmp;
 
@@ -318,7 +258,7 @@ private:
 			return;
 		}
 
-		PlaylistEntry tmp = _playlist[s];
+		SPLEntry tmp = _playlist[s];
 		_playlist[s] = _playlist[s+1];
 		_playlist[s+1] = tmp;
 
@@ -333,7 +273,7 @@ private:
 			return;
 		}
 
-		_playlist.erase (_playlist.begin() + s);
+		_playlist.remove (s);
 		_list->DeleteItem (s);
 	}
 
@@ -341,12 +281,7 @@ private:
 	{
 		wxFileDialog* d = new wxFileDialog (this, _("Select playlist file"), wxEmptyString, wxEmptyString, wxT("XML files (*.xml)|*.xml"), wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 		if (d->ShowModal() == wxID_OK) {
-			xmlpp::Document doc;
-			xmlpp::Element* root = doc.create_root_node ("SPL");
-			BOOST_FOREACH (PlaylistEntry i, _playlist) {
-				i.as_xml (root->add_child("Entry"));
-			}
-			doc.write_to_file_formatted (wx_to_std(d->GetPath()));
+			_playlist.write (wx_to_std(d->GetPath()));
 		}
 	}
 
@@ -355,19 +290,7 @@ private:
 		wxFileDialog* d = new wxFileDialog (this, _("Select playlist file"), wxEmptyString, wxEmptyString, wxT("XML files (*.xml)|*.xml"));
 		if (d->ShowModal() == wxID_OK) {
 			_list->DeleteAllItems ();
-			_playlist.clear ();
-			cxml::Document doc ("SPL");
-			doc.read_file (wx_to_std(d->GetPath()));
-			bool missing = false;
-			BOOST_FOREACH (cxml::ConstNodePtr i, doc.node_children("Entry")) {
-				shared_ptr<Content> c = _content_dialog->get(i->string_child("Digest"));
-				if (c) {
-					add (PlaylistEntry(c, i));
-				} else {
-					missing = true;
-				}
-			}
-			if (missing) {
+			if (_playlist.read (wx_to_std(d->GetPath()), _content_dialog)) {
 				error_dialog (this, _("Some content in this playlist was not found."));
 			}
 		}
@@ -381,7 +304,7 @@ private:
 	wxButton* _save;
 	wxButton* _load;
 	boost::shared_ptr<Film> _film;
-	std::vector<PlaylistEntry> _playlist;
+	SPL _playlist;
 	ContentDialog* _content_dialog;
 
 	enum {

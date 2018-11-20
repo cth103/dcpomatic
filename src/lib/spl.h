@@ -18,29 +18,41 @@
 
 */
 
-#include "lib/content_store.h"
-#include <wx/listctrl.h>
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
-#include <vector>
+#include "spl_entry.h"
 
-class Content;
-class Film;
+class ContentStore;
 
-class ContentView : public wxListCtrl, public ContentStore
+class SPL
 {
 public:
-	ContentView (wxWindow* parent, boost::weak_ptr<Film> film);
+	void add (SPLEntry e) {
+		_spl.push_back (e);
+	}
 
-	boost::shared_ptr<Content> selected () const;
-	void update ();
+	void remove (std::size_t index) {
+		_spl.erase (_spl.begin() + index);
+	}
 
-	boost::shared_ptr<Content> get (std::string digest) const;
-	void set_film (boost::weak_ptr<Film> film);
+	std::vector<SPLEntry> const & get () const {
+		return _spl;
+	}
+
+	SPLEntry & operator[] (std::size_t index) {
+		return _spl[index];
+	}
+
+	SPLEntry const & operator[] (std::size_t index) const {
+		return _spl[index];
+	}
+
+	bool read (boost::filesystem::path path, ContentStore* store);
+	void write (boost::filesystem::path path) const;
+
+	std::string name () const {
+		return _name;
+	}
 
 private:
-	void add (boost::shared_ptr<Content> content);
-
-	boost::weak_ptr<Film> _film;
-	std::vector<boost::shared_ptr<Content> > _content;
+	std::string _name;
+	std::vector<SPLEntry> _spl;
 };

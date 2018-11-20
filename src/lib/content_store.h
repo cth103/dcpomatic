@@ -18,29 +18,15 @@
 
 */
 
-#include "lib/content_store.h"
-#include <wx/listctrl.h>
 #include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
-#include <vector>
 
 class Content;
-class Film;
 
-class ContentView : public wxListCtrl, public ContentStore
+/** @class ContentStore
+ *  @brief Parent for classes which store content and can return content with a given digest.
+ */
+class ContentStore
 {
 public:
-	ContentView (wxWindow* parent, boost::weak_ptr<Film> film);
-
-	boost::shared_ptr<Content> selected () const;
-	void update ();
-
-	boost::shared_ptr<Content> get (std::string digest) const;
-	void set_film (boost::weak_ptr<Film> film);
-
-private:
-	void add (boost::shared_ptr<Content> content);
-
-	boost::weak_ptr<Film> _film;
-	std::vector<boost::shared_ptr<Content> > _content;
+	virtual boost::shared_ptr<Content> get (std::string digest) const = 0;
 };

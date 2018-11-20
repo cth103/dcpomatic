@@ -18,29 +18,46 @@
 
 */
 
-#include "lib/content_store.h"
-#include <wx/listctrl.h>
+#ifndef DCPOMATIC_SPL_ENTRY_H
+#define DCPOMATIC_SPL_ENTRY_H
+
+#include <libcxml/cxml.h>
+#include <dcp/types.h>
 #include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
-#include <vector>
+
+namespace xmlpp {
+	class Element;
+}
 
 class Content;
-class Film;
 
-class ContentView : public wxListCtrl, public ContentStore
+class SPLEntry
 {
 public:
-	ContentView (wxWindow* parent, boost::weak_ptr<Film> film);
+	SPLEntry (boost::shared_ptr<Content> content);
+	SPLEntry (boost::shared_ptr<Content> content, cxml::ConstNodePtr node);
 
-	boost::shared_ptr<Content> selected () const;
-	void update ();
+	void as_xml (xmlpp::Element* e);
 
-	boost::shared_ptr<Content> get (std::string digest) const;
-	void set_film (boost::weak_ptr<Film> film);
+	boost::shared_ptr<Content> content;
+	std::string name;
+	/** Digest of this content */
+	std::string digest;
+	/** CPL ID or something else for MP4 (?) */
+	std::string id;
+	dcp::ContentKind kind;
+	enum Type {
+		DCP,
+		ECINEMA
+	};
+	Type type;
+	bool encrypted;
+	bool skippable;
+	bool disable_timeline;
+	bool stop_after_play;
 
 private:
-	void add (boost::shared_ptr<Content> content);
-
-	boost::weak_ptr<Film> _film;
-	std::vector<boost::shared_ptr<Content> > _content;
+	void construct (boost::shared_ptr<Content> content);
 };
+
+#endif

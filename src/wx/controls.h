@@ -21,6 +21,7 @@
 #include "lib/dcpomatic_time.h"
 #include "lib/types.h"
 #include "lib/film.h"
+#include "lib/spl.h"
 #include <wx/wx.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
@@ -33,6 +34,7 @@ class PlayerVideo;
 class wxToggleButton;
 class wxListCtrl;
 class ContentView;
+class SPL;
 
 namespace dcp {
 	class CPL;
@@ -73,7 +75,6 @@ private:
 	void active_jobs_changed (boost::optional<std::string>);
 	DCPTime nudge_amount (wxKeyboardState& ev);
 	void image_changed (boost::weak_ptr<PlayerVideo>);
-	void film_change (ChangeType type, Film::Property p);
 	void outline_content_changed ();
 	void eye_changed ();
 	void position_changed ();
@@ -83,6 +84,7 @@ private:
 	void update_content_directory ();
 	void update_playlist_directory ();
 	void config_changed (int property);
+	void spl_selection_changed ();
 
 	typedef std::pair<boost::shared_ptr<dcp::CPL>, boost::filesystem::path> CPL;
 
@@ -90,7 +92,7 @@ private:
 	void pause_clicked ();
 	void stop_clicked ();
 #endif
-	void add_playlist_to_list (boost::shared_ptr<Film> film);
+	void add_playlist_to_list (SPL spl);
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<FilmViewer> _viewer;
@@ -106,7 +108,7 @@ private:
 	wxListCtrl* _spl_view;
 	wxListCtrl* _current_spl_view;
 	wxTextCtrl* _log;
-	std::vector<boost::shared_ptr<Film> > _playlists;
+	std::vector<SPL> _playlists;
 	wxSlider* _slider;
 	wxButton* _rewind_button;
 	wxButton* _back_button;
