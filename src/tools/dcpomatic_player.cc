@@ -27,7 +27,8 @@
 #include "wx/update_dialog.h"
 #include "wx/player_config_dialog.h"
 #include "wx/verify_dcp_dialog.h"
-#include "wx/controls.h"
+#include "wx/standard_controls.h"
+#include "wx/swaroop_controls.h"
 #include "lib/cross.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -80,6 +81,7 @@ using std::list;
 using std::exception;
 using std::vector;
 using boost::shared_ptr;
+using boost::weak_ptr;
 using boost::scoped_array;
 using boost::optional;
 using boost::dynamic_pointer_cast;
@@ -174,7 +176,13 @@ public:
 		_overall_panel = new wxPanel (this, wxID_ANY);
 
 		_viewer.reset (new FilmViewer (_overall_panel));
-		_controls = new Controls (_overall_panel, _viewer, false);
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+		SwaroopControls* sc = new SwaroopControls (_overall_panel, _viewer);
+		_controls = sc;
+		sc->ResetFilm.connect (bind(&DOMFrame::reset_film_weak, this, _1));
+#else
+		_controls = new StandardControls (_overall_panel, _viewer, false);
+#endif
 		_viewer->set_dcp_decode_reduction (Config::instance()->decode_reduction ());
 		_viewer->PlaybackPermitted.connect (bind(&DOMFrame::playback_permitted, this));
 		_viewer->Started.connect (bind(&DOMFrame::playback_started, this, _1));
@@ -459,11 +467,21 @@ public:
 		return optional<dcp::EncryptedKDM>();
 	}
 
+	void reset_film_weak (weak_ptr<Film> weak_film)
+	{
+		shared_ptr<Film> film = weak_film.lock ();
+		if (film) {
+			reset_film (film);
+		}
+	}
+
 	void reset_film (shared_ptr<Film> film = shared_ptr<Film>(new Film(optional<boost::filesystem::path>())))
 	{
 		_film = film;
 		_viewer->set_film (_film);
+		_controls->set_film (_film);
 		_film->Change.connect (bind(&DOMFrame::film_changed, this, _1, _2));
+		_info->triggered_update ();
 	}
 
 	void film_changed (ChangeType type, Film::Property property)
@@ -796,7 +814,6 @@ private:
 	void setup_screen ()
 	{
 		_controls->Show (_mode != Config::PLAYER_MODE_FULL);
-		_controls->show_extended_player_controls (_mode == Config::PLAYER_MODE_DUAL);
 		_info->Show (_mode != Config::PLAYER_MODE_FULL);
 		_overall_panel->SetBackgroundColour (_mode == Config::PLAYER_MODE_FULL ? wxColour(0, 0, 0) : wxNullColour);
 		ShowFullScreen (_mode == Config::PLAYER_MODE_FULL);

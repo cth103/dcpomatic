@@ -171,5 +171,10 @@ ContentView::get (string digest) const
 void
 ContentView::set_film (weak_ptr<Film> film)
 {
+	if (_film.lock() == film.lock()) {
+		return;
+	}
+
 	_film = film;
+	update ();
 }

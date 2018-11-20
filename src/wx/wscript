@@ -108,6 +108,8 @@ sources = """
           self_dkdm_dialog.cc
           server_dialog.cc
           servers_list_dialog.cc
+          standard_controls.cc
+          swaroop_controls.cc
           system_font_dialog.cc
           table_dialog.cc
           templates_dialog.cc

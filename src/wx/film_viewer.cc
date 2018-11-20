@@ -122,8 +122,6 @@ FilmViewer::set_film (shared_ptr<Film> film)
 
 	_film = film;
 
-	FilmChanged ();
-
 	_frame.reset ();
 	_closed_captions_dialog->clear ();
 

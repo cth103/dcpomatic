@@ -18,6 +18,9 @@
 
 */
 
+#ifndef DCPOMATIC_CONTROLS_H
+#define DCPOMATIC_CONTROLS_H
+
 #include "lib/dcpomatic_time.h"
 #include "lib/types.h"
 #include "lib/film.h"
@@ -34,7 +37,6 @@ class PlayerVideo;
 class wxToggleButton;
 class wxListCtrl;
 class ContentView;
-class SPL;
 
 namespace dcp {
 	class CPL;
@@ -49,14 +51,26 @@ public:
 		bool editor_controls = true
 		);
 
+	virtual void set_film (boost::shared_ptr<Film> film);
 	boost::shared_ptr<Film> film () const;
 	void back_frame ();
 	void forward_frame ();
 
-	void show_extended_player_controls (bool s);
-	void log (wxString s);
+protected:
+	virtual void started ();
+	virtual void stopped ();
+	virtual void setup_sensitivity ();
+	virtual void config_changed (int property);
+
+	wxSizer* _v_sizer;
+	wxBoxSizer* _button_sizer;
+	boost::shared_ptr<Film> _film;
+	wxSlider* _slider;
+	boost::shared_ptr<FilmViewer> _viewer;
+	boost::optional<std::string> _active_job;
 
 private:
+
 	void update_position_label ();
 	void update_position_slider ();
 	void rewind_clicked (wxMouseEvent &);
@@ -64,71 +78,33 @@ private:
 	void forward_clicked (wxKeyboardState &);
 	void slider_moved (bool page);
 	void slider_released ();
-	void play_clicked ();
 	void frame_number_clicked ();
 	void jump_to_selected_clicked ();
-	void setup_sensitivity ();
 	void timecode_clicked ();
-#ifndef DCPOMATIC_PLAYER_SWAROOP
-	void check_play_state ();
-#endif
 	void active_jobs_changed (boost::optional<std::string>);
 	DCPTime nudge_amount (wxKeyboardState& ev);
 	void image_changed (boost::weak_ptr<PlayerVideo>);
 	void outline_content_changed ();
 	void eye_changed ();
 	void position_changed ();
-	void started ();
-	void stopped ();
-	void film_changed ();
-	void update_content_directory ();
-	void update_playlist_directory ();
-	void config_changed (int property);
-	void spl_selection_changed ();
 
 	typedef std::pair<boost::shared_ptr<dcp::CPL>, boost::filesystem::path> CPL;
 
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	void pause_clicked ();
-	void stop_clicked ();
-#endif
-	void add_playlist_to_list (SPL spl);
-
-	boost::shared_ptr<Film> _film;
-	boost::shared_ptr<FilmViewer> _viewer;
-
-	wxSizer* _v_sizer;
 	bool _slider_being_moved;
 	bool _was_running_before_slider;
 
 	wxCheckBox* _outline_content;
 	wxChoice* _eye;
 	wxCheckBox* _jump_to_selected;
-	ContentView* _content_view;
-	wxListCtrl* _spl_view;
-	wxListCtrl* _current_spl_view;
-	wxTextCtrl* _log;
-	std::vector<SPL> _playlists;
-	wxSlider* _slider;
 	wxButton* _rewind_button;
 	wxButton* _back_button;
 	wxButton* _forward_button;
 	wxStaticText* _frame_number;
 	wxStaticText* _timecode;
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	wxButton* _play_button;
-	wxButton* _pause_button;
-	wxButton* _stop_button;
-#else
-	wxToggleButton* _play_button;
-#endif
-	boost::optional<std::string> _active_job;
 
 	ClosedCaptionsDialog* _closed_captions_dialog;
 
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	boost::optional<dcp::ContentKind> _current_kind;
-#endif
-
 	boost::signals2::scoped_connection _config_changed_connection;
 };
+
+#endif

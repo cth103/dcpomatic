@@ -18,46 +18,19 @@
 
 */
 
-#ifndef DCPOMATIC_SPL_H
-#define DCPOMATIC_SPL_H
+#include "controls.h"
 
-#include "spl_entry.h"
-
-class ContentStore;
-
-class SPL
+class StandardControls : public Controls
 {
 public:
-	void add (SPLEntry e) {
-		_spl.push_back (e);
-	}
-
-	void remove (std::size_t index) {
-		_spl.erase (_spl.begin() + index);
-	}
-
-	std::vector<SPLEntry> const & get () const {
-		return _spl;
-	}
-
-	SPLEntry & operator[] (std::size_t index) {
-		return _spl[index];
-	}
-
-	SPLEntry const & operator[] (std::size_t index) const {
-		return _spl[index];
-	}
-
-	bool read (boost::filesystem::path path, ContentStore* store);
-	void write (boost::filesystem::path path) const;
-
-	std::string name () const {
-		return _name;
-	}
+	StandardControls (wxWindow* parent, boost::shared_ptr<FilmViewer> viewer, bool editor_controls);
 
 private:
-	std::string _name;
-	std::vector<SPLEntry> _spl;
-};
+	void check_play_state ();
+	void play_clicked ();
+	void started ();
+	void stopped ();
+	void setup_sensitivity ();
 
-#endif
+	wxToggleButton* _play_button;
+};

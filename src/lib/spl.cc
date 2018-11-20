@@ -23,7 +23,9 @@
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
+#include <iostream>
 
+using std::cout;
 using boost::shared_ptr;
 
 bool
