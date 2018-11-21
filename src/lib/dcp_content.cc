@@ -612,7 +612,7 @@ DCPContent::can_reference_audio (shared_ptr<const Film> film, string& why_not) c
 {
 	shared_ptr<DCPDecoder> decoder;
 	try {
-		decoder.reset (new DCPDecoder (shared_from_this(), false));
+		decoder.reset (new DCPDecoder (film, shared_from_this(), false));
 	} catch (dcp::DCPReadError) {
 		/* We couldn't read the DCP, so it's probably missing */
 		return false;
@@ -647,8 +647,9 @@ DCPContent::can_reference_text (shared_ptr<const Film> film, TextType type, stri
 {
 	shared_ptr<DCPDecoder> decoder;
 	try {
-		decoder.reset (new DCPDecoder (shared_from_this(), false));
+		decoder.reset (new DCPDecoder (film, shared_from_this(), false));
 	} catch (dcp::DCPReadError) {
+
 		/* We couldn't read the DCP, so it's probably missing */
 		return false;
 	} catch (dcp::KDMDecryptionError) {

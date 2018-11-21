@@ -54,12 +54,12 @@ store (ContentVideo v)
 }
 
 static void
-check (shared_ptr<const Film> film, shared_ptr<FFmpegDecoder> decoder, int frame)
+check (shared_ptr<FFmpegDecoder> decoder, int frame)
 {
 	BOOST_REQUIRE (decoder->ffmpeg_content()->video_frame_rate ());
-	decoder->seek (film, ContentTime::from_frames (frame, decoder->ffmpeg_content()->video_frame_rate().get()), true);
+	decoder->seek (ContentTime::from_frames (frame, decoder->ffmpeg_content()->video_frame_rate().get()), true);
 	stored = optional<ContentVideo> ();
-	while (!decoder->pass(film) && !stored) {}
+	while (!decoder->pass() && !stored) {}
 	BOOST_CHECK (stored->frame <= frame);
 }
 
@@ -77,7 +77,7 @@ test (boost::filesystem::path file, vector<int> frames)
 	decoder->video->Data.connect (bind (&store, _1));
 
 	for (vector<int>::const_iterator i = frames.begin(); i != frames.end(); ++i) {
-		check (film, decoder, *i);
+		check (decoder, *i);
 	}
 }
 

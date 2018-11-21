@@ -480,7 +480,7 @@ Player::get_reel_assets ()
 
 		scoped_ptr<DCPDecoder> decoder;
 		try {
-			decoder.reset (new DCPDecoder (j, false));
+			decoder.reset (new DCPDecoder (_film, j, false));
 		} catch (...) {
 			return a;
 		}
@@ -570,7 +570,7 @@ Player::pass ()
 			continue;
 		}
 
-		DCPTime const t = content_time_to_dcp (i, max(i->decoder->position(_film), i->content->trim_start()));
+		DCPTime const t = content_time_to_dcp (i, max(i->decoder->position(), i->content->trim_start()));
 		if (t > i->content->end(_film)) {
 			i->done = true;
 		} else {
@@ -610,7 +610,7 @@ Player::pass ()
 
 	switch (which) {
 	case CONTENT:
-		earliest_content->done = earliest_content->decoder->pass (_film);
+		earliest_content->done = earliest_content->decoder->pass ();
 		break;
 	case BLACK:
 		emit_video (black_player_video_frame(EYES_BOTH), _black.position());
@@ -1024,11 +1024,11 @@ Player::seek (DCPTime time, bool accurate)
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
 		if (time < i->content->position()) {
 			/* Before; seek to the start of the content */
-			i->decoder->seek (_film, dcp_to_content_time (i, i->content->position()), accurate);
+			i->decoder->seek (dcp_to_content_time (i, i->content->position()), accurate);
 			i->done = false;
 		} else if (i->content->position() <= time && time < i->content->end(_film)) {
 			/* During; seek to position */
-			i->decoder->seek (_film, dcp_to_content_time (i, time), accurate);
+			i->decoder->seek (dcp_to_content_time (i, time), accurate);
 			i->done = false;
 		} else {
 			/* After; this piece is done */

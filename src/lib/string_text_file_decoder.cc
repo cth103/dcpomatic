@@ -35,8 +35,9 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 
-StringTextFileDecoder::StringTextFileDecoder (shared_ptr<const StringTextFileContent> content)
-	: StringTextFile (content)
+StringTextFileDecoder::StringTextFileDecoder (shared_ptr<const Film> film, shared_ptr<const StringTextFileContent> content)
+	: Decoder (film)
+	, StringTextFile (content)
 	, _next (0)
 {
 	ContentTime first;
@@ -47,7 +48,7 @@ StringTextFileDecoder::StringTextFileDecoder (shared_ptr<const StringTextFileCon
 }
 
 void
-StringTextFileDecoder::seek (shared_ptr<const Film> film, ContentTime time, bool accurate)
+StringTextFileDecoder::seek (ContentTime time, bool accurate)
 {
 	/* It's worth back-tracking a little here as decoding is cheap and it's nice if we don't miss
 	   too many subtitles when seeking.
@@ -57,7 +58,7 @@ StringTextFileDecoder::seek (shared_ptr<const Film> film, ContentTime time, bool
 		time = ContentTime();
 	}
 
-	Decoder::seek (film, time, accurate);
+	Decoder::seek (time, accurate);
 
 	_next = 0;
 	while (_next < _subtitles.size() && ContentTime::from_seconds (_subtitles[_next].from.all_as_seconds ()) < time) {
@@ -66,7 +67,7 @@ StringTextFileDecoder::seek (shared_ptr<const Film> film, ContentTime time, bool
 }
 
 bool
-StringTextFileDecoder::pass (shared_ptr<const Film>)
+StringTextFileDecoder::pass ()
 {
 	if (_next >= _subtitles.size ()) {
 		return true;

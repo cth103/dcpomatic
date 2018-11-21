@@ -26,6 +26,7 @@
 #define DCPOMATIC_DECODER_H
 
 #include "types.h"
+#include "film.h"
 #include "dcpomatic_time.h"
 #include <boost/utility.hpp>
 
@@ -34,7 +35,6 @@ class VideoDecoder;
 class AudioDecoder;
 class TextDecoder;
 class DecoderPart;
-class Film;
 
 /** @class Decoder.
  *  @brief Parent class for decoders of content.
@@ -42,6 +42,7 @@ class Film;
 class Decoder : public boost::noncopyable
 {
 public:
+	Decoder (boost::weak_ptr<const Film> film);
 	virtual ~Decoder () {}
 
 	boost::shared_ptr<VideoDecoder> video;
@@ -53,10 +54,16 @@ public:
 	/** Do some decoding and perhaps emit video, audio or subtitle data.
 	 *  @return true if this decoder will emit no more data unless a seek() happens.
 	 */
-	virtual bool pass (boost::shared_ptr<const Film> film) = 0;
-	virtual void seek (boost::shared_ptr<const Film> film, ContentTime time, bool accurate);
+	virtual bool pass () = 0;
+	virtual void seek (ContentTime time, bool accurate);
 
-	ContentTime position (boost::shared_ptr<const Film> film) const;
+	ContentTime position () const;
+
+protected:
+	boost::shared_ptr<const Film> film () const;
+
+private:
+	boost::weak_ptr<const Film> _film;
 };
 
 #endif

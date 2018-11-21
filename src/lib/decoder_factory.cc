@@ -47,7 +47,7 @@ decoder_factory (shared_ptr<const Film> film, shared_ptr<const Content> content,
 	shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (content);
 	if (dc) {
 		try {
-			return shared_ptr<Decoder> (new DCPDecoder(dc, fast));
+			return shared_ptr<Decoder> (new DCPDecoder(film, dc, fast));
 		} catch (KDMError& e) {
 			/* This will be found and reported to the user when the content is examined */
 			return shared_ptr<Decoder>();
@@ -56,22 +56,22 @@ decoder_factory (shared_ptr<const Film> film, shared_ptr<const Content> content,
 
 	shared_ptr<const ImageContent> ic = dynamic_pointer_cast<const ImageContent> (content);
 	if (ic) {
-		return shared_ptr<Decoder> (new ImageDecoder(ic));
+		return shared_ptr<Decoder> (new ImageDecoder(film, ic));
 	}
 
 	shared_ptr<const StringTextFileContent> rc = dynamic_pointer_cast<const StringTextFileContent> (content);
 	if (rc) {
-		return shared_ptr<Decoder> (new StringTextFileDecoder(rc));
+		return shared_ptr<Decoder> (new StringTextFileDecoder(film, rc));
 	}
 
 	shared_ptr<const DCPSubtitleContent> dsc = dynamic_pointer_cast<const DCPSubtitleContent> (content);
 	if (dsc) {
-		return shared_ptr<Decoder> (new DCPSubtitleDecoder(dsc));
+		return shared_ptr<Decoder> (new DCPSubtitleDecoder(film, dsc));
 	}
 
 	shared_ptr<const VideoMXFContent> vmc = dynamic_pointer_cast<const VideoMXFContent> (content);
 	if (vmc) {
-		return shared_ptr<Decoder> (new VideoMXFDecoder(vmc));
+		return shared_ptr<Decoder> (new VideoMXFDecoder(film, vmc));
 	}
 
 	return shared_ptr<Decoder> ();

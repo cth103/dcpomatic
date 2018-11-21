@@ -28,24 +28,32 @@
 using std::cout;
 using boost::optional;
 using boost::shared_ptr;
+using boost::weak_ptr;
+
+Decoder::Decoder (weak_ptr<const Film> film)
+	: _film (film)
+{
+
+}
 
 /** @return Earliest time of content that the next pass() will emit */
 ContentTime
-Decoder::position (shared_ptr<const Film> film) const
+Decoder::position () const
 {
 	optional<ContentTime> pos;
+	shared_ptr<const Film> f = film();
 
-	if (video && !video->ignore() && (!pos || video->position(film) < *pos)) {
-		pos = video->position(film);
+	if (video && !video->ignore() && (!pos || video->position(f) < *pos)) {
+		pos = video->position(f);
 	}
 
-	if (audio && !audio->ignore() && (!pos || audio->position(film) < *pos)) {
-		pos = audio->position(film);
+	if (audio && !audio->ignore() && (!pos || audio->position(f) < *pos)) {
+		pos = audio->position(f);
 	}
 
 	BOOST_FOREACH (shared_ptr<TextDecoder> i, text) {
-		if (!i->ignore() && (!pos || i->position(film) < *pos)) {
-			pos = i->position(film);
+		if (!i->ignore() && (!pos || i->position(f) < *pos)) {
+			pos = i->position(f);
 		}
 	}
 
@@ -53,7 +61,7 @@ Decoder::position (shared_ptr<const Film> film) const
 }
 
 void
-Decoder::seek (shared_ptr<const Film>, ContentTime, bool)
+Decoder::seek (ContentTime, bool)
 {
 	if (video) {
 		video->seek ();
@@ -74,4 +82,12 @@ Decoder::only_text () const
 		return shared_ptr<TextDecoder> ();
 	}
 	return text.front ();
+}
+
+shared_ptr<const Film>
+Decoder::film () const
+{
+	shared_ptr<const Film> f = _film.lock ();
+	DCPOMATIC_ASSERT (f);
+	return f;
 }

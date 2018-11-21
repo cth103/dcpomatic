@@ -96,7 +96,7 @@ TextView::TextView (
 			i->Stop.connect (bind (&TextView::data_stop, this, _1));
 		}
 	}
-	while (!decoder->pass (film)) {}
+	while (!decoder->pass ()) {}
 	SetSizerAndFit (sizer);
 }
 

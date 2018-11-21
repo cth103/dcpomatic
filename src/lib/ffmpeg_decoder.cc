@@ -80,6 +80,7 @@ using dcp::Size;
 
 FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmpegContent> c, bool fast)
 	: FFmpeg (c)
+	, Decoder (film)
 	, _have_current_subtitle (false)
 {
 	if (c->video) {
@@ -105,7 +106,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmp
 }
 
 void
-FFmpegDecoder::flush (shared_ptr<const Film> film)
+FFmpegDecoder::flush ()
 {
 	/* Get any remaining frames */
 
@@ -114,29 +115,29 @@ FFmpegDecoder::flush (shared_ptr<const Film> film)
 
 	/* XXX: should we reset _packet.data and size after each *_decode_* call? */
 
-	while (video && decode_video_packet(film)) {}
+	while (video && decode_video_packet()) {}
 
 	if (audio) {
-		decode_audio_packet (film);
+		decode_audio_packet ();
 	}
 
 	/* Make sure all streams are the same length and round up to the next video frame */
 
-	FrameRateChange const frc = film->active_frame_rate_change(_ffmpeg_content->position());
-	ContentTime full_length (_ffmpeg_content->full_length(film), frc);
+	FrameRateChange const frc = film()->active_frame_rate_change(_ffmpeg_content->position());
+	ContentTime full_length (_ffmpeg_content->full_length(film()), frc);
 	full_length = full_length.ceil (frc.source);
 	if (video) {
 		double const vfr = _ffmpeg_content->video_frame_rate().get();
 		Frame const f = full_length.frames_round (vfr);
-		Frame v = video->position(film).frames_round (vfr) + 1;
+		Frame v = video->position(film()).frames_round(vfr) + 1;
 		while (v < f) {
-			video->emit (film, shared_ptr<const ImageProxy> (new RawImageProxy (_black_image)), v);
+			video->emit (film(), shared_ptr<const ImageProxy> (new RawImageProxy (_black_image)), v);
 			++v;
 		}
 	}
 
 	BOOST_FOREACH (shared_ptr<FFmpegAudioStream> i, _ffmpeg_content->ffmpeg_audio_streams ()) {
-		ContentTime a = audio->stream_position(film, i);
+		ContentTime a = audio->stream_position(film(), i);
 		/* Unfortunately if a is 0 that really means that we don't know the stream position since
 		   there has been no data on it since the last seek.  In this case we'll just do nothing
 		   here.  I'm not sure if that's the right idea.
@@ -146,7 +147,7 @@ FFmpegDecoder::flush (shared_ptr<const Film> film)
 				ContentTime to_do = min (full_length - a, ContentTime::from_seconds (0.1));
 				shared_ptr<AudioBuffers> silence (new AudioBuffers (i->channels(), to_do.frames_ceil (i->frame_rate())));
 				silence->make_silent ();
-				audio->emit (film, i, silence, a);
+				audio->emit (film(), i, silence, a);
 				a += to_do;
 			}
 		}
@@ -158,7 +159,7 @@ FFmpegDecoder::flush (shared_ptr<const Film> film)
 }
 
 bool
-FFmpegDecoder::pass (shared_ptr<const Film> film)
+FFmpegDecoder::pass ()
 {
 	int r = av_read_frame (_format_context, &_packet);
 
@@ -174,7 +175,7 @@ FFmpegDecoder::pass (shared_ptr<const Film> film)
 			LOG_ERROR (N_("error on av_read_frame (%1) (%2)"), &buf[0], r);
 		}
 
-		flush (film);
+		flush ();
 		return true;
 	}
 
@@ -182,11 +183,11 @@ FFmpegDecoder::pass (shared_ptr<const Film> film)
 	shared_ptr<const FFmpegContent> fc = _ffmpeg_content;
 
 	if (_video_stream && si == _video_stream.get() && !video->ignore()) {
-		decode_video_packet (film);
+		decode_video_packet ();
 	} else if (fc->subtitle_stream() && fc->subtitle_stream()->uses_index(_format_context, si) && !only_text()->ignore()) {
 		decode_subtitle_packet ();
 	} else {
-		decode_audio_packet (film);
+		decode_audio_packet ();
 	}
 
 	av_packet_unref (&_packet);
@@ -340,9 +341,9 @@ FFmpegDecoder::bytes_per_audio_sample (shared_ptr<FFmpegAudioStream> stream) con
 }
 
 void
-FFmpegDecoder::seek (shared_ptr<const Film> film, ContentTime time, bool accurate)
+FFmpegDecoder::seek (ContentTime time, bool accurate)
 {
-	Decoder::seek (film, time, accurate);
+	Decoder::seek (time, accurate);
 
 	/* If we are doing an `accurate' seek, we need to use pre-roll, as
 	   we don't really know what the seek will give us.
@@ -395,7 +396,7 @@ FFmpegDecoder::seek (shared_ptr<const Film> film, ContentTime time, bool accurat
 }
 
 void
-FFmpegDecoder::decode_audio_packet (shared_ptr<const Film> film)
+FFmpegDecoder::decode_audio_packet ()
 {
 	/* Audio packets can contain multiple frames, so we may have to call avcodec_decode_audio4
 	   several times.
@@ -478,7 +479,7 @@ FFmpegDecoder::decode_audio_packet (shared_ptr<const Film> film)
 
 			/* Give this data provided there is some, and its time is sane */
 			if (ct >= ContentTime() && data->frames() > 0) {
-				audio->emit (film, *stream, data, ct);
+				audio->emit (film(), *stream, data, ct);
 			}
 		}
 
@@ -488,7 +489,7 @@ FFmpegDecoder::decode_audio_packet (shared_ptr<const Film> film)
 }
 
 bool
-FFmpegDecoder::decode_video_packet (shared_ptr<const Film> film)
+FFmpegDecoder::decode_video_packet ()
 {
 	DCPOMATIC_ASSERT (_video_stream);
 
@@ -526,9 +527,9 @@ FFmpegDecoder::decode_video_packet (shared_ptr<const Film> film)
 			double const pts = i->second * av_q2d (_format_context->streams[_video_stream.get()]->time_base) + _pts_offset.seconds ();
 
 			video->emit (
-				film,
+				film(),
 				shared_ptr<ImageProxy> (new RawImageProxy (image)),
-				llrint(pts * _ffmpeg_content->active_video_frame_rate(film))
+				llrint(pts * _ffmpeg_content->active_video_frame_rate(film()))
 				);
 		} else {
 			LOG_WARNING_NC ("Dropping frame without PTS");

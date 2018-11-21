@@ -28,10 +28,10 @@ class Log;
 class VideoMXFDecoder : public Decoder
 {
 public:
-	VideoMXFDecoder (boost::shared_ptr<const VideoMXFContent>);
+	VideoMXFDecoder (boost::shared_ptr<const Film> film, boost::shared_ptr<const VideoMXFContent>);
 
-	bool pass (boost::shared_ptr<const Film> film);
-	void seek (boost::shared_ptr<const Film> film, ContentTime t, bool accurate);
+	bool pass ();
+	void seek (ContentTime t, bool accurate);
 
 private:
 

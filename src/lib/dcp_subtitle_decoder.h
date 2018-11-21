@@ -26,10 +26,10 @@ class DCPSubtitleContent;
 class DCPSubtitleDecoder : public DCPSubtitle, public Decoder
 {
 public:
-	DCPSubtitleDecoder (boost::shared_ptr<const DCPSubtitleContent>);
+	DCPSubtitleDecoder (boost::shared_ptr<const Film> film, boost::shared_ptr<const DCPSubtitleContent>);
 
-	bool pass (boost::shared_ptr<const Film> film);
-	void seek (boost::shared_ptr<const Film> film, ContentTime time, bool accurate);
+	bool pass ();
+	void seek (ContentTime time, bool accurate);
 
 private:
 	ContentTimePeriod content_time_period (boost::shared_ptr<dcp::Subtitle> s) const;

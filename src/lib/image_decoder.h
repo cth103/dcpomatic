@@ -27,14 +27,14 @@ class ImageProxy;
 class ImageDecoder : public Decoder
 {
 public:
-	ImageDecoder (boost::shared_ptr<const ImageContent> c);
+	ImageDecoder (boost::shared_ptr<const Film> film, boost::shared_ptr<const ImageContent> c);
 
 	boost::shared_ptr<const ImageContent> content () {
 		return _image_content;
 	}
 
-	bool pass (boost::shared_ptr<const Film> film);
-	void seek (boost::shared_ptr<const Film> film, ContentTime, bool);
+	bool pass ();
+	void seek (ContentTime, bool);
 
 private:
 

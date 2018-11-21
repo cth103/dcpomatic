@@ -47,19 +47,19 @@ class FFmpegDecoder : public FFmpeg, public Decoder
 public:
 	FFmpegDecoder (boost::shared_ptr<const Film> film, boost::shared_ptr<const FFmpegContent>, bool fast);
 
-	bool pass (boost::shared_ptr<const Film> film);
-	void seek (boost::shared_ptr<const Film> film, ContentTime time, bool);
+	bool pass ();
+	void seek (ContentTime time, bool);
 
 private:
 	friend struct ::ffmpeg_pts_offset_test;
 
-	void flush (boost::shared_ptr<const Film> film);
+	void flush ();
 
 	AVSampleFormat audio_sample_format (boost::shared_ptr<FFmpegAudioStream> stream) const;
 	int bytes_per_audio_sample (boost::shared_ptr<FFmpegAudioStream> stream) const;
 
-	bool decode_video_packet (boost::shared_ptr<const Film> film);
-	void decode_audio_packet (boost::shared_ptr<const Film> film);
+	bool decode_video_packet ();
+	void decode_audio_packet ();
 	void decode_subtitle_packet ();
 
 	void decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime from);

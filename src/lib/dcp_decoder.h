@@ -40,7 +40,7 @@ struct dcp_subtitle_within_dcp_test;
 class DCPDecoder : public DCP, public Decoder
 {
 public:
-	DCPDecoder (boost::shared_ptr<const DCPContent>, bool fast);
+	DCPDecoder (boost::shared_ptr<const Film> film, boost::shared_ptr<const DCPContent>, bool fast);
 
 	std::list<boost::shared_ptr<dcp::Reel> > reels () const {
 		return _reels;
@@ -49,17 +49,16 @@ public:
 	void set_decode_referenced (bool r);
 	void set_forced_reduction (boost::optional<int> reduction);
 
-	bool pass (boost::shared_ptr<const Film> film);
-	void seek (boost::shared_ptr<const Film> film, ContentTime t, bool accurate);
+	bool pass ();
+	void seek (ContentTime t, bool accurate);
 
 private:
 	friend struct dcp_subtitle_within_dcp_test;
 
 	void next_reel ();
 	void get_readers ();
-	void pass_texts (boost::shared_ptr<const Film> film, ContentTime next, dcp::Size size);
+	void pass_texts (ContentTime next, dcp::Size size);
 	void pass_texts (
-		boost::shared_ptr<const Film> film,
 		ContentTime next,
 		boost::shared_ptr<dcp::SubtitleAsset> asset,
 		bool reference,
