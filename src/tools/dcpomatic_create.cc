@@ -251,10 +251,10 @@ main (int argc, char* argv[])
 			list<shared_ptr<Content> > content;
 
 			if (boost::filesystem::exists (can / "ASSETMAP") || (boost::filesystem::exists (can / "ASSETMAP.xml"))) {
-				content.push_back (shared_ptr<DCPContent> (new DCPContent (film, can)));
+				content.push_back (shared_ptr<DCPContent>(new DCPContent(can)));
 			} else {
 				/* I guess it's not a DCP */
-				content = content_factory (film, can);
+				content = content_factory (can);
 			}
 
 			BOOST_FOREACH (shared_ptr<Content> j, content) {

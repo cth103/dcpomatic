@@ -54,6 +54,10 @@ public:
 		return boost::dynamic_pointer_cast<FFmpegContent> (Content::shared_from_this ());
 	}
 
+	boost::shared_ptr<const FFmpegContent> shared_from_this () const {
+		return boost::dynamic_pointer_cast<const FFmpegContent> (Content::shared_from_this ());
+	}
+
 	void examine (boost::shared_ptr<const Film> film, boost::shared_ptr<Job>);
 	void take_settings_from (boost::shared_ptr<const Content> c);
 	std::string summary () const;

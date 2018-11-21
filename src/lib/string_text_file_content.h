@@ -35,6 +35,10 @@ public:
 		return boost::dynamic_pointer_cast<StringTextFileContent> (Content::shared_from_this ());
 	}
 
+	boost::shared_ptr<const StringTextFileContent> shared_from_this () const {
+		return boost::dynamic_pointer_cast<const StringTextFileContent> (Content::shared_from_this ());
+	}
+
 	void examine (boost::shared_ptr<const Film> film, boost::shared_ptr<Job>);
 	std::string summary () const;
 	std::string technical_summary () const;

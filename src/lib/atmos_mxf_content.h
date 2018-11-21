@@ -30,6 +30,10 @@ public:
 		return boost::dynamic_pointer_cast<AtmosMXFContent> (Content::shared_from_this ());
 	}
 
+	boost::shared_ptr<const AtmosMXFContent> shared_from_this () const {
+		return boost::dynamic_pointer_cast<const AtmosMXFContent> (Content::shared_from_this ());
+	}
+
 	void examine (boost::shared_ptr<const Film> film, boost::shared_ptr<Job> job);
 	std::string summary () const;
 	void as_xml (xmlpp::Node* node, bool with_path) const;

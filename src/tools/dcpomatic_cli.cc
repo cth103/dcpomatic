@@ -84,13 +84,13 @@ print_dump (shared_ptr<Film> film)
 		cout << "\n"
 		     << c->path(0) << "\n"
 		     << "\tat " << c->position().seconds ()
-		     << " length " << c->full_length().seconds ()
+		     << " length " << c->full_length(film).seconds ()
 		     << " start trim " << c->trim_start().seconds ()
 		     << " end trim " << c->trim_end().seconds () << "\n";
 
 		if (c->video) {
 			cout << "\t" << c->video->size().width << "x" << c->video->size().height << "\n"
-			     << "\t" << c->active_video_frame_rate() << "fps\n"
+			     << "\t" << c->active_video_frame_rate(film) << "fps\n"
 			     << "\tcrop left " << c->video->left_crop()
 			     << " right " << c->video->right_crop()
 			     << " top " << c->video->top_crop()

@@ -342,7 +342,7 @@ DCPContent::full_length (shared_ptr<const Film> film) const
 	if (!video) {
 		return DCPTime();
 	}
-	FrameRateChange const frc (active_video_frame_rate(film), film->video_frame_rate());
+	FrameRateChange const frc (film, shared_from_this());
 	return DCPTime::from_frames (llrint(video->length() * frc.factor()), film->video_frame_rate());
 }
 

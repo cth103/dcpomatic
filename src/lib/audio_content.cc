@@ -199,7 +199,7 @@ AudioContent::resampled_frame_rate (shared_ptr<const Film> film) const
 	/* Resample to a DCI-approved sample rate */
 	double t = has_rate_above_48k() ? 96000 : 48000;
 
-	FrameRateChange frc (_parent->active_video_frame_rate(film), film->video_frame_rate());
+	FrameRateChange frc (film, _parent);
 
 	/* Compensate if the DCP is being run at a different frame rate
 	   to the source; that is, if the video is run such that it will

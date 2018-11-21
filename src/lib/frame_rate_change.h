@@ -21,11 +21,18 @@
 #ifndef DCPOMATIC_FRAME_RATE_CHANGE_H
 #define DCPOMATIC_FRAME_RATE_CHANGE_H
 
+#include <boost/shared_ptr.hpp>
 #include <string>
 
-struct FrameRateChange
+class Film;
+class Content;
+
+class FrameRateChange
 {
+public:
 	FrameRateChange (double, int);
+	FrameRateChange (boost::shared_ptr<const Film> film, boost::shared_ptr<const Content> content);
+	FrameRateChange (boost::shared_ptr<const Film> film, Content const * content);
 
 	/** @return factor by which to multiply a source frame rate
 	    to get the effective rate after any skip or repeat has happened.
@@ -62,6 +69,9 @@ struct FrameRateChange
 	double speed_up;
 
 	std::string description () const;
+
+private:
+	void construct (double source_, int dcp_);
 };
 
 #endif

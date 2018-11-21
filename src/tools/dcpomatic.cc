@@ -595,7 +595,7 @@ private:
 	{
 		ContentList const sel = _film_editor->content_panel()->selected();
 		DCPOMATIC_ASSERT (sel.size() == 1);
-		_clipboard = sel.front()->clone();
+		_clipboard = sel.front()->clone(_film);
 	}
 
 	void edit_paste ()
@@ -873,7 +873,7 @@ private:
 	{
 		ContentList vc = _film_editor->content_panel()->selected_video ();
 		for (ContentList::iterator i = vc.begin(); i != vc.end(); ++i) {
-			(*i)->video->scale_and_crop_to_fit_width ();
+			(*i)->video->scale_and_crop_to_fit_width (_film);
 		}
 	}
 
@@ -881,7 +881,7 @@ private:
 	{
 		ContentList vc = _film_editor->content_panel()->selected_video ();
 		for (ContentList::iterator i = vc.begin(); i != vc.end(); ++i) {
-			(*i)->video->scale_and_crop_to_fit_height ();
+			(*i)->video->scale_and_crop_to_fit_height (_film);
 		}
 	}
 
@@ -1445,12 +1445,12 @@ private:
 		if (!_film_to_create.empty ()) {
 			_frame->new_film (_film_to_create, optional<string> ());
 			if (!_content_to_add.empty ()) {
-				BOOST_FOREACH (shared_ptr<Content> i, content_factory (_frame->film(), _content_to_add)) {
+				BOOST_FOREACH (shared_ptr<Content> i, content_factory(_content_to_add)) {
 					_frame->film()->examine_and_add_content (i);
 				}
 			}
 			if (!_dcp_to_add.empty ()) {
-				_frame->film()->examine_and_add_content (shared_ptr<DCPContent> (new DCPContent (_frame->film(), _dcp_to_add)));
+				_frame->film()->examine_and_add_content(shared_ptr<DCPContent>(new DCPContent(_dcp_to_add)));
 			}
 		}
 

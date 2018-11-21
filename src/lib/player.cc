@@ -156,7 +156,7 @@ Player::setup_pieces_unlocked ()
 		}
 
 		shared_ptr<Decoder> decoder = decoder_factory (_film, i, _fast);
-		FrameRateChange frc (i->active_video_frame_rate(_film), _film->video_frame_rate());
+		FrameRateChange frc (_film, i);
 
 		if (!decoder) {
 			/* Not something that we can decode; e.g. Atmos content */
@@ -735,7 +735,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		return;
 	}
 
-	FrameRateChange frc(piece->content->active_video_frame_rate(_film), _film->video_frame_rate());
+	FrameRateChange frc (_film, piece->content);
 	if (frc.skip && (video.frame % 2) == 1) {
 		return;
 	}

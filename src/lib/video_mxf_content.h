@@ -30,6 +30,10 @@ public:
 		return boost::dynamic_pointer_cast<VideoMXFContent> (Content::shared_from_this ());
 	}
 
+	boost::shared_ptr<const VideoMXFContent> shared_from_this () const {
+		return boost::dynamic_pointer_cast<const VideoMXFContent> (Content::shared_from_this ());
+	}
+
 	void examine (boost::shared_ptr<const Film> film, boost::shared_ptr<Job> job);
 	std::string summary () const;
 	std::string technical_summary () const;

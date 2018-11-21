@@ -20,12 +20,15 @@
 
 #include "frame_rate_change.h"
 #include "types.h"
+#include "content.h"
+#include "film.h"
 #include "compose.hpp"
 #include <cmath>
 
 #include "i18n.h"
 
 using std::string;
+using boost::shared_ptr;
 
 static bool
 about_equal (double a, double b)
@@ -33,14 +36,20 @@ about_equal (double a, double b)
 	return (fabs (a - b) < VIDEO_FRAME_RATE_EPSILON);
 }
 
-
 FrameRateChange::FrameRateChange (double source_, int dcp_)
-	: source (source_)
-	, dcp (dcp_)
-	, skip (false)
+	: skip (false)
 	, repeat (1)
 	, change_speed (false)
 {
+	construct (source_, dcp_);
+}
+
+void
+FrameRateChange::construct (double source_, int dcp_)
+{
+	source = source_;
+	dcp = dcp_;
+
 	if (fabs (source / 2.0 - dcp) < fabs (source - dcp)) {
 		/* The difference between source and DCP frame rate will be lower
 		   (i.e. better) if we skip.
@@ -56,6 +65,16 @@ FrameRateChange::FrameRateChange (double source_, int dcp_)
 
 	speed_up = dcp / (source * factor());
 	change_speed = !about_equal (speed_up, 1.0);
+}
+
+FrameRateChange::FrameRateChange (shared_ptr<const Film> film, shared_ptr<const Content> content)
+{
+	construct (content->active_video_frame_rate(film), film->video_frame_rate());
+}
+
+FrameRateChange::FrameRateChange (shared_ptr<const Film> film, Content const * content)
+{
+	construct (content->active_video_frame_rate(film), film->video_frame_rate());
 }
 
 string
