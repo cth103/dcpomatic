@@ -63,9 +63,9 @@ BOOST_AUTO_TEST_CASE (digest_test)
 	shared_ptr<Film> film = new_test_film ("digest_test");
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	film->set_name ("digest_test");
-	shared_ptr<ImageContent> r (new ImageContent (film, "test/data/flat_red.png"));
-	shared_ptr<ImageContent> g (new ImageContent (film, "test/data/flat_green.png"));
-	shared_ptr<ImageContent> b (new ImageContent (film, "test/data/flat_blue.png"));
+	shared_ptr<ImageContent> r (new ImageContent("test/data/flat_red.png"));
+	shared_ptr<ImageContent> g (new ImageContent("test/data/flat_green.png"));
+	shared_ptr<ImageContent> b (new ImageContent("test/data/flat_blue.png"));
 	film->examine_and_add_content (r);
 	film->examine_and_add_content (g);
 	film->examine_and_add_content (b);

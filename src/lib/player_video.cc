@@ -315,7 +315,7 @@ PlayerVideo::shallow_copy () const
  *  @return true if this was possible, false if not.
  */
 bool
-PlayerVideo::reset_metadata (dcp::Size video_container_size, dcp::Size film_frame_size)
+PlayerVideo::reset_metadata (shared_ptr<const Film> film, dcp::Size video_container_size, dcp::Size film_frame_size)
 {
 	shared_ptr<Content> content = _content.lock();
 	if (!content || !_video_frame) {
@@ -323,7 +323,7 @@ PlayerVideo::reset_metadata (dcp::Size video_container_size, dcp::Size film_fram
 	}
 
 	_crop = content->video->crop();
-	_fade = content->video->fade(_video_frame.get());
+	_fade = content->video->fade(film, _video_frame.get());
 	_inter_size = content->video->scale().size(content->video, video_container_size, film_frame_size);
 	_out_size = video_container_size;
 	_colour_conversion = content->video->colour_conversion();

@@ -58,7 +58,7 @@ void test_audio_delay (int delay_in_ms)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name (film_name);
 
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/staircase.wav"));
+	shared_ptr<FFmpegContent> content (new FFmpegContent("test/data/staircase.wav"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 	content->audio->set_delay (delay_in_ms);

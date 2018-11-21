@@ -29,7 +29,7 @@
 
 #include "i18n.h"
 
-#define LOG_GENERAL(...) _log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
+#define LOG_GENERAL(...) dcpomatic_log->log (String::compose(__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
 using std::cout;
 using std::map;
@@ -37,8 +37,8 @@ using std::pair;
 using boost::shared_ptr;
 using boost::optional;
 
-AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> content, shared_ptr<Log> log, bool fast)
-	: DecoderPart (parent, log)
+AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> content, bool fast)
+	: DecoderPart (parent)
 	, _content (content)
 	, _fast (fast)
 {
@@ -49,7 +49,7 @@ AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> cont
 }
 
 void
-AudioDecoder::emit (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, ContentTime time)
+AudioDecoder::emit (shared_ptr<const Film> film, AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, ContentTime time)
 {
 	if (ignore ()) {
 		return;
@@ -66,7 +66,7 @@ AudioDecoder::emit (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, 
 			silence (_content->delay ());
 		}
 		time += ContentTime::from_seconds (_content->delay() / 1000.0);
-		_positions[stream] = time.frames_round (_content->resampled_frame_rate ());
+		_positions[stream] = time.frames_round (_content->resampled_frame_rate(film));
 	}
 
 	shared_ptr<Resampler> resampler;
@@ -74,15 +74,15 @@ AudioDecoder::emit (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, 
 	if (i != _resamplers.end ()) {
 		resampler = i->second;
 	} else {
-		if (stream->frame_rate() != _content->resampled_frame_rate()) {
+		if (stream->frame_rate() != _content->resampled_frame_rate(film)) {
 			LOG_GENERAL (
 				"Creating new resampler from %1 to %2 with %3 channels",
 				stream->frame_rate(),
-				_content->resampled_frame_rate(),
+				_content->resampled_frame_rate(film),
 				stream->channels()
 				);
 
-			resampler.reset (new Resampler (stream->frame_rate(), _content->resampled_frame_rate(), stream->channels()));
+			resampler.reset (new Resampler (stream->frame_rate(), _content->resampled_frame_rate(film), stream->channels()));
 			if (_fast) {
 				resampler->set_fast ();
 			}
@@ -104,19 +104,19 @@ AudioDecoder::emit (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, 
 
 /** @return Time just after the last thing that was emitted from a given stream */
 ContentTime
-AudioDecoder::stream_position (AudioStreamPtr stream) const
+AudioDecoder::stream_position (shared_ptr<const Film> film, AudioStreamPtr stream) const
 {
 	PositionMap::const_iterator i = _positions.find (stream);
 	DCPOMATIC_ASSERT (i != _positions.end ());
-	return ContentTime::from_frames (i->second, _content->resampled_frame_rate());
+	return ContentTime::from_frames (i->second, _content->resampled_frame_rate(film));
 }
 
 ContentTime
-AudioDecoder::position () const
+AudioDecoder::position (shared_ptr<const Film> film) const
 {
 	optional<ContentTime> p;
 	for (PositionMap::const_iterator i = _positions.begin(); i != _positions.end(); ++i) {
-		ContentTime const ct = stream_position (i->first);
+		ContentTime const ct = stream_position (film, i->first);
 		if (!p || ct < *p) {
 			p = ct;
 		}

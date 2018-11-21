@@ -45,12 +45,12 @@ BOOST_AUTO_TEST_CASE (reels_test1)
 {
 	shared_ptr<Film> film = new_test_film ("reels_test1");
 	film->set_container (Ratio::from_id ("185"));
-	shared_ptr<FFmpegContent> A (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> A (new FFmpegContent("test/data/test.mp4"));
 	film->examine_and_add_content (A);
-	shared_ptr<FFmpegContent> B (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> B (new FFmpegContent("test/data/test.mp4"));
 	film->examine_and_add_content (B);
 	wait_for_jobs ();
-	BOOST_CHECK_EQUAL (A->full_length().get(), 288000);
+	BOOST_CHECK_EQUAL (A->full_length(film).get(), 288000);
 
 	film->set_reel_type (REELTYPE_SINGLE);
 	list<DCPTimePeriod> r = film->reels ();
@@ -95,21 +95,21 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 
 	{
-		shared_ptr<ImageContent> c (new ImageContent (film, "test/data/flat_red.png"));
+		shared_ptr<ImageContent> c (new ImageContent("test/data/flat_red.png"));
 		film->examine_and_add_content (c);
 		wait_for_jobs ();
 		c->video->set_length (24);
 	}
 
 	{
-		shared_ptr<ImageContent> c (new ImageContent (film, "test/data/flat_green.png"));
+		shared_ptr<ImageContent> c (new ImageContent("test/data/flat_green.png"));
 		film->examine_and_add_content (c);
 		wait_for_jobs ();
 		c->video->set_length (24);
 	}
 
 	{
-		shared_ptr<ImageContent> c (new ImageContent (film, "test/data/flat_blue.png"));
+		shared_ptr<ImageContent> c (new ImageContent("test/data/flat_blue.png"));
 		film->examine_and_add_content (c);
 		wait_for_jobs ();
 		c->video->set_length (24);
@@ -129,7 +129,7 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	film2->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	film2->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
 
-	shared_ptr<DCPContent> c (new DCPContent (film2, film->dir (film->dcp_name ())));
+	shared_ptr<DCPContent> c (new DCPContent(film->dir(film->dcp_name())));
 	film2->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
@@ -163,9 +163,9 @@ BOOST_AUTO_TEST_CASE (reels_test3)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
 
-	shared_ptr<Content> dcp (new DCPContent (film, "test/data/reels_test2"));
+	shared_ptr<Content> dcp (new DCPContent("test/data/reels_test2"));
 	film->examine_and_add_content (dcp);
-	shared_ptr<Content> sub (new StringTextFileContent (film, "test/data/subrip.srt"));
+	shared_ptr<Content> sub (new StringTextFileContent("test/data/subrip.srt"));
 	film->examine_and_add_content (sub);
 	wait_for_jobs ();
 
@@ -182,7 +182,7 @@ BOOST_AUTO_TEST_CASE (reels_test3)
 	BOOST_CHECK_EQUAL (i->to.get(), 96000 * 3);
 	++i;
 	BOOST_CHECK_EQUAL (i->from.get(), 96000 * 3);
-	BOOST_CHECK_EQUAL (i->to.get(), sub->full_length().ceil(film->video_frame_rate()).get());
+	BOOST_CHECK_EQUAL (i->to.get(), sub->full_length(film).ceil(film->video_frame_rate()).get());
 }
 
 /** Check creation of a multi-reel DCP with a single .srt subtitle file;
@@ -200,13 +200,13 @@ BOOST_AUTO_TEST_CASE (reels_test4)
 	/* 4 piece of 1s-long content */
 	shared_ptr<ImageContent> content[4];
 	for (int i = 0; i < 4; ++i) {
-		content[i].reset (new ImageContent (film, "test/data/flat_green.png"));
+		content[i].reset (new ImageContent("test/data/flat_green.png"));
 		film->examine_and_add_content (content[i]);
 		wait_for_jobs ();
 		content[i]->video->set_length (24);
 	}
 
-	shared_ptr<StringTextFileContent> subs (new StringTextFileContent (film, "test/data/subrip3.srt"));
+	shared_ptr<StringTextFileContent> subs (new StringTextFileContent("test/data/subrip3.srt"));
 	film->examine_and_add_content (subs);
 	wait_for_jobs ();
 
@@ -235,15 +235,15 @@ BOOST_AUTO_TEST_CASE (reels_test5)
 {
 	shared_ptr<Film> film = new_test_film ("reels_test5");
 	film->set_sequence (false);
-	shared_ptr<DCPContent> dcp (new DCPContent (film, "test/data/reels_test4"));
+	shared_ptr<DCPContent> dcp (new DCPContent("test/data/reels_test4"));
 	film->examine_and_add_content (dcp);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	/* Set to 2123 but it will be rounded up to the next frame (4000) */
-	dcp->set_position(DCPTime(2123));
+	dcp->set_position(film, DCPTime(2123));
 
 	{
-		list<DCPTimePeriod> p = dcp->reels ();
+		list<DCPTimePeriod> p = dcp->reels (film);
 		BOOST_REQUIRE_EQUAL (p.size(), 4);
 		list<DCPTimePeriod>::const_iterator i = p.begin();
 		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(4000 + 0), DCPTime(4000 + 96000)));
@@ -254,7 +254,7 @@ BOOST_AUTO_TEST_CASE (reels_test5)
 
 	{
 		dcp->set_trim_start (ContentTime::from_seconds (0.5));
-		list<DCPTimePeriod> p = dcp->reels ();
+		list<DCPTimePeriod> p = dcp->reels (film);
 		BOOST_REQUIRE_EQUAL (p.size(), 4);
 		list<DCPTimePeriod>::const_iterator i = p.begin();
 		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(4000 + 0), DCPTime(4000 + 48000)));
@@ -265,7 +265,7 @@ BOOST_AUTO_TEST_CASE (reels_test5)
 
 	{
 		dcp->set_trim_end (ContentTime::from_seconds (0.5));
-		list<DCPTimePeriod> p = dcp->reels ();
+		list<DCPTimePeriod> p = dcp->reels (film);
 		BOOST_REQUIRE_EQUAL (p.size(), 4);
 		list<DCPTimePeriod>::const_iterator i = p.begin();
 		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(4000 + 0), DCPTime(4000 + 48000)));
@@ -276,7 +276,7 @@ BOOST_AUTO_TEST_CASE (reels_test5)
 
 	{
 		dcp->set_trim_start (ContentTime::from_seconds (1.5));
-		list<DCPTimePeriod> p = dcp->reels ();
+		list<DCPTimePeriod> p = dcp->reels (film);
 		BOOST_REQUIRE_EQUAL (p.size(), 3);
 		list<DCPTimePeriod>::const_iterator i = p.begin();
 		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(4000 + 0), DCPTime(4000 + 48000)));
@@ -292,7 +292,7 @@ BOOST_AUTO_TEST_CASE (reels_test6)
 	film->set_name ("reels_test6");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
-	shared_ptr<FFmpegContent> A (new FFmpegContent (film, "test/data/test2.mp4"));
+	shared_ptr<FFmpegContent> A (new FFmpegContent("test/data/test2.mp4"));
 	film->examine_and_add_content (A);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
@@ -313,10 +313,10 @@ BOOST_AUTO_TEST_CASE (reels_test7)
 	film->set_name ("reels_test7");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
-	shared_ptr<Content> A = content_factory(film, "test/data/flat_red.png").front();
+	shared_ptr<Content> A = content_factory("test/data/flat_red.png").front();
 	film->examine_and_add_content (A);
 	BOOST_REQUIRE (!wait_for_jobs ());
-	shared_ptr<Content> B = content_factory(film, "test/data/awkward_length.wav").front();
+	shared_ptr<Content> B = content_factory("test/data/awkward_length.wav").front();
 	film->examine_and_add_content (B);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	film->set_video_frame_rate (24);
@@ -338,7 +338,7 @@ BOOST_AUTO_TEST_CASE (reels_test8)
 	film->set_name ("reels_test8");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
-	shared_ptr<FFmpegContent> A (new FFmpegContent (film, "test/data/test2.mp4"));
+	shared_ptr<FFmpegContent> A (new FFmpegContent("test/data/test2.mp4"));
 	film->examine_and_add_content (A);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
@@ -351,7 +351,7 @@ BOOST_AUTO_TEST_CASE (reels_test8)
 BOOST_AUTO_TEST_CASE (reels_test9)
 {
 	shared_ptr<Film> film = new_test_film2("reels_test9a");
-	shared_ptr<FFmpegContent> A(new FFmpegContent(film, "test/data/flat_red.png"));
+	shared_ptr<FFmpegContent> A(new FFmpegContent("test/data/flat_red.png"));
 	film->examine_and_add_content(A);
 	BOOST_REQUIRE(!wait_for_jobs());
 	A->video->set_length(5 * 24);
@@ -360,9 +360,9 @@ BOOST_AUTO_TEST_CASE (reels_test9)
 	BOOST_REQUIRE(!wait_for_jobs());
 
 	shared_ptr<Film> film2 = new_test_film2("reels_test9b");
-	shared_ptr<DCPContent> B(new DCPContent(film2, film->dir(film->dcp_name())));
+	shared_ptr<DCPContent> B(new DCPContent(film->dir(film->dcp_name())));
 	film2->examine_and_add_content(B);
-	film2->examine_and_add_content(content_factory(film, "test/data/dcp_sub4.xml").front());
+	film2->examine_and_add_content(content_factory("test/data/dcp_sub4.xml").front());
 	B->set_reference_video(true);
 	B->set_reference_audio(true);
 	BOOST_REQUIRE(!wait_for_jobs());

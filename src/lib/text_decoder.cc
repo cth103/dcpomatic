@@ -40,10 +40,9 @@ using boost::function;
 TextDecoder::TextDecoder (
 	Decoder* parent,
 	shared_ptr<const TextContent> c,
-	shared_ptr<Log> log,
 	ContentTime first
 	)
-	: DecoderPart (parent, log)
+	: DecoderPart (parent)
 	, _content (c)
 	, _position (first)
 {

@@ -45,7 +45,7 @@ check (int target_bits_per_second)
 	film->set_name (name);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_j2k_bandwidth (target_bits_per_second);
-	shared_ptr<ImageContent> content (new ImageContent (film, private_data / "prophet_frame.tiff"));
+	shared_ptr<ImageContent> content (new ImageContent(private_data / "prophet_frame.tiff"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 	content->video->set_length (24 * duration);

@@ -60,7 +60,7 @@
 
 #include "i18n.h"
 
-#define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
+#define LOG_GENERAL(...) dcpomatic_log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
 using std::list;
 using std::cout;
@@ -155,8 +155,8 @@ Player::setup_pieces_unlocked ()
 			continue;
 		}
 
-		shared_ptr<Decoder> decoder = decoder_factory (i, _film->log(), _fast);
-		FrameRateChange frc (i->active_video_frame_rate(), _film->video_frame_rate());
+		shared_ptr<Decoder> decoder = decoder_factory (_film, i, _fast);
+		FrameRateChange frc (i->active_video_frame_rate(_film), _film->video_frame_rate());
 
 		if (!decoder) {
 			/* Not something that we can decode; e.g. Atmos content */
@@ -227,8 +227,8 @@ Player::setup_pieces_unlocked ()
 		}
 	}
 
-	_black = Empty (_pieces, _film->length(), bind(&have_video, _1));
-	_silent = Empty (_pieces, _film->length(), bind(&have_audio, _1));
+	_black = Empty (_film, _pieces, bind(&have_video, _1));
+	_silent = Empty (_film, _pieces, bind(&have_audio, _1));
 
 	_last_video_time = DCPTime ();
 	_last_video_eyes = EYES_BOTH;
@@ -343,7 +343,7 @@ Frame
 Player::dcp_to_content_video (shared_ptr<const Piece> piece, DCPTime t) const
 {
 	DCPTime s = t - piece->content->position ();
-	s = min (piece->content->length_after_trim(), s);
+	s = min (piece->content->length_after_trim(_film), s);
 	s = max (DCPTime(), s + DCPTime (piece->content->trim_start(), piece->frc));
 
 	/* It might seem more logical here to convert s to a ContentTime (using the FrameRateChange)
@@ -368,7 +368,7 @@ Frame
 Player::dcp_to_resampled_audio (shared_ptr<const Piece> piece, DCPTime t) const
 {
 	DCPTime s = t - piece->content->position ();
-	s = min (piece->content->length_after_trim(), s);
+	s = min (piece->content->length_after_trim(_film), s);
 	/* See notes in dcp_to_content_video */
 	return max (DCPTime (), DCPTime (piece->content->trim_start (), piece->frc) + s).frames_floor (_film->audio_frame_rate ());
 }
@@ -386,7 +386,7 @@ ContentTime
 Player::dcp_to_content_time (shared_ptr<const Piece> piece, DCPTime t) const
 {
 	DCPTime s = t - piece->content->position ();
-	s = min (piece->content->length_after_trim(), s);
+	s = min (piece->content->length_after_trim(_film), s);
 	return max (ContentTime (), ContentTime (s, piece->frc) + piece->content->trim_start());
 }
 
@@ -480,7 +480,7 @@ Player::get_reel_assets ()
 
 		scoped_ptr<DCPDecoder> decoder;
 		try {
-			decoder.reset (new DCPDecoder (j, _film->log(), false));
+			decoder.reset (new DCPDecoder (j, false));
 		} catch (...) {
 			return a;
 		}
@@ -554,7 +554,7 @@ Player::pass ()
 		return false;
 	}
 
-	if (_playlist->length() == DCPTime()) {
+	if (_playlist->length(_film) == DCPTime()) {
 		/* Special case of an empty Film; just give one black frame */
 		emit_video (black_player_video_frame(EYES_BOTH), DCPTime());
 		return true;
@@ -570,8 +570,8 @@ Player::pass ()
 			continue;
 		}
 
-		DCPTime const t = content_time_to_dcp (i, max(i->decoder->position(), i->content->trim_start()));
-		if (t > i->content->end()) {
+		DCPTime const t = content_time_to_dcp (i, max(i->decoder->position(_film), i->content->trim_start()));
+		if (t > i->content->end(_film)) {
 			i->done = true;
 		} else {
 
@@ -610,7 +610,7 @@ Player::pass ()
 
 	switch (which) {
 	case CONTENT:
-		earliest_content->done = earliest_content->decoder->pass ();
+		earliest_content->done = earliest_content->decoder->pass (_film);
 		break;
 	case BLACK:
 		emit_video (black_player_video_frame(EYES_BOTH), _black.position());
@@ -735,7 +735,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		return;
 	}
 
-	FrameRateChange frc(piece->content->active_video_frame_rate(), _film->video_frame_rate());
+	FrameRateChange frc(piece->content->active_video_frame_rate(_film), _film->video_frame_rate());
 	if (frc.skip && (video.frame % 2) == 1) {
 		return;
 	}
@@ -754,7 +754,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	/* Fill gaps that we discover now that we have some video which needs to be emitted.
 	   This is where we need to fill to.
 	*/
-	DCPTime fill_to = min (time, piece->content->end());
+	DCPTime fill_to = min (time, piece->content->end(_film));
 
 	if (_last_video_time) {
 		DCPTime fill_from = max (*_last_video_time, piece->content->position());
@@ -764,7 +764,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 			if (fill_to_eyes == EYES_BOTH) {
 				fill_to_eyes = EYES_LEFT;
 			}
-			if (fill_to == piece->content->end()) {
+			if (fill_to == piece->content->end(_film)) {
 				/* Don't fill after the end of the content */
 				fill_to_eyes = EYES_LEFT;
 			}
@@ -801,7 +801,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		new PlayerVideo (
 			video.image,
 			piece->content->video->crop (),
-			piece->content->video->fade (video.frame),
+			piece->content->video->fade (_film, video.frame),
 			piece->content->video->scale().size (
 				piece->content->video, _video_container_size, _film->frame_size ()
 				),
@@ -816,7 +816,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 
 	DCPTime t = time;
 	for (int i = 0; i < frc.repeat; ++i) {
-		if (t < piece->content->end()) {
+		if (t < piece->content->end(_film)) {
 			emit_video (_last_video[wp], t);
 		}
 		t += one_video_frame ();
@@ -839,7 +839,7 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 	/* Compute time in the DCP */
 	DCPTime time = resampled_audio_to_dcp (piece, content_audio.frame);
 	/* And the end of this block in the DCP */
-	DCPTime end = time + DCPTime::from_frames(content_audio.audio->frames(), content->resampled_frame_rate());
+	DCPTime end = time + DCPTime::from_frames(content_audio.audio->frames(), content->resampled_frame_rate(_film));
 
 	/* Remove anything that comes before the start or after the end of the content */
 	if (time < piece->content->position()) {
@@ -850,11 +850,11 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 		}
 		content_audio.audio = cut.first;
 		time = cut.second;
-	} else if (time > piece->content->end()) {
+	} else if (time > piece->content->end(_film)) {
 		/* Discard it all */
 		return;
-	} else if (end > piece->content->end()) {
-		Frame const remaining_frames = DCPTime(piece->content->end() - time).frames_round(_film->audio_frame_rate());
+	} else if (end > piece->content->end(_film)) {
+		Frame const remaining_frames = DCPTime(piece->content->end(_film) - time).frames_round(_film->audio_frame_rate());
 		if (remaining_frames == 0) {
 			return;
 		}
@@ -933,7 +933,7 @@ Player::plain_text_start (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, Co
 	PlayerText ps;
 	DCPTime const from (content_time_to_dcp (piece, subtitle.from()));
 
-	if (from > piece->content->end()) {
+	if (from > piece->content->end(_film)) {
 		return;
 	}
 
@@ -984,7 +984,7 @@ Player::subtitle_stop (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, Conte
 
 	DCPTime const dcp_to = content_time_to_dcp (piece, to);
 
-	if (dcp_to > piece->content->end()) {
+	if (dcp_to > piece->content->end(_film)) {
 		return;
 	}
 
@@ -1024,11 +1024,11 @@ Player::seek (DCPTime time, bool accurate)
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
 		if (time < i->content->position()) {
 			/* Before; seek to the start of the content */
-			i->decoder->seek (dcp_to_content_time (i, i->content->position()), accurate);
+			i->decoder->seek (_film, dcp_to_content_time (i, i->content->position()), accurate);
 			i->done = false;
-		} else if (i->content->position() <= time && time < i->content->end()) {
+		} else if (i->content->position() <= time && time < i->content->end(_film)) {
 			/* During; seek to position */
-			i->decoder->seek (dcp_to_content_time (i, time), accurate);
+			i->decoder->seek (_film, dcp_to_content_time (i, time), accurate);
 			i->done = false;
 		} else {
 			/* After; this piece is done */

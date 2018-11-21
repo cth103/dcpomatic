@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 	A->set_name ("frobozz");
 	A->set_interop (true);
 
-	shared_ptr<FFmpegContent> c (new FFmpegContent (A, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/test.mp4"));
 	A->examine_and_add_content (c);
 	A->set_encrypted (true);
 	wait_for_jobs ();
@@ -80,7 +80,7 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 	B->set_name ("frobozz");
 	B->set_interop (true);
 
-	shared_ptr<DCPContent> d (new DCPContent (B, "build/test/vf_kdm_test_ov/" + A->dcp_name()));
+	shared_ptr<DCPContent> d (new DCPContent ("build/test/vf_kdm_test_ov/" + A->dcp_name()));
 	d->add_kdm (A_kdm);
 	d->set_reference_video (true);
 	B->examine_and_add_content (d);
@@ -112,7 +112,7 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 	C->set_name ("frobozz");
 	C->set_interop (true);
 
-	shared_ptr<DCPContent> e (new DCPContent (C, "build/test/vf_kdm_test_vf/" + B->dcp_name()));
+	shared_ptr<DCPContent> e (new DCPContent ("build/test/vf_kdm_test_vf/" + B->dcp_name()));
 	e->add_kdm (B_kdm);
 	e->add_ov ("build/test/vf_kdm_test_ov/" + A->dcp_name());
 	C->examine_and_add_content (e);

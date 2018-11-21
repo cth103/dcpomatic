@@ -450,7 +450,7 @@ ContentPanel::add_folder_clicked ()
 	list<shared_ptr<Content> > content;
 
 	try {
-		content = content_factory (_film, path);
+		content = content_factory (path);
 	} catch (exception& e) {
 		error_dialog (_parent, e.what());
 		return;
@@ -493,7 +493,7 @@ ContentPanel::add_dcp_clicked ()
 	}
 
 	try {
-		_film->examine_and_add_content (shared_ptr<Content> (new DCPContent (_film, path)));
+		_film->examine_and_add_content (shared_ptr<Content> (new DCPContent (path)));
 	} catch (exception& e) {
 		error_dialog (_parent, e.what());
 	}
@@ -755,7 +755,7 @@ ContentPanel::add_files (list<boost::filesystem::path> paths)
 
 	try {
 		BOOST_FOREACH (boost::filesystem::path i, paths) {
-			BOOST_FOREACH (shared_ptr<Content> j, content_factory (_film, i)) {
+			BOOST_FOREACH (shared_ptr<Content> j, content_factory(i)) {
 				_film->examine_and_add_content (j);
 			}
 		}

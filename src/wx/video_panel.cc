@@ -361,8 +361,8 @@ VideoPanel::film_content_changed (int property)
 
 		if (check.size() == 1) {
 			_fade_in->set (
-				ContentTime::from_frames (vc.front()->video->fade_in (), vc.front()->active_video_frame_rate ()),
-				vc.front()->active_video_frame_rate ()
+				ContentTime::from_frames (vc.front()->video->fade_in(), vc.front()->active_video_frame_rate(_parent->film())),
+				vc.front()->active_video_frame_rate(_parent->film())
 				);
 		} else {
 			_fade_in->clear ();
@@ -375,8 +375,8 @@ VideoPanel::film_content_changed (int property)
 
 		if (check.size() == 1) {
 			_fade_out->set (
-				ContentTime::from_frames (vc.front()->video->fade_out (), vc.front()->active_video_frame_rate ()),
-				vc.front()->active_video_frame_rate ()
+				ContentTime::from_frames (vc.front()->video->fade_out(), vc.front()->active_video_frame_rate(_parent->film())),
+				vc.front()->active_video_frame_rate(_parent->film())
 				);
 		} else {
 			_fade_out->clear ();
@@ -420,7 +420,7 @@ VideoPanel::setup_description ()
 		return;
 	}
 
-	string d = vc.front()->video->processing_description ();
+	string d = vc.front()->video->processing_description (_parent->film());
 	size_t lines = count (d.begin(), d.end(), '\n');
 
 	for (int i = lines; i < 6; ++i) {
@@ -504,7 +504,7 @@ VideoPanel::setup_sensitivity ()
 	}
 
 	string why_not;
-	bool const can_reference = dcp && dcp->can_reference_video (why_not);
+	bool const can_reference = dcp && dcp->can_reference_video (_parent->film(), why_not);
 	setup_refer_button (_reference, _reference_note, dcp, can_reference, why_not);
 
 	if (_reference->GetValue ()) {

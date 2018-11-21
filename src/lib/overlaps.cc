@@ -26,12 +26,12 @@
 using boost::shared_ptr;
 using boost::function;
 
-ContentList overlaps (ContentList cl, function<bool (shared_ptr<const Content>)> part, DCPTime from, DCPTime to)
+ContentList overlaps (shared_ptr<const Film> film, ContentList cl, function<bool (shared_ptr<const Content>)> part, DCPTime from, DCPTime to)
 {
 	ContentList overlaps;
 	DCPTimePeriod period (from, to);
 	BOOST_FOREACH (shared_ptr<Content> i, cl) {
-		if (part(i) && DCPTimePeriod(i->position(), i->end()).overlap(period)) {
+		if (part(i) && DCPTimePeriod(i->position(), i->end(film)).overlap(period)) {
 			overlaps.push_back (i);
 		}
 	}

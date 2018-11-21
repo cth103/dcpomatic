@@ -156,19 +156,19 @@ public:
 	dcp::Size size_after_3d_split () const;
 	dcp::Size size_after_crop () const;
 
-	boost::optional<double> fade (Frame) const;
+	boost::optional<double> fade (boost::shared_ptr<const Film> film, Frame) const;
 
-	void scale_and_crop_to_fit_width ();
-	void scale_and_crop_to_fit_height ();
+	void scale_and_crop_to_fit_width (boost::shared_ptr<const Film> film);
+	void scale_and_crop_to_fit_height (boost::shared_ptr<const Film> film);
 
-	std::string processing_description () const;
+	std::string processing_description (boost::shared_ptr<const Film> film) const;
 
 	void set_length (Frame);
 
 	void take_from_examiner (boost::shared_ptr<VideoExaminer>);
 	void add_properties (std::list<UserProperty> &) const;
 
-	void modify_position (DCPTime& pos) const;
+	void modify_position (boost::shared_ptr<const Film> film, DCPTime& pos) const;
 	void modify_trim_start (ContentTime& pos) const;
 
 	static boost::shared_ptr<VideoContent> from_xml (Content* parent, cxml::ConstNodePtr, int);

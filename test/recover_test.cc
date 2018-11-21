@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE (recover_test_2d)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name ("recover_test");
 
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/count300bd24.m2ts"));
+	shared_ptr<FFmpegContent> content (new FFmpegContent("test/data/count300bd24.m2ts"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
@@ -89,7 +89,7 @@ BOOST_AUTO_TEST_CASE (recover_test_3d)
 	film->set_name ("recover_test");
 	film->set_three_d (true);
 
-	shared_ptr<ImageContent> content (new ImageContent (film, "test/data/3d_test"));
+	shared_ptr<ImageContent> content (new ImageContent("test/data/3d_test"));
 	content->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT_RIGHT);
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted)
 	film->set_name ("recover_test");
 	film->set_encrypted (true);
 
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/count300bd24.m2ts"));
+	shared_ptr<FFmpegContent> content (new FFmpegContent("test/data/count300bd24.m2ts"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 

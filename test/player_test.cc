@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE (player_silence_padding_test)
 {
 	shared_ptr<Film> film = new_test_film ("player_silence_padding_test");
 	film->set_name ("player_silence_padding_test");
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/test.mp4"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
@@ -93,8 +93,8 @@ BOOST_AUTO_TEST_CASE (player_black_fill_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_sequence (false);
 	film->set_interop (false);
-	shared_ptr<ImageContent> contentA (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
-	shared_ptr<ImageContent> contentB (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
+	shared_ptr<ImageContent> contentA (new ImageContent("test/data/simple_testcard_640x480.png"));
+	shared_ptr<ImageContent> contentB (new ImageContent("test/data/simple_testcard_640x480.png"));
 
 	film->examine_and_add_content (contentA);
 	film->examine_and_add_content (contentB);
@@ -102,10 +102,10 @@ BOOST_AUTO_TEST_CASE (player_black_fill_test)
 
 	contentA->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	contentA->video->set_length (3);
-	contentA->set_position (DCPTime::from_frames (2, film->video_frame_rate ()));
+	contentA->set_position (film, DCPTime::from_frames(2, film->video_frame_rate()));
 	contentB->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	contentB->video->set_length (1);
-	contentB->set_position (DCPTime::from_frames (7, film->video_frame_rate ()));
+	contentB->set_position (film, DCPTime::from_frames(7, film->video_frame_rate()));
 
 	film->make_dcp ();
 
@@ -132,17 +132,17 @@ BOOST_AUTO_TEST_CASE (player_subframe_test)
 	film->set_name ("reels_test7");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
-	shared_ptr<Content> A = content_factory(film, "test/data/flat_red.png").front();
+	shared_ptr<Content> A = content_factory("test/data/flat_red.png").front();
 	film->examine_and_add_content (A);
 	BOOST_REQUIRE (!wait_for_jobs ());
-	shared_ptr<Content> B = content_factory(film, "test/data/awkward_length.wav").front();
+	shared_ptr<Content> B = content_factory("test/data/awkward_length.wav").front();
 	film->examine_and_add_content (B);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	film->set_video_frame_rate (24);
 	A->video->set_length (3 * 24);
 
-	BOOST_CHECK (A->full_length() == DCPTime::from_frames(3 * 24, 24));
-	BOOST_CHECK (B->full_length() == DCPTime(289920));
+	BOOST_CHECK (A->full_length(film) == DCPTime::from_frames(3 * 24, 24));
+	BOOST_CHECK (B->full_length(film) == DCPTime(289920));
 	/* Length should be rounded up from B's length to the next video frame */
 	BOOST_CHECK (film->length() == DCPTime::from_frames(3 * 24 + 1, 24));
 
@@ -177,11 +177,11 @@ BOOST_AUTO_TEST_CASE (player_interleave_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/test.mp4"));
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<StringTextFileContent> s (new StringTextFileContent (film, "test/data/subrip.srt"));
+	shared_ptr<StringTextFileContent> s (new StringTextFileContent("test/data/subrip.srt"));
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
@@ -202,7 +202,7 @@ BOOST_AUTO_TEST_CASE (player_interleave_test)
 BOOST_AUTO_TEST_CASE (player_seek_test)
 {
 	shared_ptr<Film> film (new Film (optional<boost::filesystem::path>()));
-	shared_ptr<DCPContent> dcp (new DCPContent (film, private_data / "awkward_subs"));
+	shared_ptr<DCPContent> dcp (new DCPContent(private_data / "awkward_subs"));
 	film->examine_and_add_content (dcp, true);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	dcp->only_text()->set_use (true);
@@ -233,7 +233,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 BOOST_AUTO_TEST_CASE (player_seek_test2)
 {
 	shared_ptr<Film> film (new Film (optional<boost::filesystem::path>()));
-	shared_ptr<DCPContent> dcp (new DCPContent (film, private_data / "awkward_subs2"));
+	shared_ptr<DCPContent> dcp (new DCPContent(private_data / "awkward_subs2"));
 	film->examine_and_add_content (dcp, true);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	dcp->only_text()->set_use (true);
@@ -262,15 +262,15 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 BOOST_AUTO_TEST_CASE (player_trim_test)
 {
        shared_ptr<Film> film = new_test_film2 ("player_trim_test");
-       shared_ptr<Content> A = content_factory(film, "test/data/flat_red.png").front();
+       shared_ptr<Content> A = content_factory("test/data/flat_red.png").front();
        film->examine_and_add_content (A);
        BOOST_REQUIRE (!wait_for_jobs ());
        A->video->set_length (10 * 24);
-       shared_ptr<Content> B = content_factory(film, "test/data/flat_red.png").front();
+       shared_ptr<Content> B = content_factory("test/data/flat_red.png").front();
        film->examine_and_add_content (B);
        BOOST_REQUIRE (!wait_for_jobs ());
        B->video->set_length (10 * 24);
-       B->set_position (DCPTime::from_seconds (10));
+       B->set_position (film, DCPTime::from_seconds(10));
        B->set_trim_start (ContentTime::from_seconds (2));
 
        film->make_dcp ();
@@ -299,9 +299,9 @@ store (list<Sub>* out, PlayerText text, TextType type, optional<DCPTextTrack> tr
 BOOST_AUTO_TEST_CASE (player_ignore_video_and_audio_test)
 {
 	shared_ptr<Film> film = new_test_film2 ("player_ignore_video_and_audio_test");
-	shared_ptr<Content> ff = content_factory(film, private_data / "boon_telly.mkv").front();
+	shared_ptr<Content> ff = content_factory(private_data / "boon_telly.mkv").front();
 	film->examine_and_add_content (ff);
-	shared_ptr<Content> text = content_factory(film, "test/data/subrip.srt").front();
+	shared_ptr<Content> text = content_factory("test/data/subrip.srt").front();
 	film->examine_and_add_content (text);
 	BOOST_REQUIRE (!wait_for_jobs());
 	text->only_text()->set_type (TEXT_CLOSED_CAPTION);

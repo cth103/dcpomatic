@@ -36,8 +36,8 @@ using std::back_inserter;
 using boost::shared_ptr;
 using boost::optional;
 
-VideoDecoder::VideoDecoder (Decoder* parent, shared_ptr<const Content> c, shared_ptr<Log> log)
-	: DecoderPart (parent, log)
+VideoDecoder::VideoDecoder (Decoder* parent, shared_ptr<const Content> c)
+	: DecoderPart (parent)
 	, _content (c)
 {
 
@@ -53,7 +53,7 @@ VideoDecoder::VideoDecoder (Decoder* parent, shared_ptr<const Content> c, shared
  *  and so on.
  */
 void
-VideoDecoder::emit (shared_ptr<const ImageProxy> image, Frame frame)
+VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> image, Frame frame)
 {
 	if (ignore ()) {
 		return;
@@ -95,7 +95,7 @@ VideoDecoder::emit (shared_ptr<const ImageProxy> image, Frame frame)
 		DCPOMATIC_ASSERT (false);
 	}
 
-	_position = ContentTime::from_frames (frame, _content->active_video_frame_rate ());
+	_position = ContentTime::from_frames (frame, _content->active_video_frame_rate(film));
 }
 
 void

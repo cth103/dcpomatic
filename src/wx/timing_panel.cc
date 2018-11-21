@@ -227,11 +227,11 @@ TimingPanel::update_full_length ()
 {
 	set<DCPTime> check;
 	BOOST_FOREACH (shared_ptr<const Content> i, _parent->selected ()) {
-		check.insert (i->full_length ());
+		check.insert (i->full_length(_parent->film()));
 	}
 
 	if (check.size() == 1) {
-		_full_length->set (_parent->selected().front()->full_length (), _parent->film()->video_frame_rate ());
+		_full_length->set (_parent->selected().front()->full_length(_parent->film()), _parent->film()->video_frame_rate());
 	} else {
 		_full_length->clear ();
 	}
@@ -242,11 +242,11 @@ TimingPanel::update_play_length ()
 {
 	set<DCPTime> check;
 	BOOST_FOREACH (shared_ptr<const Content> i, _parent->selected ()) {
-		check.insert (i->length_after_trim ());
+		check.insert (i->length_after_trim(_parent->film()));
 	}
 
 	if (check.size() == 1) {
-		_play_length->set (_parent->selected().front()->length_after_trim (), _parent->film()->video_frame_rate ());
+		_play_length->set (_parent->selected().front()->length_after_trim(_parent->film()), _parent->film()->video_frame_rate());
 	} else {
 		_play_length->clear ();
 	}
@@ -371,7 +371,7 @@ TimingPanel::position_changed ()
 {
 	DCPTime const pos = _position->get (_parent->film()->video_frame_rate ());
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
-		i->set_position (pos);
+		i->set_position (_parent->film(), pos);
 	}
 }
 
@@ -407,7 +407,7 @@ TimingPanel::trim_start_changed ()
 	ContentTime const trim = _trim_start->get (_parent->film()->video_frame_rate ());
 
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
-		if (i->position() <= ph && ph < i->end()) {
+		if (i->position() <= ph && ph < i->end(_parent->film())) {
 			/* The playhead is in i.  Use it as a reference to work out
 			   where to put the playhead post-trim; we're trying to keep the playhead
 			   at the same frame of content that we're looking at pre-trim.
@@ -457,7 +457,7 @@ TimingPanel::play_length_changed ()
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		FrameRateChange const frc = _parent->film()->active_frame_rate_change (i->position ());
 		i->set_trim_end (
-			ContentTime (max(DCPTime(), i->full_length() - play_length), frc) - i->trim_start ()
+			ContentTime (max(DCPTime(), i->full_length(_parent->film()) - play_length), frc) - i->trim_start()
 			);
 	}
 }
@@ -522,9 +522,9 @@ TimingPanel::trim_start_to_playhead_clicked ()
 	fv->set_coalesce_player_changes (true);
 
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
-		if (i->position() < ph && ph < i->end ()) {
-			FrameRateChange const frc = film->active_frame_rate_change (i->position ());
-			i->set_trim_start (i->trim_start() + ContentTime (ph - i->position (), frc));
+		if (i->position() < ph && ph < i->end(film)) {
+			FrameRateChange const frc = film->active_frame_rate_change (i->position());
+			i->set_trim_start (i->trim_start() + ContentTime (ph - i->position(), frc));
 			new_ph = i->position ();
 		}
 	}
@@ -547,9 +547,9 @@ TimingPanel::trim_end_to_playhead_clicked ()
 	shared_ptr<const Film> film = _parent->film ();
 	DCPTime const ph = fv->position().floor (film->video_frame_rate ());
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
-		if (i->position() < ph && ph < i->end ()) {
+		if (i->position() < ph && ph < i->end(film)) {
 			FrameRateChange const frc = film->active_frame_rate_change (i->position ());
-			i->set_trim_end (ContentTime (i->position() + i->full_length() - ph - DCPTime::from_frames (1, frc.dcp), frc) - i->trim_start());
+			i->set_trim_end (ContentTime(i->position() + i->full_length(film) - ph - DCPTime::from_frames(1, frc.dcp), frc) - i->trim_start());
 		}
 	}
 }
@@ -572,7 +572,7 @@ TimingPanel::setup_sensitivity ()
 	DCPTime const ph = fv->position ();
 	bool any_over_ph = false;
 	BOOST_FOREACH (shared_ptr<const Content> i, _parent->selected ()) {
-		if (i->position() <= ph && ph < i->end()) {
+		if (i->position() <= ph && ph < i->end(_parent->film())) {
 			any_over_ph = true;
 		}
 	}
@@ -601,8 +601,8 @@ TimingPanel::move_to_start_of_reel_clicked ()
 	MoveToDialog* d = new MoveToDialog (this, position, _parent->film());
 
 	if (d->ShowModal() == wxID_OK) {
-		BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
-			i->set_position (d->position ());
+		BOOST_FOREACH (shared_ptr<Content> i, _parent->selected()) {
+			i->set_position (_parent->film(), d->position());
 		}
 	}
 	d->Destroy ();

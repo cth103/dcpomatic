@@ -52,7 +52,7 @@ public:
 
 	AudioMapping mapping () const;
 	void set_mapping (AudioMapping);
-	int resampled_frame_rate () const;
+	int resampled_frame_rate (boost::shared_ptr<const Film> film) const;
 	bool has_rate_above_48k () const;
 	std::vector<std::string> channel_names () const;
 
@@ -69,7 +69,7 @@ public:
 		return _delay;
 	}
 
-	std::string processing_description () const;
+	std::string processing_description (boost::shared_ptr<const Film> film) const;
 
 	std::vector<AudioStreamPtr> streams () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -81,9 +81,9 @@ public:
 	void set_streams (std::vector<AudioStreamPtr> streams);
 	AudioStreamPtr stream () const;
 
-	void add_properties (std::list<UserProperty> &) const;
+	void add_properties (boost::shared_ptr<const Film> film, std::list<UserProperty> &) const;
 
-	void modify_position (DCPTime& pos) const;
+	void modify_position (boost::shared_ptr<const Film> film, DCPTime& pos) const;
 	void modify_trim_start (ContentTime& pos) const;
 
 	static boost::shared_ptr<AudioContent> from_xml (Content* parent, cxml::ConstNodePtr, int version);

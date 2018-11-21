@@ -64,18 +64,18 @@ public:
 class Content : public boost::enable_shared_from_this<Content>, public Signaller, public boost::noncopyable
 {
 public:
-	explicit Content (boost::shared_ptr<const Film>);
-	Content (boost::shared_ptr<const Film>, DCPTime);
-	Content (boost::shared_ptr<const Film>, boost::filesystem::path);
-	Content (boost::shared_ptr<const Film>, cxml::ConstNodePtr);
-	Content (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
+	explicit Content ();
+	Content (DCPTime);
+	Content (boost::filesystem::path);
+	Content (cxml::ConstNodePtr);
+	Content (std::vector<boost::shared_ptr<Content> >);
 	virtual ~Content () {}
 
 	/** Examine the content to establish digest, frame rates and any other
 	 *  useful metadata.
 	 *  @param job Job to use to report progress, or 0.
 	 */
-	virtual void examine (boost::shared_ptr<Job> job);
+	virtual void examine (boost::shared_ptr<const Film> film, boost::shared_ptr<Job> job);
 
 	virtual void take_settings_from (boost::shared_ptr<const Content> c);
 
@@ -90,14 +90,14 @@ public:
 	virtual std::string technical_summary () const;
 
 	virtual void as_xml (xmlpp::Node *, bool with_paths) const;
-	virtual DCPTime full_length () const = 0;
+	virtual DCPTime full_length (boost::shared_ptr<const Film>) const = 0;
 	virtual std::string identifier () const;
 	/** @return points at which to split this content when
 	 *  REELTYPE_BY_VIDEO_CONTENT is in use.
 	 */
 	virtual std::list<DCPTime> reel_split_points () const;
 
-	boost::shared_ptr<Content> clone () const;
+	boost::shared_ptr<Content> clone (boost::shared_ptr<const Film> film) const;
 
 	void set_paths (std::vector<boost::filesystem::path> paths);
 
@@ -134,7 +134,7 @@ public:
 		return _digest;
 	}
 
-	void set_position (DCPTime);
+	void set_position (boost::shared_ptr<const Film> film, DCPTime);
 
 	/** DCPTime that this content starts; i.e. the time that the first
 	 *  bit of the content (trimmed or not) will happen.
@@ -159,11 +159,11 @@ public:
 	}
 
 	/** @return Time immediately after the last thing in this content */
-	DCPTime end () const {
-		return position() + length_after_trim();
+	DCPTime end (boost::shared_ptr<const Film> film) const {
+		return position() + length_after_trim(film);
 	}
 
-	DCPTime length_after_trim () const;
+	DCPTime length_after_trim (boost::shared_ptr<const Film> film) const;
 
 	boost::optional<double> video_frame_rate () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -173,13 +173,11 @@ public:
 	void set_video_frame_rate (double r);
 	void unset_video_frame_rate ();
 
-	double active_video_frame_rate () const;
+	double active_video_frame_rate (boost::shared_ptr<const Film> film) const;
 
 	void set_change_signals_frequent (bool f) {
 		_change_signals_frequent = f;
 	}
-
-	boost::shared_ptr<const Film> film () const;
 
 	std::list<UserProperty> user_properties () const;
 
@@ -198,8 +196,6 @@ public:
 protected:
 
 	virtual void add_properties (std::list<UserProperty> &) const;
-
-	boost::weak_ptr<const Film> _film;
 
 	/** _mutex which should be used to protect accesses, as examine
 	 *  jobs can update content state in threads other than the main one.

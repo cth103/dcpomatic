@@ -55,19 +55,19 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 
-DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log, bool fast)
+DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, bool fast)
 	: DCP (c)
 	, _decode_referenced (false)
 {
 	if (c->video) {
-		video.reset (new VideoDecoder (this, c, log));
+		video.reset (new VideoDecoder (this, c));
 	}
 	if (c->audio) {
-		audio.reset (new AudioDecoder (this, c->audio, log, fast));
+		audio.reset (new AudioDecoder (this, c->audio, fast));
 	}
 	BOOST_FOREACH (shared_ptr<TextContent> i, c->text) {
 		/* XXX: this time here should be the time of the first subtitle, not 0 */
-		text.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, i, log, ContentTime())));
+		text.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, i, ContentTime())));
 	}
 
 	list<shared_ptr<dcp::CPL> > cpl_list = cpls ();
@@ -101,13 +101,13 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log, boo
 
 
 bool
-DCPDecoder::pass ()
+DCPDecoder::pass (shared_ptr<const Film> film)
 {
 	if (_reel == _reels.end () || !_dcp_content->can_be_played ()) {
 		return true;
 	}
 
-	double const vfr = _dcp_content->active_video_frame_rate ();
+	double const vfr = _dcp_content->active_video_frame_rate (film);
 
 	/* Frame within the (played part of the) reel that is coming up next */
 	int64_t const frame = _next.frames_round (vfr);
@@ -118,12 +118,13 @@ DCPDecoder::pass ()
 	/* We must emit texts first as when we emit the video for this frame
 	   it will expect already to have the texts.
 	*/
-	pass_texts (_next, picture_asset->size());
+	pass_texts (film, _next, picture_asset->size());
 
 	if ((_mono_reader || _stereo_reader) && (_decode_referenced || !_dcp_content->reference_video())) {
 		int64_t const entry_point = (*_reel)->main_picture()->entry_point ();
 		if (_mono_reader) {
 			video->emit (
+				film,
 				shared_ptr<ImageProxy> (
 					new J2KImageProxy (
 						_mono_reader->get_frame (entry_point + frame),
@@ -136,6 +137,7 @@ DCPDecoder::pass ()
 				);
 		} else {
 			video->emit (
+				film,
 				shared_ptr<ImageProxy> (
 					new J2KImageProxy (
 						_stereo_reader->get_frame (entry_point + frame),
@@ -149,6 +151,7 @@ DCPDecoder::pass ()
 				);
 
 			video->emit (
+				film,
 				shared_ptr<ImageProxy> (
 					new J2KImageProxy (
 						_stereo_reader->get_frame (entry_point + frame),
@@ -179,7 +182,7 @@ DCPDecoder::pass ()
 			}
 		}
 
-		audio->emit (_dcp_content->audio->stream(), data, ContentTime::from_frames (_offset, vfr) + _next);
+		audio->emit (film, _dcp_content->audio->stream(), data, ContentTime::from_frames (_offset, vfr) + _next);
 	}
 
 	_next += ContentTime::from_frames (1, vfr);
@@ -195,29 +198,37 @@ DCPDecoder::pass ()
 }
 
 void
-DCPDecoder::pass_texts (ContentTime next, dcp::Size size)
+DCPDecoder::pass_texts (shared_ptr<const Film> film, ContentTime next, dcp::Size size)
 {
 	list<shared_ptr<TextDecoder> >::const_iterator decoder = text.begin ();
 	if ((*_reel)->main_subtitle()) {
 		DCPOMATIC_ASSERT (decoder != text.end ());
 		pass_texts (
-			next, (*_reel)->main_subtitle()->asset(), _dcp_content->reference_text(TEXT_OPEN_SUBTITLE), (*_reel)->main_subtitle()->entry_point(), *decoder, size
+			film,
+			next,
+			(*_reel)->main_subtitle()->asset(),
+			_dcp_content->reference_text(TEXT_OPEN_SUBTITLE),
+			(*_reel)->main_subtitle()->entry_point(),
+			*decoder,
+			size
 			);
 		++decoder;
 	}
 	BOOST_FOREACH (shared_ptr<dcp::ReelClosedCaptionAsset> i, (*_reel)->closed_captions()) {
 		DCPOMATIC_ASSERT (decoder != text.end ());
 		pass_texts (
-			next, i->asset(), _dcp_content->reference_text(TEXT_CLOSED_CAPTION), i->entry_point(), *decoder, size
+			film, next, i->asset(), _dcp_content->reference_text(TEXT_CLOSED_CAPTION), i->entry_point(), *decoder, size
 			);
 		++decoder;
 	}
 }
 
 void
-DCPDecoder::pass_texts (ContentTime next, shared_ptr<dcp::SubtitleAsset> asset, bool reference, int64_t entry_point, shared_ptr<TextDecoder> decoder, dcp::Size size)
+DCPDecoder::pass_texts (
+	shared_ptr<const Film> film, ContentTime next, shared_ptr<dcp::SubtitleAsset> asset, bool reference, int64_t entry_point, shared_ptr<TextDecoder> decoder, dcp::Size size
+	)
 {
-	double const vfr = _dcp_content->active_video_frame_rate ();
+	double const vfr = _dcp_content->active_video_frame_rate (film);
 	/* Frame within the (played part of the) reel that is coming up next */
 	int64_t const frame = next.frames_round (vfr);
 
@@ -348,13 +359,13 @@ DCPDecoder::get_readers ()
 }
 
 void
-DCPDecoder::seek (ContentTime t, bool accurate)
+DCPDecoder::seek (shared_ptr<const Film> film, ContentTime t, bool accurate)
 {
 	if (!_dcp_content->can_be_played ()) {
 		return;
 	}
 
-	Decoder::seek (t, accurate);
+	Decoder::seek (film, t, accurate);
 
 	_reel = _reels.begin ();
 	_offset = 0;
@@ -371,8 +382,8 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 
 	/* Seek to pre-roll position */
 
-	while (_reel != _reels.end() && pre >= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate ())) {
-		ContentTime rd = ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate ());
+	while (_reel != _reels.end() && pre >= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate(film))) {
+		ContentTime rd = ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate(film));
 		pre -= rd;
 		t -= rd;
 		next_reel ();
@@ -380,16 +391,16 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 
 	/* Pass texts in the pre-roll */
 
-	double const vfr = _dcp_content->active_video_frame_rate ();
+	double const vfr = _dcp_content->active_video_frame_rate (film);
 	for (int i = 0; i < pre_roll_seconds * vfr; ++i) {
-		pass_texts (pre, (*_reel)->main_picture()->asset()->size());
+		pass_texts (film, pre, (*_reel)->main_picture()->asset()->size());
 		pre += ContentTime::from_frames (1, vfr);
 	}
 
 	/* Seek to correct position */
 
-	while (_reel != _reels.end() && t >= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate ())) {
-		t -= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate ());
+	while (_reel != _reels.end() && t >= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate(film))) {
+		t -= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate(film));
 		next_reel ();
 	}
 

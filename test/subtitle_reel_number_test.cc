@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_number_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<StringTextFileContent> content (new StringTextFileContent (film, "test/data/subrip5.srt"));
+	shared_ptr<StringTextFileContent> content (new StringTextFileContent("test/data/subrip5.srt"));
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	content->only_text()->set_use (true);

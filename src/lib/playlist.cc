@@ -61,12 +61,15 @@ Playlist::Playlist ()
 Playlist::~Playlist ()
 {
 	_content.clear ();
-	reconnect ();
+	disconnect ();
 }
 
 void
-Playlist::content_change (ChangeType type, weak_ptr<Content> content, int property, bool frequent)
+Playlist::content_change (weak_ptr<const Film> weak_film, ChangeType type, weak_ptr<Content> content, int property, bool frequent)
 {
+	shared_ptr<const Film> film = weak_film.lock ();
+	DCPOMATIC_ASSERT (film);
+
 	if (type == CHANGE_TYPE_DONE) {
 		if (
 			property == ContentProperty::TRIM_START ||
@@ -79,7 +82,7 @@ Playlist::content_change (ChangeType type, weak_ptr<Content> content, int proper
 			   - any other position changes will be timeline drags which should not result in content
 			   being sequenced.
 			*/
-			maybe_sequence ();
+			maybe_sequence (film);
 		}
 
 		if (
@@ -100,7 +103,7 @@ Playlist::content_change (ChangeType type, weak_ptr<Content> content, int proper
 }
 
 void
-Playlist::maybe_sequence ()
+Playlist::maybe_sequence (shared_ptr<const Film> film)
 {
 	if (!_sequence || _sequencing) {
 		return;
@@ -123,11 +126,11 @@ Playlist::maybe_sequence ()
 		}
 
 		if (i->video->frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) {
-			i->set_position (next_right);
-			next_right = i->end();
+			i->set_position (film, next_right);
+			next_right = i->end(film);
 		} else {
-			i->set_position (next_left);
-			next_left = i->end();
+			i->set_position (film, next_left);
+			next_left = i->end(film);
 		}
 
 		placed.push_back (i);
@@ -141,8 +144,8 @@ Playlist::maybe_sequence ()
 			continue;
 		}
 
-		i->set_position (next);
-		next = i->end();
+		i->set_position (film, next);
+		next = i->end(film);
 	}
 
 
@@ -188,7 +191,7 @@ Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 	/* This shouldn't be necessary but better safe than sorry (there could be old files) */
 	sort (_content.begin(), _content.end(), ContentSorter ());
 
-	reconnect ();
+	reconnect (film);
 }
 
 /** @param node &lt;Playlist&gt; node.
@@ -203,12 +206,12 @@ Playlist::as_xml (xmlpp::Node* node, bool with_content_paths)
 }
 
 void
-Playlist::add (shared_ptr<Content> c)
+Playlist::add (shared_ptr<const Film> film, shared_ptr<Content> c)
 {
 	Change (CHANGE_TYPE_PENDING);
 	_content.push_back (c);
 	sort (_content.begin(), _content.end(), ContentSorter ());
-	reconnect ();
+	reconnect (film);
 	Change (CHANGE_TYPE_DONE);
 }
 
@@ -323,11 +326,11 @@ Playlist::best_video_frame_rate () const
 
 /** @return length of the playlist from time 0 to the last thing on the playlist */
 DCPTime
-Playlist::length () const
+Playlist::length (shared_ptr<const Film> film) const
 {
 	DCPTime len;
 	BOOST_FOREACH (shared_ptr<const Content> i, _content) {
-		len = max (len, i->end());
+		len = max (len, i->end(film));
 	}
 
 	return len;
@@ -350,26 +353,32 @@ Playlist::start () const
 }
 
 void
-Playlist::reconnect ()
+Playlist::disconnect ()
 {
 	for (list<boost::signals2::connection>::iterator i = _content_connections.begin(); i != _content_connections.end(); ++i) {
 		i->disconnect ();
 	}
 
 	_content_connections.clear ();
+}
+
+void
+Playlist::reconnect (shared_ptr<const Film> film)
+{
+	disconnect ();
 
 	BOOST_FOREACH (shared_ptr<Content> i, _content) {
-		_content_connections.push_back (i->Change.connect(boost::bind(&Playlist::content_change, this, _1, _2, _3, _4)));
+		_content_connections.push_back (i->Change.connect(boost::bind(&Playlist::content_change, this, film, _1, _2, _3, _4)));
 	}
 }
 
 DCPTime
-Playlist::video_end () const
+Playlist::video_end (shared_ptr<const Film> film) const
 {
 	DCPTime end;
 	BOOST_FOREACH (shared_ptr<Content> i, _content) {
 		if (i->video) {
-			end = max (end, i->end ());
+			end = max (end, i->end(film));
 		}
 	}
 
@@ -377,12 +386,12 @@ Playlist::video_end () const
 }
 
 DCPTime
-Playlist::text_end () const
+Playlist::text_end (shared_ptr<const Film> film) const
 {
 	DCPTime end;
 	BOOST_FOREACH (shared_ptr<Content> i, _content) {
 		if (!i->text.empty ()) {
-			end = max (end, i->end ());
+			end = max (end, i->end(film));
 		}
 	}
 
@@ -446,14 +455,14 @@ Playlist::content () const
 }
 
 void
-Playlist::repeat (ContentList c, int n)
+Playlist::repeat (shared_ptr<const Film> film, ContentList c, int n)
 {
 	pair<DCPTime, DCPTime> range (DCPTime::max (), DCPTime ());
 	BOOST_FOREACH (shared_ptr<Content> i, c) {
 		range.first = min (range.first, i->position ());
 		range.second = max (range.second, i->position ());
-		range.first = min (range.first, i->end ());
-		range.second = max (range.second, i->end ());
+		range.first = min (range.first, i->end(film));
+		range.second = max (range.second, i->end(film));
 	}
 
 	Change (CHANGE_TYPE_PENDING);
@@ -461,8 +470,8 @@ Playlist::repeat (ContentList c, int n)
 	DCPTime pos = range.second;
 	for (int i = 0; i < n; ++i) {
 		BOOST_FOREACH (shared_ptr<Content> j, c) {
-			shared_ptr<Content> copy = j->clone ();
-			copy->set_position (pos + copy->position() - range.first);
+			shared_ptr<Content> copy = j->clone (film);
+			copy->set_position (film, pos + copy->position() - range.first);
 			_content.push_back (copy);
 		}
 		pos += range.second - range.first;
@@ -470,12 +479,12 @@ Playlist::repeat (ContentList c, int n)
 
 	sort (_content.begin(), _content.end(), ContentSorter ());
 
-	reconnect ();
+	reconnect (film);
 	Change (CHANGE_TYPE_DONE);
 }
 
 void
-Playlist::move_earlier (shared_ptr<Content> c)
+Playlist::move_earlier (shared_ptr<const Film> film, shared_ptr<Content> c)
 {
 	ContentList::iterator previous = _content.end ();
 	ContentList::iterator i = _content.begin();
@@ -492,12 +501,12 @@ Playlist::move_earlier (shared_ptr<Content> c)
 	shared_ptr<Content> previous_c = *previous;
 
 	DCPTime const p = previous_c->position ();
-	previous_c->set_position (p + c->length_after_trim ());
-	c->set_position (p);
+	previous_c->set_position (film, p + c->length_after_trim(film));
+	c->set_position (film, p);
 }
 
 void
-Playlist::move_later (shared_ptr<Content> c)
+Playlist::move_later (shared_ptr<const Film> film, shared_ptr<Content> c)
 {
 	ContentList::iterator i = _content.begin();
 	while (i != _content.end() && *i != c) {
@@ -515,24 +524,24 @@ Playlist::move_later (shared_ptr<Content> c)
 
 	shared_ptr<Content> next_c = *next;
 
-	next_c->set_position (c->position ());
-	c->set_position (c->position() + next_c->length_after_trim ());
+	next_c->set_position (film, c->position());
+	c->set_position (film, c->position() + next_c->length_after_trim(film));
 }
 
 int64_t
-Playlist::required_disk_space (int j2k_bandwidth, int audio_channels, int audio_frame_rate) const
+Playlist::required_disk_space (shared_ptr<const Film> film, int j2k_bandwidth, int audio_channels, int audio_frame_rate) const
 {
-	int64_t video = uint64_t (j2k_bandwidth / 8) * length().seconds ();
-	int64_t audio = uint64_t (audio_channels * audio_frame_rate * 3) * length().seconds ();
+	int64_t video = uint64_t (j2k_bandwidth / 8) * length(film).seconds();
+	int64_t audio = uint64_t (audio_channels * audio_frame_rate * 3) * length(film).seconds();
 
 	BOOST_FOREACH (shared_ptr<Content> i, _content) {
 		shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent> (i);
 		if (d) {
 			if (d->reference_video()) {
-				video -= uint64_t (j2k_bandwidth / 8) * d->length_after_trim().seconds();
+				video -= uint64_t (j2k_bandwidth / 8) * d->length_after_trim(film).seconds();
 			}
 			if (d->reference_audio()) {
-				audio -= uint64_t (audio_channels * audio_frame_rate * 3) * d->length_after_trim().seconds();
+				audio -= uint64_t (audio_channels * audio_frame_rate * 3) * d->length_after_trim(film).seconds();
 			}
 		}
 	}
@@ -542,13 +551,13 @@ Playlist::required_disk_space (int j2k_bandwidth, int audio_channels, int audio_
 }
 
 string
-Playlist::content_summary (DCPTimePeriod period) const
+Playlist::content_summary (shared_ptr<const Film> film, DCPTimePeriod period) const
 {
 	string best_summary;
 	int best_score = -1;
 	BOOST_FOREACH (shared_ptr<Content> i, _content) {
 		int score = 0;
-		optional<DCPTimePeriod> const o = DCPTimePeriod(i->position(), i->end()).overlap (period);
+		optional<DCPTimePeriod> const o = DCPTimePeriod(i->position(), i->end(film)).overlap (period);
 		if (o) {
 			score += 100 * o.get().duration().get() / period.duration().get();
 		}

@@ -214,7 +214,7 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 void
 Controls::add_clicked ()
 {
-	shared_ptr<Content> sel = selected_content()->clone();
+	shared_ptr<Content> sel = selected_content()->clone(_film);
 	DCPOMATIC_ASSERT (sel);
 	_film->examine_and_add_content (sel);
 	bool const ok = display_progress (_("DCP-o-matic"), _("Loading DCP"));
@@ -604,7 +604,7 @@ Controls::add_content_to_list (shared_ptr<Content> content, wxListCtrl* ctrl)
 	wxListItem it;
 	it.SetId(N);
 	it.SetColumn(0);
-	DCPTime length = content->length_after_trim ();
+	DCPTime length = content->length_after_trim (_film);
 	int seconds = length.seconds();
 	int minutes = seconds / 60;
 	seconds -= minutes * 60;
@@ -662,9 +662,9 @@ Controls::update_content_directory ()
 		try {
 			shared_ptr<Content> content;
 			if (is_directory(*i) && (is_regular_file(*i / "ASSETMAP") || is_regular_file(*i / "ASSETMAP.xml"))) {
-				content.reset (new DCPContent(_film, *i));
+				content.reset (new DCPContent(*i));
 			} else if (i->path().extension() == ".mp4" || i->path().extension() == ".ecinema") {
-				content = content_factory(_film, *i).front();
+				content = content_factory(*i).front();
 			}
 
 			if (content) {

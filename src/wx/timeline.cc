@@ -268,7 +268,7 @@ Timeline::film_content_change (ChangeType type, int property, bool frequent)
 
 template <class T>
 int
-place (TimelineViewList& views, int& tracks)
+place (shared_ptr<const Film> film, TimelineViewList& views, int& tracks)
 {
 	int const base = tracks;
 
@@ -282,7 +282,7 @@ place (TimelineViewList& views, int& tracks)
 		int t = base;
 
 		shared_ptr<Content> content = cv->content();
-		DCPTimePeriod const content_period (content->position(), content->end());
+		DCPTimePeriod const content_period (content->position(), content->end(film));
 
 		while (true) {
 			TimelineViewList::iterator j = views.begin();
@@ -296,7 +296,7 @@ place (TimelineViewList& views, int& tracks)
 				shared_ptr<Content> test_content = test->content();
 				if (
 					test->track() && test->track().get() == t &&
-					content_period.overlap(DCPTimePeriod(test_content->position(), test_content->end()))) {
+					content_period.overlap(DCPTimePeriod(test_content->position(), test_content->end(film)))) {
 					/* we have an overlap on track `t' */
 					++t;
 					break;
@@ -354,6 +354,9 @@ Timeline::assign_tracks ()
 	   Audio N
 	*/
 
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+
 	_tracks = 0;
 
 	for (TimelineViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
@@ -386,7 +389,7 @@ Timeline::assign_tracks ()
 
 	/* Texts */
 
-	int const text_tracks = place<TimelineTextContentView> (_views, _tracks);
+	int const text_tracks = place<TimelineTextContentView> (film, _views, _tracks);
 
 	/* Atmos */
 
@@ -412,7 +415,7 @@ Timeline::assign_tracks ()
 
 	TimelineViewList views = _views;
 	sort(views.begin(), views.end(), AudioMappingComparator());
-	int const audio_tracks = place<TimelineAudioContentView> (views, _tracks);
+	int const audio_tracks = place<TimelineAudioContentView> (film, views, _tracks);
 
 	_labels_view->set_3d (have_3d);
 	_labels_view->set_audio_tracks (audio_tracks);
@@ -520,10 +523,13 @@ Timeline::left_down_select (wxMouseEvent& ev)
 				continue;
 			}
 
+			shared_ptr<Film> film = _film.lock ();
+			DCPOMATIC_ASSERT (film);
+
 			_start_snaps.push_back (cv->content()->position());
 			_end_snaps.push_back (cv->content()->position());
-			_start_snaps.push_back (cv->content()->end());
-			_end_snaps.push_back (cv->content()->end());
+			_start_snaps.push_back (cv->content()->end(film));
+			_end_snaps.push_back (cv->content()->end(film));
 
 			BOOST_FOREACH (DCPTime i, cv->content()->reel_split_points()) {
 				_start_snaps.push_back (i);
@@ -725,9 +731,11 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 
 	DCPTime new_position = _down_view_position + DCPTime::from_seconds ((p.x - _down_point.x) / pps);
 
-	if (_snap) {
+	shared_ptr<Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
 
-		DCPTime const new_end = new_position + _down_view->content()->length_after_trim();
+	if (_snap) {
+		DCPTime const new_end = new_position + _down_view->content()->length_after_trim(film);
 		/* Signed `distance' to nearest thing (i.e. negative is left on the timeline,
 		   positive is right).
 		*/
@@ -755,10 +763,8 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 		new_position = DCPTime ();
 	}
 
-	_down_view->content()->set_position (new_position);
+	_down_view->content()->set_position (film, new_position);
 
-	shared_ptr<Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
 	film->set_sequence (false);
 }
 

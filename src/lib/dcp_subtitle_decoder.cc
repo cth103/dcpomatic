@@ -29,7 +29,7 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::bind;
 
-DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> content, shared_ptr<Log> log)
+DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> content)
 {
 	shared_ptr<dcp::SubtitleAsset> c (load (content->path (0)));
 	_subtitles = c->subtitles ();
@@ -39,13 +39,13 @@ DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> con
 	if (_next != _subtitles.end()) {
 		first = content_time_period(*_next).from;
 	}
-	text.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, content->only_text(), log, first)));
+	text.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, content->only_text(), first)));
 }
 
 void
-DCPSubtitleDecoder::seek (ContentTime time, bool accurate)
+DCPSubtitleDecoder::seek (shared_ptr<const Film> film, ContentTime time, bool accurate)
 {
-	Decoder::seek (time, accurate);
+	Decoder::seek (film, time, accurate);
 
 	_next = _subtitles.begin ();
 	list<shared_ptr<dcp::Subtitle> >::const_iterator i = _subtitles.begin ();
@@ -55,7 +55,7 @@ DCPSubtitleDecoder::seek (ContentTime time, bool accurate)
 }
 
 bool
-DCPSubtitleDecoder::pass ()
+DCPSubtitleDecoder::pass (shared_ptr<const Film>)
 {
 	if (_next == _subtitles.end ()) {
 		return true;

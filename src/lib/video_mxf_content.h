@@ -23,19 +23,19 @@
 class VideoMXFContent : public Content
 {
 public:
-	VideoMXFContent (boost::shared_ptr<const Film> film, boost::filesystem::path path);
-	VideoMXFContent (boost::shared_ptr<const Film> film, cxml::ConstNodePtr node, int version);
+	VideoMXFContent (boost::filesystem::path path);
+	VideoMXFContent (cxml::ConstNodePtr node, int version);
 
 	boost::shared_ptr<VideoMXFContent> shared_from_this () {
 		return boost::dynamic_pointer_cast<VideoMXFContent> (Content::shared_from_this ());
 	}
 
-	void examine (boost::shared_ptr<Job> job);
+	void examine (boost::shared_ptr<const Film> film, boost::shared_ptr<Job> job);
 	std::string summary () const;
 	std::string technical_summary () const;
 	std::string identifier () const;
 	void as_xml (xmlpp::Node* node, bool with_paths) const;
-	DCPTime full_length () const;
+	DCPTime full_length (boost::shared_ptr<const Film> film) const;
 	void add_properties (std::list<UserProperty>& p) const;
 
 	static bool valid_mxf (boost::filesystem::path path);

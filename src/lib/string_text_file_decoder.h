@@ -25,15 +25,14 @@
 #include "decoder.h"
 
 class StringTextFileContent;
-class Log;
 
 class StringTextFileDecoder : public Decoder, public StringTextFile
 {
 public:
-	StringTextFileDecoder (boost::shared_ptr<const StringTextFileContent>, boost::shared_ptr<Log> log);
+	StringTextFileDecoder (boost::shared_ptr<const StringTextFileContent>);
 
-	void seek (ContentTime time, bool accurate);
-	bool pass ();
+	void seek (boost::shared_ptr<const Film> film, ContentTime time, bool accurate);
+	bool pass (boost::shared_ptr<const Film> film);
 
 private:
 	ContentTimePeriod content_time_period (sub::Subtitle s) const;

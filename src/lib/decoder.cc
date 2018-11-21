@@ -31,21 +31,21 @@ using boost::shared_ptr;
 
 /** @return Earliest time of content that the next pass() will emit */
 ContentTime
-Decoder::position () const
+Decoder::position (shared_ptr<const Film> film) const
 {
 	optional<ContentTime> pos;
 
-	if (video && !video->ignore() && (!pos || video->position() < *pos)) {
-		pos = video->position();
+	if (video && !video->ignore() && (!pos || video->position(film) < *pos)) {
+		pos = video->position(film);
 	}
 
-	if (audio && !audio->ignore() && (!pos || audio->position() < *pos)) {
-		pos = audio->position();
+	if (audio && !audio->ignore() && (!pos || audio->position(film) < *pos)) {
+		pos = audio->position(film);
 	}
 
 	BOOST_FOREACH (shared_ptr<TextDecoder> i, text) {
-		if (!i->ignore() && (!pos || i->position() < *pos)) {
-			pos = i->position();
+		if (!i->ignore() && (!pos || i->position(film) < *pos)) {
+			pos = i->position(film);
 		}
 	}
 
@@ -53,7 +53,7 @@ Decoder::position () const
 }
 
 void
-Decoder::seek (ContentTime, bool)
+Decoder::seek (shared_ptr<const Film>, ContentTime, bool)
 {
 	if (video) {
 		video->seek ();

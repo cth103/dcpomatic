@@ -34,6 +34,7 @@ class VideoDecoder;
 class AudioDecoder;
 class TextDecoder;
 class DecoderPart;
+class Film;
 
 /** @class Decoder.
  *  @brief Parent class for decoders of content.
@@ -52,10 +53,10 @@ public:
 	/** Do some decoding and perhaps emit video, audio or subtitle data.
 	 *  @return true if this decoder will emit no more data unless a seek() happens.
 	 */
-	virtual bool pass () = 0;
-	virtual void seek (ContentTime time, bool accurate);
+	virtual bool pass (boost::shared_ptr<const Film> film) = 0;
+	virtual void seek (boost::shared_ptr<const Film> film, ContentTime time, bool accurate);
 
-	ContentTime position () const;
+	ContentTime position (boost::shared_ptr<const Film> film) const;
 };
 
 #endif

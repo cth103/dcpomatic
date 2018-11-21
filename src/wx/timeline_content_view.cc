@@ -50,7 +50,7 @@ TimelineContentView::bbox () const
 	return dcpomatic::Rect<int> (
 		time_x (content->position ()),
 		y_pos (_track.get()),
-		content->length_after_trim().seconds() * _timeline.pixels_per_second().get_value_or(0),
+		content->length_after_trim(film).seconds() * _timeline.pixels_per_second().get_value_or(0),
 		_timeline.pixels_per_track()
 		);
 }
@@ -104,7 +104,7 @@ TimelineContentView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> 
 	}
 
 	DCPTime const position = cont->position ();
-	DCPTime const len = cont->length_after_trim ();
+	DCPTime const len = cont->length_after_trim (film);
 
 	wxColour selected (background_colour().Red() / 2, background_colour().Green() / 2, background_colour().Blue() / 2);
 

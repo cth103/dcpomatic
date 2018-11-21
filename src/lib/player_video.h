@@ -34,6 +34,7 @@ extern "C" {
 
 class Image;
 class ImageProxy;
+class Film;
 class Socket;
 
 /** Everything needed to describe a video frame coming out of the player, but with the
@@ -71,7 +72,7 @@ public:
 	void add_metadata (xmlpp::Node* node) const;
 	void send_binary (boost::shared_ptr<Socket> socket) const;
 
-	bool reset_metadata (dcp::Size video_container_size, dcp::Size film_frame_size);
+	bool reset_metadata (boost::shared_ptr<const Film> film, dcp::Size video_container_size, dcp::Size film_frame_size);
 
 	bool has_j2k () const;
 	dcp::Data j2k () const;

@@ -65,11 +65,11 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	film->set_interop (false);
-	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent (film, "test/data/dcp_sub.xml"));
+	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent ("test/data/dcp_sub.xml"));
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	BOOST_CHECK_EQUAL (content->full_length().get(), DCPTime::from_seconds(2).get());
+	BOOST_CHECK_EQUAL (content->full_length(film).get(), DCPTime::from_seconds(2).get());
 
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
@@ -86,15 +86,15 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<DCPContent> content (new DCPContent (film, private_data / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV"));
+	shared_ptr<DCPContent> content (new DCPContent(private_data / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV"));
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<DCPDecoder> decoder (new DCPDecoder (content, film->log(), false));
+	shared_ptr<DCPDecoder> decoder (new DCPDecoder (content, false));
 	decoder->only_text()->PlainStart.connect (bind (store, _1));
 
 	stored = optional<ContentStringText> ();
-	while (!decoder->pass() && !stored) {}
+	while (!decoder->pass(film) && !stored) {}
 
 	BOOST_REQUIRE (stored);
 	BOOST_REQUIRE_EQUAL (stored->subs.size(), 2);
@@ -109,15 +109,15 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test2)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent (film, "test/data/dcp_sub2.xml"));
+	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent("test/data/dcp_sub2.xml"));
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (content, film->log()));
+	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder(content));
 	decoder->only_text()->PlainStart.connect (bind (store, _1));
 
 	stored = optional<ContentStringText> ();
-	while (!decoder->pass ()) {
+	while (!decoder->pass(film)) {
 		if (stored && stored->from() == ContentTime(0)) {
 			BOOST_CHECK_EQUAL (stored->subs.front().text(), "&lt;b&gt;Hello world!&lt;/b&gt;");
 		}
@@ -132,16 +132,16 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test3)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	film->set_interop (true);
-	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent (film, "test/data/dcp_sub3.xml"));
+	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent ("test/data/dcp_sub3.xml"));
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (content, film->log()));
+	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (content));
 	stored = optional<ContentStringText> ();
-	while (!decoder->pass ()) {
+	while (!decoder->pass (film)) {
 		decoder->only_text()->PlainStart.connect (bind (store, _1));
 		if (stored && stored->from() == ContentTime::from_seconds(0.08)) {
 			list<dcp::SubtitleString> s = stored->subs;
@@ -165,9 +165,9 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test4)
 	shared_ptr<Film> film = new_test_film2 ("dcp_subtitle_test4");
 	film->set_interop (true);
 
-	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent (film, "test/data/dcp_sub3.xml"));
+	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent ("test/data/dcp_sub3.xml"));
 	film->examine_and_add_content (content);
-	shared_ptr<DCPSubtitleContent> content2 (new DCPSubtitleContent (film, "test/data/dcp_sub3.xml"));
+	shared_ptr<DCPSubtitleContent> content2 (new DCPSubtitleContent ("test/data/dcp_sub3.xml"));
 	film->examine_and_add_content (content2);
 	BOOST_REQUIRE (!wait_for_jobs ());
 

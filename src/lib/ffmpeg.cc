@@ -113,7 +113,6 @@ FFmpeg::setup_general ()
 	/* This might not work too well in some cases of multiple FFmpeg decoders,
 	   but it's probably good enough.
 	*/
-	_ffmpeg_log = _ffmpeg_content->film()->log ();
 	av_log_set_callback (FFmpeg::ffmpeg_log_callback);
 
 	_file_group.set_paths (_ffmpeg_content->paths ());
@@ -219,10 +218,7 @@ FFmpeg::setup_decoders ()
 				throw DecodeError (N_("could not open decoder"));
 			}
 		} else {
-			shared_ptr<Log> log = _ffmpeg_log.lock ();
-			if (log) {
-				log->log (String::compose ("No codec found for stream %1", i), LogEntry::TYPE_WARNING);
-			}
+			dcpomatic_log->log (String::compose ("No codec found for stream %1", i), LogEntry::TYPE_WARNING);
 		}
 	}
 }

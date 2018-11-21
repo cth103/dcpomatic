@@ -23,17 +23,17 @@
 class AtmosMXFContent : public Content
 {
 public:
-	AtmosMXFContent (boost::shared_ptr<const Film> film, boost::filesystem::path path);
-	AtmosMXFContent (boost::shared_ptr<const Film> film, cxml::ConstNodePtr node, int version);
+	AtmosMXFContent (boost::filesystem::path path);
+	AtmosMXFContent (cxml::ConstNodePtr node, int version);
 
 	boost::shared_ptr<AtmosMXFContent> shared_from_this () {
 		return boost::dynamic_pointer_cast<AtmosMXFContent> (Content::shared_from_this ());
 	}
 
-	void examine (boost::shared_ptr<Job> job);
+	void examine (boost::shared_ptr<const Film> film, boost::shared_ptr<Job> job);
 	std::string summary () const;
 	void as_xml (xmlpp::Node* node, bool with_path) const;
-	DCPTime full_length () const;
+	DCPTime full_length (boost::shared_ptr<const Film> film) const;
 
 	static bool valid_mxf (boost::filesystem::path path);
 

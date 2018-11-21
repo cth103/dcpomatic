@@ -35,7 +35,7 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 
-StringTextFileDecoder::StringTextFileDecoder (shared_ptr<const StringTextFileContent> content, shared_ptr<Log> log)
+StringTextFileDecoder::StringTextFileDecoder (shared_ptr<const StringTextFileContent> content)
 	: StringTextFile (content)
 	, _next (0)
 {
@@ -43,11 +43,11 @@ StringTextFileDecoder::StringTextFileDecoder (shared_ptr<const StringTextFileCon
 	if (!_subtitles.empty()) {
 		first = content_time_period(_subtitles[0]).from;
 	}
-	text.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, content->only_text(), log, first)));
+	text.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, content->only_text(), first)));
 }
 
 void
-StringTextFileDecoder::seek (ContentTime time, bool accurate)
+StringTextFileDecoder::seek (shared_ptr<const Film> film, ContentTime time, bool accurate)
 {
 	/* It's worth back-tracking a little here as decoding is cheap and it's nice if we don't miss
 	   too many subtitles when seeking.
@@ -57,7 +57,7 @@ StringTextFileDecoder::seek (ContentTime time, bool accurate)
 		time = ContentTime();
 	}
 
-	Decoder::seek (time, accurate);
+	Decoder::seek (film, time, accurate);
 
 	_next = 0;
 	while (_next < _subtitles.size() && ContentTime::from_seconds (_subtitles[_next].from.all_as_seconds ()) < time) {
@@ -66,7 +66,7 @@ StringTextFileDecoder::seek (ContentTime time, bool accurate)
 }
 
 bool
-StringTextFileDecoder::pass ()
+StringTextFileDecoder::pass (shared_ptr<const Film>)
 {
 	if (_next >= _subtitles.size ()) {
 		return true;

@@ -31,10 +31,10 @@
 using boost::shared_ptr;
 using boost::optional;
 
-VideoMXFDecoder::VideoMXFDecoder (shared_ptr<const VideoMXFContent> content, shared_ptr<Log> log)
+VideoMXFDecoder::VideoMXFDecoder (shared_ptr<const VideoMXFContent> content)
 	: _content (content)
 {
-	video.reset (new VideoDecoder (this, content, log));
+	video.reset (new VideoDecoder (this, content));
 
 	shared_ptr<dcp::MonoPictureAsset> mono;
 	try {
@@ -68,9 +68,9 @@ VideoMXFDecoder::VideoMXFDecoder (shared_ptr<const VideoMXFContent> content, sha
 }
 
 bool
-VideoMXFDecoder::pass ()
+VideoMXFDecoder::pass (shared_ptr<const Film> film)
 {
-	double const vfr = _content->active_video_frame_rate ();
+	double const vfr = _content->active_video_frame_rate (film);
 	int64_t const frame = _next.frames_round (vfr);
 
 	if (frame >= _content->video->length()) {
@@ -79,6 +79,7 @@ VideoMXFDecoder::pass ()
 
 	if (_mono_reader) {
 		video->emit (
+			film,
 			shared_ptr<ImageProxy> (
 				new J2KImageProxy (_mono_reader->get_frame(frame), _size, AV_PIX_FMT_XYZ12LE, optional<int>())
 				),
@@ -86,12 +87,14 @@ VideoMXFDecoder::pass ()
 			);
 	} else {
 		video->emit (
+			film,
 			shared_ptr<ImageProxy> (
 				new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::EYE_LEFT, AV_PIX_FMT_XYZ12LE, optional<int>())
 				),
 			frame
 			);
 		video->emit (
+			film,
 			shared_ptr<ImageProxy> (
 				new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::EYE_RIGHT, AV_PIX_FMT_XYZ12LE, optional<int>())
 				),
@@ -104,8 +107,8 @@ VideoMXFDecoder::pass ()
 }
 
 void
-VideoMXFDecoder::seek (ContentTime t, bool accurate)
+VideoMXFDecoder::seek (shared_ptr<const Film> film, ContentTime t, bool accurate)
 {
-	Decoder::seek (t, accurate);
+	Decoder::seek (film, t, accurate);
 	_next = t;
 }

@@ -975,7 +975,7 @@ Film::signal_change (ChangeType type, Property p)
 			/* We want to call Playlist::maybe_sequence but this must happen after the
 			   main signal emission (since the butler will see that emission and un-suspend itself).
 			*/
-			emit (boost::bind(&Playlist::maybe_sequence, _playlist.get()));
+			emit (boost::bind(&Playlist::maybe_sequence, _playlist.get(), shared_from_this()));
 		}
 	} else {
 		Change (type, p);
@@ -1116,7 +1116,7 @@ Film::maybe_add_content (weak_ptr<Job> j, weak_ptr<Content> c, bool disable_audi
 
 	if (Config::instance()->automatic_audio_analysis() && content->audio && !disable_audio_analysis) {
 		shared_ptr<Playlist> playlist (new Playlist);
-		playlist->add (content);
+		playlist->add (shared_from_this(), content);
 		boost::signals2::connection c;
 		JobManager::instance()->analyse_audio (
 			shared_from_this(), playlist, false, c, bind (&Film::audio_analysis_finished, this)
@@ -1130,9 +1130,9 @@ Film::add_content (shared_ptr<Content> c)
 {
 	/* Add {video,subtitle} content after any existing {video,subtitle} content */
 	if (c->video) {
-		c->set_position (_playlist->video_end());
+		c->set_position (shared_from_this(), _playlist->video_end(shared_from_this()));
 	} else if (!c->text.empty()) {
-		c->set_position (_playlist->text_end());
+		c->set_position (shared_from_this(), _playlist->text_end(shared_from_this()));
 	}
 
 	if (_template_film) {
@@ -1142,7 +1142,7 @@ Film::add_content (shared_ptr<Content> c)
 		}
 	}
 
-	_playlist->add (c);
+	_playlist->add (shared_from_this(), c);
 }
 
 void
@@ -1154,20 +1154,20 @@ Film::remove_content (shared_ptr<Content> c)
 void
 Film::move_content_earlier (shared_ptr<Content> c)
 {
-	_playlist->move_earlier (c);
+	_playlist->move_earlier (shared_from_this(), c);
 }
 
 void
 Film::move_content_later (shared_ptr<Content> c)
 {
-	_playlist->move_later (c);
+	_playlist->move_later (shared_from_this(), c);
 }
 
 /** @return length of the film from time 0 to the last thing on the playlist */
 DCPTime
 Film::length () const
 {
-	return _playlist->length().ceil(video_frame_rate());
+	return _playlist->length(shared_from_this()).ceil(video_frame_rate());
 }
 
 int
@@ -1379,7 +1379,7 @@ Film::make_kdms (
 uint64_t
 Film::required_disk_space () const
 {
-	return _playlist->required_disk_space (j2k_bandwidth(), audio_channels(), audio_frame_rate());
+	return _playlist->required_disk_space (shared_from_this(), j2k_bandwidth(), audio_channels(), audio_frame_rate());
 }
 
 /** This method checks the disk that the Film is on and tries to decide whether or not
@@ -1513,7 +1513,7 @@ Film::audio_output_names () const
 void
 Film::repeat_content (ContentList c, int n)
 {
-	_playlist->repeat (c, n);
+	_playlist->repeat (shared_from_this(), c, n);
 }
 
 void
@@ -1554,7 +1554,7 @@ Film::reels () const
 			}
 		}
 
-		DCPTime video_end = last_video ? last_video->end() : DCPTime(0);
+		DCPTime video_end = last_video ? last_video->end(shared_from_this()) : DCPTime(0);
 		if (last_split) {
 			/* Definitely go from the last split to the end of the video content */
 			p.push_back (DCPTimePeriod (last_split.get(), video_end));
@@ -1589,7 +1589,7 @@ Film::reels () const
 string
 Film::content_summary (DCPTimePeriod period) const
 {
-	return _playlist->content_summary (period);
+	return _playlist->content_summary (shared_from_this(), period);
 }
 
 void

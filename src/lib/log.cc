@@ -35,6 +35,8 @@ using std::string;
 using std::cout;
 using boost::shared_ptr;
 
+boost::shared_ptr<Log> dcpomatic_log;
+
 Log::Log ()
 	: _types (0)
 {

@@ -45,7 +45,7 @@ extern "C" {
 
 #include "i18n.h"
 
-#define LOG_GENERAL(...) film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
+#define LOG_GENERAL(...) dcpomatic_log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
 using std::string;
 using std::vector;
@@ -63,8 +63,8 @@ int const FFmpegContentProperty::SUBTITLE_STREAMS = 100;
 int const FFmpegContentProperty::SUBTITLE_STREAM = 101;
 int const FFmpegContentProperty::FILTERS = 102;
 
-FFmpegContent::FFmpegContent (shared_ptr<const Film> film, boost::filesystem::path p)
-	: Content (film, p)
+FFmpegContent::FFmpegContent (boost::filesystem::path p)
+	: Content (p)
 	, _encrypted (false)
 {
 
@@ -81,8 +81,8 @@ get_optional_enum (cxml::ConstNodePtr node, string name)
 	return static_cast<T>(*v);
 }
 
-FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, list<string>& notes)
-	: Content (film, node)
+FFmpegContent::FFmpegContent (cxml::ConstNodePtr node, int version, list<string>& notes)
+	: Content (node)
 {
 	video = VideoContent::from_xml (this, node, version);
 	audio = AudioContent::from_xml (this, node, version);
@@ -130,8 +130,8 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 	_encrypted = node->optional_bool_child("Encrypted").get_value_or(false);
 }
 
-FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
-	: Content (film, c)
+FFmpegContent::FFmpegContent (vector<shared_ptr<Content> > c)
+	: Content (c)
 {
 	vector<shared_ptr<Content> >::const_iterator i = c.begin ();
 
@@ -258,14 +258,14 @@ FFmpegContent::as_xml (xmlpp::Node* node, bool with_paths) const
 }
 
 void
-FFmpegContent::examine (shared_ptr<Job> job)
+FFmpegContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 {
 	ChangeSignaller<Content> cc1 (this, FFmpegContentProperty::SUBTITLE_STREAMS);
 	ChangeSignaller<Content> cc2 (this, FFmpegContentProperty::SUBTITLE_STREAM);
 
 	job->set_progress_unknown ();
 
-	Content::examine (job);
+	Content::examine (film, job);
 
 	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (shared_from_this (), job));
 
@@ -309,7 +309,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 
 			AudioStreamPtr as = audio->streams().front();
 			AudioMapping m = as->mapping ();
-			film()->make_audio_mapping_default (m, first_path);
+			film->make_audio_mapping_default (m, first_path);
 			as->set_mapping (m);
 		}
 
@@ -400,11 +400,11 @@ operator!= (FFmpegStream const & a, FFmpegStream const & b)
 }
 
 DCPTime
-FFmpegContent::full_length () const
+FFmpegContent::full_length (shared_ptr<const Film> film) const
 {
-	FrameRateChange const frc (active_video_frame_rate (), film()->video_frame_rate ());
+	FrameRateChange const frc (active_video_frame_rate(film), film->video_frame_rate());
 	if (video) {
-		return DCPTime::from_frames (llrint (video->length_after_3d_combine() * frc.factor()), film()->video_frame_rate());
+		return DCPTime::from_frames (llrint (video->length_after_3d_combine() * frc.factor()), film->video_frame_rate());
 	}
 
 	DCPOMATIC_ASSERT (audio);
@@ -490,7 +490,7 @@ FFmpegContent::set_default_colour_conversion ()
 }
 
 void
-FFmpegContent::add_properties (list<UserProperty>& p) const
+FFmpegContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& p) const
 {
 	Content::add_properties (p);
 
@@ -627,7 +627,7 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 	}
 
 	if (audio) {
-		audio->add_properties (p);
+		audio->add_properties (film, p);
 	}
 }
 

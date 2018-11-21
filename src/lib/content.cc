@@ -60,9 +60,8 @@ int const ContentProperty::TRIM_START = 403;
 int const ContentProperty::TRIM_END = 404;
 int const ContentProperty::VIDEO_FRAME_RATE = 405;
 
-Content::Content (shared_ptr<const Film> film)
-	: _film (film)
-	, _position (0)
+Content::Content ()
+	: _position (0)
 	, _trim_start (0)
 	, _trim_end (0)
 	, _change_signals_frequent (false)
@@ -70,9 +69,8 @@ Content::Content (shared_ptr<const Film> film)
 
 }
 
-Content::Content (shared_ptr<const Film> film, DCPTime p)
-	: _film (film)
-	, _position (p)
+Content::Content (DCPTime p)
+	: _position (p)
 	, _trim_start (0)
 	, _trim_end (0)
 	, _change_signals_frequent (false)
@@ -80,9 +78,8 @@ Content::Content (shared_ptr<const Film> film, DCPTime p)
 
 }
 
-Content::Content (shared_ptr<const Film> film, boost::filesystem::path p)
-	: _film (film)
-	, _position (0)
+Content::Content (boost::filesystem::path p)
+	: _position (0)
 	, _trim_start (0)
 	, _trim_end (0)
 	, _change_signals_frequent (false)
@@ -90,9 +87,8 @@ Content::Content (shared_ptr<const Film> film, boost::filesystem::path p)
 	add_path (p);
 }
 
-Content::Content (shared_ptr<const Film> film, cxml::ConstNodePtr node)
-	: _film (film)
-	, _change_signals_frequent (false)
+Content::Content (cxml::ConstNodePtr node)
+	: _change_signals_frequent (false)
 {
 	list<cxml::NodePtr> path_children = node->node_children ("Path");
 	BOOST_FOREACH (cxml::NodePtr i, path_children) {
@@ -113,9 +109,8 @@ Content::Content (shared_ptr<const Film> film, cxml::ConstNodePtr node)
 	_video_frame_rate = node->optional_number_child<double> ("VideoFrameRate");
 }
 
-Content::Content (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
-	: _film (film)
-	, _position (c.front()->position ())
+Content::Content (vector<shared_ptr<Content> > c)
+	: _position (c.front()->position ())
 	, _trim_start (c.front()->trim_start ())
 	, _trim_end (c.back()->trim_end ())
 	, _video_frame_rate (c.front()->video_frame_rate())
@@ -184,7 +179,7 @@ Content::calculate_digest () const
 }
 
 void
-Content::examine (shared_ptr<Job> job)
+Content::examine (shared_ptr<const Film>, shared_ptr<Job> job)
 {
 	if (job) {
 		job->sub (_("Computing digest"));
@@ -216,16 +211,16 @@ Content::signal_change (ChangeType c, int p)
 }
 
 void
-Content::set_position (DCPTime p)
+Content::set_position (shared_ptr<const Film> film, DCPTime p)
 {
 	/* video and audio content can modify its position */
 
 	if (video) {
-		video->modify_position (p);
+		video->modify_position (film, p);
 	}
 
 	if (audio) {
-		audio->modify_position (p);
+		audio->modify_position (film, p);
 	}
 
 	ChangeSignaller<Content> cc (this, ContentProperty::POSITION);
@@ -275,13 +270,8 @@ Content::set_trim_end (ContentTime t)
 
 
 shared_ptr<Content>
-Content::clone () const
+Content::clone (shared_ptr<const Film> film) const
 {
-	shared_ptr<const Film> film = _film.lock ();
-	if (!film) {
-		return shared_ptr<Content> ();
-	}
-
 	/* This is a bit naughty, but I can't think of a compelling reason not to do it ... */
 	xmlpp::Document doc;
 	xmlpp::Node* node = doc.create_root_node ("Content");
@@ -289,7 +279,7 @@ Content::clone () const
 
 	/* notes is unused here (we assume) */
 	list<string> notes;
-	return content_factory (film, cxml::NodePtr (new cxml::Node (node)), Film::current_state_version, notes);
+	return content_factory (film, cxml::NodePtr(new cxml::Node(node)), Film::current_state_version, notes);
 }
 
 string
@@ -303,9 +293,9 @@ Content::technical_summary () const
 }
 
 DCPTime
-Content::length_after_trim () const
+Content::length_after_trim (shared_ptr<const Film> film) const
 {
-	return max (DCPTime (), full_length() - DCPTime (trim_start() + trim_end(), film()->active_frame_rate_change (position ())));
+	return max (DCPTime(), full_length(film) - DCPTime(trim_start() + trim_end(), film->active_frame_rate_change(position())));
 }
 
 /** @return string which changes when something about this content changes which affects
@@ -373,14 +363,6 @@ Content::user_properties () const
 	return p;
 }
 
-shared_ptr<const Film>
-Content::film () const
-{
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-	return film;
-}
-
 /** @return DCP times of points within this content where a reel split could occur */
 list<DCPTime>
 Content::reel_split_points () const
@@ -424,7 +406,7 @@ Content::unset_video_frame_rate ()
 }
 
 double
-Content::active_video_frame_rate () const
+Content::active_video_frame_rate (shared_ptr<const Film> film) const
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -437,8 +419,6 @@ Content::active_video_frame_rate () const
 	   prepared for any concurrent video content or perhaps
 	   just the DCP rate.
 	*/
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
 	return film->active_frame_rate_change(position()).source;
 }
 

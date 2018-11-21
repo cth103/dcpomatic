@@ -64,11 +64,10 @@ int const DCPContentProperty::NAME               = 605;
 int const DCPContentProperty::TEXTS              = 606;
 int const DCPContentProperty::CPL                = 607;
 
-#define LOG_GENERAL(...) this->film()->log()->log(String::compose(__VA_ARGS__), LogEntry::TYPE_GENERAL);
+#define LOG_GENERAL(...) dcpomatic_log->log(String::compose(__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
-DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
-	: Content (film)
-	, _encrypted (false)
+DCPContent::DCPContent (boost::filesystem::path p)
+	: _encrypted (false)
 	, _needs_assets (false)
 	, _kdm_valid (false)
 	, _reference_video (false)
@@ -85,8 +84,8 @@ DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	}
 }
 
-DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
-	: Content (film, node)
+DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
+	: Content (node)
 {
 	video = VideoContent::from_xml (this, node, version);
 	audio = AudioContent::from_xml (this, node, version);
@@ -176,7 +175,7 @@ DCPContent::read_directory (boost::filesystem::path p)
 }
 
 void
-DCPContent::examine (shared_ptr<Job> job)
+DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 {
 	bool const needed_assets = needs_assets ();
 	bool const needed_kdm = needs_kdm ();
@@ -192,7 +191,7 @@ DCPContent::examine (shared_ptr<Job> job)
 	if (job) {
 		job->set_progress_unknown ();
 	}
-	Content::examine (job);
+	Content::examine (film, job);
 
 	shared_ptr<DCPExaminer> examiner (new DCPExaminer (shared_from_this ()));
 
@@ -214,7 +213,7 @@ DCPContent::examine (shared_ptr<Job> job)
 		AudioStreamPtr as (new AudioStream (examiner->audio_frame_rate(), examiner->audio_length(), examiner->audio_channels()));
 		audio->set_stream (as);
 		AudioMapping m = as->mapping ();
-		film()->make_audio_mapping_default (m);
+		film->make_audio_mapping_default (m);
 		as->set_mapping (m);
 	}
 
@@ -338,13 +337,13 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 }
 
 DCPTime
-DCPContent::full_length () const
+DCPContent::full_length (shared_ptr<const Film> film) const
 {
 	if (!video) {
 		return DCPTime();
 	}
-	FrameRateChange const frc (active_video_frame_rate (), film()->video_frame_rate ());
-	return DCPTime::from_frames (llrint (video->length () * frc.factor ()), film()->video_frame_rate ());
+	FrameRateChange const frc (active_video_frame_rate(film), film->video_frame_rate());
+	return DCPTime::from_frames (llrint(video->length() * frc.factor()), film->video_frame_rate());
 }
 
 string
@@ -406,14 +405,14 @@ DCPContent::directories () const
 }
 
 void
-DCPContent::add_properties (list<UserProperty>& p) const
+DCPContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& p) const
 {
 	Content::add_properties (p);
 	if (video) {
 		video->add_properties (p);
 	}
 	if (audio) {
-		audio->add_properties (p);
+		audio->add_properties (film, p);
 	}
 }
 
@@ -460,7 +459,7 @@ DCPContent::set_reference_text (TextType type, bool r)
 }
 
 list<DCPTimePeriod>
-DCPContent::reels () const
+DCPContent::reels (shared_ptr<const Film> film) const
 {
 	list<int64_t> reel_lengths = _reel_lengths;
 	if (reel_lengths.empty ()) {
@@ -470,7 +469,7 @@ DCPContent::reels () const
 			reel_lengths = examiner->reel_lengths ();
 		} catch (...) {
 			/* Could not examine the DCP; guess reels */
-			reel_lengths.push_back (length_after_trim().frames_round (film()->video_frame_rate ()));
+			reel_lengths.push_back (length_after_trim(film).frames_round(film->video_frame_rate()));
 		}
 	}
 
@@ -485,10 +484,10 @@ DCPContent::reels () const
 
 	BOOST_FOREACH (int64_t i, reel_lengths) {
 		/* This reel runs from `pos' to `to' */
-		DCPTime const to = pos + DCPTime::from_frames (i, film()->video_frame_rate());
+		DCPTime const to = pos + DCPTime::from_frames (i, film->video_frame_rate());
 		if (to > position()) {
-			p.push_back (DCPTimePeriod (max(position(), pos), min(end(), to)));
-			if (to > end()) {
+			p.push_back (DCPTimePeriod (max(position(), pos), min(end(film), to)));
+			if (to > end(film)) {
 				break;
 			}
 		}
@@ -499,25 +498,25 @@ DCPContent::reels () const
 }
 
 list<DCPTime>
-DCPContent::reel_split_points () const
+DCPContent::reel_split_points (shared_ptr<const Film> film) const
 {
 	list<DCPTime> s;
-	BOOST_FOREACH (DCPTimePeriod i, reels()) {
+	BOOST_FOREACH (DCPTimePeriod i, reels(film)) {
 		s.push_back (i.from);
 	}
 	return s;
 }
 
 bool
-DCPContent::can_reference (function<bool (shared_ptr<const Content>)> part, string overlapping, string& why_not) const
+DCPContent::can_reference (shared_ptr<const Film> film, function<bool (shared_ptr<const Content>)> part, string overlapping, string& why_not) const
 {
 	/* We must be using the same standard as the film */
 	if (_standard) {
-		if (_standard.get() == dcp::INTEROP && !film()->interop()) {
+		if (_standard.get() == dcp::INTEROP && !film->interop()) {
 			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
 			why_not = _("it is Interop and the film is set to SMPTE.");
 			return false;
-		} else if (_standard.get() == dcp::SMPTE && film()->interop()) {
+		} else if (_standard.get() == dcp::SMPTE && film->interop()) {
 			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
 			why_not = _("it is SMPTE and the film is set to Interop.");
 			return false;
@@ -525,17 +524,17 @@ DCPContent::can_reference (function<bool (shared_ptr<const Content>)> part, stri
 	}
 
 	/* And the same frame rate */
-	if (!video_frame_rate() || (lrint(video_frame_rate().get()) != film()->video_frame_rate())) {
+	if (!video_frame_rate() || (lrint(video_frame_rate().get()) != film->video_frame_rate())) {
 		/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
 		why_not = _("it has a different frame rate to the film.");
 		return false;
 	}
 
-	list<DCPTimePeriod> const fr = film()->reels ();
+	list<DCPTimePeriod> const fr = film->reels ();
 
 	list<DCPTimePeriod> reel_list;
 	try {
-		reel_list = reels ();
+		reel_list = reels (film);
 	} catch (dcp::DCPReadError) {
 		/* We couldn't read the DCP; it's probably missing */
 		return false;
@@ -555,7 +554,7 @@ DCPContent::can_reference (function<bool (shared_ptr<const Content>)> part, stri
 		}
 	}
 
-	ContentList a = overlaps (film()->content(), part, position(), end());
+	ContentList a = overlaps (film, film->content(), part, position(), end(film));
 	if (a.size() != 1 || a.front().get() != this) {
 		why_not = overlapping;
 		return false;
@@ -571,7 +570,7 @@ bool check_video (shared_ptr<const Content> c)
 }
 
 bool
-DCPContent::can_reference_video (string& why_not) const
+DCPContent::can_reference_video (shared_ptr<const Film> film, string& why_not) const
 {
 	if (!video) {
 		why_not = _("There is no video in this DCP");
@@ -583,7 +582,7 @@ DCPContent::can_reference_video (string& why_not) const
 		video_res = RESOLUTION_4K;
 	}
 
-	if (film()->resolution() != video_res) {
+	if (film->resolution() != video_res) {
 		if (video_res == RESOLUTION_4K) {
 			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
 			why_not = _("it is 4K and the film is 2K.");
@@ -592,14 +591,14 @@ DCPContent::can_reference_video (string& why_not) const
 			why_not = _("it is 2K and the film is 4K.");
 		}
 		return false;
-	} else if (film()->frame_size() != video->size()) {
+	} else if (film->frame_size() != video->size()) {
 		/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
 		why_not = _("its video frame size differs from the film's.");
 		return false;
 	}
 
 	/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-	return can_reference (bind (&check_video, _1), _("it overlaps other video content; remove the other content."), why_not);
+	return can_reference (film, bind (&check_video, _1), _("it overlaps other video content; remove the other content."), why_not);
 }
 
 static
@@ -609,11 +608,11 @@ bool check_audio (shared_ptr<const Content> c)
 }
 
 bool
-DCPContent::can_reference_audio (string& why_not) const
+DCPContent::can_reference_audio (shared_ptr<const Film> film, string& why_not) const
 {
 	shared_ptr<DCPDecoder> decoder;
 	try {
-		decoder.reset (new DCPDecoder (shared_from_this(), film()->log(), false));
+		decoder.reset (new DCPDecoder (shared_from_this(), false));
 	} catch (dcp::DCPReadError) {
 		/* We couldn't read the DCP, so it's probably missing */
 		return false;
@@ -634,7 +633,7 @@ DCPContent::can_reference_audio (string& why_not) const
         }
 
 	/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-	return can_reference (bind (&check_audio, _1), _("it overlaps other audio content; remove the other content."), why_not);
+	return can_reference (film, bind (&check_audio, _1), _("it overlaps other audio content; remove the other content."), why_not);
 }
 
 static
@@ -644,11 +643,11 @@ bool check_text (shared_ptr<const Content> c)
 }
 
 bool
-DCPContent::can_reference_text (TextType type, string& why_not) const
+DCPContent::can_reference_text (shared_ptr<const Film> film, TextType type, string& why_not) const
 {
 	shared_ptr<DCPDecoder> decoder;
 	try {
-		decoder.reset (new DCPDecoder (shared_from_this(), film()->log(), false));
+		decoder.reset (new DCPDecoder (shared_from_this(), false));
 	} catch (dcp::DCPReadError) {
 		/* We couldn't read the DCP, so it's probably missing */
 		return false;
@@ -671,7 +670,7 @@ DCPContent::can_reference_text (TextType type, string& why_not) const
         }
 
 	/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-	return can_reference (bind (&check_text, _1), _("it overlaps other text content; remove the other content."), why_not);
+	return can_reference (film, bind (&check_text, _1), _("it overlaps other text content; remove the other content."), why_not);
 }
 
 void

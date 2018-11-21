@@ -38,7 +38,7 @@
 
 #include "i18n.h"
 
-#define LOG_GENERAL(...) _parent->film()->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
+#define LOG_GENERAL(...) dcpomatic_log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
 int const VideoContentProperty::SIZE	  = 0;
 int const VideoContentProperty::FRAME_TYPE  = 1;
@@ -332,10 +332,9 @@ VideoContent::size_after_crop () const
 }
 
 void
-VideoContent::scale_and_crop_to_fit_width ()
+VideoContent::scale_and_crop_to_fit_width (shared_ptr<const Film> film)
 {
-	shared_ptr<const Film> film = _parent->film ();
-	set_scale (VideoContentScale (film->container ()));
+	set_scale (VideoContentScale(film->container()));
 
 	int const crop = max (0, int (size().height - double (film->frame_size().height) * size().width / film->frame_size().width));
 	set_left_crop (0);
@@ -345,10 +344,9 @@ VideoContent::scale_and_crop_to_fit_width ()
 }
 
 void
-VideoContent::scale_and_crop_to_fit_height ()
+VideoContent::scale_and_crop_to_fit_height (shared_ptr<const Film> film)
 {
-	shared_ptr<const Film> film = _parent->film ();
-	set_scale (VideoContentScale (film->container ()));
+	set_scale (VideoContentScale(film->container()));
 
 	int const crop = max (0, int (size().width - double (film->frame_size().width) * size().height / film->frame_size().height));
 	set_left_crop (crop / 2);
@@ -359,13 +357,11 @@ VideoContent::scale_and_crop_to_fit_height ()
 
 /** @param f Frame index within the whole (untrimmed) content */
 optional<double>
-VideoContent::fade (Frame f) const
+VideoContent::fade (shared_ptr<const Film> film, Frame f) const
 {
 	DCPOMATIC_ASSERT (f >= 0);
 
-	shared_ptr<const Film> film = _parent->film ();
-
-	double const vfr = _parent->active_video_frame_rate ();
+	double const vfr = _parent->active_video_frame_rate(film);
 
 	Frame const ts = _parent->trim_start().frames_round(vfr);
 	if ((f - ts) < fade_in()) {
@@ -381,7 +377,7 @@ VideoContent::fade (Frame f) const
 }
 
 string
-VideoContent::processing_description () const
+VideoContent::processing_description (shared_ptr<const Film> film) const
 {
 	string d;
 	char buffer[256];
@@ -417,7 +413,6 @@ VideoContent::processing_description () const
 		d += buffer;
 	}
 
-	shared_ptr<const Film> film = _parent->film ();
 	dcp::Size const container_size = film->frame_size ();
 	dcp::Size const scaled = scale().size (shared_from_this(), container_size, container_size);
 
@@ -547,9 +542,9 @@ VideoContent::take_settings_from (shared_ptr<const VideoContent> c)
 }
 
 void
-VideoContent::modify_position (DCPTime& pos) const
+VideoContent::modify_position (shared_ptr<const Film> film, DCPTime& pos) const
 {
-	pos = pos.round (_parent->film()->video_frame_rate());
+	pos = pos.round (film->video_frame_rate());
 }
 
 void

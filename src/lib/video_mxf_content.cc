@@ -36,14 +36,14 @@ using std::list;
 using std::string;
 using boost::shared_ptr;
 
-VideoMXFContent::VideoMXFContent (shared_ptr<const Film> film, boost::filesystem::path path)
-	: Content (film, path)
+VideoMXFContent::VideoMXFContent (boost::filesystem::path path)
+	: Content (path)
 {
 
 }
 
-VideoMXFContent::VideoMXFContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
-	: Content (film, node)
+VideoMXFContent::VideoMXFContent (cxml::ConstNodePtr node, int version)
+	: Content (node)
 {
 	video = VideoContent::from_xml (this, node, version);
 }
@@ -78,11 +78,11 @@ VideoMXFContent::valid_mxf (boost::filesystem::path path)
 }
 
 void
-VideoMXFContent::examine (shared_ptr<Job> job)
+VideoMXFContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 {
 	job->set_progress_unknown ();
 
-	Content::examine (job);
+	Content::examine (film, job);
 
 	video.reset (new VideoContent (this));
 	shared_ptr<VideoMXFExaminer> examiner (new VideoMXFExaminer (shared_from_this ()));
@@ -117,10 +117,10 @@ VideoMXFContent::as_xml (xmlpp::Node* node, bool with_paths) const
 }
 
 DCPTime
-VideoMXFContent::full_length () const
+VideoMXFContent::full_length (shared_ptr<const Film> film) const
 {
-	FrameRateChange const frc (active_video_frame_rate(), film()->video_frame_rate());
-	return DCPTime::from_frames (llrint (video->length_after_3d_combine() * frc.factor()), film()->video_frame_rate());
+	FrameRateChange const frc (active_video_frame_rate(film), film->video_frame_rate());
+	return DCPTime::from_frames (llrint (video->length_after_3d_combine() * frc.factor()), film->video_frame_rate());
 }
 
 void

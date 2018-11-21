@@ -54,12 +54,12 @@ store (ContentVideo v)
 }
 
 static void
-check (shared_ptr<FFmpegDecoder> decoder, int frame)
+check (shared_ptr<const Film> film, shared_ptr<FFmpegDecoder> decoder, int frame)
 {
 	BOOST_REQUIRE (decoder->ffmpeg_content()->video_frame_rate ());
-	decoder->seek (ContentTime::from_frames (frame, decoder->ffmpeg_content()->video_frame_rate().get()), true);
+	decoder->seek (film, ContentTime::from_frames (frame, decoder->ffmpeg_content()->video_frame_rate().get()), true);
 	stored = optional<ContentVideo> ();
-	while (!decoder->pass() && !stored) {}
+	while (!decoder->pass(film) && !stored) {}
 	BOOST_CHECK (stored->frame <= frame);
 }
 
@@ -70,15 +70,14 @@ test (boost::filesystem::path file, vector<int> frames)
 	BOOST_REQUIRE (boost::filesystem::exists (path));
 
 	shared_ptr<Film> film = new_test_film ("ffmpeg_decoder_seek_test_" + file.string());
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, path));
+	shared_ptr<FFmpegContent> content (new FFmpegContent (path));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
-	shared_ptr<Log> log (new NullLog);
-	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (content, log, false));
+	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (film, content, false));
 	decoder->video->Data.connect (bind (&store, _1));
 
 	for (vector<int>::const_iterator i = frames.begin(); i != frames.end(); ++i) {
-		check (decoder, *i);
+		check (film, decoder, *i);
 	}
 }
 

@@ -47,10 +47,9 @@ using std::list;
 using boost::shared_ptr;
 using boost::optional;
 
-#define LOG_GENERAL(...) film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
+#define LOG_GENERAL(...) dcpomatic_log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
 /** Create a Content object from an XML node.
- *  @param film Film that the content will be in.
  *  @param node XML description.
  *  @param version XML state version.
  *  @param notes A list to which is added descriptions of any non-critial warnings / messages.
@@ -67,14 +66,14 @@ content_factory (shared_ptr<const Film> film, cxml::ConstNodePtr node, int versi
 		/* SndfileContent is now handled by the FFmpeg code rather than by
 		   separate libsndfile-based code.
 		*/
-		content.reset (new FFmpegContent (film, node, version, notes));
+		content.reset (new FFmpegContent (node, version, notes));
 	} else if (type == "Image") {
-		content.reset (new ImageContent (film, node, version));
+		content.reset (new ImageContent (node, version));
 	} else if (type == "Sndfile") {
 		/* SndfileContent is now handled by the FFmpeg code rather than by
 		   separate libsndfile-based code.
 		*/
-		content.reset (new FFmpegContent (film, node, version, notes));
+		content.reset (new FFmpegContent (node, version, notes));
 
 		content->audio->set_stream (
 			AudioStreamPtr (
@@ -88,20 +87,20 @@ content_factory (shared_ptr<const Film> film, cxml::ConstNodePtr node, int versi
 			);
 
 	} else if (type == "SubRip" || type == "TextSubtitle") {
-		content.reset (new StringTextFileContent (film, node, version));
+		content.reset (new StringTextFileContent (node, version));
 	} else if (type == "DCP") {
-		content.reset (new DCPContent (film, node, version));
+		content.reset (new DCPContent (node, version));
 	} else if (type == "DCPSubtitle") {
-		content.reset (new DCPSubtitleContent (film, node, version));
+		content.reset (new DCPSubtitleContent (node, version));
 	} else if (type == "VideoMXF") {
-		content.reset (new VideoMXFContent (film, node, version));
+		content.reset (new VideoMXFContent (node, version));
 	} else if (type == "AtmosMXF") {
-		content.reset (new AtmosMXFContent (film, node, version));
+		content.reset (new AtmosMXFContent (node, version));
 	}
 
 	/* See if this content should be nudged to start on a video frame */
 	DCPTime const old_pos = content->position();
-	content->set_position(old_pos);
+	content->set_position(film, old_pos);
 	if (old_pos != content->position()) {
 		string note = _("Your project contains video content that was not aligned to a frame boundary.");
 		note += "  ";
@@ -143,12 +142,11 @@ content_factory (shared_ptr<const Film> film, cxml::ConstNodePtr node, int versi
 }
 
 /** Create some Content objects from a file or directory.
- *  @param film Film that the content will be in.
  *  @param path File or directory.
  *  @return Content objects.
  */
 list<shared_ptr<Content> >
-content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
+content_factory (boost::filesystem::path path)
 {
 	list<shared_ptr<Content> > content;
 
@@ -193,10 +191,10 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 		}
 
 		if (image_files > 0 && sound_files == 0)  {
-			content.push_back (shared_ptr<Content> (new ImageContent (film, path)));
+			content.push_back (shared_ptr<Content> (new ImageContent(path)));
 		} else if (image_files == 0 && sound_files > 0) {
 			for (boost::filesystem::directory_iterator i(path); i != boost::filesystem::directory_iterator(); ++i) {
-				content.push_back (shared_ptr<FFmpegContent> (new FFmpegContent (film, i->path())));
+				content.push_back (shared_ptr<FFmpegContent> (new FFmpegContent(i->path())));
 			}
 		}
 
@@ -208,26 +206,26 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 		transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
 
 		if (valid_image_file (path)) {
-			single.reset (new ImageContent (film, path));
+			single.reset (new ImageContent(path));
 		} else if (ext == ".srt" || ext == ".ssa" || ext == ".ass") {
-			single.reset (new StringTextFileContent (film, path));
+			single.reset (new StringTextFileContent(path));
 		} else if (ext == ".xml") {
 			cxml::Document doc;
 			doc.read_file (path);
 			if (doc.root_name() == "DCinemaSecurityMessage") {
 				throw KDMAsContentError ();
 			}
-			single.reset (new DCPSubtitleContent (film, path));
+			single.reset (new DCPSubtitleContent(path));
 		} else if (ext == ".mxf" && dcp::SMPTESubtitleAsset::valid_mxf (path)) {
-			single.reset (new DCPSubtitleContent (film, path));
+			single.reset (new DCPSubtitleContent(path));
 		} else if (ext == ".mxf" && VideoMXFContent::valid_mxf (path)) {
-			single.reset (new VideoMXFContent (film, path));
+			single.reset (new VideoMXFContent(path));
 		} else if (ext == ".mxf" && AtmosMXFContent::valid_mxf (path)) {
-			single.reset (new AtmosMXFContent (film, path));
+			single.reset (new AtmosMXFContent(path));
 		}
 
 		if (!single) {
-			single.reset (new FFmpegContent (film, path));
+			single.reset (new FFmpegContent(path));
 		}
 
 		content.push_back (single);

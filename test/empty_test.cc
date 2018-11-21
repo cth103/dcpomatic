@@ -44,8 +44,8 @@ BOOST_AUTO_TEST_CASE (empty_test1)
 	film->set_name ("empty_test1");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_sequence (false);
-	shared_ptr<ImageContent> contentA (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
-	shared_ptr<ImageContent> contentB (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
+	shared_ptr<ImageContent> contentA (new ImageContent("test/data/simple_testcard_640x480.png"));
+	shared_ptr<ImageContent> contentB (new ImageContent("test/data/simple_testcard_640x480.png"));
 
 	film->examine_and_add_content (contentA);
 	film->examine_and_add_content (contentB);
@@ -55,13 +55,13 @@ BOOST_AUTO_TEST_CASE (empty_test1)
 
 	contentA->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	contentA->video->set_length (3);
-	contentA->set_position (DCPTime::from_frames (2, vfr));
+	contentA->set_position (film, DCPTime::from_frames (2, vfr));
 	contentB->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	contentB->video->set_length (1);
-	contentB->set_position (DCPTime::from_frames (7, vfr));
+	contentB->set_position (film, DCPTime::from_frames (7, vfr));
 
 	shared_ptr<Player> player (new Player(film, film->playlist()));
-	Empty black (player->_pieces, film->length(), bind(&has_video, _1));
+	Empty black (film, player->_pieces, bind(&has_video, _1));
 	BOOST_REQUIRE_EQUAL (black._periods.size(), 2);
 	BOOST_CHECK (black._periods.front().from == DCPTime());
 	BOOST_CHECK (black._periods.front().to == DCPTime::from_frames(2, vfr));
@@ -77,8 +77,8 @@ BOOST_AUTO_TEST_CASE (empty_test2)
 	film->set_name ("empty_test1");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_sequence (false);
-	shared_ptr<ImageContent> contentA (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
-	shared_ptr<ImageContent> contentB (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
+	shared_ptr<ImageContent> contentA (new ImageContent("test/data/simple_testcard_640x480.png"));
+	shared_ptr<ImageContent> contentB (new ImageContent("test/data/simple_testcard_640x480.png"));
 
 	film->examine_and_add_content (contentA);
 	film->examine_and_add_content (contentB);
@@ -88,13 +88,13 @@ BOOST_AUTO_TEST_CASE (empty_test2)
 
 	contentA->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	contentA->video->set_length (3);
-	contentA->set_position (DCPTime(0));
+	contentA->set_position (film, DCPTime(0));
 	contentB->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	contentB->video->set_length (1);
-	contentB->set_position (DCPTime::from_frames (7, vfr));
+	contentB->set_position (film, DCPTime::from_frames(7, vfr));
 
 	shared_ptr<Player> player (new Player(film, film->playlist()));
-	Empty black (player->_pieces, film->length(), bind(&has_video, _1));
+	Empty black (film, player->_pieces, bind(&has_video, _1));
 	BOOST_REQUIRE_EQUAL (black._periods.size(), 1);
 	BOOST_CHECK (black._periods.front().from == DCPTime::from_frames(3, vfr));
 	BOOST_CHECK (black._periods.front().to == DCPTime::from_frames(7, vfr));

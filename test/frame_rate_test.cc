@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_single)
 {
 	shared_ptr<Film> film = new_test_film ("best_dcp_frame_rate_test_single");
 	/* Get any piece of content, it doesn't matter what */
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> content (new FFmpegContent("test/data/test.mp4"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
@@ -222,9 +222,9 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_double)
 {
 	shared_ptr<Film> film = new_test_film ("best_dcp_frame_rate_test_double");
 	/* Get any old content, it doesn't matter what */
-	shared_ptr<FFmpegContent> A (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> A (new FFmpegContent("test/data/test.mp4"));
 	film->examine_and_add_content (A);
-	shared_ptr<FFmpegContent> B (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> B (new FFmpegContent("test/data/test.mp4"));
 	film->examine_and_add_content (B);
 	wait_for_jobs ();
 
@@ -253,7 +253,7 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 {
 	shared_ptr<Film> film = new_test_film ("audio_sampling_rate_test");
 	/* Get any piece of content, it doesn't matter what */
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> content (new FFmpegContent("test/data/test.mp4"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
@@ -269,34 +269,34 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 	content->_video_frame_rate = 24;
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
-	BOOST_CHECK_EQUAL (content->audio->resampled_frame_rate(), 48000);
+	BOOST_CHECK_EQUAL (content->audio->resampled_frame_rate(film), 48000);
 
 	stream->_frame_rate = 44100;
-	BOOST_CHECK_EQUAL (content->audio->resampled_frame_rate(), 48000);
+	BOOST_CHECK_EQUAL (content->audio->resampled_frame_rate(film), 48000);
 
 	stream->_frame_rate = 80000;
-	BOOST_CHECK_EQUAL (content->audio->resampled_frame_rate(), 96000);
+	BOOST_CHECK_EQUAL (content->audio->resampled_frame_rate(film), 96000);
 
 	content->_video_frame_rate = 23.976;
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
-	BOOST_CHECK_EQUAL (content->audio->resampled_frame_rate(), 47952);
+	BOOST_CHECK_EQUAL (content->audio->resampled_frame_rate(film), 47952);
 
 	content->_video_frame_rate = 29.97;
 	film->set_video_frame_rate (30);
 	BOOST_CHECK_EQUAL (film->video_frame_rate (), 30);
 	stream->_frame_rate = 48000;
-	BOOST_CHECK_EQUAL (content->audio->resampled_frame_rate(), 47952);
+	BOOST_CHECK_EQUAL (content->audio->resampled_frame_rate(film), 47952);
 
 	content->_video_frame_rate = 25;
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
-	BOOST_CHECK_EQUAL (content->audio->resampled_frame_rate(), 50000);
+	BOOST_CHECK_EQUAL (content->audio->resampled_frame_rate(film), 50000);
 
 	content->_video_frame_rate = 25;
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 44100;
-	BOOST_CHECK_EQUAL (content->audio->resampled_frame_rate(), 50000);
+	BOOST_CHECK_EQUAL (content->audio->resampled_frame_rate(film), 50000);
 
 	/* Check some out-there conversions (not the best) */
 
@@ -306,5 +306,5 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 	/* The FrameRateChange within resampled_frame_rate should choose to double-up
 	   the 14.99 fps video to 30 and then run it slow at 25.
 	*/
-	BOOST_CHECK_EQUAL (content->audio->resampled_frame_rate(), lrint (48000 * 2 * 14.99 / 25));
+	BOOST_CHECK_EQUAL (content->audio->resampled_frame_rate(film), lrint (48000 * 2 * 14.99 / 25));
 }

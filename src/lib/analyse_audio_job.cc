@@ -111,7 +111,7 @@ AnalyseAudioJob::run ()
 	player->set_play_referenced ();
 	player->Audio.connect (bind (&AnalyseAudioJob::analyse, this, _1, _2));
 
-	DCPTime const length = _playlist->length ();
+	DCPTime const length = _playlist->length (_film);
 
 	Frame const len = DCPTime (length - _start).frames_round (_film->audio_frame_rate());
 	_samples_per_point = max (int64_t (1), len / _num_points);
@@ -214,6 +214,6 @@ AnalyseAudioJob::analyse (shared_ptr<const AudioBuffers> b, DCPTime time)
 
 	_done += frames;
 
-	DCPTime const length = _playlist->length ();
+	DCPTime const length = _playlist->length (_film);
 	set_progress ((time.seconds() - _start.seconds()) / (length.seconds() - _start.seconds()));
 }

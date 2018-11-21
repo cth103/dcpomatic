@@ -38,6 +38,7 @@
 #include "lib/job_manager.h"
 #include "lib/job.h"
 #include "lib/film.h"
+#include "lib/null_log.h"
 #include "lib/video_content.h"
 #include "lib/text_content.h"
 #include "lib/ratio.h"
@@ -126,6 +127,9 @@ public:
 		, _view_full_screen (0)
 		, _view_dual_screen (0)
 	{
+		/* XXX */
+		dcpomatic_log.reset (new NullLog());
+		cout << "here's the log " << dcpomatic_log.get() << "\n";
 
 #if defined(DCPOMATIC_WINDOWS)
 		maybe_open_console ();
@@ -399,7 +403,7 @@ public:
 
 		reset_film ();
 		try {
-			shared_ptr<DCPContent> dcp (new DCPContent(_film, dir));
+			shared_ptr<DCPContent> dcp (new DCPContent(dir));
 			_film->examine_and_add_content (dcp);
 			bool const ok = display_progress (_("DCP-o-matic Player"), _("Loading content"));
 			if (!ok || !report_errors_from_last_job(this)) {
@@ -489,7 +493,7 @@ public:
 
 				if (kdm) {
 					dcp->add_kdm (*kdm);
-					dcp->examine (shared_ptr<Job>());
+					dcp->examine (_film, shared_ptr<Job>());
 				}
 			}
 
@@ -692,7 +696,7 @@ private:
 			DCPOMATIC_ASSERT (dcp);
 			try {
 				dcp->add_kdm (dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (d->GetPath ()), MAX_KDM_SIZE)));
-				dcp->examine (shared_ptr<Job>());
+				dcp->examine (_film, shared_ptr<Job>());
 			} catch (exception& e) {
 				error_dialog (this, wxString::Format (_("Could not load KDM.")), std_to_wx(e.what()));
 				d->Destroy ();
@@ -753,7 +757,7 @@ private:
 		}
 
 		dcp->set_cpl ((*i)->id());
-		dcp->examine (shared_ptr<Job>());
+		dcp->examine (_film, shared_ptr<Job>());
 	}
 
 	void view_full_screen ()

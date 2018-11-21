@@ -26,14 +26,15 @@
 
 class Decoder;
 class Log;
+class Film;
 
 class DecoderPart
 {
 public:
-	DecoderPart (Decoder* parent, boost::shared_ptr<Log> log);
+	DecoderPart (Decoder* parent);
 	virtual ~DecoderPart () {}
 
-	virtual ContentTime position () const = 0;
+	virtual ContentTime position (boost::shared_ptr<const Film> film) const = 0;
 	virtual void seek () = 0;
 
 	void set_ignore (bool i) {
@@ -46,7 +47,6 @@ public:
 
 protected:
 	Decoder* _parent;
-	boost::shared_ptr<Log> _log;
 
 private:
 	bool _ignore;

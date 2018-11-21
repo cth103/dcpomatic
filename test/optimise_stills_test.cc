@@ -75,7 +75,7 @@ BOOST_AUTO_TEST_CASE (optimise_stills_test1)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<Content> content = content_factory(film, "test/data/flat_red.png").front ();
+	shared_ptr<Content> content = content_factory("test/data/flat_red.png").front ();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	film->make_dcp ();
@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_CASE (optimise_stills_test2)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<Content> content = content_factory(film, "test/data/flat_red.png").front ();
+	shared_ptr<Content> content = content_factory("test/data/flat_red.png").front ();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	content->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT_RIGHT);

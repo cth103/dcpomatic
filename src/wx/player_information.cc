@@ -153,8 +153,8 @@ PlayerInformation::triggered_update ()
 
 	string const len = String::compose(
 		wx_to_std(_("Length: %1 (%2 frames)")),
-		time_to_hmsf(dcp->full_length(), lrint(*vfr)),
-		dcp->full_length().frames_round(*vfr)
+		time_to_hmsf(dcp->full_length(fv->film()), lrint(*vfr)),
+		dcp->full_length(fv->film()).frames_round(*vfr)
 		);
 
 	checked_set (_dcp[r++], std_to_wx(len));

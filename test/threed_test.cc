@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE (threed_test1)
 {
 	shared_ptr<Film> film = new_test_film ("threed_test1");
 	film->set_name ("test_film1");
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/test.mp4"));
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE (threed_test2)
 {
 	shared_ptr<Film> film = new_test_film ("threed_test2");
 	film->set_name ("test_film2");
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/test.mp4"));
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
@@ -85,9 +85,9 @@ BOOST_AUTO_TEST_CASE (threed_test2)
 BOOST_AUTO_TEST_CASE (threed_test3)
 {
 	shared_ptr<Film> film = new_test_film2 ("threed_test3");
-	shared_ptr<FFmpegContent> L (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> L (new FFmpegContent("test/data/test.mp4"));
 	film->examine_and_add_content (L);
-	shared_ptr<FFmpegContent> R (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> R (new FFmpegContent("test/data/test.mp4"));
 	film->examine_and_add_content (R);
 	wait_for_jobs ();
 
@@ -104,9 +104,9 @@ BOOST_AUTO_TEST_CASE (threed_test3)
 BOOST_AUTO_TEST_CASE (threed_test4)
 {
 	shared_ptr<Film> film = new_test_film2 ("threed_test4");
-	shared_ptr<FFmpegContent> L (new FFmpegContent (film, private_data / "LEFT_TEST_DCP3D4K.mov"));
+	shared_ptr<FFmpegContent> L (new FFmpegContent(private_data / "LEFT_TEST_DCP3D4K.mov"));
 	film->examine_and_add_content (L);
-	shared_ptr<FFmpegContent> R (new FFmpegContent (film, private_data / "RIGHT_TEST_DCP3D4K.mov"));
+	shared_ptr<FFmpegContent> R (new FFmpegContent(private_data / "RIGHT_TEST_DCP3D4K.mov"));
 	film->examine_and_add_content (R);
 	wait_for_jobs ();
 
@@ -123,9 +123,9 @@ BOOST_AUTO_TEST_CASE (threed_test4)
 BOOST_AUTO_TEST_CASE (threed_test5)
 {
 	shared_ptr<Film> film = new_test_film2 ("threed_test5");
-	shared_ptr<FFmpegContent> L (new FFmpegContent (film, private_data / "boon_telly.mkv"));
+	shared_ptr<FFmpegContent> L (new FFmpegContent(private_data / "boon_telly.mkv"));
 	film->examine_and_add_content (L);
-	shared_ptr<FFmpegContent> R (new FFmpegContent (film, private_data / "boon_telly.mkv"));
+	shared_ptr<FFmpegContent> R (new FFmpegContent(private_data / "boon_telly.mkv"));
 	film->examine_and_add_content (R);
 	wait_for_jobs ();
 

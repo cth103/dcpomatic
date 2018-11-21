@@ -29,4 +29,4 @@ class Film;
 class Content;
 
 extern boost::shared_ptr<Content> content_factory (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int, std::list<std::string> &);
-extern std::list<boost::shared_ptr<Content> > content_factory (boost::shared_ptr<const Film>, boost::filesystem::path);
+extern std::list<boost::shared_ptr<Content> > content_factory (boost::filesystem::path);

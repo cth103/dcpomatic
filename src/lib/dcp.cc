@@ -35,7 +35,7 @@ using std::list;
 using std::string;
 using boost::shared_ptr;
 
-#define LOG_GENERAL(...) _dcp_content->film()->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
+#define LOG_GENERAL(...) dcpomatic_log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
 /** Find all the CPLs in our directories, cross-add assets and return the CPLs */
 list<shared_ptr<dcp::CPL> >

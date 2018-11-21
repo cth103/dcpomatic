@@ -457,7 +457,7 @@ TextPanel::setup_sensitivity ()
 	}
 
 	string why_not;
-	bool const can_reference = dcp && dcp->can_reference_text (_original_type, why_not);
+	bool const can_reference = dcp && dcp->can_reference_text (_parent->film(), _original_type, why_not);
 	setup_refer_button (_reference, _reference_note, dcp, can_reference, why_not);
 
 	bool const reference = _reference->GetValue ();
@@ -582,7 +582,7 @@ TextPanel::text_view_clicked ()
 	ContentList c = _parent->selected_text ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
-	shared_ptr<Decoder> decoder = decoder_factory (c.front(), _parent->film()->log(), false);
+	shared_ptr<Decoder> decoder = decoder_factory (_parent->film(), c.front(), false);
 
 	if (decoder) {
 		_text_view = new TextView (this, _parent->film(), c.front(), c.front()->text_of_original_type(_original_type), decoder, _parent->film_viewer());
@@ -627,7 +627,7 @@ TextPanel::appearance_dialog_clicked ()
 	ContentList c = _parent->selected_text ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
-	SubtitleAppearanceDialog* d = new SubtitleAppearanceDialog (this, c.front(), c.front()->text_of_original_type(_original_type));
+	SubtitleAppearanceDialog* d = new SubtitleAppearanceDialog (this, _parent->film(), c.front(), c.front()->text_of_original_type(_original_type));
 	if (d->ShowModal () == wxID_OK) {
 		d->apply ();
 	}

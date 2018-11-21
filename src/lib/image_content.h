@@ -26,18 +26,18 @@
 class ImageContent : public Content
 {
 public:
-	ImageContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	ImageContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
+	ImageContent (boost::filesystem::path);
+	ImageContent (cxml::ConstNodePtr, int);
 
 	boost::shared_ptr<ImageContent> shared_from_this () {
 		return boost::dynamic_pointer_cast<ImageContent> (Content::shared_from_this ());
 	};
 
-	void examine (boost::shared_ptr<Job>);
+	void examine (boost::shared_ptr<const Film> film, boost::shared_ptr<Job>);
 	std::string summary () const;
 	std::string technical_summary () const;
 	void as_xml (xmlpp::Node *, bool with_paths) const;
-	DCPTime full_length () const;
+	DCPTime full_length (boost::shared_ptr<const Film> film) const;
 
 	std::string identifier () const;
 

@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE (remake_id_test1)
 {
 	/* Make a DCP */
 	shared_ptr<Film> film = new_test_film2 ("remake_id_test1_1");
-	shared_ptr<Content> content = content_factory(film, "test/data/flat_red.png").front();
+	shared_ptr<Content> content = content_factory("test/data/flat_red.png").front();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	film->make_dcp ();
@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE (remake_id_test2)
 {
 	/* Make a DCP */
 	shared_ptr<Film> film = new_test_film2 ("remake_id_test2_1");
-	shared_ptr<Content> content = content_factory(film, "test/data/flat_red.png").front();
+	shared_ptr<Content> content = content_factory("test/data/flat_red.png").front();
 	film->examine_and_add_content (content);
 	film->set_encrypted (true);
 	BOOST_REQUIRE (!wait_for_jobs ());
@@ -102,7 +102,7 @@ BOOST_AUTO_TEST_CASE (remake_id_test2)
 
 	/* Import the DCP into a new film */
 	shared_ptr<Film> film2 = new_test_film2("remake_id_test2_2");
-	shared_ptr<DCPContent> dcp_content(new DCPContent(film2, film->dir(film->dcp_name())));
+	shared_ptr<DCPContent> dcp_content(new DCPContent(film->dir(film->dcp_name())));
 	film2->examine_and_add_content(dcp_content);
 	BOOST_REQUIRE(!wait_for_jobs());
 	dcp_content->add_kdm(kdm);

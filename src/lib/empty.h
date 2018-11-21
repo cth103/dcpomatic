@@ -35,7 +35,7 @@ class Empty
 {
 public:
 	Empty () {}
-	Empty (std::list<boost::shared_ptr<Piece> > pieces, DCPTime length, boost::function<bool (boost::shared_ptr<Piece>)> part);
+	Empty (boost::shared_ptr<const Film> film, std::list<boost::shared_ptr<Piece> > pieces, boost::function<bool (boost::shared_ptr<Piece>)> part);
 
 	DCPTime position () const {
 		return _position;

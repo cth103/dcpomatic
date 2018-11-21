@@ -45,21 +45,21 @@ struct ffmpeg_pts_offset_test;
 class FFmpegDecoder : public FFmpeg, public Decoder
 {
 public:
-	FFmpegDecoder (boost::shared_ptr<const FFmpegContent>, boost::shared_ptr<Log> log, bool fast);
+	FFmpegDecoder (boost::shared_ptr<const Film> film, boost::shared_ptr<const FFmpegContent>, bool fast);
 
-	bool pass ();
-	void seek (ContentTime time, bool);
+	bool pass (boost::shared_ptr<const Film> film);
+	void seek (boost::shared_ptr<const Film> film, ContentTime time, bool);
 
 private:
 	friend struct ::ffmpeg_pts_offset_test;
 
-	void flush ();
+	void flush (boost::shared_ptr<const Film> film);
 
 	AVSampleFormat audio_sample_format (boost::shared_ptr<FFmpegAudioStream> stream) const;
 	int bytes_per_audio_sample (boost::shared_ptr<FFmpegAudioStream> stream) const;
 
-	bool decode_video_packet ();
-	void decode_audio_packet ();
+	bool decode_video_packet (boost::shared_ptr<const Film> film);
+	void decode_audio_packet (boost::shared_ptr<const Film> film);
 	void decode_subtitle_packet ();
 
 	void decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime from);
@@ -67,8 +67,6 @@ private:
 
 	void maybe_add_subtitle ();
 	boost::shared_ptr<AudioBuffers> deinterleave_audio (boost::shared_ptr<FFmpegAudioStream> stream) const;
-
-	boost::shared_ptr<Log> _log;
 
 	std::list<boost::shared_ptr<VideoFilterGraph> > _filter_graphs;
 	boost::mutex _filter_graphs_mutex;

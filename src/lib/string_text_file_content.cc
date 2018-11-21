@@ -36,23 +36,23 @@ using boost::shared_ptr;
 using boost::optional;
 using dcp::raw_convert;
 
-StringTextFileContent::StringTextFileContent (shared_ptr<const Film> film, boost::filesystem::path path)
-	: Content (film, path)
+StringTextFileContent::StringTextFileContent (boost::filesystem::path path)
+	: Content (path)
 {
 	text.push_back (shared_ptr<TextContent> (new TextContent (this, TEXT_OPEN_SUBTITLE, TEXT_UNKNOWN)));
 }
 
-StringTextFileContent::StringTextFileContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
-	: Content (film, node)
+StringTextFileContent::StringTextFileContent (cxml::ConstNodePtr node, int version)
+	: Content (node)
 	, _length (node->number_child<ContentTime::Type> ("Length"))
 {
 	text = TextContent::from_xml (this, node, version);
 }
 
 void
-StringTextFileContent::examine (boost::shared_ptr<Job> job)
+StringTextFileContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 {
-	Content::examine (job);
+	Content::examine (film, job);
 	StringTextFile s (shared_from_this ());
 
 	/* Default to turning these subtitles on */
@@ -89,8 +89,8 @@ StringTextFileContent::as_xml (xmlpp::Node* node, bool with_paths) const
 }
 
 DCPTime
-StringTextFileContent::full_length () const
+StringTextFileContent::full_length (shared_ptr<const Film> film) const
 {
-	FrameRateChange const frc (active_video_frame_rate(), film()->video_frame_rate ());
+	FrameRateChange const frc (active_video_frame_rate(film), film->video_frame_rate());
 	return DCPTime (_length, frc);
 }

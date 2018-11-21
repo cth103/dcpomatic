@@ -156,7 +156,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 
 	if (content) {
 		_playlist.reset (new Playlist ());
-		const_pointer_cast<Playlist> (_playlist)->add (content);
+		const_pointer_cast<Playlist>(_playlist)->add(film, content);
 	} else {
 		_playlist = film->playlist ();
 	}

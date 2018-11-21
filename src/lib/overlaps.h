@@ -22,11 +22,12 @@
 #include "dcpomatic_time.h"
 
 class ContentPart;
+class Film;
 
 /** @return Pieces of content with a given part (video, audio,
  *  subtitle) that overlap a specified time range in the given
  *  ContentList
  */
 ContentList overlaps (
-	ContentList cl, boost::function<bool (boost::shared_ptr<const Content>)> part, DCPTime from, DCPTime to
+	boost::shared_ptr<const Film> film, ContentList cl, boost::function<bool (boost::shared_ptr<const Content>)> part, DCPTime from, DCPTime to
 	);

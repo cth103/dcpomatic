@@ -96,7 +96,7 @@ test (dcp::Size content_size, dcp::Size display_size, dcp::Size film_size, Crop 
 	doc->read_string (s);
 
 	list<string> notes;
-	shared_ptr<FFmpegContent> vc (new FFmpegContent (film, doc, 10, notes));
+	shared_ptr<FFmpegContent> vc (new FFmpegContent (doc, 10, notes));
 
 	optional<VideoContentScale> sc;
 	if (ratio) {

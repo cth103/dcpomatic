@@ -24,14 +24,14 @@
 class DCPSubtitleContent : public DCPSubtitle, public Content
 {
 public:
-	DCPSubtitleContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	DCPSubtitleContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
+	DCPSubtitleContent (boost::filesystem::path);
+	DCPSubtitleContent (cxml::ConstNodePtr, int);
 
-	void examine (boost::shared_ptr<Job>);
+	void examine (boost::shared_ptr<const Film> film, boost::shared_ptr<Job>);
 	std::string summary () const;
 	std::string technical_summary () const;
 	void as_xml (xmlpp::Node *, bool with_paths) const;
-	DCPTime full_length () const;
+	DCPTime full_length (boost::shared_ptr<const Film> film) const;
 
 private:
 	ContentTime _length;

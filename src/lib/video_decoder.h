@@ -44,20 +44,19 @@ class Log;
 class VideoDecoder : public DecoderPart
 {
 public:
-	VideoDecoder (Decoder* parent, boost::shared_ptr<const Content> c, boost::shared_ptr<Log> log);
+	VideoDecoder (Decoder* parent, boost::shared_ptr<const Content> c);
 
 	friend struct video_decoder_fill_test1;
 	friend struct video_decoder_fill_test2;
 	friend struct ffmpeg_pts_offset_test;
 	friend void ffmpeg_decoder_sequential_test_one (boost::filesystem::path file, float fps, int gaps, int video_length);
 
-	ContentTime position () const {
+	ContentTime position (boost::shared_ptr<const Film>) const {
 		return _position;
 	}
 
 	void seek ();
-
-	void emit (boost::shared_ptr<const ImageProxy>, Frame frame);
+	void emit (boost::shared_ptr<const Film> film, boost::shared_ptr<const ImageProxy>, Frame frame);
 
 	/** @return true if the emitted data was accepted, false if not */
 	boost::signals2::signal<void (ContentVideo)> Data;

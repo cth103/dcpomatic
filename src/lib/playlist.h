@@ -48,31 +48,31 @@ public:
 	void as_xml (xmlpp::Node *, bool with_content_paths);
 	void set_from_xml (boost::shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, std::list<std::string>& notes);
 
-	void add (boost::shared_ptr<Content>);
+	void add (boost::shared_ptr<const Film> film, boost::shared_ptr<Content>);
 	void remove (boost::shared_ptr<Content>);
 	void remove (ContentList);
-	void move_earlier (boost::shared_ptr<Content>);
-	void move_later (boost::shared_ptr<Content>);
+	void move_earlier (boost::shared_ptr<const Film> film, boost::shared_ptr<Content>);
+	void move_later (boost::shared_ptr<const Film> film, boost::shared_ptr<Content>);
 
 	ContentList content () const;
 
 	std::string video_identifier () const;
 
-	DCPTime length () const;
+	DCPTime length (boost::shared_ptr<const Film> film) const;
 	boost::optional<DCPTime> start () const;
-	int64_t required_disk_space (int j2k_bandwidth, int audio_channels, int audio_frame_rate) const;
+	int64_t required_disk_space (boost::shared_ptr<const Film> film, int j2k_bandwidth, int audio_channels, int audio_frame_rate) const;
 
 	int best_video_frame_rate () const;
-	DCPTime video_end () const;
-	DCPTime text_end () const;
+	DCPTime video_end (boost::shared_ptr<const Film> film) const;
+	DCPTime text_end (boost::shared_ptr<const Film> film) const;
 	FrameRateChange active_frame_rate_change (DCPTime, int dcp_frame_rate) const;
-	std::string content_summary (DCPTimePeriod period) const;
+	std::string content_summary (boost::shared_ptr<const Film> film, DCPTimePeriod period) const;
 	std::pair<double, double> speed_up_range (int dcp_video_frame_rate) const;
 
 	void set_sequence (bool);
-	void maybe_sequence ();
+	void maybe_sequence (boost::shared_ptr<const Film> film);
 
-	void repeat (ContentList, int);
+	void repeat (boost::shared_ptr<const Film> film, ContentList, int);
 
 	/** Emitted when content has been added to or removed from the playlist; implies OrderChanged */
 	mutable boost::signals2::signal<void (ChangeType)> Change;
@@ -81,8 +81,9 @@ public:
 	mutable boost::signals2::signal<void (ChangeType, boost::weak_ptr<Content>, int, bool)> ContentChange;
 
 private:
-	void content_change (ChangeType, boost::weak_ptr<Content>, int, bool);
-	void reconnect ();
+	void content_change (boost::weak_ptr<const Film>, ChangeType, boost::weak_ptr<Content>, int, bool);
+	void disconnect ();
+	void reconnect (boost::shared_ptr<const Film> film);
 
 	/** List of content.  Kept sorted in position order. */
 	ContentList _content;

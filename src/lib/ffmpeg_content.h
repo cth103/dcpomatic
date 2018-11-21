@@ -46,20 +46,20 @@ public:
 class FFmpegContent : public Content
 {
 public:
-	FFmpegContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	FFmpegContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int version, std::list<std::string> &);
-	FFmpegContent (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
+	FFmpegContent (boost::filesystem::path);
+	FFmpegContent (cxml::ConstNodePtr, int version, std::list<std::string> &);
+	FFmpegContent (std::vector<boost::shared_ptr<Content> >);
 
 	boost::shared_ptr<FFmpegContent> shared_from_this () {
 		return boost::dynamic_pointer_cast<FFmpegContent> (Content::shared_from_this ());
 	}
 
-	void examine (boost::shared_ptr<Job>);
+	void examine (boost::shared_ptr<const Film> film, boost::shared_ptr<Job>);
 	void take_settings_from (boost::shared_ptr<const Content> c);
 	std::string summary () const;
 	std::string technical_summary () const;
 	void as_xml (xmlpp::Node *, bool with_paths) const;
-	DCPTime full_length () const;
+	DCPTime full_length (boost::shared_ptr<const Film> film) const;
 
 	std::string identifier () const;
 
@@ -104,7 +104,7 @@ public:
 	}
 
 private:
-	void add_properties (std::list<UserProperty> &) const;
+	void add_properties (boost::shared_ptr<const Film> film, std::list<UserProperty> &) const;
 
 	friend struct ffmpeg_pts_offset_test;
 	friend struct audio_sampling_rate_test;

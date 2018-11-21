@@ -56,7 +56,7 @@ ffmpeg_content_test (int number, boost::filesystem::path content, ExportFormat f
 
 	shared_ptr<Film> film = new_test_film (name);
 	film->set_name (name);
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, content));
+	shared_ptr<FFmpegContent> c (new FFmpegContent(content));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
@@ -98,7 +98,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test5)
 {
 	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_prores_test5");
 	film->set_name ("ffmpeg_encoder_prores_test5");
-	shared_ptr<ImageContent> c (new ImageContent (film, private_data / "bbc405.png"));
+	shared_ptr<ImageContent> c (new ImageContent(private_data / "bbc405.png"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
@@ -121,7 +121,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test6)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
-	shared_ptr<StringTextFileContent> s (new StringTextFileContent (film, "test/data/subrip2.srt"));
+	shared_ptr<StringTextFileContent> s (new StringTextFileContent("test/data/subrip2.srt"));
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	s->only_text()->set_colour (dcp::Colour (255, 255, 0));
@@ -142,11 +142,11 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test7)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/test.mp4"));
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<StringTextFileContent> s (new StringTextFileContent (film, "test/data/subrip.srt"));
+	shared_ptr<StringTextFileContent> s (new StringTextFileContent("test/data/subrip.srt"));
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	s->only_text()->set_colour (dcp::Colour (255, 255, 0));
@@ -172,7 +172,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test2)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
-	shared_ptr<StringTextFileContent> s (new StringTextFileContent (film, "test/data/subrip2.srt"));
+	shared_ptr<StringTextFileContent> s (new StringTextFileContent("test/data/subrip2.srt"));
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	s->only_text()->set_colour (dcp::Colour (255, 255, 0));
@@ -193,11 +193,11 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test3)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/test.mp4"));
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<StringTextFileContent> s (new StringTextFileContent (film, "test/data/subrip.srt"));
+	shared_ptr<StringTextFileContent> s (new StringTextFileContent("test/data/subrip.srt"));
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	s->only_text()->set_colour (dcp::Colour (255, 255, 0));
@@ -214,7 +214,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test3)
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test4)
 {
 	shared_ptr<Film> film = new_test_film2("ffmpeg_encoder_h264_test4");
-	film->examine_and_add_content(shared_ptr<DCPContent>(new DCPContent(film, "test/data/scope_dcp")));
+	film->examine_and_add_content(shared_ptr<DCPContent>(new DCPContent("test/data/scope_dcp")));
 	BOOST_REQUIRE(!wait_for_jobs());
 
 	film->set_container(Ratio::from_id("185"));
@@ -232,43 +232,43 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test5)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
-	shared_ptr<FFmpegContent> L (new FFmpegContent (film, "test/data/L.wav"));
+	shared_ptr<FFmpegContent> L (new FFmpegContent("test/data/L.wav"));
 	film->examine_and_add_content (L);
-	shared_ptr<FFmpegContent> R (new FFmpegContent (film, "test/data/R.wav"));
+	shared_ptr<FFmpegContent> R (new FFmpegContent("test/data/R.wav"));
 	film->examine_and_add_content (R);
-	shared_ptr<FFmpegContent> C (new FFmpegContent (film, "test/data/C.wav"));
+	shared_ptr<FFmpegContent> C (new FFmpegContent("test/data/C.wav"));
 	film->examine_and_add_content (C);
-	shared_ptr<FFmpegContent> Ls (new FFmpegContent (film, "test/data/Ls.wav"));
+	shared_ptr<FFmpegContent> Ls (new FFmpegContent("test/data/Ls.wav"));
 	film->examine_and_add_content (Ls);
-	shared_ptr<FFmpegContent> Rs (new FFmpegContent (film, "test/data/Rs.wav"));
+	shared_ptr<FFmpegContent> Rs (new FFmpegContent("test/data/Rs.wav"));
 	film->examine_and_add_content (Rs);
-	shared_ptr<FFmpegContent> Lfe (new FFmpegContent (film, "test/data/Lfe.wav"));
+	shared_ptr<FFmpegContent> Lfe (new FFmpegContent("test/data/Lfe.wav"));
 	film->examine_and_add_content (Lfe);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	AudioMapping map (1, MAX_DCP_AUDIO_CHANNELS);
 
-	L->set_position (DCPTime::from_seconds (0));
+	L->set_position (film, DCPTime::from_seconds(0));
 	map.make_zero ();
 	map.set (0, 0, 1);
 	L->audio->set_mapping (map);
-	R->set_position (DCPTime::from_seconds (1));
+	R->set_position (film, DCPTime::from_seconds(1));
 	map.make_zero ();
 	map.set (0, 1, 1);
 	R->audio->set_mapping (map);
-	C->set_position (DCPTime::from_seconds (2));
+	C->set_position (film, DCPTime::from_seconds(2));
 	map.make_zero ();
 	map.set (0, 2, 1);
 	C->audio->set_mapping (map);
-	Lfe->set_position (DCPTime::from_seconds (3));
+	Lfe->set_position (film, DCPTime::from_seconds(3));
 	map.make_zero ();
 	map.set (0, 3, 1);
 	Lfe->audio->set_mapping (map);
-	Ls->set_position (DCPTime::from_seconds (4));
+	Ls->set_position (film, DCPTime::from_seconds(4));
 	map.make_zero ();
 	map.set (0, 4, 1);
 	Ls->audio->set_mapping (map);
-	Rs->set_position (DCPTime::from_seconds (5));
+	Rs->set_position (film, DCPTime::from_seconds(5));
 	map.make_zero ();
 	map.set (0, 5, 1);
 	Rs->audio->set_mapping (map);

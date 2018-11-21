@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 	A->set_name ("frobozz");
 	A->set_interop (false);
 
-	shared_ptr<FFmpegContent> c (new FFmpegContent (A, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/test.mp4"));
 	A->examine_and_add_content (c);
 	A->set_encrypted (true);
 	BOOST_CHECK (!wait_for_jobs ());
@@ -80,7 +80,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 	B->set_name ("frobozz");
 	B->set_interop (false);
 
-	shared_ptr<DCPContent> d (new DCPContent (B, "build/test/import_dcp_test/" + A->dcp_name()));
+	shared_ptr<DCPContent> d (new DCPContent("build/test/import_dcp_test/" + A->dcp_name()));
 	B->examine_and_add_content (d);
 	BOOST_CHECK (!wait_for_jobs ());
 	d->add_kdm (kdm);

@@ -112,7 +112,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test)
 	film->set_name ("audio_analysis_test");
 	boost::filesystem::path p = private_data / "betty_L.wav";
 
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, p));
+	shared_ptr<FFmpegContent> c (new FFmpegContent(p));
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_negative_delay_test)
 {
 	shared_ptr<Film> film = new_test_film ("audio_analysis_negative_delay_test");
 	film->set_name ("audio_analysis_negative_delay_test");
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, private_data / "boon_telly.mkv"));
+	shared_ptr<FFmpegContent> c (new FFmpegContent(private_data / "boon_telly.mkv"));
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
@@ -144,7 +144,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test2)
 {
 	shared_ptr<Film> film = new_test_film ("audio_analysis_test2");
 	film->set_name ("audio_analysis_test2");
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, private_data / "3d_thx_broadway_2010_lossless.m2ts"));
+	shared_ptr<FFmpegContent> c (new FFmpegContent(private_data / "3d_thx_broadway_2010_lossless.m2ts"));
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
@@ -173,7 +173,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test3)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/white.wav"));
+	shared_ptr<FFmpegContent> content (new FFmpegContent("test/data/white.wav"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
@@ -191,12 +191,12 @@ BOOST_AUTO_TEST_CASE (analyse_audio_test4)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<Content> content = content_factory(film, private_data / "20 The Wedding Convoy Song.m4a").front();
+	shared_ptr<Content> content = content_factory(private_data / "20 The Wedding Convoy Song.m4a").front();
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
 	shared_ptr<Playlist> playlist (new Playlist);
-	playlist->add (content);
+	playlist->add (film, content);
 	boost::signals2::connection c;
 	JobManager::instance()->analyse_audio (film, playlist, false, c, boost::bind (&finished));
 	BOOST_CHECK (!wait_for_jobs ());

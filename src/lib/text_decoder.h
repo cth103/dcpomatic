@@ -41,11 +41,10 @@ public:
 	TextDecoder (
 		Decoder* parent,
 		boost::shared_ptr<const TextContent>,
-		boost::shared_ptr<Log> log,
 		ContentTime first
 		);
 
-	ContentTime position () const {
+	ContentTime position (boost::shared_ptr<const Film>) const {
 		return _position;
 	}
 

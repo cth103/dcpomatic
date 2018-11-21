@@ -53,7 +53,7 @@ ExamineContentJob::json_name () const
 void
 ExamineContentJob::run ()
 {
-	_content->examine (shared_from_this ());
+	_content->examine (_film, shared_from_this());
 	set_progress (1);
 	set_state (FINISHED_OK);
 }

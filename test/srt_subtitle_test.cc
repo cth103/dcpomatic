@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test)
 	film->set_name ("frobozz");
 	film->set_audio_channels (6);
 	film->set_interop (false);
-	shared_ptr<StringTextFileContent> content (new StringTextFileContent (film, "test/data/subrip2.srt"));
+	shared_ptr<StringTextFileContent> content (new StringTextFileContent("test/data/subrip2.srt"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test2)
 	film->set_name ("frobozz");
 	film->set_audio_channels (6);
 	film->set_interop (false);
-	shared_ptr<StringTextFileContent> content (new StringTextFileContent (film, "test/data/subrip2.srt"));
+	shared_ptr<StringTextFileContent> content (new StringTextFileContent ("test/data/subrip2.srt"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 	film->set_name ("frobozz");
 	film->set_interop (true);
 	film->set_audio_channels (6);
-	shared_ptr<StringTextFileContent> content (new StringTextFileContent (film, private_data / "Ankoemmling_short.srt"));
+	shared_ptr<StringTextFileContent> content (new StringTextFileContent(private_data / "Ankoemmling_short.srt"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
@@ -125,7 +125,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test4)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	film->set_interop (false);
-	shared_ptr<StringTextFileContent> content (new StringTextFileContent (film, "test/data/subrip2.srt"));
+	shared_ptr<StringTextFileContent> content (new StringTextFileContent("test/data/subrip2.srt"));
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
 	film->examine_and_add_content (content);
@@ -146,13 +146,13 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test5)
 	film->set_name ("frobozz");
 	film->set_interop (true);
 	film->set_sequence (false);
-	shared_ptr<StringTextFileContent> content (new StringTextFileContent (film, "test/data/subrip2.srt"));
+	shared_ptr<StringTextFileContent> content (new StringTextFileContent("test/data/subrip2.srt"));
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
 	film->examine_and_add_content (content);
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
-	content->set_position (DCPTime (0));
+	content->set_position (film, DCPTime());
 	film->make_dcp ();
 	wait_for_jobs ();
 	film->write_metadata ();
@@ -164,7 +164,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test6)
 {
 	shared_ptr<Film> film = new_test_film2 ("srt_subtitle_test6");
 	film->set_interop (false);
-	shared_ptr<StringTextFileContent> content (new StringTextFileContent (film, "test/data/frames.srt"));
+	shared_ptr<StringTextFileContent> content (new StringTextFileContent("test/data/frames.srt"));
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
 	film->examine_and_add_content (content);
@@ -185,7 +185,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test6)
 BOOST_AUTO_TEST_CASE (srt_subtitle_test4)
 {
 	shared_ptr<Film> film = new_test_film ("subrip_render_test");
-	shared_ptr<StringTextFile> content (new StringTextFile (film, "test/data/subrip.srt"));
+	shared_ptr<StringTextFile> content (new StringTextFile("test/data/subrip.srt"));
 	content->examine (shared_ptr<Job> (), true);
 	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds ((3 * 60) + 56.471));
 

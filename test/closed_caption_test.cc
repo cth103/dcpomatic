@@ -35,7 +35,7 @@ using boost::shared_ptr;
 BOOST_AUTO_TEST_CASE (closed_caption_test1)
 {
 	shared_ptr<Film> film = new_test_film2 ("closed_caption_test1");
-	shared_ptr<StringTextFileContent> content (new StringTextFileContent (film, "test/data/subrip.srt"));
+	shared_ptr<StringTextFileContent> content (new StringTextFileContent("test/data/subrip.srt"));
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
@@ -60,11 +60,11 @@ BOOST_AUTO_TEST_CASE (closed_caption_test1)
 BOOST_AUTO_TEST_CASE (closed_caption_test2)
 {
 	shared_ptr<Film> film = new_test_film2 ("closed_caption_test2");
-	shared_ptr<StringTextFileContent> content1 (new StringTextFileContent (film, "test/data/subrip.srt"));
+	shared_ptr<StringTextFileContent> content1 (new StringTextFileContent("test/data/subrip.srt"));
 	film->examine_and_add_content (content1);
-	shared_ptr<StringTextFileContent> content2 (new StringTextFileContent (film, "test/data/subrip2.srt"));
+	shared_ptr<StringTextFileContent> content2 (new StringTextFileContent("test/data/subrip2.srt"));
 	film->examine_and_add_content (content2);
-	shared_ptr<StringTextFileContent> content3 (new StringTextFileContent (film, "test/data/subrip3.srt"));
+	shared_ptr<StringTextFileContent> content3 (new StringTextFileContent("test/data/subrip3.srt"));
 	film->examine_and_add_content (content3);
 	BOOST_REQUIRE (!wait_for_jobs ());
 

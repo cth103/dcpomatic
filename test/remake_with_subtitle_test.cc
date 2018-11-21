@@ -34,7 +34,7 @@ using boost::dynamic_pointer_cast;
 BOOST_AUTO_TEST_CASE (remake_with_subtitle_test)
 {
 	shared_ptr<Film> film = new_test_film2 ("remake_with_subtitle_test");
-	shared_ptr<FFmpegContent> content = dynamic_pointer_cast<FFmpegContent>(content_factory(film, private_data / "prophet_short_clip.mkv").front());
+	shared_ptr<FFmpegContent> content = dynamic_pointer_cast<FFmpegContent>(content_factory(private_data / "prophet_short_clip.mkv").front());
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	content->only_text()->set_burn (true);

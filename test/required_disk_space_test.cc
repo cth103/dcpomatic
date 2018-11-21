@@ -43,10 +43,10 @@ BOOST_AUTO_TEST_CASE (required_disk_space_test)
 	shared_ptr<Film> film = new_test_film ("required_disk_space_test");
 	film->set_j2k_bandwidth (100000000);
 	film->set_audio_channels (6);
-	shared_ptr<Content> content_a = content_factory(film, "test/data/flat_blue.png").front();
+	shared_ptr<Content> content_a = content_factory("test/data/flat_blue.png").front();
 	BOOST_REQUIRE (content_a);
 	film->examine_and_add_content (content_a);
-	shared_ptr<DCPContent> content_b (new DCPContent (film, "test/data/burnt_subtitle_test_dcp"));
+	shared_ptr<DCPContent> content_b (new DCPContent("test/data/burnt_subtitle_test_dcp"));
 	film->examine_and_add_content (content_b);
 	wait_for_jobs ();
 	film->write_metadata ();

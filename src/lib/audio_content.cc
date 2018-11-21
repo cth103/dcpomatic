@@ -194,12 +194,12 @@ AudioContent::mapping () const
  *  that it is in sync with the active video content at its start time.
  */
 int
-AudioContent::resampled_frame_rate () const
+AudioContent::resampled_frame_rate (shared_ptr<const Film> film) const
 {
 	/* Resample to a DCI-approved sample rate */
 	double t = has_rate_above_48k() ? 96000 : 48000;
 
-	FrameRateChange frc (_parent->active_video_frame_rate(), _parent->film()->video_frame_rate());
+	FrameRateChange frc (_parent->active_video_frame_rate(film), film->video_frame_rate());
 
 	/* Compensate if the DCP is being run at a different frame rate
 	   to the source; that is, if the video is run such that it will
@@ -214,7 +214,7 @@ AudioContent::resampled_frame_rate () const
 }
 
 string
-AudioContent::processing_description () const
+AudioContent::processing_description (shared_ptr<const Film> film) const
 {
 	if (streams().empty ()) {
 		return "";
@@ -233,7 +233,7 @@ AudioContent::processing_description () const
 
 	optional<int> common_frame_rate;
 	BOOST_FOREACH (AudioStreamPtr i, streams()) {
-		if (i->frame_rate() != resampled_frame_rate()) {
+		if (i->frame_rate() != resampled_frame_rate(film)) {
 			resampled = true;
 		} else {
 			not_resampled = true;
@@ -250,14 +250,14 @@ AudioContent::processing_description () const
 	}
 
 	if (not_resampled && resampled) {
-		return String::compose (_("Some audio will be resampled to %1Hz"), resampled_frame_rate ());
+		return String::compose (_("Some audio will be resampled to %1Hz"), resampled_frame_rate(film));
 	}
 
 	if (!not_resampled && resampled) {
 		if (same) {
-			return String::compose (_("Audio will be resampled from %1Hz to %2Hz"), common_frame_rate.get(), resampled_frame_rate ());
+			return String::compose (_("Audio will be resampled from %1Hz to %2Hz"), common_frame_rate.get(), resampled_frame_rate(film));
 		} else {
-			return String::compose (_("Audio will be resampled to %1Hz"), resampled_frame_rate ());
+			return String::compose (_("Audio will be resampled to %1Hz"), resampled_frame_rate(film));
 		}
 	}
 
@@ -295,7 +295,7 @@ AudioContent::channel_names () const
 }
 
 void
-AudioContent::add_properties (list<UserProperty>& p) const
+AudioContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& p) const
 {
 	shared_ptr<const AudioStream> stream;
 	if (streams().size() == 1) {
@@ -307,8 +307,8 @@ AudioContent::add_properties (list<UserProperty>& p) const
 		p.push_back (UserProperty (UserProperty::AUDIO, _("Content audio sample rate"), stream->frame_rate(), _("Hz")));
 	}
 
-	FrameRateChange const frc (_parent->active_video_frame_rate(), _parent->film()->video_frame_rate());
-	ContentTime const c (_parent->full_length(), frc);
+	FrameRateChange const frc (_parent->active_video_frame_rate(film), film->video_frame_rate());
+	ContentTime const c (_parent->full_length(film), frc);
 
 	p.push_back (
 		UserProperty (UserProperty::LENGTH, _("Full length in video frames at content rate"), c.frames_round(frc.source))
@@ -324,7 +324,7 @@ AudioContent::add_properties (list<UserProperty>& p) const
 			);
 	}
 
-	p.push_back (UserProperty (UserProperty::AUDIO, _("DCP sample rate"), resampled_frame_rate (), _("Hz")));
+	p.push_back (UserProperty (UserProperty::AUDIO, _("DCP sample rate"), resampled_frame_rate(film), _("Hz")));
 	p.push_back (UserProperty (UserProperty::LENGTH, _("Full length in video frames at DCP rate"), c.frames_round (frc.dcp)));
 
 	if (stream) {
@@ -332,7 +332,7 @@ AudioContent::add_properties (list<UserProperty>& p) const
 			UserProperty (
 				UserProperty::LENGTH,
 				_("Full length in audio samples at DCP rate"),
-				c.frames_round (resampled_frame_rate ())
+				c.frames_round(resampled_frame_rate(film))
 				)
 			);
 	}
@@ -397,9 +397,9 @@ AudioContent::take_settings_from (shared_ptr<const AudioContent> c)
 }
 
 void
-AudioContent::modify_position (DCPTime& pos) const
+AudioContent::modify_position (shared_ptr<const Film> film, DCPTime& pos) const
 {
-	pos = pos.round (_parent->film()->audio_frame_rate());
+	pos = pos.round (film->audio_frame_rate());
 }
 
 void

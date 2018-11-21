@@ -40,8 +40,7 @@ using std::list;
 using std::vector;
 using boost::shared_ptr;
 
-ImageContent::ImageContent (shared_ptr<const Film> film, boost::filesystem::path p)
-	: Content (film)
+ImageContent::ImageContent (boost::filesystem::path p)
 {
 	video.reset (new VideoContent (this));
 
@@ -55,8 +54,8 @@ ImageContent::ImageContent (shared_ptr<const Film> film, boost::filesystem::path
 }
 
 
-ImageContent::ImageContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
-	: Content (film, node)
+ImageContent::ImageContent (cxml::ConstNodePtr node, int version)
+	: Content (node)
 {
 	video = VideoContent::from_xml (this, node, version);
 }
@@ -102,7 +101,7 @@ ImageContent::as_xml (xmlpp::Node* node, bool with_paths) const
 }
 
 void
-ImageContent::examine (shared_ptr<Job> job)
+ImageContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 {
 	if (_path_to_scan) {
 		job->sub (_("Scanning image files"));
@@ -126,10 +125,7 @@ ImageContent::examine (shared_ptr<Job> job)
 		set_paths (paths);
 	}
 
-	Content::examine (job);
-
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
+	Content::examine (film, job);
 
 	shared_ptr<ImageExaminer> examiner (new ImageExaminer (film, shared_from_this(), job));
 	video->take_from_examiner (examiner);
@@ -137,12 +133,10 @@ ImageContent::examine (shared_ptr<Job> job)
 }
 
 DCPTime
-ImageContent::full_length () const
+ImageContent::full_length (shared_ptr<const Film> film) const
 {
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-	FrameRateChange const frc (active_video_frame_rate(), film->video_frame_rate());
-	return DCPTime::from_frames (llrint (video->length_after_3d_combine() * frc.factor ()), film->video_frame_rate ());
+	FrameRateChange const frc (active_video_frame_rate(film), film->video_frame_rate());
+	return DCPTime::from_frames (llrint(video->length_after_3d_combine() * frc.factor()), film->video_frame_rate());
 }
 
 string

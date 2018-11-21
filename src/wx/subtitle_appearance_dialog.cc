@@ -39,8 +39,9 @@ int const SubtitleAppearanceDialog::NONE = 0;
 int const SubtitleAppearanceDialog::OUTLINE = 1;
 int const SubtitleAppearanceDialog::SHADOW = 2;
 
-SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr<Content> content, shared_ptr<TextContent> caption)
+SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr<const Film> film, shared_ptr<Content> content, shared_ptr<TextContent> caption)
 	: wxDialog (parent, wxID_ANY, _("Caption appearance"))
+	, _film (film)
 	, _content (content)
 	, _caption (caption)
 {
@@ -164,17 +165,17 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 	optional<ContentTime> fade_in = _caption->fade_in();
 	_force_fade_in->SetValue (static_cast<bool>(fade_in));
 	if (fade_in) {
-		_fade_in->set (*fade_in, _content->active_video_frame_rate());
+		_fade_in->set (*fade_in, _content->active_video_frame_rate(film));
 	} else {
-		_fade_in->set (ContentTime(), _content->active_video_frame_rate());
+		_fade_in->set (ContentTime(), _content->active_video_frame_rate(film));
 	}
 
 	optional<ContentTime> fade_out = _caption->fade_out();
 	_force_fade_out->SetValue (static_cast<bool>(fade_out));
 	if (fade_out) {
-		_fade_out->set (*fade_out, _content->active_video_frame_rate ());
+		_fade_out->set (*fade_out, _content->active_video_frame_rate(film));
 	} else {
-		_fade_out->set (ContentTime(), _content->active_video_frame_rate ());
+		_fade_out->set (ContentTime(), _content->active_video_frame_rate(film));
 	}
 
 	_outline_width->SetValue (_caption->outline_width ());
@@ -213,6 +214,8 @@ SubtitleAppearanceDialog::set_to (wxWindow* w, int& r)
 void
 SubtitleAppearanceDialog::apply ()
 {
+	shared_ptr<const Film> film = _film.lock ();
+
 	if (_force_colour->GetValue ()) {
 		wxColour const c = _colour->GetColour ();
 		_caption->set_colour (dcp::Colour (c.Red(), c.Green(), c.Blue()));
@@ -241,12 +244,12 @@ SubtitleAppearanceDialog::apply ()
 		_caption->unset_effect_colour ();
 	}
 	if (_force_fade_in->GetValue ()) {
-		_caption->set_fade_in (_fade_in->get (_content->active_video_frame_rate ()));
+		_caption->set_fade_in (_fade_in->get(_content->active_video_frame_rate(film)));
 	} else {
 		_caption->unset_fade_in ();
 	}
 	if (_force_fade_out->GetValue ()) {
-		_caption->set_fade_out (_fade_out->get (_content->active_video_frame_rate ()));
+		_caption->set_fade_out (_fade_out->get(_content->active_video_frame_rate(film)));
 	} else {
 		_caption->unset_fade_out ();
 	}

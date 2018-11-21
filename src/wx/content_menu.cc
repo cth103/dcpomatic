@@ -209,7 +209,7 @@ ContentMenu::join ()
 	}
 
 	try {
-		shared_ptr<FFmpegContent> joined (new FFmpegContent (film, fc));
+		shared_ptr<FFmpegContent> joined (new FFmpegContent(fc));
 		film->remove_content (_content);
 		film->examine_and_add_content (joined);
 	} catch (JoinError& e) {
@@ -306,9 +306,9 @@ ContentMenu::find_missing ()
 
 	if (r == wxID_OK) {
 		if (dc) {
-			content.push_back (shared_ptr<DCPContent> (new DCPContent (film, path)));
+			content.push_back (shared_ptr<DCPContent>(new DCPContent(path)));
 		} else {
-			content = content_factory (film, path);
+			content = content_factory (path);
 		}
 	}
 

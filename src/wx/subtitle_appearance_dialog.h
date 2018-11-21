@@ -32,11 +32,12 @@ class RGBAColourPicker;
 class FFmpegSubtitleStream;
 class wxCheckBox;
 class wxWidget;
+class Film;
 
 class SubtitleAppearanceDialog : public wxDialog
 {
 public:
-	SubtitleAppearanceDialog (wxWindow* parent, boost::shared_ptr<Content> content, boost::shared_ptr<TextContent> caption);
+	SubtitleAppearanceDialog (wxWindow* parent, boost::shared_ptr<const Film> film, boost::shared_ptr<Content> content, boost::shared_ptr<TextContent> caption);
 
 	void apply ();
 
@@ -46,6 +47,7 @@ private:
 	wxCheckBox* set_to (wxWindow* w, int& r);
 	void content_change (ChangeType type);
 
+	boost::weak_ptr<const Film> _film;
 	wxCheckBox* _force_colour;
 	wxColourPickerCtrl* _colour;
 	wxCheckBox* _force_effect;

@@ -37,9 +37,9 @@ BOOST_AUTO_TEST_CASE (butler_test1)
 	film->set_name ("butler_test1");
 	film->set_container (Ratio::from_id ("185"));
 
-	shared_ptr<Content> video = content_factory(film, "test/data/flat_red.png").front ();
+	shared_ptr<Content> video = content_factory("test/data/flat_red.png").front ();
 	film->examine_and_add_content (video);
-	shared_ptr<Content> audio = content_factory(film, "test/data/staircase.wav").front ();
+	shared_ptr<Content> audio = content_factory("test/data/staircase.wav").front ();
 	film->examine_and_add_content (audio);
 	BOOST_REQUIRE (!wait_for_jobs ());
 

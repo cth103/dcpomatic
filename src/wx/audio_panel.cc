@@ -266,7 +266,7 @@ AudioPanel::setup_description ()
 		return;
 	}
 
-	checked_set (_description, ac.front()->audio->processing_description ());
+	checked_set (_description, ac.front()->audio->processing_description(_parent->film()));
 }
 
 void
@@ -304,7 +304,7 @@ AudioPanel::setup_sensitivity ()
 	}
 
 	string why_not;
-	bool const can_reference = dcp && dcp->can_reference_audio (why_not);
+	bool const can_reference = dcp && dcp->can_reference_audio (_parent->film(), why_not);
 	setup_refer_button (_reference, _reference_note, dcp, can_reference, why_not);
 
 	if (_reference->GetValue ()) {
@@ -353,7 +353,7 @@ AudioPanel::setup_peak ()
 		_peak->SetLabel (wxT (""));
 	} else {
 		shared_ptr<Playlist> playlist (new Playlist);
-		playlist->add (sel.front ());
+		playlist->add (_parent->film(), sel.front());
 		try {
 			shared_ptr<AudioAnalysis> analysis (new AudioAnalysis (_parent->film()->audio_analysis_path (playlist)));
 			peak_dB = 20 * log10 (analysis->overall_sample_peak().first.peak) + analysis->gain_correction (playlist);

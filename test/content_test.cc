@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE (content_test1)
 	film->set_name ("content_test1");
 	film->set_container (Ratio::from_id ("185"));
 
-	shared_ptr<Content> content = content_factory(film, private_data / "demo_sound_bug.mkv").front ();
+	shared_ptr<Content> content = content_factory(private_data / "demo_sound_bug.mkv").front ();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	film->make_dcp ();
@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE (content_test2)
 {
 	shared_ptr<Film> film = new_test_film2 ("content_test2");
 
-	shared_ptr<Content> content = content_factory(film, "test/data/red_23976.mp4").front();
+	shared_ptr<Content> content = content_factory("test/data/red_23976.mp4").front();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	content->set_trim_start(ContentTime::from_seconds(0.5));
@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_CASE (content_test3)
 	shared_ptr<Film> film = new_test_film2 ("content_test3");
 	film->set_sequence (false);
 
-	shared_ptr<Content> content = content_factory(film, "test/data/red_24.mp4").front();
+	shared_ptr<Content> content = content_factory("test/data/red_24.mp4").front();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
@@ -104,15 +104,15 @@ BOOST_AUTO_TEST_CASE (content_test3)
 	/* Position */
 
 	/* 12 frames */
-	content->set_position (DCPTime::from_seconds (12.0 / 24.0));
+	content->set_position (film, DCPTime::from_seconds(12.0 / 24.0));
 	BOOST_CHECK (content->position() == DCPTime::from_seconds (12.0 / 24.0));
 
 	/* 11.2 frames */
-	content->set_position (DCPTime::from_seconds (11.2 / 24.0));
+	content->set_position (film, DCPTime::from_seconds(11.2 / 24.0));
 	BOOST_CHECK (content->position() == DCPTime::from_seconds (11.0 / 24.0));
 
 	/* 13.9 frames */
-	content->set_position (DCPTime::from_seconds (13.9 / 24.0));
+	content->set_position (film, DCPTime::from_seconds(13.9 / 24.0));
 	BOOST_CHECK (content->position() == DCPTime::from_seconds (14.0 / 24.0));
 
 	content->set_video_frame_rate (25);

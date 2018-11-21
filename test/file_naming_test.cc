@@ -59,11 +59,11 @@ BOOST_AUTO_TEST_CASE (file_naming_test)
 	shared_ptr<Film> film = new_test_film ("file_naming_test");
 	film->set_name ("file_naming_test");
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
-	shared_ptr<FFmpegContent> r (new FFmpegContent (film, "test/data/flat_red.png"));
+	shared_ptr<FFmpegContent> r (new FFmpegContent("test/data/flat_red.png"));
 	film->examine_and_add_content (r);
-	shared_ptr<FFmpegContent> g (new FFmpegContent (film, "test/data/flat_green.png"));
+	shared_ptr<FFmpegContent> g (new FFmpegContent("test/data/flat_green.png"));
 	film->examine_and_add_content (g);
-	shared_ptr<FFmpegContent> b (new FFmpegContent (film, "test/data/flat_blue.png"));
+	shared_ptr<FFmpegContent> b (new FFmpegContent("test/data/flat_blue.png"));
 	film->examine_and_add_content (b);
 	wait_for_jobs ();
 
@@ -98,11 +98,11 @@ BOOST_AUTO_TEST_CASE (file_naming_test2)
 	shared_ptr<Film> film = new_test_film ("file_naming_test2");
 	film->set_name ("file_naming_test2");
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
-	shared_ptr<FFmpegContent> r (new FFmpegContent (film, "test/data/flät_red.png"));
+	shared_ptr<FFmpegContent> r (new FFmpegContent("test/data/flät_red.png"));
 	film->examine_and_add_content (r);
-	shared_ptr<FFmpegContent> g (new FFmpegContent (film, "test/data/flat_green.png"));
+	shared_ptr<FFmpegContent> g (new FFmpegContent("test/data/flat_green.png"));
 	film->examine_and_add_content (g);
-	shared_ptr<FFmpegContent> b (new FFmpegContent (film, "test/data/flat_blue.png"));
+	shared_ptr<FFmpegContent> b (new FFmpegContent("test/data/flat_blue.png"));
 	film->examine_and_add_content (b);
 	wait_for_jobs ();
 

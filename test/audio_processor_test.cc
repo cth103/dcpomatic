@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE (audio_processor_test)
 {
 	shared_ptr<Film> film = new_test_film ("audio_processor_test");
 	film->set_name ("audio_processor_test");
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/white.wav"));
+	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/white.wav"));
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 

@@ -66,4 +66,6 @@ private:
 	boost::signals2::scoped_connection _config_connection;
 };
 
+extern boost::shared_ptr<Log> dcpomatic_log;
+
 #endif

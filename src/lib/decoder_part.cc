@@ -23,9 +23,8 @@
 
 using boost::shared_ptr;
 
-DecoderPart::DecoderPart (Decoder* parent, shared_ptr<Log> log)
+DecoderPart::DecoderPart (Decoder* parent)
 	: _parent (parent)
-	, _log (log)
 	, _ignore (false)
 {
 

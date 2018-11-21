@@ -544,7 +544,7 @@ FilmViewer::quick_refresh ()
 		return false;
 	}
 
-	if (!_player_video.first->reset_metadata (_player->video_container_size(), _film->frame_size())) {
+	if (!_player_video.first->reset_metadata (_film, _player->video_container_size(), _film->frame_size())) {
 		return false;
 	}
 

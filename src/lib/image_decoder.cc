@@ -36,15 +36,15 @@ using std::cout;
 using boost::shared_ptr;
 using dcp::Size;
 
-ImageDecoder::ImageDecoder (shared_ptr<const ImageContent> c, shared_ptr<Log> log)
+ImageDecoder::ImageDecoder (shared_ptr<const ImageContent> c)
 	: _image_content (c)
 	, _frame_video_position (0)
 {
-	video.reset (new VideoDecoder (this, c, log));
+	video.reset (new VideoDecoder (this, c));
 }
 
 bool
-ImageDecoder::pass ()
+ImageDecoder::pass (boost::shared_ptr<const Film> film)
 {
 	if (_frame_video_position >= _image_content->video->length()) {
 		return true;
@@ -71,14 +71,14 @@ ImageDecoder::pass ()
 		}
 	}
 
-	video->emit (_image, _frame_video_position);
+	video->emit (film, _image, _frame_video_position);
 	++_frame_video_position;
 	return false;
 }
 
 void
-ImageDecoder::seek (ContentTime time, bool accurate)
+ImageDecoder::seek (shared_ptr<const Film> film, ContentTime time, bool accurate)
 {
-	Decoder::seek (time, accurate);
-	_frame_video_position = time.frames_round (_image_content->active_video_frame_rate ());
+	Decoder::seek (film, time, accurate);
+	_frame_video_position = time.frames_round (_image_content->active_video_frame_rate(film));
 }

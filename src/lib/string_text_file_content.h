@@ -28,18 +28,18 @@ class Job;
 class StringTextFileContent : public Content
 {
 public:
-	StringTextFileContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	StringTextFileContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
+	StringTextFileContent (boost::filesystem::path);
+	StringTextFileContent (cxml::ConstNodePtr, int);
 
 	boost::shared_ptr<StringTextFileContent> shared_from_this () {
 		return boost::dynamic_pointer_cast<StringTextFileContent> (Content::shared_from_this ());
 	}
 
-	void examine (boost::shared_ptr<Job>);
+	void examine (boost::shared_ptr<const Film> film, boost::shared_ptr<Job>);
 	std::string summary () const;
 	std::string technical_summary () const;
 	void as_xml (xmlpp::Node *, bool with_paths) const;
-	DCPTime full_length () const;
+	DCPTime full_length (boost::shared_ptr<const Film> film) const;
 
 private:
 	ContentTime _length;

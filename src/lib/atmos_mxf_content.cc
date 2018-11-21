@@ -33,14 +33,14 @@ using std::list;
 using std::string;
 using boost::shared_ptr;
 
-AtmosMXFContent::AtmosMXFContent (shared_ptr<const Film> film, boost::filesystem::path path)
-	: Content (film, path)
+AtmosMXFContent::AtmosMXFContent (boost::filesystem::path path)
+	: Content (path)
 {
 
 }
 
-AtmosMXFContent::AtmosMXFContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int)
-	: Content (film, node)
+AtmosMXFContent::AtmosMXFContent (cxml::ConstNodePtr node, int)
+	: Content (node)
 {
 
 }
@@ -65,10 +65,10 @@ AtmosMXFContent::valid_mxf (boost::filesystem::path path)
 }
 
 void
-AtmosMXFContent::examine (shared_ptr<Job> job)
+AtmosMXFContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 {
 	job->set_progress_unknown ();
-	Content::examine (job);
+	Content::examine (film, job);
 	shared_ptr<dcp::AtmosAsset> a (new dcp::AtmosAsset (path(0)));
 
 	{
@@ -91,8 +91,8 @@ AtmosMXFContent::as_xml (xmlpp::Node* node, bool with_paths) const
 }
 
 DCPTime
-AtmosMXFContent::full_length () const
+AtmosMXFContent::full_length (shared_ptr<const Film> film) const
 {
-	FrameRateChange const frc (active_video_frame_rate(), film()->video_frame_rate());
-	return DCPTime::from_frames (llrint (_length * frc.factor()), film()->video_frame_rate());
+	FrameRateChange const frc (active_video_frame_rate(film), film->video_frame_rate());
+	return DCPTime::from_frames (llrint (_length * frc.factor()), film->video_frame_rate());
 }

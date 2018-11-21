@@ -35,7 +35,7 @@ using boost::shared_ptr;
 BOOST_AUTO_TEST_CASE (ffmpeg_examiner_test)
 {
 	shared_ptr<Film> film = new_test_film ("ffmpeg_examiner_test");
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/count300bd24.m2ts"));
+	shared_ptr<FFmpegContent> content (new FFmpegContent ("test/data/count300bd24.m2ts"));
 	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (content));
 
 	BOOST_CHECK_EQUAL (examiner->first_video().get().get(), ContentTime::from_seconds(600).get());
