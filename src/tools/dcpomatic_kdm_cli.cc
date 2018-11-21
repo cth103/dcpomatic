@@ -73,7 +73,7 @@ help ()
 		"For example:\n\n"
 		"Create KDMs for my_great_movie to play in all of Fred's Cinema's screens for the next two weeks and zip them up.\n"
 		"(Fred's Cinema must have been set up in DCP-o-matic's KDM window)\n\n"
-		"\tdcpomatic_kdm -c \"Fred's Cinema\" -f now -d \"2 weeks\" -z my_great_movie\n\n";
+		"\tdcpomatic2_kdm_cli -c \"Fred's Cinema\" -f now -d \"2 weeks\" -z my_great_movie\n\n";
 }
 
 static void
