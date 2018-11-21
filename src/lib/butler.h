@@ -32,14 +32,12 @@
 
 class Player;
 class PlayerVideo;
-class Log;
 
 class Butler : public ExceptionStore, public boost::noncopyable
 {
 public:
 	Butler (
 		boost::shared_ptr<Player> player,
-		boost::shared_ptr<Log> log,
 		AudioMapping map,
 		int audio_channels,
 		boost::function<AVPixelFormat (AVPixelFormat)> pixel_format,
@@ -75,7 +73,6 @@ private:
 	void seek_unlocked (DCPTime position, bool accurate);
 
 	boost::shared_ptr<Player> _player;
-	boost::shared_ptr<Log> _log;
 	boost::thread* _thread;
 
 	/** mutex to protect _video, _audio and _closed_caption for when we are clearing them and they all need to be

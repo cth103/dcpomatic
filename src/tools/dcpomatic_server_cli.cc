@@ -28,6 +28,7 @@
 #include "lib/null_log.h"
 #include "lib/version.h"
 #include "lib/encode_server.h"
+#include "lib/dcpomatic_log.h"
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <boost/algorithm/string.hpp>
@@ -104,14 +105,11 @@ main (int argc, char* argv[])
 		}
 	}
 
-	shared_ptr<Log> log;
 	if (write_log) {
-		log.reset (new FileLog ("dcpomatic_server_cli.log"));
-	} else {
-		log.reset (new NullLog);
+		dcpomatic_log.reset (new FileLog("dcpomatic_server_cli.log"));
 	}
 
-	EncodeServer server (log, verbose, num_threads);
+	EncodeServer server (verbose, num_threads);
 
 	try {
 		server.run ();

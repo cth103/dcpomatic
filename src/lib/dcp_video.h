@@ -42,10 +42,10 @@ class PlayerVideo;
 class DCPVideo : public boost::noncopyable
 {
 public:
-	DCPVideo (boost::shared_ptr<const PlayerVideo>, int, int, int, Resolution, boost::shared_ptr<Log>);
-	DCPVideo (boost::shared_ptr<const PlayerVideo>, cxml::ConstNodePtr, boost::shared_ptr<Log>);
+	DCPVideo (boost::shared_ptr<const PlayerVideo>, int, int, int, Resolution);
+	DCPVideo (boost::shared_ptr<const PlayerVideo>, cxml::ConstNodePtr);
 
-	dcp::Data encode_locally (dcp::NoteHandler note);
+	dcp::Data encode_locally ();
 	dcp::Data encode_remotely (EncodeServerDescription, int timeout = 30);
 
 	int index () const {
@@ -67,6 +67,4 @@ private:
 	int _frames_per_second;		 ///< Frames per second that we will use for the DCP
 	int _j2k_bandwidth;		 ///< J2K bandwidth to use
 	Resolution _resolution;          ///< Resolution (2K or 4K)
-
-	boost::shared_ptr<Log> _log; ///< log
 };

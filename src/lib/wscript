@@ -63,6 +63,7 @@ sources = """
           dcp_subtitle_decoder.cc
           dcp_text_track.cc
           dcp_video.cc
+          dcpomatic_log.cc
           dcpomatic_socket.cc
           dcpomatic_time.cc
           decoder.cc

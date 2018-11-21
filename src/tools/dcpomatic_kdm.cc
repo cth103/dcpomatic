@@ -340,7 +340,7 @@ private:
 			}
 
 			pair<shared_ptr<Job>, int> result = _output->make (
-				screen_kdms, decrypted.content_title_text(), _timing, bind (&DOMFrame::confirm_overwrite, this, _1), shared_ptr<Log> ()
+				screen_kdms, decrypted.content_title_text(), _timing, bind (&DOMFrame::confirm_overwrite, this, _1)
 				);
 
 			if (result.first) {

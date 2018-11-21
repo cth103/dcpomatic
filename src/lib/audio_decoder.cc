@@ -21,6 +21,7 @@
 #include "audio_decoder.h"
 #include "audio_buffers.h"
 #include "audio_content.h"
+#include "dcpomatic_log.h"
 #include "log.h"
 #include "resampler.h"
 #include "compose.hpp"
@@ -28,8 +29,6 @@
 #include <iostream>
 
 #include "i18n.h"
-
-#define LOG_GENERAL(...) dcpomatic_log->log (String::compose(__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
 using std::cout;
 using std::map;

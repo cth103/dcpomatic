@@ -52,8 +52,7 @@ public:
 		std::list<ScreenKDM> screen_kdms,
 		std::string name,
 		KDMTimingPanel* timing,
-		boost::function<bool (boost::filesystem::path)> confirm_overwrite,
-		boost::shared_ptr<Log> log
+		boost::function<bool (boost::filesystem::path)> confirm_overwrite
 		);
 
 private:

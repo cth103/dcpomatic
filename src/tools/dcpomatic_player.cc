@@ -51,6 +51,7 @@
 #include "lib/monitor_checker.h"
 #include "lib/lock_file_checker.h"
 #include "lib/ffmpeg_content.h"
+#include "lib/dcpomatic_log.h"
 #include <dcp/dcp.h>
 #include <dcp/raw_convert.h>
 #include <dcp/exceptions.h>

@@ -32,6 +32,7 @@
 #include "upload_job.h"
 #include "null_log.h"
 #include "file_log.h"
+#include "dcpomatic_log.h"
 #include "exceptions.h"
 #include "examine_content_job.h"
 #include "config.h"
@@ -97,9 +98,6 @@ using boost::dynamic_pointer_cast;
 using boost::optional;
 using boost::is_any_of;
 using dcp::raw_convert;
-
-#define LOG_GENERAL(...) log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
-#define LOG_GENERAL_NC(...) log()->log (__VA_ARGS__, LogEntry::TYPE_GENERAL);
 
 string const Film::metadata_file = "metadata.xml";
 
@@ -1087,7 +1085,7 @@ void
 Film::examine_and_add_content (shared_ptr<Content> content, bool disable_audio_analysis)
 {
 	if (dynamic_pointer_cast<FFmpegContent> (content) && _directory) {
-		run_ffprobe (content->path(0), file ("ffprobe.log"), _log);
+		run_ffprobe (content->path(0), file("ffprobe.log"));
 	}
 
 	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), content));

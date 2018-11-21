@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -36,6 +36,7 @@
 #include "lib/j2k_image_proxy.h"
 #include "lib/encode_server_description.h"
 #include "lib/file_log.h"
+#include "lib/dcpomatic_log.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/thread.hpp>
 
@@ -84,7 +85,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 		p += sub_image->stride()[0];
 	}
 
-	shared_ptr<FileLog> log (new FileLog ("build/test/client_server_test_rgb.log"));
+	dcpomatic_log.reset (new FileLog("build/test/client_server_test_rgb.log"));
 
 	shared_ptr<PlayerVideo> pvf (
 		new PlayerVideo (
@@ -109,14 +110,13 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 			0,
 			24,
 			200000000,
-			RESOLUTION_2K,
-			log
+			RESOLUTION_2K
 			)
 		);
 
-	Data locally_encoded = frame->encode_locally (boost::bind (&Log::dcp_log, log.get(), _1, _2));
+	Data locally_encoded = frame->encode_locally ();
 
-	EncodeServer* server = new EncodeServer (log, true, 2);
+	EncodeServer* server = new EncodeServer (true, 2);
 
 	thread* server_thread = new thread (boost::bind (&EncodeServer::run, server));
 
@@ -169,7 +169,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 		p += sub_image->stride()[0];
 	}
 
-	shared_ptr<FileLog> log (new FileLog ("build/test/client_server_test_yuv.log"));
+	dcpomatic_log.reset (new FileLog("build/test/client_server_test_yuv.log"));
 
 	shared_ptr<PlayerVideo> pvf (
 		new PlayerVideo (
@@ -194,14 +194,13 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 			0,
 			24,
 			200000000,
-			RESOLUTION_2K,
-			log
+			RESOLUTION_2K
 			)
 		);
 
-	Data locally_encoded = frame->encode_locally (boost::bind (&Log::dcp_log, log.get(), _1, _2));
+	Data locally_encoded = frame->encode_locally ();
 
-	EncodeServer* server = new EncodeServer (log, true, 2);
+	EncodeServer* server = new EncodeServer (true, 2);
 
 	thread* server_thread = new thread (boost::bind (&EncodeServer::run, server));
 
@@ -241,7 +240,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 		}
 	}
 
-	shared_ptr<FileLog> log (new FileLog ("build/test/client_server_test_j2k.log"));
+	dcpomatic_log.reset (new FileLog("build/test/client_server_test_j2k.log"));
 
 	shared_ptr<PlayerVideo> raw_pvf (
 		new PlayerVideo (
@@ -264,12 +263,11 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 			0,
 			24,
 			200000000,
-			RESOLUTION_2K,
-			log
+			RESOLUTION_2K
 			)
 		);
 
-	Data raw_locally_encoded = raw_frame->encode_locally (boost::bind (&Log::dcp_log, log.get(), _1, _2));
+	Data raw_locally_encoded = raw_frame->encode_locally ();
 
 	shared_ptr<PlayerVideo> j2k_pvf (
 		new PlayerVideo (
@@ -292,14 +290,13 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 			0,
 			24,
 			200000000,
-			RESOLUTION_2K,
-			log
+			RESOLUTION_2K
 			)
 		);
 
-	Data j2k_locally_encoded = j2k_frame->encode_locally (boost::bind (&Log::dcp_log, log.get(), _1, _2));
+	Data j2k_locally_encoded = j2k_frame->encode_locally ();
 
-	EncodeServer* server = new EncodeServer (log, true, 2);
+	EncodeServer* server = new EncodeServer (true, 2);
 
 	thread* server_thread = new thread (boost::bind (&EncodeServer::run, server));
 

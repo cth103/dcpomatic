@@ -27,6 +27,7 @@
 #include "image.h"
 #include "util.h"
 #include "log.h"
+#include "dcpomatic_log.h"
 #include "ffmpeg_decoder.h"
 #include "text_decoder.h"
 #include "ffmpeg_audio_stream.h"
@@ -58,10 +59,6 @@ extern "C" {
 
 #include "i18n.h"
 
-#define LOG_GENERAL(...) dcpomatic_log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
-#define LOG_ERROR(...) dcpomatic_log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_ERROR);
-#define LOG_WARNING_NC(...) dcpomatic_log->log (__VA_ARGS__, LogEntry::TYPE_WARNING);
-#define LOG_WARNING(...) dcpomatic_log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_WARNING);
 
 using std::cout;
 using std::string;

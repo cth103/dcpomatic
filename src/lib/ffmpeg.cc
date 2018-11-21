@@ -24,6 +24,7 @@
 #include "exceptions.h"
 #include "util.h"
 #include "log.h"
+#include "dcpomatic_log.h"
 #include "ffmpeg_subtitle_stream.h"
 #include "ffmpeg_audio_stream.h"
 #include "digester.h"
@@ -49,7 +50,6 @@ using boost::optional;
 using dcp::raw_convert;
 
 boost::mutex FFmpeg::_mutex;
-boost::weak_ptr<Log> FFmpeg::_ffmpeg_log;
 
 FFmpeg::FFmpeg (boost::shared_ptr<const FFmpegContent> c)
 	: _ffmpeg_content (c)
@@ -97,14 +97,9 @@ FFmpeg::ffmpeg_log_callback (void* ptr, int level, const char* fmt, va_list vl)
 	char line[1024];
 	static int prefix = 0;
 	av_log_format_line (ptr, level, fmt, vl, line, sizeof (line), &prefix);
-	shared_ptr<Log> log = _ffmpeg_log.lock ();
-	if (log) {
-		string str (line);
-		boost::algorithm::trim (str);
-		log->log (String::compose ("FFmpeg: %1", str), LogEntry::TYPE_GENERAL);
-	} else {
-		cerr << line;
-	}
+	string str (line);
+	boost::algorithm::trim (str);
+	dcpomatic_log->log (String::compose ("FFmpeg: %1", str), LogEntry::TYPE_GENERAL);
 }
 
 void

@@ -59,7 +59,6 @@ private:
 			int video_frame_rate,
 			int audio_frame_rate,
 			int channels,
-			boost::shared_ptr<Log> log,
 			ExportFormat,
 			int x264_crf,
 			bool three_d,

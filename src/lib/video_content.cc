@@ -30,6 +30,7 @@
 #include "exceptions.h"
 #include "frame_rate_change.h"
 #include "log.h"
+#include "dcpomatic_log.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
@@ -37,8 +38,6 @@
 #include <iostream>
 
 #include "i18n.h"
-
-#define LOG_GENERAL(...) dcpomatic_log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
 int const VideoContentProperty::SIZE	  = 0;
 int const VideoContentProperty::FRAME_TYPE  = 1;

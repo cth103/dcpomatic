@@ -42,7 +42,7 @@ class Log;
 class EncodeServer : public Server, public ExceptionStore
 {
 public:
-	EncodeServer (boost::shared_ptr<Log> log, bool verbose, int num_threads);
+	EncodeServer (bool verbose, int num_threads);
 	~EncodeServer ();
 
 	void run ();
@@ -58,7 +58,6 @@ private:
 	std::list<boost::shared_ptr<Socket> > _queue;
 	boost::condition _full_condition;
 	boost::condition _empty_condition;
-	boost::shared_ptr<Log> _log;
 	bool _verbose;
 	int _num_threads;
 

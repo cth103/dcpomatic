@@ -28,6 +28,7 @@
 #include "exceptions.h"
 #include "film.h"
 #include "log.h"
+#include "dcpomatic_log.h"
 #include "compose.hpp"
 #include <dcp/exceptions.h>
 #include <sub/exceptions.h>
@@ -45,9 +46,6 @@ using std::cout;
 using boost::shared_ptr;
 using boost::optional;
 using boost::function;
-
-#define LOG_ERROR_NC(...) if (_film) { _film->log()->log (__VA_ARGS__, LogEntry::TYPE_ERROR); }
-#define LOG_GENERAL(...) if (_film) { _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL); }
 
 /** @param film Associated film, or 0 */
 Job::Job (shared_ptr<const Film> film)

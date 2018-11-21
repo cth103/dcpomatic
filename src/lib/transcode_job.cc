@@ -29,15 +29,12 @@
 #include "film.h"
 #include "encoder.h"
 #include "log.h"
+#include "dcpomatic_log.h"
 #include "compose.hpp"
 #include <iostream>
 #include <iomanip>
 
 #include "i18n.h"
-
-#define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
-#define LOG_GENERAL_NC(...) _film->log()->log (__VA_ARGS__, LogEntry::TYPE_GENERAL);
-#define LOG_ERROR_NC(...)   _film->log()->log (__VA_ARGS__, LogEntry::TYPE_ERROR);
 
 using std::string;
 using std::fixed;

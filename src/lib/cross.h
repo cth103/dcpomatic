@@ -39,7 +39,7 @@ struct AVIOContext;
 
 void dcpomatic_sleep (int);
 extern std::string cpu_info ();
-extern void run_ffprobe (boost::filesystem::path, boost::filesystem::path, boost::shared_ptr<Log>);
+extern void run_ffprobe (boost::filesystem::path, boost::filesystem::path);
 extern std::list<std::pair<std::string, std::string> > mount_info ();
 extern boost::filesystem::path openssl_path ();
 #ifdef DCPOMATIC_OSX

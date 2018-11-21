@@ -22,14 +22,12 @@
 #include "player.h"
 #include "util.h"
 #include "log.h"
+#include "dcpomatic_log.h"
 #include "cross.h"
 #include "compose.hpp"
 #include "exceptions.h"
 #include <boost/weak_ptr.hpp>
 #include <boost/shared_ptr.hpp>
-
-#define LOG_TIMING(...)  _log->log (String::compose(__VA_ARGS__), LogEntry::TYPE_TIMING);
-#define LOG_WARNING(...) _log->log (String::compose(__VA_ARGS__), LogEntry::TYPE_WARNING);
 
 using std::cout;
 using std::pair;
@@ -57,7 +55,6 @@ using boost::function;
  */
 Butler::Butler (
 	shared_ptr<Player> player,
-	shared_ptr<Log> log,
 	AudioMapping audio_mapping,
 	int audio_channels,
 	function<AVPixelFormat (AVPixelFormat)> pixel_format,
@@ -65,7 +62,6 @@ Butler::Butler (
 	bool fast
 	)
 	: _player (player)
-	, _log (log)
 	, _prepare_work (new boost::asio::io_service::work (_prepare_service))
 	, _pending_seek_accurate (false)
 	, _suspended (0)
@@ -95,9 +91,7 @@ Butler::Butler (
 	   multi-thread JPEG2000 decoding.
 	*/
 
-	if (_log) {
-		LOG_TIMING("start-prepare-threads %1", boost::thread::hardware_concurrency() * 2);
-	}
+	LOG_TIMING("start-prepare-threads %1", boost::thread::hardware_concurrency() * 2);
 
 	for (size_t i = 0; i < boost::thread::hardware_concurrency() * 2; ++i) {
 		_prepare_pool.create_thread (bind (&boost::asio::io_service::run, &_prepare_service));
@@ -140,11 +134,11 @@ Butler::should_run () const
 			(__FILE__, __LINE__, String::compose ("Butler audio buffers reached %1 frames (video is %2)", _audio.size(), _video.size()));
 	}
 
-	if (_video.size() >= MAXIMUM_VIDEO_READAHEAD * 2 && _log) {
+	if (_video.size() >= MAXIMUM_VIDEO_READAHEAD * 2) {
 		LOG_WARNING ("Butler video buffers reached %1 frames (audio is %2)", _video.size(), _audio.size());
 	}
 
-	if (_audio.size() >= MAXIMUM_AUDIO_READAHEAD * 2 && _log) {
+	if (_audio.size() >= MAXIMUM_AUDIO_READAHEAD * 2) {
 		LOG_WARNING ("Butler audio buffers reached %1 frames (video is %2)", _audio.size(), _video.size());
 	}
 
@@ -279,15 +273,9 @@ Butler::prepare (weak_ptr<PlayerVideo> weak_video) const
 	shared_ptr<PlayerVideo> video = weak_video.lock ();
 	/* If the weak_ptr cannot be locked the video obviously no longer requires any work */
 	if (video) {
-		if (_log) {
-			LOG_TIMING("start-prepare in %1", thread_id());
-		}
-
+		LOG_TIMING("start-prepare in %1", thread_id());
 		video->prepare (_pixel_format, _aligned, _fast);
-
-		if (_log) {
-			LOG_TIMING("finish-prepare in %1", thread_id());
-		}
+		LOG_TIMING("finish-prepare in %1", thread_id());
 	}
 }
 

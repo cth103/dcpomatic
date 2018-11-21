@@ -33,6 +33,7 @@
 #include "lib/ratio.h"
 #include "lib/video_content.h"
 #include "lib/audio_content.h"
+#include "lib/dcpomatic_log.h"
 #include <dcp/version.h>
 #include <boost/foreach.hpp>
 #include <getopt.h>
@@ -330,6 +331,8 @@ main (int argc, char* argv[])
 		print_dump (film);
 		exit (EXIT_SUCCESS);
 	}
+
+	dcpomatic_log = film->log ();
 
 	ContentList content = film->content ();
 	for (ContentList::const_iterator i = content.begin(); i != content.end(); ++i) {

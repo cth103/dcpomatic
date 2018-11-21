@@ -33,6 +33,7 @@
 #include "player_video.h"
 #include "compose.hpp"
 #include "log.h"
+#include "dcpomatic_log.h"
 #include "encoded_log_entry.h"
 #include "version.h"
 #include <dcp/raw_convert.h>
@@ -50,11 +51,6 @@
 
 #include "i18n.h"
 
-#define LOG_GENERAL(...)    _log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
-#define LOG_GENERAL_NC(...) _log->log (__VA_ARGS__, LogEntry::TYPE_GENERAL);
-#define LOG_ERROR(...)      _log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_ERROR);
-#define LOG_ERROR_NC(...)   _log->log (__VA_ARGS__, LogEntry::TYPE_ERROR);
-
 using std::string;
 using std::vector;
 using std::list;
@@ -70,13 +66,12 @@ using dcp::Size;
 using dcp::Data;
 using dcp::raw_convert;
 
-EncodeServer::EncodeServer (shared_ptr<Log> log, bool verbose, int num_threads)
+EncodeServer::EncodeServer (bool verbose, int num_threads)
 #if !defined(RUNNING_ON_VALGRIND) || RUNNING_ON_VALGRIND == 0
 	: Server (ENCODE_FRAME_PORT)
 #else
 	: Server (ENCODE_FRAME_PORT, 2400)
 #endif
-	, _log (log)
 	, _verbose (verbose)
 	, _num_threads (num_threads)
 {
@@ -141,11 +136,11 @@ EncodeServer::process (shared_ptr<Socket> socket, struct timeval& after_read, st
 
 	shared_ptr<PlayerVideo> pvf (new PlayerVideo (xml, socket));
 
-	DCPVideo dcp_video_frame (pvf, xml, _log);
+	DCPVideo dcp_video_frame (pvf, xml);
 
 	gettimeofday (&after_read, 0);
 
-	Data encoded = dcp_video_frame.encode_locally (boost::bind (&Log::dcp_log, _log.get(), _1, _2));
+	Data encoded = dcp_video_frame.encode_locally ();
 
 	gettimeofday (&after_encode, 0);
 
@@ -220,7 +215,7 @@ EncodeServer::worker_thread ()
 				cout << e->get() << "\n";
 			}
 
-			_log->log (e);
+			dcpomatic_log->log (e);
 		}
 
 		_full_condition.notify_all ();

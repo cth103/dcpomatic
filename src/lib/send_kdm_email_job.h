@@ -35,8 +35,7 @@ public:
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
 		dcp::NameFormat::Map name_values,
-		std::string cpl_name,
-		boost::shared_ptr<Log> log
+		std::string cpl_name
 		);
 
 	std::string name () const;
@@ -49,5 +48,4 @@ private:
 	dcp::NameFormat::Map _name_values;
 	std::string _cpl_name;
 	std::list<CinemaKDMs> _cinema_kdms;
-	boost::shared_ptr<Log> _log;
 };

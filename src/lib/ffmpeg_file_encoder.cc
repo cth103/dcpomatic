@@ -47,7 +47,6 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 	int video_frame_rate,
 	int audio_frame_rate,
 	int channels,
-	shared_ptr<Log> log,
 	ExportFormat format,
 	int x264_crf,
 	boost::filesystem::path output
@@ -58,7 +57,6 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 	, _video_frame_size (video_frame_size)
 	, _video_frame_rate (video_frame_rate)
 	, _audio_frame_rate (audio_frame_rate)
-	, _log (log)
 {
 	_pixel_format = pixel_format (format);
 

@@ -73,7 +73,6 @@ FFmpegEncoder::FFmpegEncoder (
 				_film->video_frame_rate(),
 				_film->audio_frame_rate(),
 				mixdown_to_stereo ? 2 : film->audio_channels(),
-				_film->log(),
 				format,
 				x264_crf,
 				_film->three_d(),
@@ -108,7 +107,7 @@ FFmpegEncoder::FFmpegEncoder (
 		}
 	}
 
-	_butler.reset (new Butler (_player, film->log(), map, _output_audio_channels, bind(&PlayerVideo::force, _1, FFmpegFileEncoder::pixel_format(format)), true, false));
+	_butler.reset (new Butler(_player, map, _output_audio_channels, bind(&PlayerVideo::force, _1, FFmpegFileEncoder::pixel_format(format)), true, false));
 }
 
 void
@@ -191,7 +190,6 @@ FFmpegEncoder::FileEncoderSet::FileEncoderSet (
 	int video_frame_rate,
 	int audio_frame_rate,
 	int channels,
-	shared_ptr<Log> log,
 	ExportFormat format,
 	int x264_crf,
 	bool three_d,
@@ -202,15 +200,15 @@ FFmpegEncoder::FileEncoderSet::FileEncoderSet (
 	if (three_d) {
 		/// TRANSLATORS: L here is an abbreviation for "left", to indicate the left-eye part of a 3D export
 		_encoders[EYES_LEFT] = shared_ptr<FFmpegFileEncoder>(
-			new FFmpegFileEncoder(video_frame_size, video_frame_rate, audio_frame_rate, channels, log, format, x264_crf, String::compose("%1_%2%3", output.string(), _("L"), extension))
+			new FFmpegFileEncoder(video_frame_size, video_frame_rate, audio_frame_rate, channels, format, x264_crf, String::compose("%1_%2%3", output.string(), _("L"), extension))
 			);
 		/// TRANSLATORS: R here is an abbreviation for "left", to indicate the left-eye part of a 3D export
 		_encoders[EYES_RIGHT] = shared_ptr<FFmpegFileEncoder>(
-			new FFmpegFileEncoder(video_frame_size, video_frame_rate, audio_frame_rate, channels, log, format, x264_crf, String::compose("%1_%2%3", output.string(), _("R"), extension))
+			new FFmpegFileEncoder(video_frame_size, video_frame_rate, audio_frame_rate, channels, format, x264_crf, String::compose("%1_%2%3", output.string(), _("R"), extension))
 			);
 	} else {
 		_encoders[EYES_BOTH]  = shared_ptr<FFmpegFileEncoder>(
-			new FFmpegFileEncoder(video_frame_size, video_frame_rate, audio_frame_rate, channels, log, format, x264_crf, String::compose("%1%2", output.string(), extension))
+			new FFmpegFileEncoder(video_frame_size, video_frame_rate, audio_frame_rate, channels, format, x264_crf, String::compose("%1%2", output.string(), extension))
 			);
 	}
 }

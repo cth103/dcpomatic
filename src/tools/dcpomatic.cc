@@ -76,6 +76,7 @@
 #include "lib/audio_content.h"
 #include "lib/check_content_change_job.h"
 #include "lib/text_content.h"
+#include "lib/dcpomatic_log.h"
 #include <dcp/exceptions.h>
 #include <dcp/raw_convert.h>
 #include <wx/generic/aboutdlgg.h>
@@ -402,6 +403,7 @@ public:
 		film->set_name (path.filename().generic_string());
 		film->write_metadata ();
 		set_film (film);
+		dcpomatic_log = film->log ();
 	}
 
 	void load_film (boost::filesystem::path file)

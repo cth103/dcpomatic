@@ -45,8 +45,6 @@ extern "C" {
 
 #include "i18n.h"
 
-#define LOG_GENERAL(...) dcpomatic_log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
-
 using std::string;
 using std::vector;
 using std::list;

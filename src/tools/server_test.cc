@@ -47,21 +47,20 @@ using dcp::Data;
 
 static shared_ptr<Film> film;
 static EncodeServerDescription* server;
-static shared_ptr<FileLog> log_ (new FileLog ("servomatictest.log"));
 static int frame_count = 0;
 
 void
 process_video (shared_ptr<PlayerVideo> pvf)
 {
-	shared_ptr<DCPVideo> local  (new DCPVideo (pvf, frame_count, film->video_frame_rate(), 250000000, RESOLUTION_2K, log_));
-	shared_ptr<DCPVideo> remote (new DCPVideo (pvf, frame_count, film->video_frame_rate(), 250000000, RESOLUTION_2K, log_));
+	shared_ptr<DCPVideo> local  (new DCPVideo (pvf, frame_count, film->video_frame_rate(), 250000000, RESOLUTION_2K));
+	shared_ptr<DCPVideo> remote (new DCPVideo (pvf, frame_count, film->video_frame_rate(), 250000000, RESOLUTION_2K));
 
 	cout << "Frame " << frame_count << ": ";
 	cout.flush ();
 
 	++frame_count;
 
-	Data local_encoded = local->encode_locally (boost::bind (&Log::dcp_log, log_.get(), _1, _2));
+	Data local_encoded = local->encode_locally ();
 	Data remote_encoded;
 
 	string remote_error;

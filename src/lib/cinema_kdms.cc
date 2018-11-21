@@ -27,6 +27,7 @@
 #include "emailer.h"
 #include "compose.hpp"
 #include "log.h"
+#include "dcpomatic_log.h"
 #include <zip.h>
 #include <boost/foreach.hpp>
 
@@ -184,7 +185,6 @@ CinemaKDMs::write_zip_files (
  *  @param filename_format Format of filenames to use.
  *  @param name_values Values to substitute into \p container_name_format and \p filename_format.
  *  @param cpl_name Name of the CPL that the KDMs are for.
- *  @param log Log to write email session transcript to, or 0.
  */
 void
 CinemaKDMs::email (
@@ -192,8 +192,7 @@ CinemaKDMs::email (
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
 	dcp::NameFormat::Map name_values,
-	string cpl_name,
-	shared_ptr<Log> log
+	string cpl_name
 	)
 {
 	Config* config = Config::instance ();
@@ -249,22 +248,18 @@ CinemaKDMs::email (
 			email.send (c->mail_server(), c->mail_port(), c->mail_user(), c->mail_password());
 		} catch (...) {
 			boost::filesystem::remove (zip_file);
-			if (log) {
-				log->log ("Email content follows", LogEntry::TYPE_DEBUG_EMAIL);
-				log->log (email.email(), LogEntry::TYPE_DEBUG_EMAIL);
-				log->log ("Email session follows", LogEntry::TYPE_DEBUG_EMAIL);
-				log->log (email.notes(), LogEntry::TYPE_DEBUG_EMAIL);
-			}
+			dcpomatic_log->log ("Email content follows", LogEntry::TYPE_DEBUG_EMAIL);
+			dcpomatic_log->log (email.email(), LogEntry::TYPE_DEBUG_EMAIL);
+			dcpomatic_log->log ("Email session follows", LogEntry::TYPE_DEBUG_EMAIL);
+			dcpomatic_log->log (email.notes(), LogEntry::TYPE_DEBUG_EMAIL);
 			throw;
 		}
 
 		boost::filesystem::remove (zip_file);
 
-		if (log) {
-			log->log ("Email content follows", LogEntry::TYPE_DEBUG_EMAIL);
-			log->log (email.email(), LogEntry::TYPE_DEBUG_EMAIL);
-			log->log ("Email session follows", LogEntry::TYPE_DEBUG_EMAIL);
-			log->log (email.notes(), LogEntry::TYPE_DEBUG_EMAIL);
-		}
+		dcpomatic_log->log ("Email content follows", LogEntry::TYPE_DEBUG_EMAIL);
+		dcpomatic_log->log (email.email(), LogEntry::TYPE_DEBUG_EMAIL);
+		dcpomatic_log->log ("Email session follows", LogEntry::TYPE_DEBUG_EMAIL);
+		dcpomatic_log->log (email.notes(), LogEntry::TYPE_DEBUG_EMAIL);
 	}
 }

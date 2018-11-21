@@ -26,6 +26,7 @@
 #include "util.h"
 #include "film.h"
 #include "log.h"
+#include "dcpomatic_log.h"
 #include "config.h"
 #include "dcp_video.h"
 #include "cross.h"
@@ -40,12 +41,6 @@
 #include <iostream>
 
 #include "i18n.h"
-
-#define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
-#define LOG_GENERAL_NC(...) _film->log()->log (__VA_ARGS__, LogEntry::TYPE_GENERAL);
-#define LOG_ERROR(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_ERROR);
-#define LOG_TIMING(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_TIMING);
-#define LOG_DEBUG_ENCODE(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_DEBUG_ENCODE);
 
 using std::list;
 using std::cout;
@@ -134,9 +129,9 @@ J2KEncoder::end ()
 		LOG_GENERAL (N_("Encode left-over frame %1"), (*i)->index ());
 		try {
 			_writer->write (
-				(*i)->encode_locally (boost::bind (&Log::dcp_log, _film->log().get(), _1, _2)),
-				(*i)->index (),
-				(*i)->eyes ()
+				(*i)->encode_locally(),
+				(*i)->index(),
+				(*i)->eyes()
 				);
 			frame_done ();
 		} catch (std::exception& e) {
@@ -233,8 +228,7 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 						  position,
 						  _film->video_frame_rate(),
 						  _film->j2k_bandwidth(),
-						  _film->resolution(),
-						  _film->log()
+						  _film->resolution()
 						  )
 					  ));
 
@@ -338,7 +332,7 @@ try
 			} else {
 				try {
 					LOG_TIMING ("start-local-encode thread=%1 frame=%2", thread_id(), vf->index());
-					encoded = vf->encode_locally (boost::bind (&Log::dcp_log, _film->log().get(), _1, _2));
+					encoded = vf->encode_locally ();
 					LOG_TIMING ("finish-local-encode thread=%1 frame=%2", thread_id(), vf->index());
 				} catch (std::exception& e) {
 					/* This is very bad, so don't cope with it, just pass it on */

@@ -38,7 +38,6 @@ public:
 		int video_frame_rate,
 		int audio_frame_rate,
 		int channels,
-		boost::shared_ptr<Log> log,
 		ExportFormat,
 		int x264_crf,
 		boost::filesystem::path output
@@ -79,7 +78,6 @@ private:
 	dcp::Size _video_frame_size;
 	int _video_frame_rate;
 	int _audio_frame_rate;
-	boost::shared_ptr<Log> _log;
 
 	boost::shared_ptr<AudioBuffers> _pending_audio;
 

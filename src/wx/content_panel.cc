@@ -41,6 +41,7 @@
 #include "lib/compose.hpp"
 #include "lib/string_text_file_content.h"
 #include "lib/string_text_file.h"
+#include "lib/dcpomatic_log.h"
 #include <wx/wx.h>
 #include <wx/notebook.h>
 #include <wx/listctrl.h>
@@ -58,8 +59,6 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
-
-#define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
 ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> viewer)
 	: _video_panel (0)

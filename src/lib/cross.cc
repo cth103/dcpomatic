@@ -21,6 +21,7 @@
 #include "cross.h"
 #include "compose.hpp"
 #include "log.h"
+#include "dcpomatic_log.h"
 #include "config.h"
 #include "exceptions.h"
 extern "C" {
@@ -52,10 +53,6 @@ extern "C" {
 #include <fstream>
 
 #include "i18n.h"
-
-#define LOG_GENERAL(...) log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
-#define LOG_ERROR(...) log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_ERROR);
-#define LOG_ERROR_NC(...) log->log (__VA_ARGS__, LogEntry::TYPE_ERROR);
 
 using std::pair;
 using std::list;
@@ -182,7 +179,7 @@ shared_path ()
 }
 
 void
-run_ffprobe (boost::filesystem::path content, boost::filesystem::path out, shared_ptr<Log> log)
+run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
 {
 #ifdef DCPOMATIC_WINDOWS
 	SECURITY_ATTRIBUTES security;

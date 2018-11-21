@@ -26,14 +26,13 @@
 #include "upload_job.h"
 #include "config.h"
 #include "log.h"
+#include "dcpomatic_log.h"
 #include "film.h"
 #include "scp_uploader.h"
 #include "curl_uploader.h"
 #include <iostream>
 
 #include "i18n.h"
-
-#define LOG_GENERAL_NC(...) _film->log()->log (__VA_ARGS__, LogEntry::TYPE_GENERAL);
 
 using std::string;
 using std::min;

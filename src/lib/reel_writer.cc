@@ -23,6 +23,7 @@
 #include "cross.h"
 #include "job.h"
 #include "log.h"
+#include "dcpomatic_log.h"
 #include "digester.h"
 #include "font.h"
 #include "compose.hpp"
@@ -48,11 +49,6 @@
 #include <boost/foreach.hpp>
 
 #include "i18n.h"
-
-#define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
-#define LOG_GENERAL_NC(...) _film->log()->log (__VA_ARGS__, LogEntry::TYPE_GENERAL);
-#define LOG_WARNING_NC(...) _film->log()->log (__VA_ARGS__, LogEntry::TYPE_WARNING);
-#define LOG_ERROR(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_ERROR);
 
 using std::list;
 using std::string;

@@ -34,6 +34,7 @@
 #include "video_mxf_content.h"
 #include "film.h"
 #include "log_entry.h"
+#include "dcpomatic_log.h"
 #include "log.h"
 #include "compose.hpp"
 #include <libcxml/cxml.h>
@@ -46,8 +47,6 @@ using std::string;
 using std::list;
 using boost::shared_ptr;
 using boost::optional;
-
-#define LOG_GENERAL(...) dcpomatic_log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
 /** Create a Content object from an XML node.
  *  @param node XML description.

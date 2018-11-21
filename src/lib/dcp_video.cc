@@ -35,6 +35,7 @@
 #include "dcpomatic_socket.h"
 #include "image.h"
 #include "log.h"
+#include "dcpomatic_log.h"
 #include "cross.h"
 #include "player_video.h"
 #include "compose.hpp"
@@ -49,10 +50,6 @@
 #include <stdint.h>
 #include <iomanip>
 #include <iostream>
-
-#define LOG_GENERAL(...) _log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
-#define LOG_DEBUG_ENCODE(...) _log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_DEBUG_ENCODE);
-#define LOG_TIMING(...) _log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_TIMING);
 
 #include "i18n.h"
 
@@ -69,24 +66,21 @@ using dcp::raw_convert;
  *  @param frame Input frame.
  *  @param index Index of the frame within the DCP.
  *  @param bw J2K bandwidth to use (see Config::j2k_bandwidth ())
- *  @param l Log to write to.
  */
 DCPVideo::DCPVideo (
-	shared_ptr<const PlayerVideo> frame, int index, int dcp_fps, int bw, Resolution r, shared_ptr<Log> l
+	shared_ptr<const PlayerVideo> frame, int index, int dcp_fps, int bw, Resolution r
 	)
 	: _frame (frame)
 	, _index (index)
 	, _frames_per_second (dcp_fps)
 	, _j2k_bandwidth (bw)
 	, _resolution (r)
-	, _log (l)
 {
 
 }
 
-DCPVideo::DCPVideo (shared_ptr<const PlayerVideo> frame, shared_ptr<const cxml::Node> node, shared_ptr<Log> log)
+DCPVideo::DCPVideo (shared_ptr<const PlayerVideo> frame, shared_ptr<const cxml::Node> node)
 	: _frame (frame)
-	, _log (log)
 {
 	_index = node->number_child<int> ("Index");
 	_frames_per_second = node->number_child<int> ("FramesPerSecond");
@@ -119,10 +113,10 @@ DCPVideo::convert_to_xyz (shared_ptr<const PlayerVideo> frame, dcp::NoteHandler 
  *  @return Encoded data.
  */
 Data
-DCPVideo::encode_locally (dcp::NoteHandler note)
+DCPVideo::encode_locally ()
 {
 	Data enc = compress_j2k (
-		convert_to_xyz (_frame, note),
+		convert_to_xyz (_frame, boost::bind(&Log::dcp_log, dcpomatic_log.get(), _1, _2)),
 		_j2k_bandwidth,
 		_frames_per_second,
 		_frame->eyes() == EYES_LEFT || _frame->eyes() == EYES_RIGHT,

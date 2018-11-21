@@ -193,7 +193,7 @@ FilmViewer::recreate_butler ()
 		map.set (dcp::RS,     1, 1 / sqrt(2)); // Rs -> Rt
 	}
 
-	_butler.reset (new Butler(_player, _film->log(), map, _audio_channels, bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
+	_butler.reset (new Butler(_player, map, _audio_channels, bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
 	if (!Config::instance()->sound() && !_audio.isStreamOpen()) {
 		_butler->disable_audio ();
 	}

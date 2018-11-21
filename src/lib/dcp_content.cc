@@ -29,6 +29,7 @@
 #include "compose.hpp"
 #include "dcp_decoder.h"
 #include "log.h"
+#include "dcpomatic_log.h"
 #include "text_content.h"
 #include <dcp/dcp.h>
 #include <dcp/raw_convert.h>
@@ -63,8 +64,6 @@ int const DCPContentProperty::REFERENCE_TEXT     = 604;
 int const DCPContentProperty::NAME               = 605;
 int const DCPContentProperty::TEXTS              = 606;
 int const DCPContentProperty::CPL                = 607;
-
-#define LOG_GENERAL(...) dcpomatic_log->log(String::compose(__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
 DCPContent::DCPContent (boost::filesystem::path p)
 	: _encrypted (false)

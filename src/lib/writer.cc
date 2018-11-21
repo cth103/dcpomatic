@@ -23,6 +23,7 @@
 #include "film.h"
 #include "ratio.h"
 #include "log.h"
+#include "dcpomatic_log.h"
 #include "dcp_video.h"
 #include "dcp_content_type.h"
 #include "audio_mapping.h"
@@ -43,14 +44,6 @@
 #include <cfloat>
 
 #include "i18n.h"
-
-#define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
-#define LOG_GENERAL_NC(...) _film->log()->log (__VA_ARGS__, LogEntry::TYPE_GENERAL);
-#define LOG_DEBUG_ENCODE(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_DEBUG_ENCODE);
-#define LOG_TIMING(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_TIMING);
-#define LOG_WARNING_NC(...) _film->log()->log (__VA_ARGS__, LogEntry::TYPE_WARNING);
-#define LOG_WARNING(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_WARNING);
-#define LOG_ERROR(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_ERROR);
 
 /* OS X strikes again */
 #undef set_key

@@ -27,6 +27,7 @@
 #include "lib/log.h"
 #include "lib/signaller.h"
 #include "lib/cross.h"
+#include "lib/dcpomatic_log.h"
 #include <wx/taskbar.h>
 #include <wx/splash.h>
 #include <wx/icon.h>
@@ -268,6 +269,7 @@ private:
 		}
 
 		server_log.reset (new ServerLog);
+		dcpomatic_log = server_log;
 
 		Config::FailedToLoad.connect (boost::bind (&App::config_failed_to_load, this));
 		Config::Warning.connect (boost::bind (&App::config_warning, this, _1));
@@ -304,7 +306,7 @@ private:
 
 	void main_thread ()
 	try {
-		EncodeServer server (server_log, false, Config::instance()->server_encoding_threads());
+		EncodeServer server (false, Config::instance()->server_encoding_threads());
 		server.run ();
 	} catch (...) {
 		store_current ();
