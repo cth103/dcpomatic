@@ -97,7 +97,7 @@ public:
 	 */
 	virtual std::list<DCPTime> reel_split_points () const;
 
-	boost::shared_ptr<Content> clone (boost::shared_ptr<const Film> film) const;
+	boost::shared_ptr<Content> clone () const;
 
 	void set_paths (std::vector<boost::filesystem::path> paths);
 

@@ -56,7 +56,7 @@ using boost::optional;
  *  @return Content object, or 0 if no content was recognised in the XML.
  */
 shared_ptr<Content>
-content_factory (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, list<string>& notes)
+content_factory (cxml::ConstNodePtr node, int version, list<string>& notes)
 {
 	string const type = node->string_child ("Type");
 
@@ -96,46 +96,6 @@ content_factory (shared_ptr<const Film> film, cxml::ConstNodePtr node, int versi
 		content.reset (new VideoMXFContent (node, version));
 	} else if (type == "AtmosMXF") {
 		content.reset (new AtmosMXFContent (node, version));
-	}
-
-	/* See if this content should be nudged to start on a video frame */
-	DCPTime const old_pos = content->position();
-	content->set_position(film, old_pos);
-	if (old_pos != content->position()) {
-		string note = _("Your project contains video content that was not aligned to a frame boundary.");
-		note += "  ";
-		if (old_pos < content->position()) {
-			note += String::compose(
-				_("The file %1 has been moved %2 milliseconds later."),
-				content->path_summary(), DCPTime(content->position() - old_pos).seconds() * 1000
-				);
-		} else {
-			note += String::compose(
-				_("The file %1 has been moved %2 milliseconds earlier."),
-				content->path_summary(), DCPTime(content->position() - old_pos).seconds() * 1000
-				);
-		}
-		notes.push_back (note);
-	}
-
-	/* ...or have a start trim which is an integer number of frames */
-	ContentTime const old_trim = content->trim_start();
-	content->set_trim_start(old_trim);
-	if (old_trim != content->trim_start()) {
-		string note = _("Your project contains video content whose trim was not aligned to a frame boundary.");
-		note += "  ";
-		if (old_trim < content->trim_start()) {
-			note += String::compose(
-				_("The file %1 has been trimmed by %2 milliseconds more."),
-				content->path_summary(), ContentTime(content->trim_start() - old_trim).seconds() * 1000
-				);
-		} else {
-			note += String::compose(
-				_("The file %1 has been trimmed by %2 milliseconds less."),
-				content->path_summary(), ContentTime(old_trim - content->trim_start()).seconds() * 1000
-				);
-		}
-		notes.push_back (note);
 	}
 
 	return content;

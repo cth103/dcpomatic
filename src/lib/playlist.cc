@@ -31,6 +31,7 @@
 #include "config.h"
 #include "util.h"
 #include "digester.h"
+#include "compose.hpp"
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/shared_ptr.hpp>
@@ -185,7 +186,49 @@ void
 Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, list<string>& notes)
 {
 	BOOST_FOREACH (cxml::NodePtr i, node->node_children ("Content")) {
-		_content.push_back (content_factory (film, i, version, notes));
+		shared_ptr<Content> content = content_factory (i, version, notes);
+
+		/* See if this content should be nudged to start on a video frame */
+		DCPTime const old_pos = content->position();
+		content->set_position(film, old_pos);
+		if (old_pos != content->position()) {
+			string note = _("Your project contains video content that was not aligned to a frame boundary.");
+			note += "  ";
+			if (old_pos < content->position()) {
+				note += String::compose(
+					_("The file %1 has been moved %2 milliseconds later."),
+					content->path_summary(), DCPTime(content->position() - old_pos).seconds() * 1000
+					);
+			} else {
+				note += String::compose(
+					_("The file %1 has been moved %2 milliseconds earlier."),
+					content->path_summary(), DCPTime(content->position() - old_pos).seconds() * 1000
+					);
+			}
+			notes.push_back (note);
+		}
+
+		/* ...or have a start trim which is an integer number of frames */
+		ContentTime const old_trim = content->trim_start();
+		content->set_trim_start(old_trim);
+		if (old_trim != content->trim_start()) {
+			string note = _("Your project contains video content whose trim was not aligned to a frame boundary.");
+			note += "  ";
+			if (old_trim < content->trim_start()) {
+				note += String::compose(
+					_("The file %1 has been trimmed by %2 milliseconds more."),
+					content->path_summary(), ContentTime(content->trim_start() - old_trim).seconds() * 1000
+					);
+			} else {
+				note += String::compose(
+					_("The file %1 has been trimmed by %2 milliseconds less."),
+					content->path_summary(), ContentTime(old_trim - content->trim_start()).seconds() * 1000
+					);
+			}
+			notes.push_back (note);
+		}
+
+		_content.push_back (content);
 	}
 
 	/* This shouldn't be necessary but better safe than sorry (there could be old files) */
@@ -470,7 +513,7 @@ Playlist::repeat (shared_ptr<const Film> film, ContentList c, int n)
 	DCPTime pos = range.second;
 	for (int i = 0; i < n; ++i) {
 		BOOST_FOREACH (shared_ptr<Content> j, c) {
-			shared_ptr<Content> copy = j->clone (film);
+			shared_ptr<Content> copy = j->clone ();
 			copy->set_position (film, pos + copy->position() - range.first);
 			_content.push_back (copy);
 		}

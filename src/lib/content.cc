@@ -270,7 +270,7 @@ Content::set_trim_end (ContentTime t)
 
 
 shared_ptr<Content>
-Content::clone (shared_ptr<const Film> film) const
+Content::clone () const
 {
 	/* This is a bit naughty, but I can't think of a compelling reason not to do it ... */
 	xmlpp::Document doc;
@@ -279,7 +279,7 @@ Content::clone (shared_ptr<const Film> film) const
 
 	/* notes is unused here (we assume) */
 	list<string> notes;
-	return content_factory (film, cxml::NodePtr(new cxml::Node(node)), Film::current_state_version, notes);
+	return content_factory (cxml::NodePtr(new cxml::Node(node)), Film::current_state_version, notes);
 }
 
 string

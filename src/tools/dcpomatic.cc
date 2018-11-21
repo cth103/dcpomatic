@@ -595,7 +595,7 @@ private:
 	{
 		ContentList const sel = _film_editor->content_panel()->selected();
 		DCPOMATIC_ASSERT (sel.size() == 1);
-		_clipboard = sel.front()->clone(_film);
+		_clipboard = sel.front()->clone();
 	}
 
 	void edit_paste ()
