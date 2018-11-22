@@ -89,9 +89,9 @@ ContentView::update ()
 		try {
 			shared_ptr<Content> content;
 			if (is_directory(*i) && (is_regular_file(*i / "ASSETMAP") || is_regular_file(*i / "ASSETMAP.xml"))) {
-				content.reset (new DCPContent(film, *i));
+				content.reset (new DCPContent(*i));
 			} else if (i->path().extension() == ".mp4" || i->path().extension() == ".ecinema") {
-				content = content_factory(film, *i).front();
+				content = content_factory(*i).front();
 			}
 
 			if (content) {
@@ -133,10 +133,13 @@ ContentView::add (shared_ptr<Content> content)
 {
 	int const N = GetItemCount();
 
+	shared_ptr<Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+
 	wxListItem it;
 	it.SetId(N);
 	it.SetColumn(0);
-	DCPTime length = content->length_after_trim ();
+	DCPTime length = content->length_after_trim (film);
 	int h, m, s, f;
 	length.split (24, h, m, s, f);
 	it.SetText(wxString::Format("%02d:%02d:%02d", h, m, s));
