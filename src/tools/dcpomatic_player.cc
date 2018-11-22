@@ -130,9 +130,7 @@ public:
 		, _view_full_screen (0)
 		, _view_dual_screen (0)
 	{
-		/* XXX */
 		dcpomatic_log.reset (new NullLog());
-		cout << "here's the log " << dcpomatic_log.get() << "\n";
 
 #if defined(DCPOMATIC_WINDOWS)
 		maybe_open_console ();
