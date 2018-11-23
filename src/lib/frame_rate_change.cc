@@ -79,11 +79,13 @@ FrameRateChange::construct (double source_, int dcp_)
 }
 
 FrameRateChange::FrameRateChange (shared_ptr<const Film> film, shared_ptr<const Content> content)
+	: repeat (1)
 {
 	construct (content->active_video_frame_rate(film), film->video_frame_rate());
 }
 
 FrameRateChange::FrameRateChange (shared_ptr<const Film> film, Content const * content)
+	: repeat (1)
 {
 	construct (content->active_video_frame_rate(film), film->video_frame_rate());
 }
