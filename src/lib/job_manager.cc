@@ -250,6 +250,7 @@ JobManager::analyse_audio (
 		job.reset (new AnalyseAudioJob (film, playlist, from_zero));
 		connection = job->Finished.connect (ready);
 		_jobs.push_back (job);
+		_empty_condition.notify_all ();
 	}
 
 	emit (boost::bind (boost::ref (JobAdded), weak_ptr<Job> (job)));
