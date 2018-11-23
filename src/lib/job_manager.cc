@@ -69,6 +69,7 @@ JobManager::~JobManager ()
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_terminate = true;
+		_empty_condition.notify_all ();
 	}
 
 	if (_scheduler) {
