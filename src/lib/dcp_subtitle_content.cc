@@ -88,6 +88,12 @@ DCPSubtitleContent::full_length (shared_ptr<const Film> film) const
 	return DCPTime (_length, frc);
 }
 
+DCPTime
+DCPSubtitleContent::approximate_length () const
+{
+	return DCPTime (_length, FrameRateChange());
+}
+
 string
 DCPSubtitleContent::summary () const
 {

@@ -36,6 +36,17 @@ about_equal (double a, double b)
 	return (fabs (a - b) < VIDEO_FRAME_RATE_EPSILON);
 }
 
+FrameRateChange::FrameRateChange ()
+	: skip (false)
+	, repeat (1)
+	, change_speed (false)
+	, source (24)
+	, dcp (24)
+	, speed_up (1)
+{
+
+}
+
 FrameRateChange::FrameRateChange (double source_, int dcp_)
 	: skip (false)
 	, repeat (1)

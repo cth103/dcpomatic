@@ -51,7 +51,7 @@ SwaroopControls::SwaroopControls (wxWindow* parent, shared_ptr<FilmViewer> viewe
 
 	left_sizer->Add (_spl_view, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
-	_content_view = new ContentView (this, _film);
+	_content_view = new ContentView (this);
 	left_sizer->Add (_content_view, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
 	_current_spl_view = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
@@ -240,9 +240,6 @@ void
 SwaroopControls::set_film (shared_ptr<Film> film)
 {
 	Controls::set_film (film);
-
-	_content_view->set_film (film);
 	update_playlist_directory ();
-
 	setup_sensitivity ();
 }

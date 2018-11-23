@@ -139,6 +139,12 @@ ImageContent::full_length (shared_ptr<const Film> film) const
 	return DCPTime::from_frames (llrint(video->length_after_3d_combine() * frc.factor()), film->video_frame_rate());
 }
 
+DCPTime
+ImageContent::approximate_length () const
+{
+	return DCPTime::from_frames (video->length_after_3d_combine(), 24);
+}
+
 string
 ImageContent::identifier () const
 {

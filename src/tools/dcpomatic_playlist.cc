@@ -46,7 +46,7 @@ class ContentDialog : public wxDialog, public ContentStore
 public:
 	ContentDialog (wxWindow* parent, weak_ptr<Film> film)
 		: wxDialog (parent, wxID_ANY, _("Add content"), wxDefaultPosition, wxSize(800, 640))
-		, _content_view (new ContentView(this, film))
+		, _content_view (new ContentView(this))
 	{
 		_content_view->update ();
 

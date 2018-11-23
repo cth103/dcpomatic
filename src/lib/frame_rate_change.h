@@ -30,6 +30,7 @@ class Content;
 class FrameRateChange
 {
 public:
+	FrameRateChange ();
 	FrameRateChange (double, int);
 	FrameRateChange (boost::shared_ptr<const Film> film, boost::shared_ptr<const Content> content);
 	FrameRateChange (boost::shared_ptr<const Film> film, Content const * content);

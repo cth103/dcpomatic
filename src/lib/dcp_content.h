@@ -62,6 +62,7 @@ public:
 	}
 
 	DCPTime full_length (boost::shared_ptr<const Film> film) const;
+	DCPTime approximate_length () const;
 
 	void examine (boost::shared_ptr<const Film> film, boost::shared_ptr<Job>);
 	std::string summary () const;

@@ -64,6 +64,7 @@ public:
 	std::string technical_summary () const;
 	void as_xml (xmlpp::Node *, bool with_paths) const;
 	DCPTime full_length (boost::shared_ptr<const Film> film) const;
+	DCPTime approximate_length () const;
 
 	std::string identifier () const;
 

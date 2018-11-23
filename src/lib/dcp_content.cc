@@ -212,7 +212,7 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		AudioStreamPtr as (new AudioStream (examiner->audio_frame_rate(), examiner->audio_length(), examiner->audio_channels()));
 		audio->set_stream (as);
 		AudioMapping m = as->mapping ();
-		m.make_default (film->audio_processor());
+		m.make_default (film ? film->audio_processor() : 0);
 		as->set_mapping (m);
 	}
 
@@ -343,6 +343,15 @@ DCPContent::full_length (shared_ptr<const Film> film) const
 	}
 	FrameRateChange const frc (film, shared_from_this());
 	return DCPTime::from_frames (llrint(video->length() * frc.factor()), film->video_frame_rate());
+}
+
+DCPTime
+DCPContent::approximate_length () const
+{
+	if (!video) {
+		return DCPTime();
+	}
+	return DCPTime::from_frames (video->length(), 24);
 }
 
 string

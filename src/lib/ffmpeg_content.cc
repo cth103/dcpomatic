@@ -307,7 +307,7 @@ FFmpegContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 
 			AudioStreamPtr as = audio->streams().front();
 			AudioMapping m = as->mapping ();
-			m.make_default (film->audio_processor(), first_path);
+			m.make_default (film ? film->audio_processor() : 0, first_path);
 			as->set_mapping (m);
 		}
 
@@ -413,6 +413,23 @@ FFmpegContent::full_length (shared_ptr<const Film> film) const
 	}
 
 	return longest;
+}
+
+DCPTime
+FFmpegContent::approximate_length () const
+{
+	if (video) {
+		return DCPTime::from_frames (video->length_after_3d_combine(), 24);
+	}
+
+	DCPOMATIC_ASSERT (audio);
+
+	Frame longest = 0;
+	BOOST_FOREACH (AudioStreamPtr i, audio->streams ()) {
+		longest = max (longest, Frame(llrint(i->length())));
+	}
+
+	return DCPTime::from_frames (longest, 24);
 }
 
 void

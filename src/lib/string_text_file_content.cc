@@ -94,3 +94,9 @@ StringTextFileContent::full_length (shared_ptr<const Film> film) const
 	FrameRateChange const frc (film, shared_from_this());
 	return DCPTime (_length, frc);
 }
+
+DCPTime
+StringTextFileContent::approximate_length () const
+{
+	return DCPTime (_length, FrameRateChange());
+}

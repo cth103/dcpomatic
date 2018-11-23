@@ -96,3 +96,9 @@ AtmosMXFContent::full_length (shared_ptr<const Film> film) const
 	FrameRateChange const frc (film, shared_from_this());
 	return DCPTime::from_frames (llrint (_length * frc.factor()), film->video_frame_rate());
 }
+
+DCPTime
+AtmosMXFContent::approximate_length () const
+{
+	return DCPTime::from_frames (_length, 24);
+}

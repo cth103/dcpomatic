@@ -91,6 +91,7 @@ public:
 
 	virtual void as_xml (xmlpp::Node *, bool with_paths) const;
 	virtual DCPTime full_length (boost::shared_ptr<const Film>) const = 0;
+	virtual DCPTime approximate_length () const = 0;
 	virtual std::string identifier () const;
 	/** @return points at which to split this content when
 	 *  REELTYPE_BY_VIDEO_CONTENT is in use.

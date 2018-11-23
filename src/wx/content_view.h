@@ -30,13 +30,12 @@ class Film;
 class ContentView : public wxListCtrl, public ContentStore
 {
 public:
-	ContentView (wxWindow* parent, boost::weak_ptr<Film> film);
+	ContentView (wxWindow* parent);
 
 	boost::shared_ptr<Content> selected () const;
 	void update ();
 
 	boost::shared_ptr<Content> get (std::string digest) const;
-	void set_film (boost::weak_ptr<Film> film);
 
 private:
 	void add (boost::shared_ptr<Content> content);

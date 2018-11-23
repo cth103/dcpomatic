@@ -38,6 +38,7 @@ public:
 	std::string summary () const;
 	void as_xml (xmlpp::Node* node, bool with_path) const;
 	DCPTime full_length (boost::shared_ptr<const Film> film) const;
+	DCPTime approximate_length () const;
 
 	static bool valid_mxf (boost::filesystem::path path);
 

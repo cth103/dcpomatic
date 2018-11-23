@@ -40,9 +40,8 @@ using boost::weak_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 
-ContentView::ContentView (wxWindow* parent, weak_ptr<Film> film)
+ContentView::ContentView (wxWindow* parent)
 	: wxListCtrl (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER)
-	, _film (film)
 {
 	AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 80);
 	/* type */
@@ -66,11 +65,6 @@ ContentView::selected () const
 void
 ContentView::update ()
 {
-	shared_ptr<Film> film = _film.lock ();
-	if (!film) {
-		return;
-	}
-
 	using namespace boost::filesystem;
 
 	DeleteAllItems ();
@@ -95,7 +89,7 @@ ContentView::update ()
 			}
 
 			if (content) {
-				shared_ptr<ExamineContentJob> job(new ExamineContentJob(film, content));
+				shared_ptr<ExamineContentJob> job(new ExamineContentJob(shared_ptr<Film>(), content));
 				jm->add (job);
 				jobs.push_back (job);
 			}
@@ -133,13 +127,10 @@ ContentView::add (shared_ptr<Content> content)
 {
 	int const N = GetItemCount();
 
-	shared_ptr<Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-
 	wxListItem it;
 	it.SetId(N);
 	it.SetColumn(0);
-	DCPTime length = content->length_after_trim (film);
+	DCPTime length = content->approximate_length ();
 	int h, m, s, f;
 	length.split (24, h, m, s, f);
 	it.SetText(wxString::Format("%02d:%02d:%02d", h, m, s));
@@ -169,15 +160,4 @@ ContentView::get (string digest) const
 	}
 
 	return shared_ptr<Content>();
-}
-
-void
-ContentView::set_film (weak_ptr<Film> film)
-{
-	if (_film.lock() == film.lock()) {
-		return;
-	}
-
-	_film = film;
-	update ();
 }
