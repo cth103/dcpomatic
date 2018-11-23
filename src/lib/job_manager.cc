@@ -137,8 +137,8 @@ bool
 JobManager::errors () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	for (list<shared_ptr<Job> >::const_iterator i = _jobs.begin(); i != _jobs.end(); ++i) {
-		if ((*i)->finished_in_error ()) {
+	BOOST_FOREACH (shared_ptr<Job> i, _jobs) {
+		if (i->finished_in_error ()) {
 			return true;
 		}
 	}
