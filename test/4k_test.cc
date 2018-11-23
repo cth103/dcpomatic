@@ -33,6 +33,7 @@
 #include "lib/dcp_content_type.h"
 #include "lib/video_content.h"
 #include "lib/ratio.h"
+#include "lib/dcpomatic_log.h"
 #include "test.h"
 
 using boost::shared_ptr;
@@ -40,6 +41,7 @@ using boost::shared_ptr;
 BOOST_AUTO_TEST_CASE (fourk_test)
 {
 	shared_ptr<Film> film = new_test_film ("4k_test");
+	dcpomatic_log = film->log ();
 	film->set_name ("4k_test");
 	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/test.mp4"));
 	film->set_resolution (RESOLUTION_4K);
