@@ -1438,55 +1438,6 @@ Film::subtitle_language () const
 	return all;
 }
 
-/** Change the gains of the supplied AudioMapping to make it a default
- *  for this film.  The defaults are guessed based on what processor (if any)
- *  is in use, the number of input channels and any filename supplied.
- */
-void
-Film::make_audio_mapping_default (AudioMapping& mapping, optional<boost::filesystem::path> filename) const
-{
-	static string const regex[] = {
-		".*[\\._-]L[\\._-].*",
-		".*[\\._-]R[\\._-].*",
-		".*[\\._-]C[\\._-].*",
-		".*[\\._-]Lfe[\\._-].*",
-		".*[\\._-]Ls[\\._-].*",
-		".*[\\._-]Rs[\\._-].*"
-	};
-
-	static int const regexes = sizeof(regex) / sizeof(*regex);
-
-	if (audio_processor ()) {
-		audio_processor()->make_audio_mapping_default (mapping);
-	} else {
-		mapping.make_zero ();
-		if (mapping.input_channels() == 1) {
-			bool guessed = false;
-
-			/* See if we can guess where this stream should go */
-			if (filename) {
-				for (int i = 0; i < regexes; ++i) {
-					boost::regex e (regex[i], boost::regex::icase);
-					if (boost::regex_match (filename->string(), e) && i < mapping.output_channels()) {
-						mapping.set (0, i, 1);
-						guessed = true;
-					}
-				}
-			}
-
-			if (!guessed) {
-				/* If we have no idea, just put it on centre */
-				mapping.set (0, static_cast<int> (dcp::CENTRE), 1);
-			}
-		} else {
-			/* 1:1 mapping */
-			for (int i = 0; i < min (mapping.input_channels(), mapping.output_channels()); ++i) {
-				mapping.set (i, i, 1);
-			}
-		}
-	}
-}
-
 /** @return The names of the channels that audio contents' outputs are passed into;
  *  this is either the DCP or a AudioProcessor.
  */

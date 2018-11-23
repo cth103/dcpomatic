@@ -212,7 +212,7 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		AudioStreamPtr as (new AudioStream (examiner->audio_frame_rate(), examiner->audio_length(), examiner->audio_channels()));
 		audio->set_stream (as);
 		AudioMapping m = as->mapping ();
-		film->make_audio_mapping_default (m);
+		m.make_default (film->audio_processor());
 		as->set_mapping (m);
 	}
 

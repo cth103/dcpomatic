@@ -32,6 +32,8 @@ namespace xmlpp {
 	class Node;
 }
 
+class AudioProcessor;
+
 /** @class AudioMapping.
  *  @brief A many-to-many mapping of audio channels.
  */
@@ -47,6 +49,7 @@ public:
 	void as_xml (xmlpp::Node *) const;
 
 	void make_zero ();
+	void make_default (AudioProcessor const * processor, boost::optional<boost::filesystem::path> filename = boost::optional<boost::filesystem::path>());
 
 	void set (int input_channel, int output_channel, float);
 	float get (int input_channel, int output_channel) const;

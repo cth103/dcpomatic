@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -21,9 +21,11 @@
 #include "audio_mapping.h"
 #include "util.h"
 #include "digester.h"
+#include "audio_processor.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
+#include <boost/regex.hpp>
 #include <iostream>
 
 using std::list;
@@ -36,6 +38,7 @@ using std::vector;
 using std::abs;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using boost::optional;
 using dcp::raw_convert;
 
 AudioMapping::AudioMapping ()
@@ -74,6 +77,51 @@ AudioMapping::make_zero ()
 	for (int i = 0; i < _input_channels; ++i) {
 		for (int j = 0; j < _output_channels; ++j) {
 			_gain[i][j] = 0;
+		}
+	}
+}
+
+void
+AudioMapping::make_default (AudioProcessor const * processor, optional<boost::filesystem::path> filename)
+{
+	static string const regex[] = {
+		".*[\\._-]L[\\._-].*",
+		".*[\\._-]R[\\._-].*",
+		".*[\\._-]C[\\._-].*",
+		".*[\\._-]Lfe[\\._-].*",
+		".*[\\._-]Ls[\\._-].*",
+		".*[\\._-]Rs[\\._-].*"
+	};
+
+	static int const regexes = sizeof(regex) / sizeof(*regex);
+
+	if (processor) {
+		processor->make_audio_mapping_default (*this);
+	} else {
+		make_zero ();
+		if (input_channels() == 1) {
+			bool guessed = false;
+
+			/* See if we can guess where this stream should go */
+			if (filename) {
+				for (int i = 0; i < regexes; ++i) {
+					boost::regex e (regex[i], boost::regex::icase);
+					if (boost::regex_match(filename->string(), e) && i < output_channels()) {
+						set (0, i, 1);
+						guessed = true;
+					}
+				}
+			}
+
+			if (!guessed) {
+				/* If we have no idea, just put it on centre */
+				set (0, static_cast<int>(dcp::CENTRE), 1);
+			}
+		} else {
+			/* 1:1 mapping */
+			for (int i = 0; i < min (input_channels(), output_channels()); ++i) {
+				set (i, i, 1);
+			}
 		}
 	}
 }

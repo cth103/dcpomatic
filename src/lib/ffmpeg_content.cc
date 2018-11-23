@@ -307,7 +307,7 @@ FFmpegContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 
 			AudioStreamPtr as = audio->streams().front();
 			AudioMapping m = as->mapping ();
-			film->make_audio_mapping_default (m, first_path);
+			m.make_default (film->audio_processor(), first_path);
 			as->set_mapping (m);
 		}
 
