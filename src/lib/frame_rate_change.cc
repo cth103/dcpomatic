@@ -37,11 +37,11 @@ about_equal (double a, double b)
 }
 
 FrameRateChange::FrameRateChange ()
-	: skip (false)
+	: source (24)
+	, dcp (24)
+	, skip (false)
 	, repeat (1)
 	, change_speed (false)
-	, source (24)
-	, dcp (24)
 	, speed_up (1)
 {
 
@@ -79,13 +79,15 @@ FrameRateChange::construct (double source_, int dcp_)
 }
 
 FrameRateChange::FrameRateChange (shared_ptr<const Film> film, shared_ptr<const Content> content)
-	: repeat (1)
+	: skip (false)
+	, repeat (1)
 {
 	construct (content->active_video_frame_rate(film), film->video_frame_rate());
 }
 
 FrameRateChange::FrameRateChange (shared_ptr<const Film> film, Content const * content)
-	: repeat (1)
+	: skip (false)
+	, repeat (1)
 {
 	construct (content->active_video_frame_rate(film), film->video_frame_rate());
 }
