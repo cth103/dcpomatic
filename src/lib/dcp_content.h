@@ -152,6 +152,7 @@ private:
 	void add_properties (boost::shared_ptr<const Film> film, std::list<UserProperty>& p) const;
 
 	void read_directory (boost::filesystem::path);
+	void read_sub_directory (boost::filesystem::path);
 	std::list<DCPTimePeriod> reels (boost::shared_ptr<const Film> film) const;
 	bool can_reference (
 		boost::shared_ptr<const Film> film,

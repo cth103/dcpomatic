@@ -150,16 +150,7 @@ DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
 void
 DCPContent::read_directory (boost::filesystem::path p)
 {
-	LOG_GENERAL ("DCPContent::read_directory reads %1", p.string());
-	for (boost::filesystem::directory_iterator i(p); i != boost::filesystem::directory_iterator(); ++i) {
-		if (boost::filesystem::is_regular_file (i->path())) {
-			LOG_GENERAL ("Inside there's regular file %1", i->path().string());
-			add_path (i->path());
-		} else if (boost::filesystem::is_directory (i->path ())) {
-			LOG_GENERAL ("Inside there's directory %1", i->path().string());
-			read_directory (i->path());
-		}
-	}
+	read_sub_directory (p);
 
 	bool have_assetmap = false;
 	BOOST_FOREACH (boost::filesystem::path i, paths()) {
@@ -170,6 +161,21 @@ DCPContent::read_directory (boost::filesystem::path p)
 
 	if (!have_assetmap) {
 		throw DCPError ("No ASSETMAP or ASSETMAP.xml file found: is this a DCP?");
+	}
+}
+
+void
+DCPContent::read_sub_directory (boost::filesystem::path p)
+{
+	LOG_GENERAL ("DCPContent::read_sub_directory reads %1", p.string());
+	for (boost::filesystem::directory_iterator i(p); i != boost::filesystem::directory_iterator(); ++i) {
+		if (boost::filesystem::is_regular_file (i->path())) {
+			LOG_GENERAL ("Inside there's regular file %1", i->path().string());
+			add_path (i->path());
+		} else if (boost::filesystem::is_directory (i->path ())) {
+			LOG_GENERAL ("Inside there's directory %1", i->path().string());
+			read_sub_directory (i->path());
+		}
 	}
 }
 

@@ -28,6 +28,7 @@
 #include "lib/dcp_content_type.h"
 #include "lib/content.h"
 #include "lib/video_content.h"
+#include "lib/dcpomatic_log.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/algorithm/string.hpp>
@@ -72,6 +73,7 @@ check (string name, int check_full, int check_repeat)
 BOOST_AUTO_TEST_CASE (optimise_stills_test1)
 {
 	shared_ptr<Film> film = new_test_film ("optimise_stills_test1");
+	dcpomatic_log = film->log ();
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
@@ -88,6 +90,7 @@ BOOST_AUTO_TEST_CASE (optimise_stills_test1)
 BOOST_AUTO_TEST_CASE (optimise_stills_test2)
 {
 	shared_ptr<Film> film = new_test_film ("optimise_stills_test2");
+	dcpomatic_log = film->log ();
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
