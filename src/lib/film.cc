@@ -1493,7 +1493,7 @@ Film::reels () const
 		shared_ptr<Content> last_video;
 		BOOST_FOREACH (shared_ptr<Content> c, content ()) {
 			if (c->video) {
-				BOOST_FOREACH (DCPTime t, c->reel_split_points()) {
+				BOOST_FOREACH (DCPTime t, c->reel_split_points(shared_from_this())) {
 					if (last_split) {
 						p.push_back (DCPTimePeriod (last_split.get(), t));
 					}

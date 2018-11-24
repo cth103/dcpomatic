@@ -96,7 +96,7 @@ public:
 	/** @return points at which to split this content when
 	 *  REELTYPE_BY_VIDEO_CONTENT is in use.
 	 */
-	virtual std::list<DCPTime> reel_split_points () const;
+	virtual std::list<DCPTime> reel_split_points (boost::shared_ptr<const Film>) const;
 
 	boost::shared_ptr<Content> clone () const;
 

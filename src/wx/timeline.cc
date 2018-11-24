@@ -531,7 +531,7 @@ Timeline::left_down_select (wxMouseEvent& ev)
 			_start_snaps.push_back (cv->content()->end(film));
 			_end_snaps.push_back (cv->content()->end(film));
 
-			BOOST_FOREACH (DCPTime i, cv->content()->reel_split_points()) {
+			BOOST_FOREACH (DCPTime i, cv->content()->reel_split_points(film)) {
 				_start_snaps.push_back (i);
 			}
 		}

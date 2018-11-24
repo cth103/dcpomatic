@@ -127,7 +127,7 @@ TimelineContentView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> 
 
 	/* Reel split points */
 	gc->SetPen (*wxThePenList->FindOrCreatePen (foreground_colour(), 1, wxPENSTYLE_DOT));
-	BOOST_FOREACH (DCPTime i, cont->reel_split_points ()) {
+	BOOST_FOREACH (DCPTime i, cont->reel_split_points(film)) {
 		path = gc->CreatePath ();
 		path.MoveToPoint (time_x (i), y_pos (_track.get()) + 4);
 		path.AddLineToPoint (time_x (i), y_pos (_track.get() + 1) - 4);

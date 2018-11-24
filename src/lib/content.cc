@@ -365,7 +365,7 @@ Content::user_properties () const
 
 /** @return DCP times of points within this content where a reel split could occur */
 list<DCPTime>
-Content::reel_split_points () const
+Content::reel_split_points (shared_ptr<const Film>) const
 {
 	list<DCPTime> t;
 	/* This is only called for video content and such content has its position forced
