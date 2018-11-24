@@ -22,6 +22,6 @@ elif [ "$1" == "--quiet" ]; then
     build/test/unit-tests --catch_system_errors=no $*
 else
     ulimit -c unlimited
-    build/test/unit-tests --catch_system_errors=no --log_level=test_suite $*
+    build/test/unit-tests --catch_system_errors=no --log_level=all $*
 #    build/test/unit-tests --catch_system_errors=no $*
 fi
