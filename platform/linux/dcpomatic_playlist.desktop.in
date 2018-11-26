@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Terminal=false
+Exec=@INSTALL_PREFIX@/bin/dcpomatic2_playlist
+Name=DCP-o-matic 2 Playlist Editor
+Icon=dcpomatic2_playlist
+Comment=DCP playlist editor
+Categories=AudioVideo;Video
