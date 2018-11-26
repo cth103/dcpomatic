@@ -38,14 +38,7 @@ using boost::shared_ptr;
 Log::Log ()
 	: _types (0)
 {
-	_config_connection = Config::instance()->Changed.connect (boost::bind (&Log::config_changed, this));
-	config_changed ();
-}
 
-void
-Log::config_changed ()
-{
-	set_types (Config::instance()->log_types ());
 }
 
 void

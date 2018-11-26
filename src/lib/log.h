@@ -59,11 +59,9 @@ protected:
 
 private:
 	virtual void do_log (boost::shared_ptr<const LogEntry> entry) = 0;
-	void config_changed ();
 
 	/** bit-field of log types which should be put into the log (others are ignored) */
 	int _types;
-	boost::signals2::scoped_connection _config_connection;
 };
 
 #endif
