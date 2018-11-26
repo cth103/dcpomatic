@@ -40,7 +40,7 @@ else
     for r in 16 22 32 48 64 128 256 512; do
 	mkdir -p linux/$r
 	convert src/dcpomatic.png -resize $rx$r linux/$r/dcpomatic2.png
-	for p in dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch dcpomatic2_player; do
+	for p in dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch dcpomatic2_player dcpomatic2_playlist; do
 	    $INKSCAPE linux/$r/$p.png src/$p.svg -w $r -h $r
 	done
     done
