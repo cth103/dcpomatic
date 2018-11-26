@@ -40,7 +40,7 @@ last_version = subprocess.Popen(shlex.split('git describe --tags --abbrev=0'), s
 if this_version == '':
     VERSION = '%sdevel' % last_version[1:].strip()
 else:
-    VERSION = this_version[1:].strip()
+VERSION = '2.13.73'
 
 def options(opt):
     opt.load('compiler_cxx')
