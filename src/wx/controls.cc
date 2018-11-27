@@ -362,6 +362,7 @@ Controls::set_film (shared_ptr<Film> film)
 	}
 
 	_film = film;
+	_film_change_connection = _film->Change.connect (boost::bind(&Controls::film_change, this, _1, _2));
 
 	setup_sensitivity ();
 
@@ -373,4 +374,14 @@ shared_ptr<Film>
 Controls::film () const
 {
 	return _film;
+}
+
+void
+Controls::film_change (ChangeType type, Film::Property p)
+{
+	if (type == CHANGE_TYPE_DONE && p == Film::CONTENT) {
+		setup_sensitivity ();
+		update_position_label ();
+		update_position_slider ();
+	}
 }

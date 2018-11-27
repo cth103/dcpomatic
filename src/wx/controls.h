@@ -87,6 +87,7 @@ private:
 	void outline_content_changed ();
 	void eye_changed ();
 	void position_changed ();
+	void film_change (ChangeType, Film::Property);
 
 	typedef std::pair<boost::shared_ptr<dcp::CPL>, boost::filesystem::path> CPL;
 
@@ -104,6 +105,7 @@ private:
 
 	ClosedCaptionsDialog* _closed_captions_dialog;
 
+	boost::signals2::scoped_connection _film_change_connection;
 	boost::signals2::scoped_connection _config_changed_connection;
 };
 

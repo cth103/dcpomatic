@@ -439,6 +439,7 @@ public:
 		_film = film;
 		_film_viewer->set_film (_film);
 		_film_editor->set_film (_film);
+		_controls->set_film (_film);
 		if (_video_waveform_dialog) {
 			_video_waveform_dialog->Destroy ();
 			_video_waveform_dialog = 0;
