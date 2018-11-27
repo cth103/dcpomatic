@@ -126,6 +126,8 @@ private:
 
 	mutable boost::mutex _mutex;
 	mutable boost::shared_ptr<Image> _image;
+	/** crop that was used to make _image */
+	mutable Crop _image_crop;
 };
 
 #endif
