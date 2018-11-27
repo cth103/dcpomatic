@@ -153,15 +153,12 @@ JobManager::scheduler ()
 
 		boost::mutex::scoped_lock lm (_mutex);
 
-		optional<string> active_job;
-
 		while (true) {
 			bool have_new = false;
 			bool have_running = false;
 			BOOST_FOREACH (shared_ptr<Job> i, _jobs) {
 				if (i->running()) {
 					have_running = true;
-					active_job = i->json_name();
 				}
 				if (i->is_new()) {
 					have_new = true;
@@ -183,16 +180,11 @@ JobManager::scheduler ()
 			if (i->is_new()) {
 				_connections.push_back (i->FinishedImmediate.connect(bind(&JobManager::job_finished, this)));
 				i->start ();
+				emit (boost::bind (boost::ref (ActiveJobsChanged), _last_active_job, i->json_name()));
+				_last_active_job = i->json_name ();
 				/* Only start one job at once */
 				break;
 			}
-		}
-
-		lm.unlock ();
-
-		if (active_job != _last_active_job) {
-			emit (boost::bind (boost::ref (ActiveJobsChanged), _last_active_job, active_job));
-			_last_active_job = active_job;
 		}
 	}
 }
@@ -200,6 +192,12 @@ JobManager::scheduler ()
 void
 JobManager::job_finished ()
 {
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		emit (boost::bind (boost::ref (ActiveJobsChanged), _last_active_job, optional<string>()));
+		_last_active_job = optional<string>();
+	}
+
 	_empty_condition.notify_all ();
 }
 
