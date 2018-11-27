@@ -126,8 +126,12 @@ private:
 
 	mutable boost::mutex _mutex;
 	mutable boost::shared_ptr<Image> _image;
-	/** crop that was used to make _image */
+	/** _crop that was used to make _image */
 	mutable Crop _image_crop;
+	/** _inter_size that was used to make _image */
+	mutable dcp::Size _image_inter_size;
+	/** _out_size that was used to make _image */
+	mutable dcp::Size _image_out_size;
 };
 
 #endif

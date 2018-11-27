@@ -105,10 +105,10 @@ PlayerVideo::set_text (PositionImage image)
 shared_ptr<Image>
 PlayerVideo::image (function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast) const
 {
-	/* XXX: this assumes that image() and prepare() are only ever called with the same parameters (except crop) */
+	/* XXX: this assumes that image() and prepare() are only ever called with the same parameters (except crop, inter size, out size) */
 
 	boost::mutex::scoped_lock lm (_mutex);
-	if (!_image || _crop != _image_crop) {
+	if (!_image || _crop != _image_crop || _inter_size != _image_inter_size || _out_size != _image_out_size) {
 		make_image (pixel_format, aligned, fast);
 	}
 	return _image;
@@ -125,6 +125,8 @@ void
 PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast) const
 {
 	_image_crop = _crop;
+	_image_inter_size = _inter_size;
+	_image_out_size = _out_size;
 
 	pair<shared_ptr<Image>, int> prox = _in->image (_inter_size);
 	shared_ptr<Image> im = prox.first;
