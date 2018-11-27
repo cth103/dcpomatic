@@ -568,7 +568,7 @@ ContentPanel::setup_sensitivity ()
 			_text_panel[i]->Enable (_generally_sensitive && selection.size() == 1 && !selection.front()->text.empty());
 		}
 	}
-	_timing_panel->Enable	(_generally_sensitive);
+	_timing_panel->Enable (_generally_sensitive);
 }
 
 void
