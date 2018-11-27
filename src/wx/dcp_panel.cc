@@ -206,6 +206,7 @@ DCPPanel::add_to_grid ()
 	_standard_label->Show (interface == Config::INTERFACE_FULL);
 	_standard->Show (interface == Config::INTERFACE_FULL);
 	_upload_after_make_dcp->Show (interface == Config::INTERFACE_FULL);
+	_reencode_j2k->Show (interface == Config::INTERFACE_FULL);
 
 	if (interface == Config::INTERFACE_FULL) {
 		add_label_to_sizer (_grid, _key_label, true, wxGBPosition (r, 0));
