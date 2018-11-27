@@ -164,11 +164,13 @@ DCPPanel::add_to_grid ()
 	flags |= wxALIGN_RIGHT;
 #endif
 
-	_use_isdcf_name->Show (interface == Config::INTERFACE_FULL);
-	_edit_isdcf_button->Show (interface == Config::INTERFACE_FULL);
-	_copy_isdcf_name_button->Show (interface == Config::INTERFACE_FULL);
+	bool const full = interface == Config::INTERFACE_FULL;
 
-	if (interface == Config::INTERFACE_FULL) {
+	_use_isdcf_name->Show (full);
+	_edit_isdcf_button->Show (full);
+	_copy_isdcf_name_button->Show (full);
+
+	if (full) {
 		_grid->Add (_use_isdcf_name, wxGBPosition (r, 0), wxDefaultSpan, flags);
 		{
 			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -186,8 +188,8 @@ DCPPanel::add_to_grid ()
 	_grid->Add (_dcp_content_type, wxGBPosition (r, 1));
 	++r;
 
-	_signed->Show (interface == Config::INTERFACE_FULL);
-	if (interface == Config::INTERFACE_FULL) {
+	_signed->Show (full);
+	if (full) {
 		_grid->Add (_signed, wxGBPosition (r, 0), wxGBSpan (1, 2));
 		++r;
 	}
@@ -195,20 +197,22 @@ DCPPanel::add_to_grid ()
 	_grid->Add (_encrypted, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
-	_key_label->Show (interface == Config::INTERFACE_FULL);
-	_key->Show (interface == Config::INTERFACE_FULL);
-	_edit_key->Show (interface == Config::INTERFACE_FULL);
-	_reels_label->Show (interface == Config::INTERFACE_FULL);
-	_reel_type->Show (interface == Config::INTERFACE_FULL);
-	_reel_length_label->Show (interface == Config::INTERFACE_FULL);
-	_reel_length->Show (interface == Config::INTERFACE_FULL);
-	_reel_length_gb_label->Show (interface == Config::INTERFACE_FULL);
-	_standard_label->Show (interface == Config::INTERFACE_FULL);
-	_standard->Show (interface == Config::INTERFACE_FULL);
-	_upload_after_make_dcp->Show (interface == Config::INTERFACE_FULL);
-	_reencode_j2k->Show (interface == Config::INTERFACE_FULL);
 
-	if (interface == Config::INTERFACE_FULL) {
+	_key_label->Show (full);
+	_key->Show (full);
+	_edit_key->Show (full);
+	_reels_label->Show (full);
+	_reel_type->Show (full);
+	_reel_length_label->Show (full);
+	_reel_length->Show (full);
+	_reel_length_gb_label->Show (full);
+	_standard_label->Show (full);
+	_standard->Show (full);
+	_upload_after_make_dcp->Show (full);
+	_reencode_j2k->Show (full);
+	_encrypted->Show (full);
+
+	if (full) {
 		add_label_to_sizer (_grid, _key_label, true, wxGBPosition (r, 0));
 		{
 			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
