@@ -947,11 +947,22 @@ Config::write_config () const
 #endif
 
 	try {
-		doc.write_to_file_formatted(config_file().string());
+		string const s = doc.write_to_string_formatted ();
+		boost::filesystem::path const cf = config_file ();
+		FILE* f = fopen_boost (cf, "w");
+		if (!f) {
+			throw FileError (_("Could not open file for writing"), cf);
+		}
+		size_t const w = fwrite (s.c_str(), 1, s.length(), f);
+		if (w != s.length()) {
+			fclose (f);
+			throw FileError (_("Could not write whole file"), cf);
+		}
+		fclose (f);
 	} catch (xmlpp::exception& e) {
 		string s = e.what ();
 		trim (s);
-		throw FileError (s, path("config.xml"));
+		throw FileError (s, config_file());
 	}
 }
 
