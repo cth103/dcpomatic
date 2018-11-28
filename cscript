@@ -278,12 +278,15 @@ def make_spec(filename, version, target, options, requires=None):
     print('%{_datadir}/applications/dcpomatic2_server.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_kdm.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_player.desktop', file=f)
+    print('%{_datadir}/applications/dcpomatic2_playlist.desktop', file=f)
     print('%{_datadir}/dcpomatic2/dcpomatic2_server_small.png', file=f)
     print('%{_datadir}/dcpomatic2/select.png', file=f)
     print('%{_datadir}/dcpomatic2/sequence.png', file=f)
     print('%{_datadir}/dcpomatic2/snap.png', file=f)
     print('%{_datadir}/dcpomatic2/zoom.png', file=f)
     print('%{_datadir}/dcpomatic2/zoom_all.png', file=f)
+    print('%{_datadir}/dcpomatic2/tick.png', file=f)
+    print('%{_datadir}/dcpomatic2/no_tick.png', file=f)
     print('%{_datadir}/dcpomatic2/LiberationSans-Regular.ttf', file=f)
     print('%{_datadir}/dcpomatic2/LiberationSans-Italic.ttf', file=f)
     print('%{_datadir}/dcpomatic2/LiberationSans-Bold.ttf', file=f)
@@ -585,9 +588,7 @@ def package_rpm(target, cpu, version, options):
     else:
         cpu = "i686"
 
-    print('Looking in %s/RPMS/%s/*.rpm' % (topdir, cpu))
     for p in glob.glob('%s/RPMS/%s/*.rpm' % (topdir, cpu)):
-        print('found %s' % p)
         rpms.append(os.path.abspath(p))
 
     return rpms
