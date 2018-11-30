@@ -8,9 +8,16 @@
 
 pwd=`pwd`
 if [ `basename $pwd` != "graphics" ]; then
-  echo "$0: run within graphics/"
-  exit 1
+    echo "$0: run within graphics/"
+    exit 1
 fi
+
+for c in icotool convert inkscape; do
+    if [ ! -x "$(command -v $c)" ]; then
+	echo "$c is required"
+	exit 1
+    fi
+done
 
 if [ `uname -s` == "Darwin" ]; then
     # Convert OS X icons using OS X-only iconutil
@@ -47,7 +54,7 @@ else
 
     # Windows application icons
     mkdir -p windows
-    for p in dcpomatic2 dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch dcpomatic2_player; do
+    for p in dcpomatic2 dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch dcpomatic2_player dcpomatic2_playlist; do
 	icotool -c -o windows/$p.ico linux/16/$p.png linux/32/$p.png linux/48/$p.png linux/64/$p.png linux/128/$p.png
     done
     convert src/dcpomatic.png -resize 400x400 windows/dcpomatic.bmp
