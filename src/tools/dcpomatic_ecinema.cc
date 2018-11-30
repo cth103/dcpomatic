@@ -90,9 +90,8 @@ main (int argc, char* argv[])
 	boost::filesystem::path input = argv[optind];
 	boost::filesystem::path output_mp4 = *output / (input.filename().string() + ".ecinema");
 
-	if (mkdir(output->c_str(), 0777) < 0) {
-		cerr << "Could not create output directory `" << output->string() << "'\n";
-		exit (EXIT_FAILURE);
+	if (!boost::filesystem::is_directory(*output)) {
+		boost::filesystem::create_directory (*output);
 	}
 
 	av_register_all ();
