@@ -202,9 +202,10 @@ SwaroopControls::update_playlist_directory ()
 void
 SwaroopControls::spl_selection_changed ()
 {
+	_current_spl_view->DeleteAllItems ();
+
 	long int selected = _spl_view->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (selected == -1) {
-		_current_spl_view->DeleteAllItems ();
 		return;
 	}
 
