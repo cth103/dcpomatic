@@ -1,3 +1,7 @@
+2018-12-01  Carl Hetherington  <cth@carlh.net>
+
+	* Updated de_DE translation from Carsten Kurz.
+
 2018-11-28  Carl Hetherington  <cth@carlh.net>
 
 	* Write config.xml with CR/LF terminators on Windows (#1402).

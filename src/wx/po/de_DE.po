@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-20 21:26+0100\n"
-"PO-Revision-Date: 2018-07-18 04:28+0100\n"
+"PO-Revision-Date: 2018-12-01 03:55+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 2.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/wx/initial_setup_dialog.cc:61
@@ -23,16 +23,19 @@ msgid ""
 "\n"
 "You can change the mode at any time from the General page of Preferences."
 msgstr ""
+"\n"
+"Sie können den Darstellungsmodus jederzeit unter ‚Einstellungen’-> "
+"‚Allgemein’ ändern"
 
 #: src/wx/timeline_audio_content_view.cc:68
 #, c-format
 msgid " advanced by %dms"
-msgstr ""
+msgstr "vorgezogen um %dms"
 
 #: src/wx/timeline_audio_content_view.cc:66
 #, c-format
 msgid " delayed by %dms"
-msgstr ""
+msgstr "verzögert um %dms"
 
 #: src/wx/text_panel.cc:79 src/wx/text_panel.cc:82 src/wx/text_panel.cc:87
 #: src/wx/text_panel.cc:90 src/wx/text_panel.cc:94
@@ -68,9 +71,10 @@ msgid "(None)"
 msgstr "Auswählen..."
 
 #: src/wx/full_config_dialog.cc:1336
-#, fuzzy
 msgid "(restart DCP-o-matic to see all ratios)"
-msgstr "(Programm zum Ändern der Sprache neu starten)"
+msgstr ""
+"(Programm muss zur Aktivierung zusätzlicher Containerformate neu gestartet "
+"werden)"
 
 #: src/wx/config_dialog.cc:140
 msgid "(restart DCP-o-matic to see language changes)"
@@ -82,7 +86,7 @@ msgstr "-6dB"
 
 #: src/wx/export_dialog.cc:67
 msgid "0 is best, 51 is worst"
-msgstr ""
+msgstr "0 - beste, 51 schlechteste"
 
 #: src/wx/wx_util.cc:437
 msgid "12 - 7.1/HI/VI"
@@ -163,8 +167,8 @@ msgid ""
 "<i>It is important that you enter a valid email address here, otherwise I "
 "can't ask you for more details on your problem.</i>"
 msgstr ""
-"<i>Bitte geben Sie eine GÜLTIGE Emailadresse an, damit ich sie bei "
-"Rückfragen zu ihrem Problem kontaktieren kann!</i>"
+"<i>Bitte geben Sie eine GÜLTIGE Emailadresse an, damit ich sie für "
+"Rückfragen kontaktieren kann!</i>"
 
 #. //trac.wxwidgets.org/ticket/13389
 #.
@@ -190,6 +194,18 @@ msgid ""
 "\n"
 "Please choose which mode you would like to start DCP-o-matic in:"
 msgstr ""
+"<span weight=„bold“ size=„larger“>Welcome to DCP-o-matic!</span>\n"
+"\n"
+"DCP-o-matic kann in zwei verschiedenen Darstellungen betrieben werden: "
+"‚<i>Einfach</i>‘ oder ‚<i>Vollständig</i>‘.\n"
+"\n"
+"<i>Die einfache Darstellung</i> eignet sich zum unmittelbaren Erstellen von "
+"einfachen DCPs ohne komplizierte Optionen.\n"
+"\n"
+"<i>Die vollständige Darstellung</i> erlaubt ihnen, auch komplexe DCPs mit "
+"vielfältigen Konfigurationsmöglichkeiten zu erstellen.\n"
+"\n"
+"Bitte wählen Sie die gewünschte Darstellung:"
 
 #: src/wx/colour_conversion_editor.cc:79
 msgid "A"
@@ -205,10 +221,9 @@ msgstr "Über DCP-o-matic"
 
 #: src/wx/full_config_dialog.cc:949
 msgid "Accounts"
-msgstr ""
+msgstr "Zertifikats-Konten"
 
 #: src/wx/controls.cc:104
-#, fuzzy
 msgid "Add"
 msgstr "Hinzufügen..."
 
@@ -269,7 +284,6 @@ msgid "Add image sequence"
 msgstr "Einzelbildsequenz hinzufügen"
 
 #: src/wx/text_panel.cc:259
-#, fuzzy
 msgid "Add new..."
 msgstr "Kino hinzufügen..."
 
@@ -304,7 +318,7 @@ msgstr "Weisspunkt anpassen auf"
 
 #: src/wx/kdm_advanced_dialog.cc:24
 msgid "Advanced KDM options"
-msgstr ""
+msgstr "Erweiterte KDM Optionen"
 
 #: src/wx/config_dialog.cc:743 src/wx/config_dialog.cc:758
 #: src/wx/kdm_output_panel.cc:68
@@ -317,14 +331,13 @@ msgstr "Auch Nicht-Standard Bildraten erlauben (Vorsicht!)"
 
 #: src/wx/full_config_dialog.cc:1332
 msgid "Allow non-standard container ratios"
-msgstr ""
+msgstr "Auch Nicht-Standard Containerformate erlauben (Vorsicht!)"
 
 #: src/wx/rgba_colour_picker.cc:33
 msgid "Alpha   0"
 msgstr "Alpha 0"
 
 #: src/wx/about_dialog.cc:146
-#, fuzzy
 msgid "Also supported by"
 msgstr "Unterstützt durch"
 
@@ -398,11 +411,11 @@ msgstr "BCC: Adresse"
 
 #: src/wx/player_config_dialog.cc:243
 msgid "Background image"
-msgstr ""
+msgstr "Hintergrundbild"
 
 #: src/wx/barco_alchemy_certificate_panel.cc:76
 msgid "Barco Alchemy"
-msgstr ""
+msgstr "Barco Alchemy/ICMP"
 
 #: src/wx/colour_conversion_editor.cc:144
 msgid "Blue chromaticity"
@@ -417,9 +430,8 @@ msgid "Bold font"
 msgstr "Fetter Zeichensatz"
 
 #: src/wx/video_panel.cc:127
-#, fuzzy
 msgid "Bottom crop"
-msgstr "Unten"
+msgstr "Beschnitt unten"
 
 #: src/wx/dir_picker_ctrl.cc:38 src/wx/kdm_cpl_panel.cc:38
 msgid "Browse..."
@@ -474,16 +486,15 @@ msgstr ""
 
 #: src/wx/text_view.cc:67
 msgid "Caption"
-msgstr ""
+msgstr "Caption"
 
 #: src/wx/subtitle_appearance_dialog.cc:43
-#, fuzzy
 msgid "Caption appearance"
 msgstr "Untertitel Darstellung"
 
 #: src/wx/text_view.cc:42
 msgid "Captions"
-msgstr ""
+msgstr "Captions"
 
 #: src/wx/recreate_chain_dialog.cc:31
 msgid "Certificate chain"
@@ -546,7 +557,7 @@ msgstr "Eine Zeichensatzdatei wählen"
 
 #: src/wx/christie_certificate_panel.cc:84
 msgid "Christie"
-msgstr ""
+msgstr "Christie"
 
 #: src/wx/full_config_dialog.cc:108
 msgid "Cinema and screen database file"
@@ -558,7 +569,7 @@ msgstr "Klicken um alle ausgewählten Inhalte mit demselben Wert zu versehen"
 
 #: src/wx/closed_captions_dialog.cc:37
 msgid "Closed captions"
-msgstr ""
+msgstr "Closed Captions/CCAP"
 
 #: src/wx/subtitle_appearance_dialog.cc:61
 msgid "Colour"
@@ -608,9 +619,8 @@ msgid "Content Type"
 msgstr "Inhalt Typ"
 
 #: src/wx/player_config_dialog.cc:232
-#, fuzzy
 msgid "Content directory"
-msgstr "DCP Verzeichnis"
+msgstr " Verzeichnis"
 
 #: src/wx/isdcf_metadata_dialog.cc:37
 msgid "Content version"
@@ -634,7 +644,6 @@ msgid "Could not import certificate (%s)"
 msgstr "Konnte die Zertifikatsdatei (%s) nicht lesen."
 
 #: src/wx/content_menu.cc:383
-#, fuzzy
 msgid "Could not load KDM"
 msgstr "Konnte KDM nicht laden"
 
@@ -685,7 +694,7 @@ msgstr "DCP"
 
 #: src/wx/dcp_text_track_dialog.cc:27
 msgid "DCP Text Track"
-msgstr ""
+msgstr "DCP Textspur"
 
 #: src/wx/full_config_dialog.cc:1368
 msgid "DCP asset filename format"
@@ -701,7 +710,7 @@ msgstr "Dateinamenformatierung der DCP Metadaten (CPL und PKL)"
 
 #: src/wx/text_panel.cc:96
 msgid "DCP track"
-msgstr ""
+msgstr "DCP Spur"
 
 #: src/wx/verify_dcp_dialog.cc:51
 msgid "DCP validates OK."
@@ -722,9 +731,8 @@ msgid "DCP-o-matic audio - %s"
 msgstr "Audio Pegelverlauf und Analyse - %s"
 
 #: src/wx/initial_setup_dialog.cc:26
-#, fuzzy
 msgid "DCP-o-matic setup"
-msgstr "DCP-o-matic"
+msgstr "DCP-o-matic Setup"
 
 #: src/wx/full_config_dialog.cc:1397
 msgid "Debug: decode"
@@ -809,11 +817,11 @@ msgstr "Details..."
 
 #: src/wx/monitor_dialog.cc:32
 msgid "Device"
-msgstr ""
+msgstr "Gerät"
 
 #: src/wx/player_config_dialog.cc:379
 msgid "Devices"
-msgstr ""
+msgstr "Geräte"
 
 #: src/wx/recreate_chain_dialog.cc:31
 msgid "Do nothing"
@@ -862,12 +870,11 @@ msgstr "Übersprungene Bilder: %d"
 
 #: src/wx/player_config_dialog.cc:97
 msgid "Dual-screen displays"
-msgstr ""
+msgstr "Zweischirmanzeige"
 
 #: src/wx/player_config_dialog.cc:330
-#, fuzzy
 msgid "Duration"
-msgstr "Organisation"
+msgstr "Länge"
 
 #: src/wx/content_panel.cc:113
 msgid "Earlier"
@@ -1031,11 +1038,11 @@ msgstr "Zeichensätze..."
 
 #: src/wx/kdm_advanced_dialog.cc:30
 msgid "Forensically mark audio"
-msgstr ""
+msgstr "Audiowassermarke hinzufügen"
 
 #: src/wx/kdm_advanced_dialog.cc:26
 msgid "Forensically mark video"
-msgstr ""
+msgstr "Videowassermarke hinzufügen"
 
 #: src/wx/export_dialog.cc:54
 msgid "Format"
@@ -1074,25 +1081,23 @@ msgstr "Aus Projektvorlage"
 
 #: src/wx/audio_mapping_view.cc:170 src/wx/full_config_dialog.cc:147
 msgid "Full"
-msgstr "Voll"
+msgstr "Vollständig"
 
 #: src/wx/timing_panel.cc:85
 msgid "Full length"
 msgstr "Gesamtlänge"
 
 #: src/wx/initial_setup_dialog.cc:47
-#, fuzzy
 msgid "Full mode"
-msgstr "Voll"
+msgstr "Vollständig"
 
 #: src/wx/dcp_panel.cc:106
 msgid "GB"
 msgstr "GB"
 
 #: src/wx/gdc_certificate_panel.cc:68
-#, fuzzy
 msgid "GDC"
-msgstr "DCP"
+msgstr "GDC"
 
 #: src/wx/audio_panel.cc:62
 msgid "Gain"
@@ -1196,11 +1201,11 @@ msgstr "Horizontale Bildposition:"
 
 #: src/wx/player_config_dialog.cc:99
 msgid "Image on primary, controls on secondary"
-msgstr ""
+msgstr "Bildausgabe auf erstem Bildschirm, Bedienung auf zweitem"
 
 #: src/wx/player_config_dialog.cc:100
 msgid "Image on secondary, controls on primary"
-msgstr ""
+msgstr "Bildausgabe auf zweitem Bildschirm, Bedienung auf erstem"
 
 #: src/wx/config_dialog.cc:741
 msgid "Import all KDM decryption settings..."
@@ -1242,7 +1247,7 @@ msgstr ""
 
 #: src/wx/full_config_dialog.cc:88
 msgid "Interface complexity"
-msgstr ""
+msgstr "Programmdarstellung"
 
 #: src/wx/config_dialog.cc:559
 msgid "Intermediate"
@@ -1295,13 +1300,12 @@ msgid "KDM Email"
 msgstr "KDM Emailversand"
 
 #: src/wx/player_config_dialog.cc:237
-#, fuzzy
 msgid "KDM directory"
-msgstr "DCP Verzeichnis"
+msgstr "KDM Verzeichnis"
 
 #: src/wx/player_config_dialog.cc:114
 msgid "KDM server URL"
-msgstr ""
+msgstr "KDM Server URL"
 
 #: src/wx/kdm_output_panel.cc:55
 msgid "KDM type"
@@ -1357,9 +1361,8 @@ msgid "Left"
 msgstr "Links"
 
 #: src/wx/video_panel.cc:97
-#, fuzzy
 msgid "Left crop"
-msgstr "Links"
+msgstr "Beschnitt links"
 
 #: src/wx/content_properties_dialog.cc:79
 msgid "Length"
@@ -1378,18 +1381,16 @@ msgid "Load..."
 msgstr "Lade..."
 
 #: src/wx/player_config_dialog.cc:213
-#, fuzzy
 msgid "Locations"
-msgstr "Benachrichtigungen"
+msgstr "Orte"
 
 #: src/wx/full_config_dialog.cc:1386
 msgid "Log"
 msgstr "In die Log-Datei schreiben:"
 
 #: src/wx/player_config_dialog.cc:108
-#, fuzzy
 msgid "Log file"
-msgstr "Fett Font-Datei"
+msgstr "Logdatei"
 
 #: src/wx/audio_dialog.cc:381
 #, c-format
@@ -1425,9 +1426,8 @@ msgid "Mail user name"
 msgstr "Email / SMTP Server Benutzername / Login"
 
 #: src/wx/hints_dialog.cc:64
-#, fuzzy
 msgid "Make DCP"
-msgstr "KDMs erstellen"
+msgstr "Erstelle DCP"
 
 #: src/wx/self_dkdm_dialog.cc:50
 msgid "Make DKDM for DCP-o-matic"
@@ -1443,21 +1443,19 @@ msgstr "Zertifikatskette erzeugen"
 
 #: src/wx/player_config_dialog.cc:389
 msgid "Manufacture week"
-msgstr ""
+msgstr "Herstellungswoche"
 
 #: src/wx/player_config_dialog.cc:390
-#, fuzzy
 msgid "Manufacture year"
-msgstr "Server Hersteller"
+msgstr "Herstellungsjahr"
 
 #: src/wx/monitor_dialog.cc:34 src/wx/player_config_dialog.cc:386
-#, fuzzy
 msgid "Manufacturer ID"
-msgstr "Server Hersteller"
+msgstr "Hersteller ID"
 
 #: src/wx/monitor_dialog.cc:36
 msgid "Manufacturer product code"
-msgstr ""
+msgstr "Herstellungscode"
 
 #: src/wx/isdcf_metadata_dialog.cc:77
 msgid "Mastered luminance (e.g. 14fl)"
@@ -1558,12 +1556,17 @@ msgid ""
 "No Barco username/password configured.  Add your account details to the "
 "Accounts page in Preferences."
 msgstr ""
+"Kein Benutzername und Passwort für Barco Zertifikatsdatenbank/TDL vergeben. "
+"Bitte fügen Sie diese Daten in den Einstellungen unter Download-Konten hinzu!"
 
 #: src/wx/christie_certificate_panel.cc:43
 msgid ""
 "No Christie username/password configured.  Add your account details to the "
 "Accounts page in Preferences."
 msgstr ""
+"Kein Benutzername und Passwort für Christie Zertifikatsdatenbank/TDL "
+"vergeben. Bitte fügen Sie diese Daten in den Einstellungen unter Download-"
+"Konten hinzu!"
 
 #: src/wx/player_information.cc:114
 msgid "No DCP loaded."
@@ -1574,6 +1577,8 @@ msgid ""
 "No GDC username/password configured.  Add your account details to the "
 "Accounts page in Preferences."
 msgstr ""
+"Kein Benutzername und Passwort für GDC Zertifikatsdatenbank/TDL vergeben. "
+"Bitte fügen Sie diese Daten in den Einstellungen unter Download-Konten hinzu!"
 
 #: src/wx/audio_mapping_view.cc:346
 #, c-format
@@ -1626,9 +1631,8 @@ msgid "Off"
 msgstr "Aus"
 
 #: src/wx/text_panel.cc:76
-#, fuzzy
 msgid "Offset"
-msgstr "Horizontale Verschiebung"
+msgstr "Verschiebung"
 
 #: src/wx/full_config_dialog.cc:1343
 msgid "Only servers encode"
@@ -1673,7 +1677,6 @@ msgid "Outline width"
 msgstr "Stärke Umrissdarstellung"
 
 #: src/wx/subtitle_appearance_dialog.cc:289
-#, fuzzy
 msgid "Outline width cannot be set unless you are burning in captions"
 msgstr ""
 "Die Stärke der Umrissdarstellung kann nur bei fest eingerechneten "
@@ -1708,7 +1711,6 @@ msgid "Paste audio settings"
 msgstr "Audioeinstellungen übernehmen"
 
 #: src/wx/paste_dialog.cc:32
-#, fuzzy
 msgid "Paste subtitle and caption settings"
 msgstr "Untertiteleinstellungen übernehmen"
 
@@ -1740,7 +1742,7 @@ msgstr "Wiedergabeleistung"
 
 #: src/wx/player_config_dialog.cc:323
 msgid "Period"
-msgstr ""
+msgstr "Zeitfenster"
 
 #: src/wx/controls.cc:61 src/wx/controls.cc:65
 msgid "Play"
@@ -1784,7 +1786,7 @@ msgstr "Prozessor"
 
 #: src/wx/player_config_dialog.cc:387
 msgid "Product code"
-msgstr ""
+msgstr "Produktcode"
 
 #: src/wx/content_menu.cc:75
 msgid "Properties..."
@@ -1796,7 +1798,7 @@ msgstr "Protokoll"
 
 #: src/wx/export_dialog.cc:63
 msgid "Quality"
-msgstr ""
+msgstr "Qualität"
 
 #: src/wx/colour_conversion_editor.cc:123
 msgid "RGB to XYZ conversion"
@@ -1826,7 +1828,7 @@ msgstr ""
 
 #: src/wx/player_config_dialog.cc:403
 msgid "Read current devices"
-msgstr ""
+msgstr "Ermittle aktuelle Geräte"
 
 #: src/wx/colour_conversion_editor.cc:110
 msgid "Rec. 601"
@@ -1926,7 +1928,7 @@ msgstr "Auflösung"
 
 #: src/wx/player_config_dialog.cc:104
 msgid "Respect KDM validity periods"
-msgstr ""
+msgstr "KDM Zeitfenster auswerten"
 
 #: src/wx/subtitle_appearance_dialog.cc:112
 msgid "Restore to original colours"
@@ -1945,9 +1947,8 @@ msgid "Right click to change gain."
 msgstr "Rechtsklick für Anpassung."
 
 #: src/wx/video_panel.cc:107
-#, fuzzy
 msgid "Right crop"
-msgstr "Rechts"
+msgstr "Beschnitt rechts"
 
 #: src/wx/config_dialog.cc:555
 msgid "Root"
@@ -1983,14 +1984,12 @@ msgid "Save to KDM Creator tool's list"
 msgstr "Speichern in Liste für KDM Creator"
 
 #: src/wx/controls.cc:106
-#, fuzzy
 msgid "Save..."
-msgstr "Umbenennen..."
+msgstr "Speichern…"
 
 #: src/wx/text_panel.cc:84
-#, fuzzy
 msgid "Scale"
-msgstr "Skalierverfahren"
+msgstr "Größe"
 
 #: src/wx/video_panel.cc:143
 msgid "Scale to"
@@ -2005,9 +2004,8 @@ msgid "Search network for servers"
 msgstr "Durchsuche Netzwerk nach aktiven Encodingservern"
 
 #: src/wx/timeline_dialog.cc:66
-#, fuzzy
 msgid "Select"
-msgstr "OV auswählen"
+msgstr "Auswählen"
 
 #: src/wx/kdm_cpl_panel.cc:95
 msgid "Select CPL XML file"
@@ -2023,9 +2021,8 @@ msgid "Select Chain File"
 msgstr "Zertifikatskette auswählen"
 
 #: src/wx/full_config_dialog.cc:194
-#, fuzzy
 msgid "Select Cinemas File"
-msgstr "Zertifikatskette auswählen"
+msgstr "Kinodatenbank auswählen"
 
 #: src/wx/config_dialog.cc:793
 msgid "Select Export File"
@@ -2048,9 +2045,8 @@ msgid "Select OV"
 msgstr "OV auswählen"
 
 #: src/wx/timeline_dialog.cc:66
-#, fuzzy
 msgid "Select and move content"
-msgstr "An Inhaltsgrenzen aufteilen"
+msgstr "Auswählen und bewegen"
 
 #: src/wx/screen_dialog.cc:49
 msgid "Select certificate file"
@@ -2065,23 +2061,20 @@ msgid "Select configuration file"
 msgstr "Konfigurations-Datei auswählen"
 
 #: src/wx/player_config_dialog.cc:244
-#, fuzzy
 msgid "Select image file"
-msgstr "Zertifikatskette auswählen"
+msgstr "Bilddatei wählen"
 
 #: src/wx/player_config_dialog.cc:109
-#, fuzzy
 msgid "Select log file"
-msgstr "Ausgabedatei wählen"
+msgstr "Logdatei wählen"
 
 #: src/wx/export_dialog.cc:74
 msgid "Select output file"
 msgstr "Ausgabedatei wählen"
 
 #: src/wx/controls.cc:215 src/wx/controls.cc:230
-#, fuzzy
 msgid "Select playlist file"
-msgstr "Ausgabedatei wählen"
+msgstr "Playliste wählen"
 
 #: src/wx/kdm_output_panel.cc:120
 msgid "Send by email"
@@ -2097,10 +2090,9 @@ msgstr "Logs übermitteln"
 
 #: src/wx/timeline_dialog.cc:70
 msgid "Sequence"
-msgstr ""
+msgstr "Folge"
 
 #: src/wx/player_config_dialog.cc:388
-#, fuzzy
 msgid "Serial"
 msgstr "Seriennummer"
 
@@ -2157,9 +2149,8 @@ msgid "Signing DCPs and KDMs"
 msgstr "DCPs und KDMs signieren"
 
 #: src/wx/full_config_dialog.cc:146
-#, fuzzy
 msgid "Simple"
-msgstr "Gammafunktion"
+msgstr "Einfach"
 
 #: src/wx/colour_conversion_editor.cc:60
 msgid "Simple gamma"
@@ -2170,9 +2161,8 @@ msgid "Simple gamma, linearised for small values"
 msgstr "Gammafunktion, lineares Segment für niedrige Helligkeitswerte"
 
 #: src/wx/initial_setup_dialog.cc:45
-#, fuzzy
 msgid "Simple mode"
-msgstr "Gammafunktion"
+msgstr "Einfach"
 
 #: src/wx/dcp_panel.cc:136
 msgid "Single reel"
@@ -2213,11 +2203,11 @@ msgstr "...auf Aktanfang Nr."
 
 #: src/wx/player_config_dialog.cc:89
 msgid "Start player as"
-msgstr ""
+msgstr "Starte Player in"
 
 #: src/wx/controls.cc:63
 msgid "Stop"
-msgstr ""
+msgstr "Stop"
 
 #: src/wx/text_panel.cc:102
 msgid "Stream"
@@ -2233,16 +2223,15 @@ msgstr "Betreff"
 
 #: src/wx/about_dialog.cc:142
 msgid "Subscribers"
-msgstr ""
+msgstr "Regelmäßige Zahler"
 
 #: src/wx/isdcf_metadata_dialog.cc:43
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Untertitel Sprache (z.B. EN)"
 
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:75
-#, fuzzy
 msgid "Subtitles/captions"
-msgstr "Untertitel"
+msgstr "Untertitel/CCAP"
 
 #: src/wx/player_information.cc:147
 msgid "Subtitles: no"
@@ -2345,9 +2334,8 @@ msgstr ""
 "überschrieben werden?"
 
 #: src/wx/player_config_dialog.cc:318
-#, fuzzy
 msgid "Theatre name"
-msgstr "Name"
+msgstr "Kino Name"
 
 #: src/wx/hints_dialog.cc:124
 msgid "There are no hints: everything looks good!"
@@ -2393,11 +2381,8 @@ msgid "Timeline..."
 msgstr "Zeitleiste..."
 
 #: src/wx/content_panel.cc:134
-#, fuzzy
 msgid "Timing"
-msgstr ""
-"Zeitfenster beim Empfänger (nach UTC/GMT Offset/Zeitzone in "
-"Kinoeigenschaften!)"
+msgstr "Timing"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
 #: src/wx/timing_panel.cc:51
@@ -2410,7 +2395,7 @@ msgstr "Empfängeradresse"
 
 #: src/wx/video_panel.cc:117
 msgid "Top crop"
-msgstr "Oben beschneiden"
+msgstr "Beschnitt oben"
 
 #: src/wx/about_dialog.cc:131
 msgid "Translated by"
@@ -2571,9 +2556,8 @@ msgid "Use ISDCF name"
 msgstr "ISDCF Name erzeugen"
 
 #: src/wx/text_panel.cc:69
-#, fuzzy
 msgid "Use as"
-msgstr "Beste wählen"
+msgstr "Verwenden als"
 
 #: src/wx/dcp_panel.cc:731
 msgid "Use best"
@@ -2588,9 +2572,10 @@ msgid "Use this DCP's audio as OV and make VF"
 msgstr "Ton aus geladenem DCP als OV einbinden und Version File (VF) erzeugen"
 
 #: src/wx/text_panel.cc:58
-#, fuzzy
 msgid "Use this DCP's closed caption as OV and make VF"
-msgstr "Ton aus geladenem DCP als OV einbinden und Version File (VF) erzeugen"
+msgstr ""
+"Closed Captions (CCAP) aus geladenem DCP als OV einbinden und Version File "
+"(VF) erzeugen"
 
 #: src/wx/text_panel.cc:56
 msgid "Use this DCP's subtitle as OV and make VF"
@@ -2633,12 +2618,11 @@ msgstr "Warnungen"
 
 #: src/wx/player_config_dialog.cc:307
 msgid "Watermark"
-msgstr ""
+msgstr "Wasserzeichen"
 
 #: src/wx/monitor_dialog.cc:40
-#, fuzzy
 msgid "Week of manufacture"
-msgstr "Server Hersteller"
+msgstr "Herstellungswoche"
 
 #: src/wx/colour_conversion_editor.cc:151
 msgid "White point"
@@ -2666,7 +2650,7 @@ msgstr "Alle erzeugten KDMs in den gleichen Ordner schreiben"
 
 #: src/wx/export_dialog.cc:61
 msgid "Write reels into separate files"
-msgstr ""
+msgstr "Teile Export-Dateien gemäß Aktaufteilung (‚reels‘)"
 
 #: src/wx/kdm_output_panel.cc:92 src/wx/self_dkdm_dialog.cc:76
 msgid "Write to"
@@ -2678,11 +2662,11 @@ msgstr "Geschrieben von"
 
 #: src/wx/text_panel.cc:77 src/wx/text_panel.cc:85
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #: src/wx/text_panel.cc:80 src/wx/text_panel.cc:88
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 #: src/wx/colour_conversion_editor.cc:106
 msgid "YUV to RGB conversion"
@@ -2693,9 +2677,8 @@ msgid "YUV to RGB matrix"
 msgstr "YUV-RGB Matrix"
 
 #: src/wx/monitor_dialog.cc:42
-#, fuzzy
 msgid "Year of manufacture"
-msgstr "Server Hersteller"
+msgstr "Herstellungsjahr"
 
 #: src/wx/screens_panel.cc:217
 #, c-format
@@ -2737,39 +2720,39 @@ msgstr "Ihre Emailadresse"
 
 #: src/wx/timeline_dialog.cc:67
 msgid "Zoom"
-msgstr ""
+msgstr "Zoom"
 
 #: src/wx/timeline_dialog.cc:68
 msgid "Zoom all"
-msgstr ""
+msgstr "Zoom über Alles"
 
 #: src/wx/timeline_dialog.cc:67
 msgid "Zoom in / out"
-msgstr ""
+msgstr "Zoom +/-"
 
 #: src/wx/timeline_dialog.cc:68
 msgid "Zoom out to whole film"
-msgstr ""
+msgstr "Vollständig"
 
 #: src/wx/full_config_dialog.cc:969
 msgid "certificates.barco.com password"
-msgstr ""
+msgstr "certificates.barco.com passwort"
 
 #: src/wx/full_config_dialog.cc:965
 msgid "certificates.barco.com username"
-msgstr ""
+msgstr "certificates.barco.com Benutzername"
 
 #: src/wx/full_config_dialog.cc:977
 msgid "certificates.christiedigital.com password"
-msgstr ""
+msgstr "certificates.christiedigital.com Passwort"
 
 #: src/wx/full_config_dialog.cc:973
 msgid "certificates.christiedigital.com username"
-msgstr ""
+msgstr "certificates.christiedigital.com Benutzername"
 
 #: src/wx/text_panel.cc:72
 msgid "closed captions"
-msgstr ""
+msgstr "closed captions"
 
 #: src/wx/video_waveform_dialog.cc:73
 msgid "component value"
@@ -2781,11 +2764,11 @@ msgstr "dB"
 
 #: src/wx/config_dialog.cc:893
 msgid "dcpomatic_kdm_decryption_cert.pem"
-msgstr ""
+msgstr "dcpomatic_kdm_decryption_cert.pem"
 
 #: src/wx/config_dialog.cc:871
 msgid "dcpomatic_kdm_decryption_chain.pem"
-msgstr ""
+msgstr "dcpomatic_kdm_decryption_chain.pem"
 
 #: src/wx/name_format_editor.cc:74
 #, c-format
@@ -2798,13 +2781,12 @@ msgid "f"
 msgstr "f"
 
 #: src/wx/player_config_dialog.cc:92
-#, fuzzy
 msgid "full screen"
-msgstr "Leinwandstammdaten bearbeiten"
+msgstr "Vollbild"
 
 #: src/wx/player_config_dialog.cc:93
 msgid "full screen with controls on other monitor"
-msgstr ""
+msgstr "Vollbild und Bedienung auf getrennten Bildschirmen"
 
 #. // TRANSLATORS: this is an abbreviation for "hours"
 #: src/wx/timing_panel.cc:61
@@ -2818,11 +2800,11 @@ msgstr "m"
 
 #: src/wx/player_config_dialog.cc:334
 msgid "milliseconds"
-msgstr ""
+msgstr "Millisekunden"
 
 #: src/wx/player_config_dialog.cc:327
 msgid "minutes"
-msgstr ""
+msgstr "Minuten"
 
 #. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
 #: src/wx/audio_panel.cc:86 src/wx/full_config_dialog.cc:367
@@ -2830,9 +2812,8 @@ msgid "ms"
 msgstr "ms"
 
 #: src/wx/text_panel.cc:71
-#, fuzzy
 msgid "open subtitles"
-msgstr "Untertitel verwenden"
+msgstr "Untertitel/Open Captions"
 
 #: src/wx/full_config_dialog.cc:762
 msgid "port"
@@ -2857,7 +2838,7 @@ msgstr "Bis"
 
 #: src/wx/player_config_dialog.cc:91
 msgid "window"
-msgstr ""
+msgstr "Fenster"
 
 #: src/wx/colour_conversion_editor.cc:125
 msgid "x"

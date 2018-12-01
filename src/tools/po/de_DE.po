@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-20 21:26+0100\n"
-"PO-Revision-Date: 2018-07-18 04:27+0100\n"
+"PO-Revision-Date: 2018-12-01 01:59+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic <carl@dcpomatic.com>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 2.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/tools/dcpomatic_kdm.cc:358
@@ -153,7 +153,7 @@ msgstr ""
 
 #: src/tools/dcpomatic_server.cc:321
 msgid "An unknown error has occurred with the DCP-o-matic server."
-msgstr "Ein unbekannter Fehler ist beim J2C Kodierungsserver aufgetreten"
+msgstr "Ein unbekannter Fehler ist beim J2C Kodierungsserver aufgetreten."
 
 #: src/tools/dcpomatic.cc:839 src/tools/dcpomatic.cc:1526
 #: src/tools/dcpomatic_kdm.cc:369 src/tools/dcpomatic_kdm.cc:639
@@ -195,16 +195,15 @@ msgstr "Schließen ohne speichern"
 
 #: src/tools/dcpomatic.cc:1192 src/tools/dcpomatic_player.cc:574
 msgid "Closed captions..."
-msgstr ""
+msgstr "Closed Captions (CCAP) monitor…"
 
 #: src/tools/dcpomatic.cc:1165
 msgid "Copy settings\tCtrl-C"
 msgstr "Inhaltseinstellungen kopieren\tCtrl-C"
 
 #: src/tools/dcpomatic.cc:491 src/tools/dcpomatic.cc:498
-#, fuzzy
 msgid "Could not create folder to store film."
-msgstr "Konnte den Zielordner für das Projekt nicht erzeugen"
+msgstr "Konnte den Zielordner für das Projekt nicht erzeugen."
 
 #: src/tools/dcpomatic_kdm.cc:441
 msgid ""
@@ -228,7 +227,7 @@ msgstr "Konnte DCP nicht laden."
 
 #: src/tools/dcpomatic_player.cc:1153
 msgid "Could not load DCP %1."
-msgstr "DCP %1 konnte nicht geladen werden"
+msgstr "DCP %1 konnte nicht geladen werden."
 
 #: src/tools/dcpomatic_player.cc:687
 msgid "Could not load KDM."
@@ -236,7 +235,7 @@ msgstr "Konnte KDM nicht laden."
 
 #: src/tools/dcpomatic_player.cc:375
 msgid "Could not load a DCP from %s"
-msgstr ""
+msgstr "Konnte kein DCP aus %s laden"
 
 #: src/tools/dcpomatic_batch.cc:403
 msgid "Could not load film %1"
@@ -297,7 +296,6 @@ msgstr ""
 "wurden nicht gespeichert."
 
 #: src/tools/dcpomatic_player.cc:914
-#, fuzzy
 msgid "Could not write to config file.  Your changes have not been saved."
 msgstr ""
 "Konnte nicht in die Konfigurationsdatei schreiben (%s). Ihre Änderungen "
@@ -368,7 +366,7 @@ msgstr "Nicht duplizieren"
 
 #: src/tools/dcpomatic_player.cc:570
 msgid "Dual screen\tShift+F11"
-msgstr ""
+msgstr "Zweischirmbetrieb\tShift+F11"
 
 #: src/tools/dcpomatic.cc:549 src/tools/dcpomatic.cc:564
 msgid "Duplicate Film"
@@ -413,7 +411,7 @@ msgstr "Bilder pro Sekunde"
 
 #: src/tools/dcpomatic_player.cc:569
 msgid "Full screen\tF11"
-msgstr ""
+msgstr "Vollbild\tF11"
 
 #: src/tools/dcpomatic.cc:1196
 msgid "Hints..."
@@ -428,7 +426,7 @@ msgstr ""
 
 #: src/tools/dcpomatic_player.cc:503
 msgid "Load DCP %s"
-msgstr ""
+msgstr "Lade DCP %s"
 
 #: src/tools/dcpomatic_player.cc:461 src/tools/dcpomatic_player.cc:656
 msgid "Loading DCP"
@@ -448,7 +446,7 @@ msgstr "DKDM für DCP-o-matic erzeugen..."
 
 #: src/tools/dcpomatic.cc:1198
 msgid "Manage templates..."
-msgstr "Projektvorlagen verwalten"
+msgstr "Projektvorlagen verwalten…"
 
 #: src/tools/dcpomatic.cc:475
 msgid "New Film"
@@ -472,7 +470,7 @@ msgstr "Inhaltseinstellungen einfügen...\tCtrl-V"
 
 #: src/tools/dcpomatic_batch.cc:125
 msgid "Pause"
-msgstr ""
+msgstr "Pause"
 
 #: src/tools/dcpomatic_kdm.cc:158
 msgid "Remove"
@@ -489,7 +487,7 @@ msgstr "Voreinstellungen zurücksetzen..."
 
 #: src/tools/dcpomatic_batch.cc:128
 msgid "Resume"
-msgstr ""
+msgstr "Fortsetzen"
 
 #: src/tools/dcpomatic.cc:1188
 msgid "S&how DCP"
@@ -586,7 +584,7 @@ msgstr "Der DCP-o-matic Download Server ist nicht erreichbar."
 
 #: src/tools/dcpomatic_player.cc:288
 msgid "The KDM does not allow playback of this content at this time."
-msgstr ""
+msgstr "Das Zeitfenster der KDM für dieses DCP ist ungültig."
 
 #: src/tools/dcpomatic.cc:1559 src/tools/dcpomatic_batch.cc:435
 #: src/tools/dcpomatic_kdm.cc:658 src/tools/dcpomatic_server.cc:333
@@ -600,7 +598,7 @@ msgstr ""
 
 #: src/tools/dcpomatic_player.cc:249 src/tools/dcpomatic_player.cc:271
 msgid "The required display devices are not connected correctly."
-msgstr ""
+msgstr "Das gewählte Anzeigegerät ist nicht verbunden."
 
 #: src/tools/dcpomatic.cc:1302 src/tools/dcpomatic_player.cc:890
 msgid "There are no new versions of DCP-o-matic available."
@@ -624,7 +622,7 @@ msgstr ""
 #: src/tools/dcpomatic.cc:494
 #, c-format
 msgid "Try removing the %s characters from your folder name."
-msgstr ""
+msgstr "Bitte entfernen Sie die %s Zeichen aus dem Ordnernamen!"
 
 #: src/tools/dcpomatic.cc:999 src/tools/dcpomatic_batch.cc:189
 msgid "Unfinished jobs"
@@ -659,14 +657,14 @@ msgstr ""
 "\n"
 "Es ist <span weight=\"bold\" size=\"larger\">SEHR WICHTIG</span> dass sie "
 "<span weight=\"bold\" size=\"larger\">diese Konfigurationsdatei an einem "
-"anderen Ort sichern,</span> denn wenn sie (z.B. durch Neuinstallation oder "
+"weiteren Ort sichern,</span> denn wenn sie (z.B. durch Neuinstallation oder "
 "Benutzer-/Programmfehler) verloren geht, oder ein neuer Schlüssel erzeugt "
-"wird, alle damit erzeugten DKDMs (inkl. der damit verbundenen "
-"verschlüsselten DCPs) unbenutzbar werden. Ein Backup der config.xml sowie "
-"aller Zertifikate und privater Schlüssel ist die erste Maßnahme, bevor man "
-"beginnt, verschlüsselte DCPs bzw. (D)KDMs zu erstellen.Verzichten Sie lieber "
-"auf Verschlüsselung, wenn Sie das Verfahren mit seinen Implikationen und "
-"Fehlerquellen nicht vollständig verstanden haben! "
+"wird, werden alle damit erzeugten DKDMs (inkl. der damit verbundenen "
+"verschlüsselten DCPs) unbenutzbar. Ein Backup der config.xml sowie aller "
+"Zertifikate und privater Schlüssel ist die erste Maßnahme, bevor man "
+"beginnt, verschlüsselte DCPs bzw. (D)KDMs zu erstellen. Verzichten Sie "
+"lieber auf Verschlüsselung, wenn Sie das Verfahren mit seinen Implikationen "
+"und Fehlerquellen nicht vollständig verstanden haben! "
 
 #: src/tools/dcpomatic.cc:686
 msgid ""
@@ -680,7 +678,7 @@ msgstr ""
 "Sie erstellen ein verschlüsseltes DCP. Sie werden später nicht in der Lage "
 "sein, KDMs für dieses DCP zu erstellen wenn Sie nicht weiterhin Zugriff auf "
 "die <tt>metadata.xml</tt> Datei dieses Projektes inkl. der Metadaten des "
-"erzeugten DCPs haben..\n"
+"erzeugten DCPs haben.\n"
 "\n"
 "Stellen Sie sicher, dass Sie <span weight=\"bold\" size=\"larger"
 "\">SICHERUNGEN</span> dieser Dateien behalten, wenn Sie später KDMs für "
@@ -688,8 +686,9 @@ msgstr ""
 "zusätzliche Möglichkeit ist die Erzeugung einer DKDM. Bei der Verwendung von "
 "DKDMs müssen Sie ausserdem die Zertifikate und privaten Schlüssel dieser DCP-"
 "o-matic Installation sichern, um sie ggfs. zukünftig wiederherstellen zu "
-"können.Verzichten Sie lieber auf Verschlüsselung, wenn Sie das Verfahren mit "
-"seinen Implikationen und Fehlerquellen nicht vollständig verstanden haben! "
+"können. Verzichten Sie lieber auf Verschlüsselung, wenn Sie das Verfahren "
+"mit seinen Implikationen und Fehlerquellen nicht vollständig verstanden "
+"haben! "
 
 #: src/tools/dcpomatic.cc:519 src/tools/dcpomatic_batch.cc:255
 #: src/tools/dcpomatic_player.cc:616 src/tools/dcpomatic_player.cc:644
