@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-20 21:26+0100\n"
+"POT-Creation-Date: 2018-12-01 22:02+0000\n"
 "PO-Revision-Date: 2018-04-05 20:48+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -89,11 +89,11 @@ msgstr "-6db"
 msgid "0 is best, 51 is worst"
 msgstr ""
 
-#: src/wx/wx_util.cc:437
+#: src/wx/wx_util.cc:443
 msgid "12 - 7.1/HI/VI"
 msgstr "12声道—7.1+听力障碍声道/视力障碍声道"
 
-#: src/wx/wx_util.cc:429
+#: src/wx/wx_util.cc:435
 msgid "2 - stereo"
 msgstr "2声道—立体声"
 
@@ -109,11 +109,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "伪3D"
 
-#: src/wx/dcp_panel.cc:762
+#: src/wx/dcp_panel.cc:781
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:734 src/wx/video_panel.cc:188
+#: src/wx/dcp_panel.cc:751 src/wx/video_panel.cc:188
 msgid "3D"
 msgstr "3D"
 
@@ -137,27 +137,27 @@ msgstr "仅右眼(3D)"
 msgid "3D top/bottom"
 msgstr "上下眼(3D)"
 
-#: src/wx/wx_util.cc:431
+#: src/wx/wx_util.cc:437
 msgid "4 - L/C/R/Lfe"
 msgstr "4声道—左/中/右/低音"
 
-#: src/wx/dcp_panel.cc:763
+#: src/wx/dcp_panel.cc:782
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/wx_util.cc:433
+#: src/wx/wx_util.cc:439
 msgid "6 - 5.1"
 msgstr "6声道—5.1声道"
 
-#: src/wx/wx_util.cc:435
+#: src/wx/wx_util.cc:441
 msgid "8 - 5.1/HI/VI"
 msgstr "8声道—5.1+听力障碍声道/视力障碍声道"
 
-#: src/wx/subtitle_appearance_dialog.cc:96
+#: src/wx/subtitle_appearance_dialog.cc:97
 msgid "<b>New colour</b>"
 msgstr "<b>新色彩空间</b>"
 
-#: src/wx/subtitle_appearance_dialog.cc:93
+#: src/wx/subtitle_appearance_dialog.cc:94
 msgid "<b>Original colour</b>"
 msgstr "<b>原色彩空间</b>"
 
@@ -207,11 +207,6 @@ msgstr "关于 DCP-o-matic"
 msgid "Accounts"
 msgstr ""
 
-#: src/wx/controls.cc:104
-#, fuzzy
-msgid "Add"
-msgstr "添加..."
-
 #: src/wx/screens_panel.cc:150
 msgid "Add Cinema"
 msgstr "添加影院"
@@ -220,7 +215,7 @@ msgstr "添加影院"
 msgid "Add Cinema..."
 msgstr "添加影院..."
 
-#: src/wx/content_panel.cc:105
+#: src/wx/content_panel.cc:104
 msgid "Add DCP..."
 msgstr "添加 DCP…"
 
@@ -244,21 +239,21 @@ msgstr "添加银幕（放映服务器）"
 msgid "Add Screen..."
 msgstr "添加银幕（放映服务器）..."
 
-#: src/wx/content_panel.cc:106
+#: src/wx/content_panel.cc:105
 msgid "Add a DCP."
 msgstr "添加 DCP..."
 
-#: src/wx/content_panel.cc:102
+#: src/wx/content_panel.cc:101
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
 msgstr "添加包含序列帧文件或音频的媒体文件夹."
 
-#: src/wx/content_panel.cc:97
+#: src/wx/content_panel.cc:96
 msgid "Add file(s)..."
 msgstr "添加文件..."
 
-#: src/wx/content_panel.cc:101
+#: src/wx/content_panel.cc:100
 msgid "Add folder..."
 msgstr "添加文件夹..."
 
@@ -271,7 +266,7 @@ msgstr "添加图像序列"
 msgid "Add new..."
 msgstr "添加影院..."
 
-#: src/wx/content_panel.cc:98
+#: src/wx/content_panel.cc:97
 msgid "Add video, image, sound or subtitle files to the film."
 msgstr "添加视频、图片、音频或字幕文件。"
 
@@ -322,7 +317,7 @@ msgstr "透明度 0"
 msgid "Also supported by"
 msgstr "技术支持"
 
-#: src/wx/kdm_output_panel.cc:292
+#: src/wx/kdm_output_panel.cc:291
 msgid "An unknown exception occurred."
 msgstr "出现未知错误。"
 
@@ -386,7 +381,7 @@ msgstr "B"
 msgid "BCC address"
 msgstr "抄送地址"
 
-#: src/wx/player_config_dialog.cc:243
+#: src/wx/player_config_dialog.cc:263
 msgid "Background image"
 msgstr ""
 
@@ -440,7 +435,7 @@ msgstr "CPL ID"
 msgid "CPL annotation text"
 msgstr "CPL注释文本"
 
-#: src/wx/kdm_output_panel.cc:288
+#: src/wx/kdm_output_panel.cc:287
 msgid "CPL's content is not encrypted."
 msgstr "该CPL内容没有加密."
 
@@ -494,7 +489,7 @@ msgstr "链接"
 msgid "Channel gain"
 msgstr "信道增益"
 
-#: src/wx/audio_dialog.cc:95 src/wx/dcp_panel.cc:841
+#: src/wx/audio_dialog.cc:95 src/wx/dcp_panel.cc:861
 msgid "Channels"
 msgstr "通道"
 
@@ -510,7 +505,7 @@ msgstr "启动时检查软件更新"
 msgid "Choose CPL..."
 msgstr "选择CPL…"
 
-#: src/wx/content_panel.cc:486
+#: src/wx/content_panel.cc:485
 msgid "Choose a DCP folder"
 msgstr "选择一个DCP文件夹"
 
@@ -518,11 +513,11 @@ msgstr "选择一个DCP文件夹"
 msgid "Choose a file"
 msgstr "选择一个文件"
 
-#: src/wx/content_panel.cc:413
+#: src/wx/content_panel.cc:412
 msgid "Choose a file or files"
 msgstr "选择一个或多个文件"
 
-#: src/wx/content_menu.cc:294 src/wx/content_panel.cc:441
+#: src/wx/content_menu.cc:294 src/wx/content_panel.cc:440
 msgid "Choose a folder"
 msgstr "选择一个文件夹"
 
@@ -550,7 +545,7 @@ msgstr "单击该按钮可将所有选定的内容为相同的值。"
 msgid "Closed captions"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:61
+#: src/wx/subtitle_appearance_dialog.cc:62
 msgid "Colour"
 msgstr "色彩空间"
 
@@ -580,7 +575,7 @@ msgstr "时间设置"
 msgid "Confirm KDM email"
 msgstr "确认接收KDM的电子邮件地址"
 
-#: src/wx/dcp_panel.cc:717
+#: src/wx/dcp_panel.cc:734
 msgid "Container"
 msgstr "封装格式"
 
@@ -597,7 +592,7 @@ msgstr "内容属性"
 msgid "Content Type"
 msgstr "内容类型"
 
-#: src/wx/player_config_dialog.cc:232
+#: src/wx/player_config_dialog.cc:247
 #, fuzzy
 msgid "Content directory"
 msgstr "DCP目录"
@@ -628,9 +623,14 @@ msgstr "无法导入证书文件 (%s)"
 msgid "Could not load KDM"
 msgstr "无法加载 KDM."
 
+#: src/wx/screen_dialog.cc:69
+#, fuzzy, c-format
+msgid "Could not load certficate (%s)"
+msgstr "无法导入证书文件 (%s)"
+
 #: src/wx/config_dialog.cc:484 src/wx/config_dialog.cc:679
-#: src/wx/download_certificate_panel.cc:60 src/wx/screen_dialog.cc:157
-#: src/wx/screen_dialog.cc:162
+#: src/wx/download_certificate_panel.cc:60 src/wx/screen_dialog.cc:199
+#: src/wx/screen_dialog.cc:204
 msgid "Could not read certificate file."
 msgstr "无法读取证书文件."
 
@@ -639,7 +639,7 @@ msgstr "无法读取证书文件."
 msgid "Could not read key file; file is too long (%s)"
 msgstr "无法读取Key文件，因为文件过长 (%s)"
 
-#: src/wx/film_viewer.cc:645
+#: src/wx/film_viewer.cc:654
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr "不能设置音频输出 (%s)。因此预览时将没有音频输出."
@@ -699,8 +699,8 @@ msgstr ""
 msgid "DCP verification"
 msgstr "证书秘钥"
 
-#: src/wx/about_dialog.cc:50 src/wx/job_view.cc:146 src/wx/wx_util.cc:131
-#: src/wx/wx_util.cc:148 src/wx/wx_util.cc:156
+#: src/wx/about_dialog.cc:50 src/wx/content_view.cc:77 src/wx/job_view.cc:146
+#: src/wx/wx_util.cc:137 src/wx/wx_util.cc:154 src/wx/wx_util.cc:162
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
@@ -799,7 +799,7 @@ msgstr "详细..."
 msgid "Device"
 msgstr ""
 
-#: src/wx/player_config_dialog.cc:379
+#: src/wx/player_config_dialog.cc:409
 msgid "Devices"
 msgstr ""
 
@@ -835,7 +835,7 @@ msgstr "下载"
 msgid "Download certificate"
 msgstr "下载证书"
 
-#: src/wx/screen_dialog.cc:91
+#: src/wx/screen_dialog.cc:133
 msgid "Download..."
 msgstr "下载..."
 
@@ -852,12 +852,12 @@ msgstr "丢帧: %d"
 msgid "Dual-screen displays"
 msgstr ""
 
-#: src/wx/player_config_dialog.cc:330
+#: src/wx/player_config_dialog.cc:360
 #, fuzzy
 msgid "Duration"
 msgstr "团队"
 
-#: src/wx/content_panel.cc:113
+#: src/wx/content_panel.cc:112
 msgid "Earlier"
 msgstr "上移"
 
@@ -884,11 +884,11 @@ msgstr "编辑放映厅服务器（证书）"
 msgid "Edit..."
 msgstr "编辑..."
 
-#: src/wx/subtitle_appearance_dialog.cc:64
+#: src/wx/subtitle_appearance_dialog.cc:65
 msgid "Effect"
 msgstr "效果"
 
-#: src/wx/subtitle_appearance_dialog.cc:67
+#: src/wx/subtitle_appearance_dialog.cc:68
 msgid "Effect colour"
 msgstr "效果颜色"
 
@@ -962,7 +962,7 @@ msgstr "设备(例如:DLA)"
 msgid "Fade in"
 msgstr "淡入"
 
-#: src/wx/subtitle_appearance_dialog.cc:75
+#: src/wx/subtitle_appearance_dialog.cc:76
 msgid "Fade in time"
 msgstr "淡入时间"
 
@@ -970,7 +970,7 @@ msgstr "淡入时间"
 msgid "Fade out"
 msgstr "淡出"
 
-#: src/wx/subtitle_appearance_dialog.cc:78
+#: src/wx/subtitle_appearance_dialog.cc:79
 msgid "Fade out time"
 msgstr "淡出时间"
 
@@ -1029,7 +1029,7 @@ msgstr ""
 msgid "Format"
 msgstr "格式"
 
-#: src/wx/dcp_panel.cc:724
+#: src/wx/dcp_panel.cc:741
 msgid "Frame Rate"
 msgstr "帧率"
 
@@ -1097,7 +1097,7 @@ msgstr "从内容通道  %d 到DCP %d 通道进行增益调整"
 msgid "General"
 msgstr "普通"
 
-#: src/wx/screen_dialog.cc:90
+#: src/wx/screen_dialog.cc:132
 msgid "Get from file..."
 msgstr "从文件获取…"
 
@@ -1257,7 +1257,7 @@ msgstr "斜体文件"
 msgid "Italic font"
 msgstr "斜体"
 
-#: src/wx/dcp_panel.cc:737
+#: src/wx/dcp_panel.cc:753
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
@@ -1275,7 +1275,7 @@ msgstr "跳转到已选择的内容"
 msgid "KDM Email"
 msgstr "邮件发送 KDM"
 
-#: src/wx/player_config_dialog.cc:237
+#: src/wx/player_config_dialog.cc:257
 #, fuzzy
 msgid "KDM directory"
 msgstr "DCP目录"
@@ -1309,7 +1309,7 @@ msgstr "键值"
 msgid "Language"
 msgstr "语言"
 
-#: src/wx/content_panel.cc:117
+#: src/wx/content_panel.cc:116
 msgid "Later"
 msgstr "下移"
 
@@ -1350,14 +1350,20 @@ msgstr "长度: %1 (%2 帧)"
 msgid "Line spacing"
 msgstr "行间距"
 
-#: src/wx/controls.cc:108
-msgid "Load..."
-msgstr "加载..."
+#: src/wx/screen_dialog.cc:54
+#, fuzzy
+msgid "Load certificate..."
+msgstr "下载证书"
 
-#: src/wx/player_config_dialog.cc:213
+#: src/wx/player_config_dialog.cc:228
 #, fuzzy
 msgid "Locations"
 msgstr "证书秘钥"
+
+#: src/wx/player_config_dialog.cc:119
+#, fuzzy
+msgid "Lock file"
+msgstr "字体文件"
 
 #: src/wx/full_config_dialog.cc:1386
 msgid "Log"
@@ -1377,7 +1383,7 @@ msgstr "响度范围 %.2f LU"
 msgid "Lower priority"
 msgstr "低场优先"
 
-#: src/wx/content_panel.cc:694
+#: src/wx/content_panel.cc:693
 msgid "MISSING: "
 msgstr "丢失: "
 
@@ -1419,16 +1425,16 @@ msgstr "创建KDM"
 msgid "Make certificate chain"
 msgstr "创建证书"
 
-#: src/wx/player_config_dialog.cc:389
+#: src/wx/player_config_dialog.cc:419
 msgid "Manufacture week"
 msgstr ""
 
-#: src/wx/player_config_dialog.cc:390
+#: src/wx/player_config_dialog.cc:420
 #, fuzzy
 msgid "Manufacture year"
 msgstr "服务器制造商"
 
-#: src/wx/monitor_dialog.cc:34 src/wx/player_config_dialog.cc:386
+#: src/wx/monitor_dialog.cc:34 src/wx/player_config_dialog.cc:416
 #, fuzzy
 msgid "Manufacturer ID"
 msgstr "服务器制造商"
@@ -1453,7 +1459,7 @@ msgstr "最大JPEG2000码率"
 msgid "Maximum number of frames to store per thread"
 msgstr "设置每个线程处理的最大帧数"
 
-#: src/wx/dcp_panel.cc:739 src/wx/full_config_dialog.cc:358
+#: src/wx/dcp_panel.cc:755 src/wx/full_config_dialog.cc:358
 #: src/wx/full_config_dialog.cc:1324
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -1474,11 +1480,11 @@ msgstr "移动设置"
 msgid "Move content"
 msgstr "分卷内容"
 
-#: src/wx/content_panel.cc:114
+#: src/wx/content_panel.cc:113
 msgid "Move the selected piece of content earlier in the film."
 msgstr "前移选择内容."
 
-#: src/wx/content_panel.cc:118
+#: src/wx/content_panel.cc:117
 msgid "Move the selected piece of content later in the film."
 msgstr "后移选择内容."
 
@@ -1502,16 +1508,16 @@ msgstr "我的文档"
 msgid "My problem is"
 msgstr "错误内容"
 
-#: src/wx/content_panel.cc:698
+#: src/wx/content_panel.cc:697
 msgid "NEEDS KDM: "
 msgstr "需要KDM: "
 
-#: src/wx/content_panel.cc:702
+#: src/wx/content_panel.cc:701
 msgid "NEEDS OV: "
 msgstr "需要OV: "
 
 #: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:71
-#: src/wx/dcp_text_track_dialog.cc:29 src/wx/screen_dialog.cc:68
+#: src/wx/dcp_text_track_dialog.cc:29 src/wx/screen_dialog.cc:110
 msgid "Name"
 msgstr "名称"
 
@@ -1558,12 +1564,12 @@ msgstr ""
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "视频中没有音频，从 %d 到 %d 通道的DCP."
 
-#: src/wx/content_panel.cc:460
+#: src/wx/content_panel.cc:459
 msgid "No content found in this folder."
 msgstr "文件夹中没有找到文件."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/subtitle_appearance_dialog.cc:126 src/wx/dcp_panel.cc:847
+#: src/wx/subtitle_appearance_dialog.cc:127 src/wx/dcp_panel.cc:867
 #: src/wx/video_panel.cc:160 src/wx/video_panel.cc:165
 #: src/wx/video_panel.cc:348
 msgid "None"
@@ -1577,7 +1583,7 @@ msgstr "普通文件"
 msgid "Normal font"
 msgstr "普通字体"
 
-#: src/wx/cinema_dialog.cc:60 src/wx/screen_dialog.cc:73
+#: src/wx/cinema_dialog.cc:60 src/wx/screen_dialog.cc:115
 msgid "Notes"
 msgstr "记录"
 
@@ -1615,7 +1621,7 @@ msgstr "仅在编码服务器编码"
 msgid "Open console window"
 msgstr "打开控制台窗口"
 
-#: src/wx/content_panel.cc:122
+#: src/wx/content_panel.cc:121
 msgid "Open the timeline for the film."
 msgstr "打开工程时间线."
 
@@ -1627,7 +1633,7 @@ msgstr "团队"
 msgid "Organisational unit"
 msgstr "组织"
 
-#: src/wx/screen_dialog.cc:98
+#: src/wx/screen_dialog.cc:140
 msgid "Other trusted devices"
 msgstr "其它可信设备(服务器设备)"
 
@@ -1635,7 +1641,7 @@ msgstr "其它可信设备(服务器设备)"
 msgid "Outgoing mail server"
 msgstr "发送邮件服务器地址"
 
-#: src/wx/subtitle_appearance_dialog.cc:127
+#: src/wx/subtitle_appearance_dialog.cc:128
 msgid "Outline"
 msgstr "缩略视图"
 
@@ -1643,11 +1649,11 @@ msgstr "缩略视图"
 msgid "Outline content"
 msgstr "缩略视图内容"
 
-#: src/wx/subtitle_appearance_dialog.cc:70
+#: src/wx/subtitle_appearance_dialog.cc:71
 msgid "Outline width"
 msgstr "轮廓线宽度"
 
-#: src/wx/subtitle_appearance_dialog.cc:289
+#: src/wx/subtitle_appearance_dialog.cc:292
 #, fuzzy
 msgid "Outline width cannot be set unless you are burning in captions"
 msgstr "只有选择烧录字幕才能显示轮廓线"
@@ -1689,8 +1695,8 @@ msgstr "黏贴字幕设置"
 msgid "Paste video settings"
 msgstr "黏贴视频设置"
 
-#: src/wx/controls.cc:62 src/wx/normal_job_view.cc:37
-#: src/wx/normal_job_view.cc:53
+#: src/wx/normal_job_view.cc:37 src/wx/normal_job_view.cc:53
+#: src/wx/swaroop_controls.cc:39
 msgid "Pause"
 msgstr "暂停"
 
@@ -1711,11 +1717,11 @@ msgstr "最佳值: 未知"
 msgid "Performance"
 msgstr "偏好设置"
 
-#: src/wx/player_config_dialog.cc:323
+#: src/wx/player_config_dialog.cc:353
 msgid "Period"
 msgstr ""
 
-#: src/wx/controls.cc:61 src/wx/controls.cc:65
+#: src/wx/standard_controls.cc:30 src/wx/swaroop_controls.cc:38
 msgid "Play"
 msgstr "播放"
 
@@ -1726,6 +1732,11 @@ msgstr "播放长度"
 #: src/wx/config_dialog.cc:155
 msgid "Play sound via"
 msgstr "声音播放设备"
+
+#: src/wx/player_config_dialog.cc:252
+#, fuzzy
+msgid "Playlist directory"
+msgstr "DCP目录"
 
 #: src/wx/report_problem_dialog.cc:104
 msgid ""
@@ -1749,11 +1760,11 @@ msgstr "预发布(点映版)"
 msgid "ProRes"
 msgstr "ProRes"
 
-#: src/wx/dcp_panel.cc:845
+#: src/wx/dcp_panel.cc:865
 msgid "Processor"
 msgstr "处理类型"
 
-#: src/wx/player_config_dialog.cc:387
+#: src/wx/player_config_dialog.cc:417
 msgid "Product code"
 msgstr ""
 
@@ -1785,6 +1796,10 @@ msgstr "随机"
 msgid "Rating (e.g. 15)"
 msgstr "评级 (例如:15)"
 
+#: src/wx/dcp_panel.cc:757
+msgid "Re-encode JPEG2000 data from input"
+msgstr ""
+
 #: src/wx/content_menu.cc:76
 msgid "Re-examine..."
 msgstr "重新制作..."
@@ -1793,9 +1808,14 @@ msgstr "重新制作..."
 msgid "Re-make certificates and key..."
 msgstr "重新创建证书和密钥..."
 
-#: src/wx/player_config_dialog.cc:403
+#: src/wx/player_config_dialog.cc:433
 msgid "Read current devices"
 msgstr ""
+
+#: src/wx/content_view.cc:77
+#, fuzzy
+msgid "Reading content directory"
+msgstr "DCP目录"
 
 #: src/wx/colour_conversion_editor.cc:110
 msgid "Rec. 601"
@@ -1805,7 +1825,7 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/wx/screen_dialog.cc:85
+#: src/wx/screen_dialog.cc:127
 msgid "Recipient certificate"
 msgstr "接受证书(设备)"
 
@@ -1840,7 +1860,7 @@ msgid "Reel|Custom"
 msgstr "分卷|自定义"
 
 #: src/wx/config_dialog.cc:382 src/wx/content_menu.cc:83
-#: src/wx/content_panel.cc:109 src/wx/templates_dialog.cc:52
+#: src/wx/content_panel.cc:108 src/wx/templates_dialog.cc:52
 #: src/wx/editable_list.h:81
 msgid "Remove"
 msgstr "移除"
@@ -1853,7 +1873,7 @@ msgstr "移除影院"
 msgid "Remove Screen"
 msgstr "移除厅放映服务器（证书）"
 
-#: src/wx/content_panel.cc:110
+#: src/wx/content_panel.cc:109
 msgid "Remove the selected piece of content from the film."
 msgstr "从工程中删除所选项目."
 
@@ -1889,7 +1909,7 @@ msgstr "恢复到默认"
 msgid "Reset to default text"
 msgstr "恢复到默认"
 
-#: src/wx/dcp_panel.cc:721
+#: src/wx/dcp_panel.cc:738
 msgid "Resolution"
 msgstr "解析度"
 
@@ -1897,7 +1917,7 @@ msgstr "解析度"
 msgid "Respect KDM validity periods"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:112
+#: src/wx/subtitle_appearance_dialog.cc:113
 msgid "Restore to original colours"
 msgstr "恢复为原始色彩"
 
@@ -1951,11 +1971,6 @@ msgstr "保存模板"
 msgid "Save to KDM Creator tool's list"
 msgstr "保存到创建KDM的工具列表"
 
-#: src/wx/controls.cc:106
-#, fuzzy
-msgid "Save..."
-msgstr "重命名..."
-
 #: src/wx/text_panel.cc:84
 #, fuzzy
 msgid "Scale"
@@ -1983,7 +1998,7 @@ msgid "Select CPL XML file"
 msgstr "选择CPL文件"
 
 #: src/wx/config_dialog.cc:449 src/wx/config_dialog.cc:518
-#: src/wx/config_dialog.cc:893 src/wx/screen_dialog.cc:169
+#: src/wx/config_dialog.cc:893 src/wx/screen_dialog.cc:211
 msgid "Select Certificate File"
 msgstr "选择证书文件"
 
@@ -2021,10 +2036,6 @@ msgstr "选择OV"
 msgid "Select and move content"
 msgstr "根据内容进行分割"
 
-#: src/wx/screen_dialog.cc:49
-msgid "Select certificate file"
-msgstr "选择证书文件"
-
 #: src/wx/full_config_dialog.cc:109
 msgid "Select cinema and screen database file"
 msgstr "选择电影和银幕的数据库文件"
@@ -2033,10 +2044,15 @@ msgstr "选择电影和银幕的数据库文件"
 msgid "Select configuration file"
 msgstr "选择配置文件"
 
-#: src/wx/player_config_dialog.cc:244
+#: src/wx/player_config_dialog.cc:264
 #, fuzzy
 msgid "Select image file"
 msgstr "选择私钥文件"
+
+#: src/wx/player_config_dialog.cc:120
+#, fuzzy
+msgid "Select lock file"
+msgstr "选择输出文件"
 
 #: src/wx/player_config_dialog.cc:109
 #, fuzzy
@@ -2045,11 +2061,6 @@ msgstr "选择输出文件"
 
 #: src/wx/export_dialog.cc:74
 msgid "Select output file"
-msgstr "选择输出文件"
-
-#: src/wx/controls.cc:215 src/wx/controls.cc:230
-#, fuzzy
-msgid "Select playlist file"
 msgstr "选择输出文件"
 
 #: src/wx/kdm_output_panel.cc:120
@@ -2068,7 +2079,7 @@ msgstr "发送日志"
 msgid "Sequence"
 msgstr ""
 
-#: src/wx/player_config_dialog.cc:388
+#: src/wx/player_config_dialog.cc:418
 #, fuzzy
 msgid "Serial"
 msgstr "序列号"
@@ -2101,15 +2112,15 @@ msgstr "使用系统字体…"
 msgid "Set language"
 msgstr "设置语言"
 
-#: src/wx/subtitle_appearance_dialog.cc:205
+#: src/wx/subtitle_appearance_dialog.cc:206
 msgid "Set to"
 msgstr "设置为"
 
-#: src/wx/subtitle_appearance_dialog.cc:128
+#: src/wx/subtitle_appearance_dialog.cc:129
 msgid "Shadow"
 msgstr "字幕阴影"
 
-#: src/wx/dcp_panel.cc:852
+#: src/wx/dcp_panel.cc:872
 msgid "Show audio..."
 msgstr "显示音频…"
 
@@ -2184,7 +2195,7 @@ msgstr "分卷数量"
 msgid "Start player as"
 msgstr ""
 
-#: src/wx/controls.cc:63
+#: src/wx/swaroop_controls.cc:40
 msgid "Stop"
 msgstr ""
 
@@ -2296,7 +2307,7 @@ msgid ""
 "or overwrite it with your current configuration?"
 msgstr "文件 %s 已经存在. 您希望将它作为新设置或是用现有设置覆盖他?"
 
-#: src/wx/player_config_dialog.cc:318
+#: src/wx/player_config_dialog.cc:348
 #, fuzzy
 msgid "Theatre name"
 msgstr "模板名称"
@@ -2310,7 +2321,7 @@ msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
 msgstr "已存在同名模板，是否覆盖？"
 
-#: src/wx/film_viewer.cc:144
+#: src/wx/film_viewer.cc:143
 msgid "There is not enough free memory to do that."
 msgstr "内存不足."
 
@@ -2328,7 +2339,8 @@ msgstr "CPL文件无效"
 msgid "Threads"
 msgstr "线程"
 
-#: src/wx/config_dialog.cc:366 src/wx/screen_dialog.cc:102
+#: src/wx/config_dialog.cc:366 src/wx/screen_dialog.cc:52
+#: src/wx/screen_dialog.cc:144
 msgid "Thumbprint"
 msgstr "指纹"
 
@@ -2336,11 +2348,11 @@ msgstr "指纹"
 msgid "Timeline"
 msgstr "时间线"
 
-#: src/wx/content_panel.cc:121
+#: src/wx/content_panel.cc:120
 msgid "Timeline..."
 msgstr "时间线…"
 
-#: src/wx/content_panel.cc:134
+#: src/wx/content_panel.cc:133
 #, fuzzy
 msgid "Timing"
 msgstr "KDM有效期"
@@ -2383,6 +2395,16 @@ msgstr "裁剪至当前位置"
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr "最佳值 %.2fdB"
+
+#: src/wx/screen_dialog.cc:50
+#, fuzzy
+msgid "Trusted Device"
+msgstr "其它可信设备(服务器设备)"
+
+#: src/wx/screen_dialog.cc:63
+#, fuzzy
+msgid "Trusted Device certificate"
+msgstr "接受证书(设备)"
 
 #: src/wx/audio_dialog.cc:112 src/wx/config_dialog.cc:358
 #: src/wx/video_panel.cc:85
@@ -2522,7 +2544,7 @@ msgstr "使用ISDCF名称"
 msgid "Use as"
 msgstr "使用最佳"
 
-#: src/wx/dcp_panel.cc:731
+#: src/wx/dcp_panel.cc:748
 msgid "Use best"
 msgstr "使用最佳"
 
@@ -2577,7 +2599,7 @@ msgstr "视图窗口…"
 msgid "Warnings"
 msgstr "警告"
 
-#: src/wx/player_config_dialog.cc:307
+#: src/wx/player_config_dialog.cc:337
 msgid "Watermark"
 msgstr ""
 
@@ -2753,11 +2775,11 @@ msgstr "时"
 msgid "m"
 msgstr "分"
 
-#: src/wx/player_config_dialog.cc:334
+#: src/wx/player_config_dialog.cc:364
 msgid "milliseconds"
 msgstr ""
 
-#: src/wx/player_config_dialog.cc:327
+#: src/wx/player_config_dialog.cc:357
 msgid "minutes"
 msgstr ""
 
@@ -2803,6 +2825,24 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:126
 msgid "y"
 msgstr "y"
+
+#, fuzzy
+#~ msgid "Add"
+#~ msgstr "添加..."
+
+#~ msgid "Load..."
+#~ msgstr "加载..."
+
+#, fuzzy
+#~ msgid "Save..."
+#~ msgstr "重命名..."
+
+#~ msgid "Select certificate file"
+#~ msgstr "选择证书文件"
+
+#, fuzzy
+#~ msgid "Select playlist file"
+#~ msgstr "选择输出文件"
 
 #~ msgid "Crop"
 #~ msgstr "裁剪"
