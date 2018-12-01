@@ -194,16 +194,34 @@ DCPDecoder::pass_subtitles (ContentTime next)
 			true
 			);
 
+		list<dcp::SubtitleString> strings;
+
 		BOOST_FOREACH (dcp::SubtitleString i, subs) {
-			list<dcp::SubtitleString> s;
-			s.push_back (i);
+			if (!strings.empty() && (strings.back().in() != i.in() || strings.back().out() != i.out())) {
+				dcp::SubtitleString b = strings.back();
+				subtitle->emit_text (
+					ContentTimePeriod (
+						ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(b.in().as_seconds()),
+						ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(b.out().as_seconds())
+						),
+					strings
+					);
+				strings.clear ();
+			}
+
+			strings.push_back (i);
+		}
+
+		if (!strings.empty()) {
+			dcp::SubtitleString b = strings.back();
 			subtitle->emit_text (
 				ContentTimePeriod (
-					ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (i.in().as_seconds ()),
-					ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (i.out().as_seconds ())
+					ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(b.in().as_seconds()),
+					ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(b.out().as_seconds())
 					),
-				s
+				strings
 				);
+			strings.clear ();
 		}
 	}
 }
