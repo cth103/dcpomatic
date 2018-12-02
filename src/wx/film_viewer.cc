@@ -636,7 +636,6 @@ FilmViewer::config_changed (Config::Property p)
 		}
 
 		_audio_channels = _audio.getDeviceInfo(st).outputChannels;
-		cout << "RtAudio reports " << _audio_channels << " channels.\n";
 
 		RtAudio::StreamParameters sp;
 		sp.deviceId = st;
