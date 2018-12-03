@@ -659,8 +659,19 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime 
 		out_p += image->stride()[0] / sizeof (uint32_t);
 	}
 
-	int const target_width = subtitle_codec_context()->width;
-	int const target_height = subtitle_codec_context()->height;
+	int target_width = subtitle_codec_context()->width;
+	if (target_width == 0 && video_codec_context()) {
+		/* subtitle_codec_context()->width == 0 has been seen in the wild but I don't
+		   know if it's supposed to mean something from FFmpeg's point of view.
+		*/
+		target_width = video_codec_context()->width;
+	}
+	int target_height = subtitle_codec_context()->height;
+	if (target_height == 0 && video_codec_context()) {
+		target_height = video_codec_context()->height;
+	}
+	DCPOMATIC_ASSERT (target_width);
+	DCPOMATIC_ASSERT (target_height);
 	dcpomatic::Rect<double> const scaled_rect (
 		static_cast<double> (rect->x) / target_width,
 		static_cast<double> (rect->y) / target_height,
