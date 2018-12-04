@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-01 22:02+0000\n"
+"POT-Creation-Date: 2018-12-04 16:30+0000\n"
 "PO-Revision-Date: 2018-04-05 20:13+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -215,7 +215,8 @@ msgid "An error occurred whilst handling the file %1."
 msgstr "执行错误 %1."
 
 #: src/lib/analyse_audio_job.cc:95
-msgid "Analyse audio"
+#, fuzzy
+msgid "Analysing audio"
 msgstr "分析音频"
 
 #: src/lib/audio_content.cc:258
@@ -317,7 +318,7 @@ msgid "Channels"
 msgstr "声音通道"
 
 #: src/lib/check_content_change_job.cc:46
-msgid "Check content for changes"
+msgid "Checking content for changes"
 msgstr ""
 
 #: src/lib/reel_writer.cc:100
@@ -688,14 +689,15 @@ msgstr "字幕文件错误: 执行为 %1 实际要求为%2"
 msgid "Error: %1"
 msgstr "错误: (%1)"
 
-#: src/lib/examine_content_job.cc:44
-msgid "Examine content"
-msgstr "检查内容"
-
 #: src/lib/hints.cc:264
 #, fuzzy
 msgid "Examining closed captions"
 msgstr "Examinar contenido"
+
+#: src/lib/examine_content_job.cc:44
+#, fuzzy
+msgid "Examining content"
+msgstr "检查内容"
 
 #: src/lib/ffmpeg_content.cc:623
 msgid "FCC"
@@ -1282,7 +1284,8 @@ msgid "Trailer"
 msgstr "预告片"
 
 #: src/lib/transcode_job.cc:55
-msgid "Transcode %1"
+#, fuzzy
+msgid "Transcoding %1"
 msgstr "转码 %1"
 
 #: src/lib/dcp_content_type.cc:50

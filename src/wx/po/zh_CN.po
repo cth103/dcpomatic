@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-01 22:02+0000\n"
+"POT-Creation-Date: 2018-12-04 16:30+0000\n"
 "PO-Revision-Date: 2018-04-05 20:48+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -312,7 +312,7 @@ msgstr ""
 msgid "Alpha   0"
 msgstr "透明度 0"
 
-#: src/wx/about_dialog.cc:146
+#: src/wx/about_dialog.cc:147
 #, fuzzy
 msgid "Also supported by"
 msgstr "技术支持"
@@ -639,7 +639,7 @@ msgstr "无法读取证书文件."
 msgid "Could not read key file; file is too long (%s)"
 msgstr "无法读取Key文件，因为文件过长 (%s)"
 
-#: src/wx/film_viewer.cc:654
+#: src/wx/film_viewer.cc:653
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr "不能设置音频输出 (%s)。因此预览时将没有音频输出."
@@ -2211,7 +2211,7 @@ msgstr "工作室(例如:ROV)"
 msgid "Subject"
 msgstr "类目"
 
-#: src/wx/about_dialog.cc:142
+#: src/wx/about_dialog.cc:143
 msgid "Subscribers"
 msgstr ""
 
@@ -2268,7 +2268,7 @@ msgstr "国别地区(例如:CN)"
 msgid "Test version "
 msgstr "测试版 "
 
-#: src/wx/about_dialog.cc:204
+#: src/wx/about_dialog.cc:205
 msgid "Tested by"
 msgstr "测试"
 
@@ -2616,7 +2616,7 @@ msgstr "白点"
 msgid "White point adjustment"
 msgstr "白点调整"
 
-#: src/wx/about_dialog.cc:138
+#: src/wx/about_dialog.cc:139
 msgid "With help from"
 msgstr "帮助"
 

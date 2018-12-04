@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-01 22:02+0000\n"
+"POT-Creation-Date: 2018-12-04 16:30+0000\n"
 "PO-Revision-Date: 2016-03-19 18:19+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -210,7 +210,8 @@ msgid "An error occurred whilst handling the file %1."
 msgstr "Ocorreu um erro ao manipular o ficheiro %1."
 
 #: src/lib/analyse_audio_job.cc:95
-msgid "Analyse audio"
+#, fuzzy
+msgid "Analysing audio"
 msgstr "Analizar áudio"
 
 #: src/lib/audio_content.cc:258
@@ -312,7 +313,7 @@ msgid "Channels"
 msgstr "Canais"
 
 #: src/lib/check_content_change_job.cc:46
-msgid "Check content for changes"
+msgid "Checking content for changes"
 msgstr ""
 
 #: src/lib/reel_writer.cc:100
@@ -703,14 +704,15 @@ msgstr "Erro no ficheiro de legendas: encontrou %1 mas esperava %2"
 msgid "Error: %1"
 msgstr "Erro: %1"
 
-#: src/lib/examine_content_job.cc:44
-msgid "Examine content"
-msgstr "Examinar conteúdo"
-
 #: src/lib/hints.cc:264
 #, fuzzy
 msgid "Examining closed captions"
 msgstr "Examen du contenu"
+
+#: src/lib/examine_content_job.cc:44
+#, fuzzy
+msgid "Examining content"
+msgstr "Examinar conteúdo"
 
 #: src/lib/ffmpeg_content.cc:623
 msgid "FCC"
@@ -1308,7 +1310,8 @@ msgid "Trailer"
 msgstr "Trailer"
 
 #: src/lib/transcode_job.cc:55
-msgid "Transcode %1"
+#, fuzzy
+msgid "Transcoding %1"
 msgstr "Transcodificar %1"
 
 #: src/lib/dcp_content_type.cc:50

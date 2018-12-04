@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-01 22:02+0000\n"
+"POT-Creation-Date: 2018-12-04 16:30+0000\n"
 "PO-Revision-Date: 2018-08-20 20:35+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Ukrainian\n"
@@ -311,7 +311,7 @@ msgstr ""
 msgid "Alpha   0"
 msgstr "Альфа 0"
 
-#: src/wx/about_dialog.cc:146
+#: src/wx/about_dialog.cc:147
 #, fuzzy
 msgid "Also supported by"
 msgstr "Фінансова підтримка"
@@ -640,7 +640,7 @@ msgstr "Не вдалося прочитати файл сертифікату."
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Не вдалося прочитати файл ключа; файл занадто довгий (%s)"
 
-#: src/wx/film_viewer.cc:654
+#: src/wx/film_viewer.cc:653
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr "Не вдалося налаштувати вихід аудіо.  При передперегляді не буде звуку."
@@ -2218,7 +2218,7 @@ msgstr "Студія (напр. TCF)"
 msgid "Subject"
 msgstr "Тема"
 
-#: src/wx/about_dialog.cc:142
+#: src/wx/about_dialog.cc:143
 msgid "Subscribers"
 msgstr ""
 
@@ -2275,7 +2275,7 @@ msgstr "Територія (напр. RU)"
 msgid "Test version "
 msgstr "Тестова версія"
 
-#: src/wx/about_dialog.cc:204
+#: src/wx/about_dialog.cc:205
 msgid "Tested by"
 msgstr "Тестування"
 
@@ -2631,7 +2631,7 @@ msgstr "Біла точка"
 msgid "White point adjustment"
 msgstr "Регулювання білої точки"
 
-#: src/wx/about_dialog.cc:138
+#: src/wx/about_dialog.cc:139
 msgid "With help from"
 msgstr "Допомога у розробці"
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-01 22:02+0000\n"
+"POT-Creation-Date: 2018-12-04 16:30+0000\n"
 "PO-Revision-Date: 2017-10-04 22:06+0200\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -311,7 +311,7 @@ msgstr ""
 msgid "Alpha   0"
 msgstr "Alpha   0"
 
-#: src/wx/about_dialog.cc:146
+#: src/wx/about_dialog.cc:147
 #, fuzzy
 msgid "Also supported by"
 msgstr "Støttet af"
@@ -640,7 +640,7 @@ msgstr "Kunne ikke læse certifikatfil (%s)"
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Kunne ikke læse nøgle fil, filen er for lang (%s)"
 
-#: src/wx/film_viewer.cc:654
+#: src/wx/film_viewer.cc:653
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
@@ -2225,7 +2225,7 @@ msgstr "Studie (f.eks. TCF)"
 msgid "Subject"
 msgstr "Emne"
 
-#: src/wx/about_dialog.cc:142
+#: src/wx/about_dialog.cc:143
 msgid "Subscribers"
 msgstr ""
 
@@ -2284,7 +2284,7 @@ msgstr "Område (f.eks. UK)"
 msgid "Test version "
 msgstr "Testversion "
 
-#: src/wx/about_dialog.cc:204
+#: src/wx/about_dialog.cc:205
 msgid "Tested by"
 msgstr "Testet af"
 
@@ -2632,7 +2632,7 @@ msgstr "Hvidpunkt"
 msgid "White point adjustment"
 msgstr "Hvidpunktsjustering"
 
-#: src/wx/about_dialog.cc:138
+#: src/wx/about_dialog.cc:139
 msgid "With help from"
 msgstr "Med hjælp fra"
 

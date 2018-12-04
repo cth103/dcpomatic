@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-01 22:02+0000\n"
+"POT-Creation-Date: 2018-12-04 16:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -192,7 +192,7 @@ msgid "An error occurred whilst handling the file %1."
 msgstr ""
 
 #: src/lib/analyse_audio_job.cc:95
-msgid "Analyse audio"
+msgid "Analysing audio"
 msgstr ""
 
 #: src/lib/audio_content.cc:258
@@ -293,7 +293,7 @@ msgid "Channels"
 msgstr ""
 
 #: src/lib/check_content_change_job.cc:46
-msgid "Check content for changes"
+msgid "Checking content for changes"
 msgstr ""
 
 #: src/lib/reel_writer.cc:100
@@ -645,12 +645,12 @@ msgstr ""
 msgid "Error: %1"
 msgstr ""
 
-#: src/lib/examine_content_job.cc:44
-msgid "Examine content"
-msgstr ""
-
 #: src/lib/hints.cc:264
 msgid "Examining closed captions"
+msgstr ""
+
+#: src/lib/examine_content_job.cc:44
+msgid "Examining content"
 msgstr ""
 
 #: src/lib/ffmpeg_content.cc:623
@@ -1226,7 +1226,7 @@ msgid "Trailer"
 msgstr ""
 
 #: src/lib/transcode_job.cc:55
-msgid "Transcode %1"
+msgid "Transcoding %1"
 msgstr ""
 
 #: src/lib/dcp_content_type.cc:50

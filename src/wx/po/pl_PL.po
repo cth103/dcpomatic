@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-01 22:02+0000\n"
+"POT-Creation-Date: 2018-12-04 16:30+0000\n"
 "PO-Revision-Date: 2017-08-10 20:03+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -311,7 +311,7 @@ msgstr ""
 msgid "Alpha   0"
 msgstr "Alfa 0"
 
-#: src/wx/about_dialog.cc:146
+#: src/wx/about_dialog.cc:147
 #, fuzzy
 msgid "Also supported by"
 msgstr "Wsparli"
@@ -643,7 +643,7 @@ msgstr "Nie udało się odczytać pliku certyfikatu (%s)"
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Nie udało się odczytać pliku klucza; plik jest zbyt długi (%s)"
 
-#: src/wx/film_viewer.cc:654
+#: src/wx/film_viewer.cc:653
 #, fuzzy
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
@@ -2247,7 +2247,7 @@ msgstr "Studio (np. TCF)"
 msgid "Subject"
 msgstr "Podmiot"
 
-#: src/wx/about_dialog.cc:142
+#: src/wx/about_dialog.cc:143
 msgid "Subscribers"
 msgstr ""
 
@@ -2306,7 +2306,7 @@ msgstr "Region (np. PL)"
 msgid "Test version "
 msgstr "Wersja testowa "
 
-#: src/wx/about_dialog.cc:204
+#: src/wx/about_dialog.cc:205
 msgid "Tested by"
 msgstr "Testerzy"
 
@@ -2656,7 +2656,7 @@ msgstr "Punkt bieli"
 msgid "White point adjustment"
 msgstr "Ustawienia punktu bieli"
 
-#: src/wx/about_dialog.cc:138
+#: src/wx/about_dialog.cc:139
 msgid "With help from"
 msgstr "Pomogli"
 

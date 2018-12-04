@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-01 22:02+0000\n"
+"POT-Creation-Date: 2018-12-04 16:30+0000\n"
 "PO-Revision-Date: 2018-09-30 18:21+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -311,7 +311,7 @@ msgstr ""
 msgid "Alpha   0"
 msgstr "Alpha   0"
 
-#: src/wx/about_dialog.cc:146
+#: src/wx/about_dialog.cc:147
 #, fuzzy
 msgid "Also supported by"
 msgstr "Supportato da"
@@ -640,7 +640,7 @@ msgstr "Impossibile leggere il file del certificato (%s)"
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Impossibile leggere il file della chiave; il file è troppo lungo (%s)"
 
-#: src/wx/film_viewer.cc:654
+#: src/wx/film_viewer.cc:653
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
@@ -2218,7 +2218,7 @@ msgstr "Studio (es. TCF)"
 msgid "Subject"
 msgstr "Oggetto"
 
-#: src/wx/about_dialog.cc:142
+#: src/wx/about_dialog.cc:143
 msgid "Subscribers"
 msgstr ""
 
@@ -2275,7 +2275,7 @@ msgstr "Nazione (es. IT)"
 msgid "Test version "
 msgstr "Versione di test "
 
-#: src/wx/about_dialog.cc:204
+#: src/wx/about_dialog.cc:205
 msgid "Tested by"
 msgstr "Testato da"
 
@@ -2629,7 +2629,7 @@ msgstr "Punto di bianco"
 msgid "White point adjustment"
 msgstr "Regolazione del punto di bianco"
 
-#: src/wx/about_dialog.cc:138
+#: src/wx/about_dialog.cc:139
 msgid "With help from"
 msgstr "Con l'aiuto di"
 

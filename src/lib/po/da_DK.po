@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-01 22:02+0000\n"
+"POT-Creation-Date: 2018-12-04 16:30+0000\n"
 "PO-Revision-Date: 2017-10-04 21:45+0200\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -222,7 +222,8 @@ msgid "An error occurred whilst handling the file %1."
 msgstr "Der skete en fejl, mens der blev arbejdet på filen %1."
 
 #: src/lib/analyse_audio_job.cc:95
-msgid "Analyse audio"
+#, fuzzy
+msgid "Analysing audio"
 msgstr "Analyser lyd"
 
 #: src/lib/audio_content.cc:258
@@ -324,7 +325,7 @@ msgid "Channels"
 msgstr "Lyd kanaler"
 
 #: src/lib/check_content_change_job.cc:46
-msgid "Check content for changes"
+msgid "Checking content for changes"
 msgstr ""
 
 #: src/lib/reel_writer.cc:100
@@ -715,13 +716,14 @@ msgstr "Fejl i fil med undertekster: så %1 men forventede %2"
 msgid "Error: %1"
 msgstr "Fejl: %1"
 
-#: src/lib/examine_content_job.cc:44
-msgid "Examine content"
-msgstr "Undersøg indhold"
-
 #: src/lib/hints.cc:264
 msgid "Examining closed captions"
 msgstr ""
+
+#: src/lib/examine_content_job.cc:44
+#, fuzzy
+msgid "Examining content"
+msgstr "Undersøg indhold"
 
 #: src/lib/ffmpeg_content.cc:623
 msgid "FCC"
@@ -1320,7 +1322,8 @@ msgid "Trailer"
 msgstr "Trailer"
 
 #: src/lib/transcode_job.cc:55
-msgid "Transcode %1"
+#, fuzzy
+msgid "Transcoding %1"
 msgstr "Transcode %1"
 
 #: src/lib/dcp_content_type.cc:50

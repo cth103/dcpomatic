@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-01 22:02+0000\n"
+"POT-Creation-Date: 2018-12-04 16:30+0000\n"
 "PO-Revision-Date: 2018-10-21 23:59+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -224,7 +224,8 @@ msgid "An error occurred whilst handling the file %1."
 msgstr "Er is een fout opgetreden bij de verwerking van bestand %1."
 
 #: src/lib/analyse_audio_job.cc:95
-msgid "Analyse audio"
+#, fuzzy
+msgid "Analysing audio"
 msgstr "Analyseren audio"
 
 #: src/lib/audio_content.cc:258
@@ -325,7 +326,8 @@ msgid "Channels"
 msgstr "Kanalen"
 
 #: src/lib/check_content_change_job.cc:46
-msgid "Check content for changes"
+#, fuzzy
+msgid "Checking content for changes"
 msgstr "Controleer content op veranderingen"
 
 #: src/lib/reel_writer.cc:100
@@ -711,13 +713,14 @@ msgstr "Fout in ondertitel-bestand: %1 gelezen terwijl %2 verwacht werd"
 msgid "Error: %1"
 msgstr "Fout: %1"
 
-#: src/lib/examine_content_job.cc:44
-msgid "Examine content"
-msgstr "Onderzoeken content"
-
 #: src/lib/hints.cc:264
 msgid "Examining closed captions"
 msgstr "Onderzoeken closed captions"
+
+#: src/lib/examine_content_job.cc:44
+#, fuzzy
+msgid "Examining content"
+msgstr "Onderzoeken content"
 
 #: src/lib/ffmpeg_content.cc:623
 msgid "FCC"
@@ -1332,7 +1335,8 @@ msgid "Trailer"
 msgstr "Trailer"
 
 #: src/lib/transcode_job.cc:55
-msgid "Transcode %1"
+#, fuzzy
+msgid "Transcoding %1"
 msgstr "Transcoderen %1"
 
 #: src/lib/dcp_content_type.cc:50
