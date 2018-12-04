@@ -92,7 +92,7 @@ AnalyseAudioJob::~AnalyseAudioJob ()
 string
 AnalyseAudioJob::name () const
 {
-	return _("Analyse audio");
+	return _("Analysing audio");
 }
 
 string

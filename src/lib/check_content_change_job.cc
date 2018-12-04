@@ -43,7 +43,7 @@ CheckContentChangeJob::CheckContentChangeJob (shared_ptr<const Film> film, share
 string
 CheckContentChangeJob::name () const
 {
-	return _("Check content for changes");
+	return _("Checking content for changes");
 }
 
 string

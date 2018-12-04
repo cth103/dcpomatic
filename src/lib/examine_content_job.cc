@@ -41,7 +41,7 @@ ExamineContentJob::ExamineContentJob (shared_ptr<const Film> film, shared_ptr<Co
 string
 ExamineContentJob::name () const
 {
-	return _("Examine content");
+	return _("Examining content");
 }
 
 string

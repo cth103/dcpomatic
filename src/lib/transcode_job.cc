@@ -52,7 +52,7 @@ TranscodeJob::TranscodeJob (shared_ptr<const Film> film)
 string
 TranscodeJob::name () const
 {
-	return String::compose (_("Transcode %1"), _film->name());
+	return String::compose (_("Transcoding %1"), _film->name());
 }
 
 string
