@@ -78,10 +78,11 @@ for c in tree.getroot().find('Playlist').findall('Content'):
         audio_length = int(c.find('AudioLength').text)
         os.system('sox -n -r %d -c %d %s trim 0.0 %f' % (audio_frame_rate, channels, path, float(audio_length) / audio_frame_rate))
     elif type == 'FFmpeg':
-        video_frame_rate = int(c.find('VideoFrameRate').text)
-        video_length = int(c.find('VideoLength').text)
-        path = os.path.join(sys.argv[1], 'dummy', ntpath.basename(c.find('Path').text))
-        os.system('ffmpeg -t %d -s qcif -f rawvideo -pix_fmt rgb24 -r %d -i /dev/zero -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=48000 -shortest "%s"' % (float(video_length) / video_frame_rate, video_frame_rate, path))
+        if c.find('VideoFrameRate') is not None:
+            video_frame_rate = int(c.find('VideoFrameRate').text)
+            video_length = int(c.find('VideoLength').text)
+            path = os.path.join(sys.argv[1], 'dummy', ntpath.basename(c.find('Path').text))
+            os.system('ffmpeg -t %d -s qcif -f rawvideo -pix_fmt rgb24 -r %d -i /dev/zero -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=48000 -shortest "%s"' % (float(video_length) / video_frame_rate, video_frame_rate, path))
     elif type == 'Image':
         width = int(c.find('VideoWidth').text)
         height = int(c.find('VideoHeight').text)
