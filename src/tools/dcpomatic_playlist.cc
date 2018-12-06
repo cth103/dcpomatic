@@ -279,7 +279,9 @@ private:
 
 	void save_clicked ()
 	{
-		wxFileDialog* d = new wxFileDialog (this, _("Select playlist file"), wxEmptyString, wxEmptyString, wxT("XML files (*.xml)|*.xml"), wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+		Config* c = Config::instance ();
+		wxString default_dir = c->player_playlist_directory() ? std_to_wx(c->player_playlist_directory()->string()) : wxString(wxEmptyString);
+		wxFileDialog* d = new wxFileDialog (this, _("Select playlist file"), default_dir, wxEmptyString, wxT("XML files (*.xml)|*.xml"), wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 		if (d->ShowModal() == wxID_OK) {
 			_playlist.write (wx_to_std(d->GetPath()));
 		}
@@ -287,7 +289,9 @@ private:
 
 	void load_clicked ()
 	{
-		wxFileDialog* d = new wxFileDialog (this, _("Select playlist file"), wxEmptyString, wxEmptyString, wxT("XML files (*.xml)|*.xml"));
+		Config* c = Config::instance ();
+		wxString default_dir = c->player_playlist_directory() ? std_to_wx(c->player_playlist_directory()->string()) : wxString(wxEmptyString);
+		wxFileDialog* d = new wxFileDialog (this, _("Select playlist file"), default_dir, wxEmptyString, wxT("XML files (*.xml)|*.xml"));
 		if (d->ShowModal() == wxID_OK) {
 			_list->DeleteAllItems ();
 			if (!_playlist.read (wx_to_std(d->GetPath()), _content_dialog)) {
