@@ -38,6 +38,7 @@ SwaroopControls::SwaroopControls (wxWindow* parent, shared_ptr<FilmViewer> viewe
 	, _play_button (new wxButton(this, wxID_ANY, _("Play")))
 	, _pause_button (new wxButton(this, wxID_ANY, _("Pause")))
 	, _stop_button (new wxButton(this, wxID_ANY, _("Stop")))
+	, _current_disable_timeline (false)
 {
 	_button_sizer->Add (_play_button, 0, wxEXPAND);
 	_button_sizer->Add (_pause_button, 0, wxEXPAND);
@@ -107,7 +108,7 @@ SwaroopControls::setup_sensitivity ()
 	_play_button->Enable (c && !_viewer->playing());
 	_pause_button->Enable (c && (!_current_kind || _current_kind != dcp::ADVERTISEMENT) && _viewer->playing());
 	_stop_button->Enable (c && (!_current_kind || _current_kind != dcp::ADVERTISEMENT));
-	_slider->Enable (c && (!_current_kind || _current_kind != dcp::ADVERTISEMENT));
+	_slider->Enable (c && (!_current_kind || _current_kind != dcp::ADVERTISEMENT) && !_current_disable_timeline);
 }
 
 void
@@ -147,6 +148,22 @@ SwaroopControls::image_changed (boost::weak_ptr<PlayerVideo> weak_pv)
 	shared_ptr<Content> c = pv->content().lock();
 	if (!c) {
 		return;
+	}
+
+	if (c == _current_content.lock()) {
+		return;
+	}
+
+	_current_content = c;
+
+	long int selected = _spl_view->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	if (_selected_playlist) {
+		BOOST_FOREACH (SPLEntry i, _playlists[*_selected_playlist].get()) {
+			if (i.content == c) {
+				_current_disable_timeline = i.disable_timeline;
+				setup_sensitivity ();
+			}
+		}
 	}
 
 	shared_ptr<DCPContent> dc = dynamic_pointer_cast<DCPContent> (c);
@@ -206,8 +223,11 @@ SwaroopControls::spl_selection_changed ()
 
 	long int selected = _spl_view->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (selected == -1) {
+		_selected_playlist = boost::none;
 		return;
 	}
+
+	_selected_playlist = selected;
 
 	shared_ptr<Film> film (new Film(optional<boost::filesystem::path>()));
 

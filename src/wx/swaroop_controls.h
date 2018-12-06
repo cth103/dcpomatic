@@ -57,7 +57,10 @@ private:
 	wxListCtrl* _current_spl_view;
 	wxTextCtrl* _log;
 
+	boost::weak_ptr<Content> _current_content;
 	boost::optional<dcp::ContentKind> _current_kind;
+	bool _current_disable_timeline;
 
 	std::vector<SPL> _playlists;
+	boost::optional<int> _selected_playlist;
 };
