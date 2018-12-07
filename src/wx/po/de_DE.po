@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-04 16:30+0000\n"
-"PO-Revision-Date: 2018-12-01 03:55+0100\n"
+"PO-Revision-Date: 2018-12-06 23:56+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
-"Language: de\n"
+"Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -194,7 +194,7 @@ msgid ""
 "\n"
 "Please choose which mode you would like to start DCP-o-matic in:"
 msgstr ""
-"<span weight=„bold“ size=„larger“>Welcome to DCP-o-matic!</span>\n"
+"<span weight=bold“ size=„larger“>Willkommen bei DCP-o-matic!</span>\n"
 "\n"
 "DCP-o-matic kann in zwei verschiedenen Darstellungen betrieben werden: "
 "‚<i>Einfach</i>‘ oder ‚<i>Vollständig</i>‘.\n"
@@ -439,7 +439,7 @@ msgstr "Untertitel fest in Bild einrechnen ('Burn-In')"
 
 #: src/wx/gain_calculator_dialog.cc:31
 msgid "But I have to use fader"
-msgstr "...aber ich nutze gegenwärtig Faderstellung:"
+msgstr "...aber ich nutze gegenwärtig Faderstellung"
 
 #: src/wx/full_config_dialog.cc:861 src/wx/full_config_dialog.cc:1098
 msgid "CC addresses"
@@ -644,7 +644,7 @@ msgid "Could not load KDM"
 msgstr "Konnte KDM nicht laden"
 
 #: src/wx/screen_dialog.cc:69
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load certficate (%s)"
 msgstr "Konnte die Zertifikatsdatei (%s) nicht lesen."
 
@@ -686,7 +686,7 @@ msgstr "Cursor: %.1fdB bei %s"
 
 #: src/wx/audio_dialog.cc:400
 msgid "Cursor: none"
-msgstr "Cursor: Kein Wert"
+msgstr "Cursor: -"
 
 #: src/wx/audio_mapping_view.cc:492 src/wx/audio_mapping_view.cc:494
 #: src/wx/film_editor.cc:56 src/wx/player_information.cc:55
@@ -741,7 +741,7 @@ msgstr "Debug: decode"
 
 #: src/wx/full_config_dialog.cc:1401
 msgid "Debug: email sending"
-msgstr "Debug: email sending"
+msgstr "Debug: Emailversand"
 
 #: src/wx/full_config_dialog.cc:1399
 msgid "Debug: encode"
@@ -914,7 +914,7 @@ msgstr "Effektfarbe"
 
 #: src/wx/full_config_dialog.cc:740 src/wx/full_config_dialog.cc:1080
 msgid "Email"
-msgstr "Email"
+msgstr "Emailkonfiguration"
 
 #: src/wx/email_dialog.cc:29 src/wx/email_dialog.cc:31
 msgid "Email address"
@@ -1378,18 +1378,16 @@ msgid "Line spacing"
 msgstr "Zeilenabstand"
 
 #: src/wx/screen_dialog.cc:54
-#, fuzzy
 msgid "Load certificate..."
-msgstr "Lade Zertifikat"
+msgstr "Lade Zertifikat…"
 
 #: src/wx/player_config_dialog.cc:228
 msgid "Locations"
 msgstr "Orte"
 
 #: src/wx/player_config_dialog.cc:119
-#, fuzzy
 msgid "Lock file"
-msgstr "Logdatei"
+msgstr "Sperrdatei"
 
 #: src/wx/full_config_dialog.cc:1386
 msgid "Log"
@@ -1643,7 +1641,9 @@ msgstr "Verschiebung"
 
 #: src/wx/full_config_dialog.cc:1343
 msgid "Only servers encode"
-msgstr "Nur Encoding Server komprimieren (keine lokale J2C Komprimierung!)"
+msgstr ""
+"Nur Encoding Server komprimieren (keine lokale J2C Komprimierung innerhalb "
+"dieser Programminstanz!)"
 
 #: src/wx/full_config_dialog.cc:1407
 msgid "Open console window"
@@ -1764,9 +1764,8 @@ msgid "Play sound via"
 msgstr "Audio während Vorschau wiedergeben - über Ausgabegerät:"
 
 #: src/wx/player_config_dialog.cc:252
-#, fuzzy
 msgid "Playlist directory"
-msgstr "DCP Verzeichnis"
+msgstr "Playlistenverzeichnis"
 
 #: src/wx/report_problem_dialog.cc:104
 msgid ""
@@ -1830,7 +1829,7 @@ msgstr "Freigabe (z.B. FSK12)"
 
 #: src/wx/dcp_panel.cc:757
 msgid "Re-encode JPEG2000 data from input"
-msgstr ""
+msgstr "Alle Inhalte vollständig/erneut J2C komprimieren"
 
 #: src/wx/content_menu.cc:76
 msgid "Re-examine..."
@@ -1847,9 +1846,8 @@ msgid "Read current devices"
 msgstr "Ermittle aktuelle Geräte"
 
 #: src/wx/content_view.cc:77
-#, fuzzy
 msgid "Reading content directory"
-msgstr " Verzeichnis"
+msgstr "Lese Verzeichnis"
 
 #: src/wx/colour_conversion_editor.cc:110
 msgid "Rec. 601"
@@ -2078,9 +2076,8 @@ msgid "Select image file"
 msgstr "Bilddatei wählen"
 
 #: src/wx/player_config_dialog.cc:120
-#, fuzzy
 msgid "Select lock file"
-msgstr "Logdatei wählen"
+msgstr "Sperrdatei wählen"
 
 #: src/wx/player_config_dialog.cc:109
 msgid "Select log file"
@@ -2385,7 +2382,7 @@ msgstr "Threads"
 #: src/wx/config_dialog.cc:366 src/wx/screen_dialog.cc:52
 #: src/wx/screen_dialog.cc:144
 msgid "Thumbprint"
-msgstr "Übersicht"
+msgstr "Auszug"
 
 #: src/wx/timeline_dialog.cc:41
 msgid "Timeline"
@@ -2397,7 +2394,7 @@ msgstr "Zeitleiste..."
 
 #: src/wx/content_panel.cc:133
 msgid "Timing"
-msgstr "Timing"
+msgstr "Timing/Trimmen"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
 #: src/wx/timing_panel.cc:51
@@ -2438,12 +2435,10 @@ msgid "True peak is %.2fdB"
 msgstr "Spitzenwert (True peak): %.2fdB"
 
 #: src/wx/screen_dialog.cc:50
-#, fuzzy
 msgid "Trusted Device"
-msgstr "Andere 'trusted devices'"
+msgstr "Weitere 'trusted devices'"
 
 #: src/wx/screen_dialog.cc:63
-#, fuzzy
 msgid "Trusted Device certificate"
 msgstr "Serverzertifikat"
 

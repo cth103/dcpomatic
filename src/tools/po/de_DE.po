@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-04 16:30+0000\n"
-"PO-Revision-Date: 2018-12-01 01:59+0100\n"
+"PO-Revision-Date: 2018-12-06 23:22+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic <carl@dcpomatic.com>\n"
 "Language: de\n"
@@ -423,7 +423,6 @@ msgstr ""
 "Kinoeigenschaften!)"
 
 #: src/tools/dcpomatic_player.cc:415 src/tools/dcpomatic_player.cc:687
-#, fuzzy
 msgid "Loading content"
 msgstr "Lade DCP..."
 
@@ -593,7 +592,7 @@ msgstr ""
 
 #: src/tools/dcpomatic_player.cc:274 src/tools/dcpomatic_player.cc:299
 msgid "The lock file is not present."
-msgstr ""
+msgstr "Sperrdatei existiert nicht."
 
 #: src/tools/dcpomatic_player.cc:266 src/tools/dcpomatic_player.cc:295
 msgid "The required display devices are not connected correctly."

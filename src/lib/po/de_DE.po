@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-04 16:30+0000\n"
-"PO-Revision-Date: 2018-12-01 02:57+0100\n"
+"PO-Revision-Date: 2018-12-07 00:06+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -25,7 +25,7 @@ msgid ""
 "Content frame rate %.4f\n"
 msgstr ""
 "\n"
-"Inhalt Bildrate %.4f\n"
+"Bildrate %.4f fps\n"
 
 #: src/lib/video_content.cc:407
 msgid ""
@@ -228,9 +228,8 @@ msgid "An error occurred whilst handling the file %1."
 msgstr "Beim Bearbeiten der Datei %1 trat ein Fehler auf."
 
 #: src/lib/analyse_audio_job.cc:95
-#, fuzzy
 msgid "Analysing audio"
-msgstr "Audio analysieren"
+msgstr "Audio wird analysiert"
 
 #: src/lib/audio_content.cc:258
 msgid "Audio will be resampled from %1Hz to %2Hz"
@@ -332,7 +331,6 @@ msgid "Channels"
 msgstr "Audio Kanäle"
 
 #: src/lib/check_content_change_job.cc:46
-#, fuzzy
 msgid "Checking content for changes"
 msgstr "Überprüfe Projektinhalte auf Änderungen"
 
@@ -559,9 +557,8 @@ msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Heruntergeladene ZIP Datei kann nicht geöffnet werden (%1:%2: %3)"
 
 #: src/lib/config.cc:954
-#, fuzzy
 msgid "Could not open file for writing"
-msgstr "Datei %1 konnte nicht zum Schreiben geöffnet werden. (%2)"
+msgstr "Datei konnte nicht zum Schreiben geöffnet werden."
 
 #: src/lib/dcp_subtitle.cc:55
 msgid "Could not read subtitles (%1 / %2)"
@@ -580,9 +577,8 @@ msgid "Could not write to remote file (%1)"
 msgstr "Entfernte Datei (%1) konnte nicht gespeichert werden"
 
 #: src/lib/config.cc:959
-#, fuzzy
 msgid "Could not write whole file"
-msgstr "Entfernte Datei (%1) konnte nicht gespeichert werden"
+msgstr "Datei konnte nicht vollständig geschrieben werden."
 
 #: src/lib/util.cc:520
 msgid "D-BOX primary"
@@ -618,7 +614,7 @@ msgstr "Audio Abtastrate (angepasst für DCP/48KHz)"
 
 #: src/lib/frame_rate_change.cc:113
 msgid "DCP will run at %1%% of the content speed.\n"
-msgstr "DCP läuft mit %1% der Original Geschwindigkeit der Quelle.\n"
+msgstr "DCP läuft mit %1%% der Originalgeschwindigkeit der Quelle.\n"
 
 #: src/lib/frame_rate_change.cc:104
 msgid "DCP will use every other frame of the content.\n"
@@ -726,7 +722,6 @@ msgid "Examining closed captions"
 msgstr "Untersuche Closed Captions (CCAP)"
 
 #: src/lib/examine_content_job.cc:44
-#, fuzzy
 msgid "Examining content"
 msgstr "Inhalt wird überprüft"
 
@@ -823,9 +818,9 @@ msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "slowdown of your content, and SMPTE DCPs are not supported by all projectors."
 msgstr ""
-"Das DCP mit 24 oder 48 fps zu erstellen wird es gegenüber der "
-"Originalwiedergabe stark verlangsamen. SMPTE DCPs werden nicht von allen "
-"Projektionssystemen unterstützt."
+"Das DCP mit 24 oder 48 fps aus diesem Inhalt zu erstellen wird es gegenüber "
+"der Originalwiedergabe stark verlangsamen. SMPTE DCPs mit angepasster "
+"Bildrate werden jedoch nicht von allen Projektionssystemen unterstützt."
 
 #: src/lib/hints.cc:173
 msgid ""
@@ -1349,7 +1344,6 @@ msgid "Trailer"
 msgstr "Trailer - TLR"
 
 #: src/lib/transcode_job.cc:55
-#, fuzzy
 msgid "Transcoding %1"
 msgstr "Wandle %1 um"
 
@@ -1576,9 +1570,8 @@ msgstr "[Untertitel]"
 #. / TRANSLATORS: _reel%1 here is to be added to an export filename to indicate
 #. / which reel it is.  Preserve the %1; it will be replaced with the reel number.
 #: src/lib/ffmpeg_encoder.cc:67
-#, fuzzy
 msgid "_reel%1"
-msgstr "_reel%1%2"
+msgstr "_reel%1"
 
 #: src/lib/dcpomatic_socket.cc:69
 msgid "connect timed out"
