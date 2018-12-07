@@ -129,7 +129,7 @@ main (int argc, char* argv[])
 			{ 0, 0, 0, 0}
 		};
 
-		int c = getopt_long (argc, argv, "vhn:f:c:f:A:B:C:s:o:DEF:", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhn:t:c:f:A:B:C:s:o:DEF:", long_options, &option_index);
 		if (c == -1) {
 			break;
 		}
