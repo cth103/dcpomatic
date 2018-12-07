@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-04 16:30+0000\n"
+"POT-Creation-Date: 2018-12-07 21:48+0000\n"
 "PO-Revision-Date: 2018-09-07 09:53+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: \n"
@@ -591,9 +591,10 @@ msgstr "DCP XML titulky"
 msgid "DCP sample rate"
 msgstr "Snímková frekvence DCP"
 
-#: src/lib/frame_rate_change.cc:113
-msgid "DCP will run at %1%% of the content speed.\n"
-msgstr "DCP bude běžet na %1% obsahu videa.\n"
+#: src/lib/frame_rate_change.cc:114
+#, c-format
+msgid "DCP will run at %.1f%% of the content speed.\n"
+msgstr "DCP bude běžet na %.1f%% obsahu videa.\n"
 
 #: src/lib/frame_rate_change.cc:104
 msgid "DCP will use every other frame of the content.\n"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-04 16:30+0000\n"
+"POT-Creation-Date: 2018-12-07 21:48+0000\n"
 "PO-Revision-Date: 2018-12-07 00:06+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -612,9 +612,10 @@ msgstr "DCP XML Untertitel"
 msgid "DCP sample rate"
 msgstr "Audio Abtastrate (angepasst für DCP/48KHz)"
 
-#: src/lib/frame_rate_change.cc:113
-msgid "DCP will run at %1%% of the content speed.\n"
-msgstr "DCP läuft mit %1%% der Originalgeschwindigkeit der Quelle.\n"
+#: src/lib/frame_rate_change.cc:114
+#, c-format
+msgid "DCP will run at %.1f%% of the content speed.\n"
+msgstr "DCP läuft mit %.1f%% der Originalgeschwindigkeit der Quelle.\n"
 
 #: src/lib/frame_rate_change.cc:104
 msgid "DCP will use every other frame of the content.\n"

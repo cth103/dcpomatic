@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-04 16:30+0000\n"
+"POT-Creation-Date: 2018-12-07 21:48+0000\n"
 "PO-Revision-Date: 2018-08-20 19:32+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Українська\n"
@@ -601,9 +601,10 @@ msgstr "DCP XML субтитри"
 msgid "DCP sample rate"
 msgstr "Частота кадрів DCP"
 
-#: src/lib/frame_rate_change.cc:113
-msgid "DCP will run at %1%% of the content speed.\n"
-msgstr "DCP буде програватися на %1%% від швидкості контенту.\n"
+#: src/lib/frame_rate_change.cc:114
+#, c-format
+msgid "DCP will run at %.1f%% of the content speed.\n"
+msgstr "DCP буде програватися на %.1f%% від швидкості контенту.\n"
 
 #: src/lib/frame_rate_change.cc:104
 msgid "DCP will use every other frame of the content.\n"

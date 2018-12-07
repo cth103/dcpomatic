@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-04 16:30+0000\n"
+"POT-Creation-Date: 2018-12-07 21:48+0000\n"
 "PO-Revision-Date: 2018-04-05 20:13+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -587,9 +587,10 @@ msgstr "DCP XML字幕"
 msgid "DCP sample rate"
 msgstr "DCP 采样率"
 
-#: src/lib/frame_rate_change.cc:113
-msgid "DCP will run at %1%% of the content speed.\n"
-msgstr "DCP列队将在速度为 %1%% 下运行.\n"
+#: src/lib/frame_rate_change.cc:114
+#, c-format
+msgid "DCP will run at %.1f%% of the content speed.\n"
+msgstr "DCP列队将在速度为 %.1f%% 下运行.\n"
 
 #: src/lib/frame_rate_change.cc:104
 msgid "DCP will use every other frame of the content.\n"

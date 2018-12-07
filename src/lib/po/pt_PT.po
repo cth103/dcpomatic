@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-04 16:30+0000\n"
+"POT-Creation-Date: 2018-12-07 21:48+0000\n"
 "PO-Revision-Date: 2016-03-19 18:19+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -598,9 +598,10 @@ msgstr "Legendas XML DCP"
 msgid "DCP sample rate"
 msgstr "Cadência de fotogramas do DCP"
 
-#: src/lib/frame_rate_change.cc:113
-msgid "DCP will run at %1%% of the content speed.\n"
-msgstr "O DCP será reproduzido a %1%% da velocidade do conteúdo.\n"
+#: src/lib/frame_rate_change.cc:114
+#, c-format
+msgid "DCP will run at %.1f%% of the content speed.\n"
+msgstr "O DCP será reproduzido a %.1f%% da velocidade do conteúdo.\n"
 
 #: src/lib/frame_rate_change.cc:104
 msgid "DCP will use every other frame of the content.\n"
