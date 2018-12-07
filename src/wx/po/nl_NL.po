@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-07 21:48+0000\n"
-"PO-Revision-Date: 2018-10-22 03:42+0200\n"
+"POT-Creation-Date: 2018-12-04 16:30+0000\n"
+"PO-Revision-Date: 2018-12-07 22:53+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -638,9 +638,9 @@ msgid "Could not load KDM"
 msgstr "Kan KDM niet laden"
 
 #: src/wx/screen_dialog.cc:69
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load certficate (%s)"
-msgstr "Kan certificaat niet importeren (%s)"
+msgstr "Kan certificaat niet laden (%s)"
 
 #: src/wx/config_dialog.cc:484 src/wx/config_dialog.cc:679
 #: src/wx/download_certificate_panel.cc:60 src/wx/screen_dialog.cc:199
@@ -746,7 +746,7 @@ msgstr "Decodeer-resolutie: %dx%d"
 
 #: src/wx/config_dialog.cc:730 src/wx/config_dialog.cc:767
 msgid "Decrypting KDMs"
-msgstr "KDM's ontsleutelen"
+msgstr "Ontsleutelen KDM's"
 
 #: src/wx/full_config_dialog.cc:349
 msgid "Default DCP audio channels"
@@ -875,7 +875,7 @@ msgstr "Vroeger"
 
 #: src/wx/screens_panel.cc:59
 msgid "Edit Cinema..."
-msgstr "Wijzig Bioscoop"
+msgstr "Wijzig Bioscoop..."
 
 #: src/wx/screens_panel.cc:65
 msgid "Edit Screen..."
@@ -1362,18 +1362,16 @@ msgid "Line spacing"
 msgstr "Regelafstand"
 
 #: src/wx/screen_dialog.cc:54
-#, fuzzy
 msgid "Load certificate..."
-msgstr "Download certificaat"
+msgstr "Laad certificaat..."
 
 #: src/wx/player_config_dialog.cc:228
 msgid "Locations"
 msgstr "Locaties"
 
 #: src/wx/player_config_dialog.cc:119
-#, fuzzy
 msgid "Lock file"
-msgstr "Logbestand"
+msgstr "Lock-bestand"
 
 #: src/wx/full_config_dialog.cc:1386
 msgid "Log"
@@ -1394,7 +1392,7 @@ msgstr "Lagere prioriteit"
 
 #: src/wx/content_panel.cc:693
 msgid "MISSING: "
-msgstr "ONTBREKEND:"
+msgstr "ONTBREKEND: "
 
 #: src/wx/export_dialog.cc:37
 msgid "MOV files (*.mov)|*.mov"
@@ -1471,7 +1469,7 @@ msgstr "Mbit/s"
 
 #: src/wx/full_config_dialog.cc:1076
 msgid "Message box"
-msgstr " Berichtvenster"
+msgstr "Berichtvenster"
 
 #: src/wx/export_dialog.cc:58
 msgid "Mix audio down to stereo"
@@ -1645,7 +1643,7 @@ msgstr "Organisational unit"
 
 #: src/wx/screen_dialog.cc:140
 msgid "Other trusted devices"
-msgstr "Andere 'trusted devices'"
+msgstr "Andere trusted devices"
 
 #: src/wx/full_config_dialog.cc:757
 msgid "Outgoing mail server"
@@ -1742,9 +1740,8 @@ msgid "Play sound via"
 msgstr "Speel audio af via"
 
 #: src/wx/player_config_dialog.cc:252
-#, fuzzy
 msgid "Playlist directory"
-msgstr "DCP-map"
+msgstr "Afspeellijst-map"
 
 #: src/wx/report_problem_dialog.cc:104
 msgid ""
@@ -1808,7 +1805,7 @@ msgstr "Rating (bv. 15)"
 
 #: src/wx/dcp_panel.cc:757
 msgid "Re-encode JPEG2000 data from input"
-msgstr ""
+msgstr "Encodeer JPEG2000-data van input opnieuw"
 
 #: src/wx/content_menu.cc:76
 msgid "Re-examine..."
@@ -1823,9 +1820,8 @@ msgid "Read current devices"
 msgstr "Lees huidige apparaten"
 
 #: src/wx/content_view.cc:77
-#, fuzzy
 msgid "Reading content directory"
-msgstr "Content-map"
+msgstr "Lezen content-map"
 
 #: src/wx/colour_conversion_editor.cc:110
 msgid "Rec. 601"
@@ -2054,9 +2050,8 @@ msgid "Select image file"
 msgstr "Selecteer beeldbestand"
 
 #: src/wx/player_config_dialog.cc:120
-#, fuzzy
 msgid "Select lock file"
-msgstr "Selecteer logbestand"
+msgstr "Selecteer lock-bestand"
 
 #: src/wx/player_config_dialog.cc:109
 msgid "Select log file"
@@ -2177,7 +2172,7 @@ msgstr "Splits per video-content"
 
 #: src/wx/update_dialog.cc:46
 msgid "Stable version "
-msgstr "Stabiele versie"
+msgstr "Stabiele versie "
 
 #: src/wx/dcp_panel.cc:108
 msgid "Standard"
@@ -2265,7 +2260,7 @@ msgstr "Gebied (bv. NL)"
 
 #: src/wx/update_dialog.cc:52
 msgid "Test version "
-msgstr "Test-versie"
+msgstr "Test-versie "
 
 #: src/wx/about_dialog.cc:205
 msgid "Tested by"
@@ -2404,14 +2399,12 @@ msgid "True peak is %.2fdB"
 msgstr "Piek (True peak) is %.2fdB"
 
 #: src/wx/screen_dialog.cc:50
-#, fuzzy
 msgid "Trusted Device"
-msgstr "Andere 'trusted devices'"
+msgstr "Trusted Device"
 
 #: src/wx/screen_dialog.cc:63
-#, fuzzy
 msgid "Trusted Device certificate"
-msgstr "Ontvanger-certificaat"
+msgstr "Trusted Device certificaat"
 
 #: src/wx/audio_dialog.cc:112 src/wx/config_dialog.cc:358
 #: src/wx/video_panel.cc:85
@@ -2769,7 +2762,7 @@ msgstr "f"
 
 #: src/wx/player_config_dialog.cc:92
 msgid "full screen"
-msgstr "Volledig scherm"
+msgstr "volledig scherm"
 
 #: src/wx/player_config_dialog.cc:93
 msgid "full screen with controls on other monitor"
