@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -42,6 +42,7 @@ using std::cout;
 using std::cerr;
 using std::list;
 using std::vector;
+using std::runtime_error;
 using boost::shared_ptr;
 using boost::optional;
 using boost::bind;
@@ -236,6 +237,9 @@ from_film (
 		cerr << program_name << ": " << e.what() << " (" << e.file().string() << ")\n";
 		exit (EXIT_FAILURE);
 	} catch (KDMError& e) {
+		cerr << program_name << ": " << e.what() << "\n";
+		exit (EXIT_FAILURE);
+	} catch (runtime_error& e) {
 		cerr << program_name << ": " << e.what() << "\n";
 		exit (EXIT_FAILURE);
 	}
