@@ -110,7 +110,9 @@ FrameRateChange::description () const
 
 		if (change_speed) {
 			double const pc = dcp * 100 / (source * factor());
-			description += String::compose (_("DCP will run at %1%% of the content speed.\n"), pc);
+			char buffer[256];
+			snprintf (buffer, sizeof(buffer), _("DCP will run at %.1f%% of the content speed.\n"), pc);
+			description += buffer;
 		}
 	}
 
