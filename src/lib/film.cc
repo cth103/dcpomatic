@@ -1357,8 +1357,8 @@ Film::make_kdms (
 				i->recipient.get(),
 				i->trusted_device_thumbprints(),
 				cpl_file,
-				dcp::LocalTime (from, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
-				dcp::LocalTime (until, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
+				dcp::LocalTime (from,  i->cinema ? i->cinema->utc_offset_hour() : 0, i->cinema ? i->cinema->utc_offset_minute() : 0),
+				dcp::LocalTime (until, i->cinema ? i->cinema->utc_offset_hour() : 0, i->cinema ? i->cinema->utc_offset_minute() : 0),
 				formulation,
 				disable_forensic_marking_picture,
 				disable_forensic_marking_audio
