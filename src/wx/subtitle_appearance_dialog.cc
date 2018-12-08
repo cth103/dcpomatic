@@ -22,6 +22,7 @@
 #include "rgba_colour_picker.h"
 #include "static_text.h"
 #include "check_box.h"
+#include "dcpomatic_button.h"
 #include "lib/string_text_file_content.h"
 #include "lib/text_content.h"
 #include "lib/ffmpeg_subtitle_stream.h"
@@ -112,7 +113,7 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 
 		overall_sizer->Add (colours_panel, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-		wxButton* restore = new wxButton (this, wxID_ANY, _("Restore to original colours"));
+		wxButton* restore = new Button (this, _("Restore to original colours"));
 		restore->Bind (wxEVT_BUTTON, bind (&SubtitleAppearanceDialog::restore, this));
 		overall_sizer->Add (restore, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
 	}

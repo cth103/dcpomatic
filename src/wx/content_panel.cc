@@ -27,6 +27,7 @@
 #include "timeline_dialog.h"
 #include "image_sequence_dialog.h"
 #include "film_viewer.h"
+#include "dcpomatic_button.h"
 #include "lib/audio_content.h"
 #include "lib/text_content.h"
 #include "lib/video_content.h"
@@ -93,31 +94,31 @@ ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmV
 
 		wxBoxSizer* b = new wxBoxSizer (wxVERTICAL);
 
-		_add_file = new wxButton (_panel, wxID_ANY, _("Add file(s)..."));
+		_add_file = new Button (_panel, _("Add file(s)..."));
 		_add_file->SetToolTip (_("Add video, image, sound or subtitle files to the film."));
 		b->Add (_add_file, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_add_folder = new wxButton (_panel, wxID_ANY, _("Add folder..."));
+		_add_folder = new Button (_panel, _("Add folder..."));
 		_add_folder->SetToolTip (_("Add a folder of image files (which will be used as a moving image sequence) or a folder of sound files."));
 		b->Add (_add_folder, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_add_dcp = new wxButton (_panel, wxID_ANY, _("Add DCP..."));
+		_add_dcp = new Button (_panel, _("Add DCP..."));
 		_add_dcp->SetToolTip (_("Add a DCP."));
 		b->Add (_add_dcp, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_remove = new wxButton (_panel, wxID_ANY, _("Remove"));
+		_remove = new Button (_panel, _("Remove"));
 		_remove->SetToolTip (_("Remove the selected piece of content from the film."));
 		b->Add (_remove, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_earlier = new wxButton (_panel, wxID_ANY, _("Earlier"));
+		_earlier = new Button (_panel, _("Earlier"));
 		_earlier->SetToolTip (_("Move the selected piece of content earlier in the film."));
 		b->Add (_earlier, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_later = new wxButton (_panel, wxID_ANY, _("Later"));
+		_later = new Button (_panel, _("Later"));
 		_later->SetToolTip (_("Move the selected piece of content later in the film."));
 		b->Add (_later, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_timeline = new wxButton (_panel, wxID_ANY, _("Timeline..."));
+		_timeline = new Button (_panel, _("Timeline..."));
 		_timeline->SetToolTip (_("Open the timeline for the film."));
 		b->Add (_timeline, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 

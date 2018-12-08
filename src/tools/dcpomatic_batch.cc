@@ -24,6 +24,7 @@
 #include "wx/job_manager_view.h"
 #include "wx/full_config_dialog.h"
 #include "wx/servers_list_dialog.h"
+#include "wx/dcpomatic_button.h"
 #include "lib/version.h"
 #include "lib/compose.hpp"
 #include "lib/config.h"
@@ -119,13 +120,13 @@ public:
 		_sizer->Add (job_manager_view, 1, wxALL | wxEXPAND, 6);
 
 		wxSizer* buttons = new wxBoxSizer (wxHORIZONTAL);
-		wxButton* add = new wxButton (panel, wxID_ANY, _("Add Film..."));
+		wxButton* add = new Button (panel, _("Add Film..."));
 		add->Bind (wxEVT_BUTTON, boost::bind (&DOMFrame::add_film, this));
 		buttons->Add (add, 1, wxALL, 6);
-		_pause = new wxButton (panel, wxID_ANY, _("Pause"));
+		_pause = new Button (panel, _("Pause"));
 		_pause->Bind (wxEVT_BUTTON, boost::bind(&DOMFrame::pause, this));
 		buttons->Add (_pause, 1, wxALL, 6);
-		_resume = new wxButton (panel, wxID_ANY, _("Resume"));
+		_resume = new Button (panel, _("Resume"));
 		_resume->Bind (wxEVT_BUTTON, boost::bind(&DOMFrame::resume, this));
 		buttons->Add (_resume, 1, wxALL, 6);
 

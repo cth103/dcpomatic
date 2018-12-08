@@ -22,6 +22,7 @@
 #include "static_text.h"
 #include "check_box.h"
 #include "nag_dialog.h"
+#include "dcpomatic_button.h"
 
 using std::string;
 using std::vector;
@@ -379,11 +380,11 @@ CertificateChainEditor::CertificateChainEditor (
 
 	{
 		wxSizer* s = new wxBoxSizer (wxVERTICAL);
-		_add_certificate = new wxButton (this, wxID_ANY, _("Add..."));
+		_add_certificate = new Button (this, _("Add..."));
 		s->Add (_add_certificate, 0, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-		_remove_certificate = new wxButton (this, wxID_ANY, _("Remove"));
+		_remove_certificate = new Button (this, _("Remove"));
 		s->Add (_remove_certificate, 0, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-		_export_certificate = new wxButton (this, wxID_ANY, _("Export"));
+		_export_certificate = new Button (this, _("Export"));
 		s->Add (_export_certificate, 0, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 		certificates_sizer->Add (s, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
 	}
@@ -398,14 +399,14 @@ CertificateChainEditor::CertificateChainEditor (
 	font.SetFamily (wxFONTFAMILY_TELETYPE);
 	_private_key->SetFont (font);
 	table->Add (_private_key, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-	_import_private_key = new wxButton (this, wxID_ANY, _("Import..."));
+	_import_private_key = new Button (this, _("Import..."));
 	table->Add (_import_private_key, wxGBPosition (r, 2));
-	_export_private_key = new wxButton (this, wxID_ANY, _("Export..."));
+	_export_private_key = new Button (this, _("Export..."));
 	table->Add (_export_private_key, wxGBPosition (r, 3));
 	++r;
 
 	_button_sizer = new wxBoxSizer (wxHORIZONTAL);
-	_remake_certificates = new wxButton (this, wxID_ANY, _("Re-make certificates and key..."));
+	_remake_certificates = new Button (this, _("Re-make certificates and key..."));
 	_button_sizer->Add (_remake_certificates, 1, wxRIGHT, border);
 	table->Add (_button_sizer, wxGBPosition (r, 0), wxGBSpan (1, 4));
 	++r;
@@ -734,15 +735,15 @@ KeysPage::setup ()
 		sizer->Add (m, 0, wxALL, _border);
 	}
 
-	wxButton* export_decryption_certificate = new wxButton (_panel, wxID_ANY, _("Export KDM decryption certificate..."));
+	wxButton* export_decryption_certificate = new Button (_panel, _("Export KDM decryption certificate..."));
 	sizer->Add (export_decryption_certificate, 0, wxLEFT, _border);
-	wxButton* export_decryption_chain = new wxButton (_panel, wxID_ANY, _("Export KDM decryption chain..."));
+	wxButton* export_decryption_chain = new Button (_panel, _("Export KDM decryption chain..."));
 	sizer->Add (export_decryption_chain, 0, wxLEFT, _border);
-	wxButton* export_settings = new wxButton (_panel, wxID_ANY, _("Export all KDM decryption settings..."));
+	wxButton* export_settings = new Button (_panel, _("Export all KDM decryption settings..."));
 	sizer->Add (export_settings, 0, wxLEFT, _border);
-	wxButton* import_settings = new wxButton (_panel, wxID_ANY, _("Import all KDM decryption settings..."));
+	wxButton* import_settings = new Button (_panel, _("Import all KDM decryption settings..."));
 	sizer->Add (import_settings, 0, wxLEFT, _border);
-	wxButton* decryption_advanced = new wxButton (_panel, wxID_ANY, _("Advanced..."));
+	wxButton* decryption_advanced = new Button (_panel, _("Advanced..."));
 	sizer->Add (decryption_advanced, 0, wxALL, _border);
 
 	export_decryption_certificate->Bind (wxEVT_BUTTON, bind (&KeysPage::export_decryption_certificate, this));
@@ -757,7 +758,7 @@ KeysPage::setup ()
 		sizer->Add (m, 0, wxALL, _border);
 	}
 
-	wxButton* signing_advanced = new wxButton (_panel, wxID_ANY, _("Advanced..."));
+	wxButton* signing_advanced = new Button (_panel, _("Advanced..."));
 	sizer->Add (signing_advanced, 0, wxLEFT, _border);
 	signing_advanced->Bind (wxEVT_BUTTON, bind (&KeysPage::signing_advanced, this));
 }

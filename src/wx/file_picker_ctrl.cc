@@ -20,6 +20,7 @@
 
 #include "file_picker_ctrl.h"
 #include "wx_util.h"
+#include "dcpomatic_button.h"
 #include <wx/wx.h>
 #include <wx/stdpaths.h>
 #include <wx/filepicker.h>
@@ -40,7 +41,7 @@ FilePickerCtrl::FilePickerCtrl (wxWindow* parent, wxString prompt, wxString wild
         wxSize size = dc.GetTextExtent (wxT ("This is the length of the file label it should be quite long"));
         size.SetHeight (-1);
 
-	_file = new wxButton (this, wxID_ANY, _("(None)"), wxDefaultPosition, size, wxBU_LEFT);
+	_file = new Button (this, _("(None)"), wxDefaultPosition, size, wxBU_LEFT);
 	_sizer->Add (_file, 1, wxEXPAND, 0);
 
 	SetSizerAndFit (_sizer);

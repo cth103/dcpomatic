@@ -26,6 +26,7 @@
 #include "content_view.h"
 #include "static_text.h"
 #include "check_box.h"
+#include "dcpomatic_button.h"
 #include "lib/job_manager.h"
 #include "lib/player_video.h"
 #include "lib/dcp_content.h"
@@ -61,9 +62,9 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	, _outline_content (0)
 	, _eye (0)
 	, _jump_to_selected (0)
-	, _rewind_button (new wxButton (this, wxID_ANY, wxT("|<")))
-	, _back_button (new wxButton (this, wxID_ANY, wxT("<")))
-	, _forward_button (new wxButton (this, wxID_ANY, wxT(">")))
+	, _rewind_button (new Button (this, wxT("|<")))
+	, _back_button (new Button (this, wxT("<")))
+	, _forward_button (new Button (this, wxT(">")))
 	, _frame_number (new StaticText (this, wxT("")))
 	, _timecode (new StaticText (this, wxT("")))
 {

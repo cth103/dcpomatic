@@ -24,6 +24,7 @@
 #include "static_text.h"
 #include "download_certificate_dialog.h"
 #include "table_dialog.h"
+#include "dcpomatic_button.h"
 #include "lib/compose.hpp"
 #include "lib/util.h"
 #include <dcp/exceptions.h>
@@ -52,7 +53,7 @@ public:
 	{
 		add (_("Thumbprint"), true);
 		_thumbprint = add (new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(300, -1)));
-		_file = add (new wxButton(this, wxID_ANY, _("Load certificate...")));
+		_file = add (new Button(this, _("Load certificate...")));
 
 		layout ();
 
@@ -130,8 +131,8 @@ ScreenDialog::ScreenDialog (
 	_recipient_thumbprint = new StaticText (this, wxT (""), wxDefaultPosition, size);
 	_recipient_thumbprint->SetFont (font);
 	set_recipient (recipient);
-	_get_recipient_from_file = new wxButton (this, wxID_ANY, _("Get from file..."));
-	_download_recipient = new wxButton (this, wxID_ANY, _("Download..."));
+	_get_recipient_from_file = new Button (this, _("Get from file..."));
+	_download_recipient = new Button (this, _("Download..."));
 	s->Add (_recipient_thumbprint, 1, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
 	s->Add (_get_recipient_from_file, 0, wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_X_GAP);
 	s->Add (_download_recipient, 0, wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_X_GAP);

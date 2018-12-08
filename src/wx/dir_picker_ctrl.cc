@@ -21,6 +21,7 @@
 #include "dir_picker_ctrl.h"
 #include "wx_util.h"
 #include "static_text.h"
+#include "dcpomatic_button.h"
 #include <wx/wx.h>
 #include <wx/stdpaths.h>
 #include <wx/filepicker.h>
@@ -36,7 +37,7 @@ DirPickerCtrl::DirPickerCtrl (wxWindow* parent)
 
 	_folder = new StaticText (this, wxT(""));
 	_sizer->Add (_folder, 1, wxEXPAND | wxALL, 6);
-	_browse = new wxButton (this, wxID_ANY, _("Browse..."));
+	_browse = new Button (this, _("Browse..."));
 	_sizer->Add (_browse, 0);
 
 	SetSizer (_sizer);

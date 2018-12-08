@@ -21,6 +21,7 @@
 #include "kdm_cpl_panel.h"
 #include "wx_util.h"
 #include "static_text.h"
+#include "dcpomatic_button.h"
 #include <libcxml/cxml.h>
 
 using std::vector;
@@ -36,7 +37,7 @@ KDMCPLPanel::KDMCPLPanel (wxWindow* parent, vector<CPLSummary> cpls)
 	add_label_to_sizer (s, this, _("CPL"), true);
 	_cpl = new wxChoice (this, wxID_ANY);
 	s->Add (_cpl, 1, wxEXPAND);
-	_cpl_browse = new wxButton (this, wxID_ANY, _("Browse..."));
+	_cpl_browse = new Button (this, _("Browse..."));
 	s->Add (_cpl_browse, 0, wxALIGN_CENTER_VERTICAL);
 	vertical->Add (s, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP + 2);
 

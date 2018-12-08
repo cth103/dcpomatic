@@ -431,7 +431,7 @@ private:
 			);
 		_panel->GetSizer()->Add(_monitor_list, 1, wxEXPAND | wxALL, _border);
 
-		wxButton* get = new wxButton(_panel, wxID_ANY, _("Read current devices"));
+		Button* get = new wxButton(_panel, _("Read current devices"));
 		_panel->GetSizer()->Add(get, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 		get->Bind(wxEVT_BUTTON, bind(&DevicesPage::get_clicked, this));
 	}

@@ -125,12 +125,12 @@ public:
 		main_sizer->Add (_list, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 
 		wxBoxSizer* button_sizer = new wxBoxSizer (wxVERTICAL);
-		_up = new wxButton (overall_panel, wxID_ANY, _("Up"));
-		_down = new wxButton (overall_panel, wxID_ANY, _("Down"));
-		_add = new wxButton (overall_panel, wxID_ANY, _("Add"));
-		_remove = new wxButton (overall_panel, wxID_ANY, _("Remove"));
-		_save = new wxButton (overall_panel, wxID_ANY, _("Save playlist"));
-		_load = new wxButton (overall_panel, wxID_ANY, _("Load playlist"));
+		_up = new Button (overall_panel, _("Up"));
+		_down = new Button (overall_panel, _("Down"));
+		_add = new Button (overall_panel, _("Add"));
+		_remove = new Button (overall_panel, _("Remove"));
+		_save = new Button (overall_panel, _("Save playlist"));
+		_load = new Button (overall_panel, _("Load playlist"));
 		button_sizer->Add (_up, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 		button_sizer->Add (_down, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 		button_sizer->Add (_add, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);

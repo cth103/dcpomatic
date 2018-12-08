@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,10 @@
 
 */
 
-#include "lib/util.h"
 #include "timecode.h"
 #include "wx_util.h"
+#include "dcpomatic_button.h"
+#include "lib/util.h"
 #include <iostream>
 
 using std::string;
@@ -62,7 +63,7 @@ TimecodeBase::TimecodeBase (wxWindow* parent, bool set_button)
 	_frames->SetMaxLength (2);
 	editable_sizer->Add (_frames);
 	if (set_button) {
-		_set_button = new wxButton (_editable, wxID_ANY, _("Set"));
+		_set_button = new Button (_editable, _("Set"));
 		editable_sizer->Add (_set_button, 0, wxLEFT | wxRIGHT, 8);
 	}
 	_editable->SetSizerAndFit (editable_sizer);

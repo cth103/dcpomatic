@@ -38,6 +38,7 @@
 #include "config_dialog.h"
 #include "static_text.h"
 #include "check_box.h"
+#include "dcpomatic_button.h"
 #include "lib/config.h"
 #include "lib/ratio.h"
 #include "lib/filter.h"
@@ -110,7 +111,7 @@ private:
 		add_label_to_sizer (table, _panel, _("Cinema and screen database file"), true, wxGBPosition (r, 0));
 		_cinemas_file = new FilePickerCtrl (_panel, _("Select cinema and screen database file"), "*.xml", true);
 		table->Add (_cinemas_file, wxGBPosition (r, 1));
-		wxButton* export_cinemas = new wxButton (_panel, wxID_ANY, _("Export..."));
+		Button* export_cinemas = new Button (_panel, _("Export..."));
 		table->Add (export_cinemas, wxGBPosition (r, 2));
 		++r;
 
@@ -333,7 +334,7 @@ private:
 		table->Add (_directory, 1, wxEXPAND);
 
 		add_label_to_sizer (table, _panel, _("Default ISDCF name details"), true);
-		_isdcf_metadata_button = new wxButton (_panel, wxID_ANY, _("Edit..."));
+		_isdcf_metadata_button = new Button (_panel, _("Edit..."));
 		table->Add (_isdcf_metadata_button);
 
 		add_label_to_sizer (table, _panel, _("Default container"), true);
@@ -877,7 +878,7 @@ private:
 		_email = new wxTextCtrl (_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (-1, 200), wxTE_MULTILINE);
 		_panel->GetSizer()->Add (_email, 0, wxEXPAND | wxALL, _border);
 
-		_reset_email = new wxButton (_panel, wxID_ANY, _("Reset to default subject and text"));
+		_reset_email = new Button (_panel, _("Reset to default subject and text"));
 		_panel->GetSizer()->Add (_reset_email, 0, wxEXPAND | wxALL, _border);
 
 		_cc->layout ();
@@ -1114,7 +1115,7 @@ private:
 		_email = new wxTextCtrl (_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (-1, 200), wxTE_MULTILINE);
 		_panel->GetSizer()->Add (_email, 0, wxEXPAND | wxALL, _border);
 
-		_reset_email = new wxButton (_panel, wxID_ANY, _("Reset to default subject and text"));
+		_reset_email = new Button (_panel, _("Reset to default subject and text"));
 		_panel->GetSizer()->Add (_reset_email, 0, wxEXPAND | wxALL, _border);
 
 		_cc->layout ();
@@ -1245,7 +1246,7 @@ private:
 		_cover_sheet = new wxTextCtrl (_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (-1, 200), wxTE_MULTILINE);
 		_panel->GetSizer()->Add (_cover_sheet, 0, wxEXPAND | wxALL, _border);
 
-		_reset_cover_sheet = new wxButton (_panel, wxID_ANY, _("Reset to default text"));
+		_reset_cover_sheet = new Button (_panel, _("Reset to default text"));
 		_panel->GetSizer()->Add (_reset_cover_sheet, 0, wxEXPAND | wxALL, _border);
 
 		_cover_sheet->Bind (wxEVT_TEXT, boost::bind (&CoverSheetPage::cover_sheet_changed, this));

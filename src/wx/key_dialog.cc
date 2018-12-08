@@ -20,6 +20,7 @@
 
 #include "key_dialog.h"
 #include "wx_util.h"
+#include "dcpomatic_button.h"
 #include <iostream>
 
 using std::cout;
@@ -47,7 +48,7 @@ KeyDialog::KeyDialog (wxWindow* parent, dcp::Key key)
 	_key->SetValue (std_to_wx (key.hex ()));
 	_key->SetMaxLength (32);
 
-	_random = add (new wxButton (this, wxID_ANY, _("Random")));
+	_random = add (new Button(this, _("Random")));
 
 	_key->Bind (wxEVT_TEXT, boost::bind (&KeyDialog::key_changed, this));
 	_random->Bind (wxEVT_BUTTON, boost::bind (&KeyDialog::random, this));

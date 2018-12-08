@@ -23,6 +23,7 @@
 #include "message_dialog.h"
 #include "static_text.h"
 #include "check_box.h"
+#include "dcpomatic_button.h"
 #include "lib/job.h"
 #include "lib/job_manager.h"
 #include "lib/compose.hpp"
@@ -65,11 +66,11 @@ JobView::setup ()
 
 	_buttons = new wxBoxSizer (wxHORIZONTAL);
 
-	_cancel = new wxButton (_container, wxID_ANY, _("Cancel"));
+	_cancel = new Button (_container, _("Cancel"));
 	_cancel->Bind (wxEVT_BUTTON, &JobView::cancel_clicked, this);
 	_buttons->Add (_cancel, 1, wxALIGN_CENTER_VERTICAL);
 
-	_details = new wxButton (_container, wxID_ANY, _("Details..."));
+	_details = new Button (_container, _("Details..."));
 	_details->Bind (wxEVT_BUTTON, &JobView::details_clicked, this);
 	_details->Enable (false);
 	_buttons->Add (_details, 1, wxALIGN_CENTER_VERTICAL);

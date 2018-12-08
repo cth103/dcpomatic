@@ -22,6 +22,7 @@
 #include "film_viewer.h"
 #include "wx_util.h"
 #include "content_view.h"
+#include "dcpomatic_button.h"
 #include "lib/player_video.h"
 #include "lib/dcp_content.h"
 #include <wx/listctrl.h>
@@ -35,9 +36,9 @@ using boost::optional;
 
 SwaroopControls::SwaroopControls (wxWindow* parent, shared_ptr<FilmViewer> viewer)
 	: Controls (parent, viewer, false)
-	, _play_button (new wxButton(this, wxID_ANY, _("Play")))
-	, _pause_button (new wxButton(this, wxID_ANY, _("Pause")))
-	, _stop_button (new wxButton(this, wxID_ANY, _("Stop")))
+	, _play_button (new Button(this, _("Play")))
+	, _pause_button (new Button(this, _("Pause")))
+	, _stop_button (new Button(this, _("Stop")))
 	, _current_disable_timeline (false)
 {
 	_button_sizer->Add (_play_button, 0, wxEXPAND);
@@ -156,7 +157,6 @@ SwaroopControls::image_changed (boost::weak_ptr<PlayerVideo> weak_pv)
 
 	_current_content = c;
 
-	long int selected = _spl_view->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (_selected_playlist) {
 		BOOST_FOREACH (SPLEntry i, _playlists[*_selected_playlist].get()) {
 			if (i.content == c) {

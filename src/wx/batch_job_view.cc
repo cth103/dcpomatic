@@ -19,6 +19,7 @@
 */
 
 #include "batch_job_view.h"
+#include "dcpomatic_button.h"
 #include "lib/job_manager.h"
 #include <wx/sizer.h>
 #include <wx/button.h>
@@ -41,10 +42,10 @@ BatchJobView::insert_position () const
 void
 BatchJobView::finish_setup (wxWindow* parent, wxSizer* sizer)
 {
-	_higher_priority = new wxButton (parent, wxID_ANY, _("Higher priority"));
+	_higher_priority = new Button (parent, _("Higher priority"));
 	_higher_priority->Bind (wxEVT_BUTTON, boost::bind (&BatchJobView::higher_priority_clicked, this));
 	sizer->Add (_higher_priority, 1, wxALIGN_CENTER_VERTICAL);
-	_lower_priority = new wxButton (parent, wxID_ANY, _("Lower priority"));
+	_lower_priority = new Button (parent, _("Lower priority"));
 	_lower_priority->Bind (wxEVT_BUTTON, boost::bind (&BatchJobView::lower_priority_clicked, this));
 	sizer->Add (_lower_priority, 1, wxALIGN_CENTER_VERTICAL);
 }

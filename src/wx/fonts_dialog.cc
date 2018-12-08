@@ -22,6 +22,7 @@
 #include "wx_util.h"
 #include "system_font_dialog.h"
 #include "font_files_dialog.h"
+#include "dcpomatic_button.h"
 #include "lib/font.h"
 #include "lib/content.h"
 #include "lib/text_content.h"
@@ -76,7 +77,7 @@ FontsDialog::FontsDialog (wxWindow* parent, shared_ptr<Content> content, shared_
 	wxBoxSizer* sizer = new wxBoxSizer (wxHORIZONTAL);
 	sizer->Add (_fonts, 1, wxEXPAND | wxLEFT | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
 
-	_edit = new wxButton (this, wxID_ANY, _("Edit..."));
+	_edit = new Button (this, _("Edit..."));
 	sizer->Add (_edit, 0, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);

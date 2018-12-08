@@ -21,6 +21,7 @@
 #include "templates_dialog.h"
 #include "wx_util.h"
 #include "rename_template_dialog.h"
+#include "dcpomatic_button.h"
 #include "lib/config.h"
 #include <wx/wx.h>
 #include <boost/foreach.hpp>
@@ -47,9 +48,9 @@ TemplatesDialog::TemplatesDialog (wxWindow* parent)
 
 	{
 		wxSizer* s = new wxBoxSizer (wxVERTICAL);
-		_rename = new wxButton (this, wxID_ANY, _("Rename..."));
+		_rename = new Button (this, _("Rename..."));
 		s->Add (_rename, 0, wxTOP | wxBOTTOM, 2);
-		_remove = new wxButton (this, wxID_ANY, _("Remove"));
+		_remove = new Button (this, _("Remove"));
 		s->Add (_remove, 0, wxTOP | wxBOTTOM, 2);
 		hs->Add (s, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
 	}

@@ -22,6 +22,7 @@
 #include <wx/srchctrl.h>
 #include <wx/treectrl.h>
 #include <boost/shared_ptr.hpp>
+#include <boost/signals2.hpp>
 #include <list>
 #include <map>
 

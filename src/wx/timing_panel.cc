@@ -25,6 +25,7 @@
 #include "content_panel.h"
 #include "move_to_dialog.h"
 #include "static_text.h"
+#include "dcpomatic_button.h"
 #include "lib/content.h"
 #include "lib/image_content.h"
 #include "lib/text_content.h"
@@ -82,21 +83,21 @@ TimingPanel::TimingPanel (ContentPanel* p, weak_ptr<FilmViewer> viewer)
 
 	_position_label = create_label (this, _("Position"), true);
 	_position = new Timecode<DCPTime> (this);
-	_move_to_start_of_reel = new wxButton (this, wxID_ANY, _("Move to start of reel"));
+	_move_to_start_of_reel = new Button (this, _("Move to start of reel"));
 	_full_length_label = create_label (this, _("Full length"), true);
 	_full_length = new Timecode<DCPTime> (this);
 	_trim_start_label = create_label (this, _("Trim from start"), true);
 	_trim_start = new Timecode<ContentTime> (this);
-	_trim_start_to_playhead = new wxButton (this, wxID_ANY, _("Trim up to current position"));
+	_trim_start_to_playhead = new Button (this, _("Trim up to current position"));
 	_trim_end_label = create_label (this, _("Trim from end"), true);
 	_trim_end = new Timecode<ContentTime> (this);
-	_trim_end_to_playhead = new wxButton (this, wxID_ANY, _("Trim after current position"));
+	_trim_end_to_playhead = new Button (this, _("Trim after current position"));
 	_play_length_label = create_label (this, _("Play length"), true);
 	_play_length = new Timecode<DCPTime> (this);
 
 	_video_frame_rate_label = create_label (this, _("Video frame rate"), true);
 	_video_frame_rate = new wxTextCtrl (this, wxID_ANY);
-	_set_video_frame_rate = new wxButton (this, wxID_ANY, _("Set"));
+	_set_video_frame_rate = new Button (this, _("Set"));
 	_set_video_frame_rate->Enable (false);
 
 	/* We can't use Wrap() here as it doesn't work with markup:

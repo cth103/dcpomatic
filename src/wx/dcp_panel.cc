@@ -27,6 +27,7 @@
 #include "check_box.h"
 #include "static_text.h"
 #include "check_box.h"
+#include "dcpomatic_button.h"
 #include "lib/ratio.h"
 #include "lib/config.h"
 #include "lib/dcp_content_type.h"
@@ -76,8 +77,8 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 	FocusManager::instance()->add(_name);
 
 	_use_isdcf_name = new CheckBox (_panel, _("Use ISDCF name"));
-	_edit_isdcf_button = new wxButton (_panel, wxID_ANY, _("Details..."));
-	_copy_isdcf_name_button = new wxButton (_panel, wxID_ANY, _("Copy as name"));
+	_edit_isdcf_button = new Button (_panel, _("Details..."));
+	_copy_isdcf_name_button = new Button (_panel, _("Copy as name"));
 
 	/* wxST_ELLIPSIZE_MIDDLE works around a bug in GTK2 and/or wxWidgets, see
 	   http://trac.wxwidgets.org/ticket/12539
@@ -99,7 +100,7 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 
 	_key_label = create_label (_panel, _("Key"), true);
 	_key = new StaticText (_panel, "", wxDefaultPosition, size);
-	_edit_key = new wxButton (_panel, wxID_ANY, _("Edit..."));
+	_edit_key = new Button (_panel, _("Edit..."));
 
 	_reels_label = create_label (_panel, _("Reels"), true);
 	_reel_type = new wxChoice (_panel, wxID_ANY);
@@ -748,7 +749,7 @@ DCPPanel::make_video_panel ()
 	_frame_rate_spin = new wxSpinCtrl (panel, wxID_ANY);
 	_frame_rate_sizer->Add (_frame_rate_spin, 1, wxALIGN_CENTER_VERTICAL);
 	setup_frame_rate_widget ();
-	_best_frame_rate = new wxButton (panel, wxID_ANY, _("Use best"));
+	_best_frame_rate = new Button (panel, _("Use best"));
 	_frame_rate_sizer->Add (_best_frame_rate, 1, wxALIGN_CENTER_VERTICAL);
 
 	_three_d = new CheckBox (panel, _("3D"));
@@ -872,7 +873,7 @@ DCPPanel::make_audio_panel ()
 		_audio_processor->Append (std_to_wx (ap->name ()), new wxStringClientData (std_to_wx (ap->id ())));
 	}
 
-	_show_audio = new wxButton (panel, wxID_ANY, _("Show audio..."));
+	_show_audio = new Button (panel, _("Show audio..."));
 
 	_audio_channels->Bind (wxEVT_CHOICE, boost::bind (&DCPPanel::audio_channels_changed, this));
 	_audio_processor->Bind (wxEVT_CHOICE, boost::bind (&DCPPanel::audio_processor_changed, this));

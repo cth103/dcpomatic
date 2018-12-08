@@ -19,6 +19,7 @@
 */
 
 #include "normal_job_view.h"
+#include "dcpomatic_button.h"
 #include "lib/job.h"
 #include <wx/wx.h>
 
@@ -34,7 +35,7 @@ NormalJobView::NormalJobView (shared_ptr<Job> job, wxWindow* parent, wxWindow* c
 void
 NormalJobView::finish_setup (wxWindow* parent, wxSizer* sizer)
 {
-	_pause = new wxButton (parent, wxID_ANY, _("Pause"));
+	_pause = new Button (parent, _("Pause"));
 	_pause->Bind (wxEVT_BUTTON, boost::bind (&NormalJobView::pause_clicked, this));
 	sizer->Add (_pause, 1, wxALIGN_CENTER_VERTICAL);
 }

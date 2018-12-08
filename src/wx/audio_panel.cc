@@ -26,6 +26,7 @@
 #include "audio_dialog.h"
 #include "static_text.h"
 #include "check_box.h"
+#include "dcpomatic_button.h"
 #include "lib/config.h"
 #include "lib/ffmpeg_audio_stream.h"
 #include "lib/ffmpeg_content.h"
@@ -58,7 +59,7 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	font.SetPointSize(font.GetPointSize() - 1);
 	_reference_note->SetFont(font);
 
-	_show = new wxButton (this, wxID_ANY, _("Show graph of audio levels..."));
+	_show = new Button (this, _("Show graph of audio levels..."));
 	_peak = new StaticText (this, wxT (""));
 
 	_gain_label = create_label (this, _("Gain"), true);
@@ -72,7 +73,7 @@ AudioPanel::AudioPanel (ContentPanel* p)
 		);
 
 	_gain_db_label = create_label (this, _("dB"), false);
-	_gain_calculate_button = new wxButton (this, wxID_ANY, _("Calculate..."));
+	_gain_calculate_button = new Button (this, _("Calculate..."));
 
 	_delay_label = create_label (this, _("Delay"), true);
 	_delay = new ContentSpinCtrl<AudioContent> (

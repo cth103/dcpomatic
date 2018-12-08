@@ -25,6 +25,7 @@
 #include "download_certificate_dialog.h"
 #include "static_text.h"
 #include "wx_util.h"
+#include "dcpomatic_button.h"
 
 using boost::optional;
 
@@ -36,7 +37,7 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 	_notebook = new wxNotebook (this, wxID_ANY);
 	sizer->Add (_notebook, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	_download = new wxButton (this, wxID_ANY, _("Download"));
+	_download = new Button (this, _("Download"));
 	sizer->Add (_download, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 
 	_message = new StaticText (this, wxT (""));

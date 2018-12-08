@@ -26,6 +26,7 @@
 #include "content_panel.h"
 #include "static_text.h"
 #include "check_box.h"
+#include "dcpomatic_button.h"
 #include "lib/filter.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/colour_conversion.h"
@@ -160,7 +161,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 
 	_filters_label = create_label (this, _("Filters"), true);
 	_filters = new StaticText (this, _("None"), wxDefaultPosition, size);
-	_filters_button = new wxButton (this, wxID_ANY, _("Edit..."));
+	_filters_button = new Button (this, _("Edit..."));
 
 	_colour_conversion_label = create_label (this, _("Colour conversion"), true);
 	_colour_conversion = new wxChoice (this, wxID_ANY, wxDefaultPosition, size);
@@ -171,7 +172,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 
 	/// TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
 	_colour_conversion->Append (S_("Colour|Custom"));
-	_edit_colour_conversion_button = new wxButton (this, wxID_ANY, _("Edit..."));
+	_edit_colour_conversion_button = new Button (this, _("Edit..."));
 
 	_description = new StaticText (this, wxT ("\n \n \n \n \n"), wxDefaultPosition, wxDefaultSize);
 	_description->SetFont(font);

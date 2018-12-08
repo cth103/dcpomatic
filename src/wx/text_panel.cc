@@ -28,6 +28,7 @@
 #include "subtitle_appearance_dialog.h"
 #include "static_text.h"
 #include "check_box.h"
+#include "dcpomatic_button.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/string_text_file_content.h"
 #include "lib/ffmpeg_subtitle_stream.h"
@@ -104,9 +105,9 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	_stream_label = create_label (this, _("Stream"), true);
 	_stream = new wxChoice (this, wxID_ANY);
 
-	_text_view_button = new wxButton (this, wxID_ANY, _("View..."));
-	_fonts_dialog_button = new wxButton (this, wxID_ANY, _("Fonts..."));
-	_appearance_dialog_button = new wxButton (this, wxID_ANY, _("Appearance..."));
+	_text_view_button = new Button (this, _("View..."));
+	_fonts_dialog_button = new Button (this, _("Fonts..."));
+	_appearance_dialog_button = new Button (this, _("Appearance..."));
 
 	_x_offset->SetRange (-100, 100);
 	_y_offset->SetRange (-100, 100);

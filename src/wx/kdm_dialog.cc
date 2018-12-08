@@ -26,6 +26,7 @@
 #include "kdm_cpl_panel.h"
 #include "confirm_kdm_email_dialog.h"
 #include "static_text.h"
+#include "dcpomatic_button.h"
 #include "lib/film.h"
 #include "lib/screen.h"
 #include "lib/screen_kdm.h"
@@ -97,7 +98,7 @@ KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	_output = new KDMOutputPanel (this, film->interop ());
 	right->Add (_output, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP);
 
-	_make = new wxButton (this, wxID_ANY, _("Make KDMs"));
+	_make = new Button (this, _("Make KDMs"));
 	right->Add (_make, 0, wxTOP | wxBOTTOM, DCPOMATIC_SIZER_GAP);
 
 	/* Make an overall sizer to get a nice border */

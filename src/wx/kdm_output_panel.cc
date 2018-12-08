@@ -29,6 +29,7 @@
 #include "kdm_advanced_dialog.h"
 #include "name_format_editor.h"
 #include "check_box.h"
+#include "dcpomatic_button.h"
 #include <dcp/exceptions.h>
 #include <dcp/types.h>
 #ifdef DCPOMATIC_USE_OWN_PICKER
@@ -66,7 +67,7 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 	}
 	type->Add (_type, 1, wxEXPAND);
 	_type->SetSelection (0);
-	wxButton* advanced = new wxButton (this, wxID_ANY, _("Advanced..."));
+	wxButton* advanced = new Button (this, _("Advanced..."));
 	type->Add (advanced, 0, wxALIGN_CENTER_VERTICAL);
 	table->Add (type, 1, wxEXPAND);
 

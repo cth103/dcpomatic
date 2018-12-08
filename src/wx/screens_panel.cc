@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,13 +18,14 @@
 
 */
 
-#include "lib/config.h"
-#include "lib/cinema.h"
-#include "lib/screen.h"
 #include "screens_panel.h"
 #include "wx_util.h"
 #include "cinema_dialog.h"
 #include "screen_dialog.h"
+#include "dcpomatic_button.h"
+#include "lib/config.h"
+#include "lib/cinema.h"
+#include "lib/screen.h"
 #include <boost/foreach.hpp>
 
 using std::list;
@@ -54,17 +55,17 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 
 	wxBoxSizer* target_buttons = new wxBoxSizer (wxVERTICAL);
 
-	_add_cinema = new wxButton (this, wxID_ANY, _("Add Cinema..."));
+	_add_cinema = new Button (this, _("Add Cinema..."));
 	target_buttons->Add (_add_cinema, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-	_edit_cinema = new wxButton (this, wxID_ANY, _("Edit Cinema..."));
+	_edit_cinema = new Button (this, _("Edit Cinema..."));
 	target_buttons->Add (_edit_cinema, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-	_remove_cinema = new wxButton (this, wxID_ANY, _("Remove Cinema"));
+	_remove_cinema = new Button (this, _("Remove Cinema"));
 	target_buttons->Add (_remove_cinema, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-	_add_screen = new wxButton (this, wxID_ANY, _("Add Screen..."));
+	_add_screen = new Button (this, _("Add Screen..."));
 	target_buttons->Add (_add_screen, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-	_edit_screen = new wxButton (this, wxID_ANY, _("Edit Screen..."));
+	_edit_screen = new Button (this, _("Edit Screen..."));
 	target_buttons->Add (_edit_screen, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-	_remove_screen = new wxButton (this, wxID_ANY, _("Remove Screen"));
+	_remove_screen = new Button (this, _("Remove Screen"));
 	target_buttons->Add (_remove_screen, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 
 	targets->Add (target_buttons, 0, 0);

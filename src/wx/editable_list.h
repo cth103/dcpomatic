@@ -22,6 +22,7 @@
 #define DCPOMATIC_EDITABLE_LIST_H
 
 #include "wx_util.h"
+#include "dcpomatic_button.h"
 #include <wx/wx.h>
 #include <wx/listctrl.h>
 #include <boost/function.hpp>
@@ -72,13 +73,13 @@ public:
 
 		{
 			wxSizer* s = new wxBoxSizer (wxVERTICAL);
-			_add = new wxButton (this, wxID_ANY, _("Add..."));
+			_add = new Button (this, _("Add..."));
 			s->Add (_add, 0, wxTOP | wxBOTTOM, 2);
 			if (can_edit) {
-				_edit = new wxButton (this, wxID_ANY, _("Edit..."));
+				_edit = new Button (this, _("Edit..."));
 				s->Add (_edit, 0, wxTOP | wxBOTTOM, 2);
 			}
-			_remove = new wxButton (this, wxID_ANY, _("Remove"));
+			_remove = new Button (this, _("Remove"));
 			s->Add (_remove, 0, wxTOP | wxBOTTOM, 2);
 			_sizer->Add (s, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
 		}

@@ -32,6 +32,7 @@
 #include "wx/new_dkdm_folder_dialog.h"
 #include "wx/editable_list.h"
 #include "wx/static_text.h"
+#include "wx/dcpomatic_button.h"
 #include "lib/config.h"
 #include "lib/util.h"
 #include "lib/screen.h"
@@ -152,11 +153,11 @@ public:
 		);
 		dkdm_sizer->Add (_dkdm, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
 		wxBoxSizer* dkdm_buttons = new wxBoxSizer(wxVERTICAL);
-		_add_dkdm = new wxButton (overall_panel, wxID_ANY, _("Add..."));
+		_add_dkdm = new Button (overall_panel, _("Add..."));
 		dkdm_buttons->Add (_add_dkdm, 0, wxALL | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
-		_add_dkdm_folder = new wxButton (overall_panel, wxID_ANY, _("Add folder..."));
+		_add_dkdm_folder = new Button (overall_panel, _("Add folder..."));
 		dkdm_buttons->Add (_add_dkdm_folder, 0, wxALL | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
-		_remove_dkdm = new wxButton (overall_panel, wxID_ANY, _("Remove"));
+		_remove_dkdm = new Button (overall_panel, _("Remove"));
 		dkdm_buttons->Add (_remove_dkdm, 0, wxALL | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
 		dkdm_sizer->Add (dkdm_buttons, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 		right->Add (dkdm_sizer, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
@@ -170,7 +171,7 @@ public:
 		_output = new KDMOutputPanel (overall_panel, false);
 		right->Add (_output, 0, wxALL, DCPOMATIC_SIZER_Y_GAP);
 
-		_create = new wxButton (overall_panel, wxID_ANY, _("Create KDMs"));
+		_create = new Button (overall_panel, _("Create KDMs"));
 		right->Add (_create, 0, wxALL, DCPOMATIC_SIZER_GAP);
 
 		main_sizer->Add (horizontal, 1, wxALL | wxEXPAND, DCPOMATIC_DIALOG_BORDER);

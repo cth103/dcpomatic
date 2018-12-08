@@ -21,6 +21,7 @@
 #include "font_files_dialog.h"
 #include "system_font_dialog.h"
 #include "static_text.h"
+#include "dcpomatic_button.h"
 
 using boost::bind;
 
@@ -49,10 +50,10 @@ FontFilesDialog::FontFilesDialog (wxWindow* parent, FontFiles files)
 			wxSize (200, -1)
 			);
 		_table->Add (_name[i], 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
-		add (_set_file[i] = new wxButton (this, wxID_ANY, _("Set from file...")));
+		add (_set_file[i] = new Button (this, _("Set from file...")));
 		_set_file[i]->Bind (wxEVT_BUTTON, bind (&FontFilesDialog::set_from_file_clicked, this, static_cast<FontFiles::Variant>(i)));
 #ifdef DCPOMATIC_WINDOWS
-		add (_set_system[i] = new wxButton (this, wxID_ANY, _("Set from system font...")));
+		add (_set_system[i] = new Button (this, _("Set from system font...")));
 		_set_system[i]->Bind (wxEVT_BUTTON, bind (&FontFilesDialog::set_from_system_clicked, this, static_cast<FontFiles::Variant>(i)));
 #endif
 	}
