@@ -53,7 +53,9 @@ private:
 	wxButton* _stop_button;
 
 	ContentView* _content_view;
+	wxButton* _refresh_content_view;
 	wxListCtrl* _spl_view;
+	wxButton* _refresh_spl_view;
 	wxListCtrl* _current_spl_view;
 	wxTextCtrl* _log;
 

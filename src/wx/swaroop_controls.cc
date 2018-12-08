@@ -23,6 +23,7 @@
 #include "wx_util.h"
 #include "content_view.h"
 #include "dcpomatic_button.h"
+#include "static_text.h"
 #include "lib/player_video.h"
 #include "lib/dcp_content.h"
 #include <wx/listctrl.h>
@@ -52,10 +53,34 @@ SwaroopControls::SwaroopControls (wxWindow* parent, shared_ptr<FilmViewer> viewe
 	wxBoxSizer* left_sizer = new wxBoxSizer (wxVERTICAL);
 	wxBoxSizer* e_sizer = new wxBoxSizer (wxHORIZONTAL);
 
-	left_sizer->Add (_spl_view, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
+	wxFont subheading_font (*wxNORMAL_FONT);
+	subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
+
+	wxBoxSizer* spl_header = new wxBoxSizer (wxHORIZONTAL);
+	{
+		wxStaticText* m = new StaticText (this, "Playlists");
+		m->SetFont (subheading_font);
+		spl_header->Add (m, 1, wxALIGN_CENTER_VERTICAL);
+	}
+	_refresh_spl_view = new Button (this, "Refresh");
+	spl_header->Add (_refresh_spl_view, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP / 2);
+
+	left_sizer->Add (spl_header, 0, wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_GAP);
+	left_sizer->Add (_spl_view, 1, wxLEFT | wxRIGHT | wxBOTTOM | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
 	_content_view = new ContentView (this);
-	left_sizer->Add (_content_view, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
+
+	wxBoxSizer* content_header = new wxBoxSizer (wxHORIZONTAL);
+	{
+		wxStaticText* m = new StaticText (this, "Content");
+		m->SetFont (subheading_font);
+		content_header->Add (m, 1, wxALIGN_CENTER_VERTICAL);
+	}
+	_refresh_content_view = new Button (this, "Refresh");
+	content_header->Add (_refresh_content_view, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP / 2);
+
+	left_sizer->Add (content_header, 0, wxTOP | wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_GAP);
+	left_sizer->Add (_content_view, 1, wxLEFT | wxRIGHT | wxBOTTOM | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
 	_current_spl_view = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
 	_current_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 500);
@@ -74,6 +99,8 @@ SwaroopControls::SwaroopControls (wxWindow* parent, shared_ptr<FilmViewer> viewe
 	_spl_view->Bind     (wxEVT_LIST_ITEM_SELECTED,   boost::bind(&SwaroopControls::spl_selection_changed, this));
 	_spl_view->Bind     (wxEVT_LIST_ITEM_DESELECTED, boost::bind(&SwaroopControls::spl_selection_changed, this));
 	_viewer->ImageChanged.connect (boost::bind(&SwaroopControls::image_changed, this, _1));
+	_refresh_spl_view->Bind (wxEVT_BUTTON, boost::bind(&SwaroopControls::update_playlist_directory, this));
+	_refresh_content_view->Bind (wxEVT_BUTTON, boost::bind(&ContentView::update, _content_view));
 
 	_content_view->update ();
 	update_playlist_directory ();
