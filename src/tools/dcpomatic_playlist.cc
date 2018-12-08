@@ -21,6 +21,7 @@
 #include "../wx/wx_util.h"
 #include "../wx/wx_signal_manager.h"
 #include "../wx/content_view.h"
+#include "../wx/dcpomatic_button.h"
 #include "../lib/util.h"
 #include "../lib/config.h"
 #include "../lib/cross.h"
