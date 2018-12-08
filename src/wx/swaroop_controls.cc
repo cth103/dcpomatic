@@ -26,6 +26,7 @@
 #include "lib/player_video.h"
 #include "lib/dcp_content.h"
 #include <wx/listctrl.h>
+#include <wx/progdlg.h>
 
 using std::string;
 using std::cout;
@@ -228,7 +229,7 @@ SwaroopControls::spl_selection_changed ()
 		return;
 	}
 
-	_selected_playlist = selected;
+	wxProgressDialog progress (_("DCP-o-matic"), _("Loading playlist"));
 
 	shared_ptr<Film> film (new Film(optional<boost::filesystem::path>()));
 
@@ -241,8 +242,13 @@ SwaroopControls::spl_selection_changed ()
 		_current_spl_view->InsertItem (it);
 		film->add_content (i.content);
 		++N;
+		if (!progress.Pulse()) {
+			/* user pressed cancel */
+			return;
+		}
 	}
 
+	_selected_playlist = selected;
 	ResetFilm (film);
 }
 
