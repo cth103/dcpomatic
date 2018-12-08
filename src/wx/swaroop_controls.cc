@@ -110,6 +110,7 @@ SwaroopControls::setup_sensitivity ()
 	_pause_button->Enable (c && (!_current_kind || _current_kind != dcp::ADVERTISEMENT) && _viewer->playing());
 	_stop_button->Enable (c && (!_current_kind || _current_kind != dcp::ADVERTISEMENT));
 	_slider->Enable (c && (!_current_kind || _current_kind != dcp::ADVERTISEMENT) && !_current_disable_timeline);
+	_spl_view->Enable (!_viewer->playing());
 }
 
 void
@@ -261,6 +262,5 @@ void
 SwaroopControls::set_film (shared_ptr<Film> film)
 {
 	Controls::set_film (film);
-	update_playlist_directory ();
 	setup_sensitivity ();
 }
