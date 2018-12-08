@@ -1,3 +1,7 @@
+2018-12-08  Carl Hetherington  <cth@carlh.net>
+
+	* Prototype system to allow in-place translations.
+
 2018-12-07  Carl Hetherington  <cth@carlh.net>
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.
