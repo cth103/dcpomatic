@@ -47,7 +47,10 @@
 #include "wx/paste_dialog.h"
 #include "wx/focus_manager.h"
 #include "wx/initial_setup_dialog.h"
+#include "wx/send_i18n_dialog.h"
+#include "wx/i18n_hook.h"
 #include "lib/film.h"
+#include "lib/emailer.h"
 #include "lib/config.h"
 #include "lib/util.h"
 #include "lib/video_content.h"
@@ -226,6 +229,7 @@ enum {
 	ID_tools_encoding_servers,
 	ID_tools_manage_templates,
 	ID_tools_check_for_updates,
+	ID_tools_send_translations,
 	ID_tools_restore_default_preferences,
 	ID_help_report_a_problem,
 	/* IDs for shortcuts (with no associated menu item) */
@@ -312,6 +316,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_encoding_servers, this),  ID_tools_encoding_servers);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_manage_templates, this),  ID_tools_manage_templates);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_check_for_updates, this), ID_tools_check_for_updates);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_send_translations, this), ID_tools_send_translations);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_restore_default_preferences, this), ID_tools_restore_default_preferences);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_about, this),              wxID_ABOUT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_report_a_problem, this),   ID_help_report_a_problem);
@@ -975,6 +980,26 @@ private:
 		_update_news_requested = true;
 	}
 
+	void tools_send_translations ()
+	{
+		SendI18NDialog* d = new SendI18NDialog (this);
+		if (d->ShowModal() == wxID_OK) {
+			string body;
+			body += d->name() + "\n";
+			body += d->language() + "\n";
+			map<string, string> translations = I18NHook::translations ();
+			for (map<string, string>::const_iterator i = translations.begin(); i != translations.end(); ++i) {
+				body += i->first + "\n" + i->second + "\n";
+			}
+			list<string> to;
+			to.push_back ("carl@dcpomatic.com");
+			Emailer emailer (d->email(), to, "DCP-o-matic translations", body);
+			emailer.send ("main.carlh.net", 2525);
+		}
+
+		d->Destroy ();
+	}
+
 	void help_about ()
 	{
 		AboutDialog* d = new AboutDialog (this);
@@ -1201,6 +1226,7 @@ private:
 		add_item (tools, _("Encoding servers..."), ID_tools_encoding_servers, 0);
 		add_item (tools, _("Manage templates..."), ID_tools_manage_templates, 0);
 		add_item (tools, _("Check for updates"), ID_tools_check_for_updates, 0);
+		add_item (tools, _("Send translations..."), ID_tools_send_translations, 0);
 		tools->AppendSeparator ();
 		add_item (tools, _("Restore default preferences"), ID_tools_restore_default_preferences, ALWAYS);
 

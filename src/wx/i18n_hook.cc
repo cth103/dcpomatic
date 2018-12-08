@@ -24,7 +24,11 @@
 #include "lib/cross.h"
 #include <wx/wx.h>
 #include <boost/bind.hpp>
-#include <boost/filesystem.hpp>
+
+using std::map;
+using std::string;
+
+map<string, string> I18NHook::_translations;
 
 I18NHook::I18NHook (wxWindow* window)
 	: _window (window)
@@ -40,6 +44,7 @@ I18NHook::handle (wxMouseEvent& ev)
 	InstantI18NDialog* d = new InstantI18NDialog (_window, get_text());
 	d->ShowModal();
 	set_text (d->get());
+	d->Destroy ();
 
 	wxWindow* w = _window;
 	while (w) {
@@ -51,14 +56,5 @@ I18NHook::handle (wxMouseEvent& ev)
 
 	ev.Skip ();
 
-	boost::filesystem::path file = "instant_i18n";
-
-	FILE* f = fopen_boost (file, "a");
-	if (!f) {
-		error_dialog (_window, wxString::Format(_("Could not open translation file %s"), std_to_wx(file.string()).data()));
-		return;
-	}
-	fprintf (f, "%s\n", wx_to_std(original).c_str());
-	fprintf (f, "%s\n", wx_to_std(get_text()).c_str());
-	fclose (f);
+	_translations[wx_to_std(original)] = wx_to_std(get_text());
 }

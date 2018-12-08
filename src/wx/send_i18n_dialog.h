@@ -18,30 +18,28 @@
 
 */
 
-#ifndef DCPOMATIC_I18N_HOOK_H
-#define DCPOMATIC_I18N_HOOK_H
-
+#include "wx_util.h"
 #include <wx/wx.h>
-#include <map>
 
-class I18NHook
+class SendI18NDialog : public wxDialog
 {
 public:
-	I18NHook (wxWindow* window);
+	SendI18NDialog (wxWindow* parent);
 
-	virtual void set_text (wxString text) = 0;
-	virtual wxString get_text () const = 0;
+	std::string name () {
+		return wx_to_std (_name->GetValue());
+	}
 
-	static std::map<std::string, std::string> translations () {
-		return _translations;
+	std::string email () {
+		return wx_to_std (_email->GetValue());
+	}
+
+	std::string language () {
+		return wx_to_std (_language->GetValue());
 	}
 
 private:
-	void handle (wxMouseEvent &);
-
-	wxWindow* _window;
-
-	static std::map<std::string, std::string> _translations;
+	wxTextCtrl* _name;
+	wxTextCtrl* _email;
+	wxTextCtrl* _language;
 };
-
-#endif
