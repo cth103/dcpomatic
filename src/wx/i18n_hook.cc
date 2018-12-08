@@ -40,7 +40,15 @@ I18NHook::handle (wxMouseEvent& ev)
 	InstantI18NDialog* d = new InstantI18NDialog (_window, get_text());
 	d->ShowModal();
 	set_text (d->get());
-	_window->GetContainingSizer()->Layout();
+
+	wxWindow* w = _window;
+	while (w) {
+		if (w->GetContainingSizer()) {
+			w->GetContainingSizer()->Layout();
+		}
+		w = w->GetParent();
+	}
+
 	ev.Skip ();
 
 	boost::filesystem::path file = "instant_i18n";
