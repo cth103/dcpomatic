@@ -24,6 +24,8 @@
 #include "playhead_to_timecode_dialog.h"
 #include "playhead_to_frame_dialog.h"
 #include "content_view.h"
+#include "static_text.h"
+#include "check_box.h"
 #include "lib/job_manager.h"
 #include "lib/player_video.h"
 #include "lib/dcp_content.h"
@@ -62,22 +64,22 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	, _rewind_button (new wxButton (this, wxID_ANY, wxT("|<")))
 	, _back_button (new wxButton (this, wxID_ANY, wxT("<")))
 	, _forward_button (new wxButton (this, wxID_ANY, wxT(">")))
-	, _frame_number (new wxStaticText (this, wxID_ANY, wxT("")))
-	, _timecode (new wxStaticText (this, wxID_ANY, wxT("")))
+	, _frame_number (new StaticText (this, wxT("")))
+	, _timecode (new StaticText (this, wxT("")))
 {
 	_v_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (_v_sizer);
 
 	wxBoxSizer* view_options = new wxBoxSizer (wxHORIZONTAL);
 	if (editor_controls) {
-		_outline_content = new wxCheckBox (this, wxID_ANY, _("Outline content"));
+		_outline_content = new CheckBox (this, _("Outline content"));
 		view_options->Add (_outline_content, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
 		_eye = new wxChoice (this, wxID_ANY);
 		_eye->Append (_("Left"));
 		_eye->Append (_("Right"));
 		_eye->SetSelection (0);
 		view_options->Add (_eye, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
-		_jump_to_selected = new wxCheckBox (this, wxID_ANY, _("Jump to selected content"));
+		_jump_to_selected = new CheckBox (this, _("Jump to selected content"));
 		view_options->Add (_jump_to_selected, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
 	}
 

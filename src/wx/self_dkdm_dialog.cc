@@ -22,6 +22,7 @@
 #include "wx_util.h"
 #include "kdm_output_panel.h"
 #include "kdm_cpl_panel.h"
+#include "static_text.h"
 #include "lib/film.h"
 #include "lib/screen.h"
 #include "lib/config.h"
@@ -57,14 +58,14 @@ SelfDKDMDialog::SelfDKDMDialog (wxWindow* parent, boost::shared_ptr<const Film> 
 	subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
 
 	/* Sub-heading: CPL */
-	wxStaticText* h = new wxStaticText (this, wxID_ANY, _("CPL"));
+	wxStaticText* h = new StaticText (this, _("CPL"));
 	h->SetFont (subheading_font);
 	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP * 2);
 	_cpl = new KDMCPLPanel (this, film->cpls ());
 	vertical->Add (_cpl);
 
 	/* Sub-heading: output */
-	h = new wxStaticText (this, wxID_ANY, _("Output"));
+	h = new StaticText (this, _("Output"));
 	h->SetFont (subheading_font);
 	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
 

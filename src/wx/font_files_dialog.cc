@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,7 @@
 
 #include "font_files_dialog.h"
 #include "system_font_dialog.h"
+#include "static_text.h"
 
 using boost::bind;
 
@@ -41,8 +42,8 @@ FontFilesDialog::FontFilesDialog (wxWindow* parent, FontFiles files)
 
 	for (int i = 0; i < FontFiles::VARIANTS; ++i) {
 		add (labels[i], true);
-		_name[i] = new wxStaticText (
-			this, wxID_ANY,
+		_name[i] = new StaticText (
+			this,
 			std_to_wx(_files.get(static_cast<FontFiles::Variant>(i)).get_value_or("").string()),
 			wxDefaultPosition,
 			wxSize (200, -1)

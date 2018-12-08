@@ -20,6 +20,8 @@
 
 #include "subtitle_appearance_dialog.h"
 #include "rgba_colour_picker.h"
+#include "static_text.h"
+#include "check_box.h"
 #include "lib/string_text_file_content.h"
 #include "lib/text_content.h"
 #include "lib/ffmpeg_subtitle_stream.h"
@@ -90,10 +92,10 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 
 		map<RGBA, RGBA> colours = _stream->colours ();
 
-		wxStaticText* t = new wxStaticText (colours_panel, wxID_ANY, "");
+		wxStaticText* t = new StaticText (colours_panel, "");
 		t->SetLabelMarkup (_("<b>Original colour</b>"));
 		table->Add (t, 1, wxEXPAND);
-		t = new wxStaticText (colours_panel, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE_HORIZONTAL);
+		t = new StaticText (colours_panel, "", wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE_HORIZONTAL);
 		t->SetLabelMarkup (_("<b>New colour</b>"));
 		table->Add (t, 1, wxALIGN_CENTER);
 
@@ -203,7 +205,7 @@ wxCheckBox*
 SubtitleAppearanceDialog::set_to (wxWindow* w, int& r)
 {
 	wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-	wxCheckBox* set_to = new wxCheckBox (this, wxID_ANY, _("Set to"));
+	wxCheckBox* set_to = new CheckBox (this, _("Set to"));
 	s->Add (set_to, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, 8);
 	s->Add (w, 0, wxALIGN_CENTER_VERTICAL);
 	_table->Add (s, wxGBPosition (r, 1));

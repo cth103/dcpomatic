@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -21,6 +21,7 @@
 #include "kdm_timing_panel.h"
 #include "wx_util.h"
 #include "time_picker.h"
+#include "static_text.h"
 #include <wx/datectrl.h>
 #include <wx/dateevt.h>
 
@@ -61,7 +62,7 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 
 	overall_sizer->Add (table);
 
-	_warning = new wxStaticText (this, wxID_ANY, wxT (""));
+	_warning = new StaticText (this, wxT(""));
 	overall_sizer->Add (_warning, 0, wxTOP, DCPOMATIC_SIZER_GAP);
 	wxFont font = _warning->GetFont();
 	font.SetStyle(wxFONTSTYLE_ITALIC);

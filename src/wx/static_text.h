@@ -18,21 +18,14 @@
 
 */
 
-#include "message_dialog.h"
-#include "wx_util.h"
-#include "static_text.h"
+#include "i18n_hook.h"
+#include <wx/wx.h>
 
-MessageDialog::MessageDialog (wxWindow* parent, wxString title, wxString message)
-	: wxDialog (parent, wxID_ANY, title)
+class StaticText : public wxStaticText, public I18NHook
 {
-	wxSizer* sizer = new wxBoxSizer (wxVERTICAL);
-	wxStaticText* text = new StaticText (this, message);
-	sizer->Add (text, 1, wxALL, DCPOMATIC_DIALOG_BORDER);
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxCLOSE);
-	if (buttons) {
-		sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
-        }
-	SetSizer (sizer);
-	sizer->Layout ();
-	sizer->SetSizeHints (this);
-}
+public:
+	StaticText (wxWindow* parent, wxString label, wxPoint pos = wxDefaultPosition, wxSize = wxDefaultSize, long style = 0);
+
+	void set_text (wxString text);
+	wxString get_text () const;
+};

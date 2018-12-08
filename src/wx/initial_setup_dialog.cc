@@ -19,6 +19,7 @@
 */
 
 #include "initial_setup_dialog.h"
+#include "static_text.h"
 #include "lib/config.h"
 #include <boost/bind.hpp>
 
@@ -26,7 +27,7 @@ InitialSetupDialog::InitialSetupDialog ()
 	: wxDialog (0, wxID_ANY, _("DCP-o-matic setup"))
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
-	wxStaticText* text1 = new wxStaticText (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(600, -1));
+	wxStaticText* text1 = new StaticText (this, wxEmptyString, wxDefaultPosition, wxSize(600, -1));
 	sizer->Add (text1, 1, wxEXPAND | wxALL, 12);
 
 	text1->SetLabelMarkup (
@@ -55,7 +56,7 @@ InitialSetupDialog::InitialSetupDialog ()
 		_full->SetValue (true);
 	}
 
-	wxStaticText* text2 = new wxStaticText (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(400, -1));
+	wxStaticText* text2 = new StaticText (this, wxEmptyString, wxDefaultPosition, wxSize(400, -1));
 	sizer->Add (text2, 0, wxEXPAND | wxALL, 12);
 
 	text2->SetLabelMarkup (_("\nYou can change the mode at any time from the General page of Preferences."));

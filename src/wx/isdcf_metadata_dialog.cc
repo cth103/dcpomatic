@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,7 @@
 
 #include "isdcf_metadata_dialog.h"
 #include "wx_util.h"
+#include "check_box.h"
 #include "lib/film.h"
 #include <wx/wx.h>
 #include <wx/sizer.h>
@@ -55,19 +56,19 @@ ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm, bo
 	add (_("Facility (e.g. DLA)"), true);
 	_facility = add (new wxTextCtrl (this, wxID_ANY));
 
-	_temp_version = add (new wxCheckBox (this, wxID_ANY, _("Temp version")));
+	_temp_version = add (new CheckBox(this, _("Temp version")));
 	add_spacer ();
 
-	_pre_release = add (new wxCheckBox (this, wxID_ANY, _("Pre-release")));
+	_pre_release = add (new CheckBox(this, _("Pre-release")));
 	add_spacer ();
 
-	_red_band = add (new wxCheckBox (this, wxID_ANY, _("Red band")));
+	_red_band = add (new CheckBox(this, _("Red band")));
 	add_spacer ();
 
 	add (_("Chain"), true);
 	_chain = add (new wxTextCtrl (this, wxID_ANY));
 
-	_two_d_version_of_three_d = add (new wxCheckBox (this, wxID_ANY, _("2D version of content available in 3D")));
+	_two_d_version_of_three_d = add (new CheckBox(this, _("2D version of content available in 3D")));
 	add_spacer ();
 
 	if (threed) {

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,8 @@
 
 #include "nag_dialog.h"
 #include "wx_util.h"
+#include "static_text.h"
+#include "check_box.h"
 #include <wx/richtext/richtextctrl.h>
 #include <boost/foreach.hpp>
 
@@ -30,10 +32,10 @@ NagDialog::NagDialog (wxWindow* parent, Config::Nag nag, wxString message, bool 
 	, _nag (nag)
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
-	_text = new wxStaticText (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (400, 300));
+	_text = new StaticText (this, wxEmptyString, wxDefaultPosition, wxSize (400, 300));
 	sizer->Add (_text, 1, wxEXPAND | wxALL, 6);
 
-	wxCheckBox* b = new wxCheckBox (this, wxID_ANY, _("Don't show this message again"));
+	wxCheckBox* b = new CheckBox (this, _("Don't show this message again"));
 	sizer->Add (b, 0, wxALL, 6);
 	b->Bind (wxEVT_CHECKBOX, bind (&NagDialog::shut_up, this, _1));
 

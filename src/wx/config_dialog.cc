@@ -19,6 +19,8 @@
 */
 
 #include "config_dialog.h"
+#include "static_text.h"
+#include "check_box.h"
 #include "nag_dialog.h"
 
 using std::string;
@@ -112,7 +114,7 @@ GeneralPage::GeneralPage (wxSize panel_size, int border)
 void
 GeneralPage::add_language_controls (wxGridBagSizer* table, int& r)
 {
-	_set_language = new wxCheckBox (_panel, wxID_ANY, _("Set language"));
+	_set_language = new CheckBox (_panel, _("Set language"));
 	table->Add (_set_language, wxGBPosition (r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	_language = new wxChoice (_panel, wxID_ANY);
 	vector<pair<string, string> > languages;
@@ -152,7 +154,7 @@ GeneralPage::add_language_controls (wxGridBagSizer* table, int& r)
 void
 GeneralPage::add_play_sound_controls (wxGridBagSizer* table, int& r)
 {
-	_sound = new wxCheckBox (_panel, wxID_ANY, _("Play sound via"));
+	_sound = new CheckBox (_panel, _("Play sound via"));
 	table->Add (_sound, wxGBPosition (r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	_sound_output = new wxChoice (_panel, wxID_ANY);
 	table->Add (_sound_output, wxGBPosition (r, 1));
@@ -173,11 +175,11 @@ GeneralPage::add_play_sound_controls (wxGridBagSizer* table, int& r)
 void
 GeneralPage::add_update_controls (wxGridBagSizer* table, int& r)
 {
-	_check_for_updates = new wxCheckBox (_panel, wxID_ANY, _("Check for updates on startup"));
+	_check_for_updates = new CheckBox (_panel, _("Check for updates on startup"));
 	table->Add (_check_for_updates, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
-	_check_for_test_updates = new wxCheckBox (_panel, wxID_ANY, _("Check for testing updates on startup"));
+	_check_for_test_updates = new CheckBox (_panel, _("Check for testing updates on startup"));
 	table->Add (_check_for_test_updates, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
@@ -342,7 +344,7 @@ CertificateChainEditor::CertificateChainEditor (
 	_sizer = new wxBoxSizer (wxVERTICAL);
 
 	{
-		wxStaticText* m = new wxStaticText (this, wxID_ANY, title);
+		wxStaticText* m = new StaticText (this, title);
 		m->SetFont (subheading_font);
 		_sizer->Add (m, 0, wxALL, border);
 	}
@@ -391,7 +393,7 @@ CertificateChainEditor::CertificateChainEditor (
 	int r = 0;
 
 	add_label_to_sizer (table, this, _("Leaf private key"), true, wxGBPosition (r, 0));
-	_private_key = new wxStaticText (this, wxID_ANY, wxT (""));
+	_private_key = new StaticText (this, wxT(""));
 	wxFont font = _private_key->GetFont ();
 	font.SetFamily (wxFONTFAMILY_TELETYPE);
 	_private_key->SetFont (font);
@@ -408,7 +410,7 @@ CertificateChainEditor::CertificateChainEditor (
 	table->Add (_button_sizer, wxGBPosition (r, 0), wxGBSpan (1, 4));
 	++r;
 
-	_private_key_bad = new wxStaticText (this, wxID_ANY, _("Leaf private key does not match leaf certificate!"));
+	_private_key_bad = new StaticText (this, _("Leaf private key does not match leaf certificate!"));
 	font = *wxSMALL_FONT;
 	font.SetWeight (wxFONTWEIGHT_BOLD);
 	_private_key_bad->SetFont (font);
@@ -727,7 +729,7 @@ KeysPage::setup ()
 	wxSizer* sizer = _panel->GetSizer();
 
 	{
-		wxStaticText* m = new wxStaticText (_panel, wxID_ANY, _("Decrypting KDMs"));
+		wxStaticText* m = new StaticText (_panel, _("Decrypting KDMs"));
 		m->SetFont (subheading_font);
 		sizer->Add (m, 0, wxALL, _border);
 	}
@@ -750,7 +752,7 @@ KeysPage::setup ()
 	decryption_advanced->Bind (wxEVT_BUTTON, bind (&KeysPage::decryption_advanced, this));
 
 	{
-		wxStaticText* m = new wxStaticText (_panel, wxID_ANY, _("Signing DCPs and KDMs"));
+		wxStaticText* m = new StaticText (_panel, _("Signing DCPs and KDMs"));
 		m->SetFont (subheading_font);
 		sizer->Add (m, 0, wxALL, _border);
 	}

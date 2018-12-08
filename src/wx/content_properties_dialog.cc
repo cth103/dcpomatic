@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,7 @@
 
 #include "content_properties_dialog.h"
 #include "wx_util.h"
+#include "static_text.h"
 #include "lib/content.h"
 #include "lib/video_content.h"
 #include "lib/audio_content.h"
@@ -80,7 +81,7 @@ ContentPropertiesDialog::maybe_add_group (map<UserProperty::Category, list<UserP
 		break;
 	}
 
-	wxStaticText* m = new wxStaticText (this, wxID_ANY, category_name);
+	wxStaticText* m = new StaticText (this, category_name);
 	wxFont font (*wxNORMAL_FONT);
 	font.SetWeight (wxFONTWEIGHT_BOLD);
 	m->SetFont (font);
@@ -92,6 +93,6 @@ ContentPropertiesDialog::maybe_add_group (map<UserProperty::Category, list<UserP
 
 	BOOST_FOREACH (UserProperty j, i->second) {
 		add (std_to_wx (j.key), true);
-		add (new wxStaticText (this, wxID_ANY, std_to_wx (j.value + " " + j.unit)));
+		add (new StaticText (this, std_to_wx (j.value + " " + j.unit)));
 	}
 }

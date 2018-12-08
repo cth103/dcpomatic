@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,6 +24,7 @@
 #include "timecode.h"
 #include "content_panel.h"
 #include "move_to_dialog.h"
+#include "static_text.h"
 #include "lib/content.h"
 #include "lib/image_content.h"
 #include "lib/text_content.h"
@@ -58,23 +59,23 @@ TimingPanel::TimingPanel (ContentPanel* p, weak_ptr<FilmViewer> viewer)
 	}
 
 	//// TRANSLATORS: this is an abbreviation for "hours"
-	_h_label = new wxStaticText (this, wxID_ANY, _("h"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
+	_h_label = new StaticText (this, _("h"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
 #ifdef DCPOMATIC_LINUX
 	/* Hack to work around failure to centre text on GTK */
 	gtk_label_set_line_wrap (GTK_LABEL(_h_label->GetHandle()), FALSE);
 #endif
 	//// TRANSLATORS: this is an abbreviation for "minutes"
-	_m_label = new wxStaticText (this, wxID_ANY, _("m"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
+	_m_label = new StaticText (this, _("m"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
 #ifdef DCPOMATIC_LINUX
 	gtk_label_set_line_wrap (GTK_LABEL (_m_label->GetHandle()), FALSE);
 #endif
 	//// TRANSLATORS: this is an abbreviation for "seconds"
-	_s_label = new wxStaticText (this, wxID_ANY, _("s"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
+	_s_label = new StaticText (this, _("s"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
 #ifdef DCPOMATIC_LINUX
 	gtk_label_set_line_wrap (GTK_LABEL(_s_label->GetHandle()), FALSE);
 #endif
 	//// TRANSLATORS: this is an abbreviation for "frames"
-	_f_label = new wxStaticText (this, wxID_ANY, _("f"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
+	_f_label = new StaticText (this, _("f"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
 #ifdef DCPOMATIC_LINUX
 	gtk_label_set_line_wrap (GTK_LABEL(_f_label->GetHandle()), FALSE);
 #endif
@@ -116,7 +117,7 @@ TimingPanel::TimingPanel (ContentPanel* p, weak_ptr<FilmViewer> viewer)
 		}
 	}
 
-	_tip = new wxStaticText (this, wxID_ANY, wxT (""));
+	_tip = new StaticText (this, wxT (""));
 	_tip->SetLabelMarkup (out);
 #ifdef DCPOMATIC_OSX
 	/* Hack to stop hidden text on some versions of OS X */

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,7 @@
 
 #include "kdm_cpl_panel.h"
 #include "wx_util.h"
+#include "static_text.h"
 #include <libcxml/cxml.h>
 
 using std::vector;
@@ -42,13 +43,13 @@ KDMCPLPanel::KDMCPLPanel (wxWindow* parent, vector<CPLSummary> cpls)
 	/* CPL details */
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	add_label_to_sizer (table, this, _("DCP directory"), true);
-	_dcp_directory = new wxStaticText (this, wxID_ANY, "");
+	_dcp_directory = new StaticText (this, "");
 	table->Add (_dcp_directory);
 	add_label_to_sizer (table, this, _("CPL ID"), true);
-	_cpl_id = new wxStaticText (this, wxID_ANY, "");
+	_cpl_id = new StaticText (this, "");
 	table->Add (_cpl_id);
 	add_label_to_sizer (table, this, _("CPL annotation text"), true);
-	_cpl_annotation_text = new wxStaticText (this, wxID_ANY, "");
+	_cpl_annotation_text = new StaticText (this, "");
 	table->Add (_cpl_annotation_text);
 	vertical->Add (table, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP + 2);
 

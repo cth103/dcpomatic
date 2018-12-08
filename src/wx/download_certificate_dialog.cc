@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -23,6 +23,7 @@
 #include "christie_certificate_panel.h"
 #include "gdc_certificate_panel.h"
 #include "download_certificate_dialog.h"
+#include "static_text.h"
 #include "wx_util.h"
 
 using boost::optional;
@@ -38,7 +39,7 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 	_download = new wxButton (this, wxID_ANY, _("Download"));
 	sizer->Add (_download, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 
-	_message = new wxStaticText (this, wxID_ANY, wxT (""));
+	_message = new StaticText (this, wxT (""));
 	sizer->Add (_message, 0, wxALL, DCPOMATIC_SIZER_GAP);
 	wxFont font = _message->GetFont();
 	font.SetStyle (wxFONTSTYLE_ITALIC);

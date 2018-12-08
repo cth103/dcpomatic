@@ -26,6 +26,8 @@
 #include "fonts_dialog.h"
 #include "dcp_text_track_dialog.h"
 #include "subtitle_appearance_dialog.h"
+#include "static_text.h"
+#include "check_box.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/string_text_file_content.h"
 #include "lib/ffmpeg_subtitle_stream.h"
@@ -58,40 +60,40 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 		refer = _("Use this DCP's closed caption as OV and make VF");
 	}
 
-	_reference = new wxCheckBox (this, wxID_ANY, refer);
-	_reference_note = new wxStaticText (this, wxID_ANY, wxT(""));
+	_reference = new CheckBox (this, refer);
+	_reference_note = new StaticText (this, wxT(""));
 	_reference_note->Wrap (200);
 	wxFont font = _reference_note->GetFont();
 	font.SetStyle(wxFONTSTYLE_ITALIC);
 	font.SetPointSize(font.GetPointSize() - 1);
 	_reference_note->SetFont(font);
 
-	_use = new wxCheckBox (this, wxID_ANY, _("Use as"));
+	_use = new CheckBox (this, _("Use as"));
 	_type = new wxChoice (this, wxID_ANY);
 	_type->Append (_("open subtitles"));
 	_type->Append (_("closed captions"));
 
-	_burn = new wxCheckBox (this, wxID_ANY, _("Burn subtitles into image"));
+	_burn = new CheckBox (this, _("Burn subtitles into image"));
 
 	_offset_label = create_label (this, _("Offset"), true);
 	_x_offset_label = create_label (this, _("X"), true);
 	_x_offset = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
-	_x_offset_pc_label = new wxStaticText (this, wxID_ANY, _("%"));
+	_x_offset_pc_label = new StaticText (this, _("%"));
 	_y_offset_label = create_label (this, _("Y"), true);
 	_y_offset = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
-	_y_offset_pc_label = new wxStaticText (this, wxID_ANY, _("%"));
+	_y_offset_pc_label = new StaticText (this, _("%"));
 
 	_scale_label = create_label (this, _("Scale"), true);
 	_x_scale_label = create_label (this, _("X"), true);
 	_x_scale = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
-	_x_scale_pc_label = new wxStaticText (this, wxID_ANY, _("%"));
+	_x_scale_pc_label = new StaticText (this, _("%"));
 	_y_scale_label = create_label (this, _("Y"), true);
 	_y_scale = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
-	_y_scale_pc_label = new wxStaticText (this, wxID_ANY, _("%"));
+	_y_scale_pc_label = new StaticText (this, _("%"));
 
 	_line_spacing_label = create_label (this, _("Line spacing"), true);
 	_line_spacing = new wxSpinCtrl (this);
-	_line_spacing_pc_label = new wxStaticText (this, wxID_ANY, _("%"));
+	_line_spacing_pc_label = new StaticText (this, _("%"));
 
 	_dcp_track_label = create_label (this, _("DCP track"), true);
 	_dcp_track = new wxChoice (this, wxID_ANY);

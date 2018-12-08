@@ -18,32 +18,25 @@
 
 */
 
-#include "kdm_advanced_dialog.h"
 #include "check_box.h"
 
-KDMAdvancedDialog::KDMAdvancedDialog (wxWindow* parent, bool forensic_mark_video, bool forensic_mark_audio)
-	: TableDialog (parent, _("Advanced KDM options"), 2, 1, false)
-{
-	_forensic_mark_video = new CheckBox (this, _("Forensically mark video"));
-	_forensic_mark_video->SetValue (forensic_mark_video);
-	add (_forensic_mark_video);
-	add_spacer ();
-	_forensic_mark_audio = new CheckBox (this, _("Forensically mark audio"));
-	_forensic_mark_audio->SetValue (forensic_mark_audio);
-	add (_forensic_mark_audio);
-	add_spacer ();
+using std::cout;
 
-	layout ();
+CheckBox::CheckBox (wxWindow* parent, wxString label)
+	: wxCheckBox (parent, wxID_ANY, label)
+	, I18NHook (this)
+{
+
 }
 
-bool
-KDMAdvancedDialog::forensic_mark_video () const
+void
+CheckBox::set_text (wxString text)
 {
-	return _forensic_mark_video->GetValue ();
+	SetLabel (text);
 }
 
-bool
-KDMAdvancedDialog::forensic_mark_audio () const
+wxString
+CheckBox::get_text () const
 {
-	return _forensic_mark_audio->GetValue ();
+	return GetLabel ();
 }

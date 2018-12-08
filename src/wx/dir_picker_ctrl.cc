@@ -18,12 +18,13 @@
 
 */
 
+#include "dir_picker_ctrl.h"
+#include "wx_util.h"
+#include "static_text.h"
 #include <wx/wx.h>
 #include <wx/stdpaths.h>
 #include <wx/filepicker.h>
 #include <boost/filesystem.hpp>
-#include "dir_picker_ctrl.h"
-#include "wx_util.h"
 
 using namespace std;
 using namespace boost;
@@ -33,7 +34,7 @@ DirPickerCtrl::DirPickerCtrl (wxWindow* parent)
 {
 	_sizer = new wxBoxSizer (wxHORIZONTAL);
 
-	_folder = new wxStaticText (this, wxID_ANY, wxT (""));
+	_folder = new StaticText (this, wxT(""));
 	_sizer->Add (_folder, 1, wxEXPAND | wxALL, 6);
 	_browse = new wxButton (this, wxID_ANY, _("Browse..."));
 	_sizer->Add (_browse, 0);

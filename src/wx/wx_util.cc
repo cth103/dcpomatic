@@ -24,6 +24,7 @@
 
 #include "wx_util.h"
 #include "file_picker_ctrl.h"
+#include "static_text.h"
 #include "lib/config.h"
 #include "lib/job_manager.h"
 #include "lib/util.h"
@@ -55,7 +56,7 @@ create_label (wxWindow* p, wxString t, bool)
 		t += wxT (":");
 	}
 #endif
-	return new wxStaticText (p, wxID_ANY, t);
+	return new StaticText (p, t);
 }
 
 /** Add a wxStaticText to a wxSizer, aligning it at vertical centre.

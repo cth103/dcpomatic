@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,7 @@
 
 #include "table_dialog.h"
 #include "wx_util.h"
+#include "static_text.h"
 
 TableDialog::TableDialog (wxWindow* parent, wxString title, int columns, int growable, bool cancel)
 	: wxDialog (parent, wxID_ANY, title)
@@ -64,7 +65,7 @@ TableDialog::add (wxString text, bool)
 		text += wxT (":");
 	}
 #endif
-	wxStaticText* m = new wxStaticText (this, wxID_ANY, wxT (""));
+	wxStaticText* m = new StaticText (this, wxT (""));
 	m->SetLabelMarkup (text);
 	_table->Add (m, 0, flags, 6);
 	return m;

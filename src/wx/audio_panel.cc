@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,6 +24,8 @@
 #include "gain_calculator_dialog.h"
 #include "content_panel.h"
 #include "audio_dialog.h"
+#include "static_text.h"
+#include "check_box.h"
 #include "lib/config.h"
 #include "lib/ffmpeg_audio_stream.h"
 #include "lib/ffmpeg_content.h"
@@ -48,8 +50,8 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	: ContentSubPanel (p, _("Audio"))
 	, _audio_dialog (0)
 {
-	_reference = new wxCheckBox (this, wxID_ANY, _("Use this DCP's audio as OV and make VF"));
-	_reference_note = new wxStaticText (this, wxID_ANY, wxT(""));
+	_reference = new CheckBox (this, _("Use this DCP's audio as OV and make VF"));
+	_reference_note = new StaticText (this, wxT(""));
 	_reference_note->Wrap (200);
 	wxFont font = _reference_note->GetFont();
 	font.SetStyle(wxFONTSTYLE_ITALIC);
@@ -57,7 +59,7 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	_reference_note->SetFont(font);
 
 	_show = new wxButton (this, wxID_ANY, _("Show graph of audio levels..."));
-	_peak = new wxStaticText (this, wxID_ANY, wxT (""));
+	_peak = new StaticText (this, wxT (""));
 
 	_gain_label = create_label (this, _("Gain"), true);
 	_gain = new ContentSpinCtrlDouble<AudioContent> (
@@ -88,7 +90,7 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	_mapping = new AudioMappingView (this);
 	_sizer->Add (_mapping, 1, wxEXPAND | wxALL, 6);
 
-	_description = new wxStaticText (this, wxID_ANY, wxT (" \n"), wxDefaultPosition, wxDefaultSize);
+	_description = new StaticText (this, wxT(" \n"), wxDefaultPosition, wxDefaultSize);
 	_sizer->Add (_description, 0, wxALL, 12);
 	_description->SetFont (font);
 

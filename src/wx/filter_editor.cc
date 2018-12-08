@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -22,11 +22,13 @@
  *  @brief A panel to select FFmpeg filters.
  */
 
-#include <iostream>
-#include <algorithm>
-#include "lib/filter.h"
 #include "filter_editor.h"
 #include "wx_util.h"
+#include "static_text.h"
+#include "check_box.h"
+#include "lib/filter.h"
+#include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -54,14 +56,14 @@ FilterEditor::FilterEditor (wxWindow* parent, vector<Filter const *> const & act
 
 	for (CategoryMap::iterator i = categories.begin(); i != categories.end(); ++i) {
 
-		wxStaticText* c = new wxStaticText (this, wxID_ANY, std_to_wx (i->first));
+		wxStaticText* c = new StaticText (this, std_to_wx(i->first));
 		wxFont font = c->GetFont();
 		font.SetWeight(wxFONTWEIGHT_BOLD);
 		c->SetFont(font);
 		sizer->Add (c);
 
 		for (list<Filter const *>::iterator j = i->second.begin(); j != i->second.end(); ++j) {
-			wxCheckBox* b = new wxCheckBox (this, wxID_ANY, std_to_wx ((*j)->name ()));
+			wxCheckBox* b = new CheckBox (this, std_to_wx ((*j)->name ()));
 			bool const a = find (active.begin(), active.end(), *j) != active.end ();
 			b->SetValue (a);
 			_filters[*j] = b;

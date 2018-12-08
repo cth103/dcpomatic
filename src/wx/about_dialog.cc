@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,6 +24,7 @@
 
 #include "about_dialog.h"
 #include "wx_util.h"
+#include "static_text.h"
 #include "lib/version.h"
 #include "lib/compose.hpp"
 #include <wx/notebook.h>
@@ -47,22 +48,22 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	wxFont version_font (*wxNORMAL_FONT);
 	version_font.SetWeight (wxFONTWEIGHT_BOLD);
 
-	wxStaticText* t = new wxStaticText (this, wxID_ANY, _("DCP-o-matic"));
+	wxStaticText* t = new StaticText (this, _("DCP-o-matic"));
 	t->SetFont (title_font);
 	sizer->Add (t, wxSizerFlags().Centre().Border(wxALL, 16));
 
 	wxString s;
 	if (strcmp (dcpomatic_git_commit, "release") == 0) {
-		t = new wxStaticText (this, wxID_ANY, std_to_wx (String::compose ("Version %1", dcpomatic_version)));
+		t = new StaticText (this, std_to_wx(String::compose("Version %1", dcpomatic_version)));
 	} else {
-		t = new wxStaticText (this, wxID_ANY, std_to_wx (String::compose ("Version %1 git %2", dcpomatic_version, dcpomatic_git_commit)));
+		t = new StaticText (this, std_to_wx(String::compose("Version %1 git %2", dcpomatic_version, dcpomatic_git_commit)));
 	}
 	t->SetFont (version_font);
 	sizer->Add (t, wxSizerFlags().Centre().Border(wxALL, 2));
 	sizer->AddSpacer (12);
 
-	t = new wxStaticText (
-		this, wxID_ANY,
+	t = new StaticText (
+		this,
 		_("Free, open-source DCP creation from almost anything."),
 		wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER
 		);
@@ -78,8 +79,8 @@ AboutDialog::AboutDialog (wxWindow* parent)
 
 	sizer->Add (h, wxSizerFlags().Centre().Border(wxALL, 8));
 
-	t = new wxStaticText (
-		this, wxID_ANY,
+	t = new StaticText (
+		this,
 		_("(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n Ole Laursen, Brecht Sanders"),
 		wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER
 		);

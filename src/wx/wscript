@@ -36,6 +36,7 @@ sources = """
           subtitle_appearance_dialog.cc
           text_panel.cc
           text_view.cc
+          check_box.cc
           christie_certificate_panel.cc
           cinema_dialog.cc
           colour_conversion_editor.cc
@@ -74,6 +75,8 @@ sources = """
           gdc_certificate_panel.cc
           hints_dialog.cc
           initial_setup_dialog.cc
+          instant_i18n_dialog.cc
+          i18n_hook.cc
           job_view.cc
           job_view_dialog.cc
           job_manager_view.cc
@@ -109,6 +112,7 @@ sources = """
           server_dialog.cc
           servers_list_dialog.cc
           standard_controls.cc
+          static_text.cc
           swaroop_controls.cc
           system_font_dialog.cc
           table_dialog.cc

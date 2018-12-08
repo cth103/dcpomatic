@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -25,6 +25,7 @@
 #include "kdm_output_panel.h"
 #include "kdm_cpl_panel.h"
 #include "confirm_kdm_email_dialog.h"
+#include "static_text.h"
 #include "lib/film.h"
 #include "lib/screen.h"
 #include "lib/screen_kdm.h"
@@ -68,7 +69,7 @@ KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
 
 	/* Sub-heading: Screens */
-	wxStaticText* h = new wxStaticText (this, wxID_ANY, _("Screens"));
+	wxStaticText* h = new StaticText (this, _("Screens"));
 	h->SetFont (subheading_font);
 	left->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 	_screens = new ScreensPanel (this);
@@ -76,21 +77,21 @@ KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 
 	/* Sub-heading: Timing */
 	/// TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
-	h = new wxStaticText (this, wxID_ANY, S_("KDM|Timing"));
+	h = new StaticText (this, S_("KDM|Timing"));
 	h->SetFont (subheading_font);
 	right->Add (h, 0, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP * 2);
 	_timing = new KDMTimingPanel (this);
 	right->Add (_timing);
 
 	/* Sub-heading: CPL */
-	h = new wxStaticText (this, wxID_ANY, _("CPL"));
+	h = new StaticText (this, _("CPL"));
 	h->SetFont (subheading_font);
 	right->Add (h, 0, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP * 2);
 	_cpl = new KDMCPLPanel (this, film->cpls ());
 	right->Add (_cpl, 0, wxEXPAND);
 
 	/* Sub-heading: Output */
-	h = new wxStaticText (this, wxID_ANY, _("Output"));
+	h = new StaticText (this, _("Output"));
 	h->SetFont (subheading_font);
 	right->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
 	_output = new KDMOutputPanel (this, film->interop ());

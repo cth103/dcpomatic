@@ -20,6 +20,8 @@
 
 #include "recreate_chain_dialog.h"
 #include "wx_util.h"
+#include "static_text.h"
+#include "check_box.h"
 #include "lib/config.h"
 #include "lib/cinema_kdms.h"
 #include <boost/foreach.hpp>
@@ -34,9 +36,9 @@ RecreateChainDialog::RecreateChainDialog (wxWindow* parent)
 				   "which will prevent DCPs from being validated correctly on some systems.  Do you want to re-create\n"
 				   "the certificate chain for signing DCPs and KDMs?");
 
-	_sizer->Add (new wxStaticText (this, wxID_ANY, message), 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+	_sizer->Add (new StaticText (this, message), 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	wxCheckBox* shut_up = new wxCheckBox (this, wxID_ANY, _("Don't ask this again"));
+	wxCheckBox* shut_up = new CheckBox (this, _("Don't ask this again"));
 	_sizer->Add (shut_up, 0, wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	shut_up->Bind (wxEVT_CHECKBOX, bind (&RecreateChainDialog::shut_up, this, _1));

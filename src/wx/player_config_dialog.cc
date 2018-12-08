@@ -35,6 +35,7 @@
 #include "name_format_editor.h"
 #include "nag_dialog.h"
 #include "monitor_dialog.h"
+#include "check_box.h"
 #include "lib/config.h"
 #include "lib/ratio.h"
 #include "lib/filter.h"
@@ -101,7 +102,7 @@ private:
 		table->Add (_image_display, wxGBPosition(r, 1));
 		++r;
 
-		_respect_kdm = new wxCheckBox (_panel, wxID_ANY, _("Respect KDM validity periods"));
+		_respect_kdm = new CheckBox (_panel, _("Respect KDM validity periods"));
 		table->Add (_respect_kdm, wxGBPosition(r, 0), wxGBSpan(1, 2));
 		++r;
 

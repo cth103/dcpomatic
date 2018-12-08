@@ -21,6 +21,8 @@
 #include "audio_dialog.h"
 #include "audio_plot.h"
 #include "wx_util.h"
+#include "static_text.h"
+#include "check_box.h"
 #include "lib/audio_analysis.h"
 #include "lib/film.h"
 #include "lib/analyse_audio_job.h"
@@ -74,17 +76,17 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 
 	wxBoxSizer* left = new wxBoxSizer (wxVERTICAL);
 
-	_cursor = new wxStaticText (this, wxID_ANY, wxT("Cursor: none"));
+	_cursor = new StaticText (this, wxT("Cursor: none"));
 	left->Add (_cursor, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
 	_plot = new AudioPlot (this);
 	left->Add (_plot, 1, wxTOP | wxEXPAND, 12);
-	_sample_peak = new wxStaticText (this, wxID_ANY, wxT (""));
+	_sample_peak = new StaticText (this, wxT (""));
 	left->Add (_sample_peak, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
-	_true_peak = new wxStaticText (this, wxID_ANY, wxT (""));
+	_true_peak = new StaticText (this, wxT (""));
 	left->Add (_true_peak, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
-	_integrated_loudness = new wxStaticText (this, wxID_ANY, wxT (""));
+	_integrated_loudness = new StaticText (this, wxT (""));
 	left->Add (_integrated_loudness, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
-	_loudness_range = new wxStaticText (this, wxID_ANY, wxT (""));
+	_loudness_range = new StaticText (this, wxT (""));
 	left->Add (_loudness_range, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
 
 	lr_sizer->Add (left, 1, wxALL | wxEXPAND, 12);
@@ -92,13 +94,13 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 	wxBoxSizer* right = new wxBoxSizer (wxVERTICAL);
 
 	{
-		wxStaticText* m = new wxStaticText (this, wxID_ANY, _("Channels"));
+		wxStaticText* m = new StaticText (this, _("Channels"));
 		m->SetFont (subheading_font);
 		right->Add (m, 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM, 16);
 	}
 
 	for (int i = 0; i < _channels; ++i) {
-		_channel_checkbox[i] = new wxCheckBox (this, wxID_ANY, std_to_wx (audio_channel_name (i)));
+		_channel_checkbox[i] = new CheckBox (this, std_to_wx(audio_channel_name(i)));
 		_channel_checkbox[i]->SetForegroundColour(wxColour(_plot->colour(i)));
 		right->Add (_channel_checkbox[i], 0, wxEXPAND | wxALL, 3);
 		_channel_checkbox[i]->Bind (wxEVT_CHECKBOX, boost::bind (&AudioDialog::channel_clicked, this, _1));
@@ -109,7 +111,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 	}
 
 	{
-		wxStaticText* m = new wxStaticText (this, wxID_ANY, _("Type"));
+		wxStaticText* m = new StaticText (this, _("Type"));
 		m->SetFont (subheading_font);
 		right->Add (m, 1, wxALIGN_CENTER_VERTICAL | wxTOP, 16);
 	}
@@ -120,13 +122,13 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 	};
 
 	for (int i = 0; i < AudioPoint::COUNT; ++i) {
-		_type_checkbox[i] = new wxCheckBox (this, wxID_ANY, types[i]);
+		_type_checkbox[i] = new CheckBox (this, types[i]);
 		right->Add (_type_checkbox[i], 0, wxEXPAND | wxALL, 3);
 		_type_checkbox[i]->Bind (wxEVT_CHECKBOX, boost::bind (&AudioDialog::type_clicked, this, _1));
 	}
 
 	{
-		wxStaticText* m = new wxStaticText (this, wxID_ANY, _("Smoothing"));
+		wxStaticText* m = new StaticText (this, _("Smoothing"));
 		m->SetFont (subheading_font);
 		right->Add (m, 1, wxALIGN_CENTER_VERTICAL | wxTOP, 16);
 	}

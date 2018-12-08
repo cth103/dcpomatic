@@ -21,6 +21,8 @@
 #include "job_view.h"
 #include "wx_util.h"
 #include "message_dialog.h"
+#include "static_text.h"
+#include "check_box.h"
 #include "lib/job.h"
 #include "lib/job_manager.h"
 #include "lib/compose.hpp"
@@ -56,7 +58,7 @@ JobView::setup ()
 	/* This seems to be required to allow the gauge to shrink under OS X */
 	_gauge->SetMinSize (wxSize (0, -1));
 	_gauge_message->Add (_gauge, 0, wxEXPAND | wxLEFT | wxRIGHT);
-	_message = new wxStaticText (_container, wxID_ANY, wxT (" \n "), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_MIDDLE);
+	_message = new StaticText (_container, wxT(" \n "), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_MIDDLE);
 	_gauge_message->Add (_message, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
 	_table->Insert (n, _gauge_message, 1, wxEXPAND | wxLEFT | wxRIGHT);
 	++n;
@@ -76,7 +78,7 @@ JobView::setup ()
 
 	_controls = new wxBoxSizer (wxVERTICAL);
 	_controls->Add (_buttons);
-	_notify = new wxCheckBox (_container, wxID_ANY, _("Notify when complete"));
+	_notify = new CheckBox (_container, _("Notify when complete"));
 	_notify->Bind (wxEVT_CHECKBOX, bind (&JobView::notify_clicked, this));
 	_notify->SetValue (Config::instance()->default_notify());
 	_controls->Add (_notify);

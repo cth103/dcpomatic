@@ -18,21 +18,33 @@
 
 */
 
-#include "message_dialog.h"
+#include "instant_i18n_dialog.h"
 #include "wx_util.h"
-#include "static_text.h"
+#include <boost/bind.hpp>
 
-MessageDialog::MessageDialog (wxWindow* parent, wxString title, wxString message)
-	: wxDialog (parent, wxID_ANY, title)
+using boost::bind;
+
+InstantI18NDialog::InstantI18NDialog (wxWindow* parent, wxString text)
+	: wxDialog (parent, wxID_ANY, _("Translate"))
 {
-	wxSizer* sizer = new wxBoxSizer (wxVERTICAL);
-	wxStaticText* text = new StaticText (this, message);
-	sizer->Add (text, 1, wxALL, DCPOMATIC_DIALOG_BORDER);
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxCLOSE);
-	if (buttons) {
-		sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
-        }
-	SetSizer (sizer);
-	sizer->Layout ();
-	sizer->SetSizeHints (this);
+	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+
+	_text = new wxTextCtrl (this, wxID_ANY, text, wxDefaultPosition, wxSize(200, -1), wxTE_PROCESS_ENTER);
+
+	_text->Bind (wxEVT_TEXT_ENTER, bind(&InstantI18NDialog::close, this));
+
+	overall_sizer->Add (_text, 0, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+	SetSizerAndFit (overall_sizer);
+}
+
+wxString
+InstantI18NDialog::get () const
+{
+	return _text->GetValue ();
+}
+
+void
+InstantI18NDialog::close ()
+{
+	Close ();
 }

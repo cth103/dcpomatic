@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,8 @@
 
 #include "confirm_kdm_email_dialog.h"
 #include "wx_util.h"
+#include "static_text.h"
+#include "check_box.h"
 #include "lib/config.h"
 #include "lib/cinema_kdms.h"
 #include <boost/foreach.hpp>
@@ -35,9 +37,9 @@ ConfirmKDMEmailDialog::ConfirmKDMEmailDialog (wxWindow* parent, list<string> ema
 		message += "\t" + std_to_wx (i) + "\n";
 	}
 
-	_sizer->Add (new wxStaticText (this, wxID_ANY, message), 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+	_sizer->Add (new StaticText (this, message), 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	wxCheckBox* shut_up = new wxCheckBox (this, wxID_ANY, _("Don't ask this again"));
+	wxCheckBox* shut_up = new CheckBox (this, _("Don't ask this again"));
 	_sizer->Add (shut_up, 0, wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	shut_up->Bind (wxEVT_CHECKBOX, bind (&ConfirmKDMEmailDialog::shut_up, this, _1));

@@ -36,6 +36,8 @@
 #include "nag_dialog.h"
 #include "config_move_dialog.h"
 #include "config_dialog.h"
+#include "static_text.h"
+#include "check_box.h"
 #include "lib/config.h"
 #include "lib/ratio.h"
 #include "lib/filter.h"
@@ -115,12 +117,12 @@ private:
 		add_play_sound_controls (table, r);
 
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
-		_analyse_ebur128 = new wxCheckBox (_panel, wxID_ANY, _("Find integrated loudness, true peak and loudness range when analysing audio"));
+		_analyse_ebur128 = new CheckBox (_panel, _("Find integrated loudness, true peak and loudness range when analysing audio"));
 		table->Add (_analyse_ebur128, wxGBPosition (r, 0), wxGBSpan (1, 2));
 		++r;
 #endif
 
-		_automatic_audio_analysis = new wxCheckBox (_panel, wxID_ANY, _("Automatically analyse content audio"));
+		_automatic_audio_analysis = new CheckBox (_panel, _("Automatically analyse content audio"));
 		table->Add (_automatic_audio_analysis, wxGBPosition (r, 0), wxGBSpan (1, 2));
 		++r;
 
@@ -381,7 +383,7 @@ private:
 
 		table->Add (_kdm_directory, 1, wxEXPAND);
 
-		_upload_after_make_dcp = new wxCheckBox (_panel, wxID_ANY, _("Default to enabling upload of DCP to TMS"));
+		_upload_after_make_dcp = new CheckBox (_panel, _("Default to enabling upload of DCP to TMS"));
 		table->Add (_upload_after_make_dcp, 1, wxEXPAND);
 
 		_still_length->SetRange (1, 3600);
@@ -585,7 +587,7 @@ public:
 private:
 	void setup ()
 	{
-		_use_any_servers = new wxCheckBox (_panel, wxID_ANY, _("Search network for servers"));
+		_use_any_servers = new CheckBox (_panel, _("Search network for servers"));
 		_panel->GetSizer()->Add (_use_any_servers, 0, wxALL, _border);
 
 		vector<string> columns;
@@ -1073,11 +1075,11 @@ private:
 		table->AddGrowableCol (1, 1);
 		_panel->GetSizer()->Add (table, 1, wxEXPAND | wxALL, _border);
 
-		_enable_message_box = new wxCheckBox (_panel, wxID_ANY, _("Message box"));
+		_enable_message_box = new CheckBox (_panel, _("Message box"));
 		table->Add (_enable_message_box, 1, wxEXPAND | wxALL);
 		table->AddSpacer (0);
 
-		_enable_email = new wxCheckBox (_panel, wxID_ANY, _("Email"));
+		_enable_email = new CheckBox (_panel, _("Email"));
 		table->Add (_enable_email, 1, wxEXPAND | wxALL);
 		table->AddSpacer (0);
 
@@ -1306,7 +1308,7 @@ private:
 		flags |= wxALIGN_RIGHT;
 		text += wxT (":");
 #endif
-		wxStaticText* m = new wxStaticText (parent, wxID_ANY, text);
+		wxStaticText* m = new StaticText (parent, text);
 		table->Add (m, 0, flags, DCPOMATIC_SIZER_Y_GAP);
 	}
 
@@ -1325,11 +1327,11 @@ private:
 			table->Add (s, 1);
 		}
 
-		_allow_any_dcp_frame_rate = new wxCheckBox (_panel, wxID_ANY, _("Allow any DCP frame rate"));
+		_allow_any_dcp_frame_rate = new CheckBox (_panel, _("Allow any DCP frame rate"));
 		table->Add (_allow_any_dcp_frame_rate, 1, wxEXPAND | wxALL);
 		table->AddSpacer (0);
 
-		_allow_any_container = new wxCheckBox (_panel, wxID_ANY, _("Allow non-standard container ratios"));
+		_allow_any_container = new CheckBox (_panel, _("Allow non-standard container ratios"));
 		table->Add (_allow_any_container, 1, wxEXPAND | wxALL);
 		table->AddSpacer (0);
 
@@ -1340,7 +1342,7 @@ private:
 		restart->SetFont (font);
 		table->AddSpacer (0);
 
-		_only_servers_encode = new wxCheckBox (_panel, wxID_ANY, _("Only servers encode"));
+		_only_servers_encode = new CheckBox (_panel, _("Only servers encode"));
 		table->Add (_only_servers_encode, 1, wxEXPAND | wxALL);
 		table->AddSpacer (0);
 
@@ -1385,26 +1387,26 @@ private:
 		{
 			add_top_aligned_label_to_sizer (table, _panel, _("Log"));
 			wxBoxSizer* t = new wxBoxSizer (wxVERTICAL);
-			_log_general = new wxCheckBox (_panel, wxID_ANY, _("General"));
+			_log_general = new CheckBox (_panel, _("General"));
 			t->Add (_log_general, 1, wxEXPAND | wxALL);
-			_log_warning = new wxCheckBox (_panel, wxID_ANY, _("Warnings"));
+			_log_warning = new CheckBox (_panel, _("Warnings"));
 			t->Add (_log_warning, 1, wxEXPAND | wxALL);
-			_log_error = new wxCheckBox (_panel, wxID_ANY, _("Errors"));
+			_log_error = new CheckBox (_panel, _("Errors"));
 			t->Add (_log_error, 1, wxEXPAND | wxALL);
 			/// TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-			_log_timing = new wxCheckBox (_panel, wxID_ANY, S_("Config|Timing"));
+			_log_timing = new CheckBox (_panel, S_("Config|Timing"));
 			t->Add (_log_timing, 1, wxEXPAND | wxALL);
-			_log_debug_decode = new wxCheckBox (_panel, wxID_ANY, _("Debug: decode"));
+			_log_debug_decode = new CheckBox (_panel, _("Debug: decode"));
 			t->Add (_log_debug_decode, 1, wxEXPAND | wxALL);
-			_log_debug_encode = new wxCheckBox (_panel, wxID_ANY, _("Debug: encode"));
+			_log_debug_encode = new CheckBox (_panel, _("Debug: encode"));
 			t->Add (_log_debug_encode, 1, wxEXPAND | wxALL);
-			_log_debug_email = new wxCheckBox (_panel, wxID_ANY, _("Debug: email sending"));
+			_log_debug_email = new CheckBox (_panel, _("Debug: email sending"));
 			t->Add (_log_debug_email, 1, wxEXPAND | wxALL);
 			table->Add (t, 0, wxALL, 6);
 		}
 
 #ifdef DCPOMATIC_WINDOWS
-		_win32_console = new wxCheckBox (_panel, wxID_ANY, _("Open console window"));
+		_win32_console = new CheckBox (_panel, _("Open console window"));
 		table->Add (_win32_console, 1, wxEXPAND | wxALL);
 		table->AddSpacer (0);
 #endif

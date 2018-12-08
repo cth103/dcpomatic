@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,7 +19,9 @@
 */
 
 #include "wx_util.h"
+#include "static_text.h"
 #include "colour_conversion_editor.h"
+#include "check_box.h"
 #include "lib/colour_conversion.h"
 #include <dcp/locale_convert.h>
 #include <dcp/gamma_transfer_function.h>
@@ -161,7 +163,7 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 	wxFlexGridSizer* rgb_to_xyz_sizer = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
-			_rgb_to_xyz[i][j] = new wxStaticText (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0);
+			_rgb_to_xyz[i][j] = new StaticText (this, wxT (""), wxDefaultPosition, size, 0);
 			rgb_to_xyz_sizer->Add (_rgb_to_xyz[i][j]);
 		}
 	}
@@ -174,7 +176,7 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 
 	subhead (table, this, _("White point adjustment"), r);
 
-	_adjust_white = new wxCheckBox (this, wxID_ANY, _("Adjust white point to"));
+	_adjust_white = new CheckBox (this, _("Adjust white point to"));
 	table->Add (_adjust_white, wxGBPosition (r, 0));
 	_adjusted_white_x = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
 	table->Add (_adjusted_white_x, wxGBPosition (r, 1));
@@ -191,7 +193,7 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 	wxFlexGridSizer* bradford_sizer = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
-			_bradford[i][j] = new wxStaticText (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0);
+			_bradford[i][j] = new StaticText (this, wxT (""), wxDefaultPosition, size, 0);
 			bradford_sizer->Add (_bradford[i][j]);
 		}
 	}
@@ -202,7 +204,7 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 
 	subhead (table, this, _("Output gamma correction"), r);
 
-	_output = new wxCheckBox (this, wxID_ANY, _("Inverse 2.6 gamma correction on output"));
+	_output = new CheckBox (this, _("Inverse 2.6 gamma correction on output"));
 	table->Add (_output, wxGBPosition (r, 0), wxGBSpan (1, 2));
 
 	_input_gamma->SetRange (0.1, 4.0);
@@ -236,7 +238,7 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 wxStaticText *
 ColourConversionEditor::subhead (wxGridBagSizer* sizer, wxWindow* parent, wxString text, int& row) const
 {
-	wxStaticText* m = new wxStaticText (parent, wxID_ANY, text);
+	wxStaticText* m = new StaticText (parent, text);
 	wxFont font (*wxNORMAL_FONT);
 	font.SetWeight (wxFONTWEIGHT_BOLD);
 	m->SetFont (font);

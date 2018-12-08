@@ -22,6 +22,7 @@
 #include "video_waveform_plot.h"
 #include "film_viewer.h"
 #include "wx_util.h"
+#include "static_text.h"
 #include <boost/bind.hpp>
 #include <iostream>
 
@@ -67,11 +68,11 @@ VideoWaveformDialog::VideoWaveformDialog (wxWindow* parent, weak_ptr<const Film>
 
 	wxBoxSizer* position = new wxBoxSizer (wxHORIZONTAL);
 	add_label_to_sizer (position, this, _("Image X position"), true);
-	_x_position = new wxStaticText (this, wxID_ANY, "");
+	_x_position = new StaticText (this, "");
 	_x_position->SetMinSize (wxSize (64, -1));
 	position->Add (_x_position, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
 	add_label_to_sizer (position, this, _("component value"), true);
-	_value = new wxStaticText (this, wxID_ANY, "");
+	_value = new StaticText (this, "");
 	_value->SetMinSize (wxSize (64, -1));
 	position->Add (_value, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
 	overall_sizer->Add (position, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);

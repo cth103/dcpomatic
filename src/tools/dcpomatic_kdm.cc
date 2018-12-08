@@ -31,6 +31,7 @@
 #include "wx/file_dialog_wrapper.h"
 #include "wx/new_dkdm_folder_dialog.h"
 #include "wx/editable_list.h"
+#include "wx/static_text.h"
 #include "lib/config.h"
 #include "lib/util.h"
 #include "lib/screen.h"
@@ -129,20 +130,20 @@ public:
 		wxFont subheading_font (*wxNORMAL_FONT);
 		subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
 
-		wxStaticText* h = new wxStaticText (overall_panel, wxID_ANY, _("Screens"));
+		wxStaticText* h = new StaticText (overall_panel, _("Screens"));
 		h->SetFont (subheading_font);
 		left->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 		_screens = new ScreensPanel (overall_panel);
 		left->Add (_screens, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 
 		/// TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
-		h = new wxStaticText (overall_panel, wxID_ANY, S_("KDM|Timing"));
+		h = new StaticText (overall_panel, S_("KDM|Timing"));
 		h->SetFont (subheading_font);
 		right->Add (h, 0, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP * 2);
 		_timing = new KDMTimingPanel (overall_panel);
 		right->Add (_timing, 0, wxALL, DCPOMATIC_SIZER_Y_GAP);
 
-		h = new wxStaticText (overall_panel, wxID_ANY, _("DKDM"));
+		h = new StaticText (overall_panel, _("DKDM"));
 		h->SetFont (subheading_font);
 		right->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
 		wxBoxSizer* dkdm_sizer = new wxBoxSizer (wxHORIZONTAL);
@@ -162,7 +163,7 @@ public:
 
 		add_dkdm_view (Config::instance()->dkdms());
 
-		h = new wxStaticText (overall_panel, wxID_ANY, _("Output"));
+		h = new StaticText (overall_panel, _("Output"));
 		h->SetFont (subheading_font);
 		right->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
 		/* XXX: hard-coded non-interop here */

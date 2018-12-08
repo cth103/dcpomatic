@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,13 +20,14 @@
 
 #include "name_format_editor.h"
 #include "wx_util.h"
+#include "static_text.h"
 #include "lib/util.h"
 
 using std::string;
 
 NameFormatEditor::NameFormatEditor (wxWindow* parent, dcp::NameFormat name, dcp::NameFormat::Map titles, dcp::NameFormat::Map examples, string suffix)
 	: _panel (new wxPanel (parent))
-	, _example (new wxStaticText (_panel, wxID_ANY, ""))
+	, _example (new StaticText (_panel, ""))
 	, _sizer (new wxBoxSizer (wxVERTICAL))
 	, _specification (new wxTextCtrl (_panel, wxID_ANY, ""))
 	, _name (name)
@@ -40,7 +41,7 @@ NameFormatEditor::NameFormatEditor (wxWindow* parent, dcp::NameFormat name, dcp:
 	_panel->SetSizer (_sizer);
 
 	for (dcp::NameFormat::Map::const_iterator i = titles.begin(); i != titles.end(); ++i) {
-		wxStaticText* t = new wxStaticText (_panel, wxID_ANY, std_to_wx (String::compose ("%%%1 %2", i->first, i->second)));
+		wxStaticText* t = new StaticText (_panel, std_to_wx (String::compose ("%%%1 %2", i->first, i->second)));
 		_sizer->Add (t);
 		wxFont font = t->GetFont();
 		font.SetStyle (wxFONTSTYLE_ITALIC);

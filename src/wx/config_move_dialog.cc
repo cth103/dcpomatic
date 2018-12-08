@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,7 @@
 
 #include "config_move_dialog.h"
 #include "wx_util.h"
+#include "static_text.h"
 #include <boost/filesystem.hpp>
 
 ConfigMoveDialog::ConfigMoveDialog (wxWindow* parent, boost::filesystem::path new_file)
@@ -35,7 +36,7 @@ ConfigMoveDialog::ConfigMoveDialog (wxWindow* parent, boost::filesystem::path ne
 		std_to_wx(new_file.string()).data()
 		);
 
-	_sizer->Add (new wxStaticText (this, wxID_ANY, message), 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+	_sizer->Add (new StaticText (this, message), 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	layout ();
 }

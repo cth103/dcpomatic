@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,13 @@
 
 */
 
+#include "wx_util.h"
+#include "check_box.h"
+#include "content_colour_conversion_dialog.h"
+#include "colour_conversion_editor.h"
 #include "lib/colour_conversion.h"
 #include "lib/config.h"
 #include "lib/util.h"
-#include "wx_util.h"
-#include "content_colour_conversion_dialog.h"
-#include "colour_conversion_editor.h"
 #include <wx/statline.h>
 #include <boost/foreach.hpp>
 #include <iostream>
@@ -42,7 +43,7 @@ ContentColourConversionDialog::ContentColourConversionDialog (wxWindow* parent, 
 	SetSizer (overall_sizer);
 
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_Y_GAP - 2, DCPOMATIC_SIZER_X_GAP);
-	_preset_check = new wxCheckBox (this, wxID_ANY, _("Use preset"));
+	_preset_check = new CheckBox (this, _("Use preset"));
 	table->Add (_preset_check, 0, wxALIGN_CENTER_VERTICAL);
 	_preset_choice = new wxChoice (this, wxID_ANY);
 	table->Add (_preset_choice);

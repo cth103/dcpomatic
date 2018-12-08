@@ -21,6 +21,7 @@
 #include "export_dialog.h"
 #include "file_picker_ctrl.h"
 #include "wx_util.h"
+#include "check_box.h"
 #include <wx/filepicker.h>
 #include <boost/bind.hpp>
 
@@ -55,10 +56,10 @@ ExportDialog::ExportDialog (wxWindow* parent)
 	_format = new wxChoice (this, wxID_ANY);
 	add (_format);
 	add_spacer ();
-	_mixdown = new wxCheckBox (this, wxID_ANY, _("Mix audio down to stereo"));
+	_mixdown = new CheckBox (this, _("Mix audio down to stereo"));
 	add (_mixdown, false);
 	add_spacer ();
-	_split_reels = new wxCheckBox (this, wxID_ANY, _("Write reels into separate files"));
+	_split_reels = new CheckBox (this, _("Write reels into separate files"));
 	add (_split_reels, false);
 	_x264_crf_label[0] = add (_("Quality"), true);
 	_x264_crf = new wxSlider (this, wxID_ANY, 23, 0, 51, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL | wxSL_LABELS);

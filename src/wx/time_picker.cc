@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,7 @@
 
 #include "time_picker.h"
 #include "wx_util.h"
+#include "static_text.h"
 #include <dcp/locale_convert.h>
 #include <wx/spinctrl.h>
 #include <boost/bind.hpp>
@@ -44,7 +45,7 @@ TimePicker::TimePicker (wxWindow* parent, wxDateTime time)
 	wxBoxSizer* sizer = new wxBoxSizer (wxHORIZONTAL);
 	_hours = new wxSpinCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size);
 	sizer->Add (_hours, 1, wxEXPAND | wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
-	sizer->Add (new wxStaticText (this, wxID_ANY, wxT (":")), 0, wxALIGN_CENTER_VERTICAL);
+	sizer->Add (new StaticText (this, wxT (":")), 0, wxALIGN_CENTER_VERTICAL);
 	_minutes = new wxSpinCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size);
 	sizer->Add (_minutes, 1, wxEXPAND | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
 

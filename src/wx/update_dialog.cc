@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,10 @@
 
 */
 
-#include <wx/hyperlink.h>
 #include "update_dialog.h"
+#include "static_text.h"
 #include "wx_util.h"
+#include <wx/hyperlink.h>
 
 using std::string;
 using boost::optional;
@@ -33,9 +34,9 @@ UpdateDialog::UpdateDialog (wxWindow* parent, optional<string> stable, optional<
 	wxStaticText* message;
 
 	if ((stable || test) && !(stable && test)) {
-		message = new wxStaticText (this, wxID_ANY, _("A new version of DCP-o-matic is available."));
+		message = new StaticText (this, _("A new version of DCP-o-matic is available."));
 	} else {
-		message = new wxStaticText (this, wxID_ANY, _("New versions of DCP-o-matic are available."));
+		message = new StaticText (this, _("New versions of DCP-o-matic are available."));
 	}
 
 	overall_sizer->Add (message, 1, wxTOP | wxLEFT | wxRIGHT, DCPOMATIC_DIALOG_BORDER);

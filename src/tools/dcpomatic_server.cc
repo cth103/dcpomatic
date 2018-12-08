@@ -20,6 +20,7 @@
 
 #include "wx/wx_util.h"
 #include "wx/wx_signal_manager.h"
+#include "wx/static_text.h"
 #include "lib/util.h"
 #include "lib/encoded_log_entry.h"
 #include "lib/encode_server.h"
@@ -147,7 +148,7 @@ public:
 		wxFlexGridSizer* state_sizer = new wxFlexGridSizer (2, DCPOMATIC_SIZER_GAP, DCPOMATIC_SIZER_GAP);
 
 		add_label_to_sizer (state_sizer, this, _("Frames per second"), true);
-		_fps = new wxStaticText (this, wxID_ANY, wxT(""));
+		_fps = new StaticText (this, wxT(""));
 		state_sizer->Add (_fps);
 
 		wxFlexGridSizer* log_sizer = new wxFlexGridSizer (1, DCPOMATIC_SIZER_GAP, DCPOMATIC_SIZER_GAP);

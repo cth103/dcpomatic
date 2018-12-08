@@ -19,17 +19,18 @@
 */
 
 #include "paste_dialog.h"
+#include "check_box.h"
 
 PasteDialog::PasteDialog (wxWindow* parent, bool video, bool audio, bool text)
 	: TableDialog (parent, _("Paste"), 1, 0, true)
 {
-	_video = new wxCheckBox (this, wxID_ANY, _("Paste video settings"));
+	_video = new CheckBox (this, _("Paste video settings"));
 	_video->Enable (video);
 	add (_video);
-	_audio = new wxCheckBox (this, wxID_ANY, _("Paste audio settings"));
+	_audio = new CheckBox (this, _("Paste audio settings"));
 	_audio->Enable (audio);
 	add (_audio);
-	_text = new wxCheckBox (this, wxID_ANY, _("Paste subtitle and caption settings"));
+	_text = new CheckBox (this, _("Paste subtitle and caption settings"));
 	_text->Enable (text);
 	add (_text);
 

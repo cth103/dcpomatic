@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,6 +24,9 @@
 #include "isdcf_metadata_dialog.h"
 #include "audio_dialog.h"
 #include "focus_manager.h"
+#include "check_box.h"
+#include "static_text.h"
+#include "check_box.h"
 #include "lib/ratio.h"
 #include "lib/config.h"
 #include "lib/dcp_content_type.h"
@@ -72,30 +75,30 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 	_name = new wxTextCtrl (_panel, wxID_ANY);
 	FocusManager::instance()->add(_name);
 
-	_use_isdcf_name = new wxCheckBox (_panel, wxID_ANY, _("Use ISDCF name"));
+	_use_isdcf_name = new CheckBox (_panel, _("Use ISDCF name"));
 	_edit_isdcf_button = new wxButton (_panel, wxID_ANY, _("Details..."));
 	_copy_isdcf_name_button = new wxButton (_panel, wxID_ANY, _("Copy as name"));
 
 	/* wxST_ELLIPSIZE_MIDDLE works around a bug in GTK2 and/or wxWidgets, see
 	   http://trac.wxwidgets.org/ticket/12539
 	*/
-	_dcp_name = new wxStaticText (
-		_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize,
+	_dcp_name = new StaticText (
+		_panel, wxT (""), wxDefaultPosition, wxDefaultSize,
 		wxALIGN_CENTRE_HORIZONTAL | wxST_NO_AUTORESIZE | wxST_ELLIPSIZE_MIDDLE
 		);
 
 	_dcp_content_type_label = create_label (_panel, _("Content Type"), true);
 	_dcp_content_type = new wxChoice (_panel, wxID_ANY);
 
-	_signed = new wxCheckBox (_panel, wxID_ANY, _("Signed"));
-	_encrypted = new wxCheckBox (_panel, wxID_ANY, _("Encrypted"));
+	_signed = new CheckBox (_panel, _("Signed"));
+	_encrypted = new CheckBox (_panel, _("Encrypted"));
 
         wxClientDC dc (_panel);
         wxSize size = dc.GetTextExtent (wxT ("GGGGGGGG..."));
         size.SetHeight (-1);
 
 	_key_label = create_label (_panel, _("Key"), true);
-	_key = new wxStaticText (_panel, wxID_ANY, "", wxDefaultPosition, size);
+	_key = new StaticText (_panel, "", wxDefaultPosition, size);
 	_edit_key = new wxButton (_panel, wxID_ANY, _("Edit..."));
 
 	_reels_label = create_label (_panel, _("Reels"), true);
@@ -108,7 +111,7 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 	_standard_label = create_label (_panel, _("Standard"), true);
 	_standard = new wxChoice (_panel, wxID_ANY);
 
-	_upload_after_make_dcp = new wxCheckBox (_panel, wxID_ANY, _("Upload DCP to TMS after it is made"));
+	_upload_after_make_dcp = new CheckBox (_panel, _("Upload DCP to TMS after it is made"));
 
 	_notebook = new wxNotebook (_panel, wxID_ANY);
 	_sizer->Add (_notebook, 1, wxEXPAND | wxTOP, 6);
@@ -733,7 +736,7 @@ DCPPanel::make_video_panel ()
 
 	_container_label = create_label (panel, _("Container"), true);
 	_container = new wxChoice (panel, wxID_ANY);
-	_container_size = new wxStaticText (panel, wxID_ANY, wxT (""));
+	_container_size = new StaticText (panel, wxT (""));
 
 	_resolution_label = create_label (panel, _("Resolution"), true);
 	_resolution = new wxChoice (panel, wxID_ANY);
@@ -748,13 +751,13 @@ DCPPanel::make_video_panel ()
 	_best_frame_rate = new wxButton (panel, wxID_ANY, _("Use best"));
 	_frame_rate_sizer->Add (_best_frame_rate, 1, wxALIGN_CENTER_VERTICAL);
 
-	_three_d = new wxCheckBox (panel, wxID_ANY, _("3D"));
+	_three_d = new CheckBox (panel, _("3D"));
 
 	_j2k_bandwidth_label = create_label (panel, _("JPEG2000 bandwidth\nfor newly-encoded data"), true);
 	_j2k_bandwidth = new wxSpinCtrl (panel, wxID_ANY);
 	_mbits_label = create_label (panel, _("Mbit/s"), false);
 
-	_reencode_j2k = new wxCheckBox (panel, wxID_ANY, _("Re-encode JPEG2000 data from input"));
+	_reencode_j2k = new CheckBox (panel, _("Re-encode JPEG2000 data from input"));
 
 	_container->Bind	 (wxEVT_CHOICE,	  boost::bind(&DCPPanel::container_changed, this));
 	_frame_rate_choice->Bind (wxEVT_CHOICE,	  boost::bind(&DCPPanel::frame_rate_choice_changed, this));

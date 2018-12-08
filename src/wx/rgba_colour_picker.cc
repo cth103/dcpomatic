@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,7 @@
 
 #include "rgba_colour_picker.h"
 #include "wx_util.h"
+#include "static_text.h"
 #include <wx/clrpicker.h>
 
 RGBAColourPicker::RGBAColourPicker (wxWindow* parent, RGBA colour)
@@ -30,10 +31,10 @@ RGBAColourPicker::RGBAColourPicker (wxWindow* parent, RGBA colour)
 	_picker = new wxColourPickerCtrl (this, wxID_ANY);
 	_picker->SetColour (wxColour (colour.r, colour.g, colour.b));
 	sizer->Add (_picker, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_X_GAP);
-	sizer->Add (new wxStaticText (this, wxID_ANY, _("Alpha   0")), 0, wxALIGN_CENTRE_VERTICAL);
+	sizer->Add (new StaticText (this, _("Alpha   0")), 0, wxALIGN_CENTRE_VERTICAL);
 	_alpha = new wxSlider (this, wxID_ANY, colour.a, 0, 255);
 	sizer->Add (_alpha, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_X_GAP);
-	sizer->Add (new wxStaticText (this, wxID_ANY, _("255")), 0, wxALIGN_CENTRE_VERTICAL);
+	sizer->Add (new StaticText (this, _("255")), 0, wxALIGN_CENTRE_VERTICAL);
 
 	SetSizer (sizer);
 }

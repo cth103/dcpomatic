@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,6 +24,8 @@
 #include "content_colour_conversion_dialog.h"
 #include "content_widget.h"
 #include "content_panel.h"
+#include "static_text.h"
+#include "check_box.h"
 #include "lib/filter.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/colour_conversion.h"
@@ -74,8 +76,8 @@ scale_to_index (VideoContentScale scale)
 VideoPanel::VideoPanel (ContentPanel* p)
 	: ContentSubPanel (p, _("Video"))
 {
-	_reference = new wxCheckBox (this, wxID_ANY, _("Use this DCP's video as OV and make VF"));
-	_reference_note = new wxStaticText (this, wxID_ANY, wxT(""));
+	_reference = new CheckBox (this, _("Use this DCP's video as OV and make VF"));
+	_reference_note = new StaticText (this, wxT(""));
 	_reference_note->Wrap (200);
 	wxFont font = _reference_note->GetFont();
 	font.SetStyle(wxFONTSTYLE_ITALIC);
@@ -157,7 +159,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	size.SetHeight (-1);
 
 	_filters_label = create_label (this, _("Filters"), true);
-	_filters = new wxStaticText (this, wxID_ANY, _("None"), wxDefaultPosition, size);
+	_filters = new StaticText (this, _("None"), wxDefaultPosition, size);
 	_filters_button = new wxButton (this, wxID_ANY, _("Edit..."));
 
 	_colour_conversion_label = create_label (this, _("Colour conversion"), true);
@@ -171,7 +173,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_colour_conversion->Append (S_("Colour|Custom"));
 	_edit_colour_conversion_button = new wxButton (this, wxID_ANY, _("Edit..."));
 
-	_description = new wxStaticText (this, wxID_ANY, wxT ("\n \n \n \n \n"), wxDefaultPosition, wxDefaultSize);
+	_description = new StaticText (this, wxT ("\n \n \n \n \n"), wxDefaultPosition, wxDefaultSize);
 	_description->SetFont(font);
 
 	_left_crop->wrapped()->SetRange (0, 4096);

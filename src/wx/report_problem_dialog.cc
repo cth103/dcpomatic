@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,8 @@
 
 #include "report_problem_dialog.h"
 #include "wx_util.h"
+#include "static_text.h"
+#include "check_box.h"
 #include "lib/config.h"
 #include "lib/job_manager.h"
 #include "lib/send_problem_report_job.h"
@@ -54,13 +56,13 @@ ReportProblemDialog::ReportProblemDialog (wxWindow* parent, shared_ptr<Film> fil
 	flags |= wxALIGN_RIGHT;
 	t += wxT (":");
 #endif
-	wxStaticText* m = new wxStaticText (this, wxID_ANY, t);
+	wxStaticText* m = new StaticText (this, t);
 	_table->Add (m, 1, flags, 6);
 
 	_summary = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxSize (320, 240), wxTE_MULTILINE);
 	_table->Add (_summary, 1, wxEXPAND | wxALIGN_TOP);
 
-	_send_logs = new wxCheckBox (this, wxID_ANY, _("Send logs"));
+	_send_logs = new CheckBox (this, _("Send logs"));
 	_send_logs->SetValue (true);
 	_table->Add (_send_logs, 1, wxEXPAND);
 	_table->AddSpacer (0);
@@ -88,7 +90,7 @@ ReportProblemDialog::ReportProblemDialog (wxWindow* parent, shared_ptr<Film> fil
 		}
 	}
 
-	wxStaticText* n = new wxStaticText (this, wxID_ANY, wxT (""));
+	wxStaticText* n = new StaticText (this, wxT (""));
 	n->SetLabelMarkup (out);
 	_table->AddSpacer (0);
 	_table->Add (n, 1, wxEXPAND);

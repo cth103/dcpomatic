@@ -20,6 +20,8 @@
 
 #include "hints_dialog.h"
 #include "wx_util.h"
+#include "static_text.h"
+#include "check_box.h"
 #include "lib/film.h"
 #include "lib/hints.h"
 #include "lib/config.h"
@@ -44,14 +46,14 @@ HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> film, bool ok)
 
 	_gauge = new wxGauge (this, wxID_ANY, 100);
 	sizer->Add (_gauge, 0, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
-	_gauge_message = new wxStaticText (this, wxID_ANY, wxT(""));
+	_gauge_message = new StaticText (this, wxT(""));
 	sizer->Add (_gauge_message, 0, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
 	_text = new wxRichTextCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (400, 300), wxRE_READONLY);
 	sizer->Add (_text, 1, wxEXPAND | wxALL, 6);
 
 	if (!ok) {
-		wxCheckBox* b = new wxCheckBox (this, wxID_ANY, _("Don't show hints again"));
+		wxCheckBox* b = new CheckBox (this, _("Don't show hints again"));
 		sizer->Add (b, 0, wxALL, 6);
 		b->Bind (wxEVT_CHECKBOX, bind (&HintsDialog::shut_up, this, _1));
 	}

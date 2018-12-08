@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,7 @@
 
 #include "wx_util.h"
 #include "film_name_location_dialog.h"
+#include "check_box.h"
 #ifdef DCPOMATIC_USE_OWN_PICKER
 #include "dir_picker_ctrl.h"
 #endif
@@ -56,7 +57,7 @@ FilmNameLocationDialog::FilmNameLocationDialog (wxWindow* parent, wxString title
 	add (_folder);
 
 	if (offer_templates) {
-		_use_template = new wxCheckBox (this, wxID_ANY, _("From template"));
+		_use_template = new CheckBox (this, _("From template"));
 		add (_use_template);
 		_template_name = new wxChoice (this, wxID_ANY);
 		add (_template_name);
