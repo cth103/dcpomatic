@@ -28,6 +28,10 @@ class ContentStore;
 class SPL
 {
 public:
+	SPL ()
+		: _missing (false)
+	{}
+
 	void add (SPLEntry e) {
 		_spl.push_back (e);
 	}
@@ -48,16 +52,22 @@ public:
 		return _spl[index];
 	}
 
-	bool read (boost::filesystem::path path, ContentStore* store);
+	void read (boost::filesystem::path path, ContentStore* store);
 	void write (boost::filesystem::path path) const;
 
 	std::string name () const {
 		return _name;
 	}
 
+	bool missing () const {
+		return _missing;
+	}
+
 private:
 	std::string _name;
 	std::vector<SPLEntry> _spl;
+	/** true if any content was missing when read() was last called on this SPL */
+	bool _missing;
 };
 
 #endif

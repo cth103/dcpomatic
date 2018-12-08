@@ -214,7 +214,11 @@ SwaroopControls::add_playlist_to_list (SPL spl)
 	wxListItem it;
 	it.SetId(N);
 	it.SetColumn(0);
-	it.SetText (std_to_wx(spl.name()));
+	string t = spl.name();
+	if (spl.missing()) {
+		t += " (content missing)";
+	}
+	it.SetText (std_to_wx(t));
 	_spl_view->InsertItem (it);
 }
 
@@ -248,17 +252,36 @@ SwaroopControls::update_playlist_directory ()
 void
 SwaroopControls::spl_selection_changed ()
 {
-	_current_spl_view->DeleteAllItems ();
-
 	long int selected = _spl_view->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (selected == -1) {
+		_current_spl_view->DeleteAllItems ();
 		_selected_playlist = boost::none;
 		return;
 	}
 
-	wxProgressDialog progress (_("DCP-o-matic"), _("Loading playlist"));
+	if (_playlists[selected].missing()) {
+		error_dialog (this, "This playlist cannot be loaded as some content is missing.");
+		_selected_playlist = boost::none;
+		_spl_view->SetItemState (selected, 0, wxLIST_STATE_SELECTED);
+		return;
+	}
+
+	wxProgressDialog* progress = new wxProgressDialog (_("DCP-o-matic"), _("Loading playlist"));
 
 	shared_ptr<Film> film (new Film(optional<boost::filesystem::path>()));
+	BOOST_FOREACH (SPLEntry i, _playlists[selected].get()) {
+		film->add_content (i.content);
+		if (!progress->Pulse()) {
+			/* user pressed cancel */
+			_selected_playlist = boost::none;
+			_spl_view->SetItemState (selected, 0, wxLIST_STATE_SELECTED);
+			progress->Destroy ();
+			return;
+		}
+	}
+
+	progress->Destroy ();
+	_current_spl_view->DeleteAllItems ();
 
 	int N = 0;
 	BOOST_FOREACH (SPLEntry i, _playlists[selected].get()) {
@@ -267,12 +290,7 @@ SwaroopControls::spl_selection_changed ()
 		it.SetColumn (0);
 		it.SetText (std_to_wx(i.name));
 		_current_spl_view->InsertItem (it);
-		film->add_content (i.content);
 		++N;
-		if (!progress.Pulse()) {
-			/* user pressed cancel */
-			return;
-		}
 	}
 
 	_selected_playlist = selected;

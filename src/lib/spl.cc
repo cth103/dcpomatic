@@ -28,24 +28,23 @@
 using std::cout;
 using boost::shared_ptr;
 
-bool
+void
 SPL::read (boost::filesystem::path path, ContentStore* store)
 {
 	_spl.clear ();
+	_missing = false;
 	cxml::Document doc ("SPL");
 	doc.read_file (path);
-	bool missing = false;
 	BOOST_FOREACH (cxml::ConstNodePtr i, doc.node_children("Entry")) {
 		shared_ptr<Content> c = store->get(i->string_child("Digest"));
 		if (c) {
 			add (SPLEntry(c, i));
 		} else {
-			missing = true;
+			_missing = true;
 		}
 	}
 
 	_name = path.filename().string();
-	return missing;
 }
 
 void

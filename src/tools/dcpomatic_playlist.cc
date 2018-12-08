@@ -295,7 +295,8 @@ private:
 		wxFileDialog* d = new wxFileDialog (this, _("Select playlist file"), default_dir, wxEmptyString, wxT("XML files (*.xml)|*.xml"));
 		if (d->ShowModal() == wxID_OK) {
 			_list->DeleteAllItems ();
-			if (!_playlist.read (wx_to_std(d->GetPath()), _content_dialog)) {
+			_playlist.read (wx_to_std(d->GetPath()), _content_dialog);
+			if (!_playlist.missing()) {
 				BOOST_FOREACH (SPLEntry i, _playlist.get()) {
 					add (i);
 				}
