@@ -504,7 +504,8 @@ int main (int argc, char* argv[])
 		case 'C':
 		{
 			/* Make a new screen and add it to the current cinema */
-			shared_ptr<Screen> screen (new Screen (screen_description, dcp::Certificate (dcp::file_to_string (optarg)), vector<TrustedDevice>()));
+			dcp::CertificateChain chain (dcp::file_to_string(optarg));
+			shared_ptr<Screen> screen (new Screen (screen_description, chain.leaf(), vector<TrustedDevice>()));
 			if (cinema) {
 				cinema->add_screen (screen);
 			}
