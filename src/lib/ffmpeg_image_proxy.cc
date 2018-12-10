@@ -84,6 +84,9 @@ int
 FFmpegImageProxy::avio_read (uint8_t* buffer, int const amount)
 {
 	int const to_do = min(int64_t(amount), _data.size() - _pos);
+	if (to_do == 0) {
+		return AVERROR_EOF;
+	}
 	memcpy (buffer, _data.data().get() + _pos, to_do);
 	_pos += to_do;
 	return to_do;
@@ -167,7 +170,9 @@ FFmpegImageProxy::image (optional<dcp::Size>) const
 
 	_image.reset (new Image (frame));
 
+	av_packet_unref (&packet);
 	av_frame_free (&frame);
+	avcodec_close (codec_context);
 	avformat_close_input (&format_context);
 	av_free (avio_context->buffer);
 	av_free (avio_context);
