@@ -411,7 +411,7 @@ public:
 		reset_film ();
 		try {
 			shared_ptr<DCPContent> dcp (new DCPContent(dir));
-			_film->examine_and_add_content (dcp);
+			_film->examine_and_add_content (dcp, true);
 			bool const ok = display_progress (_("DCP-o-matic Player"), _("Loading content"));
 			if (!ok || !report_errors_from_last_job(this)) {
 				return;
