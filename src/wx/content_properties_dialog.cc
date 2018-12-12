@@ -34,11 +34,11 @@ using std::map;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
-ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<Content> content)
+ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<const Film> film, shared_ptr<Content> content)
 	: TableDialog (parent, _("Content Properties"), 2, 1, false)
 {
 	map<UserProperty::Category, list<UserProperty> > grouped;
-	BOOST_FOREACH (UserProperty i, content->user_properties()) {
+	BOOST_FOREACH (UserProperty i, content->user_properties(film)) {
 		if (grouped.find(i.category) == grouped.end()) {
 			grouped[i.category] = list<UserProperty> ();
 		}

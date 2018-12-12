@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -25,12 +25,13 @@
 #include <map>
 
 class Content;
+class Film;
 class UserProperty;
 
 class ContentPropertiesDialog : public TableDialog
 {
 public:
-	ContentPropertiesDialog (wxWindow* parent, boost::shared_ptr<Content> content);
+	ContentPropertiesDialog (wxWindow* parent, boost::shared_ptr<const Film> film, boost::shared_ptr<Content> content);
 
 private:
 	void maybe_add_group (std::map<UserProperty::Category, std::list<UserProperty> > const & groups, UserProperty::Category category);

@@ -130,7 +130,8 @@ VideoMXFContent::approximate_length () const
 }
 
 void
-VideoMXFContent::add_properties (list<UserProperty>& p) const
+VideoMXFContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& p) const
 {
+	Content::add_properties (film, p);
 	video->add_properties (p);
 }

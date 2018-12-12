@@ -51,7 +51,7 @@ public:
 	bool still () const;
 
 private:
-	void add_properties (std::list<UserProperty>& p) const;
+	void add_properties (boost::shared_ptr<const Film> film, std::list<UserProperty>& p) const;
 
 	boost::optional<boost::filesystem::path> _path_to_scan;
 };

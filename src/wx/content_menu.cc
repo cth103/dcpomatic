@@ -415,7 +415,9 @@ ContentMenu::ov ()
 void
 ContentMenu::properties ()
 {
-	ContentPropertiesDialog* d = new ContentPropertiesDialog (_parent, _content.front ());
+	shared_ptr<Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	ContentPropertiesDialog* d = new ContentPropertiesDialog (_parent, film, _content.front());
 	d->ShowModal ();
 	d->Destroy ();
 }

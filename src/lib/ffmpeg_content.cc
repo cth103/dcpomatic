@@ -507,7 +507,7 @@ FFmpegContent::set_default_colour_conversion ()
 void
 FFmpegContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& p) const
 {
-	Content::add_properties (p);
+	Content::add_properties (film, p);
 
 	if (video) {
 		video->add_properties (p);

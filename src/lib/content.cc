@@ -356,10 +356,10 @@ Content::path_summary () const
 
 /** @return a list of properties that might be interesting to the user */
 list<UserProperty>
-Content::user_properties () const
+Content::user_properties (shared_ptr<const Film> film) const
 {
 	list<UserProperty> p;
-	add_properties (p);
+	add_properties (film, p);
 	return p;
 }
 
@@ -423,7 +423,7 @@ Content::active_video_frame_rate (shared_ptr<const Film> film) const
 }
 
 void
-Content::add_properties (list<UserProperty>& p) const
+Content::add_properties (shared_ptr<const Film>, list<UserProperty>& p) const
 {
 	p.push_back (UserProperty (UserProperty::GENERAL, _("Filename"), path(0).string ()));
 

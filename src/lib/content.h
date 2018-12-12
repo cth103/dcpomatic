@@ -180,7 +180,7 @@ public:
 		_change_signals_frequent = f;
 	}
 
-	std::list<UserProperty> user_properties () const;
+	std::list<UserProperty> user_properties (boost::shared_ptr<const Film> film) const;
 
 	std::string calculate_digest () const;
 
@@ -196,7 +196,7 @@ public:
 
 protected:
 
-	virtual void add_properties (std::list<UserProperty> &) const;
+	virtual void add_properties (boost::shared_ptr<const Film> film, std::list<UserProperty> &) const;
 
 	/** _mutex which should be used to protect accesses, as examine
 	 *  jobs can update content state in threads other than the main one.

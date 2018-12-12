@@ -182,8 +182,8 @@ ImageContent::set_default_colour_conversion ()
 }
 
 void
-ImageContent::add_properties (list<UserProperty>& p) const
+ImageContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& p) const
 {
-	Content::add_properties (p);
+	Content::add_properties (film, p);
 	video->add_properties (p);
 }
