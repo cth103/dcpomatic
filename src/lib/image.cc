@@ -106,6 +106,10 @@ Image::planes () const
 		throw PixelFormatError ("planes()", _pixel_format);
 	}
 
+	if (_pixel_format == AV_PIX_FMT_PAL8) {
+		return 2;
+	}
+
 	if ((d->flags & AV_PIX_FMT_FLAG_PLANAR) == 0) {
 		return 1;
 	}
