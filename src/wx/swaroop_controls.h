@@ -51,6 +51,8 @@ private:
 	void viewer_finished ();
 	void reset_film ();
 	void update_current_content ();
+	bool can_do_previous ();
+	bool can_do_next ();
 
 	wxButton* _play_button;
 	wxButton* _pause_button;
@@ -66,6 +68,7 @@ private:
 	wxTextCtrl* _log;
 
 	bool _current_disable_timeline;
+	bool _current_disable_next_previous;
 
 	std::vector<SPL> _playlists;
 	boost::optional<int> _selected_playlist;

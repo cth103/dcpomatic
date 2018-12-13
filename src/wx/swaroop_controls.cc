@@ -44,6 +44,7 @@ SwaroopControls::SwaroopControls (wxWindow* parent, shared_ptr<FilmViewer> viewe
 	, _next_button (new Button(this, "Next"))
 	, _previous_button (new Button(this, "Previous"))
 	, _current_disable_timeline (false)
+	, _current_disable_next_previous (false)
 {
 	_button_sizer->Add (_play_button, 0, wxEXPAND);
 	_button_sizer->Add (_pause_button, 0, wxEXPAND);
@@ -144,6 +145,8 @@ SwaroopControls::setup_sensitivity ()
 	_pause_button->Enable (_viewer->playing());
 	_slider->Enable (!_current_disable_timeline);
 	_spl_view->Enable (!_viewer->playing());
+	_next_button->Enable (!_current_disable_next_previous && can_do_next());
+	_previous_button->Enable (!_current_disable_next_previous && can_do_previous());
 }
 
 void
@@ -159,10 +162,16 @@ SwaroopControls::stop_clicked ()
 	_viewer->seek (DCPTime(), true);
 }
 
+bool
+SwaroopControls::can_do_previous ()
+{
+	return _selected_playlist && (_selected_playlist_position - 1) >= 0;
+}
+
 void
 SwaroopControls::previous_clicked ()
 {
-	if (!_selected_playlist || (_selected_playlist_position - 1) < 0) {
+	if (!can_do_previous ()) {
 		return;
 	}
 
@@ -170,10 +179,16 @@ SwaroopControls::previous_clicked ()
 	update_current_content ();
 }
 
+bool
+SwaroopControls::can_do_next ()
+{
+	return _selected_playlist && (_selected_playlist_position + 1) < int(_playlists[*_selected_playlist].get().size());
+}
+
 void
 SwaroopControls::next_clicked ()
 {
-	if (!_selected_playlist || (_selected_playlist_position + 1) >= int(_playlists[*_selected_playlist].get().size())) {
+	if (!can_do_next ()) {
 		return;
 	}
 
@@ -311,7 +326,11 @@ SwaroopControls::update_current_content ()
 	DCPOMATIC_ASSERT (_selected_playlist);
 
 	_viewer->stop ();
-	_current_disable_timeline = _playlists[*_selected_playlist].get()[_selected_playlist_position].disable_timeline;
+
+	SPLEntry const & e = _playlists[*_selected_playlist].get()[_selected_playlist_position];
+	_current_disable_timeline = e.disable_timeline;
+	_current_disable_next_previous = e.skippable;
+
 	setup_sensitivity ();
 	reset_film ();
 	_viewer->start ();
