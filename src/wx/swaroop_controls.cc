@@ -41,11 +41,15 @@ SwaroopControls::SwaroopControls (wxWindow* parent, shared_ptr<FilmViewer> viewe
 	, _play_button (new Button(this, _("Play")))
 	, _pause_button (new Button(this, _("Pause")))
 	, _stop_button (new Button(this, _("Stop")))
+	, _next_button (new Button(this, "Next"))
+	, _previous_button (new Button(this, "Previous"))
 	, _current_disable_timeline (false)
 {
 	_button_sizer->Add (_play_button, 0, wxEXPAND);
 	_button_sizer->Add (_pause_button, 0, wxEXPAND);
 	_button_sizer->Add (_stop_button, 0, wxEXPAND);
+	_button_sizer->Add (_next_button, 0, wxEXPAND);
+	_button_sizer->Add (_previous_button, 0, wxEXPAND);
 
 	_spl_view = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
 	_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 740);
@@ -93,11 +97,13 @@ SwaroopControls::SwaroopControls (wxWindow* parent, shared_ptr<FilmViewer> viewe
 	_log = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(-1, 200), wxTE_READONLY | wxTE_MULTILINE);
 	_v_sizer->Add (_log, 0, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
-	_play_button->Bind  (wxEVT_BUTTON, boost::bind(&SwaroopControls::play_clicked,  this));
-	_pause_button->Bind (wxEVT_BUTTON, boost::bind(&SwaroopControls::pause_clicked, this));
-	_stop_button->Bind  (wxEVT_BUTTON, boost::bind(&SwaroopControls::stop_clicked,  this));
-	_spl_view->Bind     (wxEVT_LIST_ITEM_SELECTED,   boost::bind(&SwaroopControls::spl_selection_changed, this));
-	_spl_view->Bind     (wxEVT_LIST_ITEM_DESELECTED, boost::bind(&SwaroopControls::spl_selection_changed, this));
+	_play_button->Bind     (wxEVT_BUTTON, boost::bind(&SwaroopControls::play_clicked,  this));
+	_pause_button->Bind    (wxEVT_BUTTON, boost::bind(&SwaroopControls::pause_clicked, this));
+	_stop_button->Bind     (wxEVT_BUTTON, boost::bind(&SwaroopControls::stop_clicked,  this));
+	_next_button->Bind     (wxEVT_BUTTON, boost::bind(&SwaroopControls::next_clicked,  this));
+	_previous_button->Bind (wxEVT_BUTTON, boost::bind(&SwaroopControls::previous_clicked,  this));
+	_spl_view->Bind        (wxEVT_LIST_ITEM_SELECTED,   boost::bind(&SwaroopControls::spl_selection_changed, this));
+	_spl_view->Bind        (wxEVT_LIST_ITEM_DESELECTED, boost::bind(&SwaroopControls::spl_selection_changed, this));
 	_viewer->Finished.connect (boost::bind(&SwaroopControls::viewer_finished, this));
 	_refresh_spl_view->Bind (wxEVT_BUTTON, boost::bind(&SwaroopControls::update_playlist_directory, this));
 	_refresh_content_view->Bind (wxEVT_BUTTON, boost::bind(&ContentView::update, _content_view));
@@ -151,6 +157,28 @@ SwaroopControls::stop_clicked ()
 {
 	_viewer->stop ();
 	_viewer->seek (DCPTime(), true);
+}
+
+void
+SwaroopControls::previous_clicked ()
+{
+	if (!_selected_playlist || (_selected_playlist_position - 1) < 0) {
+		return;
+	}
+
+	_selected_playlist_position--;
+	update_current_content ();
+}
+
+void
+SwaroopControls::next_clicked ()
+{
+	if (!_selected_playlist || (_selected_playlist_position + 1) >= int(_playlists[*_selected_playlist].get().size())) {
+		return;
+	}
+
+	_selected_playlist_position++;
+	update_current_content ();
 }
 
 void
@@ -278,20 +306,23 @@ SwaroopControls::set_film (shared_ptr<Film> film)
 }
 
 void
+SwaroopControls::update_current_content ()
+{
+	DCPOMATIC_ASSERT (_selected_playlist);
+
+	_viewer->stop ();
+	_current_disable_timeline = _playlists[*_selected_playlist].get()[_selected_playlist_position].disable_timeline;
+	setup_sensitivity ();
+	reset_film ();
+	_viewer->start ();
+}
+
+void
 SwaroopControls::viewer_finished ()
 {
 	if (!_selected_playlist) {
 		return;
 	}
 
-	++_selected_playlist_position;
-
-	SPL const & playlist = _playlists[*_selected_playlist];
-
-	if (_selected_playlist_position < int(playlist.get().size())) {
-		_current_disable_timeline = playlist.get()[_selected_playlist_position].disable_timeline;
-		setup_sensitivity ();
-		reset_film ();
-		_viewer->start ();
-	}
+	next_clicked ();
 }

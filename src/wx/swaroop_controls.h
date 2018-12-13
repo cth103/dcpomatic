@@ -38,6 +38,8 @@ private:
 	void play_clicked ();
 	void pause_clicked ();
 	void stop_clicked ();
+	void next_clicked ();
+	void previous_clicked ();
 	void add_playlist_to_list (SPL spl);
 	void update_content_directory ();
 	void update_playlist_directory ();
@@ -48,10 +50,13 @@ private:
 	void config_changed (int);
 	void viewer_finished ();
 	void reset_film ();
+	void update_current_content ();
 
 	wxButton* _play_button;
 	wxButton* _pause_button;
 	wxButton* _stop_button;
+	wxButton* _next_button;
+	wxButton* _previous_button;
 
 	ContentView* _content_view;
 	wxButton* _refresh_content_view;
