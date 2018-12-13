@@ -98,7 +98,7 @@ SwaroopControls::SwaroopControls (wxWindow* parent, shared_ptr<FilmViewer> viewe
 	_stop_button->Bind  (wxEVT_BUTTON, boost::bind(&SwaroopControls::stop_clicked,  this));
 	_spl_view->Bind     (wxEVT_LIST_ITEM_SELECTED,   boost::bind(&SwaroopControls::spl_selection_changed, this));
 	_spl_view->Bind     (wxEVT_LIST_ITEM_DESELECTED, boost::bind(&SwaroopControls::spl_selection_changed, this));
-	_viewer->ImageChanged.connect (boost::bind(&SwaroopControls::image_changed, this, _1));
+	_viewer->Finished.connect (boost::bind(&SwaroopControls::viewer_finished, this));
 	_refresh_spl_view->Bind (wxEVT_BUTTON, boost::bind(&SwaroopControls::update_playlist_directory, this));
 	_refresh_content_view->Bind (wxEVT_BUTTON, boost::bind(&ContentView::update, _content_view));
 
@@ -135,9 +135,8 @@ SwaroopControls::setup_sensitivity ()
 	bool const active_job = _active_job && *_active_job != "examine_content";
 	bool const c = _film && !_film->content().empty() && !active_job;
 	_play_button->Enable (c && !_viewer->playing());
-	_pause_button->Enable (c && (!_current_kind || _current_kind != dcp::ADVERTISEMENT) && _viewer->playing());
-	_stop_button->Enable (c && (!_current_kind || _current_kind != dcp::ADVERTISEMENT));
-	_slider->Enable (c && (!_current_kind || _current_kind != dcp::ADVERTISEMENT) && !_current_disable_timeline);
+	_pause_button->Enable (_viewer->playing());
+	_slider->Enable (!_current_disable_timeline);
 	_spl_view->Enable (!_viewer->playing());
 }
 
@@ -165,45 +164,6 @@ SwaroopControls::log (wxString s)
 	strftime (buffer, 64, "%c", t);
 	wxString ts = std_to_wx(string(buffer)) + N_(": ");
 	_log->SetValue(_log->GetValue() + ts + s + "\n");
-}
-
-void
-SwaroopControls::image_changed (boost::weak_ptr<PlayerVideo> weak_pv)
-{
-	shared_ptr<PlayerVideo> pv = weak_pv.lock ();
-	if (!pv) {
-		return;
-	}
-
-	shared_ptr<Content> c = pv->content().lock();
-	if (!c) {
-		return;
-	}
-
-	if (c == _current_content.lock()) {
-		return;
-	}
-
-	_current_content = c;
-
-	if (_selected_playlist) {
-		BOOST_FOREACH (SPLEntry i, _playlists[*_selected_playlist].get()) {
-			if (i.content == c) {
-				_current_disable_timeline = i.disable_timeline;
-				setup_sensitivity ();
-			}
-		}
-	}
-
-	shared_ptr<DCPContent> dc = dynamic_pointer_cast<DCPContent> (c);
-	if (!dc) {
-		return;
-	}
-
-	if (!_current_kind || *_current_kind != dc->content_kind()) {
-		_current_kind = dc->content_kind ();
-		setup_sensitivity ();
-	}
 }
 
 void
@@ -266,21 +226,12 @@ SwaroopControls::spl_selection_changed ()
 		return;
 	}
 
-	wxProgressDialog* progress = new wxProgressDialog (_("DCP-o-matic"), _("Loading playlist"));
-
-	shared_ptr<Film> film (new Film(optional<boost::filesystem::path>()));
-	BOOST_FOREACH (SPLEntry i, _playlists[selected].get()) {
-		film->add_content (i.content);
-		if (!progress->Pulse()) {
-			/* user pressed cancel */
-			_selected_playlist = boost::none;
-			_spl_view->SetItemState (selected, 0, wxLIST_STATE_SELECTED);
-			progress->Destroy ();
-			return;
-		}
+	if (_playlists[selected].get().empty()) {
+		error_dialog (this, "This playlist is empty.");
+		return;
 	}
 
-	progress->Destroy ();
+
 	_current_spl_view->DeleteAllItems ();
 
 	int N = 0;
@@ -294,6 +245,16 @@ SwaroopControls::spl_selection_changed ()
 	}
 
 	_selected_playlist = selected;
+	_selected_playlist_position = 0;
+	reset_film ();
+}
+
+void
+SwaroopControls::reset_film ()
+{
+	DCPOMATIC_ASSERT (_selected_playlist);
+	shared_ptr<Film> film (new Film(optional<boost::filesystem::path>()));
+	film->add_content (_playlists[*_selected_playlist].get()[_selected_playlist_position].content);
 	ResetFilm (film);
 }
 
@@ -314,4 +275,23 @@ SwaroopControls::set_film (shared_ptr<Film> film)
 {
 	Controls::set_film (film);
 	setup_sensitivity ();
+}
+
+void
+SwaroopControls::viewer_finished ()
+{
+	if (!_selected_playlist) {
+		return;
+	}
+
+	++_selected_playlist_position;
+
+	SPL const & playlist = _playlists[*_selected_playlist];
+
+	if (_selected_playlist_position < int(playlist.get().size())) {
+		_current_disable_timeline = playlist.get()[_selected_playlist_position].disable_timeline;
+		setup_sensitivity ();
+		reset_film ();
+		_viewer->start ();
+	}
 }

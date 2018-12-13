@@ -121,6 +121,9 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	}
 
 	_film = film;
+	_video_position = DCPTime ();
+	_player_video.first.reset ();
+	_player_video.second = DCPTime ();
 
 	_frame.reset ();
 	_closed_captions_dialog->clear ();
@@ -295,6 +298,8 @@ FilmViewer::timer ()
 
 	if (next >= _film->length()) {
 		stop ();
+		Finished ();
+		return;
 	}
 
 	_timer.Start (max ((next.seconds() - time().seconds()) * 1000, 1.0), wxTIMER_ONE_SHOT);
