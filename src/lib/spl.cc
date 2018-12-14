@@ -35,6 +35,7 @@ SPL::read (boost::filesystem::path path, ContentStore* store)
 	_missing = false;
 	cxml::Document doc ("SPL");
 	doc.read_file (path);
+	_id = doc.string_child("Id");
 	BOOST_FOREACH (cxml::ConstNodePtr i, doc.node_children("Entry")) {
 		shared_ptr<Content> c = store->get(i->string_child("Digest"));
 		if (c) {
@@ -52,6 +53,7 @@ SPL::write (boost::filesystem::path path) const
 {
 	xmlpp::Document doc;
 	xmlpp::Element* root = doc.create_root_node ("SPL");
+	root->add_child("Id")->add_child_text (_id);
 	BOOST_FOREACH (SPLEntry i, _spl) {
 		i.as_xml (root->add_child("Entry"));
 	}

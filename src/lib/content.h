@@ -184,7 +184,7 @@ public:
 
 	std::string calculate_digest () const;
 
-	/* CHANGE_PENDING and CHANGE_CANCELLED may be emitted from any thread; CHANGE_DONE always from GUI thread */
+	/* CHANGE_TYPE_PENDING and CHANGE_TYPE_CANCELLED may be emitted from any thread; CHANGE_TYPE_DONE always from GUI thread */
 	boost::signals2::signal<void (ChangeType, boost::weak_ptr<Content>, int, bool)> Change;
 
 	boost::shared_ptr<VideoContent> video;

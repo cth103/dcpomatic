@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -23,6 +23,7 @@
 
 #include "util.h"
 #include "frame_rate_change.h"
+#include "atomicity_checker.h"
 #include <libcxml/cxml.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
@@ -90,6 +91,7 @@ private:
 	bool _sequence;
 	bool _sequencing;
 	std::list<boost::signals2::connection> _content_connections;
+	AtomicityChecker _checker;
 };
 
 #endif

@@ -22,6 +22,7 @@
 #define DCPOMATIC_SPL_H
 
 #include "spl_entry.h"
+#include <dcp/util.h>
 
 class ContentStore;
 
@@ -29,7 +30,8 @@ class SPL
 {
 public:
 	SPL ()
-		: _missing (false)
+		: _id (dcp::make_uuid())
+		, _missing (false)
 	{}
 
 	void add (SPLEntry e) {
@@ -55,6 +57,10 @@ public:
 	void read (boost::filesystem::path path, ContentStore* store);
 	void write (boost::filesystem::path path) const;
 
+	std::string id () const {
+		return _id;
+	}
+
 	std::string name () const {
 		return _name;
 	}
@@ -64,6 +70,7 @@ public:
 	}
 
 private:
+	std::string _id;
 	std::string _name;
 	std::vector<SPLEntry> _spl;
 	/** true if any content was missing when read() was last called on this SPL */

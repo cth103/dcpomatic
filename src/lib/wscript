@@ -24,6 +24,7 @@ sources = """
           active_text.cc
           analyse_audio_job.cc
           atmos_mxf_content.cc
+          atomicity_checker.cc
           audio_analysis.cc
           audio_buffers.cc
           audio_content.cc

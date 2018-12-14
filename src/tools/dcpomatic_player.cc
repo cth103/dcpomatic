@@ -186,9 +186,6 @@ public:
 		_viewer->Started.connect (bind(&DOMFrame::playback_started, this, _1));
 		_viewer->Seeked.connect (bind(&DOMFrame::playback_seeked, this, _1));
 		_viewer->Stopped.connect (bind(&DOMFrame::playback_stopped, this, _1));
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-		_viewer->PositionChanged.connect (bind(&DOMFrame::position_changed, this));
-#endif
 		_info = new PlayerInformation (_overall_panel, _viewer);
 		setup_main_sizer (Config::instance()->player_mode());
 #ifdef __WXOSX__
@@ -224,38 +221,8 @@ public:
 		setup_screen ();
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
-		if (
-			boost::filesystem::is_regular_file(Config::path("position")) &&
-			boost::filesystem::is_regular_file(Config::path("spl.xml"))) {
-
-			shared_ptr<Film> film (new Film(boost::optional<boost::filesystem::path>()));
-			film->read_metadata (Config::path("spl.xml"));
-			reset_film (film);
-			FILE* f = fopen_boost (Config::path("position"), "r");
-			if (f) {
-				char buffer[64];
-				fscanf (f, "%63s", buffer);
-				_viewer->seek (DCPTime(atoi(buffer)), true);
-				_viewer->start ();
-				fclose (f);
-			}
-		}
-
+		sc->check_restart ();
 #endif
-	}
-
-	void position_changed ()
-	{
-		if (!_viewer->playing() || _viewer->position().get() % DCPTime::HZ) {
-			return;
-		}
-
-		FILE* f = fopen_boost (Config::path("position"), "w");
-		if (f) {
-			string const p = dcp::raw_convert<string> (_viewer->position().get());
-			fwrite (p.c_str(), p.length(), 1, f);
-			fclose (f);
-		}
 	}
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
@@ -487,8 +454,6 @@ public:
 		if (type != CHANGE_TYPE_DONE || property != Film::CONTENT) {
 			return;
 		}
-
-		_film->write_metadata (Config::path("spl.xml"));
 
 		if (_viewer->playing ()) {
 			_viewer->stop ();

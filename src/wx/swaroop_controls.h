@@ -27,6 +27,7 @@ public:
 
 	void log (wxString s);
 	void set_film (boost::shared_ptr<Film> film);
+	void check_restart ();
 
 	/** This is so that we can tell our parent player to reset the film
 	    when we have created one from a SPL.  We could call a method
@@ -49,6 +50,7 @@ private:
 	void setup_sensitivity ();
 	void config_changed (int);
 	void viewer_finished ();
+	void viewer_position_changed ();
 	void reset_film ();
 	void update_current_content ();
 	bool can_do_previous ();

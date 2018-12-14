@@ -26,6 +26,8 @@
 #include "static_text.h"
 #include "lib/player_video.h"
 #include "lib/dcp_content.h"
+#include "lib/cross.h"
+#include <dcp/raw_convert.h>
 #include <wx/listctrl.h>
 #include <wx/progdlg.h>
 
@@ -106,11 +108,55 @@ SwaroopControls::SwaroopControls (wxWindow* parent, shared_ptr<FilmViewer> viewe
 	_spl_view->Bind        (wxEVT_LIST_ITEM_SELECTED,   boost::bind(&SwaroopControls::spl_selection_changed, this));
 	_spl_view->Bind        (wxEVT_LIST_ITEM_DESELECTED, boost::bind(&SwaroopControls::spl_selection_changed, this));
 	_viewer->Finished.connect (boost::bind(&SwaroopControls::viewer_finished, this));
+	_viewer->PositionChanged.connect (boost::bind(&SwaroopControls::viewer_position_changed, this));
 	_refresh_spl_view->Bind (wxEVT_BUTTON, boost::bind(&SwaroopControls::update_playlist_directory, this));
 	_refresh_content_view->Bind (wxEVT_BUTTON, boost::bind(&ContentView::update, _content_view));
 
 	_content_view->update ();
 	update_playlist_directory ();
+}
+
+void
+SwaroopControls::check_restart ()
+{
+	FILE* f = fopen_boost (Config::path("position"), "r");
+	if (!f) {
+		return;
+	}
+
+	char id[64];
+	int index;
+	int64_t time;
+	fscanf (f, "%63s %d %ld", id, &index, &time);
+
+	for (size_t i = 0; i < _playlists.size(); ++i) {
+		if (_playlists[i].id() == id) {
+			_selected_playlist = i;
+			_selected_playlist_position = index;
+			update_current_content ();
+			_viewer->seek (DCPTime(time), false);
+		}
+	}
+
+	fclose (f);
+}
+
+void
+SwaroopControls::viewer_position_changed ()
+{
+	if (!_selected_playlist || !_viewer->playing() || _viewer->position().get() % DCPTime::HZ) {
+		return;
+	}
+
+	FILE* f = fopen_boost (Config::path("position"), "w");
+	if (f) {
+		string const p = _playlists[*_selected_playlist].id()
+			+ " " + dcp::raw_convert<string>(_selected_playlist_position)
+			+ " " + dcp::raw_convert<string>(_viewer->position().get());
+
+		fwrite (p.c_str(), p.length(), 1, f);
+		fclose (f);
+	}
 }
 
 void
@@ -273,7 +319,6 @@ SwaroopControls::spl_selection_changed ()
 		error_dialog (this, "This playlist is empty.");
 		return;
 	}
-
 
 	_current_spl_view->DeleteAllItems ();
 
