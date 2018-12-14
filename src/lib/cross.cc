@@ -463,3 +463,14 @@ maybe_open_console ()
 	}
 }
 #endif
+
+boost::filesystem::path
+home_directory ()
+{
+#if defined(DCPOMATIC_LINUX) || defined(DCPOMATIC_OSX)
+		return getenv("HOME");
+#endif
+#ifdef DCPOMATIC_WINDOWS
+		return getenv("HOMEDRIVE") / getenv("HOMEPATH");
+#endif
+}

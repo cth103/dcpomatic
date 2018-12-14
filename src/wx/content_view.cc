@@ -70,8 +70,8 @@ ContentView::update ()
 	DeleteAllItems ();
 	_content.clear ();
 	optional<path> dir = Config::instance()->player_content_directory();
-	if (!dir) {
-		return;
+	if (!dir || !boost::filesystem::is_directory(*dir)) {
+		dir = home_directory ();
 	}
 
 	wxProgressDialog progress (_("DCP-o-matic"), _("Reading content directory"));
