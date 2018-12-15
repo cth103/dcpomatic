@@ -471,6 +471,6 @@ home_directory ()
 		return getenv("HOME");
 #endif
 #ifdef DCPOMATIC_WINDOWS
-		return getenv("HOMEDRIVE") / getenv("HOMEPATH");
+		return boost::filesystem::path(getenv("HOMEDRIVE")) / boost::filesystem::path(getenv("HOMEPATH"));
 #endif
 }
