@@ -313,7 +313,16 @@ private:
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	void background_image_changed ()
 	{
-		Config::instance()->set_player_background_image(wx_to_std(_background_image->GetPath()));
+		boost::filesystem::path const f = wx_to_std(_background_image->GetPath());
+		if (!boost::filesystem::is_regular_file(f) || !wxImage::CanRead(std_to_wx(f.string()))) {
+			error_dialog (0, _("Could not load image file."));
+			if (Config::instance()->player_background_image()) {
+				checked_set (_background_image, *Config::instance()->player_background_image());
+			}
+			return;
+		}
+
+		Config::instance()->set_player_background_image(f);
 	}
 #endif
 
