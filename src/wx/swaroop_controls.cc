@@ -46,7 +46,7 @@ SwaroopControls::SwaroopControls (wxWindow* parent, shared_ptr<FilmViewer> viewe
 	, _next_button (new Button(this, "Next"))
 	, _previous_button (new Button(this, "Previous"))
 	, _current_disable_timeline (false)
-	, _current_disable_next_previous (false)
+	, _current_disable_next (false)
 {
 	_button_sizer->Add (_previous_button, 0, wxEXPAND);
 	_button_sizer->Add (_play_button, 0, wxEXPAND);
@@ -191,8 +191,8 @@ SwaroopControls::setup_sensitivity ()
 	_pause_button->Enable (_viewer->playing());
 	_slider->Enable (!_current_disable_timeline);
 	_spl_view->Enable (!_viewer->playing());
-	_next_button->Enable (!_current_disable_next_previous && can_do_next());
-	_previous_button->Enable (!_current_disable_next_previous && can_do_previous());
+	_next_button->Enable (!_current_disable_next && can_do_next());
+	_previous_button->Enable (can_do_previous());
 }
 
 void
@@ -375,7 +375,7 @@ SwaroopControls::update_current_content ()
 
 	SPLEntry const & e = _playlists[*_selected_playlist].get()[_selected_playlist_position];
 	_current_disable_timeline = e.disable_timeline;
-	_current_disable_next_previous = !e.skippable;
+	_current_disable_next = !e.skippable;
 
 	setup_sensitivity ();
 	reset_film ();

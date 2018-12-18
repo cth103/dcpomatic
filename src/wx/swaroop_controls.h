@@ -70,7 +70,7 @@ private:
 	wxTextCtrl* _log;
 
 	bool _current_disable_timeline;
-	bool _current_disable_next_previous;
+	bool _current_disable_next;
 
 	std::vector<SPL> _playlists;
 	boost::optional<int> _selected_playlist;
