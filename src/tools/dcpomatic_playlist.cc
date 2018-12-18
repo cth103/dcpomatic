@@ -283,7 +283,9 @@ private:
 		wxString default_dir = c->player_playlist_directory() ? std_to_wx(c->player_playlist_directory()->string()) : wxString(wxEmptyString);
 		wxFileDialog* d = new wxFileDialog (this, _("Select playlist file"), default_dir, wxEmptyString, wxT("XML files (*.xml)|*.xml"), wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 		if (d->ShowModal() == wxID_OK) {
-			_playlist.write (wx_to_std(d->GetPath()));
+			boost::filesystem::path file = wx_to_std (d->GetPath());
+			file.replace_extension (".xml");
+			_playlist.write (file);
 		}
 	}
 
