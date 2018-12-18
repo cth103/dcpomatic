@@ -92,7 +92,7 @@ SwaroopControls::SwaroopControls (wxWindow* parent, shared_ptr<FilmViewer> viewe
 	_current_spl_view = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
 	_current_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 500);
 	_current_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 80);
-	e_sizer->Add (left_sizer, 0, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
+	e_sizer->Add (left_sizer, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 	e_sizer->Add (_current_spl_view, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
 	_v_sizer->Add (e_sizer, 1, wxEXPAND);
