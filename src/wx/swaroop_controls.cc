@@ -48,11 +48,11 @@ SwaroopControls::SwaroopControls (wxWindow* parent, shared_ptr<FilmViewer> viewe
 	, _current_disable_timeline (false)
 	, _current_disable_next_previous (false)
 {
+	_button_sizer->Add (_previous_button, 0, wxEXPAND);
 	_button_sizer->Add (_play_button, 0, wxEXPAND);
 	_button_sizer->Add (_pause_button, 0, wxEXPAND);
 	_button_sizer->Add (_stop_button, 0, wxEXPAND);
 	_button_sizer->Add (_next_button, 0, wxEXPAND);
-	_button_sizer->Add (_previous_button, 0, wxEXPAND);
 
 	_spl_view = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
 	_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 740);
