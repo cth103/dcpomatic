@@ -405,5 +405,10 @@ SwaroopControls::viewer_finished ()
 		return;
 	}
 
-	next_clicked ();
+	_selected_playlist_position++;
+	if (_selected_playlist_position < int(_playlists[*_selected_playlist].get().size())) {
+		update_current_content ();
+	} else {
+		ResetFilm (shared_ptr<Film>(new Film(optional<boost::filesystem::path>())));
+	}
 }
