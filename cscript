@@ -183,7 +183,7 @@ deb_depends['unstable'].extend(['libboost-filesystem1.62.0',
                                 'libicu57',
                                 'libnettle6',
                                 'libx264-148',
-                                'libcurl3'])
+                                'libcurl4'])
 
 def packages(name, packages, f):
     s = '%s: ' % name
