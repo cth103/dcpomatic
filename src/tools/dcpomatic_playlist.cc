@@ -45,7 +45,7 @@ using boost::dynamic_pointer_cast;
 class ContentDialog : public wxDialog, public ContentStore
 {
 public:
-	ContentDialog (wxWindow* parent, weak_ptr<Film> film)
+	ContentDialog (wxWindow* parent)
 		: wxDialog (parent, wxID_ANY, _("Add content"), wxDefaultPosition, wxSize(800, 640))
 		, _content_view (new ContentView(this))
 	{
@@ -83,9 +83,7 @@ class DOMFrame : public wxFrame
 public:
 	explicit DOMFrame (wxString const & title)
 		: wxFrame (0, -1, title)
-		/* XXX: this is a bit of a hack, but we need it to be able to use the Content class hierarchy */
-		, _film (new Film(optional<boost::filesystem::path>()))
-		, _content_dialog (new ContentDialog(this, _film))
+		, _content_dialog (new ContentDialog(this))
 	{
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
@@ -313,7 +311,6 @@ private:
 	wxButton* _remove;
 	wxButton* _save;
 	wxButton* _load;
-	boost::shared_ptr<Film> _film;
 	SPL _playlist;
 	ContentDialog* _content_dialog;
 
