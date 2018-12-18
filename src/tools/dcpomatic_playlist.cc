@@ -161,7 +161,6 @@ private:
 		item.SetId (_list->GetItemCount());
 		long const N = _list->InsertItem (item);
 		set_item (N, e);
-		_playlist.add (e);
 	}
 
 	void selection_changed ()
@@ -230,7 +229,9 @@ private:
 		if (r == wxID_OK) {
 			shared_ptr<Content> content = _content_dialog->selected ();
 			if (content) {
-				add (SPLEntry(content));
+				SPLEntry e (content);
+				add (e);
+				_playlist.add (e);
 			}
 		}
 	}
@@ -295,6 +296,7 @@ private:
 			_list->DeleteAllItems ();
 			_playlist.read (wx_to_std(d->GetPath()), _content_dialog);
 			if (!_playlist.missing()) {
+				_list->DeleteAllItems ();
 				BOOST_FOREACH (SPLEntry i, _playlist.get()) {
 					add (i);
 				}
