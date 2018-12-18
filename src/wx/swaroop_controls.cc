@@ -335,6 +335,7 @@ SwaroopControls::spl_selection_changed ()
 	_selected_playlist = selected;
 	_selected_playlist_position = 0;
 	reset_film ();
+	update_current_content ();
 }
 
 void
@@ -370,7 +371,7 @@ SwaroopControls::update_current_content ()
 {
 	DCPOMATIC_ASSERT (_selected_playlist);
 
-	_viewer->stop ();
+	bool const was_playing = _viewer->stop ();
 
 	SPLEntry const & e = _playlists[*_selected_playlist].get()[_selected_playlist_position];
 	_current_disable_timeline = e.disable_timeline;
@@ -378,7 +379,9 @@ SwaroopControls::update_current_content ()
 
 	setup_sensitivity ();
 	reset_film ();
-	_viewer->start ();
+	if (was_playing) {
+		_viewer->start ();
+	}
 }
 
 void
