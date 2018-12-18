@@ -34,6 +34,7 @@
 using std::string;
 using std::cout;
 using std::exception;
+using std::sort;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
@@ -271,6 +272,13 @@ SwaroopControls::add_playlist_to_list (SPL spl)
 	_spl_view->InsertItem (it);
 }
 
+struct SPLComparator
+{
+	bool operator() (SPL const & a, SPL const & b) {
+		return a.name() < b.name();
+	}
+};
+
 void
 SwaroopControls::update_playlist_directory ()
 {
@@ -290,12 +298,18 @@ SwaroopControls::update_playlist_directory ()
 				SPL spl;
 				spl.read (i->path(), _content_view);
 				_playlists.push_back (spl);
-				add_playlist_to_list (spl);
 			}
 		} catch (exception& e) {
 			/* Never mind */
 		}
 	}
+
+	sort (_playlists.begin(), _playlists.end(), SPLComparator());
+	for (SPL i: _playlists) {
+		add_playlist_to_list (i);
+	}
+
+	_selected_playlist = boost::none;
 }
 
 void
