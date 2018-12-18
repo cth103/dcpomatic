@@ -375,7 +375,7 @@ SwaroopControls::update_current_content ()
 
 	SPLEntry const & e = _playlists[*_selected_playlist].get()[_selected_playlist_position];
 	_current_disable_timeline = e.disable_timeline;
-	_current_disable_next_previous = e.skippable;
+	_current_disable_next_previous = !e.skippable;
 
 	setup_sensitivity ();
 	reset_film ();
