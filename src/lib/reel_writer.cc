@@ -154,11 +154,11 @@ ReelWriter::read_frame_info (FILE* file, Frame frame, Eyes eyes) const
 {
 	dcp::FrameInfo info;
 	dcpomatic_fseek (file, frame_info_position (frame, eyes), SEEK_SET);
-	fread (&info.offset, sizeof (info.offset), 1, file);
-	fread (&info.size, sizeof (info.size), 1, file);
+	checked_fread (&info.offset, sizeof(info.offset), file, _film->info_file(_period));
+	checked_fread (&info.size, sizeof(info.size), file, _film->info_file(_period));
 
 	char hash_buffer[33];
-	fread (hash_buffer, 1, 32, file);
+	checked_fread (hash_buffer, 32, file, _film->info_file(_period));
 	hash_buffer[32] = '\0';
 	info.hash = hash_buffer;
 

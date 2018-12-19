@@ -98,5 +98,6 @@ extern std::string careful_string_filter (std::string);
 extern std::pair<int, int> audio_channel_types (std::list<int> mapped, int channels);
 extern boost::shared_ptr<AudioBuffers> remap (boost::shared_ptr<const AudioBuffers> input, int output_channels, AudioMapping map);
 extern Eyes increment_eyes (Eyes e);
+extern void checked_fread (void* ptr, size_t size, FILE* stream, boost::filesystem::path path);
 
 #endif

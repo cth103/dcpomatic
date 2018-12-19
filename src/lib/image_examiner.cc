@@ -53,7 +53,7 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 			throw FileError ("Could not open file for reading", path);
 		}
 		uint8_t* buffer = new uint8_t[size];
-		fread (buffer, 1, size, f);
+		checked_fread (buffer, size, f, path);
 		fclose (f);
 		try {
 			_video_size = dcp::decompress_j2k (buffer, size, 0)->size ();

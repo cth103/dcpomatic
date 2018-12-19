@@ -444,7 +444,7 @@ digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 		}
 
 		boost::uintmax_t this_time = min (to_do, boost::filesystem::file_size (files[i]));
-		fread (p, 1, this_time, f);
+		checked_fread (p, this_time, f, files[i]);
 		p += this_time;
  		to_do -= this_time;
 		fclose (f);
@@ -465,7 +465,7 @@ digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 
 		boost::uintmax_t this_time = min (to_do, boost::filesystem::file_size (files[i]));
 		dcpomatic_fseek (f, -this_time, SEEK_END);
-		fread (p, 1, this_time, f);
+		checked_fread (p, this_time, f, files[i]);
 		p += this_time;
 		to_do -= this_time;
 		fclose (f);
@@ -781,4 +781,17 @@ increment_eyes (Eyes e)
 	}
 
 	return EYES_LEFT;
+}
+
+void
+checked_fread (void* ptr, size_t size, FILE* stream, boost::filesystem::path path)
+{
+	size_t N = fread (ptr, 1, size, stream);
+	if (N != size) {
+		if (ferror(stream)) {
+			throw FileError (String::compose("fread error %1", errno), path);
+		} else {
+			throw FileError ("Unexpected short read", path);
+		}
+	}
 }
