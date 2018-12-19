@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -22,11 +22,12 @@
  *  @brief FileGroup class.
  */
 
-#include <cstdio>
-#include <sndfile.h>
 #include "file_group.h"
 #include "exceptions.h"
 #include "cross.h"
+#include "compose.hpp"
+#include <sndfile.h>
+#include <cstdio>
 #include <iostream>
 
 using std::vector;
@@ -147,7 +148,7 @@ FileGroup::seek (int64_t pos, int whence) const
 /** Try to read some data from the current position into a buffer.
  *  @param buffer Buffer to write data into.
  *  @param amount Number of bytes to read.
- *  @return Number of bytes read, or -1 in the case of error.
+ *  @return Number of bytes read.
  */
 int
 FileGroup::read (uint8_t* buffer, int amount) const
@@ -161,11 +162,17 @@ FileGroup::read (uint8_t* buffer, int amount) const
 			break;
 		}
 
-		/* See if there is another file to use */
-		if ((_current_path + 1) >= _paths.size()) {
-			break;
+		if (ferror(_current_file) && errno != EAGAIN) {
+			throw FileError (String::compose("fread error %1", errno), _paths[_current_path]);
 		}
-		ensure_open_path (_current_path + 1);
+
+		if (feof (_current_file)) {
+			/* See if there is another file to use */
+			if ((_current_path + 1) >= _paths.size()) {
+				break;
+			}
+			ensure_open_path (_current_path + 1);
+		}
 	}
 
 	return read;
