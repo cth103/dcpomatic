@@ -162,7 +162,7 @@ FileGroup::read (uint8_t* buffer, int amount) const
 			break;
 		}
 
-		if (ferror(_current_file) && errno != EAGAIN) {
+		if (ferror(_current_file)) {
 			throw FileError (String::compose("fread error %1", errno), _paths[_current_path]);
 		}
 
