@@ -1505,6 +1505,7 @@ Film::reels () const
 		DCPTime current;
 		/* Integer-divide reel length by the size of one frame to give the number of frames per reel */
 		Frame const reel_in_frames = _reel_length / ((j2k_bandwidth() / video_frame_rate()) / 8);
+		LOG_GENERAL ("Reel length is %1, J2K bandwidth %2, frame rate %3, frames per reel %4", _reel_length, j2k_bandwidth(), video_frame_rate(), reel_in_frames);
 		while (current < len) {
 			DCPTime end = min (len, current + DCPTime::from_frames (reel_in_frames, video_frame_rate ()));
 			p.push_back (DCPTimePeriod (current, end));
