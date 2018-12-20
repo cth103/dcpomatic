@@ -305,7 +305,7 @@ SwaroopControls::update_playlist_directory ()
 	}
 
 	sort (_playlists.begin(), _playlists.end(), SPLComparator());
-	for (SPL i: _playlists) {
+	BOOST_FOREACH (SPL i, _playlists) {
 		add_playlist_to_list (i);
 	}
 
