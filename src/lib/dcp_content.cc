@@ -191,7 +191,6 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	ChangeSignaller<Content> cc_assets (this, DCPContentProperty::NEEDS_ASSETS);
 	ChangeSignaller<Content> cc_kdm (this, DCPContentProperty::NEEDS_KDM);
 	ChangeSignaller<Content> cc_name (this, DCPContentProperty::NAME);
-	ChangeSignaller<Content> cc_streams (this, AudioContentProperty::STREAMS);
 
 	if (job) {
 		job->set_progress_unknown ();
@@ -210,7 +209,6 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	}
 
 	if (examiner->has_audio()) {
-		ChangeSignaller<Content> cc (this, AudioContentProperty::STREAMS);
 		{
 			boost::mutex::scoped_lock lm (_mutex);
 			audio.reset (new AudioContent (this));
