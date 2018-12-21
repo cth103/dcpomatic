@@ -20,6 +20,8 @@
 
 #include "controls.h"
 
+class DCPContent;
+
 class SwaroopControls : public Controls
 {
 public:
@@ -55,6 +57,9 @@ private:
 	void update_current_content ();
 	bool can_do_previous ();
 	bool can_do_next ();
+
+	boost::optional<dcp::EncryptedKDM> get_kdm_from_url (boost::shared_ptr<DCPContent> dcp);
+	boost::optional<dcp::EncryptedKDM> get_kdm_from_directory (boost::shared_ptr<DCPContent> dcp);
 
 	wxButton* _play_button;
 	wxButton* _pause_button;

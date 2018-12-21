@@ -27,6 +27,8 @@
 #include "lib/player_video.h"
 #include "lib/dcp_content.h"
 #include "lib/cross.h"
+#include "lib/scoped_temporary.h"
+#include "lib/internet.h"
 #include <dcp/raw_convert.h>
 #include <wx/listctrl.h>
 #include <wx/progdlg.h>
@@ -317,6 +319,49 @@ SwaroopControls::update_playlist_directory ()
 	_selected_playlist = boost::none;
 }
 
+optional<dcp::EncryptedKDM>
+SwaroopControls::get_kdm_from_url (shared_ptr<DCPContent> dcp)
+{
+	ScopedTemporary temp;
+	string url = Config::instance()->kdm_server_url();
+	boost::algorithm::replace_all (url, "{CPL}", *dcp->cpl());
+	optional<dcp::EncryptedKDM> kdm;
+	if (dcp->cpl() && !get_from_url(url, false, temp)) {
+		try {
+			kdm = dcp::EncryptedKDM (dcp::file_to_string(temp.file()));
+			if (kdm->cpl_id() != dcp->cpl()) {
+				kdm = boost::none;
+			}
+		} catch (std::exception& e) {
+			/* Hey well */
+		}
+	}
+	return kdm;
+}
+
+optional<dcp::EncryptedKDM>
+SwaroopControls::get_kdm_from_directory (shared_ptr<DCPContent> dcp)
+{
+	using namespace boost::filesystem;
+	optional<path> kdm_dir = Config::instance()->player_kdm_directory();
+	if (!kdm_dir) {
+		return optional<dcp::EncryptedKDM>();
+	}
+	for (directory_iterator i = directory_iterator(*kdm_dir); i != directory_iterator(); ++i) {
+		try {
+			if (file_size(i->path()) < MAX_KDM_SIZE) {
+				dcp::EncryptedKDM kdm (dcp::file_to_string(i->path()));
+				if (kdm.cpl_id() == dcp->cpl()) {
+					return kdm;
+				}
+			}
+		} catch (std::exception& e) {
+			/* Hey well */
+		}
+	}
+	return optional<dcp::EncryptedKDM>();
+}
+
 void
 SwaroopControls::spl_selection_changed ()
 {
@@ -341,6 +386,28 @@ SwaroopControls::spl_selection_changed ()
 
 	wxProgressDialog dialog (_("DCP-o-matic"), "Loading playlist");
  	dialog.Pulse ();
+
+	BOOST_FOREACH (SPLEntry const & i, _playlists[selected].get()) {
+		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (i.content);
+		if (dcp && dcp->needs_kdm()) {
+			optional<dcp::EncryptedKDM> kdm;
+			kdm = get_kdm_from_url (dcp);
+			if (!kdm) {
+				kdm = get_kdm_from_directory (dcp);
+			}
+			if (kdm) {
+				dcp->add_kdm (*kdm);
+				dcp->examine (_film, shared_ptr<Job>());
+			}
+			if (dcp->needs_kdm()) {
+				/* We didn't get a KDM for this */
+				error_dialog (this, "This playlist cannot be loaded as a KDM is missing.");
+				_selected_playlist = boost::none;
+				_spl_view->SetItemState (selected, 0, wxLIST_STATE_SELECTED);
+				return;
+			}
+		}
+	}
 
 	_current_spl_view->DeleteAllItems ();
 
