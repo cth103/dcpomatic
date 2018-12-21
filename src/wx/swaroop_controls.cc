@@ -339,6 +339,9 @@ SwaroopControls::spl_selection_changed ()
 		return;
 	}
 
+	wxProgressDialog dialog (_("DCP-o-matic"), "Loading playlist");
+ 	dialog.Pulse ();
+
 	_current_spl_view->DeleteAllItems ();
 
 	int N = 0;
@@ -353,7 +356,9 @@ SwaroopControls::spl_selection_changed ()
 
 	_selected_playlist = selected;
 	_selected_playlist_position = 0;
+ 	dialog.Pulse ();
 	reset_film ();
+ 	dialog.Pulse ();
 	update_current_content ();
 }
 
