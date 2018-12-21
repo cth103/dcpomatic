@@ -395,11 +395,14 @@ SwaroopControls::update_current_content ()
 {
 	DCPOMATIC_ASSERT (_selected_playlist);
 
+	wxProgressDialog dialog (_("DCP-o-matic"), "Loading content");
+
 	SPLEntry const & e = _playlists[*_selected_playlist].get()[_selected_playlist_position];
 	_current_disable_timeline = e.disable_timeline;
 	_current_disable_next = !e.skippable;
 
 	setup_sensitivity ();
+	dialog.Pulse ();
 	reset_film ();
 }
 
