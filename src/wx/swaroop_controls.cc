@@ -136,6 +136,7 @@ SwaroopControls::check_restart ()
 			_selected_playlist_position = index;
 			update_current_content ();
 			_viewer->seek (DCPTime(time), false);
+			_viewer->start ();
 		}
 	}
 
@@ -207,6 +208,10 @@ SwaroopControls::stop_clicked ()
 {
 	_viewer->stop ();
 	_viewer->seek (DCPTime(), true);
+	if (_selected_playlist) {
+		_selected_playlist_position = 0;
+		update_current_content ();
+	}
 }
 
 bool
@@ -385,17 +390,12 @@ SwaroopControls::update_current_content ()
 {
 	DCPOMATIC_ASSERT (_selected_playlist);
 
-	bool const was_playing = _viewer->stop ();
-
 	SPLEntry const & e = _playlists[*_selected_playlist].get()[_selected_playlist_position];
 	_current_disable_timeline = e.disable_timeline;
 	_current_disable_next = !e.skippable;
 
 	setup_sensitivity ();
 	reset_film ();
-	if (was_playing) {
-		_viewer->start ();
-	}
 }
 
 void
@@ -405,9 +405,14 @@ SwaroopControls::viewer_finished ()
 		return;
 	}
 
+	bool const stop = _playlists[*_selected_playlist].get()[_selected_playlist_position].stop_after_play;
+
 	_selected_playlist_position++;
 	if (_selected_playlist_position < int(_playlists[*_selected_playlist].get().size())) {
 		update_current_content ();
+		if (!stop) {
+			_viewer->start ();
+		}
 	} else {
 		ResetFilm (shared_ptr<Film>(new Film(optional<boost::filesystem::path>())));
 	}
