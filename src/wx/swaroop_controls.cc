@@ -384,10 +384,10 @@ SwaroopControls::spl_selection_changed ()
 		return;
 	}
 
-	wxProgressDialog dialog (_("DCP-o-matic"), "Loading playlist");
- 	dialog.Pulse ();
+	wxProgressDialog dialog (_("DCP-o-matic"), "Loading playlist and KDMs");
 
 	BOOST_FOREACH (SPLEntry const & i, _playlists[selected].get()) {
+		dialog.Pulse ();
 		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (i.content);
 		if (dcp && dcp->needs_kdm()) {
 			optional<dcp::EncryptedKDM> kdm;
