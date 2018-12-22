@@ -113,7 +113,6 @@ sources = """
           standard_controls.cc
           static_text.cc
           subtitle_appearance_dialog.cc
-          swaroop_controls.cc
           system_font_dialog.cc
           table_dialog.cc
           templates_dialog.cc
@@ -250,7 +249,10 @@ def build(bld):
     if bld.env.TARGET_OSX:
         obj.framework = ['CoreAudio']
     obj.use = 'libdcpomatic2'
-    obj.source = sources
+    if bld.env.VARIANT == 'swaroop':
+        obj.source = sources + " swaroop_controls.cc"
+    else:
+        obj.source = sources
     obj.target = 'dcpomatic2-wx'
 
     i18n.po_to_mo(os.path.join('src', 'wx'), 'libdcpomatic2-wx', bld)
