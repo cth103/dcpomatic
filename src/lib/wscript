@@ -52,6 +52,7 @@ sources = """
           content.cc
           content_factory.cc
           cross.cc
+          crypto.cc
           curl_uploader.cc
           dcp.cc
           dcp_content.cc

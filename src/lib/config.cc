@@ -771,7 +771,18 @@ Config::write_config () const
 	BOOST_FOREACH (dcp::Certificate const & i, _signer_chain->unordered()) {
 		signer->add_child("Certificate")->add_child_text (i.certificate (true));
 	}
+#ifdef DCPOMATIC_SWAROOP
+	FILE* f = fopen_boost (path("private"), "wb");
+	if (!f) {
+		throw FileError ("Could not open file for writing", path("private"));
+	}
+	shared_array<uint8_t> iv = dcpomatic::random_iv ();
+	dcp::Data encrypted_key = dcpomatic::encrypt (_signer_chain->key().get(), key, iv);
+	fwrite (encrypted_key.data().get(), encrypted_key.data().size(), 1, f);
+	fclose (f);
+#else	
 	signer->add_child("PrivateKey")->add_child_text (_signer_chain->key().get ());
+#endif	
 
 	/* [XML] Decryption Certificate chain and private key to use when decrypting KDMs */
 	xmlpp::Element* decryption = root->add_child ("Decryption");

@@ -44,6 +44,14 @@ public:
 	{}
 };
 
+class CryptoError : public std::runtime_error
+{
+public:
+	explicit CryptoError (std::string s)
+		: std::runtime_error (s)
+	{}
+};
+
 /** @class EncodeError
  *  @brief A low-level problem with an encoder.
  */
