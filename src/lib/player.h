@@ -92,7 +92,7 @@ public:
 
 	/** Emitted when a video frame is ready.  These emissions happen in the correct order. */
 	boost::signals2::signal<void (boost::shared_ptr<PlayerVideo>, DCPTime)> Video;
-	boost::signals2::signal<void (boost::shared_ptr<AudioBuffers>, DCPTime)> Audio;
+	boost::signals2::signal<void (boost::shared_ptr<AudioBuffers>, DCPTime, int)> Audio;
 	/** Emitted when a text is ready.  This signal may be emitted considerably
 	 *  after the corresponding Video.
 	 */

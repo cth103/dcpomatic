@@ -1099,7 +1099,7 @@ Player::emit_audio (shared_ptr<AudioBuffers> data, DCPTime time)
 
 	/* This audio must follow on from the previous */
 	DCPOMATIC_ASSERT (!_last_audio_time || time == *_last_audio_time);
-	Audio (data, time);
+	Audio (data, time, _film->audio_frame_rate());
 	_last_audio_time = time + DCPTime::from_frames (data->frames(), _film->audio_frame_rate());
 }
 

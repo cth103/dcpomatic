@@ -76,7 +76,7 @@ Butler::Butler (
 	, _fast (fast)
 {
 	_player_video_connection = _player->Video.connect (bind (&Butler::video, this, _1, _2));
-	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1, _2));
+	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1, _2, _3));
 	_player_text_connection = _player->Text.connect (bind (&Butler::text, this, _1, _2, _3, _4));
 	/* The butler must hear about things first, otherwise it might not sort out suspensions in time for
 	   get_video() to be called in response to this signal.
@@ -296,7 +296,7 @@ Butler::video (shared_ptr<PlayerVideo> video, DCPTime time)
 }
 
 void
-Butler::audio (shared_ptr<AudioBuffers> audio, DCPTime time)
+Butler::audio (shared_ptr<AudioBuffers> audio, DCPTime time, int frame_rate)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -307,7 +307,7 @@ Butler::audio (shared_ptr<AudioBuffers> audio, DCPTime time)
 	}
 
 	boost::mutex::scoped_lock lm2 (_buffers_mutex);
-	_audio.put (remap (audio, _audio_channels, _audio_mapping), time);
+	_audio.put (remap (audio, _audio_channels, _audio_mapping), time, frame_rate);
 }
 
 /** Try to get `frames' frames of audio and copy it into `out'.  Silence

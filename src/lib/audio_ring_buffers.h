@@ -33,7 +33,7 @@ class AudioRingBuffers : public boost::noncopyable
 public:
 	AudioRingBuffers ();
 
-	void put (boost::shared_ptr<const AudioBuffers> data, DCPTime time);
+	void put (boost::shared_ptr<const AudioBuffers> data, DCPTime time, int frame_rate);
 	boost::optional<DCPTime> get (float* out, int channels, int frames);
 
 	void clear ();

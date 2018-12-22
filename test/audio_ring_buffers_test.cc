@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE (audio_ring_buffers_test1)
 			data->data(j)[i] = value++;
 		}
 	}
-	rb.put (data, DCPTime());
+	rb.put (data, DCPTime(), 48000);
 	BOOST_CHECK_EQUAL (rb.size(), 91);
 
 	/* Get part of it out */
@@ -105,7 +105,7 @@ BOOST_AUTO_TEST_CASE (audio_ring_buffers_test2)
 			data->data(j)[i] = value++;
 		}
 	}
-	rb.put (data, DCPTime());
+	rb.put (data, DCPTime(), 48000);
 	BOOST_CHECK_EQUAL (rb.size(), 91);
 
 	/* Get part of it out */
@@ -157,7 +157,7 @@ BOOST_AUTO_TEST_CASE (audio_ring_buffers_test3)
 			data->data(j)[i] = value++;
 		}
 	}
-	rb.put (data, DCPTime ());
+	rb.put (data, DCPTime(), 48000);
 	BOOST_CHECK_EQUAL (rb.size(), 91);
 
 	/* Get part of it out */
