@@ -32,6 +32,7 @@
 #include "film.h"
 #include "dkdm_wrapper.h"
 #include "compose.hpp"
+#include "crypto.h"
 #include <dcp/raw_convert.h>
 #include <dcp/name_format.h>
 #include <dcp/certificate_chain.h>
@@ -61,6 +62,7 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 using boost::algorithm::trim;
+using boost::shared_array;
 using dcp::raw_convert;
 
 Config* Config::_instance = 0;
@@ -435,7 +437,19 @@ try
 		BOOST_FOREACH (cxml::NodePtr i, decryption->node_children ("Certificate")) {
 			c->add (dcp::Certificate (i->content ()));
 		}
-		c->set_key (decryption->string_child ("PrivateKey"));
+		optional<string> key = decryption->optional_string_child ("PrivateKey");
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+		if (key) {
+			c->set_key (*key);
+		} else {
+			dcp::Data encrypted_key (path("private"));
+			dcp::Data iv (path("iv"));
+			c->set_key (dcpomatic::decrypt (encrypted_key, key_from_uuid(), iv));
+		}
+#else
+		DCPOMATIC_ASSERT (key);
+		c->set_key (*key);
+#endif
 		_decryption_chain = c;
 	} else {
 		_decryption_chain = create_certificate_chain ();
@@ -598,6 +612,19 @@ Config::write () const
 	write_config ();
 	write_cinemas ();
 }
+
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+/* Make up a key from the machine UUID */
+dcp::Data
+Config::key_from_uuid () const
+{
+	dcp::Data key (dcpomatic::crypto_key_length());
+	memset (key.data().get(), 0, key.size());
+	string const magic = command_and_read ("dcpomatic2_uuid");
+	strncpy ((char *) key.data().get(), magic.c_str(), dcpomatic::crypto_key_length());
+	return key;
+}
+#endif
 
 void
 Config::write_config () const
@@ -771,18 +798,7 @@ Config::write_config () const
 	BOOST_FOREACH (dcp::Certificate const & i, _signer_chain->unordered()) {
 		signer->add_child("Certificate")->add_child_text (i.certificate (true));
 	}
-#ifdef DCPOMATIC_SWAROOP
-	FILE* f = fopen_boost (path("private"), "wb");
-	if (!f) {
-		throw FileError ("Could not open file for writing", path("private"));
-	}
-	shared_array<uint8_t> iv = dcpomatic::random_iv ();
-	dcp::Data encrypted_key = dcpomatic::encrypt (_signer_chain->key().get(), key, iv);
-	fwrite (encrypted_key.data().get(), encrypted_key.data().size(), 1, f);
-	fclose (f);
-#else	
 	signer->add_child("PrivateKey")->add_child_text (_signer_chain->key().get ());
-#endif	
 
 	/* [XML] Decryption Certificate chain and private key to use when decrypting KDMs */
 	xmlpp::Element* decryption = root->add_child ("Decryption");
@@ -790,7 +806,14 @@ Config::write_config () const
 	BOOST_FOREACH (dcp::Certificate const & i, _decryption_chain->unordered()) {
 		decryption->add_child("Certificate")->add_child_text (i.certificate (true));
 	}
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	dcp::Data iv = dcpomatic::random_iv ();
+	dcp::Data encrypted_key = dcpomatic::encrypt (_decryption_chain->key().get(), key_from_uuid(), iv);
+	encrypted_key.write (path("private"));
+	iv.write (path("iv"));
+#else
 	decryption->add_child("PrivateKey")->add_child_text (_decryption_chain->key().get ());
+#endif
 
 	/* [XML] History Filename of DCP to present in the <guilabel>File</guilabel> menu of the GUI; there can be more than one
 	   of these tags.

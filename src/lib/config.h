@@ -1083,6 +1083,9 @@ private:
 	boost::filesystem::path directory_or (boost::optional<boost::filesystem::path> dir, boost::filesystem::path a) const;
 	void add_to_history_internal (std::vector<boost::filesystem::path>& h, boost::filesystem::path p);
 	void backup ();
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	dcp::Data key_from_uuid () const;
+#endif
 
 	template <class T>
 	void maybe_set (T& member, T new_value, Property prop = OTHER) {

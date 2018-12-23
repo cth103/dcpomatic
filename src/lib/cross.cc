@@ -474,3 +474,30 @@ home_directory ()
 		return boost::filesystem::path(getenv("HOMEDRIVE")) / boost::filesystem::path(getenv("HOMEPATH"));
 #endif
 }
+
+string
+command_and_read (string cmd)
+{
+#ifdef DCPOMATIC_LINUX
+	FILE* pipe = popen (cmd.c_str(), "r");
+	if (!pipe) {
+		throw runtime_error ("popen failed");
+	}
+
+	string result;
+	char buffer[128];
+	try {
+		while (fgets(buffer, sizeof(buffer), pipe)) {
+			result += buffer;
+		}
+	} catch (...) {
+		pclose (pipe);
+		throw;
+	}
+
+	pclose (pipe);
+	return result;
+#endif
+
+	return "";
+}

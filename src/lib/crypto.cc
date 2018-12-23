@@ -35,24 +35,24 @@ using namespace dcpomatic;
 /** The cipher that this code uses */
 #define CIPHER EVP_aes_256_cbc()
 
-shared_array<unsigned char>
+dcp::Data
 dcpomatic::random_iv ()
 {
 	EVP_CIPHER const * cipher = CIPHER;
-	shared_array<unsigned char> iv (new unsigned char[EVP_CIPHER_iv_length(cipher)]);
-	RAND_bytes (iv.get(), EVP_CIPHER_iv_length(cipher));
+	dcp::Data iv (EVP_CIPHER_iv_length(cipher));
+	RAND_bytes (iv.data().get(), iv.size());
 	return iv;
 }
 	
 dcp::Data
-dcpomatic::encrypt (string plaintext, shared_array<unsigned char const> key, shared_array<unsigned char const> iv)
+dcpomatic::encrypt (string plaintext, dcp::Data key, dcp::Data iv)
 {
 	EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new ();
 	if (!ctx) {
 		throw CryptoError ("could not create cipher context");
 	}
 
-	int r = EVP_EncryptInit_ex (ctx, CIPHER, 0, key.get(), iv.get());
+	int r = EVP_EncryptInit_ex (ctx, CIPHER, 0, key.data().get(), iv.data().get());
 	if (r != 1) {
 		throw CryptoError ("could not initialise cipher context for encryption");
 	}
@@ -60,7 +60,7 @@ dcpomatic::encrypt (string plaintext, shared_array<unsigned char const> key, sha
 	dcp::Data ciphertext (plaintext.size() * 2);
 
 	int len;
-	r = EVP_EncryptUpdate (ctx, ciphertext.data().get(), &len, (unsigned char const *) plaintext.c_str(), plaintext.size());
+	r = EVP_EncryptUpdate (ctx, ciphertext.data().get(), &len, (uint8_t const *) plaintext.c_str(), plaintext.size());
 	if (r != 1) {
 		throw CryptoError ("could not encrypt data");
 	}
@@ -80,14 +80,14 @@ dcpomatic::encrypt (string plaintext, shared_array<unsigned char const> key, sha
 }
 
 string
-dcpomatic::decrypt (dcp::Data ciphertext, shared_array<unsigned char const> key, shared_array<unsigned char const> iv)
+dcpomatic::decrypt (dcp::Data ciphertext, dcp::Data key, dcp::Data iv)
 {
 	EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new ();
 	if (!ctx) {
 		throw CryptoError ("could not create cipher context");
 	}
 
-	int r = EVP_DecryptInit_ex (ctx, CIPHER, 0, key.get(), iv.get());
+	int r = EVP_DecryptInit_ex (ctx, CIPHER, 0, key.data().get(), iv.data().get());
 	if (r != 1) {
 		throw CryptoError ("could not initialise cipher context for decryption");
 	}

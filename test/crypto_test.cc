@@ -30,15 +30,15 @@ using boost::shared_array;
 
 BOOST_AUTO_TEST_CASE (crypto_test)
 {
-	shared_array<unsigned char> key (new unsigned char[dcpomatic::crypto_key_length()]);
-	shared_array<unsigned char> iv = dcpomatic::random_iv ();
+	dcp::Data key (dcpomatic::crypto_key_length());
+	dcp::Data iv = dcpomatic::random_iv ();
 
-	RAND_bytes (key.get(), dcpomatic::crypto_key_length());
+	RAND_bytes (key.data().get(), dcpomatic::crypto_key_length());
 
 	dcp::Data ciphertext = dcpomatic::encrypt ("Can you see any fish?", key, iv);
 	BOOST_REQUIRE_EQUAL (dcpomatic::decrypt (ciphertext, key, iv), "Can you see any fish?");
 
-	key[5]++;
+	key.data()[5]++;
 	BOOST_REQUIRE_THROW (dcpomatic::decrypt (ciphertext, key, iv), CryptoError);
 }
 

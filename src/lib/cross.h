@@ -56,6 +56,7 @@ extern void start_player (boost::filesystem::path dcpomatic);
 extern uint64_t thread_id ();
 extern int avio_open_boost (AVIOContext** s, boost::filesystem::path file, int flags);
 extern boost::filesystem::path home_directory ();
+extern std::string command_and_read (std::string cmd);
 
 /** @class Waker
  *  @brief A class which tries to keep the computer awake on various operating systems.

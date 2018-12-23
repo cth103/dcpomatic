@@ -22,9 +22,9 @@
 
 namespace dcpomatic {
 	
-boost::shared_array<unsigned char> random_iv ();
-dcp::Data encrypt (std::string plaintext, boost::shared_array<unsigned char const> key, boost::shared_array<unsigned char const> iv);
-std::string decrypt (dcp::Data ciphertext, boost::shared_array<unsigned char const> key, boost::shared_array<unsigned char const> iv);
+dcp::Data random_iv ();
+dcp::Data encrypt (std::string plaintext, dcp::Data key, dcp::Data iv);
+std::string decrypt (dcp::Data ciphertext, dcp::Data key, dcp::Data iv);
 int crypto_key_length ();	
 
 }
