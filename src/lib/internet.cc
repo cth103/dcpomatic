@@ -22,6 +22,7 @@
 #include "compose.hpp"
 #include "exceptions.h"
 #include "cross.h"
+#include "util.h"
 #include <curl/curl.h>
 #include <zip.h>
 #include <boost/function.hpp>
@@ -140,7 +141,7 @@ get_from_zip_url (string url, string file, bool pasv, function<void (boost::file
 	char buffer[4096];
 	while (true) {
 		int const N = zip_fread (file_in_zip, buffer, sizeof (buffer));
-		fwrite (buffer, 1, N, f);
+		checked_fwrite (buffer, N, f, temp_cert.file());
 		if (N < int (sizeof (buffer))) {
 			break;
 		}

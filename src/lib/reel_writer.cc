@@ -143,9 +143,9 @@ ReelWriter::write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const
 		throw OpenFileError (info_file, errno, read);
 	}
 	dcpomatic_fseek (file, frame_info_position (frame, eyes), SEEK_SET);
-	fwrite (&info.offset, sizeof (info.offset), 1, file);
-	fwrite (&info.size, sizeof (info.size), 1, file);
-	fwrite (info.hash.c_str(), 1, info.hash.size(), file);
+	checked_fwrite (&info.offset, sizeof (info.offset), file, info_file);
+	checked_fwrite (&info.size, sizeof (info.size), file, info_file);
+	checked_fwrite (info.hash.c_str(), info.hash.size(), file, info_file);
 	fclose (file);
 }
 

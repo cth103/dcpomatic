@@ -536,7 +536,7 @@ CertificateChainEditor::export_certificate ()
 		}
 
 		string const s = j->certificate (true);
-		fwrite (s.c_str(), 1, s.length(), f);
+		checked_fwrite (s.c_str(), s.length(), f, path);
 		fclose (f);
 	}
 	d->Destroy ();
@@ -709,7 +709,7 @@ CertificateChainEditor::export_private_key ()
 		}
 
 		string const s = _get()->key().get ();
-		fwrite (s.c_str(), 1, s.length(), f);
+		checked_fwrite (s.c_str(), s.length(), f, path);
 		fclose (f);
 	}
 	d->Destroy ();
@@ -805,10 +805,10 @@ KeysPage::export_decryption_chain_and_key ()
 		}
 
 		string const chain = Config::instance()->decryption_chain()->chain();
-		fwrite (chain.c_str(), 1, chain.length(), f);
+		checked_fwrite (chain.c_str(), chain.length(), f, path);
 		optional<string> const key = Config::instance()->decryption_chain()->key();
 		DCPOMATIC_ASSERT (key);
-		fwrite (key->c_str(), 1, key->length(), f);
+		checked_fwrite (key->c_str(), key->length(), f, path);
 		fclose (f);
 	}
 	d->Destroy ();
@@ -883,7 +883,7 @@ KeysPage::export_decryption_chain ()
 		}
 
 		string const s = Config::instance()->decryption_chain()->chain();
-		fwrite (s.c_str(), 1, s.length(), f);
+		checked_fwrite (s.c_str(), s.length(), f, path);
 		fclose (f);
 	}
 	d->Destroy ();
@@ -905,7 +905,7 @@ KeysPage::export_decryption_certificate ()
 		}
 
 		string const s = Config::instance()->decryption_chain()->leaf().certificate (true);
-		fwrite (s.c_str(), 1, s.length(), f);
+		checked_fwrite (s.c_str(), s.length(), f, path);
 		fclose (f);
 	}
 

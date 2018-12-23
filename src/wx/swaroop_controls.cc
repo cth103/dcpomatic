@@ -158,7 +158,7 @@ SwaroopControls::viewer_position_changed ()
 			+ " " + dcp::raw_convert<string>(_selected_playlist_position)
 			+ " " + dcp::raw_convert<string>(_viewer->position().get());
 
-		fwrite (p.c_str(), p.length(), 1, f);
+		checked_fwrite (p.c_str(), p.length(), f, Config::path("position"));
 		fclose (f);
 	}
 }

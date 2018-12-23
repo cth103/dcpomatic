@@ -987,11 +987,7 @@ Config::write_config () const
 		if (!f) {
 			throw FileError (_("Could not open file for writing"), cf);
 		}
-		size_t const w = fwrite (s.c_str(), 1, s.length(), f);
-		if (w != s.length()) {
-			fclose (f);
-			throw FileError (_("Could not write whole file"), cf);
-		}
+		checked_fwrite (s.c_str(), s.length(), f, cf);
 		fclose (f);
 	} catch (xmlpp::exception& e) {
 		string s = e.what ();

@@ -99,5 +99,6 @@ extern std::pair<int, int> audio_channel_types (std::list<int> mapped, int chann
 extern boost::shared_ptr<AudioBuffers> remap (boost::shared_ptr<const AudioBuffers> input, int output_channels, AudioMapping map);
 extern Eyes increment_eyes (Eyes e);
 extern void checked_fread (void* ptr, size_t size, FILE* stream, boost::filesystem::path path);
+extern void checked_fwrite (void const * ptr, size_t size, FILE* stream, boost::filesystem::path path);
 
 #endif

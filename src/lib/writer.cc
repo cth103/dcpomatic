@@ -634,7 +634,7 @@ Writer::write_cover_sheet ()
 
 	boost::algorithm::replace_all (text, "$LENGTH", length);
 
-	fwrite (text.c_str(), 1, text.length(), f);
+	checked_fwrite (text.c_str(), text.length(), f, cover);
 	fclose (f);
 }
 

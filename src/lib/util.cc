@@ -784,13 +784,30 @@ increment_eyes (Eyes e)
 }
 
 void
+checked_fwrite (void const * ptr, size_t size, FILE* stream, boost::filesystem::path path)
+{
+	size_t N = fwrite (ptr, 1, size, stream);
+	if (N != size) {
+		if (ferror(stream)) {
+			fclose (stream);
+			throw FileError (String::compose("fwrite error %1", errno), path);
+		} else {
+			fclose (stream);
+			throw FileError ("Unexpected short write", path);
+		}
+	}
+}
+
+void
 checked_fread (void* ptr, size_t size, FILE* stream, boost::filesystem::path path)
 {
 	size_t N = fread (ptr, 1, size, stream);
 	if (N != size) {
 		if (ferror(stream)) {
+			fclose (stream);
 			throw FileError (String::compose("fread error %1", errno), path);
 		} else {
+			fclose (stream);
 			throw FileError ("Unexpected short read", path);
 		}
 	}
