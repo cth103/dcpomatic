@@ -1495,8 +1495,6 @@ private:
 			if (Config::instance()->check_for_updates ()) {
 				UpdateChecker::instance()->run ();
 			}
-
-			return true;
 		}
 		catch (exception& e)
 		{
@@ -1504,8 +1502,9 @@ private:
 				splash->Destroy ();
 			}
 			error_dialog (0, wxString::Format ("DCP-o-matic could not start."), std_to_wx(e.what()));
-			return true;
 		}
+
+		return true;
 	}
 
 	void OnInitCmdLine (wxCmdLineParser& parser)
