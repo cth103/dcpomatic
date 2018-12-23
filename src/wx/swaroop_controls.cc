@@ -494,6 +494,7 @@ SwaroopControls::viewer_finished ()
 			_viewer->start ();
 		}
 	} else {
+		_selected_playlist_position = 0;
 		ResetFilm (shared_ptr<Film>(new Film(optional<boost::filesystem::path>())));
 	}
 }
