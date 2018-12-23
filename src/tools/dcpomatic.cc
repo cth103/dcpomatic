@@ -1400,106 +1400,112 @@ public:
 private:
 
 	bool OnInit ()
-	try
 	{
-		wxInitAllImageHandlers ();
+		wxSplashScreen* splash = 0;
+		try {
+			wxInitAllImageHandlers ();
 
-		Config::FailedToLoad.connect (boost::bind (&App::config_failed_to_load, this));
-		Config::Warning.connect (boost::bind (&App::config_warning, this, _1));
+			Config::FailedToLoad.connect (boost::bind (&App::config_failed_to_load, this));
+			Config::Warning.connect (boost::bind (&App::config_warning, this, _1));
 
-		wxSplashScreen* splash = maybe_show_splash ();
+			wxSplashScreen* splash = maybe_show_splash ();
 
-		SetAppName (_("DCP-o-matic"));
+			SetAppName (_("DCP-o-matic"));
 
-		if (!wxApp::OnInit()) {
-			return false;
-		}
+			if (!wxApp::OnInit()) {
+				return false;
+			}
 
 #ifdef DCPOMATIC_LINUX
-		unsetenv ("UBUNTU_MENUPROXY");
+			unsetenv ("UBUNTU_MENUPROXY");
 #endif
 
 #ifdef __WXOSX__
-		ProcessSerialNumber serial;
-		GetCurrentProcess (&serial);
-		TransformProcessType (&serial, kProcessTransformToForegroundApplication);
+			ProcessSerialNumber serial;
+			GetCurrentProcess (&serial);
+			TransformProcessType (&serial, kProcessTransformToForegroundApplication);
 #endif
 
-		dcpomatic_setup_path_encoding ();
+			dcpomatic_setup_path_encoding ();
 
-		/* Enable i18n; this will create a Config object
-		   to look for a force-configured language.  This Config
-		   object will be wrong, however, because dcpomatic_setup
-		   hasn't yet been called and there aren't any filters etc.
-		   set up yet.
-		*/
-		dcpomatic_setup_i18n ();
+			/* Enable i18n; this will create a Config object
+			   to look for a force-configured language.  This Config
+			   object will be wrong, however, because dcpomatic_setup
+			   hasn't yet been called and there aren't any filters etc.
+			   set up yet.
+			*/
+			dcpomatic_setup_i18n ();
 
-		/* Set things up, including filters etc.
-		   which will now be internationalised correctly.
-		*/
-		dcpomatic_setup ();
+			/* Set things up, including filters etc.
+			   which will now be internationalised correctly.
+			*/
+			dcpomatic_setup ();
 
-		/* Force the configuration to be re-loaded correctly next
-		   time it is needed.
-		*/
-		Config::drop ();
+			/* Force the configuration to be re-loaded correctly next
+			   time it is needed.
+			*/
+			Config::drop ();
 
-		Config::BadSignerChain.connect (boost::bind (&App::config_bad_signer_chain, this));
+			Config::BadSignerChain.connect (boost::bind (&App::config_bad_signer_chain, this));
 
-		_frame = new DOMFrame (_("DCP-o-matic"));
-		SetTopWindow (_frame);
-		_frame->Maximize ();
-		if (splash) {
-			splash->Destroy ();
-		}
-
-		if (!Config::instance()->nagged(Config::NAG_INITIAL_SETUP)) {
-			InitialSetupDialog* d = new InitialSetupDialog ();
-			d->ShowModal ();
-			d->Destroy ();
-			Config::instance()->set_nagged(Config::NAG_INITIAL_SETUP, true);
-		}
-
-		_frame->Show ();
-
-		if (!_film_to_load.empty() && boost::filesystem::is_directory (_film_to_load)) {
-			try {
-				_frame->load_film (_film_to_load);
-			} catch (exception& e) {
-				error_dialog (0, std_to_wx (String::compose (wx_to_std (_("Could not load film %1 (%2)")), _film_to_load)), std_to_wx(e.what()));
+			_frame = new DOMFrame (_("DCP-o-matic"));
+			SetTopWindow (_frame);
+			_frame->Maximize ();
+			if (splash) {
+				splash->Destroy ();
+				splash = 0;
 			}
-		}
 
-		if (!_film_to_create.empty ()) {
-			_frame->new_film (_film_to_create, optional<string> ());
-			if (!_content_to_add.empty ()) {
-				BOOST_FOREACH (shared_ptr<Content> i, content_factory(_content_to_add)) {
-					_frame->film()->examine_and_add_content (i);
+			if (!Config::instance()->nagged(Config::NAG_INITIAL_SETUP)) {
+				InitialSetupDialog* d = new InitialSetupDialog ();
+				d->ShowModal ();
+				d->Destroy ();
+				Config::instance()->set_nagged(Config::NAG_INITIAL_SETUP, true);
+			}
+
+			_frame->Show ();
+
+			if (!_film_to_load.empty() && boost::filesystem::is_directory (_film_to_load)) {
+				try {
+					_frame->load_film (_film_to_load);
+				} catch (exception& e) {
+					error_dialog (0, std_to_wx (String::compose (wx_to_std (_("Could not load film %1 (%2)")), _film_to_load)), std_to_wx(e.what()));
 				}
 			}
-			if (!_dcp_to_add.empty ()) {
-				_frame->film()->examine_and_add_content(shared_ptr<DCPContent>(new DCPContent(_dcp_to_add)));
+
+			if (!_film_to_create.empty ()) {
+				_frame->new_film (_film_to_create, optional<string> ());
+				if (!_content_to_add.empty ()) {
+					BOOST_FOREACH (shared_ptr<Content> i, content_factory(_content_to_add)) {
+						_frame->film()->examine_and_add_content (i);
+					}
+				}
+				if (!_dcp_to_add.empty ()) {
+					_frame->film()->examine_and_add_content(shared_ptr<DCPContent>(new DCPContent(_dcp_to_add)));
+				}
 			}
+
+			signal_manager = new wxSignalManager (this);
+			Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
+
+			Bind (wxEVT_TIMER, boost::bind (&App::check, this));
+			_timer.reset (new wxTimer (this));
+			_timer->Start (1000);
+
+			if (Config::instance()->check_for_updates ()) {
+				UpdateChecker::instance()->run ();
+			}
+
+			return true;
 		}
-
-		signal_manager = new wxSignalManager (this);
-		Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
-
-		Bind (wxEVT_TIMER, boost::bind (&App::check, this));
-		_timer.reset (new wxTimer (this));
-		_timer->Start (1000);
-
-		if (Config::instance()->check_for_updates ()) {
-			UpdateChecker::instance()->run ();
+		catch (exception& e)
+		{
+			if (splash) {
+				splash->Destroy ();
+			}
+			error_dialog (0, wxString::Format ("DCP-o-matic could not start."), std_to_wx(e.what()));
+			return true;
 		}
-
-		return true;
-	}
-	catch (exception& e)
-	{
-		error_dialog (0, wxString::Format ("DCP-o-matic could not start."), std_to_wx(e.what()));
-		return true;
 	}
 
 	void OnInitCmdLine (wxCmdLineParser& parser)
