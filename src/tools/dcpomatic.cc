@@ -1408,7 +1408,7 @@ private:
 			Config::FailedToLoad.connect (boost::bind (&App::config_failed_to_load, this));
 			Config::Warning.connect (boost::bind (&App::config_warning, this, _1));
 
-			wxSplashScreen* splash = maybe_show_splash ();
+			splash = maybe_show_splash ();
 
 			SetAppName (_("DCP-o-matic"));
 
