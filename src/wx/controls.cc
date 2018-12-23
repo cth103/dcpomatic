@@ -207,6 +207,12 @@ Controls::slider_moved (bool page)
 	}
 	_viewer->seek (t, false);
 	update_position_label ();
+
+	log (
+		wxString::Format(
+			"playback-seeked %s", t.timecode(_film->video_frame_rate()).c_str()
+			)
+		);
 }
 
 void

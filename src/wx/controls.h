@@ -51,6 +51,7 @@ public:
 		bool editor_controls = true
 		);
 
+	virtual void log (wxString) {}
 	virtual void set_film (boost::shared_ptr<Film> film);
 	boost::shared_ptr<Film> film () const;
 	void back_frame ();

@@ -92,7 +92,6 @@ public:
 	boost::signals2::signal<void ()> PositionChanged;
 	boost::signals2::signal<void (DCPTime)> Started;
 	boost::signals2::signal<void (DCPTime)> Stopped;
-	boost::signals2::signal<void (DCPTime)> Seeked;
 	/** While playing back we reached the end of the film (emitted from GUI thread) */
 	boost::signals2::signal<void ()> Finished;
 

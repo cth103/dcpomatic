@@ -262,6 +262,15 @@ SwaroopControls::log (wxString s)
 	strftime (buffer, 64, "%c", t);
 	wxString ts = std_to_wx(string(buffer)) + N_(": ");
 	_log->SetValue(_log->GetValue() + ts + s + "\n");
+
+	optional<boost::filesystem::path> log = Config::instance()->player_log_file();
+	if (!log) {
+		return;
+	}
+
+	FILE* f = fopen_boost (*log, "a");
+	fprintf (f, "%s%s\n", wx_to_std(ts).c_str(), wx_to_std(s).c_str());
+	fclose (f);
 }
 
 void
@@ -384,6 +393,8 @@ SwaroopControls::spl_selection_changed ()
 		error_dialog (this, "This playlist is empty.");
 		return;
 	}
+
+	log (wxString::Format("load-playlist %s", std_to_wx(_playlists[selected].name()).data()));
 
 	wxProgressDialog dialog (_("DCP-o-matic"), "Loading playlist and KDMs");
 
