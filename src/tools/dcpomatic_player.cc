@@ -989,83 +989,88 @@ public:
 private:
 
 	bool OnInit ()
-	try
 	{
-		wxInitAllImageHandlers ();
+		wxSplashScreen* splash = 0;
+		try {
+			wxInitAllImageHandlers ();
 
-		Config::FailedToLoad.connect (boost::bind (&App::config_failed_to_load, this));
-		Config::Warning.connect (boost::bind (&App::config_warning, this, _1));
+			Config::FailedToLoad.connect (boost::bind (&App::config_failed_to_load, this));
+			Config::Warning.connect (boost::bind (&App::config_warning, this, _1));
 
-		wxSplashScreen* splash = maybe_show_splash ();
+			wxSplashScreen* splash = maybe_show_splash ();
 
-		SetAppName (_("DCP-o-matic Player"));
+			SetAppName (_("DCP-o-matic Player"));
 
-		if (!wxApp::OnInit()) {
-			return false;
-		}
+			if (!wxApp::OnInit()) {
+				return false;
+			}
 
 #ifdef DCPOMATIC_LINUX
-		unsetenv ("UBUNTU_MENUPROXY");
+			unsetenv ("UBUNTU_MENUPROXY");
 #endif
 
 #ifdef __WXOSX__
-		ProcessSerialNumber serial;
-		GetCurrentProcess (&serial);
-		TransformProcessType (&serial, kProcessTransformToForegroundApplication);
+			ProcessSerialNumber serial;
+			GetCurrentProcess (&serial);
+			TransformProcessType (&serial, kProcessTransformToForegroundApplication);
 #endif
 
-		dcpomatic_setup_path_encoding ();
+			dcpomatic_setup_path_encoding ();
 
-		/* Enable i18n; this will create a Config object
-		   to look for a force-configured language.  This Config
-		   object will be wrong, however, because dcpomatic_setup
-		   hasn't yet been called and there aren't any filters etc.
-		   set up yet.
-		*/
-		dcpomatic_setup_i18n ();
+			/* Enable i18n; this will create a Config object
+			   to look for a force-configured language.  This Config
+			   object will be wrong, however, because dcpomatic_setup
+			   hasn't yet been called and there aren't any filters etc.
+			   set up yet.
+			*/
+			dcpomatic_setup_i18n ();
 
-		/* Set things up, including filters etc.
-		   which will now be internationalised correctly.
-		*/
-		dcpomatic_setup ();
+			/* Set things up, including filters etc.
+			   which will now be internationalised correctly.
+			*/
+			dcpomatic_setup ();
 
-		/* Force the configuration to be re-loaded correctly next
-		   time it is needed.
-		*/
-		Config::drop ();
+			/* Force the configuration to be re-loaded correctly next
+			   time it is needed.
+			*/
+			Config::drop ();
 
-		signal_manager = new wxSignalManager (this);
+			signal_manager = new wxSignalManager (this);
 
-		_frame = new DOMFrame ();
-		SetTopWindow (_frame);
-		_frame->Maximize ();
-		if (splash) {
-			splash->Destroy ();
-		}
-		_frame->Show ();
+			_frame = new DOMFrame ();
+			SetTopWindow (_frame);
+			_frame->Maximize ();
+			if (splash) {
+				splash->Destroy ();
+				splash = 0;
+			}
+			_frame->Show ();
 
-		PlayServer* server = new PlayServer (_frame);
-		new thread (boost::bind (&PlayServer::run, server));
+			PlayServer* server = new PlayServer (_frame);
+			new thread (boost::bind (&PlayServer::run, server));
 
-		if (!_dcp_to_load.empty() && boost::filesystem::is_directory (_dcp_to_load)) {
-			try {
-				_frame->load_dcp (_dcp_to_load);
-			} catch (exception& e) {
-				error_dialog (0, std_to_wx (String::compose (wx_to_std (_("Could not load DCP %1.")), _dcp_to_load)), std_to_wx(e.what()));
+			if (!_dcp_to_load.empty() && boost::filesystem::is_directory (_dcp_to_load)) {
+				try {
+					_frame->load_dcp (_dcp_to_load);
+				} catch (exception& e) {
+					error_dialog (0, std_to_wx (String::compose (wx_to_std (_("Could not load DCP %1.")), _dcp_to_load)), std_to_wx(e.what()));
+				}
+			}
+
+			Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
+
+			if (Config::instance()->check_for_updates ()) {
+				UpdateChecker::instance()->run ();
 			}
 		}
-
-		Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
-
-		if (Config::instance()->check_for_updates ()) {
-			UpdateChecker::instance()->run ();
+		catch (exception& e)
+		{
+			if (splash) {
+				splash->Destroy ();
+			}
+			error_dialog (0, _("DCP-o-matic Player could not start."), std_to_wx(e.what()));
 		}
 
-		return true;
-	}
-	catch (exception& e)
-	{
-		error_dialog (0, _("DCP-o-matic Player could not start."), std_to_wx(e.what()));
 		return true;
 	}
 
