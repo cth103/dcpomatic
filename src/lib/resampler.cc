@@ -53,13 +53,17 @@ Resampler::Resampler (int in, int out, int channels)
 
 Resampler::~Resampler ()
 {
-	src_delete (_src);
+	if (_src) {
+		src_delete (_src);
+	}
 }
 
 void
 Resampler::set_fast ()
 {
 	src_delete (_src);
+	_src = 0;
+
 	int error;
 	_src = src_new (SRC_LINEAR, _channels, &error);
 	if (!_src) {
