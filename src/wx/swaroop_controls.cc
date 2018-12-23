@@ -30,6 +30,7 @@
 #include "lib/scoped_temporary.h"
 #include "lib/internet.h"
 #include <dcp/raw_convert.h>
+#include <dcp/exceptions.h>
 #include <wx/listctrl.h>
 #include <wx/progdlg.h>
 
@@ -396,8 +397,12 @@ SwaroopControls::spl_selection_changed ()
 				kdm = get_kdm_from_directory (dcp);
 			}
 			if (kdm) {
-				dcp->add_kdm (*kdm);
-				dcp->examine (_film, shared_ptr<Job>());
+				try {
+					dcp->add_kdm (*kdm);
+					dcp->examine (_film, shared_ptr<Job>());
+				} catch (KDMError& e) {
+					error_dialog (this, "Could not load KDM.");
+				}
 			}
 			if (dcp->needs_kdm()) {
 				/* We didn't get a KDM for this */
