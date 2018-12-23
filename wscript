@@ -621,7 +621,7 @@ def create_version_cc(version, cxx_flags):
 def post(ctx):
     if ctx.cmd == 'install' and ctx.env.TARGET_LINUX:
         ctx.exec_command('/sbin/ldconfig')
-        os.chmod(os.path.join(ctx.env.PREFIX, 'bin/dcpomatic2_uuid'), 0o4755)
+        os.chmod(os.path.join(ctx.options.prefix, 'bin/dcpomatic2_uuid'), 0o4755)
 
 def pot(bld):
     bld.recurse('src')
