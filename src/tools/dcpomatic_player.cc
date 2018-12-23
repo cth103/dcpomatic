@@ -383,7 +383,9 @@ public:
 			if (!ok || !report_errors_from_last_job(this)) {
 				return;
 			}
+#ifndef DCPOMATIC_VARIANT_SWAROOP
 			Config::instance()->add_to_player_history (dir);
+#endif
 		} catch (dcp::DCPReadError& e) {
 			error_dialog (this, wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())), std_to_wx(e.what()));
 		}
