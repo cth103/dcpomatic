@@ -1,3 +1,7 @@
+2018-12-23  Carl Hetherington  <cth@carlh.net>
+
+	* Only make DCPs with 48kHz audio (#1436).
+
 2018-12-10  Carl Hetherington  <cth@carlh.net>
 
 	* Accept certificate chains to dcpomatic2_kdm_cli as well

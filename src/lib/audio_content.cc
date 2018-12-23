@@ -196,8 +196,7 @@ AudioContent::mapping () const
 int
 AudioContent::resampled_frame_rate (shared_ptr<const Film> film) const
 {
-	/* Resample to a DCI-approved sample rate */
-	double t = has_rate_above_48k() ? 96000 : 48000;
+	double t = film->audio_frame_rate ();
 
 	FrameRateChange frc (film, _parent);
 
@@ -262,19 +261,6 @@ AudioContent::processing_description (shared_ptr<const Film> film) const
 	}
 
 	return "";
-}
-
-/** @return true if any stream in this content has a sampling rate of more than 48kHz */
-bool
-AudioContent::has_rate_above_48k () const
-{
-	BOOST_FOREACH (AudioStreamPtr i, streams ()) {
-		if (i->frame_rate() > 48000) {
-			return true;
-		}
-	}
-
-	return false;
 }
 
 /** @return User-visible names of each of our audio channels */

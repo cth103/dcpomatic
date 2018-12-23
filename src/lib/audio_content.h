@@ -53,7 +53,6 @@ public:
 	AudioMapping mapping () const;
 	void set_mapping (AudioMapping);
 	int resampled_frame_rate (boost::shared_ptr<const Film> film) const;
-	bool has_rate_above_48k () const;
 	std::vector<std::string> channel_names () const;
 
 	void set_gain (double);

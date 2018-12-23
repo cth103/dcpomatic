@@ -1213,12 +1213,9 @@ Film::playlist_order_changed ()
 int
 Film::audio_frame_rate () const
 {
-	BOOST_FOREACH (shared_ptr<Content> i, content ()) {
-		if (i->audio && i->audio->has_rate_above_48k ()) {
-			return 96000;
-		}
-	}
-
+	/* It seems that nobody makes 96kHz DCPs at the moment, so let's avoid them.
+	   See #1436.
+	*/
 	return 48000;
 }
 
