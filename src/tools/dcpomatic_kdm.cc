@@ -551,67 +551,73 @@ public:
 private:
 
 	bool OnInit ()
-	try
 	{
-		wxInitAllImageHandlers ();
+		wxSplashScreen* splash = 0;
 
-		Config::FailedToLoad.connect (boost::bind (&App::config_failed_to_load, this));
-		Config::Warning.connect (boost::bind (&App::config_warning, this, _1));
+		try {
+			wxInitAllImageHandlers ();
 
-		wxSplashScreen* splash = maybe_show_splash ();
+			Config::FailedToLoad.connect (boost::bind (&App::config_failed_to_load, this));
+			Config::Warning.connect (boost::bind (&App::config_warning, this, _1));
 
-		SetAppName (_("DCP-o-matic KDM Creator"));
+			splash = maybe_show_splash ();
 
-		if (!wxApp::OnInit()) {
-			return false;
-		}
+			SetAppName (_("DCP-o-matic KDM Creator"));
+
+			if (!wxApp::OnInit()) {
+				return false;
+			}
 
 #ifdef DCPOMATIC_LINUX
-		unsetenv ("UBUNTU_MENUPROXY");
+			unsetenv ("UBUNTU_MENUPROXY");
 #endif
 
 #ifdef __WXOSX__
-		ProcessSerialNumber serial;
-		GetCurrentProcess (&serial);
-		TransformProcessType (&serial, kProcessTransformToForegroundApplication);
+			ProcessSerialNumber serial;
+			GetCurrentProcess (&serial);
+			TransformProcessType (&serial, kProcessTransformToForegroundApplication);
 #endif
 
-		dcpomatic_setup_path_encoding ();
+			dcpomatic_setup_path_encoding ();
 
-		/* Enable i18n; this will create a Config object
-		   to look for a force-configured language.  This Config
-		   object will be wrong, however, because dcpomatic_setup
-		   hasn't yet been called and there aren't any filters etc.
-		   set up yet.
-		*/
-		dcpomatic_setup_i18n ();
+			/* Enable i18n; this will create a Config object
+			   to look for a force-configured language.  This Config
+			   object will be wrong, however, because dcpomatic_setup
+			   hasn't yet been called and there aren't any filters etc.
+			   set up yet.
+			*/
+			dcpomatic_setup_i18n ();
 
-		/* Set things up, including filters etc.
-		   which will now be internationalised correctly.
-		*/
-		dcpomatic_setup ();
+			/* Set things up, including filters etc.
+			   which will now be internationalised correctly.
+			*/
+			dcpomatic_setup ();
 
-		/* Force the configuration to be re-loaded correctly next
-		   time it is needed.
-		*/
-		Config::drop ();
+			/* Force the configuration to be re-loaded correctly next
+			   time it is needed.
+			*/
+			Config::drop ();
 
-		_frame = new DOMFrame (_("DCP-o-matic KDM Creator"));
-		SetTopWindow (_frame);
-		_frame->Maximize ();
-		if (splash) {
-			splash->Destroy ();
+			_frame = new DOMFrame (_("DCP-o-matic KDM Creator"));
+			SetTopWindow (_frame);
+			_frame->Maximize ();
+			if (splash) {
+				splash->Destroy ();
+				splash = 0;
+			}
+			_frame->Show ();
+
+			signal_manager = new wxSignalManager (this);
+			Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
 		}
-		_frame->Show ();
+		catch (exception& e)
+		{
+			if (splash) {
+				splash->Destroy ();
+			}
+			error_dialog (0, _("DCP-o-matic could not start"), std_to_wx(e.what()));
+		}
 
-		signal_manager = new wxSignalManager (this);
-		Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
-
-		return true;
-	}
-	catch (exception& e)
-	{
-		error_dialog (0, _("DCP-o-matic could not start"), std_to_wx(e.what()));
 		return true;
 	}
 
