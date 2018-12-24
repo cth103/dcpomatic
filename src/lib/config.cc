@@ -970,10 +970,16 @@ Config::config_file ()
 	}
 
 	/* See if there's a link */
-	f.read_file (main);
-	optional<string> link = f.optional_string_child("Link");
-	if (link) {
-		return *link;
+	try {
+		f.read_file (main);
+		optional<string> link = f.optional_string_child("Link");
+		if (link) {
+			return *link;
+		}
+	} catch (xmlpp::exception& e) {
+		/* There as a problem reading the main configuration file,
+		   so there can't be a link.
+		*/
 	}
 
 	return main;
