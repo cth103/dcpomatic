@@ -982,13 +982,15 @@ Config::write_config () const
 
 	try {
 		string const s = doc.write_to_string_formatted ();
-		boost::filesystem::path const cf = config_file ();
-		FILE* f = fopen_boost (cf, "w");
+		boost::filesystem::path tmp (string(config_file().string()).append(".tmp"));
+		FILE* f = fopen_boost (tmp, "w");
 		if (!f) {
-			throw FileError (_("Could not open file for writing"), cf);
+			throw FileError (_("Could not open file for writing"), tmp);
 		}
-		checked_fwrite (s.c_str(), s.length(), f, cf);
+		checked_fwrite (s.c_str(), s.length(), f, tmp);
 		fclose (f);
+		boost::filesystem::remove (config_file());
+		boost::filesystem::rename (tmp, config_file());
 	} catch (xmlpp::exception& e) {
 		string s = e.what ();
 		trim (s);
@@ -1008,7 +1010,9 @@ Config::write_cinemas () const
 	}
 
 	try {
-		doc.write_to_file_formatted (_cinemas_file.string ());
+		doc.write_to_file_formatted (_cinemas_file.string() + ".tmp");
+		boost::filesystem::remove (_cinemas_file);
+		boost::filesystem::rename (_cinemas_file.string() + ".tmp", _cinemas_file);
 	} catch (xmlpp::exception& e) {
 		string s = e.what ();
 		trim (s);
@@ -1233,10 +1237,16 @@ Config::config_file ()
 	}
 
 	/* See if there's a link */
-	f.read_file (main);
-	optional<string> link = f.optional_string_child("Link");
-	if (link) {
-		return *link;
+	try {
+		f.read_file (main);
+		optional<string> link = f.optional_string_child("Link");
+		if (link) {
+			return *link;
+		}
+	} catch (xmlpp::exception& e) {
+		/* There as a problem reading the main configuration file,
+		   so there can't be a link.
+		*/
 	}
 
 	return main;
