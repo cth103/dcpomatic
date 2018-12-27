@@ -275,7 +275,7 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 	BOOST_CHECK_EQUAL (content->audio->resampled_frame_rate(film), 48000);
 
 	stream->_frame_rate = 80000;
-	BOOST_CHECK_EQUAL (content->audio->resampled_frame_rate(film), 96000);
+	BOOST_CHECK_EQUAL (content->audio->resampled_frame_rate(film), 48000);
 
 	content->_video_frame_rate = 23.976;
 	film->set_video_frame_rate (24);
