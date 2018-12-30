@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-07 21:48+0000\n"
-"PO-Revision-Date: 2018-09-07 16:05+0100\n"
+"PO-Revision-Date: 2018-12-28 17:02+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -198,9 +198,8 @@ msgid "Copy settings\tCtrl-C"
 msgstr "Copier les paramètres\tCtrl-C"
 
 #: src/tools/dcpomatic.cc:495 src/tools/dcpomatic.cc:502
-#, fuzzy
 msgid "Could not create folder to store film."
-msgstr "Création du dossier du DCP impossible"
+msgstr "Création du dossier pour accueillir votre DCP impossible"
 
 #: src/tools/dcpomatic_kdm.cc:441
 msgid ""
@@ -229,7 +228,7 @@ msgstr "Chargement de KDM impossible."
 #: src/tools/dcpomatic_player.cc:421
 #, c-format
 msgid "Could not load a DCP from %s"
-msgstr ""
+msgstr "Impossible de charger un DCP depuis %s"
 
 #: src/tools/dcpomatic_batch.cc:403
 msgid "Could not load film %1"
@@ -290,10 +289,9 @@ msgstr ""
 "n'ont pu être sauvegardées."
 
 #: src/tools/dcpomatic_player.cc:944
-#, fuzzy
 msgid "Could not write to config file.  Your changes have not been saved."
 msgstr ""
-"Ecriture dans le fichier de configuration à %s impossible. Vos modifications "
+"Ecriture dans le fichier de configuration impossible. Vos modifications "
 "n'ont pu être sauvegardées."
 
 #: src/tools/dcpomatic_kdm.cc:172
@@ -362,7 +360,7 @@ msgstr "Ne pas dupliquer"
 
 #: src/tools/dcpomatic_player.cc:601
 msgid "Dual screen\tShift+F11"
-msgstr ""
+msgstr "Double Ecran\tShift+F11"
 
 #: src/tools/dcpomatic.cc:553 src/tools/dcpomatic.cc:568
 msgid "Duplicate Film"
@@ -405,7 +403,7 @@ msgstr "Images par seconde"
 
 #: src/tools/dcpomatic_player.cc:600
 msgid "Full screen\tF11"
-msgstr ""
+msgstr "Plein Ecran\tF11"
 
 #: src/tools/dcpomatic.cc:1200
 msgid "Hints..."
@@ -417,9 +415,8 @@ msgid "KDM|Timing"
 msgstr "Durées"
 
 #: src/tools/dcpomatic_player.cc:415 src/tools/dcpomatic_player.cc:687
-#, fuzzy
 msgid "Loading content"
-msgstr "Chargement du DCP"
+msgstr "Chargement du contenu"
 
 #: src/tools/dcpomatic.cc:1186
 msgid "Make &KDMs...\tCtrl-K"
@@ -572,7 +569,7 @@ msgstr "Le serveur de téléchargement de DCP-o-matic ne peut être contacté."
 
 #: src/tools/dcpomatic_player.cc:316
 msgid "The KDM does not allow playback of this content at this time."
-msgstr ""
+msgstr "La KDM n'autorise pas la lecture de ce contenu pour le moment."
 
 #: src/tools/dcpomatic.cc:1563 src/tools/dcpomatic_batch.cc:435
 #: src/tools/dcpomatic_kdm.cc:658 src/tools/dcpomatic_server.cc:335
@@ -586,11 +583,11 @@ msgstr ""
 
 #: src/tools/dcpomatic_player.cc:274 src/tools/dcpomatic_player.cc:299
 msgid "The lock file is not present."
-msgstr ""
+msgstr "Le fichier verrou n'est pas présent pour le moment."
 
 #: src/tools/dcpomatic_player.cc:266 src/tools/dcpomatic_player.cc:295
 msgid "The required display devices are not connected correctly."
-msgstr ""
+msgstr "Le périphérique d'affichage requis n'est pas connecté correctement."
 
 #: src/tools/dcpomatic.cc:1306 src/tools/dcpomatic_player.cc:920
 msgid "There are no new versions of DCP-o-matic available."
@@ -612,7 +609,7 @@ msgstr ""
 #: src/tools/dcpomatic.cc:498
 #, c-format
 msgid "Try removing the %s characters from your folder name."
-msgstr ""
+msgstr "Essayez d'enlever les caractères %s du nom de votre répertoire."
 
 #: src/tools/dcpomatic.cc:1003 src/tools/dcpomatic_batch.cc:189
 msgid "Unfinished jobs"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-07 21:48+0000\n"
-"PO-Revision-Date: 2018-09-07 16:04+0100\n"
+"PO-Revision-Date: 2018-12-28 16:58+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -222,9 +222,8 @@ msgid "An error occurred whilst handling the file %1."
 msgstr "Une erreur s'est produite lors du traitement du fichier %1."
 
 #: src/lib/analyse_audio_job.cc:95
-#, fuzzy
 msgid "Analysing audio"
-msgstr "Analyse audio"
+msgstr "Analyse du son"
 
 #: src/lib/audio_content.cc:258
 msgid "Audio will be resampled from %1Hz to %2Hz"
@@ -324,9 +323,8 @@ msgid "Channels"
 msgstr "Canaux"
 
 #: src/lib/check_content_change_job.cc:46
-#, fuzzy
 msgid "Checking content for changes"
-msgstr "Vérifier les changements dans les contenus"
+msgstr "Vérification des changements dans les contenus"
 
 #: src/lib/reel_writer.cc:100
 msgid "Checking existing image data"
@@ -542,14 +540,12 @@ msgid "Could not open downloaded ZIP file"
 msgstr "Ouverture du fichier Zip téléchargé impossible"
 
 #: src/lib/internet.cc:126
-#, fuzzy
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
-msgstr "Ouverture du fichier Zip téléchargé impossible"
+msgstr "Ouverture du fichier Zip téléchargé impossible (%1:%2: %3)"
 
 #: src/lib/config.cc:954
-#, fuzzy
 msgid "Could not open file for writing"
-msgstr "Ouverture du fichier %1 pour enregistrer (%2) impossible."
+msgstr "Ouverture du fichier pour enregistrer impossible."
 
 #: src/lib/dcp_subtitle.cc:55
 msgid "Could not read subtitles (%1 / %2)"
@@ -568,9 +564,8 @@ msgid "Could not write to remote file (%1)"
 msgstr "Écriture vers fichier distant (%1) impossible"
 
 #: src/lib/config.cc:959
-#, fuzzy
 msgid "Could not write whole file"
-msgstr "Écriture vers fichier distant (%1) impossible"
+msgstr "Ecriture du fichier entier impossible"
 
 #: src/lib/util.cc:520
 msgid "D-BOX primary"
@@ -715,9 +710,8 @@ msgid "Examining closed captions"
 msgstr "Examen des sous-titres codés"
 
 #: src/lib/examine_content_job.cc:44
-#, fuzzy
 msgid "Examining content"
-msgstr "Examen du contenu"
+msgstr "Examen du contenu en cours"
 
 #: src/lib/ffmpeg_content.cc:623
 msgid "FCC"
@@ -1024,6 +1018,8 @@ msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
 "carl@dcpomatic.com"
 msgstr ""
+"Veuillez reporter ce problème en utilisant le menu Aide -> Signaler un "
+"problème ou par e-mail à carl@dcpomatic.com"
 
 #: src/lib/dcp_content_type.cc:53
 msgid "Policy"
@@ -1323,9 +1319,8 @@ msgid "Trailer"
 msgstr "Trailer"
 
 #: src/lib/transcode_job.cc:55
-#, fuzzy
 msgid "Transcoding %1"
-msgstr "Transcodage %1"
+msgstr "transcodage %1"
 
 #: src/lib/dcp_content_type.cc:50
 msgid "Transitional"
@@ -1534,7 +1529,7 @@ msgstr "[sous-titres]"
 #. / which reel it is.  Preserve the %1; it will be replaced with the reel number.
 #: src/lib/ffmpeg_encoder.cc:67
 msgid "_reel%1"
-msgstr ""
+msgstr "_bobine%1"
 
 #: src/lib/dcpomatic_socket.cc:69
 msgid "connect timed out"
@@ -1631,15 +1626,13 @@ msgstr "Vitesse de défilement différente du film"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:605
-#, fuzzy
 msgid "it is 2K and the film is 4K."
-msgstr "Format Interop alors que le DCP est SMPTE."
+msgstr "C'est du 2K mais le film est en 4K."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:602
-#, fuzzy
 msgid "it is 4K and the film is 2K."
-msgstr "Format Interop alors que le DCP est SMPTE."
+msgstr "C'est du 4K mais le film est en 2K."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:531
