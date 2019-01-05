@@ -354,7 +354,9 @@ VideoContent::scale_and_crop_to_fit_height (shared_ptr<const Film> film)
 	set_bottom_crop (0);
 }
 
-/** @param f Frame index within the whole (untrimmed) content */
+/** @param f Frame index within the whole (untrimmed) content.
+ *  @return Fade factor (between 0 and 1) or unset if there is no fade.
+ */
 optional<double>
 VideoContent::fade (shared_ptr<const Film> film, Frame f) const
 {

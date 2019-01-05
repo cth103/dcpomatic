@@ -243,7 +243,7 @@ bool
 PlayerVideo::same (shared_ptr<const PlayerVideo> other) const
 {
 	if (_crop != other->_crop ||
-	    _fade.get_value_or(0) != other->_fade.get_value_or(0) ||
+	    _fade != other->_fade ||
 	    _inter_size != other->_inter_size ||
 	    _out_size != other->_out_size ||
 	    _eyes != other->_eyes ||
