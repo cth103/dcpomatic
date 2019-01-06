@@ -1,3 +1,7 @@
+2019-01-06  Carl Hetherington  <cth@carlh.net>
+
+	* Fix incorrect video waveform display (#1425).
+
 2019-01-05  Carl Hetherington  <cth@carlh.net>
 
 	* Fix strange behaviour with single-frame fades.

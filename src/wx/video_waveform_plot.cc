@@ -24,6 +24,7 @@
 #include "lib/image.h"
 #include "lib/film.h"
 #include "lib/dcp_video.h"
+#include "lib/player_video.h"
 #include <dcp/locale_convert.h>
 #include <dcp/openjpeg_image.h>
 #include <wx/rawbmp.h>
@@ -193,7 +194,11 @@ VideoWaveformPlot::set_image (weak_ptr<PlayerVideo> image)
 	}
 
 	shared_ptr<PlayerVideo> pv = image.lock ();
-	_image = DCPVideo::convert_to_xyz (pv, boost::bind (&note));
+	DCPOMATIC_ASSERT (pv);
+	/* We must copy the PlayerVideo here as we will call ::image() on it, potentially
+	   with a different pixel_format than was used when ::prepare() was called.
+	*/
+	_image = DCPVideo::convert_to_xyz (pv->shallow_copy(), boost::bind (&note));
 	_dirty = true;
 	Refresh ();
 }
