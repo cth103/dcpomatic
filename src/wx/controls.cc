@@ -388,9 +388,13 @@ Controls::film () const
 void
 Controls::film_change (ChangeType type, Film::Property p)
 {
-	if (type == CHANGE_TYPE_DONE && p == Film::CONTENT) {
-		setup_sensitivity ();
-		update_position_label ();
-		update_position_slider ();
+	if (type == CHANGE_TYPE_DONE) {
+		if (p == Film::CONTENT) {
+			setup_sensitivity ();
+			update_position_label ();
+			update_position_slider ();
+		} else if (p == Film::THREE_D) {
+			setup_sensitivity ();
+		}
 	}
 }
