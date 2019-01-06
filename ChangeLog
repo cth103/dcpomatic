@@ -1,5 +1,9 @@
 2019-01-06  Carl Hetherington  <cth@carlh.net>
 
+	* Disable subtitle view/font buttons with FFmpeg content (#1236).
+
+	* Fix incorrectly-different IDs between MXF and XML in SMPTE subtitle files.
+
 	* Improve behaviour of hints dialog with long projects (#1439).
 
 	* Fix incorrect video waveform display (#1425).
