@@ -49,7 +49,7 @@ using boost::function;
 #define MAXIMUM_AUDIO_READAHEAD (48000 * MAXIMUM_VIDEO_READAHEAD / 24)
 
 /** @param pixel_format Pixel format functor that will be used when calling ::image on PlayerVideos coming out of this
- *  butler.  This will be used (where possible) to prepare the PlayerVideos so that calling image() on them is quick().
+ *  butler.  This will be used (where possible) to prepare the PlayerVideos so that calling image() on them is quick.
  *  @param aligned Same as above for the `aligned' flag.
  *  @param fast Same as above for the `fast' flag.
  */
