@@ -41,6 +41,7 @@ HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> film, bool ok)
 	: wxDialog (parent, wxID_ANY, _("Hints"))
 	, _film (film)
 	, _hints (new Hints (film))
+	, _finished (false)
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 
@@ -109,6 +110,7 @@ HintsDialog::film_change (ChangeType type)
 	Layout ();
 	_gauge->SetValue (0);
 	update ();
+	_finished = false;
 	_hints->start ();
 }
 
@@ -123,7 +125,11 @@ HintsDialog::update ()
 {
 	_text->Clear ();
 	if (_current.empty ()) {
-		_text->WriteText (_("There are no hints: everything looks good!"));
+		if (_finished) {
+			_text->WriteText (_("There are no hints: everything looks good!"));
+		} else {
+			_text->WriteText (_("There are no hints yet: project check in progress."));
+		}
 	} else {
 		_text->BeginStandardBullet (N_("standard/circle"), 1, 50);
 		BOOST_FOREACH (string i, _current) {
@@ -156,6 +162,8 @@ HintsDialog::pulse ()
 void
 HintsDialog::finished ()
 {
+	_finished = true;
+	update ();
 	_gauge->Hide ();
 	_gauge_message->Hide ();
 	Layout ();

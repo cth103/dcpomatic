@@ -56,6 +56,7 @@ Hints::Hints (weak_ptr<const Film> film)
 	, _long_ccap (false)
 	, _overlap_ccap (false)
 	, _too_many_ccap_lines (false)
+	, _stop (false)
 {
 
 }
@@ -65,6 +66,10 @@ Hints::stop_thread ()
 {
 	if (_thread) {
 		try {
+			{
+				boost::mutex::scoped_lock lm (_mutex);
+				_stop = true;
+			}
 			_thread->interrupt ();
 			_thread->join ();
 		} catch (...) {
@@ -88,6 +93,7 @@ Hints::start ()
 	_long_ccap = false;
 	_overlap_ccap = false;
 	_too_many_ccap_lines = false;
+	_stop = false;
 	_thread = new boost::thread (bind(&Hints::thread, this));
 }
 
@@ -267,8 +273,24 @@ Hints::thread ()
 	player->set_ignore_video ();
 	player->set_ignore_audio ();
 	player->Text.connect (bind(&Hints::text, this, _1, _2, _4));
-	while (!player->pass ()) {
-		bind (boost::ref(Pulse));
+
+	struct timeval last_pulse;
+	gettimeofday (&last_pulse, 0);
+
+	while (!player->pass()) {
+
+		struct timeval now;
+		gettimeofday (&now, 0);
+		if ((seconds(now) - seconds(last_pulse)) > 1) {
+			{
+				boost::mutex::scoped_lock lm (_mutex);
+				if (_stop) {
+					break;
+				}
+			}
+			emit (bind (boost::ref(Pulse)));
+			last_pulse = now;
+		}
 	}
 
 	emit (bind(boost::ref(Finished)));

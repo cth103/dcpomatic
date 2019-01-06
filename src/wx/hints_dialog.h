@@ -48,6 +48,7 @@ private:
 	wxRichTextCtrl* _text;
 	boost::shared_ptr<Hints> _hints;
 	std::list<std::string> _current;
+	bool _finished;
 
 	boost::signals2::scoped_connection _film_change_connection;
 	boost::signals2::scoped_connection _film_content_change_connection;

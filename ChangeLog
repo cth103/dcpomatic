@@ -1,5 +1,7 @@
 2019-01-06  Carl Hetherington  <cth@carlh.net>
 
+	* Improve behaviour of hints dialog with long projects (#1439).
+
 	* Fix incorrect video waveform display (#1425).
 
 2019-01-05  Carl Hetherington  <cth@carlh.net>
