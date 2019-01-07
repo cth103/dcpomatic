@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -30,6 +30,7 @@
 #include "lib/dcp_content.h"
 #include "lib/text_content.h"
 #include "lib/compose.hpp"
+#include "lib/content_factory.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
@@ -278,4 +279,30 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test5)
 	encoder.go ();
 
 	check_ffmpeg ("build/test/ffmpeg_encoder_h264_test5.mp4", "test/data/ffmpeg_encoder_h264_test5.mp4", 1);
+}
+
+/** Test export of a VF */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test6)
+{
+	shared_ptr<Film> film = new_test_film2 ("ffmpeg_encoder_h264_test6_ov");
+	film->examine_and_add_content (shared_ptr<ImageContent>(new ImageContent(private_data / "bbc405.png")));
+	BOOST_REQUIRE (!wait_for_jobs());
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	shared_ptr<Film> film2 = new_test_film2 ("ffmpeg_encoder_h264_test6_vf");
+	shared_ptr<DCPContent> ov (new DCPContent("build/test/ffmpeg_encoder_h264_test6_ov/" + film->dcp_name(false)));
+	film2->examine_and_add_content (ov);
+	BOOST_REQUIRE (!wait_for_jobs());
+	ov->set_reference_video (true);
+	shared_ptr<Content> subs = content_factory("test/data/subrip.srt").front();
+	film2->examine_and_add_content (subs);
+	BOOST_REQUIRE (!wait_for_jobs());
+	BOOST_FOREACH (shared_ptr<TextContent> i, subs->text) {
+		i->set_use (true);
+	}
+
+	shared_ptr<Job> job (new TranscodeJob (film2));
+	FFmpegEncoder encoder (film2, job, "build/test/ffmpeg_encoder_h264_test6_vf.mp4", EXPORT_FORMAT_H264, true, false, 23);
+	encoder.go ();
 }
