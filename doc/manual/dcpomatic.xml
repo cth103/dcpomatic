@@ -736,6 +736,55 @@ To add one or more movie, sound, still-image or subtitle files, select
 </para>
 
 <para>
+DCP-o-matic will automatically map a set of audio files to the correct channels if you include appropriate &lsquo;tags&rsquo; in your filenames, as shown in <xref linkend="tab-audio-file-naming"/>.
+</para>
+
+<table id="tab-audio-file-naming">
+  <title>Audio file naming</title>
+  <tgroup cols='3' align='left' colsep='1' rowsep='1'>
+    <thead>
+      <row>
+	<entry>Tag</entry>
+	<entry>Examples</entry>
+	<entry>Channel</entry>
+      </row>
+    </thead>
+    <tbody>
+      <row>
+	<entry><code>L</code> surrounded by <code>.</code> <code>_</code> or <code>-</code></entry>
+	<entry>film-L.wav my_movie_L_final.wav</entry>
+	<entry>Left</entry>
+      </row>
+      <row>
+	<entry><code>R</code> surrounded by <code>.</code> <code>_</code> or <code>-</code></entry>
+	<entry>film-R.wav my_movie_R_final.wav</entry>
+	<entry>Right</entry>
+      </row>
+      <row>
+	<entry><code>C</code> surrounded by <code>.</code> <code>_</code> or <code>-</code></entry>
+	<entry>film-C.wav my_movie_C_final.wav</entry>
+	<entry>Centre</entry>
+      </row>
+      <row>
+	<entry><code>Lfe</code> surrounded by <code>.</code> <code>_</code> or <code>-</code></entry>
+	<entry>film-Lfe.wav my_movie_Lfe_final.wav</entry>
+	<entry>LFE (sub)</entry>
+      </row>
+      <row>
+	<entry><code>Ls</code> surrounded by <code>.</code> <code>_</code> or <code>-</code></entry>
+	<entry>film-Ls.wav my_movie_Ls_final.wav</entry>
+	<entry>Left surround</entry>
+      </row>
+      <row>
+	<entry><code>Rs</code> surrounded by <code>.</code> <code>_</code> or <code>-</code></entry>
+	<entry>film-Rs.wav my_movie_Rs_final.wav</entry>
+	<entry>Right surround</entry>
+      </row>
+    </tbody>
+  </tgroup>
+</table>
+
+<para>
 To add a directory (folder) of images, choose <guilabel>Add
 folder...</guilabel> and choose the directory from the selector.
 DCP-o-matic will open a small dialogue box where you can enter the
