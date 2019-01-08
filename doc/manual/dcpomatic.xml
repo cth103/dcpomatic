@@ -33,7 +33,7 @@ Hello, and welcome to DCP-o-matic!
   url="http://en.wikipedia.org/wiki/Digital_Cinema_Package">Digital
   Cinema Packages</ulink> (DCPs) from video, audio and/or
   subtitle files.</listitem>
-  <listitem>Playback of DCPs on a PC.</listitem>
+  <listitem>Playback and verification of DCPs on a PC/Mac.</listitem>
   <listitem>Creation of KDMs for DCPs.</listitem>
 </itemizedlist>
 
@@ -141,22 +141,15 @@ with the first (main) part.
 </para>
 
 <itemizedlist>
-  <listitem>Debian 7 (&lsquo;wheezy&rsquo;)</listitem>
-  <listitem>Debian 8 (&lsquo;jessie&rsquo;)</listitem>
-  <listitem>Debian 9 (&lsquo;squeeze&rsquo;)</listitem>
-  <listitem>Debian unstable (&lsquo;sid&rsquo;)</listitem>
-  <listitem>Ubuntu 14.04 (&lsquo;Trusty Tahr&rsquo;)</listitem>
-  <listitem>Ubuntu 16.04 (&lsquo;Xenial Xerus&rsquo;)</listitem>
-  <listitem>Ubuntu 18.04 (&lsquo;Bionic Beaver&rsquo;)</listitem>
-  <listitem>Mint 17</listitem>
-  <listitem>Mint 18</listitem>
-  <listitem>Mint 19</listitem>
+  <listitem>Debian 7 (&lsquo;wheezy&rsquo;), 8 (&lsquo;jessie&rsquo;), 9 (&lsquo;squeeze&rsquo;) and unstable (&lsquo;sid&rsquo;)</listitem>
+  <listitem>Ubuntu 14.04 (&lsquo;Trusty Tahr&rsquo;), 16.04 (&lsquo;Xenial Xerus&rsquo;) and 18.04 (&lsquo;Bionic Beaver&rsquo;)</listitem>
+  <listitem>Mint 17, 18 and 19</listitem>
 </itemizedlist>
 
 <para>
 using <code>.deb</code> packages: download the appropriate package
 from <ulink url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>
-and double-click it.  Debian or Ubuntu will install the necessary bits and
+and double-click it.  Debian, Ubuntu or Mint will install the necessary bits and
 pieces and set DCP-o-matic up for you.
 </para>
 </section>
@@ -167,7 +160,7 @@ pieces and set DCP-o-matic up for you.
 <section>
   <title>Fedora, Centos and Mageia Linux</title>
 
-  <para>There are <code>.rpm</code> packages for Fedora 27 and 28, Centos 6 and 7 and Mageia 6 on
+  <para>There are <code>.rpm</code> packages for Fedora 27, 28 and 29, Centos 6 and 7 and Mageia 6 on
   <ulink url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>
   </para>
 </section>
@@ -204,7 +197,6 @@ The following dependencies are required:
 <listitem><ulink url="http://www.mega-nerd.com/SRC/">libsamplerate</ulink></listitem>
 <listitem><ulink url="http://www.openssl.org/">OpenSSL</ulink></listitem>
 <listitem><ulink url="http://www.openjpeg.org/">libopenjpeg</ulink></listitem>
-<listitem><ulink url="http://www.imagemagick.org/script/index.php">ImageMagick</ulink></listitem>
 <listitem><ulink url="http://www.boost.org/">Boost</ulink></listitem>
 <listitem><ulink url="http://www.libssh.org/">libssh</ulink></listitem>
 <listitem><ulink url="http://www.gtk.org/">GTK (on Linux)</ulink></listitem>
@@ -1045,11 +1037,11 @@ url="http://dcpomatic.com/manual/colour.pdf">colour.pdf</ulink>.
 <title>Other settings</title>
 
 <para>
-The <guilabel>crop</guilabel> settings can be used to crop your content,
-which can be used to remove black borders from round the edges of DVD
-images, for example.  The specified number of pixels will be trimmed
-from each edge, and the content image in the right of the window will
-be updated to show the effect of the crop.
+The <guilabel>crop</guilabel> settings can be used to crop your
+content, which is often used to remove black borders from the edges of
+the image.  The specified number of pixels will be trimmed from each
+edge, and the content image in the right of the window will be updated
+to show the effect of the crop.
 </para>
 
 <para>
@@ -2402,8 +2394,8 @@ system; possible locations are listed in <xref linkend="ch-config"/>
 <title>Preferences</title>
 
 <para>
-DCP-o-matic provides a few preferences which can be used to modify its
-behaviour.  This chapter explains those options.
+DCP-o-matic provides preferences which can be used to modify its
+behaviour.  They are described in this chapter.
 </para>
 
 <para>
@@ -2985,8 +2977,8 @@ even refuse to ingest.
 
 <para>
 The only rates that are (pretty much) guaranteed to work on all DCI
-projectors are 24 frames per second (fps) for video and 48kHz or 96kHz
-for audio.  If you are sending your DCPs to unknown places it wise to
+projectors are 24 frames per second (fps) for video and 48kHz for
+audio.  If you are sending DCPs to unknown places it is wise to
 consider using these rates if at all possible.
 </para>
 
@@ -2998,7 +2990,7 @@ consider using these rates if at all possible.
 <title>Other often-supported rates</title>
 <para>
 Many projectors now in the wild support additional video frame rates:
-25, 30 and 48 fps.
+25, 30, 48, 50 and 60 fps.
 </para>
 </section>
 
