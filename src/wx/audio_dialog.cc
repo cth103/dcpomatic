@@ -182,6 +182,13 @@ AudioDialog::try_to_load_analysis ()
 	if (!boost::filesystem::exists (path)) {
 		_plot->set_analysis (shared_ptr<AudioAnalysis> ());
 		_analysis.reset ();
+
+		BOOST_FOREACH (shared_ptr<Job> i, JobManager::instance()->get()) {
+			if (dynamic_pointer_cast<AnalyseAudioJob>(i)) {
+				i->cancel ();
+			}
+		}
+
 		JobManager::instance()->analyse_audio (
 			film, _playlist, !static_cast<bool>(check), _analysis_finished_connection, bind (&AudioDialog::analysis_finished, this)
 			);

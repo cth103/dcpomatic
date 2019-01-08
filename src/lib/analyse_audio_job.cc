@@ -54,6 +54,7 @@ int const AnalyseAudioJob::_num_points = 1024;
 AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist, bool from_zero)
 	: Job (film)
 	, _playlist (playlist)
+	, _path (film->audio_analysis_path(playlist))
 	, _from_zero (from_zero)
 	, _done (0)
 	, _samples_per_point (1)
@@ -166,7 +167,7 @@ AnalyseAudioJob::run ()
 
 	_analysis->set_samples_per_point (_samples_per_point);
 	_analysis->set_sample_rate (_film->audio_frame_rate ());
-	_analysis->write (_film->audio_analysis_path (_playlist));
+	_analysis->write (_path);
 
 	set_progress (1);
 	set_state (FINISHED_OK);

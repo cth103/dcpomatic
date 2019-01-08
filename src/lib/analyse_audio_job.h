@@ -51,14 +51,16 @@ public:
 	std::string json_name () const;
 	void run ();
 
-	boost::shared_ptr<const Playlist> playlist () const {
-		return _playlist;
+	boost::filesystem::path path () const {
+		return _path;
 	}
 
 private:
 	void analyse (boost::shared_ptr<const AudioBuffers>, DCPTime time);
 
 	boost::shared_ptr<const Playlist> _playlist;
+	/** playlist's audio analysis path when the job was created */
+	boost::filesystem::path _path;
 	DCPTime _start;
 	bool _from_zero;
 
