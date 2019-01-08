@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -38,6 +38,7 @@ public:
 	void set_cursor (boost::optional<DCPTime> time, boost::optional<float> db);
 
 private:
+	void film_change (ChangeType, int);
 	void content_change (ChangeType, int);
 	void channel_clicked (wxCommandEvent &);
 	void type_clicked (wxCommandEvent &);
@@ -61,5 +62,6 @@ private:
 	wxCheckBox* _type_checkbox[AudioPoint::COUNT];
 	wxSlider* _smoothing;
 	boost::signals2::scoped_connection _film_connection;
+	boost::signals2::scoped_connection _film_content_connection;
 	boost::signals2::scoped_connection _analysis_finished_connection;
 };

@@ -99,15 +99,11 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 		right->Add (m, 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM, 16);
 	}
 
-	for (int i = 0; i < _channels; ++i) {
+	for (int i = 0; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
 		_channel_checkbox[i] = new CheckBox (this, std_to_wx(audio_channel_name(i)));
 		_channel_checkbox[i]->SetForegroundColour(wxColour(_plot->colour(i)));
 		right->Add (_channel_checkbox[i], 0, wxEXPAND | wxALL, 3);
 		_channel_checkbox[i]->Bind (wxEVT_CHECKBOX, boost::bind (&AudioDialog::channel_clicked, this, _1));
-	}
-
-	for (int i = _channels; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
-		_channel_checkbox[i] = 0;
 	}
 
 	{
@@ -152,7 +148,8 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
 
-	_film_connection = film->ContentChange.connect (boost::bind (&AudioDialog::content_change, this, _1, _3));
+	_film_connection = film->Change.connect (boost::bind(&AudioDialog::film_change, this, _1, _2));
+	_film_content_connection = film->ContentChange.connect (boost::bind (&AudioDialog::content_change, this, _1, _3));
 	DCPOMATIC_ASSERT (film->directory());
 	SetTitle(wxString::Format(_("DCP-o-matic audio - %s"), std_to_wx(film->directory().get().string())));
 
@@ -214,6 +211,14 @@ AudioDialog::try_to_load_analysis ()
 	_plot->set_analysis (_analysis);
 	_plot->set_gain_correction (_analysis->gain_correction (_playlist));
 	setup_statistics ();
+
+	for (int i = 0; i < _channels; ++i) {
+		_channel_checkbox[i]->Show ();
+	}
+
+	for (int i = _channels; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
+		_channel_checkbox[i]->Hide ();
+	}
 
 	/* Set up some defaults if no check boxes are checked */
 
@@ -288,6 +293,22 @@ AudioDialog::channel_clicked (wxCommandEvent& ev)
 	DCPOMATIC_ASSERT (c < _channels);
 
 	_plot->set_channel_visible (c, _channel_checkbox[c]->GetValue ());
+}
+
+void
+AudioDialog::film_change (ChangeType type, int p)
+{
+	if (type != CHANGE_TYPE_DONE) {
+		return;
+	}
+
+	if (p == Film::AUDIO_CHANNELS) {
+		shared_ptr<Film> film = _film.lock ();
+		if (film) {
+			_channels = film->audio_channels ();
+			try_to_load_analysis ();
+		}
+	}
 }
 
 void

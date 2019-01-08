@@ -288,6 +288,8 @@ Film::audio_analysis_path (shared_ptr<const Playlist> playlist) const
 		digester.add (audio_processor()->id ());
 	}
 
+	digester.add (audio_channels());
+
 	p /= digester.get ();
 	return p;
 }
