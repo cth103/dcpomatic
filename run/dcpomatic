@@ -20,6 +20,9 @@ elif [ "$1" == "--i18n" ]; then
 elif [ "$1" == "--perf" ]; then
     shift
     perf record build/src/tools/dcpomatic2 $*
+elif [ "$1" == "--scaled" ]; then
+    shift
+    ~/src/run_scaled/run_scaled --sleep=5 --scale=0.5 build/src/tools/dcpomatic2 $*
 else
     build/src/tools/dcpomatic2 $*
 fi
