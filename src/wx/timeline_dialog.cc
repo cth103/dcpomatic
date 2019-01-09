@@ -36,7 +36,7 @@ using boost::shared_ptr;
 
 TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film)
 	: wxDialog (
-		cp->panel(),
+		cp->window(),
 		wxID_ANY,
 		_("Timeline"),
 		wxDefaultPosition,

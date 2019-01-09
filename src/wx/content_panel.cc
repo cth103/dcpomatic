@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -46,6 +46,7 @@
 #include <wx/wx.h>
 #include <wx/notebook.h>
 #include <wx/listctrl.h>
+#include <wx/display.h>
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
 #include <iostream>
@@ -76,16 +77,16 @@ ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmV
 		_text_panel[i] = 0;
 	}
 
-	_panel = new wxPanel (n);
-	_sizer = new wxBoxSizer (wxVERTICAL);
-	_panel->SetSizer (_sizer);
+	_splitter = new wxSplitterWindow (n);
+	wxPanel* top = new wxPanel (_splitter);
 
-	_menu = new ContentMenu (_panel);
+	_menu = new ContentMenu (_splitter);
+
 
 	{
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 
-		_content = new wxListCtrl (_panel, wxID_ANY, wxDefaultPosition, wxSize (320, 160), wxLC_REPORT | wxLC_NO_HEADER);
+		_content = new wxListCtrl (top, wxID_ANY, wxDefaultPosition, wxSize (320, 160), wxLC_REPORT | wxLC_NO_HEADER);
 		_content->DragAcceptFiles (true);
 		s->Add (_content, 1, wxEXPAND | wxTOP | wxBOTTOM, 6);
 
@@ -94,41 +95,46 @@ ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmV
 
 		wxBoxSizer* b = new wxBoxSizer (wxVERTICAL);
 
-		_add_file = new Button (_panel, _("Add file(s)..."));
+		_add_file = new Button (top, _("Add file(s)..."));
 		_add_file->SetToolTip (_("Add video, image, sound or subtitle files to the film."));
 		b->Add (_add_file, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_add_folder = new Button (_panel, _("Add folder..."));
+		_add_folder = new Button (top, _("Add folder..."));
 		_add_folder->SetToolTip (_("Add a folder of image files (which will be used as a moving image sequence) or a folder of sound files."));
 		b->Add (_add_folder, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_add_dcp = new Button (_panel, _("Add DCP..."));
+		_add_dcp = new Button (top, _("Add DCP..."));
 		_add_dcp->SetToolTip (_("Add a DCP."));
 		b->Add (_add_dcp, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_remove = new Button (_panel, _("Remove"));
+		_remove = new Button (top, _("Remove"));
 		_remove->SetToolTip (_("Remove the selected piece of content from the film."));
 		b->Add (_remove, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_earlier = new Button (_panel, _("Earlier"));
+		_earlier = new Button (top, _("Earlier"));
 		_earlier->SetToolTip (_("Move the selected piece of content earlier in the film."));
 		b->Add (_earlier, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_later = new Button (_panel, _("Later"));
+		_later = new Button (top, _("Later"));
 		_later->SetToolTip (_("Move the selected piece of content later in the film."));
 		b->Add (_later, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_timeline = new Button (_panel, _("Timeline..."));
+		_timeline = new Button (top, _("Timeline..."));
 		_timeline->SetToolTip (_("Open the timeline for the film."));
 		b->Add (_timeline, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
 		s->Add (b, 0, wxALL, 4);
-
-		_sizer->Add (s, 1, wxEXPAND | wxALL, 6);
+		top->SetSizer (s);
 	}
 
-	_notebook = new wxNotebook (_panel, wxID_ANY);
-	_sizer->Add (_notebook, 0, wxEXPAND | wxTOP, 6);
+	_notebook = new wxNotebook (_splitter, wxID_ANY);
+
+	/* This is a hack to try and make the content notebook a sensible size; large on big displays but small
+	   enough on small displays to leave space for the content area.
+	*/
+	wxDisplay display (wxDisplay::GetFromWindow(_splitter));
+	wxRect screen = display.GetClientArea();
+	_splitter->SplitHorizontally (top, _notebook, screen.height > 800 ? -600 : -150);
 
 	_timing_panel = new TimingPanel (this, _film_viewer);
 	_notebook->AddPage (_timing_panel, _("Timing"), false);
@@ -401,7 +407,7 @@ ContentPanel::add_file_clicked ()
 	/* This method is also called when Ctrl-A is pressed, so check that our notebook page
 	   is visible.
 	*/
-	if (_parent->GetCurrentPage() != _panel || !_film) {
+	if (_parent->GetCurrentPage() != _splitter || !_film) {
 		return;
 	}
 
@@ -409,7 +415,7 @@ ContentPanel::add_file_clicked ()
 	   non-Latin filenames or paths.
 	*/
 	wxFileDialog* d = new wxFileDialog (
-		_panel,
+		_splitter,
 		_("Choose a file or files"),
 		wxT (""),
 		wxT (""),
@@ -438,7 +444,7 @@ ContentPanel::add_file_clicked ()
 void
 ContentPanel::add_folder_clicked ()
 {
-	wxDirDialog* d = new wxDirDialog (_panel, _("Choose a folder"), wxT (""), wxDD_DIR_MUST_EXIST);
+	wxDirDialog* d = new wxDirDialog (_splitter, _("Choose a folder"), wxT(""), wxDD_DIR_MUST_EXIST);
 	int r = d->ShowModal ();
 	boost::filesystem::path const path (wx_to_std (d->GetPath ()));
 	d->Destroy ();
@@ -464,7 +470,7 @@ ContentPanel::add_folder_clicked ()
 	BOOST_FOREACH (shared_ptr<Content> i, content) {
 		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (i);
 		if (ic) {
-			ImageSequenceDialog* e = new ImageSequenceDialog (_panel);
+			ImageSequenceDialog* e = new ImageSequenceDialog (_splitter);
 			r = e->ShowModal ();
 			float const frame_rate = e->frame_rate ();
 			e->Destroy ();
@@ -483,7 +489,7 @@ ContentPanel::add_folder_clicked ()
 void
 ContentPanel::add_dcp_clicked ()
 {
-	wxDirDialog* d = new wxDirDialog (_panel, _("Choose a DCP folder"), wxT (""), wxDD_DIR_MUST_EXIST);
+	wxDirDialog* d = new wxDirDialog (_splitter, _("Choose a DCP folder"), wxT(""), wxDD_DIR_MUST_EXIST);
 	int r = d->ShowModal ();
 	boost::filesystem::path const path (wx_to_std (d->GetPath ()));
 	d->Destroy ();
@@ -506,7 +512,7 @@ ContentPanel::remove_clicked (bool hotkey)
 	/* If the method was called because Delete was pressed check that our notebook page
 	   is visible and that the content list is focussed.
 	*/
-	if (hotkey && (_parent->GetCurrentPage() != _panel || !_content->HasFocus())) {
+	if (hotkey && (_parent->GetCurrentPage() != _splitter || !_content->HasFocus())) {
 		return true;
 	}
 

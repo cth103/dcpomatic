@@ -51,7 +51,7 @@ FilmEditor::FilmEditor (wxWindow* parent, weak_ptr<FilmViewer> viewer)
 	s->Add (_main_notebook, 1);
 
 	_content_panel = new ContentPanel (_main_notebook, _film, viewer);
-	_main_notebook->AddPage (_content_panel->panel (), _("Content"), true);
+	_main_notebook->AddPage (_content_panel->window(), _("Content"), true);
 	_dcp_panel = new DCPPanel (_main_notebook, _film);
 	_main_notebook->AddPage (_dcp_panel->panel (), _("DCP"), false);
 

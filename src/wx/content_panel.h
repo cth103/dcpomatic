@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,17 +18,19 @@
 
 */
 
-#include <list>
-#include <boost/shared_ptr.hpp>
+#include "content_menu.h"
 #include "lib/types.h"
 #include "lib/film.h"
-#include "content_menu.h"
+#include <wx/splitter.h>
+#include <boost/shared_ptr.hpp>
+#include <list>
 
 class wxNotebook;
 class wxPanel;
 class wxSizer;
 class wxListCtrl;
 class wxListEvent;
+class wxSplitterWindow;
 class TimelineDialog;
 class FilmEditor;
 class ContentSubPanel;
@@ -56,8 +58,8 @@ public:
 	void film_changed (Film::Property p);
 	void film_content_changed (int p);
 
-	wxPanel* panel () const {
-		return _panel;
+	wxWindow* window () const {
+		return _splitter;
 	}
 
 	wxNotebook* notebook () const {
@@ -98,7 +100,7 @@ private:
 	void add_files (std::list<boost::filesystem::path>);
 	std::list<ContentSubPanel *> panels () const;
 
-	wxPanel* _panel;
+	wxSplitterWindow* _splitter;
 	wxSizer* _sizer;
 	wxNotebook* _notebook;
 	wxListCtrl* _content;

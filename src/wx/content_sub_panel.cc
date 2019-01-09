@@ -25,7 +25,6 @@
 #include "lib/compose.hpp"
 #include "lib/log.h"
 #include <wx/notebook.h>
-#include <wx/display.h>
 #include <boost/foreach.hpp>
 
 using std::list;
@@ -40,13 +39,6 @@ ContentSubPanel::ContentSubPanel (ContentPanel* p, wxString name)
 {
 	SetScrollRate (8, 8);
 	SetSizer (_sizer);
-
-	/* This is a hack to try and make the content notebook a sensible size; large on big displays but small
-	   enough on small displays to leave space for the content area.
-	*/
-	wxDisplay display (wxDisplay::GetFromWindow(p->notebook()));
-	wxRect screen = display.GetClientArea();
-	SetMinSize (wxSize(-1, screen.height > 800 ? 600 : 320));
 
 	_grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	_sizer->Add (_grid, 0, wxALL, 8);
