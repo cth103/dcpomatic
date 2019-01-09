@@ -124,11 +124,11 @@ ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmV
 
 		s->Add (b, 0, wxALL, 4);
 
-		_sizer->Add (s, 0, wxEXPAND | wxALL, 6);
+		_sizer->Add (s, 1, wxEXPAND | wxALL, 6);
 	}
 
 	_notebook = new wxNotebook (_panel, wxID_ANY);
-	_sizer->Add (_notebook, 1, wxEXPAND | wxTOP, 6);
+	_sizer->Add (_notebook, 0, wxEXPAND | wxTOP, 6);
 
 	_timing_panel = new TimingPanel (this, _film_viewer);
 	_notebook->AddPage (_timing_panel, _("Timing"), false);

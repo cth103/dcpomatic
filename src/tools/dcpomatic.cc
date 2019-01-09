@@ -339,8 +339,8 @@ public:
 		right_sizer->Add (job_manager_view, 1, wxEXPAND | wxALL, 6);
 
 		wxBoxSizer* main_sizer = new wxBoxSizer (wxHORIZONTAL);
-		main_sizer->Add (_film_editor, 1, wxEXPAND | wxALL, 6);
-		main_sizer->Add (right_sizer, 2, wxEXPAND | wxALL, 6);
+		main_sizer->Add (_film_editor, 0, wxEXPAND | wxALL, 6);
+		main_sizer->Add (right_sizer, 1, wxEXPAND | wxALL, 6);
 
 		set_menu_sensitivity ();
 

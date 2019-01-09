@@ -39,6 +39,8 @@ ContentSubPanel::ContentSubPanel (ContentPanel* p, wxString name)
 {
 	SetScrollRate (8, 8);
 	SetSizer (_sizer);
+	/* This stops the notebook collapsing to near-zero size.  The 600 is a guess. */
+	SetMinSize (wxSize(-1, 600));
 
 	_grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	_sizer->Add (_grid, 0, wxALL, 8);

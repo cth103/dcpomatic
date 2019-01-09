@@ -1,3 +1,7 @@
+2019-01-09  Carl Hetherington  <cth@carlh.net>
+
+	* Hopefully improve layout on high-resolution (>2K) displays (#1303).
+
 2019-01-08  Carl Hetherington  <cth@carlh.net>
 
 	* Re-analyse audio when DCP channel count changes (#1189).
