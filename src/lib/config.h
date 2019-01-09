@@ -1083,9 +1083,6 @@ private:
 	boost::filesystem::path directory_or (boost::optional<boost::filesystem::path> dir, boost::filesystem::path a) const;
 	void add_to_history_internal (std::vector<boost::filesystem::path>& h, boost::filesystem::path p);
 	void backup ();
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	dcp::Data key_from_uuid () const;
-#endif
 
 	template <class T>
 	void maybe_set (T& member, T new_value, Property prop = OTHER) {
@@ -1175,10 +1172,16 @@ private:
 	std::string _notification_bcc;
 	std::string _notification_email;
 	boost::shared_ptr<const dcp::CertificateChain> _signer_chain;
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	boost::filesystem::path _signer_chain_path;
+#endif
 	/** Chain used to decrypt KDMs; the leaf of this chain is the target
 	 *  certificate for making KDMs given to DCP-o-matic.
 	 */
 	boost::shared_ptr<const dcp::CertificateChain> _decryption_chain;
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	boost::filesystem::path _decryption_chain_path;
+#endif
 	/** true to check for updates on startup */
 	bool _check_for_updates;
 	bool _check_for_test_updates;

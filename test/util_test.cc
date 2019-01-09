@@ -24,7 +24,9 @@
  */
 
 #include "lib/util.h"
+#include "lib/cross.h"
 #include "lib/exceptions.h"
+#include <dcp/certificate_chain.h>
 #include <boost/test/unit_test.hpp>
 
 using std::string;
@@ -89,3 +91,25 @@ BOOST_AUTO_TEST_CASE (tidy_for_filename_test)
 	BOOST_CHECK_EQUAL (tidy_for_filename ("fish/chips\\"), "fish_chips_");
 	BOOST_CHECK_EQUAL (tidy_for_filename ("abcdefghï"), "abcdefghï");
 }
+
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+BOOST_AUTO_TEST_CASE (swaroop_chain_test)
+{
+	shared_ptr<dcp::CertificateChain> cc (
+		new dcp::CertificateChain (
+			openssl_path(),
+			"dcpomatic.com",
+			"dcpomatic.com",
+			".dcpomatic.smpte-430-2.ROOT",
+			".dcpomatic.smpte-430-2.INTERMEDIATE",
+			"CS.dcpomatic.smpte-430-2.LEAF"
+			)
+		);
+
+	write_swaroop_chain (cc, "build/test/swaroop_chain");
+	shared_ptr<dcp::CertificateChain> back = read_swaroop_chain ("build/test/swaroop_chain");
+
+	BOOST_CHECK (cc->root_to_leaf() == back->root_to_leaf());
+}
+
+#endif

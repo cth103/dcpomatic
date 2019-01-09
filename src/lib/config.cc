@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -179,6 +179,8 @@ Config::set_defaults ()
 	_player_watermark_period = 1;
 	_player_watermark_duration = 50;
 	_player_lock_file = boost::none;
+	_signer_chain_path = "signer";
+	_decryption_chain_path = "decryption";
 #endif
 
 	_allowed_dcp_frame_rates.clear ();
@@ -394,6 +396,21 @@ try
 	}
 
 	cxml::NodePtr signer = f.optional_node_child ("Signer");
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	if (signer && signer->node_children().size() == 1) {
+		/* The content of <Signer> is a path to a file; if it's relative it's in the same
+		   directory as .config. */
+		_signer_chain_path = signer->content();
+		if (_signer_chain_path.is_relative()) {
+			_signer_chain = read_swaroop_chain (path(_signer_chain_path.string()));
+		} else {
+			_signer_chain = read_swaroop_chain (_signer_chain_path);
+		}
+	} else {
+		/* <Signer> is not present or has children: ignore it and remake. */
+		_signer_chain = create_certificate_chain ();
+	}
+#else
 	if (signer) {
 		shared_ptr<dcp::CertificateChain> c (new dcp::CertificateChain ());
 		/* Read the signing certificates and private key in from the config file */
@@ -406,6 +423,7 @@ try
 		/* Make a new set of signing certificates and key */
 		_signer_chain = create_certificate_chain ();
 	}
+#endif
 
 	/* These must be done before we call BadSignerChain as that might set one
 	   of the nags.
@@ -432,29 +450,32 @@ try
 	}
 
 	cxml::NodePtr decryption = f.optional_node_child ("Decryption");
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	if (decryption && decryption->node_children().size() == 1) {
+		/* The content of <Decryption> is a path to a file; if it's relative, it's in the same
+		   directory as .config. */
+		_decryption_chain_path = decryption->content();
+		if (_decryption_chain_path.is_relative()) {
+			_decryption_chain = read_swaroop_chain (path(_decryption_chain_path.string()));
+		} else {
+			_decryption_chain = read_swaroop_chain (_decryption_chain_path);
+		}
+	} else {
+		/* <Decryption> is not present or has more children: ignore it and remake. */
+		_decryption_chain = create_certificate_chain ();
+	}
+#else
 	if (decryption) {
 		shared_ptr<dcp::CertificateChain> c (new dcp::CertificateChain ());
 		BOOST_FOREACH (cxml::NodePtr i, decryption->node_children ("Certificate")) {
 			c->add (dcp::Certificate (i->content ()));
 		}
-		optional<string> key = decryption->optional_string_child ("PrivateKey");
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-		if (key) {
-			c->set_key (*key);
-		} else {
-			dcp::Data encrypted_key (path("private"));
-			dcp::Data iv (path("iv"));
-			c->set_key (dcpomatic::decrypt (encrypted_key, key_from_uuid(), iv));
-		}
-#else
-		DCPOMATIC_ASSERT (key);
-		c->set_key (*key);
-#endif
+		c->set_key (decryption->string_child ("PrivateKey"));
 		_decryption_chain = c;
 	} else {
 		_decryption_chain = create_certificate_chain ();
 	}
-
+#endif
 	if (f.optional_node_child("DKDMGroup")) {
 		/* New-style: all DKDMs in a group */
 		_dkdms = dynamic_pointer_cast<DKDMGroup> (DKDMBase::read (f.node_child("DKDMGroup")));
@@ -612,19 +633,6 @@ Config::write () const
 	write_config ();
 	write_cinemas ();
 }
-
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-/* Make up a key from the machine UUID */
-dcp::Data
-Config::key_from_uuid () const
-{
-	dcp::Data key (dcpomatic::crypto_key_length());
-	memset (key.data().get(), 0, key.size());
-	string const magic = command_and_read ("dcpomatic2_uuid");
-	strncpy ((char *) key.data().get(), magic.c_str(), dcpomatic::crypto_key_length());
-	return key;
-}
-#endif
 
 void
 Config::write_config () const
@@ -793,25 +801,36 @@ Config::write_config () const
 	/* [XML] Signer Certificate chain and private key to use when signing DCPs and KDMs.  Should contain <code>&lt;Certificate&gt;</code>
 	   tags in order and a <code>&lt;PrivateKey&gt;</code> tag all containing PEM-encoded certificates or private keys as appropriate.
 	*/
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	if (_signer_chain_path.is_relative()) {
+		write_swaroop_chain (_signer_chain, path(_signer_chain_path.string()));
+	} else {
+		write_swaroop_chain (_signer_chain, _signer_chain_path);
+	}
+	root->add_child("Signer")->add_child_text(_signer_chain_path.string());
+#else
 	xmlpp::Element* signer = root->add_child ("Signer");
 	DCPOMATIC_ASSERT (_signer_chain);
 	BOOST_FOREACH (dcp::Certificate const & i, _signer_chain->unordered()) {
 		signer->add_child("Certificate")->add_child_text (i.certificate (true));
 	}
 	signer->add_child("PrivateKey")->add_child_text (_signer_chain->key().get ());
+#endif
 
 	/* [XML] Decryption Certificate chain and private key to use when decrypting KDMs */
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	if (_decryption_chain_path.is_relative()) {
+		write_swaroop_chain (_decryption_chain, path(_decryption_chain_path.string()));
+	} else {
+		write_swaroop_chain (_decryption_chain, _decryption_chain_path);
+	}
+	root->add_child("Decryption")->add_child_text(_decryption_chain_path.string());
+#else
 	xmlpp::Element* decryption = root->add_child ("Decryption");
 	DCPOMATIC_ASSERT (_decryption_chain);
 	BOOST_FOREACH (dcp::Certificate const & i, _decryption_chain->unordered()) {
 		decryption->add_child("Certificate")->add_child_text (i.certificate (true));
 	}
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	dcp::Data iv = dcpomatic::random_iv ();
-	dcp::Data encrypted_key = dcpomatic::encrypt (_decryption_chain->key().get(), key_from_uuid(), iv);
-	encrypted_key.write (path("private"));
-	iv.write (path("iv"));
-#else
 	decryption->add_child("PrivateKey")->add_child_text (_decryption_chain->key().get ());
 #endif
 

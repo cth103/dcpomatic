@@ -35,6 +35,7 @@
 #include "rect.h"
 #include "digester.h"
 #include "audio_processor.h"
+#include "crypto.h"
 #include "compose.hpp"
 #include "audio_buffers.h"
 #include <dcp/locale_convert.h>
@@ -93,6 +94,7 @@ using boost::thread;
 using boost::optional;
 using boost::lexical_cast;
 using boost::bad_lexical_cast;
+using boost::scoped_array;
 using dcp::Size;
 using dcp::raw_convert;
 using dcp::locale_convert;
@@ -812,3 +814,110 @@ checked_fread (void* ptr, size_t size, FILE* stream, boost::filesystem::path pat
 		}
 	}
 }
+
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+
+/* Make up a key from the machine UUID */
+dcp::Data
+key_from_uuid ()
+{
+	dcp::Data key (dcpomatic::crypto_key_length());
+	memset (key.data().get(), 0, key.size());
+	string const magic = command_and_read ("dcpomatic2_uuid");
+	strncpy ((char *) key.data().get(), magic.c_str(), dcpomatic::crypto_key_length());
+	return key;
+}
+
+/* swaroop chain file format:
+ *
+ *  0 [int16_t] IV length
+ *  2 [int16_t] cert #1 length, or 0 for none
+ *  4 [int16_t] cert #2 length, or 0 for none
+ *  6 [int16_t] cert #3 length, or 0 for none
+ *  8 [int16_t] cert #4 length, or 0 for none
+ * 10 [int16_t] cert #5 length, or 0 for none
+ * 12 [int16_t] cert #6 length, or 0 for none
+ * 14 [int16_t] cert #7 length, or 0 for none
+ * 16 [int16_t] cert #8 length, or 0 for none
+ * 16 [int16_t] private key length
+ * 20 IV
+ *    cert #1
+ *    cert #2
+ *    cert #3
+ *    cert #4
+ *    cert #5
+ *    cert #6
+ *    cert #7
+ *    cert #8
+ *    private key
+ */
+
+struct __attribute__ ((packed)) Header_ {
+	int16_t iv_length;
+	int16_t cert_length[8];
+	int16_t private_key_length;
+};
+
+typedef struct Header_ Header;
+
+shared_ptr<dcp::CertificateChain>
+read_swaroop_chain (boost::filesystem::path path)
+{
+	dcp::Data data (path);
+	Header* header = (Header *) data.data().get();
+	uint8_t* p = data.data().get() + sizeof(Header);
+
+	dcp::Data iv (p, header->iv_length);
+	p += iv.size();
+
+	shared_ptr<dcp::CertificateChain> cc (new dcp::CertificateChain());
+	for (int i = 0; i < 8; ++i) {
+		if (header->cert_length[i] == 0) {
+			break;
+		}
+		dcp::Data c(p, header->cert_length[i]);
+		p += c.size();
+		cc->add (dcp::Certificate(dcpomatic::decrypt(c, key_from_uuid(), iv)));
+	}
+
+	dcp::Data k (p, header->private_key_length);
+	cc->set_key (dcpomatic::decrypt(k, key_from_uuid(), iv));
+	return cc;
+}
+
+void
+write_swaroop_chain (shared_ptr<const dcp::CertificateChain> chain, boost::filesystem::path output)
+{
+	cout << "write " << output.string() << "\n";
+
+	scoped_array<uint8_t> buffer (new uint8_t[65536]);
+	Header* header = (Header *) buffer.get();
+	memset (header, 0, sizeof(Header));
+	uint8_t* p = buffer.get() + sizeof(Header);
+
+	dcp::Data iv = dcpomatic::random_iv ();
+	header->iv_length = iv.size ();
+	memcpy (p, iv.data().get(), iv.size());
+	p += iv.size();
+
+	int N = 0;
+	BOOST_FOREACH (dcp::Certificate i, chain->root_to_leaf()) {
+		dcp::Data e = dcpomatic::encrypt (i.certificate(true), key_from_uuid(), iv);
+		memcpy (p, e.data().get(), e.size());
+		p += e.size();
+		DCPOMATIC_ASSERT (N < 8);
+		header->cert_length[N] = e.size ();
+		++N;
+	}
+
+	dcp::Data k = dcpomatic::encrypt (chain->key().get(), key_from_uuid(), iv);
+	memcpy (p, k.data().get(), k.size());
+	p += k.size();
+	header->private_key_length = k.size ();
+
+	FILE* f = fopen_boost (output, "wb");
+	checked_fwrite (buffer.get(), p - buffer.get(), f, output);
+	fclose (f);
+}
+
+#endif
