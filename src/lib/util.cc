@@ -888,8 +888,6 @@ read_swaroop_chain (boost::filesystem::path path)
 void
 write_swaroop_chain (shared_ptr<const dcp::CertificateChain> chain, boost::filesystem::path output)
 {
-	cout << "write " << output.string() << "\n";
-
 	scoped_array<uint8_t> buffer (new uint8_t[65536]);
 	Header* header = (Header *) buffer.get();
 	memset (header, 0, sizeof(Header));
