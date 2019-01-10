@@ -590,6 +590,26 @@ private:
 
 	void file_close ()
 	{
+		if (_film && _film->dirty ()) {
+
+			FilmChangedClosingDialog* dialog = new FilmChangedClosingDialog (_film->name ());
+			int const r = dialog->run ();
+			delete dialog;
+
+			switch (r) {
+			case wxID_NO:
+				/* Don't save and carry on to close */
+				break;
+			case wxID_YES:
+				/* Save and carry on to close */
+				_film->write_metadata ();
+				break;
+			case wxID_CANCEL:
+				/* Stop */
+				return;
+			}
+		}
+
 		set_film (shared_ptr<Film>());
 	}
 
