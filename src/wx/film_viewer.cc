@@ -330,7 +330,7 @@ FilmViewer::paint_panel ()
 {
 	wxPaintDC dc (_panel);
 
-	if (!_out_size.width || !_out_size.height || _out_size != _frame->size()) {
+	if (!_out_size.width || !_out_size.height || (_frame && _out_size != _frame->size())) {
 		dc.Clear ();
 		return;
 	}
