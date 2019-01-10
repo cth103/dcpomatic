@@ -756,40 +756,44 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 
 	if (_last_video_time) {
 		DCPTime fill_from = max (*_last_video_time, piece->content->position());
-		LastVideoMap::const_iterator last = _last_video.find (wp);
-		if (_film->three_d()) {
-			Eyes fill_to_eyes = video.eyes;
-			if (fill_to_eyes == EYES_BOTH) {
-				fill_to_eyes = EYES_LEFT;
-			}
-			if (fill_to == piece->content->end(_film)) {
-				/* Don't fill after the end of the content */
-				fill_to_eyes = EYES_LEFT;
-			}
-			DCPTime j = fill_from;
-			Eyes eyes = _last_video_eyes.get_value_or(EYES_LEFT);
-			if (eyes == EYES_BOTH) {
-				eyes = EYES_LEFT;
-			}
-			while (j < fill_to || eyes != fill_to_eyes) {
-				if (last != _last_video.end()) {
-					shared_ptr<PlayerVideo> copy = last->second->shallow_copy();
-					copy->set_eyes (eyes);
-					emit_video (copy, j);
-				} else {
-					emit_video (black_player_video_frame(eyes), j);
+
+		/* Fill if we have more than half a frame to do */
+		if ((fill_to - fill_from) > one_video_frame() / 2) {
+			LastVideoMap::const_iterator last = _last_video.find (wp);
+			if (_film->three_d()) {
+				Eyes fill_to_eyes = video.eyes;
+				if (fill_to_eyes == EYES_BOTH) {
+					fill_to_eyes = EYES_LEFT;
 				}
-				if (eyes == EYES_RIGHT) {
-					j += one_video_frame();
+				if (fill_to == piece->content->end(_film)) {
+					/* Don't fill after the end of the content */
+					fill_to_eyes = EYES_LEFT;
 				}
-				eyes = increment_eyes (eyes);
-			}
-		} else {
-			for (DCPTime j = fill_from; j < fill_to; j += one_video_frame()) {
-				if (last != _last_video.end()) {
-					emit_video (last->second, j);
-				} else {
-					emit_video (black_player_video_frame(EYES_BOTH), j);
+				DCPTime j = fill_from;
+				Eyes eyes = _last_video_eyes.get_value_or(EYES_LEFT);
+				if (eyes == EYES_BOTH) {
+					eyes = EYES_LEFT;
+				}
+				while (j < fill_to || eyes != fill_to_eyes) {
+					if (last != _last_video.end()) {
+						shared_ptr<PlayerVideo> copy = last->second->shallow_copy();
+						copy->set_eyes (eyes);
+						emit_video (copy, j);
+					} else {
+						emit_video (black_player_video_frame(eyes), j);
+					}
+					if (eyes == EYES_RIGHT) {
+						j += one_video_frame();
+					}
+					eyes = increment_eyes (eyes);
+				}
+			} else {
+				for (DCPTime j = fill_from; j < fill_to; j += one_video_frame()) {
+					if (last != _last_video.end()) {
+						emit_video (last->second, j);
+					} else {
+						emit_video (black_player_video_frame(EYES_BOTH), j);
+					}
 				}
 			}
 		}

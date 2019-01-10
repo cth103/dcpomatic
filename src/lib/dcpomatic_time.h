@@ -113,6 +113,10 @@ public:
 		return *this;
 	}
 
+	Time<S, O> operator/ (int o) const {
+		return Time<S, O> (_t / o);
+	}
+
 	/** Round up to the nearest sampling interval
 	 *  at some sampling rate.
 	 *  @param r Sampling rate.
