@@ -37,6 +37,7 @@
 #include "lib/text_content.h"
 #include "lib/butler.h"
 #include "lib/compose.hpp"
+#include "lib/cross.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <iostream>
@@ -316,4 +317,29 @@ BOOST_AUTO_TEST_CASE (player_ignore_video_and_audio_test)
 	while (!player->pass ()) {}
 
 	BOOST_CHECK_EQUAL (out.size(), 6);
+}
+
+/** Trigger a crash due to the assertion failure in Player::emit_audio */
+BOOST_AUTO_TEST_CASE (player_trim_crash)
+{
+	shared_ptr<Film> film = new_test_film2 ("player_trim_crash");
+	shared_ptr<Content> boon = content_factory(private_data / "boon_telly.mkv").front();
+	film->examine_and_add_content (boon);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	shared_ptr<Player> player (new Player(film, film->playlist()));
+	player->set_fast ();
+	shared_ptr<Butler> butler (new Butler(player, AudioMapping(), 6, bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
+
+	/* Wait for the butler to fill */
+	dcpomatic_sleep (5);
+
+	boon->set_trim_start (ContentTime::from_seconds(5));
+
+	butler->seek (DCPTime(), true);
+
+	/* Wait for the butler to refill */
+	dcpomatic_sleep (5);
+
+	butler->rethrow ();
 }

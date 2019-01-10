@@ -1093,12 +1093,12 @@ void
 Player::emit_audio (shared_ptr<AudioBuffers> data, DCPTime time)
 {
 	/* Log if the assert below is about to fail */
-	if (_last_audio_time && time != *_last_audio_time) {
+	if (_last_audio_time && labs(time.get() - _last_audio_time->get()) > 1) {
 		_film->log()->log(String::compose("Out-of-sequence emit %1 vs %2", to_string(time), to_string(*_last_audio_time)), LogEntry::TYPE_WARNING);
 	}
 
-	/* This audio must follow on from the previous */
-	DCPOMATIC_ASSERT (!_last_audio_time || time == *_last_audio_time);
+	/* This audio must follow on from the previous, allowing for half a sample (at 48kHz) leeway */
+	DCPOMATIC_ASSERT (!_last_audio_time || labs(time.get() - _last_audio_time->get()) < 2);
 	Audio (data, time, _film->audio_frame_rate());
 	_last_audio_time = time + DCPTime::from_frames (data->frames(), _film->audio_frame_rate());
 }
