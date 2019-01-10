@@ -211,7 +211,8 @@ enum {
 	ID_file_duplicate_and_open,
 	ID_file_history,
 	/* Allow spare IDs after _history for the recent files list */
-	ID_edit_copy = 100,
+	ID_file_close = 100,
+	ID_edit_copy,
 	ID_edit_paste,
 	ID_content_scale_to_fit_width,
 	ID_content_scale_to_fit_height,
@@ -295,6 +296,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_save_as_template, this),   ID_file_save_as_template);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_duplicate, this),          ID_file_duplicate);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_duplicate_and_open, this), ID_file_duplicate_and_open);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_close, this),              ID_file_close);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_history, this, _1),        ID_file_history, ID_file_history + HISTORY_SIZE);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_exit, this),               wxID_EXIT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_copy, this),               ID_edit_copy);
@@ -374,7 +376,7 @@ public:
 		accel[4].Set (wxACCEL_NORMAL, WXK_LEFT, ID_back_frame);
 		accel[5].Set (wxACCEL_NORMAL, WXK_RIGHT, ID_forward_frame);
 #ifdef __WXOSX__
-		accel[6].Set (wxACCEL_CTRL, static_cast<int>('W'), wxID_EXIT);
+		accel[6].Set (wxACCEL_CTRL, static_cast<int>('W'), ID_file_close);
 #endif
 		Bind (wxEVT_MENU, boost::bind (&ContentPanel::add_file_clicked, _film_editor->content_panel()), ID_add_file);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::remove_clicked, this, _1), ID_remove);
@@ -450,10 +452,12 @@ public:
 			_video_waveform_dialog = 0;
 		}
 		set_menu_sensitivity ();
-		if (_film->directory()) {
+		if (_film && _film->directory()) {
 			Config::instance()->add_to_history (_film->directory().get());
 		}
-		_film->Change.connect (boost::bind (&DOMFrame::film_change, this, _1));
+		if (_film) {
+			_film->Change.connect (boost::bind (&DOMFrame::film_change, this, _1));
+		}
 	}
 
 	shared_ptr<Film> film () const {
@@ -582,6 +586,11 @@ private:
 		}
 
 		d->Destroy ();
+	}
+
+	void file_close ()
+	{
+		set_film (shared_ptr<Film>());
 	}
 
 	void file_history (wxCommandEvent& event)
@@ -1179,6 +1188,9 @@ private:
 		add_item (_file_menu, _("Duplicate and open..."), ID_file_duplicate_and_open, NEEDS_FILM);
 
 		_history_position = _file_menu->GetMenuItems().GetCount();
+
+		_file_menu->AppendSeparator ();
+		add_item (_file_menu, _("&Close"), ID_file_close, NEEDS_FILM);
 
 #ifndef __WXOSX__
 		_file_menu->AppendSeparator ();

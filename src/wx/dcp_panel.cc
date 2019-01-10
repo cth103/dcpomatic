@@ -565,6 +565,13 @@ DCPPanel::set_film (shared_ptr<Film> film)
 
 	_film = film;
 
+	if (!_film) {
+		/* Really should all the film_changed below but this might be enough */
+		checked_set (_dcp_name, wxT(""));
+		set_general_sensitivity (false);
+		return;
+	}
+
 	film_changed (Film::NAME);
 	film_changed (Film::USE_ISDCF_NAME);
 	film_changed (Film::CONTENT);
@@ -628,6 +635,8 @@ DCPPanel::setup_sensitivity ()
 	_resolution->Enable             (_generally_sensitive && _film && !_film->references_dcp_video());
 	_three_d->Enable                (_generally_sensitive && _film && !_film->references_dcp_video());
 	_standard->Enable               (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->references_dcp_audio());
+	_reencode_j2k->Enable           (_generally_sensitive && _film);
+	_show_audio->Enable             (_generally_sensitive && _film);
 }
 
 void

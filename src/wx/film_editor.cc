@@ -125,18 +125,21 @@ FilmEditor::set_film (shared_ptr<Film> film)
 	_content_panel->set_film (_film);
 	_dcp_panel->set_film (_film);
 
-	if (_film) {
-		_film->Change.connect (bind (&FilmEditor::film_change, this, _1, _2));
-		_film->ContentChange.connect (bind (&FilmEditor::film_content_change, this, _1, _3));
+	if (!_film) {
+		FileChanged ("");
+		return;
 	}
 
-	if (_film && _film->directory()) {
+	_film->Change.connect (bind (&FilmEditor::film_change, this, _1, _2));
+	_film->ContentChange.connect (bind (&FilmEditor::film_content_change, this, _1, _3));
+
+	if (_film->directory()) {
 		FileChanged (_film->directory().get());
 	} else {
 		FileChanged ("");
 	}
 
-	if (!_film->content().empty ()) {
+	if (!_film->content().empty()) {
 		_content_panel->set_selection (_film->content().front ());
 	}
 }

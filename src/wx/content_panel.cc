@@ -667,6 +667,12 @@ ContentPanel::film_content_changed (int property)
 void
 ContentPanel::setup ()
 {
+	if (!_film) {
+		_content->DeleteAllItems ();
+		setup_sensitivity ();
+		return;
+	}
+
 	ContentList content = _film->content ();
 
 	Content* selected_content = 0;

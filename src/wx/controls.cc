@@ -371,7 +371,10 @@ Controls::set_film (shared_ptr<Film> film)
 	}
 
 	_film = film;
-	_film_change_connection = _film->Change.connect (boost::bind(&Controls::film_change, this, _1, _2));
+
+	if (_film) {
+		_film_change_connection = _film->Change.connect (boost::bind(&Controls::film_change, this, _1, _2));
+	}
 
 	setup_sensitivity ();
 

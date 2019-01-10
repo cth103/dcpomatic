@@ -1,3 +1,7 @@
+2019-01-10  Carl Hetherington  <cth@carlh.net>
+
+	* Add File->Close to main DCP-o-matic (bound to Cmd-W on Mac) (#1180).
+
 2019-01-09  Carl Hetherington  <cth@carlh.net>
 
 	* Hopefully improve layout on high-resolution (>2K) displays (#1303).
