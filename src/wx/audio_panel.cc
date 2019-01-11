@@ -148,14 +148,18 @@ AudioPanel::add_to_grid ()
 
 	++r;
 
-	add_label_to_sizer (_grid, _delay_label, true, wxGBPosition(r, 0));
-	{
+	_delay_label->Show (interface == Config::INTERFACE_FULL);
+	_delay->show (interface == Config::INTERFACE_FULL);
+	_delay_ms_label->Show (interface == Config::INTERFACE_FULL);
+
+	if (interface == Config::INTERFACE_FULL) {
+		add_label_to_sizer (_grid, _delay_label, true, wxGBPosition(r, 0));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		s->Add (_delay->wrapped(), 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
 		s->Add (_delay_ms_label, 0, wxALIGN_CENTER_VERTICAL);
 		_grid->Add (s, wxGBPosition(r, 1));
+		++r;
 	}
-	++r;
 }
 
 AudioPanel::~AudioPanel ()
