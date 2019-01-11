@@ -118,14 +118,14 @@ AudioPanel::AudioPanel (ContentPanel* p)
 void
 AudioPanel::add_to_grid ()
 {
-	Config::Interface const interface = Config::instance()->interface_complexity();
+	bool const full = Config::instance()->interface_complexity() == Config::INTERFACE_FULL;
 
 	int r = 0;
 
-	_reference->Show (interface == Config::INTERFACE_FULL);
-	_reference_note->Show (interface == Config::INTERFACE_FULL);
+	_reference->Show (full);
+	_reference_note->Show (full);
 
-	if (interface == Config::INTERFACE_FULL) {
+	if (full) {
 		wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
 		reference_sizer->Add (_reference, 0);
 		reference_sizer->Add (_reference_note, 0);
@@ -144,15 +144,19 @@ AudioPanel::add_to_grid ()
 		s->Add (_gain_db_label, 0, wxALIGN_CENTER_VERTICAL);
 		_grid->Add (s, wxGBPosition(r, 1));
 	}
-	_grid->Add (_gain_calculate_button, wxGBPosition(r, 2), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 
-	++r;
+	_gain_calculate_button->Show (full);
 
-	_delay_label->Show (interface == Config::INTERFACE_FULL);
-	_delay->show (interface == Config::INTERFACE_FULL);
-	_delay_ms_label->Show (interface == Config::INTERFACE_FULL);
+	if (full) {
+		_grid->Add (_gain_calculate_button, wxGBPosition(r, 2), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+		++r;
+	}
 
-	if (interface == Config::INTERFACE_FULL) {
+	_delay_label->Show (full);
+	_delay->show (full);
+	_delay_ms_label->Show (full);
+
+	if (full) {
 		add_label_to_sizer (_grid, _delay_label, true, wxGBPosition(r, 0));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		s->Add (_delay->wrapped(), 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
