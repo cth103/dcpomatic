@@ -244,10 +244,6 @@ VideoPanel::add_to_grid ()
 	_grid->Add (crop, wxGBPosition (r, 0), wxGBSpan (2, 4));
 	r += 2;
 
-	_fade_in_label->Show (full);
-	_fade_in->Show (full);
-	_fade_out_label->Show (full);
-	_fade_out->Show (full);
 	_scale_to_label->Show (full);
 	_scale->show (full);
 	_filters_label->Show (full);
@@ -257,15 +253,15 @@ VideoPanel::add_to_grid ()
 	_colour_conversion->Show (full);
 	_edit_colour_conversion_button->Show (full);
 
+	add_label_to_sizer (_grid, _fade_in_label, true, wxGBPosition (r, 0));
+	_grid->Add (_fade_in, wxGBPosition (r, 1), wxGBSpan (1, 3));
+	++r;
+
+	add_label_to_sizer (_grid, _fade_out_label, true, wxGBPosition (r, 0));
+	_grid->Add (_fade_out, wxGBPosition (r, 1), wxGBSpan (1, 3));
+	++r;
+
 	if (full) {
-		add_label_to_sizer (_grid, _fade_in_label, true, wxGBPosition (r, 0));
-		_grid->Add (_fade_in, wxGBPosition (r, 1), wxGBSpan (1, 3));
-		++r;
-
-		add_label_to_sizer (_grid, _fade_out_label, true, wxGBPosition (r, 0));
-		_grid->Add (_fade_out, wxGBPosition (r, 1), wxGBSpan (1, 3));
-		++r;
-
 		add_label_to_sizer (_grid, _scale_to_label, true, wxGBPosition (r, 0));
 		_scale->add (_grid, wxGBPosition (r, 1), wxGBSpan (1, 2));
 		++r;

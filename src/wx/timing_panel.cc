@@ -169,12 +169,6 @@ TimingPanel::add_to_grid ()
 	_move_to_start_of_reel->Show (full);
 	_full_length_label->Show (full);
 	_full_length->Show (full);
-	_trim_start_label->Show (full);
-	_trim_start->Show (full);
-	_trim_start_to_playhead->Show (full);
-	_trim_end_label->Show (full);
-	_trim_end->Show (full);
-	_trim_end_to_playhead->Show (full);
 	_play_length_label->Show (full);
 	_play_length->Show (full);
 	_video_frame_rate_label->Show (full);
@@ -189,21 +183,23 @@ TimingPanel::add_to_grid ()
 		add_label_to_sizer (_grid, _full_length_label, true, wxGBPosition(r, 0));
 		_grid->Add (_full_length, wxGBPosition(r, 1));
 		++r;
+	}
 
-		add_label_to_sizer (_grid, _trim_start_label, true, wxGBPosition(r, 0));
-		_grid->Add (_trim_start, wxGBPosition(r, 1));
-		++r;
+	add_label_to_sizer (_grid, _trim_start_label, true, wxGBPosition(r, 0));
+	_grid->Add (_trim_start, wxGBPosition(r, 1));
+	++r;
 
-		_grid->Add (_trim_start_to_playhead, wxGBPosition(r, 1));
-		++r;
+	_grid->Add (_trim_start_to_playhead, wxGBPosition(r, 1));
+	++r;
 
-		add_label_to_sizer (_grid, _trim_end_label, true, wxGBPosition(r, 0));
-		_grid->Add (_trim_end, wxGBPosition(r, 1));
-		++r;
+	add_label_to_sizer (_grid, _trim_end_label, true, wxGBPosition(r, 0));
+	_grid->Add (_trim_end, wxGBPosition(r, 1));
+	++r;
 
-		_grid->Add (_trim_end_to_playhead, wxGBPosition(r, 1));
-		++r;
+	_grid->Add (_trim_end_to_playhead, wxGBPosition(r, 1));
+	++r;
 
+	if (full) {
 		add_label_to_sizer (_grid, _play_length_label, true, wxGBPosition(r, 0));
 		_grid->Add (_play_length, wxGBPosition(r, 1));
 		++r;
