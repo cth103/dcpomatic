@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-07 21:48+0000\n"
+"POT-Creation-Date: 2019-01-12 21:18+0000\n"
 "PO-Revision-Date: 2018-12-28 17:18+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.6.3\n"
 
-#: src/wx/initial_setup_dialog.cc:61
+#: src/wx/initial_setup_dialog.cc:62
 msgid ""
 "\n"
 "You can change the mode at any time from the General page of Preferences."
@@ -36,44 +36,45 @@ msgstr "avancé de %dms"
 msgid " delayed by %dms"
 msgstr "retardé de %dms"
 
-#: src/wx/text_panel.cc:79 src/wx/text_panel.cc:82 src/wx/text_panel.cc:87
-#: src/wx/text_panel.cc:90 src/wx/text_panel.cc:94
+#: src/wx/text_panel.cc:82 src/wx/text_panel.cc:85 src/wx/text_panel.cc:90
+#: src/wx/text_panel.cc:93 src/wx/text_panel.cc:97
 msgid "%"
 msgstr "%"
 
-#: src/wx/film_name_location_dialog.cc:130
+#: src/wx/film_name_location_dialog.cc:131
 msgid "%1 already exists as a file, so you cannot use it for a film."
 msgstr ""
 "%1 existe déjà comme nom de fichier. Vous ne pouvez pas l'utiliser pour un "
 "projet."
 
-#: src/wx/kdm_dialog.cc:163
+#: src/wx/kdm_dialog.cc:165
 #, c-format
 msgid "%d KDM written to %s"
 msgstr "KDM %d écrite dans %s"
 
-#: src/wx/kdm_dialog.cc:163
+#: src/wx/kdm_dialog.cc:165
 #, c-format
 msgid "%d KDMs written to %s"
 msgstr "KDMs %d écrites dans %s"
 
-#: src/wx/about_dialog.cc:83
+#: src/wx/about_dialog.cc:84
+#, fuzzy
 msgid ""
-"(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2019 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
 "(C) 2012-2018 par Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
-#: src/wx/file_picker_ctrl.cc:43 src/wx/file_picker_ctrl.cc:58
+#: src/wx/file_picker_ctrl.cc:44 src/wx/file_picker_ctrl.cc:59
 msgid "(None)"
 msgstr "(Aucun)"
 
-#: src/wx/full_config_dialog.cc:1336
+#: src/wx/full_config_dialog.cc:1339
 msgid "(restart DCP-o-matic to see all ratios)"
 msgstr "(redémarrez DCP-o-matic pour voir tous les ratios)"
 
-#: src/wx/config_dialog.cc:140
+#: src/wx/config_dialog.cc:143
 msgid "(restart DCP-o-matic to see language changes)"
 msgstr "(redémarrez DCP-o-matic pour appliquer le changement de langue)"
 
@@ -81,85 +82,85 @@ msgstr "(redémarrez DCP-o-matic pour appliquer le changement de langue)"
 msgid "-6dB"
 msgstr "-6dB"
 
-#: src/wx/export_dialog.cc:67
+#: src/wx/export_dialog.cc:68
 msgid "0 is best, 51 is worst"
 msgstr "0 est le meilleur, 51 est le pire"
 
-#: src/wx/wx_util.cc:443
+#: src/wx/wx_util.cc:444
 msgid "12 - 7.1/HI/VI"
 msgstr "12 - 7.1/HI/VI"
 
-#: src/wx/wx_util.cc:435
+#: src/wx/wx_util.cc:436
 msgid "2 - stereo"
 msgstr "2 - stéréo"
 
-#: src/wx/rgba_colour_picker.cc:36
+#: src/wx/rgba_colour_picker.cc:37
 msgid "255"
 msgstr "255"
 
-#: src/wx/video_panel.cc:187
+#: src/wx/video_panel.cc:190
 msgid "2D"
 msgstr "2D"
 
-#: src/wx/isdcf_metadata_dialog.cc:70
+#: src/wx/isdcf_metadata_dialog.cc:71
 msgid "2D version of content available in 3D"
 msgstr "Version 2D d'un contenu aussi disponible en 3D"
 
-#: src/wx/dcp_panel.cc:781
+#: src/wx/dcp_panel.cc:794
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:751 src/wx/video_panel.cc:188
+#: src/wx/dcp_panel.cc:764 src/wx/video_panel.cc:191
 msgid "3D"
 msgstr "3D"
 
-#: src/wx/video_panel.cc:191
+#: src/wx/video_panel.cc:194
 msgid "3D alternate"
 msgstr "3D alternatif"
 
-#: src/wx/video_panel.cc:192
+#: src/wx/video_panel.cc:195
 msgid "3D left only"
 msgstr "3D gauche"
 
-#: src/wx/video_panel.cc:189
+#: src/wx/video_panel.cc:192
 msgid "3D left/right"
 msgstr "3D gauche/droite"
 
-#: src/wx/video_panel.cc:193
+#: src/wx/video_panel.cc:196
 msgid "3D right only"
 msgstr "3D droite"
 
-#: src/wx/video_panel.cc:190
+#: src/wx/video_panel.cc:193
 msgid "3D top/bottom"
 msgstr "3D dessus/dessous"
 
-#: src/wx/wx_util.cc:437
+#: src/wx/wx_util.cc:438
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - G/C/D/Bf"
 
-#: src/wx/dcp_panel.cc:782
+#: src/wx/dcp_panel.cc:795
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/wx_util.cc:439
+#: src/wx/wx_util.cc:440
 msgid "6 - 5.1"
 msgstr "6 - 5.1"
 
-#: src/wx/wx_util.cc:441
+#: src/wx/wx_util.cc:442
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/subtitle_appearance_dialog.cc:97
+#: src/wx/subtitle_appearance_dialog.cc:100
 msgid "<b>New colour</b>"
 msgstr "<b>Nouvelle Colorimétrie</b>"
 
-#: src/wx/subtitle_appearance_dialog.cc:94
+#: src/wx/subtitle_appearance_dialog.cc:97
 msgid "<b>Original colour</b>"
 msgstr "<b>Colorimétrie originale</b>"
 
 #. //trac.wxwidgets.org/ticket/13389
 #.
-#: src/wx/report_problem_dialog.cc:77
+#: src/wx/report_problem_dialog.cc:79
 msgid ""
 "<i>It is important that you enter a valid email address here, otherwise I "
 "can't ask you for more details on your problem.</i>"
@@ -170,7 +171,7 @@ msgstr ""
 
 #. //trac.wxwidgets.org/ticket/13389
 #.
-#: src/wx/timing_panel.cc:105
+#: src/wx/timing_panel.cc:107
 msgid ""
 "<i>Only change this if the content's frame rate has been read incorrectly.</"
 "i>"
@@ -178,7 +179,7 @@ msgstr ""
 "<i>à modifier seulement si la vitesse image du contenu n'a pas été "
 "correctement lue.</i>"
 
-#: src/wx/initial_setup_dialog.cc:34
+#: src/wx/initial_setup_dialog.cc:35
 msgid ""
 "<span weight=\"bold\" size=\"larger\">Welcome to DCP-o-matic!</span>\n"
 "\n"
@@ -204,31 +205,31 @@ msgstr ""
 "\n"
 "Veuilles choisir le mode dans lequel vous préférer démarrer DCP-o-matic :"
 
-#: src/wx/colour_conversion_editor.cc:79
+#: src/wx/colour_conversion_editor.cc:81
 msgid "A"
 msgstr "A"
 
-#: src/wx/update_dialog.cc:36
+#: src/wx/update_dialog.cc:37
 msgid "A new version of DCP-o-matic is available."
 msgstr "Une nouvelle version de DCP-o-matic est disponible"
 
-#: src/wx/about_dialog.cc:35
+#: src/wx/about_dialog.cc:36
 msgid "About DCP-o-matic"
 msgstr "À propos de DCP-o-matic"
 
-#: src/wx/full_config_dialog.cc:949
+#: src/wx/full_config_dialog.cc:952
 msgid "Accounts"
 msgstr "Comptes"
 
-#: src/wx/screens_panel.cc:150
+#: src/wx/screens_panel.cc:151
 msgid "Add Cinema"
 msgstr "Ajouter Cinéma"
 
-#: src/wx/screens_panel.cc:57
+#: src/wx/screens_panel.cc:58
 msgid "Add Cinema..."
 msgstr "Ajouter cinéma"
 
-#: src/wx/content_panel.cc:104
+#: src/wx/content_panel.cc:106
 msgid "Add DCP..."
 msgstr "Ajouter DCP..."
 
@@ -244,19 +245,19 @@ msgstr "Ajouter KDM..."
 msgid "Add OV..."
 msgstr "Ajouter OV..."
 
-#: src/wx/screens_panel.cc:206
+#: src/wx/screens_panel.cc:207
 msgid "Add Screen"
 msgstr "Ajouter Ecran"
 
-#: src/wx/screens_panel.cc:63
+#: src/wx/screens_panel.cc:64
 msgid "Add Screen..."
 msgstr "Ajout une salle"
 
-#: src/wx/content_panel.cc:105
+#: src/wx/content_panel.cc:107
 msgid "Add a DCP."
 msgstr "Ajouter un DCP..."
 
-#: src/wx/content_panel.cc:101
+#: src/wx/content_panel.cc:103
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
@@ -264,11 +265,11 @@ msgstr ""
 "Ajouter un dossier d'images fixes (qui sera utilisé comme séquence d'images "
 "animées) ou un dossier de fichiers audio."
 
-#: src/wx/content_panel.cc:96
+#: src/wx/content_panel.cc:98
 msgid "Add file(s)..."
 msgstr "Ajout fichier(s)..."
 
-#: src/wx/content_panel.cc:100
+#: src/wx/content_panel.cc:102
 msgid "Add folder..."
 msgstr "Ajouter dossier"
 
@@ -276,19 +277,19 @@ msgstr "Ajouter dossier"
 msgid "Add image sequence"
 msgstr "Ajout séquence images"
 
-#: src/wx/text_panel.cc:259
+#: src/wx/text_panel.cc:262
 msgid "Add new..."
 msgstr "Ajouter nouveau..."
 
-#: src/wx/content_panel.cc:97
+#: src/wx/content_panel.cc:99
 msgid "Add video, image, sound or subtitle files to the film."
 msgstr "Ajout de fichiers vidéo, images, sons ou sous-titres au projet."
 
-#: src/wx/config_dialog.cc:380 src/wx/editable_list.h:75
+#: src/wx/config_dialog.cc:383 src/wx/editable_list.h:76
 msgid "Add..."
 msgstr "Ajouter..."
 
-#: src/wx/config_dialog.cc:475
+#: src/wx/config_dialog.cc:478
 msgid ""
 "Adding this certificate would make the chain inconsistent, so it will not be "
 "added. Add certificates in order from root to intermediate to leaf."
@@ -296,53 +297,53 @@ msgstr ""
 "L'ajout de ce certificat rendrait la chaîne incohérente, aussi ne sera-t-il "
 "pas ajouté. Ajouter des certificats dans l'ordre depuis la racine."
 
-#: src/wx/cinema_dialog.cc:71 src/wx/full_config_dialog.cc:860
-#: src/wx/full_config_dialog.cc:1097
+#: src/wx/cinema_dialog.cc:71 src/wx/full_config_dialog.cc:863
+#: src/wx/full_config_dialog.cc:1100
 msgid "Address"
 msgstr "Adresse"
 
-#: src/wx/colour_conversion_editor.cc:177
+#: src/wx/colour_conversion_editor.cc:179
 msgid "Adjust white point to"
 msgstr "Ajuster la valeur de blanc à"
 
-#: src/wx/kdm_advanced_dialog.cc:24
+#: src/wx/kdm_advanced_dialog.cc:25
 msgid "Advanced KDM options"
 msgstr "Options avancées KDM"
 
-#: src/wx/config_dialog.cc:743 src/wx/config_dialog.cc:758
-#: src/wx/kdm_output_panel.cc:68
+#: src/wx/config_dialog.cc:746 src/wx/config_dialog.cc:761
+#: src/wx/kdm_output_panel.cc:70
 msgid "Advanced..."
 msgstr "Avancé..."
 
-#: src/wx/full_config_dialog.cc:1328
+#: src/wx/full_config_dialog.cc:1331
 msgid "Allow any DCP frame rate"
 msgstr "Autoriser toutes cadences"
 
-#: src/wx/full_config_dialog.cc:1332
+#: src/wx/full_config_dialog.cc:1335
 msgid "Allow non-standard container ratios"
 msgstr "Autoriser les ratios DCP non-standards."
 
-#: src/wx/rgba_colour_picker.cc:33
+#: src/wx/rgba_colour_picker.cc:34
 msgid "Alpha   0"
 msgstr "Alpha   0"
 
-#: src/wx/about_dialog.cc:147
+#: src/wx/about_dialog.cc:148
 msgid "Also supported by"
 msgstr "Aussi soutenu par"
 
-#: src/wx/kdm_output_panel.cc:291
+#: src/wx/kdm_output_panel.cc:293
 msgid "An unknown exception occurred."
 msgstr "Une erreur inconnue est apparue."
 
-#: src/wx/text_panel.cc:107
+#: src/wx/text_panel.cc:110
 msgid "Appearance..."
 msgstr "Apparence..."
 
-#: src/wx/job_view.cc:168
+#: src/wx/job_view.cc:171
 msgid "Are you sure you want to cancel this job?"
 msgstr "Etes-vous certain de vouloir annuler cette tâche?"
 
-#: src/wx/confirm_kdm_email_dialog.cc:33
+#: src/wx/confirm_kdm_email_dialog.cc:35
 msgid ""
 "Are you sure you want to send emails to the following addresses?\n"
 "\n"
@@ -354,13 +355,13 @@ msgstr ""
 msgid "Atmos"
 msgstr "Atmos"
 
-#: src/wx/audio_dialog.cc:52 src/wx/audio_panel.cc:48
-#: src/wx/content_properties_dialog.cc:76 src/wx/dcp_panel.cc:117
+#: src/wx/audio_dialog.cc:54 src/wx/audio_panel.cc:51
+#: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:121
 #: src/wx/timeline_labels_view.cc:40 src/wx/timeline_labels_view.cc:87
 msgid "Audio"
 msgstr "Audio"
 
-#: src/wx/isdcf_metadata_dialog.cc:40
+#: src/wx/isdcf_metadata_dialog.cc:41
 msgid "Audio Language (e.g. EN)"
 msgstr "Langue audio (par ex. : FR)"
 
@@ -385,19 +386,19 @@ msgstr ""
 "Le son du canal audio %d sera transféré au canal %d du DCP avec un gain de "
 "%.1fdB."
 
-#: src/wx/full_config_dialog.cc:123
+#: src/wx/full_config_dialog.cc:126
 msgid "Automatically analyse content audio"
 msgstr "Analyser automatiquement le contenu audio"
 
-#: src/wx/colour_conversion_editor.cc:82
+#: src/wx/colour_conversion_editor.cc:84
 msgid "B"
 msgstr "B"
 
-#: src/wx/full_config_dialog.cc:871 src/wx/full_config_dialog.cc:1108
+#: src/wx/full_config_dialog.cc:874 src/wx/full_config_dialog.cc:1111
 msgid "BCC address"
 msgstr "Adresse CCI"
 
-#: src/wx/player_config_dialog.cc:263
+#: src/wx/player_config_dialog.cc:264
 msgid "Background image"
 msgstr "Image de fond"
 
@@ -405,27 +406,27 @@ msgstr "Image de fond"
 msgid "Barco Alchemy"
 msgstr "Barco Alchemy"
 
-#: src/wx/colour_conversion_editor.cc:144
+#: src/wx/colour_conversion_editor.cc:146
 msgid "Blue chromaticity"
 msgstr "Chromaticité du Bleu"
 
-#: src/wx/fonts_dialog.cc:71
+#: src/wx/fonts_dialog.cc:72
 msgid "Bold file"
 msgstr "Fichier Gras"
 
-#: src/wx/font_files_dialog.cc:37
+#: src/wx/font_files_dialog.cc:39
 msgid "Bold font"
 msgstr "Gras"
 
-#: src/wx/video_panel.cc:127
+#: src/wx/video_panel.cc:130
 msgid "Bottom crop"
 msgstr "Découpe basse"
 
-#: src/wx/dir_picker_ctrl.cc:38 src/wx/kdm_cpl_panel.cc:38
+#: src/wx/dir_picker_ctrl.cc:40 src/wx/kdm_cpl_panel.cc:40
 msgid "Browse..."
 msgstr "Parcourir..."
 
-#: src/wx/text_panel.cc:74
+#: src/wx/text_panel.cc:77
 msgid "Burn subtitles into image"
 msgstr "Graver les sous-titres dans l'image"
 
@@ -433,40 +434,40 @@ msgstr "Graver les sous-titres dans l'image"
 msgid "But I have to use fader"
 msgstr "mais je dois actuellement le régler à"
 
-#: src/wx/full_config_dialog.cc:861 src/wx/full_config_dialog.cc:1098
+#: src/wx/full_config_dialog.cc:864 src/wx/full_config_dialog.cc:1101
 msgid "CC addresses"
 msgstr "Adresses CC"
 
-#: src/wx/kdm_cpl_panel.cc:35 src/wx/kdm_dialog.cc:86
-#: src/wx/self_dkdm_dialog.cc:60
+#: src/wx/kdm_cpl_panel.cc:37 src/wx/kdm_dialog.cc:88
+#: src/wx/self_dkdm_dialog.cc:61
 msgid "CPL"
 msgstr "CPL"
 
-#: src/wx/kdm_cpl_panel.cc:47
+#: src/wx/kdm_cpl_panel.cc:49
 msgid "CPL ID"
 msgstr "Id du CPL"
 
-#: src/wx/kdm_cpl_panel.cc:50
+#: src/wx/kdm_cpl_panel.cc:52
 msgid "CPL annotation text"
 msgstr "Nom CPL"
 
-#: src/wx/kdm_output_panel.cc:287
+#: src/wx/kdm_output_panel.cc:289
 msgid "CPL's content is not encrypted."
 msgstr "Le contenu du CPL n'est pas crypté."
 
-#: src/wx/audio_panel.cc:73
+#: src/wx/audio_panel.cc:76
 msgid "Calculate..."
 msgstr "Calcul..."
 
-#: src/wx/job_view.cc:66
+#: src/wx/job_view.cc:69
 msgid "Cancel"
 msgstr "Annuler"
 
-#: src/wx/content_sub_panel.cc:69
+#: src/wx/content_sub_panel.cc:68
 msgid "Cannot reference this DCP."
 msgstr "Ne peut se référer à ce DCP"
 
-#: src/wx/content_sub_panel.cc:71
+#: src/wx/content_sub_panel.cc:70
 msgid "Cannot reference this DCP: "
 msgstr "Ne peut se référer à ce DCP"
 
@@ -474,7 +475,7 @@ msgstr "Ne peut se référer à ce DCP"
 msgid "Caption"
 msgstr "Sous-titrage"
 
-#: src/wx/subtitle_appearance_dialog.cc:43
+#: src/wx/subtitle_appearance_dialog.cc:46
 msgid "Caption appearance"
 msgstr "Apparence sous-titres"
 
@@ -482,7 +483,7 @@ msgstr "Apparence sous-titres"
 msgid "Captions"
 msgstr "Sous-titres"
 
-#: src/wx/recreate_chain_dialog.cc:31
+#: src/wx/recreate_chain_dialog.cc:33
 msgid "Certificate chain"
 msgstr "Chaîne de certificat"
 
@@ -493,7 +494,7 @@ msgstr "Chaîne de certificat"
 msgid "Certificate downloaded"
 msgstr "Certificat téléchargé"
 
-#: src/wx/isdcf_metadata_dialog.cc:67
+#: src/wx/isdcf_metadata_dialog.cc:68
 msgid "Chain"
 msgstr "Chaîne"
 
@@ -501,15 +502,15 @@ msgstr "Chaîne"
 msgid "Channel gain"
 msgstr "Gain Canal"
 
-#: src/wx/audio_dialog.cc:95 src/wx/dcp_panel.cc:861
+#: src/wx/audio_dialog.cc:97 src/wx/dcp_panel.cc:874
 msgid "Channels"
 msgstr "Canaux"
 
-#: src/wx/config_dialog.cc:180
+#: src/wx/config_dialog.cc:183
 msgid "Check for testing updates on startup"
 msgstr "Recherche de mises à jour test au démarrage."
 
-#: src/wx/config_dialog.cc:176
+#: src/wx/config_dialog.cc:179
 msgid "Check for updates on startup"
 msgstr "Recherche de mises à jour au démarrage."
 
@@ -517,7 +518,7 @@ msgstr "Recherche de mises à jour au démarrage."
 msgid "Choose CPL..."
 msgstr "Sélection CPL..."
 
-#: src/wx/content_panel.cc:485
+#: src/wx/content_panel.cc:492
 msgid "Choose a DCP folder"
 msgstr "Choisissez un dossier DCP"
 
@@ -525,11 +526,11 @@ msgstr "Choisissez un dossier DCP"
 msgid "Choose a file"
 msgstr "Choisissez un fichier"
 
-#: src/wx/content_panel.cc:412
+#: src/wx/content_panel.cc:419
 msgid "Choose a file or files"
 msgstr "Choisissez un ou plusieurs fichiers"
 
-#: src/wx/content_menu.cc:294 src/wx/content_panel.cc:440
+#: src/wx/content_menu.cc:294 src/wx/content_panel.cc:447
 msgid "Choose a folder"
 msgstr "Choisissez un dossier"
 
@@ -537,7 +538,7 @@ msgstr "Choisissez un dossier"
 msgid "Choose a font"
 msgstr "Choisir une police"
 
-#: src/wx/font_files_dialog.cc:80
+#: src/wx/font_files_dialog.cc:82
 msgid "Choose a font file"
 msgstr "Choisir un fichier de police"
 
@@ -545,7 +546,7 @@ msgstr "Choisir un fichier de police"
 msgid "Christie"
 msgstr "Christie"
 
-#: src/wx/full_config_dialog.cc:108
+#: src/wx/full_config_dialog.cc:111
 msgid "Cinema and screen database file"
 msgstr "Base de données Cinémas et Ecrans"
 
@@ -559,37 +560,37 @@ msgstr ""
 msgid "Closed captions"
 msgstr "Sous-titres codés"
 
-#: src/wx/subtitle_appearance_dialog.cc:62
+#: src/wx/subtitle_appearance_dialog.cc:65
 msgid "Colour"
 msgstr "Couleur"
 
-#: src/wx/content_colour_conversion_dialog.cc:37 src/wx/video_panel.cc:163
+#: src/wx/content_colour_conversion_dialog.cc:38 src/wx/video_panel.cc:166
 msgid "Colour conversion"
 msgstr "Espace Couleurs"
 
 #. / TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
-#: src/wx/video_panel.cc:171
+#: src/wx/video_panel.cc:174
 msgid "Colour|Custom"
 msgstr "Personnalisé"
 
-#: src/wx/video_waveform_dialog.cc:59
+#: src/wx/video_waveform_dialog.cc:60
 msgid "Component"
 msgstr "Composant"
 
-#: src/wx/full_config_dialog.cc:103
+#: src/wx/full_config_dialog.cc:106
 msgid "Configuration file"
 msgstr "Fichier de configuration"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-#: src/wx/full_config_dialog.cc:1395
+#: src/wx/full_config_dialog.cc:1398
 msgid "Config|Timing"
 msgstr "Temps"
 
-#: src/wx/confirm_kdm_email_dialog.cc:31
+#: src/wx/confirm_kdm_email_dialog.cc:33
 msgid "Confirm KDM email"
 msgstr "Confirmez l'e-mail KDM"
 
-#: src/wx/dcp_panel.cc:734
+#: src/wx/dcp_panel.cc:747
 msgid "Container"
 msgstr "Format"
 
@@ -598,35 +599,35 @@ msgstr "Format"
 msgid "Content"
 msgstr "Contenu"
 
-#: src/wx/content_properties_dialog.cc:37
+#: src/wx/content_properties_dialog.cc:38
 msgid "Content Properties"
 msgstr "Propriétés du contenu"
 
-#: src/wx/dcp_panel.cc:87
+#: src/wx/dcp_panel.cc:91
 msgid "Content Type"
 msgstr "Type de Contenu"
 
-#: src/wx/player_config_dialog.cc:247
+#: src/wx/player_config_dialog.cc:248
 msgid "Content directory"
 msgstr "Répertoire du contenu"
 
-#: src/wx/isdcf_metadata_dialog.cc:37
+#: src/wx/isdcf_metadata_dialog.cc:38
 msgid "Content version"
 msgstr "Version du contenu"
 
-#: src/wx/video_waveform_dialog.cc:62
+#: src/wx/video_waveform_dialog.cc:63
 msgid "Contrast"
 msgstr "Contraste"
 
-#: src/wx/dcp_panel.cc:77
+#: src/wx/dcp_panel.cc:81
 msgid "Copy as name"
 msgstr "Copier le nom"
 
-#: src/wx/audio_dialog.cc:264
+#: src/wx/audio_dialog.cc:278
 msgid "Could not analyse audio."
 msgstr "Analyse du son impossible"
 
-#: src/wx/config_dialog.cc:458
+#: src/wx/config_dialog.cc:461
 #, c-format
 msgid "Could not import certificate (%s)"
 msgstr "Importation certificat impossible (%s)"
@@ -635,47 +636,52 @@ msgstr "Importation certificat impossible (%s)"
 msgid "Could not load KDM"
 msgstr "Echec chargement KDM"
 
-#: src/wx/screen_dialog.cc:69
+#: src/wx/screen_dialog.cc:71
 #, c-format
 msgid "Could not load certficate (%s)"
 msgstr "Chargement certificat impossible (%s)"
 
-#: src/wx/config_dialog.cc:484 src/wx/config_dialog.cc:679
-#: src/wx/download_certificate_panel.cc:60 src/wx/screen_dialog.cc:199
-#: src/wx/screen_dialog.cc:204
+#: src/wx/player_config_dialog.cc:318
+#, fuzzy
+msgid "Could not load image file."
+msgstr "Lecture du ficher de certificat impossible"
+
+#: src/wx/config_dialog.cc:487 src/wx/config_dialog.cc:682
+#: src/wx/download_certificate_panel.cc:60 src/wx/screen_dialog.cc:201
+#: src/wx/screen_dialog.cc:206
 msgid "Could not read certificate file."
 msgstr "Lecture du ficher de certificat impossible"
 
-#: src/wx/config_dialog.cc:669
+#: src/wx/config_dialog.cc:672
 #, c-format
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Fichier clé illisible car trop long (%s)"
 
-#: src/wx/film_viewer.cc:653
+#: src/wx/film_viewer.cc:662
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
 "Réglage sortie audio impossible. Il n'y aura pas de monitoring audio pendant "
 "la prévisualisation. "
 
-#: src/wx/full_config_dialog.cc:1230
+#: src/wx/full_config_dialog.cc:1233
 msgid "Cover Sheet"
 msgstr "Couverture"
 
-#: src/wx/film_name_location_dialog.cc:43
+#: src/wx/film_name_location_dialog.cc:44
 msgid "Create in folder"
 msgstr "Créer dans le dossier"
 
-#: src/wx/full_config_dialog.cc:136
+#: src/wx/full_config_dialog.cc:139
 msgid "Creator"
 msgstr "Créateur"
 
-#: src/wx/audio_dialog.cc:406
+#: src/wx/audio_dialog.cc:436
 #, c-format
 msgid "Cursor: %.1fdB at %s"
 msgstr "Curseur: %.1fdB à %s"
 
-#: src/wx/audio_dialog.cc:400
+#: src/wx/audio_dialog.cc:430
 msgid "Cursor: none"
 msgstr "Curseur: aucun"
 
@@ -688,19 +694,19 @@ msgstr "DCP"
 msgid "DCP Text Track"
 msgstr "Piste texte du DCP"
 
-#: src/wx/full_config_dialog.cc:1368
+#: src/wx/full_config_dialog.cc:1371
 msgid "DCP asset filename format"
 msgstr "Format du nom de fichier du DCP"
 
-#: src/wx/kdm_cpl_panel.cc:44
+#: src/wx/kdm_cpl_panel.cc:46
 msgid "DCP directory"
 msgstr "Répertoire du DCP"
 
-#: src/wx/full_config_dialog.cc:1356
+#: src/wx/full_config_dialog.cc:1359
 msgid "DCP metadata filename format"
 msgstr "Format du nom de fichier metadata du DCP"
 
-#: src/wx/text_panel.cc:96
+#: src/wx/text_panel.cc:99
 msgid "DCP track"
 msgstr "Piste du DCP"
 
@@ -712,29 +718,29 @@ msgstr "Validation du DCP conforme."
 msgid "DCP verification"
 msgstr "Vérification du DCP"
 
-#: src/wx/about_dialog.cc:50 src/wx/content_view.cc:77 src/wx/job_view.cc:146
-#: src/wx/wx_util.cc:137 src/wx/wx_util.cc:154 src/wx/wx_util.cc:162
+#: src/wx/about_dialog.cc:51 src/wx/content_view.cc:77 src/wx/job_view.cc:149
+#: src/wx/wx_util.cc:138 src/wx/wx_util.cc:155 src/wx/wx_util.cc:163
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/wx/audio_dialog.cc:155
+#: src/wx/audio_dialog.cc:154
 #, c-format
 msgid "DCP-o-matic audio - %s"
 msgstr "Son DCP-o-matic - %s"
 
-#: src/wx/initial_setup_dialog.cc:26
+#: src/wx/initial_setup_dialog.cc:27
 msgid "DCP-o-matic setup"
 msgstr "DCP-o-matic préférences"
 
-#: src/wx/full_config_dialog.cc:1397
+#: src/wx/full_config_dialog.cc:1400
 msgid "Debug: decode"
 msgstr "Deboguage: decodage"
 
-#: src/wx/full_config_dialog.cc:1401
+#: src/wx/full_config_dialog.cc:1404
 msgid "Debug: email sending"
 msgstr "Deboguage: envoi email"
 
-#: src/wx/full_config_dialog.cc:1399
+#: src/wx/full_config_dialog.cc:1402
 msgid "Debug: encode"
 msgstr "Deboguage: encodage"
 
@@ -743,67 +749,67 @@ msgstr "Deboguage: encodage"
 msgid "Decode resolution: %dx%d"
 msgstr "Résolution de décodage: %dx%d"
 
-#: src/wx/config_dialog.cc:730 src/wx/config_dialog.cc:767
+#: src/wx/config_dialog.cc:733 src/wx/config_dialog.cc:770
 msgid "Decrypting KDMs"
 msgstr "Décryptage KDMs"
 
-#: src/wx/full_config_dialog.cc:349
+#: src/wx/full_config_dialog.cc:352
 msgid "Default DCP audio channels"
 msgstr "Canaux audio du DCP par défaut"
 
-#: src/wx/full_config_dialog.cc:333
+#: src/wx/full_config_dialog.cc:336
 msgid "Default ISDCF name details"
 msgstr "Nom ISDCF par défaut"
 
-#: src/wx/full_config_dialog.cc:354
+#: src/wx/full_config_dialog.cc:357
 msgid "Default JPEG2000 bandwidth"
 msgstr "Qualité JPEG2000 par défaut"
 
-#: src/wx/full_config_dialog.cc:375
+#: src/wx/full_config_dialog.cc:378
 msgid "Default KDM directory"
 msgstr "Répertoire KDM par défaut"
 
-#: src/wx/full_config_dialog.cc:363
+#: src/wx/full_config_dialog.cc:366
 msgid "Default audio delay"
 msgstr "Délai audio par défaut"
 
-#: src/wx/full_config_dialog.cc:337
+#: src/wx/full_config_dialog.cc:340
 msgid "Default container"
 msgstr "Format par défaut"
 
-#: src/wx/full_config_dialog.cc:345
+#: src/wx/full_config_dialog.cc:348
 msgid "Default content type"
 msgstr "Catégorie par défaut"
 
-#: src/wx/full_config_dialog.cc:325
+#: src/wx/full_config_dialog.cc:328
 msgid "Default directory for new films"
 msgstr "Dossier de sortie par défaut"
 
-#: src/wx/full_config_dialog.cc:317
+#: src/wx/full_config_dialog.cc:320
 msgid "Default duration of still images"
 msgstr "Durée images fixes par défaut"
 
-#: src/wx/full_config_dialog.cc:341
+#: src/wx/full_config_dialog.cc:344
 msgid "Default scale-to"
 msgstr "Format d'échelle par défaut"
 
-#: src/wx/full_config_dialog.cc:371
+#: src/wx/full_config_dialog.cc:374
 msgid "Default standard"
 msgstr "Standard par défaut"
 
-#: src/wx/full_config_dialog.cc:384
+#: src/wx/full_config_dialog.cc:387
 msgid "Default to enabling upload of DCP to TMS"
 msgstr "Réglages par défaut d'envoi de DCP vers le TMS"
 
-#: src/wx/full_config_dialog.cc:299
+#: src/wx/full_config_dialog.cc:302
 msgid "Defaults"
 msgstr "Par défaut"
 
-#: src/wx/audio_panel.cc:75
+#: src/wx/audio_panel.cc:78
 msgid "Delay"
 msgstr "Délai"
 
-#: src/wx/dcp_panel.cc:76 src/wx/job_view.cc:70
+#: src/wx/dcp_panel.cc:80 src/wx/job_view.cc:73
 msgid "Details..."
 msgstr "Détails..."
 
@@ -811,11 +817,11 @@ msgstr "Détails..."
 msgid "Device"
 msgstr "Périphérique"
 
-#: src/wx/player_config_dialog.cc:409
+#: src/wx/player_config_dialog.cc:419
 msgid "Devices"
 msgstr "Périphériques"
 
-#: src/wx/recreate_chain_dialog.cc:31
+#: src/wx/recreate_chain_dialog.cc:33
 msgid "Do nothing"
 msgstr "Ne rien faire"
 
@@ -823,31 +829,31 @@ msgstr "Ne rien faire"
 msgid "Dolby / Doremi"
 msgstr "Dolby / Doremi"
 
-#: src/wx/confirm_kdm_email_dialog.cc:40 src/wx/recreate_chain_dialog.cc:39
+#: src/wx/confirm_kdm_email_dialog.cc:42 src/wx/recreate_chain_dialog.cc:41
 msgid "Don't ask this again"
 msgstr "Ne plus me demander"
 
-#: src/wx/confirm_kdm_email_dialog.cc:31
+#: src/wx/confirm_kdm_email_dialog.cc:33
 msgid "Don't send emails"
 msgstr "Ne pas envoyer d'e-mails"
 
-#: src/wx/hints_dialog.cc:54
+#: src/wx/hints_dialog.cc:57
 msgid "Don't show hints again"
 msgstr "Ne plus montrer ces avertissements."
 
-#: src/wx/nag_dialog.cc:36
+#: src/wx/nag_dialog.cc:38
 msgid "Don't show this message again"
 msgstr "Ne plus montrer cet avertissement."
 
-#: src/wx/download_certificate_dialog.cc:38
+#: src/wx/download_certificate_dialog.cc:40
 msgid "Download"
 msgstr "Télécharger"
 
-#: src/wx/download_certificate_dialog.cc:31
+#: src/wx/download_certificate_dialog.cc:33
 msgid "Download certificate"
 msgstr "Téléchargement Certificat"
 
-#: src/wx/screen_dialog.cc:133
+#: src/wx/screen_dialog.cc:135
 msgid "Download..."
 msgstr "Téléchargement..."
 
@@ -860,50 +866,50 @@ msgstr "Téléchargement Certificat en cours"
 msgid "Dropped frames: %d"
 msgstr "Images perdues: %d"
 
-#: src/wx/player_config_dialog.cc:97
+#: src/wx/player_config_dialog.cc:98
 msgid "Dual-screen displays"
 msgstr "Affichage double-écran"
 
-#: src/wx/player_config_dialog.cc:360
+#: src/wx/player_config_dialog.cc:370
 msgid "Duration"
 msgstr "Durée"
 
-#: src/wx/content_panel.cc:112
+#: src/wx/content_panel.cc:114
 msgid "Earlier"
 msgstr "Plus tôt"
 
-#: src/wx/screens_panel.cc:59
+#: src/wx/screens_panel.cc:60
 msgid "Edit Cinema..."
 msgstr "Éditer le cinéma"
 
-#: src/wx/screens_panel.cc:65
+#: src/wx/screens_panel.cc:66
 msgid "Edit Screen..."
 msgstr "Éditer la salle"
 
-#: src/wx/screens_panel.cc:170
+#: src/wx/screens_panel.cc:171
 msgid "Edit cinema"
 msgstr "Modifier Cinéma"
 
-#: src/wx/screens_panel.cc:246
+#: src/wx/screens_panel.cc:247
 msgid "Edit screen"
 msgstr "Modifier Salle"
 
-#: src/wx/audio_mapping_view.cc:172 src/wx/dcp_panel.cc:99
-#: src/wx/fonts_dialog.cc:79 src/wx/full_config_dialog.cc:334
-#: src/wx/video_panel.cc:161 src/wx/video_panel.cc:172
-#: src/wx/editable_list.h:78
+#: src/wx/audio_mapping_view.cc:172 src/wx/dcp_panel.cc:103
+#: src/wx/fonts_dialog.cc:80 src/wx/full_config_dialog.cc:337
+#: src/wx/video_panel.cc:164 src/wx/video_panel.cc:175
+#: src/wx/editable_list.h:79
 msgid "Edit..."
 msgstr "Éditer..."
 
-#: src/wx/subtitle_appearance_dialog.cc:65
+#: src/wx/subtitle_appearance_dialog.cc:68
 msgid "Effect"
 msgstr "Effet"
 
-#: src/wx/subtitle_appearance_dialog.cc:68
+#: src/wx/subtitle_appearance_dialog.cc:71
 msgid "Effect colour"
 msgstr "Couleur de l'effet"
 
-#: src/wx/full_config_dialog.cc:740 src/wx/full_config_dialog.cc:1080
+#: src/wx/full_config_dialog.cc:743 src/wx/full_config_dialog.cc:1083
 msgid "Email"
 msgstr "Email"
 
@@ -919,7 +925,7 @@ msgstr "Adresse E-mail pour expédition de KDM"
 msgid "Encoding Servers"
 msgstr "Serveurs Encodage"
 
-#: src/wx/dcp_panel.cc:91
+#: src/wx/dcp_panel.cc:95
 msgid "Encrypted"
 msgstr "Crypté"
 
@@ -927,81 +933,81 @@ msgstr "Crypté"
 msgid "End"
 msgstr "Fin"
 
-#: src/wx/report_problem_dialog.cc:109
+#: src/wx/report_problem_dialog.cc:111
 #, c-format
 msgid "Enter your email address for the contact, not %s"
 msgstr "Entrez votre adresse E-mail pour le contact, pas %s"
 
-#: src/wx/full_config_dialog.cc:1392
+#: src/wx/full_config_dialog.cc:1395
 msgid "Errors"
 msgstr "Erreurs"
 
-#: src/wx/config_dialog.cc:384
+#: src/wx/config_dialog.cc:387
 msgid "Export"
 msgstr "Export"
 
-#: src/wx/config_dialog.cc:735
+#: src/wx/config_dialog.cc:738
 msgid "Export KDM decryption certificate..."
 msgstr "Export du certificat de décryptage KDM..."
 
-#: src/wx/config_dialog.cc:737
+#: src/wx/config_dialog.cc:740
 msgid "Export KDM decryption chain..."
 msgstr "Export de la chaine de décryptage KDM..."
 
-#: src/wx/config_dialog.cc:739
+#: src/wx/config_dialog.cc:742
 msgid "Export all KDM decryption settings..."
 msgstr "Export de tous les paramètres de décryptage KDM..."
 
-#: src/wx/export_dialog.cc:52
+#: src/wx/export_dialog.cc:53
 msgid "Export film"
 msgstr "Export projet"
 
-#: src/wx/config_dialog.cc:401 src/wx/full_config_dialog.cc:111
+#: src/wx/config_dialog.cc:404 src/wx/full_config_dialog.cc:114
 msgid "Export..."
 msgstr "Export..."
 
-#: src/wx/full_config_dialog.cc:673
+#: src/wx/full_config_dialog.cc:676
 msgid "FTP (for Dolby)"
 msgstr "FTP (pour Dolby)"
 
-#: src/wx/isdcf_metadata_dialog.cc:55
+#: src/wx/isdcf_metadata_dialog.cc:56
 msgid "Facility (e.g. DLA)"
 msgstr "Laboratoire (ex. DLA)"
 
-#: src/wx/video_panel.cc:137
+#: src/wx/video_panel.cc:140
 msgid "Fade in"
 msgstr "Fondu début"
 
-#: src/wx/subtitle_appearance_dialog.cc:76
+#: src/wx/subtitle_appearance_dialog.cc:79
 msgid "Fade in time"
 msgstr "Durée Fondu début"
 
-#: src/wx/video_panel.cc:140
+#: src/wx/video_panel.cc:143
 msgid "Fade out"
 msgstr "Fondu fin"
 
-#: src/wx/subtitle_appearance_dialog.cc:79
+#: src/wx/subtitle_appearance_dialog.cc:82
 msgid "Fade out time"
 msgstr "Durée Fondu fin"
 
-#: src/wx/kdm_dialog.cc:133
+#: src/wx/kdm_dialog.cc:135
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "Le fichier %s existe déjà. Voulez-vous le remplacer?"
 
-#: src/wx/kdm_output_panel.cc:76
+#: src/wx/kdm_output_panel.cc:78
 msgid "Filename format"
 msgstr "Format de nom de fichier"
 
-#: src/wx/film_name_location_dialog.cc:40
+#: src/wx/film_name_location_dialog.cc:41
 msgid "Film name"
 msgstr "Nom du Film"
 
-#: src/wx/filter_dialog.cc:33 src/wx/video_panel.cc:159
+#: src/wx/filter_dialog.cc:33 src/wx/video_panel.cc:162
 msgid "Filters"
 msgstr "Filtres"
 
-#: src/wx/full_config_dialog.cc:118
+#: src/wx/full_config_dialog.cc:121
 msgid ""
 "Find integrated loudness, true peak and loudness range when analysing audio"
 msgstr ""
@@ -1012,7 +1018,7 @@ msgstr ""
 msgid "Find missing..."
 msgstr "Recherche de l'élément manquant..."
 
-#: src/wx/kdm_output_panel.cc:72
+#: src/wx/kdm_output_panel.cc:74
 msgid "Folder / ZIP name format"
 msgstr "Dossier / format fichier ZIP"
 
@@ -1020,28 +1026,28 @@ msgstr "Dossier / format fichier ZIP"
 msgid "Folder name"
 msgstr "Nom de dossier"
 
-#: src/wx/fonts_dialog.cc:38 src/wx/font_files_dialog.cc:28
-#: src/wx/font_files_dialog.cc:30
+#: src/wx/fonts_dialog.cc:39 src/wx/font_files_dialog.cc:30
+#: src/wx/font_files_dialog.cc:32
 msgid "Fonts"
 msgstr "Police"
 
-#: src/wx/text_panel.cc:106
+#: src/wx/text_panel.cc:109
 msgid "Fonts..."
 msgstr "Police..."
 
-#: src/wx/kdm_advanced_dialog.cc:30
+#: src/wx/kdm_advanced_dialog.cc:31
 msgid "Forensically mark audio"
 msgstr "Authentifier l'audio"
 
-#: src/wx/kdm_advanced_dialog.cc:26
+#: src/wx/kdm_advanced_dialog.cc:27
 msgid "Forensically mark video"
 msgstr "Authentifier la vidéo"
 
-#: src/wx/export_dialog.cc:54
+#: src/wx/export_dialog.cc:55
 msgid "Format"
 msgstr "Format"
 
-#: src/wx/dcp_panel.cc:741
+#: src/wx/dcp_panel.cc:754
 msgid "Frame Rate"
 msgstr "Cadence image"
 
@@ -1054,35 +1060,35 @@ msgstr "Cadence"
 msgid "Frame rate: %d"
 msgstr "Cadence image: %d"
 
-#: src/wx/about_dialog.cc:66
+#: src/wx/about_dialog.cc:67
 msgid "Free, open-source DCP creation from almost anything."
 msgstr "Création de DCP, libre et open-source, depuis presque tout."
 
-#: src/wx/kdm_timing_panel.cc:36
+#: src/wx/kdm_timing_panel.cc:37
 msgid "From"
 msgstr "À partir du"
 
-#: src/wx/full_config_dialog.cc:855 src/wx/full_config_dialog.cc:1088
+#: src/wx/full_config_dialog.cc:858 src/wx/full_config_dialog.cc:1091
 msgid "From address"
 msgstr "Adresse source"
 
-#: src/wx/film_name_location_dialog.cc:59
+#: src/wx/film_name_location_dialog.cc:60
 msgid "From template"
 msgstr "Depuis le modèle"
 
-#: src/wx/audio_mapping_view.cc:170 src/wx/full_config_dialog.cc:147
+#: src/wx/audio_mapping_view.cc:170 src/wx/full_config_dialog.cc:150
 msgid "Full"
 msgstr "Plein"
 
-#: src/wx/timing_panel.cc:85
+#: src/wx/timing_panel.cc:87
 msgid "Full length"
 msgstr "Durée totale"
 
-#: src/wx/initial_setup_dialog.cc:47
+#: src/wx/initial_setup_dialog.cc:48
 msgid "Full mode"
 msgstr "Full mode"
 
-#: src/wx/dcp_panel.cc:106
+#: src/wx/dcp_panel.cc:110
 msgid "GB"
 msgstr "GB"
 
@@ -1090,7 +1096,7 @@ msgstr "GB"
 msgid "GDC"
 msgstr "GDC"
 
-#: src/wx/audio_panel.cc:62
+#: src/wx/audio_panel.cc:65
 msgid "Gain"
 msgstr "Gain"
 
@@ -1103,15 +1109,15 @@ msgstr "Calculateur de gain"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Gain pour le canal audio %d dans le canal du DCP %d"
 
-#: src/wx/content_properties_dialog.cc:70 src/wx/full_config_dialog.cc:1388
+#: src/wx/content_properties_dialog.cc:71 src/wx/full_config_dialog.cc:1391
 msgid "General"
 msgstr "Général"
 
-#: src/wx/screen_dialog.cc:132
+#: src/wx/screen_dialog.cc:134
 msgid "Get from file..."
 msgstr "Depuis le fichier..."
 
-#: src/wx/hints_dialog.cc:65
+#: src/wx/hints_dialog.cc:68
 msgid "Go back"
 msgstr "Retour."
 
@@ -1128,19 +1134,19 @@ msgstr "Aller à l'image"
 msgid "Go to timecode"
 msgstr "Aller au timecode"
 
-#: src/wx/colour_conversion_editor.cc:137
+#: src/wx/colour_conversion_editor.cc:139
 msgid "Green chromaticity"
 msgstr "Chromaticité du Vert"
 
-#: src/wx/full_config_dialog.cc:401
+#: src/wx/full_config_dialog.cc:404
 msgid "Guess from content"
 msgstr "Deviner à partir du contenu"
 
-#: src/wx/batch_job_view.cc:44
+#: src/wx/batch_job_view.cc:45
 msgid "Higher priority"
 msgstr "Plus haute priorité"
 
-#: src/wx/hints_dialog.cc:39
+#: src/wx/hints_dialog.cc:41
 msgid "Hints"
 msgstr "Conseils"
 
@@ -1156,23 +1162,23 @@ msgstr "Nom de l'hôte ou adresse IP"
 msgid "I want to play this back at fader"
 msgstr "Je veux lire ce DCP à un niveau son de"
 
-#: src/wx/fonts_dialog.cc:47
+#: src/wx/fonts_dialog.cc:48
 msgid "ID"
 msgstr "ID"
 
-#: src/wx/full_config_dialog.cc:656
+#: src/wx/full_config_dialog.cc:659
 msgid "IP address"
 msgstr "Adresse IP"
 
-#: src/wx/full_config_dialog.cc:592
+#: src/wx/full_config_dialog.cc:595
 msgid "IP address / host name"
 msgstr "Adresse IP / Nom d'Hôte"
 
-#: src/wx/isdcf_metadata_dialog.cc:35
+#: src/wx/isdcf_metadata_dialog.cc:36
 msgid "ISDCF name"
 msgstr "Nom ISDCF"
 
-#: src/wx/config_dialog.cc:862
+#: src/wx/config_dialog.cc:865
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
@@ -1182,27 +1188,27 @@ msgstr ""
 "DKDMs que vous avez créées. Ansi, les KDMs qui vous ont été envoyées "
 "deviendront inutilisables. Soyez prudent !"
 
-#: src/wx/video_waveform_dialog.cc:69
+#: src/wx/video_waveform_dialog.cc:70
 msgid "Image X position"
 msgstr "Position Hor. image"
 
-#: src/wx/player_config_dialog.cc:99
+#: src/wx/player_config_dialog.cc:100
 msgid "Image on primary, controls on secondary"
 msgstr "Image sur le primaire, contrôles sur le secondaire"
 
-#: src/wx/player_config_dialog.cc:100
+#: src/wx/player_config_dialog.cc:101
 msgid "Image on secondary, controls on primary"
 msgstr "image sur le secondaire, contrôles sur le primaire"
 
-#: src/wx/config_dialog.cc:741
+#: src/wx/config_dialog.cc:744
 msgid "Import all KDM decryption settings..."
 msgstr "Import de tous les paramètres de décryptage KDM..."
 
-#: src/wx/config_dialog.cc:399
+#: src/wx/config_dialog.cc:402
 msgid "Import..."
 msgstr "Import..."
 
-#: src/wx/nag_dialog.cc:29
+#: src/wx/nag_dialog.cc:31
 msgid "Important notice"
 msgstr "Avertissement important"
 
@@ -1210,64 +1216,64 @@ msgstr "Avertissement important"
 msgid "Incorrect version"
 msgstr "Version incorrecte"
 
-#: src/wx/colour_conversion_editor.cc:66
+#: src/wx/colour_conversion_editor.cc:68
 msgid "Input gamma"
 msgstr "gamma source"
 
-#: src/wx/colour_conversion_editor.cc:56
+#: src/wx/colour_conversion_editor.cc:58
 msgid "Input gamma correction"
 msgstr "Correction gamma d'entrée"
 
-#: src/wx/colour_conversion_editor.cc:71
+#: src/wx/colour_conversion_editor.cc:73
 msgid "Input power"
 msgstr "puissance d'entrée"
 
-#: src/wx/colour_conversion_editor.cc:58
+#: src/wx/colour_conversion_editor.cc:60
 msgid "Input transfer function"
 msgstr "Fonction transfert d'entrée"
 
-#: src/wx/audio_dialog.cc:372
+#: src/wx/audio_dialog.cc:402
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Basses fréquences intégrées %.2f LUFS"
 
-#: src/wx/full_config_dialog.cc:88
+#: src/wx/full_config_dialog.cc:91
 msgid "Interface complexity"
 msgstr "Complexité de l'interface"
 
-#: src/wx/config_dialog.cc:559
+#: src/wx/config_dialog.cc:562
 msgid "Intermediate"
 msgstr "Intermédiaire"
 
-#: src/wx/make_chain_dialog.cc:67
+#: src/wx/make_chain_dialog.cc:68
 msgid "Intermediate common name"
 msgstr "Nom commun intermédiaire"
 
-#: src/wx/dcp_panel.cc:144 src/wx/full_config_dialog.cc:425
+#: src/wx/dcp_panel.cc:148 src/wx/full_config_dialog.cc:428
 msgid "Interop"
 msgstr "MXF-Interop"
 
-#: src/wx/config_dialog.cc:850
+#: src/wx/config_dialog.cc:853
 msgid "Invalid DCP-o-matic export file"
 msgstr "Fichier export DCP-o-matic invalide"
 
-#: src/wx/colour_conversion_editor.cc:205
+#: src/wx/colour_conversion_editor.cc:207
 msgid "Inverse 2.6 gamma correction on output"
 msgstr "Inversion de la correction gamma 2.6 en entrée"
 
-#: src/wx/full_config_dialog.cc:132
+#: src/wx/full_config_dialog.cc:135
 msgid "Issuer"
 msgstr "Emetteur"
 
-#: src/wx/fonts_dialog.cc:63
+#: src/wx/fonts_dialog.cc:64
 msgid "Italic file"
 msgstr "Fichier Italique"
 
-#: src/wx/font_files_dialog.cc:36
+#: src/wx/font_files_dialog.cc:38
 msgid "Italic font"
 msgstr "Italique"
 
-#: src/wx/dcp_panel.cc:753
+#: src/wx/dcp_panel.cc:766
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
@@ -1279,28 +1285,28 @@ msgstr ""
 msgid "Join"
 msgstr "Ajouter"
 
-#: src/wx/controls.cc:80
+#: src/wx/controls.cc:83
 msgid "Jump to selected content"
 msgstr "Aller au contenu sélectionné"
 
-#: src/wx/full_config_dialog.cc:834
+#: src/wx/full_config_dialog.cc:837
 msgid "KDM Email"
 msgstr "e-mail KDM"
 
-#: src/wx/player_config_dialog.cc:257
+#: src/wx/player_config_dialog.cc:258
 msgid "KDM directory"
 msgstr "Répertoire des KDM"
 
-#: src/wx/player_config_dialog.cc:114
+#: src/wx/player_config_dialog.cc:115
 msgid "KDM server URL"
 msgstr "URL du server de KDM"
 
-#: src/wx/kdm_output_panel.cc:55
+#: src/wx/kdm_output_panel.cc:57
 msgid "KDM type"
 msgstr "Type de KDM"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
-#: src/wx/kdm_dialog.cc:79
+#: src/wx/kdm_dialog.cc:81
 msgid "KDM|Timing"
 msgstr "Temps"
 
@@ -1308,47 +1314,48 @@ msgstr "Temps"
 msgid "Keep video and subtitles in sequence"
 msgstr "Conserver la vidéo et les sous-titres dans la séquence"
 
-#: src/wx/dcp_panel.cc:97 src/wx/key_dialog.cc:28 src/wx/key_dialog.cc:30
+#: src/wx/dcp_panel.cc:101 src/wx/key_dialog.cc:29 src/wx/key_dialog.cc:31
 msgid "Key"
 msgstr "Clé"
 
-#: src/wx/config_dialog.cc:718
+#: src/wx/config_dialog.cc:721
 msgid "Keys"
 msgstr "Clés"
 
-#: src/wx/text_panel.cc:99 src/wx/dcp_text_track_dialog.cc:31
+#: src/wx/dcp_text_track_dialog.cc:31 src/wx/send_i18n_dialog.cc:45
+#: src/wx/text_panel.cc:102
 msgid "Language"
 msgstr "Langue"
 
-#: src/wx/content_panel.cc:116
+#: src/wx/content_panel.cc:118
 msgid "Later"
 msgstr "Plus tard"
 
-#: src/wx/config_dialog.cc:557
+#: src/wx/config_dialog.cc:560
 msgid "Leaf"
 msgstr "Page"
 
-#: src/wx/make_chain_dialog.cc:78
+#: src/wx/make_chain_dialog.cc:79
 msgid "Leaf common name"
 msgstr "Nom commun de page"
 
-#: src/wx/config_dialog.cc:393
+#: src/wx/config_dialog.cc:396
 msgid "Leaf private key"
 msgstr "Page de clé privée"
 
-#: src/wx/config_dialog.cc:411
+#: src/wx/config_dialog.cc:414
 msgid "Leaf private key does not match leaf certificate!"
 msgstr "La page de clé privée ne correspond pas au certificat de la page !"
 
-#: src/wx/controls.cc:76
+#: src/wx/controls.cc:79
 msgid "Left"
 msgstr "Gauche"
 
-#: src/wx/video_panel.cc:97
+#: src/wx/video_panel.cc:100
 msgid "Left crop"
 msgstr "Découpe gauche"
 
-#: src/wx/content_properties_dialog.cc:79
+#: src/wx/content_properties_dialog.cc:80
 msgid "Length"
 msgstr "Longueur"
 
@@ -1356,88 +1363,88 @@ msgstr "Longueur"
 msgid "Length: %1 (%2 frames)"
 msgstr "Durée: %1 (%2 images)"
 
-#: src/wx/text_panel.cc:92
+#: src/wx/text_panel.cc:95
 msgid "Line spacing"
 msgstr "Espacement ligne"
 
-#: src/wx/screen_dialog.cc:54
+#: src/wx/screen_dialog.cc:56
 msgid "Load certificate..."
 msgstr "Chargement certificat..."
 
-#: src/wx/player_config_dialog.cc:228
+#: src/wx/player_config_dialog.cc:229
 msgid "Locations"
 msgstr "Localisation"
 
-#: src/wx/player_config_dialog.cc:119
+#: src/wx/player_config_dialog.cc:120
 msgid "Lock file"
 msgstr "Fichier verrou"
 
-#: src/wx/full_config_dialog.cc:1386
+#: src/wx/full_config_dialog.cc:1389
 msgid "Log"
 msgstr "Rapport"
 
-#: src/wx/player_config_dialog.cc:108
+#: src/wx/player_config_dialog.cc:109
 msgid "Log file"
 msgstr "Fichier journal"
 
-#: src/wx/audio_dialog.cc:381
+#: src/wx/audio_dialog.cc:411
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr "Plage Basses fréquences %.2f LU"
 
-#: src/wx/batch_job_view.cc:47
+#: src/wx/batch_job_view.cc:48
 msgid "Lower priority"
 msgstr "Plus basse priorité"
 
-#: src/wx/content_panel.cc:693
+#: src/wx/content_panel.cc:710
 msgid "MISSING: "
 msgstr "MANQUANT:"
 
-#: src/wx/export_dialog.cc:37
+#: src/wx/export_dialog.cc:38
 msgid "MOV files (*.mov)|*.mov"
 msgstr "FIchiers MOV (*.mov)|*.mov"
 
-#: src/wx/export_dialog.cc:33
+#: src/wx/export_dialog.cc:34
 msgid "MP4 / H.264"
 msgstr "MP4 / H.264"
 
-#: src/wx/export_dialog.cc:38
+#: src/wx/export_dialog.cc:39
 msgid "MP4 files (*.mp4)|*.mp4"
 msgstr "Fichiers MP4 (*.mp4)|*.mp4"
 
-#: src/wx/full_config_dialog.cc:773
+#: src/wx/full_config_dialog.cc:776
 msgid "Mail password"
 msgstr "Mot de passe Mail"
 
-#: src/wx/full_config_dialog.cc:769
+#: src/wx/full_config_dialog.cc:772
 msgid "Mail user name"
 msgstr "Nom Utilisateur Mail"
 
-#: src/wx/hints_dialog.cc:64
+#: src/wx/hints_dialog.cc:67
 msgid "Make DCP"
 msgstr "Faire DCP"
 
-#: src/wx/self_dkdm_dialog.cc:50
+#: src/wx/self_dkdm_dialog.cc:51
 msgid "Make DKDM for DCP-o-matic"
 msgstr "Créer DKDM pour DCP-o-matic"
 
-#: src/wx/kdm_dialog.cc:55 src/wx/kdm_dialog.cc:99
+#: src/wx/kdm_dialog.cc:57 src/wx/kdm_dialog.cc:101
 msgid "Make KDMs"
 msgstr "Générer KDMs"
 
-#: src/wx/make_chain_dialog.cc:34
+#: src/wx/make_chain_dialog.cc:35
 msgid "Make certificate chain"
 msgstr "Créer chaîne de certificat"
 
-#: src/wx/player_config_dialog.cc:419
+#: src/wx/player_config_dialog.cc:429
 msgid "Manufacture week"
 msgstr "Semaine d'exploitation"
 
-#: src/wx/player_config_dialog.cc:420
+#: src/wx/player_config_dialog.cc:430
 msgid "Manufacture year"
 msgstr "Année de fabrication"
 
-#: src/wx/monitor_dialog.cc:34 src/wx/player_config_dialog.cc:416
+#: src/wx/monitor_dialog.cc:34 src/wx/player_config_dialog.cc:426
 msgid "Manufacturer ID"
 msgstr "Identification du fabricant"
 
@@ -1445,36 +1452,36 @@ msgstr "Identification du fabricant"
 msgid "Manufacturer product code"
 msgstr "Code produit du fabricant"
 
-#: src/wx/isdcf_metadata_dialog.cc:77
+#: src/wx/isdcf_metadata_dialog.cc:78
 msgid "Mastered luminance (e.g. 14fl)"
 msgstr "Luminance masterisée (e.g. 14fl)"
 
-#: src/wx/colour_conversion_editor.cc:127
+#: src/wx/colour_conversion_editor.cc:129
 msgid "Matrix"
 msgstr "Matrice"
 
-#: src/wx/full_config_dialog.cc:1320
+#: src/wx/full_config_dialog.cc:1323
 msgid "Maximum JPEG2000 bandwidth"
 msgstr "Qualité JPEG2000 Maxi"
 
-#: src/wx/full_config_dialog.cc:1348
+#: src/wx/full_config_dialog.cc:1351
 msgid "Maximum number of frames to store per thread"
 msgstr "Nombre maximum d'images à gérer par processus"
 
-#: src/wx/dcp_panel.cc:755 src/wx/full_config_dialog.cc:358
-#: src/wx/full_config_dialog.cc:1324
+#: src/wx/dcp_panel.cc:768 src/wx/full_config_dialog.cc:361
+#: src/wx/full_config_dialog.cc:1327
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
-#: src/wx/full_config_dialog.cc:1076
+#: src/wx/full_config_dialog.cc:1079
 msgid "Message box"
 msgstr "Message"
 
-#: src/wx/export_dialog.cc:58
+#: src/wx/export_dialog.cc:59
 msgid "Mix audio down to stereo"
 msgstr "Mixer le son en stéréo."
 
-#: src/wx/config_move_dialog.cc:28
+#: src/wx/config_move_dialog.cc:29
 msgid "Move configuration"
 msgstr "Déplacer la configuration"
 
@@ -1482,19 +1489,19 @@ msgstr "Déplacer la configuration"
 msgid "Move content"
 msgstr "Déplacer le contenu"
 
-#: src/wx/content_panel.cc:113
+#: src/wx/content_panel.cc:115
 msgid "Move the selected piece of content earlier in the film."
 msgstr "Déplacer le contenu sélectionné plus tôt dans le film."
 
-#: src/wx/content_panel.cc:117
+#: src/wx/content_panel.cc:119
 msgid "Move the selected piece of content later in the film."
 msgstr "Déplacer le contenu sélectionné plus tard dans le film."
 
-#: src/wx/timing_panel.cc:84
+#: src/wx/timing_panel.cc:86
 msgid "Move to start of reel"
 msgstr "Déplacer au début de la bobine"
 
-#: src/wx/video_panel.cc:419
+#: src/wx/video_panel.cc:418
 msgid "Multiple content selected"
 msgstr "Contenus multiples sélectionnés"
 
@@ -1502,24 +1509,24 @@ msgstr "Contenus multiples sélectionnés"
 msgid "Multiple values"
 msgstr "Valeurs multiples"
 
-#: src/wx/dir_picker_ctrl.cc:52
+#: src/wx/dir_picker_ctrl.cc:54
 msgid "My Documents"
 msgstr "Mes Documents"
 
-#: src/wx/report_problem_dialog.cc:51
+#: src/wx/report_problem_dialog.cc:53
 msgid "My problem is"
 msgstr "Mon problème est :"
 
-#: src/wx/content_panel.cc:697
+#: src/wx/content_panel.cc:714
 msgid "NEEDS KDM: "
 msgstr "DEMANDE de KDM:"
 
-#: src/wx/content_panel.cc:701
+#: src/wx/content_panel.cc:718
 msgid "NEEDS OV: "
 msgstr "OV Nécessaire:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:71
-#: src/wx/dcp_text_track_dialog.cc:29 src/wx/screen_dialog.cc:110
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:75
+#: src/wx/dcp_text_track_dialog.cc:29 src/wx/screen_dialog.cc:112
 msgid "Name"
 msgstr "Nom"
 
@@ -1535,7 +1542,7 @@ msgstr "Nécessite une OV"
 msgid "New name"
 msgstr "Nouveau nom"
 
-#: src/wx/update_dialog.cc:38
+#: src/wx/update_dialog.cc:39
 msgid "New versions of DCP-o-matic are available."
 msgstr "De nouvelles versions de DCP-o-matic sont disponibles."
 
@@ -1572,43 +1579,43 @@ msgstr ""
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "Aucun son ne passera du canal audio %d au canal %d du DCP."
 
-#: src/wx/content_panel.cc:459
+#: src/wx/content_panel.cc:466
 msgid "No content found in this folder."
 msgstr "Aucun contenu trouvé dans ce répertoire"
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/subtitle_appearance_dialog.cc:127 src/wx/dcp_panel.cc:867
-#: src/wx/video_panel.cc:160 src/wx/video_panel.cc:165
-#: src/wx/video_panel.cc:348
+#: src/wx/dcp_panel.cc:880 src/wx/subtitle_appearance_dialog.cc:130
+#: src/wx/video_panel.cc:163 src/wx/video_panel.cc:168
+#: src/wx/video_panel.cc:347
 msgid "None"
 msgstr "Aucun"
 
-#: src/wx/fonts_dialog.cc:55
+#: src/wx/fonts_dialog.cc:56
 msgid "Normal file"
 msgstr "Fichier Normal"
 
-#: src/wx/font_files_dialog.cc:35
+#: src/wx/font_files_dialog.cc:37
 msgid "Normal font"
 msgstr "Normale"
 
-#: src/wx/cinema_dialog.cc:60 src/wx/screen_dialog.cc:115
+#: src/wx/cinema_dialog.cc:60 src/wx/screen_dialog.cc:117
 msgid "Notes"
 msgstr "Notes"
 
-#: src/wx/full_config_dialog.cc:1059
+#: src/wx/full_config_dialog.cc:1062
 msgid "Notifications"
 msgstr "Notifications"
 
-#: src/wx/job_view.cc:79
+#: src/wx/job_view.cc:82
 msgid "Notify when complete"
 msgstr "Notifier à la fin"
 
-#: src/wx/full_config_dialog.cc:98
+#: src/wx/full_config_dialog.cc:101
 msgid "Number of threads DCP-o-matic encode server should use"
 msgstr ""
 "Nombre de processus que le serveur d'encodage de DCP-o-matic doit utiliser"
 
-#: src/wx/full_config_dialog.cc:93
+#: src/wx/full_config_dialog.cc:96
 msgid "Number of threads DCP-o-matic should use"
 msgstr "Nombre de processus que DCP-o-matic doit utiliser"
 
@@ -1616,107 +1623,106 @@ msgstr "Nombre de processus que DCP-o-matic doit utiliser"
 msgid "Off"
 msgstr "Eteint"
 
-#: src/wx/text_panel.cc:76
+#: src/wx/text_panel.cc:79
 msgid "Offset"
 msgstr "Décalage"
 
-#: src/wx/full_config_dialog.cc:1343
+#: src/wx/full_config_dialog.cc:1346
 msgid "Only servers encode"
 msgstr "Seuls les serveurs encodent"
 
-#: src/wx/full_config_dialog.cc:1407
+#: src/wx/full_config_dialog.cc:1410
 msgid "Open console window"
 msgstr "Ouvrir fenêtre de console"
 
-#: src/wx/content_panel.cc:121
+#: src/wx/content_panel.cc:123
 msgid "Open the timeline for the film."
 msgstr "Ouvrir la timeline pour le film."
 
-#: src/wx/make_chain_dialog.cc:51
+#: src/wx/make_chain_dialog.cc:52
 msgid "Organisation"
 msgstr "Organisation"
 
-#: src/wx/make_chain_dialog.cc:53
+#: src/wx/make_chain_dialog.cc:54
 msgid "Organisational unit"
 msgstr "Unité d'organisation"
 
-#: src/wx/screen_dialog.cc:140
+#: src/wx/screen_dialog.cc:142
 msgid "Other trusted devices"
 msgstr "Autres périphériques de confiance"
 
-#: src/wx/full_config_dialog.cc:757
+#: src/wx/full_config_dialog.cc:760
 msgid "Outgoing mail server"
 msgstr "Serveurs de messagerie sortant"
 
-#: src/wx/subtitle_appearance_dialog.cc:128
+#: src/wx/subtitle_appearance_dialog.cc:131
 msgid "Outline"
 msgstr "Contours"
 
-#: src/wx/controls.cc:73
+#: src/wx/controls.cc:76
 msgid "Outline content"
 msgstr "contours image"
 
-#: src/wx/subtitle_appearance_dialog.cc:71
+#: src/wx/subtitle_appearance_dialog.cc:74
 msgid "Outline width"
 msgstr "Taille des contours"
 
-#: src/wx/subtitle_appearance_dialog.cc:292
+#: src/wx/subtitle_appearance_dialog.cc:295
 msgid "Outline width cannot be set unless you are burning in captions"
 msgstr ""
 "L'epaisseur du contour ne peut être réglée si vous n'incrustez pas les sous-"
 "titres sans l'image."
 
-#: src/wx/kdm_dialog.cc:93 src/wx/self_dkdm_dialog.cc:67
+#: src/wx/kdm_dialog.cc:95 src/wx/self_dkdm_dialog.cc:68
 msgid "Output"
 msgstr "Sortie"
 
-#: src/wx/export_dialog.cc:73
+#: src/wx/export_dialog.cc:74
 msgid "Output file"
 msgstr "Fichier destination"
 
-#: src/wx/colour_conversion_editor.cc:203
+#: src/wx/colour_conversion_editor.cc:205
 msgid "Output gamma correction"
 msgstr "Correction gamma de sortie"
 
-#: src/wx/config_move_dialog.cc:30
+#: src/wx/config_move_dialog.cc:31
 msgid "Overwrite this file with current configuration"
 msgstr "Ecraser ce fichier avec la nouvelle configuration"
 
-#: src/wx/full_config_dialog.cc:668
+#: src/wx/full_config_dialog.cc:671
 msgid "Password"
 msgstr "Mot de passe"
 
-#: src/wx/paste_dialog.cc:24
+#: src/wx/paste_dialog.cc:25
 msgid "Paste"
 msgstr "Coller"
 
-#: src/wx/paste_dialog.cc:29
+#: src/wx/paste_dialog.cc:30
 msgid "Paste audio settings"
 msgstr "Coller paramètres audio"
 
-#: src/wx/paste_dialog.cc:32
+#: src/wx/paste_dialog.cc:33
 msgid "Paste subtitle and caption settings"
 msgstr "Coller les paramètres de sous-titres "
 
-#: src/wx/paste_dialog.cc:26
+#: src/wx/paste_dialog.cc:27
 msgid "Paste video settings"
 msgstr "Coller paramètres vidéo"
 
-#: src/wx/normal_job_view.cc:37 src/wx/normal_job_view.cc:53
-#: src/wx/swaroop_controls.cc:39
+#: src/wx/normal_job_view.cc:38 src/wx/normal_job_view.cc:54
 msgid "Pause"
 msgstr "Pause"
 
-#: src/wx/audio_dialog.cc:118
+#: src/wx/audio_dialog.cc:116
 msgid "Peak"
 msgstr "Crête"
 
-#: src/wx/audio_panel.cc:360
+#: src/wx/audio_panel.cc:371
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr "Crête: %.2fdB"
 
-#: src/wx/audio_panel.cc:362
+#: src/wx/audio_panel.cc:373
 msgid "Peak: unknown"
 msgstr "Crête: inconnue"
 
@@ -1724,27 +1730,27 @@ msgstr "Crête: inconnue"
 msgid "Performance"
 msgstr "Performance"
 
-#: src/wx/player_config_dialog.cc:353
+#: src/wx/player_config_dialog.cc:363
 msgid "Period"
 msgstr "Période"
 
-#: src/wx/standard_controls.cc:30 src/wx/swaroop_controls.cc:38
+#: src/wx/standard_controls.cc:30
 msgid "Play"
 msgstr "Lecture"
 
-#: src/wx/timing_panel.cc:93
+#: src/wx/timing_panel.cc:95
 msgid "Play length"
 msgstr "Durée finale"
 
-#: src/wx/config_dialog.cc:155
+#: src/wx/config_dialog.cc:158
 msgid "Play sound via"
 msgstr "Lire le son par"
 
-#: src/wx/player_config_dialog.cc:252
+#: src/wx/player_config_dialog.cc:253
 msgid "Playlist directory"
 msgstr "Répertoire de la playliste"
 
-#: src/wx/report_problem_dialog.cc:104
+#: src/wx/report_problem_dialog.cc:106
 msgid ""
 "Please enter an email address so that we can contact you with any queries "
 "about the problem."
@@ -1756,23 +1762,23 @@ msgstr ""
 msgid "Please wait; audio is being analysed..."
 msgstr "Merci de patienter ; analyse de la piste son..."
 
-#: src/wx/timing_panel.cc:82
+#: src/wx/timing_panel.cc:84
 msgid "Position"
 msgstr "Position"
 
-#: src/wx/isdcf_metadata_dialog.cc:61
+#: src/wx/isdcf_metadata_dialog.cc:62
 msgid "Pre-release"
 msgstr "Avant sortie"
 
-#: src/wx/export_dialog.cc:32
+#: src/wx/export_dialog.cc:33
 msgid "ProRes"
 msgstr "ProRes"
 
-#: src/wx/dcp_panel.cc:865
+#: src/wx/dcp_panel.cc:878
 msgid "Processor"
 msgstr "Processeur"
 
-#: src/wx/player_config_dialog.cc:417
+#: src/wx/player_config_dialog.cc:427
 msgid "Product code"
 msgstr "Code produit"
 
@@ -1780,31 +1786,31 @@ msgstr "Code produit"
 msgid "Properties..."
 msgstr "Propriétés..."
 
-#: src/wx/full_config_dialog.cc:652
+#: src/wx/full_config_dialog.cc:655
 msgid "Protocol"
 msgstr "Protocole"
 
-#: src/wx/export_dialog.cc:63
+#: src/wx/export_dialog.cc:64
 msgid "Quality"
 msgstr "Qualité"
 
-#: src/wx/colour_conversion_editor.cc:123
+#: src/wx/colour_conversion_editor.cc:125
 msgid "RGB to XYZ conversion"
 msgstr "Conversion RGB vers XYZ"
 
-#: src/wx/audio_dialog.cc:119
+#: src/wx/audio_dialog.cc:117
 msgid "RMS"
 msgstr "RMS"
 
-#: src/wx/key_dialog.cc:50
+#: src/wx/key_dialog.cc:51
 msgid "Random"
 msgstr "Aléatoire"
 
-#: src/wx/isdcf_metadata_dialog.cc:49
+#: src/wx/isdcf_metadata_dialog.cc:50
 msgid "Rating (e.g. 15)"
 msgstr "Rating (ex. 15)"
 
-#: src/wx/dcp_panel.cc:757
+#: src/wx/dcp_panel.cc:770
 msgid "Re-encode JPEG2000 data from input"
 msgstr "Ré-encoder les données JPEG2000 depuis la source"
 
@@ -1812,11 +1818,11 @@ msgstr "Ré-encoder les données JPEG2000 depuis la source"
 msgid "Re-examine..."
 msgstr "Examine à nouveau..."
 
-#: src/wx/config_dialog.cc:406
+#: src/wx/config_dialog.cc:409
 msgid "Re-make certificates and key..."
 msgstr "Re-créer les certificats et clés..."
 
-#: src/wx/player_config_dialog.cc:433
+#: src/wx/player_config_dialog.cc:443
 msgid "Read current devices"
 msgstr "Lire sur les périphériques en cours"
 
@@ -1824,27 +1830,27 @@ msgstr "Lire sur les périphériques en cours"
 msgid "Reading content directory"
 msgstr "Lecture répertoire du contenu"
 
-#: src/wx/colour_conversion_editor.cc:110
+#: src/wx/colour_conversion_editor.cc:112
 msgid "Rec. 601"
 msgstr "Rec. 601"
 
-#: src/wx/colour_conversion_editor.cc:111
+#: src/wx/colour_conversion_editor.cc:113
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/wx/screen_dialog.cc:127
+#: src/wx/screen_dialog.cc:129
 msgid "Recipient certificate"
 msgstr "Certificat récipient"
 
-#: src/wx/recreate_chain_dialog.cc:31
+#: src/wx/recreate_chain_dialog.cc:33
 msgid "Recreate signing certificates"
 msgstr "Recréer les Certificats"
 
-#: src/wx/isdcf_metadata_dialog.cc:64
+#: src/wx/isdcf_metadata_dialog.cc:65
 msgid "Red band"
 msgstr "Red Band"
 
-#: src/wx/colour_conversion_editor.cc:130
+#: src/wx/colour_conversion_editor.cc:132
 msgid "Red chromaticity"
 msgstr "Chromaticité du Rouge"
 
@@ -1853,34 +1859,34 @@ msgstr "Chromaticité du Rouge"
 msgid "Reel %d"
 msgstr "Bobine %d"
 
-#: src/wx/dcp_panel.cc:104
+#: src/wx/dcp_panel.cc:108
 msgid "Reel length"
 msgstr "Taille bobine"
 
-#: src/wx/dcp_panel.cc:101
+#: src/wx/dcp_panel.cc:105
 msgid "Reels"
 msgstr "Bobines"
 
 #. / TRANSLATORS: translate the word "Custom" here; do not include the "Reel|" prefix
-#: src/wx/dcp_panel.cc:139
+#: src/wx/dcp_panel.cc:143
 msgid "Reel|Custom"
 msgstr "Personnalisé"
 
-#: src/wx/config_dialog.cc:382 src/wx/content_menu.cc:83
-#: src/wx/content_panel.cc:108 src/wx/templates_dialog.cc:52
-#: src/wx/editable_list.h:81
+#: src/wx/config_dialog.cc:385 src/wx/content_menu.cc:83
+#: src/wx/content_panel.cc:110 src/wx/templates_dialog.cc:53
+#: src/wx/editable_list.h:82
 msgid "Remove"
 msgstr "Supprimer"
 
-#: src/wx/screens_panel.cc:61
+#: src/wx/screens_panel.cc:62
 msgid "Remove Cinema"
 msgstr "Supprimer le cinéma"
 
-#: src/wx/screens_panel.cc:67
+#: src/wx/screens_panel.cc:68
 msgid "Remove Screen"
 msgstr "Supprimer la salle"
 
-#: src/wx/content_panel.cc:109
+#: src/wx/content_panel.cc:111
 msgid "Remove the selected piece of content from the film."
 msgstr "Enleve le contenu sélectionné du film."
 
@@ -1888,7 +1894,7 @@ msgstr "Enleve le contenu sélectionné du film."
 msgid "Rename template"
 msgstr "Renommer le modèle"
 
-#: src/wx/templates_dialog.cc:50
+#: src/wx/templates_dialog.cc:51
 msgid "Rename..."
 msgstr "Renommer..."
 
@@ -1904,35 +1910,35 @@ msgstr "Répéter le contenu"
 msgid "Repeat..."
 msgstr "Répéter..."
 
-#: src/wx/report_problem_dialog.cc:35
+#: src/wx/report_problem_dialog.cc:37
 msgid "Report A Problem"
 msgstr "Signaler un problème"
 
-#: src/wx/full_config_dialog.cc:878 src/wx/full_config_dialog.cc:1115
+#: src/wx/full_config_dialog.cc:881 src/wx/full_config_dialog.cc:1118
 msgid "Reset to default subject and text"
 msgstr "texte et objet par défaut"
 
-#: src/wx/full_config_dialog.cc:1246
+#: src/wx/full_config_dialog.cc:1249
 msgid "Reset to default text"
 msgstr "Rétablir texte par défaut"
 
-#: src/wx/dcp_panel.cc:738
+#: src/wx/dcp_panel.cc:751
 msgid "Resolution"
 msgstr "Résolution"
 
-#: src/wx/player_config_dialog.cc:104
+#: src/wx/player_config_dialog.cc:105
 msgid "Respect KDM validity periods"
 msgstr "Respecter les périodes de validité des KDM"
 
-#: src/wx/subtitle_appearance_dialog.cc:113
+#: src/wx/subtitle_appearance_dialog.cc:116
 msgid "Restore to original colours"
 msgstr "Rétablir Couleurs originelles"
 
-#: src/wx/normal_job_view.cc:56
+#: src/wx/normal_job_view.cc:57
 msgid "Resume"
 msgstr "Reprendre"
 
-#: src/wx/controls.cc:77
+#: src/wx/controls.cc:80
 msgid "Right"
 msgstr "Droit"
 
@@ -1940,31 +1946,31 @@ msgstr "Droit"
 msgid "Right click to change gain."
 msgstr "Cliquez droit pour modifier le gain."
 
-#: src/wx/video_panel.cc:107
+#: src/wx/video_panel.cc:110
 msgid "Right crop"
 msgstr "Découpe droite"
 
-#: src/wx/config_dialog.cc:555
+#: src/wx/config_dialog.cc:558
 msgid "Root"
 msgstr "Racine"
 
-#: src/wx/make_chain_dialog.cc:56
+#: src/wx/make_chain_dialog.cc:57
 msgid "Root common name"
 msgstr "Nom commun racine"
 
-#: src/wx/colour_conversion_editor.cc:62
+#: src/wx/colour_conversion_editor.cc:64
 msgid "S-Gamut3"
 msgstr "S-Gamut3"
 
-#: src/wx/full_config_dialog.cc:672
+#: src/wx/full_config_dialog.cc:675
 msgid "SCP (for AAM and Doremi)"
 msgstr "SCP (pour AAM et Doremi)"
 
-#: src/wx/dcp_panel.cc:143 src/wx/full_config_dialog.cc:424
+#: src/wx/dcp_panel.cc:147 src/wx/full_config_dialog.cc:427
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/audio_dialog.cc:341
+#: src/wx/audio_dialog.cc:371
 #, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "La crête d'échantillon est de %.2fdB à %s sur le canal %s"
@@ -1973,23 +1979,23 @@ msgstr "La crête d'échantillon est de %.2fdB à %s sur le canal %s"
 msgid "Save template"
 msgstr "Enregistrer le modèle"
 
-#: src/wx/self_dkdm_dialog.cc:71
+#: src/wx/self_dkdm_dialog.cc:72
 msgid "Save to KDM Creator tool's list"
 msgstr "Enregistrer dans la liste de l'outil de création KDM"
 
-#: src/wx/text_panel.cc:84
+#: src/wx/text_panel.cc:87
 msgid "Scale"
 msgstr "Echelle"
 
-#: src/wx/video_panel.cc:143
+#: src/wx/video_panel.cc:146
 msgid "Scale to"
 msgstr "Mise à l'échelle"
 
-#: src/wx/kdm_dialog.cc:71
+#: src/wx/kdm_dialog.cc:73
 msgid "Screens"
 msgstr "Ecrans"
 
-#: src/wx/full_config_dialog.cc:588
+#: src/wx/full_config_dialog.cc:591
 msgid "Search network for servers"
 msgstr "Recherche réseau pour serveurs"
 
@@ -1997,28 +2003,28 @@ msgstr "Recherche réseau pour serveurs"
 msgid "Select"
 msgstr "Selectionner"
 
-#: src/wx/kdm_cpl_panel.cc:95
+#: src/wx/kdm_cpl_panel.cc:97
 msgid "Select CPL XML file"
 msgstr "Sélectionner le fichier CPL.xml"
 
-#: src/wx/config_dialog.cc:449 src/wx/config_dialog.cc:518
-#: src/wx/config_dialog.cc:893 src/wx/screen_dialog.cc:211
+#: src/wx/config_dialog.cc:452 src/wx/config_dialog.cc:521
+#: src/wx/config_dialog.cc:896 src/wx/screen_dialog.cc:213
 msgid "Select Certificate File"
 msgstr "Sélectionner le certificat"
 
-#: src/wx/config_dialog.cc:871
+#: src/wx/config_dialog.cc:874
 msgid "Select Chain File"
 msgstr "Sélectionner fichier chaines"
 
-#: src/wx/full_config_dialog.cc:194
+#: src/wx/full_config_dialog.cc:197
 msgid "Select Cinemas File"
 msgstr "Sélectionner fichier Cinémas"
 
-#: src/wx/config_dialog.cc:793
+#: src/wx/config_dialog.cc:796
 msgid "Select Export File"
 msgstr "Sélectionner fichier d'export"
 
-#: src/wx/config_dialog.cc:819
+#: src/wx/config_dialog.cc:822
 msgid "Select File To Import"
 msgstr "Sélectionner fichier à importer"
 
@@ -2026,7 +2032,7 @@ msgstr "Sélectionner fichier à importer"
 msgid "Select KDM"
 msgstr "Selectionner KDM"
 
-#: src/wx/config_dialog.cc:661 src/wx/config_dialog.cc:697
+#: src/wx/config_dialog.cc:664 src/wx/config_dialog.cc:700
 msgid "Select Key File"
 msgstr "Sélectionner fichier clé"
 
@@ -2038,47 +2044,52 @@ msgstr "Selectionner OV"
 msgid "Select and move content"
 msgstr "Sélectionner et déplacer le contenu"
 
-#: src/wx/full_config_dialog.cc:109
+#: src/wx/full_config_dialog.cc:112
 msgid "Select cinema and screen database file"
 msgstr "Selectionner le fichier de données cinémas et écrans"
 
-#: src/wx/full_config_dialog.cc:104
+#: src/wx/full_config_dialog.cc:107
 msgid "Select configuration file"
 msgstr "Sélectionner le fichier de configuration"
 
-#: src/wx/player_config_dialog.cc:264
+#: src/wx/player_config_dialog.cc:265
 msgid "Select image file"
 msgstr "Sélectionner fichier image"
 
-#: src/wx/player_config_dialog.cc:120
+#: src/wx/player_config_dialog.cc:121
 msgid "Select lock file"
 msgstr "Sélectionner le fichier verrou"
 
-#: src/wx/player_config_dialog.cc:109
+#: src/wx/player_config_dialog.cc:110
 msgid "Select log file"
 msgstr "Sélectionner le fichier journal"
 
-#: src/wx/export_dialog.cc:74
+#: src/wx/export_dialog.cc:75
 msgid "Select output file"
 msgstr "Sélectionner le fichier destination"
 
-#: src/wx/kdm_output_panel.cc:120
+#: src/wx/kdm_output_panel.cc:122
 msgid "Send by email"
 msgstr "Envoyer par e-mail"
 
-#: src/wx/confirm_kdm_email_dialog.cc:31
+#: src/wx/confirm_kdm_email_dialog.cc:33
 msgid "Send emails"
 msgstr "Envoyer e-mails"
 
-#: src/wx/report_problem_dialog.cc:63
+#: src/wx/report_problem_dialog.cc:65
 msgid "Send logs"
 msgstr "Envoyer rapport"
+
+#: src/wx/send_i18n_dialog.cc:30
+#, fuzzy
+msgid "Send translations"
+msgstr "Organisation"
 
 #: src/wx/timeline_dialog.cc:70
 msgid "Sequence"
 msgstr "Séquence"
 
-#: src/wx/player_config_dialog.cc:418
+#: src/wx/player_config_dialog.cc:428
 msgid "Serial"
 msgstr "Numéro Série"
 
@@ -2090,67 +2101,67 @@ msgstr "Numéro de Série"
 msgid "Server"
 msgstr "Serveur"
 
-#: src/wx/full_config_dialog.cc:575
+#: src/wx/full_config_dialog.cc:578
 msgid "Servers"
 msgstr "Serveurs"
 
-#: src/wx/timecode.cc:65 src/wx/timing_panel.cc:98
+#: src/wx/timecode.cc:66 src/wx/timing_panel.cc:100
 msgid "Set"
 msgstr "Sélection"
 
-#: src/wx/font_files_dialog.cc:51
+#: src/wx/font_files_dialog.cc:53
 msgid "Set from file..."
 msgstr "Choisir depuis un fichier..."
 
-#: src/wx/font_files_dialog.cc:54
+#: src/wx/font_files_dialog.cc:56
 msgid "Set from system font..."
 msgstr "Choisir une police système..."
 
-#: src/wx/config_dialog.cc:115
+#: src/wx/config_dialog.cc:118
 msgid "Set language"
 msgstr "Sélectionnez la langue"
 
-#: src/wx/subtitle_appearance_dialog.cc:206
+#: src/wx/subtitle_appearance_dialog.cc:209
 msgid "Set to"
 msgstr "Régler à"
 
-#: src/wx/subtitle_appearance_dialog.cc:129
+#: src/wx/subtitle_appearance_dialog.cc:132
 msgid "Shadow"
 msgstr "Ombre"
 
-#: src/wx/dcp_panel.cc:872
+#: src/wx/dcp_panel.cc:885
 msgid "Show audio..."
 msgstr "Afficher audio..."
 
-#: src/wx/audio_panel.cc:59
+#: src/wx/audio_panel.cc:62
 msgid "Show graph of audio levels..."
 msgstr "Afficher niveaux audio..."
 
-#: src/wx/dcp_panel.cc:90
+#: src/wx/dcp_panel.cc:94
 msgid "Signed"
 msgstr "Signé"
 
-#: src/wx/config_dialog.cc:753 src/wx/config_dialog.cc:780
+#: src/wx/config_dialog.cc:756 src/wx/config_dialog.cc:783
 msgid "Signing DCPs and KDMs"
 msgstr "Signature des DCPs et KDMs:"
 
-#: src/wx/full_config_dialog.cc:146
+#: src/wx/full_config_dialog.cc:149
 msgid "Simple"
 msgstr "simple"
 
-#: src/wx/colour_conversion_editor.cc:60
+#: src/wx/colour_conversion_editor.cc:62
 msgid "Simple gamma"
 msgstr "gamma simple"
 
-#: src/wx/colour_conversion_editor.cc:61
+#: src/wx/colour_conversion_editor.cc:63
 msgid "Simple gamma, linearised for small values"
 msgstr "Gamma simple, linéarisée pour niveaux bas"
 
-#: src/wx/initial_setup_dialog.cc:45
+#: src/wx/initial_setup_dialog.cc:46
 msgid "Simple mode"
 msgstr "SImple mode"
 
-#: src/wx/dcp_panel.cc:136
+#: src/wx/dcp_panel.cc:140
 msgid "Single reel"
 msgstr "Bobine unique"
 
@@ -2159,7 +2170,7 @@ msgstr "Bobine unique"
 msgid "Size: %dx%d"
 msgstr "Taille: %dx%d"
 
-#: src/wx/audio_dialog.cc:129
+#: src/wx/audio_dialog.cc:127
 msgid "Smoothing"
 msgstr "Lissage"
 
@@ -2167,15 +2178,15 @@ msgstr "Lissage"
 msgid "Snap"
 msgstr "Magnetisme"
 
-#: src/wx/dcp_panel.cc:137
+#: src/wx/dcp_panel.cc:141
 msgid "Split by video content"
 msgstr "Séparer par contenu vidéo"
 
-#: src/wx/update_dialog.cc:46
+#: src/wx/update_dialog.cc:47
 msgid "Stable version "
 msgstr "Version Stable"
 
-#: src/wx/dcp_panel.cc:108
+#: src/wx/dcp_panel.cc:112
 msgid "Standard"
 msgstr "Standard"
 
@@ -2187,31 +2198,27 @@ msgstr "Démarrer"
 msgid "Start of reel"
 msgstr "Début de bobine"
 
-#: src/wx/player_config_dialog.cc:89
+#: src/wx/player_config_dialog.cc:90
 msgid "Start player as"
 msgstr "Démarrer le lecteur comme"
 
-#: src/wx/swaroop_controls.cc:40
-msgid "Stop"
-msgstr "Arrêt"
-
-#: src/wx/text_panel.cc:102
+#: src/wx/text_panel.cc:105
 msgid "Stream"
 msgstr "Flux"
 
-#: src/wx/isdcf_metadata_dialog.cc:52
+#: src/wx/isdcf_metadata_dialog.cc:53
 msgid "Studio (e.g. TCF)"
 msgstr "Studio (ex. TCF)"
 
-#: src/wx/full_config_dialog.cc:851 src/wx/full_config_dialog.cc:1084
+#: src/wx/full_config_dialog.cc:854 src/wx/full_config_dialog.cc:1087
 msgid "Subject"
 msgstr "Sujet"
 
-#: src/wx/about_dialog.cc:143
+#: src/wx/about_dialog.cc:144
 msgid "Subscribers"
 msgstr "Souscripteurs"
 
-#: src/wx/isdcf_metadata_dialog.cc:43
+#: src/wx/isdcf_metadata_dialog.cc:44
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Langue de sous-titres (ex. FR)"
 
@@ -2227,19 +2234,19 @@ msgstr "Sous-titres: non"
 msgid "Subtitles: yes"
 msgstr "Sous-titres: oui"
 
-#: src/wx/full_config_dialog.cc:635
+#: src/wx/full_config_dialog.cc:638
 msgid "TMS"
 msgstr "TMS"
 
-#: src/wx/full_config_dialog.cc:660
+#: src/wx/full_config_dialog.cc:663
 msgid "Target path"
 msgstr "Chemin cible"
 
-#: src/wx/isdcf_metadata_dialog.cc:58
+#: src/wx/isdcf_metadata_dialog.cc:59
 msgid "Temp version"
 msgstr "Version temporaire"
 
-#: src/wx/templates_dialog.cc:42
+#: src/wx/templates_dialog.cc:43
 msgid "Template"
 msgstr "Modèle"
 
@@ -2247,31 +2254,31 @@ msgstr "Modèle"
 msgid "Template name"
 msgstr "Nom de modèle"
 
-#: src/wx/save_template_dialog.cc:52 src/wx/templates_dialog.cc:125
+#: src/wx/save_template_dialog.cc:52 src/wx/templates_dialog.cc:126
 msgid "Template names must not be empty."
 msgstr "Le nom de modèle ne doit pas être vide"
 
-#: src/wx/templates_dialog.cc:32
+#: src/wx/templates_dialog.cc:33
 msgid "Templates"
 msgstr "Modèles"
 
-#: src/wx/isdcf_metadata_dialog.cc:46
+#: src/wx/isdcf_metadata_dialog.cc:47
 msgid "Territory (e.g. UK)"
 msgstr "Territoire (ex. FR)"
 
-#: src/wx/update_dialog.cc:52
+#: src/wx/update_dialog.cc:53
 msgid "Test version "
 msgstr "Version test"
 
-#: src/wx/about_dialog.cc:205
+#: src/wx/about_dialog.cc:206
 msgid "Tested by"
 msgstr "Testé par"
 
-#: src/wx/kdm_timing_panel.cc:114
+#: src/wx/kdm_timing_panel.cc:115
 msgid "The 'until' time must be after the 'from' time."
 msgstr "la date de fin doit logiquement être plus tardive que la date de début"
 
-#: src/wx/recreate_chain_dialog.cc:33
+#: src/wx/recreate_chain_dialog.cc:35
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
 "contains a small error\n"
@@ -2295,7 +2302,7 @@ msgstr ""
 "ceux détectés comme manquants. Vous pouvez réessayer avec les contenus "
 "corrects ou supprimer les contenus manquants."
 
-#: src/wx/film_name_location_dialog.cc:120
+#: src/wx/film_name_location_dialog.cc:121
 msgid ""
 "The directory %1 already exists and is not empty.  Are you sure you want to "
 "use it?"
@@ -2303,7 +2310,7 @@ msgstr ""
 "Le répertoire %s existe déjà et n'est pas vide. Etes- vous certain de "
 "vouloir l'utiliser?"
 
-#: src/wx/config_move_dialog.cc:34
+#: src/wx/config_move_dialog.cc:35
 #, c-format
 msgid ""
 "The file %s already exists.  Do you want to use it as your new configuration "
@@ -2312,11 +2319,16 @@ msgstr ""
 "Ce fichier %s existe déjà.  Souhaitez vous l'utiliser comme configuration ou "
 "l'écraser avec la configuration en cours?"
 
-#: src/wx/player_config_dialog.cc:348
+#: src/wx/player_config_dialog.cc:358
 msgid "Theatre name"
 msgstr "Nom du cinéma"
 
-#: src/wx/hints_dialog.cc:124
+#: src/wx/hints_dialog.cc:131
+#, fuzzy
+msgid "There are no hints yet: project check in progress."
+msgstr "Il n'y a aucun avertissement: tout semble correct!"
+
+#: src/wx/hints_dialog.cc:129
 msgid "There are no hints: everything looks good!"
 msgstr "Il n'y a aucun avertissement: tout semble correct!"
 
@@ -2325,11 +2337,11 @@ msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
 msgstr "Un modèle existant porte déjà ce nom. Voulez-vous l'écraser?"
 
-#: src/wx/film_viewer.cc:143
+#: src/wx/film_viewer.cc:146
 msgid "There is not enough free memory to do that."
 msgstr "Il n'y a pas assez de mémoire pour faire cela."
 
-#: src/wx/config_dialog.cc:466
+#: src/wx/config_dialog.cc:469
 msgid ""
 "This file contains other certificates (or other data) after its first "
 "certificate. Only the first certificate will be used."
@@ -2337,7 +2349,7 @@ msgstr ""
 "Ce fichier contient d'autres certificats (ou données) après le premier "
 "certificat. Seul le premier sera utilisé."
 
-#: src/wx/kdm_cpl_panel.cc:120
+#: src/wx/kdm_cpl_panel.cc:122
 msgid "This is not a valid CPL file"
 msgstr "Ceci n'est pas un fichier CPL valide"
 
@@ -2345,8 +2357,8 @@ msgstr "Ceci n'est pas un fichier CPL valide"
 msgid "Threads"
 msgstr "Processus"
 
-#: src/wx/config_dialog.cc:366 src/wx/screen_dialog.cc:52
-#: src/wx/screen_dialog.cc:144
+#: src/wx/config_dialog.cc:369 src/wx/screen_dialog.cc:54
+#: src/wx/screen_dialog.cc:146
 msgid "Thumbprint"
 msgstr "Empreinte"
 
@@ -2354,62 +2366,67 @@ msgstr "Empreinte"
 msgid "Timeline"
 msgstr "Chronologie"
 
-#: src/wx/content_panel.cc:120
+#: src/wx/content_panel.cc:122
 msgid "Timeline..."
 msgstr "Chronologie..."
 
-#: src/wx/content_panel.cc:133
+#: src/wx/content_panel.cc:140
 msgid "Timing"
 msgstr "Chronologie"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
-#: src/wx/timing_panel.cc:51
+#: src/wx/timing_panel.cc:53
 msgid "Timing|Timing"
 msgstr "Temps"
 
-#: src/wx/full_config_dialog.cc:1092
+#: src/wx/full_config_dialog.cc:1095
 msgid "To address"
 msgstr "vers"
 
-#: src/wx/video_panel.cc:117
+#: src/wx/video_panel.cc:120
 msgid "Top crop"
 msgstr "Découpe haute"
 
-#: src/wx/about_dialog.cc:131
+#: src/wx/instant_i18n_dialog.cc:28
+#, fuzzy
+msgid "Translate"
+msgstr "Traduit par"
+
+#: src/wx/about_dialog.cc:132
 msgid "Translated by"
 msgstr "Traduit par"
 
-#: src/wx/timing_panel.cc:92
+#: src/wx/timing_panel.cc:94
 msgid "Trim after current position"
 msgstr "Couper après le curseur"
 
-#: src/wx/timing_panel.cc:90
+#: src/wx/timing_panel.cc:92
 msgid "Trim from end"
 msgstr "Couper à la fin"
 
-#: src/wx/timing_panel.cc:87
+#: src/wx/timing_panel.cc:89
 msgid "Trim from start"
 msgstr "Couper au début"
 
-#: src/wx/timing_panel.cc:89
+#: src/wx/timing_panel.cc:91
 msgid "Trim up to current position"
 msgstr "Couper avant le curseur"
 
-#: src/wx/audio_dialog.cc:358
+#: src/wx/audio_dialog.cc:388
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr "La crête absolue est de %.2fdB"
 
-#: src/wx/screen_dialog.cc:50
+#: src/wx/screen_dialog.cc:52
 msgid "Trusted Device"
 msgstr "Périphériques de confiance"
 
-#: src/wx/screen_dialog.cc:63
+#: src/wx/screen_dialog.cc:65
 msgid "Trusted Device certificate"
 msgstr "Certificats des périphériques de confiance"
 
-#: src/wx/audio_dialog.cc:112 src/wx/config_dialog.cc:358
-#: src/wx/video_panel.cc:85
+#: src/wx/audio_dialog.cc:110 src/wx/config_dialog.cc:361
+#: src/wx/video_panel.cc:88
 msgid "Type"
 msgstr "Type"
 
@@ -2529,77 +2546,77 @@ msgstr "UTC-8"
 msgid "UTC-9"
 msgstr "UTC-9"
 
-#: src/wx/update_dialog.cc:29
+#: src/wx/update_dialog.cc:30
 msgid "Update"
 msgstr "Mise à jour"
 
-#: src/wx/dcp_panel.cc:111
+#: src/wx/dcp_panel.cc:115
 msgid "Upload DCP to TMS after it is made"
 msgstr "Envoyer le DCP vers le TMS après création"
 
-#: src/wx/dcp_panel.cc:75
+#: src/wx/dcp_panel.cc:79
 msgid "Use ISDCF name"
 msgstr "Utiliser le nom ISDCF"
 
-#: src/wx/text_panel.cc:69
+#: src/wx/text_panel.cc:72
 msgid "Use as"
 msgstr "Utiliser comme"
 
-#: src/wx/dcp_panel.cc:748
+#: src/wx/dcp_panel.cc:761
 msgid "Use best"
 msgstr "Automatique"
 
-#: src/wx/content_colour_conversion_dialog.cc:45
+#: src/wx/content_colour_conversion_dialog.cc:46
 msgid "Use preset"
 msgstr "Utiliser le préréglage"
 
-#: src/wx/audio_panel.cc:51
+#: src/wx/audio_panel.cc:54
 msgid "Use this DCP's audio as OV and make VF"
 msgstr "Utiliser le son de ce DCP comme OV et faire un VF"
 
-#: src/wx/text_panel.cc:58
+#: src/wx/text_panel.cc:61
 msgid "Use this DCP's closed caption as OV and make VF"
 msgstr "Utiliser les sous-titres de ce DCP comme OV et faire un VF"
 
-#: src/wx/text_panel.cc:56
+#: src/wx/text_panel.cc:59
 msgid "Use this DCP's subtitle as OV and make VF"
 msgstr "Utiliser les sous-titres de ce DCP comme OV et faire un VF"
 
-#: src/wx/video_panel.cc:77
+#: src/wx/video_panel.cc:80
 msgid "Use this DCP's video as OV and make VF"
 msgstr "Utiliser la vidéo de ce DCP comme OV et faire un VF"
 
-#: src/wx/config_move_dialog.cc:29
+#: src/wx/config_move_dialog.cc:30
 msgid "Use this file as new configuration"
 msgstr "Utiliser ce fichier comme nouvelle configuration"
 
-#: src/wx/full_config_dialog.cc:664
+#: src/wx/full_config_dialog.cc:667
 msgid "User name"
 msgstr "Nom d'utilisateur"
 
-#: src/wx/content_properties_dialog.cc:73 src/wx/dcp_panel.cc:116
+#: src/wx/content_properties_dialog.cc:74 src/wx/dcp_panel.cc:120
 #: src/wx/timeline_labels_view.cc:39 src/wx/timeline_labels_view.cc:70
-#: src/wx/video_panel.cc:75
+#: src/wx/video_panel.cc:78
 msgid "Video"
 msgstr "Vidéo"
 
-#: src/wx/video_waveform_dialog.cc:37
+#: src/wx/video_waveform_dialog.cc:38
 msgid "Video Waveform"
 msgstr "Forme d'onde vidéo"
 
-#: src/wx/timing_panel.cc:96
+#: src/wx/timing_panel.cc:98
 msgid "Video frame rate"
 msgstr "Cadence vidéo"
 
-#: src/wx/text_panel.cc:105
+#: src/wx/text_panel.cc:108
 msgid "View..."
 msgstr "voir..."
 
-#: src/wx/full_config_dialog.cc:1390
+#: src/wx/full_config_dialog.cc:1393
 msgid "Warnings"
 msgstr "Avertissements"
 
-#: src/wx/player_config_dialog.cc:337
+#: src/wx/player_config_dialog.cc:347
 msgid "Watermark"
 msgstr "Filigrane"
 
@@ -2607,55 +2624,55 @@ msgstr "Filigrane"
 msgid "Week of manufacture"
 msgstr "Semaine de fabrication"
 
-#: src/wx/colour_conversion_editor.cc:151
+#: src/wx/colour_conversion_editor.cc:153
 msgid "White point"
 msgstr "Valeur de Blanc"
 
-#: src/wx/colour_conversion_editor.cc:175
+#: src/wx/colour_conversion_editor.cc:177
 msgid "White point adjustment"
 msgstr "Ajustement valeur de blanc"
 
-#: src/wx/about_dialog.cc:139
+#: src/wx/about_dialog.cc:140
 msgid "With help from"
 msgstr "avec l'aide de"
 
-#: src/wx/kdm_output_panel.cc:115
+#: src/wx/kdm_output_panel.cc:117
 msgid "Write a ZIP file for each cinema's KDMs"
 msgstr "Créer une fichier ZIP pour les KDMs de chaque cinéma."
 
-#: src/wx/kdm_output_panel.cc:113
+#: src/wx/kdm_output_panel.cc:115
 msgid "Write a folder for each cinema's KDMs"
 msgstr "Créer un dossier pour les KDMs de chaque cinéma"
 
-#: src/wx/kdm_output_panel.cc:111
+#: src/wx/kdm_output_panel.cc:113
 msgid "Write all KDMs to the same folder"
 msgstr "Créer toutes les KDMs dans le même dossier"
 
-#: src/wx/export_dialog.cc:61
+#: src/wx/export_dialog.cc:62
 msgid "Write reels into separate files"
 msgstr "Ecrire les bobines dans des fichiers séparés"
 
-#: src/wx/kdm_output_panel.cc:92 src/wx/self_dkdm_dialog.cc:76
+#: src/wx/kdm_output_panel.cc:94 src/wx/self_dkdm_dialog.cc:77
 msgid "Write to"
 msgstr "Créer dans"
 
-#: src/wx/about_dialog.cc:98
+#: src/wx/about_dialog.cc:99
 msgid "Written by"
 msgstr "Développé par"
 
-#: src/wx/text_panel.cc:77 src/wx/text_panel.cc:85
+#: src/wx/text_panel.cc:80 src/wx/text_panel.cc:88
 msgid "X"
 msgstr "X"
 
-#: src/wx/text_panel.cc:80 src/wx/text_panel.cc:88
+#: src/wx/text_panel.cc:83 src/wx/text_panel.cc:91
 msgid "Y"
 msgstr "Y"
 
-#: src/wx/colour_conversion_editor.cc:106
+#: src/wx/colour_conversion_editor.cc:108
 msgid "YUV to RGB conversion"
 msgstr "conversion YUV vers RGB"
 
-#: src/wx/colour_conversion_editor.cc:108
+#: src/wx/colour_conversion_editor.cc:110
 msgid "YUV to RGB matrix"
 msgstr "Matrice YUV vers RGB"
 
@@ -2663,7 +2680,7 @@ msgstr "Matrice YUV vers RGB"
 msgid "Year of manufacture"
 msgstr "Année de fabrication"
 
-#: src/wx/screens_panel.cc:217
+#: src/wx/screens_panel.cc:218
 #, c-format
 msgid ""
 "You cannot add a screen called '%s' as the cinema already has a screen with "
@@ -2672,7 +2689,7 @@ msgstr ""
 "Vous ne pouvez pas ajouter un écran appelé '%s' car le cinéma possède déjà "
 "un écran appelé ainsi."
 
-#: src/wx/screens_panel.cc:258
+#: src/wx/screens_panel.cc:259
 #, c-format
 msgid ""
 "You cannot change this screen's name to '%s' as the cinema already has a "
@@ -2681,7 +2698,7 @@ msgstr ""
 "Vous ne pouvez pas modifier le nom de l'écran en '%s' car le cinéma possède "
 "déjà un écran nommé ainsi."
 
-#: src/wx/kdm_output_panel.cc:207
+#: src/wx/kdm_output_panel.cc:209
 msgid ""
 "You have selected some cinemas that have no configured email address.  Do "
 "you want to continue?"
@@ -2689,16 +2706,26 @@ msgstr ""
 "Vous avez choisi certains cinémas qui n'ont pas d'adresse mail connue. "
 "Souhaitez vous poursuivre?"
 
-#: src/wx/kdm_output_panel.cc:195
+#: src/wx/kdm_output_panel.cc:197
 msgid ""
 "You must set up a mail server in Preferences before you can send emails."
 msgstr ""
 "Vous devez configurer un serveur d'envoi mail SMTP dans les Préférences "
 "avant de pouvoir envoyer des emails."
 
-#: src/wx/report_problem_dialog.cc:68
+#: src/wx/send_i18n_dialog.cc:41
+#, fuzzy
+msgid "Your email"
+msgstr "Votre adresse E-mail"
+
+#: src/wx/report_problem_dialog.cc:70
 msgid "Your email address"
 msgstr "Votre adresse E-mail"
+
+#: src/wx/send_i18n_dialog.cc:37
+#, fuzzy
+msgid "Your name"
+msgstr "Nom de dossier"
 
 #: src/wx/timeline_dialog.cc:67
 msgid "Zoom"
@@ -2716,97 +2743,97 @@ msgstr "Zoom plus/moins"
 msgid "Zoom out to whole film"
 msgstr "Voir tout"
 
-#: src/wx/full_config_dialog.cc:969
+#: src/wx/full_config_dialog.cc:972
 msgid "certificates.barco.com password"
 msgstr "Mot de passe certificates.barco.com"
 
-#: src/wx/full_config_dialog.cc:965
+#: src/wx/full_config_dialog.cc:968
 msgid "certificates.barco.com username"
 msgstr "Identifiant certificates.barco.com"
 
-#: src/wx/full_config_dialog.cc:977
+#: src/wx/full_config_dialog.cc:980
 msgid "certificates.christiedigital.com password"
 msgstr "Mot de passe certificates.christiedigital.com"
 
-#: src/wx/full_config_dialog.cc:973
+#: src/wx/full_config_dialog.cc:976
 msgid "certificates.christiedigital.com username"
 msgstr "Identifiant certificates.christiedigital.com"
 
-#: src/wx/text_panel.cc:72
+#: src/wx/text_panel.cc:75
 msgid "closed captions"
 msgstr "Sous-titres codés"
 
-#: src/wx/video_waveform_dialog.cc:73
+#: src/wx/video_waveform_dialog.cc:74
 msgid "component value"
 msgstr "Valeurs des Composantes"
 
-#: src/wx/audio_gain_dialog.cc:31 src/wx/audio_panel.cc:72
+#: src/wx/audio_gain_dialog.cc:31 src/wx/audio_panel.cc:75
 msgid "dB"
 msgstr "dB"
 
-#: src/wx/config_dialog.cc:893
+#: src/wx/config_dialog.cc:896
 msgid "dcpomatic_kdm_decryption_cert.pem"
 msgstr "dcpomatic_kdm_decryption_cert.pem"
 
-#: src/wx/config_dialog.cc:871
+#: src/wx/config_dialog.cc:874
 msgid "dcpomatic_kdm_decryption_chain.pem"
 msgstr "dcpomatic_kdm_decryption_chain.pem"
 
-#: src/wx/name_format_editor.cc:74
+#: src/wx/name_format_editor.cc:75
 #, c-format
 msgid "e.g. %s"
 msgstr "par exemple : %s"
 
 #. // TRANSLATORS: this is an abbreviation for "frames"
-#: src/wx/timing_panel.cc:77
+#: src/wx/timing_panel.cc:79
 msgid "f"
 msgstr "i"
 
-#: src/wx/player_config_dialog.cc:92
+#: src/wx/player_config_dialog.cc:93
 msgid "full screen"
 msgstr "Plein écran"
 
-#: src/wx/player_config_dialog.cc:93
+#: src/wx/player_config_dialog.cc:94
 msgid "full screen with controls on other monitor"
 msgstr "Plein écran avec les contrôles sur l'autre moniteur"
 
 #. // TRANSLATORS: this is an abbreviation for "hours"
-#: src/wx/timing_panel.cc:61
+#: src/wx/timing_panel.cc:63
 msgid "h"
 msgstr "h"
 
 #. // TRANSLATORS: this is an abbreviation for "minutes"
-#: src/wx/timing_panel.cc:67
+#: src/wx/timing_panel.cc:69
 msgid "m"
 msgstr "m"
 
-#: src/wx/player_config_dialog.cc:364
+#: src/wx/player_config_dialog.cc:374
 msgid "milliseconds"
 msgstr "millisecondes"
 
-#: src/wx/player_config_dialog.cc:357
+#: src/wx/player_config_dialog.cc:367
 msgid "minutes"
 msgstr "minutes"
 
 #. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-#: src/wx/audio_panel.cc:86 src/wx/full_config_dialog.cc:367
+#: src/wx/audio_panel.cc:89 src/wx/full_config_dialog.cc:370
 msgid "ms"
 msgstr "ms"
 
-#: src/wx/text_panel.cc:71
+#: src/wx/text_panel.cc:74
 msgid "open subtitles"
 msgstr "Ouvrir les sous-titres"
 
-#: src/wx/full_config_dialog.cc:762
+#: src/wx/full_config_dialog.cc:765
 msgid "port"
 msgstr "port"
 
 #. // TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/full_config_dialog.cc:321 src/wx/timing_panel.cc:72
+#: src/wx/full_config_dialog.cc:324 src/wx/timing_panel.cc:74
 msgid "s"
 msgstr "s"
 
-#: src/wx/colour_conversion_editor.cc:76
+#: src/wx/colour_conversion_editor.cc:78
 msgid "threshold"
 msgstr "seuil"
 
@@ -2814,21 +2841,24 @@ msgstr "seuil"
 msgid "times"
 msgstr "fois"
 
-#: src/wx/kdm_timing_panel.cc:49
+#: src/wx/kdm_timing_panel.cc:50
 msgid "until"
 msgstr "Jusqu'à"
 
-#: src/wx/player_config_dialog.cc:91
+#: src/wx/player_config_dialog.cc:92
 msgid "window"
 msgstr "fenêtres"
 
-#: src/wx/colour_conversion_editor.cc:125
+#: src/wx/colour_conversion_editor.cc:127
 msgid "x"
 msgstr "x"
 
-#: src/wx/colour_conversion_editor.cc:126
+#: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#~ msgid "Stop"
+#~ msgstr "Arrêt"
 
 #, fuzzy
 #~ msgid "Add"

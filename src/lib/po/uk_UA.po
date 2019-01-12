@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-07 21:48+0000\n"
+"POT-Creation-Date: 2019-01-12 21:18+0000\n"
 "PO-Revision-Date: 2018-08-20 19:32+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Українська\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: src/lib/video_content.cc:442
+#: src/lib/video_content.cc:444
 #, c-format
 msgid ""
 "\n"
@@ -24,7 +24,7 @@ msgstr ""
 "\n"
 "Частота кадрів контенту %.4f\n"
 
-#: src/lib/video_content.cc:407
+#: src/lib/video_content.cc:409
 msgid ""
 "\n"
 "Cropped to %1x%2"
@@ -32,7 +32,7 @@ msgstr ""
 "\n"
 "Розмір при кадруванні: %1x%2"
 
-#: src/lib/video_content.cc:400
+#: src/lib/video_content.cc:402
 #, c-format
 msgid ""
 "\n"
@@ -41,7 +41,7 @@ msgstr ""
 "\n"
 "Співвідношення сторін контенту %.2f:1"
 
-#: src/lib/video_content.cc:430
+#: src/lib/video_content.cc:432
 msgid ""
 "\n"
 "Padded with black to fit container %1 (%2x%3)"
@@ -49,7 +49,7 @@ msgstr ""
 "\n"
 "Заповнено чорним для підгонки контейнера %1 (%2x%3)"
 
-#: src/lib/video_content.cc:420
+#: src/lib/video_content.cc:422
 msgid ""
 "\n"
 "Scaled to %1x%2"
@@ -57,7 +57,7 @@ msgstr ""
 "\n"
 "Розмір при масштабуванні: %1x%2"
 
-#: src/lib/video_content.cc:424 src/lib/video_content.cc:435
+#: src/lib/video_content.cc:426 src/lib/video_content.cc:437
 #, c-format
 msgid " (%.2f:1)"
 msgstr " (%.2f:1)"
@@ -68,7 +68,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " на %1"
 
-#: src/lib/config.cc:1073
+#: src/lib/config.cc:1126
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -90,7 +90,7 @@ msgstr ""
 "Тривалість: $LENGTH\n"
 "Розмір: $SIZE\n"
 
-#: src/lib/config.cc:1051
+#: src/lib/config.cc:1104
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -98,7 +98,7 @@ msgstr "$JOB_NAME: $JOB_STATUS"
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
-#: src/lib/dcp_content.cc:270
+#: src/lib/dcp_content.cc:268
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -114,7 +114,7 @@ msgstr "%1 [відео]"
 msgid "%1 [video]"
 msgstr "%1 [відео]"
 
-#: src/lib/video_content.cc:395
+#: src/lib/video_content.cc:397
 #, c-format
 msgid ", pixel aspect ratio %.2f:1"
 msgstr ", співвідношення сторін пікселей %.2f:1"
@@ -173,7 +173,7 @@ msgstr "; %.1f кадр/сек"
 msgid "; %1 remaining; finishing at %2%3"
 msgstr "; %1 залишилось; час завершення %2%3"
 
-#: src/lib/hints.cc:161
+#: src/lib/hints.cc:167
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
@@ -191,7 +191,7 @@ msgstr "ARIB STD-B67 ('Hybrid log-gamma')"
 msgid "Advertisement"
 msgstr "ADV (Реклама)"
 
-#: src/lib/hints.cc:153
+#: src/lib/hints.cc:159
 msgid ""
 "All of your content is at 1.85:1 or narrower but your DCP's container is "
 "Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) "
@@ -203,7 +203,7 @@ msgstr ""
 "будуть чорні області. Ви можете змінити формат кадра вашого DCP на FLAT "
 "(1.85:1) на вкладці \"DCP\"."
 
-#: src/lib/hints.cc:149
+#: src/lib/hints.cc:155
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -218,20 +218,20 @@ msgstr ""
 msgid "An error occurred whilst handling the file %1."
 msgstr "Виникла помилка при зверненні до файлу %1."
 
-#: src/lib/analyse_audio_job.cc:95
+#: src/lib/analyse_audio_job.cc:96
 #, fuzzy
 msgid "Analysing audio"
 msgstr "Аналіз аудіо"
 
-#: src/lib/audio_content.cc:258
+#: src/lib/audio_content.cc:257
 msgid "Audio will be resampled from %1Hz to %2Hz"
 msgstr "Аудіо буде ресемпловано з %1Гц в %2Гц"
 
-#: src/lib/audio_content.cc:260
+#: src/lib/audio_content.cc:259
 msgid "Audio will be resampled to %1Hz"
 msgstr "Аудіо будет ресемпловано в %1Гц"
 
-#: src/lib/audio_content.cc:249
+#: src/lib/audio_content.cc:248
 msgid "Audio will not be resampled"
 msgstr "Аудіо не буде ресемпловано"
 
@@ -284,15 +284,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Біт на піксель"
 
-#: src/lib/util.cc:549
+#: src/lib/util.cc:551
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:550
+#: src/lib/util.cc:552
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:541
+#: src/lib/util.cc:543
 msgid "C"
 msgstr "C"
 
@@ -300,7 +300,7 @@ msgstr "C"
 msgid "Cancelled"
 msgstr "Відмінено"
 
-#: src/lib/film.cc:300
+#: src/lib/film.cc:302
 msgid "Cannot contain slashes"
 msgstr "Не може містити слеші"
 
@@ -308,15 +308,15 @@ msgstr "Не може містити слеші"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Неможливо обробити формат пікселя %1 під час %2"
 
-#: src/lib/film.cc:1282
+#: src/lib/film.cc:1281
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Не можна створити KDM так як цей проект не зашифрований."
 
-#: src/lib/util.cc:510
+#: src/lib/util.cc:512
 msgid "Centre"
 msgstr "Центральний"
 
-#: src/lib/audio_content.cc:306
+#: src/lib/audio_content.cc:292
 msgid "Channels"
 msgstr "Канали"
 
@@ -385,7 +385,7 @@ msgstr "Перевірка цілостності"
 msgid "Content and DCP have the same rate.\n"
 msgstr "У контента та DCP однакова частота кадрів.\n"
 
-#: src/lib/audio_content.cc:307
+#: src/lib/audio_content.cc:293
 msgid "Content audio sample rate"
 msgstr "Швидкість аудіо-контенту"
 
@@ -498,7 +498,7 @@ msgstr "Для приєднання контенту має бути такий 
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "Для приєднання контенту необхідно використовувати ті самі субтитри."
 
-#: src/lib/video_content.cc:386
+#: src/lib/video_content.cc:388
 msgid "Content video is %1x%2"
 msgstr "Розмір контенту: %1x%2"
 
@@ -534,16 +534,16 @@ msgstr "Не вдалося відкрити %1"
 msgid "Could not open %1 to send"
 msgstr "Не вдалося відкрити %1 для відправки"
 
-#: src/lib/internet.cc:114 src/lib/internet.cc:119
+#: src/lib/internet.cc:115 src/lib/internet.cc:120
 msgid "Could not open downloaded ZIP file"
 msgstr "Не вдалося відкрити завантажений ZIP-архів"
 
-#: src/lib/internet.cc:126
+#: src/lib/internet.cc:127
 #, fuzzy
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Не вдалося відкрити завантажений ZIP-архів"
 
-#: src/lib/config.cc:954
+#: src/lib/config.cc:1007
 #, fuzzy
 msgid "Could not open file for writing"
 msgstr "не вдалося відкрити файл %1 для запису (%2)"
@@ -564,24 +564,19 @@ msgstr "Не вдалося почати передачу"
 msgid "Could not write to remote file (%1)"
 msgstr "Не вдалося записати в віддалений файл (%1)"
 
-#: src/lib/config.cc:959
-#, fuzzy
-msgid "Could not write whole file"
-msgstr "Не вдалося записати в віддалений файл (%1)"
-
-#: src/lib/util.cc:520
+#: src/lib/util.cc:522
 msgid "D-BOX primary"
 msgstr "D-BOX основний (DBP)"
 
-#: src/lib/util.cc:521
+#: src/lib/util.cc:523
 msgid "D-BOX secondary"
 msgstr "D-BOX другорядний (DBS)"
 
-#: src/lib/util.cc:551
+#: src/lib/util.cc:553
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:552
+#: src/lib/util.cc:554
 msgid "DBS"
 msgstr "DBS"
 
@@ -597,7 +592,7 @@ msgstr "DCI Scope"
 msgid "DCP XML subtitles"
 msgstr "DCP XML субтитри"
 
-#: src/lib/audio_content.cc:327
+#: src/lib/audio_content.cc:313
 msgid "DCP sample rate"
 msgstr "Частота кадрів DCP"
 
@@ -623,7 +618,7 @@ msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
 msgstr "DCP-o-matic більше не підтримує фильтр `%1', тому він був вимкнений."
 
-#: src/lib/config.cc:359 src/lib/config.cc:1048
+#: src/lib/config.cc:363 src/lib/config.cc:1101
 msgid "DCP-o-matic notification"
 msgstr "Повідомлення DCP-o-matic"
 
@@ -632,7 +627,7 @@ msgstr "Повідомлення DCP-o-matic"
 msgid "De-interlacing"
 msgstr "Деинтерлейсинг"
 
-#: src/lib/config.cc:1036
+#: src/lib/config.cc:1089
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -662,7 +657,7 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 и CP750"
 
-#: src/lib/internet.cc:72
+#: src/lib/internet.cc:73
 #, fuzzy
 msgid "Download failed (%1 error %2)"
 msgstr "Помилка завантаження (%1/%2 помилка %3)"
@@ -707,7 +702,7 @@ msgstr "Помилка у файлі субтитрів: знайдено %1, о
 msgid "Error: %1"
 msgstr "Помилка: (%1)"
 
-#: src/lib/hints.cc:264
+#: src/lib/hints.cc:270
 msgid "Examining closed captions"
 msgstr ""
 
@@ -761,19 +756,19 @@ msgstr "Повний (0-%1)"
 msgid "Full frame"
 msgstr "FULL (2048x1080)"
 
-#: src/lib/audio_content.cc:334
+#: src/lib/audio_content.cc:320
 msgid "Full length in audio samples at DCP rate"
 msgstr "Повна довжина аудіо-семплів на швидкості DCP"
 
-#: src/lib/audio_content.cc:321
+#: src/lib/audio_content.cc:307
 msgid "Full length in audio samples at content rate"
 msgstr "Повна довжина аудіо-семплів на швидкості контенту"
 
-#: src/lib/audio_content.cc:328
+#: src/lib/audio_content.cc:314
 msgid "Full length in video frames at DCP rate"
 msgstr "Повна довжина відео-кадрів на швидкості DCP"
 
-#: src/lib/audio_content.cc:314
+#: src/lib/audio_content.cc:300
 msgid "Full length in video frames at content rate"
 msgstr "Повна довжина відео-кадрів на швидкості контенту"
 
@@ -789,11 +784,11 @@ msgstr "Гамма 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Розбиття градієнта"
 
-#: src/lib/util.cc:545
+#: src/lib/util.cc:547
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:514
+#: src/lib/util.cc:516
 msgid "Hearing impaired"
 msgstr "Для людей з вадами слуху"
 
@@ -805,7 +800,7 @@ msgstr "Високоякісне придушення шуму 3D"
 msgid "Horizontal flip"
 msgstr "Перевернути по горизонталі"
 
-#: src/lib/hints.cc:176
+#: src/lib/hints.cc:182
 msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "slowdown of your content, and SMPTE DCPs are not supported by all projectors."
@@ -813,7 +808,7 @@ msgstr ""
 "Проте встановлення частоти кадрів DCP у 24 або 48 призведе до значного "
 "уповільнення вашого контенту, а DCP SMPTE не підтримуються усіма проекторами."
 
-#: src/lib/hints.cc:173
+#: src/lib/hints.cc:179
 msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "speed-up of your content, and SMPTE DCPs are not supported by all projectors."
@@ -821,7 +816,7 @@ msgstr ""
 "Проте встановлення частоти кадрів DCP у 24 або 48 призведе до значного "
 "прискорення вашого контенту, а DCP SMPTE не підтримуються усіма проекторами."
 
-#: src/lib/audio_content.cc:307 src/lib/audio_content.cc:327
+#: src/lib/audio_content.cc:293 src/lib/audio_content.cc:313
 msgid "Hz"
 msgstr "Гц"
 
@@ -841,7 +836,7 @@ msgstr "Невідомо, що викликало цю помилку."
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:349 src/lib/config.cc:1033
+#: src/lib/config.cc:353 src/lib/config.cc:1086
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Призначення KDM: $CPL_NAME"
 
@@ -857,39 +852,39 @@ msgstr ""
 msgid "Kernel deinterlacer"
 msgstr "Деинтерлейсинг ядром"
 
-#: src/lib/ffmpeg_encoder.cc:203 src/lib/util.cc:539
+#: src/lib/ffmpeg_encoder.cc:203 src/lib/util.cc:541
 msgid "L"
 msgstr "L"
 
-#: src/lib/util.cc:547
+#: src/lib/util.cc:549
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:508
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:510
 msgid "Left"
 msgstr "Лівий"
 
-#: src/lib/util.cc:516
+#: src/lib/util.cc:518
 msgid "Left centre"
 msgstr "Лівий центральний"
 
-#: src/lib/util.cc:518
+#: src/lib/util.cc:520
 msgid "Left rear surround"
 msgstr "Лівий тиловий surround"
 
-#: src/lib/util.cc:512
+#: src/lib/util.cc:514
 msgid "Left surround"
 msgstr "Лівий surround"
 
-#: src/lib/video_content.cc:455
+#: src/lib/video_content.cc:457
 msgid "Length"
 msgstr "Тривалість"
 
-#: src/lib/util.cc:542
+#: src/lib/util.cc:544
 msgid "Lfe"
 msgstr "LFE"
 
-#: src/lib/util.cc:511
+#: src/lib/util.cc:513
 msgid "Lfe (sub)"
 msgstr "НЧ (sub)"
 
@@ -913,7 +908,7 @@ msgstr "Логаріфмічний (діапазон 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Логаріфмічний (діапазон 316:1)"
 
-#: src/lib/util.cc:543
+#: src/lib/util.cc:545
 msgid "Ls"
 msgstr "Ls"
 
@@ -1037,7 +1032,7 @@ msgstr "Помилка програмування %1:%2 %3"
 msgid "Public Service Announcement"
 msgstr "PSA (Соціальна реклама)"
 
-#: src/lib/ffmpeg_encoder.cc:207 src/lib/util.cc:540
+#: src/lib/ffmpeg_encoder.cc:207 src/lib/util.cc:542
 msgid "R"
 msgstr "R"
 
@@ -1049,7 +1044,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "RTG (Рейтинг)"
 
-#: src/lib/util.cc:548
+#: src/lib/util.cc:550
 msgid "Rc"
 msgstr "Rc"
 
@@ -1069,19 +1064,19 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:509
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:511
 msgid "Right"
 msgstr "Правий"
 
-#: src/lib/util.cc:517
+#: src/lib/util.cc:519
 msgid "Right centre"
 msgstr "Правий центральний"
 
-#: src/lib/util.cc:519
+#: src/lib/util.cc:521
 msgid "Right rear surround"
 msgstr "Правий тиловий surround"
 
-#: src/lib/util.cc:513
+#: src/lib/util.cc:515
 msgid "Right surround"
 msgstr "Правий surround"
 
@@ -1093,7 +1088,7 @@ msgstr "Повернути на 90º проти часової стрілкі"
 msgid "Rotate 90 degrees clockwise"
 msgstr "Повернути на 90º по часовій стрілці"
 
-#: src/lib/util.cc:544
+#: src/lib/util.cc:546
 msgid "Rs"
 msgstr "Rs"
 
@@ -1154,11 +1149,11 @@ msgstr "Відправка пошти"
 msgid "Short"
 msgstr "SHR (Короткометражний фільм)"
 
-#: src/lib/video_content.cc:456
+#: src/lib/video_content.cc:458
 msgid "Size"
 msgstr "Розмір"
 
-#: src/lib/audio_content.cc:253
+#: src/lib/audio_content.cc:252
 msgid "Some audio will be resampled to %1Hz"
 msgstr "Деяке аудіо будет ресемпловано в %1Гц"
 
@@ -1169,23 +1164,23 @@ msgid ""
 "These files will now be re-examined, so you may need to check their settings."
 msgstr ""
 
-#: src/lib/hints.cc:296
+#: src/lib/hints.cc:318
 msgid ""
 "Some of your closed captions have lines longer than %1 characters, so they "
 "will probably be word-wrapped."
 msgstr ""
 
-#: src/lib/hints.cc:302
+#: src/lib/hints.cc:324
 msgid ""
 "Some of your closed captions span more than %1 lines, so they will be "
 "truncated."
 msgstr ""
 
-#: src/lib/film.cc:325
+#: src/lib/film.cc:327
 msgid "Some of your content needs a KDM"
 msgstr "Частина вашого контенту потребує KDM"
 
-#: src/lib/film.cc:328
+#: src/lib/film.cc:330
 msgid "Some of your content needs an OV"
 msgstr "Часть вашего контента требует OV"
 
@@ -1233,23 +1228,23 @@ msgstr ""
 "На пристрої, на якому зберігається проект, закінчується місце. Звільніть "
 "трохи місця та спробуйте знову."
 
-#: src/lib/playlist.cc:204
+#: src/lib/playlist.cc:211
 msgid "The file %1 has been moved %2 milliseconds earlier."
 msgstr "Файл %1 переміщений на %2 мілісекунди раніше."
 
-#: src/lib/playlist.cc:199
+#: src/lib/playlist.cc:206
 msgid "The file %1 has been moved %2 milliseconds later."
 msgstr "Файл %1 переміщений на %2 мілісекунди пізніше."
 
-#: src/lib/playlist.cc:224
+#: src/lib/playlist.cc:231
 msgid "The file %1 has been trimmed by %2 milliseconds less."
 msgstr "Файл %1 був обрізаний на %2 мілісекунд менше."
 
-#: src/lib/playlist.cc:219
+#: src/lib/playlist.cc:226
 msgid "The file %1 has been trimmed by %2 milliseconds more."
 msgstr "Файл %1 був обрізаний на %2 мілісекунд більше."
 
-#: src/lib/hints.cc:205
+#: src/lib/hints.cc:211
 msgid ""
 "There is a large difference between the frame rate of your DCP and that of "
 "some of your content.  This will cause your audio to play back at a much "
@@ -1263,7 +1258,7 @@ msgstr ""
 "вашого контенту, при умові, що ваша цільова проекційна система підтримує "
 "обрану вами швидкість DCP."
 
-#: src/lib/dcp_content.cc:590
+#: src/lib/dcp_content.cc:588
 msgid "There is no video in this DCP"
 msgstr "У даному DCP немає відео"
 
@@ -1285,7 +1280,7 @@ msgstr ""
 "Цей файл - ключ (KDM). Ключі додаються до DCP натисканням правої клавіші на "
 "контент і вибором «Додати KDM» у контекстному меню."
 
-#: src/lib/film.cc:452
+#: src/lib/film.cc:454
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1293,7 +1288,7 @@ msgstr ""
 "Проект був створений більш новою версією DCP-o-matic і не може бути "
 "завантажений цією версією. Вибачте!"
 
-#: src/lib/film.cc:441
+#: src/lib/film.cc:443
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1320,7 +1315,7 @@ msgstr "Транскодування %1"
 msgid "Transitional"
 msgstr "XSN (Транзитний)"
 
-#: src/lib/internet.cc:135
+#: src/lib/internet.cc:136
 msgid "Unexpected ZIP file contents"
 msgstr "Неочікуваний зміст ZIP-файла"
 
@@ -1352,7 +1347,7 @@ msgstr "Не визначено"
 msgid "Untitled"
 msgstr "Безіменний"
 
-#: src/lib/util.cc:522 src/lib/util.cc:523
+#: src/lib/util.cc:524 src/lib/util.cc:525
 msgid "Unused"
 msgstr "Не використовується"
 
@@ -1364,7 +1359,7 @@ msgstr "Перевторити Л"
 msgid "Upmix R"
 msgstr "Перевторити П"
 
-#: src/lib/util.cc:546
+#: src/lib/util.cc:548
 msgid "VI"
 msgstr "VI"
 
@@ -1376,7 +1371,7 @@ msgstr "Перевірити DCP"
 msgid "Vertical flip"
 msgstr "Перевернути по вертикалі"
 
-#: src/lib/util.cc:515
+#: src/lib/util.cc:517
 msgid "Visually impaired"
 msgstr "Для людей з вадами зору"
 
@@ -1396,7 +1391,7 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Ще один фільтр деінтерлейсинга"
 
-#: src/lib/hints.cc:178
+#: src/lib/hints.cc:184
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
@@ -1408,7 +1403,7 @@ msgstr ""
 "(незважаючи на те, що DCP SMPTE-стандарту не підтримуютсья усіма "
 "проекторами)."
 
-#: src/lib/hints.cc:165
+#: src/lib/hints.cc:171
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
@@ -1417,7 +1412,7 @@ msgstr ""
 "Ви обрали для Interop DCP частоту кадрів, яка офіційно не підтримується. "
 "Радимо змінити частоту кадрів вашого DCP або замість цього зробити SMPTE DCP."
 
-#: src/lib/hints.cc:227
+#: src/lib/hints.cc:233
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
@@ -1426,7 +1421,7 @@ msgstr ""
 "3D, якщо хочете відтворити його на 3D-системі (напр. Real-D, MasterImage і т."
 "п.)"
 
-#: src/lib/hints.cc:130
+#: src/lib/hints.cc:136
 msgid ""
 "You are using DCP-o-matic's stereo-to-5.1 upmixer.  This is experimental and "
 "may result in poor-quality audio.  If you continue, you should listen to the "
@@ -1437,7 +1432,7 @@ msgstr ""
 "продовжите, ви маєте прослухати отриманий DCP у кінотеатрі, щоб впевнитись, "
 "що він звучить добре."
 
-#: src/lib/hints.cc:216
+#: src/lib/hints.cc:222
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
@@ -1445,11 +1440,11 @@ msgstr ""
 "У вас %1 файлів, які схожі на VOB-файли з DVD. Вам необхідно об'єднати "
 "(приєднати) їх, щоб гарантувати гладке з'єднання між файлами."
 
-#: src/lib/hints.cc:308
+#: src/lib/hints.cc:330
 msgid "You have overlapping closed captions, which are not allowed."
 msgstr ""
 
-#: src/lib/hints.cc:121
+#: src/lib/hints.cc:127
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
@@ -1457,11 +1452,11 @@ msgstr ""
 "Вы вибрали шрифт, розмір якого більше 640 кБ. Висока вірогідність, що це "
 "викликає проблеми при відтворенні."
 
-#: src/lib/film.cc:308
+#: src/lib/film.cc:310
 msgid "You must add some content to the DCP before creating it"
 msgstr "Вам необхідно додати контент в DCP перед його створенням"
 
-#: src/lib/hints.cc:125
+#: src/lib/hints.cc:131
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
@@ -1469,7 +1464,7 @@ msgstr ""
 "У вашого DCP менше 6 аудіо каналів. Це може викликати проблеми на деяких "
 "проекторах."
 
-#: src/lib/hints.cc:157
+#: src/lib/hints.cc:163
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio"
@@ -1478,7 +1473,7 @@ msgstr ""
 "призвести к проблемам на деяких проекторах. Якщо можливо, використовуйте "
 "співвідношення сторін Flat або Scope для DCP"
 
-#: src/lib/hints.cc:252
+#: src/lib/hints.cc:258
 msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
@@ -1486,21 +1481,21 @@ msgstr ""
 "Рівень вашого аудіо занадто високий (на %1). Вам варто знизити рівень "
 "гучності вашого аудіо-контенту."
 
-#: src/lib/config.cc:308
+#: src/lib/config.cc:312
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
 "Ваш контейнер за-замовчанням не є коректним, тому він був змінений на Flat "
 "(1.85:1)"
 
-#: src/lib/playlist.cc:195
+#: src/lib/playlist.cc:202
 msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
 msgstr ""
 "У вашому проекті міститься відеоконтент, який не був прив’язаний до межі "
 "кадру."
 
-#: src/lib/playlist.cc:215
+#: src/lib/playlist.cc:222
 msgid ""
 "Your project contains video content whose trim was not aligned to a frame "
 "boundary."
@@ -1534,11 +1529,11 @@ msgstr "таймаут з'єднання"
 msgid "connecting"
 msgstr "з'єднання"
 
-#: src/lib/film.cc:304
+#: src/lib/film.cc:306
 msgid "container"
 msgstr "контейнер"
 
-#: src/lib/film.cc:312
+#: src/lib/film.cc:314
 msgid "content type"
 msgstr "тип контенту"
 
@@ -1546,7 +1541,7 @@ msgstr "тип контенту"
 msgid "copying %1"
 msgstr "копіювання %1"
 
-#: src/lib/ffmpeg.cc:135 src/lib/ffmpeg_image_proxy.cc:139
+#: src/lib/ffmpeg.cc:135 src/lib/ffmpeg_image_proxy.cc:142
 msgid "could not find stream information"
 msgstr "не вдалося знайти інформацію про поток"
 
@@ -1595,73 +1590,73 @@ msgid "frames per second"
 msgstr "кадра(ів) в секунду"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:177
+#: src/lib/util.cc:179
 msgid "h"
 msgstr "г"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:682
+#: src/lib/dcp_content.cc:680
 #, fuzzy
 msgid "it does not have closed captions in all its reels."
 msgstr "у всіх бобінах відсутній звук."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:677
+#: src/lib/dcp_content.cc:675
 #, fuzzy
 msgid "it does not have open subtitles in all its reels."
 msgstr "у всіх бобінах відсутні субтитри."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:644
+#: src/lib/dcp_content.cc:642
 msgid "it does not have sound in all its reels."
 msgstr "у всіх бобінах відсутній звук."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:543
+#: src/lib/dcp_content.cc:541
 #, fuzzy
 msgid "it has a different frame rate to the film."
 msgstr "частота кадрів проекту відрізняється від частоти кадрів DCP."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:605
+#: src/lib/dcp_content.cc:603
 #, fuzzy
 msgid "it is 2K and the film is 4K."
 msgstr "є Interop , а проект настроений як SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:602
+#: src/lib/dcp_content.cc:600
 #, fuzzy
 msgid "it is 4K and the film is 2K."
 msgstr "є Interop , а проект настроений як SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:531
+#: src/lib/dcp_content.cc:529
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "є Interop , а проект настроений як SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:535
+#: src/lib/dcp_content.cc:533
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "є SMPTE, а проект настроений як Interop."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:650
+#: src/lib/dcp_content.cc:648
 msgid "it overlaps other audio content; remove the other content."
 msgstr "перекриває інший аудіо-контент; приберіть інший аудіо-контент."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:688
+#: src/lib/dcp_content.cc:686
 #, fuzzy
 msgid "it overlaps other text content; remove the other content."
 msgstr "перекриває інший відео-контент; приберіть інший відео-контент."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:615
+#: src/lib/dcp_content.cc:613
 msgid "it overlaps other video content; remove the other content."
 msgstr "перекриває інший відео-контент; приберіть інший відео-контент."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:566
+#: src/lib/dcp_content.cc:564
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
@@ -1670,12 +1665,12 @@ msgstr ""
 "бобін «Розділяти по відео-контенту»."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:610
+#: src/lib/dcp_content.cc:608
 msgid "its video frame size differs from the film's."
 msgstr "розмір кадру відео у проекті відрізняється вид розміру відео DCP."
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:186
+#: src/lib/util.cc:188
 msgid "m"
 msgstr "м"
 
@@ -1683,12 +1678,12 @@ msgstr "м"
 msgid "moving"
 msgstr "послідовність"
 
-#: src/lib/film.cc:300
+#: src/lib/film.cc:302
 msgid "name"
 msgstr "назва"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:196
+#: src/lib/util.cc:198
 msgid "s"
 msgstr "с"
 
@@ -1696,7 +1691,7 @@ msgstr "с"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:321
+#: src/lib/film.cc:323
 msgid "some of your content is missing"
 msgstr "частина вашого контенту відсутня"
 
@@ -1708,9 +1703,13 @@ msgstr "статичний"
 msgid "unknown"
 msgstr "невідомо"
 
-#: src/lib/video_content.cc:455
+#: src/lib/video_content.cc:457
 msgid "video frames"
 msgstr "відеокадри"
+
+#, fuzzy
+#~ msgid "Could not write whole file"
+#~ msgstr "Не вдалося записати в віддалений файл (%1)"
 
 #, fuzzy
 #~ msgid "Could not decode image file %1 (%2)"
