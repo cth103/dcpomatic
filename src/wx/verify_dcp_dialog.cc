@@ -62,9 +62,6 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 
 	BOOST_FOREACH (dcp::VerificationNote i, job->notes()) {
 		switch (i.type()) {
-		case dcp::VerificationNote::VERIFY_NOTE:
-			_text->BeginStandardBullet (N_("standard/circle"), 1, 50);
-			break;
 		case dcp::VerificationNote::VERIFY_WARNING:
 			_text->BeginStandardBullet (N_("standard/diamond"), 1, 50);
 			break;
@@ -73,11 +70,41 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 			break;
 		}
 
-		_text->WriteText (std_to_wx (i.note()));
+		wxString text;
+		switch (i.code()) {
+		case dcp::VerificationNote::GENERAL_READ:
+			text = std_to_wx(*i.note());
+			break;
+		case dcp::VerificationNote::CPL_HASH_INCORRECT:
+			text = _("The hash of the CPL in the PKL does not agree with the CPL file.  This probably means that the CPL file is corrupt.");
+			break;
+		case dcp::VerificationNote::INVALID_PICTURE_FRAME_RATE:
+			text = _("The picture in a reel has an invalid frame rate");
+			break;
+		case dcp::VerificationNote::PICTURE_HASH_INCORRECT:
+			text = wxString::Format(
+				_("The hash of the picture asset %s does not agree with the PKL file.  This probably means that the asset file is corrupt."),
+				std_to_wx(i.file()->filename().string()).data()
+				);
+			break;
+		case dcp::VerificationNote::PKL_CPL_PICTURE_HASHES_DISAGREE:
+			text = _("The PKL and CPL hashes disagree for a picture asset.");
+			break;
+		case dcp::VerificationNote::SOUND_HASH_INCORRECT:
+			text = wxString::Format(
+				_("The hash of the sound asset %s does not agree with the PKL file.  This probably means that the asset file is corrupt."),
+				std_to_wx(i.file()->filename().string()).data()
+				);
+			break;
+		case dcp::VerificationNote::PKL_CPL_SOUND_HASHES_DISAGREE:
+			text = _("The PKL and CPL hashes disagree for a sound asset.");
+			break;
+		}
+
+		_text->WriteText (text);
 		_text->Newline ();
 
 		switch (i.type()) {
-		case dcp::VerificationNote::VERIFY_NOTE:
 		case dcp::VerificationNote::VERIFY_WARNING:
 			_text->EndStandardBullet ();
 			break;
