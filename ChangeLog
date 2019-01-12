@@ -1,3 +1,7 @@
+2019-01-12  Carl Hetherington  <cth@carlh.net>
+
+	* Check available disk space when adding jobs to the batch converter (#1249).
+
 2019-01-10  Carl Hetherington  <cth@carlh.net>
 
 	* Add File->Close to main DCP-o-matic (bound to Cmd-W on Mac) (#1180).

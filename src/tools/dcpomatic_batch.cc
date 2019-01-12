@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -33,6 +33,7 @@
 #include "lib/job_manager.h"
 #include "lib/job.h"
 #include "lib/dcpomatic_socket.h"
+#include "lib/transcode_job.h"
 #include <wx/aboutdlg.h>
 #include <wx/stdpaths.h>
 #include <wx/cmdline.h>
@@ -46,9 +47,11 @@ using std::exception;
 using std::string;
 using std::cout;
 using std::list;
+using std::set;
 using boost::shared_ptr;
 using boost::thread;
 using boost::scoped_array;
+using boost::dynamic_pointer_cast;
 
 static list<boost::filesystem::path> films_to_load;
 
@@ -163,6 +166,43 @@ public:
 		try {
 			shared_ptr<Film> film (new Film (path));
 			film->read_metadata ();
+
+			double total_required;
+			double available;
+			bool can_hard_link;
+
+			film->should_be_enough_disk_space (total_required, available, can_hard_link);
+
+			set<shared_ptr<const Film> > films;
+
+			BOOST_FOREACH (shared_ptr<Job> i, JobManager::instance()->get()) {
+				films.insert (i->film());
+			}
+
+			BOOST_FOREACH (shared_ptr<const Film> i, films) {
+				double progress = 0;
+				BOOST_FOREACH (shared_ptr<Job> j, JobManager::instance()->get()) {
+					if (i == j->film() && dynamic_pointer_cast<TranscodeJob>(j)) {
+						progress = j->progress().get_value_or(0);
+					}
+				}
+
+				double required;
+				i->should_be_enough_disk_space (required, available, can_hard_link);
+				total_required += (1 - progress) * required;
+			}
+
+			if ((total_required - available) > 1) {
+				if (!confirm_dialog (
+					    this,
+					    wxString::Format(
+						    _("The DCPs for this film and the films already in the queue will take up about %1.f Gb.  The "
+						      "disks that you are using only have %.1f Gb available.  Do you want to add this film to the queue anyway?"),
+						    total_required, available))) {
+					return;
+				}
+			}
+
 			film->make_dcp ();
 		} catch (std::exception& e) {
 			wxString p = std_to_wx (path.string ());
