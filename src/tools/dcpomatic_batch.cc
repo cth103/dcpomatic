@@ -196,8 +196,8 @@ public:
 				if (!confirm_dialog (
 					    this,
 					    wxString::Format(
-						    _("The DCPs for this film and the films already in the queue will take up about %.1f Gb.  The "
-						      "disks that you are using only have %.1f Gb available.  Do you want to add this film to the queue anyway?"),
+						    _("The DCPs for this film and the films already in the queue will take up about %.1f GB.  The "
+						      "disks that you are using only have %.1f GB available.  Do you want to add this film to the queue anyway?"),
 						    total_required, available))) {
 					return;
 				}

@@ -1382,7 +1382,7 @@ Film::required_disk_space () const
 /** This method checks the disk that the Film is on and tries to decide whether or not
  *  there will be enough space to make a DCP for it.  If so, true is returned; if not,
  *  false is returned and required and available are filled in with the amount of disk space
- *  required and available respectively (in Gb).
+ *  required and available respectively (in GB).
  *
  *  Note: the decision made by this method isn't, of course, 100% reliable.
  */
