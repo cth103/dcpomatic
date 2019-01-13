@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-12 21:18+0000\n"
-"PO-Revision-Date: 2018-12-28 17:02+0100\n"
+"PO-Revision-Date: 2019-01-13 18:05+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -538,9 +538,8 @@ msgid "Send KDM emails"
 msgstr "Envoyer les e-mails de KDM"
 
 #: src/tools/dcpomatic.cc:1261
-#, fuzzy
 msgid "Send translations..."
-msgstr "Sous-titres codés..."
+msgstr "Envoyer traductions..."
 
 #: src/tools/dcpomatic_player.cc:488
 msgid "Set decode resolution to match display"
@@ -573,14 +572,15 @@ msgid "The DCP-o-matic download server could not be contacted."
 msgstr "Le serveur de téléchargement de DCP-o-matic ne peut être contacté."
 
 #: src/tools/dcpomatic_batch.cc:199
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The DCPs for this film and the films already in the queue will take up about "
 "%1.f Gb.  The disks that you are using only have %.1f Gb available.  Do you "
 "want to add this film to the queue anyway?"
 msgstr ""
-"Le DCP de ce film pèsera environ %.1f Go. Le disque que vous utilisez n'a "
-"que %.1f Go disponible(s). Souhaitez-vous continuer?"
+"Le DCP de ce film et les autres déjà présent en file d'attente pèseront "
+"environ %1.f Go. Le disque que vous utilisez n'a que %.1f Go disponible(s). "
+"Souhaitez-vous continuer à ajouter ce film à la file d'attente quand même?"
 
 #: src/tools/dcpomatic_player.cc:282
 msgid "The KDM does not allow playback of this content at this time."

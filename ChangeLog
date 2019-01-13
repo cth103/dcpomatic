@@ -1,3 +1,7 @@
+2019-01-13  Carl Hetherington  <cth@carlh.net>
+
+	* Updated fr_FR translation from Thierry Journet.
+
 2019-01-12  Carl Hetherington  <cth@carlh.net>
 
 	* Check available disk space when adding jobs to the batch converter (#1249).

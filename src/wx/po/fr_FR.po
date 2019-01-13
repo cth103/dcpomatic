@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-12 21:18+0000\n"
-"PO-Revision-Date: 2018-12-28 17:18+0100\n"
+"PO-Revision-Date: 2019-01-13 18:07+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -58,12 +58,11 @@ msgid "%d KDMs written to %s"
 msgstr "KDMs %d écrites dans %s"
 
 #: src/wx/about_dialog.cc:84
-#, fuzzy
 msgid ""
 "(C) 2012-2019 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"(C) 2012-2018 par Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2019 par Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:44 src/wx/file_picker_ctrl.cc:59
@@ -642,9 +641,8 @@ msgid "Could not load certficate (%s)"
 msgstr "Chargement certificat impossible (%s)"
 
 #: src/wx/player_config_dialog.cc:318
-#, fuzzy
 msgid "Could not load image file."
-msgstr "Lecture du ficher de certificat impossible"
+msgstr "Chargement du fichier image impossible"
 
 #: src/wx/config_dialog.cc:487 src/wx/config_dialog.cc:682
 #: src/wx/download_certificate_panel.cc:60 src/wx/screen_dialog.cc:201
@@ -2081,9 +2079,8 @@ msgid "Send logs"
 msgstr "Envoyer rapport"
 
 #: src/wx/send_i18n_dialog.cc:30
-#, fuzzy
 msgid "Send translations"
-msgstr "Organisation"
+msgstr "Envoyer traductions"
 
 #: src/wx/timeline_dialog.cc:70
 msgid "Sequence"
@@ -2324,9 +2321,8 @@ msgid "Theatre name"
 msgstr "Nom du cinéma"
 
 #: src/wx/hints_dialog.cc:131
-#, fuzzy
 msgid "There are no hints yet: project check in progress."
-msgstr "Il n'y a aucun avertissement: tout semble correct!"
+msgstr "Il n'y a encore aucun avertissement: vérification du projet en cours!"
 
 #: src/wx/hints_dialog.cc:129
 msgid "There are no hints: everything looks good!"
@@ -2388,9 +2384,8 @@ msgid "Top crop"
 msgstr "Découpe haute"
 
 #: src/wx/instant_i18n_dialog.cc:28
-#, fuzzy
 msgid "Translate"
-msgstr "Traduit par"
+msgstr "Traduire"
 
 #: src/wx/about_dialog.cc:132
 msgid "Translated by"
@@ -2714,18 +2709,16 @@ msgstr ""
 "avant de pouvoir envoyer des emails."
 
 #: src/wx/send_i18n_dialog.cc:41
-#, fuzzy
 msgid "Your email"
-msgstr "Votre adresse E-mail"
+msgstr "Votre E-mail"
 
 #: src/wx/report_problem_dialog.cc:70
 msgid "Your email address"
 msgstr "Votre adresse E-mail"
 
 #: src/wx/send_i18n_dialog.cc:37
-#, fuzzy
 msgid "Your name"
-msgstr "Nom de dossier"
+msgstr "Votre nom"
 
 #: src/wx/timeline_dialog.cc:67
 msgid "Zoom"
