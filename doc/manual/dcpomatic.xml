@@ -32,7 +32,7 @@ Hello, and welcome to DCP-o-matic!
   <listitem>Creation of <ulink
   url="http://en.wikipedia.org/wiki/Digital_Cinema_Package">Digital
   Cinema Packages</ulink> (DCPs) from video, audio and/or
-  subtitle files.</listitem>
+  subtitle and closed caption files.</listitem>
   <listitem>Playback and verification of DCPs on a PC/Mac.</listitem>
   <listitem>Creation of KDMs for DCPs.</listitem>
 </itemizedlist>
@@ -119,7 +119,7 @@ Windows version.
 
 <para>
 DCP-o-matic will run on Mac OS X version 10.6 (Snow Leopard) and
-higher.  DCP-o-matic is split into four separate applications, each of
+higher.  DCP-o-matic is split into five separate applications, each of
 which can be installed by downloading the <code>.dmg</code>,
 double-clicking to open and then dragging the icon to your
 <guilabel>Applications</guilabel> folder.
@@ -142,7 +142,7 @@ with the first (main) part.
 
 <itemizedlist>
   <listitem>Debian 7 (&lsquo;wheezy&rsquo;), 8 (&lsquo;jessie&rsquo;), 9 (&lsquo;squeeze&rsquo;) and unstable (&lsquo;sid&rsquo;)</listitem>
-  <listitem>Ubuntu 14.04 (&lsquo;Trusty Tahr&rsquo;), 16.04 (&lsquo;Xenial Xerus&rsquo;) and 18.04 (&lsquo;Bionic Beaver&rsquo;)</listitem>
+  <listitem>Ubuntu 14.04 (&lsquo;Trusty Tahr&rsquo;), 16.04 (&lsquo;Xenial Xerus&rsquo;), 18.04 (&lsquo;Bionic Beaver&rsquo;) and 18.10 (&lsquo;Cosmic Cuttlefish&rsquo;)</listitem>
   <listitem>Mint 17, 18 and 19</listitem>
 </itemizedlist>
 
@@ -281,7 +281,7 @@ shown in <xref linkend="fig-file-new"/>.
   <title>Creating a new film</title>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="screenshots/file-new&scs;"/>
+      <imagedata scale="250" fileref="screenshots/file-new&scs;"/>
     </imageobject>
   </mediaobject>
 </figure>
@@ -397,7 +397,7 @@ linkend="fig-making-dcp"/>.
   <title>Making the DCP</title>
   <mediaobject>
     <imageobject>
-      <imagedata scale="50" fileref="screenshots/making-dcp&scs;"/>
+      <imagedata scale="250" fileref="screenshots/making-dcp&scs;"/>
     </imageobject>
   </mediaobject>
 </figure>

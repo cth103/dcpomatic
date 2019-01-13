@@ -640,7 +640,7 @@ Config::write_config () const
 	xmlpp::Document doc;
 	xmlpp::Element* root = doc.create_root_node ("Config");
 
-	/* [XML] Version The version number of the configuration file format */
+	/* [XML] Version The version number of the configuration file format. */
 	root->add_child("Version")->add_child_text (String::compose ("%1", _current_version));
 	/* [XML] MasterEncodingThreads Number of encoding threads to use when running as master. */
 	root->add_child("MasterEncodingThreads")->add_child_text (raw_convert<string> (_master_encoding_threads));
@@ -671,13 +671,13 @@ Config::write_config () const
 	root->add_child("OnlyServersEncode")->add_child_text (_only_servers_encode ? "1" : "0");
 	/* [XML] TMSProtocol Protocol to use to copy files to a TMS; 0 to use SCP, 1 for FTP. */
 	root->add_child("TMSProtocol")->add_child_text (raw_convert<string> (static_cast<int> (_tms_protocol)));
-	/* [XML] TMSIP IP address of TMS */
+	/* [XML] TMSIP IP address of TMS. */
 	root->add_child("TMSIP")->add_child_text (_tms_ip);
-	/* [XML] TMSPath Path on the TMS to copy files to */
+	/* [XML] TMSPath Path on the TMS to copy files to. */
 	root->add_child("TMSPath")->add_child_text (_tms_path);
-	/* [XML] TMSUser Username to log into the TMS with */
+	/* [XML] TMSUser Username to log into the TMS with. */
 	root->add_child("TMSUser")->add_child_text (_tms_user);
-	/* [XML] TMSPassword Password to log into the TMS with */
+	/* [XML] TMSPassword Password to log into the TMS with. */
 	root->add_child("TMSPassword")->add_child_text (_tms_password);
 	if (_cinema_sound_processor) {
 		/* [XML:opt] CinemaSoundProcessor Identifier of the type of cinema sound processor to use when calculating
@@ -714,6 +714,7 @@ Config::write_config () const
 	root->add_child("DCPIssuer")->add_child_text (_dcp_issuer);
 	/* [XML] DCPIssuer Creator text to write into CPL files. */
 	root->add_child("DCPCreator")->add_child_text (_dcp_creator);
+	/* [XML] DefaultUploadAfterMakeDCP 1 to default to uploading to a TMS after making a DCP, 0 to default to no upload. */
 	root->add_child("DefaultUploadAfterMakeDCP")->add_child_text (_default_upload_after_make_dcp ? "1" : "0");
 
 	/* [XML] ISDCFMetadata Default ISDCF metadata to use for new films; child tags are <code>&lt;ContentVersion&gt;</code>,
@@ -753,36 +754,36 @@ Config::write_config () const
 		/* [XML] KDMCC CC address to use for KDM emails; you can use as many of these tags as you like. */
 		root->add_child("KDMCC")->add_child_text (i);
 	}
-	/* [XML] KDMBCC BCC address to use for KDM emails */
+	/* [XML] KDMBCC BCC address to use for KDM emails. */
 	root->add_child("KDMBCC")->add_child_text (_kdm_bcc);
-	/* [XML] KDMEmail Text of KDM email */
+	/* [XML] KDMEmail Text of KDM email. */
 	root->add_child("KDMEmail")->add_child_text (_kdm_email);
 
-	/* [XML] NotificationSubject Subject to use for Notification emails. */
+	/* [XML] NotificationSubject Subject to use for notification emails. */
 	root->add_child("NotificationSubject")->add_child_text (_notification_subject);
-	/* [XML] NotificationFrom From address to use for Notification emails. */
+	/* [XML] NotificationFrom From address to use for notification emails. */
 	root->add_child("NotificationFrom")->add_child_text (_notification_from);
-	/* [XML] NotificationFrom To address to use for Notification emails. */
+	/* [XML] NotificationFrom To address to use for notification emails. */
 	root->add_child("NotificationTo")->add_child_text (_notification_to);
 	BOOST_FOREACH (string i, _notification_cc) {
-		/* [XML] NotificationCC CC address to use for Notification emails; you can use as many of these tags as you like. */
+		/* [XML] NotificationCC CC address to use for notification emails; you can use as many of these tags as you like. */
 		root->add_child("NotificationCC")->add_child_text (i);
 	}
-	/* [XML] NotificationBCC BCC address to use for Notification emails */
+	/* [XML] NotificationBCC BCC address to use for notification emails. */
 	root->add_child("NotificationBCC")->add_child_text (_notification_bcc);
-	/* [XML] NotificationEmail Text of Notification email */
+	/* [XML] NotificationEmail Text of notification email. */
 	root->add_child("NotificationEmail")->add_child_text (_notification_email);
 
-	/* [XML] CheckForUpdates 1 to check dcpomatic.com for new versions, 0 to check only on request */
+	/* [XML] CheckForUpdates 1 to check dcpomatic.com for new versions, 0 to check only on request. */
 	root->add_child("CheckForUpdates")->add_child_text (_check_for_updates ? "1" : "0");
-	/* [XML] CheckForUpdates 1 to check dcpomatic.com for new text versions, 0 to check only on request */
+	/* [XML] CheckForUpdates 1 to check dcpomatic.com for new text versions, 0 to check only on request. */
 	root->add_child("CheckForTestUpdates")->add_child_text (_check_for_test_updates ? "1" : "0");
 
-	/* [XML] MaximumJ2KBandwidth Maximum J2K bandwidth (in bits per second) that can be specified in the GUI */
+	/* [XML] MaximumJ2KBandwidth Maximum J2K bandwidth (in bits per second) that can be specified in the GUI. */
 	root->add_child("MaximumJ2KBandwidth")->add_child_text (raw_convert<string> (_maximum_j2k_bandwidth));
-	/* [XML] AllowAnyDCPFrameRate 1 to allow users to specify any frame rate when creating DCPs, 0 to limit the GUI to standard rates */
+	/* [XML] AllowAnyDCPFrameRate 1 to allow users to specify any frame rate when creating DCPs, 0 to limit the GUI to standard rates. */
 	root->add_child("AllowAnyDCPFrameRate")->add_child_text (_allow_any_dcp_frame_rate ? "1" : "0");
-	/* [XML] AllowAnyContainer 1 to allow users to user any container ratio for their DCP, 0 to limit the GUI to standard containers */
+	/* [XML] AllowAnyContainer 1 to allow users to user any container ratio for their DCP, 0 to limit the GUI to standard containers. */
 	root->add_child("AllowAnyContainer")->add_child_text (_allow_any_container ? "1" : "0");
 	/* [XML] LogTypes Types of logging to write; a bitfield where 1 is general notes, 2 warnings, 4 errors, 8 debug information related
 	   to encoding, 16 debug information related to encoding, 32 debug information for timing purposes, 64 debug information related
@@ -798,9 +799,6 @@ Config::write_config () const
 	root->add_child("Win32Console")->add_child_text (_win32_console ? "1" : "0");
 #endif
 
-	/* [XML] Signer Certificate chain and private key to use when signing DCPs and KDMs.  Should contain <code>&lt;Certificate&gt;</code>
-	   tags in order and a <code>&lt;PrivateKey&gt;</code> tag all containing PEM-encoded certificates or private keys as appropriate.
-	*/
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	if (_signer_chain_path.is_relative()) {
 		write_swaroop_chain (_signer_chain, path(_signer_chain_path.string()));
@@ -809,6 +807,9 @@ Config::write_config () const
 	}
 	root->add_child("Signer")->add_child_text(_signer_chain_path.string());
 #else
+	/* [XML] Signer Certificate chain and private key to use when signing DCPs and KDMs.  Should contain <code>&lt;Certificate&gt;</code>
+	   tags in order and a <code>&lt;PrivateKey&gt;</code> tag all containing PEM-encoded certificates or private keys as appropriate.
+	*/
 	xmlpp::Element* signer = root->add_child ("Signer");
 	DCPOMATIC_ASSERT (_signer_chain);
 	BOOST_FOREACH (dcp::Certificate const & i, _signer_chain->unordered()) {
@@ -817,7 +818,6 @@ Config::write_config () const
 	signer->add_child("PrivateKey")->add_child_text (_signer_chain->key().get ());
 #endif
 
-	/* [XML] Decryption Certificate chain and private key to use when decrypting KDMs */
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	if (_decryption_chain_path.is_relative()) {
 		write_swaroop_chain (_decryption_chain, path(_decryption_chain_path.string()));
@@ -826,6 +826,7 @@ Config::write_config () const
 	}
 	root->add_child("Decryption")->add_child_text(_decryption_chain_path.string());
 #else
+	/* [XML] Decryption Certificate chain and private key to use when decrypting KDMs */
 	xmlpp::Element* decryption = root->add_child ("Decryption");
 	DCPOMATIC_ASSERT (_decryption_chain);
 	BOOST_FOREACH (dcp::Certificate const & i, _decryption_chain->unordered()) {
@@ -841,6 +842,9 @@ Config::write_config () const
 		root->add_child("History")->add_child_text (i.string ());
 	}
 
+	/* [XML] History Filename of DCP to present in the <guilabel>File</guilabel> menu of the player; there can be more than one
+	   of these tags.
+	*/
 	BOOST_FOREACH (boost::filesystem::path i, _player_history) {
 		root->add_child("PlayerHistory")->add_child_text (i.string ());
 	}
@@ -851,39 +855,40 @@ Config::write_config () const
 	/* [XML] DKDM A DKDM as XML */
 	_dkdms->as_xml (root);
 
-	/* [XML] CinemasFile Filename of cinemas list file */
+	/* [XML] CinemasFile Filename of cinemas list file. */
 	root->add_child("CinemasFile")->add_child_text (_cinemas_file.string());
-	/* [XML] ShowHintsBeforeMakeDCP 1 to show hints in the GUI before making a DCP, otherwise 0 */
+	/* [XML] ShowHintsBeforeMakeDCP 1 to show hints in the GUI before making a DCP, otherwise 0. */
 	root->add_child("ShowHintsBeforeMakeDCP")->add_child_text (_show_hints_before_make_dcp ? "1" : "0");
-	/* [XML] ConfirmKDMEmail 1 to confirm before sending KDM emails in the GUI, otherwise 0 */
+	/* [XML] ConfirmKDMEmail 1 to confirm before sending KDM emails in the GUI, otherwise 0. */
 	root->add_child("ConfirmKDMEmail")->add_child_text (_confirm_kdm_email ? "1" : "0");
-	/* [XML] KDMFilenameFormat Format for KDM filenames */
+	/* [XML] KDMFilenameFormat Format for KDM filenames. */
 	root->add_child("KDMFilenameFormat")->add_child_text (_kdm_filename_format.specification ());
-	/* [XML] KDMContainerNameFormat Format for KDM containers (directories or ZIP files) */
+	/* [XML] KDMContainerNameFormat Format for KDM containers (directories or ZIP files). */
 	root->add_child("KDMContainerNameFormat")->add_child_text (_kdm_container_name_format.specification ());
-	/* [XML] DCPMetadataFilenameFormat Format for DCP metadata filenames */
+	/* [XML] DCPMetadataFilenameFormat Format for DCP metadata filenames. */
 	root->add_child("DCPMetadataFilenameFormat")->add_child_text (_dcp_metadata_filename_format.specification ());
-	/* [XML] DCPAssetFilenameFormat Format for DCP asset filenames */
+	/* [XML] DCPAssetFilenameFormat Format for DCP asset filenames. */
 	root->add_child("DCPAssetFilenameFormat")->add_child_text (_dcp_asset_filename_format.specification ());
-	/* [XML] JumpToSelected 1 to make the GUI jump to the start of content when it is selected, otherwise 0 */
+	/* [XML] JumpToSelected 1 to make the GUI jump to the start of content when it is selected, otherwise 0. */
 	root->add_child("JumpToSelected")->add_child_text (_jump_to_selected ? "1" : "0");
-	/* [XML] Nagged 1 if a particular nag screen has been shown and should not be shown again, otherwise 0 */
+	/* [XML] Nagged 1 if a particular nag screen has been shown and should not be shown again, otherwise 0. */
 	for (int i = 0; i < NAG_COUNT; ++i) {
 		xmlpp::Element* e = root->add_child ("Nagged");
 		e->set_attribute ("Id", raw_convert<string>(i));
 		e->add_child_text (_nagged[i] ? "1" : "0");
 	}
-	/* [XML] PreviewSound 1 to use sound in the GUI preview and player, otherwise 0 */
+	/* [XML] PreviewSound 1 to use sound in the GUI preview and player, otherwise 0. */
 	root->add_child("PreviewSound")->add_child_text (_sound ? "1" : "0");
 	if (_sound_output) {
-		/* [XML:opt] PreviewSoundOutput Name of the audio output to use */
+		/* [XML:opt] PreviewSoundOutput Name of the audio output to use. */
 		root->add_child("PreviewSoundOutput")->add_child_text (_sound_output.get());
 	}
-	/* [XML] CoverSheet Text of the cover sheet to write when making DCPs */
+	/* [XML] CoverSheet Text of the cover sheet to write when making DCPs. */
 	root->add_child("CoverSheet")->add_child_text (_cover_sheet);
 	if (_last_player_load_directory) {
 		root->add_child("LastPlayerLoadDirectory")->add_child_text(_last_player_load_directory->string());
 	}
+	/* [XML] LastKDMWriteType Last type of KDM-write: <code>flat</code> for a flat file, <code>folder</code> for a folder or <code>zip</code> for a ZIP file. */
 	if (_last_kdm_write_type) {
 		switch (_last_kdm_write_type.get()) {
 		case KDM_WRITE_FLAT:
@@ -897,6 +902,7 @@ Config::write_config () const
 			break;
 		}
 	}
+	/* [XML] LastDKDMWriteType Last type of DKDM-write: <code>file</code> for a file, <code>internal</code> to add to DCP-o-matic's list. */
 	if (_last_dkdm_write_type) {
 		switch (_last_dkdm_write_type.get()) {
 		case DKDM_WRITE_INTERNAL:
@@ -912,15 +918,15 @@ Config::write_config () const
 	*/
 	root->add_child("FramesInMemoryMultiplier")->add_child_text(raw_convert<string>(_frames_in_memory_multiplier));
 
-	/* [XML] DecodeReduction power of 2 to reduce DCP images by before decoding in the player */
+	/* [XML] DecodeReduction power of 2 to reduce DCP images by before decoding in the player. */
 	if (_decode_reduction) {
 		root->add_child("DecodeReduction")->add_child_text(raw_convert<string>(_decode_reduction.get()));
 	}
 
-	/* [XML] DefaultNotify 1 to default jobs to notify when complete, otherwise 0 */
+	/* [XML] DefaultNotify 1 to default jobs to notify when complete, otherwise 0. */
 	root->add_child("DefaultNotify")->add_child_text(_default_notify ? "1" : "0");
 
-	/* [XML] Notification 1 if a notification type is enabled, otherwise 0 */
+	/* [XML] Notification 1 if a notification type is enabled, otherwise 0. */
 	for (int i = 0; i < NOTIFICATION_COUNT; ++i) {
 		xmlpp::Element* e = root->add_child ("Notification");
 		e->set_attribute ("Id", raw_convert<string>(i));
@@ -928,26 +934,33 @@ Config::write_config () const
 	}
 
 	if (_barco_username) {
+		/* [XML] BarcoUsername Username for logging into Barco's servers when downloading server certificates. */
 		root->add_child("BarcoUsername")->add_child_text(*_barco_username);
 	}
 	if (_barco_password) {
+		/* [XML] BarcoPassword Password for logging into Barco's servers when downloading server certificates. */
 		root->add_child("BarcoPassword")->add_child_text(*_barco_password);
 	}
 
 	if (_christie_username) {
+		/* [XML] ChristieUsername Username for logging into Christie's servers when downloading server certificates. */
 		root->add_child("ChristieUsername")->add_child_text(*_christie_username);
 	}
 	if (_christie_password) {
+		/* [XML] ChristiePassword Password for logging into Christie's servers when downloading server certificates. */
 		root->add_child("ChristiePassword")->add_child_text(*_christie_password);
 	}
 
 	if (_gdc_username) {
+		/* [XML] GCCUsername Username for logging into GDC's servers when downloading server certificates. */
 		root->add_child("GDCUsername")->add_child_text(*_gdc_username);
 	}
 	if (_gdc_password) {
+		/* [XML] GCCPassword Password for logging into GDC's servers when downloading server certificates. */
 		root->add_child("GDCPassword")->add_child_text(*_gdc_password);
 	}
 
+	/* [XML] InterfaceComplexity <code>simple</code> for the reduced interface or <code>full</code> for the full interface. */
 	switch (_interface_complexity) {
 	case INTERFACE_SIMPLE:
 		root->add_child("InterfaceComplexity")->add_child_text("simple");
@@ -957,6 +970,9 @@ Config::write_config () const
 		break;
 	}
 
+	/* [XML] PlayerMode <code>window</code> for a single window, <code>full</code> for full-screen and <code>dual</code> for full screen playback
+	   with controls on another monitor.
+	*/
 	switch (_player_mode) {
 	case PLAYER_MODE_WINDOW:
 		root->add_child("PlayerMode")->add_child_text("window");
@@ -969,18 +985,24 @@ Config::write_config () const
 		break;
 	}
 
+	/* [XML] ImageDisplay Screen number to put image on in dual-screen player mode. */
 	root->add_child("ImageDisplay")->add_child_text(raw_convert<string>(_image_display));
+	/* [XML] RespectKDMValidityPeriods 1 to refuse to use KDMs that are out of date, 0 to ignore KDM dates. */
 	root->add_child("RespectKDMValidityPeriods")->add_child_text(_respect_kdm_validity_periods ? "1" : "0");
 	if (_player_log_file) {
+		/* [XML] PlayerLogFile Filename to use for player logs */
 		root->add_child("PlayerLogFile")->add_child_text(_player_log_file->string());
 	}
 	if (_player_content_directory) {
+		/* [XML] PlayerContentDirectory Filename to use for player content in the dual-screen mode. */
 		root->add_child("PlayerContentDirectory")->add_child_text(_player_content_directory->string());
 	}
 	if (_player_playlist_directory) {
+		/* [XML] PlayerPlaylistDirectory Filename to use for player playlists in the dual-screen mode. */
 		root->add_child("PlayerPlaylistDirectory")->add_child_text(_player_playlist_directory->string());
 	}
 	if (_player_kdm_directory) {
+		/* [XML] PlayerKDMDirectory Filename to use for player KDMs in the dual-screen mode. */
 		root->add_child("PlayerKDMDirectory")->add_child_text(_player_kdm_directory->string());
 	}
 #ifdef DCPOMATIC_VARIANT_SWAROOP
