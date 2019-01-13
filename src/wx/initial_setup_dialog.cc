@@ -59,7 +59,7 @@ InitialSetupDialog::InitialSetupDialog ()
 	wxStaticText* text2 = new StaticText (this, wxEmptyString, wxDefaultPosition, wxSize(400, -1));
 	sizer->Add (text2, 0, wxEXPAND | wxALL, 12);
 
-	text2->SetLabelMarkup (_("\nYou can change the mode at any time from the General page of Preferences."));
+	text2->SetLabel (_("\nYou can change the mode at any time from the General page of Preferences."));
 
 	_simple->Bind (wxEVT_RADIOBUTTON, boost::bind(&InitialSetupDialog::interface_complexity_changed, this));
 	_full->Bind (wxEVT_RADIOBUTTON, boost::bind(&InitialSetupDialog::interface_complexity_changed, this));
