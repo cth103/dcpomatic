@@ -42,6 +42,7 @@
 #include <wx/wx.h>
 #include <boost/foreach.hpp>
 #include <iostream>
+#include <set>
 
 using std::exception;
 using std::string;
