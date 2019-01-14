@@ -2769,10 +2769,37 @@ Note that for this to work on Doremi servers you will need to set the
 
 <!-- ============================================================== -->
 <section>
+<title>Email</title>
+
+<para>
+The Email tab is shown in <xref linkend="fig-prefs-email"/>.
+</para>
+
+<figure id="fig-prefs-email">
+  <title>Email preferences</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="screenshots/prefs-email&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+<para>
+These settings are used when DCP-o-matic sends emails.
+</para>
+
+<para>
+  <guilabel>Outgoing mail server</guilabel> should be the host name of a mail (SMTP) server that DCP-o-matic can use.  You can also specify the port that DCP-o-matic should use.  <guilabel>User name</guilabel> and <guilabel>Password</guilabel> are the credentials that are required to send email through the server you have specified.
+</para>
+
+</section>
+
+<!-- ============================================================== -->
+<section>
 <title>KDM email</title>
 
 <para>
-The KDM email is shown in <xref linkend="fig-prefs-kdm-email"/>.
+The KDM email tab is shown in <xref linkend="fig-prefs-kdm-email"/>.
 </para>
 
 <figure id="fig-prefs-kdm-email">
@@ -2816,6 +2843,68 @@ KDM that is being sent:
 
 <para>
 The <guilabel>Reset to default text</guilabel> will replace the current KDM email with DCP-o-matic's default.
+</para>
+
+</section>
+
+
+<!-- ============================================================== -->
+<section>
+<title>Accounts</title>
+
+<para>
+The Accounts tab is shown in <xref linkend="fig-prefs-accounts"/>.
+</para>
+
+<figure id="fig-prefs-accounts">
+  <title>Accounts preferences</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="screenshots/prefs-accounts&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+<para>
+DCP-o-matic can download projector certificates from the Barco and
+Christie websites if you have the appropriate credentials.  Enter your
+usernames and passwords.
+</para>
+
+</section>
+
+
+<!-- ============================================================== -->
+<section>
+<title>Notifications</title>
+
+<para>
+The Notifications tab is shown in <xref linkend="fig-prefs-notifications"/>.
+</para>
+
+<figure id="fig-prefs-notifications">
+  <title>Notifications preferences</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="screenshots/prefs-notifications&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+<para>
+DCP-o-matic can notify the user when jobs have completed.  These
+notifications can be either or both of a message box on-screen (if
+<guilabel>Message box</guilabel> is ticked) and email (if
+<guilabel>Email</guilabel> is ticked).  If you enable email
+notifications you can fill in the details of the emails you want to
+send.
+</para>
+
+<para>
+The bottom box in the tab is the contents of the email that should
+be sent.  DCP-o-matic will replace the &lsquo;magic&rsquo; strings
+<code>$JOB_NAME</code> and <code>$JOB_STATUS</code> in the with the
+details of the job that has completed.
 </para>
 
 </section>

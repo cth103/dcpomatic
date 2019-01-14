@@ -769,11 +769,11 @@ private:
 			table->Add (s, 1, wxEXPAND | wxALL);
 		}
 
-		add_label_to_sizer (table, _panel, _("Mail user name"), true);
+		add_label_to_sizer (table, _panel, _("User name"), true);
 		_user = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_user, 1, wxEXPAND | wxALL);
 
-		add_label_to_sizer (table, _panel, _("Mail password"), true);
+		add_label_to_sizer (table, _panel, _("Password"), true);
 		_password = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_password, 1, wxEXPAND | wxALL);
 
@@ -965,7 +965,7 @@ public:
 		table->AddGrowableCol (1, 1);
 		_panel->GetSizer()->Add (table, 1, wxEXPAND | wxALL, _border);
 
-		add_label_to_sizer (table, _panel, _("certificates.barco.com username"), true);
+		add_label_to_sizer (table, _panel, _("certificates.barco.com user name"), true);
 		_barco_username = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_barco_username, 1, wxEXPAND | wxALL);
 
@@ -973,7 +973,7 @@ public:
 		_barco_password = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_barco_password, 1, wxEXPAND | wxALL);
 
-		add_label_to_sizer (table, _panel, _("certificates.christiedigital.com username"), true);
+		add_label_to_sizer (table, _panel, _("certificates.christiedigital.com user name"), true);
 		_christie_username = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_christie_username, 1, wxEXPAND | wxALL);
 
