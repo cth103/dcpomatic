@@ -1,3 +1,7 @@
+2019-01-15  Carl Hetherington  <cth@carlh.net>
+
+	* Add --encrypt/-e option to dcpomatic_create.
+
 2019-01-13  Carl Hetherington  <cth@carlh.net>
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.

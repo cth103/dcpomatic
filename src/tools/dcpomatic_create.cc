@@ -59,6 +59,7 @@ syntax (string n)
 	     << "  -h, --help                    show this help\n"
 	     << "  -n, --name <name>             film name\n"
 	     << "  -t, --template <name>         template name\n"
+	     << "  -e, --encrypt                 make an encrypted DCP\n"
 	     << "  -c, --dcp-content-type <type> FTR, SHR, TLR, TST, XSN, RTG, TSR, POL, PSA or ADV\n"
 	     << "  -f, --dcp-frame-rate <rate>   set DCP video frame rate (otherwise guessed from content)\n"
 	     << "      --container-ratio <ratio> 119, 133, 137, 138, 166, 178, 185 or 239\n"
@@ -98,6 +99,7 @@ main (int argc, char* argv[])
 
 	string name;
 	optional<string> template_name;
+	bool encrypt = false;
 	DCPContentType const * dcp_content_type = DCPContentType::from_isdcf_name ("TST");
 	optional<int> dcp_frame_rate;
 	Ratio const * container_ratio = 0;
@@ -116,6 +118,7 @@ main (int argc, char* argv[])
 			{ "help", no_argument, 0, 'h'},
 			{ "name", required_argument, 0, 'n'},
 			{ "template", required_argument, 0, 't'},
+			{ "encrypt", no_argument, 0, 'e'},
 			{ "dcp-content-type", required_argument, 0, 'c'},
 			{ "dcp-frame-rate", required_argument, 0, 'f'},
 			{ "container-ratio", required_argument, 0, 'A'},
@@ -129,7 +132,7 @@ main (int argc, char* argv[])
 			{ 0, 0, 0, 0}
 		};
 
-		int c = getopt_long (argc, argv, "vhn:t:c:f:A:B:C:s:o:DEF:", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhn:t:ec:f:A:B:C:s:o:DEF:", long_options, &option_index);
 		if (c == -1) {
 			break;
 		}
@@ -146,6 +149,9 @@ main (int argc, char* argv[])
 			break;
 		case 't':
 			template_name = optarg;
+			break;
+		case 'e':
+			encrypt = true;
 			break;
 		case 'c':
 			dcp_content_type = DCPContentType::from_isdcf_name (optarg);
@@ -245,6 +251,7 @@ main (int argc, char* argv[])
 		film->set_interop (standard == dcp::INTEROP);
 		film->set_use_isdcf_name (use_isdcf_name);
 		film->set_signed (sign);
+		film->set_encrypted (encrypt);
 
 		for (int i = optind; i < argc; ++i) {
 			boost::filesystem::path const can = boost::filesystem::canonical (argv[i]);
