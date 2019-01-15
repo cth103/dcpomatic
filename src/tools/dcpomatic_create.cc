@@ -115,7 +115,7 @@ main (int argc, char* argv[])
 			{ "version", no_argument, 0, 'v'},
 			{ "help", no_argument, 0, 'h'},
 			{ "name", required_argument, 0, 'n'},
-			{ "template", required_argument, 0, 'f'},
+			{ "template", required_argument, 0, 't'},
 			{ "dcp-content-type", required_argument, 0, 'c'},
 			{ "dcp-frame-rate", required_argument, 0, 'f'},
 			{ "container-ratio", required_argument, 0, 'A'},
@@ -129,7 +129,7 @@ main (int argc, char* argv[])
 			{ 0, 0, 0, 0}
 		};
 
-		int c = getopt_long (argc, argv, "vhn:f:c:f:A:B:C:s:o:DEF:", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhn:t:c:f:A:B:C:s:o:DEF:", long_options, &option_index);
 		if (c == -1) {
 			break;
 		}
