@@ -147,7 +147,7 @@ def configure(conf):
         conf.check_cfg(msg='Checking for wxWidgets using gtk2-unicode-3.0',
                        package='',
                        path=wx_config,
-                       args='--cppflags --cxxflags --libs std,richtext',
+                       args='--cppflags --cxxflags --libs core,richtext,adv',
                        uselib_store='WXWIDGETS',
                        mandatory=True)
     except:
@@ -156,7 +156,7 @@ def configure(conf):
             conf.check_cfg(msg='Checking for wxWidgets using wx-config-3.0-gtk2',
                            package='',
                            path=wx_config,
-                           args='--cppflags --cxxflags --libs std,richtext',
+                           args='--cppflags --cxxflags --libs core,richtext,adv',
                            uselib_store='WXWIDGETS',
                            mandatory=True)
         except:
@@ -164,7 +164,7 @@ def configure(conf):
             conf.check_cfg(msg='Checking for wxWidgets using wx-config',
                            package='',
                            path=wx_config,
-                           args='--cppflags --cxxflags --libs std,richtext',
+                           args='--cppflags --cxxflags --libs core,richtext,adv',
                            uselib_store='WXWIDGETS',
                            mandatory=True)
 
