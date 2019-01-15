@@ -177,6 +177,10 @@ AudioPanel::~AudioPanel ()
 void
 AudioPanel::film_changed (Film::Property property)
 {
+	if (!_parent->film()) {
+		return;
+	}
+
 	switch (property) {
 	case Film::AUDIO_CHANNELS:
 	case Film::AUDIO_PROCESSOR:
