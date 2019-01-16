@@ -57,6 +57,7 @@ def build(bld):
                  colour_conversion_test.cc
                  config_test.cc
                  content_test.cc
+                 create_cli_test.cc
                  crypto_test.cc
                  dcpomatic_time_test.cc
                  dcp_playback_test.cc

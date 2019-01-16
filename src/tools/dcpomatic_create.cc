@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -32,6 +32,8 @@
 #include "lib/cross.h"
 #include "lib/config.h"
 #include "lib/dcp_content.h"
+#include "lib/create_cli.h"
+#include "lib/version.h"
 #include <dcp/exceptions.h>
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
@@ -51,37 +53,6 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 
-static void
-syntax (string n)
-{
-	cerr << "Syntax: " << n << " [OPTION] <CONTENT> [<CONTENT> ...]\n"
-	     << "  -v, --version                 show DCP-o-matic version\n"
-	     << "  -h, --help                    show this help\n"
-	     << "  -n, --name <name>             film name\n"
-	     << "  -t, --template <name>         template name\n"
-	     << "  -e, --encrypt                 make an encrypted DCP\n"
-	     << "  -c, --dcp-content-type <type> FTR, SHR, TLR, TST, XSN, RTG, TSR, POL, PSA or ADV\n"
-	     << "  -f, --dcp-frame-rate <rate>   set DCP video frame rate (otherwise guessed from content)\n"
-	     << "      --container-ratio <ratio> 119, 133, 137, 138, 166, 178, 185 or 239\n"
-	     << "      --content-ratio <ratio>   119, 133, 137, 138, 166, 178, 185 or 239\n"
-	     << "  -s, --still-length <n>        number of seconds that still content should last\n"
-	     << "      --standard <standard>     SMPTE or interop (default SMPTE)\n"
-	     << "      --no-use-isdcf-name       do not use an ISDCF name; use the specified name unmodified\n"
-	     << "      --no-sign                 do not sign the DCP\n"
-	     << "      --config <dir>            directory containing config.xml and cinemas.xml\n"
-	     << "  -o, --output <dir>            output directory\n";
-}
-
-static void
-help (string n)
-{
-	cerr << "Create a film directory (ready for making a DCP) or metadata file from some content files.\n"
-	     << "A film directory will be created if -o or --output is specified, otherwise a metadata file\n"
-	     << "will be written to stdout.\n";
-
-	syntax (n);
-}
-
 class SimpleSignalManager : public SignalManager
 {
 public:
@@ -97,164 +68,40 @@ main (int argc, char* argv[])
 	dcpomatic_setup_path_encoding ();
 	dcpomatic_setup ();
 
-	string name;
-	optional<string> template_name;
-	bool encrypt = false;
-	DCPContentType const * dcp_content_type = DCPContentType::from_isdcf_name ("TST");
-	optional<int> dcp_frame_rate;
-	Ratio const * container_ratio = 0;
-	Ratio const * content_ratio = 0;
-	int still_length = 10;
-	dcp::Standard standard = dcp::SMPTE;
-	optional<boost::filesystem::path> output;
-	bool sign = true;
-	bool use_isdcf_name = true;
-	optional<boost::filesystem::path> config;
-
-	int option_index = 0;
-	while (true) {
-		static struct option long_options[] = {
-			{ "version", no_argument, 0, 'v'},
-			{ "help", no_argument, 0, 'h'},
-			{ "name", required_argument, 0, 'n'},
-			{ "template", required_argument, 0, 't'},
-			{ "encrypt", no_argument, 0, 'e'},
-			{ "dcp-content-type", required_argument, 0, 'c'},
-			{ "dcp-frame-rate", required_argument, 0, 'f'},
-			{ "container-ratio", required_argument, 0, 'A'},
-			{ "content-ratio", required_argument, 0, 'B'},
-			{ "still-length", required_argument, 0, 's'},
-			{ "standard", required_argument, 0, 'C'},
-			{ "no-use-isdcf-name", no_argument, 0, 'D'},
-			{ "no-sign", no_argument, 0, 'E'},
-			{ "output", required_argument, 0, 'o'},
-			{ "config", required_argument, 0, 'F'},
-			{ 0, 0, 0, 0}
-		};
-
-		int c = getopt_long (argc, argv, "vhn:t:ec:f:A:B:C:s:o:DEF:", long_options, &option_index);
-		if (c == -1) {
-			break;
-		}
-
-		switch (c) {
-		case 'v':
-			cout << "dcpomatic version " << dcpomatic_version << " " << dcpomatic_git_commit << "\n";
-			exit (EXIT_SUCCESS);
-		case 'h':
-			help (argv[0]);
-			exit (EXIT_SUCCESS);
-		case 'n':
-			name = optarg;
-			break;
-		case 't':
-			template_name = optarg;
-			break;
-		case 'e':
-			encrypt = true;
-			break;
-		case 'c':
-			dcp_content_type = DCPContentType::from_isdcf_name (optarg);
-			if (dcp_content_type == 0) {
-				cerr << "Bad DCP content type.\n";
-				syntax (argv[0]);
-				exit (EXIT_FAILURE);
-			}
-			break;
-		case 'f':
-			dcp_frame_rate = atoi (optarg);
-			break;
-		case 'A':
-			container_ratio = Ratio::from_id (optarg);
-			if (container_ratio == 0) {
-				cerr << "Bad container ratio.\n";
-				syntax (argv[0]);
-				exit (EXIT_FAILURE);
-			}
-			break;
-		case 'B':
-			content_ratio = Ratio::from_id (optarg);
-			if (content_ratio == 0) {
-				cerr << "Bad content ratio " << optarg << ".\n";
-				syntax (argv[0]);
-				exit (EXIT_FAILURE);
-			}
-			break;
-		case 'C':
-			if (strcmp (optarg, "interop") == 0) {
-				standard = dcp::INTEROP;
-			} else if (strcmp (optarg, "SMPTE") != 0) {
-				cerr << "Bad standard " << optarg << ".\n";
-				syntax (argv[0]);
-				exit (EXIT_FAILURE);
-			}
-			break;
-		case 'D':
-			use_isdcf_name = false;
-			break;
-		case 'E':
-			sign = false;
-			break;
-		case 'F':
-			config = optarg;
-			break;
-		case 's':
-			still_length = atoi (optarg);
-			break;
-		case 'o':
-			output = optarg;
-			break;
-		case '?':
-			syntax (argv[0]);
-			exit (EXIT_FAILURE);
-		}
+	CreateCLI cc (argc, argv);
+	if (cc.error) {
+		cerr << *cc.error << "\n";
+		exit (1);
 	}
 
-	if (optind > argc) {
-		help (argv[0]);
-		exit (EXIT_FAILURE);
+	if (cc.version) {
+		cerr << "dcpomatic version " << dcpomatic_version << " " << dcpomatic_git_commit << "\n";
+		exit (1);
 	}
 
-	if (config) {
-		Config::override_path = *config;
-	}
-
-	if (!content_ratio) {
-		cerr << argv[0] << ": missing required option --content-ratio.\n";
-		exit (EXIT_FAILURE);
-	}
-
-	if (!container_ratio) {
-		container_ratio = content_ratio;
-	}
-
-	if (optind == argc) {
-		cerr << argv[0] << ": no content specified.\n";
-		exit (EXIT_FAILURE);
+	if (cc.config_dir) {
+		Config::override_path = *cc.config_dir;
 	}
 
 	signal_manager = new SimpleSignalManager ();
-
-	if (name.empty ()) {
-		name = boost::filesystem::path (argv[optind]).leaf().string ();
-	}
+	JobManager* jm = JobManager::instance ();
 
 	try {
-		shared_ptr<Film> film (new Film (output));
-		if (template_name) {
-			film->use_template (template_name.get());
+		shared_ptr<Film> film (new Film(cc.output_dir));
+		if (cc.template_name) {
+			film->use_template (cc.template_name.get());
 		}
-		film->set_name (name);
+		film->set_name (cc.name);
 
-		film->set_container (container_ratio);
-		film->set_dcp_content_type (dcp_content_type);
-		film->set_interop (standard == dcp::INTEROP);
-		film->set_use_isdcf_name (use_isdcf_name);
-		film->set_signed (sign);
-		film->set_encrypted (encrypt);
+		film->set_container (cc.container_ratio);
+		film->set_dcp_content_type (cc.dcp_content_type);
+		film->set_interop (cc.standard == dcp::INTEROP);
+		film->set_use_isdcf_name (!cc.no_use_isdcf_name);
+		film->set_signed (!cc.no_sign);
+		film->set_encrypted (cc.encrypt);
 
-		for (int i = optind; i < argc; ++i) {
-			boost::filesystem::path const can = boost::filesystem::canonical (argv[i]);
+		BOOST_FOREACH (CreateCLI::Content i, cc.content) {
+			boost::filesystem::path const can = boost::filesystem::canonical (i.path);
 			list<shared_ptr<Content> > content;
 
 			if (boost::filesystem::exists (can / "ASSETMAP") || (boost::filesystem::exists (can / "ASSETMAP.xml"))) {
@@ -265,48 +112,48 @@ main (int argc, char* argv[])
 			}
 
 			BOOST_FOREACH (shared_ptr<Content> j, content) {
-				if (j->video) {
-					j->video->set_scale (VideoContentScale (content_ratio));
-				}
 				film->examine_and_add_content (j);
+			}
+
+			while (jm->work_to_do ()) {
+				dcpomatic_sleep (1);
+			}
+
+			while (signal_manager->ui_idle() > 0) {}
+
+			BOOST_FOREACH (shared_ptr<Content> j, content) {
+				if (j->video) {
+					j->video->set_scale (VideoContentScale(cc.content_ratio));
+					j->video->set_frame_type (i.frame_type);
+				}
 			}
 		}
 
-		JobManager* jm = JobManager::instance ();
-
-		while (jm->work_to_do ()) {
-			dcpomatic_sleep (1);
+		if (cc.dcp_frame_rate) {
+			film->set_video_frame_rate (*cc.dcp_frame_rate);
 		}
 
-		while (signal_manager->ui_idle() > 0) {}
-
-		if (dcp_frame_rate) {
-			film->set_video_frame_rate (*dcp_frame_rate);
-		}
-
-		ContentList content = film->content ();
-		for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
-			shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (*i);
+		BOOST_FOREACH (shared_ptr<Content> i, film->content()) {
+			shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (i);
 			if (ic && ic->still()) {
-				ic->video->set_length (still_length * 24);
+				ic->video->set_length (cc.still_length * 24);
 			}
 		}
 
 		if (jm->errors ()) {
-			list<shared_ptr<Job> > jobs = jm->get ();
-			for (list<shared_ptr<Job> >::iterator i = jobs.begin(); i != jobs.end(); ++i) {
-				if ((*i)->finished_in_error ()) {
-					cerr << (*i)->error_summary () << "\n"
-					     << (*i)->error_details () << "\n";
+			BOOST_FOREACH (shared_ptr<Job> i, jm->get()) {
+				if (i->finished_in_error()) {
+					cerr << i->error_summary() << "\n"
+					     << i->error_details() << "\n";
 				}
 			}
 			exit (EXIT_FAILURE);
 		}
 
-		if (output) {
+		if (cc.output_dir) {
 			film->write_metadata ();
 		} else {
-			film->metadata()->write_to_stream_formatted (cout, "UTF-8");
+			film->metadata()->write_to_stream_formatted(cout, "UTF-8");
 		}
 	} catch (exception& e) {
 		cerr << argv[0] << ": " << e.what() << "\n";
