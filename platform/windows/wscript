@@ -321,6 +321,7 @@ File "%binaries%/src/tools/dcpomatic2_batch.exe"
 File "%binaries%/src/tools/dcpomatic2_cli.exe"
 File "%binaries%/src/tools/dcpomatic2_create.exe"
 File "%binaries%/src/tools/dcpomatic2_kdm.exe"
+File "%binaries%/src/tools/dcpomatic2_kdm_cli.exe"
     """, file=f)
 
     print("""
