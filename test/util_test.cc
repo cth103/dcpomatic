@@ -92,6 +92,13 @@ BOOST_AUTO_TEST_CASE (tidy_for_filename_test)
 	BOOST_CHECK_EQUAL (tidy_for_filename ("abcdefghï"), "abcdefghï");
 }
 
+BOOST_AUTO_TEST_CASE (utf8_strlen_test)
+{
+	BOOST_CHECK_EQUAL (utf8_strlen("hello world"), 11);
+	BOOST_CHECK_EQUAL (utf8_strlen("hëllo world"), 11);
+	BOOST_CHECK_EQUAL (utf8_strlen("hëłlo wørld"), 11);
+}
+
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 BOOST_AUTO_TEST_CASE (swaroop_chain_test)
 {
@@ -111,5 +118,4 @@ BOOST_AUTO_TEST_CASE (swaroop_chain_test)
 
 	BOOST_CHECK (cc->root_to_leaf() == back->root_to_leaf());
 }
-
 #endif

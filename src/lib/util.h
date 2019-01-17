@@ -100,6 +100,7 @@ extern boost::shared_ptr<AudioBuffers> remap (boost::shared_ptr<const AudioBuffe
 extern Eyes increment_eyes (Eyes e);
 extern void checked_fread (void* ptr, size_t size, FILE* stream, boost::filesystem::path path);
 extern void checked_fwrite (void const * ptr, size_t size, FILE* stream, boost::filesystem::path path);
+extern size_t utf8_strlen (std::string s);
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 extern boost::shared_ptr<dcp::CertificateChain> read_swaroop_chain (boost::filesystem::path path);
 extern void write_swaroop_chain (boost::shared_ptr<const dcp::CertificateChain> chain, boost::filesystem::path output);

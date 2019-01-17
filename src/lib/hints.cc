@@ -311,7 +311,7 @@ Hints::text (PlayerText text, TextType type, DCPTimePeriod period)
 
 	int lines = text.string.size();
 	BOOST_FOREACH (StringText i, text.string) {
-		if (i.text().length() > CLOSED_CAPTION_LENGTH) {
+		if (utf8_strlen(i.text()) > CLOSED_CAPTION_LENGTH) {
 			++lines;
 			if (!_long_ccap) {
 				_long_ccap = true;
