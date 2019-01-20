@@ -98,6 +98,14 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	written_by.Add (wxT ("Jianguo Huang"));
 	add_section (_("Written by"), written_by);
 
+	wxArrayString with_help_from;
+	with_help_from.Add (wxT ("David Vignoni"));
+	with_help_from.Add (wxT ("Dennis Couzin"));
+	with_help_from.Add (wxT ("Carsten Kurz"));
+	with_help_from.Add (wxT ("Gérald Maruccia"));
+	with_help_from.Add (wxT ("Julian van Mil"));
+	add_section (_("With help from"), with_help_from);
+
 	wxArrayString translated_by;
 	translated_by.Add (wxT ("Manuel AC"));
 	translated_by.Add (wxT ("Max Aeschlimann"));
@@ -130,14 +138,6 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	translated_by.Add (wxT ("Rov (若文)"));
 	translated_by.Add (wxT ("刘汉源"));
  	add_section (_("Translated by"), translated_by);
-
-	wxArrayString with_help_from;
-	with_help_from.Add (wxT ("David Vignoni"));
-	with_help_from.Add (wxT ("Dennis Couzin"));
-	with_help_from.Add (wxT ("Carsten Kurz"));
-	with_help_from.Add (wxT ("Gérald Maruccia"));
-	with_help_from.Add (wxT ("Julian van Mil"));
-	add_section (_("With help from"), with_help_from);
 
 	wxArrayString subscribers;
 	#include "subscribers.cc"
