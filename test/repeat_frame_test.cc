@@ -46,13 +46,13 @@ BOOST_AUTO_TEST_CASE (repeat_frame_test)
 	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/red_24.mp4"));
 	film->examine_and_add_content (c);
 
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	c->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 
 	film->set_video_frame_rate (48);
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Should be 32 frames of red */
 	check_dcp ("test/data/repeat_frame_test", film->dir (film->dcp_name ()));

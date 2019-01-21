@@ -34,11 +34,11 @@ BOOST_AUTO_TEST_CASE (image_content_fade_test)
 	shared_ptr<Film> film = new_test_film2 ("image_content_fade_test");
 	shared_ptr<Content> content = content_factory("test/data/flat_red.png").front();
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	content->video->set_fade_in (1);
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	check_dcp ("test/data/image_content_fade_test", film->dir(film->dcp_name()));
 }

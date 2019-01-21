@@ -68,7 +68,7 @@ BOOST_AUTO_TEST_CASE (player_silence_padding_test)
 	film->set_audio_channels (6);
 
 	film->examine_and_add_content (c);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	accumulated.reset (new AudioBuffers (film->audio_channels(), 0));
 
@@ -99,7 +99,7 @@ BOOST_AUTO_TEST_CASE (player_black_fill_test)
 
 	film->examine_and_add_content (contentA);
 	film->examine_and_add_content (contentB);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	contentA->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	contentA->video->set_length (3);
@@ -110,7 +110,7 @@ BOOST_AUTO_TEST_CASE (player_black_fill_test)
 
 	film->make_dcp ();
 
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	boost::filesystem::path ref;
 	ref = "test";

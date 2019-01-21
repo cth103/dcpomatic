@@ -63,9 +63,9 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_subrip)
 	content->subtitle->set_use (true);
 	content->subtitle->set_burn (true);
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	check_dcp ("test/data/burnt_subtitle_test_subrip", film->dir (film->dcp_name ()));
 }
@@ -80,9 +80,9 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_dcp)
 	shared_ptr<DCPTextContent> content (new DCPTextContent (film, "test/data/dcp_sub.xml"));
 	content->subtitle->set_use (true);
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	check_dcp ("test/data/burnt_subtitle_test_dcp", film->dir (film->dcp_name ()));
 }

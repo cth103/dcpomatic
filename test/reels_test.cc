@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_CASE (reels_test1)
 	film->examine_and_add_content (A);
 	shared_ptr<FFmpegContent> B (new FFmpegContent("test/data/test.mp4"));
 	film->examine_and_add_content (B);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	BOOST_CHECK_EQUAL (A->full_length(film).get(), 288000);
 
 	film->set_reel_type (REELTYPE_SINGLE);
@@ -97,29 +97,29 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	{
 		shared_ptr<ImageContent> c (new ImageContent("test/data/flat_red.png"));
 		film->examine_and_add_content (c);
-		wait_for_jobs ();
+		BOOST_REQUIRE (!wait_for_jobs());
 		c->video->set_length (24);
 	}
 
 	{
 		shared_ptr<ImageContent> c (new ImageContent("test/data/flat_green.png"));
 		film->examine_and_add_content (c);
-		wait_for_jobs ();
+		BOOST_REQUIRE (!wait_for_jobs());
 		c->video->set_length (24);
 	}
 
 	{
 		shared_ptr<ImageContent> c (new ImageContent("test/data/flat_blue.png"));
 		film->examine_and_add_content (c);
-		wait_for_jobs ();
+		BOOST_REQUIRE (!wait_for_jobs());
 		c->video->set_length (24);
 	}
 
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	check_dcp ("test/data/reels_test2", film->dir (film->dcp_name()));
 
@@ -149,7 +149,7 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	c->set_reference_audio (true);
 
 	film2->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 }
 
 /** Check that REELTYPE_BY_VIDEO_CONTENT adds an extra reel, if necessary, at the end
@@ -167,7 +167,7 @@ BOOST_AUTO_TEST_CASE (reels_test3)
 	film->examine_and_add_content (dcp);
 	shared_ptr<Content> sub (new StringTextFileContent("test/data/subrip.srt"));
 	film->examine_and_add_content (sub);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	list<DCPTimePeriod> reels = film->reels();
 	BOOST_REQUIRE_EQUAL (reels.size(), 4);
@@ -202,13 +202,13 @@ BOOST_AUTO_TEST_CASE (reels_test4)
 	for (int i = 0; i < 4; ++i) {
 		content[i].reset (new ImageContent("test/data/flat_green.png"));
 		film->examine_and_add_content (content[i]);
-		wait_for_jobs ();
+		BOOST_REQUIRE (!wait_for_jobs());
 		content[i]->video->set_length (24);
 	}
 
 	shared_ptr<StringTextFileContent> subs (new StringTextFileContent("test/data/subrip3.srt"));
 	film->examine_and_add_content (subs);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	list<DCPTimePeriod> reels = film->reels();
 	BOOST_REQUIRE_EQUAL (reels.size(), 4);
@@ -226,7 +226,7 @@ BOOST_AUTO_TEST_CASE (reels_test4)
 	BOOST_CHECK_EQUAL (i->to.get(), 96000 * 4);
 
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	check_dcp ("test/data/reels_test4", film->dir (film->dcp_name()));
 }

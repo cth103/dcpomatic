@@ -53,9 +53,9 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/test.mp4"));
 	A->examine_and_add_content (c);
 	A->set_encrypted (true);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	A->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	dcp::DCP A_dcp ("build/test/vf_kdm_test_ov/" + A->dcp_name());
 	A_dcp.read ();
@@ -85,9 +85,9 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 	d->set_reference_video (true);
 	B->examine_and_add_content (d);
 	B->set_encrypted (true);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	B->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	dcp::DCP B_dcp ("build/test/vf_kdm_test_vf/" + B->dcp_name());
 	B_dcp.read ();
@@ -116,9 +116,9 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 	e->add_kdm (B_kdm);
 	e->add_ov ("build/test/vf_kdm_test_ov/" + A->dcp_name());
 	C->examine_and_add_content (e);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	C->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Should be 1s red, 1s green, 1s blue */
 	check_dcp ("test/data/vf_kdm_test_check", "build/test/vf_kdm_test_check/" + C->dcp_name());

@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE (vf_test1)
 	film->set_interop (false);
 	shared_ptr<DCPContent> dcp (new DCPContent ("test/data/reels_test2"));
 	film->examine_and_add_content (dcp);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Multi-reel DCP can't be referenced if we are using a single reel for the project */
 	film->set_reel_type (REELTYPE_SINGLE);
@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_CASE (vf_test1)
 
 	shared_ptr<FFmpegContent> other (new FFmpegContent("test/data/test.mp4"));
 	film->examine_and_add_content (other);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Not possible if there is overlap */
 	other->set_position (film, DCPTime());
@@ -97,13 +97,13 @@ BOOST_AUTO_TEST_CASE (vf_test2)
 	ov->set_name ("vf_test2_ov");
 	shared_ptr<Content> video = content_factory ("test/data/flat_red.png").front();
 	ov->examine_and_add_content (video);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	video->video->set_length (24 * 5);
 	shared_ptr<Content> audio = content_factory ("test/data/white.wav").front();
 	ov->examine_and_add_content (audio);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	ov->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Make the VF */
 	shared_ptr<Film> vf = new_test_film ("vf_test2_vf");
@@ -113,14 +113,14 @@ BOOST_AUTO_TEST_CASE (vf_test2)
 	shared_ptr<DCPContent> dcp (new DCPContent(ov->dir (ov->dcp_name ())));
 	BOOST_REQUIRE (dcp);
 	vf->examine_and_add_content (dcp);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	dcp->set_reference_video (true);
 	dcp->set_reference_audio (true);
 	shared_ptr<Content> sub = content_factory("test/data/subrip4.srt").front();
 	vf->examine_and_add_content (sub);
-	DCPOMATIC_ASSERT (!wait_for_jobs ());
+	BOOST_REQUIRE (!wait_for_jobs());
 	vf->make_dcp ();
-	DCPOMATIC_ASSERT (!wait_for_jobs ());
+	BOOST_REQUIRE (!wait_for_jobs());
 	vf->write_metadata ();
 
 	dcp::DCP ov_c (ov->dir (ov->dcp_name ()));
@@ -155,13 +155,13 @@ BOOST_AUTO_TEST_CASE (vf_test3)
 	ov->set_name ("vf_test3_ov");
 	shared_ptr<Content> video = content_factory("test/data/flat_red.png").front();
 	ov->examine_and_add_content (video);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	video->video->set_length (24 * 5);
 	shared_ptr<Content> audio = content_factory("test/data/white.wav").front();
 	ov->examine_and_add_content (audio);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	ov->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Make the VF */
 	shared_ptr<Film> vf = new_test_film ("vf_test3_vf");
@@ -173,11 +173,11 @@ BOOST_AUTO_TEST_CASE (vf_test3)
 	dcp->set_trim_start (ContentTime::from_seconds (1));
 	dcp->set_trim_end (ContentTime::from_seconds (1));
 	vf->examine_and_add_content (dcp);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	dcp->set_reference_video (true);
 	dcp->set_reference_audio (true);
 	vf->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	vf->write_metadata ();
 
 	dcp::DCP vf_c (vf->dir (vf->dcp_name ()));
@@ -201,13 +201,13 @@ BOOST_AUTO_TEST_CASE (vf_test4)
 	ov->set_name ("vf_test4_ov");
 	shared_ptr<Content> video = content_factory("test/data/flat_red.png").front();
 	ov->examine_and_add_content (video);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	video->video->set_length (24 * 5);
 	shared_ptr<Content> audio = content_factory("test/data/white.wav").front();
 	ov->examine_and_add_content (audio);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	ov->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Make the VF */
 	shared_ptr<Film> vf = new_test_film ("vf_test4_vf");
@@ -218,17 +218,17 @@ BOOST_AUTO_TEST_CASE (vf_test4)
 	shared_ptr<DCPContent> dcp (new DCPContent(ov->dir(ov->dcp_name())));
 	BOOST_REQUIRE (dcp);
 	vf->examine_and_add_content (dcp);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	dcp->set_position(vf, DCPTime::from_seconds(10));
 	dcp->set_reference_video (true);
 	dcp->set_reference_audio (true);
 	shared_ptr<Content> more_video = content_factory("test/data/flat_red.png").front();
 	vf->examine_and_add_content (more_video);
-	DCPOMATIC_ASSERT (!wait_for_jobs ());
+	BOOST_REQUIRE (!wait_for_jobs());
 	more_video->set_position (vf, DCPTime());
 	vf->write_metadata ();
 	vf->make_dcp ();
-	DCPOMATIC_ASSERT (!wait_for_jobs ());
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	dcp::DCP ov_c (ov->dir (ov->dcp_name ()));
 	ov_c.read ();

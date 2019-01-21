@@ -52,11 +52,11 @@ test_silence_padding (int channels)
 
 	shared_ptr<FFmpegContent> content (new FFmpegContent("test/data/staircase.wav"));
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	film->set_audio_channels (channels);
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	boost::filesystem::path path = "build/test";
 	path /= film_name;

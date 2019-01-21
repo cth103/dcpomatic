@@ -54,9 +54,9 @@ BOOST_AUTO_TEST_CASE (video_mxf_content_test)
 	shared_ptr<VideoMXFContent> check = dynamic_pointer_cast<VideoMXFContent> (content);
 	BOOST_REQUIRE (check);
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	shared_ptr<dcp::MonoPictureAsset> ref (new dcp::MonoPictureAsset (ref_mxf));
 	boost::filesystem::directory_iterator i ("build/test/video_mxf_content_test/video");

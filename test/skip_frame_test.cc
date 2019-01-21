@@ -46,14 +46,14 @@ BOOST_AUTO_TEST_CASE (skip_frame_test)
 	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/count300bd48.m2ts"));
 	film->examine_and_add_content (c);
 
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	c->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	film->write_metadata ();
 
 	film->set_video_frame_rate (24);
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Should be white numbers on a black background counting up from 2 in steps of 2
 	   up to 300.

@@ -70,11 +70,11 @@ BOOST_AUTO_TEST_CASE (digest_test)
 	film->examine_and_add_content (g);
 	film->examine_and_add_content (b);
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	Config::instance()->set_master_encoding_threads (4);
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	Config::instance()->set_master_encoding_threads (1);
 
 	dcp::DCP dcp (film->dir (film->dcp_name ()));

@@ -38,7 +38,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_pts_offset_test)
 	shared_ptr<Film> film = new_test_film ("ffmpeg_pts_offset_test");
 	shared_ptr<FFmpegContent> content (new FFmpegContent ("test/data/test.mp4"));
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	content->audio.reset (new AudioContent (content.get()));
 	content->audio->add_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream));

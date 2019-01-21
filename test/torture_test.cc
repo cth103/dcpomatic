@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 	/* Staircase at an offset of 2000 samples, trimmed both start and end, with a gain of 6dB */
 	shared_ptr<Content> staircase = content_factory("test/data/staircase.wav").front ();
 	film->examine_and_add_content (staircase);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	staircase->set_position (film, DCPTime::from_frames (2000, film->audio_frame_rate()));
 	staircase->set_trim_start (ContentTime::from_frames (12, 48000));
 	staircase->set_trim_end (ContentTime::from_frames (35, 48000));
@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 	/* And again at an offset of 50000 samples, trimmed both start and end, with a gain of 6dB */
 	staircase = content_factory("test/data/staircase.wav").front ();
 	film->examine_and_add_content (staircase);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	staircase->set_position (film, DCPTime::from_frames(50000, film->audio_frame_rate()));
 	staircase->set_trim_start (ContentTime::from_frames (12, 48000));
 	staircase->set_trim_end (ContentTime::from_frames (35, 48000));
@@ -76,14 +76,14 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 	/* 1s of red at 5s in */
 	shared_ptr<Content> red = content_factory("test/data/flat_red.png").front ();
 	film->examine_and_add_content (red);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	red->set_position (film, DCPTime::from_seconds(5));
 	red->video->set_length (24);
 
 	film->set_video_frame_rate (24);
 	film->write_metadata ();
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	dcp::DCP dcp ("build/test/torture_test1/" + film->dcp_name(false));
 	dcp.read ();

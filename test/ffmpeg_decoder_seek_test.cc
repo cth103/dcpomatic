@@ -72,7 +72,7 @@ test (boost::filesystem::path file, vector<int> frames)
 	shared_ptr<Film> film = new_test_film ("ffmpeg_decoder_seek_test_" + file.string());
 	shared_ptr<FFmpegContent> content (new FFmpegContent (path));
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (film, content, false));
 	decoder->video->Data.connect (bind (&store, _1));
 

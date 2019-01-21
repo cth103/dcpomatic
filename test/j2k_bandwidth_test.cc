@@ -47,10 +47,10 @@ check (int target_bits_per_second)
 	film->set_j2k_bandwidth (target_bits_per_second);
 	shared_ptr<ImageContent> content (new ImageContent(private_data / "prophet_frame.tiff"));
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	content->video->set_length (24 * duration);
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	boost::filesystem::directory_iterator i (boost::filesystem::path ("build") / "test" / name / "video");
 	boost::filesystem::path test = *i++;

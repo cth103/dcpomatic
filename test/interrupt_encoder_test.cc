@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE (interrupt_encoder_test)
 
 	shared_ptr<FFmpegContent> content (new FFmpegContent(private_data / "prophet_long_clip.mkv"));
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	film->make_dcp ();
 

@@ -65,11 +65,11 @@ BOOST_AUTO_TEST_CASE (file_naming_test)
 	film->examine_and_add_content (g);
 	shared_ptr<FFmpegContent> b (new FFmpegContent("test/data/flat_blue.png"));
 	film->examine_and_add_content (b);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	int got[3] = { 0, 0, 0 };
 	for (
@@ -104,11 +104,11 @@ BOOST_AUTO_TEST_CASE (file_naming_test2)
 	film->examine_and_add_content (g);
 	shared_ptr<FFmpegContent> b (new FFmpegContent("test/data/flat_blue.png"));
 	film->examine_and_add_content (b);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	int got[3] = { 0, 0, 0 };
 	for (

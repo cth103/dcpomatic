@@ -48,12 +48,12 @@ BOOST_AUTO_TEST_CASE (fourk_test)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
 	film->examine_and_add_content (c);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	c->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	boost::filesystem::path p (test_film_dir ("4k_test"));
 	p /= film->dcp_name ();

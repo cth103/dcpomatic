@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE (audio_processor_test)
 	film->set_name ("audio_processor_test");
 	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/white.wav"));
 	film->examine_and_add_content (c);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	film->set_audio_channels (6);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
@@ -50,10 +50,10 @@ BOOST_AUTO_TEST_CASE (audio_processor_test)
 	/* Analyse the audio and check it doesn't crash */
 	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist(), false));
 	JobManager::instance()->add (job);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Make a DCP and check it */
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	check_dcp ("test/data/audio_processor_test", film->dir (film->dcp_name ()));
 }

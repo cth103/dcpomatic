@@ -49,12 +49,12 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test)
 	film->set_interop (false);
 	shared_ptr<StringTextFileContent> content (new StringTextFileContent("test/data/subrip2.srt"));
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Should be blank video with a subtitle MXF */
 	check_dcp ("test/data/srt_subtitle_test", film->dir (film->dcp_name ()));
@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test2)
 	film->set_interop (false);
 	shared_ptr<StringTextFileContent> content (new StringTextFileContent ("test/data/subrip2.srt"));
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test2)
 	content->only_text()->fonts().front()->set_file (FontFiles::NORMAL, "test/data/subrip2.srt");
 
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Should be blank video with a subtitle MXF */
 	check_dcp ("test/data/srt_subtitle_test2", film->dir (film->dcp_name ()));
@@ -106,13 +106,13 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 	film->set_audio_channels (6);
 	shared_ptr<StringTextFileContent> content (new StringTextFileContent(private_data / "Ankoemmling_short.srt"));
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
 
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	check_subtitle_file (film, private_data / "Ankoemmling_short.xml");
 }
@@ -129,9 +129,9 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test4)
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Should be blank video with MXF subtitles */
 	check_dcp ("test/data/xml_subtitle_test", film->dir (film->dcp_name ()));
@@ -151,10 +151,10 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test5)
 	content->only_text()->set_burn (false);
 	film->examine_and_add_content (content);
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	content->set_position (film, DCPTime());
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	film->write_metadata ();
 
 	check_dcp ("test/data/xml_subtitle_test2", film->dir (film->dcp_name ()));

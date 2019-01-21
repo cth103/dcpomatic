@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE (required_disk_space_test)
 	film->examine_and_add_content (content_a);
 	shared_ptr<DCPContent> content_b (new DCPContent("test/data/burnt_subtitle_test_dcp"));
 	film->examine_and_add_content (content_b);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	film->write_metadata ();
 
 	check_within_n (

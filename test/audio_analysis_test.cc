@@ -114,12 +114,12 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test)
 
 	shared_ptr<FFmpegContent> c (new FFmpegContent(p));
 	film->examine_and_add_content (c);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist(), false));
 	job->Finished.connect (boost::bind (&finished));
 	JobManager::instance()->add (job);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 }
 
 /** Check that audio analysis works (i.e. runs without error) with a -ve delay */
@@ -129,14 +129,14 @@ BOOST_AUTO_TEST_CASE (audio_analysis_negative_delay_test)
 	film->set_name ("audio_analysis_negative_delay_test");
 	shared_ptr<FFmpegContent> c (new FFmpegContent(private_data / "boon_telly.mkv"));
 	film->examine_and_add_content (c);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	c->audio->set_delay (-250);
 
 	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist(), false));
 	job->Finished.connect (boost::bind (&finished));
 	JobManager::instance()->add (job);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 }
 
 /** Check audio analysis that is incorrect in 2e98263 */
@@ -146,12 +146,12 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test2)
 	film->set_name ("audio_analysis_test2");
 	shared_ptr<FFmpegContent> c (new FFmpegContent(private_data / "3d_thx_broadway_2010_lossless.m2ts"));
 	film->examine_and_add_content (c);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist(), false));
 	job->Finished.connect (boost::bind (&finished));
 	JobManager::instance()->add (job);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 }
 
 
@@ -175,12 +175,12 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test3)
 
 	shared_ptr<FFmpegContent> content (new FFmpegContent("test/data/white.wav"));
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	film->set_audio_channels (12);
 	boost::signals2::connection connection;
 	JobManager::instance()->analyse_audio (film, film->playlist(), false, connection, boost::bind (&analysis_finished));
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	BOOST_CHECK (done);
 }
 
@@ -193,7 +193,7 @@ BOOST_AUTO_TEST_CASE (analyse_audio_test4)
 	film->set_name ("frobozz");
 	shared_ptr<Content> content = content_factory(private_data / "20 The Wedding Convoy Song.m4a").front();
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	shared_ptr<Playlist> playlist (new Playlist);
 	playlist->add (film, content);

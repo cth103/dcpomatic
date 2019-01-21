@@ -41,7 +41,7 @@ static void scaling_test_for (shared_ptr<Film> film, shared_ptr<Content> content
 	film->set_interop (false);
 	film->make_dcp ();
 
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	boost::filesystem::path ref;
 	ref = "test";
@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE (scaling_test)
 
 	film->examine_and_add_content (imc);
 
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	imc->video->set_length (1);
 

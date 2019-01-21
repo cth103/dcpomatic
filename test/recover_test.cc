@@ -57,10 +57,10 @@ BOOST_AUTO_TEST_CASE (recover_test_2d)
 
 	shared_ptr<FFmpegContent> content (new FFmpegContent("test/data/count300bd24.m2ts"));
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	boost::filesystem::path const video = "build/test/recover_test_2d/video/185_2K_84d36460538435d5d511ee533c8528df_24_100000000_P_S_0_1200000.mxf";
 	boost::filesystem::copy_file (
@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE (recover_test_2d)
 	boost::filesystem::resize_file (video, 2 * 1024 * 1024);
 
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	shared_ptr<dcp::MonoPictureAsset> A (new dcp::MonoPictureAsset ("build/test/recover_test_2d/original.mxf"));
 	shared_ptr<dcp::MonoPictureAsset> B (new dcp::MonoPictureAsset (video));
@@ -92,10 +92,10 @@ BOOST_AUTO_TEST_CASE (recover_test_3d)
 	shared_ptr<ImageContent> content (new ImageContent("test/data/3d_test"));
 	content->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT_RIGHT);
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	boost::filesystem::path const video = "build/test/recover_test_3d/video/185_2K_961f053444e90c5ddbf978eb0ebfa772_24_100000000_P_S_3D_0_96000.mxf";
 
@@ -107,7 +107,7 @@ BOOST_AUTO_TEST_CASE (recover_test_3d)
 	boost::filesystem::resize_file (video, 2 * 1024 * 1024);
 
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	shared_ptr<dcp::StereoPictureAsset> A (new dcp::StereoPictureAsset ("build/test/recover_test_3d/original.mxf"));
 	shared_ptr<dcp::StereoPictureAsset> B (new dcp::StereoPictureAsset (video));
@@ -128,10 +128,10 @@ BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted)
 
 	shared_ptr<FFmpegContent> content (new FFmpegContent("test/data/count300bd24.m2ts"));
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	boost::filesystem::path const video =
 		"build/test/recover_test_2d_encrypted/video/185_2K_84d36460538435d5d511ee533c8528df_24_100000000_E_S_0_1200000.mxf";
@@ -144,7 +144,7 @@ BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted)
 	boost::filesystem::resize_file (video, 2 * 1024 * 1024);
 
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	shared_ptr<dcp::MonoPictureAsset> A (new dcp::MonoPictureAsset ("build/test/recover_test_2d_encrypted/original.mxf"));
 	A->set_key (film->key ());

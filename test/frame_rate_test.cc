@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_single)
 	/* Get any piece of content, it doesn't matter what */
 	shared_ptr<FFmpegContent> content (new FFmpegContent("test/data/test.mp4"));
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Run some tests with a limited range of allowed rates */
 
@@ -226,7 +226,7 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_double)
 	film->examine_and_add_content (A);
 	shared_ptr<FFmpegContent> B (new FFmpegContent("test/data/test.mp4"));
 	film->examine_and_add_content (B);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Run some tests with a limited range of allowed rates */
 
@@ -255,7 +255,7 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 	/* Get any piece of content, it doesn't matter what */
 	shared_ptr<FFmpegContent> content (new FFmpegContent("test/data/test.mp4"));
 	film->examine_and_add_content (content);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	std::list<int> afr;
 	afr.push_back (24);

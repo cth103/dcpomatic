@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_CASE (empty_test1)
 
 	film->examine_and_add_content (contentA);
 	film->examine_and_add_content (contentB);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	int const vfr = film->video_frame_rate ();
 
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE (empty_test2)
 
 	film->examine_and_add_content (contentA);
 	film->examine_and_add_content (contentB);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	int const vfr = film->video_frame_rate ();
 

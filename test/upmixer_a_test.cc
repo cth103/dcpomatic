@@ -65,7 +65,7 @@ BOOST_AUTO_TEST_CASE (upmixer_a_test)
 	shared_ptr<FFmpegContent> content (new FFmpegContent ("test/data/white.wav"));
 	film->examine_and_add_content (content);
 
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	SF_INFO info;
 	info.samplerate = 48000;

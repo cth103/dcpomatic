@@ -74,12 +74,12 @@ test (boost::filesystem::path file)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	shared_ptr<FFmpegContent> c (new FFmpegContent(file));
 	film->examine_and_add_content (c);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	film->write_metadata ();
 
 	/* See if can make a DCP without any errors */
 	film->make_dcp ();
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 	BOOST_CHECK (!JobManager::instance()->errors());
 
 	/* Compare the audio data player reads with what libsndfile reads */
