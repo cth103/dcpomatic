@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_dcp_test)
 	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/test.mp4"));
 	film->examine_and_add_content (c);
 
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	c->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 
@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_dcp_test)
 	film->make_dcp ();
 	film->write_metadata ();
 
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs());
 }
 
 /** Briefly test Film::cpls().  Requires the output from ffmpeg_dcp_test above */
