@@ -69,6 +69,7 @@ void test_audio_delay (int delay_in_ms)
 	boost::filesystem::path path = "build/test";
 	path /= film_name;
 	path /= film->dcp_name ();
+	std::cout << "Loading " << path.string() << "\n";
 	dcp::DCP check (path.string ());
 	check.read ();
 
