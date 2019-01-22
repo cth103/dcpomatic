@@ -16,3 +16,8 @@ subtitle_alignment/dcp_4/info
 subtitle_alignment/dcp_4/log
 subtitle_alignment/dcp_4/video
 pixfmts
+*.dll
+text.png
+text
+text.exe
+LOCAL_APPDATA_FONTCONFIG_CACHE

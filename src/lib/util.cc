@@ -358,6 +358,11 @@ dcpomatic_setup ()
 
 	set_terminate (terminate);
 
+#ifdef DCPOMATIC_WINDOWS
+	putenv ("PANGOCAIRO_BACKEND=fontconfig");
+	putenv (String::compose("FONTCONFIG_PATH=%1", shared_path().string()).c_str());
+#endif
+
 	Pango::init ();
 	dcp::init ();
 
