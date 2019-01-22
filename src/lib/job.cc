@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -169,6 +169,12 @@ Job::run_wrapper ()
 	} catch (std::bad_alloc& e) {
 
 		set_error (_("Out of memory"), _("There was not enough memory to do this.  If you are running a 32-bit operating system try reducing the number of encoding threads in the General tab of Preferences."));
+		set_progress (1);
+		set_state (FINISHED_ERROR);
+
+	} catch (dcp::MissingAssetError& e) {
+
+		set_error (e.message(), e.path().string());
 		set_progress (1);
 		set_state (FINISHED_ERROR);
 
