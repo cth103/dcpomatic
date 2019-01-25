@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-12 21:18+0000\n"
+"POT-Creation-Date: 2019-01-25 00:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -142,11 +142,11 @@ msgstr ""
 msgid "8 - 5.1/HI/VI"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:100
+#: src/wx/subtitle_appearance_dialog.cc:107
 msgid "<b>New colour</b>"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:97
+#: src/wx/subtitle_appearance_dialog.cc:104
 msgid "<b>Original colour</b>"
 msgstr ""
 
@@ -441,7 +441,7 @@ msgstr ""
 msgid "Caption"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:46
+#: src/wx/subtitle_appearance_dialog.cc:49
 msgid "Caption appearance"
 msgstr ""
 
@@ -524,7 +524,7 @@ msgstr ""
 msgid "Closed captions"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:65
+#: src/wx/subtitle_appearance_dialog.cc:74
 msgid "Colour"
 msgstr ""
 
@@ -862,11 +862,11 @@ msgstr ""
 msgid "Edit..."
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:68
+#: src/wx/subtitle_appearance_dialog.cc:77
 msgid "Effect"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:71
+#: src/wx/subtitle_appearance_dialog.cc:80
 msgid "Effect colour"
 msgstr ""
 
@@ -939,7 +939,7 @@ msgstr ""
 msgid "Fade in"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:79
+#: src/wx/subtitle_appearance_dialog.cc:88
 msgid "Fade in time"
 msgstr ""
 
@@ -947,7 +947,7 @@ msgstr ""
 msgid "Fade out"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:82
+#: src/wx/subtitle_appearance_dialog.cc:91
 msgid "Fade out time"
 msgstr ""
 
@@ -975,6 +975,10 @@ msgstr ""
 
 #: src/wx/content_menu.cc:74
 msgid "Find missing..."
+msgstr ""
+
+#: src/wx/subtitle_appearance_dialog.cc:116
+msgid "Finding the colours in these subtitles..."
 msgstr ""
 
 #: src/wx/kdm_output_panel.cc:74
@@ -1366,14 +1370,6 @@ msgstr ""
 msgid "MP4 files (*.mp4)|*.mp4"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:776
-msgid "Mail password"
-msgstr ""
-
-#: src/wx/full_config_dialog.cc:772
-msgid "Mail user name"
-msgstr ""
-
 #: src/wx/hints_dialog.cc:67
 msgid "Make DCP"
 msgstr ""
@@ -1532,7 +1528,7 @@ msgid "No content found in this folder."
 msgstr ""
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:880 src/wx/subtitle_appearance_dialog.cc:130
+#: src/wx/dcp_panel.cc:880 src/wx/subtitle_appearance_dialog.cc:137
 #: src/wx/video_panel.cc:163 src/wx/video_panel.cc:168
 #: src/wx/video_panel.cc:347
 msgid "None"
@@ -1602,7 +1598,7 @@ msgstr ""
 msgid "Outgoing mail server"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:131
+#: src/wx/subtitle_appearance_dialog.cc:138
 msgid "Outline"
 msgstr ""
 
@@ -1610,11 +1606,11 @@ msgstr ""
 msgid "Outline content"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:74
+#: src/wx/subtitle_appearance_dialog.cc:83
 msgid "Outline width"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:295
+#: src/wx/subtitle_appearance_dialog.cc:302
 msgid "Outline width cannot be set unless you are burning in captions"
 msgstr ""
 
@@ -1634,7 +1630,7 @@ msgstr ""
 msgid "Overwrite this file with current configuration"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:671
+#: src/wx/full_config_dialog.cc:671 src/wx/full_config_dialog.cc:776
 msgid "Password"
 msgstr ""
 
@@ -1662,12 +1658,12 @@ msgstr ""
 msgid "Peak"
 msgstr ""
 
-#: src/wx/audio_panel.cc:371
+#: src/wx/audio_panel.cc:375
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr ""
 
-#: src/wx/audio_panel.cc:373
+#: src/wx/audio_panel.cc:377
 msgid "Peak: unknown"
 msgstr ""
 
@@ -1873,7 +1869,7 @@ msgstr ""
 msgid "Respect KDM validity periods"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:116
+#: src/wx/subtitle_appearance_dialog.cc:123
 msgid "Restore to original colours"
 msgstr ""
 
@@ -2063,11 +2059,11 @@ msgstr ""
 msgid "Set language"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:209
+#: src/wx/subtitle_appearance_dialog.cc:216
 msgid "Set to"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:132
+#: src/wx/subtitle_appearance_dialog.cc:139
 msgid "Shadow"
 msgstr ""
 
@@ -2220,6 +2216,14 @@ msgstr ""
 msgid "The 'until' time must be after the 'from' time."
 msgstr ""
 
+#: src/wx/verify_dcp_dialog.cc:91
+msgid "The PKL and CPL hashes disagree for a picture asset."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:100
+msgid "The PKL and CPL hashes disagree for a sound asset."
+msgstr ""
+
 #: src/wx/recreate_chain_dialog.cc:35
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
@@ -2247,6 +2251,30 @@ msgstr ""
 msgid ""
 "The file %s already exists.  Do you want to use it as your new configuration "
 "or overwrite it with your current configuration?"
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:79
+msgid ""
+"The hash of the CPL in the PKL does not agree with the CPL file.  This "
+"probably means that the CPL file is corrupt."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:86
+#, c-format
+msgid ""
+"The hash of the picture asset %s does not agree with the PKL file.  This "
+"probably means that the asset file is corrupt."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:95
+#, c-format
+msgid ""
+"The hash of the sound asset %s does not agree with the PKL file.  This "
+"probably means that the asset file is corrupt."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:82
+msgid "The picture in a reel has an invalid frame rate"
 msgstr ""
 
 #: src/wx/player_config_dialog.cc:358
@@ -2318,7 +2346,7 @@ msgstr ""
 msgid "Translate"
 msgstr ""
 
-#: src/wx/about_dialog.cc:132
+#: src/wx/about_dialog.cc:140
 msgid "Translated by"
 msgstr ""
 
@@ -2516,7 +2544,7 @@ msgstr ""
 msgid "Use this file as new configuration"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:667
+#: src/wx/full_config_dialog.cc:667 src/wx/full_config_dialog.cc:772
 msgid "User name"
 msgstr ""
 
@@ -2558,7 +2586,7 @@ msgstr ""
 msgid "White point adjustment"
 msgstr ""
 
-#: src/wx/about_dialog.cc:140
+#: src/wx/about_dialog.cc:107
 msgid "With help from"
 msgstr ""
 
@@ -2664,7 +2692,7 @@ msgid "certificates.barco.com password"
 msgstr ""
 
 #: src/wx/full_config_dialog.cc:968
-msgid "certificates.barco.com username"
+msgid "certificates.barco.com user name"
 msgstr ""
 
 #: src/wx/full_config_dialog.cc:980
@@ -2672,7 +2700,7 @@ msgid "certificates.christiedigital.com password"
 msgstr ""
 
 #: src/wx/full_config_dialog.cc:976
-msgid "certificates.christiedigital.com username"
+msgid "certificates.christiedigital.com user name"
 msgstr ""
 
 #: src/wx/text_panel.cc:75

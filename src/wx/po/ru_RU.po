@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-12 21:18+0000\n"
+"POT-Creation-Date: 2019-01-25 00:12+0000\n"
 "PO-Revision-Date: 2018-08-20 18:57+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -145,11 +145,11 @@ msgstr "6 - 5.1"
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/subtitle_appearance_dialog.cc:100
+#: src/wx/subtitle_appearance_dialog.cc:107
 msgid "<b>New colour</b>"
 msgstr "<b>Новый цвет</b>"
 
-#: src/wx/subtitle_appearance_dialog.cc:97
+#: src/wx/subtitle_appearance_dialog.cc:104
 msgid "<b>Original colour</b>"
 msgstr "<b>Исходный цвет</b>"
 
@@ -460,7 +460,7 @@ msgstr "Нельзя ссылаться на этот DCP: "
 msgid "Caption"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:46
+#: src/wx/subtitle_appearance_dialog.cc:49
 #, fuzzy
 msgid "Caption appearance"
 msgstr "Внешний вид субтитров"
@@ -546,7 +546,7 @@ msgstr ""
 msgid "Closed captions"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:65
+#: src/wx/subtitle_appearance_dialog.cc:74
 msgid "Colour"
 msgstr "Цвет"
 
@@ -890,11 +890,11 @@ msgstr "Редактировать экран"
 msgid "Edit..."
 msgstr "Редактировать..."
 
-#: src/wx/subtitle_appearance_dialog.cc:68
+#: src/wx/subtitle_appearance_dialog.cc:77
 msgid "Effect"
 msgstr "Эффект"
 
-#: src/wx/subtitle_appearance_dialog.cc:71
+#: src/wx/subtitle_appearance_dialog.cc:80
 msgid "Effect colour"
 msgstr "Цвет эффекта"
 
@@ -967,7 +967,7 @@ msgstr "Предприятие (напр. DLA)"
 msgid "Fade in"
 msgstr "Постепенное появление"
 
-#: src/wx/subtitle_appearance_dialog.cc:79
+#: src/wx/subtitle_appearance_dialog.cc:88
 msgid "Fade in time"
 msgstr "Время постепенного появления"
 
@@ -975,7 +975,7 @@ msgstr "Время постепенного появления"
 msgid "Fade out"
 msgstr "Постепенное затухание"
 
-#: src/wx/subtitle_appearance_dialog.cc:82
+#: src/wx/subtitle_appearance_dialog.cc:91
 msgid "Fade out time"
 msgstr "Время постепенного затухания"
 
@@ -1006,6 +1006,10 @@ msgstr ""
 #: src/wx/content_menu.cc:74
 msgid "Find missing..."
 msgstr "Найти отсутствующее..."
+
+#: src/wx/subtitle_appearance_dialog.cc:116
+msgid "Finding the colours in these subtitles..."
+msgstr ""
 
 #: src/wx/kdm_output_panel.cc:74
 msgid "Folder / ZIP name format"
@@ -1411,14 +1415,6 @@ msgstr "MP4 / H.264"
 msgid "MP4 files (*.mp4)|*.mp4"
 msgstr "MP4 файлы  (*.mp4)|*.mp4"
 
-#: src/wx/full_config_dialog.cc:776
-msgid "Mail password"
-msgstr "Пароль почты"
-
-#: src/wx/full_config_dialog.cc:772
-msgid "Mail user name"
-msgstr "Пользователь почты"
-
 #: src/wx/hints_dialog.cc:67
 #, fuzzy
 msgid "Make DCP"
@@ -1580,7 +1576,7 @@ msgid "No content found in this folder."
 msgstr "В данной папке не обнаружен контент."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:880 src/wx/subtitle_appearance_dialog.cc:130
+#: src/wx/dcp_panel.cc:880 src/wx/subtitle_appearance_dialog.cc:137
 #: src/wx/video_panel.cc:163 src/wx/video_panel.cc:168
 #: src/wx/video_panel.cc:347
 msgid "None"
@@ -1653,7 +1649,7 @@ msgstr "Иные доверенные устройства"
 msgid "Outgoing mail server"
 msgstr "Исходящий почтовый сервер"
 
-#: src/wx/subtitle_appearance_dialog.cc:131
+#: src/wx/subtitle_appearance_dialog.cc:138
 msgid "Outline"
 msgstr "Контур"
 
@@ -1661,11 +1657,11 @@ msgstr "Контур"
 msgid "Outline content"
 msgstr "Очертить контент"
 
-#: src/wx/subtitle_appearance_dialog.cc:74
+#: src/wx/subtitle_appearance_dialog.cc:83
 msgid "Outline width"
 msgstr "Ширина обводки"
 
-#: src/wx/subtitle_appearance_dialog.cc:295
+#: src/wx/subtitle_appearance_dialog.cc:302
 #, fuzzy
 msgid "Outline width cannot be set unless you are burning in captions"
 msgstr "Ширина обводки может быть установлена только для вшитых субтитров"
@@ -1686,7 +1682,7 @@ msgstr "Коррекция выходной гаммы"
 msgid "Overwrite this file with current configuration"
 msgstr "Перезаписать этот файл текущей конфиграцией"
 
-#: src/wx/full_config_dialog.cc:671
+#: src/wx/full_config_dialog.cc:671 src/wx/full_config_dialog.cc:776
 msgid "Password"
 msgstr "Пароль"
 
@@ -1715,12 +1711,12 @@ msgstr "Пазуа"
 msgid "Peak"
 msgstr "Вершина"
 
-#: src/wx/audio_panel.cc:371
+#: src/wx/audio_panel.cc:375
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr "Пиковая громкость %.2fдБ"
 
-#: src/wx/audio_panel.cc:373
+#: src/wx/audio_panel.cc:377
 msgid "Peak: unknown"
 msgstr "Пиковая громкость: неизвестна"
 
@@ -1930,7 +1926,7 @@ msgstr "Разрешение"
 msgid "Respect KDM validity periods"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:116
+#: src/wx/subtitle_appearance_dialog.cc:123
 msgid "Restore to original colours"
 msgstr "Восстановить исходные цвета"
 
@@ -2130,11 +2126,11 @@ msgstr "Выбрать системный шрифт..."
 msgid "Set language"
 msgstr "Выбрать язык"
 
-#: src/wx/subtitle_appearance_dialog.cc:209
+#: src/wx/subtitle_appearance_dialog.cc:216
 msgid "Set to"
 msgstr "Назначить"
 
-#: src/wx/subtitle_appearance_dialog.cc:132
+#: src/wx/subtitle_appearance_dialog.cc:139
 msgid "Shadow"
 msgstr "Тень"
 
@@ -2290,6 +2286,14 @@ msgstr "Тестирование"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "Время \"до\" должно быть после времени \"от\"."
 
+#: src/wx/verify_dcp_dialog.cc:91
+msgid "The PKL and CPL hashes disagree for a picture asset."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:100
+msgid "The PKL and CPL hashes disagree for a sound asset."
+msgstr ""
+
 #: src/wx/recreate_chain_dialog.cc:35
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
@@ -2327,6 +2331,30 @@ msgid ""
 msgstr ""
 "Файл %s уже существует. Вы хотите использовать его в качестве новой "
 "конфигурации или перезаписать его текущей конфигурацией?"
+
+#: src/wx/verify_dcp_dialog.cc:79
+msgid ""
+"The hash of the CPL in the PKL does not agree with the CPL file.  This "
+"probably means that the CPL file is corrupt."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:86
+#, c-format
+msgid ""
+"The hash of the picture asset %s does not agree with the PKL file.  This "
+"probably means that the asset file is corrupt."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:95
+#, c-format
+msgid ""
+"The hash of the sound asset %s does not agree with the PKL file.  This "
+"probably means that the asset file is corrupt."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:82
+msgid "The picture in a reel has an invalid frame rate"
+msgstr ""
 
 #: src/wx/player_config_dialog.cc:358
 #, fuzzy
@@ -2403,7 +2431,7 @@ msgstr ""
 msgid "Translate"
 msgstr "Перевод"
 
-#: src/wx/about_dialog.cc:132
+#: src/wx/about_dialog.cc:140
 msgid "Translated by"
 msgstr "Перевод"
 
@@ -2605,7 +2633,7 @@ msgstr "Использовать видео этого DCP как OV и сдел
 msgid "Use this file as new configuration"
 msgstr "Использовать этот файл как новую конфигурацию"
 
-#: src/wx/full_config_dialog.cc:667
+#: src/wx/full_config_dialog.cc:667 src/wx/full_config_dialog.cc:772
 msgid "User name"
 msgstr "Имя пользователя"
 
@@ -2648,7 +2676,7 @@ msgstr "Белая точка"
 msgid "White point adjustment"
 msgstr "Регулировка белой точки"
 
-#: src/wx/about_dialog.cc:140
+#: src/wx/about_dialog.cc:107
 msgid "With help from"
 msgstr "Помощь в разработке"
 
@@ -2765,7 +2793,7 @@ msgid "certificates.barco.com password"
 msgstr ""
 
 #: src/wx/full_config_dialog.cc:968
-msgid "certificates.barco.com username"
+msgid "certificates.barco.com user name"
 msgstr ""
 
 #: src/wx/full_config_dialog.cc:980
@@ -2773,7 +2801,7 @@ msgid "certificates.christiedigital.com password"
 msgstr ""
 
 #: src/wx/full_config_dialog.cc:976
-msgid "certificates.christiedigital.com username"
+msgid "certificates.christiedigital.com user name"
 msgstr ""
 
 #: src/wx/text_panel.cc:75
@@ -2875,6 +2903,12 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#~ msgid "Mail password"
+#~ msgstr "Пароль почты"
+
+#~ msgid "Mail user name"
+#~ msgstr "Пользователь почты"
 
 #, fuzzy
 #~ msgid "Add"

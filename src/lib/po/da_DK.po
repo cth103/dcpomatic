@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-12 21:18+0000\n"
+"POT-Creation-Date: 2019-01-25 00:12+0000\n"
 "PO-Revision-Date: 2017-10-04 21:45+0200\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -66,11 +66,11 @@ msgstr " (%.2f:1)"
 
 #. / TRANSLATORS: the %1 in this string will be filled in with a day of the week
 #. / to say what day a job will finish.
-#: src/lib/job.cc:446
+#: src/lib/job.cc:452
 msgid " on %1"
 msgstr " på %1"
 
-#: src/lib/config.cc:1126
+#: src/lib/config.cc:1148
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -92,7 +92,7 @@ msgstr ""
 "Længde: $LENGTH\n"
 "Størrelse: $SIZE\n"
 
-#: src/lib/config.cc:1104
+#: src/lib/config.cc:1126
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr ""
 
@@ -171,7 +171,7 @@ msgstr "3D-denoiser"
 msgid "; %.1f fps"
 msgstr "; %.1f bps"
 
-#: src/lib/job.cc:451
+#: src/lib/job.cc:457
 msgid "; %1 remaining; finishing at %2%3"
 msgstr "; %1 mangler; færdig ca %2%3"
 
@@ -287,19 +287,19 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bits per pixel"
 
-#: src/lib/util.cc:551
+#: src/lib/util.cc:556
 msgid "BsL"
 msgstr "BsV"
 
-#: src/lib/util.cc:552
+#: src/lib/util.cc:557
 msgid "BsR"
 msgstr "BsH"
 
-#: src/lib/util.cc:543
+#: src/lib/util.cc:548
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:460
+#: src/lib/job.cc:466
 msgid "Cancelled"
 msgstr "Annulleret"
 
@@ -316,7 +316,7 @@ msgstr "Kan ikke håndtere pixelformat %1 under %2"
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 
-#: src/lib/util.cc:512
+#: src/lib/util.cc:517
 msgid "Centre"
 msgstr "Center"
 
@@ -548,7 +548,7 @@ msgstr "Kunne ikke åbne downloadet ZIP-fil"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Kunne ikke åbne downloadet ZIP-fil"
 
-#: src/lib/config.cc:1007
+#: src/lib/config.cc:1029
 #, fuzzy
 msgid "Could not open file for writing"
 msgstr "kunne ikke åbne fil (%1) til skrivning (%2)"
@@ -569,19 +569,19 @@ msgstr "Kunne ikke starte overførsel"
 msgid "Could not write to remote file (%1)"
 msgstr "Kunne ikke skrive til fjernfil. (%1)"
 
-#: src/lib/util.cc:522
+#: src/lib/util.cc:527
 msgid "D-BOX primary"
 msgstr "primær D-BOX"
 
-#: src/lib/util.cc:523
+#: src/lib/util.cc:528
 msgid "D-BOX secondary"
 msgstr "sekundær D-BOX"
 
-#: src/lib/util.cc:553
+#: src/lib/util.cc:558
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:554
+#: src/lib/util.cc:559
 msgid "DBS"
 msgstr "DBS"
 
@@ -626,7 +626,7 @@ msgstr ""
 "DCP-o-matic understøtter ikke længere `%1'-filteret, så det er blevet slået "
 "fra."
 
-#: src/lib/config.cc:363 src/lib/config.cc:1101
+#: src/lib/config.cc:363 src/lib/config.cc:1123
 msgid "DCP-o-matic notification"
 msgstr ""
 
@@ -635,7 +635,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Sammenfletning (de-interlacing)"
 
-#: src/lib/config.cc:1089
+#: src/lib/config.cc:1111
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -708,7 +708,7 @@ msgstr "Kodning"
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Fejl i fil med undertekster: så %1 men forventede %2"
 
-#: src/lib/job.cc:458
+#: src/lib/job.cc:464
 msgid "Error: %1"
 msgstr "Fejl: %1"
 
@@ -720,6 +720,11 @@ msgstr ""
 #, fuzzy
 msgid "Examining content"
 msgstr "Undersøg indhold"
+
+#: src/lib/examine_ffmpeg_subtitles_job.cc:49
+#, fuzzy
+msgid "Examining subtitles"
+msgstr "Finder undertekster"
 
 #: src/lib/ffmpeg_content.cc:623
 msgid "FCC"
@@ -794,11 +799,11 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr ""
 
-#: src/lib/util.cc:547
+#: src/lib/util.cc:552
 msgid "HI"
 msgstr "HH"
 
-#: src/lib/util.cc:516
+#: src/lib/util.cc:521
 msgid "Hearing impaired"
 msgstr "Hørehæmmede"
 
@@ -840,7 +845,7 @@ msgstr "IEC61966-2-1 (sRGB eller sYCC)"
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/job.cc:147 src/lib/job.cc:191 src/lib/job.cc:201
+#: src/lib/job.cc:147 src/lib/job.cc:197 src/lib/job.cc:207
 msgid "It is not known what caused this error."
 msgstr "Det er uklart hvad der forårsagede denne fejl."
 
@@ -848,7 +853,7 @@ msgstr "Det er uklart hvad der forårsagede denne fejl."
 msgid "JEDEC P22"
 msgstr ""
 
-#: src/lib/config.cc:353 src/lib/config.cc:1086
+#: src/lib/config.cc:353 src/lib/config.cc:1108
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-levering: $CPL_NAME"
 
@@ -864,27 +869,27 @@ msgstr ""
 msgid "Kernel deinterlacer"
 msgstr "Kerne sammenfletter"
 
-#: src/lib/ffmpeg_encoder.cc:203 src/lib/util.cc:541
+#: src/lib/ffmpeg_encoder.cc:203 src/lib/util.cc:546
 msgid "L"
 msgstr "L"
 
-#: src/lib/util.cc:549
+#: src/lib/util.cc:554
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:510
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:515
 msgid "Left"
 msgstr "Venstre"
 
-#: src/lib/util.cc:518
+#: src/lib/util.cc:523
 msgid "Left centre"
 msgstr "Venstre center"
 
-#: src/lib/util.cc:520
+#: src/lib/util.cc:525
 msgid "Left rear surround"
 msgstr "Venstre bag surround"
 
-#: src/lib/util.cc:514
+#: src/lib/util.cc:519
 msgid "Left surround"
 msgstr "Venstre surround"
 
@@ -892,11 +897,11 @@ msgstr "Venstre surround"
 msgid "Length"
 msgstr "Længde"
 
-#: src/lib/util.cc:544
+#: src/lib/util.cc:549
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:513
+#: src/lib/util.cc:518
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
@@ -920,7 +925,7 @@ msgstr "Logaritmisk (100:1 range)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logaritmisk  (316:1 range)"
 
-#: src/lib/util.cc:545
+#: src/lib/util.cc:550
 msgid "Ls"
 msgstr "Ls"
 
@@ -989,7 +994,7 @@ msgstr "Støjreduktion"
 msgid "None"
 msgstr "Ingen"
 
-#: src/lib/job.cc:456
+#: src/lib/job.cc:462
 msgid "OK (ran for %1)"
 msgstr "OK (kørte i %1)"
 
@@ -1045,7 +1050,7 @@ msgstr "Programmerings fejl ved %1: %2 %3"
 msgid "Public Service Announcement"
 msgstr "Publikumsorientering (PSA)"
 
-#: src/lib/ffmpeg_encoder.cc:207 src/lib/util.cc:542
+#: src/lib/ffmpeg_encoder.cc:207 src/lib/util.cc:547
 msgid "R"
 msgstr ""
 
@@ -1057,7 +1062,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Censur"
 
-#: src/lib/util.cc:550
+#: src/lib/util.cc:555
 msgid "Rc"
 msgstr ""
 
@@ -1077,19 +1082,19 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:511
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:516
 msgid "Right"
 msgstr "Højre"
 
-#: src/lib/util.cc:519
+#: src/lib/util.cc:524
 msgid "Right centre"
 msgstr "Højre center"
 
-#: src/lib/util.cc:521
+#: src/lib/util.cc:526
 msgid "Right rear surround"
 msgstr "Højre bag surround"
 
-#: src/lib/util.cc:515
+#: src/lib/util.cc:520
 msgid "Right surround"
 msgstr "Højre surround"
 
@@ -1101,7 +1106,7 @@ msgstr ""
 msgid "Rotate 90 degrees clockwise"
 msgstr ""
 
-#: src/lib/util.cc:546
+#: src/lib/util.cc:551
 msgid "Rs"
 msgstr ""
 
@@ -1334,7 +1339,7 @@ msgstr "Uventet indhold af ZIP arkiv"
 msgid "Unexpected image type received by server"
 msgstr "Uventet billedtype modtaget af server"
 
-#: src/lib/job.cc:200
+#: src/lib/job.cc:206
 msgid "Unknown error"
 msgstr "Ukendt fejl"
 
@@ -1358,7 +1363,7 @@ msgstr "Uspecificeret"
 msgid "Untitled"
 msgstr "Uden titel"
 
-#: src/lib/util.cc:524 src/lib/util.cc:525
+#: src/lib/util.cc:529 src/lib/util.cc:530
 msgid "Unused"
 msgstr "Ubenyttet"
 
@@ -1370,7 +1375,7 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/util.cc:548
+#: src/lib/util.cc:553
 msgid "VI"
 msgstr ""
 
@@ -1382,7 +1387,7 @@ msgstr ""
 msgid "Vertical flip"
 msgstr ""
 
-#: src/lib/util.cc:517
+#: src/lib/util.cc:522
 msgid "Visually impaired"
 msgstr "Synshandicappet"
 
@@ -1772,9 +1777,6 @@ msgstr "videobilleder"
 
 #~ msgid "Finding length and subtitles"
 #~ msgstr "Finder længde og undertekster"
-
-#~ msgid "Finding subtitles"
-#~ msgstr "Finder undertekster"
 
 #~ msgid "Encoding picture and sound"
 #~ msgstr "Danner billede og lyd"

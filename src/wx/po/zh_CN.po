@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-12 21:18+0000\n"
+"POT-Creation-Date: 2019-01-25 00:12+0000\n"
 "PO-Revision-Date: 2018-04-05 20:48+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -154,11 +154,11 @@ msgstr "6声道—5.1声道"
 msgid "8 - 5.1/HI/VI"
 msgstr "8声道—5.1+听力障碍声道/视力障碍声道"
 
-#: src/wx/subtitle_appearance_dialog.cc:100
+#: src/wx/subtitle_appearance_dialog.cc:107
 msgid "<b>New colour</b>"
 msgstr "<b>新色彩空间</b>"
 
-#: src/wx/subtitle_appearance_dialog.cc:97
+#: src/wx/subtitle_appearance_dialog.cc:104
 msgid "<b>Original colour</b>"
 msgstr "<b>原色彩空间</b>"
 
@@ -462,7 +462,7 @@ msgstr "不能引用该DCP. "
 msgid "Caption"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:46
+#: src/wx/subtitle_appearance_dialog.cc:49
 #, fuzzy
 msgid "Caption appearance"
 msgstr "字幕外观"
@@ -546,7 +546,7 @@ msgstr "单击该按钮可将所有选定的内容为相同的值。"
 msgid "Closed captions"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:65
+#: src/wx/subtitle_appearance_dialog.cc:74
 msgid "Colour"
 msgstr "色彩空间"
 
@@ -890,11 +890,11 @@ msgstr "编辑放映厅服务器（证书）"
 msgid "Edit..."
 msgstr "编辑..."
 
-#: src/wx/subtitle_appearance_dialog.cc:68
+#: src/wx/subtitle_appearance_dialog.cc:77
 msgid "Effect"
 msgstr "效果"
 
-#: src/wx/subtitle_appearance_dialog.cc:71
+#: src/wx/subtitle_appearance_dialog.cc:80
 msgid "Effect colour"
 msgstr "效果颜色"
 
@@ -968,7 +968,7 @@ msgstr "设备(例如:DLA)"
 msgid "Fade in"
 msgstr "淡入"
 
-#: src/wx/subtitle_appearance_dialog.cc:79
+#: src/wx/subtitle_appearance_dialog.cc:88
 msgid "Fade in time"
 msgstr "淡入时间"
 
@@ -976,7 +976,7 @@ msgstr "淡入时间"
 msgid "Fade out"
 msgstr "淡出"
 
-#: src/wx/subtitle_appearance_dialog.cc:82
+#: src/wx/subtitle_appearance_dialog.cc:91
 msgid "Fade out time"
 msgstr "淡出时间"
 
@@ -1005,6 +1005,10 @@ msgstr "发现响度，峰值和响度范围不合标准"
 #: src/wx/content_menu.cc:74
 msgid "Find missing..."
 msgstr "查询失败..."
+
+#: src/wx/subtitle_appearance_dialog.cc:116
+msgid "Finding the colours in these subtitles..."
+msgstr ""
 
 #: src/wx/kdm_output_panel.cc:74
 msgid "Folder / ZIP name format"
@@ -1407,14 +1411,6 @@ msgstr "H.264"
 msgid "MP4 files (*.mp4)|*.mp4"
 msgstr "MP4 文件 (*.mp4)|*.mp4"
 
-#: src/wx/full_config_dialog.cc:776
-msgid "Mail password"
-msgstr "邮箱登录密码"
-
-#: src/wx/full_config_dialog.cc:772
-msgid "Mail user name"
-msgstr "邮箱用户名"
-
 #: src/wx/hints_dialog.cc:67
 #, fuzzy
 msgid "Make DCP"
@@ -1576,7 +1572,7 @@ msgid "No content found in this folder."
 msgstr "文件夹中没有找到文件."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:880 src/wx/subtitle_appearance_dialog.cc:130
+#: src/wx/dcp_panel.cc:880 src/wx/subtitle_appearance_dialog.cc:137
 #: src/wx/video_panel.cc:163 src/wx/video_panel.cc:168
 #: src/wx/video_panel.cc:347
 msgid "None"
@@ -1648,7 +1644,7 @@ msgstr "其它可信设备(服务器设备)"
 msgid "Outgoing mail server"
 msgstr "发送邮件服务器地址"
 
-#: src/wx/subtitle_appearance_dialog.cc:131
+#: src/wx/subtitle_appearance_dialog.cc:138
 msgid "Outline"
 msgstr "缩略视图"
 
@@ -1656,11 +1652,11 @@ msgstr "缩略视图"
 msgid "Outline content"
 msgstr "缩略视图内容"
 
-#: src/wx/subtitle_appearance_dialog.cc:74
+#: src/wx/subtitle_appearance_dialog.cc:83
 msgid "Outline width"
 msgstr "轮廓线宽度"
 
-#: src/wx/subtitle_appearance_dialog.cc:295
+#: src/wx/subtitle_appearance_dialog.cc:302
 #, fuzzy
 msgid "Outline width cannot be set unless you are burning in captions"
 msgstr "只有选择烧录字幕才能显示轮廓线"
@@ -1681,7 +1677,7 @@ msgstr "输出伽玛校正"
 msgid "Overwrite this file with current configuration"
 msgstr "使用正确的设置改写这个文件"
 
-#: src/wx/full_config_dialog.cc:671
+#: src/wx/full_config_dialog.cc:671 src/wx/full_config_dialog.cc:776
 msgid "Password"
 msgstr "密码"
 
@@ -1710,12 +1706,12 @@ msgstr "暂停"
 msgid "Peak"
 msgstr "最佳"
 
-#: src/wx/audio_panel.cc:371
+#: src/wx/audio_panel.cc:375
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr "最佳值 %.2fdB"
 
-#: src/wx/audio_panel.cc:373
+#: src/wx/audio_panel.cc:377
 msgid "Peak: unknown"
 msgstr "最佳值: 未知"
 
@@ -1923,7 +1919,7 @@ msgstr "解析度"
 msgid "Respect KDM validity periods"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:116
+#: src/wx/subtitle_appearance_dialog.cc:123
 msgid "Restore to original colours"
 msgstr "恢复为原始色彩"
 
@@ -2123,11 +2119,11 @@ msgstr "使用系统字体…"
 msgid "Set language"
 msgstr "设置语言"
 
-#: src/wx/subtitle_appearance_dialog.cc:209
+#: src/wx/subtitle_appearance_dialog.cc:216
 msgid "Set to"
 msgstr "设置为"
 
-#: src/wx/subtitle_appearance_dialog.cc:132
+#: src/wx/subtitle_appearance_dialog.cc:139
 msgid "Shadow"
 msgstr "字幕阴影"
 
@@ -2283,6 +2279,14 @@ msgstr "测试"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "结束时间必须大于开始时间."
 
+#: src/wx/verify_dcp_dialog.cc:91
+msgid "The PKL and CPL hashes disagree for a picture asset."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:100
+msgid "The PKL and CPL hashes disagree for a sound asset."
+msgstr ""
+
 #: src/wx/recreate_chain_dialog.cc:35
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
@@ -2313,6 +2317,30 @@ msgid ""
 "The file %s already exists.  Do you want to use it as your new configuration "
 "or overwrite it with your current configuration?"
 msgstr "文件 %s 已经存在. 您希望将它作为新设置或是用现有设置覆盖他?"
+
+#: src/wx/verify_dcp_dialog.cc:79
+msgid ""
+"The hash of the CPL in the PKL does not agree with the CPL file.  This "
+"probably means that the CPL file is corrupt."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:86
+#, c-format
+msgid ""
+"The hash of the picture asset %s does not agree with the PKL file.  This "
+"probably means that the asset file is corrupt."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:95
+#, c-format
+msgid ""
+"The hash of the sound asset %s does not agree with the PKL file.  This "
+"probably means that the asset file is corrupt."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:82
+msgid "The picture in a reel has an invalid frame rate"
+msgstr ""
 
 #: src/wx/player_config_dialog.cc:358
 #, fuzzy
@@ -2388,7 +2416,7 @@ msgstr ""
 msgid "Translate"
 msgstr "翻译"
 
-#: src/wx/about_dialog.cc:132
+#: src/wx/about_dialog.cc:140
 msgid "Translated by"
 msgstr "翻译"
 
@@ -2590,7 +2618,7 @@ msgstr "将此DCP中的视频作为OV然后制作VF"
 msgid "Use this file as new configuration"
 msgstr "将这个文件作为新设置"
 
-#: src/wx/full_config_dialog.cc:667
+#: src/wx/full_config_dialog.cc:667 src/wx/full_config_dialog.cc:772
 msgid "User name"
 msgstr "用户名"
 
@@ -2633,7 +2661,7 @@ msgstr "白点"
 msgid "White point adjustment"
 msgstr "白点调整"
 
-#: src/wx/about_dialog.cc:140
+#: src/wx/about_dialog.cc:107
 msgid "With help from"
 msgstr "帮助"
 
@@ -2742,7 +2770,7 @@ msgid "certificates.barco.com password"
 msgstr ""
 
 #: src/wx/full_config_dialog.cc:968
-msgid "certificates.barco.com username"
+msgid "certificates.barco.com user name"
 msgstr ""
 
 #: src/wx/full_config_dialog.cc:980
@@ -2750,7 +2778,7 @@ msgid "certificates.christiedigital.com password"
 msgstr ""
 
 #: src/wx/full_config_dialog.cc:976
-msgid "certificates.christiedigital.com username"
+msgid "certificates.christiedigital.com user name"
 msgstr ""
 
 #: src/wx/text_panel.cc:75
@@ -2852,6 +2880,12 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#~ msgid "Mail password"
+#~ msgstr "邮箱登录密码"
+
+#~ msgid "Mail user name"
+#~ msgstr "邮箱用户名"
 
 #, fuzzy
 #~ msgid "Add"

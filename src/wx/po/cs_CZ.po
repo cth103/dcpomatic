@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-12 21:18+0000\n"
+"POT-Creation-Date: 2019-01-25 00:12+0000\n"
 "PO-Revision-Date: 2018-09-07 09:29+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -147,11 +147,11 @@ msgstr "6 - 5.1"
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/subtitle_appearance_dialog.cc:100
+#: src/wx/subtitle_appearance_dialog.cc:107
 msgid "<b>New colour</b>"
 msgstr "<b>Nová barva</b>"
 
-#: src/wx/subtitle_appearance_dialog.cc:97
+#: src/wx/subtitle_appearance_dialog.cc:104
 msgid "<b>Original colour</b>"
 msgstr "<b>Původní barva</b>"
 
@@ -457,7 +457,7 @@ msgstr "Není možné odkazovat na toto DCP:"
 msgid "Caption"
 msgstr "Nadpis"
 
-#: src/wx/subtitle_appearance_dialog.cc:46
+#: src/wx/subtitle_appearance_dialog.cc:49
 msgid "Caption appearance"
 msgstr "Vzhled titulků"
 
@@ -540,7 +540,7 @@ msgstr "Kliknutím na tlačítko nastavíte veškerý obsah na stejné hodnoty."
 msgid "Closed captions"
 msgstr "Skryté titulky"
 
-#: src/wx/subtitle_appearance_dialog.cc:65
+#: src/wx/subtitle_appearance_dialog.cc:74
 msgid "Colour"
 msgstr "Barva"
 
@@ -882,11 +882,11 @@ msgstr "Upravit obraz"
 msgid "Edit..."
 msgstr "Upravit…"
 
-#: src/wx/subtitle_appearance_dialog.cc:68
+#: src/wx/subtitle_appearance_dialog.cc:77
 msgid "Effect"
 msgstr "Efekt"
 
-#: src/wx/subtitle_appearance_dialog.cc:71
+#: src/wx/subtitle_appearance_dialog.cc:80
 msgid "Effect colour"
 msgstr "Barva efektu"
 
@@ -959,7 +959,7 @@ msgstr "Studio (např. DLA)"
 msgid "Fade in"
 msgstr "Postupný náběh (Fade in)"
 
-#: src/wx/subtitle_appearance_dialog.cc:79
+#: src/wx/subtitle_appearance_dialog.cc:88
 msgid "Fade in time"
 msgstr "Postupný náběh v čase (Fade in)"
 
@@ -967,7 +967,7 @@ msgstr "Postupný náběh v čase (Fade in)"
 msgid "Fade out"
 msgstr "Postupné zeslabení (Fade out)"
 
-#: src/wx/subtitle_appearance_dialog.cc:82
+#: src/wx/subtitle_appearance_dialog.cc:91
 msgid "Fade out time"
 msgstr "Postupné zeslabení v čase (Fade out)"
 
@@ -998,6 +998,10 @@ msgstr ""
 #: src/wx/content_menu.cc:74
 msgid "Find missing..."
 msgstr "Najít chybějící…"
+
+#: src/wx/subtitle_appearance_dialog.cc:116
+msgid "Finding the colours in these subtitles..."
+msgstr ""
 
 #: src/wx/kdm_output_panel.cc:74
 msgid "Folder / ZIP name format"
@@ -1400,14 +1404,6 @@ msgstr "MP4 / H.264"
 msgid "MP4 files (*.mp4)|*.mp4"
 msgstr "MP4 soubor (*.mp4)|*.mp4"
 
-#: src/wx/full_config_dialog.cc:776
-msgid "Mail password"
-msgstr "Heslo k emailu"
-
-#: src/wx/full_config_dialog.cc:772
-msgid "Mail user name"
-msgstr "Přihlašovací jméno k emailu"
-
 #: src/wx/hints_dialog.cc:67
 msgid "Make DCP"
 msgstr "Vytvořit DCP"
@@ -1574,7 +1570,7 @@ msgid "No content found in this folder."
 msgstr "Žádný obsah nebyl ve složce nalezen."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:880 src/wx/subtitle_appearance_dialog.cc:130
+#: src/wx/dcp_panel.cc:880 src/wx/subtitle_appearance_dialog.cc:137
 #: src/wx/video_panel.cc:163 src/wx/video_panel.cc:168
 #: src/wx/video_panel.cc:347
 msgid "None"
@@ -1644,7 +1640,7 @@ msgstr "Jiné důvěryhodné zařízení"
 msgid "Outgoing mail server"
 msgstr "Server odchozí pošty"
 
-#: src/wx/subtitle_appearance_dialog.cc:131
+#: src/wx/subtitle_appearance_dialog.cc:138
 msgid "Outline"
 msgstr "Orámovaní"
 
@@ -1652,11 +1648,11 @@ msgstr "Orámovaní"
 msgid "Outline content"
 msgstr "Orámovat obsah"
 
-#: src/wx/subtitle_appearance_dialog.cc:74
+#: src/wx/subtitle_appearance_dialog.cc:83
 msgid "Outline width"
 msgstr "Šířka orámování"
 
-#: src/wx/subtitle_appearance_dialog.cc:295
+#: src/wx/subtitle_appearance_dialog.cc:302
 msgid "Outline width cannot be set unless you are burning in captions"
 msgstr "Šířku obrysu nelze nastavit, pokud nepoužíváte titulky"
 
@@ -1676,7 +1672,7 @@ msgstr "Ziel-Gamma Anpassung"
 msgid "Overwrite this file with current configuration"
 msgstr "Přepsat tento soubor aktuální konfigurací"
 
-#: src/wx/full_config_dialog.cc:671
+#: src/wx/full_config_dialog.cc:671 src/wx/full_config_dialog.cc:776
 msgid "Password"
 msgstr "Heslo"
 
@@ -1704,12 +1700,12 @@ msgstr "Pauza"
 msgid "Peak"
 msgstr "Maximum"
 
-#: src/wx/audio_panel.cc:371
+#: src/wx/audio_panel.cc:375
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr "Maximum: %.2fdB"
 
-#: src/wx/audio_panel.cc:373
+#: src/wx/audio_panel.cc:377
 msgid "Peak: unknown"
 msgstr "Maximum: neznámy"
 
@@ -1919,7 +1915,7 @@ msgstr "Rozlišení"
 msgid "Respect KDM validity periods"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:116
+#: src/wx/subtitle_appearance_dialog.cc:123
 msgid "Restore to original colours"
 msgstr "Obnovit na originální barvy"
 
@@ -2115,11 +2111,11 @@ msgstr "Nastavit ze systémového písma…"
 msgid "Set language"
 msgstr "Nastavit jazyk"
 
-#: src/wx/subtitle_appearance_dialog.cc:209
+#: src/wx/subtitle_appearance_dialog.cc:216
 msgid "Set to"
 msgstr "Nastaven na"
 
-#: src/wx/subtitle_appearance_dialog.cc:132
+#: src/wx/subtitle_appearance_dialog.cc:139
 msgid "Shadow"
 msgstr "Stín"
 
@@ -2274,6 +2270,14 @@ msgstr "Testeři"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "Čas 'do' musí být po čase 'od’."
 
+#: src/wx/verify_dcp_dialog.cc:91
+msgid "The PKL and CPL hashes disagree for a picture asset."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:100
+msgid "The PKL and CPL hashes disagree for a sound asset."
+msgstr ""
+
 #: src/wx/recreate_chain_dialog.cc:35
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
@@ -2311,6 +2315,30 @@ msgid ""
 msgstr ""
 "Soubor % s již existuje. Chcete jej použít jako novou konfiguraci nebo jej "
 "přepsat s aktuální konfigurací?"
+
+#: src/wx/verify_dcp_dialog.cc:79
+msgid ""
+"The hash of the CPL in the PKL does not agree with the CPL file.  This "
+"probably means that the CPL file is corrupt."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:86
+#, c-format
+msgid ""
+"The hash of the picture asset %s does not agree with the PKL file.  This "
+"probably means that the asset file is corrupt."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:95
+#, c-format
+msgid ""
+"The hash of the sound asset %s does not agree with the PKL file.  This "
+"probably means that the asset file is corrupt."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:82
+msgid "The picture in a reel has an invalid frame rate"
+msgstr ""
 
 #: src/wx/player_config_dialog.cc:358
 #, fuzzy
@@ -2386,7 +2414,7 @@ msgstr "Oben beschneiden"
 msgid "Translate"
 msgstr "Přeložil"
 
-#: src/wx/about_dialog.cc:132
+#: src/wx/about_dialog.cc:140
 msgid "Translated by"
 msgstr "Přeložil"
 
@@ -2586,7 +2614,7 @@ msgstr "Použijte video DCP jako OV a vytvořte VF"
 msgid "Use this file as new configuration"
 msgstr "Použí tento soubor jako novou konfiguraci"
 
-#: src/wx/full_config_dialog.cc:667
+#: src/wx/full_config_dialog.cc:667 src/wx/full_config_dialog.cc:772
 msgid "User name"
 msgstr "Uživatelské jméno"
 
@@ -2629,7 +2657,7 @@ msgstr "Bílý bod"
 msgid "White point adjustment"
 msgstr "Nastavení bíleho bodu"
 
-#: src/wx/about_dialog.cc:140
+#: src/wx/about_dialog.cc:107
 msgid "With help from"
 msgstr "S pomocí"
 
@@ -2744,7 +2772,8 @@ msgid "certificates.barco.com password"
 msgstr "certificates.barco.com heslo"
 
 #: src/wx/full_config_dialog.cc:968
-msgid "certificates.barco.com username"
+#, fuzzy
+msgid "certificates.barco.com user name"
 msgstr "certificates.barco.com uživatelské jméno"
 
 #: src/wx/full_config_dialog.cc:980
@@ -2752,7 +2781,8 @@ msgid "certificates.christiedigital.com password"
 msgstr "certificates.christiedigital.com heslo"
 
 #: src/wx/full_config_dialog.cc:976
-msgid "certificates.christiedigital.com username"
+#, fuzzy
+msgid "certificates.christiedigital.com user name"
 msgstr "certificates.christiedigital.com uživatelské jméno"
 
 #: src/wx/text_panel.cc:75
@@ -2853,6 +2883,12 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#~ msgid "Mail password"
+#~ msgstr "Heslo k emailu"
+
+#~ msgid "Mail user name"
+#~ msgstr "Přihlašovací jméno k emailu"
 
 #, fuzzy
 #~ msgid "Add"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-12 21:18+0000\n"
+"POT-Creation-Date: 2019-01-25 00:12+0000\n"
 "PO-Revision-Date: 2019-01-13 18:07+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -149,11 +149,11 @@ msgstr "6 - 5.1"
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/subtitle_appearance_dialog.cc:100
+#: src/wx/subtitle_appearance_dialog.cc:107
 msgid "<b>New colour</b>"
 msgstr "<b>Nouvelle Colorimétrie</b>"
 
-#: src/wx/subtitle_appearance_dialog.cc:97
+#: src/wx/subtitle_appearance_dialog.cc:104
 msgid "<b>Original colour</b>"
 msgstr "<b>Colorimétrie originale</b>"
 
@@ -474,7 +474,7 @@ msgstr "Ne peut se référer à ce DCP"
 msgid "Caption"
 msgstr "Sous-titrage"
 
-#: src/wx/subtitle_appearance_dialog.cc:46
+#: src/wx/subtitle_appearance_dialog.cc:49
 msgid "Caption appearance"
 msgstr "Apparence sous-titres"
 
@@ -559,7 +559,7 @@ msgstr ""
 msgid "Closed captions"
 msgstr "Sous-titres codés"
 
-#: src/wx/subtitle_appearance_dialog.cc:65
+#: src/wx/subtitle_appearance_dialog.cc:74
 msgid "Colour"
 msgstr "Couleur"
 
@@ -899,11 +899,11 @@ msgstr "Modifier Salle"
 msgid "Edit..."
 msgstr "Éditer..."
 
-#: src/wx/subtitle_appearance_dialog.cc:68
+#: src/wx/subtitle_appearance_dialog.cc:77
 msgid "Effect"
 msgstr "Effet"
 
-#: src/wx/subtitle_appearance_dialog.cc:71
+#: src/wx/subtitle_appearance_dialog.cc:80
 msgid "Effect colour"
 msgstr "Couleur de l'effet"
 
@@ -976,7 +976,7 @@ msgstr "Laboratoire (ex. DLA)"
 msgid "Fade in"
 msgstr "Fondu début"
 
-#: src/wx/subtitle_appearance_dialog.cc:79
+#: src/wx/subtitle_appearance_dialog.cc:88
 msgid "Fade in time"
 msgstr "Durée Fondu début"
 
@@ -984,7 +984,7 @@ msgstr "Durée Fondu début"
 msgid "Fade out"
 msgstr "Fondu fin"
 
-#: src/wx/subtitle_appearance_dialog.cc:82
+#: src/wx/subtitle_appearance_dialog.cc:91
 msgid "Fade out time"
 msgstr "Durée Fondu fin"
 
@@ -1015,6 +1015,10 @@ msgstr ""
 #: src/wx/content_menu.cc:74
 msgid "Find missing..."
 msgstr "Recherche de l'élément manquant..."
+
+#: src/wx/subtitle_appearance_dialog.cc:116
+msgid "Finding the colours in these subtitles..."
+msgstr ""
 
 #: src/wx/kdm_output_panel.cc:74
 msgid "Folder / ZIP name format"
@@ -1410,14 +1414,6 @@ msgstr "MP4 / H.264"
 msgid "MP4 files (*.mp4)|*.mp4"
 msgstr "Fichiers MP4 (*.mp4)|*.mp4"
 
-#: src/wx/full_config_dialog.cc:776
-msgid "Mail password"
-msgstr "Mot de passe Mail"
-
-#: src/wx/full_config_dialog.cc:772
-msgid "Mail user name"
-msgstr "Nom Utilisateur Mail"
-
 #: src/wx/hints_dialog.cc:67
 msgid "Make DCP"
 msgstr "Faire DCP"
@@ -1582,7 +1578,7 @@ msgid "No content found in this folder."
 msgstr "Aucun contenu trouvé dans ce répertoire"
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:880 src/wx/subtitle_appearance_dialog.cc:130
+#: src/wx/dcp_panel.cc:880 src/wx/subtitle_appearance_dialog.cc:137
 #: src/wx/video_panel.cc:163 src/wx/video_panel.cc:168
 #: src/wx/video_panel.cc:347
 msgid "None"
@@ -1653,7 +1649,7 @@ msgstr "Autres périphériques de confiance"
 msgid "Outgoing mail server"
 msgstr "Serveurs de messagerie sortant"
 
-#: src/wx/subtitle_appearance_dialog.cc:131
+#: src/wx/subtitle_appearance_dialog.cc:138
 msgid "Outline"
 msgstr "Contours"
 
@@ -1661,11 +1657,11 @@ msgstr "Contours"
 msgid "Outline content"
 msgstr "contours image"
 
-#: src/wx/subtitle_appearance_dialog.cc:74
+#: src/wx/subtitle_appearance_dialog.cc:83
 msgid "Outline width"
 msgstr "Taille des contours"
 
-#: src/wx/subtitle_appearance_dialog.cc:295
+#: src/wx/subtitle_appearance_dialog.cc:302
 msgid "Outline width cannot be set unless you are burning in captions"
 msgstr ""
 "L'epaisseur du contour ne peut être réglée si vous n'incrustez pas les sous-"
@@ -1687,7 +1683,7 @@ msgstr "Correction gamma de sortie"
 msgid "Overwrite this file with current configuration"
 msgstr "Ecraser ce fichier avec la nouvelle configuration"
 
-#: src/wx/full_config_dialog.cc:671
+#: src/wx/full_config_dialog.cc:671 src/wx/full_config_dialog.cc:776
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -1715,12 +1711,12 @@ msgstr "Pause"
 msgid "Peak"
 msgstr "Crête"
 
-#: src/wx/audio_panel.cc:371
+#: src/wx/audio_panel.cc:375
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr "Crête: %.2fdB"
 
-#: src/wx/audio_panel.cc:373
+#: src/wx/audio_panel.cc:377
 msgid "Peak: unknown"
 msgstr "Crête: inconnue"
 
@@ -1928,7 +1924,7 @@ msgstr "Résolution"
 msgid "Respect KDM validity periods"
 msgstr "Respecter les périodes de validité des KDM"
 
-#: src/wx/subtitle_appearance_dialog.cc:116
+#: src/wx/subtitle_appearance_dialog.cc:123
 msgid "Restore to original colours"
 msgstr "Rétablir Couleurs originelles"
 
@@ -2118,11 +2114,11 @@ msgstr "Choisir une police système..."
 msgid "Set language"
 msgstr "Sélectionnez la langue"
 
-#: src/wx/subtitle_appearance_dialog.cc:209
+#: src/wx/subtitle_appearance_dialog.cc:216
 msgid "Set to"
 msgstr "Régler à"
 
-#: src/wx/subtitle_appearance_dialog.cc:132
+#: src/wx/subtitle_appearance_dialog.cc:139
 msgid "Shadow"
 msgstr "Ombre"
 
@@ -2275,6 +2271,14 @@ msgstr "Testé par"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "la date de fin doit logiquement être plus tardive que la date de début"
 
+#: src/wx/verify_dcp_dialog.cc:91
+msgid "The PKL and CPL hashes disagree for a picture asset."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:100
+msgid "The PKL and CPL hashes disagree for a sound asset."
+msgstr ""
+
 #: src/wx/recreate_chain_dialog.cc:35
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
@@ -2315,6 +2319,30 @@ msgid ""
 msgstr ""
 "Ce fichier %s existe déjà.  Souhaitez vous l'utiliser comme configuration ou "
 "l'écraser avec la configuration en cours?"
+
+#: src/wx/verify_dcp_dialog.cc:79
+msgid ""
+"The hash of the CPL in the PKL does not agree with the CPL file.  This "
+"probably means that the CPL file is corrupt."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:86
+#, c-format
+msgid ""
+"The hash of the picture asset %s does not agree with the PKL file.  This "
+"probably means that the asset file is corrupt."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:95
+#, c-format
+msgid ""
+"The hash of the sound asset %s does not agree with the PKL file.  This "
+"probably means that the asset file is corrupt."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:82
+msgid "The picture in a reel has an invalid frame rate"
+msgstr ""
 
 #: src/wx/player_config_dialog.cc:358
 msgid "Theatre name"
@@ -2387,7 +2415,7 @@ msgstr "Découpe haute"
 msgid "Translate"
 msgstr "Traduire"
 
-#: src/wx/about_dialog.cc:132
+#: src/wx/about_dialog.cc:140
 msgid "Translated by"
 msgstr "Traduit par"
 
@@ -2585,7 +2613,7 @@ msgstr "Utiliser la vidéo de ce DCP comme OV et faire un VF"
 msgid "Use this file as new configuration"
 msgstr "Utiliser ce fichier comme nouvelle configuration"
 
-#: src/wx/full_config_dialog.cc:667
+#: src/wx/full_config_dialog.cc:667 src/wx/full_config_dialog.cc:772
 msgid "User name"
 msgstr "Nom d'utilisateur"
 
@@ -2627,7 +2655,7 @@ msgstr "Valeur de Blanc"
 msgid "White point adjustment"
 msgstr "Ajustement valeur de blanc"
 
-#: src/wx/about_dialog.cc:140
+#: src/wx/about_dialog.cc:107
 msgid "With help from"
 msgstr "avec l'aide de"
 
@@ -2741,7 +2769,8 @@ msgid "certificates.barco.com password"
 msgstr "Mot de passe certificates.barco.com"
 
 #: src/wx/full_config_dialog.cc:968
-msgid "certificates.barco.com username"
+#, fuzzy
+msgid "certificates.barco.com user name"
 msgstr "Identifiant certificates.barco.com"
 
 #: src/wx/full_config_dialog.cc:980
@@ -2749,7 +2778,8 @@ msgid "certificates.christiedigital.com password"
 msgstr "Mot de passe certificates.christiedigital.com"
 
 #: src/wx/full_config_dialog.cc:976
-msgid "certificates.christiedigital.com username"
+#, fuzzy
+msgid "certificates.christiedigital.com user name"
 msgstr "Identifiant certificates.christiedigital.com"
 
 #: src/wx/text_panel.cc:75
@@ -2849,6 +2879,12 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#~ msgid "Mail password"
+#~ msgstr "Mot de passe Mail"
+
+#~ msgid "Mail user name"
+#~ msgstr "Nom Utilisateur Mail"
 
 #~ msgid "Stop"
 #~ msgstr "Arrêt"
