@@ -27,12 +27,15 @@
 #include "lib/text_content.h"
 #include "lib/ffmpeg_subtitle_stream.h"
 #include "lib/ffmpeg_content.h"
+#include "lib/examine_ffmpeg_subtitles_job.h"
+#include "lib/job_manager.h"
 #include <wx/wx.h>
 #include <wx/clrpicker.h>
 #include <wx/spinctrl.h>
 #include <wx/gbsizer.h>
 
 using std::map;
+using std::string;
 using boost::shared_ptr;
 using boost::bind;
 using boost::dynamic_pointer_cast;
@@ -45,20 +48,26 @@ int const SubtitleAppearanceDialog::SHADOW = 2;
 SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr<const Film> film, shared_ptr<Content> content, shared_ptr<TextContent> caption)
 	: wxDialog (parent, wxID_ANY, _("Caption appearance"))
 	, _film (film)
+	, _finding (0)
 	, _content (content)
 	, _caption (caption)
 {
 	shared_ptr<FFmpegContent> ff = dynamic_pointer_cast<FFmpegContent> (content);
 	if (ff) {
 		_stream = ff->subtitle_stream ();
+		/* XXX: assuming that all FFmpeg streams have bitmap subs */
+		if (_stream->colours().empty()) {
+			_job_manager_connection = JobManager::instance()->ActiveJobsChanged.connect(boost::bind(&SubtitleAppearanceDialog::active_jobs_changed, this, _1));
+			JobManager::instance()->add(shared_ptr<Job>(new ExamineFFmpegSubtitlesJob(film, ff)));
+		}
 	}
 
-	wxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	SetSizer (overall_sizer);
+	_overall_sizer = new wxBoxSizer (wxVERTICAL);
+	SetSizer (_overall_sizer);
 
 	_table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 
-	overall_sizer->Add (_table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+	_overall_sizer->Add (_table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	int r = 0;
 
@@ -83,48 +92,46 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 	_force_fade_out = set_to (_fade_out = new Timecode<ContentTime> (this), r);
 
 	if (_stream) {
-		wxScrolled<wxPanel>* colours_panel = new wxScrolled<wxPanel> (this);
-		colours_panel->EnableScrolling (false, true);
-		colours_panel->ShowScrollbars (wxSHOW_SB_NEVER, wxSHOW_SB_ALWAYS);
-		colours_panel->SetScrollRate (0, 16);
+		_colours_panel = new wxScrolled<wxPanel> (this);
+		_colours_panel->EnableScrolling (false, true);
+		_colours_panel->ShowScrollbars (wxSHOW_SB_NEVER, wxSHOW_SB_ALWAYS);
+		_colours_panel->SetScrollRate (0, 16);
 
-		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-		table->AddGrowableCol (1, 1);
+		_colour_table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		_colour_table->AddGrowableCol (1, 1);
 
-		map<RGBA, RGBA> colours = _stream->colours ();
-
-		wxStaticText* t = new StaticText (colours_panel, "");
+		wxStaticText* t = new StaticText (_colours_panel, "");
 		t->SetLabelMarkup (_("<b>Original colour</b>"));
-		table->Add (t, 1, wxEXPAND);
-		t = new StaticText (colours_panel, "", wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE_HORIZONTAL);
+		_colour_table->Add (t, 1, wxEXPAND);
+		t = new StaticText (_colours_panel, "", wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE_HORIZONTAL);
 		t->SetLabelMarkup (_("<b>New colour</b>"));
-		table->Add (t, 1, wxALIGN_CENTER);
+		_colour_table->Add (t, 1, wxALIGN_CENTER);
 
-		for (map<RGBA, RGBA>::const_iterator i = colours.begin(); i != colours.end(); ++i) {
-			wxPanel* from = new wxPanel (colours_panel, wxID_ANY);
-			from->SetBackgroundColour (wxColour (i->first.r, i->first.g, i->first.b, i->first.a));
-			table->Add (from, 1, wxEXPAND);
-			RGBAColourPicker* to = new RGBAColourPicker (colours_panel, i->second);
-			table->Add (to, 1, wxEXPAND);
-			_pickers[i->first] = to;
+		add_colours ();
+
+		_colours_panel->SetSizer (_colour_table);
+
+		/* XXX: still assuming that all FFmpeg streams have bitmap subs */
+		if (_stream->colours().empty()) {
+			_finding = new wxStaticText(this, wxID_ANY, _("Finding the colours in these subtitles..."));
+			_overall_sizer->Add (_finding, 0, wxALL, DCPOMATIC_DIALOG_BORDER);
+			_colours_panel->Show (false);
 		}
 
-		colours_panel->SetSizer (table);
-
-		overall_sizer->Add (colours_panel, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+		_overall_sizer->Add (_colours_panel, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 		wxButton* restore = new Button (this, _("Restore to original colours"));
 		restore->Bind (wxEVT_BUTTON, bind (&SubtitleAppearanceDialog::restore, this));
-		overall_sizer->Add (restore, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
+		_overall_sizer->Add (restore, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
 	}
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {
-		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
+		_overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 
-	overall_sizer->Layout ();
-	overall_sizer->SetSizeHints (this);
+	_overall_sizer->Layout ();
+	_overall_sizer->SetSizeHints (this);
 
 	/* Keep these Appends() up to date with NONE/OUTLINE/SHADOW variables */
 	_effect->Append (_("None"));
@@ -293,5 +300,33 @@ SubtitleAppearanceDialog::setup_sensitivity ()
 		_outline_width->UnsetToolTip ();
 	} else {
 		_outline_width->SetToolTip (_("Outline width cannot be set unless you are burning in captions"));
+	}
+}
+
+void
+SubtitleAppearanceDialog::active_jobs_changed (optional<string> last)
+{
+	if (last && *last == "examine_subtitles") {
+		_colours_panel->Show (true);
+		if (_finding) {
+			_finding->Show (false);
+		}
+		add_colours ();
+		_overall_sizer->Layout ();
+		_overall_sizer->SetSizeHints (this);
+	}
+}
+
+void
+SubtitleAppearanceDialog::add_colours ()
+{
+	map<RGBA, RGBA> colours = _stream->colours ();
+	for (map<RGBA, RGBA>::const_iterator i = colours.begin(); i != colours.end(); ++i) {
+		wxPanel* from = new wxPanel (_colours_panel, wxID_ANY);
+		from->SetBackgroundColour (wxColour (i->first.r, i->first.g, i->first.b, i->first.a));
+		_colour_table->Add (from, 1, wxEXPAND);
+		RGBAColourPicker* to = new RGBAColourPicker (_colours_panel, i->second);
+		_colour_table->Add (to, 1, wxEXPAND);
+		_pickers[i->first] = to;
 	}
 }

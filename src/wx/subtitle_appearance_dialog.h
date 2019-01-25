@@ -46,6 +46,8 @@ private:
 	void restore ();
 	wxCheckBox* set_to (wxWindow* w, int& r);
 	void content_change (ChangeType type);
+	void active_jobs_changed (boost::optional<std::string> last);
+	void add_colours ();
 
 	boost::weak_ptr<const Film> _film;
 	wxCheckBox* _force_colour;
@@ -62,11 +64,17 @@ private:
 	wxGridBagSizer* _table;
 	std::map<RGBA, RGBAColourPicker*> _pickers;
 
+	wxBoxSizer* _overall_sizer;
+	wxScrolled<wxPanel>* _colours_panel;
+	wxStaticText* _finding;
+	wxFlexGridSizer* _colour_table;
+
 	boost::shared_ptr<Content> _content;
 	boost::shared_ptr<TextContent> _caption;
 	boost::shared_ptr<FFmpegSubtitleStream> _stream;
 
 	boost::signals2::scoped_connection _content_connection;
+	boost::signals2::scoped_connection _job_manager_connection;
 
 	static int const NONE;
 	static int const OUTLINE;
