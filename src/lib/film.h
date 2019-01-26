@@ -316,7 +316,7 @@ public:
 	void set_key (dcp::Key key);
 	void set_j2k_bandwidth (int);
 	void set_isdcf_metadata (ISDCFMetadata);
-	void set_video_frame_rate (int);
+	void set_video_frame_rate (int rate, bool user_explicit = false);
 	void set_audio_channels (int);
 	void set_three_d (bool);
 	void set_isdcf_date_today ();
@@ -401,6 +401,8 @@ private:
 	int64_t _reel_length;
 	bool _upload_after_make_dcp;
 	bool _reencode_j2k;
+	/** true if the user has ever explicitly set the video frame rate of this film */
+	bool _user_explicit_video_frame_rate;
 
 	int _state_version;
 
@@ -408,6 +410,7 @@ private:
 	mutable bool _dirty;
 	/** film being used as a template, or 0 */
 	boost::shared_ptr<Film> _template_film;
+
 
 	boost::signals2::scoped_connection _playlist_change_connection;
 	boost::signals2::scoped_connection _playlist_order_changed_connection;

@@ -156,6 +156,7 @@ Film::Film (optional<boost::filesystem::path> dir)
 	, _reel_length (2000000000)
 	, _upload_after_make_dcp (Config::instance()->default_upload_after_make_dcp())
 	, _reencode_j2k (false)
+	, _user_explicit_video_frame_rate (false)
 	, _state_version (current_state_version)
 	, _dirty (false)
 {
@@ -400,6 +401,7 @@ Film::metadata (bool with_content_paths) const
 	root->add_child("ReelLength")->add_child_text (raw_convert<string> (_reel_length));
 	root->add_child("UploadAfterMakeDCP")->add_child_text (_upload_after_make_dcp ? "1" : "0");
 	root->add_child("ReencodeJ2K")->add_child_text (_reencode_j2k ? "1" : "0");
+	root->add_child("UserExplicitVideoFrameRate")->add_child_text(_user_explicit_video_frame_rate ? "1" : "0");
 	_playlist->as_xml (root->add_child ("Playlist"), with_content_paths);
 
 	return doc;
@@ -515,6 +517,7 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	_reel_length = f.optional_number_child<int64_t>("ReelLength").get_value_or (2000000000);
 	_upload_after_make_dcp = f.optional_bool_child("UploadAfterMakeDCP").get_value_or (false);
 	_reencode_j2k = f.optional_bool_child("ReencodeJ2K").get_value_or(false);
+	_user_explicit_video_frame_rate = f.optional_bool_child("UserExplicitVideoFrameRate").get_value_or(false);
 
 	list<string> notes;
 	/* This method is the only one that can return notes (so far) */
@@ -883,11 +886,18 @@ Film::set_isdcf_metadata (ISDCFMetadata m)
 	_isdcf_metadata = m;
 }
 
+/** @param f New frame rate.
+ *  @param user_explicit true if this comes from a direct user instruction, false if it is from
+ *  DCP-o-matic being helpful.
+ */
 void
-Film::set_video_frame_rate (int f)
+Film::set_video_frame_rate (int f, bool user_explicit)
 {
 	ChangeSignaller<Film> ch (this, VIDEO_FRAME_RATE);
 	_video_frame_rate = f;
+	if (user_explicit) {
+		_user_explicit_video_frame_rate = true;
+	}
 }
 
 void
@@ -966,7 +976,9 @@ Film::signal_change (ChangeType type, Property p)
 		_dirty = true;
 
 		if (p == Film::CONTENT) {
-			set_video_frame_rate (_playlist->best_video_frame_rate ());
+			if (!_user_explicit_video_frame_rate) {
+				set_video_frame_rate (best_video_frame_rate());
+			}
 		}
 
 		emit (boost::bind (boost::ref (Change), type, p));
@@ -1173,7 +1185,12 @@ Film::length () const
 int
 Film::best_video_frame_rate () const
 {
-	return _playlist->best_video_frame_rate ();
+	/* Don't default to anything above 30fps (make the user select that explicitly) */
+	int best = _playlist->best_video_frame_rate ();
+	if (best > 30) {
+		best /= 2;
+	}
+	return best;
 }
 
 FrameRateChange

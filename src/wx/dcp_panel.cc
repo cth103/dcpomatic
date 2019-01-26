@@ -307,9 +307,10 @@ DCPPanel::frame_rate_choice_changed ()
 	}
 
 	_film->set_video_frame_rate (
-		boost::lexical_cast<int> (
-			wx_to_std (_frame_rate_choice->GetString (_frame_rate_choice->GetSelection ()))
-			)
+		boost::lexical_cast<int>(
+			wx_to_std(_frame_rate_choice->GetString(_frame_rate_choice->GetSelection()))
+			),
+		true
 		);
 }
 

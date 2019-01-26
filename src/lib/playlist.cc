@@ -318,6 +318,7 @@ public:
 	int dcp;
 };
 
+/** @return the best frame rate from Config::_allowed_dcp_frame_rates for the content in this list */
 int
 Playlist::best_video_frame_rate () const
 {
@@ -327,14 +328,14 @@ Playlist::best_video_frame_rate () const
 	list<FrameRateCandidate> candidates;
 
 	/* Start with the ones without skip / repeat so they will get matched in preference to skipped/repeated ones */
-	for (list<int>::const_iterator i = allowed_dcp_frame_rates.begin(); i != allowed_dcp_frame_rates.end(); ++i) {
-		candidates.push_back (FrameRateCandidate (*i, *i));
+	BOOST_FOREACH (int i, allowed_dcp_frame_rates) {
+		candidates.push_back (FrameRateCandidate(i, i));
 	}
 
 	/* Then the skip/repeat ones */
-	for (list<int>::const_iterator i = allowed_dcp_frame_rates.begin(); i != allowed_dcp_frame_rates.end(); ++i) {
-		candidates.push_back (FrameRateCandidate (float (*i) / 2, *i));
-		candidates.push_back (FrameRateCandidate (float (*i) * 2, *i));
+	BOOST_FOREACH (int i, allowed_dcp_frame_rates) {
+		candidates.push_back (FrameRateCandidate (float(i) / 2, i));
+		candidates.push_back (FrameRateCandidate (float(i) * 2, i));
 	}
 
 	/* Pick the best one */
