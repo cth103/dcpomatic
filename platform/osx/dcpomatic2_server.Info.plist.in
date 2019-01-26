@@ -24,6 +24,8 @@
 	<string>DOMC</string>
 	<key>CFBundleVersion</key>
 	<string>@VERSION@</string>
+	<key>CFBundleAllowMixedLocalizations</key>
+	<true/>
 	<key>LSUIElement</key>
 	<string>0</string>
 	<key>NSMainNibFile</key>
