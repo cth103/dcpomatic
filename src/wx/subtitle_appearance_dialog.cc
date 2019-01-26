@@ -58,7 +58,7 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 		/* XXX: assuming that all FFmpeg streams have bitmap subs */
 		if (_stream->colours().empty()) {
 			_job_manager_connection = JobManager::instance()->ActiveJobsChanged.connect(boost::bind(&SubtitleAppearanceDialog::active_jobs_changed, this, _1));
-			JobManager::instance()->add(shared_ptr<Job>(new ExamineFFmpegSubtitlesJob(film, ff)));
+			_job = JobManager::instance()->add(shared_ptr<Job>(new ExamineFFmpegSubtitlesJob(film, ff)));
 		}
 	}
 
@@ -107,7 +107,10 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 		t->SetLabelMarkup (_("<b>New colour</b>"));
 		_colour_table->Add (t, 1, wxALIGN_CENTER);
 
-		add_colours ();
+		shared_ptr<Job> job = _job.lock ();
+		if (!job || job->finished()) {
+			add_colours ();
+		}
 
 		_colours_panel->SetSizer (_colour_table);
 

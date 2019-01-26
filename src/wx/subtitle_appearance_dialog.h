@@ -33,6 +33,7 @@ class FFmpegSubtitleStream;
 class wxCheckBox;
 class wxWidget;
 class Film;
+class Job;
 
 class SubtitleAppearanceDialog : public wxDialog
 {
@@ -75,6 +76,8 @@ private:
 
 	boost::signals2::scoped_connection _content_connection;
 	boost::signals2::scoped_connection _job_manager_connection;
+
+	boost::weak_ptr<Job> _job;
 
 	static int const NONE;
 	static int const OUTLINE;
