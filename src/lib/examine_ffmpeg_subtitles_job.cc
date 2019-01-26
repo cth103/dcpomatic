@@ -58,8 +58,6 @@ ExamineFFmpegSubtitlesJob::json_name () const
 void
 ExamineFFmpegSubtitlesJob::run ()
 {
-	dcpomatic_sleep (15);
-
 	int64_t const len = _file_group.length ();
 	while (true) {
 		int r = av_read_frame (_format_context, &_packet);
