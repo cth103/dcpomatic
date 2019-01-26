@@ -1128,6 +1128,7 @@ private:
 	std::string _tms_password;
 	/** Our cinema sound processor */
 	CinemaSoundProcessor const * _cinema_sound_processor;
+	/** The list of possible DCP frame rates that DCP-o-matic will use */
 	std::list<int> _allowed_dcp_frame_rates;
 	/** Allow any video frame rate for the DCP; if true, overrides _allowed_dcp_frame_rates */
 	bool _allow_any_dcp_frame_rate;
