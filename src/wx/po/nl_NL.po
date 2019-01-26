@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-25 00:12+0000\n"
-"PO-Revision-Date: 2019-01-13 05:53+0100\n"
+"PO-Revision-Date: 2019-01-25 04:18+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -1019,7 +1019,7 @@ msgstr "Zoek ontbrekende..."
 
 #: src/wx/subtitle_appearance_dialog.cc:116
 msgid "Finding the colours in these subtitles..."
-msgstr ""
+msgstr "Zoeken van de kleuren in deze ondertitels..."
 
 #: src/wx/kdm_output_panel.cc:74
 msgid "Folder / ZIP name format"
@@ -2272,11 +2272,11 @@ msgstr "De 'tot'-tijd moet na de 'van'-tijd zijn."
 
 #: src/wx/verify_dcp_dialog.cc:91
 msgid "The PKL and CPL hashes disagree for a picture asset."
-msgstr ""
+msgstr "De PKL-hash en CPL-hash voor een picture asset komen niet overeen."
 
 #: src/wx/verify_dcp_dialog.cc:100
 msgid "The PKL and CPL hashes disagree for a sound asset."
-msgstr ""
+msgstr "De PKL-hash en CPL-hash voor een sound asset komen niet overeen."
 
 #: src/wx/recreate_chain_dialog.cc:35
 msgid ""
@@ -2323,6 +2323,8 @@ msgid ""
 "The hash of the CPL in the PKL does not agree with the CPL file.  This "
 "probably means that the CPL file is corrupt."
 msgstr ""
+"De hash van de CPL in de PKL komt niet overeen met het CPL-bestand.  Dit "
+"betekent waarschijnlijk dat het CPL-bestand beschadigd is."
 
 #: src/wx/verify_dcp_dialog.cc:86
 #, c-format
@@ -2330,6 +2332,8 @@ msgid ""
 "The hash of the picture asset %s does not agree with the PKL file.  This "
 "probably means that the asset file is corrupt."
 msgstr ""
+"De hash van de picture asset %s komt niet overeen met het PKL-bestand.  Dit "
+"betekent waarschijnlijk dat het asset-bestand beschadigd is."
 
 #: src/wx/verify_dcp_dialog.cc:95
 #, c-format
@@ -2337,10 +2341,12 @@ msgid ""
 "The hash of the sound asset %s does not agree with the PKL file.  This "
 "probably means that the asset file is corrupt."
 msgstr ""
+"De hash van de sound asset %s komt niet overeen met het PKL-bestand.  Dit "
+"betekent waarschijnlijk dat het asset-bestand beschadigd is."
 
 #: src/wx/verify_dcp_dialog.cc:82
 msgid "The picture in a reel has an invalid frame rate"
-msgstr ""
+msgstr "Het beeld in een reel heeft een ongeldige frame rate"
 
 #: src/wx/player_config_dialog.cc:358
 msgid "Theatre name"
@@ -2767,7 +2773,6 @@ msgid "certificates.barco.com password"
 msgstr "certificates.barco.com wachtwoord"
 
 #: src/wx/full_config_dialog.cc:968
-#, fuzzy
 msgid "certificates.barco.com user name"
 msgstr "certificates.barco.com gebruikersnaam"
 
@@ -2776,7 +2781,6 @@ msgid "certificates.christiedigital.com password"
 msgstr "certificates.christiedigital.com wachtwoord"
 
 #: src/wx/full_config_dialog.cc:976
-#, fuzzy
 msgid "certificates.christiedigital.com user name"
 msgstr "certificates.christiedigital.com gebruikersnaam"
 
