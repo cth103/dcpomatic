@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-25 00:12+0000\n"
+"POT-Creation-Date: 2019-01-26 23:08+0000\n"
 "PO-Revision-Date: 2016-03-19 13:56+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -103,11 +103,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "Versão 2D de conteúdo disponível em 3D"
 
-#: src/wx/dcp_panel.cc:794
+#: src/wx/dcp_panel.cc:795
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:764 src/wx/video_panel.cc:191
+#: src/wx/dcp_panel.cc:765 src/wx/video_panel.cc:191
 msgid "3D"
 msgstr "3D"
 
@@ -135,7 +135,7 @@ msgstr "3D superior/inferior"
 msgid "4 - L/C/R/Lfe"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:795
+#: src/wx/dcp_panel.cc:796
 msgid "4K"
 msgstr "4K"
 
@@ -497,7 +497,7 @@ msgstr "Cadeia"
 msgid "Channel gain"
 msgstr "Ganho do canal"
 
-#: src/wx/audio_dialog.cc:97 src/wx/dcp_panel.cc:874
+#: src/wx/audio_dialog.cc:97 src/wx/dcp_panel.cc:875
 msgid "Channels"
 msgstr "Canais"
 
@@ -587,7 +587,7 @@ msgstr "Duração"
 msgid "Confirm KDM email"
 msgstr "Email KDM"
 
-#: src/wx/dcp_panel.cc:747
+#: src/wx/dcp_panel.cc:748
 msgid "Container"
 msgstr "Contentor"
 
@@ -1034,7 +1034,7 @@ msgstr ""
 msgid "Find missing..."
 msgstr "A procurar em falta..."
 
-#: src/wx/subtitle_appearance_dialog.cc:116
+#: src/wx/subtitle_appearance_dialog.cc:119
 msgid "Finding the colours in these subtitles..."
 msgstr ""
 
@@ -1069,7 +1069,7 @@ msgstr ""
 msgid "Format"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:754
+#: src/wx/dcp_panel.cc:755
 msgid "Frame Rate"
 msgstr "Cadência de fotogramas"
 
@@ -1301,7 +1301,7 @@ msgstr "Ficheiro de itálico"
 msgid "Italic font"
 msgstr "Tipo de letra itálico"
 
-#: src/wx/dcp_panel.cc:766
+#: src/wx/dcp_panel.cc:767
 #, fuzzy
 msgid ""
 "JPEG2000 bandwidth\n"
@@ -1496,7 +1496,7 @@ msgstr "Largura de banda JPEG2000 máxima"
 msgid "Maximum number of frames to store per thread"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:768 src/wx/full_config_dialog.cc:361
+#: src/wx/dcp_panel.cc:769 src/wx/full_config_dialog.cc:361
 #: src/wx/full_config_dialog.cc:1327
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -1615,7 +1615,7 @@ msgid "No content found in this folder."
 msgstr "Não foi encontrado conteúdo nesta pasta."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:880 src/wx/subtitle_appearance_dialog.cc:137
+#: src/wx/dcp_panel.cc:881 src/wx/subtitle_appearance_dialog.cc:140
 #: src/wx/video_panel.cc:163 src/wx/video_panel.cc:168
 #: src/wx/video_panel.cc:347
 msgid "None"
@@ -1687,7 +1687,7 @@ msgstr "Outros dispositivos confiáveis"
 msgid "Outgoing mail server"
 msgstr "Servidor de envio de email"
 
-#: src/wx/subtitle_appearance_dialog.cc:138
+#: src/wx/subtitle_appearance_dialog.cc:141
 msgid "Outline"
 msgstr "Contorno"
 
@@ -1700,7 +1700,7 @@ msgstr "Contornar conteúdo"
 msgid "Outline width"
 msgstr "Contorno"
 
-#: src/wx/subtitle_appearance_dialog.cc:302
+#: src/wx/subtitle_appearance_dialog.cc:305
 msgid "Outline width cannot be set unless you are burning in captions"
 msgstr ""
 
@@ -1809,7 +1809,7 @@ msgstr "Pré-lançamento"
 msgid "ProRes"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:878
+#: src/wx/dcp_panel.cc:879
 msgid "Processor"
 msgstr "Processador"
 
@@ -1845,7 +1845,7 @@ msgstr "Gerar aleatóriamente"
 msgid "Rating (e.g. 15)"
 msgstr "Classificação (e.g. M/14)"
 
-#: src/wx/dcp_panel.cc:770
+#: src/wx/dcp_panel.cc:771
 msgid "Re-encode JPEG2000 data from input"
 msgstr ""
 
@@ -1964,7 +1964,7 @@ msgstr "Repor assunto e texto padrão"
 msgid "Reset to default text"
 msgstr "Repor assunto e texto padrão"
 
-#: src/wx/dcp_panel.cc:751
+#: src/wx/dcp_panel.cc:752
 msgid "Resolution"
 msgstr "Resolução"
 
@@ -1972,7 +1972,7 @@ msgstr "Resolução"
 msgid "Respect KDM validity periods"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:123
+#: src/wx/subtitle_appearance_dialog.cc:126
 msgid "Restore to original colours"
 msgstr ""
 
@@ -2179,15 +2179,15 @@ msgstr "Definir de fonte do sistema..."
 msgid "Set language"
 msgstr "Definir Língua"
 
-#: src/wx/subtitle_appearance_dialog.cc:216
+#: src/wx/subtitle_appearance_dialog.cc:219
 msgid "Set to"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:139
+#: src/wx/subtitle_appearance_dialog.cc:142
 msgid "Shadow"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:885
+#: src/wx/dcp_panel.cc:886
 msgid "Show audio..."
 msgstr "Mostrar audio..."
 
@@ -2411,12 +2411,12 @@ msgstr ""
 msgid "Theatre name"
 msgstr "Nome de utilizador"
 
-#: src/wx/hints_dialog.cc:131
+#: src/wx/hints_dialog.cc:132
 #, fuzzy
 msgid "There are no hints yet: project check in progress."
 msgstr "Não há sugestões: Tudo parece bem!"
 
-#: src/wx/hints_dialog.cc:129
+#: src/wx/hints_dialog.cc:130
 msgid "There are no hints: everything looks good!"
 msgstr "Não há sugestões: Tudo parece bem!"
 
@@ -2653,7 +2653,7 @@ msgstr "Usar nome ISDCF"
 msgid "Use as"
 msgstr "Utilizar o melhor"
 
-#: src/wx/dcp_panel.cc:761
+#: src/wx/dcp_panel.cc:762
 msgid "Use best"
 msgstr "Utilizar o melhor"
 

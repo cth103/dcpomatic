@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-25 00:12+0000\n"
+"POT-Creation-Date: 2019-01-26 23:08+0000\n"
 "PO-Revision-Date: 2018-12-07 00:06+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -177,7 +177,7 @@ msgstr "; %.1f fps"
 msgid "; %1 remaining; finishing at %2%3"
 msgstr "; %1 verbleibend; beendet um %2%3"
 
-#: src/lib/hints.cc:167
+#: src/lib/hints.cc:157
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
@@ -196,7 +196,7 @@ msgstr "ARIB STD-B67 ('Hybrid log-gamma')"
 msgid "Advertisement"
 msgstr "Werbung - ADV"
 
-#: src/lib/hints.cc:159
+#: src/lib/hints.cc:149
 msgid ""
 "All of your content is at 1.85:1 or narrower but your DCP's container is "
 "Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) "
@@ -209,7 +209,7 @@ msgstr ""
 "(pillar-boxed). Sofern dies nicht ihre Absicht ist, sollten Sie unter dem "
 "DCP-Reiter den DCI Containertyp auf Flat (1.85:1) einstellen."
 
-#: src/lib/hints.cc:155
+#: src/lib/hints.cc:145
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -308,7 +308,7 @@ msgstr "C"
 msgid "Cancelled"
 msgstr "Abbruch"
 
-#: src/lib/film.cc:302
+#: src/lib/film.cc:303
 msgid "Cannot contain slashes"
 msgstr "Darf keine Schrägstriche enthalten"
 
@@ -316,7 +316,7 @@ msgstr "Darf keine Schrägstriche enthalten"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kann dieses Pixelformat %1 während %2 nicht bearbeiten"
 
-#: src/lib/film.cc:1281
+#: src/lib/film.cc:1298
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 "KDM Erzeugung nicht möglich, da dieses Projekt keine Verschlüsselung "
@@ -714,7 +714,7 @@ msgstr "Fehler in SubRip Datei: Ist %1 , sollte %2 sein"
 msgid "Error: %1"
 msgstr "Fehler: (%1)"
 
-#: src/lib/hints.cc:270
+#: src/lib/hints.cc:264
 msgid "Examining closed captions"
 msgstr "Untersuche Closed Captions (CCAP)"
 
@@ -815,7 +815,7 @@ msgstr "3D Rauschunterdrückung hoher Qualität"
 msgid "Horizontal flip"
 msgstr "Horizontal Spiegeln"
 
-#: src/lib/hints.cc:182
+#: src/lib/hints.cc:172
 msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "slowdown of your content, and SMPTE DCPs are not supported by all projectors."
@@ -824,7 +824,7 @@ msgstr ""
 "der Originalwiedergabe stark verlangsamen. SMPTE DCPs mit angepasster "
 "Bildrate werden jedoch nicht von allen Projektionssystemen unterstützt."
 
-#: src/lib/hints.cc:179
+#: src/lib/hints.cc:169
 msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "speed-up of your content, and SMPTE DCPs are not supported by all projectors."
@@ -1195,7 +1195,7 @@ msgstr ""
 "Diese Inhalte werden nun neu untersucht, ggfs. müssen Sie bei Änderungen "
 "deren typspezifische Einstellungen überprüfen!"
 
-#: src/lib/hints.cc:318
+#: src/lib/hints.cc:312
 msgid ""
 "Some of your closed captions have lines longer than %1 characters, so they "
 "will probably be word-wrapped."
@@ -1203,7 +1203,7 @@ msgstr ""
 "Einige Zeilen ihrer Closed Captions (CCAP) sind länger als %1 Zeichen. Sie "
 "werden bei der Wiedergabe vermutlich in die nächste Zeile umgebrochen."
 
-#: src/lib/hints.cc:324
+#: src/lib/hints.cc:318
 msgid ""
 "Some of your closed captions span more than %1 lines, so they will be "
 "truncated."
@@ -1211,11 +1211,11 @@ msgstr ""
 "Einige ihrer Closed Captions (CCAP) sind länger als %1 Zeile(n). Sie werden "
 "abgeschnitten."
 
-#: src/lib/film.cc:327
+#: src/lib/film.cc:328
 msgid "Some of your content needs a KDM"
 msgstr "Teile ihrer Quellinhalte (DCP) benötigen eine KDM"
 
-#: src/lib/film.cc:330
+#: src/lib/film.cc:331
 msgid "Some of your content needs an OV"
 msgstr "Teile ihrer Quellinhalte (DCP) benötigen eine OV-CPL"
 
@@ -1279,7 +1279,7 @@ msgstr "Die Spur %1 wurde um %2 Millisekunden gekürzt."
 msgid "The file %1 has been trimmed by %2 milliseconds more."
 msgstr "Die Spur %1 wurde um %2 Millisekunden verlängert."
 
-#: src/lib/hints.cc:211
+#: src/lib/hints.cc:205
 msgid ""
 "There is a large difference between the frame rate of your DCP and that of "
 "some of your content.  This will cause your audio to play back at a much "
@@ -1318,7 +1318,7 @@ msgstr ""
 "gehöriges geladenes DCP selektieren und mit <RechtsClick> \"KDM zuweisen\" "
 "ausführen!"
 
-#: src/lib/film.cc:454
+#: src/lib/film.cc:456
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1327,7 +1327,7 @@ msgstr ""
 "kann leider nicht mit dieser älteren Version geladen werden. Sie müssen den "
 "Film neu erstellen oder eine aktuelle Version installieren. Sorry!"
 
-#: src/lib/film.cc:443
+#: src/lib/film.cc:445
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1429,7 +1429,22 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Und ein weiterer De-Interlacer ('YADIF')"
 
-#: src/lib/hints.cc:184
+#: src/lib/hints.cc:181
+#, fuzzy
+msgid ""
+"You are set up for a DCP at a frame rate of %1.  This frame rate is not "
+"supported by all projectors.  You are advised to change the DCP frame rate "
+"to %2."
+msgstr ""
+"Sie haben als DCP/Wrapping Typ 'Interop' gewählt, jedoch eine Bildrate für "
+"das DCP eingestellt, die nicht offiziell in Interop-DCPs unterstützt wird. "
+"Im Falle von 25fps wird dies zwar von fast allen Projektionssystemen "
+"unterstützt werden - andere Bildraten sollten Sie aber ausschließlich in "
+"SMPTE-DCPs verwenden. Bedenken Sie ggfs. dass auch SMPTE DCPs gegenwärtig "
+"noch nicht von allen Projektionssystemen unterstützt werden. Wählen Sie "
+"Bildraten abweichend von 24fps oder 48fps(3D) nicht leichtfertig!"
+
+#: src/lib/hints.cc:174
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
@@ -1444,7 +1459,7 @@ msgstr ""
 "noch nicht von allen Projektionssystemen unterstützt werden. Wählen Sie "
 "Bildraten abweichend von 24fps oder 48fps(3D) nicht leichtfertig!"
 
-#: src/lib/hints.cc:171
+#: src/lib/hints.cc:161
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
@@ -1458,7 +1473,7 @@ msgstr ""
 "noch nicht von allen Projektionssystemen unterstützt werden. Wählen Sie "
 "Bildraten abweichend von 24fps oder 48fps(3D) nicht leichtfertig!"
 
-#: src/lib/hints.cc:233
+#: src/lib/hints.cc:227
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
@@ -1467,7 +1482,7 @@ msgstr ""
 "ihre Inhalte in 3D wiedergeben wollen, wählen Sie unter dem DCP-Reiter "
 "'Bild' '3D DCP' aus. Andernfalls wird ein 2D-DCP erzeugt."
 
-#: src/lib/hints.cc:136
+#: src/lib/hints.cc:126
 msgid ""
 "You are using DCP-o-matic's stereo-to-5.1 upmixer.  This is experimental and "
 "may result in poor-quality audio.  If you continue, you should listen to the "
@@ -1478,7 +1493,7 @@ msgstr ""
 "dieses DCP nach der Erzeugung in einer voll surroundfähigen Abhörumgebung "
 "testen, bevor Sie es zur Verbreitung frei geben!"
 
-#: src/lib/hints.cc:222
+#: src/lib/hints.cc:216
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
@@ -1487,11 +1502,11 @@ msgstr ""
 "Dateien von einer DVD sind. Sie sollten die Funktion (->Rechtsclick) "
 "'Nahtlos verbinden' verwenden, um Sprünge in der Wiedergabe zu vermeiden."
 
-#: src/lib/hints.cc:330
+#: src/lib/hints.cc:324
 msgid "You have overlapping closed captions, which are not allowed."
 msgstr "Es gibt überlappende Closed Captions (CCAP) - dies ist nicht zulässig!"
 
-#: src/lib/hints.cc:127
+#: src/lib/hints.cc:117
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
@@ -1502,11 +1517,11 @@ msgstr ""
 "speziellen Zeichensatz angewiesen sind, googlen Sie nach 'TI Font "
 "Compressor' und verwenden Sie ggfs. dieses Tool zur Behebung des Problems."
 
-#: src/lib/film.cc:310
+#: src/lib/film.cc:311
 msgid "You must add some content to the DCP before creating it"
 msgstr "Sie müssen erst Inhalte hinzufügen bevor Sie ein DCP erstellen können!"
 
-#: src/lib/hints.cc:131
+#: src/lib/hints.cc:121
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
@@ -1514,7 +1529,7 @@ msgstr ""
 "Ihr DCP ist auf weniger als 6 (5.1) Audiokanäle eingestellt. Dies kann auf "
 "einigen wenigen Projektionssystemen Probleme verursachen."
 
-#: src/lib/hints.cc:163
+#: src/lib/hints.cc:153
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio"
@@ -1523,7 +1538,7 @@ msgstr ""
 "Projektionssystemen Probleme verursachen. Bitte verwenden Sie wann immer "
 "möglich Flat oder Scope Container."
 
-#: src/lib/hints.cc:258
+#: src/lib/hints.cc:252
 msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
@@ -1583,11 +1598,11 @@ msgstr "Zeit für Verbindungsaufbau abgelaufen"
 msgid "connecting"
 msgstr "verbinde..."
 
-#: src/lib/film.cc:306
+#: src/lib/film.cc:307
 msgid "container"
 msgstr "Containerformat"
 
-#: src/lib/film.cc:314
+#: src/lib/film.cc:315
 msgid "content type"
 msgstr "Inhaltsbeschreibung"
 
@@ -1741,7 +1756,7 @@ msgstr "m"
 msgid "moving"
 msgstr "wird verschoben"
 
-#: src/lib/film.cc:302
+#: src/lib/film.cc:303
 msgid "name"
 msgstr "Name"
 
@@ -1754,7 +1769,7 @@ msgstr "s"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:323
+#: src/lib/film.cc:324
 msgid "some of your content is missing"
 msgstr "Inhalte fehlen"
 

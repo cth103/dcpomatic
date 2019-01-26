@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-25 00:12+0000\n"
+"POT-Creation-Date: 2019-01-26 23:08+0000\n"
 "PO-Revision-Date: 2019-01-13 18:07+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -105,11 +105,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "Version 2D d'un contenu aussi disponible en 3D"
 
-#: src/wx/dcp_panel.cc:794
+#: src/wx/dcp_panel.cc:795
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:764 src/wx/video_panel.cc:191
+#: src/wx/dcp_panel.cc:765 src/wx/video_panel.cc:191
 msgid "3D"
 msgstr "3D"
 
@@ -137,7 +137,7 @@ msgstr "3D dessus/dessous"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - G/C/D/Bf"
 
-#: src/wx/dcp_panel.cc:795
+#: src/wx/dcp_panel.cc:796
 msgid "4K"
 msgstr "4K"
 
@@ -501,7 +501,7 @@ msgstr "Chaîne"
 msgid "Channel gain"
 msgstr "Gain Canal"
 
-#: src/wx/audio_dialog.cc:97 src/wx/dcp_panel.cc:874
+#: src/wx/audio_dialog.cc:97 src/wx/dcp_panel.cc:875
 msgid "Channels"
 msgstr "Canaux"
 
@@ -589,7 +589,7 @@ msgstr "Temps"
 msgid "Confirm KDM email"
 msgstr "Confirmez l'e-mail KDM"
 
-#: src/wx/dcp_panel.cc:747
+#: src/wx/dcp_panel.cc:748
 msgid "Container"
 msgstr "Format"
 
@@ -1016,7 +1016,7 @@ msgstr ""
 msgid "Find missing..."
 msgstr "Recherche de l'élément manquant..."
 
-#: src/wx/subtitle_appearance_dialog.cc:116
+#: src/wx/subtitle_appearance_dialog.cc:119
 msgid "Finding the colours in these subtitles..."
 msgstr ""
 
@@ -1049,7 +1049,7 @@ msgstr "Authentifier la vidéo"
 msgid "Format"
 msgstr "Format"
 
-#: src/wx/dcp_panel.cc:754
+#: src/wx/dcp_panel.cc:755
 msgid "Frame Rate"
 msgstr "Cadence image"
 
@@ -1275,7 +1275,7 @@ msgstr "Fichier Italique"
 msgid "Italic font"
 msgstr "Italique"
 
-#: src/wx/dcp_panel.cc:766
+#: src/wx/dcp_panel.cc:767
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
@@ -1462,7 +1462,7 @@ msgstr "Qualité JPEG2000 Maxi"
 msgid "Maximum number of frames to store per thread"
 msgstr "Nombre maximum d'images à gérer par processus"
 
-#: src/wx/dcp_panel.cc:768 src/wx/full_config_dialog.cc:361
+#: src/wx/dcp_panel.cc:769 src/wx/full_config_dialog.cc:361
 #: src/wx/full_config_dialog.cc:1327
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -1578,7 +1578,7 @@ msgid "No content found in this folder."
 msgstr "Aucun contenu trouvé dans ce répertoire"
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:880 src/wx/subtitle_appearance_dialog.cc:137
+#: src/wx/dcp_panel.cc:881 src/wx/subtitle_appearance_dialog.cc:140
 #: src/wx/video_panel.cc:163 src/wx/video_panel.cc:168
 #: src/wx/video_panel.cc:347
 msgid "None"
@@ -1649,7 +1649,7 @@ msgstr "Autres périphériques de confiance"
 msgid "Outgoing mail server"
 msgstr "Serveurs de messagerie sortant"
 
-#: src/wx/subtitle_appearance_dialog.cc:138
+#: src/wx/subtitle_appearance_dialog.cc:141
 msgid "Outline"
 msgstr "Contours"
 
@@ -1661,7 +1661,7 @@ msgstr "contours image"
 msgid "Outline width"
 msgstr "Taille des contours"
 
-#: src/wx/subtitle_appearance_dialog.cc:302
+#: src/wx/subtitle_appearance_dialog.cc:305
 msgid "Outline width cannot be set unless you are burning in captions"
 msgstr ""
 "L'epaisseur du contour ne peut être réglée si vous n'incrustez pas les sous-"
@@ -1768,7 +1768,7 @@ msgstr "Avant sortie"
 msgid "ProRes"
 msgstr "ProRes"
 
-#: src/wx/dcp_panel.cc:878
+#: src/wx/dcp_panel.cc:879
 msgid "Processor"
 msgstr "Processeur"
 
@@ -1804,7 +1804,7 @@ msgstr "Aléatoire"
 msgid "Rating (e.g. 15)"
 msgstr "Rating (ex. 15)"
 
-#: src/wx/dcp_panel.cc:770
+#: src/wx/dcp_panel.cc:771
 msgid "Re-encode JPEG2000 data from input"
 msgstr "Ré-encoder les données JPEG2000 depuis la source"
 
@@ -1916,7 +1916,7 @@ msgstr "texte et objet par défaut"
 msgid "Reset to default text"
 msgstr "Rétablir texte par défaut"
 
-#: src/wx/dcp_panel.cc:751
+#: src/wx/dcp_panel.cc:752
 msgid "Resolution"
 msgstr "Résolution"
 
@@ -1924,7 +1924,7 @@ msgstr "Résolution"
 msgid "Respect KDM validity periods"
 msgstr "Respecter les périodes de validité des KDM"
 
-#: src/wx/subtitle_appearance_dialog.cc:123
+#: src/wx/subtitle_appearance_dialog.cc:126
 msgid "Restore to original colours"
 msgstr "Rétablir Couleurs originelles"
 
@@ -2114,15 +2114,15 @@ msgstr "Choisir une police système..."
 msgid "Set language"
 msgstr "Sélectionnez la langue"
 
-#: src/wx/subtitle_appearance_dialog.cc:216
+#: src/wx/subtitle_appearance_dialog.cc:219
 msgid "Set to"
 msgstr "Régler à"
 
-#: src/wx/subtitle_appearance_dialog.cc:139
+#: src/wx/subtitle_appearance_dialog.cc:142
 msgid "Shadow"
 msgstr "Ombre"
 
-#: src/wx/dcp_panel.cc:885
+#: src/wx/dcp_panel.cc:886
 msgid "Show audio..."
 msgstr "Afficher audio..."
 
@@ -2348,11 +2348,11 @@ msgstr ""
 msgid "Theatre name"
 msgstr "Nom du cinéma"
 
-#: src/wx/hints_dialog.cc:131
+#: src/wx/hints_dialog.cc:132
 msgid "There are no hints yet: project check in progress."
 msgstr "Il n'y a encore aucun avertissement: vérification du projet en cours!"
 
-#: src/wx/hints_dialog.cc:129
+#: src/wx/hints_dialog.cc:130
 msgid "There are no hints: everything looks good!"
 msgstr "Il n'y a aucun avertissement: tout semble correct!"
 
@@ -2585,7 +2585,7 @@ msgstr "Utiliser le nom ISDCF"
 msgid "Use as"
 msgstr "Utiliser comme"
 
-#: src/wx/dcp_panel.cc:761
+#: src/wx/dcp_panel.cc:762
 msgid "Use best"
 msgstr "Automatique"
 

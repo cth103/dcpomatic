@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-25 00:12+0000\n"
+"POT-Creation-Date: 2019-01-26 23:08+0000\n"
 "PO-Revision-Date: 2018-09-07 09:29+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -103,11 +103,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "2D verze obsahu je dostupná ve 3D"
 
-#: src/wx/dcp_panel.cc:794
+#: src/wx/dcp_panel.cc:795
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:764 src/wx/video_panel.cc:191
+#: src/wx/dcp_panel.cc:765 src/wx/video_panel.cc:191
 msgid "3D"
 msgstr "3D DCP"
 
@@ -135,7 +135,7 @@ msgstr "3D horní/dolní (Pod sebou)"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
-#: src/wx/dcp_panel.cc:795
+#: src/wx/dcp_panel.cc:796
 msgid "4K"
 msgstr "4K"
 
@@ -484,7 +484,7 @@ msgstr "Řetěz"
 msgid "Channel gain"
 msgstr "Síla kanálu"
 
-#: src/wx/audio_dialog.cc:97 src/wx/dcp_panel.cc:874
+#: src/wx/audio_dialog.cc:97 src/wx/dcp_panel.cc:875
 msgid "Channels"
 msgstr "Kanály"
 
@@ -570,7 +570,7 @@ msgstr "Časování"
 msgid "Confirm KDM email"
 msgstr "Potvrdit KDM email"
 
-#: src/wx/dcp_panel.cc:747
+#: src/wx/dcp_panel.cc:748
 msgid "Container"
 msgstr "Kontejner"
 
@@ -999,7 +999,7 @@ msgstr ""
 msgid "Find missing..."
 msgstr "Najít chybějící…"
 
-#: src/wx/subtitle_appearance_dialog.cc:116
+#: src/wx/subtitle_appearance_dialog.cc:119
 msgid "Finding the colours in these subtitles..."
 msgstr ""
 
@@ -1032,7 +1032,7 @@ msgstr "Forenzní označení videa"
 msgid "Format"
 msgstr "Formát"
 
-#: src/wx/dcp_panel.cc:754
+#: src/wx/dcp_panel.cc:755
 msgid "Frame Rate"
 msgstr "Frekvence snímků (frame rate)"
 
@@ -1259,7 +1259,7 @@ msgstr "Soubor s kurzívou"
 msgid "Italic font"
 msgstr "Kurzíva (typ písma)"
 
-#: src/wx/dcp_panel.cc:766
+#: src/wx/dcp_panel.cc:767
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
@@ -1454,7 +1454,7 @@ msgstr "Maximální JPEG2000 šířka pásma (bandwidth)"
 msgid "Maximum number of frames to store per thread"
 msgstr "Maximální počet snímků pro uložení na jeden podproces"
 
-#: src/wx/dcp_panel.cc:768 src/wx/full_config_dialog.cc:361
+#: src/wx/dcp_panel.cc:769 src/wx/full_config_dialog.cc:361
 #: src/wx/full_config_dialog.cc:1327
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -1570,7 +1570,7 @@ msgid "No content found in this folder."
 msgstr "Žádný obsah nebyl ve složce nalezen."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:880 src/wx/subtitle_appearance_dialog.cc:137
+#: src/wx/dcp_panel.cc:881 src/wx/subtitle_appearance_dialog.cc:140
 #: src/wx/video_panel.cc:163 src/wx/video_panel.cc:168
 #: src/wx/video_panel.cc:347
 msgid "None"
@@ -1640,7 +1640,7 @@ msgstr "Jiné důvěryhodné zařízení"
 msgid "Outgoing mail server"
 msgstr "Server odchozí pošty"
 
-#: src/wx/subtitle_appearance_dialog.cc:138
+#: src/wx/subtitle_appearance_dialog.cc:141
 msgid "Outline"
 msgstr "Orámovaní"
 
@@ -1652,7 +1652,7 @@ msgstr "Orámovat obsah"
 msgid "Outline width"
 msgstr "Šířka orámování"
 
-#: src/wx/subtitle_appearance_dialog.cc:302
+#: src/wx/subtitle_appearance_dialog.cc:305
 msgid "Outline width cannot be set unless you are burning in captions"
 msgstr "Šířku obrysu nelze nastavit, pokud nepoužíváte titulky"
 
@@ -1758,7 +1758,7 @@ msgstr "Předběžné vydání"
 msgid "ProRes"
 msgstr "ProRes"
 
-#: src/wx/dcp_panel.cc:878
+#: src/wx/dcp_panel.cc:879
 msgid "Processor"
 msgstr "Procesor"
 
@@ -1794,7 +1794,7 @@ msgstr "Náhodné"
 msgid "Rating (e.g. 15)"
 msgstr "Přístupnost (napr. 12)"
 
-#: src/wx/dcp_panel.cc:770
+#: src/wx/dcp_panel.cc:771
 msgid "Re-encode JPEG2000 data from input"
 msgstr ""
 
@@ -1907,7 +1907,7 @@ msgstr "Obnovit předvolený předmět a text"
 msgid "Reset to default text"
 msgstr "Obnovit výchozí text"
 
-#: src/wx/dcp_panel.cc:751
+#: src/wx/dcp_panel.cc:752
 msgid "Resolution"
 msgstr "Rozlišení"
 
@@ -1915,7 +1915,7 @@ msgstr "Rozlišení"
 msgid "Respect KDM validity periods"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:123
+#: src/wx/subtitle_appearance_dialog.cc:126
 msgid "Restore to original colours"
 msgstr "Obnovit na originální barvy"
 
@@ -2111,15 +2111,15 @@ msgstr "Nastavit ze systémového písma…"
 msgid "Set language"
 msgstr "Nastavit jazyk"
 
-#: src/wx/subtitle_appearance_dialog.cc:216
+#: src/wx/subtitle_appearance_dialog.cc:219
 msgid "Set to"
 msgstr "Nastaven na"
 
-#: src/wx/subtitle_appearance_dialog.cc:139
+#: src/wx/subtitle_appearance_dialog.cc:142
 msgid "Shadow"
 msgstr "Stín"
 
-#: src/wx/dcp_panel.cc:885
+#: src/wx/dcp_panel.cc:886
 msgid "Show audio..."
 msgstr "Zobrazit zvuk..."
 
@@ -2345,12 +2345,12 @@ msgstr ""
 msgid "Theatre name"
 msgstr "Název šablony"
 
-#: src/wx/hints_dialog.cc:131
+#: src/wx/hints_dialog.cc:132
 #, fuzzy
 msgid "There are no hints yet: project check in progress."
 msgstr "Žádné upozornění; všechno vypadá dobře !"
 
-#: src/wx/hints_dialog.cc:129
+#: src/wx/hints_dialog.cc:130
 msgid "There are no hints: everything looks good!"
 msgstr "Žádné upozornění; všechno vypadá dobře !"
 
@@ -2586,7 +2586,7 @@ msgstr "Použít ISDCF název"
 msgid "Use as"
 msgstr "Použít jako"
 
-#: src/wx/dcp_panel.cc:761
+#: src/wx/dcp_panel.cc:762
 msgid "Use best"
 msgstr "Použít nejlepší"
 

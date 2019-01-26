@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-25 00:12+0000\n"
+"POT-Creation-Date: 2019-01-26 23:08+0000\n"
 "PO-Revision-Date: 2017-10-04 22:06+0200\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -103,11 +103,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "2D-version af 3D-indhold"
 
-#: src/wx/dcp_panel.cc:794
+#: src/wx/dcp_panel.cc:795
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:764 src/wx/video_panel.cc:191
+#: src/wx/dcp_panel.cc:765 src/wx/video_panel.cc:191
 msgid "3D"
 msgstr "3D"
 
@@ -135,7 +135,7 @@ msgstr "3D, top/bund"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - V/C/H/Sub"
 
-#: src/wx/dcp_panel.cc:795
+#: src/wx/dcp_panel.cc:796
 msgid "4K"
 msgstr "4K"
 
@@ -489,7 +489,7 @@ msgstr "Kæde"
 msgid "Channel gain"
 msgstr "Kanalgain"
 
-#: src/wx/audio_dialog.cc:97 src/wx/dcp_panel.cc:874
+#: src/wx/audio_dialog.cc:97 src/wx/dcp_panel.cc:875
 msgid "Channels"
 msgstr "Kanaler"
 
@@ -575,7 +575,7 @@ msgstr "Timing"
 msgid "Confirm KDM email"
 msgstr "Bekræft KDM-e-mail"
 
-#: src/wx/dcp_panel.cc:747
+#: src/wx/dcp_panel.cc:748
 msgid "Container"
 msgstr "Container"
 
@@ -1010,7 +1010,7 @@ msgstr ""
 msgid "Find missing..."
 msgstr "Find manglende..."
 
-#: src/wx/subtitle_appearance_dialog.cc:116
+#: src/wx/subtitle_appearance_dialog.cc:119
 msgid "Finding the colours in these subtitles..."
 msgstr ""
 
@@ -1043,7 +1043,7 @@ msgstr ""
 msgid "Format"
 msgstr "Format"
 
-#: src/wx/dcp_panel.cc:754
+#: src/wx/dcp_panel.cc:755
 msgid "Frame Rate"
 msgstr "Billedhastighed"
 
@@ -1271,7 +1271,7 @@ msgstr "Kursiv fil"
 msgid "Italic font"
 msgstr "Kursiv skrift"
 
-#: src/wx/dcp_panel.cc:766
+#: src/wx/dcp_panel.cc:767
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
@@ -1467,7 +1467,7 @@ msgstr "Maksimal JPEG2000-båndbredde"
 msgid "Maximum number of frames to store per thread"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:768 src/wx/full_config_dialog.cc:361
+#: src/wx/dcp_panel.cc:769 src/wx/full_config_dialog.cc:361
 #: src/wx/full_config_dialog.cc:1327
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -1578,7 +1578,7 @@ msgid "No content found in this folder."
 msgstr "Fandt intet indhold i denne folder."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:880 src/wx/subtitle_appearance_dialog.cc:137
+#: src/wx/dcp_panel.cc:881 src/wx/subtitle_appearance_dialog.cc:140
 #: src/wx/video_panel.cc:163 src/wx/video_panel.cc:168
 #: src/wx/video_panel.cc:347
 msgid "None"
@@ -1650,7 +1650,7 @@ msgstr ""
 msgid "Outgoing mail server"
 msgstr "Udgående mail server"
 
-#: src/wx/subtitle_appearance_dialog.cc:138
+#: src/wx/subtitle_appearance_dialog.cc:141
 msgid "Outline"
 msgstr "Omrids"
 
@@ -1662,7 +1662,7 @@ msgstr "Indram indhold"
 msgid "Outline width"
 msgstr "Indram bredde"
 
-#: src/wx/subtitle_appearance_dialog.cc:302
+#: src/wx/subtitle_appearance_dialog.cc:305
 #, fuzzy
 msgid "Outline width cannot be set unless you are burning in captions"
 msgstr ""
@@ -1772,7 +1772,7 @@ msgstr "Pre-release"
 msgid "ProRes"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:878
+#: src/wx/dcp_panel.cc:879
 msgid "Processor"
 msgstr "Processor"
 
@@ -1808,7 +1808,7 @@ msgstr "Tilfældig"
 msgid "Rating (e.g. 15)"
 msgstr "Censur (f.eks. 15)"
 
-#: src/wx/dcp_panel.cc:770
+#: src/wx/dcp_panel.cc:771
 msgid "Re-encode JPEG2000 data from input"
 msgstr ""
 
@@ -1925,7 +1925,7 @@ msgstr "Nulstil til standard emne og tekst"
 msgid "Reset to default text"
 msgstr "Nulstil til standard tekst"
 
-#: src/wx/dcp_panel.cc:751
+#: src/wx/dcp_panel.cc:752
 msgid "Resolution"
 msgstr "Opløsning"
 
@@ -1933,7 +1933,7 @@ msgstr "Opløsning"
 msgid "Respect KDM validity periods"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:123
+#: src/wx/subtitle_appearance_dialog.cc:126
 msgid "Restore to original colours"
 msgstr ""
 
@@ -2134,15 +2134,15 @@ msgstr ""
 msgid "Set language"
 msgstr "Indstil sprog"
 
-#: src/wx/subtitle_appearance_dialog.cc:216
+#: src/wx/subtitle_appearance_dialog.cc:219
 msgid "Set to"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:139
+#: src/wx/subtitle_appearance_dialog.cc:142
 msgid "Shadow"
 msgstr "Skygge"
 
-#: src/wx/dcp_panel.cc:885
+#: src/wx/dcp_panel.cc:886
 msgid "Show audio..."
 msgstr "Vis lyd..."
 
@@ -2362,12 +2362,12 @@ msgstr ""
 msgid "Theatre name"
 msgstr "Navn på skabelon"
 
-#: src/wx/hints_dialog.cc:131
+#: src/wx/hints_dialog.cc:132
 #, fuzzy
 msgid "There are no hints yet: project check in progress."
 msgstr "Der er ingen tips; det hele ser godt ud!"
 
-#: src/wx/hints_dialog.cc:129
+#: src/wx/hints_dialog.cc:130
 msgid "There are no hints: everything looks good!"
 msgstr "Der er ingen tips; det hele ser godt ud!"
 
@@ -2605,7 +2605,7 @@ msgstr "Brug ISDCF-navn"
 msgid "Use as"
 msgstr "Brug bedste"
 
-#: src/wx/dcp_panel.cc:761
+#: src/wx/dcp_panel.cc:762
 msgid "Use best"
 msgstr "Brug bedste"
 
