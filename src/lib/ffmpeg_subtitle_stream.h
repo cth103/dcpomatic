@@ -38,5 +38,7 @@ public:
 	std::map<RGBA, RGBA> colours () const;
 
 private:
+	/** mutex to protect _colours as it can be set from the "examine FFMpeg subtitles" job thread */
+	mutable boost::mutex _mutex;
 	std::map<RGBA, RGBA> _colours;
 };
