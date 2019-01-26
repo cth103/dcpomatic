@@ -89,8 +89,10 @@ ExamineFFmpegSubtitlesJob::run ()
 						*/
 						uint32_t const * palette = (uint32_t *) rect->data[1];
 #endif
-						RGBA c ((palette[i] & 0xff0000) >> 16, (palette[i] & 0xff00) >> 8, palette[i] & 0xff, (palette[i] & 0xff000000) >> 24);
-						_content->subtitle_stream()->set_colour (c, c);
+						for (int j = 0; j < rect->nb_colors; ++j) {
+							RGBA c ((palette[j] & 0xff0000) >> 16, (palette[j] & 0xff00) >> 8, palette[j] & 0xff, (palette[j] & 0xff000000) >> 24);
+							_content->subtitle_stream()->set_colour (c, c);
+						}
 					}
 				}
 			}
