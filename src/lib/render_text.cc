@@ -165,8 +165,8 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 
 	try {
 		font_files.set (FontFiles::NORMAL, shared_path () / "LiberationSans-Regular.ttf");
-//		font_files.set (FontFiles::ITALIC, shared_path () / "LiberationSans-Italic.ttf");
-//		font_files.set (FontFiles::BOLD, shared_path () / "LiberationSans-Bold.ttf");
+		font_files.set (FontFiles::ITALIC, shared_path () / "LiberationSans-Italic.ttf");
+		font_files.set (FontFiles::BOLD, shared_path () / "LiberationSans-Bold.ttf");
 	} catch (boost::filesystem::filesystem_error& e) {
 
 	}
@@ -176,12 +176,12 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 	if (!font_files.get(FontFiles::NORMAL) || !boost::filesystem::exists(font_files.get(FontFiles::NORMAL).get())) {
 		font_files.set (FontFiles::NORMAL, "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf");
 	}
-	// if (!font_files.get(FontFiles::ITALIC) || !boost::filesystem::exists(font_files.get(FontFiles::ITALIC).get())) {
-	// 	font_files.set (FontFiles::ITALIC, "/usr/share/fonts/truetype/liberation/LiberationSans-Italic.ttf");
-	// }
-	// if (!font_files.get(FontFiles::BOLD) || !boost::filesystem::exists(font_files.get(FontFiles::BOLD).get())) {
-	// 	font_files.set (FontFiles::BOLD, "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf");
-	// }
+	if (!font_files.get(FontFiles::ITALIC) || !boost::filesystem::exists(font_files.get(FontFiles::ITALIC).get())) {
+		font_files.set (FontFiles::ITALIC, "/usr/share/fonts/truetype/liberation/LiberationSans-Italic.ttf");
+	}
+	if (!font_files.get(FontFiles::BOLD) || !boost::filesystem::exists(font_files.get(FontFiles::BOLD).get())) {
+		font_files.set (FontFiles::BOLD, "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf");
+	}
 
 	BOOST_FOREACH (shared_ptr<Font> i, fonts) {
 		if (i->id() == subtitles.front().font() && i->file(FontFiles::NORMAL)) {
