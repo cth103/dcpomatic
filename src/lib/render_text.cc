@@ -158,7 +158,7 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 	Cairo::RefPtr<Cairo::Context> context = Cairo::Context::create (surface);
 
 	if (!fc_config) {
-		fc_config = FcConfigCreate ();
+		fc_config = FcInitLoadConfig ();
 	}
 
 	FontFiles font_files;
