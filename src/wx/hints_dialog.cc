@@ -40,7 +40,7 @@ using boost::dynamic_pointer_cast;
 HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> film, bool ok)
 	: wxDialog (parent, wxID_ANY, _("Hints"))
 	, _film (film)
-	, _hints (new Hints (film))
+	, _hints (0)
 	, _finished (false)
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
@@ -82,11 +82,6 @@ HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> film, bool ok)
 		_film_content_change_connection = locked_film->ContentChange.connect (boost::bind (&HintsDialog::film_content_change, this, _1));
 	}
 
-	_hints->Hint.connect (bind (&HintsDialog::hint, this, _1));
-	_hints->Progress.connect (bind (&HintsDialog::progress, this, _1));
-	_hints->Pulse.connect (bind (&HintsDialog::pulse, this));
-	_hints->Finished.connect (bind (&HintsDialog::finished, this));
-
 	film_change (CHANGE_TYPE_DONE);
 }
 
@@ -111,6 +106,12 @@ HintsDialog::film_change (ChangeType type)
 	_gauge->SetValue (0);
 	update ();
 	_finished = false;
+
+	_hints.reset (new Hints (_film));
+	_hints->Hint.connect (bind (&HintsDialog::hint, this, _1));
+	_hints->Progress.connect (bind (&HintsDialog::progress, this, _1));
+	_hints->Pulse.connect (bind (&HintsDialog::pulse, this));
+	_hints->Finished.connect (bind (&HintsDialog::finished, this));
 	_hints->start ();
 }
 

@@ -46,7 +46,7 @@ private:
 	wxGauge* _gauge;
 	wxStaticText* _gauge_message;
 	wxRichTextCtrl* _text;
-	boost::shared_ptr<Hints> _hints;
+	boost::scoped_ptr<Hints> _hints;
 	std::list<std::string> _current;
 	bool _finished;
 

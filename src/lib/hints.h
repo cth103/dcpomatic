@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -45,7 +45,6 @@ public:
 
 private:
 	void thread ();
-	void stop_thread ();
 	void hint (std::string h);
 	void text (PlayerText text, TextType type, DCPTimePeriod period);
 

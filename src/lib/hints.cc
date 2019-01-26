@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -62,39 +62,29 @@ Hints::Hints (weak_ptr<const Film> film)
 }
 
 void
-Hints::stop_thread ()
+Hints::start ()
 {
-	if (_thread) {
-		try {
-			{
-				boost::mutex::scoped_lock lm (_mutex);
-				_stop = true;
-			}
-			_thread->interrupt ();
-			_thread->join ();
-		} catch (...) {
-
-		}
-
-		delete _thread;
-		_thread = 0;
-	}
+	_thread = new boost::thread (bind(&Hints::thread, this));
 }
 
 Hints::~Hints ()
 {
-	stop_thread ();
-}
+	if (!_thread) {
+		return;
+	}
 
-void
-Hints::start ()
-{
-	stop_thread ();
-	_long_ccap = false;
-	_overlap_ccap = false;
-	_too_many_ccap_lines = false;
-	_stop = false;
-	_thread = new boost::thread (bind(&Hints::thread, this));
+	try {
+		{
+			boost::mutex::scoped_lock lm (_mutex);
+			_stop = true;
+		}
+		_thread->interrupt ();
+		_thread->join ();
+	} catch (...) {
+
+	}
+
+	delete _thread;
 }
 
 void
@@ -185,6 +175,10 @@ Hints::thread ()
 		}
 
 		hint (h);
+	}
+
+	if (film->video_frame_rate() > 30) {
+		hint (String::compose(_("You are set up for a DCP at a frame rate of %1.  This frame rate is not supported by all projectors.  You are advised to change the DCP frame rate to %2."), film->video_frame_rate(), film->video_frame_rate() / 2));
 	}
 
 	optional<double> lowest_speed_up;
