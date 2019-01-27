@@ -67,7 +67,6 @@ sources = """
           filter_editor.cc
           focus_manager.cc
           fonts_dialog.cc
-          font_files_dialog.cc
           full_config_dialog.cc
           gain_calculator_dialog.cc
           gdc_certificate_panel.cc
@@ -144,7 +143,7 @@ sources = """
 def configure(conf):
 
     wx_libs = 'core,richtext,adv,html,xml'
-    
+
     try:
         wx_config = '/usr/lib64/wx/config/gtk2-unicode-3.0'
         conf.check_cfg(msg='Checking for wxWidgets using gtk2-unicode-3.0',

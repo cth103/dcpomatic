@@ -362,9 +362,9 @@ maybe_add_text (
 			liberation_normal = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
 		}
 
-		/* Add all the fonts to the subtitle content */
+		/* Add the font to the subtitle content */
 		BOOST_FOREACH (shared_ptr<Font> j, fonts) {
-			asset->add_font (j->id(), j->file(FontFiles::NORMAL).get_value_or(liberation_normal));
+			asset->add_font (j->id(), j->file().get_value_or(liberation_normal));
 		}
 
 		if (dynamic_pointer_cast<dcp::InteropSubtitleAsset> (asset)) {

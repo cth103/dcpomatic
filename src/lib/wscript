@@ -103,7 +103,6 @@ sources = """
           filter.cc
           ffmpeg_image_proxy.cc
           font.cc
-          font_files.cc
           frame_rate_change.cc
           hints.cc
           internet.cc

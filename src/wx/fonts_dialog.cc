@@ -21,7 +21,6 @@
 #include "fonts_dialog.h"
 #include "wx_util.h"
 #include "system_font_dialog.h"
-#include "font_files_dialog.h"
 #include "dcpomatic_button.h"
 #include "lib/font.h"
 #include "lib/content.h"
@@ -53,25 +52,9 @@ FontsDialog::FontsDialog (wxWindow* parent, shared_ptr<Content> content, shared_
 	{
 		wxListItem ip;
 		ip.SetId (1);
-		ip.SetText (_("Normal file"));
-		ip.SetWidth (150);
+		ip.SetText (_("File"));
+		ip.SetWidth (450);
 		_fonts->InsertColumn (1, ip);
-	}
-
-	{
-		wxListItem ip;
-		ip.SetId (2);
-		ip.SetText (_("Italic file"));
-		ip.SetWidth (150);
-		_fonts->InsertColumn (2, ip);
-	}
-
-	{
-		wxListItem ip;
-		ip.SetId (3);
-		ip.SetText (_("Bold file"));
-		ip.SetWidth (150);
-		_fonts->InsertColumn (3, ip);
 	}
 
 	wxBoxSizer* sizer = new wxBoxSizer (wxHORIZONTAL);
@@ -113,10 +96,8 @@ FontsDialog::setup ()
 		item.SetId (n);
 		_fonts->InsertItem (item);
 		_fonts->SetItem (n, 0, std_to_wx (i->id ()));
-		for (int j = 0; j < FontFiles::VARIANTS; ++j) {
-			if (i->file(static_cast<FontFiles::Variant>(j))) {
-				_fonts->SetItem (n, j + 1, i->file(static_cast<FontFiles::Variant>(j)).get().leaf().string ());
-			}
+		if (i->file()) {
+			_fonts->SetItem (n, 1, i->file()->leaf().string ());
 		}
 		++n;
 	}
@@ -159,10 +140,30 @@ FontsDialog::edit_clicked ()
 		return;
 	}
 
-	FontFilesDialog* d = new FontFilesDialog (this, font->files ());
-	if (d->ShowModal () == wxID_OK) {
-		font->set_files (d->get ());
+        /* The wxFD_CHANGE_DIR here prevents a `could not set working directory' error 123 on Windows when using
+           non-Latin filenames or paths.
+        */
+        wxString default_dir = "";
+#ifdef DCPOMATIC_LINUX
+        if (boost::filesystem::exists ("/usr/share/fonts/truetype")) {
+                default_dir = "/usr/share/fonts/truetype";
+        } else {
+                default_dir = "/usr/share/fonts";
+        }
+#endif
+#ifdef DCPOMATIC_OSX
+        default_dir = "/System/Library/Fonts";
+#endif
+
+	wxFileDialog* d = new wxFileDialog (this, _("Choose a font file"), default_dir, wxT (""), wxT ("*.ttf"), wxFD_CHANGE_DIR);
+	int const r = d->ShowModal ();
+
+	if (r != wxID_OK) {
+		d->Destroy ();
+		return;
 	}
+
+	font->set_file (wx_to_std(d->GetPath()));
 	d->Destroy ();
 
 	setup ();

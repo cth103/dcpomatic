@@ -25,23 +25,13 @@
 
 using std::string;
 
-static char const * names[] = {
-	"Normal",
-	"Italic",
-	"Bold"
-};
-
 Font::Font (cxml::NodePtr node)
 	: _id (node->string_child ("Id"))
 {
-	DCPOMATIC_ASSERT (FontFiles::VARIANTS == 3);
-
-	BOOST_FOREACH (cxml::NodePtr i, node->node_children ("File")) {
+	BOOST_FOREACH (cxml::NodePtr i, node->node_children("File")) {
 		string variant = i->optional_string_attribute("Variant").get_value_or ("Normal");
-		for (int j = 0; j < FontFiles::VARIANTS; ++j) {
-			if (variant == names[j]) {
-				_files.set (static_cast<FontFiles::Variant>(j), i->content());
-			}
+		if (variant == "Normal") {
+			_file = i->content();
 		}
 	}
 }
@@ -49,15 +39,9 @@ Font::Font (cxml::NodePtr node)
 void
 Font::as_xml (xmlpp::Node* node)
 {
-	DCPOMATIC_ASSERT (FontFiles::VARIANTS == 3);
-
 	node->add_child("Id")->add_child_text (_id);
-	for (int i = 0; i < FontFiles::VARIANTS; ++i) {
-		if (_files.get(static_cast<FontFiles::Variant>(i))) {
-			xmlpp::Element* e = node->add_child ("File");
-			e->set_attribute ("Variant", names[i]);
-			e->add_child_text (_files.get(static_cast<FontFiles::Variant>(i)).get().string ());
-		}
+	if (_file) {
+		node->add_child("File")->add_child_text(_file->string());
 	}
 }
 
@@ -69,13 +53,7 @@ operator== (Font const & a, Font const & b)
 		return false;
 	}
 
-	for (int i = 0; i < FontFiles::VARIANTS; ++i) {
-		if (a.file(static_cast<FontFiles::Variant>(i)) != b.file(static_cast<FontFiles::Variant>(i))) {
-			return false;
-		}
-	}
-
-	return true;
+	return a.file() == b.file();
 }
 
 bool

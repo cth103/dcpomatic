@@ -102,11 +102,9 @@ Hints::thread ()
 		BOOST_FOREACH (shared_ptr<Content> i, content) {
 			BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
 				BOOST_FOREACH (shared_ptr<Font> k, j->fonts()) {
-					for (int l = 0; l < FontFiles::VARIANTS; ++l) {
-						optional<boost::filesystem::path> const p = k->file (static_cast<FontFiles::Variant>(l));
-						if (p && boost::filesystem::file_size (p.get()) >= (640 * 1024)) {
-							big_font_files = true;
-						}
+					optional<boost::filesystem::path> const p = k->file ();
+					if (p && boost::filesystem::file_size(p.get()) >= (640 * 1024)) {
+						big_font_files = true;
 					}
 				}
 			}

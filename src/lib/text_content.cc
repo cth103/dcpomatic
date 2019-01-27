@@ -405,9 +405,7 @@ TextContent::identifier () const
 	   types of subtitle content involve fonts.
 	*/
 	BOOST_FOREACH (shared_ptr<Font> f, _fonts) {
-		for (int i = 0; i < FontFiles::VARIANTS; ++i) {
-			s += "_" + f->file(static_cast<FontFiles::Variant>(i)).get_value_or("Default").string();
-		}
+		s += "_" + f->file().get_value_or("Default").string();
 	}
 
 	/* The DCP track and language are for metadata only, and don't affect

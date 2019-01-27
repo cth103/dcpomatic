@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test2)
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
 	/* Use test/data/subrip2.srt as if it were a font file  */
-	content->only_text()->fonts().front()->set_file (FontFiles::NORMAL, "test/data/subrip2.srt");
+	content->only_text()->fonts().front()->set_file("test/data/subrip2.srt");
 
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());

@@ -48,7 +48,7 @@ using boost::optional;
 using boost::algorithm::replace_all;
 
 static FcConfig* fc_config = 0;
-static list<pair<FontFiles, string> > fc_config_fonts;
+static list<pair<boost::filesystem::path, string> > fc_config_fonts;
 
 string
 marked_up (list<StringText> subtitles, int target_height, float fade_factor)
@@ -161,36 +161,28 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 		fc_config = FcInitLoadConfig ();
 	}
 
-	FontFiles font_files;
+	optional<boost::filesystem::path> font_file;
 
 	try {
-		font_files.set (FontFiles::NORMAL, shared_path () / "LiberationSans-Regular.ttf");
-		font_files.set (FontFiles::ITALIC, shared_path () / "LiberationSans-Italic.ttf");
-		font_files.set (FontFiles::BOLD, shared_path () / "LiberationSans-Bold.ttf");
+		font_file = shared_path () / "LiberationSans-Regular.ttf";
 	} catch (boost::filesystem::filesystem_error& e) {
 
 	}
 
 	/* Hack: try the debian/ubuntu locations if getting the shared path failed */
 
-	if (!font_files.get(FontFiles::NORMAL) || !boost::filesystem::exists(font_files.get(FontFiles::NORMAL).get())) {
-		font_files.set (FontFiles::NORMAL, "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf");
-	}
-	if (!font_files.get(FontFiles::ITALIC) || !boost::filesystem::exists(font_files.get(FontFiles::ITALIC).get())) {
-		font_files.set (FontFiles::ITALIC, "/usr/share/fonts/truetype/liberation/LiberationSans-Italic.ttf");
-	}
-	if (!font_files.get(FontFiles::BOLD) || !boost::filesystem::exists(font_files.get(FontFiles::BOLD).get())) {
-		font_files.set (FontFiles::BOLD, "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf");
+	if (!font_file || !boost::filesystem::exists(*font_file)) {
+		font_file = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
 	}
 
 	BOOST_FOREACH (shared_ptr<Font> i, fonts) {
-		if (i->id() == subtitles.front().font() && i->file(FontFiles::NORMAL)) {
-			font_files = i->files ();
+		if (i->id() == subtitles.front().font() && i->file()) {
+			font_file = i->file ();
 		}
 	}
 
-	list<pair<FontFiles, string> >::const_iterator existing = fc_config_fonts.begin ();
-	while (existing != fc_config_fonts.end() && existing->first != font_files) {
+	list<pair<boost::filesystem::path, string> >::const_iterator existing = fc_config_fonts.begin ();
+	while (existing != fc_config_fonts.end() && existing->first != *font_file) {
 		++existing;
 	}
 
@@ -199,17 +191,9 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 		font_name = existing->second;
 	} else {
 		/* Make this font available to DCP-o-matic */
-		for (int i = 0; i < FontFiles::VARIANTS; ++i) {
-			if (font_files.get(static_cast<FontFiles::Variant>(i))) {
-				FcConfigAppFontAddFile (
-					fc_config,
-					reinterpret_cast<FcChar8 const *> (font_files.get(static_cast<FontFiles::Variant>(i)).get().string().c_str())
-					);
-			}
-		}
-
+		FcConfigAppFontAddFile (fc_config, reinterpret_cast<FcChar8 const *>(font_file->string().c_str()));
 		FcPattern* pattern = FcPatternBuild (
-			0, FC_FILE, FcTypeString, font_files.get(FontFiles::NORMAL).get().string().c_str(), static_cast<char *> (0)
+			0, FC_FILE, FcTypeString, font_file->string().c_str(), static_cast<char *> (0)
 			);
 		FcObjectSet* object_set = FcObjectSetBuild (FC_FAMILY, FC_STYLE, FC_LANG, FC_FILE, static_cast<char *> (0));
 		FcFontSet* font_set = FcFontList (fc_config, pattern, object_set);
@@ -234,7 +218,7 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 		FcObjectSetDestroy (object_set);
 		FcPatternDestroy (pattern);
 
-		fc_config_fonts.push_back (make_pair (font_files, font_name));
+		fc_config_fonts.push_back (make_pair(*font_file, font_name));
 	}
 
 	FcConfigSetCurrent (fc_config);
