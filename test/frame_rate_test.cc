@@ -165,7 +165,7 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_single)
 	Config::instance()->set_allowed_dcp_frame_rates (afr);
 
 	content->_video_frame_rate = 60;
-	best = film->best_video_frame_rate ();
+	best = film->playlist()->best_video_frame_rate ();
 	frc = FrameRateChange (60, best);
 	BOOST_CHECK_EQUAL (best, 60);
 	BOOST_CHECK_EQUAL (frc.skip, false);
@@ -174,7 +174,7 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_single)
 	BOOST_CHECK_CLOSE (frc.speed_up, 1, 0.1);
 
 	content->_video_frame_rate = 50;
-	best = film->best_video_frame_rate ();
+	best = film->playlist()->best_video_frame_rate ();
 	frc = FrameRateChange (50, best);
 	BOOST_CHECK_EQUAL (best, 50);
 	BOOST_CHECK_EQUAL (frc.skip, false);
@@ -183,7 +183,7 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_single)
 	BOOST_CHECK_CLOSE (frc.speed_up, 1, 0.1);
 
 	content->_video_frame_rate = 48;
-	best = film->best_video_frame_rate ();
+	best = film->playlist()->best_video_frame_rate ();
 	frc = FrameRateChange (48, best);
 	BOOST_CHECK_EQUAL (best, 48);
 	BOOST_CHECK_EQUAL (frc.skip, false);
