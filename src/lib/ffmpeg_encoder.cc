@@ -155,9 +155,9 @@ FFmpegEncoder::go ()
 	setup_video ();
 	setup_audio ();
 
-	avformat_alloc_output_context2 (&_format_context, 0, 0, _output.string().c_str());
+	int r = avformat_alloc_output_context2 (&_format_context, 0, 0, _output.string().c_str());
 	if (!_format_context) {
-		throw runtime_error ("could not allocate FFmpeg format context");
+		throw runtime_error (String::compose("could not allocate FFmpeg format context (%1)", r));
 	}
 
 	_video_stream = avformat_new_stream (_format_context, _video_codec);
@@ -180,7 +180,7 @@ FFmpegEncoder::go ()
 		throw runtime_error ("could not open FFmpeg video codec");
 	}
 
-	int r = avcodec_open2 (_audio_codec_context, _audio_codec, 0);
+	r = avcodec_open2 (_audio_codec_context, _audio_codec, 0);
 	if (r < 0) {
 		char buffer[256];
 		av_strerror (r, buffer, sizeof(buffer));
