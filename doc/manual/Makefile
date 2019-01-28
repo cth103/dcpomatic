@@ -11,7 +11,7 @@ SCREENSHOTS := file-new.png video-new-film.png still-new-film.png video-select-c
                calculate-audio-gain.png add-file.png dcp-tab.png colour-conversion.png \
                prefs-kdm-email.png prefs-general.png prefs-tms.png \
                prefs-advanced.png prefs-defaults.png prefs-servers.png prefs-keys.png \
-               making-dcp.png filters.png video-tab.png audio-tab.png subtitles-tab.png timing-tab.png \
+               making-dcp.png filters.png video-tab.png audio-tab.png timing-tab.png \
                audio-plot.png audio-map-eg1.png audio-map-eg2.png audio-map-eg3.png kdm.png \
 	       kdm-creator.png
 

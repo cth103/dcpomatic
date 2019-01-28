@@ -526,7 +526,7 @@ to encode a single frame which it can then repeat.
 
 
 <!-- ============================================================== -->
-<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en" id="ch-manipulating-existing-dcps">
 <title>Manipulating existing DCPs</title>
 
 <para>
@@ -2065,6 +2065,43 @@ from the timeline is also preserved.
 </chapter>
 
 
+<!-- ============================================================== -->
+<chapter xml:id="ch-export" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+  <title>Export</title>
+
+  <para>
+    As well as creating DCPs from the content you specify, DCP-o-matic
+    can also export projects to ProRes and MP4 files.  This is most
+    often useful to convert DCPs to a file that is smaller and easier to play back.
+  </para>
+
+  <para>
+    To convert a DCP to ProRes or MP4, the first step is start a new
+    project and import the DCP (see <xref
+    linkend="ch-manipulating-existing-dcps"/>).  Then, choose
+    <guilabel>Export...</guilabel> from the <guilabel>Jobs</guilabel>
+    menu to open the export dialogue, as shown in <xref linkend="fig-export"/>.
+  </para>
+
+  <figure id="fig-export">
+    <title>Export dialogue</title>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="screenshots/export&scs;"/>
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+  <para>
+    From this dialogue you can select the required output format,
+    output file and, in the case of MP4, the quality of the output
+    file.  Higher quality files will, of course, be larger.
+  </para>
+
+  <para>
+    You can also choose whether to mix down multichannel sources to stereo and whether you want to write separate reels to separate files.
+  </para>
+</chapter>
 
 <!-- ============================================================== -->
 <chapter xml:id="ch-encryption" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
