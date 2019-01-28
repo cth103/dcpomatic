@@ -1306,29 +1306,37 @@ with respect to the video, and a negative delay will move it earlier.
 
 <!-- ============================================================== -->
 <section>
-<title>Subtitles</title>
+<title>Timed text (subtitles and closed captions)</title>
 
 <para>
-The subtitles tab contains settings related to subtitles in your
-content, as shown in <xref linkend="fig-subtitles-tab"/>.
+The timed text tab contains settings related to subtitles and closed captions in your
+content, as shown in <xref linkend="fig-timed-text-tab"/>.
 </para>
 
-<figure id="fig-subtitles-tab">
-  <title>Subtitle settings tab</title>
+<figure id="fig-timed-text-tab">
+  <title>Timed text settings tab</title>
   <mediaobject>
     <imageobject>
-       <imagedata fileref="screenshots/subtitles-tab&scs;"/>
+       <imagedata fileref="screenshots/timed-text-tab&scs;"/>
     </imageobject>
   </mediaobject>
 </figure>
+
+<para>
+Depending on where timed text comes from it can sometimes be used as
+either an open subtitle (to be overlaid onto the cinema screen and so
+seen by everybody) or as a closed caption (to be displayed to
+individual viewers using a special system such as the Doremi
+CaptiView&trade;)
+</para>
 
 <para>
 DCP-o-matic can either:
 </para>
 
 <itemizedlist>
-  <listitem>Extract subtitles that are embedded in video files, or</listitem>
-  <listitem>Use subtitles from SubRip (<code>.srt</code>), SubStation
+  <listitem>Extract timed text that is embedded in video files, or</listitem>
+  <listitem>Use timed text from SubRip (<code>.srt</code>), SubStation
   Alpha (<code>.ssa</code> or <code>.ass</code>) or DCP XML files.  You may find the great
   free program <ulink
   url="http://www.nikse.dk/subtitleedit/">Subtitle Edit</ulink> useful
@@ -1336,15 +1344,18 @@ DCP-o-matic can either:
 </itemizedlist>
 
 <para>
-Embedded subtitles are usually represented using a set of bitmaps,
-especially on files that have come from DVD or BluRay.  Such subtitles
-can (currently) only be &lsquo;burnt&rsquo; into the DCP (that is,
-they are included in the image and not overlaid by the projector).
+Embedded timed text is usually represented using a set of bitmaps,
+especially on files that have come from DVD or BluRay.  Such text can
+be used as a subtitle, but not a closed caption (since the closed
+captioning system requires the text to be delivered as
+character codes rather than an image).
 </para>
 
+<para>In contrast, SubRip, SubStation Alpha or DCP text can be used as either a subtitle or a closed caption.</para>
+
 <para>
-With SubRip, SubStation Alpha or DCP subtitles you have the choice to
-either burn-in or include the subtitles as separate subtitle
+With subtitles you have the further choice of whether to burn the
+subtitles into the image or include them as a separate subtitle
 &lsquo;asset&rsquo; within your DCP (in which case the projector
 overlays them onto the image on playback).  The difference between
 burn-in and overlay is illustrated by <xref linkend="fig-burn-in"/>
@@ -1379,42 +1390,44 @@ every language.
 </para>
 
 <para>
-Select the <guilabel>Use Subtitles</guilabel> check-box to enable
-the subtitles in the selected content.
+Select the <guilabel>Use as</guilabel> check-box to enable the timed
+text in the selected content, then choose what you want to use the
+text for: open subtitles or closed captions.
 </para>
 
 <para>
 Select the <guilabel>Burn subtitles into image</guilabel> check-box to
-burn these subtitles into the image; if this is not ticked the
+burn subtitles into the image; if this is not ticked the
 subtitles will be included separately in the DCP to be rendered by the
-projector.  This check-box will always be ticked if you are using
-embedded &lsquo;image&rsquo; subtitles.
+projector.
 </para>
 
 <para>
 The <guilabel>X Offset</guilabel> and <guilabel>Y Offset</guilabel>
-controls move the subtitles around within the image.  The offsets are
-expressed as a percentage of the video frame size; 100% X offset is
-the entire width of the frame, and 100% Y offset is the entire height.
-Hence, to move the subtitles down by half the frame height you would
-use a Y offset of 50%.
+controls move subtitles around within the image.  These controls have
+no effect for closed captions.  The offsets are expressed as a
+percentage of the video frame size; 100% X offset is the entire width
+of the frame, and 100% Y offset is the entire height.  Hence, to move
+the subtitles down by half the frame height you would use a Y offset
+of 50%.
 </para>
 
 <para>
 The <guilabel>X Scale</guilabel> and <guilabel>Y Scale</guilabel>
-controls scale the subtitles.  Scale values of 1 make the subtitles
-the same size (relative to the size of the image) as they are on the
-original.  Values lower than 1 make them smaller, and values higher
-make them larger.  You can stretch the subtitles in either direction
-by specifying different values for X and Y scale.  Subtitles from DVD
-and Blu Ray sources are frequently larger (relative to the video
-frame) than those typically used for DCP, so it is often useful to
-scale such subtitles down using these controls.
+controls scale subtitles.  These controls have no effect for closed
+captions.  Scale values of 1 make the subtitles the same size
+(relative to the size of the image) as they are on the original.
+Values lower than 1 make them smaller, and values higher make them
+larger.  You can stretch the subtitles in either direction by
+specifying different values for X and Y scale.  Subtitles from DVD and
+Blu Ray sources are frequently larger (relative to the video frame)
+than those typically used for DCP, so it is often useful to scale such
+subtitles down using these controls.
 </para>
 
 <para>
 The <guilabel>Line spacing</guilabel> control adjusts the line spacing
-of the subtitles.  This only works for non-embedded (text) subtitles.
+of the subtitles.  This only works for subtitles that did not come from bitmaps.
 </para>
 
 <para>
@@ -1423,14 +1436,17 @@ that is used when the content has more than one.
 </para>
 
 <para>
-If you are using non-embedded (text) subtitles you can see the
+If you are using non-image (text) subtitles or closed captions you can see the
 subtitle text and timings by clicking the <guilabel>View...</guilabel>
 button, or specify the fonts that should be used by clicking <guilabel>Fonts...</guilabel>.
 </para>
 
 <para>
 With any subtitles you can click <guilabel>Appearance...</guilabel> to
-change how the subtitles look.
+change how the subtitles look.  Some of the controls in the
+<guilabel>Apperance</guilabel> only apply to burnt-in subtitles, as
+only limited control is available for subtitles rendered by the
+projection system.
 </para>
 
 </section>
