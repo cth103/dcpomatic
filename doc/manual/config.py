@@ -2,7 +2,7 @@ import sys
 current_tag = None
 current_doc = None
 current_opt = False
-print '<itemizedlist>'
+print('<itemizedlist>')
 with open(sys.argv[1]) as f:
     for line in f:
         line = line.strip();
@@ -19,6 +19,6 @@ with open(sys.argv[1]) as f:
                 optional = ' (optional)'
             else:
                 optional = ''
-            print '<listitem><code>&lt;%s&gt;</code>%s &#8212; %s</listitem>' % (current_tag, optional, current_doc.strip())
+            print('<listitem><code>&lt;%s&gt;</code>%s &#8212; %s</listitem>' % (current_tag, optional, current_doc.strip()))
             current_tag = None
-print '</itemizedlist>'
+print('</itemizedlist>')

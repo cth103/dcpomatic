@@ -66,13 +66,22 @@ diagrams/%.pdf:	diagrams/%.svg
 	inkscape -z -f $< --export-pdf $@ --export-area-drawing
 
 config.xml:	../../src/lib/config.cc config.py
-	python config.py ../../src/lib/config.cc > config.xml
+	python3 config.py ../../src/lib/config.cc > config.xml
+
+dcpomatic_create.xml:	../../src/tools/dcpomatic_create.cc cli.py
+	python3 cli.py dcpomatic_create > dcpomatic_create.xml
+
+dcpomatic_cli.xml:	../../src/tools/dcpomatic_cli.cc cli.py
+	python3 cli.py dcpomatic_cli > dcpomatic_cli.xml
+
+dcpomatic_kdm_cli.xml:	../../src/tools/dcpomatic_kdm_cli.cc cli.py
+	python3 cli.py dcpomatic_kdm_cli > dcpomatic_kdm_cli.xml
 
 #
 # HTML
 #
 
-html:	$(XML) config.xml dcpomatic-html.xsl extensions-html.ent dcpomatic.css \
+html:	$(XML) config.xml dcpomatic-html.xsl extensions-html.ent dcpomatic.css dcpomatic_create.xml dcpomatic_cli.xml dcpomatic_kdm_cli.xml \
 	$(addprefix html/screenshots/,$(SCREENSHOTS)) \
 	$(subst .svg,.png,$(addprefix diagrams/,$(DIAGRAMS))) \
 
@@ -92,7 +101,7 @@ html:	$(XML) config.xml dcpomatic-html.xsl extensions-html.ent dcpomatic.css \
 # PDF
 #
 
-pdf:	$(XML) config.xml dcpomatic-pdf.xsl extensions-pdf.ent \
+pdf:	$(XML) config.xml dcpomatic-pdf.xsl extensions-pdf.ent dcpomatic_create.xml dcpomatic_cli.xml dcpomatic_kdm_cli.xml \
 	$(addprefix screenshots/,$(SCREENSHOTS)) \
 	$(subst .svg,.pdf,$(addprefix diagrams/,$(DIAGRAMS)))
 

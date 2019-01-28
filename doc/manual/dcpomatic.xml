@@ -107,7 +107,8 @@ version.
 <para>
 If you are still using Windows XP, download the specific XP version as
 it should be more stable on your machine than the &lsquo;normal&rsquo;
-Windows version.
+Windows version.  Be aware, though, that support for Windows XP will
+not last forever and you should plan to upgrade if at all possible.
 </para>
 
 </section>
@@ -224,7 +225,7 @@ directory:
 </para>
 
 <programlisting>
-./waf configure
+./waf configure --disable-tests
 ./waf build
 sudo ./waf install
 </programlisting>
@@ -240,9 +241,38 @@ dcpomatic2
 <para>
 in a shell.
 </para>
+</section>
+
+<!-- ============================================================== -->
+<section>
+<title>&lsquo;Simple&rsquo; and &lsquo;Full&rsquo; modes</title>
+
+<para>When you start DCP-o-matic for the first time it will ask you if
+you want to use &lsquo;simple&rsquo; or &lsquo;full&rsquo; mode.
+</para>
+
+<para>The difference between these two is that some of DCP-o-matic's
+more complex or less-used controls are hidden from view in
+&lsquo;Simple&rsquo; mode.  This makes the interface simpler to
+navigate.  You may wish to choose this mode if you do not have much
+experience with video processing.
+</para>
+
+<para>Even if you choose &lsquo;Simple&rsquo; mode you can always go
+back to &lsquo;Full&rsquo; mode by changing the <guilabel>Interface
+complexity</guilabel> setting in the <guilabel>General</guilabel> tab
+of <guilabel>Preferences</guilabel>.
+</para>
+
+<para>
+All the screenshots in this manual are from a copy of DCP-o-matic in &lsquo;Full&rsquo; mode.
+</para>
 
 </section>
+
 </chapter>
+
+
 
 
 <!-- ============================================================== -->
@@ -500,21 +530,21 @@ to encode a single frame which it can then repeat.
 <title>Manipulating existing DCPs</title>
 
 <para>
-Frequently DCP-o-matic is used to take content in formats such as MP4
-and convert it to JPEG2000 for a DCP.  It can also be used
-to take existing DCPs and modify them in various ways.
+DCP-o-matic is often used to take content in formats such as MP4 and
+make it into a DCP.  It can also be used to take existing DCPs and
+modify them in various ways.
 </para>
 
 <section>
 <title>Importing a DCP into DCP-o-matic</title>
 
 <para>
-If you want to do something to an existing DCP the first step is to
-import it.  Click <guilabel>Add DCP...</guilabel> and select your
-DCP's folder.  It will be added to the DCP-o-matic project.  If the
-DCP is unencrypted you can preview it in the normal way, though
-playback will be very slow as decoding of DCPs is almost as
-computationally intensive as encoding them.
+The first step in manipulating an existing DCP is to import it.  Click
+<guilabel>Add DCP...</guilabel> and select your DCP's folder.  It will
+be added to the DCP-o-matic project.  If the DCP is unencrypted you
+can preview it in the normal way, though playback will be slow as
+decoding of DCPs is almost as computationally intensive as encoding
+them.
 </para>
 
 <para>
@@ -602,8 +632,8 @@ the following content settings:
 </itemizedlist>
 
 <para>
-If you do change any of these settings on a piece of DCP content
-DCP-o-matic will decode and then re-encode the JPEG2000 data.
+DCP-o-matic will be forced to decode and re-encode your JPEG2000 data
+if you change any of these settings on a piece of DCP content.
 </para>
 
 </section>
@@ -989,7 +1019,7 @@ linkend="tab-colour-conversion"/>.
 <colspec colwidth='5*'/>
 <tbody>
 <row>
-<entry>sRGB</entry><entry>Still images in RGB, e.g. photographs</entry>.
+<entry>sRGB</entry><entry>Still images in RGB, e.g. photographs.</entry>
 </row>
 <row>
 <entry>Rec. 601</entry><entry>Standard-definition content (fewer than about 1000 pixels across) including DVD rips.</entry>
@@ -2177,7 +2207,7 @@ linkend="fig-kdm"/>.
   <title>KDM dialog</title>
   <mediaobject>
     <imageobject>
-      <imagedata scale="40" fileref="screenshots/kdm&scs;"/>
+      <imagedata scale="35" fileref="screenshots/kdm&scs;"/>
     </imageobject>
   </mediaobject>
 </figure>
@@ -2317,7 +2347,7 @@ DCP-o-matic.  Its window is shown in <xref linkend="fig-kdm-creator"/>.
   <title>The KDM creator</title>
   <mediaobject>
     <imageobject>
-      <imagedata scale="35" fileref="screenshots/kdm-creator&scs;"/>
+      <imagedata scale="30" fileref="screenshots/kdm-creator&scs;"/>
     </imageobject>
   </mediaobject>
 </figure>
@@ -3137,8 +3167,8 @@ The <guilabel>Frame Rate</guilabel> control in the
 <guilabel>DCP</guilabel> tab sets the video frame rate that the DCP
 will use.  Clicking <guilabel>Use best</guilabel> sets the rate to
 what DCP-o-matic thinks is the best for your content.  With this
-button, DCP-o-matic assumes that the whole range of frame rates (24,
-25, 30 and 48fps) are allowable.
+button, DCP-o-matic assumes that the most commonly-working frame rates (24,
+25 and 30fps) are allowed.
 </para>
 
 <para>
@@ -3362,7 +3392,7 @@ to the cinema which is showing your DCP.
     </para>
 
     <para>
-      <code>dcpomatic2_create [OPTION] [CONTENT] [&lt;CONTENT&gt; ...]</code>
+      <code>dcpomatic2_create [OPTION] &lt;CONTENT&gt; [[OPTION] &lt;CONTENT&gt; ...]</code>
     </para>
 
     <para>
@@ -3380,20 +3410,7 @@ to the cinema which is showing your DCP.
       The options are:
     </para>
 
-    <itemizedlist>
-      <listitem><code>-v</code>, <code>--version</code> &#8212; show DCP-o-matic version</listitem>
-      <listitem><code>-h</code>, <code>--help</code> &#8212; show this help</listitem>
-      <listitem><code>-n</code>, <code>--name</code> &#8212; &lt;name&gt; film name</listitem>
-      <listitem><code>-t, --template &lt;name&gt;</code> &#8212; template name</listitem>
-      <listitem><code>-c, --dcp-content-type &lt;type&gt;</code> &#8212; FTR, SHR, TLR, TST, XSN, RTG, TSR, POL, PSA or ADV</listitem>
-      <listitem><code>--container-ratio &lt;ratio&gt;</code> &#8212; 119, 133, 137, 138, 166, 178, 185 or 239</listitem>
-      <listitem><code>--content-ratio &lt;ratio&gt;</code> &#8212; 119, 133, 137, 138, 166, 178, 185 or 239</listitem>
-      <listitem><code>-s, --still-length &lt;n&gt;</code> &#8212; number of seconds that still content should last</listitem>
-      <listitem><code>--standard &lt;standard&gt;</code> &#8212; SMPTE or interop (default SMPTE)</listitem>
-      <listitem><code>--no-use-isdcf-name&gt;</code> &#8212; do not use an ISDCF name; use the specified name unmodified</listitem>
-      <listitem><code>--no-sign</code>&#8212; do not sign the DCP</listitem>
-      <listitem><code>-o</code>, <code>--output &lt;dir&gt;</code> &#8212; output directory</listitem>
-    </itemizedlist>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="dcpomatic_create.xml"/>
 
     <para>
       For example, to setup a film using a MP4 file you might do:
@@ -3423,21 +3440,7 @@ to the cinema which is showing your DCP.
       <code>dcpomatic2_cli [OPTION] [FILM]</code>
     </para>
 
-    <para>
-      <itemizedlist>
-	<listitem><code>-v</code>, <code>--version</code> &#8212; show DCP-o-matic version</listitem>
-	<listitem><code>-h</code>, <code>--help</code> &#8212; show this help</listitem>
-	<listitem><code>-f</code>, <code>--flags</code> &#8212; show flags passed to C++ compiler on build</listitem>
-	<listitem><code>-n</code>, <code>--no-progress</code> &#8212; do not print progress to stdout</listitem>
-	<listitem><code>-r</code>, <code>--no-remote</code> &#8212; do not use any remote servers</listitem>
-	<listitem><code>-t</code>, <code>--threads</code> &#8212; specify number of local encoding threads (overriding configuration)</listitem>
-	<listitem><code>-j</code>, <code>--json</code> &lt;port&gt; &#8212; run a JSON server on the specified port</listitem>
-	<listitem><code>-k</code>, <code>--keep-going</code> &#8212; keep running even when the job is complete</listitem>
-	<listitem><code>-s</code>, <code>--servers</code> &#8212; just display a list of encoding servers that DCP-o-matic is configured to use; don't encode</listitem>
-	<listitem><code>-d</code>, <code>--dcp-path</code> &#8212; echo DCP's path to stdout on successful completion (implies -n)</listitem>
-	<listitem><code>--dump</code> &#8212; just dump a summary of the film's settings; don't encode</listitem>
-      </itemizedlist>
-    </para>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="dcpomatic_cli.xml"/>
 
     <para>
       For example, to encode a film called <code>my_film</code> you might do:
@@ -3459,21 +3462,7 @@ to the cinema which is showing your DCP.
       <code>dcpomatic2_kdm_cli [OPTION] &lt;FILM|CPL-ID&gt;</code>
     </para>
 
-    <para>
-      <itemizedlist>
-	<listitem><code>-o</code>, <code>--output</code> &#8212; output file or directory</listitem>
-	<listitem><code>-f</code>, <code>--valid-from</code> &#8212; valid from time (in local time zone of the cinema) (e.g. "2013-09-28 01:41:51") or "now"</listitem>
-	<listitem><code>-t</code>, <code>--valid-to</code> &#8212; valid to time (in local time zone of the cinema) (e.g. "2014-09-28 01:41:51")</listitem>
-	<listitem><code>-d</code>, <code>--valid-duration</code> &#8212; valid duration (e.g. "1 day", "4 hours", "2 weeks")</listitem>
-	<listitem><code>--formulation</code> &#8212; modified-transitional-1, dci-any or dci-specific [default modified-transitional-1]</listitem>
-	<listitem><code>-z</code>, <code>--zip</code> &#8212; ZIP each cinema's KDMs into its own file</listitem>
-	<listitem><code>-v</code>, <code>--verbose</code> &#8212; be verbose</listitem>
-	<listitem><code>-c</code>, <code>--cinema</code> &#8212; specify a cinema, either by name or email address</listitem>
-	<listitem><code>--certificate</code> &#8212; file containing projector certificate</listitem>
-	<listitem><code>--cinemas</code> &#8212; list known cinemas from the DCP-o-matic settings</listitem>
-	<listitem><code>--dkdm-cpls</code> &#8212; list CPLs for which DCP-o-matic has DKDMs</listitem>
-      </itemizedlist>
-    </para>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="dcpomatic_kdm_cli.xml"/>
 
   </section>
 </chapter>
