@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-26 23:08+0000\n"
-"PO-Revision-Date: 2019-01-13 18:05+0100\n"
+"PO-Revision-Date: 2019-01-29 23:56+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -546,41 +546,42 @@ msgid "Set decode resolution to match display"
 msgstr "Régler la résolution de décodage en fonction de l'affichage"
 
 #: src/tools/dcpomatic.cc:704
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The DCP and intermediate files for this film will take up about %.1f GB, and "
 "the disk that you are using only has %.1f GB available.  You would need half "
 "as much space if the filesystem supported hard links, but it does not.  Do "
 "you want to continue anyway?"
 msgstr ""
-"Le DCP de ce film pésera environ %.1f Go. Le disque que vous utilisez n'a "
-"que %.1f Go disponible(s). Vous auriez besoinde la moitié de cet espace si "
-"votre système supportait les \"hard links\" mais ce n'est pas le cas. "
-"Souhaitez vous continuer quand-même?"
+"Le DCP et ses fichiers intermédiaires pour ce film occuperont environ %.1f "
+"GB. Le disque que vous utilisez ne dispose que %.1f GB disponible(s). Vous "
+"auriez besoin de la moitié de cet espace si votre système supportait les "
+"\"hard links\" mais ce n'est pas le cas. Souhaitez vous continuer quand-même?"
 
 #: src/tools/dcpomatic.cc:702
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The DCP for this film will take up about %.1f GB, and the disk that you are "
 "using only has %.1f GB available.  Do you want to continue anyway?"
 msgstr ""
-"Le DCP de ce film pèsera environ %.1f Go. Le disque que vous utilisez n'a "
-"que %.1f Go disponible(s). Souhaitez-vous continuer?"
+"Le DCP de ce film occupera environ %.1f GB. Le disque que vous utilisez ne "
+"dispose que %.1f GB disponible(s). Souhaitez-vous continuer?"
 
 #: src/tools/dcpomatic.cc:1362 src/tools/dcpomatic_player.cc:799
 msgid "The DCP-o-matic download server could not be contacted."
 msgstr "Le serveur de téléchargement de DCP-o-matic ne peut être contacté."
 
 #: src/tools/dcpomatic_batch.cc:200
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The DCPs for this film and the films already in the queue will take up about "
 "%.1f GB.  The disks that you are using only have %.1f GB available.  Do you "
 "want to add this film to the queue anyway?"
 msgstr ""
-"Le DCP de ce film et les autres déjà présent en file d'attente pèseront "
-"environ %1.f Go. Le disque que vous utilisez n'a que %.1f Go disponible(s). "
-"Souhaitez-vous continuer à ajouter ce film à la file d'attente quand même?"
+"Le DCP de ce film et les autres déjà présent en file d'attente occuperont "
+"environ %1.f GB. Le disque que vous utilisez ne dispose que de %.1f Go "
+"disponible(s). Souhaitez-vous continuer à ajouter ce film à la file "
+"d'attente quand même?"
 
 #: src/tools/dcpomatic_player.cc:282
 msgid "The KDM does not allow playback of this content at this time."

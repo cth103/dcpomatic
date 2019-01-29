@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-26 23:08+0000\n"
-"PO-Revision-Date: 2019-01-13 18:05+0100\n"
+"PO-Revision-Date: 2019-01-29 23:51+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -710,9 +710,8 @@ msgid "Examining content"
 msgstr "Examen du contenu en cours"
 
 #: src/lib/examine_ffmpeg_subtitles_job.cc:49
-#, fuzzy
 msgid "Examining subtitles"
-msgstr "Recherche sous-titres"
+msgstr "Examen des sous-titres"
 
 #: src/lib/ffmpeg_content.cc:623
 msgid "FCC"
@@ -748,7 +747,7 @@ msgstr "Cadence"
 
 #: src/lib/ffmpeg_content.cc:557
 msgid "Full"
-msgstr "Complet"
+msgstr "Pleine"
 
 #: src/lib/ffmpeg_content.cc:537
 msgid "Full (0-%1)"
@@ -1404,15 +1403,14 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Un autre filtre de désentrelacement"
 
 #: src/lib/hints.cc:181
-#, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1.  This frame rate is not "
 "supported by all projectors.  You are advised to change the DCP frame rate "
 "to %2."
 msgstr ""
-"Vous êtes sur le point de créer un DCP au format interop à une cadence image "
-"qui n'est pas officiellement supportée. Nous vous conseillons de modifier la "
-"cadence de votre DCP ou de créer plutôt un DCP SMPTE."
+"Vous êtes sur le point de créer un DCP à la cadence image de %1. Cette "
+"cadence n'est pas supportée par tous les projecteurs. Nous vous conseillons "
+"de modifier la cadence de votre DCP à %2."
 
 #: src/lib/hints.cc:174
 msgid ""

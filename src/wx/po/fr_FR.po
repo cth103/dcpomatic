@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-26 23:08+0000\n"
-"PO-Revision-Date: 2019-01-13 18:07+0100\n"
+"PO-Revision-Date: 2019-01-30 00:03+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -1018,7 +1018,7 @@ msgstr "Recherche de l'élément manquant..."
 
 #: src/wx/subtitle_appearance_dialog.cc:119
 msgid "Finding the colours in these subtitles..."
-msgstr ""
+msgstr "Trouver les couleurs dans ces sous-titres..."
 
 #: src/wx/kdm_output_panel.cc:74
 msgid "Folder / ZIP name format"
@@ -2274,10 +2274,14 @@ msgstr "la date de fin doit logiquement être plus tardive que la date de début
 #: src/wx/verify_dcp_dialog.cc:91
 msgid "The PKL and CPL hashes disagree for a picture asset."
 msgstr ""
+"Les hashes de vérification du PKL et du CPL ne correspondent pas au fichier "
+"de données vidéo."
 
 #: src/wx/verify_dcp_dialog.cc:100
 msgid "The PKL and CPL hashes disagree for a sound asset."
 msgstr ""
+"Les hashes de vérification du PKL et du CPL ne correspondent pas au fichier "
+"de données audio."
 
 #: src/wx/recreate_chain_dialog.cc:35
 msgid ""
@@ -2325,6 +2329,9 @@ msgid ""
 "The hash of the CPL in the PKL does not agree with the CPL file.  This "
 "probably means that the CPL file is corrupt."
 msgstr ""
+"Les hashes de vérification du CPL dans le PKL ne correspondent pas au "
+"fichier CPL du DCP. Cela signifie probablement que le fichier CPL est "
+"corrompu."
 
 #: src/wx/verify_dcp_dialog.cc:86
 #, c-format
@@ -2332,6 +2339,8 @@ msgid ""
 "The hash of the picture asset %s does not agree with the PKL file.  This "
 "probably means that the asset file is corrupt."
 msgstr ""
+"Les hashes de vérification du fichier vidéo %s ne correspondent pas au "
+"fichier KPL. Cela signifie probablement que le fichier vidéo est corrompu."
 
 #: src/wx/verify_dcp_dialog.cc:95
 #, c-format
@@ -2339,10 +2348,12 @@ msgid ""
 "The hash of the sound asset %s does not agree with the PKL file.  This "
 "probably means that the asset file is corrupt."
 msgstr ""
+"Les hashes de vérification du fichier audio %s ne correspondent pas au "
+"fichier PKL. Cela signifie probablement que le fichier audio est corrompu."
 
 #: src/wx/verify_dcp_dialog.cc:82
 msgid "The picture in a reel has an invalid frame rate"
-msgstr ""
+msgstr "L'image dans une des bobines présente une cadence invalide."
 
 #: src/wx/player_config_dialog.cc:358
 msgid "Theatre name"
@@ -2769,18 +2780,16 @@ msgid "certificates.barco.com password"
 msgstr "Mot de passe certificates.barco.com"
 
 #: src/wx/full_config_dialog.cc:968
-#, fuzzy
 msgid "certificates.barco.com user name"
-msgstr "Identifiant certificates.barco.com"
+msgstr "Identifiant utilisateur de certificates.barco.com"
 
 #: src/wx/full_config_dialog.cc:980
 msgid "certificates.christiedigital.com password"
 msgstr "Mot de passe certificates.christiedigital.com"
 
 #: src/wx/full_config_dialog.cc:976
-#, fuzzy
 msgid "certificates.christiedigital.com user name"
-msgstr "Identifiant certificates.christiedigital.com"
+msgstr "Identifiant utilisateur de certificates.christiedigital.com"
 
 #: src/wx/text_panel.cc:75
 msgid "closed captions"
