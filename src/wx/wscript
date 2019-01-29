@@ -171,7 +171,7 @@ def configure(conf):
         conf.env.STLIBPATH_WXWIDGETS = stlib_paths
 
     conf.in_msg = 1
-    wx_version = subprocess.check_output([wx_config, '--version']).decode('UTF-8')
+    wx_version = subprocess.Popen([wx_config, '--version'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].decode('UTF-8')
     conf.in_msg = 0
     if not wx_version.startswith('3.0.'):
         conf.fatal('wxwidgets version 3.0.x is required; %s found' % wx_version)
