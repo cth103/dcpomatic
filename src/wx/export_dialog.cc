@@ -143,5 +143,5 @@ void
 ExportDialog::file_changed ()
 {
 	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
-	ok->Enable (true);
+	ok->Enable (_file->GetPath().Length() > 0);
 }
