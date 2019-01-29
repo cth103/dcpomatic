@@ -38,6 +38,11 @@ wxString format_filters[] = {
 	_("MP4 files (*.mp4)|*.mp4"),
 };
 
+wxString format_extensions[] = {
+	"mov",
+	"mp4"
+};
+
 FFmpegEncoder::Format formats[] = {
 	FFmpegEncoder::FORMAT_PRORES,
 	FFmpegEncoder::FORMAT_H264,
@@ -81,7 +86,9 @@ ExportDialog::format_changed ()
 boost::filesystem::path
 ExportDialog::path () const
 {
-	return wx_to_std (_file->GetPath ());
+	wxFileName fn (_file->GetPath());
+	fn.SetExt (format_extensions[_format->GetSelection()]);
+	return wx_to_std (fn.GetFullPath());
 }
 
 FFmpegEncoder::Format
