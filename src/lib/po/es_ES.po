@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-26 23:08+0000\n"
+"POT-Creation-Date: 2019-01-30 00:08+0000\n"
 "PO-Revision-Date: 2018-02-25 14:29-0600\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -175,7 +175,7 @@ msgstr "; %.1f fps"
 msgid "; %1 remaining; finishing at %2%3"
 msgstr "; faltan %1 ; terminará a las %2%3"
 
-#: src/lib/hints.cc:157
+#: src/lib/hints.cc:155
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
@@ -193,7 +193,7 @@ msgstr "ARIB STD-B67 ('Log-gamma híbrido')"
 msgid "Advertisement"
 msgstr "Publicidad"
 
-#: src/lib/hints.cc:149
+#: src/lib/hints.cc:147
 msgid ""
 "All of your content is at 1.85:1 or narrower but your DCP's container is "
 "Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) "
@@ -204,7 +204,7 @@ msgstr ""
 "(2.39:1). Esto creará bandas negras verticales. Puede que prefieras "
 "seleccionar el contenedor DCP en Flat (1.85:1) en la pestaña \"DCP\"."
 
-#: src/lib/hints.cc:145
+#: src/lib/hints.cc:143
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -699,7 +699,7 @@ msgstr "Error en el fichero de subtítulos: encontrado %1 cuando se esperaba %2"
 msgid "Error: %1"
 msgstr "Error: %1"
 
-#: src/lib/hints.cc:264
+#: src/lib/hints.cc:262
 #, fuzzy
 msgid "Examining closed captions"
 msgstr "Examinar contenido"
@@ -746,6 +746,10 @@ msgstr "Buscando la duración"
 #: src/lib/content.cc:435
 msgid "Frame rate"
 msgstr "Velocidad"
+
+#: src/lib/util.cc:857
+msgid "Friday"
+msgstr "Viernes"
 
 #: src/lib/ffmpeg_content.cc:557
 msgid "Full"
@@ -804,7 +808,7 @@ msgstr "Reductor de ruido 3D de alta calidad"
 msgid "Horizontal flip"
 msgstr "Horizontal deblocking filter"
 
-#: src/lib/hints.cc:172
+#: src/lib/hints.cc:170
 msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "slowdown of your content, and SMPTE DCPs are not supported by all projectors."
@@ -813,7 +817,7 @@ msgstr ""
 "deceleración importante de su contenido, y los DCP SMPTE no son reconocidos "
 "por algunos proyectores."
 
-#: src/lib/hints.cc:169
+#: src/lib/hints.cc:167
 msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "speed-up of your content, and SMPTE DCPs are not supported by all projectors."
@@ -947,6 +951,10 @@ msgstr "El tamaño de los vídeos no coincide en el DCP"
 msgid "Missing required setting %1"
 msgstr "falta una configuración obligatoria %1"
 
+#: src/lib/util.cc:849
+msgid "Monday"
+msgstr "Lunes"
+
 #: src/lib/writer.cc:618
 msgid "Mono"
 msgstr "Mono"
@@ -1018,7 +1026,7 @@ msgstr "Overcomplete wavelet denoiser"
 msgid "P3"
 msgstr "P3"
 
-#: src/lib/util.h:56
+#: src/lib/util.h:57
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
 "carl@dcpomatic.com"
@@ -1145,6 +1153,10 @@ msgstr "SMPTE ST 432-1 D65 (2010)"
 msgid "SSH error (%1)"
 msgstr "Error SSH (%1)"
 
+#: src/lib/util.cc:859
+msgid "Saturday"
+msgstr "Sábado"
+
 #: src/lib/image_content.cc:107
 msgid "Scanning image files"
 msgstr "Revisando los ficheros de imagen"
@@ -1172,13 +1184,13 @@ msgid ""
 "These files will now be re-examined, so you may need to check their settings."
 msgstr ""
 
-#: src/lib/hints.cc:312
+#: src/lib/hints.cc:310
 msgid ""
 "Some of your closed captions have lines longer than %1 characters, so they "
 "will probably be word-wrapped."
 msgstr ""
 
-#: src/lib/hints.cc:318
+#: src/lib/hints.cc:316
 msgid ""
 "Some of your closed captions span more than %1 lines, so they will be "
 "truncated."
@@ -1205,6 +1217,10 @@ msgstr "Upmix de estéreo a 5.1 A"
 #: src/lib/upmixer_b.cc:42
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Upmix B de estéreo a 5.1"
+
+#: src/lib/util.cc:847
+msgid "Sunday"
+msgstr "Domingo"
 
 #: src/lib/dcp_content_type.cc:52
 msgid "Teaser"
@@ -1254,7 +1270,7 @@ msgstr "El fichero %1 ha sido recortado en %2 milisegundos."
 msgid "The file %1 has been trimmed by %2 milliseconds more."
 msgstr "El fichero %1 ha sido alargado con %2 milisegundos."
 
-#: src/lib/hints.cc:205
+#: src/lib/hints.cc:203
 msgid ""
 "There is a large difference between the frame rate of your DCP and that of "
 "some of your content.  This will cause your audio to play back at a much "
@@ -1304,6 +1320,10 @@ msgstr ""
 "desgraciadamente no s puede cargar. Necesitas crear una nueva película, "
 "volver a añadir y configurar ton contenido. ¡Lo siento!"
 
+#: src/lib/util.cc:855
+msgid "Thursday"
+msgstr "Jueves"
+
 #: src/lib/types.cc:130
 msgid "Timed text"
 msgstr ""
@@ -1320,6 +1340,10 @@ msgstr "Codificar %1"
 #: src/lib/dcp_content_type.cc:50
 msgid "Transitional"
 msgstr "Transitional"
+
+#: src/lib/util.cc:851
+msgid "Tuesday"
+msgstr "Martes"
 
 #: src/lib/internet.cc:136
 msgid "Unexpected ZIP file contents"
@@ -1390,6 +1414,10 @@ msgstr "Esperando"
 msgid "Weave filter"
 msgstr "Filtro telecine"
 
+#: src/lib/util.cc:853
+msgid "Wednesday"
+msgstr "Miércoles"
+
 #: src/lib/ffmpeg_content.cc:627
 msgid "YCOCG"
 msgstr "YCOCG"
@@ -1398,7 +1426,7 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
-#: src/lib/hints.cc:181
+#: src/lib/hints.cc:179
 #, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1.  This frame rate is not "
@@ -1408,7 +1436,7 @@ msgstr ""
 "Intenta hacer un DCP Interop con una velocidad que no está permitida "
 "oficialmente. Le recomendamos hacer un DCP SMPTE en su lugar."
 
-#: src/lib/hints.cc:174
+#: src/lib/hints.cc:172
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
@@ -1418,7 +1446,7 @@ msgstr ""
 "Intenta hacer un DCP Interop con una velocidad que no está permitida "
 "oficialmente. Le recomendamos hacer un DCP SMPTE en su lugar."
 
-#: src/lib/hints.cc:161
+#: src/lib/hints.cc:159
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
@@ -1427,7 +1455,7 @@ msgstr ""
 "Intenta hacer un DCP Interop con una velocidad que no está permitida "
 "oficialmente. Le recomendamos hacer un DCP SMPTE en su lugar."
 
-#: src/lib/hints.cc:227
+#: src/lib/hints.cc:225
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
@@ -1435,14 +1463,14 @@ msgstr ""
 "Estás usando contenido 3D pero el DCP es 2D. Cambia el DCP a 3D si quieres "
 "que funcione en un sistema 3D (ej.: Real-D, MasterImage, etc.)"
 
-#: src/lib/hints.cc:126
+#: src/lib/hints.cc:124
 msgid ""
 "You are using DCP-o-matic's stereo-to-5.1 upmixer.  This is experimental and "
 "may result in poor-quality audio.  If you continue, you should listen to the "
 "resulting DCP in a cinema to make sure that it sounds good."
 msgstr ""
 
-#: src/lib/hints.cc:216
+#: src/lib/hints.cc:214
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
@@ -1450,11 +1478,11 @@ msgstr ""
 "Hay %1 ficheros que parecen VOBs de un DVD. Deberías unirlos para asegurarte "
 "transiciones suaves."
 
-#: src/lib/hints.cc:324
+#: src/lib/hints.cc:322
 msgid "You have overlapping closed captions, which are not allowed."
 msgstr ""
 
-#: src/lib/hints.cc:117
+#: src/lib/hints.cc:115
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
@@ -1467,7 +1495,7 @@ msgstr ""
 msgid "You must add some content to the DCP before creating it"
 msgstr "tiene que añadir contenido al DCP antes de crearlo"
 
-#: src/lib/hints.cc:121
+#: src/lib/hints.cc:119
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
@@ -1475,7 +1503,7 @@ msgstr ""
 "Tu DCP tiene menos de 6 canales de audio. Esto puede causar problemas con "
 "algunos proyectores."
 
-#: src/lib/hints.cc:153
+#: src/lib/hints.cc:151
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio"
@@ -1483,7 +1511,7 @@ msgstr ""
 "El DCP utiliza un contenedor inusual.  Esto puede causar problemas en "
 "algunos proyectores.  Si es posible, utilice Flat o Scope como contenedor"
 
-#: src/lib/hints.cc:252
+#: src/lib/hints.cc:250
 msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."

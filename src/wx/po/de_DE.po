@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-26 23:08+0000\n"
+"POT-Creation-Date: 2019-01-30 00:08+0000\n"
 "PO-Revision-Date: 2018-12-06 23:56+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -418,14 +418,6 @@ msgstr "Barco Alchemy/ICMP"
 msgid "Blue chromaticity"
 msgstr "Blau Chromatizität"
 
-#: src/wx/fonts_dialog.cc:72
-msgid "Bold file"
-msgstr "Fett Font-Datei"
-
-#: src/wx/font_files_dialog.cc:39
-msgid "Bold font"
-msgstr "Fetter Zeichensatz"
-
 #: src/wx/video_panel.cc:130
 msgid "Bottom crop"
 msgstr "Beschnitt unten"
@@ -548,7 +540,7 @@ msgstr "Ordner mit nummerierter Bildsequenz, oder DCP wählen!"
 msgid "Choose a font"
 msgstr "Zeichensatz wählen"
 
-#: src/wx/font_files_dialog.cc:82
+#: src/wx/fonts_dialog.cc:158
 msgid "Choose a font file"
 msgstr "Eine Zeichensatzdatei wählen"
 
@@ -904,7 +896,7 @@ msgid "Edit screen"
 msgstr "Leinwandstammdaten bearbeiten"
 
 #: src/wx/audio_mapping_view.cc:172 src/wx/dcp_panel.cc:103
-#: src/wx/fonts_dialog.cc:80 src/wx/full_config_dialog.cc:337
+#: src/wx/fonts_dialog.cc:63 src/wx/full_config_dialog.cc:337
 #: src/wx/video_panel.cc:164 src/wx/video_panel.cc:175
 #: src/wx/editable_list.h:79
 msgid "Edit..."
@@ -999,6 +991,10 @@ msgstr "Ausblenden"
 msgid "Fade out time"
 msgstr "Ausblenden"
 
+#: src/wx/fonts_dialog.cc:55
+msgid "File"
+msgstr ""
+
 #: src/wx/kdm_dialog.cc:135
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
@@ -1038,8 +1034,7 @@ msgstr "Ordner / ZIP format"
 msgid "Folder name"
 msgstr "Ordner Name"
 
-#: src/wx/fonts_dialog.cc:39 src/wx/font_files_dialog.cc:30
-#: src/wx/font_files_dialog.cc:32
+#: src/wx/fonts_dialog.cc:38
 msgid "Fonts"
 msgstr "Zeichensätze"
 
@@ -1176,7 +1171,7 @@ msgstr "Host Name oder IP-Adresse"
 msgid "I want to play this back at fader"
 msgstr "Ich möchte bei dieser Faderstellung spielen"
 
-#: src/wx/fonts_dialog.cc:48
+#: src/wx/fonts_dialog.cc:47
 msgid "ID"
 msgstr "ID"
 
@@ -1283,14 +1278,6 @@ msgstr "Inverse (2.6) Ausgangs-Gammakorrektur"
 #: src/wx/full_config_dialog.cc:135
 msgid "Issuer"
 msgstr "DCP Standard 'issuer' (DCI)"
-
-#: src/wx/fonts_dialog.cc:64
-msgid "Italic file"
-msgstr "Kursiv Font-Datei"
-
-#: src/wx/font_files_dialog.cc:38
-msgid "Italic font"
-msgstr "Kursiver Zeichensatz"
 
 #: src/wx/dcp_panel.cc:767
 msgid ""
@@ -1604,14 +1591,6 @@ msgstr "Keine Inhalte in diesem Ordner."
 #: src/wx/video_panel.cc:347
 msgid "None"
 msgstr "Ohne"
-
-#: src/wx/fonts_dialog.cc:56
-msgid "Normal file"
-msgstr "Standard Font-Datei"
-
-#: src/wx/font_files_dialog.cc:37
-msgid "Normal font"
-msgstr "Standard Zeichensatz"
 
 #: src/wx/cinema_dialog.cc:60 src/wx/screen_dialog.cc:117
 msgid "Notes"
@@ -2129,14 +2108,6 @@ msgstr "Encoding Server"
 #: src/wx/timecode.cc:66 src/wx/timing_panel.cc:100
 msgid "Set"
 msgstr "Setzen"
-
-#: src/wx/font_files_dialog.cc:53
-msgid "Set from file..."
-msgstr "Lade aus Datei..."
-
-#: src/wx/font_files_dialog.cc:56
-msgid "Set from system font..."
-msgstr "Systemzeichensatz auswählen..."
 
 #: src/wx/config_dialog.cc:118
 msgid "Set language"
@@ -2924,6 +2895,30 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#~ msgid "Bold file"
+#~ msgstr "Fett Font-Datei"
+
+#~ msgid "Bold font"
+#~ msgstr "Fetter Zeichensatz"
+
+#~ msgid "Italic file"
+#~ msgstr "Kursiv Font-Datei"
+
+#~ msgid "Italic font"
+#~ msgstr "Kursiver Zeichensatz"
+
+#~ msgid "Normal file"
+#~ msgstr "Standard Font-Datei"
+
+#~ msgid "Normal font"
+#~ msgstr "Standard Zeichensatz"
+
+#~ msgid "Set from file..."
+#~ msgstr "Lade aus Datei..."
+
+#~ msgid "Set from system font..."
+#~ msgstr "Systemzeichensatz auswählen..."
 
 #~ msgid "Mail password"
 #~ msgstr "Email / SMTP Passwort"

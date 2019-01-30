@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-26 23:08+0000\n"
+"POT-Creation-Date: 2019-01-30 00:08+0000\n"
 "PO-Revision-Date: 2018-01-15 18:18-0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -397,14 +397,6 @@ msgstr ""
 msgid "Blue chromaticity"
 msgstr "Cromaticidade azul"
 
-#: src/wx/fonts_dialog.cc:72
-msgid "Bold file"
-msgstr "Arquivo negrito"
-
-#: src/wx/font_files_dialog.cc:39
-msgid "Bold font"
-msgstr "Fonte negrito"
-
 #: src/wx/video_panel.cc:130
 #, fuzzy
 msgid "Bottom crop"
@@ -530,7 +522,7 @@ msgstr "Escolher uma pasta"
 msgid "Choose a font"
 msgstr "Escolher uma fonte"
 
-#: src/wx/font_files_dialog.cc:82
+#: src/wx/fonts_dialog.cc:158
 msgid "Choose a font file"
 msgstr "Escolher um arquivo de fonte"
 
@@ -890,7 +882,7 @@ msgid "Edit screen"
 msgstr "Editar tela"
 
 #: src/wx/audio_mapping_view.cc:172 src/wx/dcp_panel.cc:103
-#: src/wx/fonts_dialog.cc:80 src/wx/full_config_dialog.cc:337
+#: src/wx/fonts_dialog.cc:63 src/wx/full_config_dialog.cc:337
 #: src/wx/video_panel.cc:164 src/wx/video_panel.cc:175
 #: src/wx/editable_list.h:79
 msgid "Edit..."
@@ -986,6 +978,10 @@ msgstr "Fade out"
 msgid "Fade out time"
 msgstr "Duração de fade out"
 
+#: src/wx/fonts_dialog.cc:55
+msgid "File"
+msgstr ""
+
 #: src/wx/kdm_dialog.cc:135
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
@@ -1026,8 +1022,7 @@ msgstr "Formato de pasta / ZIP"
 msgid "Folder name"
 msgstr "Nome da pasta"
 
-#: src/wx/fonts_dialog.cc:39 src/wx/font_files_dialog.cc:30
-#: src/wx/font_files_dialog.cc:32
+#: src/wx/fonts_dialog.cc:38
 msgid "Fonts"
 msgstr "Fontes"
 
@@ -1165,7 +1160,7 @@ msgstr "Nome de host ou endereço de IP"
 msgid "I want to play this back at fader"
 msgstr "Eu quero exibir o DCP com o volume"
 
-#: src/wx/fonts_dialog.cc:48
+#: src/wx/fonts_dialog.cc:47
 msgid "ID"
 msgstr "ID"
 
@@ -1268,14 +1263,6 @@ msgstr "Correção de gama inversa 2.6 na saída"
 #: src/wx/full_config_dialog.cc:135
 msgid "Issuer"
 msgstr "Emissor"
-
-#: src/wx/fonts_dialog.cc:64
-msgid "Italic file"
-msgstr "Arquivo itálico"
-
-#: src/wx/font_files_dialog.cc:38
-msgid "Italic font"
-msgstr "Fonte itálica"
 
 #: src/wx/dcp_panel.cc:767
 msgid ""
@@ -1585,14 +1572,6 @@ msgstr "Nenhum conteúdo encontrado nesta pasta."
 #: src/wx/video_panel.cc:347
 msgid "None"
 msgstr "Nenhum"
-
-#: src/wx/fonts_dialog.cc:56
-msgid "Normal file"
-msgstr "Arquivo normal"
-
-#: src/wx/font_files_dialog.cc:37
-msgid "Normal font"
-msgstr "Fonte normal"
 
 #: src/wx/cinema_dialog.cc:60 src/wx/screen_dialog.cc:117
 msgid "Notes"
@@ -2119,14 +2098,6 @@ msgstr "Servidores"
 #: src/wx/timecode.cc:66 src/wx/timing_panel.cc:100
 msgid "Set"
 msgstr "Definir"
-
-#: src/wx/font_files_dialog.cc:53
-msgid "Set from file..."
-msgstr "Definir de um arquivo..."
-
-#: src/wx/font_files_dialog.cc:56
-msgid "Set from system font..."
-msgstr "Definir de uma fonte do sistema..."
 
 #: src/wx/config_dialog.cc:118
 msgid "Set language"
@@ -2906,6 +2877,30 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#~ msgid "Bold file"
+#~ msgstr "Arquivo negrito"
+
+#~ msgid "Bold font"
+#~ msgstr "Fonte negrito"
+
+#~ msgid "Italic file"
+#~ msgstr "Arquivo itálico"
+
+#~ msgid "Italic font"
+#~ msgstr "Fonte itálica"
+
+#~ msgid "Normal file"
+#~ msgstr "Arquivo normal"
+
+#~ msgid "Normal font"
+#~ msgstr "Fonte normal"
+
+#~ msgid "Set from file..."
+#~ msgstr "Definir de um arquivo..."
+
+#~ msgid "Set from system font..."
+#~ msgstr "Definir de uma fonte do sistema..."
 
 #~ msgid "Mail password"
 #~ msgstr "Senha email"

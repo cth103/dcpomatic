@@ -449,7 +449,7 @@ Job::status () const
 			if (now.date() != finish.date()) {
 				/// TRANSLATORS: the %1 in this string will be filled in with a day of the week
 				/// to say what day a job will finish.
-				day = String::compose (_(" on %1"), finish.date().day_of_week().as_long_string());
+				day = String::compose (_(" on %1"), day_of_week_to_string(finish.date().day_of_week()));
 			}
 			/// TRANSLATORS: "remaining; finishing at" here follows an amount of time that is remaining
 			/// on an operation; after it is an estimated wall-clock completion time.

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-26 23:08+0000\n"
+"POT-Creation-Date: 2019-01-30 00:08+0000\n"
 "PO-Revision-Date: 2019-01-30 00:03+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -409,14 +409,6 @@ msgstr "Barco Alchemy"
 msgid "Blue chromaticity"
 msgstr "Chromaticité du Bleu"
 
-#: src/wx/fonts_dialog.cc:72
-msgid "Bold file"
-msgstr "Fichier Gras"
-
-#: src/wx/font_files_dialog.cc:39
-msgid "Bold font"
-msgstr "Gras"
-
 #: src/wx/video_panel.cc:130
 msgid "Bottom crop"
 msgstr "Découpe basse"
@@ -537,7 +529,7 @@ msgstr "Choisissez un dossier"
 msgid "Choose a font"
 msgstr "Choisir une police"
 
-#: src/wx/font_files_dialog.cc:82
+#: src/wx/fonts_dialog.cc:158
 msgid "Choose a font file"
 msgstr "Choisir un fichier de police"
 
@@ -893,7 +885,7 @@ msgid "Edit screen"
 msgstr "Modifier Salle"
 
 #: src/wx/audio_mapping_view.cc:172 src/wx/dcp_panel.cc:103
-#: src/wx/fonts_dialog.cc:80 src/wx/full_config_dialog.cc:337
+#: src/wx/fonts_dialog.cc:63 src/wx/full_config_dialog.cc:337
 #: src/wx/video_panel.cc:164 src/wx/video_panel.cc:175
 #: src/wx/editable_list.h:79
 msgid "Edit..."
@@ -988,6 +980,10 @@ msgstr "Fondu fin"
 msgid "Fade out time"
 msgstr "Durée Fondu fin"
 
+#: src/wx/fonts_dialog.cc:55
+msgid "File"
+msgstr ""
+
 #: src/wx/kdm_dialog.cc:135
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
@@ -1028,8 +1024,7 @@ msgstr "Dossier / format fichier ZIP"
 msgid "Folder name"
 msgstr "Nom de dossier"
 
-#: src/wx/fonts_dialog.cc:39 src/wx/font_files_dialog.cc:30
-#: src/wx/font_files_dialog.cc:32
+#: src/wx/fonts_dialog.cc:38
 msgid "Fonts"
 msgstr "Police"
 
@@ -1164,7 +1159,7 @@ msgstr "Nom de l'hôte ou adresse IP"
 msgid "I want to play this back at fader"
 msgstr "Je veux lire ce DCP à un niveau son de"
 
-#: src/wx/fonts_dialog.cc:48
+#: src/wx/fonts_dialog.cc:47
 msgid "ID"
 msgstr "ID"
 
@@ -1266,14 +1261,6 @@ msgstr "Inversion de la correction gamma 2.6 en entrée"
 #: src/wx/full_config_dialog.cc:135
 msgid "Issuer"
 msgstr "Emetteur"
-
-#: src/wx/fonts_dialog.cc:64
-msgid "Italic file"
-msgstr "Fichier Italique"
-
-#: src/wx/font_files_dialog.cc:38
-msgid "Italic font"
-msgstr "Italique"
 
 #: src/wx/dcp_panel.cc:767
 msgid ""
@@ -1583,14 +1570,6 @@ msgstr "Aucun contenu trouvé dans ce répertoire"
 #: src/wx/video_panel.cc:347
 msgid "None"
 msgstr "Aucun"
-
-#: src/wx/fonts_dialog.cc:56
-msgid "Normal file"
-msgstr "Fichier Normal"
-
-#: src/wx/font_files_dialog.cc:37
-msgid "Normal font"
-msgstr "Normale"
 
 #: src/wx/cinema_dialog.cc:60 src/wx/screen_dialog.cc:117
 msgid "Notes"
@@ -2101,14 +2080,6 @@ msgstr "Serveurs"
 #: src/wx/timecode.cc:66 src/wx/timing_panel.cc:100
 msgid "Set"
 msgstr "Sélection"
-
-#: src/wx/font_files_dialog.cc:53
-msgid "Set from file..."
-msgstr "Choisir depuis un fichier..."
-
-#: src/wx/font_files_dialog.cc:56
-msgid "Set from system font..."
-msgstr "Choisir une police système..."
 
 #: src/wx/config_dialog.cc:118
 msgid "Set language"
@@ -2888,6 +2859,30 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#~ msgid "Bold file"
+#~ msgstr "Fichier Gras"
+
+#~ msgid "Bold font"
+#~ msgstr "Gras"
+
+#~ msgid "Italic file"
+#~ msgstr "Fichier Italique"
+
+#~ msgid "Italic font"
+#~ msgstr "Italique"
+
+#~ msgid "Normal file"
+#~ msgstr "Fichier Normal"
+
+#~ msgid "Normal font"
+#~ msgstr "Normale"
+
+#~ msgid "Set from file..."
+#~ msgstr "Choisir depuis un fichier..."
+
+#~ msgid "Set from system font..."
+#~ msgstr "Choisir une police système..."
 
 #~ msgid "Mail password"
 #~ msgstr "Mot de passe Mail"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-26 23:08+0000\n"
+"POT-Creation-Date: 2019-01-30 00:08+0000\n"
 "PO-Revision-Date: 2018-04-05 20:48+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -394,14 +394,6 @@ msgstr ""
 msgid "Blue chromaticity"
 msgstr "蓝色色度"
 
-#: src/wx/fonts_dialog.cc:72
-msgid "Bold file"
-msgstr "字体文件"
-
-#: src/wx/font_files_dialog.cc:39
-msgid "Bold font"
-msgstr "粗体"
-
 #: src/wx/video_panel.cc:130
 #, fuzzy
 msgid "Bottom crop"
@@ -526,7 +518,7 @@ msgstr "选择一个文件夹"
 msgid "Choose a font"
 msgstr "选择字体"
 
-#: src/wx/font_files_dialog.cc:82
+#: src/wx/fonts_dialog.cc:158
 msgid "Choose a font file"
 msgstr "选择一个字体文件"
 
@@ -884,7 +876,7 @@ msgid "Edit screen"
 msgstr "编辑放映厅服务器（证书）"
 
 #: src/wx/audio_mapping_view.cc:172 src/wx/dcp_panel.cc:103
-#: src/wx/fonts_dialog.cc:80 src/wx/full_config_dialog.cc:337
+#: src/wx/fonts_dialog.cc:63 src/wx/full_config_dialog.cc:337
 #: src/wx/video_panel.cc:164 src/wx/video_panel.cc:175
 #: src/wx/editable_list.h:79
 msgid "Edit..."
@@ -980,6 +972,10 @@ msgstr "淡出"
 msgid "Fade out time"
 msgstr "淡出时间"
 
+#: src/wx/fonts_dialog.cc:55
+msgid "File"
+msgstr ""
+
 #: src/wx/kdm_dialog.cc:135
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
@@ -1018,8 +1014,7 @@ msgstr "文件夹/ZIP名称格式"
 msgid "Folder name"
 msgstr "文件夹名称"
 
-#: src/wx/fonts_dialog.cc:39 src/wx/font_files_dialog.cc:30
-#: src/wx/font_files_dialog.cc:32
+#: src/wx/fonts_dialog.cc:38
 msgid "Fonts"
 msgstr "字体"
 
@@ -1156,7 +1151,7 @@ msgstr "服务器地址或IP地址"
 msgid "I want to play this back at fader"
 msgstr "使用推子"
 
-#: src/wx/fonts_dialog.cc:48
+#: src/wx/fonts_dialog.cc:47
 msgid "ID"
 msgstr "ID"
 
@@ -1258,14 +1253,6 @@ msgstr "输出时添加反转的2.6伽马值"
 #: src/wx/full_config_dialog.cc:135
 msgid "Issuer"
 msgstr "发行"
-
-#: src/wx/fonts_dialog.cc:64
-msgid "Italic file"
-msgstr "斜体文件"
-
-#: src/wx/font_files_dialog.cc:38
-msgid "Italic font"
-msgstr "斜体"
 
 #: src/wx/dcp_panel.cc:767
 msgid ""
@@ -1577,14 +1564,6 @@ msgstr "文件夹中没有找到文件."
 #: src/wx/video_panel.cc:347
 msgid "None"
 msgstr "无"
-
-#: src/wx/fonts_dialog.cc:56
-msgid "Normal file"
-msgstr "普通文件"
-
-#: src/wx/font_files_dialog.cc:37
-msgid "Normal font"
-msgstr "普通字体"
 
 #: src/wx/cinema_dialog.cc:60 src/wx/screen_dialog.cc:117
 msgid "Notes"
@@ -2106,14 +2085,6 @@ msgstr "服务器"
 #: src/wx/timecode.cc:66 src/wx/timing_panel.cc:100
 msgid "Set"
 msgstr "设置"
-
-#: src/wx/font_files_dialog.cc:53
-msgid "Set from file..."
-msgstr "从文件中获取设置…"
-
-#: src/wx/font_files_dialog.cc:56
-msgid "Set from system font..."
-msgstr "使用系统字体…"
 
 #: src/wx/config_dialog.cc:118
 msgid "Set language"
@@ -2880,6 +2851,30 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#~ msgid "Bold file"
+#~ msgstr "字体文件"
+
+#~ msgid "Bold font"
+#~ msgstr "粗体"
+
+#~ msgid "Italic file"
+#~ msgstr "斜体文件"
+
+#~ msgid "Italic font"
+#~ msgstr "斜体"
+
+#~ msgid "Normal file"
+#~ msgstr "普通文件"
+
+#~ msgid "Normal font"
+#~ msgstr "普通字体"
+
+#~ msgid "Set from file..."
+#~ msgstr "从文件中获取设置…"
+
+#~ msgid "Set from system font..."
+#~ msgstr "使用系统字体…"
 
 #~ msgid "Mail password"
 #~ msgstr "邮箱登录密码"

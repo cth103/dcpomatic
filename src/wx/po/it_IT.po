@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-26 23:08+0000\n"
+"POT-Creation-Date: 2019-01-30 00:08+0000\n"
 "PO-Revision-Date: 2018-09-30 18:21+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -396,14 +396,6 @@ msgstr ""
 msgid "Blue chromaticity"
 msgstr "Cromaticità blu"
 
-#: src/wx/fonts_dialog.cc:72
-msgid "Bold file"
-msgstr "File in grassetto"
-
-#: src/wx/font_files_dialog.cc:39
-msgid "Bold font"
-msgstr "Font in grassetto"
-
 #: src/wx/video_panel.cc:130
 #, fuzzy
 msgid "Bottom crop"
@@ -526,7 +518,7 @@ msgstr "Scegli una cartella"
 msgid "Choose a font"
 msgstr "Scegli un carattere"
 
-#: src/wx/font_files_dialog.cc:82
+#: src/wx/fonts_dialog.cc:158
 msgid "Choose a font file"
 msgstr "Scegli un file carattere (font)"
 
@@ -885,7 +877,7 @@ msgid "Edit screen"
 msgstr "Modifica schermo"
 
 #: src/wx/audio_mapping_view.cc:172 src/wx/dcp_panel.cc:103
-#: src/wx/fonts_dialog.cc:80 src/wx/full_config_dialog.cc:337
+#: src/wx/fonts_dialog.cc:63 src/wx/full_config_dialog.cc:337
 #: src/wx/video_panel.cc:164 src/wx/video_panel.cc:175
 #: src/wx/editable_list.h:79
 msgid "Edit..."
@@ -980,6 +972,10 @@ msgstr "Dissolvenza in uscita"
 msgid "Fade out time"
 msgstr "Durata dissolvenza in uscita"
 
+#: src/wx/fonts_dialog.cc:55
+msgid "File"
+msgstr ""
+
 #: src/wx/kdm_dialog.cc:135
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
@@ -1020,8 +1016,7 @@ msgstr "Cartella / Nome formato ZIP"
 msgid "Folder name"
 msgstr "Nome cartella"
 
-#: src/wx/fonts_dialog.cc:39 src/wx/font_files_dialog.cc:30
-#: src/wx/font_files_dialog.cc:32
+#: src/wx/fonts_dialog.cc:38
 msgid "Fonts"
 msgstr "Caratteri"
 
@@ -1158,7 +1153,7 @@ msgstr "Nome dell'Host o indirizzo IP"
 msgid "I want to play this back at fader"
 msgstr "Voglio riprodurlo al fader"
 
-#: src/wx/fonts_dialog.cc:48
+#: src/wx/fonts_dialog.cc:47
 msgid "ID"
 msgstr "ID"
 
@@ -1260,14 +1255,6 @@ msgstr "Correzione gamma inversa 2.6 in uscita"
 #: src/wx/full_config_dialog.cc:135
 msgid "Issuer"
 msgstr "Emittente"
-
-#: src/wx/fonts_dialog.cc:64
-msgid "Italic file"
-msgstr "File Corsivo"
-
-#: src/wx/font_files_dialog.cc:38
-msgid "Italic font"
-msgstr "Carattere Corsivo"
 
 #: src/wx/dcp_panel.cc:767
 msgid ""
@@ -1580,14 +1567,6 @@ msgstr "Nessun contenuto trovato in questa cartella."
 #: src/wx/video_panel.cc:347
 msgid "None"
 msgstr "Nessuno"
-
-#: src/wx/fonts_dialog.cc:56
-msgid "Normal file"
-msgstr "File normale"
-
-#: src/wx/font_files_dialog.cc:37
-msgid "Normal font"
-msgstr "Carattere normale"
 
 #: src/wx/cinema_dialog.cc:60 src/wx/screen_dialog.cc:117
 msgid "Notes"
@@ -2113,14 +2092,6 @@ msgstr "Servers"
 #: src/wx/timecode.cc:66 src/wx/timing_panel.cc:100
 msgid "Set"
 msgstr "Imposta"
-
-#: src/wx/font_files_dialog.cc:53
-msgid "Set from file..."
-msgstr "Imposta da file..."
-
-#: src/wx/font_files_dialog.cc:56
-msgid "Set from system font..."
-msgstr "Imposta da carattere di sistema..."
 
 #: src/wx/config_dialog.cc:118
 msgid "Set language"
@@ -2900,6 +2871,30 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#~ msgid "Bold file"
+#~ msgstr "File in grassetto"
+
+#~ msgid "Bold font"
+#~ msgstr "Font in grassetto"
+
+#~ msgid "Italic file"
+#~ msgstr "File Corsivo"
+
+#~ msgid "Italic font"
+#~ msgstr "Carattere Corsivo"
+
+#~ msgid "Normal file"
+#~ msgstr "File normale"
+
+#~ msgid "Normal font"
+#~ msgstr "Carattere normale"
+
+#~ msgid "Set from file..."
+#~ msgstr "Imposta da file..."
+
+#~ msgid "Set from system font..."
+#~ msgstr "Imposta da carattere di sistema..."
 
 #~ msgid "Mail password"
 #~ msgstr "Password mail"

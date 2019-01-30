@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-26 23:08+0000\n"
+"POT-Creation-Date: 2019-01-30 00:08+0000\n"
 "PO-Revision-Date: 2018-08-20 20:35+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Ukrainian\n"
@@ -395,14 +395,6 @@ msgstr ""
 msgid "Blue chromaticity"
 msgstr "Cиня кольоровість"
 
-#: src/wx/fonts_dialog.cc:72
-msgid "Bold file"
-msgstr "Файл жирного шрифту"
-
-#: src/wx/font_files_dialog.cc:39
-msgid "Bold font"
-msgstr "Жирний шрифт"
-
 #: src/wx/video_panel.cc:130
 #, fuzzy
 msgid "Bottom crop"
@@ -525,7 +517,7 @@ msgstr "Обрати папку"
 msgid "Choose a font"
 msgstr "Обрати шрифт"
 
-#: src/wx/font_files_dialog.cc:82
+#: src/wx/fonts_dialog.cc:158
 msgid "Choose a font file"
 msgstr "Обрати файл шрифту"
 
@@ -885,7 +877,7 @@ msgid "Edit screen"
 msgstr "Редагувати екран"
 
 #: src/wx/audio_mapping_view.cc:172 src/wx/dcp_panel.cc:103
-#: src/wx/fonts_dialog.cc:80 src/wx/full_config_dialog.cc:337
+#: src/wx/fonts_dialog.cc:63 src/wx/full_config_dialog.cc:337
 #: src/wx/video_panel.cc:164 src/wx/video_panel.cc:175
 #: src/wx/editable_list.h:79
 msgid "Edit..."
@@ -980,6 +972,10 @@ msgstr "Поступове згасання"
 msgid "Fade out time"
 msgstr "Час поступового згасання"
 
+#: src/wx/fonts_dialog.cc:55
+msgid "File"
+msgstr ""
+
 #: src/wx/kdm_dialog.cc:135
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
@@ -1020,8 +1016,7 @@ msgstr "Формат іменування Папки / ZIP-файлу"
 msgid "Folder name"
 msgstr "Ім'я папки"
 
-#: src/wx/fonts_dialog.cc:39 src/wx/font_files_dialog.cc:30
-#: src/wx/font_files_dialog.cc:32
+#: src/wx/fonts_dialog.cc:38
 msgid "Fonts"
 msgstr "Шрифти"
 
@@ -1160,7 +1155,7 @@ msgstr "Ім'я хоста або IP-адреса"
 msgid "I want to play this back at fader"
 msgstr "Я хочу відтворити це у микшері"
 
-#: src/wx/fonts_dialog.cc:48
+#: src/wx/fonts_dialog.cc:47
 msgid "ID"
 msgstr "ID"
 
@@ -1262,14 +1257,6 @@ msgstr "Корекція інверсії 2.6 гаммі на виході"
 #: src/wx/full_config_dialog.cc:135
 msgid "Issuer"
 msgstr "Видавець"
-
-#: src/wx/fonts_dialog.cc:64
-msgid "Italic file"
-msgstr "Файл курсивного шрифту"
-
-#: src/wx/font_files_dialog.cc:38
-msgid "Italic font"
-msgstr "Курсивний шрифт"
 
 #: src/wx/dcp_panel.cc:767
 msgid ""
@@ -1582,14 +1569,6 @@ msgstr "У даній папці не знайдено контент."
 #: src/wx/video_panel.cc:347
 msgid "None"
 msgstr "Нічого"
-
-#: src/wx/fonts_dialog.cc:56
-msgid "Normal file"
-msgstr "Файл звичайного шрифту"
-
-#: src/wx/font_files_dialog.cc:37
-msgid "Normal font"
-msgstr "Звичайний шрифт"
 
 #: src/wx/cinema_dialog.cc:60 src/wx/screen_dialog.cc:117
 msgid "Notes"
@@ -2113,14 +2092,6 @@ msgstr "Сервери"
 #: src/wx/timecode.cc:66 src/wx/timing_panel.cc:100
 msgid "Set"
 msgstr "Назначити"
-
-#: src/wx/font_files_dialog.cc:53
-msgid "Set from file..."
-msgstr "Оберіть з файла..."
-
-#: src/wx/font_files_dialog.cc:56
-msgid "Set from system font..."
-msgstr "Оберіть системний шрифт"
 
 #: src/wx/config_dialog.cc:118
 msgid "Set language"
@@ -2903,6 +2874,30 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#~ msgid "Bold file"
+#~ msgstr "Файл жирного шрифту"
+
+#~ msgid "Bold font"
+#~ msgstr "Жирний шрифт"
+
+#~ msgid "Italic file"
+#~ msgstr "Файл курсивного шрифту"
+
+#~ msgid "Italic font"
+#~ msgstr "Курсивний шрифт"
+
+#~ msgid "Normal file"
+#~ msgstr "Файл звичайного шрифту"
+
+#~ msgid "Normal font"
+#~ msgstr "Звичайний шрифт"
+
+#~ msgid "Set from file..."
+#~ msgstr "Оберіть з файла..."
+
+#~ msgid "Set from system font..."
+#~ msgstr "Оберіть системний шрифт"
 
 #~ msgid "Mail password"
 #~ msgstr "Пароль пошти"

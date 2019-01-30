@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-26 23:08+0000\n"
+"POT-Creation-Date: 2019-01-30 00:08+0000\n"
 "PO-Revision-Date: 2018-02-01 11:12+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -396,14 +396,6 @@ msgstr ""
 msgid "Blue chromaticity"
 msgstr "Blåfärgning"
 
-#: src/wx/fonts_dialog.cc:72
-msgid "Bold file"
-msgstr "Fet fil"
-
-#: src/wx/font_files_dialog.cc:39
-msgid "Bold font"
-msgstr "Fet typsnitt"
-
 #: src/wx/video_panel.cc:130
 #, fuzzy
 msgid "Bottom crop"
@@ -529,7 +521,7 @@ msgstr "Välj en folder"
 msgid "Choose a font"
 msgstr "Välj ett typsnitt"
 
-#: src/wx/font_files_dialog.cc:82
+#: src/wx/fonts_dialog.cc:158
 msgid "Choose a font file"
 msgstr "Välj en typsnittsfil"
 
@@ -892,7 +884,7 @@ msgid "Edit screen"
 msgstr "Redigera salong"
 
 #: src/wx/audio_mapping_view.cc:172 src/wx/dcp_panel.cc:103
-#: src/wx/fonts_dialog.cc:80 src/wx/full_config_dialog.cc:337
+#: src/wx/fonts_dialog.cc:63 src/wx/full_config_dialog.cc:337
 #: src/wx/video_panel.cc:164 src/wx/video_panel.cc:175
 #: src/wx/editable_list.h:79
 msgid "Edit..."
@@ -988,6 +980,10 @@ msgstr "Tona ut"
 msgid "Fade out time"
 msgstr "Tona ut-tid"
 
+#: src/wx/fonts_dialog.cc:55
+msgid "File"
+msgstr ""
+
 #: src/wx/kdm_dialog.cc:135
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
@@ -1027,8 +1023,7 @@ msgstr "Katalog- / ZIP-namnsformat"
 msgid "Folder name"
 msgstr "Katalognamn"
 
-#: src/wx/fonts_dialog.cc:39 src/wx/font_files_dialog.cc:30
-#: src/wx/font_files_dialog.cc:32
+#: src/wx/fonts_dialog.cc:38
 msgid "Fonts"
 msgstr "Typsnitt"
 
@@ -1165,7 +1160,7 @@ msgstr "Datornamn eller IP-adress"
 msgid "I want to play this back at fader"
 msgstr "Jag vill spela upp detta med mixervolym"
 
-#: src/wx/fonts_dialog.cc:48
+#: src/wx/fonts_dialog.cc:47
 msgid "ID"
 msgstr "ID"
 
@@ -1268,14 +1263,6 @@ msgstr "Inverterad 2.6 gammakorrigering på output"
 #: src/wx/full_config_dialog.cc:135
 msgid "Issuer"
 msgstr "Utgivare"
-
-#: src/wx/fonts_dialog.cc:64
-msgid "Italic file"
-msgstr "Kursiv fil"
-
-#: src/wx/font_files_dialog.cc:38
-msgid "Italic font"
-msgstr "Kursivt typsnitt"
 
 #: src/wx/dcp_panel.cc:767
 msgid ""
@@ -1592,14 +1579,6 @@ msgstr "Inget innehåll hittades i denna folder."
 #: src/wx/video_panel.cc:347
 msgid "None"
 msgstr "Inget"
-
-#: src/wx/fonts_dialog.cc:56
-msgid "Normal file"
-msgstr "Normal fil"
-
-#: src/wx/font_files_dialog.cc:37
-msgid "Normal font"
-msgstr "Normalt typsnitt"
 
 #: src/wx/cinema_dialog.cc:60 src/wx/screen_dialog.cc:117
 msgid "Notes"
@@ -2124,14 +2103,6 @@ msgstr "Servrar"
 #: src/wx/timecode.cc:66 src/wx/timing_panel.cc:100
 msgid "Set"
 msgstr "Sätt"
-
-#: src/wx/font_files_dialog.cc:53
-msgid "Set from file..."
-msgstr "Sätt från fil..."
-
-#: src/wx/font_files_dialog.cc:56
-msgid "Set from system font..."
-msgstr "Sätt från systemtypsnitt..."
 
 #: src/wx/config_dialog.cc:118
 msgid "Set language"
@@ -2915,6 +2886,30 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#~ msgid "Bold file"
+#~ msgstr "Fet fil"
+
+#~ msgid "Bold font"
+#~ msgstr "Fet typsnitt"
+
+#~ msgid "Italic file"
+#~ msgstr "Kursiv fil"
+
+#~ msgid "Italic font"
+#~ msgstr "Kursivt typsnitt"
+
+#~ msgid "Normal file"
+#~ msgstr "Normal fil"
+
+#~ msgid "Normal font"
+#~ msgstr "Normalt typsnitt"
+
+#~ msgid "Set from file..."
+#~ msgstr "Sätt från fil..."
+
+#~ msgid "Set from system font..."
+#~ msgstr "Sätt från systemtypsnitt..."
 
 #~ msgid "Mail password"
 #~ msgstr "Mejl-lösenord"

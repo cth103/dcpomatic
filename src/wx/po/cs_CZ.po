@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-26 23:08+0000\n"
+"POT-Creation-Date: 2019-01-30 00:08+0000\n"
 "PO-Revision-Date: 2018-09-07 09:29+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -391,14 +391,6 @@ msgstr "Barco Alchemy"
 msgid "Blue chromaticity"
 msgstr "Modrá barevnost"
 
-#: src/wx/fonts_dialog.cc:72
-msgid "Bold file"
-msgstr "Bold soubor"
-
-#: src/wx/font_files_dialog.cc:39
-msgid "Bold font"
-msgstr "Tučné písmo"
-
 #: src/wx/video_panel.cc:130
 #, fuzzy
 msgid "Bottom crop"
@@ -520,7 +512,7 @@ msgstr "Vyberte složku"
 msgid "Choose a font"
 msgstr "Vyberte písmo"
 
-#: src/wx/font_files_dialog.cc:82
+#: src/wx/fonts_dialog.cc:158
 msgid "Choose a font file"
 msgstr "Vyberte soubor s písmem"
 
@@ -876,7 +868,7 @@ msgid "Edit screen"
 msgstr "Upravit obraz"
 
 #: src/wx/audio_mapping_view.cc:172 src/wx/dcp_panel.cc:103
-#: src/wx/fonts_dialog.cc:80 src/wx/full_config_dialog.cc:337
+#: src/wx/fonts_dialog.cc:63 src/wx/full_config_dialog.cc:337
 #: src/wx/video_panel.cc:164 src/wx/video_panel.cc:175
 #: src/wx/editable_list.h:79
 msgid "Edit..."
@@ -971,6 +963,10 @@ msgstr "Postupné zeslabení (Fade out)"
 msgid "Fade out time"
 msgstr "Postupné zeslabení v čase (Fade out)"
 
+#: src/wx/fonts_dialog.cc:55
+msgid "File"
+msgstr ""
+
 #: src/wx/kdm_dialog.cc:135
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
@@ -1011,8 +1007,7 @@ msgstr "Složka / ZIP name format"
 msgid "Folder name"
 msgstr "Název složky"
 
-#: src/wx/fonts_dialog.cc:39 src/wx/font_files_dialog.cc:30
-#: src/wx/font_files_dialog.cc:32
+#: src/wx/fonts_dialog.cc:38
 msgid "Fonts"
 msgstr "Písma"
 
@@ -1148,7 +1143,7 @@ msgstr "Host name nebo IP adresa"
 msgid "I want to play this back at fader"
 msgstr "Chci přehrávat na faderu na úrovni"
 
-#: src/wx/fonts_dialog.cc:48
+#: src/wx/fonts_dialog.cc:47
 msgid "ID"
 msgstr "ID"
 
@@ -1250,14 +1245,6 @@ msgstr "Inverzní 2,6 gama korekce na výstupu"
 #: src/wx/full_config_dialog.cc:135
 msgid "Issuer"
 msgstr "Poskytovatel"
-
-#: src/wx/fonts_dialog.cc:64
-msgid "Italic file"
-msgstr "Soubor s kurzívou"
-
-#: src/wx/font_files_dialog.cc:38
-msgid "Italic font"
-msgstr "Kurzíva (typ písma)"
 
 #: src/wx/dcp_panel.cc:767
 msgid ""
@@ -1575,14 +1562,6 @@ msgstr "Žádný obsah nebyl ve složce nalezen."
 #: src/wx/video_panel.cc:347
 msgid "None"
 msgstr "Žádný"
-
-#: src/wx/fonts_dialog.cc:56
-msgid "Normal file"
-msgstr "Normální soubor"
-
-#: src/wx/font_files_dialog.cc:37
-msgid "Normal font"
-msgstr "Normální písmo"
 
 #: src/wx/cinema_dialog.cc:60 src/wx/screen_dialog.cc:117
 msgid "Notes"
@@ -2098,14 +2077,6 @@ msgstr "Servery"
 #: src/wx/timecode.cc:66 src/wx/timing_panel.cc:100
 msgid "Set"
 msgstr "Nastavit"
-
-#: src/wx/font_files_dialog.cc:53
-msgid "Set from file..."
-msgstr "Nastavit ze souboru…"
-
-#: src/wx/font_files_dialog.cc:56
-msgid "Set from system font..."
-msgstr "Nastavit ze systémového písma…"
 
 #: src/wx/config_dialog.cc:118
 msgid "Set language"
@@ -2883,6 +2854,30 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#~ msgid "Bold file"
+#~ msgstr "Bold soubor"
+
+#~ msgid "Bold font"
+#~ msgstr "Tučné písmo"
+
+#~ msgid "Italic file"
+#~ msgstr "Soubor s kurzívou"
+
+#~ msgid "Italic font"
+#~ msgstr "Kurzíva (typ písma)"
+
+#~ msgid "Normal file"
+#~ msgstr "Normální soubor"
+
+#~ msgid "Normal font"
+#~ msgstr "Normální písmo"
+
+#~ msgid "Set from file..."
+#~ msgstr "Nastavit ze souboru…"
+
+#~ msgid "Set from system font..."
+#~ msgstr "Nastavit ze systémového písma…"
 
 #~ msgid "Mail password"
 #~ msgstr "Heslo k emailu"

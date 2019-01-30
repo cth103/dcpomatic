@@ -839,6 +839,29 @@ utf8_strlen (string s)
 	return N;
 }
 
+string
+day_of_week_to_string (boost::gregorian::greg_weekday d)
+{
+	switch (d.as_enum()) {
+	case boost::date_time::Sunday:
+		return _("Sunday");
+	case boost::date_time::Monday:
+		return _("Monday");
+	case boost::date_time::Tuesday:
+		return _("Tuesday");
+	case boost::date_time::Wednesday:
+		return _("Wednesday");
+	case boost::date_time::Thursday:
+		return _("Thursday");
+	case boost::date_time::Friday:
+		return _("Friday");
+	case boost::date_time::Saturday:
+		return _("Saturday");
+	}
+
+	return d.as_long_string ();
+}
+
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 
 /* Make up a key from the machine UUID */

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-26 23:08+0000\n"
+"POT-Creation-Date: 2019-01-30 00:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -376,14 +376,6 @@ msgstr ""
 msgid "Blue chromaticity"
 msgstr ""
 
-#: src/wx/fonts_dialog.cc:72
-msgid "Bold file"
-msgstr ""
-
-#: src/wx/font_files_dialog.cc:39
-msgid "Bold font"
-msgstr ""
-
 #: src/wx/video_panel.cc:130
 msgid "Bottom crop"
 msgstr ""
@@ -504,7 +496,7 @@ msgstr ""
 msgid "Choose a font"
 msgstr ""
 
-#: src/wx/font_files_dialog.cc:82
+#: src/wx/fonts_dialog.cc:158
 msgid "Choose a font file"
 msgstr ""
 
@@ -856,7 +848,7 @@ msgid "Edit screen"
 msgstr ""
 
 #: src/wx/audio_mapping_view.cc:172 src/wx/dcp_panel.cc:103
-#: src/wx/fonts_dialog.cc:80 src/wx/full_config_dialog.cc:337
+#: src/wx/fonts_dialog.cc:63 src/wx/full_config_dialog.cc:337
 #: src/wx/video_panel.cc:164 src/wx/video_panel.cc:175
 #: src/wx/editable_list.h:79
 msgid "Edit..."
@@ -951,6 +943,10 @@ msgstr ""
 msgid "Fade out time"
 msgstr ""
 
+#: src/wx/fonts_dialog.cc:55
+msgid "File"
+msgstr ""
+
 #: src/wx/kdm_dialog.cc:135
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
@@ -989,8 +985,7 @@ msgstr ""
 msgid "Folder name"
 msgstr ""
 
-#: src/wx/fonts_dialog.cc:39 src/wx/font_files_dialog.cc:30
-#: src/wx/font_files_dialog.cc:32
+#: src/wx/fonts_dialog.cc:38
 msgid "Fonts"
 msgstr ""
 
@@ -1125,7 +1120,7 @@ msgstr ""
 msgid "I want to play this back at fader"
 msgstr ""
 
-#: src/wx/fonts_dialog.cc:48
+#: src/wx/fonts_dialog.cc:47
 msgid "ID"
 msgstr ""
 
@@ -1223,14 +1218,6 @@ msgstr ""
 
 #: src/wx/full_config_dialog.cc:135
 msgid "Issuer"
-msgstr ""
-
-#: src/wx/fonts_dialog.cc:64
-msgid "Italic file"
-msgstr ""
-
-#: src/wx/font_files_dialog.cc:38
-msgid "Italic font"
 msgstr ""
 
 #: src/wx/dcp_panel.cc:767
@@ -1532,14 +1519,6 @@ msgstr ""
 #: src/wx/video_panel.cc:163 src/wx/video_panel.cc:168
 #: src/wx/video_panel.cc:347
 msgid "None"
-msgstr ""
-
-#: src/wx/fonts_dialog.cc:56
-msgid "Normal file"
-msgstr ""
-
-#: src/wx/font_files_dialog.cc:37
-msgid "Normal font"
 msgstr ""
 
 #: src/wx/cinema_dialog.cc:60 src/wx/screen_dialog.cc:117
@@ -2045,14 +2024,6 @@ msgstr ""
 
 #: src/wx/timecode.cc:66 src/wx/timing_panel.cc:100
 msgid "Set"
-msgstr ""
-
-#: src/wx/font_files_dialog.cc:53
-msgid "Set from file..."
-msgstr ""
-
-#: src/wx/font_files_dialog.cc:56
-msgid "Set from system font..."
 msgstr ""
 
 #: src/wx/config_dialog.cc:118

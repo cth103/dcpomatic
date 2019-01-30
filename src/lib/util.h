@@ -32,6 +32,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/optional.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/date_time/gregorian/gregorian.hpp>
 #include <string>
 #include <map>
 #include <vector>
@@ -101,6 +102,7 @@ extern Eyes increment_eyes (Eyes e);
 extern void checked_fread (void* ptr, size_t size, FILE* stream, boost::filesystem::path path);
 extern void checked_fwrite (void const * ptr, size_t size, FILE* stream, boost::filesystem::path path);
 extern size_t utf8_strlen (std::string s);
+extern std::string day_of_week_to_string (boost::gregorian::greg_weekday d);
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 extern boost::shared_ptr<dcp::CertificateChain> read_swaroop_chain (boost::filesystem::path path);
 extern void write_swaroop_chain (boost::shared_ptr<const dcp::CertificateChain> chain, boost::filesystem::path output);

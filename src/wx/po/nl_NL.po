@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-26 23:08+0000\n"
+"POT-Creation-Date: 2019-01-30 00:08+0000\n"
 "PO-Revision-Date: 2019-01-27 03:23+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -411,14 +411,6 @@ msgstr "Barco Alchemy"
 msgid "Blue chromaticity"
 msgstr "Blauw-chromaticiteit"
 
-#: src/wx/fonts_dialog.cc:72
-msgid "Bold file"
-msgstr "Vet bestand"
-
-#: src/wx/font_files_dialog.cc:39
-msgid "Bold font"
-msgstr "Vet lettertype"
-
 #: src/wx/video_panel.cc:130
 msgid "Bottom crop"
 msgstr "Bijsnijden onder"
@@ -539,7 +531,7 @@ msgstr "Kies een map"
 msgid "Choose a font"
 msgstr "Kies een lettertype"
 
-#: src/wx/font_files_dialog.cc:82
+#: src/wx/fonts_dialog.cc:158
 msgid "Choose a font file"
 msgstr "Kies een lettertype-bestand"
 
@@ -894,7 +886,7 @@ msgid "Edit screen"
 msgstr "Wijzig scherm"
 
 #: src/wx/audio_mapping_view.cc:172 src/wx/dcp_panel.cc:103
-#: src/wx/fonts_dialog.cc:80 src/wx/full_config_dialog.cc:337
+#: src/wx/fonts_dialog.cc:63 src/wx/full_config_dialog.cc:337
 #: src/wx/video_panel.cc:164 src/wx/video_panel.cc:175
 #: src/wx/editable_list.h:79
 msgid "Edit..."
@@ -989,6 +981,10 @@ msgstr "Fade out"
 msgid "Fade out time"
 msgstr "Fade out tijd"
 
+#: src/wx/fonts_dialog.cc:55
+msgid "File"
+msgstr ""
+
 #: src/wx/kdm_dialog.cc:135
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
@@ -1029,8 +1025,7 @@ msgstr "Map- / ZIP-naam-formaat"
 msgid "Folder name"
 msgstr "Mapnaam"
 
-#: src/wx/fonts_dialog.cc:39 src/wx/font_files_dialog.cc:30
-#: src/wx/font_files_dialog.cc:32
+#: src/wx/fonts_dialog.cc:38
 msgid "Fonts"
 msgstr "Lettertypen"
 
@@ -1165,7 +1160,7 @@ msgstr "Hostnaam of IP-adres"
 msgid "I want to play this back at fader"
 msgstr "Ik wil dit afspelen met deze volume-instelling"
 
-#: src/wx/fonts_dialog.cc:48
+#: src/wx/fonts_dialog.cc:47
 msgid "ID"
 msgstr "ID"
 
@@ -1267,14 +1262,6 @@ msgstr "Inverse 2.6 output-gammacorrectie"
 #: src/wx/full_config_dialog.cc:135
 msgid "Issuer"
 msgstr "Uitgever"
-
-#: src/wx/fonts_dialog.cc:64
-msgid "Italic file"
-msgstr "Cursief bestand"
-
-#: src/wx/font_files_dialog.cc:38
-msgid "Italic font"
-msgstr "Cursief lettertype"
 
 #: src/wx/dcp_panel.cc:767
 msgid ""
@@ -1585,14 +1572,6 @@ msgstr "Geen content gevonden in deze map."
 #: src/wx/video_panel.cc:347
 msgid "None"
 msgstr "Geen"
-
-#: src/wx/fonts_dialog.cc:56
-msgid "Normal file"
-msgstr "Normaal bestand"
-
-#: src/wx/font_files_dialog.cc:37
-msgid "Normal font"
-msgstr "Normaal lettertype"
 
 #: src/wx/cinema_dialog.cc:60 src/wx/screen_dialog.cc:117
 msgid "Notes"
@@ -2100,14 +2079,6 @@ msgstr "Servers"
 #: src/wx/timecode.cc:66 src/wx/timing_panel.cc:100
 msgid "Set"
 msgstr "Stel in"
-
-#: src/wx/font_files_dialog.cc:53
-msgid "Set from file..."
-msgstr "Stel in uit bestand..."
-
-#: src/wx/font_files_dialog.cc:56
-msgid "Set from system font..."
-msgstr "Stel in uit syteem-lettertype..."
 
 #: src/wx/config_dialog.cc:118
 msgid "Set language"
@@ -2881,6 +2852,30 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#~ msgid "Bold file"
+#~ msgstr "Vet bestand"
+
+#~ msgid "Bold font"
+#~ msgstr "Vet lettertype"
+
+#~ msgid "Italic file"
+#~ msgstr "Cursief bestand"
+
+#~ msgid "Italic font"
+#~ msgstr "Cursief lettertype"
+
+#~ msgid "Normal file"
+#~ msgstr "Normaal bestand"
+
+#~ msgid "Normal font"
+#~ msgstr "Normaal lettertype"
+
+#~ msgid "Set from file..."
+#~ msgstr "Stel in uit bestand..."
+
+#~ msgid "Set from system font..."
+#~ msgstr "Stel in uit syteem-lettertype..."
 
 #~ msgid "Mail password"
 #~ msgstr "Mail-wachtwoord"
