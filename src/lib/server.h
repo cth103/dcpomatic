@@ -24,6 +24,7 @@
 #include <boost/thread.hpp>
 #include <boost/asio.hpp>
 #include <boost/thread/condition.hpp>
+#include <boost/noncopyable.hpp>
 #include <string>
 
 class Socket;
