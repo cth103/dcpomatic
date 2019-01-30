@@ -408,6 +408,8 @@ CertificateChainEditor::CertificateChainEditor (
 	_button_sizer = new wxBoxSizer (wxHORIZONTAL);
 	_remake_certificates = new Button (this, _("Re-make certificates and key..."));
 	_button_sizer->Add (_remake_certificates, 1, wxRIGHT, border);
+	_export_chain = new Button (this, _("Export chain..."));
+	_button_sizer->Add (_export_chain, 1, wxRIGHT, border);
 	table->Add (_button_sizer, wxGBPosition (r, 0), wxGBSpan (1, 4));
 	++r;
 
@@ -424,6 +426,7 @@ CertificateChainEditor::CertificateChainEditor (
 	_certificates->Bind        (wxEVT_LIST_ITEM_SELECTED,   bind (&CertificateChainEditor::update_sensitivity, this));
 	_certificates->Bind        (wxEVT_LIST_ITEM_DESELECTED, bind (&CertificateChainEditor::update_sensitivity, this));
 	_remake_certificates->Bind (wxEVT_BUTTON,       bind (&CertificateChainEditor::remake_certificates, this));
+	_export_chain->Bind        (wxEVT_BUTTON,       bind (&CertificateChainEditor::export_chain, this));
 	_import_private_key->Bind  (wxEVT_BUTTON,       bind (&CertificateChainEditor::import_private_key, this));
 	_export_private_key->Bind  (wxEVT_BUTTON,       bind (&CertificateChainEditor::export_private_key, this));
 
@@ -539,6 +542,29 @@ CertificateChainEditor::export_certificate ()
 		checked_fwrite (s.c_str(), s.length(), f, path);
 		fclose (f);
 	}
+	d->Destroy ();
+}
+
+void
+CertificateChainEditor::export_chain ()
+{
+	wxFileDialog* d = new wxFileDialog (
+		this, _("Select Chain File"), wxEmptyString, wxEmptyString, wxT("PEM files (*.pem)|*.pem"),
+		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
+		);
+
+	if (d->ShowModal () == wxID_OK) {
+		boost::filesystem::path path (wx_to_std(d->GetPath()));
+		FILE* f = fopen_boost (path, "w");
+		if (!f) {
+			throw OpenFileError (path, errno, false);
+		}
+
+		string const s = _get()->chain();
+		checked_fwrite (s.c_str(), s.length(), f, path);
+		fclose (f);
+	}
+
 	d->Destroy ();
 }
 
@@ -737,8 +763,6 @@ KeysPage::setup ()
 
 	wxButton* export_decryption_certificate = new Button (_panel, _("Export KDM decryption certificate..."));
 	sizer->Add (export_decryption_certificate, 0, wxLEFT, _border);
-	wxButton* export_decryption_chain = new Button (_panel, _("Export KDM decryption chain..."));
-	sizer->Add (export_decryption_chain, 0, wxLEFT, _border);
 	wxButton* export_settings = new Button (_panel, _("Export all KDM decryption settings..."));
 	sizer->Add (export_settings, 0, wxLEFT, _border);
 	wxButton* import_settings = new Button (_panel, _("Import all KDM decryption settings..."));
@@ -747,7 +771,6 @@ KeysPage::setup ()
 	sizer->Add (decryption_advanced, 0, wxALL, _border);
 
 	export_decryption_certificate->Bind (wxEVT_BUTTON, bind (&KeysPage::export_decryption_certificate, this));
-	export_decryption_chain->Bind (wxEVT_BUTTON, bind (&KeysPage::export_decryption_chain, this));
 	export_settings->Bind (wxEVT_BUTTON, bind (&KeysPage::export_decryption_chain_and_key, this));
 	import_settings->Bind (wxEVT_BUTTON, bind (&KeysPage::import_decryption_chain_and_key, this));
 	decryption_advanced->Bind (wxEVT_BUTTON, bind (&KeysPage::decryption_advanced, this));
@@ -865,28 +888,6 @@ KeysPage::nag_remake_decryption_chain ()
 		_("If you continue with this operation you will no longer be able to use any DKDMs that you have created.  Also, any KDMs that have been sent to you will become useless.  Proceed with caution!"),
 		true
 		);
-}
-
-void
-KeysPage::export_decryption_chain ()
-{
-	wxFileDialog* d = new wxFileDialog (
-		_panel, _("Select Chain File"), wxEmptyString, _("dcpomatic_kdm_decryption_chain.pem"), wxT ("PEM files (*.pem)|*.pem"),
-		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
-		);
-
-	if (d->ShowModal () == wxID_OK) {
-		boost::filesystem::path path (wx_to_std(d->GetPath()));
-		FILE* f = fopen_boost (path, "w");
-		if (!f) {
-			throw OpenFileError (path, errno, false);
-		}
-
-		string const s = Config::instance()->decryption_chain()->chain();
-		checked_fwrite (s.c_str(), s.length(), f, path);
-		fclose (f);
-	}
-	d->Destroy ();
 }
 
 void
