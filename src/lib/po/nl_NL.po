@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-30 00:08+0000\n"
+"POT-Creation-Date: 2019-01-31 23:35+0000\n"
 "PO-Revision-Date: 2019-01-27 03:05+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -312,7 +312,7 @@ msgstr "Mag geen slash bevatten"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kan pixelformaat %1 niet verwerken tijdens %2"
 
-#: src/lib/film.cc:1298
+#: src/lib/film.cc:1323
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Kan geen KDM maken omdat dit project niet is versleuteld."
 
@@ -615,6 +615,12 @@ msgid ""
 msgstr ""
 "DCP-o-matic kan het bestand %1 (%2) niet openen.  Misschien bestaat het niet "
 "of wordt het formaat niet ondersteund."
+
+#: src/lib/film.cc:1245
+msgid ""
+"DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
+"review those settings to make sure they are what you want."
+msgstr ""
 
 #: src/lib/ffmpeg_content.cc:113
 msgid ""

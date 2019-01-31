@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-30 00:08+0000\n"
+"POT-Creation-Date: 2019-01-31 23:35+0000\n"
 "PO-Revision-Date: 2018-12-07 00:06+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -316,7 +316,7 @@ msgstr "Darf keine Schrägstriche enthalten"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kann dieses Pixelformat %1 während %2 nicht bearbeiten"
 
-#: src/lib/film.cc:1298
+#: src/lib/film.cc:1323
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 "KDM Erzeugung nicht möglich, da dieses Projekt keine Verschlüsselung "
@@ -624,6 +624,12 @@ msgid ""
 msgstr ""
 "DCP-o-matic konnte die Datei %1 nicht öffnen (%2). Vielleicht existiert sie "
 "nicht oder ist in einem unerwarteten Format."
+
+#: src/lib/film.cc:1245
+msgid ""
+"DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
+"review those settings to make sure they are what you want."
+msgstr ""
 
 #: src/lib/ffmpeg_content.cc:113
 msgid ""

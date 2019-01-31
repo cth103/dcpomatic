@@ -1,4 +1,4 @@
-#italfi SOME DESCRIPTIVE TITLE.
+# italfi SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-30 00:08+0000\n"
+"POT-Creation-Date: 2019-01-31 23:35+0000\n"
 "PO-Revision-Date: 2018-09-30 14:16+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -310,7 +310,7 @@ msgstr "Non può contenere slash"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Impossibile gestire il formato pixel % 1 durante % 2"
 
-#: src/lib/film.cc:1298
+#: src/lib/film.cc:1323
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 "Impossibile creare un KDM in quanto questo progetto non è crittografato."
@@ -610,6 +610,12 @@ msgid ""
 msgstr ""
 "DCP-o-MATIC non riesce ad aprire il file %1 (%2). Forse non esiste oppure è "
 "un formato non riconosciuto."
+
+#: src/lib/film.cc:1245
+msgid ""
+"DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
+"review those settings to make sure they are what you want."
+msgstr ""
 
 #: src/lib/ffmpeg_content.cc:113
 msgid ""

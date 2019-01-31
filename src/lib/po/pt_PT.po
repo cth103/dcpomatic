@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-30 00:08+0000\n"
+"POT-Creation-Date: 2019-01-31 23:35+0000\n"
 "PO-Revision-Date: 2016-03-19 18:19+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -300,7 +300,7 @@ msgstr "não pode conter barras"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Impossível manusear o formato de pixeis %1 durante %2"
 
-#: src/lib/film.cc:1298
+#: src/lib/film.cc:1323
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 
@@ -610,6 +610,12 @@ msgid ""
 msgstr ""
 "O DCP-o-matic não conseguiu abrir o ficheiro %1. Talvez não exista ou está "
 "num formato inesperado."
+
+#: src/lib/film.cc:1245
+msgid ""
+"DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
+"review those settings to make sure they are what you want."
+msgstr ""
 
 #: src/lib/ffmpeg_content.cc:113
 msgid ""

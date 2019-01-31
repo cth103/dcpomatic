@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-30 00:08+0000\n"
+"POT-Creation-Date: 2019-01-31 23:35+0000\n"
 "PO-Revision-Date: 2016-03-19 13:56+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -281,7 +281,7 @@ msgstr "Adicionar ficheiros de video, imagem ou som ao filme."
 msgid "Add..."
 msgstr "Adicionar..."
 
-#: src/wx/config_dialog.cc:478
+#: src/wx/config_dialog.cc:481
 msgid ""
 "Adding this certificate would make the chain inconsistent, so it will not be "
 "added. Add certificates in order from root to intermediate to leaf."
@@ -300,7 +300,7 @@ msgstr "Ajustar o ponto de branco para"
 msgid "Advanced KDM options"
 msgstr ""
 
-#: src/wx/config_dialog.cc:746 src/wx/config_dialog.cc:761
+#: src/wx/config_dialog.cc:770 src/wx/config_dialog.cc:784
 #: src/wx/kdm_output_panel.cc:70
 #, fuzzy
 msgid "Advanced..."
@@ -617,7 +617,7 @@ msgstr "Copiar como nome"
 msgid "Could not analyse audio."
 msgstr "Não foi possível analizar audio."
 
-#: src/wx/config_dialog.cc:461
+#: src/wx/config_dialog.cc:464
 #, fuzzy, c-format
 msgid "Could not import certificate (%s)"
 msgstr "Não foi possível ler o ficheiro do certificado (%s)"
@@ -637,14 +637,14 @@ msgstr "Não foi possível ler o ficheiro do certificado (%s)"
 msgid "Could not load image file."
 msgstr "Não foi possível ler o ficheiro do certificado (%s)"
 
-#: src/wx/config_dialog.cc:487 src/wx/config_dialog.cc:682
+#: src/wx/config_dialog.cc:490 src/wx/config_dialog.cc:708
 #: src/wx/download_certificate_panel.cc:60 src/wx/screen_dialog.cc:201
 #: src/wx/screen_dialog.cc:206
 #, fuzzy
 msgid "Could not read certificate file."
 msgstr "Não foi possível ler o ficheiro do certificado (%s)"
 
-#: src/wx/config_dialog.cc:672
+#: src/wx/config_dialog.cc:698
 #, fuzzy, c-format
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Não foi possível ler o ficheiro da chave (%s)"
@@ -741,7 +741,7 @@ msgstr "Depuração: codificação"
 msgid "Decode resolution: %dx%d"
 msgstr ""
 
-#: src/wx/config_dialog.cc:733 src/wx/config_dialog.cc:770
+#: src/wx/config_dialog.cc:759 src/wx/config_dialog.cc:793
 #, fuzzy
 msgid "Decrypting KDMs"
 msgstr "A desencriptar DCP"
@@ -947,20 +947,20 @@ msgstr "Erros"
 msgid "Export"
 msgstr "Exportar"
 
-#: src/wx/config_dialog.cc:738
+#: src/wx/config_dialog.cc:764
 #, fuzzy
 msgid "Export KDM decryption certificate..."
 msgstr "Exportar certificado de desencriptação DCP..."
 
-#: src/wx/config_dialog.cc:740
-#, fuzzy
-msgid "Export KDM decryption chain..."
-msgstr "Exportar certificado de desencriptação DCP..."
-
-#: src/wx/config_dialog.cc:742
+#: src/wx/config_dialog.cc:766
 #, fuzzy
 msgid "Export all KDM decryption settings..."
 msgstr "Exportar certificado de desencriptação DCP..."
+
+#: src/wx/config_dialog.cc:411
+#, fuzzy
+msgid "Export chain..."
+msgstr "Exportar..."
 
 #: src/wx/export_dialog.cc:53
 #, fuzzy
@@ -1199,7 +1199,7 @@ msgstr "Endereço IP / nome de anfitrião"
 msgid "ISDCF name"
 msgstr "Nome ISDCF"
 
-#: src/wx/config_dialog.cc:865
+#: src/wx/config_dialog.cc:888
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
@@ -1219,7 +1219,7 @@ msgstr ""
 msgid "Image on secondary, controls on primary"
 msgstr ""
 
-#: src/wx/config_dialog.cc:744
+#: src/wx/config_dialog.cc:768
 #, fuzzy
 msgid "Import all KDM decryption settings..."
 msgstr "Exportar certificado de desencriptação DCP..."
@@ -1263,7 +1263,7 @@ msgstr "Intensidade sonora integrada %.2f LUFS"
 msgid "Interface complexity"
 msgstr ""
 
-#: src/wx/config_dialog.cc:562
+#: src/wx/config_dialog.cc:588
 msgid "Intermediate"
 msgstr "Intermédio"
 
@@ -1275,7 +1275,7 @@ msgstr "Nome comum intermédio"
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/config_dialog.cc:853
+#: src/wx/config_dialog.cc:876
 msgid "Invalid DCP-o-matic export file"
 msgstr ""
 
@@ -1333,7 +1333,7 @@ msgstr "Manter vídeo legendas em sequência"
 msgid "Key"
 msgstr "Chave"
 
-#: src/wx/config_dialog.cc:721
+#: src/wx/config_dialog.cc:747
 msgid "Keys"
 msgstr "Chaves"
 
@@ -1346,7 +1346,7 @@ msgstr "Língua"
 msgid "Later"
 msgstr ""
 
-#: src/wx/config_dialog.cc:560
+#: src/wx/config_dialog.cc:586
 msgid "Leaf"
 msgstr "Folha"
 
@@ -1358,7 +1358,7 @@ msgstr "Nome comum da folha"
 msgid "Leaf private key"
 msgstr "Chave privada da folha"
 
-#: src/wx/config_dialog.cc:414
+#: src/wx/config_dialog.cc:416
 msgid "Leaf private key does not match leaf certificate!"
 msgstr ""
 
@@ -1972,7 +1972,7 @@ msgstr "Clique direito para alterar o ganho."
 msgid "Right crop"
 msgstr "Direita"
 
-#: src/wx/config_dialog.cc:558
+#: src/wx/config_dialog.cc:584
 msgid "Root"
 msgstr "Raiz"
 
@@ -2031,12 +2031,12 @@ msgstr "Seleccionar KDM"
 msgid "Select CPL XML file"
 msgstr "Seleccionar ficheiro XML da CPL"
 
-#: src/wx/config_dialog.cc:452 src/wx/config_dialog.cc:521
-#: src/wx/config_dialog.cc:896 src/wx/screen_dialog.cc:213
+#: src/wx/config_dialog.cc:455 src/wx/config_dialog.cc:524
+#: src/wx/config_dialog.cc:897 src/wx/screen_dialog.cc:213
 msgid "Select Certificate File"
 msgstr "Seleccionar Ficheiro do Certificado"
 
-#: src/wx/config_dialog.cc:874
+#: src/wx/config_dialog.cc:552
 #, fuzzy
 msgid "Select Chain File"
 msgstr "Seleccionar Ficheiro da Chave"
@@ -2046,12 +2046,12 @@ msgstr "Seleccionar Ficheiro da Chave"
 msgid "Select Cinemas File"
 msgstr "Seleccionar Ficheiro da Chave"
 
-#: src/wx/config_dialog.cc:796
+#: src/wx/config_dialog.cc:819
 #, fuzzy
 msgid "Select Export File"
 msgstr "Seleccionar Ficheiro da Chave"
 
-#: src/wx/config_dialog.cc:822
+#: src/wx/config_dialog.cc:845
 #, fuzzy
 msgid "Select File To Import"
 msgstr "Seleccionar Ficheiro da Chave"
@@ -2060,7 +2060,7 @@ msgstr "Seleccionar Ficheiro da Chave"
 msgid "Select KDM"
 msgstr "Seleccionar KDM"
 
-#: src/wx/config_dialog.cc:664 src/wx/config_dialog.cc:700
+#: src/wx/config_dialog.cc:690 src/wx/config_dialog.cc:726
 msgid "Select Key File"
 msgstr "Seleccionar Ficheiro da Chave"
 
@@ -2170,7 +2170,7 @@ msgstr "Mostrar gráfico de níveis de audio..."
 msgid "Signed"
 msgstr "Assinado"
 
-#: src/wx/config_dialog.cc:756 src/wx/config_dialog.cc:783
+#: src/wx/config_dialog.cc:779 src/wx/config_dialog.cc:806
 msgid "Signing DCPs and KDMs"
 msgstr "Assinar DCP e KDM"
 
@@ -2400,7 +2400,7 @@ msgstr ""
 msgid "There is not enough free memory to do that."
 msgstr "Não há memória livre para executar essa acção."
 
-#: src/wx/config_dialog.cc:469
+#: src/wx/config_dialog.cc:472
 msgid ""
 "This file contains other certificates (or other data) after its first "
 "certificate. Only the first certificate will be used."
@@ -2829,12 +2829,8 @@ msgstr "Componente"
 msgid "dB"
 msgstr "dB"
 
-#: src/wx/config_dialog.cc:896
+#: src/wx/config_dialog.cc:897
 msgid "dcpomatic_kdm_decryption_cert.pem"
-msgstr ""
-
-#: src/wx/config_dialog.cc:874
-msgid "dcpomatic_kdm_decryption_chain.pem"
 msgstr ""
 
 #: src/wx/name_format_editor.cc:75
@@ -2916,6 +2912,10 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#, fuzzy
+#~ msgid "Export KDM decryption chain..."
+#~ msgstr "Exportar certificado de desencriptação DCP..."
 
 #~ msgid "Bold file"
 #~ msgstr "Ficheiro negrito"

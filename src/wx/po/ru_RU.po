@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-30 00:08+0000\n"
+"POT-Creation-Date: 2019-01-31 23:35+0000\n"
 "PO-Revision-Date: 2018-08-20 18:57+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -271,7 +271,7 @@ msgstr "Добавить видео, изображение, звук или с�
 msgid "Add..."
 msgstr "Добавить..."
 
-#: src/wx/config_dialog.cc:478
+#: src/wx/config_dialog.cc:481
 msgid ""
 "Adding this certificate would make the chain inconsistent, so it will not be "
 "added. Add certificates in order from root to intermediate to leaf."
@@ -293,7 +293,7 @@ msgstr "Отрегулировать белую точку по"
 msgid "Advanced KDM options"
 msgstr ""
 
-#: src/wx/config_dialog.cc:746 src/wx/config_dialog.cc:761
+#: src/wx/config_dialog.cc:770 src/wx/config_dialog.cc:784
 #: src/wx/kdm_output_panel.cc:70
 msgid "Advanced..."
 msgstr "Продвинутые…"
@@ -606,7 +606,7 @@ msgstr "Копировать в название"
 msgid "Could not analyse audio."
 msgstr "Не удалось проанализировать аудио."
 
-#: src/wx/config_dialog.cc:461
+#: src/wx/config_dialog.cc:464
 #, c-format
 msgid "Could not import certificate (%s)"
 msgstr "Не удалось импортировать сертификат (%s)"
@@ -626,13 +626,13 @@ msgstr "Не удалось импортировать сертификат (%s)
 msgid "Could not load image file."
 msgstr "Не удалось прочитать файл сертификата."
 
-#: src/wx/config_dialog.cc:487 src/wx/config_dialog.cc:682
+#: src/wx/config_dialog.cc:490 src/wx/config_dialog.cc:708
 #: src/wx/download_certificate_panel.cc:60 src/wx/screen_dialog.cc:201
 #: src/wx/screen_dialog.cc:206
 msgid "Could not read certificate file."
 msgstr "Не удалось прочитать файл сертификата."
 
-#: src/wx/config_dialog.cc:672
+#: src/wx/config_dialog.cc:698
 #, c-format
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Не удалось прочитать файл ключа; файл слишком длинный (%s)"
@@ -729,7 +729,7 @@ msgstr "Отладка: кодирование"
 msgid "Decode resolution: %dx%d"
 msgstr "Разрешение декодирования: %dx%d"
 
-#: src/wx/config_dialog.cc:733 src/wx/config_dialog.cc:770
+#: src/wx/config_dialog.cc:759 src/wx/config_dialog.cc:793
 msgid "Decrypting KDMs"
 msgstr "Ключи расшифровки (KDM)"
 
@@ -927,17 +927,18 @@ msgstr "Ошибки"
 msgid "Export"
 msgstr "Экспорт"
 
-#: src/wx/config_dialog.cc:738
+#: src/wx/config_dialog.cc:764
 msgid "Export KDM decryption certificate..."
 msgstr "Экспортировать сертификат расшифровки KDM…"
 
-#: src/wx/config_dialog.cc:740
-msgid "Export KDM decryption chain..."
-msgstr "Экспортировать цепочку расшифровки KDM…"
-
-#: src/wx/config_dialog.cc:742
+#: src/wx/config_dialog.cc:766
 msgid "Export all KDM decryption settings..."
 msgstr "Экспортировать все настройки расшифровки KDM…"
+
+#: src/wx/config_dialog.cc:411
+#, fuzzy
+msgid "Export chain..."
+msgstr "Экспорт..."
 
 #: src/wx/export_dialog.cc:53
 msgid "Export film"
@@ -1170,7 +1171,7 @@ msgstr "IP адрес / имя хоста"
 msgid "ISDCF name"
 msgstr "Имя ISDCF"
 
-#: src/wx/config_dialog.cc:865
+#: src/wx/config_dialog.cc:888
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
@@ -1192,7 +1193,7 @@ msgstr ""
 msgid "Image on secondary, controls on primary"
 msgstr ""
 
-#: src/wx/config_dialog.cc:744
+#: src/wx/config_dialog.cc:768
 msgid "Import all KDM decryption settings..."
 msgstr "Импортировать все настройки расшифровки KDM…"
 
@@ -1233,7 +1234,7 @@ msgstr "Интегрированная громкость %.2f LUFS"
 msgid "Interface complexity"
 msgstr ""
 
-#: src/wx/config_dialog.cc:562
+#: src/wx/config_dialog.cc:588
 msgid "Intermediate"
 msgstr "Intermediate"
 
@@ -1245,7 +1246,7 @@ msgstr "Intermediate common name"
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/config_dialog.cc:853
+#: src/wx/config_dialog.cc:876
 msgid "Invalid DCP-o-matic export file"
 msgstr "Неверный файл экспорта DCP-o-matic"
 
@@ -1303,7 +1304,7 @@ msgstr "Хранить видео и субтитры в последовате�
 msgid "Key"
 msgstr "Ключ"
 
-#: src/wx/config_dialog.cc:721
+#: src/wx/config_dialog.cc:747
 msgid "Keys"
 msgstr "Ключи"
 
@@ -1316,7 +1317,7 @@ msgstr "Язык"
 msgid "Later"
 msgstr "Ниже"
 
-#: src/wx/config_dialog.cc:560
+#: src/wx/config_dialog.cc:586
 msgid "Leaf"
 msgstr "Leaf"
 
@@ -1328,7 +1329,7 @@ msgstr "Leaf common name"
 msgid "Leaf private key"
 msgstr "Leaf private key"
 
-#: src/wx/config_dialog.cc:414
+#: src/wx/config_dialog.cc:416
 msgid "Leaf private key does not match leaf certificate!"
 msgstr "Приватный leaf-ключ не соответствует leaf-сертификату!"
 
@@ -1926,7 +1927,7 @@ msgstr "Правый клик для изменения усиления."
 msgid "Right crop"
 msgstr "Справа"
 
-#: src/wx/config_dialog.cc:558
+#: src/wx/config_dialog.cc:584
 msgid "Root"
 msgstr "Root"
 
@@ -1985,12 +1986,12 @@ msgstr "Выберите OV"
 msgid "Select CPL XML file"
 msgstr "Выберите XML-файл CPL"
 
-#: src/wx/config_dialog.cc:452 src/wx/config_dialog.cc:521
-#: src/wx/config_dialog.cc:896 src/wx/screen_dialog.cc:213
+#: src/wx/config_dialog.cc:455 src/wx/config_dialog.cc:524
+#: src/wx/config_dialog.cc:897 src/wx/screen_dialog.cc:213
 msgid "Select Certificate File"
 msgstr "Выберите файл сертификата"
 
-#: src/wx/config_dialog.cc:874
+#: src/wx/config_dialog.cc:552
 msgid "Select Chain File"
 msgstr "Выберите файл цепочки"
 
@@ -1999,11 +2000,11 @@ msgstr "Выберите файл цепочки"
 msgid "Select Cinemas File"
 msgstr "Выберите файл цепочки"
 
-#: src/wx/config_dialog.cc:796
+#: src/wx/config_dialog.cc:819
 msgid "Select Export File"
 msgstr "Выберите файл экспорта"
 
-#: src/wx/config_dialog.cc:822
+#: src/wx/config_dialog.cc:845
 msgid "Select File To Import"
 msgstr "Выберите импортируемый файл"
 
@@ -2011,7 +2012,7 @@ msgstr "Выберите импортируемый файл"
 msgid "Select KDM"
 msgstr "Выберите KDM"
 
-#: src/wx/config_dialog.cc:664 src/wx/config_dialog.cc:700
+#: src/wx/config_dialog.cc:690 src/wx/config_dialog.cc:726
 msgid "Select Key File"
 msgstr "Выберите файл ключа"
 
@@ -2117,7 +2118,7 @@ msgstr "Показать график и уровни аудио..."
 msgid "Signed"
 msgstr "Подписанный"
 
-#: src/wx/config_dialog.cc:756 src/wx/config_dialog.cc:783
+#: src/wx/config_dialog.cc:779 src/wx/config_dialog.cc:806
 msgid "Signing DCPs and KDMs"
 msgstr "Подписывание DCP и KDM"
 
@@ -2350,7 +2351,7 @@ msgstr "Уже есть шаблон с таким названием. Вы хо
 msgid "There is not enough free memory to do that."
 msgstr "Недостаточно памяти, чтобы сделать это."
 
-#: src/wx/config_dialog.cc:469
+#: src/wx/config_dialog.cc:472
 msgid ""
 "This file contains other certificates (or other data) after its first "
 "certificate. Only the first certificate will be used."
@@ -2787,12 +2788,8 @@ msgstr "значение компонента"
 msgid "dB"
 msgstr "дБ"
 
-#: src/wx/config_dialog.cc:896
+#: src/wx/config_dialog.cc:897
 msgid "dcpomatic_kdm_decryption_cert.pem"
-msgstr ""
-
-#: src/wx/config_dialog.cc:874
-msgid "dcpomatic_kdm_decryption_chain.pem"
 msgstr ""
 
 #: src/wx/name_format_editor.cc:75
@@ -2874,6 +2871,9 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#~ msgid "Export KDM decryption chain..."
+#~ msgstr "Экспортировать цепочку расшифровки KDM…"
 
 #~ msgid "Bold file"
 #~ msgstr "Файл жирного шрифта"
