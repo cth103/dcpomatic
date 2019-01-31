@@ -185,6 +185,18 @@ Image::crop_scale_window (
 		SWS_CS_ITU709
 	};
 
+	/* The 3rd parameter here is:
+	   0 -> source range MPEG (i.e. "video", 16-235)
+	   1 -> source range JPEG (i.e. "full", 0-255)
+	   And the 5th:
+	   0 -> destination range MPEG (i.e. "video", 16-235)
+	   1 -> destination range JPEG (i.e. "full", 0-255)
+
+	   But remember: sws_setColorspaceDetails ignores
+	   these parameters unless the image isYUV or isGray
+	   (if it's neither, it uses video range for source
+	   and destination).
+	*/
 	sws_setColorspaceDetails (
 		scale_context,
 		sws_getCoefficients (lut[yuv_to_rgb]), 0,
@@ -271,6 +283,18 @@ Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_fo
 		SWS_CS_ITU709
 	};
 
+	/* The 3rd parameter here is:
+	   0 -> source range MPEG (i.e. "video", 16-235)
+	   1 -> source range JPEG (i.e. "full", 0-255)
+	   And the 5th:
+	   0 -> destination range MPEG (i.e. "video", 16-235)
+	   1 -> destination range JPEG (i.e. "full", 0-255)
+
+	   But remember: sws_setColorspaceDetails ignores
+	   these parameters unless the image isYUV or isGray
+	   (if it's neither, it uses video range for source
+	   and destination).
+	*/
 	sws_setColorspaceDetails (
 		scale_context,
 		sws_getCoefficients (lut[yuv_to_rgb]), 0,
