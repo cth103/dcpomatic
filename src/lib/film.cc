@@ -1220,6 +1220,31 @@ Film::playlist_change (ChangeType type)
 {
 	signal_change (type, CONTENT);
 	signal_change (type, NAME);
+
+	if (type == CHANGE_TYPE_DONE) {
+		/* Check that this change hasn't made our settings inconsistent */
+		bool change_made = false;
+		BOOST_FOREACH (shared_ptr<Content> i, content()) {
+			shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent>(i);
+			if (!d) {
+				continue;
+			}
+
+			string why_not;
+			if (d->reference_video() && !d->can_reference_video(shared_from_this(), why_not)) {
+				d->set_reference_video(false);
+				change_made = true;
+			}
+			if (d->reference_audio() && !d->can_reference_audio(shared_from_this(), why_not)) {
+				d->set_reference_audio(false);
+				change_made = true;
+			}
+		}
+
+		if (change_made) {
+			Message (_("DCP-o-matic had to change your settings for referring to DCPs as OV.  Please review those settings to make sure they are what you want."));
+		}
+	}
 }
 
 void

@@ -334,6 +334,9 @@ public:
 	/** Emitted when some property of our content has changed */
 	mutable boost::signals2::signal<void (ChangeType, boost::weak_ptr<Content>, int, bool)> ContentChange;
 
+	/** Emitted when we have something important to tell the user */
+	boost::signals2::signal<void (std::string)> Message;
+
 	/** Current version number of the state file */
 	static int const current_state_version;
 
