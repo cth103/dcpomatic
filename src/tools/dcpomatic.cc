@@ -457,6 +457,7 @@ public:
 		}
 		if (_film) {
 			_film->Change.connect (boost::bind (&DOMFrame::film_change, this, _1));
+			_film->Message.connect (boost::bind(&DOMFrame::film_message, this, _1));
 		}
 	}
 
@@ -465,6 +466,11 @@ public:
 	}
 
 private:
+
+	void film_message (string m)
+	{
+		message_dialog (this, std_to_wx(m));
+	}
 
 	void film_change (ChangeType type)
 	{

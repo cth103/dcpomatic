@@ -135,6 +135,7 @@ private:
 	void update_private_key ();
 	void import_private_key ();
 	void export_private_key ();
+	void export_chain ();
 
 	wxListCtrl* _certificates;
 	wxButton* _add_certificate;
@@ -144,6 +145,7 @@ private:
 	wxStaticText* _private_key;
 	wxButton* _import_private_key;
 	wxButton* _export_private_key;
+	wxButton* _export_chain;
 	wxStaticText* _private_key_bad;
 	wxSizer* _sizer;
 	wxBoxSizer* _button_sizer;
@@ -173,7 +175,6 @@ private:
 	void setup ();
 
 	void export_decryption_certificate ();
-	void export_decryption_chain ();
 	void config_changed () {}
 	bool nag_remake_decryption_chain ();
 	void decryption_advanced ();

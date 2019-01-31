@@ -19,6 +19,7 @@
 */
 
 #include <boost/asio.hpp>
+#include <boost/noncopyable.hpp>
 
 /** @class Socket
  *  @brief A class to wrap a boost::asio::ip::tcp::socket with some things
