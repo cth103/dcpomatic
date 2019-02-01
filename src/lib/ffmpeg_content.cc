@@ -405,14 +405,17 @@ FFmpegContent::full_length (shared_ptr<const Film> film) const
 		return DCPTime::from_frames (llrint (video->length_after_3d_combine() * frc.factor()), film->video_frame_rate());
 	}
 
-	DCPOMATIC_ASSERT (audio);
-
-	DCPTime longest;
-	BOOST_FOREACH (AudioStreamPtr i, audio->streams ()) {
-		longest = max (longest, DCPTime::from_frames (llrint (i->length() / frc.speed_up), i->frame_rate()));
+	if (audio) {
+		DCPTime longest;
+		BOOST_FOREACH (AudioStreamPtr i, audio->streams()) {
+			longest = max (longest, DCPTime::from_frames(llrint(i->length() / frc.speed_up), i->frame_rate()));
+		}
+		return longest;
 	}
 
-	return longest;
+	/* XXX: subtitle content? */
+
+	return DCPTime();
 }
 
 DCPTime
