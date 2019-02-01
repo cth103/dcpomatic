@@ -38,6 +38,9 @@
 #include "crypto.h"
 #include "compose.hpp"
 #include "audio_buffers.h"
+#include "string_text.h"
+#include "font.h"
+#include "render_text.h"
 #include <dcp/locale_convert.h>
 #include <dcp/util.h>
 #include <dcp/raw_convert.h>
@@ -361,6 +364,15 @@ dcpomatic_setup ()
 #ifdef DCPOMATIC_WINDOWS
 	putenv ("PANGOCAIRO_BACKEND=fontconfig");
 	putenv (String::compose("FONTCONFIG_PATH=%1", shared_path().string()).c_str());
+
+	/* Render something to fontconfig to create its cache */
+	list<StringText> subs;
+	dcp::SubtitleString ss(
+		optional<string>(), false, false, false, dcp::Colour(), 42, 1, dcp::Time(), dcp::Time(), 0, dcp::HALIGN_CENTER, 0, dcp::VALIGN_CENTER, dcp::DIRECTION_LTR,
+		"Hello dolly", dcp::NONE, dcp::Colour(), dcp::Time(), dcp::Time()
+		);
+	subs.push_back (StringText(ss, 0));
+	render_text (subs, list<shared_ptr<Font> >(), dcp::Size(640, 480), DCPTime(), 24);
 #endif
 
 	Pango::init ();
