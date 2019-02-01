@@ -364,7 +364,12 @@ dcpomatic_setup ()
 #ifdef DCPOMATIC_WINDOWS
 	putenv ("PANGOCAIRO_BACKEND=fontconfig");
 	putenv (String::compose("FONTCONFIG_PATH=%1", shared_path().string()).c_str());
+#endif
 
+	Pango::init ();
+	dcp::init ();
+
+#ifdef DCPOMATIC_WINDOWS
 	/* Render something to fontconfig to create its cache */
 	list<StringText> subs;
 	dcp::SubtitleString ss(
@@ -374,9 +379,6 @@ dcpomatic_setup ()
 	subs.push_back (StringText(ss, 0));
 	render_text (subs, list<shared_ptr<Font> >(), dcp::Size(640, 480), DCPTime(), 24);
 #endif
-
-	Pango::init ();
-	dcp::init ();
 
 	Ratio::setup_ratios ();
 	PresetColourConversion::setup_colour_conversion_presets ();
