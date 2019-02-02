@@ -1216,7 +1216,7 @@ private:
 		_history_position = _file_menu->GetMenuItems().GetCount();
 
 		_file_menu->AppendSeparator ();
-		add_item (_file_menu, _("&Close"), ID_file_close, NEEDS_FILM);
+		add_item (_file_menu, _("&Close\tCtrl-W"), ID_file_close, NEEDS_FILM);
 
 #ifndef __WXOSX__
 		_file_menu->AppendSeparator ();
