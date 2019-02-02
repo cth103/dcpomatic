@@ -50,7 +50,7 @@ TimelineLabelsView::TimelineLabelsView (Timeline& tl)
 		_width = max (_width, size.GetWidth());
 	}
 
-	_width += 16;
+	_width += 24;
 }
 
 dcpomatic::Rect<int>
