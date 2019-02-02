@@ -1538,6 +1538,54 @@ any changes to the corresponding timecode.
 
 <!-- ============================================================== -->
 <section>
+  <title>Timeline</title>
+
+  <para>
+    The timeline window gives an overview of all the pieces of content
+    in your film, and how they are arranged.  You can open the
+    timeline by clicking the <guilabel>Timeline...</guilabel> button
+    next to the content list.  This will open a window like the one in <xref linkend="fig-timeline1"/>.
+  </para>
+
+  <figure id="fig-timeline1">
+    <title>Timeline</title>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="screenshots/timeline1&scs;"/>
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+  <para>
+    The X axis represents time, and you can see the time codes (in
+    hours:minutes:seconds) along the bottom of the window.  Pieces of
+    content are represented with rectangles in the main part of the
+    window.  Content containing different types of data (e.g. a MP4
+    file with video, audio and subtitles) have a rectangle for each
+    type.
+  </para>
+
+  <para>
+    Within the timeline you can select content by clicking, and drag
+    it to change its position.  Right-clicking a piece of content will
+    open the content menu.
+  </para>
+
+  <para>
+    The toolbar at the top of the window offers the following tools:
+  </para>
+
+  <itemizedlist>
+    <listitem>Select &mdash; to select and move content.</listitem>
+    <listitem>Zoom in &mdash; to drag out an area that you want to see more closely.</listitem>
+    <listitem>Zoom out &mdash; to zoom out so that the window shows the whole film.</listitem>
+    <listitem>Snap &mdash; when enabled, content will snap to other content when you drag it close.</listitem>
+    <listitem>Sequence &mdash; when enabled, content will be kept in sequence, without gaps, even if some content is removed.</listitem>
+  </itemizedlist>
+</section>
+
+<!-- ============================================================== -->
+<section>
 <title>Video processing pipeline</title>
 
 <para>
