@@ -31,8 +31,7 @@ Hello, and welcome to DCP-o-matic!
 <itemizedlist>
   <listitem>Creation of <ulink
   url="http://en.wikipedia.org/wiki/Digital_Cinema_Package">Digital
-  Cinema Packages</ulink> (DCPs) from video, audio and/or
-  subtitle and closed caption files.</listitem>
+  Cinema Packages</ulink> (DCPs) from video, audio, subtitle and closed-caption files.</listitem>
   <listitem>Playback and verification of DCPs on a PC/Mac.</listitem>
   <listitem>Creation of KDMs for DCPs.</listitem>
 </itemizedlist>
@@ -255,7 +254,7 @@ you want to use &lsquo;simple&rsquo; or &lsquo;full&rsquo; mode.
 more complex or less-used controls are hidden from view in
 &lsquo;Simple&rsquo; mode.  This makes the interface simpler to
 navigate.  You may wish to choose this mode if you do not have much
-experience with video processing.
+experience with DCP or video processing.
 </para>
 
 <para>Even if you choose &lsquo;Simple&rsquo; mode you can always go
@@ -335,7 +334,7 @@ In this dialogue box you can choose a name for the film.  This will be
 used to name the folder to store its data in, and also as the initial
 name for the DCP itself.  You can also choose whereabouts you want to create
 the film.  In the example from the figure, DCP-o-matic will create a
-folder called &lsquo;DCP Test&rsquo; inside my home folder (carl) into which it
+folder called &lsquo;DCP Test&rsquo; inside my existing folder <code>DCP</code> into which it
 will write its working files.
 </para>
 
@@ -348,8 +347,8 @@ will write its working files.
 
 <para>
 The next step is to add the content that you want to use.  DCP-o-matic
-can make DCPs from multiple pieces of content, but in this simple
-example we will just use a single piece.  Click the <guilabel>Add
+can make DCPs from multiple pieces of content, but in this example we
+will use a single piece.  Click the <guilabel>Add
 file(s)...</guilabel> button, as shown in <xref
 linkend="fig-add-file"/>, and a file chooser will open for you to
 select the content file to use, as shown in <xref
@@ -440,10 +439,10 @@ linkend="ch-files"/> for details about the files that DCP-o-matic creates.
 </para>
 
 <para>
-Alternatively, if you have a projector or Theatre Management System
-(TMS) that is accessible via SCP or FTP across your network, you can upload
-the content directly from DCP-o-matic.  See the <xref
-linkend="sec-prefs-tms" endterm="sec-prefs-tms-short"/> in <xref linkend="sec-prefs-tms"/>.
+Alternatively, DCP-o-matic can upload your DCP directly to a projector
+or Theatre Management System (TMS) that is accessible via SCP or FTP
+across your network.  See the <xref linkend="sec-prefs-tms"
+endterm="sec-prefs-tms-short"/> in <xref linkend="sec-prefs-tms"/>.
 </para>
 
 </section>
@@ -496,7 +495,7 @@ linkend="fig-still-select-content-file"/>.
 Most of the default settings will be fine for a simple test.  The one
 thing that you might wish to change is the length of the still.
 Select the <guilabel>Timing</guilabel> tab and you will see a
-<guilabel>Play length</guilabel> setting, as shown in <xref
+<guilabel>Full length</guilabel> setting, as shown in <xref
 linkend="fig-timing-tab"/>.
 </para>
 
@@ -871,7 +870,7 @@ held down.  Note that not all settings can be changed in this way.
 <para>
 The content properties are split up into four sections:
 <guilabel>Video</guilabel>, <guilabel>Audio</guilabel>,
-<guilabel>Subtitles</guilabel> and <guilabel>Timing</guilabel>.  Not
+<guilabel>Timed text</guilabel> and <guilabel>Timing</guilabel>.  Not
 all of these sections will be active for all content types.  The controls
 in each section are described below.
 </para>
@@ -988,7 +987,7 @@ as shown in <xref linkend="fig-filters"/>.
 After changing the filters setup, you will need to regenerate the DCP
 to see the effect on the cinema screen.  The preview in DCP-o-matic
 will update itself whenever filters are changed, though of course this
-image is much smaller and of lower resolution than a projected image!
+image may be smaller and of lower resolution than a projected image!
 </para>
 </section>
 
@@ -1097,9 +1096,9 @@ ratio that your content should be presented in.
 At the bottom of the video tab is a short description of what will
 happen to your video with the current settings.  In the example of
 <xref linkend="fig-video-tab"/>, DCP-o-matic is telling you that the
-video file is 1920x1080 pixels and it has square pixels (a pixel
-aspect ratio of 1.00) hence its display aspect ratio is 1.78:1.  Since
-the controls specify &lsquo;16.9&rsquo; for the ratio, DCP-o-matic
+video file is 2048x872 pixels and it has square pixels (a pixel
+aspect ratio of 1.00) hence its display aspect ratio is 2.35:1.  Since
+the controls specify &lsquo;2.35&rsquo; for the ratio, DCP-o-matic
 does not scale the image but pads it to the DCP's container ratio of
 1.85:1.  For a 2K DCP this is 1998x1080 pixels.
 </para>
@@ -1121,7 +1120,7 @@ frame-rate conversion.
 <title>Audio</title>
 
 <para>
-The <guilabel>Audio</guilabel> tab controls properties of the image, as shown in <xref linkend="fig-audio-tab"/>.
+The <guilabel>Audio</guilabel> tab controls properties of the sound, as shown in <xref linkend="fig-audio-tab"/>.
 </para>
 
 <figure id="fig-audio-tab">
@@ -1324,7 +1323,7 @@ content, as shown in <xref linkend="fig-timed-text-tab"/>.
 
 <para>
 Depending on where timed text comes from it can sometimes be used as
-either an open subtitle (to be overlaid onto the cinema screen and so
+either an open subtitle (to be overlaid onto the cinema screen and
 seen by everybody) or as a closed caption (to be displayed to
 individual viewers using a special system such as the Doremi
 CaptiView&trade;)
@@ -1444,7 +1443,7 @@ button, or specify the fonts that should be used by clicking <guilabel>Fonts...<
 <para>
 With any subtitles you can click <guilabel>Appearance...</guilabel> to
 change how the subtitles look.  Some of the controls in the
-<guilabel>Apperance</guilabel> only apply to burnt-in subtitles, as
+<guilabel>Appearance</guilabel> only apply to burnt-in subtitles, as
 only limited control is available for subtitles rendered by the
 projection system.
 </para>
@@ -1557,7 +1556,7 @@ any changes to the corresponding timecode.
   </figure>
 
   <para>
-    The X axis represents time, and you can see the time codes (in
+    The horizontal axis represents time, and you can see the time codes (in
     hours:minutes:seconds) along the bottom of the window.  Pieces of
     content are represented with rectangles in the main part of the
     window.  Content containing different types of data (e.g. a MP4
@@ -1644,7 +1643,7 @@ linkend="fig-pipeline2"/>.
 
 <para>
 The next step is to scale the image.  Since this content should be
-presented in a 2.39:1 aspect ratio inside a 1.85:1 DCP we would select
+presented in a 2.39:1 (scope) aspect ratio inside a 1.85:1 (flat) DCP we would select
 <guilabel>Scope</guilabel> from the <guilabel>Scale to</guilabel>
 option in the <guilabel>Video</guilabel> tab and
 <guilabel>Flat</guilabel> from the <guilabel>Container</guilabel>
@@ -1802,7 +1801,7 @@ key for you.  To specify your own key, click the
 <para>
 The <guilabel>Reels</guilabel> and <guilabel>Reel length</guilabel>
 controls specify how the DCP will be split up into
-&lsquo;reels&rsquo;.  See <xref linkend="sec-reels"/> below.
+&lsquo;reels&rsquo;.  See <xref linkend="sec-reels"/>.
 </para>
 
 <para>
@@ -1925,6 +1924,8 @@ This upmixing algorithm is due to Gérald Maruccia.
 </listitem>
 </itemizedlist>
 
+The up-mixers are not particularly advanced and should be used with care.  You are strongly advised to check how the DCPs sound in a cinema if you have used one of DCP-o-matic's upmixers.
+
 <!-- ============================================================== -->
 <section xml:id="sec-reels">
 <title>Reels</title>
@@ -1932,13 +1933,13 @@ This upmixing algorithm is due to Gérald Maruccia.
 <para>
 A &lsquo;reel&rsquo; in a DCP is a subsection of the DCP, in the same
 way as a 35mm reel is a section of a film.  A DCP can be split up into
-any number of reels and the joins (the equivalent to 35mm splices)
+any number of reels and the joins (the equivalent to 35mm splices or changeovers)
 between the reels are seamless.
 </para>
 
 <para>
 There is no reason why you can't just use a single reel for the whole
-of your DCP, as there is no limit on their length.  Many people choose
+of your DCP, as there is no limit to their length.  Many people choose
 to do this.
 </para>
 
@@ -1962,13 +1963,13 @@ It is easier to re-use DCP components if they are in reels.  Consider,
 for example, a film company who wants to put a 5 second ident onto the
 beginning of DCPs that they distribute.  If they receive a feature
 film DCP they can modify it to add their ident as a separate reel.
-This is easier than attaching the picture data in the DCP.
+This is easier than attaching the picture data to the feature's existing data.
 </listitem>
 </itemizedlist>
 
 <para>
 DCP-o-matic offers three options for setting up the reels in your DCP:
-single reel, split by video content or custom.
+<guilabel>single reel</guilabel>, <guilabel>split by video content</guilabel> or <guilabel>custom</guilabel>.
 </para>
 
 <para>
@@ -2088,7 +2089,7 @@ first similarly-typed piece of content in your template.
 </para>
 
 <para>
-For example if the template has a piece of video content and some
+For example, if the template has a piece of video content and some
 subtitles, any video that you add to the new film will take on the
 settings of the video in the template.  Similarly, any subtitles that
 you add will take on the settings of the subtitles from the template.
@@ -2356,18 +2357,15 @@ from a file.  The certificate should be in SHA256 PEM format.
 <para>
 Alternatively, certificates for projection systems made by some
 manufacturers can be downloaded from databases provided by the
-manufacturer.  Currently this is supported for Doremi and Dolby
-equipment.  If you are targeting a screen with equipment by one of
-these manufacturers you can click <guilabel>Download</guilabel> then
-enter the serial number of the server in the screen and click
-<guilabel>Download</guilabel> again and, all being well, the certificate
-will be fetched.
-</para>
-
-<para>
-Using the download system you will need to know the serial number of
-the media server in use in the screen.  Most cinema projection or
-technical departments will know these serial numbers.
+manufacturer.  Currently this is supported for Doremi, Dolby, Barco,
+Christie and GDC equipment (through downloading Barco, Christie or GDC
+certificates requires you to have an appropriate account set up in
+DCP-o-matic's preferences).  If you are targeting a screen with
+equipment by one of these manufacturers you can click
+<guilabel>Download</guilabel> then enter the serial number of the
+server in the screen and click <guilabel>Download</guilabel> again
+and, all being well, the certificate will be fetched.  Most cinema
+projection or technical departments will know these serial numbers.
 </para>
 
 <para>
@@ -2509,10 +2507,49 @@ If you are using a DKDM you <emphasis>must</emphasis> ensure that you
 have a backup of DCP-o-matic's <code>config.xml</code> file, since it
 contains the only key which can decrypt the DKDM.  The
 <code>config.xml</code> file location depends on your operating
-system; possible locations are listed in <xref linkend="ch-config"/>
+system; possible locations are listed in <xref linkend="ch-config"/>.
 </para>
 
 </section>
+
+<section>
+  <title>Should I encrypt?</title>
+
+  <para>
+    The question of whether encryption is appropriate for a given
+    project is a tricky one.
+  </para>
+
+  <para>
+    On the one hand, if you distribute an unencrypted DCP it is easy for
+    anybody to take it and do whatever they want with its contents.
+    They could use DCP-o-matic to convert it to a MP4, show it in
+    their cinema, or even edit and redistribute it in ways that you
+    do not like.
+  </para>
+
+  <para>
+    Encryption prevents this, but brings its own problems.  It will be
+    impossible for a cinema to screen your DCP unless they have the
+    correct KDM.  This is easy enough if things work as they should,
+    but problems can occur.  For example, cinemas may substitute
+    broken playout servers with new ones without telling you: then the
+    KDM that you sent them will be invalid, and a new one required.
+    If the cinema can't get in touch with you, or somebody else who
+    can create a new KDM, they can't screen your DCP.  Often these
+    problems are only discovered very close to showtime, with little
+    time for fixes.
+  </para>
+
+  <para>
+    If you are distributing encrypted DCPs widely it is worth thinking
+    about who will make the KDMs, and who will provide quick-response
+    technical support.  It may be a good idea to engage a company who can
+    provide such services.
+  </para>
+
+</section>
+
 
 <section>
 <title>Encryption overview</title>
@@ -2543,7 +2580,7 @@ behaviour.  They are described in this chapter.
 <para>
 Preferences can be edited by choosing
 <guilabel>Preferences...</guilabel> from the <guilabel>Edit</guilabel>
-menu.  This opens a dialogue which is split into seven tabs.
+menu.  This opens a dialogue which is split into eleven tabs.
 </para>
 
 <!-- ============================================================== -->
@@ -2578,8 +2615,20 @@ You will need to restart DCP-o-matic to see the new language.
 The translations for DCP-o-matic have been contributed by helpful
 users.  If your language is not on the last, head to <ulink
 url="http://dcpomatic.com/i18n.php">the DCP-o-matic website</ulink> to
-read about how to contribute a translation.
+find out how to contribute a translation.
 </para>
+</section>
+
+
+<!-- ============================================================== -->
+<section>
+  <title>Interface complexity</title>
+
+  <para>
+    Choose <guilabel>Simple</guilabel> to see a cut-down, simplified
+    interface or <guilabel>Full</guilabel> to see DCP-o-matic's full
+    interface.
+  </para>
 </section>
 
 
@@ -2678,7 +2727,6 @@ enabled, will tell DCP-o-matic to check on <ulink
 url="http://dcpomatic.com/">dcpomatic.com</ulink> to see if there any
 newer versions of DCP-o-matic then the one you are running.  If so, a
 dialogue box will open with a link to download the new version.
-available
 </para>
 
 <para>
@@ -2784,12 +2832,6 @@ you and asks for your certificate.
 </para>
 
 <para>
-<guilabel>Export KDM decryption chain...</guilabel> exports the whole
-KDM decryption chain rather than just its certificate.  This may also
-be requested by KDM creators.
-</para>
-
-<para>
 <guilabel>Export all KDM decryption settings...</guilabel> exports a
 file which contains all the DCP-o-matic settings related to the use of
 KDMs supplied by other people.  Use this button and <guilabel>Import
@@ -2822,14 +2864,14 @@ chain using the <guilabel>Add...</guilabel> and
 <para>
 If you want DCP-o-matic to re-create the certificate chain (using new,
 random certificates) click <guilabel>Re-make
-certificates...</guilabel> and specify your organisation and common
+certificates and key...</guilabel> and specify your organisation and common
 names in the dialogue box that opens.
 </para>
 
 <para>
 Underneath the certificate chain is the private key that corresponds
 to the leaf certificate in the chain.  You can specify your own
-private key by clicking <guilabel>Load...</guilabel>.  You must do
+private key by clicking <guilabel>Import...</guilabel>.  You must do
 this if you change the leaf certificate, so that the leaf private key
 corresponds to the public key held in the leaf certificate.
 </para>
@@ -2841,22 +2883,9 @@ The leaf certificate of this chain contains the public key that should
 be used when targeting a KDM at DCP-o-matic.
 </para>
 
-
 <para>
-If you want to import an encrypted DCP you will need to give the
-decryption certificate to the distributor of the DCP so that they can
-generate a DKDM for you.  You can save this certificate to disk by
-clicking <guilabel>Export DCP decryption certificate...</guilabel>.
-As with the signing chain, DCP-o-matic will create a certificate chain
-and private key for you.  You can also choose to load your own
-certificates and key or re-make the chain and key with new, random
-values.
-</para>
-
-<para>
-Clicking <guilabel>Export DCP decryption chain...</guilabel> will
-export the whole certificate chain, rather than just the leaf
-certificate.
+Clicking <guilabel>Export chain...</guilabel> will
+export the whole certificate chain.
 </para>
 
 </section>
@@ -2957,10 +2986,10 @@ The KDM email tab is shown in <xref linkend="fig-prefs-kdm-email"/>.
 This is a template for the email that is used to send KDMs out to
 cinemas.  You can change it to say whatever you like.  A few
 &lsquo;magic&rsquo; strings will be replaced by information from the
-KDM that is being sent:
+KDM that is being sent; these strings are shown in <xref linkend="tab-kdm-magic"/>.
 </para>
 
-<table>
+<table id="tab-kdm-magic">
 <title>&lsquo;Magic&rsquo; KDM strings</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
 <tbody>
@@ -3008,9 +3037,9 @@ The Accounts tab is shown in <xref linkend="fig-prefs-accounts"/>.
 </figure>
 
 <para>
-DCP-o-matic can download projector certificates from the Barco and
-Christie websites if you have the appropriate credentials.  Enter your
-usernames and passwords.
+DCP-o-matic can download projector certificates from the Barco,
+Christie and GDC websites if you have the appropriate credentials.
+Enter your usernames and passwords.
 </para>
 
 </section>
@@ -3076,7 +3105,7 @@ DCP that has been made:
 </para>
 
 <table>
-<title>&lsquo;Magic&rsquo; Cover sheet strings</title>
+<title>&lsquo;Magic&rsquo; cover sheet strings</title>
 <tgroup cols='2' align='left' colsep='1' rowsep='1'>
 <tbody>
 <row>
@@ -3197,8 +3226,7 @@ however, always possible.
 There are some limitations to video and audio frame rates in DCPs.  This is
 complicated by the fact that not all projectors will play DCPs at the
 same frame rates.  It is possible to create a DCP which one projector will
-play fine, but another (of a different type) will refuse to play, or
-even refuse to ingest.
+play fine, but another (of a different type) will refuse to play.
 </para>
 
 
@@ -3207,10 +3235,10 @@ even refuse to ingest.
 <title>Guaranteed rates</title>
 
 <para>
-The only rates that are (pretty much) guaranteed to work on all DCI
-projectors are 24 frames per second (fps) for video and 48kHz for
-audio.  If you are sending DCPs to unknown places it is wise to
-consider using these rates if at all possible.
+The only rates that are guaranteed to work on all DCI projectors are
+24 frames per second (fps) for video and 48kHz for audio.  If you are
+sending DCPs to unknown places it is wise to consider using these
+rates if at all possible.
 </para>
 
 </section>
@@ -3766,7 +3794,7 @@ The full details of OV and VF files are discussed in <xref linkend="sec-overlay"
 </chapter>
 
 <chapter xml:id="ch-player" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
-  <title>Playing DCPs</title>
+  <title>Playing and verifying DCPs</title>
 
   <para>DCP-o-matic includes a DCP player, and although it requires a
   very high-speed CPU to play DCPs in full resolution, it can also
@@ -3792,6 +3820,12 @@ The full details of OV and VF files are discussed in <xref linkend="sec-overlay"
   resolution.
   </para>
 
+  <para>
+    The player also offers a simple DCP validator.  To check a DCP,
+    open it and then select <guilabel>Verify DCP</guilabel> from the
+    <guilabel>Tools</guilabel> menu.  This will run some basic checks to see if the DCP meets the required standards.
+  </para>
+
 </chapter>
 
 <!-- ============================================================== -->
@@ -3813,3 +3847,24 @@ The full details of OV and VF files are discussed in <xref linkend="sec-overlay"
 </chapter>
 
 </book>
+
+<!--  LocalWords:  dbcent DCP matic Hetherington DCPs KDMs GPL XP sid
+-->
+<!--  LocalWords:  matic's jessie Tahr Xenial Xerus Centos Mageia GTK
+-->
+<!--  LocalWords:  Karner FFmpeg libsndfile libsamplerate OpenSSL waf
+-->
+<!--  LocalWords:  libopenjpeg libssh wxWidgets libxml xmlsec libzip
+-->
+<!--  LocalWords:  asdcplib libdcp libsub libcxml sstream sudo Sintel
+-->
+<!--  LocalWords:  dcpomatic TMS SCP timecode DCP's unencrypted OV Gb
+-->
+<!--  LocalWords:  Decrypting KDM decrypt decrypted MOV VOB WAV AIFF
+-->
+<!--  LocalWords:  PNG srt ssa xml wav Lfe XYZ colourspace sRGB RGB
+-->
+<!--  LocalWords:  colourspaces pdf fader CP Doremi CaptiView SubRip
+-->
+<!--  LocalWords:  SubStation BluRay
+-->

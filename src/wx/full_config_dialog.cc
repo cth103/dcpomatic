@@ -981,10 +981,20 @@ public:
 		_christie_password = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_christie_password, 1, wxEXPAND | wxALL);
 
+		add_label_to_sizer (table, _panel, _("GDC user name"), true);
+		_gdc_username = new wxTextCtrl (_panel, wxID_ANY);
+		table->Add (_gdc_username, 1, wxEXPAND | wxALL);
+
+		add_label_to_sizer (table, _panel, _("GDC password"), true);
+		_gdc_password = new wxTextCtrl (_panel, wxID_ANY);
+		table->Add (_gdc_password, 1, wxEXPAND | wxALL);
+
 		_barco_username->Bind (wxEVT_TEXT, boost::bind(&AccountsPage::barco_username_changed, this));
 		_barco_password->Bind (wxEVT_TEXT, boost::bind(&AccountsPage::barco_password_changed, this));
 		_christie_username->Bind (wxEVT_TEXT, boost::bind(&AccountsPage::christie_username_changed, this));
 		_christie_password->Bind (wxEVT_TEXT, boost::bind(&AccountsPage::christie_password_changed, this));
+		_gdc_username->Bind (wxEVT_TEXT, boost::bind(&AccountsPage::gdc_username_changed, this));
+		_gdc_password->Bind (wxEVT_TEXT, boost::bind(&AccountsPage::gdc_password_changed, this));
 	}
 
 	void config_changed ()
@@ -995,6 +1005,8 @@ public:
 		checked_set (_barco_password, config->barco_password().get_value_or(""));
 		checked_set (_christie_username, config->christie_username().get_value_or(""));
 		checked_set (_christie_password, config->christie_password().get_value_or(""));
+		checked_set (_gdc_username, config->gdc_username().get_value_or(""));
+		checked_set (_gdc_password, config->gdc_password().get_value_or(""));
 	}
 
 	void barco_username_changed ()
@@ -1037,11 +1049,33 @@ public:
 		}
 	}
 
+	void gdc_username_changed ()
+	{
+		wxString const s = _gdc_username->GetValue();
+		if (!s.IsEmpty()) {
+			Config::instance()->set_gdc_username (wx_to_std(s));
+		} else {
+			Config::instance()->unset_gdc_username ();
+		}
+	}
+
+	void gdc_password_changed ()
+	{
+		wxString const s = _gdc_password->GetValue();
+		if (!s.IsEmpty()) {
+			Config::instance()->set_gdc_password (wx_to_std(s));
+		} else {
+			Config::instance()->unset_gdc_password ();
+		}
+	}
+
 private:
 	wxTextCtrl* _barco_username;
 	wxTextCtrl* _barco_password;
 	wxTextCtrl* _christie_username;
 	wxTextCtrl* _christie_password;
+	wxTextCtrl* _gdc_username;
+	wxTextCtrl* _gdc_password;
 };
 
 
