@@ -101,7 +101,6 @@ private:
 	std::list<ContentSubPanel *> panels () const;
 
 	wxSplitterWindow* _splitter;
-	wxSizer* _sizer;
 	wxNotebook* _notebook;
 	wxListCtrl* _content;
 	wxButton* _add_file;
