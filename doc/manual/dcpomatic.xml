@@ -1869,6 +1869,17 @@ Most commercial DCPs use bit rates between 75 and 125 Mbit/s.
 </para>
 
 <para>
+<guilabel>Re-encode JPEG2000 data from input</guilabel> governs
+whether or not JPEG2000-encoded data from a piece of content (usually
+a DCP) will be re-used in the output data as-is or whether it will be
+decoded and re-encoded by DCP-o-matic.  If the option is enabled
+DCP-o-matic will decompress any JPEG2000 data it finds and re-encode
+it.  This is useful if you want to reduce the bitrate of a DCP.
+Usually you will achieve better quality and quicker results by leaving
+this option switched off.
+</para>
+
+<para>
 The <guilabel>Audio Channels</guilabel> control sets the number of
 audio channels that the DCP will have.  If the DCP has any channels
 for which there is no content audio they will be replaced by silence.
