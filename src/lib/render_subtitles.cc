@@ -366,7 +366,7 @@ render_subtitles (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts,
 	list<PositionImage> images;
 
 	BOOST_FOREACH (SubtitleString const & i, subtitles) {
-		if (!pending.empty() && fabs (i.v_position() - pending.back().v_position()) > 1e-4) {
+		if (!pending.empty() && (i.v_align() != pending.back().v_align() || fabs(i.v_position() - pending.back().v_position()) > 1e-4)) {
 			images.push_back (render_line (pending, fonts, target, time, frame_rate));
 			pending.clear ();
 		}
