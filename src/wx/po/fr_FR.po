@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-31 23:35+0000\n"
-"PO-Revision-Date: 2019-01-30 00:03+0100\n"
+"PO-Revision-Date: 2019-02-04 11:44+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -945,9 +945,8 @@ msgid "Export all KDM decryption settings..."
 msgstr "Export de tous les paramètres de décryptage KDM..."
 
 #: src/wx/config_dialog.cc:411
-#, fuzzy
 msgid "Export chain..."
-msgstr "Export..."
+msgstr "Export chaîne..."
 
 #: src/wx/export_dialog.cc:53
 msgid "Export film"
@@ -983,7 +982,7 @@ msgstr "Durée Fondu fin"
 
 #: src/wx/fonts_dialog.cc:55
 msgid "File"
-msgstr ""
+msgstr "Fichier"
 
 #: src/wx/kdm_dialog.cc:135
 #, c-format
