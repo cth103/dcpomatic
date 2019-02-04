@@ -135,8 +135,7 @@ SwaroopControls::check_restart ()
 
 	for (size_t i = 0; i < _playlists.size(); ++i) {
 		if (_playlists[i].id() == id) {
-			_selected_playlist = i;
-			_selected_playlist_position = index;
+			select_playlist (i, index);
 			update_current_content ();
 			_viewer->seek (DCPTime(time), false);
 			_viewer->start ();
@@ -394,6 +393,12 @@ SwaroopControls::spl_selection_changed ()
 		return;
 	}
 
+	select_playlist (selected, 0);
+}
+
+void
+SwaroopControls::select_playlist (int selected, int position)
+{
 	log (wxString::Format("load-playlist %s", std_to_wx(_playlists[selected].name()).data()));
 
 	wxProgressDialog dialog (_("DCP-o-matic"), "Loading playlist and KDMs");
@@ -438,7 +443,7 @@ SwaroopControls::spl_selection_changed ()
 	}
 
 	_selected_playlist = selected;
-	_selected_playlist_position = 0;
+	_selected_playlist_position = position;
  	dialog.Pulse ();
 	reset_film ();
  	dialog.Pulse ();

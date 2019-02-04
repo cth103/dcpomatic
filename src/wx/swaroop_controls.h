@@ -47,6 +47,7 @@ private:
 	void update_content_directory ();
 	void update_playlist_directory ();
 	void spl_selection_changed ();
+	void select_playlist (int selected, int position);
 	void started ();
 	void stopped ();
 	void setup_sensitivity ();
