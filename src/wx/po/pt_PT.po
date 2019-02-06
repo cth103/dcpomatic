@@ -54,12 +54,11 @@ msgid "%d KDMs written to %s"
 msgstr ""
 
 #: src/wx/about_dialog.cc:84
-#, fuzzy
 msgid ""
 "(C) 2012-2019 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2019 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:44 src/wx/file_picker_ctrl.cc:59
@@ -214,23 +213,20 @@ msgid "Add Cinema..."
 msgstr "Adicionar Cinema..."
 
 #: src/wx/content_panel.cc:106
-#, fuzzy
 msgid "Add DCP..."
-msgstr "Adicionar KDM..."
+msgstr ""
 
 #: src/wx/new_dkdm_folder_dialog.cc:24
-#, fuzzy
 msgid "Add DKDM folder"
-msgstr "Adicionar pasta..."
+msgstr ""
 
 #: src/wx/content_menu.cc:78
 msgid "Add KDM..."
 msgstr "Adicionar KDM..."
 
 #: src/wx/content_menu.cc:79
-#, fuzzy
 msgid "Add OV..."
-msgstr "Adicionar KDM..."
+msgstr ""
 
 #: src/wx/screens_panel.cc:207
 #, fuzzy
@@ -242,9 +238,8 @@ msgid "Add Screen..."
 msgstr "Adicionar Ecrã..."
 
 #: src/wx/content_panel.cc:107
-#, fuzzy
 msgid "Add a DCP."
-msgstr "Adicionar KDM..."
+msgstr ""
 
 #: src/wx/content_panel.cc:103
 #, fuzzy
@@ -506,9 +501,8 @@ msgid "Choose CPL..."
 msgstr ""
 
 #: src/wx/content_panel.cc:492
-#, fuzzy
 msgid "Choose a DCP folder"
-msgstr "Seleccionar pasta"
+msgstr ""
 
 #: src/wx/content_menu.cc:299
 msgid "Choose a file"
@@ -575,9 +569,8 @@ msgid "Config|Timing"
 msgstr "Duração"
 
 #: src/wx/confirm_kdm_email_dialog.cc:33
-#, fuzzy
 msgid "Confirm KDM email"
-msgstr "Email KDM"
+msgstr ""
 
 #: src/wx/dcp_panel.cc:748
 msgid "Container"
@@ -597,9 +590,8 @@ msgid "Content Type"
 msgstr "Tipo de conteúdo"
 
 #: src/wx/player_config_dialog.cc:248
-#, fuzzy
 msgid "Content directory"
-msgstr "Directório do DCP"
+msgstr ""
 
 #: src/wx/isdcf_metadata_dialog.cc:38
 msgid "Content version"
@@ -705,9 +697,8 @@ msgid "DCP validates OK."
 msgstr ""
 
 #: src/wx/verify_dcp_dialog.cc:32
-#, fuzzy
 msgid "DCP verification"
-msgstr "Certificado"
+msgstr ""
 
 #: src/wx/about_dialog.cc:51 src/wx/content_view.cc:77 src/wx/job_view.cc:149
 #: src/wx/wx_util.cc:138 src/wx/wx_util.cc:155 src/wx/wx_util.cc:163
@@ -720,9 +711,8 @@ msgid "DCP-o-matic audio - %s"
 msgstr "Audio do DCP-o-matic - %s"
 
 #: src/wx/initial_setup_dialog.cc:27
-#, fuzzy
 msgid "DCP-o-matic setup"
-msgstr "DCP-o-matic"
+msgstr ""
 
 #: src/wx/full_config_dialog.cc:1400
 msgid "Debug: decode"
@@ -830,9 +820,8 @@ msgid "Don't ask this again"
 msgstr ""
 
 #: src/wx/confirm_kdm_email_dialog.cc:33
-#, fuzzy
 msgid "Don't send emails"
-msgstr "Enviar por email"
+msgstr ""
 
 #: src/wx/hints_dialog.cc:57
 msgid "Don't show hints again"
@@ -910,9 +899,8 @@ msgid "Effect colour"
 msgstr ""
 
 #: src/wx/full_config_dialog.cc:743 src/wx/full_config_dialog.cc:1083
-#, fuzzy
 msgid "Email"
-msgstr "Email KDM"
+msgstr ""
 
 #: src/wx/email_dialog.cc:29 src/wx/email_dialog.cc:31
 msgid "Email address"
