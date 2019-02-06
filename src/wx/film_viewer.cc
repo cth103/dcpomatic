@@ -331,11 +331,13 @@ FilmViewer::paint_panel ()
 {
 	wxPaintDC dc (_panel);
 
+#ifdef DCPOMATIC_VARIANT_SWAROOP
 	if (_background_image) {
 		dc.Clear ();
 		maybe_draw_background_image (dc);
 		return;
 	}
+#endif
 
 	if (!_out_size.width || !_out_size.height || !_film || !_frame || _out_size != _frame->size()) {
 		dc.Clear ();
