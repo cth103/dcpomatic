@@ -118,6 +118,8 @@ SwaroopControls::SwaroopControls (wxWindow* parent, shared_ptr<FilmViewer> viewe
 
 	_content_view->update ();
 	update_playlist_directory ();
+
+	_viewer->set_background_image (true);
 }
 
 void
@@ -169,6 +171,7 @@ SwaroopControls::started ()
 	Controls::started ();
 	_play_button->Enable (false);
 	_pause_button->Enable (true);
+	_viewer->set_background_image (false);
 }
 
 void
@@ -214,6 +217,7 @@ SwaroopControls::stop_clicked ()
 		_selected_playlist_position = 0;
 		update_current_content ();
 	}
+	_viewer->set_background_image (true);
 }
 
 bool
@@ -511,6 +515,7 @@ SwaroopControls::viewer_finished ()
 		}
 	} else {
 		_selected_playlist_position = 0;
+		_viewer->set_background_image (true);
 		ResetFilm (shared_ptr<Film>(new Film(optional<boost::filesystem::path>())));
 	}
 }

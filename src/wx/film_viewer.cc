@@ -89,6 +89,7 @@ FilmViewer::FilmViewer (wxWindow* p)
 	, _pad_black (false)
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	, _in_watermark (false)
+	, _background_image (false)
 #endif
 {
 #ifndef __WXOSX__
@@ -330,14 +331,14 @@ FilmViewer::paint_panel ()
 {
 	wxPaintDC dc (_panel);
 
-	if (!_out_size.width || !_out_size.height || !_frame || _out_size != _frame->size()) {
+	if (_background_image) {
 		dc.Clear ();
+		maybe_draw_background_image (dc);
 		return;
 	}
 
-	if (!_film) {
+	if (!_out_size.width || !_out_size.height || !_film || !_frame || _out_size != _frame->size()) {
 		dc.Clear ();
-		maybe_draw_background_image (dc);
 		return;
 	}
 

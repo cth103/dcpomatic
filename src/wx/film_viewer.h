@@ -88,6 +88,13 @@ public:
 
 	int audio_callback (void* out, unsigned int frames);
 
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	void set_background_image (bool b) {
+		_background_image = b;
+		refresh_panel ();
+	}
+#endif
+
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
 	boost::signals2::signal<void ()> PositionChanged;
 	boost::signals2::signal<void (DCPTime)> Started;
@@ -164,6 +171,7 @@ private:
 	bool _in_watermark;
 	int _watermark_x;
 	int _watermark_y;
+	bool _background_image;
 #endif
 
 	boost::signals2::scoped_connection _config_changed_connection;
