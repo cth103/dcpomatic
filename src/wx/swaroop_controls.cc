@@ -144,6 +144,9 @@ SwaroopControls::check_restart ()
 		}
 	}
 
+#ifdef DCPOMATIC_LINUX
+	fsync (fileno(f));
+#endif DCPOMATIC_LINUX
 	fclose (f);
 }
 
