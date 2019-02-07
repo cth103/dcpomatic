@@ -102,6 +102,7 @@ sources = """
           playhead_to_frame_dialog.cc
           question_dialog.cc
           rating_dialog.cc
+          qube_certificate_panel.cc
           recreate_chain_dialog.cc
           repeat_dialog.cc
           report_problem_dialog.cc

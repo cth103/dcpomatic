@@ -22,6 +22,7 @@
 #include "barco_alchemy_certificate_panel.h"
 #include "christie_certificate_panel.h"
 #include "gdc_certificate_panel.h"
+#include "qube_certificate_panel.h"
 #include "download_certificate_dialog.h"
 #include "static_text.h"
 #include "wx_util.h"
@@ -51,6 +52,8 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 	_pages.push_back (new BarcoAlchemyCertificatePanel (this));
 	_pages.push_back (new ChristieCertificatePanel (this));
 	_pages.push_back (new GDCCertificatePanel (this));
+	_pages.push_back (new QubeCertificatePanel (this, N_("QXI")));
+	_pages.push_back (new QubeCertificatePanel (this, N_("QXPD")));
 
 	BOOST_FOREACH (DownloadCertificatePanel* i, _pages) {
 		_notebook->AddPage (i, i->name(), true);
@@ -68,6 +71,8 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 	_download->Enable (false);
 
 	_notebook->SetSelection (0);
+
+	SetMinSize (wxSize(640, -1));
 
 	setup_sensitivity ();
 }

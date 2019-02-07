@@ -39,6 +39,46 @@ using boost::optional;
 using boost::function;
 using boost::algorithm::trim;
 
+static size_t
+ls_url_data (void* buffer, size_t size, size_t nmemb, void* output)
+{
+	string* s = reinterpret_cast<string*>(output);
+	char* c = reinterpret_cast<char*>(buffer);
+	for (size_t i = 0; i < (size * nmemb); ++i) {
+		*s += c[i];
+	}
+	return nmemb;
+}
+
+list<string>
+ls_url (string url)
+{
+	CURL* curl = curl_easy_init ();
+	curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
+	curl_easy_setopt (curl, CURLOPT_DIRLISTONLY, 1);
+
+	string ls;
+	curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, ls_url_data);
+	curl_easy_setopt (curl, CURLOPT_WRITEDATA, &ls);
+	CURLcode const cr = curl_easy_perform (curl);
+
+	if (cr != CURLE_OK) {
+		return list<string>();
+	}
+
+	list<string> result;
+	result.push_back("");
+	for (size_t i = 0; i < ls.size(); ++i) {
+		if (ls[i] == '\n') {
+			result.push_back("");
+		} else {
+			result.back() += ls[i];
+		}
+	}
+
+	result.pop_back ();
+	return result;
+}
 
 static size_t
 get_from_url_data (void* buffer, size_t size, size_t nmemb, void* stream)

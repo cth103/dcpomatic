@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,13 +18,16 @@
 
 */
 
-#include <boost/optional.hpp>
-#include <boost/function.hpp>
-#include <boost/filesystem.hpp>
+#include "download_certificate_panel.h"
 
-class ScopedTemporary;
+class QubeCertificatePanel : public DownloadCertificatePanel
+{
+public:
+	QubeCertificatePanel (DownloadCertificateDialog* dialog, std::string type);
 
-boost::optional<std::string> get_from_url (std::string url, bool pasv, bool skip_pasv_ip, ScopedTemporary& temp);
-boost::optional<std::string> get_from_url (std::string url, bool pasv, bool skip_pasv_ip, boost::function<void (boost::filesystem::path)> load);
-boost::optional<std::string> get_from_zip_url (std::string url, std::string file, bool pasv, bool skip_pasv_ip, boost::function<void (boost::filesystem::path)> load);
-std::list<std::string> ls_url (std::string url);
+	void do_download ();
+	wxString name () const;
+
+private:
+	std::string _type;
+};
