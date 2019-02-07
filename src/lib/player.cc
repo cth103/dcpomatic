@@ -619,11 +619,10 @@ Player::pass ()
 		DCPTimePeriod period (_silent.period_at_position());
 		if (_last_audio_time) {
 			/* Sometimes the thing that happened last finishes fractionally before
-			   this silence.  Bodge the start time of the silence to fix it.  I'm
-			   not sure if this is the right solution --- maybe the last thing should
-			   be padded `forward' rather than this thing padding `back'.
+			   or after this silence.  Bodge the start time of the silence to fix it.
 			*/
-			period.from = min(period.from, *_last_audio_time);
+			DCPOMATIC_ASSERT (labs(period.from.get() - _last_audio_time->get()) < 2);
+			period.from = *_last_audio_time;
 		}
 		if (period.duration() > one_video_frame()) {
 			period.to = period.from + one_video_frame();
