@@ -155,28 +155,31 @@ Hints::thread ()
 		hint (_("A few projectors have problems playing back very high bit-rate DCPs.  It is a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is unlikely to have any visible effect on the image."));
 	}
 
-	if (film->interop() && film->video_frame_rate() != 24 && film->video_frame_rate() != 48) {
-		string base = _("You are set up for an Interop DCP at a frame rate which is not officially supported.  You are advised either to change the frame rate of your DCP or to make a SMPTE DCP instead.");
-		base += "  ";
-		pair<double, double> range24 = film->speed_up_range (24);
-		pair<double, double> range48 = film->speed_up_range (48);
-		pair<double, double> range (max (range24.first, range48.first), min (range24.second, range48.second));
-		string h;
-		if (range.second > (29.0/24)) {
-			h = base;
-			h += _("However, setting your DCP frame rate to 24 or 48 will cause a significant speed-up of your content, and SMPTE DCPs are not supported by all projectors.");
-		} else if (range.first < (24.0/29)) {
-			h = base;
-			h += _("However, setting your DCP frame rate to 24 or 48 will cause a significant slowdown of your content, and SMPTE DCPs are not supported by all projectors.");
-		} else {
-			h = _("You are set up for an Interop DCP at a frame rate which is not officially supported.  You are advised either to change the frame rate of your DCP or to make a SMPTE DCP instead (although SMPTE DCPs are not supported by all projectors).");
+	switch (film->video_frame_rate()) {
+	case 24:
+		/* Fine */
+		break;
+	case 25:
+	{
+		/* You might want to go to 24 */
+		string base = String::compose(_("You are set up for a DCP at a frame rate of %1fps.  This frame rate is not supported by all projectors.  You may want to consider changing your frame rate to %2fps."), 25, 24);
+		if (film->interop()) {
+			base += "  ";
+			base += _("If you do use 25fps you should change your DCP standard to SMPTE.");
 		}
-
-		hint (h);
+		hint (base);
+		break;
 	}
-
-	if (film->video_frame_rate() > 30) {
-		hint (String::compose(_("You are set up for a DCP at a frame rate of %1.  This frame rate is not supported by all projectors.  You are advised to change the DCP frame rate to %2."), film->video_frame_rate(), film->video_frame_rate() / 2));
+	case 30:
+		/* 30fps: we can't really offer any decent solutions */
+		hint (_("You are set up for a DCP frame rate of 30fps, which is not supported by all projectors.  Be aware that you may have compatibility problems."));
+		break;
+	case 48:
+	case 50:
+	case 60:
+		/* You almost certainly want to go to half frame rate */
+		hint (String::compose(_("You are set up for a DCP at a frame rate of %1fps.  This frame rate is not supported by all projectors.  You are advised to change the DCP frame rate to %2fps."), film->video_frame_rate(), film->video_frame_rate() / 2));
+		break;
 	}
 
 	optional<double> lowest_speed_up;
