@@ -128,3 +128,21 @@ BOOST_AUTO_TEST_CASE (silence_padding_test)
 		test_silence_padding (i);
 	}
 }
+
+/** Test a situation that used to crash because of a sub-sample rounding confusion
+ *  caused by a trim.
+ */
+
+BOOST_AUTO_TEST_CASE (silence_padding_test2)
+{
+	shared_ptr<Film> film = new_test_film2 ("silence_padding_test2");
+	shared_ptr<FFmpegContent> content (new FFmpegContent(private_data / "cars.mov"));
+	film->examine_and_add_content (content);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	film->set_video_frame_rate (24);
+	content->set_trim_start (ContentTime(4003));
+
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+}
