@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-31 23:35+0000\n"
+"POT-Creation-Date: 2019-02-07 23:07+0000\n"
 "PO-Revision-Date: 2018-08-20 20:35+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Ukrainian\n"
@@ -64,7 +64,7 @@ msgstr ""
 msgid "(None)"
 msgstr "(Нічого)"
 
-#: src/wx/full_config_dialog.cc:1339
+#: src/wx/full_config_dialog.cc:1373
 #, fuzzy
 msgid "(restart DCP-o-matic to see all ratios)"
 msgstr "(перезапустіть програму для зміни мови)"
@@ -282,7 +282,7 @@ msgstr ""
 "«Leaf»."
 
 #: src/wx/cinema_dialog.cc:71 src/wx/full_config_dialog.cc:863
-#: src/wx/full_config_dialog.cc:1100
+#: src/wx/full_config_dialog.cc:1134
 msgid "Address"
 msgstr "Адрес"
 
@@ -300,11 +300,11 @@ msgstr ""
 msgid "Advanced..."
 msgstr "Просунуті…"
 
-#: src/wx/full_config_dialog.cc:1331
+#: src/wx/full_config_dialog.cc:1365
 msgid "Allow any DCP frame rate"
 msgstr "Дозволити будь яку частоту кадрів DCP"
 
-#: src/wx/full_config_dialog.cc:1335
+#: src/wx/full_config_dialog.cc:1369
 msgid "Allow non-standard container ratios"
 msgstr ""
 
@@ -379,7 +379,7 @@ msgstr "Автоматично аналізувати аудіо-контент"
 msgid "B"
 msgstr "B"
 
-#: src/wx/full_config_dialog.cc:874 src/wx/full_config_dialog.cc:1111
+#: src/wx/full_config_dialog.cc:874 src/wx/full_config_dialog.cc:1145
 msgid "BCC address"
 msgstr "Прихована копія"
 
@@ -412,7 +412,7 @@ msgstr "Вшити субтитри в зображення"
 msgid "But I have to use fader"
 msgstr "Але я маю використовувати мікшер"
 
-#: src/wx/full_config_dialog.cc:864 src/wx/full_config_dialog.cc:1101
+#: src/wx/full_config_dialog.cc:864 src/wx/full_config_dialog.cc:1135
 msgid "CC addresses"
 msgstr "Отримувачі"
 
@@ -561,7 +561,7 @@ msgid "Configuration file"
 msgstr "Конфігураційний файл"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-#: src/wx/full_config_dialog.cc:1398
+#: src/wx/full_config_dialog.cc:1432
 msgid "Config|Timing"
 msgstr "Таймінг"
 
@@ -638,12 +638,12 @@ msgstr "Не вдалося прочитати файл сертифікату."
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Не вдалося прочитати файл ключа; файл занадто довгий (%s)"
 
-#: src/wx/film_viewer.cc:662
+#: src/wx/film_viewer.cc:661
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr "Не вдалося налаштувати вихід аудіо.  При передперегляді не буде звуку."
 
-#: src/wx/full_config_dialog.cc:1233
+#: src/wx/full_config_dialog.cc:1267
 #, fuzzy
 msgid "Cover Sheet"
 msgstr "Обкладинка"
@@ -674,7 +674,7 @@ msgstr "DCP"
 msgid "DCP Text Track"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:1371
+#: src/wx/full_config_dialog.cc:1405
 msgid "DCP asset filename format"
 msgstr "Формат найменування данних DCP"
 
@@ -682,7 +682,7 @@ msgstr "Формат найменування данних DCP"
 msgid "DCP directory"
 msgstr "Папка DCP"
 
-#: src/wx/full_config_dialog.cc:1359
+#: src/wx/full_config_dialog.cc:1393
 msgid "DCP metadata filename format"
 msgstr "Формат найменування метаданних DCP"
 
@@ -713,15 +713,15 @@ msgstr "DCP-o-matic аудіо - %s"
 msgid "DCP-o-matic setup"
 msgstr "DCP-o-matic"
 
-#: src/wx/full_config_dialog.cc:1400
+#: src/wx/full_config_dialog.cc:1434
 msgid "Debug: decode"
 msgstr "Відладка: декодування"
 
-#: src/wx/full_config_dialog.cc:1404
+#: src/wx/full_config_dialog.cc:1438
 msgid "Debug: email sending"
 msgstr "Відладка: відправка email"
 
-#: src/wx/full_config_dialog.cc:1402
+#: src/wx/full_config_dialog.cc:1436
 msgid "Debug: encode"
 msgstr "Відладка: кодування"
 
@@ -891,7 +891,7 @@ msgstr "Ефект"
 msgid "Effect colour"
 msgstr "Колір ефекту"
 
-#: src/wx/full_config_dialog.cc:743 src/wx/full_config_dialog.cc:1083
+#: src/wx/full_config_dialog.cc:743 src/wx/full_config_dialog.cc:1117
 msgid "Email"
 msgstr "E-mail"
 
@@ -920,7 +920,7 @@ msgstr "Кінець"
 msgid "Enter your email address for the contact, not %s"
 msgstr "Введіть ваш email для зв'язку, не %s"
 
-#: src/wx/full_config_dialog.cc:1395
+#: src/wx/full_config_dialog.cc:1429
 msgid "Errors"
 msgstr "Помилки"
 
@@ -1060,7 +1060,7 @@ msgstr ""
 msgid "From"
 msgstr "Від"
 
-#: src/wx/full_config_dialog.cc:858 src/wx/full_config_dialog.cc:1091
+#: src/wx/full_config_dialog.cc:858 src/wx/full_config_dialog.cc:1125
 msgid "From address"
 msgstr "Відправник"
 
@@ -1090,6 +1090,16 @@ msgstr "ГБ"
 msgid "GDC"
 msgstr "DCP"
 
+#: src/wx/full_config_dialog.cc:988
+#, fuzzy
+msgid "GDC password"
+msgstr "Пароль пошти"
+
+#: src/wx/full_config_dialog.cc:984
+#, fuzzy
+msgid "GDC user name"
+msgstr "Користувач пошти"
+
 #: src/wx/audio_panel.cc:65
 msgid "Gain"
 msgstr "Посилення"
@@ -1103,7 +1113,7 @@ msgstr "Калькулятор посилення"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Посилення для каналу %d контенту у каналі %d DCP"
 
-#: src/wx/content_properties_dialog.cc:71 src/wx/full_config_dialog.cc:1391
+#: src/wx/content_properties_dialog.cc:71 src/wx/full_config_dialog.cc:1425
 msgid "General"
 msgstr "Основні"
 
@@ -1370,7 +1380,7 @@ msgstr "Повідомлення"
 msgid "Lock file"
 msgstr "Файл жирного шрифту"
 
-#: src/wx/full_config_dialog.cc:1389
+#: src/wx/full_config_dialog.cc:1423
 msgid "Log"
 msgstr "Лог"
 
@@ -1447,20 +1457,20 @@ msgstr "Яскравість (напр. 14 фут-ламберт)"
 msgid "Matrix"
 msgstr "Матриця"
 
-#: src/wx/full_config_dialog.cc:1323
+#: src/wx/full_config_dialog.cc:1357
 msgid "Maximum JPEG2000 bandwidth"
 msgstr "Максимальна пропускна здатність JPEG2000"
 
-#: src/wx/full_config_dialog.cc:1351
+#: src/wx/full_config_dialog.cc:1385
 msgid "Maximum number of frames to store per thread"
 msgstr "Максимальне число збережених кадрів на потік"
 
 #: src/wx/dcp_panel.cc:769 src/wx/full_config_dialog.cc:361
-#: src/wx/full_config_dialog.cc:1327
+#: src/wx/full_config_dialog.cc:1361
 msgid "Mbit/s"
 msgstr "МБит/с"
 
-#: src/wx/full_config_dialog.cc:1079
+#: src/wx/full_config_dialog.cc:1113
 msgid "Message box"
 msgstr "Діалогове вікно"
 
@@ -1575,7 +1585,7 @@ msgstr "Нічого"
 msgid "Notes"
 msgstr "Примітки"
 
-#: src/wx/full_config_dialog.cc:1062
+#: src/wx/full_config_dialog.cc:1096
 msgid "Notifications"
 msgstr "Повідомлення"
 
@@ -1601,11 +1611,11 @@ msgstr "Вимкнений"
 msgid "Offset"
 msgstr "Зміщення X"
 
-#: src/wx/full_config_dialog.cc:1346
+#: src/wx/full_config_dialog.cc:1380
 msgid "Only servers encode"
 msgstr "Кодування тільки серверами"
 
-#: src/wx/full_config_dialog.cc:1410
+#: src/wx/full_config_dialog.cc:1444
 msgid "Open console window"
 msgstr "Відкрити консольне вікно"
 
@@ -1890,11 +1900,11 @@ msgstr "Повторити..."
 msgid "Report A Problem"
 msgstr "Повідомити Про Помилку"
 
-#: src/wx/full_config_dialog.cc:881 src/wx/full_config_dialog.cc:1118
+#: src/wx/full_config_dialog.cc:881 src/wx/full_config_dialog.cc:1152
 msgid "Reset to default subject and text"
 msgstr "Скинути за замовченням тему та текст"
 
-#: src/wx/full_config_dialog.cc:1249
+#: src/wx/full_config_dialog.cc:1283
 msgid "Reset to default text"
 msgstr "Скинути за замовченням текст"
 
@@ -2189,7 +2199,7 @@ msgstr "Потік"
 msgid "Studio (e.g. TCF)"
 msgstr "Студія (напр. TCF)"
 
-#: src/wx/full_config_dialog.cc:854 src/wx/full_config_dialog.cc:1087
+#: src/wx/full_config_dialog.cc:854 src/wx/full_config_dialog.cc:1121
 msgid "Subject"
 msgstr "Тема"
 
@@ -2347,7 +2357,7 @@ msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
 msgstr "Вже є шаблон із такою назвою. Ви хочете перезаписати його?"
 
-#: src/wx/film_viewer.cc:146
+#: src/wx/film_viewer.cc:147
 msgid "There is not enough free memory to do that."
 msgstr "Недостатньо пам'яті, щоб зробити це."
 
@@ -2390,7 +2400,7 @@ msgstr "Таймінг"
 msgid "Timing|Timing"
 msgstr "Таймінг"
 
-#: src/wx/full_config_dialog.cc:1095
+#: src/wx/full_config_dialog.cc:1129
 msgid "To address"
 msgstr "Кому адрес"
 
@@ -2627,7 +2637,7 @@ msgstr "Частота кадрів відео"
 msgid "View..."
 msgstr "Перегляд..."
 
-#: src/wx/full_config_dialog.cc:1393
+#: src/wx/full_config_dialog.cc:1427
 msgid "Warnings"
 msgstr "Попередження"
 
@@ -2898,12 +2908,6 @@ msgstr "y"
 
 #~ msgid "Set from system font..."
 #~ msgstr "Оберіть системний шрифт"
-
-#~ msgid "Mail password"
-#~ msgstr "Пароль пошти"
-
-#~ msgid "Mail user name"
-#~ msgstr "Користувач пошти"
 
 #, fuzzy
 #~ msgid "Add"

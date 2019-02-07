@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-31 23:35+0000\n"
+"POT-Creation-Date: 2019-02-07 23:07+0000\n"
 "PO-Revision-Date: 2019-02-04 11:44+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -69,7 +69,7 @@ msgstr ""
 msgid "(None)"
 msgstr "(Aucun)"
 
-#: src/wx/full_config_dialog.cc:1339
+#: src/wx/full_config_dialog.cc:1373
 msgid "(restart DCP-o-matic to see all ratios)"
 msgstr "(redémarrez DCP-o-matic pour voir tous les ratios)"
 
@@ -297,7 +297,7 @@ msgstr ""
 "pas ajouté. Ajouter des certificats dans l'ordre depuis la racine."
 
 #: src/wx/cinema_dialog.cc:71 src/wx/full_config_dialog.cc:863
-#: src/wx/full_config_dialog.cc:1100
+#: src/wx/full_config_dialog.cc:1134
 msgid "Address"
 msgstr "Adresse"
 
@@ -314,11 +314,11 @@ msgstr "Options avancées KDM"
 msgid "Advanced..."
 msgstr "Avancé..."
 
-#: src/wx/full_config_dialog.cc:1331
+#: src/wx/full_config_dialog.cc:1365
 msgid "Allow any DCP frame rate"
 msgstr "Autoriser toutes cadences"
 
-#: src/wx/full_config_dialog.cc:1335
+#: src/wx/full_config_dialog.cc:1369
 msgid "Allow non-standard container ratios"
 msgstr "Autoriser les ratios DCP non-standards."
 
@@ -393,7 +393,7 @@ msgstr "Analyser automatiquement le contenu audio"
 msgid "B"
 msgstr "B"
 
-#: src/wx/full_config_dialog.cc:874 src/wx/full_config_dialog.cc:1111
+#: src/wx/full_config_dialog.cc:874 src/wx/full_config_dialog.cc:1145
 msgid "BCC address"
 msgstr "Adresse CCI"
 
@@ -425,7 +425,7 @@ msgstr "Graver les sous-titres dans l'image"
 msgid "But I have to use fader"
 msgstr "mais je dois actuellement le régler à"
 
-#: src/wx/full_config_dialog.cc:864 src/wx/full_config_dialog.cc:1101
+#: src/wx/full_config_dialog.cc:864 src/wx/full_config_dialog.cc:1135
 msgid "CC addresses"
 msgstr "Adresses CC"
 
@@ -573,7 +573,7 @@ msgid "Configuration file"
 msgstr "Fichier de configuration"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-#: src/wx/full_config_dialog.cc:1398
+#: src/wx/full_config_dialog.cc:1432
 msgid "Config|Timing"
 msgstr "Temps"
 
@@ -647,14 +647,14 @@ msgstr "Lecture du ficher de certificat impossible"
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Fichier clé illisible car trop long (%s)"
 
-#: src/wx/film_viewer.cc:662
+#: src/wx/film_viewer.cc:661
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
 "Réglage sortie audio impossible. Il n'y aura pas de monitoring audio pendant "
 "la prévisualisation. "
 
-#: src/wx/full_config_dialog.cc:1233
+#: src/wx/full_config_dialog.cc:1267
 msgid "Cover Sheet"
 msgstr "Couverture"
 
@@ -684,7 +684,7 @@ msgstr "DCP"
 msgid "DCP Text Track"
 msgstr "Piste texte du DCP"
 
-#: src/wx/full_config_dialog.cc:1371
+#: src/wx/full_config_dialog.cc:1405
 msgid "DCP asset filename format"
 msgstr "Format du nom de fichier du DCP"
 
@@ -692,7 +692,7 @@ msgstr "Format du nom de fichier du DCP"
 msgid "DCP directory"
 msgstr "Répertoire du DCP"
 
-#: src/wx/full_config_dialog.cc:1359
+#: src/wx/full_config_dialog.cc:1393
 msgid "DCP metadata filename format"
 msgstr "Format du nom de fichier metadata du DCP"
 
@@ -722,15 +722,15 @@ msgstr "Son DCP-o-matic - %s"
 msgid "DCP-o-matic setup"
 msgstr "DCP-o-matic préférences"
 
-#: src/wx/full_config_dialog.cc:1400
+#: src/wx/full_config_dialog.cc:1434
 msgid "Debug: decode"
 msgstr "Deboguage: decodage"
 
-#: src/wx/full_config_dialog.cc:1404
+#: src/wx/full_config_dialog.cc:1438
 msgid "Debug: email sending"
 msgstr "Deboguage: envoi email"
 
-#: src/wx/full_config_dialog.cc:1402
+#: src/wx/full_config_dialog.cc:1436
 msgid "Debug: encode"
 msgstr "Deboguage: encodage"
 
@@ -899,7 +899,7 @@ msgstr "Effet"
 msgid "Effect colour"
 msgstr "Couleur de l'effet"
 
-#: src/wx/full_config_dialog.cc:743 src/wx/full_config_dialog.cc:1083
+#: src/wx/full_config_dialog.cc:743 src/wx/full_config_dialog.cc:1117
 msgid "Email"
 msgstr "Email"
 
@@ -928,7 +928,7 @@ msgstr "Fin"
 msgid "Enter your email address for the contact, not %s"
 msgstr "Entrez votre adresse E-mail pour le contact, pas %s"
 
-#: src/wx/full_config_dialog.cc:1395
+#: src/wx/full_config_dialog.cc:1429
 msgid "Errors"
 msgstr "Erreurs"
 
@@ -1065,7 +1065,7 @@ msgstr "Création de DCP, libre et open-source, depuis presque tout."
 msgid "From"
 msgstr "À partir du"
 
-#: src/wx/full_config_dialog.cc:858 src/wx/full_config_dialog.cc:1091
+#: src/wx/full_config_dialog.cc:858 src/wx/full_config_dialog.cc:1125
 msgid "From address"
 msgstr "Adresse source"
 
@@ -1093,6 +1093,16 @@ msgstr "GB"
 msgid "GDC"
 msgstr "GDC"
 
+#: src/wx/full_config_dialog.cc:988
+#, fuzzy
+msgid "GDC password"
+msgstr "Mot de passe Mail"
+
+#: src/wx/full_config_dialog.cc:984
+#, fuzzy
+msgid "GDC user name"
+msgstr "Nom Utilisateur Mail"
+
 #: src/wx/audio_panel.cc:65
 msgid "Gain"
 msgstr "Gain"
@@ -1106,7 +1116,7 @@ msgstr "Calculateur de gain"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Gain pour le canal audio %d dans le canal du DCP %d"
 
-#: src/wx/content_properties_dialog.cc:71 src/wx/full_config_dialog.cc:1391
+#: src/wx/content_properties_dialog.cc:71 src/wx/full_config_dialog.cc:1425
 msgid "General"
 msgstr "Général"
 
@@ -1368,7 +1378,7 @@ msgstr "Localisation"
 msgid "Lock file"
 msgstr "Fichier verrou"
 
-#: src/wx/full_config_dialog.cc:1389
+#: src/wx/full_config_dialog.cc:1423
 msgid "Log"
 msgstr "Rapport"
 
@@ -1441,20 +1451,20 @@ msgstr "Luminance masterisée (e.g. 14fl)"
 msgid "Matrix"
 msgstr "Matrice"
 
-#: src/wx/full_config_dialog.cc:1323
+#: src/wx/full_config_dialog.cc:1357
 msgid "Maximum JPEG2000 bandwidth"
 msgstr "Qualité JPEG2000 Maxi"
 
-#: src/wx/full_config_dialog.cc:1351
+#: src/wx/full_config_dialog.cc:1385
 msgid "Maximum number of frames to store per thread"
 msgstr "Nombre maximum d'images à gérer par processus"
 
 #: src/wx/dcp_panel.cc:769 src/wx/full_config_dialog.cc:361
-#: src/wx/full_config_dialog.cc:1327
+#: src/wx/full_config_dialog.cc:1361
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
-#: src/wx/full_config_dialog.cc:1079
+#: src/wx/full_config_dialog.cc:1113
 msgid "Message box"
 msgstr "Message"
 
@@ -1575,7 +1585,7 @@ msgstr "Aucun"
 msgid "Notes"
 msgstr "Notes"
 
-#: src/wx/full_config_dialog.cc:1062
+#: src/wx/full_config_dialog.cc:1096
 msgid "Notifications"
 msgstr "Notifications"
 
@@ -1600,11 +1610,11 @@ msgstr "Eteint"
 msgid "Offset"
 msgstr "Décalage"
 
-#: src/wx/full_config_dialog.cc:1346
+#: src/wx/full_config_dialog.cc:1380
 msgid "Only servers encode"
 msgstr "Seuls les serveurs encodent"
 
-#: src/wx/full_config_dialog.cc:1410
+#: src/wx/full_config_dialog.cc:1444
 msgid "Open console window"
 msgstr "Ouvrir fenêtre de console"
 
@@ -1887,11 +1897,11 @@ msgstr "Répéter..."
 msgid "Report A Problem"
 msgstr "Signaler un problème"
 
-#: src/wx/full_config_dialog.cc:881 src/wx/full_config_dialog.cc:1118
+#: src/wx/full_config_dialog.cc:881 src/wx/full_config_dialog.cc:1152
 msgid "Reset to default subject and text"
 msgstr "texte et objet par défaut"
 
-#: src/wx/full_config_dialog.cc:1249
+#: src/wx/full_config_dialog.cc:1283
 msgid "Reset to default text"
 msgstr "Rétablir texte par défaut"
 
@@ -2174,7 +2184,7 @@ msgstr "Flux"
 msgid "Studio (e.g. TCF)"
 msgstr "Studio (ex. TCF)"
 
-#: src/wx/full_config_dialog.cc:854 src/wx/full_config_dialog.cc:1087
+#: src/wx/full_config_dialog.cc:854 src/wx/full_config_dialog.cc:1121
 msgid "Subject"
 msgstr "Sujet"
 
@@ -2343,7 +2353,7 @@ msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
 msgstr "Un modèle existant porte déjà ce nom. Voulez-vous l'écraser?"
 
-#: src/wx/film_viewer.cc:146
+#: src/wx/film_viewer.cc:147
 msgid "There is not enough free memory to do that."
 msgstr "Il n'y a pas assez de mémoire pour faire cela."
 
@@ -2385,7 +2395,7 @@ msgstr "Chronologie"
 msgid "Timing|Timing"
 msgstr "Temps"
 
-#: src/wx/full_config_dialog.cc:1095
+#: src/wx/full_config_dialog.cc:1129
 msgid "To address"
 msgstr "vers"
 
@@ -2617,7 +2627,7 @@ msgstr "Cadence vidéo"
 msgid "View..."
 msgstr "voir..."
 
-#: src/wx/full_config_dialog.cc:1393
+#: src/wx/full_config_dialog.cc:1427
 msgid "Warnings"
 msgstr "Avertissements"
 
@@ -2885,12 +2895,6 @@ msgstr "y"
 
 #~ msgid "Set from system font..."
 #~ msgstr "Choisir une police système..."
-
-#~ msgid "Mail password"
-#~ msgstr "Mot de passe Mail"
-
-#~ msgid "Mail user name"
-#~ msgstr "Nom Utilisateur Mail"
 
 #~ msgid "Stop"
 #~ msgstr "Arrêt"

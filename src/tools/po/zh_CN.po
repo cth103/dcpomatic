@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-31 23:35+0000\n"
+"POT-Creation-Date: 2019-02-07 23:07+0000\n"
 "PO-Revision-Date: 2018-04-05 20:23+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -41,9 +41,14 @@ msgstr "&添加KDM…"
 msgid "&Add OV..."
 msgstr "&添加OV…"
 
-#: src/tools/dcpomatic.cc:1219 src/tools/dcpomatic_player.cc:456
+#: src/tools/dcpomatic_player.cc:456
 msgid "&Close"
 msgstr "&关闭"
+
+#: src/tools/dcpomatic.cc:1219
+#, fuzzy
+msgid "&Close\tCtrl-W"
+msgstr "&保存\tCtrl+S"
 
 #: src/tools/dcpomatic.cc:1281
 msgid "&Content"

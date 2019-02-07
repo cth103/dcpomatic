@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-31 23:35+0000\n"
+"POT-Creation-Date: 2019-02-07 23:07+0000\n"
 "PO-Revision-Date: 2017-08-02 19:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -43,9 +43,14 @@ msgstr "Dodaj Film..."
 msgid "&Add OV..."
 msgstr "Dodaj Film..."
 
-#: src/tools/dcpomatic.cc:1219 src/tools/dcpomatic_player.cc:456
+#: src/tools/dcpomatic_player.cc:456
 msgid "&Close"
 msgstr ""
+
+#: src/tools/dcpomatic.cc:1219
+#, fuzzy
+msgid "&Close\tCtrl-W"
+msgstr "&Zapisz\tCtrl-S"
 
 #: src/tools/dcpomatic.cc:1281
 msgid "&Content"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-31 23:35+0000\n"
+"POT-Creation-Date: 2019-02-07 23:07+0000\n"
 "PO-Revision-Date: 2016-03-19 13:01+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -43,9 +43,14 @@ msgstr "Adicionar Filme..."
 msgid "&Add OV..."
 msgstr "Adicionar Filme..."
 
-#: src/tools/dcpomatic.cc:1219 src/tools/dcpomatic_player.cc:456
+#: src/tools/dcpomatic_player.cc:456
 msgid "&Close"
 msgstr ""
+
+#: src/tools/dcpomatic.cc:1219
+#, fuzzy
+msgid "&Close\tCtrl-W"
+msgstr "&Guardar\tCtrl-S"
 
 #: src/tools/dcpomatic.cc:1281
 msgid "&Content"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-31 23:35+0000\n"
+"POT-Creation-Date: 2019-02-07 23:07+0000\n"
 "PO-Revision-Date: 2018-02-25 14:35-0600\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -39,9 +39,14 @@ msgstr "&Añadir KDM..."
 msgid "&Add OV..."
 msgstr "&Añadir DCP base  (OV)..."
 
-#: src/tools/dcpomatic.cc:1219 src/tools/dcpomatic_player.cc:456
+#: src/tools/dcpomatic_player.cc:456
 msgid "&Close"
 msgstr "&Cerrar"
+
+#: src/tools/dcpomatic.cc:1219
+#, fuzzy
+msgid "&Close\tCtrl-W"
+msgstr "&Guardar\tCtrl-S"
 
 #: src/tools/dcpomatic.cc:1281
 msgid "&Content"

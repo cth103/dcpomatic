@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-31 23:35+0000\n"
+"POT-Creation-Date: 2019-02-07 23:07+0000\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -43,9 +43,14 @@ msgstr "Pridať film..."
 msgid "&Add OV..."
 msgstr "Pridať film..."
 
-#: src/tools/dcpomatic.cc:1219 src/tools/dcpomatic_player.cc:456
+#: src/tools/dcpomatic_player.cc:456
 msgid "&Close"
 msgstr ""
+
+#: src/tools/dcpomatic.cc:1219
+#, fuzzy
+msgid "&Close\tCtrl-W"
+msgstr "&Uložiť\tCtrl-S"
 
 #: src/tools/dcpomatic.cc:1281
 msgid "&Content"

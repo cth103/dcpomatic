@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-31 23:35+0000\n"
+"POT-Creation-Date: 2019-02-07 23:07+0000\n"
 "PO-Revision-Date: 2018-02-01 10:36+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -185,7 +185,7 @@ msgstr ""
 "bandbredd. Det är en god idé att sänka JPEG2000-bandbredden till ungefär "
 "200Mbit/s; det ger troligen ingen synbar minskning på bildkvaliteten."
 
-#: src/lib/ffmpeg_content.cc:612
+#: src/lib/ffmpeg_content.cc:615
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
 msgstr "ARIB STD-B67 ('Hybrid log-gamma')"
 
@@ -238,64 +238,64 @@ msgstr "Audio kommer att samplas om till %1Hz"
 msgid "Audio will not be resampled"
 msgstr "Audio kommer inte att samplas om"
 
-#: src/lib/ffmpeg_content.cc:606
+#: src/lib/ffmpeg_content.cc:609
 msgid "BT1361 extended colour gamut"
 msgstr "BT1361 utökat färgomfång"
 
-#: src/lib/ffmpeg_content.cc:574
+#: src/lib/ffmpeg_content.cc:577
 msgid "BT2020"
 msgstr "BT2020"
 
-#: src/lib/ffmpeg_content.cc:629
+#: src/lib/ffmpeg_content.cc:632
 msgid "BT2020 constant luminance"
 msgstr "BT2020 konstant luminans"
 
-#: src/lib/ffmpeg_content.cc:608
+#: src/lib/ffmpeg_content.cc:611
 msgid "BT2020 for a 10-bit system"
 msgstr "BT2020 för ett 10-bitars system"
 
-#: src/lib/ffmpeg_content.cc:609
+#: src/lib/ffmpeg_content.cc:612
 msgid "BT2020 for a 12-bit system"
 msgstr "BT2020 för ett 12-bitars system"
 
-#: src/lib/ffmpeg_content.cc:628
+#: src/lib/ffmpeg_content.cc:631
 msgid "BT2020 non-constant luminance"
 msgstr "BT2020 icke-konstant luminans"
 
-#: src/lib/ffmpeg_content.cc:633
+#: src/lib/ffmpeg_content.cc:636
 msgid "BT2100"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:570
+#: src/lib/ffmpeg_content.cc:573
 msgid "BT470BG"
 msgstr "BT470BG"
 
-#: src/lib/ffmpeg_content.cc:624
+#: src/lib/ffmpeg_content.cc:627
 msgid "BT470BG (BT601-6)"
 msgstr "BT470BG (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:569
+#: src/lib/ffmpeg_content.cc:572
 msgid "BT470M"
 msgstr "BT470M"
 
-#: src/lib/ffmpeg_content.cc:566 src/lib/ffmpeg_content.cc:595
-#: src/lib/ffmpeg_content.cc:620
+#: src/lib/ffmpeg_content.cc:569 src/lib/ffmpeg_content.cc:598
+#: src/lib/ffmpeg_content.cc:623
 msgid "BT709"
 msgstr "BT709"
 
-#: src/lib/ffmpeg_content.cc:640
+#: src/lib/ffmpeg_content.cc:643
 msgid "Bits per pixel"
 msgstr "Bitar per pixel"
 
-#: src/lib/util.cc:556
+#: src/lib/util.cc:570
 msgid "BsL"
 msgstr "BsV"
 
-#: src/lib/util.cc:557
+#: src/lib/util.cc:571
 msgid "BsR"
 msgstr "BsH"
 
-#: src/lib/util.cc:548
+#: src/lib/util.cc:562
 msgid "C"
 msgstr "C"
 
@@ -316,7 +316,7 @@ msgstr "Kan inte hantera pixelformat %1 under %2"
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 
-#: src/lib/util.cc:517
+#: src/lib/util.cc:531
 msgid "Centre"
 msgstr "Center"
 
@@ -336,12 +336,12 @@ msgstr "Kontrollerar befintligt bilddata"
 msgid "Choose 'Make DCP' again when you have done this."
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:632
+#: src/lib/ffmpeg_content.cc:635
 #, fuzzy
 msgid "Chroma-derived constant luminance"
 msgstr "BT2020 konstant luminans"
 
-#: src/lib/ffmpeg_content.cc:631
+#: src/lib/ffmpeg_content.cc:634
 #, fuzzy
 msgid "Chroma-derived non-constant luminance"
 msgstr "BT2020 icke-konstant luminans"
@@ -351,7 +351,7 @@ msgstr "BT2020 icke-konstant luminans"
 msgid "Closed captions"
 msgstr "Brusreducering"
 
-#: src/lib/ffmpeg_content.cc:591
+#: src/lib/ffmpeg_content.cc:594
 msgid "Colour primaries"
 msgstr "Grundläggande färger"
 
@@ -365,17 +365,17 @@ msgstr "Grundläggande färger"
 #. / file is limited, so that not all possible values are valid.
 #. / TRANSLATORS: this means that the range of pixel values used in this
 #. / file is full, so that all possible pixel values are valid.
-#: src/lib/ffmpeg_content.cc:523 src/lib/ffmpeg_content.cc:530
-#: src/lib/ffmpeg_content.cc:537 src/lib/ffmpeg_content.cc:547
-#: src/lib/ffmpeg_content.cc:552 src/lib/ffmpeg_content.cc:557
+#: src/lib/ffmpeg_content.cc:526 src/lib/ffmpeg_content.cc:533
+#: src/lib/ffmpeg_content.cc:540 src/lib/ffmpeg_content.cc:550
+#: src/lib/ffmpeg_content.cc:555 src/lib/ffmpeg_content.cc:560
 msgid "Colour range"
 msgstr "Färgomfång"
 
-#: src/lib/ffmpeg_content.cc:616
+#: src/lib/ffmpeg_content.cc:619
 msgid "Colour transfer characteristic"
 msgstr "Färgöversättningskarakteristik"
 
-#: src/lib/ffmpeg_content.cc:637
+#: src/lib/ffmpeg_content.cc:640
 msgid "Colourspace"
 msgstr "Färgrymd"
 
@@ -571,19 +571,19 @@ msgstr "Kunde inte starta överföring"
 msgid "Could not write to remote file (%1)"
 msgstr "Kunde inte skriva till fjärrfil (%1)"
 
-#: src/lib/util.cc:527
+#: src/lib/util.cc:541
 msgid "D-BOX primary"
 msgstr "D-BOX primär"
 
-#: src/lib/util.cc:528
+#: src/lib/util.cc:542
 msgid "D-BOX secondary"
 msgstr "D-BOX sekundär"
 
-#: src/lib/util.cc:558
+#: src/lib/util.cc:572
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:559
+#: src/lib/util.cc:573
 msgid "DBS"
 msgstr "DBS"
 
@@ -716,7 +716,7 @@ msgstr "Fel i undertext-filen: såg %1 men förväntade %2"
 msgid "Error: %1"
 msgstr "Fel: %1"
 
-#: src/lib/hints.cc:262
+#: src/lib/hints.cc:265
 #, fuzzy
 msgid "Examining closed captions"
 msgstr "Undersök innehållet"
@@ -731,7 +731,7 @@ msgstr "Undersök innehållet"
 msgid "Examining subtitles"
 msgstr "Letar undertexter"
 
-#: src/lib/ffmpeg_content.cc:623
+#: src/lib/ffmpeg_content.cc:626
 msgid "FCC"
 msgstr "FCC"
 
@@ -752,7 +752,7 @@ msgstr "Feature"
 msgid "Filename"
 msgstr "Filnamn"
 
-#: src/lib/ffmpeg_content.cc:573
+#: src/lib/ffmpeg_content.cc:576
 msgid "Film"
 msgstr "Film"
 
@@ -764,17 +764,17 @@ msgstr "Söker längd"
 msgid "Frame rate"
 msgstr "Bildhastighet"
 
-#: src/lib/util.cc:857
+#: src/lib/util.cc:871
 msgid "Friday"
 msgstr "Fredag"
 
 # Sammanhang?
-#: src/lib/ffmpeg_content.cc:557
+#: src/lib/ffmpeg_content.cc:560
 msgid "Full"
 msgstr "Full"
 
 # Sammanhang?
-#: src/lib/ffmpeg_content.cc:537
+#: src/lib/ffmpeg_content.cc:540
 msgid "Full (0-%1)"
 msgstr "Full (0-%1)"
 
@@ -798,11 +798,11 @@ msgstr "Full längd i bilder med DCP-hastighet"
 msgid "Full length in video frames at content rate"
 msgstr "Full längd i bilder med innehållets hastighet"
 
-#: src/lib/ffmpeg_content.cc:598
+#: src/lib/ffmpeg_content.cc:601
 msgid "Gamma 22 (BT470M)"
 msgstr "Gamma 22 (BT470M)"
 
-#: src/lib/ffmpeg_content.cc:599
+#: src/lib/ffmpeg_content.cc:602
 msgid "Gamma 28 (BT470BG)"
 msgstr "Gamma 28 (BT470BG)"
 
@@ -811,11 +811,11 @@ msgid "Gradient debander"
 msgstr "Gradientutjämnare"
 
 # Sammanhang?
-#: src/lib/util.cc:552
+#: src/lib/util.cc:566
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:521
+#: src/lib/util.cc:535
 msgid "Hearing impaired"
 msgstr "Hörselskadad"
 
@@ -828,41 +828,27 @@ msgstr "Högkvalitets 3D-brusreducering"
 msgid "Horizontal flip"
 msgstr "Filter för horisontal kantighetsutjämning"
 
-#: src/lib/hints.cc:170
-msgid ""
-"However, setting your DCP frame rate to 24 or 48 will cause a significant "
-"slowdown of your content, and SMPTE DCPs are not supported by all projectors."
-msgstr ""
-"Att sätta DCP bildhastigheten till 24 eller 48 kommer att medföra en "
-"betydlig hastighetssänkning av innehållet, och SMPTE DCP:er stöds inte av "
-"alla projektorer."
-
-#: src/lib/hints.cc:167
-msgid ""
-"However, setting your DCP frame rate to 24 or 48 will cause a significant "
-"speed-up of your content, and SMPTE DCPs are not supported by all projectors."
-msgstr ""
-"Att sätta DCP bildhastigheten till 24 eller 48 kommer att medföra en "
-"betydlig hastighetsökning av innehållet, och SMPTE DCP:er stöds inte av alla "
-"projektorer."
-
 #: src/lib/audio_content.cc:293 src/lib/audio_content.cc:313
 msgid "Hz"
 msgstr "Hz"
 
-#: src/lib/ffmpeg_content.cc:607
+#: src/lib/ffmpeg_content.cc:610
 msgid "IEC61966-2-1 (sRGB or sYCC)"
 msgstr "IEC61966-2-1 (sRGB eller sYCC)"
 
-#: src/lib/ffmpeg_content.cc:605
+#: src/lib/ffmpeg_content.cc:608
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
+
+#: src/lib/hints.cc:168
+msgid "If you do use 25fps you should change your DCP standard to SMPTE."
+msgstr ""
 
 #: src/lib/job.cc:147 src/lib/job.cc:197 src/lib/job.cc:207
 msgid "It is not known what caused this error."
 msgstr "Det är inte känt vad som orsakade detta fel."
 
-#: src/lib/ffmpeg_content.cc:587
+#: src/lib/ffmpeg_content.cc:590
 msgid "JEDEC P22"
 msgstr ""
 
@@ -882,27 +868,27 @@ msgstr ""
 msgid "Kernel deinterlacer"
 msgstr "Kernel-avflätare"
 
-#: src/lib/ffmpeg_encoder.cc:203 src/lib/util.cc:546
+#: src/lib/ffmpeg_encoder.cc:203 src/lib/util.cc:560
 msgid "L"
 msgstr "V"
 
-#: src/lib/util.cc:554
+#: src/lib/util.cc:568
 msgid "Lc"
 msgstr "Vc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:515
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:529
 msgid "Left"
 msgstr "Vänster"
 
-#: src/lib/util.cc:523
+#: src/lib/util.cc:537
 msgid "Left centre"
 msgstr "Vänster center"
 
-#: src/lib/util.cc:525
+#: src/lib/util.cc:539
 msgid "Left rear surround"
 msgstr "Vänster bakre surround"
 
-#: src/lib/util.cc:519
+#: src/lib/util.cc:533
 msgid "Left surround"
 msgstr "Vänster surround"
 
@@ -910,35 +896,35 @@ msgstr "Vänster surround"
 msgid "Length"
 msgstr "Längd"
 
-#: src/lib/util.cc:549
+#: src/lib/util.cc:563
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:518
+#: src/lib/util.cc:532
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
-#: src/lib/ffmpeg_content.cc:552
+#: src/lib/ffmpeg_content.cc:555
 msgid "Limited"
 msgstr "Begränsad"
 
-#: src/lib/ffmpeg_content.cc:530
+#: src/lib/ffmpeg_content.cc:533
 msgid "Limited (%1-%2)"
 msgstr "Begränsad (%1-%2)"
 
-#: src/lib/ffmpeg_content.cc:602
+#: src/lib/ffmpeg_content.cc:605
 msgid "Linear"
 msgstr "Linjär"
 
-#: src/lib/ffmpeg_content.cc:603
+#: src/lib/ffmpeg_content.cc:606
 msgid "Logarithmic (100:1 range)"
 msgstr "Logaritmisk (100:1 omfång)"
 
-#: src/lib/ffmpeg_content.cc:604
+#: src/lib/ffmpeg_content.cc:607
 msgid "Logarithmic (316:1 range)"
 msgstr "Logaritmisk (316:1 omfång)"
 
-#: src/lib/util.cc:550
+#: src/lib/util.cc:564
 msgid "Ls"
 msgstr "Vs"
 
@@ -971,7 +957,7 @@ msgstr "Icke-passande videostorlekar i DCP:n"
 msgid "Missing required setting %1"
 msgstr "saknad nödvändig inställning %1"
 
-#: src/lib/util.cc:849
+#: src/lib/util.cc:863
 msgid "Monday"
 msgstr "Måndag"
 
@@ -1068,11 +1054,11 @@ msgstr "Programmeringsfel vid %1:%2 %3"
 msgid "Public Service Announcement"
 msgstr "Public Service Announcement"
 
-#: src/lib/ffmpeg_encoder.cc:207 src/lib/util.cc:547
+#: src/lib/ffmpeg_encoder.cc:207 src/lib/util.cc:561
 msgid "R"
 msgstr "H"
 
-#: src/lib/ffmpeg_content.cc:619
+#: src/lib/ffmpeg_content.cc:622
 msgid "RGB / sRGB (IEC61966-2-1)"
 msgstr "RGB / sRGB (IEC61966-2-1)"
 
@@ -1080,7 +1066,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Rating"
 
-#: src/lib/util.cc:555
+#: src/lib/util.cc:569
 msgid "Rc"
 msgstr "Hc"
 
@@ -1100,19 +1086,19 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:516
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:530
 msgid "Right"
 msgstr "Höger"
 
-#: src/lib/util.cc:524
+#: src/lib/util.cc:538
 msgid "Right centre"
 msgstr "Höger center"
 
-#: src/lib/util.cc:526
+#: src/lib/util.cc:540
 msgid "Right rear surround"
 msgstr "Höger bakre surround"
 
-#: src/lib/util.cc:520
+#: src/lib/util.cc:534
 msgid "Right surround"
 msgstr "Höger surround"
 
@@ -1124,7 +1110,7 @@ msgstr ""
 msgid "Rotate 90 degrees clockwise"
 msgstr ""
 
-#: src/lib/util.cc:551
+#: src/lib/util.cc:565
 msgid "Rs"
 msgstr "Hs"
 
@@ -1132,40 +1118,40 @@ msgstr "Hs"
 msgid "S-Gamut3/S-Log3"
 msgstr "S-Gamut3/S-Log3"
 
-#: src/lib/ffmpeg_content.cc:571 src/lib/ffmpeg_content.cc:600
+#: src/lib/ffmpeg_content.cc:574 src/lib/ffmpeg_content.cc:603
 msgid "SMPTE 170M (BT601)"
 msgstr "SMPTE 170M (BT601)"
 
-#: src/lib/ffmpeg_content.cc:625
+#: src/lib/ffmpeg_content.cc:628
 msgid "SMPTE 170M (BT601-6)"
 msgstr "SMPTE 170M (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:630
+#: src/lib/ffmpeg_content.cc:633
 msgid "SMPTE 2085, Y'D'zD'x"
 msgstr "SMPTE 2085, Y'D'zD'x"
 
-#: src/lib/ffmpeg_content.cc:572 src/lib/ffmpeg_content.cc:601
-#: src/lib/ffmpeg_content.cc:626
+#: src/lib/ffmpeg_content.cc:575 src/lib/ffmpeg_content.cc:604
+#: src/lib/ffmpeg_content.cc:629
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/ffmpeg_content.cc:610
+#: src/lib/ffmpeg_content.cc:613
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
 msgstr "SMPTE ST 2084 för 10-, 12-, 14- och 16-bitars system"
 
-#: src/lib/ffmpeg_content.cc:611
+#: src/lib/ffmpeg_content.cc:614
 msgid "SMPTE ST 428-1"
 msgstr "SMPTE ST 428-1"
 
-#: src/lib/ffmpeg_content.cc:575
+#: src/lib/ffmpeg_content.cc:578
 msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
 msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
-#: src/lib/ffmpeg_content.cc:576
+#: src/lib/ffmpeg_content.cc:579
 msgid "SMPTE ST 431-2 (2011)"
 msgstr "SMPTE ST 431-2 (2011)"
 
-#: src/lib/ffmpeg_content.cc:577
+#: src/lib/ffmpeg_content.cc:580
 msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr "SMPTE ST 432-1 D65 (2010)"
 
@@ -1173,7 +1159,7 @@ msgstr "SMPTE ST 432-1 D65 (2010)"
 msgid "SSH error (%1)"
 msgstr "SSH fel (%1)"
 
-#: src/lib/util.cc:859
+#: src/lib/util.cc:873
 msgid "Saturday"
 msgstr "Lördag"
 
@@ -1204,13 +1190,13 @@ msgid ""
 "These files will now be re-examined, so you may need to check their settings."
 msgstr ""
 
-#: src/lib/hints.cc:310
+#: src/lib/hints.cc:313
 msgid ""
 "Some of your closed captions have lines longer than %1 characters, so they "
 "will probably be word-wrapped."
 msgstr ""
 
-#: src/lib/hints.cc:316
+#: src/lib/hints.cc:319
 msgid ""
 "Some of your closed captions span more than %1 lines, so they will be "
 "truncated."
@@ -1238,7 +1224,7 @@ msgstr "Stereo till 5.1 uppmixning A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Stereo till 5.1 uppmixning B"
 
-#: src/lib/util.cc:847
+#: src/lib/util.cc:861
 msgid "Sunday"
 msgstr "Söndag"
 
@@ -1290,7 +1276,7 @@ msgstr "Filen %1 har trimmats med %2 millisekunder mindre."
 msgid "The file %1 has been trimmed by %2 milliseconds more."
 msgstr "Filen %1 har trimmats med %2 millisekunder mer."
 
-#: src/lib/hints.cc:203
+#: src/lib/hints.cc:206
 msgid ""
 "There is a large difference between the frame rate of your DCP and that of "
 "some of your content.  This will cause your audio to play back at a much "
@@ -1339,7 +1325,7 @@ msgstr ""
 "inte öppnas i denna version. Du måste skapa en ny Film, lägga till ditt "
 "innehåll och konfigurera allt igen. Ursäkta!"
 
-#: src/lib/util.cc:855
+#: src/lib/util.cc:869
 msgid "Thursday"
 msgstr "Torsdag"
 
@@ -1360,7 +1346,7 @@ msgstr "Konvertera %1"
 msgid "Transitional"
 msgstr "Transitional"
 
-#: src/lib/util.cc:851
+#: src/lib/util.cc:865
 msgid "Tuesday"
 msgstr "Tisdag"
 
@@ -1384,11 +1370,11 @@ msgstr "Okänt ljudformat (%1)"
 msgid "Unsharp mask and Gaussian blur"
 msgstr "Oskärpemask och Gaussisk suddighet"
 
-#: src/lib/ffmpeg_content.cc:523 src/lib/ffmpeg_content.cc:547
-#: src/lib/ffmpeg_content.cc:565 src/lib/ffmpeg_content.cc:567
-#: src/lib/ffmpeg_content.cc:568 src/lib/ffmpeg_content.cc:594
-#: src/lib/ffmpeg_content.cc:596 src/lib/ffmpeg_content.cc:597
-#: src/lib/ffmpeg_content.cc:621 src/lib/ffmpeg_content.cc:622
+#: src/lib/ffmpeg_content.cc:526 src/lib/ffmpeg_content.cc:550
+#: src/lib/ffmpeg_content.cc:568 src/lib/ffmpeg_content.cc:570
+#: src/lib/ffmpeg_content.cc:571 src/lib/ffmpeg_content.cc:597
+#: src/lib/ffmpeg_content.cc:599 src/lib/ffmpeg_content.cc:600
+#: src/lib/ffmpeg_content.cc:624 src/lib/ffmpeg_content.cc:625
 msgid "Unspecified"
 msgstr "Ospecificerad"
 
@@ -1396,7 +1382,7 @@ msgstr "Ospecificerad"
 msgid "Untitled"
 msgstr "Utan titel"
 
-#: src/lib/util.cc:529 src/lib/util.cc:530
+#: src/lib/util.cc:543 src/lib/util.cc:544
 msgid "Unused"
 msgstr "Oanvänt"
 
@@ -1409,7 +1395,7 @@ msgid "Upmix R"
 msgstr "Uppmixa H"
 
 # Sammanhang?
-#: src/lib/util.cc:553
+#: src/lib/util.cc:567
 msgid "VI"
 msgstr "VI"
 
@@ -1421,7 +1407,7 @@ msgstr ""
 msgid "Vertical flip"
 msgstr ""
 
-#: src/lib/util.cc:522
+#: src/lib/util.cc:536
 msgid "Visually impaired"
 msgstr "Synskadade"
 
@@ -1434,11 +1420,11 @@ msgstr "Väntar"
 msgid "Weave filter"
 msgstr "Telecine-filter"
 
-#: src/lib/util.cc:853
+#: src/lib/util.cc:867
 msgid "Wednesday"
 msgstr "Onsdag"
 
-#: src/lib/ffmpeg_content.cc:627
+#: src/lib/ffmpeg_content.cc:630
 msgid "YCOCG"
 msgstr "YCOCG"
 
@@ -1447,39 +1433,39 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
-#: src/lib/hints.cc:179
+#: src/lib/hints.cc:181
+#, fuzzy, c-format
+msgid ""
+"You are set up for a DCP at a frame rate of %1fps.  This frame rate is not "
+"supported by all projectors.  You are advised to change the DCP frame rate "
+"to %2fps."
+msgstr ""
+"Du har valt Interop DCP med en bildhastighet som inte har officiellt stöd. "
+"Du uppmanas att antingen ändra bildhastigheten eller skapa en SMPTE DCP "
+"istället."
+
+#: src/lib/hints.cc:165
+#, fuzzy, c-format
+msgid ""
+"You are set up for a DCP at a frame rate of %1fps.  This frame rate is not "
+"supported by all projectors.  You may want to consider changing your frame "
+"rate to %2fps."
+msgstr ""
+"Du har valt Interop DCP med en bildhastighet som inte har officiellt stöd. "
+"Du uppmanas att antingen ändra bildhastigheten eller skapa en SMPTE DCP "
+"istället."
+
+#: src/lib/hints.cc:175
 #, fuzzy
 msgid ""
-"You are set up for a DCP at a frame rate of %1.  This frame rate is not "
-"supported by all projectors.  You are advised to change the DCP frame rate "
-"to %2."
+"You are set up for a DCP frame rate of 30fps, which is not supported by all "
+"projectors.  Be aware that you may have compatibility problems."
 msgstr ""
 "Du har valt Interop DCP med en bildhastighet som inte har officiellt stöd. "
 "Du uppmanas att antingen ändra bildhastigheten eller skapa en SMPTE DCP "
 "istället."
 
-#: src/lib/hints.cc:172
-msgid ""
-"You are set up for an Interop DCP at a frame rate which is not officially "
-"supported.  You are advised either to change the frame rate of your DCP or "
-"to make a SMPTE DCP instead (although SMPTE DCPs are not supported by all "
-"projectors)."
-msgstr ""
-"Du har valt Interop DCP med en bildhastighet som inte har officiellt stöd. "
-"Du uppmanas att skapa en SMPTE DCP istället (men SMPTE DCP:er stöds inte av "
-"alla projektorer)."
-
-#: src/lib/hints.cc:159
-msgid ""
-"You are set up for an Interop DCP at a frame rate which is not officially "
-"supported.  You are advised either to change the frame rate of your DCP or "
-"to make a SMPTE DCP instead."
-msgstr ""
-"Du har valt Interop DCP med en bildhastighet som inte har officiellt stöd. "
-"Du uppmanas att antingen ändra bildhastigheten eller skapa en SMPTE DCP "
-"istället."
-
-#: src/lib/hints.cc:225
+#: src/lib/hints.cc:228
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
@@ -1494,7 +1480,7 @@ msgid ""
 "resulting DCP in a cinema to make sure that it sounds good."
 msgstr ""
 
-#: src/lib/hints.cc:214
+#: src/lib/hints.cc:217
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
@@ -1502,7 +1488,7 @@ msgstr ""
 "Du har %1 filer som ser ut att vara VOB-filer från DVD. Du borde sätta ihop "
 "dom för att vara säker på mjuka övergångar mellan filerna."
 
-#: src/lib/hints.cc:322
+#: src/lib/hints.cc:325
 msgid "You have overlapping closed captions, which are not allowed."
 msgstr ""
 
@@ -1535,7 +1521,7 @@ msgstr ""
 "Din DCP använder ett ovanligt bildförhållande. Detta kan orsaka problem på "
 "några projektorer. Använd Flat eller Scope om möjligt."
 
-#: src/lib/hints.cc:250
+#: src/lib/hints.cc:253
 msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
@@ -1649,7 +1635,7 @@ msgid "frames per second"
 msgstr "bilder per sekund"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:179
+#: src/lib/util.cc:182
 msgid "h"
 msgstr "h"
 
@@ -1736,7 +1722,7 @@ msgid "its video frame size differs from the film's."
 msgstr "Bildstorleken i denna film skiljer sig från DCP:ns."
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:188
+#: src/lib/util.cc:191
 msgid "m"
 msgstr "m"
 
@@ -1750,7 +1736,7 @@ msgid "name"
 msgstr "namn"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:198
+#: src/lib/util.cc:201
 msgid "s"
 msgstr "s"
 
@@ -1773,6 +1759,43 @@ msgstr "okänd"
 #: src/lib/video_content.cc:457
 msgid "video frames"
 msgstr "bildrutor"
+
+#~ msgid ""
+#~ "However, setting your DCP frame rate to 24 or 48 will cause a significant "
+#~ "slowdown of your content, and SMPTE DCPs are not supported by all "
+#~ "projectors."
+#~ msgstr ""
+#~ "Att sätta DCP bildhastigheten till 24 eller 48 kommer att medföra en "
+#~ "betydlig hastighetssänkning av innehållet, och SMPTE DCP:er stöds inte av "
+#~ "alla projektorer."
+
+#~ msgid ""
+#~ "However, setting your DCP frame rate to 24 or 48 will cause a significant "
+#~ "speed-up of your content, and SMPTE DCPs are not supported by all "
+#~ "projectors."
+#~ msgstr ""
+#~ "Att sätta DCP bildhastigheten till 24 eller 48 kommer att medföra en "
+#~ "betydlig hastighetsökning av innehållet, och SMPTE DCP:er stöds inte av "
+#~ "alla projektorer."
+
+#~ msgid ""
+#~ "You are set up for an Interop DCP at a frame rate which is not officially "
+#~ "supported.  You are advised either to change the frame rate of your DCP "
+#~ "or to make a SMPTE DCP instead (although SMPTE DCPs are not supported by "
+#~ "all projectors)."
+#~ msgstr ""
+#~ "Du har valt Interop DCP med en bildhastighet som inte har officiellt "
+#~ "stöd. Du uppmanas att skapa en SMPTE DCP istället (men SMPTE DCP:er stöds "
+#~ "inte av alla projektorer)."
+
+#~ msgid ""
+#~ "You are set up for an Interop DCP at a frame rate which is not officially "
+#~ "supported.  You are advised either to change the frame rate of your DCP "
+#~ "or to make a SMPTE DCP instead."
+#~ msgstr ""
+#~ "Du har valt Interop DCP med en bildhastighet som inte har officiellt "
+#~ "stöd. Du uppmanas att antingen ändra bildhastigheten eller skapa en SMPTE "
+#~ "DCP istället."
 
 #, fuzzy
 #~ msgid "Could not write whole file"
