@@ -328,7 +328,7 @@ def dependencies(target):
         deps = []
 
     deps.append(('libdcp', '6a85c30'))
-    deps.append(('libsub', 'c07bdb3'))
+    deps.append(('libsub', '1c70f3a'))
     deps.append(('rtaudio-cdist', 'aad62d7'))
 
     return deps
