@@ -162,7 +162,7 @@ Hints::thread ()
 	case 25:
 	{
 		/* You might want to go to 24 */
-		string base = String::compose(_("You are set up for a DCP at a frame rate of %1fps.  This frame rate is not supported by all projectors.  You may want to consider changing your frame rate to %2fps."), 25, 24);
+		string base = String::compose(_("You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not supported by all projectors.  You may want to consider changing your frame rate to %2 fps."), 25, 24);
 		if (film->interop()) {
 			base += "  ";
 			base += _("If you do use 25fps you should change your DCP standard to SMPTE.");
@@ -178,7 +178,7 @@ Hints::thread ()
 	case 50:
 	case 60:
 		/* You almost certainly want to go to half frame rate */
-		hint (String::compose(_("You are set up for a DCP at a frame rate of %1fps.  This frame rate is not supported by all projectors.  You are advised to change the DCP frame rate to %2fps."), film->video_frame_rate(), film->video_frame_rate() / 2));
+		hint (String::compose(_("You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not supported by all projectors.  You are advised to change the DCP frame rate to %2 fps."), film->video_frame_rate(), film->video_frame_rate() / 2));
 		break;
 	}
 
