@@ -433,6 +433,7 @@ void
 TextPanel::setup_sensitivity ()
 {
 	int any_subs = 0;
+	/* we currently assume that FFmpeg subtitles are bitmapped */
 	int ffmpeg_subs = 0;
 	ContentList sel = _parent->selected_text ();
 	BOOST_FOREACH (shared_ptr<Content> i, sel) {
@@ -466,6 +467,26 @@ TextPanel::setup_sensitivity ()
 	bool const reference = _reference->GetValue ();
 
 	TextType const type = current_type ();
+
+	/* Set up _type */
+	_type->Clear ();
+	_type->Append (_("open subtitles"));
+	if (ffmpeg_subs == 0) {
+		_type->Append (_("closed captions"));
+	}
+
+	switch (type) {
+	case TEXT_OPEN_SUBTITLE:
+		_type->SetSelection (0);
+		break;
+	case TEXT_CLOSED_CAPTION:
+		if (_type->GetCount() > 1) {
+			_type->SetSelection (1);
+		}
+		break;
+	default:
+		break;
+	}
 
 	/* Set up sensitivity */
 	_use->Enable (!reference && any_subs > 0);
