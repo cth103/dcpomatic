@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-07 23:07+0000\n"
+"POT-Creation-Date: 2019-02-08 16:16+0000\n"
 "PO-Revision-Date: 2018-09-30 14:16+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -1422,22 +1422,22 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Altro filtro di deinterlacciamento"
 
 #: src/lib/hints.cc:181
-#, fuzzy, c-format
+#, fuzzy
 msgid ""
-"You are set up for a DCP at a frame rate of %1fps.  This frame rate is not "
+"You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You are advised to change the DCP frame rate "
-"to %2fps."
+"to %2 fps."
 msgstr ""
 "Hai impostato un DCP Interop con una frequenza fotogrammi ufficialmente non "
 "supportata . Si consiglia di modificare la frequenza fotogrammi del DCP o di "
 "creare un DCP SMPTE."
 
 #: src/lib/hints.cc:165
-#, fuzzy, c-format
+#, fuzzy
 msgid ""
-"You are set up for a DCP at a frame rate of %1fps.  This frame rate is not "
+"You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You may want to consider changing your frame "
-"rate to %2fps."
+"rate to %2 fps."
 msgstr ""
 "Hai impostato un DCP Interop con una frequenza fotogrammi ufficialmente non "
 "supportata . Si consiglia di modificare la frequenza fotogrammi del DCP o di "

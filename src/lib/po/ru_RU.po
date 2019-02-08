@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-07 23:07+0000\n"
+"POT-Creation-Date: 2019-02-08 16:16+0000\n"
 "PO-Revision-Date: 2018-08-20 18:46+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -1427,22 +1427,22 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Очередной фильтр деинтерлейсинга"
 
 #: src/lib/hints.cc:181
-#, fuzzy, c-format
+#, fuzzy
 msgid ""
-"You are set up for a DCP at a frame rate of %1fps.  This frame rate is not "
+"You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You are advised to change the DCP frame rate "
-"to %2fps."
+"to %2 fps."
 msgstr ""
 "Вы выбрали для Interop DCP частоту кадров, которая официально не "
 "поддерживается. Советуем изменить частоту кадров ващего DCP или вместо этого "
 "сделать SMPTE DCP."
 
 #: src/lib/hints.cc:165
-#, fuzzy, c-format
+#, fuzzy
 msgid ""
-"You are set up for a DCP at a frame rate of %1fps.  This frame rate is not "
+"You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You may want to consider changing your frame "
-"rate to %2fps."
+"rate to %2 fps."
 msgstr ""
 "Вы выбрали для Interop DCP частоту кадров, которая официально не "
 "поддерживается. Советуем изменить частоту кадров ващего DCP или вместо этого "

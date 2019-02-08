@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-07 23:07+0000\n"
+"POT-Creation-Date: 2019-02-08 16:16+0000\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -1423,19 +1423,17 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Len ďalší deinterlacing filter"
 
 #: src/lib/hints.cc:181
-#, c-format
 msgid ""
-"You are set up for a DCP at a frame rate of %1fps.  This frame rate is not "
+"You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You are advised to change the DCP frame rate "
-"to %2fps."
+"to %2 fps."
 msgstr ""
 
 #: src/lib/hints.cc:165
-#, c-format
 msgid ""
-"You are set up for a DCP at a frame rate of %1fps.  This frame rate is not "
+"You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You may want to consider changing your frame "
-"rate to %2fps."
+"rate to %2 fps."
 msgstr ""
 
 #: src/lib/hints.cc:175

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-07 23:07+0000\n"
+"POT-Creation-Date: 2019-02-08 16:16+0000\n"
 "PO-Revision-Date: 2018-12-07 00:06+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -1450,11 +1450,11 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Und ein weiterer De-Interlacer ('YADIF')"
 
 #: src/lib/hints.cc:181
-#, fuzzy, c-format
+#, fuzzy
 msgid ""
-"You are set up for a DCP at a frame rate of %1fps.  This frame rate is not "
+"You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You are advised to change the DCP frame rate "
-"to %2fps."
+"to %2 fps."
 msgstr ""
 "Sie haben als DCP/Wrapping Typ 'Interop' gewählt, jedoch eine Bildrate für "
 "das DCP eingestellt, die nicht offiziell in Interop-DCPs unterstützt wird. "
@@ -1465,11 +1465,11 @@ msgstr ""
 "Bildraten abweichend von 24fps oder 48fps(3D) nicht leichtfertig!"
 
 #: src/lib/hints.cc:165
-#, fuzzy, c-format
+#, fuzzy
 msgid ""
-"You are set up for a DCP at a frame rate of %1fps.  This frame rate is not "
+"You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You may want to consider changing your frame "
-"rate to %2fps."
+"rate to %2 fps."
 msgstr ""
 "Sie haben als DCP/Wrapping Typ 'Interop' gewählt, jedoch eine Bildrate für "
 "das DCP eingestellt, die nicht offiziell in Interop-DCPs unterstützt wird. "

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-07 23:07+0000\n"
+"POT-Creation-Date: 2019-02-08 16:16+0000\n"
 "PO-Revision-Date: 2018-02-01 10:36+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -1434,22 +1434,22 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
 #: src/lib/hints.cc:181
-#, fuzzy, c-format
+#, fuzzy
 msgid ""
-"You are set up for a DCP at a frame rate of %1fps.  This frame rate is not "
+"You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You are advised to change the DCP frame rate "
-"to %2fps."
+"to %2 fps."
 msgstr ""
 "Du har valt Interop DCP med en bildhastighet som inte har officiellt stöd. "
 "Du uppmanas att antingen ändra bildhastigheten eller skapa en SMPTE DCP "
 "istället."
 
 #: src/lib/hints.cc:165
-#, fuzzy, c-format
+#, fuzzy
 msgid ""
-"You are set up for a DCP at a frame rate of %1fps.  This frame rate is not "
+"You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You may want to consider changing your frame "
-"rate to %2fps."
+"rate to %2 fps."
 msgstr ""
 "Du har valt Interop DCP med en bildhastighet som inte har officiellt stöd. "
 "Du uppmanas att antingen ändra bildhastigheten eller skapa en SMPTE DCP "
