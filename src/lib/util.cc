@@ -366,6 +366,11 @@ dcpomatic_setup ()
 	putenv (String::compose("FONTCONFIG_PATH=%1", shared_path().string()).c_str());
 #endif
 
+#ifdef DCPOMATIC_OSX
+	setenv ("PANGOCAIRO_BACKEND", "fontconfig", 1);
+	setenv ("FONTCONFIG_PATH", shared_path().string().c_str(), 1);
+#endif
+
 	Pango::init ();
 	dcp::init ();
 
