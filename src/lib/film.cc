@@ -454,6 +454,16 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	_state_version = f.number_child<int> ("Version");
 	if (_state_version > current_state_version) {
 		throw runtime_error (_("This film was created with a newer version of DCP-o-matic, and it cannot be loaded into this version.  Sorry!"));
+	} else if (_state_version < current_state_version) {
+		/* This is an older version; save a copy (if we haven't already) */
+		boost::filesystem::path const older = path->parent_path() / String::compose("metadata.%1.xml", _state_version);
+		if (!boost::filesystem::is_regular_file(older)) {
+			try {
+				boost::filesystem::copy_file(*path, older);
+			} catch (...) {
+				/* Never mind; at least we tried */
+			}
+		}
 	}
 
 	_name = f.string_child ("Name");
