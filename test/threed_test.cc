@@ -138,3 +138,23 @@ BOOST_AUTO_TEST_CASE (threed_test5)
 
 	BOOST_REQUIRE (!wait_for_jobs ());
 }
+
+BOOST_AUTO_TEST_CASE (threed_test6)
+{
+	shared_ptr<Film> film = new_test_film2 ("threed_test6");
+	shared_ptr<FFmpegContent> L (new FFmpegContent("test/data/3dL.mp4"));
+	film->examine_and_add_content (L);
+	shared_ptr<FFmpegContent> R (new FFmpegContent("test/data/3dR.mp4"));
+	film->examine_and_add_content (R);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	L->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT);
+	R->video->set_frame_type (VIDEO_FRAME_TYPE_3D_RIGHT);
+
+	film->set_three_d (true);
+	film->make_dcp ();
+	film->write_metadata ();
+
+	BOOST_REQUIRE (!wait_for_jobs());
+	check_dcp ("test/data/threed_test6", film->dir(film->dcp_name()));
+}
