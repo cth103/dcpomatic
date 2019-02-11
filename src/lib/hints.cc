@@ -124,7 +124,7 @@ Hints::thread ()
 		hint (_("You are using DCP-o-matic's stereo-to-5.1 upmixer.  This is experimental and may result in poor-quality audio.  If you continue, you should listen to the resulting DCP in a cinema to make sure that it sounds good."));
 	}
 
-	int flat_or_narrower = 0;
+	int narrower_than_scope = 0;
 	int scope = 0;
 	BOOST_FOREACH (shared_ptr<const Content> i, content) {
 		if (i->video) {
@@ -132,19 +132,19 @@ Hints::thread ()
 			if (r && r->id() == "239") {
 				++scope;
 			} else if (r && r->id() != "239" && r->id() != "190") {
-				++flat_or_narrower;
+				++narrower_than_scope;
 			}
 		}
 	}
 
 	string const film_container = film->container()->id();
 
-	if (scope && !flat_or_narrower && film_container == "185") {
+	if (scope && !narrower_than_scope && film_container == "185") {
 		hint (_("All of your content is in Scope (2.39:1) but your DCP's container is Flat (1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  You may prefer to set your DCP's container to Scope (2.39:1) in the \"DCP\" tab."));
 	}
 
-	if (!scope && flat_or_narrower && film_container == "239") {
-		hint (_("All of your content is at 1.85:1 or narrower but your DCP's container is Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) frame.  You may prefer to set your DCP's container to Flat (1.85:1) in the \"DCP\" tab."));
+	if (!scope && narrower_than_scope && film_container == "239") {
+		hint (_("All of your content is 2.35:1 or narrower but your DCP's container is Scope (2.39:1).  This will pillar-box your content.  You may prefer to set your DCP's container to have the same ratio as your content."));
 	}
 
 	if (film_container != "185" && film_container != "239" && film_container != "190") {
