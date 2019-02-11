@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-08 16:16+0000\n"
+"POT-Creation-Date: 2019-02-11 00:29+0000\n"
 "PO-Revision-Date: 2016-03-19 13:56+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -2814,7 +2814,7 @@ msgstr ""
 msgid "certificates.christiedigital.com user name"
 msgstr ""
 
-#: src/wx/text_panel.cc:75
+#: src/wx/text_panel.cc:75 src/wx/text_panel.cc:475
 msgid "closed captions"
 msgstr ""
 
@@ -2873,7 +2873,7 @@ msgstr ""
 msgid "ms"
 msgstr "ms"
 
-#: src/wx/text_panel.cc:74
+#: src/wx/text_panel.cc:74 src/wx/text_panel.cc:473
 #, fuzzy
 msgid "open subtitles"
 msgstr "Usar legendas"

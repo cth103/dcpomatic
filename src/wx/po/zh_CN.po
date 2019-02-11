@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-08 16:16+0000\n"
+"POT-Creation-Date: 2019-02-11 00:29+0000\n"
 "PO-Revision-Date: 2018-04-05 20:48+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -2763,7 +2763,7 @@ msgstr ""
 msgid "certificates.christiedigital.com user name"
 msgstr ""
 
-#: src/wx/text_panel.cc:75
+#: src/wx/text_panel.cc:75 src/wx/text_panel.cc:475
 msgid "closed captions"
 msgstr ""
 
@@ -2821,7 +2821,7 @@ msgstr ""
 msgid "ms"
 msgstr "毫秒"
 
-#: src/wx/text_panel.cc:74
+#: src/wx/text_panel.cc:74 src/wx/text_panel.cc:473
 #, fuzzy
 msgid "open subtitles"
 msgstr "使用字幕"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-08 16:16+0000\n"
+"POT-Creation-Date: 2019-02-11 00:29+0000\n"
 "PO-Revision-Date: 2019-02-08 12:01+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -196,11 +196,11 @@ msgid "Advertisement"
 msgstr "Advertisement"
 
 #: src/lib/hints.cc:147
+#, fuzzy
 msgid ""
-"All of your content is at 1.85:1 or narrower but your DCP's container is "
-"Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) "
-"frame.  You may prefer to set your DCP's container to Flat (1.85:1) in the "
-"\"DCP\" tab."
+"All of your content is 2.35:1 or narrower but your DCP's container is Scope "
+"(2.39:1).  This will pillar-box your content.  You may prefer to set your "
+"DCP's container to have the same ratio as your content."
 msgstr ""
 "Al uw content is in 1,85:1 of smaller, maar uw DCP-container is Scope "
 "(2,39:1).  Dit heeft tot gevolg dat er links en rechts van het beeld zwarte "
@@ -288,15 +288,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bits per pixel"
 
-#: src/lib/util.cc:570
+#: src/lib/util.cc:575
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:571
+#: src/lib/util.cc:576
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:562
+#: src/lib/util.cc:567
 msgid "C"
 msgstr "C"
 
@@ -312,11 +312,11 @@ msgstr "Mag geen slash bevatten"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kan pixelformaat %1 niet verwerken tijdens %2"
 
-#: src/lib/film.cc:1323
+#: src/lib/film.cc:1333
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Kan geen KDM maken omdat dit project niet is versleuteld."
 
-#: src/lib/util.cc:531
+#: src/lib/util.cc:536
 msgid "Centre"
 msgstr "Midden (C)"
 
@@ -567,19 +567,19 @@ msgstr "Kan overdracht niet starten"
 msgid "Could not write to remote file (%1)"
 msgstr "Kan extern bestand niet schrijven (%1)"
 
-#: src/lib/util.cc:541
+#: src/lib/util.cc:546
 msgid "D-BOX primary"
 msgstr "D-BOX primair (DBP)"
 
-#: src/lib/util.cc:542
+#: src/lib/util.cc:547
 msgid "D-BOX secondary"
 msgstr "D-BOX secundair (DBS)"
 
-#: src/lib/util.cc:572
+#: src/lib/util.cc:577
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:573
+#: src/lib/util.cc:578
 msgid "DBS"
 msgstr "DBS"
 
@@ -616,7 +616,7 @@ msgstr ""
 "DCP-o-matic kan het bestand %1 (%2) niet openen.  Misschien bestaat het niet "
 "of wordt het formaat niet ondersteund."
 
-#: src/lib/film.cc:1245
+#: src/lib/film.cc:1255
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -759,7 +759,7 @@ msgstr "Bepalen lengte"
 msgid "Frame rate"
 msgstr "Frame rate"
 
-#: src/lib/util.cc:871
+#: src/lib/util.cc:876
 msgid "Friday"
 msgstr "Vrijdag"
 
@@ -803,11 +803,11 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Gradient debander"
 
-#: src/lib/util.cc:566
+#: src/lib/util.cc:571
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:535
+#: src/lib/util.cc:540
 msgid "Hearing impaired"
 msgstr "Slechthorenden (HI)"
 
@@ -862,27 +862,27 @@ msgstr ""
 msgid "Kernel deinterlacer"
 msgstr "Kernel deinterlacer"
 
-#: src/lib/ffmpeg_encoder.cc:203 src/lib/util.cc:560
+#: src/lib/ffmpeg_encoder.cc:203 src/lib/util.cc:565
 msgid "L"
 msgstr "L"
 
-#: src/lib/util.cc:568
+#: src/lib/util.cc:573
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:529
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:534
 msgid "Left"
 msgstr "Links (L)"
 
-#: src/lib/util.cc:537
+#: src/lib/util.cc:542
 msgid "Left centre"
 msgstr "Links midden (Lc)"
 
-#: src/lib/util.cc:539
+#: src/lib/util.cc:544
 msgid "Left rear surround"
 msgstr "Achter surround links (BsL)"
 
-#: src/lib/util.cc:533
+#: src/lib/util.cc:538
 msgid "Left surround"
 msgstr "Links surround (Ls)"
 
@@ -890,11 +890,11 @@ msgstr "Links surround (Ls)"
 msgid "Length"
 msgstr "Lengte"
 
-#: src/lib/util.cc:563
+#: src/lib/util.cc:568
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:532
+#: src/lib/util.cc:537
 msgid "Lfe (sub)"
 msgstr "Subwoofer (Lfe)"
 
@@ -918,7 +918,7 @@ msgstr "Logaritmisch (100: 1 bereik)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logaritmisch (316: 1 bereik)"
 
-#: src/lib/util.cc:564
+#: src/lib/util.cc:569
 msgid "Ls"
 msgstr "Ls"
 
@@ -950,7 +950,7 @@ msgstr "Ongelijke beeldgroottes in DCP"
 msgid "Missing required setting %1"
 msgstr "Ontbrekende verplichte instelling %1"
 
-#: src/lib/util.cc:863
+#: src/lib/util.cc:868
 msgid "Monday"
 msgstr "Maandag"
 
@@ -1051,7 +1051,7 @@ msgstr "Programmeerfout op %1:%2 %3"
 msgid "Public Service Announcement"
 msgstr "Public Service Announcement"
 
-#: src/lib/ffmpeg_encoder.cc:207 src/lib/util.cc:561
+#: src/lib/ffmpeg_encoder.cc:207 src/lib/util.cc:566
 msgid "R"
 msgstr "R"
 
@@ -1063,7 +1063,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Rating"
 
-#: src/lib/util.cc:569
+#: src/lib/util.cc:574
 msgid "Rc"
 msgstr "Rc"
 
@@ -1083,19 +1083,19 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:530
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:535
 msgid "Right"
 msgstr "Rechts (R)"
 
-#: src/lib/util.cc:538
+#: src/lib/util.cc:543
 msgid "Right centre"
 msgstr "Rechts midden (Rc)"
 
-#: src/lib/util.cc:540
+#: src/lib/util.cc:545
 msgid "Right rear surround"
 msgstr "Achter surround rechts (Bsr)"
 
-#: src/lib/util.cc:534
+#: src/lib/util.cc:539
 msgid "Right surround"
 msgstr "Rechts surround (Rs)"
 
@@ -1107,7 +1107,7 @@ msgstr "Roteer 90 graden tegen de klok in"
 msgid "Rotate 90 degrees clockwise"
 msgstr "Roteer 90 graden met de klok mee"
 
-#: src/lib/util.cc:565
+#: src/lib/util.cc:570
 msgid "Rs"
 msgstr "Rs"
 
@@ -1156,7 +1156,7 @@ msgstr "SMPTE ST 432-1 D65 (2010)"
 msgid "SSH error (%1)"
 msgstr "SSH-fout (%1)"
 
-#: src/lib/util.cc:873
+#: src/lib/util.cc:878
 msgid "Saturday"
 msgstr "Zaterdag"
 
@@ -1227,7 +1227,7 @@ msgstr "Stereo naar 5.1 up-mixer A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Stereo naar 5.1 up-mixer B"
 
-#: src/lib/util.cc:861
+#: src/lib/util.cc:866
 msgid "Sunday"
 msgstr "Zondag"
 
@@ -1335,7 +1335,7 @@ msgstr ""
 "met deze versie geladen worden.  U moet een nieuwe film aanmaken en de "
 "content opnieuw toevoegen en configureren. Sorry!"
 
-#: src/lib/util.cc:869
+#: src/lib/util.cc:874
 msgid "Thursday"
 msgstr "Donderdag"
 
@@ -1355,7 +1355,7 @@ msgstr "Transcoderen %1"
 msgid "Transitional"
 msgstr "Transitional"
 
-#: src/lib/util.cc:865
+#: src/lib/util.cc:870
 msgid "Tuesday"
 msgstr "Dinsdag"
 
@@ -1391,7 +1391,7 @@ msgstr "Niet gespecificeerd"
 msgid "Untitled"
 msgstr "Zonder titel"
 
-#: src/lib/util.cc:543 src/lib/util.cc:544
+#: src/lib/util.cc:548 src/lib/util.cc:549
 msgid "Unused"
 msgstr "Ongebruikt"
 
@@ -1403,7 +1403,7 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/util.cc:567
+#: src/lib/util.cc:572
 msgid "VI"
 msgstr "VI"
 
@@ -1415,7 +1415,7 @@ msgstr "Controleer DCP"
 msgid "Vertical flip"
 msgstr "Spiegel verticaal"
 
-#: src/lib/util.cc:536
+#: src/lib/util.cc:541
 msgid "Visually impaired"
 msgstr "Slechtzienden (VI)"
 
@@ -1427,7 +1427,7 @@ msgstr "Wachten"
 msgid "Weave filter"
 msgstr "Weave-filter"
 
-#: src/lib/util.cc:867
+#: src/lib/util.cc:872
 msgid "Wednesday"
 msgstr "Woensdag"
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-08 16:16+0000\n"
+"POT-Creation-Date: 2019-02-11 00:29+0000\n"
 "PO-Revision-Date: 2017-10-04 22:06+0200\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -2777,7 +2777,7 @@ msgstr ""
 msgid "certificates.christiedigital.com user name"
 msgstr ""
 
-#: src/wx/text_panel.cc:75
+#: src/wx/text_panel.cc:75 src/wx/text_panel.cc:475
 msgid "closed captions"
 msgstr ""
 
@@ -2835,7 +2835,7 @@ msgstr ""
 msgid "ms"
 msgstr "ms"
 
-#: src/wx/text_panel.cc:74
+#: src/wx/text_panel.cc:74 src/wx/text_panel.cc:473
 #, fuzzy
 msgid "open subtitles"
 msgstr "Brug undertekster"

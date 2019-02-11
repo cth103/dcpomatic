@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-08 16:16+0000\n"
+"POT-Creation-Date: 2019-02-11 00:29+0000\n"
 "PO-Revision-Date: 2019-02-04 11:44+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -2772,7 +2772,7 @@ msgstr "Mot de passe certificates.christiedigital.com"
 msgid "certificates.christiedigital.com user name"
 msgstr "Identifiant utilisateur de certificates.christiedigital.com"
 
-#: src/wx/text_panel.cc:75
+#: src/wx/text_panel.cc:75 src/wx/text_panel.cc:475
 msgid "closed captions"
 msgstr "Sous-titres codés"
 
@@ -2829,7 +2829,7 @@ msgstr "minutes"
 msgid "ms"
 msgstr "ms"
 
-#: src/wx/text_panel.cc:74
+#: src/wx/text_panel.cc:74 src/wx/text_panel.cc:473
 msgid "open subtitles"
 msgstr "Ouvrir les sous-titres"
 
