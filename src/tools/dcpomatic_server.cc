@@ -210,7 +210,6 @@ public:
 #ifdef DCPOMATIC_WINDOWS
 		wxIcon icon (std_to_wx ("id"));
 #else
-		wxInitAllImageHandlers();
 #ifdef DCPOMATIC_LINUX
 		wxBitmap bitmap (wxString::Format (wxT ("%s/dcpomatic2_server_small.png"), std_to_wx (shared_path().string())), wxBITMAP_TYPE_PNG);
 #endif
