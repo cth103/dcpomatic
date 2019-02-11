@@ -269,6 +269,8 @@ private:
 			return false;
 		}
 
+		wxInitAllImageHandlers ();
+
 		server_log.reset (new ServerLog);
 		dcpomatic_log = server_log;
 
