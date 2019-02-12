@@ -210,12 +210,7 @@ public:
 #ifdef DCPOMATIC_WINDOWS
 		wxIcon icon (std_to_wx ("id"));
 #else
-#ifdef DCPOMATIC_LINUX
-		wxBitmap bitmap (wxString::Format (wxT ("%s/dcpomatic2_server_small.png"), std_to_wx (shared_path().string())), wxBITMAP_TYPE_PNG);
-#endif
-#ifdef DCPOMATIC_OSX
 		wxBitmap bitmap (wxString::Format (wxT ("%s/dcpomatic_small.png"), std_to_wx (shared_path().string())), wxBITMAP_TYPE_PNG);
-#endif
 		wxIcon icon;
 		icon.CopyFromBitmap (bitmap);
 #endif
@@ -293,7 +288,12 @@ private:
 		*/
 		Config::instance();
 
+#ifdef DCPOMATIC_LINUX
+		StatusDialog* d = new StatusDialog ();
+		d->Show ();
+#else
 		_icon = new TaskBarIcon;
+#endif
 		_thread = new thread (bind (&App::main_thread, this));
 
 		Bind (wxEVT_TIMER, boost::bind (&App::check, this));
