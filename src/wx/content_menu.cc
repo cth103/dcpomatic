@@ -142,11 +142,11 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 						);
 					item->Check (dcp->cpl() && dcp->cpl() == i->id());
 				}
-			} catch (dcp::DCPReadError) {
+			} catch (dcp::DCPReadError &) {
 				/* The DCP is probably missing */
-			} catch (dcp::KDMDecryptionError) {
+			} catch (dcp::KDMDecryptionError &) {
 				/* We have an incorrect KDM */
-			} catch (KDMError) {
+			} catch (KDMError &) {
 				/* We have an incorrect KDM */
 			}
 		} else {
