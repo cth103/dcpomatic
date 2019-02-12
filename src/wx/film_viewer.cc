@@ -229,7 +229,8 @@ FilmViewer::get ()
 	} while (
 		_player_video.first &&
 		_film->three_d() &&
-		(_eyes != _player_video.first->eyes())
+		_eyes != _player_video.first->eyes() &&
+		_player_video.first->eyes() != EYES_BOTH
 		);
 
 	_butler->rethrow ();
