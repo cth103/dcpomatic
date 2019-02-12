@@ -149,10 +149,10 @@ try
 		}
 
 		/* Discard servers that we haven't seen for a while */
+		bool removed = false;
 		{
 			boost::mutex::scoped_lock lm (_servers_mutex);
 
-			bool removed = false;
 			list<EncodeServerDescription>::iterator i = _servers.begin();
 			while (i != _servers.end()) {
 				if (i->last_seen_seconds() > 2 * interval) {
@@ -165,10 +165,10 @@ try
 					++i;
 				}
 			}
+		}
 
-			if (removed) {
-				emit (boost::bind (boost::ref (ServersListChanged)));
-			}
+		if (removed) {
+			emit (boost::bind (boost::ref (ServersListChanged)));
 		}
 
 		boost::mutex::scoped_lock lm (_search_condition_mutex);
@@ -236,8 +236,10 @@ EncodeServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Sock
 		(*found)->set_seen ();
 	} else {
 		EncodeServerDescription sd (ip, xml->number_child<int>("Threads"), xml->optional_number_child<int>("Version").get_value_or(0));
-		boost::mutex::scoped_lock lm (_servers_mutex);
-		_servers.push_back (sd);
+		{
+			boost::mutex::scoped_lock lm (_servers_mutex);
+			_servers.push_back (sd);
+		}
 		emit (boost::bind (boost::ref (ServersListChanged)));
 	}
 
