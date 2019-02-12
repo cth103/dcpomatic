@@ -726,7 +726,7 @@ relaxed_string_to_float (string s)
 	try {
 		boost::algorithm::replace_all (s, ",", ".");
 		return lexical_cast<float> (s);
-	} catch (bad_lexical_cast) {
+	} catch (bad_lexical_cast &) {
 		boost::algorithm::replace_all (s, ".", ",");
 		return lexical_cast<float> (s);
 	}

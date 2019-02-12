@@ -205,7 +205,7 @@ Content::signal_change (ChangeType c, int p)
 		} else {
 			emit (boost::bind (boost::ref(Change), c, shared_from_this(), p, _change_signals_frequent));
 		}
-	} catch (boost::bad_weak_ptr) {
+	} catch (boost::bad_weak_ptr &) {
 		/* This must be during construction; never mind */
 	}
 }

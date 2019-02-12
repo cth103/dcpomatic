@@ -547,10 +547,10 @@ DCPContent::can_reference (shared_ptr<const Film> film, function<bool (shared_pt
 	list<DCPTimePeriod> reel_list;
 	try {
 		reel_list = reels (film);
-	} catch (dcp::DCPReadError) {
+	} catch (dcp::DCPReadError &) {
 		/* We couldn't read the DCP; it's probably missing */
 		return false;
-	} catch (dcp::KDMDecryptionError) {
+	} catch (dcp::KDMDecryptionError &) {
 		/* We have an incorrect KDM */
 		return false;
 	}
@@ -625,13 +625,13 @@ DCPContent::can_reference_audio (shared_ptr<const Film> film, string& why_not) c
 	shared_ptr<DCPDecoder> decoder;
 	try {
 		decoder.reset (new DCPDecoder (film, shared_from_this(), false));
-	} catch (dcp::DCPReadError) {
+	} catch (dcp::DCPReadError &) {
 		/* We couldn't read the DCP, so it's probably missing */
 		return false;
-	} catch (DCPError) {
+	} catch (DCPError &) {
 		/* We couldn't read the DCP, so it's probably missing */
 		return false;
-	} catch (dcp::KDMDecryptionError) {
+	} catch (dcp::KDMDecryptionError &) {
 		/* We have an incorrect KDM */
 		return false;
 	}
@@ -660,11 +660,10 @@ DCPContent::can_reference_text (shared_ptr<const Film> film, TextType type, stri
 	shared_ptr<DCPDecoder> decoder;
 	try {
 		decoder.reset (new DCPDecoder (film, shared_from_this(), false));
-	} catch (dcp::DCPReadError) {
-
+	} catch (dcp::DCPReadError &) {
 		/* We couldn't read the DCP, so it's probably missing */
 		return false;
-	} catch (dcp::KDMDecryptionError) {
+	} catch (dcp::KDMDecryptionError &) {
 		/* We have an incorrect KDM */
 		return false;
 	}

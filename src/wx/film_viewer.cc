@@ -143,7 +143,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 		if (_dcp_decode_reduction) {
 			_player->set_dcp_decode_reduction (_dcp_decode_reduction);
 		}
-	} catch (bad_alloc) {
+	} catch (bad_alloc &) {
 		error_dialog (_panel, _("There is not enough free memory to do that."));
 		_film.reset ();
 		return;
@@ -311,9 +311,9 @@ FilmViewer::timer ()
 }
 
 bool
+#ifdef DCPOMATIC_VARIANT_SWAROOP
 FilmViewer::maybe_draw_background_image (wxPaintDC& dc)
 {
-#ifdef DCPOMATIC_VARIANT_SWAROOP
 	optional<boost::filesystem::path> bg = Config::instance()->player_background_image();
 	if (bg) {
 		wxImage image (std_to_wx(bg->string()));
@@ -321,10 +321,15 @@ FilmViewer::maybe_draw_background_image (wxPaintDC& dc)
 		dc.DrawBitmap (bitmap, max(0, (_panel_size.width - image.GetSize().GetWidth()) / 2), max(0, (_panel_size.height - image.GetSize().GetHeight()) / 2));
 		return true;
 	}
-#endif
 
 	return false;
 }
+#else
+FilmViewer::maybe_draw_background_image (wxPaintDC &)
+{
+	return false;
+}
+#endif
 
 void
 FilmViewer::paint_panel ()
