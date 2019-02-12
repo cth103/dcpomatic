@@ -256,7 +256,7 @@ Timeline::film_content_change (ChangeType type, int property, bool frequent)
 
 	ensure_ui_thread ();
 
-	if (property == AudioContentProperty::STREAMS) {
+	if (property == AudioContentProperty::STREAMS || property == VideoContentProperty::FRAME_TYPE) {
 		recreate_views ();
 	} else if (property == ContentProperty::POSITION || property == ContentProperty::LENGTH) {
 		_reels_view->force_redraw ();
