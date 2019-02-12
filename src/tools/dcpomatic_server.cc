@@ -60,6 +60,9 @@ static unsigned int const log_lines = 32;
 class ServerLog : public Log, public Signaller
 {
 public:
+	ServerLog ()
+		: _fps (0)
+	{}
 
 	string get () const {
 		string a;
@@ -266,6 +269,7 @@ private:
 		wxInitAllImageHandlers ();
 
 		server_log.reset (new ServerLog);
+		server_log->set_types (LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR);
 		dcpomatic_log = server_log;
 
 		Config::FailedToLoad.connect (boost::bind (&App::config_failed_to_load, this));
