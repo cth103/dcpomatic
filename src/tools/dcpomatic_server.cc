@@ -286,6 +286,13 @@ private:
 		signal_manager = new wxSignalManager (this);
 		Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
 
+		/* Bad things happen (on Linux at least) if the config is reloaded by main_thread;
+		   it seems like there's a race which results in the locked_sstream mutex being
+		   locked before it is initialised.  Calling Config::instance() here loads the config
+		   again in this thread, which seems to work around the problem.
+		*/
+		Config::instance();
+
 		_icon = new TaskBarIcon;
 		_thread = new thread (bind (&App::main_thread, this));
 
