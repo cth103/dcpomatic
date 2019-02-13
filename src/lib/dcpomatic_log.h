@@ -18,9 +18,9 @@
 
 */
 
+#include "log.h"
+#include "compose.hpp"
 #include <boost/shared_ptr.hpp>
-
-class Log;
 
 /** The current log; set up by the front-ends when they have a Film to log into */
 extern boost::shared_ptr<Log> dcpomatic_log;
