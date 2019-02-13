@@ -226,7 +226,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 		   (17.10 and 16.04 seem to anti-alias a little differently) but to reject gross errors e.g. missing fonts or missing
 		   text altogether.
 		*/
-		check_image(String::compose("test/data/player_seek_test_%1.png", i), String::compose("build/test/player_seek_test_%1.png", i), 0.011);
+		check_image(String::compose("test/data/player_seek_test_%1.png", i), String::compose("build/test/player_seek_test_%1.png", i), 0.055);
 	}
 }
 
