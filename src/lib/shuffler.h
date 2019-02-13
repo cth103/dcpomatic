@@ -22,6 +22,8 @@
 #include "content_video.h"
 #include <boost/signals2.hpp>
 
+struct shuffler_test5;
+
 class Piece;
 
 class Shuffler
@@ -36,6 +38,8 @@ public:
 	typedef std::pair<boost::weak_ptr<Piece>, ContentVideo> Store;
 
 private:
+	friend struct ::shuffler_test5;
+
 	std::list<Store> _store;
 	boost::optional<ContentVideo> _last;
 	static int const _max_size;
