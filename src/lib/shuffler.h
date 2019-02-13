@@ -38,4 +38,5 @@ public:
 private:
 	std::list<Store> _store;
 	boost::optional<ContentVideo> _last;
+	static int const _max_size;
 };

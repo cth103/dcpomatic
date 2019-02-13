@@ -143,3 +143,27 @@ BOOST_AUTO_TEST_CASE (shuffler_test5)
 	push (s, 9, EYES_LEFT);
 	check (1, EYES_LEFT, __LINE__);
 }
+
+/** One complete frame (L+R) missing.
+    Shuffler should carry on, skipping this frame, as the player will cope with it.
+*/
+BOOST_AUTO_TEST_CASE (shuffler_test6)
+{
+	Shuffler s;
+	s.Video.connect (boost::bind (&receive, _1, _2));
+
+	push (s, 0, EYES_LEFT);
+	check (0, EYES_LEFT, __LINE__);
+	push (s, 0, EYES_RIGHT);
+	check (0, EYES_RIGHT, __LINE__);
+
+	push (s, 2, EYES_LEFT);
+	push (s, 2, EYES_RIGHT);
+	check (2, EYES_LEFT, __LINE__);
+	check (2, EYES_RIGHT, __LINE__);
+
+	push (s, 3, EYES_LEFT);
+	check (3, EYES_LEFT, __LINE__);
+	push (s, 3, EYES_RIGHT);
+	check (3, EYES_RIGHT, __LINE__);
+}

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -21,6 +21,7 @@
 #include "shuffler.h"
 #include "content_video.h"
 #include "dcpomatic_assert.h"
+#include "dcpomatic_log.h"
 #include <boost/foreach.hpp>
 #include <iostream>
 
@@ -28,6 +29,8 @@ using std::make_pair;
 using boost::weak_ptr;
 using boost::shared_ptr;
 using boost::optional;
+
+int const Shuffler::_max_size = 64;
 
 struct Comparator
 {
@@ -68,15 +71,19 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 			_last &&
 			(
 				(_store.front().second.frame == _last->frame       && _store.front().second.eyes == EYES_RIGHT && _last->eyes == EYES_LEFT) ||
-				(_store.front().second.frame == (_last->frame + 1) && _store.front().second.eyes == EYES_LEFT  && _last->eyes == EYES_RIGHT)
+				(_store.front().second.frame >= (_last->frame + 1) && _store.front().second.eyes == EYES_LEFT  && _last->eyes == EYES_RIGHT)
 				);
 
-		if (!store_front_in_sequence && _store.size() <= 8) {
+		if (!store_front_in_sequence && _store.size() <= _max_size) {
 			/* store_front_in_sequence means everything is ok; otherwise if the store is getting too big just
 			   start emitting things as best we can.  This can easily happen if, for example, there is only content
 			   for one eye in some part of the timeline.
 			*/
 			break;
+		}
+
+		if (_store.size() > _max_size) {
+			LOG_WARNING ("Shuffler is full after receiving frame %1; 3D sync may be incorrect.", video.frame);
 		}
 
 		Video (_store.front().first, _store.front().second);
