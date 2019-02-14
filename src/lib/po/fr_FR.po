@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-11 00:29+0000\n"
-"PO-Revision-Date: 2019-02-04 11:43+0100\n"
+"PO-Revision-Date: 2019-02-14 02:06+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -194,16 +194,14 @@ msgid "Advertisement"
 msgstr "Advertisement"
 
 #: src/lib/hints.cc:147
-#, fuzzy
 msgid ""
 "All of your content is 2.35:1 or narrower but your DCP's container is Scope "
 "(2.39:1).  This will pillar-box your content.  You may prefer to set your "
 "DCP's container to have the same ratio as your content."
 msgstr ""
-"Tous vos contenus sont au format 1.85:1 ou plus étroits mais votre DCP est "
-"au format Scope (2.39:1). Cela encastrera vos images dans une boite 1.85:1 "
-"avec bordures noires à droite et gauche. Vous pourriez préférer choisir le "
-"format 1.85:1 dans l'onglet \"DCP\"."
+"Tous vos contenus sont au format 2.35:1 ou plus étroits mais votre DCP est "
+"au format Scope (2.39:1). Cela va anamorphoser vos images. Vous pourriez "
+"préférer choisir un container de même ratio que le contenu pour votre DCP."
 
 #: src/lib/hints.cc:143
 msgid ""
@@ -829,6 +827,8 @@ msgstr "IEC61966-2-4"
 #: src/lib/hints.cc:168
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr ""
+"Si vous utilisez une cadence de 25 ips, vous devriez choisir la norme SMPTE "
+"pour votre DCP "
 
 #: src/lib/job.cc:147 src/lib/job.cc:197 src/lib/job.cc:207
 msgid "It is not known what caused this error."
@@ -1426,36 +1426,33 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Un autre filtre de désentrelacement"
 
 #: src/lib/hints.cc:181
-#, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You are advised to change the DCP frame rate "
 "to %2 fps."
 msgstr ""
-"Vous êtes sur le point de créer un DCP à la cadence image de %1. Cette "
+"Vous êtes sur le point de créer un DCP à une cadence image de %1 ips. Cette "
 "cadence n'est pas supportée par tous les projecteurs. Nous vous conseillons "
-"de modifier la cadence de votre DCP à %2."
+"de modifier la cadence de votre DCP à %2 ips."
 
 #: src/lib/hints.cc:165
-#, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You may want to consider changing your frame "
 "rate to %2 fps."
 msgstr ""
-"Vous êtes sur le point de créer un DCP à la cadence image de %1. Cette "
-"cadence n'est pas supportée par tous les projecteurs. Nous vous conseillons "
-"de modifier la cadence de votre DCP à %2."
+"Vous êtes sur le point de créer un DCP à la cadence image de %1 ips. Cette "
+"cadence n'est pas supportée par tous les projecteurs. Nous pourriez "
+"envisager de modifier la cadence de votre DCP à %2 ips."
 
 #: src/lib/hints.cc:175
-#, fuzzy
 msgid ""
 "You are set up for a DCP frame rate of 30fps, which is not supported by all "
 "projectors.  Be aware that you may have compatibility problems."
 msgstr ""
-"Vous êtes sur le point de créer un DCP à la cadence image de %1. Cette "
-"cadence n'est pas supportée par tous les projecteurs. Nous vous conseillons "
-"de modifier la cadence de votre DCP à %2."
+"Vous êtes sur le point de créer un DCP à une cadence image de 30 ips non "
+"supportée par tous les projecteurs. Attention à de probables problèmes de "
+"compatibilité."
 
 #: src/lib/hints.cc:228
 msgid ""

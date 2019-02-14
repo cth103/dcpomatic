@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-11 00:29+0000\n"
-"PO-Revision-Date: 2019-02-04 11:44+0100\n"
+"PO-Revision-Date: 2019-02-14 02:08+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -1094,14 +1094,12 @@ msgid "GDC"
 msgstr "GDC"
 
 #: src/wx/full_config_dialog.cc:988
-#, fuzzy
 msgid "GDC password"
-msgstr "Mot de passe Mail"
+msgstr "Mot de passe GDC"
 
 #: src/wx/full_config_dialog.cc:984
-#, fuzzy
 msgid "GDC user name"
-msgstr "Nom Utilisateur Mail"
+msgstr "Nom Utilisateur GDC"
 
 #: src/wx/audio_panel.cc:65
 msgid "Gain"
