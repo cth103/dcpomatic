@@ -144,9 +144,6 @@ SwaroopControls::check_restart ()
 		}
 	}
 
-#ifdef DCPOMATIC_LINUX
-	fsync (fileno(f));
-#endif
 	fclose (f);
 }
 
@@ -164,6 +161,9 @@ SwaroopControls::viewer_position_changed ()
 			+ " " + dcp::raw_convert<string>(_viewer->position().get());
 
 		checked_fwrite (p.c_str(), p.length(), f, Config::path("position"));
+#ifdef DCPOMATIC_LINUX
+		fsync (fileno(f));
+#endif
 		fclose (f);
 	}
 }
