@@ -125,8 +125,10 @@ SwaroopControls::SwaroopControls (wxWindow* parent, shared_ptr<FilmViewer> viewe
 void
 SwaroopControls::check_restart ()
 {
+	cout << "check_restart called\n";
 	FILE* f = fopen_boost (Config::path("position"), "r");
 	if (!f) {
+		cout << "could not open position file (" << errno << ")\n";
 		return;
 	}
 
@@ -135,8 +137,11 @@ SwaroopControls::check_restart ()
 	int64_t time;
 	fscanf (f, "%63s %d %ld", id, &index, &time);
 
+	cout << "Looking for playlist " << id << " to restart.\n";
+
 	for (size_t i = 0; i < _playlists.size(); ++i) {
 		if (_playlists[i].id() == id) {
+			cout << "Found playlist " << id << "\n";
 			select_playlist (i, index);
 			update_current_content ();
 			_viewer->seek (DCPTime(time), false);
