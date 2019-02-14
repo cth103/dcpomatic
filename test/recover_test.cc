@@ -117,7 +117,7 @@ BOOST_AUTO_TEST_CASE (recover_test_3d, * boost::unit_test::depends_on("recover_t
 }
 
 
-BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted, * boost::unit_test::depends_on("recover_test_3d")))
+BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted, * boost::unit_test::depends_on("recover_test_3d"))
 {
 	shared_ptr<Film> film = new_test_film ("recover_test_2d_encrypted");
 	film->set_interop (false);
