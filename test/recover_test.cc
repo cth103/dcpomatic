@@ -80,7 +80,7 @@ BOOST_AUTO_TEST_CASE (recover_test_2d)
 	BOOST_CHECK (A->equals (B, eq, boost::bind (&note, _1, _2)));
 }
 
-BOOST_AUTO_TEST_CASE (recover_test_3d)
+BOOST_AUTO_TEST_CASE (recover_test_3d, * boost::unit_test::depends_on("recover_test_2d"))
 {
 	shared_ptr<Film> film = new_test_film ("recover_test_3d");
 	film->set_interop (false);
@@ -117,7 +117,7 @@ BOOST_AUTO_TEST_CASE (recover_test_3d)
 }
 
 
-BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted)
+BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted, * boost::unit_test::depends_on("recover_test_3d")))
 {
 	shared_ptr<Film> film = new_test_film ("recover_test_2d_encrypted");
 	film->set_interop (false);
