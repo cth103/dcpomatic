@@ -97,7 +97,7 @@ BOOST_AUTO_TEST_CASE (recover_test_3d, * boost::unit_test::depends_on("recover_t
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	boost::filesystem::path const video = "build/test/recover_test_3d/video/185_2K_961f053444e90c5ddbf978eb0ebfa772_24_100000000_P_S_3D_0_96000.mxf";
+	boost::filesystem::path const video = "build/test/recover_test_3d/video/185_2K_3c5ecc5e62c481206d978eddb620fd32_24_100000000_P_S_3D_0_96000.mxf";
 
 	boost::filesystem::copy_file (
 		video,
