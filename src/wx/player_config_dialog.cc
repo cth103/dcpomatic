@@ -106,9 +106,9 @@ private:
 		table->Add (_respect_kdm, wxGBPosition(r, 0), wxGBSpan(1, 2));
 		++r;
 
-		add_label_to_sizer (table, _panel, _("Log file"), true, wxGBPosition (r, 0));
-		_log_file = new FilePickerCtrl (_panel, _("Select log file"), "*", true);
-		table->Add (_log_file, wxGBPosition (r, 1));
+		add_label_to_sizer (table, _panel, _("Activity log file"), true, wxGBPosition (r, 0));
+		_activity_log_file = new FilePickerCtrl (_panel, _("Select activity log file"), "*", true);
+		table->Add (_activity_log_file, wxGBPosition(r, 1));
 		++r;
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
@@ -126,7 +126,7 @@ private:
 		_player_mode->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::player_mode_changed, this));
 		_image_display->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::image_display_changed, this));
 		_respect_kdm->Bind (wxEVT_CHECKBOX, bind(&PlayerGeneralPage::respect_kdm_changed, this));
-		_log_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::log_file_changed, this));
+		_activity_log_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::activity_log_file_changed, this));
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		_kdm_server_url->Bind (wxEVT_TEXT, bind(&PlayerGeneralPage::kdm_server_url_changed, this));
 		_lock_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::lock_file_changed, this));
@@ -153,8 +153,8 @@ private:
 
 		checked_set (_image_display, config->image_display());
 		checked_set (_respect_kdm, config->respect_kdm_validity_periods());
-		if (config->player_log_file()) {
-			checked_set (_log_file, *config->player_log_file());
+		if (config->player_activity_log_file()) {
+			checked_set (_activity_log_file, *config->player_activity_log_file());
 		}
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		checked_set (_kdm_server_url, config->kdm_server_url());
@@ -190,9 +190,9 @@ private:
 		Config::instance()->set_respect_kdm_validity_periods(_respect_kdm->GetValue());
 	}
 
-	void log_file_changed ()
+	void activity_log_file_changed ()
 	{
-		Config::instance()->set_player_log_file(wx_to_std(_log_file->GetPath()));
+		Config::instance()->set_player_activity_log_file(wx_to_std(_activity_log_file->GetPath()));
 	}
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
@@ -210,7 +210,7 @@ private:
 	wxChoice* _player_mode;
 	wxChoice* _image_display;
 	wxCheckBox* _respect_kdm;
-	FilePickerCtrl* _log_file;
+	FilePickerCtrl* _activity_log_file;
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	wxTextCtrl* _kdm_server_url;
 	FilePickerCtrl* _lock_file;

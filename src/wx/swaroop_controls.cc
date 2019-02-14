@@ -274,7 +274,7 @@ SwaroopControls::log (wxString s)
 	wxString ts = std_to_wx(string(buffer)) + N_(": ");
 	_log->SetValue(_log->GetValue() + ts + s + "\n");
 
-	optional<boost::filesystem::path> log = Config::instance()->player_log_file();
+	optional<boost::filesystem::path> log = Config::instance()->player_activity_log_file();
 	if (!log) {
 		return;
 	}

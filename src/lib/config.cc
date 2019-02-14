@@ -168,7 +168,7 @@ Config::set_defaults ()
 	_player_mode = PLAYER_MODE_WINDOW;
 	_image_display = 0;
 	_respect_kdm_validity_periods = true;
-	_player_log_file = boost::none;
+	_player_activity_log_file = boost::none;
 	_player_content_directory = boost::none;
 	_player_playlist_directory = boost::none;
 	_player_kdm_directory = boost::none;
@@ -550,7 +550,11 @@ try
 
 	_image_display = f.optional_number_child<int>("ImageDisplay").get_value_or(0);
 	_respect_kdm_validity_periods = f.optional_bool_child("RespectKDMValidityPeriods").get_value_or(true);
-	_player_log_file = f.optional_string_child("PlayerLogFile");
+	/* PlayerLogFile is old name */
+	_player_activity_log_file = f.optional_string_child("PlayerLogFile");
+	if (!_player_activity_log_file) {
+		_player_activity_log_file = f.optional_string_child("PlayerActivityLogFile");
+	}
 	_player_content_directory = f.optional_string_child("PlayerContentDirectory");
 	_player_playlist_directory = f.optional_string_child("PlayerPlaylistDirectory");
 	_player_kdm_directory = f.optional_string_child("PlayerKDMDirectory");
@@ -989,9 +993,9 @@ Config::write_config () const
 	root->add_child("ImageDisplay")->add_child_text(raw_convert<string>(_image_display));
 	/* [XML] RespectKDMValidityPeriods 1 to refuse to use KDMs that are out of date, 0 to ignore KDM dates. */
 	root->add_child("RespectKDMValidityPeriods")->add_child_text(_respect_kdm_validity_periods ? "1" : "0");
-	if (_player_log_file) {
-		/* [XML] PlayerLogFile Filename to use for player logs */
-		root->add_child("PlayerLogFile")->add_child_text(_player_log_file->string());
+	if (_player_activity_log_file) {
+		/* [XML] PlayerLogFile Filename to use for player activity logs (e.g starting, stopping, playlist loads) */
+		root->add_child("PlayerActivityLogFile")->add_child_text(_player_activity_log_file->string());
 	}
 	if (_player_content_directory) {
 		/* [XML] PlayerContentDirectory Filename to use for player content in the dual-screen mode. */

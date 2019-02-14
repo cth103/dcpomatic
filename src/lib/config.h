@@ -484,8 +484,8 @@ public:
 		return _respect_kdm_validity_periods;
 	}
 
-	boost::optional<boost::filesystem::path> player_log_file () const {
-		return _player_log_file;
+	boost::optional<boost::filesystem::path> player_activity_log_file () const {
+		return _player_activity_log_file;
 	}
 
 	boost::optional<boost::filesystem::path> player_content_directory () const {
@@ -940,15 +940,15 @@ public:
 		maybe_set (_respect_kdm_validity_periods, r);
 	}
 
-	void set_player_log_file (boost::filesystem::path p) {
-		maybe_set (_player_log_file, p);
+	void set_player_activity_log_file (boost::filesystem::path p) {
+		maybe_set (_player_activity_log_file, p);
 	}
 
-	void unset_player_log_file () {
-		if (!_player_log_file) {
+	void unset_player_activity_log_file () {
+		if (!_player_activity_log_file) {
 			return;
 		}
-		_player_log_file = boost::none;
+		_player_activity_log_file = boost::none;
 		changed ();
 	}
 
@@ -1227,7 +1227,10 @@ private:
 	PlayerMode _player_mode;
 	int _image_display;
 	bool _respect_kdm_validity_periods;
-	boost::optional<boost::filesystem::path> _player_log_file;
+	/** Log file containing things the player does (e.g. started, stopped, loaded
+	    playlist etc.)  Does not contain debugging information.
+	*/
+	boost::optional<boost::filesystem::path> _player_activity_log_file;
 	/** A directory containing DCPs whose contents are presented to the user
 	    in the dual-screen player mode.  DCPs on the list can be loaded
 	    for playback.
