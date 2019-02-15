@@ -339,8 +339,8 @@ def option_defaults():
 def configure_options(target, options):
     opt = ''
 
-    if not (target.platform == 'linux' and target.distro == 'ubuntu' and (target.version == '18.04' or target.version == '16.04')):
-        # Currently we only build tests on Ubuntu 1{6,8}.04
+    if not (target.platform == 'linux' and target.distro == 'ubuntu' and target.version == '18.04'):
+        # Currently we only build tests on Ubuntu 18.04
         opt += ' --disable-tests'
 
     if target.debug:
