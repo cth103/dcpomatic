@@ -169,6 +169,7 @@ Config::set_defaults ()
 	_image_display = 0;
 	_respect_kdm_validity_periods = true;
 	_player_activity_log_file = boost::none;
+	_player_debug_log_file = boost::none;
 	_player_content_directory = boost::none;
 	_player_playlist_directory = boost::none;
 	_player_kdm_directory = boost::none;
@@ -555,6 +556,7 @@ try
 	if (!_player_activity_log_file) {
 		_player_activity_log_file = f.optional_string_child("PlayerActivityLogFile");
 	}
+	_player_debug_log_file = f.optional_string_child("PlayerDebugLogFile");
 	_player_content_directory = f.optional_string_child("PlayerContentDirectory");
 	_player_playlist_directory = f.optional_string_child("PlayerPlaylistDirectory");
 	_player_kdm_directory = f.optional_string_child("PlayerKDMDirectory");
@@ -997,16 +999,20 @@ Config::write_config () const
 		/* [XML] PlayerLogFile Filename to use for player activity logs (e.g starting, stopping, playlist loads) */
 		root->add_child("PlayerActivityLogFile")->add_child_text(_player_activity_log_file->string());
 	}
+	if (_player_debug_log_file) {
+		/* [XML] PlayerLogFile Filename to use for player debug logs */
+		root->add_child("PlayerDebugLogFile")->add_child_text(_player_debug_log_file->string());
+	}
 	if (_player_content_directory) {
-		/* [XML] PlayerContentDirectory Filename to use for player content in the dual-screen mode. */
+		/* [XML] PlayerContentDirectory Directory to use for player content in the dual-screen mode. */
 		root->add_child("PlayerContentDirectory")->add_child_text(_player_content_directory->string());
 	}
 	if (_player_playlist_directory) {
-		/* [XML] PlayerPlaylistDirectory Filename to use for player playlists in the dual-screen mode. */
+		/* [XML] PlayerPlaylistDirectory Directory to use for player playlists in the dual-screen mode. */
 		root->add_child("PlayerPlaylistDirectory")->add_child_text(_player_playlist_directory->string());
 	}
 	if (_player_kdm_directory) {
-		/* [XML] PlayerKDMDirectory Filename to use for player KDMs in the dual-screen mode. */
+		/* [XML] PlayerKDMDirectory Directory to use for player KDMs in the dual-screen mode. */
 		root->add_child("PlayerKDMDirectory")->add_child_text(_player_kdm_directory->string());
 	}
 #ifdef DCPOMATIC_VARIANT_SWAROOP

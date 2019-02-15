@@ -79,6 +79,7 @@ public:
 		INTERFACE_COMPLEXITY,
 		PLAYER_CONTENT_DIRECTORY,
 		PLAYER_PLAYLIST_DIRECTORY,
+		PLAYER_DEBUG_LOG,
 		HISTORY,
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		PLAYER_BACKGROUND_IMAGE,
@@ -486,6 +487,10 @@ public:
 
 	boost::optional<boost::filesystem::path> player_activity_log_file () const {
 		return _player_activity_log_file;
+	}
+
+	boost::optional<boost::filesystem::path> player_debug_log_file () const {
+		return _player_debug_log_file;
 	}
 
 	boost::optional<boost::filesystem::path> player_content_directory () const {
@@ -952,6 +957,18 @@ public:
 		changed ();
 	}
 
+	void set_player_debug_log_file (boost::filesystem::path p) {
+		maybe_set (_player_debug_log_file, p, PLAYER_DEBUG_LOG);
+	}
+
+	void unset_player_debug_log_file () {
+		if (!_player_debug_log_file) {
+			return;
+		}
+		_player_debug_log_file = boost::none;
+		changed (PLAYER_DEBUG_LOG);
+	}
+
 	void set_player_content_directory (boost::filesystem::path p) {
 		maybe_set (_player_content_directory, p, PLAYER_CONTENT_DIRECTORY);
 	}
@@ -1231,6 +1248,8 @@ private:
 	    playlist etc.)  Does not contain debugging information.
 	*/
 	boost::optional<boost::filesystem::path> _player_activity_log_file;
+	/** Log file containing debug information for the player */
+	boost::optional<boost::filesystem::path> _player_debug_log_file;
 	/** A directory containing DCPs whose contents are presented to the user
 	    in the dual-screen player mode.  DCPs on the list can be loaded
 	    for playback.

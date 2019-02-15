@@ -111,6 +111,11 @@ private:
 		table->Add (_activity_log_file, wxGBPosition(r, 1));
 		++r;
 
+		add_label_to_sizer (table, _panel, _("Debug log file"), true, wxGBPosition (r, 0));
+		_debug_log_file = new FilePickerCtrl (_panel, _("Select debug log file"), "*", true);
+		table->Add (_debug_log_file, wxGBPosition(r, 1));
+		++r;
+
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		add_label_to_sizer (table, _panel, _("KDM server URL"), true, wxGBPosition(r, 0));
 		_kdm_server_url = new wxTextCtrl (_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(400, -1));
@@ -127,6 +132,7 @@ private:
 		_image_display->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::image_display_changed, this));
 		_respect_kdm->Bind (wxEVT_CHECKBOX, bind(&PlayerGeneralPage::respect_kdm_changed, this));
 		_activity_log_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::activity_log_file_changed, this));
+		_debug_log_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::debug_log_file_changed, this));
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		_kdm_server_url->Bind (wxEVT_TEXT, bind(&PlayerGeneralPage::kdm_server_url_changed, this));
 		_lock_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::lock_file_changed, this));
@@ -155,6 +161,9 @@ private:
 		checked_set (_respect_kdm, config->respect_kdm_validity_periods());
 		if (config->player_activity_log_file()) {
 			checked_set (_activity_log_file, *config->player_activity_log_file());
+		}
+		if (config->player_debug_log_file()) {
+			checked_set (_debug_log_file, *config->player_debug_log_file());
 		}
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		checked_set (_kdm_server_url, config->kdm_server_url());
@@ -195,6 +204,11 @@ private:
 		Config::instance()->set_player_activity_log_file(wx_to_std(_activity_log_file->GetPath()));
 	}
 
+	void debug_log_file_changed ()
+	{
+		Config::instance()->set_player_debug_log_file(wx_to_std(_debug_log_file->GetPath()));
+	}
+
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	void kdm_server_url_changed ()
 	{
@@ -211,6 +225,7 @@ private:
 	wxChoice* _image_display;
 	wxCheckBox* _respect_kdm;
 	FilePickerCtrl* _activity_log_file;
+	FilePickerCtrl* _debug_log_file;
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	wxTextCtrl* _kdm_server_url;
 	FilePickerCtrl* _lock_file;

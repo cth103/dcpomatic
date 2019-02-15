@@ -53,6 +53,7 @@
 #include "lib/lock_file_checker.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/dcpomatic_log.h"
+#include "lib/file_log.h"
 #include <dcp/dcp.h>
 #include <dcp/raw_convert.h>
 #include <dcp/exceptions.h>
@@ -147,7 +148,7 @@ public:
 #endif
 
 		_config_changed_connection = Config::instance()->Changed.connect (boost::bind (&DOMFrame::config_changed, this, _1));
-		update_from_config ();
+		update_from_config (Config::PLAYER_DEBUG_LOG);
 
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_open, this), ID_file_open);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_add_ov, this), ID_file_add_ov);
@@ -826,10 +827,10 @@ private:
 				);
 		}
 
-		update_from_config ();
+		update_from_config (prop);
 	}
 
-	void update_from_config ()
+	void update_from_config (Config::Property prop)
 	{
 		for (int i = 0; i < _history_items; ++i) {
 			delete _file_menu->Remove (ID_file_history + i);
@@ -860,6 +861,16 @@ private:
 		}
 
 		_history_items = history.size ();
+
+		if (prop == Config::PLAYER_DEBUG_LOG) {
+			optional<boost::filesystem::path> p = Config::instance()->player_debug_log_file();
+			if (p) {
+				dcpomatic_log.reset (new FileLog(*p));
+			} else {
+				dcpomatic_log.reset (new NullLog());
+			}
+			dcpomatic_log->set_types (LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR);
+		}
 	}
 
 	void set_menu_sensitivity ()
