@@ -29,9 +29,7 @@ public:
 
 private:
 	void do_log (boost::shared_ptr<const LogEntry> entry);
-	void config_changed ();
 
 	/** filename to write to */
 	boost::filesystem::path _file;
-	boost::signals2::scoped_connection _config_connection;
 };

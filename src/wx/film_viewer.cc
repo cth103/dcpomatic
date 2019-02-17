@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -44,6 +44,7 @@
 #include "lib/log.h"
 #include "lib/config.h"
 #include "lib/compose.hpp"
+#include "lib/dcpomatic_log.h"
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
@@ -304,6 +305,7 @@ FilmViewer::timer ()
 		return;
 	}
 
+	LOG_DEBUG_PLAYER("%1 -> %2; delay %3", next.seconds(), time().seconds(), max((next.seconds() - time().seconds()) * 1000, 1.0));
 	_timer.Start (max ((next.seconds() - time().seconds()) * 1000, 1.0), wxTIMER_ONE_SHOT);
 
 	if (_butler) {

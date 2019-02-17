@@ -1343,6 +1343,8 @@ private:
 		}
 
 		_history_items = history.size ();
+
+		dcpomatic_log->set_types (Config::instance()->log_types());
 	}
 
 	void update_checker_state_changed ()

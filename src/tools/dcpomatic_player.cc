@@ -869,7 +869,7 @@ private:
 			} else {
 				dcpomatic_log.reset (new NullLog());
 			}
-			dcpomatic_log->set_types (LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR);
+			dcpomatic_log->set_types (LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR | LogEntry::TYPE_DEBUG_PLAYER);
 		}
 	}
 

@@ -33,14 +33,7 @@ using boost::shared_ptr;
 FileLog::FileLog (boost::filesystem::path file)
 	: _file (file)
 {
-	_config_connection = Config::instance()->Changed.connect (boost::bind (&FileLog::config_changed, this));
-	config_changed ();
-}
-
-void
-FileLog::config_changed ()
-{
-	set_types (Config::instance()->log_types ());
+	set_types (Config::instance()->log_types());
 }
 
 void
