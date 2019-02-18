@@ -210,13 +210,7 @@ public:
 	TaskBarIcon ()
 		: _status (0)
 	{
-#ifdef DCPOMATIC_WINDOWS
 		wxIcon icon (std_to_wx ("id"));
-#else
-		wxBitmap bitmap (wxString::Format (wxT ("%s/dcpomatic_small.png"), std_to_wx (shared_path().string())), wxBITMAP_TYPE_PNG);
-		wxIcon icon;
-		icon.CopyFromBitmap (bitmap);
-#endif
 
 		SetIcon (icon, std_to_wx ("DCP-o-matic Encode Server"));
 
@@ -292,7 +286,7 @@ private:
 		*/
 		Config::instance();
 
-#ifdef DCPOMATIC_LINUX
+#if defined(DCPOMATIC_LINUX) || defined(DCPOMATIC_OSX)
 		StatusDialog* d = new StatusDialog ();
 		d->Show ();
 #else
