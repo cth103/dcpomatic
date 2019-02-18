@@ -35,7 +35,7 @@ else
 	    convert src/dcpomatic.png -resize $rx$r osx/$p.iconset/icon_${r}x${r}.png
 	    convert src/dcpomatic.png -resize $rx$r osx/$p.iconset/icon_${r}x${r}@2x.png
 	done
-	for p in dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch dcpomatic2_player; do
+	for p in dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch dcpomatic2_player dcpomatic2_playlist; do
 	    mkdir -p osx/$p.iconset
 	    $INKSCAPE osx/$p.iconset/icon_${r}x${r}.png -w $r -h $r src/$p.svg
 	    $INKSCAPE osx/$p.iconset/icon_${r}x${r}@2x.png -w $r -h $r src/$p.svg
