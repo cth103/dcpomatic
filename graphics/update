@@ -21,7 +21,7 @@ done
 
 if [ `uname -s` == "Darwin" ]; then
     # Convert OS X icons using OS X-only iconutil
-    for p in dcpomatic2 dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch dcpomatic2_player; do
+    for p in dcpomatic2 dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch dcpomatic2_player dcpomatic2_playlist; do
 	iconutil --convert icns --output osx/$p.icns osx/$p.iconset
     done
 else
