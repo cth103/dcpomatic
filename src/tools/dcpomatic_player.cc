@@ -612,7 +612,11 @@ private:
 		vector<boost::filesystem::path> history = Config::instance()->player_history ();
 		int n = event.GetId() - ID_file_history;
 		if (n >= 0 && n < static_cast<int> (history.size ())) {
-			load_dcp (history[n]);
+			try {
+				load_dcp (history[n]);
+			} catch (exception& e) {
+				error_dialog (0, std_to_wx(String::compose(wx_to_std(_("Could not load DCP %1.")), history[n])), std_to_wx(e.what()));
+			}
 		}
 	}
 
