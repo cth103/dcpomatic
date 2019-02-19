@@ -256,6 +256,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('%{_bindir}/dcpomatic2_server_cli', file=f)
     print('%{_bindir}/dcpomatic2_kdm_cli', file=f)
     print('%{_bindir}/dcpomatic2_player', file=f)
+    print('%{_bindir}/dcpomatic2_playlist', file=f)
     print('%{_datadir}/applications/dcpomatic2.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_batch.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_server.desktop', file=f)
@@ -280,6 +281,7 @@ def make_spec(filename, version, target, options, requires=None):
         print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_kdm.png' % r, file=f)
         print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_server.png' % r, file=f)
         print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_player.png' % r, file=f)
+        print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_playlist.png' % r, file=f)
     for l in ['de_DE', 'es_ES', 'fr_FR', 'it_IT', 'sv_SE', 'nl_NL', 'ru_RU', 'pl_PL', 'da_DK',
               'pt_PT', 'pt_BR', 'sk_SK', 'cs_CZ', 'uk_UA', 'zh_CN', 'fi_FI']:
         print('%%{_datadir}/locale/%s/LC_MESSAGES/dcpomatic2.mo' % l, file=f)
@@ -608,6 +610,7 @@ def package(target, version, options):
             out = []
             out.append(make_appimage(target, 'DCP-o-matic', 'dcpomatic2', version))
             out.append(make_appimage(target, 'DCP-o-matic Player', 'dcpomatic2_player', version))
+            out.append(make_appimage(target, 'DCP-o-matic Playlist Editor', 'dcpomatic2_playlist', version))
             out.append(make_appimage(target, 'DCP-o-matic KDM Creator', 'dcpomatic2_kdm', version))
             out.append(make_appimage(target, 'DCP-o-matic Batch Converter', 'dcpomatic2_batch', version))
             return out
