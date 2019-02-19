@@ -12,19 +12,20 @@ if [ `basename $pwd` != "graphics" ]; then
     exit 1
 fi
 
-for c in icotool convert inkscape; do
-    if [ ! -x "$(command -v $c)" ]; then
-	echo "$c is required"
-	exit 1
-    fi
-done
-
 if [ `uname -s` == "Darwin" ]; then
     # Convert OS X icons using OS X-only iconutil
     for p in dcpomatic2 dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch dcpomatic2_player dcpomatic2_playlist; do
 	iconutil --convert icns --output osx/$p.icns osx/$p.iconset
     done
 else
+
+    for c in icotool convert inkscape; do
+        if [ ! -x "$(command -v $c)" ]; then
+            echo "$c is required"
+            exit 1
+        fi
+    done
+
     INKSCAPE="inkscape -z -C -e"
 
     # OS X application icons
