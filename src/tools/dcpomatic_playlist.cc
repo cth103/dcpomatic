@@ -32,6 +32,9 @@
 #include <wx/wx.h>
 #include <wx/listctrl.h>
 #include <wx/imaglist.h>
+#ifdef __WXOSX__
+#include <ApplicationServices/ApplicationServices.h>
+#endif
 
 using std::exception;
 using std::cout;
@@ -351,7 +354,7 @@ private:
 		unsetenv ("UBUNTU_MENUPROXY");
 #endif
 
-		#ifdef __WXOSX__
+#ifdef __WXOSX__
 		ProcessSerialNumber serial;
 		GetCurrentProcess (&serial);
 		TransformProcessType (&serial, kProcessTransformToForegroundApplication);
