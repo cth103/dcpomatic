@@ -861,7 +861,9 @@ public:
 	}
 
 	void add_to_history (boost::filesystem::path p);
+	void clean_history ();
 	void add_to_player_history (boost::filesystem::path p);
+	void clean_player_history ();
 
 	void set_jump_to_selected (bool j) {
 		maybe_set (_jump_to_selected, j);
@@ -1099,6 +1101,7 @@ private:
 	boost::shared_ptr<dcp::CertificateChain> create_certificate_chain ();
 	boost::filesystem::path directory_or (boost::optional<boost::filesystem::path> dir, boost::filesystem::path a) const;
 	void add_to_history_internal (std::vector<boost::filesystem::path>& h, boost::filesystem::path p);
+	void clean_history_internal (std::vector<boost::filesystem::path>& h);
 	void backup ();
 
 	template <class T>

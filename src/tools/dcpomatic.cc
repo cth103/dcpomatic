@@ -1326,6 +1326,8 @@ private:
 
 		int pos = _history_position;
 
+		/* Clear out non-existant history items before we re-build the menu */
+		Config::instance()->clean_history ();
 		vector<boost::filesystem::path> history = Config::instance()->history ();
 
 		if (!history.empty ()) {

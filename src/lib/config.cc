@@ -1172,10 +1172,24 @@ Config::add_to_history (boost::filesystem::path p)
 	add_to_history_internal (_history, p);
 }
 
+/** Remove non-existant items from the history */
+void
+Config::clean_history ()
+{
+	clean_history_internal (_history);
+}
+
 void
 Config::add_to_player_history (boost::filesystem::path p)
 {
 	add_to_history_internal (_player_history, p);
+}
+
+/** Remove non-existant items from the player history */
+void
+Config::clean_player_history ()
+{
+	clean_history_internal (_player_history);
 }
 
 void
@@ -1190,6 +1204,18 @@ Config::add_to_history_internal (vector<boost::filesystem::path>& h, boost::file
 	}
 
 	changed (HISTORY);
+}
+
+void
+Config::clean_history_internal (vector<boost::filesystem::path>& h)
+{
+	vector<boost::filesystem::path> old = h;
+	h.clear ();
+	BOOST_FOREACH (boost::filesystem::path i, old) {
+		if (boost::filesystem::is_directory(i)) {
+			h.push_back (i);
+		}
+	}
 }
 
 bool
