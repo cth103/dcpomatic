@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -32,6 +32,7 @@
 #include "lib/transcode_job.h"
 #include "lib/analyse_audio_job.h"
 #include <wx/wx.h>
+#include <boost/algorithm/string.hpp>
 
 using std::string;
 using std::min;
@@ -109,7 +110,11 @@ JobView::progress ()
 	if (!_job->sub_name().empty ()) {
 		whole += _job->sub_name() + " ";
 	}
-	whole += _job->status ();
+	string s = _job->status ();
+	/* Watch out for < > in the error string */
+	boost::algorithm::replace_all (s, "<", "&lt;");
+	boost::algorithm::replace_all (s, ">", "&gt;");
+	whole += s;
 	if (whole != _last_message) {
 		_message->SetLabelMarkup (std_to_wx (whole));
 		/* This hack fixes the size of _message on OS X */
