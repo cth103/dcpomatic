@@ -208,6 +208,8 @@ FFmpeg::setup_decoders ()
 			   https://trac.ffmpeg.org/ticket/5681
 			*/
 			av_dict_set_int (&options, "strict", FF_COMPLIANCE_EXPERIMENTAL, 0);
+			/* Enable following of links in files */
+			av_dict_set_int (&options, "enable_drefs", 1, 0);
 
 			if (avcodec_open2 (context, codec, &options) < 0) {
 				throw DecodeError (N_("could not open decoder"));
