@@ -95,7 +95,8 @@ deb_depends['18.04'].extend(['libboost-filesystem1.65.1',
                              'libnettle6',
                              'libssh-4',
                              'libx264-152',
-                             'libcurl4'])
+                             'libcurl4',
+                             'libpulse0'])
 
 deb_depends['18.10'] = copy.deepcopy(deb_depends_base)
 deb_depends['18.10'].extend(['libboost-filesystem1.65.1',
@@ -111,7 +112,8 @@ deb_depends['18.10'].extend(['libboost-filesystem1.65.1',
                              'libnettle6',
                              'libssh-4',
                              'libx264-152',
-                             'libcurl4'])
+                             'libcurl4',
+                             'libpulse0'])
 
 deb_depends['7'] = copy.deepcopy(deb_depends_base)
 deb_depends['7'].extend(['libboost-filesystem1.49.0',
