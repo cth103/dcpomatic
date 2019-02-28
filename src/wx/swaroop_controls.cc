@@ -167,6 +167,7 @@ SwaroopControls::viewer_position_changed ()
 
 		checked_fwrite (p.c_str(), p.length(), f, Config::path("position"));
 #ifdef DCPOMATIC_LINUX
+		fflush (f);
 		fsync (fileno(f));
 #endif
 		fclose (f);
