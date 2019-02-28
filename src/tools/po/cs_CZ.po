@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-11 00:29+0000\n"
-"PO-Revision-Date: 2018-09-07 09:01+0200\n"
+"PO-Revision-Date: 2019-02-28 11:47+0100\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: \n"
 "Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1.1\n"
+"X-Generator: Poedit 2.2.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/tools/dcpomatic_kdm.cc:360
@@ -45,9 +45,8 @@ msgid "&Close"
 msgstr "&Zavřít"
 
 #: src/tools/dcpomatic.cc:1219
-#, fuzzy
 msgid "&Close\tCtrl-W"
-msgstr "&Uložit\tCtrl-S"
+msgstr "&Zavřít\tCtrl-W"
 
 #: src/tools/dcpomatic.cc:1281
 msgid "&Content"
@@ -204,9 +203,8 @@ msgid "Copy settings\tCtrl-C"
 msgstr "Kopírovat nastavení\tCtrl-C"
 
 #: src/tools/dcpomatic.cc:510 src/tools/dcpomatic.cc:517
-#, fuzzy
 msgid "Could not create folder to store film."
-msgstr "Nemohu vytvořit složku pro uložení filmu"
+msgstr "Nemohu vytvořit složku pro uložení filmu."
 
 #: src/tools/dcpomatic_kdm.cc:443
 msgid ""
@@ -233,7 +231,7 @@ msgstr "Nelze načíst KDM."
 #: src/tools/dcpomatic_player.cc:361
 #, c-format
 msgid "Could not load a DCP from %s"
-msgstr ""
+msgstr "Nelze načíst DCP z %s"
 
 #: src/tools/dcpomatic_batch.cc:445
 msgid "Could not load film %1"
@@ -291,10 +289,8 @@ msgstr ""
 "Nemohu zapsat do konfiguračního souboru %s. Vaše změny nebudou uloženy."
 
 #: src/tools/dcpomatic_player.cc:825
-#, fuzzy
 msgid "Could not write to config file.  Your changes have not been saved."
-msgstr ""
-"Nemohu zapsat do konfiguračního souboru %s. Vaše změny nebudou uloženy."
+msgstr "Nemohu zapsat do konfiguračního souboru. Vaše změny nebudou uloženy."
 
 #: src/tools/dcpomatic_kdm.cc:174
 msgid "Create KDMs"
@@ -362,7 +358,7 @@ msgstr "Neduplikujte"
 
 #: src/tools/dcpomatic_player.cc:482
 msgid "Dual screen\tShift+F11"
-msgstr ""
+msgstr "Dvojitá obrazovka\tShift+F11"
 
 #: src/tools/dcpomatic.cc:568 src/tools/dcpomatic.cc:583
 msgid "Duplicate Film"
@@ -405,7 +401,7 @@ msgstr "Snímků za sekundu"
 
 #: src/tools/dcpomatic_player.cc:481
 msgid "Full screen\tF11"
-msgstr ""
+msgstr "Na celou obrazovku\tF11"
 
 #: src/tools/dcpomatic.cc:1263
 msgid "Hints..."
@@ -417,9 +413,8 @@ msgid "KDM|Timing"
 msgstr "KDM|Timing"
 
 #: src/tools/dcpomatic_player.cc:353 src/tools/dcpomatic_player.cc:568
-#, fuzzy
 msgid "Loading content"
-msgstr "Nahrávám DCP"
+msgstr "Načítání obsahu"
 
 #: src/tools/dcpomatic.cc:1249
 msgid "Make &KDMs...\tCtrl-K"
@@ -541,53 +536,52 @@ msgid "Send KDM emails"
 msgstr "Poslat KDM emailem"
 
 #: src/tools/dcpomatic.cc:1267
-#, fuzzy
 msgid "Send translations..."
-msgstr "Skryté tytulky…"
+msgstr "Odeslat překlady…"
 
 #: src/tools/dcpomatic_player.cc:488
 msgid "Set decode resolution to match display"
 msgstr "Nastavit rozlišení dekódování tak, aby odpovídalo zobrazení"
 
 #: src/tools/dcpomatic.cc:710
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The DCP and intermediate files for this film will take up about %.1f GB, and "
 "the disk that you are using only has %.1f GB available.  You would need half "
 "as much space if the filesystem supported hard links, but it does not.  Do "
 "you want to continue anyway?"
 msgstr ""
-"DCP a soubory pro tento film budou zabírat asi %.1f Gb  a disk, který "
-"momentálně používáte má jen %.1f Gb dostupných. Budete potřebovat alespoň "
+"DCP a soubory pro tento film budou zabírat asi %.1f GB  a disk, který "
+"momentálně používáte má jen %.1f GB dostupných. Budete potřebovat alespoň "
 "polovinu místa, pokud souborový systém podporuje pevné odkazy, ale "
 "nepodporuje. Chcete pokračovat ?"
 
 #: src/tools/dcpomatic.cc:708
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The DCP for this film will take up about %.1f GB, and the disk that you are "
 "using only has %.1f GB available.  Do you want to continue anyway?"
 msgstr ""
-"DCP pro tento film bude zabírat alespoň %.1f Gb a disk, který momentálně "
-"používáte má jen %.1f Gb dostupných.  Chcete pokračovat?"
+"DCP pro tento film bude zabírat alespoň %.1f GB a disk, který momentálně "
+"používáte má jen %.1f GB dostupných.  Chcete pokračovat?"
 
 #: src/tools/dcpomatic.cc:1368 src/tools/dcpomatic_player.cc:799
 msgid "The DCP-o-matic download server could not be contacted."
 msgstr "DCP-o-matic download server je nedostupný."
 
 #: src/tools/dcpomatic_batch.cc:200
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The DCPs for this film and the films already in the queue will take up about "
 "%.1f GB.  The disks that you are using only have %.1f GB available.  Do you "
 "want to add this film to the queue anyway?"
 msgstr ""
-"DCP pro tento film bude zabírat alespoň %.1f Gb a disk, který momentálně "
-"používáte má jen %.1f Gb dostupných.  Chcete pokračovat?"
+"DCP pro tento film bude zabírat alespoň %.1f GB a disk, který momentálně "
+"používáte má jen %.1f GB dostupných.  Chcete tento film přidat do fronty?"
 
 #: src/tools/dcpomatic_player.cc:282
 msgid "The KDM does not allow playback of this content at this time."
-msgstr ""
+msgstr "KDM v tuto chvíli neumožňuje přehrávání tohoto obsahu."
 
 #: src/tools/dcpomatic.cc:1632 src/tools/dcpomatic_batch.cc:477
 #: src/tools/dcpomatic_kdm.cc:666 src/tools/dcpomatic_server.cc:336
@@ -601,11 +595,11 @@ msgstr ""
 
 #: src/tools/dcpomatic_player.cc:240 src/tools/dcpomatic_player.cc:265
 msgid "The lock file is not present."
-msgstr ""
+msgstr "Soubor zámku není k dispozici."
 
 #: src/tools/dcpomatic_player.cc:232 src/tools/dcpomatic_player.cc:261
 msgid "The required display devices are not connected correctly."
-msgstr ""
+msgstr "Požadovaná zobrazovací zařízení nejsou správně připojena."
 
 #: src/tools/dcpomatic.cc:1370 src/tools/dcpomatic_player.cc:801
 msgid "There are no new versions of DCP-o-matic available."
@@ -626,7 +620,7 @@ msgstr ""
 #: src/tools/dcpomatic.cc:513
 #, c-format
 msgid "Try removing the %s characters from your folder name."
-msgstr ""
+msgstr "Zkuste odebrat znaky% s z názvu složky."
 
 #: src/tools/dcpomatic.cc:1063 src/tools/dcpomatic_batch.cc:231
 msgid "Unfinished jobs"

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-11 00:29+0000\n"
-"PO-Revision-Date: 2018-09-07 09:29+0200\n"
+"PO-Revision-Date: 2019-02-28 13:02+0100\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1.1\n"
+"X-Generator: Poedit 2.2.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,369,-1,-1,-1,-1,-1\n"
 
@@ -24,6 +24,8 @@ msgid ""
 "\n"
 "You can change the mode at any time from the General page of Preferences."
 msgstr ""
+"\n"
+"Režim můžete kdykoli změnit na stránce Obecné v Předvolbách."
 
 #: src/wx/timeline_audio_content_view.cc:68
 #, c-format
@@ -55,12 +57,11 @@ msgid "%d KDMs written to %s"
 msgstr "%d KDMs zapsány do %s"
 
 #: src/wx/about_dialog.cc:84
-#, fuzzy
 msgid ""
 "(C) 2012-2019 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2019 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:44 src/wx/file_picker_ctrl.cc:59
@@ -187,6 +188,17 @@ msgid ""
 "\n"
 "Please choose which mode you would like to start DCP-o-matic in:"
 msgstr ""
+"<span weight=“bold” size=“larger”>Vítejte v DCP-o-matic!</span>\n"
+"\n"
+"DCP-o-matic může pracovat ve dvou režimech: ‘<i>jednoduchý</i>’ nebo "
+"‘<i>plný</i>’.\n"
+"\n"
+"<i>Jednoduchý režim</i> je ideální pro vytváření jednoduchých DCPs bez "
+"příliš mnoha matoucí možností.\n"
+"\n"
+"<i>Plný režim</i> vám dává největší kontrolu nad DCP, které vytváříte.\n"
+"\n"
+"Zvolte prosím režim, ve kterém chcete DCP-o-matic spustit:"
 
 #: src/wx/colour_conversion_editor.cc:81
 msgid "A"
@@ -381,7 +393,7 @@ msgstr "BCC adresa"
 
 #: src/wx/player_config_dialog.cc:264
 msgid "Background image"
-msgstr ""
+msgstr "Obrázek pozadí"
 
 #: src/wx/barco_alchemy_certificate_panel.cc:76
 msgid "Barco Alchemy"
@@ -392,9 +404,8 @@ msgid "Blue chromaticity"
 msgstr "Modrá barevnost"
 
 #: src/wx/video_panel.cc:130
-#, fuzzy
 msgid "Bottom crop"
-msgstr "Spodek"
+msgstr "Spodní oříznutí"
 
 #: src/wx/dir_picker_ctrl.cc:40 src/wx/kdm_cpl_panel.cc:40
 msgid "Browse..."
@@ -443,7 +454,7 @@ msgstr "Není možné odkazovat na toto DCP."
 
 #: src/wx/content_sub_panel.cc:70
 msgid "Cannot reference this DCP: "
-msgstr "Není možné odkazovat na toto DCP:"
+msgstr "Není možné odkazovat na toto DCP: "
 
 #: src/wx/text_view.cc:67
 msgid "Caption"
@@ -486,7 +497,7 @@ msgstr "Zkontrolovat testovací aktualizace při startu programu"
 
 #: src/wx/config_dialog.cc:179
 msgid "Check for updates on startup"
-msgstr "Zkontrolovat aktualizace při startu programu "
+msgstr "Zkontrolovat aktualizace při startu programu"
 
 #: src/wx/content_menu.cc:81
 msgid "Choose CPL..."
@@ -580,9 +591,8 @@ msgid "Content Type"
 msgstr "Typ obsahu"
 
 #: src/wx/player_config_dialog.cc:248
-#, fuzzy
 msgid "Content directory"
-msgstr "DCP adresář"
+msgstr "Adresář s obsahem"
 
 #: src/wx/isdcf_metadata_dialog.cc:38
 msgid "Content version"
@@ -610,14 +620,13 @@ msgid "Could not load KDM"
 msgstr "Nelze načíst KDM"
 
 #: src/wx/screen_dialog.cc:71
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load certficate (%s)"
-msgstr "Nelze importovat certifikát (%s)"
+msgstr "Nelze načíst certifikát (%s)"
 
 #: src/wx/player_config_dialog.cc:318
-#, fuzzy
 msgid "Could not load image file."
-msgstr "Nemohu načíst soubor s certifikátem."
+msgstr "Nelze načíst soubor s obrázkem."
 
 #: src/wx/config_dialog.cc:490 src/wx/config_dialog.cc:708
 #: src/wx/download_certificate_panel.cc:60 src/wx/screen_dialog.cc:201
@@ -700,9 +709,8 @@ msgid "DCP-o-matic audio - %s"
 msgstr "DCP-o-matic zvuk - %s"
 
 #: src/wx/initial_setup_dialog.cc:27
-#, fuzzy
 msgid "DCP-o-matic setup"
-msgstr "DCP-o-matic"
+msgstr "DCP-o-matic instalace"
 
 #: src/wx/full_config_dialog.cc:1434
 msgid "Debug: decode"
@@ -787,11 +795,11 @@ msgstr "Detaily..."
 
 #: src/wx/monitor_dialog.cc:32
 msgid "Device"
-msgstr ""
+msgstr "Zařízení"
 
 #: src/wx/player_config_dialog.cc:419
 msgid "Devices"
-msgstr ""
+msgstr "Zařízení"
 
 #: src/wx/recreate_chain_dialog.cc:33
 msgid "Do nothing"
@@ -840,12 +848,11 @@ msgstr "Vynechané snímky: %d"
 
 #: src/wx/player_config_dialog.cc:98
 msgid "Dual-screen displays"
-msgstr ""
+msgstr "Dvojitá obrazovka"
 
 #: src/wx/player_config_dialog.cc:370
-#, fuzzy
 msgid "Duration"
-msgstr "Nadpis"
+msgstr "Doba trvání"
 
 #: src/wx/content_panel.cc:114
 msgid "Earlier"
@@ -925,12 +932,11 @@ msgstr "Exportovat dešifrovací certifikát KDM …"
 
 #: src/wx/config_dialog.cc:766
 msgid "Export all KDM decryption settings..."
-msgstr "Exportovat veškeré dešifrovací nastavení KDM"
+msgstr "Exportovat veškeré dešifrovací nastavení KDM…"
 
 #: src/wx/config_dialog.cc:411
-#, fuzzy
 msgid "Export chain..."
-msgstr "Exportovat…"
+msgstr "Export řetězce…"
 
 #: src/wx/export_dialog.cc:53
 msgid "Export film"
@@ -966,7 +972,7 @@ msgstr "Postupné zeslabení v čase (Fade out)"
 
 #: src/wx/fonts_dialog.cc:55
 msgid "File"
-msgstr ""
+msgstr "Soubor"
 
 #: src/wx/kdm_dialog.cc:135
 #, c-format
@@ -998,7 +1004,7 @@ msgstr "Najít chybějící…"
 
 #: src/wx/subtitle_appearance_dialog.cc:119
 msgid "Finding the colours in these subtitles..."
-msgstr ""
+msgstr "Hledání barev v těchto titulkách…"
 
 #: src/wx/kdm_output_panel.cc:74
 msgid "Folder / ZIP name format"
@@ -1066,9 +1072,8 @@ msgid "Full length"
 msgstr "Celá délka"
 
 #: src/wx/initial_setup_dialog.cc:48
-#, fuzzy
 msgid "Full mode"
-msgstr "Celé"
+msgstr "Plný režim"
 
 #: src/wx/dcp_panel.cc:110
 msgid "GB"
@@ -1079,14 +1084,12 @@ msgid "GDC"
 msgstr "GDC"
 
 #: src/wx/full_config_dialog.cc:988
-#, fuzzy
 msgid "GDC password"
-msgstr "Heslo k emailu"
+msgstr "GDC heslo"
 
 #: src/wx/full_config_dialog.cc:984
-#, fuzzy
 msgid "GDC user name"
-msgstr "Přihlašovací jméno k emailu"
+msgstr "GDC uživatelské jméno"
 
 #: src/wx/audio_panel.cc:65
 msgid "Gain"
@@ -1186,11 +1189,11 @@ msgstr "Pozice obrázku X"
 
 #: src/wx/player_config_dialog.cc:100
 msgid "Image on primary, controls on secondary"
-msgstr ""
+msgstr "Obrázek na primárním, ovládání na sekundárním"
 
 #: src/wx/player_config_dialog.cc:101
 msgid "Image on secondary, controls on primary"
-msgstr ""
+msgstr "Obrázek na sekundárním, ovládání na primárním"
 
 #: src/wx/config_dialog.cc:768
 msgid "Import all KDM decryption settings..."
@@ -1231,7 +1234,7 @@ msgstr "Integrovaná hlasitost %.2f LUFS"
 
 #: src/wx/full_config_dialog.cc:91
 msgid "Interface complexity"
-msgstr ""
+msgstr "Složitost rozhraní"
 
 #: src/wx/config_dialog.cc:588
 msgid "Intermediate"
@@ -1278,13 +1281,12 @@ msgid "KDM Email"
 msgstr "KDM Email"
 
 #: src/wx/player_config_dialog.cc:258
-#, fuzzy
 msgid "KDM directory"
-msgstr "DCP adresář"
+msgstr "KDM adresář"
 
 #: src/wx/player_config_dialog.cc:115
 msgid "KDM server URL"
-msgstr ""
+msgstr "KDM server URL"
 
 #: src/wx/kdm_output_panel.cc:57
 msgid "KDM type"
@@ -1337,9 +1339,8 @@ msgid "Left"
 msgstr "Levý"
 
 #: src/wx/video_panel.cc:100
-#, fuzzy
 msgid "Left crop"
-msgstr "Levý"
+msgstr "Oříznout vlevo"
 
 #: src/wx/content_properties_dialog.cc:80
 msgid "Length"
@@ -1354,28 +1355,24 @@ msgid "Line spacing"
 msgstr "Mezera mezi řádky"
 
 #: src/wx/screen_dialog.cc:56
-#, fuzzy
 msgid "Load certificate..."
-msgstr "Stáhnout certifikát"
+msgstr "Načíst certifikát…"
 
 #: src/wx/player_config_dialog.cc:229
-#, fuzzy
 msgid "Locations"
-msgstr "Oznámení"
+msgstr "Umístění"
 
 #: src/wx/player_config_dialog.cc:120
-#, fuzzy
 msgid "Lock file"
-msgstr "Bold soubor"
+msgstr "Uzamknout soubor"
 
 #: src/wx/full_config_dialog.cc:1423
 msgid "Log"
 msgstr "Log"
 
 #: src/wx/player_config_dialog.cc:109
-#, fuzzy
 msgid "Log file"
-msgstr "Bold soubor"
+msgstr "Log soubor"
 
 #: src/wx/audio_dialog.cc:411
 #, c-format
@@ -1420,21 +1417,19 @@ msgstr "Udělat řetěz certifikátoů"
 
 #: src/wx/player_config_dialog.cc:429
 msgid "Manufacture week"
-msgstr ""
+msgstr "Výrobní týden"
 
 #: src/wx/player_config_dialog.cc:430
-#, fuzzy
 msgid "Manufacture year"
-msgstr "Server Hersteller"
+msgstr "Rok výroby"
 
 #: src/wx/monitor_dialog.cc:34 src/wx/player_config_dialog.cc:426
-#, fuzzy
 msgid "Manufacturer ID"
-msgstr "Server Hersteller"
+msgstr "ID výrobce"
 
 #: src/wx/monitor_dialog.cc:36
 msgid "Manufacturer product code"
-msgstr ""
+msgstr "Kód produktu výrobce"
 
 #: src/wx/isdcf_metadata_dialog.cc:78
 msgid "Mastered luminance (e.g. 14fl)"
@@ -1705,7 +1700,7 @@ msgstr "Výkon"
 
 #: src/wx/player_config_dialog.cc:363
 msgid "Period"
-msgstr ""
+msgstr "Období"
 
 #: src/wx/standard_controls.cc:30
 msgid "Play"
@@ -1720,9 +1715,8 @@ msgid "Play sound via"
 msgstr "Přehrát zvuk přes"
 
 #: src/wx/player_config_dialog.cc:253
-#, fuzzy
 msgid "Playlist directory"
-msgstr "DCP adresář"
+msgstr "Adresář seznamu skladeb"
 
 #: src/wx/report_problem_dialog.cc:106
 msgid ""
@@ -1754,7 +1748,7 @@ msgstr "Procesor"
 
 #: src/wx/player_config_dialog.cc:427
 msgid "Product code"
-msgstr ""
+msgstr "Kód produktu"
 
 #: src/wx/content_menu.cc:75
 msgid "Properties..."
@@ -1786,7 +1780,7 @@ msgstr "Přístupnost (napr. 12)"
 
 #: src/wx/dcp_panel.cc:771
 msgid "Re-encode JPEG2000 data from input"
-msgstr ""
+msgstr "Znovu zakódovat data JPEG2000 ze vstupu"
 
 #: src/wx/content_menu.cc:76
 msgid "Re-examine..."
@@ -1798,12 +1792,11 @@ msgstr "Znovuvytvořit certifikáty a klíče…"
 
 #: src/wx/player_config_dialog.cc:443
 msgid "Read current devices"
-msgstr ""
+msgstr "Číst aktuální zařízení"
 
 #: src/wx/content_view.cc:77
-#, fuzzy
 msgid "Reading content directory"
-msgstr "DCP adresář"
+msgstr "Čtení adresáře obsahu"
 
 #: src/wx/colour_conversion_editor.cc:112
 msgid "Rec. 601"
@@ -1903,7 +1896,7 @@ msgstr "Rozlišení"
 
 #: src/wx/player_config_dialog.cc:105
 msgid "Respect KDM validity periods"
-msgstr ""
+msgstr "Dodržování období platnosti KDM"
 
 #: src/wx/subtitle_appearance_dialog.cc:126
 msgid "Restore to original colours"
@@ -1922,9 +1915,8 @@ msgid "Right click to change gain."
 msgstr "Klikněte pravým tlačítkem, abyste změnili hlasitost."
 
 #: src/wx/video_panel.cc:110
-#, fuzzy
 msgid "Right crop"
-msgstr "Pravý"
+msgstr "Pravý ořez"
 
 #: src/wx/config_dialog.cc:584
 msgid "Root"
@@ -2029,19 +2021,16 @@ msgid "Select configuration file"
 msgstr "Vybrat soubor s konfigurací"
 
 #: src/wx/player_config_dialog.cc:265
-#, fuzzy
 msgid "Select image file"
-msgstr "Vybrat Cinemas soubor"
+msgstr "Vybrat soubor obrázku"
 
 #: src/wx/player_config_dialog.cc:121
-#, fuzzy
 msgid "Select lock file"
-msgstr "Vybrat výstupní soubor"
+msgstr "Vybrat soubor zámku"
 
 #: src/wx/player_config_dialog.cc:110
-#, fuzzy
 msgid "Select log file"
-msgstr "Vybrat výstupní soubor"
+msgstr "Vybrat log soubor"
 
 #: src/wx/export_dialog.cc:75
 msgid "Select output file"
@@ -2060,18 +2049,16 @@ msgid "Send logs"
 msgstr "Odeslat logy"
 
 #: src/wx/send_i18n_dialog.cc:30
-#, fuzzy
 msgid "Send translations"
-msgstr "Organizace"
+msgstr "Odeslat překlady"
 
 #: src/wx/timeline_dialog.cc:70
 msgid "Sequence"
 msgstr "Sekvence"
 
 #: src/wx/player_config_dialog.cc:428
-#, fuzzy
 msgid "Serial"
-msgstr "Serial number"
+msgstr "Sériové"
 
 #: src/wx/download_certificate_panel.cc:44 src/wx/monitor_dialog.cc:38
 msgid "Serial number"
@@ -2118,9 +2105,8 @@ msgid "Signing DCPs and KDMs"
 msgstr "Podepsané DCP a KDM"
 
 #: src/wx/full_config_dialog.cc:149
-#, fuzzy
 msgid "Simple"
-msgstr "Vstupní gama"
+msgstr "Jednoduchý"
 
 #: src/wx/colour_conversion_editor.cc:62
 msgid "Simple gamma"
@@ -2131,9 +2117,8 @@ msgid "Simple gamma, linearised for small values"
 msgstr "Linearizovat vstupní gama křivku pro malé hodnoty"
 
 #: src/wx/initial_setup_dialog.cc:46
-#, fuzzy
 msgid "Simple mode"
-msgstr "Vstupní gama"
+msgstr "Jednoduchý režim"
 
 #: src/wx/dcp_panel.cc:140
 msgid "Single reel"
@@ -2174,7 +2159,7 @@ msgstr "Start od reelu"
 
 #: src/wx/player_config_dialog.cc:90
 msgid "Start player as"
-msgstr ""
+msgstr "Spustit přehrávač jako"
 
 #: src/wx/text_panel.cc:105
 msgid "Stream"
@@ -2254,11 +2239,11 @@ msgstr "Čas 'do' musí být po čase 'od’."
 
 #: src/wx/verify_dcp_dialog.cc:91
 msgid "The PKL and CPL hashes disagree for a picture asset."
-msgstr ""
+msgstr "Hodnoty hash PKL a CPL nesouhlasí s obrázkem datového zdroje."
 
 #: src/wx/verify_dcp_dialog.cc:100
 msgid "The PKL and CPL hashes disagree for a sound asset."
-msgstr ""
+msgstr "Hodnoty hash PKL a CPL nesouhlasí se zvukovým zařízením."
 
 #: src/wx/recreate_chain_dialog.cc:35
 msgid ""
@@ -2303,6 +2288,8 @@ msgid ""
 "The hash of the CPL in the PKL does not agree with the CPL file.  This "
 "probably means that the CPL file is corrupt."
 msgstr ""
+"Algoritmus hash souboru CPL v PKL nesouhlasí se souborem CPL.  To "
+"pravděpodobně znamená, že soubor CPL je poškozen."
 
 #: src/wx/verify_dcp_dialog.cc:86
 #, c-format
@@ -2310,6 +2297,8 @@ msgid ""
 "The hash of the picture asset %s does not agree with the PKL file.  This "
 "probably means that the asset file is corrupt."
 msgstr ""
+"Algoritmus hash pro majetek obrázku %s nesouhlasí se souborem PKL. To "
+"pravděpodobně znamená, že soubor s údaji je poškozen."
 
 #: src/wx/verify_dcp_dialog.cc:95
 #, c-format
@@ -2317,20 +2306,20 @@ msgid ""
 "The hash of the sound asset %s does not agree with the PKL file.  This "
 "probably means that the asset file is corrupt."
 msgstr ""
+"Hash zvukového prostředku %s nesouhlasí se souborem PKL. To pravděpodobně "
+"znamená, že soubor s údaji je poškozen."
 
 #: src/wx/verify_dcp_dialog.cc:82
 msgid "The picture in a reel has an invalid frame rate"
-msgstr ""
+msgstr "Obraz na reelu má neplatnou snímkovou frekvenci"
 
 #: src/wx/player_config_dialog.cc:358
-#, fuzzy
 msgid "Theatre name"
-msgstr "Název šablony"
+msgstr "Název kina"
 
 #: src/wx/hints_dialog.cc:132
-#, fuzzy
 msgid "There are no hints yet: project check in progress."
-msgstr "Žádné upozornění; všechno vypadá dobře !"
+msgstr "Nejsou zde žádné pokyny: probíhá kontrola projektu."
 
 #: src/wx/hints_dialog.cc:130
 msgid "There are no hints: everything looks good!"
@@ -2392,9 +2381,8 @@ msgid "Top crop"
 msgstr "Oben beschneiden"
 
 #: src/wx/instant_i18n_dialog.cc:28
-#, fuzzy
 msgid "Translate"
-msgstr "Přeložil"
+msgstr "Přeložit"
 
 #: src/wx/about_dialog.cc:140
 msgid "Translated by"
@@ -2422,14 +2410,12 @@ msgid "True peak is %.2fdB"
 msgstr "Skutečné maximum je %.2fdB"
 
 #: src/wx/screen_dialog.cc:52
-#, fuzzy
 msgid "Trusted Device"
-msgstr "Jiné důvěryhodné zařízení"
+msgstr "Důvěryhodné zařízení"
 
 #: src/wx/screen_dialog.cc:65
-#, fuzzy
 msgid "Trusted Device certificate"
-msgstr "Příjemce certifikátu"
+msgstr "Certifikát důvěryhodného zařízení"
 
 #: src/wx/audio_dialog.cc:110 src/wx/config_dialog.cc:361
 #: src/wx/video_panel.cc:88
@@ -2624,12 +2610,11 @@ msgstr "Varování"
 
 #: src/wx/player_config_dialog.cc:347
 msgid "Watermark"
-msgstr ""
+msgstr "Watermark"
 
 #: src/wx/monitor_dialog.cc:40
-#, fuzzy
 msgid "Week of manufacture"
-msgstr "Server Hersteller"
+msgstr "Týden výroby"
 
 #: src/wx/colour_conversion_editor.cc:153
 msgid "White point"
@@ -2657,7 +2642,7 @@ msgstr "Zadejte všechny KDMs pro každou složku"
 
 #: src/wx/export_dialog.cc:62
 msgid "Write reels into separate files"
-msgstr ""
+msgstr "Zapisovat reely do samostatných souborů"
 
 #: src/wx/kdm_output_panel.cc:94 src/wx/self_dkdm_dialog.cc:77
 msgid "Write to"
@@ -2684,9 +2669,8 @@ msgid "YUV to RGB matrix"
 msgstr "YUV na RGP matrix"
 
 #: src/wx/monitor_dialog.cc:42
-#, fuzzy
 msgid "Year of manufacture"
-msgstr "Server Hersteller"
+msgstr "Rok výroby"
 
 #: src/wx/screens_panel.cc:218
 #, c-format
@@ -2720,18 +2704,16 @@ msgid ""
 msgstr "Před odesláním e-mailů musíte nastavit poštovní server v Předvolbách."
 
 #: src/wx/send_i18n_dialog.cc:41
-#, fuzzy
 msgid "Your email"
-msgstr "Vaše emailová adresa"
+msgstr "Váš email"
 
 #: src/wx/report_problem_dialog.cc:70
 msgid "Your email address"
 msgstr "Vaše emailová adresa"
 
 #: src/wx/send_i18n_dialog.cc:37
-#, fuzzy
 msgid "Your name"
-msgstr "Název složky"
+msgstr "Vaše jméno"
 
 #: src/wx/timeline_dialog.cc:67
 msgid "Zoom"
@@ -2754,7 +2736,6 @@ msgid "certificates.barco.com password"
 msgstr "certificates.barco.com heslo"
 
 #: src/wx/full_config_dialog.cc:968
-#, fuzzy
 msgid "certificates.barco.com user name"
 msgstr "certificates.barco.com uživatelské jméno"
 
@@ -2763,7 +2744,6 @@ msgid "certificates.christiedigital.com password"
 msgstr "certificates.christiedigital.com heslo"
 
 #: src/wx/full_config_dialog.cc:976
-#, fuzzy
 msgid "certificates.christiedigital.com user name"
 msgstr "certificates.christiedigital.com uživatelské jméno"
 
@@ -2781,7 +2761,7 @@ msgstr "dB"
 
 #: src/wx/config_dialog.cc:897
 msgid "dcpomatic_kdm_decryption_cert.pem"
-msgstr ""
+msgstr "dcpomatic_kdm_decryption_cert.pem"
 
 #: src/wx/name_format_editor.cc:75
 #, c-format
@@ -2794,13 +2774,12 @@ msgid "f"
 msgstr "f"
 
 #: src/wx/player_config_dialog.cc:93
-#, fuzzy
 msgid "full screen"
-msgstr "Upravit obraz"
+msgstr "celá obrazovka"
 
 #: src/wx/player_config_dialog.cc:94
 msgid "full screen with controls on other monitor"
-msgstr ""
+msgstr "celá obrazovka s ovládacími prvky na jiném monitoru"
 
 #. // TRANSLATORS: this is an abbreviation for "hours"
 #: src/wx/timing_panel.cc:63
@@ -2814,11 +2793,11 @@ msgstr "m"
 
 #: src/wx/player_config_dialog.cc:374
 msgid "milliseconds"
-msgstr ""
+msgstr "milisekundy"
 
 #: src/wx/player_config_dialog.cc:367
 msgid "minutes"
-msgstr ""
+msgstr "minuty"
 
 #. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
 #: src/wx/audio_panel.cc:89 src/wx/full_config_dialog.cc:370
@@ -2852,7 +2831,7 @@ msgstr "až do"
 
 #: src/wx/player_config_dialog.cc:92
 msgid "window"
-msgstr ""
+msgstr "okno"
 
 #: src/wx/colour_conversion_editor.cc:127
 msgid "x"
