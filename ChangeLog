@@ -1,3 +1,7 @@
+2019-03-01  Carl Hetherington  <cth@carlh.net>
+
+	* Fix loading of targa files (#1478).
+
 2019-02-28  Carl Hetherington  <cth@carlh.net>
 
 	* Updated cs_CZ translation from Tomáš Begeni.
