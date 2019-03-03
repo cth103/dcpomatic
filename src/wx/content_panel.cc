@@ -695,11 +695,6 @@ ContentPanel::setup ()
 		int const t = _content->GetItemCount ();
 		bool const valid = i->paths_valid ();
 
-		/* Temporary debugging for Igor */
-		BOOST_FOREACH (boost::filesystem::path j, i->paths()) {
-			LOG_GENERAL ("Check %1 %2 answer %3", j.string(), boost::filesystem::exists(j) ? "yes" : "no", valid ? "yes" : "no");
-		}
-
 		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (i);
 		bool const needs_kdm = dcp && dcp->needs_kdm ();
 		bool const needs_assets = dcp && dcp->needs_assets ();
