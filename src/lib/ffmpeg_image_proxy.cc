@@ -134,21 +134,19 @@ FFmpegImageProxy::image (optional<dcp::Size>) const
 	av_dict_set (&options, "probesize", raw_convert<string>(5 * 60 * 1000000).c_str(), 0);
 
 	int e = avformat_open_input (&format_context, 0, 0, &options);
+	if ((e < 0 && e == AVERROR_INVALIDDATA) || (e >= 0 && format_context->probe_score <= 25)) {
+		/* Hack to fix loading of .tga files through AVIOContexts (rather then
+		   directly from the file).  This code just does enough to allow the
+		   probe code to take a hint from "foo.tga" and so try targa format.
+		*/
+		AVInputFormat* f = av_find_input_format ("image2");
+		format_context = avformat_alloc_context ();
+		format_context->pb = avio_context;
+		format_context->iformat = f;
+		e = avformat_open_input (&format_context, "foo.tga", f, &options);
+	}
 	if (e < 0) {
-		if (e == AVERROR_INVALIDDATA) {
-			/* Hack to fix loading of .tga files through AVIOContexts (rather then
-			   directly from the file).  This code just does enough to allow the
-			   probe code to take a hint from "foo.tga" and so try targa format.
-			*/
-			AVInputFormat* f = av_find_input_format ("image2");
-			format_context = avformat_alloc_context ();
-			format_context->pb = avio_context;
-			format_context->iformat = f;
-			e = avformat_open_input (&format_context, "foo.tga", f, &options);
-		}
-		if (e < 0) {
-			throw OpenFileError (_path->string(), e, true);
-		}
+		throw OpenFileError (_path->string(), e, true);
 	}
 
 	if (avformat_find_stream_info(format_context, 0) < 0) {
