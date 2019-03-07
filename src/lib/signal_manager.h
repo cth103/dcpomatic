@@ -21,6 +21,7 @@
 #ifndef DCPOMATIC_SIGNAL_MANAGER_H
 #define DCPOMATIC_SIGNAL_MANAGER_H
 
+#include "exception_store.h"
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include <boost/noncopyable.hpp>
@@ -30,7 +31,7 @@ class Signaller;
 /** A class to allow signals to be emitted from non-UI threads and handled
  *  by a UI thread.
  */
-class SignalManager : public boost::noncopyable
+class SignalManager : public boost::noncopyable, public ExceptionStore
 {
 public:
 	/** Create a SignalManager.  Must be called from the UI thread */
@@ -72,7 +73,11 @@ private:
 	void emit (T f) {
 		if (boost::this_thread::get_id() == _ui_thread) {
 			/* already in the UI thread */
-			f ();
+			try {
+				f ();
+			} catch (...) {
+				store_current ();
+			}
 		} else {
 			/* non-UI thread; post to the service and wake up the UI */
 			_service.post (f);

@@ -68,7 +68,7 @@ private:
 	void audio (boost::shared_ptr<AudioBuffers> audio, DCPTime time, int frame_rate);
 	void text (PlayerText pt, TextType type, boost::optional<DCPTextTrack> track, DCPTimePeriod period);
 	bool should_run () const;
-	void prepare (boost::weak_ptr<PlayerVideo> video) const;
+	void prepare (boost::weak_ptr<PlayerVideo> video);
 	void player_change (ChangeType type, bool frequent);
 	void seek_unlocked (DCPTime position, bool accurate);
 

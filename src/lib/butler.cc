@@ -268,7 +268,8 @@ Butler::seek_unlocked (DCPTime position, bool accurate)
 }
 
 void
-Butler::prepare (weak_ptr<PlayerVideo> weak_video) const
+Butler::prepare (weak_ptr<PlayerVideo> weak_video)
+try
 {
 	shared_ptr<PlayerVideo> video = weak_video.lock ();
 	/* If the weak_ptr cannot be locked the video obviously no longer requires any work */
@@ -277,6 +278,12 @@ Butler::prepare (weak_ptr<PlayerVideo> weak_video) const
 		video->prepare (_pixel_format, _aligned, _fast);
 		LOG_TIMING("finish-prepare in %1", thread_id());
 	}
+}
+catch (...)
+{
+	store_current ();
+	boost::mutex::scoped_lock lm (_mutex);
+	_died = true;
 }
 
 void
