@@ -50,25 +50,7 @@ else
   exit 1
 fi
 
-date=`date +%Y-%m-%d`
-
-tag="$date  Carl Hetherington  <cth@carlh.net>"
 msg="Updated $language translation from $translator."
-
-echo "$tag" > /tmp/$$.changelog
-echo "" >> /tmp/$$.changelog
-echo -e "\t* $msg" >> /tmp/$$.changelog
-echo "" >> /tmp/$$.changelog
-
-if [[ `head -n 1 ChangeLog` == "$tag" ]]; then
-    echo "Trimming!"
-    tail -n +3 ChangeLog > /tmp/$$.trimmed
-    mv /tmp/$$.trimmed ChangeLog
-fi
-
-cat /tmp/$$.changelog | cat - ChangeLog > /tmp/$$.joined
-rm /tmp/$$.changelog
-mv /tmp/$$.joined ChangeLog
 
 git diff
 
