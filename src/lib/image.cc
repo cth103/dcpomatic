@@ -479,8 +479,11 @@ Image::make_transparent ()
 void
 Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 {
-	/* We're blending BGRA images; first byte is blue, second byte is green, third byte red, fourth byte alpha */
-	DCPOMATIC_ASSERT (other->pixel_format() == AV_PIX_FMT_BGRA);
+	/* We're blending RGBA or BGRA images */
+	DCPOMATIC_ASSERT (other->pixel_format() == AV_PIX_FMT_BGRA || other->pixel_format() == AV_PIX_FMT_RGBA);
+	int const blue = other->pixel_format() == AV_PIX_FMT_BGRA ? 0 : 2;
+	int const red = other->pixel_format() == AV_PIX_FMT_BGRA ? 2 : 0;
+
 	int const other_bpp = 4;
 
 	int start_tx = position.x;
@@ -509,9 +512,9 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 			uint8_t* op = other->data()[0] + oy * other->stride()[0];
 			for (int tx = start_tx, ox = start_ox; tx < size().width && ox < other->size().width; ++tx, ++ox) {
 				float const alpha = float (op[3]) / 255;
-				tp[0] = op[2] * alpha + tp[0] * (1 - alpha);
+				tp[0] = op[red] * alpha + tp[0] * (1 - alpha);
 				tp[1] = op[1] * alpha + tp[1] * (1 - alpha);
-				tp[2] = op[0] * alpha + tp[2] * (1 - alpha);
+				tp[2] = op[blue] * alpha + tp[2] * (1 - alpha);
 
 				tp += this_bpp;
 				op += other_bpp;
@@ -527,9 +530,9 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 			uint8_t* op = other->data()[0] + oy * other->stride()[0];
 			for (int tx = start_tx, ox = start_ox; tx < size().width && ox < other->size().width; ++tx, ++ox) {
 				float const alpha = float (op[3]) / 255;
-				tp[0] = op[0] * alpha + tp[0] * (1 - alpha);
+				tp[0] = op[blue] * alpha + tp[0] * (1 - alpha);
 				tp[1] = op[1] * alpha + tp[1] * (1 - alpha);
-				tp[2] = op[2] * alpha + tp[2] * (1 - alpha);
+				tp[2] = op[red] * alpha + tp[2] * (1 - alpha);
 				tp[3] = op[3] * alpha + tp[3] * (1 - alpha);
 
 				tp += this_bpp;
@@ -546,9 +549,9 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 			uint8_t* op = other->data()[0] + oy * other->stride()[0];
 			for (int tx = start_tx, ox = start_ox; tx < size().width && ox < other->size().width; ++tx, ++ox) {
 				float const alpha = float (op[3]) / 255;
-				tp[0] = op[2] * alpha + tp[0] * (1 - alpha);
+				tp[0] = op[red] * alpha + tp[0] * (1 - alpha);
 				tp[1] = op[1] * alpha + tp[1] * (1 - alpha);
-				tp[2] = op[0] * alpha + tp[2] * (1 - alpha);
+				tp[2] = op[blue] * alpha + tp[2] * (1 - alpha);
 				tp[3] = op[3] * alpha + tp[3] * (1 - alpha);
 
 				tp += this_bpp;
@@ -566,9 +569,9 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 			for (int tx = start_tx, ox = start_ox; tx < size().width && ox < other->size().width; ++tx, ++ox) {
 				float const alpha = float (op[3]) / 255;
 				/* Blend high bytes */
-				tp[1] = op[2] * alpha + tp[1] * (1 - alpha);
+				tp[1] = op[red] * alpha + tp[1] * (1 - alpha);
 				tp[3] = op[1] * alpha + tp[3] * (1 - alpha);
-				tp[5] = op[0] * alpha + tp[5] * (1 - alpha);
+				tp[5] = op[blue] * alpha + tp[5] * (1 - alpha);
 
 				tp += this_bpp;
 				op += other_bpp;
@@ -591,9 +594,9 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 				float const alpha = float (op[3]) / 255;
 
 				/* Convert sRGB to XYZ; op is BGRA.  First, input gamma LUT */
-				double const r = lut_in[op[2]];
+				double const r = lut_in[op[red]];
 				double const g = lut_in[op[1]];
-				double const b = lut_in[op[0]];
+				double const b = lut_in[op[blue]];
 
 				/* RGB to XYZ, including Bradford transform and DCI companding */
 				double const x = max (0.0, min (65535.0, r * fast_matrix[0] + g * fast_matrix[1] + b * fast_matrix[2]));
