@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -41,6 +41,9 @@
 #include "string_text.h"
 #include "font.h"
 #include "render_text.h"
+#include "ffmpeg_image_proxy.h"
+#include "image.h"
+#include "text_decoder.h"
 #include <dcp/locale_convert.h>
 #include <dcp/util.h>
 #include <dcp/raw_convert.h>
@@ -879,6 +882,45 @@ day_of_week_to_string (boost::gregorian::greg_weekday d)
 	}
 
 	return d.as_long_string ();
+}
+
+/** @param size Size of picture that the subtitle will be overlaid onto */
+void
+emit_subtitle_image (ContentTimePeriod period, dcp::SubtitleImage sub, dcp::Size size, shared_ptr<TextDecoder> decoder)
+{
+	/* XXX: this is rather inefficient; decoding the image just to get its size */
+	FFmpegImageProxy proxy (sub.png_image());
+	shared_ptr<Image> image = proxy.image().first;
+	/* set up rect with height and width */
+	dcpomatic::Rect<double> rect(0, 0, image->size().width / double(size.width), image->size().height / double(size.height));
+
+	/* add in position */
+
+	switch (sub.h_align()) {
+	case dcp::HALIGN_LEFT:
+		rect.x += sub.h_position();
+		break;
+	case dcp::HALIGN_CENTER:
+		rect.x += 0.5 + sub.h_position() - rect.width / 2;
+		break;
+	case dcp::HALIGN_RIGHT:
+		rect.x += 1 - sub.h_position() - rect.width;
+		break;
+	}
+
+	switch (sub.v_align()) {
+	case dcp::VALIGN_TOP:
+		rect.y += sub.v_position();
+		break;
+	case dcp::VALIGN_CENTER:
+		rect.y += 0.5 + sub.v_position() - rect.height / 2;
+		break;
+	case dcp::VALIGN_BOTTOM:
+		rect.y += 1 - sub.v_position() - rect.height;
+		break;
+	}
+
+	decoder->emit_bitmap (period, image, rect);
 }
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP

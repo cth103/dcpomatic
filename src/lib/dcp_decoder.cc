@@ -259,45 +259,20 @@ DCPDecoder::pass_texts (
 				strings.push_back (*is);
 			}
 
+			/* XXX: perhaps these image subs should also be collected together like the string ones are;
+			   this would need to be done both here and in DCPSubtitleDecoder.
+			*/
+
 			shared_ptr<dcp::SubtitleImage> ii = dynamic_pointer_cast<dcp::SubtitleImage> (i);
 			if (ii) {
-				FFmpegImageProxy proxy (ii->png_image());
-				shared_ptr<Image> image = proxy.image().first;
-				/* set up rect with height and width */
-				dcpomatic::Rect<double> rect(0, 0, image->size().width / double(size.width), image->size().height / double(size.height));
-
-				/* add in position */
-
-				switch (ii->h_align()) {
-				case dcp::HALIGN_LEFT:
-					rect.x += ii->h_position();
-					break;
-				case dcp::HALIGN_CENTER:
-					rect.x += 0.5 + ii->h_position() - rect.width / 2;
-					break;
-				case dcp::HALIGN_RIGHT:
-					rect.x += 1 - ii->h_position() - rect.width;
-					break;
-				}
-
-				switch (ii->v_align()) {
-				case dcp::VALIGN_TOP:
-					rect.y += ii->v_position();
-					break;
-				case dcp::VALIGN_CENTER:
-					rect.y += 0.5 + ii->v_position() - rect.height / 2;
-					break;
-				case dcp::VALIGN_BOTTOM:
-					rect.y += 1 - ii->v_position() - rect.height;
-					break;
-				}
-
-				decoder->emit_bitmap (
+				emit_subtitle_image (
 					ContentTimePeriod (
 						ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (i->in().as_seconds ()),
 						ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (i->out().as_seconds ())
 						),
-					image, rect
+					*ii,
+					size,
+					decoder
 					);
 			}
 		}

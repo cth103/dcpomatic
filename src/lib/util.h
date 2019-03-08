@@ -29,6 +29,7 @@
 #include "dcpomatic_time.h"
 #include "audio_mapping.h"
 #include <dcp/util.h>
+#include <dcp/subtitle_image.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/optional.hpp>
 #include <boost/filesystem.hpp>
@@ -68,6 +69,7 @@ extern bool is_batch_converter;
 
 struct AVSubtitle;
 class AudioBuffers;
+class TextDecoder;
 
 extern std::string seconds_to_hms (int);
 extern std::string time_to_hmsf (DCPTime time, Frame rate);
@@ -103,6 +105,7 @@ extern void checked_fread (void* ptr, size_t size, FILE* stream, boost::filesyst
 extern void checked_fwrite (void const * ptr, size_t size, FILE* stream, boost::filesystem::path path);
 extern size_t utf8_strlen (std::string s);
 extern std::string day_of_week_to_string (boost::gregorian::greg_weekday d);
+extern void emit_subtitle_image (ContentTimePeriod period, dcp::SubtitleImage sub, dcp::Size size, boost::shared_ptr<TextDecoder> decoder);
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 extern boost::shared_ptr<dcp::CertificateChain> read_swaroop_chain (boost::filesystem::path path);
 extern void write_swaroop_chain (boost::shared_ptr<const dcp::CertificateChain> chain, boost::filesystem::path output);

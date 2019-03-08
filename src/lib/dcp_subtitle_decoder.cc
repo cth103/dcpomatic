@@ -64,12 +64,13 @@ DCPSubtitleDecoder::pass ()
 
 	/* Gather all subtitles with the same time period that are next
 	   on the list.  We must emit all subtitles for the same time
-	   period with the same plain_text() call otherwise the
+	   period with the same emit*() call otherwise the
 	   TextDecoder will assume there is nothing else at the
-	   time of emit the first.
+	   time of emitting the first.
 	*/
 
 	list<dcp::SubtitleString> s;
+	list<dcp::SubtitleImage> i;
 	ContentTimePeriod const p = content_time_period (*_next);
 
 	while (_next != _subtitles.end () && content_time_period (*_next) == p) {
@@ -79,7 +80,15 @@ DCPSubtitleDecoder::pass ()
 			++_next;
 		}
 
-		/* XXX: image subtitles */
+		/* XXX: perhaps these image subs should also be collected together like the string ones are;
+		   this would need to be done both here and in DCPDecoder.
+		*/
+
+		shared_ptr<dcp::SubtitleImage> ni = dynamic_pointer_cast<dcp::SubtitleImage>(*_next);
+		if (ni) {
+			emit_subtitle_image (p, *ni, film()->frame_size(), only_text());
+			++_next;
+		}
 	}
 
 	only_text()->emit_plain (p, s);
