@@ -1,3 +1,5 @@
+ChangeLog is no longer updated --- refer to the git log instead.
+
 2019-03-01  Carl Hetherington  <cth@carlh.net>
 
 	* Fix loading of targa files (#1478).
