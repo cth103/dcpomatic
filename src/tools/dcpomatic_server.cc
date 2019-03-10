@@ -308,6 +308,8 @@ private:
 			splash->Destroy ();
 		}
 
+		SetExitOnFrameDelete (false);
+
 		return true;
 	}
 
