@@ -442,6 +442,12 @@ private:
 					this,
 					_("Could not decrypt the DKDM.  Perhaps it was not created with the correct certificate.")
 					);
+			} catch (dcp::MiscError& e) {
+				error_dialog (
+					this,
+					_("Could not read file as a KDM.  It is much too large.  Make sure you are loading a DKDM (XML) file."),
+					std_to_wx(e.what())
+					);
 			}
 		}
 		d->Destroy ();
