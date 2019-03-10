@@ -62,6 +62,22 @@ using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 
+class LimitedSplitter : public wxSplitterWindow
+{
+public:
+	LimitedSplitter (wxWindow* parent)
+		: wxSplitterWindow (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D | wxSP_LIVE_UPDATE)
+	{
+
+	}
+
+	bool OnSashPositionChange (int new_position)
+	{
+		/* Try to stop the top bit of the splitter getting so small that buttons disappear */
+		return new_position > 220;
+	}
+};
+
 ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> viewer)
 	: _video_panel (0)
 	, _audio_panel (0)
@@ -77,7 +93,9 @@ ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmV
 		_text_panel[i] = 0;
 	}
 
-	_splitter = new wxSplitterWindow (n);
+	_splitter = new LimitedSplitter (n);
+	wxDisplay display (wxDisplay::GetFromWindow(_splitter));
+	wxRect screen = display.GetClientArea();
 	wxPanel* top = new wxPanel (_splitter);
 
 	_menu = new ContentMenu (_splitter);
@@ -132,8 +150,6 @@ ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmV
 	/* This is a hack to try and make the content notebook a sensible size; large on big displays but small
 	   enough on small displays to leave space for the content area.
 	*/
-	wxDisplay display (wxDisplay::GetFromWindow(_splitter));
-	wxRect screen = display.GetClientArea();
 	_splitter->SplitHorizontally (top, _notebook, screen.height > 800 ? -600 : -150);
 
 	_timing_panel = new TimingPanel (this, _film_viewer);
