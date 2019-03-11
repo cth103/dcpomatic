@@ -313,10 +313,12 @@ EncodeServer::broadcast_received ()
 	}
 
 	boost::mutex::scoped_lock lm (_broadcast.mutex);
-	_broadcast.socket->async_receive_from (
-		boost::asio::buffer (_broadcast.buffer, sizeof (_broadcast.buffer)),
-		_broadcast.send_endpoint, boost::bind (&EncodeServer::broadcast_received, this)
-		);
+	if (_broadcast.socket) {
+		_broadcast.socket->async_receive_from (
+			boost::asio::buffer (_broadcast.buffer, sizeof (_broadcast.buffer)),
+			_broadcast.send_endpoint, boost::bind (&EncodeServer::broadcast_received, this)
+			);
+	}
 }
 
 void
