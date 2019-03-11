@@ -68,6 +68,7 @@ private:
 			, socket (0)
 		{}
 
+		boost::mutex mutex;
 		boost::thread* thread;
 		boost::asio::ip::udp::socket* socket;
 		char buffer[64];

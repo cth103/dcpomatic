@@ -97,9 +97,15 @@ EncodeServer::~EncodeServer ()
 		delete i;
 	}
 
-	if (_broadcast.socket) {
-		_broadcast.socket->close ();
+	{
+		boost::mutex::scoped_lock lm (_broadcast.mutex);
+		if (_broadcast.socket) {
+			_broadcast.socket->close ();
+			delete _broadcast.socket;
+			_broadcast.socket = 0;
+		}
 	}
+
 	_broadcast.io_service.stop ();
 	if (_broadcast.thread) {
 		/* Ideally this would be a DCPOMATIC_ASSERT(_broadcast.thread->joinable()) but we
@@ -306,6 +312,7 @@ EncodeServer::broadcast_received ()
 		}
 	}
 
+	boost::mutex::scoped_lock lm (_broadcast.mutex);
 	_broadcast.socket->async_receive_from (
 		boost::asio::buffer (_broadcast.buffer, sizeof (_broadcast.buffer)),
 		_broadcast.send_endpoint, boost::bind (&EncodeServer::broadcast_received, this)
