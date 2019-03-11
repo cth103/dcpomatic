@@ -78,16 +78,16 @@ DCPSubtitleDecoder::pass ()
 		if (ns) {
 			s.push_back (*ns);
 			++_next;
-		}
+		} else {
+			/* XXX: perhaps these image subs should also be collected together like the string ones are;
+			   this would need to be done both here and in DCPDecoder.
+			*/
 
-		/* XXX: perhaps these image subs should also be collected together like the string ones are;
-		   this would need to be done both here and in DCPDecoder.
-		*/
-
-		shared_ptr<dcp::SubtitleImage> ni = dynamic_pointer_cast<dcp::SubtitleImage>(*_next);
-		if (ni) {
-			emit_subtitle_image (p, *ni, film()->frame_size(), only_text());
-			++_next;
+			shared_ptr<dcp::SubtitleImage> ni = dynamic_pointer_cast<dcp::SubtitleImage>(*_next);
+			if (ni) {
+				emit_subtitle_image (p, *ni, film()->frame_size(), only_text());
+				++_next;
+			}
 		}
 	}
 
