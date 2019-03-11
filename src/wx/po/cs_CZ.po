@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-11 00:29+0000\n"
+"POT-Creation-Date: 2019-03-11 22:43+0000\n"
 "PO-Revision-Date: 2019-02-28 13:02+0100\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -216,6 +216,11 @@ msgstr "O DCP-o-matic"
 msgid "Accounts"
 msgstr "Účty"
 
+#: src/wx/player_config_dialog.cc:109
+#, fuzzy
+msgid "Activity log file"
+msgstr "Vybrat log soubor"
+
 #: src/wx/screens_panel.cc:151
 msgid "Add Cinema"
 msgstr "Přidat kino"
@@ -224,7 +229,7 @@ msgstr "Přidat kino"
 msgid "Add Cinema..."
 msgstr "Přidat kino…"
 
-#: src/wx/content_panel.cc:106
+#: src/wx/content_panel.cc:124
 msgid "Add DCP..."
 msgstr "Přidat DCP..."
 
@@ -248,11 +253,11 @@ msgstr "Přidat obraz"
 msgid "Add Screen..."
 msgstr "Přidat obraz…"
 
-#: src/wx/content_panel.cc:107
+#: src/wx/content_panel.cc:125
 msgid "Add a DCP."
 msgstr "Přidat DCP..."
 
-#: src/wx/content_panel.cc:103
+#: src/wx/content_panel.cc:121
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
@@ -260,11 +265,11 @@ msgstr ""
 "Přidat složku s obrázky (která bude použita jako video sekvence) nebo složku "
 "se zvukovými soubory."
 
-#: src/wx/content_panel.cc:98
+#: src/wx/content_panel.cc:116
 msgid "Add file(s)..."
 msgstr "Přidat soubor(y)…"
 
-#: src/wx/content_panel.cc:102
+#: src/wx/content_panel.cc:120
 msgid "Add folder..."
 msgstr "Přidat složku…"
 
@@ -276,7 +281,7 @@ msgstr "Přidat sekvenci obrázků"
 msgid "Add new..."
 msgstr "Přidat nový…"
 
-#: src/wx/content_panel.cc:99
+#: src/wx/content_panel.cc:117
 msgid "Add video, image, sound or subtitle files to the film."
 msgstr "Přidat video, obrázek zvuk nebo titulky do filmu."
 
@@ -335,7 +340,7 @@ msgstr "Došlo k neznámé výjimce."
 msgid "Appearance..."
 msgstr "Vzhled…"
 
-#: src/wx/job_view.cc:171
+#: src/wx/job_view.cc:176
 msgid "Are you sure you want to cancel this job?"
 msgstr "Opravdu že chcete zrušit tuto úlohu?"
 
@@ -391,7 +396,7 @@ msgstr "B"
 msgid "BCC address"
 msgstr "BCC adresa"
 
-#: src/wx/player_config_dialog.cc:264
+#: src/wx/player_config_dialog.cc:279
 msgid "Background image"
 msgstr "Obrázek pozadí"
 
@@ -444,7 +449,7 @@ msgstr "CPL obsah není šifrovaný."
 msgid "Calculate..."
 msgstr "Vypočítat…"
 
-#: src/wx/job_view.cc:69
+#: src/wx/job_view.cc:70
 msgid "Cancel"
 msgstr "Zrušit"
 
@@ -503,7 +508,7 @@ msgstr "Zkontrolovat aktualizace při startu programu"
 msgid "Choose CPL..."
 msgstr "Vyberte CPL…"
 
-#: src/wx/content_panel.cc:492
+#: src/wx/content_panel.cc:508
 msgid "Choose a DCP folder"
 msgstr "Vyberte DCP složku"
 
@@ -511,11 +516,11 @@ msgstr "Vyberte DCP složku"
 msgid "Choose a file"
 msgstr "Vyberte soubor"
 
-#: src/wx/content_panel.cc:419
+#: src/wx/content_panel.cc:435
 msgid "Choose a file or files"
 msgstr "Vyberte soubor nebo soubory"
 
-#: src/wx/content_menu.cc:294 src/wx/content_panel.cc:447
+#: src/wx/content_menu.cc:294 src/wx/content_panel.cc:463
 msgid "Choose a folder"
 msgstr "Vyberte složku"
 
@@ -590,7 +595,7 @@ msgstr "Nastavení obsahu"
 msgid "Content Type"
 msgstr "Typ obsahu"
 
-#: src/wx/player_config_dialog.cc:248
+#: src/wx/player_config_dialog.cc:263
 msgid "Content directory"
 msgstr "Adresář s obsahem"
 
@@ -624,7 +629,7 @@ msgstr "Nelze načíst KDM"
 msgid "Could not load certficate (%s)"
 msgstr "Nelze načíst certifikát (%s)"
 
-#: src/wx/player_config_dialog.cc:318
+#: src/wx/player_config_dialog.cc:333
 msgid "Could not load image file."
 msgstr "Nelze načíst soubor s obrázkem."
 
@@ -639,7 +644,7 @@ msgstr "Nemohu načíst soubor s certifikátem."
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Nemůžu přečíst soubor s klíčem; soubor je příliš dlouhý (%s)"
 
-#: src/wx/film_viewer.cc:661
+#: src/wx/film_viewer.cc:669
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr "Nelze nastavit výstup zvuku. Během přehrávání nebude slyšet zvuk."
@@ -698,7 +703,7 @@ msgstr "DCP ověření OK."
 msgid "DCP verification"
 msgstr "DCP ověření"
 
-#: src/wx/about_dialog.cc:51 src/wx/content_view.cc:77 src/wx/job_view.cc:149
+#: src/wx/about_dialog.cc:51 src/wx/content_view.cc:77 src/wx/job_view.cc:154
 #: src/wx/wx_util.cc:138 src/wx/wx_util.cc:155 src/wx/wx_util.cc:163
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
@@ -711,6 +716,11 @@ msgstr "DCP-o-matic zvuk - %s"
 #: src/wx/initial_setup_dialog.cc:27
 msgid "DCP-o-matic setup"
 msgstr "DCP-o-matic instalace"
+
+#: src/wx/player_config_dialog.cc:114
+#, fuzzy
+msgid "Debug log file"
+msgstr "Vybrat log soubor"
 
 #: src/wx/full_config_dialog.cc:1434
 msgid "Debug: decode"
@@ -789,7 +799,7 @@ msgstr "Předvolené"
 msgid "Delay"
 msgstr "Zpoždění"
 
-#: src/wx/dcp_panel.cc:80 src/wx/job_view.cc:73
+#: src/wx/dcp_panel.cc:80 src/wx/job_view.cc:74
 msgid "Details..."
 msgstr "Detaily..."
 
@@ -797,7 +807,7 @@ msgstr "Detaily..."
 msgid "Device"
 msgstr "Zařízení"
 
-#: src/wx/player_config_dialog.cc:419
+#: src/wx/player_config_dialog.cc:434
 msgid "Devices"
 msgstr "Zařízení"
 
@@ -850,11 +860,11 @@ msgstr "Vynechané snímky: %d"
 msgid "Dual-screen displays"
 msgstr "Dvojitá obrazovka"
 
-#: src/wx/player_config_dialog.cc:370
+#: src/wx/player_config_dialog.cc:385
 msgid "Duration"
 msgstr "Doba trvání"
 
-#: src/wx/content_panel.cc:114
+#: src/wx/content_panel.cc:132
 msgid "Earlier"
 msgstr "Dříve"
 
@@ -1280,11 +1290,11 @@ msgstr "Přeskočit na vybraný obsah"
 msgid "KDM Email"
 msgstr "KDM Email"
 
-#: src/wx/player_config_dialog.cc:258
+#: src/wx/player_config_dialog.cc:273
 msgid "KDM directory"
 msgstr "KDM adresář"
 
-#: src/wx/player_config_dialog.cc:115
+#: src/wx/player_config_dialog.cc:120
 msgid "KDM server URL"
 msgstr "KDM server URL"
 
@@ -1314,7 +1324,7 @@ msgstr "Klíče"
 msgid "Language"
 msgstr "Jazyk"
 
-#: src/wx/content_panel.cc:118
+#: src/wx/content_panel.cc:136
 msgid "Later"
 msgstr "Později"
 
@@ -1358,21 +1368,17 @@ msgstr "Mezera mezi řádky"
 msgid "Load certificate..."
 msgstr "Načíst certifikát…"
 
-#: src/wx/player_config_dialog.cc:229
+#: src/wx/player_config_dialog.cc:244
 msgid "Locations"
 msgstr "Umístění"
 
-#: src/wx/player_config_dialog.cc:120
+#: src/wx/player_config_dialog.cc:125
 msgid "Lock file"
 msgstr "Uzamknout soubor"
 
 #: src/wx/full_config_dialog.cc:1423
 msgid "Log"
 msgstr "Log"
-
-#: src/wx/player_config_dialog.cc:109
-msgid "Log file"
-msgstr "Log soubor"
 
 #: src/wx/audio_dialog.cc:411
 #, c-format
@@ -1383,7 +1389,7 @@ msgstr "Rozsah hlasitosti %.2f LU"
 msgid "Lower priority"
 msgstr "Nižší priorita"
 
-#: src/wx/content_panel.cc:710
+#: src/wx/content_panel.cc:721
 msgid "MISSING: "
 msgstr "CHYBĚJÍCÍ: "
 
@@ -1415,15 +1421,15 @@ msgstr "Vytvořit KDM"
 msgid "Make certificate chain"
 msgstr "Udělat řetěz certifikátoů"
 
-#: src/wx/player_config_dialog.cc:429
+#: src/wx/player_config_dialog.cc:444
 msgid "Manufacture week"
 msgstr "Výrobní týden"
 
-#: src/wx/player_config_dialog.cc:430
+#: src/wx/player_config_dialog.cc:445
 msgid "Manufacture year"
 msgstr "Rok výroby"
 
-#: src/wx/monitor_dialog.cc:34 src/wx/player_config_dialog.cc:426
+#: src/wx/monitor_dialog.cc:34 src/wx/player_config_dialog.cc:441
 msgid "Manufacturer ID"
 msgstr "ID výrobce"
 
@@ -1468,11 +1474,11 @@ msgstr "Přesunout konfiguraci"
 msgid "Move content"
 msgstr "Přesunout obsah"
 
-#: src/wx/content_panel.cc:115
+#: src/wx/content_panel.cc:133
 msgid "Move the selected piece of content earlier in the film."
 msgstr "Přesunout vybrané části obsahu dříve ve filmu."
 
-#: src/wx/content_panel.cc:119
+#: src/wx/content_panel.cc:137
 msgid "Move the selected piece of content later in the film."
 msgstr "Přesunou vybrané části obsahu později ve filmu."
 
@@ -1496,11 +1502,11 @@ msgstr "Moje dokumenty"
 msgid "My problem is"
 msgstr "Můj problém je"
 
-#: src/wx/content_panel.cc:714
+#: src/wx/content_panel.cc:725
 msgid "NEEDS KDM: "
 msgstr "POTŘEBNÉ KDM: "
 
-#: src/wx/content_panel.cc:718
+#: src/wx/content_panel.cc:729
 msgid "NEEDS OV: "
 msgstr "POTŘEBNÉ OV: "
 
@@ -1558,7 +1564,7 @@ msgstr ""
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "Žádné  audio nebude přeneseno z kanálu %d do DCP kanálu %d."
 
-#: src/wx/content_panel.cc:466
+#: src/wx/content_panel.cc:482
 msgid "No content found in this folder."
 msgstr "Žádný obsah nebyl ve složce nalezen."
 
@@ -1577,7 +1583,7 @@ msgstr "Poznámky"
 msgid "Notifications"
 msgstr "Oznámení"
 
-#: src/wx/job_view.cc:82
+#: src/wx/job_view.cc:83
 msgid "Notify when complete"
 msgstr "Oznámit po dokončení"
 
@@ -1605,7 +1611,7 @@ msgstr "Jen enkódování přes servery"
 msgid "Open console window"
 msgstr "Otevřít okno s konzolou"
 
-#: src/wx/content_panel.cc:123
+#: src/wx/content_panel.cc:141
 msgid "Open the timeline for the film."
 msgstr "Otevřít časovou osu pro film."
 
@@ -1698,7 +1704,7 @@ msgstr "Maximum: neznámy"
 msgid "Performance"
 msgstr "Výkon"
 
-#: src/wx/player_config_dialog.cc:363
+#: src/wx/player_config_dialog.cc:378
 msgid "Period"
 msgstr "Období"
 
@@ -1714,7 +1720,7 @@ msgstr "Délka přehrávání"
 msgid "Play sound via"
 msgstr "Přehrát zvuk přes"
 
-#: src/wx/player_config_dialog.cc:253
+#: src/wx/player_config_dialog.cc:268
 msgid "Playlist directory"
 msgstr "Adresář seznamu skladeb"
 
@@ -1746,7 +1752,7 @@ msgstr "ProRes"
 msgid "Processor"
 msgstr "Procesor"
 
-#: src/wx/player_config_dialog.cc:427
+#: src/wx/player_config_dialog.cc:442
 msgid "Product code"
 msgstr "Kód produktu"
 
@@ -1790,7 +1796,7 @@ msgstr "Znovu analyzovat…"
 msgid "Re-make certificates and key..."
 msgstr "Znovuvytvořit certifikáty a klíče…"
 
-#: src/wx/player_config_dialog.cc:443
+#: src/wx/player_config_dialog.cc:458
 msgid "Read current devices"
 msgstr "Číst aktuální zařízení"
 
@@ -1841,7 +1847,7 @@ msgid "Reel|Custom"
 msgstr "Vlastní"
 
 #: src/wx/config_dialog.cc:385 src/wx/content_menu.cc:83
-#: src/wx/content_panel.cc:110 src/wx/templates_dialog.cc:53
+#: src/wx/content_panel.cc:128 src/wx/templates_dialog.cc:53
 #: src/wx/editable_list.h:82
 msgid "Remove"
 msgstr "Odstranit"
@@ -1854,7 +1860,7 @@ msgstr "Odstranit kino"
 msgid "Remove Screen"
 msgstr "Odstranit obraz"
 
-#: src/wx/content_panel.cc:111
+#: src/wx/content_panel.cc:129
 msgid "Remove the selected piece of content from the film."
 msgstr "Odstranit vybranou část obsahu z filmu."
 
@@ -2008,6 +2014,11 @@ msgstr "Vybrat soubor s klíčem"
 msgid "Select OV"
 msgstr "Vybrat OV"
 
+#: src/wx/player_config_dialog.cc:110
+#, fuzzy
+msgid "Select activity log file"
+msgstr "Vybrat log soubor"
+
 #: src/wx/timeline_dialog.cc:66
 msgid "Select and move content"
 msgstr "Vybrat a přesunou obsah"
@@ -2020,17 +2031,18 @@ msgstr "Vybrat soubor databáze filmu a obrazovky"
 msgid "Select configuration file"
 msgstr "Vybrat soubor s konfigurací"
 
-#: src/wx/player_config_dialog.cc:265
+#: src/wx/player_config_dialog.cc:115
+#, fuzzy
+msgid "Select debug log file"
+msgstr "Vybrat log soubor"
+
+#: src/wx/player_config_dialog.cc:280
 msgid "Select image file"
 msgstr "Vybrat soubor obrázku"
 
-#: src/wx/player_config_dialog.cc:121
+#: src/wx/player_config_dialog.cc:126
 msgid "Select lock file"
 msgstr "Vybrat soubor zámku"
-
-#: src/wx/player_config_dialog.cc:110
-msgid "Select log file"
-msgstr "Vybrat log soubor"
 
 #: src/wx/export_dialog.cc:75
 msgid "Select output file"
@@ -2056,7 +2068,7 @@ msgstr "Odeslat překlady"
 msgid "Sequence"
 msgstr "Sekvence"
 
-#: src/wx/player_config_dialog.cc:428
+#: src/wx/player_config_dialog.cc:443
 msgid "Serial"
 msgstr "Sériové"
 
@@ -2313,7 +2325,7 @@ msgstr ""
 msgid "The picture in a reel has an invalid frame rate"
 msgstr "Obraz na reelu má neplatnou snímkovou frekvenci"
 
-#: src/wx/player_config_dialog.cc:358
+#: src/wx/player_config_dialog.cc:373
 msgid "Theatre name"
 msgstr "Název kina"
 
@@ -2330,7 +2342,7 @@ msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
 msgstr "Šablona s tímto názvem již existuje. Chcete jej přepsat?"
 
-#: src/wx/film_viewer.cc:147
+#: src/wx/film_viewer.cc:148
 msgid "There is not enough free memory to do that."
 msgstr "Nemáte dostatek paměti."
 
@@ -2359,11 +2371,11 @@ msgstr "Otisk (Thumbprint)"
 msgid "Timeline"
 msgstr "Časová osa"
 
-#: src/wx/content_panel.cc:122
+#: src/wx/content_panel.cc:140
 msgid "Timeline..."
 msgstr "Časová osa…"
 
-#: src/wx/content_panel.cc:140
+#: src/wx/content_panel.cc:156
 msgid "Timing"
 msgstr "Načasování"
 
@@ -2608,7 +2620,7 @@ msgstr "Zobrazit…"
 msgid "Warnings"
 msgstr "Varování"
 
-#: src/wx/player_config_dialog.cc:347
+#: src/wx/player_config_dialog.cc:362
 msgid "Watermark"
 msgstr "Watermark"
 
@@ -2791,11 +2803,11 @@ msgstr "h"
 msgid "m"
 msgstr "m"
 
-#: src/wx/player_config_dialog.cc:374
+#: src/wx/player_config_dialog.cc:389
 msgid "milliseconds"
 msgstr "milisekundy"
 
-#: src/wx/player_config_dialog.cc:367
+#: src/wx/player_config_dialog.cc:382
 msgid "minutes"
 msgstr "minuty"
 
@@ -2840,6 +2852,9 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#~ msgid "Log file"
+#~ msgstr "Log soubor"
 
 #~ msgid "Export KDM decryption chain..."
 #~ msgstr "Exportovat dešifrovací řetězec KDM…"

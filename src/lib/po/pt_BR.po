@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-11 00:29+0000\n"
+"POT-Creation-Date: 2019-03-11 22:43+0000\n"
 "PO-Revision-Date: 2018-01-15 16:19-0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -66,11 +66,11 @@ msgstr " (%.2f:1)"
 
 #. / TRANSLATORS: the %1 in this string will be filled in with a day of the week
 #. / to say what day a job will finish.
-#: src/lib/job.cc:452
+#: src/lib/job.cc:458
 msgid " on %1"
 msgstr " em %1"
 
-#: src/lib/config.cc:1148
+#: src/lib/config.cc:1158
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -92,7 +92,7 @@ msgstr ""
 "Duração: $LENGTH\n"
 "Tamanho: $SIZE\n"
 
-#: src/lib/config.cc:1126
+#: src/lib/config.cc:1136
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr ""
 
@@ -171,7 +171,7 @@ msgstr "Redutor de ruído 3D"
 msgid "; %.1f fps"
 msgstr "; %.1f fps"
 
-#: src/lib/job.cc:457
+#: src/lib/job.cc:463
 msgid "; %1 remaining; finishing at %2%3"
 msgstr "; %1 faltando; terminando em %2%3"
 
@@ -288,19 +288,19 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bits por pixel"
 
-#: src/lib/util.cc:575
+#: src/lib/util.cc:578
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:576
+#: src/lib/util.cc:579
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:567
+#: src/lib/util.cc:570
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:466
+#: src/lib/job.cc:472
 msgid "Cancelled"
 msgstr "Cancelado"
 
@@ -317,7 +317,7 @@ msgstr "Impossível processar formato de pixel %1 durante %2"
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 
-#: src/lib/util.cc:536
+#: src/lib/util.cc:539
 msgid "Centre"
 msgstr "Central"
 
@@ -558,7 +558,7 @@ msgstr "Impossível abrir arquivo ZIP baixado"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Impossível abrir arquivo ZIP baixado"
 
-#: src/lib/config.cc:1029
+#: src/lib/config.cc:1039
 #, fuzzy
 msgid "Could not open file for writing"
 msgstr "não foi possível abrir o arquivo %1 para gravação (%2)"
@@ -579,19 +579,19 @@ msgstr "Impossível iniciar transferência"
 msgid "Could not write to remote file (%1)"
 msgstr "Impossível modificar arquivo remoto (%1)"
 
-#: src/lib/util.cc:546
+#: src/lib/util.cc:549
 msgid "D-BOX primary"
 msgstr "D-BOX primário"
 
-#: src/lib/util.cc:547
+#: src/lib/util.cc:550
 msgid "D-BOX secondary"
 msgstr "D-BOX secundário"
 
-#: src/lib/util.cc:577
+#: src/lib/util.cc:580
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:578
+#: src/lib/util.cc:581
 msgid "DBS"
 msgstr "DBS"
 
@@ -640,7 +640,7 @@ msgid ""
 msgstr ""
 "O DCP-o-matic não aceita mais o filtro `%1', portanto ele foi desativado."
 
-#: src/lib/config.cc:363 src/lib/config.cc:1123
+#: src/lib/config.cc:364 src/lib/config.cc:1133
 msgid "DCP-o-matic notification"
 msgstr ""
 
@@ -649,7 +649,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Desentrelaçamento de conteúdo"
 
-#: src/lib/config.cc:1111
+#: src/lib/config.cc:1121
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -720,7 +720,7 @@ msgstr "Codificação"
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Erro no arquivo de legenda:: %1 encontrado quando se esperava %2"
 
-#: src/lib/job.cc:464
+#: src/lib/job.cc:470
 msgid "Error: %1"
 msgstr "Erro: %1"
 
@@ -771,7 +771,7 @@ msgstr "Buscando duração"
 msgid "Frame rate"
 msgstr "Taxa de quadros"
 
-#: src/lib/util.cc:876
+#: src/lib/util.cc:879
 msgid "Friday"
 msgstr ""
 
@@ -815,11 +815,11 @@ msgstr "Gama 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Removedor de posterização em gradações"
 
-#: src/lib/util.cc:571
+#: src/lib/util.cc:574
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:540
+#: src/lib/util.cc:543
 msgid "Hearing impaired"
 msgstr "Trilha deficientes auditivos"
 
@@ -847,7 +847,7 @@ msgstr "IEC61966-2-4"
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr ""
 
-#: src/lib/job.cc:147 src/lib/job.cc:197 src/lib/job.cc:207
+#: src/lib/job.cc:147 src/lib/job.cc:203 src/lib/job.cc:213
 msgid "It is not known what caused this error."
 msgstr "Erro desconhecido."
 
@@ -855,7 +855,7 @@ msgstr "Erro desconhecido."
 msgid "JEDEC P22"
 msgstr ""
 
-#: src/lib/config.cc:353 src/lib/config.cc:1108
+#: src/lib/config.cc:354 src/lib/config.cc:1118
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Entrega de KDM: $CPL_NAME"
 
@@ -871,27 +871,27 @@ msgstr ""
 msgid "Kernel deinterlacer"
 msgstr "Desentrelaçador (kernel)"
 
-#: src/lib/ffmpeg_encoder.cc:203 src/lib/util.cc:565
+#: src/lib/ffmpeg_encoder.cc:203 src/lib/util.cc:568
 msgid "L"
 msgstr "L"
 
-#: src/lib/util.cc:573
+#: src/lib/util.cc:576
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:534
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:537
 msgid "Left"
 msgstr "Esquerdo"
 
-#: src/lib/util.cc:542
+#: src/lib/util.cc:545
 msgid "Left centre"
 msgstr "Esquerdo central"
 
-#: src/lib/util.cc:544
+#: src/lib/util.cc:547
 msgid "Left rear surround"
 msgstr "Surround traseiro esquerdo"
 
-#: src/lib/util.cc:538
+#: src/lib/util.cc:541
 msgid "Left surround"
 msgstr "Surround esquerdo"
 
@@ -899,11 +899,11 @@ msgstr "Surround esquerdo"
 msgid "Length"
 msgstr "Duração"
 
-#: src/lib/util.cc:568
+#: src/lib/util.cc:571
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:537
+#: src/lib/util.cc:540
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
@@ -927,7 +927,7 @@ msgstr "Logarítmico (faixa 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarítmico (faixa 316:1)"
 
-#: src/lib/util.cc:569
+#: src/lib/util.cc:572
 msgid "Ls"
 msgstr "Ls"
 
@@ -960,7 +960,7 @@ msgstr "Tamanhos de conteúdo inconsistentes no DCP"
 msgid "Missing required setting %1"
 msgstr "falta configuração obrigatória %1"
 
-#: src/lib/util.cc:868
+#: src/lib/util.cc:871
 msgid "Monday"
 msgstr ""
 
@@ -1000,7 +1000,7 @@ msgstr "Redução de ruído"
 msgid "None"
 msgstr "Nenhum"
 
-#: src/lib/job.cc:462
+#: src/lib/job.cc:468
 msgid "OK (ran for %1)"
 msgstr "OK (executou por %1)"
 
@@ -1035,7 +1035,7 @@ msgstr "Redução de ruído tipo overcomplete wavelet"
 msgid "P3"
 msgstr "P3"
 
-#: src/lib/util.h:57
+#: src/lib/util.h:58
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
 "carl@dcpomatic.com"
@@ -1057,7 +1057,7 @@ msgstr "Erro de programação em %1:%2"
 msgid "Public Service Announcement"
 msgstr "Anúncio de Utilidade Pública"
 
-#: src/lib/ffmpeg_encoder.cc:207 src/lib/util.cc:566
+#: src/lib/ffmpeg_encoder.cc:207 src/lib/util.cc:569
 msgid "R"
 msgstr "R"
 
@@ -1069,7 +1069,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Classificação"
 
-#: src/lib/util.cc:574
+#: src/lib/util.cc:577
 msgid "Rc"
 msgstr "Rc"
 
@@ -1089,19 +1089,19 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:535
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:538
 msgid "Right"
 msgstr "Direito"
 
-#: src/lib/util.cc:543
+#: src/lib/util.cc:546
 msgid "Right centre"
 msgstr "Direito central"
 
-#: src/lib/util.cc:545
+#: src/lib/util.cc:548
 msgid "Right rear surround"
 msgstr "Surround traseiro direito"
 
-#: src/lib/util.cc:539
+#: src/lib/util.cc:542
 msgid "Right surround"
 msgstr "Surround direito"
 
@@ -1113,7 +1113,7 @@ msgstr ""
 msgid "Rotate 90 degrees clockwise"
 msgstr ""
 
-#: src/lib/util.cc:570
+#: src/lib/util.cc:573
 msgid "Rs"
 msgstr "Rs"
 
@@ -1162,7 +1162,7 @@ msgstr "SMPTE ST 432-1 D65 (2010)"
 msgid "SSH error (%1)"
 msgstr "SSH erro (%1)"
 
-#: src/lib/util.cc:878
+#: src/lib/util.cc:881
 msgid "Saturday"
 msgstr ""
 
@@ -1227,7 +1227,7 @@ msgstr "Upmix de estéreo para 5.1, tipo A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Upmix de estéreo para 5.1, tipo B"
 
-#: src/lib/util.cc:866
+#: src/lib/util.cc:869
 msgid "Sunday"
 msgstr ""
 
@@ -1330,7 +1330,7 @@ msgstr ""
 "seu conteúdo e refazer os ajustes. Desculpe-nos, e considere instalar uma "
 "versão mais recente!"
 
-#: src/lib/util.cc:874
+#: src/lib/util.cc:877
 msgid "Thursday"
 msgstr ""
 
@@ -1351,7 +1351,7 @@ msgstr "Transcodificar %1"
 msgid "Transitional"
 msgstr "Transicional"
 
-#: src/lib/util.cc:870
+#: src/lib/util.cc:873
 msgid "Tuesday"
 msgstr ""
 
@@ -1363,7 +1363,7 @@ msgstr "Conteúdo inesperado no arquivo ZIP"
 msgid "Unexpected image type received by server"
 msgstr "Tipo de imagem inesperada recebida pelo servidor"
 
-#: src/lib/job.cc:206
+#: src/lib/job.cc:212
 msgid "Unknown error"
 msgstr "Erro desconhecido"
 
@@ -1387,7 +1387,7 @@ msgstr "Não especificado"
 msgid "Untitled"
 msgstr "Sem_Título"
 
-#: src/lib/util.cc:548 src/lib/util.cc:549
+#: src/lib/util.cc:551 src/lib/util.cc:552
 msgid "Unused"
 msgstr "Sem uso"
 
@@ -1399,7 +1399,7 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/util.cc:572
+#: src/lib/util.cc:575
 msgid "VI"
 msgstr "VI"
 
@@ -1411,7 +1411,7 @@ msgstr ""
 msgid "Vertical flip"
 msgstr ""
 
-#: src/lib/util.cc:541
+#: src/lib/util.cc:544
 msgid "Visually impaired"
 msgstr "Trilha descritiva"
 
@@ -1424,7 +1424,7 @@ msgstr "Aguardando"
 msgid "Weave filter"
 msgstr "Filtro de Telecine"
 
-#: src/lib/util.cc:872
+#: src/lib/util.cc:875
 msgid "Wednesday"
 msgstr ""
 
@@ -1533,7 +1533,7 @@ msgid ""
 msgstr ""
 "Seu nível de áudio é muito alto (no %1). Reduza o ganho no conteúdo de áudio."
 
-#: src/lib/config.cc:312
+#: src/lib/config.cc:313
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr "Seu container padrão não é válido e foi alterado para Flat (1.85:1)"
@@ -1591,7 +1591,7 @@ msgstr "tipo de conteúdo"
 msgid "copying %1"
 msgstr "copiando %1"
 
-#: src/lib/ffmpeg.cc:135 src/lib/ffmpeg_image_proxy.cc:142
+#: src/lib/ffmpeg.cc:135 src/lib/ffmpeg_image_proxy.cc:153
 msgid "could not find stream information"
 msgstr "não foi possível encontrar informação do stream"
 
@@ -1640,18 +1640,18 @@ msgid "frames per second"
 msgstr "quadros por segundo"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:182
+#: src/lib/util.cc:185
 msgid "h"
 msgstr "h"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:680
+#: src/lib/dcp_content.cc:679
 #, fuzzy
 msgid "it does not have closed captions in all its reels."
 msgstr "O DCP não tem som em todos os rolos."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:675
+#: src/lib/dcp_content.cc:674
 #, fuzzy
 msgid "it does not have open subtitles in all its reels."
 msgstr "O DCP não tem legendas em todos os rolos."
@@ -1699,7 +1699,7 @@ msgid "it overlaps other audio content; remove the other content."
 msgstr "Há outros conteúdos de áudio sobrepostos neste DCP. Remova-os."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:686
+#: src/lib/dcp_content.cc:685
 #, fuzzy
 msgid "it overlaps other text content; remove the other content."
 msgstr "Há outros conteúdos de vídeo sobrepostos neste DCP. Remova-os."
@@ -1727,7 +1727,7 @@ msgid "its video frame size differs from the film's."
 msgstr "O tamanho de quadro do vídeo difere daquele do DCP."
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:191
+#: src/lib/util.cc:194
 msgid "m"
 msgstr "m"
 
@@ -1740,7 +1740,7 @@ msgid "name"
 msgstr "nome"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:201
+#: src/lib/util.cc:204
 msgid "s"
 msgstr "s"
 

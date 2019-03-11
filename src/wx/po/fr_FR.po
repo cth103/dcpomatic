@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-11 00:29+0000\n"
+"POT-Creation-Date: 2019-03-11 22:43+0000\n"
 "PO-Revision-Date: 2019-02-14 02:08+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -220,6 +220,11 @@ msgstr "À propos de DCP-o-matic"
 msgid "Accounts"
 msgstr "Comptes"
 
+#: src/wx/player_config_dialog.cc:109
+#, fuzzy
+msgid "Activity log file"
+msgstr "Sélectionner le fichier journal"
+
 #: src/wx/screens_panel.cc:151
 msgid "Add Cinema"
 msgstr "Ajouter Cinéma"
@@ -228,7 +233,7 @@ msgstr "Ajouter Cinéma"
 msgid "Add Cinema..."
 msgstr "Ajouter cinéma"
 
-#: src/wx/content_panel.cc:106
+#: src/wx/content_panel.cc:124
 msgid "Add DCP..."
 msgstr "Ajouter DCP..."
 
@@ -252,11 +257,11 @@ msgstr "Ajouter Ecran"
 msgid "Add Screen..."
 msgstr "Ajout une salle"
 
-#: src/wx/content_panel.cc:107
+#: src/wx/content_panel.cc:125
 msgid "Add a DCP."
 msgstr "Ajouter un DCP..."
 
-#: src/wx/content_panel.cc:103
+#: src/wx/content_panel.cc:121
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
@@ -264,11 +269,11 @@ msgstr ""
 "Ajouter un dossier d'images fixes (qui sera utilisé comme séquence d'images "
 "animées) ou un dossier de fichiers audio."
 
-#: src/wx/content_panel.cc:98
+#: src/wx/content_panel.cc:116
 msgid "Add file(s)..."
 msgstr "Ajout fichier(s)..."
 
-#: src/wx/content_panel.cc:102
+#: src/wx/content_panel.cc:120
 msgid "Add folder..."
 msgstr "Ajouter dossier"
 
@@ -280,7 +285,7 @@ msgstr "Ajout séquence images"
 msgid "Add new..."
 msgstr "Ajouter nouveau..."
 
-#: src/wx/content_panel.cc:99
+#: src/wx/content_panel.cc:117
 msgid "Add video, image, sound or subtitle files to the film."
 msgstr "Ajout de fichiers vidéo, images, sons ou sous-titres au projet."
 
@@ -338,7 +343,7 @@ msgstr "Une erreur inconnue est apparue."
 msgid "Appearance..."
 msgstr "Apparence..."
 
-#: src/wx/job_view.cc:171
+#: src/wx/job_view.cc:176
 msgid "Are you sure you want to cancel this job?"
 msgstr "Etes-vous certain de vouloir annuler cette tâche?"
 
@@ -397,7 +402,7 @@ msgstr "B"
 msgid "BCC address"
 msgstr "Adresse CCI"
 
-#: src/wx/player_config_dialog.cc:264
+#: src/wx/player_config_dialog.cc:279
 msgid "Background image"
 msgstr "Image de fond"
 
@@ -450,7 +455,7 @@ msgstr "Le contenu du CPL n'est pas crypté."
 msgid "Calculate..."
 msgstr "Calcul..."
 
-#: src/wx/job_view.cc:69
+#: src/wx/job_view.cc:70
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -509,7 +514,7 @@ msgstr "Recherche de mises à jour au démarrage."
 msgid "Choose CPL..."
 msgstr "Sélection CPL..."
 
-#: src/wx/content_panel.cc:492
+#: src/wx/content_panel.cc:508
 msgid "Choose a DCP folder"
 msgstr "Choisissez un dossier DCP"
 
@@ -517,11 +522,11 @@ msgstr "Choisissez un dossier DCP"
 msgid "Choose a file"
 msgstr "Choisissez un fichier"
 
-#: src/wx/content_panel.cc:419
+#: src/wx/content_panel.cc:435
 msgid "Choose a file or files"
 msgstr "Choisissez un ou plusieurs fichiers"
 
-#: src/wx/content_menu.cc:294 src/wx/content_panel.cc:447
+#: src/wx/content_menu.cc:294 src/wx/content_panel.cc:463
 msgid "Choose a folder"
 msgstr "Choisissez un dossier"
 
@@ -598,7 +603,7 @@ msgstr "Propriétés du contenu"
 msgid "Content Type"
 msgstr "Type de Contenu"
 
-#: src/wx/player_config_dialog.cc:248
+#: src/wx/player_config_dialog.cc:263
 msgid "Content directory"
 msgstr "Répertoire du contenu"
 
@@ -632,7 +637,7 @@ msgstr "Echec chargement KDM"
 msgid "Could not load certficate (%s)"
 msgstr "Chargement certificat impossible (%s)"
 
-#: src/wx/player_config_dialog.cc:318
+#: src/wx/player_config_dialog.cc:333
 msgid "Could not load image file."
 msgstr "Chargement du fichier image impossible"
 
@@ -647,7 +652,7 @@ msgstr "Lecture du ficher de certificat impossible"
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Fichier clé illisible car trop long (%s)"
 
-#: src/wx/film_viewer.cc:661
+#: src/wx/film_viewer.cc:669
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
@@ -708,7 +713,7 @@ msgstr "Validation du DCP conforme."
 msgid "DCP verification"
 msgstr "Vérification du DCP"
 
-#: src/wx/about_dialog.cc:51 src/wx/content_view.cc:77 src/wx/job_view.cc:149
+#: src/wx/about_dialog.cc:51 src/wx/content_view.cc:77 src/wx/job_view.cc:154
 #: src/wx/wx_util.cc:138 src/wx/wx_util.cc:155 src/wx/wx_util.cc:163
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
@@ -721,6 +726,11 @@ msgstr "Son DCP-o-matic - %s"
 #: src/wx/initial_setup_dialog.cc:27
 msgid "DCP-o-matic setup"
 msgstr "DCP-o-matic préférences"
+
+#: src/wx/player_config_dialog.cc:114
+#, fuzzy
+msgid "Debug log file"
+msgstr "Sélectionner le fichier journal"
 
 #: src/wx/full_config_dialog.cc:1434
 msgid "Debug: decode"
@@ -799,7 +809,7 @@ msgstr "Par défaut"
 msgid "Delay"
 msgstr "Délai"
 
-#: src/wx/dcp_panel.cc:80 src/wx/job_view.cc:73
+#: src/wx/dcp_panel.cc:80 src/wx/job_view.cc:74
 msgid "Details..."
 msgstr "Détails..."
 
@@ -807,7 +817,7 @@ msgstr "Détails..."
 msgid "Device"
 msgstr "Périphérique"
 
-#: src/wx/player_config_dialog.cc:419
+#: src/wx/player_config_dialog.cc:434
 msgid "Devices"
 msgstr "Périphériques"
 
@@ -860,11 +870,11 @@ msgstr "Images perdues: %d"
 msgid "Dual-screen displays"
 msgstr "Affichage double-écran"
 
-#: src/wx/player_config_dialog.cc:370
+#: src/wx/player_config_dialog.cc:385
 msgid "Duration"
 msgstr "Durée"
 
-#: src/wx/content_panel.cc:114
+#: src/wx/content_panel.cc:132
 msgid "Earlier"
 msgstr "Plus tôt"
 
@@ -1290,11 +1300,11 @@ msgstr "Aller au contenu sélectionné"
 msgid "KDM Email"
 msgstr "e-mail KDM"
 
-#: src/wx/player_config_dialog.cc:258
+#: src/wx/player_config_dialog.cc:273
 msgid "KDM directory"
 msgstr "Répertoire des KDM"
 
-#: src/wx/player_config_dialog.cc:115
+#: src/wx/player_config_dialog.cc:120
 msgid "KDM server URL"
 msgstr "URL du server de KDM"
 
@@ -1324,7 +1334,7 @@ msgstr "Clés"
 msgid "Language"
 msgstr "Langue"
 
-#: src/wx/content_panel.cc:118
+#: src/wx/content_panel.cc:136
 msgid "Later"
 msgstr "Plus tard"
 
@@ -1368,21 +1378,17 @@ msgstr "Espacement ligne"
 msgid "Load certificate..."
 msgstr "Chargement certificat..."
 
-#: src/wx/player_config_dialog.cc:229
+#: src/wx/player_config_dialog.cc:244
 msgid "Locations"
 msgstr "Localisation"
 
-#: src/wx/player_config_dialog.cc:120
+#: src/wx/player_config_dialog.cc:125
 msgid "Lock file"
 msgstr "Fichier verrou"
 
 #: src/wx/full_config_dialog.cc:1423
 msgid "Log"
 msgstr "Rapport"
-
-#: src/wx/player_config_dialog.cc:109
-msgid "Log file"
-msgstr "Fichier journal"
 
 #: src/wx/audio_dialog.cc:411
 #, c-format
@@ -1393,7 +1399,7 @@ msgstr "Plage Basses fréquences %.2f LU"
 msgid "Lower priority"
 msgstr "Plus basse priorité"
 
-#: src/wx/content_panel.cc:710
+#: src/wx/content_panel.cc:721
 msgid "MISSING: "
 msgstr "MANQUANT:"
 
@@ -1425,15 +1431,15 @@ msgstr "Générer KDMs"
 msgid "Make certificate chain"
 msgstr "Créer chaîne de certificat"
 
-#: src/wx/player_config_dialog.cc:429
+#: src/wx/player_config_dialog.cc:444
 msgid "Manufacture week"
 msgstr "Semaine d'exploitation"
 
-#: src/wx/player_config_dialog.cc:430
+#: src/wx/player_config_dialog.cc:445
 msgid "Manufacture year"
 msgstr "Année de fabrication"
 
-#: src/wx/monitor_dialog.cc:34 src/wx/player_config_dialog.cc:426
+#: src/wx/monitor_dialog.cc:34 src/wx/player_config_dialog.cc:441
 msgid "Manufacturer ID"
 msgstr "Identification du fabricant"
 
@@ -1478,11 +1484,11 @@ msgstr "Déplacer la configuration"
 msgid "Move content"
 msgstr "Déplacer le contenu"
 
-#: src/wx/content_panel.cc:115
+#: src/wx/content_panel.cc:133
 msgid "Move the selected piece of content earlier in the film."
 msgstr "Déplacer le contenu sélectionné plus tôt dans le film."
 
-#: src/wx/content_panel.cc:119
+#: src/wx/content_panel.cc:137
 msgid "Move the selected piece of content later in the film."
 msgstr "Déplacer le contenu sélectionné plus tard dans le film."
 
@@ -1506,11 +1512,11 @@ msgstr "Mes Documents"
 msgid "My problem is"
 msgstr "Mon problème est :"
 
-#: src/wx/content_panel.cc:714
+#: src/wx/content_panel.cc:725
 msgid "NEEDS KDM: "
 msgstr "DEMANDE de KDM:"
 
-#: src/wx/content_panel.cc:718
+#: src/wx/content_panel.cc:729
 msgid "NEEDS OV: "
 msgstr "OV Nécessaire:"
 
@@ -1568,7 +1574,7 @@ msgstr ""
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "Aucun son ne passera du canal audio %d au canal %d du DCP."
 
-#: src/wx/content_panel.cc:466
+#: src/wx/content_panel.cc:482
 msgid "No content found in this folder."
 msgstr "Aucun contenu trouvé dans ce répertoire"
 
@@ -1587,7 +1593,7 @@ msgstr "Notes"
 msgid "Notifications"
 msgstr "Notifications"
 
-#: src/wx/job_view.cc:82
+#: src/wx/job_view.cc:83
 msgid "Notify when complete"
 msgstr "Notifier à la fin"
 
@@ -1616,7 +1622,7 @@ msgstr "Seuls les serveurs encodent"
 msgid "Open console window"
 msgstr "Ouvrir fenêtre de console"
 
-#: src/wx/content_panel.cc:123
+#: src/wx/content_panel.cc:141
 msgid "Open the timeline for the film."
 msgstr "Ouvrir la timeline pour le film."
 
@@ -1711,7 +1717,7 @@ msgstr "Crête: inconnue"
 msgid "Performance"
 msgstr "Performance"
 
-#: src/wx/player_config_dialog.cc:363
+#: src/wx/player_config_dialog.cc:378
 msgid "Period"
 msgstr "Période"
 
@@ -1727,7 +1733,7 @@ msgstr "Durée finale"
 msgid "Play sound via"
 msgstr "Lire le son par"
 
-#: src/wx/player_config_dialog.cc:253
+#: src/wx/player_config_dialog.cc:268
 msgid "Playlist directory"
 msgstr "Répertoire de la playliste"
 
@@ -1759,7 +1765,7 @@ msgstr "ProRes"
 msgid "Processor"
 msgstr "Processeur"
 
-#: src/wx/player_config_dialog.cc:427
+#: src/wx/player_config_dialog.cc:442
 msgid "Product code"
 msgstr "Code produit"
 
@@ -1803,7 +1809,7 @@ msgstr "Examine à nouveau..."
 msgid "Re-make certificates and key..."
 msgstr "Re-créer les certificats et clés..."
 
-#: src/wx/player_config_dialog.cc:443
+#: src/wx/player_config_dialog.cc:458
 msgid "Read current devices"
 msgstr "Lire sur les périphériques en cours"
 
@@ -1854,7 +1860,7 @@ msgid "Reel|Custom"
 msgstr "Personnalisé"
 
 #: src/wx/config_dialog.cc:385 src/wx/content_menu.cc:83
-#: src/wx/content_panel.cc:110 src/wx/templates_dialog.cc:53
+#: src/wx/content_panel.cc:128 src/wx/templates_dialog.cc:53
 #: src/wx/editable_list.h:82
 msgid "Remove"
 msgstr "Supprimer"
@@ -1867,7 +1873,7 @@ msgstr "Supprimer le cinéma"
 msgid "Remove Screen"
 msgstr "Supprimer la salle"
 
-#: src/wx/content_panel.cc:111
+#: src/wx/content_panel.cc:129
 msgid "Remove the selected piece of content from the film."
 msgstr "Enleve le contenu sélectionné du film."
 
@@ -2021,6 +2027,11 @@ msgstr "Sélectionner fichier clé"
 msgid "Select OV"
 msgstr "Selectionner OV"
 
+#: src/wx/player_config_dialog.cc:110
+#, fuzzy
+msgid "Select activity log file"
+msgstr "Sélectionner le fichier journal"
+
 #: src/wx/timeline_dialog.cc:66
 msgid "Select and move content"
 msgstr "Sélectionner et déplacer le contenu"
@@ -2033,17 +2044,18 @@ msgstr "Selectionner le fichier de données cinémas et écrans"
 msgid "Select configuration file"
 msgstr "Sélectionner le fichier de configuration"
 
-#: src/wx/player_config_dialog.cc:265
+#: src/wx/player_config_dialog.cc:115
+#, fuzzy
+msgid "Select debug log file"
+msgstr "Sélectionner le fichier journal"
+
+#: src/wx/player_config_dialog.cc:280
 msgid "Select image file"
 msgstr "Sélectionner fichier image"
 
-#: src/wx/player_config_dialog.cc:121
+#: src/wx/player_config_dialog.cc:126
 msgid "Select lock file"
 msgstr "Sélectionner le fichier verrou"
-
-#: src/wx/player_config_dialog.cc:110
-msgid "Select log file"
-msgstr "Sélectionner le fichier journal"
 
 #: src/wx/export_dialog.cc:75
 msgid "Select output file"
@@ -2069,7 +2081,7 @@ msgstr "Envoyer traductions"
 msgid "Sequence"
 msgstr "Séquence"
 
-#: src/wx/player_config_dialog.cc:428
+#: src/wx/player_config_dialog.cc:443
 msgid "Serial"
 msgstr "Numéro Série"
 
@@ -2334,7 +2346,7 @@ msgstr ""
 msgid "The picture in a reel has an invalid frame rate"
 msgstr "L'image dans une des bobines présente une cadence invalide."
 
-#: src/wx/player_config_dialog.cc:358
+#: src/wx/player_config_dialog.cc:373
 msgid "Theatre name"
 msgstr "Nom du cinéma"
 
@@ -2351,7 +2363,7 @@ msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
 msgstr "Un modèle existant porte déjà ce nom. Voulez-vous l'écraser?"
 
-#: src/wx/film_viewer.cc:147
+#: src/wx/film_viewer.cc:148
 msgid "There is not enough free memory to do that."
 msgstr "Il n'y a pas assez de mémoire pour faire cela."
 
@@ -2380,11 +2392,11 @@ msgstr "Empreinte"
 msgid "Timeline"
 msgstr "Chronologie"
 
-#: src/wx/content_panel.cc:122
+#: src/wx/content_panel.cc:140
 msgid "Timeline..."
 msgstr "Chronologie..."
 
-#: src/wx/content_panel.cc:140
+#: src/wx/content_panel.cc:156
 msgid "Timing"
 msgstr "Chronologie"
 
@@ -2629,7 +2641,7 @@ msgstr "voir..."
 msgid "Warnings"
 msgstr "Avertissements"
 
-#: src/wx/player_config_dialog.cc:347
+#: src/wx/player_config_dialog.cc:362
 msgid "Watermark"
 msgstr "Filigrane"
 
@@ -2814,11 +2826,11 @@ msgstr "h"
 msgid "m"
 msgstr "m"
 
-#: src/wx/player_config_dialog.cc:374
+#: src/wx/player_config_dialog.cc:389
 msgid "milliseconds"
 msgstr "millisecondes"
 
-#: src/wx/player_config_dialog.cc:367
+#: src/wx/player_config_dialog.cc:382
 msgid "minutes"
 msgstr "minutes"
 
@@ -2863,6 +2875,9 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#~ msgid "Log file"
+#~ msgstr "Fichier journal"
 
 #~ msgid "Export KDM decryption chain..."
 #~ msgstr "Export de la chaine de décryptage KDM..."

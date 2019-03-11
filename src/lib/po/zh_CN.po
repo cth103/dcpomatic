@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-11 00:29+0000\n"
+"POT-Creation-Date: 2019-03-11 22:43+0000\n"
 "PO-Revision-Date: 2018-04-05 20:13+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -68,11 +68,11 @@ msgstr " (%.2f:1)"
 
 #. / TRANSLATORS: the %1 in this string will be filled in with a day of the week
 #. / to say what day a job will finish.
-#: src/lib/job.cc:452
+#: src/lib/job.cc:458
 msgid " on %1"
 msgstr " on %1"
 
-#: src/lib/config.cc:1148
+#: src/lib/config.cc:1158
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -94,7 +94,7 @@ msgstr ""
 "长度: $LENGTH\n"
 "大小: $SIZE\n"
 
-#: src/lib/config.cc:1126
+#: src/lib/config.cc:1136
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr ""
 
@@ -173,7 +173,7 @@ msgstr "3D 降噪"
 msgid "; %.1f fps"
 msgstr "; %.1f fps"
 
-#: src/lib/job.cc:457
+#: src/lib/job.cc:463
 msgid "; %1 remaining; finishing at %2%3"
 msgstr "; 剩余 %1 ; 完成于 %2%3"
 
@@ -280,19 +280,19 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "像素位"
 
-#: src/lib/util.cc:575
+#: src/lib/util.cc:578
 msgid "BsL"
 msgstr "左后环绕"
 
-#: src/lib/util.cc:576
+#: src/lib/util.cc:579
 msgid "BsR"
 msgstr "右后环绕"
 
-#: src/lib/util.cc:567
+#: src/lib/util.cc:570
 msgid "C"
 msgstr "中置"
 
-#: src/lib/job.cc:466
+#: src/lib/job.cc:472
 msgid "Cancelled"
 msgstr "取消"
 
@@ -309,7 +309,7 @@ msgstr "在 %2不能处理图片格式 %1"
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "不能生成KDM，因为项目没有被加密."
 
-#: src/lib/util.cc:536
+#: src/lib/util.cc:539
 msgid "Centre"
 msgstr "居中对齐"
 
@@ -529,7 +529,7 @@ msgstr "无法打开下载的zip文件"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "无法打开下载的zip文件"
 
-#: src/lib/config.cc:1029
+#: src/lib/config.cc:1039
 #, fuzzy
 msgid "Could not open file for writing"
 msgstr "写入 %1文件失败"
@@ -550,19 +550,19 @@ msgstr "无法开始传输"
 msgid "Could not write to remote file (%1)"
 msgstr "写入远程文件 (%1)失败！"
 
-#: src/lib/util.cc:546
+#: src/lib/util.cc:549
 msgid "D-BOX primary"
 msgstr "一级D-BOX"
 
-#: src/lib/util.cc:547
+#: src/lib/util.cc:550
 msgid "D-BOX secondary"
 msgstr "二级D-BOX"
 
-#: src/lib/util.cc:577
+#: src/lib/util.cc:580
 msgid "DBP"
 msgstr "一级D-BOX通道"
 
-#: src/lib/util.cc:578
+#: src/lib/util.cc:581
 msgid "DBS"
 msgstr "DBS"
 
@@ -608,7 +608,7 @@ msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
 msgstr "不支持的格式`%1'。"
 
-#: src/lib/config.cc:363 src/lib/config.cc:1123
+#: src/lib/config.cc:364 src/lib/config.cc:1133
 msgid "DCP-o-matic notification"
 msgstr ""
 
@@ -617,7 +617,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "去除隔行"
 
-#: src/lib/config.cc:1111
+#: src/lib/config.cc:1121
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -687,7 +687,7 @@ msgstr "编码中"
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "字幕文件错误: 执行为 %1 实际要求为%2"
 
-#: src/lib/job.cc:464
+#: src/lib/job.cc:470
 msgid "Error: %1"
 msgstr "错误: (%1)"
 
@@ -739,7 +739,7 @@ msgstr "定位长度"
 msgid "Frame rate"
 msgstr "帧率"
 
-#: src/lib/util.cc:876
+#: src/lib/util.cc:879
 msgid "Friday"
 msgstr "星期五"
 
@@ -783,11 +783,11 @@ msgstr "伽玛 2.8 (BT470BG)"
 msgid "Gradient debander"
 msgstr "梯度"
 
-#: src/lib/util.cc:571
+#: src/lib/util.cc:574
 msgid "HI"
 msgstr "听力障碍"
 
-#: src/lib/util.cc:540
+#: src/lib/util.cc:543
 msgid "Hearing impaired"
 msgstr "听力障碍"
 
@@ -816,7 +816,7 @@ msgstr "IEC61966-2-4"
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr ""
 
-#: src/lib/job.cc:147 src/lib/job.cc:197 src/lib/job.cc:207
+#: src/lib/job.cc:147 src/lib/job.cc:203 src/lib/job.cc:213
 msgid "It is not known what caused this error."
 msgstr "未知错误."
 
@@ -824,7 +824,7 @@ msgstr "未知错误."
 msgid "JEDEC P22"
 msgstr ""
 
-#: src/lib/config.cc:353 src/lib/config.cc:1108
+#: src/lib/config.cc:354 src/lib/config.cc:1118
 msgid "KDM delivery: $CPL_NAME"
 msgstr "发行KDM: $CPL_NAME"
 
@@ -840,27 +840,27 @@ msgstr ""
 msgid "Kernel deinterlacer"
 msgstr "隔行扫描"
 
-#: src/lib/ffmpeg_encoder.cc:203 src/lib/util.cc:565
+#: src/lib/ffmpeg_encoder.cc:203 src/lib/util.cc:568
 msgid "L"
 msgstr "左声道"
 
-#: src/lib/util.cc:573
+#: src/lib/util.cc:576
 msgid "Lc"
 msgstr "左中"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:534
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:537
 msgid "Left"
 msgstr "左声道"
 
-#: src/lib/util.cc:542
+#: src/lib/util.cc:545
 msgid "Left centre"
 msgstr "左中"
 
-#: src/lib/util.cc:544
+#: src/lib/util.cc:547
 msgid "Left rear surround"
 msgstr "左后环绕"
 
-#: src/lib/util.cc:538
+#: src/lib/util.cc:541
 msgid "Left surround"
 msgstr "左环绕"
 
@@ -868,11 +868,11 @@ msgstr "左环绕"
 msgid "Length"
 msgstr "长度"
 
-#: src/lib/util.cc:568
+#: src/lib/util.cc:571
 msgid "Lfe"
 msgstr "次低"
 
-#: src/lib/util.cc:537
+#: src/lib/util.cc:540
 msgid "Lfe (sub)"
 msgstr "次低（重低音）"
 
@@ -896,7 +896,7 @@ msgstr "对数 (范围 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "对数 (范围 316:1)"
 
-#: src/lib/util.cc:569
+#: src/lib/util.cc:572
 msgid "Ls"
 msgstr "左环绕"
 
@@ -929,7 +929,7 @@ msgstr "DCP中的视频分辨率不匹配"
 msgid "Missing required setting %1"
 msgstr "缺少必需的设置%1"
 
-#: src/lib/util.cc:868
+#: src/lib/util.cc:871
 msgid "Monday"
 msgstr "星期一"
 
@@ -969,7 +969,7 @@ msgstr "降噪"
 msgid "None"
 msgstr "无"
 
-#: src/lib/job.cc:462
+#: src/lib/job.cc:468
 msgid "OK (ran for %1)"
 msgstr "确认 (运行 %1)"
 
@@ -1003,7 +1003,7 @@ msgstr "小波降噪"
 msgid "P3"
 msgstr "P3"
 
-#: src/lib/util.h:57
+#: src/lib/util.h:58
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
 "carl@dcpomatic.com"
@@ -1025,7 +1025,7 @@ msgstr "程序内部错误 %1:%2 %3"
 msgid "Public Service Announcement"
 msgstr "公共服务或公告"
 
-#: src/lib/ffmpeg_encoder.cc:207 src/lib/util.cc:566
+#: src/lib/ffmpeg_encoder.cc:207 src/lib/util.cc:569
 msgid "R"
 msgstr "右声道"
 
@@ -1037,7 +1037,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "分级"
 
-#: src/lib/util.cc:574
+#: src/lib/util.cc:577
 msgid "Rc"
 msgstr "右中"
 
@@ -1057,19 +1057,19 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:535
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:538
 msgid "Right"
 msgstr "右声道"
 
-#: src/lib/util.cc:543
+#: src/lib/util.cc:546
 msgid "Right centre"
 msgstr "右中"
 
-#: src/lib/util.cc:545
+#: src/lib/util.cc:548
 msgid "Right rear surround"
 msgstr "右后环绕"
 
-#: src/lib/util.cc:539
+#: src/lib/util.cc:542
 msgid "Right surround"
 msgstr "右环绕"
 
@@ -1081,7 +1081,7 @@ msgstr ""
 msgid "Rotate 90 degrees clockwise"
 msgstr ""
 
-#: src/lib/util.cc:570
+#: src/lib/util.cc:573
 msgid "Rs"
 msgstr "右环绕"
 
@@ -1130,7 +1130,7 @@ msgstr "SMPTE ST 432-1 D65 (2010)"
 msgid "SSH error (%1)"
 msgstr "SSH错误 (%1)"
 
-#: src/lib/util.cc:878
+#: src/lib/util.cc:881
 msgid "Saturday"
 msgstr "星期六"
 
@@ -1195,7 +1195,7 @@ msgstr "立体声到5.1，混音器A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "立体声到5.1，混音器B"
 
-#: src/lib/util.cc:866
+#: src/lib/util.cc:869
 msgid "Sunday"
 msgstr "星期日/天"
 
@@ -1286,7 +1286,7 @@ msgid ""
 "create a new Film, re-add your content and set it up again.  Sorry!"
 msgstr "不支持老版本创建的工程文件!"
 
-#: src/lib/util.cc:874
+#: src/lib/util.cc:877
 msgid "Thursday"
 msgstr "星期四"
 
@@ -1307,7 +1307,7 @@ msgstr "转码 %1"
 msgid "Transitional"
 msgstr "过渡片"
 
-#: src/lib/util.cc:870
+#: src/lib/util.cc:873
 msgid "Tuesday"
 msgstr "星期二"
 
@@ -1319,7 +1319,7 @@ msgstr "意外的ZIP文件的内容"
 msgid "Unexpected image type received by server"
 msgstr "服务器接收到意外的图像类型"
 
-#: src/lib/job.cc:206
+#: src/lib/job.cc:212
 msgid "Unknown error"
 msgstr "未知错误"
 
@@ -1343,7 +1343,7 @@ msgstr "未指定"
 msgid "Untitled"
 msgstr "无标题"
 
-#: src/lib/util.cc:548 src/lib/util.cc:549
+#: src/lib/util.cc:551 src/lib/util.cc:552
 msgid "Unused"
 msgstr "未使用"
 
@@ -1355,7 +1355,7 @@ msgstr "左混"
 msgid "Upmix R"
 msgstr "右混"
 
-#: src/lib/util.cc:572
+#: src/lib/util.cc:575
 msgid "VI"
 msgstr "视力障碍"
 
@@ -1367,7 +1367,7 @@ msgstr ""
 msgid "Vertical flip"
 msgstr ""
 
-#: src/lib/util.cc:541
+#: src/lib/util.cc:544
 msgid "Visually impaired"
 msgstr "视力障碍"
 
@@ -1380,7 +1380,7 @@ msgstr "请稍候"
 msgid "Weave filter"
 msgstr "胶转磁滤镜"
 
-#: src/lib/util.cc:872
+#: src/lib/util.cc:875
 msgid "Wednesday"
 msgstr "星期三"
 
@@ -1479,7 +1479,7 @@ msgid ""
 "audio content."
 msgstr "您的音频增益过大 (在%1)，请降低音频增益。"
 
-#: src/lib/config.cc:312
+#: src/lib/config.cc:313
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr "默认设置的容器不可用，已被替换为Flat (1.85:1)"
@@ -1533,7 +1533,7 @@ msgstr "打包类型"
 msgid "copying %1"
 msgstr "复制中... %1"
 
-#: src/lib/ffmpeg.cc:135 src/lib/ffmpeg_image_proxy.cc:142
+#: src/lib/ffmpeg.cc:135 src/lib/ffmpeg_image_proxy.cc:153
 msgid "could not find stream information"
 msgstr "找不到流信息"
 
@@ -1582,18 +1582,18 @@ msgid "frames per second"
 msgstr "每秒帧数"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:182
+#: src/lib/util.cc:185
 msgid "h"
 msgstr "时"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:680
+#: src/lib/dcp_content.cc:679
 #, fuzzy
 msgid "it does not have closed captions in all its reels."
 msgstr "该DCP的所有分卷无声音。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:675
+#: src/lib/dcp_content.cc:674
 #, fuzzy
 msgid "it does not have open subtitles in all its reels."
 msgstr "该DCP的所有分卷无字幕。"
@@ -1641,7 +1641,7 @@ msgid "it overlaps other audio content; remove the other content."
 msgstr "音频文件重复，请删除重复项."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:686
+#: src/lib/dcp_content.cc:685
 #, fuzzy
 msgid "it overlaps other text content; remove the other content."
 msgstr "视频文件重复，请删除重复项."
@@ -1667,7 +1667,7 @@ msgid "its video frame size differs from the film's."
 msgstr "视频帧大小与DCP不一致。"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:191
+#: src/lib/util.cc:194
 msgid "m"
 msgstr "分"
 
@@ -1680,7 +1680,7 @@ msgid "name"
 msgstr "名字"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:201
+#: src/lib/util.cc:204
 msgid "s"
 msgstr "秒"
 

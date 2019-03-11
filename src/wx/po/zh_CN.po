@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-11 00:29+0000\n"
+"POT-Creation-Date: 2019-03-11 22:43+0000\n"
 "PO-Revision-Date: 2018-04-05 20:48+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -208,6 +208,11 @@ msgstr "关于 DCP-o-matic"
 msgid "Accounts"
 msgstr ""
 
+#: src/wx/player_config_dialog.cc:109
+#, fuzzy
+msgid "Activity log file"
+msgstr "选择输出文件"
+
 #: src/wx/screens_panel.cc:151
 msgid "Add Cinema"
 msgstr "添加影院"
@@ -216,7 +221,7 @@ msgstr "添加影院"
 msgid "Add Cinema..."
 msgstr "添加影院..."
 
-#: src/wx/content_panel.cc:106
+#: src/wx/content_panel.cc:124
 msgid "Add DCP..."
 msgstr "添加 DCP…"
 
@@ -240,21 +245,21 @@ msgstr "添加银幕（放映服务器）"
 msgid "Add Screen..."
 msgstr "添加银幕（放映服务器）..."
 
-#: src/wx/content_panel.cc:107
+#: src/wx/content_panel.cc:125
 msgid "Add a DCP."
 msgstr "添加 DCP..."
 
-#: src/wx/content_panel.cc:103
+#: src/wx/content_panel.cc:121
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
 msgstr "添加包含序列帧文件或音频的媒体文件夹."
 
-#: src/wx/content_panel.cc:98
+#: src/wx/content_panel.cc:116
 msgid "Add file(s)..."
 msgstr "添加文件..."
 
-#: src/wx/content_panel.cc:102
+#: src/wx/content_panel.cc:120
 msgid "Add folder..."
 msgstr "添加文件夹..."
 
@@ -267,7 +272,7 @@ msgstr "添加图像序列"
 msgid "Add new..."
 msgstr "添加影院..."
 
-#: src/wx/content_panel.cc:99
+#: src/wx/content_panel.cc:117
 msgid "Add video, image, sound or subtitle files to the film."
 msgstr "添加视频、图片、音频或字幕文件。"
 
@@ -326,7 +331,7 @@ msgstr "出现未知错误。"
 msgid "Appearance..."
 msgstr "显示..."
 
-#: src/wx/job_view.cc:171
+#: src/wx/job_view.cc:176
 msgid "Are you sure you want to cancel this job?"
 msgstr "确定要取消当前任务吗？"
 
@@ -382,7 +387,7 @@ msgstr "B"
 msgid "BCC address"
 msgstr "抄送地址"
 
-#: src/wx/player_config_dialog.cc:264
+#: src/wx/player_config_dialog.cc:279
 msgid "Background image"
 msgstr ""
 
@@ -436,7 +441,7 @@ msgstr "该CPL内容没有加密."
 msgid "Calculate..."
 msgstr "计算..."
 
-#: src/wx/job_view.cc:69
+#: src/wx/job_view.cc:70
 msgid "Cancel"
 msgstr "取消"
 
@@ -498,7 +503,7 @@ msgstr "启动时检查软件更新"
 msgid "Choose CPL..."
 msgstr "选择CPL…"
 
-#: src/wx/content_panel.cc:492
+#: src/wx/content_panel.cc:508
 msgid "Choose a DCP folder"
 msgstr "选择一个DCP文件夹"
 
@@ -506,11 +511,11 @@ msgstr "选择一个DCP文件夹"
 msgid "Choose a file"
 msgstr "选择一个文件"
 
-#: src/wx/content_panel.cc:419
+#: src/wx/content_panel.cc:435
 msgid "Choose a file or files"
 msgstr "选择一个或多个文件"
 
-#: src/wx/content_menu.cc:294 src/wx/content_panel.cc:447
+#: src/wx/content_menu.cc:294 src/wx/content_panel.cc:463
 msgid "Choose a folder"
 msgstr "选择一个文件夹"
 
@@ -585,7 +590,7 @@ msgstr "内容属性"
 msgid "Content Type"
 msgstr "内容类型"
 
-#: src/wx/player_config_dialog.cc:248
+#: src/wx/player_config_dialog.cc:263
 #, fuzzy
 msgid "Content directory"
 msgstr "DCP目录"
@@ -621,7 +626,7 @@ msgstr "无法加载 KDM."
 msgid "Could not load certficate (%s)"
 msgstr "无法导入证书文件 (%s)"
 
-#: src/wx/player_config_dialog.cc:318
+#: src/wx/player_config_dialog.cc:333
 #, fuzzy
 msgid "Could not load image file."
 msgstr "无法读取证书文件."
@@ -637,7 +642,7 @@ msgstr "无法读取证书文件."
 msgid "Could not read key file; file is too long (%s)"
 msgstr "无法读取Key文件，因为文件过长 (%s)"
 
-#: src/wx/film_viewer.cc:661
+#: src/wx/film_viewer.cc:669
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr "不能设置音频输出 (%s)。因此预览时将没有音频输出."
@@ -697,7 +702,7 @@ msgstr ""
 msgid "DCP verification"
 msgstr "证书秘钥"
 
-#: src/wx/about_dialog.cc:51 src/wx/content_view.cc:77 src/wx/job_view.cc:149
+#: src/wx/about_dialog.cc:51 src/wx/content_view.cc:77 src/wx/job_view.cc:154
 #: src/wx/wx_util.cc:138 src/wx/wx_util.cc:155 src/wx/wx_util.cc:163
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
@@ -711,6 +716,11 @@ msgstr "DCP-o-matic音频 - %s"
 #, fuzzy
 msgid "DCP-o-matic setup"
 msgstr "DCP-o-matic"
+
+#: src/wx/player_config_dialog.cc:114
+#, fuzzy
+msgid "Debug log file"
+msgstr "选择输出文件"
 
 #: src/wx/full_config_dialog.cc:1434
 msgid "Debug: decode"
@@ -789,7 +799,7 @@ msgstr "默认"
 msgid "Delay"
 msgstr "延迟"
 
-#: src/wx/dcp_panel.cc:80 src/wx/job_view.cc:73
+#: src/wx/dcp_panel.cc:80 src/wx/job_view.cc:74
 msgid "Details..."
 msgstr "详细..."
 
@@ -797,7 +807,7 @@ msgstr "详细..."
 msgid "Device"
 msgstr ""
 
-#: src/wx/player_config_dialog.cc:419
+#: src/wx/player_config_dialog.cc:434
 msgid "Devices"
 msgstr ""
 
@@ -850,12 +860,12 @@ msgstr "丢帧: %d"
 msgid "Dual-screen displays"
 msgstr ""
 
-#: src/wx/player_config_dialog.cc:370
+#: src/wx/player_config_dialog.cc:385
 #, fuzzy
 msgid "Duration"
 msgstr "团队"
 
-#: src/wx/content_panel.cc:114
+#: src/wx/content_panel.cc:132
 msgid "Earlier"
 msgstr "上移"
 
@@ -1283,12 +1293,12 @@ msgstr "跳转到已选择的内容"
 msgid "KDM Email"
 msgstr "邮件发送 KDM"
 
-#: src/wx/player_config_dialog.cc:258
+#: src/wx/player_config_dialog.cc:273
 #, fuzzy
 msgid "KDM directory"
 msgstr "DCP目录"
 
-#: src/wx/player_config_dialog.cc:115
+#: src/wx/player_config_dialog.cc:120
 msgid "KDM server URL"
 msgstr ""
 
@@ -1318,7 +1328,7 @@ msgstr "键值"
 msgid "Language"
 msgstr "语言"
 
-#: src/wx/content_panel.cc:118
+#: src/wx/content_panel.cc:136
 msgid "Later"
 msgstr "下移"
 
@@ -1364,12 +1374,12 @@ msgstr "行间距"
 msgid "Load certificate..."
 msgstr "下载证书"
 
-#: src/wx/player_config_dialog.cc:229
+#: src/wx/player_config_dialog.cc:244
 #, fuzzy
 msgid "Locations"
 msgstr "证书秘钥"
 
-#: src/wx/player_config_dialog.cc:120
+#: src/wx/player_config_dialog.cc:125
 #, fuzzy
 msgid "Lock file"
 msgstr "字体文件"
@@ -1377,11 +1387,6 @@ msgstr "字体文件"
 #: src/wx/full_config_dialog.cc:1423
 msgid "Log"
 msgstr "日志"
-
-#: src/wx/player_config_dialog.cc:109
-#, fuzzy
-msgid "Log file"
-msgstr "字体文件"
 
 #: src/wx/audio_dialog.cc:411
 #, c-format
@@ -1392,7 +1397,7 @@ msgstr "响度范围 %.2f LU"
 msgid "Lower priority"
 msgstr "低场优先"
 
-#: src/wx/content_panel.cc:710
+#: src/wx/content_panel.cc:721
 msgid "MISSING: "
 msgstr "丢失: "
 
@@ -1426,16 +1431,16 @@ msgstr "创建KDM"
 msgid "Make certificate chain"
 msgstr "创建证书"
 
-#: src/wx/player_config_dialog.cc:429
+#: src/wx/player_config_dialog.cc:444
 msgid "Manufacture week"
 msgstr ""
 
-#: src/wx/player_config_dialog.cc:430
+#: src/wx/player_config_dialog.cc:445
 #, fuzzy
 msgid "Manufacture year"
 msgstr "服务器制造商"
 
-#: src/wx/monitor_dialog.cc:34 src/wx/player_config_dialog.cc:426
+#: src/wx/monitor_dialog.cc:34 src/wx/player_config_dialog.cc:441
 #, fuzzy
 msgid "Manufacturer ID"
 msgstr "服务器制造商"
@@ -1481,11 +1486,11 @@ msgstr "移动设置"
 msgid "Move content"
 msgstr "分卷内容"
 
-#: src/wx/content_panel.cc:115
+#: src/wx/content_panel.cc:133
 msgid "Move the selected piece of content earlier in the film."
 msgstr "前移选择内容."
 
-#: src/wx/content_panel.cc:119
+#: src/wx/content_panel.cc:137
 msgid "Move the selected piece of content later in the film."
 msgstr "后移选择内容."
 
@@ -1509,11 +1514,11 @@ msgstr "我的文档"
 msgid "My problem is"
 msgstr "错误内容"
 
-#: src/wx/content_panel.cc:714
+#: src/wx/content_panel.cc:725
 msgid "NEEDS KDM: "
 msgstr "需要KDM: "
 
-#: src/wx/content_panel.cc:718
+#: src/wx/content_panel.cc:729
 msgid "NEEDS OV: "
 msgstr "需要OV: "
 
@@ -1565,7 +1570,7 @@ msgstr ""
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "视频中没有音频，从 %d 到 %d 通道的DCP."
 
-#: src/wx/content_panel.cc:466
+#: src/wx/content_panel.cc:482
 msgid "No content found in this folder."
 msgstr "文件夹中没有找到文件."
 
@@ -1585,7 +1590,7 @@ msgstr "记录"
 msgid "Notifications"
 msgstr "证书秘钥"
 
-#: src/wx/job_view.cc:82
+#: src/wx/job_view.cc:83
 msgid "Notify when complete"
 msgstr ""
 
@@ -1614,7 +1619,7 @@ msgstr "仅在编码服务器编码"
 msgid "Open console window"
 msgstr "打开控制台窗口"
 
-#: src/wx/content_panel.cc:123
+#: src/wx/content_panel.cc:141
 msgid "Open the timeline for the film."
 msgstr "打开工程时间线."
 
@@ -1709,7 +1714,7 @@ msgstr "最佳值: 未知"
 msgid "Performance"
 msgstr "偏好设置"
 
-#: src/wx/player_config_dialog.cc:363
+#: src/wx/player_config_dialog.cc:378
 msgid "Period"
 msgstr ""
 
@@ -1725,7 +1730,7 @@ msgstr "播放长度"
 msgid "Play sound via"
 msgstr "声音播放设备"
 
-#: src/wx/player_config_dialog.cc:253
+#: src/wx/player_config_dialog.cc:268
 #, fuzzy
 msgid "Playlist directory"
 msgstr "DCP目录"
@@ -1756,7 +1761,7 @@ msgstr "ProRes"
 msgid "Processor"
 msgstr "处理类型"
 
-#: src/wx/player_config_dialog.cc:427
+#: src/wx/player_config_dialog.cc:442
 msgid "Product code"
 msgstr ""
 
@@ -1800,7 +1805,7 @@ msgstr "重新制作..."
 msgid "Re-make certificates and key..."
 msgstr "重新创建证书和密钥..."
 
-#: src/wx/player_config_dialog.cc:443
+#: src/wx/player_config_dialog.cc:458
 msgid "Read current devices"
 msgstr ""
 
@@ -1852,7 +1857,7 @@ msgid "Reel|Custom"
 msgstr "分卷|自定义"
 
 #: src/wx/config_dialog.cc:385 src/wx/content_menu.cc:83
-#: src/wx/content_panel.cc:110 src/wx/templates_dialog.cc:53
+#: src/wx/content_panel.cc:128 src/wx/templates_dialog.cc:53
 #: src/wx/editable_list.h:82
 msgid "Remove"
 msgstr "移除"
@@ -1865,7 +1870,7 @@ msgstr "移除影院"
 msgid "Remove Screen"
 msgstr "移除厅放映服务器（证书）"
 
-#: src/wx/content_panel.cc:111
+#: src/wx/content_panel.cc:129
 msgid "Remove the selected piece of content from the film."
 msgstr "从工程中删除所选项目."
 
@@ -2023,6 +2028,11 @@ msgstr "选择密钥文件"
 msgid "Select OV"
 msgstr "选择OV"
 
+#: src/wx/player_config_dialog.cc:110
+#, fuzzy
+msgid "Select activity log file"
+msgstr "选择输出文件"
+
 #: src/wx/timeline_dialog.cc:66
 #, fuzzy
 msgid "Select and move content"
@@ -2036,19 +2046,19 @@ msgstr "选择电影和银幕的数据库文件"
 msgid "Select configuration file"
 msgstr "选择配置文件"
 
-#: src/wx/player_config_dialog.cc:265
+#: src/wx/player_config_dialog.cc:115
+#, fuzzy
+msgid "Select debug log file"
+msgstr "选择输出文件"
+
+#: src/wx/player_config_dialog.cc:280
 #, fuzzy
 msgid "Select image file"
 msgstr "选择私钥文件"
 
-#: src/wx/player_config_dialog.cc:121
+#: src/wx/player_config_dialog.cc:126
 #, fuzzy
 msgid "Select lock file"
-msgstr "选择输出文件"
-
-#: src/wx/player_config_dialog.cc:110
-#, fuzzy
-msgid "Select log file"
 msgstr "选择输出文件"
 
 #: src/wx/export_dialog.cc:75
@@ -2076,7 +2086,7 @@ msgstr "团队"
 msgid "Sequence"
 msgstr ""
 
-#: src/wx/player_config_dialog.cc:428
+#: src/wx/player_config_dialog.cc:443
 #, fuzzy
 msgid "Serial"
 msgstr "序列号"
@@ -2324,7 +2334,7 @@ msgstr ""
 msgid "The picture in a reel has an invalid frame rate"
 msgstr ""
 
-#: src/wx/player_config_dialog.cc:358
+#: src/wx/player_config_dialog.cc:373
 #, fuzzy
 msgid "Theatre name"
 msgstr "模板名称"
@@ -2343,7 +2353,7 @@ msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
 msgstr "已存在同名模板，是否覆盖？"
 
-#: src/wx/film_viewer.cc:147
+#: src/wx/film_viewer.cc:148
 msgid "There is not enough free memory to do that."
 msgstr "内存不足."
 
@@ -2370,11 +2380,11 @@ msgstr "指纹"
 msgid "Timeline"
 msgstr "时间线"
 
-#: src/wx/content_panel.cc:122
+#: src/wx/content_panel.cc:140
 msgid "Timeline..."
 msgstr "时间线…"
 
-#: src/wx/content_panel.cc:140
+#: src/wx/content_panel.cc:156
 #, fuzzy
 msgid "Timing"
 msgstr "KDM有效期"
@@ -2626,7 +2636,7 @@ msgstr "视图窗口…"
 msgid "Warnings"
 msgstr "警告"
 
-#: src/wx/player_config_dialog.cc:347
+#: src/wx/player_config_dialog.cc:362
 msgid "Watermark"
 msgstr ""
 
@@ -2808,11 +2818,11 @@ msgstr "时"
 msgid "m"
 msgstr "分"
 
-#: src/wx/player_config_dialog.cc:374
+#: src/wx/player_config_dialog.cc:389
 msgid "milliseconds"
 msgstr ""
 
-#: src/wx/player_config_dialog.cc:367
+#: src/wx/player_config_dialog.cc:382
 msgid "minutes"
 msgstr ""
 
@@ -2858,6 +2868,10 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#, fuzzy
+#~ msgid "Log file"
+#~ msgstr "字体文件"
 
 #~ msgid "Export KDM decryption chain..."
 #~ msgstr "导出KDM解密密匙…"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-11 00:29+0000\n"
+"POT-Creation-Date: 2019-03-11 22:43+0000\n"
 "PO-Revision-Date: 2018-02-01 10:36+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -66,11 +66,11 @@ msgstr " (%.2f:1)"
 
 #. / TRANSLATORS: the %1 in this string will be filled in with a day of the week
 #. / to say what day a job will finish.
-#: src/lib/job.cc:452
+#: src/lib/job.cc:458
 msgid " on %1"
 msgstr "på %1"
 
-#: src/lib/config.cc:1148
+#: src/lib/config.cc:1158
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -92,7 +92,7 @@ msgstr ""
 "Längd: $LENGTH\n"
 "Size: $SIZE\n"
 
-#: src/lib/config.cc:1126
+#: src/lib/config.cc:1136
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr ""
 
@@ -171,7 +171,7 @@ msgstr "3D brusreducering"
 msgid "; %.1f fps"
 msgstr "; %.1f bps"
 
-#: src/lib/job.cc:457
+#: src/lib/job.cc:463
 msgid "; %1 remaining; finishing at %2%3"
 msgstr ";%1 kvarstående; klar vid %2%3"
 
@@ -287,19 +287,19 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bitar per pixel"
 
-#: src/lib/util.cc:575
+#: src/lib/util.cc:578
 msgid "BsL"
 msgstr "BsV"
 
-#: src/lib/util.cc:576
+#: src/lib/util.cc:579
 msgid "BsR"
 msgstr "BsH"
 
-#: src/lib/util.cc:567
+#: src/lib/util.cc:570
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:466
+#: src/lib/job.cc:472
 msgid "Cancelled"
 msgstr "Avbruten"
 
@@ -316,7 +316,7 @@ msgstr "Kan inte hantera pixelformat %1 under %2"
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 
-#: src/lib/util.cc:536
+#: src/lib/util.cc:539
 msgid "Centre"
 msgstr "Center"
 
@@ -550,7 +550,7 @@ msgstr "Kunde inte öppna hämtade ZIP-fil"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Kunde inte öppna hämtade ZIP-fil"
 
-#: src/lib/config.cc:1029
+#: src/lib/config.cc:1039
 #, fuzzy
 msgid "Could not open file for writing"
 msgstr "kunde inte öppna fil %1 för skrivning (%2)"
@@ -571,19 +571,19 @@ msgstr "Kunde inte starta överföring"
 msgid "Could not write to remote file (%1)"
 msgstr "Kunde inte skriva till fjärrfil (%1)"
 
-#: src/lib/util.cc:546
+#: src/lib/util.cc:549
 msgid "D-BOX primary"
 msgstr "D-BOX primär"
 
-#: src/lib/util.cc:547
+#: src/lib/util.cc:550
 msgid "D-BOX secondary"
 msgstr "D-BOX sekundär"
 
-#: src/lib/util.cc:577
+#: src/lib/util.cc:580
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:578
+#: src/lib/util.cc:581
 msgid "DBS"
 msgstr "DBS"
 
@@ -631,7 +631,7 @@ msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
 msgstr "DCP-o-matic stödjer inte längre '%1'-filter, så det har stängts av."
 
-#: src/lib/config.cc:363 src/lib/config.cc:1123
+#: src/lib/config.cc:364 src/lib/config.cc:1133
 msgid "DCP-o-matic notification"
 msgstr ""
 
@@ -640,7 +640,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Avflätning"
 
-#: src/lib/config.cc:1111
+#: src/lib/config.cc:1121
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -712,7 +712,7 @@ msgstr "Kodar"
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Fel i undertext-filen: såg %1 men förväntade %2"
 
-#: src/lib/job.cc:464
+#: src/lib/job.cc:470
 msgid "Error: %1"
 msgstr "Fel: %1"
 
@@ -764,7 +764,7 @@ msgstr "Söker längd"
 msgid "Frame rate"
 msgstr "Bildhastighet"
 
-#: src/lib/util.cc:876
+#: src/lib/util.cc:879
 msgid "Friday"
 msgstr "Fredag"
 
@@ -811,11 +811,11 @@ msgid "Gradient debander"
 msgstr "Gradientutjämnare"
 
 # Sammanhang?
-#: src/lib/util.cc:571
+#: src/lib/util.cc:574
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:540
+#: src/lib/util.cc:543
 msgid "Hearing impaired"
 msgstr "Hörselskadad"
 
@@ -844,7 +844,7 @@ msgstr "IEC61966-2-4"
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr ""
 
-#: src/lib/job.cc:147 src/lib/job.cc:197 src/lib/job.cc:207
+#: src/lib/job.cc:147 src/lib/job.cc:203 src/lib/job.cc:213
 msgid "It is not known what caused this error."
 msgstr "Det är inte känt vad som orsakade detta fel."
 
@@ -852,7 +852,7 @@ msgstr "Det är inte känt vad som orsakade detta fel."
 msgid "JEDEC P22"
 msgstr ""
 
-#: src/lib/config.cc:353 src/lib/config.cc:1108
+#: src/lib/config.cc:354 src/lib/config.cc:1118
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-leverans: $CPL_NAME"
 
@@ -868,27 +868,27 @@ msgstr ""
 msgid "Kernel deinterlacer"
 msgstr "Kernel-avflätare"
 
-#: src/lib/ffmpeg_encoder.cc:203 src/lib/util.cc:565
+#: src/lib/ffmpeg_encoder.cc:203 src/lib/util.cc:568
 msgid "L"
 msgstr "V"
 
-#: src/lib/util.cc:573
+#: src/lib/util.cc:576
 msgid "Lc"
 msgstr "Vc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:534
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:537
 msgid "Left"
 msgstr "Vänster"
 
-#: src/lib/util.cc:542
+#: src/lib/util.cc:545
 msgid "Left centre"
 msgstr "Vänster center"
 
-#: src/lib/util.cc:544
+#: src/lib/util.cc:547
 msgid "Left rear surround"
 msgstr "Vänster bakre surround"
 
-#: src/lib/util.cc:538
+#: src/lib/util.cc:541
 msgid "Left surround"
 msgstr "Vänster surround"
 
@@ -896,11 +896,11 @@ msgstr "Vänster surround"
 msgid "Length"
 msgstr "Längd"
 
-#: src/lib/util.cc:568
+#: src/lib/util.cc:571
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:537
+#: src/lib/util.cc:540
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
@@ -924,7 +924,7 @@ msgstr "Logaritmisk (100:1 omfång)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logaritmisk (316:1 omfång)"
 
-#: src/lib/util.cc:569
+#: src/lib/util.cc:572
 msgid "Ls"
 msgstr "Vs"
 
@@ -957,7 +957,7 @@ msgstr "Icke-passande videostorlekar i DCP:n"
 msgid "Missing required setting %1"
 msgstr "saknad nödvändig inställning %1"
 
-#: src/lib/util.cc:868
+#: src/lib/util.cc:871
 msgid "Monday"
 msgstr "Måndag"
 
@@ -997,7 +997,7 @@ msgstr "Brusreducering"
 msgid "None"
 msgstr "Inget"
 
-#: src/lib/job.cc:462
+#: src/lib/job.cc:468
 msgid "OK (ran for %1)"
 msgstr "OK (kördes %1)"
 
@@ -1032,7 +1032,7 @@ msgstr "Överkomplett wavelet-brusreducering"
 msgid "P3"
 msgstr "P3"
 
-#: src/lib/util.h:57
+#: src/lib/util.h:58
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
 "carl@dcpomatic.com"
@@ -1054,7 +1054,7 @@ msgstr "Programmeringsfel vid %1:%2 %3"
 msgid "Public Service Announcement"
 msgstr "Public Service Announcement"
 
-#: src/lib/ffmpeg_encoder.cc:207 src/lib/util.cc:566
+#: src/lib/ffmpeg_encoder.cc:207 src/lib/util.cc:569
 msgid "R"
 msgstr "H"
 
@@ -1066,7 +1066,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Rating"
 
-#: src/lib/util.cc:574
+#: src/lib/util.cc:577
 msgid "Rc"
 msgstr "Hc"
 
@@ -1086,19 +1086,19 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:535
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:538
 msgid "Right"
 msgstr "Höger"
 
-#: src/lib/util.cc:543
+#: src/lib/util.cc:546
 msgid "Right centre"
 msgstr "Höger center"
 
-#: src/lib/util.cc:545
+#: src/lib/util.cc:548
 msgid "Right rear surround"
 msgstr "Höger bakre surround"
 
-#: src/lib/util.cc:539
+#: src/lib/util.cc:542
 msgid "Right surround"
 msgstr "Höger surround"
 
@@ -1110,7 +1110,7 @@ msgstr ""
 msgid "Rotate 90 degrees clockwise"
 msgstr ""
 
-#: src/lib/util.cc:570
+#: src/lib/util.cc:573
 msgid "Rs"
 msgstr "Hs"
 
@@ -1159,7 +1159,7 @@ msgstr "SMPTE ST 432-1 D65 (2010)"
 msgid "SSH error (%1)"
 msgstr "SSH fel (%1)"
 
-#: src/lib/util.cc:878
+#: src/lib/util.cc:881
 msgid "Saturday"
 msgstr "Lördag"
 
@@ -1224,7 +1224,7 @@ msgstr "Stereo till 5.1 uppmixning A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Stereo till 5.1 uppmixning B"
 
-#: src/lib/util.cc:866
+#: src/lib/util.cc:869
 msgid "Sunday"
 msgstr "Söndag"
 
@@ -1325,7 +1325,7 @@ msgstr ""
 "inte öppnas i denna version. Du måste skapa en ny Film, lägga till ditt "
 "innehåll och konfigurera allt igen. Ursäkta!"
 
-#: src/lib/util.cc:874
+#: src/lib/util.cc:877
 msgid "Thursday"
 msgstr "Torsdag"
 
@@ -1346,7 +1346,7 @@ msgstr "Konvertera %1"
 msgid "Transitional"
 msgstr "Transitional"
 
-#: src/lib/util.cc:870
+#: src/lib/util.cc:873
 msgid "Tuesday"
 msgstr "Tisdag"
 
@@ -1358,7 +1358,7 @@ msgstr "Oväntat innehåll i ZIP-fil"
 msgid "Unexpected image type received by server"
 msgstr "Oväntad bildtyp mottogs av server"
 
-#: src/lib/job.cc:206
+#: src/lib/job.cc:212
 msgid "Unknown error"
 msgstr "Okänt fel"
 
@@ -1382,7 +1382,7 @@ msgstr "Ospecificerad"
 msgid "Untitled"
 msgstr "Utan titel"
 
-#: src/lib/util.cc:548 src/lib/util.cc:549
+#: src/lib/util.cc:551 src/lib/util.cc:552
 msgid "Unused"
 msgstr "Oanvänt"
 
@@ -1395,7 +1395,7 @@ msgid "Upmix R"
 msgstr "Uppmixa H"
 
 # Sammanhang?
-#: src/lib/util.cc:572
+#: src/lib/util.cc:575
 msgid "VI"
 msgstr "VI"
 
@@ -1407,7 +1407,7 @@ msgstr ""
 msgid "Vertical flip"
 msgstr ""
 
-#: src/lib/util.cc:541
+#: src/lib/util.cc:544
 msgid "Visually impaired"
 msgstr "Synskadade"
 
@@ -1420,7 +1420,7 @@ msgstr "Väntar"
 msgid "Weave filter"
 msgstr "Telecine-filter"
 
-#: src/lib/util.cc:872
+#: src/lib/util.cc:875
 msgid "Wednesday"
 msgstr "Onsdag"
 
@@ -1529,7 +1529,7 @@ msgstr ""
 "Din ljudvolym är väldigt hög (på %1). Du borde dra ner volymen på ditt "
 "ljudinnehåll."
 
-#: src/lib/config.cc:312
+#: src/lib/config.cc:313
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
@@ -1586,7 +1586,7 @@ msgstr "innehållstyp"
 msgid "copying %1"
 msgstr "kopierar %1"
 
-#: src/lib/ffmpeg.cc:135 src/lib/ffmpeg_image_proxy.cc:142
+#: src/lib/ffmpeg.cc:135 src/lib/ffmpeg_image_proxy.cc:153
 msgid "could not find stream information"
 msgstr "kunde inte hitta information om strömmen"
 
@@ -1635,18 +1635,18 @@ msgid "frames per second"
 msgstr "bilder per sekund"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:182
+#: src/lib/util.cc:185
 msgid "h"
 msgstr "h"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:680
+#: src/lib/dcp_content.cc:679
 #, fuzzy
 msgid "it does not have closed captions in all its reels."
 msgstr "DCP:n har inte ljud i alla rullar."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:675
+#: src/lib/dcp_content.cc:674
 #, fuzzy
 msgid "it does not have open subtitles in all its reels."
 msgstr "DCP:n har inte undertexter i alla rullar."
@@ -1694,7 +1694,7 @@ msgid "it overlaps other audio content; remove the other content."
 msgstr "Det finns annat audioinnehåll som överlappar denna DCP; ta bort det."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:686
+#: src/lib/dcp_content.cc:685
 #, fuzzy
 msgid "it overlaps other text content; remove the other content."
 msgstr "Det finns annat videoinnehåll som överlappar denna DCP; ta bort det."
@@ -1722,7 +1722,7 @@ msgid "its video frame size differs from the film's."
 msgstr "Bildstorleken i denna film skiljer sig från DCP:ns."
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:191
+#: src/lib/util.cc:194
 msgid "m"
 msgstr "m"
 
@@ -1736,7 +1736,7 @@ msgid "name"
 msgstr "namn"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:201
+#: src/lib/util.cc:204
 msgid "s"
 msgstr "s"
 
