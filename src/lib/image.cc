@@ -1248,7 +1248,9 @@ Image::as_png () const
 {
 	DCPOMATIC_ASSERT (bytes_per_pixel(0) == 4);
 	DCPOMATIC_ASSERT (planes() == 1);
-	DCPOMATIC_ASSERT (pixel_format() == AV_PIX_FMT_BGRA);
+	if (pixel_format() != AV_PIX_FMT_RGBA) {
+		return convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGBA, true, false)->as_png();
+	}
 
 	/* error handling? */
 	png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, reinterpret_cast<void*>(const_cast<Image*>(this)), png_error_fn, 0);

@@ -266,3 +266,15 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test)
 	write_image(save, "build/test/crop_scale_window_test.png", "RGB");
 	check_image("test/data/crop_scale_window_test.png", "build/test/crop_scale_window_test.png");
 }
+
+BOOST_AUTO_TEST_CASE (as_png_test)
+{
+	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/3d_test/000001.png"));
+	shared_ptr<Image> image_rgb = proxy->image().first;
+	shared_ptr<Image> image_bgr = image_rgb->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_BGRA, true, false);
+	image_rgb->as_png().write ("build/test/as_png_rgb.png");
+	image_bgr->as_png().write ("build/test/as_png_bgr.png");
+
+	check_image ("test/data/3d_test/000001.png", "build/test/as_png_rgb.png");
+	check_image ("test/data/3d_test/000001.png", "build/test/as_png_bgr.png");
+}
