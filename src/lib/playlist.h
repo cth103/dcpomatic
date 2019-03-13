@@ -86,6 +86,7 @@ private:
 	void disconnect ();
 	void reconnect (boost::shared_ptr<const Film> film);
 
+	mutable boost::mutex _mutex;
 	/** List of content.  Kept sorted in position order. */
 	ContentList _content;
 	bool _sequence;

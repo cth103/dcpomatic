@@ -61,6 +61,7 @@ Playlist::Playlist ()
 
 Playlist::~Playlist ()
 {
+	boost::mutex::scoped_lock lm (_mutex);
 	_content.clear ();
 	disconnect ();
 }
@@ -99,9 +100,16 @@ Playlist::content_change (weak_ptr<const Film> weak_film, ChangeType type, weak_
 			property == ContentProperty::TRIM_START ||
 			property == ContentProperty::TRIM_END) {
 
-			ContentList old = _content;
-			sort (_content.begin(), _content.end(), ContentSorter ());
-			if (_content != old) {
+			bool changed = false;
+
+			{
+				boost::mutex::scoped_lock lm (_mutex);
+				ContentList old = _content;
+				sort (_content.begin(), _content.end(), ContentSorter ());
+				changed = _content != old;
+			}
+
+			if (changed) {
 				OrderChanged ();
 			}
 		}
@@ -119,6 +127,8 @@ Playlist::maybe_sequence (shared_ptr<const Film> film)
 
 	_sequencing = true;
 
+	ContentList cont = content ();
+
 	/* Keep track of the content that we've set the position of so that we don't
 	   do it twice.
 	*/
@@ -128,7 +138,7 @@ Playlist::maybe_sequence (shared_ptr<const Film> film)
 
 	DCPTime next_left;
 	DCPTime next_right;
-	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+	BOOST_FOREACH (shared_ptr<Content> i, cont) {
 		if (!i->video) {
 			continue;
 		}
@@ -147,7 +157,7 @@ Playlist::maybe_sequence (shared_ptr<const Film> film)
 	/* Captions */
 
 	DCPTime next;
-	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+	BOOST_FOREACH (shared_ptr<Content> i, cont) {
 		if (i->text.empty() || find (placed.begin(), placed.end(), i) != placed.end()) {
 			continue;
 		}
@@ -167,7 +177,7 @@ Playlist::video_identifier () const
 {
 	string t;
 
-	BOOST_FOREACH (shared_ptr<const Content> i, _content) {
+	BOOST_FOREACH (shared_ptr<const Content> i, content()) {
 		bool burn = false;
 		BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
 			if (j->burn()) {
@@ -192,6 +202,8 @@ Playlist::video_identifier () const
 void
 Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, list<string>& notes)
 {
+	boost::mutex::scoped_lock lm (_mutex);
+
 	BOOST_FOREACH (cxml::NodePtr i, node->node_children ("Content")) {
 		shared_ptr<Content> content = content_factory (i, version, notes);
 
@@ -250,7 +262,7 @@ Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 void
 Playlist::as_xml (xmlpp::Node* node, bool with_content_paths)
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+	BOOST_FOREACH (shared_ptr<Content> i, content()) {
 		i->as_xml (node->add_child ("Content"), with_content_paths);
 	}
 }
@@ -259,9 +271,14 @@ void
 Playlist::add (shared_ptr<const Film> film, shared_ptr<Content> c)
 {
 	Change (CHANGE_TYPE_PENDING);
-	_content.push_back (c);
-	sort (_content.begin(), _content.end(), ContentSorter ());
-	reconnect (film);
+
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_content.push_back (c);
+		sort (_content.begin(), _content.end(), ContentSorter ());
+		reconnect (film);
+	}
+
 	Change (CHANGE_TYPE_DONE);
 }
 
@@ -270,16 +287,27 @@ Playlist::remove (shared_ptr<Content> c)
 {
 	Change (CHANGE_TYPE_PENDING);
 
-	ContentList::iterator i = _content.begin ();
-	while (i != _content.end() && *i != c) {
-		++i;
+	bool cancelled = false;
+
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+
+		ContentList::iterator i = _content.begin ();
+		while (i != _content.end() && *i != c) {
+			++i;
+		}
+
+		if (i != _content.end()) {
+			_content.erase (i);
+		} else {
+			cancelled = true;
+		}
 	}
 
-	if (i != _content.end ()) {
-		_content.erase (i);
-		Change (CHANGE_TYPE_DONE);
-	} else {
+	if (cancelled) {
 		Change (CHANGE_TYPE_CANCELLED);
+	} else {
+		Change (CHANGE_TYPE_DONE);
 	}
 
 	/* This won't change order, so it does not need a sort */
@@ -290,14 +318,18 @@ Playlist::remove (ContentList c)
 {
 	Change (CHANGE_TYPE_PENDING);
 
-	BOOST_FOREACH (shared_ptr<Content> i, c) {
-		ContentList::iterator j = _content.begin ();
-		while (j != _content.end() && *j != i) {
-			++j;
-		}
+	{
+		boost::mutex::scoped_lock lm (_mutex);
 
-		if (j != _content.end ()) {
-			_content.erase (j);
+		BOOST_FOREACH (shared_ptr<Content> i, c) {
+			ContentList::iterator j = _content.begin ();
+			while (j != _content.end() && *j != i) {
+				++j;
+			}
+
+			if (j != _content.end ()) {
+				_content.erase (j);
+			}
 		}
 	}
 
@@ -345,7 +377,7 @@ Playlist::best_video_frame_rate () const
 	while (i != candidates.end()) {
 
 		float this_error = 0;
-		BOOST_FOREACH (shared_ptr<Content> j, _content) {
+		BOOST_FOREACH (shared_ptr<Content> j, content()) {
 			if (!j->video || !j->video_frame_rate()) {
 				continue;
 			}
@@ -380,7 +412,7 @@ DCPTime
 Playlist::length (shared_ptr<const Film> film) const
 {
 	DCPTime len;
-	BOOST_FOREACH (shared_ptr<const Content> i, _content) {
+	BOOST_FOREACH (shared_ptr<const Content> i, content()) {
 		len = max (len, i->end(film));
 	}
 
@@ -391,28 +423,31 @@ Playlist::length (shared_ptr<const Film> film) const
 optional<DCPTime>
 Playlist::start () const
 {
-	if (_content.empty ()) {
+	ContentList cont = content ();
+	if (cont.empty()) {
 		return optional<DCPTime> ();
 	}
 
 	DCPTime start = DCPTime::max ();
-	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+	BOOST_FOREACH (shared_ptr<Content> i, cont) {
 		start = min (start, i->position ());
 	}
 
 	return start;
 }
 
+/** Must be called with a lock held on _mutex */
 void
 Playlist::disconnect ()
 {
-	for (list<boost::signals2::connection>::iterator i = _content_connections.begin(); i != _content_connections.end(); ++i) {
-		i->disconnect ();
+	BOOST_FOREACH (boost::signals2::connection& i, _content_connections) {
+		i.disconnect ();
 	}
 
 	_content_connections.clear ();
 }
 
+/** Must be called with a lock held on _mutex */
 void
 Playlist::reconnect (shared_ptr<const Film> film)
 {
@@ -427,7 +462,7 @@ DCPTime
 Playlist::video_end (shared_ptr<const Film> film) const
 {
 	DCPTime end;
-	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+	BOOST_FOREACH (shared_ptr<Content> i, content()) {
 		if (i->video) {
 			end = max (end, i->end(film));
 		}
@@ -440,7 +475,7 @@ DCPTime
 Playlist::text_end (shared_ptr<const Film> film) const
 {
 	DCPTime end;
-	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+	BOOST_FOREACH (shared_ptr<Content> i, content()) {
 		if (!i->text.empty ()) {
 			end = max (end, i->end(film));
 		}
@@ -452,7 +487,8 @@ Playlist::text_end (shared_ptr<const Film> film) const
 FrameRateChange
 Playlist::active_frame_rate_change (DCPTime t, int dcp_video_frame_rate) const
 {
-	for (ContentList::const_reverse_iterator i = _content.rbegin(); i != _content.rend(); ++i) {
+	ContentList cont = content ();
+	for (ContentList::const_reverse_iterator i = cont.rbegin(); i != cont.rend(); ++i) {
 		if (!(*i)->video) {
 			continue;
 		}
@@ -502,6 +538,7 @@ ContentSorter::operator() (shared_ptr<Content> a, shared_ptr<Content> b)
 ContentList
 Playlist::content () const
 {
+	boost::mutex::scoped_lock lm (_mutex);
 	return _content;
 }
 
@@ -518,34 +555,39 @@ Playlist::repeat (shared_ptr<const Film> film, ContentList c, int n)
 
 	Change (CHANGE_TYPE_PENDING);
 
-	DCPTime pos = range.second;
-	for (int i = 0; i < n; ++i) {
-		BOOST_FOREACH (shared_ptr<Content> j, c) {
-			shared_ptr<Content> copy = j->clone ();
-			copy->set_position (film, pos + copy->position() - range.first);
-			_content.push_back (copy);
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+
+		DCPTime pos = range.second;
+		for (int i = 0; i < n; ++i) {
+			BOOST_FOREACH (shared_ptr<Content> j, c) {
+				shared_ptr<Content> copy = j->clone ();
+				copy->set_position (film, pos + copy->position() - range.first);
+				_content.push_back (copy);
+			}
+			pos += range.second - range.first;
 		}
-		pos += range.second - range.first;
+
+		sort (_content.begin(), _content.end(), ContentSorter ());
+		reconnect (film);
 	}
 
-	sort (_content.begin(), _content.end(), ContentSorter ());
-
-	reconnect (film);
 	Change (CHANGE_TYPE_DONE);
 }
 
 void
 Playlist::move_earlier (shared_ptr<const Film> film, shared_ptr<Content> c)
 {
-	ContentList::iterator previous = _content.end ();
-	ContentList::iterator i = _content.begin();
-	while (i != _content.end() && *i != c) {
+	ContentList cont = content ();
+	ContentList::iterator previous = cont.end();
+	ContentList::iterator i = cont.begin();
+	while (i != cont.end() && *i != c) {
 		previous = i;
 		++i;
 	}
 
-	DCPOMATIC_ASSERT (i != _content.end ());
-	if (previous == _content.end ()) {
+	DCPOMATIC_ASSERT (i != cont.end());
+	if (previous == cont.end()) {
 		return;
 	}
 
@@ -559,17 +601,18 @@ Playlist::move_earlier (shared_ptr<const Film> film, shared_ptr<Content> c)
 void
 Playlist::move_later (shared_ptr<const Film> film, shared_ptr<Content> c)
 {
-	ContentList::iterator i = _content.begin();
-	while (i != _content.end() && *i != c) {
+	ContentList cont = content ();
+	ContentList::iterator i = cont.begin();
+	while (i != cont.end() && *i != c) {
 		++i;
 	}
 
-	DCPOMATIC_ASSERT (i != _content.end ());
+	DCPOMATIC_ASSERT (i != cont.end());
 
 	ContentList::iterator next = i;
 	++next;
 
-	if (next == _content.end ()) {
+	if (next == cont.end()) {
 		return;
 	}
 
@@ -585,7 +628,7 @@ Playlist::required_disk_space (shared_ptr<const Film> film, int j2k_bandwidth, i
 	int64_t video = uint64_t (j2k_bandwidth / 8) * length(film).seconds();
 	int64_t audio = uint64_t (audio_channels * audio_frame_rate * 3) * length(film).seconds();
 
-	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+	BOOST_FOREACH (shared_ptr<Content> i, content()) {
 		shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent> (i);
 		if (d) {
 			if (d->reference_video()) {
@@ -606,7 +649,7 @@ Playlist::content_summary (shared_ptr<const Film> film, DCPTimePeriod period) co
 {
 	string best_summary;
 	int best_score = -1;
-	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+	BOOST_FOREACH (shared_ptr<Content> i, content()) {
 		int score = 0;
 		optional<DCPTimePeriod> const o = DCPTimePeriod(i->position(), i->end(film)).overlap (period);
 		if (o) {
@@ -631,7 +674,7 @@ Playlist::speed_up_range (int dcp_video_frame_rate) const
 {
 	pair<double, double> range (DBL_MAX, -DBL_MAX);
 
-	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+	BOOST_FOREACH (shared_ptr<Content> i, content()) {
 		if (!i->video) {
 			continue;
 		}
