@@ -231,7 +231,6 @@ Player::setup_pieces_unlocked ()
 	_last_video_time = DCPTime ();
 	_last_video_eyes = EYES_BOTH;
 	_last_audio_time = DCPTime ();
-	_suspended = false;
 }
 
 void
@@ -247,6 +246,7 @@ Player::playlist_content_change (ChangeType type, int property, bool frequent)
 	} else if (type == CHANGE_TYPE_DONE) {
 		/* A change in our content has gone through.  Re-build our pieces. */
 		setup_pieces ();
+		_suspended = false;
 	} else if (type == CHANGE_TYPE_CANCELLED) {
 		boost::mutex::scoped_lock lm (_mutex);
 		_suspended = false;
