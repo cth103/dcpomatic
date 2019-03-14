@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-11 22:43+0000\n"
-"PO-Revision-Date: 2019-02-08 11:54+0100\n"
+"PO-Revision-Date: 2019-03-14 01:49+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -124,18 +124,16 @@ msgid "About DCP-o-matic"
 msgstr "Over DCP-o-matic"
 
 #: src/tools/dcpomatic_playlist.cc:132
-#, fuzzy
 msgid "Add"
-msgstr "Voeg toe..."
+msgstr "Voeg toe"
 
 #: src/tools/dcpomatic_batch.cc:127
 msgid "Add Film..."
 msgstr "Voeg film toe..."
 
 #: src/tools/dcpomatic_playlist.cc:52
-#, fuzzy
 msgid "Add content"
-msgstr "Laden content"
+msgstr "Voeg content toe"
 
 #: src/tools/dcpomatic_kdm.cc:158
 msgid "Add folder..."
@@ -264,13 +262,12 @@ msgid "Could not open film at %s"
 msgstr "Kan film niet openen op %s."
 
 #: src/tools/dcpomatic_kdm.cc:448
-#, fuzzy
 msgid ""
 "Could not read file as a KDM.  It is much too large.  Make sure you are "
 "loading a DKDM (XML) file."
 msgstr ""
-"Kan het bestand niet als een KDM lezen.  Misschien is het slecht "
-"geformatteerd, of helemaal geen KDM."
+"Kan het bestand niet als een KDM lezen.  Het is veel te groot.  Zorg ervoor "
+"dat u een DKDM (XML) bestand laadt."
 
 #: src/tools/dcpomatic_kdm.cc:436
 msgid ""
@@ -323,9 +320,8 @@ msgid "Create KDMs"
 msgstr "Maak KDM's"
 
 #: src/tools/dcpomatic_playlist.cc:179
-#, fuzzy
 msgid "DCP"
-msgstr "CPL"
+msgstr "DCP"
 
 #: src/tools/dcpomatic.cc:484 src/tools/dcpomatic.cc:1455
 #: src/tools/dcpomatic.cc:1493
@@ -356,9 +352,8 @@ msgid "DCP-o-matic Player could not start."
 msgstr "Kan DCP-o-matic Player niet starten."
 
 #: src/tools/dcpomatic_playlist.cc:383
-#, fuzzy
 msgid "DCP-o-matic Playlist Editor"
-msgstr "DCP-o-matic Player"
+msgstr "DCP-o-matic Playlist Editor"
 
 #: src/tools/dcpomatic_kdm.cc:624 src/tools/dcpomatic_playlist.cc:395
 msgid "DCP-o-matic could not start"
@@ -382,7 +377,7 @@ msgstr "Decodeer op kwart resolutie"
 
 #: src/tools/dcpomatic_playlist.cc:107
 msgid "Disable timeline"
-msgstr ""
+msgstr "Schakel tijdlijn uit"
 
 #: src/tools/dcpomatic.cc:740
 #, c-format
@@ -399,7 +394,7 @@ msgstr "Dupliceer niet"
 
 #: src/tools/dcpomatic_playlist.cc:131
 msgid "Down"
-msgstr ""
+msgstr "Omlaag"
 
 #: src/tools/dcpomatic_player.cc:483
 msgid "Dual screen\tShift+F11"
@@ -423,7 +418,7 @@ msgstr "Dupliceer..."
 
 #: src/tools/dcpomatic_playlist.cc:179
 msgid "E-cinema"
-msgstr ""
+msgstr "E-cinema"
 
 #: src/tools/dcpomatic.cc:1264 src/tools/dcpomatic_batch.cc:84
 msgid "Encoding servers..."
@@ -431,7 +426,7 @@ msgstr "Encodeer-servers..."
 
 #: src/tools/dcpomatic_playlist.cc:105
 msgid "Encrypted"
-msgstr ""
+msgstr "Versleuteld"
 
 #: src/tools/dcpomatic.cc:1252
 msgid "Export...\tCtrl-E"
@@ -450,7 +445,7 @@ msgstr "Film is gewijzigd"
 
 #: src/tools/dcpomatic_playlist.cc:104
 msgid "Format"
-msgstr ""
+msgstr "Formaat"
 
 #: src/tools/dcpomatic_server.cc:153
 msgid "Frames per second"
@@ -471,7 +466,7 @@ msgstr "Tijdvenster"
 
 #: src/tools/dcpomatic_playlist.cc:135
 msgid "Load playlist"
-msgstr ""
+msgstr "Laad afspeellijst"
 
 #: src/tools/dcpomatic_player.cc:354 src/tools/dcpomatic_player.cc:569
 msgid "Loading content"
@@ -495,11 +490,11 @@ msgstr "Beheer templates..."
 
 #: src/tools/dcpomatic_playlist.cc:180
 msgid "N"
-msgstr ""
+msgstr "N"
 
 #: src/tools/dcpomatic_playlist.cc:101
 msgid "Name"
-msgstr ""
+msgstr "Naam"
 
 #: src/tools/dcpomatic.cc:494
 msgid "New Film"
@@ -570,7 +565,7 @@ msgstr "Bewaar film en dupliceer"
 
 #: src/tools/dcpomatic_playlist.cc:134
 msgid "Save playlist"
-msgstr ""
+msgstr "Bewaar afspeellijst"
 
 #: src/tools/dcpomatic.cc:1243
 msgid "Scale to fit &height"
@@ -605,9 +600,8 @@ msgid "Select film to open"
 msgstr "Kies film om te openen"
 
 #: src/tools/dcpomatic_playlist.cc:287 src/tools/dcpomatic_playlist.cc:299
-#, fuzzy
 msgid "Select playlist file"
-msgstr "Selecteer DKDM-bestand"
+msgstr "Selecteer afspeellijst-bestand"
 
 #: src/tools/dcpomatic_kdm.cc:354
 msgid "Send KDM emails"
@@ -623,15 +617,15 @@ msgstr "Pas decodeer-resolutie aan aan weergave"
 
 #: src/tools/dcpomatic_playlist.cc:106
 msgid "Skippable"
-msgstr ""
+msgstr "Kan worden overgeslagen"
 
 #: src/tools/dcpomatic_playlist.cc:309
 msgid "Some content in this playlist was not found."
-msgstr ""
+msgstr "Een deel van de content in deze afspeellijst is niet gevonden."
 
 #: src/tools/dcpomatic_playlist.cc:108
 msgid "Stop after play"
-msgstr ""
+msgstr "Stop na het afspelen"
 
 #: src/tools/dcpomatic.cc:710
 #, c-format
@@ -716,7 +710,7 @@ msgstr "Probeer de %s tekens uit uw mapnaam te verwijderen."
 
 #: src/tools/dcpomatic_playlist.cc:103
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: src/tools/dcpomatic.cc:1063 src/tools/dcpomatic_batch.cc:231
 msgid "Unfinished jobs"
@@ -724,7 +718,7 @@ msgstr "Onvoltooide taken"
 
 #: src/tools/dcpomatic_playlist.cc:130
 msgid "Up"
-msgstr ""
+msgstr "Omhoog"
 
 #: src/tools/dcpomatic_player.cc:495
 msgid "Verify DCP"
@@ -740,7 +734,7 @@ msgstr "Video-golfvorm..."
 
 #: src/tools/dcpomatic_playlist.cc:180
 msgid "Y"
-msgstr ""
+msgstr "J"
 
 #: src/tools/dcpomatic.cc:859
 #, c-format
