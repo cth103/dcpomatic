@@ -349,33 +349,33 @@ FilmViewer::paint_panel ()
 
 	if (!_out_size.width || !_out_size.height || !_film || !_frame || _out_size != _frame->size()) {
 		dc.Clear ();
-		return;
-	}
+	} else {
 
-	wxImage frame (_out_size.width, _out_size.height, _frame->data()[0], true);
-	wxBitmap frame_bitmap (frame);
-	dc.DrawBitmap (frame_bitmap, 0, max(0, (_panel_size.height - _out_size.height) / 2));
+		wxImage frame (_out_size.width, _out_size.height, _frame->data()[0], true);
+		wxBitmap frame_bitmap (frame);
+		dc.DrawBitmap (frame_bitmap, 0, max(0, (_panel_size.height - _out_size.height) / 2));
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
-	DCPTime const period = DCPTime::from_seconds(Config::instance()->player_watermark_period() * 60);
-	int64_t n = _video_position.get() / period.get();
-	DCPTime from(n * period.get());
-	DCPTime to = from + DCPTime::from_seconds(Config::instance()->player_watermark_duration() / 1000.0);
-	if (from <= _video_position && _video_position <= to) {
-		if (!_in_watermark) {
-			_in_watermark = true;
-			_watermark_x = rand() % _panel_size.width;
-			_watermark_y = rand() % _panel_size.height;
+		DCPTime const period = DCPTime::from_seconds(Config::instance()->player_watermark_period() * 60);
+		int64_t n = _video_position.get() / period.get();
+		DCPTime from(n * period.get());
+		DCPTime to = from + DCPTime::from_seconds(Config::instance()->player_watermark_duration() / 1000.0);
+		if (from <= _video_position && _video_position <= to) {
+			if (!_in_watermark) {
+				_in_watermark = true;
+				_watermark_x = rand() % _panel_size.width;
+				_watermark_y = rand() % _panel_size.height;
+			}
+			dc.SetTextForeground(*wxWHITE);
+			string wm = Config::instance()->player_watermark_theatre();
+			boost::posix_time::ptime t = boost::posix_time::second_clock::local_time();
+			wm += "\n" + boost::posix_time::to_iso_extended_string(t);
+			dc.DrawText(std_to_wx(wm), _watermark_x, _watermark_y);
+		} else {
+			_in_watermark = false;
 		}
-		dc.SetTextForeground(*wxWHITE);
-		string wm = Config::instance()->player_watermark_theatre();
-		boost::posix_time::ptime t = boost::posix_time::second_clock::local_time();
-		wm += "\n" + boost::posix_time::to_iso_extended_string(t);
-		dc.DrawText(std_to_wx(wm), _watermark_x, _watermark_y);
-	} else {
-		_in_watermark = false;
-	}
 #endif
+	}
 
 	if (_out_size.width < _panel_size.width) {
 		/* XXX: these colours are right for GNOME; may need adjusting for other OS */
