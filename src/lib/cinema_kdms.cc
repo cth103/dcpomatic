@@ -206,6 +206,10 @@ CinemaKDMs::email (
 
 	BOOST_FOREACH (CinemaKDMs const & i, cinema_kdms) {
 
+		if (i.cinema->emails.empty()) {
+			continue;
+		}
+
 		name_values['c'] = i.cinema->name;
 
 		boost::filesystem::path zip_file = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path();
