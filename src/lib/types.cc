@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -22,8 +22,13 @@
 #include "compose.hpp"
 #include "dcpomatic_assert.h"
 #include <dcp/raw_convert.h>
+#include <dcp/cpl.h>
+#include <dcp/dcp.h>
+#include <dcp/reel_mxf.h>
+#include <dcp/reel_asset.h>
 #include <libxml++/libxml++.h>
 #include <libcxml/cxml.h>
+#include <boost/foreach.hpp>
 
 #include "i18n.h"
 
@@ -182,4 +187,25 @@ string_to_video_frame_type (string s)
 	}
 
 	DCPOMATIC_ASSERT (false);
+}
+
+CPLSummary::CPLSummary (boost::filesystem::path p)
+	: dcp_directory (p.leaf().string())
+{
+	dcp::DCP dcp (p);
+	dcp.read ();
+
+	cpl_id = dcp.cpls().front()->id();
+	cpl_annotation_text = dcp.cpls().front()->annotation_text();
+	cpl_file = dcp.cpls().front()->file().get();
+
+	encrypted = false;
+	BOOST_FOREACH (shared_ptr<dcp::CPL> j, dcp.cpls()) {
+		BOOST_FOREACH (shared_ptr<const dcp::ReelAsset> k, j->reel_assets()) {
+			shared_ptr<const dcp::ReelMXF> mxf = boost::dynamic_pointer_cast<const dcp::ReelMXF> (k);
+			if (mxf && mxf->key_id()) {
+				encrypted = true;
+			}
+		}
+	}
 }

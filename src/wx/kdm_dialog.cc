@@ -87,7 +87,15 @@ KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	h = new StaticText (this, _("CPL"));
 	h->SetFont (subheading_font);
 	right->Add (h, 0, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP * 2);
-	_cpl = new KDMCPLPanel (this, film->cpls ());
+
+	vector<CPLSummary> cpls;
+	BOOST_FOREACH (CPLSummary const & i, film->cpls()) {
+		if (i.encrypted) {
+			cpls.push_back (i);
+		}
+	}
+
+	_cpl = new KDMCPLPanel (this, cpls);
 	right->Add (_cpl, 0, wxEXPAND);
 
 	/* Sub-heading: Output */

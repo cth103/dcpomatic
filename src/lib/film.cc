@@ -92,6 +92,7 @@ using std::runtime_error;
 using std::copy;
 using std::back_inserter;
 using std::map;
+using std::exception;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
@@ -1055,17 +1056,7 @@ Film::cpls () const
 			) {
 
 			try {
-				dcp::DCP dcp (*i);
-				dcp.read ();
-				DCPOMATIC_ASSERT (dcp.cpls().front()->file());
-				out.push_back (
-					CPLSummary (
-						i->path().leaf().string(),
-						dcp.cpls().front()->id(),
-						dcp.cpls().front()->annotation_text(),
-						dcp.cpls().front()->file().get()
-						)
-					);
+				out.push_back (CPLSummary(*i));
 			} catch (...) {
 
 			}

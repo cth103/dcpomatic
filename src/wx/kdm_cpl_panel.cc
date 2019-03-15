@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -23,6 +23,7 @@
 #include "static_text.h"
 #include "dcpomatic_button.h"
 #include <libcxml/cxml.h>
+#include <boost/foreach.hpp>
 
 using std::vector;
 
@@ -67,8 +68,8 @@ KDMCPLPanel::update_cpl_choice ()
 {
 	_cpl->Clear ();
 
-	for (vector<CPLSummary>::const_iterator i = _cpls.begin(); i != _cpls.end(); ++i) {
-		_cpl->Append (std_to_wx (i->cpl_id));
+	BOOST_FOREACH (CPLSummary const & i, _cpls) {
+		_cpl->Append (std_to_wx(i.cpl_id));
 
 		if (_cpls.size() > 0) {
 			_cpl->SetSelection (0);
@@ -109,13 +110,33 @@ KDMCPLPanel::cpl_browse_clicked ()
 	cxml::Document cpl_document ("CompositionPlaylist");
 	cpl_document.read_file (cpl_file);
 
+	bool encrypted = false;
+	BOOST_FOREACH (cxml::ConstNodePtr i, cpl_document.node_children("ReelList")) {
+		BOOST_FOREACH (cxml::ConstNodePtr j, i->node_children("Reel")) {
+			BOOST_FOREACH (cxml::ConstNodePtr k, j->node_children("AssetList")) {
+				BOOST_FOREACH (cxml::ConstNodePtr l, k->node_children()) {
+					if (!l->node_children("KeyId").empty()) {
+						encrypted = true;
+					}
+				}
+			}
+		}
+	}
+
+	if (!encrypted) {
+		/* XXX: this needs to be marked translatable after 2.14.0 */
+		error_dialog (this, wxT("This CPL contains no encrypted assets."));
+		return;
+	}
+
 	try {
 		_cpls.push_back (
 			CPLSummary (
 				dcp_dir.filename().string(),
 				cpl_document.string_child("Id").substr (9),
-				cpl_document.string_child ("ContentTitleText"),
-				cpl_file
+				cpl_document.string_child("ContentTitleText"),
+				cpl_file,
+				encrypted
 				)
 			);
 	} catch (cxml::Error) {

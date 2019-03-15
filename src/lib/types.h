@@ -205,17 +205,22 @@ struct Crop
 
 struct CPLSummary
 {
-	CPLSummary (std::string d, std::string i, std::string a, boost::filesystem::path f)
+	CPLSummary (boost::filesystem::path p);
+
+	CPLSummary (std::string d, std::string i, std::string a, boost::filesystem::path f, bool e)
 		: dcp_directory (d)
 		, cpl_id (i)
 		, cpl_annotation_text (a)
 		, cpl_file (f)
+		, encrypted (e)
 	{}
 
 	std::string dcp_directory;
 	std::string cpl_id;
 	std::string cpl_annotation_text;
 	boost::filesystem::path cpl_file;
+	/** true if this CPL has any encrypted assets */
+	bool encrypted;
 };
 
 extern bool operator== (Crop const & a, Crop const & b);
