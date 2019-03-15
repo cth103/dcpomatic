@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -35,13 +35,15 @@ class wxSizer;
 class wxGridBagSizer;
 
 class AudioDialog;
+class MarkersDialog;
 class Film;
+class FilmViewer;
 class Ratio;
 
 class DCPPanel : public boost::noncopyable
 {
 public:
-	DCPPanel (wxNotebook *, boost::shared_ptr<Film>);
+	DCPPanel (wxNotebook *, boost::shared_ptr<Film>, boost::weak_ptr<FilmViewer> viewer);
 
 	void set_film (boost::shared_ptr<Film>);
 	void set_general_sensitivity (bool);
@@ -77,6 +79,7 @@ private:
 	void reel_type_changed ();
 	void reel_length_changed ();
 	void upload_after_make_dcp_changed ();
+	void markers_clicked ();
 	void reencode_j2k_changed ();
 
 	void setup_frame_rate_widget ();
@@ -144,9 +147,12 @@ private:
 	wxStaticText* _reel_length_gb_label;
 	wxSpinCtrl* _reel_length;
 	wxCheckBox* _upload_after_make_dcp;
+	wxButton* _markers;
 
 	AudioDialog* _audio_dialog;
+	MarkersDialog* _markers_dialog;
 
 	boost::shared_ptr<Film> _film;
+	boost::weak_ptr<FilmViewer> _viewer;
 	bool _generally_sensitive;
 };

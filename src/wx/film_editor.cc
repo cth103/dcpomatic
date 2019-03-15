@@ -52,7 +52,7 @@ FilmEditor::FilmEditor (wxWindow* parent, weak_ptr<FilmViewer> viewer)
 
 	_content_panel = new ContentPanel (_main_notebook, _film, viewer);
 	_main_notebook->AddPage (_content_panel->window(), _("Content"), true);
-	_dcp_panel = new DCPPanel (_main_notebook, _film);
+	_dcp_panel = new DCPPanel (_main_notebook, _film, viewer);
 	_main_notebook->AddPage (_dcp_panel->panel (), _("DCP"), false);
 
 	JobManager::instance()->ActiveJobsChanged.connect (
