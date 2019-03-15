@@ -30,7 +30,6 @@
 #include "lib/film.h"
 #include "lib/screen.h"
 #include "lib/screen_kdm.h"
-#include "lib/send_kdm_email_job.h"
 #include "lib/job_manager.h"
 #include "lib/cinema_kdms.h"
 #include "lib/config.h"
