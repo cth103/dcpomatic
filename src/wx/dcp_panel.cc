@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -28,6 +28,7 @@
 #include "static_text.h"
 #include "check_box.h"
 #include "dcpomatic_button.h"
+#include "markers_dialog.h"
 #include "lib/ratio.h"
 #include "lib/config.h"
 #include "lib/dcp_content_type.h"
@@ -58,11 +59,14 @@ using std::max;
 using std::make_pair;
 using boost::lexical_cast;
 using boost::shared_ptr;
+using boost::weak_ptr;
 using dcp::locale_convert;
 
-DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
+DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> viewer)
 	: _audio_dialog (0)
+	, _markers_dialog (0)
 	, _film (film)
+	, _viewer (viewer)
 	, _generally_sensitive (true)
 {
 	_panel = new wxPanel (n);
@@ -114,6 +118,8 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 
 	_upload_after_make_dcp = new CheckBox (_panel, _("Upload DCP to TMS after it is made"));
 
+	_markers = new Button (_panel, _("Edit markers..."));
+
 	_notebook = new wxNotebook (_panel, wxID_ANY);
 	_sizer->Add (_notebook, 1, wxEXPAND | wxTOP, 6);
 
@@ -132,6 +138,7 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 	_reel_length->Bind           (wxEVT_SPINCTRL, boost::bind (&DCPPanel::reel_length_changed, this));
 	_standard->Bind              (wxEVT_CHOICE,   boost::bind (&DCPPanel::standard_changed, this));
 	_upload_after_make_dcp->Bind (wxEVT_CHECKBOX, boost::bind (&DCPPanel::upload_after_make_dcp_changed, this));
+	_markers->Bind               (wxEVT_BUTTON,   boost::bind (&DCPPanel::markers_clicked, this));
 
 	BOOST_FOREACH (DCPContentType const * i, DCPContentType::all()) {
 		_dcp_content_type->Append (std_to_wx (i->pretty_name ()));
@@ -213,6 +220,7 @@ DCPPanel::add_to_grid ()
 	_standard_label->Show (full);
 	_standard->Show (full);
 	_upload_after_make_dcp->Show (full);
+	_markers->Show (full);
 	_reencode_j2k->Show (full);
 	_encrypted->Show (full);
 
@@ -244,6 +252,9 @@ DCPPanel::add_to_grid ()
 		++r;
 
 		_grid->Add (_upload_after_make_dcp, wxGBPosition (r, 0), wxGBSpan (1, 2));
+		++r;
+
+		_grid->Add (_markers, wxGBPosition(r, 0), wxGBSpan(1, 2));
 		++r;
 	}
 }
@@ -366,6 +377,18 @@ DCPPanel::upload_after_make_dcp_changed ()
 }
 
 void
+DCPPanel::markers_clicked ()
+{
+	if (_markers_dialog) {
+		_markers_dialog->Destroy ();
+		_markers_dialog = 0;
+	}
+
+	_markers_dialog = new MarkersDialog (_panel, _film, _viewer);
+	_markers_dialog->Show();
+}
+
+void
 DCPPanel::film_changed (int p)
 {
 	switch (p) {
@@ -458,6 +481,7 @@ DCPPanel::film_changed (int p)
 	case Film::INTEROP:
 		checked_set (_standard, _film->interop() ? 1 : 0);
 		setup_dcp_name ();
+		_markers->Enable (!_film->interop());
 		break;
 	case Film::AUDIO_PROCESSOR:
 		if (_film->audio_processor ()) {
@@ -558,10 +582,14 @@ DCPPanel::dcp_content_type_changed ()
 void
 DCPPanel::set_film (shared_ptr<Film> film)
 {
-	/* We are changing film, so destroy any audio dialog for the old one */
+	/* We are changing film, so destroy any dialogs for the old one */
 	if (_audio_dialog) {
 		_audio_dialog->Destroy ();
 		_audio_dialog = 0;
+	}
+	if (_markers_dialog) {
+		_markers_dialog->Destroy ();
+		_markers_dialog = 0;
 	}
 
 	_film = film;
@@ -626,6 +654,7 @@ DCPPanel::setup_sensitivity ()
 	_reel_type->Enable              (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->references_dcp_audio());
 	_reel_length->Enable            (_generally_sensitive && _film && _film->reel_type() == REELTYPE_BY_LENGTH);
 	_upload_after_make_dcp->Enable  (_generally_sensitive);
+	_markers->Enable                (_generally_sensitive);
 	_frame_rate_choice->Enable      (_generally_sensitive && _film && !_film->references_dcp_video());
 	_frame_rate_spin->Enable        (_generally_sensitive && _film && !_film->references_dcp_video());
 	_audio_channels->Enable         (_generally_sensitive && _film && !_film->references_dcp_audio());

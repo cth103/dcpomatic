@@ -200,7 +200,8 @@ public:
 		REEL_TYPE,
 		REEL_LENGTH,
 		UPLOAD_AFTER_MAKE_DCP,
-		REENCODE_J2K
+		REENCODE_J2K,
+		MARKERS
 	};
 
 
@@ -296,6 +297,7 @@ public:
 		return _reencode_j2k;
 	}
 
+	boost::optional<DCPTime> marker (dcp::Marker type) const;
 
 	/* SET */
 
@@ -327,6 +329,8 @@ public:
 	void set_reel_length (int64_t);
 	void set_upload_after_make_dcp (bool);
 	void set_reencode_j2k (bool);
+	void set_marker (dcp::Marker type, DCPTime time);
+	void unset_marker (dcp::Marker type);
 
 	/** Emitted when some property has of the Film is about to change or has changed */
 	mutable boost::signals2::signal<void (ChangeType, Property)> Change;
@@ -406,6 +410,7 @@ private:
 	bool _reencode_j2k;
 	/** true if the user has ever explicitly set the video frame rate of this film */
 	bool _user_explicit_video_frame_rate;
+	std::map<dcp::Marker, DCPTime> _markers;
 
 	int _state_version;
 
@@ -413,7 +418,6 @@ private:
 	mutable bool _dirty;
 	/** film being used as a template, or 0 */
 	boost::shared_ptr<Film> _template_film;
-
 
 	boost::signals2::scoped_connection _playlist_change_connection;
 	boost::signals2::scoped_connection _playlist_order_changed_connection;

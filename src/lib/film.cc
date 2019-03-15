@@ -403,6 +403,11 @@ Film::metadata (bool with_content_paths) const
 	root->add_child("UploadAfterMakeDCP")->add_child_text (_upload_after_make_dcp ? "1" : "0");
 	root->add_child("ReencodeJ2K")->add_child_text (_reencode_j2k ? "1" : "0");
 	root->add_child("UserExplicitVideoFrameRate")->add_child_text(_user_explicit_video_frame_rate ? "1" : "0");
+	for (map<dcp::Marker, DCPTime>::const_iterator i = _markers.begin(); i != _markers.end(); ++i) {
+		xmlpp::Element* m = root->add_child("Marker");
+		m->set_attribute("Type", dcp::marker_to_string(i->first));
+		m->add_child_text(raw_convert<string>(i->second.get()));
+	}
 	_playlist->as_xml (root->add_child ("Playlist"), with_content_paths);
 
 	return doc;
@@ -529,6 +534,10 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	_upload_after_make_dcp = f.optional_bool_child("UploadAfterMakeDCP").get_value_or (false);
 	_reencode_j2k = f.optional_bool_child("ReencodeJ2K").get_value_or(false);
 	_user_explicit_video_frame_rate = f.optional_bool_child("UserExplicitVideoFrameRate").get_value_or(false);
+
+	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("Marker")) {
+		_markers[dcp::marker_from_string(i->string_attribute("Type"))] = DCPTime(dcp::raw_convert<DCPTime::Type>(i->content()));
+	}
 
 	list<string> notes;
 	/* This method is the only one that can return notes (so far) */
@@ -1671,4 +1680,28 @@ Film::closed_caption_tracks () const
 	}
 
 	return tt;
+}
+
+void
+Film::set_marker (dcp::Marker type, DCPTime time)
+{
+	ChangeSignaller<Film> ch (this, MARKERS);
+	_markers[type] = time;
+}
+
+void
+Film::unset_marker (dcp::Marker type)
+{
+	ChangeSignaller<Film> ch (this, MARKERS);
+	_markers.erase (type);
+}
+
+optional<DCPTime>
+Film::marker (dcp::Marker type) const
+{
+	map<dcp::Marker, DCPTime>::const_iterator i = _markers.find (type);
+	if (i == _markers.end()) {
+		return optional<DCPTime>();
+	}
+	return i->second;
 }
