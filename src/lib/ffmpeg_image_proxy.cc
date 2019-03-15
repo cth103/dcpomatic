@@ -146,7 +146,12 @@ FFmpegImageProxy::image (optional<dcp::Size>) const
 		e = avformat_open_input (&format_context, "foo.tga", f, &options);
 	}
 	if (e < 0) {
-		throw OpenFileError (_path->string(), e, true);
+		if (_path) {
+			throw OpenFileError (_path->string(), e, true);
+		} else {
+			/* XXX: this needs to be marked translatable after the string freeze is over */
+			boost::throw_exception(DecodeError(String::compose("Could not decode image (%1)", e)));
+		}
 	}
 
 	if (avformat_find_stream_info(format_context, 0) < 0) {
