@@ -82,6 +82,7 @@ private:
 		shared_ptr<FilmViewer> v = viewer.lock ();
 		DCPOMATIC_ASSERT (v);
 		timecode->set (v->position(), f->video_frame_rate());
+		changed ();
 	}
 
 	void changed ()

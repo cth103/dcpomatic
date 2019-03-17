@@ -39,6 +39,7 @@
 #include <dcp/reel_sound_asset.h>
 #include <dcp/reel_subtitle_asset.h>
 #include <dcp/reel_closed_caption_asset.h>
+#include <dcp/reel_markers_asset.h>
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
 #include <dcp/certificate_chain.h>
@@ -512,6 +513,25 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 			);
 		a->set_annotation_text (i->first.name);
 		a->set_language (i->first.language);
+	}
+
+	map<dcp::Marker, DCPTime> markers = _film->markers ();
+	map<dcp::Marker, DCPTime> reel_markers;
+	for (map<dcp::Marker, DCPTime>::const_iterator i = markers.begin(); i != markers.end(); ++i) {
+		if (_period.contains(i->second)) {
+			reel_markers[i->first] = i->second;
+		}
+	}
+
+	if (!reel_markers.empty ()) {
+		shared_ptr<dcp::ReelMarkersAsset> ma (new dcp::ReelMarkersAsset(dcp::Fraction(_film->video_frame_rate(), 1), 0));
+		for (map<dcp::Marker, DCPTime>::const_iterator i = reel_markers.begin(); i != reel_markers.end(); ++i) {
+			int h, m, s, f;
+			DCPTime relative = i->second - _period.from;
+			relative.split (_film->video_frame_rate(), h, m, s, f);
+			ma->set (i->first, dcp::Time(h, m, s, f, _film->video_frame_rate()));
+		}
+		reel->add (ma);
 	}
 
 	return reel;

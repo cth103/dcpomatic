@@ -1377,26 +1377,25 @@ Film::make_kdm (
 
 	map<shared_ptr<const dcp::ReelMXF>, dcp::Key> keys;
 
-	BOOST_FOREACH(shared_ptr<const dcp::ReelAsset> i, cpl->reel_assets ()) {
-		shared_ptr<const dcp::ReelMXF> mxf = boost::dynamic_pointer_cast<const dcp::ReelMXF> (i);
-		if (!mxf || !mxf->key_id()) {
+	BOOST_FOREACH(shared_ptr<const dcp::ReelMXF> i, cpl->reel_mxfs()) {
+		if (!i->key_id()) {
 			continue;
 		}
 
 		/* Get any imported key for this ID */
 		bool done = false;
 		BOOST_FOREACH (dcp::DecryptedKDMKey j, imported_keys) {
-			if (j.id() == mxf->key_id().get()) {
-				LOG_GENERAL ("Using imported key for %1", mxf->key_id().get());
-				keys[mxf] = j.key();
+			if (j.id() == i->key_id().get()) {
+				LOG_GENERAL ("Using imported key for %1", i->key_id().get());
+				keys[i] = j.key();
 				done = true;
 			}
 		}
 
 		if (!done) {
 			/* No imported key; it must be an asset that we encrypted */
-			LOG_GENERAL ("Using our own key for %1", mxf->key_id().get());
-			keys[mxf] = key();
+			LOG_GENERAL ("Using our own key for %1", i->key_id().get());
+			keys[i] = key();
 		}
 	}
 
