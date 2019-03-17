@@ -201,9 +201,8 @@ CPLSummary::CPLSummary (boost::filesystem::path p)
 
 	encrypted = false;
 	BOOST_FOREACH (shared_ptr<dcp::CPL> j, dcp.cpls()) {
-		BOOST_FOREACH (shared_ptr<const dcp::ReelAsset> k, j->reel_assets()) {
-			shared_ptr<const dcp::ReelMXF> mxf = boost::dynamic_pointer_cast<const dcp::ReelMXF> (k);
-			if (mxf && mxf->key_id()) {
+		BOOST_FOREACH (shared_ptr<const dcp::ReelMXF> k, j->reel_mxfs()) {
+			if (k->key_id()) {
 				encrypted = true;
 			}
 		}

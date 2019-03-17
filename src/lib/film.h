@@ -298,6 +298,9 @@ public:
 	}
 
 	boost::optional<DCPTime> marker (dcp::Marker type) const;
+	std::map<dcp::Marker, DCPTime> markers () const {
+		return _markers;
+	}
 
 	/* SET */
 
