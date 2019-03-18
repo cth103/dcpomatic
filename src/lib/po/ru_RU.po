@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-11 22:43+0000\n"
+"POT-Creation-Date: 2019-03-18 14:05+0000\n"
 "PO-Revision-Date: 2018-08-20 18:46+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -300,7 +300,7 @@ msgstr "C"
 msgid "Cancelled"
 msgstr "Отменено"
 
-#: src/lib/film.cc:303
+#: src/lib/film.cc:304
 msgid "Cannot contain slashes"
 msgstr "Не может содержать символ /"
 
@@ -308,7 +308,7 @@ msgstr "Не может содержать символ /"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Невозможно обработать формат пикселя %1 во время %2"
 
-#: src/lib/film.cc:1333
+#: src/lib/film.cc:1324
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Нельзя создать KDM т.к. этот проект не зашифрован."
 
@@ -340,7 +340,7 @@ msgstr "Хроматическая постоянная яркость"
 msgid "Chroma-derived non-constant luminance"
 msgstr "Хроматическая непостоянная яркость"
 
-#: src/lib/types.cc:134
+#: src/lib/types.cc:139
 #, fuzzy
 msgid "Closed captions"
 msgstr "Подавление шума"
@@ -525,6 +525,11 @@ msgstr "Не удалось создать удалённый каталог %1 
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Не удалось декодировать JPEG2000-файл(ы) %1 (%2)"
 
+#: src/lib/ffmpeg_image_proxy.cc:152
+#, fuzzy
+msgid "Could not decode image (%1)"
+msgstr "Не удалось декодировать изображение (%1)"
+
 #: src/lib/encode_server_finder.cc:193
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
@@ -620,7 +625,7 @@ msgstr ""
 "DCP-o-matic не удалось открыть файл %1 (%2). Возможно он не существует или "
 "имеет неожиданный формат."
 
-#: src/lib/film.cc:1255
+#: src/lib/film.cc:1246
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -1003,7 +1008,7 @@ msgstr "Только первый элемент контента может и�
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Только последний элемент контента может иметь обрезку с конца."
 
-#: src/lib/types.cc:132
+#: src/lib/types.cc:137
 #, fuzzy
 msgid "Open subtitles"
 msgstr "Текстовые субтитры"
@@ -1195,11 +1200,11 @@ msgid ""
 "truncated."
 msgstr ""
 
-#: src/lib/film.cc:328
+#: src/lib/film.cc:329
 msgid "Some of your content needs a KDM"
 msgstr "Часть вашего контента требует KDM"
 
-#: src/lib/film.cc:331
+#: src/lib/film.cc:332
 msgid "Some of your content needs an OV"
 msgstr "Часть вашего контента требует OV"
 
@@ -1251,19 +1256,19 @@ msgstr ""
 "На устройство, на котором хранится проект, заканчивается место. Освободите "
 "немного места и попробуйте снова."
 
-#: src/lib/playlist.cc:211
+#: src/lib/playlist.cc:223
 msgid "The file %1 has been moved %2 milliseconds earlier."
 msgstr "Файл %1 перемещен на %2 миллисекунд ранее."
 
-#: src/lib/playlist.cc:206
+#: src/lib/playlist.cc:218
 msgid "The file %1 has been moved %2 milliseconds later."
 msgstr "Файл %1 перемещен на %2 миллисекунд позднее."
 
-#: src/lib/playlist.cc:231
+#: src/lib/playlist.cc:243
 msgid "The file %1 has been trimmed by %2 milliseconds less."
 msgstr "Файл %1 был обрезан на %2 миллисекунд менее."
 
-#: src/lib/playlist.cc:226
+#: src/lib/playlist.cc:238
 msgid "The file %1 has been trimmed by %2 milliseconds more."
 msgstr "Файл %1 был обрезан на %2 миллисекунд более."
 
@@ -1303,7 +1308,7 @@ msgstr ""
 "Этот файл - ключ (KDM). Ключи добавляются к DCP нажатием правой клавиши на "
 "контент и выбором \"Добавить KDM\" в контекстном меню."
 
-#: src/lib/film.cc:456
+#: src/lib/film.cc:457
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1311,7 +1316,7 @@ msgstr ""
 "Проект создан более новой версией DCP-o-matic и не быть загружен этой "
 "версией. Извините!"
 
-#: src/lib/film.cc:445
+#: src/lib/film.cc:446
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1325,7 +1330,7 @@ msgstr ""
 msgid "Thursday"
 msgstr "Четверг"
 
-#: src/lib/types.cc:130
+#: src/lib/types.cc:135
 msgid "Timed text"
 msgstr ""
 
@@ -1499,7 +1504,7 @@ msgstr ""
 "Вы выбрали шрифт, размер которого больше 640 кБ. Весьма вероятно, что это "
 "вызовет проблемы при воспроизведении."
 
-#: src/lib/film.cc:311
+#: src/lib/film.cc:312
 msgid "You must add some content to the DCP before creating it"
 msgstr "Вам необходимо добавить контент в DCP перед его созданием"
 
@@ -1534,14 +1539,14 @@ msgid ""
 msgstr ""
 "Ваш контейнер по-умолчанию некорректен, поэтому был изменен на Flat (1.85:1)"
 
-#: src/lib/playlist.cc:202
+#: src/lib/playlist.cc:214
 msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
 msgstr ""
 "В вашем проекте содержится видеоконтент, который не был привязан к границе "
 "кадра."
 
-#: src/lib/playlist.cc:222
+#: src/lib/playlist.cc:234
 msgid ""
 "Your project contains video content whose trim was not aligned to a frame "
 "boundary."
@@ -1575,11 +1580,11 @@ msgstr "таймаут соединения"
 msgid "connecting"
 msgstr "соединение"
 
-#: src/lib/film.cc:307
+#: src/lib/film.cc:308
 msgid "container"
 msgstr "контейнер"
 
-#: src/lib/film.cc:315
+#: src/lib/film.cc:316
 msgid "content type"
 msgstr "тип контента"
 
@@ -1587,7 +1592,7 @@ msgstr "тип контента"
 msgid "copying %1"
 msgstr "копирование %1"
 
-#: src/lib/ffmpeg.cc:135 src/lib/ffmpeg_image_proxy.cc:153
+#: src/lib/ffmpeg.cc:135 src/lib/ffmpeg_image_proxy.cc:157
 msgid "could not find stream information"
 msgstr "не удалось найти информацию о потоке"
 
@@ -1723,7 +1728,7 @@ msgstr "м"
 msgid "moving"
 msgstr "последовательность"
 
-#: src/lib/film.cc:303
+#: src/lib/film.cc:304
 msgid "name"
 msgstr "название"
 
@@ -1736,7 +1741,7 @@ msgstr "с"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:324
+#: src/lib/film.cc:325
 msgid "some of your content is missing"
 msgstr "часть вашего контента отсутствует"
 
@@ -1796,9 +1801,6 @@ msgstr "видеокадры"
 
 #, fuzzy
 #~ msgid "Could not decode image file %1 (%2)"
-#~ msgstr "Не удалось декодировать изображение (%1)"
-
-#~ msgid "Could not decode image file (%1)"
 #~ msgstr "Не удалось декодировать изображение (%1)"
 
 #~ msgid "it overlaps other subtitle content; remove the other content."

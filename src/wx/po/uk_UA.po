@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-11 22:43+0000\n"
+"POT-Creation-Date: 2019-03-18 14:05+0000\n"
 "PO-Revision-Date: 2018-08-20 20:35+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Ukrainian\n"
@@ -41,12 +41,12 @@ msgid "%1 already exists as a file, so you cannot use it for a film."
 msgstr ""
 "%1 вже існує як файл, тому ви не можете використовувати його у проекті."
 
-#: src/wx/kdm_dialog.cc:165
+#: src/wx/kdm_dialog.cc:172
 #, c-format
 msgid "%d KDM written to %s"
 msgstr "%d ключ KDM записаний у %s"
 
-#: src/wx/kdm_dialog.cc:165
+#: src/wx/kdm_dialog.cc:172
 #, c-format
 msgid "%d KDMs written to %s"
 msgstr "%d ключі KDM записані у %s"
@@ -405,7 +405,7 @@ msgstr "Cиня кольоровість"
 msgid "Bottom crop"
 msgstr "Знизу"
 
-#: src/wx/dir_picker_ctrl.cc:40 src/wx/kdm_cpl_panel.cc:40
+#: src/wx/dir_picker_ctrl.cc:40 src/wx/kdm_cpl_panel.cc:41
 msgid "Browse..."
 msgstr "Обрати...."
 
@@ -421,16 +421,16 @@ msgstr "Але я маю використовувати мікшер"
 msgid "CC addresses"
 msgstr "Отримувачі"
 
-#: src/wx/kdm_cpl_panel.cc:37 src/wx/kdm_dialog.cc:88
+#: src/wx/kdm_cpl_panel.cc:38 src/wx/kdm_dialog.cc:87
 #: src/wx/self_dkdm_dialog.cc:61
 msgid "CPL"
 msgstr "CPL"
 
-#: src/wx/kdm_cpl_panel.cc:49
+#: src/wx/kdm_cpl_panel.cc:50
 msgid "CPL ID"
 msgstr "CPL ID"
 
-#: src/wx/kdm_cpl_panel.cc:52
+#: src/wx/kdm_cpl_panel.cc:53
 msgid "CPL annotation text"
 msgstr "CPL анотація"
 
@@ -683,7 +683,7 @@ msgstr ""
 msgid "DCP asset filename format"
 msgstr "Формат найменування данних DCP"
 
-#: src/wx/kdm_cpl_panel.cc:46
+#: src/wx/kdm_cpl_panel.cc:47
 msgid "DCP directory"
 msgstr "Папка DCP"
 
@@ -987,7 +987,7 @@ msgstr "Час поступового згасання"
 msgid "File"
 msgstr ""
 
-#: src/wx/kdm_dialog.cc:135
+#: src/wx/kdm_dialog.cc:142
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "Файл %s вже існує. Ви хочете перезаписати його?"
@@ -1192,7 +1192,19 @@ msgstr "IP-адреса / ім'я  хоста"
 msgid "ISDCF name"
 msgstr "Ім'я  ISDCF"
 
-#: src/wx/config_dialog.cc:888
+#: src/wx/config_dialog.cc:847
+#, fuzzy
+msgid ""
+"If you continue with this operation you will no longer be able to use any "
+"DKDMs that you have created with the current certificates and key.  Also, "
+"any KDMs that have been sent to you for those certificates will become "
+"useless.  Proceed with caution!"
+msgstr ""
+"Якщо ви продовжите цю операцію, ви більше не зможете використовувати жоден "
+"DKDM, який ви створили раніше. Також, будь-які KDM, відправлені вам, стануть "
+"марними. Дійте із обережністю!"
+
+#: src/wx/config_dialog.cc:897
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
@@ -1267,7 +1279,7 @@ msgstr "Intermediate common name"
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/config_dialog.cc:876
+#: src/wx/config_dialog.cc:885
 msgid "Invalid DCP-o-matic export file"
 msgstr "Невірний файл експорту DCP-o-matic"
 
@@ -1313,7 +1325,7 @@ msgid "KDM type"
 msgstr "Тип KDM"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
-#: src/wx/kdm_dialog.cc:81
+#: src/wx/kdm_dialog.cc:80
 msgid "KDM|Timing"
 msgstr "Таймінг"
 
@@ -1428,7 +1440,7 @@ msgstr "Сгенерувати ключі KDM"
 msgid "Make DKDM for DCP-o-matic"
 msgstr "Сгенерувати DKDM для DCP-o-matic"
 
-#: src/wx/kdm_dialog.cc:57 src/wx/kdm_dialog.cc:101
+#: src/wx/kdm_dialog.cc:56 src/wx/kdm_dialog.cc:108
 msgid "Make KDMs"
 msgstr "Сгенерувати ключі KDM"
 
@@ -1661,7 +1673,7 @@ msgstr "Ширина обводки"
 msgid "Outline width cannot be set unless you are burning in captions"
 msgstr "Ширина обводки може бути встановлена тільки для вшитих субтитрів"
 
-#: src/wx/kdm_dialog.cc:95 src/wx/self_dkdm_dialog.cc:68
+#: src/wx/kdm_dialog.cc:102 src/wx/self_dkdm_dialog.cc:68
 msgid "Output"
 msgstr "Вивід"
 
@@ -1984,7 +1996,7 @@ msgstr "Розмір X"
 msgid "Scale to"
 msgstr "Масштабування"
 
-#: src/wx/kdm_dialog.cc:73
+#: src/wx/kdm_dialog.cc:72
 msgid "Screens"
 msgstr "Екрани"
 
@@ -1997,12 +2009,12 @@ msgstr "Шукати сервери у мережі"
 msgid "Select"
 msgstr "Оберіть OV"
 
-#: src/wx/kdm_cpl_panel.cc:97
+#: src/wx/kdm_cpl_panel.cc:98
 msgid "Select CPL XML file"
 msgstr "Оберіть XML-файл CPL"
 
 #: src/wx/config_dialog.cc:455 src/wx/config_dialog.cc:524
-#: src/wx/config_dialog.cc:897 src/wx/screen_dialog.cc:213
+#: src/wx/config_dialog.cc:906 src/wx/screen_dialog.cc:213
 msgid "Select Certificate File"
 msgstr "Оберіть Файл Сертификату"
 
@@ -2019,7 +2031,7 @@ msgstr "Оберіть файл ланцюга"
 msgid "Select Export File"
 msgstr "Оберіть файл експорту"
 
-#: src/wx/config_dialog.cc:845
+#: src/wx/config_dialog.cc:854
 msgid "Select File To Import"
 msgstr "Оберіть Файл для Імпорту"
 
@@ -2371,6 +2383,11 @@ msgstr "Вже є шаблон із такою назвою. Ви хочете �
 msgid "There is not enough free memory to do that."
 msgstr "Недостатньо пам'яті, щоб зробити це."
 
+#: src/wx/kdm_cpl_panel.cc:127
+#, fuzzy
+msgid "This CPL contains no encrypted assets."
+msgstr "Зміст CPL-файлу не зашифрований."
+
 #: src/wx/config_dialog.cc:472
 msgid ""
 "This file contains other certificates (or other data) after its first "
@@ -2379,7 +2396,7 @@ msgstr ""
 "У файлі містяться інші сертифікати (або інші данні) післе першого "
 "сертифікату. Буде використаний тільки перший сертифікат."
 
-#: src/wx/kdm_cpl_panel.cc:122
+#: src/wx/kdm_cpl_panel.cc:142
 msgid "This is not a valid CPL file"
 msgstr "Це не правильний CPL файл"
 
@@ -2808,7 +2825,7 @@ msgstr "значення компонента"
 msgid "dB"
 msgstr "дБ"
 
-#: src/wx/config_dialog.cc:897
+#: src/wx/config_dialog.cc:906
 msgid "dcpomatic_kdm_decryption_cert.pem"
 msgstr ""
 

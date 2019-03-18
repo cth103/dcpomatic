@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-11 22:43+0000\n"
+"POT-Creation-Date: 2019-03-18 14:05+0000\n"
 "PO-Revision-Date: 2017-10-04 21:45+0200\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -303,7 +303,7 @@ msgstr "C"
 msgid "Cancelled"
 msgstr "Annulleret"
 
-#: src/lib/film.cc:303
+#: src/lib/film.cc:304
 #, fuzzy
 msgid "Cannot contain slashes"
 msgstr "må ikke indeholde skråstreger"
@@ -312,7 +312,7 @@ msgstr "må ikke indeholde skråstreger"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kan ikke håndtere pixelformat %1 under %2"
 
-#: src/lib/film.cc:1333
+#: src/lib/film.cc:1324
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 
@@ -346,7 +346,7 @@ msgstr "BT2020 konstant luminans"
 msgid "Chroma-derived non-constant luminance"
 msgstr "BT2020 variabel luminans"
 
-#: src/lib/types.cc:134
+#: src/lib/types.cc:139
 #, fuzzy
 msgid "Closed captions"
 msgstr "Støjreduktion"
@@ -523,6 +523,11 @@ msgstr "Kunne ikke danne fjernkatalog %1 (%2)"
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Kunne ikke læse JPEG2000 fil %1 (%2)"
 
+#: src/lib/ffmpeg_image_proxy.cc:152
+#, fuzzy
+msgid "Could not decode image (%1)"
+msgstr "Kunne ikke afkode billedfil (%1)"
+
 #: src/lib/encode_server_finder.cc:193
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
@@ -619,7 +624,7 @@ msgstr ""
 "DCP-o-matic kunne ikke åbne filen %1. Måske findes den ikke, eller den er i "
 "et uventet format."
 
-#: src/lib/film.cc:1255
+#: src/lib/film.cc:1246
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -1006,7 +1011,7 @@ msgstr "Kun det første indhold, der skal sammensættes, kan have starttrim."
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Kun det sidste indhold, der skal sammensættes, kan have sluttrim."
 
-#: src/lib/types.cc:132
+#: src/lib/types.cc:137
 #, fuzzy
 msgid "Open subtitles"
 msgstr "Teks"
@@ -1199,12 +1204,12 @@ msgid ""
 "truncated."
 msgstr ""
 
-#: src/lib/film.cc:328
+#: src/lib/film.cc:329
 #, fuzzy
 msgid "Some of your content needs a KDM"
 msgstr "noget af dit indhold mangler en KDM"
 
-#: src/lib/film.cc:331
+#: src/lib/film.cc:332
 #, fuzzy
 msgid "Some of your content needs an OV"
 msgstr "noget af dit indhold mangler en OV"
@@ -1257,19 +1262,19 @@ msgstr ""
 "Filmen ligger på et drev, der kun har lidt ledig plads. Frigør noget plads "
 "og prøv igen."
 
-#: src/lib/playlist.cc:211
+#: src/lib/playlist.cc:223
 msgid "The file %1 has been moved %2 milliseconds earlier."
 msgstr ""
 
-#: src/lib/playlist.cc:206
+#: src/lib/playlist.cc:218
 msgid "The file %1 has been moved %2 milliseconds later."
 msgstr ""
 
-#: src/lib/playlist.cc:231
+#: src/lib/playlist.cc:243
 msgid "The file %1 has been trimmed by %2 milliseconds less."
 msgstr ""
 
-#: src/lib/playlist.cc:226
+#: src/lib/playlist.cc:238
 msgid "The file %1 has been trimmed by %2 milliseconds more."
 msgstr ""
 
@@ -1304,7 +1309,7 @@ msgstr ""
 "Denne fil er en KDM. KDMer skal tilføjes til DCP indhold ved at højreklikke "
 "på indholdet og vælge \"Tilføj KDM\"."
 
-#: src/lib/film.cc:456
+#: src/lib/film.cc:457
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1312,7 +1317,7 @@ msgstr ""
 "Denne film blev dannet med en nyere version af DCP-o-matic og kan ikke "
 "indlæses i denne version. Beklager!"
 
-#: src/lib/film.cc:445
+#: src/lib/film.cc:446
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1326,7 +1331,7 @@ msgstr ""
 msgid "Thursday"
 msgstr "Torsdag"
 
-#: src/lib/types.cc:130
+#: src/lib/types.cc:135
 msgid "Timed text"
 msgstr ""
 
@@ -1495,7 +1500,7 @@ msgstr ""
 "Du har valgt en font-fil der er større end 640 kB. Dette vil højst "
 "sandsynligt give problemer ved afspilningen."
 
-#: src/lib/film.cc:311
+#: src/lib/film.cc:312
 #, fuzzy
 msgid "You must add some content to the DCP before creating it"
 msgstr "du er nødt til at tilføje indhold til DCP'en før du kan danne den"
@@ -1528,12 +1533,12 @@ msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
 
-#: src/lib/playlist.cc:202
+#: src/lib/playlist.cc:214
 msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
 msgstr ""
 
-#: src/lib/playlist.cc:222
+#: src/lib/playlist.cc:234
 msgid ""
 "Your project contains video content whose trim was not aligned to a frame "
 "boundary."
@@ -1565,11 +1570,11 @@ msgstr "forbindelsestimeout"
 msgid "connecting"
 msgstr "forbinder"
 
-#: src/lib/film.cc:307
+#: src/lib/film.cc:308
 msgid "container"
 msgstr "container"
 
-#: src/lib/film.cc:315
+#: src/lib/film.cc:316
 msgid "content type"
 msgstr "indholdstype"
 
@@ -1577,7 +1582,7 @@ msgstr "indholdstype"
 msgid "copying %1"
 msgstr "kopierer %1"
 
-#: src/lib/ffmpeg.cc:135 src/lib/ffmpeg_image_proxy.cc:153
+#: src/lib/ffmpeg.cc:135 src/lib/ffmpeg_image_proxy.cc:157
 msgid "could not find stream information"
 msgstr "kunne ikke finde information om strøm"
 
@@ -1721,7 +1726,7 @@ msgstr "m"
 msgid "moving"
 msgstr "flytter"
 
-#: src/lib/film.cc:303
+#: src/lib/film.cc:304
 msgid "name"
 msgstr "navn"
 
@@ -1734,7 +1739,7 @@ msgstr "s"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:324
+#: src/lib/film.cc:325
 msgid "some of your content is missing"
 msgstr "noget af dit indhold mangler"
 
@@ -1794,9 +1799,6 @@ msgstr "videobilleder"
 
 #, fuzzy
 #~ msgid "Could not decode image file %1 (%2)"
-#~ msgstr "Kunne ikke afkode billedfil (%1)"
-
-#~ msgid "Could not decode image file (%1)"
 #~ msgstr "Kunne ikke afkode billedfil (%1)"
 
 #, fuzzy

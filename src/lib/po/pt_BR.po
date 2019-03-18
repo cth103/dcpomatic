@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-11 22:43+0000\n"
+"POT-Creation-Date: 2019-03-18 14:05+0000\n"
 "PO-Revision-Date: 2018-01-15 16:19-0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -304,7 +304,7 @@ msgstr "C"
 msgid "Cancelled"
 msgstr "Cancelado"
 
-#: src/lib/film.cc:303
+#: src/lib/film.cc:304
 #, fuzzy
 msgid "Cannot contain slashes"
 msgstr "não pode conter barras"
@@ -313,7 +313,7 @@ msgstr "não pode conter barras"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Impossível processar formato de pixel %1 durante %2"
 
-#: src/lib/film.cc:1333
+#: src/lib/film.cc:1324
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 
@@ -347,7 +347,7 @@ msgstr "BT2020 com luminância constante"
 msgid "Chroma-derived non-constant luminance"
 msgstr "BT2020 com luminância não-constante"
 
-#: src/lib/types.cc:134
+#: src/lib/types.cc:139
 #, fuzzy
 msgid "Closed captions"
 msgstr "Redução de ruído"
@@ -533,6 +533,11 @@ msgstr "Impossível criar diretório remoto %1 (%2)"
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Impossível decodificar arquivo JPEG2000 %1 (%2)"
 
+#: src/lib/ffmpeg_image_proxy.cc:152
+#, fuzzy
+msgid "Could not decode image (%1)"
+msgstr "Impossível decodificar arquivo de imagem (%1)"
+
 #: src/lib/encode_server_finder.cc:193
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
@@ -628,7 +633,7 @@ msgstr ""
 "O DCP-o-matic não pôde abrir o arquivo %1 (%2). Talvez o arquivo não exista "
 "ou tenha um formato não suportado."
 
-#: src/lib/film.cc:1255
+#: src/lib/film.cc:1246
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -1013,7 +1018,7 @@ msgstr ""
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Apenas o último conteúdo a ser concatenado pode ter um corte de fim."
 
-#: src/lib/types.cc:132
+#: src/lib/types.cc:137
 #, fuzzy
 msgid "Open subtitles"
 msgstr "Legendas em texto"
@@ -1205,12 +1210,12 @@ msgid ""
 "truncated."
 msgstr ""
 
-#: src/lib/film.cc:328
+#: src/lib/film.cc:329
 #, fuzzy
 msgid "Some of your content needs a KDM"
 msgstr "uma parte do seu conteúdo necessita de KDM"
 
-#: src/lib/film.cc:331
+#: src/lib/film.cc:332
 #, fuzzy
 msgid "Some of your content needs an OV"
 msgstr "uma parte do seu conteúdo necessita de uma versão original (OV)"
@@ -1263,19 +1268,19 @@ msgstr ""
 "O drive que contém o filme está com pouco espaço. Libere espaço e tente "
 "novamente."
 
-#: src/lib/playlist.cc:211
+#: src/lib/playlist.cc:223
 msgid "The file %1 has been moved %2 milliseconds earlier."
 msgstr "O arquivo %1 foi adiantado %2 milissegundos."
 
-#: src/lib/playlist.cc:206
+#: src/lib/playlist.cc:218
 msgid "The file %1 has been moved %2 milliseconds later."
 msgstr "O arquivo %1 foi atrasado %2 milissegundos."
 
-#: src/lib/playlist.cc:231
+#: src/lib/playlist.cc:243
 msgid "The file %1 has been trimmed by %2 milliseconds less."
 msgstr "O arquivo %1 foi cortado por %2 milissegundos a menos."
 
-#: src/lib/playlist.cc:226
+#: src/lib/playlist.cc:238
 msgid "The file %1 has been trimmed by %2 milliseconds more."
 msgstr "O arquivo %1 foi cortado por %2 milissegundos a mais."
 
@@ -1310,7 +1315,7 @@ msgstr ""
 "Este arquivo é um KDM.  KDMs devem ser adicionados a conteúdos DCPs clicando-"
 "se com o botão direito no conteúdo e escolhendo \"Adicionar KDM\"."
 
-#: src/lib/film.cc:456
+#: src/lib/film.cc:457
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1319,7 +1324,7 @@ msgstr ""
 "ser carregado nesta versão. Desculpe-nos, e considere instalar uma versão "
 "mais recente!"
 
-#: src/lib/film.cc:445
+#: src/lib/film.cc:446
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1334,7 +1339,7 @@ msgstr ""
 msgid "Thursday"
 msgstr ""
 
-#: src/lib/types.cc:130
+#: src/lib/types.cc:135
 msgid "Timed text"
 msgstr ""
 
@@ -1504,7 +1509,7 @@ msgstr ""
 "Você especificou um arquivo de fonte que tem mais de 640kB. Isso muito "
 "provavelmente causará problemas na reprodução."
 
-#: src/lib/film.cc:311
+#: src/lib/film.cc:312
 #, fuzzy
 msgid "You must add some content to the DCP before creating it"
 msgstr "você precisa adicionar conteúdo ao DCP antes de criá-lo"
@@ -1538,14 +1543,14 @@ msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr "Seu container padrão não é válido e foi alterado para Flat (1.85:1)"
 
-#: src/lib/playlist.cc:202
+#: src/lib/playlist.cc:214
 msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
 msgstr ""
 "Seu projeto contém conteúdo de vídeo que não foi alinhado a uma borda de "
 "quadro."
 
-#: src/lib/playlist.cc:222
+#: src/lib/playlist.cc:234
 msgid ""
 "Your project contains video content whose trim was not aligned to a frame "
 "boundary."
@@ -1579,11 +1584,11 @@ msgstr "connect timed out"
 msgid "connecting"
 msgstr "conectando"
 
-#: src/lib/film.cc:307
+#: src/lib/film.cc:308
 msgid "container"
 msgstr "container"
 
-#: src/lib/film.cc:315
+#: src/lib/film.cc:316
 msgid "content type"
 msgstr "tipo de conteúdo"
 
@@ -1591,7 +1596,7 @@ msgstr "tipo de conteúdo"
 msgid "copying %1"
 msgstr "copiando %1"
 
-#: src/lib/ffmpeg.cc:135 src/lib/ffmpeg_image_proxy.cc:153
+#: src/lib/ffmpeg.cc:135 src/lib/ffmpeg_image_proxy.cc:157
 msgid "could not find stream information"
 msgstr "não foi possível encontrar informação do stream"
 
@@ -1735,7 +1740,7 @@ msgstr "m"
 msgid "moving"
 msgstr "movendo"
 
-#: src/lib/film.cc:303
+#: src/lib/film.cc:304
 msgid "name"
 msgstr "nome"
 
@@ -1748,7 +1753,7 @@ msgstr "s"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:324
+#: src/lib/film.cc:325
 msgid "some of your content is missing"
 msgstr "uma parte do seu conteúdo está faltando"
 
@@ -1808,9 +1813,6 @@ msgstr "quadros de vídeo"
 
 #, fuzzy
 #~ msgid "Could not decode image file %1 (%2)"
-#~ msgstr "Impossível decodificar arquivo de imagem (%1)"
-
-#~ msgid "Could not decode image file (%1)"
 #~ msgstr "Impossível decodificar arquivo de imagem (%1)"
 
 #, fuzzy

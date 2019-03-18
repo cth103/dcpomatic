@@ -124,8 +124,7 @@ KDMCPLPanel::cpl_browse_clicked ()
 	}
 
 	if (!encrypted) {
-		/* XXX: this needs to be marked translatable after 2.14.0 */
-		error_dialog (this, wxT("This CPL contains no encrypted assets."));
+		error_dialog (this, _("This CPL contains no encrypted assets."));
 		return;
 	}
 

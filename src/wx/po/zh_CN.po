@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-11 22:43+0000\n"
+"POT-Creation-Date: 2019-03-18 14:05+0000\n"
 "PO-Revision-Date: 2018-04-05 20:48+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -50,12 +50,12 @@ msgstr "%"
 msgid "%1 already exists as a file, so you cannot use it for a film."
 msgstr "%1 文件已经存在，所以不能创建工程."
 
-#: src/wx/kdm_dialog.cc:165
+#: src/wx/kdm_dialog.cc:172
 #, c-format
 msgid "%d KDM written to %s"
 msgstr "%d KDM 保存到 %s"
 
-#: src/wx/kdm_dialog.cc:165
+#: src/wx/kdm_dialog.cc:172
 #, c-format
 msgid "%d KDMs written to %s"
 msgstr "%d KDMs 保存到 %s"
@@ -404,7 +404,7 @@ msgstr "蓝色色度"
 msgid "Bottom crop"
 msgstr "底部"
 
-#: src/wx/dir_picker_ctrl.cc:40 src/wx/kdm_cpl_panel.cc:40
+#: src/wx/dir_picker_ctrl.cc:40 src/wx/kdm_cpl_panel.cc:41
 msgid "Browse..."
 msgstr "浏览..."
 
@@ -420,16 +420,16 @@ msgstr "使用推子"
 msgid "CC addresses"
 msgstr "抄送地址"
 
-#: src/wx/kdm_cpl_panel.cc:37 src/wx/kdm_dialog.cc:88
+#: src/wx/kdm_cpl_panel.cc:38 src/wx/kdm_dialog.cc:87
 #: src/wx/self_dkdm_dialog.cc:61
 msgid "CPL"
 msgstr "CPL"
 
-#: src/wx/kdm_cpl_panel.cc:49
+#: src/wx/kdm_cpl_panel.cc:50
 msgid "CPL ID"
 msgstr "CPL ID"
 
-#: src/wx/kdm_cpl_panel.cc:52
+#: src/wx/kdm_cpl_panel.cc:53
 msgid "CPL annotation text"
 msgstr "CPL注释文本"
 
@@ -681,7 +681,7 @@ msgstr ""
 msgid "DCP asset filename format"
 msgstr "DCP内容的文件名格式"
 
-#: src/wx/kdm_cpl_panel.cc:46
+#: src/wx/kdm_cpl_panel.cc:47
 msgid "DCP directory"
 msgstr "DCP目录"
 
@@ -987,7 +987,7 @@ msgstr "淡出时间"
 msgid "File"
 msgstr ""
 
-#: src/wx/kdm_dialog.cc:135
+#: src/wx/kdm_dialog.cc:142
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "已存在文件 %s ，是否覆盖？"
@@ -1188,7 +1188,18 @@ msgstr "IP地址/服务器地址"
 msgid "ISDCF name"
 msgstr "ISDCF名称"
 
-#: src/wx/config_dialog.cc:888
+#: src/wx/config_dialog.cc:847
+#, fuzzy
+msgid ""
+"If you continue with this operation you will no longer be able to use any "
+"DKDMs that you have created with the current certificates and key.  Also, "
+"any KDMs that have been sent to you for those certificates will become "
+"useless.  Proceed with caution!"
+msgstr ""
+"如果继续您将无法使用之前生成的所有数字母版DKDM和KDM。\n"
+"谨慎操作!"
+
+#: src/wx/config_dialog.cc:897
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
@@ -1263,7 +1274,7 @@ msgstr "公钥名称"
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/config_dialog.cc:876
+#: src/wx/config_dialog.cc:885
 msgid "Invalid DCP-o-matic export file"
 msgstr "DCP-o-matic无法输出此类格式"
 
@@ -1307,7 +1318,7 @@ msgid "KDM type"
 msgstr "KDM类型"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
-#: src/wx/kdm_dialog.cc:81
+#: src/wx/kdm_dialog.cc:80
 msgid "KDM|Timing"
 msgstr "KDM有效期"
 
@@ -1423,7 +1434,7 @@ msgstr "创建KDM"
 msgid "Make DKDM for DCP-o-matic"
 msgstr "制作 KDM(DCP-o-matic)"
 
-#: src/wx/kdm_dialog.cc:57 src/wx/kdm_dialog.cc:101
+#: src/wx/kdm_dialog.cc:56 src/wx/kdm_dialog.cc:108
 msgid "Make KDMs"
 msgstr "创建KDM"
 
@@ -1656,7 +1667,7 @@ msgstr "轮廓线宽度"
 msgid "Outline width cannot be set unless you are burning in captions"
 msgstr "只有选择烧录字幕才能显示轮廓线"
 
-#: src/wx/kdm_dialog.cc:95 src/wx/self_dkdm_dialog.cc:68
+#: src/wx/kdm_dialog.cc:102 src/wx/self_dkdm_dialog.cc:68
 msgid "Output"
 msgstr "输出"
 
@@ -1977,7 +1988,7 @@ msgstr "X 缩放"
 msgid "Scale to"
 msgstr "缩放"
 
-#: src/wx/kdm_dialog.cc:73
+#: src/wx/kdm_dialog.cc:72
 msgid "Screens"
 msgstr "服务器"
 
@@ -1990,12 +2001,12 @@ msgstr "搜索网络服务器（局域网）"
 msgid "Select"
 msgstr "选择OV"
 
-#: src/wx/kdm_cpl_panel.cc:97
+#: src/wx/kdm_cpl_panel.cc:98
 msgid "Select CPL XML file"
 msgstr "选择CPL文件"
 
 #: src/wx/config_dialog.cc:455 src/wx/config_dialog.cc:524
-#: src/wx/config_dialog.cc:897 src/wx/screen_dialog.cc:213
+#: src/wx/config_dialog.cc:906 src/wx/screen_dialog.cc:213
 msgid "Select Certificate File"
 msgstr "选择证书文件"
 
@@ -2012,7 +2023,7 @@ msgstr "选择私钥文件"
 msgid "Select Export File"
 msgstr "选择文件以输出"
 
-#: src/wx/config_dialog.cc:845
+#: src/wx/config_dialog.cc:854
 msgid "Select File To Import"
 msgstr "选择文件以导入"
 
@@ -2357,13 +2368,18 @@ msgstr "已存在同名模板，是否覆盖？"
 msgid "There is not enough free memory to do that."
 msgstr "内存不足."
 
+#: src/wx/kdm_cpl_panel.cc:127
+#, fuzzy
+msgid "This CPL contains no encrypted assets."
+msgstr "该CPL内容没有加密."
+
 #: src/wx/config_dialog.cc:472
 msgid ""
 "This file contains other certificates (or other data) after its first "
 "certificate. Only the first certificate will be used."
 msgstr "该文件调用多个证书文件，但只使用第一个。"
 
-#: src/wx/kdm_cpl_panel.cc:122
+#: src/wx/kdm_cpl_panel.cc:142
 msgid "This is not a valid CPL file"
 msgstr "CPL文件无效"
 
@@ -2785,7 +2801,7 @@ msgstr "结构"
 msgid "dB"
 msgstr "dB"
 
-#: src/wx/config_dialog.cc:897
+#: src/wx/config_dialog.cc:906
 msgid "dcpomatic_kdm_decryption_cert.pem"
 msgstr ""
 

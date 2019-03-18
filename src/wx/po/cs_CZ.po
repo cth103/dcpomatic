@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-11 22:43+0000\n"
+"POT-Creation-Date: 2019-03-18 14:05+0000\n"
 "PO-Revision-Date: 2019-02-28 13:02+0100\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -46,12 +46,12 @@ msgstr "%"
 msgid "%1 already exists as a file, so you cannot use it for a film."
 msgstr "%1 již existuje jako soubor, takže jej nemůžete použít pro film."
 
-#: src/wx/kdm_dialog.cc:165
+#: src/wx/kdm_dialog.cc:172
 #, c-format
 msgid "%d KDM written to %s"
 msgstr "%d KDM zapsán do %s"
 
-#: src/wx/kdm_dialog.cc:165
+#: src/wx/kdm_dialog.cc:172
 #, c-format
 msgid "%d KDMs written to %s"
 msgstr "%d KDMs zapsány do %s"
@@ -412,7 +412,7 @@ msgstr "Modrá barevnost"
 msgid "Bottom crop"
 msgstr "Spodní oříznutí"
 
-#: src/wx/dir_picker_ctrl.cc:40 src/wx/kdm_cpl_panel.cc:40
+#: src/wx/dir_picker_ctrl.cc:40 src/wx/kdm_cpl_panel.cc:41
 msgid "Browse..."
 msgstr "Procházet…"
 
@@ -428,16 +428,16 @@ msgstr "Ale musím používat fader"
 msgid "CC addresses"
 msgstr "CC adresa"
 
-#: src/wx/kdm_cpl_panel.cc:37 src/wx/kdm_dialog.cc:88
+#: src/wx/kdm_cpl_panel.cc:38 src/wx/kdm_dialog.cc:87
 #: src/wx/self_dkdm_dialog.cc:61
 msgid "CPL"
 msgstr "CPL"
 
-#: src/wx/kdm_cpl_panel.cc:49
+#: src/wx/kdm_cpl_panel.cc:50
 msgid "CPL ID"
 msgstr "CPL ID"
 
-#: src/wx/kdm_cpl_panel.cc:52
+#: src/wx/kdm_cpl_panel.cc:53
 msgid "CPL annotation text"
 msgstr "CPL anotace textu"
 
@@ -683,7 +683,7 @@ msgstr "DCP textová stopa"
 msgid "DCP asset filename format"
 msgstr "Formát názvu souboru DCP"
 
-#: src/wx/kdm_cpl_panel.cc:46
+#: src/wx/kdm_cpl_panel.cc:47
 msgid "DCP directory"
 msgstr "DCP adresář"
 
@@ -984,7 +984,7 @@ msgstr "Postupné zeslabení v čase (Fade out)"
 msgid "File"
 msgstr "Soubor"
 
-#: src/wx/kdm_dialog.cc:135
+#: src/wx/kdm_dialog.cc:142
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "Soubor %s již existuje.  Přejete si ho přepsat?"
@@ -1183,7 +1183,19 @@ msgstr "IP adresa / host name"
 msgid "ISDCF name"
 msgstr "ISDCF název"
 
-#: src/wx/config_dialog.cc:888
+#: src/wx/config_dialog.cc:847
+#, fuzzy
+msgid ""
+"If you continue with this operation you will no longer be able to use any "
+"DKDMs that you have created with the current certificates and key.  Also, "
+"any KDMs that have been sent to you for those certificates will become "
+"useless.  Proceed with caution!"
+msgstr ""
+"Pokud budete pokračovat v této operaci, již nebudete moci používat žádné "
+"DKDM, které jste vytvořili. Také všechny KDM, které vám byly zaslány, budou "
+"zbytečné. Postupujte opatrně!"
+
+#: src/wx/config_dialog.cc:897
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
@@ -1258,7 +1270,7 @@ msgstr "Intermediate common name"
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/config_dialog.cc:876
+#: src/wx/config_dialog.cc:885
 msgid "Invalid DCP-o-matic export file"
 msgstr "Neplatný soubor exportu DCP-o-matic"
 
@@ -1303,7 +1315,7 @@ msgid "KDM type"
 msgstr "KDM Typ"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
-#: src/wx/kdm_dialog.cc:81
+#: src/wx/kdm_dialog.cc:80
 msgid "KDM|Timing"
 msgstr "Trvaní"
 
@@ -1413,7 +1425,7 @@ msgstr "Vytvořit DCP"
 msgid "Make DKDM for DCP-o-matic"
 msgstr "Vytvořit DKDM pro DCP-o-matic"
 
-#: src/wx/kdm_dialog.cc:57 src/wx/kdm_dialog.cc:101
+#: src/wx/kdm_dialog.cc:56 src/wx/kdm_dialog.cc:108
 msgid "Make KDMs"
 msgstr "Vytvořit KDM"
 
@@ -1647,7 +1659,7 @@ msgstr "Šířka orámování"
 msgid "Outline width cannot be set unless you are burning in captions"
 msgstr "Šířku obrysu nelze nastavit, pokud nepoužíváte titulky"
 
-#: src/wx/kdm_dialog.cc:95 src/wx/self_dkdm_dialog.cc:68
+#: src/wx/kdm_dialog.cc:102 src/wx/self_dkdm_dialog.cc:68
 msgid "Output"
 msgstr "Výstup"
 
@@ -1965,7 +1977,7 @@ msgstr "Měřítko"
 msgid "Scale to"
 msgstr "Roztáhnout (scale) na"
 
-#: src/wx/kdm_dialog.cc:73
+#: src/wx/kdm_dialog.cc:72
 msgid "Screens"
 msgstr "Obraz"
 
@@ -1977,12 +1989,12 @@ msgstr "Prohledat síť kvůli serverům"
 msgid "Select"
 msgstr "Vybrat"
 
-#: src/wx/kdm_cpl_panel.cc:97
+#: src/wx/kdm_cpl_panel.cc:98
 msgid "Select CPL XML file"
 msgstr "Vybrat CPL XML soubor"
 
 #: src/wx/config_dialog.cc:455 src/wx/config_dialog.cc:524
-#: src/wx/config_dialog.cc:897 src/wx/screen_dialog.cc:213
+#: src/wx/config_dialog.cc:906 src/wx/screen_dialog.cc:213
 msgid "Select Certificate File"
 msgstr "Vybrat soubor s certifikátem"
 
@@ -1998,7 +2010,7 @@ msgstr "Vybrat Cinemas soubor"
 msgid "Select Export File"
 msgstr "Vybrat soubor k exportování"
 
-#: src/wx/config_dialog.cc:845
+#: src/wx/config_dialog.cc:854
 msgid "Select File To Import"
 msgstr "Vybrat soubor k importování"
 
@@ -2346,6 +2358,11 @@ msgstr "Šablona s tímto názvem již existuje. Chcete jej přepsat?"
 msgid "There is not enough free memory to do that."
 msgstr "Nemáte dostatek paměti."
 
+#: src/wx/kdm_cpl_panel.cc:127
+#, fuzzy
+msgid "This CPL contains no encrypted assets."
+msgstr "CPL obsah není šifrovaný."
+
 #: src/wx/config_dialog.cc:472
 msgid ""
 "This file contains other certificates (or other data) after its first "
@@ -2354,7 +2371,7 @@ msgstr ""
 "Tento soubor obsahuje jiné certifikáty (nebo jiná data) po prvním "
 "certifikátu. Bude použit pouze první certifikát."
 
-#: src/wx/kdm_cpl_panel.cc:122
+#: src/wx/kdm_cpl_panel.cc:142
 msgid "This is not a valid CPL file"
 msgstr "Nenachází se tu platný CPL soubor"
 
@@ -2771,7 +2788,7 @@ msgstr "hodnota komponenty"
 msgid "dB"
 msgstr "dB"
 
-#: src/wx/config_dialog.cc:897
+#: src/wx/config_dialog.cc:906
 msgid "dcpomatic_kdm_decryption_cert.pem"
 msgstr "dcpomatic_kdm_decryption_cert.pem"
 

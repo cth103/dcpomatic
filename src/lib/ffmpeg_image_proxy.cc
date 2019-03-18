@@ -149,8 +149,7 @@ FFmpegImageProxy::image (optional<dcp::Size>) const
 		if (_path) {
 			throw OpenFileError (_path->string(), e, true);
 		} else {
-			/* XXX: this needs to be marked translatable after the string freeze is over */
-			boost::throw_exception(DecodeError(String::compose("Could not decode image (%1)", e)));
+			boost::throw_exception(DecodeError(String::compose(_("Could not decode image (%1)"), e)));
 		}
 	}
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-11 22:43+0000\n"
+"POT-Creation-Date: 2019-03-18 14:05+0000\n"
 "PO-Revision-Date: 2019-02-14 02:06+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -300,7 +300,7 @@ msgstr "C"
 msgid "Cancelled"
 msgstr "Annulé"
 
-#: src/lib/film.cc:303
+#: src/lib/film.cc:304
 msgid "Cannot contain slashes"
 msgstr "slash non autorisés"
 
@@ -308,7 +308,7 @@ msgstr "slash non autorisés"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Format du pixel %1 non géré par %2"
 
-#: src/lib/film.cc:1333
+#: src/lib/film.cc:1324
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Fabrication d'une KDM impossible car ce projet n'est pas crypté."
 
@@ -340,7 +340,7 @@ msgstr "Luminance constante dérivée de la chrominance"
 msgid "Chroma-derived non-constant luminance"
 msgstr "Luminance non constante dérivée de la chrominance"
 
-#: src/lib/types.cc:134
+#: src/lib/types.cc:139
 msgid "Closed captions"
 msgstr "Sous-titres codés"
 
@@ -517,6 +517,11 @@ msgstr "Création du dossier distant %1 (%2) impossible"
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Ne parvient pas à décoder le fichier JPEG2000 %1 (%2)"
 
+#: src/lib/ffmpeg_image_proxy.cc:152
+#, fuzzy
+msgid "Could not decode image (%1)"
+msgstr "Ne parvient pas à décoder le fichier image (%1)"
+
 #: src/lib/encode_server_finder.cc:193
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
@@ -610,7 +615,7 @@ msgstr ""
 "DCP-o-matic ne peut pas ouvrir le fichier %1 (%2). Soit il n'existe pas, "
 "soit il n'est pas dans un format géré."
 
-#: src/lib/film.cc:1255
+#: src/lib/film.cc:1246
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -995,7 +1000,7 @@ msgstr "Seul le premier contenu à ajouter peut être rogné au point d'entrée.
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Seul le dernier contenu à ajouter peut être rogné au point de sortie."
 
-#: src/lib/types.cc:132
+#: src/lib/types.cc:137
 msgid "Open subtitles"
 msgstr "Sous-titres"
 
@@ -1195,11 +1200,11 @@ msgstr ""
 "Certains de vos sous-titres font plus de %1 lignes, aussi seront ils "
 "tronqués."
 
-#: src/lib/film.cc:328
+#: src/lib/film.cc:329
 msgid "Some of your content needs a KDM"
 msgstr "Certains de vos contenus nécessitent une clé"
 
-#: src/lib/film.cc:331
+#: src/lib/film.cc:332
 msgid "Some of your content needs an OV"
 msgstr "Certains de vos contenus nécessitent une OV"
 
@@ -1251,19 +1256,19 @@ msgstr ""
 "Le disque contenant le film est presque plein. Libérez de l'espace et "
 "essayez à nouveau."
 
-#: src/lib/playlist.cc:211
+#: src/lib/playlist.cc:223
 msgid "The file %1 has been moved %2 milliseconds earlier."
 msgstr "Le fichier %1 a été déplacé de %2 millisecondes plus tôt."
 
-#: src/lib/playlist.cc:206
+#: src/lib/playlist.cc:218
 msgid "The file %1 has been moved %2 milliseconds later."
 msgstr "Le fichier %1 a été déplacé de %2 millisecondes plus tard."
 
-#: src/lib/playlist.cc:231
+#: src/lib/playlist.cc:243
 msgid "The file %1 has been trimmed by %2 milliseconds less."
 msgstr "Le fichier %1 a été raccourci de %2 millisecondes."
 
-#: src/lib/playlist.cc:226
+#: src/lib/playlist.cc:238
 msgid "The file %1 has been trimmed by %2 milliseconds more."
 msgstr "Le fichier %1 a été allongé de %2 millisecondes."
 
@@ -1303,7 +1308,7 @@ msgstr ""
 "Ce fichier est une KDM. Les KDM doivent être ajoutées au contenu du DCP en "
 "cliquant droit sur le contenu et en sélectionnant \"Add KDM\"."
 
-#: src/lib/film.cc:456
+#: src/lib/film.cc:457
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1311,7 +1316,7 @@ msgstr ""
 "Ce film a été créé avec une nouvelle version de DCP-o-matic et il ne peut "
 "être ouvert dans cette version du programme. Désolé!"
 
-#: src/lib/film.cc:445
+#: src/lib/film.cc:446
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1325,7 +1330,7 @@ msgstr ""
 msgid "Thursday"
 msgstr "Jeudi"
 
-#: src/lib/types.cc:130
+#: src/lib/types.cc:135
 msgid "Timed text"
 msgstr "Texte chronométré"
 
@@ -1493,7 +1498,7 @@ msgstr ""
 "Vous avez choisi un fichier police de caractère qui est plus lourd que 640 "
 "kB. Cela peut poser des problèmes en lecture."
 
-#: src/lib/film.cc:311
+#: src/lib/film.cc:312
 msgid "You must add some content to the DCP before creating it"
 msgstr "Vous devez ajouter des contenus au DCP avant de le créer"
 
@@ -1529,13 +1534,13 @@ msgstr ""
 "Le format de votre container par défaut n'était pas valide et a été modifié "
 "vers Flat (1.85:1)"
 
-#: src/lib/playlist.cc:202
+#: src/lib/playlist.cc:214
 msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
 msgstr ""
 "Votre projet contient une vidéo qui n'est pas aligné sur la limite de trame."
 
-#: src/lib/playlist.cc:222
+#: src/lib/playlist.cc:234
 msgid ""
 "Your project contains video content whose trim was not aligned to a frame "
 "boundary."
@@ -1569,11 +1574,11 @@ msgstr "temps de connexion expiré"
 msgid "connecting"
 msgstr "connexion"
 
-#: src/lib/film.cc:307
+#: src/lib/film.cc:308
 msgid "container"
 msgstr "conteneur"
 
-#: src/lib/film.cc:315
+#: src/lib/film.cc:316
 msgid "content type"
 msgstr "type de contenu"
 
@@ -1581,7 +1586,7 @@ msgstr "type de contenu"
 msgid "copying %1"
 msgstr "copie de %1"
 
-#: src/lib/ffmpeg.cc:135 src/lib/ffmpeg_image_proxy.cc:153
+#: src/lib/ffmpeg.cc:135 src/lib/ffmpeg_image_proxy.cc:157
 msgid "could not find stream information"
 msgstr "information du flux introuvable"
 
@@ -1712,7 +1717,7 @@ msgstr "m"
 msgid "moving"
 msgstr "séquence"
 
-#: src/lib/film.cc:303
+#: src/lib/film.cc:304
 msgid "name"
 msgstr "nom"
 
@@ -1725,7 +1730,7 @@ msgstr "s"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:324
+#: src/lib/film.cc:325
 msgid "some of your content is missing"
 msgstr "Certains de vos contenus sont manquants"
 
@@ -1784,9 +1789,6 @@ msgstr "images"
 
 #~ msgid "Could not decode image file %1 (%2)"
 #~ msgstr "Ne parvient pas à décoder le fichier image %1 (%2)"
-
-#~ msgid "Could not decode image file (%1)"
-#~ msgstr "Ne parvient pas à décoder le fichier image (%1)"
 
 #~ msgid "it overlaps other subtitle content; remove the other content."
 #~ msgstr "Sous-titres superposés, enlevez les autres contenus."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-11 22:43+0000\n"
+"POT-Creation-Date: 2019-03-18 14:05+0000\n"
 "PO-Revision-Date: 2018-04-05 20:13+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -296,7 +296,7 @@ msgstr "中置"
 msgid "Cancelled"
 msgstr "取消"
 
-#: src/lib/film.cc:303
+#: src/lib/film.cc:304
 #, fuzzy
 msgid "Cannot contain slashes"
 msgstr "不能包含斜线"
@@ -305,7 +305,7 @@ msgstr "不能包含斜线"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "在 %2不能处理图片格式 %1"
 
-#: src/lib/film.cc:1333
+#: src/lib/film.cc:1324
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "不能生成KDM，因为项目没有被加密."
 
@@ -339,7 +339,7 @@ msgstr "BT2020 恒定亮度"
 msgid "Chroma-derived non-constant luminance"
 msgstr "BT2020 非恒定亮度"
 
-#: src/lib/types.cc:134
+#: src/lib/types.cc:139
 #, fuzzy
 msgid "Closed captions"
 msgstr "降噪"
@@ -506,6 +506,11 @@ msgstr "无法创建远程目录 %1 (%2)"
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "无法解码JPEG2000文件%1 (%2)"
 
+#: src/lib/ffmpeg_image_proxy.cc:152
+#, fuzzy
+msgid "Could not decode image (%1)"
+msgstr "无法解码图像文件(%1)"
+
 #: src/lib/encode_server_finder.cc:193
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
@@ -597,7 +602,7 @@ msgid ""
 "is in an unexpected format."
 msgstr "无法打开文件%1。文件不存在或格式无法识别。"
 
-#: src/lib/film.cc:1255
+#: src/lib/film.cc:1246
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -981,7 +986,7 @@ msgstr "只有第一段才可以进行开始裁剪。"
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "只有最后一段才可以进行结束裁剪。"
 
-#: src/lib/types.cc:132
+#: src/lib/types.cc:137
 #, fuzzy
 msgid "Open subtitles"
 msgstr "文本字幕"
@@ -1173,12 +1178,12 @@ msgid ""
 "truncated."
 msgstr ""
 
-#: src/lib/film.cc:328
+#: src/lib/film.cc:329
 #, fuzzy
 msgid "Some of your content needs a KDM"
 msgstr "内容需要KDM密匙"
 
-#: src/lib/film.cc:331
+#: src/lib/film.cc:332
 #, fuzzy
 msgid "Some of your content needs an OV"
 msgstr "内容需要声明原创OV"
@@ -1229,19 +1234,19 @@ msgid ""
 "space and try again."
 msgstr "磁盘空间不足，清理磁盘空间以继续."
 
-#: src/lib/playlist.cc:211
+#: src/lib/playlist.cc:223
 msgid "The file %1 has been moved %2 milliseconds earlier."
 msgstr "文件 1% 被向前移动了 2% 毫秒."
 
-#: src/lib/playlist.cc:206
+#: src/lib/playlist.cc:218
 msgid "The file %1 has been moved %2 milliseconds later."
 msgstr "文件 1% 被向后移动了 2% 毫秒."
 
-#: src/lib/playlist.cc:231
+#: src/lib/playlist.cc:243
 msgid "The file %1 has been trimmed by %2 milliseconds less."
 msgstr "文件 1% 被缩短了 2% 毫秒."
 
-#: src/lib/playlist.cc:226
+#: src/lib/playlist.cc:238
 msgid "The file %1 has been trimmed by %2 milliseconds more."
 msgstr "文件 1% 被延长了 2% 毫秒."
 
@@ -1273,13 +1278,13 @@ msgstr ""
 "这是一个KDM密匙文件。KDM密匙文件可以通过在你的DCP包上右键，点击添加KDM文件添"
 "加到DCP中。"
 
-#: src/lib/film.cc:456
+#: src/lib/film.cc:457
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
 msgstr "不支持新版本创建的工程文件!"
 
-#: src/lib/film.cc:445
+#: src/lib/film.cc:446
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1290,7 +1295,7 @@ msgstr "不支持老版本创建的工程文件!"
 msgid "Thursday"
 msgstr "星期四"
 
-#: src/lib/types.cc:130
+#: src/lib/types.cc:135
 msgid "Timed text"
 msgstr ""
 
@@ -1454,7 +1459,7 @@ msgid ""
 "likely to cause problems on playback."
 msgstr "您添加的字体文件超过了640KB，部分服务器不支持超过640KB大小的字体。"
 
-#: src/lib/film.cc:311
+#: src/lib/film.cc:312
 #, fuzzy
 msgid "You must add some content to the DCP before creating it"
 msgstr "您必须在创建DCP之前添加一些内容"
@@ -1484,12 +1489,12 @@ msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr "默认设置的容器不可用，已被替换为Flat (1.85:1)"
 
-#: src/lib/playlist.cc:202
+#: src/lib/playlist.cc:214
 msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
 msgstr "您的项目包含不与帧边界对齐的视频内容."
 
-#: src/lib/playlist.cc:222
+#: src/lib/playlist.cc:234
 msgid ""
 "Your project contains video content whose trim was not aligned to a frame "
 "boundary."
@@ -1521,11 +1526,11 @@ msgstr "连接超时"
 msgid "connecting"
 msgstr "连接"
 
-#: src/lib/film.cc:307
+#: src/lib/film.cc:308
 msgid "container"
 msgstr "打包类型"
 
-#: src/lib/film.cc:315
+#: src/lib/film.cc:316
 msgid "content type"
 msgstr "打包类型"
 
@@ -1533,7 +1538,7 @@ msgstr "打包类型"
 msgid "copying %1"
 msgstr "复制中... %1"
 
-#: src/lib/ffmpeg.cc:135 src/lib/ffmpeg_image_proxy.cc:153
+#: src/lib/ffmpeg.cc:135 src/lib/ffmpeg_image_proxy.cc:157
 msgid "could not find stream information"
 msgstr "找不到流信息"
 
@@ -1675,7 +1680,7 @@ msgstr "分"
 msgid "moving"
 msgstr "移动"
 
-#: src/lib/film.cc:303
+#: src/lib/film.cc:304
 msgid "name"
 msgstr "名字"
 
@@ -1688,7 +1693,7 @@ msgstr "秒"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:324
+#: src/lib/film.cc:325
 msgid "some of your content is missing"
 msgstr "内容不完整"
 
@@ -1743,9 +1748,6 @@ msgstr "视频帧"
 
 #, fuzzy
 #~ msgid "Could not decode image file %1 (%2)"
-#~ msgstr "无法解码图像文件(%1)"
-
-#~ msgid "Could not decode image file (%1)"
 #~ msgstr "无法解码图像文件(%1)"
 
 #, fuzzy

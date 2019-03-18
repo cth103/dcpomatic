@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-11 22:43+0000\n"
+"POT-Creation-Date: 2019-03-18 14:05+0000\n"
 "PO-Revision-Date: 2018-12-06 23:56+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -48,12 +48,12 @@ msgstr ""
 "%1 existiert hier bereits als Dateiname, sie müssen einen anderen Namen "
 "wählen!"
 
-#: src/wx/kdm_dialog.cc:165
+#: src/wx/kdm_dialog.cc:172
 #, c-format
 msgid "%d KDM written to %s"
 msgstr "%d KDM geschrieben nach %s"
 
-#: src/wx/kdm_dialog.cc:165
+#: src/wx/kdm_dialog.cc:172
 #, c-format
 msgid "%d KDMs written to %s"
 msgstr "%d KDMs geschrieben nach %s"
@@ -427,7 +427,7 @@ msgstr "Blau Chromatizität"
 msgid "Bottom crop"
 msgstr "Beschnitt unten"
 
-#: src/wx/dir_picker_ctrl.cc:40 src/wx/kdm_cpl_panel.cc:40
+#: src/wx/dir_picker_ctrl.cc:40 src/wx/kdm_cpl_panel.cc:41
 msgid "Browse..."
 msgstr "Durchsuchen..."
 
@@ -443,16 +443,16 @@ msgstr "...aber ich nutze gegenwärtig Faderstellung"
 msgid "CC addresses"
 msgstr "CC: Adressen"
 
-#: src/wx/kdm_cpl_panel.cc:37 src/wx/kdm_dialog.cc:88
+#: src/wx/kdm_cpl_panel.cc:38 src/wx/kdm_dialog.cc:87
 #: src/wx/self_dkdm_dialog.cc:61
 msgid "CPL"
 msgstr "CPL"
 
-#: src/wx/kdm_cpl_panel.cc:49
+#: src/wx/kdm_cpl_panel.cc:50
 msgid "CPL ID"
 msgstr "CPL ID"
 
-#: src/wx/kdm_cpl_panel.cc:52
+#: src/wx/kdm_cpl_panel.cc:53
 msgid "CPL annotation text"
 msgstr "CPL annotation text"
 
@@ -704,7 +704,7 @@ msgstr "DCP Textspur"
 msgid "DCP asset filename format"
 msgstr "Dateinamenformatierung der DCP Medien ('Assets') "
 
-#: src/wx/kdm_cpl_panel.cc:46
+#: src/wx/kdm_cpl_panel.cc:47
 msgid "DCP directory"
 msgstr "DCP Verzeichnis"
 
@@ -1006,7 +1006,7 @@ msgstr "Ausblenden"
 msgid "File"
 msgstr ""
 
-#: src/wx/kdm_dialog.cc:135
+#: src/wx/kdm_dialog.cc:142
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "Die Datei %s existiert bereits. Überschreiben?"
@@ -1208,7 +1208,23 @@ msgstr "IP Adresse / Host Name"
 msgid "ISDCF name"
 msgstr "ISDCF Name - http://isdcf.com/dcnc/"
 
-#: src/wx/config_dialog.cc:888
+#: src/wx/config_dialog.cc:847
+#, fuzzy
+msgid ""
+"If you continue with this operation you will no longer be able to use any "
+"DKDMs that you have created with the current certificates and key.  Also, "
+"any KDMs that have been sent to you for those certificates will become "
+"useless.  Proceed with caution!"
+msgstr ""
+"Wenn Sie fort fahren, werden von Ihnen früher erzeugte DKDMs für diese "
+"Installation ungültig, ebenso KDMs/DKDMs die ihnen von anderen für diese "
+"Installation ausgestellt wurden. \n"
+"Sichern Sie vorsichtshalber zuerst ihre existierenden Zertifikate und "
+"Schlüssel, damit Sie ggfs. noch einmal auf sie zurück greifen können! \n"
+"Wenn Sie auf diesem System noch nie vorher mit KDMs oder verschlüsselten "
+"DCPs gearbeitet haben, können Sie diesen Hinweis ggfs. ignorieren."
+
+#: src/wx/config_dialog.cc:897
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
@@ -1288,7 +1304,7 @@ msgstr "Intermediate common name"
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/config_dialog.cc:876
+#: src/wx/config_dialog.cc:885
 msgid "Invalid DCP-o-matic export file"
 msgstr "Ungültige Sicherungsdatei"
 
@@ -1331,7 +1347,7 @@ msgid "KDM type"
 msgstr "KDM Typ"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
-#: src/wx/kdm_dialog.cc:81
+#: src/wx/kdm_dialog.cc:80
 msgid "KDM|Timing"
 msgstr ""
 "Zeitfenster beim Empfänger (nach UTC/GMT Offset/Zeitzone in "
@@ -1445,7 +1461,7 @@ msgstr "Erstelle DCP"
 msgid "Make DKDM for DCP-o-matic"
 msgstr "Erzeuge DKDM für DCP-o-matic..."
 
-#: src/wx/kdm_dialog.cc:57 src/wx/kdm_dialog.cc:101
+#: src/wx/kdm_dialog.cc:56 src/wx/kdm_dialog.cc:108
 msgid "Make KDMs"
 msgstr "KDMs erstellen"
 
@@ -1688,7 +1704,7 @@ msgstr ""
 "Die Stärke der Umrissdarstellung kann nur bei fest eingerechneten "
 "Untertiteln ('Burn-In') gewählt werden."
 
-#: src/wx/kdm_dialog.cc:95 src/wx/self_dkdm_dialog.cc:68
+#: src/wx/kdm_dialog.cc:102 src/wx/self_dkdm_dialog.cc:68
 msgid "Output"
 msgstr "Ausgabe"
 
@@ -2008,7 +2024,7 @@ msgstr "Größe"
 msgid "Scale to"
 msgstr "Skaliere auf"
 
-#: src/wx/kdm_dialog.cc:73
+#: src/wx/kdm_dialog.cc:72
 msgid "Screens"
 msgstr "Kino- und Saaldaten:"
 
@@ -2020,12 +2036,12 @@ msgstr "Durchsuche Netzwerk nach aktiven Encodingservern"
 msgid "Select"
 msgstr "Auswählen"
 
-#: src/wx/kdm_cpl_panel.cc:97
+#: src/wx/kdm_cpl_panel.cc:98
 msgid "Select CPL XML file"
 msgstr "CPL XML Datei auswählen"
 
 #: src/wx/config_dialog.cc:455 src/wx/config_dialog.cc:524
-#: src/wx/config_dialog.cc:897 src/wx/screen_dialog.cc:213
+#: src/wx/config_dialog.cc:906 src/wx/screen_dialog.cc:213
 msgid "Select Certificate File"
 msgstr "Zertifikats-Datei auswählen"
 
@@ -2041,7 +2057,7 @@ msgstr "Kinodatenbank auswählen"
 msgid "Select Export File"
 msgstr "Exportdatei erzeugen"
 
-#: src/wx/config_dialog.cc:845
+#: src/wx/config_dialog.cc:854
 msgid "Select File To Import"
 msgstr "Import-Datei auswählen"
 
@@ -2397,6 +2413,11 @@ msgstr ""
 msgid "There is not enough free memory to do that."
 msgstr "Für diese Operation ist nicht genug freier Speicher verfügbar."
 
+#: src/wx/kdm_cpl_panel.cc:127
+#, fuzzy
+msgid "This CPL contains no encrypted assets."
+msgstr "Die Mediendaten ('Assets') dieser CPL sind nicht verschlüsselt!"
+
 #: src/wx/config_dialog.cc:472
 msgid ""
 "This file contains other certificates (or other data) after its first "
@@ -2405,7 +2426,7 @@ msgstr ""
 "Diese Zertifikatsdatei enthält weitere Zertifikate oder zusätzliche Daten. "
 "Nur das erste gefundene Zertifikat wird verwendet!"
 
-#: src/wx/kdm_cpl_panel.cc:122
+#: src/wx/kdm_cpl_panel.cc:142
 msgid "This is not a valid CPL file"
 msgstr "Dies ist keine gültige CPL Datei"
 
@@ -2833,7 +2854,7 @@ msgstr "Komponentenwert:"
 msgid "dB"
 msgstr "dB"
 
-#: src/wx/config_dialog.cc:897
+#: src/wx/config_dialog.cc:906
 msgid "dcpomatic_kdm_decryption_cert.pem"
 msgstr "dcpomatic_kdm_decryption_cert.pem"
 

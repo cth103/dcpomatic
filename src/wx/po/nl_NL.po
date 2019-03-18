@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-11 22:43+0000\n"
+"POT-Creation-Date: 2019-03-18 14:05+0000\n"
 "PO-Revision-Date: 2019-03-14 01:54+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -48,12 +48,12 @@ msgstr ""
 "%1 bestaat al als bestand, daarom kunt u het niet gebruiken voor een nieuwe "
 "film."
 
-#: src/wx/kdm_dialog.cc:165
+#: src/wx/kdm_dialog.cc:172
 #, c-format
 msgid "%d KDM written to %s"
 msgstr "%d KDM weggeschreven naar %s"
 
-#: src/wx/kdm_dialog.cc:165
+#: src/wx/kdm_dialog.cc:172
 #, c-format
 msgid "%d KDMs written to %s"
 msgstr "%d KDM's weggeschreven naar %s"
@@ -419,7 +419,7 @@ msgstr "Blauw-chromaticiteit"
 msgid "Bottom crop"
 msgstr "Bijsnijden onder"
 
-#: src/wx/dir_picker_ctrl.cc:40 src/wx/kdm_cpl_panel.cc:40
+#: src/wx/dir_picker_ctrl.cc:40 src/wx/kdm_cpl_panel.cc:41
 msgid "Browse..."
 msgstr "Blader..."
 
@@ -435,16 +435,16 @@ msgstr "Maar ik moet deze volume-instelling gebruiken"
 msgid "CC addresses"
 msgstr "CC-adressen"
 
-#: src/wx/kdm_cpl_panel.cc:37 src/wx/kdm_dialog.cc:88
+#: src/wx/kdm_cpl_panel.cc:38 src/wx/kdm_dialog.cc:87
 #: src/wx/self_dkdm_dialog.cc:61
 msgid "CPL"
 msgstr "CPL"
 
-#: src/wx/kdm_cpl_panel.cc:49
+#: src/wx/kdm_cpl_panel.cc:50
 msgid "CPL ID"
 msgstr "CPL ID"
 
-#: src/wx/kdm_cpl_panel.cc:52
+#: src/wx/kdm_cpl_panel.cc:53
 msgid "CPL annotation text"
 msgstr "CPL annotatie-tekst"
 
@@ -693,7 +693,7 @@ msgstr "DCP tekst-track"
 msgid "DCP asset filename format"
 msgstr "DCP asset bestandsnaam-formaat"
 
-#: src/wx/kdm_cpl_panel.cc:46
+#: src/wx/kdm_cpl_panel.cc:47
 msgid "DCP directory"
 msgstr "DCP-map"
 
@@ -993,7 +993,7 @@ msgstr "Fade out tijd"
 msgid "File"
 msgstr "Bestand"
 
-#: src/wx/kdm_dialog.cc:135
+#: src/wx/kdm_dialog.cc:142
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "Bestand %s bestaat al.  Wilt u het overschrijven?"
@@ -1192,7 +1192,19 @@ msgstr "Hostnaam / IP-adres"
 msgid "ISDCF name"
 msgstr "ISDCF-naam"
 
-#: src/wx/config_dialog.cc:888
+#: src/wx/config_dialog.cc:847
+#, fuzzy
+msgid ""
+"If you continue with this operation you will no longer be able to use any "
+"DKDMs that you have created with the current certificates and key.  Also, "
+"any KDMs that have been sent to you for those certificates will become "
+"useless.  Proceed with caution!"
+msgstr ""
+"Als u doorgaat met deze operatie, kunt u geen DKDM's meer gebruiken die u "
+"hebt aangemaakt.  Ook zullen alle KDM's die naar u zijn verzonden nutteloos "
+"worden.  Ga voorzichtig verder!"
+
+#: src/wx/config_dialog.cc:897
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
@@ -1267,7 +1279,7 @@ msgstr "Intermediate common name"
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/config_dialog.cc:876
+#: src/wx/config_dialog.cc:885
 msgid "Invalid DCP-o-matic export file"
 msgstr "Ongeldig DCP-o-matic export-bestand"
 
@@ -1312,7 +1324,7 @@ msgid "KDM type"
 msgstr "KDM-type"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
-#: src/wx/kdm_dialog.cc:81
+#: src/wx/kdm_dialog.cc:80
 msgid "KDM|Timing"
 msgstr "Tijdvenster"
 
@@ -1422,7 +1434,7 @@ msgstr "Maak DCP"
 msgid "Make DKDM for DCP-o-matic"
 msgstr "Maak DKDM voor DCP-o-matic"
 
-#: src/wx/kdm_dialog.cc:57 src/wx/kdm_dialog.cc:101
+#: src/wx/kdm_dialog.cc:56 src/wx/kdm_dialog.cc:108
 msgid "Make KDMs"
 msgstr "Maak KDM's"
 
@@ -1657,7 +1669,7 @@ msgstr "Omlijnings-breedte"
 msgid "Outline width cannot be set unless you are burning in captions"
 msgstr "Omlijnings-breedte kan alleen bij ingebrande captions ingesteld worden"
 
-#: src/wx/kdm_dialog.cc:95 src/wx/self_dkdm_dialog.cc:68
+#: src/wx/kdm_dialog.cc:102 src/wx/self_dkdm_dialog.cc:68
 msgid "Output"
 msgstr "Output"
 
@@ -1975,7 +1987,7 @@ msgstr "Schaling"
 msgid "Scale to"
 msgstr "Schaal naar"
 
-#: src/wx/kdm_dialog.cc:73
+#: src/wx/kdm_dialog.cc:72
 msgid "Screens"
 msgstr "Schermen"
 
@@ -1987,12 +1999,12 @@ msgstr "Zoek op netwerk naar servers"
 msgid "Select"
 msgstr "Selecteer"
 
-#: src/wx/kdm_cpl_panel.cc:97
+#: src/wx/kdm_cpl_panel.cc:98
 msgid "Select CPL XML file"
 msgstr "Selecteer CPL XML-bestand"
 
 #: src/wx/config_dialog.cc:455 src/wx/config_dialog.cc:524
-#: src/wx/config_dialog.cc:897 src/wx/screen_dialog.cc:213
+#: src/wx/config_dialog.cc:906 src/wx/screen_dialog.cc:213
 msgid "Select Certificate File"
 msgstr "Selecteer certificaat-bestand"
 
@@ -2008,7 +2020,7 @@ msgstr "Selecteer bioscopen-bestand"
 msgid "Select Export File"
 msgstr "Selecteer export-bestand"
 
-#: src/wx/config_dialog.cc:845
+#: src/wx/config_dialog.cc:854
 msgid "Select File To Import"
 msgstr "Selecteer bestand om te importeren"
 
@@ -2356,6 +2368,11 @@ msgstr "Er is al een template met deze naam.  Wilt u hem overschrijven?"
 msgid "There is not enough free memory to do that."
 msgstr "Er is niet genoeg geheugen om dat te doen."
 
+#: src/wx/kdm_cpl_panel.cc:127
+#, fuzzy
+msgid "This CPL contains no encrypted assets."
+msgstr "De inhoud van de CPL is niet versleuteld."
+
 #: src/wx/config_dialog.cc:472
 msgid ""
 "This file contains other certificates (or other data) after its first "
@@ -2364,7 +2381,7 @@ msgstr ""
 "Dit bestand bevat andere certificaten (of andere data) na het eerste "
 "certificaat.  Alleen het eerste certificaat wordt gebruikt."
 
-#: src/wx/kdm_cpl_panel.cc:122
+#: src/wx/kdm_cpl_panel.cc:142
 msgid "This is not a valid CPL file"
 msgstr "Dit is geen geldig CPL-bestand"
 
@@ -2783,7 +2800,7 @@ msgstr "componentwaarde"
 msgid "dB"
 msgstr "dB"
 
-#: src/wx/config_dialog.cc:897
+#: src/wx/config_dialog.cc:906
 msgid "dcpomatic_kdm_decryption_cert.pem"
 msgstr "dcpomatic_kdm_decryption_cert.pem"
 

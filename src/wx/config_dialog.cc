@@ -844,8 +844,7 @@ KeysPage::import_decryption_chain_and_key ()
 	if (NagDialog::maybe_nag (
 		    _panel,
 		    Config::NAG_IMPORT_DECRYPTION_CHAIN,
-		    /* XXX: this needs to be marked translatable */
-		    wxT("If you continue with this operation you will no longer be able to use any DKDMs that you have created with the current certificates and key.  Also, any KDMs that have been sent to you for those certificates will become useless.  Proceed with caution!"),
+		    _("If you continue with this operation you will no longer be able to use any DKDMs that you have created with the current certificates and key.  Also, any KDMs that have been sent to you for those certificates will become useless.  Proceed with caution!"),
 		    true
 		    )) {
 		return;
