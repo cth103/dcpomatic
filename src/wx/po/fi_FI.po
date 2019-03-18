@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-18 14:05+0000\n"
+"POT-Creation-Date: 2019-03-18 17:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2702,12 +2702,20 @@ msgstr ""
 msgid "certificates.christiedigital.com user name"
 msgstr ""
 
+#: src/wx/kdm_output_panel.cc:81
+msgid "cinema"
+msgstr ""
+
 #: src/wx/text_panel.cc:75 src/wx/text_panel.cc:475
 msgid "closed captions"
 msgstr ""
 
 #: src/wx/video_waveform_dialog.cc:74
 msgid "component value"
+msgstr ""
+
+#: src/wx/full_config_dialog.cc:1410
+msgid "content filename"
 msgstr ""
 
 #: src/wx/audio_gain_dialog.cc:31 src/wx/audio_panel.cc:75
@@ -2726,6 +2734,14 @@ msgstr ""
 #. // TRANSLATORS: this is an abbreviation for "frames"
 #: src/wx/timing_panel.cc:79
 msgid "f"
+msgstr ""
+
+#: src/wx/kdm_output_panel.cc:80
+msgid "film name"
+msgstr ""
+
+#: src/wx/kdm_output_panel.cc:83
+msgid "from date/time"
 msgstr ""
 
 #: src/wx/player_config_dialog.cc:93
@@ -2759,6 +2775,10 @@ msgstr ""
 msgid "ms"
 msgstr ""
 
+#: src/wx/full_config_dialog.cc:1409
+msgid "number of reels"
+msgstr ""
+
 #: src/wx/text_panel.cc:74 src/wx/text_panel.cc:473
 msgid "open subtitles"
 msgstr ""
@@ -2767,9 +2787,17 @@ msgstr ""
 msgid "port"
 msgstr ""
 
+#: src/wx/full_config_dialog.cc:1408
+msgid "reel number"
+msgstr ""
+
 #. // TRANSLATORS: this is an abbreviation for "seconds"
 #: src/wx/full_config_dialog.cc:324 src/wx/timing_panel.cc:74
 msgid "s"
+msgstr ""
+
+#: src/wx/kdm_output_panel.cc:82
+msgid "screen"
 msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:78
@@ -2778,6 +2806,18 @@ msgstr ""
 
 #: src/wx/repeat_dialog.cc:29
 msgid "times"
+msgstr ""
+
+#: src/wx/kdm_output_panel.cc:84
+msgid "to date/time"
+msgstr ""
+
+#: src/wx/full_config_dialog.cc:1395
+msgid "type (cpl/pkl)"
+msgstr ""
+
+#: src/wx/full_config_dialog.cc:1407
+msgid "type (j2c/pcm/sub)"
 msgstr ""
 
 #: src/wx/kdm_timing_panel.cc:50

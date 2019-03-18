@@ -1392,7 +1392,7 @@ private:
 		{
 			add_top_aligned_label_to_sizer (table, _panel, _("DCP metadata filename format"));
 			dcp::NameFormat::Map titles;
-			titles['t'] = "type (cpl/pkl)";
+			titles['t'] = wx_to_std (_("type (cpl/pkl)"));
 			dcp::NameFormat::Map examples;
 			examples['t'] = "cpl";
 			_dcp_metadata_filename_format = new NameFormatEditor (
@@ -1404,10 +1404,10 @@ private:
 		{
 			add_top_aligned_label_to_sizer (table, _panel, _("DCP asset filename format"));
 			dcp::NameFormat::Map titles;
-			titles['t'] = "type (j2c/pcm/sub)";
-			titles['r'] = "reel number";
-			titles['n'] = "number of reels";
-			titles['c'] = "content filename";
+			titles['t'] = wx_to_std (_("type (j2c/pcm/sub)"));
+			titles['r'] = wx_to_std (_("reel number"));
+			titles['n'] = wx_to_std (_("number of reels"));
+			titles['c'] = wx_to_std (_("content filename"));
 			dcp::NameFormat::Map examples;
 			examples['t'] = "j2c";
 			examples['r'] = "1";

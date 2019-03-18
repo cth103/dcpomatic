@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-18 14:05+0000\n"
+"POT-Creation-Date: 2019-03-18 17:30+0000\n"
 "PO-Revision-Date: 2017-10-04 22:06+0200\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -2800,12 +2800,21 @@ msgstr ""
 msgid "certificates.christiedigital.com user name"
 msgstr ""
 
+#: src/wx/kdm_output_panel.cc:81
+#, fuzzy
+msgid "cinema"
+msgstr "Biograf"
+
 #: src/wx/text_panel.cc:75 src/wx/text_panel.cc:475
 msgid "closed captions"
 msgstr ""
 
 #: src/wx/video_waveform_dialog.cc:74
 msgid "component value"
+msgstr ""
+
+#: src/wx/full_config_dialog.cc:1410
+msgid "content filename"
 msgstr ""
 
 #: src/wx/audio_gain_dialog.cc:31 src/wx/audio_panel.cc:75
@@ -2825,6 +2834,15 @@ msgstr "f.eks. %s"
 #: src/wx/timing_panel.cc:79
 msgid "f"
 msgstr "b"
+
+#: src/wx/kdm_output_panel.cc:80
+#, fuzzy
+msgid "film name"
+msgstr "Filmnavn"
+
+#: src/wx/kdm_output_panel.cc:83
+msgid "from date/time"
+msgstr ""
 
 #: src/wx/player_config_dialog.cc:93
 #, fuzzy
@@ -2858,6 +2876,11 @@ msgstr ""
 msgid "ms"
 msgstr "ms"
 
+#: src/wx/full_config_dialog.cc:1409
+#, fuzzy
+msgid "number of reels"
+msgstr "Start på spole"
+
 #: src/wx/text_panel.cc:74 src/wx/text_panel.cc:473
 #, fuzzy
 msgid "open subtitles"
@@ -2867,10 +2890,20 @@ msgstr "Brug undertekster"
 msgid "port"
 msgstr "port"
 
+#: src/wx/full_config_dialog.cc:1408
+#, fuzzy
+msgid "reel number"
+msgstr "Serienummer"
+
 #. // TRANSLATORS: this is an abbreviation for "seconds"
 #: src/wx/full_config_dialog.cc:324 src/wx/timing_panel.cc:74
 msgid "s"
 msgstr "s"
+
+#: src/wx/kdm_output_panel.cc:82
+#, fuzzy
+msgid "screen"
+msgstr "Sale"
 
 #: src/wx/colour_conversion_editor.cc:78
 msgid "threshold"
@@ -2879,6 +2912,18 @@ msgstr "grænseværdi"
 #: src/wx/repeat_dialog.cc:29
 msgid "times"
 msgstr "gange"
+
+#: src/wx/kdm_output_panel.cc:84
+msgid "to date/time"
+msgstr ""
+
+#: src/wx/full_config_dialog.cc:1395
+msgid "type (cpl/pkl)"
+msgstr ""
+
+#: src/wx/full_config_dialog.cc:1407
+msgid "type (j2c/pcm/sub)"
+msgstr ""
 
 #: src/wx/kdm_timing_panel.cc:50
 msgid "until"
@@ -3076,9 +3121,6 @@ msgstr "y"
 #~ msgstr ""
 #~ "Din DCP har ingen lydkanaler. Dette vil formodentlig give problemer ved "
 #~ "afspilning."
-
-#~ msgid "Cinema"
-#~ msgstr "Biograf"
 
 #, fuzzy
 #~ msgid "Could not get cinema list (%s)"

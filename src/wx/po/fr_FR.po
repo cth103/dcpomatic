@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-18 14:05+0000\n"
+"POT-Creation-Date: 2019-03-18 17:30+0000\n"
 "PO-Revision-Date: 2019-02-14 02:08+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -2799,6 +2799,11 @@ msgstr "Mot de passe certificates.christiedigital.com"
 msgid "certificates.christiedigital.com user name"
 msgstr "Identifiant utilisateur de certificates.christiedigital.com"
 
+#: src/wx/kdm_output_panel.cc:81
+#, fuzzy
+msgid "cinema"
+msgstr "Cinéma"
+
 #: src/wx/text_panel.cc:75 src/wx/text_panel.cc:475
 msgid "closed captions"
 msgstr "Sous-titres codés"
@@ -2806,6 +2811,10 @@ msgstr "Sous-titres codés"
 #: src/wx/video_waveform_dialog.cc:74
 msgid "component value"
 msgstr "Valeurs des Composantes"
+
+#: src/wx/full_config_dialog.cc:1410
+msgid "content filename"
+msgstr ""
 
 #: src/wx/audio_gain_dialog.cc:31 src/wx/audio_panel.cc:75
 msgid "dB"
@@ -2824,6 +2833,15 @@ msgstr "par exemple : %s"
 #: src/wx/timing_panel.cc:79
 msgid "f"
 msgstr "i"
+
+#: src/wx/kdm_output_panel.cc:80
+#, fuzzy
+msgid "film name"
+msgstr "Nom du Film"
+
+#: src/wx/kdm_output_panel.cc:83
+msgid "from date/time"
+msgstr ""
 
 #: src/wx/player_config_dialog.cc:93
 msgid "full screen"
@@ -2856,6 +2874,11 @@ msgstr "minutes"
 msgid "ms"
 msgstr "ms"
 
+#: src/wx/full_config_dialog.cc:1409
+#, fuzzy
+msgid "number of reels"
+msgstr "Début de bobine"
+
 #: src/wx/text_panel.cc:74 src/wx/text_panel.cc:473
 msgid "open subtitles"
 msgstr "Ouvrir les sous-titres"
@@ -2864,10 +2887,20 @@ msgstr "Ouvrir les sous-titres"
 msgid "port"
 msgstr "port"
 
+#: src/wx/full_config_dialog.cc:1408
+#, fuzzy
+msgid "reel number"
+msgstr "Numéro de Série"
+
 #. // TRANSLATORS: this is an abbreviation for "seconds"
 #: src/wx/full_config_dialog.cc:324 src/wx/timing_panel.cc:74
 msgid "s"
 msgstr "s"
+
+#: src/wx/kdm_output_panel.cc:82
+#, fuzzy
+msgid "screen"
+msgstr "Ecrans"
 
 #: src/wx/colour_conversion_editor.cc:78
 msgid "threshold"
@@ -2876,6 +2909,18 @@ msgstr "seuil"
 #: src/wx/repeat_dialog.cc:29
 msgid "times"
 msgstr "fois"
+
+#: src/wx/kdm_output_panel.cc:84
+msgid "to date/time"
+msgstr ""
+
+#: src/wx/full_config_dialog.cc:1395
+msgid "type (cpl/pkl)"
+msgstr ""
+
+#: src/wx/full_config_dialog.cc:1407
+msgid "type (j2c/pcm/sub)"
+msgstr ""
 
 #: src/wx/kdm_timing_panel.cc:50
 msgid "until"
@@ -3124,9 +3169,6 @@ msgstr "y"
 #~ msgstr ""
 #~ "Votre DCP ne posséde aucun canal audio. Il est très probable que cela "
 #~ "pose problème en lecture."
-
-#~ msgid "Cinema"
-#~ msgstr "Cinéma"
 
 #~ msgid "Could not get cinema list (%s)"
 #~ msgstr "Liste des cinémas non accessible (%s)"

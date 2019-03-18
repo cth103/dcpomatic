@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-18 14:05+0000\n"
+"POT-Creation-Date: 2019-03-18 17:30+0000\n"
 "PO-Revision-Date: 2018-08-20 18:57+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -2813,6 +2813,11 @@ msgstr ""
 msgid "certificates.christiedigital.com user name"
 msgstr ""
 
+#: src/wx/kdm_output_panel.cc:81
+#, fuzzy
+msgid "cinema"
+msgstr "Кинотеатр"
+
 #: src/wx/text_panel.cc:75 src/wx/text_panel.cc:475
 msgid "closed captions"
 msgstr ""
@@ -2820,6 +2825,10 @@ msgstr ""
 #: src/wx/video_waveform_dialog.cc:74
 msgid "component value"
 msgstr "значение компонента"
+
+#: src/wx/full_config_dialog.cc:1410
+msgid "content filename"
+msgstr ""
 
 #: src/wx/audio_gain_dialog.cc:31 src/wx/audio_panel.cc:75
 msgid "dB"
@@ -2838,6 +2847,15 @@ msgstr "напр. %s"
 #: src/wx/timing_panel.cc:79
 msgid "f"
 msgstr "к"
+
+#: src/wx/kdm_output_panel.cc:80
+#, fuzzy
+msgid "film name"
+msgstr "Название проекта"
+
+#: src/wx/kdm_output_panel.cc:83
+msgid "from date/time"
+msgstr ""
 
 #: src/wx/player_config_dialog.cc:93
 #, fuzzy
@@ -2871,6 +2889,11 @@ msgstr ""
 msgid "ms"
 msgstr "мс"
 
+#: src/wx/full_config_dialog.cc:1409
+#, fuzzy
+msgid "number of reels"
+msgstr "Начало катушки"
+
 #: src/wx/text_panel.cc:74 src/wx/text_panel.cc:473
 #, fuzzy
 msgid "open subtitles"
@@ -2880,10 +2903,20 @@ msgstr "Использовать субтитры"
 msgid "port"
 msgstr "порт"
 
+#: src/wx/full_config_dialog.cc:1408
+#, fuzzy
+msgid "reel number"
+msgstr "Серийный номер"
+
 #. // TRANSLATORS: this is an abbreviation for "seconds"
 #: src/wx/full_config_dialog.cc:324 src/wx/timing_panel.cc:74
 msgid "s"
 msgstr "с"
+
+#: src/wx/kdm_output_panel.cc:82
+#, fuzzy
+msgid "screen"
+msgstr "Экраны"
 
 #: src/wx/colour_conversion_editor.cc:78
 msgid "threshold"
@@ -2892,6 +2925,18 @@ msgstr "порог"
 #: src/wx/repeat_dialog.cc:29
 msgid "times"
 msgstr "раз"
+
+#: src/wx/kdm_output_panel.cc:84
+msgid "to date/time"
+msgstr ""
+
+#: src/wx/full_config_dialog.cc:1395
+msgid "type (cpl/pkl)"
+msgstr ""
+
+#: src/wx/full_config_dialog.cc:1407
+msgid "type (j2c/pcm/sub)"
+msgstr ""
 
 #: src/wx/kdm_timing_panel.cc:50
 msgid "until"
@@ -3131,9 +3176,6 @@ msgstr "y"
 #~ msgstr ""
 #~ "У вашего DCP нет аудиоканалов. Вероятно это может вызвать проблемы при "
 #~ "воспроизведении."
-
-#~ msgid "Cinema"
-#~ msgstr "Кинотеатр"
 
 #~ msgid "Could not get cinema list (%s)"
 #~ msgstr "Не удалось получить список кинотеатров (%s)"

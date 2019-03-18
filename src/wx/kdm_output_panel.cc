@@ -77,11 +77,11 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 
 	add_label_to_sizer (table, this, _("Filename format"), true, 0, wxALIGN_TOP | wxTOP | wxLEFT | wxRIGHT);
 	dcp::NameFormat::Map titles;
-	titles['f'] = "film name";
-	titles['c'] = "cinema";
-	titles['s'] = "screen";
-	titles['b'] = "from date/time";
-	titles['e'] = "to date/time";
+	titles['f'] = wx_to_std (_("film name"));
+	titles['c'] = wx_to_std (_("cinema"));
+	titles['s'] = wx_to_std (_("screen"));
+	titles['b'] = wx_to_std (_("from date/time"));
+	titles['e'] = wx_to_std (_("to date/time"));
 	dcp::NameFormat::Map ex;
 	ex['f'] = "Bambi";
 	ex['c'] = "Lumière";
