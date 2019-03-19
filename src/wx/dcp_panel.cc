@@ -118,7 +118,7 @@ DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> v
 
 	_upload_after_make_dcp = new CheckBox (_panel, _("Upload DCP to TMS after it is made"));
 
-	_markers = new Button (_panel, _("Edit markers..."));
+	_markers = new Button (_panel, _("Markers..."));
 
 	_notebook = new wxNotebook (_panel, wxID_ANY);
 	_sizer->Add (_notebook, 1, wxEXPAND | wxTOP, 6);
