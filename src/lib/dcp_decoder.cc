@@ -122,7 +122,7 @@ DCPDecoder::pass ()
 	pass_texts (_next, picture_asset->size());
 
 	if ((_mono_reader || _stereo_reader) && (_decode_referenced || !_dcp_content->reference_video())) {
-		int64_t const entry_point = (*_reel)->main_picture()->entry_point ();
+		int64_t const entry_point = (*_reel)->main_picture()->entry_point().get_value_or(0);
 		if (_mono_reader) {
 			video->emit (
 				film(),
@@ -168,7 +168,7 @@ DCPDecoder::pass ()
 	}
 
 	if (_sound_reader && (_decode_referenced || !_dcp_content->reference_audio())) {
-		int64_t const entry_point = (*_reel)->main_sound()->entry_point ();
+		int64_t const entry_point = (*_reel)->main_sound()->entry_point().get_value_or(0);
 		shared_ptr<const dcp::SoundFrame> sf = _sound_reader->get_frame (entry_point + frame);
 		uint8_t const * from = sf->data ();
 
@@ -208,7 +208,7 @@ DCPDecoder::pass_texts (ContentTime next, dcp::Size size)
 			next,
 			(*_reel)->main_subtitle()->asset(),
 			_dcp_content->reference_text(TEXT_OPEN_SUBTITLE),
-			(*_reel)->main_subtitle()->entry_point(),
+			(*_reel)->main_subtitle()->entry_point().get_value_or(0),
 			*decoder,
 			size
 			);
@@ -217,7 +217,7 @@ DCPDecoder::pass_texts (ContentTime next, dcp::Size size)
 	BOOST_FOREACH (shared_ptr<dcp::ReelClosedCaptionAsset> i, (*_reel)->closed_captions()) {
 		DCPOMATIC_ASSERT (decoder != text.end ());
 		pass_texts (
-			next, i->asset(), _dcp_content->reference_text(TEXT_CLOSED_CAPTION), i->entry_point(), *decoder, size
+			next, i->asset(), _dcp_content->reference_text(TEXT_CLOSED_CAPTION), i->entry_point().get_value_or(0), *decoder, size
 			);
 		++decoder;
 	}
@@ -294,7 +294,7 @@ DCPDecoder::pass_texts (
 void
 DCPDecoder::next_reel ()
 {
-	_offset += (*_reel)->main_picture()->duration();
+	_offset += (*_reel)->main_picture()->actual_duration();
 	++_reel;
 	get_readers ();
 }
@@ -357,8 +357,12 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 
 	/* Seek to pre-roll position */
 
-	while (_reel != _reels.end() && pre >= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate(film()))) {
-		ContentTime rd = ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate(film()));
+	while (
+		_reel != _reels.end() &&
+		pre >= ContentTime::from_frames ((*_reel)->main_picture()->actual_duration(), _dcp_content->active_video_frame_rate(film()))
+		) {
+
+		ContentTime rd = ContentTime::from_frames ((*_reel)->main_picture()->actual_duration(), _dcp_content->active_video_frame_rate(film()));
 		pre -= rd;
 		t -= rd;
 		next_reel ();
@@ -374,8 +378,12 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 
 	/* Seek to correct position */
 
-	while (_reel != _reels.end() && t >= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate(film()))) {
-		t -= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate(film()));
+	while (
+		_reel != _reels.end() &&
+		t >= ContentTime::from_frames ((*_reel)->main_picture()->actual_duration(), _dcp_content->active_video_frame_rate(film()))
+		) {
+
+		t -= ContentTime::from_frames ((*_reel)->main_picture()->actual_duration(), _dcp_content->active_video_frame_rate(film()));
 		next_reel ();
 	}
 

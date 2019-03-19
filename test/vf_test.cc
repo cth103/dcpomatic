@@ -188,11 +188,11 @@ BOOST_AUTO_TEST_CASE (vf_test3)
 	BOOST_REQUIRE_EQUAL (vf_c.cpls().size(), 1);
 	BOOST_REQUIRE_EQUAL (vf_c.cpls().front()->reels().size(), 1);
 	BOOST_REQUIRE (vf_c.cpls().front()->reels().front()->main_picture());
-	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_picture()->entry_point(), 24);
-	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_picture()->duration(), 72);
+	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_picture()->entry_point().get_value_or(0), 24);
+	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_picture()->actual_duration(), 72);
 	BOOST_REQUIRE (vf_c.cpls().front()->reels().front()->main_sound());
-	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_sound()->entry_point(), 24);
-	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_sound()->duration(), 72);
+	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_sound()->entry_point().get_value_or(0), 24);
+	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_sound()->actual_duration(), 72);
 }
 
 /** Make a OV with video and audio and a VF referencing the OV and adding some more video */
