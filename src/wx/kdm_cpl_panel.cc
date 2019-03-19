@@ -143,7 +143,7 @@ KDMCPLPanel::cpl_browse_clicked ()
 				0
 				)
 			);
-	} catch (cxml::Error) {
+	} catch (cxml::Error &) {
 		error_dialog (this, _("This is not a valid CPL file"));
 		return;
 	}
