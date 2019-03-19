@@ -41,6 +41,7 @@ class wxSpinCtrl;
 class wxSpinCtrlDouble;
 class wxGridBagSizer;
 class wxSplashScreen;
+class PasswordEntry;
 
 #define DCPOMATIC_SIZER_X_GAP 8
 #define DCPOMATIC_SIZER_Y_GAP 8
@@ -99,6 +100,7 @@ extern void checked_set (wxChoice* widget, std::string value);
 extern void checked_set (wxChoice* widget, std::vector<std::pair<std::string, std::string> > items);
 extern void checked_set (wxTextCtrl* widget, std::string value);
 extern void checked_set (wxTextCtrl* widget, wxString value);
+extern void checked_set (PasswordEntry* widget, std::string value);
 extern void checked_set (wxCheckBox* widget, bool value);
 extern void checked_set (wxRadioButton* widget, bool value);
 extern void checked_set (wxStaticText* widget, std::string value);

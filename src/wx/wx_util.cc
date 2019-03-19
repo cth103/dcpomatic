@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -25,6 +25,7 @@
 #include "wx_util.h"
 #include "file_picker_ctrl.h"
 #include "static_text.h"
+#include "password_entry.h"
 #include "lib/config.h"
 #include "lib/job_manager.h"
 #include "lib/util.h"
@@ -289,6 +290,14 @@ checked_set (wxTextCtrl* widget, string value)
 {
 	if (widget->GetValue() != std_to_wx (value)) {
 		widget->ChangeValue (std_to_wx (value));
+	}
+}
+
+void
+checked_set (PasswordEntry* entry, string value)
+{
+	if (entry->get() != value) {
+		entry->set(value);
 	}
 }
 
