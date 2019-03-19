@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -39,6 +39,7 @@
 #include "static_text.h"
 #include "check_box.h"
 #include "dcpomatic_button.h"
+#include "password_entry.h"
 #include "lib/config.h"
 #include "lib/ratio.h"
 #include "lib/filter.h"
@@ -669,8 +670,8 @@ private:
 		table->Add (_tms_user, 1, wxEXPAND);
 
 		add_label_to_sizer (table, _panel, _("Password"), true);
-		_tms_password = new wxTextCtrl (_panel, wxID_ANY);
-		table->Add (_tms_password, 1, wxEXPAND);
+		_tms_password = new PasswordEntry (_panel);
+		table->Add (_tms_password->get_panel(), 1, wxEXPAND);
 
 		_tms_protocol->Append (_("SCP (for AAM and Doremi)"));
 		_tms_protocol->Append (_("FTP (for Dolby)"));
@@ -679,7 +680,7 @@ private:
 		_tms_ip->Bind (wxEVT_TEXT, boost::bind (&TMSPage::tms_ip_changed, this));
 		_tms_path->Bind (wxEVT_TEXT, boost::bind (&TMSPage::tms_path_changed, this));
 		_tms_user->Bind (wxEVT_TEXT, boost::bind (&TMSPage::tms_user_changed, this));
-		_tms_password->Bind (wxEVT_TEXT, boost::bind (&TMSPage::tms_password_changed, this));
+		_tms_password->Changed.connect (boost::bind (&TMSPage::tms_password_changed, this));
 	}
 
 	void config_changed ()
@@ -715,14 +716,14 @@ private:
 
 	void tms_password_changed ()
 	{
-		Config::instance()->set_tms_password (wx_to_std (_tms_password->GetValue ()));
+		Config::instance()->set_tms_password (_tms_password->get());
 	}
 
 	wxChoice* _tms_protocol;
 	wxTextCtrl* _tms_ip;
 	wxTextCtrl* _tms_path;
 	wxTextCtrl* _tms_user;
-	wxTextCtrl* _tms_password;
+	PasswordEntry* _tms_password;
 };
 
 static string
@@ -782,14 +783,14 @@ private:
 		table->Add (_user, 1, wxEXPAND | wxALL);
 
 		add_label_to_sizer (table, _panel, _("Password"), true);
-		_password = new wxTextCtrl (_panel, wxID_ANY);
-		table->Add (_password, 1, wxEXPAND | wxALL);
+		_password = new PasswordEntry (_panel);
+		table->Add (_password->get_panel(), 1, wxEXPAND | wxALL);
 
 		_server->Bind (wxEVT_TEXT, boost::bind (&EmailPage::server_changed, this));
 		_port->Bind (wxEVT_SPINCTRL, boost::bind (&EmailPage::port_changed, this));
 		_protocol->Bind (wxEVT_CHOICE, boost::bind (&EmailPage::protocol_changed, this));
 		_user->Bind (wxEVT_TEXT, boost::bind (&EmailPage::user_changed, this));
-		_password->Bind (wxEVT_TEXT, boost::bind (&EmailPage::password_changed, this));
+		_password->Changed.connect (boost::bind (&EmailPage::password_changed, this));
 	}
 
 	void config_changed ()
@@ -813,7 +814,7 @@ private:
 			break;
 		}
 		checked_set (_user, config->mail_user ());
-		checked_set (_password, config->mail_password ());
+		checked_set (_password, config->mail_password());
 	}
 
 	void server_changed ()
@@ -851,14 +852,14 @@ private:
 
 	void password_changed ()
 	{
-		Config::instance()->set_mail_password (wx_to_std (_password->GetValue ()));
+		Config::instance()->set_mail_password(_password->get());
 	}
 
 	wxTextCtrl* _server;
 	wxSpinCtrl* _port;
 	wxChoice* _protocol;
 	wxTextCtrl* _user;
-	wxTextCtrl* _password;
+	PasswordEntry* _password;
 };
 
 class KDMEmailPage : public StandardPage
@@ -1012,31 +1013,31 @@ public:
 		table->Add (_barco_username, 1, wxEXPAND | wxALL);
 
 		add_label_to_sizer (table, _panel, _("certificates.barco.com password"), true);
-		_barco_password = new wxTextCtrl (_panel, wxID_ANY);
-		table->Add (_barco_password, 1, wxEXPAND | wxALL);
+		_barco_password = new PasswordEntry (_panel);
+		table->Add (_barco_password->get_panel(), 1, wxEXPAND | wxALL);
 
 		add_label_to_sizer (table, _panel, _("certificates.christiedigital.com user name"), true);
 		_christie_username = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_christie_username, 1, wxEXPAND | wxALL);
 
 		add_label_to_sizer (table, _panel, _("certificates.christiedigital.com password"), true);
-		_christie_password = new wxTextCtrl (_panel, wxID_ANY);
-		table->Add (_christie_password, 1, wxEXPAND | wxALL);
+		_christie_password = new PasswordEntry (_panel);
+		table->Add (_christie_password->get_panel(), 1, wxEXPAND | wxALL);
 
 		add_label_to_sizer (table, _panel, _("GDC user name"), true);
 		_gdc_username = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_gdc_username, 1, wxEXPAND | wxALL);
 
 		add_label_to_sizer (table, _panel, _("GDC password"), true);
-		_gdc_password = new wxTextCtrl (_panel, wxID_ANY);
-		table->Add (_gdc_password, 1, wxEXPAND | wxALL);
+		_gdc_password = new PasswordEntry (_panel);
+		table->Add (_gdc_password->get_panel(), 1, wxEXPAND | wxALL);
 
 		_barco_username->Bind (wxEVT_TEXT, boost::bind(&AccountsPage::barco_username_changed, this));
-		_barco_password->Bind (wxEVT_TEXT, boost::bind(&AccountsPage::barco_password_changed, this));
+		_barco_password->Changed.connect (boost::bind(&AccountsPage::barco_password_changed, this));
 		_christie_username->Bind (wxEVT_TEXT, boost::bind(&AccountsPage::christie_username_changed, this));
-		_christie_password->Bind (wxEVT_TEXT, boost::bind(&AccountsPage::christie_password_changed, this));
+		_christie_password->Changed.connect (boost::bind(&AccountsPage::christie_password_changed, this));
 		_gdc_username->Bind (wxEVT_TEXT, boost::bind(&AccountsPage::gdc_username_changed, this));
-		_gdc_password->Bind (wxEVT_TEXT, boost::bind(&AccountsPage::gdc_password_changed, this));
+		_gdc_password->Changed.connect (boost::bind(&AccountsPage::gdc_password_changed, this));
 	}
 
 	void config_changed ()
@@ -1063,11 +1064,11 @@ public:
 
 	void barco_password_changed ()
 	{
-		wxString const s = _barco_password->GetValue();
-		if (!s.IsEmpty()) {
-			Config::instance()->set_barco_password (wx_to_std(s));
+		string const s = _barco_password->get();
+		if (!s.empty()) {
+			Config::instance()->set_barco_password(s);
 		} else {
-			Config::instance()->unset_barco_password ();
+			Config::instance()->unset_barco_password();
 		}
 	}
 
@@ -1083,11 +1084,11 @@ public:
 
 	void christie_password_changed ()
 	{
-		wxString const s = _christie_password->GetValue();
-		if (!s.IsEmpty()) {
-			Config::instance()->set_christie_password (wx_to_std(s));
+		string const s = _christie_password->get();
+		if (!s.empty()) {
+			Config::instance()->set_christie_password(s);
 		} else {
-			Config::instance()->unset_christie_password ();
+			Config::instance()->unset_christie_password();
 		}
 	}
 
@@ -1103,21 +1104,21 @@ public:
 
 	void gdc_password_changed ()
 	{
-		wxString const s = _gdc_password->GetValue();
-		if (!s.IsEmpty()) {
-			Config::instance()->set_gdc_password (wx_to_std(s));
+		string const s = _gdc_password->get();
+		if (!s.empty()) {
+			Config::instance()->set_gdc_password(s);
 		} else {
-			Config::instance()->unset_gdc_password ();
+			Config::instance()->unset_gdc_password();
 		}
 	}
 
 private:
 	wxTextCtrl* _barco_username;
-	wxTextCtrl* _barco_password;
+	PasswordEntry* _barco_password;
 	wxTextCtrl* _christie_username;
-	wxTextCtrl* _christie_password;
+	PasswordEntry* _christie_password;
 	wxTextCtrl* _gdc_username;
-	wxTextCtrl* _gdc_password;
+	PasswordEntry* _gdc_password;
 };
 
 
