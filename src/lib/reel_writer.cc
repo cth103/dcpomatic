@@ -408,10 +408,10 @@ maybe_add_text (
 	}
 
 	if (reel_asset) {
-		if (reel_asset->duration() != period_duration) {
+		if (reel_asset->actual_duration() != period_duration) {
 			throw ProgrammingError (
 				__FILE__, __LINE__,
-				String::compose ("%1 vs %2", reel_asset->duration(), period_duration)
+				String::compose ("%1 vs %2", reel_asset->actual_duration(), period_duration)
 				);
 		}
 		reel->add (reel_asset);
@@ -460,7 +460,7 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 	if (reel_picture_asset->duration() != period_duration) {
 		throw ProgrammingError (
 			__FILE__, __LINE__,
-			String::compose ("%1 vs %2", reel_picture_asset->duration(), period_duration)
+			String::compose ("%1 vs %2", reel_picture_asset->actual_duration(), period_duration)
 			);
 	}
 	reel->add (reel_picture_asset);
@@ -490,26 +490,26 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 	}
 
 	DCPOMATIC_ASSERT (reel_sound_asset);
-	if (reel_sound_asset->duration() != period_duration) {
+	if (reel_sound_asset->actual_duration() != period_duration) {
 		LOG_ERROR (
 			"Reel sound asset has length %1 but reel period is %2",
-			reel_sound_asset->duration(),
+			reel_sound_asset->actual_duration(),
 			period_duration
 			);
-		if (reel_sound_asset->duration() != period_duration) {
+		if (reel_sound_asset->actual_duration() != period_duration) {
 			throw ProgrammingError (
 				__FILE__, __LINE__,
-				String::compose ("%1 vs %2", reel_sound_asset->duration(), period_duration)
+				String::compose ("%1 vs %2", reel_sound_asset->actual_duration(), period_duration)
 				);
 		}
 
 	}
 	reel->add (reel_sound_asset);
 
-	maybe_add_text<dcp::ReelSubtitleAsset> (_subtitle_asset, reel_picture_asset->duration(), reel, refs, fonts, _film, _period);
+	maybe_add_text<dcp::ReelSubtitleAsset> (_subtitle_asset, reel_picture_asset->actual_duration(), reel, refs, fonts, _film, _period);
 	for (map<DCPTextTrack, shared_ptr<dcp::SubtitleAsset> >::const_iterator i = _closed_caption_assets.begin(); i != _closed_caption_assets.end(); ++i) {
 		shared_ptr<dcp::ReelClosedCaptionAsset> a = maybe_add_text<dcp::ReelClosedCaptionAsset> (
-			i->second, reel_picture_asset->duration(), reel, refs, fonts, _film, _period
+			i->second, reel_picture_asset->actual_duration(), reel, refs, fonts, _film, _period
 			);
 		a->set_annotation_text (i->first.name);
 		a->set_language (i->first.language);
