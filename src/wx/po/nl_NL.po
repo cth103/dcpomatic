@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-18 17:30+0000\n"
-"PO-Revision-Date: 2019-03-14 01:54+0100\n"
+"PO-Revision-Date: 2019-03-19 02:40+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -1193,7 +1193,6 @@ msgid "ISDCF name"
 msgstr "ISDCF-naam"
 
 #: src/wx/config_dialog.cc:847
-#, fuzzy
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created with the current certificates and key.  Also, "
@@ -1201,8 +1200,9 @@ msgid ""
 "useless.  Proceed with caution!"
 msgstr ""
 "Als u doorgaat met deze operatie, kunt u geen DKDM's meer gebruiken die u "
-"hebt aangemaakt.  Ook zullen alle KDM's die naar u zijn verzonden nutteloos "
-"worden.  Ga voorzichtig verder!"
+"hebt aangemaakt met de huidige certificaten en sleutel.  Ook zullen alle "
+"KDM's die naar u zijn verzonden voor deze certificaten, nutteloos worden.  "
+"Ga voorzichtig verder!"
 
 #: src/wx/config_dialog.cc:897
 msgid ""
@@ -2369,9 +2369,8 @@ msgid "There is not enough free memory to do that."
 msgstr "Er is niet genoeg geheugen om dat te doen."
 
 #: src/wx/kdm_cpl_panel.cc:127
-#, fuzzy
 msgid "This CPL contains no encrypted assets."
-msgstr "De inhoud van de CPL is niet versleuteld."
+msgstr "Deze CPL bevat geen versleutelde assets."
 
 #: src/wx/config_dialog.cc:472
 msgid ""
@@ -2789,9 +2788,8 @@ msgid "certificates.christiedigital.com user name"
 msgstr "certificates.christiedigital.com gebruikersnaam"
 
 #: src/wx/kdm_output_panel.cc:81
-#, fuzzy
 msgid "cinema"
-msgstr "Wijzig bioscoop"
+msgstr "bioscoop"
 
 #: src/wx/text_panel.cc:75 src/wx/text_panel.cc:475
 msgid "closed captions"
@@ -2803,7 +2801,7 @@ msgstr "componentwaarde"
 
 #: src/wx/full_config_dialog.cc:1410
 msgid "content filename"
-msgstr ""
+msgstr "content bestandsnaam"
 
 #: src/wx/audio_gain_dialog.cc:31 src/wx/audio_panel.cc:75
 msgid "dB"
@@ -2824,13 +2822,12 @@ msgid "f"
 msgstr "f"
 
 #: src/wx/kdm_output_panel.cc:80
-#, fuzzy
 msgid "film name"
-msgstr "Filmnaam"
+msgstr "filmnaam"
 
 #: src/wx/kdm_output_panel.cc:83
 msgid "from date/time"
-msgstr ""
+msgstr "van datum/tijd"
 
 #: src/wx/player_config_dialog.cc:93
 msgid "full screen"
@@ -2864,9 +2861,8 @@ msgid "ms"
 msgstr "ms"
 
 #: src/wx/full_config_dialog.cc:1409
-#, fuzzy
 msgid "number of reels"
-msgstr "Begin van reel"
+msgstr "aantal reels"
 
 #: src/wx/text_panel.cc:74 src/wx/text_panel.cc:473
 msgid "open subtitles"
@@ -2877,9 +2873,8 @@ msgid "port"
 msgstr "poort"
 
 #: src/wx/full_config_dialog.cc:1408
-#, fuzzy
 msgid "reel number"
-msgstr "Serienummer"
+msgstr "reel-nummer"
 
 #. // TRANSLATORS: this is an abbreviation for "seconds"
 #: src/wx/full_config_dialog.cc:324 src/wx/timing_panel.cc:74
@@ -2887,9 +2882,8 @@ msgid "s"
 msgstr "s"
 
 #: src/wx/kdm_output_panel.cc:82
-#, fuzzy
 msgid "screen"
-msgstr "Schermen"
+msgstr "scherm"
 
 #: src/wx/colour_conversion_editor.cc:78
 msgid "threshold"
@@ -2901,15 +2895,15 @@ msgstr "keer"
 
 #: src/wx/kdm_output_panel.cc:84
 msgid "to date/time"
-msgstr ""
+msgstr "tot datum/tijd"
 
 #: src/wx/full_config_dialog.cc:1395
 msgid "type (cpl/pkl)"
-msgstr ""
+msgstr "type (cpl/pkl)"
 
 #: src/wx/full_config_dialog.cc:1407
 msgid "type (j2c/pcm/sub)"
-msgstr ""
+msgstr "type (j2c/pcm/sub)"
 
 #: src/wx/kdm_timing_panel.cc:50
 msgid "until"

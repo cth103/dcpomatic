@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-18 17:30+0000\n"
-"PO-Revision-Date: 2019-02-11 16:49+0100\n"
+"PO-Revision-Date: 2019-03-19 02:09+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -523,9 +523,8 @@ msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Kan JPEG2000-bestand %1 niet decoderen (%2)"
 
 #: src/lib/ffmpeg_image_proxy.cc:152
-#, fuzzy
 msgid "Could not decode image (%1)"
-msgstr "Kan beeldbestand niet decoderen (%1)"
+msgstr "Kan beeld niet decoderen (%1)"
 
 #: src/lib/encode_server_finder.cc:193
 msgid ""
