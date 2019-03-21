@@ -408,6 +408,9 @@ Film::metadata (bool with_content_paths) const
 		m->set_attribute("Type", dcp::marker_to_string(i->first));
 		m->add_child_text(raw_convert<string>(i->second.get()));
 	}
+	BOOST_FOREACH (dcp::Rating i, _ratings) {
+		i.as_xml (root->add_child("Rating"));
+	}
 	_playlist->as_xml (root->add_child ("Playlist"), with_content_paths);
 
 	return doc;
@@ -538,6 +541,10 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 
 	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("Marker")) {
 		_markers[dcp::marker_from_string(i->string_attribute("Type"))] = DCPTime(dcp::raw_convert<DCPTime::Type>(i->content()));
+	}
+
+	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("Rating")) {
+		_ratings.push_back (dcp::Rating(i));
 	}
 
 	list<string> notes;
@@ -1707,6 +1714,13 @@ Film::unset_marker (dcp::Marker type)
 {
 	ChangeSignaller<Film> ch (this, MARKERS);
 	_markers.erase (type);
+}
+
+void
+Film::set_ratings (vector<dcp::Rating> r)
+{
+	ChangeSignaller<Film> ch (this, RATINGS);
+	_ratings = r;
 }
 
 optional<DCPTime>

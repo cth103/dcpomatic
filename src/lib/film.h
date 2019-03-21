@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -201,7 +201,8 @@ public:
 		REEL_LENGTH,
 		UPLOAD_AFTER_MAKE_DCP,
 		REENCODE_J2K,
-		MARKERS
+		MARKERS,
+		RATINGS
 	};
 
 
@@ -302,6 +303,10 @@ public:
 		return _markers;
 	}
 
+	std::vector<dcp::Rating> ratings () const {
+		return _ratings;
+	}
+
 	/* SET */
 
 	void set_directory (boost::filesystem::path);
@@ -334,6 +339,7 @@ public:
 	void set_reencode_j2k (bool);
 	void set_marker (dcp::Marker type, DCPTime time);
 	void unset_marker (dcp::Marker type);
+	void set_ratings (std::vector<dcp::Rating> r);
 
 	/** Emitted when some property has of the Film is about to change or has changed */
 	mutable boost::signals2::signal<void (ChangeType, Property)> Change;
@@ -414,6 +420,7 @@ private:
 	/** true if the user has ever explicitly set the video frame rate of this film */
 	bool _user_explicit_video_frame_rate;
 	std::map<dcp::Marker, DCPTime> _markers;
+	std::vector<dcp::Rating> _ratings;
 
 	int _state_version;
 

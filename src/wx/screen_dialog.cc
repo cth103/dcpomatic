@@ -142,8 +142,8 @@ ScreenDialog::ScreenDialog (
 	add_label_to_sizer (_sizer, this, _("Other trusted devices"), true, wxGBPosition (r, 0));
 	++r;
 
-	vector<string> columns;
-	columns.push_back (wx_to_std (_("Thumbprint")));
+	vector<EditableListColumn> columns;
+	columns.push_back (EditableListColumn(wx_to_std(_("Thumbprint"))));
 	_trusted_device_list = new EditableList<TrustedDevice, TrustedDeviceDialog> (
 		this,
 		columns,

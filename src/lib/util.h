@@ -111,4 +111,15 @@ extern boost::shared_ptr<dcp::CertificateChain> read_swaroop_chain (boost::files
 extern void write_swaroop_chain (boost::shared_ptr<const dcp::CertificateChain> chain, boost::filesystem::path output);
 #endif
 
+template <class T>
+std::list<T>
+vector_to_list (std::vector<T> v)
+{
+	std::list<T> l;
+	BOOST_FOREACH (T& i, v) {
+		l.push_back (i);
+	}
+	return l;
+}
+
 #endif
