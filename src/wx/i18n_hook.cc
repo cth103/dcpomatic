@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -30,8 +30,9 @@ using std::string;
 
 map<string, string> I18NHook::_translations;
 
-I18NHook::I18NHook (wxWindow* window)
+I18NHook::I18NHook (wxWindow* window, wxString original)
 	: _window (window)
+	, _original (original)
 {
 	_window->Bind (wxEVT_MIDDLE_DOWN, bind(&I18NHook::handle, this, _1));
 }
@@ -39,8 +40,6 @@ I18NHook::I18NHook (wxWindow* window)
 void
 I18NHook::handle (wxMouseEvent& ev)
 {
-	wxString const original = get_text ();
-
 	InstantI18NDialog* d = new InstantI18NDialog (_window, get_text());
 	d->ShowModal();
 	set_text (d->get());
@@ -56,5 +55,5 @@ I18NHook::handle (wxMouseEvent& ev)
 
 	ev.Skip ();
 
-	_translations[wx_to_std(original)] = wx_to_std(get_text());
+	_translations[wx_to_std(_original)] = wx_to_std(get_text());
 }

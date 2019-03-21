@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -22,7 +22,7 @@
 
 Button::Button (wxWindow* parent, wxString label, wxPoint pos, wxSize size, long style)
 	: wxButton (parent, wxID_ANY, label, pos, size, style)
-	, I18NHook (this)
+	, I18NHook (this, get_text())
 {
 
 }

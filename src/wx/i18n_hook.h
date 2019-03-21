@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -27,7 +27,7 @@
 class I18NHook
 {
 public:
-	I18NHook (wxWindow* window);
+	I18NHook (wxWindow* window, wxString original);
 
 	virtual void set_text (wxString text) = 0;
 	virtual wxString get_text () const = 0;
@@ -40,6 +40,7 @@ private:
 	void handle (wxMouseEvent &);
 
 	wxWindow* _window;
+	wxString _original;
 
 	static std::map<std::string, std::string> _translations;
 };
