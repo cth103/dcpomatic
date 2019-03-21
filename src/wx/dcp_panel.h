@@ -36,6 +36,7 @@ class wxGridBagSizer;
 
 class AudioDialog;
 class MarkersDialog;
+class MetadataDialog;
 class Film;
 class FilmViewer;
 class Ratio;
@@ -80,6 +81,7 @@ private:
 	void reel_length_changed ();
 	void upload_after_make_dcp_changed ();
 	void markers_clicked ();
+	void metadata_clicked ();
 	void reencode_j2k_changed ();
 
 	void setup_frame_rate_widget ();
@@ -148,9 +150,11 @@ private:
 	wxSpinCtrl* _reel_length;
 	wxCheckBox* _upload_after_make_dcp;
 	wxButton* _markers;
+	wxButton* _metadata;
 
 	AudioDialog* _audio_dialog;
 	MarkersDialog* _markers_dialog;
+	MetadataDialog* _metadata_dialog;
 
 	boost::shared_ptr<Film> _film;
 	boost::weak_ptr<FilmViewer> _viewer;

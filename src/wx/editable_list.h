@@ -28,8 +28,30 @@
 #include <boost/function.hpp>
 #include <vector>
 
+class EditableListColumn
+{
+public:
+	EditableListColumn (std::string name_)
+		: name (name_)
+		, growable (false)
+	{}
+
+	EditableListColumn (std::string name_, boost::optional<int> width_, bool growable_)
+		: name (name_)
+		, width (width_)
+		, growable (growable_)
+	{}
+
+	std::string name;
+	boost::optional<int> width;
+	bool growable;
+};
+
 /** @param T type of things being edited.
  *  @param S dialog to edit a thing.
+ *  @param get Function to get a std::vector of the things being edited.
+ *  @param set Function set the things from a a std::vector.
+ *  @param column Function to get the display string for a given column in a given item.
  */
 template<class T, class S>
 class EditableList : public wxPanel
@@ -37,20 +59,20 @@ class EditableList : public wxPanel
 public:
 	EditableList (
 		wxWindow* parent,
-		std::vector<std::string> columns,
+		std::vector<EditableListColumn> columns,
 		boost::function<std::vector<T> ()> get,
 		boost::function<void (std::vector<T>)> set,
 		boost::function<std::string (T, int)> column,
 		bool can_edit = true,
-		bool title = true,
-		int column_width = 200
+		bool title = true
 		)
 		: wxPanel (parent)
 		, _get (get)
 		, _set (set)
-		, _columns (columns.size ())
+		, _columns (columns)
 		, _column (column)
 		, _edit (0)
+		, _default_width (200)
 	{
 		_sizer = new wxBoxSizer (wxHORIZONTAL);
 		SetSizer (_sizer);
@@ -59,14 +81,21 @@ public:
 		if (title) {
 			style |= wxLC_NO_HEADER;
 		}
-		_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (columns.size() * column_width, 100), style);
 
-		for (size_t i = 0; i < columns.size(); ++i) {
+		int total_width = 0;
+		BOOST_FOREACH (EditableListColumn i, _columns) {
+			total_width += i.width.get_value_or (_default_width);
+		}
+
+		_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize(total_width, 100), style);
+
+		int j = 0;
+		BOOST_FOREACH (EditableListColumn i, _columns) {
 			wxListItem ip;
-			ip.SetId (i);
-			ip.SetText (std_to_wx (columns[i]));
-			ip.SetWidth (column_width);
-			_list->InsertColumn (i, ip);
+			ip.SetId (j);
+			ip.SetText (std_to_wx(i.name));
+			_list->InsertColumn (j, ip);
+			++j;
 		}
 
 		_sizer->Add (_list, 1, wxEXPAND);
@@ -136,7 +165,7 @@ private:
 		list_item.SetId (n);
 		_list->InsertItem (list_item);
 
-		for (int i = 0; i < _columns; ++i) {
+		for (size_t i = 0; i < _columns.size(); ++i) {
 			_list->SetItem (n, i, std_to_wx (_column (item, i)));
 		}
 	}
@@ -191,7 +220,7 @@ private:
 		}
 		dialog->Destroy ();
 
-		for (int i = 0; i < _columns; ++i) {
+		for (size_t i = 0; i < _columns.size(); ++i) {
 			_list->SetItem (item, i, std_to_wx (_column (all[item], i)));
 		}
 
@@ -215,16 +244,35 @@ private:
 
 	void resized (wxSizeEvent& ev)
 	{
-		int const w = GetSize().GetWidth() / _columns;
-		for (int i = 0; i < _columns; ++i) {
-			_list->SetColumnWidth (i, w);
+		int const w = _list->GetSize().GetWidth() - 2;
+
+		int fixed_width = 0;
+		int growable = 0;
+		int j = 0;
+		BOOST_FOREACH (EditableListColumn i, _columns) {
+			fixed_width += i.width.get_value_or (_default_width);
+			if (!i.growable) {
+				_list->SetColumnWidth (j, i.width.get_value_or(_default_width));
+			} else {
+				++growable;
+			}
+			++j;
 		}
+
+		j = 0;
+		BOOST_FOREACH (EditableListColumn i, _columns) {
+			if (i.growable) {
+				_list->SetColumnWidth (j, i.width.get_value_or(_default_width) + (w - fixed_width) / growable);
+			}
+			++j;
+		}
+
 		ev.Skip ();
 	}
 
 	boost::function <std::vector<T> ()> _get;
 	boost::function <void (std::vector<T>)> _set;
-	int _columns;
+	std::vector<EditableListColumn> _columns;
 	boost::function<std::string (T, int)> _column;
 
 	wxButton* _add;
@@ -232,6 +280,7 @@ private:
 	wxButton* _remove;
 	wxListCtrl* _list;
 	wxBoxSizer* _sizer;
+	int _default_width;
 };
 
 #endif

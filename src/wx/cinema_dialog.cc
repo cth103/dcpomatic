@@ -67,8 +67,8 @@ CinemaDialog::CinemaDialog (wxWindow* parent, wxString title, string name, list<
 
 	copy (emails.begin(), emails.end(), back_inserter (_emails));
 
-	vector<string> columns;
-	columns.push_back (wx_to_std (_("Address")));
+	vector<EditableListColumn> columns;
+	columns.push_back (EditableListColumn(wx_to_std(_("Address"))));
 	_email_list = new EditableList<string, EmailDialog> (
 		this, columns, bind (&CinemaDialog::get_emails, this), bind (&CinemaDialog::set_emails, this, _1), bind (&column, _1)
 		);

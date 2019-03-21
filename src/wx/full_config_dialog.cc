@@ -592,8 +592,8 @@ private:
 		_use_any_servers = new CheckBox (_panel, _("Search network for servers"));
 		_panel->GetSizer()->Add (_use_any_servers, 0, wxALL, _border);
 
-		vector<string> columns;
-		columns.push_back (wx_to_std (_("IP address / host name")));
+		vector<EditableListColumn> columns;
+		columns.push_back (EditableListColumn(wx_to_std(_("IP address / host name"))));
 		_servers_list = new EditableList<string, ServerDialog> (
 			_panel,
 			columns,
@@ -860,8 +860,8 @@ private:
 		_from = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_from, 1, wxEXPAND | wxALL);
 
-		vector<string> columns;
-		columns.push_back (wx_to_std (_("Address")));
+		vector<EditableListColumn> columns;
+		columns.push_back (EditableListColumn(wx_to_std(_("Address"))));
 		add_label_to_sizer (table, _panel, _("CC addresses"), true);
 		_cc = new EditableList<string, EmailDialog> (
 			_panel,
@@ -1131,8 +1131,8 @@ private:
 		_to = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_to, 1, wxEXPAND | wxALL);
 
-		vector<string> columns;
-		columns.push_back (wx_to_std (_("Address")));
+		vector<EditableListColumn> columns;
+		columns.push_back (EditableListColumn(wx_to_std(_("Address"))));
 		add_label_to_sizer (table, _panel, _("CC addresses"), true);
 		_cc = new EditableList<string, EmailDialog> (
 			_panel,
