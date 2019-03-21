@@ -1262,7 +1262,7 @@ private:
 		add_item (view, _("Video waveform..."), ID_view_video_waveform, NEEDS_FILM);
 
 		wxMenu* tools = new wxMenu;
-		add_item (tools, _("Hints..."), ID_tools_hints, 0);
+		add_item (tools, _("Hints..."), ID_tools_hints, NEEDS_FILM);
 		add_item (tools, _("Encoding servers..."), ID_tools_encoding_servers, 0);
 		add_item (tools, _("Manage templates..."), ID_tools_manage_templates, 0);
 		add_item (tools, _("Check for updates"), ID_tools_check_for_updates, 0);
