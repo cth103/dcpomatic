@@ -1022,9 +1022,11 @@ private:
 			string body;
 			body += d->name() + "\n";
 			body += d->language() + "\n";
+			body += string(dcpomatic_version) + " " + string(dcpomatic_git_commit) + "\n";
+			body += "--\n";
 			map<string, string> translations = I18NHook::translations ();
 			for (map<string, string>::const_iterator i = translations.begin(); i != translations.end(); ++i) {
-				body += i->first + "\n" + i->second + "\n";
+				body += i->first + "\n" + i->second + "\n\n";
 			}
 			list<string> to;
 			to.push_back ("carl@dcpomatic.com");
