@@ -41,7 +41,7 @@ msgid ""
 "Display aspect ratio %.2f:1"
 msgstr ""
 "\n"
-"Ratio Format d'image %.2f:1"
+"Ratio image %.2f:1"
 
 #: src/lib/video_content.cc:432
 msgid ""
@@ -49,7 +49,7 @@ msgid ""
 "Padded with black to fit container %1 (%2x%3)"
 msgstr ""
 "\n"
-"Augmenté de bandes noires pour remplir le format image cible %1 (%2x%3)"
+"Ajout de bandes noires pour remplir le format image cible %1 (%2x%3)"
 
 #: src/lib/video_content.cc:422
 msgid ""

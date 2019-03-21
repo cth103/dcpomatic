@@ -416,7 +416,7 @@ msgstr "Chromaticité du Bleu"
 
 #: src/wx/video_panel.cc:130
 msgid "Bottom crop"
-msgstr "Découpe basse"
+msgstr "Rognage bas"
 
 #: src/wx/dir_picker_ctrl.cc:40 src/wx/kdm_cpl_panel.cc:41
 msgid "Browse..."
@@ -562,7 +562,7 @@ msgstr "Couleur"
 
 #: src/wx/content_colour_conversion_dialog.cc:38 src/wx/video_panel.cc:166
 msgid "Colour conversion"
-msgstr "Espace Couleurs"
+msgstr "Espace couleur de la source"
 
 #. / TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
 #: src/wx/video_panel.cc:174
@@ -1015,8 +1015,7 @@ msgstr "Filtres"
 msgid ""
 "Find integrated loudness, true peak and loudness range when analysing audio"
 msgstr ""
-"Trouver graves intégrées, crête véritable et plage de volume sonore lors de "
-"l'analyse audio"
+"Calculer l'insensité sonore, la crête véritable et la plage dynamique de l'analyse audio"
 
 #: src/wx/content_menu.cc:74
 msgid "Find missing..."
@@ -1262,7 +1261,7 @@ msgstr "Fonction transfert d'entrée"
 #: src/wx/audio_dialog.cc:402
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
-msgstr "Basses fréquences intégrées %.2f LUFS"
+msgstr "Intensité sonore %.2f LUFS"
 
 #: src/wx/full_config_dialog.cc:91
 msgid "Interface complexity"
@@ -1372,7 +1371,7 @@ msgstr "Gauche"
 
 #: src/wx/video_panel.cc:100
 msgid "Left crop"
-msgstr "Découpe gauche"
+msgstr "Rognage gauche"
 
 #: src/wx/content_properties_dialog.cc:80
 msgid "Length"
@@ -1384,7 +1383,7 @@ msgstr "Durée: %1 (%2 images)"
 
 #: src/wx/text_panel.cc:95
 msgid "Line spacing"
-msgstr "Espacement ligne"
+msgstr "Interligne"
 
 #: src/wx/screen_dialog.cc:56
 msgid "Load certificate..."
@@ -1405,7 +1404,7 @@ msgstr "Rapport"
 #: src/wx/audio_dialog.cc:411
 #, c-format
 msgid "Loudness range %.2f LU"
-msgstr "Plage Basses fréquences %.2f LU"
+msgstr "Plage dynamique %.2f LU"
 
 #: src/wx/batch_job_view.cc:48
 msgid "Lower priority"
@@ -1811,7 +1810,7 @@ msgstr "Rating (ex. 15)"
 
 #: src/wx/dcp_panel.cc:771
 msgid "Re-encode JPEG2000 data from input"
-msgstr "Ré-encoder les données JPEG2000 depuis la source"
+msgstr "Forcer le ré-encodage des données JPEG2000"
 
 #: src/wx/content_menu.cc:76
 msgid "Re-examine..."
@@ -1947,7 +1946,7 @@ msgstr "Cliquez droit pour modifier le gain."
 
 #: src/wx/video_panel.cc:110
 msgid "Right crop"
-msgstr "Découpe droite"
+msgstr "Rognage droit"
 
 #: src/wx/config_dialog.cc:584
 msgid "Root"
@@ -2411,7 +2410,7 @@ msgstr "Chronologie"
 
 #: src/wx/content_panel.cc:140
 msgid "Timeline..."
-msgstr "Chronologie..."
+msgstr "Timeline..."
 
 #: src/wx/content_panel.cc:156
 msgid "Timing"
@@ -2428,7 +2427,7 @@ msgstr "vers"
 
 #: src/wx/video_panel.cc:120
 msgid "Top crop"
-msgstr "Découpe haute"
+msgstr "Rognage haut"
 
 #: src/wx/instant_i18n_dialog.cc:28
 msgid "Translate"
@@ -2457,7 +2456,7 @@ msgstr "Couper avant le curseur"
 #: src/wx/audio_dialog.cc:388
 #, c-format
 msgid "True peak is %.2fdB"
-msgstr "La crête absolue est de %.2fdB"
+msgstr "La crête véritable est de %.2fdB"
 
 #: src/wx/screen_dialog.cc:52
 msgid "Trusted Device"
