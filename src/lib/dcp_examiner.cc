@@ -135,7 +135,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 				throw DCPError (_("Mismatched video sizes in DCP"));
 			}
 
-			_video_length += i->main_picture()->duration();
+			_video_length += i->main_picture()->actual_duration();
 		}
 
 		if (i->main_sound ()) {
@@ -160,7 +160,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 				throw DCPError (_("Mismatched audio sample rates in DCP"));
 			}
 
-			_audio_length += i->main_sound()->duration();
+			_audio_length += i->main_sound()->actual_duration();
 		}
 
 		if (i->main_subtitle ()) {
@@ -184,13 +184,13 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 		}
 
 		if (i->main_picture()) {
-			_reel_lengths.push_back (i->main_picture()->duration());
+			_reel_lengths.push_back (i->main_picture()->actual_duration());
 		} else if (i->main_sound()) {
-			_reel_lengths.push_back (i->main_sound()->duration());
+			_reel_lengths.push_back (i->main_sound()->actual_duration());
 		} else if (i->main_subtitle()) {
-			_reel_lengths.push_back (i->main_subtitle()->duration());
+			_reel_lengths.push_back (i->main_subtitle()->actual_duration());
 		} else if (!i->closed_captions().empty()) {
-			_reel_lengths.push_back (i->closed_captions().front()->duration());
+			_reel_lengths.push_back (i->closed_captions().front()->actual_duration());
 		}
 	}
 
