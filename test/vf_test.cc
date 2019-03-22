@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -29,6 +29,8 @@
 #include "lib/content_factory.h"
 #include "lib/dcp_content_type.h"
 #include "lib/video_content.h"
+#include "lib/referenced_reel_asset.h"
+#include "lib/player.h"
 #include "test.h"
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
@@ -36,6 +38,7 @@
 #include <dcp/reel_sound_asset.h>
 #include <boost/test/unit_test.hpp>
 #include <boost/foreach.hpp>
+#include <iostream>
 
 using std::list;
 using std::string;
@@ -283,4 +286,18 @@ BOOST_AUTO_TEST_CASE (vf_test5)
 	dcp->set_trim_end (ContentTime::from_seconds(15));
 	vf->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
+
+	/* Check that the selected reel assets are right */
+	shared_ptr<Player> player (new Player(vf, vf->playlist()));
+	list<ReferencedReelAsset> a = player->get_reel_assets();
+	BOOST_REQUIRE_EQUAL (a.size(), 4);
+	list<ReferencedReelAsset>::const_iterator i = a.begin();
+	BOOST_CHECK (i->period == DCPTimePeriod(DCPTime(0), DCPTime(960000)));
+	++i;
+	BOOST_CHECK (i->period == DCPTimePeriod(DCPTime(0), DCPTime(960000)));
+	++i;
+	BOOST_CHECK (i->period == DCPTimePeriod(DCPTime(960000), DCPTime(1440000)));
+	++i;
+	BOOST_CHECK (i->period == DCPTimePeriod(DCPTime(960000), DCPTime(1440000)));
+	++i;
 }

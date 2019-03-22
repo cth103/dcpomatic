@@ -463,6 +463,19 @@ Player::set_play_referenced ()
 	setup_pieces_unlocked ();
 }
 
+static void
+maybe_add_asset (list<ReferencedReelAsset>& a, shared_ptr<dcp::ReelAsset> r, Frame reel_trim_start, Frame reel_trim_end, DCPTime from, int const ffr)
+{
+	DCPOMATIC_ASSERT (r);
+	r->set_entry_point (r->entry_point() + reel_trim_start);
+	r->set_duration (r->duration() - reel_trim_start - reel_trim_end);
+	if (r->duration() > 0) {
+		a.push_back (
+			ReferencedReelAsset(r, DCPTimePeriod(from, from + DCPTime::from_frames(r->duration(), ffr)))
+			);
+	}
+}
+
 list<ReferencedReelAsset>
 Player::get_reel_assets ()
 {
@@ -483,59 +496,51 @@ Player::get_reel_assets ()
 			return a;
 		}
 
-		int64_t offset = 0;
+		DCPOMATIC_ASSERT (j->video_frame_rate ());
+		double const cfr = j->video_frame_rate().get();
+		Frame const trim_start = j->trim_start().frames_round (cfr);
+		Frame const trim_end = j->trim_end().frames_round (cfr);
+		int const ffr = _film->video_frame_rate ();
+
+		/* position in the asset from the start */
+		int64_t offset_from_start = 0;
+		/* position in the asset from the end */
+		int64_t offset_from_end = 0;
+		BOOST_FOREACH (shared_ptr<dcp::Reel> k, decoder->reels()) {
+			/* Assume that main picture duration is the length of the reel */
+			offset_from_end += k->main_picture()->duration();
+		}
+
 		BOOST_FOREACH (shared_ptr<dcp::Reel> k, decoder->reels()) {
 
-			DCPOMATIC_ASSERT (j->video_frame_rate ());
-			double const cfr = j->video_frame_rate().get();
-			Frame const trim_start = j->trim_start().frames_round (cfr);
-			Frame const trim_end = j->trim_end().frames_round (cfr);
-			int const ffr = _film->video_frame_rate ();
+			/* Assume that main picture duration is the length of the reel */
+			int64_t const reel_duration = k->main_picture()->duration();
 
-			DCPTime const from = i->position() + DCPTime::from_frames (offset, _film->video_frame_rate());
+			/* See doc/design/trim_reels.svg */
+			Frame const reel_trim_start = min(reel_duration, max(0L, trim_start - offset_from_start));
+			Frame const reel_trim_end =   min(reel_duration, max(0L, reel_duration - (offset_from_end - trim_end)));
+
+			DCPTime const from = i->position() + DCPTime::from_frames (offset_from_start, _film->video_frame_rate());
 			if (j->reference_video ()) {
-				shared_ptr<dcp::ReelAsset> ra = k->main_picture ();
-				DCPOMATIC_ASSERT (ra);
-				ra->set_entry_point (ra->entry_point() + trim_start);
-				ra->set_duration (ra->duration() - trim_start - trim_end);
-				a.push_back (
-					ReferencedReelAsset (ra, DCPTimePeriod (from, from + DCPTime::from_frames (ra->duration(), ffr)))
-					);
+				maybe_add_asset (a, k->main_picture(), reel_trim_start, reel_trim_end, from, ffr);
 			}
 
 			if (j->reference_audio ()) {
-				shared_ptr<dcp::ReelAsset> ra = k->main_sound ();
-				DCPOMATIC_ASSERT (ra);
-				ra->set_entry_point (ra->entry_point() + trim_start);
-				ra->set_duration (ra->duration() - trim_start - trim_end);
-				a.push_back (
-					ReferencedReelAsset (ra, DCPTimePeriod (from, from + DCPTime::from_frames (ra->duration(), ffr)))
-					);
+				maybe_add_asset (a, k->main_sound(), reel_trim_start, reel_trim_end, from, ffr);
 			}
 
 			if (j->reference_text (TEXT_OPEN_SUBTITLE)) {
-				shared_ptr<dcp::ReelAsset> ra = k->main_subtitle ();
-				DCPOMATIC_ASSERT (ra);
-				ra->set_entry_point (ra->entry_point() + trim_start);
-				ra->set_duration (ra->duration() - trim_start - trim_end);
-				a.push_back (
-					ReferencedReelAsset (ra, DCPTimePeriod (from, from + DCPTime::from_frames (ra->duration(), ffr)))
-					);
+				maybe_add_asset (a, k->main_subtitle(), reel_trim_start, reel_trim_end, from, ffr);
 			}
 
 			if (j->reference_text (TEXT_CLOSED_CAPTION)) {
 				BOOST_FOREACH (shared_ptr<dcp::ReelClosedCaptionAsset> l, k->closed_captions()) {
-					DCPOMATIC_ASSERT (l);
-					l->set_entry_point (l->entry_point() + trim_start);
-					l->set_duration (l->duration() - trim_start - trim_end);
-					a.push_back (
-						ReferencedReelAsset (l, DCPTimePeriod (from, from + DCPTime::from_frames (l->duration(), ffr)))
-						);
+					maybe_add_asset (a, l, reel_trim_start, reel_trim_end, from, ffr);
 				}
 			}
 
-			/* Assume that main picture duration is the length of the reel */
-			offset += k->main_picture()->duration ();
+			offset_from_start += reel_duration;
+			offset_from_end -= reel_duration;
 		}
 	}
 
