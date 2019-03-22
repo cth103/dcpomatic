@@ -31,6 +31,7 @@ extern "C" {
 }
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
+#include <boost/thread/mutex.hpp>
 
 class Image;
 class ImageProxy;
