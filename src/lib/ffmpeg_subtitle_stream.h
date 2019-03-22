@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -21,6 +21,7 @@
 #include "dcpomatic_time.h"
 #include "rgba.h"
 #include "ffmpeg_stream.h"
+#include <boost/thread/mutex.hpp>
 #include <map>
 
 class FFmpegSubtitleStream : public FFmpegStream
