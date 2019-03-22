@@ -62,6 +62,7 @@ extern "C" {
 #include <boost/range/algorithm/replace_if.hpp>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/locale.hpp>
 #ifdef DCPOMATIC_WINDOWS
 #include <boost/locale.hpp>
 #include <dbghelp.h>
@@ -80,6 +81,7 @@ extern "C" {
 #include "i18n.h"
 
 using std::string;
+using std::wstring;
 using std::setfill;
 using std::ostream;
 using std::endl;
@@ -743,15 +745,34 @@ careful_string_filter (string s)
 	   Safety first and all that.
 	*/
 
+	wstring ws = boost::locale::conv::utf_to_utf<wchar_t>(s);
+
 	string out;
 	string const allowed = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_%.+";
-	for (size_t i = 0; i < s.size(); ++i) {
-		if (allowed.find (s[i]) != string::npos) {
-			out += s[i];
+	for (size_t i = 0; i < ws.size(); ++i) {
+
+		wchar_t c = ws[i];
+
+		/* Remove some accents */
+		if (wstring(L"áàâ").find(c) != string::npos) {
+			c = 'a';
+		}
+		if (wstring(L"éèêë").find(c) != string::npos) {
+			c = 'e';
+		}
+		if (wstring(L"ö").find(c) != string::npos) {
+			c = 'o';
+		}
+		if (wstring(L"ü").find(c) != string::npos) {
+			c = 'u';
+		}
+
+		if (allowed.find(c) != string::npos) {
+			out += c;
 		}
 	}
 
-	return out;
+	return boost::locale::conv::utf_to_utf<char>(out);
 }
 
 /** @param mapped List of mapped audio channels from a Film.

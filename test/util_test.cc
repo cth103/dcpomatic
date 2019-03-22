@@ -119,3 +119,12 @@ BOOST_AUTO_TEST_CASE (swaroop_chain_test)
 	BOOST_CHECK (cc->root_to_leaf() == back->root_to_leaf());
 }
 #endif
+
+BOOST_AUTO_TEST_CASE (careful_string_filter_test)
+{
+	BOOST_CHECK_EQUAL ("hello_world", careful_string_filter("hello_world"));
+	BOOST_CHECK_EQUAL ("hello_world", careful_string_filter("héllo_world"));
+	BOOST_CHECK_EQUAL ("hello_world", careful_string_filter("héllo_wörld"));
+	BOOST_CHECK_EQUAL ("hello_world", careful_string_filter("héllo_wörld"));
+	BOOST_CHECK_EQUAL ("hello_world_a", careful_string_filter("héllo_wörld_à"));
+}
