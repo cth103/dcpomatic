@@ -249,3 +249,38 @@ BOOST_AUTO_TEST_CASE (vf_test4)
 	BOOST_REQUIRE (vf_c.cpls().front()->reels().back()->main_sound());
 	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().back()->main_sound()->id(), sound_id);
 }
+
+/** Test bug #1495 */
+BOOST_AUTO_TEST_CASE (vf_test5)
+{
+	/* Make the OV */
+	shared_ptr<Film> ov = new_test_film ("vf_test5_ov");
+	ov->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
+	ov->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	for (int i = 0; i < 3; ++i) {
+		shared_ptr<Content> video = content_factory("test/data/flat_red.png").front();
+		ov->examine_and_add_content (video);
+		BOOST_REQUIRE (!wait_for_jobs());
+		video->video->set_length (24 * 10);
+	}
+
+	BOOST_REQUIRE (!wait_for_jobs());
+	ov->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	/* Make the VF */
+	shared_ptr<Film> vf = new_test_film ("vf_test5_vf");
+	vf->set_name ("vf_test5_vf");
+	vf->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
+	vf->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	vf->set_sequence (false);
+	shared_ptr<DCPContent> dcp (new DCPContent(ov->dir(ov->dcp_name())));
+	BOOST_REQUIRE (dcp);
+	vf->examine_and_add_content (dcp);
+	BOOST_REQUIRE (!wait_for_jobs());
+	dcp->set_reference_video (true);
+	dcp->set_reference_audio (true);
+	dcp->set_trim_end (ContentTime::from_seconds(15));
+	vf->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+}
