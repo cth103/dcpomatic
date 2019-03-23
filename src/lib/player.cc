@@ -517,8 +517,8 @@ Player::get_reel_assets ()
 			int64_t const reel_duration = k->main_picture()->duration();
 
 			/* See doc/design/trim_reels.svg */
-			Frame const reel_trim_start = min(reel_duration, max(0L, trim_start - offset_from_start));
-			Frame const reel_trim_end =   min(reel_duration, max(0L, reel_duration - (offset_from_end - trim_end)));
+			Frame const reel_trim_start = min(reel_duration, max(0LL, trim_start - offset_from_start));
+			Frame const reel_trim_end =   min(reel_duration, max(0LL, reel_duration - (offset_from_end - trim_end)));
 
 			DCPTime const from = i->position() + DCPTime::from_frames (offset_from_start, _film->video_frame_rate());
 			if (j->reference_video ()) {
