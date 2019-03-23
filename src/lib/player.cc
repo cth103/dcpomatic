@@ -467,11 +467,11 @@ static void
 maybe_add_asset (list<ReferencedReelAsset>& a, shared_ptr<dcp::ReelAsset> r, Frame reel_trim_start, Frame reel_trim_end, DCPTime from, int const ffr)
 {
 	DCPOMATIC_ASSERT (r);
-	r->set_entry_point (r->entry_point() + reel_trim_start);
-	r->set_duration (r->duration() - reel_trim_start - reel_trim_end);
-	if (r->duration() > 0) {
+	r->set_entry_point (r->entry_point().get_value_or(0) + reel_trim_start);
+	r->set_duration (r->actual_duration() - reel_trim_start - reel_trim_end);
+	if (r->actual_duration() > 0) {
 		a.push_back (
-			ReferencedReelAsset(r, DCPTimePeriod(from, from + DCPTime::from_frames(r->duration(), ffr)))
+			ReferencedReelAsset(r, DCPTimePeriod(from, from + DCPTime::from_frames(r->actual_duration(), ffr)))
 			);
 	}
 }
@@ -508,13 +508,13 @@ Player::get_reel_assets ()
 		int64_t offset_from_end = 0;
 		BOOST_FOREACH (shared_ptr<dcp::Reel> k, decoder->reels()) {
 			/* Assume that main picture duration is the length of the reel */
-			offset_from_end += k->main_picture()->duration();
+			offset_from_end += k->main_picture()->actual_duration();
 		}
 
 		BOOST_FOREACH (shared_ptr<dcp::Reel> k, decoder->reels()) {
 
 			/* Assume that main picture duration is the length of the reel */
-			int64_t const reel_duration = k->main_picture()->duration();
+			int64_t const reel_duration = k->main_picture()->actual_duration();
 
 			/* See doc/design/trim_reels.svg */
 			Frame const reel_trim_start = min(reel_duration, max(int64_t(0), trim_start - offset_from_start));
