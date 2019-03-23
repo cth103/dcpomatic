@@ -65,9 +65,9 @@ MetadataDialog::MetadataDialog (wxWindow* parent, weak_ptr<Film> film)
 	_ratings = new EditableList<dcp::Rating, RatingDialog> (
 		this,
 		columns,
-		bind(&MetadataDialog::ratings, this),
-		bind(&MetadataDialog::set_ratings, this, _1),
-		bind(&column, _1, _2),
+		boost::bind(&MetadataDialog::ratings, this),
+		boost::bind(&MetadataDialog::set_ratings, this, _1),
+		boost::bind(&column, _1, _2),
 		true,
 		false
 		);
