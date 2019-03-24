@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-18 17:30+0000\n"
+"POT-Creation-Date: 2019-03-24 00:53+0000\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -322,7 +322,7 @@ msgstr ""
 msgid "Alpha   0"
 msgstr ""
 
-#: src/wx/about_dialog.cc:148
+#: src/wx/about_dialog.cc:149
 #, fuzzy
 msgid "Also supported by"
 msgstr "Podporované(ý)"
@@ -609,6 +609,10 @@ msgstr "Verzia obsahu"
 #: src/wx/video_waveform_dialog.cc:63
 msgid "Contrast"
 msgstr "Kontrast"
+
+#: src/wx/text_panel.cc:91
+msgid "Coord|Y"
+msgstr ""
 
 #: src/wx/dcp_panel.cc:81
 msgid "Copy as name"
@@ -2264,7 +2268,7 @@ msgstr "Štúdio (napr. TCF)"
 msgid "Subject"
 msgstr "Predmet"
 
-#: src/wx/about_dialog.cc:144
+#: src/wx/about_dialog.cc:145
 msgid "Subscribers"
 msgstr ""
 
@@ -2323,7 +2327,7 @@ msgstr "Územie (napr. SK)"
 msgid "Test version "
 msgstr "Test verzia"
 
-#: src/wx/about_dialog.cc:206
+#: src/wx/about_dialog.cc:207
 msgid "Tested by"
 msgstr "Testované"
 
@@ -2472,7 +2476,7 @@ msgstr "Oben beschneiden"
 msgid "Translate"
 msgstr "Preložil"
 
-#: src/wx/about_dialog.cc:140
+#: src/wx/about_dialog.cc:141
 msgid "Translated by"
 msgstr "Preložil"
 
@@ -2748,7 +2752,7 @@ msgstr "Napísal"
 msgid "X"
 msgstr ""
 
-#: src/wx/text_panel.cc:83 src/wx/text_panel.cc:91
+#: src/wx/text_panel.cc:83
 msgid "Y"
 msgstr ""
 

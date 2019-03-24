@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-18 17:30+0000\n"
+"POT-Creation-Date: 2019-03-24 00:53+0000\n"
 "PO-Revision-Date: 2018-12-06 23:56+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -339,7 +339,7 @@ msgstr "Auch Nicht-Standard Containerformate erlauben (Vorsicht!)"
 msgid "Alpha   0"
 msgstr "Alpha 0"
 
-#: src/wx/about_dialog.cc:148
+#: src/wx/about_dialog.cc:149
 msgid "Also supported by"
 msgstr "Unterstützt durch"
 
@@ -623,6 +623,10 @@ msgstr "Inhalt Version"
 #: src/wx/video_waveform_dialog.cc:63
 msgid "Contrast"
 msgstr "Kontrast"
+
+#: src/wx/text_panel.cc:91
+msgid "Coord|Y"
+msgstr ""
 
 #: src/wx/dcp_panel.cc:81
 msgid "Copy as name"
@@ -2245,7 +2249,7 @@ msgstr "Studio (z.B. TCF)"
 msgid "Subject"
 msgstr "Betreff"
 
-#: src/wx/about_dialog.cc:144
+#: src/wx/about_dialog.cc:145
 msgid "Subscribers"
 msgstr "Regelmäßige Zahler"
 
@@ -2301,7 +2305,7 @@ msgstr "Gebiet (z.B. UK)"
 msgid "Test version "
 msgstr "Test Version"
 
-#: src/wx/about_dialog.cc:206
+#: src/wx/about_dialog.cc:207
 msgid "Tested by"
 msgstr "Getestet von"
 
@@ -2469,7 +2473,7 @@ msgstr "Beschnitt oben"
 msgid "Translate"
 msgstr "Übersetzt von"
 
-#: src/wx/about_dialog.cc:140
+#: src/wx/about_dialog.cc:141
 msgid "Translated by"
 msgstr "Übersetzt von"
 
@@ -2744,7 +2748,7 @@ msgstr "Geschrieben von"
 msgid "X"
 msgstr "X"
 
-#: src/wx/text_panel.cc:83 src/wx/text_panel.cc:91
+#: src/wx/text_panel.cc:83
 msgid "Y"
 msgstr "Y"
 

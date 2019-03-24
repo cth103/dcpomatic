@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-18 17:30+0000\n"
+"POT-Creation-Date: 2019-03-24 00:53+0000\n"
 "PO-Revision-Date: 2018-02-25 14:45-0600\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -317,7 +317,7 @@ msgstr ""
 msgid "Alpha   0"
 msgstr "Alpha   0"
 
-#: src/wx/about_dialog.cc:148
+#: src/wx/about_dialog.cc:149
 #, fuzzy
 msgid "Also supported by"
 msgstr "Soportado por"
@@ -603,6 +603,10 @@ msgstr "Versión del contenido"
 #: src/wx/video_waveform_dialog.cc:63
 msgid "Contrast"
 msgstr "Contraste"
+
+#: src/wx/text_panel.cc:91
+msgid "Coord|Y"
+msgstr ""
 
 #: src/wx/dcp_panel.cc:81
 msgid "Copy as name"
@@ -2235,7 +2239,7 @@ msgstr "Estudio (ej. TCF)"
 msgid "Subject"
 msgstr "Asunto"
 
-#: src/wx/about_dialog.cc:144
+#: src/wx/about_dialog.cc:145
 msgid "Subscribers"
 msgstr ""
 
@@ -2292,7 +2296,7 @@ msgstr "Territorio (ej. ES)"
 msgid "Test version "
 msgstr "Versión de prueba "
 
-#: src/wx/about_dialog.cc:206
+#: src/wx/about_dialog.cc:207
 msgid "Tested by"
 msgstr "Comprobado por"
 
@@ -2446,7 +2450,7 @@ msgstr "Recortar arriba"
 msgid "Translate"
 msgstr "Traducido por"
 
-#: src/wx/about_dialog.cc:140
+#: src/wx/about_dialog.cc:141
 msgid "Translated by"
 msgstr "Traducido por"
 
@@ -2723,7 +2727,7 @@ msgstr "Escrito por"
 msgid "X"
 msgstr ""
 
-#: src/wx/text_panel.cc:83 src/wx/text_panel.cc:91
+#: src/wx/text_panel.cc:83
 msgid "Y"
 msgstr ""
 

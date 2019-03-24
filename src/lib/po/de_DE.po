@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-18 17:30+0000\n"
+"POT-Creation-Date: 2019-03-24 00:53+0000\n"
 "PO-Revision-Date: 2018-12-07 00:06+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -292,15 +292,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bits pro pixel"
 
-#: src/lib/util.cc:578
+#: src/lib/util.cc:580
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:579
+#: src/lib/util.cc:581
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:570
+#: src/lib/util.cc:572
 msgid "C"
 msgstr "C"
 
@@ -322,7 +322,7 @@ msgstr ""
 "KDM Erzeugung nicht möglich, da dieses Projekt keine Verschlüsselung "
 "verwendet!"
 
-#: src/lib/util.cc:539
+#: src/lib/util.cc:541
 msgid "Centre"
 msgstr "Center"
 
@@ -581,19 +581,19 @@ msgstr "Fehler beim Start der Übertragung"
 msgid "Could not write to remote file (%1)"
 msgstr "Entfernte Datei (%1) konnte nicht gespeichert werden"
 
-#: src/lib/util.cc:549
+#: src/lib/util.cc:551
 msgid "D-BOX primary"
 msgstr "D-Box primärer TC"
 
-#: src/lib/util.cc:550
+#: src/lib/util.cc:552
 msgid "D-BOX secondary"
 msgstr "D-BOX sekundärer TC"
 
-#: src/lib/util.cc:580
+#: src/lib/util.cc:582
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:581
+#: src/lib/util.cc:583
 msgid "DBS"
 msgstr "DBS"
 
@@ -770,7 +770,7 @@ msgstr "Ermittle Länge"
 msgid "Frame rate"
 msgstr "Bildrate"
 
-#: src/lib/util.cc:879
+#: src/lib/util.cc:900
 msgid "Friday"
 msgstr "Freitag"
 
@@ -814,11 +814,11 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Gradient Glätter"
 
-#: src/lib/util.cc:574
+#: src/lib/util.cc:576
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:543
+#: src/lib/util.cc:545
 msgid "Hearing impaired"
 msgstr "HI"
 
@@ -874,27 +874,27 @@ msgstr ""
 msgid "Kernel deinterlacer"
 msgstr "Kernel De-Interlacer"
 
-#: src/lib/ffmpeg_encoder.cc:203 src/lib/util.cc:568
+#: src/lib/ffmpeg_encoder.cc:203 src/lib/util.cc:570
 msgid "L"
 msgstr "L"
 
-#: src/lib/util.cc:576
+#: src/lib/util.cc:578
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:537
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:539
 msgid "Left"
 msgstr "Links"
 
-#: src/lib/util.cc:545
+#: src/lib/util.cc:547
 msgid "Left centre"
 msgstr "Center links"
 
-#: src/lib/util.cc:547
+#: src/lib/util.cc:549
 msgid "Left rear surround"
 msgstr "Surround hinten links"
 
-#: src/lib/util.cc:541
+#: src/lib/util.cc:543
 msgid "Left surround"
 msgstr "Surround links"
 
@@ -902,11 +902,11 @@ msgstr "Surround links"
 msgid "Length"
 msgstr "Länge"
 
-#: src/lib/util.cc:571
+#: src/lib/util.cc:573
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:540
+#: src/lib/util.cc:542
 msgid "Lfe (sub)"
 msgstr "LFE (Subwoofer)"
 
@@ -930,7 +930,7 @@ msgstr "Logarithmisch (Bereich 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarithmisch  (Bereich 316:1 )"
 
-#: src/lib/util.cc:572
+#: src/lib/util.cc:574
 msgid "Ls"
 msgstr "Ls"
 
@@ -962,7 +962,7 @@ msgstr "Unterschiedliche Auflösungen im DCP"
 msgid "Missing required setting %1"
 msgstr "Benötigte Einstellung %1 fehlt"
 
-#: src/lib/util.cc:871
+#: src/lib/util.cc:892
 msgid "Monday"
 msgstr "Montag"
 
@@ -1063,7 +1063,7 @@ msgstr "Programmfehler bei %1:%2 %3"
 msgid "Public Service Announcement"
 msgstr "Hinweis - PSA"
 
-#: src/lib/ffmpeg_encoder.cc:207 src/lib/util.cc:569
+#: src/lib/ffmpeg_encoder.cc:207 src/lib/util.cc:571
 msgid "R"
 msgstr "R"
 
@@ -1075,7 +1075,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Freigabehinweis - RTG"
 
-#: src/lib/util.cc:577
+#: src/lib/util.cc:579
 msgid "Rc"
 msgstr "Rc"
 
@@ -1095,19 +1095,19 @@ msgstr "Rec. 601 (SD)"
 msgid "Rec. 709"
 msgstr "Rec. 709 (HD)"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:538
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:540
 msgid "Right"
 msgstr "Rechts"
 
-#: src/lib/util.cc:546
+#: src/lib/util.cc:548
 msgid "Right centre"
 msgstr "Center rechts"
 
-#: src/lib/util.cc:548
+#: src/lib/util.cc:550
 msgid "Right rear surround"
 msgstr "Surround hinten rechts"
 
-#: src/lib/util.cc:542
+#: src/lib/util.cc:544
 msgid "Right surround"
 msgstr "Surround rechts"
 
@@ -1119,7 +1119,7 @@ msgstr "90 Grad gegen den Uhrzeigersinn rotieren"
 msgid "Rotate 90 degrees clockwise"
 msgstr "90 Grad im Uhrzeigersinn rotieren"
 
-#: src/lib/util.cc:573
+#: src/lib/util.cc:575
 msgid "Rs"
 msgstr "Rs"
 
@@ -1168,7 +1168,7 @@ msgstr "SMPTE ST 432-1 D65 (2010)"
 msgid "SSH error (%1)"
 msgstr "SSH Fehler (%1)"
 
-#: src/lib/util.cc:881
+#: src/lib/util.cc:902
 msgid "Saturday"
 msgstr "Samstag"
 
@@ -1240,7 +1240,7 @@ msgstr "Stereo auf 5.1 up-mixer A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Stereo auf 5.1 up-mixer B"
 
-#: src/lib/util.cc:869
+#: src/lib/util.cc:890
 msgid "Sunday"
 msgstr "Sonntag"
 
@@ -1350,7 +1350,7 @@ msgstr ""
 "kann leider nicht mit dieser Version geladen werden. Sie müssen den Film neu "
 "erstellen. Sorry!"
 
-#: src/lib/util.cc:877
+#: src/lib/util.cc:898
 msgid "Thursday"
 msgstr "Donnerstag"
 
@@ -1370,7 +1370,7 @@ msgstr "Wandle %1 um"
 msgid "Transitional"
 msgstr "Überleitung - XSN"
 
-#: src/lib/util.cc:873
+#: src/lib/util.cc:894
 msgid "Tuesday"
 msgstr "Dienstag"
 
@@ -1406,7 +1406,7 @@ msgstr "Unbestimmt"
 msgid "Untitled"
 msgstr "Unbenannt"
 
-#: src/lib/util.cc:551 src/lib/util.cc:552
+#: src/lib/util.cc:553 src/lib/util.cc:554
 msgid "Unused"
 msgstr "Ungenutzt"
 
@@ -1418,7 +1418,7 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/util.cc:575
+#: src/lib/util.cc:577
 msgid "VI"
 msgstr "VI"
 
@@ -1430,7 +1430,7 @@ msgstr "DCP Integrität prüfen"
 msgid "Vertical flip"
 msgstr "Vertikal Spiegeln"
 
-#: src/lib/util.cc:544
+#: src/lib/util.cc:546
 msgid "Visually impaired"
 msgstr "VI"
 
@@ -1442,7 +1442,7 @@ msgstr "Warte..."
 msgid "Weave filter"
 msgstr "Weave Deinterlacer"
 
-#: src/lib/util.cc:875
+#: src/lib/util.cc:896
 msgid "Wednesday"
 msgstr "Mittwoch"
 
@@ -1684,7 +1684,7 @@ msgid "frames per second"
 msgstr "Bilder pro Sekunde"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:185
+#: src/lib/util.cc:187
 msgid "h"
 msgstr "h"
 
@@ -1773,7 +1773,7 @@ msgid "its video frame size differs from the film's."
 msgstr "Dieses Projekt verwendet eine andere Bildauflösung als dieses DCP."
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:194
+#: src/lib/util.cc:196
 msgid "m"
 msgstr "m"
 
@@ -1786,7 +1786,7 @@ msgid "name"
 msgstr "Name"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:204
+#: src/lib/util.cc:206
 msgid "s"
 msgstr "s"
 

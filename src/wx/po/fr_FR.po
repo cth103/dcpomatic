@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-18 17:30+0000\n"
+"POT-Creation-Date: 2019-03-24 00:53+0000\n"
 "PO-Revision-Date: 2019-02-14 02:08+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -331,7 +331,7 @@ msgstr "Autoriser les ratios DCP non-standards."
 msgid "Alpha   0"
 msgstr "Alpha   0"
 
-#: src/wx/about_dialog.cc:148
+#: src/wx/about_dialog.cc:149
 msgid "Also supported by"
 msgstr "Aussi soutenu par"
 
@@ -614,6 +614,10 @@ msgstr "Version du contenu"
 #: src/wx/video_waveform_dialog.cc:63
 msgid "Contrast"
 msgstr "Contraste"
+
+#: src/wx/text_panel.cc:91
+msgid "Coord|Y"
+msgstr ""
 
 #: src/wx/dcp_panel.cc:81
 msgid "Copy as name"
@@ -1015,7 +1019,8 @@ msgstr "Filtres"
 msgid ""
 "Find integrated loudness, true peak and loudness range when analysing audio"
 msgstr ""
-"Calculer l'insensité sonore, la crête véritable et la plage dynamique de l'analyse audio"
+"Calculer l'insensité sonore, la crête véritable et la plage dynamique de "
+"l'analyse audio"
 
 #: src/wx/content_menu.cc:74
 msgid "Find missing..."
@@ -2209,7 +2214,7 @@ msgstr "Studio (ex. TCF)"
 msgid "Subject"
 msgstr "Sujet"
 
-#: src/wx/about_dialog.cc:144
+#: src/wx/about_dialog.cc:145
 msgid "Subscribers"
 msgstr "Souscripteurs"
 
@@ -2265,7 +2270,7 @@ msgstr "Territoire (ex. FR)"
 msgid "Test version "
 msgstr "Version test"
 
-#: src/wx/about_dialog.cc:206
+#: src/wx/about_dialog.cc:207
 msgid "Tested by"
 msgstr "Testé par"
 
@@ -2433,7 +2438,7 @@ msgstr "Rognage haut"
 msgid "Translate"
 msgstr "Traduire"
 
-#: src/wx/about_dialog.cc:140
+#: src/wx/about_dialog.cc:141
 msgid "Translated by"
 msgstr "Traduit par"
 
@@ -2705,7 +2710,7 @@ msgstr "Développé par"
 msgid "X"
 msgstr "X"
 
-#: src/wx/text_panel.cc:83 src/wx/text_panel.cc:91
+#: src/wx/text_panel.cc:83
 msgid "Y"
 msgstr "Y"
 

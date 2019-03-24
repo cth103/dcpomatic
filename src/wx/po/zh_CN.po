@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-18 17:30+0000\n"
+"POT-Creation-Date: 2019-03-24 00:53+0000\n"
 "PO-Revision-Date: 2018-04-05 20:48+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -318,7 +318,7 @@ msgstr ""
 msgid "Alpha   0"
 msgstr "透明度 0"
 
-#: src/wx/about_dialog.cc:148
+#: src/wx/about_dialog.cc:149
 #, fuzzy
 msgid "Also supported by"
 msgstr "技术支持"
@@ -602,6 +602,10 @@ msgstr "内容版本"
 #: src/wx/video_waveform_dialog.cc:63
 msgid "Contrast"
 msgstr "对比度"
+
+#: src/wx/text_panel.cc:91
+msgid "Coord|Y"
+msgstr ""
 
 #: src/wx/dcp_panel.cc:81
 msgid "Copy as name"
@@ -2217,7 +2221,7 @@ msgstr "工作室(例如:ROV)"
 msgid "Subject"
 msgstr "类目"
 
-#: src/wx/about_dialog.cc:144
+#: src/wx/about_dialog.cc:145
 msgid "Subscribers"
 msgstr ""
 
@@ -2274,7 +2278,7 @@ msgstr "国别地区(例如:CN)"
 msgid "Test version "
 msgstr "测试版 "
 
-#: src/wx/about_dialog.cc:206
+#: src/wx/about_dialog.cc:207
 msgid "Tested by"
 msgstr "测试"
 
@@ -2424,7 +2428,7 @@ msgstr ""
 msgid "Translate"
 msgstr "翻译"
 
-#: src/wx/about_dialog.cc:140
+#: src/wx/about_dialog.cc:141
 msgid "Translated by"
 msgstr "翻译"
 
@@ -2701,7 +2705,7 @@ msgstr "撰稿"
 msgid "X"
 msgstr ""
 
-#: src/wx/text_panel.cc:83 src/wx/text_panel.cc:91
+#: src/wx/text_panel.cc:83
 msgid "Y"
 msgstr ""
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-18 17:30+0000\n"
+"POT-Creation-Date: 2019-03-24 00:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -302,7 +302,7 @@ msgstr ""
 msgid "Alpha   0"
 msgstr ""
 
-#: src/wx/about_dialog.cc:148
+#: src/wx/about_dialog.cc:149
 msgid "Also supported by"
 msgstr ""
 
@@ -577,6 +577,10 @@ msgstr ""
 
 #: src/wx/video_waveform_dialog.cc:63
 msgid "Contrast"
+msgstr ""
+
+#: src/wx/text_panel.cc:91
+msgid "Coord|Y"
 msgstr ""
 
 #: src/wx/dcp_panel.cc:81
@@ -2147,7 +2151,7 @@ msgstr ""
 msgid "Subject"
 msgstr ""
 
-#: src/wx/about_dialog.cc:144
+#: src/wx/about_dialog.cc:145
 msgid "Subscribers"
 msgstr ""
 
@@ -2203,7 +2207,7 @@ msgstr ""
 msgid "Test version "
 msgstr ""
 
-#: src/wx/about_dialog.cc:206
+#: src/wx/about_dialog.cc:207
 msgid "Tested by"
 msgstr ""
 
@@ -2345,7 +2349,7 @@ msgstr ""
 msgid "Translate"
 msgstr ""
 
-#: src/wx/about_dialog.cc:140
+#: src/wx/about_dialog.cc:141
 msgid "Translated by"
 msgstr ""
 
@@ -2617,7 +2621,7 @@ msgstr ""
 msgid "X"
 msgstr ""
 
-#: src/wx/text_panel.cc:83 src/wx/text_panel.cc:91
+#: src/wx/text_panel.cc:83
 msgid "Y"
 msgstr ""
 

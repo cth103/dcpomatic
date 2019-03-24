@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-18 17:30+0000\n"
+"POT-Creation-Date: 2019-03-24 00:53+0000\n"
 "PO-Revision-Date: 2019-03-19 02:40+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -331,7 +331,7 @@ msgstr "Sta niet-standaard container-beeldverhoudingen toe"
 msgid "Alpha   0"
 msgstr "Alpha   0"
 
-#: src/wx/about_dialog.cc:148
+#: src/wx/about_dialog.cc:149
 msgid "Also supported by"
 msgstr "Ook ondersteund door"
 
@@ -615,6 +615,10 @@ msgstr "Content-versie"
 #: src/wx/video_waveform_dialog.cc:63
 msgid "Contrast"
 msgstr "Contrast"
+
+#: src/wx/text_panel.cc:91
+msgid "Coord|Y"
+msgstr ""
 
 #: src/wx/dcp_panel.cc:81
 msgid "Copy as name"
@@ -2205,7 +2209,7 @@ msgstr "Studio (bv. TCF)"
 msgid "Subject"
 msgstr "Onderwerp"
 
-#: src/wx/about_dialog.cc:144
+#: src/wx/about_dialog.cc:145
 msgid "Subscribers"
 msgstr "Abonnees"
 
@@ -2261,7 +2265,7 @@ msgstr "Gebied (bv. NL)"
 msgid "Test version "
 msgstr "Test-versie "
 
-#: src/wx/about_dialog.cc:206
+#: src/wx/about_dialog.cc:207
 msgid "Tested by"
 msgstr "Getest door"
 
@@ -2422,7 +2426,7 @@ msgstr "Bijsnijden boven"
 msgid "Translate"
 msgstr "Vertaal"
 
-#: src/wx/about_dialog.cc:140
+#: src/wx/about_dialog.cc:141
 msgid "Translated by"
 msgstr "Vertaald door"
 
@@ -2694,7 +2698,7 @@ msgstr "Geschreven door"
 msgid "X"
 msgstr "X"
 
-#: src/wx/text_panel.cc:83 src/wx/text_panel.cc:91
+#: src/wx/text_panel.cc:83
 msgid "Y"
 msgstr "Y"
 
