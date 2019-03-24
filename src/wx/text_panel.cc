@@ -88,7 +88,7 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	_x_scale_label = create_label (this, _("X"), true);
 	_x_scale = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
 	_x_scale_pc_label = new StaticText (this, _("%"));
-	_y_scale_label = create_label (this, _("Y"), true);
+	_y_scale_label = create_label (this, S_("Coord|Y"), true);
 	_y_scale = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
 	_y_scale_pc_label = new StaticText (this, _("%"));
 

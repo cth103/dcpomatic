@@ -177,7 +177,7 @@ private:
 		_list->SetItem (N, 1, std_to_wx(e.id));
 		_list->SetItem (N, 2, std_to_wx(dcp::content_kind_to_string(e.kind)));
 		_list->SetItem (N, 3, e.type == SPLEntry::DCP ? _("DCP") : _("E-cinema"));
-		_list->SetItem (N, 4, e.encrypted ? _("Y") : _("N"));
+		_list->SetItem (N, 4, e.encrypted ? S_("Question|Y") : S_("Question|N"));
 		_list->SetItem (N, COLUMN_SKIPPABLE, wxEmptyString, e.skippable ? 0 : 1);
 		_list->SetItem (N, COLUMN_DISABLE_TIMELINE, wxEmptyString, e.disable_timeline ? 0 : 1);
 		_list->SetItem (N, COLUMN_STOP_AFTER_PLAY, wxEmptyString, e.stop_after_play ? 0 : 1);
