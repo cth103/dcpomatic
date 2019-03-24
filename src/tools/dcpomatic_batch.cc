@@ -382,6 +382,8 @@ class App : public wxApp
 {
 	bool OnInit ()
 	{
+		wxInitAllImageHandlers ();
+
 		SetAppName (_("DCP-o-matic Batch Converter"));
 		is_batch_converter = true;
 
