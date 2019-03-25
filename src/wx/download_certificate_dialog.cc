@@ -103,7 +103,8 @@ DownloadCertificateDialog::setup_sensitivity ()
 }
 
 void
-DownloadCertificateDialog::page_changed (wxNotebookEvent &)
+DownloadCertificateDialog::page_changed (wxNotebookEvent& ev)
 {
 	setup_sensitivity ();
+	ev.Skip ();
 }
