@@ -346,7 +346,7 @@ def dependencies(target):
     if target.platform == 'windows' and target.version == 'xp':
         deps = [('ffmpeg-cdist', '5783efa', ffmpeg_options)]
     elif target.platform != 'linux' or target.distro != 'arch':
-        deps = [('ffmpeg-cdist', 'a820b44', ffmpeg_options)]
+        deps = [('ffmpeg-cdist', '20d3ddf', ffmpeg_options)]
     else:
         # Use distro-provided FFmpeg on Arch
         deps = []
