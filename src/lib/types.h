@@ -203,16 +203,20 @@ struct Crop
 	void as_xml (xmlpp::Node *) const;
 };
 
+extern bool operator== (Crop const & a, Crop const & b);
+extern bool operator!= (Crop const & a, Crop const & b);
+
 struct CPLSummary
 {
 	CPLSummary (boost::filesystem::path p);
 
-	CPLSummary (std::string d, std::string i, std::string a, boost::filesystem::path f, bool e)
+	CPLSummary (std::string d, std::string i, std::string a, boost::filesystem::path f, bool e, time_t t)
 		: dcp_directory (d)
 		, cpl_id (i)
 		, cpl_annotation_text (a)
 		, cpl_file (f)
 		, encrypted (e)
+		, last_write_time (t)
 	{}
 
 	std::string dcp_directory;
@@ -221,10 +225,8 @@ struct CPLSummary
 	boost::filesystem::path cpl_file;
 	/** true if this CPL has any encrypted assets */
 	bool encrypted;
+	time_t last_write_time;
 };
-
-extern bool operator== (Crop const & a, Crop const & b);
-extern bool operator!= (Crop const & a, Crop const & b);
 
 enum Resolution {
 	RESOLUTION_2K,

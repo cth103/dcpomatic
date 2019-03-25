@@ -208,4 +208,6 @@ CPLSummary::CPLSummary (boost::filesystem::path p)
 			}
 		}
 	}
+
+	last_write_time = boost::filesystem::last_write_time (p);
 }

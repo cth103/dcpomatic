@@ -1038,7 +1038,16 @@ Film::j2c_path (int reel, Frame frame, Eyes eyes, bool tmp) const
 	return file (p);
 }
 
-/** Find all the DCPs in our directory that can be dcp::DCP::read() and return details of their CPLs */
+static
+bool
+cpl_summary_compare (CPLSummary const & a, CPLSummary const & b)
+{
+	return a.last_write_time > b.last_write_time;
+}
+
+/** Find all the DCPs in our directory that can be dcp::DCP::read() and return details of their CPLs.
+ *  The list will be returned in reverse order of timestamp (i.e. most recent first).
+ */
 vector<CPLSummary>
 Film::cpls () const
 {
@@ -1062,6 +1071,8 @@ Film::cpls () const
 			}
 		}
 	}
+
+	sort (out.begin(), out.end(), cpl_summary_compare);
 
 	return out;
 }

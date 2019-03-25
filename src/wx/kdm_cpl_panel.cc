@@ -128,6 +128,10 @@ KDMCPLPanel::cpl_browse_clicked ()
 		return;
 	}
 
+	/* We're ignoring the CPLSummary timestamp stuff here and just putting the new one in at the end
+	   of the list, then selecting it.
+	*/
+
 	try {
 		_cpls.push_back (
 			CPLSummary (
@@ -135,7 +139,8 @@ KDMCPLPanel::cpl_browse_clicked ()
 				cpl_document.string_child("Id").substr (9),
 				cpl_document.string_child("ContentTitleText"),
 				cpl_file,
-				encrypted
+				encrypted,
+				0
 				)
 			);
 	} catch (cxml::Error) {
