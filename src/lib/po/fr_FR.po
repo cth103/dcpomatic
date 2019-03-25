@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-24 00:53+0000\n"
-"PO-Revision-Date: 2019-02-14 02:06+0100\n"
+"PO-Revision-Date: 2019-03-25 21:34+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -518,9 +518,8 @@ msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Ne parvient pas à décoder le fichier JPEG2000 %1 (%2)"
 
 #: src/lib/ffmpeg_image_proxy.cc:152
-#, fuzzy
 msgid "Could not decode image (%1)"
-msgstr "Ne parvient pas à décoder le fichier image (%1)"
+msgstr "Ne parvient pas à décoder l'image (%1)"
 
 #: src/lib/encode_server_finder.cc:193
 msgid ""

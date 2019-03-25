@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-24 00:53+0000\n"
-"PO-Revision-Date: 2019-02-14 02:08+0100\n"
+"PO-Revision-Date: 2019-03-25 21:50+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -221,9 +221,8 @@ msgid "Accounts"
 msgstr "Comptes"
 
 #: src/wx/player_config_dialog.cc:109
-#, fuzzy
 msgid "Activity log file"
-msgstr "Sélectionner le fichier journal"
+msgstr "fichier rapport activité"
 
 #: src/wx/screens_panel.cc:151
 msgid "Add Cinema"
@@ -617,7 +616,7 @@ msgstr "Contraste"
 
 #: src/wx/text_panel.cc:91
 msgid "Coord|Y"
-msgstr ""
+msgstr "Coord|Y"
 
 #: src/wx/dcp_panel.cc:81
 msgid "Copy as name"
@@ -732,9 +731,8 @@ msgid "DCP-o-matic setup"
 msgstr "DCP-o-matic préférences"
 
 #: src/wx/player_config_dialog.cc:114
-#, fuzzy
 msgid "Debug log file"
-msgstr "Sélectionner le fichier journal"
+msgstr "Fichier rapport Deboggage"
 
 #: src/wx/full_config_dialog.cc:1434
 msgid "Debug: decode"
@@ -1198,16 +1196,15 @@ msgid "ISDCF name"
 msgstr "Nom ISDCF"
 
 #: src/wx/config_dialog.cc:847
-#, fuzzy
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created with the current certificates and key.  Also, "
 "any KDMs that have been sent to you for those certificates will become "
 "useless.  Proceed with caution!"
 msgstr ""
-"Si vous continuez cette opération, vous ne pourrez plus utiliser aucune des "
-"DKDMs que vous avez créées. Ansi, les KDMs qui vous ont été envoyées "
-"deviendront inutilisables. Soyez prudent !"
+"Si vous continuez, vous ne pourrez plus utiliser aucun des DKDMs que vous "
+"avez créés avec les certificats et clés en cours. Aussi, les KDMs que vous "
+"avez reçues pour ces certificats deviendront inutilisables. Soyez prudent !"
 
 #: src/wx/config_dialog.cc:897
 msgid ""
@@ -2044,9 +2041,8 @@ msgid "Select OV"
 msgstr "Selectionner OV"
 
 #: src/wx/player_config_dialog.cc:110
-#, fuzzy
 msgid "Select activity log file"
-msgstr "Sélectionner le fichier journal"
+msgstr "Sélectionner le fichier rapport d'activité"
 
 #: src/wx/timeline_dialog.cc:66
 msgid "Select and move content"
@@ -2061,9 +2057,8 @@ msgid "Select configuration file"
 msgstr "Sélectionner le fichier de configuration"
 
 #: src/wx/player_config_dialog.cc:115
-#, fuzzy
 msgid "Select debug log file"
-msgstr "Sélectionner le fichier journal"
+msgstr "Sélectionner le fichier rapport de deboggage"
 
 #: src/wx/player_config_dialog.cc:280
 msgid "Select image file"
@@ -2384,9 +2379,8 @@ msgid "There is not enough free memory to do that."
 msgstr "Il n'y a pas assez de mémoire pour faire cela."
 
 #: src/wx/kdm_cpl_panel.cc:127
-#, fuzzy
 msgid "This CPL contains no encrypted assets."
-msgstr "Le contenu du CPL n'est pas crypté."
+msgstr "Cette CPL ne contient aucun contenu crypté."
 
 #: src/wx/config_dialog.cc:472
 msgid ""
@@ -2804,9 +2798,8 @@ msgid "certificates.christiedigital.com user name"
 msgstr "Identifiant utilisateur de certificates.christiedigital.com"
 
 #: src/wx/kdm_output_panel.cc:81
-#, fuzzy
 msgid "cinema"
-msgstr "Cinéma"
+msgstr "cinéma"
 
 #: src/wx/text_panel.cc:75 src/wx/text_panel.cc:475
 msgid "closed captions"
@@ -2818,7 +2811,7 @@ msgstr "Valeurs des Composantes"
 
 #: src/wx/full_config_dialog.cc:1410
 msgid "content filename"
-msgstr ""
+msgstr "Nom de Fichier de contenu"
 
 #: src/wx/audio_gain_dialog.cc:31 src/wx/audio_panel.cc:75
 msgid "dB"
@@ -2839,13 +2832,12 @@ msgid "f"
 msgstr "i"
 
 #: src/wx/kdm_output_panel.cc:80
-#, fuzzy
 msgid "film name"
-msgstr "Nom du Film"
+msgstr "nom du Film"
 
 #: src/wx/kdm_output_panel.cc:83
 msgid "from date/time"
-msgstr ""
+msgstr "de date/heure"
 
 #: src/wx/player_config_dialog.cc:93
 msgid "full screen"
@@ -2879,9 +2871,8 @@ msgid "ms"
 msgstr "ms"
 
 #: src/wx/full_config_dialog.cc:1409
-#, fuzzy
 msgid "number of reels"
-msgstr "Début de bobine"
+msgstr "nombre de bobine"
 
 #: src/wx/text_panel.cc:74 src/wx/text_panel.cc:473
 msgid "open subtitles"
@@ -2892,9 +2883,8 @@ msgid "port"
 msgstr "port"
 
 #: src/wx/full_config_dialog.cc:1408
-#, fuzzy
 msgid "reel number"
-msgstr "Numéro de Série"
+msgstr "numéro de bobine"
 
 #. // TRANSLATORS: this is an abbreviation for "seconds"
 #: src/wx/full_config_dialog.cc:324 src/wx/timing_panel.cc:74
@@ -2902,9 +2892,8 @@ msgid "s"
 msgstr "s"
 
 #: src/wx/kdm_output_panel.cc:82
-#, fuzzy
 msgid "screen"
-msgstr "Ecrans"
+msgstr "écran"
 
 #: src/wx/colour_conversion_editor.cc:78
 msgid "threshold"
@@ -2916,15 +2905,15 @@ msgstr "fois"
 
 #: src/wx/kdm_output_panel.cc:84
 msgid "to date/time"
-msgstr ""
+msgstr "à date/heure"
 
 #: src/wx/full_config_dialog.cc:1395
 msgid "type (cpl/pkl)"
-msgstr ""
+msgstr "type (cpl/pkl)"
 
 #: src/wx/full_config_dialog.cc:1407
 msgid "type (j2c/pcm/sub)"
-msgstr ""
+msgstr "type (j2c/pcm/sub)"
 
 #: src/wx/kdm_timing_panel.cc:50
 msgid "until"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-24 00:53+0000\n"
-"PO-Revision-Date: 2019-02-14 02:08+0100\n"
+"PO-Revision-Date: 2019-03-25 21:43+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -123,18 +123,16 @@ msgid "About DCP-o-matic"
 msgstr "À propos de DCP-o-matic"
 
 #: src/tools/dcpomatic_playlist.cc:132
-#, fuzzy
 msgid "Add"
-msgstr "Ajouter..."
+msgstr "Ajouter"
 
 #: src/tools/dcpomatic_batch.cc:127
 msgid "Add Film..."
 msgstr "Ajouter Film..."
 
 #: src/tools/dcpomatic_playlist.cc:52
-#, fuzzy
 msgid "Add content"
-msgstr "Chargement du contenu"
+msgstr "Ajouter contenu"
 
 #: src/tools/dcpomatic_kdm.cc:158
 msgid "Add folder..."
@@ -263,13 +261,12 @@ msgid "Could not open film at %s"
 msgstr "Impossible d'ouvrir le film à %s"
 
 #: src/tools/dcpomatic_kdm.cc:448
-#, fuzzy
 msgid ""
 "Could not read file as a KDM.  It is much too large.  Make sure you are "
 "loading a DKDM (XML) file."
 msgstr ""
-"Lecture du fichier en tant que KDM impossible. Peut-être est il mal formaté "
-"ou peut-être ne s'agit il pas du tout d'une KDM."
+"Lecture du fichier en tant que KDM impossible. Il est trop lourd. Assurez-"
+"vous qu'il s'agit d'une fichier DKDM (XML)."
 
 #: src/tools/dcpomatic_kdm.cc:436
 msgid ""
@@ -323,9 +320,8 @@ msgid "Create KDMs"
 msgstr "Créer les KDMs"
 
 #: src/tools/dcpomatic_playlist.cc:179
-#, fuzzy
 msgid "DCP"
-msgstr "CPL"
+msgstr "DCP"
 
 #: src/tools/dcpomatic.cc:484 src/tools/dcpomatic.cc:1457
 #: src/tools/dcpomatic.cc:1495
@@ -356,9 +352,8 @@ msgid "DCP-o-matic Player could not start."
 msgstr "DCP-o-matic Player n'a pas pu démarrer."
 
 #: src/tools/dcpomatic_playlist.cc:383
-#, fuzzy
 msgid "DCP-o-matic Playlist Editor"
-msgstr "DCP-o-matic Player"
+msgstr "DCP-o-matic Editeur de Playliste"
 
 #: src/tools/dcpomatic_kdm.cc:624 src/tools/dcpomatic_playlist.cc:395
 msgid "DCP-o-matic could not start"
@@ -382,7 +377,7 @@ msgstr "Décoder en quart de résolution"
 
 #: src/tools/dcpomatic_playlist.cc:107
 msgid "Disable timeline"
-msgstr ""
+msgstr "Désactiver la Timeline"
 
 #: src/tools/dcpomatic.cc:740
 #, c-format
@@ -399,7 +394,7 @@ msgstr "Ne pas dupliquer"
 
 #: src/tools/dcpomatic_playlist.cc:131
 msgid "Down"
-msgstr ""
+msgstr "Bas"
 
 #: src/tools/dcpomatic_player.cc:483
 msgid "Dual screen\tShift+F11"
@@ -423,7 +418,7 @@ msgstr "Dupliquer..."
 
 #: src/tools/dcpomatic_playlist.cc:179
 msgid "E-cinema"
-msgstr ""
+msgstr "E-cinema"
 
 #: src/tools/dcpomatic.cc:1266 src/tools/dcpomatic_batch.cc:84
 msgid "Encoding servers..."
@@ -431,7 +426,7 @@ msgstr "Serveurs d'encodage"
 
 #: src/tools/dcpomatic_playlist.cc:105
 msgid "Encrypted"
-msgstr ""
+msgstr "Encrypté"
 
 #: src/tools/dcpomatic.cc:1254
 msgid "Export...\tCtrl-E"
@@ -450,7 +445,7 @@ msgstr "Film changé"
 
 #: src/tools/dcpomatic_playlist.cc:104
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: src/tools/dcpomatic_server.cc:153
 msgid "Frames per second"
@@ -471,7 +466,7 @@ msgstr "Durées"
 
 #: src/tools/dcpomatic_playlist.cc:135
 msgid "Load playlist"
-msgstr ""
+msgstr "Charger Playliste"
 
 #: src/tools/dcpomatic_player.cc:354 src/tools/dcpomatic_player.cc:569
 msgid "Loading content"
@@ -495,7 +490,7 @@ msgstr "Gérer les modèles..."
 
 #: src/tools/dcpomatic_playlist.cc:101
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #: src/tools/dcpomatic.cc:494
 msgid "New Film"
@@ -523,11 +518,11 @@ msgstr "Pause"
 
 #: src/tools/dcpomatic_playlist.cc:180
 msgid "Question|N"
-msgstr ""
+msgstr "Question|N"
 
 #: src/tools/dcpomatic_playlist.cc:180
 msgid "Question|Y"
-msgstr ""
+msgstr "Question|O"
 
 #: src/tools/dcpomatic_kdm.cc:160 src/tools/dcpomatic_playlist.cc:133
 msgid "Remove"
@@ -574,7 +569,7 @@ msgstr "Enregistrer le projet et dupliquer"
 
 #: src/tools/dcpomatic_playlist.cc:134
 msgid "Save playlist"
-msgstr ""
+msgstr "Enregistrer la Playliste"
 
 #: src/tools/dcpomatic.cc:1245
 msgid "Scale to fit &height"
@@ -609,9 +604,8 @@ msgid "Select film to open"
 msgstr "Sélectionner le film à ouvrir"
 
 #: src/tools/dcpomatic_playlist.cc:287 src/tools/dcpomatic_playlist.cc:299
-#, fuzzy
 msgid "Select playlist file"
-msgstr "Sélectionner le fichier DKDM"
+msgstr "Sélectionner une playliste"
 
 #: src/tools/dcpomatic_kdm.cc:354
 msgid "Send KDM emails"
@@ -627,15 +621,15 @@ msgstr "Régler la résolution de décodage en fonction de l'affichage"
 
 #: src/tools/dcpomatic_playlist.cc:106
 msgid "Skippable"
-msgstr ""
+msgstr "Evitable"
 
 #: src/tools/dcpomatic_playlist.cc:309
 msgid "Some content in this playlist was not found."
-msgstr ""
+msgstr "Certains contenus dans cette playliste n'ont pas été trouvés."
 
 #: src/tools/dcpomatic_playlist.cc:108
 msgid "Stop after play"
-msgstr ""
+msgstr "Arrêt après lecture"
 
 #: src/tools/dcpomatic.cc:710
 #, c-format
@@ -721,7 +715,7 @@ msgstr "Essayez d'enlever les caractères %s du nom de votre répertoire."
 
 #: src/tools/dcpomatic_playlist.cc:103
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: src/tools/dcpomatic.cc:1065 src/tools/dcpomatic_batch.cc:231
 msgid "Unfinished jobs"
@@ -729,7 +723,7 @@ msgstr "Travaux incomplets"
 
 #: src/tools/dcpomatic_playlist.cc:130
 msgid "Up"
-msgstr ""
+msgstr "Haut"
 
 #: src/tools/dcpomatic_player.cc:495
 msgid "Verify DCP"
