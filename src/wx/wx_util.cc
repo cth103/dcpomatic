@@ -361,6 +361,9 @@ dcpomatic_setup_i18n ()
 		   of wxWidgets.
 		*/
 		locale->AddCatalog (wxT ("dcpomatic2-wxstd"));
+
+		/* Fedora 29 (at least) installs wxstd3.mo instead of wxstd.mo */
+		locale->AddCatalog (wxT ("wxstd3"));
 #endif
 
 		locale->AddCatalog (wxT ("libdcpomatic2-wx"));
