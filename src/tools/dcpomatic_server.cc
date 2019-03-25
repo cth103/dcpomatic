@@ -145,7 +145,11 @@ public:
 		: wxDialog (
 			0, wxID_ANY, _("DCP-o-matic Encode Server"),
 			wxDefaultPosition, wxDefaultSize,
+#ifdef DCPOMATIC_OSX
+			wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxSTAY_ON_TOP
+#else
 			wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER
+#endif
 			)
 	{
 		wxFlexGridSizer* state_sizer = new wxFlexGridSizer (2, DCPOMATIC_SIZER_GAP, DCPOMATIC_SIZER_GAP);
