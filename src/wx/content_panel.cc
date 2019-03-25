@@ -66,7 +66,7 @@ class LimitedSplitter : public wxSplitterWindow
 {
 public:
 	LimitedSplitter (wxWindow* parent)
-		: wxSplitterWindow (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D | wxSP_LIVE_UPDATE)
+		: wxSplitterWindow (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_NOBORDER | wxSP_3DSASH | wxSP_LIVE_UPDATE)
 	{
 
 	}
