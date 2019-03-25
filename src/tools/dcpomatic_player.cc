@@ -289,6 +289,9 @@ public:
 	void playback_started (DCPTime time)
 	{
 		/* XXX: this only logs the first piece of content; probably should be each piece? */
+		if (_film->content().empty()) {
+			return;
+		}
 
 		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent>(_film->content().front());
 		if (dcp) {
