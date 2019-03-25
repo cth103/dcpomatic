@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-24 00:53+0000\n"
-"PO-Revision-Date: 2018-12-07 00:06+0100\n"
+"PO-Revision-Date: 2019-03-25 21:05+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 1.6.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/video_content.cc:444
@@ -197,7 +197,6 @@ msgid "Advertisement"
 msgstr "Werbung - ADV"
 
 #: src/lib/hints.cc:147
-#, fuzzy
 msgid ""
 "All of your content is 2.35:1 or narrower but your DCP's container is Scope "
 "(2.39:1).  This will pillar-box your content.  You may prefer to set your "
@@ -533,7 +532,6 @@ msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Fehler beim Dekodieren der JPEG2000 Datei %1 (%2)"
 
 #: src/lib/ffmpeg_image_proxy.cc:152
-#, fuzzy
 msgid "Could not decode image (%1)"
 msgstr "Fehler beim Dekodieren der Bild-Datei (%1)"
 
@@ -635,6 +633,9 @@ msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
 msgstr ""
+"Einige Einstellungen mussten im Hinblick auf die OV/VF Referenzen angepasst "
+"werden. Bitte prüfen Sie alle Einstellungen noch einmal, ob sie ihren "
+"Wünschen entsprechen."
 
 #: src/lib/ffmpeg_content.cc:113
 msgid ""
@@ -734,9 +735,8 @@ msgid "Examining content"
 msgstr "Inhalt wird überprüft"
 
 #: src/lib/examine_ffmpeg_subtitles_job.cc:49
-#, fuzzy
 msgid "Examining subtitles"
-msgstr "Suche Untertitel"
+msgstr "Analysiere Untertitel"
 
 #: src/lib/ffmpeg_content.cc:626
 msgid "FCC"
@@ -845,6 +845,8 @@ msgstr "IEC61966-2-4"
 #: src/lib/hints.cc:168
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr ""
+"Sofern Sie eine Bildrate von 25fps verwenden, sollten Sie den DCP Standard "
+"für dieses Projekt auf 'SMPTE' setzen!"
 
 #: src/lib/job.cc:147 src/lib/job.cc:203 src/lib/job.cc:213
 msgid "It is not known what caused this error."
@@ -1455,37 +1457,36 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Und ein weiterer De-Interlacer ('YADIF')"
 
 #: src/lib/hints.cc:181
-#, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You are advised to change the DCP frame rate "
 "to %2 fps."
 msgstr ""
-"Sie haben als DCP/Wrapping Typ 'Interop' gewählt, jedoch eine Bildrate für "
-"das DCP eingestellt, die nicht offiziell in Interop-DCPs unterstützt wird. "
-"Im Falle von 25fps wird dies zwar von fast allen Projektionssystemen "
+"Sie haben als DCP/Wrapping Typ 'Interop' gewählt, jedoch eine Bildrate %1fps "
+"für das DCP eingestellt, die nicht offiziell in Interop-DCPs unterstützt "
+"wird. Im Falle von 25fps wird dies zwar von fast allen Projektionssystemen "
 "unterstützt werden - andere Bildraten sollten Sie aber ausschließlich in "
 "SMPTE-DCPs verwenden. Bedenken Sie ggfs. dass auch SMPTE DCPs gegenwärtig "
 "noch nicht von allen Projektionssystemen unterstützt werden. Wählen Sie "
-"Bildraten abweichend von 24fps oder 48fps(3D) nicht leichtfertig!"
+"Bildraten abweichend von 24fps oder 48fps(3D) nicht leichtfertig! Ändern Sie "
+"die Bildrate gegebenenfalls in %2fps!"
 
 #: src/lib/hints.cc:165
-#, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You may want to consider changing your frame "
 "rate to %2 fps."
 msgstr ""
-"Sie haben als DCP/Wrapping Typ 'Interop' gewählt, jedoch eine Bildrate für "
-"das DCP eingestellt, die nicht offiziell in Interop-DCPs unterstützt wird. "
-"Im Falle von 25fps wird dies zwar von fast allen Projektionssystemen "
+"Sie haben als DCP/Wrapping Typ 'Interop' gewählt, jedoch eine Bildrate %1fps "
+"für das DCP eingestellt, die nicht offiziell in Interop-DCPs unterstützt "
+"wird. Im Falle von 25fps wird dies zwar von fast allen Projektionssystemen "
 "unterstützt werden - andere Bildraten sollten Sie aber ausschließlich in "
 "SMPTE-DCPs verwenden. Bedenken Sie ggfs. dass auch SMPTE DCPs gegenwärtig "
 "noch nicht von allen Projektionssystemen unterstützt werden. Wählen Sie "
-"Bildraten abweichend von 24fps oder 48fps(3D) nicht leichtfertig!"
+"Bildraten abweichend von 24fps oder 48fps(3D) nicht leichtfertig! Ändern Sie "
+"die Bildrate gegebenenfalls in %2fps!"
 
 #: src/lib/hints.cc:175
-#, fuzzy
 msgid ""
 "You are set up for a DCP frame rate of 30fps, which is not supported by all "
 "projectors.  Be aware that you may have compatibility problems."

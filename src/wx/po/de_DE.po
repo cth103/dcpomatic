@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-24 00:53+0000\n"
-"PO-Revision-Date: 2018-12-06 23:56+0100\n"
+"PO-Revision-Date: 2019-03-25 21:47+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 1.6.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/wx/initial_setup_dialog.cc:62
@@ -59,12 +59,11 @@ msgid "%d KDMs written to %s"
 msgstr "%d KDMs geschrieben nach %s"
 
 #: src/wx/about_dialog.cc:84
-#, fuzzy
 msgid ""
 "(C) 2012-2019 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2019 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:44 src/wx/file_picker_ctrl.cc:59
@@ -225,9 +224,8 @@ msgid "Accounts"
 msgstr "Zertifikats-Konten"
 
 #: src/wx/player_config_dialog.cc:109
-#, fuzzy
 msgid "Activity log file"
-msgstr "Logdatei wählen"
+msgstr "Verlaufs-Logdatei wählen"
 
 #: src/wx/screens_panel.cc:151
 msgid "Add Cinema"
@@ -555,7 +553,7 @@ msgstr "Christie"
 
 #: src/wx/full_config_dialog.cc:111
 msgid "Cinema and screen database file"
-msgstr " Kino- und Saaldatenbank (für KDM Erstellung)"
+msgstr "Kino- und Saaldatenbank (für KDM Erstellung)"
 
 #: src/wx/content_widget.h:79
 msgid "Click the button to set all selected content to the same value."
@@ -626,7 +624,7 @@ msgstr "Kontrast"
 
 #: src/wx/text_panel.cc:91
 msgid "Coord|Y"
-msgstr ""
+msgstr "Koord|Y"
 
 #: src/wx/dcp_panel.cc:81
 msgid "Copy as name"
@@ -651,9 +649,8 @@ msgid "Could not load certficate (%s)"
 msgstr "Konnte die Zertifikatsdatei (%s) nicht lesen."
 
 #: src/wx/player_config_dialog.cc:333
-#, fuzzy
 msgid "Could not load image file."
-msgstr "Konnte die Zertifikatsdatei nicht lesen."
+msgstr "Konnte die Bilddatei nicht lesen."
 
 #: src/wx/config_dialog.cc:490 src/wx/config_dialog.cc:708
 #: src/wx/download_certificate_panel.cc:60 src/wx/screen_dialog.cc:201
@@ -743,9 +740,8 @@ msgid "DCP-o-matic setup"
 msgstr "DCP-o-matic Setup"
 
 #: src/wx/player_config_dialog.cc:114
-#, fuzzy
 msgid "Debug log file"
-msgstr "Logdatei wählen"
+msgstr "Debug-Logdatei wählen"
 
 #: src/wx/full_config_dialog.cc:1434
 msgid "Debug: decode"
@@ -970,9 +966,8 @@ msgid "Export all KDM decryption settings..."
 msgstr "Exportiere alle KDM Zertifikate und Schlüssel..."
 
 #: src/wx/config_dialog.cc:411
-#, fuzzy
 msgid "Export chain..."
-msgstr "Exportieren..."
+msgstr "Exportiere Zertifikatskette..."
 
 #: src/wx/export_dialog.cc:53
 msgid "Export film"
@@ -1008,7 +1003,7 @@ msgstr "Ausblenden"
 
 #: src/wx/fonts_dialog.cc:55
 msgid "File"
-msgstr ""
+msgstr "Datei"
 
 #: src/wx/kdm_dialog.cc:142
 #, c-format
@@ -1039,7 +1034,7 @@ msgstr "Suche fehlende..."
 
 #: src/wx/subtitle_appearance_dialog.cc:119
 msgid "Finding the colours in these subtitles..."
-msgstr ""
+msgstr "Analysiere Farbpalette in Untertiteln..."
 
 #: src/wx/kdm_output_panel.cc:74
 msgid "Folder / ZIP name format"
@@ -1121,14 +1116,12 @@ msgid "GDC"
 msgstr "GDC"
 
 #: src/wx/full_config_dialog.cc:988
-#, fuzzy
 msgid "GDC password"
-msgstr "Email / SMTP Passwort"
+msgstr "Kennwort GDC Zugang"
 
 #: src/wx/full_config_dialog.cc:984
-#, fuzzy
 msgid "GDC user name"
-msgstr "Email / SMTP Server Benutzername / Login"
+msgstr "Benutzername GDC Zugang"
 
 #: src/wx/audio_panel.cc:65
 msgid "Gain"
@@ -1213,7 +1206,6 @@ msgid "ISDCF name"
 msgstr "ISDCF Name - http://isdcf.com/dcnc/"
 
 #: src/wx/config_dialog.cc:847
-#, fuzzy
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created with the current certificates and key.  Also, "
@@ -2078,9 +2070,8 @@ msgid "Select OV"
 msgstr "OV auswählen"
 
 #: src/wx/player_config_dialog.cc:110
-#, fuzzy
 msgid "Select activity log file"
-msgstr "Logdatei wählen"
+msgstr "Verlaufs-Logdatei wählen"
 
 #: src/wx/timeline_dialog.cc:66
 msgid "Select and move content"
@@ -2095,9 +2086,8 @@ msgid "Select configuration file"
 msgstr "Konfigurations-Datei auswählen"
 
 #: src/wx/player_config_dialog.cc:115
-#, fuzzy
 msgid "Select debug log file"
-msgstr "Logdatei wählen"
+msgstr "Debug-Logdatei wählen"
 
 #: src/wx/player_config_dialog.cc:280
 msgid "Select image file"
@@ -2124,9 +2114,8 @@ msgid "Send logs"
 msgstr "Logs übermitteln"
 
 #: src/wx/send_i18n_dialog.cc:30
-#, fuzzy
 msgid "Send translations"
-msgstr "Organisation"
+msgstr "Sende In-App Übersetzungskorrekturen"
 
 #: src/wx/timeline_dialog.cc:70
 msgid "Sequence"
@@ -2318,10 +2307,14 @@ msgstr ""
 #: src/wx/verify_dcp_dialog.cc:91
 msgid "The PKL and CPL hashes disagree for a picture asset."
 msgstr ""
+"Die Prüfsummen in PKL und CPL für eine Videodatei (MXF) weichen voneinander "
+"ab!"
 
 #: src/wx/verify_dcp_dialog.cc:100
 msgid "The PKL and CPL hashes disagree for a sound asset."
 msgstr ""
+"Die Prüfsummen in PKL und CPL für eine Audiodatei (MXF) weichen voneinander "
+"ab!"
 
 #: src/wx/recreate_chain_dialog.cc:35
 msgid ""
@@ -2373,7 +2366,7 @@ msgstr ""
 msgid ""
 "The hash of the CPL in the PKL does not agree with the CPL file.  This "
 "probably means that the CPL file is corrupt."
-msgstr ""
+msgstr "Die Prüfsumme für die CPL in der PKL entspricht nicht der CPL Datei!"
 
 #: src/wx/verify_dcp_dialog.cc:86
 #, c-format
@@ -2381,6 +2374,8 @@ msgid ""
 "The hash of the picture asset %s does not agree with the PKL file.  This "
 "probably means that the asset file is corrupt."
 msgstr ""
+"Die Prüfsumme der Videodatei (MXF) %s weicht von der PKL-Prüfsumme ab - mit "
+"einiger Sicherheit ist die Datei defekt oder unvollständig!"
 
 #: src/wx/verify_dcp_dialog.cc:95
 #, c-format
@@ -2388,19 +2383,20 @@ msgid ""
 "The hash of the sound asset %s does not agree with the PKL file.  This "
 "probably means that the asset file is corrupt."
 msgstr ""
+"Die Prüfsumme der Audiodatei (MXF) %s weicht von der PKL-Prüfsumme ab - mit "
+"einiger Sicherheit ist die Datei defekt oder unvollständig!"
 
 #: src/wx/verify_dcp_dialog.cc:82
 msgid "The picture in a reel has an invalid frame rate"
-msgstr ""
+msgstr "Eine Videodatei enthält eine unzulässige Bildrate!"
 
 #: src/wx/player_config_dialog.cc:373
 msgid "Theatre name"
 msgstr "Kino Name"
 
 #: src/wx/hints_dialog.cc:132
-#, fuzzy
 msgid "There are no hints yet: project check in progress."
-msgstr "Keine Warnungen: Alles sieht gut aus!"
+msgstr "Bitte warten Sie die Projektprüfung ab!"
 
 #: src/wx/hints_dialog.cc:130
 msgid "There are no hints: everything looks good!"
@@ -2418,7 +2414,6 @@ msgid "There is not enough free memory to do that."
 msgstr "Für diese Operation ist nicht genug freier Speicher verfügbar."
 
 #: src/wx/kdm_cpl_panel.cc:127
-#, fuzzy
 msgid "This CPL contains no encrypted assets."
 msgstr "Die Mediendaten ('Assets') dieser CPL sind nicht verschlüsselt!"
 
@@ -2469,9 +2464,8 @@ msgid "Top crop"
 msgstr "Beschnitt oben"
 
 #: src/wx/instant_i18n_dialog.cc:28
-#, fuzzy
 msgid "Translate"
-msgstr "Übersetzt von"
+msgstr "Übersetzung"
 
 #: src/wx/about_dialog.cc:141
 msgid "Translated by"
@@ -2799,7 +2793,6 @@ msgstr ""
 "Mailserverkonfiguration hinterlegen, bevor sie KDMs versenden können."
 
 #: src/wx/send_i18n_dialog.cc:41
-#, fuzzy
 msgid "Your email"
 msgstr "Ihre Emailadresse"
 
@@ -2808,9 +2801,8 @@ msgid "Your email address"
 msgstr "Ihre Emailadresse"
 
 #: src/wx/send_i18n_dialog.cc:37
-#, fuzzy
 msgid "Your name"
-msgstr "Ordner Name"
+msgstr "Ihr vollständiger Name"
 
 #: src/wx/timeline_dialog.cc:67
 msgid "Zoom"
@@ -2833,21 +2825,18 @@ msgid "certificates.barco.com password"
 msgstr "certificates.barco.com passwort"
 
 #: src/wx/full_config_dialog.cc:968
-#, fuzzy
 msgid "certificates.barco.com user name"
-msgstr "certificates.barco.com Benutzername"
+msgstr "Benutzername certificates.barco.com"
 
 #: src/wx/full_config_dialog.cc:980
 msgid "certificates.christiedigital.com password"
 msgstr "certificates.christiedigital.com Passwort"
 
 #: src/wx/full_config_dialog.cc:976
-#, fuzzy
 msgid "certificates.christiedigital.com user name"
-msgstr "certificates.christiedigital.com Benutzername"
+msgstr "Benutzername certificates.christiedigital.com"
 
 #: src/wx/kdm_output_panel.cc:81
-#, fuzzy
 msgid "cinema"
 msgstr "Kino"
 
@@ -2861,7 +2850,7 @@ msgstr "Komponentenwert:"
 
 #: src/wx/full_config_dialog.cc:1410
 msgid "content filename"
-msgstr ""
+msgstr "Name Inhaltsdatei"
 
 #: src/wx/audio_gain_dialog.cc:31 src/wx/audio_panel.cc:75
 msgid "dB"
@@ -2882,13 +2871,12 @@ msgid "f"
 msgstr "f"
 
 #: src/wx/kdm_output_panel.cc:80
-#, fuzzy
 msgid "film name"
 msgstr "Projekt Name"
 
 #: src/wx/kdm_output_panel.cc:83
 msgid "from date/time"
-msgstr ""
+msgstr "von Datum/Uhrzeit"
 
 #: src/wx/player_config_dialog.cc:93
 msgid "full screen"
@@ -2922,9 +2910,8 @@ msgid "ms"
 msgstr "ms"
 
 #: src/wx/full_config_dialog.cc:1409
-#, fuzzy
 msgid "number of reels"
-msgstr "...auf Aktanfang Nr."
+msgstr "Anzahl Akte ('reels')"
 
 #: src/wx/text_panel.cc:74 src/wx/text_panel.cc:473
 msgid "open subtitles"
@@ -2935,9 +2922,8 @@ msgid "port"
 msgstr "Port"
 
 #: src/wx/full_config_dialog.cc:1408
-#, fuzzy
 msgid "reel number"
-msgstr "Seriennummer"
+msgstr "Aktnummer ('reels')"
 
 #. // TRANSLATORS: this is an abbreviation for "seconds"
 #: src/wx/full_config_dialog.cc:324 src/wx/timing_panel.cc:74
@@ -2945,9 +2931,8 @@ msgid "s"
 msgstr "s"
 
 #: src/wx/kdm_output_panel.cc:82
-#, fuzzy
 msgid "screen"
-msgstr "Kino- und Saaldaten:"
+msgstr "Saal/Leinwand"
 
 #: src/wx/colour_conversion_editor.cc:78
 msgid "threshold"
@@ -2959,15 +2944,15 @@ msgstr "mal"
 
 #: src/wx/kdm_output_panel.cc:84
 msgid "to date/time"
-msgstr ""
+msgstr "bis Datum/Uhrzeit"
 
 #: src/wx/full_config_dialog.cc:1395
 msgid "type (cpl/pkl)"
-msgstr ""
+msgstr "Metadatentyp (CPL/PKL)"
 
 #: src/wx/full_config_dialog.cc:1407
 msgid "type (j2c/pcm/sub)"
-msgstr ""
+msgstr "Inhaltstyp (J2C/PCM/SUB)"
 
 #: src/wx/kdm_timing_panel.cc:50
 msgid "until"

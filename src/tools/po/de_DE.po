@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-24 00:53+0000\n"
-"PO-Revision-Date: 2018-12-06 23:22+0100\n"
+"PO-Revision-Date: 2019-03-25 21:36+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic <carl@dcpomatic.com>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 1.6.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/tools/dcpomatic_kdm.cc:360
@@ -45,9 +45,8 @@ msgid "&Close"
 msgstr "&Schließen"
 
 #: src/tools/dcpomatic.cc:1221
-#, fuzzy
 msgid "&Close\tCtrl-W"
-msgstr "&Speichern\tCtrl-S"
+msgstr "&Schließen\tCtrl-W"
 
 #: src/tools/dcpomatic.cc:1283
 msgid "&Content"
@@ -125,18 +124,16 @@ msgid "About DCP-o-matic"
 msgstr "Über DCP-o-matic"
 
 #: src/tools/dcpomatic_playlist.cc:132
-#, fuzzy
 msgid "Add"
-msgstr "Hinzufügen..."
+msgstr "Hinzufügen"
 
 #: src/tools/dcpomatic_batch.cc:127
 msgid "Add Film..."
 msgstr "Projekt hinzufügen..."
 
 #: src/tools/dcpomatic_playlist.cc:52
-#, fuzzy
 msgid "Add content"
-msgstr "Lade DCP..."
+msgstr "Inhalt Hinzufügen"
 
 #: src/tools/dcpomatic_kdm.cc:158
 msgid "Add folder..."
@@ -268,7 +265,6 @@ msgid "Could not open film at %s"
 msgstr "Konnte Projektdatei %s nicht laden"
 
 #: src/tools/dcpomatic_kdm.cc:448
-#, fuzzy
 msgid ""
 "Could not read file as a KDM.  It is much too large.  Make sure you are "
 "loading a DKDM (XML) file."
@@ -328,9 +324,8 @@ msgid "Create KDMs"
 msgstr "Erzeuge KDM(s)"
 
 #: src/tools/dcpomatic_playlist.cc:179
-#, fuzzy
 msgid "DCP"
-msgstr "CPL"
+msgstr "DCP"
 
 #: src/tools/dcpomatic.cc:484 src/tools/dcpomatic.cc:1457
 #: src/tools/dcpomatic.cc:1495
@@ -361,9 +356,8 @@ msgid "DCP-o-matic Player could not start."
 msgstr "DCP-o-matic Player konnte nicht gestartet werden."
 
 #: src/tools/dcpomatic_playlist.cc:383
-#, fuzzy
 msgid "DCP-o-matic Playlist Editor"
-msgstr "DCP-o-matic Player"
+msgstr "DCP-o-matic Playlisten-Editor"
 
 #: src/tools/dcpomatic_kdm.cc:624 src/tools/dcpomatic_playlist.cc:395
 msgid "DCP-o-matic could not start"
@@ -375,7 +369,7 @@ msgstr "DKDM"
 
 #: src/tools/dcpomatic_player.cc:490
 msgid "Decode at full resolution"
-msgstr "Dekordiere bei voller Auflösung"
+msgstr "Dekodiere bei voller Auflösung"
 
 #: src/tools/dcpomatic_player.cc:491
 msgid "Decode at half resolution"
@@ -383,11 +377,11 @@ msgstr "Dekodiere bei halber Auflösung"
 
 #: src/tools/dcpomatic_player.cc:492
 msgid "Decode at quarter resolution"
-msgstr "Dekordiere bei Viertel-Auflösung"
+msgstr "Dekodiere bei Viertel-Auflösung"
 
 #: src/tools/dcpomatic_playlist.cc:107
 msgid "Disable timeline"
-msgstr ""
+msgstr "Timeline deaktivieren"
 
 #: src/tools/dcpomatic.cc:740
 #, c-format
@@ -404,7 +398,7 @@ msgstr "Nicht duplizieren"
 
 #: src/tools/dcpomatic_playlist.cc:131
 msgid "Down"
-msgstr ""
+msgstr "Nach unten"
 
 #: src/tools/dcpomatic_player.cc:483
 msgid "Dual screen\tShift+F11"
@@ -430,7 +424,7 @@ msgstr "Projekt Duplizieren..."
 
 #: src/tools/dcpomatic_playlist.cc:179
 msgid "E-cinema"
-msgstr ""
+msgstr "E-Cinema"
 
 #: src/tools/dcpomatic.cc:1266 src/tools/dcpomatic_batch.cc:84
 msgid "Encoding servers..."
@@ -438,7 +432,7 @@ msgstr "Encoding Server..."
 
 #: src/tools/dcpomatic_playlist.cc:105
 msgid "Encrypted"
-msgstr ""
+msgstr "Verschlüsselt"
 
 #: src/tools/dcpomatic.cc:1254
 msgid "Export...\tCtrl-E"
@@ -457,7 +451,7 @@ msgstr "Projektdaten geändert!"
 
 #: src/tools/dcpomatic_playlist.cc:104
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: src/tools/dcpomatic_server.cc:153
 msgid "Frames per second"
@@ -480,7 +474,7 @@ msgstr ""
 
 #: src/tools/dcpomatic_playlist.cc:135
 msgid "Load playlist"
-msgstr ""
+msgstr "Playliste laden"
 
 #: src/tools/dcpomatic_player.cc:354 src/tools/dcpomatic_player.cc:569
 msgid "Loading content"
@@ -504,7 +498,7 @@ msgstr "Projektvorlagen verwalten…"
 
 #: src/tools/dcpomatic_playlist.cc:101
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 #: src/tools/dcpomatic.cc:494
 msgid "New Film"
@@ -532,11 +526,11 @@ msgstr "Pause"
 
 #: src/tools/dcpomatic_playlist.cc:180
 msgid "Question|N"
-msgstr ""
+msgstr "Frage|N"
 
 #: src/tools/dcpomatic_playlist.cc:180
 msgid "Question|Y"
-msgstr ""
+msgstr "Frage|Y"
 
 #: src/tools/dcpomatic_kdm.cc:160 src/tools/dcpomatic_playlist.cc:133
 msgid "Remove"
@@ -583,7 +577,7 @@ msgstr "Speichern und Projekt duplizieren"
 
 #: src/tools/dcpomatic_playlist.cc:134
 msgid "Save playlist"
-msgstr ""
+msgstr "Playliste speichern"
 
 #: src/tools/dcpomatic.cc:1245
 msgid "Scale to fit &height"
@@ -619,18 +613,16 @@ msgid "Select film to open"
 msgstr "Zu öffnendes Projekt auswählen"
 
 #: src/tools/dcpomatic_playlist.cc:287 src/tools/dcpomatic_playlist.cc:299
-#, fuzzy
 msgid "Select playlist file"
-msgstr "DKDM auswählen"
+msgstr "Playliste auswählen"
 
 #: src/tools/dcpomatic_kdm.cc:354
 msgid "Send KDM emails"
 msgstr "Sende KDM Emails"
 
 #: src/tools/dcpomatic.cc:1269
-#, fuzzy
 msgid "Send translations..."
-msgstr "Closed Captions (CCAP) monitor…"
+msgstr "Sende In-App Übersetzungen..."
 
 #: src/tools/dcpomatic_player.cc:489
 msgid "Set decode resolution to match display"
@@ -638,18 +630,18 @@ msgstr "Dekodierungs-Auflösung an Displayauflösung anpassen"
 
 #: src/tools/dcpomatic_playlist.cc:106
 msgid "Skippable"
-msgstr ""
+msgstr "Überspringen"
 
 #: src/tools/dcpomatic_playlist.cc:309
 msgid "Some content in this playlist was not found."
-msgstr ""
+msgstr "Einige Inhalte dieser Playliste konnten nicht gefunden werden."
 
 #: src/tools/dcpomatic_playlist.cc:108
 msgid "Stop after play"
-msgstr ""
+msgstr "Nach Abspielen stoppen"
 
 #: src/tools/dcpomatic.cc:710
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The DCP and intermediate files for this film will take up about %.1f GB, and "
 "the disk that you are using only has %.1f GB available.  You would need half "
@@ -659,30 +651,31 @@ msgstr ""
 "Das DCP und für dessen Erzeugung benötigte Zwischenprodukte für diesen Film "
 "wird etwa %.1f Gbyte groß. Auf dem ausgewählten Laufwerk sind aber nur %.1f "
 "Gbyte frei. Mit einem Dateisystem, das 'hard links' unterstützt würden Sie "
-"nur die Hälfte an Platz benötigen. Möchten Sie trotzdem weitermachen ?"
+"nur die Hälfte an Platz benötigen. Möchten Sie trotzdem fortfahren ?"
 
 #: src/tools/dcpomatic.cc:708
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The DCP for this film will take up about %.1f GB, and the disk that you are "
 "using only has %.1f GB available.  Do you want to continue anyway?"
 msgstr ""
 "Das DCP für diesen Film wird etwa %.1f Gbyte groß. Auf dem ausgewählten "
-"Laufwerk sind aber nur %.1f Gbyte frei. Möchten Sie trotzdem weitermachen ?"
+"Laufwerk sind aber nur %.1f Gbyte frei. Möchten Sie trotzdem fortfahren ?"
 
 #: src/tools/dcpomatic.cc:1374 src/tools/dcpomatic_player.cc:804
 msgid "The DCP-o-matic download server could not be contacted."
 msgstr "Der DCP-o-matic Download Server ist nicht erreichbar."
 
 #: src/tools/dcpomatic_batch.cc:200
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The DCPs for this film and the films already in the queue will take up about "
 "%.1f GB.  The disks that you are using only have %.1f GB available.  Do you "
 "want to add this film to the queue anyway?"
 msgstr ""
-"Das DCP für diesen Film wird etwa %.1f Gbyte groß. Auf dem ausgewählten "
-"Laufwerk sind aber nur %.1f Gbyte frei. Möchten Sie trotzdem weitermachen ?"
+"Die DCPs für diesen Film und weitere in der Warteschlange werden "
+"voraussichtlich etwa %.1f Gbyte groß. Auf dem ausgewählten Laufwerk sind "
+"aber nur %.1f Gbyte frei. Möchten Sie trotzdem fortfahren ?"
 
 #: src/tools/dcpomatic_player.cc:283
 msgid "The KDM does not allow playback of this content at this time."
@@ -732,7 +725,7 @@ msgstr "Bitte entfernen Sie die %s Zeichen aus dem Ordnernamen!"
 
 #: src/tools/dcpomatic_playlist.cc:103
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 #: src/tools/dcpomatic.cc:1065 src/tools/dcpomatic_batch.cc:231
 msgid "Unfinished jobs"
@@ -740,7 +733,7 @@ msgstr "Unerledigte Aufgaben"
 
 #: src/tools/dcpomatic_playlist.cc:130
 msgid "Up"
-msgstr ""
+msgstr "Nach oben"
 
 #: src/tools/dcpomatic_player.cc:495
 msgid "Verify DCP"
