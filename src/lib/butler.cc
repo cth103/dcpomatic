@@ -243,6 +243,7 @@ void
 Butler::seek (DCPTime position, bool accurate)
 {
 	boost::mutex::scoped_lock lm (_mutex);
+	_awaiting = optional<DCPTime>();
 	seek_unlocked (position, accurate);
 }
 
