@@ -366,7 +366,7 @@ public:
 	enum Nag {
 		NAG_DKDM_CONFIG,
 		NAG_ENCRYPTED_METADATA,
-		NAG_REMAKE_DECRYPTION_CHAIN,
+		NAG_ALTER_DECRYPTION_CHAIN,
 		NAG_BAD_SIGNER_CHAIN,
 		/* Not really a nag but it's the same idea */
 		NAG_INITIAL_SETUP,

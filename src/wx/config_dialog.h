@@ -120,7 +120,7 @@ public:
 		int border,
 		boost::function<void (boost::shared_ptr<dcp::CertificateChain>)> set,
 		boost::function<boost::shared_ptr<const dcp::CertificateChain> (void)> get,
-		boost::function<bool (void)> nag_remake
+		boost::function<bool (void)> nag_alter
 		);
 
 	void add_button (wxWindow* button);
@@ -151,7 +151,7 @@ private:
 	wxBoxSizer* _button_sizer;
 	boost::function<void (boost::shared_ptr<dcp::CertificateChain>)> _set;
 	boost::function<boost::shared_ptr<const dcp::CertificateChain> (void)> _get;
-	boost::function<bool (void)> _nag_remake;
+	boost::function<bool (void)> _nag_alter;
 };
 
 class KeysPage : public StandardPage
@@ -176,7 +176,7 @@ private:
 
 	void export_decryption_certificate ();
 	void config_changed () {}
-	bool nag_remake_decryption_chain ();
+	bool nag_alter_decryption_chain ();
 	void decryption_advanced ();
 	void signing_advanced ();
 	void export_decryption_chain_and_key ();

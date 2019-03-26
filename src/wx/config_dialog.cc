@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -332,12 +332,12 @@ CertificateChainEditor::CertificateChainEditor (
 	int border,
 	function<void (shared_ptr<dcp::CertificateChain>)> set,
 	function<shared_ptr<const dcp::CertificateChain> (void)> get,
-	function<bool (void)> nag_remake
+	function<bool (void)> nag_alter
 	)
 	: wxDialog (parent, wxID_ANY, title)
 	, _set (set)
 	, _get (get)
-	, _nag_remake (nag_remake)
+	, _nag_alter (nag_alter)
 {
 	wxFont subheading_font (*wxNORMAL_FONT);
 	subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
@@ -499,6 +499,11 @@ CertificateChainEditor::add_certificate ()
 void
 CertificateChainEditor::remove_certificate ()
 {
+	if (_nag_alter()) {
+		/* Cancel was clicked */
+		return;
+	}
+
 	int i = _certificates->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (i == -1) {
 		return;
@@ -634,7 +639,7 @@ CertificateChainEditor::remake_certificates ()
 		intermediate_common_name = i->subject_common_name ();
 	}
 
-	if (_nag_remake()) {
+	if (_nag_alter()) {
 		/* Cancel was clicked */
 		return;
 	}
@@ -793,7 +798,7 @@ KeysPage::decryption_advanced ()
 		_panel, _("Decrypting KDMs"), _border,
 		bind (&Config::set_decryption_chain, Config::instance (), _1),
 		bind (&Config::decryption_chain, Config::instance ()),
-		bind (&KeysPage::nag_remake_decryption_chain, this)
+		bind (&KeysPage::nag_alter_decryption_chain, this)
 		);
 
 	c->ShowModal();
@@ -889,11 +894,11 @@ KeysPage::import_decryption_chain_and_key ()
 }
 
 bool
-KeysPage::nag_remake_decryption_chain ()
+KeysPage::nag_alter_decryption_chain ()
 {
 	return NagDialog::maybe_nag (
 		_panel,
-		Config::NAG_REMAKE_DECRYPTION_CHAIN,
+		Config::NAG_ALTER_DECRYPTION_CHAIN,
 		_("If you continue with this operation you will no longer be able to use any DKDMs that you have created.  Also, any KDMs that have been sent to you will become useless.  Proceed with caution!"),
 		true
 		);
