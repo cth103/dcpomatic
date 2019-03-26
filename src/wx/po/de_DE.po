@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-24 00:53+0000\n"
-"PO-Revision-Date: 2019-03-25 21:47+0100\n"
+"PO-Revision-Date: 2019-03-26 14:35+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: en_GB\n"
@@ -90,7 +90,7 @@ msgstr "0 - beste, 51 schlechteste"
 
 #: src/wx/wx_util.cc:444
 msgid "12 - 7.1/HI/VI"
-msgstr "12 - 7.1/HI/VI"
+msgstr "12 - 7.1/HI/VI-N"
 
 #: src/wx/wx_util.cc:436
 msgid "2 - stereo"
@@ -150,7 +150,7 @@ msgstr "6 - 5.1"
 
 #: src/wx/wx_util.cc:442
 msgid "8 - 5.1/HI/VI"
-msgstr "8 - 5.1/HI/VI"
+msgstr "8 - 5.1/HI/VI-N"
 
 #: src/wx/subtitle_appearance_dialog.cc:107
 msgid "<b>New colour</b>"
@@ -285,7 +285,7 @@ msgstr "Einzelbildsequenz hinzufügen"
 
 #: src/wx/text_panel.cc:262
 msgid "Add new..."
-msgstr "Kino hinzufügen..."
+msgstr "Einstellen..."
 
 #: src/wx/content_panel.cc:117
 msgid "Add video, image, sound or subtitle files to the film."
@@ -624,7 +624,7 @@ msgstr "Kontrast"
 
 #: src/wx/text_panel.cc:91
 msgid "Coord|Y"
-msgstr "Koord|Y"
+msgstr "Coord|Y"
 
 #: src/wx/dcp_panel.cc:81
 msgid "Copy as name"
@@ -715,7 +715,7 @@ msgstr "Dateinamenformatierung der DCP Metadaten (CPL und PKL)"
 
 #: src/wx/text_panel.cc:99
 msgid "DCP track"
-msgstr "DCP Spur"
+msgstr "CCAP Sprachspur (1-6)"
 
 #: src/wx/verify_dcp_dialog.cc:51
 msgid "DCP validates OK."
@@ -1046,11 +1046,11 @@ msgstr "Ordner Name"
 
 #: src/wx/fonts_dialog.cc:38
 msgid "Fonts"
-msgstr "Zeichensätze"
+msgstr "Zeichensatz"
 
 #: src/wx/text_panel.cc:109
 msgid "Fonts..."
-msgstr "Zeichensätze..."
+msgstr "Zeichensatz..."
 
 #: src/wx/kdm_advanced_dialog.cc:31
 msgid "Forensically mark audio"
@@ -1236,7 +1236,7 @@ msgstr ""
 
 #: src/wx/video_waveform_dialog.cc:70
 msgid "Image X position"
-msgstr "Horizontale Bildposition:"
+msgstr "Horizontale Bildposition"
 
 #: src/wx/player_config_dialog.cc:100
 msgid "Image on primary, controls on secondary"
@@ -1364,7 +1364,7 @@ msgstr "Eigenzertifikate"
 #: src/wx/dcp_text_track_dialog.cc:31 src/wx/send_i18n_dialog.cc:45
 #: src/wx/text_panel.cc:102
 msgid "Language"
-msgstr "Sprache"
+msgstr "Caption Sprache"
 
 #: src/wx/content_panel.cc:136
 msgid "Later"
@@ -1692,7 +1692,7 @@ msgstr "Inhalt hervorheben"
 
 #: src/wx/subtitle_appearance_dialog.cc:83
 msgid "Outline width"
-msgstr "Stärke Umrissdarstellung"
+msgstr "Stärke Umrissdarstellung (nur bei 'Burn-In')"
 
 #: src/wx/subtitle_appearance_dialog.cc:305
 msgid "Outline width cannot be set unless you are burning in captions"
@@ -1710,7 +1710,7 @@ msgstr "Ausgabedatei"
 
 #: src/wx/colour_conversion_editor.cc:205
 msgid "Output gamma correction"
-msgstr "Ziel-Gamma Anpassung"
+msgstr "Ziel-Gamma Anpassung:"
 
 #: src/wx/config_move_dialog.cc:31
 msgid "Overwrite this file with current configuration"
@@ -2228,7 +2228,7 @@ msgstr "Starte Player in"
 
 #: src/wx/text_panel.cc:105
 msgid "Stream"
-msgstr "Spur"
+msgstr "Spurauswahl (aus Inhalt)"
 
 #: src/wx/isdcf_metadata_dialog.cc:53
 msgid "Studio (e.g. TCF)"
@@ -2732,7 +2732,7 @@ msgstr "Teile Export-Dateien gemäß Aktaufteilung (‚reels‘)"
 
 #: src/wx/kdm_output_panel.cc:94 src/wx/self_dkdm_dialog.cc:77
 msgid "Write to"
-msgstr "Speichern in"
+msgstr "Speichern in:"
 
 #: src/wx/about_dialog.cc:99
 msgid "Written by"
@@ -2748,7 +2748,7 @@ msgstr "Y"
 
 #: src/wx/colour_conversion_editor.cc:108
 msgid "YUV to RGB conversion"
-msgstr "YUV-RGB Konvertierung"
+msgstr "YUV-RGB Konvertierung:"
 
 #: src/wx/colour_conversion_editor.cc:110
 msgid "YUV to RGB matrix"
@@ -2842,11 +2842,11 @@ msgstr "Kino"
 
 #: src/wx/text_panel.cc:75 src/wx/text_panel.cc:475
 msgid "closed captions"
-msgstr "closed captions"
+msgstr "Closed Captions/CCAP"
 
 #: src/wx/video_waveform_dialog.cc:74
 msgid "component value"
-msgstr "Komponentenwert:"
+msgstr "Komponentenwert"
 
 #: src/wx/full_config_dialog.cc:1410
 msgid "content filename"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-24 00:53+0000\n"
-"PO-Revision-Date: 2019-03-25 21:36+0100\n"
+"PO-Revision-Date: 2019-03-26 14:32+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic <carl@dcpomatic.com>\n"
 "Language: de\n"
@@ -526,11 +526,11 @@ msgstr "Pause"
 
 #: src/tools/dcpomatic_playlist.cc:180
 msgid "Question|N"
-msgstr "Frage|N"
+msgstr "Question|N"
 
 #: src/tools/dcpomatic_playlist.cc:180
 msgid "Question|Y"
-msgstr "Frage|Y"
+msgstr "Question|J"
 
 #: src/tools/dcpomatic_kdm.cc:160 src/tools/dcpomatic_playlist.cc:133
 msgid "Remove"
