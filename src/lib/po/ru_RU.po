@@ -4,14 +4,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-24 00:53+0000\n"
-"PO-Revision-Date: 2018-08-20 18:46+0300\n"
+"PO-Revision-Date: 2019-03-27 00:34+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1.1\n"
+"X-Generator: Poedit 2.2.1\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -192,16 +192,15 @@ msgid "Advertisement"
 msgstr "ADV (Реклама)"
 
 #: src/lib/hints.cc:147
-#, fuzzy
 msgid ""
 "All of your content is 2.35:1 or narrower but your DCP's container is Scope "
 "(2.39:1).  This will pillar-box your content.  You may prefer to set your "
 "DCP's container to have the same ratio as your content."
 msgstr ""
-"Весь ваш контент имеет соотношение 1.85:1 или около того, но ваш DCP "
-"контейнер - SCOPE (2.39:1). Это значит, что в кадре по бокам вашего контента "
-"будут черные области. Вы можете изменить формат кадра вашего DCP на FLAT "
-"(1.85:1) на вкладке \"DCP\"."
+"Весь ваш контент имеет соотношение 2.35:1 или более узкое, но ваш DCP "
+"контейнер - SCOPE (2.39:1).  Это значит, что в кадре по бокам вашего "
+"контента будут черные области. Вы можете предпочесть, чтобы контейнер вашего "
+"DCP имел такое же соотношение, как и ваш контент."
 
 #: src/lib/hints.cc:143
 msgid ""
@@ -219,9 +218,8 @@ msgid "An error occurred whilst handling the file %1."
 msgstr "Возникла ошибка при обращении к файлу %1."
 
 #: src/lib/analyse_audio_job.cc:96
-#, fuzzy
 msgid "Analysing audio"
-msgstr "Анализ аудио"
+msgstr "Идёт анализ аудио"
 
 #: src/lib/audio_content.cc:257
 msgid "Audio will be resampled from %1Hz to %2Hz"
@@ -302,7 +300,7 @@ msgstr "Отменено"
 
 #: src/lib/film.cc:304
 msgid "Cannot contain slashes"
-msgstr "Не может содержать символ /"
+msgstr "Не может содержать слэши"
 
 #: src/lib/exceptions.cc:61
 msgid "Cannot handle pixel format %1 during %2"
@@ -322,7 +320,7 @@ msgstr "Каналы"
 
 #: src/lib/check_content_change_job.cc:46
 msgid "Checking content for changes"
-msgstr ""
+msgstr "Проверка контента на предмет изменений"
 
 #: src/lib/reel_writer.cc:100
 msgid "Checking existing image data"
@@ -330,7 +328,7 @@ msgstr "Проверка данных изображения"
 
 #: src/lib/check_content_change_job.cc:90
 msgid "Choose 'Make DCP' again when you have done this."
-msgstr ""
+msgstr "Выберите снова ‘Сделать DCP’ когда закончите с этим."
 
 #: src/lib/ffmpeg_content.cc:635
 msgid "Chroma-derived constant luminance"
@@ -341,9 +339,8 @@ msgid "Chroma-derived non-constant luminance"
 msgstr "Хроматическая непостоянная яркость"
 
 #: src/lib/types.cc:139
-#, fuzzy
 msgid "Closed captions"
-msgstr "Подавление шума"
+msgstr "Скрытые титры"
 
 #: src/lib/ffmpeg_content.cc:594
 msgid "Colour primaries"
@@ -395,10 +392,10 @@ msgstr ""
 "Для присоединения контента, всё остальное должно иметь либо не иметь аудио"
 
 #: src/lib/ffmpeg_content.cc:154
-#, fuzzy
 msgid "Content to be joined must all have or not have subtitles or captions"
 msgstr ""
-"Для присоединения контента, всё остальное должно иметь либо не иметь субтитры"
+"Для присоединения контента, всё остальное должно иметь либо не иметь "
+"субтитры или титры"
 
 #: src/lib/ffmpeg_content.cc:148
 msgid "Content to be joined must all have or not have video"
@@ -493,9 +490,8 @@ msgid "Content to be joined must have the same video frame type."
 msgstr "Для присоединения контента должен быть одинаковый тип видео."
 
 #: src/lib/text_content.cc:297
-#, fuzzy
 msgid "Content to be joined must use the same DCP track."
-msgstr "Для присоединения контента должен использоваться одинаковый шрифт."
+msgstr "Для присоединения контента должна использоваться та же DCP дорожка."
 
 #: src/lib/text_content.cc:293 src/lib/text_content.cc:305
 msgid "Content to be joined must use the same fonts."
@@ -526,7 +522,6 @@ msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Не удалось декодировать JPEG2000-файл(ы) %1 (%2)"
 
 #: src/lib/ffmpeg_image_proxy.cc:152
-#, fuzzy
 msgid "Could not decode image (%1)"
 msgstr "Не удалось декодировать изображение (%1)"
 
@@ -551,14 +546,12 @@ msgid "Could not open downloaded ZIP file"
 msgstr "Не удалось открыть загруженный ZIP-архив"
 
 #: src/lib/internet.cc:127
-#, fuzzy
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
-msgstr "Не удалось открыть загруженный ZIP-архив"
+msgstr "Не удалось открыть загруженный ZIP-файл (%1:%2: %3)"
 
 #: src/lib/config.cc:1039
-#, fuzzy
 msgid "Could not open file for writing"
-msgstr "не удалось открыть файл %1 для записи (%2)"
+msgstr "Не удалось открыть файл для записи"
 
 #: src/lib/dcp_subtitle.cc:55
 msgid "Could not read subtitles (%1 / %2)"
@@ -630,6 +623,9 @@ msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
 msgstr ""
+"DCP-o-matic пришлось изменить ваши настройки для ссылки на DCP как OV.  "
+"Пожалуйста, посмотрите на эти настройки, чтобы убедиться, что это то, чего "
+"вы хотите."
 
 #: src/lib/ffmpeg_content.cc:113
 msgid ""
@@ -677,9 +673,8 @@ msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 и CP750"
 
 #: src/lib/internet.cc:73
-#, fuzzy
 msgid "Download failed (%1 error %2)"
-msgstr "Ошибка загрузки (%1/%2 ошибка %3)"
+msgstr "Ошибка загрузки (%1 ошибка %2)"
 
 #: src/lib/frame_rate_change.cc:106
 msgid "Each content frame will be doubled in the DCP.\n"
@@ -723,17 +718,15 @@ msgstr "Ошибка: (%1)"
 
 #: src/lib/hints.cc:265
 msgid "Examining closed captions"
-msgstr ""
+msgstr "Проверка скрытых титров"
 
 #: src/lib/examine_content_job.cc:44
-#, fuzzy
 msgid "Examining content"
 msgstr "Проверка контента"
 
 #: src/lib/examine_ffmpeg_subtitles_job.cc:49
-#, fuzzy
 msgid "Examining subtitles"
-msgstr "Поиск субтитров"
+msgstr "Проверка субтитров"
 
 #: src/lib/ffmpeg_content.cc:626
 msgid "FCC"
@@ -744,9 +737,8 @@ msgid "Failed to authenticate with server (%1)"
 msgstr "Ошибка аутентификации сервером (%1)"
 
 #: src/lib/emailer.cc:222
-#, fuzzy
 msgid "Failed to send email"
-msgstr "Ошибка отправки email (%1)"
+msgstr "Ошибка отправки email"
 
 #: src/lib/dcp_content_type.cc:46
 msgid "Feature"
@@ -843,6 +835,8 @@ msgstr "IEC61966-2-4"
 #: src/lib/hints.cc:168
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr ""
+"Если вы используете 25 кадр/сек, вам следует изменить стандарт вашего DCP на "
+"SMPTE."
 
 #: src/lib/job.cc:147 src/lib/job.cc:203 src/lib/job.cc:213
 msgid "It is not known what caused this error."
@@ -858,11 +852,11 @@ msgstr "Назначение KDM: $CPL_NAME"
 
 #: src/lib/dcp.cc:82
 msgid "KDM was made for DCP-o-matic but not for its leaf certificate."
-msgstr ""
+msgstr "KDM был сделан для DCP-o-matic, но не для его leaf-сертификата."
 
 #: src/lib/dcp.cc:80
 msgid "KDM was not made for DCP-o-matic's decryption certificate."
-msgstr ""
+msgstr "KDM не был сделан для сертификата расшифровки DCP-o-matic."
 
 #: src/lib/filter.cc:72
 msgid "Kernel deinterlacer"
@@ -1035,6 +1029,8 @@ msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
 "carl@dcpomatic.com"
 msgstr ""
+"Пожалуйста, сообщите о данной проблеме, используя Помощь -> Сообщите о "
+"проблеме, отправив email на carl@dcpomatic.com"
 
 #: src/lib/dcp_content_type.cc:53
 msgid "Policy"
@@ -1187,12 +1183,18 @@ msgid ""
 "\n"
 "These files will now be re-examined, so you may need to check their settings."
 msgstr ""
+"Некоторые файлы изменились с момента их добавления в проект.\n"
+"\n"
+"Эти файлы сейчас будут перепроверены, поэтому возможно вам придётся "
+"проверить их настройки."
 
 #: src/lib/hints.cc:313
 msgid ""
 "Some of your closed captions have lines longer than %1 characters, so they "
 "will probably be word-wrapped."
 msgstr ""
+"У некоторые из ваших скрытых титров длина строки длиннее %1 символов, "
+"поэтому возможно произойдёт перенос на новую строку."
 
 #: src/lib/hints.cc:319
 msgid ""
@@ -1432,36 +1434,33 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Очередной фильтр деинтерлейсинга"
 
 #: src/lib/hints.cc:181
-#, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You are advised to change the DCP frame rate "
 "to %2 fps."
 msgstr ""
-"Вы выбрали для Interop DCP частоту кадров, которая официально не "
-"поддерживается. Советуем изменить частоту кадров ващего DCP или вместо этого "
-"сделать SMPTE DCP."
+"Вы выбрали частоту кадров %1 кадр/сек для DCP.  Данная частота кадров не "
+"поддерживается всеми проекторами.  Советуем изменить частоту кадров вашего "
+"DCP на %2 кадр/сек."
 
 #: src/lib/hints.cc:165
-#, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You may want to consider changing your frame "
 "rate to %2 fps."
 msgstr ""
-"Вы выбрали для Interop DCP частоту кадров, которая официально не "
-"поддерживается. Советуем изменить частоту кадров ващего DCP или вместо этого "
-"сделать SMPTE DCP."
+"Вы выбрали частоту кадров %1 кадр/сек для DCP.  Данная частота кадров не "
+"поддерживается всеми проекторами.  Возможно вы захотите изменить частоту "
+"кадров на %2 кадр/сек."
 
 #: src/lib/hints.cc:175
-#, fuzzy
 msgid ""
 "You are set up for a DCP frame rate of 30fps, which is not supported by all "
 "projectors.  Be aware that you may have compatibility problems."
 msgstr ""
-"Вы выбрали для Interop DCP частоту кадров, которая официально не "
-"поддерживается. Советуем изменить частоту кадров ващего DCP или вместо этого "
-"сделать SMPTE DCP."
+"Вы выбрали частоту кадров 30 кадр/сек для DCP.  Данная частота кадров не "
+"поддерживается всеми проекторами.  Имейте ввиду, что у вас могут возникнуть "
+"проблемы совместимости."
 
 #: src/lib/hints.cc:228
 msgid ""
@@ -1494,7 +1493,7 @@ msgstr ""
 
 #: src/lib/hints.cc:325
 msgid "You have overlapping closed captions, which are not allowed."
-msgstr ""
+msgstr "У вас есть перекрывающиеся субтитры, которые не допускаются."
 
 #: src/lib/hints.cc:115
 msgid ""
@@ -1570,7 +1569,7 @@ msgstr "[субтитры]"
 #. / which reel it is.  Preserve the %1; it will be replaced with the reel number.
 #: src/lib/ffmpeg_encoder.cc:67
 msgid "_reel%1"
-msgstr ""
+msgstr "_reel%1"
 
 #: src/lib/dcpomatic_socket.cc:69
 msgid "connect timed out"
@@ -1647,13 +1646,11 @@ msgstr "ч"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:679
-#, fuzzy
 msgid "it does not have closed captions in all its reels."
-msgstr "во всех бобинах нет звука."
+msgstr "во всех бобинах нет скрытых титров."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:674
-#, fuzzy
 msgid "it does not have open subtitles in all its reels."
 msgstr "во всех бобинах нет субтитров."
 
@@ -1669,15 +1666,13 @@ msgstr "частота кадров проекта отличается от ч�
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:603
-#, fuzzy
 msgid "it is 2K and the film is 4K."
-msgstr "является в Interop , а проект настроен как SMPTE."
+msgstr "является 2K, а проект - 4K."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:600
-#, fuzzy
 msgid "it is 4K and the film is 2K."
-msgstr "является в Interop , а проект настроен как SMPTE."
+msgstr "является 4K, а проект - 2K."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:529
@@ -1696,9 +1691,8 @@ msgstr "перекрывает другой аудио-контент; убер�
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:685
-#, fuzzy
 msgid "it overlaps other text content; remove the other content."
-msgstr "перекрывает другой видео-контент; уберите другой видео-контент."
+msgstr "перекрывает другой текстовый-контент; уберите другой контент."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:613

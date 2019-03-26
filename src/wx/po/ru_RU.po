@@ -4,14 +4,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-24 00:53+0000\n"
-"PO-Revision-Date: 2018-08-20 18:57+0300\n"
+"PO-Revision-Date: 2019-03-27 00:14+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1.1\n"
+"X-Generator: Poedit 2.2.1\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -20,6 +20,8 @@ msgid ""
 "\n"
 "You can change the mode at any time from the General page of Preferences."
 msgstr ""
+"\n"
+"Вы можете изменить режим в любое время на вкладке «Основные» в Настройках."
 
 #: src/wx/timeline_audio_content_view.cc:68
 #, c-format
@@ -52,12 +54,11 @@ msgid "%d KDMs written to %s"
 msgstr "%d KDM записаны в %s"
 
 #: src/wx/about_dialog.cc:84
-#, fuzzy
 msgid ""
 "(C) 2012-2019 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2019 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:44 src/wx/file_picker_ctrl.cc:59
@@ -65,9 +66,8 @@ msgid "(None)"
 msgstr "(Ничего)"
 
 #: src/wx/full_config_dialog.cc:1373
-#, fuzzy
 msgid "(restart DCP-o-matic to see all ratios)"
-msgstr "(перезапустите программу для изменения языка)"
+msgstr "(перезапустите DCP-o-matic, чтобы увидеть все соотношения)"
 
 #: src/wx/config_dialog.cc:143
 msgid "(restart DCP-o-matic to see language changes)"
@@ -79,7 +79,7 @@ msgstr "-6 дБ"
 
 #: src/wx/export_dialog.cc:68
 msgid "0 is best, 51 is worst"
-msgstr ""
+msgstr "0 - лучшее, 51 - худшее"
 
 #: src/wx/wx_util.cc:444
 msgid "12 - 7.1/HI/VI"
@@ -186,6 +186,16 @@ msgid ""
 "\n"
 "Please choose which mode you would like to start DCP-o-matic in:"
 msgstr ""
+"<span weight=«bold» size=«larger»>Добро пожаловать в DCP-o-matic!</span>\n"
+"\n"
+"DCP-o-matic может работать в двух режимах: ‘<i>простом</i>’ или ‘<i>полном</"
+"i>’.\n"
+"\n"
+"<i>Простой режим</i> подходит для создания простых DCP без особых настроек.\n"
+"\n"
+"<i>Полный режим</i> даёт вам больше контроля над DCP, которые вы делаете.\n"
+"\n"
+"Выберите пожалуйста режим, в котором вы бы хотели запустить DCP-o-matic:"
 
 #: src/wx/colour_conversion_editor.cc:81
 msgid "A"
@@ -201,12 +211,11 @@ msgstr "О программе"
 
 #: src/wx/full_config_dialog.cc:952
 msgid "Accounts"
-msgstr ""
+msgstr "Аккаунты"
 
 #: src/wx/player_config_dialog.cc:109
-#, fuzzy
 msgid "Activity log file"
-msgstr "Выберите выходной файл"
+msgstr "Лог-файл активности"
 
 #: src/wx/screens_panel.cc:151
 msgid "Add Cinema"
@@ -264,9 +273,8 @@ msgid "Add image sequence"
 msgstr "Добавить последовательность изображений"
 
 #: src/wx/text_panel.cc:262
-#, fuzzy
 msgid "Add new..."
-msgstr "Добавить кинотеатр..."
+msgstr "Добавить новый…"
 
 #: src/wx/content_panel.cc:117
 msgid "Add video, image, sound or subtitle files to the film."
@@ -296,7 +304,7 @@ msgstr "Отрегулировать белую точку по"
 
 #: src/wx/kdm_advanced_dialog.cc:25
 msgid "Advanced KDM options"
-msgstr ""
+msgstr "Продвинутые опции KDM"
 
 #: src/wx/config_dialog.cc:770 src/wx/config_dialog.cc:784
 #: src/wx/kdm_output_panel.cc:70
@@ -309,16 +317,15 @@ msgstr "Разрешить любую частоту кадров DCP"
 
 #: src/wx/full_config_dialog.cc:1369
 msgid "Allow non-standard container ratios"
-msgstr ""
+msgstr "Разрешить нестандартные соотношения контейнера"
 
 #: src/wx/rgba_colour_picker.cc:34
 msgid "Alpha   0"
-msgstr "Альфа 0"
+msgstr "Альфа  0"
 
 #: src/wx/about_dialog.cc:149
-#, fuzzy
 msgid "Also supported by"
-msgstr "Финансовая поддержка"
+msgstr "Также поддерживается"
 
 #: src/wx/kdm_output_panel.cc:293
 msgid "An unknown exception occurred."
@@ -389,20 +396,19 @@ msgstr "Скрытая копия"
 
 #: src/wx/player_config_dialog.cc:279
 msgid "Background image"
-msgstr ""
+msgstr "Фоновая картинка"
 
 #: src/wx/barco_alchemy_certificate_panel.cc:76
 msgid "Barco Alchemy"
-msgstr ""
+msgstr "Barco Alchemy"
 
 #: src/wx/colour_conversion_editor.cc:146
 msgid "Blue chromaticity"
 msgstr "Синяя цветность"
 
 #: src/wx/video_panel.cc:130
-#, fuzzy
 msgid "Bottom crop"
-msgstr "Снизу"
+msgstr "Обрезка снизу"
 
 #: src/wx/dir_picker_ctrl.cc:40 src/wx/kdm_cpl_panel.cc:41
 msgid "Browse..."
@@ -455,16 +461,15 @@ msgstr "Нельзя ссылаться на этот DCP: "
 
 #: src/wx/text_view.cc:67
 msgid "Caption"
-msgstr ""
+msgstr "Титр"
 
 #: src/wx/subtitle_appearance_dialog.cc:49
-#, fuzzy
 msgid "Caption appearance"
-msgstr "Внешний вид субтитров"
+msgstr "Внешний вид титров"
 
 #: src/wx/text_view.cc:42
 msgid "Captions"
-msgstr ""
+msgstr "Титры"
 
 #: src/wx/recreate_chain_dialog.cc:33
 msgid "Certificate chain"
@@ -527,7 +532,7 @@ msgstr "Выбрать файл шрифта"
 
 #: src/wx/christie_certificate_panel.cc:84
 msgid "Christie"
-msgstr ""
+msgstr "Christie"
 
 #: src/wx/full_config_dialog.cc:111
 msgid "Cinema and screen database file"
@@ -541,7 +546,7 @@ msgstr ""
 
 #: src/wx/closed_captions_dialog.cc:37
 msgid "Closed captions"
-msgstr ""
+msgstr "Скрытые титры"
 
 #: src/wx/subtitle_appearance_dialog.cc:74
 msgid "Colour"
@@ -591,9 +596,8 @@ msgid "Content Type"
 msgstr "Тип контента"
 
 #: src/wx/player_config_dialog.cc:263
-#, fuzzy
 msgid "Content directory"
-msgstr "Папка DCP"
+msgstr "Папка контента"
 
 #: src/wx/isdcf_metadata_dialog.cc:38
 msgid "Content version"
@@ -604,8 +608,9 @@ msgid "Contrast"
 msgstr "Контраст"
 
 #: src/wx/text_panel.cc:91
+#, fuzzy
 msgid "Coord|Y"
-msgstr ""
+msgstr "Координата|Y"
 
 #: src/wx/dcp_panel.cc:81
 msgid "Copy as name"
@@ -621,19 +626,17 @@ msgid "Could not import certificate (%s)"
 msgstr "Не удалось импортировать сертификат (%s)"
 
 #: src/wx/content_menu.cc:383
-#, fuzzy
 msgid "Could not load KDM"
-msgstr "Не удалось загрузить KDM."
+msgstr "Не удалось загрузить KDM"
 
 #: src/wx/screen_dialog.cc:71
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load certficate (%s)"
-msgstr "Не удалось импортировать сертификат (%s)"
+msgstr "Не удалось загрузить сертификат (%s)"
 
 #: src/wx/player_config_dialog.cc:333
-#, fuzzy
 msgid "Could not load image file."
-msgstr "Не удалось прочитать файл сертификата."
+msgstr "Не удалось загрузить изображение."
 
 #: src/wx/config_dialog.cc:490 src/wx/config_dialog.cc:708
 #: src/wx/download_certificate_panel.cc:60 src/wx/screen_dialog.cc:201
@@ -680,7 +683,7 @@ msgstr "DCP"
 
 #: src/wx/dcp_text_track_dialog.cc:27
 msgid "DCP Text Track"
-msgstr ""
+msgstr "Текстовая дорожка DCP"
 
 #: src/wx/full_config_dialog.cc:1405
 msgid "DCP asset filename format"
@@ -696,7 +699,7 @@ msgstr "Формат именования метаданных DCP"
 
 #: src/wx/text_panel.cc:99
 msgid "DCP track"
-msgstr ""
+msgstr "Дорожка DCP"
 
 #: src/wx/verify_dcp_dialog.cc:51
 msgid "DCP validates OK."
@@ -717,14 +720,12 @@ msgid "DCP-o-matic audio - %s"
 msgstr "DCP-o-matic аудио - %s"
 
 #: src/wx/initial_setup_dialog.cc:27
-#, fuzzy
 msgid "DCP-o-matic setup"
-msgstr "DCP-o-matic"
+msgstr "Настройка DCP-o-matic"
 
 #: src/wx/player_config_dialog.cc:114
-#, fuzzy
 msgid "Debug log file"
-msgstr "Выберите выходной файл"
+msgstr "Отладочный лог-файл"
 
 #: src/wx/full_config_dialog.cc:1434
 msgid "Debug: decode"
@@ -809,11 +810,11 @@ msgstr "Детали..."
 
 #: src/wx/monitor_dialog.cc:32
 msgid "Device"
-msgstr ""
+msgstr "Устройство"
 
 #: src/wx/player_config_dialog.cc:434
 msgid "Devices"
-msgstr ""
+msgstr "Устройства"
 
 #: src/wx/recreate_chain_dialog.cc:33
 msgid "Do nothing"
@@ -862,12 +863,11 @@ msgstr "Потерянные кадры: %d"
 
 #: src/wx/player_config_dialog.cc:98
 msgid "Dual-screen displays"
-msgstr ""
+msgstr "Двойной экран"
 
 #: src/wx/player_config_dialog.cc:385
-#, fuzzy
 msgid "Duration"
-msgstr "Organisation"
+msgstr "Длительность"
 
 #: src/wx/content_panel.cc:132
 msgid "Earlier"
@@ -950,9 +950,8 @@ msgid "Export all KDM decryption settings..."
 msgstr "Экспортировать все настройки расшифровки KDM…"
 
 #: src/wx/config_dialog.cc:411
-#, fuzzy
 msgid "Export chain..."
-msgstr "Экспорт..."
+msgstr "Экспортировать цепочку…"
 
 #: src/wx/export_dialog.cc:53
 msgid "Export film"
@@ -988,7 +987,7 @@ msgstr "Время постепенного затухания"
 
 #: src/wx/fonts_dialog.cc:55
 msgid "File"
-msgstr ""
+msgstr "Файл"
 
 #: src/wx/kdm_dialog.cc:142
 #, c-format
@@ -1020,7 +1019,7 @@ msgstr "Найти отсутствующее..."
 
 #: src/wx/subtitle_appearance_dialog.cc:119
 msgid "Finding the colours in these subtitles..."
-msgstr ""
+msgstr "Поиск цветов в данных субтитрах…"
 
 #: src/wx/kdm_output_panel.cc:74
 msgid "Folder / ZIP name format"
@@ -1040,11 +1039,11 @@ msgstr "Шрифты..."
 
 #: src/wx/kdm_advanced_dialog.cc:31
 msgid "Forensically mark audio"
-msgstr ""
+msgstr "Форензик-метка аудио"
 
 #: src/wx/kdm_advanced_dialog.cc:27
 msgid "Forensically mark video"
-msgstr ""
+msgstr "Форензик-метка видео"
 
 #: src/wx/export_dialog.cc:55
 msgid "Format"
@@ -1090,28 +1089,24 @@ msgid "Full length"
 msgstr "Полная длительность"
 
 #: src/wx/initial_setup_dialog.cc:48
-#, fuzzy
 msgid "Full mode"
-msgstr "Full"
+msgstr "Полный режим"
 
 #: src/wx/dcp_panel.cc:110
 msgid "GB"
 msgstr "ГБ"
 
 #: src/wx/gdc_certificate_panel.cc:68
-#, fuzzy
 msgid "GDC"
-msgstr "DCP"
+msgstr "GDC"
 
 #: src/wx/full_config_dialog.cc:988
-#, fuzzy
 msgid "GDC password"
-msgstr "Пароль почты"
+msgstr "Пароль GDC"
 
 #: src/wx/full_config_dialog.cc:984
-#, fuzzy
 msgid "GDC user name"
-msgstr "Пользователь почты"
+msgstr "Пользователь GDC"
 
 #: src/wx/audio_panel.cc:65
 msgid "Gain"
@@ -1196,7 +1191,6 @@ msgid "ISDCF name"
 msgstr "Имя ISDCF"
 
 #: src/wx/config_dialog.cc:847
-#, fuzzy
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created with the current certificates and key.  Also, "
@@ -1204,8 +1198,9 @@ msgid ""
 "useless.  Proceed with caution!"
 msgstr ""
 "Если вы продолжите эту операцию, вы больше не сможете использовать ни один "
-"DKDM, который вы создали ранее. Также, любые KDM, отправленные вам, станут "
-"бесполезны. Действуйте с осторожностью!"
+"DKDM, который вы создали с использованием данных сертификатов и ключа.  "
+"Также, любые KDM, отправленные вам, станут бесполезны. Действуйте с "
+"осторожностью!"
 
 #: src/wx/config_dialog.cc:897
 msgid ""
@@ -1223,11 +1218,11 @@ msgstr "Горизонтальное положение изображения"
 
 #: src/wx/player_config_dialog.cc:100
 msgid "Image on primary, controls on secondary"
-msgstr ""
+msgstr "Изображение на основном, управление на второстепенном"
 
 #: src/wx/player_config_dialog.cc:101
 msgid "Image on secondary, controls on primary"
-msgstr ""
+msgstr "Изображение на второстепенном, управление на основном"
 
 #: src/wx/config_dialog.cc:768
 msgid "Import all KDM decryption settings..."
@@ -1268,7 +1263,7 @@ msgstr "Интегрированная громкость %.2f LUFS"
 
 #: src/wx/full_config_dialog.cc:91
 msgid "Interface complexity"
-msgstr ""
+msgstr "Сложность интерфейса"
 
 #: src/wx/config_dialog.cc:588
 msgid "Intermediate"
@@ -1315,13 +1310,12 @@ msgid "KDM Email"
 msgstr "Почта KDM"
 
 #: src/wx/player_config_dialog.cc:273
-#, fuzzy
 msgid "KDM directory"
-msgstr "Папка DCP"
+msgstr "Папка KDM"
 
 #: src/wx/player_config_dialog.cc:120
 msgid "KDM server URL"
-msgstr ""
+msgstr "URL KDM-сервера"
 
 #: src/wx/kdm_output_panel.cc:57
 msgid "KDM type"
@@ -1374,9 +1368,8 @@ msgid "Left"
 msgstr "Слева"
 
 #: src/wx/video_panel.cc:100
-#, fuzzy
 msgid "Left crop"
-msgstr "Слева"
+msgstr "Обрезка слева"
 
 #: src/wx/content_properties_dialog.cc:80
 msgid "Length"
@@ -1391,19 +1384,16 @@ msgid "Line spacing"
 msgstr "Интервал между рядами"
 
 #: src/wx/screen_dialog.cc:56
-#, fuzzy
 msgid "Load certificate..."
-msgstr "Скачать сертификат"
+msgstr "Скачать сертификат…"
 
 #: src/wx/player_config_dialog.cc:244
-#, fuzzy
 msgid "Locations"
-msgstr "Уведомления"
+msgstr "Расположения"
 
 #: src/wx/player_config_dialog.cc:125
-#, fuzzy
 msgid "Lock file"
-msgstr "Файл жирного шрифта"
+msgstr "Файл блокировки"
 
 #: src/wx/full_config_dialog.cc:1423
 msgid "Log"
@@ -1435,9 +1425,8 @@ msgid "MP4 files (*.mp4)|*.mp4"
 msgstr "MP4 файлы  (*.mp4)|*.mp4"
 
 #: src/wx/hints_dialog.cc:67
-#, fuzzy
 msgid "Make DCP"
-msgstr "Сгенерировать ключи KDM"
+msgstr "Сделать DCP"
 
 #: src/wx/self_dkdm_dialog.cc:51
 msgid "Make DKDM for DCP-o-matic"
@@ -1453,21 +1442,19 @@ msgstr "Создать цепочку сертификатов"
 
 #: src/wx/player_config_dialog.cc:444
 msgid "Manufacture week"
-msgstr ""
+msgstr "Неделя изготовления"
 
 #: src/wx/player_config_dialog.cc:445
-#, fuzzy
 msgid "Manufacture year"
-msgstr "Изготовитель сервера"
+msgstr "Год изготовления"
 
 #: src/wx/monitor_dialog.cc:34 src/wx/player_config_dialog.cc:441
-#, fuzzy
 msgid "Manufacturer ID"
-msgstr "Изготовитель сервера"
+msgstr "ID изготовителя"
 
 #: src/wx/monitor_dialog.cc:36
 msgid "Manufacturer product code"
-msgstr ""
+msgstr "Код продукта изготовителя"
 
 #: src/wx/isdcf_metadata_dialog.cc:78
 msgid "Mastered luminance (e.g. 14fl)"
@@ -1568,12 +1555,16 @@ msgid ""
 "No Barco username/password configured.  Add your account details to the "
 "Accounts page in Preferences."
 msgstr ""
+"Имя пользователя/пароль Barco не настроены.  Добавьте ваши учетные данные на "
+"вкладке «Аккаунты» в Настройках."
 
 #: src/wx/christie_certificate_panel.cc:43
 msgid ""
 "No Christie username/password configured.  Add your account details to the "
 "Accounts page in Preferences."
 msgstr ""
+"Имя пользователя/пароль Christie не настроены.  Добавьте ваши учетные данные "
+"на вкладке «Аккаунты» в Настройках."
 
 #: src/wx/player_information.cc:114
 msgid "No DCP loaded."
@@ -1584,6 +1575,8 @@ msgid ""
 "No GDC username/password configured.  Add your account details to the "
 "Accounts page in Preferences."
 msgstr ""
+"Имя пользователя/пароль GDC не настроены.  Добавьте ваши учетные данные на "
+"вкладке «Аккаунты» в Настройках."
 
 #: src/wx/audio_mapping_view.cc:346
 #, c-format
@@ -1628,9 +1621,8 @@ msgid "Off"
 msgstr "Выключен"
 
 #: src/wx/text_panel.cc:79
-#, fuzzy
 msgid "Offset"
-msgstr "Смещение X"
+msgstr "Смещение"
 
 #: src/wx/full_config_dialog.cc:1380
 msgid "Only servers encode"
@@ -1673,9 +1665,9 @@ msgid "Outline width"
 msgstr "Ширина обводки"
 
 #: src/wx/subtitle_appearance_dialog.cc:305
-#, fuzzy
 msgid "Outline width cannot be set unless you are burning in captions"
-msgstr "Ширина обводки может быть установлена только для вшитых субтитров"
+msgstr ""
+"Ширина обводки не может быть установлена, если вы не делаете вшитые титры"
 
 #: src/wx/kdm_dialog.cc:102 src/wx/self_dkdm_dialog.cc:68
 msgid "Output"
@@ -1706,9 +1698,8 @@ msgid "Paste audio settings"
 msgstr "Вставить настройки аудио"
 
 #: src/wx/paste_dialog.cc:33
-#, fuzzy
 msgid "Paste subtitle and caption settings"
-msgstr "Вставить настройки субтитров"
+msgstr "Вставить настройки субтитров и титров"
 
 #: src/wx/paste_dialog.cc:27
 msgid "Paste video settings"
@@ -1737,7 +1728,7 @@ msgstr "Производительность"
 
 #: src/wx/player_config_dialog.cc:378
 msgid "Period"
-msgstr ""
+msgstr "Период"
 
 #: src/wx/standard_controls.cc:30
 msgid "Play"
@@ -1752,9 +1743,8 @@ msgid "Play sound via"
 msgstr "Вопроизводить звук через"
 
 #: src/wx/player_config_dialog.cc:268
-#, fuzzy
 msgid "Playlist directory"
-msgstr "Папка DCP"
+msgstr "Папка плейлиста"
 
 #: src/wx/report_problem_dialog.cc:106
 msgid ""
@@ -1786,7 +1776,7 @@ msgstr "Обработка"
 
 #: src/wx/player_config_dialog.cc:442
 msgid "Product code"
-msgstr ""
+msgstr "Код продукта"
 
 #: src/wx/content_menu.cc:75
 msgid "Properties..."
@@ -1798,7 +1788,7 @@ msgstr "Протокол"
 
 #: src/wx/export_dialog.cc:64
 msgid "Quality"
-msgstr ""
+msgstr "Качество"
 
 #: src/wx/colour_conversion_editor.cc:125
 msgid "RGB to XYZ conversion"
@@ -1818,7 +1808,7 @@ msgstr "Рейтинг (напр. NR)"
 
 #: src/wx/dcp_panel.cc:771
 msgid "Re-encode JPEG2000 data from input"
-msgstr ""
+msgstr "Перекодировать данные JPEG2000"
 
 #: src/wx/content_menu.cc:76
 msgid "Re-examine..."
@@ -1830,12 +1820,11 @@ msgstr "Пересоздать сертификаты и ключ..."
 
 #: src/wx/player_config_dialog.cc:458
 msgid "Read current devices"
-msgstr ""
+msgstr "Прочитать текущие устройства"
 
 #: src/wx/content_view.cc:77
-#, fuzzy
 msgid "Reading content directory"
-msgstr "Папка DCP"
+msgstr "Чтение папки контента"
 
 #: src/wx/colour_conversion_editor.cc:112
 msgid "Rec. 601"
@@ -1954,9 +1943,8 @@ msgid "Right click to change gain."
 msgstr "Правый клик для изменения усиления."
 
 #: src/wx/video_panel.cc:110
-#, fuzzy
 msgid "Right crop"
-msgstr "Справа"
+msgstr "Обрезка справа"
 
 #: src/wx/config_dialog.cc:584
 msgid "Root"
@@ -1992,9 +1980,8 @@ msgid "Save to KDM Creator tool's list"
 msgstr "Сохранить в список инструмента генерации KDM"
 
 #: src/wx/text_panel.cc:87
-#, fuzzy
 msgid "Scale"
-msgstr "Размер X"
+msgstr "Масштабировать"
 
 #: src/wx/video_panel.cc:146
 msgid "Scale to"
@@ -2009,9 +1996,8 @@ msgid "Search network for servers"
 msgstr "Искать сервера в сети"
 
 #: src/wx/timeline_dialog.cc:66
-#, fuzzy
 msgid "Select"
-msgstr "Выберите OV"
+msgstr "Выбрать"
 
 #: src/wx/kdm_cpl_panel.cc:98
 msgid "Select CPL XML file"
@@ -2027,9 +2013,8 @@ msgid "Select Chain File"
 msgstr "Выберите файл цепочки"
 
 #: src/wx/full_config_dialog.cc:197
-#, fuzzy
 msgid "Select Cinemas File"
-msgstr "Выберите файл цепочки"
+msgstr "Выберите файл Кинотеатров"
 
 #: src/wx/config_dialog.cc:819
 msgid "Select Export File"
@@ -2052,14 +2037,12 @@ msgid "Select OV"
 msgstr "Выберите OV"
 
 #: src/wx/player_config_dialog.cc:110
-#, fuzzy
 msgid "Select activity log file"
-msgstr "Выберите выходной файл"
+msgstr "Выберите лог-файл активности"
 
 #: src/wx/timeline_dialog.cc:66
-#, fuzzy
 msgid "Select and move content"
-msgstr "Разделять по видео-контенту"
+msgstr "Выберите и переместите контент"
 
 #: src/wx/full_config_dialog.cc:112
 msgid "Select cinema and screen database file"
@@ -2070,19 +2053,16 @@ msgid "Select configuration file"
 msgstr "Выберите файл конфигурации"
 
 #: src/wx/player_config_dialog.cc:115
-#, fuzzy
 msgid "Select debug log file"
-msgstr "Выберите выходной файл"
+msgstr "Выберите отладочный лог-файл"
 
 #: src/wx/player_config_dialog.cc:280
-#, fuzzy
 msgid "Select image file"
-msgstr "Выберите файл цепочки"
+msgstr "Выберите файл изображения"
 
 #: src/wx/player_config_dialog.cc:126
-#, fuzzy
 msgid "Select lock file"
-msgstr "Выберите выходной файл"
+msgstr "Выберите файл блокировки"
 
 #: src/wx/export_dialog.cc:75
 msgid "Select output file"
@@ -2101,18 +2081,16 @@ msgid "Send logs"
 msgstr "Отправить логи"
 
 #: src/wx/send_i18n_dialog.cc:30
-#, fuzzy
 msgid "Send translations"
-msgstr "Organisation"
+msgstr "Отправить перевод"
 
 #: src/wx/timeline_dialog.cc:70
 msgid "Sequence"
-msgstr ""
+msgstr "Последовательность"
 
 #: src/wx/player_config_dialog.cc:443
-#, fuzzy
 msgid "Serial"
-msgstr "Серийный номер"
+msgstr "Серийный"
 
 #: src/wx/download_certificate_panel.cc:44 src/wx/monitor_dialog.cc:38
 msgid "Serial number"
@@ -2159,9 +2137,8 @@ msgid "Signing DCPs and KDMs"
 msgstr "Подписывание DCP и KDM"
 
 #: src/wx/full_config_dialog.cc:149
-#, fuzzy
 msgid "Simple"
-msgstr "Простая гамма"
+msgstr "Простой"
 
 #: src/wx/colour_conversion_editor.cc:62
 msgid "Simple gamma"
@@ -2172,9 +2149,8 @@ msgid "Simple gamma, linearised for small values"
 msgstr "Простая гамма, выровненная для малых значений"
 
 #: src/wx/initial_setup_dialog.cc:46
-#, fuzzy
 msgid "Simple mode"
-msgstr "Простая гамма"
+msgstr "Простой режим"
 
 #: src/wx/dcp_panel.cc:140
 msgid "Single reel"
@@ -2215,7 +2191,7 @@ msgstr "Начало катушки"
 
 #: src/wx/player_config_dialog.cc:90
 msgid "Start player as"
-msgstr ""
+msgstr "Запустить плеер как"
 
 #: src/wx/text_panel.cc:105
 msgid "Stream"
@@ -2231,16 +2207,15 @@ msgstr "Тема"
 
 #: src/wx/about_dialog.cc:145
 msgid "Subscribers"
-msgstr ""
+msgstr "Подписчики"
 
 #: src/wx/isdcf_metadata_dialog.cc:44
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Язык субтитров (напр. FR)"
 
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:75
-#, fuzzy
 msgid "Subtitles/captions"
-msgstr "Субтитры"
+msgstr "Субтитры/титры"
 
 #: src/wx/player_information.cc:147
 msgid "Subtitles: no"
@@ -2295,12 +2270,14 @@ msgid "The 'until' time must be after the 'from' time."
 msgstr "Время \"до\" должно быть после времени \"от\"."
 
 #: src/wx/verify_dcp_dialog.cc:91
+#, fuzzy
 msgid "The PKL and CPL hashes disagree for a picture asset."
-msgstr ""
+msgstr "Хэши PKL и CPL несогласованны с изображением."
 
 #: src/wx/verify_dcp_dialog.cc:100
+#, fuzzy
 msgid "The PKL and CPL hashes disagree for a sound asset."
-msgstr ""
+msgstr "Хэши PKL и CPL несогласованны со звуком."
 
 #: src/wx/recreate_chain_dialog.cc:35
 msgid ""
@@ -2341,38 +2318,43 @@ msgstr ""
 "конфигурации или перезаписать его текущей конфигурацией?"
 
 #: src/wx/verify_dcp_dialog.cc:79
+#, fuzzy
 msgid ""
 "The hash of the CPL in the PKL does not agree with the CPL file.  This "
 "probably means that the CPL file is corrupt."
 msgstr ""
+"Хэш CPL в PKL несогласован с CPL-файлом.  Возможно это значит, что CPL-файл "
+"повреждён.."
 
 #: src/wx/verify_dcp_dialog.cc:86
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "The hash of the picture asset %s does not agree with the PKL file.  This "
 "probably means that the asset file is corrupt."
 msgstr ""
+"Хэш изображения %s несогласован с PKL-файлом.  Возможно это значит, что файл "
+"повреждён."
 
 #: src/wx/verify_dcp_dialog.cc:95
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "The hash of the sound asset %s does not agree with the PKL file.  This "
 "probably means that the asset file is corrupt."
 msgstr ""
+"Хэш звука %s несогласован с PKL-файлом.  Возможно это значит, что файл "
+"повреждён.."
 
 #: src/wx/verify_dcp_dialog.cc:82
 msgid "The picture in a reel has an invalid frame rate"
-msgstr ""
+msgstr "У изображения в бобине неверная частота кадров"
 
 #: src/wx/player_config_dialog.cc:373
-#, fuzzy
 msgid "Theatre name"
-msgstr "Название шаблона"
+msgstr "Название кинотеатра"
 
 #: src/wx/hints_dialog.cc:132
-#, fuzzy
 msgid "There are no hints yet: project check in progress."
-msgstr "Нет подсказок: похоже всё хорошо!"
+msgstr "Подсказок пока нет: проект проверяется."
 
 #: src/wx/hints_dialog.cc:130
 msgid "There are no hints: everything looks good!"
@@ -2388,9 +2370,8 @@ msgid "There is not enough free memory to do that."
 msgstr "Недостаточно памяти, чтобы сделать это."
 
 #: src/wx/kdm_cpl_panel.cc:127
-#, fuzzy
 msgid "This CPL contains no encrypted assets."
-msgstr "Содержание CPL-файла не зашифровано."
+msgstr "Данный CPL не имеет зашифрованного содержимого."
 
 #: src/wx/config_dialog.cc:472
 msgid ""
@@ -2437,12 +2418,11 @@ msgstr "Кому адрес"
 
 #: src/wx/video_panel.cc:120
 msgid "Top crop"
-msgstr ""
+msgstr "Обрезка сверху"
 
 #: src/wx/instant_i18n_dialog.cc:28
-#, fuzzy
 msgid "Translate"
-msgstr "Перевод"
+msgstr "Перевести"
 
 #: src/wx/about_dialog.cc:141
 msgid "Translated by"
@@ -2470,14 +2450,12 @@ msgid "True peak is %.2fdB"
 msgstr "Пиковая громкость %.2fдБ"
 
 #: src/wx/screen_dialog.cc:52
-#, fuzzy
 msgid "Trusted Device"
-msgstr "Иные доверенные устройства"
+msgstr "Доверенные устройства"
 
 #: src/wx/screen_dialog.cc:65
-#, fuzzy
 msgid "Trusted Device certificate"
-msgstr "Сертификат получателя"
+msgstr "Сертификат Доверенного Устройства"
 
 #: src/wx/audio_dialog.cc:110 src/wx/config_dialog.cc:361
 #: src/wx/video_panel.cc:88
@@ -2613,9 +2591,8 @@ msgid "Use ISDCF name"
 msgstr "Использовать ISDCF"
 
 #: src/wx/text_panel.cc:72
-#, fuzzy
 msgid "Use as"
-msgstr "Использовать лучшее"
+msgstr "Использовать как"
 
 #: src/wx/dcp_panel.cc:762
 msgid "Use best"
@@ -2630,9 +2607,8 @@ msgid "Use this DCP's audio as OV and make VF"
 msgstr "Использовать аудио этого DCP как OV и сделать VF"
 
 #: src/wx/text_panel.cc:61
-#, fuzzy
 msgid "Use this DCP's closed caption as OV and make VF"
-msgstr "Использовать аудио этого DCP как OV и сделать VF"
+msgstr "Использовать титры этого DCP как OV и сделать VF"
 
 #: src/wx/text_panel.cc:59
 msgid "Use this DCP's subtitle as OV and make VF"
@@ -2674,12 +2650,11 @@ msgstr "Предупреждения"
 
 #: src/wx/player_config_dialog.cc:362
 msgid "Watermark"
-msgstr ""
+msgstr "Водяной знак"
 
 #: src/wx/monitor_dialog.cc:40
-#, fuzzy
 msgid "Week of manufacture"
-msgstr "Изготовитель сервера"
+msgstr "Неделя изготовления"
 
 #: src/wx/colour_conversion_editor.cc:153
 msgid "White point"
@@ -2707,7 +2682,7 @@ msgstr "Записать все KDM в одну папку"
 
 #: src/wx/export_dialog.cc:62
 msgid "Write reels into separate files"
-msgstr ""
+msgstr "Записать бобины в отдельные файлы"
 
 #: src/wx/kdm_output_panel.cc:94 src/wx/self_dkdm_dialog.cc:77
 msgid "Write to"
@@ -2719,11 +2694,11 @@ msgstr "Программирование"
 
 #: src/wx/text_panel.cc:80 src/wx/text_panel.cc:88
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #: src/wx/text_panel.cc:83
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 #: src/wx/colour_conversion_editor.cc:108
 msgid "YUV to RGB conversion"
@@ -2734,9 +2709,8 @@ msgid "YUV to RGB matrix"
 msgstr "Матрица YUV в RGB"
 
 #: src/wx/monitor_dialog.cc:42
-#, fuzzy
 msgid "Year of manufacture"
-msgstr "Изготовитель сервера"
+msgstr "Год изготовления"
 
 #: src/wx/screens_panel.cc:218
 #, c-format
@@ -2772,59 +2746,57 @@ msgstr ""
 "отправлять письма."
 
 #: src/wx/send_i18n_dialog.cc:41
-#, fuzzy
 msgid "Your email"
-msgstr "Ваш e-mail адрес"
+msgstr "Ваш e-mail"
 
 #: src/wx/report_problem_dialog.cc:70
 msgid "Your email address"
 msgstr "Ваш e-mail адрес"
 
 #: src/wx/send_i18n_dialog.cc:37
-#, fuzzy
 msgid "Your name"
-msgstr "Имя папки"
+msgstr "Ваше имя"
 
 #: src/wx/timeline_dialog.cc:67
 msgid "Zoom"
-msgstr ""
+msgstr "Увеличить"
 
 #: src/wx/timeline_dialog.cc:68
 msgid "Zoom all"
-msgstr ""
+msgstr "Увеличить всё"
 
 #: src/wx/timeline_dialog.cc:67
 msgid "Zoom in / out"
-msgstr ""
+msgstr "Увеличить/уменьшить"
 
 #: src/wx/timeline_dialog.cc:68
+#, fuzzy
 msgid "Zoom out to whole film"
-msgstr ""
+msgstr "Уменьшить до всего проекта"
 
 #: src/wx/full_config_dialog.cc:972
 msgid "certificates.barco.com password"
-msgstr ""
+msgstr "пароль certificates.barco.com"
 
 #: src/wx/full_config_dialog.cc:968
 msgid "certificates.barco.com user name"
-msgstr ""
+msgstr "имя пользователя certificates.barco.com"
 
 #: src/wx/full_config_dialog.cc:980
 msgid "certificates.christiedigital.com password"
-msgstr ""
+msgstr "пароль certificates.christiedigital.com"
 
 #: src/wx/full_config_dialog.cc:976
 msgid "certificates.christiedigital.com user name"
-msgstr ""
+msgstr "имя пользователя certificates.christiedigital.com"
 
 #: src/wx/kdm_output_panel.cc:81
-#, fuzzy
 msgid "cinema"
-msgstr "Кинотеатр"
+msgstr "кинотеатр"
 
 #: src/wx/text_panel.cc:75 src/wx/text_panel.cc:475
 msgid "closed captions"
-msgstr ""
+msgstr "скрытые титры"
 
 #: src/wx/video_waveform_dialog.cc:74
 msgid "component value"
@@ -2832,7 +2804,7 @@ msgstr "значение компонента"
 
 #: src/wx/full_config_dialog.cc:1410
 msgid "content filename"
-msgstr ""
+msgstr "имя файла контента"
 
 #: src/wx/audio_gain_dialog.cc:31 src/wx/audio_panel.cc:75
 msgid "dB"
@@ -2840,7 +2812,7 @@ msgstr "дБ"
 
 #: src/wx/config_dialog.cc:906
 msgid "dcpomatic_kdm_decryption_cert.pem"
-msgstr ""
+msgstr "dcpomatic_kdm_decryption_cert.pem"
 
 #: src/wx/name_format_editor.cc:75
 #, c-format
@@ -2853,22 +2825,20 @@ msgid "f"
 msgstr "к"
 
 #: src/wx/kdm_output_panel.cc:80
-#, fuzzy
 msgid "film name"
-msgstr "Название проекта"
+msgstr "название проекта"
 
 #: src/wx/kdm_output_panel.cc:83
 msgid "from date/time"
-msgstr ""
+msgstr "от даты/времени"
 
 #: src/wx/player_config_dialog.cc:93
-#, fuzzy
 msgid "full screen"
-msgstr "Редактировать экран"
+msgstr "полный экран"
 
 #: src/wx/player_config_dialog.cc:94
 msgid "full screen with controls on other monitor"
-msgstr ""
+msgstr "полный экран с управлением на другом мониторе"
 
 #. // TRANSLATORS: this is an abbreviation for "hours"
 #: src/wx/timing_panel.cc:63
@@ -2882,11 +2852,11 @@ msgstr "м"
 
 #: src/wx/player_config_dialog.cc:389
 msgid "milliseconds"
-msgstr ""
+msgstr "миллисекунды"
 
 #: src/wx/player_config_dialog.cc:382
 msgid "minutes"
-msgstr ""
+msgstr "минуты"
 
 #. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
 #: src/wx/audio_panel.cc:89 src/wx/full_config_dialog.cc:370
@@ -2894,23 +2864,20 @@ msgid "ms"
 msgstr "мс"
 
 #: src/wx/full_config_dialog.cc:1409
-#, fuzzy
 msgid "number of reels"
-msgstr "Начало катушки"
+msgstr "количество бобин"
 
 #: src/wx/text_panel.cc:74 src/wx/text_panel.cc:473
-#, fuzzy
 msgid "open subtitles"
-msgstr "Использовать субтитры"
+msgstr "открыть субтитры"
 
 #: src/wx/full_config_dialog.cc:765
 msgid "port"
 msgstr "порт"
 
 #: src/wx/full_config_dialog.cc:1408
-#, fuzzy
 msgid "reel number"
-msgstr "Серийный номер"
+msgstr "номер бобины"
 
 #. // TRANSLATORS: this is an abbreviation for "seconds"
 #: src/wx/full_config_dialog.cc:324 src/wx/timing_panel.cc:74
@@ -2918,9 +2885,8 @@ msgid "s"
 msgstr "с"
 
 #: src/wx/kdm_output_panel.cc:82
-#, fuzzy
 msgid "screen"
-msgstr "Экраны"
+msgstr "экран"
 
 #: src/wx/colour_conversion_editor.cc:78
 msgid "threshold"
@@ -2932,15 +2898,15 @@ msgstr "раз"
 
 #: src/wx/kdm_output_panel.cc:84
 msgid "to date/time"
-msgstr ""
+msgstr "до даты/времени"
 
 #: src/wx/full_config_dialog.cc:1395
 msgid "type (cpl/pkl)"
-msgstr ""
+msgstr "тип (cpl/pkl)"
 
 #: src/wx/full_config_dialog.cc:1407
 msgid "type (j2c/pcm/sub)"
-msgstr ""
+msgstr "тип (j2c/pcm/sub)"
 
 #: src/wx/kdm_timing_panel.cc:50
 msgid "until"
@@ -2948,7 +2914,7 @@ msgstr "до"
 
 #: src/wx/player_config_dialog.cc:92
 msgid "window"
-msgstr ""
+msgstr "окно"
 
 #: src/wx/colour_conversion_editor.cc:127
 msgid "x"
