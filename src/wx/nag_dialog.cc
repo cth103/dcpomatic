@@ -33,7 +33,7 @@ NagDialog::NagDialog (wxWindow* parent, Config::Nag nag, wxString message, bool 
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 	_text = new StaticText (this, wxEmptyString, wxDefaultPosition, wxSize (400, 300));
-	sizer->Add (_text, 1, wxEXPAND | wxALL, 6);
+	sizer->Add (_text, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	wxCheckBox* b = new CheckBox (this, _("Don't show this message again"));
 	sizer->Add (b, 0, wxALL, 6);
