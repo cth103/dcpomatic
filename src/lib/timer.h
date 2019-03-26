@@ -1,6 +1,6 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
-    Copyright (C) 2000-2007 Paul Davis
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+
     This file is part of DCP-o-matic.
 
     DCP-o-matic is free software; you can redistribute it and/or modify
@@ -26,6 +26,7 @@
 #define DCPOMATIC_TIMER_H
 
 #include <sys/time.h>
+#include <boost/optional.hpp>
 #include <string>
 #include <map>
 
@@ -59,20 +60,44 @@ private:
 class StateTimer
 {
 public:
+	explicit StateTimer (std::string n);
 	StateTimer (std::string n, std::string s);
 	~StateTimer ();
 
-	void set_state (std::string s);
+	void set (std::string s);
+	void unset ();
+
+	std::string name () const {
+		return _name;
+	}
+
+	class Counts
+	{
+	public:
+		Counts ()
+			: total_time (0)
+			, number (0)
+		{}
+
+		double total_time;
+		int number;
+	};
+
+	std::map<std::string, Counts> counts () const {
+		return _counts;
+	}
 
 private:
+	void set_internal (boost::optional<std::string> s);
+
 	/** name to add to the output */
 	std::string _name;
 	/** current state */
-	std::string _state;
+	boost::optional<std::string> _state;
 	/** time that _state was entered */
 	double _time;
-	/** time that has been spent in each state so far */
-	std::map<std::string, double> _totals;
+	/** total time and number of entries for each state */
+	std::map<std::string, Counts> _counts;
 };
 
 #endif

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -30,6 +30,7 @@
 #include "i18n.h"
 
 using namespace std;
+using boost::optional;
 
 /** @param n Name to use when giving output */
 PeriodTimer::PeriodTimer (string n)
@@ -58,34 +59,55 @@ StateTimer::StateTimer (string n, string s)
 	_state = s;
 }
 
+StateTimer::StateTimer (string n)
+	: _name (n)
+{
+
+}
+
+void
+StateTimer::set (string s)
+{
+	set_internal (s);
+}
+
 /** @param s New state that the caller is in */
 void
-StateTimer::set_state (string s)
+StateTimer::set_internal (optional<string> s)
 {
 	double const last = _time;
 	struct timeval t;
 	gettimeofday (&t, 0);
 	_time = seconds (t);
 
-	if (_totals.find (s) == _totals.end ()) {
-		_totals[s] = 0;
+	if (s && _counts.find(*s) == _counts.end()) {
+		_counts[*s] = Counts();
 	}
 
-	_totals[_state] += _time - last;
+	if (_state) {
+		_counts[*_state].total_time += _time - last;
+		_counts[*_state].number++;
+	}
 	_state = s;
+}
+
+void
+StateTimer::unset ()
+{
+	set_internal (optional<string>());
 }
 
 /** Destroy StateTimer and generate a summary of the state timings on cout */
 StateTimer::~StateTimer ()
 {
-	if (_state.empty ()) {
+	if (!_state) {
 		return;
 	}
 
-	set_state (N_(""));
+	unset ();
 
 	cout << _name << N_(":\n");
-	for (map<string, double>::iterator i = _totals.begin(); i != _totals.end(); ++i) {
-		cout << N_("\t") << i->first << " " << i->second << N_("\n");
+	for (map<string, Counts>::iterator i = _counts.begin(); i != _counts.end(); ++i) {
+		cout << N_("\t") << i->first << " " << i->second.total_time << " " << i->second.number << " " << (i->second.total_time / i->second.number) << N_("\n");
 	}
 }
