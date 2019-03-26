@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -25,6 +25,7 @@
 #include "lib/film.h"
 #include "lib/config.h"
 #include "lib/player_text.h"
+#include "lib/timer.h"
 #include <RtAudio.h>
 #include <wx/wx.h>
 
@@ -94,6 +95,14 @@ public:
 		refresh_panel ();
 	}
 #endif
+
+	StateTimer const & state_timer () const {
+		return _state_timer;
+	}
+
+	int gets () const {
+		return _gets;
+	}
 
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
 	boost::signals2::signal<void ()> PositionChanged;
@@ -173,6 +182,9 @@ private:
 	int _watermark_y;
 	bool _background_image;
 #endif
+
+	StateTimer _state_timer;
+	int _gets;
 
 	boost::signals2::scoped_connection _config_changed_connection;
 };

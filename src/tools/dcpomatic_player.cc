@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -29,6 +29,7 @@
 #include "wx/verify_dcp_dialog.h"
 #include "wx/standard_controls.h"
 #include "wx/swaroop_controls.h"
+#include "wx/timer_display.h"
 #include "lib/cross.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -108,6 +109,7 @@ enum {
 	ID_help_report_a_problem,
 	ID_tools_verify,
 	ID_tools_check_for_updates,
+	ID_tools_timing,
 	/* IDs for shortcuts (with no associated menu item) */
 	ID_start_stop,
 	ID_back_frame,
@@ -168,6 +170,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_report_a_problem, this), ID_help_report_a_problem);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_verify, this), ID_tools_verify);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_check_for_updates, this), ID_tools_check_for_updates);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_timing, this), ID_tools_timing);
 
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
@@ -498,6 +501,7 @@ private:
 		_tools_verify = tools->Append (ID_tools_verify, _("Verify DCP"));
 		tools->AppendSeparator ();
 		tools->Append (ID_tools_check_for_updates, _("Check for updates"));
+		tools->Append (ID_tools_timing, _("Timing..."));
 
 		wxMenu* help = new wxMenu;
 #ifdef __WXOSX__
@@ -766,6 +770,13 @@ private:
 	{
 		UpdateChecker::instance()->run ();
 		_update_news_requested = true;
+	}
+
+	void tools_timing ()
+	{
+		TimerDisplay* d = new TimerDisplay (this, _viewer->state_timer(), _viewer->gets());
+		d->ShowModal ();
+		d->Destroy ();
 	}
 
 	void help_about ()

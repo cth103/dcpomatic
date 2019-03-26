@@ -92,6 +92,8 @@ FilmViewer::FilmViewer (wxWindow* p)
 	, _in_watermark (false)
 	, _background_image (false)
 #endif
+	, _state_timer ("viewer")
+	, _gets (0)
 {
 #ifndef __WXOSX__
 	_panel->SetDoubleBuffered (true);
@@ -211,14 +213,17 @@ FilmViewer::recreate_butler ()
 void
 FilmViewer::refresh_panel ()
 {
+	_state_timer.set ("refresh-panel");
 	_panel->Refresh ();
 	_panel->Update ();
+	_state_timer.unset ();
 }
 
 void
 FilmViewer::get ()
 {
 	DCPOMATIC_ASSERT (_butler);
+	++_gets;
 
 	do {
 		Butler::Error e;
@@ -275,9 +280,12 @@ FilmViewer::display_player_video ()
 	 * image and convert it (from whatever the user has said it is) to RGB.
 	 */
 
+	_state_timer.set ("get image");
 	_frame = _player_video.first->image (bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true);
 
+	_state_timer.set ("ImageChanged");
 	ImageChanged (_player_video.first);
+	_state_timer.unset ();
 
 	_video_position = _player_video.second;
 	_inter_position = _player_video.first->inter_position ();
@@ -337,12 +345,15 @@ FilmViewer::maybe_draw_background_image (wxPaintDC &)
 void
 FilmViewer::paint_panel ()
 {
+	_state_timer.set ("paint-panel");
+
 	wxPaintDC dc (_panel);
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	if (_background_image) {
 		dc.Clear ();
 		maybe_draw_background_image (dc);
+		_state_timer.unset ();
 		return;
 	}
 #endif
@@ -402,6 +413,8 @@ FilmViewer::paint_panel ()
 		dc.SetBrush (*wxTRANSPARENT_BRUSH);
 		dc.DrawRectangle (_inter_position.x, _inter_position.y + (_panel_size.height - _out_size.height) / 2, _inter_size.width, _inter_size.height);
 	}
+
+	_state_timer.unset ();
 }
 
 void
