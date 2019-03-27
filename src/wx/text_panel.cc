@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -52,6 +52,10 @@ using boost::dynamic_pointer_cast;
 /** @param t Original text type of the content, if known */
 TextPanel::TextPanel (ContentPanel* p, TextType t)
 	: ContentSubPanel (p, std_to_wx(text_type_to_name(t)))
+	, _dcp_track_label (0)
+	, _dcp_track (0)
+	, _language_label (0)
+	, _language (0)
 	, _text_view (0)
 	, _fonts_dialog (0)
 	, _original_type (t)
@@ -96,12 +100,6 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	_line_spacing = new wxSpinCtrl (this);
 	_line_spacing_pc_label = new StaticText (this, _("%"));
 
-	_dcp_track_label = create_label (this, _("DCP track"), true);
-	_dcp_track = new wxChoice (this, wxID_ANY);
-
-	_language_label = create_label (this, _("Language"), true);
-	_language = new wxTextCtrl (this, wxID_ANY);
-
 	_stream_label = create_label (this, _("Stream"), true);
 	_stream = new wxChoice (this, wxID_ANY);
 
@@ -115,10 +113,6 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	_y_scale->SetRange (10, 1000);
 	_line_spacing->SetRange (10, 1000);
 
-	update_dcp_tracks ();
-
-	content_selection_changed ();
-
 	_reference->Bind                (wxEVT_CHECKBOX, boost::bind (&TextPanel::reference_clicked, this));
 	_use->Bind                      (wxEVT_CHECKBOX, boost::bind (&TextPanel::use_toggled, this));
 	_type->Bind                     (wxEVT_CHOICE,   boost::bind (&TextPanel::type_changed, this));
@@ -128,14 +122,65 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	_x_scale->Bind                  (wxEVT_SPINCTRL, boost::bind (&TextPanel::x_scale_changed, this));
 	_y_scale->Bind                  (wxEVT_SPINCTRL, boost::bind (&TextPanel::y_scale_changed, this));
 	_line_spacing->Bind             (wxEVT_SPINCTRL, boost::bind (&TextPanel::line_spacing_changed, this));
-	_dcp_track->Bind                (wxEVT_CHOICE,   boost::bind (&TextPanel::dcp_track_changed, this));
-	_language->Bind                 (wxEVT_TEXT,     boost::bind (&TextPanel::language_changed, this));
 	_stream->Bind                   (wxEVT_CHOICE,   boost::bind (&TextPanel::stream_changed, this));
 	_text_view_button->Bind         (wxEVT_BUTTON,   boost::bind (&TextPanel::text_view_clicked, this));
 	_fonts_dialog_button->Bind      (wxEVT_BUTTON,   boost::bind (&TextPanel::fonts_dialog_clicked, this));
 	_appearance_dialog_button->Bind (wxEVT_BUTTON,   boost::bind (&TextPanel::appearance_dialog_clicked, this));
 
 	add_to_grid();
+	content_selection_changed ();
+}
+
+void
+TextPanel::setup_visibility ()
+{
+	switch (current_type()) {
+	case TEXT_OPEN_SUBTITLE:
+		if (_dcp_track_label) {
+			_dcp_track_label->Destroy ();
+			_dcp_track_label = 0;
+		}
+		if (_dcp_track) {
+			_dcp_track->Destroy ();
+			_dcp_track = 0;
+		}
+		if (!_language_label) {
+			_language_label = create_label (this, _("Language"), true);
+			add_label_to_sizer (_grid, _language_label, true, wxGBPosition(_language_row, 0));
+		}
+		if (!_language) {
+			_language = new wxTextCtrl (this, wxID_ANY);
+			_language->Bind (wxEVT_TEXT, boost::bind(&TextPanel::language_changed, this));
+			_grid->Add (_language, wxGBPosition(_language_row, 1), wxDefaultSpan, wxEXPAND);
+			film_content_changed (TextContentProperty::LANGUAGE);
+		}
+		break;
+	case TEXT_CLOSED_CAPTION:
+		if (_language_label) {
+			_language_label->Destroy ();
+			_language_label = 0;
+		}
+		if (_language) {
+			_language->Destroy ();
+			_language = 0;
+		}
+		if (!_dcp_track_label) {
+			_dcp_track_label = create_label (this, _("CCAP track"), true);
+			add_label_to_sizer (_grid, _dcp_track_label, true, wxGBPosition(_language_row, 0));
+		}
+		if (!_dcp_track) {
+			_dcp_track = new wxChoice (this, wxID_ANY);
+			_dcp_track->Bind (wxEVT_CHOICE, boost::bind(&TextPanel::dcp_track_changed, this));
+			_grid->Add (_dcp_track, wxGBPosition(_language_row, 1), wxDefaultSpan, wxEXPAND);
+			update_dcp_tracks ();
+			film_content_changed (TextContentProperty::DCP_TRACK);
+		}
+		break;
+	default:
+		break;
+	}
+
+	_grid->Layout ();
 }
 
 void
@@ -196,12 +241,8 @@ TextPanel::add_to_grid ()
 		++r;
 	}
 
-	add_label_to_sizer (_grid, _dcp_track_label, true, wxGBPosition(r, 0));
-	_grid->Add (_dcp_track, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
-	++r;
-
-	add_label_to_sizer (_grid, _language_label, true, wxGBPosition (r, 0));
-	_grid->Add (_language, wxGBPosition (r, 1));
+	_language_row = r;
+	setup_visibility ();
 	++r;
 
 	add_label_to_sizer (_grid, _stream_label, true, wxGBPosition (r, 0));
@@ -223,6 +264,8 @@ TextPanel::add_to_grid ()
 void
 TextPanel::update_dcp_track_selection ()
 {
+	DCPOMATIC_ASSERT (_dcp_track);
+
 	optional<DCPTextTrack> selected;
 	bool many = false;
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text()) {
@@ -253,6 +296,8 @@ TextPanel::update_dcp_track_selection ()
 void
 TextPanel::update_dcp_tracks ()
 {
+	DCPOMATIC_ASSERT (_dcp_track);
+
 	_dcp_track->Clear ();
 	BOOST_FOREACH (DCPTextTrack i, _parent->film()->closed_caption_tracks()) {
 		/* XXX: don't display the "magic" track which has empty name and language;
@@ -365,7 +410,7 @@ TextPanel::film_content_changed (int property)
 			_type->SetSelection (0);
 		}
 		setup_sensitivity ();
-		update_dcp_track_selection ();
+		setup_visibility ();
 	} else if (property == TextContentProperty::BURN) {
 		checked_set (_burn, text ? text->burn() : false);
 	} else if (property == TextContentProperty::X_OFFSET) {
@@ -379,9 +424,13 @@ TextPanel::film_content_changed (int property)
 	} else if (property == TextContentProperty::LINE_SPACING) {
 		checked_set (_line_spacing, text ? lrint (text->line_spacing() * 100) : 100);
 	} else if (property == TextContentProperty::LANGUAGE) {
-		checked_set (_language, text ? text->language() : "");
+		if (_language) {
+			checked_set (_language, text ? text->language() : "");
+		}
 	} else if (property == TextContentProperty::DCP_TRACK) {
-		update_dcp_track_selection ();
+		if (_dcp_track) {
+			update_dcp_track_selection ();
+		}
 	} else if (property == DCPContentProperty::REFERENCE_TEXT) {
 		if (scs) {
 			shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (scs);
@@ -424,6 +473,8 @@ TextPanel::type_changed ()
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text()) {
 		i->text_of_original_type(_original_type)->set_type (current_type ());
 	}
+
+	setup_visibility ();
 }
 
 void
@@ -507,10 +558,7 @@ TextPanel::setup_sensitivity ()
 	_y_offset->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
 	_x_scale->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
 	_y_scale->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
-	/* DCP subs ignore the line spacing setting */
 	_line_spacing->Enable (!reference && use && type == TEXT_OPEN_SUBTITLE && dcp_subs < any_subs);
-	_dcp_track->Enable (!reference && any_subs > 0 && use && type == TEXT_CLOSED_CAPTION);
-	_language->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
 	_stream->Enable (!reference && ffmpeg_subs == 1);
 	/* Ideally we would check here to see if the FFmpeg content has "string" subs (i.e. not bitmaps) */
 	_text_view_button->Enable (!reference && any_subs > 0 && ffmpeg_subs == 0);
@@ -584,6 +632,7 @@ TextPanel::line_spacing_changed ()
 void
 TextPanel::language_changed ()
 {
+	DCPOMATIC_ASSERT (_language);
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text ()) {
 		i->text_of_original_type(_original_type)->set_language (wx_to_std (_language->GetValue()));
 	}

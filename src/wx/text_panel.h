@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -56,6 +56,7 @@ private:
 	void add_to_grid ();
 
 	void setup_sensitivity ();
+	void setup_visibility ();
 
 	wxCheckBox* _reference;
 	wxStaticText* _reference_note;
@@ -91,4 +92,6 @@ private:
 	FontsDialog* _fonts_dialog;
 	wxButton* _appearance_dialog_button;
 	TextType _original_type;
+
+	int _language_row;
 };
