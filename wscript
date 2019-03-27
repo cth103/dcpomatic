@@ -100,6 +100,8 @@ def configure(conf):
                                        '-Wno-deprecated-declarations',
                                        '-Wno-ignored-qualifiers',
                                        '-Wno-parentheses',
+                                       # Avoid the endless warnings about _t uninitialized in optional<>
+                                       '-Wno-maybe-uninitialized',
                                        '-D_FILE_OFFSET_BITS=64'])
 
     if conf.options.force_cpp11:
