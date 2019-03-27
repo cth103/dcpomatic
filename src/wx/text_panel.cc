@@ -255,7 +255,12 @@ TextPanel::update_dcp_tracks ()
 {
 	_dcp_track->Clear ();
 	BOOST_FOREACH (DCPTextTrack i, _parent->film()->closed_caption_tracks()) {
-		_dcp_track->Append (std_to_wx(i.summary()));
+		/* XXX: don't display the "magic" track which has empty name and language;
+		   this is a nasty hack (see also Film::closed_caption_tracks)
+		*/
+		if (!i.name.empty() || !i.language.empty()) {
+			_dcp_track->Append (std_to_wx(i.summary()));
+		}
 	}
 
 	if (_parent->film()->closed_caption_tracks().size() < 6) {

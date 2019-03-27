@@ -1662,7 +1662,7 @@ Film::closed_caption_tracks () const
 	list<DCPTextTrack> tt;
 	BOOST_FOREACH (shared_ptr<Content> i, content()) {
 		BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
-			/* XXX: Empty DCPTextTrack ends up being a magic value here */
+			/* XXX: Empty DCPTextTrack ends up being a magic value here - the "unknown" or "not specified" track */
 			DCPTextTrack dtt = j->dcp_track().get_value_or(DCPTextTrack());
 			if (j->type() == TEXT_CLOSED_CAPTION && find(tt.begin(), tt.end(), dtt) == tt.end()) {
 				tt.push_back (dtt);
