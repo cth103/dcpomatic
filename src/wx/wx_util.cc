@@ -158,6 +158,7 @@ message_dialog (wxWindow* parent, wxString m)
 	d->Destroy ();
 }
 
+/** @return true if the user answered "yes" */
 bool
 confirm_dialog (wxWindow* parent, wxString m)
 {

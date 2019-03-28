@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -33,6 +33,7 @@
 #include "wx/editable_list.h"
 #include "wx/static_text.h"
 #include "wx/dcpomatic_button.h"
+#include "wx/nag_dialog.h"
 #include "lib/config.h"
 #include "lib/util.h"
 #include "lib/screen.h"
@@ -520,6 +521,14 @@ private:
 	{
 		shared_ptr<DKDMBase> removed = selected_dkdm ();
 		if (!removed) {
+			return;
+		}
+
+		if (NagDialog::maybe_nag (
+			    this, Config::NAG_DELETE_DKDM,
+			    _("You are about to remove a DKDM.  This will make it impossible to decrypt the DCP that the DKDM was made for, and it cannot be undone.  "
+			      "Are you sure?"),
+			    true)) {
 			return;
 		}
 
