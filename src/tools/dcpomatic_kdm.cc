@@ -382,7 +382,11 @@ private:
 		_output->setup_sensitivity ();
 		wxArrayTreeItemIds sel;
 		_dkdm->GetSelections (sel);
+		shared_ptr<DKDMGroup> group = dynamic_pointer_cast<DKDMGroup>(selected_dkdm());
+		shared_ptr<DKDM> dkdm = dynamic_pointer_cast<DKDM>(selected_dkdm());
 		_create->Enable (!_screens->screens().empty() && sel.GetCount() > 0);
+		_remove_dkdm->Enable (sel.GetCount() > 0 && (!group || group->name() != "root"));
+		_export_dkdm->Enable (sel.GetCount() > 0 && dkdm);
 	}
 
 	void dkdm_begin_drag (wxTreeEvent& ev)
