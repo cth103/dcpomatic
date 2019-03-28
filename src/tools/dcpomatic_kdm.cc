@@ -160,6 +160,8 @@ public:
 		dkdm_buttons->Add (_add_dkdm_folder, 0, wxALL | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
 		_remove_dkdm = new Button (overall_panel, _("Remove"));
 		dkdm_buttons->Add (_remove_dkdm, 0, wxALL | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
+		_export_dkdm = new Button (overall_panel, _("Export..."));
+		dkdm_buttons->Add (_export_dkdm, 0, wxALL | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
 		dkdm_sizer->Add (dkdm_buttons, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 		right->Add (dkdm_sizer, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
 
@@ -189,6 +191,7 @@ public:
 		_add_dkdm->Bind (wxEVT_BUTTON, bind (&DOMFrame::add_dkdm_clicked, this));
 		_add_dkdm_folder->Bind (wxEVT_BUTTON, bind (&DOMFrame::add_dkdm_folder_clicked, this));
 		_remove_dkdm->Bind (wxEVT_BUTTON, bind (&DOMFrame::remove_dkdm_clicked, this));
+		_export_dkdm->Bind (wxEVT_BUTTON, bind (&DOMFrame::export_dkdm_clicked, this));
 
 		setup_sensitivity ();
 	}
@@ -538,6 +541,29 @@ private:
 		Config::instance()->changed ();
 	}
 
+	void export_dkdm_clicked ()
+	{
+		shared_ptr<DKDMBase> removed = selected_dkdm ();
+		if (!removed) {
+			return;
+		}
+
+		shared_ptr<DKDM> dkdm = dynamic_pointer_cast<DKDM>(removed);
+		if (!dkdm) {
+			return;
+		}
+
+		wxFileDialog* d = new wxFileDialog (
+			this, _("Select DKDM File"), wxEmptyString, wxEmptyString, wxT("XML files (*.xml)|*.xml"),
+			wxFD_SAVE | wxFD_OVERWRITE_PROMPT
+			);
+
+		if (d->ShowModal() == wxID_OK) {
+			dkdm->dkdm().as_xml(wx_to_std(d->GetPath()));
+		}
+		d->Destroy ();
+	}
+
 	wxPreferencesEditor* _config_dialog;
 	ScreensPanel* _screens;
 	KDMTimingPanel* _timing;
@@ -547,6 +573,7 @@ private:
 	wxButton* _add_dkdm;
 	wxButton* _add_dkdm_folder;
 	wxButton* _remove_dkdm;
+	wxButton* _export_dkdm;
 	wxButton* _create;
 	KDMOutputPanel* _output;
 	JobViewDialog* _job_view;
