@@ -236,9 +236,16 @@ enum Resolution {
 std::string resolution_to_string (Resolution);
 Resolution string_to_resolution (std::string);
 
-enum Protocol {
-	PROTOCOL_SCP,
-	PROTOCOL_FTP
+enum FileTransferProtocol {
+	FILE_TRANSFER_PROTOCOL_SCP,
+	FILE_TRANSFER_PROTOCOL_FTP
+};
+
+enum EmailProtocol {
+	EMAIL_PROTOCOL_AUTO,
+	EMAIL_PROTOCOL_PLAIN,
+	EMAIL_PROTOCOL_STARTTLS,
+	EMAIL_PROTOCOL_SSL
 };
 
 #endif

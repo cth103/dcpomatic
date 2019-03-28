@@ -695,7 +695,7 @@ private:
 
 	void tms_protocol_changed ()
 	{
-		Config::instance()->set_tms_protocol (static_cast<Protocol> (_tms_protocol->GetSelection ()));
+		Config::instance()->set_tms_protocol(static_cast<FileTransferProtocol>(_tms_protocol->GetSelection()));
 	}
 
 	void tms_ip_changed ()
@@ -766,6 +766,14 @@ private:
 			_port = new wxSpinCtrl (_panel, wxID_ANY);
 			_port->SetRange (0, 65535);
 			s->Add (_port);
+			add_label_to_sizer (s, _panel, _("protocol"), false);
+			_protocol = new wxChoice (_panel, wxID_ANY);
+			/* Make sure this matches the switches in config_changed and port_changed below */
+			_protocol->Append (_("Auto"));
+			_protocol->Append (_("Plain"));
+			_protocol->Append (_("STARTTLS"));
+			_protocol->Append (_("SSL"));
+			s->Add (_protocol);
 			table->Add (s, 1, wxEXPAND | wxALL);
 		}
 
@@ -779,6 +787,7 @@ private:
 
 		_server->Bind (wxEVT_TEXT, boost::bind (&EmailPage::server_changed, this));
 		_port->Bind (wxEVT_SPINCTRL, boost::bind (&EmailPage::port_changed, this));
+		_protocol->Bind (wxEVT_CHOICE, boost::bind (&EmailPage::protocol_changed, this));
 		_user->Bind (wxEVT_TEXT, boost::bind (&EmailPage::user_changed, this));
 		_password->Bind (wxEVT_TEXT, boost::bind (&EmailPage::password_changed, this));
 	}
@@ -789,6 +798,20 @@ private:
 
 		checked_set (_server, config->mail_server ());
 		checked_set (_port, config->mail_port ());
+		switch (config->mail_protocol()) {
+		case EMAIL_PROTOCOL_AUTO:
+			checked_set (_protocol, 0);
+			break;
+		case EMAIL_PROTOCOL_PLAIN:
+			checked_set (_protocol, 1);
+			break;
+		case EMAIL_PROTOCOL_STARTTLS:
+			checked_set (_protocol, 2);
+			break;
+		case EMAIL_PROTOCOL_SSL:
+			checked_set (_protocol, 3);
+			break;
+		}
 		checked_set (_user, config->mail_user ());
 		checked_set (_password, config->mail_password ());
 	}
@@ -803,6 +826,24 @@ private:
 		Config::instance()->set_mail_port (_port->GetValue ());
 	}
 
+	void protocol_changed ()
+	{
+		switch (_protocol->GetSelection()) {
+		case 0:
+			Config::instance()->set_mail_protocol(EMAIL_PROTOCOL_AUTO);
+			break;
+		case 1:
+			Config::instance()->set_mail_protocol(EMAIL_PROTOCOL_PLAIN);
+			break;
+		case 2:
+			Config::instance()->set_mail_protocol(EMAIL_PROTOCOL_STARTTLS);
+			break;
+		case 3:
+			Config::instance()->set_mail_protocol(EMAIL_PROTOCOL_SSL);
+			break;
+		}
+	}
+
 	void user_changed ()
 	{
 		Config::instance()->set_mail_user (wx_to_std (_user->GetValue ()));
@@ -815,6 +856,7 @@ private:
 
 	wxTextCtrl* _server;
 	wxSpinCtrl* _port;
+	wxChoice* _protocol;
 	wxTextCtrl* _user;
 	wxTextCtrl* _password;
 };

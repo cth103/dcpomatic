@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -65,10 +65,10 @@ UploadJob::run ()
 
 	scoped_ptr<Uploader> uploader;
 	switch (Config::instance()->tms_protocol ()) {
-	case PROTOCOL_SCP:
+	case FILE_TRANSFER_PROTOCOL_SCP:
 		uploader.reset (new SCPUploader (bind (&UploadJob::set_status, this, _1), bind (&UploadJob::set_progress, this, _1, false)));
 		break;
-	case PROTOCOL_FTP:
+	case FILE_TRANSFER_PROTOCOL_FTP:
 		uploader.reset (new CurlUploader (bind (&UploadJob::set_status, this, _1), bind (&UploadJob::set_progress, this, _1, false)));
 		break;
 	}

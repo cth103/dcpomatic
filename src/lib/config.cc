@@ -89,7 +89,7 @@ Config::set_defaults ()
 	_use_any_servers = true;
 	_servers.clear ();
 	_only_servers_encode = false;
-	_tms_protocol = PROTOCOL_SCP;
+	_tms_protocol = FILE_TRANSFER_PROTOCOL_SCP;
 	_tms_ip = "";
 	_tms_path = ".";
 	_tms_user = "";
@@ -109,6 +109,7 @@ Config::set_defaults ()
 	_default_upload_after_make_dcp = false;
 	_mail_server = "";
 	_mail_port = 25;
+	_mail_protocol = EMAIL_PROTOCOL_AUTO;
 	_mail_user = "";
 	_mail_password = "";
 	_kdm_from = "";
@@ -286,7 +287,7 @@ try
 	}
 
 	_only_servers_encode = f.optional_bool_child ("OnlyServersEncode").get_value_or (false);
-	_tms_protocol = static_cast<Protocol> (f.optional_number_child<int> ("TMSProtocol").get_value_or (static_cast<int> (PROTOCOL_SCP)));
+	_tms_protocol = static_cast<FileTransferProtocol>(f.optional_number_child<int>("TMSProtocol").get_value_or(static_cast<int>(FILE_TRANSFER_PROTOCOL_SCP)));
 	_tms_ip = f.string_child ("TMSIP");
 	_tms_path = f.string_child ("TMSPath");
 	_tms_user = f.string_child ("TMSUser");
@@ -348,6 +349,21 @@ try
 
 	_mail_server = f.string_child ("MailServer");
 	_mail_port = f.optional_number_child<int> ("MailPort").get_value_or (25);
+
+	{
+		/* Make sure this matches the code in write_config */
+		string const protocol = f.optional_string_child("MailProtocol").get_value_or("Auto");
+		if (protocol == "Auto") {
+			_mail_protocol = EMAIL_PROTOCOL_AUTO;
+		} else if (protocol == "Plain") {
+			_mail_protocol = EMAIL_PROTOCOL_PLAIN;
+		} else if (protocol == "STARTTLS") {
+			_mail_protocol = EMAIL_PROTOCOL_STARTTLS;
+		} else if (protocol == "SSL") {
+			_mail_protocol = EMAIL_PROTOCOL_SSL;
+		}
+	}
+
 	_mail_user = f.optional_string_child("MailUser").get_value_or ("");
 	_mail_password = f.optional_string_child("MailPassword").get_value_or ("");
 
@@ -747,6 +763,21 @@ Config::write_config () const
 	root->add_child("MailServer")->add_child_text (_mail_server);
 	/* [XML] MailPort Port number to use on SMTP server. */
 	root->add_child("MailPort")->add_child_text (raw_convert<string> (_mail_port));
+	/* [XML] MailProtocol Protocol to use on SMTP server (Auto, Plain, STARTTLS or SSL) */
+	switch (_mail_protocol) {
+	case EMAIL_PROTOCOL_AUTO:
+		root->add_child("MailProtocol")->add_child_text("Auto");
+		break;
+	case EMAIL_PROTOCOL_PLAIN:
+		root->add_child("MailProtocol")->add_child_text("Plain");
+		break;
+	case EMAIL_PROTOCOL_STARTTLS:
+		root->add_child("MailProtocol")->add_child_text("STARTTLS");
+		break;
+	case EMAIL_PROTOCOL_SSL:
+		root->add_child("MailProtocol")->add_child_text("SSL");
+		break;
+	}
 	/* [XML] MailUser Username to use on SMTP server. */
 	root->add_child("MailUser")->add_child_text (_mail_user);
 	/* [XML] MailPassword Password to use on SMTP server. */

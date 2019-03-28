@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -99,7 +99,7 @@ Emailer::get_data (void* ptr, size_t size, size_t nmemb)
 }
 
 void
-Emailer::send (string server, int port, string user, string password)
+Emailer::send (string server, int port, EmailProtocol protocol, string user, string password)
 {
 	char date_buffer[128];
 	time_t now = time (0);
@@ -177,11 +177,11 @@ Emailer::send (string server, int port, string user, string password)
 		throw NetworkError ("Could not initialise libcurl");
 	}
 
-	if (port == 465) {
-		/* "Implicit TLS"; I think curl wants us to use smtps here */
-		curl_easy_setopt (curl, CURLOPT_URL, String::compose ("smtps://%1:465", server).c_str());
+	if ((protocol == EMAIL_PROTOCOL_AUTO && port == 465) || protocol == EMAIL_PROTOCOL_SSL) {
+		/* "SSL" or "Implicit TLS"; I think curl wants us to use smtps here */
+		curl_easy_setopt (curl, CURLOPT_URL, String::compose("smtps://%1:%2", server, port).c_str());
 	} else {
-		curl_easy_setopt (curl, CURLOPT_URL, String::compose ("smtp://%1:%2", server, port).c_str());
+		curl_easy_setopt (curl, CURLOPT_URL, String::compose("smtp://%1:%2", server, port).c_str());
 	}
 
 	if (!user.empty ()) {
@@ -210,7 +210,9 @@ Emailer::send (string server, int port, string user, string password)
 	curl_easy_setopt (curl, CURLOPT_READDATA, this);
 	curl_easy_setopt (curl, CURLOPT_UPLOAD, 1L);
 
-	curl_easy_setopt (curl, CURLOPT_USE_SSL, (long) CURLUSESSL_TRY);
+	if (protocol == EMAIL_PROTOCOL_AUTO || protocol == EMAIL_PROTOCOL_STARTTLS) {
+		curl_easy_setopt (curl, CURLOPT_USE_SSL, (long) CURLUSESSL_TRY);
+	}
 	curl_easy_setopt (curl, CURLOPT_SSL_VERIFYPEER, 0L);
 	curl_easy_setopt (curl, CURLOPT_SSL_VERIFYHOST, 0L);
 	curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);

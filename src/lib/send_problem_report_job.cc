@@ -101,7 +101,7 @@ SendProblemReportJob::run ()
 	to.push_back ("carl@dcpomatic.com");
 
 	Emailer emailer (_from, to, "DCP-o-matic problem report", body);
-	emailer.send ("main.carlh.net", 2525);
+	emailer.send ("main.carlh.net", 2525, EMAIL_PROTOCOL_STARTTLS);
 
 	set_progress (1);
 	set_state (FINISHED_OK);

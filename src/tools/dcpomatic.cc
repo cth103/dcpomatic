@@ -1031,7 +1031,7 @@ private:
 			list<string> to;
 			to.push_back ("carl@dcpomatic.com");
 			Emailer emailer (d->email(), to, "DCP-o-matic translations", body);
-			emailer.send ("main.carlh.net", 2525);
+			emailer.send ("main.carlh.net", 2525, EMAIL_PROTOCOL_STARTTLS);
 		}
 
 		d->Destroy ();

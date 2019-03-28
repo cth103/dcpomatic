@@ -116,7 +116,7 @@ public:
 		return _only_servers_encode;
 	}
 
-	Protocol tms_protocol () const {
+	FileTransferProtocol tms_protocol () const {
 		return _tms_protocol;
 	}
 
@@ -227,6 +227,10 @@ public:
 
 	int mail_port () const {
 		return _mail_port;
+	}
+
+	EmailProtocol mail_protocol () const {
+		return _mail_protocol;
 	}
 
 	std::string mail_user () const {
@@ -563,7 +567,7 @@ public:
 		maybe_set (_only_servers_encode, o);
 	}
 
-	void set_tms_protocol (Protocol p) {
+	void set_tms_protocol (FileTransferProtocol p) {
 		maybe_set (_tms_protocol, p);
 	}
 
@@ -680,6 +684,10 @@ public:
 
 	void set_mail_port (int p) {
 		maybe_set (_mail_port, p);
+	}
+
+	void set_mail_protocol (EmailProtocol p) {
+		maybe_set (_mail_protocol, p);
 	}
 
 	void set_mail_user (std::string u) {
@@ -1138,7 +1146,7 @@ private:
 	/** J2K encoding servers that should definitely be used */
 	std::vector<std::string> _servers;
 	bool _only_servers_encode;
-	Protocol _tms_protocol;
+	FileTransferProtocol _tms_protocol;
 	/** The IP address of a TMS that we can copy DCPs to */
 	std::string _tms_ip;
 	/** The path on a TMS that we should write DCPs to */
@@ -1180,6 +1188,7 @@ private:
 	std::list<boost::shared_ptr<Cinema> > _cinemas;
 	std::string _mail_server;
 	int _mail_port;
+	EmailProtocol _mail_protocol;
 	std::string _mail_user;
 	std::string _mail_password;
 	std::string _kdm_subject;

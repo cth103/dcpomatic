@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -30,7 +30,7 @@ public:
 	void add_bcc (std::string bcc);
 	void add_attachment (boost::filesystem::path file, std::string name, std::string mime_type);
 
-	void send (std::string server, int port, std::string user = "", std::string password = "");
+	void send (std::string server, int port, EmailProtocol protocol, std::string user = "", std::string password = "");
 
 	std::string notes () const {
 		return _notes;

@@ -249,7 +249,7 @@ CinemaKDMs::email (
 		Config* c = Config::instance ();
 
 		try {
-			email.send (c->mail_server(), c->mail_port(), c->mail_user(), c->mail_password());
+			email.send (c->mail_server(), c->mail_port(), c->mail_protocol(), c->mail_user(), c->mail_password());
 		} catch (...) {
 			boost::filesystem::remove (zip_file);
 			dcpomatic_log->log ("Email content follows", LogEntry::TYPE_DEBUG_EMAIL);
