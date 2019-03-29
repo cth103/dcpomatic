@@ -179,7 +179,7 @@ def configure(conf):
         conf.env.append_value('LINKFLAGS', '-headerpad_max_install_names')
     else:
         # Avoid the endless warnings about _t uninitialized in optional<>
-        conv.env.append_value('CXXFLAGS', '-Wno-maybe-uninitialized')
+        conf.env.append_value('CXXFLAGS', '-Wno-maybe-uninitialized')
 
     #
     # Dependencies.
