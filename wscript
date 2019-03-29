@@ -100,8 +100,6 @@ def configure(conf):
                                        '-Wno-deprecated-declarations',
                                        '-Wno-ignored-qualifiers',
                                        '-Wno-parentheses',
-                                       # Avoid the endless warnings about _t uninitialized in optional<>
-                                       '-Wno-maybe-uninitialized',
                                        '-D_FILE_OFFSET_BITS=64'])
 
     if conf.options.force_cpp11:
@@ -179,6 +177,9 @@ def configure(conf):
     if conf.env.TARGET_OSX:
         conf.env.append_value('CXXFLAGS', ['-DDCPOMATIC_OSX', '-Wno-unused-function', '-Wno-unused-parameter', '-Wno-unused-local-typedef', '-Wno-potentially-evaluated-expression'])
         conf.env.append_value('LINKFLAGS', '-headerpad_max_install_names')
+    else:
+        # Avoid the endless warnings about _t uninitialized in optional<>
+        conv.env.append_value('CXXFLAGS', '-Wno-maybe-uninitialized')
 
     #
     # Dependencies.
