@@ -569,18 +569,20 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 		if (_film->interop ()) {
 			shared_ptr<dcp::InteropSubtitleAsset> s (new dcp::InteropSubtitleAsset ());
 			s->set_movie_title (_film->name ());
-			if (lang.empty()) {
-				s->set_language ("Unknown");
+			if (type == TEXT_OPEN_SUBTITLE) {
+				s->set_language (lang.empty() ? "Unknown" : lang);
 			} else {
-				s->set_language (lang);
+				s->set_language (track->language);
 			}
 			s->set_reel_number (raw_convert<string> (_reel_index + 1));
 			asset = s;
 		} else {
 			shared_ptr<dcp::SMPTESubtitleAsset> s (new dcp::SMPTESubtitleAsset ());
 			s->set_content_title_text (_film->name ());
-			if (!lang.empty()) {
+			if (type == TEXT_OPEN_SUBTITLE && !lang.empty()) {
 				s->set_language (lang);
+			} else {
+				s->set_language (track->language);
 			}
 			s->set_edit_rate (dcp::Fraction (_film->video_frame_rate (), 1));
 			s->set_reel_number (_reel_index + 1);
