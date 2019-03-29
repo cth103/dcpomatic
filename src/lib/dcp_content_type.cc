@@ -53,6 +53,8 @@ DCPContentType::setup_dcp_content_types ()
 	_dcp_content_types.push_back (new DCPContentType (_("Policy"), dcp::POLICY, N_("POL")));
 	_dcp_content_types.push_back (new DCPContentType (_("Public Service Announcement"), dcp::PUBLIC_SERVICE_ANNOUNCEMENT, N_("PSA")));
 	_dcp_content_types.push_back (new DCPContentType (_("Advertisement"), dcp::ADVERTISEMENT, N_("ADV")));
+	_dcp_content_types.push_back (new DCPContentType (_("Episode"), dcp::EPISODE, N_("EPS")));
+	_dcp_content_types.push_back (new DCPContentType (_("Promo"), dcp::PROMO, N_("PRO")));
 }
 
 DCPContentType const *
