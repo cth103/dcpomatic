@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -66,7 +66,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 	shared_ptr<dcp::CPL> cpl;
 
 	for (int i = 0; i < TEXT_COUNT; ++i) {
-		_has_text[i] = false;
+		_text_count[i] = 0;
 	}
 
 	if (content->cpl ()) {
@@ -170,7 +170,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 				return;
 			}
 
-			_has_text[TEXT_OPEN_SUBTITLE] = true;
+			_text_count[TEXT_OPEN_SUBTITLE] = 1;
 		}
 
 		BOOST_FOREACH (shared_ptr<dcp::ReelClosedCaptionAsset> j, i->closed_captions()) {
@@ -180,7 +180,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 				return;
 			}
 
-			_has_text[TEXT_CLOSED_CAPTION] = true;
+			_text_count[TEXT_CLOSED_CAPTION]++;
 		}
 
 		if (i->main_picture()) {

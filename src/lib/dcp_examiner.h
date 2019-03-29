@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -83,8 +83,11 @@ public:
 		return _audio_frame_rate.get_value_or (48000);
 	}
 
-	bool has_text (TextType type) const {
-		return _has_text[type];
+	/** @param type TEXT_OPEN_SUBTITLE or TEXT_CLOSED_CAPTION.
+	 *  @return Number of assets of this type in this DCP.
+	 */
+	int text_count (TextType type) const {
+		return _text_count[type];
 	}
 
 	bool kdm_valid () const {
@@ -123,7 +126,8 @@ private:
 	bool _has_video;
 	/** true if this DCP has audio content (but false if it has unresolved references to audio content) */
 	bool _has_audio;
-	bool _has_text[TEXT_COUNT];
+	/** number of different assets of each type (OCAP/CCAP) */
+	int _text_count[TEXT_COUNT];
 	bool _encrypted;
 	bool _needs_assets;
 	bool _kdm_valid;

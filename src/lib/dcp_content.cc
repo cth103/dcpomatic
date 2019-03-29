@@ -225,7 +225,7 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		boost::mutex::scoped_lock lm (_mutex);
 		_name = examiner->name ();
 		for (int i = 0; i < TEXT_COUNT; ++i) {
-			if (examiner->has_text(static_cast<TextType>(i))) {
+			for (int j = 0; j < examiner->text_count(static_cast<TextType>(i)); ++j) {
 				text.push_back (shared_ptr<TextContent>(new TextContent(this, static_cast<TextType>(i), static_cast<TextType>(i))));
 			}
 		}
