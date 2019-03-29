@@ -320,9 +320,13 @@ Hints::text (PlayerText text, TextType type, DCPTimePeriod period)
 		_too_many_ccap_lines = true;
 	}
 
-	if (!_overlap_ccap && _last && _last->overlap(period)) {
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+
+	/* XXX: maybe overlapping closed captions (i.e. different languages) are OK with Interop? */
+	if (film->interop() && !_overlap_ccap && _last && _last->overlap(period)) {
 		_overlap_ccap = true;
-		hint (_("You have overlapping closed captions, which are not allowed."));
+		hint (_("You have overlapping closed captions, which are not allowed in Interop DCPs.  Change your DCP standard to SMPTE."));
 	}
 
 	_last = period;
