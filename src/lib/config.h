@@ -1072,10 +1072,16 @@ public:
 	static boost::signals2::signal<void ()> FailedToLoad;
 	/** Emitted if read() issued a warning which the user might want to know about */
 	static boost::signals2::signal<void (std::string)> Warning;
-	/** Emitted if there is a bad certificate in the signer chain.  Handler can call
-	 *  true to ask Config to re-create the chain.
+	/** Emitted if there is a something wrong the contents of our config.  Handler can call
+	 *  true to ask Config to solve the problem (by discarding and recreating the bad thing)
 	 */
-	static boost::signals2::signal<bool (void)> BadSignerChain;
+	enum BadReason {
+		BAD_SIGNER_UTF8_STRINGS,     ///< signer chain contains UTF-8 strings (not PRINTABLESTRING)
+		BAD_SIGNER_INCONSISTENT,     ///< signer chain is somehow inconsistent
+		BAD_DECRYPTION_INCONSISTENT, ///< KDM decryption chain is somehow inconsistent
+	};
+
+	static boost::signals2::signal<bool (BadReason)> Bad;
 
 	void write () const;
 	void write_config () const;

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,14 +19,16 @@
 */
 
 #include "question_dialog.h"
+#include "lib/config.h"
 #include <wx/wx.h>
 #include <list>
 
 class RecreateChainDialog : public QuestionDialog
 {
 public:
-	RecreateChainDialog (wxWindow* parent);
+	RecreateChainDialog (wxWindow* parent, wxString title, wxString message, wxString cancel, boost::optional<Config::Nag> nag = boost::optional<Config::Nag>());
 
 private:
 	void shut_up (wxCommandEvent& ev);
+	boost::optional<Config::Nag> _nag;
 };

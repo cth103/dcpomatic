@@ -69,7 +69,7 @@ Config* Config::_instance = 0;
 int const Config::_current_version = 3;
 boost::signals2::signal<void ()> Config::FailedToLoad;
 boost::signals2::signal<void (string)> Config::Warning;
-boost::signals2::signal<bool (void)> Config::BadSignerChain;
+boost::signals2::signal<bool (Config::BadReason)> Config::Bad;
 
 /** Construct default configuration */
 Config::Config ()
@@ -441,30 +441,6 @@ try
 	}
 #endif
 
-	/* These must be done before we call BadSignerChain as that might set one
-	   of the nags.
-	*/
-	BOOST_FOREACH (cxml::NodePtr i, f.node_children("Nagged")) {
-		int const id = i->number_attribute<int>("Id");
-		if (id >= 0 && id < NAG_COUNT) {
-			_nagged[id] = raw_convert<int>(i->content());
-		}
-	}
-
-	bool bad_signer_chain = false;
-	BOOST_FOREACH (dcp::Certificate const & i, _signer_chain->unordered()) {
-		if (i.has_utf8_strings()) {
-			bad_signer_chain = true;
-		}
-	}
-
-	if (bad_signer_chain) {
-		optional<bool> const remake = BadSignerChain();
-		if (remake && *remake) {
-			_signer_chain = create_certificate_chain ();
-		}
-	}
-
 	cxml::NodePtr decryption = f.optional_node_child ("Decryption");
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	if (decryption && decryption->node_children().size() == 1) {
@@ -492,6 +468,48 @@ try
 		_decryption_chain = create_certificate_chain ();
 	}
 #endif
+
+	/* These must be done before we call Bad as that might set one
+	   of the nags.
+	*/
+	BOOST_FOREACH (cxml::NodePtr i, f.node_children("Nagged")) {
+		int const id = i->number_attribute<int>("Id");
+		if (id >= 0 && id < NAG_COUNT) {
+			_nagged[id] = raw_convert<int>(i->content());
+		}
+	}
+
+	optional<BadReason> bad;
+
+	BOOST_FOREACH (dcp::Certificate const & i, _signer_chain->unordered()) {
+		if (i.has_utf8_strings()) {
+			bad = BAD_SIGNER_UTF8_STRINGS;
+		}
+	}
+
+	if (!_signer_chain->private_key_valid() || !_signer_chain->chain_valid()) {
+		bad = BAD_SIGNER_INCONSISTENT;
+	}
+
+	if (!_decryption_chain->private_key_valid() || !_decryption_chain->chain_valid()) {
+		bad = BAD_DECRYPTION_INCONSISTENT;
+	}
+
+	if (bad) {
+		optional<bool> const remake = Bad(*bad);
+		if (remake && *remake) {
+			switch (*bad) {
+			case BAD_SIGNER_UTF8_STRINGS:
+			case BAD_SIGNER_INCONSISTENT:
+				_signer_chain = create_certificate_chain ();
+				break;
+			case BAD_DECRYPTION_INCONSISTENT:
+				_decryption_chain = create_certificate_chain ();
+				break;
+			}
+		}
+	}
+
 	if (f.optional_node_child("DKDMGroup")) {
 		/* New-style: all DKDMs in a group */
 		_dkdms = dynamic_pointer_cast<DKDMGroup> (DKDMBase::read (f.node_child("DKDMGroup")));

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -28,20 +28,19 @@
 
 using std::list;
 using std::string;
+using boost::optional;
 
-RecreateChainDialog::RecreateChainDialog (wxWindow* parent)
-	: QuestionDialog (parent, _("Certificate chain"), _("Recreate signing certificates"), _("Do nothing"))
+RecreateChainDialog::RecreateChainDialog (wxWindow* parent, wxString title, wxString message, wxString cancel, optional<Config::Nag> nag)
+	: QuestionDialog (parent, _("Certificate chain"), title, cancel)
+	, _nag (nag)
 {
-	wxString const message = _("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs contains a small error\n"
-				   "which will prevent DCPs from being validated correctly on some systems.  Do you want to re-create\n"
-				   "the certificate chain for signing DCPs and KDMs?");
-
 	_sizer->Add (new StaticText (this, message), 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	wxCheckBox* shut_up = new CheckBox (this, _("Don't ask this again"));
-	_sizer->Add (shut_up, 0, wxALL, DCPOMATIC_DIALOG_BORDER);
-
-	shut_up->Bind (wxEVT_CHECKBOX, bind (&RecreateChainDialog::shut_up, this, _1));
+	if (nag) {
+		wxCheckBox* shut_up = new CheckBox (this, _("Don't ask this again"));
+		_sizer->Add (shut_up, 0, wxALL, DCPOMATIC_DIALOG_BORDER);
+		shut_up->Bind (wxEVT_CHECKBOX, bind (&RecreateChainDialog::shut_up, this, _1));
+	}
 
 	layout ();
 }
@@ -49,5 +48,5 @@ RecreateChainDialog::RecreateChainDialog (wxWindow* parent)
 void
 RecreateChainDialog::shut_up (wxCommandEvent& ev)
 {
-	Config::instance()->set_nagged (Config::NAG_BAD_SIGNER_CHAIN, ev.IsChecked());
+	Config::instance()->set_nagged(*_nag, ev.IsChecked());
 }

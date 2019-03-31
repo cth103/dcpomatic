@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -1455,20 +1455,20 @@ public:
 	App ()
 		: wxApp ()
 		, _frame (0)
+		, _splash (0)
 	{}
 
 private:
 
 	bool OnInit ()
 	{
-		wxSplashScreen* splash = 0;
 		try {
 			wxInitAllImageHandlers ();
 
 			Config::FailedToLoad.connect (boost::bind (&App::config_failed_to_load, this));
 			Config::Warning.connect (boost::bind (&App::config_warning, this, _1));
 
-			splash = maybe_show_splash ();
+			_splash = maybe_show_splash ();
 
 			SetAppName (_("DCP-o-matic"));
 
@@ -1506,14 +1506,14 @@ private:
 			*/
 			Config::drop ();
 
-			Config::BadSignerChain.connect (boost::bind (&App::config_bad_signer_chain, this));
+			Config::Bad.connect (boost::bind(&App::config_bad, this, _1));
 
 			_frame = new DOMFrame (_("DCP-o-matic"));
 			SetTopWindow (_frame);
 			_frame->Maximize ();
-			if (splash) {
-				splash->Destroy ();
-				splash = 0;
+			if (_splash) {
+				_splash->Destroy ();
+				_splash = 0;
 			}
 
 			if (!Config::instance()->nagged(Config::NAG_INITIAL_SETUP)) {
@@ -1558,8 +1558,9 @@ private:
 		}
 		catch (exception& e)
 		{
-			if (splash) {
-				splash->Destroy ();
+			if (_splash) {
+				_splash->Destroy ();
+				_splash = 0;
 			}
 			error_dialog (0, wxString::Format ("DCP-o-matic could not start."), std_to_wx(e.what()));
 		}
@@ -1659,19 +1660,73 @@ private:
 		message_dialog (_frame, std_to_wx (m));
 	}
 
-	bool config_bad_signer_chain ()
+	bool config_bad (Config::BadReason reason)
 	{
-		if (Config::instance()->nagged(Config::NAG_BAD_SIGNER_CHAIN)) {
-			return false;
-		}
+		/* Destroy the splash screen here, as otherwise bad things seem to happen (for reasons unknown)
+		   when we open our recreate dialog, close it, *then* try to Destroy the splash (the Destroy fails).
+		*/
+		_splash->Destroy ();
+		_splash = 0;
 
-		RecreateChainDialog* d = new RecreateChainDialog (_frame);
-		int const r = d->ShowModal ();
-		d->Destroy ();
-		return r == wxID_OK;
+		Config* config = Config::instance();
+		switch (reason) {
+		case Config::BAD_SIGNER_UTF8_STRINGS:
+		{
+			if (config->nagged(Config::NAG_BAD_SIGNER_CHAIN)) {
+				return false;
+			}
+			RecreateChainDialog* d = new RecreateChainDialog (
+				_frame, _("Recreate signing certificates"),
+				_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs contains a small error\n"
+				  "which will prevent DCPs from being validated correctly on some systems.  Do you want to re-create\n"
+				  "the certificate chain for signing DCPs and KDMs?"),
+				_("Do nothing"),
+				Config::NAG_BAD_SIGNER_CHAIN
+				);
+			int const r = d->ShowModal ();
+			d->Destroy ();
+			return r == wxID_OK;
+		}
+		case Config::BAD_SIGNER_INCONSISTENT:
+		{
+			RecreateChainDialog* d = new RecreateChainDialog (
+				_frame, _("Recreate signing certificates"),
+				_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs is inconsistent and\n"
+				  "cannot be used.  DCP-o-matic cannot start unless you re-create it.  Do you want to re-create\n"
+				  "the certificate chain for signing DCPs and KDMs?"),
+				_("Close DCP-o-matic")
+				);
+			int const r = d->ShowModal ();
+			d->Destroy ();
+			if (r != wxID_OK) {
+				exit (EXIT_FAILURE);
+			}
+			return true;
+		}
+		case Config::BAD_DECRYPTION_INCONSISTENT:
+		{
+			RecreateChainDialog* d = new RecreateChainDialog (
+				_frame, _("Recreate KDM decryption chain"),
+				_("The certificate chain that DCP-o-matic uses for decrypting KDMs is inconsistent and\n"
+				  "cannot be used.  DCP-o-matic cannot start unless you re-create it.  Do you want to re-create\n"
+				  "the certificate chain for decrypting KDMs?  You may want to say \"No\" here and back up your\n"
+				  "configuration before continuing."),
+				_("Close DCP-o-matic")
+				);
+			int const r = d->ShowModal ();
+			d->Destroy ();
+			if (r != wxID_OK) {
+				exit (EXIT_FAILURE);
+			}
+			return true;
+		}
+		default:
+			DCPOMATIC_ASSERT (false);
+		}
 	}
 
 	DOMFrame* _frame;
+	wxSplashScreen* _splash;
 	shared_ptr<wxTimer> _timer;
 	string _film_to_load;
 	string _film_to_create;
