@@ -208,11 +208,15 @@ Controls::slider_moved (bool page)
 
 	DCPTime t (_slider->GetValue() * _film->length().get() / 4096);
 	t = t.round (_film->video_frame_rate());
-	/* Ensure that we hit the end of the film at the end of the slider */
+	/* Ensure that we hit the end of the film at the end of the slider.  In particular, we
+	   need to do an accurate seek in case there isn't a keyframe near the end.
+	*/
+	bool accurate = false;
 	if (t >= _film->length ()) {
 		t = _film->length() - _viewer->one_video_frame();
+		accurate = true;
 	}
-	_viewer->seek (t, false);
+	_viewer->seek (t, accurate);
 	update_position_label ();
 
 	log (
