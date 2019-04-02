@@ -722,32 +722,35 @@ Film::isdcf_name (bool if_created_now) const
 
 	if (!dm.audio_language.empty ()) {
 		d += "_" + dm.audio_language;
-		if (!dm.subtitle_language.empty()) {
 
-			/* I'm not clear on the precise details of the convention for CCAP labelling;
-			   for now I'm just appending -CCAP if we have any closed captions.
-			*/
+		/* I'm not clear on the precise details of the convention for CCAP labelling;
+		   for now I'm just appending -CCAP if we have any closed captions.
+		*/
 
-			bool burnt_in = true;
-			bool ccap = false;
-			BOOST_FOREACH (shared_ptr<Content> i, content()) {
-				BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
-					if (j->type() == TEXT_OPEN_SUBTITLE && j->use() && !j->burn()) {
+		optional<string> subtitle_language;
+		bool burnt_in = true;
+		bool ccap = false;
+		BOOST_FOREACH (shared_ptr<Content> i, content()) {
+			BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
+				if (j->type() == TEXT_OPEN_SUBTITLE && j->use()) {
+					subtitle_language = j->language ();
+					if (!j->burn()) {
 						burnt_in = false;
-					} else if (j->type() == TEXT_CLOSED_CAPTION) {
-						ccap = true;
 					}
+				} else if (j->type() == TEXT_CLOSED_CAPTION && j->use()) {
+					ccap = true;
 				}
 			}
+		}
 
-			string language = dm.subtitle_language;
-			if (burnt_in && language != "XX") {
-				transform (language.begin(), language.end(), language.begin(), ::tolower);
+		if (subtitle_language) {
+			if (burnt_in && *subtitle_language != "XX") {
+				transform (subtitle_language->begin(), subtitle_language->end(), subtitle_language->begin(), ::tolower);
 			} else {
-				transform (language.begin(), language.end(), language.begin(), ::toupper);
+				transform (subtitle_language->begin(), subtitle_language->end(), subtitle_language->begin(), ::toupper);
 			}
 
-			d += "-" + language;
+			d += "-" + *subtitle_language;
 			if (ccap) {
 				d += "-CCAP";
 			}

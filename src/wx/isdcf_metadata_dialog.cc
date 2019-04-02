@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -41,9 +41,6 @@ ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm, bo
 	add (_("Audio Language (e.g. EN)"), true);
 	_audio_language = add (new wxTextCtrl (this, wxID_ANY));
 
-	add (_("Subtitle Language (e.g. FR)"), true);
-	_subtitle_language = add (new wxTextCtrl (this, wxID_ANY));
-
 	add (_("Territory (e.g. UK)"), true);
 	_territory = add (new wxTextCtrl (this, wxID_ANY));
 
@@ -82,7 +79,6 @@ ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm, bo
 
 	_content_version->SetValue (dm.content_version);
 	_audio_language->SetValue (std_to_wx (dm.audio_language));
-	_subtitle_language->SetValue (std_to_wx (dm.subtitle_language));
 	_territory->SetValue (std_to_wx (dm.territory));
 	_rating->SetValue (std_to_wx (dm.rating));
 	_studio->SetValue (std_to_wx (dm.studio));
@@ -104,7 +100,6 @@ ISDCFMetadataDialog::isdcf_metadata () const
 
 	dm.content_version = _content_version->GetValue ();
 	dm.audio_language = wx_to_std (_audio_language->GetValue ());
-	dm.subtitle_language = wx_to_std (_subtitle_language->GetValue ());
 	dm.territory = wx_to_std (_territory->GetValue ());
 	dm.rating = wx_to_std (_rating->GetValue ());
 	dm.studio = wx_to_std (_studio->GetValue ());

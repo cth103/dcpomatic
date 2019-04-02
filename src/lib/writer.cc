@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -35,6 +35,7 @@
 #include "font.h"
 #include "util.h"
 #include "reel_writer.h"
+#include "text_content.h"
 #include <dcp/cpl.h>
 #include <dcp/locale_convert.h>
 #include <boost/foreach.hpp>
@@ -591,7 +592,16 @@ Writer::write_cover_sheet ()
 	boost::algorithm::replace_all (text, "$TYPE", _film->dcp_content_type()->pretty_name());
 	boost::algorithm::replace_all (text, "$CONTAINER", _film->container()->container_nickname());
 	boost::algorithm::replace_all (text, "$AUDIO_LANGUAGE", _film->isdcf_metadata().audio_language);
-	boost::algorithm::replace_all (text, "$SUBTITLE_LANGUAGE", _film->isdcf_metadata().subtitle_language);
+
+	optional<string> subtitle_language;
+	BOOST_FOREACH (shared_ptr<Content> i, _film->content()) {
+		BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
+			if (j->type() == TEXT_OPEN_SUBTITLE && j->use()) {
+				subtitle_language = j->language ();
+			}
+		}
+	}
+	boost::algorithm::replace_all (text, "$SUBTITLE_LANGUAGE", subtitle_language.get_value_or("None"));
 
 	boost::uintmax_t size = 0;
 	for (

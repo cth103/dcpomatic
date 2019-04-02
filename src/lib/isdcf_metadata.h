@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -46,7 +46,6 @@ public:
 
 	int content_version;
 	std::string audio_language;
-	std::string subtitle_language;
 	std::string territory;
 	std::string rating;
 	std::string studio;

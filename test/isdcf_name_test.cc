@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -32,6 +32,8 @@
 #include "lib/audio_mapping.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/audio_content.h"
+#include "lib/content_factory.h"
+#include "lib/text_content.h"
 #include "test.h"
 #include <iostream>
 
@@ -51,7 +53,6 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	ISDCFMetadata m;
 	m.content_version = 1;
 	m.audio_language = "EN";
-	m.subtitle_language = "XX";
 	m.territory = "UK";
 	m.rating = "PG";
 	m.studio = "ST";
@@ -68,9 +69,14 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->_isdcf_date = boost::gregorian::date (2014, boost::gregorian::Jul, 4);
 	film->set_audio_channels (1);
 	film->set_resolution (RESOLUTION_4K);
+	shared_ptr<Content> text = content_factory("test/data/subrip.srt").front();
+	BOOST_REQUIRE_EQUAL (text->text.size(), 1);
+	text->text.front()->set_language ("fr");
+	text->text.front()->set_burn (true);
+	film->examine_and_add_content (text);
+	BOOST_REQUIRE (!wait_for_jobs());
 	m.content_version = 2;
 	m.audio_language = "DE";
-	m.subtitle_language = "FR";
 	m.territory = "US";
 	m.rating = "R";
 	m.studio = "DI";
