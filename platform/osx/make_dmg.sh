@@ -129,6 +129,7 @@ function copy_resources {
     cp $ROOT/32/src/dcpomatic/fonts/LiberationSans-Regular.ttf "$dest"
     cp $ROOT/32/src/dcpomatic/fonts/LiberationSans-Italic.ttf "$dest"
     cp $ROOT/32/src/dcpomatic/fonts/LiberationSans-Bold.ttf "$dest"
+    cp $ROOT/32/src/dcpomatic/fonts/fonts.conf.osx "$dest"/fonts.conf
     cp $ROOT/32/src/dcpomatic/graphics/splash.png "$dest"
     cp $ROOT/32/src/dcpomatic/graphics/zoom.png "$dest"
     cp $ROOT/32/src/dcpomatic/graphics/zoom_all.png "$dest"

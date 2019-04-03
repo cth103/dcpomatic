@@ -379,7 +379,7 @@ dcpomatic_setup ()
 	Pango::init ();
 	dcp::init ();
 
-#ifdef DCPOMATIC_WINDOWS
+#if defined(DCPOMATIC_WINDOWS) || defined(DCPOMATIC_OSX)
 	/* Render something to fontconfig to create its cache */
 	list<StringText> subs;
 	dcp::SubtitleString ss(
