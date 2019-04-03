@@ -1,0 +1,6 @@
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOME/osx-environment/64/lib/pkgconfig:$HOME/lib/pkgconfig
+export PATH=$PATH:$HOME/osx-environment/64/bin
+export CXXFLAGS="-I$HOME/osx-environment/64/include -isysroot $HOME/SDK/MacOSX10.6.sdk -arch x86_64"
+export LINKFLAGS="-L$HOME/osx-environment/64/lib -isysroot $HOME/SDK/MacOSX10.6.sdk -arch x86_64"
+export MACOSX_DEPLOYMENT_TARGET=10.6
+
