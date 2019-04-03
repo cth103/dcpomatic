@@ -427,8 +427,8 @@ public:
 				);
 		}
 
-		for (list<string>::const_iterator i = notes.begin(); i != notes.end(); ++i) {
-			error_dialog (0, std_to_wx (*i));
+		BOOST_FOREACH (string i, notes) {
+			error_dialog (0, std_to_wx(i));
 		}
 
 		set_film (film);
