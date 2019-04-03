@@ -33,6 +33,8 @@ using dcp::raw_convert;
 ISDCFMetadata::ISDCFMetadata (cxml::ConstNodePtr node)
 	: content_version (node->number_child<int> ("ContentVersion"))
 	, audio_language (node->string_child ("AudioLanguage"))
+	  /* Old versions contained this tag, but not these details are held in content */
+	, has_subtitle_language (static_cast<bool>(node->optional_node_child("SubtitleLanguage")))
 	, territory (node->string_child ("Territory"))
 	, rating (node->string_child ("Rating"))
 	, studio (node->string_child ("Studio"))

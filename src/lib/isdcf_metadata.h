@@ -46,6 +46,7 @@ public:
 
 	int content_version;
 	std::string audio_language;
+	bool has_subtitle_language;
 	std::string territory;
 	std::string rating;
 	std::string studio;

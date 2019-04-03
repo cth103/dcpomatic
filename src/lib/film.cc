@@ -478,6 +478,13 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 		_isdcf_date = boost::gregorian::from_undelimited_string (f.string_child ("DCIDate"));
 	}
 
+	list<string> notes;
+
+	if (_isdcf_metadata.has_subtitle_language) {
+		notes.push_back(_("This film had a subtitle language, configured within the ISDCF metadata dialogue, which will be ignored by this version of DCP-o-matic.  "
+				  "Please set the language for each piece of subtitle or closed-caption content in the film."));
+	}
+
 	{
 		optional<string> c = f.optional_string_child ("DCPContentType");
 		if (c) {
@@ -530,8 +537,6 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	_reencode_j2k = f.optional_bool_child("ReencodeJ2K").get_value_or(false);
 	_user_explicit_video_frame_rate = f.optional_bool_child("UserExplicitVideoFrameRate").get_value_or(false);
 
-	list<string> notes;
-	/* This method is the only one that can return notes (so far) */
 	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"), _state_version, notes);
 
 	/* Write backtraces to this film's directory, until another film is loaded */
