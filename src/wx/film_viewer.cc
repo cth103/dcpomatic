@@ -84,7 +84,7 @@ FilmViewer::FilmViewer (wxWindow* p)
 	, _playing (false)
 	, _latency_history_count (0)
 	, _dropped (0)
-	, _closed_captions_dialog (new ClosedCaptionsDialog(p))
+	, _closed_captions_dialog (new ClosedCaptionsDialog(p, this))
 	, _outline_content (false)
 	, _eyes (EYES_LEFT)
 	, _pad_black (false)
@@ -201,7 +201,7 @@ FilmViewer::recreate_butler ()
 		_butler->disable_audio ();
 	}
 
-	_closed_captions_dialog->set_butler (_butler);
+	_closed_captions_dialog->set_film_and_butler (_film, _butler);
 
 	if (was_running) {
 		start ();

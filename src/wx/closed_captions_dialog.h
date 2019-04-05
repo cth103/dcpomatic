@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,21 +24,28 @@
 #include <wx/wx.h>
 
 class Butler;
+class FilmViewer;
 
 class ClosedCaptionsDialog : public wxDialog
 {
 public:
-	explicit ClosedCaptionsDialog (wxWindow* parent);
+	explicit ClosedCaptionsDialog (wxWindow* parent, FilmViewer* viewer);
 
 	void update (DCPTime);
 	void clear ();
-	void set_butler (boost::weak_ptr<Butler>);
+	void set_film_and_butler (boost::shared_ptr<Film>, boost::weak_ptr<Butler>);
 
 private:
 	void paint ();
+	void track_selected ();
 
+	FilmViewer* _viewer;
+	wxPanel* _display;
+	wxChoice* _track;
 	boost::optional<TextRingBuffers::Data> _current;
 	bool _current_in_lines;
 	std::vector<wxString> _lines;
+	std::vector<DCPTextTrack> _tracks;
 	boost::weak_ptr<Butler> _butler;
+	DCPTime _last_update;
 };

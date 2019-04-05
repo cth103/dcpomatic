@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,8 +19,12 @@
 */
 
 #include "closed_captions_dialog.h"
+#include "wx_util.h"
+#include "film_viewer.h"
 #include "lib/string_text.h"
 #include "lib/butler.h"
+#include "lib/text_content.h"
+#include "lib/compose.hpp"
 #include <boost/bind.hpp>
 
 using std::list;
@@ -32,28 +36,52 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::optional;
 
-ClosedCaptionsDialog::ClosedCaptionsDialog (wxWindow* parent)
-        /* XXX: empirical and probably unhelpful default size here; needs to be related to font metrics */
-	: wxDialog (parent, wxID_ANY, _("Closed captions"), wxDefaultPosition, wxSize(640, (640 / 10) + 64),
+ClosedCaptionsDialog::ClosedCaptionsDialog (wxWindow* parent, FilmViewer* viewer)
+	: wxDialog (parent, wxID_ANY, _("Closed captions"), wxDefaultPosition, wxDefaultSize,
 #ifdef DCPOMATIC_OSX
-		/* I can't get wxFRAME_FLOAT_ON_PARENT to work on OS X, and although wxSTAY_ON_TOP keeps
-		   the window above all others (and not just our own) it's better than nothing for now.
-		*/
-		wxDEFAULT_FRAME_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE | wxSTAY_ON_TOP
+		    /* I can't get wxFRAME_FLOAT_ON_PARENT to work on OS X, and although wxSTAY_ON_TOP keeps
+		       the window above all others (and not just our own) it's better than nothing for now.
+		    */
+		    wxDEFAULT_FRAME_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE | wxSTAY_ON_TOP
 #else
-		wxDEFAULT_FRAME_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE | wxFRAME_FLOAT_ON_PARENT
+		    wxDEFAULT_FRAME_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE | wxFRAME_FLOAT_ON_PARENT
 #endif
 		)
+	, _viewer (viewer)
+	  /* XXX: empirical and probably unhelpful default size here; needs to be related to font metrics */
+        , _display (new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(640, (640 / 10) + 64)))
+	, _track (new wxChoice(this, wxID_ANY))
 	, _current_in_lines (false)
 {
 	_lines.resize (CLOSED_CAPTION_LINES);
-	Bind (wxEVT_PAINT, boost::bind (&ClosedCaptionsDialog::paint, this));
+
+	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+
+	wxBoxSizer* track_sizer = new wxBoxSizer (wxHORIZONTAL);
+	add_label_to_sizer (track_sizer, this, _("Track"), true);
+	track_sizer->Add (_track, 0, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_X_GAP);
+
+	sizer->Add (track_sizer, 0, wxALL, DCPOMATIC_SIZER_GAP);
+	sizer->Add (_display, 1, wxEXPAND);
+
+	_display->Bind (wxEVT_PAINT, boost::bind(&ClosedCaptionsDialog::paint, this));
+	_track->Bind (wxEVT_CHOICE, boost::bind(&ClosedCaptionsDialog::track_selected, this));
+
+	SetSizerAndFit (sizer);
+}
+
+void
+ClosedCaptionsDialog::track_selected ()
+{
+	_current = optional<TextRingBuffers::Data> ();
+	_viewer->slow_refresh ();
+	update (_last_update);
 }
 
 void
 ClosedCaptionsDialog::paint ()
 {
-	wxPaintDC dc (this);
+	wxPaintDC dc (_display);
 	dc.SetBackground (*wxBLACK_BRUSH);
 	dc.Clear ();
 	dc.SetTextForeground (*wxWHITE);
@@ -104,7 +132,9 @@ private:
 void
 ClosedCaptionsDialog::update (DCPTime time)
 {
-	if (_current_in_lines && _current->period.to > time) {
+	_last_update = time;
+
+	if (_current_in_lines && _current && _current->period.to > time) {
 		/* Current one is fine */
 		return;
 	}
@@ -122,7 +152,19 @@ ClosedCaptionsDialog::update (DCPTime time)
 		/* We have no current one: get another */
 		shared_ptr<Butler> butler = _butler.lock ();
 		DCPOMATIC_ASSERT (butler);
-		_current = butler->get_closed_caption ();
+		DCPOMATIC_ASSERT (_track->GetSelection() < int(_tracks.size()));
+		DCPTextTrack track = _tracks[_track->GetSelection()];
+		while (true) {
+			optional<TextRingBuffers::Data> d = butler->get_closed_caption ();
+			if (!d) {
+				break;
+			}
+			if (d->track == track) {
+				_current = d;
+				break;
+			}
+		}
+
 		_current_in_lines = false;
 	}
 
@@ -159,7 +201,28 @@ ClosedCaptionsDialog::clear ()
 }
 
 void
-ClosedCaptionsDialog::set_butler (weak_ptr<Butler> butler)
+ClosedCaptionsDialog::set_film_and_butler (shared_ptr<Film> film, weak_ptr<Butler> butler)
 {
+	_tracks.clear ();
+
+	BOOST_FOREACH (shared_ptr<Content> i, film->content()) {
+		BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
+			if (j->use() && j->type() == TEXT_CLOSED_CAPTION && j->dcp_track()) {
+				if (find(_tracks.begin(), _tracks.end(), j->dcp_track()) == _tracks.end()) {
+					_tracks.push_back (*j->dcp_track());
+				}
+			}
+		}
+	}
+
+	_track->Clear ();
+	BOOST_FOREACH (DCPTextTrack const & i, _tracks) {
+		_track->Append (std_to_wx(String::compose("%1 (%2)", i.name, i.language)));
+	}
+
+	if (_track->GetCount() > 0) {
+		_track->SetSelection (0);
+	}
+
 	_butler = butler;
 }
