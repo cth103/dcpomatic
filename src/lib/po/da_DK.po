@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-24 00:53+0000\n"
-"PO-Revision-Date: 2017-10-04 21:45+0200\n"
+"PO-Revision-Date: 2019-04-06 12:29+0200\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
 "Language: da_DK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 2.1.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/video_content.cc:444
@@ -94,7 +94,7 @@ msgstr ""
 
 #: src/lib/config.cc:1136
 msgid "$JOB_NAME: $JOB_STATUS"
-msgstr ""
+msgstr "$JOB_NAME: $JOB_STATUS"
 
 #: src/lib/atmos_mxf_content.cc:83
 msgid "%1 [Atmos]"
@@ -194,16 +194,15 @@ msgid "Advertisement"
 msgstr "Reklamer (ADV)"
 
 #: src/lib/hints.cc:147
-#, fuzzy
 msgid ""
 "All of your content is 2.35:1 or narrower but your DCP's container is Scope "
 "(2.39:1).  This will pillar-box your content.  You may prefer to set your "
 "DCP's container to have the same ratio as your content."
 msgstr ""
-"Alt dit indhold er 1.85:1 eller smallere, men din DCP's container er Scope "
-"(2.39:1). Dette vil give sorte søjler i siderne af et Flat (1.85:1) billede. "
-"Du vil måske foretrække at sætte din DCP's container til Flat (1.85:1) i "
-"fanen \"DCP\"."
+"Alt dit indhold er 2.35:1 eller smallere, men din DCP's container er Scope "
+"(2.39:1).  Dette vil give sorte søjler i siderne af dit indhold.  Du vil "
+"måske foretrække at sætte din DCP's container til at have samme "
+"størrelsesforhold som dit indhold."
 
 #: src/lib/hints.cc:143
 msgid ""
@@ -222,9 +221,8 @@ msgid "An error occurred whilst handling the file %1."
 msgstr "Der skete en fejl, mens der blev arbejdet på filen %1."
 
 #: src/lib/analyse_audio_job.cc:96
-#, fuzzy
 msgid "Analysing audio"
-msgstr "Analyser lyd"
+msgstr "Analyserer lyd"
 
 #: src/lib/audio_content.cc:257
 msgid "Audio will be resampled from %1Hz to %2Hz"
@@ -264,7 +262,7 @@ msgstr "BT2020 variabel luminans"
 
 #: src/lib/ffmpeg_content.cc:636
 msgid "BT2100"
-msgstr ""
+msgstr "BT2100"
 
 #: src/lib/ffmpeg_content.cc:573
 msgid "BT470BG"
@@ -304,9 +302,8 @@ msgid "Cancelled"
 msgstr "Annulleret"
 
 #: src/lib/film.cc:304
-#, fuzzy
 msgid "Cannot contain slashes"
-msgstr "må ikke indeholde skråstreger"
+msgstr "Må ikke indeholde skråstreger"
 
 #: src/lib/exceptions.cc:61
 msgid "Cannot handle pixel format %1 during %2"
@@ -314,7 +311,7 @@ msgstr "Kan ikke håndtere pixelformat %1 under %2"
 
 #: src/lib/film.cc:1324
 msgid "Cannot make a KDM as this project is not encrypted."
-msgstr ""
+msgstr "Kan ikke generere en KDM da projektet ikke er krypteret."
 
 #: src/lib/util.cc:541
 msgid "Centre"
@@ -326,7 +323,7 @@ msgstr "Lyd kanaler"
 
 #: src/lib/check_content_change_job.cc:46
 msgid "Checking content for changes"
-msgstr ""
+msgstr "Undersøger om der er ændringer i indholdet"
 
 #: src/lib/reel_writer.cc:100
 msgid "Checking existing image data"
@@ -334,22 +331,19 @@ msgstr "Verificerer eksisterende billeddata"
 
 #: src/lib/check_content_change_job.cc:90
 msgid "Choose 'Make DCP' again when you have done this."
-msgstr ""
+msgstr "Vælg 'Fremstil DCP' igen når du har gjort dette."
 
 #: src/lib/ffmpeg_content.cc:635
-#, fuzzy
 msgid "Chroma-derived constant luminance"
-msgstr "BT2020 konstant luminans"
+msgstr "Chroma-afledt konstant luminans"
 
 #: src/lib/ffmpeg_content.cc:634
-#, fuzzy
 msgid "Chroma-derived non-constant luminance"
-msgstr "BT2020 variabel luminans"
+msgstr "Chroma-afledt ikke-konstant luminans"
 
 #: src/lib/types.cc:139
-#, fuzzy
 msgid "Closed captions"
-msgstr "Støjreduktion"
+msgstr "Lukkede billedtekster"
 
 #: src/lib/ffmpeg_content.cc:594
 msgid "Colour primaries"
@@ -393,7 +387,7 @@ msgstr "Indhold og DCP har samme billedhastighed.\n"
 
 #: src/lib/audio_content.cc:293
 msgid "Content audio sample rate"
-msgstr ""
+msgstr "Lydindholds sample rate"
 
 #: src/lib/ffmpeg_content.cc:151
 msgid "Content to be joined must all have or not have audio"
@@ -401,11 +395,10 @@ msgstr ""
 "Elementer der skal splejses skal enten alle have lyd eller slet ikke have lyd"
 
 #: src/lib/ffmpeg_content.cc:154
-#, fuzzy
 msgid "Content to be joined must all have or not have subtitles or captions"
 msgstr ""
-"Elementer der skal splejses skal enten alle have undertekster eller slet "
-"ikke have undertekster"
+"Elementer der skal splejses skal alle have eller slet ikke have undertekster "
+"eller billedtekster"
 
 #: src/lib/ffmpeg_content.cc:148
 msgid "Content to be joined must all have or not have video"
@@ -491,9 +484,8 @@ msgid "Content to be joined must have the same video frame type."
 msgstr "Indhold der skal splejses skal have samme billedtype."
 
 #: src/lib/text_content.cc:297
-#, fuzzy
 msgid "Content to be joined must use the same DCP track."
-msgstr "Indhold der skal splejses skal bruge samme skrifttype."
+msgstr "Indhold der skal splejses skal bruge det samme DCP-spor."
 
 #: src/lib/text_content.cc:293 src/lib/text_content.cc:305
 msgid "Content to be joined must use the same fonts."
@@ -524,9 +516,8 @@ msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Kunne ikke læse JPEG2000 fil %1 (%2)"
 
 #: src/lib/ffmpeg_image_proxy.cc:152
-#, fuzzy
 msgid "Could not decode image (%1)"
-msgstr "Kunne ikke afkode billedfil (%1)"
+msgstr "Kunne ikke afkode billedet (%1)"
 
 #: src/lib/encode_server_finder.cc:193
 msgid ""
@@ -549,14 +540,12 @@ msgid "Could not open downloaded ZIP file"
 msgstr "Kunne ikke åbne downloadet ZIP-fil"
 
 #: src/lib/internet.cc:127
-#, fuzzy
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
-msgstr "Kunne ikke åbne downloadet ZIP-fil"
+msgstr "Den hentede ZIP-fil (%1:%2: %3) kunne ikke åbnes."
 
 #: src/lib/config.cc:1039
-#, fuzzy
 msgid "Could not open file for writing"
-msgstr "kunne ikke åbne fil (%1) til skrivning (%2)"
+msgstr "Kunne ikke åbne fil til skrivning"
 
 #: src/lib/dcp_subtitle.cc:55
 msgid "Could not read subtitles (%1 / %2)"
@@ -604,7 +593,7 @@ msgstr "DCP XML undertekster"
 
 #: src/lib/audio_content.cc:313
 msgid "DCP sample rate"
-msgstr ""
+msgstr "DCP sample rate"
 
 #: src/lib/frame_rate_change.cc:114
 #, c-format
@@ -616,19 +605,21 @@ msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP vil bruge hvert andet billede fra indholdet.\n"
 
 #: src/lib/job.cc:124 src/lib/job.cc:139
-#, fuzzy
 msgid ""
 "DCP-o-matic could not open the file %1 (%2).  Perhaps it does not exist or "
 "is in an unexpected format."
 msgstr ""
-"DCP-o-matic kunne ikke åbne filen %1. Måske findes den ikke, eller den er i "
-"et uventet format."
+"DCP-o-matic kunne ikke åbne filen %1 (%2). Måske findes den ikke, eller den "
+"er i et uventet format."
 
 #: src/lib/film.cc:1246
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
 msgstr ""
+"DCP-o-matic var nødt til at ændre dine instillinger for at referere til "
+"DCPer som OV.  Gennemse venligst indstillingerne for at sikre at de er som "
+"ønsket."
 
 #: src/lib/ffmpeg_content.cc:113
 msgid ""
@@ -639,7 +630,7 @@ msgstr ""
 
 #: src/lib/config.cc:364 src/lib/config.cc:1133
 msgid "DCP-o-matic notification"
-msgstr ""
+msgstr "DCP-o-matic besked"
 
 #: src/lib/filter.cc:71 src/lib/filter.cc:72 src/lib/filter.cc:73
 #: src/lib/filter.cc:74
@@ -677,9 +668,8 @@ msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 og CP750"
 
 #: src/lib/internet.cc:73
-#, fuzzy
 msgid "Download failed (%1 error %2)"
-msgstr "Download fejlede (%1/%2 fejl %3)"
+msgstr "Download fejlede (%1 fejl %2)"
 
 #: src/lib/frame_rate_change.cc:106
 msgid "Each content frame will be doubled in the DCP.\n"
@@ -700,7 +690,7 @@ msgstr "E-mail KDM'er til %1"
 
 #: src/lib/send_notification_email_job.cc:46
 msgid "Email notification"
-msgstr ""
+msgstr "Email besked"
 
 #: src/lib/send_problem_report_job.cc:59
 msgid "Email problem report"
@@ -711,7 +701,6 @@ msgid "Email problem report for %1"
 msgstr "Send problemrapport som mail til %1"
 
 #: src/lib/dcp_encoder.cc:96 src/lib/ffmpeg_encoder.cc:119
-#, fuzzy
 msgid "Encoding"
 msgstr "Kodning"
 
@@ -725,17 +714,15 @@ msgstr "Fejl: %1"
 
 #: src/lib/hints.cc:265
 msgid "Examining closed captions"
-msgstr ""
+msgstr "Undersøger billedtekster"
 
 #: src/lib/examine_content_job.cc:44
-#, fuzzy
 msgid "Examining content"
-msgstr "Undersøg indhold"
+msgstr "Undersøger indhold"
 
 #: src/lib/examine_ffmpeg_subtitles_job.cc:49
-#, fuzzy
 msgid "Examining subtitles"
-msgstr "Finder undertekster"
+msgstr "Undersøger undertekster"
 
 #: src/lib/ffmpeg_content.cc:626
 msgid "FCC"
@@ -746,9 +733,8 @@ msgid "Failed to authenticate with server (%1)"
 msgstr "Kunne ikke godkende mod server (%1)"
 
 #: src/lib/emailer.cc:222
-#, fuzzy
 msgid "Failed to send email"
-msgstr "Kunne ikke sende email (%1)"
+msgstr "Afsendelse af e-mail mislykkedes"
 
 #: src/lib/dcp_content_type.cc:46
 msgid "Feature"
@@ -788,19 +774,19 @@ msgstr "Fuldt billede"
 
 #: src/lib/audio_content.cc:320
 msgid "Full length in audio samples at DCP rate"
-msgstr ""
+msgstr "Full length in audio samples at DCP rate"
 
 #: src/lib/audio_content.cc:307
 msgid "Full length in audio samples at content rate"
-msgstr ""
+msgstr "Full length in audio samples at content rate"
 
 #: src/lib/audio_content.cc:314
 msgid "Full length in video frames at DCP rate"
-msgstr ""
+msgstr "Full length in video frames at DCP rate"
 
 #: src/lib/audio_content.cc:300
 msgid "Full length in video frames at content rate"
-msgstr ""
+msgstr "Full length in video frames at content rate"
 
 #: src/lib/ffmpeg_content.cc:601
 msgid "Gamma 22 (BT470M)"
@@ -812,7 +798,7 @@ msgstr "Gamma 28 (BT470BG)"
 
 #: src/lib/filter.cc:75
 msgid "Gradient debander"
-msgstr ""
+msgstr "Gradient debander"
 
 #: src/lib/util.cc:576
 msgid "HI"
@@ -828,7 +814,7 @@ msgstr "Høj-kvalitets 3D-denoiser"
 
 #: src/lib/filter.cc:68
 msgid "Horizontal flip"
-msgstr ""
+msgstr "Horizontal flip"
 
 #: src/lib/audio_content.cc:293 src/lib/audio_content.cc:313
 msgid "Hz"
@@ -844,7 +830,7 @@ msgstr "IEC61966-2-4"
 
 #: src/lib/hints.cc:168
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
-msgstr ""
+msgstr "Når du benytter 25bps bør du ændre DCP standard til SMPTE."
 
 #: src/lib/job.cc:147 src/lib/job.cc:203 src/lib/job.cc:213
 msgid "It is not known what caused this error."
@@ -852,7 +838,7 @@ msgstr "Det er uklart hvad der forårsagede denne fejl."
 
 #: src/lib/ffmpeg_content.cc:590
 msgid "JEDEC P22"
-msgstr ""
+msgstr "JEDEC P22"
 
 #: src/lib/config.cc:354 src/lib/config.cc:1118
 msgid "KDM delivery: $CPL_NAME"
@@ -861,10 +847,11 @@ msgstr "KDM-levering: $CPL_NAME"
 #: src/lib/dcp.cc:82
 msgid "KDM was made for DCP-o-matic but not for its leaf certificate."
 msgstr ""
+"KDM var genereret til DCP-o-matic, men ikke til dens 'leaf' certifikat."
 
 #: src/lib/dcp.cc:80
 msgid "KDM was not made for DCP-o-matic's decryption certificate."
-msgstr ""
+msgstr "KDM var ikke genereret til DCP-o-matics dekrypterings certifikat."
 
 #: src/lib/filter.cc:72
 msgid "Kernel deinterlacer"
@@ -932,7 +919,7 @@ msgstr "Ls"
 
 #: src/lib/mid_side_decoder.cc:35
 msgid "Mid-side decoder"
-msgstr ""
+msgstr "Mid-side dekoder"
 
 #: src/lib/filter.cc:75 src/lib/filter.cc:76 src/lib/filter.cc:79
 msgid "Misc"
@@ -944,7 +931,7 @@ msgstr "Antallet af lydkanaler passer ikke i DCP"
 
 #: src/lib/dcp_examiner.cc:160
 msgid "Mismatched audio sample rates in DCP"
-msgstr ""
+msgstr "Uoverensstemmelse mellem lydsamplingshastigheder i DCP"
 
 #: src/lib/dcp_examiner.cc:127
 msgid "Mismatched frame rates in DCP"
@@ -955,9 +942,8 @@ msgid "Mismatched video sizes in DCP"
 msgstr "Videostørrelser passer ikke i DCP"
 
 #: src/lib/exceptions.cc:55
-#, fuzzy
 msgid "Missing required setting %1"
-msgstr "mangler påkrævet indstilling %1"
+msgstr "Mangler påkrævet indstilling %1"
 
 #: src/lib/util.cc:892
 msgid "Monday"
@@ -973,7 +959,7 @@ msgstr "Bevægelseskompenserende deinterlacer"
 
 #: src/lib/dcp_decoder.cc:77
 msgid "No CPLs found in DCP."
-msgstr ""
+msgstr "Der blev ikke fundet CPL'er i DCPen."
 
 #: src/lib/cinema_kdms.cc:201 src/lib/send_notification_email_job.cc:61
 msgid "No mail server configured in preferences"
@@ -1012,14 +998,13 @@ msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Kun det sidste indhold, der skal sammensættes, kan have sluttrim."
 
 #: src/lib/types.cc:137
-#, fuzzy
 msgid "Open subtitles"
-msgstr "Teks"
+msgstr "Åbne undertekster"
 
 #: src/lib/filter.cc:67 src/lib/filter.cc:68 src/lib/filter.cc:69
 #: src/lib/filter.cc:70
 msgid "Orientation"
-msgstr ""
+msgstr "Retning"
 
 #: src/lib/job.cc:171
 msgid "Out of memory"
@@ -1027,17 +1012,19 @@ msgstr "Ikke tilstrækkelig arbejdshukommelse"
 
 #: src/lib/filter.cc:80
 msgid "Overcomplete wavelet denoiser"
-msgstr ""
+msgstr "Overcomplete wavelet denoiser"
 
 #: src/lib/colour_conversion.cc:284
 msgid "P3"
-msgstr ""
+msgstr "P3"
 
 #: src/lib/util.h:58
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
 "carl@dcpomatic.com"
 msgstr ""
+"Rapporter venligst dette problem via Hjælp -> Rapporter et problem eller via "
+"email til carl@dcpomatic.com"
 
 #: src/lib/dcp_content_type.cc:53
 msgid "Policy"
@@ -1057,7 +1044,7 @@ msgstr "Publikumsorientering (PSA)"
 
 #: src/lib/ffmpeg_encoder.cc:207 src/lib/util.cc:571
 msgid "R"
-msgstr ""
+msgstr "R"
 
 #: src/lib/ffmpeg_content.cc:622
 msgid "RGB / sRGB (IEC61966-2-1)"
@@ -1069,7 +1056,7 @@ msgstr "Censur"
 
 #: src/lib/util.cc:579
 msgid "Rc"
-msgstr ""
+msgstr "Rc"
 
 #: src/lib/colour_conversion.cc:285
 msgid "Rec. 1886"
@@ -1105,15 +1092,15 @@ msgstr "Højre surround"
 
 #: src/lib/filter.cc:70
 msgid "Rotate 90 degrees anti-clockwise"
-msgstr ""
+msgstr "Roter 90 grader mod uret"
 
 #: src/lib/filter.cc:69
 msgid "Rotate 90 degrees clockwise"
-msgstr ""
+msgstr "Roter 90 grader med uret"
 
 #: src/lib/util.cc:575
 msgid "Rs"
-msgstr ""
+msgstr "Rs"
 
 #: src/lib/colour_conversion.cc:287
 msgid "S-Gamut3/S-Log3"
@@ -1165,9 +1152,8 @@ msgid "Saturday"
 msgstr "Lørdag"
 
 #: src/lib/image_content.cc:107
-#, fuzzy
 msgid "Scanning image files"
-msgstr "Beregner billedresume"
+msgstr "Scanner billedfiler"
 
 #: src/lib/send_problem_report_job.cc:74
 msgid "Sending email"
@@ -1191,28 +1177,33 @@ msgid ""
 "\n"
 "These files will now be re-examined, so you may need to check their settings."
 msgstr ""
+"Nogle filer er blevet ændret siden de blev tilføjet til projektet.\n"
+"\n"
+"De bliver nu undersøgt igen, og det kan være nødvendigt at gennemse deres "
+"indstillinger bagefter."
 
 #: src/lib/hints.cc:313
 msgid ""
 "Some of your closed captions have lines longer than %1 characters, so they "
 "will probably be word-wrapped."
 msgstr ""
+"Nogle af underteksterne har linjer på mere end %1 tegn, så de vil "
+"formodentlig blive ombrudt."
 
 #: src/lib/hints.cc:319
 msgid ""
 "Some of your closed captions span more than %1 lines, so they will be "
 "truncated."
 msgstr ""
+"Nogle af underteksterne er på mere end %1 linjer, så de bliver beskåret."
 
 #: src/lib/film.cc:329
-#, fuzzy
 msgid "Some of your content needs a KDM"
-msgstr "noget af dit indhold mangler en KDM"
+msgstr "Noget af dit indhold mangler en KDM"
 
 #: src/lib/film.cc:332
-#, fuzzy
 msgid "Some of your content needs an OV"
-msgstr "noget af dit indhold mangler en OV"
+msgstr "Noget af dit indhold mangler en OV"
 
 #: src/lib/writer.cc:620
 msgid "Stereo"
@@ -1264,19 +1255,19 @@ msgstr ""
 
 #: src/lib/playlist.cc:223
 msgid "The file %1 has been moved %2 milliseconds earlier."
-msgstr ""
+msgstr "Filen %1 er blevet flyttet %2 millisekunder frem."
 
 #: src/lib/playlist.cc:218
 msgid "The file %1 has been moved %2 milliseconds later."
-msgstr ""
+msgstr "Filen %1 er blevet flyttet %2 millisekunder tilbage."
 
 #: src/lib/playlist.cc:243
 msgid "The file %1 has been trimmed by %2 milliseconds less."
-msgstr ""
+msgstr "Filen %1 er blevet trimmet %2 millisekunder kortere."
 
 #: src/lib/playlist.cc:238
 msgid "The file %1 has been trimmed by %2 milliseconds more."
-msgstr ""
+msgstr "Filen %1 er blevet trimmet %2 millisekunder længere."
 
 #: src/lib/hints.cc:206
 msgid ""
@@ -1286,10 +1277,15 @@ msgid ""
 "rate to one closer to your content, provided that your target projection "
 "systems support your chosen DCP rate."
 msgstr ""
+"Der er stor forskel på billedhastigheden på DCPen og noget af indholdet.  "
+"Det vil betyde at lyden bliver spillet med en væsentlig anden pitch end den "
+"burde. Du bør sætte din DCPs billedhastighed til at være tættere på "
+"indholdet, sålænge det er en billedhastighed der understøttes af det system "
+"DCPen skal afspilles fra."
 
 #: src/lib/dcp_content.cc:588
 msgid "There is no video in this DCP"
-msgstr ""
+msgstr "Der er ingen video i denne DCP"
 
 #: src/lib/job.cc:171
 msgid ""
@@ -1333,16 +1329,15 @@ msgstr "Torsdag"
 
 #: src/lib/types.cc:135
 msgid "Timed text"
-msgstr ""
+msgstr "Timet tekst"
 
 #: src/lib/dcp_content_type.cc:48
 msgid "Trailer"
 msgstr "Trailer"
 
 #: src/lib/transcode_job.cc:55
-#, fuzzy
 msgid "Transcoding %1"
-msgstr "Transcode %1"
+msgstr "Transcoder %1"
 
 #: src/lib/dcp_content_type.cc:50
 msgid "Transitional"
@@ -1370,7 +1365,7 @@ msgstr "Kunne ikke genkende lydsekvensens format (%1)"
 
 #: src/lib/filter.cc:76
 msgid "Unsharp mask and Gaussian blur"
-msgstr ""
+msgstr "Unsharp mask and Gaussian blur"
 
 #: src/lib/ffmpeg_content.cc:526 src/lib/ffmpeg_content.cc:550
 #: src/lib/ffmpeg_content.cc:568 src/lib/ffmpeg_content.cc:570
@@ -1398,15 +1393,15 @@ msgstr "Upmix R"
 
 #: src/lib/util.cc:577
 msgid "VI"
-msgstr ""
+msgstr "VI"
 
 #: src/lib/verify_dcp_job.cc:41
 msgid "Verify DCP"
-msgstr ""
+msgstr "Verificer DCP"
 
 #: src/lib/filter.cc:67
 msgid "Vertical flip"
-msgstr ""
+msgstr "Lodret spejling"
 
 #: src/lib/util.cc:546
 msgid "Visually impaired"
@@ -1417,9 +1412,8 @@ msgid "Waiting"
 msgstr "Venter"
 
 #: src/lib/filter.cc:74
-#, fuzzy
 msgid "Weave filter"
-msgstr "Telecinefilter"
+msgstr "Weavefilter"
 
 #: src/lib/util.cc:896
 msgid "Wednesday"
@@ -1434,36 +1428,33 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Endnu et Deinterlacing Filter"
 
 #: src/lib/hints.cc:181
-#, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You are advised to change the DCP frame rate "
 "to %2 fps."
 msgstr ""
-"Du har indstillet til en Interop DCP med en billedhastighed, der ikke er "
-"officielt understøttet. Du anbefales at ændre billedhastighed eller at "
-"producere en SMPTE DCP i stedet."
+"Du har gjort klar til en DCP med en billedhastighed på% 1 bps.  Denne "
+"billedhastighed understøttes ikke af alle projektorer.  Du rådes til at "
+"ændre DCP-billedhastigheden til% 2 fps."
 
 #: src/lib/hints.cc:165
-#, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You may want to consider changing your frame "
 "rate to %2 fps."
 msgstr ""
-"Du har indstillet til en Interop DCP med en billedhastighed, der ikke er "
-"officielt understøttet. Du anbefales at ændre billedhastighed eller at "
-"producere en SMPTE DCP i stedet."
+"Du har gjort klar til en DCP med en billedhastighed på% 1 bps.  Denne "
+"billedhastighed understøttes ikke af alle projektorer.  Du rådes til at "
+"ændre billedhastigheden til% 2 fps."
 
 #: src/lib/hints.cc:175
-#, fuzzy
 msgid ""
 "You are set up for a DCP frame rate of 30fps, which is not supported by all "
 "projectors.  Be aware that you may have compatibility problems."
 msgstr ""
-"Du har indstillet til en Interop DCP med en billedhastighed, der ikke er "
-"officielt understøttet. Du anbefales at ændre billedhastighed eller at "
-"producere en SMPTE DCP i stedet."
+"Du har gjort klar til en DCP med en billedhastighed på 30 bps, hvilket ikke "
+"understøttes af alle projektorer.  Vær opmærksom på at der kan opstå "
+"kompatibilitetsproblemer."
 
 #: src/lib/hints.cc:228
 msgid ""
@@ -1479,6 +1470,10 @@ msgid ""
 "may result in poor-quality audio.  If you continue, you should listen to the "
 "resulting DCP in a cinema to make sure that it sounds good."
 msgstr ""
+"Du benytter dig af DCP-o-matics opskalering fra stereo til 5.1.  Den er "
+"fortsat på eksperimentalt stadie og kan give lyd af dårlig kvalitet.  Hvis "
+"du fortsætter, bør du lytte til DCPen i en biograf for at sikre dig at "
+"lydkvaliteten er i orden."
 
 #: src/lib/hints.cc:217
 msgid ""
@@ -1490,7 +1485,7 @@ msgstr ""
 
 #: src/lib/hints.cc:325
 msgid "You have overlapping closed captions, which are not allowed."
-msgstr ""
+msgstr "Du har overlappende undertekster, hvilket ikke er tilladt."
 
 #: src/lib/hints.cc:115
 msgid ""
@@ -1501,9 +1496,8 @@ msgstr ""
 "sandsynligt give problemer ved afspilningen."
 
 #: src/lib/film.cc:312
-#, fuzzy
 msgid "You must add some content to the DCP before creating it"
-msgstr "du er nødt til at tilføje indhold til DCP'en før du kan danne den"
+msgstr "Du er nødt til at tilføje indhold til DCP'en før du kan danne den"
 
 #: src/lib/hints.cc:119
 msgid ""
@@ -1532,17 +1526,20 @@ msgstr "Lydniveauet er meget højt (%1). Du bør sænke gain på lyden."
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
+"Din standard container er ugyldig og er blevet ændret til Flat (1.85:1)"
 
 #: src/lib/playlist.cc:214
 msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
-msgstr ""
+msgstr "Dit projekt har videoindhold der ikke var justeret til en billedkant."
 
 #: src/lib/playlist.cc:234
 msgid ""
 "Your project contains video content whose trim was not aligned to a frame "
 "boundary."
 msgstr ""
+"Dit projekt har videoindhold hvis beskæring ikke var justeret til en "
+"billedkant."
 
 #: src/lib/image_content.cc:71
 msgid "[moving images]"
@@ -1560,7 +1557,7 @@ msgstr "[undertekster]"
 #. / which reel it is.  Preserve the %1; it will be replaced with the reel number.
 #: src/lib/ffmpeg_encoder.cc:67
 msgid "_reel%1"
-msgstr ""
+msgstr "_spole%1"
 
 #: src/lib/dcpomatic_socket.cc:69
 msgid "connect timed out"
@@ -1637,85 +1634,72 @@ msgstr "t"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:679
-#, fuzzy
 msgid "it does not have closed captions in all its reels."
-msgstr "DCPen har ikke lyd på alle spoler."
+msgstr "den har ikke billedtekster på alle spoler."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:674
-#, fuzzy
 msgid "it does not have open subtitles in all its reels."
-msgstr "DCPen har ikke undertekster på alle spoler."
+msgstr "den har ikke undertekster på alle spoler."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:642
-#, fuzzy
 msgid "it does not have sound in all its reels."
-msgstr "DCPen har ikke lyd på alle spoler."
+msgstr "den har ikke lyd på alle spoler."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:541
-#, fuzzy
 msgid "it has a different frame rate to the film."
-msgstr "Filmen har en anden billedhastighed end DCPen."
+msgstr "den har en anden billedhastighed end filmen."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:603
-#, fuzzy
 msgid "it is 2K and the film is 4K."
-msgstr "Denne film er i Interop formatet og DCPen er i SMPTE."
+msgstr "den er 2K og filmen er 4K."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:600
-#, fuzzy
 msgid "it is 4K and the film is 2K."
-msgstr "Denne film er i Interop formatet og DCPen er i SMPTE."
+msgstr "den er 4K og filmen er 2K."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:529
-#, fuzzy
 msgid "it is Interop and the film is set to SMPTE."
-msgstr "Denne film er i Interop formatet og DCPen er i SMPTE."
+msgstr "den er i Interop formatet og filmen er i SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:533
-#, fuzzy
 msgid "it is SMPTE and the film is set to Interop."
-msgstr "Denne film er i SMPTE formatet og DCPen er i Interop."
+msgstr "den er i SMPTE formatet og filmen er i Interop."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:648
-#, fuzzy
 msgid "it overlaps other audio content; remove the other content."
-msgstr "Der er anden lyd, der overlapper i denne DCP; fjern den."
+msgstr "den overlapper med anden lyd; fjern det andet indhold."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:685
-#, fuzzy
 msgid "it overlaps other text content; remove the other content."
-msgstr "Der er andet billedindhold, der overlapper i denne DCP; fjern det."
+msgstr "den overlapper med anden tekst; fjern det andet indhold."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:613
-#, fuzzy
 msgid "it overlaps other video content; remove the other content."
-msgstr "Der er andet billedindhold, der overlapper i denne DCP; fjern det."
+msgstr "den overlapper med andet video indhold; fjern det andet indhold."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:564
-#, fuzzy
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
 msgstr ""
-"De faktiske længder i filmen er forskellige fra dem i DCPen; sæt spole-"
-"indstillingen til 'opdel efter videoindhold'."
+"dens spolelængder er forskellige fra filmens; set sæt spole-indstillingen "
+"til 'opdel efter videoindhold'."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:608
-#, fuzzy
 msgid "its video frame size differs from the film's."
-msgstr "Billedstørrelsen i filmen er forskellig fra DCPens."
+msgstr "dens billedstørrelse er forskellig fra filmens."
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
 #: src/lib/util.cc:196
