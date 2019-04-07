@@ -148,10 +148,11 @@ ClosedCaptionsDialog::update (DCPTime time)
 		_current = optional<TextRingBuffers::Data>();
 	}
 
-	if (!_current) {
+	if (!_current && !_tracks.empty()) {
 		/* We have no current one: get another */
 		shared_ptr<Butler> butler = _butler.lock ();
 		DCPOMATIC_ASSERT (butler);
+		DCPOMATIC_ASSERT (_track->GetSelection() >= 0);
 		DCPOMATIC_ASSERT (_track->GetSelection() < int(_tracks.size()));
 		DCPTextTrack track = _tracks[_track->GetSelection()];
 		while (true) {
