@@ -1,0 +1,10 @@
+Things only in swaroop variant:
+
+Periodic check for a magic file being present.
+Periodic check for connected monitors' EDIDs.
+Player background image
+Fetching KDMs from a web service
+Player watermarking
+Restart after crash
+SPL support with unskippable content
+Player logging
