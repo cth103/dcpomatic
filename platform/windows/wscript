@@ -206,8 +206,7 @@ File "%cdist_deps%/bin/ffprobe.exe"
         print('File "%resources%/dcpomatic2_batch_debug.bat"', file=f)
         print('File "%resources%/dcpomatic2_kdm_debug.bat"', file=f)
         print('File "%resources%/dcpomatic2_player_debug.bat"', file=f)
-        print('File "%mingw%/gdb.exe"', file=f)
-        print('File "%mingw%/addr2line.exe"', file=f)
+        print('File "%mingw%/bin/gdb.exe"', file=f)
     else:
         print('File "%binaries%/src/wx/dcpomatic2-wx.dll"', file=f)
         print('File "%binaries%/src/lib/dcpomatic2.dll"', file=f)
