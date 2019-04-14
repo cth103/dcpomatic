@@ -18,25 +18,15 @@
 
 */
 
-#ifndef DCPOMATIC_STATE_H
-#define DCPOMATIC_STATE_H
+#include <wx/wx.h>
 
-#include <boost/noncopyable.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/optional.hpp>
+class wxHtmlLinkEvent;
 
-class State : public boost::noncopyable
+class HTMLDialog : public wxDialog
 {
 public:
-	virtual ~State () {}
-	virtual void read () = 0;
-	virtual void write () const = 0;
+	HTMLDialog (wxWindow* parent, wxString title, wxString html);
 
-	/** If set, this overrides the standard path (in home, Library, AppData or wherever) for config.xml, cinemas.xml etc. */
-	static boost::optional<boost::filesystem::path> override_path;
-
-protected:
-	static boost::filesystem::path path (std::string file, bool create_directories = true);
+private:
+	void link_clicked (wxHtmlLinkEvent& ev);
 };
-
-#endif

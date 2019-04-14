@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,8 +19,10 @@
 */
 
 #include "state.h"
+#include "signaller.h"
+#include <boost/signals2.hpp>
 
-class Analytics : public State
+class Analytics : public State, public Signaller
 {
 public:
 	Analytics ();
@@ -29,6 +31,8 @@ public:
 
 	void write () const;
 	void read ();
+
+	boost::signals2::signal<void (std::string, std::string)> Message;
 
 	static Analytics* instance ();
 

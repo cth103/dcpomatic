@@ -20,11 +20,14 @@
 
 #include "analytics.h"
 #include "exceptions.h"
+#include "compose.hpp"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
+
+#include "i18n.h"
 
 using std::string;
 using dcp::raw_convert;
@@ -44,6 +47,35 @@ Analytics::successful_dcp_encode ()
 {
 	++_successful_dcp_encodes;
 	write ();
+
+	if (_successful_dcp_encodes == 20) {
+		emit (
+			boost::bind(
+				boost::ref(Message),
+				_("Congratulations!"),
+				String::compose (_(
+					"<h2>You have made %1 DCPs with DCP-o-matic!</h2>"
+					"<img width=\"20%%\" src=\"memory:me.jpg\" align=\"center\">"
+                                        "<p>Hello. I'm Carl and I'm the "
+					"developer of DCP-o-matic. I work on it in my spare time (with the help "
+					"of a fine volunteer team of testers and translators) and I release it "
+					"as free software."
+
+					"<p>If you find DCP-o-matic useful, please consider a donation to the "
+					"project. Financial support will help me to spend more "
+					"time developing DCP-o-matic and making it better!"
+
+					"<p><ul>"
+					"<li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Go to Paypal to donate £40</a>"
+					"<li><a href=\"https://dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate £20</a>"
+					"<li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to Paypal to donate £10</a>"
+					"</ul>"
+
+					"<p>Thank you!"), _successful_dcp_encodes
+					)
+				)
+			);
+	}
 }
 
 void

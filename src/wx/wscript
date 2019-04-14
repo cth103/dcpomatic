@@ -71,6 +71,7 @@ sources = """
           gain_calculator_dialog.cc
           gdc_certificate_panel.cc
           hints_dialog.cc
+          html_dialog.cc
           initial_setup_dialog.cc
           instant_i18n_dialog.cc
           i18n_hook.cc
