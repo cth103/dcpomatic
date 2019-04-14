@@ -22,7 +22,6 @@
 #include "wx_util.h"
 #include "static_text.h"
 #include "check_box.h"
-#include <wx/richtext/richtextctrl.h>
 #include <boost/foreach.hpp>
 
 using boost::shared_ptr;

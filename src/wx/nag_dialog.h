@@ -21,8 +21,6 @@
 #include "lib/config.h"
 #include <wx/wx.h>
 
-class wxRichTextCtrl;
-
 class NagDialog : public wxDialog
 {
 public:
