@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -61,7 +61,6 @@ public:
 	static std::vector<VideoContentScale> all () {
 		return _scales;
 	}
-	static VideoContentScale from_id (std::string id);
 
 private:
 	/** a ratio to stretch the content to, or 0 for no stretch */

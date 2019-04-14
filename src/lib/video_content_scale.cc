@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -103,21 +103,6 @@ VideoContentScale::name () const
 	}
 
 	return _("No scale");
-}
-
-VideoContentScale
-VideoContentScale::from_id (string id)
-{
-	Ratio const * r = Ratio::from_id (id);
-	if (r) {
-		return VideoContentScale (r);
-	}
-
-	if (id == "S0") {
-		return VideoContentScale (false);
-	}
-
-	return VideoContentScale (true);
 }
 
 /** @param display_container Size of the container that we are displaying this content in.
