@@ -23,6 +23,7 @@ import i18n
 sources = """
           active_text.cc
           analyse_audio_job.cc
+          analytics.cc
           atmos_mxf_content.cc
           atomicity_checker.cc
           audio_analysis.cc
@@ -144,6 +145,7 @@ sources = """
           send_problem_report_job.cc
           server.cc
           shuffler.cc
+          state.cc
           spl.cc
           spl_entry.cc
           string_log_entry.cc

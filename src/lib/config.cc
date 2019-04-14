@@ -70,7 +70,6 @@ int const Config::_current_version = 3;
 boost::signals2::signal<void ()> Config::FailedToLoad;
 boost::signals2::signal<void (string)> Config::Warning;
 boost::signals2::signal<bool (void)> Config::BadSignerChain;
-boost::optional<boost::filesystem::path> Config::override_path;
 
 /** Construct default configuration */
 Config::Config ()
@@ -609,33 +608,6 @@ catch (...) {
 	write ();
 }
 
-/** @return Filename to write configuration to */
-boost::filesystem::path
-Config::path (string file, bool create_directories)
-{
-	boost::filesystem::path p;
-	if (override_path) {
-		p = *override_path;
-	} else {
-#ifdef DCPOMATIC_OSX
-		p /= g_get_home_dir ();
-		p /= "Library";
-		p /= "Preferences";
-		p /= "com.dcpomatic";
-		p /= "2";
-#else
-		p /= g_get_user_config_dir ();
-		p /= "dcpomatic2";
-#endif
-	}
-	boost::system::error_code ec;
-	if (create_directories) {
-		boost::filesystem::create_directories (p, ec);
-	}
-	p /= file;
-	return p;
-}
-
 /** @return Singleton instance */
 Config *
 Config::instance ()
@@ -663,7 +635,7 @@ Config::write_config () const
 	xmlpp::Element* root = doc.create_root_node ("Config");
 
 	/* [XML] Version The version number of the configuration file format. */
-	root->add_child("Version")->add_child_text (String::compose ("%1", _current_version));
+	root->add_child("Version")->add_child_text (raw_convert<string>(_current_version));
 	/* [XML] MasterEncodingThreads Number of encoding threads to use when running as master. */
 	root->add_child("MasterEncodingThreads")->add_child_text (raw_convert<string> (_master_encoding_threads));
 	/* [XML] ServerEncodingThreads Number of encoding threads to use when running as server. */

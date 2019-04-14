@@ -31,6 +31,7 @@
 #include "log.h"
 #include "dcpomatic_log.h"
 #include "compose.hpp"
+#include "analytics.h"
 #include <iostream>
 #include <iomanip>
 
@@ -41,6 +42,7 @@ using std::fixed;
 using std::setprecision;
 using std::cout;
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 
 /** @param film Film to use */
 TranscodeJob::TranscodeJob (shared_ptr<const Film> film)
@@ -89,6 +91,11 @@ TranscodeJob::run ()
 		}
 
 		LOG_GENERAL (N_("Transcode job completed successfully: %1 fps"), fps);
+
+		if (dynamic_pointer_cast<DCPEncoder>(_encoder)) {
+			Analytics::instance()->successful_dcp_encode();
+		}
+
 		_encoder.reset ();
 
 		/* XXX: this shouldn't be here */

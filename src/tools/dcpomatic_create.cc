@@ -80,7 +80,7 @@ main (int argc, char* argv[])
 	}
 
 	if (cc.config_dir) {
-		Config::override_path = *cc.config_dir;
+		State::override_path = *cc.config_dir;
 	}
 
 	signal_manager = new SimpleSignalManager ();
