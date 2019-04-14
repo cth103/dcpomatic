@@ -107,6 +107,7 @@ private:
 	wxChoice* _language;
 	wxCheckBox* _sound;
 	wxChoice* _sound_output;
+	wxStaticText* _sound_output_details;
 	wxCheckBox* _check_for_updates;
 	wxCheckBox* _check_for_test_updates;
 };

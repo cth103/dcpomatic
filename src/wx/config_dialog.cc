@@ -23,6 +23,7 @@
 #include "check_box.h"
 #include "nag_dialog.h"
 #include "dcpomatic_button.h"
+#include <iostream>
 
 using std::string;
 using std::vector;
@@ -158,9 +159,18 @@ GeneralPage::add_play_sound_controls (wxGridBagSizer* table, int& r)
 {
 	_sound = new CheckBox (_panel, _("Play sound via"));
 	table->Add (_sound, wxGBPosition (r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 	_sound_output = new wxChoice (_panel, wxID_ANY);
-	table->Add (_sound_output, wxGBPosition (r, 1));
+	s->Add (_sound_output, 0);
+	_sound_output_details = new wxStaticText (_panel, wxID_ANY, wxT(""));
+	s->Add (_sound_output_details, 1, wxALIGN_CENTER_VERTICAL | wxLEFT, DCPOMATIC_SIZER_X_GAP);
+	table->Add (s, wxGBPosition(r, 1));
 	++r;
+
+	wxFont font = _sound_output_details->GetFont();
+	font.SetStyle (wxFONTSTYLE_ITALIC);
+	font.SetPointSize (font.GetPointSize() - 1);
+	_sound_output_details->SetFont (font);
 
 	RtAudio audio (DCPOMATIC_RTAUDIO_API);
 	for (unsigned int i = 0; i < audio.getDeviceCount(); ++i) {
@@ -251,6 +261,33 @@ GeneralPage::config_changed ()
 			++i;
 		}
 	}
+
+	RtAudio audio (DCPOMATIC_RTAUDIO_API);
+
+	map<int, wxString> apis;
+	apis[RtAudio::MACOSX_CORE]    = _("CoreAudio");
+	apis[RtAudio::WINDOWS_ASIO]   = _("ASIO");
+	apis[RtAudio::WINDOWS_DS]     = _("Direct Sound");
+	apis[RtAudio::WINDOWS_WASAPI] = _("WASAPI");
+	apis[RtAudio::UNIX_JACK]      = _("JACK");
+	apis[RtAudio::LINUX_ALSA]     = _("ALSA");
+	apis[RtAudio::LINUX_PULSE]    = _("Pulseaudio");
+	apis[RtAudio::LINUX_OSS]      = _("OSS");
+	apis[RtAudio::RTAUDIO_DUMMY]  = _("Dummy");
+
+	int channels = 0;
+	if (configured_so) {
+		for (unsigned int i = 0; i < audio.getDeviceCount(); ++i) {
+			RtAudio::DeviceInfo info = audio.getDeviceInfo(i);
+			if (info.name == *configured_so && info.outputChannels > 0) {
+				channels = info.outputChannels;
+			}
+		}
+	}
+
+	_sound_output_details->SetLabel (
+		wxString::Format(_("%d channels on %s"), channels, apis[audio.getCurrentApi()])
+		);
 
 	setup_sensitivity ();
 }

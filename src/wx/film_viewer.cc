@@ -652,7 +652,6 @@ FilmViewer::config_changed (Config::Property p)
 		}
 
 		_audio_channels = _audio.getDeviceInfo(st).outputChannels;
-		cout << "Opening stream " << st << "(" << _audio.getDeviceInfo(st).name << ") probed=" << _audio.getDeviceInfo(st).probed << " with " << _audio_channels << "\n";
 
 		RtAudio::StreamParameters sp;
 		sp.deviceId = st;
