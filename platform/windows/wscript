@@ -337,8 +337,8 @@ File "%binaries%/src/tools/dcpomatic2_playlist.exe"
     if debug:
         if variant != "swaroop":
             print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 debug.lnk" "$INSTDIR\\bin\\dcpomatic2_debug.bat"', file=f)
-            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 batch converter debug.lnk" "$INSTDIR\\bin\\dcpomatic2_batch_debug.bat" ""', file=f)
-            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 KDM creator debug.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm_debug.bat" ""', file=f)
+            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 Batch Converter debug.lnk" "$INSTDIR\\bin\\dcpomatic2_batch_debug.bat" ""', file=f)
+            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 KDM Creator debug.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm_debug.bat" ""', file=f)
             print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\Uninstall DCP-o-matic 2 debug.lnk" "$INSTDIR\\Uninstall.exe"', file=f)
         print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 Player debug.lnk" "$INSTDIR\\bin\\dcpomatic2_player_debug.bat" ""', file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 debug" "DisplayName" "DCP-o-matic 2 debug (remove only)"', file=f)
@@ -346,8 +346,8 @@ File "%binaries%/src/tools/dcpomatic2_playlist.exe"
     else:
         if variant != "swaroop":
             print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe"', file=f)
-            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 batch converter.lnk" "$INSTDIR\\bin\\dcpomatic2_batch.exe"', file=f)
-            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 KDM creator.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm.exe"', file=f)
+            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 Batch Converter.lnk" "$INSTDIR\\bin\\dcpomatic2_batch.exe"', file=f)
+            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 KDM Creator.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm.exe"', file=f)
             print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\Uninstall DCP-o-matic 2.lnk" "$INSTDIR\\Uninstall.exe"', file=f)
         print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 Player.lnk" "$INSTDIR\\bin\\dcpomatic2_player.exe"', file=f)
         print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 Playlist Editor.lnk" "$INSTDIR\\bin\\dcpomatic2_playlist.exe"', file=f)
@@ -361,15 +361,15 @@ File "%binaries%/src/tools/dcpomatic2_playlist.exe"
         print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Player debug.lnk" "$INSTDIR\\bin\\dcpomatic2_player_debug.bat" ""', file=f)
         if variant != "swaroop":
             print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 debug.lnk" "$INSTDIR\\bin\\dcpomatic2_debug.bat" ""', file=f)
-            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 batch converter debug.lnk" "$INSTDIR\\bin\\dcpomatic2_batch_debug.bat" ""', file=f)
-            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 KDM creator debug.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm_debug.bat" ""', file=f)
+            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Batch Converter debug.lnk" "$INSTDIR\\bin\\dcpomatic2_batch_debug.bat" ""', file=f)
+            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 KDM Creator debug.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm_debug.bat" ""', file=f)
     else:
         print('Section "DCP-o-matic 2 desktop shortcuts" SEC_MASTER_DESKTOP', file=f)
         print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Player.lnk" "$INSTDIR\\bin\\dcpomatic2_player.exe"', file=f)
         if variant != "swaroop":
             print('CreateShortCut "$DESKTOP\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe" ""', file=f)
-            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 batch converter.lnk" "$INSTDIR\\bin\\dcpomatic2_batch.exe"', file=f)
-            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 KDM creator.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm.exe"', file=f)
+            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Batch Converter.lnk" "$INSTDIR\\bin\\dcpomatic2_batch.exe"', file=f)
+            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 KDM Creator.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm.exe"', file=f)
 
     print("SectionEnd", file=f)
 
@@ -380,7 +380,7 @@ SetOutPath "$INSTDIR\\bin"
 CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"
 File "%binaries%/src/tools/dcpomatic2_server_cli.exe"
 File "%binaries%/src/tools/dcpomatic2_server.exe"
-CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 encode server.lnk" "$INSTDIR\\bin\\dcpomatic2_server.exe" "" "$INSTDIR\\bin\\dcpomatic2_server.exe" 0
+CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 Encode Server.lnk" "$INSTDIR\\bin\\dcpomatic2_server.exe" "" "$INSTDIR\\bin\\dcpomatic2_server.exe" 0
 CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\Uninstall DCP-o-matic 2.lnk" "$INSTDIR\\Uninstall.exe" "" "$INSTDIR\\Uninstall.exe" 0
 SectionEnd
     """, file=f)
@@ -425,8 +425,8 @@ Section "Uninstall"
 RMDir /r "$INSTDIR\\*.*"
 RMDir "$INSTDIR"
 Delete "$DESKTOP\\DCP-o-matic 2 debug.lnk"
-Delete "$DESKTOP\\DCP-o-matic 2 batch converter debug.lnk"
-Delete "$DESKTOP\\DCP-o-matic 2 KDM creator debug.lnk"
+Delete "$DESKTOP\\DCP-o-matic 2 Batch Converter debug.lnk"
+Delete "$DESKTOP\\DCP-o-matic 2 KDM Creator debug.lnk"
 Delete "$SMPROGRAMS\\DCP-o-matic 2 debug\\*.*"
 RmDir  "$SMPROGRAMS\\DCP-o-matic 2 debug"
 DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\DCP-o-matic 2 debug"
@@ -439,8 +439,8 @@ Section "Uninstall"
 RMDir /r "$INSTDIR\\*.*"
 RMDir "$INSTDIR"
 Delete "$DESKTOP\\DCP-o-matic 2.lnk"
-Delete "$DESKTOP\\DCP-o-matic 2 batch converter.lnk"
-Delete "$DESKTOP\\DCP-o-matic 2 encode server.lnk"
+Delete "$DESKTOP\\DCP-o-matic 2 Batch Converter.lnk"
+Delete "$DESKTOP\\DCP-o-matic 2 Encode Server.lnk"
 Delete "$DESKTOP\\DCP-o-matic 2 KDM creator.lnk"
 Delete "$SMPROGRAMS\\DCP-o-matic 2\\*.*"
 RmDir  "$SMPROGRAMS\\DCP-o-matic 2"
