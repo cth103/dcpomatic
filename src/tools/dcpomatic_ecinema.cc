@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,11 +19,16 @@
 */
 
 #include "lib/version.h"
+#include "lib/decrypted_ecinema_kdm.h"
+#include "lib/config.h"
+#include <dcp/key.h>
 extern "C" {
 #include <libavformat/avformat.h>
+#include <libavutil/aes_ctr.h>
 }
 #include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
+#include <openssl/rand.h>
 #include <getopt.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -41,6 +46,7 @@ help (string n)
 	cerr << "Syntax: " << n << " [OPTION] <FILE>\n"
 	     << "  -v, --version        show DCP-o-matic version\n"
 	     << "  -h, --help           show this help\n"
+	     << "  -o, --output         output directory\n"
 	     << "\n"
 	     << "<FILE> is the unencrypted .mp4 file.\n";
 }
@@ -83,7 +89,7 @@ main (int argc, char* argv[])
 	}
 
 	if (!output) {
-		cerr << "You must specify --output or -o\n";
+		cerr << "You must specify --output-media or -o\n";
 		exit (EXIT_FAILURE);
 	}
 
@@ -146,7 +152,11 @@ main (int argc, char* argv[])
 		exit (EXIT_FAILURE);
 	}
 
-	if (avformat_write_header (output_fc, 0) < 0) {
+	dcp::Key key (AES_CTR_KEY_SIZE);
+	AVDictionary* options = 0;
+	av_dict_set (&options, "encryption_key", key.hex().c_str(), 0);
+
+	if (avformat_write_header (output_fc, &options) < 0) {
 		cerr << "Could not write header to output.\n";
 		exit (EXIT_FAILURE);
 	}
@@ -169,4 +179,6 @@ main (int argc, char* argv[])
 
 	avformat_free_context (input_fc);
 	avformat_free_context (output_fc);
+
+	DecryptedECinemaKDM kdm (key);
 }

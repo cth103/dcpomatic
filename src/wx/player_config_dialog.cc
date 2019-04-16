@@ -471,12 +471,12 @@ public:
 private:
 	void setup ()
 	{
-		vector<string> columns;
-		columns.push_back(wx_to_std(_("Manufacturer ID")));
-		columns.push_back(wx_to_std(_("Product code")));
-		columns.push_back(wx_to_std(_("Serial")));
-		columns.push_back(wx_to_std(_("Manufacture week")));
-		columns.push_back(wx_to_std(_("Manufacture year")));
+		vector<EditableListColumn> columns;
+		columns.push_back(EditableListColumn(wx_to_std(_("Manufacturer ID"))));
+		columns.push_back(EditableListColumn(wx_to_std(_("Product code"))));
+		columns.push_back(EditableListColumn(wx_to_std(_("Serial"))));
+		columns.push_back(EditableListColumn(wx_to_std(_("Manufacture week"))));
+		columns.push_back(EditableListColumn(wx_to_std(_("Manufacture year"))));
 		_monitor_list = new EditableList<Monitor, MonitorDialog> (
 			_panel,
 			columns,
@@ -484,8 +484,7 @@ private:
 			boost::bind (&Config::set_required_monitors, Config::instance(), _1),
 			boost::bind (&DevicesPage::monitor_column, this, _1, _2),
 			true,
-			true,
-			100
+			true
 			);
 		_panel->GetSizer()->Add(_monitor_list, 1, wxEXPAND | wxALL, _border);
 

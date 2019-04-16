@@ -73,6 +73,7 @@ sources = """
           decoder.cc
           decoder_factory.cc
           decoder_part.cc
+          decrypted_ecinema_kdm.cc
           digester.cc
           dkdm_wrapper.cc
           dolby_cp750.cc
@@ -83,6 +84,7 @@ sources = """
           encode_server.cc
           encode_server_finder.cc
           encoded_log_entry.cc
+          encrypted_ecinema_kdm.cc
           environment_info.cc
           event_history.cc
           examine_content_job.cc
