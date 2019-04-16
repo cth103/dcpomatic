@@ -1,7 +1,10 @@
 DCPOMATIC_CREATE := 	../run/dcpomatic_create
 DCPOMATIC_CLI := 	../run/dcpomatic_cli
 
-all:			sizing_card_flat sizing_card_scope
+all:			sizing_card_flat.zip sizing_card_scope.zip
+
+sizing_card_%.zip:	sizing_card_%
+			cd $< && zip -9 -r ../$@ SizingCard*
 
 sizing_card_flat:	sizing_card_flat.png
 			rm -rf sizing_card_flat
