@@ -45,13 +45,13 @@ UpdateDialog::UpdateDialog (wxWindow* parent, optional<string> stable, optional<
 
 	if (stable) {
 		add_label_to_sizer (table, this, _("Stable version ") + std_to_wx (stable.get ()), true);
-		wxHyperlinkCtrl* h = new wxHyperlinkCtrl (this, wxID_ANY, "dcpomatic.com/download", "http://dcpomatic.com/download");
+		wxHyperlinkCtrl* h = new wxHyperlinkCtrl (this, wxID_ANY, "dcpomatic.com/download", "https://dcpomatic.com/download");
 		table->Add (h);
 	}
 
 	if (test) {
 		add_label_to_sizer (table, this, _("Test version ") + std_to_wx (test.get ()), true);
-		wxHyperlinkCtrl* h = new wxHyperlinkCtrl (this, wxID_ANY, "dcpomatic.com/test-download", "http://dcpomatic.com/test-download");
+		wxHyperlinkCtrl* h = new wxHyperlinkCtrl (this, wxID_ANY, "dcpomatic.com/test-download", "https://dcpomatic.com/test-download");
 		table->Add (h);
 	}
 
