@@ -301,3 +301,38 @@ BOOST_AUTO_TEST_CASE (vf_test5)
 	BOOST_CHECK (i->period == DCPTimePeriod(DCPTime(960000), DCPTime(1440000)));
 	++i;
 }
+
+/** Test bug #1528 */
+BOOST_AUTO_TEST_CASE (vf_test6)
+{
+	/* Make the OV */
+	shared_ptr<Film> ov = new_test_film ("vf_test6_ov");
+	ov->set_dcp_content_type (DCPContentType::from_isdcf_name("TST"));
+	ov->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	shared_ptr<Content> video = content_factory("test/data/flat_red.png").front();
+	ov->examine_and_add_content (video);
+	BOOST_REQUIRE (!wait_for_jobs());
+	video->video->set_length (24 * 10);
+	ov->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	/* Make the VF */
+	shared_ptr<Film> vf = new_test_film ("vf_test6_vf");
+	vf->set_name ("vf_test6_vf");
+	vf->set_dcp_content_type (DCPContentType::from_isdcf_name("TST"));
+	vf->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	vf->set_sequence (false);
+	shared_ptr<DCPContent> dcp (new DCPContent(ov->dir(ov->dcp_name())));
+	BOOST_REQUIRE (dcp);
+	vf->examine_and_add_content (dcp);
+	BOOST_REQUIRE (!wait_for_jobs());
+	dcp->set_reference_video (true);
+	dcp->set_reference_audio (true);
+
+	shared_ptr<Content> sub = content_factory("test/data/15s.srt").front();
+	vf->examine_and_add_content (sub);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	vf->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+}
