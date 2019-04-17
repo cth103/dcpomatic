@@ -613,8 +613,18 @@ Player::pass ()
 
 	switch (which) {
 	case CONTENT:
+	{
 		earliest_content->done = earliest_content->decoder->pass ();
+		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent>(earliest_content->content);
+		if (dcp && !_play_referenced && dcp->reference_audio()) {
+			/* We are skipping some referenced DCP audio content, so we need to update _last_audio_time
+			   to `hide' the fact that no audio was emitted during the referenced DCP (though
+			   we need to behave as though it was).
+			*/
+			_last_audio_time = dcp->end (_film);
+		}
 		break;
+	}
 	case BLACK:
 		emit_video (black_player_video_frame(EYES_BOTH), _black.position());
 		_black.set_position (_black.position() + one_video_frame());
