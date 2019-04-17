@@ -438,8 +438,10 @@ void
 TextPanel::setup_sensitivity ()
 {
 	int any_subs = 0;
-	/* we currently assume that FFmpeg subtitles are bitmapped */
+	/* We currently assume that FFmpeg subtitles are bitmapped */
 	int ffmpeg_subs = 0;
+	/* DCP subs can't have their line spacing changed */
+	int dcp_subs = 0;
 	ContentList sel = _parent->selected_text ();
 	BOOST_FOREACH (shared_ptr<Content> i, sel) {
 		/* These are the content types that could include subtitles */
@@ -452,7 +454,10 @@ TextPanel::setup_sensitivity ()
 				++ffmpeg_subs;
 				++any_subs;
 			}
-		} else if (sc || dc || dsc) {
+		} else if (dc || dsc) {
+			++dcp_subs;
+			++any_subs;
+		} else if (sc) {
 			/* XXX: in the future there could be bitmap subs from DCPs */
 			++any_subs;
 		}
@@ -502,7 +507,8 @@ TextPanel::setup_sensitivity ()
 	_y_offset->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
 	_x_scale->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
 	_y_scale->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
-	_line_spacing->Enable (!reference && use && type == TEXT_OPEN_SUBTITLE);
+	/* DCP subs ignore the line spacing setting */
+	_line_spacing->Enable (!reference && use && type == TEXT_OPEN_SUBTITLE && dcp_subs < any_subs);
 	_dcp_track->Enable (!reference && any_subs > 0 && use && type == TEXT_CLOSED_CAPTION);
 	_language->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
 	_stream->Enable (!reference && ffmpeg_subs == 1);
