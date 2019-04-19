@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -101,6 +101,16 @@ AudioRingBuffers::get (float* out, int channels, int frames)
 	}
 
 	return time;
+}
+
+optional<DCPTime>
+AudioRingBuffers::peek () const
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	if (_buffers.empty()) {
+		return optional<DCPTime>();
+	}
+	return _buffers.front().second;
 }
 
 void

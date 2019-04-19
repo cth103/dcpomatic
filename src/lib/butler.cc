@@ -124,14 +124,26 @@ Butler::should_run () const
 {
 	if (_video.size() >= MAXIMUM_VIDEO_READAHEAD * 10) {
 		/* This is way too big */
-		throw ProgrammingError
-			(__FILE__, __LINE__, String::compose ("Butler video buffers reached %1 frames (audio is %2)", _video.size(), _audio.size()));
+		optional<DCPTime> pos = _audio.peek();
+		if (pos) {
+			throw ProgrammingError
+				(__FILE__, __LINE__, String::compose ("Butler video buffers reached %1 frames (audio is %2 at %3)", _video.size(), _audio.size(), pos->get()));
+		} else {
+			throw ProgrammingError
+				(__FILE__, __LINE__, String::compose ("Butler video buffers reached %1 frames (audio is %2)", _video.size(), _audio.size()));
+		}
 	}
 
 	if (_audio.size() >= MAXIMUM_AUDIO_READAHEAD * 10) {
 		/* This is way too big */
-		throw ProgrammingError
-			(__FILE__, __LINE__, String::compose ("Butler audio buffers reached %1 frames (video is %2)", _audio.size(), _video.size()));
+		optional<DCPTime> pos = _audio.peek();
+		if (pos) {
+			throw ProgrammingError
+				(__FILE__, __LINE__, String::compose ("Butler audio buffers reached %1 frames at %2 (video is %3)", _audio.size(), pos->get(), _video.size()));
+		} else {
+			throw ProgrammingError
+				(__FILE__, __LINE__, String::compose ("Butler audio buffers reached %1 frames (video is %3)", _audio.size(), _video.size()));
+		}
 	}
 
 	if (_video.size() >= MAXIMUM_VIDEO_READAHEAD * 2) {

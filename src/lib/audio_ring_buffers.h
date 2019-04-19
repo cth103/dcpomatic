@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -35,6 +35,7 @@ public:
 
 	void put (boost::shared_ptr<const AudioBuffers> data, DCPTime time, int frame_rate);
 	boost::optional<DCPTime> get (float* out, int channels, int frames);
+	boost::optional<DCPTime> peek () const;
 
 	void clear ();
 	Frame size () const;
