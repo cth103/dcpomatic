@@ -41,11 +41,11 @@ using boost::function;
 
 /** Minimum video readahead in frames */
 #define MINIMUM_VIDEO_READAHEAD 10
-/** Maximum video readahead in frames; should never be reached unless there are bugs in Player */
+/** Maximum video readahead in frames; should never be exceeded (by much) unless there are bugs in Player */
 #define MAXIMUM_VIDEO_READAHEAD 48
 /** Minimum audio readahead in frames */
 #define MINIMUM_AUDIO_READAHEAD (48000 * MINIMUM_VIDEO_READAHEAD / 24)
-/** Minimum audio readahead in frames; should never be reached unless there are bugs in Player */
+/** Maximum audio readahead in frames; should never be exceeded (by much) unless there are bugs in Player */
 #define MAXIMUM_AUDIO_READAHEAD (48000 * MAXIMUM_VIDEO_READAHEAD / 24)
 
 /** @param pixel_format Pixel format functor that will be used when calling ::image on PlayerVideos coming out of this
