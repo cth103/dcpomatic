@@ -60,15 +60,17 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 	, Decoder (film)
 	, _decode_referenced (false)
 {
-	if (c->video) {
-		video.reset (new VideoDecoder (this, c));
-	}
-	if (c->audio) {
-		audio.reset (new AudioDecoder (this, c->audio, fast));
-	}
-	BOOST_FOREACH (shared_ptr<TextContent> i, c->text) {
-		/* XXX: this time here should be the time of the first subtitle, not 0 */
-		text.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, i, ContentTime())));
+	if (c->can_be_played()) {
+		if (c->video) {
+			video.reset (new VideoDecoder (this, c));
+		}
+		if (c->audio) {
+			audio.reset (new AudioDecoder (this, c->audio, fast));
+		}
+		BOOST_FOREACH (shared_ptr<TextContent> i, c->text) {
+			/* XXX: this time here should be the time of the first subtitle, not 0 */
+			text.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, i, ContentTime())));
+		}
 	}
 
 	list<shared_ptr<dcp::CPL> > cpl_list = cpls ();
