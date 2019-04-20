@@ -102,7 +102,7 @@ Config::set_defaults ()
 	_default_scale_to = 0;
 	_default_dcp_content_type = DCPContentType::from_isdcf_name ("FTR");
 	_default_dcp_audio_channels = 6;
-	_default_j2k_bandwidth = 100000000;
+	_default_j2k_bandwidth = 150000000;
 	_default_audio_delay = 0;
 	_default_interop = true;
 	_default_upload_after_make_dcp = false;
