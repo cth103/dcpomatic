@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-24 00:53+0000\n"
-"PO-Revision-Date: 2018-04-05 20:13+0800\n"
+"PO-Revision-Date: 2019-04-21 22:30+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.2\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
@@ -96,7 +96,7 @@ msgstr ""
 
 #: src/lib/config.cc:1136
 msgid "$JOB_NAME: $JOB_STATUS"
-msgstr ""
+msgstr "$JOB_NAME: $JOB_STATUS"
 
 #: src/lib/atmos_mxf_content.cc:83
 msgid "%1 [Atmos]"
@@ -195,12 +195,13 @@ msgid "Advertisement"
 msgstr "广告片"
 
 #: src/lib/hints.cc:147
-#, fuzzy
 msgid ""
 "All of your content is 2.35:1 or narrower but your DCP's container is Scope "
 "(2.39:1).  This will pillar-box your content.  You may prefer to set your "
 "DCP's container to have the same ratio as your content."
-msgstr "遮幅(1.85：1)左右黑边。"
+msgstr ""
+"您添加的媒体画面宽高比为2.35:1，但是DCP容器设置为2.39:1的模式。这将会使您的画"
+"面在放映时存在上下黑边。建议把DCP容器设置为与素材相同宽高比的模式。"
 
 #: src/lib/hints.cc:143
 msgid ""
@@ -208,16 +209,17 @@ msgid ""
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
 "You may prefer to set your DCP's container to Scope (2.39:1) in the \"DCP\" "
 "tab."
-msgstr "宽幅(2.39：1)上下黑边。"
+msgstr ""
+"您添加的媒体画面宽高比为2.39:1，但是DCP容器设置为1.85:1的模式。这将会使您的画"
+"面在放映时存在上下黑边。建议把DCP容器设置为2.39:1的模式。"
 
 #: src/lib/job.cc:103
 msgid "An error occurred whilst handling the file %1."
 msgstr "执行错误 %1."
 
 #: src/lib/analyse_audio_job.cc:96
-#, fuzzy
 msgid "Analysing audio"
-msgstr "分析音频"
+msgstr "分析音频中"
 
 #: src/lib/audio_content.cc:257
 msgid "Audio will be resampled from %1Hz to %2Hz"
@@ -257,7 +259,7 @@ msgstr "BT2020 非恒定亮度"
 
 #: src/lib/ffmpeg_content.cc:636
 msgid "BT2100"
-msgstr ""
+msgstr "BT2100"
 
 #: src/lib/ffmpeg_content.cc:573
 msgid "BT470BG"
@@ -297,9 +299,8 @@ msgid "Cancelled"
 msgstr "取消"
 
 #: src/lib/film.cc:304
-#, fuzzy
 msgid "Cannot contain slashes"
-msgstr "不能包含斜线"
+msgstr "不能包含斜杠"
 
 #: src/lib/exceptions.cc:61
 msgid "Cannot handle pixel format %1 during %2"
@@ -319,7 +320,7 @@ msgstr "声音通道"
 
 #: src/lib/check_content_change_job.cc:46
 msgid "Checking content for changes"
-msgstr ""
+msgstr "检查媒体内容是否有改变"
 
 #: src/lib/reel_writer.cc:100
 msgid "Checking existing image data"
@@ -327,7 +328,7 @@ msgstr "检查现有的图像数据"
 
 #: src/lib/check_content_change_job.cc:90
 msgid "Choose 'Make DCP' again when you have done this."
-msgstr ""
+msgstr "请在做完更改之后再次执行“制作DCP”命令"
 
 #: src/lib/ffmpeg_content.cc:635
 #, fuzzy
@@ -340,9 +341,8 @@ msgid "Chroma-derived non-constant luminance"
 msgstr "BT2020 非恒定亮度"
 
 #: src/lib/types.cc:139
-#, fuzzy
 msgid "Closed captions"
-msgstr "降噪"
+msgstr "隐藏式字幕"
 
 #: src/lib/ffmpeg_content.cc:594
 msgid "Colour primaries"
@@ -393,9 +393,8 @@ msgid "Content to be joined must all have or not have audio"
 msgstr "要加入的内容必须都有或都没有音频"
 
 #: src/lib/ffmpeg_content.cc:154
-#, fuzzy
 msgid "Content to be joined must all have or not have subtitles or captions"
-msgstr "要加入的内容必须都有或都没有字幕"
+msgstr "要加入的内容必须都有或都没有隐藏式字幕"
 
 #: src/lib/ffmpeg_content.cc:148
 msgid "Content to be joined must all have or not have video"
@@ -474,9 +473,8 @@ msgid "Content to be joined must have the same video frame type."
 msgstr "视频帧率必须相同。"
 
 #: src/lib/text_content.cc:297
-#, fuzzy
 msgid "Content to be joined must use the same DCP track."
-msgstr "字幕字体必须相同。"
+msgstr "DCP轨道必须相同。"
 
 #: src/lib/text_content.cc:293 src/lib/text_content.cc:305
 msgid "Content to be joined must use the same fonts."
@@ -507,9 +505,8 @@ msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "无法解码JPEG2000文件%1 (%2)"
 
 #: src/lib/ffmpeg_image_proxy.cc:152
-#, fuzzy
 msgid "Could not decode image (%1)"
-msgstr "无法解码图像文件(%1)"
+msgstr "无法解码图像媒体(%1)"
 
 #: src/lib/encode_server_finder.cc:193
 msgid ""
@@ -530,14 +527,12 @@ msgid "Could not open downloaded ZIP file"
 msgstr "无法打开下载的zip文件"
 
 #: src/lib/internet.cc:127
-#, fuzzy
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
-msgstr "无法打开下载的zip文件"
+msgstr "无法打开下载的zip文件 (%1:%2: %3)"
 
 #: src/lib/config.cc:1039
-#, fuzzy
 msgid "Could not open file for writing"
-msgstr "写入 %1文件失败"
+msgstr "无法执行写入，目标文件无法打开"
 
 #: src/lib/dcp_subtitle.cc:55
 msgid "Could not read subtitles (%1 / %2)"
@@ -607,6 +602,8 @@ msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
 msgstr ""
+"DCP-o-matic必须把您DCP的设置更改为OV（原创）。请重新检查设置确认设置内容是否"
+"为您的期望值。"
 
 #: src/lib/ffmpeg_content.cc:113
 msgid ""
@@ -615,7 +612,7 @@ msgstr "不支持的格式`%1'。"
 
 #: src/lib/config.cc:364 src/lib/config.cc:1133
 msgid "DCP-o-matic notification"
-msgstr ""
+msgstr "DCP-o-matic提醒"
 
 #: src/lib/filter.cc:71 src/lib/filter.cc:72 src/lib/filter.cc:73
 #: src/lib/filter.cc:74
@@ -652,9 +649,8 @@ msgid "Dolby CP650 and CP750"
 msgstr "杜比 CP 650和CP 750"
 
 #: src/lib/internet.cc:73
-#, fuzzy
 msgid "Download failed (%1 error %2)"
-msgstr "下载失败 (%1/%2 error %3)"
+msgstr "下载失败 (%1 error %2)"
 
 #: src/lib/frame_rate_change.cc:106
 msgid "Each content frame will be doubled in the DCP.\n"
@@ -674,7 +670,7 @@ msgstr "邮件发送KDMs给 %1"
 
 #: src/lib/send_notification_email_job.cc:46
 msgid "Email notification"
-msgstr ""
+msgstr "Email提醒"
 
 #: src/lib/send_problem_report_job.cc:59
 msgid "Email problem report"
@@ -697,19 +693,16 @@ msgid "Error: %1"
 msgstr "错误: (%1)"
 
 #: src/lib/hints.cc:265
-#, fuzzy
 msgid "Examining closed captions"
-msgstr "Examinar contenido"
+msgstr "检查隐藏式字幕中"
 
 #: src/lib/examine_content_job.cc:44
-#, fuzzy
 msgid "Examining content"
-msgstr "检查内容"
+msgstr "检查媒体内容中"
 
 #: src/lib/examine_ffmpeg_subtitles_job.cc:49
-#, fuzzy
 msgid "Examining subtitles"
-msgstr "定位字幕"
+msgstr "定位字幕中"
 
 #: src/lib/ffmpeg_content.cc:626
 msgid "FCC"
@@ -720,9 +713,8 @@ msgid "Failed to authenticate with server (%1)"
 msgstr "无法与服务器进行身份验证 (%1)"
 
 #: src/lib/emailer.cc:222
-#, fuzzy
 msgid "Failed to send email"
-msgstr "发送电子邮件失败"
+msgstr "电子邮件发送失败"
 
 #: src/lib/dcp_content_type.cc:46
 msgid "Feature"
@@ -801,9 +793,8 @@ msgid "High quality 3D denoiser"
 msgstr "高品质的3D降噪"
 
 #: src/lib/filter.cc:68
-#, fuzzy
 msgid "Horizontal flip"
-msgstr "Horizontal deblocking filter"
+msgstr "水平翻转"
 
 #: src/lib/audio_content.cc:293 src/lib/audio_content.cc:313
 msgid "Hz"
@@ -819,7 +810,7 @@ msgstr "IEC61966-2-4"
 
 #: src/lib/hints.cc:168
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
-msgstr ""
+msgstr "如果您选择使用25fps，那就必须把DCP标准选线设置为SMPTE"
 
 #: src/lib/job.cc:147 src/lib/job.cc:203 src/lib/job.cc:213
 msgid "It is not known what caused this error."
@@ -827,19 +818,20 @@ msgstr "未知错误."
 
 #: src/lib/ffmpeg_content.cc:590
 msgid "JEDEC P22"
-msgstr ""
+msgstr "JEDEC P22"
 
 #: src/lib/config.cc:354 src/lib/config.cc:1118
 msgid "KDM delivery: $CPL_NAME"
 msgstr "发行KDM: $CPL_NAME"
 
 #: src/lib/dcp.cc:82
+#, fuzzy
 msgid "KDM was made for DCP-o-matic but not for its leaf certificate."
-msgstr ""
+msgstr "KDM是为DCP-o-matic生成，但是与上级证书不匹配。"
 
 #: src/lib/dcp.cc:80
 msgid "KDM was not made for DCP-o-matic's decryption certificate."
-msgstr ""
+msgstr "KDM不是为DCP-o-matic解密证书而生成"
 
 #: src/lib/filter.cc:72
 msgid "Kernel deinterlacer"
@@ -930,9 +922,8 @@ msgid "Mismatched video sizes in DCP"
 msgstr "DCP中的视频分辨率不匹配"
 
 #: src/lib/exceptions.cc:55
-#, fuzzy
 msgid "Missing required setting %1"
-msgstr "缺少必需的设置%1"
+msgstr "缺少必需的设置 %1"
 
 #: src/lib/util.cc:892
 msgid "Monday"
@@ -948,7 +939,7 @@ msgstr "动态隔行补偿"
 
 #: src/lib/dcp_decoder.cc:77
 msgid "No CPLs found in DCP."
-msgstr ""
+msgstr "DCP中没有找到CPL文件"
 
 #: src/lib/cinema_kdms.cc:201 src/lib/send_notification_email_job.cc:61
 msgid "No mail server configured in preferences"
@@ -987,14 +978,13 @@ msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "只有最后一段才可以进行结束裁剪。"
 
 #: src/lib/types.cc:137
-#, fuzzy
 msgid "Open subtitles"
-msgstr "文本字幕"
+msgstr "开放式字幕"
 
 #: src/lib/filter.cc:67 src/lib/filter.cc:68 src/lib/filter.cc:69
 #: src/lib/filter.cc:70
 msgid "Orientation"
-msgstr ""
+msgstr "方向"
 
 #: src/lib/job.cc:171
 msgid "Out of memory"
@@ -1013,6 +1003,7 @@ msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
 "carl@dcpomatic.com"
 msgstr ""
+"请提交这个问题，在帮助餐单中选择：通过Email反馈问题：carl@dcpomatic.com"
 
 #: src/lib/dcp_content_type.cc:53
 msgid "Policy"
@@ -1080,11 +1071,11 @@ msgstr "右环绕"
 
 #: src/lib/filter.cc:70
 msgid "Rotate 90 degrees anti-clockwise"
-msgstr ""
+msgstr "逆时针旋转90°"
 
 #: src/lib/filter.cc:69
 msgid "Rotate 90 degrees clockwise"
-msgstr ""
+msgstr "顺时针旋转90°"
 
 #: src/lib/util.cc:575
 msgid "Rs"
@@ -1179,14 +1170,12 @@ msgid ""
 msgstr ""
 
 #: src/lib/film.cc:329
-#, fuzzy
 msgid "Some of your content needs a KDM"
-msgstr "内容需要KDM密匙"
+msgstr "一些内容需要KDM密匙"
 
 #: src/lib/film.cc:332
-#, fuzzy
 msgid "Some of your content needs an OV"
-msgstr "内容需要声明原创OV"
+msgstr "一些内容需要OV（声明原创）"
 
 #: src/lib/writer.cc:620
 msgid "Stereo"
@@ -1261,7 +1250,7 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:588
 msgid "There is no video in this DCP"
-msgstr ""
+msgstr "DCP中不包含画面"
 
 #: src/lib/job.cc:171
 msgid ""
@@ -1297,16 +1286,15 @@ msgstr "星期四"
 
 #: src/lib/types.cc:135
 msgid "Timed text"
-msgstr ""
+msgstr "时控文本"
 
 #: src/lib/dcp_content_type.cc:48
 msgid "Trailer"
 msgstr "预告片"
 
 #: src/lib/transcode_job.cc:55
-#, fuzzy
 msgid "Transcoding %1"
-msgstr "转码 %1"
+msgstr "转码中 %1"
 
 #: src/lib/dcp_content_type.cc:50
 msgid "Transitional"
@@ -1366,11 +1354,11 @@ msgstr "视力障碍"
 
 #: src/lib/verify_dcp_job.cc:41
 msgid "Verify DCP"
-msgstr ""
+msgstr "验证DCP中"
 
 #: src/lib/filter.cc:67
 msgid "Vertical flip"
-msgstr ""
+msgstr "垂直翻转"
 
 #: src/lib/util.cc:546
 msgid "Visually impaired"
@@ -1516,7 +1504,7 @@ msgstr "[字幕]"
 #. / which reel it is.  Preserve the %1; it will be replaced with the reel number.
 #: src/lib/ffmpeg_encoder.cc:67
 msgid "_reel%1"
-msgstr ""
+msgstr "_卷号%1"
 
 #: src/lib/dcpomatic_socket.cc:69
 msgid "connect timed out"
@@ -1589,7 +1577,7 @@ msgstr "每秒帧数"
 #. / TRANSLATORS: h here is an abbreviation for hours
 #: src/lib/util.cc:187
 msgid "h"
-msgstr "时"
+msgstr "小时"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:679
