@@ -133,6 +133,8 @@ private:
 	mutable dcp::Size _image_inter_size;
 	/** _out_size that was used to make _image */
 	mutable dcp::Size _image_out_size;
+	/** _fade that was used to make _image */
+	mutable boost::optional<double> _image_fade;
 };
 
 #endif
