@@ -278,3 +278,52 @@ BOOST_AUTO_TEST_CASE (as_png_test)
 	check_image ("test/data/3d_test/000001.png", "build/test/as_png_rgb.png");
 	check_image ("test/data/3d_test/000001.png", "build/test/as_png_bgr.png");
 }
+
+/* Very dumb test to fade black to make sure it stays black */
+static void
+fade_test_format_black (AVPixelFormat f, string name)
+{
+	Image yuv (f, dcp::Size(640, 480), true);
+	yuv.make_black ();
+	yuv.fade (0);
+	string const filename = "fade_test_black_" + name + ".png";
+	yuv.convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGBA, true, false)->as_png().write("build/test/" + filename);
+	check_image ("test/data/" + filename, "build/test/" + filename);
+}
+
+/* Fade red to make sure it stays red */
+static void
+fade_test_format_red (AVPixelFormat f, float amount, string name)
+{
+	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/flat_red.png"));
+	shared_ptr<Image> red = proxy->image().first->convert_pixel_format(dcp::YUV_TO_RGB_REC709, f, true, false);
+	red->fade (amount);
+	string const filename = "fade_test_red_" + name + ".png";
+	red->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGBA, true, false)->as_png().write("build/test/" + filename);
+	check_image ("test/data/" + filename, "build/test/" + filename);
+}
+
+BOOST_AUTO_TEST_CASE (fade_test)
+{
+	fade_test_format_black (AV_PIX_FMT_YUV420P,   "yuv420p");
+	fade_test_format_black (AV_PIX_FMT_YUV422P10, "yuv422p10");
+	fade_test_format_black (AV_PIX_FMT_RGB24,     "rgb24");
+	fade_test_format_black (AV_PIX_FMT_XYZ12LE,   "xyz12le");
+	fade_test_format_black (AV_PIX_FMT_RGB48LE,   "rgb48le");
+
+	fade_test_format_red   (AV_PIX_FMT_YUV420P,   0,   "yuv420p_0");
+	fade_test_format_red   (AV_PIX_FMT_YUV420P,   0.5, "yuv420p_50");
+	fade_test_format_red   (AV_PIX_FMT_YUV420P,   1,   "yuv420p_100");
+	fade_test_format_red   (AV_PIX_FMT_YUV422P10, 0,   "yuv422p10_0");
+	fade_test_format_red   (AV_PIX_FMT_YUV422P10, 0.5, "yuv422p10_50");
+	fade_test_format_red   (AV_PIX_FMT_YUV422P10, 1,   "yuv422p10_100");
+	fade_test_format_red   (AV_PIX_FMT_RGB24,     0,   "rgb24_0");
+	fade_test_format_red   (AV_PIX_FMT_RGB24,     0.5, "rgb24_50");
+	fade_test_format_red   (AV_PIX_FMT_RGB24,     1,   "rgb24_100");
+	fade_test_format_red   (AV_PIX_FMT_XYZ12LE,   0,   "xyz12le_0");
+	fade_test_format_red   (AV_PIX_FMT_XYZ12LE,   0.5, "xyz12le_50");
+	fade_test_format_red   (AV_PIX_FMT_XYZ12LE,   1,   "xyz12le_100");
+	fade_test_format_red   (AV_PIX_FMT_RGB48LE,   0,   "rgb48le_0");
+	fade_test_format_red   (AV_PIX_FMT_RGB48LE,   0.5, "rgb48le_50");
+	fade_test_format_red   (AV_PIX_FMT_RGB48LE,   1,   "rgb48le_100");
+}

@@ -1058,49 +1058,61 @@ operator== (Image const & a, Image const & b)
 void
 Image::fade (float f)
 {
+	/* U/V black value for 8-bit colour */
+	static int const eight_bit_uv =    (1 << 7) - 1;
+	/* U/V black value for 10-bit colour */
+	static uint16_t const ten_bit_uv = (1 << 9) - 1;
+
 	switch (_pixel_format) {
 	case AV_PIX_FMT_YUV420P:
-	case AV_PIX_FMT_YUV422P:
-	case AV_PIX_FMT_YUV444P:
-	case AV_PIX_FMT_YUV411P:
-	case AV_PIX_FMT_YUVJ420P:
-	case AV_PIX_FMT_YUVJ422P:
-	case AV_PIX_FMT_YUVJ444P:
-	case AV_PIX_FMT_RGB24:
-	case AV_PIX_FMT_ARGB:
-	case AV_PIX_FMT_RGBA:
-	case AV_PIX_FMT_ABGR:
-	case AV_PIX_FMT_BGRA:
-	case AV_PIX_FMT_RGB555LE:
-		/* 8-bit */
-		for (int c = 0; c < 3; ++c) {
+	{
+		/* Y */
+		uint8_t* p = data()[0];
+		int const lines = sample_size(0).height;
+		for (int y = 0; y < lines; ++y) {
+			uint8_t* q = p;
+			for (int x = 0; x < line_size()[0]; ++x) {
+				*q = int(float(*q) * f);
+				++q;
+			}
+			p += stride()[0];
+		}
+
+		/* U, V */
+		for (int c = 1; c < 3; ++c) {
 			uint8_t* p = data()[c];
 			int const lines = sample_size(c).height;
 			for (int y = 0; y < lines; ++y) {
 				uint8_t* q = p;
 				for (int x = 0; x < line_size()[c]; ++x) {
-					*q = int (float (*q) * f);
+					*q = eight_bit_uv + int((int(*q) - eight_bit_uv) * f);
 					++q;
 				}
 				p += stride()[c];
 			}
 		}
-		break;
 
-	case AV_PIX_FMT_YUV422P9LE:
-	case AV_PIX_FMT_YUV444P9LE:
-	case AV_PIX_FMT_YUV422P10LE:
-	case AV_PIX_FMT_YUV444P10LE:
-	case AV_PIX_FMT_YUV422P16LE:
-	case AV_PIX_FMT_YUV444P16LE:
-	case AV_PIX_FMT_YUVA420P9LE:
-	case AV_PIX_FMT_YUVA422P9LE:
-	case AV_PIX_FMT_YUVA444P9LE:
-	case AV_PIX_FMT_YUVA420P10LE:
-	case AV_PIX_FMT_YUVA422P10LE:
-	case AV_PIX_FMT_YUVA444P10LE:
-	case AV_PIX_FMT_RGB48LE:
+		break;
+	}
+
+	case AV_PIX_FMT_RGB24:
+	{
+		/* 8-bit */
+		uint8_t* p = data()[0];
+		int const lines = sample_size(0).height;
+		for (int y = 0; y < lines; ++y) {
+			uint8_t* q = p;
+			for (int x = 0; x < line_size()[0]; ++x) {
+				*q = int (float (*q) * f);
+				++q;
+			}
+			p += stride()[0];
+		}
+		break;
+	}
+
 	case AV_PIX_FMT_XYZ12LE:
+	case AV_PIX_FMT_RGB48LE:
 		/* 16-bit little-endian */
 		for (int c = 0; c < 3; ++c) {
 			int const stride_pixels = stride()[c] / 2;
@@ -1118,22 +1130,26 @@ Image::fade (float f)
 		}
 		break;
 
-	case AV_PIX_FMT_YUV422P9BE:
-	case AV_PIX_FMT_YUV444P9BE:
-	case AV_PIX_FMT_YUV444P10BE:
-	case AV_PIX_FMT_YUV422P10BE:
-	case AV_PIX_FMT_YUVA420P9BE:
-	case AV_PIX_FMT_YUVA422P9BE:
-	case AV_PIX_FMT_YUVA444P9BE:
-	case AV_PIX_FMT_YUVA420P10BE:
-	case AV_PIX_FMT_YUVA422P10BE:
-	case AV_PIX_FMT_YUVA444P10BE:
-	case AV_PIX_FMT_YUVA420P16BE:
-	case AV_PIX_FMT_YUVA422P16BE:
-	case AV_PIX_FMT_YUVA444P16BE:
-	case AV_PIX_FMT_RGB48BE:
-		/* 16-bit big-endian */
-		for (int c = 0; c < 3; ++c) {
+	case AV_PIX_FMT_YUV422P10LE:
+	{
+		/* Y */
+		{
+			int const stride_pixels = stride()[0] / 2;
+			int const line_size_pixels = line_size()[0] / 2;
+			uint16_t* p = reinterpret_cast<uint16_t*> (data()[0]);
+			int const lines = sample_size(0).height;
+			for (int y = 0; y < lines; ++y) {
+				uint16_t* q = p;
+				for (int x = 0; x < line_size_pixels; ++x) {
+					*q = int(float(*q) * f);
+					++q;
+				}
+				p += stride_pixels;
+			}
+		}
+
+		/* U, V */
+		for (int c = 1; c < 3; ++c) {
 			int const stride_pixels = stride()[c] / 2;
 			int const line_size_pixels = line_size()[c] / 2;
 			uint16_t* p = reinterpret_cast<uint16_t*> (data()[c]);
@@ -1141,7 +1157,7 @@ Image::fade (float f)
 			for (int y = 0; y < lines; ++y) {
 				uint16_t* q = p;
 				for (int x = 0; x < line_size_pixels; ++x) {
-					*q = swap_16 (int (float (swap_16 (*q)) * f));
+					*q = ten_bit_uv + int((int(*q) - ten_bit_uv) * f);
 					++q;
 				}
 				p += stride_pixels;
@@ -1149,18 +1165,6 @@ Image::fade (float f)
 		}
 		break;
 
-	case AV_PIX_FMT_UYVY422:
-	{
-		int const Y = sample_size(0).height;
-		int const X = line_size()[0];
-		uint8_t* p = data()[0];
-		for (int y = 0; y < Y; ++y) {
-			for (int x = 0; x < X; ++x) {
-				*p = int (float (*p) * f);
-				++p;
-			}
-		}
-		break;
 	}
 
 	default:
