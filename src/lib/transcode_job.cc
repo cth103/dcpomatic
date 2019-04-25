@@ -96,13 +96,13 @@ TranscodeJob::run ()
 			Analytics::instance()->successful_dcp_encode();
 		}
 
-		_encoder.reset ();
-
 		/* XXX: this shouldn't be here */
-		if (_film->upload_after_make_dcp ()) {
+		if (_film->upload_after_make_dcp() && dynamic_pointer_cast<DCPEncoder>(_encoder)) {
 			shared_ptr<Job> job (new UploadJob (_film));
 			JobManager::instance()->add (job);
 		}
+
+		_encoder.reset ();
 
 	} catch (...) {
 		_encoder.reset ();
