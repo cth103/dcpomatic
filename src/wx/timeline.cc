@@ -568,7 +568,12 @@ Timeline::left_up_select (wxMouseEvent& ev)
 	}
 
 	_content_panel->set_selection (selected_content ());
-	set_position_from_event (ev);
+	/* Since we may have just set change signals back to `not-frequent', we have to
+	   make sure this position change is signalled, even if the position value has
+	   not changed since the last time it was set (with frequent=true).  This is
+	   a bit of a hack.
+	*/
+	set_position_from_event (ev, true);
 
 	/* Clear up up the stuff we don't do during drag */
 	assign_tracks ();
@@ -704,7 +709,7 @@ Timeline::maybe_snap (DCPTime a, DCPTime b, optional<DCPTime>& nearest_distance)
 }
 
 void
-Timeline::set_position_from_event (wxMouseEvent& ev)
+Timeline::set_position_from_event (wxMouseEvent& ev, bool force_emit)
 {
 	if (!_pixels_per_second) {
 		return;
@@ -763,7 +768,7 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 		new_position = DCPTime ();
 	}
 
-	_down_view->content()->set_position (film, new_position);
+	_down_view->content()->set_position (film, new_position, force_emit);
 
 	film->set_sequence (false);
 }

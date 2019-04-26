@@ -135,7 +135,7 @@ public:
 		return _digest;
 	}
 
-	void set_position (boost::shared_ptr<const Film> film, DCPTime);
+	void set_position (boost::shared_ptr<const Film> film, DCPTime, bool force_emit = false);
 
 	/** DCPTime that this content starts; i.e. the time that the first
 	 *  bit of the content (trimmed or not) will happen.

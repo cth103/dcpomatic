@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -95,7 +95,7 @@ private:
 	void film_content_change (ChangeType type, int, bool frequent);
 	void resized ();
 	void assign_tracks ();
-	void set_position_from_event (wxMouseEvent &);
+	void set_position_from_event (wxMouseEvent& ev, bool force_emit = false);
 	void clear_selection ();
 	void recreate_views ();
 	void setup_scrollbars ();

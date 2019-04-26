@@ -211,7 +211,7 @@ Content::signal_change (ChangeType c, int p)
 }
 
 void
-Content::set_position (shared_ptr<const Film> film, DCPTime p)
+Content::set_position (shared_ptr<const Film> film, DCPTime p, bool force_emit)
 {
 	/* video and audio content can modify its position */
 
@@ -227,7 +227,7 @@ Content::set_position (shared_ptr<const Film> film, DCPTime p)
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		if (p == _position) {
+		if (p == _position && !force_emit) {
 			cc.abort ();
 			return;
 		}
