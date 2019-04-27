@@ -360,12 +360,12 @@ AudioMappingView::motion (wxMouseEvent& ev)
 		wxString s;
 		float const gain = _map.get(channels->first, channels->second);
 		if (gain == 0) {
-			s = wxString::Format (_("No audio will be passed from content channel %d to DCP channel %d."), channels->first, channels->second);
+			s = wxString::Format (_("No audio will be passed from content channel %d to DCP channel %d."), channels->first + 1, channels->second + 1);
 		} else if (gain == 1) {
-			s = wxString::Format (_("Audio will be passed from content channel %d to DCP channel %d unaltered."), channels->first, channels->second);
+			s = wxString::Format (_("Audio will be passed from content channel %d to DCP channel %d unaltered."), channels->first + 1, channels->second + 1);
 		} else {
 			float const dB = 20 * log10 (gain);
-			s = wxString::Format (_("Audio will be passed from content channel %d to DCP channel %d with gain %.1fdB."), channels->first, channels->second, dB);
+			s = wxString::Format (_("Audio will be passed from content channel %d to DCP channel %d with gain %.1fdB."), channels->first + 1, channels->second + 1, dB);
 		}
 
 		SetToolTip (s + " " + _("Right click to change gain."));
