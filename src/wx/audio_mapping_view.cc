@@ -48,8 +48,8 @@ using boost::shared_ptr;
 using boost::optional;
 using dcp::locale_convert;
 
-#define INDICATOR_SIZE 16
-#define GRID_SPACING 24
+#define INDICATOR_SIZE 20
+#define GRID_SPACING 32
 #define LEFT_WIDTH (GRID_SPACING * 3)
 #define TOP_HEIGHT (GRID_SPACING * 2)
 
