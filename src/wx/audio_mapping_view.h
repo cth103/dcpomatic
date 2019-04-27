@@ -24,7 +24,7 @@
  */
 
 #include <boost/signals2.hpp>
-#include <wx/scrolwin.h>
+#include <wx/wx.h>
 #include "lib/audio_mapping.h"
 
 /** @class AudioMappingView
@@ -42,7 +42,7 @@
  *  might be.
  */
 
-class AudioMappingView : public wxScrolledWindow
+class AudioMappingView : public wxPanel
 {
 public:
 	explicit AudioMappingView (wxWindow *);
@@ -75,11 +75,20 @@ private:
 	void map_values_changed ();
 	void setup_sizes ();
 	void paint ();
+	void paint_static (wxDC& dc, wxGraphicsContext* gc);
+	void paint_column_labels (wxDC& dc, wxGraphicsContext* gc);
+	void paint_column_lines (wxGraphicsContext* gc);
+	void paint_row_labels (wxDC& dc, wxGraphicsContext* gc);
+	void paint_row_lines (wxGraphicsContext* gc);
+	void paint_indicators (wxDC& dc);
+	void size (wxSizeEvent &);
+	void scroll ();
 	void left_down (wxMouseEvent &);
 	void right_down (wxMouseEvent &);
 	void motion (wxMouseEvent &);
+	void mouse_wheel (wxMouseEvent &);
 	boost::optional<std::pair<int, int> > mouse_event_to_channels (wxMouseEvent& ev) const;
-	void set_virtual_size ();
+	void setup ();
 
 	void off ();
 	void full ();
@@ -89,6 +98,9 @@ private:
 	AudioMapping _map;
 
 	wxMenu* _menu;
+	wxPanel* _body;
+	wxScrollBar* _vertical_scroll;
+	wxScrollBar* _horizontal_scroll;
 	int _menu_input;
 	int _menu_output;
 
