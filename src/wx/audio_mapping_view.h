@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,8 +24,7 @@
  */
 
 #include <boost/signals2.hpp>
-#include <wx/wx.h>
-#include <wx/grid.h>
+#include <wx/scrolwin.h>
 #include "lib/audio_mapping.h"
 
 /** @class AudioMappingView
@@ -43,7 +42,7 @@
  *  might be.
  */
 
-class AudioMappingView : public wxPanel
+class AudioMappingView : public wxScrolledWindow
 {
 public:
 	explicit AudioMappingView (wxWindow *);
@@ -73,35 +72,29 @@ public:
 	boost::signals2::signal<void (AudioMapping)> Changed;
 
 private:
-	void left_click (wxGridEvent &);
-	void right_click (wxGridEvent &);
-	void mouse_moved_grid (wxMouseEvent &);
-	void update_cells ();
 	void map_values_changed ();
-	void sized (wxSizeEvent &);
-	void paint_left_labels ();
-	void paint_top_labels ();
-	void mouse_moved_left_labels (wxMouseEvent &);
 	void setup_sizes ();
-	void grid_scrolled (wxScrollWinEvent& ev);
+	void paint ();
+	void left_down (wxMouseEvent &);
+	void right_down (wxMouseEvent &);
+	void motion (wxMouseEvent &);
+	boost::optional<std::pair<int, int> > mouse_event_to_channels (wxMouseEvent& ev) const;
+	void set_virtual_size ();
 
 	void off ();
 	void full ();
 	void minus6dB ();
 	void edit ();
 
-	wxGrid* _grid;
-	wxScrolledCanvas* _left_labels;
-	wxScrolledCanvas* _top_labels;
 	AudioMapping _map;
 
 	wxMenu* _menu;
-	int _menu_row;
-	int _menu_column;
+	int _menu_input;
+	int _menu_output;
 
+	std::vector<std::string> _input_channels;
+	std::vector<std::string> _output_channels;
 	std::vector<Group> _input_groups;
-	std::vector<std::pair<int, int> > _input_group_positions;
 
-	int _last_tooltip_row;
-	int _last_tooltip_column;
+	boost::optional<std::pair<int, int> > _last_tooltip_channels;
 };

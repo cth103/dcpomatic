@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -45,10 +45,13 @@ using std::vector;
 using std::pair;
 using std::make_pair;
 using boost::shared_ptr;
+using boost::optional;
 using dcp::locale_convert;
 
 #define INDICATOR_SIZE 16
-#define LEFT_WIDTH 48
+#define GRID_SPACING 24
+#define LEFT_WIDTH (GRID_SPACING * 3)
+#define TOP_HEIGHT (GRID_SPACING * 2)
 
 enum {
 	ID_off = 1,
@@ -57,196 +60,257 @@ enum {
 	ID_edit = 4
 };
 
-class NoSelectionStringRenderer : public wxGridCellStringRenderer
-{
-public:
-	void Draw (wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool)
-	{
-		wxGridCellStringRenderer::Draw (grid, attr, dc, rect, row, col, false);
-	}
-};
-
-/** @class ValueRenderer
- *  @brief wxGridCellRenderer for a gain value.
- */
-class ValueRenderer : public wxGridCellRenderer
-{
-public:
-
-	void Draw (wxGrid& grid, wxGridCellAttr &, wxDC& dc, const wxRect& rect, int row, int col, bool)
-	{
-		dc.SetPen (*wxThePenList->FindOrCreatePen (wxColour (255, 255, 255), 1, wxPENSTYLE_SOLID));
-		dc.SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (255, 255, 255), wxBRUSHSTYLE_SOLID));
-		dc.DrawRectangle (rect);
-
-		int const xo = (rect.GetWidth() - INDICATOR_SIZE) / 2;
-		int const yo = (rect.GetHeight() - INDICATOR_SIZE) / 2;
-
-		dc.SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 1, wxPENSTYLE_SOLID));
-		dc.SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (255, 255, 255), wxBRUSHSTYLE_SOLID));
-		dc.DrawRectangle (wxRect (rect.GetLeft() + xo, rect.GetTop() + yo, INDICATOR_SIZE, INDICATOR_SIZE));
-
-		float const value = locale_convert<float> (wx_to_std (grid.GetCellValue (row, col)));
-		float const value_dB = 20 * log10 (value);
-		int const range = 18;
-		int height = 0;
-		if (value_dB > -range) {
-			height = INDICATOR_SIZE * (1 + value_dB / range);
-		}
-
-		height = max (0, height);
-
-		if (value > 0) {
-			/* Make sure we get a little bit of the marker if there is any gain */
-			height = max (3, height);
-		}
-
-		dc.SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (0, 255, 0), wxBRUSHSTYLE_SOLID));
-		dc.DrawRectangle (wxRect (rect.GetLeft() + xo, rect.GetTop() + yo + INDICATOR_SIZE - height, INDICATOR_SIZE, height));
-	}
-
-	wxSize GetBestSize (wxGrid &, wxGridCellAttr &, wxDC &, int, int)
-	{
-		return wxSize (INDICATOR_SIZE + 4, INDICATOR_SIZE + 4);
-	}
-
-	wxGridCellRenderer* Clone () const
-	{
-		return new ValueRenderer;
-	}
-};
-
-
 AudioMappingView::AudioMappingView (wxWindow* parent)
-	: wxPanel (parent, wxID_ANY)
-	, _menu_row (0)
-	, _menu_column (1)
-	, _last_tooltip_row (0)
-	, _last_tooltip_column (0)
+	: wxScrolledWindow (parent, wxID_ANY)
+	, _menu_input (0)
+	, _menu_output (1)
 {
-	_left_labels = new wxScrolledCanvas (this, wxID_ANY);
-	_left_labels->Bind (wxEVT_PAINT, boost::bind (&AudioMappingView::paint_left_labels, this));
-	_top_labels = new wxScrolledCanvas (this, wxID_ANY);
-	_top_labels->Bind (wxEVT_PAINT, boost::bind (&AudioMappingView::paint_top_labels, this));
-
-	_left_labels->ShowScrollbars (wxSHOW_SB_NEVER, wxSHOW_SB_NEVER);
-	_top_labels->ShowScrollbars (wxSHOW_SB_NEVER, wxSHOW_SB_NEVER);
-
-	_grid = new wxGrid (this, wxID_ANY);
-
-	_grid->CreateGrid (0, MAX_DCP_AUDIO_CHANNELS + 1);
-	_grid->HideRowLabels ();
-	_grid->DisableDragRowSize ();
-	_grid->DisableDragColSize ();
-	_grid->EnableEditing (false);
-	_grid->SetCellHighlightPenWidth (0);
-	_grid->SetDefaultRenderer (new NoSelectionStringRenderer);
-	_grid->EnableScrolling (true, true);
-	_grid->AutoSize ();
-
-	wxSizer* vertical_sizer = new wxBoxSizer (wxVERTICAL);
-	vertical_sizer->Add (_top_labels);
-	wxSizer* horizontal_sizer = new wxBoxSizer (wxHORIZONTAL);
-	horizontal_sizer->Add (_left_labels);
-	horizontal_sizer->Add (_grid, 1, wxEXPAND | wxALL);
-	vertical_sizer->Add (horizontal_sizer);
-	SetSizerAndFit (vertical_sizer);
-
-	Bind (wxEVT_GRID_CELL_LEFT_CLICK, boost::bind (&AudioMappingView::left_click, this, _1));
-	Bind (wxEVT_GRID_CELL_RIGHT_CLICK, boost::bind (&AudioMappingView::right_click, this, _1));
-	_grid->GetGridWindow()->Bind (wxEVT_MOTION, boost::bind (&AudioMappingView::mouse_moved_grid, this, _1));
-	_grid->Bind (wxEVT_SCROLLWIN_TOP, boost::bind (&AudioMappingView::grid_scrolled, this, _1));
-	_grid->Bind (wxEVT_SCROLLWIN_BOTTOM, boost::bind (&AudioMappingView::grid_scrolled, this, _1));
-	_grid->Bind (wxEVT_SCROLLWIN_LINEUP, boost::bind (&AudioMappingView::grid_scrolled, this, _1));
-	_grid->Bind (wxEVT_SCROLLWIN_LINEDOWN, boost::bind (&AudioMappingView::grid_scrolled, this, _1));
-	_grid->Bind (wxEVT_SCROLLWIN_PAGEUP, boost::bind (&AudioMappingView::grid_scrolled, this, _1));
-	_grid->Bind (wxEVT_SCROLLWIN_PAGEDOWN, boost::bind (&AudioMappingView::grid_scrolled, this, _1));
-	_grid->Bind (wxEVT_SCROLLWIN_THUMBTRACK, boost::bind (&AudioMappingView::grid_scrolled, this, _1));
-	_grid->Bind (wxEVT_SCROLLWIN_THUMBRELEASE, boost::bind (&AudioMappingView::grid_scrolled, this, _1));
-	Bind (wxEVT_SIZE, boost::bind (&AudioMappingView::sized, this, _1));
-
 	_menu = new wxMenu;
 	_menu->Append (ID_off, _("Off"));
 	_menu->Append (ID_full, _("Full"));
 	_menu->Append (ID_minus6dB, _("-6dB"));
 	_menu->Append (ID_edit, _("Edit..."));
 
-	Bind (wxEVT_MENU, boost::bind (&AudioMappingView::off, this), ID_off);
-	Bind (wxEVT_MENU, boost::bind (&AudioMappingView::full, this), ID_full);
-	Bind (wxEVT_MENU, boost::bind (&AudioMappingView::minus6dB, this), ID_minus6dB);
-	Bind (wxEVT_MENU, boost::bind (&AudioMappingView::edit, this), ID_edit);
+	Bind (wxEVT_PAINT, boost::bind(&AudioMappingView::paint, this));
+	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::off, this), ID_off);
+	Bind (wxEVT_LEFT_DOWN, boost::bind(&AudioMappingView::left_down, this, _1));
+	Bind (wxEVT_RIGHT_DOWN, boost::bind(&AudioMappingView::right_down, this, _1));
+	Bind (wxEVT_MOTION, boost::bind(&AudioMappingView::motion, this, _1));
+	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::full, this), ID_full);
+	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::minus6dB, this), ID_minus6dB);
+	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::edit, this), ID_edit);
 
-	_left_labels->Bind (wxEVT_MOTION, bind (&AudioMappingView::mouse_moved_left_labels, this, _1));
+	SetScrollRate (GRID_SPACING, GRID_SPACING);
+}
+
+void
+AudioMappingView::paint ()
+{
+	wxPaintDC dc (this);
+
+	wxGraphicsContext* gc = wxGraphicsContext::Create (dc);
+	if (!gc) {
+		return;
+	}
+
+	int sx, sy;
+	GetViewStart (&sx, &sy);
+	gc->Translate (-sx * GRID_SPACING, -sy * GRID_SPACING);
+	dc.SetLogicalOrigin (sx * GRID_SPACING, sy * GRID_SPACING);
+
+	int const output_channels_width = _output_channels.size() * GRID_SPACING;
+	int const input_channels_height = _input_channels.size() * GRID_SPACING;
+
+	gc->SetAntialiasMode (wxANTIALIAS_DEFAULT);
+	wxGraphicsPath lines = gc->CreatePath ();
+	dc.SetFont (wxSWISS_FONT->Bold());
+	wxCoord label_width;
+	wxCoord label_height;
+
+	/* DCP label at the top */
+
+	dc.GetTextExtent (_("DCP"), &label_width, &label_height);
+	dc.DrawText (_("DCP"), LEFT_WIDTH + (output_channels_width - label_width) / 2, (GRID_SPACING - label_height) / 2);
+
+	/* Content label on the left */
+
+	dc.GetTextExtent (_("Content"), &label_width, &label_height);
+	dc.DrawRotatedText (
+		_("Content"),
+		(GRID_SPACING - label_height) / 2,
+		TOP_HEIGHT + (input_channels_height + label_width) / 2,
+		90
+		);
+
+	dc.SetFont (*wxSWISS_FONT);
+	gc->SetPen (*wxBLACK_PEN);
+
+	/* Column labels and some lines */
+
+	int N = 0;
+	BOOST_FOREACH (string i, _output_channels) {
+		dc.GetTextExtent (std_to_wx(i), &label_width, &label_height);
+		dc.DrawText (std_to_wx(i), LEFT_WIDTH + GRID_SPACING * N + (GRID_SPACING - label_width) / 2, GRID_SPACING + (GRID_SPACING - label_height) / 2);
+		lines.MoveToPoint    (LEFT_WIDTH + GRID_SPACING * N, GRID_SPACING);
+		lines.AddLineToPoint (LEFT_WIDTH + GRID_SPACING * N, TOP_HEIGHT + _input_channels.size() * GRID_SPACING);
+		++N;
+	}
+	lines.MoveToPoint    (LEFT_WIDTH + GRID_SPACING * N, GRID_SPACING);
+	lines.AddLineToPoint (LEFT_WIDTH + GRID_SPACING * N, TOP_HEIGHT + _input_channels.size() * GRID_SPACING);
+
+	/* Horizontal lines at the top */
+
+	lines.MoveToPoint (LEFT_WIDTH, GRID_SPACING);
+		lines.AddLineToPoint (LEFT_WIDTH + output_channels_width, GRID_SPACING);
+	lines.MoveToPoint (LEFT_WIDTH, GRID_SPACING * 2);
+		lines.AddLineToPoint (LEFT_WIDTH + output_channels_width, GRID_SPACING * 2);
+
+	/* Row channel labels */
+
+	N = 0;
+	BOOST_FOREACH (string i, _input_channels) {
+		dc.GetTextExtent (std_to_wx(i), &label_width, &label_height);
+		dc.DrawText (std_to_wx(i), GRID_SPACING * 2 + (GRID_SPACING - label_width) / 2, TOP_HEIGHT + GRID_SPACING * N + (GRID_SPACING - label_height) / 2);
+		lines.MoveToPoint (GRID_SPACING * 2, TOP_HEIGHT + GRID_SPACING * N);
+		lines.AddLineToPoint (LEFT_WIDTH + output_channels_width, TOP_HEIGHT + GRID_SPACING * N);
+		++N;
+	}
+	lines.MoveToPoint (GRID_SPACING * 2, TOP_HEIGHT + GRID_SPACING * N);
+	lines.AddLineToPoint (LEFT_WIDTH + output_channels_width, TOP_HEIGHT + GRID_SPACING * N);
+
+	/* Vertical lines on the left */
+
+	for (int i = 1; i < 3; ++i) {
+		lines.MoveToPoint    (GRID_SPACING * i, TOP_HEIGHT);
+		lines.AddLineToPoint (GRID_SPACING * i, TOP_HEIGHT + _input_channels.size() * GRID_SPACING);
+	}
+
+	/* Group labels and lines */
+
+	int y = TOP_HEIGHT;
+	BOOST_FOREACH (Group i, _input_groups) {
+		dc.GetTextExtent (std_to_wx(i.name), &label_width, &label_height);
+		int const height = (i.to - i.from + 1) * GRID_SPACING;
+		dc.DrawRotatedText (
+			std_to_wx(i.name),
+			GRID_SPACING + (GRID_SPACING - label_height) / 2,
+			y + (height + label_width) / 2,
+			90
+			);
+		lines.MoveToPoint    (GRID_SPACING,     y);
+		lines.AddLineToPoint (GRID_SPACING * 2, y);
+		y += height;
+	}
+
+	lines.MoveToPoint    (GRID_SPACING,     y);
+	lines.AddLineToPoint (GRID_SPACING * 2, y);
+
+	gc->StrokePath (lines);
+
+	/* Indicators */
+
+	for (size_t x = 0; x < _output_channels.size(); ++x) {
+		for (size_t y = 0; y < _input_channels.size(); ++y) {
+			dc.SetBrush (*wxWHITE_BRUSH);
+			dc.DrawRectangle (
+				wxRect(
+					LEFT_WIDTH + x * GRID_SPACING + (GRID_SPACING - INDICATOR_SIZE) / 2,
+					TOP_HEIGHT + y * GRID_SPACING + (GRID_SPACING - INDICATOR_SIZE) / 2,
+					INDICATOR_SIZE, INDICATOR_SIZE
+					)
+				);
+
+			float const value_dB = 20 * log10 (_map.get(y, x));
+			int const range = 18;
+			int height = 0;
+			if (value_dB > -range) {
+				height = INDICATOR_SIZE * (1 + value_dB / range);
+			}
+
+			dc.SetBrush (*wxTheBrushList->FindOrCreateBrush(wxColour (0, 255, 0), wxBRUSHSTYLE_SOLID));
+			dc.DrawRectangle (
+				wxRect(
+					LEFT_WIDTH + x * GRID_SPACING + (GRID_SPACING - INDICATOR_SIZE) / 2,
+					TOP_HEIGHT + y * GRID_SPACING + (GRID_SPACING - INDICATOR_SIZE) / 2 + INDICATOR_SIZE - height,
+					INDICATOR_SIZE, height
+					)
+				);
+		}
+	}
+
+	delete gc;
+}
+
+optional<pair<int, int> >
+AudioMappingView::mouse_event_to_channels (wxMouseEvent& ev) const
+{
+	int sx, sy;
+	GetViewStart (&sx, &sy);
+	int const x = ev.GetX() + sx * GRID_SPACING;
+	int const y = ev.GetY() + sy * GRID_SPACING;
+
+	if (x <= LEFT_WIDTH || y < TOP_HEIGHT) {
+		return optional<pair<int, int> >();
+	}
+
+	int const input = (y - TOP_HEIGHT) / GRID_SPACING;
+	int const output = (x - LEFT_WIDTH) / GRID_SPACING;
+
+	if (input >= int(_input_channels.size()) || output >= int(_output_channels.size())) {
+		return optional<pair<int, int> >();
+	}
+
+	return make_pair (input, output);
+}
+
+void
+AudioMappingView::left_down (wxMouseEvent& ev)
+{
+	optional<pair<int, int> > channels = mouse_event_to_channels (ev);
+	if (!channels) {
+		return;
+	}
+
+	if (_map.get(channels->first, channels->second) > 0) {
+		_map.set (channels->first, channels->second, 0);
+	} else {
+		_map.set (channels->first, channels->second, 1);
+	}
+
+	map_values_changed ();
+}
+
+void
+AudioMappingView::right_down (wxMouseEvent& ev)
+{
+	optional<pair<int, int> > channels = mouse_event_to_channels (ev);
+	if (!channels) {
+		return;
+	}
+
+	_menu_input = channels->first;
+	_menu_output = channels->second;
+	PopupMenu (_menu, ev.GetPosition());
 }
 
 /** Called when any gain value has changed */
 void
 AudioMappingView::map_values_changed ()
 {
-	update_cells ();
 	Changed (_map);
-	_last_tooltip_column = -1;
-}
-
-void
-AudioMappingView::left_click (wxGridEvent& ev)
-{
-	if (ev.GetCol() == 0) {
-		return;
-	}
-
-	int const d = ev.GetCol() - 1;
-
-	if (_map.get (ev.GetRow(), d) > 0) {
-		_map.set (ev.GetRow(), d, 0);
-	} else {
-		_map.set (ev.GetRow(), d, 1);
-	}
-
-	map_values_changed ();
-}
-
-void
-AudioMappingView::right_click (wxGridEvent& ev)
-{
-	if (ev.GetCol() == 0) {
-		return;
-	}
-
-	_menu_row = ev.GetRow ();
-	_menu_column = ev.GetCol ();
-	PopupMenu (_menu, ev.GetPosition ());
+	_last_tooltip_channels = optional<pair<int, int> >();
+	Refresh ();
 }
 
 void
 AudioMappingView::off ()
 {
-	_map.set (_menu_row, _menu_column - 1, 0);
+	_map.set (_menu_input, _menu_output, 0);
 	map_values_changed ();
 }
 
 void
 AudioMappingView::full ()
 {
-	_map.set (_menu_row, _menu_column - 1, 1);
+	_map.set (_menu_input, _menu_output, 1);
 	map_values_changed ();
 }
 
 void
 AudioMappingView::minus6dB ()
 {
-	_map.set (_menu_row, _menu_column - 1, pow (10, -6.0 / 20));
+	_map.set (_menu_input, _menu_output, pow (10, -6.0 / 20));
 	map_values_changed ();
 }
 
 void
 AudioMappingView::edit ()
 {
-	int const d = _menu_column - 1;
+	int const d = _menu_output - 1;
 
-	AudioGainDialog* dialog = new AudioGainDialog (this, _menu_row, _menu_column - 1, _map.get (_menu_row, d));
-	if (dialog->ShowModal () == wxID_OK) {
-		_map.set (_menu_row, d, dialog->value ());
+	AudioGainDialog* dialog = new AudioGainDialog (this, _menu_input, _menu_output - 1, _map.get(_menu_input, d));
+	if (dialog->ShowModal() == wxID_OK) {
+		_map.set (_menu_input, d, dialog->value ());
 		map_values_changed ();
 	}
 
@@ -254,312 +318,65 @@ AudioMappingView::edit ()
 }
 
 void
+AudioMappingView::set_virtual_size ()
+{
+	SetVirtualSize (LEFT_WIDTH + _output_channels.size() * GRID_SPACING, TOP_HEIGHT + _input_channels.size() * GRID_SPACING);
+}
+
+void
 AudioMappingView::set (AudioMapping map)
 {
 	_map = map;
-	update_cells ();
+	Refresh ();
 }
 
 void
 AudioMappingView::set_input_channels (vector<string> const & names)
 {
-	for (int i = 0; i < _grid->GetNumberRows(); ++i) {
-		_grid->SetCellValue (i, 0, std_to_wx (names[i]));
-	}
+	_input_channels = names;
+	set_virtual_size ();
+	Refresh ();
 }
 
 void
 AudioMappingView::set_output_channels (vector<string> const & names)
 {
-	int const o = names.size() + 1;
-	if (o < _grid->GetNumberCols ()) {
-		_grid->DeleteCols (o, _grid->GetNumberCols() - o);
-	} else if (o > _grid->GetNumberCols ()) {
-		_grid->AppendCols (o - _grid->GetNumberCols());
-	}
-
-	_grid->SetColLabelValue (0, wxT (""));
-
-	for (size_t i = 0; i < names.size(); ++i) {
-		_grid->SetColLabelValue (i + 1, std_to_wx (names[i]));
-	}
-
-	update_cells ();
-	setup_sizes ();
-
-	Layout ();
+	_output_channels = names;
+	set_virtual_size ();
+	Refresh ();
 }
 
 void
-AudioMappingView::update_cells ()
+AudioMappingView::motion (wxMouseEvent& ev)
 {
-	vector<string> row_names;
-	for (int i = 0; i < _grid->GetNumberRows (); ++i) {
-		row_names.push_back (wx_to_std (_grid->GetCellValue (i, 0)));
+	optional<pair<int, int> > channels = mouse_event_to_channels (ev);
+	if (!channels) {
+		SetToolTip ("");
+		_last_tooltip_channels = channels;
+		return;
 	}
 
-	if (_grid->GetNumberRows ()) {
-		_grid->DeleteRows (0, _grid->GetNumberRows ());
-	}
-
-	_grid->InsertRows (0, _map.input_channels ());
-
-	for (int i = 0; i < _map.input_channels(); ++i) {
-		for (int j = 0; j < _map.output_channels(); ++j) {
-			_grid->SetCellRenderer (i, j + 1, new ValueRenderer);
-		}
-	}
-
-	for (int i = 0; i < _map.input_channels(); ++i) {
-		if (i < int (row_names.size ())) {
-			_grid->SetCellValue (i, 0, std_to_wx (row_names[i]));
-		}
-		for (int j = 1; j < _grid->GetNumberCols(); ++j) {
-			_grid->SetCellValue (i, j, std_to_wx (locale_convert<string> (_map.get (i, j - 1))));
-		}
-	}
-
-	_grid->AutoSize ();
-}
-
-void
-AudioMappingView::mouse_moved_grid (wxMouseEvent& ev)
-{
-	int xx;
-	int yy;
-	_grid->CalcUnscrolledPosition (ev.GetX(), ev.GetY(), &xx, &yy);
-
-	int const row = _grid->YToRow (yy);
-	int const column = _grid->XToCol (xx);
-
-	if (row < 0 || column < 1) {
-		_grid->GetGridWindow()->SetToolTip ("");
-		_last_tooltip_row = row;
-		_last_tooltip_column = column;
-	}
-
-	if (row != _last_tooltip_row || column != _last_tooltip_column) {
-
+	if (channels != _last_tooltip_channels) {
 		wxString s;
-		float const gain = _map.get (row, column - 1);
+		float const gain = _map.get(channels->first, channels->second);
 		if (gain == 0) {
-			s = wxString::Format (_("No audio will be passed from content channel %d to DCP channel %d."), row + 1, column);
+			s = wxString::Format (_("No audio will be passed from content channel %d to DCP channel %d."), channels->first, channels->second);
 		} else if (gain == 1) {
-			s = wxString::Format (_("Audio will be passed from content channel %d to DCP channel %d unaltered."), row + 1, column);
+			s = wxString::Format (_("Audio will be passed from content channel %d to DCP channel %d unaltered."), channels->first, channels->second);
 		} else {
 			float const dB = 20 * log10 (gain);
-			s = wxString::Format (_("Audio will be passed from content channel %d to DCP channel %d with gain %.1fdB."), row + 1, column, dB);
+			s = wxString::Format (_("Audio will be passed from content channel %d to DCP channel %d with gain %.1fdB."), channels->first, channels->second, dB);
 		}
 
-		_grid->GetGridWindow()->SetToolTip (s + " " + _("Right click to change gain."));
-		_last_tooltip_row = row;
-		_last_tooltip_column = column;
+		SetToolTip (s + " " + _("Right click to change gain."));
+		_last_tooltip_channels = channels;
 	}
 
         ev.Skip ();
 }
 
 void
-AudioMappingView::sized (wxSizeEvent& ev)
-{
-	setup_sizes ();
-	ev.Skip ();
-}
-
-void
-AudioMappingView::setup_sizes ()
-{
-	int const top_height = 24;
-
-	_grid->AutoSize ();
-	_left_labels->SetMinSize (wxSize (LEFT_WIDTH, _grid->GetSize().GetHeight()));
-	/* Allow it to scroll */
-	_left_labels->SetVirtualSize (1024, 1024);
-	_top_labels->SetMinSize (wxSize (_grid->GetSize().GetWidth() + LEFT_WIDTH, top_height));
-	/* Allow it to scroll */
-	_top_labels->SetVirtualSize (1024, 1024);
-	/* Try to make the _top_labels 'actual' size respect the minimum we just set */
-	_top_labels->Fit ();
-	_left_labels->Refresh ();
-	_top_labels->Refresh ();
-
-	int x, y;
-	_grid->GetScrollPixelsPerUnit (&x, &y);
-	_top_labels->SetScrollRate (x, 0);
-	_left_labels->SetScrollRate (0, y);
-}
-
-void
-AudioMappingView::paint_left_labels ()
-{
-	wxPaintDC dc (_left_labels);
-
-	wxGraphicsContext* gc = wxGraphicsContext::Create (dc);
-	if (!gc) {
-		return;
-	}
-
-	int sx, sy;
-	_left_labels->GetViewStart (&sx, &sy);
-	int rx, ry;
-	_grid->GetScrollPixelsPerUnit (&rx, &ry);
-	gc->Translate (0, -sy * ry);
-
-	wxSize const size = dc.GetSize();
-	int const half = size.GetWidth() / 2;
-
-	gc->SetPen (wxPen (wxColour (0, 0, 0)));
-	gc->SetAntialiasMode (wxANTIALIAS_DEFAULT);
-
-	wxGraphicsPath lines = gc->CreatePath();
-
-	vector<pair<int, int> >::const_iterator i = _input_group_positions.begin();
-	if (i != _input_group_positions.end()) {
-		lines.MoveToPoint (half, i->first);
-		lines.AddLineToPoint (size.GetWidth(), i->first);
-	}
-
-	vector<Group>::const_iterator j = _input_groups.begin();
-	while (i != _input_group_positions.end() && j != _input_groups.end()) {
-
-		dc.SetClippingRegion (0, i->first + 2, size.GetWidth(), i->second - 4);
-
-		dc.SetFont (*wxSWISS_FONT);
-		wxCoord label_width;
-		wxCoord label_height;
-		dc.GetTextExtent (std_to_wx (j->name), &label_width, &label_height);
-
-		dc.DrawRotatedText (
-			j->name,
-			half + (half - label_height) / 2,
-			min (i->second, (i->second + i->first + label_width) / 2),
-			90
-			);
-
-		dc.DestroyClippingRegion ();
-
-		lines.MoveToPoint (half, i->second);
-		lines.AddLineToPoint (size.GetWidth(), i->second);
-
-		gc->StrokePath (lines);
-
-		++i;
-		++j;
-	}
-
-	/* Overall label */
-	dc.SetFont (wxSWISS_FONT->Bold());
-	wxCoord overall_label_width;
-	wxCoord overall_label_height;
-	dc.GetTextExtent (_("Content"), &overall_label_width, &overall_label_height);
-	dc.DrawRotatedText (
-		_("Content"),
-		(half - overall_label_height) / 2,
-		min (size.GetHeight(), (size.GetHeight() + _grid->GetColLabelSize() + overall_label_width) / 2),
-		90
-		);
-
-	delete gc;
-}
-
-void
-AudioMappingView::paint_top_labels ()
-{
-	wxPaintDC dc (_top_labels);
-	if (_grid->GetNumberCols() == 0) {
-		return;
-	}
-
-	wxGraphicsContext* gc = wxGraphicsContext::Create (dc);
-	if (!gc) {
-		return;
-	}
-
-	int sx, sy;
-	_top_labels->GetViewStart (&sx, &sy);
-	int rx, ry;
-	_grid->GetScrollPixelsPerUnit (&rx, &ry);
-	int toff = sx * rx;
-	gc->Translate (-toff, 0);
-
-	wxSize const size = dc.GetSize();
-
-	gc->SetAntialiasMode (wxANTIALIAS_DEFAULT);
-
-	dc.SetFont (wxSWISS_FONT->Bold());
-	wxCoord label_width;
-	wxCoord label_height;
-	dc.GetTextExtent (_("DCP"), &label_width, &label_height);
-
-	dc.DrawText (_("DCP"), (size.GetWidth() + _grid->GetColSize(0) + LEFT_WIDTH - label_width) / 2 - toff, (size.GetHeight() - label_height) / 2);
-
-	gc->SetPen (wxPen (wxColour (0, 0, 0)));
-	wxGraphicsPath lines = gc->CreatePath();
-
-	int lhs = LEFT_WIDTH + _grid->GetColSize(0) - 1;
-	if (toff < (lhs - LEFT_WIDTH)) {
-		lines.MoveToPoint (lhs, 0);
-		lines.AddLineToPoint (lhs, size.GetHeight());
-	}
-
-	wxGridSizesInfo si = _grid->GetColSizes();
-	int total = 0;
-	for (int i = 0; i < _grid->GetNumberCols(); ++i) {
-		total += si.GetSize (i);
-	}
-	lines.MoveToPoint (LEFT_WIDTH + total, 0);
-	lines.AddLineToPoint (LEFT_WIDTH + total, size.GetHeight());
-
-	gc->StrokePath (lines);
-
-	delete gc;
-}
-
-void
 AudioMappingView::set_input_groups (vector<Group> const & groups)
 {
-	if (_grid->GetNumberRows() == 0) {
-		return;
-	}
-
 	_input_groups = groups;
-	_input_group_positions.clear ();
-
-	int ypos = _grid->GetColLabelSize() - 1;
-	BOOST_FOREACH (Group const & i, _input_groups) {
-		int const old_ypos = ypos;
-		ypos += (i.to - i.from + 1) * _grid->GetRowSize(0);
-		_input_group_positions.push_back (make_pair (old_ypos, ypos));
-	}
-}
-
-void
-AudioMappingView::mouse_moved_left_labels (wxMouseEvent& event)
-{
-	bool done = false;
-	for (size_t i = 0; i < _input_group_positions.size(); ++i) {
-		if (_input_group_positions[i].first <= event.GetY() && event.GetY() < _input_group_positions[i].second) {
-			_left_labels->SetToolTip (_input_groups[i].name);
-			done = true;
-		}
-	}
-
-	if (!done) {
-		_left_labels->SetToolTip ("");
-	}
-}
-
-void
-AudioMappingView::grid_scrolled (wxScrollWinEvent& ev)
-{
-	int x, y;
-	_grid->GetViewStart (&x, &y);
-	if (ev.GetOrientation() == wxVERTICAL) {
-		_left_labels->Scroll (0, ev.GetPosition());
-	} else {
-		_top_labels->Scroll (ev.GetPosition(), 0);
-		/* Repaint the whole thing so that the left-hand line disappears where appropriate */
-		_top_labels->Refresh ();
-	}
- 	ev.Skip ();
 }
