@@ -343,17 +343,17 @@ AudioMappingView::paint ()
 	paint_column_labels (dc, gc);
 	restore (dc, gc);
 
-	clip (dc, gc, 0, TOP_HEIGHT, GRID_SPACING * (3 + _output_channels.size()), GRID_SPACING * _input_channels.size());
+	clip (dc, gc, 0, TOP_HEIGHT, GRID_SPACING * (3 + _output_channels.size()), GRID_SPACING * _input_channels.size() + 1);
 	translate (dc, gc, 0, vs);
 	paint_row_labels (dc, gc);
 	restore (dc, gc);
 
-	clip (dc, gc, GRID_SPACING * 2, TOP_HEIGHT, GRID_SPACING * (1 + _output_channels.size()), GRID_SPACING * _input_channels.size());
+	clip (dc, gc, GRID_SPACING * 2, TOP_HEIGHT, GRID_SPACING * (1 + _output_channels.size()), GRID_SPACING * _input_channels.size() + 1);
 	translate (dc, gc, hs, vs);
 	paint_row_lines (gc);
 	restore (dc, gc);
 
-	clip (dc, gc, LEFT_WIDTH, GRID_SPACING, GRID_SPACING * (1 + _output_channels.size()), GRID_SPACING * _input_channels.size());
+	clip (dc, gc, LEFT_WIDTH, GRID_SPACING, GRID_SPACING * (1 + _output_channels.size()), GRID_SPACING * (1 + _input_channels.size()));
 	translate (dc, gc, hs, vs);
 	paint_column_lines (gc);
 	restore (dc, gc);
