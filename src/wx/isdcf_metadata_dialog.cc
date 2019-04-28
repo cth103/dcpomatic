@@ -41,6 +41,16 @@ ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm, bo
 	add (_("Audio Language (e.g. EN)"), true);
 	_audio_language = add (new wxTextCtrl (this, wxID_ANY));
 
+	_enable_subtitle_language = add (new wxCheckBox(this, wxID_ANY, _("Subtitle language (e.g. FR)")));
+	_subtitle_language = add (new wxTextCtrl(this, wxID_ANY));
+
+	wxStaticText* subtitle_note = add (_("(use this to override languages specified\nin the 'timed text' tab)"), false);
+	wxFont font = subtitle_note->GetFont();
+	font.SetStyle (wxFONTSTYLE_ITALIC);
+	font.SetPointSize (font.GetPointSize() - 1);
+	subtitle_note->SetFont (font);
+	add_spacer ();
+
 	add (_("Territory (e.g. UK)"), true);
 	_territory = add (new wxTextCtrl (this, wxID_ANY));
 
@@ -79,6 +89,8 @@ ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm, bo
 
 	_content_version->SetValue (dm.content_version);
 	_audio_language->SetValue (std_to_wx (dm.audio_language));
+	_enable_subtitle_language->SetValue (static_cast<bool>(dm.subtitle_language));
+	_subtitle_language->SetValue (std_to_wx(dm.subtitle_language.get_value_or("")));
 	_territory->SetValue (std_to_wx (dm.territory));
 	_rating->SetValue (std_to_wx (dm.rating));
 	_studio->SetValue (std_to_wx (dm.studio));
@@ -90,7 +102,17 @@ ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm, bo
 	_two_d_version_of_three_d->SetValue (dm.two_d_version_of_three_d);
 	_mastered_luminance->SetValue (std_to_wx (dm.mastered_luminance));
 
+	_enable_subtitle_language->Bind (wxEVT_CHECKBOX, boost::bind(&ISDCFMetadataDialog::setup_sensitivity, this));
+
+	setup_sensitivity ();
+
 	layout ();
+}
+
+void
+ISDCFMetadataDialog::setup_sensitivity ()
+{
+	_subtitle_language->Enable (_enable_subtitle_language->GetValue());
 }
 
 ISDCFMetadata
@@ -100,6 +122,9 @@ ISDCFMetadataDialog::isdcf_metadata () const
 
 	dm.content_version = _content_version->GetValue ();
 	dm.audio_language = wx_to_std (_audio_language->GetValue ());
+	if (_enable_subtitle_language->GetValue()) {
+		dm.subtitle_language = wx_to_std (_subtitle_language->GetValue());
+	}
 	dm.territory = wx_to_std (_territory->GetValue ());
 	dm.rating = wx_to_std (_rating->GetValue ());
 	dm.studio = wx_to_std (_studio->GetValue ());

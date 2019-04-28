@@ -33,8 +33,7 @@ using dcp::raw_convert;
 ISDCFMetadata::ISDCFMetadata (cxml::ConstNodePtr node)
 	: content_version (node->number_child<int> ("ContentVersion"))
 	, audio_language (node->string_child ("AudioLanguage"))
-	  /* Old versions contained this tag, but not these details are held in content */
-	, has_subtitle_language (static_cast<bool>(node->optional_node_child("SubtitleLanguage")))
+	, subtitle_language (node->optional_string_child("SubtitleLanguage"))
 	, territory (node->string_child ("Territory"))
 	, rating (node->string_child ("Rating"))
 	, studio (node->string_child ("Studio"))
@@ -54,6 +53,9 @@ void
 ISDCFMetadata::as_xml (xmlpp::Node* root) const
 {
 	root->add_child("ContentVersion")->add_child_text (raw_convert<string> (content_version));
+	if (subtitle_language) {
+		root->add_child("SubtitleLanguage")->add_child_text (*subtitle_language);
+	}
 	root->add_child("AudioLanguage")->add_child_text (audio_language);
 	root->add_child("Territory")->add_child_text (territory);
 	root->add_child("Rating")->add_child_text (rating);
@@ -71,6 +73,7 @@ bool
 operator== (ISDCFMetadata const & a, ISDCFMetadata const & b)
 {
        return a.content_version == b.content_version &&
+	       a.subtitle_language == b.subtitle_language &&
                a.audio_language == b.audio_language &&
                a.territory == b.territory &&
                a.rating == b.rating &&
