@@ -177,7 +177,7 @@ DolbyDoremiCertificatePanel::do_download ()
 	list<string>::const_iterator i = urls.begin ();
 	list<string>::const_iterator j = files.begin ();
 	while (!ok && i != urls.end ()) {
-		optional<string> error = get_from_zip_url (*i++, *j++, true, boost::bind (&DownloadCertificatePanel::load, this, _1));
+		optional<string> error = get_from_zip_url (*i++, *j++, true, true, boost::bind (&DownloadCertificatePanel::load, this, _1));
 		if (error) {
 			errors.push_back (error.get ());
 		} else {

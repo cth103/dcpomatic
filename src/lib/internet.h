@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,6 +24,6 @@
 
 class ScopedTemporary;
 
-boost::optional<std::string> get_from_url (std::string url, bool pasv, ScopedTemporary& temp);
-boost::optional<std::string> get_from_url (std::string url, bool pasv, boost::function<void (boost::filesystem::path)> load);
-boost::optional<std::string> get_from_zip_url (std::string url, std::string file, bool pasv, boost::function<void (boost::filesystem::path)> load);
+boost::optional<std::string> get_from_url (std::string url, bool pasv, bool skip_pasv_ip, ScopedTemporary& temp);
+boost::optional<std::string> get_from_url (std::string url, bool pasv, bool skip_pasv_ip, boost::function<void (boost::filesystem::path)> load);
+boost::optional<std::string> get_from_zip_url (std::string url, std::string file, bool pasv, bool skip_pasv_ip, boost::function<void (boost::filesystem::path)> load);

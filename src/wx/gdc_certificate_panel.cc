@@ -51,7 +51,7 @@ GDCCertificatePanel::do_download ()
 		wx_to_std(_serial->GetValue())
 		);
 
-	optional<string> error = get_from_url (url, true, boost::bind (&DownloadCertificatePanel::load, this, _1));
+	optional<string> error = get_from_url (url, true, false, boost::bind (&DownloadCertificatePanel::load, this, _1));
 
 	if (error) {
 		_dialog->message()->SetLabel(wxT(""));

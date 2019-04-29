@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -48,7 +48,7 @@ get_from_url_data (void* buffer, size_t size, size_t nmemb, void* stream)
 }
 
 optional<string>
-get_from_url (string url, bool pasv, ScopedTemporary& temp)
+get_from_url (string url, bool pasv, bool skip_pasv_ip, ScopedTemporary& temp)
 {
 	CURL* curl = curl_easy_init ();
 	curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
@@ -58,6 +58,9 @@ get_from_url (string url, bool pasv, ScopedTemporary& temp)
 	curl_easy_setopt (curl, CURLOPT_WRITEDATA, f);
 	curl_easy_setopt (curl, CURLOPT_FTP_USE_EPSV, 0);
 	curl_easy_setopt (curl, CURLOPT_FTP_USE_EPRT, 0);
+	if (skip_pasv_ip) {
+		curl_easy_setopt (curl, CURLOPT_FTP_SKIP_PASV_IP, 1);
+	}
 	if (!pasv) {
 		curl_easy_setopt (curl, CURLOPT_FTPPORT, "-");
 	}
@@ -77,10 +80,10 @@ get_from_url (string url, bool pasv, ScopedTemporary& temp)
 }
 
 optional<string>
-get_from_url (string url, bool pasv, function<void (boost::filesystem::path)> load)
+get_from_url (string url, bool pasv, bool skip_pasv_ip, function<void (boost::filesystem::path)> load)
 {
 	ScopedTemporary temp;
-	optional<string> e = get_from_url (url, pasv, temp);
+	optional<string> e = get_from_url (url, pasv, skip_pasv_ip, temp);
 	if (e) {
 		return e;
 	}
@@ -93,11 +96,11 @@ get_from_url (string url, bool pasv, function<void (boost::filesystem::path)> lo
  *  @param load Function passed a (temporary) filesystem path of the unpacked file.
  */
 optional<string>
-get_from_zip_url (string url, string file, bool pasv, function<void (boost::filesystem::path)> load)
+get_from_zip_url (string url, string file, bool pasv, bool skip_pasv_ip, function<void (boost::filesystem::path)> load)
 {
 	/* Download the ZIP file to temp_zip */
 	ScopedTemporary temp_zip;
-	optional<string> e = get_from_url (url, pasv, temp_zip);
+	optional<string> e = get_from_url (url, pasv, skip_pasv_ip, temp_zip);
 	if (e) {
 		return e;
 	}

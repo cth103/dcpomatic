@@ -348,7 +348,7 @@ SwaroopControls::get_kdm_from_url (shared_ptr<DCPContent> dcp)
 	string url = Config::instance()->kdm_server_url();
 	boost::algorithm::replace_all (url, "{CPL}", *dcp->cpl());
 	optional<dcp::EncryptedKDM> kdm;
-	if (dcp->cpl() && !get_from_url(url, false, temp)) {
+	if (dcp->cpl() && !get_from_url(url, false, false, temp)) {
 		try {
 			kdm = dcp::EncryptedKDM (dcp::file_to_string(temp.file()));
 			if (kdm->cpl_id() != dcp->cpl()) {
