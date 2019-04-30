@@ -547,6 +547,7 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 		_ratings.push_back (dcp::Rating(i));
 	}
 
+	list<string> notes;
 	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"), _state_version, notes);
 
 	/* Write backtraces to this film's directory, until another film is loaded */
