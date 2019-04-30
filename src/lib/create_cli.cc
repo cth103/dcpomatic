@@ -47,6 +47,7 @@ string CreateCLI::_help =
 	"      --no-use-isdcf-name       do not use an ISDCF name; use the specified name unmodified\n"
 	"      --no-sign                 do not sign the DCP\n"
 	"      --config <dir>            directory containing config.xml and cinemas.xml\n"
+	"      --fourk                   make a 4K DCP rather than a 2K one\n"
 	"  -o, --output <dir>            output directory\n"
 	"      --threed                  make a 3D DCP\n"
 	"      --left-eye                next piece of content is for the left eye\n"
@@ -82,6 +83,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	, standard (dcp::SMPTE)
 	, no_use_isdcf_name (false)
 	, no_sign (false)
+	, fourk (false)
 {
 	string dcp_content_type_string = "TST";
 	string content_ratio_string;
@@ -121,6 +123,9 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 			claimed = true;
 		} else if (a == "--right-eye") {
 			next_frame_type = VIDEO_FRAME_TYPE_3D_RIGHT;
+			claimed = true;
+		} else if (a == "--fourk") {
+			fourk = true;
 			claimed = true;
 		}
 

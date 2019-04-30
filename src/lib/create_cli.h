@@ -54,6 +54,7 @@ public:
 	boost::optional<boost::filesystem::path> output_dir;
 	boost::optional<std::string> error;
 	std::vector<Content> content;
+	bool fourk;
 
 private:
 	static std::string _help;

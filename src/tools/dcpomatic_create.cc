@@ -100,6 +100,7 @@ main (int argc, char* argv[])
 		film->set_signed (!cc.no_sign);
 		film->set_encrypted (cc.encrypt);
 		film->set_three_d (cc.threed);
+		film->set_resolution (cc.fourk ? RESOLUTION_4K : RESOLUTION_2K);
 
 		BOOST_FOREACH (CreateCLI::Content i, cc.content) {
 			boost::filesystem::path const can = boost::filesystem::canonical (i.path);
