@@ -21,6 +21,7 @@
 #include "create_cli.h"
 #include "dcp_content_type.h"
 #include "ratio.h"
+#include "config.h"
 #include "compose.hpp"
 #include <dcp/raw_convert.h>
 #include <string>
@@ -50,6 +51,7 @@ string CreateCLI::_help =
 	"      --fourk                   make a 4K DCP rather than a 2K one\n"
 	"  -o, --output <dir>            output directory\n"
 	"      --threed                  make a 3D DCP\n"
+	"      --j2k-bandwidth <Mbit/s>  J2K bandwidth in Mbit/s\n"
 	"      --left-eye                next piece of content is for the left eye\n"
 	"      --right-eye               next piece of content is for the right eye\n";
 
@@ -93,6 +95,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	string template_name_string;
 	string config_dir_string;
 	string output_dir_string;
+	int j2k_bandwidth_int = 0;
 	VideoFrameType next_frame_type = VIDEO_FRAME_TYPE_2D;
 
 	int i = 1;
@@ -139,6 +142,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		argument_option(i, argc, argv, "",   "--standard",         &claimed, &error, &standard_string);
 		argument_option(i, argc, argv, "",   "--config",           &claimed, &error, &config_dir_string);
 		argument_option(i, argc, argv, "-o", "--output",           &claimed, &error, &output_dir_string);
+		argument_option(i, argc, argv, "",   "--j2k-bandwidth",    &claimed, &error, &j2k_bandwidth_int);
 
 		if (!claimed) {
 			if (a.length() > 2 && a.substr(0, 2) == "--") {
@@ -170,6 +174,10 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 
 	if (dcp_frame_rate_int) {
 		dcp_frame_rate = dcp_frame_rate_int;
+	}
+
+	if (j2k_bandwidth_int) {
+		j2k_bandwidth = j2k_bandwidth_int * 1000000;
 	}
 
 	dcp_content_type = DCPContentType::from_isdcf_name(dcp_content_type_string);
@@ -211,5 +219,10 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 
 	if (name.empty()) {
 		name = content[0].path.leaf().string();
+	}
+
+	if (j2k_bandwidth && (*j2k_bandwidth < 10000000 || *j2k_bandwidth > Config::instance()->maximum_j2k_bandwidth())) {
+		error = String::compose("%1: j2k-bandwidth must be between 10 and %2 Mbit/s", argv[0], (Config::instance()->maximum_j2k_bandwidth() / 1000000));
+		return;
 	}
 }

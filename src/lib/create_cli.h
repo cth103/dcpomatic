@@ -55,6 +55,7 @@ public:
 	boost::optional<std::string> error;
 	std::vector<Content> content;
 	bool fourk;
+	boost::optional<int> j2k_bandwidth;
 
 private:
 	static std::string _help;

@@ -151,4 +151,11 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK_EQUAL (cc.content[0].path, "foo.mp4");
 	BOOST_CHECK_EQUAL (cc.fourk, true);
 	BOOST_CHECK (!cc.error);
+
+	cc = run ("dcpomatic2_create --j2k-bandwidth 120 --content-ratio 185 foo.mp4");
+	BOOST_REQUIRE_EQUAL (cc.content.size(), 1);
+	BOOST_CHECK_EQUAL (cc.content[0].path, "foo.mp4");
+	BOOST_REQUIRE (cc.j2k_bandwidth);
+	BOOST_CHECK_EQUAL (*cc.j2k_bandwidth, 120000000);
+	BOOST_CHECK (!cc.error);
 }
