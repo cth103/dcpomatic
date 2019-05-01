@@ -34,8 +34,6 @@ public:
 
 	/** If set, this overrides the standard path (in home, Library, AppData or wherever) for config.xml, cinemas.xml etc. */
 	static boost::optional<boost::filesystem::path> override_path;
-
-protected:
 	static boost::filesystem::path path (std::string file, bool create_directories = true);
 };
 

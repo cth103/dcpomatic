@@ -20,6 +20,9 @@
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 
+#ifndef DCPOMATIC_ENCRYPTED_ECINEMA_KDM_H
+#define DCPOMATIC_ENCRYPTED_ECINEMA_KDM_H
+
 #include <dcp/key.h>
 #include <dcp/data.h>
 #include <dcp/certificate.h>
@@ -38,5 +41,7 @@ private:
 	/** encrypted content key */
 	dcp::Data _content_key;
 };
+
+#endif
 
 #endif
