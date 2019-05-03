@@ -33,6 +33,8 @@
 #include "lib/audio_content.h"
 #include "lib/string_text_file_content.h"
 #include "lib/video_content.h"
+#include "lib/dcp_content.h"
+#include "lib/ffmpeg_content.h"
 #include <dcp/locale_convert.h>
 #include <boost/foreach.hpp>
 #include <set>
@@ -463,7 +465,22 @@ TimingPanel::play_length_changed ()
 void
 TimingPanel::video_frame_rate_changed ()
 {
-	_set_video_frame_rate->Enable (true);
+	bool enable = true;
+	if (_video_frame_rate->GetValue() == wxT("")) {
+		/* No frame rate has been entered; if the user clicks "set" now it would unset the video
+		   frame rate in the selected content.  This can't be allowed for some content types.
+		*/
+		BOOST_FOREACH (shared_ptr<Content> i, _parent->selected()) {
+			if (
+				dynamic_pointer_cast<DCPContent>(i) ||
+				dynamic_pointer_cast<FFmpegContent>(i)
+				) {
+				enable = false;
+			}
+		}
+	}
+
+	_set_video_frame_rate->Enable (enable);
 }
 
 void
