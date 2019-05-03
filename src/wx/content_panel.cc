@@ -94,8 +94,11 @@ ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmV
 	}
 
 	_splitter = new LimitedSplitter (n);
-	wxDisplay display (wxDisplay::GetFromWindow(_splitter));
-	wxRect screen = display.GetClientArea();
+	optional<wxRect> screen;
+	int const sn = wxDisplay::GetFromWindow(_splitter);
+	if (sn >= 0) {
+		screen = wxDisplay(sn).GetClientArea();
+	}
 	wxPanel* top = new wxPanel (_splitter);
 
 	_menu = new ContentMenu (_splitter);
@@ -150,7 +153,9 @@ ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmV
 	/* This is a hack to try and make the content notebook a sensible size; large on big displays but small
 	   enough on small displays to leave space for the content area.
 	*/
-	_splitter->SplitHorizontally (top, _notebook, screen.height > 800 ? -600 : -150);
+	if (screen) {
+		_splitter->SplitHorizontally (top, _notebook, screen->height > 800 ? -600 : -150);
+	}
 
 	_timing_panel = new TimingPanel (this, _film_viewer);
 	_notebook->AddPage (_timing_panel, _("Timing"), false);
