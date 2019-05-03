@@ -1511,10 +1511,7 @@ private:
 			_frame = new DOMFrame (_("DCP-o-matic"));
 			SetTopWindow (_frame);
 			_frame->Maximize ();
-			if (_splash) {
-				_splash->Destroy ();
-				_splash = 0;
-			}
+			close_splash ();
 
 			if (!Config::instance()->nagged(Config::NAG_INITIAL_SETUP)) {
 				InitialSetupDialog* d = new InitialSetupDialog ();
@@ -1650,13 +1647,23 @@ private:
 		}
 	}
 
+	void close_splash ()
+	{
+		if (_splash) {
+			_splash->Destroy ();
+			_splash = 0;
+		}
+	}
+
 	void config_failed_to_load ()
 	{
+		close_splash ();
 		message_dialog (_frame, _("The existing configuration failed to load.  Default values will be used instead.  These may take a short time to create."));
 	}
 
 	void config_warning (string m)
 	{
+		close_splash ();
 		message_dialog (_frame, std_to_wx (m));
 	}
 
