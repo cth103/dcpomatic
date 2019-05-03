@@ -469,7 +469,7 @@ Image::make_black ()
 void
 Image::make_transparent ()
 {
-	if (_pixel_format != AV_PIX_FMT_BGRA) {
+	if (_pixel_format != AV_PIX_FMT_BGRA && _pixel_format != AV_PIX_FMT_RGBA) {
 		throw PixelFormatError ("make_transparent()", _pixel_format);
 	}
 
