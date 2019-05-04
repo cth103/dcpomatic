@@ -1506,6 +1506,10 @@ private:
 			*/
 			Config::drop ();
 
+			/* We only look out for bad configuration from here on, as before
+			   dcpomatic_setup() we haven't got OpenSSL ready so there will be
+			   incorrect certificate chain validity errors.
+			*/
 			Config::Bad.connect (boost::bind(&App::config_bad, this, _1));
 
 			_frame = new DOMFrame (_("DCP-o-matic"));

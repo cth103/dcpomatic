@@ -487,11 +487,11 @@ try
 		}
 	}
 
-	if (!_signer_chain->private_key_valid() || !_signer_chain->chain_valid()) {
+	if (!_signer_chain->chain_valid() || !_signer_chain->private_key_valid()) {
 		bad = BAD_SIGNER_INCONSISTENT;
 	}
 
-	if (!_decryption_chain->private_key_valid() || !_decryption_chain->chain_valid()) {
+	if (!_decryption_chain->chain_valid() || !_decryption_chain->private_key_valid()) {
 		bad = BAD_DECRYPTION_INCONSISTENT;
 	}
 
