@@ -2390,7 +2390,7 @@ msgstr ""
 msgid ""
 "The directory %1 already exists and is not empty.  Are you sure you want to "
 "use it?"
-msgstr "La directory% 1 esiste già e non è vuota. Sei sicuro di volerla usare?"
+msgstr "La directory %1 esiste già e non è vuota. Sei sicuro di volerla usare?"
 
 #: src/wx/config_move_dialog.cc:35
 #, c-format

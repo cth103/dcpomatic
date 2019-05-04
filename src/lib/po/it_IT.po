@@ -49,7 +49,7 @@ msgid ""
 "Padded with black to fit container %1 (%2x%3)"
 msgstr ""
 "\n"
-"Aggiunto nero per adattarsi al contenitore %1 (% 2x% 3)"
+"Aggiunto nero per adattarsi al contenitore %1 (%2x%3)"
 
 #: src/lib/video_content.cc:422
 msgid ""
@@ -173,7 +173,7 @@ msgstr "; %.1f fps"
 
 #: src/lib/job.cc:463
 msgid "; %1 remaining; finishing at %2%3"
-msgstr "; % 1 rimanente; alla fine % 2% 3"
+msgstr "; %1 rimanente; alla fine %2%3"
 
 #: src/lib/hints.cc:155
 msgid ""
@@ -308,7 +308,7 @@ msgstr "Non può contenere slash"
 
 #: src/lib/exceptions.cc:61
 msgid "Cannot handle pixel format %1 during %2"
-msgstr "Impossibile gestire il formato pixel % 1 durante % 2"
+msgstr "Impossibile gestire il formato pixel %1 durante %2"
 
 #: src/lib/film.cc:1324
 msgid "Cannot make a KDM as this project is not encrypted."
@@ -1524,7 +1524,7 @@ msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
 msgstr ""
-"Il tuo livello audio è molto alto (su% 1). Dovresti ridurre il guadagno del "
+"Il tuo livello audio è molto alto (su %1). Dovresti ridurre il guadagno del "
 "tuo contenuto audio."
 
 #: src/lib/config.cc:313
@@ -1591,7 +1591,7 @@ msgstr "non riesco a trovare informazioni sul flusso"
 
 #: src/lib/reel_writer.cc:325
 msgid "could not move audio asset into the DCP (%1)"
-msgstr "impossibile spostare la risorsa audio nel DCP (% 1)"
+msgstr "impossibile spostare la risorsa audio nel DCP (%1)"
 
 #: src/lib/exceptions.cc:33
 msgid "could not open file %1 for reading (%2)"
@@ -1619,15 +1619,15 @@ msgstr "Impossibile scrivere il file (%1)"
 
 #: src/lib/dcpomatic_socket.cc:65
 msgid "error during async_connect (%1)"
-msgstr "errore durante la connessione asincrona (% 1)"
+msgstr "errore durante la connessione asincrona (%1)"
 
 #: src/lib/dcpomatic_socket.cc:118
 msgid "error during async_read (%1)"
-msgstr "errore durante la lettura asincrona (% 1)"
+msgstr "errore durante la lettura asincrona (%1)"
 
 #: src/lib/dcpomatic_socket.cc:90
 msgid "error during async_write (%1)"
-msgstr "errore durante la scrittura asincrona (% 1)"
+msgstr "errore durante la scrittura asincrona (%1)"
 
 #: src/lib/content.cc:437 src/lib/content.cc:446
 msgid "frames per second"
