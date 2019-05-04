@@ -270,8 +270,8 @@ void
 AudioMappingView::paint_indicators (wxDC& dc)
 {
 	/* _{input,output}_channels and _map may not always be in sync, be careful here */
-	size_t const output = min(_output_channels.size(), _map.output_channels());
-	size_t const input = min(_input_channels.size(), _map.input_channels());
+	size_t const output = min(_output_channels.size(), size_t(_map.output_channels()));
+	size_t const input = min(_input_channels.size(), size_t(_map.input_channels()));
 
 	for (size_t x = 0; x < output; ++x) {
 		for (size_t y = 0; y < input; ++y) {
