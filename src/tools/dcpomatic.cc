@@ -415,7 +415,6 @@ public:
 		film->set_name (path.filename().generic_string());
 		film->write_metadata ();
 		set_film (film);
-		dcpomatic_log = film->log ();
 	}
 
 	void load_film (boost::filesystem::path file)
@@ -463,6 +462,7 @@ public:
 		if (_film) {
 			_film->Change.connect (boost::bind (&DOMFrame::film_change, this, _1));
 			_film->Message.connect (boost::bind(&DOMFrame::film_message, this, _1));
+			dcpomatic_log = _film->log ();
 		}
 	}
 
