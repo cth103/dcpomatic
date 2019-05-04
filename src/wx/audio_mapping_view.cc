@@ -269,8 +269,12 @@ AudioMappingView::paint_row_lines (wxGraphicsContext* gc)
 void
 AudioMappingView::paint_indicators (wxDC& dc)
 {
-	for (size_t x = 0; x < _output_channels.size(); ++x) {
-		for (size_t y = 0; y < _input_channels.size(); ++y) {
+	/* _{input,output}_channels and _map may not always be in sync, be careful here */
+	size_t const output = min(_output_channels.size(), _map.output_channels());
+	size_t const input = min(_input_channels.size(), _map.input_channels());
+
+	for (size_t x = 0; x < output; ++x) {
+		for (size_t y = 0; y < input; ++y) {
 			dc.SetBrush (*wxWHITE_BRUSH);
 			dc.DrawRectangle (
 				wxRect(
