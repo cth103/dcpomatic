@@ -100,3 +100,11 @@ StringTextFileContent::approximate_length () const
 {
 	return DCPTime (_length, FrameRateChange());
 }
+
+string
+StringTextFileContent::identifier () const
+{
+	string s = Content::identifier ();
+	s += "_" + only_text()->identifier();
+	return s;
+}
