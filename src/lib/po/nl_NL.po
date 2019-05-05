@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-05 20:19+0100\n"
-"PO-Revision-Date: 2019-03-19 02:09+0100\n"
+"PO-Revision-Date: 2019-05-05 23:21+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -190,6 +190,18 @@ msgid ""
 "£20</a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to "
 "Paypal to donate £10</a></ul><p>Thank you!"
 msgstr ""
+"<h2>U hebt %1 DCP's gemaakt met DCP-o-matic!</h2><img width=\"20%%\" src="
+"\"memory:me.jpg\" align=\"center\"><p>Hallo.  Ik ben Carl en ik ben de "
+"ontwikkelaar van DCP-o-matic.  Ik werk eraan in mijn vrije tijd (met de hulp "
+"van een fijn vrijwilligersteam van testers en vertalers) en ik geef het vrij "
+"als gratis software.<p>Als u DCP-o-matic nuttig vindt, overweeg dan een "
+"donatie aan het project.  Financiële ondersteuning zal me helpen om meer "
+"tijd te besteden aan de ontwikkeling van DCP-o-matic en het beter te maken!"
+"<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Ga naar "
+"Paypal om £40 te doneren</a><li><a href=\"https://dcpomatic.com/"
+"donate_amount?amount=20\">Ga naar Paypal om £20 te doneren</a><li><a href="
+"\"https://dcpomatic.com/donate_amount?amount=10\">Ga naar Paypal om £10 te "
+"doneren</a></ul><p>Dank u wel!"
 
 #: src/lib/hints.cc:155
 msgid ""
@@ -400,7 +412,7 @@ msgstr "Berekenen samenvattingen"
 
 #: src/lib/analytics.cc:55
 msgid "Congratulations!"
-msgstr ""
+msgstr "Gefeliciteerd!"
 
 #: src/lib/frame_rate_change.cc:101
 msgid "Content and DCP have the same rate.\n"
@@ -731,7 +743,7 @@ msgstr "Encoderen"
 
 #: src/lib/dcp_content_type.cc:56
 msgid "Episode"
-msgstr ""
+msgstr "Episode"
 
 #: src/lib/exceptions.cc:67
 msgid "Error in subtitle file: saw %1 while expecting %2"
@@ -1075,7 +1087,7 @@ msgstr "Programmeerfout op %1:%2 %3"
 
 #: src/lib/dcp_content_type.cc:57
 msgid "Promo"
-msgstr ""
+msgstr "Promo"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
@@ -1475,7 +1487,7 @@ msgid ""
 "supported by all projectors.  You are advised to change the DCP frame rate "
 "to %2 fps."
 msgstr ""
-"U heeft een frame rate van %1 fps voor de DCP ingesteld.  Deze frame rate "
+"U hebt een frame rate van %1 fps voor de DCP ingesteld.  Deze frame rate "
 "wordt niet door alle projectoren ondersteund.  U wordt geadviseerd om de DCP "
 "frame rate te wijzigen in %2 fps."
 
@@ -1485,7 +1497,7 @@ msgid ""
 "supported by all projectors.  You may want to consider changing your frame "
 "rate to %2 fps."
 msgstr ""
-"U heeft een frame rate van %1 fps voor de DCP ingesteld.  Deze frame rate "
+"U hebt een frame rate van %1 fps voor de DCP ingesteld.  Deze frame rate "
 "wordt niet door alle projectoren ondersteund.  U kunt overwegen om de DCP "
 "frame rate te wijzigen in %2 fps."
 
@@ -1494,7 +1506,7 @@ msgid ""
 "You are set up for a DCP frame rate of 30fps, which is not supported by all "
 "projectors.  Be aware that you may have compatibility problems."
 msgstr ""
-"U heeft een frame rate van 30 fps voor de DCP ingesteld.  Deze frame rate "
+"U hebt een frame rate van 30 fps voor de DCP ingesteld.  Deze frame rate "
 "wordt niet door alle projectoren ondersteund.  Houd er rekening mee dat u "
 "compatibiliteitsproblemen kunt krijgen."
 
@@ -1526,18 +1538,19 @@ msgstr ""
 "deze beter samenvoegen om van soepele aansluitingen verzekerd te zijn."
 
 #: src/lib/hints.cc:329
-#, fuzzy
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
-msgstr "U hebt overlappende closed captions.  Die zijn niet toegestaan."
+msgstr ""
+"U hebt overlappende closed captions.  Die zijn niet toegestaan in Interop "
+"DCP's.  Verander uw DCP-standaard in SMPTE."
 
 #: src/lib/hints.cc:115
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
 msgstr ""
-"U heeft een lettertype-bestand gespecificeerd dat groter is dan 640kB.  Dit "
+"U hebt een lettertype-bestand gespecificeerd dat groter is dan 640kB.  Dit "
 "zal zeer waarschijnlijk problemen bij het afspelen geven."
 
 #: src/lib/film.cc:312
