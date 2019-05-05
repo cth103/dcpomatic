@@ -1819,9 +1819,8 @@ msgid "Protocol"
 msgstr "协议"
 
 #: src/wx/config_dialog.cc:274
-#, fuzzy
 msgid "PulseAudio"
-msgstr "音频"
+msgstr "PulseAudio"
 
 #: src/wx/export_dialog.cc:64
 msgid "Quality"
