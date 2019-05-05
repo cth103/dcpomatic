@@ -219,7 +219,13 @@ Content::set_position (shared_ptr<const Film> film, DCPTime p, bool force_emit)
 		video->modify_position (film, p);
 	}
 
-	if (audio) {
+	/* Only allow the audio to modify if we have no video;
+	   sometimes p can't be on an integer video AND audio frame,
+	   and in these cases we want the video constraint to be
+	   satisfied since (I think) the audio code is better able to
+	   cope.
+	*/
+	if (!video && audio) {
 		audio->modify_position (film, p);
 	}
 
@@ -245,7 +251,8 @@ Content::set_trim_start (ContentTime t)
 		video->modify_trim_start (t);
 	}
 
-	if (audio) {
+	/* See note in ::set_position */
+	if (!video && audio) {
 		audio->modify_trim_start (t);
 	}
 
