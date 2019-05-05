@@ -271,7 +271,7 @@ GeneralPage::config_changed ()
 	apis[RtAudio::WINDOWS_WASAPI] = _("WASAPI");
 	apis[RtAudio::UNIX_JACK]      = _("JACK");
 	apis[RtAudio::LINUX_ALSA]     = _("ALSA");
-	apis[RtAudio::LINUX_PULSE]    = _("Pulseaudio");
+	apis[RtAudio::LINUX_PULSE]    = _("PulseAudio");
 	apis[RtAudio::LINUX_OSS]      = _("OSS");
 	apis[RtAudio::RTAUDIO_DUMMY]  = _("Dummy");
 
