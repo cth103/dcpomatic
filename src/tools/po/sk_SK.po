@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-28 21:18+0100\n"
+"POT-Creation-Date: 2019-05-05 20:19+0100\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -263,7 +263,7 @@ msgstr "Nemôžem načítať film %1 (%2)"
 msgid "Could not make DCP."
 msgstr "Nemôžem vytvoriť DCP: %s"
 
-#: src/tools/dcpomatic.cc:446 src/tools/dcpomatic_batch.cc:211
+#: src/tools/dcpomatic.cc:445 src/tools/dcpomatic_batch.cc:211
 #, fuzzy, c-format
 msgid "Could not open film at %s"
 msgstr "Nemôžem otvoriť film na %s"
@@ -709,7 +709,7 @@ msgstr "Žiadne nové verzie DCP-o-matic nie sú dostupné."
 msgid "There are unfinished jobs; are you sure you want to quit?"
 msgstr "Ešte sú nie sú dokončené úlohy; chcete skončiť ?"
 
-#: src/tools/dcpomatic.cc:430
+#: src/tools/dcpomatic.cc:429
 msgid ""
 "This film was created with an old version of DVD-o-matic and may not load "
 "correctly in this version.  Please check the film's settings carefully."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-28 21:18+0100\n"
+"POT-Creation-Date: 2019-05-05 20:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -171,7 +171,7 @@ msgstr ""
 
 #. //trac.wxwidgets.org/ticket/13389
 #.
-#: src/wx/timing_panel.cc:107
+#: src/wx/timing_panel.cc:109
 msgid ""
 "<i>Only change this if the content's frame rate has been read incorrectly.</"
 "i>"
@@ -227,7 +227,7 @@ msgstr ""
 msgid "Add Cinema..."
 msgstr ""
 
-#: src/wx/content_panel.cc:124
+#: src/wx/content_panel.cc:127
 msgid "Add DCP..."
 msgstr ""
 
@@ -251,21 +251,21 @@ msgstr ""
 msgid "Add Screen..."
 msgstr ""
 
-#: src/wx/content_panel.cc:125
+#: src/wx/content_panel.cc:128
 msgid "Add a DCP."
 msgstr ""
 
-#: src/wx/content_panel.cc:121
+#: src/wx/content_panel.cc:124
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
 msgstr ""
 
-#: src/wx/content_panel.cc:116
+#: src/wx/content_panel.cc:119
 msgid "Add file(s)..."
 msgstr ""
 
-#: src/wx/content_panel.cc:120
+#: src/wx/content_panel.cc:123
 msgid "Add folder..."
 msgstr ""
 
@@ -277,7 +277,7 @@ msgstr ""
 msgid "Add new..."
 msgstr ""
 
-#: src/wx/content_panel.cc:117
+#: src/wx/content_panel.cc:120
 msgid "Add video, image, sound or subtitle files to the film."
 msgstr ""
 
@@ -362,13 +362,13 @@ msgstr ""
 msgid "Audio channels: %d"
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:518
+#: src/wx/audio_mapping_view.cc:522
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d unaltered."
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:521
+#: src/wx/audio_mapping_view.cc:525
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d with gain "
@@ -503,7 +503,7 @@ msgstr ""
 msgid "Choose CPL..."
 msgstr ""
 
-#: src/wx/content_panel.cc:508
+#: src/wx/content_panel.cc:513
 msgid "Choose a DCP folder"
 msgstr ""
 
@@ -511,11 +511,11 @@ msgstr ""
 msgid "Choose a file"
 msgstr ""
 
-#: src/wx/content_panel.cc:435
+#: src/wx/content_panel.cc:440
 msgid "Choose a file or files"
 msgstr ""
 
-#: src/wx/content_menu.cc:294 src/wx/content_panel.cc:463
+#: src/wx/content_menu.cc:294 src/wx/content_panel.cc:468
 msgid "Choose a folder"
 msgstr ""
 
@@ -874,7 +874,7 @@ msgstr ""
 msgid "Duration"
 msgstr ""
 
-#: src/wx/content_panel.cc:132
+#: src/wx/content_panel.cc:135
 msgid "Earlier"
 msgstr ""
 
@@ -1085,7 +1085,7 @@ msgstr ""
 msgid "Full"
 msgstr ""
 
-#: src/wx/timing_panel.cc:87
+#: src/wx/timing_panel.cc:89
 msgid "Full length"
 msgstr ""
 
@@ -1339,7 +1339,7 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
-#: src/wx/content_panel.cc:136
+#: src/wx/content_panel.cc:139
 msgid "Later"
 msgstr ""
 
@@ -1404,7 +1404,7 @@ msgstr ""
 msgid "Lower priority"
 msgstr ""
 
-#: src/wx/content_panel.cc:721
+#: src/wx/content_panel.cc:726
 msgid "MISSING: "
 msgstr ""
 
@@ -1489,15 +1489,15 @@ msgstr ""
 msgid "Move content"
 msgstr ""
 
-#: src/wx/content_panel.cc:133
+#: src/wx/content_panel.cc:136
 msgid "Move the selected piece of content earlier in the film."
 msgstr ""
 
-#: src/wx/content_panel.cc:137
+#: src/wx/content_panel.cc:140
 msgid "Move the selected piece of content later in the film."
 msgstr ""
 
-#: src/wx/timing_panel.cc:86
+#: src/wx/timing_panel.cc:88
 msgid "Move to start of reel"
 msgstr ""
 
@@ -1517,11 +1517,11 @@ msgstr ""
 msgid "My problem is"
 msgstr ""
 
-#: src/wx/content_panel.cc:725
+#: src/wx/content_panel.cc:730
 msgid "NEEDS KDM: "
 msgstr ""
 
-#: src/wx/content_panel.cc:729
+#: src/wx/content_panel.cc:734
 msgid "NEEDS OV: "
 msgstr ""
 
@@ -1568,12 +1568,12 @@ msgid ""
 "Accounts page in Preferences."
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:516
+#: src/wx/audio_mapping_view.cc:520
 #, c-format
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr ""
 
-#: src/wx/content_panel.cc:482
+#: src/wx/content_panel.cc:487
 msgid "No content found in this folder."
 msgstr ""
 
@@ -1624,7 +1624,7 @@ msgstr ""
 msgid "Open console window"
 msgstr ""
 
-#: src/wx/content_panel.cc:141
+#: src/wx/content_panel.cc:144
 msgid "Open the timeline for the film."
 msgstr ""
 
@@ -1729,7 +1729,7 @@ msgstr ""
 msgid "Play"
 msgstr ""
 
-#: src/wx/timing_panel.cc:95
+#: src/wx/timing_panel.cc:97
 msgid "Play length"
 msgstr ""
 
@@ -1751,7 +1751,7 @@ msgstr ""
 msgid "Please wait; audio is being analysed..."
 msgstr ""
 
-#: src/wx/timing_panel.cc:84
+#: src/wx/timing_panel.cc:86
 msgid "Position"
 msgstr ""
 
@@ -1780,7 +1780,7 @@ msgid "Protocol"
 msgstr ""
 
 #: src/wx/config_dialog.cc:274
-msgid "Pulseaudio"
+msgid "PulseAudio"
 msgstr ""
 
 #: src/wx/export_dialog.cc:64
@@ -1866,7 +1866,7 @@ msgid "Reel|Custom"
 msgstr ""
 
 #: src/wx/config_dialog.cc:423 src/wx/content_menu.cc:83
-#: src/wx/content_panel.cc:128 src/wx/templates_dialog.cc:53
+#: src/wx/content_panel.cc:131 src/wx/templates_dialog.cc:53
 #: src/wx/editable_list.h:82
 msgid "Remove"
 msgstr ""
@@ -1879,7 +1879,7 @@ msgstr ""
 msgid "Remove Screen"
 msgstr ""
 
-#: src/wx/content_panel.cc:129
+#: src/wx/content_panel.cc:132
 msgid "Remove the selected piece of content from the film."
 msgstr ""
 
@@ -1935,7 +1935,7 @@ msgstr ""
 msgid "Right"
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:524
+#: src/wx/audio_mapping_view.cc:528
 msgid "Right click to change gain."
 msgstr ""
 
@@ -2109,7 +2109,7 @@ msgstr ""
 msgid "Servers"
 msgstr ""
 
-#: src/wx/timecode.cc:66 src/wx/timing_panel.cc:100
+#: src/wx/timecode.cc:66 src/wx/timing_panel.cc:102
 msgid "Set"
 msgstr ""
 
@@ -2383,16 +2383,16 @@ msgstr ""
 msgid "Timeline"
 msgstr ""
 
-#: src/wx/content_panel.cc:140
+#: src/wx/content_panel.cc:143
 msgid "Timeline..."
 msgstr ""
 
-#: src/wx/content_panel.cc:156
+#: src/wx/content_panel.cc:161
 msgid "Timing"
 msgstr ""
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
-#: src/wx/timing_panel.cc:53
+#: src/wx/timing_panel.cc:55
 msgid "Timing|Timing"
 msgstr ""
 
@@ -2416,19 +2416,19 @@ msgstr ""
 msgid "Translated by"
 msgstr ""
 
-#: src/wx/timing_panel.cc:94
+#: src/wx/timing_panel.cc:96
 msgid "Trim after current position"
 msgstr ""
 
-#: src/wx/timing_panel.cc:92
+#: src/wx/timing_panel.cc:94
 msgid "Trim from end"
 msgstr ""
 
-#: src/wx/timing_panel.cc:89
+#: src/wx/timing_panel.cc:91
 msgid "Trim from start"
 msgstr ""
 
-#: src/wx/timing_panel.cc:91
+#: src/wx/timing_panel.cc:93
 msgid "Trim up to current position"
 msgstr ""
 
@@ -2624,7 +2624,7 @@ msgstr ""
 msgid "Video Waveform"
 msgstr ""
 
-#: src/wx/timing_panel.cc:98
+#: src/wx/timing_panel.cc:100
 msgid "Video frame rate"
 msgstr ""
 
@@ -2803,7 +2803,7 @@ msgid "e.g. %s"
 msgstr ""
 
 #. // TRANSLATORS: this is an abbreviation for "frames"
-#: src/wx/timing_panel.cc:79
+#: src/wx/timing_panel.cc:81
 msgid "f"
 msgstr ""
 
@@ -2824,12 +2824,12 @@ msgid "full screen with controls on other monitor"
 msgstr ""
 
 #. // TRANSLATORS: this is an abbreviation for "hours"
-#: src/wx/timing_panel.cc:63
+#: src/wx/timing_panel.cc:65
 msgid "h"
 msgstr ""
 
 #. // TRANSLATORS: this is an abbreviation for "minutes"
-#: src/wx/timing_panel.cc:69
+#: src/wx/timing_panel.cc:71
 msgid "m"
 msgstr ""
 
@@ -2867,7 +2867,7 @@ msgid "reel number"
 msgstr ""
 
 #. // TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/full_config_dialog.cc:324 src/wx/timing_panel.cc:74
+#: src/wx/full_config_dialog.cc:324 src/wx/timing_panel.cc:76
 msgid "s"
 msgstr ""
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-24 00:53+0000\n"
+"POT-Creation-Date: 2019-05-05 20:19+0100\n"
 "PO-Revision-Date: 2019-02-28 13:18+0100\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: \n"
@@ -71,7 +71,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " na %1"
 
-#: src/lib/config.cc:1158
+#: src/lib/config.cc:1161
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -93,7 +93,7 @@ msgstr ""
 "Délka: $LENGTH\n"
 "Velikost: $SIZE\n"
 
-#: src/lib/config.cc:1136
+#: src/lib/config.cc:1139
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -167,7 +167,7 @@ msgid "3D denoiser"
 msgstr "3D denoiser"
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:129
+#: src/lib/transcode_job.cc:136
 #, c-format
 msgid "; %.1f fps"
 msgstr "; %.1f fps"
@@ -175,6 +175,21 @@ msgstr "; %.1f fps"
 #: src/lib/job.cc:463
 msgid "; %1 remaining; finishing at %2%3"
 msgstr "; %1 zbývajících; dokončení v %2%3"
+
+#: src/lib/analytics.cc:57
+msgid ""
+"<h2>You have made %1 DCPs with DCP-o-matic!</h2><img width=\"20%%\" src="
+"\"memory:me.jpg\" align=\"center\"><p>Hello. I'm Carl and I'm the developer "
+"of DCP-o-matic. I work on it in my spare time (with the help of a fine "
+"volunteer team of testers and translators) and I release it as free software."
+"<p>If you find DCP-o-matic useful, please consider a donation to the "
+"project. Financial support will help me to spend more time developing DCP-o-"
+"matic and making it better!<p><ul><li><a href=\"https://dcpomatic.com/"
+"donate_amount?amount=40\">Go to Paypal to donate £40</a><li><a href="
+"\"https://dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate "
+"£20</a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to "
+"Paypal to donate £10</a></ul><p>Thank you!"
+msgstr ""
 
 #: src/lib/hints.cc:155
 msgid ""
@@ -309,7 +324,7 @@ msgstr "Nemůže obsahovat lomítka"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Nemužu zpracovat formát pixelu %1 během %2"
 
-#: src/lib/film.cc:1324
+#: src/lib/film.cc:1348
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Nelze vytvořit KDM, protože tento projekt není zašifrován."
 
@@ -377,9 +392,13 @@ msgstr "Barevný prostor"
 msgid "Computing digest"
 msgstr "Výpočet digest"
 
-#: src/lib/writer.cc:519
+#: src/lib/writer.cc:520
 msgid "Computing digests"
 msgstr "Výpočet digests"
+
+#: src/lib/analytics.cc:55
+msgid "Congratulations!"
+msgstr ""
 
 #: src/lib/frame_rate_change.cc:101
 msgid "Content and DCP have the same rate.\n"
@@ -526,15 +545,15 @@ msgstr "Nemohu otevřít %1"
 msgid "Could not open %1 to send"
 msgstr "Nemohu otevřít 1% k poslání"
 
-#: src/lib/internet.cc:115 src/lib/internet.cc:120
+#: src/lib/internet.cc:118 src/lib/internet.cc:123
 msgid "Could not open downloaded ZIP file"
 msgstr "Nemohu otevřít ZIP soubor"
 
-#: src/lib/internet.cc:127
+#: src/lib/internet.cc:130
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Nemohu otevřít stažený ZIP soubor (%1:%2: %3)"
 
-#: src/lib/config.cc:1039
+#: src/lib/config.cc:1042
 msgid "Could not open file for writing"
 msgstr "Nemohu otevřít soubor pro zápis"
 
@@ -603,7 +622,7 @@ msgstr ""
 "DCP-o-matic nemohl otevřít soubor %1 (%2).  Možná, že soubor neexistuje nebo "
 "je v  nepodporovaném formátu."
 
-#: src/lib/film.cc:1246
+#: src/lib/film.cc:1270
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -616,7 +635,7 @@ msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
 msgstr "DCP-o-matic nepodporuje `%1' filter, takže filter bude vypnutý."
 
-#: src/lib/config.cc:364 src/lib/config.cc:1133
+#: src/lib/config.cc:379 src/lib/config.cc:1136
 msgid "DCP-o-matic notification"
 msgstr "DCP-o-matic oznámení"
 
@@ -625,7 +644,7 @@ msgstr "DCP-o-matic oznámení"
 msgid "De-interlacing"
 msgstr "De-interlacing"
 
-#: src/lib/config.cc:1121
+#: src/lib/config.cc:1124
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -655,7 +674,7 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 a CP750"
 
-#: src/lib/internet.cc:73
+#: src/lib/internet.cc:76
 msgid "Download failed (%1 error %2)"
 msgstr "Stahování selhalo (%1 error %2)"
 
@@ -691,6 +710,10 @@ msgstr "Správa o problému s Emailem pro %1"
 msgid "Encoding"
 msgstr "Kódování"
 
+#: src/lib/dcp_content_type.cc:56
+msgid "Episode"
+msgstr ""
+
 #: src/lib/exceptions.cc:67
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Chyba v souboru titulků: viděný %1 a byl očekávaný %2"
@@ -719,7 +742,7 @@ msgstr "FCC"
 msgid "Failed to authenticate with server (%1)"
 msgstr "Chyba při autentifikování se serverem (%1)"
 
-#: src/lib/emailer.cc:222
+#: src/lib/emailer.cc:224
 msgid "Failed to send email"
 msgstr "Odeslání e-mailu se nezdařilo"
 
@@ -827,7 +850,7 @@ msgstr "Nevím, co zapříčinilo tuto chybu."
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:354 src/lib/config.cc:1118
+#: src/lib/config.cc:369 src/lib/config.cc:1121
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM doručení: $CPL_NAME"
 
@@ -935,7 +958,7 @@ msgstr "Chybí potřebná nastavení %1"
 msgid "Monday"
 msgstr "Pondělí"
 
-#: src/lib/writer.cc:618
+#: src/lib/writer.cc:628
 msgid "Mono"
 msgstr "Mono"
 
@@ -943,7 +966,7 @@ msgstr "Mono"
 msgid "Motion compensating deinterlacer"
 msgstr "Pohybový kompenzační odstraňovač"
 
-#: src/lib/dcp_decoder.cc:77
+#: src/lib/dcp_decoder.cc:79
 msgid "No CPLs found in DCP."
 msgstr "V DCP nebyla nalezena žádná CPLs."
 
@@ -967,7 +990,7 @@ msgstr "Ve složce nebyly nalezeny žádné platné soubory."
 msgid "Noise reduction"
 msgstr "Redukce hluku"
 
-#: src/lib/writer.cc:616
+#: src/lib/writer.cc:626
 msgid "None"
 msgstr "Žádný"
 
@@ -1023,6 +1046,10 @@ msgstr "Příprava pro snímkovou frekvenci videa"
 #: src/lib/exceptions.cc:85
 msgid "Programming error at %1:%2 %3"
 msgstr "Chyba při programovaní na %1:%2 %3"
+
+#: src/lib/dcp_content_type.cc:57
+msgid "Promo"
+msgstr ""
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
@@ -1192,7 +1219,7 @@ msgstr "Část vašeho obsahu potřebuje KDM"
 msgid "Some of your content needs an OV"
 msgstr "Část vašeho obsahu potřebuje OV"
 
-#: src/lib/writer.cc:620
+#: src/lib/writer.cc:630
 msgid "Stereo"
 msgstr "Stereo"
 
@@ -1321,7 +1348,7 @@ msgstr "Časovaný text"
 msgid "Trailer"
 msgstr "Trailer"
 
-#: src/lib/transcode_job.cc:55
+#: src/lib/transcode_job.cc:57
 msgid "Transcoding %1"
 msgstr "Překódování %1"
 
@@ -1333,7 +1360,7 @@ msgstr "Transitional (Přechod)"
 msgid "Tuesday"
 msgstr "Úterý"
 
-#: src/lib/internet.cc:136
+#: src/lib/internet.cc:139
 msgid "Unexpected ZIP file contents"
 msgstr "Neočekávaný obsah ZIP"
 
@@ -1467,8 +1494,11 @@ msgstr ""
 "Máte %1 souborů, které vypadají jako VOB soubory z DVD. Měli byste je "
 "spojit, aby zajistit tak hladké spojení mezi těmito dvěma soubory."
 
-#: src/lib/hints.cc:325
-msgid "You have overlapping closed captions, which are not allowed."
+#: src/lib/hints.cc:329
+#, fuzzy
+msgid ""
+"You have overlapping closed captions, which are not allowed in Interop "
+"DCPs.  Change your DCP standard to SMPTE."
 msgstr "Máte překrývající se skryté titulky, které nejsou povoleny."
 
 #: src/lib/hints.cc:115

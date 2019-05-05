@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-28 21:18+0100\n"
+"POT-Creation-Date: 2019-05-05 20:19+0100\n"
 "PO-Revision-Date: 2019-03-24 02:18+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -256,7 +256,7 @@ msgstr "Kan film %1 niet laden (%2)"
 msgid "Could not make DCP."
 msgstr "Kan DCP niet maken."
 
-#: src/tools/dcpomatic.cc:446 src/tools/dcpomatic_batch.cc:211
+#: src/tools/dcpomatic.cc:445 src/tools/dcpomatic_batch.cc:211
 #, c-format
 msgid "Could not open film at %s"
 msgstr "Kan film niet openen op %s."
@@ -698,7 +698,7 @@ msgstr "Er zijn geen nieuwere versies van DCP-o-matic beschikbaar."
 msgid "There are unfinished jobs; are you sure you want to quit?"
 msgstr "Er zijn nog onvoltooide taken; weet u zeker dat u wilt stoppen?"
 
-#: src/tools/dcpomatic.cc:430
+#: src/tools/dcpomatic.cc:429
 msgid ""
 "This film was created with an old version of DVD-o-matic and may not load "
 "correctly in this version.  Please check the film's settings carefully."

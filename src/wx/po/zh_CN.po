@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-28 21:18+0100\n"
+"POT-Creation-Date: 2019-05-05 20:19+0100\n"
 "PO-Revision-Date: 2019-04-21 23:17+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -183,7 +183,7 @@ msgstr "<i>请输入一个有效的邮箱地址，否则我们将无法解决您
 
 #. //trac.wxwidgets.org/ticket/13389
 #.
-#: src/wx/timing_panel.cc:107
+#: src/wx/timing_panel.cc:109
 msgid ""
 "<i>Only change this if the content's frame rate has been read incorrectly.</"
 "i>"
@@ -248,7 +248,7 @@ msgstr "添加影院"
 msgid "Add Cinema..."
 msgstr "添加影院..."
 
-#: src/wx/content_panel.cc:124
+#: src/wx/content_panel.cc:127
 msgid "Add DCP..."
 msgstr "添加 DCP…"
 
@@ -272,21 +272,21 @@ msgstr "添加银幕（放映服务器）"
 msgid "Add Screen..."
 msgstr "添加银幕（放映服务器）..."
 
-#: src/wx/content_panel.cc:125
+#: src/wx/content_panel.cc:128
 msgid "Add a DCP."
 msgstr "添加 DCP..."
 
-#: src/wx/content_panel.cc:121
+#: src/wx/content_panel.cc:124
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
 msgstr "添加包含序列帧文件或音频的媒体文件夹."
 
-#: src/wx/content_panel.cc:116
+#: src/wx/content_panel.cc:119
 msgid "Add file(s)..."
 msgstr "添加文件..."
 
-#: src/wx/content_panel.cc:120
+#: src/wx/content_panel.cc:123
 msgid "Add folder..."
 msgstr "添加文件夹..."
 
@@ -298,7 +298,7 @@ msgstr "添加图像序列"
 msgid "Add new..."
 msgstr "添加新的..."
 
-#: src/wx/content_panel.cc:117
+#: src/wx/content_panel.cc:120
 msgid "Add video, image, sound or subtitle files to the film."
 msgstr "添加视频、图片、音频或字幕文件。"
 
@@ -388,13 +388,13 @@ msgstr "音频语言 (例如 CMN)"
 msgid "Audio channels: %d"
 msgstr "音频通道: %d"
 
-#: src/wx/audio_mapping_view.cc:518
+#: src/wx/audio_mapping_view.cc:522
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d unaltered."
 msgstr "音频将从 %d 传递到 DCP 通道 %d ，其值不变."
 
-#: src/wx/audio_mapping_view.cc:521
+#: src/wx/audio_mapping_view.cc:525
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d with gain "
@@ -532,7 +532,7 @@ msgstr "启动时检查软件更新"
 msgid "Choose CPL..."
 msgstr "选择CPL…"
 
-#: src/wx/content_panel.cc:508
+#: src/wx/content_panel.cc:513
 msgid "Choose a DCP folder"
 msgstr "选择一个DCP文件夹"
 
@@ -540,11 +540,11 @@ msgstr "选择一个DCP文件夹"
 msgid "Choose a file"
 msgstr "选择一个文件"
 
-#: src/wx/content_panel.cc:435
+#: src/wx/content_panel.cc:440
 msgid "Choose a file or files"
 msgstr "选择一个或多个文件"
 
-#: src/wx/content_menu.cc:294 src/wx/content_panel.cc:463
+#: src/wx/content_menu.cc:294 src/wx/content_panel.cc:468
 msgid "Choose a folder"
 msgstr "选择一个文件夹"
 
@@ -905,7 +905,7 @@ msgstr ""
 msgid "Duration"
 msgstr "时长"
 
-#: src/wx/content_panel.cc:132
+#: src/wx/content_panel.cc:135
 msgid "Earlier"
 msgstr "上移"
 
@@ -1116,7 +1116,7 @@ msgstr "从模板"
 msgid "Full"
 msgstr "总"
 
-#: src/wx/timing_panel.cc:87
+#: src/wx/timing_panel.cc:89
 msgid "Full length"
 msgstr "总长度"
 
@@ -1376,7 +1376,7 @@ msgstr "键值"
 msgid "Language"
 msgstr "语言"
 
-#: src/wx/content_panel.cc:136
+#: src/wx/content_panel.cc:139
 msgid "Later"
 msgstr "下移"
 
@@ -1442,7 +1442,7 @@ msgstr "响度范围 %.2f LU"
 msgid "Lower priority"
 msgstr "低场优先"
 
-#: src/wx/content_panel.cc:721
+#: src/wx/content_panel.cc:726
 msgid "MISSING: "
 msgstr "丢失: "
 
@@ -1527,15 +1527,15 @@ msgstr "移动设置"
 msgid "Move content"
 msgstr "分卷内容"
 
-#: src/wx/content_panel.cc:133
+#: src/wx/content_panel.cc:136
 msgid "Move the selected piece of content earlier in the film."
 msgstr "前移选择内容."
 
-#: src/wx/content_panel.cc:137
+#: src/wx/content_panel.cc:140
 msgid "Move the selected piece of content later in the film."
 msgstr "后移选择内容."
 
-#: src/wx/timing_panel.cc:86
+#: src/wx/timing_panel.cc:88
 msgid "Move to start of reel"
 msgstr "分卷设置"
 
@@ -1555,11 +1555,11 @@ msgstr "我的文档"
 msgid "My problem is"
 msgstr "错误内容"
 
-#: src/wx/content_panel.cc:725
+#: src/wx/content_panel.cc:730
 msgid "NEEDS KDM: "
 msgstr "需要KDM: "
 
-#: src/wx/content_panel.cc:729
+#: src/wx/content_panel.cc:734
 msgid "NEEDS OV: "
 msgstr "需要OV: "
 
@@ -1606,12 +1606,12 @@ msgid ""
 "Accounts page in Preferences."
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:516
+#: src/wx/audio_mapping_view.cc:520
 #, c-format
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "视频中没有音频，从 %d 到 %d 通道的DCP."
 
-#: src/wx/content_panel.cc:482
+#: src/wx/content_panel.cc:487
 msgid "No content found in this folder."
 msgstr "文件夹中没有找到文件."
 
@@ -1662,7 +1662,7 @@ msgstr "仅在编码服务器编码"
 msgid "Open console window"
 msgstr "打开控制台窗口"
 
-#: src/wx/content_panel.cc:141
+#: src/wx/content_panel.cc:144
 msgid "Open the timeline for the film."
 msgstr "打开工程时间线."
 
@@ -1768,7 +1768,7 @@ msgstr ""
 msgid "Play"
 msgstr "播放"
 
-#: src/wx/timing_panel.cc:95
+#: src/wx/timing_panel.cc:97
 msgid "Play length"
 msgstr "播放长度"
 
@@ -1790,7 +1790,7 @@ msgstr "请输入您的电子邮件，以便我们可以与您取得联系。"
 msgid "Please wait; audio is being analysed..."
 msgstr "请稍等，正在解析音频..."
 
-#: src/wx/timing_panel.cc:84
+#: src/wx/timing_panel.cc:86
 msgid "Position"
 msgstr "位置"
 
@@ -1820,7 +1820,7 @@ msgstr "协议"
 
 #: src/wx/config_dialog.cc:274
 #, fuzzy
-msgid "Pulseaudio"
+msgid "PulseAudio"
 msgstr "音频"
 
 #: src/wx/export_dialog.cc:64
@@ -1906,7 +1906,7 @@ msgid "Reel|Custom"
 msgstr "分卷|自定义"
 
 #: src/wx/config_dialog.cc:423 src/wx/content_menu.cc:83
-#: src/wx/content_panel.cc:128 src/wx/templates_dialog.cc:53
+#: src/wx/content_panel.cc:131 src/wx/templates_dialog.cc:53
 #: src/wx/editable_list.h:82
 msgid "Remove"
 msgstr "移除"
@@ -1919,7 +1919,7 @@ msgstr "移除影院"
 msgid "Remove Screen"
 msgstr "移除厅放映服务器（证书）"
 
-#: src/wx/content_panel.cc:129
+#: src/wx/content_panel.cc:132
 msgid "Remove the selected piece of content from the film."
 msgstr "从工程中删除所选项目."
 
@@ -1975,7 +1975,7 @@ msgstr "恢复"
 msgid "Right"
 msgstr "右边"
 
-#: src/wx/audio_mapping_view.cc:524
+#: src/wx/audio_mapping_view.cc:528
 msgid "Right click to change gain."
 msgstr "右键单击要更改增益。"
 
@@ -2149,7 +2149,7 @@ msgstr "服务器"
 msgid "Servers"
 msgstr "服务器"
 
-#: src/wx/timecode.cc:66 src/wx/timing_panel.cc:100
+#: src/wx/timecode.cc:66 src/wx/timing_panel.cc:102
 msgid "Set"
 msgstr "设置"
 
@@ -2427,17 +2427,17 @@ msgstr "指纹"
 msgid "Timeline"
 msgstr "时间线"
 
-#: src/wx/content_panel.cc:140
+#: src/wx/content_panel.cc:143
 msgid "Timeline..."
 msgstr "时间线…"
 
-#: src/wx/content_panel.cc:156
+#: src/wx/content_panel.cc:161
 #, fuzzy
 msgid "Timing"
 msgstr "计时器"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
-#: src/wx/timing_panel.cc:53
+#: src/wx/timing_panel.cc:55
 msgid "Timing|Timing"
 msgstr "计时器"
 
@@ -2461,19 +2461,19 @@ msgstr "翻译"
 msgid "Translated by"
 msgstr "翻译"
 
-#: src/wx/timing_panel.cc:94
+#: src/wx/timing_panel.cc:96
 msgid "Trim after current position"
 msgstr "裁剪当前位置"
 
-#: src/wx/timing_panel.cc:92
+#: src/wx/timing_panel.cc:94
 msgid "Trim from end"
 msgstr "裁剪结束"
 
-#: src/wx/timing_panel.cc:89
+#: src/wx/timing_panel.cc:91
 msgid "Trim from start"
 msgstr "开始裁剪"
 
-#: src/wx/timing_panel.cc:91
+#: src/wx/timing_panel.cc:93
 msgid "Trim up to current position"
 msgstr "裁剪至当前位置"
 
@@ -2669,7 +2669,7 @@ msgstr "视频"
 msgid "Video Waveform"
 msgstr "视频波形"
 
-#: src/wx/timing_panel.cc:98
+#: src/wx/timing_panel.cc:100
 msgid "Video frame rate"
 msgstr "视频帧率"
 
@@ -2850,7 +2850,7 @@ msgid "e.g. %s"
 msgstr "例如 %s"
 
 #. // TRANSLATORS: this is an abbreviation for "frames"
-#: src/wx/timing_panel.cc:79
+#: src/wx/timing_panel.cc:81
 msgid "f"
 msgstr "帧"
 
@@ -2871,12 +2871,12 @@ msgid "full screen with controls on other monitor"
 msgstr "在其他显示屏上全屏"
 
 #. // TRANSLATORS: this is an abbreviation for "hours"
-#: src/wx/timing_panel.cc:63
+#: src/wx/timing_panel.cc:65
 msgid "h"
 msgstr "小时"
 
 #. // TRANSLATORS: this is an abbreviation for "minutes"
-#: src/wx/timing_panel.cc:69
+#: src/wx/timing_panel.cc:71
 msgid "m"
 msgstr "分"
 
@@ -2916,7 +2916,7 @@ msgid "reel number"
 msgstr "卷号"
 
 #. // TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/full_config_dialog.cc:324 src/wx/timing_panel.cc:74
+#: src/wx/full_config_dialog.cc:324 src/wx/timing_panel.cc:76
 msgid "s"
 msgstr "秒"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-28 21:18+0100\n"
+"POT-Creation-Date: 2019-05-05 20:19+0100\n"
 "PO-Revision-Date: 2019-05-02 20:47+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -183,7 +183,7 @@ msgstr ""
 
 #. //trac.wxwidgets.org/ticket/13389
 #.
-#: src/wx/timing_panel.cc:107
+#: src/wx/timing_panel.cc:109
 msgid ""
 "<i>Only change this if the content's frame rate has been read incorrectly.</"
 "i>"
@@ -253,7 +253,7 @@ msgstr "Voeg Bioscoop toe"
 msgid "Add Cinema..."
 msgstr "Voeg Bioscoop toe..."
 
-#: src/wx/content_panel.cc:124
+#: src/wx/content_panel.cc:127
 msgid "Add DCP..."
 msgstr "Voeg DCP toe..."
 
@@ -277,11 +277,11 @@ msgstr "Voeg Scherm toe"
 msgid "Add Screen..."
 msgstr "Voeg Scherm toe..."
 
-#: src/wx/content_panel.cc:125
+#: src/wx/content_panel.cc:128
 msgid "Add a DCP."
 msgstr "Voeg een DCP toe."
 
-#: src/wx/content_panel.cc:121
+#: src/wx/content_panel.cc:124
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
@@ -289,11 +289,11 @@ msgstr ""
 "Voeg een map met beeldbestanden (die als sequentie van bewegende beelden "
 "gebruikt worden) of een map met audiobestanden toe."
 
-#: src/wx/content_panel.cc:116
+#: src/wx/content_panel.cc:119
 msgid "Add file(s)..."
 msgstr "Voeg bestand(en) toe..."
 
-#: src/wx/content_panel.cc:120
+#: src/wx/content_panel.cc:123
 msgid "Add folder..."
 msgstr "Voeg map toe..."
 
@@ -305,7 +305,7 @@ msgstr "Voeg beeldsequentie toe"
 msgid "Add new..."
 msgstr "Voeg nieuwe toe..."
 
-#: src/wx/content_panel.cc:117
+#: src/wx/content_panel.cc:120
 msgid "Add video, image, sound or subtitle files to the film."
 msgstr "Voeg video-, beeld-, audio-, of ondertitelbestanden aan de film toe."
 
@@ -395,7 +395,7 @@ msgstr "Taal audio (bv. NL)"
 msgid "Audio channels: %d"
 msgstr "Audio-kanalen: %d"
 
-#: src/wx/audio_mapping_view.cc:518
+#: src/wx/audio_mapping_view.cc:522
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d unaltered."
@@ -403,7 +403,7 @@ msgstr ""
 "Audio van content-kanaal %d wordt ongewijzigd naar DCP-kanaal %d "
 "doorgestuurd."
 
-#: src/wx/audio_mapping_view.cc:521
+#: src/wx/audio_mapping_view.cc:525
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d with gain "
@@ -540,7 +540,7 @@ msgstr "Zoek naar updates bij opstarten"
 msgid "Choose CPL..."
 msgstr "Kies CPL..."
 
-#: src/wx/content_panel.cc:508
+#: src/wx/content_panel.cc:513
 msgid "Choose a DCP folder"
 msgstr "Kies een DCP-map"
 
@@ -548,11 +548,11 @@ msgstr "Kies een DCP-map"
 msgid "Choose a file"
 msgstr "Kies een bestand"
 
-#: src/wx/content_panel.cc:435
+#: src/wx/content_panel.cc:440
 msgid "Choose a file or files"
 msgstr "Kies een of meer bestanden"
 
-#: src/wx/content_menu.cc:294 src/wx/content_panel.cc:463
+#: src/wx/content_menu.cc:294 src/wx/content_panel.cc:468
 msgid "Choose a folder"
 msgstr "Kies een map"
 
@@ -914,7 +914,7 @@ msgstr "Dummy"
 msgid "Duration"
 msgstr "Duur"
 
-#: src/wx/content_panel.cc:132
+#: src/wx/content_panel.cc:135
 msgid "Earlier"
 msgstr "Vroeger"
 
@@ -1127,7 +1127,7 @@ msgstr "Uit template"
 msgid "Full"
 msgstr "Volledig"
 
-#: src/wx/timing_panel.cc:87
+#: src/wx/timing_panel.cc:89
 msgid "Full length"
 msgstr "Volledige duur"
 
@@ -1390,7 +1390,7 @@ msgstr "Sleutels"
 msgid "Language"
 msgstr "Taal"
 
-#: src/wx/content_panel.cc:136
+#: src/wx/content_panel.cc:139
 msgid "Later"
 msgstr "Later"
 
@@ -1455,7 +1455,7 @@ msgstr "Luidheidbereik %.2f LU"
 msgid "Lower priority"
 msgstr "Lagere prioriteit"
 
-#: src/wx/content_panel.cc:721
+#: src/wx/content_panel.cc:726
 msgid "MISSING: "
 msgstr "ONTBREKEND: "
 
@@ -1540,15 +1540,15 @@ msgstr "Verplaats configuratie"
 msgid "Move content"
 msgstr "Verplaats content"
 
-#: src/wx/content_panel.cc:133
+#: src/wx/content_panel.cc:136
 msgid "Move the selected piece of content earlier in the film."
 msgstr "Verplaats het geselecteerde stuk content naar eerder in de film."
 
-#: src/wx/content_panel.cc:137
+#: src/wx/content_panel.cc:140
 msgid "Move the selected piece of content later in the film."
 msgstr "Verplaats het geselecteerde stuk content naar later in de film."
 
-#: src/wx/timing_panel.cc:86
+#: src/wx/timing_panel.cc:88
 msgid "Move to start of reel"
 msgstr "Verplaats naar begin van reel"
 
@@ -1568,11 +1568,11 @@ msgstr "Mijn Documenten"
 msgid "My problem is"
 msgstr "Mijn probleem is"
 
-#: src/wx/content_panel.cc:725
+#: src/wx/content_panel.cc:730
 msgid "NEEDS KDM: "
 msgstr "HEEFT KDM NODIG: "
 
-#: src/wx/content_panel.cc:729
+#: src/wx/content_panel.cc:734
 msgid "NEEDS OV: "
 msgstr "HEEFT OV NODIG: "
 
@@ -1625,13 +1625,13 @@ msgstr ""
 "Geen GDC gebruikersnaam/wachtwoord geconfigureerd.  Voeg uw accountgegevens "
 "toe in het Accounts-tabblad bij Voorkeuren."
 
-#: src/wx/audio_mapping_view.cc:516
+#: src/wx/audio_mapping_view.cc:520
 #, c-format
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr ""
 "Er wordt geen audio van content-kanaal %d doorgestuurd naar DCP-kanaal %d."
 
-#: src/wx/content_panel.cc:482
+#: src/wx/content_panel.cc:487
 msgid "No content found in this folder."
 msgstr "Geen content gevonden in deze map."
 
@@ -1682,7 +1682,7 @@ msgstr "Alleen servers encoderen"
 msgid "Open console window"
 msgstr "Open console-venster"
 
-#: src/wx/content_panel.cc:141
+#: src/wx/content_panel.cc:144
 msgid "Open the timeline for the film."
 msgstr "Open de tijdlijn voor de film."
 
@@ -1787,7 +1787,7 @@ msgstr "Plain"
 msgid "Play"
 msgstr "Speel af"
 
-#: src/wx/timing_panel.cc:95
+#: src/wx/timing_panel.cc:97
 msgid "Play length"
 msgstr "Afspeelduur"
 
@@ -1811,7 +1811,7 @@ msgstr ""
 msgid "Please wait; audio is being analysed..."
 msgstr "Een ogenblik geduld; de audio wordt geanalyseerd..."
 
-#: src/wx/timing_panel.cc:84
+#: src/wx/timing_panel.cc:86
 msgid "Position"
 msgstr "Positie"
 
@@ -1840,7 +1840,8 @@ msgid "Protocol"
 msgstr "Protocol"
 
 #: src/wx/config_dialog.cc:274
-msgid "Pulseaudio"
+#, fuzzy
+msgid "PulseAudio"
 msgstr "Pulseaudio"
 
 #: src/wx/export_dialog.cc:64
@@ -1926,7 +1927,7 @@ msgid "Reel|Custom"
 msgstr "Aangepast"
 
 #: src/wx/config_dialog.cc:423 src/wx/content_menu.cc:83
-#: src/wx/content_panel.cc:128 src/wx/templates_dialog.cc:53
+#: src/wx/content_panel.cc:131 src/wx/templates_dialog.cc:53
 #: src/wx/editable_list.h:82
 msgid "Remove"
 msgstr "Verwijder"
@@ -1939,7 +1940,7 @@ msgstr "Verwijder Bioscoop"
 msgid "Remove Screen"
 msgstr "Verwijder Scherm"
 
-#: src/wx/content_panel.cc:129
+#: src/wx/content_panel.cc:132
 msgid "Remove the selected piece of content from the film."
 msgstr "Verwijder het geselecteerde stuk content uit de film."
 
@@ -1995,7 +1996,7 @@ msgstr "Vervolg"
 msgid "Right"
 msgstr "Rechts"
 
-#: src/wx/audio_mapping_view.cc:524
+#: src/wx/audio_mapping_view.cc:528
 msgid "Right click to change gain."
 msgstr "Klik met de rechtermuisknop om versterking te wijzigen."
 
@@ -2169,7 +2170,7 @@ msgstr "Server"
 msgid "Servers"
 msgstr "Servers"
 
-#: src/wx/timecode.cc:66 src/wx/timing_panel.cc:100
+#: src/wx/timecode.cc:66 src/wx/timing_panel.cc:102
 msgid "Set"
 msgstr "Stel in"
 
@@ -2462,16 +2463,16 @@ msgstr "Thumbprint"
 msgid "Timeline"
 msgstr "Tijdlijn"
 
-#: src/wx/content_panel.cc:140
+#: src/wx/content_panel.cc:143
 msgid "Timeline..."
 msgstr "Tijdlijn..."
 
-#: src/wx/content_panel.cc:156
+#: src/wx/content_panel.cc:161
 msgid "Timing"
 msgstr "Timing"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
-#: src/wx/timing_panel.cc:53
+#: src/wx/timing_panel.cc:55
 msgid "Timing|Timing"
 msgstr "Timing"
 
@@ -2495,19 +2496,19 @@ msgstr "Vertaal"
 msgid "Translated by"
 msgstr "Vertaald door"
 
-#: src/wx/timing_panel.cc:94
+#: src/wx/timing_panel.cc:96
 msgid "Trim after current position"
 msgstr "Wegknippen vanaf huidige positie"
 
-#: src/wx/timing_panel.cc:92
+#: src/wx/timing_panel.cc:94
 msgid "Trim from end"
 msgstr "Wegknippen van einde"
 
-#: src/wx/timing_panel.cc:89
+#: src/wx/timing_panel.cc:91
 msgid "Trim from start"
 msgstr "Wegknippen van begin"
 
-#: src/wx/timing_panel.cc:91
+#: src/wx/timing_panel.cc:93
 msgid "Trim up to current position"
 msgstr "Wegknippen tot aan huidige positie"
 
@@ -2703,7 +2704,7 @@ msgstr "Video"
 msgid "Video Waveform"
 msgstr "Video-golfvorm"
 
-#: src/wx/timing_panel.cc:98
+#: src/wx/timing_panel.cc:100
 msgid "Video frame rate"
 msgstr "Video frame rate"
 
@@ -2890,7 +2891,7 @@ msgid "e.g. %s"
 msgstr "bv. %s"
 
 #. // TRANSLATORS: this is an abbreviation for "frames"
-#: src/wx/timing_panel.cc:79
+#: src/wx/timing_panel.cc:81
 msgid "f"
 msgstr "f"
 
@@ -2911,12 +2912,12 @@ msgid "full screen with controls on other monitor"
 msgstr "volledig scherm met bediening op andere monitor"
 
 #. // TRANSLATORS: this is an abbreviation for "hours"
-#: src/wx/timing_panel.cc:63
+#: src/wx/timing_panel.cc:65
 msgid "h"
 msgstr "h"
 
 #. // TRANSLATORS: this is an abbreviation for "minutes"
-#: src/wx/timing_panel.cc:69
+#: src/wx/timing_panel.cc:71
 msgid "m"
 msgstr "m"
 
@@ -2954,7 +2955,7 @@ msgid "reel number"
 msgstr "reel-nummer"
 
 #. // TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/full_config_dialog.cc:324 src/wx/timing_panel.cc:74
+#: src/wx/full_config_dialog.cc:324 src/wx/timing_panel.cc:76
 msgid "s"
 msgstr "s"
 

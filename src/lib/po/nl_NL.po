@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-24 00:53+0000\n"
+"POT-Creation-Date: 2019-05-05 20:19+0100\n"
 "PO-Revision-Date: 2019-03-19 02:09+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -71,7 +71,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " op %1"
 
-#: src/lib/config.cc:1158
+#: src/lib/config.cc:1161
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -93,7 +93,7 @@ msgstr ""
 "Lengte: $LENGTH\n"
 "Grootte: $SIZE\n"
 
-#: src/lib/config.cc:1136
+#: src/lib/config.cc:1139
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -167,7 +167,7 @@ msgid "3D denoiser"
 msgstr "3D ruisonderdrukking"
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:129
+#: src/lib/transcode_job.cc:136
 #, c-format
 msgid "; %.1f fps"
 msgstr "; %.1f fps"
@@ -175,6 +175,21 @@ msgstr "; %.1f fps"
 #: src/lib/job.cc:463
 msgid "; %1 remaining; finishing at %2%3"
 msgstr "; %1 resterend; klaar om %2%3"
+
+#: src/lib/analytics.cc:57
+msgid ""
+"<h2>You have made %1 DCPs with DCP-o-matic!</h2><img width=\"20%%\" src="
+"\"memory:me.jpg\" align=\"center\"><p>Hello. I'm Carl and I'm the developer "
+"of DCP-o-matic. I work on it in my spare time (with the help of a fine "
+"volunteer team of testers and translators) and I release it as free software."
+"<p>If you find DCP-o-matic useful, please consider a donation to the "
+"project. Financial support will help me to spend more time developing DCP-o-"
+"matic and making it better!<p><ul><li><a href=\"https://dcpomatic.com/"
+"donate_amount?amount=40\">Go to Paypal to donate £40</a><li><a href="
+"\"https://dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate "
+"£20</a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to "
+"Paypal to donate £10</a></ul><p>Thank you!"
+msgstr ""
 
 #: src/lib/hints.cc:155
 msgid ""
@@ -311,7 +326,7 @@ msgstr "Mag geen slash bevatten"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kan pixelformaat %1 niet verwerken tijdens %2"
 
-#: src/lib/film.cc:1324
+#: src/lib/film.cc:1348
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Kan geen KDM maken omdat dit project niet is versleuteld."
 
@@ -379,9 +394,13 @@ msgstr "Kleurruimte"
 msgid "Computing digest"
 msgstr "Berekenen samenvatting"
 
-#: src/lib/writer.cc:519
+#: src/lib/writer.cc:520
 msgid "Computing digests"
 msgstr "Berekenen samenvattingen"
+
+#: src/lib/analytics.cc:55
+msgid "Congratulations!"
+msgstr ""
 
 #: src/lib/frame_rate_change.cc:101
 msgid "Content and DCP have the same rate.\n"
@@ -542,15 +561,15 @@ msgstr "Kan %1 niet openen"
 msgid "Could not open %1 to send"
 msgstr "Kan %1 niet openen om te verzenden"
 
-#: src/lib/internet.cc:115 src/lib/internet.cc:120
+#: src/lib/internet.cc:118 src/lib/internet.cc:123
 msgid "Could not open downloaded ZIP file"
 msgstr "Kan gedownload ZIP-bestand niet openen"
 
-#: src/lib/internet.cc:127
+#: src/lib/internet.cc:130
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Kan gedownload ZIP-bestand niet openen (%1:%2: %3)"
 
-#: src/lib/config.cc:1039
+#: src/lib/config.cc:1042
 msgid "Could not open file for writing"
 msgstr "Kan bestand niet openen om te schrijven"
 
@@ -619,7 +638,7 @@ msgstr ""
 "DCP-o-matic kan het bestand %1 (%2) niet openen.  Misschien bestaat het niet "
 "of wordt het formaat niet ondersteund."
 
-#: src/lib/film.cc:1246
+#: src/lib/film.cc:1270
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -635,7 +654,7 @@ msgstr ""
 "DCP-o-matic ondersteunt het filter `%1' niet langer, daarom is het "
 "uitgeschakeld."
 
-#: src/lib/config.cc:364 src/lib/config.cc:1133
+#: src/lib/config.cc:379 src/lib/config.cc:1136
 msgid "DCP-o-matic notification"
 msgstr "DCP-o-matic notificatie"
 
@@ -644,7 +663,7 @@ msgstr "DCP-o-matic notificatie"
 msgid "De-interlacing"
 msgstr "Deinterlacing"
 
-#: src/lib/config.cc:1121
+#: src/lib/config.cc:1124
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -674,7 +693,7 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 en CP750"
 
-#: src/lib/internet.cc:73
+#: src/lib/internet.cc:76
 msgid "Download failed (%1 error %2)"
 msgstr "Download mislukt (%1 fout %2)"
 
@@ -710,6 +729,10 @@ msgstr "E-mail probleemrapport voor %1"
 msgid "Encoding"
 msgstr "Encoderen"
 
+#: src/lib/dcp_content_type.cc:56
+msgid "Episode"
+msgstr ""
+
 #: src/lib/exceptions.cc:67
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Fout in ondertitel-bestand: %1 gelezen terwijl %2 verwacht werd"
@@ -738,7 +761,7 @@ msgstr "FCC"
 msgid "Failed to authenticate with server (%1)"
 msgstr "Authenticatiefout met server (%1)"
 
-#: src/lib/emailer.cc:222
+#: src/lib/emailer.cc:224
 msgid "Failed to send email"
 msgstr "Verzenden e-mail mislukt"
 
@@ -848,7 +871,7 @@ msgstr "Het is onbekend hoe deze fout is ontstaan."
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:354 src/lib/config.cc:1118
+#: src/lib/config.cc:369 src/lib/config.cc:1121
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-levering: $CPL_NAME"
 
@@ -957,7 +980,7 @@ msgstr "Ontbrekende verplichte instelling %1"
 msgid "Monday"
 msgstr "Maandag"
 
-#: src/lib/writer.cc:618
+#: src/lib/writer.cc:628
 msgid "Mono"
 msgstr "Mono"
 
@@ -965,7 +988,7 @@ msgstr "Mono"
 msgid "Motion compensating deinterlacer"
 msgstr "Motion compensating deinterlacer"
 
-#: src/lib/dcp_decoder.cc:77
+#: src/lib/dcp_decoder.cc:79
 msgid "No CPLs found in DCP."
 msgstr "Geen CPL's gevonden in DCP."
 
@@ -989,7 +1012,7 @@ msgstr "Geen geldige beeldbestanden gevonden in de map."
 msgid "Noise reduction"
 msgstr "Ruisonderdrukking"
 
-#: src/lib/writer.cc:616
+#: src/lib/writer.cc:626
 msgid "None"
 msgstr "Geen"
 
@@ -1049,6 +1072,10 @@ msgstr "Voorbereid voor video frame rate"
 #: src/lib/exceptions.cc:85
 msgid "Programming error at %1:%2 %3"
 msgstr "Programmeerfout op %1:%2 %3"
+
+#: src/lib/dcp_content_type.cc:57
+msgid "Promo"
+msgstr ""
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
@@ -1218,7 +1245,7 @@ msgstr "Een deel van uw content heeft een KDM nodig"
 msgid "Some of your content needs an OV"
 msgstr "Een deel van uw content heeft een OV nodig"
 
-#: src/lib/writer.cc:620
+#: src/lib/writer.cc:630
 msgid "Stereo"
 msgstr "Stereo"
 
@@ -1350,7 +1377,7 @@ msgstr "Timed text"
 msgid "Trailer"
 msgstr "Trailer"
 
-#: src/lib/transcode_job.cc:55
+#: src/lib/transcode_job.cc:57
 msgid "Transcoding %1"
 msgstr "Transcoderen %1"
 
@@ -1362,7 +1389,7 @@ msgstr "Transitional"
 msgid "Tuesday"
 msgstr "Dinsdag"
 
-#: src/lib/internet.cc:136
+#: src/lib/internet.cc:139
 msgid "Unexpected ZIP file contents"
 msgstr "Onverwachte inhoud ZIP-bestand"
 
@@ -1498,8 +1525,11 @@ msgstr ""
 "U heeft %1 bestanden die VOB-bestanden van een DVD lijken te zijn.  U kunt "
 "deze beter samenvoegen om van soepele aansluitingen verzekerd te zijn."
 
-#: src/lib/hints.cc:325
-msgid "You have overlapping closed captions, which are not allowed."
+#: src/lib/hints.cc:329
+#, fuzzy
+msgid ""
+"You have overlapping closed captions, which are not allowed in Interop "
+"DCPs.  Change your DCP standard to SMPTE."
 msgstr "U hebt overlappende closed captions.  Die zijn niet toegestaan."
 
 #: src/lib/hints.cc:115

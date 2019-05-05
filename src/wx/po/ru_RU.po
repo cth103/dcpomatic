@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-28 21:18+0100\n"
+"POT-Creation-Date: 2019-05-05 20:19+0100\n"
 "PO-Revision-Date: 2019-03-27 00:14+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -176,7 +176,7 @@ msgstr ""
 
 #. //trac.wxwidgets.org/ticket/13389
 #.
-#: src/wx/timing_panel.cc:107
+#: src/wx/timing_panel.cc:109
 msgid ""
 "<i>Only change this if the content's frame rate has been read incorrectly.</"
 "i>"
@@ -244,7 +244,7 @@ msgstr "Добавить кинотеатр"
 msgid "Add Cinema..."
 msgstr "Добавить кинотеатр..."
 
-#: src/wx/content_panel.cc:124
+#: src/wx/content_panel.cc:127
 msgid "Add DCP..."
 msgstr "Добавить DCP..."
 
@@ -268,22 +268,22 @@ msgstr "Добавить экран"
 msgid "Add Screen..."
 msgstr "Добавить экран..."
 
-#: src/wx/content_panel.cc:125
+#: src/wx/content_panel.cc:128
 msgid "Add a DCP."
 msgstr "Добавить DCP."
 
-#: src/wx/content_panel.cc:121
+#: src/wx/content_panel.cc:124
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
 msgstr ""
 "Добавить папку последовательности изображений или папку звуковых файлов."
 
-#: src/wx/content_panel.cc:116
+#: src/wx/content_panel.cc:119
 msgid "Add file(s)..."
 msgstr "Добавить файл(ы)..."
 
-#: src/wx/content_panel.cc:120
+#: src/wx/content_panel.cc:123
 msgid "Add folder..."
 msgstr "Добавить папку..."
 
@@ -295,7 +295,7 @@ msgstr "Добавить последовательность изображен
 msgid "Add new..."
 msgstr "Добавить новый…"
 
-#: src/wx/content_panel.cc:117
+#: src/wx/content_panel.cc:120
 msgid "Add video, image, sound or subtitle files to the film."
 msgstr "Добавить видео, изображение, звук или субтитры в проект."
 
@@ -385,14 +385,14 @@ msgstr "Язык аудио (напр. RU)"
 msgid "Audio channels: %d"
 msgstr "Аудио каналы: %d"
 
-#: src/wx/audio_mapping_view.cc:518
+#: src/wx/audio_mapping_view.cc:522
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d unaltered."
 msgstr ""
 "Аудио будет переведено из канала %d контента в канал %d DCP без изменений."
 
-#: src/wx/audio_mapping_view.cc:521
+#: src/wx/audio_mapping_view.cc:525
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d with gain "
@@ -529,7 +529,7 @@ msgstr "Проверять обновления при запуске"
 msgid "Choose CPL..."
 msgstr "Выберите CPL..."
 
-#: src/wx/content_panel.cc:508
+#: src/wx/content_panel.cc:513
 msgid "Choose a DCP folder"
 msgstr "Выбрать папку DCP"
 
@@ -537,11 +537,11 @@ msgstr "Выбрать папку DCP"
 msgid "Choose a file"
 msgstr "Выбрать файл"
 
-#: src/wx/content_panel.cc:435
+#: src/wx/content_panel.cc:440
 msgid "Choose a file or files"
 msgstr "Выбрать файл или файлы"
 
-#: src/wx/content_menu.cc:294 src/wx/content_panel.cc:463
+#: src/wx/content_menu.cc:294 src/wx/content_panel.cc:468
 msgid "Choose a folder"
 msgstr "Выбрать папку"
 
@@ -905,7 +905,7 @@ msgstr ""
 msgid "Duration"
 msgstr "Длительность"
 
-#: src/wx/content_panel.cc:132
+#: src/wx/content_panel.cc:135
 msgid "Earlier"
 msgstr "Выше"
 
@@ -1120,7 +1120,7 @@ msgstr "Из шаблона"
 msgid "Full"
 msgstr "Full"
 
-#: src/wx/timing_panel.cc:87
+#: src/wx/timing_panel.cc:89
 msgid "Full length"
 msgstr "Полная длительность"
 
@@ -1383,7 +1383,7 @@ msgstr "Ключи"
 msgid "Language"
 msgstr "Язык"
 
-#: src/wx/content_panel.cc:136
+#: src/wx/content_panel.cc:139
 msgid "Later"
 msgstr "Ниже"
 
@@ -1448,7 +1448,7 @@ msgstr "Диапазон громкости %.2f LU"
 msgid "Lower priority"
 msgstr "Более низкий приоритет"
 
-#: src/wx/content_panel.cc:721
+#: src/wx/content_panel.cc:726
 msgid "MISSING: "
 msgstr "ОТСУТСТВУЕТ: "
 
@@ -1533,15 +1533,15 @@ msgstr "Переместить конфигурацию"
 msgid "Move content"
 msgstr "Передвинуть контент"
 
-#: src/wx/content_panel.cc:133
+#: src/wx/content_panel.cc:136
 msgid "Move the selected piece of content earlier in the film."
 msgstr "Переместить выбранный элемент контента ранее в проекте."
 
-#: src/wx/content_panel.cc:137
+#: src/wx/content_panel.cc:140
 msgid "Move the selected piece of content later in the film."
 msgstr "Переместить выбранный элемент контента позднее в проекте."
 
-#: src/wx/timing_panel.cc:86
+#: src/wx/timing_panel.cc:88
 msgid "Move to start of reel"
 msgstr "Передвинуть к началу катушки"
 
@@ -1561,11 +1561,11 @@ msgstr "Мои документы"
 msgid "My problem is"
 msgstr "Моя проблема"
 
-#: src/wx/content_panel.cc:725
+#: src/wx/content_panel.cc:730
 msgid "NEEDS KDM: "
 msgstr "НЕОБХОДИМ KDM: "
 
-#: src/wx/content_panel.cc:729
+#: src/wx/content_panel.cc:734
 msgid "NEEDS OV: "
 msgstr "НЕОБХОДИМ OV: "
 
@@ -1618,12 +1618,12 @@ msgstr ""
 "Имя пользователя/пароль GDC не настроены.  Добавьте ваши учетные данные на "
 "вкладке «Аккаунты» в Настройках."
 
-#: src/wx/audio_mapping_view.cc:516
+#: src/wx/audio_mapping_view.cc:520
 #, c-format
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "Аудио не будет перемещено из канала %d контента в канал %d DCP."
 
-#: src/wx/content_panel.cc:482
+#: src/wx/content_panel.cc:487
 msgid "No content found in this folder."
 msgstr "В данной папке не обнаружен контент."
 
@@ -1676,7 +1676,7 @@ msgstr "Кодирование только серверами"
 msgid "Open console window"
 msgstr "Открыть консольное окно"
 
-#: src/wx/content_panel.cc:141
+#: src/wx/content_panel.cc:144
 msgid "Open the timeline for the film."
 msgstr "Открыть таймлайн проекта."
 
@@ -1782,7 +1782,7 @@ msgstr ""
 msgid "Play"
 msgstr "Вопроизведение"
 
-#: src/wx/timing_panel.cc:95
+#: src/wx/timing_panel.cc:97
 msgid "Play length"
 msgstr "Длительность воспроизведения"
 
@@ -1806,7 +1806,7 @@ msgstr ""
 msgid "Please wait; audio is being analysed..."
 msgstr "Пожалуйста подождите - аудио анализируется..."
 
-#: src/wx/timing_panel.cc:84
+#: src/wx/timing_panel.cc:86
 msgid "Position"
 msgstr "Позиция"
 
@@ -1836,7 +1836,7 @@ msgstr "Протокол"
 
 #: src/wx/config_dialog.cc:274
 #, fuzzy
-msgid "Pulseaudio"
+msgid "PulseAudio"
 msgstr "аудио"
 
 #: src/wx/export_dialog.cc:64
@@ -1922,7 +1922,7 @@ msgid "Reel|Custom"
 msgstr "Пользовательское"
 
 #: src/wx/config_dialog.cc:423 src/wx/content_menu.cc:83
-#: src/wx/content_panel.cc:128 src/wx/templates_dialog.cc:53
+#: src/wx/content_panel.cc:131 src/wx/templates_dialog.cc:53
 #: src/wx/editable_list.h:82
 msgid "Remove"
 msgstr "Убрать"
@@ -1935,7 +1935,7 @@ msgstr "Убрать кинотеатр"
 msgid "Remove Screen"
 msgstr "Убрать экран"
 
-#: src/wx/content_panel.cc:129
+#: src/wx/content_panel.cc:132
 msgid "Remove the selected piece of content from the film."
 msgstr "Убрать выбранный элемент контента из проекта."
 
@@ -1991,7 +1991,7 @@ msgstr "Продолжить"
 msgid "Right"
 msgstr "Справа"
 
-#: src/wx/audio_mapping_view.cc:524
+#: src/wx/audio_mapping_view.cc:528
 msgid "Right click to change gain."
 msgstr "Правый клик для изменения усиления."
 
@@ -2165,7 +2165,7 @@ msgstr "Сервер"
 msgid "Servers"
 msgstr "Сервера"
 
-#: src/wx/timecode.cc:66 src/wx/timing_panel.cc:100
+#: src/wx/timecode.cc:66 src/wx/timing_panel.cc:102
 msgid "Set"
 msgstr "Назначить"
 
@@ -2460,17 +2460,17 @@ msgstr "Отпечаток"
 msgid "Timeline"
 msgstr "Линейка"
 
-#: src/wx/content_panel.cc:140
+#: src/wx/content_panel.cc:143
 msgid "Timeline..."
 msgstr "Линейка..."
 
-#: src/wx/content_panel.cc:156
+#: src/wx/content_panel.cc:161
 #, fuzzy
 msgid "Timing"
 msgstr "Тайминг"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
-#: src/wx/timing_panel.cc:53
+#: src/wx/timing_panel.cc:55
 msgid "Timing|Timing"
 msgstr "Тайминг"
 
@@ -2494,19 +2494,19 @@ msgstr "Перевести"
 msgid "Translated by"
 msgstr "Перевод"
 
-#: src/wx/timing_panel.cc:94
+#: src/wx/timing_panel.cc:96
 msgid "Trim after current position"
 msgstr "Обрезать с текущей позиции"
 
-#: src/wx/timing_panel.cc:92
+#: src/wx/timing_panel.cc:94
 msgid "Trim from end"
 msgstr "Обрезать с конца"
 
-#: src/wx/timing_panel.cc:89
+#: src/wx/timing_panel.cc:91
 msgid "Trim from start"
 msgstr "Обрезать с начала"
 
-#: src/wx/timing_panel.cc:91
+#: src/wx/timing_panel.cc:93
 msgid "Trim up to current position"
 msgstr "Обрезать до текущей позиции"
 
@@ -2702,7 +2702,7 @@ msgstr "Видео"
 msgid "Video Waveform"
 msgstr "График видео"
 
-#: src/wx/timing_panel.cc:98
+#: src/wx/timing_panel.cc:100
 msgid "Video frame rate"
 msgstr "Частота кадров видео"
 
@@ -2890,7 +2890,7 @@ msgid "e.g. %s"
 msgstr "напр. %s"
 
 #. // TRANSLATORS: this is an abbreviation for "frames"
-#: src/wx/timing_panel.cc:79
+#: src/wx/timing_panel.cc:81
 msgid "f"
 msgstr "к"
 
@@ -2911,12 +2911,12 @@ msgid "full screen with controls on other monitor"
 msgstr "полный экран с управлением на другом мониторе"
 
 #. // TRANSLATORS: this is an abbreviation for "hours"
-#: src/wx/timing_panel.cc:63
+#: src/wx/timing_panel.cc:65
 msgid "h"
 msgstr "ч"
 
 #. // TRANSLATORS: this is an abbreviation for "minutes"
-#: src/wx/timing_panel.cc:69
+#: src/wx/timing_panel.cc:71
 msgid "m"
 msgstr "м"
 
@@ -2955,7 +2955,7 @@ msgid "reel number"
 msgstr "номер бобины"
 
 #. // TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/full_config_dialog.cc:324 src/wx/timing_panel.cc:74
+#: src/wx/full_config_dialog.cc:324 src/wx/timing_panel.cc:76
 msgid "s"
 msgstr "с"
 

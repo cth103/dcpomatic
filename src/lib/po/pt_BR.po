@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-24 00:53+0000\n"
+"POT-Creation-Date: 2019-05-05 20:19+0100\n"
 "PO-Revision-Date: 2018-01-15 16:19-0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -70,7 +70,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " em %1"
 
-#: src/lib/config.cc:1158
+#: src/lib/config.cc:1161
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -92,7 +92,7 @@ msgstr ""
 "Duração: $LENGTH\n"
 "Tamanho: $SIZE\n"
 
-#: src/lib/config.cc:1136
+#: src/lib/config.cc:1139
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr ""
 
@@ -166,7 +166,7 @@ msgid "3D denoiser"
 msgstr "Redutor de ruído 3D"
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:129
+#: src/lib/transcode_job.cc:136
 #, c-format
 msgid "; %.1f fps"
 msgstr "; %.1f fps"
@@ -174,6 +174,21 @@ msgstr "; %.1f fps"
 #: src/lib/job.cc:463
 msgid "; %1 remaining; finishing at %2%3"
 msgstr "; %1 faltando; terminando em %2%3"
+
+#: src/lib/analytics.cc:57
+msgid ""
+"<h2>You have made %1 DCPs with DCP-o-matic!</h2><img width=\"20%%\" src="
+"\"memory:me.jpg\" align=\"center\"><p>Hello. I'm Carl and I'm the developer "
+"of DCP-o-matic. I work on it in my spare time (with the help of a fine "
+"volunteer team of testers and translators) and I release it as free software."
+"<p>If you find DCP-o-matic useful, please consider a donation to the "
+"project. Financial support will help me to spend more time developing DCP-o-"
+"matic and making it better!<p><ul><li><a href=\"https://dcpomatic.com/"
+"donate_amount?amount=40\">Go to Paypal to donate £40</a><li><a href="
+"\"https://dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate "
+"£20</a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to "
+"Paypal to donate £10</a></ul><p>Thank you!"
+msgstr ""
 
 #: src/lib/hints.cc:155
 msgid ""
@@ -313,7 +328,7 @@ msgstr "não pode conter barras"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Impossível processar formato de pixel %1 durante %2"
 
-#: src/lib/film.cc:1324
+#: src/lib/film.cc:1348
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 
@@ -384,9 +399,13 @@ msgstr "Espaço de cor"
 msgid "Computing digest"
 msgstr "Computando processamento"
 
-#: src/lib/writer.cc:519
+#: src/lib/writer.cc:520
 msgid "Computing digests"
 msgstr "Computando processamento"
+
+#: src/lib/analytics.cc:55
+msgid "Congratulations!"
+msgstr ""
 
 #: src/lib/frame_rate_change.cc:101
 msgid "Content and DCP have the same rate.\n"
@@ -554,16 +573,16 @@ msgstr "Impossível abrir %1"
 msgid "Could not open %1 to send"
 msgstr "Impossível abrir %1 para enviar"
 
-#: src/lib/internet.cc:115 src/lib/internet.cc:120
+#: src/lib/internet.cc:118 src/lib/internet.cc:123
 msgid "Could not open downloaded ZIP file"
 msgstr "Impossível abrir arquivo ZIP baixado"
 
-#: src/lib/internet.cc:127
+#: src/lib/internet.cc:130
 #, fuzzy
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Impossível abrir arquivo ZIP baixado"
 
-#: src/lib/config.cc:1039
+#: src/lib/config.cc:1042
 #, fuzzy
 msgid "Could not open file for writing"
 msgstr "não foi possível abrir o arquivo %1 para gravação (%2)"
@@ -633,7 +652,7 @@ msgstr ""
 "O DCP-o-matic não pôde abrir o arquivo %1 (%2). Talvez o arquivo não exista "
 "ou tenha um formato não suportado."
 
-#: src/lib/film.cc:1246
+#: src/lib/film.cc:1270
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -645,7 +664,7 @@ msgid ""
 msgstr ""
 "O DCP-o-matic não aceita mais o filtro `%1', portanto ele foi desativado."
 
-#: src/lib/config.cc:364 src/lib/config.cc:1133
+#: src/lib/config.cc:379 src/lib/config.cc:1136
 msgid "DCP-o-matic notification"
 msgstr ""
 
@@ -654,7 +673,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Desentrelaçamento de conteúdo"
 
-#: src/lib/config.cc:1121
+#: src/lib/config.cc:1124
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -684,7 +703,7 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 e CP750"
 
-#: src/lib/internet.cc:73
+#: src/lib/internet.cc:76
 #, fuzzy
 msgid "Download failed (%1 error %2)"
 msgstr "Download falhou (%1/%2 erro %3)"
@@ -721,6 +740,10 @@ msgstr "Enviar relatório de erros por email para %1"
 msgid "Encoding"
 msgstr "Codificação"
 
+#: src/lib/dcp_content_type.cc:56
+msgid "Episode"
+msgstr ""
+
 #: src/lib/exceptions.cc:67
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Erro no arquivo de legenda:: %1 encontrado quando se esperava %2"
@@ -751,7 +774,7 @@ msgstr "FCC"
 msgid "Failed to authenticate with server (%1)"
 msgstr "Falha na autenticação com o servidor (%1)"
 
-#: src/lib/emailer.cc:222
+#: src/lib/emailer.cc:224
 #, fuzzy
 msgid "Failed to send email"
 msgstr "Falha no envio de email (%1)"
@@ -860,7 +883,7 @@ msgstr "Erro desconhecido."
 msgid "JEDEC P22"
 msgstr ""
 
-#: src/lib/config.cc:354 src/lib/config.cc:1118
+#: src/lib/config.cc:369 src/lib/config.cc:1121
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Entrega de KDM: $CPL_NAME"
 
@@ -969,7 +992,7 @@ msgstr "falta configuração obrigatória %1"
 msgid "Monday"
 msgstr ""
 
-#: src/lib/writer.cc:618
+#: src/lib/writer.cc:628
 msgid "Mono"
 msgstr "Mono"
 
@@ -977,7 +1000,7 @@ msgstr "Mono"
 msgid "Motion compensating deinterlacer"
 msgstr "Desentrelaçador com compensação de movimento"
 
-#: src/lib/dcp_decoder.cc:77
+#: src/lib/dcp_decoder.cc:79
 msgid "No CPLs found in DCP."
 msgstr ""
 
@@ -1001,7 +1024,7 @@ msgstr "Não foram encontradas imagens válidas na pasta."
 msgid "Noise reduction"
 msgstr "Redução de ruído"
 
-#: src/lib/writer.cc:616
+#: src/lib/writer.cc:626
 msgid "None"
 msgstr "Nenhum"
 
@@ -1057,6 +1080,10 @@ msgstr "Preparado para frame rate de vídeo"
 #: src/lib/exceptions.cc:85
 msgid "Programming error at %1:%2 %3"
 msgstr "Erro de programação em %1:%2"
+
+#: src/lib/dcp_content_type.cc:57
+msgid "Promo"
+msgstr ""
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
@@ -1220,7 +1247,7 @@ msgstr "uma parte do seu conteúdo necessita de KDM"
 msgid "Some of your content needs an OV"
 msgstr "uma parte do seu conteúdo necessita de uma versão original (OV)"
 
-#: src/lib/writer.cc:620
+#: src/lib/writer.cc:630
 msgid "Stereo"
 msgstr "Stereo"
 
@@ -1347,7 +1374,7 @@ msgstr ""
 msgid "Trailer"
 msgstr "Trailer"
 
-#: src/lib/transcode_job.cc:55
+#: src/lib/transcode_job.cc:57
 #, fuzzy
 msgid "Transcoding %1"
 msgstr "Transcodificar %1"
@@ -1360,7 +1387,7 @@ msgstr "Transicional"
 msgid "Tuesday"
 msgstr ""
 
-#: src/lib/internet.cc:136
+#: src/lib/internet.cc:139
 msgid "Unexpected ZIP file contents"
 msgstr "Conteúdo inesperado no arquivo ZIP"
 
@@ -1497,8 +1524,10 @@ msgstr ""
 "Você tem %1 arquivos que parecem ser arquivos VOB de um DVD. É recomendado "
 "que você os concatene previamente para garantir uma reprodução sem cortes."
 
-#: src/lib/hints.cc:325
-msgid "You have overlapping closed captions, which are not allowed."
+#: src/lib/hints.cc:329
+msgid ""
+"You have overlapping closed captions, which are not allowed in Interop "
+"DCPs.  Change your DCP standard to SMPTE."
 msgstr ""
 
 #: src/lib/hints.cc:115

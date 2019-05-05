@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-24 00:53+0000\n"
+"POT-Creation-Date: 2019-05-05 20:19+0100\n"
 "PO-Revision-Date: 2018-02-01 10:36+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -70,7 +70,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr "på %1"
 
-#: src/lib/config.cc:1158
+#: src/lib/config.cc:1161
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -92,7 +92,7 @@ msgstr ""
 "Längd: $LENGTH\n"
 "Size: $SIZE\n"
 
-#: src/lib/config.cc:1136
+#: src/lib/config.cc:1139
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr ""
 
@@ -166,7 +166,7 @@ msgid "3D denoiser"
 msgstr "3D brusreducering"
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:129
+#: src/lib/transcode_job.cc:136
 #, c-format
 msgid "; %.1f fps"
 msgstr "; %.1f bps"
@@ -174,6 +174,21 @@ msgstr "; %.1f bps"
 #: src/lib/job.cc:463
 msgid "; %1 remaining; finishing at %2%3"
 msgstr ";%1 kvarstående; klar vid %2%3"
+
+#: src/lib/analytics.cc:57
+msgid ""
+"<h2>You have made %1 DCPs with DCP-o-matic!</h2><img width=\"20%%\" src="
+"\"memory:me.jpg\" align=\"center\"><p>Hello. I'm Carl and I'm the developer "
+"of DCP-o-matic. I work on it in my spare time (with the help of a fine "
+"volunteer team of testers and translators) and I release it as free software."
+"<p>If you find DCP-o-matic useful, please consider a donation to the "
+"project. Financial support will help me to spend more time developing DCP-o-"
+"matic and making it better!<p><ul><li><a href=\"https://dcpomatic.com/"
+"donate_amount?amount=40\">Go to Paypal to donate £40</a><li><a href="
+"\"https://dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate "
+"£20</a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to "
+"Paypal to donate £10</a></ul><p>Thank you!"
+msgstr ""
 
 #: src/lib/hints.cc:155
 msgid ""
@@ -312,7 +327,7 @@ msgstr "får inte innehålla snedstreck"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kan inte hantera pixelformat %1 under %2"
 
-#: src/lib/film.cc:1324
+#: src/lib/film.cc:1348
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 
@@ -383,9 +398,13 @@ msgstr "Färgrymd"
 msgid "Computing digest"
 msgstr "Beräknar sammanfattning"
 
-#: src/lib/writer.cc:519
+#: src/lib/writer.cc:520
 msgid "Computing digests"
 msgstr "Beräknar sammanfattning"
+
+#: src/lib/analytics.cc:55
+msgid "Congratulations!"
+msgstr ""
 
 #: src/lib/frame_rate_change.cc:101
 msgid "Content and DCP have the same rate.\n"
@@ -546,16 +565,16 @@ msgstr "Kunde inte öppna %1"
 msgid "Could not open %1 to send"
 msgstr "Kunde inte öppna %1 för att skicka"
 
-#: src/lib/internet.cc:115 src/lib/internet.cc:120
+#: src/lib/internet.cc:118 src/lib/internet.cc:123
 msgid "Could not open downloaded ZIP file"
 msgstr "Kunde inte öppna hämtade ZIP-fil"
 
-#: src/lib/internet.cc:127
+#: src/lib/internet.cc:130
 #, fuzzy
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Kunde inte öppna hämtade ZIP-fil"
 
-#: src/lib/config.cc:1039
+#: src/lib/config.cc:1042
 #, fuzzy
 msgid "Could not open file for writing"
 msgstr "kunde inte öppna fil %1 för skrivning (%2)"
@@ -625,7 +644,7 @@ msgstr ""
 "DCP-o-matic kunde inte öppna filen %1 (%2). Saknas den, eller har den ett "
 "oförväntat format?"
 
-#: src/lib/film.cc:1246
+#: src/lib/film.cc:1270
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -636,7 +655,7 @@ msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
 msgstr "DCP-o-matic stödjer inte längre '%1'-filter, så det har stängts av."
 
-#: src/lib/config.cc:364 src/lib/config.cc:1133
+#: src/lib/config.cc:379 src/lib/config.cc:1136
 msgid "DCP-o-matic notification"
 msgstr ""
 
@@ -645,7 +664,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Avflätning"
 
-#: src/lib/config.cc:1121
+#: src/lib/config.cc:1124
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -675,7 +694,7 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 och CP750"
 
-#: src/lib/internet.cc:73
+#: src/lib/internet.cc:76
 #, fuzzy
 msgid "Download failed (%1 error %2)"
 msgstr "Nedladdning misslyckades (%1/%2 fel %3)"
@@ -713,6 +732,10 @@ msgstr "E-posta problemrapport för %1"
 msgid "Encoding"
 msgstr "Kodar"
 
+#: src/lib/dcp_content_type.cc:56
+msgid "Episode"
+msgstr ""
+
 #: src/lib/exceptions.cc:67
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Fel i undertext-filen: såg %1 men förväntade %2"
@@ -744,7 +767,7 @@ msgstr "FCC"
 msgid "Failed to authenticate with server (%1)"
 msgstr "Misslyckades att autentisera med server (%1)"
 
-#: src/lib/emailer.cc:222
+#: src/lib/emailer.cc:224
 #, fuzzy
 msgid "Failed to send email"
 msgstr "Misslyckades att skicka epost (%1)"
@@ -857,7 +880,7 @@ msgstr "Det är inte känt vad som orsakade detta fel."
 msgid "JEDEC P22"
 msgstr ""
 
-#: src/lib/config.cc:354 src/lib/config.cc:1118
+#: src/lib/config.cc:369 src/lib/config.cc:1121
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-leverans: $CPL_NAME"
 
@@ -966,7 +989,7 @@ msgstr "saknad nödvändig inställning %1"
 msgid "Monday"
 msgstr "Måndag"
 
-#: src/lib/writer.cc:618
+#: src/lib/writer.cc:628
 msgid "Mono"
 msgstr "Mono"
 
@@ -974,7 +997,7 @@ msgstr "Mono"
 msgid "Motion compensating deinterlacer"
 msgstr "Rörelsekompenserande avflätare"
 
-#: src/lib/dcp_decoder.cc:77
+#: src/lib/dcp_decoder.cc:79
 msgid "No CPLs found in DCP."
 msgstr ""
 
@@ -998,7 +1021,7 @@ msgstr "Inga giltiga bildfiler hittades i foldern."
 msgid "Noise reduction"
 msgstr "Brusreducering"
 
-#: src/lib/writer.cc:616
+#: src/lib/writer.cc:626
 msgid "None"
 msgstr "Inget"
 
@@ -1054,6 +1077,10 @@ msgstr "Förberedd för videobildshastighet"
 #: src/lib/exceptions.cc:85
 msgid "Programming error at %1:%2 %3"
 msgstr "Programmeringsfel vid %1:%2 %3"
+
+#: src/lib/dcp_content_type.cc:57
+msgid "Promo"
+msgstr ""
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
@@ -1217,7 +1244,7 @@ msgstr "en del av ditt innehåll behöver en KDM"
 msgid "Some of your content needs an OV"
 msgstr "en del av ditt innehåll behöver en OV"
 
-#: src/lib/writer.cc:620
+#: src/lib/writer.cc:630
 msgid "Stereo"
 msgstr "Stereo"
 
@@ -1342,7 +1369,7 @@ msgstr ""
 msgid "Trailer"
 msgstr "Trailer"
 
-#: src/lib/transcode_job.cc:55
+#: src/lib/transcode_job.cc:57
 #, fuzzy
 msgid "Transcoding %1"
 msgstr "Konvertera %1"
@@ -1355,7 +1382,7 @@ msgstr "Transitional"
 msgid "Tuesday"
 msgstr "Tisdag"
 
-#: src/lib/internet.cc:136
+#: src/lib/internet.cc:139
 msgid "Unexpected ZIP file contents"
 msgstr "Oväntat innehåll i ZIP-fil"
 
@@ -1493,8 +1520,10 @@ msgstr ""
 "Du har %1 filer som ser ut att vara VOB-filer från DVD. Du borde sätta ihop "
 "dom för att vara säker på mjuka övergångar mellan filerna."
 
-#: src/lib/hints.cc:325
-msgid "You have overlapping closed captions, which are not allowed."
+#: src/lib/hints.cc:329
+msgid ""
+"You have overlapping closed captions, which are not allowed in Interop "
+"DCPs.  Change your DCP standard to SMPTE."
 msgstr ""
 
 #: src/lib/hints.cc:115

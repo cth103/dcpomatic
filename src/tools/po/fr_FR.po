@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-28 21:18+0100\n"
+"POT-Creation-Date: 2019-05-05 20:19+0100\n"
 "PO-Revision-Date: 2019-05-03 17:16+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -255,7 +255,7 @@ msgstr "Impossible de charger le film %1 (%2)"
 msgid "Could not make DCP."
 msgstr "Création du DCP impossible."
 
-#: src/tools/dcpomatic.cc:446 src/tools/dcpomatic_batch.cc:211
+#: src/tools/dcpomatic.cc:445 src/tools/dcpomatic_batch.cc:211
 #, c-format
 msgid "Could not open film at %s"
 msgstr "Impossible d'ouvrir le film à %s"
@@ -699,7 +699,7 @@ msgstr "Pas de mise à jour disponible de DCP-o-matic pour l'instant."
 msgid "There are unfinished jobs; are you sure you want to quit?"
 msgstr "Certaines tâches sont inachevées. Voulez-vous vraiment quitter ?"
 
-#: src/tools/dcpomatic.cc:430
+#: src/tools/dcpomatic.cc:429
 msgid ""
 "This film was created with an old version of DVD-o-matic and may not load "
 "correctly in this version.  Please check the film's settings carefully."

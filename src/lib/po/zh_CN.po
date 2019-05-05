@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-24 00:53+0000\n"
+"POT-Creation-Date: 2019-05-05 20:19+0100\n"
 "PO-Revision-Date: 2019-04-21 22:30+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -72,7 +72,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " on %1"
 
-#: src/lib/config.cc:1158
+#: src/lib/config.cc:1161
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -94,7 +94,7 @@ msgstr ""
 "长度: $LENGTH\n"
 "大小: $SIZE\n"
 
-#: src/lib/config.cc:1136
+#: src/lib/config.cc:1139
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -168,7 +168,7 @@ msgid "3D denoiser"
 msgstr "3D 降噪"
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:129
+#: src/lib/transcode_job.cc:136
 #, c-format
 msgid "; %.1f fps"
 msgstr "; %.1f fps"
@@ -176,6 +176,21 @@ msgstr "; %.1f fps"
 #: src/lib/job.cc:463
 msgid "; %1 remaining; finishing at %2%3"
 msgstr "; 剩余 %1 ; 完成于 %2%3"
+
+#: src/lib/analytics.cc:57
+msgid ""
+"<h2>You have made %1 DCPs with DCP-o-matic!</h2><img width=\"20%%\" src="
+"\"memory:me.jpg\" align=\"center\"><p>Hello. I'm Carl and I'm the developer "
+"of DCP-o-matic. I work on it in my spare time (with the help of a fine "
+"volunteer team of testers and translators) and I release it as free software."
+"<p>If you find DCP-o-matic useful, please consider a donation to the "
+"project. Financial support will help me to spend more time developing DCP-o-"
+"matic and making it better!<p><ul><li><a href=\"https://dcpomatic.com/"
+"donate_amount?amount=40\">Go to Paypal to donate £40</a><li><a href="
+"\"https://dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate "
+"£20</a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to "
+"Paypal to donate £10</a></ul><p>Thank you!"
+msgstr ""
 
 #: src/lib/hints.cc:155
 msgid ""
@@ -306,7 +321,7 @@ msgstr "不能包含斜杠"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "在 %2不能处理图片格式 %1"
 
-#: src/lib/film.cc:1324
+#: src/lib/film.cc:1348
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "不能生成KDM，因为项目没有被加密."
 
@@ -376,9 +391,13 @@ msgstr "色彩空间"
 msgid "Computing digest"
 msgstr "计算Hash值中"
 
-#: src/lib/writer.cc:519
+#: src/lib/writer.cc:520
 msgid "Computing digests"
 msgstr "计算Hash值中"
+
+#: src/lib/analytics.cc:55
+msgid "Congratulations!"
+msgstr ""
 
 #: src/lib/frame_rate_change.cc:101
 msgid "Content and DCP have the same rate.\n"
@@ -522,15 +541,15 @@ msgstr "无法打开%1"
 msgid "Could not open %1 to send"
 msgstr "无法打开%1并发送"
 
-#: src/lib/internet.cc:115 src/lib/internet.cc:120
+#: src/lib/internet.cc:118 src/lib/internet.cc:123
 msgid "Could not open downloaded ZIP file"
 msgstr "无法打开下载的zip文件"
 
-#: src/lib/internet.cc:127
+#: src/lib/internet.cc:130
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "无法打开下载的zip文件 (%1:%2: %3)"
 
-#: src/lib/config.cc:1039
+#: src/lib/config.cc:1042
 msgid "Could not open file for writing"
 msgstr "无法执行写入，目标文件无法打开"
 
@@ -597,7 +616,7 @@ msgid ""
 "is in an unexpected format."
 msgstr "无法打开文件%1。文件不存在或格式无法识别。"
 
-#: src/lib/film.cc:1246
+#: src/lib/film.cc:1270
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -610,7 +629,7 @@ msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
 msgstr "不支持的格式`%1'。"
 
-#: src/lib/config.cc:364 src/lib/config.cc:1133
+#: src/lib/config.cc:379 src/lib/config.cc:1136
 msgid "DCP-o-matic notification"
 msgstr "DCP-o-matic提醒"
 
@@ -619,7 +638,7 @@ msgstr "DCP-o-matic提醒"
 msgid "De-interlacing"
 msgstr "去除隔行"
 
-#: src/lib/config.cc:1121
+#: src/lib/config.cc:1124
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -648,7 +667,7 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "杜比 CP 650和CP 750"
 
-#: src/lib/internet.cc:73
+#: src/lib/internet.cc:76
 msgid "Download failed (%1 error %2)"
 msgstr "下载失败 (%1 error %2)"
 
@@ -684,6 +703,10 @@ msgstr "通过邮件发送BUG给 %1"
 msgid "Encoding"
 msgstr "编码中"
 
+#: src/lib/dcp_content_type.cc:56
+msgid "Episode"
+msgstr ""
+
 #: src/lib/exceptions.cc:67
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "字幕文件错误: 执行为 %1 实际要求为%2"
@@ -712,7 +735,7 @@ msgstr "FCC"
 msgid "Failed to authenticate with server (%1)"
 msgstr "无法与服务器进行身份验证 (%1)"
 
-#: src/lib/emailer.cc:222
+#: src/lib/emailer.cc:224
 msgid "Failed to send email"
 msgstr "电子邮件发送失败"
 
@@ -820,7 +843,7 @@ msgstr "未知错误."
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:354 src/lib/config.cc:1118
+#: src/lib/config.cc:369 src/lib/config.cc:1121
 msgid "KDM delivery: $CPL_NAME"
 msgstr "发行KDM: $CPL_NAME"
 
@@ -929,7 +952,7 @@ msgstr "缺少必需的设置 %1"
 msgid "Monday"
 msgstr "星期一"
 
-#: src/lib/writer.cc:618
+#: src/lib/writer.cc:628
 msgid "Mono"
 msgstr "单声道"
 
@@ -937,7 +960,7 @@ msgstr "单声道"
 msgid "Motion compensating deinterlacer"
 msgstr "动态隔行补偿"
 
-#: src/lib/dcp_decoder.cc:77
+#: src/lib/dcp_decoder.cc:79
 msgid "No CPLs found in DCP."
 msgstr "DCP中没有找到CPL文件"
 
@@ -961,7 +984,7 @@ msgstr "未发现有效的图片序列文件。"
 msgid "Noise reduction"
 msgstr "降噪"
 
-#: src/lib/writer.cc:616
+#: src/lib/writer.cc:626
 msgid "None"
 msgstr "无"
 
@@ -1016,6 +1039,10 @@ msgstr "准备视频帧率"
 #: src/lib/exceptions.cc:85
 msgid "Programming error at %1:%2 %3"
 msgstr "程序内部错误 %1:%2 %3"
+
+#: src/lib/dcp_content_type.cc:57
+msgid "Promo"
+msgstr ""
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
@@ -1177,7 +1204,7 @@ msgstr "一些内容需要KDM密匙"
 msgid "Some of your content needs an OV"
 msgstr "一些内容需要OV（声明原创）"
 
-#: src/lib/writer.cc:620
+#: src/lib/writer.cc:630
 msgid "Stereo"
 msgstr "双声道"
 
@@ -1292,7 +1319,7 @@ msgstr "时控文本"
 msgid "Trailer"
 msgstr "预告片"
 
-#: src/lib/transcode_job.cc:55
+#: src/lib/transcode_job.cc:57
 msgid "Transcoding %1"
 msgstr "转码中 %1"
 
@@ -1304,7 +1331,7 @@ msgstr "过渡片"
 msgid "Tuesday"
 msgstr "星期二"
 
-#: src/lib/internet.cc:136
+#: src/lib/internet.cc:139
 msgid "Unexpected ZIP file contents"
 msgstr "意外的ZIP文件的内容"
 
@@ -1437,8 +1464,10 @@ msgstr ""
 "您已经添加了 %1 个VOB文件，如果他们来自一张DVD，请确保您已经导入了所有文件，"
 "否则可能无法正常播放。"
 
-#: src/lib/hints.cc:325
-msgid "You have overlapping closed captions, which are not allowed."
+#: src/lib/hints.cc:329
+msgid ""
+"You have overlapping closed captions, which are not allowed in Interop "
+"DCPs.  Change your DCP standard to SMPTE."
 msgstr ""
 
 #: src/lib/hints.cc:115
