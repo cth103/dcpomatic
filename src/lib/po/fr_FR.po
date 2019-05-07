@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-05 20:19+0100\n"
-"PO-Revision-Date: 2019-05-03 17:16+0100\n"
+"PO-Revision-Date: 2019-05-07 14:28+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -189,6 +189,18 @@ msgid ""
 "£20</a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to "
 "Paypal to donate £10</a></ul><p>Thank you!"
 msgstr ""
+"<h2>Vous venez de produire %1 DCPs avec DCP-o-matic!</h2><img width=\"20%%\" "
+"src=\"memory:me.jpg\" align=\"center\"><p>Bonjour. Je suis Carl, le "
+"dévelopeur de DCP-o-matic. Je travaille sur ce logiciel sur mon temps libre "
+"(avec l'aide d'une équipe sympa de testeurs et de traducteurs bénévoles) et "
+"je le mets librement à disposition.<p>Si vous trouvez DCP-o-matic utile, "
+"merci de penser à faire un don au projet. Une aide financière m'aidera à "
+"passer plus de temps sur DCP-o-matic afin de l'amélirorer encore!"
+"<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Aller "
+"sur Paypal pour donner £40</a><li><a href=\"https://dcpomatic.com/"
+"donate_amount?amount=20\">Aller sur Paypal pour donner £20</a><li><a href="
+"\"https://dcpomatic.com/donate_amount?amount=10\">Aller sur Paypal pour "
+"donner £10</a></ul><p>Merci!"
 
 #: src/lib/hints.cc:155
 msgid ""
@@ -397,7 +409,7 @@ msgstr "sommes de calcul en cours"
 
 #: src/lib/analytics.cc:55
 msgid "Congratulations!"
-msgstr ""
+msgstr "Félicitations!"
 
 #: src/lib/frame_rate_change.cc:101
 msgid "Content and DCP have the same rate.\n"
@@ -724,7 +736,7 @@ msgstr "Encodage"
 
 #: src/lib/dcp_content_type.cc:56
 msgid "Episode"
-msgstr ""
+msgstr "Episode"
 
 #: src/lib/exceptions.cc:67
 msgid "Error in subtitle file: saw %1 while expecting %2"
@@ -1065,7 +1077,7 @@ msgstr "Erreur de programme à %1:%2 %3"
 
 #: src/lib/dcp_content_type.cc:57
 msgid "Promo"
-msgstr ""
+msgstr "Promo"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
@@ -1513,11 +1525,12 @@ msgstr ""
 "devriez les assembler pour vous assurer des transitions fluides."
 
 #: src/lib/hints.cc:329
-#, fuzzy
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
-msgstr "Des sous-titres codés et non autorisés sont présents."
+msgstr ""
+"Des sous-titres se chevauchent, ce qui n'est pas autorisé dans les DCP au "
+"standard Interop. Modifiez votre standard de DCP en SMPTE."
 
 #: src/lib/hints.cc:115
 msgid ""
