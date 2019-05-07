@@ -1,0 +1,24 @@
+<para>
+<itemizedlist>
+<listitem><code>-v</code>, <code>--version</code> &#8212; show DCP-o-matic version</listitem>
+<listitem><code>-h</code>, <code>--help</code> &#8212; show this help</listitem>
+<listitem><code>-n</code>, <code>--name &lt;name&gt;</code> &#8212; film name</listitem>
+<listitem><code>-t</code>, <code>--template &lt;name&gt;</code> &#8212; template name</listitem>
+<listitem><code>-e</code>, <code>--encrypt</code> &#8212; make an encrypted DCP</listitem>
+<listitem><code>-c</code>, <code>--dcp-content-type &lt;type&gt;</code> &#8212; FTR, SHR, TLR, TST, XSN, RTG, TSR, POL, PSA or ADV</listitem>
+<listitem><code>-f</code>, <code>--dcp-frame-rate &lt;rate&gt;</code> &#8212; set DCP video frame rate (otherwise guessed from content)</listitem>
+<listitem><code>--container-ratio &lt;ratio&gt;</code> &#8212; 119, 133, 137, 138, 166, 178, 185 or 239</listitem>
+<listitem><code>--content-ratio &lt;ratio&gt;</code> &#8212; 119, 133, 137, 138, 166, 178, 185 or 239</listitem>
+<listitem><code>-s</code>, <code>--still-length &lt;n&gt;</code> &#8212; number of seconds that still content should last</listitem>
+<listitem><code>--standard &lt;standard&gt;</code> &#8212; SMPTE or interop (default SMPTE)</listitem>
+<listitem><code>--no-use-isdcf-name</code> &#8212; do not use an ISDCF name; use the specified name unmodified</listitem>
+<listitem><code>--no-sign</code> &#8212; do not sign the DCP</listitem>
+<listitem><code>--config &lt;dir&gt;</code> &#8212; directory containing config.xml and cinemas.xml</listitem>
+<listitem><code>--fourk</code> &#8212; make a 4K DCP rather than a 2K one</listitem>
+<listitem><code>-o</code>, <code>--output &lt;dir&gt;</code> &#8212; output directory</listitem>
+<listitem><code>--threed</code> &#8212; make a 3D DCP</listitem>
+<listitem><code>--j2k-bandwidth &lt;Mbit/s&gt;</code> &#8212; J2K bandwidth in Mbit/s</listitem>
+<listitem><code>--left-eye</code> &#8212; next piece of content is for the left eye</listitem>
+<listitem><code>--right-eye</code> &#8212; next piece of content is for the right eye</listitem>
+</itemizedlist>
+</para>
