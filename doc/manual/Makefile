@@ -68,18 +68,6 @@ diagrams/%.pdf:	diagrams/%.svg
 config.xml:	../../src/lib/config.cc config.py
 	python3 config.py ../../src/lib/config.cc > config.xml
 
-# These require the tools to be runnable, so make needs to be run
-# in a built tree to update them.  The .xml files are committed
-# to git to avoid this always being necessary.
-dcpomatic_create.xml:	../../src/tools/dcpomatic_create.cc cli.py
-	python3 cli.py dcpomatic_create > dcpomatic_create.xml
-
-dcpomatic_cli.xml:	../../src/tools/dcpomatic_cli.cc cli.py
-	python3 cli.py dcpomatic_cli > dcpomatic_cli.xml
-
-dcpomatic_kdm_cli.xml:	../../src/tools/dcpomatic_kdm_cli.cc cli.py
-	python3 cli.py dcpomatic_kdm_cli > dcpomatic_kdm_cli.xml
-
 #
 # HTML
 #

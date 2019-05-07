@@ -1,0 +1,8 @@
+#!/bin/bash
+#
+# Run this in a tree where these tools can be run
+#
+
+python3 cli.py dcpomatic_create > dcpomatic_create.xml
+python3 cli.py dcpomatic_cli > dcpomatic_cli.xml
+python3 cli.py dcpomatic_kdm_cli > dcpomatic_kdm_cli.xml
