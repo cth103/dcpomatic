@@ -27,6 +27,7 @@
 #include "playhead_to_frame_dialog.h"
 #include "wx_util.h"
 #include "closed_captions_dialog.h"
+#include "gl_video_view.h"
 #include "lib/film.h"
 #include "lib/ratio.h"
 #include "lib/util.h"
@@ -77,7 +78,8 @@ rtaudio_callback (void* out, void *, unsigned int frames, double, RtAudioStreamS
 }
 
 FilmViewer::FilmViewer (wxWindow* p)
-	: _panel (new wxPanel (p))
+	/* XXX: make this configurable */
+	: _video_view (new GLVideoView(p))
 	, _coalesce_player_changes (false)
 	, _audio (DCPOMATIC_RTAUDIO_API)
 	, _audio_channels (0)
@@ -96,15 +98,8 @@ FilmViewer::FilmViewer (wxWindow* p)
 	, _state_timer ("viewer")
 	, _gets (0)
 {
-#ifndef __WXOSX__
-	_panel->SetDoubleBuffered (true);
-#endif
-
-	_panel->SetBackgroundStyle (wxBG_STYLE_PAINT);
-	_panel->SetBackgroundColour (*wxBLACK);
-
-	_panel->Bind (wxEVT_PAINT, boost::bind (&FilmViewer::paint_panel, this));
-	_panel->Bind (wxEVT_SIZE,  boost::bind (&FilmViewer::panel_sized, this, _1));
+	/* XXX: maybe this should be proxied through the VideoView */
+	_video_view->get()->Bind (wxEVT_SIZE, boost::bind (&FilmViewer::video_view_sized, this));
 	_timer.Bind  (wxEVT_TIMER, boost::bind (&FilmViewer::timer, this));
 
 	set_film (shared_ptr<Film> ());
@@ -148,7 +143,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 			_player->set_dcp_decode_reduction (_dcp_decode_reduction);
 		}
 	} catch (bad_alloc &) {
-		error_dialog (_panel, _("There is not enough free memory to do that."));
+		error_dialog (_video_view->get(), _("There is not enough free memory to do that."));
 		_film.reset ();
 		return;
 	}
@@ -214,10 +209,14 @@ FilmViewer::recreate_butler ()
 void
 FilmViewer::refresh_panel ()
 {
+	/* XXX */
+
+	/*
 	_state_timer.set ("refresh-panel");
 	_panel->Refresh ();
 	_panel->Update ();
 	_state_timer.unset ();
+	*/
 }
 
 void
@@ -282,7 +281,10 @@ FilmViewer::display_player_video ()
 	 */
 
 	_state_timer.set ("get image");
+
+	/* XXX: do we need to store _frame? */
 	_frame = _player_video.first->image (bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true);
+	_video_view->set_image (_frame);
 
 	_state_timer.set ("ImageChanged");
 	ImageChanged (_player_video.first);
@@ -324,6 +326,7 @@ FilmViewer::timer ()
 
 bool
 #ifdef DCPOMATIC_VARIANT_SWAROOP
+XXX
 FilmViewer::maybe_draw_background_image (wxPaintDC& dc)
 {
 	optional<boost::filesystem::path> bg = Config::instance()->player_background_image();
@@ -344,81 +347,6 @@ FilmViewer::maybe_draw_background_image (wxPaintDC &)
 #endif
 
 void
-FilmViewer::paint_panel ()
-{
-	_state_timer.set ("paint-panel");
-
-	wxPaintDC dc (_panel);
-
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	if (_background_image) {
-		dc.Clear ();
-		maybe_draw_background_image (dc);
-		_state_timer.unset ();
-		return;
-	}
-#endif
-
-	if (!_out_size.width || !_out_size.height || !_film || !_frame || _out_size != _frame->size()) {
-		dc.Clear ();
-	} else {
-
-		wxImage frame (_out_size.width, _out_size.height, _frame->data()[0], true);
-		wxBitmap frame_bitmap (frame);
-		dc.DrawBitmap (frame_bitmap, 0, max(0, (_panel_size.height - _out_size.height) / 2));
-
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-		DCPTime const period = DCPTime::from_seconds(Config::instance()->player_watermark_period() * 60);
-		int64_t n = _video_position.get() / period.get();
-		DCPTime from(n * period.get());
-		DCPTime to = from + DCPTime::from_seconds(Config::instance()->player_watermark_duration() / 1000.0);
-		if (from <= _video_position && _video_position <= to) {
-			if (!_in_watermark) {
-				_in_watermark = true;
-				_watermark_x = rand() % _panel_size.width;
-				_watermark_y = rand() % _panel_size.height;
-			}
-			dc.SetTextForeground(*wxWHITE);
-			string wm = Config::instance()->player_watermark_theatre();
-			boost::posix_time::ptime t = boost::posix_time::second_clock::local_time();
-			wm += "\n" + boost::posix_time::to_iso_extended_string(t);
-			dc.DrawText(std_to_wx(wm), _watermark_x, _watermark_y);
-		} else {
-			_in_watermark = false;
-		}
-#endif
-	}
-
-	if (_out_size.width < _panel_size.width) {
-		/* XXX: these colours are right for GNOME; may need adjusting for other OS */
-		wxPen   p (_pad_black ? wxColour(0, 0, 0) : wxColour(240, 240, 240));
-		wxBrush b (_pad_black ? wxColour(0, 0, 0) : wxColour(240, 240, 240));
-		dc.SetPen (p);
-		dc.SetBrush (b);
-		dc.DrawRectangle (_out_size.width, 0, _panel_size.width - _out_size.width, _panel_size.height);
-	}
-
-	if (_out_size.height < _panel_size.height) {
-		wxPen   p (_pad_black ? wxColour(0, 0, 0) : wxColour(240, 240, 240));
-		wxBrush b (_pad_black ? wxColour(0, 0, 0) : wxColour(240, 240, 240));
-		dc.SetPen (p);
-		dc.SetBrush (b);
-		int const gap = (_panel_size.height - _out_size.height) / 2;
-		dc.DrawRectangle (0, 0, _panel_size.width, gap);
-		dc.DrawRectangle (0, gap + _out_size.height + 1, _panel_size.width, gap + 1);
-	}
-
-	if (_outline_content) {
-		wxPen p (wxColour (255, 0, 0), 2);
-		dc.SetPen (p);
-		dc.SetBrush (*wxTRANSPARENT_BRUSH);
-		dc.DrawRectangle (_inter_position.x, _inter_position.y + (_panel_size.height - _out_size.height) / 2, _inter_size.width, _inter_size.height);
-	}
-
-	_state_timer.unset ();
-}
-
-void
 FilmViewer::set_outline_content (bool o)
 {
 	_outline_content = o;
@@ -433,11 +361,8 @@ FilmViewer::set_eyes (Eyes e)
 }
 
 void
-FilmViewer::panel_sized (wxSizeEvent& ev)
+FilmViewer::video_view_sized ()
 {
-	_panel_size.width = ev.GetSize().GetWidth();
-	_panel_size.height = ev.GetSize().GetHeight();
-
 	calculate_sizes ();
 	if (!quick_refresh()) {
 		slow_refresh ();
@@ -454,22 +379,26 @@ FilmViewer::calculate_sizes ()
 
 	Ratio const * container = _film->container ();
 
-	float const panel_ratio = _panel_size.ratio ();
+	float const view_ratio = float(_video_view->get()->GetSize().x) / _video_view->get()->GetSize().y;
 	float const film_ratio = container ? container->ratio () : 1.78;
 
-	if (panel_ratio < film_ratio) {
+	if (view_ratio < film_ratio) {
 		/* panel is less widscreen than the film; clamp width */
-		_out_size.width = _panel_size.width;
+		_out_size.width = _video_view->get()->GetSize().x;
 		_out_size.height = lrintf (_out_size.width / film_ratio);
 	} else {
 		/* panel is more widescreen than the film; clamp height */
-		_out_size.height = _panel_size.height;
+		_out_size.height = _video_view->get()->GetSize().y;
 		_out_size.width = lrintf (_out_size.height * film_ratio);
 	}
 
 	/* Catch silly values */
 	_out_size.width = max (64, _out_size.width);
 	_out_size.height = max (64, _out_size.height);
+
+	/* Make OpenGL happy; XXX: only do this in GLVideoView? Is the round-to-4 constraint a thing? */
+	_out_size.width &= ~3;
+	_out_size.height &= ~3;
 
 	_player->set_video_container_size (_out_size);
 }
@@ -679,7 +608,7 @@ FilmViewer::config_changed (Config::Property p)
 		} catch (RtAudioError& e) {
 #endif
 			error_dialog (
-				_panel,
+				_video_view->get(),
 				_("Could not set up audio output.  There will be no audio during the preview."), std_to_wx(e.what())
 				);
 		}

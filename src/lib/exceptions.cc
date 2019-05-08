@@ -100,3 +100,9 @@ KDMError::KDMError (string s, string d)
 {
 
 }
+
+GLError::GLError (char const * last, int e)
+	: runtime_error (String::compose("%1 failed %2", last, e))
+{
+
+}

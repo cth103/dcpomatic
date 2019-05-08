@@ -22,6 +22,7 @@
  *  @brief FilmViewer class.
  */
 
+#include "video_view.h"
 #include "lib/film.h"
 #include "lib/config.h"
 #include "lib/player_text.h"
@@ -47,9 +48,9 @@ public:
 	FilmViewer (wxWindow *);
 	~FilmViewer ();
 
-	/** @return the panel showing the film's video */
-	wxPanel* panel () const {
-		return _panel;
+	/** @return the window showing the film's video */
+	wxWindow* panel () const {
+		return _video_view->get();
 	}
 
 	void show_closed_captions ();
@@ -114,8 +115,7 @@ public:
 	boost::signals2::signal<bool ()> PlaybackPermitted;
 
 private:
-	void paint_panel ();
-	void panel_sized (wxSizeEvent &);
+	void video_view_sized ();
 	void timer ();
 	void calculate_sizes ();
 	void player_change (ChangeType type, int, bool);
@@ -136,8 +136,7 @@ private:
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<Player> _player;
 
-	/** The area that we put our image in */
-	wxPanel* _panel;
+	VideoView* _video_view;
 	wxTimer _timer;
 	bool _coalesce_player_changes;
 	std::list<int> _pending_player_changes;
@@ -150,8 +149,6 @@ private:
 
 	/** Size of our output (including padding if we have any) */
 	dcp::Size _out_size;
-	/** Size of the panel that we have available */
-	dcp::Size _panel_size;
 
 	RtAudio _audio;
 	int _audio_channels;

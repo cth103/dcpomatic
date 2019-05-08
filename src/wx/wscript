@@ -70,6 +70,7 @@ sources = """
           full_config_dialog.cc
           gain_calculator_dialog.cc
           gdc_certificate_panel.cc
+          gl_video_view.cc
           hints_dialog.cc
           html_dialog.cc
           initial_setup_dialog.cc
@@ -156,7 +157,7 @@ def configure(conf):
         conf.check_cfg(msg='Checking for wxWidgets using gtk2-unicode-3.0',
                        package='',
                        path=wx_config,
-                       args='--cppflags --cxxflags --libs %s' % wx_libs,
+                       args='--cppflags --cxxflags --libs %s --gl-libs' % wx_libs,
                        uselib_store='WXWIDGETS',
                        mandatory=True)
     except:
@@ -165,7 +166,7 @@ def configure(conf):
             conf.check_cfg(msg='Checking for wxWidgets using wx-config-3.0-gtk2',
                            package='',
                            path=wx_config,
-                           args='--cppflags --cxxflags --libs %s' % wx_libs,
+                           args='--cppflags --cxxflags --libs %s --gl-libs' % wx_libs,
                            uselib_store='WXWIDGETS',
                            mandatory=True)
         except:
@@ -173,7 +174,7 @@ def configure(conf):
             conf.check_cfg(msg='Checking for wxWidgets using wx-config',
                            package='',
                            path=wx_config,
-                           args='--cppflags --cxxflags --libs %s' % wx_libs,
+                           args='--cppflags --cxxflags --libs %s --gl-libs' % wx_libs,
                            uselib_store='WXWIDGETS',
                            mandatory=True)
 
@@ -244,6 +245,13 @@ def configure(conf):
                    define_name='DCPOMATIC_USE_RTERROR',
                    mandatory=False)
 
+    if conf.env.TARGET_WINDOWS or conf.env.TARGET_LINUX:
+        conf.check_cfg(package='gl', args='--cflags --libs', uselib_store='GL', mandatory=True)
+        conf.check_cfg(package='glu', args='--cflags --libs', uselib_store='GLU', mandatory=True)
+    else:
+        conf.env.STLIB_GL = 'gl'
+        conf.env.STLIB_GLU = 'glu'
+
 
 
 def build(bld):
@@ -254,13 +262,13 @@ def build(bld):
 
     obj.name   = 'libdcpomatic2-wx'
     obj.export_includes = ['..']
-    obj.uselib = 'BOOST_FILESYSTEM BOOST_THREAD BOOST_REGEX WXWIDGETS DCP SUB ZIP CXML RTAUDIO '
+    obj.uselib = 'BOOST_FILESYSTEM BOOST_THREAD BOOST_REGEX WXWIDGETS DCP SUB ZIP CXML RTAUDIO GL GLU '
     if bld.env.TARGET_LINUX:
-        obj.uselib += 'GTK '
+        obj.uselib += 'GTK GL GLU '
     if bld.env.TARGET_WINDOWS:
-        obj.uselib += 'WINSOCK2 OLE32 DSOUND WINMM KSUSER '
+        obj.uselib += 'WINSOCK2 OLE32 DSOUND WINMM KSUSER GL GLU '
     if bld.env.TARGET_OSX:
-        obj.framework = ['CoreAudio']
+        obj.framework = ['CoreAudio', 'OpenGL']
     obj.use = 'libdcpomatic2'
     if bld.env.VARIANT == 'swaroop':
         obj.source = sources + " swaroop_controls.cc"
