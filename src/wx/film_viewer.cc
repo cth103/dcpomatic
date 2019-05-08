@@ -209,14 +209,10 @@ FilmViewer::recreate_butler ()
 void
 FilmViewer::refresh_panel ()
 {
-	/* XXX */
-
-	/*
 	_state_timer.set ("refresh-panel");
-	_panel->Refresh ();
-	_panel->Update ();
+	_video_view->get()->Refresh ();
+	_video_view->get()->Update ();
 	_state_timer.unset ();
-	*/
 }
 
 void
