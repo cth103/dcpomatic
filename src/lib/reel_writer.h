@@ -26,9 +26,12 @@
 #include <dcp/picture_asset_writer.h>
 #include <boost/shared_ptr.hpp>
 
+namespace dcpomatic {
+	class Font;
+}
+
 class Film;
 class Job;
-class Font;
 class AudioBuffers;
 
 namespace dcp {
@@ -64,7 +67,7 @@ public:
 	void write (PlayerText text, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period);
 
 	void finish ();
-	boost::shared_ptr<dcp::Reel> create_reel (std::list<ReferencedReelAsset> const & refs, std::list<boost::shared_ptr<Font> > const & fonts);
+	boost::shared_ptr<dcp::Reel> create_reel (std::list<ReferencedReelAsset> const & refs, std::list<boost::shared_ptr<dcpomatic::Font> > const & fonts);
 	void calculate_digests (boost::function<void (float)> set_progress);
 
 	Frame start () const;

@@ -26,8 +26,11 @@
 #include <list>
 #include <map>
 
+namespace dcpomatic {
+	class Screen;
+}
+
 class Cinema;
-class Screen;
 
 class ScreensPanel : public wxPanel
 {
@@ -35,7 +38,7 @@ public:
 	explicit ScreensPanel (wxWindow* parent);
 	~ScreensPanel ();
 
-	std::list<boost::shared_ptr<Screen> > screens () const;
+	std::list<boost::shared_ptr<dcpomatic::Screen> > screens () const;
 	void setup_sensitivity ();
 
 	boost::signals2::signal<void ()> ScreensChanged;
@@ -43,7 +46,7 @@ public:
 private:
 	void add_cinemas ();
 	void add_cinema (boost::shared_ptr<Cinema>);
-	boost::optional<wxTreeItemId> add_screen (boost::shared_ptr<Cinema>, boost::shared_ptr<Screen>);
+	boost::optional<wxTreeItemId> add_screen (boost::shared_ptr<Cinema>, boost::shared_ptr<dcpomatic::Screen>);
 	void add_cinema_clicked ();
 	void edit_cinema_clicked ();
 	void remove_cinema_clicked ();
@@ -65,7 +68,7 @@ private:
 	wxTreeItemId _root;
 
 	typedef std::map<wxTreeItemId, boost::shared_ptr<Cinema> > CinemaMap;
-	typedef std::map<wxTreeItemId, boost::shared_ptr<Screen> > ScreenMap;
+	typedef std::map<wxTreeItemId, boost::shared_ptr<dcpomatic::Screen> > ScreenMap;
 
 	CinemaMap _cinemas;
 	ScreenMap _screens;

@@ -31,6 +31,7 @@ using std::list;
 using std::string;
 using boost::shared_ptr;
 using dcp::raw_convert;
+using dcpomatic::Screen;
 
 Cinema::Cinema (cxml::ConstNodePtr node)
 	: name (node->string_child ("Name"))

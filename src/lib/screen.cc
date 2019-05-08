@@ -25,6 +25,7 @@
 
 using std::string;
 using std::vector;
+using namespace dcpomatic;
 
 Screen::Screen (cxml::ConstNodePtr node)
 	: name (node->string_child("Name"))

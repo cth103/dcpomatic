@@ -24,6 +24,7 @@
 #include <boost/foreach.hpp>
 
 using std::string;
+using namespace dcpomatic;
 
 Font::Font (cxml::NodePtr node)
 	: _id (node->string_child ("Id"))
@@ -47,7 +48,7 @@ Font::as_xml (xmlpp::Node* node)
 
 
 bool
-operator== (Font const & a, Font const & b)
+dcpomatic::operator== (Font const & a, Font const & b)
 {
 	if (a.id() != b.id()) {
 		return false;
@@ -57,7 +58,7 @@ operator== (Font const & a, Font const & b)
 }
 
 bool
-operator!= (Font const & a, Font const & b)
+dcpomatic::operator!= (Font const & a, Font const & b)
 {
 	return !(a == b);
 }

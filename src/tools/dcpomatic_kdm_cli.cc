@@ -47,6 +47,7 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::bind;
 using boost::dynamic_pointer_cast;
+using namespace dcpomatic;
 
 static void
 help ()

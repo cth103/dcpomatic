@@ -29,7 +29,9 @@ namespace xmlpp {
 	class Element;
 }
 
-class Screen;
+namespace dcpomatic {
+	class Screen;
+}
 
 /** @class Cinema
  *  @brief A description of a Cinema for KDM generation.
@@ -54,8 +56,8 @@ public:
 
 	void as_xml (xmlpp::Element *) const;
 
-	void add_screen (boost::shared_ptr<Screen>);
-	void remove_screen (boost::shared_ptr<Screen>);
+	void add_screen (boost::shared_ptr<dcpomatic::Screen>);
+	void remove_screen (boost::shared_ptr<dcpomatic::Screen>);
 
 	void set_utc_offset_hour (int h);
 	void set_utc_offset_minute (int m);
@@ -72,12 +74,12 @@ public:
 		return _utc_offset_minute;
 	}
 
-	std::list<boost::shared_ptr<Screen> > screens () const {
+	std::list<boost::shared_ptr<dcpomatic::Screen> > screens () const {
 		return _screens;
 	}
 
 private:
-	std::list<boost::shared_ptr<Screen> > _screens;
+	std::list<boost::shared_ptr<dcpomatic::Screen> > _screens;
 	/** Offset such that the equivalent time in UTC can be determined
 	    by subtracting the offset from the local time.
 	*/

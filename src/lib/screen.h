@@ -46,6 +46,8 @@ private:
 	boost::optional<std::string> _thumbprint;
 };
 
+namespace dcpomatic {
+
 /** @class Screen
  *  @brief A representation of a Screen for KDM generation.
  *
@@ -73,5 +75,7 @@ public:
 	boost::optional<dcp::Certificate> recipient;
 	std::vector<TrustedDevice> trusted_devices;
 };
+
+}
 
 #endif

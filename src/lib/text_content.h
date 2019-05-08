@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -27,7 +27,9 @@
 #include <dcp/types.h>
 #include <boost/signals2.hpp>
 
-class Font;
+namespace dcpomatic {
+	class Font;
+}
 
 class TextContentProperty
 {
@@ -67,7 +69,7 @@ public:
 	std::string identifier () const;
 	void take_settings_from (boost::shared_ptr<const TextContent> c);
 
-	void add_font (boost::shared_ptr<Font> font);
+	void add_font (boost::shared_ptr<dcpomatic::Font> font);
 
 	void set_use (bool);
 	void set_burn (bool);
@@ -122,7 +124,7 @@ public:
 		return _y_scale;
 	}
 
-	std::list<boost::shared_ptr<Font> > fonts () const {
+	std::list<boost::shared_ptr<dcpomatic::Font> > fonts () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _fonts;
 	}
@@ -211,7 +213,7 @@ private:
 	double _x_scale;
 	/** y scale factor to apply to subtitles */
 	double _y_scale;
-	std::list<boost::shared_ptr<Font> > _fonts;
+	std::list<boost::shared_ptr<dcpomatic::Font> > _fonts;
 	boost::optional<dcp::Colour> _colour;
 	boost::optional<dcp::Effect> _effect;
 	boost::optional<dcp::Colour> _effect_colour;

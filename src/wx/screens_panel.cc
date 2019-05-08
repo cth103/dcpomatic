@@ -36,6 +36,7 @@ using std::string;
 using std::make_pair;
 using boost::shared_ptr;
 using boost::optional;
+using namespace dcpomatic;
 
 ScreensPanel::ScreensPanel (wxWindow* parent)
 	: wxPanel (parent, wxID_ANY)

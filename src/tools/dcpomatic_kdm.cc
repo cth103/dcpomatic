@@ -74,6 +74,7 @@ using boost::bind;
 using boost::optional;
 using boost::ref;
 using boost::dynamic_pointer_cast;
+using namespace dcpomatic;
 
 enum {
 	ID_help_report_a_problem = 1,

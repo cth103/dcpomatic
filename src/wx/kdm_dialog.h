@@ -25,8 +25,11 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <map>
 
+namespace dcpomatic {
+	class Screen;
+}
+
 class Cinema;
-class Screen;
 class Film;
 class ScreensPanel;
 class KDMTimingPanel;

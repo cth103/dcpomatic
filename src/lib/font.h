@@ -27,6 +27,8 @@
 #include <boost/filesystem.hpp>
 #include <string>
 
+namespace dcpomatic {
+
 class Font
 {
 public:
@@ -60,5 +62,7 @@ private:
 
 bool operator!= (Font const & a, Font const & b);
 bool operator== (Font const & a, Font const & b);
+
+}
 
 #endif

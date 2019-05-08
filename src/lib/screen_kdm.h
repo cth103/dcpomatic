@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -25,13 +25,15 @@
 #include <dcp/name_format.h>
 #include <boost/shared_ptr.hpp>
 
-class Screen;
+namespace dcpomatic {
+	class Screen;
+}
 
 /** Simple class to collect a screen and an encrypted KDM */
 class ScreenKDM
 {
 public:
-	ScreenKDM (boost::shared_ptr<Screen> s, dcp::EncryptedKDM k)
+	ScreenKDM (boost::shared_ptr<dcpomatic::Screen> s, dcp::EncryptedKDM k)
 		: screen (s)
 		, kdm (k)
 	{}
@@ -42,7 +44,7 @@ public:
 		boost::function<bool (boost::filesystem::path)> confirm_overwrite
 		);
 
-	boost::shared_ptr<Screen> screen;
+	boost::shared_ptr<dcpomatic::Screen> screen;
 	dcp::EncryptedKDM kdm;
 };
 

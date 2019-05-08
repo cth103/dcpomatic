@@ -25,14 +25,16 @@
 #include "dcpomatic_time.h"
 #include "string_text.h"
 
-class Font;
+namespace dcpomatic {
+	class Font;
+}
 
 /** A set of text (subtitle/CCAP) which span the same time period */
 class PlayerText
 {
 public:
-	void add_fonts (std::list<boost::shared_ptr<Font> > fonts_);
-	std::list<boost::shared_ptr<Font> > fonts;
+	void add_fonts (std::list<boost::shared_ptr<dcpomatic::Font> > fonts_);
+	std::list<boost::shared_ptr<dcpomatic::Font> > fonts;
 
 	/** BitmapTexts, with their rectangles transformed as specified by their content */
 	std::list<BitmapText> bitmap;

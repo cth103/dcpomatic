@@ -45,12 +45,15 @@ namespace xmlpp {
 	class Document;
 }
 
+namespace dcpomatic {
+	class Screen;
+}
+
 class DCPContentType;
 class Log;
 class Content;
 class Playlist;
 class AudioContent;
-class Screen;
 class AudioProcessor;
 class AudioMapping;
 class Ratio;
@@ -140,7 +143,7 @@ public:
 		) const;
 
 	std::list<ScreenKDM> make_kdms (
-		std::list<boost::shared_ptr<Screen> > screens,
+		std::list<boost::shared_ptr<dcpomatic::Screen> > screens,
 		boost::filesystem::path cpl_file,
 		boost::posix_time::ptime from,
 		boost::posix_time::ptime until,

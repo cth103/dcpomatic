@@ -24,6 +24,7 @@
 
 using std::list;
 using boost::shared_ptr;
+using namespace dcpomatic;
 
 void
 PlayerText::add_fonts (list<shared_ptr<Font> > fonts_)
