@@ -132,7 +132,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 		_player.reset ();
 		recreate_butler ();
 		_frame.reset ();
-		refresh_panel ();
+		refresh_view ();
 		return;
 	}
 
@@ -207,9 +207,9 @@ FilmViewer::recreate_butler ()
 }
 
 void
-FilmViewer::refresh_panel ()
+FilmViewer::refresh_view ()
 {
-	_state_timer.set ("refresh-panel");
+	_state_timer.set ("refresh-view");
 	_video_view->get()->Refresh ();
 	_video_view->get()->Update ();
 	_state_timer.unset ();
@@ -245,7 +245,7 @@ FilmViewer::display_player_video ()
 {
 	if (!_player_video.first) {
 		_frame.reset ();
-		refresh_panel ();
+		refresh_view ();
 		return;
 	}
 
@@ -290,7 +290,7 @@ FilmViewer::display_player_video ()
 	_inter_position = _player_video.first->inter_position ();
 	_inter_size = _player_video.first->inter_size ();
 
-	refresh_panel ();
+	refresh_view ();
 
 	_closed_captions_dialog->update (time());
 }
@@ -346,7 +346,7 @@ void
 FilmViewer::set_outline_content (bool o)
 {
 	_outline_content = o;
-	refresh_panel ();
+	refresh_view ();
 }
 
 void
@@ -561,7 +561,7 @@ FilmViewer::config_changed (Config::Property p)
 {
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	if (p == Config::PLAYER_BACKGROUND_IMAGE) {
-		refresh_panel ();
+		refresh_view ();
 		return;
 	}
 #endif

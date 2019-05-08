@@ -130,7 +130,7 @@ private:
 	dcpomatic::DCPTime uncorrected_time () const;
 	Frame average_latency () const;
 
-	void refresh_panel ();
+	void refresh_view ();
 	bool quick_refresh ();
 
 	boost::shared_ptr<Film> _film;
