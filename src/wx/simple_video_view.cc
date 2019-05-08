@@ -29,12 +29,11 @@ SimpleVideoView::SimpleVideoView (wxWindow* parent)
 	_panel->SetBackgroundStyle (wxBG_STYLE_PAINT);
 	_panel->SetBackgroundColour (*wxBLACK);
 
-	_panel->Bind (wxEVT_PAINT, boost::bind (&SimpleVideoView::paint_panel, this));
-	_panel->Bind (wxEVT_SIZE,  boost::bind (&SimpleVideoView::panel_sized, this, _1));
+	_panel->Bind (wxEVT_PAINT, boost::bind (&SimpleVideoView::paint, this));
 }
 
 void
-SimpleVideoView::paint_panel ()
+SimpleVideoView::paint ()
 {
 	wxPaintDC dc (_panel);
 
@@ -102,17 +101,4 @@ SimpleVideoView::paint_panel ()
 		dc.SetBrush (*wxTRANSPARENT_BRUSH);
 		dc.DrawRectangle (_inter_position.x, _inter_position.y + (_panel_size.height - _out_size.height) / 2, _inter_size.width, _inter_size.height);
 	}
-}
-
-void
-SimpleVideoView::panel_sized (wxSizeEvent& ev)
-{
-	_panel_size.width = ev.GetSize().GetWidth();
-	_panel_size.height = ev.GetSize().GetHeight();
-
-	calculate_sizes ();
-	if (!quick_refresh()) {
-		slow_refresh ();
-	}
-	PositionChanged ();
 }
