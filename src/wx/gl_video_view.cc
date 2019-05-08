@@ -51,6 +51,7 @@ GLVideoView::~GLVideoView ()
 {
 	glDeleteTextures (1, &_id);
 	delete _context;
+	/* XXX: should we delete this? */
 	delete _canvas;
 }
 
