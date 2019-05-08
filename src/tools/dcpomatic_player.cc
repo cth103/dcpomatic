@@ -89,6 +89,7 @@ using boost::optional;
 using boost::dynamic_pointer_cast;
 using boost::thread;
 using boost::bind;
+using namespace dcpomatic;
 
 enum {
 	ID_file_open = 1,

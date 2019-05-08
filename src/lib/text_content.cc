@@ -39,6 +39,7 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 using dcp::raw_convert;
+using namespace dcpomatic;
 
 int const TextContentProperty::X_OFFSET = 500;
 int const TextContentProperty::Y_OFFSET = 501;

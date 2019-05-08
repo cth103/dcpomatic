@@ -65,7 +65,7 @@ class Content : public boost::enable_shared_from_this<Content>, public Signaller
 {
 public:
 	explicit Content ();
-	Content (DCPTime);
+	Content (dcpomatic::DCPTime);
 	Content (boost::filesystem::path);
 	Content (cxml::ConstNodePtr);
 	Content (std::vector<boost::shared_ptr<Content> >);
@@ -90,13 +90,13 @@ public:
 	virtual std::string technical_summary () const;
 
 	virtual void as_xml (xmlpp::Node *, bool with_paths) const;
-	virtual DCPTime full_length (boost::shared_ptr<const Film>) const = 0;
-	virtual DCPTime approximate_length () const = 0;
+	virtual dcpomatic::DCPTime full_length (boost::shared_ptr<const Film>) const = 0;
+	virtual dcpomatic::DCPTime approximate_length () const = 0;
 	virtual std::string identifier () const;
 	/** @return points at which to split this content when
 	 *  REELTYPE_BY_VIDEO_CONTENT is in use.
 	 */
-	virtual std::list<DCPTime> reel_split_points (boost::shared_ptr<const Film>) const;
+	virtual std::list<dcpomatic::DCPTime> reel_split_points (boost::shared_ptr<const Film>) const;
 
 	boost::shared_ptr<Content> clone () const;
 
@@ -135,36 +135,36 @@ public:
 		return _digest;
 	}
 
-	void set_position (boost::shared_ptr<const Film> film, DCPTime, bool force_emit = false);
+	void set_position (boost::shared_ptr<const Film> film, dcpomatic::DCPTime, bool force_emit = false);
 
-	/** DCPTime that this content starts; i.e. the time that the first
+	/** dcpomatic::DCPTime that this content starts; i.e. the time that the first
 	 *  bit of the content (trimmed or not) will happen.
 	 */
-	DCPTime position () const {
+	dcpomatic::DCPTime position () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _position;
 	}
 
-	void set_trim_start (ContentTime);
+	void set_trim_start (dcpomatic::ContentTime);
 
-	ContentTime trim_start () const {
+	dcpomatic::ContentTime trim_start () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _trim_start;
 	}
 
-	void set_trim_end (ContentTime);
+	void set_trim_end (dcpomatic::ContentTime);
 
-	ContentTime trim_end () const {
+	dcpomatic::ContentTime trim_end () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _trim_end;
 	}
 
 	/** @return Time immediately after the last thing in this content */
-	DCPTime end (boost::shared_ptr<const Film> film) const {
+	dcpomatic::DCPTime end (boost::shared_ptr<const Film> film) const {
 		return position() + length_after_trim(film);
 	}
 
-	DCPTime length_after_trim (boost::shared_ptr<const Film> film) const;
+	dcpomatic::DCPTime length_after_trim (boost::shared_ptr<const Film> film) const;
 
 	boost::optional<double> video_frame_rate () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -219,9 +219,9 @@ private:
 	std::vector<std::time_t> _last_write_times;
 
 	std::string _digest;
-	DCPTime _position;
-	ContentTime _trim_start;
-	ContentTime _trim_end;
+	dcpomatic::DCPTime _position;
+	dcpomatic::ContentTime _trim_start;
+	dcpomatic::ContentTime _trim_end;
 	/** The video frame rate that this content is or was prepared to be used with,
 	 *  or empty if the effective rate of this content should be dictated by something
 	 *  else (either some video happening at the same time, or the rate of the DCP).

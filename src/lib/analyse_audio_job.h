@@ -56,12 +56,12 @@ public:
 	}
 
 private:
-	void analyse (boost::shared_ptr<const AudioBuffers>, DCPTime time);
+	void analyse (boost::shared_ptr<const AudioBuffers>, dcpomatic::DCPTime time);
 
 	boost::shared_ptr<const Playlist> _playlist;
 	/** playlist's audio analysis path when the job was created */
 	boost::filesystem::path _path;
-	DCPTime _start;
+	dcpomatic::DCPTime _start;
 	bool _from_zero;
 
 	int64_t _done;

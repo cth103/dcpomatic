@@ -47,15 +47,15 @@ public:
 
 	~Butler ();
 
-	void seek (DCPTime position, bool accurate);
+	void seek (dcpomatic::DCPTime position, bool accurate);
 
 	enum Error {
 		NONE,
 		AGAIN
 	};
 
-	std::pair<boost::shared_ptr<PlayerVideo>, DCPTime> get_video (Error* e = 0);
-	boost::optional<DCPTime> get_audio (float* out, Frame frames);
+	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> get_video (Error* e = 0);
+	boost::optional<dcpomatic::DCPTime> get_audio (float* out, Frame frames);
 	boost::optional<TextRingBuffers::Data> get_closed_caption ();
 
 	void disable_audio ();
@@ -64,13 +64,13 @@ public:
 
 private:
 	void thread ();
-	void video (boost::shared_ptr<PlayerVideo> video, DCPTime time);
-	void audio (boost::shared_ptr<AudioBuffers> audio, DCPTime time, int frame_rate);
-	void text (PlayerText pt, TextType type, boost::optional<DCPTextTrack> track, DCPTimePeriod period);
+	void video (boost::shared_ptr<PlayerVideo> video, dcpomatic::DCPTime time);
+	void audio (boost::shared_ptr<AudioBuffers> audio, dcpomatic::DCPTime time, int frame_rate);
+	void text (PlayerText pt, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period);
 	bool should_run () const;
 	void prepare (boost::weak_ptr<PlayerVideo> video);
 	void player_change (ChangeType type, bool frequent);
-	void seek_unlocked (DCPTime position, bool accurate);
+	void seek_unlocked (dcpomatic::DCPTime position, bool accurate);
 
 	boost::shared_ptr<Player> _player;
 	boost::thread* _thread;
@@ -93,7 +93,7 @@ private:
 	boost::mutex _mutex;
 	boost::condition _summon;
 	boost::condition _arrived;
-	boost::optional<DCPTime> _pending_seek_position;
+	boost::optional<dcpomatic::DCPTime> _pending_seek_position;
 	bool _pending_seek_accurate;
 	int _suspended;
 	bool _finished;
@@ -112,7 +112,7 @@ private:
 	/** If we are waiting to be refilled following a seek, this is the time we were
 	    seeking to.
 	*/
-	boost::optional<DCPTime> _awaiting;
+	boost::optional<dcpomatic::DCPTime> _awaiting;
 
 	boost::signals2::scoped_connection _player_video_connection;
 	boost::signals2::scoped_connection _player_audio_connection;

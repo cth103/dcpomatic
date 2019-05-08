@@ -36,6 +36,7 @@
 
 using std::string;
 using boost::shared_ptr;
+using namespace dcpomatic;
 
 static void
 ffmpeg_content_test (int number, boost::filesystem::path content, ExportFormat format)

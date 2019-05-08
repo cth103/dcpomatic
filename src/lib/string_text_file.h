@@ -43,8 +43,8 @@ class StringTextFile
 public:
 	explicit StringTextFile (boost::shared_ptr<const StringTextFileContent>);
 
-	boost::optional<ContentTime> first () const;
-	ContentTime length () const;
+	boost::optional<dcpomatic::ContentTime> first () const;
+	dcpomatic::ContentTime length () const;
 
 protected:
 	std::vector<sub::Subtitle> _subtitles;

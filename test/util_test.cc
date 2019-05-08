@@ -32,6 +32,7 @@
 using std::string;
 using std::vector;
 using boost::shared_ptr;
+using namespace dcpomatic;
 
 BOOST_AUTO_TEST_CASE (digest_head_tail_test)
 {

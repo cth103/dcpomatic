@@ -38,6 +38,7 @@ using boost::shared_ptr;
 using boost::scoped_array;
 using boost::optional;
 using dcp::Data;
+using namespace dcpomatic;
 
 StringTextFile::StringTextFile (shared_ptr<const StringTextFileContent> content)
 {

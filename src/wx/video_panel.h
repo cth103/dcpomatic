@@ -70,9 +70,9 @@ private:
 	wxStaticText* _bottom_crop_label;
 	ContentSpinCtrl<VideoContent>* _bottom_crop;
 	wxStaticText* _fade_in_label;
-	Timecode<ContentTime>* _fade_in;
+	Timecode<dcpomatic::ContentTime>* _fade_in;
 	wxStaticText* _fade_out_label;
-	Timecode<ContentTime>* _fade_out;
+	Timecode<dcpomatic::ContentTime>* _fade_out;
 	wxStaticText* _scale_to_label;
 	ContentChoice<VideoContent, VideoContentScale>* _scale;
 	wxStaticText* _description;

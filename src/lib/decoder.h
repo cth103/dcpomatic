@@ -55,9 +55,9 @@ public:
 	 *  @return true if this decoder will emit no more data unless a seek() happens.
 	 */
 	virtual bool pass () = 0;
-	virtual void seek (ContentTime time, bool accurate);
+	virtual void seek (dcpomatic::ContentTime time, bool accurate);
 
-	ContentTime position () const;
+	dcpomatic::ContentTime position () const;
 
 protected:
 	boost::shared_ptr<const Film> film () const;

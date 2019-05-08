@@ -49,6 +49,7 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::optional;
 using boost::bind;
+using namespace dcpomatic;
 
 Hints::Hints (weak_ptr<const Film> film)
 	: _film (film)

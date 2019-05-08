@@ -50,16 +50,16 @@ public:
 	void set_forced_reduction (boost::optional<int> reduction);
 
 	bool pass ();
-	void seek (ContentTime t, bool accurate);
+	void seek (dcpomatic::ContentTime t, bool accurate);
 
 private:
 	friend struct dcp_subtitle_within_dcp_test;
 
 	void next_reel ();
 	void get_readers ();
-	void pass_texts (ContentTime next, dcp::Size size);
+	void pass_texts (dcpomatic::ContentTime next, dcp::Size size);
 	void pass_texts (
-		ContentTime next,
+		dcpomatic::ContentTime next,
 		boost::shared_ptr<dcp::SubtitleAsset> asset,
 		bool reference,
 		int64_t entry_point,
@@ -68,7 +68,7 @@ private:
 		);
 
 	/** Time of next thing to return from pass relative to the start of _reel */
-	ContentTime _next;
+	dcpomatic::ContentTime _next;
 	std::list<boost::shared_ptr<dcp::Reel> > _reels;
 
 	std::list<boost::shared_ptr<dcp::Reel> >::iterator _reel;

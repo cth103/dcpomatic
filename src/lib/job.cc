@@ -46,6 +46,7 @@ using std::cout;
 using boost::shared_ptr;
 using boost::optional;
 using boost::function;
+using namespace dcpomatic;
 
 /** @param film Associated film, or 0 */
 Job::Job (shared_ptr<const Film> film)

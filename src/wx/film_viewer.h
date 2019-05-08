@@ -59,14 +59,14 @@ public:
 		return _film;
 	}
 
-	void seek (DCPTime t, bool accurate);
-	void seek (boost::shared_ptr<Content> content, ContentTime p, bool accurate);
-	void seek_by (DCPTime by, bool accurate);
+	void seek (dcpomatic::DCPTime t, bool accurate);
+	void seek (boost::shared_ptr<Content> content, dcpomatic::ContentTime p, bool accurate);
+	void seek_by (dcpomatic::DCPTime by, bool accurate);
 	/** @return our `playhead' position; this may not lie exactly on a frame boundary */
-	DCPTime position () const {
+	dcpomatic::DCPTime position () const {
 		return _video_position;
 	}
-	DCPTime one_video_frame () const;
+	dcpomatic::DCPTime one_video_frame () const;
 
 	void start ();
 	bool stop ();
@@ -106,8 +106,8 @@ public:
 
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
 	boost::signals2::signal<void ()> PositionChanged;
-	boost::signals2::signal<void (DCPTime)> Started;
-	boost::signals2::signal<void (DCPTime)> Stopped;
+	boost::signals2::signal<void (dcpomatic::DCPTime)> Started;
+	boost::signals2::signal<void (dcpomatic::DCPTime)> Stopped;
 	/** While playing back we reached the end of the film (emitted from GUI thread) */
 	boost::signals2::signal<void ()> Finished;
 
@@ -126,8 +126,8 @@ private:
 	void config_changed (Config::Property);
 	bool maybe_draw_background_image (wxPaintDC& dc);
 
-	DCPTime time () const;
-	DCPTime uncorrected_time () const;
+	dcpomatic::DCPTime time () const;
+	dcpomatic::DCPTime uncorrected_time () const;
 	Frame average_latency () const;
 
 	void refresh_panel ();
@@ -142,9 +142,9 @@ private:
 	bool _coalesce_player_changes;
 	std::list<int> _pending_player_changes;
 
-	std::pair<boost::shared_ptr<PlayerVideo>, DCPTime> _player_video;
+	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> _player_video;
 	boost::shared_ptr<const Image> _frame;
-	DCPTime _video_position;
+	dcpomatic::DCPTime _video_position;
 	Position<int> _inter_position;
 	dcp::Size _inter_size;
 

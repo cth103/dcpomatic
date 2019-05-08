@@ -34,7 +34,7 @@ public:
 	}
 
 	bool pass ();
-	void seek (ContentTime, bool);
+	void seek (dcpomatic::ContentTime, bool);
 
 private:
 

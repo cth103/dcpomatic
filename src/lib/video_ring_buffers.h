@@ -31,8 +31,8 @@ class PlayerVideo;
 class VideoRingBuffers : public boost::noncopyable
 {
 public:
-	void put (boost::shared_ptr<PlayerVideo> frame, DCPTime time);
-	std::pair<boost::shared_ptr<PlayerVideo>, DCPTime> get ();
+	void put (boost::shared_ptr<PlayerVideo> frame, dcpomatic::DCPTime time);
+	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> get ();
 
 	void clear ();
 	Frame size () const;
@@ -42,5 +42,5 @@ public:
 
 private:
 	mutable boost::mutex _mutex;
-	std::list<std::pair<boost::shared_ptr<PlayerVideo>, DCPTime> > _data;
+	std::list<std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> > _data;
 };

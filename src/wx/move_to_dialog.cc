@@ -26,6 +26,7 @@
 using std::list;
 using boost::shared_ptr;
 using boost::optional;
+using namespace dcpomatic;
 
 MoveToDialog::MoveToDialog (wxWindow* parent, optional<DCPTime> position, shared_ptr<const Film> film)
 	: TableDialog (parent, _("Move content"), 2, 0, true)

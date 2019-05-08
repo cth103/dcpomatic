@@ -35,6 +35,7 @@
 using std::cout;
 using boost::shared_ptr;
 using dcp::Size;
+using namespace dcpomatic;
 
 ImageDecoder::ImageDecoder (shared_ptr<const Film> film, shared_ptr<const ImageContent> c)
 	: Decoder (film)

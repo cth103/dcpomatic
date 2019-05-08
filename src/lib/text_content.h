@@ -83,9 +83,9 @@ public:
 	void set_effect_colour (dcp::Colour);
 	void unset_effect_colour ();
 	void set_line_spacing (double s);
-	void set_fade_in (ContentTime);
+	void set_fade_in (dcpomatic::ContentTime);
 	void unset_fade_in ();
-	void set_fade_out (ContentTime);
+	void set_fade_out (dcpomatic::ContentTime);
 	void set_outline_width (int);
 	void unset_fade_out ();
 	void set_type (TextType type);
@@ -152,12 +152,12 @@ public:
 		return _line_spacing;
 	}
 
-	boost::optional<ContentTime> fade_in () const {
+	boost::optional<dcpomatic::ContentTime> fade_in () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _fade_in;
 	}
 
-	boost::optional<ContentTime> fade_out () const {
+	boost::optional<dcpomatic::ContentTime> fade_out () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _fade_out;
 	}
@@ -217,8 +217,8 @@ private:
 	boost::optional<dcp::Colour> _effect_colour;
 	/** scaling factor for line spacing; 1 is "standard", < 1 is closer together, > 1 is further apart */
 	double _line_spacing;
-	boost::optional<ContentTime> _fade_in;
-	boost::optional<ContentTime> _fade_out;
+	boost::optional<dcpomatic::ContentTime> _fade_in;
+	boost::optional<dcpomatic::ContentTime> _fade_out;
 	int _outline_width;
 	/** what these captions will be used for in the output DCP (not necessarily what
 	 *  they were originally).

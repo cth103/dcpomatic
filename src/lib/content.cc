@@ -52,6 +52,7 @@ using boost::shared_ptr;
 using boost::optional;
 using dcp::raw_convert;
 using dcp::locale_convert;
+using namespace dcpomatic;
 
 int const ContentProperty::PATH = 400;
 int const ContentProperty::POSITION = 401;

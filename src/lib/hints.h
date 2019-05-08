@@ -46,7 +46,7 @@ public:
 private:
 	void thread ();
 	void hint (std::string h);
-	void text (PlayerText text, TextType type, DCPTimePeriod period);
+	void text (PlayerText text, TextType type, dcpomatic::DCPTimePeriod period);
 
 	boost::weak_ptr<const Film> _film;
 	boost::thread* _thread;
@@ -54,7 +54,7 @@ private:
 	bool _long_ccap;
 	bool _overlap_ccap;
 	bool _too_many_ccap_lines;
-	boost::optional<DCPTimePeriod> _last;
+	boost::optional<dcpomatic::DCPTimePeriod> _last;
 
 	boost::mutex _mutex;
 	bool _stop;

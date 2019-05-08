@@ -41,20 +41,20 @@ public:
 	TextDecoder (
 		Decoder* parent,
 		boost::shared_ptr<const TextContent>,
-		ContentTime first
+		dcpomatic::ContentTime first
 		);
 
-	ContentTime position (boost::shared_ptr<const Film>) const {
+	dcpomatic::ContentTime position (boost::shared_ptr<const Film>) const {
 		return _position;
 	}
 
-	void emit_bitmap_start (ContentTime from, boost::shared_ptr<Image> image, dcpomatic::Rect<double> rect);
-	void emit_bitmap (ContentTimePeriod period, boost::shared_ptr<Image> image, dcpomatic::Rect<double> rect);
-	void emit_plain_start (ContentTime from, std::list<dcp::SubtitleString> s);
-	void emit_plain_start (ContentTime from, sub::Subtitle const & subtitle);
-	void emit_plain (ContentTimePeriod period, std::list<dcp::SubtitleString> s);
-	void emit_plain (ContentTimePeriod period, sub::Subtitle const & subtitle);
-	void emit_stop (ContentTime to);
+	void emit_bitmap_start (dcpomatic::ContentTime from, boost::shared_ptr<Image> image, dcpomatic::Rect<double> rect);
+	void emit_bitmap (dcpomatic::ContentTimePeriod period, boost::shared_ptr<Image> image, dcpomatic::Rect<double> rect);
+	void emit_plain_start (dcpomatic::ContentTime from, std::list<dcp::SubtitleString> s);
+	void emit_plain_start (dcpomatic::ContentTime from, sub::Subtitle const & subtitle);
+	void emit_plain (dcpomatic::ContentTimePeriod period, std::list<dcp::SubtitleString> s);
+	void emit_plain (dcpomatic::ContentTimePeriod period, sub::Subtitle const & subtitle);
+	void emit_stop (dcpomatic::ContentTime to);
 
 	void seek ();
 
@@ -64,11 +64,11 @@ public:
 
 	boost::signals2::signal<void (ContentBitmapText)> BitmapStart;
 	boost::signals2::signal<void (ContentStringText)> PlainStart;
-	boost::signals2::signal<void (ContentTime)> Stop;
+	boost::signals2::signal<void (dcpomatic::ContentTime)> Stop;
 
 private:
 	boost::shared_ptr<const TextContent> _content;
-	ContentTime _position;
+	dcpomatic::ContentTime _position;
 };
 
 #endif

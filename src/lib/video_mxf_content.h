@@ -39,8 +39,8 @@ public:
 	std::string technical_summary () const;
 	std::string identifier () const;
 	void as_xml (xmlpp::Node* node, bool with_paths) const;
-	DCPTime full_length (boost::shared_ptr<const Film> film) const;
-	DCPTime approximate_length () const;
+	dcpomatic::DCPTime full_length (boost::shared_ptr<const Film> film) const;
+	dcpomatic::DCPTime approximate_length () const;
 	void add_properties (boost::shared_ptr<const Film> film, std::list<UserProperty>& p) const;
 
 	static bool valid_mxf (boost::filesystem::path path);

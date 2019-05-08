@@ -35,6 +35,7 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::bind;
 using boost::dynamic_pointer_cast;
+using namespace dcpomatic;
 
 TextView::TextView (
 	wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content> content, shared_ptr<TextContent> text, shared_ptr<Decoder> decoder, weak_ptr<FilmViewer> viewer

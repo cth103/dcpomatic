@@ -31,6 +31,7 @@
 #include "test.h"
 
 using boost::shared_ptr;
+using namespace dcpomatic;
 
 BOOST_AUTO_TEST_CASE (ffmpeg_examiner_test)
 {

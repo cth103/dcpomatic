@@ -33,12 +33,12 @@ class AudioMerger
 public:
 	explicit AudioMerger (int frame_rate);
 
-	std::list<std::pair<boost::shared_ptr<AudioBuffers>, DCPTime> > pull (DCPTime time);
-	void push (boost::shared_ptr<const AudioBuffers> audio, DCPTime time);
+	std::list<std::pair<boost::shared_ptr<AudioBuffers>, dcpomatic::DCPTime> > pull (dcpomatic::DCPTime time);
+	void push (boost::shared_ptr<const AudioBuffers> audio, dcpomatic::DCPTime time);
 	void clear ();
 
 private:
-	Frame frames (DCPTime t) const;
+	Frame frames (dcpomatic::DCPTime t) const;
 
 	class Buffer
 	{
@@ -48,24 +48,24 @@ private:
 		 *  @param t Time
 		 *  @param r Frame rate.
 		 */
-		Buffer (int c, int32_t f, DCPTime t, int r)
+		Buffer (int c, int32_t f, dcpomatic::DCPTime t, int r)
 			: audio (new AudioBuffers (c, f))
 			, time (t)
 			, frame_rate (r)
 		{}
 
-		Buffer (boost::shared_ptr<AudioBuffers> a, DCPTime t, int r)
+		Buffer (boost::shared_ptr<AudioBuffers> a, dcpomatic::DCPTime t, int r)
 			: audio (a)
 			, time (t)
 			, frame_rate (r)
 		{}
 
 		boost::shared_ptr<AudioBuffers> audio;
-		DCPTime time;
+		dcpomatic::DCPTime time;
 		int frame_rate;
 
-		DCPTimePeriod period () const {
-			return DCPTimePeriod (time, time + DCPTime::from_frames (audio->frames(), frame_rate));
+		dcpomatic::DCPTimePeriod period () const {
+			return dcpomatic::DCPTimePeriod (time, time + dcpomatic::DCPTime::from_frames (audio->frames(), frame_rate));
 		}
 	};
 

@@ -54,6 +54,7 @@ using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
+using namespace dcpomatic;
 
 DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent> c, bool fast)
 	: DCP (c)

@@ -58,9 +58,9 @@ private:
 	wxCheckBox* _force_effect_colour;
 	wxColourPickerCtrl* _effect_colour;
 	wxCheckBox* _force_fade_in;
-	Timecode<ContentTime>* _fade_in;
+	Timecode<dcpomatic::ContentTime>* _fade_in;
 	wxCheckBox* _force_fade_out;
-	Timecode<ContentTime>* _fade_out;
+	Timecode<dcpomatic::ContentTime>* _fade_out;
 	wxSpinCtrl* _outline_width;
 	wxGridBagSizer* _table;
 	std::map<RGBA, RGBAColourPicker*> _pickers;

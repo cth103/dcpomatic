@@ -30,6 +30,7 @@
 #include <boost/test/unit_test.hpp>
 
 using boost::shared_ptr;
+using namespace dcpomatic;
 
 bool
 has_video (shared_ptr<Piece> piece)

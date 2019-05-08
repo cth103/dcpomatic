@@ -42,14 +42,14 @@ public:
 
 private:
 	void data_start (ContentStringText cts);
-	void data_stop (ContentTime time);
+	void data_stop (dcpomatic::ContentTime time);
 	void subtitle_selected (wxListEvent &);
 
 	wxListCtrl* _list;
 	int _subs;
 	boost::optional<FrameRateChange> _frc;
 	boost::optional<int> _last_count;
-	std::vector<ContentTime> _start_times;
+	std::vector<dcpomatic::ContentTime> _start_times;
 	boost::weak_ptr<Content> _content;
 	boost::weak_ptr<FilmViewer> _film_viewer;
 };

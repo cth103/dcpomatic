@@ -48,7 +48,7 @@ public:
 	FFmpegDecoder (boost::shared_ptr<const Film> film, boost::shared_ptr<const FFmpegContent>, bool fast);
 
 	bool pass ();
-	void seek (ContentTime time, bool);
+	void seek (dcpomatic::ContentTime time, bool);
 
 private:
 	friend struct ::ffmpeg_pts_offset_test;
@@ -62,8 +62,8 @@ private:
 	void decode_audio_packet ();
 	void decode_subtitle_packet ();
 
-	void decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime from);
-	void decode_ass_subtitle (std::string ass, ContentTime from);
+	void decode_bitmap_subtitle (AVSubtitleRect const * rect, dcpomatic::ContentTime from);
+	void decode_ass_subtitle (std::string ass, dcpomatic::ContentTime from);
 
 	void maybe_add_subtitle ();
 	boost::shared_ptr<AudioBuffers> deinterleave_audio (boost::shared_ptr<FFmpegAudioStream> stream) const;
@@ -71,12 +71,12 @@ private:
 	std::list<boost::shared_ptr<VideoFilterGraph> > _filter_graphs;
 	boost::mutex _filter_graphs_mutex;
 
-	ContentTime _pts_offset;
-	boost::optional<ContentTime> _current_subtitle_to;
+	dcpomatic::ContentTime _pts_offset;
+	boost::optional<dcpomatic::ContentTime> _current_subtitle_to;
 	/** true if we have a subtitle which has not had emit_stop called for it yet */
 	bool _have_current_subtitle;
 
 	boost::shared_ptr<Image> _black_image;
 
-	std::vector<boost::optional<ContentTime> > _next_time;
+	std::vector<boost::optional<dcpomatic::ContentTime> > _next_time;
 };

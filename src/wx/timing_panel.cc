@@ -48,6 +48,7 @@ using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 using dcp::locale_convert;
+using namespace dcpomatic;
 
 TimingPanel::TimingPanel (ContentPanel* p, weak_ptr<FilmViewer> viewer)
 	/* horrid hack for apparent lack of context support with wxWidgets i18n code */

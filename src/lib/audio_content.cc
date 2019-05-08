@@ -43,6 +43,7 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 using dcp::raw_convert;
+using namespace dcpomatic;
 
 /** Something stream-related has changed */
 int const AudioContentProperty::STREAMS = 200;

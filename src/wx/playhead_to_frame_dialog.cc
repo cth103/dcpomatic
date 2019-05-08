@@ -22,6 +22,7 @@
 #include <dcp/locale_convert.h>
 
 using dcp::locale_convert;
+using namespace dcpomatic;
 
 PlayheadToFrameDialog::PlayheadToFrameDialog (wxWindow* parent, int fps)
 	: TableDialog (parent, _("Go to frame"), 2, 1, true)

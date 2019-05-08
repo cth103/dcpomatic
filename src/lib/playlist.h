@@ -59,15 +59,15 @@ public:
 
 	std::string video_identifier () const;
 
-	DCPTime length (boost::shared_ptr<const Film> film) const;
-	boost::optional<DCPTime> start () const;
+	dcpomatic::DCPTime length (boost::shared_ptr<const Film> film) const;
+	boost::optional<dcpomatic::DCPTime> start () const;
 	int64_t required_disk_space (boost::shared_ptr<const Film> film, int j2k_bandwidth, int audio_channels, int audio_frame_rate) const;
 
 	int best_video_frame_rate () const;
-	DCPTime video_end (boost::shared_ptr<const Film> film) const;
-	DCPTime text_end (boost::shared_ptr<const Film> film) const;
-	FrameRateChange active_frame_rate_change (DCPTime, int dcp_frame_rate) const;
-	std::string content_summary (boost::shared_ptr<const Film> film, DCPTimePeriod period) const;
+	dcpomatic::DCPTime video_end (boost::shared_ptr<const Film> film) const;
+	dcpomatic::DCPTime text_end (boost::shared_ptr<const Film> film) const;
+	FrameRateChange active_frame_rate_change (dcpomatic::DCPTime, int dcp_frame_rate) const;
+	std::string content_summary (boost::shared_ptr<const Film> film, dcpomatic::DCPTimePeriod period) const;
 	std::pair<double, double> speed_up_range (int dcp_video_frame_rate) const;
 
 	void set_sequence (bool);

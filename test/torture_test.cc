@@ -45,6 +45,7 @@ using std::list;
 using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using namespace dcpomatic;
 
 /** Test start/end trim and positioning of some audio content */
 BOOST_AUTO_TEST_CASE (torture_test1)

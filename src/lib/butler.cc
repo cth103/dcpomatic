@@ -38,6 +38,7 @@ using boost::shared_ptr;
 using boost::bind;
 using boost::optional;
 using boost::function;
+using namespace dcpomatic;
 
 /** Minimum video readahead in frames */
 #define MINIMUM_VIDEO_READAHEAD 10

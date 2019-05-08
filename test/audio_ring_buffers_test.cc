@@ -24,6 +24,7 @@
 
 using std::cout;
 using boost::shared_ptr;
+using namespace dcpomatic;
 
 #define CANARY 9999
 

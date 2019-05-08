@@ -32,6 +32,7 @@
 #include <boost/test/unit_test.hpp>
 
 using boost::shared_ptr;
+using namespace dcpomatic;
 
 /** There has been garbled audio with this piece of content */
 BOOST_AUTO_TEST_CASE (content_test1)

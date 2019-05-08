@@ -36,6 +36,7 @@ using std::min;
 using boost::shared_ptr;
 using boost::optional;
 using boost::function;
+using namespace dcpomatic;
 
 TextDecoder::TextDecoder (
 	Decoder* parent,

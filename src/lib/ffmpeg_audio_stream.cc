@@ -26,6 +26,7 @@
 using std::string;
 using boost::optional;
 using dcp::raw_convert;
+using namespace dcpomatic;
 
 FFmpegAudioStream::FFmpegAudioStream (cxml::ConstNodePtr node, int version)
 	: FFmpegStream (node)

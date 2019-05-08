@@ -56,6 +56,7 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 using dcp::raw_convert;
+using namespace dcpomatic;
 
 int const FFmpegContentProperty::SUBTITLE_STREAMS = 100;
 int const FFmpegContentProperty::SUBTITLE_STREAM = 101;

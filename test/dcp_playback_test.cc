@@ -28,6 +28,7 @@
 using std::pair;
 using boost::shared_ptr;
 using boost::optional;
+using namespace dcpomatic;
 
 /** Simulate the work that the player does, for profiling */
 BOOST_AUTO_TEST_CASE (dcp_playback_test)

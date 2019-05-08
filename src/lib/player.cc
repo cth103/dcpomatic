@@ -75,6 +75,7 @@ using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 using boost::scoped_ptr;
+using namespace dcpomatic;
 
 int const PlayerProperty::VIDEO_CONTAINER_SIZE = 700;
 int const PlayerProperty::PLAYLIST = 701;

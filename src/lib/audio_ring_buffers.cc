@@ -31,6 +31,7 @@ using std::pair;
 using std::list;
 using boost::shared_ptr;
 using boost::optional;
+using namespace dcpomatic;
 
 AudioRingBuffers::AudioRingBuffers ()
 	: _used_in_head (0)

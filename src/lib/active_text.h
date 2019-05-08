@@ -37,11 +37,11 @@ class TextContent;
 class ActiveText : public boost::noncopyable
 {
 public:
-	std::list<PlayerText> get_burnt (DCPTimePeriod period, bool always_burn_captions) const;
-	void clear_before (DCPTime time);
+	std::list<PlayerText> get_burnt (dcpomatic::DCPTimePeriod period, bool always_burn_captions) const;
+	void clear_before (dcpomatic::DCPTime time);
 	void clear ();
-	void add_from (boost::weak_ptr<const TextContent> content, PlayerText ps, DCPTime from);
-	std::pair<PlayerText, DCPTime> add_to (boost::weak_ptr<const TextContent> content, DCPTime to);
+	void add_from (boost::weak_ptr<const TextContent> content, PlayerText ps, dcpomatic::DCPTime from);
+	std::pair<PlayerText, dcpomatic::DCPTime> add_to (boost::weak_ptr<const TextContent> content, dcpomatic::DCPTime to);
 	bool have (boost::weak_ptr<const TextContent> content) const;
 
 private:
@@ -50,14 +50,14 @@ private:
 	public:
 		Period () {}
 
-		Period (PlayerText s, DCPTime f)
+		Period (PlayerText s, dcpomatic::DCPTime f)
 			: subs (s)
 			, from (f)
 		{}
 
 		PlayerText subs;
-		DCPTime from;
-		boost::optional<DCPTime> to;
+		dcpomatic::DCPTime from;
+		boost::optional<dcpomatic::DCPTime> to;
 	};
 
 	typedef std::map<boost::weak_ptr<const TextContent>, std::list<Period> > Map;

@@ -24,15 +24,15 @@
 class FFmpegSubtitlePeriod
 {
 public:
-	explicit FFmpegSubtitlePeriod (ContentTime f)
+	explicit FFmpegSubtitlePeriod (dcpomatic::ContentTime f)
 		: from (f)
 	{}
 
-	FFmpegSubtitlePeriod (ContentTime f, ContentTime t)
+	FFmpegSubtitlePeriod (dcpomatic::ContentTime f, dcpomatic::ContentTime t)
 		: from (f)
 		, to (t)
 	{}
 
-	ContentTime from;
-	boost::optional<ContentTime> to;
+	dcpomatic::ContentTime from;
+	boost::optional<dcpomatic::ContentTime> to;
 };

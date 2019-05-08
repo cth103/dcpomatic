@@ -60,6 +60,7 @@ using boost::optional;
 using boost::dynamic_pointer_cast;
 using dcp::Data;
 using dcp::raw_convert;
+using namespace dcpomatic;
 
 int const ReelWriter::_info_size = 48;
 

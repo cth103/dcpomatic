@@ -41,7 +41,7 @@ public:
 
 	wxColour colour (int n) const;
 
-	boost::signals2::signal<void (boost::optional<DCPTime>, boost::optional<float>)> Cursor;
+	boost::signals2::signal<void (boost::optional<dcpomatic::DCPTime>, boost::optional<float>)> Cursor;
 
 	static const int max_smoothing;
 
@@ -52,14 +52,14 @@ private:
 			: db(0)
 		{}
 
-		Point (wxPoint draw_, DCPTime time_, float db_)
+		Point (wxPoint draw_, dcpomatic::DCPTime time_, float db_)
 			: draw(draw_)
 			, time(time_)
 			, db(db_)
 		{}
 
 		wxPoint draw;
-		DCPTime time;
+		dcpomatic::DCPTime time;
 		float db;
 	};
 

@@ -52,6 +52,7 @@ using boost::optional;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
+using namespace dcpomatic;
 
 Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor_controls)
 	: wxPanel (parent)

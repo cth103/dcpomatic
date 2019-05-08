@@ -49,7 +49,7 @@ public:
 
 	/* XXX: should probably be locked */
 
-	boost::optional<ContentTime> first_audio;
+	boost::optional<dcpomatic::ContentTime> first_audio;
 	boost::optional<std::string> codec_name;
 
 private:

@@ -49,7 +49,7 @@ public:
 		return _audio_streams;
 	}
 
-	boost::optional<ContentTime> first_video () const {
+	boost::optional<dcpomatic::ContentTime> first_video () const {
 		return _first_video;
 	}
 
@@ -81,11 +81,11 @@ private:
 
 	std::string stream_name (AVStream* s) const;
 	std::string subtitle_stream_name (AVStream* s) const;
-	boost::optional<ContentTime> frame_time (AVStream* s) const;
+	boost::optional<dcpomatic::ContentTime> frame_time (AVStream* s) const;
 
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > _subtitle_streams;
 	std::vector<boost::shared_ptr<FFmpegAudioStream> > _audio_streams;
-	boost::optional<ContentTime> _first_video;
+	boost::optional<dcpomatic::ContentTime> _first_video;
 	/** Video length, either obtained from the header or derived by running
 	 *  through the whole file.
 	 */
@@ -96,7 +96,7 @@ private:
 
 	struct SubtitleStart
 	{
-		SubtitleStart (std::string id_, bool image_, ContentTime time_)
+		SubtitleStart (std::string id_, bool image_, dcpomatic::ContentTime time_)
 			: id (id_)
 			, image (image_)
 			, time (time_)
@@ -105,7 +105,7 @@ private:
 		std::string id;
 		/** true if it's an image subtitle, false for text */
 		bool image;
-		ContentTime time;
+		dcpomatic::ContentTime time;
 	};
 
 	typedef std::map<boost::shared_ptr<FFmpegSubtitleStream>, boost::optional<SubtitleStart> > LastSubtitleMap;

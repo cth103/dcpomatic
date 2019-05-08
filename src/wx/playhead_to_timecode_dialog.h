@@ -26,9 +26,9 @@ class PlayheadToTimecodeDialog : public TableDialog
 public:
 	PlayheadToTimecodeDialog (wxWindow* parent, int fps);
 
-	DCPTime get () const;
+	dcpomatic::DCPTime get () const;
 
 private:
-	Timecode<DCPTime>* _timecode;
+	Timecode<dcpomatic::DCPTime>* _timecode;
 	int _fps;
 };

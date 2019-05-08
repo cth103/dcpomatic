@@ -63,6 +63,7 @@ using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 using dcp::Data;
+using namespace dcpomatic;
 
 Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 	: _film (film)

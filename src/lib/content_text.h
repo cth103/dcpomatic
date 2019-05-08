@@ -33,22 +33,22 @@ class Image;
 class ContentText
 {
 public:
-	explicit ContentText (ContentTime f)
+	explicit ContentText (dcpomatic::ContentTime f)
 		: _from (f)
 	{}
 
-	ContentTime from () const {
+	dcpomatic::ContentTime from () const {
 		return _from;
 	}
 
 private:
-	ContentTime _from;
+	dcpomatic::ContentTime _from;
 };
 
 class ContentBitmapText : public ContentText
 {
 public:
-	ContentBitmapText (ContentTime f, boost::shared_ptr<Image> im, dcpomatic::Rect<double> r)
+	ContentBitmapText (dcpomatic::ContentTime f, boost::shared_ptr<Image> im, dcpomatic::Rect<double> r)
 		: ContentText (f)
 		, sub (im, r)
 	{}
@@ -64,7 +64,7 @@ public:
 class ContentStringText : public ContentText
 {
 public:
-	ContentStringText (ContentTime f, std::list<dcp::SubtitleString> s)
+	ContentStringText (dcpomatic::ContentTime f, std::list<dcp::SubtitleString> s)
 		: ContentText (f)
 		, subs (s)
 	{}

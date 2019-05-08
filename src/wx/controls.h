@@ -83,7 +83,7 @@ private:
 	void jump_to_selected_clicked ();
 	void timecode_clicked ();
 	void active_jobs_changed (boost::optional<std::string>);
-	DCPTime nudge_amount (wxKeyboardState& ev);
+	dcpomatic::DCPTime nudge_amount (wxKeyboardState& ev);
 	void image_changed (boost::weak_ptr<PlayerVideo>);
 	void outline_content_changed ();
 	void eye_changed ();

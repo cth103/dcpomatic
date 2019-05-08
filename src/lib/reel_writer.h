@@ -50,7 +50,7 @@ class ReelWriter
 public:
 	ReelWriter (
 		boost::shared_ptr<const Film> film,
-		DCPTimePeriod period,
+		dcpomatic::DCPTimePeriod period,
 		boost::shared_ptr<Job> job,
 		int reel_index,
 		int reel_count,
@@ -61,7 +61,7 @@ public:
 	void fake_write (Frame frame, Eyes eyes, int size);
 	void repeat_write (Frame frame, Eyes eyes);
 	void write (boost::shared_ptr<const AudioBuffers> audio);
-	void write (PlayerText text, TextType type, boost::optional<DCPTextTrack> track, DCPTimePeriod period);
+	void write (PlayerText text, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period);
 
 	void finish ();
 	boost::shared_ptr<dcp::Reel> create_reel (std::list<ReferencedReelAsset> const & refs, std::list<boost::shared_ptr<Font> > const & fonts);
@@ -69,7 +69,7 @@ public:
 
 	Frame start () const;
 
-	DCPTimePeriod period () const {
+	dcpomatic::DCPTimePeriod period () const {
 		return _period;
 	}
 
@@ -96,7 +96,7 @@ private:
 
 	boost::shared_ptr<const Film> _film;
 
-	DCPTimePeriod _period;
+	dcpomatic::DCPTimePeriod _period;
 	/** the first picture frame index that does not already exist in our MXF */
 	int _first_nonexistant_frame;
 	/** the data of the last written frame, if there is one */

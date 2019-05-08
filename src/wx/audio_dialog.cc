@@ -42,6 +42,7 @@ using boost::bind;
 using boost::optional;
 using boost::const_pointer_cast;
 using boost::dynamic_pointer_cast;
+using namespace dcpomatic;
 
 /** @param parent Parent window.
  *  @param film Film we are using.

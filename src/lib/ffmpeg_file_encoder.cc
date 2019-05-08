@@ -38,6 +38,7 @@ using std::pair;
 using boost::shared_ptr;
 using boost::bind;
 using boost::weak_ptr;
+using namespace dcpomatic;
 
 int FFmpegFileEncoder::_video_stream_index = 0;
 int FFmpegFileEncoder::_audio_stream_index = 1;

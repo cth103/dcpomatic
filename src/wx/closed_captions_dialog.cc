@@ -35,6 +35,7 @@ using std::make_pair;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::optional;
+using namespace dcpomatic;
 
 ClosedCaptionsDialog::ClosedCaptionsDialog (wxWindow* parent, FilmViewer* viewer)
 	: wxDialog (parent, wxID_ANY, _("Closed captions"), wxDefaultPosition, wxDefaultSize,

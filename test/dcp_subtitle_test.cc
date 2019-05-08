@@ -42,6 +42,7 @@ using std::cout;
 using std::list;
 using boost::shared_ptr;
 using boost::optional;
+using namespace dcpomatic;
 
 optional<ContentStringText> stored;
 

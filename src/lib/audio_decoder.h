@@ -47,12 +47,12 @@ class AudioDecoder : public boost::enable_shared_from_this<AudioDecoder>, public
 public:
 	AudioDecoder (Decoder* parent, boost::shared_ptr<const AudioContent> content, bool fast);
 
-	ContentTime position (boost::shared_ptr<const Film> film) const;
-	void emit (boost::shared_ptr<const Film> film, AudioStreamPtr stream, boost::shared_ptr<const AudioBuffers>, ContentTime);
+	dcpomatic::ContentTime position (boost::shared_ptr<const Film> film) const;
+	void emit (boost::shared_ptr<const Film> film, AudioStreamPtr stream, boost::shared_ptr<const AudioBuffers>, dcpomatic::ContentTime);
 	void seek ();
 	void flush ();
 
-	ContentTime stream_position (boost::shared_ptr<const Film> film, AudioStreamPtr stream) const;
+	dcpomatic::ContentTime stream_position (boost::shared_ptr<const Film> film, AudioStreamPtr stream) const;
 
 	/** @return Number of frames of data that were accepted */
 	boost::signals2::signal<void (AudioStreamPtr, ContentAudio)> Data;

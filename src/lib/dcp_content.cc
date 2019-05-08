@@ -55,6 +55,7 @@ using boost::optional;
 using boost::function;
 using boost::dynamic_pointer_cast;
 using dcp::raw_convert;
+using namespace dcpomatic;
 
 int const DCPContentProperty::NEEDS_ASSETS       = 600;
 int const DCPContentProperty::NEEDS_KDM          = 601;

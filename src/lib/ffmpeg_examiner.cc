@@ -42,6 +42,7 @@ using std::cout;
 using std::max;
 using boost::shared_ptr;
 using boost::optional;
+using namespace dcpomatic;
 
 /** @param job job that the examiner is operating in, or 0 */
 FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Job> job)

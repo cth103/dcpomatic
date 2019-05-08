@@ -21,6 +21,8 @@
 #include "dcpomatic_time.h"
 #include <iostream>
 
+namespace dcpomatic {
+
 /** @param periods Set of periods in ascending order of from time */
 template <class T>
 std::list<TimePeriod<T> > coalesce (std::list<TimePeriod<T> > periods)
@@ -45,4 +47,6 @@ std::list<TimePeriod<T> > coalesce (std::list<TimePeriod<T> > periods)
 	} while (did_something);
 
 	return periods;
+}
+
 }

@@ -31,6 +31,7 @@
 
 using std::list;
 using std::cout;
+using namespace dcpomatic;
 
 BOOST_AUTO_TEST_CASE (dcpomatic_time_test)
 {

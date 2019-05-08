@@ -26,7 +26,7 @@ class PlayheadToFrameDialog : public TableDialog
 public:
 	PlayheadToFrameDialog (wxWindow* parent, int fps);
 
-	DCPTime get () const;
+	dcpomatic::DCPTime get () const;
 
 private:
 	wxTextCtrl* _frame;

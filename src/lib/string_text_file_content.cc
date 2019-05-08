@@ -35,6 +35,7 @@ using std::cout;
 using boost::shared_ptr;
 using boost::optional;
 using dcp::raw_convert;
+using namespace dcpomatic;
 
 StringTextFileContent::StringTextFileContent (boost::filesystem::path path)
 	: Content (path)

@@ -31,11 +31,11 @@ class StringTextFileDecoder : public Decoder, public StringTextFile
 public:
 	StringTextFileDecoder (boost::shared_ptr<const Film> film, boost::shared_ptr<const StringTextFileContent>);
 
-	void seek (ContentTime time, bool accurate);
+	void seek (dcpomatic::ContentTime time, bool accurate);
 	bool pass ();
 
 private:
-	ContentTimePeriod content_time_period (sub::Subtitle s) const;
+	dcpomatic::ContentTimePeriod content_time_period (sub::Subtitle s) const;
 
 	size_t _next;
 };

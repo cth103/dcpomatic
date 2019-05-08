@@ -68,7 +68,7 @@ public:
 	~Player ();
 
 	bool pass ();
-	void seek (DCPTime time, bool accurate);
+	void seek (dcpomatic::DCPTime time, bool accurate);
 
 	std::list<boost::shared_ptr<Font> > get_subtitle_fonts ();
 	std::list<ReferencedReelAsset> get_reel_assets ();
@@ -86,17 +86,17 @@ public:
 	void set_play_referenced ();
 	void set_dcp_decode_reduction (boost::optional<int> reduction);
 
-	boost::optional<DCPTime> content_time_to_dcp (boost::shared_ptr<Content> content, ContentTime t);
+	boost::optional<dcpomatic::DCPTime> content_time_to_dcp (boost::shared_ptr<Content> content, dcpomatic::ContentTime t);
 
 	boost::signals2::signal<void (ChangeType, int, bool)> Change;
 
 	/** Emitted when a video frame is ready.  These emissions happen in the correct order. */
-	boost::signals2::signal<void (boost::shared_ptr<PlayerVideo>, DCPTime)> Video;
-	boost::signals2::signal<void (boost::shared_ptr<AudioBuffers>, DCPTime, int)> Audio;
+	boost::signals2::signal<void (boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime)> Video;
+	boost::signals2::signal<void (boost::shared_ptr<AudioBuffers>, dcpomatic::DCPTime, int)> Audio;
 	/** Emitted when a text is ready.  This signal may be emitted considerably
 	 *  after the corresponding Video.
 	 */
-	boost::signals2::signal<void (PlayerText, TextType, boost::optional<DCPTextTrack>, DCPTimePeriod)> Text;
+	boost::signals2::signal<void (PlayerText, TextType, boost::optional<DCPTextTrack>, dcpomatic::DCPTimePeriod)> Text;
 
 private:
 	friend class PlayerWrapper;
@@ -114,27 +114,27 @@ private:
 	void film_change (ChangeType, Film::Property);
 	void playlist_change (ChangeType);
 	void playlist_content_change (ChangeType, int, bool);
-	Frame dcp_to_content_video (boost::shared_ptr<const Piece> piece, DCPTime t) const;
-	DCPTime content_video_to_dcp (boost::shared_ptr<const Piece> piece, Frame f) const;
-	Frame dcp_to_resampled_audio (boost::shared_ptr<const Piece> piece, DCPTime t) const;
-	DCPTime resampled_audio_to_dcp (boost::shared_ptr<const Piece> piece, Frame f) const;
-	ContentTime dcp_to_content_time (boost::shared_ptr<const Piece> piece, DCPTime t) const;
-	DCPTime content_time_to_dcp (boost::shared_ptr<const Piece> piece, ContentTime t) const;
+	Frame dcp_to_content_video (boost::shared_ptr<const Piece> piece, dcpomatic::DCPTime t) const;
+	dcpomatic::DCPTime content_video_to_dcp (boost::shared_ptr<const Piece> piece, Frame f) const;
+	Frame dcp_to_resampled_audio (boost::shared_ptr<const Piece> piece, dcpomatic::DCPTime t) const;
+	dcpomatic::DCPTime resampled_audio_to_dcp (boost::shared_ptr<const Piece> piece, Frame f) const;
+	dcpomatic::ContentTime dcp_to_content_time (boost::shared_ptr<const Piece> piece, dcpomatic::DCPTime t) const;
+	dcpomatic::DCPTime content_time_to_dcp (boost::shared_ptr<const Piece> piece, dcpomatic::ContentTime t) const;
 	boost::shared_ptr<PlayerVideo> black_player_video_frame (Eyes eyes) const;
 	void video (boost::weak_ptr<Piece>, ContentVideo);
 	void audio (boost::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
 	void bitmap_text_start (boost::weak_ptr<Piece>, boost::weak_ptr<const TextContent>, ContentBitmapText);
 	void plain_text_start (boost::weak_ptr<Piece>, boost::weak_ptr<const TextContent>, ContentStringText);
-	void subtitle_stop (boost::weak_ptr<Piece>, boost::weak_ptr<const TextContent>, ContentTime);
-	DCPTime one_video_frame () const;
-	void fill_audio (DCPTimePeriod period);
-	std::pair<boost::shared_ptr<AudioBuffers>, DCPTime> discard_audio (
-		boost::shared_ptr<const AudioBuffers> audio, DCPTime time, DCPTime discard_to
+	void subtitle_stop (boost::weak_ptr<Piece>, boost::weak_ptr<const TextContent>, dcpomatic::ContentTime);
+	dcpomatic::DCPTime one_video_frame () const;
+	void fill_audio (dcpomatic::DCPTimePeriod period);
+	std::pair<boost::shared_ptr<AudioBuffers>, dcpomatic::DCPTime> discard_audio (
+		boost::shared_ptr<const AudioBuffers> audio, dcpomatic::DCPTime time, dcpomatic::DCPTime discard_to
 		) const;
-	boost::optional<PositionImage> open_subtitles_for_frame (DCPTime time) const;
-	void emit_video (boost::shared_ptr<PlayerVideo> pv, DCPTime time);
-	void do_emit_video (boost::shared_ptr<PlayerVideo> pv, DCPTime time);
-	void emit_audio (boost::shared_ptr<AudioBuffers> data, DCPTime time);
+	boost::optional<PositionImage> open_subtitles_for_frame (dcpomatic::DCPTime time) const;
+	void emit_video (boost::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time);
+	void do_emit_video (boost::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time);
+	void emit_audio (boost::shared_ptr<AudioBuffers> data, dcpomatic::DCPTime time);
 
 	/** Mutex to protect the whole Player state.  When it's used for the preview we have
 	    seek() and pass() called from the Butler thread and lots of other stuff called
@@ -165,10 +165,10 @@ private:
 	bool _play_referenced;
 
 	/** Time just after the last video frame we emitted, or the time of the last accurate seek */
-	boost::optional<DCPTime> _last_video_time;
+	boost::optional<dcpomatic::DCPTime> _last_video_time;
 	boost::optional<Eyes> _last_video_eyes;
 	/** Time just after the last audio frame we emitted, or the time of the last accurate seek */
-	boost::optional<DCPTime> _last_audio_time;
+	boost::optional<dcpomatic::DCPTime> _last_audio_time;
 
 	boost::optional<int> _dcp_decode_reduction;
 
@@ -177,20 +177,20 @@ private:
 
 	AudioMerger _audio_merger;
 	Shuffler* _shuffler;
-	std::list<std::pair<boost::shared_ptr<PlayerVideo>, DCPTime> > _delay;
+	std::list<std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> > _delay;
 
 	class StreamState
 	{
 	public:
 		StreamState () {}
 
-		StreamState (boost::shared_ptr<Piece> p, DCPTime l)
+		StreamState (boost::shared_ptr<Piece> p, dcpomatic::DCPTime l)
 			: piece(p)
 			, last_push_end(l)
 		{}
 
 		boost::shared_ptr<Piece> piece;
-		DCPTime last_push_end;
+		dcpomatic::DCPTime last_push_end;
 	};
 	std::map<AudioStreamPtr, StreamState> _stream_states;
 

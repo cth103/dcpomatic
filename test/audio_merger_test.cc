@@ -36,6 +36,7 @@ using std::list;
 using std::cout;
 using boost::shared_ptr;
 using boost::bind;
+using namespace dcpomatic;
 
 static shared_ptr<const AudioBuffers> last_audio;
 

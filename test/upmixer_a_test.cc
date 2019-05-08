@@ -35,6 +35,7 @@
 #include "test.h"
 
 using boost::shared_ptr;
+using namespace dcpomatic;
 
 static SNDFILE* L;
 static SNDFILE* R;

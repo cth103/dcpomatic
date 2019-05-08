@@ -29,10 +29,10 @@ public:
 	DCPSubtitleDecoder (boost::shared_ptr<const Film> film, boost::shared_ptr<const DCPSubtitleContent>);
 
 	bool pass ();
-	void seek (ContentTime time, bool accurate);
+	void seek (dcpomatic::ContentTime time, bool accurate);
 
 private:
-	ContentTimePeriod content_time_period (boost::shared_ptr<dcp::Subtitle> s) const;
+	dcpomatic::ContentTimePeriod content_time_period (boost::shared_ptr<dcp::Subtitle> s) const;
 
 	std::list<boost::shared_ptr<dcp::Subtitle> > _subtitles;
 	std::list<boost::shared_ptr<dcp::Subtitle> >::const_iterator _next;

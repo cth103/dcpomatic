@@ -35,6 +35,7 @@ using std::max;
 using std::back_inserter;
 using boost::shared_ptr;
 using boost::optional;
+using namespace dcpomatic;
 
 VideoDecoder::VideoDecoder (Decoder* parent, shared_ptr<const Content> c)
 	: DecoderPart (parent)

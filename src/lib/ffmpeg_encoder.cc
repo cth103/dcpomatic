@@ -41,6 +41,7 @@ using std::map;
 using boost::shared_ptr;
 using boost::bind;
 using boost::weak_ptr;
+using namespace dcpomatic;
 
 FFmpegEncoder::FFmpegEncoder (
 	shared_ptr<const Film> film,

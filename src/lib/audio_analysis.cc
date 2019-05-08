@@ -46,6 +46,7 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 using dcp::raw_convert;
+using namespace dcpomatic;
 
 int const AudioAnalysis::_current_state_version = 3;
 

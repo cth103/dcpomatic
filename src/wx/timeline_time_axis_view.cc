@@ -26,6 +26,7 @@
 
 using std::list;
 using std::cout;
+using namespace dcpomatic;
 
 TimelineTimeAxisView::TimelineTimeAxisView (Timeline& tl, int y)
 	: TimelineView (tl)

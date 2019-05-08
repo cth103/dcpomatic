@@ -26,6 +26,7 @@
 
 using std::min;
 using std::list;
+using namespace dcpomatic;
 
 TimelineReelsView::TimelineReelsView (Timeline& tl, int y)
 	: TimelineView (tl)

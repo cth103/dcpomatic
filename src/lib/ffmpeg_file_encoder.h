@@ -43,9 +43,9 @@ public:
 		boost::filesystem::path output
 		);
 
-	void video (boost::shared_ptr<PlayerVideo>, DCPTime);
+	void video (boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime);
 	void audio (boost::shared_ptr<AudioBuffers>);
-	void subtitle (PlayerText, DCPTimePeriod);
+	void subtitle (PlayerText, dcpomatic::DCPTimePeriod);
 
 	void flush ();
 

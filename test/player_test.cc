@@ -48,6 +48,7 @@ using std::pair;
 using boost::shared_ptr;
 using boost::bind;
 using boost::optional;
+using namespace dcpomatic;
 
 static shared_ptr<AudioBuffers> accumulated;
 

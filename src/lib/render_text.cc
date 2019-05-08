@@ -46,6 +46,7 @@ using std::make_pair;
 using boost::shared_ptr;
 using boost::optional;
 using boost::algorithm::replace_all;
+using namespace dcpomatic;
 
 static FcConfig* fc_config = 0;
 static list<pair<boost::filesystem::path, string> > fc_config_fonts;

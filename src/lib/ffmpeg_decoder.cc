@@ -74,6 +74,7 @@ using boost::split;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 using dcp::Size;
+using namespace dcpomatic;
 
 FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmpegContent> c, bool fast)
 	: FFmpeg (c)

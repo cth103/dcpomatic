@@ -35,7 +35,7 @@ public:
 
 	bool Show (bool show = true);
 
-	void set_cursor (boost::optional<DCPTime> time, boost::optional<float> db);
+	void set_cursor (boost::optional<dcpomatic::DCPTime> time, boost::optional<float> db);
 
 private:
 	void film_change (ChangeType, int);

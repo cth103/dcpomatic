@@ -41,6 +41,7 @@ using std::sort;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
+using namespace dcpomatic;
 
 SwaroopControls::SwaroopControls (wxWindow* parent, shared_ptr<FilmViewer> viewer)
 	: Controls (parent, viewer, false)

@@ -82,8 +82,8 @@ public:
 
 	void add_properties (boost::shared_ptr<const Film> film, std::list<UserProperty> &) const;
 
-	void modify_position (boost::shared_ptr<const Film> film, DCPTime& pos) const;
-	void modify_trim_start (ContentTime& pos) const;
+	void modify_position (boost::shared_ptr<const Film> film, dcpomatic::DCPTime& pos) const;
+	void modify_trim_start (dcpomatic::ContentTime& pos) const;
 
 	static boost::shared_ptr<AudioContent> from_xml (Content* parent, cxml::ConstNodePtr, int version);
 

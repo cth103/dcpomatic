@@ -67,6 +67,7 @@ using boost::dynamic_pointer_cast;
 using boost::weak_ptr;
 using boost::optional;
 using dcp::Size;
+using namespace dcpomatic;
 
 static
 int

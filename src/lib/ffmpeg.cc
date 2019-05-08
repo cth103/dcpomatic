@@ -48,6 +48,7 @@ using std::vector;
 using boost::shared_ptr;
 using boost::optional;
 using dcp::raw_convert;
+using namespace dcpomatic;
 
 boost::mutex FFmpeg::_mutex;
 

@@ -141,7 +141,7 @@ BOOST_AUTO_TEST_CASE (silence_padding_test2)
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	film->set_video_frame_rate (24);
-	content->set_trim_start (ContentTime(4003));
+	content->set_trim_start (dcpomatic::ContentTime(4003));
 
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());

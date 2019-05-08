@@ -34,6 +34,7 @@
 using std::string;
 using std::list;
 using boost::shared_ptr;
+using namespace dcpomatic;
 
 static string const xml = "<Content>"
 	"<Type>FFmpeg</Type>"

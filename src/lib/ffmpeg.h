@@ -53,8 +53,8 @@ public:
 protected:
 	AVCodecContext* video_codec_context () const;
 	AVCodecContext* subtitle_codec_context () const;
-	ContentTime pts_offset (
-		std::vector<boost::shared_ptr<FFmpegAudioStream> > audio_streams, boost::optional<ContentTime> first_video, double video_frame_rate
+	dcpomatic::ContentTime pts_offset (
+		std::vector<boost::shared_ptr<FFmpegAudioStream> > audio_streams, boost::optional<dcpomatic::ContentTime> first_video, double video_frame_rate
 		) const;
 
 	static FFmpegSubtitlePeriod subtitle_period (AVSubtitle const & sub);

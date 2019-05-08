@@ -30,6 +30,7 @@
 
 using boost::shared_ptr;
 using boost::optional;
+using namespace dcpomatic;
 
 VideoMXFDecoder::VideoMXFDecoder (shared_ptr<const Film> film, shared_ptr<const VideoMXFContent> content)
 	: Decoder (film)

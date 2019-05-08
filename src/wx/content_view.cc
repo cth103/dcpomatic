@@ -39,6 +39,7 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
+using namespace dcpomatic;
 
 ContentView::ContentView (wxWindow* parent)
 	: wxListCtrl (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER)

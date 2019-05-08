@@ -22,6 +22,7 @@
 
 using std::pair;
 using boost::optional;
+using namespace dcpomatic;
 
 void
 TextRingBuffers::put (PlayerText text, DCPTextTrack track, DCPTimePeriod period)

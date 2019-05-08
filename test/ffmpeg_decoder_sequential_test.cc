@@ -43,6 +43,7 @@ using std::list;
 using boost::shared_ptr;
 using boost::optional;
 using boost::bind;
+using namespace dcpomatic;
 
 static DCPTime next;
 static DCPTime frame;

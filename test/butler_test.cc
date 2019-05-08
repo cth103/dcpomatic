@@ -29,6 +29,7 @@
 #include <boost/test/unit_test.hpp>
 
 using boost::shared_ptr;
+using namespace dcpomatic;
 
 BOOST_AUTO_TEST_CASE (butler_test1)
 {

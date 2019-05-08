@@ -44,6 +44,7 @@ using std::pair;
 using boost::shared_ptr;
 using boost::optional;
 using dcp::locale_convert;
+using namespace dcpomatic;
 
 wxStaticText *
 #ifdef __WXOSX__

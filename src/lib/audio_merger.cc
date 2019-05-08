@@ -33,6 +33,7 @@ using std::cout;
 using std::make_pair;
 using boost::shared_ptr;
 using boost::optional;
+using namespace dcpomatic;
 
 AudioMerger::AudioMerger (int frame_rate)
 	: _frame_rate (frame_rate)

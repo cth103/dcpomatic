@@ -39,6 +39,7 @@
 using std::list;
 using std::cout;
 using boost::shared_ptr;
+using namespace dcpomatic;
 
 /** Test Film::reels() */
 BOOST_AUTO_TEST_CASE (reels_test1)

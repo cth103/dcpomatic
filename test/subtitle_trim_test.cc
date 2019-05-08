@@ -24,6 +24,7 @@
 #include <boost/test/unit_test.hpp>
 
 using boost::shared_ptr;
+using namespace dcpomatic;
 
 /** Check for no crash when trimming DCP subtitles (#1275) */
 BOOST_AUTO_TEST_CASE (subtitle_trim_test1)

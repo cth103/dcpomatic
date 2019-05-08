@@ -22,6 +22,7 @@
 #include <inttypes.h>
 
 using std::string;
+using namespace dcpomatic;
 
 template <>
 Time<ContentTimeDifferentiator, DCPTimeDifferentiator>::Time (DCPTime d, FrameRateChange f)
@@ -38,7 +39,7 @@ Time<DCPTimeDifferentiator, ContentTimeDifferentiator>::Time (ContentTime d, Fra
 }
 
 DCPTime
-min (DCPTime a, DCPTime b)
+dcpomatic::min (DCPTime a, DCPTime b)
 {
 	if (a < b) {
 		return a;
@@ -48,7 +49,7 @@ min (DCPTime a, DCPTime b)
 }
 
 DCPTime
-max (DCPTime a, DCPTime b)
+dcpomatic::max (DCPTime a, DCPTime b)
 {
 	if (a > b) {
 		return a;
@@ -58,7 +59,7 @@ max (DCPTime a, DCPTime b)
 }
 
 ContentTime
-min (ContentTime a, ContentTime b)
+dcpomatic::min (ContentTime a, ContentTime b)
 {
 	if (a < b) {
 		return a;
@@ -68,7 +69,7 @@ min (ContentTime a, ContentTime b)
 }
 
 ContentTime
-max (ContentTime a, ContentTime b)
+dcpomatic::max (ContentTime a, ContentTime b)
 {
 	if (a > b) {
 		return a;
@@ -78,7 +79,7 @@ max (ContentTime a, ContentTime b)
 }
 
 string
-to_string (ContentTime t)
+dcpomatic::to_string (ContentTime t)
 {
 	char buffer[64];
 #ifdef DCPOMATIC_WINDOWS
@@ -90,7 +91,7 @@ to_string (ContentTime t)
 }
 
 string
-to_string (DCPTime t)
+dcpomatic::to_string (DCPTime t)
 {
 	char buffer[64];
 #ifdef DCPOMATIC_WINDOWS
@@ -102,7 +103,7 @@ to_string (DCPTime t)
 }
 
 string
-to_string (DCPTimePeriod p)
+dcpomatic::to_string (DCPTimePeriod p)
 {
 	char buffer[64];
 #ifdef DCPOMATIC_WINDOWS

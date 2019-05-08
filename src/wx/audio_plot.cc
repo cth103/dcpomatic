@@ -37,6 +37,7 @@ using std::map;
 using boost::bind;
 using boost::optional;
 using boost::shared_ptr;
+using namespace dcpomatic;
 
 int const AudioPlot::_minimum = -70;
 int const AudioPlot::_cursor_size = 8;

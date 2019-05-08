@@ -34,6 +34,7 @@ using std::list;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::function;
+using namespace dcpomatic;
 
 Empty::Empty (shared_ptr<const Film> film, list<shared_ptr<Piece> > pieces, function<bool (shared_ptr<Piece>)> part)
 {

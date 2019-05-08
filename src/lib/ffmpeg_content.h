@@ -63,8 +63,8 @@ public:
 	std::string summary () const;
 	std::string technical_summary () const;
 	void as_xml (xmlpp::Node *, bool with_paths) const;
-	DCPTime full_length (boost::shared_ptr<const Film> film) const;
-	DCPTime approximate_length () const;
+	dcpomatic::DCPTime full_length (boost::shared_ptr<const Film> film) const;
+	dcpomatic::DCPTime approximate_length () const;
 
 	std::string identifier () const;
 
@@ -91,7 +91,7 @@ public:
 
 	void set_subtitle_stream (boost::shared_ptr<FFmpegSubtitleStream>);
 
-	boost::optional<ContentTime> first_video () const {
+	boost::optional<dcpomatic::ContentTime> first_video () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _first_video;
 	}
@@ -116,7 +116,7 @@ private:
 
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > _subtitle_streams;
 	boost::shared_ptr<FFmpegSubtitleStream> _subtitle_stream;
-	boost::optional<ContentTime> _first_video;
+	boost::optional<dcpomatic::ContentTime> _first_video;
 	/** Video filters that should be used when generating DCPs */
 	std::vector<Filter const *> _filters;
 

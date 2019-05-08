@@ -28,6 +28,7 @@ using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::bind;
+using namespace dcpomatic;
 
 DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const Film> film, shared_ptr<const DCPSubtitleContent> content)
 	: Decoder (film)

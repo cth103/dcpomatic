@@ -35,6 +35,7 @@
 using std::list;
 using std::string;
 using boost::shared_ptr;
+using namespace dcpomatic;
 
 VideoMXFContent::VideoMXFContent (boost::filesystem::path path)
 	: Content (path)

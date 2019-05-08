@@ -20,6 +20,8 @@
 
 #include "playhead_to_timecode_dialog.h"
 
+using namespace dcpomatic;
+
 PlayheadToTimecodeDialog::PlayheadToTimecodeDialog (wxWindow* parent, int fps)
 	: TableDialog (parent, _("Go to timecode"), 2, 1, true)
 	, _fps (fps)

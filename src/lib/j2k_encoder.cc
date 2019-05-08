@@ -48,6 +48,7 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::optional;
 using dcp::Data;
+using namespace dcpomatic;
 
 /** @param film Film that we are encoding.
  *  @param writer Writer that we are using.

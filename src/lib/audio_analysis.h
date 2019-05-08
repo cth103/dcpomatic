@@ -43,13 +43,13 @@ public:
 	void add_point (int c, AudioPoint const & p);
 
 	struct PeakTime {
-		PeakTime (float p, DCPTime t)
+		PeakTime (float p, dcpomatic::DCPTime t)
 			: peak (p)
 			, time (t)
 		{}
 
 		float peak;
-		DCPTime time;
+		dcpomatic::DCPTime time;
 	};
 
 	void set_sample_peak (std::vector<PeakTime> peak) {

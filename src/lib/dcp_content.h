@@ -61,8 +61,8 @@ public:
 		return boost::dynamic_pointer_cast<const DCPContent> (Content::shared_from_this ());
 	}
 
-	DCPTime full_length (boost::shared_ptr<const Film> film) const;
-	DCPTime approximate_length () const;
+	dcpomatic::DCPTime full_length (boost::shared_ptr<const Film> film) const;
+	dcpomatic::DCPTime approximate_length () const;
 
 	void examine (boost::shared_ptr<const Film> film, boost::shared_ptr<Job>);
 	std::string summary () const;
@@ -72,7 +72,7 @@ public:
 	void take_settings_from (boost::shared_ptr<const Content> c);
 
 	void set_default_colour_conversion ();
-	std::list<DCPTime> reel_split_points (boost::shared_ptr<const Film> film) const;
+	std::list<dcpomatic::DCPTime> reel_split_points (boost::shared_ptr<const Film> film) const;
 
 	std::vector<boost::filesystem::path> directories () const;
 
@@ -153,7 +153,7 @@ private:
 
 	void read_directory (boost::filesystem::path);
 	void read_sub_directory (boost::filesystem::path);
-	std::list<DCPTimePeriod> reels (boost::shared_ptr<const Film> film) const;
+	std::list<dcpomatic::DCPTimePeriod> reels (boost::shared_ptr<const Film> film) const;
 	bool can_reference (
 		boost::shared_ptr<const Film> film,
 		boost::function <bool (boost::shared_ptr<const Content>)>,

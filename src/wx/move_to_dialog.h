@@ -29,9 +29,9 @@ class wxSpinCtrl;
 class MoveToDialog : public TableDialog
 {
 public:
-	MoveToDialog (wxWindow* parent, boost::optional<DCPTime> position, boost::shared_ptr<const Film> film);
+	MoveToDialog (wxWindow* parent, boost::optional<dcpomatic::DCPTime> position, boost::shared_ptr<const Film> film);
 
-	DCPTime position () const;
+	dcpomatic::DCPTime position () const;
 
 private:
 	boost::weak_ptr<const Film> _film;

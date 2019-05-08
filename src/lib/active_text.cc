@@ -29,6 +29,7 @@ using std::make_pair;
 using boost::weak_ptr;
 using boost::shared_ptr;
 using boost::optional;
+using namespace dcpomatic;
 
 /** Get the open captions that should be burnt into a given period.
  *  @param period Period of interest.

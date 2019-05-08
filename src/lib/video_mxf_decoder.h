@@ -31,13 +31,13 @@ public:
 	VideoMXFDecoder (boost::shared_ptr<const Film> film, boost::shared_ptr<const VideoMXFContent>);
 
 	bool pass ();
-	void seek (ContentTime t, bool accurate);
+	void seek (dcpomatic::ContentTime t, bool accurate);
 
 private:
 
 	boost::shared_ptr<const VideoMXFContent> _content;
 	/** Time of next thing to return from pass */
-	ContentTime _next;
+	dcpomatic::ContentTime _next;
 
 	boost::shared_ptr<dcp::MonoPictureAssetReader> _mono_reader;
 	boost::shared_ptr<dcp::StereoPictureAssetReader> _stereo_reader;

@@ -35,8 +35,13 @@
 #include <iomanip>
 #include <cstdio>
 
+struct dcpomatic_time_ceil_test;
+struct dcpomatic_time_floor_test;
+
+namespace dcpomatic {
+
 /** A time in seconds, expressed as a number scaled up by Time::HZ.  We want two different
- *  versions of this class, ContentTime and DCPTime, and we want it to be impossible to
+ *  versions of this class, dcpomatic::ContentTime and dcpomatic::DCPTime, and we want it to be impossible to
  *  convert implicitly between the two.  Hence there's this template hack.  I'm not
  *  sure if it's the best way to do it.
  *
@@ -228,8 +233,8 @@ public:
 	static const int HZ = 96000;
 
 private:
-	friend struct dcpomatic_time_ceil_test;
-	friend struct dcpomatic_time_floor_test;
+	friend struct ::dcpomatic_time_ceil_test;
+	friend struct ::dcpomatic_time_floor_test;
 
 	Type _t;
 };
@@ -356,5 +361,7 @@ ContentTime max (ContentTime a, ContentTime b);
 std::string to_string (ContentTime t);
 std::string to_string (DCPTime t);
 std::string to_string (DCPTimePeriod p);
+
+}
 
 #endif

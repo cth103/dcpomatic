@@ -37,6 +37,7 @@
 using std::string;
 using std::list;
 using boost::shared_ptr;
+using namespace dcpomatic;
 
 /** Make a very short DCP with a single subtitle from .srt with no specified fonts */
 BOOST_AUTO_TEST_CASE (srt_subtitle_test)

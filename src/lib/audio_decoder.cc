@@ -35,6 +35,7 @@ using std::map;
 using std::pair;
 using boost::shared_ptr;
 using boost::optional;
+using namespace dcpomatic;
 
 AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> content, bool fast)
 	: DecoderPart (parent)

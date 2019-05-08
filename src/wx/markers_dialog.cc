@@ -36,6 +36,7 @@ using boost::bind;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::optional;
+using dcpomatic::DCPTime;
 
 class Marker
 {
@@ -100,7 +101,7 @@ private:
 	weak_ptr<FilmViewer> viewer;
 	dcp::Marker type;
 	CheckBox* checkbox;
-	Timecode<DCPTime>* timecode;
+	Timecode<dcpomatic::DCPTime>* timecode;
 	Button* set_button;
 };
 

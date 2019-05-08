@@ -106,6 +106,7 @@ using boost::scoped_array;
 using dcp::Size;
 using dcp::raw_convert;
 using dcp::locale_convert;
+using namespace dcpomatic;
 
 /** Path to our executable, required by the stacktrace stuff and filled
  *  in during App::onInit().

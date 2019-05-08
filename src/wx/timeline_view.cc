@@ -22,6 +22,7 @@
 #include "timeline.h"
 
 using std::list;
+using namespace dcpomatic;
 
 /** @class TimelineView
  *  @brief Parent class for components of the timeline (e.g. a piece of content or an axis).

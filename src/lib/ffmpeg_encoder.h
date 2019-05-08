@@ -78,7 +78,7 @@ private:
 	int _output_audio_channels;
 
 	mutable boost::mutex _mutex;
-	DCPTime _last_time;
+	dcpomatic::DCPTime _last_time;
 
 	EventHistory _history;
 

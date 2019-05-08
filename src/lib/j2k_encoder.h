@@ -63,7 +63,7 @@ public:
 	void begin ();
 
 	/** Called to pass a bit of video to be encoded as the next DCP frame */
-	void encode (boost::shared_ptr<PlayerVideo> pv, DCPTime time);
+	void encode (boost::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time);
 
 	/** Called when a processing run has finished */
 	void end ();
@@ -101,7 +101,7 @@ private:
 	Waker _waker;
 
 	boost::shared_ptr<PlayerVideo> _last_player_video[EYES_COUNT];
-	boost::optional<DCPTime> _last_player_video_time;
+	boost::optional<dcpomatic::DCPTime> _last_player_video_time;
 
 	boost::signals2::scoped_connection _server_found_connection;
 };

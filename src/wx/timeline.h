@@ -107,7 +107,7 @@ private:
 	boost::shared_ptr<TimelineView> event_to_view (wxMouseEvent &);
 	TimelineContentViewList selected_views () const;
 	ContentList selected_content () const;
-	void maybe_snap (DCPTime a, DCPTime b, boost::optional<DCPTime>& nearest_distance) const;
+	void maybe_snap (dcpomatic::DCPTime a, dcpomatic::DCPTime b, boost::optional<dcpomatic::DCPTime>& nearest_distance) const;
 
 	wxScrolledCanvas* _labels_canvas;
 	wxScrolledCanvas* _main_canvas;
@@ -123,12 +123,12 @@ private:
 	wxPoint _down_point;
 	boost::optional<wxPoint> _zoom_point;
 	boost::shared_ptr<TimelineContentView> _down_view;
-	DCPTime _down_view_position;
+	dcpomatic::DCPTime _down_view_position;
 	bool _first_move;
 	ContentMenu _menu;
 	bool _snap;
-	std::list<DCPTime> _start_snaps;
-	std::list<DCPTime> _end_snaps;
+	std::list<dcpomatic::DCPTime> _start_snaps;
+	std::list<dcpomatic::DCPTime> _end_snaps;
 	Tool _tool;
 	int _x_scroll_rate;
 	int _y_scroll_rate;

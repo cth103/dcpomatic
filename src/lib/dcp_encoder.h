@@ -51,9 +51,9 @@ public:
 
 private:
 
-	void video (boost::shared_ptr<PlayerVideo>, DCPTime);
-	void audio (boost::shared_ptr<AudioBuffers>, DCPTime);
-	void text (PlayerText, TextType, boost::optional<DCPTextTrack>, DCPTimePeriod);
+	void video (boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime);
+	void audio (boost::shared_ptr<AudioBuffers>, dcpomatic::DCPTime);
+	void text (PlayerText, TextType, boost::optional<DCPTextTrack>, dcpomatic::DCPTimePeriod);
 
 	boost::shared_ptr<Writer> _writer;
 	boost::shared_ptr<J2KEncoder> _j2k_encoder;

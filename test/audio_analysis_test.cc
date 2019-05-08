@@ -42,6 +42,7 @@
 
 using std::vector;
 using boost::shared_ptr;
+using namespace dcpomatic;
 
 static float
 random_float ()

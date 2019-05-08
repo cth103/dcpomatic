@@ -31,7 +31,7 @@ class ClosedCaptionsDialog : public wxDialog
 public:
 	explicit ClosedCaptionsDialog (wxWindow* parent, FilmViewer* viewer);
 
-	void update (DCPTime);
+	void update (dcpomatic::DCPTime);
 	void clear ();
 	void set_film_and_butler (boost::shared_ptr<Film>, boost::weak_ptr<Butler>);
 
@@ -47,5 +47,5 @@ private:
 	std::vector<wxString> _lines;
 	std::vector<DCPTextTrack> _tracks;
 	boost::weak_ptr<Butler> _butler;
-	DCPTime _last_update;
+	dcpomatic::DCPTime _last_update;
 };

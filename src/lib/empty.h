@@ -37,23 +37,23 @@ public:
 	Empty () {}
 	Empty (boost::shared_ptr<const Film> film, std::list<boost::shared_ptr<Piece> > pieces, boost::function<bool (boost::shared_ptr<Piece>)> part);
 
-	DCPTime position () const {
+	dcpomatic::DCPTime position () const {
 		return _position;
 	}
 
-	DCPTimePeriod period_at_position () const;
+	dcpomatic::DCPTimePeriod period_at_position () const;
 
 	bool done () const;
 
-	void set_position (DCPTime amount);
+	void set_position (dcpomatic::DCPTime amount);
 
 private:
 	friend struct ::empty_test1;
 	friend struct ::empty_test2;
 	friend struct ::player_subframe_test;
 
-	std::list<DCPTimePeriod> _periods;
-	DCPTime _position;
+	std::list<dcpomatic::DCPTimePeriod> _periods;
+	dcpomatic::DCPTime _position;
 };
 
 #endif

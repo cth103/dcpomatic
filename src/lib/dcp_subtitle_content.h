@@ -31,9 +31,9 @@ public:
 	std::string summary () const;
 	std::string technical_summary () const;
 	void as_xml (xmlpp::Node *, bool with_paths) const;
-	DCPTime full_length (boost::shared_ptr<const Film> film) const;
-	DCPTime approximate_length () const;
+	dcpomatic::DCPTime full_length (boost::shared_ptr<const Film> film) const;
+	dcpomatic::DCPTime approximate_length () const;
 
 private:
-	ContentTime _length;
+	dcpomatic::ContentTime _length;
 };

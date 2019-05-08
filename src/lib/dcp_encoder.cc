@@ -50,6 +50,7 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
+using namespace dcpomatic;
 
 /** Construct a DCP encoder.
  *  @param film Film that we are encoding.

@@ -32,6 +32,7 @@ using std::pair;
 using std::string;
 using boost::shared_ptr;
 using boost::optional;
+using namespace dcpomatic;
 
 void
 VideoRingBuffers::put (shared_ptr<PlayerVideo> frame, DCPTime time)
