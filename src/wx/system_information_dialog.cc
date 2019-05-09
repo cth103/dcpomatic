@@ -35,7 +35,12 @@ SystemInformationDialog::SystemInformationDialog (wxWindow* parent)
 	: TableDialog (parent, _("System information"), 2, 1, false)
 {
 	add (_("OpenGL version"), true);
-	add (std_to_wx((char const *) glGetString(GL_VERSION)), false);
+	char const * v = (char const *) glGetString (GL_VERSION);
+	if (v) {
+		add (std_to_wx(v), false);
+	} else {
+		add (_("unknown (OpenGL not enabled in DCP-o-matic)"), false);
+	}
 
 	layout ();
 }
