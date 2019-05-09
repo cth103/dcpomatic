@@ -116,9 +116,6 @@ GLVideoView::paint (wxPaintEvent &)
 void
 GLVideoView::set_image (shared_ptr<const Image> image)
 {
-	/* XXX: put this somewhere sensible */
-	cout << glGetString (GL_VERSION) << "\n";
-
 	DCPOMATIC_ASSERT (image->pixel_format() == AV_PIX_FMT_RGB24);
 	DCPOMATIC_ASSERT (!image->aligned());
 
