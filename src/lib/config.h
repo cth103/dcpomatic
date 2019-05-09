@@ -488,6 +488,15 @@ public:
 		return _image_display;
 	}
 
+	enum VideoViewType {
+		VIDEO_VIEW_SIMPLE,
+		VIDEO_VIEW_OPENGL
+	};
+
+	VideoViewType video_view_type () const {
+		return _video_view_type;
+	}
+
 	bool respect_kdm_validity_periods () const {
 		return _respect_kdm_validity_periods;
 	}
@@ -954,6 +963,10 @@ public:
 		maybe_set (_image_display, n);
 	}
 
+	void set_video_view_type (VideoViewType v) {
+		maybe_set (_video_view_type, v);
+	}
+
 	void set_respect_kdm_validity_periods (bool r) {
 		maybe_set (_respect_kdm_validity_periods, r);
 	}
@@ -1260,6 +1273,7 @@ private:
 	Interface _interface_complexity;
 	PlayerMode _player_mode;
 	int _image_display;
+	VideoViewType _video_view_type;
 	bool _respect_kdm_validity_periods;
 	/** Log file containing things the player does (e.g. started, stopped, loaded
 	    playlist etc.)  Does not contain debugging information.

@@ -1405,6 +1405,17 @@ private:
 			table->Add (s, 1);
 		}
 
+		add_label_to_sizer (table, _panel, _("Video display mode"), true);
+		_video_display_mode = new wxChoice (_panel, wxID_ANY);
+		table->Add (_video_display_mode);
+
+		wxStaticText* restart = add_label_to_sizer (table, _panel, _("(restart DCP-o-matic to change display mode)"), false);
+		wxFont font = restart->GetFont();
+		font.SetStyle (wxFONTSTYLE_ITALIC);
+		font.SetPointSize (font.GetPointSize() - 1);
+		restart->SetFont (font);
+		table->AddSpacer (0);
+
 		_allow_any_dcp_frame_rate = new CheckBox (_panel, _("Allow any DCP frame rate"));
 		table->Add (_allow_any_dcp_frame_rate, 1, wxEXPAND | wxALL);
 		table->AddSpacer (0);
@@ -1413,10 +1424,7 @@ private:
 		table->Add (_allow_any_container, 1, wxEXPAND | wxALL);
 		table->AddSpacer (0);
 
-		wxStaticText* restart = add_label_to_sizer (table, _panel, _("(restart DCP-o-matic to see all ratios)"), false);
-		wxFont font = restart->GetFont();
-		font.SetStyle (wxFONTSTYLE_ITALIC);
-		font.SetPointSize (font.GetPointSize() - 1);
+		restart = add_label_to_sizer (table, _panel, _("(restart DCP-o-matic to see all ratios)"), false);
 		restart->SetFont (font);
 		table->AddSpacer (0);
 
@@ -1491,6 +1499,9 @@ private:
 
 		_maximum_j2k_bandwidth->SetRange (1, 1000);
 		_maximum_j2k_bandwidth->Bind (wxEVT_SPINCTRL, boost::bind (&AdvancedPage::maximum_j2k_bandwidth_changed, this));
+		_video_display_mode->Append (_("Simple (safer)"));
+		_video_display_mode->Append (_("OpenGL (faster)"));
+		_video_display_mode->Bind (wxEVT_CHOICE, boost::bind(&AdvancedPage::video_display_mode_changed, this));
 		_allow_any_dcp_frame_rate->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::allow_any_dcp_frame_rate_changed, this));
 		_allow_any_container->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::allow_any_container_changed, this));
 		_only_servers_encode->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::only_servers_encode_changed, this));
@@ -1514,6 +1525,14 @@ private:
 		Config* config = Config::instance ();
 
 		checked_set (_maximum_j2k_bandwidth, config->maximum_j2k_bandwidth() / 1000000);
+		switch (config->video_view_type()) {
+		case Config::VIDEO_VIEW_SIMPLE:
+			checked_set (_video_display_mode, 0);
+			break;
+		case Config::VIDEO_VIEW_OPENGL:
+			checked_set (_video_display_mode, 1);
+			break;
+		}
 		checked_set (_allow_any_dcp_frame_rate, config->allow_any_dcp_frame_rate ());
 		checked_set (_allow_any_container, config->allow_any_container ());
 		checked_set (_only_servers_encode, config->only_servers_encode ());
@@ -1533,6 +1552,15 @@ private:
 	void maximum_j2k_bandwidth_changed ()
 	{
 		Config::instance()->set_maximum_j2k_bandwidth (_maximum_j2k_bandwidth->GetValue() * 1000000);
+	}
+
+	void video_display_mode_changed ()
+	{
+		if (_video_display_mode->GetSelection() == 0) {
+			Config::instance()->set_video_view_type (Config::VIDEO_VIEW_SIMPLE);
+		} else {
+			Config::instance()->set_video_view_type (Config::VIDEO_VIEW_OPENGL);
+		}
 	}
 
 	void frames_in_memory_multiplier_changed ()
@@ -1600,6 +1628,7 @@ private:
 #endif
 
 	wxSpinCtrl* _maximum_j2k_bandwidth;
+	wxChoice* _video_display_mode;
 	wxSpinCtrl* _frames_in_memory_multiplier;
 	wxCheckBox* _allow_any_dcp_frame_rate;
 	wxCheckBox* _allow_any_container;

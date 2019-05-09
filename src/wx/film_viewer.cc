@@ -79,10 +79,7 @@ rtaudio_callback (void* out, void *, unsigned int frames, double, RtAudioStreamS
 }
 
 FilmViewer::FilmViewer (wxWindow* p)
-	/* XXX: make this configurable */
-//	: _video_view (new GLVideoView(p))
-	: _video_view (new SimpleVideoView(this, p))
-	, _coalesce_player_changes (false)
+	: _coalesce_player_changes (false)
 	, _audio (DCPOMATIC_RTAUDIO_API)
 	, _audio_channels (0)
 	, _audio_block_size (1024)
@@ -100,6 +97,15 @@ FilmViewer::FilmViewer (wxWindow* p)
 	, _state_timer ("viewer")
 	, _gets (0)
 {
+	switch (Config::instance()->video_view_type()) {
+	case Config::VIDEO_VIEW_OPENGL:
+		_video_view = new GLVideoView (p);
+		break;
+	case Config::VIDEO_VIEW_SIMPLE:
+		_video_view = new SimpleVideoView (this, p);
+		break;
+	}
+
 	/* XXX: maybe this should be proxied through the VideoView */
 	_video_view->get()->Bind (wxEVT_SIZE, boost::bind (&FilmViewer::video_view_sized, this));
 	_timer.Bind  (wxEVT_TIMER, boost::bind (&FilmViewer::timer, this));

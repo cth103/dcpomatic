@@ -167,6 +167,7 @@ Config::set_defaults ()
 	_interface_complexity = INTERFACE_SIMPLE;
 	_player_mode = PLAYER_MODE_WINDOW;
 	_image_display = 0;
+	_video_view_type = VIDEO_VIEW_SIMPLE;
 	_respect_kdm_validity_periods = true;
 	_player_activity_log_file = boost::none;
 	_player_debug_log_file = boost::none;
@@ -583,6 +584,12 @@ try
 	}
 
 	_image_display = f.optional_number_child<int>("ImageDisplay").get_value_or(0);
+	optional<string> vc = f.optional_string_child("VideoViewType");
+	if (vc && *vc == "opengl") {
+		_video_view_type = VIDEO_VIEW_OPENGL;
+	} else if (vc && *vc == "simple") {
+		_video_view_type = VIDEO_VIEW_SIMPLE;
+	}
 	_respect_kdm_validity_periods = f.optional_bool_child("RespectKDMValidityPeriods").get_value_or(true);
 	/* PlayerLogFile is old name */
 	_player_activity_log_file = f.optional_string_child("PlayerLogFile");
@@ -1014,6 +1021,14 @@ Config::write_config () const
 
 	/* [XML] ImageDisplay Screen number to put image on in dual-screen player mode. */
 	root->add_child("ImageDisplay")->add_child_text(raw_convert<string>(_image_display));
+	switch (_video_view_type) {
+	case VIDEO_VIEW_SIMPLE:
+		root->add_child("VideoViewType")->add_child_text("simple");
+		break;
+	case VIDEO_VIEW_OPENGL:
+		root->add_child("VideoViewType")->add_child_text("opengl");
+		break;
+	}
 	/* [XML] RespectKDMValidityPeriods 1 to refuse to use KDMs that are out of date, 0 to ignore KDM dates. */
 	root->add_child("RespectKDMValidityPeriods")->add_child_text(_respect_kdm_validity_periods ? "1" : "0");
 	if (_player_activity_log_file) {
