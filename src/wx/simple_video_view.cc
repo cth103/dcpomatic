@@ -18,7 +18,17 @@
 
 */
 
-SimpleVideoView::SimpleVideoView (wxWindow* parent)
+#include "simple_video_view.h"
+#include "film_viewer.h"
+#include "lib/image.h"
+#include <dcp/util.h>
+#include <wx/wx.h>
+#include <boost/bind.hpp>
+
+using std::max;
+
+SimpleVideoView::SimpleVideoView (FilmViewer* viewer, wxWindow* parent)
+	: _viewer (viewer)
 {
 	_panel = new wxPanel (parent);
 
@@ -38,23 +48,26 @@ SimpleVideoView::paint ()
 	wxPaintDC dc (_panel);
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
-	if (_background_image) {
+	if (viewer->background_image()) {
 		dc.Clear ();
 		maybe_draw_background_image (dc);
-		_state_timer.unset ();
 		return;
 	}
 #endif
 
-	if (!_out_size.width || !_out_size.height || !_film || !_frame || _out_size != _frame->size()) {
+	dcp::Size const out_size = _viewer->out_size ();
+	wxSize const panel_size = _panel->GetSize ();
+
+	if (!out_size.width || !out_size.height || !_image || out_size != _image->size()) {
 		dc.Clear ();
 	} else {
 
-		wxImage frame (_out_size.width, _out_size.height, _frame->data()[0], true);
+		wxImage frame (out_size.width, out_size.height, _image->data()[0], true);
 		wxBitmap frame_bitmap (frame);
-		dc.DrawBitmap (frame_bitmap, 0, max(0, (_panel_size.height - _out_size.height) / 2));
+		dc.DrawBitmap (frame_bitmap, 0, max(0, (panel_size.GetHeight() - out_size.height) / 2));
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
+		XXX
 		DCPTime const period = DCPTime::from_seconds(Config::instance()->player_watermark_period() * 60);
 		int64_t n = _video_position.get() / period.get();
 		DCPTime from(n * period.get());
@@ -76,29 +89,31 @@ SimpleVideoView::paint ()
 #endif
 	}
 
-	if (_out_size.width < _panel_size.width) {
+	if (out_size.width < panel_size.GetWidth()) {
 		/* XXX: these colours are right for GNOME; may need adjusting for other OS */
-		wxPen   p (_pad_black ? wxColour(0, 0, 0) : wxColour(240, 240, 240));
-		wxBrush b (_pad_black ? wxColour(0, 0, 0) : wxColour(240, 240, 240));
+		wxPen   p (_viewer->pad_black() ? wxColour(0, 0, 0) : wxColour(240, 240, 240));
+		wxBrush b (_viewer->pad_black() ? wxColour(0, 0, 0) : wxColour(240, 240, 240));
 		dc.SetPen (p);
 		dc.SetBrush (b);
-		dc.DrawRectangle (_out_size.width, 0, _panel_size.width - _out_size.width, _panel_size.height);
+		dc.DrawRectangle (out_size.width, 0, panel_size.GetWidth() - out_size.width, panel_size.GetHeight());
 	}
 
-	if (_out_size.height < _panel_size.height) {
-		wxPen   p (_pad_black ? wxColour(0, 0, 0) : wxColour(240, 240, 240));
-		wxBrush b (_pad_black ? wxColour(0, 0, 0) : wxColour(240, 240, 240));
+	if (out_size.height < panel_size.GetHeight()) {
+		wxPen   p (_viewer->pad_black() ? wxColour(0, 0, 0) : wxColour(240, 240, 240));
+		wxBrush b (_viewer->pad_black() ? wxColour(0, 0, 0) : wxColour(240, 240, 240));
 		dc.SetPen (p);
 		dc.SetBrush (b);
-		int const gap = (_panel_size.height - _out_size.height) / 2;
-		dc.DrawRectangle (0, 0, _panel_size.width, gap);
-		dc.DrawRectangle (0, gap + _out_size.height + 1, _panel_size.width, gap + 1);
+		int const gap = (panel_size.GetHeight() - out_size.height) / 2;
+		dc.DrawRectangle (0, 0, panel_size.GetWidth(), gap);
+		dc.DrawRectangle (0, gap + out_size.height + 1, panel_size.GetWidth(), gap + 1);
 	}
 
-	if (_outline_content) {
+	if (_viewer->outline_content()) {
+		Position<int> inter_position = _viewer->inter_position ();
+		dcp::Size inter_size = _viewer->inter_size ();
 		wxPen p (wxColour (255, 0, 0), 2);
 		dc.SetPen (p);
 		dc.SetBrush (*wxTRANSPARENT_BRUSH);
-		dc.DrawRectangle (_inter_position.x, _inter_position.y + (_panel_size.height - _out_size.height) / 2, _inter_size.width, _inter_size.height);
+		dc.DrawRectangle (inter_position.x, inter_position.y + (panel_size.GetHeight() - out_size.height) / 2, inter_size.width, inter_size.height);
 	}
 }

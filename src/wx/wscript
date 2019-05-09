@@ -116,6 +116,7 @@ sources = """
           send_i18n_dialog.cc
           server_dialog.cc
           servers_list_dialog.cc
+          simple_video_view.cc
           standard_controls.cc
           static_text.cc
           subtitle_appearance_dialog.cc

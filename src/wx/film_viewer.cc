@@ -28,6 +28,7 @@
 #include "wx_util.h"
 #include "closed_captions_dialog.h"
 #include "gl_video_view.h"
+#include "simple_video_view.h"
 #include "lib/film.h"
 #include "lib/ratio.h"
 #include "lib/util.h"
@@ -79,7 +80,8 @@ rtaudio_callback (void* out, void *, unsigned int frames, double, RtAudioStreamS
 
 FilmViewer::FilmViewer (wxWindow* p)
 	/* XXX: make this configurable */
-	: _video_view (new GLVideoView(p))
+//	: _video_view (new GLVideoView(p))
+	: _video_view (new SimpleVideoView(this, p))
 	, _coalesce_player_changes (false)
 	, _audio (DCPOMATIC_RTAUDIO_API)
 	, _audio_channels (0)

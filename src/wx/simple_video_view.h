@@ -18,17 +18,28 @@
 
 */
 
+#include "video_view.h"
+#include <wx/wx.h>
+
+class FilmViewer;
+
 class SimpleVideoView : public VideoView
 {
 public:
-	SimpleVideoView (wxWindow* parent);
+	SimpleVideoView (FilmViewer* viewer, wxWindow* parent);
 
-	void set_image (boost::shared_ptr<const Image> image);
+	void set_image (boost::shared_ptr<const Image> image) {
+		_image = image;
+	}
 
 	wxWindow* get () const {
 		return _panel;
 	}
 
 private:
+	void paint ();
+
+	FilmViewer* _viewer;
 	wxPanel* _panel;
+	boost::shared_ptr<const Image> _image;
 };

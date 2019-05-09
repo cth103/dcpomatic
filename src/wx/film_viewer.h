@@ -105,6 +105,23 @@ public:
 		return _gets;
 	}
 
+	/* Some accessors that VideoView classes need */
+	dcp::Size out_size () const {
+		return _out_size;
+	}
+	dcp::Size inter_size () const {
+		return _inter_size;
+	}
+	Position<int> inter_position () const {
+		return _inter_position;
+	}
+	bool outline_content () const {
+		return _outline_content;
+	}
+	bool pad_black () const {
+		return _pad_black;
+	}
+
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
 	boost::signals2::signal<void ()> PositionChanged;
 	boost::signals2::signal<void (dcpomatic::DCPTime)> Started;
