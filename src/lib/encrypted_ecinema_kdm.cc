@@ -23,18 +23,43 @@
 #include "encrypted_ecinema_kdm.h"
 #include <dcp/key.h>
 #include <dcp/certificate.h>
+#include <libxml++/libxml++.h>
 #include <openssl/rsa.h>
 #include <iostream>
 
 using std::cout;
+using std::string;
 using boost::shared_ptr;
 using dcp::Certificate;
 
 EncryptedECinemaKDM::EncryptedECinemaKDM (dcp::Key content_key, Certificate recipient)
 {
 	RSA* rsa = recipient.public_key ();
-	dcp::Data encrypted (RSA_size(rsa));
-	int const N = RSA_public_encrypt (content_key.length(), content_key.value(), encrypted.data().get(), rsa, RSA_PKCS1_OAEP_PADDING);
+	_content_key = dcp::Data (RSA_size(rsa));
+	int const N = RSA_public_encrypt (content_key.length(), content_key.value(), _content_key.data().get(), rsa, RSA_PKCS1_OAEP_PADDING);
+}
+
+string
+EncryptedECinemaKDM::as_xml () const
+{
+	string key;
+
+	/* Lazy overallocation */
+	char out[_content_key.size() * 2];
+	Kumu::base64encode (_content_key.data().get(), _content_key.size(), out, _content_key.size() * 2);
+	int const N = strlen (out);
+	string lines;
+	for (int i = 0; i < N; ++i) {
+		if (i > 0 && (i % 64) == 0) {
+			lines += "\n";
+		}
+		lines += out[i];
+	}
+
+	xmlpp::Document document;
+	xmlpp::Element* root = document.create_root_node ("ECinemaSecurityMesage");
+	root->add_child("Key")->add_child_text(lines);
+	return document.write_to_string ("UTF-8");
 }
 
 #endif

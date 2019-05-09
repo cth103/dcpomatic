@@ -33,6 +33,8 @@ class EncryptedECinemaKDM
 {
 public:
 
+	std::string as_xml () const;
+
 private:
 	friend class DecryptedECinemaKDM;
 
