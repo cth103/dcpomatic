@@ -131,6 +131,4 @@ GLVideoView::set_image (shared_ptr<const Image> image)
 	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	check_gl_error ("glTexParameterf");
-
-	_canvas->Refresh ();
 }
