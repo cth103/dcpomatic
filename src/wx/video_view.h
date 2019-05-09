@@ -22,6 +22,7 @@
 #define DCPOMATIC_VIDEO_VIEW_H
 
 #include <boost/shared_ptr.hpp>
+#include <boost/signals2.hpp>
 
 class Image;
 class wxWindow;
@@ -33,6 +34,8 @@ public:
 
 	virtual void set_image (boost::shared_ptr<const Image> image) = 0;
 	virtual wxWindow* get () const = 0;
+
+	boost::signals2::signal<void()> Sized;
 };
 
 #endif

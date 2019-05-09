@@ -106,9 +106,8 @@ FilmViewer::FilmViewer (wxWindow* p)
 		break;
 	}
 
-	/* XXX: maybe this should be proxied through the VideoView */
-	_video_view->get()->Bind (wxEVT_SIZE, boost::bind (&FilmViewer::video_view_sized, this));
-	_timer.Bind  (wxEVT_TIMER, boost::bind (&FilmViewer::timer, this));
+	_video_view->Sized.connect (boost::bind(&FilmViewer::video_view_sized, this));
+	_timer.Bind (wxEVT_TIMER, boost::bind(&FilmViewer::timer, this));
 
 	set_film (shared_ptr<Film> ());
 

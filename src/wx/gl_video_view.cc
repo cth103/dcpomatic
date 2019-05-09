@@ -41,6 +41,7 @@ GLVideoView::GLVideoView (wxWindow *parent)
 	_canvas = new wxGLCanvas (parent, wxID_ANY, 0, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
 	_context = new wxGLContext (_canvas);
 	_canvas->Bind (wxEVT_PAINT, boost::bind(&GLVideoView::paint, this, _1));
+	_canvas->Bind (wxEVT_SIZE, boost::bind(boost::ref(Sized)));
 
 	glGenTextures (1, &_id);
 	glBindTexture (GL_TEXTURE_2D, _id);
