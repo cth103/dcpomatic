@@ -397,10 +397,6 @@ FilmViewer::calculate_sizes ()
 	_out_size.width = max (64, _out_size.width);
 	_out_size.height = max (64, _out_size.height);
 
-	/* Make OpenGL happy; XXX: only do this in GLVideoView? Is the round-to-4 constraint a thing? */
-	_out_size.width &= ~3;
-	_out_size.height &= ~3;
-
 	_player->set_video_container_size (_out_size);
 }
 
