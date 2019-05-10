@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-05 20:19+0100\n"
-"PO-Revision-Date: 2019-03-26 14:35+0100\n"
+"PO-Revision-Date: 2019-05-10 02:56+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: en_GB\n"
@@ -59,9 +59,9 @@ msgid "%d KDMs written to %s"
 msgstr "%d KDMs geschrieben nach %s"
 
 #: src/wx/config_dialog.cc:289
-#, fuzzy, c-format
+#, c-format
 msgid "%d channels on %s"
-msgstr "Audio Kanäle: %d"
+msgstr "%d Kanäle über %s "
 
 #: src/wx/about_dialog.cc:84
 msgid ""
@@ -90,6 +90,8 @@ msgid ""
 "(use this to override languages specified\n"
 "in the 'timed text' tab)"
 msgstr ""
+"(Manuelle Angabe statt Sprachangabe\n"
+"aus Inhalten/Untertiteln/CCAP)"
 
 #: src/wx/audio_mapping_view.cc:71
 msgid "-6dB"
@@ -228,11 +230,11 @@ msgstr "Es ist eine neue Version von DCP-o-matic verfügbar."
 
 #: src/wx/config_dialog.cc:273
 msgid "ALSA"
-msgstr ""
+msgstr "ALSA"
 
 #: src/wx/config_dialog.cc:269
 msgid "ASIO"
-msgstr ""
+msgstr "ASIO"
 
 #: src/wx/about_dialog.cc:36
 msgid "About DCP-o-matic"
@@ -418,7 +420,7 @@ msgstr ""
 
 #: src/wx/full_config_dialog.cc:772
 msgid "Auto"
-msgstr ""
+msgstr "Automatisch"
 
 #: src/wx/full_config_dialog.cc:126
 msgid "Automatically analyse content audio"
@@ -654,9 +656,8 @@ msgid "Copy as name"
 msgstr "ISDCF Name statisch kopieren"
 
 #: src/wx/config_dialog.cc:268
-#, fuzzy
 msgid "CoreAudio"
-msgstr "Ton"
+msgstr "CoreAudio"
 
 #: src/wx/audio_dialog.cc:278
 msgid "Could not analyse audio."
@@ -862,7 +863,7 @@ msgstr "Geräte"
 
 #: src/wx/config_dialog.cc:270
 msgid "Direct Sound"
-msgstr ""
+msgstr "Direct Sound"
 
 #: src/wx/recreate_chain_dialog.cc:33
 msgid "Do nothing"
@@ -915,7 +916,7 @@ msgstr "Zweischirmanzeige"
 
 #: src/wx/config_dialog.cc:276
 msgid "Dummy"
-msgstr ""
+msgstr "Dummy"
 
 #: src/wx/player_config_dialog.cc:385
 msgid "Duration"
@@ -1350,7 +1351,7 @@ msgstr "DCP Standard 'issuer' (DCI)"
 
 #: src/wx/config_dialog.cc:272
 msgid "JACK"
-msgstr ""
+msgstr "JACK"
 
 #: src/wx/dcp_panel.cc:767
 msgid ""
@@ -1684,7 +1685,7 @@ msgstr "Anzahl der Rechenthreads, die DCP-o-matic nutzen soll"
 
 #: src/wx/config_dialog.cc:275
 msgid "OSS"
-msgstr ""
+msgstr "OSS"
 
 #: src/wx/audio_mapping_view.cc:69
 msgid "Off"
@@ -1807,7 +1808,7 @@ msgstr "Zeitfenster"
 
 #: src/wx/full_config_dialog.cc:773
 msgid "Plain"
-msgstr ""
+msgstr "Unverschlüsselt"
 
 #: src/wx/standard_controls.cc:30
 msgid "Play"
@@ -2053,11 +2054,11 @@ msgstr "SMPTE"
 
 #: src/wx/full_config_dialog.cc:775
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: src/wx/full_config_dialog.cc:774
 msgid "STARTTLS"
-msgstr ""
+msgstr "STARTTLS"
 
 #: src/wx/audio_dialog.cc:371
 #, c-format
@@ -2303,7 +2304,6 @@ msgid "Subscribers"
 msgstr "Regelmäßige Zahler"
 
 #: src/wx/isdcf_metadata_dialog.cc:44
-#, fuzzy
 msgid "Subtitle language (e.g. FR)"
 msgstr "Untertitel Sprache (z.B. EN)"
 
@@ -2526,7 +2526,7 @@ msgstr "Beschnitt oben"
 
 #: src/wx/closed_captions_dialog.cc:61
 msgid "Track"
-msgstr ""
+msgstr "Spur"
 
 #: src/wx/instant_i18n_dialog.cc:28
 msgid "Translate"
@@ -2757,7 +2757,7 @@ msgstr "Liste..."
 
 #: src/wx/config_dialog.cc:271
 msgid "WASAPI"
-msgstr ""
+msgstr "WASAPI"
 
 #: src/wx/full_config_dialog.cc:1469
 msgid "Warnings"
@@ -2991,7 +2991,6 @@ msgid "port"
 msgstr "Port"
 
 #: src/wx/full_config_dialog.cc:769
-#, fuzzy
 msgid "protocol"
 msgstr "Protokoll"
 

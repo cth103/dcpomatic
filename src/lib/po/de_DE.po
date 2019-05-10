@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-05 20:19+0100\n"
-"PO-Revision-Date: 2019-04-26 15:21+0100\n"
+"PO-Revision-Date: 2019-05-10 02:41+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -191,6 +191,17 @@ msgid ""
 "£20</a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to "
 "Paypal to donate £10</a></ul><p>Thank you!"
 msgstr ""
+"<h2>Sie haben %1 DCPs mit DCP-o-matic erstellt!</h2><img width=\"20%%\" src="
+"\"memory:me.jpg\" align=\"center\"><p>Hallo. Ich bin Carl, der Entwickler "
+"von DCP-o-matic. Ich programmiere DCP-o-matic in meiner Freizeit (zusammen "
+"mit einigen Übersetzern und Testern) und ich veröffentliche es als "
+"OpenSource.<p>Wenn Sie DCP-o-matic für nützlich halten, erwägen Sie bitte "
+"eine Spende an das Projekt. Ihre Finanzielle Unterstützung erlaubt es mir, "
+"die nötige Zeit für die Verbesserung von DCP-o-matic zu investieren!"
+"<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Spende "
+"über Paypal £40</a><li><a href=\"https://dcpomatic.com/donate_amount?"
+"amount=20\">Spende über Paypal £20</a><li><a href=\"https://dcpomatic.com/"
+"donate_amount?amount=10\">Spende über Paypal £10</a></ul><p>Dankeschön!"
 
 #: src/lib/hints.cc:155
 msgid ""
@@ -406,7 +417,7 @@ msgstr "Zusammenfassung ('Hashes') berechnen"
 
 #: src/lib/analytics.cc:55
 msgid "Congratulations!"
-msgstr ""
+msgstr "Glückwunsch!"
 
 #: src/lib/frame_rate_change.cc:101
 msgid "Content and DCP have the same rate.\n"
@@ -739,7 +750,7 @@ msgstr "Kodieren"
 
 #: src/lib/dcp_content_type.cc:56
 msgid "Episode"
-msgstr ""
+msgstr "Episode"
 
 #: src/lib/exceptions.cc:67
 msgid "Error in subtitle file: saw %1 while expecting %2"
@@ -1086,7 +1097,7 @@ msgstr "Programmfehler bei %1:%2 %3"
 
 #: src/lib/dcp_content_type.cc:57
 msgid "Promo"
-msgstr ""
+msgstr "Promotional"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
@@ -1544,11 +1555,13 @@ msgstr ""
 "'Nahtlos verbinden' verwenden, um Sprünge in der Wiedergabe zu vermeiden."
 
 #: src/lib/hints.cc:329
-#, fuzzy
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
-msgstr "Es gibt überlappende Closed Captions (CCAP) - dies ist nicht zulässig!"
+msgstr ""
+"Es gibt überlappende Closed Captions (CCAP) - dies ist in Interop DCPs  "
+"nicht zulässig! Bitte entfernen Sie die Überlappung oder ändern Sie den DCP "
+"Wrapping Typ auf 'SMPTE'!"
 
 #: src/lib/hints.cc:115
 msgid ""
