@@ -34,6 +34,7 @@ public:
 
 	virtual void set_image (boost::shared_ptr<const Image> image) = 0;
 	virtual wxWindow* get () const = 0;
+	virtual void update () = 0;
 
 	boost::signals2::signal<void()> Sized;
 };

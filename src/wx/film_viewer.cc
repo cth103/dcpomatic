@@ -215,9 +215,8 @@ FilmViewer::recreate_butler ()
 void
 FilmViewer::refresh_view ()
 {
-	_state_timer.set ("refresh-view");
-	_video_view->get()->Refresh ();
-	_video_view->get()->Update ();
+	_state_timer.set ("update-view");
+	_video_view->update ();
 	_state_timer.unset ();
 }
 

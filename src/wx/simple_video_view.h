@@ -36,6 +36,8 @@ public:
 		return _panel;
 	}
 
+	void update ();
+
 private:
 	void paint ();
 

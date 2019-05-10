@@ -118,3 +118,10 @@ SimpleVideoView::paint ()
 		dc.DrawRectangle (inter_position.x, inter_position.y + (panel_size.GetHeight() - out_size.height) / 2, inter_size.width, inter_size.height);
 	}
 }
+
+void
+SimpleVideoView::update ()
+{
+	_panel->Refresh ();
+	_panel->Update ();
+}

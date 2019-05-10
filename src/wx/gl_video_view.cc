@@ -41,7 +41,7 @@ GLVideoView::GLVideoView (wxWindow *parent)
 {
 	_canvas = new wxGLCanvas (parent, wxID_ANY, 0, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
 	_context = new wxGLContext (_canvas);
-	_canvas->Bind (wxEVT_PAINT, boost::bind(&GLVideoView::paint, this, _1));
+	_canvas->Bind (wxEVT_PAINT, boost::bind(&GLVideoView::paint, this));
 	_canvas->Bind (wxEVT_SIZE, boost::bind(boost::ref(Sized)));
 
 	glGenTextures (1, &_id);
@@ -65,10 +65,26 @@ check_gl_error (char const * last)
 }
 
 void
-GLVideoView::paint (wxPaintEvent &)
+GLVideoView::paint ()
 {
 	_canvas->SetCurrent (*_context);
 	wxPaintDC dc (_canvas);
+	draw ();
+}
+
+void
+GLVideoView::update ()
+{
+	if (!_canvas->IsShownOnScreen()) {
+		return;
+	}
+	wxClientDC dc (_canvas);
+	draw ();
+}
+
+void
+GLVideoView::draw ()
+{
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	check_gl_error ("glClear");
 

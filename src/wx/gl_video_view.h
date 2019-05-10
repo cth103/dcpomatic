@@ -37,9 +37,11 @@ public:
 	wxWindow* get () const {
 		return _canvas;
 	}
+	void update ();
 
 private:
-        void paint (wxPaintEvent& event);
+        void paint ();
+        void draw ();
 
 	wxGLCanvas* _canvas;
         wxGLContext* _context;
