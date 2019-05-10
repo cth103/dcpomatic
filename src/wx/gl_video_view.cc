@@ -35,6 +35,7 @@
 
 using std::cout;
 using boost::shared_ptr;
+using boost::optional;
 
 GLVideoView::GLVideoView (wxWindow *parent)
 {
@@ -117,6 +118,11 @@ GLVideoView::paint (wxPaintEvent &)
 void
 GLVideoView::set_image (shared_ptr<const Image> image)
 {
+	if (!image) {
+		_size = optional<dcp::Size>();
+		return;
+	}
+
 	DCPOMATIC_ASSERT (image->pixel_format() == AV_PIX_FMT_RGB24);
 	DCPOMATIC_ASSERT (!image->aligned());
 

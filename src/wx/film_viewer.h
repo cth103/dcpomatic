@@ -159,7 +159,6 @@ private:
 	std::list<int> _pending_player_changes;
 
 	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> _player_video;
-	boost::shared_ptr<const Image> _frame;
 	dcpomatic::DCPTime _video_position;
 	Position<int> _inter_position;
 	dcp::Size _inter_size;

@@ -132,13 +132,12 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	_player_video.first.reset ();
 	_player_video.second = DCPTime ();
 
-	_frame.reset ();
+	_video_view->set_image (shared_ptr<Image>());
 	_closed_captions_dialog->clear ();
 
 	if (!_film) {
 		_player.reset ();
 		recreate_butler ();
-		_frame.reset ();
 		refresh_view ();
 		return;
 	}
@@ -251,7 +250,7 @@ void
 FilmViewer::display_player_video ()
 {
 	if (!_player_video.first) {
-		_frame.reset ();
+		_video_view->set_image (shared_ptr<Image>());
 		refresh_view ();
 		return;
 	}
@@ -285,9 +284,9 @@ FilmViewer::display_player_video ()
 
 	_state_timer.set ("get image");
 
-	/* XXX: do we need to store _frame? */
-	_frame = _player_video.first->image (bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true);
-	_video_view->set_image (_frame);
+	_video_view->set_image (
+		_player_video.first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true)
+		);
 
 	_state_timer.set ("ImageChanged");
 	ImageChanged (_player_video.first);
