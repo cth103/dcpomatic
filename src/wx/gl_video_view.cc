@@ -100,11 +100,17 @@ GLVideoView::draw ()
 	check_gl_error ("glDisable GL_DEPTH_TEST");
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	if (_canvas->GetSize().x < 64 || _canvas->GetSize().y < 0) {
+		return;
+	}
+
 	glViewport (0, 0, _canvas->GetSize().x, _canvas->GetSize().y);
+	check_gl_error ("glViewport");
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
 
 	gluOrtho2D (0, _canvas->GetSize().x, _canvas->GetSize().y, 0);
+	check_gl_error ("gluOrtho2d");
 	glMatrixMode (GL_MODELVIEW);
 	glLoadIdentity ();
 
@@ -124,9 +130,6 @@ GLVideoView::draw ()
 
 		glEnd ();
 	}
-
-	glDisable (GL_TEXTURE_2D);
-	check_gl_error ("glDisable GL_TEXTURE_2D");
 
 	dcp::Size const out_size = _viewer->out_size ();
 	wxSize const canvas_size = _canvas->GetSize ();
@@ -191,6 +194,7 @@ GLVideoView::set_image (shared_ptr<const Image> image)
 
 	_size = image->size ();
 	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
+	check_gl_error ("glPixelStorei");
 	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGB8, _size->width, _size->height, 0, GL_RGB, GL_UNSIGNED_BYTE, image->data()[0]);
 	check_gl_error ("glTexImage2D");
 
