@@ -30,7 +30,7 @@
 class GLVideoView : public VideoView
 {
 public:
-	GLVideoView (wxWindow* parent);
+	GLVideoView (FilmViewer* viewer, wxWindow* parent);
 	~GLVideoView ();
 
 	void set_image (boost::shared_ptr<const Image> image);

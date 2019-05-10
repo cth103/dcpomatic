@@ -28,7 +28,7 @@
 using std::max;
 
 SimpleVideoView::SimpleVideoView (FilmViewer* viewer, wxWindow* parent)
-	: _viewer (viewer)
+	: VideoView (viewer)
 {
 	_panel = new wxPanel (parent);
 

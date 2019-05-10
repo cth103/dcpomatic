@@ -26,10 +26,15 @@
 
 class Image;
 class wxWindow;
+class FilmViewer;
 
 class VideoView
 {
 public:
+	VideoView (FilmViewer* viewer)
+		: _viewer (viewer)
+	{}
+
 	virtual ~VideoView () {}
 
 	virtual void set_image (boost::shared_ptr<const Image> image) = 0;
@@ -37,6 +42,9 @@ public:
 	virtual void update () = 0;
 
 	boost::signals2::signal<void()> Sized;
+
+protected:
+	FilmViewer* _viewer;
 };
 
 #endif

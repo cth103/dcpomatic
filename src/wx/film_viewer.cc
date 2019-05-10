@@ -99,7 +99,7 @@ FilmViewer::FilmViewer (wxWindow* p)
 {
 	switch (Config::instance()->video_view_type()) {
 	case Config::VIDEO_VIEW_OPENGL:
-		_video_view = new GLVideoView (p);
+		_video_view = new GLVideoView (this, p);
 		break;
 	case Config::VIDEO_VIEW_SIMPLE:
 		_video_view = new SimpleVideoView (this, p);

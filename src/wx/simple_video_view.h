@@ -41,7 +41,6 @@ public:
 private:
 	void paint ();
 
-	FilmViewer* _viewer;
 	wxPanel* _panel;
 	boost::shared_ptr<const Image> _image;
 };

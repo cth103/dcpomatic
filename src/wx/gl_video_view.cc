@@ -19,6 +19,7 @@
 */
 
 #include "gl_video_view.h"
+#include "film_viewer.h"
 #include "lib/image.h"
 #include "lib/dcpomatic_assert.h"
 #include "lib/exceptions.h"
@@ -37,7 +38,8 @@ using std::cout;
 using boost::shared_ptr;
 using boost::optional;
 
-GLVideoView::GLVideoView (wxWindow *parent)
+GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
+	: VideoView (viewer)
 {
 	_canvas = new wxGLCanvas (parent, wxID_ANY, 0, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
 	_context = new wxGLContext (_canvas);
@@ -56,7 +58,7 @@ GLVideoView::~GLVideoView ()
 }
 
 static void
-check_gl_error (char const * last)
+       check_gl_error (char const * last)
 {
 	GLenum const e = glGetError ();
 	if (e != GL_NO_ERROR) {
@@ -92,8 +94,6 @@ GLVideoView::draw ()
 	check_gl_error ("glClearColor");
 	glEnable (GL_TEXTURE_2D);
 	check_gl_error ("glEnable GL_TEXTURE_2D");
-	glEnable (GL_COLOR_MATERIAL);
-	check_gl_error ("glEnable GL_COLOR_MATERIAL");
 	glEnable (GL_BLEND);
 	check_gl_error ("glEnable GL_BLEND");
 	glDisable (GL_DEPTH_TEST);
@@ -123,6 +123,55 @@ GLVideoView::draw ()
 		glVertex2f (0, 0);
 
 		glEnd ();
+	}
+
+	glDisable (GL_TEXTURE_2D);
+	check_gl_error ("glDisable GL_TEXTURE_2D");
+
+	dcp::Size const out_size = _viewer->out_size ();
+	wxSize const canvas_size = _canvas->GetSize ();
+
+	if (!_viewer->pad_black() && out_size.width < canvas_size.GetWidth()) {
+		glBegin (GL_QUADS);
+		/* XXX: these colours are right for GNOME; may need adjusting for other OS */
+		glColor3ub (240, 240, 240);
+		glVertex2f (out_size.width, 0);
+		glVertex2f (canvas_size.GetWidth(), 0);
+		glVertex2f (canvas_size.GetWidth(), canvas_size.GetHeight());
+		glVertex2f (out_size.width, canvas_size.GetHeight());
+		glEnd ();
+		glColor3ub (255, 255, 255);
+	}
+
+	if (!_viewer->pad_black() && out_size.height < canvas_size.GetHeight()) {
+		glColor3ub (240, 240, 240);
+		int const gap = (canvas_size.GetHeight() - out_size.height) / 2;
+		glBegin (GL_QUADS);
+		glVertex2f (0, 0);
+		glVertex2f (canvas_size.GetWidth(), 0);
+		glVertex2f (canvas_size.GetWidth(), gap);
+		glVertex2f (0, gap);
+		glEnd ();
+		glBegin (GL_QUADS);
+		glVertex2f (0, gap + out_size.height + 1);
+		glVertex2f (canvas_size.GetWidth(), gap + out_size.height + 1);
+		glVertex2f (canvas_size.GetWidth(), 2 * gap + out_size.height + 2);
+		glVertex2f (0, 2 * gap + out_size.height + 2);
+		glEnd ();
+		glColor3ub (255, 255, 255);
+	}
+
+	if (_viewer->outline_content()) {
+		glColor3ub (255, 0, 0);
+		glBegin (GL_LINE_LOOP);
+		Position<int> inter_position = _viewer->inter_position ();
+		dcp::Size inter_size = _viewer->inter_size ();
+		glVertex2f (inter_position.x, inter_position.y + (canvas_size.GetHeight() - out_size.height) / 2);
+		glVertex2f (inter_position.x + inter_size.width, inter_position.y + (canvas_size.GetHeight() - out_size.height) / 2);
+		glVertex2f (inter_position.x + inter_size.width, inter_position.y + (canvas_size.GetHeight() - out_size.height) / 2 + inter_size.height);
+		glVertex2f (inter_position.x, inter_position.y + (canvas_size.GetHeight() - out_size.height) / 2 + inter_size.height);
+		glEnd ();
+		glColor3ub (255, 255, 255);
 	}
 
 	glFlush();
