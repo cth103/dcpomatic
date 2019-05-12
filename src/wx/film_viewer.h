@@ -101,6 +101,10 @@ public:
 		return _state_timer;
 	}
 
+	StateTimer& state_timer () {
+		return _state_timer;
+	}
+
 	int gets () const {
 		return _gets;
 	}

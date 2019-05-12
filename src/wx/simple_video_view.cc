@@ -46,6 +46,7 @@ SimpleVideoView::SimpleVideoView (FilmViewer* viewer, wxWindow* parent)
 void
 SimpleVideoView::paint ()
 {
+        _viewer->state_timer().set("paint-panel");
 	wxPaintDC dc (_panel);
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
@@ -117,6 +118,7 @@ SimpleVideoView::paint ()
 		dc.SetBrush (*wxTRANSPARENT_BRUSH);
 		dc.DrawRectangle (inter_position.x, inter_position.y + (panel_size.GetHeight() - out_size.height) / 2, inter_size.width, inter_size.height);
 	}
+        _viewer->state_timer().unset();
 }
 
 void

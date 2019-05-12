@@ -69,9 +69,11 @@ static void
 void
 GLVideoView::paint ()
 {
+        _viewer->state_timer().set("paint-panel");
 	_canvas->SetCurrent (*_context);
 	wxPaintDC dc (_canvas);
 	draw ();
+	_viewer->state_timer().unset();
 }
 
 void
