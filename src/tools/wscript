@@ -63,7 +63,9 @@ def build(bld):
         obj.uselib = uselib
         if bld.env.BUILD_STATIC or bld.env.TARGET_LINUX:
             obj.uselib += ' GTK'
-        obj.uselib += ' WXWIDGETS GL GLU'
+        obj.uselib += ' WXWIDGETS'
+        if not bld.env.TARGET_OSX:
+            obj.uselib += ' GL GLU'
         obj.includes = ['..']
         obj.use    = ['libdcpomatic2', 'libdcpomatic2-wx']
         obj.source = '%s.cc' % t
