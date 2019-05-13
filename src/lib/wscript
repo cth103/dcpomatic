@@ -77,7 +77,6 @@ sources = """
           digester.cc
           dkdm_wrapper.cc
           dolby_cp750.cc
-          ecinema_screen_kdm.cc
           edid.cc
           emailer.cc
           empty.cc

@@ -313,7 +313,7 @@ private:
 				throw InvalidSignerError ();
 			}
 
-			list<ScreenKDM> screen_kdms;
+			list<shared_ptr<ScreenKDM> > screen_kdms;
 			BOOST_FOREACH (shared_ptr<Screen> i, _screens->screens()) {
 
 				if (!i->recipient) {
@@ -336,11 +336,13 @@ private:
 
 				/* Encrypt */
 				screen_kdms.push_back (
-					ScreenKDM (
-						i,
-						kdm.encrypt (
-							signer, i->recipient.get(), i->trusted_device_thumbprints(), _output->formulation(),
-							!_output->forensic_mark_video(), _output->forensic_mark_audio() ? boost::optional<int>() : 0
+					shared_ptr<ScreenKDM>(
+						new DCPScreenKDM(
+							i,
+							kdm.encrypt(
+								signer, i->recipient.get(), i->trusted_device_thumbprints(), _output->formulation(),
+								!_output->forensic_mark_video(), _output->forensic_mark_audio() ? boost::optional<int>() : 0
+								)
 							)
 						)
 					);

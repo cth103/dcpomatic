@@ -56,8 +56,8 @@ CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, dcp::NameFormat nam
 
 	name_values['c'] = cinema->name;
 
-	BOOST_FOREACH (ScreenKDM const & i, screen_kdms) {
-		shared_ptr<string> kdm (new string (i.kdm.as_xml ()));
+	BOOST_FOREACH (shared_ptr<ScreenKDM> i, screen_kdms) {
+		shared_ptr<string> kdm (new string(i->kdm_as_xml()));
 		kdm_strings.push_back (kdm);
 
 		struct zip_source* source = zip_source_buffer (zip, kdm->c_str(), kdm->length(), 0);
@@ -65,8 +65,8 @@ CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, dcp::NameFormat nam
 			throw runtime_error ("could not create ZIP source");
 		}
 
-		name_values['s'] = i.screen->name;
-		name_values['i'] = i.kdm.id ();
+		name_values['s'] = i->screen->name;
+		name_values['i'] = i->kdm_id ();
 		string const name = careful_string_filter(name_format.get(name_values, ".xml"));
 		if (zip_add (zip, name.c_str(), source) == -1) {
 			throw runtime_error ("failed to add KDM to ZIP archive");
@@ -82,7 +82,7 @@ CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, dcp::NameFormat nam
  *  CinemaKDM contains the KDMs for its cinema.
  */
 list<CinemaKDMs>
-CinemaKDMs::collect (list<ScreenKDM> screen_kdms)
+CinemaKDMs::collect (list<shared_ptr<ScreenKDM> > screen_kdms)
 {
 	list<CinemaKDMs> cinema_kdms;
 
@@ -92,17 +92,17 @@ CinemaKDMs::collect (list<ScreenKDM> screen_kdms)
 
 		CinemaKDMs ck;
 
-		list<ScreenKDM>::iterator i = screen_kdms.begin ();
-		ck.cinema = i->screen->cinema;
+		list<shared_ptr<ScreenKDM> >::iterator i = screen_kdms.begin ();
+		ck.cinema = (*i)->screen->cinema;
 		ck.screen_kdms.push_back (*i);
-		list<ScreenKDM>::iterator j = i;
+		list<shared_ptr<ScreenKDM> >::iterator j = i;
 		++i;
 		screen_kdms.remove (*j);
 
 		while (i != screen_kdms.end ()) {
-			if (i->screen->cinema == ck.cinema) {
+			if ((*i)->screen->cinema == ck.cinema) {
 				ck.screen_kdms.push_back (*i);
-				list<ScreenKDM>::iterator j = i;
+				list<shared_ptr<ScreenKDM> >::iterator j = i;
 				++i;
 				screen_kdms.remove (*j);
 			} else {
@@ -230,8 +230,8 @@ CinemaKDMs::email (
 		boost::algorithm::replace_all (body, "$CINEMA_NAME", i.cinema->name);
 
 		string screens;
-		BOOST_FOREACH (ScreenKDM const & j, i.screen_kdms) {
-			screens += j.screen->name + ", ";
+		BOOST_FOREACH (shared_ptr<ScreenKDM> j, i.screen_kdms) {
+			screens += j->screen->name + ", ";
 		}
 		boost::algorithm::replace_all (body, "$SCREENS", screens.substr (0, screens.length() - 2));
 

@@ -35,6 +35,7 @@ public:
 	explicit EncryptedECinemaKDM (std::string xml);
 
 	std::string as_xml () const;
+	void as_xml (boost::filesystem::path out) const;
 
 	std::string id () const {
 		return _id;

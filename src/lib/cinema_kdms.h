@@ -29,7 +29,7 @@ class CinemaKDMs
 public:
 	void make_zip_file (boost::filesystem::path zip_file, dcp::NameFormat name_format, dcp::NameFormat::Map name_values) const;
 
-	static std::list<CinemaKDMs> collect (std::list<ScreenKDM> kdms);
+	static std::list<CinemaKDMs> collect (std::list<boost::shared_ptr<ScreenKDM> > kdms);
 
 	static int write_directories (
 		std::list<CinemaKDMs> cinema_kdms,
@@ -58,5 +58,5 @@ public:
 		);
 
 	boost::shared_ptr<Cinema> cinema;
-	std::list<ScreenKDM> screen_kdms;
+	std::list<boost::shared_ptr<ScreenKDM> > screen_kdms;
 };

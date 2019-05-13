@@ -29,15 +29,9 @@ using std::cout;
 using std::list;
 using boost::shared_ptr;
 
-bool
-operator== (ScreenKDM const & a, ScreenKDM const & b)
-{
-	return a.screen == b.screen && a.kdm == b.kdm;
-}
-
 int
 ScreenKDM::write_files (
-	list<ScreenKDM> screen_kdms,
+	list<shared_ptr<ScreenKDM> > screen_kdms,
 	boost::filesystem::path directory,
 	dcp::NameFormat name_format,
 	dcp::NameFormat::Map name_values,
@@ -48,8 +42,8 @@ ScreenKDM::write_files (
 
 	if (directory == "-") {
 		/* Write KDMs to the stdout */
-		BOOST_FOREACH (ScreenKDM const & i, screen_kdms) {
-			cout << i.kdm.as_xml ();
+		BOOST_FOREACH (shared_ptr<ScreenKDM> i, screen_kdms) {
+			cout << i->kdm_as_xml ();
 			++written;
 		}
 
@@ -61,13 +55,13 @@ ScreenKDM::write_files (
 	}
 
 	/* Write KDMs to the specified directory */
-	BOOST_FOREACH (ScreenKDM const & i, screen_kdms) {
-		name_values['c'] = i.screen->cinema ? i.screen->cinema->name : "";
-		name_values['s'] = i.screen->name;
-		name_values['i'] = i.kdm.id ();
+	BOOST_FOREACH (shared_ptr<ScreenKDM> i, screen_kdms) {
+		name_values['c'] = i->screen->cinema ? i->screen->cinema->name : "";
+		name_values['s'] = i->screen->name;
+		name_values['i'] = i->kdm_id ();
 		boost::filesystem::path out = directory / careful_string_filter(name_format.get(name_values, ".xml"));
 		if (!boost::filesystem::exists (out) || confirm_overwrite (out)) {
-			i.kdm.as_xml (out);
+			i->kdm_as_xml (out);
 			++written;
 		}
 	}

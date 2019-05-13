@@ -1420,7 +1420,7 @@ Film::make_kdm (
  *  @param disable_forensic_marking_audio if not set, don't disable forensic marking of audio.  If set to 0,
  *  disable all forensic marking; if set above 0, disable forensic marking above that channel.
  */
-list<ScreenKDM>
+list<shared_ptr<ScreenKDM> >
 Film::make_kdms (
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path cpl_file,
@@ -1431,7 +1431,7 @@ Film::make_kdms (
 	optional<int> disable_forensic_marking_audio
 	) const
 {
-	list<ScreenKDM> kdms;
+	list<shared_ptr<ScreenKDM> > kdms;
 
 	BOOST_FOREACH (shared_ptr<Screen> i, screens) {
 		if (i->recipient) {
@@ -1446,7 +1446,7 @@ Film::make_kdms (
 				disable_forensic_marking_audio
 				);
 
-			kdms.push_back (ScreenKDM (i, kdm));
+			kdms.push_back (shared_ptr<ScreenKDM>(new DCPScreenKDM(i, kdm)));
 		}
 	}
 

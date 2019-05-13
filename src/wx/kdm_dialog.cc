@@ -149,7 +149,7 @@ KDMDialog::make_clicked ()
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 
-	list<ScreenKDM> screen_kdms;
+	list<shared_ptr<ScreenKDM> > screen_kdms;
 	try {
 
 		screen_kdms = film->make_kdms (

@@ -21,6 +21,9 @@
 #ifndef DCPOMATIC_SCREEN_KDM_H
 #define DCPOMATIC_SCREEN_KDM_H
 
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+#include "encrypted_ecinema_kdm.h"
+#endif
 #include <dcp/encrypted_kdm.h>
 #include <dcp/name_format.h>
 #include <boost/shared_ptr.hpp>
@@ -33,21 +36,69 @@ namespace dcpomatic {
 class ScreenKDM
 {
 public:
-	ScreenKDM (boost::shared_ptr<dcpomatic::Screen> s, dcp::EncryptedKDM k)
+	ScreenKDM (boost::shared_ptr<dcpomatic::Screen> s)
 		: screen (s)
-		, kdm (k)
 	{}
 
+	virtual std::string kdm_as_xml () const = 0;
+	virtual void kdm_as_xml (boost::filesystem::path out) const = 0;
+	virtual std::string kdm_id () const = 0;
+
 	static int write_files (
-		std::list<ScreenKDM> screen_kdms, boost::filesystem::path directory,
+		std::list<boost::shared_ptr<ScreenKDM> > screen_kdms, boost::filesystem::path directory,
 		dcp::NameFormat name_format, dcp::NameFormat::Map name_values,
 		boost::function<bool (boost::filesystem::path)> confirm_overwrite
 		);
 
 	boost::shared_ptr<dcpomatic::Screen> screen;
+};
+
+class DCPScreenKDM : public ScreenKDM
+{
+public:
+	DCPScreenKDM (boost::shared_ptr<dcpomatic::Screen> s, dcp::EncryptedKDM k)
+		: ScreenKDM (s)
+		, kdm (k)
+	{}
+
+	std::string kdm_as_xml () const {
+		return kdm.as_xml ();
+	}
+
+	void kdm_as_xml (boost::filesystem::path out) const {
+		return kdm.as_xml (out);
+	}
+
+	std::string kdm_id () const {
+		return kdm.cpl_id ();
+	}
+
 	dcp::EncryptedKDM kdm;
 };
 
-extern bool operator== (ScreenKDM const & a, ScreenKDM const & b);
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+class ECinemaScreenKDM : public ScreenKDM
+{
+public:
+	ECinemaScreenKDM (boost::shared_ptr<dcpomatic::Screen> s, EncryptedECinemaKDM k)
+		: ScreenKDM (s)
+		, kdm (k)
+	{}
+
+	std::string kdm_as_xml () const {
+		return kdm.as_xml ();
+	}
+
+	void kdm_as_xml (boost::filesystem::path out) const {
+		return kdm.as_xml (out);
+	}
+
+	std::string kdm_id () const {
+		return kdm.id ();
+	}
+
+	EncryptedECinemaKDM kdm;
+};
+#endif
 
 #endif

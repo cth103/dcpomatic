@@ -22,6 +22,7 @@
 
 #include "encrypted_ecinema_kdm.h"
 #include "exceptions.h"
+#include "cross.h"
 #include <dcp/key.h>
 #include <dcp/certificate.h>
 #include <dcp/util.h>
@@ -83,6 +84,15 @@ EncryptedECinemaKDM::as_xml () const
 	root->add_child("Name")->add_child_text(_name);
 	root->add_child("Key")->add_child_text(lines);
 	return document.write_to_string ("UTF-8");
+}
+
+void
+EncryptedECinemaKDM::as_xml (boost::filesystem::path path) const
+{
+	FILE* f = fopen_boost (path, "w");
+	string const x = as_xml ();
+	fwrite (x.c_str(), 1, x.length(), f);
+	fclose (f);
 }
 
 #endif

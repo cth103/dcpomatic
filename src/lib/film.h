@@ -142,7 +142,7 @@ public:
 		boost::optional<int> disable_forensic_marking_audio
 		) const;
 
-	std::list<ScreenKDM> make_kdms (
+	std::list<boost::shared_ptr<ScreenKDM> > make_kdms (
 		std::list<boost::shared_ptr<dcpomatic::Screen> > screens,
 		boost::filesystem::path cpl_file,
 		boost::posix_time::ptime from,

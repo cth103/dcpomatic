@@ -181,7 +181,7 @@ KDMOutputPanel::kdm_write_type_changed ()
 
 pair<shared_ptr<Job>, int>
 KDMOutputPanel::make (
-	list<ScreenKDM> screen_kdms, string name, KDMTimingPanel* timing, function<bool (boost::filesystem::path)> confirm_overwrite
+	list<shared_ptr<ScreenKDM> > screen_kdms, string name, KDMTimingPanel* timing, function<bool (boost::filesystem::path)> confirm_overwrite
 	)
 {
 	list<CinemaKDMs> const cinema_kdms = CinemaKDMs::collect (screen_kdms);
