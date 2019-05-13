@@ -75,6 +75,12 @@ public:
 		return _rotation;
 	}
 
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	boost::optional<std::string> id () const {
+		return _id;
+	}
+#endif
+
 private:
 	void video_packet (AVCodecContext *);
 	void audio_packet (AVCodecContext *, boost::shared_ptr<FFmpegAudioStream>);
@@ -93,6 +99,10 @@ private:
 	bool _need_video_length;
 
 	boost::optional<double> _rotation;
+
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	boost::optional<std::string> _id;
+#endif
 
 	struct SubtitleStart
 	{

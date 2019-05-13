@@ -32,14 +32,24 @@ class DecryptedECinemaKDM;
 class EncryptedECinemaKDM
 {
 public:
+	explicit EncryptedECinemaKDM (std::string xml);
 
 	std::string as_xml () const;
+
+	std::string id () const {
+		return _id;
+	}
+
+	dcp::Data key () const {
+		return _content_key;
+	}
 
 private:
 	friend class DecryptedECinemaKDM;
 
-	EncryptedECinemaKDM (dcp::Key key, dcp::Certificate recipient);
+	EncryptedECinemaKDM (std::string id, dcp::Key key, dcp::Certificate recipient);
 
+	std::string _id;
 	/** encrypted content key */
 	dcp::Data _content_key;
 };

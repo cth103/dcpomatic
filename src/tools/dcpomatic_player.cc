@@ -599,11 +599,27 @@ private:
 
 		if (d->ShowModal() == wxID_OK) {
 			DCPOMATIC_ASSERT (_film);
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+			shared_ptr<FFmpegContent> ffmpeg = boost::dynamic_pointer_cast<FFmpegContent>(_film->content().front());
+			if (ffmpeg) {
+				try {
+					ffmpeg->add_kdm (EncryptedECinemaKDM(dcp::file_to_string(wx_to_std(d->GetPath()), MAX_KDM_SIZE)));
+				} catch (exception& e) {
+					error_dialog (this, wxString::Format(_("Could not load KDM.")), std_to_wx(e.what()));
+					d->Destroy();
+					return;
+				}
+			}
+#endif
 			shared_ptr<DCPContent> dcp = boost::dynamic_pointer_cast<DCPContent>(_film->content().front());
+#ifndef DCPOMATIC_VARIANT_SWAROOP
 			DCPOMATIC_ASSERT (dcp);
+#endif
 			try {
-				dcp->add_kdm (dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (d->GetPath ()), MAX_KDM_SIZE)));
-				dcp->examine (_film, shared_ptr<Job>());
+				if (dcp) {
+					dcp->add_kdm (dcp::EncryptedKDM(dcp::file_to_string(wx_to_std(d->GetPath()), MAX_KDM_SIZE)));
+					dcp->examine (_film, shared_ptr<Job>());
+				}
 			} catch (exception& e) {
 				error_dialog (this, wxString::Format (_("Could not load KDM.")), std_to_wx(e.what()));
 				d->Destroy ();

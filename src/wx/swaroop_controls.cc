@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -29,6 +29,7 @@
 #include "lib/cross.h"
 #include "lib/scoped_temporary.h"
 #include "lib/internet.h"
+#include "lib/ffmpeg_content.h"
 #include <dcp/raw_convert.h>
 #include <dcp/exceptions.h>
 #include <wx/listctrl.h>
@@ -385,6 +386,28 @@ SwaroopControls::get_kdm_from_directory (shared_ptr<DCPContent> dcp)
 	return optional<dcp::EncryptedKDM>();
 }
 
+optional<EncryptedECinemaKDM>
+SwaroopControls::get_kdm_from_directory (shared_ptr<FFmpegContent> ffmpeg)
+{
+	using namespace boost::filesystem;
+	optional<path> kdm_dir = Config::instance()->player_kdm_directory();
+	if (!kdm_dir) {
+		return optional<EncryptedECinemaKDM>();
+	}
+	for (directory_iterator i = directory_iterator(*kdm_dir); i != directory_iterator(); ++i) {
+		try {
+			if (file_size(i->path()) < MAX_KDM_SIZE) {
+				EncryptedECinemaKDM kdm (dcp::file_to_string(i->path()));
+				if (kdm.id() == ffmpeg->id().get_value_or("")) {
+					return kdm;
+				}
+			}
+		} catch (std::exception& e) {
+			/* Hey well */
+		}
+	}
+	return optional<EncryptedECinemaKDM>();
+}
 void
 SwaroopControls::spl_selection_changed ()
 {
@@ -436,6 +459,22 @@ SwaroopControls::select_playlist (int selected, int position)
 			}
 			if (dcp->needs_kdm()) {
 				/* We didn't get a KDM for this */
+				error_dialog (this, "This playlist cannot be loaded as a KDM is missing.");
+				_selected_playlist = boost::none;
+				_spl_view->SetItemState (selected, 0, wxLIST_STATE_SELECTED);
+				return;
+			}
+		}
+		shared_ptr<FFmpegContent> ffmpeg = dynamic_pointer_cast<FFmpegContent> (i.content);
+		if (ffmpeg && ffmpeg->encrypted()) {
+			optional<EncryptedECinemaKDM> kdm = get_kdm_from_directory (ffmpeg);
+			if (kdm) {
+				try {
+					ffmpeg->add_kdm (*kdm);
+				} catch (KDMError& e) {
+					error_dialog (this, "Could not load KDM.");
+				}
+			} else {
 				error_dialog (this, "This playlist cannot be loaded as a KDM is missing.");
 				_selected_playlist = boost::none;
 				_spl_view->SetItemState (selected, 0, wxLIST_STATE_SELECTED);

@@ -23,6 +23,8 @@
 #include "encrypted_ecinema_kdm.h"
 #include <dcp/key.h>
 #include <dcp/certificate.h>
+#include <dcp/util.h>
+#include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <openssl/rsa.h>
 #include <iostream>
@@ -32,11 +34,22 @@ using std::string;
 using boost::shared_ptr;
 using dcp::Certificate;
 
-EncryptedECinemaKDM::EncryptedECinemaKDM (dcp::Key content_key, Certificate recipient)
+EncryptedECinemaKDM::EncryptedECinemaKDM (string id, dcp::Key content_key, Certificate recipient)
+	: _id (id)
 {
 	RSA* rsa = recipient.public_key ();
 	_content_key = dcp::Data (RSA_size(rsa));
 	int const N = RSA_public_encrypt (content_key.length(), content_key.value(), _content_key.data().get(), rsa, RSA_PKCS1_OAEP_PADDING);
+}
+
+EncryptedECinemaKDM::EncryptedECinemaKDM (string xml)
+{
+	cxml::Document doc ("ECinemaSecurityMessage");
+	doc.read_string (xml);
+	_id = doc.string_child ("Id");
+	_content_key = dcp::Data (256);
+	int const len = dcp::base64_decode (doc.string_child("Key"), _content_key.data().get(), _content_key.size());
+	_content_key.set_size (len);
 }
 
 string
@@ -57,7 +70,8 @@ EncryptedECinemaKDM::as_xml () const
 	}
 
 	xmlpp::Document document;
-	xmlpp::Element* root = document.create_root_node ("ECinemaSecurityMesage");
+	xmlpp::Element* root = document.create_root_node ("ECinemaSecurityMessage");
+	root->add_child("Id")->add_child_text(_id);
 	root->add_child("Key")->add_child_text(lines);
 	return document.write_to_string ("UTF-8");
 }

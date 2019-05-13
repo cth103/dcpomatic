@@ -21,6 +21,9 @@
 #ifndef DCPOMATIC_FFMPEG_CONTENT_H
 #define DCPOMATIC_FFMPEG_CONTENT_H
 
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+#include "encrypted_ecinema_kdm.h"
+#endif
 #include "content.h"
 #include "audio_stream.h"
 
@@ -41,6 +44,7 @@ public:
 	/** The chosen subtitle stream, or something about it */
 	static int const SUBTITLE_STREAM;
 	static int const FILTERS;
+	static int const KDM;
 };
 
 class FFmpegContent : public Content
@@ -98,15 +102,24 @@ public:
 
 	void signal_subtitle_stream_changed ();
 
-	boost::optional<std::string> decryption_key () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _decryption_key;
-	}
+#ifdef DCPOMATIC_VARIANT_SWAROOP
 
 	bool encrypted () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _encrypted;
 	}
+
+	void add_kdm (EncryptedECinemaKDM kdm);
+
+	boost::optional<EncryptedECinemaKDM> kdm () const {
+		return _kdm;
+	}
+
+	boost::optional<std::string> id () const {
+		return _id;
+	}
+
+#endif
 
 private:
 	void add_properties (boost::shared_ptr<const Film> film, std::list<UserProperty> &) const;
@@ -125,8 +138,11 @@ private:
 	boost::optional<AVColorTransferCharacteristic> _color_trc;
 	boost::optional<AVColorSpace> _colorspace;
 	boost::optional<int> _bits_per_pixel;
-	boost::optional<std::string> _decryption_key;
+#ifdef DCPOMATIC_VARIANT_SWAROOP
 	bool _encrypted;
+	boost::optional<EncryptedECinemaKDM> _kdm;
+	boost::optional<std::string> _id;
+#endif
 };
 
 #endif

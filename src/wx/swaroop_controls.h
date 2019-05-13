@@ -21,6 +21,7 @@
 #include "controls.h"
 
 class DCPContent;
+class EncryptedECinemaKDM;
 
 class SwaroopControls : public Controls
 {
@@ -61,6 +62,7 @@ private:
 
 	boost::optional<dcp::EncryptedKDM> get_kdm_from_url (boost::shared_ptr<DCPContent> dcp);
 	boost::optional<dcp::EncryptedKDM> get_kdm_from_directory (boost::shared_ptr<DCPContent> dcp);
+	boost::optional<EncryptedECinemaKDM> get_kdm_from_directory (boost::shared_ptr<FFmpegContent> ffmpeg);
 
 	wxButton* _play_button;
 	wxButton* _pause_button;

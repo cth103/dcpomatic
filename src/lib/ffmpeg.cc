@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -27,8 +27,10 @@
 #include "dcpomatic_log.h"
 #include "ffmpeg_subtitle_stream.h"
 #include "ffmpeg_audio_stream.h"
+#include "decrypted_ecinema_kdm.h"
 #include "digester.h"
 #include "compose.hpp"
+#include "config.h"
 #include <dcp/raw_convert.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -123,8 +125,9 @@ FFmpeg::setup_general ()
 	*/
 	av_dict_set (&options, "analyzeduration", raw_convert<string> (5 * 60 * 1000000).c_str(), 0);
 	av_dict_set (&options, "probesize", raw_convert<string> (5 * 60 * 1000000).c_str(), 0);
-	if (_ffmpeg_content->decryption_key()) {
-		av_dict_set (&options, "decryption_key", _ffmpeg_content->decryption_key()->c_str(), 0);
+	if (_ffmpeg_content->kdm()) {
+		DecryptedECinemaKDM kdm (_ffmpeg_content->kdm().get(), Config::instance()->decryption_chain()->key().get());
+		av_dict_set (&options, "decryption_key", kdm.key().hex().c_str(), 0);
 	}
 
 	int e = avformat_open_input (&_format_context, 0, 0, &options);

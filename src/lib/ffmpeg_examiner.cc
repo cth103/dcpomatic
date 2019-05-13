@@ -166,6 +166,13 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 
 		DCPOMATIC_ASSERT (fabs (*_rotation - 90 * round (*_rotation / 90)) < 2);
 	}
+
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	AVDictionaryEntry* e = av_dict_get (_format_context->metadata, SWAROOP_ID_TAG, 0, 0);
+	if (e) {
+		_id = e->value;
+	}
+#endif
 }
 
 void

@@ -28,11 +28,21 @@
 class DecryptedECinemaKDM
 {
 public:
-	DecryptedECinemaKDM (dcp::Key content_key);
+	DecryptedECinemaKDM (std::string id, dcp::Key content_key);
+	DecryptedECinemaKDM (EncryptedECinemaKDM kdm, std::string private_key);
 
 	EncryptedECinemaKDM encrypt (dcp::Certificate recipient);
 
+	std::string id () const {
+		return _id;
+	}
+
+	dcp::Key key () const {
+		return _content_key;
+	}
+
 private:
+	std::string _id;
 	/** unenecrypted content key */
 	dcp::Key _content_key;
 };

@@ -22,21 +22,53 @@
 
 #include "encrypted_ecinema_kdm.h"
 #include "decrypted_ecinema_kdm.h"
+#include "exceptions.h"
 #include <dcp/key.h>
+#include <dcp/util.h>
 #include <dcp/certificate.h>
+#include <openssl/rsa.h>
+#include <openssl/pem.h>
+#include <openssl/err.h>
 
+using std::string;
+using std::runtime_error;
 using dcp::Certificate;
 
-DecryptedECinemaKDM::DecryptedECinemaKDM (dcp::Key content_key)
-	: _content_key (content_key)
+DecryptedECinemaKDM::DecryptedECinemaKDM (string id, dcp::Key content_key)
+	: _id (id)
+	, _content_key (content_key)
 {
 
+}
+
+DecryptedECinemaKDM::DecryptedECinemaKDM (EncryptedECinemaKDM kdm, string private_key)
+	: _id (kdm.id())
+{
+	/* Read the private key */
+
+	BIO* bio = BIO_new_mem_buf (const_cast<char *> (private_key.c_str()), -1);
+	if (!bio) {
+		throw runtime_error ("could not create memory BIO");
+	}
+
+	RSA* rsa = PEM_read_bio_RSAPrivateKey (bio, 0, 0, 0);
+	if (!rsa) {
+		throw FileError ("could not read RSA private key file", private_key);
+	}
+
+	uint8_t value[RSA_size(rsa)];
+	int const len = RSA_private_decrypt (kdm.key().size(), kdm.key().data().get(), value, rsa, RSA_PKCS1_OAEP_PADDING);
+	if (len == -1) {
+		throw KDMError (ERR_error_string(ERR_get_error(), 0), "");
+	}
+
+	_content_key = dcp::Key (value, len);
 }
 
 EncryptedECinemaKDM
 DecryptedECinemaKDM::encrypt (Certificate recipient)
 {
-	return EncryptedECinemaKDM (_content_key, recipient);
+	return EncryptedECinemaKDM (_id, _content_key, recipient);
 }
 
 #endif

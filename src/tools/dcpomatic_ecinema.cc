@@ -21,6 +21,7 @@
 #include "lib/version.h"
 #include "lib/decrypted_ecinema_kdm.h"
 #include "lib/config.h"
+#include "lib/util.h"
 #include <dcp/key.h>
 extern "C" {
 #include <libavformat/avformat.h>
@@ -155,6 +156,15 @@ main (int argc, char* argv[])
 	dcp::Key key (AES_CTR_KEY_SIZE);
 	AVDictionary* options = 0;
 	av_dict_set (&options, "encryption_key", key.hex().c_str(), 0);
+	/* XXX: is this OK? */
+	av_dict_set (&options, "encryption_kid", "00000000000000000000000000000000", 0);
+	av_dict_set (&options, "encryption_scheme", "cenc-aes-ctr", 0);
+
+	string id = dcp::make_uuid ();
+	if (av_dict_set(&output_fc->metadata, SWAROOP_ID_TAG, id.c_str(), 0) < 0) {
+		cerr << "Could not write ID to output.\n";
+		exit (EXIT_FAILURE);
+	}
 
 	if (avformat_write_header (output_fc, &options) < 0) {
 		cerr << "Could not write header to output.\n";
@@ -180,7 +190,7 @@ main (int argc, char* argv[])
 	avformat_free_context (input_fc);
 	avformat_free_context (output_fc);
 
-	DecryptedECinemaKDM decrypted_kdm (key);
+	DecryptedECinemaKDM decrypted_kdm (id, key);
 	EncryptedECinemaKDM encrypted_kdm = decrypted_kdm.encrypt (Config::instance()->decryption_chain()->leaf());
 	cout << encrypted_kdm.as_xml() << "\n";
 }

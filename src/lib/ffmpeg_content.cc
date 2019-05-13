@@ -61,6 +61,7 @@ using namespace dcpomatic;
 int const FFmpegContentProperty::SUBTITLE_STREAMS = 100;
 int const FFmpegContentProperty::SUBTITLE_STREAM = 101;
 int const FFmpegContentProperty::FILTERS = 102;
+int const FFmpegContentProperty::KDM = 103;
 
 FFmpegContent::FFmpegContent (boost::filesystem::path p)
 	: Content (p)
@@ -125,7 +126,6 @@ FFmpegContent::FFmpegContent (cxml::ConstNodePtr node, int version, list<string>
 	_color_trc = get_optional_enum<AVColorTransferCharacteristic>(node, "ColorTransferCharacteristic");
 	_colorspace = get_optional_enum<AVColorSpace>(node, "Colorspace");
 	_bits_per_pixel = node->optional_number_child<int> ("BitsPerPixel");
-	_decryption_key = node->optional_string_child ("DecryptionKey");
 	_encrypted = node->optional_bool_child("Encrypted").get_value_or(false);
 }
 
@@ -248,9 +248,6 @@ FFmpegContent::as_xml (xmlpp::Node* node, bool with_paths) const
 	if (_bits_per_pixel) {
 		node->add_child("BitsPerPixel")->add_child_text (raw_convert<string> (*_bits_per_pixel));
 	}
-	if (_decryption_key) {
-		node->add_child("DecryptionKey")->add_child_text (_decryption_key.get());
-	}
 	if (_encrypted) {
 		node->add_child("Encypted")->add_child_text ("1");
 	}
@@ -325,6 +322,10 @@ FFmpegContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	if (examiner->has_video ()) {
 		set_default_colour_conversion ();
 	}
+
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	_id = examiner->id ();
+#endif
 }
 
 string
@@ -687,3 +688,14 @@ FFmpegContent::take_settings_from (shared_ptr<const Content> c)
 	Content::take_settings_from (c);
 	_filters = fc->_filters;
 }
+
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+void
+FFmpegContent::add_kdm (EncryptedECinemaKDM kdm)
+{
+	ChangeSignaller<Content> cc (this, FFmpegContentProperty::KDM);
+	boost::mutex::scoped_lock lm (_mutex);
+	_kdm = kdm;
+
+}
+#endif
