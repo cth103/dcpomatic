@@ -91,7 +91,6 @@ FilmViewer::FilmViewer (wxWindow* p)
 	, _eyes (EYES_LEFT)
 	, _pad_black (false)
 #ifdef DCPOMATIC_VARIANT_SWAROOP
-	, _in_watermark (false)
 	, _background_image (false)
 #endif
 	, _state_timer ("viewer")
@@ -324,28 +323,6 @@ FilmViewer::timer ()
 		_butler->rethrow ();
 	}
 }
-
-bool
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-XXX
-FilmViewer::maybe_draw_background_image (wxPaintDC& dc)
-{
-	optional<boost::filesystem::path> bg = Config::instance()->player_background_image();
-	if (bg) {
-		wxImage image (std_to_wx(bg->string()));
-		wxBitmap bitmap (image);
-		dc.DrawBitmap (bitmap, max(0, (_panel_size.width - image.GetSize().GetWidth()) / 2), max(0, (_panel_size.height - image.GetSize().GetHeight()) / 2));
-		return true;
-	}
-
-	return false;
-}
-#else
-FilmViewer::maybe_draw_background_image (wxPaintDC &)
-{
-	return false;
-}
-#endif
 
 void
 FilmViewer::set_outline_content (bool o)

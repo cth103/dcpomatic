@@ -181,6 +181,6 @@ main (int argc, char* argv[])
 	avformat_free_context (output_fc);
 
 	DecryptedECinemaKDM decrypted_kdm (key);
-	EncryptedECinemaKDM encrypted_kdm = decrypted_kdm.encrypt (Config::instance()->decryption_chain());
+	EncryptedECinemaKDM encrypted_kdm = decrypted_kdm.encrypt (Config::instance()->decryption_chain()->leaf());
 	cout << encrypted_kdm.as_xml() << "\n";
 }

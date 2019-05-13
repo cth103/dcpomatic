@@ -20,12 +20,16 @@
 
 #include "simple_video_view.h"
 #include "film_viewer.h"
+#include "wx_util.h"
 #include "lib/image.h"
 #include <dcp/util.h>
 #include <wx/wx.h>
 #include <boost/bind.hpp>
 
 using std::max;
+using std::string;
+using boost::optional;
+using namespace dcpomatic;
 
 SimpleVideoView::SimpleVideoView (FilmViewer* viewer, wxWindow* parent)
 	: VideoView (viewer)
@@ -49,16 +53,21 @@ SimpleVideoView::paint ()
         _viewer->state_timer().set("paint-panel");
 	wxPaintDC dc (_panel);
 
+	dcp::Size const out_size = _viewer->out_size ();
+	wxSize const panel_size = _panel->GetSize ();
+
 #ifdef DCPOMATIC_VARIANT_SWAROOP
-	if (viewer->background_image()) {
+	if (_viewer->background_image()) {
 		dc.Clear ();
-		maybe_draw_background_image (dc);
+		optional<boost::filesystem::path> bg = Config::instance()->player_background_image();
+		if (bg) {
+			wxImage image (std_to_wx(bg->string()));
+			wxBitmap bitmap (image);
+			dc.DrawBitmap (bitmap, max(0, (panel_size.GetWidth() - image.GetSize().GetWidth()) / 2), max(0, (panel_size.GetHeight() - image.GetSize().GetHeight()) / 2));
+		}
 		return;
 	}
 #endif
-
-	dcp::Size const out_size = _viewer->out_size ();
-	wxSize const panel_size = _panel->GetSize ();
 
 	if (!out_size.width || !out_size.height || !_image || out_size != _image->size()) {
 		dc.Clear ();
@@ -69,16 +78,15 @@ SimpleVideoView::paint ()
 		dc.DrawBitmap (frame_bitmap, 0, max(0, (panel_size.GetHeight() - out_size.height) / 2));
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
-		XXX
 		DCPTime const period = DCPTime::from_seconds(Config::instance()->player_watermark_period() * 60);
-		int64_t n = _video_position.get() / period.get();
+		int64_t n = _viewer->video_position().get() / period.get();
 		DCPTime from(n * period.get());
 		DCPTime to = from + DCPTime::from_seconds(Config::instance()->player_watermark_duration() / 1000.0);
-		if (from <= _video_position && _video_position <= to) {
+		if (from <= _viewer->video_position() && _viewer->video_position() <= to) {
 			if (!_in_watermark) {
 				_in_watermark = true;
-				_watermark_x = rand() % _panel_size.width;
-				_watermark_y = rand() % _panel_size.height;
+				_watermark_x = rand() % panel_size.GetWidth();
+				_watermark_y = rand() % panel_size.GetHeight();
 			}
 			dc.SetTextForeground(*wxWHITE);
 			string wm = Config::instance()->player_watermark_theatre();

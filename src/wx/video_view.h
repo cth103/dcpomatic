@@ -33,6 +33,9 @@ class VideoView
 public:
 	VideoView (FilmViewer* viewer)
 		: _viewer (viewer)
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+		, _in_watermark (false)
+#endif
 	{}
 
 	virtual ~VideoView () {}
@@ -45,6 +48,12 @@ public:
 
 protected:
 	FilmViewer* _viewer;
+
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	bool _in_watermark;
+	int _watermark_x;
+	int _watermark_y;
+#endif
 };
 
 #endif

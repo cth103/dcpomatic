@@ -93,7 +93,11 @@ public:
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	void set_background_image (bool b) {
 		_background_image = b;
-		refresh_panel ();
+		refresh_view ();
+	}
+
+	bool background_image () const {
+		return _background_image;
 	}
 #endif
 
@@ -125,6 +129,9 @@ public:
 	bool pad_black () const {
 		return _pad_black;
 	}
+	dcpomatic::DCPTime video_position () const {
+		return _video_position;
+	}
 
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
 	boost::signals2::signal<void ()> PositionChanged;
@@ -145,7 +152,6 @@ private:
 	void film_change (ChangeType, Film::Property);
 	void recreate_butler ();
 	void config_changed (Config::Property);
-	bool maybe_draw_background_image (wxPaintDC& dc);
 
 	dcpomatic::DCPTime time () const;
 	dcpomatic::DCPTime uncorrected_time () const;
@@ -194,9 +200,6 @@ private:
 	bool _pad_black;
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
-	bool _in_watermark;
-	int _watermark_x;
-	int _watermark_y;
 	bool _background_image;
 #endif
 
