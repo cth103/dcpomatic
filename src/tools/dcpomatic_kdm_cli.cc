@@ -130,7 +130,7 @@ always_overwrite ()
 
 void
 write_files (
-	list<ScreenKDM> screen_kdms,
+	list<shared_ptr<ScreenKDM> > screen_kdms,
 	bool zip,
 	boost::filesystem::path output,
 	dcp::NameFormat container_name_format,
@@ -229,7 +229,7 @@ from_film (
 	values['e'] = dcp::LocalTime(valid_to).date() + " " + dcp::LocalTime(valid_to).time_of_day(true, false);
 
 	try {
-		list<ScreenKDM> screen_kdms = film->make_kdms (
+		list<shared_ptr<ScreenKDM> > screen_kdms = film->make_kdms (
 			screens, cpl, valid_from, valid_to, formulation, disable_forensic_marking_picture, disable_forensic_marking_audio
 			);
 
@@ -330,24 +330,26 @@ from_dkdm (
 	values['e'] = dcp::LocalTime(valid_to).date() + " " + dcp::LocalTime(valid_to).time_of_day(true, false);
 
 	try {
-		list<ScreenKDM> screen_kdms;
+		list<shared_ptr<ScreenKDM> > screen_kdms;
 		BOOST_FOREACH (shared_ptr<Screen> i, screens) {
 			if (!i->recipient) {
 				continue;
 			}
 
 			screen_kdms.push_back (
-				ScreenKDM (
-					i,
-					kdm_from_dkdm (
-						dkdm,
-						i->recipient.get(),
-						i->trusted_device_thumbprints(),
-						dcp::LocalTime(valid_from, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
-						dcp::LocalTime(valid_to, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
-						formulation,
-						disable_forensic_marking_picture,
-						disable_forensic_marking_audio
+				shared_ptr<ScreenKDM>(
+					new DCPScreenKDM(
+						i,
+						kdm_from_dkdm(
+							dkdm,
+							i->recipient.get(),
+							i->trusted_device_thumbprints(),
+							dcp::LocalTime(valid_from, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
+							dcp::LocalTime(valid_to, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
+							formulation,
+							disable_forensic_marking_picture,
+							disable_forensic_marking_audio
+							)
 						)
 					)
 				);

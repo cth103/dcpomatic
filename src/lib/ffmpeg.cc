@@ -125,10 +125,12 @@ FFmpeg::setup_general ()
 	*/
 	av_dict_set (&options, "analyzeduration", raw_convert<string> (5 * 60 * 1000000).c_str(), 0);
 	av_dict_set (&options, "probesize", raw_convert<string> (5 * 60 * 1000000).c_str(), 0);
+#ifdef DCPOMATIC_VARIANT_SWAROOP
 	if (_ffmpeg_content->kdm()) {
 		DecryptedECinemaKDM kdm (_ffmpeg_content->kdm().get(), Config::instance()->decryption_chain()->key().get());
 		av_dict_set (&options, "decryption_key", kdm.key().hex().c_str(), 0);
 	}
+#endif
 
 	int e = avformat_open_input (&_format_context, 0, 0, &options);
 	if (e < 0) {

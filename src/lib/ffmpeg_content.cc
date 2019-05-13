@@ -65,7 +65,9 @@ int const FFmpegContentProperty::KDM = 103;
 
 FFmpegContent::FFmpegContent (boost::filesystem::path p)
 	: Content (p)
+#ifdef DCPOMATIC_VARIANT_SWAROOP
 	, _encrypted (false)
+#endif
 {
 
 }
@@ -126,7 +128,9 @@ FFmpegContent::FFmpegContent (cxml::ConstNodePtr node, int version, list<string>
 	_color_trc = get_optional_enum<AVColorTransferCharacteristic>(node, "ColorTransferCharacteristic");
 	_colorspace = get_optional_enum<AVColorSpace>(node, "Colorspace");
 	_bits_per_pixel = node->optional_number_child<int> ("BitsPerPixel");
+#ifdef DCPOMATIC_VARIANT_SWAROOP
 	_encrypted = node->optional_bool_child("Encrypted").get_value_or(false);
+#endif
 }
 
 FFmpegContent::FFmpegContent (vector<shared_ptr<Content> > c)
@@ -188,7 +192,9 @@ FFmpegContent::FFmpegContent (vector<shared_ptr<Content> > c)
 	_color_trc = ref->_color_trc;
 	_colorspace = ref->_colorspace;
 	_bits_per_pixel = ref->_bits_per_pixel;
+#ifdef DCPOMATIC_VARIANT_SWAROOP
 	_encrypted = ref->_encrypted;
+#endif
 }
 
 void
@@ -248,9 +254,11 @@ FFmpegContent::as_xml (xmlpp::Node* node, bool with_paths) const
 	if (_bits_per_pixel) {
 		node->add_child("BitsPerPixel")->add_child_text (raw_convert<string> (*_bits_per_pixel));
 	}
+#ifdef DCPOMATIC_VARIANT_SWAROOP
 	if (_encrypted) {
 		node->add_child("Encypted")->add_child_text ("1");
 	}
+#endif
 }
 
 void
@@ -318,7 +326,9 @@ FFmpegContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 			_subtitle_stream = _subtitle_streams.front ();
 		}
 
+#ifdef DCPOMATIC_VARIANT_SWAROOP
 		_encrypted = first_path.extension() == ".ecinema";
+#endif
 	}
 
 	if (examiner->has_video ()) {
