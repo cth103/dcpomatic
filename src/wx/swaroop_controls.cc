@@ -471,6 +471,7 @@ SwaroopControls::select_playlist (int selected, int position)
 			if (kdm) {
 				try {
 					ffmpeg->add_kdm (*kdm);
+					ffmpeg->examine (_film, shared_ptr<Job>());
 				} catch (KDMError& e) {
 					error_dialog (this, "Could not load KDM.");
 				}

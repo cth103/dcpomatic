@@ -259,7 +259,9 @@ FFmpegContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	ChangeSignaller<Content> cc1 (this, FFmpegContentProperty::SUBTITLE_STREAMS);
 	ChangeSignaller<Content> cc2 (this, FFmpegContentProperty::SUBTITLE_STREAM);
 
-	job->set_progress_unknown ();
+	if (job) {
+		job->set_progress_unknown ();
+	}
 
 	Content::examine (film, job);
 
