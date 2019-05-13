@@ -34,8 +34,9 @@ using std::string;
 using std::runtime_error;
 using dcp::Certificate;
 
-DecryptedECinemaKDM::DecryptedECinemaKDM (string id, dcp::Key content_key)
+DecryptedECinemaKDM::DecryptedECinemaKDM (string id, string name, dcp::Key content_key)
 	: _id (id)
+	, _name (name)
 	, _content_key (content_key)
 {
 
@@ -43,6 +44,7 @@ DecryptedECinemaKDM::DecryptedECinemaKDM (string id, dcp::Key content_key)
 
 DecryptedECinemaKDM::DecryptedECinemaKDM (EncryptedECinemaKDM kdm, string private_key)
 	: _id (kdm.id())
+	, _name (kdm.name())
 {
 	/* Read the private key */
 
@@ -68,7 +70,7 @@ DecryptedECinemaKDM::DecryptedECinemaKDM (EncryptedECinemaKDM kdm, string privat
 EncryptedECinemaKDM
 DecryptedECinemaKDM::encrypt (Certificate recipient)
 {
-	return EncryptedECinemaKDM (_id, _content_key, recipient);
+	return EncryptedECinemaKDM (_id, _name, _content_key, recipient);
 }
 
 #endif

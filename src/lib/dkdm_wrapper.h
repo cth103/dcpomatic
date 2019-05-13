@@ -18,6 +18,9 @@
 
 */
 
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+#include "encrypted_ecinema_kdm.h"
+#endif
 #include <dcp/encrypted_kdm.h>
 #include <libcxml/cxml.h>
 #include <boost/enable_shared_from_this.hpp>
@@ -66,6 +69,26 @@ public:
 private:
 	dcp::EncryptedKDM _dkdm;
 };
+
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+class ECinemaDKDM : public DKDMBase
+{
+public:
+	explicit ECinemaDKDM (EncryptedECinemaKDM k)
+		: _dkdm (k)
+	{}
+
+	std::string name () const;
+	void as_xml (xmlpp::Element *) const;
+
+	EncryptedECinemaKDM dkdm () const {
+		return _dkdm;
+	}
+
+private:
+	EncryptedECinemaKDM _dkdm;
+};
+#endif
 
 class DKDMGroup : public DKDMBase
 {

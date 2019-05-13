@@ -40,6 +40,10 @@ public:
 		return _id;
 	}
 
+	std::string name () const {
+		return _name;
+	}
+
 	dcp::Data key () const {
 		return _content_key;
 	}
@@ -47,9 +51,10 @@ public:
 private:
 	friend class DecryptedECinemaKDM;
 
-	EncryptedECinemaKDM (std::string id, dcp::Key key, dcp::Certificate recipient);
+	EncryptedECinemaKDM (std::string id, std::string name, dcp::Key key, dcp::Certificate recipient);
 
 	std::string _id;
+	std::string _name;
 	/** encrypted content key */
 	dcp::Data _content_key;
 };

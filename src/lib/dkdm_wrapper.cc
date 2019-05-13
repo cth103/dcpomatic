@@ -34,6 +34,10 @@ DKDMBase::read (cxml::ConstNodePtr node)
 {
 	if (node->name() == "DKDM") {
 		return shared_ptr<DKDM> (new DKDM (dcp::EncryptedKDM (node->content ())));
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	} else if (node->name() == "ECinemaDKDM") {
+		return shared_ptr<ECinemaDKDM> (new ECinemaDKDM(EncryptedECinemaKDM(node->content())));
+#endif
 	} else if (node->name() == "DKDMGroup") {
 		shared_ptr<DKDMGroup> group (new DKDMGroup (node->string_attribute ("Name")));
 		BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children()) {
@@ -59,6 +63,20 @@ DKDM::as_xml (xmlpp::Element* node) const
 {
 	node->add_child("DKDM")->add_child_text (_dkdm.as_xml ());
 }
+
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+string
+ECinemaDKDM::name () const
+{
+	return String::compose ("%1 (%2)", _dkdm.name(), _dkdm.id());
+}
+
+void
+ECinemaDKDM::as_xml (xmlpp::Element* node) const
+{
+	node->add_child("ECinemaDKDM")->add_child_text (_dkdm.as_xml());
+}
+#endif
 
 void
 DKDMGroup::as_xml (xmlpp::Element* node) const
