@@ -48,6 +48,7 @@ help (string n)
 	     << "  -v, --version        show DCP-o-matic version\n"
 	     << "  -h, --help           show this help\n"
 	     << "  -o, --output         output directory\n"
+	     << "  -f, --format         output format (mov or mp4; defaults to mov)\n"
 	     << "\n"
 	     << "<FILE> is the unencrypted .mp4 file.\n";
 }
@@ -56,6 +57,7 @@ int
 main (int argc, char* argv[])
 {
 	optional<boost::filesystem::path> output;
+	optional<boost::filesystem::path> format;
 
 	int option_index = 0;
 	while (true) {
@@ -63,9 +65,10 @@ main (int argc, char* argv[])
 			{ "version", no_argument, 0, 'v'},
 			{ "help", no_argument, 0, 'h'},
 			{ "output", required_argument, 0, 'o'},
+			{ "format", required_argument, 0, 'f'},
 		};
 
-		int c = getopt_long (argc, argv, "vho:", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vho:f:", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -81,6 +84,9 @@ main (int argc, char* argv[])
 		case 'o':
 			output = optarg;
 			break;
+		case 'f':
+			format = optarg;
+			break;
 		}
 	}
 
@@ -91,6 +97,15 @@ main (int argc, char* argv[])
 
 	if (!output) {
 		cerr << "You must specify --output-media or -o\n";
+		exit (EXIT_FAILURE);
+	}
+
+	if (!format) {
+		format = "mov";
+	}
+
+	if (*format != "mov" && *format != "mp4") {
+		cerr << "Invalid format specified: must be mov or mp4\n";
 		exit (EXIT_FAILURE);
 	}
 
@@ -115,7 +130,7 @@ main (int argc, char* argv[])
 	}
 
 	AVFormatContext* output_fc;
-	avformat_alloc_output_context2 (&output_fc, av_guess_format("mp4", 0, 0), 0, 0);
+	avformat_alloc_output_context2 (&output_fc, av_guess_format(format->c_str(), 0, 0), 0, 0);
 
 	for (uint32_t i = 0; i < input_fc->nb_streams; ++i) {
 		AVStream* is = input_fc->streams[i];
