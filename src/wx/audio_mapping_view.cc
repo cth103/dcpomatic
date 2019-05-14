@@ -207,6 +207,30 @@ AudioMappingView::paint_column_lines (wxGraphicsContext* gc)
 	gc->StrokePath (lines);
 }
 
+static
+void clip (wxDC& dc, wxGraphicsContext* gc, int x, int y, int w, int h)
+{
+	dc.SetClippingRegion (x, y, w, h);
+	gc->Clip (x, y, w, h);
+}
+
+static
+void translate (wxDC& dc, wxGraphicsContext* gc, int x, int y)
+{
+	gc->PushState ();
+	gc->Translate (-x, -y);
+	dc.SetLogicalOrigin (x, y);
+}
+
+static
+void restore (wxDC& dc, wxGraphicsContext* gc)
+{
+	dc.SetLogicalOrigin (0, 0);
+	gc->PopState ();
+	dc.DestroyClippingRegion ();
+	gc->ResetClip ();
+}
+
 void
 AudioMappingView::paint_row_labels (wxDC& dc, wxGraphicsContext* gc)
 {
@@ -234,14 +258,19 @@ AudioMappingView::paint_row_labels (wxDC& dc, wxGraphicsContext* gc)
 
 	int y = TOP_HEIGHT;
 	BOOST_FOREACH (Group i, _input_groups) {
-		dc.GetTextExtent (std_to_wx(i.name), &label_width, &label_height);
 		int const height = (i.to - i.from + 1) * GRID_SPACING;
+		dc.GetTextExtent (std_to_wx(i.name), &label_width, &label_height);
+		if (label_width > height) {
+			label_width = height - 8;
+		}
+		clip (dc, gc, GRID_SPACING, y + 4, GRID_SPACING, height - 4);
 		dc.DrawRotatedText (
 			std_to_wx(i.name),
 			GRID_SPACING + (GRID_SPACING - label_height) / 2,
 			y + (height + label_width) / 2,
 			90
 			);
+		restore (dc, gc);
 		lines.MoveToPoint    (GRID_SPACING,     y);
 		lines.AddLineToPoint (GRID_SPACING * 2, y);
 		y += height;
@@ -301,30 +330,6 @@ AudioMappingView::paint_indicators (wxDC& dc)
 				);
 		}
 	}
-}
-
-static
-void clip (wxDC& dc, wxGraphicsContext* gc, int x, int y, int w, int h)
-{
-	dc.SetClippingRegion (x, y, w, h);
-	gc->Clip (x, y, w, h);
-}
-
-static
-void translate (wxDC& dc, wxGraphicsContext* gc, int x, int y)
-{
-	gc->PushState ();
-	gc->Translate (-x, -y);
-	dc.SetLogicalOrigin (x, y);
-}
-
-static
-void restore (wxDC& dc, wxGraphicsContext* gc)
-{
-	dc.SetLogicalOrigin (0, 0);
-	gc->PopState ();
-	dc.DestroyClippingRegion ();
-	gc->ResetClip ();
 }
 
 void
