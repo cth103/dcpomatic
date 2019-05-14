@@ -88,6 +88,7 @@ private:
 	void motion (wxMouseEvent &);
 	void mouse_wheel (wxMouseEvent &);
 	boost::optional<std::pair<int, int> > mouse_event_to_channels (wxMouseEvent& ev) const;
+	boost::optional<std::string> mouse_event_to_input_group_name (wxMouseEvent& ev) const;
 	void setup ();
 
 	void off ();

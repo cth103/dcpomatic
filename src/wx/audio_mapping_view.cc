@@ -395,6 +395,24 @@ AudioMappingView::mouse_event_to_channels (wxMouseEvent& ev) const
 	return make_pair (input, output);
 }
 
+optional<string>
+AudioMappingView::mouse_event_to_input_group_name (wxMouseEvent& ev) const
+{
+	int const x = ev.GetX() + _horizontal_scroll->GetThumbPosition();
+	if (x < GRID_SPACING || x > (2 * GRID_SPACING)) {
+		return optional<string>();
+	}
+
+	int y = (ev.GetY() + _vertical_scroll->GetThumbPosition() - (GRID_SPACING * 2)) / GRID_SPACING;
+	BOOST_FOREACH (Group i, _input_groups) {
+		if (i.from <= y && y <= i.to) {
+			return i.name;
+		}
+	}
+
+	return optional<string>();
+}
+
 void
 AudioMappingView::left_down (wxMouseEvent& ev)
 {
@@ -512,28 +530,40 @@ void
 AudioMappingView::motion (wxMouseEvent& ev)
 {
 	optional<pair<int, int> > channels = mouse_event_to_channels (ev);
-	if (!channels) {
-		SetToolTip ("");
-		_last_tooltip_channels = channels;
-		return;
-	}
+	if (channels) {
+		if (channels != _last_tooltip_channels) {
+			wxString s;
+			float const gain = _map.get(channels->first, channels->second);
+			if (gain == 0) {
+				s = wxString::Format (
+					_("No audio will be passed from content channel %d to DCP channel %d."),
+					channels->first + 1, channels->second + 1
+					);
+			} else if (gain == 1) {
+				s = wxString::Format (
+					_("Audio will be passed from content channel %d to DCP channel %d unaltered."),
+					channels->first + 1, channels->second + 1
+					);
+			} else {
+				float const dB = 20 * log10 (gain);
+				s = wxString::Format (
+					_("Audio will be passed from content channel %d to DCP channel %d with gain %.1fdB."),
+					channels->first + 1, channels->second + 1, dB
+					);
+			}
 
-	if (channels != _last_tooltip_channels) {
-		wxString s;
-		float const gain = _map.get(channels->first, channels->second);
-		if (gain == 0) {
-			s = wxString::Format (_("No audio will be passed from content channel %d to DCP channel %d."), channels->first + 1, channels->second + 1);
-		} else if (gain == 1) {
-			s = wxString::Format (_("Audio will be passed from content channel %d to DCP channel %d unaltered."), channels->first + 1, channels->second + 1);
-		} else {
-			float const dB = 20 * log10 (gain);
-			s = wxString::Format (_("Audio will be passed from content channel %d to DCP channel %d with gain %.1fdB."), channels->first + 1, channels->second + 1, dB);
+			SetToolTip (s + " " + _("Right click to change gain."));
 		}
-
-		SetToolTip (s + " " + _("Right click to change gain."));
-		_last_tooltip_channels = channels;
+	} else {
+		optional<string> group = mouse_event_to_input_group_name (ev);
+		if (group) {
+			SetToolTip (std_to_wx(*group));
+		} else {
+			SetToolTip ("");
+		}
 	}
 
+	_last_tooltip_channels = channels;
         ev.Skip ();
 }
 
