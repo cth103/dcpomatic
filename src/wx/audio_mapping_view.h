@@ -90,6 +90,8 @@ private:
 	boost::optional<std::pair<int, int> > mouse_event_to_channels (wxMouseEvent& ev) const;
 	boost::optional<std::string> mouse_event_to_input_group_name (wxMouseEvent& ev) const;
 	void setup ();
+	wxString safe_input_channel_name (int n) const;
+	wxString safe_output_channel_name (int n) const;
 
 	void off ();
 	void full ();

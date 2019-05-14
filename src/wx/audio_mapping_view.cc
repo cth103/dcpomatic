@@ -526,6 +526,37 @@ AudioMappingView::set_output_channels (vector<string> const & names)
 	Refresh ();
 }
 
+wxString
+AudioMappingView::safe_input_channel_name (int n) const
+{
+	if (n >= int(_input_channels.size())) {
+		return wxString::Format ("%d", n + 1);
+	}
+
+	optional<wxString> group;
+	BOOST_FOREACH (Group i, _input_groups) {
+		if (i.from <= n && n <= i.to) {
+			group = std_to_wx (i.name);
+		}
+	}
+
+	if (group) {
+		return wxString::Format ("%s/%s", group->data(), std_to_wx(_input_channels[n]).data());
+	}
+
+	return std_to_wx(_input_channels[n]);
+}
+
+wxString
+AudioMappingView::safe_output_channel_name (int n) const
+{
+	if (n >= int(_output_channels.size())) {
+		return wxString::Format ("%d", n + 1);
+	}
+
+	return std_to_wx(_output_channels[n]);
+}
+
 void
 AudioMappingView::motion (wxMouseEvent& ev)
 {
@@ -536,19 +567,23 @@ AudioMappingView::motion (wxMouseEvent& ev)
 			float const gain = _map.get(channels->first, channels->second);
 			if (gain == 0) {
 				s = wxString::Format (
-					_("No audio will be passed from content channel %d to DCP channel %d."),
-					channels->first + 1, channels->second + 1
+					_("No audio will be passed from content channel '%s' to DCP channel '%s'."),
+					safe_input_channel_name(channels->first),
+					safe_output_channel_name(channels->second)
 					);
 			} else if (gain == 1) {
 				s = wxString::Format (
-					_("Audio will be passed from content channel %d to DCP channel %d unaltered."),
-					channels->first + 1, channels->second + 1
+					_("Audio will be passed from content channel %s to DCP channel %s unaltered."),
+					safe_input_channel_name(channels->first),
+					safe_output_channel_name(channels->second)
 					);
 			} else {
 				float const dB = 20 * log10 (gain);
 				s = wxString::Format (
-					_("Audio will be passed from content channel %d to DCP channel %d with gain %.1fdB."),
-					channels->first + 1, channels->second + 1, dB
+					_("Audio will be passed from content channel %s to DCP channel %s with gain %.1fdB."),
+					safe_input_channel_name(channels->first),
+					safe_output_channel_name(channels->second),
+					dB
 					);
 			}
 
