@@ -83,6 +83,14 @@ for c in tree.getroot().find('Playlist').findall('Content'):
             video_length = int(c.find('VideoLength').text)
             path = os.path.join(sys.argv[1], 'dummy', ntpath.basename(c.find('Path').text))
             os.system('ffmpeg -t %d -s qcif -f rawvideo -pix_fmt rgb24 -r %d -i /dev/zero -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=48000 -shortest "%s"' % (float(video_length) / video_frame_rate, video_frame_rate, path))
+        elif c.find('AudioGain') is not None:
+            audio_frame_rate = int(c.find('AudioStream').find('FrameRate').text)
+            channels = int(c.find('AudioStream').find('Mapping').find('InputChannels').text)
+            path = os.path.join(sys.argv[1], 'dummy', ntpath.basename(c.find('Path').text))
+            audio_length = int(c.find('AudioStream').find('Length').text)
+            os.system('sox -n -r %d -c %d %s trim 0.0 %f' % (audio_frame_rate, channels, path, float(audio_length) / audio_frame_rate))
+        else:
+            print 'Skipped %s' % type
     elif type == 'Image':
         width = int(c.find('VideoWidth').text)
         height = int(c.find('VideoHeight').text)
