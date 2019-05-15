@@ -207,30 +207,6 @@ AudioMappingView::paint_column_lines (wxGraphicsContext* gc)
 	gc->StrokePath (lines);
 }
 
-static
-void clip (wxDC& dc, wxGraphicsContext* gc, int x, int y, int w, int h)
-{
-	dc.SetClippingRegion (x, y, w, h);
-	gc->Clip (x, y, w, h);
-}
-
-static
-void translate (wxDC& dc, wxGraphicsContext* gc, int x, int y)
-{
-	gc->PushState ();
-	gc->Translate (-x, -y);
-	dc.SetLogicalOrigin (x, y);
-}
-
-static
-void restore (wxDC& dc, wxGraphicsContext* gc)
-{
-	dc.SetLogicalOrigin (0, 0);
-	gc->PopState ();
-	dc.DestroyClippingRegion ();
-	gc->ResetClip ();
-}
-
 void
 AudioMappingView::paint_row_labels (wxDC& dc, wxGraphicsContext* gc)
 {
@@ -263,14 +239,29 @@ AudioMappingView::paint_row_labels (wxDC& dc, wxGraphicsContext* gc)
 		if (label_width > height) {
 			label_width = height - 8;
 		}
-		clip (dc, gc, GRID_SPACING, y + 4, GRID_SPACING, height - 4);
-		dc.DrawRotatedText (
-			std_to_wx(i.name),
-			GRID_SPACING + (GRID_SPACING - label_height) / 2,
-			y + (height + label_width) / 2,
-			90
-			);
-		restore (dc, gc);
+
+		{
+			int yp = y;
+			if ((yp - 2 * GRID_SPACING) < dc.GetLogicalOrigin().y) {
+				yp += dc.GetLogicalOrigin().y;
+			}
+
+			wxCoord old_x, old_y, old_width, old_height;
+			dc.GetClippingBox (&old_x, &old_y, &old_width, &old_height);
+			dc.DestroyClippingRegion ();
+			dc.SetClippingRegion (GRID_SPACING, yp + 4, GRID_SPACING, height - 8);
+
+			dc.DrawRotatedText (
+				std_to_wx(i.name),
+				GRID_SPACING + (GRID_SPACING - label_height) / 2,
+				y + (height + label_width) / 2,
+				90
+				);
+
+			dc.DestroyClippingRegion ();
+			dc.SetClippingRegion (old_x, old_y, old_width, old_height);
+		}
+
 		lines.MoveToPoint    (GRID_SPACING,     y);
 		lines.AddLineToPoint (GRID_SPACING * 2, y);
 		y += height;
@@ -330,6 +321,30 @@ AudioMappingView::paint_indicators (wxDC& dc)
 				);
 		}
 	}
+}
+
+static
+void clip (wxDC& dc, wxGraphicsContext* gc, int x, int y, int w, int h)
+{
+	dc.SetClippingRegion (x, y, w, h);
+	gc->Clip (x, y, w, h);
+}
+
+static
+void translate (wxDC& dc, wxGraphicsContext* gc, int x, int y)
+{
+	gc->PushState ();
+	gc->Translate (-x, -y);
+	dc.SetLogicalOrigin (x, y);
+}
+
+static
+void restore (wxDC& dc, wxGraphicsContext* gc)
+{
+	dc.SetLogicalOrigin (0, 0);
+	gc->PopState ();
+	dc.DestroyClippingRegion ();
+	gc->ResetClip ();
 }
 
 void
