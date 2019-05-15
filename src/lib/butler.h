@@ -69,7 +69,7 @@ private:
 	void text (PlayerText pt, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period);
 	bool should_run () const;
 	void prepare (boost::weak_ptr<PlayerVideo> video);
-	void player_change (ChangeType type, bool frequent);
+	void player_change (ChangeType type);
 	void seek_unlocked (dcpomatic::DCPTime position, bool accurate);
 
 	boost::shared_ptr<Player> _player;
