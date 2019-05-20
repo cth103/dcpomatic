@@ -158,3 +158,20 @@ BOOST_AUTO_TEST_CASE (threed_test6)
 	BOOST_REQUIRE (!wait_for_jobs());
 	check_dcp ("test/data/threed_test6", film->dir(film->dcp_name()));
 }
+
+/** Check 2D content set as being 3D; this fails with a -114 in some versions */
+BOOST_AUTO_TEST_CASE (threed_test7)
+{
+	shared_ptr<Film> film = new_test_film2 ("threed_test7");
+	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/red_24.mp4"));
+	film->examine_and_add_content (c);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	c->video->set_frame_type (VIDEO_FRAME_TYPE_3D);
+
+	film->set_three_d (true);
+	film->make_dcp ();
+	film->write_metadata ();
+
+	BOOST_REQUIRE (!wait_for_jobs());
+}
