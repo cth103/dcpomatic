@@ -32,6 +32,7 @@
 class Job;
 class Film;
 class Playlist;
+struct threed_test7;
 
 extern bool wait_for_jobs ();
 
@@ -73,6 +74,7 @@ public:
 private:
 	/* This function is part of the test suite */
 	friend bool ::wait_for_jobs ();
+	friend struct threed_test7;
 
 	JobManager ();
 	~JobManager ();

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -23,13 +23,17 @@
  *  @ingroup completedcp
  */
 
-#include <boost/test/unit_test.hpp>
 #include "test.h"
 #include "lib/film.h"
 #include "lib/ratio.h"
+#include "lib/config.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/video_content.h"
+#include "lib/job_manager.h"
+#include "lib/cross.h"
+#include "lib/job.h"
+#include <boost/test/unit_test.hpp>
 #include <iostream>
 
 using std::cout;
@@ -103,6 +107,8 @@ BOOST_AUTO_TEST_CASE (threed_test3)
 
 BOOST_AUTO_TEST_CASE (threed_test4)
 {
+	Config::instance()->set_master_encoding_threads (8);
+
 	shared_ptr<Film> film = new_test_film2 ("threed_test4");
 	shared_ptr<FFmpegContent> L (new FFmpegContent(private_data / "LEFT_TEST_DCP3D4K.mov"));
 	film->examine_and_add_content (L);
@@ -118,10 +124,14 @@ BOOST_AUTO_TEST_CASE (threed_test4)
 	film->write_metadata ();
 
 	BOOST_REQUIRE (!wait_for_jobs ());
+
+	Config::instance()->set_master_encoding_threads (8);
 }
 
 BOOST_AUTO_TEST_CASE (threed_test5)
 {
+	Config::instance()->set_master_encoding_threads (8);
+
 	shared_ptr<Film> film = new_test_film2 ("threed_test5");
 	shared_ptr<FFmpegContent> L (new FFmpegContent(private_data / "boon_telly.mkv"));
 	film->examine_and_add_content (L);
@@ -137,6 +147,8 @@ BOOST_AUTO_TEST_CASE (threed_test5)
 	film->write_metadata ();
 
 	BOOST_REQUIRE (!wait_for_jobs ());
+
+	Config::instance()->set_master_encoding_threads (1);
 }
 
 BOOST_AUTO_TEST_CASE (threed_test6)
@@ -159,7 +171,7 @@ BOOST_AUTO_TEST_CASE (threed_test6)
 	check_dcp ("test/data/threed_test6", film->dir(film->dcp_name()));
 }
 
-/** Check 2D content set as being 3D; this fails with a -114 in some versions */
+/** Check 2D content set as being 3D; this should give an informative error */
 BOOST_AUTO_TEST_CASE (threed_test7)
 {
 	shared_ptr<Film> film = new_test_film2 ("threed_test7");
@@ -173,5 +185,20 @@ BOOST_AUTO_TEST_CASE (threed_test7)
 	film->make_dcp ();
 	film->write_metadata ();
 
-	BOOST_REQUIRE (!wait_for_jobs());
+	JobManager* jm = JobManager::instance ();
+	while (jm->work_to_do ()) {
+		while (signal_manager->ui_idle()) {}
+		dcpomatic_sleep (1);
+	}
+
+	BOOST_REQUIRE (jm->errors());
+	shared_ptr<Job> failed;
+	BOOST_FOREACH (shared_ptr<Job> i, jm->_jobs) {
+		if (i->finished_in_error()) {
+			BOOST_REQUIRE (!failed);
+			failed = i;
+		}
+	}
+	BOOST_REQUIRE (failed);
+	BOOST_CHECK_EQUAL (failed->error_summary(), "The content file test/data/red_24.mp4 is set as 3D but does not appear to contain 3D images.  Please set it to 2D.  You can still make a 3D DCP from this content by ticking the 3D option in the DCP video tab.");
 }

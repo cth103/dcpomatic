@@ -239,7 +239,11 @@ FilmViewer::get ()
 		_player_video.first->eyes() != EYES_BOTH
 		);
 
-	_butler->rethrow ();
+	try {
+		_butler->rethrow ();
+	} catch (DecodeError& e) {
+		error_dialog (_video_view->get(), e.what());
+	}
 
 	display_player_video ();
 }
