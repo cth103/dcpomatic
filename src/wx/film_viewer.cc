@@ -237,7 +237,7 @@ FilmViewer::get ()
 	try {
 		_butler->rethrow ();
 	} catch (DecodeError& e) {
-		error_dialog (_video_view->get(), e.what());
+		error_dialog (_panel, e.what());
 	}
 
 	display_player_video ();
