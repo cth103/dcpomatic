@@ -1455,20 +1455,20 @@ public:
 	App ()
 		: wxApp ()
 		, _frame (0)
+		, _splash (0)
 	{}
 
 private:
 
 	bool OnInit ()
 	{
-		wxSplashScreen* splash = 0;
 		try {
 			wxInitAllImageHandlers ();
 
 			Config::FailedToLoad.connect (boost::bind (&App::config_failed_to_load, this));
 			Config::Warning.connect (boost::bind (&App::config_warning, this, _1));
 
-			splash = maybe_show_splash ();
+			_splash = maybe_show_splash ();
 
 			SetAppName (_("DCP-o-matic"));
 
@@ -1511,9 +1511,9 @@ private:
 			_frame = new DOMFrame (_("DCP-o-matic"));
 			SetTopWindow (_frame);
 			_frame->Maximize ();
-			if (splash) {
-				splash->Destroy ();
-				splash = 0;
+			if (_splash) {
+				_splash->Destroy ();
+				_splash = 0;
 			}
 
 			if (!Config::instance()->nagged(Config::NAG_INITIAL_SETUP)) {
@@ -1558,8 +1558,8 @@ private:
 		}
 		catch (exception& e)
 		{
-			if (splash) {
-				splash->Destroy ();
+			if (_splash) {
+				_splash->Destroy ();
 			}
 			error_dialog (0, wxString::Format ("DCP-o-matic could not start."), std_to_wx(e.what()));
 		}
@@ -1598,6 +1598,11 @@ private:
 
 	void report_exception ()
 	{
+		if (_splash) {
+			_splash->Destroy ();
+			_splash = 0;
+		}
+
 		try {
 			throw;
 		} catch (FileError& e) {
@@ -1666,6 +1671,11 @@ private:
 			return false;
 		}
 
+		if (_splash) {
+			_splash->Destroy ();
+			_splash = 0;
+		}
+
 		RecreateChainDialog* d = new RecreateChainDialog (_frame);
 		int const r = d->ShowModal ();
 		d->Destroy ();
@@ -1673,6 +1683,7 @@ private:
 	}
 
 	DOMFrame* _frame;
+	wxSplashScreen* _splash;
 	shared_ptr<wxTimer> _timer;
 	string _film_to_load;
 	string _film_to_create;
