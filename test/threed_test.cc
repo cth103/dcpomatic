@@ -201,4 +201,8 @@ BOOST_AUTO_TEST_CASE (threed_test7)
 	}
 	BOOST_REQUIRE (failed);
 	BOOST_CHECK_EQUAL (failed->error_summary(), "The content file test/data/red_24.mp4 is set as 3D but does not appear to contain 3D images.  Please set it to 2D.  You can still make a 3D DCP from this content by ticking the 3D option in the DCP video tab.");
+
+	while (signal_manager->ui_idle ()) {}
+
+	JobManager::drop ();
 }
