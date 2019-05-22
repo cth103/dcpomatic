@@ -1546,7 +1546,7 @@ private:
 			}
 
 			signal_manager = new wxSignalManager (this);
-			Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
+			Bind (wxEVT_IDLE, boost::bind (&App::idle, this, _1));
 
 			Bind (wxEVT_TIMER, boost::bind (&App::check, this));
 			_timer.reset (new wxTimer (this));
@@ -1635,9 +1635,10 @@ private:
 		report_exception ();
 	}
 
-	void idle ()
+	void idle (wxIdleEvent& ev)
 	{
 		signal_manager->ui_idle ();
+		ev.Skip ();
 	}
 
 	void check ()
