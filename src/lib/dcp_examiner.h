@@ -55,6 +55,10 @@ public:
 		return false;
 	}
 
+	VideoRange range () const {
+		return VIDEO_RANGE_FULL;
+	}
+
 	std::string name () const {
 		return _name;
 	}

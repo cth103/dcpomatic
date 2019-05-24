@@ -175,6 +175,11 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_colour_conversion->Append (S_("Colour|Custom"));
 	_edit_colour_conversion_button = new Button (this, _("Edit..."));
 
+	_range_label = create_label (this, _("Range"), true);
+	_range = new wxChoice (this, wxID_ANY);
+	_range->Append (_("Full (JPEG, 0-255)"));
+	_range->Append (_("Video (MPEG, 16-235)"));
+
 	_description = new StaticText (this, wxT ("\n \n \n \n \n"), wxDefaultPosition, wxDefaultSize);
 	_description->SetFont(font);
 
@@ -204,6 +209,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_reference->Bind                     (wxEVT_CHECKBOX, boost::bind (&VideoPanel::reference_clicked, this));
 	_filters_button->Bind                (wxEVT_BUTTON,   boost::bind (&VideoPanel::edit_filters_clicked, this));
 	_colour_conversion->Bind             (wxEVT_CHOICE,   boost::bind (&VideoPanel::colour_conversion_changed, this));
+	_range->Bind                         (wxEVT_CHOICE,   boost::bind (&VideoPanel::range_changed, this));
 	_edit_colour_conversion_button->Bind (wxEVT_BUTTON,   boost::bind (&VideoPanel::edit_colour_conversion_clicked, this));
 
 	add_to_grid ();
@@ -253,6 +259,8 @@ VideoPanel::add_to_grid ()
 	_colour_conversion_label->Show (full);
 	_colour_conversion->Show (full);
 	_edit_colour_conversion_button->Show (full);
+	_range_label->Show (full);
+	_range->Show (full);
 
 	add_label_to_sizer (_grid, _fade_in_label, true, wxGBPosition (r, 0));
 	_grid->Add (_fade_in, wxGBPosition (r, 1), wxGBSpan (1, 3));
@@ -284,10 +292,34 @@ VideoPanel::add_to_grid ()
 			_grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 		}
 		++r;
+
+		add_label_to_sizer (_grid, _range_label, true, wxGBPosition(r, 0));
+		_grid->Add (_range, wxGBPosition(r, 1), wxGBSpan(1, 2), wxALIGN_CENTER_VERTICAL);
+		++r;
 	}
 
 	_grid->Add (_description, wxGBPosition (r, 0), wxGBSpan (1, 4), wxEXPAND | wxALIGN_CENTER_VERTICAL, 6);
 	++r;
+}
+
+void
+VideoPanel::range_changed ()
+{
+	ContentList vc = _parent->selected_video ();
+	if (vc.size() != 1) {
+		return;
+	}
+
+	switch (_range->GetSelection()) {
+	case 0:
+		vc.front()->video->set_range (VIDEO_RANGE_FULL);
+		break;
+	case 1:
+		vc.front()->video->set_range (VIDEO_RANGE_VIDEO);
+		break;
+	default:
+		DCPOMATIC_ASSERT (false);
+	}
 }
 
 
@@ -390,6 +422,14 @@ VideoPanel::film_content_changed (int property)
 		}
 
 		setup_sensitivity ();
+	} else if (property == VideoContentProperty::RANGE) {
+		if (vcs) {
+			checked_set (_range, vcs->video->range() == VIDEO_RANGE_FULL ? 0 : 1);
+		} else {
+			checked_set (_range, 0);
+		}
+
+		setup_sensitivity ();
 	}
 }
 
@@ -487,6 +527,7 @@ VideoPanel::content_selection_changed ()
 	film_content_changed (VideoContentProperty::COLOUR_CONVERSION);
 	film_content_changed (VideoContentProperty::FADE_IN);
 	film_content_changed (VideoContentProperty::FADE_OUT);
+	film_content_changed (VideoContentProperty::RANGE);
 	film_content_changed (FFmpegContentProperty::FILTERS);
 	film_content_changed (DCPContentProperty::REFERENCE_VIDEO);
 
@@ -520,6 +561,7 @@ VideoPanel::setup_sensitivity ()
 		_filters->Enable (false);
 		_filters_button->Enable (false);
 		_colour_conversion->Enable (false);
+		_range->Enable (false);
 	} else {
 		ContentList video_sel = _parent->selected_video ();
 		FFmpegContentList ffmpeg_sel = _parent->selected_ffmpeg ();
@@ -537,6 +579,7 @@ VideoPanel::setup_sensitivity ()
 		_filters->Enable (true);
 		_filters_button->Enable (single && !ffmpeg_sel.empty ());
 		_colour_conversion->Enable (single && !video_sel.empty ());
+		_range->Enable (single && !video_sel.empty());
 	}
 
 	ContentList vc = _parent->selected_video ();

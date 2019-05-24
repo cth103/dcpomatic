@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -54,6 +54,7 @@ public:
 		Eyes,
 		Part,
 		boost::optional<ColourConversion>,
+		VideoRange video_range,
 		boost::weak_ptr<Content>,
 		boost::optional<Frame>
 		);
@@ -117,6 +118,7 @@ private:
 	Eyes _eyes;
 	Part _part;
 	boost::optional<ColourConversion> _colour_conversion;
+	VideoRange _video_range;
 	boost::optional<PositionImage> _text;
 	/** Content that we came from.  This is so that reset_metadata() can work, and also
 	 *  for variant:swaroop's non-skippable ads.

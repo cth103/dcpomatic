@@ -97,6 +97,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 			EYES_BOTH,
 			PART_WHOLE,
 			ColourConversion(),
+			VIDEO_RANGE_FULL,
 			weak_ptr<Content>(),
 			optional<Frame>()
 			)
@@ -181,6 +182,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 			EYES_BOTH,
 			PART_WHOLE,
 			ColourConversion(),
+			VIDEO_RANGE_FULL,
 			weak_ptr<Content>(),
 			optional<Frame>()
 			)
@@ -252,6 +254,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 			EYES_BOTH,
 			PART_WHOLE,
 			ColourConversion(),
+			VIDEO_RANGE_FULL,
 			weak_ptr<Content>(),
 			optional<Frame>()
 			)
@@ -279,6 +282,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 			EYES_BOTH,
 			PART_WHOLE,
 			PresetColourConversion::all().front().conversion,
+			VIDEO_RANGE_FULL,
 			weak_ptr<Content>(),
 			optional<Frame>()
 			)

@@ -39,6 +39,9 @@ public:
 	Frame video_length () const;
 	boost::optional<double> sample_aspect_ratio () const;
 	bool yuv () const;
+	VideoRange range () const {
+		return VIDEO_RANGE_FULL;
+	}
 
 private:
 	boost::shared_ptr<dcp::PictureAsset> _asset;

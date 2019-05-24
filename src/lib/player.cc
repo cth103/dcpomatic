@@ -332,6 +332,7 @@ Player::black_player_video_frame (Eyes eyes) const
 			eyes,
 			PART_WHOLE,
 			PresetColourConversion::all().front().conversion,
+			VIDEO_RANGE_FULL,
 			boost::weak_ptr<Content>(),
 			boost::optional<Frame>()
 		)
@@ -826,6 +827,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 			video.eyes,
 			video.part,
 			piece->content->video->colour_conversion(),
+			piece->content->video->range(),
 			piece->content,
 			video.frame
 			)

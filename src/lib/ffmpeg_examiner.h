@@ -53,6 +53,8 @@ public:
 		return _first_video;
 	}
 
+	VideoRange range () const;
+
 	AVColorRange color_range () const {
 		return video_codec_context()->color_range;
 	}

@@ -129,7 +129,7 @@ Image::planes () const
  */
 shared_ptr<Image>
 Image::crop_scale_window (
-	Crop crop, dcp::Size inter_size, dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool out_aligned, bool fast
+	Crop crop, dcp::Size inter_size, dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, VideoRange video_range, AVPixelFormat out_format, bool out_aligned, bool fast
 	) const
 {
 	/* Empirical testing suggests that sws_scale() will crash if
@@ -198,8 +198,8 @@ Image::crop_scale_window (
 	*/
 	sws_setColorspaceDetails (
 		scale_context,
-		sws_getCoefficients (lut[yuv_to_rgb]), 0,
-		sws_getCoefficients (lut[yuv_to_rgb]), 0,
+		sws_getCoefficients (lut[yuv_to_rgb]), video_range == VIDEO_RANGE_VIDEO ? 0 : 1,
+		sws_getCoefficients (lut[yuv_to_rgb]), 1,
 		0, 1 << 16, 1 << 16
 		);
 

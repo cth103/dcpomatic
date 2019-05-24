@@ -48,4 +48,5 @@ public:
 	}
 	/** @return true if this video is in YUV; must not be called if has_video() == false */
 	virtual bool yuv () const = 0;
+	virtual VideoRange range () const = 0;
 };

@@ -388,3 +388,16 @@ FFmpegExaminer::has_video () const
 {
 	return static_cast<bool> (_video_stream);
 }
+
+VideoRange
+FFmpegExaminer::range () const
+{
+	switch (color_range()) {
+	case AVCOL_RANGE_MPEG:
+	case AVCOL_RANGE_UNSPECIFIED:
+		return VIDEO_RANGE_VIDEO;
+	case AVCOL_RANGE_JPEG:
+	default:
+		return VIDEO_RANGE_FULL;
+	}
+}

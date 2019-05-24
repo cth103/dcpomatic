@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -46,6 +46,7 @@ public:
 	static int const COLOUR_CONVERSION;
 	static int const FADE_IN;
 	static int const FADE_OUT;
+	static int const RANGE;
 };
 
 class VideoContent : public ContentPart, public boost::enable_shared_from_this<VideoContent>
@@ -91,6 +92,8 @@ public:
 
 	void set_fade_in (Frame);
 	void set_fade_out (Frame);
+
+	void set_range (VideoRange);
 
 	VideoFrameType frame_type () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -153,6 +156,11 @@ public:
 		return _fade_out;
 	}
 
+	VideoRange range () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _range;
+	}
+
 	dcp::Size size_after_3d_split () const;
 	dcp::Size size_after_crop () const;
 
@@ -194,6 +202,7 @@ private:
 	bool _yuv;
 	Frame _fade_in;
 	Frame _fade_out;
+	VideoRange _range;
 };
 
 #endif

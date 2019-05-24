@@ -52,6 +52,7 @@ PlayerVideo::PlayerVideo (
 	Eyes eyes,
 	Part part,
 	optional<ColourConversion> colour_conversion,
+	VideoRange video_range,
 	weak_ptr<Content> content,
 	optional<Frame> video_frame
 	)
@@ -63,6 +64,7 @@ PlayerVideo::PlayerVideo (
 	, _eyes (eyes)
 	, _part (part)
 	, _colour_conversion (colour_conversion)
+	, _video_range (video_range)
 	, _content (content)
 	, _video_frame (video_frame)
 {
@@ -78,6 +80,7 @@ PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket
 	_out_size = dcp::Size (node->number_child<int> ("OutWidth"), node->number_child<int> ("OutHeight"));
 	_eyes = (Eyes) node->number_child<int> ("Eyes");
 	_part = (Part) node->number_child<int> ("Part");
+	_video_range = (VideoRange) node->number_child<int>("VideoRange");
 
 	/* Assume that the ColourConversion uses the current state version */
 	_colour_conversion = ColourConversion::from_xml (node, Film::current_state_version);
@@ -166,7 +169,7 @@ PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, b
 	}
 
 	_image = im->crop_scale_window (
-		total_crop, _inter_size, _out_size, yuv_to_rgb, pixel_format (im->pixel_format()), aligned, fast
+		total_crop, _inter_size, _out_size, yuv_to_rgb, _video_range, pixel_format (im->pixel_format()), aligned, fast
 		);
 
 	if (_text) {
@@ -192,6 +195,7 @@ PlayerVideo::add_metadata (xmlpp::Node* node) const
 	node->add_child("OutHeight")->add_child_text (raw_convert<string> (_out_size.height));
 	node->add_child("Eyes")->add_child_text (raw_convert<string> (static_cast<int> (_eyes)));
 	node->add_child("Part")->add_child_text (raw_convert<string> (static_cast<int> (_part)));
+	node->add_child("VideoRange")->add_child_text(raw_convert<string>(static_cast<int>(_video_range)));
 	if (_colour_conversion) {
 		_colour_conversion.get().as_xml (node);
 	}
@@ -249,7 +253,8 @@ PlayerVideo::same (shared_ptr<const PlayerVideo> other) const
 	    _out_size != other->_out_size ||
 	    _eyes != other->_eyes ||
 	    _part != other->_part ||
-	    _colour_conversion != other->_colour_conversion) {
+	    _colour_conversion != other->_colour_conversion ||
+	    _video_range != other->_video_range) {
 		return false;
 	}
 
@@ -310,13 +315,14 @@ PlayerVideo::shallow_copy () const
 			_eyes,
 			_part,
 			_colour_conversion,
+			_video_range,
 			_content,
 			_video_frame
 			)
 		);
 }
 
-/** Re-read crop, fade, inter/out size and colour conversion from our content.
+/** Re-read crop, fade, inter/out size, colour conversion and video range from our content.
  *  @return true if this was possible, false if not.
  */
 bool
@@ -332,6 +338,7 @@ PlayerVideo::reset_metadata (shared_ptr<const Film> film, dcp::Size video_contai
 	_inter_size = content->video->scale().size(content->video, video_container_size, film_frame_size);
 	_out_size = video_container_size;
 	_colour_conversion = content->video->colour_conversion();
+	_video_range = content->video->range();
 
 	return true;
 }

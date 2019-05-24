@@ -136,6 +136,12 @@ enum ChangeType
 	CHANGE_TYPE_CANCELLED
 };
 
+enum VideoRange
+{
+	VIDEO_RANGE_FULL, ///< full,  or "JPEG" (0-255 for 8-bit)
+	VIDEO_RANGE_VIDEO ///< video, or "MPEG" (16-235 for 8-bit)
+};
+
 /** Type of captions.
  *
  *  The generally accepted definitions seem to be:

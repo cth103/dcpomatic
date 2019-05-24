@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -46,6 +46,7 @@ int const VideoContentProperty::SCALE	  = 3;
 int const VideoContentProperty::COLOUR_CONVERSION = 4;
 int const VideoContentProperty::FADE_IN     = 5;
 int const VideoContentProperty::FADE_OUT    = 6;
+int const VideoContentProperty::RANGE       = 7;
 
 using std::string;
 using std::setprecision;
@@ -71,6 +72,7 @@ VideoContent::VideoContent (Content* parent)
 	, _yuv (true)
 	, _fade_in (0)
 	, _fade_out (0)
+	, _range (VIDEO_RANGE_FULL)
 {
 
 }
@@ -152,6 +154,11 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 	} else {
 		_fade_in = _fade_out = 0;
 	}
+
+	_range = VIDEO_RANGE_FULL;
+	if (node->optional_string_child("Range").get_value_or("full") == "video") {
+		_range = VIDEO_RANGE_VIDEO;
+	}
 }
 
 VideoContent::VideoContent (Content* parent, vector<shared_ptr<Content> > c)
@@ -202,6 +209,7 @@ VideoContent::VideoContent (Content* parent, vector<shared_ptr<Content> > c)
 	_colour_conversion = ref->colour_conversion ();
 	_fade_in = ref->fade_in ();
 	_fade_out = ref->fade_out ();
+	_range = ref->range ();
 }
 
 void
@@ -223,6 +231,7 @@ VideoContent::as_xml (xmlpp::Node* node) const
 	node->add_child("YUV")->add_child_text (_yuv ? "1" : "0");
 	node->add_child("FadeIn")->add_child_text (raw_convert<string> (_fade_in));
 	node->add_child("FadeOut")->add_child_text (raw_convert<string> (_fade_out));
+	node->add_child("Range")->add_child_text(_range == VIDEO_RANGE_FULL ? "full" : "video");
 }
 
 void
@@ -233,10 +242,12 @@ VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
 	Frame vl = d->video_length ();
 	optional<double> const ar = d->sample_aspect_ratio ();
 	bool const yuv = d->yuv ();
+	VideoRange const range = d->range ();
 
 	ChangeSignaller<Content> cc1 (_parent, VideoContentProperty::SIZE);
 	ChangeSignaller<Content> cc2 (_parent, VideoContentProperty::SCALE);
 	ChangeSignaller<Content> cc3 (_parent, ContentProperty::LENGTH);
+	ChangeSignaller<Content> cc4 (_parent, VideoContentProperty::RANGE);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -244,6 +255,7 @@ VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
 		_length = vl;
 		_sample_aspect_ratio = ar;
 		_yuv = yuv;
+		_range = range;
 
 		if (Config::instance()->default_scale_to ()) {
 			_scale = VideoContentScale (Config::instance()->default_scale_to ());
@@ -268,14 +280,15 @@ VideoContent::identifier () const
 {
 	char buffer[256];
 	snprintf (
-		buffer, sizeof(buffer), "%d_%d_%d_%d_%s_%" PRId64 "_%" PRId64,
+		buffer, sizeof(buffer), "%d_%d_%d_%d_%s_%" PRId64 "_%" PRId64 "_%d",
 		crop().left,
 		crop().right,
 		crop().top,
 		crop().bottom,
 		scale().id().c_str(),
 		_fade_in,
-		_fade_out
+		_fade_out,
+		_range == VIDEO_RANGE_FULL ? 0 : 1
 		);
 
 	string s (buffer);
@@ -523,6 +536,12 @@ void
 VideoContent::set_fade_out (Frame t)
 {
 	maybe_set (_fade_out, t, VideoContentProperty::FADE_OUT);
+}
+
+void
+VideoContent::set_range (VideoRange r)
+{
+	maybe_set (_range, r, VideoContentProperty::RANGE);
 }
 
 void

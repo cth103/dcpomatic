@@ -36,6 +36,9 @@ public:
 		return _video_length;
 	}
 	bool yuv () const;
+	VideoRange range () const {
+		return VIDEO_RANGE_FULL;
+	}
 
 private:
 	boost::weak_ptr<const Film> _film;

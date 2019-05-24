@@ -50,6 +50,7 @@ private:
 	void edit_filters_clicked ();
 	void colour_conversion_changed ();
 	void edit_colour_conversion_clicked ();
+	void range_changed ();
 	void fade_in_changed ();
 	void fade_out_changed ();
 	void add_to_grid ();
@@ -82,4 +83,6 @@ private:
 	wxStaticText* _colour_conversion_label;
 	wxChoice* _colour_conversion;
 	wxButton* _edit_colour_conversion_button;
+	wxStaticText* _range_label;
+	wxChoice* _range;
 };
