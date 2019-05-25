@@ -186,14 +186,26 @@ FilmViewer::recreate_butler ()
 		   Map so that Lt = L(-3dB) + Ls(-3dB) + C(-6dB) + Lfe(-10dB)
 		               Rt = R(-3dB) + Rs(-3dB) + C(-6dB) + Lfe(-10dB)
 		*/
-		map.set (dcp::LEFT,   0, 1 / sqrt(2)); // L -> Lt
-		map.set (dcp::RIGHT,  1, 1 / sqrt(2)); // R -> Rt
-		map.set (dcp::CENTRE, 0, 1 / 2.0); // C -> Lt
-		map.set (dcp::CENTRE, 1, 1 / 2.0); // C -> Rt
-		map.set (dcp::LFE,    0, 1 / sqrt(10)); // Lfe -> Lt
-		map.set (dcp::LFE,    1, 1 / sqrt(10)); // Lfe -> Rt
-		map.set (dcp::LS,     0, 1 / sqrt(2)); // Ls -> Lt
-		map.set (dcp::RS,     1, 1 / sqrt(2)); // Rs -> Rt
+		if (_film->audio_channels() > 0) {
+			map.set (dcp::LEFT,   0, 1 / sqrt(2)); // L -> Lt
+		}
+		if (_film->audio_channels() > 1) {
+			map.set (dcp::RIGHT,  1, 1 / sqrt(2)); // R -> Rt
+		}
+		if (_film->audio_channels() > 2) {
+			map.set (dcp::CENTRE, 0, 1 / 2.0); // C -> Lt
+			map.set (dcp::CENTRE, 1, 1 / 2.0); // C -> Rt
+		}
+		if (_film->audio_channels() > 3) {
+			map.set (dcp::LFE,    0, 1 / sqrt(10)); // Lfe -> Lt
+			map.set (dcp::LFE,    1, 1 / sqrt(10)); // Lfe -> Rt
+		}
+		if (_film->audio_channels() > 4) {
+			map.set (dcp::LS,     0, 1 / sqrt(2)); // Ls -> Lt
+		}
+		if (_film->audio_channels() > 5) {
+			map.set (dcp::RS,     1, 1 / sqrt(2)); // Rs -> Rt
+		}
 	}
 
 	_butler.reset (new Butler(_player, map, _audio_channels, bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
