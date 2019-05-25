@@ -163,6 +163,8 @@ AudioMapping::AudioMapping (cxml::ConstNodePtr node, int state_version)
 void
 AudioMapping::set (int input_channel, int output_channel, float g)
 {
+	DCPOMATIC_ASSERT (input_channel < int(_gain.size()));
+	DCPOMATIC_ASSERT (output_channel < int(_gain[0].size()));
 	_gain[input_channel][output_channel] = g;
 }
 
