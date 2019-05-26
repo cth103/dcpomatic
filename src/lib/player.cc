@@ -858,10 +858,12 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 	shared_ptr<AudioContent> content = piece->content->audio;
 	DCPOMATIC_ASSERT (content);
 
+	int const rfr = content->resampled_frame_rate (_film);
+
 	/* Compute time in the DCP */
 	DCPTime time = resampled_audio_to_dcp (piece, content_audio.frame);
 	/* And the end of this block in the DCP */
-	DCPTime end = time + DCPTime::from_frames(content_audio.audio->frames(), content->resampled_frame_rate(_film));
+	DCPTime end = time + DCPTime::from_frames(content_audio.audio->frames(), rfr);
 
 	/* Remove anything that comes before the start or after the end of the content */
 	if (time < piece->content->position()) {
@@ -876,7 +878,7 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 		/* Discard it all */
 		return;
 	} else if (end > piece->content->end(_film)) {
-		Frame const remaining_frames = DCPTime(piece->content->end(_film) - time).frames_round(_film->audio_frame_rate());
+		Frame const remaining_frames = DCPTime(piece->content->end(_film) - time).frames_round(rfr);
 		if (remaining_frames == 0) {
 			return;
 		}
