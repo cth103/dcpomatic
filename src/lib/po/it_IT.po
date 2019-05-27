@@ -1062,7 +1062,7 @@ msgstr "Preparato per la frequenza fotogrammi del video"
 
 #: src/lib/exceptions.cc:85
 msgid "Programming error at %1:%2 %3"
-msgstr "Errore di programmazione a %1:%2"
+msgstr "Errore di programmazione a %1:%2 %3"
 
 #: src/lib/dcp_content_type.cc:57
 msgid "Promo"
@@ -1644,7 +1644,7 @@ msgstr "Impossibile avviare la sessione SSH"
 
 #: src/lib/exceptions.cc:49
 msgid "could not write to file %1 (%2)"
-msgstr "Impossibile scrivere il file (%1)"
+msgstr "Impossibile scrivere il file %1 (%2)"
 
 #: src/lib/dcpomatic_socket.cc:65
 msgid "error during async_connect (%1)"

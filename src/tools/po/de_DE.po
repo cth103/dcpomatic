@@ -316,7 +316,7 @@ msgstr ""
 #: src/tools/dcpomatic_player.cc:833
 msgid "Could not write to config file.  Your changes have not been saved."
 msgstr ""
-"Konnte nicht in die Konfigurationsdatei schreiben (%s). Ihre Änderungen "
+"Konnte nicht in die Konfigurationsdatei schreiben. Ihre Änderungen "
 "wurden nicht gespeichert."
 
 #: src/tools/dcpomatic_kdm.cc:174

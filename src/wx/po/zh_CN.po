@@ -681,7 +681,7 @@ msgstr "无法读取Key文件，因为文件过长 (%s)"
 #: src/wx/film_viewer.cc:669
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
-msgstr "不能设置音频输出 (%s)。因此预览时将没有音频输出."
+msgstr "不能设置音频输出。因此预览时将没有音频输出."
 
 #: src/wx/full_config_dialog.cc:1309
 msgid "Cover Sheet"
@@ -2345,7 +2345,7 @@ msgstr "文件不匹配，请删除不规范的文件或添加正确的文件."
 msgid ""
 "The directory %1 already exists and is not empty.  Are you sure you want to "
 "use it?"
-msgstr "已存在文件 %s 并不为空，是否覆盖？"
+msgstr "已存在文件 %1 并不为空，是否覆盖？"
 
 #: src/wx/config_move_dialog.cc:35
 #, c-format

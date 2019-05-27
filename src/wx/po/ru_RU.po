@@ -2367,7 +2367,7 @@ msgstr ""
 msgid ""
 "The directory %1 already exists and is not empty.  Are you sure you want to "
 "use it?"
-msgstr "Папка %s уже существует и не пуста. Вы точно хотите использовать её?"
+msgstr "Папка %1 уже существует и не пуста. Вы точно хотите использовать её?"
 
 #: src/wx/config_move_dialog.cc:35
 #, c-format

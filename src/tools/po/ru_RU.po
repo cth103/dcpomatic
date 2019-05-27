@@ -310,7 +310,7 @@ msgstr ""
 #: src/tools/dcpomatic_player.cc:833
 msgid "Could not write to config file.  Your changes have not been saved."
 msgstr ""
-"Не удалось записать в файл кинфгигурации - %s.  Ваши изменения не были "
+"Не удалось записать в файл кинфгигурации.  Ваши изменения не были "
 "сохранены."
 
 #: src/tools/dcpomatic_kdm.cc:174

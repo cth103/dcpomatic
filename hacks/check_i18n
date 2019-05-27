@@ -1,17 +1,15 @@
-#!/usr/bin/python3
+#!/bin/bash
 
-import os
+mkdir -p errors
 
-for (dirpath, dirs, files) in os.walk('.'):
-    for filename in files:
-        if filename.endswith('.po'):
-            with open(os.path.join(dirpath, filename), 'r') as f:
-                for l in f.readlines():
-                    # Pango markup with corrupted quotation marks
-                    if l.find('span') != -1 and (l.find('«') != -1 or l.find('“') != -1):
-                        print(os.path.join(dirpath, filename))
-                        print(l)
-                    # Badly-spaced placeholders
-                    if not l.find('%%') and (l.find('% 1') != -1 or l.find('% 2') != -1 or l.find('% s') != -1 or l.find('% d') != -1 or l.find('% f') != -1):
-                        print(os.path.join(dirpath, filename))
-                        print(l)
+pofilter -i src/lib/po -o errors/lib --nofuzzy \
+    -t escapes -t nplurals -t printf -t pythonbraceformat -t variables -t xmltags \
+    -t accelerators
+
+pofilter -i src/wx/po -o errors/wx --nofuzzy \
+    -t escapes -t nplurals -t printf -t pythonbraceformat -t variables -t xmltags \
+    -t accelerators
+
+pofilter -i src/tools/po -o errors/tools --nofuzzy \
+    -t escapes -t nplurals -t printf -t pythonbraceformat -t variables -t xmltags \
+    -t accelerators

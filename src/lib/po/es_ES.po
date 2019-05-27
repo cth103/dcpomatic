@@ -1630,7 +1630,7 @@ msgstr "no se pudo abrir la sesión SSH"
 
 #: src/lib/exceptions.cc:49
 msgid "could not write to file %1 (%2)"
-msgstr "no se pudo escribir en el fichero (%1)"
+msgstr "no se pudo escribir en el fichero %1 (%2)"
 
 #: src/lib/dcpomatic_socket.cc:65
 msgid "error during async_connect (%1)"
@@ -1914,9 +1914,6 @@ msgstr "fotogramas"
 #~ msgid "Video size"
 #~ msgstr "Tamaño del video"
 
-#~ msgid "could not read from file"
-#~ msgstr "No se pudo leer del fichero %1 (%2)"
-
 #, fuzzy
 #~ msgid "NC"
 #~ msgstr "C"
@@ -1931,9 +1928,6 @@ msgstr "fotogramas"
 #~ msgstr "No hubo suficiente memoria para hacer esto."
 
 #~ msgid "could not run sample-rate converter"
-#~ msgstr "no se pudo ejecutar el conversor de velocidad"
-
-#~ msgid "could not run sample-rate converter for %1 samples (%2) (%3)"
 #~ msgstr "no se pudo ejecutar el conversor de velocidad"
 
 #~ msgid "1.375"

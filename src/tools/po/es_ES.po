@@ -253,7 +253,7 @@ msgstr "No se pudo cargar la película %1"
 
 #: src/tools/dcpomatic.cc:1532
 msgid "Could not load film %1 (%2)"
-msgstr "No se pudo cargar la película %s (%s)"
+msgstr "No se pudo cargar la película %1 (%2)"
 
 #: src/tools/dcpomatic.cc:760
 msgid "Could not make DCP."

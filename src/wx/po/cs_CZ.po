@@ -696,7 +696,7 @@ msgstr "Tvůrce"
 #: src/wx/audio_dialog.cc:436
 #, c-format
 msgid "Cursor: %.1fdB at %s"
-msgstr "Kurzor: %1fdb v %s"
+msgstr "Kurzor: %.1fdb v %s"
 
 #: src/wx/audio_dialog.cc:430
 msgid "Cursor: none"

@@ -699,7 +699,7 @@ msgstr "Cada fotograma do conteúdo será repetido %1 vezes no DCP.\n"
 
 #: src/lib/send_kdm_email_job.cc:61
 msgid "Email KDMs"
-msgstr "Enviar chaves KDM por email para %1"
+msgstr "Enviar chaves KDM por email"
 
 #: src/lib/send_kdm_email_job.cc:64
 msgid "Email KDMs for %1"
@@ -711,7 +711,7 @@ msgstr ""
 
 #: src/lib/send_problem_report_job.cc:59
 msgid "Email problem report"
-msgstr "Enviar relatório de problemas para %1"
+msgstr "Enviar relatório de problemas"
 
 #: src/lib/send_problem_report_job.cc:62
 msgid "Email problem report for %1"

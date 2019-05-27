@@ -547,7 +547,7 @@ msgstr "Nemôžem otvoriť %1"
 
 #: src/lib/curl_uploader.cc:86 src/lib/scp_uploader.cc:101
 msgid "Could not open %1 to send"
-msgstr "Nemôžem otvoriť 1% na poslanie"
+msgstr "Nemôžem otvoriť %1 na poslanie"
 
 #: src/lib/internet.cc:118 src/lib/internet.cc:123
 msgid "Could not open downloaded ZIP file"
