@@ -2369,7 +2369,7 @@ msgid ""
 "The file %s already exists.  Do you want to use it as your new configuration "
 "or overwrite it with your current configuration?"
 msgstr ""
-"Soubor % s již existuje. Chcete jej použít jako novou konfiguraci nebo jej "
+"Soubor %s již existuje. Chcete jej použít jako novou konfiguraci nebo jej "
 "přepsat s aktuální konfigurací?"
 
 #: src/wx/verify_dcp_dialog.cc:79
@@ -2780,7 +2780,7 @@ msgid ""
 "You cannot add a screen called '%s' as the cinema already has a screen with "
 "this name."
 msgstr ""
-"Nemůžete přidat obraz s názvem '% s', protože kino již obsahuje obraz s "
+"Nemůžete přidat obraz s názvem '%s', protože kino již obsahuje obraz s "
 "tímto názvem."
 
 #: src/wx/screens_panel.cc:259
@@ -2789,7 +2789,7 @@ msgid ""
 "You cannot change this screen's name to '%s' as the cinema already has a "
 "screen with this name."
 msgstr ""
-"Nemůžete změnit obraz s názvem '% s', protože kino již obsahuje obraz s "
+"Nemůžete změnit obraz s názvem '%s', protože kino již obsahuje obraz s "
 "tímto názvem."
 
 #: src/wx/kdm_output_panel.cc:209
