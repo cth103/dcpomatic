@@ -29,7 +29,7 @@ msgstr "%d KDMs créées dans %s"
 
 #: src/tools/dcpomatic_batch.cc:69
 msgid "&Add Film...\tCtrl-A"
-msgstr "& Ajouter Film ... Ctrl-A"
+msgstr "&Ajouter Film ... Ctrl-A"
 
 #: src/tools/dcpomatic_player.cc:455
 msgid "&Add KDM..."
@@ -665,7 +665,7 @@ msgid ""
 "want to add this film to the queue anyway?"
 msgstr ""
 "Le DCP de ce film et les autres déjà présent en file d'attente occuperont "
-"environ %1.f GB. Le disque que vous utilisez ne dispose que de %.1f Go "
+"environ %.1f GB. Le disque que vous utilisez ne dispose que de %.1f Go "
 "disponible(s). Souhaitez-vous continuer à ajouter ce film à la file "
 "d'attente quand même?"
 

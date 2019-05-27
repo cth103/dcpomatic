@@ -238,11 +238,11 @@ msgstr "Идёт анализ аудио"
 
 #: src/lib/audio_content.cc:257
 msgid "Audio will be resampled from %1Hz to %2Hz"
-msgstr "Аудио будет ресэмплировано с %1Гц на %2Гц"
+msgstr "Аудио будет ресэмплировано с %1 Гц на %2 Гц"
 
 #: src/lib/audio_content.cc:259
 msgid "Audio will be resampled to %1Hz"
-msgstr "Аудио будет ресэмплировано на %1Гц"
+msgstr "Аудио будет ресэмплировано на %1 Гц"
 
 #: src/lib/audio_content.cc:248
 msgid "Audio will not be resampled"
@@ -1202,7 +1202,7 @@ msgstr "Размер"
 
 #: src/lib/audio_content.cc:252
 msgid "Some audio will be resampled to %1Hz"
-msgstr "Некоторое аудио будет ресемплировано на %1Гц"
+msgstr "Некоторое аудио будет ресемплировано на %1 Гц"
 
 #: src/lib/check_content_change_job.cc:86
 msgid ""

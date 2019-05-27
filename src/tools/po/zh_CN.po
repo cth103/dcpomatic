@@ -230,7 +230,7 @@ msgstr "无法找到播放器."
 
 #: src/tools/dcpomatic_player.cc:621 src/tools/dcpomatic_player.cc:1047
 msgid "Could not load DCP %1."
-msgstr "无法载入DCP %s。"
+msgstr "无法载入DCP %1。"
 
 #: src/tools/dcpomatic_player.cc:603
 msgid "Could not load KDM."
@@ -243,11 +243,11 @@ msgstr "无法从 %s 载入DCP"
 
 #: src/tools/dcpomatic_batch.cc:447
 msgid "Could not load film %1"
-msgstr "无法载入工程 %s (%s)"
+msgstr "无法载入工程 %1"
 
 #: src/tools/dcpomatic.cc:1532
 msgid "Could not load film %1 (%2)"
-msgstr "无法加载工程 %s (%s)"
+msgstr "无法加载工程 %1 (%2)"
 
 #: src/tools/dcpomatic.cc:760
 msgid "Could not make DCP."

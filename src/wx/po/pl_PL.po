@@ -1468,7 +1468,7 @@ msgstr "Dziennik"
 #: src/wx/audio_dialog.cc:411
 #, c-format
 msgid "Loudness range %.2f LU"
-msgstr "Zakres głośności %2f LU"
+msgstr "Zakres głośności %.2f LU"
 
 #: src/wx/batch_job_view.cc:48
 msgid "Lower priority"

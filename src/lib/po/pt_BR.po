@@ -98,7 +98,7 @@ msgstr ""
 
 #: src/lib/atmos_mxf_content.cc:83
 msgid "%1 [Atmos]"
-msgstr "[Dolby Atmos]"
+msgstr "%1 [Dolby Atmos]"
 
 #: src/lib/dcp_content.cc:268
 msgid "%1 [DCP]"
@@ -1079,7 +1079,7 @@ msgstr "Preparado para frame rate de vídeo"
 
 #: src/lib/exceptions.cc:85
 msgid "Programming error at %1:%2 %3"
-msgstr "Erro de programação em %1:%2"
+msgstr "Erro de programação em %1:%2 %3"
 
 #: src/lib/dcp_content_type.cc:57
 msgid "Promo"

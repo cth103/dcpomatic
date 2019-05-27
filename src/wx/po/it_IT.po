@@ -668,7 +668,7 @@ msgstr "Impossibile leggere il file del certificato (%s)"
 #: src/wx/download_certificate_panel.cc:60 src/wx/screen_dialog.cc:201
 #: src/wx/screen_dialog.cc:206
 msgid "Could not read certificate file."
-msgstr "Impossibile leggere il file del certificato (%s)"
+msgstr "Impossibile leggere il file del certificato."
 
 #: src/wx/config_dialog.cc:741
 #, c-format

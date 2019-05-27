@@ -1062,7 +1062,7 @@ msgstr "Przygotowany na liczbę kl/s"
 
 #: src/lib/exceptions.cc:85
 msgid "Programming error at %1:%2 %3"
-msgstr "Błąd programowania w lini %1:%2"
+msgstr "Błąd programowania w lini %1:%2 %3"
 
 #: src/lib/dcp_content_type.cc:57
 msgid "Promo"

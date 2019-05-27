@@ -319,7 +319,7 @@ msgstr "不能包含斜杠"
 
 #: src/lib/exceptions.cc:61
 msgid "Cannot handle pixel format %1 during %2"
-msgstr "在 %2不能处理图片格式 %1"
+msgstr "在 %2 不能处理图片格式 %1"
 
 #: src/lib/film.cc:1348
 msgid "Cannot make a KDM as this project is not encrypted."
@@ -614,7 +614,7 @@ msgstr "将使用隔帧打包DCP.\n"
 msgid ""
 "DCP-o-matic could not open the file %1 (%2).  Perhaps it does not exist or "
 "is in an unexpected format."
-msgstr "无法打开文件%1。文件不存在或格式无法识别。"
+msgstr "无法打开文件%1 (%2)。文件不存在或格式无法识别。"
 
 #: src/lib/film.cc:1270
 msgid ""
@@ -677,7 +677,7 @@ msgstr "该DCP中将每一帧复制为两帧。\n"
 
 #: src/lib/frame_rate_change.cc:108
 msgid "Each content frame will be repeated %1 more times in the DCP.\n"
-msgstr "每个内容帧将在DCP中重复％1次。\n"
+msgstr "每个内容帧将在DCP中重复%1次。\n"
 
 #: src/lib/send_kdm_email_job.cc:61
 msgid "Email KDMs"
@@ -1252,19 +1252,19 @@ msgstr "磁盘空间不足，清理磁盘空间以继续."
 
 #: src/lib/playlist.cc:223
 msgid "The file %1 has been moved %2 milliseconds earlier."
-msgstr "文件 1% 被向前移动了 2% 毫秒."
+msgstr "文件 %1 被向前移动了 %2 毫秒."
 
 #: src/lib/playlist.cc:218
 msgid "The file %1 has been moved %2 milliseconds later."
-msgstr "文件 1% 被向后移动了 2% 毫秒."
+msgstr "文件 %1 被向后移动了 %2 毫秒."
 
 #: src/lib/playlist.cc:243
 msgid "The file %1 has been trimmed by %2 milliseconds less."
-msgstr "文件 1% 被缩短了 2% 毫秒."
+msgstr "文件 %1 被缩短了 %2 毫秒."
 
 #: src/lib/playlist.cc:238
 msgid "The file %1 has been trimmed by %2 milliseconds more."
-msgstr "文件 1% 被延长了 2% 毫秒."
+msgstr "文件 %1 被延长了 %2 毫秒."
 
 #: src/lib/hints.cc:206
 msgid ""
@@ -1565,11 +1565,11 @@ msgstr "无法移动的音频文件 (%1)"
 
 #: src/lib/exceptions.cc:33
 msgid "could not open file %1 for reading (%2)"
-msgstr "读取 %1文件失败"
+msgstr "读取 %1文件失败(%2)"
 
 #: src/lib/exceptions.cc:33
 msgid "could not open file %1 for writing (%2)"
-msgstr "写入 %1文件失败"
+msgstr "写入 %1文件失败(%2)"
 
 #: src/lib/exceptions.cc:43
 msgid "could not read from file %1 (%2)"
@@ -1585,7 +1585,7 @@ msgstr "无法启动SSH"
 
 #: src/lib/exceptions.cc:49
 msgid "could not write to file %1 (%2)"
-msgstr "不能写入文件 (%1)"
+msgstr "不能写入文件 %1 (%2)"
 
 #: src/lib/dcpomatic_socket.cc:65
 msgid "error during async_connect (%1)"
@@ -1771,17 +1771,6 @@ msgstr "视频帧"
 #~ msgid "it overlaps other subtitle content; remove the other content."
 #~ msgstr "字幕文件重复，请删除重复项."
 
-#~ msgid ""
-#~ "The DCP %1 was being referred to by this film.  This not now possible "
-#~ "because the reel sizes in the film no longer agree with those in the "
-#~ "imported DCP.\n"
-#~ "\n"
-#~ "Setting the 'Reel type' to 'split by video content' will probably help.\n"
-#~ "\n"
-#~ "After doing that you would need to re-tick the appropriate 'refer to "
-#~ "existing DCP' checkboxes."
-#~ msgstr "DCP中的电影内容太大，请使用 【 分卷模式 】后再试一次。"
-
 #~ msgid "Could not find pixel format for video."
 #~ msgstr "找不到视频格式"
 
@@ -1859,9 +1848,6 @@ msgstr "视频帧"
 #~ msgid "Video size"
 #~ msgstr "视频大小"
 
-#~ msgid "could not read from file"
-#~ msgstr "无法从文件中读取 %1 (%2)"
-
 #~ msgid "KDM delivery"
 #~ msgstr "Envío de KDM"
 
@@ -1872,9 +1858,6 @@ msgstr "视频帧"
 #~ msgstr "No hubo suficiente memoria para hacer esto."
 
 #~ msgid "could not run sample-rate converter"
-#~ msgstr "no se pudo ejecutar el conversor de velocidad"
-
-#~ msgid "could not run sample-rate converter for %1 samples (%2) (%3)"
 #~ msgstr "no se pudo ejecutar el conversor de velocidad"
 
 #~ msgid "1.375"

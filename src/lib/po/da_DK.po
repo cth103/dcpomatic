@@ -41,7 +41,7 @@ msgid ""
 "Display aspect ratio %.2f:1"
 msgstr ""
 "\n"
-"Skærmformat %2f:1"
+"Skærmformat %.2f:1"
 
 #: src/lib/video_content.cc:432
 msgid ""
@@ -1851,14 +1851,6 @@ msgstr "videobilleder"
 #~ msgid "4:3"
 #~ msgstr "4:3"
 
-#~ msgid ""
-#~ "Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) "
-#~ "projectors.  Use 24 or 48 frames per second to be on the safe side."
-#~ msgstr ""
-#~ "Billedhastigheden (%d bps) på din DCP kan give problemer i nogle få "
-#~ "(primært ældre) projektorer. Brug 24 eller 48 billeder i sekunder for at "
-#~ "være på den sikre side."
-
 #~ msgid "Finding length and subtitles"
 #~ msgstr "Finder længde og undertekster"
 
@@ -1877,9 +1869,6 @@ msgstr "videobilleder"
 #~ msgid "could not create file %1"
 #~ msgstr "kunne ikke danne filen %1"
 
-#~ msgid "could not open file %1"
-#~ msgstr "kunne ikke åbne filen %"
-
 #~ msgid "Computing audio digest"
 #~ msgstr "Beregner lydresume"
 
@@ -1895,9 +1884,6 @@ msgstr "videobilleder"
 #, fuzzy
 #~ msgid "Video"
 #~ msgstr "Video størrelse"
-
-#~ msgid "could not open audio file for reading"
-#~ msgstr "lydfil kunne ikke indlæses"
 
 #~ msgid "Video length"
 #~ msgstr "Video længde"

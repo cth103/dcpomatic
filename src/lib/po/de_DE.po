@@ -1503,7 +1503,7 @@ msgstr ""
 "Das DCP ist auf eine Bildrate von %1 fps eingestellt. Diese Bildrate wird "
 "nicht von allen Projektionssystemen unterstützt!Wählen Sie Bildraten "
 "abweichend von 24fps oder 48fps(3D) nicht leichtfertig! Ändern Sie die "
-"Bildrate gegebenenfalls in %2fps!"
+"Bildrate gegebenenfalls in %2 fps!"
 
 #: src/lib/hints.cc:165
 msgid ""
@@ -1514,7 +1514,7 @@ msgstr ""
 "Das DCP ist auf eine Bildrate von %1 fps eingestellt. Diese Bildrate wird "
 "nicht von allen Projektionssystemen unterstützt!Wählen Sie Bildraten "
 "abweichend von 24fps oder 48fps(3D) nicht leichtfertig! Ändern Sie die "
-"Bildrate gegebenenfalls in %2fps!"
+"Bildrate gegebenenfalls in %2 fps!"
 
 #: src/lib/hints.cc:175
 msgid ""
@@ -1936,15 +1936,6 @@ msgstr "Video Bilder"
 
 #~ msgid "IMAX"
 #~ msgstr "IMAX"
-
-#~ msgid ""
-#~ "Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) "
-#~ "projectors.  Use 24 or 48 frames per second to be on the safe side."
-#~ msgstr ""
-#~ "Ihre gewählte DCP Bildrate (vermutlich resultierend aus Quell-Inhalten "
-#~ "mit dieser Bildrate im Projekt) kann auf älteren Projektionssystemen "
-#~ "Probleme verursachen. Sicherheitshalber sollten Sie 24fps (2D) oder 48fps "
-#~ "(3D) verwenden."
 
 #~ msgid "Finding length and subtitles"
 #~ msgstr "Länge und Untertitel werden ermittelt"
