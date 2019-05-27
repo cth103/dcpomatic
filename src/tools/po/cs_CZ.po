@@ -708,7 +708,7 @@ msgstr ""
 #: src/tools/dcpomatic.cc:518
 #, c-format
 msgid "Try removing the %s characters from your folder name."
-msgstr "Zkuste odebrat znaky% s z názvu složky."
+msgstr "Zkuste odebrat znaky %s z názvu složky."
 
 #: src/tools/dcpomatic_playlist.cc:103
 msgid "Type"
