@@ -749,8 +749,8 @@ msgstr ""
 "\n"
 "<tt>%s</tt>\n"
 "\n"
-"To je <span weight=“bold” size=“larger”>VITALLY DŮLEŽITÉ</span> že ty <span "
-"weight=“bold” size=“larger”>ZÁLOHOVAT TENTO SOUBOR</span> protože pokud se "
+"To je <span weight=\"bold\" size=\"larger\">VITALLY DŮLEŽITÉ</span> že ty <span "
+"weight=\"bold\" size=\"larger\">ZÁLOHOVAT TENTO SOUBOR</span> protože pokud se "
 "ztratí vaše DKDM (a DCPs, které chrání) bude zbytečné."
 
 #: src/tools/dcpomatic.cc:735
@@ -766,8 +766,8 @@ msgstr ""
 "nemáte kopie <tt>metadata.xml</tt> soubor ve filmu a soubory metadat v rámci "
 "DCP.\n"
 "\n"
-"Měli byste se ujistit, že jsou tyto soubory <span weight=“bold” "
-"size=“larger”>ZAZÁLOHOVÁNY</span> pokud chcete vytvořit KDM pro tento film."
+"Měli byste se ujistit, že jsou tyto soubory <span weight=\"bold\" "
+"size=\"larger\">ZAZÁLOHOVÁNY</span> pokud chcete vytvořit KDM pro tento film."
 
 #: src/tools/dcpomatic.cc:543 src/tools/dcpomatic_batch.cc:297
 #: src/tools/dcpomatic_player.cc:532 src/tools/dcpomatic_player.cc:560

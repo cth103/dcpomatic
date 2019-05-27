@@ -1460,9 +1460,9 @@ msgid ""
 "supported by all projectors.  You are advised to change the DCP frame rate "
 "to %2 fps."
 msgstr ""
-"Du har gjort klar til en DCP med en billedhastighed på% 1 bps.  Denne "
+"Du har gjort klar til en DCP med en billedhastighed på %1 bps.  Denne "
 "billedhastighed understøttes ikke af alle projektorer.  Du rådes til at "
-"ændre DCP-billedhastigheden til% 2 fps."
+"ændre DCP-billedhastigheden til %2 fps."
 
 #: src/lib/hints.cc:165
 msgid ""
@@ -1470,9 +1470,9 @@ msgid ""
 "supported by all projectors.  You may want to consider changing your frame "
 "rate to %2 fps."
 msgstr ""
-"Du har gjort klar til en DCP med en billedhastighed på% 1 bps.  Denne "
+"Du har gjort klar til en DCP med en billedhastighed på %1 bps.  Denne "
 "billedhastighed understøttes ikke af alle projektorer.  Du rådes til at "
-"ændre billedhastigheden til% 2 fps."
+"ændre billedhastigheden til %2 fps."
 
 #: src/lib/hints.cc:175
 msgid ""
