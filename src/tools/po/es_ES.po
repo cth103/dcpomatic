@@ -781,7 +781,7 @@ msgstr ""
 "salvo que tenga copias del fichero <tt>metadata.xml</tt> del proyecto y los "
 "ficheros de metadatos del DCP.\n"
 "\n"
-"Debe asegurarse que existe una <span weight=“bold” size=“larger”>COPIA DE "
+"Debe asegurarse que existe una <span weight=\"bold\" size=\"larger\">COPIA DE "
 "SEGURIDAD</span> si quiere hacer KDMs para esta película."
 
 #: src/tools/dcpomatic.cc:543 src/tools/dcpomatic_batch.cc:297

@@ -731,8 +731,8 @@ msgstr ""
 "\n"
 "<tt>%s</tt>\n"
 "\n"
-"这个文件 <span weight=“bold” size=“larger”>非常重要</span> 请务必 <span "
-"weight=“bold” size=“larger”>备份这个文件</span> 如果丢失，您的数字模板文件"
+"这个文件 <span weight=\"bold\" size=\"larger\">非常重要</span> 请务必 <span "
+"weight=\"bold\" size=\"larger\">备份这个文件</span> 如果丢失，您的数字模板文件"
 "（包括生成的DCP包）将无法使用。"
 
 #: src/tools/dcpomatic.cc:735
@@ -747,7 +747,7 @@ msgstr ""
 "您已经制作了一个加密的DCP.  您不能生成KDM文件除非您备份下列文件 <tt>metadata."
 "xml</tt> \n"
 "\n"
-"请在生成KDM之前再次确认已经 <span weight=“bold” size=“larger”>备份</span> 该"
+"请在生成KDM之前再次确认已经 <span weight=\"bold\" size=\"larger\">备份</span> 该"
 "文件。"
 
 #: src/tools/dcpomatic.cc:543 src/tools/dcpomatic_batch.cc:297
