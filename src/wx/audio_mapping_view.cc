@@ -507,11 +507,9 @@ AudioMappingView::minus6dB ()
 void
 AudioMappingView::edit ()
 {
-	int const d = _menu_output - 1;
-
-	AudioGainDialog* dialog = new AudioGainDialog (this, _menu_input, _menu_output - 1, _map.get(_menu_input, d));
+	AudioGainDialog* dialog = new AudioGainDialog (this, _menu_input, _menu_output, _map.get(_menu_input, _menu_output));
 	if (dialog->ShowModal() == wxID_OK) {
-		_map.set (_menu_input, d, dialog->value ());
+		_map.set (_menu_input, _menu_output, dialog->value ());
 		map_values_changed ();
 	}
 
