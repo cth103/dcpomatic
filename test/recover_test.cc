@@ -134,7 +134,7 @@ BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted, * boost::unit_test::depends_on(
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	boost::filesystem::path const video =
-		"build/test/recover_test_2d_encrypted/video/185_2K_84d36460538435d5d511ee533c8528df_24_100000000_E_S_0_1200000.mxf";
+		"build/test/recover_test_2d_encrypted/video/185_2K_e18078ba81a58b44b62d9153460c898b_24_100000000_E_S_0_1200000.mxf";
 
 	boost::filesystem::copy_file (
 		video,
