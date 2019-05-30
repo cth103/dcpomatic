@@ -112,6 +112,7 @@ protected:
 	void set_message (std::string m);
 	int elapsed_sub_time () const;
 	void check_for_interruption_or_pause ();
+	void stop_thread ();
 
 	boost::shared_ptr<const Film> _film;
 
