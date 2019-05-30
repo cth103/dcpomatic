@@ -63,6 +63,12 @@ Job::Job (shared_ptr<const Film> film)
 
 Job::~Job ()
 {
+	stop_thread ();
+}
+
+void
+Job::stop_thread ()
+{
 	if (_thread) {
 		_thread->interrupt ();
 		/* We can't use DCPOMATIC_ASSERT here as it may throw an exception */
@@ -76,6 +82,7 @@ Job::~Job ()
 	}
 
 	delete _thread;
+	_thread = 0;
 }
 
 /** Start the job in a separate thread, returning immediately */

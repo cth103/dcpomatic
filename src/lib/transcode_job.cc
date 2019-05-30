@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -49,6 +49,14 @@ TranscodeJob::TranscodeJob (shared_ptr<const Film> film)
 	: Job (film)
 {
 
+}
+
+TranscodeJob::~TranscodeJob ()
+{
+	/* We have to stop the job thread here as we're about to start tearing down
+	   the Encoder, which is bad news if the job thread is still feeding it data.
+	*/
+	stop_thread ();
 }
 
 string
