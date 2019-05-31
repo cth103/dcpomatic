@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -33,8 +33,9 @@ using std::list;
 using std::cout;
 using std::string;
 using boost::shared_ptr;
+using boost::weak_ptr;
 
-TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film)
+TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film, weak_ptr<FilmViewer> viewer)
 	: wxDialog (
 		cp->window(),
 		wxID_ANY,
@@ -51,7 +52,7 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film)
 #endif
 		)
 	, _film (film)
-	, _timeline (this, cp, film)
+	, _timeline (this, cp, film, viewer)
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 

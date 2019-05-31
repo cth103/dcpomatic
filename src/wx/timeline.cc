@@ -29,6 +29,7 @@
 #include "timeline_atmos_content_view.h"
 #include "content_panel.h"
 #include "wx_util.h"
+#include "film_viewer.h"
 #include "lib/film.h"
 #include "lib/playlist.h"
 #include "lib/image_content.h"
@@ -60,12 +61,13 @@ using namespace dcpomatic;
 double const Timeline::_minimum_pixels_per_second = 640.0 / (60 * 60 * 3);
 int const Timeline::_minimum_pixels_per_track = 16;
 
-Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
+Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film, weak_ptr<FilmViewer> viewer)
 	: wxPanel (parent, wxID_ANY)
 	, _labels_canvas (new wxScrolledCanvas (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE))
 	, _main_canvas (new wxScrolledCanvas (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE))
 	, _content_panel (cp)
 	, _film (film)
+	, _viewer (viewer)
 	, _time_axis_view (new TimelineTimeAxisView (*this, 64))
 	, _reels_view (new TimelineReelsView (*this, 32))
 	, _labels_view (new TimelineLabelsView (*this))
@@ -114,8 +116,18 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	_film_changed_connection = film->Change.connect (bind (&Timeline::film_change, this, _1, _2));
 	_film_content_change_connection = film->ContentChange.connect (bind (&Timeline::film_content_change, this, _1, _3, _4));
 
+	shared_ptr<FilmViewer> vp = viewer.lock ();
+	DCPOMATIC_ASSERT (vp);
+	_viewer_position_change_connection = vp->PositionChanged.connect (bind(&Timeline::position_change, this));
+
 	setup_scrollbars ();
 	_labels_canvas->ShowScrollbars (wxSHOW_SB_NEVER, wxSHOW_SB_NEVER);
+}
+
+void
+Timeline::position_change ()
+{
+	Refresh ();
 }
 
 void
@@ -194,6 +206,18 @@ Timeline::paint_main ()
 			abs (_down_point.y - _zoom_point->y)
 			);
 	}
+
+	/* Playhead */
+
+	shared_ptr<FilmViewer> vp = _viewer.lock ();
+	DCPOMATIC_ASSERT (vp);
+
+	gc->SetPen (*wxRED_PEN);
+	wxGraphicsPath path = gc->CreatePath ();
+	double const ph = vp->position().seconds() * pixels_per_second().get_value_or(0);
+	path.MoveToPoint (ph, 0);
+	path.AddLineToPoint (ph, pixels_per_track() * _tracks + 32);
+	gc->StrokePath (path);
 
 	delete gc;
 }

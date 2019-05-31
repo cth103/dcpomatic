@@ -34,11 +34,12 @@ class TimelineView;
 class TimelineTimeAxisView;
 class TimelineReelsView;
 class TimelineLabelsView;
+class FilmViewer;
 
 class Timeline : public wxPanel
 {
 public:
-	Timeline (wxWindow *, ContentPanel *, boost::shared_ptr<Film>);
+	Timeline (wxWindow *, ContentPanel *, boost::shared_ptr<Film>, boost::weak_ptr<FilmViewer> viewer);
 
 	boost::shared_ptr<const Film> film () const;
 
@@ -103,6 +104,7 @@ private:
 	void set_pixels_per_second (double pps);
 	void set_pixels_per_track (int h);
 	void zoom_all ();
+	void position_change ();
 
 	boost::shared_ptr<TimelineView> event_to_view (wxMouseEvent &);
 	TimelineContentViewList selected_views () const;
@@ -113,6 +115,7 @@ private:
 	wxScrolledCanvas* _main_canvas;
 	ContentPanel* _content_panel;
 	boost::weak_ptr<Film> _film;
+	boost::weak_ptr<FilmViewer> _viewer;
 	TimelineViewList _views;
 	boost::shared_ptr<TimelineTimeAxisView> _time_axis_view;
 	boost::shared_ptr<TimelineReelsView> _reels_view;
@@ -140,4 +143,5 @@ private:
 
 	boost::signals2::scoped_connection _film_changed_connection;
 	boost::signals2::scoped_connection _film_content_change_connection;
+	boost::signals2::scoped_connection _viewer_position_change_connection;
 };

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -28,7 +28,7 @@ class Playlist;
 class TimelineDialog : public wxDialog
 {
 public:
-	TimelineDialog (ContentPanel *, boost::shared_ptr<Film>);
+	TimelineDialog (ContentPanel *, boost::shared_ptr<Film>, boost::weak_ptr<FilmViewer> viewer);
 
 	void set_selection (ContentList selection);
 

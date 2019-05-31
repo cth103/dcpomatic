@@ -558,7 +558,7 @@ ContentPanel::timeline_clicked ()
 		_timeline_dialog = 0;
 	}
 
-	_timeline_dialog = new TimelineDialog (this, _film);
+	_timeline_dialog = new TimelineDialog (this, _film, _film_viewer);
 	_timeline_dialog->set_selection (selected());
 	_timeline_dialog->Show ();
 }
