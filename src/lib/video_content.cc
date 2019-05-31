@@ -39,14 +39,15 @@
 
 #include "i18n.h"
 
-int const VideoContentProperty::SIZE	  = 0;
-int const VideoContentProperty::FRAME_TYPE  = 1;
-int const VideoContentProperty::CROP	  = 2;
-int const VideoContentProperty::SCALE	  = 3;
-int const VideoContentProperty::COLOUR_CONVERSION = 4;
-int const VideoContentProperty::FADE_IN     = 5;
-int const VideoContentProperty::FADE_OUT    = 6;
-int const VideoContentProperty::RANGE       = 7;
+int const VideoContentProperty::USE               = 0;
+int const VideoContentProperty::SIZE              = 1;
+int const VideoContentProperty::FRAME_TYPE        = 2;
+int const VideoContentProperty::CROP              = 3;
+int const VideoContentProperty::SCALE	          = 4;
+int const VideoContentProperty::COLOUR_CONVERSION = 5;
+int const VideoContentProperty::FADE_IN           = 6;
+int const VideoContentProperty::FADE_OUT          = 7;
+int const VideoContentProperty::RANGE             = 8;
 
 using std::string;
 using std::setprecision;
@@ -66,6 +67,7 @@ using namespace dcpomatic;
 
 VideoContent::VideoContent (Content* parent)
 	: ContentPart (parent)
+	, _use (true)
 	, _length (0)
 	, _frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (VideoContentScale (Ratio::from_id ("178")))
@@ -99,6 +101,7 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 		_parent->set_video_frame_rate (r.get ());
 	}
 
+	_use = node->optional_bool_child("Use").get_value_or(true);
 	_length = node->number_child<Frame> ("VideoLength");
 
 	if (version <= 34) {
@@ -171,6 +174,10 @@ VideoContent::VideoContent (Content* parent, vector<shared_ptr<Content> > c)
 
 	for (size_t i = 1; i < c.size(); ++i) {
 
+		if (c[i]->video->use() != ref->use()) {
+			throw JoinError (_("Content to be joined must have all its video used or not used."));
+		}
+
 		if (c[i]->video->size() != ref->size()) {
 			throw JoinError (_("Content to be joined must have the same picture size."));
 		}
@@ -202,6 +209,7 @@ VideoContent::VideoContent (Content* parent, vector<shared_ptr<Content> > c)
 		}
 	}
 
+	_use = ref->use ();
 	_size = ref->size ();
 	_frame_type = ref->frame_type ();
 	_crop = ref->crop ();
@@ -216,6 +224,7 @@ void
 VideoContent::as_xml (xmlpp::Node* node) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
+	node->add_child("Use")->add_child_text (_use ? "1" : "0");
 	node->add_child("VideoLength")->add_child_text (raw_convert<string> (_length));
 	node->add_child("VideoWidth")->add_child_text (raw_convert<string> (_size.width));
 	node->add_child("VideoHeight")->add_child_text (raw_convert<string> (_size.height));
@@ -280,7 +289,8 @@ VideoContent::identifier () const
 {
 	char buffer[256];
 	snprintf (
-		buffer, sizeof(buffer), "%d_%d_%d_%d_%s_%" PRId64 "_%" PRId64 "_%d",
+		buffer, sizeof(buffer), "%d_%d_%d_%d_%d_%s_%" PRId64 "_%" PRId64 "_%d",
+		(_use ? 1 : 0),
 		crop().left,
 		crop().right,
 		crop().top,
@@ -545,6 +555,12 @@ VideoContent::set_range (VideoRange r)
 }
 
 void
+VideoContent::set_use (bool u)
+{
+	maybe_set (_use, u, VideoContentProperty::USE);
+}
+
+void
 VideoContent::take_settings_from (shared_ptr<const VideoContent> c)
 {
 	if (c->_colour_conversion) {
@@ -552,6 +568,7 @@ VideoContent::take_settings_from (shared_ptr<const VideoContent> c)
 	} else {
 		unset_colour_conversion ();
 	}
+	set_use (c->_use);
 	set_frame_type (c->_frame_type);
 	set_left_crop (c->_crop.left);
 	set_right_crop (c->_crop.right);

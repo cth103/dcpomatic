@@ -80,7 +80,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmp
 	, Decoder (film)
 	, _have_current_subtitle (false)
 {
-	if (c->video) {
+	if (c->video && c->video->use()) {
 		video.reset (new VideoDecoder (this, c));
 		_pts_offset = pts_offset (c->ffmpeg_audio_streams(), c->first_video(), c->active_video_frame_rate(film));
 		/* It doesn't matter what size or pixel format this is, it just needs to be black */
@@ -185,7 +185,7 @@ FFmpegDecoder::pass ()
 	int const si = _packet.stream_index;
 	shared_ptr<const FFmpegContent> fc = _ffmpeg_content;
 
-	if (_video_stream && si == _video_stream.get() && !video->ignore()) {
+	if (_video_stream && si == _video_stream.get() && video && !video->ignore()) {
 		decode_video_packet ();
 	} else if (fc->subtitle_stream() && fc->subtitle_stream()->uses_index(_format_context, si) && !only_text()->ignore()) {
 		decode_subtitle_packet ();

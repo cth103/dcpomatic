@@ -54,7 +54,5 @@ TimelineTextContentView::foreground_colour () const
 bool
 TimelineTextContentView::active () const
 {
-	shared_ptr<Content> c = _content.lock ();
-	DCPOMATIC_ASSERT (c);
 	return _caption->use();
 }

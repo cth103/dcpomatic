@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,8 +18,9 @@
 
 */
 
-#include "timeline_video_content_view.h"
 #include "lib/image_content.h"
+#include "lib/video_content.h"
+#include "timeline_video_content_view.h"
 
 using boost::dynamic_pointer_cast;
 using boost::shared_ptr;
@@ -33,12 +34,27 @@ TimelineVideoContentView::TimelineVideoContentView (Timeline& tl, shared_ptr<Con
 wxColour
 TimelineVideoContentView::background_colour () const
 {
+	if (!active()) {
+		return wxColour (210, 210, 210, 128);
+	}
+
 	return wxColour (242, 92, 120, 255);
 }
 
 wxColour
 TimelineVideoContentView::foreground_colour () const
 {
+	if (!active()) {
+		return wxColour (180, 180, 180, 128);
+	}
+
 	return wxColour (0, 0, 0, 255);
 }
 
+bool
+TimelineVideoContentView::active () const
+{
+	shared_ptr<Content> c = _content.lock ();
+	DCPOMATIC_ASSERT (c);
+	return c->video && c->video->use();
+}

@@ -86,6 +86,8 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	font.SetPointSize(font.GetPointSize() - 1);
 	_reference_note->SetFont(font);
 
+	_use = new wxCheckBox (this, wxID_ANY, _("Use"));
+
 	_type_label = create_label (this, _("Type"), true);
 	_frame_type = new ContentChoice<VideoContent, VideoFrameType> (
 		this,
@@ -206,6 +208,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_fade_in->Changed.connect (boost::bind (&VideoPanel::fade_in_changed, this));
 	_fade_out->Changed.connect (boost::bind (&VideoPanel::fade_out_changed, this));
 
+	_use->Bind                           (wxEVT_CHECKBOX, boost::bind (&VideoPanel::use_clicked, this));
 	_reference->Bind                     (wxEVT_CHECKBOX, boost::bind (&VideoPanel::reference_clicked, this));
 	_filters_button->Bind                (wxEVT_BUTTON,   boost::bind (&VideoPanel::edit_filters_clicked, this));
 	_colour_conversion->Bind             (wxEVT_CHOICE,   boost::bind (&VideoPanel::colour_conversion_changed, this));
@@ -232,6 +235,10 @@ VideoPanel::add_to_grid ()
 		_grid->Add (reference_sizer, wxGBPosition(r, 0), wxGBSpan(1, 3));
 		++r;
 	}
+
+	_use->Show (full);
+	_grid->Add (_use, wxGBPosition(r, 0), wxGBSpan(1, 2));
+	++r;
 
 	add_label_to_sizer (_grid, _type_label, true, wxGBPosition(r, 0));
 	_frame_type->add (_grid, wxGBPosition(r, 1), wxGBSpan(1, 2));
@@ -385,6 +392,19 @@ VideoPanel::film_content_changed (int property)
 				checked_set (_filters, p);
 			}
 		}
+	} else if (property == VideoContentProperty::USE) {
+		set<bool> check;
+		BOOST_FOREACH (shared_ptr<const Content> i, vc) {
+			check.insert (i->video->use());
+		}
+
+		if (check.size() == 1) {
+			checked_set (_use, vc.front()->video->use());
+		} else {
+			checked_set (_use, false);
+		}
+
+		setup_sensitivity ();
 	} else if (property == VideoContentProperty::FADE_IN) {
 		set<Frame> check;
 		BOOST_FOREACH (shared_ptr<const Content> i, vc) {
@@ -528,6 +548,7 @@ VideoPanel::content_selection_changed ()
 	film_content_changed (VideoContentProperty::FADE_IN);
 	film_content_changed (VideoContentProperty::FADE_OUT);
 	film_content_changed (VideoContentProperty::RANGE);
+	film_content_changed (VideoContentProperty::USE);
 	film_content_changed (FFmpegContentProperty::FILTERS);
 	film_content_changed (DCPContentProperty::REFERENCE_VIDEO);
 
@@ -548,7 +569,11 @@ VideoPanel::setup_sensitivity ()
 	bool const can_reference = dcp && dcp->can_reference_video (_parent->film(), why_not);
 	setup_refer_button (_reference, _reference_note, dcp, can_reference, why_not);
 
-	if (_reference->GetValue ()) {
+	bool const enable = !_reference->GetValue() && _use->GetValue();
+
+	_use->Enable (!_reference->GetValue());
+
+	if (!enable) {
 		_frame_type->wrapped()->Enable (false);
 		_left_crop->wrapped()->Enable (false);
 		_right_crop->wrapped()->Enable (false);
@@ -610,6 +635,14 @@ VideoPanel::fade_out_changed ()
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_video ()) {
 		int const vfr = _parent->film()->video_frame_rate ();
 		i->video->set_fade_out (_fade_out->get (vfr).frames_round (vfr));
+	}
+}
+
+void
+VideoPanel::use_clicked ()
+{
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_video()) {
+		i->video->set_use (_use->GetValue());
 	}
 }
 

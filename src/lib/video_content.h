@@ -39,6 +39,7 @@ class Content;
 class VideoContentProperty
 {
 public:
+	static int const USE;
 	static int const SIZE;
 	static int const FRAME_TYPE;
 	static int const CROP;
@@ -94,6 +95,7 @@ public:
 	void set_fade_out (Frame);
 
 	void set_range (VideoRange);
+	void set_use (bool);
 
 	VideoFrameType frame_type () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -161,6 +163,11 @@ public:
 		return _range;
 	}
 
+	bool use () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _use;
+	}
+
 	dcp::Size size_after_3d_split () const;
 	dcp::Size size_after_crop () const;
 
@@ -191,6 +198,7 @@ private:
 	VideoContent (Content* parent, cxml::ConstNodePtr, int);
 	void setup_default_colour_conversion ();
 
+	bool _use;
 	Frame _length;
 	boost::optional<ColourConversion> _colour_conversion;
 	dcp::Size _size;

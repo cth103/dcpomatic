@@ -29,9 +29,7 @@ public:
 	TimelineVideoContentView (Timeline& tl, boost::shared_ptr<Content> c);
 
 private:
-	bool active () const {
-		return true;
-	}
+	bool active () const;
 	wxColour background_colour () const;
 	wxColour foreground_colour () const;
 };

@@ -46,6 +46,7 @@ public:
 	void content_selection_changed ();
 
 private:
+	void use_clicked ();
 	void reference_clicked ();
 	void edit_filters_clicked ();
 	void colour_conversion_changed ();
@@ -60,6 +61,7 @@ private:
 
 	wxCheckBox* _reference;
 	wxStaticText* _reference_note;
+	wxCheckBox* _use;
 	wxStaticText* _type_label;
 	ContentChoice<VideoContent, VideoFrameType>* _frame_type;
 	wxStaticText* _left_crop_label;
