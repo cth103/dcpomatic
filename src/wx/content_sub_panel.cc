@@ -74,7 +74,7 @@ ContentSubPanel::setup_refer_button (wxCheckBox* button, wxStaticText* note, sha
 	note->SetLabel (s);
 	note->Wrap (400);
 
-	if (s.IsEmpty ()) {
+	if (s.IsEmpty() || Config::instance()->interface_complexity() == Config::INTERFACE_SIMPLE) {
 		note->Hide ();
 	} else {
 		note->Show ();

@@ -226,7 +226,7 @@ VideoPanel::add_to_grid ()
 	int r = 0;
 
 	_reference->Show (full);
-	_reference_note->Show (full);
+	_reference_note->Show (full && !_reference_note->GetLabel().IsEmpty());
 
 	if (full) {
 		wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
