@@ -678,7 +678,7 @@ DCPPanel::setup_sensitivity ()
 	_reel_type->Enable              (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->references_dcp_audio());
 	_reel_length->Enable            (_generally_sensitive && _film && _film->reel_type() == REELTYPE_BY_LENGTH);
 	_upload_after_make_dcp->Enable  (_generally_sensitive);
-	_markers->Enable                (_generally_sensitive);
+	_markers->Enable                (_generally_sensitive && _film && !_film->interop());
 	_metadata->Enable               (_generally_sensitive);
 	_frame_rate_choice->Enable      (_generally_sensitive && _film && !_film->references_dcp_video());
 	_frame_rate_spin->Enable        (_generally_sensitive && _film && !_film->references_dcp_video());
