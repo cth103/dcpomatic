@@ -31,10 +31,17 @@
 #include <OpenGL/glext.h>
 #include <OpenGL/CGLTypes.h>
 #include <OpenGL/OpenGL.h>
-#else
+#endif
+
+#ifdef DCPOMATIC_LINUX
 #include <GL/glu.h>
 #include <GL/glext.h>
 #include <GL/glxext.h>
+#endif
+
+#ifdef DCPOMATIC_WINDOWS
+#include <GL/glu.h>
+#include <GL/glext.h>
 #endif
 
 using std::cout;
