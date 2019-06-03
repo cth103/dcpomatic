@@ -42,6 +42,7 @@
 #ifdef DCPOMATIC_WINDOWS
 #include <GL/glu.h>
 #include <GL/glext.h>
+#include <GL/wglext.h>
 #endif
 
 using std::cout;
