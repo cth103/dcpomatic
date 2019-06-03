@@ -47,7 +47,7 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	_canvas->Bind (wxEVT_PAINT, boost::bind(&GLVideoView::paint, this));
 	_canvas->Bind (wxEVT_SIZE, boost::bind(boost::ref(Sized)));
 
-#ifdef DCPOMATIC_LINUX
+#if defined(DCPOMATIC_LINUX) && defined(DCPOMATIC_HAVE_GLX_SWAP_INTERVAL_EXT)
 	if (_canvas->IsExtensionSupported("GLX_EXT_swap_control")) {
 		/* Enable vsync */
 		Display* dpy = wxGetX11Display();

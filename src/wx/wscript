@@ -271,7 +271,8 @@ def configure(conf):
                        msg='Checking for glXSwapIntervalEXT',
                        okmsg='yes',
                        uselib='GL WXWIDGETS',
-                       define_name='DCPOMATIC_HAVE_GLX_SWAP_INTERVAL_EXT')
+                       define_name='DCPOMATIC_HAVE_GLX_SWAP_INTERVAL_EXT',
+                       mandatory=False)
 
 
 def build(bld):
