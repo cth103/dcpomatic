@@ -30,6 +30,7 @@
 #include <OpenGL/glu.h>
 #include <OpenGL/glext.h>
 #include <OpenGL/CGLTypes.h>
+#include <OpenGL/OpenGL.h>
 #else
 #include <GL/glu.h>
 #include <GL/glext.h>
