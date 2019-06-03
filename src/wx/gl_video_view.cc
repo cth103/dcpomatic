@@ -67,7 +67,7 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 
 #ifdef DCPOMATIC_OSX
 	/* Enable vsync */
-	long swapInterval = 1;
+	GLint swapInterval = 1;
 	CGLSetParameter (CGLGetCurrentContext(), kCGLCPSwapInterval, &swapInterval);
 #endif
 
