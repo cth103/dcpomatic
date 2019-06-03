@@ -70,7 +70,7 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 #ifdef DCPOMATIC_WINDOWS
 	if (_canvas->IsExtensionSupported("WGL_EXT_swap_control")) {
 		/* Enable vsync */
-		PFNWGLSWAPINTERVALEXTPROC swap = (PFNWGLSWAPINTERVALEXTPROC) wglGetProceAddress("wglSwapIntervalEXT");
+		PFNWGLSWAPINTERVALEXTPROC swap = (PFNWGLSWAPINTERVALEXTPROC) wglGetProcAddress("wglSwapIntervalEXT");
 		if (swap) {
 			swap (1);
 			_vsync_enabled = true;
