@@ -180,6 +180,9 @@ def configure(conf):
                            uselib_store='WXWIDGETS',
                            mandatory=True)
 
+    if conf.env.TARGET_LINUX:
+        conf.env.append_value('CXXFLAGS', ['-DGLX_GLXEXT_PROTOTYPES'])
+
     if conf.options.static_wxwidgets:
 	# wx-config returns its static libraries as full paths, without -l prefixes, which confuses
         # check_cfg().  It puts the static libraries into LINKFLAGS_WXWIDGETS, so fish them out.

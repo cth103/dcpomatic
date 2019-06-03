@@ -32,6 +32,7 @@
 #else
 #include <GL/glu.h>
 #include <GL/glext.h>
+#include <GL/glxext.h>
 #endif
 
 using std::cout;
@@ -45,6 +46,12 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	_context = new wxGLContext (_canvas);
 	_canvas->Bind (wxEVT_PAINT, boost::bind(&GLVideoView::paint, this));
 	_canvas->Bind (wxEVT_SIZE, boost::bind(boost::ref(Sized)));
+
+	if (_canvas->IsExtensionSupported("GLX_EXT_swap_control")) {
+		/* Enable vsync */
+		Display* dpy = wxGetX11Display();
+		glXSwapIntervalEXT (dpy, DefaultScreen(dpy), 1);
+	}
 
 	glGenTextures (1, &_id);
 	glBindTexture (GL_TEXTURE_2D, _id);
