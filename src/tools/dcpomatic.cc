@@ -994,7 +994,7 @@ private:
 	void view_system_information ()
 	{
 		if (!_system_information_dialog) {
-			_system_information_dialog = new SystemInformationDialog (this);
+			_system_information_dialog = new SystemInformationDialog (this, _film_viewer);
 		}
 
 		_system_information_dialog->Show ();

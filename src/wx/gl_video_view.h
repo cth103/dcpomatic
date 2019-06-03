@@ -38,6 +38,10 @@ public:
 	}
 	void update ();
 
+	bool vsync_enabled () const {
+		return _vsync_enabled;
+	}
+
 private:
         void paint ();
         void draw ();
@@ -46,4 +50,5 @@ private:
         wxGLContext* _context;
         GLuint _id;
         boost::optional<dcp::Size> _size;
+	bool _vsync_enabled;
 };

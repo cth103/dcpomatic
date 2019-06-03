@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,10 +19,13 @@
 */
 
 #include "table_dialog.h"
+#include <boost/weak_ptr.hpp>
+
+class FilmViewer;
 
 class SystemInformationDialog : public TableDialog
 {
 public:
-	SystemInformationDialog (wxWindow* parent);
+	SystemInformationDialog (wxWindow* parent, boost::weak_ptr<FilmViewer> viewer);
 
 };

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,8 @@
 
 #include "system_information_dialog.h"
 #include "wx_util.h"
+#include "gl_video_view.h"
+#include "film_viewer.h"
 
 #ifdef DCPOMATIC_OSX
 #include <OpenGL/glu.h>
@@ -30,8 +32,10 @@
 #endif
 
 using std::string;
+using boost::weak_ptr;
+using boost::shared_ptr;
 
-SystemInformationDialog::SystemInformationDialog (wxWindow* parent)
+SystemInformationDialog::SystemInformationDialog (wxWindow* parent, weak_ptr<FilmViewer> weak_viewer)
 	: TableDialog (parent, _("System information"), 2, 1, false)
 {
 	add (_("OpenGL version"), true);
@@ -42,11 +46,20 @@ SystemInformationDialog::SystemInformationDialog (wxWindow* parent)
 		add (_("unknown (OpenGL not enabled in DCP-o-matic)"), false);
 	}
 
+
 	add (_("vsync"), true);
-#if !defined(DCPOMATIC_LINUX) || defined(DCPOMATIC_HAVE_GLX_SWAP_INTERVAL_EXT)
-	add (_("enabled"), false);
-#else
-        add (_("disabled"), false);
-#endif
+	shared_ptr<FilmViewer> viewer = weak_viewer.lock ();
+
+	if (!viewer) {
+		add (_("unknown"), false);
+	} else {
+		GLVideoView* gl = dynamic_cast<GLVideoView*>(viewer->panel());
+		if (!gl) {
+			add (_("unknown"), false);
+		} else {
+			add (gl->vsync_enabled() ? _("enabled") : _("not enabled"), false);
+		}
+	}
+
 	layout ();
 }

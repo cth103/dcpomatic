@@ -51,6 +51,7 @@ using boost::optional;
 
 GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	: VideoView (viewer)
+	, _vsync_enabled (false)
 {
 	_canvas = new wxGLCanvas (parent, wxID_ANY, 0, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
 	_context = new wxGLContext (_canvas);
@@ -62,6 +63,7 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 		/* Enable vsync */
 		Display* dpy = wxGetX11Display();
 		glXSwapIntervalEXT (dpy, DefaultScreen(dpy), 1);
+		_vsync_enabled = true;
 	}
 #endif
 
@@ -69,6 +71,7 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	if (_canvas->IsExtensionSupported("WGL_EXT_swap_control")) {
 		/* Enable vsync */
 		wglSwapIntervalEXT (1);
+		_vsync_enabled = true;
 	}
 
 #endif
@@ -77,6 +80,7 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	/* Enable vsync */
 	GLint swapInterval = 1;
 	CGLSetParameter (CGLGetCurrentContext(), kCGLCPSwapInterval, &swapInterval);
+	_vsync_enabled = true;
 #endif
 
 	glGenTextures (1, &_id);
