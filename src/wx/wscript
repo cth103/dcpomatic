@@ -257,6 +257,21 @@ def configure(conf):
         conf.env.STLIB_GL = 'gl'
         conf.env.STLIB_GLU = 'glu'
 
+    if conf.env.TARGET_LINUX:
+        conf.check_cxx(fragment="""
+                                #include <wx/glcanvas.h>
+                                #include <GL/glu.h>
+                                #include <GL/glext.h>
+                                #include <GL/glxext.h>
+                                int main() {
+                                    glXSwapIntervalEXT (0, 0, 1);
+                                    return 0;
+                                }
+                                """,
+                       msg='Checking for glXSwapIntervalEXT',
+                       okmsg='yes',
+                       uselib='GL WXWIDGETS',
+                       define_name='DCPOMATIC_HAVE_GLX_SWAP_INTERVAL_EXT')
 
 
 def build(bld):

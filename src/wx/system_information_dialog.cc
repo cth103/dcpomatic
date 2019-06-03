@@ -42,5 +42,11 @@ SystemInformationDialog::SystemInformationDialog (wxWindow* parent)
 		add (_("unknown (OpenGL not enabled in DCP-o-matic)"), false);
 	}
 
+	add (_("vsync"), true);
+#if !defined(DCPOMATIC_LINUX) || defined(DCPOMATIC_HAVE_GLX_SWAP_INTERVAL_EXT)
+	add (_("enabled"), false);
+#else
+        add (_("disabled"), false);
+#endif
 	layout ();
 }

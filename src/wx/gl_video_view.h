@@ -23,7 +23,6 @@
 #include <wx/glcanvas.h>
 #include <dcp/util.h>
 #include <boost/shared_ptr.hpp>
-
 #undef None
 #undef Success
 

@@ -47,11 +47,26 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	_canvas->Bind (wxEVT_PAINT, boost::bind(&GLVideoView::paint, this));
 	_canvas->Bind (wxEVT_SIZE, boost::bind(boost::ref(Sized)));
 
+#ifdef DCPOMATIC_LINUX
 	if (_canvas->IsExtensionSupported("GLX_EXT_swap_control")) {
 		/* Enable vsync */
 		Display* dpy = wxGetX11Display();
 		glXSwapIntervalEXT (dpy, DefaultScreen(dpy), 1);
 	}
+#endif
+
+#ifdef DCPOMATIC_WINDOWS
+	if (_canvas->IsExtensionSupported("WGL_EXT_swap_control")) {
+		/* Enable vsync */
+		wglSwapIntervalEXT (1);
+	}
+
+#endif
+
+#ifdef DCPOMATIC_OSX
+	/* Enable vsync */
+	NSOpenGLCPSwapInterval = 1;
+#endif
 
 	glGenTextures (1, &_id);
 	glBindTexture (GL_TEXTURE_2D, _id);
