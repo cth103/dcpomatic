@@ -30,6 +30,7 @@
 #include "wx/standard_controls.h"
 #include "wx/swaroop_controls.h"
 #include "wx/timer_display.h"
+#include "wx/system_information_dialog.h"
 #include "lib/cross.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -111,6 +112,7 @@ enum {
 	ID_tools_verify,
 	ID_tools_check_for_updates,
 	ID_tools_timing,
+	ID_tools_system_information,
 	/* IDs for shortcuts (with no associated menu item) */
 	ID_start_stop,
 	ID_back_frame,
@@ -131,6 +133,7 @@ public:
 		, _history_items (0)
 		, _history_position (0)
 		, _history_separator (0)
+		, _system_information_dialog (0)
 		, _view_full_screen (0)
 		, _view_dual_screen (0)
 	{
@@ -172,6 +175,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_verify, this), ID_tools_verify);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_check_for_updates, this), ID_tools_check_for_updates);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_timing, this), ID_tools_timing);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_system_information, this), ID_tools_system_information);
 
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
@@ -503,6 +507,7 @@ private:
 		tools->AppendSeparator ();
 		tools->Append (ID_tools_check_for_updates, _("Check for updates"));
 		tools->Append (ID_tools_timing, _("Timing..."));
+		tools->Append (ID_tools_system_information, _("System information..."));
 
 		wxMenu* help = new wxMenu;
 #ifdef __WXOSX__
@@ -796,6 +801,15 @@ private:
 		d->Destroy ();
 	}
 
+	void tools_system_information ()
+	{
+		if (!_system_information_dialog) {
+			_system_information_dialog = new SystemInformationDialog (this, _viewer);
+		}
+
+		_system_information_dialog->Show ();
+	}
+
 	void help_about ()
 	{
 		AboutDialog* d = new AboutDialog (this);
@@ -953,6 +967,7 @@ private:
 	wxMenuItem* _history_separator;
 	shared_ptr<FilmViewer> _viewer;
 	Controls* _controls;
+	SystemInformationDialog* _system_information_dialog;
 	boost::shared_ptr<Film> _film;
 	boost::signals2::scoped_connection _config_changed_connection;
 	wxMenuItem* _file_add_ov;
