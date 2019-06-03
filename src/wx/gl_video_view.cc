@@ -29,6 +29,7 @@
 #ifdef DCPOMATIC_OSX
 #include <OpenGL/glu.h>
 #include <OpenGL/glext.h>
+#include <OpenGL/CGLTypes.h>
 #else
 #include <GL/glu.h>
 #include <GL/glext.h>
