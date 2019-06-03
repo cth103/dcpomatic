@@ -53,6 +53,10 @@ public:
 		return _video_view->get();
 	}
 
+	VideoView const * video_view () const {
+		return _video_view;
+	}
+
 	void show_closed_captions ();
 
 	void set_film (boost::shared_ptr<Film>);

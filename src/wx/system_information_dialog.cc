@@ -53,7 +53,7 @@ SystemInformationDialog::SystemInformationDialog (wxWindow* parent, weak_ptr<Fil
 	if (!viewer) {
 		add (_("unknown"), false);
 	} else {
-		GLVideoView* gl = dynamic_cast<GLVideoView*>(viewer->panel());
+		GLVideoView const * gl = dynamic_cast<GLVideoView const *>(viewer->video_view());
 		if (!gl) {
 			add (_("unknown"), false);
 		} else {
