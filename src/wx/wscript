@@ -182,6 +182,8 @@ def configure(conf):
 
     if conf.env.TARGET_LINUX:
         conf.env.append_value('CXXFLAGS', ['-DGLX_GLXEXT_PROTOTYPES'])
+    if conf.env.TARGET_WINDOWS:
+        conf.env.append_value('CXXFLAGS', ['-DWGL_WGLEXT_PROTOTYPES'])
 
     if conf.options.static_wxwidgets:
 	# wx-config returns its static libraries as full paths, without -l prefixes, which confuses
