@@ -110,7 +110,7 @@ main (int argc, char* argv[])
 	}
 
 	boost::filesystem::path input = argv[optind];
-	boost::filesystem::path output_mp4 = *output / (input.filename().string() + ".ecinema");
+	boost::filesystem::path output_file = *output / (input.filename().string() + ".ecinema");
 
 	if (!boost::filesystem::is_directory(*output)) {
 		boost::filesystem::create_directory (*output);
@@ -135,15 +135,16 @@ main (int argc, char* argv[])
 	for (uint32_t i = 0; i < input_fc->nb_streams; ++i) {
 		AVStream* is = input_fc->streams[i];
 		AVStream* os = avformat_new_stream (output_fc, is->codec->codec);
-		if (avcodec_copy_context (os->codec, is->codec) < 0) {
+		if (avcodec_parameters_copy (os->codecpar, is->codecpar) < 0) {
 			cerr << "Could not set up output stream.\n";
 			exit (EXIT_FAILURE);
 		}
 
-		switch (os->codec->codec_type) {
+		os->avg_frame_rate = is->avg_frame_rate;
+
+		switch (is->codec->codec_type) {
 		case AVMEDIA_TYPE_VIDEO:
 			os->time_base = is->time_base;
-			os->avg_frame_rate = is->avg_frame_rate;
 			os->r_frame_rate = is->r_frame_rate;
 			os->sample_aspect_ratio = is->sample_aspect_ratio;
 			os->codec->time_base = is->codec->time_base;
@@ -156,6 +157,10 @@ main (int argc, char* argv[])
 			os->codec->sample_rate = is->codec->sample_rate;
 			os->codec->channel_layout = is->codec->channel_layout;
 			os->codec->channels = is->codec->channels;
+			if (is->codecpar->codec_id == AV_CODEC_ID_PCM_S24LE) {
+				/* XXX: fix incoming 24-bit files labelled lpcm, which apparently isn't allowed */
+				os->codecpar->codec_tag = MKTAG('i', 'n', '2', '4');
+			}
 			break;
 		default:
 			/* XXX */
@@ -163,8 +168,8 @@ main (int argc, char* argv[])
 		}
 	}
 
-	if (avio_open2 (&output_fc->pb, output_mp4.string().c_str(), AVIO_FLAG_WRITE, 0, 0) < 0) {
-		cerr << "Could not open output file `" << output_mp4.string() << "'\n";
+	if (avio_open2 (&output_fc->pb, output_file.string().c_str(), AVIO_FLAG_WRITE, 0, 0) < 0) {
+		cerr << "Could not open output file `" << output_file.string() << "'\n";
 		exit (EXIT_FAILURE);
 	}
 
@@ -205,7 +210,7 @@ main (int argc, char* argv[])
 	avformat_free_context (input_fc);
 	avformat_free_context (output_fc);
 
-	DecryptedECinemaKDM decrypted_kdm (id, output_mp4.filename().string(), key);
+	DecryptedECinemaKDM decrypted_kdm (id, output_file.filename().string(), key);
 	EncryptedECinemaKDM encrypted_kdm = decrypted_kdm.encrypt (Config::instance()->decryption_chain()->leaf());
 	cout << encrypted_kdm.as_xml() << "\n";
 }
