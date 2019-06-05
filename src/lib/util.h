@@ -63,10 +63,10 @@ namespace dcp {
 #define CLOSED_CAPTION_LINES 3
 /** Maximum line length of closed caption viewers */
 #define CLOSED_CAPTION_LENGTH 30
-/* We are mis-using episode_id here, as non-iTunes metadata tags are ignored.
+/* We are mis-using genre here, as only some metadata tags are written/read.
    I tried the use_metadata_tags option but it didn't seem to make any difference.
 */
-#define SWAROOP_ID_TAG "episode_id"
+#define SWAROOP_ID_TAG "genre"
 
 extern std::string program_name;
 extern bool is_batch_converter;
