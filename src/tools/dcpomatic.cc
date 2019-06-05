@@ -1539,6 +1539,13 @@ private:
 				Config::instance()->set_nagged(Config::NAG_INITIAL_SETUP, true);
 			}
 
+			if (running_32_on_64 ()) {
+				NagDialog::maybe_nag (
+					_frame, Config::NAG_32_ON_64,
+					_("You are running the 32-bit version of DCP-o-matic on a 64-bit version of Windows.  This will limit the memory available to DCP-o-matic and may cause errors.  You are strongly advised to install the 64-bit version of DCP-o-matic."),
+					false);
+			}
+
 			_frame->Show ();
 
 			if (!_film_to_load.empty() && boost::filesystem::is_directory (_film_to_load)) {

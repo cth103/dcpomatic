@@ -501,3 +501,16 @@ command_and_read (string cmd)
 
 	return "";
 }
+
+/** @return true if this process is a 32-bit one running on a 64-bit-capable OS */
+bool
+running_32_on_64 ()
+{
+#ifdef DCPOMATIC_WINDOWS
+	BOOL p;
+	IsWow64Process (GetCurrentProcess(), &p);
+	return p;
+#endif
+	/* XXX: assuming nobody does this on Linux / OS X */
+	return false;
+}
