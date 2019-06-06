@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -30,9 +30,11 @@
 #include "filter.h"
 #include "film.h"
 #include "log.h"
+#include "config.h"
 #include "exceptions.h"
 #include "frame_rate_change.h"
 #include "text_content.h"
+#include "decrypted_ecinema_kdm.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 extern "C" {
@@ -710,4 +712,21 @@ FFmpegContent::add_kdm (EncryptedECinemaKDM kdm)
 	_kdm = kdm;
 
 }
+
+bool
+FFmpegContent::kdm_timing_window_valid () const
+{
+	if (!_kdm) {
+		return true;
+	}
+
+	DCPOMATIC_ASSERT (Config::instance()->decryption_chain()->key());
+
+	DecryptedECinemaKDM decrypted (*_kdm, *Config::instance()->decryption_chain()->key());
+
+	dcp::LocalTime now;
+	return (!decrypted.not_valid_before() || *decrypted.not_valid_before() < now) &&
+		(!decrypted.not_valid_after() || now < *decrypted.not_valid_after());
+}
+
 #endif

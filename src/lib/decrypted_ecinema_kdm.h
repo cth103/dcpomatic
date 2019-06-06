@@ -28,7 +28,7 @@
 class DecryptedECinemaKDM
 {
 public:
-	DecryptedECinemaKDM (std::string id, std::string name, dcp::Key content_key);
+	DecryptedECinemaKDM (std::string id, std::string name, dcp::Key content_key, boost::optional<dcp::LocalTime> not_valid_before, boost::optional<dcp::LocalTime> not_valid_after);
 	DecryptedECinemaKDM (EncryptedECinemaKDM kdm, std::string private_key);
 
 	EncryptedECinemaKDM encrypt (dcp::Certificate recipient);
@@ -45,11 +45,21 @@ public:
 		return _content_key;
 	}
 
+	boost::optional<dcp::LocalTime> not_valid_before () const {
+		return _not_valid_before;
+	}
+
+	boost::optional<dcp::LocalTime> not_valid_after () const {
+		return _not_valid_after;
+	}
+
 private:
 	std::string _id;
 	std::string _name;
 	/** unenecrypted content key */
 	dcp::Key _content_key;
+	boost::optional<dcp::LocalTime> _not_valid_before;
+	boost::optional<dcp::LocalTime> _not_valid_after;
 };
 
 #endif

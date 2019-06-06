@@ -22,7 +22,9 @@
 
 #include "encrypted_ecinema_kdm.h"
 #include "decrypted_ecinema_kdm.h"
+#include "ecinema_kdm_data.h"
 #include "exceptions.h"
+#include "compose.hpp"
 #include <dcp/key.h>
 #include <dcp/util.h>
 #include <dcp/certificate.h>
@@ -33,11 +35,14 @@
 using std::string;
 using std::runtime_error;
 using dcp::Certificate;
+using boost::optional;
 
-DecryptedECinemaKDM::DecryptedECinemaKDM (string id, string name, dcp::Key content_key)
+DecryptedECinemaKDM::DecryptedECinemaKDM (string id, string name, dcp::Key content_key, optional<dcp::LocalTime> not_valid_before, optional<dcp::LocalTime> not_valid_after)
 	: _id (id)
 	, _name (name)
 	, _content_key (content_key)
+	, _not_valid_before (not_valid_before)
+	, _not_valid_after (not_valid_after)
 {
 
 }
@@ -59,18 +64,38 @@ DecryptedECinemaKDM::DecryptedECinemaKDM (EncryptedECinemaKDM kdm, string privat
 	}
 
 	uint8_t value[RSA_size(rsa)];
-	int const len = RSA_private_decrypt (kdm.key().size(), kdm.key().data().get(), value, rsa, RSA_PKCS1_OAEP_PADDING);
+	int const len = RSA_private_decrypt (kdm.data().size(), kdm.data().data().get(), value, rsa, RSA_PKCS1_OAEP_PADDING);
 	if (len == -1) {
 		throw KDMError (ERR_error_string(ERR_get_error(), 0), "");
 	}
 
-	_content_key = dcp::Key (value, len);
+	if (len != ECINEMA_KDM_KEY_LENGTH && len != (ECINEMA_KDM_KEY_LENGTH + ECINEMA_KDM_NOT_VALID_BEFORE_LENGTH + ECINEMA_KDM_NOT_VALID_AFTER_LENGTH)) {
+		throw KDMError (
+			"Unexpected data block size in ECinema KDM.",
+			String::compose("Size was %1; expected %2 or %3", ECINEMA_KDM_KEY_LENGTH, ECINEMA_KDM_KEY_LENGTH + ECINEMA_KDM_NOT_VALID_BEFORE_LENGTH + ECINEMA_KDM_NOT_VALID_AFTER_LENGTH)
+			);
+	}
+
+	_content_key = dcp::Key (value + ECINEMA_KDM_KEY, ECINEMA_KDM_KEY_LENGTH);
+	if (len > ECINEMA_KDM_KEY_LENGTH) {
+		uint8_t* p = value + ECINEMA_KDM_NOT_VALID_BEFORE;
+		string b;
+		for (int i = 0; i < ECINEMA_KDM_NOT_VALID_BEFORE_LENGTH; ++i) {
+			b += *p++;
+		}
+		_not_valid_before = dcp::LocalTime (b);
+		string a;
+		for (int i = 0; i < ECINEMA_KDM_NOT_VALID_AFTER_LENGTH; ++i) {
+			a += *p++;
+		}
+		_not_valid_after = dcp::LocalTime (a);
+	}
 }
 
 EncryptedECinemaKDM
 DecryptedECinemaKDM::encrypt (Certificate recipient)
 {
-	return EncryptedECinemaKDM (_id, _name, _content_key, recipient);
+	return EncryptedECinemaKDM (_id, _name, _content_key, _not_valid_before, _not_valid_after, recipient);
 }
 
 #endif

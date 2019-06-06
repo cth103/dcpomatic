@@ -119,6 +119,8 @@ public:
 		return _id;
 	}
 
+	bool kdm_timing_window_valid () const;
+
 #endif
 
 private:

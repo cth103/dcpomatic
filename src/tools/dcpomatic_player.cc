@@ -287,6 +287,15 @@ public:
 			}
 		}
 
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+		BOOST_FOREACH (shared_ptr<Content> i, _film->content()) {
+			shared_ptr<FFmpegContent> c = dynamic_pointer_cast<FFmpegContent>(i);
+			if (c && !c->kdm_timing_window_valid()) {
+				ok = false;
+			}
+		}
+#endif
+
 		if (!ok) {
 			error_dialog (this, _("The KDM does not allow playback of this content at this time."));
 		}

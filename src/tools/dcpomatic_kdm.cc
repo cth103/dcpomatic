@@ -318,7 +318,13 @@ private:
 						continue;
 					}
 
-					DecryptedECinemaKDM kdm (decrypted.id(), decrypted.name(), decrypted.key());
+					DecryptedECinemaKDM kdm (
+						decrypted.id(),
+						decrypted.name(),
+						decrypted.key(),
+						dcp::LocalTime (_timing->from(), i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
+						dcp::LocalTime (_timing->until(), i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute())
+						);
 
 					/* Encrypt */
 					screen_kdms.push_back (

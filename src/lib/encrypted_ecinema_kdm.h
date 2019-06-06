@@ -26,6 +26,8 @@
 #include <dcp/key.h>
 #include <dcp/data.h>
 #include <dcp/certificate.h>
+#include <dcp/local_time.h>
+#include <boost/optional.hpp>
 
 class DecryptedECinemaKDM;
 
@@ -45,19 +47,19 @@ public:
 		return _name;
 	}
 
-	dcp::Data key () const {
-		return _content_key;
+	dcp::Data data () const {
+		return _data;
 	}
 
 private:
 	friend class DecryptedECinemaKDM;
 
-	EncryptedECinemaKDM (std::string id, std::string name, dcp::Key key, dcp::Certificate recipient);
+	EncryptedECinemaKDM (std::string id, std::string name, dcp::Key key, boost::optional<dcp::LocalTime> not_valid_before, boost::optional<dcp::LocalTime> not_valid_after, dcp::Certificate recipient);
 
 	std::string _id;
 	std::string _name;
-	/** encrypted content key */
-	dcp::Data _content_key;
+	/** encrypted data */
+	dcp::Data _data;
 };
 
 #endif
