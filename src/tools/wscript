@@ -36,7 +36,7 @@ def build(bld):
         uselib += 'WINSOCK2 DBGHELP SHLWAPI MSWSOCK BOOST_LOCALE WINSOCK2 OLE32 DSOUND WINMM KSUSER '
 
     cli_tools = []
-    if bld.env.VARINT == 'swaroop-theater':
+    if bld.env.VARIANT == 'swaroop-theater':
         cli_tools = ['dcpomatic_player', 'dcpomatic_playlist', 'dcpomatic_uuid']
     elif bld.env.VARIANT == "swaroop-studio":
         cli_tools = ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test', 'dcpomatic_kdm_cli', 'dcpomatic_create', 'dcpomatic_player', 'dcpomatic_playlist', 'dcpomatic_ecinema', 'dcpomatic_uuid']
