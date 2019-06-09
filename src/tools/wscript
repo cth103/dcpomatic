@@ -41,7 +41,7 @@ def build(bld):
     elif bld.env.VARIANT == "swaroop-studio":
         cli_tools = ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test', 'dcpomatic_kdm_cli', 'dcpomatic_create', 'dcpomatic_player', 'dcpomatic_playlist', 'dcpomatic_ecinema', 'dcpomatic_uuid']
     else:
-        cli_tools = 'dcpomatic_cli', 'dcpomatic_server_cli', 'server_test', 'dcpomatic_kdm_cli', 'dcpomatic_create', 'dcpomatic_player']
+        cli_tools = ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test', 'dcpomatic_kdm_cli', 'dcpomatic_create', 'dcpomatic_player']
 
     for t in cli_tools:
         obj = bld(features='cxx cxxprogram')
