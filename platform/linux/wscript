@@ -1,6 +1,6 @@
 def build(bld):
     desktops = []
-    if bld.env.VARIANT != 'swaroop':
+    if bld.env.VARIANT != 'swaroop-theater':
         obj = bld(features='subst')
         obj.source = 'dcpomatic.desktop.in'
         obj.target = 'dcpomatic2.desktop'
