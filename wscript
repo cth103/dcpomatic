@@ -64,7 +64,7 @@ def options(opt):
     opt.add_option('--static-curl',       action='store_true', default=False, help='link statically to libcurl')
     opt.add_option('--workaround-gssapi', action='store_true', default=False, help='link to gssapi_krb5')
     opt.add_option('--force-cpp11',       action='store_true', default=False, help='force use of C++11')
-    opt.add_option('--variant',           help='build variant', choices=['swaroop-studio', 'swaoop-theater'])
+    opt.add_option('--variant',           help='build variant', choices=['swaroop-studio', 'swaroop-theater'])
 
 def configure(conf):
     conf.load('compiler_cxx')
