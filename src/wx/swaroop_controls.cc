@@ -30,6 +30,7 @@
 #include "lib/scoped_temporary.h"
 #include "lib/internet.h"
 #include "lib/ffmpeg_content.h"
+#include "lib/compose.hpp"
 #include <dcp/raw_convert.h>
 #include <dcp/exceptions.h>
 #include <wx/listctrl.h>
@@ -194,6 +195,18 @@ SwaroopControls::stopped ()
 }
 
 void
+SwaroopControls::decrement_allowed_shows ()
+{
+	if (_selected_playlist) {
+		SPL& spl = _playlists[*_selected_playlist];
+		spl.decrement_allowed_shows();
+		if (spl.path()) {
+			spl.write (*spl.path());
+		}
+	}
+}
+
+void
 SwaroopControls::play_clicked ()
 {
 	_viewer->start ();
@@ -229,6 +242,7 @@ SwaroopControls::stop_clicked ()
 		update_current_content ();
 	}
 	_viewer->set_background_image (true);
+	decrement_allowed_shows ();
 }
 
 bool
@@ -430,6 +444,11 @@ SwaroopControls::spl_selection_changed ()
 		return;
 	}
 
+	if (!_playlists[selected].have_allowed_shows()) {
+		error_dialog (this, "There are no more allowed shows of this playlist.");
+		return;
+	}
+
 	select_playlist (selected, 0);
 }
 
@@ -568,4 +587,6 @@ SwaroopControls::viewer_finished ()
 		_viewer->set_background_image (true);
 		ResetFilm (shared_ptr<Film>(new Film(optional<boost::filesystem::path>())));
 	}
+
+	decrement_allowed_shows ();
 }

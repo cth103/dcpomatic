@@ -32,6 +32,7 @@
 #include <wx/wx.h>
 #include <wx/listctrl.h>
 #include <wx/imaglist.h>
+#include <wx/spinctrl.h>
 #ifdef __WXOSX__
 #include <ApplicationServices/ApplicationServices.h>
 #endif
@@ -92,7 +93,7 @@ public:
 		   the dark-grey background on Windows.
 		*/
 		wxPanel* overall_panel = new wxPanel (this, wxID_ANY);
-		wxBoxSizer* main_sizer = new wxBoxSizer (wxHORIZONTAL);
+		wxBoxSizer* h_sizer = new wxBoxSizer (wxHORIZONTAL);
 
 		_list = new wxListCtrl (
 			overall_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL
@@ -124,7 +125,7 @@ public:
 
 		_list->SetImageList (images, wxIMAGE_LIST_SMALL);
 
-		main_sizer->Add (_list, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
+		h_sizer->Add (_list, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 
 		wxBoxSizer* button_sizer = new wxBoxSizer (wxVERTICAL);
 		_up = new Button (overall_panel, _("Up"));
@@ -140,8 +141,20 @@ public:
 		button_sizer->Add (_save, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 		button_sizer->Add (_load, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 
-		main_sizer->Add (button_sizer, 0, wxALL, DCPOMATIC_SIZER_GAP);
-		overall_panel->SetSizer (main_sizer);
+		h_sizer->Add (button_sizer, 0, wxALL, DCPOMATIC_SIZER_GAP);
+
+		wxBoxSizer* v_sizer = new wxBoxSizer (wxVERTICAL);
+
+		wxBoxSizer* allowed_shows_sizer = new wxBoxSizer (wxHORIZONTAL);
+		_allowed_shows_enable = new wxCheckBox (overall_panel, wxID_ANY, _("Limit number of shows with this playlist to"));
+		allowed_shows_sizer->Add (_allowed_shows_enable, 0, wxRIGHT, DCPOMATIC_SIZER_GAP);
+		_allowed_shows = new wxSpinCtrl (overall_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 65536, 100);
+		allowed_shows_sizer->Add (_allowed_shows);
+
+		v_sizer->Add (allowed_shows_sizer, 0, wxALL, DCPOMATIC_SIZER_GAP);
+		v_sizer->Add (h_sizer);
+
+		overall_panel->SetSizer (v_sizer);
 
 		_list->Bind (wxEVT_LEFT_DOWN, bind(&DOMFrame::list_left_click, this, _1));
 		_list->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, boost::bind (&DOMFrame::selection_changed, this));
@@ -152,11 +165,23 @@ public:
 		_remove->Bind (wxEVT_BUTTON, bind(&DOMFrame::remove_clicked, this));
 		_save->Bind (wxEVT_BUTTON, bind(&DOMFrame::save_clicked, this));
 		_load->Bind (wxEVT_BUTTON, bind(&DOMFrame::load_clicked, this));
+		_allowed_shows_enable->Bind (wxEVT_CHECKBOX, bind(&DOMFrame::allowed_shows_changed, this));
+		_allowed_shows->Bind (wxEVT_SPINCTRL, bind(&DOMFrame::allowed_shows_changed, this));
 
 		setup_sensitivity ();
 	}
 
 private:
+
+	void allowed_shows_changed ()
+	{
+		if (_allowed_shows_enable->GetValue()) {
+			_playlist.set_allowed_shows (_allowed_shows->GetValue());
+		} else {
+			_playlist.unset_allowed_shows ();
+		}
+		setup_sensitivity ();
+	}
 
 	void add (SPLEntry e)
 	{
@@ -190,6 +215,7 @@ private:
 		_up->Enable (selected > 0);
 		_down->Enable (selected != -1 && selected < (_list->GetItemCount() - 1));
 		_remove->Enable (num_selected > 0);
+		_allowed_shows->Enable (_allowed_shows_enable->GetValue());
 	}
 
 	void list_left_click (wxMouseEvent& ev)
@@ -308,6 +334,14 @@ private:
 			} else {
 				error_dialog (this, _("Some content in this playlist was not found."));
 			}
+			optional<int> allowed_shows = _playlist.allowed_shows ();
+			_allowed_shows_enable->SetValue (static_cast<bool>(allowed_shows));
+			if (allowed_shows) {
+				_allowed_shows->SetValue (*allowed_shows);
+			} else {
+				_allowed_shows->SetValue (65536);
+			}
+			setup_sensitivity ();
 		}
 	}
 
@@ -318,6 +352,8 @@ private:
 	wxButton* _remove;
 	wxButton* _save;
 	wxButton* _load;
+	wxCheckBox* _allowed_shows_enable;
+	wxSpinCtrl* _allowed_shows;
 	SPL _playlist;
 	ContentDialog* _content_dialog;
 

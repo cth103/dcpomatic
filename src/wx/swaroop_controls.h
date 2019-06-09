@@ -59,6 +59,7 @@ private:
 	void update_current_content ();
 	bool can_do_previous ();
 	bool can_do_next ();
+	void decrement_allowed_shows ();
 
 	boost::optional<dcp::EncryptedKDM> get_kdm_from_url (boost::shared_ptr<DCPContent> dcp);
 	boost::optional<dcp::EncryptedKDM> get_kdm_from_directory (boost::shared_ptr<DCPContent> dcp);

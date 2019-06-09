@@ -61,20 +61,52 @@ public:
 		return _id;
 	}
 
+	boost::optional<boost::filesystem::path> path () const {
+		return _path;
+	}
+
 	std::string name () const {
-		return _name;
+		if (!_path) {
+			return "";
+		}
+		return _path->filename().string();
 	}
 
 	bool missing () const {
 		return _missing;
 	}
 
+	boost::optional<int> allowed_shows () const {
+		return _allowed_shows;
+	}
+
+	bool have_allowed_shows () const {
+		return !_allowed_shows || *_allowed_shows > 0;
+	}
+
+	void set_allowed_shows (int s) {
+		_allowed_shows = s;
+	}
+
+	void unset_allowed_shows () {
+		_allowed_shows = boost::optional<int>();
+	}
+
+	void decrement_allowed_shows () {
+		if (_allowed_shows) {
+			(*_allowed_shows)--;
+		}
+
+	}
+
 private:
 	std::string _id;
-	std::string _name;
+	mutable boost::optional<boost::filesystem::path> _path;
 	std::vector<SPLEntry> _spl;
 	/** true if any content was missing when read() was last called on this SPL */
 	bool _missing;
+	/** number of times left that the player will allow this playlist to be played (unset means infinite shows) */
+	boost::optional<int> _allowed_shows;
 };
 
 #endif

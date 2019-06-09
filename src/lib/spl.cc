@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -21,16 +21,21 @@
 #include "spl.h"
 #include "content_store.h"
 #include <libcxml/cxml.h>
+#include <dcp/raw_convert.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
 #include <iostream>
 
 using std::cout;
+using std::string;
 using boost::shared_ptr;
+using dcp::raw_convert;
 
 void
 SPL::read (boost::filesystem::path path, ContentStore* store)
 {
+	_path = path;
+
 	_spl.clear ();
 	_missing = false;
 	cxml::Document doc ("SPL");
@@ -45,17 +50,22 @@ SPL::read (boost::filesystem::path path, ContentStore* store)
 		}
 	}
 
-	_name = path.filename().string();
+	_allowed_shows = doc.optional_number_child<int>("AllowedShows");
 }
 
 void
 SPL::write (boost::filesystem::path path) const
 {
+	_path = path;
+
 	xmlpp::Document doc;
 	xmlpp::Element* root = doc.create_root_node ("SPL");
 	root->add_child("Id")->add_child_text (_id);
 	BOOST_FOREACH (SPLEntry i, _spl) {
 		i.as_xml (root->add_child("Entry"));
+	}
+	if (_allowed_shows) {
+		root->add_child("AllowedShows")->add_child_text(raw_convert<string>(*_allowed_shows));
 	}
 	doc.write_to_file_formatted (path.string());
 }
