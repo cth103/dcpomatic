@@ -191,6 +191,8 @@ BOOST_AUTO_TEST_CASE (threed_test7)
 		dcpomatic_sleep (1);
 	}
 
+	while (signal_manager->ui_idle ()) {}
+
 	BOOST_REQUIRE (jm->errors());
 	shared_ptr<Job> failed;
 	BOOST_FOREACH (shared_ptr<Job> i, jm->_jobs) {
