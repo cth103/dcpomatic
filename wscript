@@ -546,7 +546,7 @@ def download_supporters(can_fail):
     if (r >> 8) == 0:
         r = os.system('curl -s -f https://dcpomatic.com/subscribers.cc?%s > src/wx/subscribers.cc' % urlencode({"until": last_date.strip()}))
     if (r >> 8) != 0 and can_fail:
-        raise Exception("Could not download supporters lists")
+        raise Exception("Could not download supporters lists (%d)", r >> 8)
 
 def build(bld):
     create_version_cc(VERSION, bld.env.CXXFLAGS)
