@@ -22,21 +22,21 @@ override_dh_auto_build:
 override_dh_auto_install:
 	./waf install --destdir=debian/dcpomatic
 	mkdir -p debian/dcpomatic/usr/share/locale/de/LC_MESSAGES/
-	cp -a $(CDIST_LOCALE_PREFIX)/de/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/de/LC_MESSAGES/dcpomatic2-wxstd.mo
+	cp -a /usr/share/de/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/de/LC_MESSAGES/dcpomatic2-wxstd.mo
 	mkdir -p debian/dcpomatic/usr/share/locale/es/LC_MESSAGES/
-	cp -a $(CDIST_LOCALE_PREFIX)/es/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/es/LC_MESSAGES/dcpomatic2-wxstd.mo
+	cp -a /usr/share/es/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/es/LC_MESSAGES/dcpomatic2-wxstd.mo
 	mkdir -p debian/dcpomatic/usr/share/locale/fr/LC_MESSAGES/
-	cp -a $(CDIST_LOCALE_PREFIX)/fr/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/fr/LC_MESSAGES/dcpomatic2-wxstd.mo
+	cp -a /usr/share/fr/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/fr/LC_MESSAGES/dcpomatic2-wxstd.mo
 	mkdir -p debian/dcpomatic/usr/share/locale/it/LC_MESSAGES/
-	cp -a $(CDIST_LOCALE_PREFIX)/it/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/it/LC_MESSAGES/dcpomatic2-wxstd.mo
+	cp -a /usr/share/it/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/it/LC_MESSAGES/dcpomatic2-wxstd.mo
 	mkdir -p debian/dcpomatic/usr/share/locale/sv/LC_MESSAGES/
-	cp -a $(CDIST_LOCALE_PREFIX)/sv/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/sv/LC_MESSAGES/dcpomatic2-wxstd.mo
+	cp -a /usr/share/sv/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/sv/LC_MESSAGES/dcpomatic2-wxstd.mo
 	mkdir -p debian/dcpomatic/usr/share/locale/nl/LC_MESSAGES/
-	cp -a $(CDIST_LOCALE_PREFIX)/nl/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/nl/LC_MESSAGES/dcpomatic2-wxstd.mo
+	cp -a /usr/share/nl/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/nl/LC_MESSAGES/dcpomatic2-wxstd.mo
 	mkdir -p debian/dcpomatic/usr/share/locale/pl/LC_MESSAGES/
-	cp -a $(CDIST_LOCALE_PREFIX)/pl/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/pl/LC_MESSAGES/dcpomatic2-wxstd.mo
+	cp -a /usr/share/pl/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/pl/LC_MESSAGES/dcpomatic2-wxstd.mo
 	mkdir -p debian/dcpomatic/usr/share/locale/ru/LC_MESSAGES/
-	cp -a $(CDIST_LOCALE_PREFIX)/ru/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/ru/LC_MESSAGES/dcpomatic2-wxstd.mo
+	cp -a /usr/share/ru/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/ru/LC_MESSAGES/dcpomatic2-wxstd.mo
 
 .PHONY: override_dh_strip
 override_dh_strip:
