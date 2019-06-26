@@ -75,6 +75,10 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 	_vertical_scroll = new wxScrollBar (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSB_VERTICAL);
 	_horizontal_scroll = new wxScrollBar (this, wxID_ANY);
 
+#ifndef __WXOSX__
+	SetDoubleBuffered (true);
+#endif
+
 	Bind (wxEVT_SIZE, boost::bind(&AudioMappingView::size, this, _1));
 	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::off, this), ID_off);
 	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::full, this), ID_full);
