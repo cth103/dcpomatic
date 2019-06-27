@@ -640,8 +640,8 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 			shared_ptr<dcp::Subtitle>(
 				new dcp::SubtitleImage(
 					i.image->as_png(),
-					dcp::Time(period.from.seconds(), _film->video_frame_rate()),
-					dcp::Time(period.to.seconds(), _film->video_frame_rate()),
+					dcp::Time(period.from.seconds() - _period.from.seconds(), _film->video_frame_rate()),
+					dcp::Time(period.to.seconds() - _period.from.seconds(), _film->video_frame_rate()),
 					i.rectangle.x, dcp::HALIGN_LEFT, i.rectangle.y, dcp::VALIGN_TOP,
 					dcp::Time(), dcp::Time()
 					)
