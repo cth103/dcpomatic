@@ -50,12 +50,12 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_test)
 
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	red_a->set_position (film, dcpomatic::DCPTime());
+	red_a->set_position (film, DCPTime());
 	red_a->video->set_length (240);
-	sub_a->set_position (film, dcpomatic::DCPTime());
-	red_b->set_position (film, dcpomatic::DCPTime::from_seconds(10));
+	sub_a->set_position (film, DCPTime());
+	red_b->set_position (film, DCPTime::from_seconds(10));
 	red_b->video->set_length (240);
-	sub_b->set_position (film, dcpomatic::DCPTime::from_seconds(10));
+	sub_b->set_position (film, DCPTime::from_seconds(10));
 
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
 
