@@ -60,6 +60,7 @@ private:
 	bool can_do_previous ();
 	bool can_do_next ();
 	void decrement_allowed_shows ();
+	void deselect_playlist ();
 
 	boost::optional<dcp::EncryptedKDM> get_kdm_from_url (boost::shared_ptr<DCPContent> dcp);
 	boost::optional<dcp::EncryptedKDM> get_kdm_from_directory (boost::shared_ptr<DCPContent> dcp);

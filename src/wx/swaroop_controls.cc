@@ -158,7 +158,8 @@ SwaroopControls::check_restart ()
 void
 SwaroopControls::viewer_position_changed ()
 {
-	if (!_selected_playlist || !_viewer->playing() || _viewer->position().get() % DCPTime::HZ) {
+	/* Write position every two minutes if we're playing */
+	if (!_selected_playlist || !_viewer->playing() || _viewer->position().get() % (2 * 60 * DCPTime::HZ)) {
 		return;
 	}
 
@@ -186,12 +187,23 @@ SwaroopControls::started ()
 	_viewer->set_background_image (false);
 }
 
+/** Called when the viewer finishes a single piece of content, or it is explicitly stopped */
 void
 SwaroopControls::stopped ()
 {
 	Controls::stopped ();
 	_play_button->Enable (true);
 	_pause_button->Enable (false);
+}
+
+void
+SwaroopControls::deselect_playlist ()
+{
+	long int const selected = _spl_view->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	if (selected != -1) {
+		_selected_playlist = boost::none;
+		_spl_view->SetItemState (selected, 0, wxLIST_STATE_SELECTED);
+	}
 }
 
 void
@@ -243,6 +255,7 @@ SwaroopControls::stop_clicked ()
 	}
 	_viewer->set_background_image (true);
 	decrement_allowed_shows ();
+	deselect_playlist ();
 }
 
 bool
@@ -434,8 +447,7 @@ SwaroopControls::spl_selection_changed ()
 
 	if (_playlists[selected].missing()) {
 		error_dialog (this, "This playlist cannot be loaded as some content is missing.");
-		_selected_playlist = boost::none;
-		_spl_view->SetItemState (selected, 0, wxLIST_STATE_SELECTED);
+		deselect_playlist ();
 		return;
 	}
 
@@ -479,8 +491,7 @@ SwaroopControls::select_playlist (int selected, int position)
 			if (dcp->needs_kdm()) {
 				/* We didn't get a KDM for this */
 				error_dialog (this, "This playlist cannot be loaded as a KDM is missing.");
-				_selected_playlist = boost::none;
-				_spl_view->SetItemState (selected, 0, wxLIST_STATE_SELECTED);
+				deselect_playlist ();
 				return;
 			}
 		}
@@ -496,8 +507,7 @@ SwaroopControls::select_playlist (int selected, int position)
 				}
 			} else {
 				error_dialog (this, "This playlist cannot be loaded as a KDM is missing.");
-				_selected_playlist = boost::none;
-				_spl_view->SetItemState (selected, 0, wxLIST_STATE_SELECTED);
+				deselect_playlist ();
 				return;
 			}
 		}
@@ -589,7 +599,8 @@ SwaroopControls::viewer_finished ()
 		_selected_playlist_position = 0;
 		_viewer->set_background_image (true);
 		ResetFilm (shared_ptr<Film>(new Film(optional<boost::filesystem::path>())));
-		stopped ();
 		decrement_allowed_shows ();
+		_play_button->Enable (true);
+		_pause_button->Enable (false);
 	}
 }
