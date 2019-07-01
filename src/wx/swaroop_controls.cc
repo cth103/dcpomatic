@@ -586,6 +586,7 @@ SwaroopControls::viewer_finished ()
 		_selected_playlist_position = 0;
 		_viewer->set_background_image (true);
 		ResetFilm (shared_ptr<Film>(new Film(optional<boost::filesystem::path>())));
+		stopped ();
 	}
 
 	decrement_allowed_shows ();
