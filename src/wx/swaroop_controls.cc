@@ -567,6 +567,7 @@ SwaroopControls::update_current_content ()
 	reset_film ();
 }
 
+/** One piece of content in our SPL has finished playing */
 void
 SwaroopControls::viewer_finished ()
 {
@@ -578,16 +579,17 @@ SwaroopControls::viewer_finished ()
 
 	_selected_playlist_position++;
 	if (_selected_playlist_position < int(_playlists[*_selected_playlist].get().size())) {
+		/* Next piece of content on the SPL */
 		update_current_content ();
 		if (!stop) {
 			_viewer->start ();
 		}
 	} else {
+		/* Finished the whole SPL */
 		_selected_playlist_position = 0;
 		_viewer->set_background_image (true);
 		ResetFilm (shared_ptr<Film>(new Film(optional<boost::filesystem::path>())));
 		stopped ();
+		decrement_allowed_shows ();
 	}
-
-	decrement_allowed_shows ();
 }
