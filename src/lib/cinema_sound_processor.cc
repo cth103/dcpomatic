@@ -24,6 +24,8 @@
 
 #include "cinema_sound_processor.h"
 #include "dolby_cp750.h"
+#include "usl.h"
+#include "datasat_ap2x.h"
 #include "dcpomatic_assert.h"
 #include <iostream>
 #include <cassert>
@@ -35,9 +37,12 @@ vector<CinemaSoundProcessor const *> CinemaSoundProcessor::_cinema_sound_process
 /** @param i Our id.
  *  @param n User-visible name.
  */
-CinemaSoundProcessor::CinemaSoundProcessor (string i, string n)
+CinemaSoundProcessor::CinemaSoundProcessor (string i, string n, float knee, float below, float above)
 	: _id (i)
 	, _name (n)
+	, _knee (knee)
+	, _below (below)
+	, _above (above)
 {
 
 }
@@ -56,6 +61,8 @@ void
 CinemaSoundProcessor::setup_cinema_sound_processors ()
 {
 	_cinema_sound_processors.push_back (new DolbyCP750);
+	_cinema_sound_processors.push_back (new USL);
+	_cinema_sound_processors.push_back (new DatasatAP2x);
 }
 
 /** @param id One of our ids.
@@ -102,4 +109,34 @@ CinemaSoundProcessor::from_index (int i)
 {
 	DCPOMATIC_ASSERT (i <= int(_cinema_sound_processors.size ()));
 	return _cinema_sound_processors[i];
+}
+
+float
+CinemaSoundProcessor::db_for_fader_change (float from, float to) const
+{
+	float db = 0;
+
+	if (from < to) {
+		if (from <= _knee) {
+			float const t = min (to, _knee);
+			db += (t - from) * _below;
+		}
+
+		if (to > 4) {
+			float const t = max (from, _knee);
+			db += (to - t) * _above;
+		}
+	} else {
+		if (from >= _knee) {
+			float const t = max (to, _knee);
+			db -= (from - t) * _above;
+		}
+
+		if (to < _knee) {
+			float const t = min (from, _knee);
+			db -= (t - to) * _below;
+		}
+	}
+
+	return db;
 }

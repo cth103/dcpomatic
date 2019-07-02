@@ -18,18 +18,19 @@
 
 */
 
-#include <wx/wx.h>
 #include "table_dialog.h"
+#include <wx/wx.h>
+#include <boost/optional.hpp>
 
 class GainCalculatorDialog : public TableDialog
 {
 public:
 	explicit GainCalculatorDialog (wxWindow* parent);
 
-	float actual_fader () const;
-	float wanted_fader () const;
+	boost::optional<float> db_change () const;
 
 private:
+	wxChoice* _processor;
 	wxTextCtrl* _wanted;
 	wxTextCtrl* _actual;
 };

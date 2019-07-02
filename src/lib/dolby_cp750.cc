@@ -25,37 +25,7 @@
 using namespace std;
 
 DolbyCP750::DolbyCP750 ()
-	: CinemaSoundProcessor ("dolby_cp750", _("Dolby CP650 and CP750"))
+	: CinemaSoundProcessor ("dolby_cp750", _("Dolby CP650 or CP750"), 4.0f, 20, 3.33333333333333333)
 {
 
-}
-
-float
-DolbyCP750::db_for_fader_change (float from, float to) const
-{
-	float db = 0;
-
-	if (from < to) {
-		if (from <= 4) {
-			float const t = min (to, 4.0f);
-			db += (t - from) * 20;
-		}
-
-		if (to > 4) {
-			float const t = max (from, 4.0f);
-			db += (to - t) * 3.33333333333333333;
-		}
-	} else {
-		if (from >= 4) {
-			float const t = max (to, 4.0f);
-			db -= (from - t) * 3.33333333333333333;
-		}
-
-		if (to < 4) {
-			float const t = min (from, 4.0f);
-			db -= (t - to) * 20;
-		}
-	}
-
-	return db;
 }

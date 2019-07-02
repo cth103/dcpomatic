@@ -38,10 +38,10 @@
 class CinemaSoundProcessor : public boost::noncopyable
 {
 public:
-	CinemaSoundProcessor (std::string i, std::string n);
+	CinemaSoundProcessor (std::string i, std::string n, float knee, float below, float above);
 	virtual ~CinemaSoundProcessor () {}
 
-	virtual float db_for_fader_change (float from, float to) const = 0;
+	float db_for_fader_change (float from, float to) const;
 
 	/** @return id for our use */
 	std::string id () const {
@@ -64,6 +64,9 @@ private:
 	std::string _id;
 	/** user-visible name for this sound processor */
 	std::string _name;
+	float _knee;
+	float _below;
+	float _above;
 
 	/** sll available cinema sound processors */
 	static std::vector<CinemaSoundProcessor const *> _cinema_sound_processors;

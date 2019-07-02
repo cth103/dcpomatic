@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -21,35 +21,41 @@
 #include "gain_calculator_dialog.h"
 #include "wx_util.h"
 #include "lib/util.h"
+#include "lib/cinema_sound_processor.h"
+
+using boost::optional;
 
 GainCalculatorDialog::GainCalculatorDialog (wxWindow* parent)
 	: TableDialog (parent, _("Gain Calculator"), 2, 1, true)
 {
+	add (_("Sound processor"), true);
+	_processor = add (new wxChoice(this, wxID_ANY));
+
 	add (_("I want to play this back at fader"), true);
 	_wanted = add (new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, wxTextValidator (wxFILTER_NUMERIC)));
 
 	add (_("But I have to use fader"), true);
 	_actual = add (new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, wxTextValidator (wxFILTER_NUMERIC)));
 
+	BOOST_FOREACH (CinemaSoundProcessor const * i, CinemaSoundProcessor::all()) {
+		_processor->Append (std_to_wx(i->name()));
+	}
+
+	_processor->SetSelection (0);
+
 	layout ();
 }
 
-float
-GainCalculatorDialog::wanted_fader () const
+optional<float>
+GainCalculatorDialog::db_change () const
 {
-	if (_wanted->GetValue().IsEmpty()) {
-		return 0;
+	if (_wanted->GetValue().IsEmpty() || _actual->GetValue().IsEmpty()) {
+		return optional<float>();
 	}
 
-	return relaxed_string_to_float (wx_to_std (_wanted->GetValue ()));
-}
-
-float
-GainCalculatorDialog::actual_fader () const
-{
-	if (_actual->GetValue().IsEmpty()) {
-		return 0;
-	}
-
-	return relaxed_string_to_float (wx_to_std (_actual->GetValue ()));
+	return CinemaSoundProcessor::from_index(
+		_processor->GetSelection())->db_for_fader_change(
+			relaxed_string_to_float(wx_to_std(_wanted->GetValue())),
+			relaxed_string_to_float(wx_to_std(_actual->GetValue()))
+			);
 }

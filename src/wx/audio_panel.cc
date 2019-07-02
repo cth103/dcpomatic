@@ -251,18 +251,14 @@ AudioPanel::gain_calculate_button_clicked ()
 {
 	GainCalculatorDialog* d = new GainCalculatorDialog (this);
 	int const r = d->ShowModal ();
+	optional<float> c = d->db_change();
 
-	if (r == wxID_CANCEL || d->wanted_fader() == 0 || d->actual_fader() == 0) {
+	if (r == wxID_CANCEL || !c) {
 		d->Destroy ();
 		return;
 	}
 
-	_gain->wrapped()->SetValue (
-		Config::instance()->cinema_sound_processor()->db_for_fader_change (
-			d->wanted_fader (),
-			d->actual_fader ()
-			)
-		);
+	_gain->wrapped()->SetValue (*c);
 
 	/* This appears to be necessary, as the change is not signalled,
 	   I think.

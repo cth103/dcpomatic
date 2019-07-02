@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,14 +18,12 @@
 
 */
 
-/** @file  src/lib/dolby_cp750.h
- *  @brief DolbyCP750 class.
- */
+#include "usl.h"
 
-#include "cinema_sound_processor.h"
+#include "i18n.h"
 
-class DolbyCP750 : public CinemaSoundProcessor
+USL::USL ()
+	: CinemaSoundProcessor ("usl", _("USL"), 5.5f, 10, 3.33333333333333333)
 {
-public:
-	DolbyCP750 ();
-};
+
+}

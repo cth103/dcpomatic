@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,14 +18,12 @@
 
 */
 
-/** @file  src/lib/dolby_cp750.h
- *  @brief DolbyCP750 class.
- */
+#include "datasat_ap2x.h"
 
-#include "cinema_sound_processor.h"
+#include "i18n.h"
 
-class DolbyCP750 : public CinemaSoundProcessor
+DatasatAP2x::DatasatAP2x ()
+	: CinemaSoundProcessor ("dataset_ap2x", _("Datasat AP20 or AP25"), 3.2f, 20, 5)
 {
-public:
-	DolbyCP750 ();
-};
+
+}

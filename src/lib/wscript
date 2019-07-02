@@ -56,6 +56,7 @@ sources = """
           cross.cc
           crypto.cc
           curl_uploader.cc
+          datasat_ap2x.cc
           dcp.cc
           dcp_content.cc
           dcp_content_type.cc
@@ -164,6 +165,7 @@ sources = """
           uploader.cc
           upmixer_a.cc
           upmixer_b.cc
+          usl.cc
           util.cc
           verify_dcp_job.cc
           video_content.cc

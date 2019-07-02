@@ -24,7 +24,6 @@
 #include "types.h"
 #include "log.h"
 #include "dcp_content_type.h"
-#include "cinema_sound_processor.h"
 #include "colour_conversion.h"
 #include "cinema.h"
 #include "util.h"
@@ -93,7 +92,6 @@ Config::set_defaults ()
 	_tms_path = ".";
 	_tms_user = "";
 	_tms_password = "";
-	_cinema_sound_processor = CinemaSoundProcessor::from_id (N_("dolby_cp750"));
 	_allow_any_dcp_frame_rate = false;
 	_allow_any_container = false;
 	_language = optional<string> ();
@@ -293,19 +291,9 @@ try
 	_tms_user = f.string_child ("TMSUser");
 	_tms_password = f.string_child ("TMSPassword");
 
-	optional<string> c;
-	c = f.optional_string_child ("SoundProcessor");
-	if (c) {
-		_cinema_sound_processor = CinemaSoundProcessor::from_id (c.get ());
-	}
-	c = f.optional_string_child ("CinemaSoundProcessor");
-	if (c) {
-		_cinema_sound_processor = CinemaSoundProcessor::from_id (c.get ());
-	}
-
 	_language = f.optional_string_child ("Language");
 
-	c = f.optional_string_child ("DefaultContainer");
+	optional<string> c = f.optional_string_child ("DefaultContainer");
 	if (c) {
 		_default_container = Ratio::from_id (c.get ());
 	}
@@ -698,12 +686,6 @@ Config::write_config () const
 	root->add_child("TMSUser")->add_child_text (_tms_user);
 	/* [XML] TMSPassword Password to log into the TMS with. */
 	root->add_child("TMSPassword")->add_child_text (_tms_password);
-	if (_cinema_sound_processor) {
-		/* [XML:opt] CinemaSoundProcessor Identifier of the type of cinema sound processor to use when calculating
-		   gain changes from fader positions.  Currently can only be <code>dolby_cp750</code>.
-		*/
-		root->add_child("CinemaSoundProcessor")->add_child_text (_cinema_sound_processor->id ());
-	}
 	if (_language) {
 		/* [XML:opt] Language Language to use in the GUI e.g. <code>fr_FR</code>. */
 		root->add_child("Language")->add_child_text (_language.get());

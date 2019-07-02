@@ -141,11 +141,6 @@ public:
 		return _tms_password;
 	}
 
-	/** @return The cinema sound processor that we are using */
-	CinemaSoundProcessor const * cinema_sound_processor () const {
-		return _cinema_sound_processor;
-	}
-
 	std::list<boost::shared_ptr<Cinema> > cinemas () const {
 		return _cinemas;
 	}
@@ -1173,8 +1168,6 @@ private:
 	std::string _tms_user;
 	/** Password to log into the TMS with */
 	std::string _tms_password;
-	/** Our cinema sound processor */
-	CinemaSoundProcessor const * _cinema_sound_processor;
 	/** The list of possible DCP frame rates that DCP-o-matic will use */
 	std::list<int> _allowed_dcp_frame_rates;
 	/** Allow any video frame rate for the DCP; if true, overrides _allowed_dcp_frame_rates */
