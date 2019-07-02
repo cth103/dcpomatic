@@ -1230,8 +1230,12 @@ Config::clean_history_internal (vector<boost::filesystem::path>& h)
 	vector<boost::filesystem::path> old = h;
 	h.clear ();
 	BOOST_FOREACH (boost::filesystem::path i, old) {
-		if (boost::filesystem::is_directory(i)) {
-			h.push_back (i);
+		try {
+			if (boost::filesystem::is_directory(i)) {
+				h.push_back (i);
+			}
+		} catch (...) {
+			/* We couldn't find out if it's a directory for some reason; just ignore it */
 		}
 	}
 }
