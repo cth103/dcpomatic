@@ -77,7 +77,6 @@ private:
 	wxListCtrl* _spl_view;
 	wxButton* _refresh_spl_view;
 	wxListCtrl* _current_spl_view;
-	wxTextCtrl* _log;
 
 	bool _current_disable_timeline;
 	bool _current_disable_next;

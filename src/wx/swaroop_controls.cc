@@ -104,9 +104,6 @@ SwaroopControls::SwaroopControls (wxWindow* parent, shared_ptr<FilmViewer> viewe
 
 	_v_sizer->Add (e_sizer, 1, wxEXPAND);
 
-	_log = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(-1, 200), wxTE_READONLY | wxTE_MULTILINE);
-	_v_sizer->Add (_log, 0, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
-
 	_play_button->Bind     (wxEVT_BUTTON, boost::bind(&SwaroopControls::play_clicked,  this));
 	_pause_button->Bind    (wxEVT_BUTTON, boost::bind(&SwaroopControls::pause_clicked, this));
 	_stop_button->Bind     (wxEVT_BUTTON, boost::bind(&SwaroopControls::stop_clicked,  this));
@@ -295,6 +292,11 @@ SwaroopControls::next_clicked ()
 void
 SwaroopControls::log (wxString s)
 {
+	optional<boost::filesystem::path> log = Config::instance()->player_activity_log_file();
+	if (!log) {
+		return;
+	}
+
 	struct timeval time;
 	gettimeofday (&time, 0);
 	char buffer[64];
@@ -302,14 +304,10 @@ SwaroopControls::log (wxString s)
 	struct tm* t = localtime (&sec);
 	strftime (buffer, 64, "%c", t);
 	wxString ts = std_to_wx(string(buffer)) + N_(": ");
-	_log->SetValue(_log->GetValue() + ts + s + "\n");
-
-	optional<boost::filesystem::path> log = Config::instance()->player_activity_log_file();
-	if (!log) {
+	FILE* f = fopen_boost (*log, "a");
+	if (!f) {
 		return;
 	}
-
-	FILE* f = fopen_boost (*log, "a");
 	fprintf (f, "%s%s\n", wx_to_std(ts).c_str(), wx_to_std(s).c_str());
 	fclose (f);
 }
