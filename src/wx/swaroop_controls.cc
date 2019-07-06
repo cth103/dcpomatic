@@ -201,6 +201,7 @@ SwaroopControls::deselect_playlist ()
 		_selected_playlist = boost::none;
 		_spl_view->SetItemState (selected, 0, wxLIST_STATE_SELECTED);
 	}
+	ResetFilm (shared_ptr<Film>(new Film(optional<boost::filesystem::path>())));
 }
 
 void
