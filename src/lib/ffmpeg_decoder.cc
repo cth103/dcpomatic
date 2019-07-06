@@ -364,6 +364,7 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	if (_video_stream) {
 		stream = _video_stream;
 	} else {
+		DCPOMATIC_ASSERT (_ffmpeg_content->audio);
 		shared_ptr<FFmpegAudioStream> s = dynamic_pointer_cast<FFmpegAudioStream> (_ffmpeg_content->audio->stream ());
 		if (s) {
 			stream = s->index (_format_context);
