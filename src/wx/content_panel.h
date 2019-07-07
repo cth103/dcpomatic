@@ -124,4 +124,5 @@ private:
 	boost::weak_ptr<FilmViewer> _film_viewer;
 	bool _generally_sensitive;
 	bool _ignore_deselect;
+	bool _no_check_selection;
 };

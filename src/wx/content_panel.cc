@@ -89,6 +89,7 @@ ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmV
 	, _film_viewer (viewer)
 	, _generally_sensitive (true)
 	, _ignore_deselect (false)
+	, _no_check_selection (false)
 {
 	for (int i = 0; i < TEXT_COUNT; ++i) {
 		_text_panel[i] = 0;
@@ -300,6 +301,10 @@ ContentPanel::check_selection ()
 		/* This was triggered by a re-build of the view but the selection
 		   did not really change.
 		*/
+		return;
+	}
+
+	if (_no_check_selection) {
 		return;
 	}
 
@@ -662,6 +667,8 @@ ContentPanel::set_selection (weak_ptr<Content> wc)
 void
 ContentPanel::set_selection (ContentList cl)
 {
+	_no_check_selection = true;
+
 	ContentList content = _film->content ();
 	for (size_t i = 0; i < content.size(); ++i) {
 		if (find(cl.begin(), cl.end(), content[i]) != cl.end()) {
@@ -670,6 +677,9 @@ ContentPanel::set_selection (ContentList cl)
 			_content->SetItemState (i, 0, wxLIST_STATE_SELECTED);
 		}
 	}
+
+	_no_check_selection = false;
+	check_selection ();
 }
 
 void
