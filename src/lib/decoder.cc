@@ -52,9 +52,18 @@ Decoder::position () const
 		pos = audio->position(f);
 	}
 
-	BOOST_FOREACH (shared_ptr<TextDecoder> i, text) {
-		if (!i->ignore() && (!pos || i->position(f) < *pos)) {
-			pos = i->position(f);
+	/* Only decide position based on subtitle sources if there is nothing else
+	   to go on.  Otherwise we can have problems with muxed sources which have
+	   (for example) video, audio and a subtitle.  If the subtitle data runs out
+	   before the video/audio the position() call will return the position of the
+	   end of the subs.  This causes this file to be pass()ed in favour of others,
+	   which can cause bugs like #1581.
+	*/
+	if (!pos) {
+		BOOST_FOREACH (shared_ptr<TextDecoder> i, text) {
+			if (!i->ignore() && (!pos || i->position(f) < *pos)) {
+				pos = i->position(f);
+			}
 		}
 	}
 
