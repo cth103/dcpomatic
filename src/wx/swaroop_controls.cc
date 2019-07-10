@@ -489,7 +489,7 @@ SwaroopControls::select_playlist (int selected, int position)
 			}
 			if (dcp->needs_kdm()) {
 				/* We didn't get a KDM for this */
-				error_dialog (this, "This playlist cannot be loaded as a KDM is missing.");
+				error_dialog (this, "This playlist cannot be loaded as a KDM is missing or incorrect.");
 				deselect_playlist ();
 				return;
 			}
@@ -502,10 +502,12 @@ SwaroopControls::select_playlist (int selected, int position)
 					ffmpeg->add_kdm (*kdm);
 					ffmpeg->examine (_film, shared_ptr<Job>());
 				} catch (KDMError& e) {
-					error_dialog (this, "Could not load KDM.");
+					error_dialog (this, "This playlist cannot be loaded as a KDM is missing or incorrect.");
+					deselect_playlist ();
+					return;
 				}
 			} else {
-				error_dialog (this, "This playlist cannot be loaded as a KDM is missing.");
+				error_dialog (this, "This playlist cannot be loaded as a KDM is missing or incorrect.");
 				deselect_playlist ();
 				return;
 			}
