@@ -203,7 +203,7 @@ FFmpegEncoder::FileEncoderSet::FileEncoderSet (
 		_encoders[EYES_LEFT] = shared_ptr<FFmpegFileEncoder>(
 			new FFmpegFileEncoder(video_frame_size, video_frame_rate, audio_frame_rate, channels, format, x264_crf, String::compose("%1_%2%3", output.string(), _("L"), extension))
 			);
-		/// TRANSLATORS: R here is an abbreviation for "left", to indicate the left-eye part of a 3D export
+		/// TRANSLATORS: R here is an abbreviation for "right", to indicate the right-eye part of a 3D export
 		_encoders[EYES_RIGHT] = shared_ptr<FFmpegFileEncoder>(
 			new FFmpegFileEncoder(video_frame_size, video_frame_rate, audio_frame_rate, channels, format, x264_crf, String::compose("%1_%2%3", output.string(), _("R"), extension))
 			);
