@@ -39,6 +39,7 @@ extern "C" {
 using std::string;
 using std::cerr;
 using std::cout;
+using std::ofstream;
 using boost::optional;
 
 static void
@@ -49,6 +50,7 @@ help (string n)
 	     << "  -h, --help           show this help\n"
 	     << "  -o, --output         output directory\n"
 	     << "  -f, --format         output format (mov or mp4; defaults to mov)\n"
+	     << "  -k, --kdm            KDM output filename (defaults to stdout)\n"
 	     << "\n"
 	     << "<FILE> is the unencrypted .mp4 file.\n";
 }
@@ -58,17 +60,19 @@ main (int argc, char* argv[])
 {
 	optional<boost::filesystem::path> output;
 	optional<boost::filesystem::path> format;
+	optional<boost::filesystem::path> kdm;
 
 	int option_index = 0;
 	while (true) {
 		static struct option long_options[] = {
-			{ "version", no_argument, 0, 'v'},
-			{ "help", no_argument, 0, 'h'},
-			{ "output", required_argument, 0, 'o'},
-			{ "format", required_argument, 0, 'f'},
+			{ "version", no_argument, 0, 'v' },
+			{ "help", no_argument, 0, 'h' },
+			{ "output", required_argument, 0, 'o' },
+			{ "format", required_argument, 0, 'f' },
+			{ "kdm", required_argument, 0, 'k' },
 		};
 
-		int c = getopt_long (argc, argv, "vho:f:", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vho:f:k:", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -86,6 +90,9 @@ main (int argc, char* argv[])
 			break;
 		case 'f':
 			format = optarg;
+			break;
+		case 'k':
+			kdm = optarg;
 			break;
 		}
 	}
@@ -212,5 +219,11 @@ main (int argc, char* argv[])
 
 	DecryptedECinemaKDM decrypted_kdm (id, output_file.filename().string(), key, optional<dcp::LocalTime>(), optional<dcp::LocalTime>());
 	EncryptedECinemaKDM encrypted_kdm = decrypted_kdm.encrypt (Config::instance()->decryption_chain()->leaf());
-	cout << encrypted_kdm.as_xml() << "\n";
+
+	if (kdm) {
+		ofstream f(kdm->c_str());
+		f << encrypted_kdm.as_xml() << "\n";
+	} else {
+		cout << encrypted_kdm.as_xml() << "\n";
+	}
 }
