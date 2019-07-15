@@ -110,6 +110,7 @@ extern void checked_fwrite (void const * ptr, size_t size, FILE* stream, boost::
 extern size_t utf8_strlen (std::string s);
 extern std::string day_of_week_to_string (boost::gregorian::greg_weekday d);
 extern void emit_subtitle_image (dcpomatic::ContentTimePeriod period, dcp::SubtitleImage sub, dcp::Size size, boost::shared_ptr<TextDecoder> decoder);
+extern bool show_jobs_on_console (bool progress);
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 extern boost::shared_ptr<dcp::CertificateChain> read_swaroop_chain (boost::filesystem::path path);
 extern void write_swaroop_chain (boost::shared_ptr<const dcp::CertificateChain> chain, boost::filesystem::path output);

@@ -38,6 +38,7 @@ using std::pair;
 using boost::shared_ptr;
 using boost::bind;
 using boost::weak_ptr;
+using boost::optional;
 using namespace dcpomatic;
 
 int FFmpegFileEncoder::_video_stream_index = 0;
@@ -51,6 +52,10 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 	ExportFormat format,
 	int x264_crf,
 	boost::filesystem::path output
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	, optional<dcp::Key> key
+	, optional<string> id
+#endif
 	)
 	: _video_options (0)
 	, _audio_channels (channels)
@@ -80,7 +85,11 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 	setup_video ();
 	setup_audio ();
 
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	int r = avformat_alloc_output_context2 (&_format_context, av_guess_format("mp4", 0, 0), 0, 0);
+#else
 	int r = avformat_alloc_output_context2 (&_format_context, 0, 0, _output.string().c_str());
+#endif
 	if (!_format_context) {
 		throw runtime_error (String::compose("could not allocate FFmpeg format context (%1)", r));
 	}
@@ -115,6 +124,22 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 	if (avio_open_boost (&_format_context->pb, _output, AVIO_FLAG_WRITE) < 0) {
 		throw runtime_error ("could not open FFmpeg output file");
 	}
+
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	if (key) {
+		AVDictionary* options = 0;
+		av_dict_set (&options, "encryption_key", key->hex().c_str(), 0);
+		/* XXX: is this OK? */
+		av_dict_set (&options, "encryption_kid", "00000000000000000000000000000000", 0);
+		av_dict_set (&options, "encryption_scheme", "cenc-aes-ctr", 0);
+	}
+
+	if (id) {
+		if (av_dict_set(&_format_context->metadata, SWAROOP_ID_TAG, id->c_str(), 0) < 0) {
+			throw runtime_error ("Could not write ID to output");
+		}
+	}
+#endif
 
 	if (avformat_write_header (_format_context, 0) < 0) {
 		throw runtime_error ("could not write header to FFmpeg output file");

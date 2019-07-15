@@ -41,8 +41,10 @@ using std::map;
 using boost::shared_ptr;
 using boost::bind;
 using boost::weak_ptr;
+using boost::optional;
 using namespace dcpomatic;
 
+/** @param key Key to use to encrypt MP4 outputs */
 FFmpegEncoder::FFmpegEncoder (
 	shared_ptr<const Film> film,
 	weak_ptr<Job> job,
@@ -51,6 +53,10 @@ FFmpegEncoder::FFmpegEncoder (
 	bool mixdown_to_stereo,
 	bool split_reels,
 	int x264_crf
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	, optional<dcp::Key> key
+	, optional<string> id
+#endif
 	)
 	: Encoder (film, job)
 	, _history (1000)
@@ -79,6 +85,10 @@ FFmpegEncoder::FFmpegEncoder (
 				_film->three_d(),
 				filename,
 				extension
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+				, key
+				, id
+#endif
 				)
 			);
 	}
@@ -196,20 +206,36 @@ FFmpegEncoder::FileEncoderSet::FileEncoderSet (
 	bool three_d,
 	boost::filesystem::path output,
 	string extension
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	, optional<dcp::Key> key
+	, optional<string> id
+#endif
 	)
 {
 	if (three_d) {
 		/// TRANSLATORS: L here is an abbreviation for "left", to indicate the left-eye part of a 3D export
 		_encoders[EYES_LEFT] = shared_ptr<FFmpegFileEncoder>(
-			new FFmpegFileEncoder(video_frame_size, video_frame_rate, audio_frame_rate, channels, format, x264_crf, String::compose("%1_%2%3", output.string(), _("L"), extension))
+			new FFmpegFileEncoder(video_frame_size, video_frame_rate, audio_frame_rate, channels, format, x264_crf, String::compose("%1_%2%3", output.string(), _("L"), extension)
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+					      , key, id
+#endif
+				)
 			);
 		/// TRANSLATORS: R here is an abbreviation for "right", to indicate the right-eye part of a 3D export
 		_encoders[EYES_RIGHT] = shared_ptr<FFmpegFileEncoder>(
-			new FFmpegFileEncoder(video_frame_size, video_frame_rate, audio_frame_rate, channels, format, x264_crf, String::compose("%1_%2%3", output.string(), _("R"), extension))
+			new FFmpegFileEncoder(video_frame_size, video_frame_rate, audio_frame_rate, channels, format, x264_crf, String::compose("%1_%2%3", output.string(), _("R"), extension)
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+					      , key, id
+#endif
+				)
 			);
 	} else {
 		_encoders[EYES_BOTH]  = shared_ptr<FFmpegFileEncoder>(
-			new FFmpegFileEncoder(video_frame_size, video_frame_rate, audio_frame_rate, channels, format, x264_crf, String::compose("%1%2", output.string(), extension))
+			new FFmpegFileEncoder(video_frame_size, video_frame_rate, audio_frame_rate, channels, format, x264_crf, String::compose("%1%2", output.string(), extension)
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+					      , key, id
+#endif
+				)
 			);
 	}
 }

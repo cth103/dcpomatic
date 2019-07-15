@@ -350,64 +350,7 @@ main (int argc, char* argv[])
 	}
 
 	film->make_dcp ();
-
-	bool should_stop = false;
-	bool first = true;
-	bool error = false;
-	while (!should_stop) {
-
-		dcpomatic_sleep (5);
-
-		list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
-
-		if (!first && progress) {
-			for (size_t i = 0; i < jobs.size(); ++i) {
-				cout << "\033[1A\033[2K";
-			}
-			cout.flush ();
-		}
-
-		first = false;
-
-		int unfinished = 0;
-		int finished_in_error = 0;
-
-		BOOST_FOREACH (shared_ptr<Job> i, jobs) {
-			if (progress) {
-				cout << i->name();
-				if (!i->sub_name().empty()) {
-					cout << "; " << i->sub_name();
-				}
-				cout << ": ";
-
-				if (i->progress ()) {
-					cout << i->status() << "			    \n";
-				} else {
-					cout << ": Running	     \n";
-				}
-			}
-
-			if (!i->finished ()) {
-				++unfinished;
-			}
-
-			if (i->finished_in_error ()) {
-				++finished_in_error;
-				error = true;
-			}
-
-			if (!progress && i->finished_in_error ()) {
-				/* We won't see this error if we haven't been showing progress,
-				   so show it now.
-				*/
-				cout << i->status() << "\n";
-			}
-		}
-
-		if (unfinished == 0 || finished_in_error != 0) {
-			should_stop = true;
-		}
-	}
+	bool const error = show_jobs_on_console (progress);
 
 	if (keep_going) {
 		while (true) {

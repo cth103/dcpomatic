@@ -39,6 +39,10 @@ public:
 		bool mixdown_to_stereo,
 		bool split_reels,
 		int x264_crf
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+		, boost::optional<dcp::Key> key
+		, boost::optional<std::string> id
+#endif
 		);
 
 	void go ();
@@ -64,6 +68,10 @@ private:
 			bool three_d,
 			boost::filesystem::path output,
 			std::string extension
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+			, boost::optional<dcp::Key> key
+			, boost::optional<std::string> id
+#endif
 			);
 
 		boost::shared_ptr<FFmpegFileEncoder> get (Eyes eyes) const;

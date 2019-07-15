@@ -25,6 +25,7 @@
 #include "event_history.h"
 #include "audio_mapping.h"
 #include "log.h"
+#include <dcp/key.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -41,6 +42,10 @@ public:
 		ExportFormat,
 		int x264_crf,
 		boost::filesystem::path output
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+		, boost::optional<dcp::Key> key
+		, boost::optional<std::string> id
+#endif
 		);
 
 	void video (boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime);

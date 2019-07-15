@@ -22,6 +22,13 @@
 #include "lib/decrypted_ecinema_kdm.h"
 #include "lib/config.h"
 #include "lib/util.h"
+#include "lib/film.h"
+#include "lib/dcp_content.h"
+#include "lib/job_manager.h"
+#include "lib/cross.h"
+#include "lib/transcode_job.h"
+#include "lib/ffmpeg_encoder.h"
+#include "lib/signal_manager.h"
 #include <dcp/key.h>
 extern "C" {
 #include <libavformat/avformat.h>
@@ -41,6 +48,11 @@ using std::cerr;
 using std::cout;
 using std::ofstream;
 using boost::optional;
+using boost::shared_ptr;
+
+static void convert_dcp (boost::filesystem::path input, boost::filesystem::path output_file, boost::optional<boost::filesystem::path> kdm, int crf);
+static void convert_ffmpeg (boost::filesystem::path input, boost::filesystem::path output_file, string format, boost::optional<boost::filesystem::path> kdm);
+static void write_kdm (string id, string name, dcp::Key key, optional<boost::filesystem::path> kdm);
 
 static void
 help (string n)
@@ -51,6 +63,7 @@ help (string n)
 	     << "  -o, --output         output directory\n"
 	     << "  -f, --format         output format (mov or mp4; defaults to mov)\n"
 	     << "  -k, --kdm            KDM output filename (defaults to stdout)\n"
+	     << "  -c, --crf            quality (CRF) when transcoding from DCP (0 is best, 51 is worst, defaults to 23)\n"
 	     << "\n"
 	     << "<FILE> is the unencrypted .mp4 file.\n";
 }
@@ -59,8 +72,9 @@ int
 main (int argc, char* argv[])
 {
 	optional<boost::filesystem::path> output;
-	optional<boost::filesystem::path> format;
+	optional<string> format;
 	optional<boost::filesystem::path> kdm;
+	int crf = 23;
 
 	int option_index = 0;
 	while (true) {
@@ -70,9 +84,10 @@ main (int argc, char* argv[])
 			{ "output", required_argument, 0, 'o' },
 			{ "format", required_argument, 0, 'f' },
 			{ "kdm", required_argument, 0, 'k' },
+			{ "crf", required_argument, 0, 'c' },
 		};
 
-		int c = getopt_long (argc, argv, "vho:f:k:", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vho:f:k:c:", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -93,6 +108,9 @@ main (int argc, char* argv[])
 			break;
 		case 'k':
 			kdm = optarg;
+			break;
+		case 'c':
+			crf = atoi(optarg);
 			break;
 		}
 	}
@@ -116,8 +134,17 @@ main (int argc, char* argv[])
 		exit (EXIT_FAILURE);
 	}
 
+	dcpomatic_setup_path_encoding ();
+	dcpomatic_setup ();
+	signal_manager = new SignalManager ();
+
 	boost::filesystem::path input = argv[optind];
-	boost::filesystem::path output_file = *output / (input.filename().string() + ".ecinema");
+	boost::filesystem::path output_file;
+	if (boost::filesystem::is_directory(input)) {
+		output_file = *output / (input.parent_path().filename().string() + ".ecinema");
+	} else {
+		output_file = *output / (input.filename().string() + ".ecinema");
+	}
 
 	if (!boost::filesystem::is_directory(*output)) {
 		boost::filesystem::create_directory (*output);
@@ -125,6 +152,17 @@ main (int argc, char* argv[])
 
 	av_register_all ();
 
+	if (boost::filesystem::is_directory(input)) {
+		/* Assume input is a DCP */
+		convert_dcp (input, output_file, kdm, crf);
+	} else {
+		convert_ffmpeg (input, output_file, *format, kdm);
+	}
+}
+
+static void
+convert_ffmpeg (boost::filesystem::path input, boost::filesystem::path output_file, string format, optional<boost::filesystem::path> kdm)
+{
 	AVFormatContext* input_fc = avformat_alloc_context ();
 	if (avformat_open_input(&input_fc, input.string().c_str(), 0, 0) < 0) {
 		cerr << "Could not open input file\n";
@@ -137,7 +175,7 @@ main (int argc, char* argv[])
 	}
 
 	AVFormatContext* output_fc;
-	avformat_alloc_output_context2 (&output_fc, av_guess_format(format->c_str(), 0, 0), 0, 0);
+	avformat_alloc_output_context2 (&output_fc, av_guess_format(format.c_str(), 0, 0), 0, 0);
 
 	for (uint32_t i = 0; i < input_fc->nb_streams; ++i) {
 		AVStream* is = input_fc->streams[i];
@@ -217,7 +255,13 @@ main (int argc, char* argv[])
 	avformat_free_context (input_fc);
 	avformat_free_context (output_fc);
 
-	DecryptedECinemaKDM decrypted_kdm (id, output_file.filename().string(), key, optional<dcp::LocalTime>(), optional<dcp::LocalTime>());
+	write_kdm (id, output_file.filename().string(), key, kdm);
+}
+
+static void
+write_kdm (string id, string name, dcp::Key key, optional<boost::filesystem::path> kdm)
+{
+	DecryptedECinemaKDM decrypted_kdm (id, name, key, optional<dcp::LocalTime>(), optional<dcp::LocalTime>());
 	EncryptedECinemaKDM encrypted_kdm = decrypted_kdm.encrypt (Config::instance()->decryption_chain()->leaf());
 
 	if (kdm) {
@@ -226,4 +270,33 @@ main (int argc, char* argv[])
 	} else {
 		cout << encrypted_kdm.as_xml() << "\n";
 	}
+}
+
+static void
+convert_dcp (boost::filesystem::path input, boost::filesystem::path output_file, optional<boost::filesystem::path> kdm, int crf)
+{
+	shared_ptr<Film> film (new Film(boost::optional<boost::filesystem::path>()));
+	shared_ptr<DCPContent> dcp (new DCPContent(input));
+	film->examine_and_add_content (dcp);
+
+	JobManager* jm = JobManager::instance ();
+	while (jm->work_to_do ()) {
+		while (signal_manager->ui_idle ()) {}
+		dcpomatic_sleep (1);
+	}
+	DCPOMATIC_ASSERT (!jm->errors());
+
+	string id = dcp::make_uuid ();
+	dcp::Key key (AES_CTR_KEY_SIZE);
+
+	shared_ptr<TranscodeJob> job (new TranscodeJob(film));
+	job->set_encoder (
+		shared_ptr<FFmpegEncoder>(
+			new FFmpegEncoder(film, job, output_file, EXPORT_FORMAT_H264, false, false, crf, key, id)
+			)
+		);
+	jm->add (job);
+	show_jobs_on_console (true);
+
+	write_kdm (id, output_file.filename().string(), key, kdm);
 }
