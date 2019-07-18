@@ -50,22 +50,27 @@ using std::ofstream;
 using boost::optional;
 using boost::shared_ptr;
 
-static void convert_dcp (boost::filesystem::path input, boost::filesystem::path output_file, boost::optional<boost::filesystem::path> kdm, int crf);
-static void convert_ffmpeg (boost::filesystem::path input, boost::filesystem::path output_file, string format, boost::optional<boost::filesystem::path> kdm);
-static void write_kdm (string id, string name, dcp::Key key, optional<boost::filesystem::path> kdm);
+static void convert_dcp (
+	boost::filesystem::path input,
+	boost::filesystem::path output_file,
+	boost::optional<boost::filesystem::path> kdm,
+	int crf
+	);
+static void convert_ffmpeg (boost::filesystem::path input, boost::filesystem::path output_file, string format);
+static void write_kdm (string id, boost::filesystem::path name, dcp::Key key);
 
 static void
 help (string n)
 {
-	cerr << "Syntax: " << n << " [OPTION] <FILE>\n"
+	cerr << "Syntax: " << n << " [OPTION] <FILE>|<DIRECTORY>\n"
 	     << "  -v, --version        show DCP-o-matic version\n"
 	     << "  -h, --help           show this help\n"
 	     << "  -o, --output         output directory\n"
 	     << "  -f, --format         output format (mov or mp4; defaults to mov)\n"
-	     << "  -k, --out-kdm        KDM output filename (defaults to stdout)\n"
+	     << "  -k, --kdm            DCP KDM filename (if required)\n"
 	     << "  -c, --crf            quality (CRF) when transcoding from DCP (0 is best, 51 is worst, defaults to 23)\n"
 	     << "\n"
-	     << "<FILE> is the unencrypted .mp4 file.\n";
+	     << "<FILE> is an unencrypted .mp4 file; <DIRECTORY> is a DCP directory.\n";
 }
 
 int
@@ -73,7 +78,7 @@ main (int argc, char* argv[])
 {
 	optional<boost::filesystem::path> output;
 	optional<string> format;
-	optional<boost::filesystem::path> out_kdm;
+	optional<boost::filesystem::path> kdm;
 	int crf = 23;
 
 	int option_index = 0;
@@ -83,7 +88,7 @@ main (int argc, char* argv[])
 			{ "help", no_argument, 0, 'h' },
 			{ "output", required_argument, 0, 'o' },
 			{ "format", required_argument, 0, 'f' },
-			{ "out-kdm", required_argument, 0, 'k' },
+			{ "kdm", required_argument, 0, 'k' },
 			{ "crf", required_argument, 0, 'c' },
 		};
 
@@ -107,7 +112,7 @@ main (int argc, char* argv[])
 			format = optarg;
 			break;
 		case 'k':
-			out_kdm = optarg;
+			kdm = optarg;
 			break;
 		case 'c':
 			crf = atoi(optarg);
@@ -154,14 +159,14 @@ main (int argc, char* argv[])
 
 	if (boost::filesystem::is_directory(input)) {
 		/* Assume input is a DCP */
-		convert_dcp (input, output_file, out_kdm, crf);
+		convert_dcp (input, output_file, kdm, crf);
 	} else {
-		convert_ffmpeg (input, output_file, *format, out_kdm);
+		convert_ffmpeg (input, output_file, *format);
 	}
 }
 
 static void
-convert_ffmpeg (boost::filesystem::path input, boost::filesystem::path output_file, string format, optional<boost::filesystem::path> out_kdm)
+convert_ffmpeg (boost::filesystem::path input, boost::filesystem::path output_file, string format)
 {
 	AVFormatContext* input_fc = avformat_alloc_context ();
 	if (avformat_open_input(&input_fc, input.string().c_str(), 0, 0) < 0) {
@@ -255,29 +260,30 @@ convert_ffmpeg (boost::filesystem::path input, boost::filesystem::path output_fi
 	avformat_free_context (input_fc);
 	avformat_free_context (output_fc);
 
-	write_kdm (id, output_file.filename().string(), key, out_kdm);
+	write_kdm (id, output_file, key);
 }
 
 static void
-write_kdm (string id, string name, dcp::Key key, optional<boost::filesystem::path> out_kdm)
+write_kdm (string id, boost::filesystem::path name, dcp::Key key)
 {
-	DecryptedECinemaKDM decrypted_kdm (id, name, key, optional<dcp::LocalTime>(), optional<dcp::LocalTime>());
+	DecryptedECinemaKDM decrypted_kdm (id, name.filename().string(), key, optional<dcp::LocalTime>(), optional<dcp::LocalTime>());
 	EncryptedECinemaKDM encrypted_kdm = decrypted_kdm.encrypt (Config::instance()->decryption_chain()->leaf());
 
-	if (out_kdm) {
-		ofstream f(out_kdm->c_str());
-		f << encrypted_kdm.as_xml() << "\n";
-	} else {
-		cout << encrypted_kdm.as_xml() << "\n";
-	}
+	ofstream f(string(name.string() + ".xml").c_str());
+	f << encrypted_kdm.as_xml() << "\n";
 }
 
 static void
-convert_dcp (boost::filesystem::path input, boost::filesystem::path output_file, optional<boost::filesystem::path> out_kdm, int crf)
+convert_dcp (
+	boost::filesystem::path input, boost::filesystem::path output_file, optional<boost::filesystem::path> kdm, int crf
+	)
 {
 	shared_ptr<Film> film (new Film(boost::optional<boost::filesystem::path>()));
 	shared_ptr<DCPContent> dcp (new DCPContent(input));
 	film->examine_and_add_content (dcp);
+	if (kdm) {
+		dcp->add_kdm (dcp::EncryptedKDM(dcp::file_to_string(*kdm)));
+	}
 
 	JobManager* jm = JobManager::instance ();
 	while (jm->work_to_do ()) {
@@ -298,5 +304,5 @@ convert_dcp (boost::filesystem::path input, boost::filesystem::path output_file,
 	jm->add (job);
 	show_jobs_on_console (true);
 
-	write_kdm (id, output_file.filename().string(), key, out_kdm);
+	write_kdm (id, output_file, key);
 }
