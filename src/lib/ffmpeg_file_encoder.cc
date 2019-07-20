@@ -204,7 +204,7 @@ FFmpegFileEncoder::setup_audio ()
 	avcodec_get_context_defaults3 (_audio_codec_context, _audio_codec);
 
 	/* XXX: configurable */
-	_audio_codec_context->bit_rate = 256 * 1024;
+	_audio_codec_context->bit_rate = _audio_channels * 128 * 1024;
 	_audio_codec_context->sample_fmt = _sample_format;
 	_audio_codec_context->sample_rate = _audio_frame_rate;
 	_audio_codec_context->channel_layout = av_get_default_channel_layout (_audio_channels);
