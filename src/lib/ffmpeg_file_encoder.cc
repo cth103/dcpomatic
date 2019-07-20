@@ -125,9 +125,10 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 		throw runtime_error ("could not open FFmpeg output file");
 	}
 
+	AVDictionary* options = 0;
+
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	if (key) {
-		AVDictionary* options = 0;
 		av_dict_set (&options, "encryption_key", key->hex().c_str(), 0);
 		/* XXX: is this OK? */
 		av_dict_set (&options, "encryption_kid", "00000000000000000000000000000000", 0);
@@ -141,7 +142,7 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 	}
 #endif
 
-	if (avformat_write_header (_format_context, 0) < 0) {
+	if (avformat_write_header (_format_context, &options) < 0) {
 		throw runtime_error ("could not write header to FFmpeg output file");
 	}
 
