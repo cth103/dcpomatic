@@ -159,6 +159,11 @@ FFmpeg::setup_general ()
 		_video_stream = video_stream_undefined_frame_rate.get();
 	}
 
+	/* Ignore video streams with crazy frame rates.  These are usually things like album art on MP3s. */
+	if (_video_stream && av_q2d(av_guess_frame_rate(_format_context, _format_context->streams[_video_stream.get()], 0)) > 1000) {
+		_video_stream = optional<int>();
+	}
+
 	/* Hack: if the AVStreams have duplicate IDs, replace them with our
 	   own.  We use the IDs so that we can cope with VOBs, in which streams
 	   move about in index but remain with the same ID in different
