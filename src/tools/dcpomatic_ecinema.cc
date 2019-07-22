@@ -29,6 +29,8 @@
 #include "lib/transcode_job.h"
 #include "lib/ffmpeg_encoder.h"
 #include "lib/signal_manager.h"
+#include "lib/video_content.h"
+#include "lib/ratio.h"
 #include <dcp/key.h>
 extern "C" {
 #include <libavformat/avformat.h>
@@ -292,6 +294,8 @@ convert_dcp (
 	}
 	DCPOMATIC_ASSERT (!jm->errors());
 
+	film->set_container (Ratio::nearest_from_ratio(dcp->video->size().ratio()));
+	
 	string id = dcp::make_uuid ();
 	dcp::Key key (AES_CTR_KEY_SIZE);
 
