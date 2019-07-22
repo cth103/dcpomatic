@@ -93,7 +93,6 @@ def configure(conf):
                                        '-msse',
                                        '-fno-strict-aliasing',
                                        '-Wall',
-                                       '-Wcast-align',
                                        '-Wextra',
                                        '-Wwrite-strings',
                                        # Remove auto_ptr warnings from libxml++-2.6
@@ -133,6 +132,7 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-DBOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN')
         conf.env.append_value('CXXFLAGS', '-mfpmath=sse')
         conf.env.append_value('CXXFLAGS', '-std=c++11')
+        conf.env.append_value('CXXFLAGS', '-Wcast-align')
         wxrc = os.popen('wx-config --rescomp').read().split()[1:]
         conf.env.append_value('WINRCFLAGS', wxrc)
         if conf.options.enable_debug:
@@ -170,7 +170,7 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-DLINUX_LOCALE_PREFIX="%s/share/locale"' % conf.env['INSTALL_PREFIX'])
         conf.env.append_value('CXXFLAGS', '-DLINUX_SHARE_PREFIX="%s/share/dcpomatic2"' % conf.env['INSTALL_PREFIX'])
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_LINUX')
-        conf.env.append_value('CXXFLAGS', ['-Wlogical-op'])
+        conf.env.append_value('CXXFLAGS', ['-Wlogical-op', '-Wcast-align'])
         if not conf.env.DISABLE_GUI:
             conf.check_cfg(package='gtk+-2.0', args='--cflags --libs', uselib_store='GTK', mandatory=True)
 
