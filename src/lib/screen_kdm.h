@@ -40,6 +40,8 @@ public:
 		: screen (s)
 	{}
 
+	virtual ~ScreenKDM () {}
+
 	virtual std::string kdm_as_xml () const = 0;
 	virtual void kdm_as_xml (boost::filesystem::path out) const = 0;
 	virtual std::string kdm_id () const = 0;
