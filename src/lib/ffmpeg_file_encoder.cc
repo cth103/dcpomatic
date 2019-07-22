@@ -74,10 +74,16 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 		av_dict_set (&_video_options, "profile", "3", 0);
 		av_dict_set (&_video_options, "threads", "auto", 0);
 		break;
-	case EXPORT_FORMAT_H264:
+	case EXPORT_FORMAT_H264_AAC:
 		_sample_format = AV_SAMPLE_FMT_FLTP;
 		_video_codec_name = "libx264";
 		_audio_codec_name = "aac";
+		av_dict_set_int (&_video_options, "crf", x264_crf, 0);
+		break;
+	case EXPORT_FORMAT_H264_PCM:
+		_sample_format = AV_SAMPLE_FMT_S32;
+		_video_codec_name = "libx264";
+		_audio_codec_name = "pcm_s24le";
 		av_dict_set_int (&_video_options, "crf", x264_crf, 0);
 		break;
 	}
@@ -86,7 +92,7 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 	setup_audio ();
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
-	int r = avformat_alloc_output_context2 (&_format_context, av_guess_format("mp4", 0, 0), 0, 0);
+	int r = avformat_alloc_output_context2 (&_format_context, av_guess_format("mov", 0, 0), 0, 0);
 #else
 	int r = avformat_alloc_output_context2 (&_format_context, 0, 0, _output.string().c_str());
 #endif
@@ -155,7 +161,8 @@ FFmpegFileEncoder::pixel_format (ExportFormat format)
 	switch (format) {
 	case EXPORT_FORMAT_PRORES:
 		return AV_PIX_FMT_YUV422P10;
-	case EXPORT_FORMAT_H264:
+	case EXPORT_FORMAT_H264_AAC:
+	case EXPORT_FORMAT_H264_PCM:
 		return AV_PIX_FMT_YUV420P;
 	default:
 		DCPOMATIC_ASSERT (false);
@@ -351,6 +358,16 @@ FFmpegFileEncoder::audio_frame (int size)
 		for (int i = 0; i < size; ++i) {
 			for (int j = 0; j < channels; ++j) {
 				*q++ = p[j][i] * 32767;
+			}
+		}
+		break;
+	}
+	case AV_SAMPLE_FMT_S32:
+	{
+		int32_t* q = reinterpret_cast<int32_t*> (samples);
+		for (int i = 0; i < size; ++i) {
+			for (int j = 0; j < channels; ++j) {
+				*q++ = p[j][i] * 2147483647;
 			}
 		}
 		break;

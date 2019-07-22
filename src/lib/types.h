@@ -170,7 +170,8 @@ extern TextType string_to_text_type (std::string s);
 enum ExportFormat
 {
 	EXPORT_FORMAT_PRORES,
-	EXPORT_FORMAT_H264
+	EXPORT_FORMAT_H264_AAC,
+	EXPORT_FORMAT_H264_PCM
 };
 
 /** @struct Crop

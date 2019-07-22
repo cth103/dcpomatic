@@ -298,7 +298,7 @@ convert_dcp (
 	shared_ptr<TranscodeJob> job (new TranscodeJob(film));
 	job->set_encoder (
 		shared_ptr<FFmpegEncoder>(
-			new FFmpegEncoder(film, job, output_file, EXPORT_FORMAT_H264, false, false, crf, key, id)
+			new FFmpegEncoder(film, job, output_file, EXPORT_FORMAT_H264_PCM, false, false, crf, key, id)
 			)
 		);
 	jm->add (job);

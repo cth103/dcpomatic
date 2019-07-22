@@ -45,7 +45,7 @@ ffmpeg_content_test (int number, boost::filesystem::path content, ExportFormat f
 	string name = "ffmpeg_encoder_";
 	string extension;
 	switch (format) {
-	case EXPORT_FORMAT_H264:
+	case EXPORT_FORMAT_H264_AAC:
 		name += "h264";
 		extension = "mp4";
 		break;
@@ -180,7 +180,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test7)
 /** Red / green / blue MP4 -> H264 */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test1)
 {
-	ffmpeg_content_test(1, "test/data/test.mp4", EXPORT_FORMAT_H264);
+	ffmpeg_content_test(1, "test/data/test.mp4", EXPORT_FORMAT_H264_AAC);
 }
 
 /** Just subtitles -> H264 */
@@ -200,7 +200,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test2)
 	film->write_metadata();
 
 	shared_ptr<Job> job (new TranscodeJob (film));
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_h264_test2.mp4", EXPORT_FORMAT_H264, false, false, 23
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_h264_test2.mp4", EXPORT_FORMAT_H264_AAC, false, false, 23
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 			       , optional<dcp::Key>(), optional<string>()
 #endif
@@ -229,7 +229,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test3)
 	film->write_metadata();
 
 	shared_ptr<Job> job (new TranscodeJob (film));
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_h264_test3.mp4", EXPORT_FORMAT_H264, false, false, 23
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_h264_test3.mp4", EXPORT_FORMAT_H264_AAC, false, false, 23
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 			       , optional<dcp::Key>(), optional<string>()
 #endif
@@ -247,7 +247,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test4)
 	film->set_container(Ratio::from_id("185"));
 
 	shared_ptr<Job> job(new TranscodeJob(film));
-	FFmpegEncoder encoder(film, job, "build/test/ffmpeg_encoder_h264_test4.mp4", EXPORT_FORMAT_H264, false, false, 23
+	FFmpegEncoder encoder(film, job, "build/test/ffmpeg_encoder_h264_test4.mp4", EXPORT_FORMAT_H264_AAC, false, false, 23
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 			       , optional<dcp::Key>(), optional<string>()
 #endif
@@ -305,7 +305,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test5)
 	Rs->audio->set_mapping (map);
 
 	shared_ptr<Job> job (new TranscodeJob (film));
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_h264_test5.mp4", EXPORT_FORMAT_H264, true, false, 23
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_h264_test5.mp4", EXPORT_FORMAT_H264_AAC, true, false, 23
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 			       , optional<dcp::Key>(), optional<string>()
 #endif
@@ -337,7 +337,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test6)
 	}
 
 	shared_ptr<Job> job (new TranscodeJob (film2));
-	FFmpegEncoder encoder (film2, job, "build/test/ffmpeg_encoder_h264_test6_vf.mp4", EXPORT_FORMAT_H264, true, false, 23
+	FFmpegEncoder encoder (film2, job, "build/test/ffmpeg_encoder_h264_test6_vf.mp4", EXPORT_FORMAT_H264_AAC, true, false, 23
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 			       , optional<dcp::Key>(), optional<string>()
 #endif
