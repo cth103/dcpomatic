@@ -396,6 +396,14 @@ public:
 		return _("Watermark");
 	}
 
+#ifdef DCPOMATIC_OSX
+	wxBitmap GetLargeIcon () const
+	{
+		/* XXX: this icon doesn't exist; this is just to make the swaroop variant build on OS X */
+		return wxBitmap ("watermark", wxBITMAP_TYPE_PNG_RESOURCE);
+	}
+#endif
+
 private:
 	void setup ()
 	{
@@ -467,6 +475,14 @@ public:
 	{
 		return _("Devices");
 	}
+
+#ifdef DCPOMATIC_OSX
+	wxBitmap GetLargeIcon () const
+	{
+		/* XXX: this icon doesn't exist; this is just to make the swaroop variant build on OS X */
+		return wxBitmap ("devices", wxBITMAP_TYPE_PNG_RESOURCE);
+	}
+#endif
 
 private:
 	void setup ()
