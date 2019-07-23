@@ -125,12 +125,7 @@ AudioBuffers::set_frames (int32_t f)
 {
 	DCPOMATIC_ASSERT (f <= _allocated_frames);
 
-	for (int c = 0; c < _channels; ++c) {
-		for (int i = f; i < _frames; ++i) {
-			_data[c][i] = 0;
-		}
-	}
-
+	make_silent (f, _frames - f);
 	_frames = f;
 }
 
@@ -151,9 +146,10 @@ AudioBuffers::make_silent (int c)
 {
 	DCPOMATIC_ASSERT (c >= 0 && c < _channels);
 
-	for (int i = 0; i < _frames; ++i) {
-		_data[c][i] = 0;
-	}
+	/* This isn't really allowed, as all-bits-0 is not guaranteed to mean a 0 float,
+	   but it seems that we can get away with it.
+	*/
+	memset (_data[c], 0, _frames * sizeof(float));
 }
 
 /** Make some frames.
@@ -166,9 +162,10 @@ AudioBuffers::make_silent (int32_t from, int32_t frames)
 	DCPOMATIC_ASSERT ((from + frames) <= _allocated_frames);
 
 	for (int c = 0; c < _channels; ++c) {
-		for (int i = from; i < (from + frames); ++i) {
-			_data[c][i] = 0;
-		}
+		/* This isn't really allowed, as all-bits-0 is not guaranteed to mean a 0 float,
+		   but it seems that we can get away with it.
+		*/
+		memset (_data[c] + from, 0, frames * sizeof(float));
 	}
 }
 
@@ -270,11 +267,9 @@ AudioBuffers::ensure_size (int32_t frames)
 		if (!_data[i]) {
 			throw bad_alloc ();
 		}
-		for (int j = _allocated_frames; j < frames; ++j) {
-			_data[i][j] = 0;
-		}
 	}
 
+	make_silent (_allocated_frames, frames - _allocated_frames);
 	_allocated_frames = frames;
 }
 
