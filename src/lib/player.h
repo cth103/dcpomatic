@@ -206,6 +206,9 @@ private:
 	ActiveText _active_texts[TEXT_COUNT];
 	boost::shared_ptr<AudioProcessor> _audio_processor;
 
+	/* Cached stuff */
+	boost::optional<dcpomatic::DCPTime> _film_length;
+
 	boost::signals2::scoped_connection _film_changed_connection;
 	boost::signals2::scoped_connection _playlist_change_connection;
 	boost::signals2::scoped_connection _playlist_content_change_connection;

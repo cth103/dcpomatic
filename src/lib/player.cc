@@ -243,6 +243,9 @@ Player::setup_pieces_unlocked ()
 	_last_video_time = DCPTime ();
 	_last_video_eyes = EYES_BOTH;
 	_last_audio_time = DCPTime ();
+
+	/* Cached value to save recalculating it on every ::pass */
+	_film_length = _film->length ();
 }
 
 void
@@ -564,13 +567,14 @@ bool
 Player::pass ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
+	DCPOMATIC_ASSERT (_film_length);
 
 	if (_suspended) {
 		/* We can't pass in this state */
 		return false;
 	}
 
-	if (_playlist->length(_film) == DCPTime()) {
+	if (*_film_length == DCPTime()) {
 		/* Special case of an empty Film; just give one black frame */
 		emit_video (black_player_video_frame(EYES_BOTH), DCPTime());
 		return true;
@@ -677,7 +681,7 @@ Player::pass ()
 	/* Work out the time before which the audio is definitely all here.  This is the earliest last_push_end of one
 	   of our streams, or the position of the _silent.
 	*/
-	DCPTime pull_to = _film->length ();
+	DCPTime pull_to = *_film_length;
 	for (map<AudioStreamPtr, StreamState>::const_iterator i = _stream_states.begin(); i != _stream_states.end(); ++i) {
 		if (!i->second.piece->done && i->second.last_push_end < pull_to) {
 			pull_to = i->second.last_push_end;
