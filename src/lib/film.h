@@ -82,7 +82,7 @@ public:
 	boost::filesystem::path audio_analysis_path (boost::shared_ptr<const Playlist>) const;
 
 	void send_dcp_to_tms ();
-	void make_dcp (bool gui = false);
+	void make_dcp (bool gui = false, bool check = true);
 
 	/** @return Logger.
 	 *  It is safe to call this from any thread.

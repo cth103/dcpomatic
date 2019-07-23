@@ -68,6 +68,7 @@ help (string n)
 	     << "  -d, --dcp-path       echo DCP's path to stdout on successful completion (implies -n)\n"
 	     << "  -c, --config <dir>   directory containing config.xml and cinemas.xml\n"
 	     << "      --dump           just dump a summary of the film's settings; don't encode\n"
+	     << "      --no-check       don't check project's content files for changes before making the DCP\n"
 	     << "\n"
 	     << "<FILM> is the film directory.\n";
 }
@@ -198,6 +199,7 @@ main (int argc, char* argv[])
 	bool list_servers_ = false;
 	bool dcp_path = false;
 	optional<boost::filesystem::path> config;
+	bool check = true;
 
 	int option_index = 0;
 	while (true) {
@@ -216,10 +218,11 @@ main (int argc, char* argv[])
 			{ "config", required_argument, 0, 'c' },
 			/* Just using A, B, C ... from here on */
 			{ "dump", no_argument, 0, 'A' },
+			{ "no-check", no_argument, 0, 'B' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vhfnrt:j:kAs:ldc:", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhfnrt:j:kAs:ldc:B", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -265,6 +268,9 @@ main (int argc, char* argv[])
 			break;
 		case 'c':
 			config = optarg;
+			break;
+		case 'B':
+			check = false;
 			break;
 		}
 	}
@@ -349,7 +355,7 @@ main (int argc, char* argv[])
 		cout << "\nMaking DCP for " << film->name() << "\n";
 	}
 
-	film->make_dcp (false);
+	film->make_dcp (false, check);
 	bool const error = show_jobs_on_console (progress);
 
 	if (keep_going) {
