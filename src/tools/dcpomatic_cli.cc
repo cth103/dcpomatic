@@ -349,7 +349,7 @@ main (int argc, char* argv[])
 		cout << "\nMaking DCP for " << film->name() << "\n";
 	}
 
-	film->make_dcp ();
+	film->make_dcp (false);
 	bool const error = show_jobs_on_console (progress);
 
 	if (keep_going) {

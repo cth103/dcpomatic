@@ -757,7 +757,7 @@ private:
 			   a long time, and crashes/power failures are moderately likely.
 			*/
 			_film->write_metadata ();
-			_film->make_dcp ();
+			_film->make_dcp (true);
 		} catch (BadSettingError& e) {
 			error_dialog (this, wxString::Format (_("Bad setting for %s."), std_to_wx(e.setting()).data()), std_to_wx(e.what()));
 		} catch (std::exception& e) {

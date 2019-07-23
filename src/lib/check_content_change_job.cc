@@ -33,9 +33,11 @@ using std::list;
 using std::cout;
 using boost::shared_ptr;
 
-CheckContentChangeJob::CheckContentChangeJob (shared_ptr<const Film> film, shared_ptr<Job> following)
+/** @param gui true if we are running this job from the GUI, false if it's the CLI */
+CheckContentChangeJob::CheckContentChangeJob (shared_ptr<const Film> film, shared_ptr<Job> following, bool gui)
 	: Job (film)
 	, _following (following)
+	, _gui (gui)
 {
 
 }
@@ -79,18 +81,28 @@ CheckContentChangeJob::run ()
 		JobManager::instance()->add(shared_ptr<Job>(new ExamineContentJob(_film, i)));
 	}
 
-	set_progress (1);
-	set_state (FINISHED_OK);
-
 	if (!changed.empty()) {
-		string m = _("Some files have been changed since they were added to the project.\n\nThese files will now be re-examined, so you may need to check their settings.");
-		if (_following) {
-			/* I'm assuming that _following is a make DCP job */
-			m += "  ";
-			m += _("Choose 'Make DCP' again when you have done this.");
+		if (_gui) {
+			string m = _("Some files have been changed since they were added to the project.\n\nThese files will now be re-examined, so you may need to check their settings.");
+			if (_following) {
+				/* I'm assuming that _following is a make DCP job */
+				m += "  ";
+				m += _("Choose 'Make DCP' again when you have done this.");
+			}
+			set_message (m);
+		} else {
+			set_progress (1);
+			set_state (FINISHED_ERROR);
+			set_error (
+				_("Some files have been changed since they were added to the project.  Open the project in DCP-o-matic, check the settings, then save it before trying again."),
+				""
+				);
+			return;
 		}
-		set_message (m);
 	} else if (_following) {
 		JobManager::instance()->add (_following);
 	}
+
+	set_progress (1);
+	set_state (FINISHED_OK);
 }

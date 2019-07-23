@@ -949,10 +949,9 @@ emit_subtitle_image (ContentTimePeriod period, dcp::SubtitleImage sub, dcp::Size
 bool
 show_jobs_on_console (bool progress)
 {
-	bool should_stop = false;
 	bool first = true;
 	bool error = false;
-	while (!should_stop) {
+	while (true) {
 
 		dcpomatic_sleep (5);
 
@@ -966,9 +965,6 @@ show_jobs_on_console (bool progress)
 		}
 
 		first = false;
-
-		int unfinished = 0;
-		int finished_in_error = 0;
 
 		BOOST_FOREACH (shared_ptr<Job> i, jobs) {
 			if (progress) {
@@ -985,25 +981,20 @@ show_jobs_on_console (bool progress)
 				}
 			}
 
-			if (!i->finished ()) {
-				++unfinished;
-			}
-
-			if (i->finished_in_error ()) {
-				++finished_in_error;
-				error = true;
-			}
-
-			if (!progress && i->finished_in_error ()) {
+			if (!progress && i->finished_in_error()) {
 				/* We won't see this error if we haven't been showing progress,
 				   so show it now.
 				*/
 				cout << i->status() << "\n";
 			}
+
+			if (i->finished_in_error()) {
+				error = true;
+			}
 		}
 
-		if (unfinished == 0 || finished_in_error != 0) {
-			should_stop = true;
+		if (!JobManager::instance()->work_to_do()) {
+			break;
 		}
 	}
 

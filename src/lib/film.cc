@@ -299,7 +299,7 @@ Film::audio_analysis_path (shared_ptr<const Playlist> playlist) const
 
 /** Add suitable Jobs to the JobManager to create a DCP for this Film */
 void
-Film::make_dcp ()
+Film::make_dcp (bool gui)
 {
 	if (dcp_name().find ("/") != string::npos) {
 		throw BadSettingError (_("name"), _("Cannot contain slashes"));
@@ -353,7 +353,7 @@ Film::make_dcp ()
 
 	shared_ptr<TranscodeJob> tj (new TranscodeJob (shared_from_this()));
 	tj->set_encoder (shared_ptr<Encoder> (new DCPEncoder (shared_from_this(), tj)));
-	shared_ptr<CheckContentChangeJob> cc (new CheckContentChangeJob (shared_from_this(), tj));
+	shared_ptr<CheckContentChangeJob> cc (new CheckContentChangeJob(shared_from_this(), tj, gui));
 	JobManager::instance()->add (cc);
 }
 
