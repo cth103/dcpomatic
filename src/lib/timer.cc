@@ -22,10 +22,11 @@
  *  @brief Some timing classes for debugging and profiling.
  */
 
-#include <iostream>
-#include <sys/time.h>
 #include "timer.h"
 #include "util.h"
+#include "compose.hpp"
+#include <iostream>
+#include <sys/time.h>
 
 #include "i18n.h"
 
@@ -97,6 +98,11 @@ StateTimer::unset ()
 	set_internal (optional<string>());
 }
 
+bool compare (pair<double, string> a, pair<double, string> b)
+{
+	return a.first > b.first;
+}
+
 /** Destroy StateTimer and generate a summary of the state timings on cout */
 StateTimer::~StateTimer ()
 {
@@ -106,8 +112,25 @@ StateTimer::~StateTimer ()
 
 	unset ();
 
-	cout << _name << N_(":\n");
+	int longest = 0;
 	for (map<string, Counts>::iterator i = _counts.begin(); i != _counts.end(); ++i) {
-		cout << N_("\t") << i->first << " " << i->second.total_time << " " << i->second.number << " " << (i->second.total_time / i->second.number) << N_("\n");
+		longest = max (longest, int(i->first.length()));
+	}
+
+	list<pair<double, string> > sorted;
+
+	for (map<string, Counts>::iterator i = _counts.begin(); i != _counts.end(); ++i) {
+		string name = i->first + string(longest + 1 - i->first.size(), ' ');
+		char buffer[64];
+		snprintf (buffer, 64, "%.4f", i->second.total_time);
+		string total_time (buffer);
+		sorted.push_back (make_pair(i->second.total_time, String::compose("\t%1%2 %3 %4", name, total_time, i->second.number, (i->second.total_time / i->second.number))));
+	}
+
+	sorted.sort (compare);
+
+	cout << _name << N_(":\n");
+	for (list<pair<double, string> >::iterator i = sorted.begin(); i != sorted.end(); ++i) {
+		cout << N_("\t") << i->second << "\n";
 	}
 }
