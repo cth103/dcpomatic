@@ -216,12 +216,16 @@ try
 	_arrived.notify_all ();
 }
 
+/** @param blocking true if we should block until video is available.  If blocking is false
+ *  and no video is immediately available the method will return a 0 PlayerVideo and the error AGAIN.
+ *  @param e if non-0 this is filled with an error code (if an error occurs) or is untouched if no error occurs.
+ */
 pair<shared_ptr<PlayerVideo>, DCPTime>
-Butler::get_video (Error* e)
+Butler::get_video (bool blocking, Error* e)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	if (_suspended) {
+	if (_suspended || (_video.empty() && !blocking)) {
 		if (e) {
 			*e = AGAIN;
 		}

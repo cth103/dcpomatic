@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 		);
 	float* audio_buffer = new float[2000*6];
 	while (true) {
-		pair<shared_ptr<PlayerVideo>, DCPTime> p = butler->get_video ();
+		pair<shared_ptr<PlayerVideo>, DCPTime> p = butler->get_video (true, 0);
 		if (!p.first) {
 			break;
 		}

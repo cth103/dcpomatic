@@ -231,17 +231,22 @@ FilmViewer::refresh_view ()
 	_state_timer.unset ();
 }
 
+/** @param lazy true if it is *not* important that the display be updated as quickly as possible.
+ *  If lazy is true we will try to return from this method quickly and postpone any time-consuming
+ *  work until the UI is next idle.  Otherwise we will block here and try to get the image on
+ *  screen as soon as possible.
+ */
 void
-FilmViewer::get ()
+FilmViewer::get (bool lazy)
 {
 	DCPOMATIC_ASSERT (_butler);
 	++_gets;
 
 	do {
 		Butler::Error e;
-		_player_video = _butler->get_video (&e);
+		_player_video = _butler->get_video (!lazy, &e);
 		if (!_player_video.first && e == Butler::AGAIN) {
-			signal_manager->when_idle (boost::bind(&FilmViewer::get, this));
+			signal_manager->when_idle (boost::bind(&FilmViewer::get, this, lazy));
 			return;
 		}
 	} while (
@@ -257,7 +262,11 @@ FilmViewer::get ()
 		error_dialog (_video_view->get(), e.what());
 	}
 
-	display_player_video ();
+	if (lazy) {
+		signal_manager->when_idle (boost::bind(&FilmViewer::display_player_video, this));
+	} else {
+		display_player_video ();
+	}
 }
 
 void
@@ -322,7 +331,7 @@ FilmViewer::timer ()
 		return;
 	}
 
-	get ();
+	get (false);
 	PositionChanged ();
 	DCPTime const next = _video_position + one_video_frame();
 
@@ -541,7 +550,7 @@ FilmViewer::seek (DCPTime t, bool accurate)
 
 	_closed_captions_dialog->clear ();
 	_butler->seek (t, accurate);
-	get ();
+	get (true);
 
 	if (was_running) {
 		start ();

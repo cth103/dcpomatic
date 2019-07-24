@@ -151,7 +151,7 @@ private:
 	void timer ();
 	void calculate_sizes ();
 	void player_change (ChangeType type, int, bool);
-	void get ();
+	void get (bool lazy);
 	void display_player_video ();
 	void film_change (ChangeType, Film::Property);
 	void recreate_butler ();

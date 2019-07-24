@@ -220,7 +220,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 	for (int i = 0; i < 10; ++i) {
 		DCPTime t = DCPTime::from_frames (i, 24);
 		butler->seek (t, true);
-		pair<shared_ptr<PlayerVideo>, DCPTime> video = butler->get_video();
+		pair<shared_ptr<PlayerVideo>, DCPTime> video = butler->get_video(true, 0);
 		BOOST_CHECK_EQUAL(video.second.get(), t.get());
 		write_image(video.first->image(bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true), String::compose("build/test/player_seek_test_%1.png", i), "RGB");
 		/* This 0.055 is empirically chosen (hopefully) to accept changes in rendering between the reference and a test machine
@@ -253,7 +253,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 	for (int i = 0; i < 10; ++i) {
 		DCPTime t = DCPTime::from_seconds(5) + DCPTime::from_frames (i, 24);
 		butler->seek (t, true);
-		pair<shared_ptr<PlayerVideo>, DCPTime> video = butler->get_video();
+		pair<shared_ptr<PlayerVideo>, DCPTime> video = butler->get_video(true, 0);
 		BOOST_CHECK_EQUAL(video.second.get(), t.get());
 		write_image(video.first->image(bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true), String::compose("build/test/player_seek_test2_%1.png", i), "RGB");
 		check_image(String::compose("test/data/player_seek_test2_%1.png", i), String::compose("build/test/player_seek_test2_%1.png", i), 0.055);

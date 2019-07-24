@@ -54,7 +54,7 @@ public:
 		AGAIN
 	};
 
-	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> get_video (Error* e = 0);
+	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> get_video (bool blocking, Error* e = 0);
 	boost::optional<dcpomatic::DCPTime> get_audio (float* out, Frame frames);
 	boost::optional<TextRingBuffers::Data> get_closed_caption ();
 

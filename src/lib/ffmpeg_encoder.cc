@@ -150,7 +150,7 @@ FFmpegEncoder::go ()
 		}
 
 		for (int j = 0; j < gets_per_frame; ++j) {
-			pair<shared_ptr<PlayerVideo>, DCPTime> v = _butler->get_video ();
+			pair<shared_ptr<PlayerVideo>, DCPTime> v = _butler->get_video (true, 0);
 			encoder->get(v.first->eyes())->video(v.first, v.second);
 		}
 
