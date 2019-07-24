@@ -151,7 +151,9 @@ private:
 	void timer ();
 	void calculate_sizes ();
 	void player_change (ChangeType type, int, bool);
-	void get (bool lazy);
+	bool get (bool lazy);
+	void idle_handler ();
+	void request_idle_get ();
 	void display_player_video ();
 	void film_change (ChangeType, Film::Property);
 	void recreate_butler ();
@@ -209,6 +211,9 @@ private:
 
 	StateTimer _state_timer;
 	int _gets;
+
+	/** true if an get() is required next time we are idle */
+	bool _idle_get;
 
 	boost::signals2::scoped_connection _config_changed_connection;
 };

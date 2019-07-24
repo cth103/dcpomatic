@@ -95,6 +95,7 @@ FilmViewer::FilmViewer (wxWindow* p)
 #endif
 	, _state_timer ("viewer")
 	, _gets (0)
+	, _idle_get (false)
 {
 	switch (Config::instance()->video_view_type()) {
 	case Config::VIDEO_VIEW_OPENGL:
@@ -117,6 +118,33 @@ FilmViewer::FilmViewer (wxWindow* p)
 FilmViewer::~FilmViewer ()
 {
 	stop ();
+}
+
+/** Ask for ::get() to be called next time we are idle */
+void
+FilmViewer::request_idle_get ()
+{
+	if (_idle_get) {
+		return;
+	}
+
+	_idle_get = true;
+	signal_manager->when_idle (boost::bind(&FilmViewer::idle_handler, this));
+}
+
+void
+FilmViewer::idle_handler ()
+{
+	if (!_idle_get) {
+		return;
+	}
+
+	if (get(true)) {
+		_idle_get = false;
+	} else {
+		/* get() could not complete quickly so we'll try again later */
+		signal_manager->when_idle (boost::bind(&FilmViewer::idle_handler, this));
+	}
 }
 
 void
@@ -231,12 +259,12 @@ FilmViewer::refresh_view ()
 	_state_timer.unset ();
 }
 
-/** @param lazy true if it is *not* important that the display be updated as quickly as possible.
- *  If lazy is true we will try to return from this method quickly and postpone any time-consuming
- *  work until the UI is next idle.  Otherwise we will block here and try to get the image on
- *  screen as soon as possible.
+/** Try to get a frame from the butler and display it.
+ *  @param lazy true to return false quickly if no video is available quickly (i.e. we are waiting for the butler).
+ *  false to ask the butler to block until it has video (unless it is suspended).
+ *  @return true on success, false if we did nothing because it would have taken too long.
  */
-void
+bool
 FilmViewer::get (bool lazy)
 {
 	DCPOMATIC_ASSERT (_butler);
@@ -246,8 +274,14 @@ FilmViewer::get (bool lazy)
 		Butler::Error e;
 		_player_video = _butler->get_video (!lazy, &e);
 		if (!_player_video.first && e == Butler::AGAIN) {
-			signal_manager->when_idle (boost::bind(&FilmViewer::get, this, lazy));
-			return;
+			if (lazy) {
+				/* No video available; return saying we failed */
+				return false;
+			} else {
+				/* Player was suspended; come back later */
+				signal_manager->when_idle (boost::bind(&FilmViewer::get, this, false));
+				return false;
+			}
 		}
 	} while (
 		_player_video.first &&
@@ -262,11 +296,10 @@ FilmViewer::get (bool lazy)
 		error_dialog (_video_view->get(), e.what());
 	}
 
-	if (lazy) {
-		signal_manager->when_idle (boost::bind(&FilmViewer::display_player_video, this));
-	} else {
-		display_player_video ();
-	}
+	display_player_video ();
+	PositionChanged ();
+
+	return true;
 }
 
 void
@@ -332,7 +365,6 @@ FilmViewer::timer ()
 	}
 
 	get (false);
-	PositionChanged ();
 	DCPTime const next = _video_position + one_video_frame();
 
 	if (next >= _film->length()) {
@@ -550,13 +582,11 @@ FilmViewer::seek (DCPTime t, bool accurate)
 
 	_closed_captions_dialog->clear ();
 	_butler->seek (t, accurate);
-	get (true);
+	request_idle_get ();
 
 	if (was_running) {
 		start ();
 	}
-
-	PositionChanged ();
 }
 
 void

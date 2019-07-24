@@ -48,6 +48,7 @@
 #include "image_decoder.h"
 #include "compose.hpp"
 #include "shuffler.h"
+#include "timer.h"
 #include <dcp/reel.h>
 #include <dcp/reel_sound_asset.h>
 #include <dcp/reel_subtitle_asset.h>
