@@ -1552,6 +1552,9 @@ private:
 
 			_frame->Show ();
 
+			signal_manager = new wxSignalManager (this);
+			Bind (wxEVT_IDLE, boost::bind (&App::idle, this, _1));
+
 			if (!_film_to_load.empty() && boost::filesystem::is_directory (_film_to_load)) {
 				try {
 					_frame->load_film (_film_to_load);
@@ -1571,9 +1574,6 @@ private:
 					_frame->film()->examine_and_add_content(shared_ptr<DCPContent>(new DCPContent(_dcp_to_add)));
 				}
 			}
-
-			signal_manager = new wxSignalManager (this);
-			Bind (wxEVT_IDLE, boost::bind (&App::idle, this, _1));
 
 			Bind (wxEVT_TIMER, boost::bind (&App::check, this));
 			_timer.reset (new wxTimer (this));
