@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -23,5 +23,6 @@ class ImageDecoder;
 extern boost::shared_ptr<Decoder> decoder_factory (
 	boost::shared_ptr<const Film> film,
 	boost::shared_ptr<const Content> content,
-	bool fast
+	bool fast,
+	boost::shared_ptr<Decoder> old_decoder
 	);

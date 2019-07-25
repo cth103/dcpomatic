@@ -138,6 +138,7 @@ have_audio (shared_ptr<Piece> piece)
 void
 Player::setup_pieces_unlocked ()
 {
+	list<shared_ptr<Piece> > old_pieces = _pieces;
 	_pieces.clear ();
 
 	delete _shuffler;
@@ -155,7 +156,15 @@ Player::setup_pieces_unlocked ()
 			continue;
 		}
 
-		shared_ptr<Decoder> decoder = decoder_factory (_film, i, _fast);
+		shared_ptr<Decoder> old_decoder;
+		BOOST_FOREACH (shared_ptr<Piece> j, old_pieces) {
+			if (j->content == i) {
+				old_decoder = j->decoder;
+				break;
+			}
+		}
+
+		shared_ptr<Decoder> decoder = decoder_factory (_film, i, _fast, old_decoder);
 		FrameRateChange frc (_film, i);
 
 		if (!decoder) {

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -30,14 +30,26 @@
 #include "dcp_subtitle_decoder.h"
 #include "video_mxf_content.h"
 #include "video_mxf_decoder.h"
+#include "timer.h"
 #include <boost/foreach.hpp>
 
 using std::list;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
+template <class T>
+shared_ptr<T>
+maybe_cast (shared_ptr<Decoder> d)
+{
+	if (!d) {
+		return shared_ptr<T> ();
+	}
+	return dynamic_pointer_cast<T> (d);
+}
+
+/** @param old_decoder A `used' decoder that has been previously made for this piece of content, or 0 */
 shared_ptr<Decoder>
-decoder_factory (shared_ptr<const Film> film, shared_ptr<const Content> content, bool fast)
+decoder_factory (shared_ptr<const Film> film, shared_ptr<const Content> content, bool fast, shared_ptr<Decoder> old_decoder)
 {
 	shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (content);
 	if (fc) {
@@ -47,7 +59,7 @@ decoder_factory (shared_ptr<const Film> film, shared_ptr<const Content> content,
 	shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (content);
 	if (dc) {
 		try {
-			return shared_ptr<Decoder> (new DCPDecoder(film, dc, fast));
+			return shared_ptr<Decoder> (new DCPDecoder(film, dc, fast, maybe_cast<DCPDecoder>(old_decoder)));
 		} catch (KDMError& e) {
 			/* This will be found and reported to the user when the content is examined */
 			return shared_ptr<Decoder>();

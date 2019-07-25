@@ -667,7 +667,7 @@ TextPanel::text_view_clicked ()
 	ContentList c = _parent->selected_text ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
-	shared_ptr<Decoder> decoder = decoder_factory (_parent->film(), c.front(), false);
+	shared_ptr<Decoder> decoder = decoder_factory (_parent->film(), c.front(), false, shared_ptr<Decoder>());
 
 	if (decoder) {
 		_text_view = new TextView (this, _parent->film(), c.front(), c.front()->text_of_original_type(_original_type), decoder, _parent->film_viewer());

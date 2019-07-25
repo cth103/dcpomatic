@@ -56,7 +56,7 @@ using boost::dynamic_pointer_cast;
 using boost::optional;
 using namespace dcpomatic;
 
-DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent> c, bool fast)
+DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent> c, bool fast, shared_ptr<DCPDecoder> old)
 	: DCP (c)
 	, Decoder (film)
 	, _decode_referenced (false)
@@ -74,29 +74,34 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 		}
 	}
 
-	list<shared_ptr<dcp::CPL> > cpl_list = cpls ();
+	if (old) {
+		_reels = old->_reels;
+	} else {
 
-	if (cpl_list.empty()) {
-		throw DCPError (_("No CPLs found in DCP."));
-	}
+		list<shared_ptr<dcp::CPL> > cpl_list = cpls ();
 
-	shared_ptr<dcp::CPL> cpl;
-	BOOST_FOREACH (shared_ptr<dcp::CPL> i, cpl_list) {
-		if (_dcp_content->cpl() && i->id() == _dcp_content->cpl().get()) {
-			cpl = i;
+		if (cpl_list.empty()) {
+			throw DCPError (_("No CPLs found in DCP."));
 		}
-	}
 
-	if (!cpl) {
-		/* No CPL found; probably an old file that doesn't specify it;
-		   just use the first one.
-		*/
-		cpl = cpls().front ();
+		shared_ptr<dcp::CPL> cpl;
+		BOOST_FOREACH (shared_ptr<dcp::CPL> i, cpl_list) {
+			if (_dcp_content->cpl() && i->id() == _dcp_content->cpl().get()) {
+				cpl = i;
+			}
+		}
+
+		if (!cpl) {
+			/* No CPL found; probably an old file that doesn't specify it;
+			   just use the first one.
+			*/
+			cpl = cpls().front ();
+		}
+
+		_reels = cpl->reels ();
 	}
 
 	set_decode_referenced (false);
-
-	_reels = cpl->reels ();
 
 	_reel = _reels.begin ();
 	_offset = 0;

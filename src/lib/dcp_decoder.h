@@ -40,7 +40,12 @@ struct dcp_subtitle_within_dcp_test;
 class DCPDecoder : public DCP, public Decoder
 {
 public:
-	DCPDecoder (boost::shared_ptr<const Film> film, boost::shared_ptr<const DCPContent>, bool fast);
+	DCPDecoder (
+		boost::shared_ptr<const Film> film,
+		boost::shared_ptr<const DCPContent>,
+		bool fast,
+		boost::shared_ptr<DCPDecoder> old = boost::shared_ptr<DCPDecoder>()
+		);
 
 	std::list<boost::shared_ptr<dcp::Reel> > reels () const {
 		return _reels;
