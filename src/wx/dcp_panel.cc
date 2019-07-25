@@ -455,6 +455,16 @@ DCPPanel::film_changed (int p)
 	case Film::USE_ISDCF_NAME:
 	{
 		checked_set (_use_isdcf_name, _film->use_isdcf_name ());
+		if (_film->use_isdcf_name()) {
+			/* We are going back to using an ISDCF name.  Remove anything after a _ in the current name,
+			   in case the user has clicked 'Copy as name' then re-ticked 'Use ISDCF name' (#1513).
+			*/
+			string const name = _film->name ();
+			string::size_type const u = name.find("_");
+			if (u != string::npos) {
+				_film->set_name (name.substr(0, u));
+			}
+		}
 		setup_dcp_name ();
 		_edit_isdcf_button->Enable (_film->use_isdcf_name ());
 		break;
