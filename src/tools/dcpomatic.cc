@@ -908,7 +908,7 @@ private:
 
 	void jobs_export ()
 	{
-		ExportDialog* d = new ExportDialog (this);
+		ExportDialog* d = new ExportDialog (this, _film->isdcf_name(true));
 		if (d->ShowModal() == wxID_OK) {
 			shared_ptr<TranscodeJob> job (new TranscodeJob (_film));
 			job->set_encoder (

@@ -28,7 +28,7 @@ class FilePickerCtrl;
 class ExportDialog : public TableDialog
 {
 public:
-	explicit ExportDialog (wxWindow* parent);
+	explicit ExportDialog (wxWindow* parent, std::string name);
 
 	boost::filesystem::path path () const;
 	ExportFormat format () const;

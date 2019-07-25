@@ -25,6 +25,7 @@
 #include <wx/filepicker.h>
 #include <boost/bind.hpp>
 
+using std::string;
 using boost::bind;
 
 #define FORMATS 2
@@ -49,7 +50,7 @@ ExportFormat formats[] = {
 	EXPORT_FORMAT_H264_AAC
 };
 
-ExportDialog::ExportDialog (wxWindow* parent)
+ExportDialog::ExportDialog (wxWindow* parent, string name)
 	: TableDialog (parent, _("Export film"), 2, 1, true)
 {
 	add (_("Format"), true);
@@ -73,6 +74,7 @@ ExportDialog::ExportDialog (wxWindow* parent)
 
 	add (_("Output file"), true);
 	_file = new FilePickerCtrl (this, _("Select output file"), format_filters[0], false);
+	_file->SetPath (name);
 	add (_file);
 
 	for (int i = 0; i < FORMATS; ++i) {
