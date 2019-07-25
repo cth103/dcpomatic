@@ -129,6 +129,7 @@ FilmViewer::request_idle_get ()
 	}
 
 	_idle_get = true;
+	DCPOMATIC_ASSERT (signal_manager);
 	signal_manager->when_idle (boost::bind(&FilmViewer::idle_handler, this));
 }
 
