@@ -1,7 +1,9 @@
 #!/bin/bash
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 export LD_LIBRARY_PATH=build/src/lib:build/src/wx:build/src/asdcplib/src:/home/c.hetherington/lib:$LD_LIBRARY_PATH
 export DYLD_LIBRARY_PATH=build/src/lib:build/src/wx:build/src/asdcplib/src:/Users/c.hetherington/osx-environment/64/lib
+export DCPOMATIC_GRAPHICS=$DIR/../graphics
 if [ "$1" == "--debug" ]; then
     shift
     gdb --args build/src/tools/dcpomatic2 $*
