@@ -1054,8 +1054,12 @@ Player::seek (DCPTime time, bool accurate)
 
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
 		if (time < i->content->position()) {
-			/* Before; seek to the start of the content */
-			i->decoder->seek (dcp_to_content_time (i, i->content->position()), accurate);
+			/* Before; seek to the start of the content.  Even if this request is for an inaccurate seek
+			   we must seek this (following) content accurately, otherwise when we come to the end of the current
+			   content we may not start right at the beginning of the next, causing a gap (if the next content has
+			   been trimmed to a point between keyframes, or something).
+			*/
+			i->decoder->seek (dcp_to_content_time (i, i->content->position()), true);
 			i->done = false;
 		} else if (i->content->position() <= time && time < i->content->end(_film)) {
 			/* During; seek to position */
