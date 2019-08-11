@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -51,6 +51,7 @@ using std::make_pair;
 using std::runtime_error;
 using boost::shared_ptr;
 using boost::bind;
+using boost::optional;
 
 KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	: wxDialog (parent, wxID_ANY, _("Make KDMs"))
@@ -151,10 +152,18 @@ KDMDialog::make_clicked ()
 
 	list<shared_ptr<ScreenKDM> > screen_kdms;
 	try {
-
+		/* Start off by enabling forensic marking for all */
+		optional<int> for_audio;
+		if (!_output->forensic_mark_audio()) {
+			/* No forensic marking for audio */
+			for_audio = 0;
+		} else if (_output->forensic_mark_audio_up_to()) {
+			/* Forensic mark up to this channel; disabled on channels greater than this */
+			for_audio = _output->forensic_mark_audio_up_to();
+		}
 		screen_kdms = film->make_kdms (
 			_screens->screens(), _cpl->cpl(), _timing->from(), _timing->until(), _output->formulation(),
-			!_output->forensic_mark_video(), _output->forensic_mark_audio() ? boost::optional<int>() : 0
+			!_output->forensic_mark_video(), for_audio
 			);
 
 	} catch (runtime_error& e) {

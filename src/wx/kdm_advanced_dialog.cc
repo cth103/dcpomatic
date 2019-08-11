@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,8 +20,12 @@
 
 #include "kdm_advanced_dialog.h"
 #include "check_box.h"
+#include "wx_util.h"
+#include <wx/spinctrl.h>
 
-KDMAdvancedDialog::KDMAdvancedDialog (wxWindow* parent, bool forensic_mark_video, bool forensic_mark_audio)
+using boost::optional;
+
+KDMAdvancedDialog::KDMAdvancedDialog (wxWindow* parent, bool forensic_mark_video, bool forensic_mark_audio, optional<int> forensic_mark_audio_up_to)
 	: TableDialog (parent, _("Advanced KDM options"), 2, 1, false)
 {
 	_forensic_mark_video = new CheckBox (this, _("Forensically mark video"));
@@ -33,7 +37,29 @@ KDMAdvancedDialog::KDMAdvancedDialog (wxWindow* parent, bool forensic_mark_video
 	add (_forensic_mark_audio);
 	add_spacer ();
 
+	_forensic_mark_all_audio = new wxRadioButton (this, wxID_ANY, _("Mark all audio channels"));
+	_table->Add (_forensic_mark_all_audio, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
+	add_spacer ();
+	wxBoxSizer* hbox = new wxBoxSizer (wxHORIZONTAL);
+	_forensic_mark_some_audio = new wxRadioButton (this, wxID_ANY, _("Mark audio channels up to (and including)"));
+	hbox->Add (_forensic_mark_some_audio, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
+	_forensic_mark_audio_up_to = new wxSpinCtrl (this, wxID_ANY);
+	hbox->Add (_forensic_mark_audio_up_to, 0, wxRIGHT, DCPOMATIC_SIZER_X_GAP);
+	_table->Add (hbox, 0, wxLEFT, DCPOMATIC_SIZER_GAP);
+	add_spacer ();
+
+	if (forensic_mark_audio_up_to) {
+		_forensic_mark_audio_up_to->SetValue (*forensic_mark_audio_up_to);
+		_forensic_mark_some_audio->SetValue (true);
+	}
+
 	layout ();
+	setup_sensitivity ();
+
+	_forensic_mark_audio_up_to->SetRange (1, 15);
+	_forensic_mark_audio->Bind (wxEVT_CHECKBOX, boost::bind(&KDMAdvancedDialog::setup_sensitivity, this));
+	_forensic_mark_all_audio->Bind (wxEVT_RADIOBUTTON, boost::bind(&KDMAdvancedDialog::setup_sensitivity, this));
+	_forensic_mark_some_audio->Bind (wxEVT_RADIOBUTTON, boost::bind(&KDMAdvancedDialog::setup_sensitivity, this));
 }
 
 bool
@@ -46,4 +72,22 @@ bool
 KDMAdvancedDialog::forensic_mark_audio () const
 {
 	return _forensic_mark_audio->GetValue ();
+}
+
+optional<int>
+KDMAdvancedDialog::forensic_mark_audio_up_to () const
+{
+	if (!_forensic_mark_some_audio->GetValue()) {
+		return optional<int>();
+	}
+
+	return _forensic_mark_audio_up_to->GetValue();
+}
+
+void
+KDMAdvancedDialog::setup_sensitivity ()
+{
+	_forensic_mark_all_audio->Enable (_forensic_mark_audio->GetValue());
+	_forensic_mark_some_audio->Enable (_forensic_mark_audio->GetValue());
+	_forensic_mark_audio_up_to->Enable (_forensic_mark_audio->GetValue() && _forensic_mark_some_audio->GetValue());
 }

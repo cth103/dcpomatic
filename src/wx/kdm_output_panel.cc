@@ -49,8 +49,9 @@ using boost::function;
 
 KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 	: wxPanel (parent, wxID_ANY)
-	, _forensic_mark_video (false)
-	, _forensic_mark_audio (false)
+	, _forensic_mark_video (true)
+	, _forensic_mark_audio (true)
+	, _forensic_mark_audio_up_to (12)
 {
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, 0);
 
@@ -160,10 +161,11 @@ KDMOutputPanel::setup_sensitivity ()
 void
 KDMOutputPanel::advanced_clicked ()
 {
-	KDMAdvancedDialog* d = new KDMAdvancedDialog (this, _forensic_mark_video, _forensic_mark_audio);
+	KDMAdvancedDialog* d = new KDMAdvancedDialog (this, _forensic_mark_video, _forensic_mark_audio, _forensic_mark_audio_up_to);
 	d->ShowModal ();
 	_forensic_mark_video = d->forensic_mark_video ();
 	_forensic_mark_audio = d->forensic_mark_audio ();
+	_forensic_mark_audio_up_to = d->forensic_mark_audio_up_to ();
 	d->Destroy ();
 }
 

@@ -47,6 +47,9 @@ public:
 	bool forensic_mark_audio () const {
 		return _forensic_mark_audio;
 	}
+	boost::optional<int> forensic_mark_audio_up_to () const {
+		return _forensic_mark_audio_up_to;
+	}
 
 	std::pair<boost::shared_ptr<Job>, int> make (
 		std::list<boost::shared_ptr<ScreenKDM> > screen_kdms,
@@ -74,4 +77,5 @@ private:
 	wxCheckBox* _email;
 	bool _forensic_mark_video;
 	bool _forensic_mark_audio;
+	boost::optional<int> _forensic_mark_audio_up_to;
 };

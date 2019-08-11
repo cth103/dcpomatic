@@ -19,16 +19,25 @@
 */
 
 #include "table_dialog.h"
+#include <boost/optional.hpp>
+
+class wxSpinCtrl;
 
 class KDMAdvancedDialog : public TableDialog
 {
 public:
-	KDMAdvancedDialog (wxWindow* parent, bool forensic_mark_video, bool forensic_mark_audio);
+	KDMAdvancedDialog (wxWindow* parent, bool forensic_mark_video, bool forensic_mark_audio, boost::optional<int> forensic_mark_audio_up_to);
 
 	bool forensic_mark_video () const;
 	bool forensic_mark_audio () const;
+	boost::optional<int> forensic_mark_audio_up_to () const;
 
 private:
+	void setup_sensitivity ();
+
 	wxCheckBox* _forensic_mark_video;
 	wxCheckBox* _forensic_mark_audio;
+	wxRadioButton* _forensic_mark_all_audio;
+	wxRadioButton* _forensic_mark_some_audio;
+	wxSpinCtrl* _forensic_mark_audio_up_to;
 };
