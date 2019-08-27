@@ -530,19 +530,3 @@ display_progress (wxString title, wxString task)
 
 	return ok;
 }
-
-bool
-report_errors_from_last_job (wxWindow* parent)
-{
-	JobManager* jm = JobManager::instance ();
-
-	DCPOMATIC_ASSERT (!jm->get().empty());
-
-	shared_ptr<Job> last = jm->get().back();
-	if (last->finished_in_error()) {
-		error_dialog(parent, std_to_wx(last->error_summary()) + ".\n", std_to_wx(last->error_details()));
-		return false;
-	}
-
-	return true;
-}

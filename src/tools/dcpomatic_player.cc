@@ -464,6 +464,21 @@ public:
 
 private:
 
+	bool report_errors_from_last_job (wxWindow* parent) const
+	{
+		JobManager* jm = JobManager::instance ();
+
+		DCPOMATIC_ASSERT (!jm->get().empty());
+
+		shared_ptr<Job> last = jm->get().back();
+		if (last->finished_in_error()) {
+			error_dialog(parent, wxString::Format(_("Could not load DCP.\n\n%s."), std_to_wx(last->error_summary()).data()), std_to_wx(last->error_details()));
+			return false;
+		}
+
+		return true;
+	}
+
 	void setup_menu (wxMenuBar* m)
 	{
 		_file_menu = new wxMenu;
