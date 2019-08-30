@@ -198,7 +198,7 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	}
 	Content::examine (film, job);
 
-	shared_ptr<DCPExaminer> examiner (new DCPExaminer (shared_from_this ()));
+	shared_ptr<DCPExaminer> examiner (new DCPExaminer(shared_from_this(), film->tolerant()));
 
 	if (examiner->has_video()) {
 		{
@@ -478,7 +478,7 @@ DCPContent::reels (shared_ptr<const Film> film) const
 	if (reel_lengths.empty ()) {
 		/* Old metadata with no reel lengths; get them here instead */
 		try {
-			scoped_ptr<DCPExaminer> examiner (new DCPExaminer (shared_from_this()));
+			scoped_ptr<DCPExaminer> examiner (new DCPExaminer(shared_from_this(), film->tolerant()));
 			reel_lengths = examiner->reel_lengths ();
 		} catch (...) {
 			/* Could not examine the DCP; guess reels */
@@ -625,7 +625,7 @@ DCPContent::can_reference_audio (shared_ptr<const Film> film, string& why_not) c
 {
 	shared_ptr<DCPDecoder> decoder;
 	try {
-		decoder.reset (new DCPDecoder (film, shared_from_this(), false));
+		decoder.reset (new DCPDecoder (film, shared_from_this(), false, film->tolerant(), shared_ptr<DCPDecoder>()));
 	} catch (dcp::DCPReadError &) {
 		/* We couldn't read the DCP, so it's probably missing */
 		return false;
@@ -660,7 +660,7 @@ DCPContent::can_reference_text (shared_ptr<const Film> film, TextType type, stri
 {
 	shared_ptr<DCPDecoder> decoder;
 	try {
-		decoder.reset (new DCPDecoder (film, shared_from_this(), false));
+		decoder.reset (new DCPDecoder (film, shared_from_this(), false, film->tolerant(), shared_ptr<DCPDecoder>()));
 	} catch (dcp::DCPReadError &) {
 		/* We couldn't read the DCP, so it's probably missing */
 		return false;

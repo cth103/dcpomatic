@@ -126,7 +126,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 			_kdm->Enable (dcp->encrypted ());
 			_ov->Enable (dcp->needs_assets ());
 			try {
-				DCPExaminer ex (dcp);
+				DCPExaminer ex (dcp, true);
 				list<shared_ptr<dcp::CPL> > cpls = ex.cpls ();
 				_choose_cpl->Enable (cpls.size() > 1);
 				/* We can't have 0 as a menu item ID on OS X */
@@ -433,7 +433,7 @@ ContentMenu::cpl_selected (wxCommandEvent& ev)
 	shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (_content.front ());
 	DCPOMATIC_ASSERT (dcp);
 
-	DCPExaminer ex (dcp);
+	DCPExaminer ex (dcp, true);
 	list<shared_ptr<dcp::CPL> > cpls = ex.cpls ();
 	DCPOMATIC_ASSERT (ev.GetId() > 0);
 	DCPOMATIC_ASSERT (ev.GetId() <= int (cpls.size()));

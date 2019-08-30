@@ -174,6 +174,14 @@ public:
 	bool references_dcp_video () const;
 	bool references_dcp_audio () const;
 
+	void set_tolerant (bool t) {
+		_tolerant = t;
+	}
+
+	bool tolerant () const {
+		return _tolerant;
+	}
+
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
 	*/
@@ -431,6 +439,11 @@ private:
 	mutable bool _dirty;
 	/** film being used as a template, or 0 */
 	boost::shared_ptr<Film> _template_film;
+
+	/** Be tolerant of errors in content (currently applies to DCP only).
+	    Not saved as state.
+	*/
+	bool _tolerant;
 
 	boost::signals2::scoped_connection _playlist_change_connection;
 	boost::signals2::scoped_connection _playlist_order_changed_connection;

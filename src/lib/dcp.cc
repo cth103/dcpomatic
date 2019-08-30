@@ -46,7 +46,7 @@ DCP::cpls () const
 	LOG_GENERAL ("Reading %1 DCP directories", _dcp_content->directories().size());
 	BOOST_FOREACH (boost::filesystem::path i, _dcp_content->directories()) {
 		shared_ptr<dcp::DCP> dcp (new dcp::DCP (i));
-		dcp->read (false, 0, true);
+		dcp->read (_tolerant, 0, true);
 		dcps.push_back (dcp);
 		LOG_GENERAL ("Reading DCP %1: %2 CPLs", i.string(), dcp->cpls().size());
 		BOOST_FOREACH (shared_ptr<dcp::CPL> i, dcp->cpls()) {

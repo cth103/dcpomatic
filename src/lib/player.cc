@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -93,6 +93,7 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _ignore_text (false)
 	, _always_burn_open_subtitles (false)
 	, _fast (false)
+	, _tolerant (film->tolerant())
 	, _play_referenced (false)
 	, _audio_merger (_film->audio_frame_rate())
 	, _shuffler (0)
@@ -145,13 +146,17 @@ Player::setup_pieces_unlocked ()
 	_shuffler = new Shuffler();
 	_shuffler->Video.connect(bind(&Player::video, this, _1, _2));
 
+	cout << "SPU " << _playlist->content().size() << ".\n";
+
 	BOOST_FOREACH (shared_ptr<Content> i, _playlist->content ()) {
 
 		if (!i->paths_valid ()) {
+			cout << "not valid.\n";
 			continue;
 		}
 
 		if (_ignore_video && _ignore_audio && i->text.empty()) {
+			cout << "text only.\n";
 			/* We're only interested in text and this content has none */
 			continue;
 		}
@@ -164,7 +169,8 @@ Player::setup_pieces_unlocked ()
 			}
 		}
 
-		shared_ptr<Decoder> decoder = decoder_factory (_film, i, _fast, old_decoder);
+		cout << " DF " << _tolerant << "\n";
+		shared_ptr<Decoder> decoder = decoder_factory (_film, i, _fast, _tolerant, old_decoder);
 		FrameRateChange frc (_film, i);
 
 		if (!decoder) {
@@ -503,7 +509,7 @@ Player::get_reel_assets ()
 
 		scoped_ptr<DCPDecoder> decoder;
 		try {
-			decoder.reset (new DCPDecoder (_film, j, false));
+			decoder.reset (new DCPDecoder (_film, j, false, false, shared_ptr<DCPDecoder>()));
 		} catch (...) {
 			return a;
 		}

@@ -161,6 +161,7 @@ Film::Film (optional<boost::filesystem::path> dir)
 	, _user_explicit_video_frame_rate (false)
 	, _state_version (current_state_version)
 	, _dirty (false)
+	, _tolerant (false)
 {
 	set_isdcf_date_today ();
 

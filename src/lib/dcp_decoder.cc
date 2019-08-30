@@ -56,8 +56,8 @@ using boost::dynamic_pointer_cast;
 using boost::optional;
 using namespace dcpomatic;
 
-DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent> c, bool fast, shared_ptr<DCPDecoder> old)
-	: DCP (c)
+DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent> c, bool fast, bool tolerant, shared_ptr<DCPDecoder> old)
+	: DCP (c, tolerant)
 	, Decoder (film)
 	, _decode_referenced (false)
 {

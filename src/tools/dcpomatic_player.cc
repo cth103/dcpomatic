@@ -312,7 +312,7 @@ public:
 
 		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent>(_film->content().front());
 		if (dcp) {
-			DCPExaminer ex (dcp);
+			DCPExaminer ex (dcp, true);
 			shared_ptr<dcp::CPL> playing_cpl;
 			BOOST_FOREACH (shared_ptr<dcp::CPL> i, ex.cpls()) {
 				if (!dcp->cpl() || i->id() == *dcp->cpl()) {
@@ -394,6 +394,7 @@ public:
 	void reset_film (shared_ptr<Film> film = shared_ptr<Film>(new Film(optional<boost::filesystem::path>())))
 	{
 		_film = film;
+		_film->set_tolerant (true);
 		_viewer->set_film (_film);
 		_controls->set_film (_film);
 		_film->Change.connect (bind(&DOMFrame::film_changed, this, _1, _2));
@@ -448,7 +449,7 @@ public:
 			/* Offer a CPL menu */
 			shared_ptr<DCPContent> first = dynamic_pointer_cast<DCPContent>(_film->content().front());
 			if (first) {
-				DCPExaminer ex (first);
+				DCPExaminer ex (first, true);
 				int id = ID_view_cpl;
 				BOOST_FOREACH (shared_ptr<dcp::CPL> i, ex.cpls()) {
 					wxMenuItem* j = _cpl_menu->AppendRadioItem(
@@ -701,7 +702,7 @@ private:
 	{
 		shared_ptr<DCPContent> dcp = boost::dynamic_pointer_cast<DCPContent>(_film->content().front());
 		DCPOMATIC_ASSERT (dcp);
-		DCPExaminer ex (dcp);
+		DCPExaminer ex (dcp, true);
 		int id = ev.GetId() - ID_view_cpl;
 		DCPOMATIC_ASSERT (id >= 0);
 		DCPOMATIC_ASSERT (id < int(ex.cpls().size()));

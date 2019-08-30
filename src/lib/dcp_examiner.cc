@@ -52,8 +52,8 @@ using std::runtime_error;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
-DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
-	: DCP (content)
+DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
+	: DCP (content, tolerant)
 	, _video_length (0)
 	, _audio_length (0)
 	, _has_video (false)

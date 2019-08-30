@@ -24,6 +24,7 @@
 #include <dcp/cpl.h>
 #include <boost/shared_ptr.hpp>
 #include <list>
+#include <iostream>
 
 class DCPContent;
 
@@ -33,11 +34,15 @@ public:
 	std::list<boost::shared_ptr<dcp::CPL> > cpls () const;
 
 protected:
-	explicit DCP (boost::shared_ptr<const DCPContent> content)
+	explicit DCP (boost::shared_ptr<const DCPContent> content, bool tolerant)
 		: _dcp_content (content)
+		, _tolerant (tolerant)
 	{}
 
 	boost::shared_ptr<const DCPContent> _dcp_content;
+
+private:
+	bool _tolerant;
 };
 
 #endif

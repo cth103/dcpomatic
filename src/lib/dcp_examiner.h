@@ -31,7 +31,7 @@ class DCPContent;
 class DCPExaminer : public DCP, public VideoExaminer, public AudioExaminer
 {
 public:
-	explicit DCPExaminer (boost::shared_ptr<const DCPContent>);
+	explicit DCPExaminer (boost::shared_ptr<const DCPContent>, bool tolerant);
 
 	bool has_video () const {
 		return _has_video;

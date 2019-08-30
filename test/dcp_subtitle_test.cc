@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<DCPDecoder> decoder (new DCPDecoder (film, content, false));
+	shared_ptr<DCPDecoder> decoder (new DCPDecoder (film, content, false, false, shared_ptr<DCPDecoder>()));
 	decoder->only_text()->PlainStart.connect (bind (store, _1));
 
 	stored = optional<ContentStringText> ();

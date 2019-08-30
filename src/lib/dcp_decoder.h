@@ -44,7 +44,8 @@ public:
 		boost::shared_ptr<const Film> film,
 		boost::shared_ptr<const DCPContent>,
 		bool fast,
-		boost::shared_ptr<DCPDecoder> old = boost::shared_ptr<DCPDecoder>()
+		bool tolerant,
+		boost::shared_ptr<DCPDecoder> old
 		);
 
 	std::list<boost::shared_ptr<dcp::Reel> > reels () const {

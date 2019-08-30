@@ -24,5 +24,6 @@ extern boost::shared_ptr<Decoder> decoder_factory (
 	boost::shared_ptr<const Film> film,
 	boost::shared_ptr<const Content> content,
 	bool fast,
+	bool tolerant,
 	boost::shared_ptr<Decoder> old_decoder
 	);

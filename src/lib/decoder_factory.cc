@@ -47,9 +47,12 @@ maybe_cast (shared_ptr<Decoder> d)
 	return dynamic_pointer_cast<T> (d);
 }
 
-/** @param old_decoder A `used' decoder that has been previously made for this piece of content, or 0 */
+/**
+   @param tolerant true to proceed in the face of `survivable' errors, otherwise false.
+   @param old_decoder A `used' decoder that has been previously made for this piece of content, or 0
+*/
 shared_ptr<Decoder>
-decoder_factory (shared_ptr<const Film> film, shared_ptr<const Content> content, bool fast, shared_ptr<Decoder> old_decoder)
+decoder_factory (shared_ptr<const Film> film, shared_ptr<const Content> content, bool fast, bool tolerant, shared_ptr<Decoder> old_decoder)
 {
 	shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (content);
 	if (fc) {
@@ -59,7 +62,7 @@ decoder_factory (shared_ptr<const Film> film, shared_ptr<const Content> content,
 	shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (content);
 	if (dc) {
 		try {
-			return shared_ptr<Decoder> (new DCPDecoder(film, dc, fast, maybe_cast<DCPDecoder>(old_decoder)));
+			return shared_ptr<Decoder> (new DCPDecoder(film, dc, fast, tolerant, maybe_cast<DCPDecoder>(old_decoder)));
 		} catch (KDMError& e) {
 			/* This will be found and reported to the user when the content is examined */
 			return shared_ptr<Decoder>();
