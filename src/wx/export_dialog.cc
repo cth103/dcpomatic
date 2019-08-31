@@ -28,26 +28,30 @@
 using std::string;
 using boost::bind;
 
-#define FORMATS 2
+#define FORMATS 3
 
 wxString format_names[] = {
 	_("ProRes"),
-	_("MP4 / H.264")
+	_("MP4 / H.264"),
+	_("DCP subtitles")
 };
 
 wxString format_filters[] = {
 	_("MOV files (*.mov)|*.mov"),
 	_("MP4 files (*.mp4)|*.mp4"),
+	_("Subtitle files (*.xml)|*.xml"),
 };
 
 wxString format_extensions[] = {
 	"mov",
-	"mp4"
+	"mp4",
+	"xml",
 };
 
 ExportFormat formats[] = {
 	EXPORT_FORMAT_PRORES,
-	EXPORT_FORMAT_H264_AAC
+	EXPORT_FORMAT_H264_AAC,
+	EXPORT_FORMAT_SUBTITLES_DCP
 };
 
 ExportDialog::ExportDialog (wxWindow* parent, string name)
@@ -106,6 +110,7 @@ ExportDialog::format_changed ()
 	for (int i = 0; i < 2; ++i) {
 		_x264_crf_label[i]->Enable (_format->GetSelection() == 1);
 	}
+	_mixdown->Enable (_format->GetSelection() != 2);
 }
 
 boost::filesystem::path

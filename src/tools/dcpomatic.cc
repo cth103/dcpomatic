@@ -83,6 +83,7 @@
 #include "lib/check_content_change_job.h"
 #include "lib/text_content.h"
 #include "lib/dcpomatic_log.h"
+#include "lib/subtitle_encoder.h"
 #include <dcp/exceptions.h>
 #include <dcp/raw_convert.h>
 #include <wx/generic/aboutdlgg.h>
@@ -911,15 +912,21 @@ private:
 		ExportDialog* d = new ExportDialog (this, _film->isdcf_name(true));
 		if (d->ShowModal() == wxID_OK) {
 			shared_ptr<TranscodeJob> job (new TranscodeJob (_film));
-			job->set_encoder (
-				shared_ptr<FFmpegEncoder> (
-					new FFmpegEncoder (_film, job, d->path(), d->format(), d->mixdown_to_stereo(), d->split_reels(), d->x264_crf()
+			if (d->format() == EXPORT_FORMAT_SUBTITLES_DCP) {
+				job->set_encoder (
+					shared_ptr<SubtitleEncoder>(new SubtitleEncoder(_film, job, d->path(), d->split_reels()))
+					);
+			} else {
+				job->set_encoder (
+					shared_ptr<FFmpegEncoder> (
+						new FFmpegEncoder (_film, job, d->path(), d->format(), d->mixdown_to_stereo(), d->split_reels(), d->x264_crf()
 #ifdef DCPOMATIC_VARIANT_SWAROOP
-							   , optional<dcp::Key>(), optional<string>()
+								   , optional<dcp::Key>(), optional<string>()
 #endif
+							)
 						)
-					)
-				);
+					);
+			}
 			JobManager::instance()->add (job);
 		}
 		d->Destroy ();

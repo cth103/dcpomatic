@@ -47,7 +47,7 @@ public:
 
 	void go ();
 
-	float current_rate () const;
+	boost::optional<float> current_rate () const;
 	Frame frames_done () const;
 	bool finishing () const {
 		return false;

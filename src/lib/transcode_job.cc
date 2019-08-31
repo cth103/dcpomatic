@@ -42,6 +42,7 @@ using std::fixed;
 using std::setprecision;
 using std::cout;
 using boost::shared_ptr;
+using boost::optional;
 using boost::dynamic_pointer_cast;
 
 /** @param film Film to use */
@@ -138,11 +139,11 @@ TranscodeJob::status () const
 			_film->length().frames_round (_film->video_frame_rate ())
 			);
 
-		float const fps = _encoder->current_rate ();
+		optional<float> const fps = _encoder->current_rate ();
 		if (fps) {
 			char fps_buffer[64];
 			/// TRANSLATORS: fps here is an abbreviation for frames per second
-			snprintf (fps_buffer, sizeof(fps_buffer), _("; %.1f fps"), fps);
+			snprintf (fps_buffer, sizeof(fps_buffer), _("; %.1f fps"), *fps);
 			strncat (buffer, fps_buffer, strlen(buffer) - 1);
 		}
 	}
@@ -164,12 +165,12 @@ TranscodeJob::remaining_time () const
 
 	/* We're encoding so guess based on the current encoding rate */
 
-	float fps = e->current_rate ();
+	optional<float> fps = e->current_rate ();
 
-	if (fps == 0) {
+	if (!fps) {
 		return 0;
 	}
 
 	/* Compute approximate proposed length here, as it's only here that we need it */
-	return (_film->length().frames_round (_film->video_frame_rate ()) - e->frames_done()) / fps;
+	return (_film->length().frames_round(_film->video_frame_rate()) - e->frames_done()) / *fps;
 }

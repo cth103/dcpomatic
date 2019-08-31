@@ -183,7 +183,7 @@ FFmpegEncoder::go ()
 	}
 }
 
-float
+optional<float>
 FFmpegEncoder::current_rate () const
 {
 	return _history.rate ();

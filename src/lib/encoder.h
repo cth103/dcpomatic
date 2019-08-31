@@ -43,7 +43,10 @@ public:
 	virtual void go () = 0;
 
 	/** @return the current frame rate over the last short while */
-	virtual float current_rate () const = 0;
+	virtual boost::optional<float> current_rate () const {
+		return boost::optional<float>();
+	}
+
 	/** @return the number of frames that are done */
 	virtual Frame frames_done () const = 0;
 	virtual bool finishing () const = 0;

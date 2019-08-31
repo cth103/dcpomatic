@@ -155,6 +155,7 @@ sources = """
           string_text_file.cc
           string_text_file_content.cc
           string_text_file_decoder.cc
+          subtitle_encoder.cc
           text_ring_buffers.cc
           timer.cc
           transcode_job.cc

@@ -146,17 +146,13 @@ Player::setup_pieces_unlocked ()
 	_shuffler = new Shuffler();
 	_shuffler->Video.connect(bind(&Player::video, this, _1, _2));
 
-	cout << "SPU " << _playlist->content().size() << ".\n";
-
 	BOOST_FOREACH (shared_ptr<Content> i, _playlist->content ()) {
 
 		if (!i->paths_valid ()) {
-			cout << "not valid.\n";
 			continue;
 		}
 
 		if (_ignore_video && _ignore_audio && i->text.empty()) {
-			cout << "text only.\n";
 			/* We're only interested in text and this content has none */
 			continue;
 		}
@@ -169,7 +165,6 @@ Player::setup_pieces_unlocked ()
 			}
 		}
 
-		cout << " DF " << _tolerant << "\n";
 		shared_ptr<Decoder> decoder = decoder_factory (_film, i, _fast, _tolerant, old_decoder);
 		FrameRateChange frc (_film, i);
 

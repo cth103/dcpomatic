@@ -152,11 +152,11 @@ DCPEncoder::text (PlayerText data, TextType type, optional<DCPTextTrack> track, 
 	}
 }
 
-float
+optional<float>
 DCPEncoder::current_rate () const
 {
 	if (!_j2k_encoder) {
-		return 0;
+		return optional<float>();
 	}
 
 	return _j2k_encoder->current_encoding_rate ();
