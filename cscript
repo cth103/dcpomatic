@@ -278,6 +278,9 @@ def make_spec(filename, version, target, options, requires=None):
     print('%{_bindir}/dcpomatic2_kdm_cli', file=f)
     print('%{_bindir}/dcpomatic2_player', file=f)
     print('%{_bindir}/dcpomatic2_playlist', file=f)
+    if options['variant'] == 'swaroop-studio':
+        print('%{_bindir}/dcpomatic2_ecinema', file=f)
+        print('%{_bindir}/dcpomatic2_uuid', file=f)
     print('%{_datadir}/applications/dcpomatic2.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_batch.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_server.desktop', file=f)
