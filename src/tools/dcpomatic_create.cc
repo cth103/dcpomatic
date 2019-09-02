@@ -76,7 +76,7 @@ main (int argc, char* argv[])
 
 	if (cc.version) {
 		cerr << "dcpomatic version " << dcpomatic_version << " " << dcpomatic_git_commit << "\n";
-		exit (1);
+		exit (EXIT_SUCCESS);
 	}
 
 	if (cc.config_dir) {
