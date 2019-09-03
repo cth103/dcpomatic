@@ -659,7 +659,7 @@ def package(target, version, options):
             out.append(make_appimage(target, 'DCP-o-matic Playlist Editor', 'dcpomatic2_playlist', version))
             out.append(make_appimage(target, 'DCP-o-matic KDM Creator', 'dcpomatic2_kdm', version))
             out.append(make_appimage(target, 'DCP-o-matic Batch Converter', 'dcpomatic2_batch', version))
-            out.append(make_appimage(target, 'DCP-o-matic Encode Server ', 'dcpomatic2_server', version))
+            out.append(make_appimage(target, 'DCP-o-matic Encode Server', 'dcpomatic2_server', version))
             return out
         else:
             if target.bits == 32:
