@@ -34,6 +34,7 @@
 #include "lib/dcp_content.h"
 #include "lib/create_cli.h"
 #include "lib/version.h"
+#include "lib/dcpomatic_log.h"
 #include <dcp/exceptions.h>
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
@@ -88,6 +89,8 @@ main (int argc, char* argv[])
 
 	try {
 		shared_ptr<Film> film (new Film(cc.output_dir));
+		dcpomatic_log = film->log ();
+		dcpomatic_log->set_types (Config::instance()->log_types());
 		if (cc.template_name) {
 			film->use_template (cc.template_name.get());
 		}
