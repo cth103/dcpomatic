@@ -478,7 +478,11 @@ Timeline::event_to_view (wxMouseEvent& ev)
 {
 	/* Search backwards through views so that we find the uppermost one first */
 	TimelineViewList::reverse_iterator i = _views.rbegin();
-	Position<int> const p (ev.GetX(), ev.GetY());
+
+	int vsx, vsy;
+	_main_canvas->GetViewStart (&vsx, &vsy);
+	Position<int> const p (ev.GetX() + vsx * _x_scroll_rate, ev.GetY() + vsy * _y_scroll_rate);
+
 	while (i != _views.rend() && !(*i)->bbox().contains (p)) {
 		shared_ptr<TimelineContentView> cv = dynamic_pointer_cast<TimelineContentView> (*i);
 		++i;
