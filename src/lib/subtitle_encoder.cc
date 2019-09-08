@@ -84,10 +84,25 @@ SubtitleEncoder::go ()
 
 	while (!_player->pass()) {}
 
+	int reel = 0;
 	for (vector<pair<shared_ptr<dcp::SubtitleAsset>, boost::filesystem::path> >::iterator i = _assets.begin(); i != _assets.end(); ++i) {
-		if (i->first) {
-			i->first->write (i->second);
+		if (!i->first) {
+			/* No subtitles arrived for this asset; make an empty one so we write something to the output */
+			if (_film->interop()) {
+				shared_ptr<dcp::InteropSubtitleAsset> s (new dcp::InteropSubtitleAsset());
+				s->set_movie_title (_film->name());
+				s->set_reel_number (raw_convert<string>(reel + 1));
+				i->first = s;
+			} else {
+				shared_ptr<dcp::SMPTESubtitleAsset> s (new dcp::SMPTESubtitleAsset());
+				s->set_content_title_text (_film->name());
+				s->set_reel_number (reel + 1);
+				i->first = s;
+			}
 		}
+
+		i->first->write (i->second);
+		++reel;
 	}
 }
 
