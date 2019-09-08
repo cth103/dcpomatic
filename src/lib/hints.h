@@ -30,7 +30,7 @@
 
 class Film;
 
-class Hints : public Signaller
+class Hints : public Signaller, public ExceptionStore
 {
 public:
 	explicit Hints (boost::weak_ptr<const Film> film);

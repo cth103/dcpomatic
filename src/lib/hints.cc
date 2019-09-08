@@ -273,20 +273,24 @@ Hints::thread ()
 	struct timeval last_pulse;
 	gettimeofday (&last_pulse, 0);
 
-	while (!player->pass()) {
+	try {
+		while (!player->pass()) {
 
-		struct timeval now;
-		gettimeofday (&now, 0);
-		if ((seconds(now) - seconds(last_pulse)) > 1) {
-			{
-				boost::mutex::scoped_lock lm (_mutex);
-				if (_stop) {
-					break;
+			struct timeval now;
+			gettimeofday (&now, 0);
+			if ((seconds(now) - seconds(last_pulse)) > 1) {
+				{
+					boost::mutex::scoped_lock lm (_mutex);
+					if (_stop) {
+						break;
+					}
 				}
+				emit (bind (boost::ref(Pulse)));
+				last_pulse = now;
 			}
-			emit (bind (boost::ref(Pulse)));
-			last_pulse = now;
 		}
+	} catch (...) {
+		store_current ();
 	}
 
 	emit (bind(boost::ref(Finished)));

@@ -163,6 +163,12 @@ HintsDialog::pulse ()
 void
 HintsDialog::finished ()
 {
+	try {
+		_hints->rethrow ();
+	} catch (std::exception& e) {
+		error_dialog (this, wxString::Format(_("A problem occurred when looking for hints (%s)"), std_to_wx(e.what())));
+	}
+
 	_finished = true;
 	update ();
 	_gauge->Hide ();
