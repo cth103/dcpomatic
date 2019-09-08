@@ -63,7 +63,7 @@ SubtitleEncoder::SubtitleEncoder (shared_ptr<const Film> film, shared_ptr<Job> j
 			filename = filename.string() + String::compose(_("_reel%1"), i + 1);
 		}
 
-		_assets.push_back (make_pair(shared_ptr<dcp::SubtitleAsset>(), filename));
+		_assets.push_back (make_pair(shared_ptr<dcp::SubtitleAsset>(), boost::filesystem::change_extension(filename, ".xml")));
 	}
 
 	BOOST_FOREACH (dcpomatic::DCPTimePeriod i, film->reels()) {
