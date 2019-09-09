@@ -614,12 +614,12 @@ Player::pass ()
 		which = CONTENT;
 	}
 
-	if (!_black.done() && (!earliest_time || _black.position() < *earliest_time)) {
+	if (!_black.done() && !_ignore_video && (!earliest_time || _black.position() < *earliest_time)) {
 		earliest_time = _black.position ();
 		which = BLACK;
 	}
 
-	if (!_silent.done() && (!earliest_time || _silent.position() < *earliest_time)) {
+	if (!_silent.done() && !_ignore_audio && (!earliest_time || _silent.position() < *earliest_time)) {
 		earliest_time = _silent.position ();
 		which = SILENT;
 	}
