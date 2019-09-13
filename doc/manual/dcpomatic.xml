@@ -2168,7 +2168,7 @@ from the timeline is also preserved.
 <title>Encryption</title>
 
 <para>
-It is not required that DCPs be encrypted, but they can be.  This
+DCP's do not have to be encrypted, but they can be.  This
 chapter discusses the basic principles of DCP encryption, and how
 DCP-o-matic can create encrypted DCPs and KDMs for them.
 </para>
@@ -2182,7 +2182,7 @@ DCP-o-matic can create encrypted DCPs and KDMs for them.
 DCPs can be encrypted.  This means that the picture and sound data are
 encoded in such a way that only cinemas &lsquo;approved&rsquo; by the
 DCP's creators can read them.  In particular, this means copies of the
-DCP can be distributed by insecure means: if an ne'er-do-well called
+DCP can be distributed by insecure means: if a bad person called
 Mallory obtains a hard drive containing an encrypted DCP, there is no
 way that he can play it.  Only those cinemas who receive a correct key
 delivery message (KDM) can play the DCP.
@@ -2213,7 +2213,7 @@ know the key.
 </para>
 
 <para>
-The first step in a DCP encryption is to encode its data with some key
+The first step in a DCP encryption is to encode its data with a random key
 using symmetric-key encryption.  The encrypted DCP can then be sent
 anywhere, safe in the knowledge that even if Mallory got hold of a
 copy, he could not decrypt it.
