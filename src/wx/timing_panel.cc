@@ -404,7 +404,6 @@ TimingPanel::trim_start_changed ()
 	optional<FrameRateChange> ref_frc;
 	optional<DCPTime> ref_ph;
 
-	ContentTime const trim = _trim_start->get (_parent->film()->video_frame_rate ());
 
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		if (i->position() <= ph && ph < i->end(_parent->film())) {
@@ -417,6 +416,7 @@ TimingPanel::trim_start_changed ()
 			ref_ph = ph - i->position() + DCPTime (i->trim_start(), ref_frc.get());
 		}
 
+		ContentTime const trim = _trim_start->get (i->video_frame_rate().get_value_or(_parent->film()->video_frame_rate()));
 		i->set_trim_start (trim);
 	}
 
@@ -437,8 +437,8 @@ TimingPanel::trim_end_changed ()
 
 	fv->set_coalesce_player_changes (true);
 
-	ContentTime const trim = _trim_end->get (_parent->film()->video_frame_rate ());
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
+		ContentTime const trim = _trim_end->get (i->video_frame_rate().get_value_or(_parent->film()->video_frame_rate()));
 		i->set_trim_end (trim);
 	}
 
