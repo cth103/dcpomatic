@@ -32,6 +32,7 @@ class DCP
 {
 public:
 	std::list<boost::shared_ptr<dcp::CPL> > cpls () const;
+	dcp::DecryptedKDM decrypted_kdm () const;
 
 protected:
 	explicit DCP (boost::shared_ptr<const DCPContent> content, bool tolerant)

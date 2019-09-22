@@ -44,6 +44,7 @@
 #include <dcp/sound_frame.h>
 #include <dcp/sound_asset_reader.h>
 #include <dcp/subtitle_image.h>
+#include <dcp/decrypted_kdm.h>
 #include <boost/foreach.hpp>
 #include <iostream>
 
@@ -76,6 +77,14 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 
 	if (old) {
 		_reels = old->_reels;
+
+		/* We might have gained a KDM since we made the Reel objects */
+		if (_dcp_content->kdm ()) {
+			dcp::DecryptedKDM k = decrypted_kdm ();
+			BOOST_FOREACH (shared_ptr<dcp::Reel> i, _reels) {
+				i->add (k);
+			}
+		}
 	} else {
 
 		list<shared_ptr<dcp::CPL> > cpl_list = cpls ();
