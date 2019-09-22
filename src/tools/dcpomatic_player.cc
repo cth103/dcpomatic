@@ -485,7 +485,7 @@ private:
 		_file_menu = new wxMenu;
 		_file_menu->Append (ID_file_open, _("&Open...\tCtrl-O"));
 		_file_add_ov = _file_menu->Append (ID_file_add_ov, _("&Add OV..."));
-		_file_add_kdm = _file_menu->Append (ID_file_add_kdm, _("&Add KDM..."));
+		_file_add_kdm = _file_menu->Append (ID_file_add_kdm, _("Add &KDM..."));
 
 		_history_position = _file_menu->GetMenuItems().GetCount();
 
