@@ -103,11 +103,17 @@ public:
 class OpenFileError : public FileError
 {
 public:
+	enum Mode {
+		READ,
+		WRITE,
+		READ_WRITE
+	};
+
 	/** @param f File that we were trying to open.
 	 *  @param error Code of error that occurred.
-	 *  @param reading true if we were opening to read, false if opening to write.
+	 *  @param mode Mode that we tried to open the file in.
 	 */
-	OpenFileError (boost::filesystem::path f, int error, bool reading);
+	OpenFileError (boost::filesystem::path f, int error, Mode mode);
 };
 
 /** @class ReadFileError.

@@ -586,7 +586,7 @@ Writer::write_cover_sheet ()
 	boost::filesystem::path const cover = _film->file ("COVER_SHEET.txt");
 	FILE* f = fopen_boost (cover, "w");
 	if (!f) {
-		throw OpenFileError (cover, errno, false);
+		throw OpenFileError (cover, errno, OpenFileError::WRITE);
 	}
 
 	string text = Config::instance()->cover_sheet ();
