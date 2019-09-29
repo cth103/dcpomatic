@@ -147,7 +147,7 @@ FFmpegImageProxy::image (optional<dcp::Size>) const
 	}
 	if (e < 0) {
 		if (_path) {
-			throw OpenFileError (_path->string(), e, true);
+			throw OpenFileError (_path->string(), e, OpenFileError::READ);
 		} else {
 			boost::throw_exception(DecodeError(String::compose(_("Could not decode image (%1)"), e)));
 		}

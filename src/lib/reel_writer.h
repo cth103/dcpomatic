@@ -30,6 +30,7 @@ class Film;
 class Job;
 class Font;
 class AudioBuffers;
+struct write_frame_info_test;
 
 namespace dcp {
 	class MonoPictureAsset;
@@ -88,6 +89,8 @@ public:
 	dcp::FrameInfo read_frame_info (FILE* file, Frame frame, Eyes eyes) const;
 
 private:
+
+	friend struct ::write_frame_info_test;
 
 	void write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const;
 	long frame_info_position (Frame frame, Eyes eyes) const;

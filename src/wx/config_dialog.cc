@@ -578,7 +578,7 @@ CertificateChainEditor::export_certificate ()
 		boost::filesystem::path path (wx_to_std(d->GetPath()));
 		FILE* f = fopen_boost (path, "w");
 		if (!f) {
-			throw OpenFileError (path, errno, false);
+			throw OpenFileError (path, errno, OpenFileError::WRITE);
 		}
 
 		string const s = j->certificate (true);
@@ -600,7 +600,7 @@ CertificateChainEditor::export_chain ()
 		boost::filesystem::path path (wx_to_std(d->GetPath()));
 		FILE* f = fopen_boost (path, "w");
 		if (!f) {
-			throw OpenFileError (path, errno, false);
+			throw OpenFileError (path, errno, OpenFileError::WRITE);
 		}
 
 		string const s = _get()->chain();
@@ -774,7 +774,7 @@ CertificateChainEditor::export_private_key ()
 		boost::filesystem::path path (wx_to_std(d->GetPath()));
 		FILE* f = fopen_boost (path, "w");
 		if (!f) {
-			throw OpenFileError (path, errno, false);
+			throw OpenFileError (path, errno, OpenFileError::WRITE);
 		}
 
 		string const s = _get()->key().get ();
@@ -867,7 +867,7 @@ KeysPage::export_decryption_chain_and_key ()
 		boost::filesystem::path path (wx_to_std(d->GetPath()));
 		FILE* f = fopen_boost (path, "w");
 		if (!f) {
-			throw OpenFileError (path, errno, false);
+			throw OpenFileError (path, errno, OpenFileError::WRITE);
 		}
 
 		string const chain = Config::instance()->decryption_chain()->chain();
@@ -902,7 +902,7 @@ KeysPage::import_decryption_chain_and_key ()
 
 		FILE* f = fopen_boost (wx_to_std (d->GetPath ()), "r");
 		if (!f) {
-			throw OpenFileError (wx_to_std (d->GetPath ()), errno, false);
+			throw OpenFileError (wx_to_std (d->GetPath ()), errno, OpenFileError::WRITE);
 		}
 
 		string current;
@@ -954,7 +954,7 @@ KeysPage::export_decryption_certificate ()
 		boost::filesystem::path path (wx_to_std(d->GetPath()));
 		FILE* f = fopen_boost (path, "w");
 		if (!f) {
-			throw OpenFileError (path, errno, false);
+			throw OpenFileError (path, errno, OpenFileError::WRITE);
 		}
 
 		string const s = Config::instance()->decryption_chain()->leaf().certificate (true);

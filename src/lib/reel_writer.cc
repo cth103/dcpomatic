@@ -62,6 +62,7 @@ using dcp::raw_convert;
 
 int const ReelWriter::_info_size = 48;
 
+/** @param job Related job, or 0 */
 ReelWriter::ReelWriter (
 	shared_ptr<const Film> film, DCPTimePeriod period, shared_ptr<Job> job, int reel_index, int reel_count, optional<string> content_summary
 	)
@@ -97,7 +98,9 @@ ReelWriter::ReelWriter (
 		_film->internal_video_asset_dir() / _film->internal_video_asset_filename(_period)
 		);
 
-	job->sub (_("Checking existing image data"));
+	if (job) {
+		job->sub (_("Checking existing image data"));
+	}
 	_first_nonexistant_frame = check_existing_picture_asset ();
 
 	_picture_asset_writer = _picture_asset->start_write (
@@ -139,8 +142,9 @@ ReelWriter::write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const
 	} else {
 		file = fopen_boost (info_file, "wb");
 	}
+
 	if (!file) {
-		throw OpenFileError (info_file, errno, read);
+		throw OpenFileError (info_file, errno, read ? OpenFileError::READ_WRITE : OpenFileError::WRITE);
 	}
 	dcpomatic_fseek (file, frame_info_position (frame, eyes), SEEK_SET);
 	checked_fwrite (&info.offset, sizeof (info.offset), file, info_file);

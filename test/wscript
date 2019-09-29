@@ -94,6 +94,7 @@ def build(bld):
                  recover_test.cc
                  rect_test.cc
                  reels_test.cc
+                 reel_writer_test.cc
                  required_disk_space_test.cc
                  remake_id_test.cc
                  remake_with_subtitle_test.cc

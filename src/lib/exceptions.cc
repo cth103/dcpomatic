@@ -27,10 +27,11 @@ using std::string;
 using std::runtime_error;
 
 /** @param f File that we were trying to open */
-OpenFileError::OpenFileError (boost::filesystem::path f, int error, bool reading)
+OpenFileError::OpenFileError (boost::filesystem::path f, int error, Mode mode)
 	: FileError (
 		String::compose (
-			reading ? _("could not open file %1 for reading (%2)") : _("could not open file %1 for writing (%2)"),
+			mode == READ_WRITE ? _("could not open file %1 for read/write (%2)") :
+			(mode == READ ? _("could not open file %1 for read (%2)") : _("could not open file %1 for write (%2)")),
 			f.string(),
 			error),
 		f
