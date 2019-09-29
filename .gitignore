@@ -38,3 +38,5 @@ test/README.aux
 .flatpak-builder
 src/wx/supporters.cc
 src/wx/subscribers.cc
+.ccls-cache
+
