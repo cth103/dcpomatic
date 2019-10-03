@@ -244,6 +244,7 @@ EOF
     DeRez -only icns "$appdir/Contents/Resources/dcpomatic2.icns" > "$appdir/Contents/Resources/DCP-o-matic.rsrc"
     Rez -append "$appdir/Contents/Resources/DCP-o-matic.rsrc" -o "$dmg"
     SetFile -a C "$dmg"
+    xattr -c "$dmg"
     codesign --verify --verbose --sign "Developer ID Application: Carl Hetherington (R82DXSR997)" "$dmg"
     if [ "$?" != "0" ]; then
 	echo "Failed to sign .dmg"
