@@ -13,7 +13,7 @@ SCREENSHOTS := file-new.png video-new-film.png still-new-film.png video-select-c
                prefs-advanced.png prefs-defaults.png prefs-servers.png prefs-keys.png \
                making-dcp.png filters.png video-tab.png audio-tab.png timing-tab.png \
                audio-plot.png audio-map-eg1.png audio-map-eg2.png audio-map-eg3.png kdm.png \
-	       kdm-creator.png
+	       kdm-creator.png export.png
 
 XML := dcpomatic.xml
 
