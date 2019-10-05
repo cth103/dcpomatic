@@ -636,7 +636,11 @@ Player::pass ()
 			/* Sometimes the thing that happened last finishes fractionally before
 			   or after this silence.  Bodge the start time of the silence to fix it.
 			*/
-			DCPOMATIC_ASSERT (labs(period.from.get() - _last_audio_time->get()) < 2);
+			int64_t const error = labs(period.from.get() - _last_audio_time->get());
+			if (error >= 2) {
+				_film->log()->log(String::compose("Silence starting before or after last audio by %1", error), LogEntry::TYPE_ERROR);
+			}
+			DCPOMATIC_ASSERT (error < 2);
 			period.from = *_last_audio_time;
 		}
 		if (period.duration() > one_video_frame()) {
