@@ -6,6 +6,8 @@
 import sys
 import time
 import argparse
+import matplotlib
+matplotlib.use('GTK3Cairo')
 import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser()
@@ -107,7 +109,8 @@ while True:
         values = {}
         for i in range(2, len(p)):
             x = p[i].split('=')
-            values[x[0]] = x[1]
+            if len(x) == 2:
+                values[x[0]] = x[1]
     else:
         # Date/time timestamp: other LOG_*
         s = find_nth(l, ':', 3)
@@ -168,7 +171,7 @@ elif args.encoder_threads:
 
     if args.max_encoder_threads is not None:
         encoder_threads = encoder_threads[0:min(args.max_encoder_threads, len(encoder_threads))]
-    
+
     plt.figure()
     N = len(encoder_threads)
     n = 1
@@ -201,7 +204,7 @@ elif args.encoder_threads:
             elif e[1] == 'finish-remote-encode':
                 y.append(1)
             else:
-                print>>sys.stderr,'unknown event %s' % e[1]
+                print('unknown event %s' % e[1], file=sys.stderr)
                 sys.exit(1)
 
             previous = y[-1]
@@ -246,7 +249,7 @@ elif args.encoder_dump:
     for t in encoder_threads[int(args.encoder)]:
         last = 0
         for e in t.events:
-            print (e[0].float_seconds() - last), e[1]
+            print((e[0].float_seconds() - last), e[1])
             last = e[0].float_seconds()
 
 elif args.fps_stats:
@@ -265,14 +268,14 @@ elif args.fps_stats:
             remote += 1
 
     if end == None:
-        print 'Job did not appear to end'
+        print('Job did not appear to end')
         sys.exit(1)
 
     duration = end - start
 
-    print 'Job ran for %fs' % duration.float_seconds()
-    print '%d local and %d remote' % (local, remote)
-    print '%.2f fps local and %.2f fps remote' % (local / duration.float_seconds(), remote / duration.float_seconds())
+    print('Job ran for %fs' % duration.float_seconds())
+    print('%d local and %d remote' % (local, remote))
+    print('%.2f fps local and %.2f fps remote' % (local / duration.float_seconds(), remote / duration.float_seconds()))
 
 elif args.encoder_stats:
     # Broad stats on what encoder threads spent their time doing
@@ -303,23 +306,23 @@ elif args.encoder_stats:
 
             last = e
 
-        print '-- Encoder thread %s (%s)' % (t.server, t.id)
-        print '\tAwoken %d times' % wakes
+        print('-- Encoder thread %s (%s)' % (t.server, t.id))
+        print('\tAwoken %d times' % wakes)
 
         total = asleep.float_seconds() + local_encoding.float_seconds() + sending.float_seconds() + remote_encoding.float_seconds() + receiving.float_seconds()
         if total == 0:
             continue
 
-        print '\t%s: %2.f%% %fs' % ('Asleep'.ljust(16), asleep.float_seconds() * 100 / total, asleep.float_seconds())
+        print('\t%s: %2.f%% %fs' % ('Asleep'.ljust(16), asleep.float_seconds() * 100 / total, asleep.float_seconds()))
 
         def print_with_fps(v, name, total, frames):
             if v.float_seconds() > 1:
-                print '\t%s: %2.f%% %f %.2ffps' % (name.ljust(16), v.float_seconds() * 100 / total, v.float_seconds(), frames / v.float_seconds())
+                print('\t%s: %2.f%% %f %.2ffps' % (name.ljust(16), v.float_seconds() * 100 / total, v.float_seconds(), frames / v.float_seconds()))
 
         print_with_fps(local_encoding, 'Local encoding', total, wakes)
         if sending.float_seconds() > 0:
-            print '\t%s: %2.f%%' % ('Sending'.ljust(16), sending.float_seconds() * 100 / total)
+            print('\t%s: %2.f%%' % ('Sending'.ljust(16), sending.float_seconds() * 100 / total))
         print_with_fps(remote_encoding, 'Remote encoding', total, wakes)
         if receiving.float_seconds() > 0:
-            print '\t%s: %2.f%%' % ('Receiving'.ljust(16), receiving.float_seconds() * 100 / total)
-        print ''
+            print('\t%s: %2.f%%' % ('Receiving'.ljust(16), receiving.float_seconds() * 100 / total))
+        print('')
