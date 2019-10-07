@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -23,6 +23,7 @@
 #include "examine_content_job.h"
 #include "content.h"
 #include "film.h"
+#include "dcpomatic_log.h"
 #include <boost/foreach.hpp>
 #include <iostream>
 
@@ -63,11 +64,13 @@ CheckContentChangeJob::run ()
 		bool ic = false;
 		for (size_t j = 0; j < i->number_of_paths(); ++j) {
 			if (boost::filesystem::last_write_time(i->path(j)) != i->last_write_time(j)) {
+				LOG_GENERAL("File %1 changed; last_write_time now %2, was %3", i->path(j).string(), boost::filesystem::last_write_time(i->path(j)), i->last_write_time(j));
 				ic = true;
 				break;
 			}
 		}
 		if (!ic && i->calculate_digest() != i->digest()) {
+			LOG_GENERAL("Content %1 changed; digest now %2, was %3", i->path(0).string(), i->calculate_digest(), i->digest());
 			ic = true;
 		}
 		if (ic) {
