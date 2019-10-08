@@ -33,6 +33,7 @@ namespace dcpomatic {
 class Film;
 class Job;
 class AudioBuffers;
+class InfoFileHandle;
 struct write_frame_info_test;
 
 namespace dcp {
@@ -89,7 +90,7 @@ public:
 		return _first_nonexistant_frame;
 	}
 
-	dcp::FrameInfo read_frame_info (FILE* file, Frame frame, Eyes eyes) const;
+	dcp::FrameInfo read_frame_info (boost::shared_ptr<InfoFileHandle> info, Frame frame, Eyes eyes) const;
 
 private:
 
@@ -98,7 +99,7 @@ private:
 	void write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const;
 	long frame_info_position (Frame frame, Eyes eyes) const;
 	Frame check_existing_picture_asset ();
-	bool existing_picture_frame_ok (FILE* asset_file, FILE* info_file, Frame frame) const;
+	bool existing_picture_frame_ok (FILE* asset_file, boost::shared_ptr<InfoFileHandle> info_file, Frame frame) const;
 
 	boost::shared_ptr<const Film> _film;
 

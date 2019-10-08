@@ -217,16 +217,14 @@ Writer::fake_write (Frame frame, Eyes eyes)
 	size_t const reel = video_reel (frame);
 	Frame const reel_frame = frame - _reels[reel].start ();
 
-	FILE* file = fopen_boost (_film->info_file(_reels[reel].period()), "rb");
-	if (!file) {
-		throw ReadFileError (_film->info_file(_reels[reel].period()));
-	}
-	dcp::FrameInfo info = _reels[reel].read_frame_info (file, reel_frame, eyes);
-	fclose (file);
-
 	QueueItem qi;
 	qi.type = QueueItem::FAKE;
-	qi.size = info.size;
+
+	{
+		shared_ptr<InfoFileHandle> info_file = _film->info_file_handle(_reels[reel].period(), true);
+		qi.size = _reels[reel].read_frame_info(info_file, reel_frame, eyes).size;
+	}
+
 	qi.reel = reel;
 	qi.frame = reel_frame;
 	if (_film->three_d() && eyes == EYES_BOTH) {

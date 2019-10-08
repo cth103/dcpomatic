@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -134,41 +134,27 @@ ReelWriter::ReelWriter (
 void
 ReelWriter::write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const
 {
-	FILE* file = 0;
-	boost::filesystem::path info_file = _film->info_file (_period);
-
-	bool const read = boost::filesystem::exists (info_file);
-
-	if (read) {
-		file = fopen_boost (info_file, "r+b");
-	} else {
-		file = fopen_boost (info_file, "wb");
-	}
-
-	if (!file) {
-		throw OpenFileError (info_file, errno, read ? OpenFileError::READ_WRITE : OpenFileError::WRITE);
-	}
-	dcpomatic_fseek (file, frame_info_position (frame, eyes), SEEK_SET);
-	checked_fwrite (&info.offset, sizeof (info.offset), file, info_file);
-	checked_fwrite (&info.size, sizeof (info.size), file, info_file);
-	checked_fwrite (info.hash.c_str(), info.hash.size(), file, info_file);
-	fclose (file);
+	shared_ptr<InfoFileHandle> handle = _film->info_file_handle(_period, false);
+	dcpomatic_fseek (handle->get(), frame_info_position(frame, eyes), SEEK_SET);
+	checked_fwrite (&info.offset, sizeof(info.offset), handle->get(), handle->file());
+	checked_fwrite (&info.size, sizeof (info.size), handle->get(), handle->file());
+	checked_fwrite (info.hash.c_str(), info.hash.size(), handle->get(), handle->file());
 }
 
 dcp::FrameInfo
-ReelWriter::read_frame_info (FILE* file, Frame frame, Eyes eyes) const
+ReelWriter::read_frame_info (shared_ptr<InfoFileHandle> info, Frame frame, Eyes eyes) const
 {
-	dcp::FrameInfo info;
-	dcpomatic_fseek (file, frame_info_position (frame, eyes), SEEK_SET);
-	checked_fread (&info.offset, sizeof(info.offset), file, _film->info_file(_period));
-	checked_fread (&info.size, sizeof(info.size), file, _film->info_file(_period));
+	dcp::FrameInfo frame_info;
+	dcpomatic_fseek (info->get(), frame_info_position(frame, eyes), SEEK_SET);
+	checked_fread (&frame_info.offset, sizeof(frame_info.offset), info->get(), info->file());
+	checked_fread (&frame_info.size, sizeof(frame_info.size), info->get(), info->file());
 
 	char hash_buffer[33];
-	checked_fread (hash_buffer, 32, file, _film->info_file(_period));
+	checked_fread (hash_buffer, 32, info->get(), info->file());
 	hash_buffer[32] = '\0';
-	info.hash = hash_buffer;
+	frame_info.hash = hash_buffer;
 
-	return info;
+	return frame_info;
 }
 
 long
@@ -213,16 +199,19 @@ ReelWriter::check_existing_picture_asset ()
 		LOG_GENERAL ("Opened existing asset at %1", asset.string());
 	}
 
-	/* Offset of the last dcp::FrameInfo in the info file */
-	int const n = (boost::filesystem::file_size (_film->info_file(_period)) / _info_size) - 1;
-	LOG_GENERAL ("The last FI is %1; info file is %2, info size %3", n, boost::filesystem::file_size (_film->info_file(_period)), _info_size);
+	shared_ptr<InfoFileHandle> info_file;
 
-	FILE* info_file = fopen_boost (_film->info_file(_period), "rb");
-	if (!info_file) {
+	try {
+		info_file = _film->info_file_handle (_period, true);
+	} catch (OpenFileError) {
 		LOG_GENERAL_NC ("Could not open film info file");
 		fclose (asset_file);
 		return 0;
 	}
+
+	/* Offset of the last dcp::FrameInfo in the info file */
+	int const n = (boost::filesystem::file_size(info_file->file()) / _info_size) - 1;
+	LOG_GENERAL ("The last FI is %1; info file is %2, info size %3", n, boost::filesystem::file_size(info_file->file()), _info_size);
 
 	Frame first_nonexistant_frame;
 	if (_film->three_d ()) {
@@ -246,7 +235,6 @@ ReelWriter::check_existing_picture_asset ()
 	LOG_GENERAL ("Proceeding with first nonexistant frame %1", first_nonexistant_frame);
 
 	fclose (asset_file);
-	fclose (info_file);
 
 	return first_nonexistant_frame;
 }
@@ -655,7 +643,7 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 }
 
 bool
-ReelWriter::existing_picture_frame_ok (FILE* asset_file, FILE* info_file, Frame frame) const
+ReelWriter::existing_picture_frame_ok (FILE* asset_file, shared_ptr<InfoFileHandle> info_file, Frame frame) const
 {
 	LOG_GENERAL ("Checking existing picture frame %1", frame);
 

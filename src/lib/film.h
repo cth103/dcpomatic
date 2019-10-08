@@ -36,7 +36,9 @@
 #include <dcp/encrypted_kdm.h>
 #include <boost/signals2.hpp>
 #include <boost/enable_shared_from_this.hpp>
+#include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/thread/mutex.hpp>
 #include <string>
 #include <vector>
 #include <inttypes.h>
@@ -59,7 +61,31 @@ class AudioMapping;
 class Ratio;
 class Job;
 class ScreenKDM;
+class Film;
 struct isdcf_name_test;
+
+class InfoFileHandle
+{
+public:
+	~InfoFileHandle ();
+
+	FILE* get () const {
+		return _handle;
+	}
+
+	boost::filesystem::path file () const {
+		return _file;
+	}
+
+private:
+	friend class Film;
+
+	InfoFileHandle (boost::mutex& mutex, boost::filesystem::path file, bool read);
+
+	boost::mutex::scoped_lock _lock;
+	FILE* _handle;
+	boost::filesystem::path _file;
+};
 
 /** @class Film
  *
@@ -74,7 +100,7 @@ public:
 	explicit Film (boost::optional<boost::filesystem::path> dir);
 	~Film ();
 
-	boost::filesystem::path info_file (dcpomatic::DCPTimePeriod p) const;
+	boost::shared_ptr<InfoFileHandle> info_file_handle (dcpomatic::DCPTimePeriod period, bool read) const;
 	boost::filesystem::path j2c_path (int, Frame, Eyes, bool) const;
 	boost::filesystem::path internal_video_asset_dir () const;
 	boost::filesystem::path internal_video_asset_filename (dcpomatic::DCPTimePeriod p) const;
@@ -369,6 +395,8 @@ private:
 	friend struct ::isdcf_name_test;
 	template <typename> friend class ChangeSignaller;
 
+	boost::filesystem::path info_file (dcpomatic::DCPTimePeriod p) const;
+
 	void signal_change (ChangeType, Property);
 	void signal_change (ChangeType, int);
 	std::string video_identifier () const;
@@ -444,6 +472,8 @@ private:
 	    Not saved as state.
 	*/
 	bool _tolerant;
+
+	mutable boost::mutex _info_file_mutex;
 
 	boost::signals2::scoped_connection _playlist_change_connection;
 	boost::signals2::scoped_connection _playlist_order_changed_connection;

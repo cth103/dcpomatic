@@ -1740,3 +1740,37 @@ Film::marker (dcp::Marker type) const
 	}
 	return i->second;
 }
+
+shared_ptr<InfoFileHandle>
+Film::info_file_handle (DCPTimePeriod period, bool read) const
+{
+	return shared_ptr<InfoFileHandle> (new InfoFileHandle(_info_file_mutex, info_file(period), read));
+}
+
+InfoFileHandle::InfoFileHandle (boost::mutex& mutex, boost::filesystem::path file, bool read)
+	: _lock (mutex)
+	, _file (file)
+{
+	if (read) {
+		_handle = fopen_boost (file, "rb");
+		if (!_handle) {
+			throw OpenFileError (file, errno, OpenFileError::READ);
+		}
+	} else {
+		bool const exists = boost::filesystem::exists (file);
+		if (exists) {
+			_handle = fopen_boost (file, "r+b");
+		} else {
+			_handle = fopen_boost (file, "wb");
+		}
+
+		if (!_handle) {
+			throw OpenFileError (file, errno, exists ? OpenFileError::READ_WRITE : OpenFileError::WRITE);
+		}
+	}
+}
+
+InfoFileHandle::~InfoFileHandle ()
+{
+	fclose (_handle);
+}
