@@ -33,14 +33,10 @@ using std::string;
 using boost::shared_ptr;
 using boost::optional;
 
-static bool equal (dcp::FrameInfo a, ReelWriter const & writer, boost::filesystem::path file, Frame frame, Eyes eyes)
+static bool equal (dcp::FrameInfo a, ReelWriter const & writer, shared_ptr<InfoFileHandle> file, Frame frame, Eyes eyes)
 {
-	FILE* f = fopen_boost(file, "rb");
-	BOOST_REQUIRE (f);
-	dcp::FrameInfo b = writer.read_frame_info(f, frame, eyes);
-	bool const r = a.offset == b.offset && a.size == b.size && a.hash == b.hash;
-	fclose (f);
-	return r;
+	dcp::FrameInfo b = writer.read_frame_info(file, frame, eyes);
+	return a.offset == b.offset && a.size == b.size && a.hash == b.hash;
 }
 
 BOOST_AUTO_TEST_CASE (write_frame_info_test)
@@ -51,11 +47,9 @@ BOOST_AUTO_TEST_CASE (write_frame_info_test)
 
 	/* Write the first one */
 
-	boost::filesystem::path file = film->info_file (period);
-	BOOST_CHECK (!boost::filesystem::exists(file));
 	dcp::FrameInfo info1(0, 123, "12345678901234567890123456789012");
 	writer.write_frame_info (0, EYES_LEFT, info1);
-	BOOST_CHECK (boost::filesystem::exists(file));
+	shared_ptr<InfoFileHandle> file = film->info_file_handle(period, true);
 
 	BOOST_CHECK (equal(info1, writer, file, 0, EYES_LEFT));
 
@@ -63,14 +57,12 @@ BOOST_AUTO_TEST_CASE (write_frame_info_test)
 
 	dcp::FrameInfo info2(596, 14921, "123acb789f1234ae782012n456339522");
 	writer.write_frame_info (5, EYES_RIGHT, info2);
-	BOOST_CHECK (boost::filesystem::exists(file));
 
 	BOOST_CHECK (equal(info1, writer, file, 0, EYES_LEFT));
 	BOOST_CHECK (equal(info2, writer, file, 5, EYES_RIGHT));
 
 	dcp::FrameInfo info3(12494, 99157123, "xxxxyyyyabc12356ffsfdsf456339522");
 	writer.write_frame_info (10, EYES_LEFT, info3);
-	BOOST_CHECK (boost::filesystem::exists(file));
 
 	BOOST_CHECK (equal(info1, writer, file, 0, EYES_LEFT));
 	BOOST_CHECK (equal(info2, writer, file, 5, EYES_RIGHT));
@@ -80,7 +72,6 @@ BOOST_AUTO_TEST_CASE (write_frame_info_test)
 
 	dcp::FrameInfo info4(55512494, 123599157123, "ABCDEFGyabc12356ffsfdsf4563395ZZ");
 	writer.write_frame_info (5, EYES_RIGHT, info4);
-	BOOST_CHECK (boost::filesystem::exists(file));
 
 	BOOST_CHECK (equal(info1, writer, file, 0, EYES_LEFT));
 	BOOST_CHECK (equal(info4, writer, file, 5, EYES_RIGHT));
