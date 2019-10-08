@@ -46,7 +46,7 @@ static bool equal (dcp::FrameInfo a, ReelWriter const & writer, boost::filesyste
 BOOST_AUTO_TEST_CASE (write_frame_info_test)
 {
 	shared_ptr<Film> film = new_test_film2 ("write_frame_info_test");
-	dcpomatic::DCPTimePeriod const period (dcpomatic::DCPTime(0), dcpomatic::DCPTime(96000));
+	DCPTimePeriod const period (DCPTime(0), DCPTime(96000));
 	ReelWriter writer (film, period, shared_ptr<Job>(), 0, 1, optional<string>());
 
 	/* Write the first one */
