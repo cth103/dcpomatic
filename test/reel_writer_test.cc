@@ -49,31 +49,41 @@ BOOST_AUTO_TEST_CASE (write_frame_info_test)
 
 	dcp::FrameInfo info1(0, 123, "12345678901234567890123456789012");
 	writer.write_frame_info (0, EYES_LEFT, info1);
-	shared_ptr<InfoFileHandle> file = film->info_file_handle(period, true);
-
-	BOOST_CHECK (equal(info1, writer, file, 0, EYES_LEFT));
+	{
+		shared_ptr<InfoFileHandle> file = film->info_file_handle(period, true);
+		BOOST_CHECK (equal(info1, writer, file, 0, EYES_LEFT));
+	}
 
 	/* Write some more */
 
 	dcp::FrameInfo info2(596, 14921, "123acb789f1234ae782012n456339522");
 	writer.write_frame_info (5, EYES_RIGHT, info2);
 
-	BOOST_CHECK (equal(info1, writer, file, 0, EYES_LEFT));
-	BOOST_CHECK (equal(info2, writer, file, 5, EYES_RIGHT));
+	{
+		shared_ptr<InfoFileHandle> file = film->info_file_handle(period, true);
+		BOOST_CHECK (equal(info1, writer, file, 0, EYES_LEFT));
+		BOOST_CHECK (equal(info2, writer, file, 5, EYES_RIGHT));
+	}
 
 	dcp::FrameInfo info3(12494, 99157123, "xxxxyyyyabc12356ffsfdsf456339522");
 	writer.write_frame_info (10, EYES_LEFT, info3);
 
-	BOOST_CHECK (equal(info1, writer, file, 0, EYES_LEFT));
-	BOOST_CHECK (equal(info2, writer, file, 5, EYES_RIGHT));
-	BOOST_CHECK (equal(info3, writer, file, 10, EYES_LEFT));
+	{
+		shared_ptr<InfoFileHandle> file = film->info_file_handle(period, true);
+		BOOST_CHECK (equal(info1, writer, file, 0, EYES_LEFT));
+		BOOST_CHECK (equal(info2, writer, file, 5, EYES_RIGHT));
+		BOOST_CHECK (equal(info3, writer, file, 10, EYES_LEFT));
+	}
 
 	/* Overwrite one */
 
 	dcp::FrameInfo info4(55512494, 123599157123, "ABCDEFGyabc12356ffsfdsf4563395ZZ");
 	writer.write_frame_info (5, EYES_RIGHT, info4);
 
-	BOOST_CHECK (equal(info1, writer, file, 0, EYES_LEFT));
-	BOOST_CHECK (equal(info4, writer, file, 5, EYES_RIGHT));
-	BOOST_CHECK (equal(info3, writer, file, 10, EYES_LEFT));
+	{
+		shared_ptr<InfoFileHandle> file = film->info_file_handle(period, true);
+		BOOST_CHECK (equal(info1, writer, file, 0, EYES_LEFT));
+		BOOST_CHECK (equal(info4, writer, file, 5, EYES_RIGHT));
+		BOOST_CHECK (equal(info3, writer, file, 10, EYES_LEFT));
+	}
 }
