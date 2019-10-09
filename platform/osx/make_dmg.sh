@@ -1,6 +1,7 @@
 #!/bin/bash
 #
-# Syntax: make_dmg.sh <builddir>
+# Syntax: make_dmg.sh <builddir> <type>
+# where <type> is universal or thin
 #
 # e.g. make_dmg.sh /Users/carl/cdist
 
@@ -13,137 +14,204 @@ version=`git describe --tags --abbrev=0 | sed -e "s/v//"`
 DMG_SIZE=256
 ENV=/Users/carl/Environments/dcpomatic
 ROOT=$1
+TYPE=$2
+
+if [ "$TYPE" != "universal" -a "$TYPE" != "thin" ]; then
+    echo "Syntax: $0 <builddir> <type>"
+    echo "where <type> is universal or thin"
+    exit 1
+fi
 
 # This is our work area for making up the .dmgs
 mkdir -p build/platform/osx
 cd build/platform/osx
 
-function universal_copy {
-    for f in $1/32/$2; do
-        if [ -h $f ]; then
-	    ln -s $(readlink $f) "$3/`basename $f`"
-        else
-            g=`echo $f | sed -e "s/\/32\//\/64\//g"`
-	    mkdir -p "$3"
-            lipo -create $f $g -output "$3/`basename $f`"
-        fi
-    done
+function copy {
+    case $TYPE in
+	universal)
+	    for f in $1/32/$2; do
+		if [ -h $f ]; then
+		    ln -s $(readlink $f) "$3/`basename $f`"
+		else
+		    g=`echo $f | sed -e "s/\/32\//\/64\//g"`
+		    mkdir -p "$3"
+		    lipo -create $f $g -output "$3/`basename $f`"
+		fi
+	    done
+	    ;;
+	thin)
+	    if [ -h $1/$2 ]; then
+		ln -s $(readlink $1/$2) "$3/`basename $f`"
+            else
+	        cp $1/$2 "$3"
+	    fi
+	    ;;
+    esac
 }
 
-function universal_copy_lib {
-    for f in $1/32/lib/$2*.dylib; do
-        if [ -h $f ]; then
-	    ln -s $(readlink $f) "$3/`basename $f`"
-        else
-            g=`echo $f | sed -e "s/\/32\//\/64\//g"`
-	    mkdir -p "$3"
-            lipo -create $f $g -output "$3/`basename $f`"
-        fi
-    done
-    to_relink="$to_relink|$2"
+function copy_lib_root {
+    case $TYPE in
+	universal)
+	    for f in $ROOT/32/lib/$1*.dylib; do
+		if [ -h $f ]; then
+		    ln -s $(readlink $f) "$2/`basename $f`"
+		else
+		    g=`echo $f | sed -e "s/\/32\//\/64\//g"`
+		    mkdir -p "$2"
+		    lipo -create $f $g -output "$2/`basename $f`"
+		fi
+	    done
+	    ;;
+	thin)
+	    for f in $ROOT/lib/$1*.dylib; do
+		if [ -h $f ]; then
+		    ln -s $(readlink $f) "$2/`basename $f`"
+		else
+		    mkdir -p "$2"
+		    cp $f "$2"
+		fi
+	    done
+	    ;;
+    esac
+    to_relink="$to_relink|$1"
+}
+
+function copy_lib_env {
+    case $TYPE in
+	universal)
+	    for f in $ENV/32/lib/$1*.dylib; do
+		if [ -h $f ]; then
+		    ln -s $(readlink $f) "$2/`basename $f`"
+		else
+		    g=`echo $f | sed -e "s/\/32\//\/64\//g"`
+		    mkdir -p "$2"
+		    lipo -create $f $g -output "$2/`basename $f`"
+		fi
+	    done
+	    ;;
+	thin)
+	    for f in $ENV/64/lib/$1*.dylib; do
+		if [ -h $f ]; then
+		    ln -s $(readlink $f) "$2/`basename $f`"
+		else
+		    mkdir -p "$2"
+		    cp $f "$2"
+		fi
+	    done
+	    ;;
+    esac
+    to_relink="$to_relink|$1"
 }
 
 # @param #1 directory to copy to
 function copy_libs {
     local dest="$1"
-    universal_copy_lib $ROOT libcxml "$dest"
-    universal_copy_lib $ROOT libdcp-1.0 "$dest"
-    universal_copy_lib $ROOT libasdcp-cth "$dest"
-    universal_copy_lib $ROOT libkumu-cth "$dest"
-    universal_copy_lib $ROOT libsub "$dest"
-    universal_copy_lib $ROOT libopenjp2 "$dest"
-    universal_copy_lib $ROOT libavdevice "$dest"
-    universal_copy_lib $ROOT libavformat "$dest"
-    universal_copy_lib $ROOT libavfilter "$dest"
-    universal_copy_lib $ROOT libavutil "$dest"
-    universal_copy_lib $ROOT libavcodec "$dest"
-    universal_copy_lib $ROOT libswscale "$dest"
-    universal_copy_lib $ROOT libpostproc "$dest"
-    universal_copy_lib $ROOT libswresample "$dest"
-    universal_copy $ROOT src/dcpomatic/build/src/lib/libdcpomatic2.dylib "$dest"
-    universal_copy $ROOT src/dcpomatic/build/src/wx/libdcpomatic2-wx.dylib "$dest"
-    universal_copy_lib $ENV libboost_system "$dest"
-    universal_copy_lib $ENV libboost_filesystem "$dest"
-    universal_copy_lib $ENV libboost_thread "$dest"
-    universal_copy_lib $ENV libboost_date_time "$dest"
-    universal_copy_lib $ENV libboost_locale "$dest"
-    universal_copy_lib $ENV libboost_regex "$dest"
-    universal_copy_lib $ENV libxml++ "$dest"
-    universal_copy_lib $ENV libxslt "$dest"
-    universal_copy_lib $ENV libxml2 "$dest"
-    universal_copy_lib $ENV libglibmm-2.4 "$dest"
-    universal_copy_lib $ENV libgobject "$dest"
-    universal_copy_lib $ENV libgthread "$dest"
-    universal_copy_lib $ENV libgmodule "$dest"
-    universal_copy_lib $ENV libsigc "$dest"
-    universal_copy_lib $ENV libglib-2 "$dest"
-    universal_copy_lib $ENV libintl "$dest"
-    universal_copy_lib $ENV libsndfile "$dest"
-    universal_copy_lib $ENV libssh "$dest"
-    universal_copy_lib $ENV libwx "$dest"
-    universal_copy_lib $ENV libfontconfig "$dest"
-    universal_copy_lib $ENV libfreetype "$dest"
-    universal_copy_lib $ENV libexpat "$dest"
-    universal_copy_lib $ENV libltdl "$dest"
-    universal_copy_lib $ENV libxmlsec1 "$dest"
-    universal_copy_lib $ENV libcurl "$dest"
-    universal_copy_lib $ENV libffi "$dest"
-    universal_copy_lib $ENV libpango "$dest"
-    universal_copy_lib $ENV libcairo "$dest"
-    universal_copy_lib $ENV libpixman "$dest"
-    universal_copy_lib $ENV libharfbuzz "$dest"
-    universal_copy_lib $ENV libsamplerate "$dest"
-    universal_copy_lib $ENV libicui18n "$dest"
-    universal_copy_lib $ENV libicudata "$dest"
-    universal_copy_lib $ENV libicuio "$dest"
-    universal_copy_lib $ENV libicule "$dest"
-    universal_copy_lib $ENV libiculx "$dest"
-    universal_copy_lib $ENV libicutest "$dest"
-    universal_copy_lib $ENV libicutu "$dest"
-    universal_copy_lib $ENV libicuuc "$dest"
-    universal_copy_lib $ENV libFLAC "$dest"
-    universal_copy_lib $ENV libvorbis "$dest"
-    universal_copy_lib $ENV libogg "$dest"
+    copy_lib_root libcxml "$dest"
+    copy_lib_root libdcp-1.0 "$dest"
+    copy_lib_root libasdcp-cth "$dest"
+    copy_lib_root libkumu-cth "$dest"
+    copy_lib_root libsub "$dest"
+    copy_lib_root libopenjp2 "$dest"
+    copy_lib_root libavdevice "$dest"
+    copy_lib_root libavformat "$dest"
+    copy_lib_root libavfilter "$dest"
+    copy_lib_root libavutil "$dest"
+    copy_lib_root libavcodec "$dest"
+    copy_lib_root libswscale "$dest"
+    copy_lib_root libpostproc "$dest"
+    copy_lib_root libswresample "$dest"
+    copy $ROOT src/dcpomatic/build/src/lib/libdcpomatic2.dylib "$dest"
+    copy $ROOT src/dcpomatic/build/src/wx/libdcpomatic2-wx.dylib "$dest"
+    copy_lib_env libboost_system "$dest"
+    copy_lib_env libboost_filesystem "$dest"
+    copy_lib_env libboost_thread "$dest"
+    copy_lib_env libboost_date_time "$dest"
+    copy_lib_env libboost_locale "$dest"
+    copy_lib_env libboost_regex "$dest"
+    copy_lib_env libxml++ "$dest"
+    copy_lib_env libxslt "$dest"
+    copy_lib_env libxml2 "$dest"
+    copy_lib_env libglibmm-2.4 "$dest"
+    copy_lib_env libgobject "$dest"
+    copy_lib_env libgthread "$dest"
+    copy_lib_env libgmodule "$dest"
+    copy_lib_env libsigc "$dest"
+    copy_lib_env libglib-2 "$dest"
+    copy_lib_env libintl "$dest"
+    copy_lib_env libsndfile "$dest"
+    copy_lib_env libssh "$dest"
+    copy_lib_env libwx "$dest"
+    copy_lib_env libfontconfig "$dest"
+    copy_lib_env libfreetype "$dest"
+    copy_lib_env libexpat "$dest"
+    copy_lib_env libltdl "$dest"
+    copy_lib_env libxmlsec1 "$dest"
+    copy_lib_env libcurl "$dest"
+    copy_lib_env libffi "$dest"
+    copy_lib_env libpango "$dest"
+    copy_lib_env libcairo "$dest"
+    copy_lib_env libpixman "$dest"
+    copy_lib_env libharfbuzz "$dest"
+    copy_lib_env libsamplerate "$dest"
+    copy_lib_env libicui18n "$dest"
+    copy_lib_env libicudata "$dest"
+    copy_lib_env libicuio "$dest"
+    copy_lib_env libicule "$dest"
+    copy_lib_env libiculx "$dest"
+    copy_lib_env libicutest "$dest"
+    copy_lib_env libicutu "$dest"
+    copy_lib_env libicuuc "$dest"
+    copy_lib_env libFLAC "$dest"
+    copy_lib_env libvorbis "$dest"
+    copy_lib_env libogg "$dest"
 }
 
 # @param #1 directory to copy to
 function copy_resources {
     local dest="$1"
-    cp $ROOT/32/src/dcpomatic/graphics/osx/dcpomatic_small.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/osx/dcpomatic2.icns "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/osx/dcpomatic2_kdm.icns "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/osx/dcpomatic2_server.icns "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/osx/dcpomatic2_player.icns "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/osx/dcpomatic2_batch.icns "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/osx/preferences/colour_conversions.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/osx/preferences/defaults.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/osx/preferences/kdm_email.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/osx/preferences/email.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/osx/preferences/servers.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/osx/preferences/tms.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/osx/preferences/keys.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/osx/preferences/cover_sheet.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/osx/preferences/notifications.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/osx/preferences/accounts.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/osx/preferences/locations.png "$dest"
-    cp $ROOT/32/src/dcpomatic/fonts/LiberationSans-Regular.ttf "$dest"
-    cp $ROOT/32/src/dcpomatic/fonts/LiberationSans-Italic.ttf "$dest"
-    cp $ROOT/32/src/dcpomatic/fonts/LiberationSans-Bold.ttf "$dest"
-    cp $ROOT/32/src/dcpomatic/fonts/fonts.conf.osx "$dest"/fonts.conf
-    cp $ROOT/32/src/dcpomatic/graphics/splash.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/zoom.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/zoom_all.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/select.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/snap.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/sequence.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/me.jpg "$dest"
+    case $TYPE in
+	universal)
+	    local prefix=$ROOT/32
+	    ;;
+	thin)
+	    local prefix=$ROOT
+	    ;;
+    esac
+    cp $prefix/src/dcpomatic/graphics/osx/dcpomatic_small.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2.icns "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2_kdm.icns "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2_server.icns "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2_player.icns "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2_batch.icns "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/preferences/colour_conversions.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/preferences/defaults.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/preferences/kdm_email.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/preferences/email.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/preferences/servers.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/preferences/tms.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/preferences/keys.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/preferences/cover_sheet.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/preferences/notifications.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/preferences/accounts.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/preferences/locations.png "$dest"
+    cp $prefix/src/dcpomatic/fonts/LiberationSans-Regular.ttf "$dest"
+    cp $prefix/src/dcpomatic/fonts/LiberationSans-Italic.ttf "$dest"
+    cp $prefix/src/dcpomatic/fonts/LiberationSans-Bold.ttf "$dest"
+    cp $prefix/src/dcpomatic/fonts/fonts.conf.osx "$dest"/fonts.conf
+    cp $prefix/src/dcpomatic/graphics/splash.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/zoom.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/zoom_all.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/select.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/snap.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/sequence.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/me.jpg "$dest"
 
     # i18n: DCP-o-matic .mo files
     for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL ru_RU pl_PL da_DK pt_PT pt_BR sk_SK cs_CZ uk_UA zh_CN tr_TR; do
 	mkdir -p "$dest/$lang/LC_MESSAGES"
-	cp $ROOT/32/src/dcpomatic/build/src/lib/mo/$lang/*.mo "$dest/$lang/LC_MESSAGES"
-	cp $ROOT/32/src/dcpomatic/build/src/wx/mo/$lang/*.mo "$dest/$lang/LC_MESSAGES"
-	cp $ROOT/32/src/dcpomatic/build/src/tools/mo/$lang/*.mo "$dest/$lang/LC_MESSAGES"
+	cp $prefix/src/dcpomatic/build/src/lib/mo/$lang/*.mo "$dest/$lang/LC_MESSAGES"
+	cp $prefix/src/dcpomatic/build/src/wx/mo/$lang/*.mo "$dest/$lang/LC_MESSAGES"
+	cp $prefix/src/dcpomatic/build/src/tools/mo/$lang/*.mo "$dest/$lang/LC_MESSAGES"
     done
 
     # i18n: wxWidgets .mo files
@@ -163,9 +231,13 @@ function relink {
 	changes=""
 	for dep in $deps; do
 	    base=`basename $dep`
-	    # $dep will be a path within 64/; make a 32/ path too
-	    dep32=`echo $dep | sed -e "s/\/64\//\/32\//g"`
-	    changes="$changes -change $dep @executable_path/../Frameworks/$base -change $dep32 @executable_path/../Frameworks/$base"
+	    if [ "$TYPE" == "universal" ]; then
+		# $dep will be a path within 64/; make a 32/ path too
+		dep32=`echo $dep | sed -e "s/\/64\//\/32\//g"`
+		changes="$changes -change $dep @executable_path/../Frameworks/$base -change $dep32 @executable_path/../Frameworks/$base"
+	    else
+		changes="$changes -change $dep @executable_path/../Frameworks/$base"
+	    fi
 	done
 	if test "x$changes" != "x"; then
 	    install_name_tool $changes -id `basename "$obj"` "$obj"
@@ -268,47 +340,56 @@ function setup {
     copy_resources "$approot/Resources"
 }
 
+case $TYPE in
+    universal)
+	prefix=$ROOT/32
+	;;
+    thin)
+	prefix=$ROOT
+	;;
+esac
+
 # DCP-o-matic main
 setup "DCP-o-matic 2.app"
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2 "$approot/MacOS"
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_cli "$approot/MacOS"
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_create "$approot/MacOS"
-universal_copy $ROOT bin/ffprobe "$approot/MacOS"
-cp $ROOT/32/src/dcpomatic/build/platform/osx/dcpomatic2.Info.plist "$approot/Info.plist"
+copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2 "$approot/MacOS"
+copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_cli "$approot/MacOS"
+copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_create "$approot/MacOS"
+copy $ROOT bin/ffprobe "$approot/MacOS"
+cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2" "$approot/MacOS/dcpomatic2_cli" "$approot/MacOS/dcpomatic2_create" "$approot/MacOS/ffprobe" "$approot/Frameworks/"*.dylib)
 relink "${rl[@]}"
 make_dmg "$appdir" "DCP-o-matic"
 
 # DCP-o-matic KDM Creator
 setup "DCP-o-matic 2 KDM Creator.app"
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm "$approot/MacOS"
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm_cli "$approot/MacOS"
-cp $ROOT/32/src/dcpomatic/build/platform/osx/dcpomatic2_kdm.Info.plist "$approot/Info.plist"
+copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm "$approot/MacOS"
+copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm_cli "$approot/MacOS"
+cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_kdm.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_kdm" "$approot/MacOS/dcpomatic2_kdm_cli" "$approot/Frameworks/"*.dylib)
 relink "${rl[@]}"
 make_dmg "$appdir" "DCP-o-matic KDM Creator"
 
 # DCP-o-matic Encode Server
 setup "DCP-o-matic 2 Encode Server.app"
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server "$approot/MacOS"
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server_cli "$approot/MacOS"
-cp $ROOT/32/src/dcpomatic/build/platform/osx/dcpomatic2_server.Info.plist "$approot/Info.plist"
+copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server "$approot/MacOS"
+copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server_cli "$approot/MacOS"
+cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_server.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_server" "$approot/MacOS/dcpomatic2_server_cli" "$approot/Frameworks/"*.dylib)
 relink "${rl[@]}"
 make_dmg "$appdir" "DCP-o-matic Encode Server"
 
 # DCP-o-matic Batch Converter
 setup "DCP-o-matic 2 Batch converter.app"
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_batch "$approot/MacOS"
-cp $ROOT/32/src/dcpomatic/build/platform/osx/dcpomatic2_batch.Info.plist "$approot/Info.plist"
+copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_batch "$approot/MacOS"
+cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_batch.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_batch" "$approot/Frameworks/"*.dylib)
 relink "${rl[@]}"
 make_dmg "$appdir" "DCP-o-matic Batch Converter"
 
 # DCP-o-matic Player
 setup "DCP-o-matic 2 Player.app"
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_player "$approot/MacOS"
-cp $ROOT/32/src/dcpomatic/build/platform/osx/dcpomatic2_player.Info.plist "$approot/Info.plist"
+copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_player "$approot/MacOS"
+cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_player.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_player" "$approot/Frameworks/"*.dylib)
 relink "${rl[@]}"
 make_dmg "$appdir" "DCP-o-matic Player"
