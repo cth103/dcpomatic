@@ -141,6 +141,11 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	translated_by.Add (wxT ("Gökhan Aksoy"));
  	add_section (_("Translated by"), translated_by);
 
+	wxArrayString patrons;
+	patrons.Add ("Luproduction");
+	patrons.Add ("Lightbender Post");
+	add_section (_("Patrons"), patrons);
+
 	wxArrayString subscribers;
 	#include "subscribers.cc"
 	add_section (_("Subscribers"), subscribers);
