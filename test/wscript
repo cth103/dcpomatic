@@ -61,6 +61,7 @@ def build(bld):
                  create_cli_test.cc
                  crypto_test.cc
                  dcpomatic_time_test.cc
+                 dcp_decoder_test.cc
                  dcp_playback_test.cc
                  dcp_subtitle_test.cc
                  digest_test.cc
