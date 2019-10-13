@@ -82,6 +82,7 @@ public:
 		PLAYER_PLAYLIST_DIRECTORY,
 		PLAYER_DEBUG_LOG,
 		HISTORY,
+		SHOW_EXPERIMENTAL_AUDIO_PROCESSORS,
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		PLAYER_BACKGROUND_IMAGE,
 #endif
@@ -155,6 +156,10 @@ public:
 
 	bool allow_any_container () const {
 		return _allow_any_container;
+	}
+
+	bool show_experimental_audio_processors () const {
+		return _show_experimental_audio_processors;
 	}
 
 	ISDCFMetadata default_isdcf_metadata () const {
@@ -618,6 +623,10 @@ public:
 
 	void set_allow_any_container (bool a) {
 		maybe_set (_allow_any_container, a);
+	}
+
+	void set_show_experimental_audio_processors (bool e) {
+		maybe_set (_show_experimental_audio_processors, e, SHOW_EXPERIMENTAL_AUDIO_PROCESSORS);
 	}
 
 	void set_default_isdcf_metadata (ISDCFMetadata d) {
@@ -1177,6 +1186,8 @@ private:
 	    https://www.dcpomatic.com/forum/viewtopic.php?f=2&t=1119&p=4468
 	*/
 	bool _allow_any_container;
+	/** Offer the upmixers in the audio processor settings */
+	bool _show_experimental_audio_processors;
 	/** Default ISDCF metadata for newly-created Films */
 	ISDCFMetadata _default_isdcf_metadata;
 	boost::optional<std::string> _language;

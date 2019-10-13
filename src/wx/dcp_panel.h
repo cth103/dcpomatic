@@ -90,6 +90,7 @@ private:
 	void add_to_grid ();
 	void add_video_panel_to_grid ();
 	void add_audio_panel_to_grid ();
+	void add_audio_processors ();
 
 	int minimum_allowed_audio_channels () const;
 
@@ -151,6 +152,7 @@ private:
 	wxCheckBox* _upload_after_make_dcp;
 	wxButton* _markers;
 	wxButton* _metadata;
+	wxSizer* _audio_panel_sizer;
 
 	AudioDialog* _audio_dialog;
 	MarkersDialog* _markers_dialog;
