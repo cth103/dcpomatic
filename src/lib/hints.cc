@@ -117,7 +117,7 @@ Hints::thread ()
 	}
 
 	if (film->audio_channels() < 6) {
-		hint (_("Your DCP has fewer than 6 audio channels.  This may cause problems on some projectors."));
+		hint (_("Your DCP has fewer than 6 audio channels.  This may cause problems on some projectors.  You may want to set the DCP to have 6 channels.  It does not matter if your content has fewer channels, as DCP-o-matic will fill the extras with silence."));
 	}
 
 	AudioProcessor const * ap = film->audio_processor();
