@@ -67,6 +67,7 @@ def options(opt):
     opt.add_option('--workaround-gssapi', action='store_true', default=False, help='link to gssapi_krb5')
     opt.add_option('--force-cpp11',       action='store_true', default=False, help='force use of C++11')
     opt.add_option('--variant',           help='build variant (swaroop-studio, swaroop-theater)', choices=['swaroop-studio', 'swaroop-theater'])
+    opt.add_option('--use-lld',           action='store_true', default=False, help='use lld linker')
 
 def configure(conf):
     conf.load('compiler_cxx')
@@ -120,6 +121,13 @@ def configure(conf):
         conf.env.VARIANT = conf.options.variant
         if conf.options.variant.startswith('swaroop-'):
             conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_VARIANT_SWAROOP')
+
+    if conf.options.use_lld:
+        try:
+            conf.find_program('ld.lld')
+            conf.env.append_value('LINKFLAGS', '-fuse-ld=lld')
+        except conf.errors.ConfigurationError:
+            pass
 
     #
     # Windows/Linux/OS X specific
