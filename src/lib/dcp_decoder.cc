@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -28,6 +28,7 @@
 #include "ffmpeg_image_proxy.h"
 #include "image.h"
 #include "config.h"
+#include "digester.h"
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
@@ -52,6 +53,7 @@
 
 using std::list;
 using std::cout;
+using std::string;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
@@ -75,16 +77,18 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 		}
 	}
 
-	if (old) {
-		_reels = old->_reels;
+	/* We try to avoid re-scanning the DCP's files every time we make a new DCPDecoder; we do this
+	   by re-using the _reels list.  Before we do this we need to check that nothing too serious
+	   has changed in the DCPContent.
 
-		/* We might have gained a KDM since we made the Reel objects */
-		if (_dcp_content->kdm ()) {
-			dcp::DecryptedKDM k = decrypted_kdm ();
-			BOOST_FOREACH (shared_ptr<dcp::Reel> i, _reels) {
-				i->add (k);
-			}
-		}
+	   We do this by storing a digest of the important bits of the DCPContent and then checking that's
+	   the same before we re-use _reels.
+	*/
+
+	_lazy_digest = calculate_lazy_digest (c);
+
+	if (old && old->lazy_digest() == _lazy_digest) {
+		_reels = old->_reels;
 	} else {
 
 		list<shared_ptr<dcp::CPL> > cpl_list = cpls ();
@@ -424,4 +428,19 @@ void
 DCPDecoder::set_forced_reduction (optional<int> reduction)
 {
 	_forced_reduction = reduction;
+}
+
+string
+DCPDecoder::calculate_lazy_digest (shared_ptr<const DCPContent> c) const
+{
+	Digester d;
+	BOOST_FOREACH (boost::filesystem::path i, c->paths()) {
+		d.add (i.string());
+	}
+	d.add (static_cast<bool>(_dcp_content->kdm()));
+	d.add (static_cast<bool>(c->cpl()));
+	if (c->cpl()) {
+		d.add (c->cpl().get());
+	}
+	return d.get ();
 }

@@ -110,6 +110,7 @@ private:
 	friend struct player_subframe_test;
 	friend struct empty_test1;
 	friend struct empty_test2;
+	friend struct check_reuse_old_data_test;
 
 	void setup_pieces ();
 	void setup_pieces_unlocked ();

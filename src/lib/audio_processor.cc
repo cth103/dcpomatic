@@ -22,16 +22,21 @@
 #include "mid_side_decoder.h"
 #include "upmixer_a.h"
 #include "upmixer_b.h"
+#include "config.h"
 
 using std::string;
 using std::list;
 
 list<AudioProcessor const *> AudioProcessor::_all;
+list<AudioProcessor const *> AudioProcessor::_non_experimental;
 
 void
 AudioProcessor::setup_audio_processors ()
 {
-	_all.push_back (new MidSideDecoder ());
+	AudioProcessor* mid_side = new MidSideDecoder ();
+	_all.push_back (mid_side);
+	_non_experimental.push_back (mid_side);
+
 	_all.push_back (new UpmixerA (48000));
 	_all.push_back (new UpmixerB (48000));
 }
@@ -46,6 +51,16 @@ AudioProcessor::from_id (string id)
 	}
 
 	return 0;
+}
+
+list<AudioProcessor const *>
+AudioProcessor::visible ()
+{
+	if (Config::instance()->show_experimental_audio_processors()) {
+		return _all;
+	}
+
+	return _non_experimental;
 }
 
 list<AudioProcessor const *>

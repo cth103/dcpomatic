@@ -93,6 +93,7 @@ using std::copy;
 using std::back_inserter;
 using std::map;
 using std::exception;
+using std::find;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
@@ -540,6 +541,13 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 		_audio_processor = AudioProcessor::from_id (f.string_child ("AudioProcessor"));
 	} else {
 		_audio_processor = 0;
+	}
+
+	if (_audio_processor && !Config::instance()->show_experimental_audio_processors()) {
+		list<AudioProcessor const *> ap = AudioProcessor::visible();
+		if (find(ap.begin(), ap.end(), _audio_processor) == ap.end()) {
+			Config::instance()->set_show_experimental_audio_processors(true);
+		}
 	}
 
 	_reel_type = static_cast<ReelType> (f.optional_number_child<int>("ReelType").get_value_or (static_cast<int>(REELTYPE_SINGLE)));

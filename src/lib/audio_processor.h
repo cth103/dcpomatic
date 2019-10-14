@@ -61,11 +61,13 @@ public:
 	virtual std::vector<std::string> input_names () const = 0;
 
 	static std::list<AudioProcessor const *> all ();
+	static std::list<AudioProcessor const *> visible ();
 	static void setup_audio_processors ();
 	static AudioProcessor const * from_id (std::string);
 
 private:
 	static std::list<AudioProcessor const *> _all;
+	static std::list<AudioProcessor const *> _non_experimental;
 };
 
 #endif

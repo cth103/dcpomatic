@@ -783,6 +783,12 @@ DCPPanel::config_changed (Config::Property p)
 		_audio_grid->Clear ();
 		add_audio_panel_to_grid ();
 		_audio_grid->Layout ();
+	} else if (p == Config::SHOW_EXPERIMENTAL_AUDIO_PROCESSORS) {
+		_audio_processor->Clear ();
+		add_audio_processors ();
+		if (_film) {
+			film_changed (Film::AUDIO_PROCESSOR);
+		}
 	}
 }
 
@@ -931,10 +937,10 @@ wxPanel *
 DCPPanel::make_audio_panel ()
 {
 	wxPanel* panel = new wxPanel (_notebook);
-	wxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+	_audio_panel_sizer = new wxBoxSizer (wxVERTICAL);
 	_audio_grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	sizer->Add (_audio_grid, 0, wxALL, 8);
-	panel->SetSizer (sizer);
+	_audio_panel_sizer->Add (_audio_grid, 0, wxALL, 8);
+	panel->SetSizer (_audio_panel_sizer);
 
 	_channels_label = create_label (panel, _("Channels"), true);
 	_audio_channels = new wxChoice (panel, wxID_ANY);
@@ -942,10 +948,7 @@ DCPPanel::make_audio_panel ()
 
 	_processor_label = create_label (panel, _("Processor"), true);
 	_audio_processor = new wxChoice (panel, wxID_ANY);
-	_audio_processor->Append (_("None"), new wxStringClientData (N_("none")));
-	BOOST_FOREACH (AudioProcessor const * ap, AudioProcessor::all ()) {
-		_audio_processor->Append (std_to_wx (ap->name ()), new wxStringClientData (std_to_wx (ap->id ())));
-	}
+	add_audio_processors ();
 
 	_show_audio = new Button (panel, _("Show audio..."));
 
@@ -1039,4 +1042,14 @@ DCPPanel::reel_length_changed ()
 	}
 
 	_film->set_reel_length (_reel_length->GetValue() * 1000000000LL);
+}
+
+void
+DCPPanel::add_audio_processors ()
+{
+	_audio_processor->Append (_("None"), new wxStringClientData (N_("none")));
+	BOOST_FOREACH (AudioProcessor const * ap, AudioProcessor::visible()) {
+		_audio_processor->Append (std_to_wx(ap->name()), new wxStringClientData(std_to_wx(ap->id())));
+	}
+	_audio_panel_sizer->Layout();
 }

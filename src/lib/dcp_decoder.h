@@ -58,6 +58,10 @@ public:
 	bool pass ();
 	void seek (dcpomatic::ContentTime t, bool accurate);
 
+	std::string lazy_digest () const {
+		return _lazy_digest;
+	}
+
 private:
 	friend struct dcp_subtitle_within_dcp_test;
 
@@ -72,6 +76,7 @@ private:
 		boost::shared_ptr<TextDecoder> decoder,
 		dcp::Size size
 		);
+	std::string calculate_lazy_digest (boost::shared_ptr<const DCPContent>) const;
 
 	/** Time of next thing to return from pass relative to the start of _reel */
 	dcpomatic::ContentTime _next;
@@ -89,4 +94,6 @@ private:
 
 	bool _decode_referenced;
 	boost::optional<int> _forced_reduction;
+
+	std::string _lazy_digest;
 };
