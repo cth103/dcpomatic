@@ -605,7 +605,7 @@ def dist(ctx):
     if r is not None:
         f = open('.git_revision', 'w')
         print(r, file=f)
-    f.close()
+        f.close()
 
     ctx.excl = """
                TODO core *~ src/wx/*~ src/lib/*~ builds/*~ doc/manual/*~ src/tools/*~ *.pyc .waf* build .git
