@@ -103,6 +103,11 @@ CheckContentChangeJob::run ()
 		JobManager::instance()->add (_following);
 	}
 
+	/* Only set this job as finished once we have added the following job, otherwise I think
+	   it's possible that the tests will sporadically fail if they check for all jobs being
+	   complete in the gap between this one finishing and _following being added.
+	*/
+
 	set_progress (1);
 	set_state (FINISHED_OK);
 }
