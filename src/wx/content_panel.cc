@@ -304,8 +304,6 @@ ContentPanel::check_selection ()
 		return;
 	}
 
-	_last_selected = selected ();
-
 	setup_sensitivity ();
 
 	BOOST_FOREACH (ContentSubPanel* i, panels()) {

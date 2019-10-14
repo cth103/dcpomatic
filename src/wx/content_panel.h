@@ -117,7 +117,6 @@ private:
 	ContentMenu* _menu;
 	TimelineDialog* _timeline_dialog;
 	wxNotebook* _parent;
-	ContentList _last_selected;
 	wxWindow* _last_selected_tab;
 
 	boost::shared_ptr<Film> _film;
