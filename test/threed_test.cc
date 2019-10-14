@@ -33,6 +33,7 @@
 #include "lib/job_manager.h"
 #include "lib/cross.h"
 #include "lib/job.h"
+#include "lib/dcpomatic_log.h"
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
@@ -133,6 +134,7 @@ BOOST_AUTO_TEST_CASE (threed_test5)
 	Config::instance()->set_master_encoding_threads (8);
 
 	shared_ptr<Film> film = new_test_film2 ("threed_test5");
+	dcpomatic_log = film->log();
 	shared_ptr<FFmpegContent> L (new FFmpegContent(private_data / "boon_telly.mkv"));
 	film->examine_and_add_content (L);
 	shared_ptr<FFmpegContent> R (new FFmpegContent(private_data / "boon_telly.mkv"));
