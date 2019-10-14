@@ -596,7 +596,7 @@ def dist(ctx):
     r = git_revision()
     if r is not None:
         f = open('.git_revision', 'w')
-        print >>f,r
+        print(r, file=f)
     f.close()
 
     ctx.excl = """
