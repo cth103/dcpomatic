@@ -15,8 +15,15 @@ with open(sys.argv[1]) as f:
             break
 
         s = l.split()
-        if len(s) == 7 and s[6][-3:] == 'mks':
-            tests[float(s[6][:-3]) / 1000000] = s[3][1:-2]
+        if len(s) > 2 and s[1] == 'Leaving' and s[7][-2:] == 'us':
+            tests[float(s[7][:-2]) / 1000000] = s[4][1:-2]
+
+def hms(x):
+    h = int(x) // 3600
+    x -= h * 3600
+    m = int(x) // 60
+    x -= m * 60
+    return '%02d:%02d:%02d' % (h, m, x)
 
 for x in sorted(tests):
-    print x,tests[x]
+    print hms(x),tests[x]
