@@ -82,9 +82,6 @@ CheckContentChangeJob::run ()
 		JobManager::instance()->add(shared_ptr<Job>(new ExamineContentJob(_film, i)));
 	}
 
-	set_progress (1);
-	set_state (FINISHED_OK);
-
 	if (!changed.empty()) {
 		string m = _("Some files have been changed since they were added to the project.\n\nThese files will now be re-examined, so you may need to check their settings.");
 		if (_following) {
@@ -96,4 +93,12 @@ CheckContentChangeJob::run ()
 	} else if (_following) {
 		JobManager::instance()->add (_following);
 	}
+
+	/* Only set this job as finished once we have added the following job, otherwise I think
+	   it's possible that the tests will sporadically fail if they check for all jobs being
+	   complete in the gap between this one finishing and _following being added.
+	*/
+
+	set_progress (1);
+	set_state (FINISHED_OK);
 }
