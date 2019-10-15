@@ -268,8 +268,11 @@ Writer::write (shared_ptr<const AudioBuffers> audio, DCPTime const time)
 			/* Easy case: we can write all the audio to this reel */
 			_audio_reel->write (audio);
 			t = end;
+		} else if (_audio_reel->period().to <= t) {
+			/* This reel is entirely before the start of our audio; just skip the reel */
+			++_audio_reel;
 		} else {
-			/* Split the audio into two and write the first part */
+			/* This audio is over a reel boundary; split the audio into two and write the first part */
 			DCPTime part_lengths[2] = {
 				_audio_reel->period().to - t,
 				end - _audio_reel->period().to

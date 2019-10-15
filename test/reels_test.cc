@@ -371,3 +371,44 @@ BOOST_AUTO_TEST_CASE (reels_test9)
 	film2->make_dcp();
 	BOOST_REQUIRE(!wait_for_jobs());
 }
+
+/** Another reels-related error; make_dcp() would raise a ProgrammingError
+ *  in AudioBuffers::allocate due to an attempt to allocate a negatively-sized buffer.
+ *  This was triggered by a VF where there are referenced audio reels followed by
+ *  VF audio.  When the VF audio arrives the Writer did not correctly skip over the
+ *  referenced reels.
+ */
+BOOST_AUTO_TEST_CASE (reels_test10)
+{
+	/* Make the OV */
+	shared_ptr<Film> ov = new_test_film2("reels_test10_ov");
+	shared_ptr<FFmpegContent> A(new FFmpegContent("test/data/flat_red.png"));
+	ov->examine_and_add_content (A);
+	BOOST_REQUIRE (!wait_for_jobs());
+	A->video->set_length (5 * 24);
+
+	shared_ptr<FFmpegContent> B(new FFmpegContent("test/data/flat_red.png"));
+	ov->examine_and_add_content (B);
+	BOOST_REQUIRE (!wait_for_jobs());
+	B->video->set_length (5 * 24);
+
+	ov->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	ov->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+	ov->write_metadata ();
+
+	/* Now try to make the VF; this used to fail */
+	shared_ptr<Film> vf = new_test_film2("reels_test10_vf");
+	shared_ptr<DCPContent> ov_dcp(new DCPContent(ov->dir(ov->dcp_name())));
+	vf->examine_and_add_content (ov_dcp);
+	BOOST_REQUIRE (!wait_for_jobs());
+	vf->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	ov_dcp->set_reference_video (true);
+	ov_dcp->set_reference_audio (true);
+	vf->examine_and_add_content (content_factory("test/data/15s.srt").front());
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	vf->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+	vf->write_metadata ();
+}
