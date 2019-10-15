@@ -505,7 +505,7 @@ private:
 			} catch (boost::filesystem::filesystem_error& e) {
 #ifdef DCPOMATIC_WINDOWS
 				string bad_chars = "<>:\"/|?*";
-				string const filename = d->path().string();
+				string const filename = d->path().filename().string();
 				string found_bad_chars;
 				for (size_t i = 0; i < bad_chars.length(); ++i) {
 					if (filename.find(bad_chars[i]) != string::npos && found_bad_chars.find(bad_chars[i]) == string::npos) {
