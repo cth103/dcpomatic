@@ -779,7 +779,7 @@ careful_string_filter (string s)
 
 /** @param mapped List of mapped audio channels from a Film.
  *  @param channels Total number of channels in the Film.
- *  @return First: number of non-LFE channels, second: number of LFE channels.
+ *  @return First: number of non-LFE soundtrack channels (L/R/C/Ls/Rs/Lc/Rc/Bsl/Bsr), second: number of LFE channels.
  */
 pair<int, int>
 audio_channel_types (list<int> mapped, int channels)
@@ -793,10 +793,24 @@ audio_channel_types (list<int> mapped, int channels)
 			continue;
 		}
 
-		if (static_cast<dcp::Channel> (i) == dcp::LFE) {
+		switch (static_cast<dcp::Channel>(i)) {
+		case dcp::LFE:
 			++lfe;
-		} else {
+			break;
+		case dcp::LEFT:
+		case dcp::RIGHT:
+		case dcp::CENTRE:
+		case dcp::LS:
+		case dcp::RS:
+		case dcp::LC:
+		case dcp::RC:
+		case dcp::BSL:
+		case dcp::BSR:
 			++non_lfe;
+			break;
+		case dcp::HI:
+		case dcp::VI:
+			break;
 		}
 	}
 
