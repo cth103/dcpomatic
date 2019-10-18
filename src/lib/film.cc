@@ -780,14 +780,21 @@ Film::isdcf_name (bool if_created_now) const
 
 	/* Count mapped audio channels */
 
-	pair<int, int> ch = audio_channel_types (mapped_audio_channels(), audio_channels());
+	list<int> mapped = mapped_audio_channels ();
+
+	pair<int, int> ch = audio_channel_types (mapped, audio_channels());
 	if (!ch.first && !ch.second) {
 		d += "_MOS";
 	} else if (ch.first) {
 		d += String::compose("_%1%2", ch.first, ch.second);
 	}
 
-	/* XXX: HI/VI */
+	if (audio_channels() > static_cast<int>(dcp::HI) && find(mapped.begin(), mapped.end(), dcp::HI) != mapped.end()) {
+		d += "-HI";
+	}
+	if (audio_channels() > static_cast<int>(dcp::VI) && find(mapped.begin(), mapped.end(), dcp::VI) != mapped.end()) {
+		d += "-VI";
+	}
 
 	d += "_" + resolution_to_string (_resolution);
 
