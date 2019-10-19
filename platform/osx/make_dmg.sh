@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# Syntax: make_dmg.sh <environment> <builddir> <type>
+# Syntax: make_dmg.sh <environment> <builddir> <type> <apple-id> <apple-password>
 # where <type> is universal or thin
 #
-# e.g. make_dmg.sh /Users/carl/osx-environment /Users/carl/cdist universal
+# e.g. make_dmg.sh /Users/carl/osx-environment /Users/carl/cdist universal foo@bar.net opensesame
 
 # Don't set -e here as egrep (used a few times) returns 1 if no matches
 # were found.
@@ -15,6 +15,8 @@ DMG_SIZE=256
 ENV=$1
 ROOT=$2
 TYPE=$3
+APPLE_ID=$4
+APPLE_PASSWORD=$5
 
 if [ "$TYPE" != "universal" -a "$TYPE" != "thin" ]; then
     echo "Syntax: $0 <builddir> <type>"
@@ -247,9 +249,11 @@ function relink {
 
 # @param #1 .app directory
 # @param #2 full name e.g. DCP-o-matic Batch Converter
+# @param #3 bundle id e.g. com.dcpomatic.batch
 function make_dmg {
     local appdir="$1"
     local full_name="$2"
+    local bundle_id="$3"
     tmp_dmg=dcpomatic_tmp.dmg
     dmg="$full_name $version.dmg"
     vol_name=DCP-o-matic-$version
@@ -310,6 +314,7 @@ EOF
     chmod -Rf go-w /Volumes/"$vol_name"/"$appdir"
     sync
 
+    set -e
     hdiutil eject $device
     hdiutil convert -format UDZO $tmp_dmg -imagekey zlib-level=9 -o "$dmg"
     sips -i "$appdir/Contents/Resources/dcpomatic2.icns"
@@ -318,10 +323,27 @@ EOF
     SetFile -a C "$dmg"
     xattr -c "$dmg"
     codesign --verify --verbose --sign "Developer ID Application: Carl Hetherington (R82DXSR997)" "$dmg"
-    if [ "$?" != "0" ]; then
-	echo "Failed to sign .dmg"
-	exit 1
-    fi
+
+    id=$(xcrun altool --notarize-app -t osx -f "$dmg" --primary-bundle-id $bundle_id -u $APPLE_ID -p $APPLE_PASSWORD --output-format xml | grep -C1 RequestUUID | tail -n 1 | sed -e "s/<string>//g" | sed -e "s/<\/string>//g")
+    N=0
+    while [ 1 ]; do
+	echo "Checking up on $id"
+	status=$(xcrun altool --notarization-info $id -u $APPLE_ID -p $APPLE_PASSWORD --output-format xml | grep -C1 "<key>Status</key>" | tail -n 1 | sed -e "s/	.//g")
+	echo "Got $status"
+	if [ "$status" == "<string>success</string>" ]; then
+	    break
+	fi
+	sleep 30
+	N=$((N+1))
+	if [ "$N" == "10" ]; then
+	    echo "Timed out waiting for notarization"
+	    exit 1
+	fi
+    done
+
+    xcrun stapler staple "$dmg"
+    set +e
+
     rm $tmp_dmg
     rm -rf $vol_name
 }
@@ -358,7 +380,7 @@ copy $ROOT bin/ffprobe "$approot/MacOS"
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2" "$approot/MacOS/dcpomatic2_cli" "$approot/MacOS/dcpomatic2_create" "$approot/MacOS/ffprobe" "$approot/Frameworks/"*.dylib)
 relink "${rl[@]}"
-make_dmg "$appdir" "DCP-o-matic"
+make_dmg "$appdir" "DCP-o-matic" com.dcpomatic
 
 # DCP-o-matic KDM Creator
 setup "DCP-o-matic 2 KDM Creator.app"
@@ -367,7 +389,7 @@ copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm_cli "$approot/MacOS"
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_kdm.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_kdm" "$approot/MacOS/dcpomatic2_kdm_cli" "$approot/Frameworks/"*.dylib)
 relink "${rl[@]}"
-make_dmg "$appdir" "DCP-o-matic KDM Creator"
+make_dmg "$appdir" "DCP-o-matic KDM Creator" com.dcpomatic.kdm
 
 # DCP-o-matic Encode Server
 setup "DCP-o-matic 2 Encode Server.app"
@@ -376,7 +398,7 @@ copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server_cli "$approot/MacOS"
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_server.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_server" "$approot/MacOS/dcpomatic2_server_cli" "$approot/Frameworks/"*.dylib)
 relink "${rl[@]}"
-make_dmg "$appdir" "DCP-o-matic Encode Server"
+make_dmg "$appdir" "DCP-o-matic Encode Server" com.dcpomatic.server
 
 # DCP-o-matic Batch Converter
 setup "DCP-o-matic 2 Batch converter.app"
@@ -384,7 +406,7 @@ copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_batch "$approot/MacOS"
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_batch.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_batch" "$approot/Frameworks/"*.dylib)
 relink "${rl[@]}"
-make_dmg "$appdir" "DCP-o-matic Batch Converter"
+make_dmg "$appdir" "DCP-o-matic Batch Converter" com.dcpomatic.batch
 
 # DCP-o-matic Player
 setup "DCP-o-matic 2 Player.app"
@@ -392,4 +414,4 @@ copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_player "$approot/MacOS"
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_player.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_player" "$approot/Frameworks/"*.dylib)
 relink "${rl[@]}"
-make_dmg "$appdir" "DCP-o-matic Player"
+make_dmg "$appdir" "DCP-o-matic Player" com.dcpomatic.player

@@ -640,10 +640,10 @@ def package(target, version, options):
             elif target.distro == 'centos' or target.distro == 'fedora' or target.distro == 'mageia':
                 return package_rpm(target, cpu, version, options)
     elif target.platform == 'osx' and target.bits is None:
-        target.command('bash platform/osx/make_dmg.sh %s %s universal' % (target.environment_prefix, target.directory))
+        target.command('bash platform/osx/make_dmg.sh %s %s universal %s %s' % (target.environment_prefix, target.directory, target.apple_id, target.apple_password))
         return [os.path.abspath(x) for x in glob.glob('build/platform/osx/DCP-o-matic*.dmg')]
     elif target.platform == 'osx' and target.bits == 64:
-        target.command('bash platform/osx/make_dmg.sh %s %s thin' % (target.environment_prefix, target.directory))
+        target.command('bash platform/osx/make_dmg.sh %s %s thin %s %s' % (target.environment_prefix, target.directory, target.apple_id, target.apple_password))
         return [os.path.abspath(x) for x in glob.glob('build/platform/osx/DCP-o-matic*.dmg')]
     elif target.platform == 'docker':
         shutil.copyfile(target.deb, 'build/platform/docker')
