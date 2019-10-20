@@ -633,3 +633,11 @@ FilmViewer::set_pad_black (bool p)
 {
 	_pad_black = p;
 }
+
+/* XXX_b: comment */
+int
+FilmViewer::time_until_next_frame () const
+{
+	DCPTime const next = position() + one_video_frame();
+	return max ((next.seconds() - time().seconds()) * 1000, 1.0);
+}

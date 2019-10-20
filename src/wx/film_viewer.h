@@ -119,7 +119,7 @@ public:
 		return _gets;
 	}
 
-	/* Some accessors that VideoView classes need */
+	/* Some accessors and utility methods that VideoView classes need */
 	dcp::Size out_size () const {
 		return _out_size;
 	}
@@ -138,6 +138,7 @@ public:
 	boost::shared_ptr<Butler> butler () const {
 		return _butler;
 	}
+	int time_until_next_frame () const;
 
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
 	boost::signals2::signal<void ()> PositionChanged;
