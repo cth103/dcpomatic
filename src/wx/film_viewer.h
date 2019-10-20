@@ -173,7 +173,6 @@ private:
 	bool _coalesce_player_changes;
 	std::list<int> _pending_player_changes;
 
-	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> _player_video;
 	dcpomatic::DCPTime _video_position;
 	Position<int> _inter_position;
 	dcp::Size _inter_size;

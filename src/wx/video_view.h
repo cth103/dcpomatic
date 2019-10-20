@@ -21,12 +21,14 @@
 #ifndef DCPOMATIC_VIDEO_VIEW_H
 #define DCPOMATIC_VIDEO_VIEW_H
 
+#include "lib/dcpomatic_time.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 
 class Image;
 class wxWindow;
 class FilmViewer;
+class PlayerVideo;
 
 class VideoView
 {
@@ -47,6 +49,8 @@ public:
 	/* XXX_b: make pure */
 	virtual void start () {}
 
+	void clear ();
+
 	boost::signals2::signal<void()> Sized;
 
 	/* XXX_b: to remove */
@@ -57,7 +61,11 @@ public:
 	virtual void display_player_video () {}
 
 protected:
+	/* XXX_b: to remove */
+	friend class FilmViewer;
+
 	FilmViewer* _viewer;
+	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> _player_video;
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	bool _in_watermark;

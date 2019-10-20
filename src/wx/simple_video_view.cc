@@ -185,8 +185,8 @@ SimpleVideoView::get (bool lazy)
 
 	do {
 		Butler::Error e;
-		_viewer->_player_video = _viewer->_butler->get_video (!lazy, &e);
-		if (!_viewer->_player_video.first && e == Butler::AGAIN) {
+		_player_video = _viewer->_butler->get_video (!lazy, &e);
+		if (!_player_video.first && e == Butler::AGAIN) {
 			if (lazy) {
 				/* No video available; return saying we failed */
 				return false;
@@ -197,10 +197,10 @@ SimpleVideoView::get (bool lazy)
 			}
 		}
 	} while (
-		_viewer->_player_video.first &&
+		_player_video.first &&
 		_viewer->film()->three_d() &&
-		_viewer->_eyes != _viewer->_player_video.first->eyes() &&
-		_viewer->_player_video.first->eyes() != EYES_BOTH
+		_viewer->_eyes != _player_video.first->eyes() &&
+		_player_video.first->eyes() != EYES_BOTH
 		);
 
 	try {
@@ -218,17 +218,17 @@ SimpleVideoView::get (bool lazy)
 void
 SimpleVideoView::display_player_video ()
 {
-	if (!_viewer->_player_video.first) {
+	if (!_player_video.first) {
 		set_image (shared_ptr<Image>());
 		_viewer->refresh_view ();
 		return;
 	}
 
-	if (_viewer->playing() && (_viewer->time() - _viewer->_player_video.second) > _viewer->one_video_frame()) {
+	if (_viewer->playing() && (_viewer->time() - _player_video.second) > _viewer->one_video_frame()) {
 		/* Too late; just drop this frame before we try to get its image (which will be the time-consuming
 		   part if this frame is J2K).
 		*/
-		_viewer->_video_position = _viewer->_player_video.second;
+		_viewer->_video_position = _player_video.second;
 		++_viewer->_dropped;
 		return;
 	}
@@ -254,16 +254,16 @@ SimpleVideoView::display_player_video ()
 	_viewer->_state_timer.set ("get image");
 
 	set_image (
-		_viewer->_player_video.first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true)
+		_player_video.first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true)
 		);
 
 	_viewer->_state_timer.set ("ImageChanged");
-	_viewer->ImageChanged (_viewer->_player_video.first);
+	_viewer->ImageChanged (_player_video.first);
 	_viewer->_state_timer.unset ();
 
-	_viewer->_video_position = _viewer->_player_video.second;
-	_viewer->_inter_position = _viewer->_player_video.first->inter_position ();
-	_viewer->_inter_size = _viewer->_player_video.first->inter_size ();
+	_viewer->_video_position = _player_video.second;
+	_viewer->_inter_position = _player_video.first->inter_position ();
+	_viewer->_inter_size = _player_video.first->inter_size ();
 
 	_viewer->refresh_view ();
 

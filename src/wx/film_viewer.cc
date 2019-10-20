@@ -157,8 +157,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 
 	_film = film;
 	_video_position = DCPTime ();
-	_player_video.first.reset ();
-	_player_video.second = DCPTime ();
+	_video_view->clear ();
 
 	_video_view->set_image (shared_ptr<Image>());
 	_closed_captions_dialog->clear ();
@@ -406,11 +405,11 @@ FilmViewer::slow_refresh ()
 bool
 FilmViewer::quick_refresh ()
 {
-	if (!_player_video.first) {
+	if (!_video_view->_player_video.first) {
 		return false;
 	}
 
-	if (!_player_video.first->reset_metadata (_film, _player->video_container_size(), _film->frame_size())) {
+	if (!_video_view->_player_video.first->reset_metadata (_film, _player->video_container_size(), _film->frame_size())) {
 		return false;
 	}
 
