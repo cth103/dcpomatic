@@ -19,10 +19,44 @@
 */
 
 #include "video_view.h"
+#include "wx_util.h"
+#include "film_viewer.h"
+#include "lib/butler.h"
 
 void
 VideoView::clear ()
 {
 	_player_video.first.reset ();
 	_player_video.second = dcpomatic::DCPTime ();
+}
+
+/** @param non_blocking true to return false quickly if no video is available quickly.
+ *  @return false if we gave up because it would take too long, otherwise true.
+ */
+bool
+VideoView::get_next_frame (bool non_blocking)
+{
+	DCPOMATIC_ASSERT (_viewer->butler());
+	_viewer->_gets++;
+
+	do {
+		Butler::Error e;
+		_player_video = _viewer->butler()->get_video (!non_blocking, &e);
+		if (!_player_video.first && e == Butler::AGAIN) {
+			return false;
+		}
+	} while (
+		_player_video.first &&
+		_viewer->film()->three_d() &&
+		_viewer->_eyes != _player_video.first->eyes() &&
+		_player_video.first->eyes() != EYES_BOTH
+		);
+
+	try {
+		_viewer->butler()->rethrow ();
+	} catch (DecodeError& e) {
+		error_dialog (get(), e.what());
+	}
+
+	return true;
 }

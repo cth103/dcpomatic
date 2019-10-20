@@ -159,7 +159,7 @@ SimpleVideoView::timer ()
 	}
 
 	LOG_DEBUG_PLAYER("%1 -> %2; delay %3", next.seconds(), _viewer->time().seconds(), max((next.seconds() - _viewer->time().seconds()) * 1000, 1.0));
-	_timer.Start (_viewer->time_until_next_frame()), wxTIMER_ONE_SHOT);
+	_timer.Start (_viewer->time_until_next_frame(), wxTIMER_ONE_SHOT);
 
 	if (_viewer->butler()) {
 		_viewer->butler()->rethrow ();
@@ -180,33 +180,16 @@ SimpleVideoView::start ()
 bool
 SimpleVideoView::get (bool lazy)
 {
-	DCPOMATIC_ASSERT (_viewer->butler());
-	_viewer->_gets++;
-
-	do {
-		Butler::Error e;
-		_player_video = _viewer->butler()->get_video (!lazy, &e);
-		if (!_player_video.first && e == Butler::AGAIN) {
-			if (lazy) {
-				/* No video available; return saying we failed */
-				return false;
-			} else {
-				/* Player was suspended; come back later */
-				signal_manager->when_idle (boost::bind(&SimpleVideoView::get, this, false));
-				return false;
-			}
+	bool r = get_next_frame (lazy);
+	if (!r) {
+		if (lazy) {
+			/* No video available; return saying we failed */
+			return false;
+		} else {
+			/* Player was suspended; come back later */
+			signal_manager->when_idle (boost::bind(&SimpleVideoView::get, this, false));
+			return false;
 		}
-	} while (
-		_player_video.first &&
-		_viewer->film()->three_d() &&
-		_viewer->_eyes != _player_video.first->eyes() &&
-		_player_video.first->eyes() != EYES_BOTH
-		);
-
-	try {
-		_viewer->butler()->rethrow ();
-	} catch (DecodeError& e) {
-		error_dialog (get(), e.what());
 	}
 
 	display_player_video ();

@@ -66,6 +66,9 @@
 #include <wx/preferences.h>
 #include <wx/progdlg.h>
 #include <wx/display.h>
+#ifdef __WXGTK__
+#include <X11/Xlib.h>
+#endif
 #ifdef __WXOSX__
 #include <ApplicationServices/ApplicationServices.h>
 #endif
@@ -1044,7 +1047,11 @@ public:
 	App ()
 		: wxApp ()
 		, _frame (0)
-	{}
+	{
+#ifdef DCPOMATIC_LINUX
+		XInitThreads ();
+#endif
+	}
 
 private:
 

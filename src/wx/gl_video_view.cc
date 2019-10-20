@@ -23,6 +23,8 @@
 #include "lib/image.h"
 #include "lib/dcpomatic_assert.h"
 #include "lib/exceptions.h"
+#include "lib/cross.h"
+#include "lib/player_video.h"
 #include <boost/bind.hpp>
 #include <iostream>
 
@@ -52,9 +54,9 @@ using boost::optional;
 GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	: VideoView (viewer)
 	, _vsync_enabled (false)
+	, _thread (0)
 {
 	_canvas = new wxGLCanvas (parent, wxID_ANY, 0, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
-	_context = new wxGLContext (_canvas);
 	_canvas->Bind (wxEVT_PAINT, boost::bind(&GLVideoView::paint, this));
 	_canvas->Bind (wxEVT_SIZE, boost::bind(boost::ref(Sized)));
 
@@ -93,8 +95,13 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 
 GLVideoView::~GLVideoView ()
 {
+	if (_thread) {
+		_thread->interrupt ();
+		_thread->join ();
+	}
+	delete _thread;
+
 	glDeleteTextures (1, &_id);
-	delete _context;
 }
 
 static void
@@ -109,11 +116,14 @@ static void
 void
 GLVideoView::paint ()
 {
+	/* XXX_b: can't do this yet */
+#if 0
         _viewer->state_timer().set("paint-panel");
 	_canvas->SetCurrent (*_context);
 	wxPaintDC dc (_canvas);
 	draw ();
 	_viewer->state_timer().unset();
+#endif
 }
 
 void
@@ -122,8 +132,9 @@ GLVideoView::update ()
 	if (!_canvas->IsShownOnScreen()) {
 		return;
 	}
-	wxClientDC dc (_canvas);
-	draw ();
+	/* XXX_b */
+//	wxClientDC dc (_canvas);
+//	draw ();
 }
 
 void
@@ -247,4 +258,63 @@ GLVideoView::set_image (shared_ptr<const Image> image)
 	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	check_gl_error ("glTexParameterf");
+}
+
+void
+GLVideoView::start ()
+{
+	_thread = new boost::thread (boost::bind(&GLVideoView::thread, this));
+}
+
+void
+GLVideoView::thread ()
+try
+{
+	/* XXX_b: check all calls and signal emissions in this method & protect them if necessary */
+	{
+		boost::mutex::scoped_lock lm (_context_mutex);
+		_context = new wxGLContext (_canvas);
+		_canvas->SetCurrent (*_context);
+	}
+
+	while (true) {
+		if (!_viewer->film() || !_viewer->playing()) {
+			dcpomatic_sleep_milliseconds (40);
+			continue;
+		}
+
+		dcpomatic::DCPTime const next = _viewer->position() + _viewer->one_video_frame();
+
+		if (next >= _viewer->film()->length()) {
+			_viewer->stop ();
+			_viewer->Finished ();
+			return;
+		}
+
+		get_next_frame (false);
+		set_image (_player_video.first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
+		draw ();
+		_viewer->_video_position = _player_video.second;
+
+		std::cout << "sleep " << _viewer->time_until_next_frame() << "\n";
+		dcpomatic_sleep_milliseconds (_viewer->time_until_next_frame());
+	}
+
+	{
+		boost::mutex::scoped_lock lm (_context_mutex);
+		delete _context;
+	}
+}
+catch (boost::thread_interrupted& e)
+{
+	/* XXX_b: store exceptions here */
+	delete _context;
+	return;
+}
+
+wxGLContext *
+GLVideoView::context () const
+{
+	boost::mutex::scoped_lock lm (_context_mutex);
+	return _context;
 }

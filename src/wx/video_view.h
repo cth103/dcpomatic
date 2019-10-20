@@ -64,6 +64,8 @@ protected:
 	/* XXX_b: to remove */
 	friend class FilmViewer;
 
+	bool get_next_frame (bool non_blocking);
+
 	FilmViewer* _viewer;
 	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> _player_video;
 

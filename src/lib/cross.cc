@@ -75,6 +75,17 @@ dcpomatic_sleep_seconds (int s)
 #endif
 }
 
+void
+dcpomatic_sleep_milliseconds (int ms)
+{
+#ifdef DCPOMATIC_POSIX
+	usleep (ms * 1000);
+#endif
+#ifdef DCPOMATIC_WINDOWS
+	Sleep (ms);
+#endif
+}
+
 /** @return A string of CPU information (model name etc.) */
 string
 cpu_info ()

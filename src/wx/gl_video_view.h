@@ -23,6 +23,7 @@
 #include <wx/glcanvas.h>
 #include <dcp/util.h>
 #include <boost/shared_ptr.hpp>
+#include <boost/thread.hpp>
 #undef None
 #undef Success
 
@@ -37,18 +38,25 @@ public:
 		return _canvas;
 	}
 	void update ();
+	void start ();
 
 	bool vsync_enabled () const {
 		return _vsync_enabled;
 	}
 
 private:
-        void paint ();
-        void draw ();
+	void paint ();
+	void draw ();
+	void thread ();
+	wxGLContext* context () const;
 
 	wxGLCanvas* _canvas;
-        wxGLContext* _context;
-        GLuint _id;
-        boost::optional<dcp::Size> _size;
+
+	wxGLContext* _context;
+	mutable boost::mutex _context_mutex;
+
+	GLuint _id;
+	boost::optional<dcp::Size> _size;
 	bool _vsync_enabled;
+	boost::thread* _thread;
 };

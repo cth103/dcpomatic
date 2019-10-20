@@ -153,6 +153,8 @@ private:
 
 	/* XXX_b: to remove */
 	friend class SimpleVideoView;
+	friend class GLVideoView;
+	friend class VideoView;
 
 	void video_view_sized ();
 	void calculate_sizes ();

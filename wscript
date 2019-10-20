@@ -444,6 +444,9 @@ def configure(conf):
     conf.env['CXXFLAGS_AVCODEC'] = []
     conf.env['CXXFLAGS_AVUTIL'] = []
 
+    if conf.env.TARGET_LINUX:
+        conf.env.LIB_X11 = ['X11']
+
     # Boost
     if conf.options.static_boost:
         conf.env.STLIB_BOOST_THREAD = ['boost_thread']
