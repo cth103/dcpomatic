@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# Syntax: make_dmg.sh <builddir> <type>
+# Syntax: make_dmg.sh <environment> <builddir> <type>
 # where <type> is universal or thin
 #
-# e.g. make_dmg.sh /Users/carl/cdist
+# e.g. make_dmg.sh /Users/carl/osx-environment /Users/carl/cdist universal
 
 # Don't set -e here as egrep (used a few times) returns 1 if no matches
 # were found.
@@ -12,9 +12,9 @@ version=`git describe --tags --abbrev=0 | sed -e "s/v//"`
 
 # DMG size in megabytes
 DMG_SIZE=256
-ENV=/Users/carl/Environments/dcpomatic
-ROOT=$1
-TYPE=$2
+ENV=$1
+ROOT=$2
+TYPE=$3
 
 if [ "$TYPE" != "universal" -a "$TYPE" != "thin" ]; then
     echo "Syntax: $0 <builddir> <type>"
