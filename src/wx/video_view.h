@@ -46,6 +46,9 @@ public:
 
 	boost::signals2::signal<void()> Sized;
 
+	/* XXX_b: to remove */
+	virtual void timer () {}
+
 protected:
 	FilmViewer* _viewer;
 

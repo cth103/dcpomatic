@@ -40,7 +40,9 @@ public:
 
 private:
 	void paint ();
+	void timer ();
 
 	wxPanel* _panel;
 	boost::shared_ptr<const Image> _image;
+	wxTimer _timer;
 };

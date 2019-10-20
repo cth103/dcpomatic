@@ -108,7 +108,6 @@ FilmViewer::FilmViewer (wxWindow* p)
 	}
 
 	_video_view->Sized.connect (boost::bind(&FilmViewer::video_view_sized, this));
-	_timer.Bind (wxEVT_TIMER, boost::bind(&FilmViewer::timer, this));
 
 	set_film (shared_ptr<Film> ());
 
@@ -336,30 +335,6 @@ FilmViewer::display_player_video ()
 }
 
 void
-FilmViewer::timer ()
-{
-	if (!_film || !_playing || _suspended) {
-		return;
-	}
-
-	get (false);
-	DCPTime const next = _video_position + one_video_frame();
-
-	if (next >= _film->length()) {
-		stop ();
-		Finished ();
-		return;
-	}
-
-	LOG_DEBUG_PLAYER("%1 -> %2; delay %3", next.seconds(), time().seconds(), max((next.seconds() - time().seconds()) * 1000, 1.0));
-	_timer.Start (max ((next.seconds() - time().seconds()) * 1000, 1.0), wxTIMER_ONE_SHOT);
-
-	if (_butler) {
-		_butler->rethrow ();
-	}
-}
-
-void
 FilmViewer::set_outline_content (bool o)
 {
 	_outline_content = o;
@@ -454,7 +429,7 @@ FilmViewer::start ()
 
 	_playing = true;
 	_dropped = 0;
-	timer ();
+	_video_view->timer ();
 	Started (position());
 }
 

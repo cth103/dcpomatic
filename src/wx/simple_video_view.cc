@@ -22,6 +22,8 @@
 #include "film_viewer.h"
 #include "wx_util.h"
 #include "lib/image.h"
+#include "lib/dcpomatic_log.h"
+#include "lib/butler.h"
 #include <dcp/util.h>
 #include <wx/wx.h>
 #include <boost/bind.hpp>
@@ -45,6 +47,8 @@ SimpleVideoView::SimpleVideoView (FilmViewer* viewer, wxWindow* parent)
 
 	_panel->Bind (wxEVT_PAINT, boost::bind (&SimpleVideoView::paint, this));
 	_panel->Bind (wxEVT_SIZE, boost::bind(boost::ref(Sized)));
+
+	_timer.Bind (wxEVT_TIMER, boost::bind(&SimpleVideoView::timer, this));
 }
 
 void
@@ -134,4 +138,28 @@ SimpleVideoView::update ()
 {
 	_panel->Refresh ();
 	_panel->Update ();
+}
+
+void
+SimpleVideoView::timer ()
+{
+	if (!_viewer->_film || !_viewer->_playing) {
+		return;
+	}
+
+	_viewer->get (false);
+	DCPTime const next = _viewer->_video_position + _viewer->one_video_frame();
+
+	if (next >= _viewer->_film->length()) {
+		_viewer->stop ();
+		_viewer->Finished ();
+		return;
+	}
+
+	LOG_DEBUG_PLAYER("%1 -> %2; delay %3", next.seconds(), _viewer->time().seconds(), max((next.seconds() - _viewer->time().seconds()) * 1000, 1.0));
+	_timer.Start (max ((next.seconds() - _viewer->time().seconds()) * 1000, 1.0), wxTIMER_ONE_SHOT);
+
+	if (_viewer->_butler) {
+		_viewer->_butler->rethrow ();
+	}
 }

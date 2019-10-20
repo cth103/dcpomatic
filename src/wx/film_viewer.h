@@ -149,8 +149,11 @@ public:
 	boost::signals2::signal<bool ()> PlaybackPermitted;
 
 private:
+
+	/* XXX_b: to remove */
+	friend class SimpleVideoView;
+
 	void video_view_sized ();
-	void timer ();
 	void calculate_sizes ();
 	void player_change (ChangeType type, int, bool);
 	bool get (bool lazy);
@@ -172,7 +175,6 @@ private:
 	boost::shared_ptr<Player> _player;
 
 	VideoView* _video_view;
-	wxTimer _timer;
 	bool _coalesce_player_changes;
 	std::list<int> _pending_player_changes;
 
