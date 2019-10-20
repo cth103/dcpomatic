@@ -161,8 +161,8 @@ SimpleVideoView::timer ()
 	LOG_DEBUG_PLAYER("%1 -> %2; delay %3", next.seconds(), _viewer->time().seconds(), max((next.seconds() - _viewer->time().seconds()) * 1000, 1.0));
 	_timer.Start (max ((next.seconds() - _viewer->time().seconds()) * 1000, 1.0), wxTIMER_ONE_SHOT);
 
-	if (_viewer->_butler) {
-		_viewer->_butler->rethrow ();
+	if (_viewer->butler()) {
+		_viewer->butler()->rethrow ();
 	}
 }
 
@@ -180,12 +180,12 @@ SimpleVideoView::start ()
 bool
 SimpleVideoView::get (bool lazy)
 {
-	DCPOMATIC_ASSERT (_viewer->_butler);
+	DCPOMATIC_ASSERT (_viewer->butler());
 	_viewer->_gets++;
 
 	do {
 		Butler::Error e;
-		_player_video = _viewer->_butler->get_video (!lazy, &e);
+		_player_video = _viewer->butler()->get_video (!lazy, &e);
 		if (!_player_video.first && e == Butler::AGAIN) {
 			if (lazy) {
 				/* No video available; return saying we failed */
@@ -204,7 +204,7 @@ SimpleVideoView::get (bool lazy)
 		);
 
 	try {
-		_viewer->_butler->rethrow ();
+		_viewer->butler()->rethrow ();
 	} catch (DecodeError& e) {
 		error_dialog (get(), e.what());
 	}

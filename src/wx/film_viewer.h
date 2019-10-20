@@ -135,6 +135,9 @@ public:
 	bool pad_black () const {
 		return _pad_black;
 	}
+	boost::shared_ptr<Butler> butler () const {
+		return _butler;
+	}
 
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
 	boost::signals2::signal<void ()> PositionChanged;
