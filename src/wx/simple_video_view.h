@@ -43,6 +43,7 @@ public:
 private:
 	void paint ();
 	void timer ();
+	/* XXX_b: rename this (there's already a get() in the parent) */
 	bool get (bool lazy);
 	void display_player_video ();
 
