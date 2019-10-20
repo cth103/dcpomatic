@@ -155,7 +155,6 @@ private:
 	void player_change (ChangeType type, int, bool);
 	void idle_handler ();
 	void request_idle_get ();
-	void display_player_video ();
 	void film_change (ChangeType, Film::Property);
 	void recreate_butler ();
 	void config_changed (Config::Property);

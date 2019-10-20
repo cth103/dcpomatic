@@ -237,61 +237,6 @@ FilmViewer::refresh_view ()
 }
 
 void
-FilmViewer::display_player_video ()
-{
-	if (!_player_video.first) {
-		_video_view->set_image (shared_ptr<Image>());
-		refresh_view ();
-		return;
-	}
-
-	if (_playing && !_suspended && (time() - _player_video.second) > one_video_frame()) {
-		/* Too late; just drop this frame before we try to get its image (which will be the time-consuming
-		   part if this frame is J2K).
-		*/
-		_video_position = _player_video.second;
-		++_dropped;
-		return;
-	}
-
-	/* In an ideal world, what we would do here is:
-	 *
-	 * 1. convert to XYZ exactly as we do in the DCP creation path.
-	 * 2. convert back to RGB for the preview display, compensating
-	 *    for the monitor etc. etc.
-	 *
-	 * but this is inefficient if the source is RGB.  Since we don't
-	 * (currently) care too much about the precise accuracy of the preview's
-	 * colour mapping (and we care more about its speed) we try to short-
-	 * circuit this "ideal" situation in some cases.
-	 *
-	 * The content's specified colour conversion indicates the colourspace
-	 * which the content is in (according to the user).
-	 *
-	 * PlayerVideo::image (bound to PlayerVideo::force) will take the source
-	 * image and convert it (from whatever the user has said it is) to RGB.
-	 */
-
-	_state_timer.set ("get image");
-
-	_video_view->set_image (
-		_player_video.first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true)
-		);
-
-	_state_timer.set ("ImageChanged");
-	ImageChanged (_player_video.first);
-	_state_timer.unset ();
-
-	_video_position = _player_video.second;
-	_inter_position = _player_video.first->inter_position ();
-	_inter_size = _player_video.first->inter_size ();
-
-	refresh_view ();
-
-	_closed_captions_dialog->update (time());
-}
-
-void
 FilmViewer::set_outline_content (bool o)
 {
 	_outline_content = o;
@@ -469,7 +414,7 @@ FilmViewer::quick_refresh ()
 		return false;
 	}
 
-	display_player_video ();
+	_video_view->display_player_video ();
 	return true;
 }
 

@@ -44,6 +44,7 @@ private:
 	void paint ();
 	void timer ();
 	bool get (bool lazy);
+	void display_player_video ();
 
 	wxPanel* _panel;
 	boost::shared_ptr<const Image> _image;

@@ -53,6 +53,8 @@ public:
 	virtual bool get (bool) {
 		return true;
 	}
+	/* XXX_b: to remove */
+	virtual void display_player_video () {}
 
 protected:
 	FilmViewer* _viewer;

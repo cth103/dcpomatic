@@ -21,6 +21,7 @@
 #include "simple_video_view.h"
 #include "film_viewer.h"
 #include "wx_util.h"
+#include "closed_captions_dialog.h"
 #include "lib/image.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/butler.h"
@@ -31,6 +32,7 @@
 using std::max;
 using std::string;
 using boost::optional;
+using boost::shared_ptr;
 using namespace dcpomatic;
 
 SimpleVideoView::SimpleVideoView (FilmViewer* viewer, wxWindow* parent)
@@ -207,8 +209,63 @@ SimpleVideoView::get (bool lazy)
 		error_dialog (get(), e.what());
 	}
 
-	_viewer->display_player_video ();
+	display_player_video ();
 	_viewer->PositionChanged ();
 
 	return true;
+}
+
+void
+SimpleVideoView::display_player_video ()
+{
+	if (!_viewer->_player_video.first) {
+		set_image (shared_ptr<Image>());
+		_viewer->refresh_view ();
+		return;
+	}
+
+	if (_viewer->playing() && (_viewer->time() - _viewer->_player_video.second) > _viewer->one_video_frame()) {
+		/* Too late; just drop this frame before we try to get its image (which will be the time-consuming
+		   part if this frame is J2K).
+		*/
+		_viewer->_video_position = _viewer->_player_video.second;
+		++_viewer->_dropped;
+		return;
+	}
+
+	/* In an ideal world, what we would do here is:
+	 *
+	 * 1. convert to XYZ exactly as we do in the DCP creation path.
+	 * 2. convert back to RGB for the preview display, compensating
+	 *    for the monitor etc. etc.
+	 *
+	 * but this is inefficient if the source is RGB.  Since we don't
+	 * (currently) care too much about the precise accuracy of the preview's
+	 * colour mapping (and we care more about its speed) we try to short-
+	 * circuit this "ideal" situation in some cases.
+	 *
+	 * The content's specified colour conversion indicates the colourspace
+	 * which the content is in (according to the user).
+	 *
+	 * PlayerVideo::image (bound to PlayerVideo::force) will take the source
+	 * image and convert it (from whatever the user has said it is) to RGB.
+	 */
+
+	_viewer->_state_timer.set ("get image");
+
+	set_image (
+		_viewer->_player_video.first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true)
+		);
+
+	_viewer->_state_timer.set ("ImageChanged");
+	_viewer->ImageChanged (_viewer->_player_video.first);
+	_viewer->_state_timer.unset ();
+
+	_viewer->_video_position = _viewer->_player_video.second;
+	_viewer->_inter_position = _viewer->_player_video.first->inter_position ();
+	_viewer->_inter_size = _viewer->_player_video.first->inter_size ();
+
+	_viewer->refresh_view ();
+
+	_viewer->_closed_captions_dialog->update (_viewer->time());
 }
