@@ -135,9 +135,6 @@ public:
 	bool pad_black () const {
 		return _pad_black;
 	}
-	dcpomatic::DCPTime video_position () const {
-		return _video_position;
-	}
 
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
 	boost::signals2::signal<void ()> PositionChanged;

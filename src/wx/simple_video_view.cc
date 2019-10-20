@@ -83,10 +83,10 @@ SimpleVideoView::paint ()
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		DCPTime const period = DCPTime::from_seconds(Config::instance()->player_watermark_period() * 60);
-		int64_t n = _viewer->video_position().get() / period.get();
+		int64_t n = _viewer->position().get() / period.get();
 		DCPTime from(n * period.get());
 		DCPTime to = from + DCPTime::from_seconds(Config::instance()->player_watermark_duration() / 1000.0);
-		if (from <= _viewer->video_position() && _viewer->video_position() <= to) {
+		if (from <= _viewer->position() && _viewer->position() <= to) {
 			if (!_in_watermark) {
 				_in_watermark = true;
 				_watermark_x = rand() % panel_size.GetWidth();
