@@ -429,7 +429,7 @@ FilmViewer::start ()
 
 	_playing = true;
 	_dropped = 0;
-	_video_view->timer ();
+	_video_view->start ();
 	Started (position());
 }
 

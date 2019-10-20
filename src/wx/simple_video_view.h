@@ -38,6 +38,8 @@ public:
 
 	void update ();
 
+	void start ();
+
 private:
 	void paint ();
 	void timer ();

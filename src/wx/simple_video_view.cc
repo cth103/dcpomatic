@@ -163,3 +163,9 @@ SimpleVideoView::timer ()
 		_viewer->_butler->rethrow ();
 	}
 }
+
+void
+SimpleVideoView::start ()
+{
+	timer ();
+}

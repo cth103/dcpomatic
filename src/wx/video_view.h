@@ -44,10 +44,10 @@ public:
 	virtual wxWindow* get () const = 0;
 	virtual void update () = 0;
 
-	boost::signals2::signal<void()> Sized;
+	/* XXX_b: make pure */
+	virtual void start () {}
 
-	/* XXX_b: to remove */
-	virtual void timer () {}
+	boost::signals2::signal<void()> Sized;
 
 protected:
 	FilmViewer* _viewer;
