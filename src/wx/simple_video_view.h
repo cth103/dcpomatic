@@ -43,6 +43,7 @@ public:
 private:
 	void paint ();
 	void timer ();
+	bool get (bool lazy);
 
 	wxPanel* _panel;
 	boost::shared_ptr<const Image> _image;

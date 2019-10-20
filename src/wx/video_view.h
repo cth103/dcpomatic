@@ -49,6 +49,11 @@ public:
 
 	boost::signals2::signal<void()> Sized;
 
+	/* XXX_b: to remove */
+	virtual bool get (bool) {
+		return true;
+	}
+
 protected:
 	FilmViewer* _viewer;
 

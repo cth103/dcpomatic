@@ -147,7 +147,7 @@ SimpleVideoView::timer ()
 		return;
 	}
 
-	_viewer->get (false);
+	get (false);
 	DCPTime const next = _viewer->position() + _viewer->one_video_frame();
 
 	if (next >= _viewer->film()->length()) {
@@ -168,4 +168,47 @@ void
 SimpleVideoView::start ()
 {
 	timer ();
+}
+
+/** Try to get a frame from the butler and display it.
+ *  @param lazy true to return false quickly if no video is available quickly (i.e. we are waiting for the butler).
+ *  false to ask the butler to block until it has video (unless it is suspended).
+ *  @return true on success, false if we did nothing because it would have taken too long.
+ */
+bool
+SimpleVideoView::get (bool lazy)
+{
+	DCPOMATIC_ASSERT (_viewer->_butler);
+	_viewer->_gets++;
+
+	do {
+		Butler::Error e;
+		_viewer->_player_video = _viewer->_butler->get_video (!lazy, &e);
+		if (!_viewer->_player_video.first && e == Butler::AGAIN) {
+			if (lazy) {
+				/* No video available; return saying we failed */
+				return false;
+			} else {
+				/* Player was suspended; come back later */
+				signal_manager->when_idle (boost::bind(&SimpleVideoView::get, this, false));
+				return false;
+			}
+		}
+	} while (
+		_viewer->_player_video.first &&
+		_viewer->film()->three_d() &&
+		_viewer->_eyes != _viewer->_player_video.first->eyes() &&
+		_viewer->_player_video.first->eyes() != EYES_BOTH
+		);
+
+	try {
+		_viewer->_butler->rethrow ();
+	} catch (DecodeError& e) {
+		error_dialog (get(), e.what());
+	}
+
+	_viewer->display_player_video ();
+	_viewer->PositionChanged ();
+
+	return true;
 }

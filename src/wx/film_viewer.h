@@ -153,7 +153,6 @@ private:
 	void video_view_sized ();
 	void calculate_sizes ();
 	void player_change (ChangeType type, int, bool);
-	bool get (bool lazy);
 	void idle_handler ();
 	void request_idle_get ();
 	void display_player_video ();

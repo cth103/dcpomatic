@@ -140,7 +140,7 @@ FilmViewer::idle_handler ()
 		return;
 	}
 
-	if (get(true)) {
+	if (_video_view->get(true)) {
 		_idle_get = false;
 	} else {
 		/* get() could not complete quickly so we'll try again later */
@@ -234,49 +234,6 @@ FilmViewer::refresh_view ()
 	_state_timer.set ("update-view");
 	_video_view->update ();
 	_state_timer.unset ();
-}
-
-/** Try to get a frame from the butler and display it.
- *  @param lazy true to return false quickly if no video is available quickly (i.e. we are waiting for the butler).
- *  false to ask the butler to block until it has video (unless it is suspended).
- *  @return true on success, false if we did nothing because it would have taken too long.
- */
-bool
-FilmViewer::get (bool lazy)
-{
-	DCPOMATIC_ASSERT (_butler);
-	++_gets;
-
-	do {
-		Butler::Error e;
-		_player_video = _butler->get_video (!lazy, &e);
-		if (!_player_video.first && e == Butler::AGAIN) {
-			if (lazy) {
-				/* No video available; return saying we failed */
-				return false;
-			} else {
-				/* Player was suspended; come back later */
-				signal_manager->when_idle (boost::bind(&FilmViewer::get, this, false));
-				return false;
-			}
-		}
-	} while (
-		_player_video.first &&
-		_film->three_d() &&
-		_eyes != _player_video.first->eyes() &&
-		_player_video.first->eyes() != EYES_BOTH
-		);
-
-	try {
-		_butler->rethrow ();
-	} catch (DecodeError& e) {
-		error_dialog (_video_view->get(), e.what());
-	}
-
-	display_player_video ();
-	PositionChanged ();
-
-	return true;
 }
 
 void
