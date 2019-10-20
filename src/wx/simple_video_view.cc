@@ -143,14 +143,14 @@ SimpleVideoView::update ()
 void
 SimpleVideoView::timer ()
 {
-	if (!_viewer->_film || !_viewer->_playing) {
+	if (!_viewer->film() || !_viewer->playing()) {
 		return;
 	}
 
 	_viewer->get (false);
-	DCPTime const next = _viewer->_video_position + _viewer->one_video_frame();
+	DCPTime const next = _viewer->position() + _viewer->one_video_frame();
 
-	if (next >= _viewer->_film->length()) {
+	if (next >= _viewer->film()->length()) {
 		_viewer->stop ();
 		_viewer->Finished ();
 		return;
