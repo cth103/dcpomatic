@@ -74,9 +74,9 @@ BOOST_AUTO_TEST_CASE (job_manager_test)
 	shared_ptr<TestJob> a (new TestJob (film));
 
 	JobManager::instance()->add (a);
-	dcpomatic_sleep (1);
+	dcpomatic_sleep_seconds (1);
 	BOOST_CHECK_EQUAL (a->running (), true);
 	a->set_finished_ok ();
-	dcpomatic_sleep (2);
+	dcpomatic_sleep_seconds (2);
 	BOOST_CHECK_EQUAL (a->finished_ok(), true);
 }

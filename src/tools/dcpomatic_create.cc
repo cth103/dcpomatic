@@ -124,7 +124,7 @@ main (int argc, char* argv[])
 			}
 
 			while (jm->work_to_do ()) {
-				dcpomatic_sleep (1);
+				dcpomatic_sleep_seconds (1);
 			}
 
 			while (signal_manager->ui_idle() > 0) {}

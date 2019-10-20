@@ -109,7 +109,7 @@ ContentView::update ()
 			}
 			return;
 		}
-		dcpomatic_sleep (1);
+		dcpomatic_sleep_seconds (1);
 	}
 
 	/* Add content from successful jobs and report errors */
