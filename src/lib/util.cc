@@ -44,6 +44,7 @@
 #include "ffmpeg_image_proxy.h"
 #include "image.h"
 #include "text_decoder.h"
+#include "job_manager.h"
 #include <dcp/locale_convert.h>
 #include <dcp/util.h>
 #include <dcp/raw_convert.h>
@@ -956,6 +957,113 @@ emit_subtitle_image (ContentTimePeriod period, dcp::SubtitleImage sub, dcp::Size
 	}
 
 	decoder->emit_bitmap (period, image, rect);
+}
+
+bool
+show_jobs_on_console (bool progress)
+{
+	bool first = true;
+	bool error = false;
+	while (true) {
+
+		dcpomatic_sleep (5);
+
+		list<shared_ptr<Job> > jobs = JobManager::instance()->get();
+
+		if (!first && progress) {
+			for (size_t i = 0; i < jobs.size(); ++i) {
+				cout << "\033[1A\033[2K";
+			}
+			cout.flush ();
+		}
+
+		first = false;
+
+		BOOST_FOREACH (shared_ptr<Job> i, jobs) {
+			if (progress) {
+				cout << i->name();
+				if (!i->sub_name().empty()) {
+					cout << "; " << i->sub_name();
+				}
+				cout << ": ";
+
+				if (i->progress ()) {
+					cout << i->status() << "			    \n";
+				} else {
+					cout << ": Running	     \n";
+				}
+			}
+
+			if (!progress && i->finished_in_error()) {
+				/* We won't see this error if we haven't been showing progress,
+				   so show it now.
+				*/
+				cout << i->status() << "\n";
+			}
+
+			if (i->finished_in_error()) {
+				error = true;
+			}
+		}
+
+		if (!JobManager::instance()->work_to_do()) {
+			break;
+		}
+	}
+
+	return error;
+}
+
+/** XXX: could use mmap? */
+void
+copy_in_bits (boost::filesystem::path from, boost::filesystem::path to, boost::function<void (float)> progress)
+{
+	FILE* f = fopen_boost (from, "rb");
+	if (!f) {
+		throw OpenFileError (from, errno, OpenFileError::READ);
+	}
+	FILE* t = fopen_boost (to, "wb");
+	if (!t) {
+		fclose (f);
+		throw OpenFileError (to, errno, OpenFileError::WRITE);
+	}
+
+	/* on the order of a second's worth of copying */
+	boost::uintmax_t const chunk = 20 * 1024 * 1024;
+
+	uint8_t* buffer = static_cast<uint8_t*> (malloc(chunk));
+	if (!buffer) {
+		throw std::bad_alloc ();
+	}
+
+	boost::uintmax_t const total = boost::filesystem::file_size (from);
+	boost::uintmax_t remaining = total;
+
+	while (remaining) {
+		boost::uintmax_t this_time = min (chunk, remaining);
+		size_t N = fread (buffer, 1, chunk, f);
+		if (N < this_time) {
+			fclose (f);
+			fclose (t);
+			free (buffer);
+			throw ReadFileError (from, errno);
+		}
+
+		N = fwrite (buffer, 1, this_time, t);
+		if (N < this_time) {
+			fclose (f);
+			fclose (t);
+			free (buffer);
+			throw WriteFileError (to, errno);
+		}
+
+		progress (1 - float(remaining) / total);
+		remaining -= this_time;
+	}
+
+	fclose (f);
+	fclose (t);
+	free (buffer);
 }
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP

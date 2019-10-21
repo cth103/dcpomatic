@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -26,11 +26,14 @@
 #include "lib/util.h"
 #include "lib/cross.h"
 #include "lib/exceptions.h"
+#include "test.h"
 #include <dcp/certificate_chain.h>
 #include <boost/test/unit_test.hpp>
+#include <boost/bind.hpp>
 
 using std::string;
 using std::vector;
+using std::list;
 using boost::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (digest_head_tail_test)
@@ -127,4 +130,25 @@ BOOST_AUTO_TEST_CASE (careful_string_filter_test)
 	BOOST_CHECK_EQUAL ("hello_world", careful_string_filter("héllo_wörld"));
 	BOOST_CHECK_EQUAL ("hello_world", careful_string_filter("héllo_wörld"));
 	BOOST_CHECK_EQUAL ("hello_world_a", careful_string_filter("héllo_wörld_à"));
+}
+
+static list<float> progress_values;
+
+static void
+progress (float p)
+{
+	progress_values.push_back (p);
+}
+
+BOOST_AUTO_TEST_CASE (copy_in_bits_test)
+{
+	for (int i = 0; i < 32; ++i) {
+		make_random_file ("build/test/random.dat", rand() % (256 * 1024 * 1024));
+
+		progress_values.clear ();
+		copy_in_bits ("build/test/random.dat", "build/test/random.dat2", boost::bind(&progress, _1));
+		BOOST_CHECK (!progress_values.empty());
+
+		check_file ("build/test/random.dat", "build/test/random.dat2");
+	}
 }
