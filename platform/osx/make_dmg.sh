@@ -314,7 +314,6 @@ EOF
     chmod -Rf go-w /Volumes/"$vol_name"/"$appdir"
     sync
 
-    set -e
     hdiutil eject $device
     hdiutil convert -format UDZO $tmp_dmg -imagekey zlib-level=9 -o "$dmg"
     sips -i "$appdir/Contents/Resources/dcpomatic2.icns"
@@ -322,6 +321,8 @@ EOF
     Rez -append "$appdir/Contents/Resources/DCP-o-matic.rsrc" -o "$dmg"
     SetFile -a C "$dmg"
     xattr -c "$dmg"
+
+    set -e
     codesign --verify --verbose --sign "Developer ID Application: Carl Hetherington (R82DXSR997)" "$dmg"
 
     id=$(xcrun altool --notarize-app -t osx -f "$dmg" --primary-bundle-id $bundle_id -u $APPLE_ID -p $APPLE_PASSWORD --output-format xml | grep -C1 RequestUUID | tail -n 1 | sed -e "s/<string>//g" | sed -e "s/<\/string>//g")
