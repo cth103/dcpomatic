@@ -54,6 +54,7 @@
 using std::list;
 using std::string;
 using std::cout;
+using std::exception;
 using std::map;
 using boost::shared_ptr;
 using boost::optional;
@@ -75,6 +76,7 @@ ReelWriter::ReelWriter (
 	, _reel_index (reel_index)
 	, _reel_count (reel_count)
 	, _content_summary (content_summary)
+	, _job (job)
 {
 	/* Create our picture asset in a subdirectory, named according to those
 	   film's parameters which affect the video output.  We will hard-link
@@ -100,9 +102,6 @@ ReelWriter::ReelWriter (
 		_film->internal_video_asset_dir() / _film->internal_video_asset_filename(_period)
 		);
 
-	if (job) {
-		job->sub (_("Checking existing image data"));
-	}
 	_first_nonexistant_frame = check_existing_picture_asset ();
 
 	_picture_asset_writer = _picture_asset->start_write (
@@ -180,14 +179,25 @@ ReelWriter::check_existing_picture_asset ()
 	DCPOMATIC_ASSERT (_picture_asset->file());
 	boost::filesystem::path asset = _picture_asset->file().get();
 
+	shared_ptr<Job> job = _job.lock ();
+
 	/* If there is an existing asset, break any hard links to it as we are about to change its contents
 	   (if only by changing the IDs); see #1126.
 	*/
 
 	if (boost::filesystem::exists(asset) && boost::filesystem::hard_link_count(asset) > 1) {
-		boost::filesystem::copy_file (asset, asset.string() + ".tmp");
+		if (job) {
+			job->sub (_("Copying old video file"));
+			copy_in_bits (asset, asset.string() + ".tmp", bind(&Job::set_progress, job.get(), _1, false));
+		} else {
+			boost::filesystem::copy_file (asset, asset.string() + ".tmp");
+		}
 		boost::filesystem::remove (asset);
 		boost::filesystem::rename (asset.string() + ".tmp", asset);
+	}
+
+	if (job) {
+		job->sub (_("Checking existing image data"));
 	}
 
 	/* Try to open the existing asset */
@@ -295,10 +305,21 @@ ReelWriter::finish ()
 		boost::filesystem::create_hard_link (video_from, video_to, ec);
 		if (ec) {
 			LOG_WARNING_NC ("Hard-link failed; copying instead");
-			boost::filesystem::copy_file (video_from, video_to, ec);
-			if (ec) {
-				LOG_ERROR ("Failed to copy video file from %1 to %2 (%3)", video_from.string(), video_to.string(), ec.message ());
-				throw FileError (ec.message(), video_from);
+			shared_ptr<Job> job = _job.lock ();
+			if (job) {
+				job->sub (_("Copying video file into DCP"));
+				try {
+					copy_in_bits (video_from, video_to, bind(&Job::set_progress, job.get(), _1, false));
+				} catch (exception& e) {
+					LOG_ERROR ("Failed to copy video file from %1 to %2 (%3)", video_from.string(), video_to.string(), e.what());
+					throw FileError (e.what(), video_from);
+				}
+			} else {
+				boost::filesystem::copy_file (video_from, video_to, ec);
+				if (ec) {
+					LOG_ERROR ("Failed to copy video file from %1 to %2 (%3)", video_from.string(), video_to.string(), ec.message ());
+					throw FileError (ec.message(), video_from);
+				}
 			}
 		}
 

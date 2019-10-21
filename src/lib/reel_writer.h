@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -25,6 +25,7 @@
 #include "dcp_text_track.h"
 #include <dcp/picture_asset_writer.h>
 #include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
 
 namespace dcpomatic {
 	class Font;
@@ -116,6 +117,7 @@ private:
 	/** number of reels in the DCP */
 	int _reel_count;
 	boost::optional<std::string> _content_summary;
+	boost::weak_ptr<Job> _job;
 
 	boost::shared_ptr<dcp::PictureAsset> _picture_asset;
 	boost::shared_ptr<dcp::PictureAssetWriter> _picture_asset_writer;
