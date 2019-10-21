@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE (interrupt_encoder_test)
 
 	film->make_dcp ();
 
-	dcpomatic_sleep (10);
+	dcpomatic_sleep_seconds (10);
 
 	JobManager::drop ();
 }

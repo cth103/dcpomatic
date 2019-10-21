@@ -811,7 +811,7 @@ private:
 				start (wx_to_std (wxStandardPaths::Get().GetExecutablePath()));
 			}
 
-			dcpomatic_sleep (1);
+			dcpomatic_sleep_seconds (1);
 		}
 
 		return true;

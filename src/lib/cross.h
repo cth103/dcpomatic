@@ -37,7 +37,7 @@
 class Log;
 struct AVIOContext;
 
-void dcpomatic_sleep (int);
+void dcpomatic_sleep_seconds (int);
 extern std::string cpu_info ();
 extern void run_ffprobe (boost::filesystem::path, boost::filesystem::path);
 extern std::list<std::pair<std::string, std::string> > mount_info ();

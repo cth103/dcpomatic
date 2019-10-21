@@ -290,7 +290,7 @@ convert_dcp (
 	JobManager* jm = JobManager::instance ();
 	while (jm->work_to_do ()) {
 		while (signal_manager->ui_idle ()) {}
-		dcpomatic_sleep (1);
+		dcpomatic_sleep_seconds (1);
 	}
 	DCPOMATIC_ASSERT (!jm->errors());
 

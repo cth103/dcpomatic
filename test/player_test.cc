@@ -333,14 +333,14 @@ BOOST_AUTO_TEST_CASE (player_trim_crash)
 	shared_ptr<Butler> butler (new Butler(player, AudioMapping(), 6, bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
 
 	/* Wait for the butler to fill */
-	dcpomatic_sleep (5);
+	dcpomatic_sleep_seconds (5);
 
 	boon->set_trim_start (ContentTime::from_seconds(5));
 
 	butler->seek (DCPTime(), true);
 
 	/* Wait for the butler to refill */
-	dcpomatic_sleep (5);
+	dcpomatic_sleep_seconds (5);
 
 	butler->rethrow ();
 }

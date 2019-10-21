@@ -176,7 +176,7 @@ list_servers ()
 			}
 		}
 
-		dcpomatic_sleep (1);
+		dcpomatic_sleep_seconds (1);
 
 		for (int i = 0; i < N; ++i) {
 			cout << "\033[1A\033[2K";
@@ -360,7 +360,7 @@ main (int argc, char* argv[])
 
 	if (keep_going) {
 		while (true) {
-			dcpomatic_sleep (3600);
+			dcpomatic_sleep_seconds (3600);
 		}
 	}
 

@@ -967,7 +967,7 @@ show_jobs_on_console (bool progress)
 	bool error = false;
 	while (true) {
 
-		dcpomatic_sleep (5);
+		dcpomatic_sleep_seconds (5);
 
 		list<shared_ptr<Job> > jobs = JobManager::instance()->get();
 

@@ -81,7 +81,7 @@ Checker::thread ()
 		}
 
 		lm.unlock ();
-		dcpomatic_sleep (_period);
+		dcpomatic_sleep_seconds (_period);
 	}
 }
 

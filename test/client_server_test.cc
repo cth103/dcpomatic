@@ -122,7 +122,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 	thread* server_thread = new thread (boost::bind (&EncodeServer::run, server));
 
 	/* Let the server get itself ready */
-	dcpomatic_sleep (1);
+	dcpomatic_sleep_seconds (1);
 
 	/* "localhost" rather than "127.0.0.1" here fails on docker; go figure */
 	EncodeServerDescription description ("127.0.0.1", 1, SERVER_LINK_VERSION);
@@ -207,7 +207,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 	thread* server_thread = new thread (boost::bind (&EncodeServer::run, server));
 
 	/* Let the server get itself ready */
-	dcpomatic_sleep (1);
+	dcpomatic_sleep_seconds (1);
 
 	/* "localhost" rather than "127.0.0.1" here fails on docker; go figure */
 	EncodeServerDescription description ("127.0.0.1", 2, SERVER_LINK_VERSION);
@@ -305,7 +305,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 	thread* server_thread = new thread (boost::bind (&EncodeServer::run, server));
 
 	/* Let the server get itself ready */
-	dcpomatic_sleep (1);
+	dcpomatic_sleep_seconds (1);
 
 	/* "localhost" rather than "127.0.0.1" here fails on docker; go figure */
 	EncodeServerDescription description ("127.0.0.1", 2, SERVER_LINK_VERSION);
