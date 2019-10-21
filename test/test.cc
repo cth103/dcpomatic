@@ -495,3 +495,26 @@ subtitle_file (shared_ptr<Film> film)
 	/* Remove warning */
 	return boost::filesystem::path("/");
 }
+
+void
+make_random_file (boost::filesystem::path path, size_t size)
+{
+	size_t const chunk = 128 * 1024;
+	uint8_t* buffer = static_cast<uint8_t*> (malloc(chunk));
+	BOOST_REQUIRE (buffer);
+	FILE* r = fopen("/dev/urandom", "rb");
+	BOOST_REQUIRE (r);
+	FILE* t = fopen_boost(path, "wb");
+	BOOST_REQUIRE (t);
+	while (size) {
+		size_t this_time = min (size, chunk);
+		size_t N = fread (buffer, 1, this_time, r);
+		BOOST_REQUIRE (N == this_time);
+		N = fwrite (buffer, 1, this_time, t);
+		BOOST_REQUIRE (N == this_time);
+		size -= this_time;
+	}
+	fclose (t);
+	fclose (r);
+	free (buffer);
+}

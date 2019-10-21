@@ -42,3 +42,4 @@ extern void write_image (boost::shared_ptr<const Image> image, boost::filesystem
 boost::filesystem::path dcp_file (boost::shared_ptr<const Film> film, std::string prefix);
 void check_one_frame (boost::filesystem::path dcp, int64_t index, boost::filesystem::path ref);
 extern boost::filesystem::path subtitle_file (boost::shared_ptr<Film> film);
+extern void make_random_file (boost::filesystem::path path, size_t size);

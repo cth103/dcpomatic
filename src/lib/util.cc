@@ -1015,6 +1015,58 @@ show_jobs_on_console (bool progress)
 	return error;
 }
 
+/** XXX: could use mmap? */
+void
+copy_in_bits (boost::filesystem::path from, boost::filesystem::path to, boost::function<void (float)> progress)
+{
+	FILE* f = fopen_boost (from, "rb");
+	if (!f) {
+		throw OpenFileError (from, errno, OpenFileError::READ);
+	}
+	FILE* t = fopen_boost (to, "wb");
+	if (!t) {
+		fclose (f);
+		throw OpenFileError (to, errno, OpenFileError::WRITE);
+	}
+
+	/* on the order of a second's worth of copying */
+	boost::uintmax_t const chunk = 20 * 1024 * 1024;
+
+	uint8_t* buffer = static_cast<uint8_t*> (malloc(chunk));
+	if (!buffer) {
+		throw std::bad_alloc ();
+	}
+
+	boost::uintmax_t const total = boost::filesystem::file_size (from);
+	boost::uintmax_t remaining = total;
+
+	while (remaining) {
+		boost::uintmax_t this_time = min (chunk, remaining);
+		size_t N = fread (buffer, 1, chunk, f);
+		if (N < this_time) {
+			fclose (f);
+			fclose (t);
+			free (buffer);
+			throw ReadFileError (from, errno);
+		}
+
+		N = fwrite (buffer, 1, this_time, t);
+		if (N < this_time) {
+			fclose (f);
+			fclose (t);
+			free (buffer);
+			throw WriteFileError (to, errno);
+		}
+
+		progress (1 - float(remaining) / total);
+		remaining -= this_time;
+	}
+
+	fclose (f);
+	fclose (t);
+	free (buffer);
+}
+
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 
 /* Make up a key from the machine UUID */
