@@ -99,7 +99,7 @@ private:
 
 	void write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const;
 	long frame_info_position (Frame frame, Eyes eyes) const;
-	Frame check_existing_picture_asset ();
+	Frame check_existing_picture_asset (boost::filesystem::path asset);
 	bool existing_picture_frame_ok (FILE* asset_file, boost::shared_ptr<InfoFileHandle> info_file, Frame frame) const;
 
 	boost::shared_ptr<const Film> _film;
@@ -120,6 +120,7 @@ private:
 	boost::weak_ptr<Job> _job;
 
 	boost::shared_ptr<dcp::PictureAsset> _picture_asset;
+	/** picture asset writer, or 0 if we are not writing any picture because we already have one */
 	boost::shared_ptr<dcp::PictureAssetWriter> _picture_asset_writer;
 	boost::shared_ptr<dcp::SoundAsset> _sound_asset;
 	boost::shared_ptr<dcp::SoundAssetWriter> _sound_asset_writer;

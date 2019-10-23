@@ -26,7 +26,16 @@
 #include "lib/reel_writer.h"
 #include "lib/film.h"
 #include "lib/cross.h"
+#include "lib/content_factory.h"
+#include "lib/content.h"
+#include "lib/audio_content.h"
+#include "lib/video_content.h"
 #include "test.h"
+#include <dcp/dcp.h>
+#include <dcp/cpl.h>
+#include <dcp/reel.h>
+#include <dcp/reel_picture_asset.h>
+#include <dcp/reel_sound_asset.h>
 #include <boost/test/unit_test.hpp>
 
 using std::string;
@@ -86,4 +95,61 @@ BOOST_AUTO_TEST_CASE (write_frame_info_test)
 		BOOST_CHECK (equal(info4, writer, file, 5, EYES_RIGHT));
 		BOOST_CHECK (equal(info3, writer, file, 10, EYES_LEFT));
 	}
+}
+
+/** Check that the reel writer correctly re-uses a video asset changed if we remake
+ *  a DCP with no video changes.
+ */
+BOOST_AUTO_TEST_CASE (reel_reuse_video_test)
+{
+	/* Make a DCP */
+	shared_ptr<Film> film = new_test_film2 ("reel_reuse_video_test");
+	shared_ptr<Content> video = content_factory("test/data/flat_red.png").front();
+	film->examine_and_add_content (video);
+	BOOST_REQUIRE (!wait_for_jobs());
+	shared_ptr<Content> audio = content_factory("test/data/white.wav").front();
+	film->examine_and_add_content (audio);
+	BOOST_REQUIRE (!wait_for_jobs());
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	/* Find main picture and sound asset IDs */
+	dcp::DCP dcp1 (film->dir(film->dcp_name()));
+	dcp1.read ();
+	BOOST_REQUIRE_EQUAL (dcp1.cpls().size(), 1);
+	BOOST_REQUIRE_EQUAL (dcp1.cpls().front()->reels().size(), 1);
+	BOOST_REQUIRE (dcp1.cpls().front()->reels().front()->main_picture());
+	BOOST_REQUIRE (dcp1.cpls().front()->reels().front()->main_sound());
+	string const picture_id = dcp1.cpls().front()->reels().front()->main_picture()->asset()->id();
+	string const sound_id = dcp1.cpls().front()->reels().front()->main_sound()->asset()->id();
+
+	/* Change the audio and re-make */
+	audio->audio->set_gain (-3);
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	/* Video ID should be the same, sound different */
+	dcp::DCP dcp2 (film->dir(film->dcp_name()));
+	dcp2.read ();
+	BOOST_REQUIRE_EQUAL (dcp2.cpls().size(), 1);
+	BOOST_REQUIRE_EQUAL (dcp2.cpls().front()->reels().size(), 1);
+	BOOST_REQUIRE (dcp2.cpls().front()->reels().front()->main_picture());
+	BOOST_REQUIRE (dcp2.cpls().front()->reels().front()->main_sound());
+	BOOST_CHECK_EQUAL (picture_id, dcp2.cpls().front()->reels().front()->main_picture()->asset()->id());
+	BOOST_CHECK (sound_id != dcp2.cpls().front()->reels().front()->main_sound()->asset()->id());
+
+	/* Crop video and re-make */
+	video->video->set_left_crop (5);
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	/* Video and sound IDs should be different */
+	dcp::DCP dcp3 (film->dir(film->dcp_name()));
+	dcp3.read ();
+	BOOST_REQUIRE_EQUAL (dcp3.cpls().size(), 1);
+	BOOST_REQUIRE_EQUAL (dcp3.cpls().front()->reels().size(), 1);
+	BOOST_REQUIRE (dcp3.cpls().front()->reels().front()->main_picture());
+	BOOST_REQUIRE (dcp3.cpls().front()->reels().front()->main_sound());
+	BOOST_CHECK (picture_id != dcp3.cpls().front()->reels().front()->main_picture()->asset()->id());
+	BOOST_CHECK (sound_id != dcp3.cpls().front()->reels().front()->main_sound()->asset()->id());
 }

@@ -78,36 +78,60 @@ ReelWriter::ReelWriter (
 	, _content_summary (content_summary)
 	, _job (job)
 {
-	/* Create our picture asset in a subdirectory, named according to those
-	   film's parameters which affect the video output.  We will hard-link
-	   it into the DCP later.
+	/* Create or find our picture asset in a subdirectory, named
+	   according to those film's parameters which affect the video
+	   output.  We will hard-link it into the DCP later.
 	*/
 
 	dcp::Standard const standard = _film->interop() ? dcp::INTEROP : dcp::SMPTE;
 
-	if (_film->three_d ()) {
-		_picture_asset.reset (new dcp::StereoPictureAsset (dcp::Fraction (_film->video_frame_rate(), 1), standard));
+	boost::filesystem::path const asset =
+		_film->internal_video_asset_dir() / _film->internal_video_asset_filename(_period);
+
+	_first_nonexistant_frame = check_existing_picture_asset (asset);
+
+	if (_first_nonexistant_frame < period.duration().frames_round(_film->video_frame_rate())) {
+		/* We do not have a complete picture asset.  If there is an
+		   existing asset, break any hard links to it as we are about
+		   to change its contents (if only by changing the IDs); see
+		   #1126.
+		*/
+		if (boost::filesystem::exists(asset) && boost::filesystem::hard_link_count(asset) > 1) {
+			if (job) {
+				job->sub (_("Copying old video file"));
+				copy_in_bits (asset, asset.string() + ".tmp", bind(&Job::set_progress, job.get(), _1, false));
+			} else {
+				boost::filesystem::copy_file (asset, asset.string() + ".tmp");
+			}
+			boost::filesystem::remove (asset);
+			boost::filesystem::rename (asset.string() + ".tmp", asset);
+		}
+
+
+		if (_film->three_d ()) {
+			_picture_asset.reset (new dcp::StereoPictureAsset(dcp::Fraction(_film->video_frame_rate(), 1), standard));
+		} else {
+			_picture_asset.reset (new dcp::MonoPictureAsset(dcp::Fraction(_film->video_frame_rate(), 1), standard));
+		}
+
+		_picture_asset->set_size (_film->frame_size());
+
+		if (_film->encrypted ()) {
+			_picture_asset->set_key (_film->key());
+			_picture_asset->set_context_id (_film->context_id());
+		}
+
+		_picture_asset->set_file (asset);
+		_picture_asset_writer = _picture_asset->start_write (asset, _first_nonexistant_frame > 0);
 	} else {
-		_picture_asset.reset (new dcp::MonoPictureAsset (dcp::Fraction (_film->video_frame_rate(), 1), standard));
+		/* We already have a complete picture asset that we can just re-use */
+		/* XXX: what about if the encryption key changes? */
+		if (_film->three_d ()) {
+			_picture_asset.reset (new dcp::StereoPictureAsset(asset));
+		} else {
+			_picture_asset.reset (new dcp::MonoPictureAsset(asset));
+		}
 	}
-
-	_picture_asset->set_size (_film->frame_size ());
-
-	if (_film->encrypted ()) {
-		_picture_asset->set_key (_film->key ());
-		_picture_asset->set_context_id (_film->context_id ());
-	}
-
-	_picture_asset->set_file (
-		_film->internal_video_asset_dir() / _film->internal_video_asset_filename(_period)
-		);
-
-	_first_nonexistant_frame = check_existing_picture_asset ();
-
-	_picture_asset_writer = _picture_asset->start_write (
-		_film->internal_video_asset_dir() / _film->internal_video_asset_filename(_period),
-		_first_nonexistant_frame > 0
-		);
 
 	if (_film->audio_channels ()) {
 		_sound_asset.reset (
@@ -174,27 +198,9 @@ ReelWriter::frame_info_position (Frame frame, Eyes eyes) const
 }
 
 Frame
-ReelWriter::check_existing_picture_asset ()
+ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
 {
-	DCPOMATIC_ASSERT (_picture_asset->file());
-	boost::filesystem::path asset = _picture_asset->file().get();
-
 	shared_ptr<Job> job = _job.lock ();
-
-	/* If there is an existing asset, break any hard links to it as we are about to change its contents
-	   (if only by changing the IDs); see #1126.
-	*/
-
-	if (boost::filesystem::exists(asset) && boost::filesystem::hard_link_count(asset) > 1) {
-		if (job) {
-			job->sub (_("Copying old video file"));
-			copy_in_bits (asset, asset.string() + ".tmp", bind(&Job::set_progress, job.get(), _1, false));
-		} else {
-			boost::filesystem::copy_file (asset, asset.string() + ".tmp");
-		}
-		boost::filesystem::remove (asset);
-		boost::filesystem::rename (asset.string() + ".tmp", asset);
-	}
 
 	if (job) {
 		job->sub (_("Checking existing image data"));
@@ -252,6 +258,11 @@ ReelWriter::check_existing_picture_asset ()
 void
 ReelWriter::write (optional<Data> encoded, Frame frame, Eyes eyes)
 {
+	if (!_picture_asset_writer) {
+		/* We're not writing any data */
+		return;
+	}
+
 	dcp::FrameInfo fin = _picture_asset_writer->write (encoded->data().get (), encoded->size());
 	write_frame_info (frame, eyes, fin);
 	_last_written[eyes] = encoded;
@@ -262,6 +273,11 @@ ReelWriter::write (optional<Data> encoded, Frame frame, Eyes eyes)
 void
 ReelWriter::fake_write (Frame frame, Eyes eyes, int size)
 {
+	if (!_picture_asset_writer) {
+		/* We're not writing any data */
+		return;
+	}
+
 	_picture_asset_writer->fake_write (size);
 	_last_written_video_frame = frame;
 	_last_written_eyes = eyes;
@@ -270,6 +286,11 @@ ReelWriter::fake_write (Frame frame, Eyes eyes, int size)
 void
 ReelWriter::repeat_write (Frame frame, Eyes eyes)
 {
+	if (!_picture_asset_writer) {
+		/* We're not writing any data */
+		return;
+	}
+
 	dcp::FrameInfo fin = _picture_asset_writer->write (
 		_last_written[eyes]->data().get(),
 		_last_written[eyes]->size()
@@ -282,7 +303,7 @@ ReelWriter::repeat_write (Frame frame, Eyes eyes)
 void
 ReelWriter::finish ()
 {
-	if (!_picture_asset_writer->finalize ()) {
+	if (_picture_asset_writer && !_picture_asset_writer->finalize ()) {
 		/* Nothing was written to the picture asset */
 		LOG_GENERAL ("Nothing was written to reel %1 of %2", _reel_index, _reel_count);
 		_picture_asset.reset ();
@@ -300,8 +321,12 @@ ReelWriter::finish ()
 		boost::filesystem::path video_to;
 		video_to /= _film->dir (_film->dcp_name());
 		video_to /= video_asset_filename (_picture_asset, _reel_index, _reel_count, _content_summary);
-
+		/* There may be an existing "to" file if we are recreating a DCP in the same place without
+		   changing any video.
+		*/
 		boost::system::error_code ec;
+		boost::filesystem::remove (video_to, ec);
+
 		boost::filesystem::create_hard_link (video_from, video_to, ec);
 		if (ec) {
 			LOG_WARNING_NC ("Hard-link failed; copying instead");
@@ -317,7 +342,7 @@ ReelWriter::finish ()
 			} else {
 				boost::filesystem::copy_file (video_from, video_to, ec);
 				if (ec) {
-					LOG_ERROR ("Failed to copy video file from %1 to %2 (%3)", video_from.string(), video_to.string(), ec.message ());
+					LOG_ERROR ("Failed to copy video file from %1 to %2 (%3)", video_from.string(), video_to.string(), ec.message());
 					throw FileError (ec.message(), video_from);
 				}
 			}
