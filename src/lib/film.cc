@@ -225,7 +225,8 @@ Film::video_identifier () const
 		+ "_" + raw_convert<string>(j2k_bandwidth());
 
 	if (encrypted ()) {
-		s += "_E";
+		/* This is insecure but hey, the key is in plaintext in metadata.xml */
+		s += "_E" + _key.hex();
 	} else {
 		s += "_P";
 	}
