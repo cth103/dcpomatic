@@ -377,6 +377,7 @@ public:
 	void reset_film (shared_ptr<Film> film = shared_ptr<Film>(new Film(optional<boost::filesystem::path>())))
 	{
 		_film = film;
+		_film->set_audio_channels (MAX_DCP_AUDIO_CHANNELS);
 		_viewer->set_film (_film);
 		_controls->set_film (_film);
 		_film->Change.connect (bind(&DOMFrame::film_changed, this, _1, _2));
