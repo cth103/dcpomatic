@@ -422,5 +422,8 @@ FFmpegFileEncoder::buffer_free (void* opaque, uint8_t* data)
 void
 FFmpegFileEncoder::buffer_free2 (uint8_t* data)
 {
-	_pending_images.erase (data);
+	/* XXX: does this need a lock to prevent cross-thread access to _pending_images? */
+	if (_pending_images.find(data) != _pending_images.end()) {
+		_pending_images.erase (data);
+	}
 }
