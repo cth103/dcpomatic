@@ -278,7 +278,12 @@ FFmpegFileEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 	AVFrame* frame = av_frame_alloc ();
 	DCPOMATIC_ASSERT (frame);
 
-	_pending_images[image->data()[0]] = image;
+	{
+		boost::mutex::scoped_lock lm (_pending_images_mutex);
+		DCPOMATIC_ASSERT (_pending_images.find(image->data()[0]) != _pending_images.end());
+		_pending_images[image->data()[0]] = image;
+	}
+
 	for (int i = 0; i < 3; ++i) {
 		AVBufferRef* buffer = av_buffer_create(image->data()[i], image->stride()[i] * image->size().height, &buffer_free, this, 0);
 		frame->buf[i] = av_buffer_ref (buffer);
@@ -422,7 +427,7 @@ FFmpegFileEncoder::buffer_free (void* opaque, uint8_t* data)
 void
 FFmpegFileEncoder::buffer_free2 (uint8_t* data)
 {
-	/* XXX: does this need a lock to prevent cross-thread access to _pending_images? */
+	boost::mutex::scoped_lock lm (_pending_images_mutex);
 	if (_pending_images.find(data) != _pending_images.end()) {
 		_pending_images.erase (data);
 	}

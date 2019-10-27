@@ -90,6 +90,7 @@ private:
 	    their data have been passed to FFmpeg.
 	*/
 	std::map<uint8_t*, boost::shared_ptr<const Image> > _pending_images;
+	boost::mutex _pending_images_mutex;
 
 	static int _video_stream_index;
 	static int _audio_stream_index;
