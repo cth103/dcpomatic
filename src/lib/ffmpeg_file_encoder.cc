@@ -280,7 +280,6 @@ FFmpegFileEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 
 	{
 		boost::mutex::scoped_lock lm (_pending_images_mutex);
-		DCPOMATIC_ASSERT (_pending_images.find(image->data()[0]) != _pending_images.end());
 		_pending_images[image->data()[0]] = image;
 	}
 
