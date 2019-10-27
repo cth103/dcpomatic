@@ -347,9 +347,8 @@ EOF
 	done
 
 	xcrun stapler staple "$dmg"
-	set +e
-
     fi
+    set +e
 
     rm $tmp_dmg
     rm -rf $vol_name
