@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Syntax: make_dmg.sh <builddir>
+# Syntax: make_dmg.sh <environment> <builddir>
 #
-# e.g. make_dmg.sh /Users/carl/cdist
+# e.g. make_dmg.sh /Users/carl/osx-environment /Users/carl/cdist
 
 # Don't set -e here as egrep (used a few times) returns 1 if no matches
 # were found.
@@ -11,8 +11,8 @@ version=`git describe --tags --abbrev=0 | sed -e "s/v//"`
 
 # DMG size in megabytes
 DMG_SIZE=256
-ENV=/Users/carl/Environments/dcpomatic
-ROOT=$1
+ENV=$1
+ROOT=$2
 
 # This is our work area for making up the .dmgs
 mkdir -p build/platform/osx
