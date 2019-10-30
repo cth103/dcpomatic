@@ -204,8 +204,14 @@ void
 DCPDecoder::pass_texts (ContentTime next, dcp::Size size)
 {
 	list<shared_ptr<TextDecoder> >::const_iterator decoder = text.begin ();
+	if (decoder == text.end()) {
+		/* It's possible that there is now a main subtitle but no TextDecoders, for example if
+		   the CPL has just changed but the TextContent's texts have not been recreated yet.
+		*/
+		return;
+	}
+
 	if ((*_reel)->main_subtitle()) {
-		DCPOMATIC_ASSERT (decoder != text.end ());
 		pass_texts (
 			next,
 			(*_reel)->main_subtitle()->asset(),
@@ -216,8 +222,8 @@ DCPDecoder::pass_texts (ContentTime next, dcp::Size size)
 			);
 		++decoder;
 	}
+
 	BOOST_FOREACH (shared_ptr<dcp::ReelClosedCaptionAsset> i, (*_reel)->closed_captions()) {
-		DCPOMATIC_ASSERT (decoder != text.end ());
 		pass_texts (
 			next, i->asset(), _dcp_content->reference_text(TEXT_CLOSED_CAPTION), i->entry_point(), *decoder, size
 			);
