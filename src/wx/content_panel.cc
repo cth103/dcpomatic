@@ -298,13 +298,6 @@ ContentPanel::item_selected ()
 void
 ContentPanel::check_selection ()
 {
-	if (_last_selected == selected()) {
-		/* This was triggered by a re-build of the view but the selection
-		   did not really change.
-		*/
-		return;
-	}
-
 	_last_selected = selected ();
 
 	setup_sensitivity ();
