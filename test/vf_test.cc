@@ -337,3 +337,39 @@ BOOST_AUTO_TEST_CASE (vf_test6)
 	vf->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 }
+
+/** Test bug #1643 (the second part; referring fails if there are gaps) */
+BOOST_AUTO_TEST_CASE (vf_test7)
+{
+	/* First OV */
+	shared_ptr<Film> ov1 = new_test_film2 ("vf_test7_ov1");
+	ov1->set_video_frame_rate (24);
+	ov1->examine_and_add_content (content_factory("test/data/flat_red.png").front());
+	BOOST_REQUIRE (!wait_for_jobs());
+	ov1->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	/* Second OV */
+	shared_ptr<Film> ov2 = new_test_film2 ("vf_test7_ov2");
+	ov2->set_video_frame_rate (24);
+	ov2->examine_and_add_content (content_factory("test/data/flat_red.png").front());
+	BOOST_REQUIRE (!wait_for_jobs());
+	ov2->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	/* VF */
+	shared_ptr<Film> vf = new_test_film2 ("vf_test7_vf");
+	shared_ptr<DCPContent> ov1_dcp (new DCPContent(ov1->dir(ov1->dcp_name())));
+	vf->examine_and_add_content (ov1_dcp);
+	shared_ptr<DCPContent> ov2_dcp (new DCPContent(ov1->dir(ov1->dcp_name())));
+	vf->examine_and_add_content (ov2_dcp);
+	BOOST_REQUIRE (!wait_for_jobs());
+	vf->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	ov1_dcp->set_reference_video (true);
+	ov2_dcp->set_reference_video (true);
+	ov1_dcp->set_position (vf, DCPTime::from_seconds(1));
+	ov2_dcp->set_position (vf, DCPTime::from_seconds(20));
+	vf->write_metadata ();
+	vf->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+}
