@@ -405,6 +405,7 @@ private:
 	void playlist_content_change (ChangeType type, boost::weak_ptr<Content>, int, bool frequent);
 	void maybe_add_content (boost::weak_ptr<Job>, boost::weak_ptr<Content>, bool disable_audio_analysis);
 	void audio_analysis_finished ();
+	void check_settings_consistency ();
 
 	static std::string const metadata_file;
 

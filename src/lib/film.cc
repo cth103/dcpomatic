@@ -1276,6 +1276,9 @@ Film::playlist_content_change (ChangeType type, weak_ptr<Content> c, int p, bool
 
 	if (type == CHANGE_TYPE_DONE) {
 		emit (boost::bind (boost::ref (ContentChange), type, c, p, frequent));
+		if (!frequent) {
+			check_settings_consistency ();
+		}
 	} else {
 		ContentChange (type, c, p, frequent);
 	}
@@ -1288,28 +1291,36 @@ Film::playlist_change (ChangeType type)
 	signal_change (type, NAME);
 
 	if (type == CHANGE_TYPE_DONE) {
-		/* Check that this change hasn't made our settings inconsistent */
-		bool change_made = false;
-		BOOST_FOREACH (shared_ptr<Content> i, content()) {
-			shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent>(i);
-			if (!d) {
-				continue;
-			}
+		check_settings_consistency ();
+	}
+}
 
-			string why_not;
-			if (d->reference_video() && !d->can_reference_video(shared_from_this(), why_not)) {
-				d->set_reference_video(false);
-				change_made = true;
-			}
-			if (d->reference_audio() && !d->can_reference_audio(shared_from_this(), why_not)) {
-				d->set_reference_audio(false);
-				change_made = true;
-			}
+/** Check for (and if necessary fix) impossible settings combinations, like
+ *  video set to being referenced when it can't be.
+ */
+void
+Film::check_settings_consistency ()
+{
+	bool change_made = false;
+	BOOST_FOREACH (shared_ptr<Content> i, content()) {
+		shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent>(i);
+		if (!d) {
+			continue;
 		}
 
-		if (change_made) {
-			Message (_("DCP-o-matic had to change your settings for referring to DCPs as OV.  Please review those settings to make sure they are what you want."));
+		string why_not;
+		if (d->reference_video() && !d->can_reference_video(shared_from_this(), why_not)) {
+			d->set_reference_video(false);
+			change_made = true;
 		}
+		if (d->reference_audio() && !d->can_reference_audio(shared_from_this(), why_not)) {
+			d->set_reference_audio(false);
+			change_made = true;
+		}
+	}
+
+	if (change_made) {
+		Message (_("DCP-o-matic had to change your settings for referring to DCPs as OV.  Please review those settings to make sure they are what you want."));
 	}
 }
 
