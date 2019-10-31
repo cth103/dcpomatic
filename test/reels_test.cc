@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -35,6 +35,7 @@
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/foreach.hpp>
+#include <iostream>
 
 using std::list;
 using std::cout;
@@ -411,4 +412,31 @@ BOOST_AUTO_TEST_CASE (reels_test10)
 	vf->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 	vf->write_metadata ();
+}
+
+/** Another reels error; REELTYPE_BY_VIDEO_CONTENT when the first content is not
+ *  at time 0.
+ */
+BOOST_AUTO_TEST_CASE (reels_test11)
+{
+	shared_ptr<Film> film = new_test_film2 ("reels_test11");
+	film->set_video_frame_rate (24);
+	shared_ptr<FFmpegContent> A(new FFmpegContent("test/data/flat_red.png"));
+	film->examine_and_add_content (A);
+	BOOST_REQUIRE (!wait_for_jobs());
+	A->video->set_length (240);
+	A->set_video_frame_rate (24);
+	A->set_position (film, DCPTime::from_seconds(1));
+	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+	BOOST_CHECK_EQUAL (A->position().get(), DCPTime::from_seconds(1).get());
+	BOOST_CHECK_EQUAL (A->end(film).get(), DCPTime::from_seconds(1 + 10).get());
+
+	list<DCPTimePeriod> r = film->reels ();
+	BOOST_CHECK_EQUAL (r.size(), 2);
+	BOOST_CHECK_EQUAL (r.front().from.get(), 0);
+	BOOST_CHECK_EQUAL (r.front().to.get(), DCPTime::from_seconds(1).get());
+	BOOST_CHECK_EQUAL (r.back().from.get(), DCPTime::from_seconds(1).get());
+	BOOST_CHECK_EQUAL (r.back().to.get(), DCPTime::from_seconds(1 + 10).get());
 }
