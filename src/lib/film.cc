@@ -1563,29 +1563,29 @@ Film::reels () const
 		break;
 	case REELTYPE_BY_VIDEO_CONTENT:
 	{
-		DCPTime last_split;
-		shared_ptr<Content> last_video;
-		BOOST_FOREACH (shared_ptr<Content> c, content ()) {
+		/* Collect all reel boundaries */
+		list<DCPTime> split_points;
+		split_points.push_back (DCPTime());
+		split_points.push_back (len);
+		BOOST_FOREACH (shared_ptr<Content> c, content()) {
 			if (c->video) {
 				BOOST_FOREACH (DCPTime t, c->reel_split_points(shared_from_this())) {
-					if (last_split != t) {
-						p.push_back (DCPTimePeriod(last_split, t));
-						last_split = t;
-					}
+					split_points.push_back (t);
 				}
-				last_video = c;
+				split_points.push_back (c->end(shared_from_this()));
 			}
 		}
 
-		DCPTime video_end = last_video ? last_video->end(shared_from_this()) : DCPTime(0);
-		if (last_split != video_end) {
-			/* Definitely go from the last split to the end of the video content */
-			p.push_back (DCPTimePeriod(last_split, video_end));
-		}
+		split_points.sort ();
+		split_points.unique ();
 
-		if (video_end < len) {
-			/* And maybe go after that as well if there is any non-video hanging over the end */
-			p.push_back (DCPTimePeriod (video_end, len));
+		/* Make them into periods */
+		optional<DCPTime> last;
+		BOOST_FOREACH (DCPTime t, split_points) {
+			if (last) {
+				p.push_back (DCPTimePeriod(*last, t));
+			}
+			last = t;
 		}
 		break;
 	}

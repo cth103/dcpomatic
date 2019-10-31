@@ -439,6 +439,8 @@ maybe_add_text (
 shared_ptr<dcp::Reel>
 ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr<Font> > const & fonts)
 {
+	LOG_GENERAL ("create_reel for %1-%2; %3 of %4", _period.from.get(), _period.to.get(), _reel_index, _reel_count);
+
 	shared_ptr<dcp::Reel> reel (new dcp::Reel ());
 
 	shared_ptr<dcp::ReelPictureAsset> reel_picture_asset;

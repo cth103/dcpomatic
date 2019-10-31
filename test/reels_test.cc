@@ -440,3 +440,44 @@ BOOST_AUTO_TEST_CASE (reels_test11)
 	BOOST_CHECK_EQUAL (r.back().from.get(), DCPTime::from_seconds(1).get());
 	BOOST_CHECK_EQUAL (r.back().to.get(), DCPTime::from_seconds(1 + 10).get());
 }
+
+/** For VFs to work right we have to make separate reels for empty bits between
+ *  video content.
+ */
+BOOST_AUTO_TEST_CASE (reels_test12)
+{
+	shared_ptr<Film> film = new_test_film2 ("reels_test12");
+	film->set_video_frame_rate (24);
+	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	film->set_sequence (false);
+
+	shared_ptr<FFmpegContent> A(new FFmpegContent("test/data/flat_red.png"));
+	film->examine_and_add_content (A);
+	BOOST_REQUIRE (!wait_for_jobs());
+	A->video->set_length (240);
+	A->set_video_frame_rate (24);
+	A->set_position (film, DCPTime::from_seconds(1));
+
+	shared_ptr<FFmpegContent> B(new FFmpegContent("test/data/flat_red.png"));
+	film->examine_and_add_content (B);
+	BOOST_REQUIRE (!wait_for_jobs());
+	B->video->set_length (120);
+	B->set_video_frame_rate (24);
+	B->set_position (film, DCPTime::from_seconds(14));
+
+	list<DCPTimePeriod> r = film->reels ();
+	BOOST_REQUIRE_EQUAL (r.size(), 4);
+	list<DCPTimePeriod>::const_iterator i = r.begin ();
+
+	BOOST_CHECK_EQUAL (i->from.get(), 0);
+	BOOST_CHECK_EQUAL (i->to.get(),   DCPTime::from_seconds(1).get());
+	++i;
+	BOOST_CHECK_EQUAL (i->from.get(), DCPTime::from_seconds(1).get());
+	BOOST_CHECK_EQUAL (i->to.get(),   DCPTime::from_seconds(11).get());
+	++i;
+	BOOST_CHECK_EQUAL (i->from.get(), DCPTime::from_seconds(11).get());
+	BOOST_CHECK_EQUAL (i->to.get(),   DCPTime::from_seconds(14).get());
+	++i;
+	BOOST_CHECK_EQUAL (i->from.get(), DCPTime::from_seconds(14).get());
+	BOOST_CHECK_EQUAL (i->to.get(),   DCPTime::from_seconds(19).get());
+}
