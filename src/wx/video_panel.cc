@@ -555,7 +555,7 @@ void
 VideoPanel::fade_in_changed ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_video ()) {
-		int const vfr = _parent->film()->video_frame_rate ();
+		int const vfr = i->active_video_frame_rate (_parent->film());
 		i->video->set_fade_in (_fade_in->get (vfr).frames_round (vfr));
 	}
 }
@@ -564,7 +564,7 @@ void
 VideoPanel::fade_out_changed ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_video ()) {
-		int const vfr = _parent->film()->video_frame_rate ();
+		int const vfr = i->active_video_frame_rate (_parent->film());
 		i->video->set_fade_out (_fade_out->get (vfr).frames_round (vfr));
 	}
 }
