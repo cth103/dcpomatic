@@ -1606,24 +1606,24 @@ Film::reels () const
 		break;
 	case REELTYPE_BY_VIDEO_CONTENT:
 	{
-		optional<DCPTime> last_split;
+		DCPTime last_split;
 		shared_ptr<Content> last_video;
 		BOOST_FOREACH (shared_ptr<Content> c, content ()) {
 			if (c->video) {
 				BOOST_FOREACH (DCPTime t, c->reel_split_points(shared_from_this())) {
-					if (last_split) {
-						p.push_back (DCPTimePeriod (last_split.get(), t));
+					if (last_split != t) {
+						p.push_back (DCPTimePeriod(last_split, t));
+						last_split = t;
 					}
-					last_split = t;
 				}
 				last_video = c;
 			}
 		}
 
 		DCPTime video_end = last_video ? last_video->end(shared_from_this()) : DCPTime(0);
-		if (last_split) {
+		if (last_split != video_end) {
 			/* Definitely go from the last split to the end of the video content */
-			p.push_back (DCPTimePeriod (last_split.get(), video_end));
+			p.push_back (DCPTimePeriod(last_split, video_end));
 		}
 
 		if (video_end < len) {
