@@ -75,13 +75,11 @@ BOOST_AUTO_TEST_CASE (vf_test1)
 	shared_ptr<FFmpegContent> other (new FFmpegContent("test/data/test.mp4"));
 	film->examine_and_add_content (other);
 	BOOST_REQUIRE (!wait_for_jobs());
+	BOOST_CHECK (!other->audio);
 
-	/* Not possible if there is overlap */
+	/* Not possible if there is overlap; we only check video here as that's all test.mp4 has */
 	other->set_position (film, DCPTime());
 	BOOST_CHECK (!dcp->can_reference_video(film, why_not));
-	BOOST_CHECK (!dcp->can_reference_audio(film, why_not));
-	BOOST_CHECK (!dcp->can_reference_text(film, TEXT_OPEN_SUBTITLE, why_not));
-	BOOST_CHECK (!dcp->can_reference_text(film, TEXT_CLOSED_CAPTION, why_not));
 
 	/* This should not be considered an overlap */
 	other->set_position (film, dcp->end(film));
