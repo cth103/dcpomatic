@@ -56,6 +56,7 @@ ExportFormat formats[] = {
 
 ExportDialog::ExportDialog (wxWindow* parent, string name)
 	: TableDialog (parent, _("Export film"), 2, 1, true)
+	, _initial_name (name)
 {
 	add (_("Format"), true);
 	_format = new wxChoice (this, wxID_ANY);
@@ -78,7 +79,7 @@ ExportDialog::ExportDialog (wxWindow* parent, string name)
 
 	add (_("Output file"), true);
 	_file = new FilePickerCtrl (this, _("Select output file"), format_filters[0], false);
-	_file->SetPath (name);
+	_file->SetPath (_initial_name);
 	add (_file);
 
 	for (int i = 0; i < FORMATS; ++i) {
@@ -105,7 +106,7 @@ ExportDialog::format_changed ()
 {
 	DCPOMATIC_ASSERT (_format->GetSelection() >= 0 && _format->GetSelection() < FORMATS);
 	_file->SetWildcard (format_filters[_format->GetSelection()]);
-	_file->SetPath ("");
+	_file->SetPath (_initial_name);
 	_x264_crf->Enable (_format->GetSelection() == 1);
 	for (int i = 0; i < 2; ++i) {
 		_x264_crf_label[i]->Enable (_format->GetSelection() == 1);

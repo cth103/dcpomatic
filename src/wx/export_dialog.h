@@ -40,6 +40,7 @@ private:
 	void format_changed ();
 	void file_changed ();
 
+	std::string _initial_name;
 	wxChoice* _format;
 	wxCheckBox* _mixdown;
 	wxCheckBox* _split_reels;
