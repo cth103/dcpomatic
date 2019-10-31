@@ -208,7 +208,9 @@ private:
 	/** Sample aspect ratio obtained from the content file's header, if there is one */
 	boost::optional<double> _sample_aspect_ratio;
 	bool _yuv;
+	/** fade in time in content frames */
 	Frame _fade_in;
+	/** fade out time in content frames */
 	Frame _fade_out;
 	VideoRange _range;
 };
