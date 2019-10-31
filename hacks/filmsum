@@ -1,0 +1,71 @@
+#!/usr/bin/python3
+
+import sys
+import bs4
+import termcolor
+
+inside = False
+xml = ''
+for l in sys.stdin.readlines():
+    if l.startswith('<Metadata>'):
+        inside = True
+    elif l.startswith('</Metadata'):
+        inside = False
+    if inside:
+        xml += l
+
+def note(k, v, highlight=None):
+    if highlight is not None and highlight(v):
+        print('%20s: %s' % (k, termcolor.colored(v, 'white', 'on_red')));
+    else:
+        print('%20s: %s' % (k, v))
+
+def bool_note(k, v, highlight=None):
+    v = 'yes' if v == 1 else 'no'
+    note(k, v, highlight)
+
+def dcp_time(s):
+    global dcp_rate
+    raw = int(s.text)
+    f = raw * dcp_rate / 96000.0
+    s = f // dcp_rate
+    f -= s * dcp_rate
+    m = s // 60
+    s -= m * 60
+    h = m // 60
+    m -= h * 60
+    return '%s DCP_%02d:%02d:%02d.%02d' % (str(raw).ljust(8), h, m, s, f)
+
+def content_time_from_frames(s, r):
+    raw = int(s.text)
+    f = raw
+    s = f // r
+    f -= s * r
+    m = s // 60
+    s -= m * 60
+    h = m // 60
+    m -= h * 60
+    return '%s Con_%02d:%02d:%02d.%02d' % (str(raw).ljust(8), h, m, s, f)
+
+soup = bs4.BeautifulSoup(xml, 'xml')
+note('Name', soup.Metadata.Name.text)
+note('Container', soup.Metadata.Container.text)
+note('J2K bandwidth', soup.Metadata.J2KBandwidth.text, lambda x: int(x) < 20000000 or int(x) > 235000000)
+note('Video frame rate', soup.Metadata.VideoFrameRate.text, lambda x: int(x) not in [24, 25, 30])
+dcp_rate = int(soup.Metadata.VideoFrameRate.text)
+note('Audio channels', soup.Metadata.AudioChannels.text)
+bool_note('3D', soup.Metadata.ThreeD.text, lambda x: not x)
+bool_note('Encrypted', soup.Metadata.ThreeD.text, lambda x: not x)
+reel_types = ['single', 'by-video', 'by-length']
+note('Reel type', reel_types[int(soup.ReelType.text)])
+for c in soup.Metadata.Playlist.children:
+    if isinstance(c, bs4.element.Tag):
+        print()
+        note('  Type', c.Type.text)
+        note('  Position', dcp_time(c.Position))
+        note('  Video rate', c.VideoFrameRate.text)
+        note('  Video length', content_time_from_frames(c.VideoLength, float(c.VideoFrameRate.text)))
+        note('  Audio rate', c.AudioFrameRate.text)
+        bool_note('  Reference video', c.ReferenceVideo, lambda x: not x)
+        bool_note('  Reference audio', c.ReferenceAudio, lambda x: not x)
+        bool_note('  Reference subtitle', c.ReferenceSubtitle, lambda x: not x)
