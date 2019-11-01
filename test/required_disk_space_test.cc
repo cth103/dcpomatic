@@ -43,6 +43,7 @@ BOOST_AUTO_TEST_CASE (required_disk_space_test)
 	shared_ptr<Film> film = new_test_film ("required_disk_space_test");
 	film->set_j2k_bandwidth (100000000);
 	film->set_audio_channels (6);
+	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
 	shared_ptr<Content> content_a = content_factory("test/data/flat_blue.png").front();
 	BOOST_REQUIRE (content_a);
 	film->examine_and_add_content (content_a);
