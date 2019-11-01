@@ -635,12 +635,15 @@ Player::pass ()
 		if (_last_audio_time) {
 			/* Sometimes the thing that happened last finishes fractionally before
 			   or after this silence.  Bodge the start time of the silence to fix it.
+			   I think is nothing too bad to worry about since we will just add or
+			   remove a little silence at the end of some content.
 			*/
 			int64_t const error = labs(period.from.get() - _last_audio_time->get());
-			if (error >= 2) {
+			int64_t const too_much_error = 4;
+			if (error >= too_much_error) {
 				_film->log()->log(String::compose("Silence starting before or after last audio by %1", error), LogEntry::TYPE_ERROR);
 			}
-			DCPOMATIC_ASSERT (error < 2);
+			DCPOMATIC_ASSERT (error < too_much_error);
 			period.from = *_last_audio_time;
 		}
 		if (period.duration() > one_video_frame()) {
