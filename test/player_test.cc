@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -343,4 +343,18 @@ BOOST_AUTO_TEST_CASE (player_trim_crash)
 	dcpomatic_sleep_seconds (5);
 
 	butler->rethrow ();
+}
+
+/** Test a crash when the gap between the last audio and the start of a silent period is more than 1 sample */
+BOOST_AUTO_TEST_CASE (player_silence_crash)
+{
+	shared_ptr<Film> film = new_test_film2 ("player_silence_crash");
+	shared_ptr<Content> sine = content_factory("test/data/impulse_train.wav").front();
+	film->examine_and_add_content (sine);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	sine->set_video_frame_rate (23.976);
+	film->write_metadata ();
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
 }
