@@ -542,10 +542,9 @@ def configure(conf):
     Logs.pprint('YELLOW', '')
 
 def download_supporters(can_fail):
-    last_date = subprocess.Popen(shlex.split('git log -1 --format=%%ai %s' % last_version), stdout=subprocess.PIPE).communicate()[0]
-    r = os.system('curl -s -f https://dcpomatic.com/supporters.cc?%s > src/wx/supporters.cc' % urlencode({"until": last_date.strip()}))
+    r = os.system('curl -s -f https://dcpomatic.com/supporters.cc > src/wx/supporters.cc')
     if (r >> 8) == 0:
-        r = os.system('curl -s -f https://dcpomatic.com/subscribers.cc?%s > src/wx/subscribers.cc' % urlencode({"until": last_date.strip()}))
+        r = os.system('curl -s -f https://dcpomatic.com/subscribers.cc > src/wx/subscribers.cc')
     if (r >> 8) != 0:
         if can_fail:
             raise Exception("Could not download supporters lists (%d)" % (r >> 8))
