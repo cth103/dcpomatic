@@ -130,6 +130,8 @@ FFmpegEncoder::go ()
 		job->sub (_("Encoding"));
 	}
 
+	Waker waker;
+
 	list<DCPTimePeriod> reel_periods = _film->reels ();
 	list<DCPTimePeriod>::const_iterator reel = reel_periods.begin ();
 	list<FileEncoderSet>::iterator encoder = _file_encoders.begin ();
@@ -165,6 +167,8 @@ FFmpegEncoder::go ()
 		if (job) {
 			job->set_progress (float(i.get()) / _film->length().get());
 		}
+
+		waker.nudge ();
 
 		_butler->get_audio (interleaved, audio_frames);
 		/* XXX: inefficient; butler interleaves and we deinterleave again */

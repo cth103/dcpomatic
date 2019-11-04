@@ -326,6 +326,9 @@ EncodeServer::handle (shared_ptr<Socket> socket)
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
+	Waker waker;
+	waker.nudge ();
+
 	/* Wait until the queue has gone down a bit */
 	while (_queue.size() >= _worker_threads.size() * 2 && !_terminate) {
 		_full_condition.wait (lock);
