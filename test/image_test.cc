@@ -267,6 +267,14 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test)
 	check_image("test/data/crop_scale_window_test.png", "build/test/crop_scale_window_test.png");
 }
 
+/** Special case of Image::crop_scale_window which triggered some valgrind warnings */
+BOOST_AUTO_TEST_CASE (crop_scale_window_test2)
+{
+	shared_ptr<Image> image (new Image(AV_PIX_FMT_XYZ12LE, dcp::Size(2048, 858), true));
+	image->crop_scale_window (Crop(279, 0, 0, 0), dcp::Size(1069, 448), dcp::Size(1069, 578), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_RGB24, false, false);
+
+}
+
 BOOST_AUTO_TEST_CASE (as_png_test)
 {
 	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/3d_test/000001.png"));
