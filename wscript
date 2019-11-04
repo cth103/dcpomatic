@@ -39,6 +39,12 @@ APPNAME = 'dcpomatic'
 this_version = subprocess.Popen(shlex.split('git tag -l --points-at HEAD'), stdout=subprocess.PIPE).communicate()[0]
 last_version = subprocess.Popen(shlex.split('git describe --tags --abbrev=0'), stdout=subprocess.PIPE).communicate()[0]
 
+# Python 2/3 compatibility; I don't really understand what's going on here
+if not isinstance(this_version, str):
+    this_version = this_version.decode('utf-8')
+if not isinstance(last_version, str):
+    last_version = last_version.decode('utf-8')
+
 if this_version == '':
     VERSION = '%sdevel' % last_version[1:].strip()
 else:
