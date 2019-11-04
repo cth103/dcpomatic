@@ -140,29 +140,7 @@ Image::crop_scale_window (
 	DCPOMATIC_ASSERT (out_size.width >= inter_size.width);
 	DCPOMATIC_ASSERT (out_size.height >= inter_size.height);
 
-	/* Here's an image of out_size.  Below we may write to it starting at an offset so we get some padding.
-	   Hence we want to write in the following pattern:
-
-	   block start   write start                                  line end
-	   |..(padding)..|<------line-size------------->|..(padding)..|
-	   |..(padding)..|<------line-size------------->|..(padding)..|
-	   |..(padding)..|<------line-size------------->|..(padding)..|
-
-	   where line-size is of the smaller (inter_size) image and the full padded line length is that of
-	   out_size.  To get things to work we have to tell FFmpeg that the stride is that of out_size.
-	   However some parts of FFmpeg (notably rgb48Toxyz12 in swscale.c) process data for the full
-	   specified *stride*.  This does not matter until we get to the last line:
-
-	   block start   write start                                  line end
-	   |..(padding)..|<------line-size------------->|XXXwrittenXXX|
-	   |XXXwrittenXXX|<------line-size------------->|XXXwrittenXXX|
-	   |XXXwrittenXXX|<------line-size------------->|XXXwrittenXXXXXXwrittenXXX
-	                                                               ^^^^ out of bounds
-
-	   To get around this, we ask Image to overallocate its buffers by the overrun.
-	*/
-
-	shared_ptr<Image> out (new Image (out_format, out_size, out_aligned, (out_size.width - inter_size.width) / 2));
+	shared_ptr<Image> out (new Image(out_format, out_size, out_aligned));
 	out->make_black ();
 
 	/* Size of the image after any crop */
@@ -244,6 +222,14 @@ Image::crop_scale_window (
 		);
 
 	sws_freeContext (scale_context);
+
+	if (crop != Crop() && cropped_size == inter_size && _pixel_format == out_format) {
+		/* We are cropping without any scaling or pixel format conversion, so FFmpeg may have left some
+		   data behind in our image.  Clear it out.  It may get to the point where we should just stop
+		   trying to be clever with cropping.
+		*/
+		out->make_part_black (corner.x + cropped_size.width, out_size.width - cropped_size.width);
+	}
 
 	return out;
 }
@@ -340,6 +326,36 @@ uint16_t
 Image::swap_16 (uint16_t v)
 {
 	return ((v >> 8) & 0xff) | ((v & 0xff) << 8);
+}
+
+void
+Image::make_part_black (int x, int w)
+{
+	switch (_pixel_format) {
+	case AV_PIX_FMT_RGB24:
+	case AV_PIX_FMT_ARGB:
+	case AV_PIX_FMT_RGBA:
+	case AV_PIX_FMT_ABGR:
+	case AV_PIX_FMT_BGRA:
+	case AV_PIX_FMT_RGB555LE:
+	case AV_PIX_FMT_RGB48LE:
+	case AV_PIX_FMT_RGB48BE:
+	case AV_PIX_FMT_XYZ12LE:
+	{
+		int const h = sample_size(0).height;
+		int const bpp = bytes_per_pixel(0);
+		int const s = stride()[0];
+		uint8_t* p = data()[0];
+		for (int y = 0; y < h; y++) {
+			memset (p + x * bpp, 0, w * bpp);
+			p += s;
+		}
+		break;
+	}
+
+	default:
+		throw PixelFormatError ("make_part_black()", _pixel_format);
+	}
 }
 
 void
@@ -815,13 +831,11 @@ Image::bytes_per_pixel (int c) const
  *  @param p Pixel format.
  *  @param s Size in pixels.
  *  @param aligned true to make each row of this image aligned to a 32-byte boundary.
- *  @param extra_pixels Amount of extra "run-off" memory to allocate at the end of each plane in pixels.
  */
-Image::Image (AVPixelFormat p, dcp::Size s, bool aligned, int extra_pixels)
+Image::Image (AVPixelFormat p, dcp::Size s, bool aligned)
 	: _size (s)
 	, _pixel_format (p)
 	, _aligned (aligned)
-	, _extra_pixels (extra_pixels)
 {
 	allocate ();
 }
@@ -855,13 +869,36 @@ Image::allocate ()
 		   over-reads by more then _avx.  I can't follow the code to work out how much,
 		   so I'll just over-allocate by 32 bytes and have done with it.  Empirical
 		   testing suggests that it works.
+
+		   In addition to these concerns, we may read/write as much as a whole extra line
+		   at the end of each plane in cases where we are messing with offsets in order to
+		   do pad or crop.  To solve this we over-allocate by an extra _stride[i] bytes.
+
+		   As an example: we may write to images starting at an offset so we get some padding.
+		   Hence we want to write in the following pattern:
+
+		   block start   write start                                  line end
+		   |..(padding)..|<------line-size------------->|..(padding)..|
+		   |..(padding)..|<------line-size------------->|..(padding)..|
+		   |..(padding)..|<------line-size------------->|..(padding)..|
+
+		   where line-size is of the smaller (inter_size) image and the full padded line length is that of
+		   out_size.  To get things to work we have to tell FFmpeg that the stride is that of out_size.
+		   However some parts of FFmpeg (notably rgb48Toxyz12 in swscale.c) process data for the full
+		   specified *stride*.  This does not matter until we get to the last line:
+
+		   block start   write start                                  line end
+		   |..(padding)..|<------line-size------------->|XXXwrittenXXX|
+		   |XXXwrittenXXX|<------line-size------------->|XXXwrittenXXX|
+		   |XXXwrittenXXX|<------line-size------------->|XXXwrittenXXXXXXwrittenXXX
+		                                                               ^^^^ out of bounds
 		*/
-		_data[i] = (uint8_t *) wrapped_av_malloc (_stride[i] * sample_size(i).height + _extra_pixels * bytes_per_pixel(i) + 32);
+		_data[i] = (uint8_t *) wrapped_av_malloc (_stride[i] * (sample_size(i).height + 1) + 32);
 #if HAVE_VALGRIND_MEMCHECK_H
 		/* The data between the end of the line size and the stride is undefined but processed by
 		   libswscale, causing lots of valgrind errors.  Mark it all defined to quell these errors.
 		*/
-		VALGRIND_MAKE_MEM_DEFINED (_data[i], _stride[i] * sample_size(i).height + _extra_pixels * bytes_per_pixel(i) + 32);
+		VALGRIND_MAKE_MEM_DEFINED (_data[i], _stride[i] * (sample_size(i).height + 1) + 32);
 #endif
 	}
 }
@@ -871,7 +908,6 @@ Image::Image (Image const & other)
 	, _size (other._size)
 	, _pixel_format (other._pixel_format)
 	, _aligned (other._aligned)
-	, _extra_pixels (other._extra_pixels)
 {
 	allocate ();
 
@@ -891,7 +927,6 @@ Image::Image (AVFrame* frame)
 	: _size (frame->width, frame->height)
 	, _pixel_format (static_cast<AVPixelFormat> (frame->format))
 	, _aligned (true)
-	, _extra_pixels (0)
 {
 	allocate ();
 
@@ -912,7 +947,6 @@ Image::Image (shared_ptr<const Image> other, bool aligned)
 	: _size (other->_size)
 	, _pixel_format (other->_pixel_format)
 	, _aligned (aligned)
-	, _extra_pixels (other->_extra_pixels)
 {
 	allocate ();
 
@@ -954,7 +988,6 @@ Image::swap (Image & other)
 	}
 
 	std::swap (_aligned, other._aligned);
-	std::swap (_extra_pixels, other._extra_pixels);
 }
 
 /** Destroy a Image */

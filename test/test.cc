@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -417,11 +417,11 @@ wait_for_jobs ()
 }
 
 void
-write_image (shared_ptr<const Image> image, boost::filesystem::path file, string format)
+write_image (shared_ptr<const Image> image, boost::filesystem::path file, string format, MagickCore::StorageType pixel_type)
 {
 	using namespace MagickCore;
 
-	Magick::Image m (image->size().width, image->size().height, format.c_str(), CharPixel, (void *) image->data()[0]);
+	Magick::Image m (image->size().width, image->size().height, format.c_str(), pixel_type, (void *) image->data()[0]);
 	m.write (file.string ());
 }
 

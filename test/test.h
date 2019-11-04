@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+#include <Magick++.h>
 #include <boost/filesystem.hpp>
 
 class Film;
@@ -38,7 +39,7 @@ extern void check_file (boost::filesystem::path, boost::filesystem::path);
 extern void check_ffmpeg (boost::filesystem::path, boost::filesystem::path, int audio_tolerance);
 extern void check_image (boost::filesystem::path, boost::filesystem::path, double threshold = 0.01);
 extern boost::filesystem::path test_film_dir (std::string);
-extern void write_image (boost::shared_ptr<const Image> image, boost::filesystem::path file, std::string format);
+extern void write_image (boost::shared_ptr<const Image> image, boost::filesystem::path file, std::string format, MagickCore::StorageType pixel_type = MagickCore::CharPixel);
 boost::filesystem::path dcp_file (boost::shared_ptr<const Film> film, std::string prefix);
 void check_one_frame (boost::filesystem::path dcp, int64_t index, boost::filesystem::path ref);
 extern boost::filesystem::path subtitle_file (boost::shared_ptr<Film> film);

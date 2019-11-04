@@ -137,14 +137,7 @@ J2KImageProxy::prepare (optional<dcp::Size> target_size) const
 	}
 
 	shared_ptr<dcp::OpenJPEGImage> decompressed = dcp::decompress_j2k (const_cast<uint8_t*> (_data.data().get()), _data.size (), reduce);
-
-	/* When scaling JPEG2000 images (using AV_PIX_FMT_XYZ12LE) ffmpeg will call xyz12ToRgb48 which reads data
-	   from the whole of the image stride.  If we are cropping, Image::crop_scale_window munges the
-	   start addresses of each image row (to do the crop) but keeps the stride the same.  This means
-	   that under crop we will read over the end of the image by the amount of the crop.  To allow this
-	   to happen without invalid memory access we need to overallocate by one whole stride's worth of pixels.
-	*/
-	_image.reset (new Image (_pixel_format, decompressed->size(), true, decompressed->size().width));
+	_image.reset (new Image (_pixel_format, decompressed->size(), true));
 
 	int const shift = 16 - decompressed->precision (0);
 

@@ -270,10 +270,41 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test)
 /** Special cases of Image::crop_scale_window which triggered some valgrind warnings */
 BOOST_AUTO_TEST_CASE (crop_scale_window_test2)
 {
-	/* This 2048 does the same as J2KImageProxy does when it makes an image */
-	shared_ptr<Image> image (new Image(AV_PIX_FMT_XYZ12LE, dcp::Size(2048, 858), true, 2048));
+	shared_ptr<Image> image (new Image(AV_PIX_FMT_XYZ12LE, dcp::Size(2048, 858), true));
 	image->crop_scale_window (Crop(279, 0, 0, 0), dcp::Size(1069, 448), dcp::Size(1069, 578), dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, false);
 	image->crop_scale_window (Crop(2048, 0, 0, 0), dcp::Size(1069, 448), dcp::Size(1069, 578), dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, false);
+}
+
+BOOST_AUTO_TEST_CASE (crop_scale_window_test3)
+{
+	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/player_seek_test_0.png"));
+	shared_ptr<Image> xyz = proxy->image().first->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, true, false);
+	shared_ptr<Image> cropped = xyz->crop_scale_window(Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, false);
+	write_image(cropped, "build/test/crop_scale_window_test3.png", "RGB", MagickCore::CharPixel);
+}
+
+BOOST_AUTO_TEST_CASE (crop_scale_window_test4)
+{
+	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/player_seek_test_0.png"));
+	shared_ptr<Image> xyz = proxy->image().first->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, true, false);
+	shared_ptr<Image> cropped = xyz->crop_scale_window(Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_XYZ12LE, false, false);
+	write_image(cropped, "build/test/crop_scale_window_test4.png", "RGB", MagickCore::ShortPixel);
+}
+
+BOOST_AUTO_TEST_CASE (crop_scale_window_test5)
+{
+	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/player_seek_test_0.png"));
+	shared_ptr<Image> xyz = proxy->image().first->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_XYZ12LE, true, false);
+	shared_ptr<Image> cropped = xyz->crop_scale_window(Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, false);
+	write_image(cropped, "build/test/crop_scale_window_test5.png", "RGB", MagickCore::CharPixel);
+}
+
+BOOST_AUTO_TEST_CASE (crop_scale_window_test6)
+{
+	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/player_seek_test_0.png"));
+	shared_ptr<Image> xyz = proxy->image().first->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_XYZ12LE, true, false);
+	shared_ptr<Image> cropped = xyz->crop_scale_window(Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_XYZ12LE, false, false);
+	write_image(cropped, "build/test/crop_scale_window_test6.png", "RGB", MagickCore::ShortPixel);
 }
 
 BOOST_AUTO_TEST_CASE (as_png_test)

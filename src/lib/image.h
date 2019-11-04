@@ -41,7 +41,7 @@ class Socket;
 class Image : public boost::enable_shared_from_this<Image>
 {
 public:
-	Image (AVPixelFormat p, dcp::Size s, bool aligned, int extra_pixels = 0);
+	Image (AVPixelFormat p, dcp::Size s, bool aligned);
 	explicit Image (AVFrame *);
 	explicit Image (Image const &);
 	Image (boost::shared_ptr<const Image>, bool);
@@ -92,6 +92,7 @@ private:
 
 	void allocate ();
 	void swap (Image &);
+	void make_part_black (int x, int w);
 	void yuv_16_black (uint16_t, bool);
 	static uint16_t swap_16 (uint16_t);
 
@@ -101,7 +102,6 @@ private:
 	int* _line_size; ///< array of sizes of the data in each line, in bytes (without any alignment padding bytes)
 	int* _stride; ///< array of strides for each line, in bytes (including any alignment padding bytes)
 	bool _aligned;
-	int _extra_pixels;
 };
 
 extern PositionImage merge (std::list<PositionImage> images);
