@@ -29,6 +29,7 @@
 #include <IOKit/pwr_mgt/IOPMLib.h>
 #endif
 #include <boost/filesystem.hpp>
+#include <boost/thread/mutex.hpp>
 
 #ifdef DCPOMATIC_WINDOWS
 #define WEXITSTATUS(w) (w)
@@ -74,6 +75,7 @@ public:
 	void nudge ();
 
 private:
+	boost::mutex _mutex;
 #ifdef DCPOMATIC_OSX
 	IOPMAssertionID _assertion_id;
 #endif

@@ -337,6 +337,7 @@ void
 Waker::nudge ()
 {
 #ifdef DCPOMATIC_WINDOWS
+	boost::mutex::scoped_lock lm (_mutex);
 	SetThreadExecutionState (ES_SYSTEM_REQUIRED);
 #endif
 }
@@ -344,6 +345,7 @@ Waker::nudge ()
 Waker::Waker ()
 {
 #ifdef DCPOMATIC_OSX
+	boost::mutex::scoped_lock lm (_mutex);
 	/* We should use this */
         // IOPMAssertionCreateWithName (kIOPMAssertionTypeNoIdleSleep, kIOPMAssertionLevelOn, CFSTR ("Encoding DCP"), &_assertion_id);
 	/* but it's not available on 10.5, so we use this */
@@ -354,6 +356,7 @@ Waker::Waker ()
 Waker::~Waker ()
 {
 #ifdef DCPOMATIC_OSX
+	boost::mutex::scoped_lock lm (_mutex);
 	IOPMAssertionRelease (_assertion_id);
 #endif
 }

@@ -780,4 +780,7 @@ Writer::set_digest_progress (Job* job, float progress)
 	}
 
 	job->set_progress (min_progress);
+
+	Waker waker;
+	waker.nudge ();
 }
