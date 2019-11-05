@@ -272,8 +272,8 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test2)
 {
 	/* This 2048 does the same as J2KImageProxy does when it makes an image */
 	shared_ptr<Image> image (new Image(AV_PIX_FMT_XYZ12LE, dcp::Size(2048, 858), true, 2048));
-	image->crop_scale_window (Crop(279, 0, 0, 0), dcp::Size(1069, 448), dcp::Size(1069, 578), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_RGB24, false, false);
-	image->crop_scale_window (Crop(2048, 0, 0, 0), dcp::Size(1069, 448), dcp::Size(1069, 578), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_RGB24, false, false);
+	image->crop_scale_window (Crop(279, 0, 0, 0), dcp::Size(1069, 448), dcp::Size(1069, 578), dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, false);
+	image->crop_scale_window (Crop(2048, 0, 0, 0), dcp::Size(1069, 448), dcp::Size(1069, 578), dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, false);
 }
 
 BOOST_AUTO_TEST_CASE (as_png_test)
