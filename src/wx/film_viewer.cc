@@ -583,9 +583,10 @@ FilmViewer::seek (DCPTime t, bool accurate)
 
 	_closed_captions_dialog->clear ();
 	_butler->seek (t, accurate);
-	request_idle_get ();
 
-	if (was_running) {
+	if (!was_running) {
+		request_idle_get ();
+	} else {
 		start ();
 	}
 }
