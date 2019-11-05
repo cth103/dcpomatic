@@ -275,12 +275,9 @@ Butler::seek_unlocked (DCPTime position, bool accurate)
 	_pending_seek_position = position;
 	_pending_seek_accurate = accurate;
 
-	{
-		boost::mutex::scoped_lock lm (_buffers_mutex);
-		_video.clear ();
-		_audio.clear ();
-		_closed_caption.clear ();
-	}
+	_video.clear ();
+	_audio.clear ();
+	_closed_caption.clear ();
 
 	_summon.notify_all ();
 }
@@ -316,22 +313,18 @@ Butler::video (shared_ptr<PlayerVideo> video, DCPTime time)
 
 	_prepare_service.post (bind (&Butler::prepare, this, weak_ptr<PlayerVideo>(video)));
 
-	boost::mutex::scoped_lock lm2 (_buffers_mutex);
 	_video.put (video, time);
 }
 
 void
 Butler::audio (shared_ptr<AudioBuffers> audio, DCPTime time, int frame_rate)
 {
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		if (_pending_seek_position || _disable_audio) {
-			/* Don't store any audio in these cases */
-			return;
-		}
+	boost::mutex::scoped_lock lm (_mutex);
+	if (_pending_seek_position || _disable_audio) {
+		/* Don't store any audio in these cases */
+		return;
 	}
 
-	boost::mutex::scoped_lock lm2 (_buffers_mutex);
 	_audio.put (remap (audio, _audio_channels, _audio_mapping), time, frame_rate);
 }
 
@@ -406,6 +399,5 @@ Butler::text (PlayerText pt, TextType type, optional<DCPTextTrack> track, DCPTim
 
 	DCPOMATIC_ASSERT (track);
 
-	boost::mutex::scoped_lock lm2 (_buffers_mutex);
 	_closed_caption.put (pt, *track, period);
 }

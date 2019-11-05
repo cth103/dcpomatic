@@ -75,12 +75,6 @@ private:
 	boost::shared_ptr<Player> _player;
 	boost::thread* _thread;
 
-	/** mutex to protect _video, _audio and _closed_caption for when we are clearing them and they all need to be
-	    cleared together without any data being inserted in the interim;
-	    XXX: is this necessary now that all butler output data is timestamped? Perhaps the locked clear-out
-	    is only required if we guarantee that get_video() and get_audio() calls are in sync.
-	*/
-	boost::mutex _buffers_mutex;
 	VideoRingBuffers _video;
 	AudioRingBuffers _audio;
 	TextRingBuffers _closed_caption;
