@@ -281,6 +281,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test3)
 	shared_ptr<Image> xyz = proxy->image().first->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, true, false);
 	shared_ptr<Image> cropped = xyz->crop_scale_window(Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_RGB24, false, false);
 	write_image(cropped, "build/test/crop_scale_window_test3.png", "RGB", MagickCore::CharPixel);
+	check_image("test/data/crop_scale_window_test3.png", "build/test/crop_scale_window_test3.png");
 }
 
 BOOST_AUTO_TEST_CASE (crop_scale_window_test4)
@@ -289,6 +290,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test4)
 	shared_ptr<Image> xyz = proxy->image().first->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, true, false);
 	shared_ptr<Image> cropped = xyz->crop_scale_window(Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_XYZ12LE, false, false);
 	write_image(cropped, "build/test/crop_scale_window_test4.png", "RGB", MagickCore::ShortPixel);
+	check_image("test/data/crop_scale_window_test4.png", "build/test/crop_scale_window_test4.png");
 }
 
 BOOST_AUTO_TEST_CASE (crop_scale_window_test5)
@@ -297,6 +299,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test5)
 	shared_ptr<Image> xyz = proxy->image().first->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_XYZ12LE, true, false);
 	shared_ptr<Image> cropped = xyz->crop_scale_window(Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_RGB24, false, false);
 	write_image(cropped, "build/test/crop_scale_window_test5.png", "RGB", MagickCore::CharPixel);
+	check_image("test/data/crop_scale_window_test5.png", "build/test/crop_scale_window_test5.png");
 }
 
 BOOST_AUTO_TEST_CASE (crop_scale_window_test6)
@@ -305,6 +308,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test6)
 	shared_ptr<Image> xyz = proxy->image().first->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_XYZ12LE, true, false);
 	shared_ptr<Image> cropped = xyz->crop_scale_window(Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_XYZ12LE, false, false);
 	write_image(cropped, "build/test/crop_scale_window_test6.png", "RGB", MagickCore::ShortPixel);
+	check_image("test/data/crop_scale_window_test6.png", "build/test/crop_scale_window_test6.png");
 }
 
 BOOST_AUTO_TEST_CASE (as_png_test)
