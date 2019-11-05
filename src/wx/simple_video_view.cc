@@ -193,7 +193,6 @@ SimpleVideoView::get (bool lazy)
 	}
 
 	display_player_video ();
-	_viewer->PositionChanged ();
 
 	return true;
 }

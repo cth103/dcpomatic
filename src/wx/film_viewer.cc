@@ -256,7 +256,6 @@ FilmViewer::video_view_sized ()
 	if (!quick_refresh()) {
 		slow_refresh ();
 	}
-	PositionChanged ();
 }
 
 void
@@ -380,7 +379,6 @@ FilmViewer::player_change (ChangeType type, int property, bool frequent)
 	if (!refreshed) {
 		slow_refresh ();
 	}
-	PositionChanged ();
 }
 
 void
