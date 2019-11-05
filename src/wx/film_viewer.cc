@@ -306,7 +306,7 @@ FilmViewer::resume ()
 			_audio.setStreamTime (_video_position.seconds());
 			_audio.startStream ();
 		}
-		timer ();
+		_video_view->start ();
 	}
 }
 
@@ -461,9 +461,6 @@ FilmViewer::seek (DCPTime t, bool accurate)
 
 	if (!_playing) {
 		request_idle_get ();
-	} else {
-		/* Make sure we get a frame so that _video_position is set up before we resume */
-		while (!get(true)) {}
 	}
 
 	resume ();
