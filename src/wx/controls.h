@@ -93,7 +93,6 @@ private:
 	typedef std::pair<boost::shared_ptr<dcp::CPL>, boost::filesystem::path> CPL;
 
 	bool _slider_being_moved;
-	bool _was_running_before_slider;
 
 	wxCheckBox* _outline_content;
 	wxChoice* _eye;

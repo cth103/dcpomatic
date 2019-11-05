@@ -59,7 +59,6 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	, _slider (new wxSlider (this, wxID_ANY, 0, 0, 4096))
 	, _viewer (viewer)
 	, _slider_being_moved (false)
-	, _was_running_before_slider (false)
 	, _outline_content (0)
 	, _eye (0)
 	, _jump_to_selected (0)
@@ -203,7 +202,7 @@ Controls::slider_moved (bool page)
 
 	if (!page && !_slider_being_moved) {
 		/* This is the first event of a drag; stop playback for the duration of the drag */
-		_was_running_before_slider = _viewer->stop ();
+		_viewer->suspend ();
 		_slider_being_moved = true;
 	}
 
@@ -230,10 +229,8 @@ Controls::slider_moved (bool page)
 void
 Controls::slider_released ()
 {
-	if (_was_running_before_slider) {
-		/* Restart after a drag */
-		_viewer->start ();
-	}
+	/* Restart after a drag */
+	_viewer->resume ();
 	_slider_being_moved = false;
 }
 

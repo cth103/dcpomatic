@@ -75,6 +75,8 @@ public:
 
 	void start ();
 	bool stop ();
+	void suspend ();
+	void resume ();
 	bool playing () const {
 		return _playing;
 	}
@@ -186,6 +188,7 @@ private:
 	int _audio_channels;
 	unsigned int _audio_block_size;
 	bool _playing;
+	int _suspended;
 	boost::shared_ptr<Butler> _butler;
 
 	std::list<Frame> _latency_history;

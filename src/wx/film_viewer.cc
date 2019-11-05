@@ -84,6 +84,7 @@ FilmViewer::FilmViewer (wxWindow* p)
 	, _audio_channels (0)
 	, _audio_block_size (1024)
 	, _playing (false)
+	, _suspended (0)
 	, _latency_history_count (0)
 	, _dropped (0)
 	, _closed_captions_dialog (new ClosedCaptionsDialog(p, this))
@@ -200,10 +201,11 @@ FilmViewer::set_film (shared_ptr<Film> film)
 void
 FilmViewer::recreate_butler ()
 {
-	bool const was_running = stop ();
+	suspend ();
 	_butler.reset ();
 
 	if (!_film) {
+		resume ();
 		return;
 	}
 
@@ -247,9 +249,7 @@ FilmViewer::recreate_butler ()
 
 	_closed_captions_dialog->set_film_and_butler (_film, _butler);
 
-	if (was_running) {
-		start ();
-	}
+	resume ();
 }
 
 void
@@ -312,7 +312,7 @@ FilmViewer::display_player_video ()
 		return;
 	}
 
-	if (_playing && (time() - _player_video.second) > one_video_frame()) {
+	if (_playing && !_suspended && (time() - _player_video.second) > one_video_frame()) {
 		/* Too late; just drop this frame before we try to get its image (which will be the time-consuming
 		   part if this frame is J2K).
 		*/
@@ -361,7 +361,7 @@ FilmViewer::display_player_video ()
 void
 FilmViewer::timer ()
 {
-	if (!_film || !_playing) {
+	if (!_film || !_playing || _suspended) {
 		return;
 	}
 
@@ -433,6 +433,28 @@ FilmViewer::calculate_sizes ()
 	_out_size.height = max (64, _out_size.height);
 
 	_player->set_video_container_size (_out_size);
+}
+
+void
+FilmViewer::suspend ()
+{
+	++_suspended;
+	if (_audio.isStreamRunning()) {
+		_audio.abortStream();
+	}
+}
+
+void
+FilmViewer::resume ()
+{
+	--_suspended;
+	if (_playing && !_suspended) {
+		if (_audio.isStreamOpen()) {
+			_audio.setStreamTime (_video_position.seconds());
+			_audio.startStream ();
+		}
+		timer ();
+	}
 }
 
 void
@@ -579,16 +601,19 @@ FilmViewer::seek (DCPTime t, bool accurate)
 		t = _film->length ();
 	}
 
-	bool const was_running = stop ();
+	suspend ();
 
 	_closed_captions_dialog->clear ();
 	_butler->seek (t, accurate);
 
-	if (!was_running) {
+	if (!_playing) {
 		request_idle_get ();
 	} else {
-		start ();
+		/* Make sure we get a frame so that _video_position is set up before we resume */
+		while (!get(true)) {}
 	}
+
+	resume ();
 }
 
 void
