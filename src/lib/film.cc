@@ -180,7 +180,8 @@ Film::Film (optional<boost::filesystem::path> dir)
 		boost::filesystem::path result;
 		for (boost::filesystem::path::iterator i = p.begin(); i != p.end(); ++i) {
 			if (*i == "..") {
-				if (boost::filesystem::is_symlink (result) || result.filename() == "..") {
+				boost::system::error_code ec;
+				if (boost::filesystem::is_symlink(result, ec) || result.filename() == "..") {
 					result /= *i;
 				} else {
 					result = result.parent_path ();
