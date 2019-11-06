@@ -53,12 +53,14 @@ public:
 
 	boost::signals2::signal<void()> Sized;
 
-	/* XXX_b: to remove */
-	virtual bool get (bool) {
-		return true;
-	}
+	virtual bool display_next_frame (bool) = 0;
+
 	/* XXX_b: to remove */
 	virtual void display_player_video () {}
+
+	dcpomatic::DCPTime position () const {
+		return _player_video.second;
+	}
 
 protected:
 	/* XXX_b: to remove */

@@ -55,6 +55,7 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	: VideoView (viewer)
 	, _vsync_enabled (false)
 	, _thread (0)
+	, _one_shot (false)
 {
 	_canvas = new wxGLCanvas (parent, wxID_ANY, 0, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
 	_canvas->Bind (wxEVT_PAINT, boost::bind(&GLVideoView::paint, this));
@@ -105,7 +106,7 @@ GLVideoView::~GLVideoView ()
 }
 
 static void
-       check_gl_error (char const * last)
+check_gl_error (char const * last)
 {
 	GLenum const e = glGetError ();
 	if (e != GL_NO_ERROR) {
@@ -278,25 +279,29 @@ try
 	}
 
 	while (true) {
-		if (!_viewer->film() || !_viewer->playing()) {
+		if ((!_viewer->film() || !_viewer->playing()) && !_one_shot) {
 			dcpomatic_sleep_milliseconds (40);
 			continue;
 		}
+
+		_one_shot = false;
 
 		dcpomatic::DCPTime const next = _viewer->position() + _viewer->one_video_frame();
 
 		if (next >= _viewer->film()->length()) {
 			_viewer->stop ();
 			_viewer->Finished ();
-			return;
+			continue;
 		}
 
 		get_next_frame (false);
 		set_image (_player_video.first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
 		draw ();
-		_viewer->_video_position = _player_video.second;
 
-		std::cout << "sleep " << _viewer->time_until_next_frame() << "\n";
+		while (_viewer->time_until_next_frame() < 5) {
+			get_next_frame (true);
+		}
+
 		dcpomatic_sleep_milliseconds (_viewer->time_until_next_frame());
 	}
 
@@ -317,4 +322,12 @@ GLVideoView::context () const
 {
 	boost::mutex::scoped_lock lm (_context_mutex);
 	return _context;
+}
+
+bool
+GLVideoView::display_next_frame (bool non_blocking)
+{
+	bool const g = get_next_frame (non_blocking);
+	_one_shot = true;
+	return g;
 }

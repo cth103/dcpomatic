@@ -122,7 +122,7 @@ FilmViewer::~FilmViewer ()
 
 /** Ask for ::get() to be called next time we are idle */
 void
-FilmViewer::request_idle_get ()
+FilmViewer::request_idle_display_next_frame ()
 {
 	if (_idle_get) {
 		return;
@@ -140,7 +140,7 @@ FilmViewer::idle_handler ()
 		return;
 	}
 
-	if (_video_view->get(true)) {
+	if (_video_view->display_next_frame(true)) {
 		_idle_get = false;
 	} else {
 		/* get() could not complete quickly so we'll try again later */
@@ -156,7 +156,6 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	}
 
 	_film = film;
-	_video_position = DCPTime ();
 	_video_view->clear ();
 
 	_video_view->set_image (shared_ptr<Image>());
@@ -302,7 +301,7 @@ FilmViewer::resume ()
 	--_suspended;
 	if (_playing && !_suspended) {
 		if (_audio.isStreamOpen()) {
-			_audio.setStreamTime (_video_position.seconds());
+			_audio.setStreamTime (_video_view->position().seconds());
 			_audio.startStream ();
 		}
 		_video_view->start ();
@@ -323,7 +322,7 @@ FilmViewer::start ()
 	}
 
 	if (_audio.isStreamOpen()) {
-		_audio.setStreamTime (_video_position.seconds());
+		_audio.setStreamTime (_video_view->position().seconds());
 		_audio.startStream ();
 	}
 
@@ -393,7 +392,7 @@ FilmViewer::film_change (ChangeType type, Film::Property p)
 void
 FilmViewer::slow_refresh ()
 {
-	seek (_video_position, true);
+	seek (_video_view->position(), true);
 }
 
 /** Try to re-get the current frame quickly by resetting the metadata
@@ -458,7 +457,9 @@ FilmViewer::seek (DCPTime t, bool accurate)
 	_butler->seek (t, accurate);
 
 	if (!_playing) {
-		request_idle_get ();
+		request_idle_display_next_frame ();
+	} else {
+		while (!_video_view->display_next_frame(false)) {}
 	}
 
 	resume ();
@@ -536,7 +537,7 @@ FilmViewer::uncorrected_time () const
 		return DCPTime::from_seconds (const_cast<RtAudio*>(&_audio)->getStreamTime());
 	}
 
-	return _video_position;
+	return _video_view->position();
 }
 
 DCPTime
@@ -547,7 +548,7 @@ FilmViewer::time () const
 			DCPTime::from_frames (average_latency(), _film->audio_frame_rate());
 	}
 
-	return _video_position;
+	return _video_view->position();
 }
 
 int
@@ -620,7 +621,7 @@ FilmViewer::show_closed_captions ()
 void
 FilmViewer::seek_by (DCPTime by, bool accurate)
 {
-	seek (_video_position + by, accurate);
+	seek (_video_view->position() + by, accurate);
 }
 
 void
@@ -634,5 +635,9 @@ int
 FilmViewer::time_until_next_frame () const
 {
 	DCPTime const next = position() + one_video_frame();
-	return max ((next.seconds() - time().seconds()) * 1000, 1.0);
+	std::cout << to_string(next) << " " << to_string(time()) << " " << ((next.seconds() - time().seconds()) * 1000) << "\n";
+	if (next < time()) {
+		return 0;
+	}
+	return (next.seconds() - time().seconds()) * 1000;
 }

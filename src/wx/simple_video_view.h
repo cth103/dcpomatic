@@ -37,14 +37,12 @@ public:
 	}
 
 	void update ();
-
 	void start ();
+	bool display_next_frame (bool non_blocking);
 
 private:
 	void paint ();
 	void timer ();
-	/* XXX_b: rename this (there's already a get() in the parent) */
-	bool get (bool lazy);
 	void display_player_video ();
 
 	wxPanel* _panel;

@@ -69,7 +69,7 @@ public:
 	void seek_by (dcpomatic::DCPTime by, bool accurate);
 	/** @return our `playhead' position; this may not lie exactly on a frame boundary */
 	dcpomatic::DCPTime position () const {
-		return _video_position;
+		return _video_view->position();
 	}
 	dcpomatic::DCPTime one_video_frame () const;
 
@@ -159,7 +159,7 @@ private:
 	void calculate_sizes ();
 	void player_change (ChangeType type, int, bool);
 	void idle_handler ();
-	void request_idle_get ();
+	void request_idle_display_next_frame ();
 	void film_change (ChangeType, Film::Property);
 	void recreate_butler ();
 	void config_changed (Config::Property);
@@ -178,7 +178,6 @@ private:
 	bool _coalesce_player_changes;
 	std::list<int> _pending_player_changes;
 
-	dcpomatic::DCPTime _video_position;
 	Position<int> _inter_position;
 	dcp::Size _inter_size;
 

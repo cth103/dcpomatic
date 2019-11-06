@@ -149,7 +149,7 @@ SimpleVideoView::timer ()
 		return;
 	}
 
-	get (false);
+	display_next_frame (false);
 	DCPTime const next = _viewer->position() + _viewer->one_video_frame();
 
 	if (next >= _viewer->film()->length()) {
@@ -173,21 +173,21 @@ SimpleVideoView::start ()
 }
 
 /** Try to get a frame from the butler and display it.
- *  @param lazy true to return false quickly if no video is available quickly (i.e. we are waiting for the butler).
+ *  @param non_blocking true to return false quickly if no video is available quickly (i.e. we are waiting for the butler).
  *  false to ask the butler to block until it has video (unless it is suspended).
  *  @return true on success, false if we did nothing because it would have taken too long.
  */
 bool
-SimpleVideoView::get (bool lazy)
+SimpleVideoView::display_next_frame (bool non_blocking)
 {
-	bool r = get_next_frame (lazy);
+	bool r = get_next_frame (non_blocking);
 	if (!r) {
-		if (lazy) {
+		if (non_blocking) {
 			/* No video available; return saying we failed */
 			return false;
 		} else {
 			/* Player was suspended; come back later */
-			signal_manager->when_idle (boost::bind(&SimpleVideoView::get, this, false));
+			signal_manager->when_idle (boost::bind(&SimpleVideoView::display_next_frame, this, false));
 			return false;
 		}
 	}
@@ -210,7 +210,6 @@ SimpleVideoView::display_player_video ()
 		/* Too late; just drop this frame before we try to get its image (which will be the time-consuming
 		   part if this frame is J2K).
 		*/
-		_viewer->_video_position = _player_video.second;
 		++_viewer->_dropped;
 		return;
 	}
@@ -243,7 +242,6 @@ SimpleVideoView::display_player_video ()
 	_viewer->ImageChanged (_player_video.first);
 	_viewer->_state_timer.unset ();
 
-	_viewer->_video_position = _player_video.second;
 	_viewer->_inter_position = _player_video.first->inter_position ();
 	_viewer->_inter_size = _player_video.first->inter_size ();
 

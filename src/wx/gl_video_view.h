@@ -40,6 +40,8 @@ public:
 	void update ();
 	void start ();
 
+	bool display_next_frame (bool);
+
 	bool vsync_enabled () const {
 		return _vsync_enabled;
 	}
@@ -59,4 +61,5 @@ private:
 	boost::optional<dcp::Size> _size;
 	bool _vsync_enabled;
 	boost::thread* _thread;
+	bool _one_shot;
 };
