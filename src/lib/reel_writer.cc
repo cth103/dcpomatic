@@ -468,8 +468,6 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 
 	shared_ptr<dcp::ReelPictureAsset> reel_picture_asset;
 
-	LOG_GENERAL ("create_reel for %1-%2; %3 of %4", _period.from.get(), _period.to.get(), _reel_index, _reel_count);
-
 	if (_picture_asset) {
 		/* We have made a picture asset of our own.  Put it into the reel */
 		shared_ptr<dcp::MonoPictureAsset> mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (_picture_asset);
