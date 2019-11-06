@@ -468,6 +468,8 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 
 	shared_ptr<dcp::ReelPictureAsset> reel_picture_asset;
 
+	LOG_GENERAL ("create_reel for %1-%2; %3 of %4", _period.from.get(), _period.to.get(), _reel_index, _reel_count);
+
 	if (_picture_asset) {
 		/* We have made a picture asset of our own.  Put it into the reel */
 		shared_ptr<dcp::MonoPictureAsset> mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (_picture_asset);
@@ -515,9 +517,13 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 		/* We have made a sound asset of our own.  Put it into the reel */
 		reel_sound_asset.reset (new dcp::ReelSoundAsset (_sound_asset, 0));
 	} else {
+		LOG_GENERAL ("no sound asset of our own; look through %1", refs.size());
 		/* We don't have a sound asset of our own; hopefully we have one to reference */
 		BOOST_FOREACH (ReferencedReelAsset j, refs) {
 			shared_ptr<dcp::ReelSoundAsset> k = dynamic_pointer_cast<dcp::ReelSoundAsset> (j.asset);
+			if (k) {
+				LOG_GENERAL ("candidate sound asset period is %1-%2", j.period.from.get(), j.period.to.get());
+			}
 			if (k && j.period == _period) {
 				reel_sound_asset = k;
 				/* If we have a hash for this asset in the CPL, assume that it is correct */
