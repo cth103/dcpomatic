@@ -107,13 +107,15 @@ VideoContentScale::name () const
 
 /** @param display_container Size of the container that we are displaying this content in.
  *  @param film_container The size of the film's image.
+ *  @return Size, in pixels that the VideoContent's image should be scaled to (taking into account its pixel aspect ratio)
  */
 dcp::Size
 VideoContentScale::size (shared_ptr<const VideoContent> c, dcp::Size display_container, dcp::Size film_container) const
 {
 	/* Work out the size of the content if it were put inside film_container */
 
-	dcp::Size const video_size_after_crop = c->size_after_crop ();
+	dcp::Size video_size_after_crop = c->size_after_crop();
+	video_size_after_crop.width *= c->sample_aspect_ratio().get_value_or(1);
 
 	dcp::Size size;
 
