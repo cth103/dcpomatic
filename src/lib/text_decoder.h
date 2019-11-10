@@ -44,7 +44,7 @@ public:
 		ContentTime first
 		);
 
-	ContentTime position (boost::shared_ptr<const Film>) const {
+	boost::optional<ContentTime> position (boost::shared_ptr<const Film>) const {
 		return _position;
 	}
 

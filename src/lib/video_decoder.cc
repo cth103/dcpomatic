@@ -53,10 +53,42 @@ VideoDecoder::VideoDecoder (Decoder* parent, shared_ptr<const Content> c)
  *  and so on.
  */
 void
-VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> image, Frame frame)
+VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> image, Frame decoder_frame)
 {
 	if (ignore ()) {
 		return;
+	}
+
+	double const afr = _content->active_video_frame_rate(film);
+
+	Frame frame;
+	if (!_position) {
+		/* This is the first data we have received since initialisation or seek.  Set
+		   the position based on the frame that was given.  After this first time
+		   we just cound frames, since (as with audio) it seems that ContentTimes
+		   are unreliable from FFmpegDecoder.  They are much better than audio times
+		   but still we get the occasional one which is duplicated.  In this case
+		   ffmpeg seems to carry on regardless, processing the video frame as normal.
+		   If we drop the frame with the duplicated timestamp we obviously lose sync.
+		*/
+		_position = ContentTime::from_frames (decoder_frame, afr);
+		if (_content->video->frame_type() == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
+			frame = decoder_frame / 2;
+			_last_emitted_eyes = EYES_RIGHT;
+		} else {
+			frame = decoder_frame;
+		}
+	} else {
+		if (_content->video->frame_type() == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
+			DCPOMATIC_ASSERT (_last_emitted_eyes);
+			if (_last_emitted_eyes.get() == EYES_RIGHT) {
+				frame = _position->frames_round(afr) + 1;
+			} else {
+				frame = _position->frames_round(afr);
+			}
+		} else {
+			frame = _position->frames_round(afr) + 1;
+		}
 	}
 
 	switch (_content->video->frame_type ()) {
@@ -90,9 +122,13 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 		break;
 	}
 	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
-		Data (ContentVideo (image, frame / 2, (frame % 2) ? EYES_RIGHT : EYES_LEFT, PART_WHOLE));
-		frame /= 2;
+	{
+		DCPOMATIC_ASSERT (_last_emitted_eyes);
+		Eyes const eyes = _last_emitted_eyes.get() == EYES_LEFT ? EYES_RIGHT : EYES_LEFT;
+		Data (ContentVideo (image, frame, eyes, PART_WHOLE));
+		_last_emitted_eyes = eyes;
 		break;
+	}
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
 		Data (ContentVideo (image, frame, EYES_LEFT, PART_LEFT_HALF));
 		Data (ContentVideo (image, frame, EYES_RIGHT, PART_RIGHT_HALF));
@@ -111,7 +147,7 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 		DCPOMATIC_ASSERT (false);
 	}
 
-	_position = ContentTime::from_frames (frame, _content->active_video_frame_rate(film));
+	_position = ContentTime::from_frames (frame, afr);
 }
 
 void

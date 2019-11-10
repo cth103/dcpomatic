@@ -47,7 +47,7 @@ class AudioDecoder : public boost::enable_shared_from_this<AudioDecoder>, public
 public:
 	AudioDecoder (Decoder* parent, boost::shared_ptr<const AudioContent> content, bool fast);
 
-	ContentTime position (boost::shared_ptr<const Film> film) const;
+	boost::optional<ContentTime> position (boost::shared_ptr<const Film> film) const;
 	void emit (boost::shared_ptr<const Film> film, AudioStreamPtr stream, boost::shared_ptr<const AudioBuffers>, ContentTime);
 	void seek ();
 	void flush ();
