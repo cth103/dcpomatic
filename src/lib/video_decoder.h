@@ -51,7 +51,7 @@ public:
 	friend struct ffmpeg_pts_offset_test;
 	friend void ffmpeg_decoder_sequential_test_one (boost::filesystem::path file, float fps, int gaps, int video_length);
 
-	dcpomatic::ContentTime position (boost::shared_ptr<const Film>) const {
+	boost::optional<dcpomatic::ContentTime> position (boost::shared_ptr<const Film>) const {
 		return _position;
 	}
 
@@ -66,7 +66,7 @@ private:
 	/** Frame of last thing to be emitted */
 	boost::optional<Frame> _last_emitted_frame;
 	boost::optional<Eyes> _last_emitted_eyes;
-	dcpomatic::ContentTime _position;
+	boost::optional<dcpomatic::ContentTime> _position;
 };
 
 #endif

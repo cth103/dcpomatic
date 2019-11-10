@@ -44,11 +44,11 @@ Decoder::position () const
 	optional<ContentTime> pos;
 	shared_ptr<const Film> f = film();
 
-	if (video && !video->ignore() && (!pos || video->position(f) < *pos)) {
+	if (video && !video->ignore() && (!pos || video->position(f).get_value_or(ContentTime()) < *pos)) {
 		pos = video->position(f);
 	}
 
-	if (audio && !audio->ignore() && (!pos || audio->position(f) < *pos)) {
+	if (audio && !audio->ignore() && (!pos || audio->position(f).get_value_or(ContentTime()) < *pos)) {
 		pos = audio->position(f);
 	}
 

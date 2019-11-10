@@ -111,7 +111,7 @@ AudioDecoder::stream_position (shared_ptr<const Film> film, AudioStreamPtr strea
 	return ContentTime::from_frames (i->second, _content->resampled_frame_rate(film));
 }
 
-ContentTime
+boost::optional<ContentTime>
 AudioDecoder::position (shared_ptr<const Film> film) const
 {
 	optional<ContentTime> p;
@@ -122,7 +122,7 @@ AudioDecoder::position (shared_ptr<const Film> film) const
 		}
 	}
 
-	return p.get_value_or(ContentTime());
+	return p;
 }
 
 void

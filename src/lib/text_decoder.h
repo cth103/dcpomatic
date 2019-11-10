@@ -44,7 +44,7 @@ public:
 		dcpomatic::ContentTime first
 		);
 
-	dcpomatic::ContentTime position (boost::shared_ptr<const Film>) const {
+	boost::optional<dcpomatic::ContentTime> position (boost::shared_ptr<const Film>) const {
 		return _position;
 	}
 
@@ -68,7 +68,7 @@ public:
 
 private:
 	boost::shared_ptr<const TextContent> _content;
-	dcpomatic::ContentTime _position;
+	boost::optional<dcpomatic::ContentTime> _position;
 };
 
 #endif
