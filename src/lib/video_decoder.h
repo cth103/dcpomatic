@@ -63,7 +63,7 @@ public:
 
 private:
 	boost::shared_ptr<const Content> _content;
-	/** Frame of last thing to be emitted */
+	/** Frame of last thing to be emitted; only used for 3D */
 	boost::optional<Frame> _last_emitted_frame;
 	boost::optional<Eyes> _last_emitted_eyes;
 	boost::optional<dcpomatic::ContentTime> _position;
