@@ -299,10 +299,14 @@ ReelWriter::finish ()
 		video_to /= _film->dir (_film->dcp_name());
 		video_to /= video_asset_filename (_picture_asset, _reel_index, _reel_count, _content_summary);
 
+		LOG_GENERAL ("Must put %1 into DCP at %2", video_from.string(), video_to.string());
+		LOG_GENERAL ("%2: %2", video_from.string(), boost::filesystem::is_regular_file(video_from) ? "yes" : "no");
+		LOG_GENERAL ("%1: %2", video_to.string(), boost::filesystem::is_regular_file(video_to) ? "yes" : "no");
+
 		boost::system::error_code ec;
 		boost::filesystem::create_hard_link (video_from, video_to, ec);
 		if (ec) {
-			LOG_WARNING_NC ("Hard-link failed; copying instead");
+			LOG_WARNING ("Hard-link failed (%1); copying instead", ec.message());
 			shared_ptr<Job> job = _job.lock ();
 			if (job) {
 				job->sub (_("Copying video file into DCP"));
