@@ -648,7 +648,7 @@ Player::pass ()
 		if (_last_audio_time) {
 			/* Sometimes the thing that happened last finishes fractionally before
 			   or after this silence.  Bodge the start time of the silence to fix it.
-			   I think is nothing too bad to worry about since we will just add or
+			   I think this is nothing to worry about since we will just add or
 			   remove a little silence at the end of some content.
 			*/
 			int64_t const error = labs(period.from.get() - _last_audio_time->get());
