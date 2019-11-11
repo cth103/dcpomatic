@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-05 20:19+0100\n"
-"PO-Revision-Date: 2019-02-28 13:18+0100\n"
+"PO-Revision-Date: 2019-11-11 09:39+0100\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: \n"
 "Language: cs_CZ\n"
@@ -190,6 +190,16 @@ msgid ""
 "£20</a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to "
 "Paypal to donate £10</a></ul><p>Thank you!"
 msgstr ""
+"<h2>Vytvořil jste %1 DCPs programem DCP-o-matic!</h2><img width=“20%%” "
+"src=“memory:me.jpg” align=“center”><p>Dobrý den. Jsem Carl a jsem vývojář "
+"DCP-o-matic. Pracuju na tom ve volném čase (s pomocí jemného dobrovolníka z "
+"testerů a překladatelů) a uvolním ho jako svobodný software.<p>Pokud je pro "
+"vás DCP-o-matic užitečný, zvažte prosím finanční dar projektu. Finanční "
+"podpora mi pomůže strávit více času rozvojem DCP-o-matic a zlepší jej!"
+"<p><ul><li><a href=“https://dcpomatic.com/donate_amount?amount=40”>Go to "
+"Paypal to donate £40</a><li><a href=“https://dcpomatic.com/donate_amount?"
+"amount=20”>Go to Paypal to donate £20</a><li><a href=“https://dcpomatic.com/"
+"donate_amount?amount=10”>Go to Paypal to donate £10</a></ul><p>Děkuji!"
 
 #: src/lib/hints.cc:155
 msgid ""
@@ -398,7 +408,7 @@ msgstr "Výpočet digests"
 
 #: src/lib/analytics.cc:55
 msgid "Congratulations!"
-msgstr ""
+msgstr "Blahopřejeme!"
 
 #: src/lib/frame_rate_change.cc:101
 msgid "Content and DCP have the same rate.\n"
@@ -525,9 +535,8 @@ msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Nemohu dekódovat JPEG2000 soubor %1 (%2)"
 
 #: src/lib/ffmpeg_image_proxy.cc:152
-#, fuzzy
 msgid "Could not decode image (%1)"
-msgstr "Nemohu dekódovat video soubor (%1)"
+msgstr "Nemohu dekódovat obrázek (%1)"
 
 #: src/lib/encode_server_finder.cc:193
 msgid ""
@@ -712,7 +721,7 @@ msgstr "Kódování"
 
 #: src/lib/dcp_content_type.cc:56
 msgid "Episode"
-msgstr ""
+msgstr "Epizoda"
 
 #: src/lib/exceptions.cc:67
 msgid "Error in subtitle file: saw %1 while expecting %2"
@@ -1049,7 +1058,7 @@ msgstr "Chyba při programovaní na %1:%2 %3"
 
 #: src/lib/dcp_content_type.cc:57
 msgid "Promo"
-msgstr ""
+msgstr "Promo"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
@@ -1495,11 +1504,12 @@ msgstr ""
 "spojit, aby zajistit tak hladké spojení mezi těmito dvěma soubory."
 
 #: src/lib/hints.cc:329
-#, fuzzy
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
-msgstr "Máte překrývající se skryté titulky, které nejsou povoleny."
+msgstr ""
+"Máte překrývající se skryté titulky, které nejsou povoleny v Interop DCP. "
+"Změňte váš DCP standard na SMPTE."
 
 #: src/lib/hints.cc:115
 msgid ""
