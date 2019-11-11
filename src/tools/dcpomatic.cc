@@ -513,9 +513,11 @@ private:
 					}
 				}
 				wxString message = _("Could not create folder to store film.");
+				message += "  ";
 				if (!found_bad_chars.empty()) {
-					message += "  ";
 					message += wxString::Format (_("Try removing the %s characters from your folder name."), std_to_wx(found_bad_chars).data());
+				} else {
+					message += _("Please check that you do not have Windows controlled folder access enabled for DCP-o-matic.");
 				}
 				error_dialog (this, message, std_to_wx(e.what()));
 #else
