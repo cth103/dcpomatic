@@ -180,6 +180,7 @@ DCPContent::read_sub_directory (boost::filesystem::path p)
 	}
 }
 
+/** @param film Film, or 0 */
 void
 DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 {
@@ -198,7 +199,7 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	}
 	Content::examine (film, job);
 
-	shared_ptr<DCPExaminer> examiner (new DCPExaminer(shared_from_this(), film->tolerant()));
+	shared_ptr<DCPExaminer> examiner (new DCPExaminer(shared_from_this(), film ? film->tolerant() : true));
 
 	if (examiner->has_video()) {
 		{
