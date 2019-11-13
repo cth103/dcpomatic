@@ -86,6 +86,8 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 		_audio_codec_name = "pcm_s24le";
 		av_dict_set_int (&_video_options, "crf", x264_crf, 0);
 		break;
+	default:
+		DCPOMATIC_ASSERT (false);
 	}
 
 	setup_video ();
