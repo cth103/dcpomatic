@@ -113,12 +113,15 @@ def configure(conf):
     if conf.options.force_cpp11:
         conf.env.append_value('CXXFLAGS', ['-std=c++11', '-DBOOST_NO_CXX11_SCOPED_ENUMS'])
 
-    gcc = conf.env['CC_VERSION']
-    if int(gcc[0]) >= 4 and int(gcc[1]) > 1:
-        conf.env.append_value('CXXFLAGS', ['-Wno-unused-result'])
-    if int(gcc[0]) >= 9:
-        conf.env.append_value('CXXFLAGS', ['-Wno-deprecated-copy'])
-    have_c11 = int(gcc[0]) >= 4 and int(gcc[1]) >= 8 and int(gcc[2]) >= 1
+    if conf.env['CXX_NAME'] == 'gcc':
+        gcc = conf.env['CC_VERSION']
+        if int(gcc[0]) >= 4 and int(gcc[1]) > 1:
+            conf.env.append_value('CXXFLAGS', ['-Wno-unused-result'])
+        if int(gcc[0]) >= 9:
+            conf.env.append_value('CXXFLAGS', ['-Wno-deprecated-copy'])
+        have_c11 = int(gcc[0]) >= 4 and int(gcc[1]) >= 8 and int(gcc[2]) >= 1
+    else:
+        have_c11 = False
 
     if conf.options.enable_debug:
         conf.env.append_value('CXXFLAGS', ['-g', '-DDCPOMATIC_DEBUG', '-fno-omit-frame-pointer'])
