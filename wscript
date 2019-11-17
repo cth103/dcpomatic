@@ -108,6 +108,8 @@ def configure(conf):
                                        '-Wno-deprecated-declarations',
                                        '-Wno-ignored-qualifiers',
                                        '-Wno-parentheses',
+                                       # Remove lots of warnings from wxWidgets with newer gcc
+                                       '-Wno-deprecated-copy',
                                        '-D_FILE_OFFSET_BITS=64'])
 
     if conf.options.force_cpp11:
