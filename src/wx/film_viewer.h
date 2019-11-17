@@ -27,6 +27,7 @@
 #include "lib/config.h"
 #include "lib/player_text.h"
 #include "lib/timer.h"
+#include "lib/signaller.h"
 #include <RtAudio.h>
 #include <wx/wx.h>
 
@@ -42,7 +43,7 @@ class ClosedCaptionsDialog;
 /** @class FilmViewer
  *  @brief A wx widget to view a Film.
  */
-class FilmViewer
+class FilmViewer : public Signaller
 {
 public:
 	FilmViewer (wxWindow *);
@@ -77,6 +78,7 @@ public:
 	bool stop ();
 	void suspend ();
 	void resume ();
+
 	bool playing () const {
 		return _playing;
 	}
@@ -138,13 +140,13 @@ public:
 	boost::shared_ptr<Butler> butler () const {
 		return _butler;
 	}
-	int time_until_next_frame () const;
 
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
 	boost::signals2::signal<void (dcpomatic::DCPTime)> Started;
 	boost::signals2::signal<void (dcpomatic::DCPTime)> Stopped;
 	/** While playing back we reached the end of the film (emitted from GUI thread) */
 	boost::signals2::signal<void ()> Finished;
+	void emit_finished ();
 
 	boost::signals2::signal<bool ()> PlaybackPermitted;
 
@@ -165,6 +167,7 @@ private:
 	void config_changed (Config::Property);
 
 	dcpomatic::DCPTime time () const;
+	boost::optional<dcpomatic::DCPTime> audio_time () const;
 	dcpomatic::DCPTime uncorrected_time () const;
 	Frame average_latency () const;
 

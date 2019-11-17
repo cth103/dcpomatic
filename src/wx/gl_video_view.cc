@@ -268,6 +268,31 @@ GLVideoView::start ()
 }
 
 void
+GLVideoView::stop ()
+{
+	if (_thread) {
+		_thread->interrupt ();
+		_thread->join ();
+	}
+	delete _thread;
+	_thread = 0;
+}
+
+bool
+GLVideoView::one_shot () const
+{
+	boost::mutex::scoped_lock lm (_one_shot_mutex);
+	return _one_shot;
+}
+
+void
+GLVideoView::set_one_shot (bool s)
+{
+	boost::mutex::scoped_lock lm (_one_shot_mutex);
+	_one_shot = s;
+}
+
+void
 GLVideoView::thread ()
 try
 {
@@ -279,30 +304,37 @@ try
 	}
 
 	while (true) {
-		if ((!_viewer->film() || !_viewer->playing()) && !_one_shot) {
+		if (!film() && !one_shot()) {
+			/* XXX: this should be an indefinite wait until
+			   one of our conditions becomes true.
+			 */
 			dcpomatic_sleep_milliseconds (40);
 			continue;
 		}
 
-		_one_shot = false;
+		set_one_shot (false);
 
-		dcpomatic::DCPTime const next = _viewer->position() + _viewer->one_video_frame();
+		dcpomatic::DCPTime const next = position() + one_video_frame();
 
-		if (next >= _viewer->film()->length()) {
+		if (next >= film()->length()) {
 			_viewer->stop ();
-			_viewer->Finished ();
+			_viewer->emit_finished ();
 			continue;
 		}
 
 		get_next_frame (false);
-		set_image (_player_video.first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
+		{
+			boost::mutex::scoped_lock lm (_mutex);
+			set_image (_player_video.first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
+		}
 		draw ();
 
-		while (_viewer->time_until_next_frame() < 5) {
+		while (time_until_next_frame() < 5) {
 			get_next_frame (true);
 		}
 
-		dcpomatic_sleep_milliseconds (_viewer->time_until_next_frame());
+		boost::this_thread::interruption_point ();
+		dcpomatic_sleep_milliseconds (time_until_next_frame());
 	}
 
 	{
@@ -328,6 +360,14 @@ bool
 GLVideoView::display_next_frame (bool non_blocking)
 {
 	bool const g = get_next_frame (non_blocking);
-	_one_shot = true;
+	set_one_shot (true);
 	return g;
 }
+
+dcpomatic::DCPTime
+GLVideoView::one_video_frame () const
+{
+	return dcpomatic::DCPTime::from_frames (1, film()->video_frame_rate());
+}
+
+

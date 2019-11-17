@@ -145,21 +145,21 @@ SimpleVideoView::update ()
 void
 SimpleVideoView::timer ()
 {
-	if (!_viewer->film() || !_viewer->playing()) {
+	if (!film() || !_viewer->playing()) {
 		return;
 	}
 
 	display_next_frame (false);
 	DCPTime const next = _viewer->position() + _viewer->one_video_frame();
 
-	if (next >= _viewer->film()->length()) {
+	if (next >= film()->length()) {
 		_viewer->stop ();
 		_viewer->Finished ();
 		return;
 	}
 
 	LOG_DEBUG_PLAYER("%1 -> %2; delay %3", next.seconds(), _viewer->time().seconds(), max((next.seconds() - _viewer->time().seconds()) * 1000, 1.0));
-	_timer.Start (_viewer->time_until_next_frame(), wxTIMER_ONE_SHOT);
+	_timer.Start (time_until_next_frame(), wxTIMER_ONE_SHOT);
 
 	if (_viewer->butler()) {
 		_viewer->butler()->rethrow ();

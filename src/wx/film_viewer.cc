@@ -156,9 +156,9 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	}
 
 	_film = film;
-	_video_view->clear ();
 
-	_video_view->set_image (shared_ptr<Image>());
+	_video_view->set_film (_film);
+	_video_view->clear ();
 	_closed_captions_dialog->clear ();
 
 	if (!_film) {
@@ -326,8 +326,8 @@ FilmViewer::start ()
 		_audio.startStream ();
 	}
 
-	_playing = true;
 	_dropped = 0;
+	_playing = true;
 	_video_view->start ();
 	Started (position());
 }
@@ -345,6 +345,7 @@ FilmViewer::stop ()
 	}
 
 	_playing = false;
+	_video_view->stop ();
 	Stopped (position());
 	return true;
 }
@@ -540,6 +541,17 @@ FilmViewer::uncorrected_time () const
 	return _video_view->position();
 }
 
+optional<DCPTime>
+FilmViewer::audio_time () const
+{
+	if (!_audio.isStreamRunning()) {
+		return optional<DCPTime>();
+	}
+
+	return DCPTime::from_seconds (const_cast<RtAudio*>(&_audio)->getStreamTime ()) -
+		DCPTime::from_frames (average_latency(), _film->audio_frame_rate());
+}
+
 DCPTime
 FilmViewer::time () const
 {
@@ -630,14 +642,10 @@ FilmViewer::set_pad_black (bool p)
 	_pad_black = p;
 }
 
-/* XXX_b: comment */
-int
-FilmViewer::time_until_next_frame () const
+/* May be called from a non-UI thread */
+void
+FilmViewer::emit_finished ()
 {
-	DCPTime const next = position() + one_video_frame();
-	std::cout << to_string(next) << " " << to_string(time()) << " " << ((next.seconds() - time().seconds()) * 1000) << "\n";
-	if (next < time()) {
-		return 0;
-	}
-	return (next.seconds() - time().seconds()) * 1000;
+	emit (boost::bind(boost::ref(Finished)));
 }
+

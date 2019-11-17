@@ -26,6 +26,7 @@
 void
 VideoView::clear ()
 {
+	boost::mutex::scoped_lock lm (_mutex);
 	_player_video.first.reset ();
 	_player_video.second = dcpomatic::DCPTime ();
 }
@@ -38,6 +39,8 @@ VideoView::get_next_frame (bool non_blocking)
 {
 	DCPOMATIC_ASSERT (_viewer->butler());
 	_viewer->_gets++;
+
+	boost::mutex::scoped_lock lm (_mutex);
 
 	do {
 		Butler::Error e;
@@ -60,3 +63,23 @@ VideoView::get_next_frame (bool non_blocking)
 
 	return true;
 }
+
+dcpomatic::DCPTime
+VideoView::one_video_frame () const
+{
+	return dcpomatic::DCPTime::from_frames (1, film()->video_frame_rate());
+}
+
+/* XXX_b: comment */
+int
+VideoView::time_until_next_frame () const
+{
+	dcpomatic::DCPTime const next = position() + one_video_frame();
+	dcpomatic::DCPTime const time = _viewer->audio_time().get_value_or(position());
+	std::cout << to_string(next) << " " << to_string(time) << " " << ((next.seconds() - time.seconds()) * 1000) << "\n";
+	if (next < time) {
+		return 0;
+	}
+	return (next.seconds() - time.seconds()) * 1000;
+}
+

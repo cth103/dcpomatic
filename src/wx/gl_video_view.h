@@ -19,6 +19,7 @@
 */
 
 #include "video_view.h"
+#include "lib/signaller.h"
 #include <wx/wx.h>
 #include <wx/glcanvas.h>
 #include <dcp/util.h>
@@ -39,6 +40,7 @@ public:
 	}
 	void update ();
 	void start ();
+	void stop ();
 
 	bool display_next_frame (bool);
 
@@ -51,6 +53,9 @@ private:
 	void draw ();
 	void thread ();
 	wxGLContext* context () const;
+	bool one_shot () const;
+	void set_one_shot (bool s);
+	dcpomatic::DCPTime one_video_frame () const;
 
 	wxGLCanvas* _canvas;
 
@@ -61,5 +66,6 @@ private:
 	boost::optional<dcp::Size> _size;
 	bool _vsync_enabled;
 	boost::thread* _thread;
+	mutable boost::mutex _one_shot_mutex;
 	bool _one_shot;
 };

@@ -24,6 +24,7 @@
 #include "lib/dcpomatic_time.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
+#include <boost/thread.hpp>
 
 class Image;
 class wxWindow;
@@ -48,6 +49,8 @@ public:
 
 	/* XXX_b: make pure */
 	virtual void start () {}
+	/* XXX_b: make pure */
+	virtual void stop () {}
 
 	void clear ();
 
@@ -59,7 +62,13 @@ public:
 	virtual void display_player_video () {}
 
 	dcpomatic::DCPTime position () const {
+		boost::mutex::scoped_lock lm (_mutex);
 		return _player_video.second;
+	}
+
+	void set_film (boost::shared_ptr<const Film> film) {
+		boost::mutex::scoped_lock lm (_mutex);
+		_film = film;
 	}
 
 protected:
@@ -67,15 +76,28 @@ protected:
 	friend class FilmViewer;
 
 	bool get_next_frame (bool non_blocking);
+	int time_until_next_frame () const;
+	dcpomatic::DCPTime one_video_frame () const;
+
+	boost::shared_ptr<const Film> film () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _film;
+	}
 
 	FilmViewer* _viewer;
 	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> _player_video;
+
+	/** Mutex protecting all the state in VideoView */
+	mutable boost::mutex _mutex;
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	bool _in_watermark;
 	int _watermark_x;
 	int _watermark_y;
 #endif
+
+private:
+	boost::shared_ptr<const Film> _film;
 };
 
 #endif
