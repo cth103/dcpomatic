@@ -624,18 +624,18 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime 
 #else
 	/* Start of the first line in the subtitle */
 	uint8_t* sub_p = rect->data[0];
-	/* sub_p looks up into a BGRA palette which is here
-	   (i.e. first byte B, second G, third R, fourth A)
+	/* sub_p looks up into a BGRA palette which is at rect->data[1].
+	   (first byte B, second G, third R, fourth A)
 	*/
-	uint32_t const * palette = (uint32_t *) rect->data[1];
 #endif
 	/* And the stream has a map of those palette colours to colours
 	   chosen by the user; created a `mapped' palette from those settings.
 	*/
 	map<RGBA, RGBA> colour_map = ffmpeg_content()->subtitle_stream()->colours ();
 	vector<RGBA> mapped_palette (rect->nb_colors);
+	uint8_t const * palette = rect->data[1];
 	for (int i = 0; i < rect->nb_colors; ++i) {
-		RGBA c ((palette[i] & 0xff0000) >> 16, (palette[i] & 0xff00) >> 8, palette[i] & 0xff, (palette[i] & 0xff000000) >> 24);
+		RGBA c (palette[2], palette[1], palette[0], palette[3]);
 		map<RGBA, RGBA>::const_iterator j = colour_map.find (c);
 		if (j != colour_map.end ()) {
 			mapped_palette[i] = j->second;
@@ -646,25 +646,28 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime 
 			*/
 			mapped_palette[i] = c;
 		}
+		palette += 4;
 	}
 
 	/* Start of the output data */
-	uint32_t* out_p = (uint32_t *) image->data()[0];
+	uint8_t* out_p = image->data()[0];
 
 	for (int y = 0; y < rect->h; ++y) {
 		uint8_t* sub_line_p = sub_p;
-		uint32_t* out_line_p = out_p;
+		uint8_t* out_line_p = out_p;
 		for (int x = 0; x < rect->w; ++x) {
 			RGBA const p = mapped_palette[*sub_line_p++];
-			/* XXX: this seems to be wrong to me (isn't the output image BGRA?) but it looks right on screen */
-			*out_line_p++ = (p.a << 24) | (p.b << 16) | (p.g << 8) | p.r;
+			*out_line_p++ = p.b;
+			*out_line_p++ = p.g;
+			*out_line_p++ = p.r;
+			*out_line_p++ = p.a;
 		}
 #ifdef DCPOMATIC_HAVE_AVSUBTITLERECT_PICT
 		sub_p += rect->pict.linesize[0];
 #else
 		sub_p += rect->linesize[0];
 #endif
-		out_p += image->stride()[0] / sizeof (uint32_t);
+		out_p += image->stride()[0];
 	}
 
 	int target_width = subtitle_codec_context()->width;
