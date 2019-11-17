@@ -108,8 +108,6 @@ def configure(conf):
                                        '-Wno-deprecated-declarations',
                                        '-Wno-ignored-qualifiers',
                                        '-Wno-parentheses',
-                                       # Remove lots of warnings from wxWidgets with newer gcc
-                                       '-Wno-deprecated-copy',
                                        '-D_FILE_OFFSET_BITS=64'])
 
     if conf.options.force_cpp11:
@@ -179,7 +177,7 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-DLINUX_LOCALE_PREFIX="%s/share/locale"' % conf.env['INSTALL_PREFIX'])
         conf.env.append_value('CXXFLAGS', '-DLINUX_SHARE_PREFIX="%s/share/dcpomatic2"' % conf.env['INSTALL_PREFIX'])
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_LINUX')
-        conf.env.append_value('CXXFLAGS', ['-Wlogical-op'])
+        conf.env.append_value('CXXFLAGS', ['-Wlogical-op', '-Wno-deprecated-copy'])
         if not conf.env.DISABLE_GUI:
             conf.check_cfg(package='gtk+-2.0', args='--cflags --libs', uselib_store='GTK', mandatory=True)
 
