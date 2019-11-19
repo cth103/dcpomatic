@@ -126,9 +126,14 @@ DCPEncoder::go ()
 void
 DCPEncoder::video (shared_ptr<PlayerVideo> data, DCPTime time)
 {
-	if (!_film->three_d() && data->eyes() == EYES_LEFT) {
-		/* Use left-eye images for both eyes */
-		data->set_eyes (EYES_BOTH);
+	if (!_film->three_d()) {
+		if (data->eyes() == EYES_LEFT) {
+			/* Use left-eye images for both eyes... */
+			data->set_eyes (EYES_BOTH);
+		} else if (data->eyes() == EYES_RIGHT) {
+			/* ...and discard the right */
+			return;
+		}
 	}
 
 	_j2k_encoder->encode (data, time);

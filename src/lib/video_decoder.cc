@@ -80,7 +80,8 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 			frame = decoder_frame;
 		}
 	} else {
-		if (_content->video->frame_type() == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
+		VideoFrameType const ft = _content->video->frame_type ();
+		if (ft == VIDEO_FRAME_TYPE_3D_ALTERNATE || ft == VIDEO_FRAME_TYPE_3D) {
 			DCPOMATIC_ASSERT (_last_emitted_eyes);
 			if (_last_emitted_eyes.get() == EYES_RIGHT) {
 				frame = _position->frames_round(afr) + 1;

@@ -358,3 +358,61 @@ BOOST_AUTO_TEST_CASE (player_silence_crash)
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 }
+
+/** Test a crash when processing a 3D DCP */
+BOOST_AUTO_TEST_CASE (player_3d_test_1)
+{
+	shared_ptr<Film> film = new_test_film2 ("player_3d_test_1a");
+	shared_ptr<Content> left = content_factory("test/data/flat_red.png").front();
+	film->examine_and_add_content (left);
+	shared_ptr<Content> right = content_factory("test/data/flat_blue.png").front();
+	film->examine_and_add_content (right);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	left->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT);
+	left->set_position (film, DCPTime());
+	right->video->set_frame_type (VIDEO_FRAME_TYPE_3D_RIGHT);
+	right->set_position (film, DCPTime());
+	film->set_three_d (true);
+
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	shared_ptr<Film> film2 = new_test_film2 ("player_3d_test_1b");
+	shared_ptr<Content> dcp(new DCPContent(film->dir(film->dcp_name())));
+	film2->examine_and_add_content (dcp);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	film2->set_three_d (true);
+	film2->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+}
+
+/** Test a crash when processing a 3D DCP as content in a 2D project */
+BOOST_AUTO_TEST_CASE (player_3d_test_2)
+{
+	shared_ptr<Film> film = new_test_film2 ("player_3d_test_2a");
+	shared_ptr<Content> left = content_factory("test/data/flat_red.png").front();
+	film->examine_and_add_content (left);
+	shared_ptr<Content> right = content_factory("test/data/flat_blue.png").front();
+	film->examine_and_add_content (right);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	left->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT);
+	left->set_position (film, DCPTime());
+	right->video->set_frame_type (VIDEO_FRAME_TYPE_3D_RIGHT);
+	right->set_position (film, DCPTime());
+	film->set_three_d (true);
+
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	shared_ptr<Film> film2 = new_test_film2 ("player_3d_test_2b");
+	shared_ptr<Content> dcp(new DCPContent(film->dir(film->dcp_name())));
+	film2->examine_and_add_content (dcp);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	film2->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+}
+
