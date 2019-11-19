@@ -84,20 +84,23 @@ protected:
 	bool get_next_frame (bool non_blocking);
 	int time_until_next_frame () const;
 	dcpomatic::DCPTime one_video_frame () const;
+
 	int video_frame_rate () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _video_frame_rate;
 	}
+
 	dcpomatic::DCPTime length () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _length;
 	}
 
-	FilmViewer* _viewer;
-	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> _player_video;
+	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> player_video () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _player_video;
+	}
 
-	/** Mutex protecting all the state in VideoView */
-	mutable boost::mutex _mutex;
+	FilmViewer* _viewer;
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	bool _in_watermark;
@@ -106,6 +109,10 @@ protected:
 #endif
 
 private:
+	/** Mutex protecting all the state in VideoView */
+	mutable boost::mutex _mutex;
+
+	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> _player_video;
 	int _video_frame_rate;
 	dcpomatic::DCPTime _length;
 };

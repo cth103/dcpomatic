@@ -54,7 +54,8 @@ using boost::optional;
 GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	: VideoView (viewer)
 	, _vsync_enabled (false)
-	, _thread (0)
+	, _playing (false)
+	, _one_shot (false)
 {
 	_canvas = new wxGLCanvas (parent, wxID_ANY, 0, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
 	_canvas->Bind (wxEVT_PAINT, boost::bind(&GLVideoView::paint, this));
@@ -91,14 +92,14 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	glGenTextures (1, &_id);
 	glBindTexture (GL_TEXTURE_2D, _id);
 	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
+
+	_thread = new boost::thread (boost::bind(&GLVideoView::thread, this));
 }
 
 GLVideoView::~GLVideoView ()
 {
-	if (_thread) {
-		_thread->interrupt ();
-		_thread->join ();
-	}
+	_thread->interrupt ();
+	_thread->join ();
 	delete _thread;
 
 	glDeleteTextures (1, &_id);
@@ -263,18 +264,16 @@ GLVideoView::set_image (shared_ptr<const Image> image)
 void
 GLVideoView::start ()
 {
-	_thread = new boost::thread (boost::bind(&GLVideoView::thread, this));
+	boost::mutex::scoped_lock lm (_playing_mutex);
+	_playing = true;
+	_playing_condition.notify_all ();
 }
 
 void
 GLVideoView::stop ()
 {
-	if (_thread) {
-		_thread->interrupt ();
-		_thread->join ();
-	}
-	delete _thread;
-	_thread = 0;
+	boost::mutex::scoped_lock lm (_playing_mutex);
+	_playing = false;
 }
 
 void
@@ -288,6 +287,13 @@ try
 	std::cout << "Here we go " << video_frame_rate() << " " << to_string(length()) << "\n";
 
 	while (true) {
+		boost::mutex::scoped_lock lm (_playing_mutex);
+		while (!_playing || !_one_shot) {
+			_playing_condition.wait (lm);
+		}
+		_one_shot = false;
+		lm.unlock ();
+
 		dcpomatic::DCPTime const next = position() + one_video_frame();
 
 		if (next >= length()) {
@@ -297,10 +303,7 @@ try
 		}
 
 		get_next_frame (false);
-		{
-			boost::mutex::scoped_lock lm (_mutex);
-			set_image (_player_video.first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
-		}
+		set_image (player_video().first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
 		draw ();
 
 		while (time_until_next_frame() < 5) {
@@ -323,6 +326,10 @@ catch (boost::thread_interrupted& e)
 bool
 GLVideoView::display_next_frame (bool non_blocking)
 {
-	return get_next_frame (non_blocking);
+	bool const r = get_next_frame (non_blocking);
+	boost::mutex::scoped_lock lm (_playing_mutex);
+	_one_shot = true;
+	_playing_condition.notify_all ();
+	return r;
 }
 

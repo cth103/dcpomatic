@@ -25,6 +25,7 @@
 #include <dcp/util.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/thread.hpp>
+#include <boost/thread/condition.hpp>
 #undef None
 #undef Success
 
@@ -60,4 +61,9 @@ private:
 	boost::optional<dcp::Size> _size;
 	bool _vsync_enabled;
 	boost::thread* _thread;
+
+	boost::mutex _playing_mutex;
+	boost::condition _playing_condition;
+	bool _playing;
+	bool _one_shot;
 };

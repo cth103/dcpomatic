@@ -200,13 +200,13 @@ SimpleVideoView::display_next_frame (bool non_blocking)
 void
 SimpleVideoView::display_player_video ()
 {
-	if (!_player_video.first) {
+	if (!player_video().first) {
 		set_image (shared_ptr<Image>());
 		_viewer->refresh_view ();
 		return;
 	}
 
-	if (_viewer->playing() && (_viewer->time() - _player_video.second) > _viewer->one_video_frame()) {
+	if (_viewer->playing() && (_viewer->time() - player_video().second) > _viewer->one_video_frame()) {
 		/* Too late; just drop this frame before we try to get its image (which will be the time-consuming
 		   part if this frame is J2K).
 		*/
@@ -235,15 +235,15 @@ SimpleVideoView::display_player_video ()
 	_viewer->_state_timer.set ("get image");
 
 	set_image (
-		_player_video.first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true)
+		player_video().first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true)
 		);
 
 	_viewer->_state_timer.set ("ImageChanged");
-	_viewer->ImageChanged (_player_video.first);
+	_viewer->ImageChanged (player_video().first);
 	_viewer->_state_timer.unset ();
 
-	_viewer->_inter_position = _player_video.first->inter_position ();
-	_viewer->_inter_size = _player_video.first->inter_size ();
+	_viewer->_inter_position = player_video().first->inter_position ();
+	_viewer->_inter_size = player_video().first->inter_size ();
 
 	_viewer->refresh_view ();
 
