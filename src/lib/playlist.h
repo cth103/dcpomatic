@@ -77,7 +77,7 @@ public:
 
 	/** Emitted when content has been added to or removed from the playlist; implies OrderChanged */
 	mutable boost::signals2::signal<void (ChangeType)> Change;
-	mutable boost::signals2::signal<void ()> OrderChanged;
+	mutable boost::signals2::signal<void ()> OrderChange;
 	/** Emitted when the length might have changed; may sometimes be emitted when it has not */
 	mutable boost::signals2::signal<void ()> LengthChange;
 

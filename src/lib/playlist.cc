@@ -111,7 +111,7 @@ Playlist::content_change (weak_ptr<const Film> weak_film, ChangeType type, weak_
 			}
 
 			if (changed) {
-				OrderChanged ();
+				OrderChange ();
 			}
 
 			/* The length might have changed, and that's good enough for this signal */
