@@ -55,6 +55,7 @@ VideoView::get_next_frame (bool non_blocking)
 		_player_video.first->eyes() != EYES_BOTH
 		);
 
+	/* XXX_b: this is called from the GL thread so it shouldn't be opening error dialogs */
 	try {
 		_viewer->butler()->rethrow ();
 	} catch (DecodeError& e) {
