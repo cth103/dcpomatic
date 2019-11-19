@@ -52,12 +52,9 @@ private:
 	void paint ();
 	void draw ();
 	void thread ();
-	wxGLContext* context () const;
 
 	wxGLCanvas* _canvas;
-
 	wxGLContext* _context;
-	mutable boost::mutex _context_mutex;
 
 	GLuint _id;
 	boost::optional<dcp::Size> _size;

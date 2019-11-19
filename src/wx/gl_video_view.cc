@@ -282,11 +282,8 @@ GLVideoView::thread ()
 try
 {
 	/* XXX_b: check all calls and signal emissions in this method & protect them if necessary */
-	{
-		boost::mutex::scoped_lock lm (_context_mutex);
-		_context = new wxGLContext (_canvas);
-		_canvas->SetCurrent (*_context);
-	}
+	_context = new wxGLContext (_canvas);
+	_canvas->SetCurrent (*_context);
 
 	std::cout << "Here we go " << video_frame_rate() << " " << to_string(length()) << "\n";
 
@@ -314,23 +311,13 @@ try
 		dcpomatic_sleep_milliseconds (time_until_next_frame());
 	}
 
-	{
-		boost::mutex::scoped_lock lm (_context_mutex);
-		delete _context;
-	}
+	delete _context;
 }
 catch (boost::thread_interrupted& e)
 {
 	/* XXX_b: store exceptions here */
 	delete _context;
 	return;
-}
-
-wxGLContext *
-GLVideoView::context () const
-{
-	boost::mutex::scoped_lock lm (_context_mutex);
-	return _context;
 }
 
 bool
