@@ -67,7 +67,7 @@ VideoView::get_next_frame (bool non_blocking)
 dcpomatic::DCPTime
 VideoView::one_video_frame () const
 {
-	return dcpomatic::DCPTime::from_frames (1, film()->video_frame_rate());
+	return dcpomatic::DCPTime::from_frames (1, video_frame_rate());
 }
 
 /* XXX_b: comment */

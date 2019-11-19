@@ -169,6 +169,7 @@ Film::Film (optional<boost::filesystem::path> dir)
 	_playlist_change_connection = _playlist->Change.connect (bind (&Film::playlist_change, this, _1));
 	_playlist_order_changed_connection = _playlist->OrderChanged.connect (bind (&Film::playlist_order_changed, this));
 	_playlist_content_change_connection = _playlist->ContentChange.connect (bind (&Film::playlist_content_change, this, _1, _2, _3, _4));
+	_playlist_length_change_connection = _playlist->LengthChange.connect (bind(&Film::playlist_length_change, this));
 
 	if (dir) {
 		/* Make state.directory a complete path without ..s (where possible)
@@ -1290,6 +1291,12 @@ Film::playlist_content_change (ChangeType type, weak_ptr<Content> c, int p, bool
 	} else {
 		ContentChange (type, c, p, frequent);
 	}
+}
+
+void
+Film::playlist_length_change ()
+{
+	LengthChange ();
 }
 
 void

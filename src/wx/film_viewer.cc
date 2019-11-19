@@ -157,7 +157,6 @@ FilmViewer::set_film (shared_ptr<Film> film)
 
 	_film = film;
 
-	_video_view->set_film (_film);
 	_video_view->clear ();
 	_closed_captions_dialog->clear ();
 
@@ -184,6 +183,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	_player->set_play_referenced ();
 
 	_film->Change.connect (boost::bind (&FilmViewer::film_change, this, _1, _2));
+	_film->LengthChange.connect (boost::bind(&FilmViewer::film_length_change, this));
 	_player->Change.connect (boost::bind (&FilmViewer::player_change, this, _1, _2, _3));
 
 	/* Keep about 1 second's worth of history samples */
@@ -384,9 +384,21 @@ FilmViewer::player_change (ChangeType type, int property, bool frequent)
 void
 FilmViewer::film_change (ChangeType type, Film::Property p)
 {
-	if (type == CHANGE_TYPE_DONE && p == Film::AUDIO_CHANNELS) {
-		recreate_butler ();
+	if (type != CHANGE_TYPE_DONE) {
+		return;
 	}
+
+	if (p == Film::AUDIO_CHANNELS) {
+		recreate_butler ();
+	} else if (p == Film::VIDEO_FRAME_RATE) {
+		_video_view->set_video_frame_rate (_film->video_frame_rate());
+	}
+}
+
+void
+FilmViewer::film_length_change ()
+{
+	_video_view->set_length (_film->length());
 }
 
 /** Re-get the current frame slowly by seeking */

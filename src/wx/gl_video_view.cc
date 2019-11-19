@@ -55,7 +55,6 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	: VideoView (viewer)
 	, _vsync_enabled (false)
 	, _thread (0)
-	, _one_shot (false)
 {
 	_canvas = new wxGLCanvas (parent, wxID_ANY, 0, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
 	_canvas->Bind (wxEVT_PAINT, boost::bind(&GLVideoView::paint, this));
@@ -278,20 +277,6 @@ GLVideoView::stop ()
 	_thread = 0;
 }
 
-bool
-GLVideoView::one_shot () const
-{
-	boost::mutex::scoped_lock lm (_one_shot_mutex);
-	return _one_shot;
-}
-
-void
-GLVideoView::set_one_shot (bool s)
-{
-	boost::mutex::scoped_lock lm (_one_shot_mutex);
-	_one_shot = s;
-}
-
 void
 GLVideoView::thread ()
 try
@@ -303,20 +288,12 @@ try
 		_canvas->SetCurrent (*_context);
 	}
 
+	std::cout << "Here we go " << video_frame_rate() << " " << to_string(length()) << "\n";
+
 	while (true) {
-		if (!film() && !one_shot()) {
-			/* XXX: this should be an indefinite wait until
-			   one of our conditions becomes true.
-			 */
-			dcpomatic_sleep_milliseconds (40);
-			continue;
-		}
-
-		set_one_shot (false);
-
 		dcpomatic::DCPTime const next = position() + one_video_frame();
 
-		if (next >= film()->length()) {
+		if (next >= length()) {
 			_viewer->stop ();
 			_viewer->emit_finished ();
 			continue;
@@ -359,15 +336,6 @@ GLVideoView::context () const
 bool
 GLVideoView::display_next_frame (bool non_blocking)
 {
-	bool const g = get_next_frame (non_blocking);
-	set_one_shot (true);
-	return g;
+	return get_next_frame (non_blocking);
 }
-
-dcpomatic::DCPTime
-GLVideoView::one_video_frame () const
-{
-	return dcpomatic::DCPTime::from_frames (1, film()->video_frame_rate());
-}
-
 

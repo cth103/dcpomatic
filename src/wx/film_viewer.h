@@ -165,6 +165,7 @@ private:
 	void film_change (ChangeType, Film::Property);
 	void recreate_butler ();
 	void config_changed (Config::Property);
+	void film_length_change ();
 
 	dcpomatic::DCPTime time () const;
 	boost::optional<dcpomatic::DCPTime> audio_time () const;

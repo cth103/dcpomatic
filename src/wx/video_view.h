@@ -39,6 +39,7 @@ public:
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		, _in_watermark (false)
 #endif
+		, _video_frame_rate (0)
 	{}
 
 	virtual ~VideoView () {}
@@ -66,9 +67,14 @@ public:
 		return _player_video.second;
 	}
 
-	void set_film (boost::shared_ptr<const Film> film) {
+	void set_video_frame_rate (int r) {
 		boost::mutex::scoped_lock lm (_mutex);
-		_film = film;
+		_video_frame_rate = r;
+	}
+
+	void set_length (dcpomatic::DCPTime len) {
+		boost::mutex::scoped_lock lm (_mutex);
+		_length = len;
 	}
 
 protected:
@@ -78,10 +84,13 @@ protected:
 	bool get_next_frame (bool non_blocking);
 	int time_until_next_frame () const;
 	dcpomatic::DCPTime one_video_frame () const;
-
-	boost::shared_ptr<const Film> film () const {
+	int video_frame_rate () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _film;
+		return _video_frame_rate;
+	}
+	dcpomatic::DCPTime length () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _length;
 	}
 
 	FilmViewer* _viewer;
@@ -97,7 +106,8 @@ protected:
 #endif
 
 private:
-	boost::shared_ptr<const Film> _film;
+	int _video_frame_rate;
+	dcpomatic::DCPTime _length;
 };
 
 #endif

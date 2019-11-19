@@ -53,9 +53,6 @@ private:
 	void draw ();
 	void thread ();
 	wxGLContext* context () const;
-	bool one_shot () const;
-	void set_one_shot (bool s);
-	dcpomatic::DCPTime one_video_frame () const;
 
 	wxGLCanvas* _canvas;
 
@@ -66,6 +63,4 @@ private:
 	boost::optional<dcp::Size> _size;
 	bool _vsync_enabled;
 	boost::thread* _thread;
-	mutable boost::mutex _one_shot_mutex;
-	bool _one_shot;
 };

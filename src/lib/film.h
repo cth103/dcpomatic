@@ -390,6 +390,11 @@ public:
 	/** Emitted when some property of our content has changed */
 	mutable boost::signals2::signal<void (ChangeType, boost::weak_ptr<Content>, int, bool)> ContentChange;
 
+	/** Emitted when the film's length might have changed; this is not like a normal
+	    property as its value is derived from the playlist, so it has its own signal.
+	*/
+	mutable boost::signals2::signal<void ()> LengthChange;
+
 	/** Emitted when we have something important to tell the user */
 	boost::signals2::signal<void (std::string)> Message;
 
@@ -409,6 +414,7 @@ private:
 	void playlist_change (ChangeType);
 	void playlist_order_changed ();
 	void playlist_content_change (ChangeType type, boost::weak_ptr<Content>, int, bool frequent);
+	void playlist_length_change ();
 	void maybe_add_content (boost::weak_ptr<Job>, boost::weak_ptr<Content>, bool disable_audio_analysis);
 	void audio_analysis_finished ();
 	void check_settings_consistency ();
@@ -486,6 +492,7 @@ private:
 	boost::signals2::scoped_connection _playlist_change_connection;
 	boost::signals2::scoped_connection _playlist_order_changed_connection;
 	boost::signals2::scoped_connection _playlist_content_change_connection;
+	boost::signals2::scoped_connection _playlist_length_change_connection;
 	std::list<boost::signals2::connection> _job_connections;
 	std::list<boost::signals2::connection> _audio_analysis_connections;
 
