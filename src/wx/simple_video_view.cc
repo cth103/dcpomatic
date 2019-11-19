@@ -206,7 +206,7 @@ SimpleVideoView::display_player_video ()
 		return;
 	}
 
-	if (_viewer->playing() && (_viewer->time() - player_video().second) > _viewer->one_video_frame()) {
+	if (_viewer->playing() && (_viewer->time() - player_video().second) > one_video_frame()) {
 		/* Too late; just drop this frame before we try to get its image (which will be the time-consuming
 		   part if this frame is J2K).
 		*/
