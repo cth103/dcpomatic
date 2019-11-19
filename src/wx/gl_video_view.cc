@@ -54,6 +54,7 @@ using boost::optional;
 GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	: VideoView (viewer)
 	, _vsync_enabled (false)
+	, _thread (0)
 	, _playing (false)
 	, _one_shot (false)
 {
@@ -92,8 +93,6 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	glGenTextures (1, &_id);
 	glBindTexture (GL_TEXTURE_2D, _id);
 	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
-
-	_thread = new boost::thread (boost::bind(&GLVideoView::thread, this));
 }
 
 GLVideoView::~GLVideoView ()
@@ -264,6 +263,10 @@ GLVideoView::set_image (shared_ptr<const Image> image)
 void
 GLVideoView::start ()
 {
+	if (!_thread) {
+		_thread = new boost::thread (boost::bind(&GLVideoView::thread, this));
+	}
+
 	boost::mutex::scoped_lock lm (_playing_mutex);
 	_playing = true;
 	_playing_condition.notify_all ();
@@ -288,7 +291,7 @@ try
 
 	while (true) {
 		boost::mutex::scoped_lock lm (_playing_mutex);
-		while (!_playing || !_one_shot) {
+		while (!_playing && !_one_shot) {
 			_playing_condition.wait (lm);
 		}
 		_one_shot = false;
