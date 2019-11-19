@@ -88,8 +88,6 @@ TranscodeJob::run ()
 
 		DCPOMATIC_ASSERT (_encoder);
 		_encoder->go ();
-		set_progress (1);
-		set_state (FINISHED_OK);
 
 		struct timeval finish;
 		gettimeofday (&finish, 0);
@@ -112,6 +110,9 @@ TranscodeJob::run ()
 		}
 
 		_encoder.reset ();
+
+		set_progress (1);
+		set_state (FINISHED_OK);
 
 	} catch (...) {
 		_encoder.reset ();
