@@ -132,6 +132,9 @@ public:
 	boost::shared_ptr<Butler> butler () const {
 		return _butler;
 	}
+	ClosedCaptionsDialog* closed_captions_dialog () const {
+		return _closed_captions_dialog;
+	}
 
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
 	boost::signals2::signal<void (dcpomatic::DCPTime)> Started;

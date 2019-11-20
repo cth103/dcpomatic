@@ -252,5 +252,5 @@ SimpleVideoView::display_player_video ()
 
 	_viewer->refresh_view ();
 
-	_viewer->_closed_captions_dialog->update (_viewer->time());
+	_viewer->closed_captions_dialog()->update (_viewer->time());
 }
