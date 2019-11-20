@@ -20,6 +20,7 @@
 
 #include "video_view.h"
 #include "lib/signaller.h"
+#include "lib/position.h"
 #include <wx/wx.h>
 #include <wx/glcanvas.h>
 #include <dcp/util.h>
@@ -50,7 +51,7 @@ public:
 	}
 
 private:
-	void draw ();
+	void draw (Position<int> inter_position);
 	void thread ();
 	void request_one_shot ();
 	void create ();

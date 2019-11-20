@@ -126,9 +126,6 @@ public:
 	dcp::Size inter_size () const {
 		return _inter_size;
 	}
-	Position<int> inter_position () const {
-		return _inter_position;
-	}
 	bool outline_content () const {
 		return _outline_content;
 	}
@@ -180,7 +177,6 @@ private:
 	bool _coalesce_player_changes;
 	std::list<int> _pending_player_changes;
 
-	Position<int> _inter_position;
 	dcp::Size _inter_size;
 
 	/** Size of our output (including padding if we have any) */
