@@ -67,6 +67,7 @@ private:
 	boost::optional<Frame> _last_emitted_frame;
 	boost::optional<Eyes> _last_emitted_eyes;
 	boost::optional<dcpomatic::ContentTime> _position;
+	std::vector<Frame> _last_threed_frames;
 };
 
 #endif

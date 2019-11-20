@@ -60,9 +60,36 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 		return;
 	}
 
+	/* Before we `re-write' the frame indexes of these incoming data we need to check for
+	   the case where the user has some 2D content which they have marked as 3D.  With 3D
+	   we should get two frames for each frame index, but in this `bad' case we only get
+	   one.  We need to throw an exception if this happens.
+	*/
+
+	if (_content->video->frame_type() == VIDEO_FRAME_TYPE_3D) {
+		if (_last_threed_frames.size() > 4) {
+			_last_threed_frames.erase (_last_threed_frames.begin());
+		}
+		_last_threed_frames.push_back (decoder_frame);
+		if (_last_threed_frames.size() == 4) {
+			if (_last_threed_frames[0] != _last_threed_frames[1] || _last_threed_frames[2] != _last_threed_frames[3]) {
+				boost::throw_exception (
+					DecodeError(
+						String::compose(
+							_("The content file %1 is set as 3D but does not appear to contain 3D images.  Please set it to 2D.  "
+							  "You can still make a 3D DCP from this content by ticking the 3D option in the DCP video tab."),
+							_content->path(0)
+							)
+						)
+					);
+			}
+		}
+	}
+
 	double const afr = _content->active_video_frame_rate(film);
 
 	Frame frame;
+	Eyes eyes = EYES_BOTH;
 	if (!_position) {
 		/* This is the first data we have received since initialisation or seek.  Set
 		   the position based on the frame that was given.  After this first time
@@ -85,8 +112,10 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 			DCPOMATIC_ASSERT (_last_emitted_eyes);
 			if (_last_emitted_eyes.get() == EYES_RIGHT) {
 				frame = _position->frames_round(afr) + 1;
+				eyes = EYES_LEFT;
 			} else {
 				frame = _position->frames_round(afr);
+				eyes = EYES_RIGHT;
 			}
 		} else {
 			frame = _position->frames_round(afr) + 1;
@@ -99,25 +128,6 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 		break;
 	case VIDEO_FRAME_TYPE_3D:
 	{
-		/* We should receive the same frame index twice for 3D; hence we know which
-		   frame this one is.
-		*/
-		bool const same = (_last_emitted_frame && _last_emitted_frame.get() == frame);
-		if (!same && _last_emitted_eyes && *_last_emitted_eyes == EYES_LEFT) {
-			/* We just got a new frame index but the last frame was left-eye; it looks like
-			   this content is not really 3D.
-			*/
-			boost::throw_exception (
-				DecodeError(
-					String::compose(
-						_("The content file %1 is set as 3D but does not appear to contain 3D images.  Please set it to 2D.  "
-						  "You can still make a 3D DCP from this content by ticking the 3D option in the DCP video tab."),
-						_content->path(0)
-						)
-					)
-				);
-		}
-		Eyes const eyes = same ? EYES_RIGHT : EYES_LEFT;
 		Data (ContentVideo (image, frame, eyes, PART_WHOLE));
 		_last_emitted_frame = frame;
 		_last_emitted_eyes = eyes;
@@ -125,8 +135,6 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 	}
 	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
 	{
-		DCPOMATIC_ASSERT (_last_emitted_eyes);
-		Eyes const eyes = _last_emitted_eyes.get() == EYES_LEFT ? EYES_RIGHT : EYES_LEFT;
 		Data (ContentVideo (image, frame, eyes, PART_WHOLE));
 		_last_emitted_eyes = eyes;
 		break;
