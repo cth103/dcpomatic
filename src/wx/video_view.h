@@ -22,6 +22,7 @@
 #define DCPOMATIC_VIDEO_VIEW_H
 
 #include "lib/dcpomatic_time.h"
+#include "lib/timer.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <boost/thread.hpp>
@@ -60,6 +61,10 @@ public:
 	int dropped () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _dropped;
+	}
+
+	StateTimer const & state_timer () const {
+		return _state_timer;
 	}
 
 	dcpomatic::DCPTime position () const {
@@ -112,6 +117,8 @@ protected:
 	int _watermark_x;
 	int _watermark_y;
 #endif
+
+	StateTimer _state_timer;
 
 private:
 	/** Mutex protecting all the state in VideoView */

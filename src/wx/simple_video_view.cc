@@ -56,7 +56,7 @@ SimpleVideoView::SimpleVideoView (FilmViewer* viewer, wxWindow* parent)
 void
 SimpleVideoView::paint ()
 {
-        _viewer->state_timer().set("paint-panel");
+        _state_timer.set("paint-panel");
 	wxPaintDC dc (_panel);
 
 	dcp::Size const out_size = _viewer->out_size ();
@@ -130,14 +130,16 @@ SimpleVideoView::paint ()
 		dc.SetBrush (*wxTRANSPARENT_BRUSH);
 		dc.DrawRectangle (_inter_position.x, _inter_position.y + (panel_size.GetHeight() - out_size.height) / 2, _inter_size.width, _inter_size.height);
 	}
-        _viewer->state_timer().unset();
+        _state_timer.unset();
 }
 
 void
 SimpleVideoView::update ()
 {
+	_state_timer.set ("update-view");
 	_panel->Refresh ();
 	_panel->Update ();
+	_state_timer.unset ();
 }
 
 void
@@ -237,15 +239,15 @@ SimpleVideoView::display_player_video ()
 	 * image and convert it (from whatever the user has said it is) to RGB.
 	 */
 
-	_viewer->_state_timer.set ("get image");
+	_state_timer.set ("get image");
 
 	set_image (
 		player_video().first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true)
 		);
 
-	_viewer->_state_timer.set ("ImageChanged");
+	_state_timer.set ("ImageChanged");
 	_viewer->ImageChanged (player_video().first);
-	_viewer->_state_timer.unset ();
+	_state_timer.unset ();
 
 	_inter_position = player_video().first->inter_position ();
 	_inter_size = player_video().first->inter_size ();

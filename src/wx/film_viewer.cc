@@ -93,7 +93,6 @@ FilmViewer::FilmViewer (wxWindow* p)
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	, _background_image (false)
 #endif
-	, _state_timer ("viewer")
 	, _gets (0)
 	, _idle_get (false)
 {
@@ -228,9 +227,7 @@ FilmViewer::recreate_butler ()
 void
 FilmViewer::refresh_view ()
 {
-	_state_timer.set ("update-view");
 	_video_view->update ();
-	_state_timer.unset ();
 }
 
 void

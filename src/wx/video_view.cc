@@ -28,6 +28,7 @@ VideoView::VideoView (FilmViewer* viewer)
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	, _in_watermark (false)
 #endif
+	, _state_timer ("viewer")
 	, _video_frame_rate (0)
 	, _dropped (0)
 {

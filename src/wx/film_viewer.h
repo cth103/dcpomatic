@@ -107,16 +107,12 @@ public:
 	}
 #endif
 
-	StateTimer const & state_timer () const {
-		return _state_timer;
-	}
-
-	StateTimer& state_timer () {
-		return _state_timer;
-	}
-
 	int gets () const {
 		return _gets;
+	}
+
+	StateTimer const & state_timer () const {
+		return _video_view->state_timer ();
 	}
 
 	/* Some accessors and utility methods that VideoView classes need */
@@ -207,7 +203,6 @@ private:
 	bool _background_image;
 #endif
 
-	StateTimer _state_timer;
 	int _gets;
 
 	/** true if an get() is required next time we are idle */
