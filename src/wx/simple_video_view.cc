@@ -194,6 +194,12 @@ SimpleVideoView::display_next_frame (bool non_blocking)
 
 	display_player_video ();
 
+	try {
+		_viewer->butler()->rethrow ();
+	} catch (DecodeError& e) {
+		error_dialog (get(), e.what());
+	}
+
 	return true;
 }
 

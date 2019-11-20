@@ -55,6 +55,7 @@ private:
 	void thread ();
 	void request_one_shot ();
 	void create ();
+	void check_for_butler_errors ();
 
 	wxGLCanvas* _canvas;
 	wxGLContext* _context;
@@ -68,4 +69,6 @@ private:
 	boost::condition _playing_condition;
 	bool _playing;
 	bool _one_shot;
+
+	boost::shared_ptr<wxTimer> _timer;
 };

@@ -20,11 +20,13 @@
 
 #include "gl_video_view.h"
 #include "film_viewer.h"
+#include "wx_util.h"
 #include "lib/image.h"
 #include "lib/dcpomatic_assert.h"
 #include "lib/exceptions.h"
 #include "lib/cross.h"
 #include "lib/player_video.h"
+#include "lib/butler.h"
 #include <boost/bind.hpp>
 #include <iostream>
 
@@ -62,6 +64,10 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	_canvas->Bind (wxEVT_PAINT, boost::bind(&GLVideoView::paint, this));
 	_canvas->Bind (wxEVT_SIZE, boost::bind(boost::ref(Sized)));
 	_canvas->Bind (wxEVT_CREATE, boost::bind(&GLVideoView::create, this));
+
+	_canvas->Bind (wxEVT_TIMER, boost::bind(&GLVideoView::check_for_butler_errors, this));
+	_timer.reset (new wxTimer(_canvas));
+	_timer->Start (2000);
 
 #if defined(DCPOMATIC_LINUX) && defined(DCPOMATIC_HAVE_GLX_SWAP_INTERVAL_EXT)
 	if (_canvas->IsExtensionSupported("GLX_EXT_swap_control")) {
@@ -103,6 +109,16 @@ GLVideoView::~GLVideoView ()
 	delete _thread;
 
 	glDeleteTextures (1, &_id);
+}
+
+void
+GLVideoView::check_for_butler_errors ()
+{
+	try {
+		_viewer->butler()->rethrow ();
+	} catch (DecodeError& e) {
+		error_dialog (get(), e.what());
+	}
 }
 
 static void
