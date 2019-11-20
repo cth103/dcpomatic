@@ -567,12 +567,7 @@ FilmViewer::audio_time () const
 DCPTime
 FilmViewer::time () const
 {
-	if (_audio.isStreamRunning ()) {
-		return DCPTime::from_seconds (const_cast<RtAudio*>(&_audio)->getStreamTime ()) -
-			DCPTime::from_frames (average_latency(), _film->audio_frame_rate());
-	}
-
-	return _video_view->position();
+	return audio_time().get_value_or(_video_view->position());
 }
 
 int
