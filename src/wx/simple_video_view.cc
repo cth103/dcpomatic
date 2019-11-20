@@ -169,6 +169,7 @@ SimpleVideoView::timer ()
 void
 SimpleVideoView::start ()
 {
+	VideoView::start ();
 	timer ();
 }
 
@@ -216,7 +217,7 @@ SimpleVideoView::display_player_video ()
 		/* Too late; just drop this frame before we try to get its image (which will be the time-consuming
 		   part if this frame is J2K).
 		*/
-		++_viewer->_dropped;
+		add_dropped ();
 		return;
 	}
 

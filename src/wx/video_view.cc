@@ -23,6 +23,17 @@
 #include "film_viewer.h"
 #include "lib/butler.h"
 
+VideoView::VideoView (FilmViewer* viewer)
+	: _viewer (viewer)
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	, _in_watermark (false)
+#endif
+	, _video_frame_rate (0)
+	, _dropped (0)
+{
+
+}
+
 void
 VideoView::clear ()
 {
@@ -85,3 +96,9 @@ VideoView::time_until_next_frame () const
 	return (next.seconds() - time.seconds()) * 1000;
 }
 
+void
+VideoView::start ()
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	_dropped = 0;
+}

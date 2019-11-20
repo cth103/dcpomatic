@@ -275,6 +275,8 @@ GLVideoView::set_image (shared_ptr<const Image> image)
 void
 GLVideoView::start ()
 {
+	VideoView::start ();
+
 	boost::mutex::scoped_lock lm (_playing_mutex);
 	_playing = true;
 	_playing_condition.notify_all ();
@@ -319,6 +321,7 @@ try
 
 		while (time_until_next_frame() < 5) {
 			get_next_frame (true);
+			add_dropped ();
 		}
 
 		boost::this_thread::interruption_point ();

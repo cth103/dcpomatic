@@ -34,14 +34,7 @@ class PlayerVideo;
 class VideoView
 {
 public:
-	VideoView (FilmViewer* viewer)
-		: _viewer (viewer)
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-		, _in_watermark (false)
-#endif
-		, _video_frame_rate (0)
-	{}
-
+	VideoView (FilmViewer* viewer);
 	virtual ~VideoView () {}
 
 	virtual void set_image (boost::shared_ptr<const Image> image) = 0;
@@ -51,8 +44,7 @@ public:
 	 */
 	virtual void update () = 0;
 
-	/* XXX_b: make pure */
-	virtual void start () {}
+	virtual void start ();
 	/* XXX_b: make pure */
 	virtual void stop () {}
 
@@ -64,6 +56,11 @@ public:
 
 	/* XXX_b: to remove */
 	virtual void display_player_video () {}
+
+	int dropped () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _dropped;
+	}
 
 	dcpomatic::DCPTime position () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -103,6 +100,11 @@ protected:
 		return _player_video;
 	}
 
+	void add_dropped () {
+		boost::mutex::scoped_lock lm (_mutex);
+		++_dropped;
+	}
+
 	FilmViewer* _viewer;
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
@@ -119,6 +121,8 @@ private:
 	int _video_frame_rate;
 	/** length of the film we are playing, or 0 if there is none */
 	dcpomatic::DCPTime _length;
+
+	int _dropped;
 };
 
 #endif

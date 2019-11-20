@@ -92,9 +92,7 @@ public:
 
 	void slow_refresh ();
 
-	int dropped () const {
-		return _dropped;
-	}
+	int dropped () const;
 
 	int audio_callback (void* out, unsigned int frames);
 
@@ -200,7 +198,6 @@ private:
 	mutable boost::mutex _latency_history_mutex;
 	int _latency_history_count;
 
-	int _dropped;
 	boost::optional<int> _dcp_decode_reduction;
 
 	ClosedCaptionsDialog* _closed_captions_dialog;

@@ -86,7 +86,6 @@ FilmViewer::FilmViewer (wxWindow* p)
 	, _playing (false)
 	, _suspended (0)
 	, _latency_history_count (0)
-	, _dropped (0)
 	, _closed_captions_dialog (new ClosedCaptionsDialog(p, this))
 	, _outline_content (false)
 	, _eyes (EYES_LEFT)
@@ -326,7 +325,6 @@ FilmViewer::start ()
 		_audio.startStream ();
 	}
 
-	_dropped = 0;
 	_playing = true;
 	_video_view->start ();
 	Started (position());
@@ -654,5 +652,11 @@ void
 FilmViewer::emit_finished ()
 {
 	emit (boost::bind(boost::ref(Finished)));
+}
+
+int
+FilmViewer::dropped () const
+{
+	return _video_view->dropped ();
 }
 
