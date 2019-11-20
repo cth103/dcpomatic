@@ -61,7 +61,7 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	, _one_shot (false)
 {
 	_canvas = new wxGLCanvas (parent, wxID_ANY, 0, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
-	_canvas->Bind (wxEVT_PAINT, boost::bind(&GLVideoView::paint, this));
+	_canvas->Bind (wxEVT_PAINT, boost::bind(&GLVideoView::update, this));
 	_canvas->Bind (wxEVT_SIZE, boost::bind(boost::ref(Sized)));
 	_canvas->Bind (wxEVT_CREATE, boost::bind(&GLVideoView::create, this));
 
@@ -131,20 +131,12 @@ check_gl_error (char const * last)
 }
 
 void
-GLVideoView::paint ()
-{
-	request_one_shot ();
-}
-
-void
 GLVideoView::update ()
 {
 	if (!_canvas->IsShownOnScreen()) {
 		return;
 	}
-	/* XXX_b */
-//	wxClientDC dc (_canvas);
-//	draw ();
+	request_one_shot ();
 }
 
 void

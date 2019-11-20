@@ -50,7 +50,6 @@ public:
 	}
 
 private:
-	void paint ();
 	void draw ();
 	void thread ();
 	void request_one_shot ();
