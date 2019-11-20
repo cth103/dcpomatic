@@ -53,6 +53,8 @@ private:
 	void paint ();
 	void draw ();
 	void thread ();
+	void request_one_shot ();
+	void create ();
 
 	wxGLCanvas* _canvas;
 	wxGLContext* _context;

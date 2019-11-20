@@ -114,6 +114,7 @@ private:
 
 	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> _player_video;
 	int _video_frame_rate;
+	/** length of the film we are playing, or 0 if there is none */
 	dcpomatic::DCPTime _length;
 };
 

@@ -61,6 +61,7 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	_canvas = new wxGLCanvas (parent, wxID_ANY, 0, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
 	_canvas->Bind (wxEVT_PAINT, boost::bind(&GLVideoView::paint, this));
 	_canvas->Bind (wxEVT_SIZE, boost::bind(boost::ref(Sized)));
+	_canvas->Bind (wxEVT_CREATE, boost::bind(&GLVideoView::create, this));
 
 #if defined(DCPOMATIC_LINUX) && defined(DCPOMATIC_HAVE_GLX_SWAP_INTERVAL_EXT)
 	if (_canvas->IsExtensionSupported("GLX_EXT_swap_control")) {
@@ -116,14 +117,7 @@ check_gl_error (char const * last)
 void
 GLVideoView::paint ()
 {
-	/* XXX_b: can't do this yet */
-#if 0
-        _viewer->state_timer().set("paint-panel");
-	_canvas->SetCurrent (*_context);
-	wxPaintDC dc (_canvas);
-	draw ();
-	_viewer->state_timer().unset();
-#endif
+	request_one_shot ();
 }
 
 void
@@ -169,9 +163,11 @@ GLVideoView::draw ()
 
 	glTranslatef (0, 0, 0);
 
-	if (_size) {
-		glBegin (GL_QUADS);
+	dcp::Size const out_size = _viewer->out_size ();
 
+	if (_size) {
+		/* Render our image (texture) */
+		glBegin (GL_QUADS);
 		glTexCoord2f (0, 1);
 		glVertex2f (0, _size->height);
 		glTexCoord2f (1, 1);
@@ -180,11 +176,19 @@ GLVideoView::draw ()
 		glVertex2f (_size->width, 0);
 		glTexCoord2f (0, 0);
 		glVertex2f (0, 0);
-
+		glEnd ();
+	} else {
+		/* No image, so just fill with black */
+		glBegin (GL_QUADS);
+		glColor3ub (0, 0, 0);
+		glVertex2f (0, 0);
+		glVertex2f (out_size.width, 0);
+		glVertex2f (out_size.width, out_size.height);
+		glVertex2f (0, out_size.height);
+		glVertex2f (0, 0);
 		glEnd ();
 	}
 
-	dcp::Size const out_size = _viewer->out_size ();
 	wxSize const canvas_size = _canvas->GetSize ();
 
 	if (!_viewer->pad_black() && out_size.width < canvas_size.GetWidth()) {
@@ -263,10 +267,6 @@ GLVideoView::set_image (shared_ptr<const Image> image)
 void
 GLVideoView::start ()
 {
-	if (!_thread) {
-		_thread = new boost::thread (boost::bind(&GLVideoView::thread, this));
-	}
-
 	boost::mutex::scoped_lock lm (_playing_mutex);
 	_playing = true;
 	_playing_condition.notify_all ();
@@ -287,8 +287,6 @@ try
 	_context = new wxGLContext (_canvas);
 	_canvas->SetCurrent (*_context);
 
-	std::cout << "Here we go " << video_frame_rate() << " " << to_string(length()) << "\n";
-
 	while (true) {
 		boost::mutex::scoped_lock lm (_playing_mutex);
 		while (!_playing && !_one_shot) {
@@ -297,16 +295,18 @@ try
 		_one_shot = false;
 		lm.unlock ();
 
-		dcpomatic::DCPTime const next = position() + one_video_frame();
+		if (length() != dcpomatic::DCPTime()) {
+			dcpomatic::DCPTime const next = position() + one_video_frame();
 
-		if (next >= length()) {
-			_viewer->stop ();
-			_viewer->emit_finished ();
-			continue;
+			if (next >= length()) {
+				_viewer->stop ();
+				_viewer->emit_finished ();
+				continue;
+			}
+
+			get_next_frame (false);
+			set_image (player_video().first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
 		}
-
-		get_next_frame (false);
-		set_image (player_video().first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
 		draw ();
 
 		while (time_until_next_frame() < 5) {
@@ -330,9 +330,22 @@ bool
 GLVideoView::display_next_frame (bool non_blocking)
 {
 	bool const r = get_next_frame (non_blocking);
-	boost::mutex::scoped_lock lm (_playing_mutex);
-	_one_shot = true;
-	_playing_condition.notify_all ();
+	request_one_shot ();
 	return r;
 }
 
+void
+GLVideoView::request_one_shot ()
+{
+	boost::mutex::scoped_lock lm (_playing_mutex);
+	_one_shot = true;
+	_playing_condition.notify_all ();
+}
+
+void
+GLVideoView::create ()
+{
+	if (!_thread) {
+		_thread = new boost::thread (boost::bind(&GLVideoView::thread, this));
+	}
+}

@@ -37,6 +37,10 @@ VideoView::clear ()
 bool
 VideoView::get_next_frame (bool non_blocking)
 {
+	if (_length == dcpomatic::DCPTime()) {
+		return true;
+	}
+
 	DCPOMATIC_ASSERT (_viewer->butler());
 	_viewer->_gets++;
 
@@ -71,13 +75,17 @@ VideoView::one_video_frame () const
 	return dcpomatic::DCPTime::from_frames (1, video_frame_rate());
 }
 
-/* XXX_b: comment */
+/** @return Time in ms until the next frame is due */
 int
 VideoView::time_until_next_frame () const
 {
+	if (length() == dcpomatic::DCPTime()) {
+		/* There's no content, so this doesn't matter */
+		return 0;
+	}
+
 	dcpomatic::DCPTime const next = position() + one_video_frame();
 	dcpomatic::DCPTime const time = _viewer->audio_time().get_value_or(position());
-	std::cout << to_string(next) << " " << to_string(time) << " " << ((next.seconds() - time.seconds()) * 1000) << "\n";
 	if (next < time) {
 		return 0;
 	}
