@@ -51,7 +51,7 @@ public:
 	}
 
 private:
-	void draw (Position<int> inter_position);
+	void draw (Position<int> inter_position, dcp::Size inter_size);
 	void thread ();
 	void request_one_shot ();
 	void create ();

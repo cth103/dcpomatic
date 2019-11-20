@@ -20,6 +20,7 @@
 
 #include "video_view.h"
 #include "lib/position.h"
+#include <dcp/types.h>
 #include <wx/wx.h>
 
 class FilmViewer;
@@ -50,4 +51,5 @@ private:
 	boost::shared_ptr<const Image> _image;
 	wxTimer _timer;
 	Position<int> _inter_position;
+	dcp::Size _inter_size;
 };

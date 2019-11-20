@@ -123,9 +123,6 @@ public:
 	dcp::Size out_size () const {
 		return _out_size;
 	}
-	dcp::Size inter_size () const {
-		return _inter_size;
-	}
 	bool outline_content () const {
 		return _outline_content;
 	}
@@ -176,8 +173,6 @@ private:
 	VideoView* _video_view;
 	bool _coalesce_player_changes;
 	std::list<int> _pending_player_changes;
-
-	dcp::Size _inter_size;
 
 	/** Size of our output (including padding if we have any) */
 	dcp::Size _out_size;

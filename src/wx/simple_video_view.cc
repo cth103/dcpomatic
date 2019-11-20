@@ -125,11 +125,10 @@ SimpleVideoView::paint ()
 	}
 
 	if (_viewer->outline_content()) {
-		dcp::Size inter_size = _viewer->inter_size ();
 		wxPen p (wxColour (255, 0, 0), 2);
 		dc.SetPen (p);
 		dc.SetBrush (*wxTRANSPARENT_BRUSH);
-		dc.DrawRectangle (_inter_position.x, _inter_position.y + (panel_size.GetHeight() - out_size.height) / 2, inter_size.width, inter_size.height);
+		dc.DrawRectangle (_inter_position.x, _inter_position.y + (panel_size.GetHeight() - out_size.height) / 2, _inter_size.width, _inter_size.height);
 	}
         _viewer->state_timer().unset();
 }
@@ -249,7 +248,7 @@ SimpleVideoView::display_player_video ()
 	_viewer->_state_timer.unset ();
 
 	_inter_position = player_video().first->inter_position ();
-	_viewer->_inter_size = player_video().first->inter_size ();
+	_inter_size = player_video().first->inter_size ();
 
 	_viewer->refresh_view ();
 

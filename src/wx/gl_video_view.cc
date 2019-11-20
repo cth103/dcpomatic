@@ -140,7 +140,7 @@ GLVideoView::update ()
 }
 
 void
-GLVideoView::draw (Position<int> inter_position)
+GLVideoView::draw (Position<int> inter_position, dcp::Size inter_size)
 {
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	check_gl_error ("glClear");
@@ -232,7 +232,6 @@ GLVideoView::draw (Position<int> inter_position)
 	if (_viewer->outline_content()) {
 		glColor3ub (255, 0, 0);
 		glBegin (GL_LINE_LOOP);
-		dcp::Size inter_size = _viewer->inter_size ();
 		glVertex2f (inter_position.x, inter_position.y + (canvas_size.GetHeight() - out_size.height) / 2);
 		glVertex2f (inter_position.x + inter_size.width, inter_position.y + (canvas_size.GetHeight() - out_size.height) / 2);
 		glVertex2f (inter_position.x + inter_size.width, inter_position.y + (canvas_size.GetHeight() - out_size.height) / 2 + inter_size.height);
@@ -305,6 +304,7 @@ try
 		lm.unlock ();
 
 		Position<int> inter_position;
+		dcp::Size inter_size;
 		if (length() != dcpomatic::DCPTime()) {
 			dcpomatic::DCPTime const next = position() + one_video_frame();
 
@@ -317,8 +317,9 @@ try
 			get_next_frame (false);
 			set_image (player_video().first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
 			inter_position = player_video().first->inter_position();
+			inter_size = player_video().first->inter_size();
 		}
-		draw (inter_position);
+		draw (inter_position, inter_size);
 
 		while (time_until_next_frame() < 5) {
 			get_next_frame (true);
