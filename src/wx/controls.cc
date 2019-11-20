@@ -93,8 +93,8 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	time_sizer->Add (_timecode, 0, wxEXPAND);
 
 	h_sizer->Add (_rewind_button, 0, wxALL, 2);
-	h_sizer->Add (_back_button, 0, wxALL, 2);
 	h_sizer->Add (time_sizer, 0, wxEXPAND);
+	h_sizer->Add (_back_button, 0, wxALL, 2);
 	h_sizer->Add (_forward_button, 0, wxALL, 2);
 
 	_button_sizer = new wxBoxSizer (wxHORIZONTAL);
