@@ -110,3 +110,20 @@ VideoView::start ()
 	boost::mutex::scoped_lock lm (_mutex);
 	_dropped = 0;
 }
+
+bool
+VideoView::refresh_metadata (shared_ptr<const Film> film, dcp::Size video_container_size, dcp::Size film_frame_size)
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	if (!_player_video.first) {
+		return false;
+	}
+
+	if (!_player_video.first->reset_metadata (film, video_container_size, film_frame_size)) {
+		return false;
+	}
+
+	update ();
+	return true;
+}
+

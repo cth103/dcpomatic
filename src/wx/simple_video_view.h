@@ -43,9 +43,9 @@ public:
 	bool display_next_frame (bool non_blocking);
 
 private:
+	void refresh_panel ();
 	void paint ();
 	void timer ();
-	void display_player_video ();
 
 	wxPanel* _panel;
 	boost::shared_ptr<const Image> _image;

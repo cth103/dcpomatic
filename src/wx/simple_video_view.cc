@@ -134,9 +134,9 @@ SimpleVideoView::paint ()
 }
 
 void
-SimpleVideoView::update ()
+SimpleVideoView::refresh_panel ()
 {
-	_state_timer.set ("update-view");
+	_state_timer.set ("refresh-panel");
 	_panel->Refresh ();
 	_panel->Update ();
 	_state_timer.unset ();
@@ -193,7 +193,7 @@ SimpleVideoView::display_next_frame (bool non_blocking)
 		}
 	}
 
-	display_player_video ();
+	update ();
 
 	try {
 		_viewer->butler()->rethrow ();
@@ -205,11 +205,11 @@ SimpleVideoView::display_next_frame (bool non_blocking)
 }
 
 void
-SimpleVideoView::display_player_video ()
+SimpleVideoView::update ()
 {
 	if (!player_video().first) {
 		set_image (shared_ptr<Image>());
-		update ();
+		refresh_panel ();
 		return;
 	}
 
@@ -252,5 +252,5 @@ SimpleVideoView::display_player_video ()
 	_inter_position = player_video().first->inter_position ();
 	_inter_size = player_video().first->inter_size ();
 
-	update ();
+	refresh_panel ();
 }

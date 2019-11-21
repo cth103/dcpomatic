@@ -41,25 +41,25 @@ public:
 	VideoView (FilmViewer* viewer);
 	virtual ~VideoView () {}
 
-	virtual void set_image (boost::shared_ptr<const Image> image) = 0;
+	/** @return the thing displaying the image */
 	virtual wxWindow* get () const = 0;
-	/** Redraw the view after something has changed like content outlining,
-	 *  the film being removed, etc.
-	 */
+	/** Re-make and display the image from the current _player_video */
 	virtual void update () = 0;
-
+	/** Called when playback starts */
 	virtual void start ();
-	/* XXX_b: make pure */
+	/** Called when playback stops */
 	virtual void stop () {}
-
-	void clear ();
-
-	boost::signals2::signal<void()> Sized;
-
+	/** Get the next frame and display it; used after seek */
 	virtual bool display_next_frame (bool) = 0;
 
-	/* XXX_b: to remove */
-	virtual void display_player_video () {}
+	void clear ();
+	bool refresh_metadata (boost::shared_ptr<const Film> film, dcp::Size video_container_size, dcp::Size film_frame_size);
+
+	/** Emitted from the GUI thread when our display changes in size */
+	boost::signals2::signal<void()> Sized;
+
+
+	/* Accessors for FilmViewer */
 
 	int dropped () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -79,6 +79,11 @@ public:
 		boost::mutex::scoped_lock lm (_mutex);
 		return _player_video.second;
 	}
+
+
+	/* Setters for FilmViewer so it can tell us our state and
+	 * we can then use (thread) safely.
+	 */
 
 	void set_video_frame_rate (int r) {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -101,9 +106,6 @@ public:
 	}
 
 protected:
-	/* XXX_b: to remove */
-	friend class FilmViewer;
-
 	bool get_next_frame (bool non_blocking);
 	int time_until_next_frame () const;
 	dcpomatic::DCPTime one_video_frame () const;
@@ -144,7 +146,7 @@ protected:
 	StateTimer _state_timer;
 
 private:
-	/** Mutex protecting all the state in VideoView */
+	/** Mutex protecting all the state in this class */
 	mutable boost::mutex _mutex;
 
 	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> _player_video;
