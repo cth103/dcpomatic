@@ -131,13 +131,13 @@ public:
 	ClosedCaptionsDialog* closed_captions_dialog () const {
 		return _closed_captions_dialog;
 	}
+	void finished ();
 
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
 	boost::signals2::signal<void (dcpomatic::DCPTime)> Started;
 	boost::signals2::signal<void (dcpomatic::DCPTime)> Stopped;
 	/** While playing back we reached the end of the film (emitted from GUI thread) */
 	boost::signals2::signal<void ()> Finished;
-	void emit_finished ();
 
 	boost::signals2::signal<bool ()> PlaybackPermitted;
 
@@ -152,6 +152,7 @@ private:
 	void recreate_butler ();
 	void config_changed (Config::Property);
 	void film_length_change ();
+	void ui_finished ();
 
 	dcpomatic::DCPTime uncorrected_time () const;
 	Frame average_latency () const;

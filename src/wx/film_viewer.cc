@@ -334,6 +334,8 @@ FilmViewer::stop ()
 	_playing = false;
 	_video_view->stop ();
 	Stopped (position());
+
+	_video_view->rethrow ();
 	return true;
 }
 
@@ -379,6 +381,8 @@ FilmViewer::film_change (ChangeType type, Film::Property p)
 		recreate_butler ();
 	} else if (p == Film::VIDEO_FRAME_RATE) {
 		_video_view->set_video_frame_rate (_film->video_frame_rate());
+	} else if (p == Film::THREE_D) {
+		_video_view->set_three_d (_film->three_d());
 	}
 }
 
@@ -636,11 +640,21 @@ FilmViewer::set_pad_black (bool p)
 	_pad_black = p;
 }
 
-/* May be called from a non-UI thread */
+/** Called when a player has finished the current film.
+ *  May be called from a non-UI thread.
+ */
 void
-FilmViewer::emit_finished ()
+FilmViewer::finished ()
 {
-	emit (boost::bind(boost::ref(Finished)));
+	emit (boost::bind(&FilmViewer::ui_finished, this));
+}
+
+/** Called by finished() in the UI thread */
+void
+FilmViewer::ui_finished ()
+{
+	stop ();
+	Finished ();
 }
 
 int

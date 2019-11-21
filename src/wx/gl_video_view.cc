@@ -133,8 +133,11 @@ check_gl_error (char const * last)
 void
 GLVideoView::update ()
 {
-	if (!_canvas->IsShownOnScreen()) {
-		return;
+	{
+		boost::mutex::scoped_lock lm (_canvas_mutex);
+		if (!_canvas->IsShownOnScreen()) {
+			return;
+		}
 	}
 	request_one_shot ();
 }
@@ -155,16 +158,22 @@ GLVideoView::draw (Position<int> inter_position, dcp::Size inter_size)
 	check_gl_error ("glDisable GL_DEPTH_TEST");
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	if (_canvas->GetSize().x < 64 || _canvas->GetSize().y < 0) {
+	wxSize canvas_size;
+	{
+		boost::mutex::scoped_lock lm (_canvas_mutex);
+		canvas_size = _canvas->GetSize ();
+	}
+
+	if (canvas_size.GetWidth() < 64 || canvas_size.GetHeight() < 0) {
 		return;
 	}
 
-	glViewport (0, 0, _canvas->GetSize().x, _canvas->GetSize().y);
+	glViewport (0, 0, canvas_size.GetWidth(), canvas_size.GetHeight());
 	check_gl_error ("glViewport");
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
 
-	gluOrtho2D (0, _canvas->GetSize().x, _canvas->GetSize().y, 0);
+	gluOrtho2D (0, canvas_size.GetWidth(), canvas_size.GetHeight(), 0);
 	check_gl_error ("gluOrtho2d");
 	glMatrixMode (GL_MODELVIEW);
 	glLoadIdentity ();
@@ -196,8 +205,6 @@ GLVideoView::draw (Position<int> inter_position, dcp::Size inter_size)
 		glVertex2f (0, 0);
 		glEnd ();
 	}
-
-	wxSize const canvas_size = _canvas->GetSize ();
 
 	if (!_viewer->pad_black() && out_size.width < canvas_size.GetWidth()) {
 		glBegin (GL_QUADS);
@@ -241,6 +248,8 @@ GLVideoView::draw (Position<int> inter_position, dcp::Size inter_size)
 	}
 
 	glFlush();
+
+	boost::mutex::scoped_lock lm (_canvas_mutex);
 	_canvas->SwapBuffers();
 }
 
@@ -291,9 +300,11 @@ void
 GLVideoView::thread ()
 try
 {
-	/* XXX_b: check all calls and signal emissions in this method & protect them if necessary */
-	_context = new wxGLContext (_canvas);
-	_canvas->SetCurrent (*_context);
+	{
+		boost::mutex::scoped_lock lm (_canvas_mutex);
+		_context = new wxGLContext (_canvas); //local
+		_canvas->SetCurrent (*_context);
+	}
 
 	while (true) {
 		boost::mutex::scoped_lock lm (_playing_mutex);
@@ -309,12 +320,12 @@ try
 			dcpomatic::DCPTime const next = position() + one_video_frame();
 
 			if (next >= length()) {
-				_viewer->stop ();
-				_viewer->emit_finished ();
+				_viewer->finished ();
 				continue;
 			}
 
 			get_next_frame (false);
+			//--
 			set_image (player_video().first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
 			inter_position = player_video().first->inter_position();
 			inter_size = player_video().first->inter_size();
@@ -330,13 +341,13 @@ try
 		dcpomatic_sleep_milliseconds (time_until_next_frame());
 	}
 
-	delete _context;
+	/* XXX: leaks _context, but that seems preferable to deleting it here
+	 * without also deleting the wxGLCanvas.
+	 */
 }
 catch (boost::thread_interrupted& e)
 {
-	/* XXX_b: store exceptions here */
-	delete _context;
-	return;
+	store_current ();
 }
 
 bool

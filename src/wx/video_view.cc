@@ -23,6 +23,8 @@
 #include "film_viewer.h"
 #include "lib/butler.h"
 
+using boost::shared_ptr;
+
 VideoView::VideoView (FilmViewer* viewer)
 	: _viewer (viewer)
 #ifdef DCPOMATIC_VARIANT_SWAROOP
@@ -31,6 +33,7 @@ VideoView::VideoView (FilmViewer* viewer)
 	, _state_timer ("viewer")
 	, _video_frame_rate (0)
 	, _eyes (EYES_LEFT)
+	, _three_d (false)
 	, _dropped (0)
 	, _gets (0)
 {
@@ -45,30 +48,32 @@ VideoView::clear ()
 	_player_video.second = dcpomatic::DCPTime ();
 }
 
-/** @param non_blocking true to return false quickly if no video is available quickly.
+/** Could be called from any thread.
+ *  @param non_blocking true to return false quickly if no video is available quickly.
  *  @return false if we gave up because it would take too long, otherwise true.
  */
 bool
 VideoView::get_next_frame (bool non_blocking)
 {
-	if (_length == dcpomatic::DCPTime()) {
+	if (length() == dcpomatic::DCPTime()) {
 		return true;
 	}
 
-	DCPOMATIC_ASSERT (_viewer->butler());
+	shared_ptr<Butler> butler = _viewer->butler ();
+	DCPOMATIC_ASSERT (butler);
 	add_get ();
 
 	boost::mutex::scoped_lock lm (_mutex);
 
 	do {
 		Butler::Error e;
-		_player_video = _viewer->butler()->get_video (!non_blocking, &e);
+		_player_video = butler->get_video (!non_blocking, &e);
 		if (!_player_video.first && e == Butler::AGAIN) {
 			return false;
 		}
 	} while (
 		_player_video.first &&
-		_viewer->film()->three_d() &&
+		_three_d &&
 		_eyes != _player_video.first->eyes() &&
 		_player_video.first->eyes() != EYES_BOTH
 		);

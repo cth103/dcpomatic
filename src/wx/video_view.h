@@ -24,16 +24,18 @@
 #include "lib/dcpomatic_time.h"
 #include "lib/timer.h"
 #include "lib/types.h"
+#include "lib/exception_store.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <boost/thread.hpp>
+#include <boost/noncopyable.hpp>
 
 class Image;
 class wxWindow;
 class FilmViewer;
 class PlayerVideo;
 
-class VideoView
+class VideoView : public ExceptionStore, public boost::noncopyable
 {
 public:
 	VideoView (FilmViewer* viewer);
@@ -93,6 +95,11 @@ public:
 		_eyes = eyes;
 	}
 
+	void set_three_d (bool t) {
+		boost::mutex::scoped_lock lm (_mutex);
+		_three_d = t;
+	}
+
 protected:
 	/* XXX_b: to remove */
 	friend class FilmViewer;
@@ -145,6 +152,7 @@ private:
 	/** length of the film we are playing, or 0 if there is none */
 	dcpomatic::DCPTime _length;
 	Eyes _eyes;
+	bool _three_d;
 
 	int _dropped;
 	int _gets;
