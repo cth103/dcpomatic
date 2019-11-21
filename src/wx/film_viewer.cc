@@ -406,6 +406,9 @@ FilmViewer::slow_refresh ()
 bool
 FilmViewer::quick_refresh ()
 {
+	if (!_video_view || !_film) {
+		return true;
+	}
 	return _video_view->refresh_metadata (_film, _player->video_container_size(), _film->frame_size());
 }
 

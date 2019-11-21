@@ -60,7 +60,9 @@ VideoView::get_next_frame (bool non_blocking)
 	}
 
 	shared_ptr<Butler> butler = _viewer->butler ();
-	DCPOMATIC_ASSERT (butler);
+	if (!butler) {
+		return false;
+	}
 	add_get ();
 
 	boost::mutex::scoped_lock lm (_mutex);
