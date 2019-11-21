@@ -209,7 +209,7 @@ SimpleVideoView::display_player_video ()
 {
 	if (!player_video().first) {
 		set_image (shared_ptr<Image>());
-		_viewer->refresh_view ();
+		update ();
 		return;
 	}
 
@@ -252,7 +252,7 @@ SimpleVideoView::display_player_video ()
 	_inter_position = player_video().first->inter_position ();
 	_inter_size = player_video().first->inter_size ();
 
-	_viewer->refresh_view ();
+	update ();
 
 	_viewer->closed_captions_dialog()->update (_viewer->time());
 }

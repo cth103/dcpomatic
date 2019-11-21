@@ -99,7 +99,7 @@ public:
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	void set_background_image (bool b) {
 		_background_image = b;
-		refresh_view ();
+		_video_view->update ();
 	}
 
 	bool background_image () const {
@@ -163,7 +163,6 @@ private:
 	dcpomatic::DCPTime uncorrected_time () const;
 	Frame average_latency () const;
 
-	void refresh_view ();
 	bool quick_refresh ();
 
 	boost::shared_ptr<Film> _film;

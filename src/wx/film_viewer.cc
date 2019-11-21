@@ -161,7 +161,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	if (!_film) {
 		_player.reset ();
 		recreate_butler ();
-		refresh_view ();
+		_video_view->update ();
 		return;
 	}
 
@@ -225,16 +225,10 @@ FilmViewer::recreate_butler ()
 }
 
 void
-FilmViewer::refresh_view ()
-{
-	_video_view->update ();
-}
-
-void
 FilmViewer::set_outline_content (bool o)
 {
 	_outline_content = o;
-	refresh_view ();
+	_video_view->update ();
 }
 
 void
@@ -478,7 +472,7 @@ FilmViewer::config_changed (Config::Property p)
 {
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	if (p == Config::PLAYER_BACKGROUND_IMAGE) {
-		refresh_view ();
+		_video_view->update ();
 		return;
 	}
 #endif
