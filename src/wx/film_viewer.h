@@ -92,7 +92,11 @@ public:
 
 	void slow_refresh ();
 
+	dcpomatic::DCPTime time () const;
+	boost::optional<dcpomatic::DCPTime> audio_time () const;
+
 	int dropped () const;
+	int gets () const;
 
 	int audio_callback (void* out, unsigned int frames);
 
@@ -106,10 +110,6 @@ public:
 		return _background_image;
 	}
 #endif
-
-	int gets () const {
-		return _gets;
-	}
 
 	StateTimer const & state_timer () const {
 		return _video_view->state_timer ();
@@ -143,11 +143,6 @@ public:
 
 private:
 
-	/* XXX_b: to remove */
-	friend class SimpleVideoView;
-	friend class GLVideoView;
-	friend class VideoView;
-
 	void video_view_sized ();
 	void calculate_sizes ();
 	void player_change (ChangeType type, int, bool);
@@ -158,8 +153,6 @@ private:
 	void config_changed (Config::Property);
 	void film_length_change ();
 
-	dcpomatic::DCPTime time () const;
-	boost::optional<dcpomatic::DCPTime> audio_time () const;
 	dcpomatic::DCPTime uncorrected_time () const;
 	Frame average_latency () const;
 
@@ -192,7 +185,6 @@ private:
 	ClosedCaptionsDialog* _closed_captions_dialog;
 
 	bool _outline_content;
-	Eyes _eyes;
 	/** true to pad the viewer panel with black, false to use
 	    the normal window background colour.
 	*/
@@ -201,8 +193,6 @@ private:
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	bool _background_image;
 #endif
-
-	int _gets;
 
 	/** true if an get() is required next time we are idle */
 	bool _idle_get;

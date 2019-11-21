@@ -30,7 +30,9 @@ VideoView::VideoView (FilmViewer* viewer)
 #endif
 	, _state_timer ("viewer")
 	, _video_frame_rate (0)
+	, _eyes (EYES_LEFT)
 	, _dropped (0)
+	, _gets (0)
 {
 
 }
@@ -54,7 +56,7 @@ VideoView::get_next_frame (bool non_blocking)
 	}
 
 	DCPOMATIC_ASSERT (_viewer->butler());
-	_viewer->_gets++;
+	add_get ();
 
 	boost::mutex::scoped_lock lm (_mutex);
 
@@ -67,7 +69,7 @@ VideoView::get_next_frame (bool non_blocking)
 	} while (
 		_player_video.first &&
 		_viewer->film()->three_d() &&
-		_viewer->_eyes != _player_video.first->eyes() &&
+		_eyes != _player_video.first->eyes() &&
 		_player_video.first->eyes() != EYES_BOTH
 		);
 

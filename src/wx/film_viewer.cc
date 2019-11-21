@@ -88,12 +88,10 @@ FilmViewer::FilmViewer (wxWindow* p)
 	, _latency_history_count (0)
 	, _closed_captions_dialog (new ClosedCaptionsDialog(p, this))
 	, _outline_content (false)
-	, _eyes (EYES_LEFT)
 	, _pad_black (false)
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	, _background_image (false)
 #endif
-	, _gets (0)
 	, _idle_get (false)
 {
 	switch (Config::instance()->video_view_type()) {
@@ -234,7 +232,7 @@ FilmViewer::set_outline_content (bool o)
 void
 FilmViewer::set_eyes (Eyes e)
 {
-	_eyes = e;
+	_video_view->set_eyes (e);
 	slow_refresh ();
 }
 
@@ -650,4 +648,11 @@ FilmViewer::dropped () const
 {
 	return _video_view->dropped ();
 }
+
+int
+FilmViewer::gets () const
+{
+	return _video_view->gets ();
+}
+
 

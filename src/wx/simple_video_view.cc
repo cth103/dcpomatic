@@ -253,6 +253,4 @@ SimpleVideoView::display_player_video ()
 	_inter_size = player_video().first->inter_size ();
 
 	update ();
-
-	_viewer->closed_captions_dialog()->update (_viewer->time());
 }

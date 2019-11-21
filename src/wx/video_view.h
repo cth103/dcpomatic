@@ -23,6 +23,7 @@
 
 #include "lib/dcpomatic_time.h"
 #include "lib/timer.h"
+#include "lib/types.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <boost/thread.hpp>
@@ -63,6 +64,11 @@ public:
 		return _dropped;
 	}
 
+	int gets () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _gets;
+	}
+
 	StateTimer const & state_timer () const {
 		return _state_timer;
 	}
@@ -80,6 +86,11 @@ public:
 	void set_length (dcpomatic::DCPTime len) {
 		boost::mutex::scoped_lock lm (_mutex);
 		_length = len;
+	}
+
+	void set_eyes (Eyes eyes) {
+		boost::mutex::scoped_lock lm (_mutex);
+		_eyes = eyes;
 	}
 
 protected:
@@ -110,6 +121,11 @@ protected:
 		++_dropped;
 	}
 
+	void add_get () {
+		boost::mutex::scoped_lock lm (_mutex);
+		++_gets;
+	}
+
 	FilmViewer* _viewer;
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
@@ -128,8 +144,10 @@ private:
 	int _video_frame_rate;
 	/** length of the film we are playing, or 0 if there is none */
 	dcpomatic::DCPTime _length;
+	Eyes _eyes;
 
 	int _dropped;
+	int _gets;
 };
 
 #endif
