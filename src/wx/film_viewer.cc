@@ -286,6 +286,7 @@ FilmViewer::suspend ()
 void
 FilmViewer::resume ()
 {
+	DCPOMATIC_ASSERT (_suspended > 0);
 	--_suspended;
 	if (_playing && !_suspended) {
 		if (_audio.isStreamOpen()) {
