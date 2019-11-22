@@ -120,14 +120,7 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	_slider->Bind           (wxEVT_SCROLL_THUMBTRACK,    boost::bind(&Controls::slider_moved,    this, false));
 	_slider->Bind           (wxEVT_SCROLL_PAGEUP,        boost::bind(&Controls::slider_moved,    this, true));
 	_slider->Bind           (wxEVT_SCROLL_PAGEDOWN,      boost::bind(&Controls::slider_moved,    this, true));
-	_slider->Bind           (wxEVT_SCROLL_CHANGED,       boost::bind(&Controls::slider_released, this));
-#ifdef DCPOMATIC_OSX
-	/* _CHANGED is not received on OS X (at least, not when the
-	   slider is dragged), so use this instead.  Perhaps all
-	   platforms could just use _THUMBRELEASE.
-	*/
 	_slider->Bind           (wxEVT_SCROLL_THUMBRELEASE,  boost::bind(&Controls::slider_released, this));
-#endif
 	_rewind_button->Bind    (wxEVT_LEFT_DOWN,            boost::bind(&Controls::rewind_clicked,  this, _1));
 	_back_button->Bind      (wxEVT_LEFT_DOWN,            boost::bind(&Controls::back_clicked,    this, _1));
 	_forward_button->Bind   (wxEVT_LEFT_DOWN,            boost::bind(&Controls::forward_clicked, this, _1));
