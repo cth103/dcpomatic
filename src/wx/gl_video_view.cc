@@ -326,9 +326,11 @@ try
 
 			get_next_frame (false);
 			shared_ptr<PlayerVideo> pv = player_video().first;
-			set_image (pv->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
-			inter_position = pv->inter_position();
-			inter_size = pv->inter_size();
+			if (pv) {
+				set_image (pv->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
+				inter_position = pv->inter_position();
+				inter_size = pv->inter_size();
+			}
 		}
 		draw (inter_position, inter_size);
 
