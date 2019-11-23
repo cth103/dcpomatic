@@ -40,3 +40,4 @@ src/wx/supporters.cc
 src/wx/subscribers.cc
 .ccls-cache
 compile_commands.json
+vim-lsp.log
