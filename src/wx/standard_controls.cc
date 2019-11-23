@@ -74,3 +74,19 @@ StandardControls::setup_sensitivity ()
 	bool const active_job = _active_job && *_active_job != "examine_content";
 	_play_button->Enable (_film && !_film->content().empty() && !active_job);
 }
+
+#ifdef DCPOMATIC_PLAYER_STRESS_TEST
+void
+StandardControls::play ()
+{
+	_play_button->SetValue (true);
+	play_clicked ();
+}
+
+void
+StandardControls::stop ()
+{
+	_play_button->SetValue (false);
+	play_clicked ();
+}
+#endif

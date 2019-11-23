@@ -73,6 +73,7 @@ def options(opt):
     opt.add_option('--workaround-gssapi', action='store_true', default=False, help='link to gssapi_krb5')
     opt.add_option('--force-cpp11',       action='store_true', default=False, help='force use of C++11')
     opt.add_option('--variant',           help='build variant (swaroop-studio, swaroop-theater)', choices=['swaroop-studio', 'swaroop-theater'])
+    opt.add_option('--enable-player-stress-test', action='store_true', default=False, help='build the player with stress testing enabled') 
     opt.add_option('--use-lld',           action='store_true', default=False, help='use lld linker')
 
 def configure(conf):
@@ -132,6 +133,9 @@ def configure(conf):
         conf.env.VARIANT = conf.options.variant
         if conf.options.variant.startswith('swaroop-'):
             conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_VARIANT_SWAROOP')
+
+    if conf.options.enable_player_stress_test:
+        conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_PLAYER_STRESS_TEST')
 
     if conf.options.use_lld:
         try:
