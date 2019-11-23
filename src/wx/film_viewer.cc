@@ -182,6 +182,10 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	_film->LengthChange.connect (boost::bind(&FilmViewer::film_length_change, this));
 	_player->Change.connect (boost::bind (&FilmViewer::player_change, this, _1, _2, _3));
 
+	film_change (CHANGE_TYPE_DONE, Film::VIDEO_FRAME_RATE);
+	film_change (CHANGE_TYPE_DONE, Film::THREE_D);
+	film_length_change ();
+
 	/* Keep about 1 second's worth of history samples */
 	_latency_history_count = _film->audio_frame_rate() / _audio_block_size;
 
