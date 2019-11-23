@@ -22,8 +22,10 @@
 #include "wx_util.h"
 #include "film_viewer.h"
 #include "lib/butler.h"
+#include <boost/optional.hpp>
 
 using boost::shared_ptr;
+using boost::optional;
 
 VideoView::VideoView (FilmViewer* viewer)
 	: _viewer (viewer)
@@ -89,13 +91,13 @@ VideoView::one_video_frame () const
 	return dcpomatic::DCPTime::from_frames (1, video_frame_rate());
 }
 
-/** @return Time in ms until the next frame is due */
-int
+/** @return Time in ms until the next frame is due, or empty if nothing is due */
+optional<int>
 VideoView::time_until_next_frame () const
 {
 	if (length() == dcpomatic::DCPTime()) {
 		/* There's no content, so this doesn't matter */
-		return 0;
+		return optional<int>();
 	}
 
 	dcpomatic::DCPTime const next = position() + one_video_frame();

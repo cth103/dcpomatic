@@ -107,7 +107,7 @@ public:
 
 protected:
 	bool get_next_frame (bool non_blocking);
-	int time_until_next_frame () const;
+	boost::optional<int> time_until_next_frame () const;
 	dcpomatic::DCPTime one_video_frame () const;
 
 	int video_frame_rate () const {

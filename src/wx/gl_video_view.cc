@@ -334,13 +334,17 @@ try
 		}
 		draw (inter_position, inter_size);
 
-		while (time_until_next_frame() < 5) {
+		while (true) {
+			optional<int> n = time_until_next_frame();
+			if (!n || *n > 5) {
+				break;
+			}
 			get_next_frame (true);
 			add_dropped ();
 		}
 
 		boost::this_thread::interruption_point ();
-		dcpomatic_sleep_milliseconds (time_until_next_frame());
+		dcpomatic_sleep_milliseconds (time_until_next_frame().get_value_or(0));
 	}
 
 	/* XXX: leaks _context, but that seems preferable to deleting it here
