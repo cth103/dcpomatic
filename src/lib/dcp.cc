@@ -35,6 +35,7 @@
 using std::list;
 using std::string;
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 
 dcp::DecryptedKDM
 DCP::decrypted_kdm () const
@@ -71,7 +72,18 @@ DCP::cpls () const
 	LOG_GENERAL ("Reading %1 DCP directories", _dcp_content->directories().size());
 	BOOST_FOREACH (boost::filesystem::path i, _dcp_content->directories()) {
 		shared_ptr<dcp::DCP> dcp (new dcp::DCP (i));
-		dcp->read (_tolerant, 0, true);
+		list<shared_ptr<dcp::DCPReadError> > errors;
+		dcp->read (_tolerant, &errors, true);
+		if (!_tolerant) {
+			/** We accept and ignore EmptyAssetPathError but everything else is bad */
+			BOOST_FOREACH (shared_ptr<dcp::DCPReadError> j, errors) {
+				if (dynamic_pointer_cast<dcp::EmptyAssetPathError>(j)) {
+					LOG_WARNING("Empty path in ASSETMAP of %1", i.string());
+				} else {
+					boost::throw_exception(*j.get());
+				}
+			}
+		}
 		dcps.push_back (dcp);
 		LOG_GENERAL ("Reading DCP %1: %2 CPLs", i.string(), dcp->cpls().size());
 		BOOST_FOREACH (shared_ptr<dcp::CPL> i, dcp->cpls()) {
