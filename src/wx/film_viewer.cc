@@ -314,6 +314,14 @@ FilmViewer::start ()
 		return;
 	}
 
+	/* We are about to set up the audio stream from the position of the video view.
+	   If there is `lazy' seek in progress we need to wait for it to go through so that
+	   _video_view->position() gives us a sensible answer.
+	 */
+	while (_idle_get) {
+		idle_handler ();
+	}
+
 	if (_audio.isStreamOpen()) {
 		_audio.setStreamTime (_video_view->position().seconds());
 		_audio.startStream ();
