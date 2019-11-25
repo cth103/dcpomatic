@@ -322,6 +322,9 @@ FilmViewer::start ()
 		idle_handler ();
 	}
 
+	/* Take the video view's idea of position as our `playhead' and start the
+	   audio stream (which is the timing reference) there.
+         */
 	if (_audio.isStreamOpen()) {
 		_audio.setStreamTime (_video_view->position().seconds());
 		_audio.startStream ();
@@ -468,8 +471,14 @@ FilmViewer::seek (DCPTime t, bool accurate)
 	_butler->seek (t, accurate);
 
 	if (!_playing) {
+		/* We're not playing, so let the GUI thread get on and
+		   come back later to get the next frame after the seek.
+		*/
 		request_idle_display_next_frame ();
 	} else {
+		/* We're going to start playing again straight away
+		   so wait for the seek to finish.
+		*/
 		while (!_video_view->display_next_frame(false)) {}
 	}
 
