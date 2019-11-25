@@ -55,6 +55,7 @@ using boost::optional;
 
 GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	: VideoView (viewer)
+	, _have_storage (false)
 	, _vsync_enabled (false)
 	, _thread (0)
 	, _playing (false)
@@ -264,11 +265,21 @@ GLVideoView::set_image (shared_ptr<const Image> image)
 	DCPOMATIC_ASSERT (image->pixel_format() == AV_PIX_FMT_RGB24);
 	DCPOMATIC_ASSERT (!image->aligned());
 
+	if (image->size() != _size) {
+		_have_storage = false;
+	}
+
 	_size = image->size ();
 	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
 	check_gl_error ("glPixelStorei");
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGB8, _size->width, _size->height, 0, GL_RGB, GL_UNSIGNED_BYTE, image->data()[0]);
-	check_gl_error ("glTexImage2D");
+	if (_have_storage) {
+		glTexSubImage2D (GL_TEXTURE_2D, 0, 0, 0, _size->width, _size->height, GL_RGB, GL_UNSIGNED_BYTE, image->data()[0]);
+		check_gl_error ("glTexSubImage2D");
+	} else {
+		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGB8, _size->width, _size->height, 0, GL_RGB, GL_UNSIGNED_BYTE, image->data()[0]);
+		_have_storage = true;
+		check_gl_error ("glTexImage2D");
+	}
 
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
