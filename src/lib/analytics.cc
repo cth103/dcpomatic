@@ -66,9 +66,9 @@ Analytics::successful_dcp_encode ()
 					"time developing DCP-o-matic and making it better!"
 
 					"<p><ul>"
-					"<li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Go to Paypal to donate £40</a>"
-					"<li><a href=\"https://dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate £20</a>"
-					"<li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to Paypal to donate £10</a>"
+					"<li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Go to Paypal to donate €40</a>"
+					"<li><a href=\"https://dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate €20</a>"
+					"<li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to Paypal to donate €10</a>"
 					"</ul>"
 
 					"<p>Thank you!"), _successful_dcp_encodes
