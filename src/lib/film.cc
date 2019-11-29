@@ -313,6 +313,10 @@ Film::make_dcp ()
 		throw runtime_error (_("You must add some content to the DCP before creating it"));
 	}
 
+	if (length() == DCPTime()) {
+		throw runtime_error (_("The DCP is empty, perhaps because all the content has zero length."));
+	}
+
 	if (dcp_content_type() == 0) {
 		throw MissingSettingError (_("content type"));
 	}
