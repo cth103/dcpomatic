@@ -78,7 +78,12 @@ ExportDialog::ExportDialog (wxWindow* parent, string name)
 	_x264_crf_label[1]->SetFont(font);
 
 	add (_("Output file"), true);
-	_file = new FilePickerCtrl (this, _("Select output file"), format_filters[0], false);
+	/* Don't warn overwrite here, because on Linux (at least) if we specify a filename like foo
+	   the wxFileDialog will check that foo exists, but we will add an extension so we actually
+	   need to check if foo.mov (or similar) exists.  I can't find a way to make wxWidgets do this,
+	   so disable its check and the caller will have to do it themselves.
+	*/
+	_file = new FilePickerCtrl (this, _("Select output file"), format_filters[0], false, false);
 	_file->SetPath (_initial_name);
 	add (_file);
 

@@ -23,7 +23,7 @@
 class FilePickerCtrl : public wxPanel
 {
 public:
-	FilePickerCtrl (wxWindow* parent, wxString prompt, wxString wildcard, bool open);
+	FilePickerCtrl (wxWindow* parent, wxString prompt, wxString wildcard, bool open, bool warn_overwrite);
 
 	wxString GetPath () const;
 	void SetPath (wxString);
@@ -38,4 +38,5 @@ private:
 	wxString _prompt;
 	wxString _wildcard;
 	bool _open;
+	bool _warn_overwrite;
 };

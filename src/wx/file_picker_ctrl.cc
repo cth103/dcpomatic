@@ -29,11 +29,12 @@
 using namespace std;
 using namespace boost;
 
-FilePickerCtrl::FilePickerCtrl (wxWindow* parent, wxString prompt, wxString wildcard, bool open)
+FilePickerCtrl::FilePickerCtrl (wxWindow* parent, wxString prompt, wxString wildcard, bool open, bool warn_overwrite)
 	: wxPanel (parent)
 	, _prompt (prompt)
 	, _wildcard (wildcard)
 	, _open (open)
+	, _warn_overwrite (warn_overwrite)
 {
 	_sizer = new wxBoxSizer (wxHORIZONTAL);
 
@@ -72,7 +73,11 @@ FilePickerCtrl::GetPath () const
 void
 FilePickerCtrl::browse_clicked ()
 {
-	wxFileDialog* d = new wxFileDialog (this, _prompt, wxEmptyString, wxEmptyString, _wildcard, _open ? wxFD_OPEN : wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+	long style = _open ? wxFD_OPEN : wxFD_SAVE;
+	if (_warn_overwrite) {
+		style |= wxFD_OVERWRITE_PROMPT;
+	}
+	wxFileDialog* d = new wxFileDialog (this, _prompt, wxEmptyString, wxEmptyString, _wildcard, style);
 	d->SetPath (_path);
 	if (d->ShowModal () == wxID_OK) {
 		SetPath (d->GetPath ());

@@ -913,6 +913,18 @@ private:
 	{
 		ExportDialog* d = new ExportDialog (this, _film->isdcf_name(true));
 		if (d->ShowModal() == wxID_OK) {
+			if (boost::filesystem::exists(d->path())) {
+				bool ok = confirm_dialog(
+						this,
+						wxString::Format (_("File %s already exists.  Do you want to overwrite it?"), std_to_wx(d->path().string()).data())
+						);
+
+				if (!ok) {
+					d->Destroy ();
+					return;
+				}
+			}
+
 			shared_ptr<TranscodeJob> job (new TranscodeJob (_film));
 			if (d->format() == EXPORT_FORMAT_SUBTITLES_DCP) {
 				job->set_encoder (

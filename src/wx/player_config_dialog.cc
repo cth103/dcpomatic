@@ -121,12 +121,12 @@ private:
 		++r;
 
 		add_label_to_sizer (table, _panel, _("Activity log file"), true, wxGBPosition (r, 0));
-		_activity_log_file = new FilePickerCtrl (_panel, _("Select activity log file"), "*", true);
+		_activity_log_file = new FilePickerCtrl (_panel, _("Select activity log file"), "*", true, true);
 		table->Add (_activity_log_file, wxGBPosition(r, 1));
 		++r;
 
 		add_label_to_sizer (table, _panel, _("Debug log file"), true, wxGBPosition (r, 0));
-		_debug_log_file = new FilePickerCtrl (_panel, _("Select debug log file"), "*", true);
+		_debug_log_file = new FilePickerCtrl (_panel, _("Select debug log file"), "*", true, true);
 		table->Add (_debug_log_file, wxGBPosition(r, 1));
 		++r;
 
@@ -137,7 +137,7 @@ private:
 		++r;
 
 		add_label_to_sizer (table, _panel, _("Lock file"), true, wxGBPosition(r, 0));
-		_lock_file = new FilePickerCtrl (_panel, _("Select lock file"), "*", true);
+		_lock_file = new FilePickerCtrl (_panel, _("Select lock file"), "*", true, true);
 		table->Add (_lock_file, wxGBPosition (r, 1));
 		++r;
 #endif
