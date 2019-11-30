@@ -153,7 +153,10 @@ FFmpegEncoder::go ()
 
 		for (int j = 0; j < gets_per_frame; ++j) {
 			pair<shared_ptr<PlayerVideo>, DCPTime> v = _butler->get_video (true, 0);
-			encoder->get(v.first->eyes())->video(v.first, v.second);
+			shared_ptr<FFmpegFileEncoder> fe = encoder->get (v.first->eyes());
+			if (fe) {
+				fe->video(v.first, v.second);
+			}
 		}
 
 		_history.event ();
@@ -247,6 +250,17 @@ FFmpegEncoder::FileEncoderSet::FileEncoderSet (
 shared_ptr<FFmpegFileEncoder>
 FFmpegEncoder::FileEncoderSet::get (Eyes eyes) const
 {
+	if (_encoders.size() == 1) {
+		/* We are doing a 2D export... */
+		if (eyes == EYES_LEFT) {
+			/* ...but we got some 3D data; put the left eye into the output... */
+			eyes = EYES_BOTH;
+		} else if (eyes == EYES_RIGHT) {
+			/* ...and ignore the right eye.*/
+			return shared_ptr<FFmpegFileEncoder>();
+		}
+	}
+
 	map<Eyes, boost::shared_ptr<FFmpegFileEncoder> >::const_iterator i = _encoders.find (eyes);
 	DCPOMATIC_ASSERT (i != _encoders.end());
 	return i->second;
