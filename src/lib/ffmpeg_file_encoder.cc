@@ -63,6 +63,7 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 	, _video_frame_size (video_frame_size)
 	, _video_frame_rate (video_frame_rate)
 	, _audio_frame_rate (audio_frame_rate)
+	, _audio_frames (0)
 {
 	_pixel_format = pixel_format (format);
 
@@ -296,7 +297,8 @@ FFmpegFileEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 	frame->width = image->size().width;
 	frame->height = image->size().height;
 	frame->format = _pixel_format;
-	frame->pts = time.seconds() / av_q2d (_video_stream->time_base);
+	DCPOMATIC_ASSERT (_video_stream->time_base.num == 1);
+	frame->pts = time.get() * _video_stream->time_base.den / DCPTime::HZ;
 
 	AVPacket packet;
 	av_init_packet (&packet);
@@ -391,6 +393,8 @@ FFmpegFileEncoder::audio_frame (int size)
 		DCPOMATIC_ASSERT (false);
 	}
 
+	frame->pts = _audio_frames / (av_q2d (_audio_stream->time_base) * _audio_frame_rate);
+
 	AVPacket packet;
 	av_init_packet (&packet);
 	packet.data = 0;
@@ -411,6 +415,7 @@ FFmpegFileEncoder::audio_frame (int size)
 	av_frame_free (&frame);
 
 	_pending_audio->trim_start (size);
+	_audio_frames += size;
 }
 
 void

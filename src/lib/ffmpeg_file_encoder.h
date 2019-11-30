@@ -84,6 +84,8 @@ private:
 	int _video_frame_rate;
 	int _audio_frame_rate;
 
+	int64_t _audio_frames;
+
 	boost::shared_ptr<AudioBuffers> _pending_audio;
 
 	/** Store of shared_ptr<Image> to keep them alive whilst raw pointers into
