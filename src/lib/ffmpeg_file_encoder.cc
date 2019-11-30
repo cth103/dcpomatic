@@ -260,7 +260,8 @@ FFmpegFileEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 	frame->width = image->size().width;
 	frame->height = image->size().height;
 	frame->format = _pixel_format;
-	frame->pts = time.seconds() / av_q2d (_video_stream->time_base);
+	DCPOMATIC_ASSERT (_video_stream->time_base.num == 1);
+	frame->pts = time.get() * _video_stream->time_base.den / DCPTime::HZ;
 
 	AVPacket packet;
 	av_init_packet (&packet);
