@@ -306,3 +306,35 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test6)
 	FFmpegEncoder encoder (film2, job, "build/test/ffmpeg_encoder_h264_test6_vf.mp4", EXPORT_FORMAT_H264, true, false, 23);
 	encoder.go ();
 }
+
+/** Test export of a 3D DCP in a 2D project */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test7)
+{
+	shared_ptr<Film> film = new_test_film2 ("ffmpeg_encoder_h264_test7_data");
+	shared_ptr<Content> L (shared_ptr<ImageContent>(new ImageContent(private_data / "bbc405.png")));
+	film->examine_and_add_content (L);
+	shared_ptr<Content> R (shared_ptr<ImageContent>(new ImageContent(private_data / "bbc405.png")));
+	film->examine_and_add_content (R);
+	BOOST_REQUIRE (!wait_for_jobs());
+	L->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT);
+	L->set_position (film, DCPTime());
+	R->video->set_frame_type (VIDEO_FRAME_TYPE_3D_RIGHT);
+	R->set_position (film, DCPTime());
+	film->set_three_d (true);
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	shared_ptr<Film> film2 = new_test_film2 ("ffmpeg_encoder_h264_test7_export");
+	shared_ptr<Content> dcp (new DCPContent(film->dir(film->dcp_name())));
+	film2->examine_and_add_content (dcp);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	shared_ptr<Job> job (new TranscodeJob (film2));
+	FFmpegEncoder encoder (film2, job, "build/test/ffmpeg_encoder_h264_test7.mp4", EXPORT_FORMAT_H264, true, false, 23
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+			       , optional<dcp::Key>(), optional<string>()
+#endif
+		);
+	encoder.go ();
+}
+
