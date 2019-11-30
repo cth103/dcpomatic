@@ -59,7 +59,7 @@ FFmpegEncoder::FFmpegEncoder (
 #endif
 	)
 	: Encoder (film, job)
-	, _history (1000)
+	, _history (200)
 {
 	int const files = split_reels ? film->reels().size() : 1;
 	for (int i = 0; i < files; ++i) {
