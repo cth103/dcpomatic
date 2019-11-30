@@ -13,8 +13,10 @@ def handle(frame):
     if frame['media_type'] == 'video':
         if last_video_pts is not None and frame['pkt_pts_time'] <= last_video_pts:
             print 'Out of order video frame %f (%d) is same as or behind %f (%d)' % (frame['pkt_pts_time'], frame['pkt_pts'], last_video_pts, last_video)
-        else:
-            print 'OK frame %f' % frame['pkt_pts_time']
+        elif last_video_pts is not None:
+            print 'OK frame %f %f %f' % (frame['pkt_pts_time'], frame['pkt_pts_time'] - last_video_pts, 1 / (frame['pkt_pts_time'] - last_video_pts))
+	else:
+            print 'OK frame %f' % (frame['pkt_pts_time'])
         last_video = frame['pkt_pts']
         last_video_pts = frame['pkt_pts_time']
 
