@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -22,6 +22,7 @@
 #define DCPOMATIC_EVENT_HISTORY_H
 
 #include <boost/thread/mutex.hpp>
+#include <boost/optional.hpp>
 #include <list>
 
 class EventHistory
@@ -29,7 +30,7 @@ class EventHistory
 public:
 	explicit EventHistory (int size);
 
-	float rate () const;
+	boost::optional<float> rate () const;
 	void event ();
 
 private:

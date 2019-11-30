@@ -68,7 +68,7 @@ public:
 	/** Called when a processing run has finished */
 	void end ();
 
-	float current_encoding_rate () const;
+	boost::optional<float> current_encoding_rate () const;
 	int video_frames_enqueued () const;
 
 	void servers_list_changed ();

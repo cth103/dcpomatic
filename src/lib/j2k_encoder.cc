@@ -142,9 +142,9 @@ J2KEncoder::end ()
 }
 
 /** @return an estimate of the current number of frames we are encoding per second,
- *  or 0 if not known.
+ *  if known.
  */
-float
+optional<float>
 J2KEncoder::current_encoding_rate () const
 {
 	return _history.rate ();

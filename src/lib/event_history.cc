@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -22,18 +22,20 @@
 #include "util.h"
 #include <boost/thread/mutex.hpp>
 
+using boost::optional;
+
 EventHistory::EventHistory (int size)
 	: _size (size)
 {
 
 }
 
-float
+optional<float>
 EventHistory::rate () const
 {
 	boost::mutex::scoped_lock lock (_mutex);
 	if (int (_history.size()) < _size) {
-		return 0;
+		return optional<float>();
 	}
 
 	struct timeval now;
