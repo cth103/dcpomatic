@@ -32,6 +32,7 @@ TAGS
 .*.swp
 .zanata-cache
 hacks/subtitle_alignment.png
+hacks/drives
 test/README.log
 test/README.pdf
 test/README.aux
