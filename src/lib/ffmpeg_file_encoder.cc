@@ -393,7 +393,8 @@ FFmpegFileEncoder::audio_frame (int size)
 		DCPOMATIC_ASSERT (false);
 	}
 
-	frame->pts = _audio_frames / (av_q2d (_audio_stream->time_base) * _audio_frame_rate);
+	DCPOMATIC_ASSERT (_audio_stream->time_base.num == 1);
+	frame->pts = _audio_frames * _audio_stream->time_base.den / _audio_frame_rate;
 
 	AVPacket packet;
 	av_init_packet (&packet);
