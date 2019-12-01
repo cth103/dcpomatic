@@ -74,7 +74,8 @@ CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, dcp::NameFormat nam
 	}
 
 	if (zip_close (zip) == -1) {
-		throw runtime_error ("failed to close ZIP archive");
+		zip_error_t* e = zip_get_error (zip);
+		throw runtime_error (String::compose("failed to close ZIP archive (%1, %2)", zip_error_code_zip(e), zip_error_code_system(e)));
 	}
 }
 
