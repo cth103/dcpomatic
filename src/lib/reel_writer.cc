@@ -300,7 +300,7 @@ ReelWriter::finish ()
 		video_to /= video_asset_filename (_picture_asset, _reel_index, _reel_count, _content_summary);
 
 		LOG_GENERAL ("Must put %1 into DCP at %2", video_from.string(), video_to.string());
-		LOG_GENERAL ("%2: %2", video_from.string(), boost::filesystem::is_regular_file(video_from) ? "yes" : "no");
+		LOG_GENERAL ("%1: %2", video_from.string(), boost::filesystem::is_regular_file(video_from) ? "yes" : "no");
 		LOG_GENERAL ("%1: %2", video_to.string(), boost::filesystem::is_regular_file(video_to) ? "yes" : "no");
 
 		boost::system::error_code ec;
