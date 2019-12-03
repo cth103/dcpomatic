@@ -300,9 +300,17 @@ openssl_path ()
 	boost::filesystem::path path = dir;
 	path /= "openssl.exe";
 	return path;
-#else
-	/* We assume that it's on the path for Linux and OS X */
-	return "openssl";
+#endif
+
+#ifdef DCPOMATIC_OSX
+	boost::filesystem::path path = app_contents();
+	path /= "MacOS";
+	path /= "openssl";
+	return path;
+#endif
+
+#ifdef DCPOMATIC_LINUX
+	return "dcpomatic2_openssl";
 #endif
 
 }

@@ -194,6 +194,7 @@ File "%cdist_deps%/bin/dcp-1.0.dll"
 File "%cdist_deps%/bin/cxml-0.dll"
 File "%cdist_deps%/bin/sub-1.0.dll"
 File "%cdist_deps%/bin/ffprobe.exe"
+File "%cdist_deps%/src/openssl/apps/openssl.exe"
     """, file=f)
 
     if windows_version == 'xp':

@@ -271,6 +271,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('%{_bindir}/dcpomatic2_kdm_cli', file=f)
     print('%{_bindir}/dcpomatic2_player', file=f)
     print('%{_bindir}/dcpomatic2_playlist', file=f)
+    print('%{_bindir}/dcpomatic2_openssl', file=f)
     if options['variant'] == 'swaroop-studio':
         print('%{_bindir}/dcpomatic2_ecinema', file=f)
         print('%{_bindir}/dcpomatic2_uuid', file=f)
@@ -312,13 +313,13 @@ def make_spec(filename, version, target, options, requires=None):
     print('%build', file=f)
     print('cd dcpomatic-%s' % version, file=f)
     print('export PKG_CONFIG_PATH=%s/lib/pkgconfig:%s/lib64/pkgconfig:/usr/local/lib/pkgconfig:/usr/local/lib64/pkgconfig' % (target.directory, target.directory), file=f)
-
     print('CXXFLAGS="-I%s/include" LDFLAGS="-L%s/lib" ./waf configure --prefix=%%{buildroot}/usr --install-prefix=/usr %s' %
           (target.directory, target.directory, configure_options(target, options)), file=f)
     print('./waf', file=f)
     print('%install', file=f)
     print('cd dcpomatic-%s' % version, file=f)
     print('./waf install', file=f)
+    print('/bin/cp %s/src/openssl/apps/openssl %%{buildroot}/usr/bin/dcpomatic2_openssl' % target.directory, file=f)
     print('', file=f)
     print('%post', file=f)
     print('/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :', file=f)
@@ -350,6 +351,11 @@ def dependencies(target):
     deps.append(('libdcp', None))
     deps.append(('libsub', None))
     deps.append(('rtaudio', 'carl'))
+    # We get our OpenSSL libraries from the environment, but we
+    # also need a patched openssl binary to make certificates.
+    # This dependency is to get that binary, which is added into
+    # the appropriate place later
+    deps.append(('openssl', 'carl'))
 
     return deps
 
@@ -546,6 +552,7 @@ def package_debian(target, cpu, version, options):
     target.set('CDIST_LINKFLAGS', target.get('LINKFLAGS'))
     target.set('CDIST_CXXFLAGS', target.get('CXXFLAGS'))
     target.set('CDIST_PKG_CONFIG_PATH', target.get('PKG_CONFIG_PATH'))
+    target.set('CDIST_DIRECTORY', target.directory)
 
     target.set('CDIST_CONFIGURE', '"' + configure_options(target, options) + '"')
     if target.debug:
@@ -596,6 +603,7 @@ def make_appimage(target, nice_name, internal_name, version):
     nice_filename = nice_name.replace(' ', '_')
     os.makedirs('build/%s.AppDir/usr/bin' % nice_filename)
     target.command('cp %s/bin/%s build/%s.AppDir/usr/bin' % (target.directory, internal_name, nice_filename))
+    target.command('cp %s/src/openssl/apps/openssl build/%s.AppDir/usr/bin/dcpomatic2_openssl' % (target.directory, nice_filename))
     with open('build/%s.AppDir/AppRun' % nice_filename, 'w') as f:
         print('#!/bin/bash', file=f)
         print('export APPDIR="$(dirname "$(readlink -f "$0")")"', file=f)
