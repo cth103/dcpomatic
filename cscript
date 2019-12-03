@@ -443,7 +443,7 @@ def build(target, options):
 	                'build-commands': [
 		            './waf configure --prefix=/app  --libdir=/app/lib build install'
 	                ],
-	                'sources': [{'type': 'dir', 'path': os.path.abspath('../asdcplib-cth')}]})
+	                'sources': [{'type': 'dir', 'path': os.path.abspath('../asdcplib-carl')}]})
 	modules.append({'name': 'locked_sstream',
 	                'buildsystem': 'simple',
 	                'build-commands': [
