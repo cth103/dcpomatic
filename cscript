@@ -401,7 +401,7 @@ def build(target, options):
                         'buildsystem': 'cmake',
                         'sources': [{'type': 'archive',
                                      'url': '%s/libzip-1.4.0.tar.xz' % prefix,
-		                     'sha256': 'e508aba025f5f94b267d5120fc33761bcd98440ebe49dbfe2ed3df3afeacc7b1'}]})
+                                     'sha256': 'e508aba025f5f94b267d5120fc33761bcd98440ebe49dbfe2ed3df3afeacc7b1'}]})
         modules.append({'name': 'libsigc++',
                         'sources': [{'type': 'archive',
                                      'url': '%s/libsigc++-2.10.0.tar.xz' % prefix,
@@ -415,87 +415,87 @@ def build(target, options):
                                      'url': '%s/cairomm-1.12.2.tar.gz' % prefix,
                                      'sha256': '45c47fd4d0aa77464a75cdca011143fea3ef795c4753f6e860057da5fb8bd599'}]})
         modules.append({'name': 'pangomm',
-	                'sources': [{'type': 'archive',
-		                     'url': '%s/pangomm-2.40.1.tar.xz' % prefix,
-		                     'sha256': '9762ee2a2d5781be6797448d4dd2383ce14907159b30bc12bf6b08e7227be3af'}]})
-	modules.append({'name': 'libxml++',
-	                'sources': [{'type': 'archive',
-		                     'url': '%s/libxml++-2.40.1.tar.xz' % prefix,
-		                     'sha256': '4ad4abdd3258874f61c2e2a41d08e9930677976d303653cd1670d3e9f35463e9'}]})
+                        'sources': [{'type': 'archive',
+                                     'url': '%s/pangomm-2.40.1.tar.xz' % prefix,
+                                     'sha256': '9762ee2a2d5781be6797448d4dd2383ce14907159b30bc12bf6b08e7227be3af'}]})
+        modules.append({'name': 'libxml++',
+                        'sources': [{'type': 'archive',
+                                     'url': '%s/libxml++-2.40.1.tar.xz' % prefix,
+                                     'sha256': '4ad4abdd3258874f61c2e2a41d08e9930677976d303653cd1670d3e9f35463e9'}]})
         modules.append({'name': 'xmlsec1',
-	                'sources': [{'type': 'archive',
-		                     'url': '%s/xmlsec1-1.2.25.tar.gz' % prefix,
-		                     'sha256': '967ca83edf25ccb5b48a3c4a09ad3405a63365576503bf34290a42de1b92fcd2'}]})
-	modules.append({'name': 'openjpeg2',
-	                'buildsystem': 'cmake',
-	                'sources': [{'type': 'dir', 'path': os.path.abspath('../openjpeg2-cdist')}]})
-	modules.append({'name': 'boost',
-	                'buildsystem': 'simple',
-	                'build-commands': [
-		            './bootstrap.sh --prefix=/app',
-		            './b2 install'
-	                ],
-	                'sources': [{'type': 'archive',
-		                     'url': '%s/boost_1_66_0.tar.bz2' % prefix,
-		                     'sha256': '5721818253e6a0989583192f96782c4a98eb6204965316df9f5ad75819225ca9'}]})
-	modules.append({'name': 'asdcplib',
-	                'buildsystem': 'simple',
-	                'build-commands': [
-		            './waf configure --prefix=/app  --libdir=/app/lib build install'
-	                ],
-	                'sources': [{'type': 'dir', 'path': os.path.abspath('../asdcplib-carl')}]})
-	modules.append({'name': 'locked_sstream',
-	                'buildsystem': 'simple',
-	                'build-commands': [
-		            './waf configure --prefix=/app build install'
-	                ],
-	                'sources': [{'type': 'dir', 'path': os.path.abspath('../locked_sstream')}]})
-	modules.append({'name': 'libcxml',
-	                'buildsystem': 'simple',
-	                'build-commands': [
-		            './waf configure --prefix=/app  --libdir=/app/lib build install'
-	                ],
-	                'sources': [{'type': 'dir', 'path': os.path.abspath('../libcxml')}]})
-	modules.append({'name': 'libdcp',
-	                'buildsystem': 'simple',
-	                'build-commands': [
-		            './waf configure --prefix=/app --libdir=/app/lib build install'
-	                ],
-	                'sources': [{'type': 'dir', 'path': os.path.abspath('../libdcp')}]})
-	modules.append({'name': 'libsub',
-	                'buildsystem': 'simple',
-	                'build-commands': [
-		            './waf configure --prefix=/app --libdir=/app/lib build install'
-	                ],
-	                'sources': [{'type': 'dir', 'path': os.path.abspath('../libsub')}]})
-	modules.append({'name': 'rtaudio',
-	                'build-options': {
-		            'config-opts': [
-		                '--prefix=/app',
-		                '--with-pulse',
-		                '--with-alsa'
-		            ]
-	                },
-	                'sources': [{'type': 'dir', 'path': os.path.abspath('../rtaudio-cdist')}]})
-	modules.append({'name': 'wxwidgets',
-	                'sources': [{'type': 'archive',
-		                     'url': '%s/wxWidgets-3.0.3.tar.bz2' % prefix,
-		                     'sha256': '08c8033f48ec1b23520f036cde37b5ae925a6a65f137ded665633ca159b9307b'}]})
-	modules.append({'name': 'libssh',
-	                'buildsystem': 'cmake',
-	                'builddir': True,
-	                'sources': [{'type': 'archive',
-		                     'url': '%s/libssh-0.7.5.tar.xz' % prefix,
-		                     'sha256': '54e86dd5dc20e5367e58f3caab337ce37675f863f80df85b6b1614966a337095'}]})
-	modules.append({'name': 'dcpomatic',
-	                'buildsystem': 'simple',
-	                'build-commands': [
-		            './waf configure --prefix=/app build install'
-	                ],
+                        'sources': [{'type': 'archive',
+                                     'url': '%s/xmlsec1-1.2.25.tar.gz' % prefix,
+                                     'sha256': '967ca83edf25ccb5b48a3c4a09ad3405a63365576503bf34290a42de1b92fcd2'}]})
+        modules.append({'name': 'openjpeg2',
+                        'buildsystem': 'cmake',
+                        'sources': [{'type': 'dir', 'path': os.path.abspath('../openjpeg2-cdist')}]})
+        modules.append({'name': 'boost',
+                        'buildsystem': 'simple',
+                        'build-commands': [
+                            './bootstrap.sh --prefix=/app',
+                            './b2 install'
+                        ],
+                        'sources': [{'type': 'archive',
+                                     'url': '%s/boost_1_66_0.tar.bz2' % prefix,
+                                     'sha256': '5721818253e6a0989583192f96782c4a98eb6204965316df9f5ad75819225ca9'}]})
+        modules.append({'name': 'asdcplib',
+                        'buildsystem': 'simple',
+                        'build-commands': [
+                            './waf configure --prefix=/app  --libdir=/app/lib build install'
+                        ],
+                        'sources': [{'type': 'dir', 'path': os.path.abspath('../asdcplib-carl')}]})
+        modules.append({'name': 'locked_sstream',
+                        'buildsystem': 'simple',
+                        'build-commands': [
+                            './waf configure --prefix=/app build install'
+                        ],
+                        'sources': [{'type': 'dir', 'path': os.path.abspath('../locked_sstream')}]})
+        modules.append({'name': 'libcxml',
+                        'buildsystem': 'simple',
+                        'build-commands': [
+                            './waf configure --prefix=/app  --libdir=/app/lib build install'
+                        ],
+                        'sources': [{'type': 'dir', 'path': os.path.abspath('../libcxml')}]})
+        modules.append({'name': 'libdcp',
+                        'buildsystem': 'simple',
+                        'build-commands': [
+                            './waf configure --prefix=/app --libdir=/app/lib build install'
+                        ],
+                        'sources': [{'type': 'dir', 'path': os.path.abspath('../libdcp')}]})
+        modules.append({'name': 'libsub',
+                        'buildsystem': 'simple',
+                        'build-commands': [
+                            './waf configure --prefix=/app --libdir=/app/lib build install'
+                        ],
+                        'sources': [{'type': 'dir', 'path': os.path.abspath('../libsub')}]})
+        modules.append({'name': 'rtaudio',
                         'build-options': {
-                            'build-args': ['--share=network']
+                        'config-opts': [
+                            '--prefix=/app',
+                            '--with-pulse',
+                            '--with-alsa'
+                        ]
                         },
-	                'sources': [{'type': 'dir', 'path': os.path.abspath('.')}]})
+                        'sources': [{'type': 'dir', 'path': os.path.abspath('../rtaudio-cdist')}]})
+        modules.append({'name': 'wxwidgets',
+                        'sources': [{'type': 'archive',
+                                     'url': '%s/wxWidgets-3.0.3.tar.bz2' % prefix,
+                                     'sha256': '08c8033f48ec1b23520f036cde37b5ae925a6a65f137ded665633ca159b9307b'}]})
+        modules.append({'name': 'libssh',
+                        'buildsystem': 'cmake',
+                        'builddir': True,
+                        'sources': [{'type': 'archive',
+                                     'url': '%s/libssh-0.7.5.tar.xz' % prefix,
+                                     'sha256': '54e86dd5dc20e5367e58f3caab337ce37675f863f80df85b6b1614966a337095'}]})
+        modules.append({'name': 'dcpomatic',
+                        'buildsystem': 'simple',
+                        'build-commands': [
+                            './waf configure --prefix=/app build install'
+                         ],
+                        'build-options': {
+                           'build-args': ['--share=network']
+                        },
+                        'sources': [{'type': 'dir', 'path': os.path.abspath('.')}]})
         desc = {'app-id': 'com.dcpomatic.DCP-o-matic',
                 'runtime': 'org.gnome.Sdk',
                 'runtime-version': '3.26',
