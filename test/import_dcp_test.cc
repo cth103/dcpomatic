@@ -64,12 +64,13 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 
 	Config::instance()->set_decryption_chain (shared_ptr<dcp::CertificateChain> (new dcp::CertificateChain (openssl_path ())));
 
+	/* Dear future-carl: I suck!  I thought you wouldn't still be running these tests in 2030!  Sorry! */
 	dcp::EncryptedKDM kdm = A->make_kdm (
 		Config::instance()->decryption_chain()->leaf (),
 		vector<string>(),
 		A_dcp.cpls().front()->file().get(),
-		dcp::LocalTime ("2014-07-21T00:00:00+00:00"),
-		dcp::LocalTime ("2024-07-21T00:00:00+00:00"),
+		dcp::LocalTime ("2030-07-21T00:00:00+00:00"),
+		dcp::LocalTime ("2031-07-21T00:00:00+00:00"),
 		dcp::MODIFIED_TRANSITIONAL_1,
 		true, 0
 		);
