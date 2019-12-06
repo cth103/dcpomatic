@@ -180,12 +180,6 @@ Job::run_wrapper ()
 		set_progress (1);
 		set_state (FINISHED_ERROR);
 
-	} catch (dcp::MissingAssetError& e) {
-
-		set_error (e.message(), e.path().string());
-		set_progress (1);
-		set_state (FINISHED_ERROR);
-
 	} catch (dcp::DCPReadError& e) {
 
 		set_error (e.message(), e.detail().get_value_or(""));

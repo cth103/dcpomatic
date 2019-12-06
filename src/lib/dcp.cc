@@ -72,15 +72,15 @@ DCP::cpls () const
 	LOG_GENERAL ("Reading %1 DCP directories", _dcp_content->directories().size());
 	BOOST_FOREACH (boost::filesystem::path i, _dcp_content->directories()) {
 		shared_ptr<dcp::DCP> dcp (new dcp::DCP (i));
-		list<shared_ptr<dcp::DCPReadError> > errors;
-		dcp->read (_tolerant, &errors, true);
+		list<dcp::VerificationNote> notes;
+		dcp->read (&notes, true);
 		if (!_tolerant) {
 			/** We accept and ignore EmptyAssetPathError but everything else is bad */
-			BOOST_FOREACH (shared_ptr<dcp::DCPReadError> j, errors) {
-				if (dynamic_pointer_cast<dcp::EmptyAssetPathError>(j)) {
+			BOOST_FOREACH (dcp::VerificationNote j, notes) {
+				if (j.code() == dcp::VerificationNote::Code::EMPTY_ASSET_PATH) {
 					LOG_WARNING("Empty path in ASSETMAP of %1", i.string());
 				} else {
-					boost::throw_exception(*j.get());
+					boost::throw_exception(dcp::DCPReadError(dcp::note_to_string(j)));
 				}
 			}
 		}
