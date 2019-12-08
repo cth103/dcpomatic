@@ -35,6 +35,7 @@
 using std::max;
 using std::min;
 using std::string;
+using std::list;
 using boost::shared_ptr;
 using dcp::raw_convert;
 
@@ -193,7 +194,11 @@ CPLSummary::CPLSummary (boost::filesystem::path p)
 	: dcp_directory (p.leaf().string())
 {
 	dcp::DCP dcp (p);
-	dcp.read ();
+	list<dcp::VerificationNote> notes;
+	dcp.read (&notes);
+	if (!notes.empty()) {
+		throw dcp::DCPReadError(dcp::note_to_string(notes.front()));
+	}
 
 	cpl_id = dcp.cpls().front()->id();
 	cpl_annotation_text = dcp.cpls().front()->annotation_text();
