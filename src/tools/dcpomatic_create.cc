@@ -76,7 +76,7 @@ main (int argc, char* argv[])
 	}
 
 	if (cc.version) {
-		cerr << "dcpomatic version " << dcpomatic_version << " " << dcpomatic_git_commit << "\n";
+		cout << "dcpomatic version " << dcpomatic_version << " " << dcpomatic_git_commit << "\n";
 		exit (EXIT_SUCCESS);
 	}
 
