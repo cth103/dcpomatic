@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -44,6 +44,7 @@
 
 using std::list;
 using std::cout;
+using std::exception;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::optional;
@@ -249,13 +250,20 @@ J2KEncoder::terminate_threads ()
 
 	int n = 0;
 	for (list<boost::thread *>::iterator i = _threads.begin(); i != _threads.end(); ++i) {
+		/* Be careful not to throw in here otherwise _threads will not be clear()ed */
 		LOG_GENERAL ("Terminating thread %1 of %2", n + 1, _threads.size ());
 		(*i)->interrupt ();
-		DCPOMATIC_ASSERT ((*i)->joinable ());
+		if (!(*i)->joinable()) {
+			LOG_ERROR_NC ("About to join() a non-joinable thread");
+		}
 		try {
 			(*i)->join ();
 		} catch (boost::thread_interrupted& e) {
-			/* This is to be expected */
+			/* This is to be expected (I think?) */
+		} catch (exception& e) {
+			LOG_ERROR ("join() threw an exception: %1", e.what());
+		} catch (...) {
+			LOG_ERROR_NC ("join() threw an exception");
 		}
 		delete *i;
 		LOG_GENERAL_NC ("Thread terminated");
