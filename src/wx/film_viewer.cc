@@ -754,7 +754,7 @@ FilmViewer::dcp_decode_reduction () const
 DCPTime
 FilmViewer::one_video_frame () const
 {
-	return DCPTime::from_frames (1, _film->video_frame_rate());
+	return DCPTime::from_frames (1, _film ? _film->video_frame_rate() : 24);
 }
 
 /** Open a dialog box showing our film's closed captions */
