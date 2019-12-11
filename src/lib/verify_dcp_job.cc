@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+#include "cross.h"
 #include "verify_dcp_job.h"
 #include "content.h"
 
@@ -59,7 +60,7 @@ VerifyDCPJob::update_stage (string s, optional<boost::filesystem::path> path)
 void
 VerifyDCPJob::run ()
 {
-	_notes = dcp::verify (_directories, bind (&VerifyDCPJob::update_stage, this, _1, _2), bind (&VerifyDCPJob::set_progress, this, _1, false));
+	_notes = dcp::verify (_directories, bind (&VerifyDCPJob::update_stage, this, _1, _2), bind (&VerifyDCPJob::set_progress, this, _1, false), shared_path() / "xsd");
 
 	bool failed = false;
 	BOOST_FOREACH (dcp::VerificationNote i, _notes) {

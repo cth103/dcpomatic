@@ -305,7 +305,14 @@ File "%graphics%/sequence.png"
 File "%graphics%/me.jpg"
 File "%graphics%/tick.png"
 File "%graphics%/no_tick.png"
-
+SetOutPath "$INSTDIR\\xsd"
+File "%cdist_deps%/shared/libdcp/xsd/SMPTE-429-7-2006-CPL.xsd"
+File "%cdist_deps%/shared/libdcp/xsd/SMPTE-429-8-2006-PKL.xsd"
+File "%cdist_deps%/shared/libdcp/xsd/SMPTE-429-9-2007-AM.xsd"
+File "%cdist_deps%/shared/libdcp/xsd/xmldsig-core-schema.xsd"
+File "%cdist_deps%/shared/libdcp/xsd/XMLSchema.dtd"
+File "%cdist_deps%/shared/libdcp/xsd/XMLSchema.xsd"
+File "%cdist_deps%/shared/libdcp/xsd/xml.xsd"
 SectionEnd
     """, file=f)
 

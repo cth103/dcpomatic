@@ -604,6 +604,8 @@ def make_appimage(target, nice_name, internal_name, version):
     os.makedirs('build/%s.AppDir/usr/bin' % nice_filename)
     target.command('cp %s/bin/%s build/%s.AppDir/usr/bin' % (target.directory, internal_name, nice_filename))
     target.command('cp %s/src/openssl/apps/openssl build/%s.AppDir/usr/bin/dcpomatic2_openssl' % (target.directory, nice_filename))
+    target.command('mkdir -p build/%s.AppDir/usr/share/libdcp' % nice_filename)
+    target.command('cp -r %s/share/libdcp/xsd build/%s.AppDir/usr/share/libdcp/' % (target.directory, nice_filename))
     with open('build/%s.AppDir/AppRun' % nice_filename, 'w') as f:
         print('#!/bin/bash', file=f)
         print('export APPDIR="$(dirname "$(readlink -f "$0")")"', file=f)
