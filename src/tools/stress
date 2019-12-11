@@ -1,0 +1,57 @@
+#!/usr/bin/python3.7
+
+import argparse
+import subprocess
+import sys
+import random
+
+def hms_to_seconds(h):
+    s = h.split(':')
+    assert(1 <= len(s) and len(s) <= 3)
+    if len(s) == 1:
+        return int(h)
+    elif len(s) == 2:
+        return int(s[0]) * 60 + int(s[1])
+    elif len(s) == 3:
+        return ((int(s[0]) * 60 + int(s[1])) * 60) + int(s[2])
+
+def seek(dcp_seconds):
+    print("O %s" % args.dcp)
+    print("P")
+    test_seconds = hms_to_seconds(args.length)
+    while test_seconds > 0:
+        wait = random.randint(500, dcp_seconds * 1000)
+        # Wait some milliseconds
+        print("W %d" % wait)
+        # Seek
+        print("S %d" % random.randint(0, 4095))
+        # Make sure we're stil playing
+        print("P")
+        test_seconds -= wait / 1000 
+
+def repeat(dcp_seconds):
+    print("O %s" % args.dcp)
+    test_seconds = hms_to_seconds(args.length)
+    while test_seconds > 0:
+        print("P")
+        print("W %d" % (dcp_seconds * 1000))
+        test_seconds -= dcp_seconds
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-d', '--dcp', help='DCP to make a script for', required=True)
+parser.add_argument('-t', '--type', help='script type: seek - seek a lot, repeat - play back DCP over and over', required=True)
+parser.add_argument('-l', '--length', help='approximate test length in H:M:S', required=True)
+args = parser.parse_args()
+
+for l in subprocess.run(['dcpinfo', args.dcp], capture_output=True).stdout.splitlines():
+    if l.startswith(b'Total:'):
+        b = l.split(b':')
+        dcp_seconds = (int(b[1]) * 60 + int(b[2])) * 60 + int(b[3])
+if args.type == 'seek':
+    seek(dcp_seconds)
+elif args.type == 'repeat':
+    repeat(dcp_seconds)
+else:
+    print('Unknown type %s' % args.type, file=sys.stderr)
+    sys.exit(1)
+
