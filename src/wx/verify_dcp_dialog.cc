@@ -99,6 +99,29 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::PKL_CPL_SOUND_HASHES_DISAGREE:
 			text = _("The PKL and CPL hashes disagree for a sound asset.");
 			break;
+		case dcp::VerificationNote::EMPTY_ASSET_PATH:
+			text = _("An asset has an empty path in the ASSETMAP.");
+			break;
+		case dcp::VerificationNote::MISSING_ASSET:
+			text = _("An asset is missing.");
+			break;
+		case dcp::VerificationNote::MISMATCHED_STANDARD:
+			text = _("Parts of the DCP are written according to the Interop standard and parts according to SMPTE.");
+			break;
+		case dcp::VerificationNote::XML_VALIDATION_ERROR:
+			if (i.line()) {
+				text = wxString::Format(
+					_("The XML in %s is malformed on line %d."),
+					std_to_wx(i.file()->filename().string()).data(),
+					i.line().get()
+					);
+			} else {
+				text = wxString::Format(
+					_("The XML in %s is malformed."),
+					std_to_wx(i.file()->filename().string()).data()
+					);
+			}
+			break;
 		}
 
 		_text->WriteText (text);
