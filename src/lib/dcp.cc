@@ -77,7 +77,7 @@ DCP::cpls () const
 		if (!_tolerant) {
 			/** We accept and ignore EmptyAssetPathError but everything else is bad */
 			BOOST_FOREACH (dcp::VerificationNote j, notes) {
-				if (j.code() == dcp::VerificationNote::Code::EMPTY_ASSET_PATH) {
+				if (j.code() == dcp::VerificationNote::EMPTY_ASSET_PATH) {
 					LOG_WARNING("Empty path in ASSETMAP of %1", i.string());
 				} else {
 					boost::throw_exception(dcp::DCPReadError(dcp::note_to_string(j)));
