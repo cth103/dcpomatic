@@ -561,6 +561,7 @@ Writer::finish ()
 
 	cpl->set_metadata (meta);
 	cpl->set_ratings (vector_to_list(_film->ratings()));
+	cpl->set_content_version_label_text (_film->content_version());
 
 	shared_ptr<const dcp::CertificateChain> signer;
 	if (_film->is_signed ()) {

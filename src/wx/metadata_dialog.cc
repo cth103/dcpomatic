@@ -73,6 +73,14 @@ MetadataDialog::MetadataDialog (wxWindow* parent, weak_ptr<Film> film)
 		);
 	sizer->Add (_ratings, 1, wxEXPAND);
 
+	add_label_to_sizer (sizer, this, _("Content version"), true);
+	_content_version = new wxTextCtrl (this, wxID_ANY);
+	sizer->Add (_content_version, 1, wxEXPAND);
+
+	shared_ptr<Film> f = _film.lock();
+	DCPOMATIC_ASSERT (f);
+	_content_version->SetValue (std_to_wx(f->content_version()));
+
 	overall_sizer->Add (sizer, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxCLOSE);
@@ -82,6 +90,8 @@ MetadataDialog::MetadataDialog (wxWindow* parent, weak_ptr<Film> film)
 
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
+
+	_content_version->Bind (wxEVT_TEXT, boost::bind(&MetadataDialog::content_version_changed, this));
 }
 
 vector<dcp::Rating>
@@ -98,4 +108,12 @@ MetadataDialog::set_ratings (vector<dcp::Rating> r)
 	shared_ptr<Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 	film->set_ratings (r);
+}
+
+void
+MetadataDialog::content_version_changed ()
+{
+	shared_ptr<Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	film->set_content_version (wx_to_std(_content_version->GetValue()));
 }

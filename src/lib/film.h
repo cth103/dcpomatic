@@ -239,7 +239,8 @@ public:
 		UPLOAD_AFTER_MAKE_DCP,
 		REENCODE_J2K,
 		MARKERS,
-		RATINGS
+		RATINGS,
+		CONTENT_VERSION
 	};
 
 
@@ -344,6 +345,10 @@ public:
 		return _ratings;
 	}
 
+	std::string content_version () const {
+		return _content_version;
+	}
+
 	/* SET */
 
 	void set_directory (boost::filesystem::path);
@@ -377,6 +382,7 @@ public:
 	void set_marker (dcp::Marker type, dcpomatic::DCPTime time);
 	void unset_marker (dcp::Marker type);
 	void set_ratings (std::vector<dcp::Rating> r);
+	void set_content_version (std::string v);
 
 	/** Emitted when some property has of the Film is about to change or has changed */
 	mutable boost::signals2::signal<void (ChangeType, Property)> Change;
@@ -461,6 +467,7 @@ private:
 	bool _user_explicit_video_frame_rate;
 	std::map<dcp::Marker, dcpomatic::DCPTime> _markers;
 	std::vector<dcp::Rating> _ratings;
+	std::string _content_version;
 
 	int _state_version;
 

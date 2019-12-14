@@ -427,6 +427,7 @@ Film::metadata (bool with_content_paths) const
 	BOOST_FOREACH (dcp::Rating i, _ratings) {
 		i.as_xml (root->add_child("Rating"));
 	}
+	root->add_child("ContentVersion")->add_child_text(_content_version);
 	_playlist->as_xml (root->add_child ("Playlist"), with_content_paths);
 
 	return doc;
@@ -569,6 +570,8 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("Rating")) {
 		_ratings.push_back (dcp::Rating(i));
 	}
+
+	_content_version = f.optional_string_child("ContentVersion").get_value_or("");
 
 	list<string> notes;
 	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"), _state_version, notes);
@@ -1761,6 +1764,13 @@ Film::set_ratings (vector<dcp::Rating> r)
 {
 	ChangeSignaller<Film> ch (this, RATINGS);
 	_ratings = r;
+}
+
+void
+Film::set_content_version (string v)
+{
+	ChangeSignaller<Film> ch (this, CONTENT_VERSION);
+	_content_version = v;
 }
 
 optional<DCPTime>

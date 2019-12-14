@@ -36,7 +36,9 @@ public:
 private:
 	std::vector<dcp::Rating> ratings () const;
 	void set_ratings (std::vector<dcp::Rating> r);
+	void content_version_changed ();
 
 	boost::weak_ptr<Film> _film;
 	EditableList<dcp::Rating, RatingDialog>* _ratings;
+	wxTextCtrl* _content_version;
 };
