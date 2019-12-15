@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -180,4 +180,40 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test4)
 	cxml::Document doc ("DCSubtitle");
 	doc.read_file (subtitle_file (film));
 	BOOST_REQUIRE_EQUAL (doc.node_children("LoadFont").size(), 1);
+}
+
+static
+void
+check_font_tags (list<cxml::NodePtr> nodes)
+{
+	BOOST_FOREACH (cxml::NodePtr i, nodes) {
+		if (i->name() == "Font") {
+			BOOST_CHECK (!i->optional_string_attribute("Id") || i->string_attribute("Id") != "");
+		}
+		check_font_tags (i->node_children());
+	}
+}
+
+/** Check that imported <LoadFont> tags with empty IDs (or corresponding Font tags with empty IDs)
+ *  are not passed through into the DCP.
+ */
+BOOST_AUTO_TEST_CASE (dcp_subtitle_test5)
+{
+	shared_ptr<Film> film = new_test_film2 ("dcp_subtitle_test5");
+	film->set_interop (true);
+
+	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent("test/data/dcp_sub6.xml"));
+	film->examine_and_add_content (content);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+	film->write_metadata ();
+
+	cxml::Document doc ("DCSubtitle");
+	doc.read_file (subtitle_file(film));
+	BOOST_REQUIRE_EQUAL (doc.node_children("LoadFont").size(), 1);
+	BOOST_CHECK (doc.node_children("LoadFont").front()->string_attribute("Id") != "");
+
+	check_font_tags (doc.node_children());
 }
