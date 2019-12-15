@@ -34,6 +34,7 @@ DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const Film> film, shared_ptr<
 	: Decoder (film)
 {
 	shared_ptr<dcp::SubtitleAsset> c (load (content->path (0)));
+	c->fix_empty_font_ids ();
 	_subtitles = c->subtitles ();
 	_next = _subtitles.begin ();
 
