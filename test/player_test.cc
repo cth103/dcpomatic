@@ -40,6 +40,7 @@
 #include "lib/cross.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
+#include <boost/algorithm/string.hpp>
 #include <iostream>
 
 using std::cout;
@@ -355,5 +356,45 @@ BOOST_AUTO_TEST_CASE (player_silence_crash)
 	sine->set_video_frame_rate (23.976);
 	film->write_metadata ();
 	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+}
+
+/** Test a crash when there is video-only content at the end of the DCP and a frame-rate conversion is happening;
+ *  #1691.
+ */
+BOOST_AUTO_TEST_CASE (player_silence_at_end_crash)
+{
+	/* 25fps DCP with some audio */
+	shared_ptr<Film> film1 = new_test_film2 ("player_silence_at_end_crash_1");
+	shared_ptr<Content> content1 = content_factory("test/data/flat_red.png").front();
+	film1->examine_and_add_content (content1);
+	BOOST_REQUIRE (!wait_for_jobs());
+	content1->video->set_length (25);
+	film1->set_video_frame_rate (25);
+	film1->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	/* Make another project importing this DCP */
+	shared_ptr<Film> film2 = new_test_film2 ("player_silence_at_end_crash_2");
+	shared_ptr<Content> content2(new DCPContent(film1->dir(film1->dcp_name())));
+	film2->examine_and_add_content (content2);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	/* and importing just the video MXF on its own at the end */
+	optional<boost::filesystem::path> video;
+	for (boost::filesystem::directory_iterator i(film1->dir(film1->dcp_name())); i != boost::filesystem::directory_iterator(); ++i) {
+		if (boost::starts_with(i->path().filename().string(), "j2c_")) {
+			video = i->path();
+		}
+	}
+
+	BOOST_REQUIRE (video);
+	shared_ptr<Content> content3 = content_factory(*video).front();
+	film2->examine_and_add_content (content3);
+	BOOST_REQUIRE (!wait_for_jobs());
+	content3->set_position (film2, DCPTime::from_seconds(1.5));
+	film2->set_video_frame_rate (24);
+	std::cout << "Here we go.\n";
+	film2->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 }
