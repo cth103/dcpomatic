@@ -125,7 +125,14 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 bool
 DCPDecoder::pass ()
 {
-	if (_reel == _reels.end () || !_dcp_content->can_be_played ()) {
+	if (!_dcp_content->can_be_played()) {
+		return true;
+	}
+
+	if (_reel == _reels.end()) {
+		if (audio) {
+			audio->flush ();
+		}
 		return true;
 	}
 
