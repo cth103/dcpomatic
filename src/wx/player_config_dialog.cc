@@ -36,6 +36,7 @@
 #include "nag_dialog.h"
 #include "monitor_dialog.h"
 #include "check_box.h"
+#include "static_text.h"
 #include "lib/config.h"
 #include "lib/ratio.h"
 #include "lib/filter.h"
@@ -383,6 +384,125 @@ private:
 #endif
 };
 
+/** @class PlayerAdvancedPage
+ *  @brief Advanced page of the preferences dialog for the player.
+ */
+class PlayerAdvancedPage : public StockPage
+{
+public:
+	PlayerAdvancedPage (wxSize panel_size, int border)
+		: StockPage (Kind_Advanced, panel_size, border)
+		, _log_general (0)
+		, _log_warning (0)
+		, _log_error (0)
+		, _log_timing (0)
+		, _log_debug_decode (0)
+	{}
+
+private:
+	void add_top_aligned_label_to_sizer (wxSizer* table, wxWindow* parent, wxString text)
+	{
+		int flags = wxALIGN_TOP | wxTOP | wxLEFT;
+#ifdef __WXOSX__
+		flags |= wxALIGN_RIGHT;
+		text += wxT (":");
+#endif
+		wxStaticText* m = new StaticText (parent, text);
+		table->Add (m, 0, flags, DCPOMATIC_SIZER_Y_GAP);
+	}
+
+	void setup ()
+	{
+		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		table->AddGrowableCol (1, 1);
+		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
+
+		{
+			add_top_aligned_label_to_sizer (table, _panel, _("Log"));
+			wxBoxSizer* t = new wxBoxSizer (wxVERTICAL);
+			_log_general = new CheckBox (_panel, _("General"));
+			t->Add (_log_general, 1, wxEXPAND | wxALL);
+			_log_warning = new CheckBox (_panel, _("Warnings"));
+			t->Add (_log_warning, 1, wxEXPAND | wxALL);
+			_log_error = new CheckBox (_panel, _("Errors"));
+			t->Add (_log_error, 1, wxEXPAND | wxALL);
+			/// TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
+			_log_timing = new CheckBox (_panel, S_("Config|Timing"));
+			t->Add (_log_timing, 1, wxEXPAND | wxALL);
+			_log_debug_decode = new CheckBox (_panel, _("Debug"));
+			t->Add (_log_debug_decode, 1, wxEXPAND | wxALL);
+			table->Add (t, 0, wxALL, 6);
+		}
+
+#ifdef DCPOMATIC_WINDOWS
+		_win32_console = new CheckBox (_panel, _("Open console window"));
+		table->Add (_win32_console, 1, wxEXPAND | wxALL);
+		table->AddSpacer (0);
+#endif
+
+		_log_general->Bind (wxEVT_CHECKBOX, boost::bind (&PlayerAdvancedPage::log_changed, this));
+		_log_warning->Bind (wxEVT_CHECKBOX, boost::bind (&PlayerAdvancedPage::log_changed, this));
+		_log_error->Bind (wxEVT_CHECKBOX, boost::bind (&PlayerAdvancedPage::log_changed, this));
+		_log_timing->Bind (wxEVT_CHECKBOX, boost::bind (&PlayerAdvancedPage::log_changed, this));
+		_log_debug_decode->Bind (wxEVT_CHECKBOX, boost::bind (&PlayerAdvancedPage::log_changed, this));
+#ifdef DCPOMATIC_WINDOWS
+		_win32_console->Bind (wxEVT_CHECKBOX, boost::bind (&PlayerAdvancedPage::win32_console_changed, this));
+#endif
+	}
+
+	void config_changed ()
+	{
+		Config* config = Config::instance ();
+
+		checked_set (_log_general, config->log_types() & LogEntry::TYPE_GENERAL);
+		checked_set (_log_warning, config->log_types() & LogEntry::TYPE_WARNING);
+		checked_set (_log_error, config->log_types() & LogEntry::TYPE_ERROR);
+		checked_set (_log_timing, config->log_types() & LogEntry::TYPE_TIMING);
+		checked_set (_log_debug_decode, config->log_types() & LogEntry::TYPE_DEBUG_DECODE);
+#ifdef DCPOMATIC_WINDOWS
+		checked_set (_win32_console, config->win32_console());
+#endif
+	}
+
+	void log_changed ()
+	{
+		int types = 0;
+		if (_log_general->GetValue ()) {
+			types |= LogEntry::TYPE_GENERAL;
+		}
+		if (_log_warning->GetValue ()) {
+			types |= LogEntry::TYPE_WARNING;
+		}
+		if (_log_error->GetValue ())  {
+			types |= LogEntry::TYPE_ERROR;
+		}
+		if (_log_timing->GetValue ()) {
+			types |= LogEntry::TYPE_TIMING;
+		}
+		if (_log_debug_decode->GetValue ()) {
+			types |= LogEntry::TYPE_DEBUG_DECODE;
+		}
+		Config::instance()->set_log_types (types);
+	}
+
+#ifdef DCPOMATIC_WINDOWS
+	void win32_console_changed ()
+	{
+		Config::instance()->set_win32_console (_win32_console->GetValue ());
+	}
+#endif
+
+	wxCheckBox* _log_general;
+	wxCheckBox* _log_warning;
+	wxCheckBox* _log_error;
+	wxCheckBox* _log_timing;
+	wxCheckBox* _log_debug_decode;
+#ifdef DCPOMATIC_WINDOWS
+	wxCheckBox* _win32_console;
+#endif
+};
+
+
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 class WatermarkPage : public StandardPage
 {
@@ -570,5 +690,6 @@ create_player_config_dialog ()
 	e->AddPage (new WatermarkPage(ps, border));
 	e->AddPage (new DevicesPage(ps, border));
 #endif
+	e->AddPage (new PlayerAdvancedPage(ps, border));
 	return e;
 }
