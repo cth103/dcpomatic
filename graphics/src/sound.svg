@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg4217"
+   viewBox="-553676.6 0 0 1052.3622"
+   version="1.0"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   width="450"
+   height="450"
+   sodipodi:docname="sound.svg"
+   inkscape:export-filename="/home/carl/src/dcpomatic/icons/kdm_email.png"
+   inkscape:export-xdpi="6.5100002"
+   inkscape:export-ydpi="6.5100002">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1025"
+     id="namedview6320"
+     showgrid="false"
+     inkscape:zoom="0.85295919"
+     inkscape:cx="29.780284"
+     inkscape:cy="94.540107"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4217" />
+  <defs
+     id="defs4219">
+    <linearGradient
+       id="linearGradient3594"
+       y2="742.5"
+       gradientUnits="userSpaceOnUse"
+       x2="-886.76001"
+       gradientTransform="matrix(-0.84033,-0.84033,-0.84033,0.84033,-405.66871,-1194.2782)"
+       y1="742.5"
+       x1="-772.01001">
+      <stop
+         id="stop4687"
+         stop-color="#fff"
+         offset="0" />
+      <stop
+         id="stop4689"
+         stop-color="#fff"
+         stop-opacity="0"
+         offset="1" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3601"
+       y2="613.94"
+       gradientUnits="userSpaceOnUse"
+       x2="385.04001"
+       gradientTransform="matrix(0.70711,-0.70711,0.70711,0.70711,-745.96871,253.33182)"
+       y1="63.870998"
+       x1="386.39001">
+      <stop
+         id="stop3797"
+         stop-color="#ffe800"
+         offset="0" />
+      <stop
+         id="stop3799"
+         stop-color="#dfb300"
+         offset="1" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3609"
+       y2="161.84"
+       gradientUnits="userSpaceOnUse"
+       x2="212.92999"
+       y1="358.29999"
+       x1="409.38"
+       gradientTransform="translate(-619.78872,-118.87818)">
+      <stop
+         id="stop4034"
+         stop-color="#dfb300"
+         offset="0" />
+      <stop
+         id="stop3374"
+         stop-color="#dfb300"
+         offset=".5" />
+      <stop
+         id="stop3376"
+         stop-color="#dfb300"
+         offset="1" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3632"
+       y2="448.35001"
+       gradientUnits="userSpaceOnUse"
+       x2="382.89999"
+       gradientTransform="matrix(0.70711,-0.70711,0.70711,0.70711,-745.96871,253.33182)"
+       y1="448.35001"
+       x1="403.63">
+      <stop
+         id="stop3636"
+         stop-color="#ffe800"
+         stop-opacity=".39216"
+         offset="0" />
+      <stop
+         id="stop3638"
+         stop-color="#dfb300"
+         stop-opacity=".39216"
+         offset="1" />
+    </linearGradient>
+  </defs>
+  <metadata
+     id="metadata6318">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title></dc:title>
+        <dc:date>2007-02-27T15:15:43</dc:date>
+        <dc:description>A key icon.</dc:description>
+        <dc:source>http://openclipart.org/detail/3330/key-by-barretr</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>barretr</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>clip art</rdf:li>
+            <rdf:li>clipart</rdf:li>
+            <rdf:li>icon</rdf:li>
+            <rdf:li>image</rdf:li>
+            <rdf:li>key</rdf:li>
+            <rdf:li>media</rdf:li>
+            <rdf:li>png</rdf:li>
+            <rdf:li>public domain</rdf:li>
+            <rdf:li>svg</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <rect
+     style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ff0000;fill-opacity:0;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;marker:none;enable-background:accumulate"
+     id="rect6322"
+     width="442.68826"
+     height="442.68826"
+     x="-457.43286"
+     y="2.3376961" />
+  <rect
+     style="opacity:1;vector-effect:none;fill:#cccccc;fill-opacity:1;stroke:#000000;stroke-width:25;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-end:none;paint-order:stroke fill markers"
+     id="rect831"
+     width="100.12302"
+     height="152.50291"
+     x="18.758173"
+     y="150.65996" />
+  <path
+     style="opacity:1;vector-effect:none;fill:#cccccc;fill-opacity:1;stroke:#000000;stroke-width:25;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-end:none;paint-order:stroke fill markers"
+     d="M 252.06369,383.67683 118.88119,303.16287 V 150.65996 L 252.0637,70.146007 Z"
+     id="path882"
+     inkscape:connector-curvature="0" />
+  <path
+     style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#333333;stroke-width:14;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-end:none;paint-order:stroke fill markers"
+     id="path897"
+     sodipodi:type="arc"
+     sodipodi:cx="188.16844"
+     sodipodi:cy="226.6599"
+     sodipodi:rx="169.41022"
+     sodipodi:ry="169.41022"
+     sodipodi:start="5.4977871"
+     sodipodi:end="0.78539816"
+     d="m 307.95955,106.86878 a 169.41022,169.41022 0 0 1 49.61911,119.79111 169.41022,169.41022 0 0 1 -49.6191,119.79112"
+     sodipodi:open="true" />
+  <path
+     style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#999999;stroke-width:14;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-end:none;paint-order:stroke fill markers"
+     id="path897-6"
+     sodipodi:type="arc"
+     sodipodi:cx="203.15329"
+     sodipodi:cy="227.77385"
+     sodipodi:rx="227.83228"
+     sodipodi:ry="218.6208"
+     sodipodi:start="5.4977871"
+     sodipodi:end="0.78539816"
+     d="M 364.25503,73.18559 A 227.83228,218.6208 0 0 1 430.98557,227.77384 227.83228,218.6208 0 0 1 364.25504,382.3621"
+     sodipodi:open="true" />
+</svg>

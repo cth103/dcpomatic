@@ -85,7 +85,6 @@ private:
 
 		int r = 0;
 		add_language_controls (table, r);
-		add_play_sound_controls (table, r);
 		add_update_controls (table, r);
 
 		add_label_to_sizer (table, _panel, _("Start player as"), true, wxGBPosition(r, 0));
@@ -684,6 +683,7 @@ create_player_config_dialog ()
 #endif
 
 	e->AddPage (new PlayerGeneralPage(wxSize(-1, 500), border));
+	e->AddPage (new SoundPage(ps, border));
 	e->AddPage (new LocationsPage(ps, border));
 	e->AddPage (new KeysPage(ps, border));
 #ifdef DCPOMATIC_VARIANT_SWAROOP

@@ -89,25 +89,18 @@ public:
 
 protected:
 	void add_language_controls (wxGridBagSizer* table, int& r);
-	void add_play_sound_controls (wxGridBagSizer* table, int& r);
 	void add_update_controls (wxGridBagSizer* table, int& r);
 	virtual void config_changed ();
 
 private:
 	void setup_sensitivity ();
-        boost::optional<std::string> get_sound_output ();
 	void set_language_changed ();
 	void language_changed ();
 	void check_for_updates_changed ();
 	void check_for_test_updates_changed ();
-	void sound_changed ();
-        void sound_output_changed ();
 
 	wxCheckBox* _set_language;
 	wxChoice* _language;
-	wxCheckBox* _sound;
-	wxChoice* _sound_output;
-	wxStaticText* _sound_output_details;
 	wxCheckBox* _check_for_updates;
 	wxCheckBox* _check_for_test_updates;
 };
@@ -184,5 +177,35 @@ private:
 	void import_decryption_chain_and_key ();
 };
 
+
+class SoundPage : public StandardPage
+{
+public:
+	SoundPage (wxSize panel_size, int border)
+		: StandardPage (panel_size, border)
+	{}
+
+	wxString GetName() const;
+
+#ifdef DCPOMATIC_OSX
+	wxBitmap GetLargeIcon () const
+	{
+		return wxBitmap ("sound", wxBITMAP_TYPE_PNG_RESOURCE);
+	}
+#endif
+
+private:
+
+	void setup ();
+	void config_changed ();
+        boost::optional<std::string> get_sound_output ();
+	void sound_changed ();
+        void sound_output_changed ();
+	void setup_sensitivity ();
+
+	wxCheckBox* _sound;
+	wxChoice* _sound_output;
+	wxStaticText* _sound_output_details;
+};
 
 #endif

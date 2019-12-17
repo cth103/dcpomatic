@@ -116,8 +116,6 @@ private:
 		table->Add (export_cinemas, wxGBPosition (r, 2));
 		++r;
 
-		add_play_sound_controls (table, r);
-
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 		_analyse_ebur128 = new CheckBox (_panel, _("Find integrated loudness, true peak and loudness range when analysing audio"));
 		table->Add (_analyse_ebur128, wxGBPosition (r, 0), wxGBSpan (1, 2));
@@ -1678,6 +1676,7 @@ create_full_config_dialog ()
 #endif
 
 	e->AddPage (new FullGeneralPage (ps, border));
+	e->AddPage (new SoundPage (ps, border));
 	e->AddPage (new DefaultsPage (ps, border));
 	e->AddPage (new EncodingServersPage (ps, border));
 	e->AddPage (new KeysPage (ps, border));
