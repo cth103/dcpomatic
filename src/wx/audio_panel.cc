@@ -88,7 +88,7 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	/// TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
 	_delay_ms_label = create_label (this, _("ms"), false);
 
-	_mapping = new AudioMappingView (this);
+	_mapping = new AudioMappingView (this, _("Content"), _("content"), _("DCP"), _("DCP"));
 	_sizer->Add (_mapping, 1, wxEXPAND | wxALL, 6);
 
 	_description = new StaticText (this, wxT(" \n"), wxDefaultPosition, wxDefaultSize);

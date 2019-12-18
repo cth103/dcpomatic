@@ -53,6 +53,7 @@ using std::cout;
 using std::ifstream;
 using std::string;
 using std::list;
+using std::min;
 using std::max;
 using std::remove;
 using std::exception;
@@ -173,6 +174,7 @@ Config::set_defaults ()
 	_player_content_directory = boost::none;
 	_player_playlist_directory = boost::none;
 	_player_kdm_directory = boost::none;
+	_audio_mapping = boost::none;
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	_player_background_image = boost::none;
 	_kdm_server_url = "http://localhost:8000/{CPL}";
@@ -590,6 +592,11 @@ try
 	_player_content_directory = f.optional_string_child("PlayerContentDirectory");
 	_player_playlist_directory = f.optional_string_child("PlayerPlaylistDirectory");
 	_player_kdm_directory = f.optional_string_child("PlayerKDMDirectory");
+
+	if (f.optional_node_child("AudioMapping")) {
+		_audio_mapping = AudioMapping (f.node_child("AudioMapping"), Film::current_state_version);
+	}
+
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	_player_background_image = f.optional_string_child("PlayerBackgroundImage");
 	_kdm_server_url = f.optional_string_child("KDMServerURL").get_value_or("http://localhost:8000/{CPL}");
@@ -1037,6 +1044,9 @@ Config::write_config () const
 		/* [XML] PlayerKDMDirectory Directory to use for player KDMs in the dual-screen mode. */
 		root->add_child("PlayerKDMDirectory")->add_child_text(_player_kdm_directory->string());
 	}
+	if (_audio_mapping) {
+		_audio_mapping->as_xml (root->add_child("AudioMapping"));
+	}
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	if (_player_background_image) {
 		root->add_child("PlayerBackgroundImage")->add_child_text(_player_background_image->string());
@@ -1394,4 +1404,54 @@ Config::have_write_permission () const
 
 	fclose (f);
 	return true;
+}
+
+/** @param  output_channels Number of output channels in use.
+ *  @return Audio mapping for this output channel count (may be a default).
+ */
+AudioMapping
+Config::audio_mapping (int output_channels)
+{
+	if (!_audio_mapping || _audio_mapping->output_channels() != output_channels) {
+		/* Set up a default */
+		_audio_mapping = AudioMapping (MAX_DCP_AUDIO_CHANNELS, output_channels);
+		if (output_channels == 2) {
+			/* Special case for stereo output.
+			   Map so that Lt = L(-3dB) + Ls(-3dB) + C(-6dB) + Lfe(-10dB)
+			   Rt = R(-3dB) + Rs(-3dB) + C(-6dB) + Lfe(-10dB)
+			*/
+			_audio_mapping->set (dcp::LEFT,   0, 1 / sqrt(2));  // L   -> Lt
+			_audio_mapping->set (dcp::RIGHT,  1, 1 / sqrt(2));  // R   -> Rt
+			_audio_mapping->set (dcp::CENTRE, 0, 1 / 2.0);      // C   -> Lt
+			_audio_mapping->set (dcp::CENTRE, 1, 1 / 2.0);      // C   -> Rt
+			_audio_mapping->set (dcp::LFE,    0, 1 / sqrt(10)); // Lfe -> Lt
+			_audio_mapping->set (dcp::LFE,    1, 1 / sqrt(10)); // Lfe -> Rt
+			_audio_mapping->set (dcp::LS,     0, 1 / sqrt(2));  // Ls  -> Lt
+			_audio_mapping->set (dcp::RS,     1, 1 / sqrt(2));  // Rs  -> Rt
+		} else {
+			/* 1:1 mapping */
+			for (int i = 0; i < min (MAX_DCP_AUDIO_CHANNELS, output_channels); ++i) {
+				_audio_mapping->set (i, i, 1);
+			}
+		}
+	}
+
+	return *_audio_mapping;
+}
+
+void
+Config::set_audio_mapping (AudioMapping m)
+{
+	_audio_mapping = m;
+	changed (AUDIO_MAPPING);
+}
+
+void
+Config::set_audio_mapping_to_default ()
+{
+	DCPOMATIC_ASSERT (_audio_mapping);
+	int const ch = _audio_mapping->output_channels ();
+	_audio_mapping = boost::none;
+	_audio_mapping = audio_mapping (ch);
+	changed (AUDIO_MAPPING);
 }

@@ -209,40 +209,17 @@ FilmViewer::recreate_butler ()
 		return;
 	}
 
-	AudioMapping map = AudioMapping (_film->audio_channels(), _audio_channels);
+	_butler.reset(
+		new Butler(
+			_player,
+			Config::instance()->audio_mapping(_audio_channels),
+			_audio_channels,
+			bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),
+			false,
+			true
+			)
+		);
 
-	if (_audio_channels != 2 || _film->audio_channels() < 3) {
-		for (int i = 0; i < min (_film->audio_channels(), _audio_channels); ++i) {
-			map.set (i, i, 1);
-		}
-	} else {
-		/* Special case: stereo output, at least 3 channel input.
-		   Map so that Lt = L(-3dB) + Ls(-3dB) + C(-6dB) + Lfe(-10dB)
-		               Rt = R(-3dB) + Rs(-3dB) + C(-6dB) + Lfe(-10dB)
-		*/
-		if (_film->audio_channels() > 0) {
-			map.set (dcp::LEFT,   0, 1 / sqrt(2)); // L -> Lt
-		}
-		if (_film->audio_channels() > 1) {
-			map.set (dcp::RIGHT,  1, 1 / sqrt(2)); // R -> Rt
-		}
-		if (_film->audio_channels() > 2) {
-			map.set (dcp::CENTRE, 0, 1 / 2.0); // C -> Lt
-			map.set (dcp::CENTRE, 1, 1 / 2.0); // C -> Rt
-		}
-		if (_film->audio_channels() > 3) {
-			map.set (dcp::LFE,    0, 1 / sqrt(10)); // Lfe -> Lt
-			map.set (dcp::LFE,    1, 1 / sqrt(10)); // Lfe -> Rt
-		}
-		if (_film->audio_channels() > 4) {
-			map.set (dcp::LS,     0, 1 / sqrt(2)); // Ls -> Lt
-		}
-		if (_film->audio_channels() > 5) {
-			map.set (dcp::RS,     1, 1 / sqrt(2)); // Rs -> Rt
-		}
-	}
-
-	_butler.reset (new Butler(_player, map, _audio_channels, bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
 	if (!Config::instance()->sound() && !_audio.isStreamOpen()) {
 		_butler->disable_audio ();
 	}
@@ -625,6 +602,11 @@ FilmViewer::config_changed (Config::Property p)
 		return;
 	}
 #endif
+
+	if (p == Config::AUDIO_MAPPING) {
+		recreate_butler ();
+		return;
+	}
 
 	if (p != Config::SOUND && p != Config::SOUND_OUTPUT) {
 		return;

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -29,6 +29,7 @@
 #include "types.h"
 #include "state.h"
 #include "edid.h"
+#include "audio_mapping.h"
 #include <dcp/name_format.h>
 #include <dcp/certificate_chain.h>
 #include <dcp/encrypted_kdm.h>
@@ -83,6 +84,7 @@ public:
 		PLAYER_DEBUG_LOG,
 		HISTORY,
 		SHOW_EXPERIMENTAL_AUDIO_PROCESSORS,
+		AUDIO_MAPPING,
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		PLAYER_BACKGROUND_IMAGE,
 #endif
@@ -521,6 +523,8 @@ public:
 	boost::optional<boost::filesystem::path> player_kdm_directory () const {
 		return _player_kdm_directory;
 	}
+
+	AudioMapping audio_mapping (int output_channels);
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	boost::optional<boost::filesystem::path> player_background_image () const {
@@ -1036,6 +1040,9 @@ public:
 		changed ();
 	}
 
+	void set_audio_mapping (AudioMapping m);
+	void set_audio_mapping_to_default ();
+
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	void set_player_background_image (boost::filesystem::path p) {
 		maybe_set (_player_background_image, p, PLAYER_BACKGROUND_IMAGE);
@@ -1293,6 +1300,7 @@ private:
 	boost::optional<boost::filesystem::path> _player_content_directory;
 	boost::optional<boost::filesystem::path> _player_playlist_directory;
 	boost::optional<boost::filesystem::path> _player_kdm_directory;
+	boost::optional<AudioMapping> _audio_mapping;
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	boost::optional<boost::filesystem::path> _player_background_image;
 	std::string _kdm_server_url;

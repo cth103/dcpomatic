@@ -45,7 +45,7 @@
 class AudioMappingView : public wxPanel
 {
 public:
-	explicit AudioMappingView (wxWindow *);
+	explicit AudioMappingView (wxWindow *, wxString left_label, wxString from, wxString top_label, wxString to);
 
 	void set (AudioMapping);
 	void set_input_channels (std::vector<std::string> const & names);
@@ -106,6 +106,11 @@ private:
 	wxScrollBar* _horizontal_scroll;
 	int _menu_input;
 	int _menu_output;
+
+	wxString _left_label;
+	wxString _from;
+	wxString _top_label;
+	wxString _to;
 
 	std::vector<std::string> _input_channels;
 	std::vector<std::string> _output_channels;

@@ -44,6 +44,8 @@
 #include <boost/foreach.hpp>
 #include <iostream>
 
+class AudioMappingView;
+
 class Page
 {
 public:
@@ -200,12 +202,16 @@ private:
 	void config_changed ();
         boost::optional<std::string> get_sound_output ();
 	void sound_changed ();
-        void sound_output_changed ();
+	void sound_output_changed ();
 	void setup_sensitivity ();
+	void map_changed (AudioMapping m);
+	void reset_to_default ();
 
 	wxCheckBox* _sound;
 	wxChoice* _sound_output;
 	wxStaticText* _sound_output_details;
+	AudioMappingView* _map;
+	Button* _reset_to_default;
 };
 
 #endif

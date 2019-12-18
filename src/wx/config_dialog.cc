@@ -23,6 +23,8 @@
 #include "check_box.h"
 #include "nag_dialog.h"
 #include "dcpomatic_button.h"
+#include "audio_mapping_view.h"
+#include <dcp/raw_convert.h>
 #include <iostream>
 
 using std::string;
@@ -873,6 +875,16 @@ SoundPage::setup ()
 	table->Add (s, wxGBPosition(r, 1));
 	++r;
 
+	add_label_to_sizer (table, _panel, _("Mapping"), true, wxGBPosition(r, 0));
+	_map = new AudioMappingView (_panel, _("DCP"), _("DCP"), _("Output"), _("output"));
+	_map->SetSize (-1, 600);
+	table->Add (_map, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
+	++r;
+
+	_reset_to_default = new Button (_panel, _("Reset to default"));
+	table->Add (_reset_to_default, wxGBPosition(r, 1));
+	++r;
+
 	wxFont font = _sound_output_details->GetFont();
 	font.SetStyle (wxFONTSTYLE_ITALIC);
 	font.SetPointSize (font.GetPointSize() - 1);
@@ -886,8 +898,22 @@ SoundPage::setup ()
 		}
 	}
 
-	_sound->Bind        (wxEVT_CHECKBOX, bind (&SoundPage::sound_changed, this));
-	_sound_output->Bind (wxEVT_CHOICE,   bind (&SoundPage::sound_output_changed, this));
+	_sound->Bind        (wxEVT_CHECKBOX, bind(&SoundPage::sound_changed, this));
+	_sound_output->Bind (wxEVT_CHOICE,   bind(&SoundPage::sound_output_changed, this));
+	_map->Changed.connect (bind(&SoundPage::map_changed, this, _1));
+	_reset_to_default->Bind (wxEVT_BUTTON,   bind(&SoundPage::reset_to_default, this));
+}
+
+void
+SoundPage::reset_to_default ()
+{
+	Config::instance()->set_audio_mapping_to_default ();
+}
+
+void
+SoundPage::map_changed (AudioMapping m)
+{
+	Config::instance()->set_audio_mapping (m);
 }
 
 void
@@ -968,6 +994,20 @@ SoundPage::config_changed ()
 	_sound_output_details->SetLabel (
 		wxString::Format(_("%d channels on %s"), channels, apis[audio.getCurrentApi()])
 		);
+
+	_map->set (Config::instance()->audio_mapping(channels));
+
+	vector<string> input;
+	for (int i = 0; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
+		input.push_back (short_audio_channel_name(i));
+	}
+	_map->set_input_channels (input);
+
+	vector<string> output;
+	for (int i = 0; i < channels; ++i) {
+		output.push_back (dcp::raw_convert<string>(i));
+	}
+	_map->set_output_channels (output);
 
 	setup_sensitivity ();
 }

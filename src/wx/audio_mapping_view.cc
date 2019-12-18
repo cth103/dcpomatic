@@ -60,10 +60,14 @@ enum {
 	ID_edit = 4
 };
 
-AudioMappingView::AudioMappingView (wxWindow* parent)
+AudioMappingView::AudioMappingView (wxWindow* parent, wxString left_label, wxString from, wxString top_label, wxString to)
 	: wxPanel (parent, wxID_ANY)
 	, _menu_input (0)
 	, _menu_output (1)
+	, _left_label (left_label)
+	, _from (from)
+	, _top_label (top_label)
+	, _to (to)
 {
 	_menu = new wxMenu;
 	_menu->Append (ID_off, _("Off"));
@@ -159,16 +163,12 @@ AudioMappingView::paint_static (wxDC& dc, wxGraphicsContext* gc)
 	wxCoord label_width;
 	wxCoord label_height;
 
-	/* DCP label at the top */
+	dc.GetTextExtent (_top_label, &label_width, &label_height);
+	dc.DrawText (_top_label, LEFT_WIDTH + (_output_channels.size() * GRID_SPACING - label_width) / 2, (GRID_SPACING - label_height) / 2);
 
-	dc.GetTextExtent (_("DCP"), &label_width, &label_height);
-	dc.DrawText (_("DCP"), LEFT_WIDTH + (_output_channels.size() * GRID_SPACING - label_width) / 2, (GRID_SPACING - label_height) / 2);
-
-	/* Content label on the left */
-
-	dc.GetTextExtent (_("Content"), &label_width, &label_height);
+	dc.GetTextExtent (_left_label, &label_width, &label_height);
 	dc.DrawRotatedText (
-		_("Content"),
+		_left_label,
 		(GRID_SPACING - label_height) / 2,
 		TOP_HEIGHT + (_input_channels.size() * GRID_SPACING + label_width) / 2,
 		90
@@ -557,7 +557,7 @@ AudioMappingView::safe_input_channel_name (int n) const
 		}
 	}
 
-	if (group) {
+	if (group && !group->IsEmpty()) {
 		return wxString::Format ("%s/%s", group->data(), std_to_wx(_input_channels[n]).data());
 	}
 
@@ -584,21 +584,27 @@ AudioMappingView::motion (wxMouseEvent& ev)
 			float const gain = _map.get(channels->first, channels->second);
 			if (gain == 0) {
 				s = wxString::Format (
-					_("No audio will be passed from content channel '%s' to DCP channel '%s'."),
+					_("No audio will be passed from %s channel '%s' to %s channel '%s'."),
+					_from,
 					safe_input_channel_name(channels->first),
+					_to,
 					safe_output_channel_name(channels->second)
 					);
 			} else if (gain == 1) {
 				s = wxString::Format (
-					_("Audio will be passed from content channel %s to DCP channel %s unaltered."),
+					_("Audio will be passed from %s channel %s to %s channel %s unaltered."),
+					_from,
 					safe_input_channel_name(channels->first),
+					_to,
 					safe_output_channel_name(channels->second)
 					);
 			} else {
 				float const dB = 20 * log10 (gain);
 				s = wxString::Format (
-					_("Audio will be passed from content channel %s to DCP channel %s with gain %.1fdB."),
+					_("Audio will be passed from %s channel %s to %s channel %s with gain %.1fdB."),
+					_from,
 					safe_input_channel_name(channels->first),
+					_to,
 					safe_output_channel_name(channels->second),
 					dB
 					);
