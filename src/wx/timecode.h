@@ -81,7 +81,7 @@ public:
 		checked_set (_fixed, t.timecode (fps));
 	}
 
-	T get (int fps) const
+	T get (float fps) const
 	{
 		T t;
 		std::string const h = wx_to_std (_hours->GetValue ());
