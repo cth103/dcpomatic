@@ -314,6 +314,7 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream) const
 	case AV_SAMPLE_FMT_FLTP:
 	{
 		float** p = reinterpret_cast<float**> (_frame->data);
+		DCPOMATIC_ASSERT (_frame->channels <= channels);
 		/* Sometimes there aren't as many channels in the _frame as in the stream */
 		for (int i = 0; i < _frame->channels; ++i) {
 			memcpy (data[i], p[i], frames * sizeof(float));
