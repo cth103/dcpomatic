@@ -120,11 +120,6 @@ FFmpeg::setup_general ()
 	_format_context->pb = _avio_context;
 
 	AVDictionary* options = 0;
-	/* These durations are in microseconds, and represent how far into the content file
-	   we will look for streams.
-	*/
-	av_dict_set (&options, "analyzeduration", raw_convert<string> (5 * 60 * 1000000).c_str(), 0);
-	av_dict_set (&options, "probesize", raw_convert<string> (5 * 60 * 1000000).c_str(), 0);
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	if (_ffmpeg_content->kdm()) {
 		DecryptedECinemaKDM kdm (_ffmpeg_content->kdm().get(), Config::instance()->decryption_chain()->key().get());
