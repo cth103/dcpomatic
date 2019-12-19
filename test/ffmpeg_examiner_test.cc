@@ -19,7 +19,7 @@
 */
 
 /** @file  test/ffmpeg_examiner_test.cc
- *  @brief FFMpegExaminer tests
+ *  @brief FFmpegExaminer tests
  *  @ingroup specific
  */
 
