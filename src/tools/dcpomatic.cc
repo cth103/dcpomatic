@@ -875,14 +875,19 @@ private:
 				)
 			);
 
+
+		dcp::LocalTime from (Config::instance()->decryption_chain()->leaf().not_before());
+		from.add_months (1);
+		dcp::LocalTime to (Config::instance()->decryption_chain()->leaf().not_after());
+		to.add_months (-1);
+
 		optional<dcp::EncryptedKDM> kdm;
 		try {
 			kdm = _film->make_kdm (
 				Config::instance()->decryption_chain()->leaf(),
 				vector<string>(),
 				d->cpl (),
-				dcp::LocalTime ("2012-01-01T01:00:00+00:00"),
-				dcp::LocalTime ("2112-01-01T01:00:00+00:00"),
+				from, to,
 				dcp::MODIFIED_TRANSITIONAL_1,
 				true,
 				0
