@@ -304,11 +304,13 @@ CertificateChainEditor::CertificateChainEditor (
 	{
 		wxSizer* s = new wxBoxSizer (wxVERTICAL);
 		_add_certificate = new Button (this, _("Add..."));
-		s->Add (_add_certificate, 0, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+		s->Add (_add_certificate, 1, wxTOP | wxBOTTOM | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
 		_remove_certificate = new Button (this, _("Remove"));
-		s->Add (_remove_certificate, 0, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-		_export_certificate = new Button (this, _("Export"));
-		s->Add (_export_certificate, 0, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+		s->Add (_remove_certificate, 1, wxTOP | wxBOTTOM | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
+		_export_certificate = new Button (this, _("Export certificate..."));
+		s->Add (_export_certificate, 1, wxTOP | wxBOTTOM | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
+		_export_chain = new Button (this, _("Export chain..."));
+		s->Add (_export_chain, 1, wxTOP | wxBOTTOM | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
 		certificates_sizer->Add (s, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
 	}
 
@@ -331,8 +333,6 @@ CertificateChainEditor::CertificateChainEditor (
 	_button_sizer = new wxBoxSizer (wxHORIZONTAL);
 	_remake_certificates = new Button (this, _("Re-make certificates and key..."));
 	_button_sizer->Add (_remake_certificates, 1, wxRIGHT, border);
-	_export_chain = new Button (this, _("Export chain..."));
-	_button_sizer->Add (_export_chain, 1, wxRIGHT, border);
 	table->Add (_button_sizer, wxGBPosition (r, 0), wxGBSpan (1, 4));
 	++r;
 
