@@ -1488,6 +1488,7 @@ static const wxCmdLineEntryDesc command_line_description[] = {
 	{ wxCMD_LINE_OPTION, "c", "content", "add content file / directory", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_OPTION, "d", "dcp", "add content DCP", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_SWITCH, "v", "version", "show DCP-o-matic version", wxCMD_LINE_VAL_NONE, wxCMD_LINE_PARAM_OPTIONAL },
+	{ wxCMD_LINE_OPTION, "", "config", "directory containing config.xml and cinemas.xml", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_PARAM, 0, 0, "film to load or create", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_NONE, "", "", "", wxCmdLineParamType (0), 0 }
 };
@@ -1651,6 +1652,11 @@ private:
 		wxString dcp;
 		if (parser.Found (wxT ("dcp"), &dcp)) {
 			_dcp_to_add = wx_to_std (dcp);
+		}
+
+		wxString config;
+		if (parser.Found (wxT("config"), &config)) {
+			State::override_path = wx_to_std (config);
 		}
 
 		return true;
