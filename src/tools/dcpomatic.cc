@@ -1444,6 +1444,7 @@ static const wxCmdLineEntryDesc command_line_description[] = {
 	{ wxCMD_LINE_SWITCH, "n", "new", "create new film", wxCMD_LINE_VAL_NONE, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_OPTION, "c", "content", "add content file / directory", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_OPTION, "d", "dcp", "add content DCP", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+	{ wxCMD_LINE_SWITCH, "v", "version", "show DCP-o-matic version", wxCMD_LINE_VAL_NONE, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_PARAM, 0, 0, "film to load or create", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_NONE, "", "", "", wxCmdLineParamType (0), 0 }
 };
@@ -1577,6 +1578,11 @@ private:
 
 	bool OnCmdLineParsed (wxCmdLineParser& parser)
 	{
+		if (parser.Found (wxT("version"))) {
+			cout << "dcpomatic version " << dcpomatic_version << " " << dcpomatic_git_commit << "\n";
+			exit (EXIT_SUCCESS);
+		}
+
 		if (parser.GetParamCount() > 0) {
 			if (parser.Found (wxT ("new"))) {
 				_film_to_create = wx_to_std (parser.GetParam (0));
