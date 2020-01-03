@@ -224,7 +224,7 @@ ScreensPanel::add_screen_clicked ()
 		}
 	}
 
-	shared_ptr<Screen> s (new Screen (d->name(), d->recipient(), d->trusted_devices()));
+	shared_ptr<Screen> s (new Screen (d->name(), d->notes(), d->recipient(), d->trusted_devices()));
 	c->add_screen (s);
 	optional<wxTreeItemId> id = add_screen (c, s);
 	if (id) {

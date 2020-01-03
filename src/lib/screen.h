@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -58,8 +58,9 @@ namespace dcpomatic {
 class Screen
 {
 public:
-	Screen (std::string const & n, boost::optional<dcp::Certificate> rec, std::vector<TrustedDevice> td)
-		: name (n)
+	Screen (std::string const & na, std::string const & no, boost::optional<dcp::Certificate> rec, std::vector<TrustedDevice> td)
+		: name (na)
+		, notes (no)
 		, recipient (rec)
 		, trusted_devices (td)
 	{}
