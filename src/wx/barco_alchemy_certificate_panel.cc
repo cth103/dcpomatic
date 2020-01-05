@@ -29,7 +29,15 @@ using std::string;
 using boost::optional;
 
 BarcoAlchemyCertificatePanel::BarcoAlchemyCertificatePanel (DownloadCertificateDialog* dialog)
-	: DownloadCertificatePanel (dialog)
+	: CredentialsDownloadCertificatePanel (
+			dialog,
+			boost::bind(&Config::barco_username, Config::instance()),
+			boost::bind(&Config::set_barco_username, Config::instance(), _1),
+			boost::bind(&Config::unset_barco_username, Config::instance()),
+			boost::bind(&Config::barco_password, Config::instance()),
+			boost::bind(&Config::set_barco_password, Config::instance(), _1),
+			boost::bind(&Config::unset_barco_password, Config::instance())
+			)
 {
 
 }
@@ -37,19 +45,12 @@ BarcoAlchemyCertificatePanel::BarcoAlchemyCertificatePanel (DownloadCertificateD
 bool
 BarcoAlchemyCertificatePanel::ready_to_download () const
 {
-	return _serial->GetValue().Length() == 10;
+	return CredentialsDownloadCertificatePanel::ready_to_download() && _serial->GetValue().Length() == 10;
 }
 
 void
 BarcoAlchemyCertificatePanel::do_download ()
 {
-	Config* config = Config::instance ();
-	if (!config->barco_username() || !config->barco_password()) {
-		_dialog->message()->SetLabel(wxT(""));
-		error_dialog (this, _("No Barco username/password configured.  Add your account details to the Accounts page in Preferences."));
-		return;
-	}
-
 	string const serial = wx_to_std (_serial->GetValue());
 	string const url = String::compose (
 		"ftp://%1:%2@certificates.barco.com/%3xxx/%4/Barco-ICMP.%5_cert.pem",

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,9 @@
 
 */
 
-#include "download_certificate_panel.h"
+#include "credentials_download_certificate_panel.h"
 
-class GDCCertificatePanel : public DownloadCertificatePanel
+class GDCCertificatePanel : public CredentialsDownloadCertificatePanel
 {
 public:
 	GDCCertificatePanel (DownloadCertificateDialog* dialog);

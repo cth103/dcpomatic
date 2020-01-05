@@ -18,6 +18,7 @@
 
 */
 
+#include <dcp/certificate.h>
 #include <wx/wx.h>
 #include <wx/notebook.h>
 

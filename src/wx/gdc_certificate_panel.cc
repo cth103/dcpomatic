@@ -27,9 +27,18 @@
 
 using std::string;
 using boost::optional;
+using boost::bind;
 
 GDCCertificatePanel::GDCCertificatePanel (DownloadCertificateDialog* dialog)
-	: DownloadCertificatePanel (dialog)
+	: CredentialsDownloadCertificatePanel (
+			dialog,
+			bind(&Config::gdc_username, Config::instance()),
+			bind(&Config::set_gdc_username, Config::instance(), _1),
+			bind(&Config::unset_gdc_username, Config::instance()),
+			bind(&Config::gdc_password, Config::instance()),
+			bind(&Config::set_gdc_password, Config::instance(), _1),
+			bind(&Config::unset_gdc_password, Config::instance())
+			)
 {
 
 }
@@ -37,13 +46,6 @@ GDCCertificatePanel::GDCCertificatePanel (DownloadCertificateDialog* dialog)
 void
 GDCCertificatePanel::do_download ()
 {
-	Config* config = Config::instance ();
-	if (!config->gdc_username() || !config->gdc_password()) {
-		_dialog->message()->SetLabel(wxT(""));
-		error_dialog (this, _("No GDC username/password configured.  Add your account details to the Accounts page in Preferences."));
-		return;
-	}
-
 	string const url = String::compose(
 		"ftp://%1:%2@ftp.gdc-tech.com/SHA256/A%3.crt.pem",
 		Config::instance()->gdc_username().get(),

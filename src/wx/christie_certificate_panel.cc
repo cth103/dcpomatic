@@ -27,9 +27,19 @@
 
 using std::string;
 using boost::optional;
+using boost::bind;
 
 ChristieCertificatePanel::ChristieCertificatePanel (DownloadCertificateDialog* dialog)
-	: DownloadCertificatePanel (dialog)
+	: CredentialsDownloadCertificatePanel (
+			dialog,
+			bind(&Config::christie_username, Config::instance()),
+			bind(&Config::set_christie_username, Config::instance(), _1),
+			bind(&Config::unset_christie_username, Config::instance()),
+			bind(&Config::christie_password, Config::instance()),
+			bind(&Config::set_christie_password, Config::instance(), _1),
+			bind(&Config::unset_christie_password, Config::instance())
+			)
+
 {
 
 }
@@ -37,13 +47,6 @@ ChristieCertificatePanel::ChristieCertificatePanel (DownloadCertificateDialog* d
 void
 ChristieCertificatePanel::do_download ()
 {
-	Config* config = Config::instance ();
-	if (!config->christie_username() || !config->christie_password()) {
-		_dialog->message()->SetLabel(wxT(""));
-		error_dialog (this, _("No Christie username/password configured.  Add your account details to the Accounts page in Preferences."));
-		return;
-	}
-
 	string const prefix = String::compose(
 		"ftp://%1:%2@certificates.christiedigital.com/Certificates/",
 		Config::instance()->christie_username().get(),

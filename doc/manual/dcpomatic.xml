@@ -3018,33 +3018,6 @@ The <guilabel>Reset to default text</guilabel> will replace the current KDM emai
 
 </section>
 
-
-<!-- ============================================================== -->
-<section>
-<title>Accounts</title>
-
-<para>
-The Accounts tab is shown in <xref linkend="fig-prefs-accounts"/>.
-</para>
-
-<figure id="fig-prefs-accounts">
-  <title>Accounts preferences</title>
-  <mediaobject>
-    <imageobject>
-      <imagedata fileref="screenshots/prefs-accounts&scs;"/>
-    </imageobject>
-  </mediaobject>
-</figure>
-
-<para>
-DCP-o-matic can download projector certificates from the Barco,
-Christie and GDC websites if you have the appropriate credentials.
-Enter your usernames and passwords.
-</para>
-
-</section>
-
-
 <!-- ============================================================== -->
 <section>
 <title>Notifications</title>

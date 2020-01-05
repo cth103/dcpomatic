@@ -44,9 +44,9 @@ protected:
 	DownloadCertificateDialog* _dialog;
 	wxFlexGridSizer* _table;
 	wxTextCtrl* _serial;
+	wxSizer* _overall_sizer;
 
 private:
-	wxSizer* _overall_sizer;
 	boost::optional<dcp::Certificate> _certificate;
 };
 

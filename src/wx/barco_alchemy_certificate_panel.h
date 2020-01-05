@@ -18,9 +18,9 @@
 
 */
 
-#include "download_certificate_panel.h"
+#include "credentials_download_certificate_panel.h"
 
-class BarcoAlchemyCertificatePanel : public DownloadCertificatePanel
+class BarcoAlchemyCertificatePanel : public CredentialsDownloadCertificatePanel
 {
 public:
 	BarcoAlchemyCertificatePanel (DownloadCertificateDialog* dialog);

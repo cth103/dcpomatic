@@ -48,6 +48,7 @@ sources = """
           content_view.cc
           controls.cc
           closed_captions_dialog.cc
+          credentials_download_certificate_panel.cc
           dcp_panel.cc
           dcpomatic_button.cc
           email_dialog.cc
