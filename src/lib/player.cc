@@ -639,7 +639,8 @@ Player::pass ()
 			   remove a little silence at the end of some content.
 			*/
 			int64_t const error = labs(period.from.get() - _last_audio_time->get());
-			int64_t const too_much_error = 4;
+			/* Let's not worry about less than a frame at 24fps */
+			int64_t const too_much_error = DCPTime::from_frames(1, 24).get();
 			if (error >= too_much_error) {
 				_film->log()->log(String::compose("Silence starting before or after last audio by %1", error), LogEntry::TYPE_ERROR);
 			}
