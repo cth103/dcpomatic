@@ -448,7 +448,7 @@ TimingPanel::trim_end_changed ()
 		fv->seek (_parent->film()->length() - DCPTime::from_frames(1, _parent->film()->video_frame_rate()), true);
 	}
 
-	fv->set_coalesce_player_changes (true);
+	fv->set_coalesce_player_changes (false);
 }
 
 void
