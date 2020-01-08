@@ -86,16 +86,12 @@ FilmViewer::FilmViewer (wxWindow* p)
 	, _playing (false)
 	, _suspended (0)
 	, _latency_history_count (0)
-	, _dropped (0)
 	, _closed_captions_dialog (new ClosedCaptionsDialog(p, this))
 	, _outline_content (false)
-	, _eyes (EYES_LEFT)
 	, _pad_black (false)
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	, _background_image (false)
 #endif
-	, _state_timer ("viewer")
-	, _gets (0)
 	, _idle_get (false)
 {
 	switch (Config::instance()->video_view_type()) {
@@ -108,7 +104,6 @@ FilmViewer::FilmViewer (wxWindow* p)
 	}
 
 	_video_view->Sized.connect (boost::bind(&FilmViewer::video_view_sized, this));
-	_timer.Bind (wxEVT_TIMER, boost::bind(&FilmViewer::timer, this));
 
 	set_film (shared_ptr<Film> ());
 
@@ -123,7 +118,7 @@ FilmViewer::~FilmViewer ()
 
 /** Ask for ::get() to be called next time we are idle */
 void
-FilmViewer::request_idle_get ()
+FilmViewer::request_idle_display_next_frame ()
 {
 	if (_idle_get) {
 		return;
@@ -141,7 +136,7 @@ FilmViewer::idle_handler ()
 		return;
 	}
 
-	if (get(true)) {
+	if (_video_view->display_next_frame(true)) {
 		_idle_get = false;
 	} else {
 		/* get() could not complete quickly so we'll try again later */
@@ -157,17 +152,14 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	}
 
 	_film = film;
-	_video_position = DCPTime ();
-	_player_video.first.reset ();
-	_player_video.second = DCPTime ();
 
-	_video_view->set_image (shared_ptr<Image>());
+	_video_view->clear ();
 	_closed_captions_dialog->clear ();
 
 	if (!_film) {
 		_player.reset ();
 		recreate_butler ();
-		refresh_view ();
+		_video_view->update ();
 		return;
 	}
 
@@ -187,7 +179,12 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	_player->set_play_referenced ();
 
 	_film->Change.connect (boost::bind (&FilmViewer::film_change, this, _1, _2));
+	_film->LengthChange.connect (boost::bind(&FilmViewer::film_length_change, this));
 	_player->Change.connect (boost::bind (&FilmViewer::player_change, this, _1, _2, _3));
+
+	film_change (CHANGE_TYPE_DONE, Film::VIDEO_FRAME_RATE);
+	film_change (CHANGE_TYPE_DONE, Film::THREE_D);
+	film_length_change ();
 
 	/* Keep about 1 second's worth of history samples */
 	_latency_history_count = _film->audio_frame_rate() / _audio_block_size;
@@ -230,146 +227,16 @@ FilmViewer::recreate_butler ()
 }
 
 void
-FilmViewer::refresh_view ()
-{
-	_state_timer.set ("update-view");
-	_video_view->update ();
-	_state_timer.unset ();
-}
-
-/** Try to get a frame from the butler and display it.
- *  @param lazy true to return false quickly if no video is available quickly (i.e. we are waiting for the butler).
- *  false to ask the butler to block until it has video (unless it is suspended).
- *  @return true on success, false if we did nothing because it would have taken too long.
- */
-bool
-FilmViewer::get (bool lazy)
-{
-	DCPOMATIC_ASSERT (_butler);
-	++_gets;
-
-	do {
-		Butler::Error e;
-		_player_video = _butler->get_video (!lazy, &e);
-		if (!_player_video.first && e == Butler::AGAIN) {
-			if (lazy) {
-				/* No video available; return saying we failed */
-				return false;
-			} else {
-				/* Player was suspended; come back later */
-				signal_manager->when_idle (boost::bind(&FilmViewer::get, this, false));
-				return false;
-			}
-		}
-	} while (
-		_player_video.first &&
-		_film->three_d() &&
-		_eyes != _player_video.first->eyes() &&
-		_player_video.first->eyes() != EYES_BOTH
-		);
-
-	try {
-		_butler->rethrow ();
-	} catch (DecodeError& e) {
-		error_dialog (_video_view->get(), e.what());
-	}
-
-	display_player_video ();
-	PositionChanged ();
-
-	return true;
-}
-
-void
-FilmViewer::display_player_video ()
-{
-	if (!_player_video.first) {
-		_video_view->set_image (shared_ptr<Image>());
-		refresh_view ();
-		return;
-	}
-
-	if (_playing && !_suspended && (time() - _player_video.second) > one_video_frame()) {
-		/* Too late; just drop this frame before we try to get its image (which will be the time-consuming
-		   part if this frame is J2K).
-		*/
-		_video_position = _player_video.second;
-		++_dropped;
-		return;
-	}
-
-	/* In an ideal world, what we would do here is:
-	 *
-	 * 1. convert to XYZ exactly as we do in the DCP creation path.
-	 * 2. convert back to RGB for the preview display, compensating
-	 *    for the monitor etc. etc.
-	 *
-	 * but this is inefficient if the source is RGB.  Since we don't
-	 * (currently) care too much about the precise accuracy of the preview's
-	 * colour mapping (and we care more about its speed) we try to short-
-	 * circuit this "ideal" situation in some cases.
-	 *
-	 * The content's specified colour conversion indicates the colourspace
-	 * which the content is in (according to the user).
-	 *
-	 * PlayerVideo::image (bound to PlayerVideo::force) will take the source
-	 * image and convert it (from whatever the user has said it is) to RGB.
-	 */
-
-	_state_timer.set ("get image");
-
-	_video_view->set_image (
-		_player_video.first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true)
-		);
-
-	_state_timer.set ("ImageChanged");
-	ImageChanged (_player_video.first);
-	_state_timer.unset ();
-
-	_video_position = _player_video.second;
-	_inter_position = _player_video.first->inter_position ();
-	_inter_size = _player_video.first->inter_size ();
-
-	refresh_view ();
-
-	_closed_captions_dialog->update (time());
-}
-
-void
-FilmViewer::timer ()
-{
-	if (!_film || !_playing || _suspended) {
-		return;
-	}
-
-	get (false);
-	DCPTime const next = _video_position + one_video_frame();
-
-	if (next >= _film->length()) {
-		stop ();
-		Finished ();
-		return;
-	}
-
-	LOG_DEBUG_PLAYER("%1 -> %2; delay %3", next.seconds(), time().seconds(), max((next.seconds() - time().seconds()) * 1000, 1.0));
-	_timer.Start (max ((next.seconds() - time().seconds()) * 1000, 1.0), wxTIMER_ONE_SHOT);
-
-	if (_butler) {
-		_butler->rethrow ();
-	}
-}
-
-void
 FilmViewer::set_outline_content (bool o)
 {
 	_outline_content = o;
-	refresh_view ();
+	_video_view->update ();
 }
 
 void
 FilmViewer::set_eyes (Eyes e)
 {
-	_eyes = e;
+	_video_view->set_eyes (e);
 	slow_refresh ();
 }
 
@@ -380,7 +247,6 @@ FilmViewer::video_view_sized ()
 	if (!quick_refresh()) {
 		slow_refresh ();
 	}
-	PositionChanged ();
 }
 
 void
@@ -424,13 +290,14 @@ FilmViewer::suspend ()
 void
 FilmViewer::resume ()
 {
+	DCPOMATIC_ASSERT (_suspended > 0);
 	--_suspended;
 	if (_playing && !_suspended) {
 		if (_audio.isStreamOpen()) {
-			_audio.setStreamTime (_video_position.seconds());
+			_audio.setStreamTime (_video_view->position().seconds());
 			_audio.startStream ();
 		}
-		timer ();
+		_video_view->start ();
 	}
 }
 
@@ -447,14 +314,24 @@ FilmViewer::start ()
 		return;
 	}
 
+	/* We are about to set up the audio stream from the position of the video view.
+	   If there is `lazy' seek in progress we need to wait for it to go through so that
+	   _video_view->position() gives us a sensible answer.
+	 */
+	while (_idle_get) {
+		idle_handler ();
+	}
+
+	/* Take the video view's idea of position as our `playhead' and start the
+	   audio stream (which is the timing reference) there.
+         */
 	if (_audio.isStreamOpen()) {
-		_audio.setStreamTime (_video_position.seconds());
+		_audio.setStreamTime (_video_view->position().seconds());
 		_audio.startStream ();
 	}
 
 	_playing = true;
-	_dropped = 0;
-	timer ();
+	_video_view->start ();
 	Started (position());
 }
 
@@ -471,7 +348,10 @@ FilmViewer::stop ()
 	}
 
 	_playing = false;
+	_video_view->stop ();
 	Stopped (position());
+
+	_video_view->rethrow ();
 	return true;
 }
 
@@ -504,22 +384,35 @@ FilmViewer::player_change (ChangeType type, int property, bool frequent)
 	if (!refreshed) {
 		slow_refresh ();
 	}
-	PositionChanged ();
 }
 
 void
 FilmViewer::film_change (ChangeType type, Film::Property p)
 {
-	if (type == CHANGE_TYPE_DONE && p == Film::AUDIO_CHANNELS) {
-		recreate_butler ();
+	if (type != CHANGE_TYPE_DONE) {
+		return;
 	}
+
+	if (p == Film::AUDIO_CHANNELS) {
+		recreate_butler ();
+	} else if (p == Film::VIDEO_FRAME_RATE) {
+		_video_view->set_video_frame_rate (_film->video_frame_rate());
+	} else if (p == Film::THREE_D) {
+		_video_view->set_three_d (_film->three_d());
+	}
+}
+
+void
+FilmViewer::film_length_change ()
+{
+	_video_view->set_length (_film->length());
 }
 
 /** Re-get the current frame slowly by seeking */
 void
 FilmViewer::slow_refresh ()
 {
-	seek (_video_position, true);
+	seek (_video_view->position(), true);
 }
 
 /** Try to re-get the current frame quickly by resetting the metadata
@@ -529,16 +422,10 @@ FilmViewer::slow_refresh ()
 bool
 FilmViewer::quick_refresh ()
 {
-	if (!_player_video.first) {
-		return false;
+	if (!_video_view || !_film) {
+		return true;
 	}
-
-	if (!_player_video.first->reset_metadata (_film, _player->video_container_size(), _film->frame_size())) {
-		return false;
-	}
-
-	display_player_video ();
-	return true;
+	return _video_view->refresh_metadata (_film, _player->video_container_size(), _film->frame_size());
 }
 
 void
@@ -584,10 +471,15 @@ FilmViewer::seek (DCPTime t, bool accurate)
 	_butler->seek (t, accurate);
 
 	if (!_playing) {
-		request_idle_get ();
+		/* We're not playing, so let the GUI thread get on and
+		   come back later to get the next frame after the seek.
+		*/
+		request_idle_display_next_frame ();
 	} else {
-		/* Make sure we get a frame so that _video_position is set up before we resume */
-		while (!get(true)) {}
+		/* We're going to start playing again straight away
+		   so wait for the seek to finish.
+		*/
+		while (!_video_view->display_next_frame(false)) {}
 	}
 
 	resume ();
@@ -598,7 +490,7 @@ FilmViewer::config_changed (Config::Property p)
 {
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	if (p == Config::PLAYER_BACKGROUND_IMAGE) {
-		refresh_view ();
+		_video_view->update ();
 		return;
 	}
 #endif
@@ -665,18 +557,24 @@ FilmViewer::uncorrected_time () const
 		return DCPTime::from_seconds (const_cast<RtAudio*>(&_audio)->getStreamTime());
 	}
 
-	return _video_position;
+	return _video_view->position();
+}
+
+optional<DCPTime>
+FilmViewer::audio_time () const
+{
+	if (!_audio.isStreamRunning()) {
+		return optional<DCPTime>();
+	}
+
+	return DCPTime::from_seconds (const_cast<RtAudio*>(&_audio)->getStreamTime ()) -
+		DCPTime::from_frames (average_latency(), _film->audio_frame_rate());
 }
 
 DCPTime
 FilmViewer::time () const
 {
-	if (_audio.isStreamRunning ()) {
-		return DCPTime::from_seconds (const_cast<RtAudio*>(&_audio)->getStreamTime ()) -
-			DCPTime::from_frames (average_latency(), _film->audio_frame_rate());
-	}
-
-	return _video_position;
+	return audio_time().get_value_or(_video_view->position());
 }
 
 int
@@ -749,7 +647,7 @@ FilmViewer::show_closed_captions ()
 void
 FilmViewer::seek_by (DCPTime by, bool accurate)
 {
-	seek (_video_position + by, accurate);
+	seek (_video_view->position() + by, accurate);
 }
 
 void
@@ -757,3 +655,34 @@ FilmViewer::set_pad_black (bool p)
 {
 	_pad_black = p;
 }
+
+/** Called when a player has finished the current film.
+ *  May be called from a non-UI thread.
+ */
+void
+FilmViewer::finished ()
+{
+	emit (boost::bind(&FilmViewer::ui_finished, this));
+}
+
+/** Called by finished() in the UI thread */
+void
+FilmViewer::ui_finished ()
+{
+	stop ();
+	Finished ();
+}
+
+int
+FilmViewer::dropped () const
+{
+	return _video_view->dropped ();
+}
+
+int
+FilmViewer::gets () const
+{
+	return _video_view->gets ();
+}
+
+

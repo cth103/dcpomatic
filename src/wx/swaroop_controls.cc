@@ -54,6 +54,7 @@ SwaroopControls::SwaroopControls (wxWindow* parent, shared_ptr<FilmViewer> viewe
 	, _previous_button (new Button(this, "Previous"))
 	, _current_disable_timeline (false)
 	, _current_disable_next (false)
+	, _timer (this)
 {
 	_button_sizer->Add (_previous_button, 0, wxEXPAND);
 	_button_sizer->Add (_play_button, 0, wxEXPAND);
@@ -112,9 +113,12 @@ SwaroopControls::SwaroopControls (wxWindow* parent, shared_ptr<FilmViewer> viewe
 	_spl_view->Bind        (wxEVT_LIST_ITEM_SELECTED,   boost::bind(&SwaroopControls::spl_selection_changed, this));
 	_spl_view->Bind        (wxEVT_LIST_ITEM_DESELECTED, boost::bind(&SwaroopControls::spl_selection_changed, this));
 	_viewer->Finished.connect (boost::bind(&SwaroopControls::viewer_finished, this));
-	_viewer->PositionChanged.connect (boost::bind(&SwaroopControls::viewer_position_changed, this));
 	_refresh_spl_view->Bind (wxEVT_BUTTON, boost::bind(&SwaroopControls::update_playlist_directory, this));
 	_refresh_content_view->Bind (wxEVT_BUTTON, boost::bind(&ContentView::update, _content_view));
+
+	/* Write position every two minutes if we're playing */
+	Bind (wxEVT_TIMER, boost::bind(&SwaroopControls::write_position, this));
+	_timer.Start (2 * 60 * 1000, wxTIMER_CONTINUOUS);
 
 	_content_view->update ();
 	update_playlist_directory ();
@@ -153,10 +157,9 @@ SwaroopControls::check_restart ()
 }
 
 void
-SwaroopControls::viewer_position_changed ()
+SwaroopControls::write_position ()
 {
-	/* Write position every two minutes if we're playing */
-	if (!_selected_playlist || !_viewer->playing() || _viewer->position().get() % (2 * 60 * DCPTime::HZ)) {
+	if (!_selected_playlist || !_viewer->playing()) {
 		return;
 	}
 

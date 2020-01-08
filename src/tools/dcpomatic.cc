@@ -92,6 +92,9 @@
 #include <wx/preferences.h>
 #include <wx/splash.h>
 #include <wx/wxhtml.h>
+#ifdef __WXGTK__
+#include <X11/Xlib.h>
+#endif
 #ifdef __WXMSW__
 #include <shellapi.h>
 #endif
@@ -1503,7 +1506,11 @@ public:
 		: wxApp ()
 		, _frame (0)
 		, _splash (0)
-	{}
+	{
+#ifdef DCPOMATIC_LINUX
+		XInitThreads ();
+#endif
+	}
 
 private:
 

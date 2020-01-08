@@ -82,6 +82,7 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film, w
 	, _y_scroll_rate (16)
 	, _pixels_per_track (48)
 	, _first_resize (true)
+	, _timer (this)
 {
 #ifndef __WXOSX__
 	_labels_canvas->SetDoubleBuffered (true);
@@ -116,16 +117,15 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film, w
 	_film_changed_connection = film->Change.connect (bind (&Timeline::film_change, this, _1, _2));
 	_film_content_change_connection = film->ContentChange.connect (bind (&Timeline::film_content_change, this, _1, _3, _4));
 
-	shared_ptr<FilmViewer> vp = viewer.lock ();
-	DCPOMATIC_ASSERT (vp);
-	_viewer_position_change_connection = vp->PositionChanged.connect (bind(&Timeline::position_change, this));
+	Bind (wxEVT_TIMER, boost::bind(&Timeline::update_playhead, this));
+	_timer.Start (200, wxTIMER_CONTINUOUS);
 
 	setup_scrollbars ();
 	_labels_canvas->ShowScrollbars (wxSHOW_SB_NEVER, wxSHOW_SB_NEVER);
 }
 
 void
-Timeline::position_change ()
+Timeline::update_playhead ()
 {
 	Refresh ();
 }

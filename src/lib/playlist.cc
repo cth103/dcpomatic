@@ -111,8 +111,11 @@ Playlist::content_change (weak_ptr<const Film> weak_film, ChangeType type, weak_
 			}
 
 			if (changed) {
-				OrderChanged ();
+				OrderChange ();
 			}
+
+			/* The length might have changed, and that's good enough for this signal */
+			LengthChange ();
 		}
 	}
 
@@ -281,6 +284,8 @@ Playlist::add (shared_ptr<const Film> film, shared_ptr<Content> c)
 	}
 
 	Change (CHANGE_TYPE_DONE);
+
+	LengthChange ();
 }
 
 void
@@ -312,6 +317,8 @@ Playlist::remove (shared_ptr<Content> c)
 	}
 
 	/* This won't change order, so it does not need a sort */
+
+	LengthChange ();
 }
 
 void
@@ -334,9 +341,11 @@ Playlist::remove (ContentList c)
 		}
 	}
 
+	Change (CHANGE_TYPE_DONE);
+
 	/* This won't change order, so it does not need a sort */
 
-	Change (CHANGE_TYPE_DONE);
+	LengthChange ();
 }
 
 class FrameRateCandidate

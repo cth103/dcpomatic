@@ -27,6 +27,7 @@
 #include "lib/config.h"
 #include "lib/player_text.h"
 #include "lib/timer.h"
+#include "lib/signaller.h"
 #include <RtAudio.h>
 #include <wx/wx.h>
 
@@ -42,7 +43,7 @@ class ClosedCaptionsDialog;
 /** @class FilmViewer
  *  @brief A wx widget to view a Film.
  */
-class FilmViewer
+class FilmViewer : public Signaller
 {
 public:
 	FilmViewer (wxWindow *);
@@ -69,7 +70,7 @@ public:
 	void seek_by (dcpomatic::DCPTime by, bool accurate);
 	/** @return our `playhead' position; this may not lie exactly on a frame boundary */
 	dcpomatic::DCPTime position () const {
-		return _video_position;
+		return _video_view->position();
 	}
 	dcpomatic::DCPTime one_video_frame () const;
 
@@ -77,6 +78,7 @@ public:
 	bool stop ();
 	void suspend ();
 	void resume ();
+
 	bool playing () const {
 		return _playing;
 	}
@@ -90,16 +92,18 @@ public:
 
 	void slow_refresh ();
 
-	int dropped () const {
-		return _dropped;
-	}
+	dcpomatic::DCPTime time () const;
+	boost::optional<dcpomatic::DCPTime> audio_time () const;
+
+	int dropped () const;
+	int gets () const;
 
 	int audio_callback (void* out, unsigned int frames);
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	void set_background_image (bool b) {
 		_background_image = b;
-		refresh_view ();
+		_video_view->update ();
 	}
 
 	bool background_image () const {
@@ -108,26 +112,12 @@ public:
 #endif
 
 	StateTimer const & state_timer () const {
-		return _state_timer;
+		return _video_view->state_timer ();
 	}
 
-	StateTimer& state_timer () {
-		return _state_timer;
-	}
-
-	int gets () const {
-		return _gets;
-	}
-
-	/* Some accessors that VideoView classes need */
+	/* Some accessors and utility methods that VideoView classes need */
 	dcp::Size out_size () const {
 		return _out_size;
-	}
-	dcp::Size inter_size () const {
-		return _inter_size;
-	}
-	Position<int> inter_position () const {
-		return _inter_position;
 	}
 	bool outline_content () const {
 		return _outline_content;
@@ -135,12 +125,15 @@ public:
 	bool pad_black () const {
 		return _pad_black;
 	}
-	dcpomatic::DCPTime video_position () const {
-		return _video_position;
+	boost::shared_ptr<Butler> butler () const {
+		return _butler;
 	}
+	ClosedCaptionsDialog* closed_captions_dialog () const {
+		return _closed_captions_dialog;
+	}
+	void finished ();
 
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
-	boost::signals2::signal<void ()> PositionChanged;
 	boost::signals2::signal<void (dcpomatic::DCPTime)> Started;
 	boost::signals2::signal<void (dcpomatic::DCPTime)> Stopped;
 	/** While playing back we reached the end of the film (emitted from GUI thread) */
@@ -149,37 +142,29 @@ public:
 	boost::signals2::signal<bool ()> PlaybackPermitted;
 
 private:
+
 	void video_view_sized ();
-	void timer ();
 	void calculate_sizes ();
 	void player_change (ChangeType type, int, bool);
-	bool get (bool lazy);
 	void idle_handler ();
-	void request_idle_get ();
-	void display_player_video ();
+	void request_idle_display_next_frame ();
 	void film_change (ChangeType, Film::Property);
 	void recreate_butler ();
 	void config_changed (Config::Property);
+	void film_length_change ();
+	void ui_finished ();
 
-	dcpomatic::DCPTime time () const;
 	dcpomatic::DCPTime uncorrected_time () const;
 	Frame average_latency () const;
 
-	void refresh_view ();
 	bool quick_refresh ();
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<Player> _player;
 
 	VideoView* _video_view;
-	wxTimer _timer;
 	bool _coalesce_player_changes;
 	std::list<int> _pending_player_changes;
-
-	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> _player_video;
-	dcpomatic::DCPTime _video_position;
-	Position<int> _inter_position;
-	dcp::Size _inter_size;
 
 	/** Size of our output (including padding if we have any) */
 	dcp::Size _out_size;
@@ -196,13 +181,11 @@ private:
 	mutable boost::mutex _latency_history_mutex;
 	int _latency_history_count;
 
-	int _dropped;
 	boost::optional<int> _dcp_decode_reduction;
 
 	ClosedCaptionsDialog* _closed_captions_dialog;
 
 	bool _outline_content;
-	Eyes _eyes;
 	/** true to pad the viewer panel with black, false to use
 	    the normal window background colour.
 	*/
@@ -211,9 +194,6 @@ private:
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	bool _background_image;
 #endif
-
-	StateTimer _state_timer;
-	int _gets;
 
 	/** true if an get() is required next time we are idle */
 	bool _idle_get;

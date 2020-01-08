@@ -104,7 +104,7 @@ private:
 	void set_pixels_per_second (double pps);
 	void set_pixels_per_track (int h);
 	void zoom_all ();
-	void position_change ();
+	void update_playhead ();
 
 	boost::shared_ptr<TimelineView> event_to_view (wxMouseEvent &);
 	TimelineContentViewList selected_views () const;
@@ -137,11 +137,11 @@ private:
 	int _y_scroll_rate;
 	int _pixels_per_track;
 	bool _first_resize;
+	wxTimer _timer;
 
 	static double const _minimum_pixels_per_second;
 	static int const _minimum_pixels_per_track;
 
 	boost::signals2::scoped_connection _film_changed_connection;
 	boost::signals2::scoped_connection _film_content_change_connection;
-	boost::signals2::scoped_connection _viewer_position_change_connection;
 };

@@ -53,6 +53,11 @@ public:
 
 	virtual void log (wxString) {}
 	virtual void set_film (boost::shared_ptr<Film> film);
+#ifdef DCPOMATIC_PLAYER_STRESS_TEST
+	virtual void play () {};
+	virtual void stop () {};
+	void seek (int slider);
+#endif
 	boost::shared_ptr<Film> film () const;
 	void back_frame ();
 	void forward_frame ();
@@ -87,7 +92,7 @@ private:
 	void image_changed (boost::weak_ptr<PlayerVideo>);
 	void outline_content_changed ();
 	void eye_changed ();
-	void position_changed ();
+	void update_position ();
 	void film_change (ChangeType, Film::Property);
 
 	typedef std::pair<boost::shared_ptr<dcp::CPL>, boost::filesystem::path> CPL;
@@ -104,6 +109,8 @@ private:
 	wxStaticText* _timecode;
 
 	ClosedCaptionsDialog* _closed_captions_dialog;
+
+	wxTimer _timer;
 
 	boost::signals2::scoped_connection _film_change_connection;
 	boost::signals2::scoped_connection _config_changed_connection;

@@ -19,6 +19,8 @@
 */
 
 #include "video_view.h"
+#include "lib/position.h"
+#include <dcp/types.h>
 #include <wx/wx.h>
 
 class FilmViewer;
@@ -37,10 +39,17 @@ public:
 	}
 
 	void update ();
+	void start ();
+	bool display_next_frame (bool non_blocking);
 
 private:
+	void refresh_panel ();
 	void paint ();
+	void timer ();
 
 	wxPanel* _panel;
 	boost::shared_ptr<const Image> _image;
+	wxTimer _timer;
+	Position<int> _inter_position;
+	dcp::Size _inter_size;
 };

@@ -21,32 +21,120 @@
 #ifndef DCPOMATIC_VIDEO_VIEW_H
 #define DCPOMATIC_VIDEO_VIEW_H
 
+#include "lib/dcpomatic_time.h"
+#include "lib/timer.h"
+#include "lib/types.h"
+#include "lib/exception_store.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
+#include <boost/thread.hpp>
+#include <boost/noncopyable.hpp>
 
 class Image;
 class wxWindow;
 class FilmViewer;
+class PlayerVideo;
 
-class VideoView
+class VideoView : public ExceptionStore, public boost::noncopyable
 {
 public:
-	VideoView (FilmViewer* viewer)
-		: _viewer (viewer)
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-		, _in_watermark (false)
-#endif
-	{}
-
+	VideoView (FilmViewer* viewer);
 	virtual ~VideoView () {}
 
-	virtual void set_image (boost::shared_ptr<const Image> image) = 0;
+	/** @return the thing displaying the image */
 	virtual wxWindow* get () const = 0;
+	/** Re-make and display the image from the current _player_video */
 	virtual void update () = 0;
+	/** Called when playback starts */
+	virtual void start ();
+	/** Called when playback stops */
+	virtual void stop () {}
+	/** Get the next frame and display it; used after seek */
+	virtual bool display_next_frame (bool) = 0;
 
+	void clear ();
+	bool refresh_metadata (boost::shared_ptr<const Film> film, dcp::Size video_container_size, dcp::Size film_frame_size);
+
+	/** Emitted from the GUI thread when our display changes in size */
 	boost::signals2::signal<void()> Sized;
 
+
+	/* Accessors for FilmViewer */
+
+	int dropped () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _dropped;
+	}
+
+	int gets () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _gets;
+	}
+
+	StateTimer const & state_timer () const {
+		return _state_timer;
+	}
+
+	dcpomatic::DCPTime position () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _player_video.second;
+	}
+
+
+	/* Setters for FilmViewer so it can tell us our state and
+	 * we can then use (thread) safely.
+	 */
+
+	void set_video_frame_rate (int r) {
+		boost::mutex::scoped_lock lm (_mutex);
+		_video_frame_rate = r;
+	}
+
+	void set_length (dcpomatic::DCPTime len) {
+		boost::mutex::scoped_lock lm (_mutex);
+		_length = len;
+	}
+
+	void set_eyes (Eyes eyes) {
+		boost::mutex::scoped_lock lm (_mutex);
+		_eyes = eyes;
+	}
+
+	void set_three_d (bool t) {
+		boost::mutex::scoped_lock lm (_mutex);
+		_three_d = t;
+	}
+
 protected:
+	bool get_next_frame (bool non_blocking);
+	boost::optional<int> time_until_next_frame () const;
+	dcpomatic::DCPTime one_video_frame () const;
+
+	int video_frame_rate () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _video_frame_rate;
+	}
+
+	dcpomatic::DCPTime length () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _length;
+	}
+
+	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> player_video () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _player_video;
+	}
+
+	void add_dropped () {
+		boost::mutex::scoped_lock lm (_mutex);
+		++_dropped;
+	}
+
+	void add_get () {
+		boost::mutex::scoped_lock lm (_mutex);
+		++_gets;
+	}
+
 	FilmViewer* _viewer;
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
@@ -54,6 +142,22 @@ protected:
 	int _watermark_x;
 	int _watermark_y;
 #endif
+
+	StateTimer _state_timer;
+
+private:
+	/** Mutex protecting all the state in this class */
+	mutable boost::mutex _mutex;
+
+	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> _player_video;
+	int _video_frame_rate;
+	/** length of the film we are playing, or 0 if there is none */
+	dcpomatic::DCPTime _length;
+	Eyes _eyes;
+	bool _three_d;
+
+	int _dropped;
+	int _gets;
 };
 
 #endif

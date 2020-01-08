@@ -54,7 +54,7 @@ private:
 	void setup_sensitivity ();
 	void config_changed (int);
 	void viewer_finished ();
-	void viewer_position_changed ();
+	void write_position ();
 	void reset_film ();
 	void update_current_content ();
 	bool can_do_previous ();
@@ -84,4 +84,6 @@ private:
 	std::vector<SPL> _playlists;
 	boost::optional<int> _selected_playlist;
 	int _selected_playlist_position;
+
+	wxTimer _timer;
 };

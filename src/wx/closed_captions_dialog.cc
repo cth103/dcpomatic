@@ -53,6 +53,7 @@ ClosedCaptionsDialog::ClosedCaptionsDialog (wxWindow* parent, FilmViewer* viewer
         , _display (new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(640, (640 / 10) + 64)))
 	, _track (new wxChoice(this, wxID_ANY))
 	, _current_in_lines (false)
+	, _timer (this)
 {
 	_lines.resize (CLOSED_CAPTION_LINES);
 
@@ -65,6 +66,8 @@ ClosedCaptionsDialog::ClosedCaptionsDialog (wxWindow* parent, FilmViewer* viewer
 	sizer->Add (track_sizer, 0, wxALL, DCPOMATIC_SIZER_GAP);
 	sizer->Add (_display, 1, wxEXPAND);
 
+	Bind (wxEVT_SHOW, boost::bind(&ClosedCaptionsDialog::shown, this, _1));
+	Bind (wxEVT_TIMER, boost::bind(&ClosedCaptionsDialog::update, this));
 	_display->Bind (wxEVT_PAINT, boost::bind(&ClosedCaptionsDialog::paint, this));
 	_track->Bind (wxEVT_CHOICE, boost::bind(&ClosedCaptionsDialog::track_selected, this));
 
@@ -72,11 +75,21 @@ ClosedCaptionsDialog::ClosedCaptionsDialog (wxWindow* parent, FilmViewer* viewer
 }
 
 void
+ClosedCaptionsDialog::shown (wxShowEvent ev)
+{
+	if (ev.IsShown ()) {
+		_timer.Start (40);
+	} else {
+		_timer.Stop ();
+	}
+}
+
+void
 ClosedCaptionsDialog::track_selected ()
 {
 	_current = optional<TextRingBuffers::Data> ();
 	_viewer->slow_refresh ();
-	update (_last_update);
+	update ();
 }
 
 void
@@ -131,9 +144,9 @@ private:
 };
 
 void
-ClosedCaptionsDialog::update (DCPTime time)
+ClosedCaptionsDialog::update ()
 {
-	_last_update = time;
+	DCPTime const time = _viewer->time ();
 
 	if (_current_in_lines && _current && _current->period.to > time) {
 		/* Current one is fine */

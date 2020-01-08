@@ -19,10 +19,14 @@
 */
 
 #include "video_view.h"
+#include "lib/signaller.h"
+#include "lib/position.h"
 #include <wx/wx.h>
 #include <wx/glcanvas.h>
 #include <dcp/util.h>
 #include <boost/shared_ptr.hpp>
+#include <boost/thread.hpp>
+#include <boost/thread/condition.hpp>
 #undef None
 #undef Success
 
@@ -37,18 +41,39 @@ public:
 		return _canvas;
 	}
 	void update ();
+	void start ();
+	void stop ();
+
+	bool display_next_frame (bool);
 
 	bool vsync_enabled () const {
 		return _vsync_enabled;
 	}
 
 private:
-        void paint ();
-        void draw ();
+	void draw (Position<int> inter_position, dcp::Size inter_size);
+	void thread ();
+	void request_one_shot ();
+	void create ();
+	void check_for_butler_errors ();
 
+	/* Mutex for use of _canvas; it's only contended when our ::thread
+	   is started up so this may be overkill.
+	 */
+	boost::mutex _canvas_mutex;
 	wxGLCanvas* _canvas;
-        wxGLContext* _context;
-        GLuint _id;
-        boost::optional<dcp::Size> _size;
+	wxGLContext* _context;
+
+	GLuint _id;
+	boost::optional<dcp::Size> _size;
+	bool _have_storage;
 	bool _vsync_enabled;
+	boost::thread* _thread;
+
+	boost::mutex _playing_mutex;
+	boost::condition _playing_condition;
+	bool _playing;
+	bool _one_shot;
+
+	boost::shared_ptr<wxTimer> _timer;
 };

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -67,6 +67,7 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	, _forward_button (new Button (this, wxT(">")))
 	, _frame_number (new StaticText (this, wxT("")))
 	, _timecode (new StaticText (this, wxT("")))
+	, _timer (this)
 {
 	_v_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (_v_sizer);
@@ -119,14 +120,7 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	_slider->Bind           (wxEVT_SCROLL_THUMBTRACK,    boost::bind(&Controls::slider_moved,    this, false));
 	_slider->Bind           (wxEVT_SCROLL_PAGEUP,        boost::bind(&Controls::slider_moved,    this, true));
 	_slider->Bind           (wxEVT_SCROLL_PAGEDOWN,      boost::bind(&Controls::slider_moved,    this, true));
-	_slider->Bind           (wxEVT_SCROLL_CHANGED,       boost::bind(&Controls::slider_released, this));
-#ifdef DCPOMATIC_OSX
-	/* _CHANGED is not received on OS X (at least, not when the
-	   slider is dragged), so use this instead.  Perhaps all
-	   platforms could just use _THUMBRELEASE.
-	*/
 	_slider->Bind           (wxEVT_SCROLL_THUMBRELEASE,  boost::bind(&Controls::slider_released, this));
-#endif
 	_rewind_button->Bind    (wxEVT_LEFT_DOWN,            boost::bind(&Controls::rewind_clicked,  this, _1));
 	_back_button->Bind      (wxEVT_LEFT_DOWN,            boost::bind(&Controls::back_clicked,    this, _1));
 	_forward_button->Bind   (wxEVT_LEFT_DOWN,            boost::bind(&Controls::forward_clicked, this, _1));
@@ -137,9 +131,11 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 		_jump_to_selected->SetValue (Config::instance()->jump_to_selected ());
 	}
 
-	_viewer->PositionChanged.connect (boost::bind(&Controls::position_changed, this));
 	_viewer->Started.connect (boost::bind(&Controls::started, this));
 	_viewer->Stopped.connect (boost::bind(&Controls::stopped, this));
+
+	Bind (wxEVT_TIMER, boost::bind(&Controls::update_position, this));
+	_timer.Start (80, wxTIMER_CONTINUOUS);
 
 	set_film (_viewer->film());
 
@@ -172,7 +168,7 @@ Controls::stopped ()
 }
 
 void
-Controls::position_changed ()
+Controls::update_position ()
 {
 	if (!_slider_being_moved) {
 		update_position_label ();
@@ -410,3 +406,13 @@ Controls::film_change (ChangeType type, Film::Property p)
 		}
 	}
 }
+
+#ifdef DCPOMATIC_PLAYER_STRESS_TEST
+void
+Controls::seek (int slider)
+{
+	_slider->SetValue (slider);
+	slider_moved (false);
+	slider_released ();
+}
+#endif
