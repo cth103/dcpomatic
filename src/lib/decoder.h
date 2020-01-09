@@ -57,7 +57,7 @@ public:
 	virtual bool pass () = 0;
 	virtual void seek (dcpomatic::ContentTime time, bool accurate);
 
-	dcpomatic::ContentTime position () const;
+	virtual dcpomatic::ContentTime position () const;
 
 protected:
 	boost::shared_ptr<const Film> film () const;

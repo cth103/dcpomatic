@@ -62,6 +62,8 @@ public:
 		return _lazy_digest;
 	}
 
+	dcpomatic::ContentTime position () const;
+
 private:
 	friend struct dcp_subtitle_within_dcp_test;
 

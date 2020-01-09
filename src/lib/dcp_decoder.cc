@@ -457,3 +457,9 @@ DCPDecoder::calculate_lazy_digest (shared_ptr<const DCPContent> c) const
 	}
 	return d.get ();
 }
+
+ContentTime
+DCPDecoder::position () const
+{
+	return ContentTime::from_frames(_offset, _dcp_content->active_video_frame_rate(film())) + _next;
+}
