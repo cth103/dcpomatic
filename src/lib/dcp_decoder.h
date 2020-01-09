@@ -52,6 +52,8 @@ public:
 	bool pass ();
 	void seek (ContentTime t, bool accurate);
 
+	ContentTime position () const;
+
 private:
 	friend struct dcp_subtitle_within_dcp_test;
 
