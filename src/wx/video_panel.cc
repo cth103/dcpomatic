@@ -567,7 +567,13 @@ VideoPanel::setup_sensitivity ()
 
 	string why_not;
 	bool const can_reference = dcp && dcp->can_reference_video (_parent->film(), why_not);
-	setup_refer_button (_reference, _reference_note, dcp, can_reference, why_not);
+	wxString cannot;
+	if (why_not.empty()) {
+		cannot = _("Cannot reference this DCP's video.");
+	} else {
+		cannot = _("Cannot reference this DCP's video: ") + std_to_wx(why_not);
+	}
+	setup_refer_button (_reference, _reference_note, dcp, can_reference, cannot);
 
 	bool const enable = !_reference->GetValue() && _use->GetValue();
 

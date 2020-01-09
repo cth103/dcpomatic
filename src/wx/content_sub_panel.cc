@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -58,23 +58,19 @@ ContentSubPanel::config_changed (Config::Property p)
 }
 
 void
-ContentSubPanel::setup_refer_button (wxCheckBox* button, wxStaticText* note, shared_ptr<DCPContent> dcp, bool can_reference, string why_not) const
+ContentSubPanel::setup_refer_button (wxCheckBox* button, wxStaticText* note, shared_ptr<DCPContent> dcp, bool can_reference, wxString cannot) const
 {
 	button->Enable (can_reference);
 
-	wxString s;
 	if (dcp && !can_reference) {
-		if (why_not.empty()) {
-			s = _("Cannot reference this DCP.");
-		} else {
-			s = _("Cannot reference this DCP: ") + std_to_wx(why_not);
-		}
+		note->SetLabel (cannot);
+	} else {
+		note->SetLabel (wxT(""));
 	}
 
-	note->SetLabel (s);
 	note->Wrap (400);
 
-	if (s.IsEmpty() || Config::instance()->interface_complexity() == Config::INTERFACE_SIMPLE) {
+	if (cannot.IsEmpty() || Config::instance()->interface_complexity() == Config::INTERFACE_SIMPLE) {
 		note->Hide ();
 	} else {
 		note->Show ();

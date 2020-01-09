@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -48,7 +48,7 @@ public:
 
 protected:
 
-	void setup_refer_button (wxCheckBox* button, wxStaticText* note, boost::shared_ptr<DCPContent> dcp, bool can_reference, std::string why_not) const;
+	void setup_refer_button (wxCheckBox* button, wxStaticText* note, boost::shared_ptr<DCPContent> dcp, bool can_reference, wxString cannot) const;
 	virtual void add_to_grid () = 0;
 
 	ContentPanel* _parent;
