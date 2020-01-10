@@ -24,6 +24,7 @@
 #include "lib/butler.h"
 #include <boost/optional.hpp>
 
+using std::pair;
 using boost::shared_ptr;
 using boost::optional;
 
@@ -118,12 +119,12 @@ VideoView::start ()
 bool
 VideoView::refresh_metadata (shared_ptr<const Film> film, dcp::Size video_container_size, dcp::Size film_frame_size)
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	if (!_player_video.first) {
+	pair<shared_ptr<PlayerVideo>, dcpomatic::DCPTime> pv = player_video ();
+	if (!pv.first) {
 		return false;
 	}
 
-	if (!_player_video.first->reset_metadata (film, video_container_size, film_frame_size)) {
+	if (!pv.first->reset_metadata (film, video_container_size, film_frame_size)) {
 		return false;
 	}
 
