@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -69,6 +69,12 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 	font.SetPointSize(font.GetPointSize() - 1);
 	_warning->SetForegroundColour (wxColour (255, 0, 0));
 	_warning->SetFont(font);
+
+	/* I said I've been to the year 3000.  Not much has changed but they live underwater.  And your In-in-in-interop DCP
+           is pretty fine.
+	 */
+	_from_date->SetRange(wxDateTime(1, wxDateTime::Jan, 1900, 0, 0, 0, 0), wxDateTime(31, wxDateTime::Dec, 3000, 0, 0, 0, 0));
+	_until_date->SetRange(wxDateTime(1, wxDateTime::Jan, 1900, 0, 0, 0, 0), wxDateTime(31, wxDateTime::Dec, 3000, 0, 0, 0, 0));
 
 	_from_date->Bind (wxEVT_DATE_CHANGED, bind (&KDMTimingPanel::changed, this));
 	_until_date->Bind (wxEVT_DATE_CHANGED, bind (&KDMTimingPanel::changed, this));
