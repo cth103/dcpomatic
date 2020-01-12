@@ -311,7 +311,7 @@ private:
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		add_label_to_sizer (table, _panel, _("Background image"), true, wxGBPosition (r, 0));
-		_background_image = new FilePickerCtrl (_panel, _("Select image file"), "*.png;*.jpg;*.jpeg;*.tif;*.tiff", true);
+		_background_image = new FilePickerCtrl (_panel, _("Select image file"), "*.png;*.jpg;*.jpeg;*.tif;*.tiff", true, false);
 		table->Add (_background_image, wxGBPosition (r, 1));
 		++r;
 #endif
