@@ -28,6 +28,8 @@
 #include "lib/util.h"
 
 using std::list;
+using std::string;
+using boost::optional;
 
 BOOST_AUTO_TEST_CASE (audio_mapping_test)
 {
@@ -57,3 +59,34 @@ BOOST_AUTO_TEST_CASE (audio_mapping_test)
 		}
 	}
 }
+
+static void
+guess_check (string filename, int output_channel)
+{
+	AudioMapping m (1, 8);
+	m.make_default (0, optional<boost::filesystem::path>(filename));
+	for (int i = 0; i < 8; ++i) {
+		BOOST_TEST_INFO (filename);
+		BOOST_CHECK_CLOSE (m.get(0, i), i == output_channel ? 1 : 0, 0.01);
+	}
+}
+
+BOOST_AUTO_TEST_CASE (audio_mapping_guess_test)
+{
+	guess_check ("stuff_L_nonsense.wav", 0);
+	guess_check ("stuff_nonsense.wav", 2);
+	guess_check ("fred_R.wav", 1);
+	guess_check ("jim_C_sheila.aiff", 2);
+	guess_check ("things_Lfe_and.wav", 3);
+	guess_check ("weeee_Ls.aiff", 4);
+	guess_check ("try_Rs-it.wav", 5);
+
+	/* PT-style */
+	guess_check ("things_LFE.wav", 3);
+	guess_check ("ptish_Lsr_abc.wav", 6);
+	guess_check ("ptish_Rsr_abc.wav", 7);
+	guess_check ("more_Lss_s.wav", 4);
+	guess_check ("other_Rss.aiff", 5);
+}
+
+

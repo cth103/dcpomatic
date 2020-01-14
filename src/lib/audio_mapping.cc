@@ -81,16 +81,32 @@ AudioMapping::make_zero ()
 	}
 }
 
+struct ChannelRegex
+{
+	ChannelRegex (string regex_, int channel_)
+		: regex (regex_)
+		, channel (channel_)
+	{}
+
+	string regex;
+	int channel;
+};
+
 void
 AudioMapping::make_default (AudioProcessor const * processor, optional<boost::filesystem::path> filename)
 {
-	static string const regex[] = {
-		".*[\\._-]L[\\._-].*",
-		".*[\\._-]R[\\._-].*",
-		".*[\\._-]C[\\._-].*",
-		".*[\\._-]Lfe[\\._-].*",
-		".*[\\._-]Ls[\\._-].*",
-		".*[\\._-]Rs[\\._-].*"
+	static ChannelRegex const regex[] = {
+		ChannelRegex(".*[\\._-]L[\\._-].*", 0),
+		ChannelRegex(".*[\\._-]R[\\._-].*", 1),
+		ChannelRegex(".*[\\._-]C[\\._-].*", 2),
+		ChannelRegex(".*[\\._-]Lfe[\\._-].*", 3),
+		ChannelRegex(".*[\\._-]LFE[\\._-].*", 3),
+		ChannelRegex(".*[\\._-]Lss[\\._-].*", 4),
+		ChannelRegex(".*[\\._-]Lsr[\\._-].*", 6),
+		ChannelRegex(".*[\\._-]Ls[\\._-].*", 4),
+		ChannelRegex(".*[\\._-]Rss[\\._-].*", 5),
+		ChannelRegex(".*[\\._-]Rsr[\\._-].*", 7),
+		ChannelRegex(".*[\\._-]Rs[\\._-].*", 5),
 	};
 
 	static int const regexes = sizeof(regex) / sizeof(*regex);
@@ -105,9 +121,9 @@ AudioMapping::make_default (AudioProcessor const * processor, optional<boost::fi
 			/* See if we can guess where this stream should go */
 			if (filename) {
 				for (int i = 0; i < regexes; ++i) {
-					boost::regex e (regex[i], boost::regex::icase);
-					if (boost::regex_match(filename->string(), e) && i < output_channels()) {
-						set (0, i, 1);
+					boost::regex e (regex[i].regex, boost::regex::icase);
+					if (boost::regex_match(filename->string(), e) && regex[i].channel < output_channels()) {
+						set (0, regex[i].channel, 1);
 						guessed = true;
 					}
 				}
