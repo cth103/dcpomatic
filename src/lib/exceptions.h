@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -25,6 +25,7 @@
 #ifndef DCPOMATIC_EXCEPTIONS_H
 #define DCPOMATIC_EXCEPTIONS_H
 
+#include "compose.hpp"
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
@@ -73,7 +74,7 @@ public:
 	 *  @param f Name of the file that this exception concerns.
 	 */
 	FileError (std::string m, boost::filesystem::path f)
-		: std::runtime_error (m)
+		: std::runtime_error (String::compose("%1 with %2", m, f.string()))
 		, _file (f)
 	{}
 
