@@ -166,7 +166,7 @@ content_factory (boost::filesystem::path path)
 
 		if (valid_image_file (path)) {
 			single.reset (new ImageContent(path));
-		} else if (ext == ".srt" || ext == ".ssa" || ext == ".ass") {
+		} else if (ext == ".srt" || ext == ".ssa" || ext == ".ass" || ext == ".stl") {
 			single.reset (new StringTextFileContent(path));
 		} else if (ext == ".xml") {
 			cxml::Document doc;

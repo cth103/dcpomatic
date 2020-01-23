@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,6 +24,7 @@
 #include "string_text_file_content.h"
 #include <sub/subrip_reader.h>
 #include <sub/ssa_reader.h>
+#include <sub/stl_binary_reader.h>
 #include <sub/collect.h>
 #include <unicode/ucsdet.h>
 #include <unicode/ucnv.h>
@@ -42,50 +43,67 @@ using namespace dcpomatic;
 
 StringTextFile::StringTextFile (shared_ptr<const StringTextFileContent> content)
 {
-	Data in (content->path (0));
-
-	UErrorCode status = U_ZERO_ERROR;
-	UCharsetDetector* detector = ucsdet_open (&status);
-	ucsdet_setText (detector, reinterpret_cast<const char *> (in.data().get()), in.size(), &status);
-
-	UCharsetMatch const * match = ucsdet_detect (detector, &status);
-	char const * in_charset = ucsdet_getName (match, &status);
-
-	UConverter* to_utf16 = ucnv_open (in_charset, &status);
-	/* This is a guess; I think we should be able to encode any input in 4 times its input size */
-	scoped_array<uint16_t> utf16 (new uint16_t[in.size() * 2]);
-	int const utf16_len = ucnv_toUChars (
-		to_utf16, reinterpret_cast<UChar*>(utf16.get()), in.size() * 2,
-		reinterpret_cast<const char *> (in.data().get()), in.size(),
-		&status
-		);
-
-	UConverter* to_utf8 = ucnv_open ("UTF-8", &status);
-	/* Another guess */
-	scoped_array<char> utf8 (new char[utf16_len * 2]);
-	ucnv_fromUChars (to_utf8, utf8.get(), utf16_len * 2, reinterpret_cast<UChar*>(utf16.get()), utf16_len, &status);
-
-	/* Fix OS X line endings */
-	size_t utf8_len = strlen (utf8.get ());
-	for (size_t i = 0; i < utf8_len; ++i) {
-		if (utf8[i] == '\r' && ((i == utf8_len - 1) || utf8[i + 1] != '\n')) {
-			utf8[i] = '\n';
-		}
-	}
-
-	ucsdet_close (detector);
-	ucnv_close (to_utf16);
-	ucnv_close (to_utf8);
-
-	sub::Reader* reader = 0;
-
 	string ext = content->path(0).extension().string();
 	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
 
-	if (ext == ".srt") {
-		reader = new sub::SubripReader (utf8.get());
-	} else if (ext == ".ssa" || ext == ".ass") {
-		reader = new sub::SSAReader (utf8.get());
+	sub::Reader* reader = 0;
+
+	if (ext == ".stl") {
+		FILE* f = fopen_boost (content->path(0), "rb");
+		if (!f) {
+			throw OpenFileError (content->path(0), errno, OpenFileError::READ);
+		}
+		try {
+			reader = new sub::STLBinaryReader (f);
+		} catch (...) {
+			fclose (f);
+			throw;
+		}
+		fclose (f);
+
+	} else {
+		/* Text-based file; sort out its character encoding before we try to parse it */
+
+		Data in (content->path (0));
+
+		UErrorCode status = U_ZERO_ERROR;
+		UCharsetDetector* detector = ucsdet_open (&status);
+		ucsdet_setText (detector, reinterpret_cast<const char *> (in.data().get()), in.size(), &status);
+
+		UCharsetMatch const * match = ucsdet_detect (detector, &status);
+		char const * in_charset = ucsdet_getName (match, &status);
+
+		UConverter* to_utf16 = ucnv_open (in_charset, &status);
+		/* This is a guess; I think we should be able to encode any input in 4 times its input size */
+		scoped_array<uint16_t> utf16 (new uint16_t[in.size() * 2]);
+		int const utf16_len = ucnv_toUChars (
+				to_utf16, reinterpret_cast<UChar*>(utf16.get()), in.size() * 2,
+				reinterpret_cast<const char *> (in.data().get()), in.size(),
+				&status
+				);
+
+		UConverter* to_utf8 = ucnv_open ("UTF-8", &status);
+		/* Another guess */
+		scoped_array<char> utf8 (new char[utf16_len * 2]);
+		ucnv_fromUChars (to_utf8, utf8.get(), utf16_len * 2, reinterpret_cast<UChar*>(utf16.get()), utf16_len, &status);
+
+		/* Fix OS X line endings */
+		size_t utf8_len = strlen (utf8.get ());
+		for (size_t i = 0; i < utf8_len; ++i) {
+			if (utf8[i] == '\r' && ((i == utf8_len - 1) || utf8[i + 1] != '\n')) {
+				utf8[i] = '\n';
+			}
+		}
+
+		ucsdet_close (detector);
+		ucnv_close (to_utf16);
+		ucnv_close (to_utf8);
+
+		if (ext == ".srt") {
+			reader = new sub::SubripReader (utf8.get());
+		} else if (ext == ".ssa" || ext == ".ass") {
+			reader = new sub::SSAReader (utf8.get());
+		}
 	}
 
 	if (reader) {

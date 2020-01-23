@@ -148,9 +148,14 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 
 				v_align = dcp::VALIGN_TOP;
 			} else {
-				DCPOMATIC_ASSERT (i.vertical_position.proportional);
 				DCPOMATIC_ASSERT (i.vertical_position.reference);
-				v_position = i.vertical_position.proportional.get();
+				if (i.vertical_position.proportional) {
+					v_position = i.vertical_position.proportional.get();
+				} else {
+					DCPOMATIC_ASSERT (i.vertical_position.line);
+					DCPOMATIC_ASSERT (i.vertical_position.lines);
+					v_position = float(*i.vertical_position.line) / *i.vertical_position.lines;
+				}
 
 				if (lowest_proportional) {
 					/* Adjust line spacing */
