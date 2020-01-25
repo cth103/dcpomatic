@@ -125,7 +125,9 @@ AudioBuffers::set_frames (int32_t f)
 {
 	DCPOMATIC_ASSERT (f <= _allocated_frames);
 
-	make_silent (f, _frames - f);
+	if (f < _frames) {
+		make_silent (f, _frames - f);
+	}
 	_frames = f;
 }
 
