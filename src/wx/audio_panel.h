@@ -50,6 +50,7 @@ private:
 	void setup_sensitivity ();
 	void reference_clicked ();
 	void add_to_grid ();
+	boost::optional<float> peak () const;
 
 	wxCheckBox* _reference;
 	wxStaticText* _reference_note;

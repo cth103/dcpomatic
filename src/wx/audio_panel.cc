@@ -258,12 +258,21 @@ AudioPanel::gain_calculate_button_clicked ()
 		return;
 	}
 
-	_gain->wrapped()->SetValue(_gain->wrapped()->GetValue() + *c);
+	optional<float> old_peak_dB = peak ();
+	double old_value = _gain->wrapped()->GetValue();
+	_gain->wrapped()->SetValue(old_value + *c);
 
 	/* This appears to be necessary, as the change is not signalled,
 	   I think.
 	*/
 	_gain->view_changed ();
+
+	optional<float> peak_dB = peak ();
+	if (old_peak_dB && *old_peak_dB < -0.5 && peak_dB && *peak_dB > -0.5) {
+		error_dialog (this, _("It is not possible to adjust the content's gain for this fader change as it would cause the DCP's audio to clip.  The gain has not been changed."));
+		_gain->wrapped()->SetValue (old_value);
+		_gain->view_changed ();
+	}
 
 	d->Destroy ();
 }
@@ -360,22 +369,40 @@ AudioPanel::show_clicked ()
 	_audio_dialog->Show ();
 }
 
+/** @return If there is one selected piece of audio content, return its peak value in dB (if known) */
+optional<float>
+AudioPanel::peak () const
+{
+	optional<float> peak_dB;
+
+	ContentList sel = _parent->selected_audio ();
+	if (sel.size() == 1) {
+		shared_ptr<Playlist> playlist (new Playlist);
+		playlist->add (_parent->film(), sel.front());
+		try {
+			shared_ptr<AudioAnalysis> analysis (new AudioAnalysis(_parent->film()->audio_analysis_path(playlist)));
+			peak_dB = 20 * log10 (analysis->overall_sample_peak().first.peak) + analysis->gain_correction(playlist);
+		} catch (...) {
+
+		}
+	}
+
+	return peak_dB;
+}
+
 void
 AudioPanel::setup_peak ()
 {
 	ContentList sel = _parent->selected_audio ();
-	optional<float> peak_dB;
 
+	optional<float> peak_dB = peak ();
 	if (sel.size() != 1) {
-		_peak->SetLabel (wxT (""));
+		_peak->SetLabel (wxT(""));
 	} else {
-		shared_ptr<Playlist> playlist (new Playlist);
-		playlist->add (_parent->film(), sel.front());
-		try {
-			shared_ptr<AudioAnalysis> analysis (new AudioAnalysis (_parent->film()->audio_analysis_path (playlist)));
-			peak_dB = 20 * log10 (analysis->overall_sample_peak().first.peak) + analysis->gain_correction (playlist);
-			_peak->SetLabel (wxString::Format (_("Peak: %.2fdB"), *peak_dB));
-		} catch (...) {
+		peak_dB = peak ();
+		if (peak_dB) {
+			_peak->SetLabel (wxString::Format(_("Peak: %.2fdB"), *peak_dB));
+		} else {
 			_peak->SetLabel (_("Peak: unknown"));
 		}
 	}
