@@ -269,8 +269,11 @@ AudioBuffers::ensure_size (int32_t frames)
 		}
 	}
 
-	make_silent (_allocated_frames, frames - _allocated_frames);
+	int32_t const old_allocated = _allocated_frames;
 	_allocated_frames = frames;
+	if (old_allocated < _allocated_frames) {
+		make_silent (old_allocated, _allocated_frames - old_allocated);
+	}
 }
 
 /** Mix some other buffers with these ones.  The AudioBuffers must have the same number of channels.
