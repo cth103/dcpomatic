@@ -258,7 +258,7 @@ AudioPanel::gain_calculate_button_clicked ()
 		return;
 	}
 
-	_gain->wrapped()->SetValue (*c);
+	_gain->wrapped()->SetValue(_gain->wrapped()->GetValue() + *c);
 
 	/* This appears to be necessary, as the change is not signalled,
 	   I think.
