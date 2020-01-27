@@ -34,10 +34,14 @@ using std::make_pair;
 using boost::shared_ptr;
 using boost::optional;
 
+// #define INSTRUMENT 1
+
 AudioMerger::AudioMerger (int frame_rate)
 	: _frame_rate (frame_rate)
 {
-
+#ifdef INSTRUMENT
+	cout << "I/AM frame_rate " << frame_rate << "\n";
+#endif
 }
 
 Frame
@@ -54,6 +58,9 @@ AudioMerger::frames (DCPTime t) const
 list<pair<shared_ptr<AudioBuffers>, DCPTime> >
 AudioMerger::pull (DCPTime time)
 {
+#ifdef INSTRUMENT
+	std::cout << "I/AM pull " << time.get() << "\n";
+#endif
 	list<pair<shared_ptr<AudioBuffers>, DCPTime> > out;
 
 	list<Buffer> new_buffers;
@@ -96,6 +103,9 @@ AudioMerger::pull (DCPTime time)
 void
 AudioMerger::push (boost::shared_ptr<const AudioBuffers> audio, DCPTime time)
 {
+#ifdef INSTRUMENT
+	std::cout << "I/AM push " << time.get() << " " << audio->frames() << "\n";
+#endif
 	DCPOMATIC_ASSERT (audio->frames() > 0);
 
 	DCPTimePeriod period (time, time + DCPTime::from_frames (audio->frames(), _frame_rate));
@@ -160,5 +170,8 @@ AudioMerger::push (boost::shared_ptr<const AudioBuffers> audio, DCPTime time)
 void
 AudioMerger::clear ()
 {
+#ifdef INSTRUMENT
+	cout << "I/AM clear\n";
+#endif
 	_buffers.clear ();
 }
