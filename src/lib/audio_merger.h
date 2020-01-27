@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DCPOMATIC_AUDIO_MERGER_H
+#define DCPOMATIC_AUDIO_MERGER_H
+
 /** @file  src/audio_merger.h
  *  @brief AudioMerger class.
  */
@@ -81,3 +84,5 @@ private:
 	std::list<Buffer> _buffers;
 	int _frame_rate;
 };
+
+#endif
