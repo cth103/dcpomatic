@@ -138,9 +138,10 @@ AudioMerger::push (boost::shared_ptr<const AudioBuffers> audio, DCPTime time)
 		part->copy_from (audio.get(), part->frames(), frames(DCPTime(i.from - time)), 0);
 
 		if (before == _buffers.end() && after == _buffers.end()) {
-			/* New buffer */
-			DCPOMATIC_ASSERT (part->frames() > 0);
-			_buffers.push_back (Buffer (part, time, _frame_rate));
+			if (part->frames() > 0) {
+				/* New buffer */
+				_buffers.push_back (Buffer (part, time, _frame_rate));
+			}
 		} else if (before != _buffers.end() && after == _buffers.end()) {
 			/* We have an existing buffer before this one; append new data to it */
 			before->audio->append (part);
