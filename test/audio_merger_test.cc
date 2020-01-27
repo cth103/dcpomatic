@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -23,8 +23,12 @@
  *  @ingroup selfcontained
  */
 
+#include "lib/cross.h"
 #include "lib/audio_merger.h"
 #include "lib/audio_buffers.h"
+#include "lib/dcpomatic_time.h"
+#include "test.h"
+#include <dcp/raw_convert.h>
 #include <boost/test/unit_test.hpp>
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
@@ -34,6 +38,7 @@
 using std::pair;
 using std::list;
 using std::cout;
+using std::string;
 using boost::shared_ptr;
 using boost::bind;
 
@@ -134,3 +139,42 @@ BOOST_AUTO_TEST_CASE (audio_merger_test3)
 		BOOST_CHECK_EQUAL (tb.front().first->data()[0][i], i);
 	}
 }
+
+/* Reply a sequence of calls to AudioMerger that resulted in a crash */
+BOOST_AUTO_TEST_CASE (audio_merger_test4)
+{
+	FILE* f = fopen_boost("test/data/audio_merger_bug1.log", "r");
+	BOOST_REQUIRE (f);
+	list<string> tokens;
+	char buf[64];
+	while (fscanf(f, "%63s", buf) == 1) {
+		tokens.push_back (buf);
+	}
+
+	shared_ptr<AudioMerger> merger;
+	list<string>::const_iterator i = tokens.begin ();
+	while (i != tokens.end()) {
+		BOOST_CHECK (*i++ == "I/AM");
+		string const cmd = *i++;
+		if (cmd == "frame_rate") {
+			BOOST_REQUIRE (i != tokens.end());
+			merger.reset (new AudioMerger(dcp::raw_convert<int>(*i++)));
+		} else if (cmd == "clear") {
+			merger->clear ();
+		} else if (cmd == "push") {
+			BOOST_REQUIRE (i != tokens.end());
+			DCPTime time(dcp::raw_convert<DCPTime::Type>(*i++));
+			BOOST_REQUIRE (i != tokens.end());
+			int const frames = dcp::raw_convert<int>(*i++);
+			shared_ptr<AudioBuffers> buffers(new AudioBuffers(1, frames));
+			BOOST_REQUIRE (merger);
+			merger->push (buffers, time);
+		} else if (cmd == "pull") {
+			BOOST_REQUIRE (i != tokens.end());
+			DCPTime time(dcp::raw_convert<DCPTime::Type>(*i++));
+			merger->pull (time);
+		}
+	}
+}
+
+
