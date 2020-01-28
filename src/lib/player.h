@@ -149,8 +149,8 @@ private:
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;
 
-	/** true if we are suspended (i.e. pass() and seek() do nothing) */
-	bool _suspended;
+	/** > 0 if we are suspended (i.e. pass() and seek() do nothing) */
+	boost::atomic<int> _suspended;
 	std::list<boost::shared_ptr<Piece> > _pieces;
 
 	/** Size of the image in the DCP (e.g. 1990x1080 for flat) */

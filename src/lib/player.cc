@@ -87,7 +87,7 @@ int const PlayerProperty::DCP_DECODE_REDUCTION = 704;
 Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist)
 	: _film (film)
 	, _playlist (playlist)
-	, _suspended (false)
+	, _suspended (0)
 	, _ignore_video (false)
 	, _ignore_audio (false)
 	, _ignore_text (false)
@@ -252,19 +252,17 @@ void
 Player::playlist_content_change (ChangeType type, int property, bool frequent)
 {
 	if (type == CHANGE_TYPE_PENDING) {
-		boost::mutex::scoped_lock lm (_mutex);
 		/* The player content is probably about to change, so we can't carry on
 		   until that has happened and we've rebuilt our pieces.  Stop pass()
 		   and seek() from working until then.
 		*/
-		_suspended = true;
+		++_suspended;
 	} else if (type == CHANGE_TYPE_DONE) {
 		/* A change in our content has gone through.  Re-build our pieces. */
 		setup_pieces ();
-		_suspended = false;
+		--_suspended;
 	} else if (type == CHANGE_TYPE_CANCELLED) {
-		boost::mutex::scoped_lock lm (_mutex);
-		_suspended = false;
+		--_suspended;
 	}
 
 	Change (type, property, frequent);
