@@ -5,20 +5,34 @@ import os
 import ntpath
 import tempfile
 import shutil
+import md5
 import xml.etree.ElementTree as ET
 
 if len(sys.argv) < 2:
     print 'Syntax: %s <film>' % sys.argv[1]
     sys.exit(1)
 
-tree = ET.parse(os.path.join(sys.argv[1], 'metadata.xml'))
+metadata_xml = os.path.join(sys.argv[1], 'metadata.xml');
+tree = ET.parse(metadata_xml)
+
+def digest_head_tail(filename, size=1000000):
+    m = md5.new()
+    f = open(filename, 'rb')
+    m.update(f.read(size))
+    f.seek(size, 2)
+    m.update(f.read(size))
+    f.close()
+    return m.hexdigest() + str(os.path.getsize(filename))
+
 
 try:
     os.makedirs(os.path.join(sys.argv[1], 'dummy'))
 except:
     pass
 
-for c in tree.getroot().find('Playlist').findall('Content'):
+root = tree.getroot()
+
+for c in root.find('Playlist').findall('Content'):
     type = c.find('Type').text
     if type == 'DCP':
         # Find the ASSETMAP
@@ -78,11 +92,21 @@ for c in tree.getroot().find('Playlist').findall('Content'):
         audio_length = int(c.find('AudioLength').text)
         os.system('sox -n -r %d -c %d %s trim 0.0 %f' % (audio_frame_rate, channels, path, float(audio_length) / audio_frame_rate))
     elif type == 'FFmpeg':
+        video_cmd = ''
+        audio_cmd = ''
+        path = os.path.join(sys.argv[1], 'dummy', ntpath.basename(c.find('Path').text))
         if c.find('VideoFrameRate') is not None:
-            video_frame_rate = int(c.find('VideoFrameRate').text)
+            video_frame_rate = float(c.find('VideoFrameRate').text)
             video_length = int(c.find('VideoLength').text)
-            path = os.path.join(sys.argv[1], 'dummy', ntpath.basename(c.find('Path').text))
-            os.system('ffmpeg -t %d -s qcif -f rawvideo -pix_fmt rgb24 -r %d -i /dev/zero -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=48000 -shortest "%s"' % (float(video_length) / video_frame_rate, video_frame_rate, path))
+            video_cmd = '-s qcif -f rawvideo -pix_fmt rgb24 -r %d -i /dev/zero' % video_frame_rate
+        if c.find('AudioStream') is not None:
+            audio_channels = int(c.find('AudioStream').find('Mapping').find('InputChannels').text)
+            audio_frame_rate = int(c.find('AudioStream').find('FrameRate').text)
+            names = { 1: 'mono', 2: 'stereo', 3: '3.0', 4: '4.0', 5: '4.1', 6: '5.1', 7: '6.1', 8: '7.1' }
+            audio_cmd = '-f lavfi -i anullsrc=channel_layout=%s:sample_rate=%d' % (names[audio_channels], audio_frame_rate)
+        os.system('ffmpeg -t %d %s %s -shortest "%s"' % (float(video_length) / video_frame_rate, video_cmd, audio_cmd, path))
+        c.find('Path').text = path
+        c.find('Digest').text = digest_head_tail(path)
     elif type == 'Image':
         width = int(c.find('VideoWidth').text)
         height = int(c.find('VideoHeight').text)
@@ -90,3 +114,10 @@ for c in tree.getroot().find('Playlist').findall('Content'):
         os.system('convert -size %dx%d xc:black "%s"' % (width, height, path))
     else:
         print 'Skipped %s' % type
+
+
+shutil.move(metadata_xml, metadata_xml + '.bak')
+r = open(metadata_xml, 'w')
+r.write(ET.tostring(root))
+r.close()
+
