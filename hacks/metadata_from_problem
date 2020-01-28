@@ -1,0 +1,14 @@
+#!/usr/bin/python3
+
+import sys
+
+on = False
+for line in sys.stdin:
+    line = line.strip()
+    if line == '<?xml version="1.0" encoding="UTF-8"?>' or on:
+        print(line)
+        on = True
+    if line == '</Metadata>':
+        on = False
+
+
