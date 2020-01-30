@@ -54,7 +54,7 @@ private:
 	void broadcast_thread ();
 	void broadcast_received ();
 
-	std::vector<boost::thread *> _worker_threads;
+	std::vector<boost::thread> _worker_threads;
 	std::list<boost::shared_ptr<Socket> > _queue;
 	boost::condition _full_condition;
 	boost::condition _empty_condition;
@@ -64,12 +64,11 @@ private:
 	struct Broadcast {
 
 		Broadcast ()
-			: thread (0)
-			, socket (0)
+			: socket (0)
 		{}
 
 		boost::mutex mutex;
-		boost::thread* thread;
+		boost::thread thread;
 		boost::asio::ip::udp::socket* socket;
 		char buffer[64];
 		boost::asio::ip::udp::endpoint send_endpoint;

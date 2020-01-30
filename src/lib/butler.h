@@ -73,7 +73,7 @@ private:
 	void seek_unlocked (dcpomatic::DCPTime position, bool accurate);
 
 	boost::shared_ptr<Player> _player;
-	boost::thread* _thread;
+	boost::thread _thread;
 
 	VideoRingBuffers _video;
 	AudioRingBuffers _audio;

@@ -68,7 +68,7 @@ private:
 	boost::optional<dcp::Size> _size;
 	bool _have_storage;
 	bool _vsync_enabled;
-	boost::thread* _thread;
+	boost::thread _thread;
 
 	boost::mutex _playing_mutex;
 	boost::condition _playing_condition;

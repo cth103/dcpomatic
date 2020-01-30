@@ -93,7 +93,7 @@ private:
 	boost::optional<std::string> _test;
 	int _emits;
 
-	boost::thread* _thread;
+	boost::thread _thread;
 	boost::mutex _process_mutex;
 	boost::condition _condition;
 	int _to_do;

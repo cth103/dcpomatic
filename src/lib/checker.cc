@@ -28,8 +28,7 @@ using boost::bind;
 using boost::ref;
 
 Checker::Checker (int period)
-	: _thread (0)
-	, _terminate (false)
+	: _terminate (false)
 	, _ok (true)
 	, _period (period)
 {
@@ -39,7 +38,7 @@ Checker::Checker (int period)
 void
 Checker::run ()
 {
-	_thread = new boost::thread (boost::bind (&Checker::thread, this));
+	_thread = boost::thread (boost::bind(&Checker::thread, this));
 }
 
 Checker::~Checker ()
@@ -49,20 +48,14 @@ Checker::~Checker ()
 		_terminate = true;
 	}
 
-	if (_thread) {
-		/* Ideally this would be a DCPOMATIC_ASSERT(_thread->joinable()) but we
-		   can't throw exceptions from a destructor.
-		*/
-		_thread->interrupt ();
+	if (_thread.joinable()) {
+		_thread.interrupt ();
 		try {
-			if (_thread->joinable ()) {
-				_thread->join ();
-			}
-		} catch (boost::thread_interrupted& e) {
-			/* No problem */
+			_thread.join ();
+		} catch (...) {
+
 		}
 	}
-	delete _thread;
 }
 
 void

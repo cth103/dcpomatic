@@ -93,7 +93,7 @@ private:
 	boost::shared_ptr<Job> _paused_job;
 
 	boost::optional<std::string> _last_active_job;
-	boost::thread* _scheduler;
+	boost::thread _scheduler;
 
 	static JobManager* _instance;
 };

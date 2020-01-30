@@ -68,7 +68,6 @@ using namespace dcpomatic;
 Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 	: _film (film)
 	, _job (j)
-	, _thread (0)
 	, _finish (false)
 	, _queued_full_in_memory (0)
 	/* These will be reset to sensible values when J2KEncoder is created */
@@ -107,9 +106,9 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 void
 Writer::start ()
 {
-	_thread = new boost::thread (boost::bind (&Writer::thread, this));
+	_thread = boost::thread (boost::bind(&Writer::thread, this));
 #ifdef DCPOMATIC_LINUX
-	pthread_setname_np (_thread->native_handle(), "writer");
+	pthread_setname_np (_thread.native_handle(), "writer");
 #endif
 }
 
@@ -465,7 +464,7 @@ void
 Writer::terminate_thread (bool can_throw)
 {
 	boost::mutex::scoped_lock lock (_state_mutex);
-	if (_thread == 0) {
+	if (!_thread.joinable()) {
 		return;
 	}
 
@@ -474,22 +473,17 @@ Writer::terminate_thread (bool can_throw)
 	_full_condition.notify_all ();
 	lock.unlock ();
 
-	if (_thread->joinable ()) {
-		_thread->join ();
-	}
+	_thread.join ();
 
 	if (can_throw) {
 		rethrow ();
 	}
-
-	delete _thread;
-	_thread = 0;
 }
 
 void
 Writer::finish ()
 {
-	if (!_thread) {
+	if (!_thread.joinable()) {
 		return;
 	}
 

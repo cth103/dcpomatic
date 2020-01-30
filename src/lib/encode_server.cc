@@ -87,14 +87,12 @@ EncodeServer::~EncodeServer ()
 		_full_condition.notify_all ();
 	}
 
-	BOOST_FOREACH (boost::thread* i, _worker_threads) {
-		/* Ideally this would be a DCPOMATIC_ASSERT(i->joinable()) but we
-		   can't throw exceptions from a destructor.
-		*/
-		if (i->joinable ()) {
-			i->join ();
+	BOOST_FOREACH (boost::thread& i, _worker_threads) {
+		try {
+			i.join ();
+		} catch (...) {
+
 		}
-		delete i;
 	}
 
 	{
@@ -107,14 +105,12 @@ EncodeServer::~EncodeServer ()
 	}
 
 	_broadcast.io_service.stop ();
-	if (_broadcast.thread) {
-		/* Ideally this would be a DCPOMATIC_ASSERT(_broadcast.thread->joinable()) but we
-		   can't throw exceptions from a destructor.
-		*/
-		if (_broadcast.thread->joinable ()) {
-			_broadcast.thread->join ();
+	if (_broadcast.thread.joinable()) {
+		try {
+			_broadcast.thread.join ();
+		} catch (...) {
+
 		}
-		delete _broadcast.thread;
 	}
 }
 
@@ -237,16 +233,15 @@ EncodeServer::run ()
 	}
 
 	for (int i = 0; i < _num_threads; ++i) {
-		thread* t = new thread (bind (&EncodeServer::worker_thread, this));
+		_worker_threads.push_back (thread(bind(&EncodeServer::worker_thread, this)));
 #ifdef DCPOMATIC_LINUX
-		pthread_setname_np (t->native_handle(), "encode-server-worker");
+		pthread_setname_np (_worker_threads.back().native_handle(), "encode-server-worker");
 #endif
-		_worker_threads.push_back (t);
 	}
 
-	_broadcast.thread = new thread (bind (&EncodeServer::broadcast_thread, this));
+	_broadcast.thread = thread (bind(&EncodeServer::broadcast_thread, this));
 #ifdef DCPOMATIC_LINUX
-	pthread_setname_np (_broadcast.thread->native_handle(), "encode-server-broadcast");
+	pthread_setname_np (_broadcast.thread.native_handle(), "encode-server-broadcast");
 #endif
 
 	Server::run ();

@@ -83,9 +83,9 @@ Butler::Butler (
 	   get_video() to be called in response to this signal.
 	*/
 	_player_change_connection = _player->Change.connect (bind (&Butler::player_change, this, _1), boost::signals2::at_front);
-	_thread = new boost::thread (bind (&Butler::thread, this));
+	_thread = boost::thread (bind(&Butler::thread, this));
 #ifdef DCPOMATIC_LINUX
-	pthread_setname_np (_thread->native_handle(), "butler");
+	pthread_setname_np (_thread.native_handle(), "butler");
 #endif
 
 	/* Create some threads to do work on the PlayerVideos we are creating; at present this is used to
@@ -110,13 +110,12 @@ Butler::~Butler ()
 	_prepare_pool.join_all ();
 	_prepare_service.stop ();
 
-	_thread->interrupt ();
+	_thread.interrupt ();
 	try {
-		_thread->join ();
-	} catch (boost::thread_interrupted& e) {
-		/* No problem */
+		_thread.join ();
+	} catch (...) {
+
 	}
-	delete _thread;
 }
 
 /** Caller must hold a lock on _mutex */

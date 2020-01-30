@@ -56,7 +56,6 @@ UpdateChecker::UpdateChecker ()
 	, _curl (0)
 	, _state (NOT_RUN)
 	, _emits (0)
-	, _thread (0)
 	, _to_do (0)
 	, _terminate (false)
 {
@@ -74,9 +73,9 @@ UpdateChecker::UpdateChecker ()
 void
 UpdateChecker::start ()
 {
-	_thread = new boost::thread (boost::bind (&UpdateChecker::thread, this));
+	_thread = boost::thread (boost::bind (&UpdateChecker::thread, this));
 #ifdef DCPOMATIC_LINUX
-	pthread_setname_np (_thread->native_handle(), "update-checker");
+	pthread_setname_np (_thread.native_handle(), "update-checker");
 #endif
 }
 
@@ -88,15 +87,13 @@ UpdateChecker::~UpdateChecker ()
 	}
 
 	_condition.notify_all ();
-	if (_thread) {
-		/* Ideally this would be a DCPOMATIC_ASSERT(_thread->joinable()) but we
-		   can't throw exceptions from a destructor.
-		*/
-		if (_thread->joinable ()) {
-			_thread->join ();
+	if (_thread.joinable()) {
+		try {
+			_thread.join ();
+		} catch (...) {
+
 		}
 	}
-	delete _thread;
 
 	curl_easy_cleanup (_curl);
 	delete[] _buffer;

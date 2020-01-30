@@ -121,7 +121,7 @@ private:
 	void run_wrapper ();
 	void set_progress_common (boost::optional<float> p);
 
-	boost::thread* _thread;
+	boost::thread _thread;
 
 	/** mutex for _state, _error*, _message */
 	mutable boost::mutex _state_mutex;

@@ -250,23 +250,17 @@ J2KEncoder::terminate_threads ()
 	boost::mutex::scoped_lock threads_lock (_threads_mutex);
 
 	int n = 0;
-	for (list<boost::thread *>::iterator i = _threads.begin(); i != _threads.end(); ++i) {
+	for (list<boost::thread>::iterator i = _threads.begin(); i != _threads.end(); ++i) {
 		/* Be careful not to throw in here otherwise _threads will not be clear()ed */
 		LOG_GENERAL ("Terminating thread %1 of %2", n + 1, _threads.size ());
-		(*i)->interrupt ();
-		if (!(*i)->joinable()) {
-			LOG_ERROR_NC ("About to join() a non-joinable thread");
-		}
+		i->interrupt ();
 		try {
-			(*i)->join ();
-		} catch (boost::thread_interrupted& e) {
-			/* This is to be expected (I think?) */
+			i->join ();
 		} catch (exception& e) {
 			LOG_ERROR ("join() threw an exception: %1", e.what());
 		} catch (...) {
 			LOG_ERROR_NC ("join() threw an exception");
 		}
-		delete *i;
 		LOG_GENERAL_NC ("Thread terminated");
 		++n;
 	}
@@ -402,14 +396,13 @@ J2KEncoder::servers_list_changed ()
 
 	if (!Config::instance()->only_servers_encode ()) {
 		for (int i = 0; i < Config::instance()->master_encoding_threads (); ++i) {
-			boost::thread* t = new boost::thread (boost::bind (&J2KEncoder::encoder_thread, this, optional<EncodeServerDescription> ()));
+			_threads.push_back (boost::thread(boost::bind(&J2KEncoder::encoder_thread, this, optional<EncodeServerDescription>())));
 #ifdef DCPOMATIC_LINUX
-			pthread_setname_np (t->native_handle(), "encode-worker");
+			pthread_setname_np (_threads.back().native_handle(), "encode-worker");
 #endif
-			_threads.push_back (t);
 #ifdef BOOST_THREAD_PLATFORM_WIN32
 			if (windows_xp) {
-				SetThreadAffinityMask (t->native_handle(), 1 << i);
+				SetThreadAffinityMask (_threads.back().native_handle(), 1 << i);
 			}
 #endif
 		}
@@ -422,7 +415,7 @@ J2KEncoder::servers_list_changed ()
 
 		LOG_GENERAL (N_("Adding %1 worker threads for remote %2"), i.threads(), i.host_name ());
 		for (int j = 0; j < i.threads(); ++j) {
-			_threads.push_back (new boost::thread (boost::bind (&J2KEncoder::encoder_thread, this, i)));
+			_threads.push_back (boost::thread(boost::bind(&J2KEncoder::encoder_thread, this, i)));
 		}
 	}
 

@@ -258,7 +258,6 @@ class App : public wxApp, public ExceptionStore
 public:
 	App ()
 		: wxApp ()
-		, _thread (0)
 		, _icon (0)
 	{}
 
@@ -302,7 +301,7 @@ private:
 #else
 		_icon = new TaskBarIcon;
 #endif
-		_thread = new thread (bind (&App::main_thread, this));
+		_thread = thread (bind (&App::main_thread, this));
 
 		Bind (wxEVT_TIMER, boost::bind (&App::check, this));
 		_timer.reset (new wxTimer (this));
@@ -359,7 +358,7 @@ private:
 		message_dialog (0, std_to_wx (m));
 	}
 
-	boost::thread* _thread;
+	boost::thread _thread;
 	TaskBarIcon* _icon;
 	shared_ptr<wxTimer> _timer;
 };

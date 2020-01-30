@@ -131,8 +131,8 @@ private:
 	std::vector<ReelWriter>::iterator _subtitle_reel;
 	std::map<DCPTextTrack, std::vector<ReelWriter>::iterator> _caption_reels;
 
-	/** our thread, or 0 */
-	boost::thread* _thread;
+	/** our thread */
+	boost::thread _thread;
 	/** true if our thread should finish */
 	bool _finish;
 	/** queue of things to write to disk */

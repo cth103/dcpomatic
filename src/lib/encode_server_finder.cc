@@ -45,9 +45,7 @@ using dcp::raw_convert;
 EncodeServerFinder* EncodeServerFinder::_instance = 0;
 
 EncodeServerFinder::EncodeServerFinder ()
-	: _search_thread (0)
-	, _listen_thread (0)
-	, _stop (false)
+	: _stop (false)
 {
 	Config::instance()->Changed.connect (boost::bind (&EncodeServerFinder::config_changed, this, _1));
 }
@@ -55,11 +53,11 @@ EncodeServerFinder::EncodeServerFinder ()
 void
 EncodeServerFinder::start ()
 {
-	_search_thread = new boost::thread (boost::bind (&EncodeServerFinder::search_thread, this));
-	_listen_thread = new boost::thread (boost::bind (&EncodeServerFinder::listen_thread, this));
+	_search_thread = boost::thread (boost::bind(&EncodeServerFinder::search_thread, this));
+	_listen_thread = boost::thread (boost::bind(&EncodeServerFinder::listen_thread, this));
 #ifdef DCPOMATIC_LINUX
-	pthread_setname_np (_search_thread->native_handle(), "encode-server-search");
-	pthread_setname_np (_listen_thread->native_handle(), "encode-server-listen");
+	pthread_setname_np (_search_thread.native_handle(), "encode-server-search");
+	pthread_setname_np (_listen_thread.native_handle(), "encode-server-listen");
 #endif
 }
 
@@ -75,28 +73,22 @@ EncodeServerFinder::stop ()
 	_stop = true;
 
 	_search_condition.notify_all ();
-	if (_search_thread) {
-		/* Ideally this would be a DCPOMATIC_ASSERT(_search_thread->joinable()) but we
-		   can't throw exceptions from a destructor.
-		*/
-		if (_search_thread->joinable ()) {
-			_search_thread->join ();
+	if (_search_thread.joinable()) {
+		try {
+			_search_thread.join();
+		} catch (...) {
+
 		}
 	}
-	delete _search_thread;
-	_search_thread = 0;
 
 	_listen_io_service.stop ();
-	if (_listen_thread) {
-		/* Ideally this would be a DCPOMATIC_ASSERT(_listen_thread->joinable()) but we
-		   can't throw exceptions from a destructor.
-		*/
-		if (_listen_thread->joinable ()) {
-			_listen_thread->join ();
+	if (_listen_thread.joinable()) {
+		try {
+			_listen_thread.join ();
+		} catch (...) {
+
 		}
 	}
-	delete _listen_thread;
-	_listen_thread = 0;
 
 	boost::mutex::scoped_lock lm (_servers_mutex);
 	_servers.clear ();

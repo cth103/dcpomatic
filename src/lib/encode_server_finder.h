@@ -69,9 +69,9 @@ private:
 	void config_changed (Config::Property what);
 
 	/** Thread to periodically issue broadcasts and requests to find encoding servers */
-	boost::thread* _search_thread;
+	boost::thread _search_thread;
 	/** Thread to listen to the responses from servers */
-	boost::thread* _listen_thread;
+	boost::thread _listen_thread;
 
 	/** Available servers */
 	std::list<EncodeServerDescription> _servers;

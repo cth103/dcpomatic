@@ -54,7 +54,7 @@ private:
 
 	void thread ();
 
-	boost::thread* _thread;
+	boost::thread _thread;
 	mutable boost::mutex _mutex;
 	bool _terminate;
 	bool _ok;

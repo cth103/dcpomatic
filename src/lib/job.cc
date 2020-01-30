@@ -51,7 +51,6 @@ using namespace dcpomatic;
 /** @param film Associated film, or 0 */
 Job::Job (shared_ptr<const Film> film)
 	: _film (film)
-	, _thread (0)
 	, _state (NEW)
 	, _start_time (0)
 	, _sub_start_time (0)
@@ -69,20 +68,16 @@ Job::~Job ()
 void
 Job::stop_thread ()
 {
-	if (_thread) {
-		_thread->interrupt ();
-		/* We can't use DCPOMATIC_ASSERT here as it may throw an exception */
-		if (_thread->joinable ()) {
-			try {
-				_thread->join ();
-			} catch (...) {
-				/* Too late to do anything about this */
-			}
-		}
+	if (!_thread.joinable()) {
+		return;
 	}
 
-	delete _thread;
-	_thread = 0;
+	_thread.interrupt ();
+	try {
+		_thread.join ();
+	} catch (...) {
+		/* Too late to do anything about this */
+	}
 }
 
 /** Start the job in a separate thread, returning immediately */
@@ -92,9 +87,9 @@ Job::start ()
 	set_state (RUNNING);
 	_start_time = time (0);
 	_sub_start_time = time (0);
-	_thread = new boost::thread (boost::bind (&Job::run_wrapper, this));
+	_thread = boost::thread (boost::bind(&Job::run_wrapper, this));
 #ifdef DCPOMATIC_LINUX
-	pthread_setname_np (_thread->native_handle(), "job-wrapper");
+	pthread_setname_np (_thread.native_handle(), "job-wrapper");
 #endif
 }
 
@@ -515,7 +510,7 @@ Job::remaining_time () const
 void
 Job::cancel ()
 {
-	if (!_thread) {
+	if (!_thread.joinable()) {
 		return;
 	}
 
@@ -523,11 +518,8 @@ Job::cancel ()
 		resume ();
 	}
 
-	_thread->interrupt ();
-	DCPOMATIC_ASSERT (_thread->joinable ());
-	_thread->join ();
-	delete _thread;
-	_thread = 0;
+	_thread.interrupt ();
+	_thread.join ();
 }
 
 /** @return true if the job was paused, false if it was not running */

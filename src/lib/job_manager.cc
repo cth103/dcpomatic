@@ -46,7 +46,6 @@ JobManager* JobManager::_instance = 0;
 JobManager::JobManager ()
 	: _terminate (false)
 	, _paused (false)
-	, _scheduler (0)
 {
 
 }
@@ -54,9 +53,9 @@ JobManager::JobManager ()
 void
 JobManager::start ()
 {
-	_scheduler = new boost::thread (boost::bind (&JobManager::scheduler, this));
+	_scheduler = boost::thread (boost::bind(&JobManager::scheduler, this));
 #ifdef DCPOMATIC_LINUX
-	pthread_setname_np (_scheduler->native_handle(), "job-scheduler");
+	pthread_setname_np (_scheduler.native_handle(), "job-scheduler");
 #endif
 }
 
@@ -72,16 +71,13 @@ JobManager::~JobManager ()
 		_empty_condition.notify_all ();
 	}
 
-	if (_scheduler) {
-		/* Ideally this would be a DCPOMATIC_ASSERT(_scheduler->joinable()) but we
-		   can't throw exceptions from a destructor.
-		*/
-		if (_scheduler->joinable ()) {
-			_scheduler->join ();
+	if (_scheduler.joinable()) {
+		try {
+			_scheduler.join();
+		} catch (...) {
+
 		}
 	}
-
-	delete _scheduler;
 }
 
 shared_ptr<Job>

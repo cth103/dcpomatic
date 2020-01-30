@@ -89,7 +89,7 @@ private:
 
 	/** Mutex for _threads */
 	mutable boost::mutex _threads_mutex;
-	std::list<boost::thread *> _threads;
+	std::list<boost::thread> _threads;
 	mutable boost::mutex _queue_mutex;
 	std::list<boost::shared_ptr<DCPVideo> > _queue;
 	/** condition to manage thread wakeups when we have nothing to do */

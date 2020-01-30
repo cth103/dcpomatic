@@ -57,7 +57,6 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	: VideoView (viewer)
 	, _have_storage (false)
 	, _vsync_enabled (false)
-	, _thread (0)
 	, _playing (false)
 	, _one_shot (false)
 {
@@ -105,9 +104,12 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 
 GLVideoView::~GLVideoView ()
 {
-	_thread->interrupt ();
-	_thread->join ();
-	delete _thread;
+	try {
+		_thread.interrupt ();
+		_thread.join ();
+	} catch (...) {
+
+	}
 
 	glDeleteTextures (1, &_id);
 }
@@ -386,7 +388,7 @@ GLVideoView::request_one_shot ()
 void
 GLVideoView::create ()
 {
-	if (!_thread) {
-		_thread = new boost::thread (boost::bind(&GLVideoView::thread, this));
+	if (!_thread.joinable()) {
+		_thread = boost::thread (boost::bind(&GLVideoView::thread, this));
 	}
 }
