@@ -49,13 +49,12 @@ private:
 	void text (PlayerText text, TextType type, dcpomatic::DCPTimePeriod period);
 
 	boost::weak_ptr<const Film> _film;
-	boost::thread* _thread;
+	boost::thread _thread;
 
 	bool _long_ccap;
 	bool _overlap_ccap;
 	bool _too_many_ccap_lines;
 	boost::optional<dcpomatic::DCPTimePeriod> _last;
 
-	boost::mutex _mutex;
-	bool _stop;
+	boost::atomic<bool> _stop;
 };

@@ -53,7 +53,6 @@ using namespace dcpomatic;
 
 Hints::Hints (weak_ptr<const Film> film)
 	: _film (film)
-	, _thread (0)
 	, _long_ccap (false)
 	, _overlap_ccap (false)
 	, _too_many_ccap_lines (false)
@@ -65,27 +64,22 @@ Hints::Hints (weak_ptr<const Film> film)
 void
 Hints::start ()
 {
-	_thread = new boost::thread (bind(&Hints::thread, this));
+	_thread = boost::thread (bind(&Hints::thread, this));
 }
 
 Hints::~Hints ()
 {
-	if (!_thread) {
+	if (!_thread.joinable()) {
 		return;
 	}
 
 	try {
-		{
-			boost::mutex::scoped_lock lm (_mutex);
-			_stop = true;
-		}
-		_thread->interrupt ();
-		_thread->join ();
+		_stop = true;
+		_thread.interrupt ();
+		_thread.join ();
 	} catch (...) {
 
 	}
-
-	delete _thread;
 }
 
 void
@@ -279,11 +273,8 @@ Hints::thread ()
 			struct timeval now;
 			gettimeofday (&now, 0);
 			if ((seconds(now) - seconds(last_pulse)) > 1) {
-				{
-					boost::mutex::scoped_lock lm (_mutex);
-					if (_stop) {
-						break;
-					}
+				if (_stop) {
+					break;
 				}
 				emit (bind (boost::ref(Pulse)));
 				last_pulse = now;
