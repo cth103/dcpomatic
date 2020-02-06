@@ -117,6 +117,10 @@ GLVideoView::~GLVideoView ()
 void
 GLVideoView::check_for_butler_errors ()
 {
+	if (!_viewer->butler()) {
+		return;
+	}
+
 	try {
 		_viewer->butler()->rethrow ();
 	} catch (DecodeError& e) {
