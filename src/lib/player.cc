@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -955,8 +955,15 @@ Player::bitmap_text_start (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, C
 
 	PlayerText ps;
 	shared_ptr<Image> image = subtitle.sub.image;
+
 	/* We will scale the subtitle up to fit _video_container_size */
-	dcp::Size scaled_size (subtitle.sub.rectangle.width * _video_container_size.width, subtitle.sub.rectangle.height * _video_container_size.height);
+	int const width = subtitle.sub.rectangle.width * _video_container_size.width;
+	int const height = subtitle.sub.rectangle.height * _video_container_size.height;
+	if (width == 0 || height == 0) {
+		return;
+	}
+
+	dcp::Size scaled_size (width, height);
 	ps.bitmap.push_back (BitmapText(image->scale(scaled_size, dcp::YUV_TO_RGB_REC601, image->pixel_format(), true, _fast), subtitle.sub.rectangle));
 	DCPTime from (content_time_to_dcp (piece, subtitle.from()));
 
