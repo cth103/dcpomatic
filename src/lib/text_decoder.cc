@@ -33,6 +33,7 @@ using std::list;
 using std::cout;
 using std::string;
 using std::min;
+using std::max;
 using boost::shared_ptr;
 using boost::optional;
 using boost::function;
@@ -105,7 +106,7 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 	bool needs_placement = false;
 	optional<int> bottom_line;
 	BOOST_FOREACH (sub::Line i, subtitle.lines) {
-		if (!i.vertical_position.reference || i.vertical_position.reference.get() == sub::TOP_OF_SUBTITLE) {
+		if (!i.vertical_position.reference || !i.vertical_position.lines || i.vertical_position.reference.get() == sub::TOP_OF_SUBTITLE) {
 			needs_placement = true;
 			DCPOMATIC_ASSERT (i.vertical_position.line);
 			if (!bottom_line || bottom_line.get() < i.vertical_position.line.get()) {
@@ -179,15 +180,18 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 			}
 
 			dcp::HAlign h_align;
+			float h_position = i.horizontal_position.proportional;
 			switch (i.horizontal_position.reference) {
 			case sub::LEFT_OF_SCREEN:
 				h_align = dcp::HALIGN_LEFT;
+				h_position = max(h_position, 0.05f);
 				break;
 			case sub::HORIZONTAL_CENTRE_OF_SCREEN:
 				h_align = dcp::HALIGN_CENTER;
 				break;
 			case sub::RIGHT_OF_SCREEN:
 				h_align = dcp::HALIGN_RIGHT;
+				h_position = max(h_position, 0.05f);
 				break;
 			default:
 				h_align = dcp::HALIGN_CENTER;
@@ -211,7 +215,7 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 					dcp::Time (from.seconds(), 1000),
 					/* XXX: hmm; this is a bit ugly (we don't know the to time yet) */
 					dcp::Time (),
-					i.horizontal_position.proportional,
+					h_position,
 					h_align,
 					v_position,
 					v_align,
