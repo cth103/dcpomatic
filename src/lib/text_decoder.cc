@@ -106,9 +106,8 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 	bool needs_placement = false;
 	optional<int> bottom_line;
 	BOOST_FOREACH (sub::Line i, subtitle.lines) {
-		if (!i.vertical_position.reference || !i.vertical_position.lines || i.vertical_position.reference.get() == sub::TOP_OF_SUBTITLE) {
+		if (!i.vertical_position.reference || (i.vertical_position.line && !i.vertical_position.lines) || i.vertical_position.reference.get() == sub::TOP_OF_SUBTITLE) {
 			needs_placement = true;
-			DCPOMATIC_ASSERT (i.vertical_position.line);
 			if (!bottom_line || bottom_line.get() < i.vertical_position.line.get()) {
 				bottom_line = i.vertical_position.line.get();
 			}
