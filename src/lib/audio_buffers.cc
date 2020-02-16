@@ -190,7 +190,12 @@ AudioBuffers::copy_from (AudioBuffers const * from, int32_t frames_to_copy, int3
 
 	DCPOMATIC_ASSERT (from);
 	DCPOMATIC_ASSERT (read_offset >= 0 && (read_offset + frames_to_copy) <= from->_allocated_frames);
-	DCPOMATIC_ASSERT (write_offset >= 0 && (write_offset + frames_to_copy) <= _allocated_frames);
+	if (write_offset < 0 || (write_offset + frames_to_copy) > _allocated_frames) {
+		throw ProgrammingError(
+				__FILE__, __LINE__,
+				String::compose("frames_to_copy=%1, read_offset=%2, write_offset=%3", frames_to_copy, read_offset, write_offset)
+				);
+	}
 
 	for (int i = 0; i < _channels; ++i) {
 		memcpy (_data[i] + write_offset, from->_data[i] + read_offset, frames_to_copy * sizeof(float));
