@@ -141,7 +141,11 @@ FFmpegEncoder::go ()
 		}
 
 		for (int j = 0; j < gets_per_frame; ++j) {
-			pair<shared_ptr<PlayerVideo>, DCPTime> v = _butler->get_video ();
+			Butler::Error e;
+			pair<shared_ptr<PlayerVideo>, DCPTime> v = _butler->get_video (&e);
+			if (!v.first) {
+				throw ProgrammingError(__FILE__, __LINE__, String::compose("butler returned no video; error was %1", static_cast<int>(e)));
+			}
 			shared_ptr<FFmpegFileEncoder> fe = encoder->get (v.first->eyes());
 			if (fe) {
 				fe->video(v.first, v.second);
