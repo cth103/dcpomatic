@@ -52,6 +52,12 @@ AudioBuffers::AudioBuffers (boost::shared_ptr<const AudioBuffers> other)
 	copy_from (other.get(), other->_frames, 0, 0);
 }
 
+AudioBuffers::AudioBuffers (boost::shared_ptr<const AudioBuffers> other, int32_t frames_to_copy, int32_t read_offset)
+{
+	allocate (other->_channels, frames_to_copy);
+	copy_from (other.get(), frames_to_copy, read_offset, 0);
+}
+
 AudioBuffers &
 AudioBuffers::operator= (AudioBuffers const & other)
 {

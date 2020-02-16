@@ -41,6 +41,7 @@ public:
 	AudioBuffers (int channels, int32_t frames);
 	AudioBuffers (AudioBuffers const &);
 	explicit AudioBuffers (boost::shared_ptr<const AudioBuffers>);
+	AudioBuffers (boost::shared_ptr<const AudioBuffers> other, int32_t frames_to_copy, int32_t read_offset);
 	~AudioBuffers ();
 
 	AudioBuffers & operator= (AudioBuffers const &);

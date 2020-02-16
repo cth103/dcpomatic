@@ -67,13 +67,13 @@ AudioMerger::pull (DCPTime time)
 			out.push_back (make_pair (i.audio, i.time));
 		} else if (i.time < time) {
 			/* Overlaps the end of the pull period */
-			shared_ptr<AudioBuffers> audio (new AudioBuffers (i.audio->channels(), frames(DCPTime(time - i.time))));
-			/* Though time > i.time, audio->frames() could be 0 if the difference in time is less than one frame */
-			if (audio->frames() > 0) {
-				audio->copy_from (i.audio.get(), audio->frames(), 0, 0);
-				out.push_back (make_pair (audio, i.time));
-				i.audio->trim_start (audio->frames ());
-				i.time += DCPTime::from_frames(audio->frames(), _frame_rate);
+			int32_t const overlap = frames(DCPTime(time - i.time));
+			/* Though time > i.time, overlap could be 0 if the difference in time is less than one frame */
+			if (overlap > 0) {
+				shared_ptr<AudioBuffers> audio(new AudioBuffers(i.audio, overlap, 0));
+				out.push_back (make_pair(audio, i.time));
+				i.audio->trim_start (overlap);
+				i.time += DCPTime::from_frames(overlap, _frame_rate);
 				DCPOMATIC_ASSERT (i.audio->frames() > 0);
 				new_buffers.push_back (i);
 			}
@@ -134,8 +134,7 @@ AudioMerger::push (boost::shared_ptr<const AudioBuffers> audio, DCPTime time)
 		}
 
 		/* Get the part of audio that we want to use */
-		shared_ptr<AudioBuffers> part (new AudioBuffers (audio->channels(), frames(i.to) - frames(i.from)));
-		part->copy_from (audio.get(), part->frames(), frames(DCPTime(i.from - time)), 0);
+		shared_ptr<AudioBuffers> part (new AudioBuffers(audio, frames(i.to) - frames(i.from), frames(DCPTime(i.from - time))));
 
 		if (before == _buffers.end() && after == _buffers.end()) {
 			if (part->frames() > 0) {

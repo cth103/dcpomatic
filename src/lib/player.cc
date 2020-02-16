@@ -900,9 +900,7 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 		if (remaining_frames == 0) {
 			return;
 		}
-		shared_ptr<AudioBuffers> cut (new AudioBuffers (content_audio.audio->channels(), remaining_frames));
-		cut->copy_from (content_audio.audio.get(), remaining_frames, 0, 0);
-		content_audio.audio = cut;
+		content_audio.audio.reset (new AudioBuffers(content_audio.audio, remaining_frames, 0));
 	}
 
 	DCPOMATIC_ASSERT (content_audio.audio->frames() > 0);
@@ -1195,8 +1193,7 @@ Player::discard_audio (shared_ptr<const AudioBuffers> audio, DCPTime time, DCPTi
 	if (remaining_frames <= 0) {
 		return make_pair(shared_ptr<AudioBuffers>(), DCPTime());
 	}
-	shared_ptr<AudioBuffers> cut (new AudioBuffers (audio->channels(), remaining_frames));
-	cut->copy_from (audio.get(), remaining_frames, discard_frames, 0);
+	shared_ptr<AudioBuffers> cut (new AudioBuffers(audio, remaining_frames, discard_frames));
 	return make_pair(cut, time + discard_time);
 }
 
