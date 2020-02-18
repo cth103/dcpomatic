@@ -26,7 +26,6 @@
 
 #include "lib/ffmpeg_content.h"
 #include "lib/ffmpeg_decoder.h"
-#include "lib/null_log.h"
 #include "lib/content_video.h"
 #include "lib/video_decoder.h"
 #include "lib/film.h"
@@ -66,7 +65,6 @@ ffmpeg_decoder_sequential_test_one (boost::filesystem::path file, float fps, int
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 	film->write_metadata ();
-	shared_ptr<Log> log (new NullLog);
 	shared_ptr<Player> player (new Player (film, film->playlist()));
 
 	BOOST_REQUIRE (content->video_frame_rate());
