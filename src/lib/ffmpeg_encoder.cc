@@ -181,6 +181,8 @@ FFmpegEncoder::go ()
 	BOOST_FOREACH (FileEncoderSet i, _file_encoders) {
 		i.flush ();
 	}
+
+	_butler->rethrow ();
 }
 
 float
