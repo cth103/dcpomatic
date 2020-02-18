@@ -35,6 +35,8 @@
 #include "lib/dcp_content_type.h"
 #include "lib/log_entry.h"
 #include "lib/compose.hpp"
+#include "lib/file_log.h"
+#include "lib/dcpomatic_log.h"
 #include "test.h"
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
@@ -113,6 +115,8 @@ struct TestConfig
 		if (env_private) {
 			private_data = env_private;
 		}
+
+		dcpomatic_log.reset (new FileLog("build/test/log"));
 	}
 
 	~TestConfig ()
