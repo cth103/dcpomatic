@@ -153,7 +153,7 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 void
 VideoDecoder::seek ()
 {
-	_position = ContentTime();
+	_position = boost::none;
 	_last_emitted_frame.reset ();
 	_last_emitted_eyes.reset ();
 }
