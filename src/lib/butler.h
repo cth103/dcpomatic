@@ -51,7 +51,8 @@ public:
 
 	enum Error {
 		NONE,
-		AGAIN
+		AGAIN,
+		DIED
 	};
 
 	std::pair<boost::shared_ptr<PlayerVideo>, DCPTime> get_video (Error* e = 0);

@@ -234,7 +234,7 @@ Butler::get_video (Error* e)
 
 	if (_video.empty()) {
 		if (e) {
-			*e = NONE;
+			*e = _died ? DIED : NONE;
 		}
 		return make_pair(shared_ptr<PlayerVideo>(), DCPTime());
 	}
