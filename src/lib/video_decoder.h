@@ -58,7 +58,6 @@ public:
 	void seek ();
 	void emit (boost::shared_ptr<const Film> film, boost::shared_ptr<const ImageProxy>, Frame frame);
 
-	/** @return true if the emitted data was accepted, false if not */
 	boost::signals2::signal<void (ContentVideo)> Data;
 
 private:
