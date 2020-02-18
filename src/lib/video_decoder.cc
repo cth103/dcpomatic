@@ -60,6 +60,7 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 	}
 
 	double const afr = _content->active_video_frame_rate(film);
+	VideoFrameType const vft = _content->video->frame_type();
 
 	Frame frame;
 	if (!_position) {
@@ -72,14 +73,17 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 		   If we drop the frame with the duplicated timestamp we obviously lose sync.
 		*/
 		_position = ContentTime::from_frames (decoder_frame, afr);
-		if (_content->video->frame_type() == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
+		if (vft == VIDEO_FRAME_TYPE_3D) {
+			frame = decoder_frame;
+			_last_emitted_eyes = EYES_RIGHT;
+		} else if (vft == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
 			frame = decoder_frame / 2;
 			_last_emitted_eyes = EYES_RIGHT;
 		} else {
 			frame = decoder_frame;
 		}
 	} else {
-		if (_content->video->frame_type() == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
+		if (vft == VIDEO_FRAME_TYPE_3D || vft == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
 			DCPOMATIC_ASSERT (_last_emitted_eyes);
 			if (_last_emitted_eyes.get() == EYES_RIGHT) {
 				frame = _position->frames_round(afr) + 1;
