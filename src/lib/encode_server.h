@@ -54,7 +54,7 @@ private:
 	void broadcast_thread ();
 	void broadcast_received ();
 
-	std::vector<boost::thread> _worker_threads;
+	std::vector<boost::thread*> _worker_threads;
 	std::list<boost::shared_ptr<Socket> > _queue;
 	boost::condition _full_condition;
 	boost::condition _empty_condition;

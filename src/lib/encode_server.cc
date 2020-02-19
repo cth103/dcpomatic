@@ -87,12 +87,13 @@ EncodeServer::~EncodeServer ()
 		_full_condition.notify_all ();
 	}
 
-	BOOST_FOREACH (boost::thread& i, _worker_threads) {
+	BOOST_FOREACH (boost::thread* i, _worker_threads) {
 		try {
-			i.join ();
+			i->join ();
 		} catch (...) {
 
 		}
+		delete i;
 	}
 
 	{
@@ -233,9 +234,10 @@ EncodeServer::run ()
 	}
 
 	for (int i = 0; i < _num_threads; ++i) {
-		_worker_threads.push_back (thread(bind(&EncodeServer::worker_thread, this)));
+		boost::thread* t = new thread(bind(&EncodeServer::worker_thread, this));
+		_worker_threads.push_back (t);
 #ifdef DCPOMATIC_LINUX
-		pthread_setname_np (_worker_threads.back().native_handle(), "encode-server-worker");
+		pthread_setname_np (t->native_handle(), "encode-server-worker");
 #endif
 	}
 
