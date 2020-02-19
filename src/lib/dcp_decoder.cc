@@ -29,6 +29,7 @@
 #include "image.h"
 #include "config.h"
 #include "digester.h"
+#include "frame_interval_checker.h"
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
 #include <dcp/reel.h>

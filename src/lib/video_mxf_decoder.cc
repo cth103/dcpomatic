@@ -22,6 +22,7 @@
 #include "video_decoder.h"
 #include "video_mxf_content.h"
 #include "j2k_image_proxy.h"
+#include "frame_interval_checker.h"
 #include <dcp/mono_picture_asset.h>
 #include <dcp/mono_picture_asset_reader.h>
 #include <dcp/stereo_picture_asset.h>
