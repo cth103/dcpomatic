@@ -72,7 +72,7 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 	 */
 	if (_frame_interval_checker) {
 		_frame_interval_checker->feed (frame_time, afr);
-		if (_frame_interval_checker->guess() == FrameIntervalChecker::PROBABLY_NOT_3D && _content->video->frame_type() == VIDEO_FRAME_TYPE_3D) {
+		if (_frame_interval_checker->guess() == FrameIntervalChecker::PROBABLY_NOT_3D && vft == VIDEO_FRAME_TYPE_3D) {
 			boost::throw_exception (
 				DecodeError(
 					String::compose(
@@ -90,6 +90,7 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 	}
 
 	Frame frame;
+	Eyes eyes = EYES_BOTH;
 	if (!_position) {
 		/* This is the first data we have received since initialisation or seek.  Set
 		   the position based on the frame that was given.  After this first time
@@ -100,10 +101,7 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 		   If we drop the frame with the duplicated timestamp we obviously lose sync.
 		*/
 		_position = ContentTime::from_frames (decoder_frame, afr);
-		if (vft == VIDEO_FRAME_TYPE_3D) {
-			frame = decoder_frame;
-			_last_emitted_eyes = EYES_RIGHT;
-		} else if (vft == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
+		if (vft == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
 			frame = decoder_frame / 2;
 			_last_emitted_eyes = EYES_RIGHT;
 		} else {
@@ -114,25 +112,22 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 			DCPOMATIC_ASSERT (_last_emitted_eyes);
 			if (_last_emitted_eyes.get() == EYES_RIGHT) {
 				frame = _position->frames_round(afr) + 1;
+				eyes = EYES_LEFT;
 			} else {
 				frame = _position->frames_round(afr);
+				eyes = EYES_RIGHT;
 			}
 		} else {
 			frame = _position->frames_round(afr) + 1;
 		}
 	}
 
-	switch (_content->video->frame_type ()) {
+	switch (vft) {
 	case VIDEO_FRAME_TYPE_2D:
 		Data (ContentVideo (image, frame, EYES_BOTH, PART_WHOLE));
 		break;
 	case VIDEO_FRAME_TYPE_3D:
 	{
-		/* We should receive the same frame index twice for 3D; hence we know which
-		   frame this one is.
-		*/
-		bool const same = (_last_emitted_frame && _last_emitted_frame.get() == frame);
-		Eyes const eyes = same ? EYES_RIGHT : EYES_LEFT;
 		Data (ContentVideo (image, frame, eyes, PART_WHOLE));
 		_last_emitted_frame = frame;
 		_last_emitted_eyes = eyes;
@@ -140,8 +135,6 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 	}
 	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
 	{
-		DCPOMATIC_ASSERT (_last_emitted_eyes);
-		Eyes const eyes = _last_emitted_eyes.get() == EYES_LEFT ? EYES_RIGHT : EYES_LEFT;
 		Data (ContentVideo (image, frame, eyes, PART_WHOLE));
 		_last_emitted_eyes = eyes;
 		break;
