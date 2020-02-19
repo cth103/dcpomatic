@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -23,6 +23,7 @@
 #include "raw_image_proxy.h"
 #include "film.h"
 #include "log.h"
+#include "frame_interval_checker.h"
 #include "compose.hpp"
 #include <boost/foreach.hpp>
 #include <iostream>
@@ -40,6 +41,7 @@ using namespace dcpomatic;
 VideoDecoder::VideoDecoder (Decoder* parent, shared_ptr<const Content> c)
 	: DecoderPart (parent)
 	, _content (c)
+	, _frame_interval_checker (new FrameIntervalChecker())
 {
 
 }
@@ -60,33 +62,33 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 		return;
 	}
 
-	/* Before we `re-write' the frame indexes of these incoming data we need to check for
-	   the case where the user has some 2D content which they have marked as 3D.  With 3D
-	   we should get two frames for each frame index, but in this `bad' case we only get
-	   one.  We need to throw an exception if this happens.
-	*/
+	double const afr = _content->active_video_frame_rate(film);
+	VideoFrameType const vft = _content->video->frame_type();
 
-	if (_content->video->frame_type() == VIDEO_FRAME_TYPE_3D) {
-		if (_last_threed_frames.size() > 4) {
-			_last_threed_frames.erase (_last_threed_frames.begin());
-		}
-		_last_threed_frames.push_back (decoder_frame);
-		if (_last_threed_frames.size() == 4) {
-			if (_last_threed_frames[0] != _last_threed_frames[1] || _last_threed_frames[2] != _last_threed_frames[3]) {
-				boost::throw_exception (
-					DecodeError(
-						String::compose(
-							_("The content file %1 is set as 3D but does not appear to contain 3D images.  Please set it to 2D.  "
-							  "You can still make a 3D DCP from this content by ticking the 3D option in the DCP video tab."),
-							_content->path(0)
-							)
+	ContentTime frame_time = ContentTime::from_frames (decoder_frame, afr);
+
+	/* Do some heuristics to try and spot the case where the user sets content to 3D
+	 * when it is not.  We try to tell this by looking at the differences in time between
+	 * the first few frames.  Real 3D content should have two frames for each timestamp.
+	 */
+	if (_frame_interval_checker) {
+		_frame_interval_checker->feed (frame_time, afr);
+		if (_frame_interval_checker->guess() == FrameIntervalChecker::PROBABLY_NOT_3D && vft == VIDEO_FRAME_TYPE_3D) {
+			boost::throw_exception (
+				DecodeError(
+					String::compose(
+						_("The content file %1 is set as 3D but does not appear to contain 3D images.  Please set it to 2D.  "
+						  "You can still make a 3D DCP from this content by ticking the 3D option in the DCP video tab."),
+						_content->path(0)
 						)
-					);
-			}
+					)
+				);
+		}
+
+		if (_frame_interval_checker->guess() != FrameIntervalChecker::AGAIN) {
+			_frame_interval_checker.reset ();
 		}
 	}
-
-	double const afr = _content->active_video_frame_rate(film);
 
 	Frame frame;
 	Eyes eyes = EYES_BOTH;
@@ -100,15 +102,14 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 		   If we drop the frame with the duplicated timestamp we obviously lose sync.
 		*/
 		_position = ContentTime::from_frames (decoder_frame, afr);
-		if (_content->video->frame_type() == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
+		if (vft == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
 			frame = decoder_frame / 2;
 			_last_emitted_eyes = EYES_RIGHT;
 		} else {
 			frame = decoder_frame;
 		}
 	} else {
-		VideoFrameType const ft = _content->video->frame_type ();
-		if (ft == VIDEO_FRAME_TYPE_3D_ALTERNATE || ft == VIDEO_FRAME_TYPE_3D) {
+		if (vft == VIDEO_FRAME_TYPE_3D || vft == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
 			DCPOMATIC_ASSERT (_last_emitted_eyes);
 			if (_last_emitted_eyes.get() == EYES_RIGHT) {
 				frame = _position->frames_round(afr) + 1;
@@ -122,7 +123,7 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 		}
 	}
 
-	switch (_content->video->frame_type ()) {
+	switch (vft) {
 	case VIDEO_FRAME_TYPE_2D:
 		Data (ContentVideo (image, frame, EYES_BOTH, PART_WHOLE));
 		break;
@@ -163,7 +164,8 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 void
 VideoDecoder::seek ()
 {
-	_position = boost::optional<ContentTime>();
+	_position = boost::none;
 	_last_emitted_frame.reset ();
 	_last_emitted_eyes.reset ();
+	_frame_interval_checker.reset (new FrameIntervalChecker());
 }

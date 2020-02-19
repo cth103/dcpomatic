@@ -42,6 +42,7 @@
 #include "compose.hpp"
 #include "text_content.h"
 #include "audio_content.h"
+#include "frame_interval_checker.h"
 #include <dcp/subtitle_string.h>
 #include <sub/ssa_reader.h>
 #include <sub/subtitle.h>
