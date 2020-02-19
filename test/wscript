@@ -76,6 +76,7 @@ def build(bld):
                  file_log_test.cc
                  file_naming_test.cc
                  film_metadata_test.cc
+                 frame_interval_checker_test.cc
                  frame_rate_test.cc
                  image_content_fade_test.cc
                  image_filename_sorter_test.cc

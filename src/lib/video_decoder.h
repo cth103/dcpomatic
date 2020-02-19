@@ -37,6 +37,7 @@ class VideoContent;
 class ImageProxy;
 class Image;
 class Log;
+class FrameIntervalChecker;
 
 /** @class VideoDecoder
  *  @brief Parent for classes which decode video.
@@ -66,6 +67,7 @@ private:
 	boost::optional<Frame> _last_emitted_frame;
 	boost::optional<Eyes> _last_emitted_eyes;
 	boost::optional<ContentTime> _position;
+	boost::scoped_ptr<FrameIntervalChecker> _frame_interval_checker;
 };
 
 #endif

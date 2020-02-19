@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -23,6 +23,7 @@
 #include "raw_image_proxy.h"
 #include "film.h"
 #include "log.h"
+#include "frame_interval_checker.h"
 #include "compose.hpp"
 #include <boost/foreach.hpp>
 #include <iostream>
@@ -39,6 +40,7 @@ using boost::optional;
 VideoDecoder::VideoDecoder (Decoder* parent, shared_ptr<const Content> c)
 	: DecoderPart (parent)
 	, _content (c)
+	, _frame_interval_checker (new FrameIntervalChecker())
 {
 
 }
@@ -61,6 +63,31 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 
 	double const afr = _content->active_video_frame_rate(film);
 	VideoFrameType const vft = _content->video->frame_type();
+
+	ContentTime frame_time = ContentTime::from_frames (decoder_frame, afr);
+
+	/* Do some heuristics to try and spot the case where the user sets content to 3D
+	 * when it is not.  We try to tell this by looking at the differences in time between
+	 * the first few frames.  Real 3D content should have two frames for each timestamp.
+	 */
+	if (_frame_interval_checker) {
+		_frame_interval_checker->feed (frame_time, afr);
+		if (_frame_interval_checker->guess() == FrameIntervalChecker::PROBABLY_NOT_3D && _content->video->frame_type() == VIDEO_FRAME_TYPE_3D) {
+			boost::throw_exception (
+				DecodeError(
+					String::compose(
+						_("The content file %1 is set as 3D but does not appear to contain 3D images.  Please set it to 2D.  "
+						  "You can still make a 3D DCP from this content by ticking the 3D option in the DCP video tab."),
+						_content->path(0)
+						)
+					)
+				);
+		}
+
+		if (_frame_interval_checker->guess() != FrameIntervalChecker::AGAIN) {
+			_frame_interval_checker.reset ();
+		}
+	}
 
 	Frame frame;
 	if (!_position) {
@@ -105,20 +132,6 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 		   frame this one is.
 		*/
 		bool const same = (_last_emitted_frame && _last_emitted_frame.get() == frame);
-		if (!same && _last_emitted_eyes && *_last_emitted_eyes == EYES_LEFT) {
-			/* We just got a new frame index but the last frame was left-eye; it looks like
-			   this content is not really 3D.
-			*/
-			boost::throw_exception (
-				DecodeError(
-					String::compose(
-						_("The content file %1 is set as 3D but does not appear to contain 3D images.  Please set it to 2D.  "
-						  "You can still make a 3D DCP from this content by ticking the 3D option in the DCP video tab."),
-						_content->path(0)
-						)
-					)
-				);
-		}
 		Eyes const eyes = same ? EYES_RIGHT : EYES_LEFT;
 		Data (ContentVideo (image, frame, eyes, PART_WHOLE));
 		_last_emitted_frame = frame;
@@ -160,4 +173,5 @@ VideoDecoder::seek ()
 	_position = boost::none;
 	_last_emitted_frame.reset ();
 	_last_emitted_eyes.reset ();
+	_frame_interval_checker.reset (new FrameIntervalChecker());
 }

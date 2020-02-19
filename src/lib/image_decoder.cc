@@ -27,6 +27,7 @@
 #include "film.h"
 #include "exceptions.h"
 #include "video_content.h"
+#include "frame_interval_checker.h"
 #include <boost/filesystem.hpp>
 #include <iostream>
 
