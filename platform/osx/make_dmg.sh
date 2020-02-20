@@ -260,7 +260,7 @@ function make_dmg {
     dmg="$full_name $version.dmg"
     vol_name=DCP-o-matic-$version
 
-    codesign --deep --force --verify --verbose --sign "Developer ID Application: Carl Hetherington (R82DXSR997)" "$appdir"
+    codesign --deep --force --verify --verbose --options runtime --sign "Developer ID Application: Carl Hetherington (R82DXSR997)" "$appdir"
     if [ "$?" != "0" ]; then
 	echo "Failed to sign .app"
 	exit 1
@@ -325,7 +325,7 @@ EOF
     xattr -c "$dmg"
 
     set -e
-    codesign --verify --verbose --sign "Developer ID Application: Carl Hetherington (R82DXSR997)" "$dmg"
+    codesign --verify --verbose --options runtime --sign "Developer ID Application: Carl Hetherington (R82DXSR997)" "$dmg"
 
     # We only notarize thin builds, as if we're building universal binaries we must be on an OS
     # sufficiently old that it can't notarize anyway
@@ -335,14 +335,20 @@ EOF
 	N=0
 	while [ 1 ]; do
 	    echo "Checking up on $id"
-	    status=$(xcrun altool --notarization-info $id -u $APPLE_ID -p $APPLE_PASSWORD --output-format xml | grep -C1 "<key>Status</key>" | tail -n 1 | sed -e "s/	.//g")
-	    echo "Got $status"
-	    if [ "$status" == "<string>success</string>" ]; then
+            status=$(xcrun altool --notarization-info $id -u $APPLE_ID -p $APPLE_PASSWORD --output-format xml)
+            summary=$(echo "$status" | grep -C1 "<key>Status</key>" | tail -n 1 | sed -e "s/    .//g")
+            echo "Got $summary"
+            if [ "$summary" == "<string>invalid</string>" ]; then
+                echo "Notarization failed."
+                echo $status
+                exit 1
+            fi
+	    if [ "$summary" == "<string>success</string>" ]; then
 		break
 	    fi
 	    sleep 30
 	    N=$((N+1))
-	    if [ "$N" == "10" ]; then
+	    if [ "$N" == "30" ]; then
 		echo "Timed out waiting for notarization"
 		exit 1
 	    fi
