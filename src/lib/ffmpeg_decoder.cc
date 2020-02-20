@@ -626,23 +626,23 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime 
 #ifdef DCPOMATIC_HAVE_AVSUBTITLERECT_PICT
 	/* Start of the first line in the subtitle */
 	uint8_t* sub_p = rect->pict.data[0];
-	/* sub_p looks up into a BGRA palette which is here
+	/* sub_p looks up into a BGRA palette which is at rect->pict.data[1];
 	   (i.e. first byte B, second G, third R, fourth A)
 	*/
-	uint32_t const * palette = (uint32_t *) rect->pict.data[1];
+	uint8_t const * palette = rect->pict.data[1];
 #else
 	/* Start of the first line in the subtitle */
 	uint8_t* sub_p = rect->data[0];
 	/* sub_p looks up into a BGRA palette which is at rect->data[1].
 	   (first byte B, second G, third R, fourth A)
 	*/
+	uint8_t const * palette = rect->data[1];
 #endif
 	/* And the stream has a map of those palette colours to colours
 	   chosen by the user; created a `mapped' palette from those settings.
 	*/
 	map<RGBA, RGBA> colour_map = ffmpeg_content()->subtitle_stream()->colours ();
 	vector<RGBA> mapped_palette (rect->nb_colors);
-	uint8_t const * palette = rect->data[1];
 	for (int i = 0; i < rect->nb_colors; ++i) {
 		RGBA c (palette[2], palette[1], palette[0], palette[3]);
 		map<RGBA, RGBA>::const_iterator j = colour_map.find (c);

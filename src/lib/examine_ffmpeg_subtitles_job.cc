@@ -82,16 +82,17 @@ ExamineFFmpegSubtitlesJob::run ()
 						/* sub_p looks up into a BGRA palette which is here
 						   (i.e. first byte B, second G, third R, fourth A)
 						*/
-						uint32_t const * palette = (uint32_t *) rect->pict.data[1];
+						uint8_t const * palette = rect->pict.data[1];
 #else
 						/* sub_p looks up into a BGRA palette which is here
 						   (i.e. first byte B, second G, third R, fourth A)
 						*/
-						uint32_t const * palette = (uint32_t *) rect->data[1];
+						uint8_t const * palette = rect->data[1];
 #endif
 						for (int j = 0; j < rect->nb_colors; ++j) {
-							RGBA c ((palette[j] & 0xff0000) >> 16, (palette[j] & 0xff00) >> 8, palette[j] & 0xff, (palette[j] & 0xff000000) >> 24);
+							RGBA c (palette[2], palette[1], palette[0], palette[3]);
 							_content->subtitle_stream()->set_colour (c, c);
+							palette += 4;
 						}
 					}
 				}
