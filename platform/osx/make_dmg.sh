@@ -336,7 +336,7 @@ EOF
 	while [ 1 ]; do
 	    echo "Checking up on $id"
             status=$(xcrun altool --notarization-info $id -u $APPLE_ID -p $APPLE_PASSWORD --output-format xml)
-            summary=$(echo "$status" | grep -C1 "<key>Status</key>" | tail -n 1 | sed -e "s/    .//g")
+            summary=$(echo "$status" | grep -C1 "<key>Status</key>" | tail -n 1 | sed -e "s/	.//g")
             echo "Got $summary"
             if [ "$summary" == "<string>invalid</string>" ]; then
                 echo "Notarization failed."
