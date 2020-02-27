@@ -31,7 +31,7 @@ AudioGainDialog::AudioGainDialog (wxWindow* parent, int c, int d, float v)
 	_gain = add (new wxSpinCtrlDouble (this));
 	add (_("dB"), false);
 
-	_gain->SetRange (-144, 0);
+	_gain->SetRange (-144, 18);
 	_gain->SetDigits (1);
 	_gain->SetIncrement (0.1);
 

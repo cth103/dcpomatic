@@ -55,9 +55,10 @@ using dcp::locale_convert;
 
 enum {
 	ID_off = 1,
-	ID_full = 2,
-	ID_minus6dB = 3,
-	ID_edit = 4
+	ID_minus6dB = 2,
+	ID_0dB = 3,
+	ID_plus3dB = 4,
+	ID_edit = 5
 };
 
 AudioMappingView::AudioMappingView (wxWindow* parent, wxString left_label, wxString from, wxString top_label, wxString to)
@@ -71,8 +72,9 @@ AudioMappingView::AudioMappingView (wxWindow* parent, wxString left_label, wxStr
 {
 	_menu = new wxMenu;
 	_menu->Append (ID_off, _("Off"));
-	_menu->Append (ID_full, _("Full"));
 	_menu->Append (ID_minus6dB, _("-6dB"));
+	_menu->Append (ID_0dB, _("0dB (unchanged)"));
+	_menu->Append (ID_plus3dB, _("+3dB"));
 	_menu->Append (ID_edit, _("Edit..."));
 
 	_body = new wxPanel (this, wxID_ANY);
@@ -85,8 +87,9 @@ AudioMappingView::AudioMappingView (wxWindow* parent, wxString left_label, wxStr
 
 	Bind (wxEVT_SIZE, boost::bind(&AudioMappingView::size, this, _1));
 	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::set_gain_from_menu, this, 0), ID_off);
-	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::set_gain_from_menu, this, 1), ID_full);
 	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::set_gain_from_menu, this, db_to_linear(-6)), ID_minus6dB);
+	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::set_gain_from_menu, this, 1), ID_0dB);
+	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::set_gain_from_menu, this, db_to_linear(3)), ID_plus3dB);
 	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::edit, this), ID_edit);
 	Bind (wxEVT_MOUSEWHEEL, boost::bind(&AudioMappingView::mouse_wheel, this, _1));
 	_body->Bind (wxEVT_PAINT, boost::bind(&AudioMappingView::paint, this));
@@ -309,13 +312,14 @@ AudioMappingView::paint_indicators (wxDC& dc)
 				);
 
 			float const value_dB = linear_to_db(_map.get(y, x));
+			wxColour const colour = value_dB <= 0 ? wxColour(0, 255, 0) : wxColour(255, 150, 0);
 			int const range = 18;
 			int height = 0;
 			if (value_dB > -range) {
-				height = INDICATOR_SIZE * (1 + value_dB / range);
+				height = min(INDICATOR_SIZE, static_cast<int>(INDICATOR_SIZE * (1 + value_dB / range)));
 			}
 
-			dc.SetBrush (*wxTheBrushList->FindOrCreateBrush(wxColour (0, 255, 0), wxBRUSHSTYLE_SOLID));
+			dc.SetBrush (*wxTheBrushList->FindOrCreateBrush(colour, wxBRUSHSTYLE_SOLID));
 			dc.DrawRectangle (
 				wxRect(
 					LEFT_WIDTH + x * GRID_SPACING + (GRID_SPACING - INDICATOR_SIZE) / 2,
