@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -84,9 +84,9 @@ AudioMappingView::AudioMappingView (wxWindow* parent, wxString left_label, wxStr
 #endif
 
 	Bind (wxEVT_SIZE, boost::bind(&AudioMappingView::size, this, _1));
-	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::off, this), ID_off);
-	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::full, this), ID_full);
-	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::minus6dB, this), ID_minus6dB);
+	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::set_gain_from_menu, this, 0), ID_off);
+	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::set_gain_from_menu, this, 1), ID_full);
+	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::set_gain_from_menu, this, db_to_linear(-6)), ID_minus6dB);
 	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::edit, this), ID_edit);
 	Bind (wxEVT_MOUSEWHEEL, boost::bind(&AudioMappingView::mouse_wheel, this, _1));
 	_body->Bind (wxEVT_PAINT, boost::bind(&AudioMappingView::paint, this));
@@ -488,23 +488,9 @@ AudioMappingView::map_values_changed ()
 }
 
 void
-AudioMappingView::off ()
+AudioMappingView::set_gain_from_menu (double linear)
 {
-	_map.set (_menu_input, _menu_output, 0);
-	map_values_changed ();
-}
-
-void
-AudioMappingView::full ()
-{
-	_map.set (_menu_input, _menu_output, 1);
-	map_values_changed ();
-}
-
-void
-AudioMappingView::minus6dB ()
-{
-	_map.set (_menu_input, _menu_output, db_to_linear(-6));
+	_map.set (_menu_input, _menu_output, linear);
 	map_values_changed ();
 }
 

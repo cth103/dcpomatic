@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -93,9 +93,7 @@ private:
 	wxString safe_input_channel_name (int n) const;
 	wxString safe_output_channel_name (int n) const;
 
-	void off ();
-	void full ();
-	void minus6dB ();
+	void set_gain_from_menu (double linear);
 	void edit ();
 
 	AudioMapping _map;
