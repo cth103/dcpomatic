@@ -150,8 +150,6 @@ sources = """
           server.cc
           shuffler.cc
           state.cc
-          spl.cc
-          spl_entry.cc
           string_log_entry.cc
           string_text_file.cc
           string_text_file_content.cc
@@ -200,6 +198,9 @@ def build(bld):
         obj.framework = ['IOKit', 'Foundation']
 
     obj.source = sources + ' version.cc'
+
+    if bld.env.VARIANT == 'swaroop-theater' or bld.env.VARIANT == 'swaroop-studio':
+        obj.source += ' swaroop_spl.cc swaroop_spl_entry.cc'
 
     if bld.env.TARGET_WINDOWS:
         obj.uselib += ' WINSOCK2 DBGHELP SHLWAPI MSWSOCK BOOST_LOCALE'

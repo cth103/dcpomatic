@@ -18,8 +18,8 @@
 
 */
 
-#ifndef DCPOMATIC_SPL_ENTRY_H
-#define DCPOMATIC_SPL_ENTRY_H
+#ifndef DCPOMATIC_SWAROOP_SPL_ENTRY_H
+#define DCPOMATIC_SWAROOP_SPL_ENTRY_H
 
 #include <libcxml/cxml.h>
 #include <dcp/types.h>

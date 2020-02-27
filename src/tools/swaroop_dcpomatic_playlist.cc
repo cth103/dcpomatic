@@ -27,8 +27,8 @@
 #include "../lib/cross.h"
 #include "../lib/film.h"
 #include "../lib/dcp_content.h"
-#include "../lib/spl_entry.h"
-#include "../lib/spl.h"
+#include "../lib/swaroop_spl_entry.h"
+#include "../lib/swaroop_spl.h"
 #include <wx/wx.h>
 #include <wx/listctrl.h>
 #include <wx/imaglist.h>

@@ -19,6 +19,7 @@
 */
 
 #include "controls.h"
+#include "lib/swaroop_spl.h"
 
 class DCPContent;
 class EncryptedECinemaKDM;

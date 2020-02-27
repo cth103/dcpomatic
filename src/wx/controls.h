@@ -24,7 +24,6 @@
 #include "lib/dcpomatic_time.h"
 #include "lib/types.h"
 #include "lib/film.h"
-#include "lib/spl.h"
 #include <wx/wx.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>

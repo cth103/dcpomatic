@@ -18,7 +18,7 @@
 
 */
 
-#include "spl_entry.h"
+#include "swaroop_spl_entry.h"
 #include "dcp_content.h"
 #include "dcpomatic_assert.h"
 #include <libxml++/libxml++.h>

@@ -21,7 +21,7 @@
 #ifndef DCPOMATIC_SPL_H
 #define DCPOMATIC_SPL_H
 
-#include "spl_entry.h"
+#include "swaroop_spl_entry.h"
 #include <dcp/util.h>
 
 class ContentStore;

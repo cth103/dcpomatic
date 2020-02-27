@@ -18,7 +18,7 @@
 
 */
 
-#include "spl.h"
+#include "swaroop_spl.h"
 #include "content_store.h"
 #include <libcxml/cxml.h>
 #include <dcp/raw_convert.h>
