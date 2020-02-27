@@ -18,7 +18,7 @@
 
 */
 
-#include "swaroop_spl.h"
+#include "spl.h"
 #include "content_store.h"
 #include <libcxml/cxml.h>
 #include <dcp/raw_convert.h>
@@ -34,38 +34,31 @@ using dcp::raw_convert;
 void
 SPL::read (boost::filesystem::path path, ContentStore* store)
 {
-	_path = path;
-
 	_spl.clear ();
 	_missing = false;
 	cxml::Document doc ("SPL");
 	doc.read_file (path);
 	_id = doc.string_child("Id");
+	_name = doc.string_child("Name");
 	BOOST_FOREACH (cxml::ConstNodePtr i, doc.node_children("Entry")) {
 		shared_ptr<Content> c = store->get(i->string_child("Digest"));
 		if (c) {
-			add (SPLEntry(c, i));
+			add (SPLEntry(c));
 		} else {
 			_missing = true;
 		}
 	}
-
-	_allowed_shows = doc.optional_number_child<int>("AllowedShows");
 }
 
 void
 SPL::write (boost::filesystem::path path) const
 {
-	_path = path;
-
 	xmlpp::Document doc;
 	xmlpp::Element* root = doc.create_root_node ("SPL");
 	root->add_child("Id")->add_child_text (_id);
+	root->add_child("Name")->add_child_text (_name);
 	BOOST_FOREACH (SPLEntry i, _spl) {
 		i.as_xml (root->add_child("Entry"));
-	}
-	if (_allowed_shows) {
-		root->add_child("AllowedShows")->add_child_text(raw_convert<string>(*_allowed_shows));
 	}
 	doc.write_to_file_formatted (path.string());
 }

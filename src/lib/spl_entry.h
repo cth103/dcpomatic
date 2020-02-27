@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,8 +18,8 @@
 
 */
 
-#ifndef DCPOMATIC_SWAROOP_SPL_ENTRY_H
-#define DCPOMATIC_SWAROOP_SPL_ENTRY_H
+#ifndef DCPOMATIC_SPL_ENTRY_H
+#define DCPOMATIC_SPL_ENTRY_H
 
 #include <libcxml/cxml.h>
 #include <dcp/types.h>
@@ -35,7 +35,6 @@ class SPLEntry
 {
 public:
 	SPLEntry (boost::shared_ptr<Content> content);
-	SPLEntry (boost::shared_ptr<Content> content, cxml::ConstNodePtr node);
 
 	void as_xml (xmlpp::Element* e);
 
@@ -43,18 +42,10 @@ public:
 	std::string name;
 	/** Digest of this content */
 	std::string digest;
-	/** CPL ID or something else for MP4 (?) */
+	/** CPL ID */
 	std::string id;
 	dcp::ContentKind kind;
-	enum Type {
-		DCP,
-		ECINEMA
-	};
-	Type type;
 	bool encrypted;
-	bool skippable;
-	bool disable_timeline;
-	bool stop_after_play;
 
 private:
 	void construct (boost::shared_ptr<Content> content);

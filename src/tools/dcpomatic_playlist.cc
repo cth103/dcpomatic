@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -22,24 +22,31 @@
 #include "../wx/wx_signal_manager.h"
 #include "../wx/content_view.h"
 #include "../wx/dcpomatic_button.h"
+#include "../wx/about_dialog.h"
+#include "../wx/player_config_dialog.h"
 #include "../lib/util.h"
 #include "../lib/config.h"
 #include "../lib/cross.h"
 #include "../lib/film.h"
 #include "../lib/dcp_content.h"
-#include "../lib/swaroop_spl_entry.h"
-#include "../lib/swaroop_spl.h"
+#include "../lib/spl_entry.h"
+#include "../lib/spl.h"
 #include <wx/wx.h>
 #include <wx/listctrl.h>
 #include <wx/imaglist.h>
 #include <wx/spinctrl.h>
+#include <wx/preferences.h>
 #ifdef __WXOSX__
 #include <ApplicationServices/ApplicationServices.h>
 #endif
+#include <boost/foreach.hpp>
 
 using std::exception;
 using std::cout;
 using std::string;
+using std::map;
+using std::make_pair;
+using std::vector;
 using boost::optional;
 using boost::shared_ptr;
 using boost::weak_ptr;
@@ -82,36 +89,191 @@ private:
 	ContentView* _content_view;
 };
 
-class DOMFrame : public wxFrame
+
+
+class PlaylistList
 {
 public:
-	explicit DOMFrame (wxString const & title)
-		: wxFrame (0, -1, title)
-		, _content_dialog (new ContentDialog(this))
+	PlaylistList (wxPanel* parent, ContentStore* content_store)
+		: _sizer (new wxBoxSizer(wxVERTICAL))
+		, _content_store (content_store)
 	{
-		/* Use a panel as the only child of the Frame so that we avoid
-		   the dark-grey background on Windows.
-		*/
-		wxPanel* overall_panel = new wxPanel (this, wxID_ANY);
-		wxBoxSizer* h_sizer = new wxBoxSizer (wxHORIZONTAL);
+		wxStaticText* label = new wxStaticText (parent, wxID_ANY, wxEmptyString);
+		label->SetLabelMarkup (_("<b>Playlists</b>"));
+		_sizer->Add (label, 0, wxTOP | wxLEFT, DCPOMATIC_SIZER_GAP * 2);
 
 		_list = new wxListCtrl (
-			overall_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL
+			parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL
+			);
+
+		_list->AppendColumn (_("Name"), wxLIST_FORMAT_LEFT, 840);
+		_list->AppendColumn (_("Length"), wxLIST_FORMAT_LEFT, 100);
+
+		wxBoxSizer* button_sizer = new wxBoxSizer (wxVERTICAL);
+		_new = new Button (parent, _("New"));
+		button_sizer->Add (_new, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+		_delete = new Button (parent, _("Delete"));
+		button_sizer->Add (_delete, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+
+		wxSizer* list = new wxBoxSizer (wxHORIZONTAL);
+		list->Add (_list, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
+		list->Add (button_sizer, 0, wxALL, DCPOMATIC_SIZER_GAP);
+
+		_sizer->Add (list);
+
+		load_playlists ();
+
+		_list->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, bind(&PlaylistList::selection_changed, this));
+		_list->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, bind(&PlaylistList::selection_changed, this));
+		_new->Bind (wxEVT_BUTTON, bind(&PlaylistList::new_playlist, this));
+		_delete->Bind (wxEVT_BUTTON, bind(&PlaylistList::delete_playlist, this));
+	}
+
+	wxSizer* sizer ()
+	{
+		return _sizer;
+	}
+
+	shared_ptr<SPL> first_playlist () const
+	{
+		if (_playlists.empty()) {
+			return shared_ptr<SPL>();
+		}
+
+		return _playlists.front ();
+	}
+
+	boost::signals2::signal<void (shared_ptr<SPL>)> Edit;
+
+private:
+	void add_playlist_to_view (shared_ptr<const SPL> playlist)
+	{
+		wxListItem item;
+		item.SetId (_list->GetItemCount());
+		long const N = _list->InsertItem (item);
+		_list->SetItem (N, 0, std_to_wx(playlist->name()));
+	}
+
+	void add_playlist_to_model (shared_ptr<SPL> playlist)
+	{
+		_playlists.push_back (playlist);
+		playlist->NameChanged.connect (bind(&PlaylistList::name_changed, this, weak_ptr<SPL>(playlist)));
+	}
+
+	void name_changed (weak_ptr<SPL> wp)
+	{
+		shared_ptr<SPL> playlist = wp.lock ();
+		if (!playlist) {
+			return;
+		}
+
+		int N = 0;
+		BOOST_FOREACH (shared_ptr<SPL> i, _playlists) {
+			if (i == playlist) {
+				_list->SetItem (N, 0, std_to_wx(i->name()));
+			}
+			++N;
+		}
+	}
+
+	void load_playlists ()
+	{
+		optional<boost::filesystem::path> path = Config::instance()->player_playlist_directory();
+		if (!path) {
+			return;
+		}
+
+		_list->DeleteAllItems ();
+		_playlists.clear ();
+		for (boost::filesystem::directory_iterator i(*path); i != boost::filesystem::directory_iterator(); ++i) {
+			shared_ptr<SPL> spl(new SPL);
+			try {
+				spl->read (*i, _content_store);
+				add_playlist_to_model (spl);
+			} catch (...) {}
+		}
+
+		BOOST_FOREACH (shared_ptr<SPL> i, _playlists) {
+			add_playlist_to_view (i);
+		}
+	}
+
+	void new_playlist ()
+	{
+		shared_ptr<SPL> spl (new SPL(wx_to_std(_("New Playlist"))));
+		add_playlist_to_model (spl);
+		add_playlist_to_view (spl);
+		_list->SetItemState (_list->GetItemCount() - 1, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+	}
+
+	void delete_playlist ()
+	{
+		long int selected = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		if (selected < 0 || selected >= int(_playlists.size())) {
+			return;
+		}
+
+		optional<boost::filesystem::path> dir = Config::instance()->player_playlist_directory();
+		if (!dir) {
+			return;
+		}
+
+		boost::filesystem::remove (*dir / (_playlists[selected]->id() + ".xml"));
+		_list->DeleteItem (selected);
+		_playlists.erase (_playlists.begin() + selected);
+
+		Edit (shared_ptr<SPL>());
+	}
+
+	void selection_changed ()
+	{
+		long int selected = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		if (selected < 0 || selected >= int(_playlists.size())) {
+			Edit (shared_ptr<SPL>());
+		} else {
+			Edit (_playlists[selected]);
+		}
+	}
+
+	wxBoxSizer* _sizer;
+	wxListCtrl* _list;
+	wxButton* _new;
+	wxButton* _delete;
+	vector<shared_ptr<SPL> > _playlists;
+	ContentStore* _content_store;
+};
+
+
+class PlaylistContent
+{
+public:
+	PlaylistContent (wxPanel* parent, ContentDialog* content_dialog)
+		: _content_dialog (content_dialog)
+		, _sizer (new wxBoxSizer(wxVERTICAL))
+	{
+		wxBoxSizer* title = new wxBoxSizer (wxHORIZONTAL);
+		wxStaticText* label = new wxStaticText (parent, wxID_ANY, wxEmptyString);
+		label->SetLabelMarkup (_("<b>Playlist:</b>"));
+		title->Add (label, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, DCPOMATIC_SIZER_GAP);
+		_name = new wxTextCtrl (parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(400, -1));
+		title->Add (_name, 0, wxRIGHT, DCPOMATIC_SIZER_GAP);
+		_sizer->Add (title, 0, wxTOP | wxLEFT, DCPOMATIC_SIZER_GAP * 2);
+
+		wxBoxSizer* list = new wxBoxSizer (wxHORIZONTAL);
+
+		_list = new wxListCtrl (
+			parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL
 			);
 
 		_list->AppendColumn (_("Name"), wxLIST_FORMAT_LEFT, 400);
 		_list->AppendColumn (_("CPL"), wxLIST_FORMAT_LEFT, 350);
-		_list->AppendColumn (_("Type"), wxLIST_FORMAT_CENTRE, 100);
-		_list->AppendColumn (_("Format"), wxLIST_FORMAT_CENTRE, 75);
+		_list->AppendColumn (_("Type"), wxLIST_FORMAT_LEFT, 100);
 		_list->AppendColumn (_("Encrypted"), wxLIST_FORMAT_CENTRE, 90);
-		_list->AppendColumn (_("Skippable"), wxLIST_FORMAT_CENTRE, 90);
-		_list->AppendColumn (_("Disable timeline"), wxLIST_FORMAT_CENTRE, 125);
-		_list->AppendColumn (_("Stop after play"), wxLIST_FORMAT_CENTRE, 125);
 
 		wxImageList* images = new wxImageList (16, 16);
 		wxIcon tick_icon;
 		wxIcon no_tick_icon;
-#ifdef DCPOMATIX_OSX
+#ifdef DCPOMATIC_OSX
 		tick_icon.LoadFile ("tick.png", wxBITMAP_TYPE_PNG_RESOURCE);
 		no_tick_icon.LoadFile ("no_tick.png", wxBITMAP_TYPE_PNG_RESOURCE);
 #else
@@ -125,62 +287,63 @@ public:
 
 		_list->SetImageList (images, wxIMAGE_LIST_SMALL);
 
-		h_sizer->Add (_list, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
+		list->Add (_list, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 
 		wxBoxSizer* button_sizer = new wxBoxSizer (wxVERTICAL);
-		_up = new Button (overall_panel, _("Up"));
-		_down = new Button (overall_panel, _("Down"));
-		_add = new Button (overall_panel, _("Add"));
-		_remove = new Button (overall_panel, _("Remove"));
-		_save = new Button (overall_panel, _("Save playlist"));
-		_load = new Button (overall_panel, _("Load playlist"));
+		_up = new Button (parent, _("Up"));
+		_down = new Button (parent, _("Down"));
+		_add = new Button (parent, _("Add"));
+		_remove = new Button (parent, _("Remove"));
 		button_sizer->Add (_up, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 		button_sizer->Add (_down, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 		button_sizer->Add (_add, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 		button_sizer->Add (_remove, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-		button_sizer->Add (_save, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-		button_sizer->Add (_load, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 
-		h_sizer->Add (button_sizer, 0, wxALL, DCPOMATIC_SIZER_GAP);
+		list->Add (button_sizer, 0, wxALL, DCPOMATIC_SIZER_GAP);
 
-		wxBoxSizer* v_sizer = new wxBoxSizer (wxVERTICAL);
+		_sizer->Add (list);
 
-		wxBoxSizer* allowed_shows_sizer = new wxBoxSizer (wxHORIZONTAL);
-		_allowed_shows_enable = new wxCheckBox (overall_panel, wxID_ANY, _("Limit number of shows with this playlist to"));
-		allowed_shows_sizer->Add (_allowed_shows_enable, 0, wxRIGHT, DCPOMATIC_SIZER_GAP);
-		_allowed_shows = new wxSpinCtrl (overall_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 65536, 100);
-		allowed_shows_sizer->Add (_allowed_shows);
+		_list->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, bind(&PlaylistContent::setup_sensitivity, this));
+		_list->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, bind(&PlaylistContent::setup_sensitivity, this));
+		_name->Bind (wxEVT_TEXT, bind(&PlaylistContent::name_changed, this));
+		_up->Bind (wxEVT_BUTTON, bind(&PlaylistContent::up_clicked, this));
+		_down->Bind (wxEVT_BUTTON, bind(&PlaylistContent::down_clicked, this));
+		_add->Bind (wxEVT_BUTTON, bind(&PlaylistContent::add_clicked, this));
+		_remove->Bind (wxEVT_BUTTON, bind(&PlaylistContent::remove_clicked, this));
+	}
 
-		v_sizer->Add (allowed_shows_sizer, 0, wxALL, DCPOMATIC_SIZER_GAP);
-		v_sizer->Add (h_sizer);
+	wxSizer* sizer ()
+	{
+		return _sizer;
+	}
 
-		overall_panel->SetSizer (v_sizer);
-
-		_list->Bind (wxEVT_LEFT_DOWN, bind(&DOMFrame::list_left_click, this, _1));
-		_list->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, boost::bind (&DOMFrame::selection_changed, this));
-		_list->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&DOMFrame::selection_changed, this));
-		_up->Bind (wxEVT_BUTTON, bind(&DOMFrame::up_clicked, this));
-		_down->Bind (wxEVT_BUTTON, bind(&DOMFrame::down_clicked, this));
-		_add->Bind (wxEVT_BUTTON, bind(&DOMFrame::add_clicked, this));
-		_remove->Bind (wxEVT_BUTTON, bind(&DOMFrame::remove_clicked, this));
-		_save->Bind (wxEVT_BUTTON, bind(&DOMFrame::save_clicked, this));
-		_load->Bind (wxEVT_BUTTON, bind(&DOMFrame::load_clicked, this));
-		_allowed_shows_enable->Bind (wxEVT_CHECKBOX, bind(&DOMFrame::allowed_shows_changed, this));
-		_allowed_shows->Bind (wxEVT_SPINCTRL, bind(&DOMFrame::allowed_shows_changed, this));
-
+	void set (shared_ptr<SPL> playlist)
+	{
+		_playlist = playlist;
+		_list->DeleteAllItems ();
+		if (_playlist) {
+			BOOST_FOREACH (SPLEntry i, _playlist->get()) {
+				add (i);
+			}
+			_name->SetValue (std_to_wx(_playlist->name()));
+		} else {
+			_name->SetValue (wxT(""));
+		}
 		setup_sensitivity ();
 	}
 
-private:
-
-	void allowed_shows_changed ()
+	shared_ptr<SPL> playlist () const
 	{
-		if (_allowed_shows_enable->GetValue()) {
-			_playlist.set_allowed_shows (_allowed_shows->GetValue());
-		} else {
-			_playlist.unset_allowed_shows ();
+		return _playlist;
+	}
+
+
+private:
+	void name_changed ()
+	{
+		if (_playlist) {
+			_playlist->set_name (wx_to_std(_name->GetValue()));
 		}
-		setup_sensitivity ();
 	}
 
 	void add (SPLEntry e)
@@ -191,65 +354,25 @@ private:
 		set_item (N, e);
 	}
 
-	void selection_changed ()
-	{
-		setup_sensitivity ();
-	}
-
 	void set_item (long N, SPLEntry e)
 	{
 		_list->SetItem (N, 0, std_to_wx(e.name));
 		_list->SetItem (N, 1, std_to_wx(e.id));
 		_list->SetItem (N, 2, std_to_wx(dcp::content_kind_to_string(e.kind)));
-		_list->SetItem (N, 3, e.type == SPLEntry::DCP ? _("DCP") : _("E-cinema"));
-		_list->SetItem (N, 4, e.encrypted ? S_("Question|Y") : S_("Question|N"));
-		_list->SetItem (N, COLUMN_SKIPPABLE, wxEmptyString, e.skippable ? 0 : 1);
-		_list->SetItem (N, COLUMN_DISABLE_TIMELINE, wxEmptyString, e.disable_timeline ? 0 : 1);
-		_list->SetItem (N, COLUMN_STOP_AFTER_PLAY, wxEmptyString, e.stop_after_play ? 0 : 1);
+		_list->SetItem (N, 3, e.encrypted ? S_("Question|Y") : S_("Question|N"));
 	}
 
 	void setup_sensitivity ()
 	{
+		bool const have_list = static_cast<bool>(_playlist);
 		int const num_selected = _list->GetSelectedItemCount ();
 		long int selected = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-		_up->Enable (selected > 0);
-		_down->Enable (selected != -1 && selected < (_list->GetItemCount() - 1));
-		_remove->Enable (num_selected > 0);
-		_allowed_shows->Enable (_allowed_shows_enable->GetValue());
-	}
-
-	void list_left_click (wxMouseEvent& ev)
-	{
-		int flags;
-		long item = _list->HitTest (ev.GetPosition(), flags, 0);
-		int x = ev.GetPosition().x;
-		optional<int> column;
-		for (int i = 0; i < _list->GetColumnCount(); ++i) {
-			x -= _list->GetColumnWidth (i);
-			if (x < 0) {
-				column = i;
-				break;
-			}
-		}
-
-		if (item != -1 && column) {
-			switch (*column) {
-			case COLUMN_SKIPPABLE:
-				_playlist[item].skippable = !_playlist[item].skippable;
-				break;
-			case COLUMN_DISABLE_TIMELINE:
-				_playlist[item].disable_timeline = !_playlist[item].disable_timeline;
-				break;
-			case COLUMN_STOP_AFTER_PLAY:
-				_playlist[item].stop_after_play = !_playlist[item].stop_after_play;
-				break;
-			default:
-				ev.Skip ();
-			}
-			set_item (item, _playlist[item]);
-		} else {
-			ev.Skip ();
-		}
+		_name->Enable (have_list);
+		_list->Enable (have_list);
+		_up->Enable (have_list && selected > 0);
+		_down->Enable (have_list && selected != -1 && selected < (_list->GetItemCount() - 1));
+		_add->Enable (have_list);
+		_remove->Enable (have_list && num_selected > 0);
 	}
 
 	void add_clicked ()
@@ -260,7 +383,8 @@ private:
 			if (content) {
 				SPLEntry e (content);
 				add (e);
-				_playlist.add (e);
+				DCPOMATIC_ASSERT (_playlist);
+				_playlist->add (e);
 			}
 		}
 	}
@@ -272,12 +396,14 @@ private:
 			return;
 		}
 
-		SPLEntry tmp = _playlist[s];
-		_playlist[s] = _playlist[s-1];
-		_playlist[s-1] = tmp;
+		DCPOMATIC_ASSERT (_playlist);
 
-		set_item (s - 1, _playlist[s-1]);
-		set_item (s, _playlist[s]);
+		SPLEntry tmp = (*_playlist)[s];
+		(*_playlist)[s] = (*_playlist)[s-1];
+		(*_playlist)[s-1] = tmp;
+
+		set_item (s - 1, (*_playlist)[s-1]);
+		set_item (s, (*_playlist)[s]);
 	}
 
 	void down_clicked ()
@@ -287,12 +413,14 @@ private:
 			return;
 		}
 
-		SPLEntry tmp = _playlist[s];
-		_playlist[s] = _playlist[s+1];
-		_playlist[s+1] = tmp;
+		DCPOMATIC_ASSERT (_playlist);
 
-		set_item (s + 1, _playlist[s+1]);
-		set_item (s, _playlist[s]);
+		SPLEntry tmp = (*_playlist)[s];
+		(*_playlist)[s] = (*_playlist)[s+1];
+		(*_playlist)[s+1] = tmp;
+
+		set_item (s + 1, (*_playlist)[s+1]);
+		set_item (s, (*_playlist)[s]);
 	}
 
 	void remove_clicked ()
@@ -302,66 +430,131 @@ private:
 			return;
 		}
 
-		_playlist.remove (s);
+		DCPOMATIC_ASSERT (_playlist);
+		_playlist->remove (s);
 		_list->DeleteItem (s);
 	}
 
-	void save_clicked ()
-	{
-		Config* c = Config::instance ();
-		wxString default_dir = c->player_playlist_directory() ? std_to_wx(c->player_playlist_directory()->string()) : wxString(wxEmptyString);
-		wxFileDialog* d = new wxFileDialog (this, _("Select playlist file"), default_dir, wxEmptyString, wxT("XML files (*.xml)|*.xml"), wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
-		if (d->ShowModal() == wxID_OK) {
-			boost::filesystem::path file = wx_to_std (d->GetPath());
-			file.replace_extension (".xml");
-			_playlist.write (file);
-		}
-	}
-
-	void load_clicked ()
-	{
-		Config* c = Config::instance ();
-		wxString default_dir = c->player_playlist_directory() ? std_to_wx(c->player_playlist_directory()->string()) : wxString(wxEmptyString);
-		wxFileDialog* d = new wxFileDialog (this, _("Select playlist file"), default_dir, wxEmptyString, wxT("XML files (*.xml)|*.xml"));
-		if (d->ShowModal() == wxID_OK) {
-			_list->DeleteAllItems ();
-			_playlist.read (wx_to_std(d->GetPath()), _content_dialog);
-			if (!_playlist.missing()) {
-				_list->DeleteAllItems ();
-				BOOST_FOREACH (SPLEntry i, _playlist.get()) {
-					add (i);
-				}
-			} else {
-				error_dialog (this, _("Some content in this playlist was not found."));
-			}
-			optional<int> allowed_shows = _playlist.allowed_shows ();
-			_allowed_shows_enable->SetValue (static_cast<bool>(allowed_shows));
-			if (allowed_shows) {
-				_allowed_shows->SetValue (*allowed_shows);
-			} else {
-				_allowed_shows->SetValue (65536);
-			}
-			setup_sensitivity ();
-		}
-	}
-
+	ContentDialog* _content_dialog;
+	wxBoxSizer* _sizer;
+	wxTextCtrl* _name;
 	wxListCtrl* _list;
 	wxButton* _up;
 	wxButton* _down;
 	wxButton* _add;
 	wxButton* _remove;
-	wxButton* _save;
-	wxButton* _load;
-	wxCheckBox* _allowed_shows_enable;
-	wxSpinCtrl* _allowed_shows;
-	SPL _playlist;
-	ContentDialog* _content_dialog;
+	shared_ptr<SPL> _playlist;
+};
 
-	enum {
-		COLUMN_SKIPPABLE = 5,
-		COLUMN_DISABLE_TIMELINE = 6,
-		COLUMN_STOP_AFTER_PLAY = 7
-	};
+
+class DOMFrame : public wxFrame
+{
+public:
+	explicit DOMFrame (wxString const & title)
+		: wxFrame (0, -1, title)
+		, _content_dialog (new ContentDialog(this))
+	{
+		wxMenuBar* bar = new wxMenuBar;
+		setup_menu (bar);
+		SetMenuBar (bar);
+
+		/* Use a panel as the only child of the Frame so that we avoid
+		   the dark-grey background on Windows.
+		*/
+		wxPanel* overall_panel = new wxPanel (this, wxID_ANY);
+		wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+
+		_playlist_list = new PlaylistList (overall_panel, _content_dialog);
+		_playlist_content = new PlaylistContent (overall_panel, _content_dialog);
+
+		sizer->Add (_playlist_list->sizer());
+		sizer->Add (_playlist_content->sizer());
+
+		overall_panel->SetSizer (sizer);
+
+		_playlist_list->Edit.connect (bind(&DOMFrame::change_playlist, this, _1));
+
+		_playlist_content->set (_playlist_list->first_playlist());
+
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_exit, this), wxID_EXIT);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_about, this), wxID_ABOUT);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_preferences, this), wxID_PREFERENCES);
+	}
+
+private:
+
+	void file_exit ()
+	{
+		/* false here allows the close handler to veto the close request */
+		Close (false);
+	}
+
+	void help_about ()
+	{
+		AboutDialog* d = new AboutDialog (this);
+		d->ShowModal ();
+		d->Destroy ();
+	}
+
+	void edit_preferences ()
+	{
+		if (!_config_dialog) {
+			_config_dialog = create_player_config_dialog ();
+		}
+		_config_dialog->Show (this);
+	}
+
+	void change_playlist (shared_ptr<SPL> playlist)
+	{
+		shared_ptr<SPL> old = _playlist_content->playlist ();
+		if (old) {
+			save_playlist (old);
+		}
+		_playlist_content->set (playlist);
+	}
+
+	void save_playlist (shared_ptr<SPL> playlist)
+	{
+		optional<boost::filesystem::path> dir = Config::instance()->player_playlist_directory();
+		if (!dir) {
+			error_dialog (this, _("No playlist folder is specified in preferences.  Please set on and then try again."));
+			return;
+		}
+		playlist->write (*dir / (playlist->id() + ".xml"));
+	}
+
+	void setup_menu (wxMenuBar* m)
+	{
+		wxMenu* file = new wxMenu;
+#ifdef __WXOSX__
+		file->Append (wxID_EXIT, _("&Exit"));
+#else
+		file->Append (wxID_EXIT, _("&Quit"));
+#endif
+
+#ifndef __WXOSX__
+		wxMenu* edit = new wxMenu;
+		edit->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
+#endif
+
+		wxMenu* help = new wxMenu;
+#ifdef __WXOSX__
+		help->Append (wxID_ABOUT, _("About DCP-o-matic"));
+#else
+		help->Append (wxID_ABOUT, _("About"));
+#endif
+
+		m->Append (file, _("&File"));
+#ifndef __WXOSX__
+		m->Append (edit, _("&Edit"));
+#endif
+		m->Append (help, _("&Help"));
+	}
+
+	ContentDialog* _content_dialog;
+	PlaylistList* _playlist_list;
+	PlaylistContent* _playlist_content;
+	wxPreferencesEditor* _config_dialog;
 };
 
 /** @class App

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -21,8 +21,9 @@
 #ifndef DCPOMATIC_SPL_H
 #define DCPOMATIC_SPL_H
 
-#include "swaroop_spl_entry.h"
+#include "spl_entry.h"
 #include <dcp/util.h>
+#include <boost/signals2.hpp>
 
 class ContentStore;
 
@@ -33,6 +34,13 @@ public:
 		: _id (dcp::make_uuid())
 		, _missing (false)
 	{}
+
+	SPL (std::string name)
+		: _id (dcp::make_uuid())
+		, _name (name)
+		, _missing (false)
+	{}
+
 
 	void add (SPLEntry e) {
 		_spl.push_back (e);
@@ -61,52 +69,27 @@ public:
 		return _id;
 	}
 
-	boost::optional<boost::filesystem::path> path () const {
-		return _path;
+	std::string name () const {
+		return _name;
 	}
 
-	std::string name () const {
-		if (!_path) {
-			return "";
-		}
-		return _path->filename().string();
+	void set_name (std::string name) {
+		_name = name;
+		NameChanged ();
 	}
 
 	bool missing () const {
 		return _missing;
 	}
 
-	boost::optional<int> allowed_shows () const {
-		return _allowed_shows;
-	}
-
-	bool have_allowed_shows () const {
-		return !_allowed_shows || *_allowed_shows > 0;
-	}
-
-	void set_allowed_shows (int s) {
-		_allowed_shows = s;
-	}
-
-	void unset_allowed_shows () {
-		_allowed_shows = boost::optional<int>();
-	}
-
-	void decrement_allowed_shows () {
-		if (_allowed_shows) {
-			(*_allowed_shows)--;
-		}
-
-	}
+	boost::signals2::signal<void ()> NameChanged;
 
 private:
 	std::string _id;
-	mutable boost::optional<boost::filesystem::path> _path;
+	std::string _name;
 	std::vector<SPLEntry> _spl;
 	/** true if any content was missing when read() was last called on this SPL */
 	bool _missing;
-	/** number of times left that the player will allow this playlist to be played (unset means infinite shows) */
-	boost::optional<int> _allowed_shows;
 };
 
 #endif

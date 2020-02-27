@@ -28,7 +28,9 @@
 #include "wx/player_config_dialog.h"
 #include "wx/verify_dcp_dialog.h"
 #include "wx/standard_controls.h"
+#ifdef DCPOMATIC_VARIANT_SWAROOP
 #include "wx/swaroop_controls.h"
+#endif
 #include "wx/timer_display.h"
 #include "wx/system_information_dialog.h"
 #include "lib/cross.h"
