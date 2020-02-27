@@ -267,7 +267,7 @@ AudioPlot::y_for_linear (float p, Metrics const & metrics) const
 		p = 1e-4;
 	}
 
-	return metrics.height - (20 * log10(p) - _minimum) * metrics.y_scale - metrics.y_origin;
+	return metrics.height - (linear_to_db(p) - _minimum) * metrics.y_scale - metrics.y_origin;
 }
 
 void
@@ -294,7 +294,7 @@ AudioPlot::plot_peak (wxGraphicsPath& path, int channel, Metrics const & metrics
 			Point (
 				wxPoint (metrics.db_label_width + i * metrics.x_scale, y_for_linear (peak, metrics)),
 				DCPTime::from_frames (i * _analysis->samples_per_point(), _analysis->sample_rate()),
-				20 * log10(peak)
+				linear_to_db(peak)
 				)
 			);
 	}
@@ -363,7 +363,7 @@ AudioPlot::plot_rms (wxGraphicsPath& path, int channel, Metrics const & metrics)
 			Point (
 				wxPoint (metrics.db_label_width + i * metrics.x_scale, y_for_linear (p, metrics)),
 				DCPTime::from_frames (i * _analysis->samples_per_point(), _analysis->sample_rate()),
-				20 * log10(p)
+				linear_to_db(p)
 				)
 			);
 	}
@@ -397,7 +397,7 @@ AudioPlot::get_point (int channel, int point) const
 {
 	AudioPoint p = _analysis->get_point (channel, point);
 	for (int i = 0; i < AudioPoint::COUNT; ++i) {
-		p[i] *= pow (10, _gain_correction / 20);
+		p[i] *= db_to_linear(_gain_correction);
 	}
 
 	return p;

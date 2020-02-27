@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -1171,3 +1171,16 @@ write_swaroop_chain (shared_ptr<const dcp::CertificateChain> chain, boost::files
 }
 
 #endif
+
+double
+db_to_linear (double db)
+{
+	return pow(10, db / 20);
+}
+
+double
+linear_to_db (double linear)
+{
+	return 20 * log10(linear);
+}
+

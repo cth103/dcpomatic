@@ -308,7 +308,7 @@ AudioMappingView::paint_indicators (wxDC& dc)
 					)
 				);
 
-			float const value_dB = 20 * log10 (_map.get(y, x));
+			float const value_dB = linear_to_db(_map.get(y, x));
 			int const range = 18;
 			int height = 0;
 			if (value_dB > -range) {
@@ -504,7 +504,7 @@ AudioMappingView::full ()
 void
 AudioMappingView::minus6dB ()
 {
-	_map.set (_menu_input, _menu_output, pow (10, -6.0 / 20));
+	_map.set (_menu_input, _menu_output, db_to_linear(-6));
 	map_values_changed ();
 }
 
@@ -599,7 +599,7 @@ AudioMappingView::motion (wxMouseEvent& ev)
 					safe_output_channel_name(channels->second)
 					);
 			} else {
-				float const dB = 20 * log10 (gain);
+				float const dB = linear_to_db(gain);
 				s = wxString::Format (
 					_("Audio will be passed from %s channel %s to %s channel %s with gain %.1fdB."),
 					_from,

@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 	staircase->set_position (film, DCPTime::from_frames (2000, film->audio_frame_rate()));
 	staircase->set_trim_start (ContentTime::from_frames (12, 48000));
 	staircase->set_trim_end (ContentTime::from_frames (35, 48000));
-	staircase->audio->set_gain (20 * log10(2));
+	staircase->audio->set_gain (linear_to_db(6));
 
 	/* And again at an offset of 50000 samples, trimmed both start and end, with a gain of 6dB */
 	staircase = content_factory("test/data/staircase.wav").front ();
@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 	staircase->set_position (film, DCPTime::from_frames(50000, film->audio_frame_rate()));
 	staircase->set_trim_start (ContentTime::from_frames (12, 48000));
 	staircase->set_trim_end (ContentTime::from_frames (35, 48000));
-	staircase->audio->set_gain (20 * log10(2));
+	staircase->audio->set_gain (linear_to_db(6));
 
 	/* 1s of red at 5s in */
 	shared_ptr<Content> red = content_factory("test/data/flat_red.png").front ();

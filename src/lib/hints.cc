@@ -235,7 +235,7 @@ Hints::thread ()
 
 			for (size_t i = 0; i < sample_peak.size(); ++i) {
 				float const peak = max (sample_peak[i].peak, true_peak.empty() ? 0 : true_peak[i]);
-				float const peak_dB = 20 * log10 (peak) + an->gain_correction (film->playlist ());
+				float const peak_dB = linear_to_db(peak) + an->gain_correction(film->playlist());
 				if (peak_dB > -3) {
 					ch += dcp::raw_convert<string> (short_audio_channel_name (i)) + ", ";
 				}

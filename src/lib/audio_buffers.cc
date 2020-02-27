@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+#include "util.h"
 #include "audio_buffers.h"
 #include "dcpomatic_assert.h"
 #include <cassert>
@@ -309,7 +310,7 @@ AudioBuffers::accumulate_frames (AudioBuffers const * from, int32_t frames, int3
 void
 AudioBuffers::apply_gain (float dB)
 {
-	float const linear = pow (10, dB / 20);
+	float const linear = db_to_linear (dB);
 
 	for (int i = 0; i < _channels; ++i) {
 		for (int j = 0; j < _frames; ++j) {

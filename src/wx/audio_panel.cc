@@ -381,7 +381,7 @@ AudioPanel::peak () const
 		playlist->add (_parent->film(), sel.front());
 		try {
 			shared_ptr<AudioAnalysis> analysis (new AudioAnalysis(_parent->film()->audio_analysis_path(playlist)));
-			peak_dB = 20 * log10 (analysis->overall_sample_peak().first.peak) + analysis->gain_correction(playlist);
+			peak_dB = linear_to_db(analysis->overall_sample_peak().first.peak) + analysis->gain_correction(playlist);
 		} catch (...) {
 
 		}

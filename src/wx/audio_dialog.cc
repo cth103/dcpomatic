@@ -366,7 +366,7 @@ AudioDialog::setup_statistics ()
 	}
 
 	pair<AudioAnalysis::PeakTime, int> const peak = _analysis->overall_sample_peak ();
-	float const peak_dB = 20 * log10 (peak.first.peak) + _analysis->gain_correction (_playlist);
+	float const peak_dB = linear_to_db(peak.first.peak) + _analysis->gain_correction(_playlist);
 	_sample_peak->SetLabel (
 		wxString::Format (
 			_("Sample peak is %.2fdB at %s on %s"),
@@ -384,7 +384,7 @@ AudioDialog::setup_statistics ()
 
 	if (_analysis->overall_true_peak()) {
 		float const peak = _analysis->overall_true_peak().get();
-		float const peak_dB = 20 * log10 (peak) + _analysis->gain_correction (_playlist);
+		float const peak_dB = linear_to_db(peak) + _analysis->gain_correction(_playlist);
 
 		_true_peak->SetLabel (wxString::Format (_("True peak is %.2fdB"), peak_dB));
 
