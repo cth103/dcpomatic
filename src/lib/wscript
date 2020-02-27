@@ -150,6 +150,8 @@ sources = """
           server.cc
           shuffler.cc
           state.cc
+          spl.cc
+          spl_entry.cc
           string_log_entry.cc
           string_text_file.cc
           string_text_file_content.cc
