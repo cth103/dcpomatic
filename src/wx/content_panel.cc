@@ -155,9 +155,12 @@ ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmV
 
 	/* This is a hack to try and make the content notebook a sensible size; large on big displays but small
 	   enough on small displays to leave space for the content area.
+	   Big displays: make the bottom half 600 pixels high, so the content list is big and takes up remaining space.
+	   Small displays: make the top half 250 pixels high so we can definitely see all the buttons, even at the
+	   expense of height in the bottom half.
 	*/
 	if (screen) {
-		_splitter->SplitHorizontally (top, _notebook, screen->height > 800 ? -600 : -150);
+		_splitter->SplitHorizontally (top, _notebook, screen->height > 800 ? -600 : 250);
 	}
 
 	_timing_panel = new TimingPanel (this, _film_viewer);
