@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,7 @@
 
 #include "content_sub_panel.h"
 #include "timecode.h"
+#include "suspender.h"
 
 class FilmViewer;
 
@@ -72,4 +73,6 @@ private:
 	wxStaticText* _video_frame_rate_label;
 	wxTextCtrl* _video_frame_rate;
 	wxButton* _set_video_frame_rate;
+
+	Suspender _film_content_changed_suspender;
 };

@@ -121,6 +121,7 @@ sources = """
           standard_controls.cc
           static_text.cc
           subtitle_appearance_dialog.cc
+          suspender.cc
           system_font_dialog.cc
           system_information_dialog.cc
           table_dialog.cc
