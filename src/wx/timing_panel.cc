@@ -54,6 +54,7 @@ TimingPanel::TimingPanel (ContentPanel* p, weak_ptr<FilmViewer> viewer)
 	/// TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
 	: ContentSubPanel (p, S_("Timing|Timing"))
 	, _viewer (viewer)
+	, _film_content_changed_suspender (boost::bind(&TimingPanel::film_content_changed, this, _1))
 {
 	wxSize size = TimecodeBase::size (this);
 
@@ -255,6 +256,10 @@ TimingPanel::update_play_length ()
 void
 TimingPanel::film_content_changed (int property)
 {
+	if (_film_content_changed_suspender.check(property)) {
+		return;
+	}
+
 	int const film_video_frame_rate = _parent->film()->video_frame_rate ();
 
 	/* Here we check to see if we have exactly one different value of various
@@ -404,7 +409,7 @@ TimingPanel::trim_start_changed ()
 	optional<FrameRateChange> ref_frc;
 	optional<DCPTime> ref_ph;
 
-
+	Suspender::Block bl = _film_content_changed_suspender.block ();
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		if (i->position() <= ph && ph < i->end(_parent->film())) {
 			/* The playhead is in i.  Use it as a reference to work out
@@ -437,6 +442,7 @@ TimingPanel::trim_end_changed ()
 
 	fv->set_coalesce_player_changes (true);
 
+	Suspender::Block bl = _film_content_changed_suspender.block ();
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		ContentTime const trim = _trim_end->get (i->video_frame_rate().get_value_or(_parent->film()->video_frame_rate()));
 		i->set_trim_end (trim);
@@ -454,6 +460,7 @@ void
 TimingPanel::play_length_changed ()
 {
 	DCPTime const play_length = _play_length->get (_parent->film()->video_frame_rate());
+	Suspender::Block bl = _film_content_changed_suspender.block ();
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		FrameRateChange const frc = _parent->film()->active_frame_rate_change (i->position ());
 		i->set_trim_end (
@@ -490,6 +497,7 @@ TimingPanel::set_video_frame_rate ()
 	if (_video_frame_rate->GetValue() != wxT("")) {
 		fr = locale_convert<double> (wx_to_std (_video_frame_rate->GetValue ()));
 	}
+	Suspender::Block bl = _film_content_changed_suspender.block ();
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		if (fr) {
 			i->set_video_frame_rate (*fr);
