@@ -434,3 +434,12 @@ cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_player.Info.plist "$appro
 rl=("$approot/MacOS/dcpomatic2_player" "$approot/Frameworks/"*.dylib)
 relink "${rl[@]}"
 make_dmg "$appdir" "DCP-o-matic Player" com.dcpomatic.player
+
+# DCP-o-matic Playlist Editor
+setup "DCP-o-matic 2 Playlist Editor.app"
+copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_playlist "$approot/MacOS"
+copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
+cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_playlist.Info.plist "$approot/Info.plist"
+rl=("$approot/MacOS/dcpomatic2_playlist" "$approot/Frameworks/"*.dylib)
+relink "${rl[@]}"
+make_dmg "$appdir" "DCP-o-matic Playlist Editor" com.dcpomatic.playlist
