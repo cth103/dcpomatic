@@ -134,19 +134,19 @@ public:
 		return _sizer;
 	}
 
-	shared_ptr<SPL> first_playlist () const
+	shared_ptr<SignalSPL> first_playlist () const
 	{
 		if (_playlists.empty()) {
-			return shared_ptr<SPL>();
+			return shared_ptr<SignalSPL>();
 		}
 
 		return _playlists.front ();
 	}
 
-	boost::signals2::signal<void (shared_ptr<SPL>)> Edit;
+	boost::signals2::signal<void (shared_ptr<SignalSPL>)> Edit;
 
 private:
-	void add_playlist_to_view (shared_ptr<const SPL> playlist)
+	void add_playlist_to_view (shared_ptr<const SignalSPL> playlist)
 	{
 		wxListItem item;
 		item.SetId (_list->GetItemCount());
@@ -154,21 +154,21 @@ private:
 		_list->SetItem (N, 0, std_to_wx(playlist->name()));
 	}
 
-	void add_playlist_to_model (shared_ptr<SPL> playlist)
+	void add_playlist_to_model (shared_ptr<SignalSPL> playlist)
 	{
 		_playlists.push_back (playlist);
-		playlist->NameChanged.connect (bind(&PlaylistList::name_changed, this, weak_ptr<SPL>(playlist)));
+		playlist->NameChanged.connect (bind(&PlaylistList::name_changed, this, weak_ptr<SignalSPL>(playlist)));
 	}
 
-	void name_changed (weak_ptr<SPL> wp)
+	void name_changed (weak_ptr<SignalSPL> wp)
 	{
-		shared_ptr<SPL> playlist = wp.lock ();
+		shared_ptr<SignalSPL> playlist = wp.lock ();
 		if (!playlist) {
 			return;
 		}
 
 		int N = 0;
-		BOOST_FOREACH (shared_ptr<SPL> i, _playlists) {
+		BOOST_FOREACH (shared_ptr<SignalSPL> i, _playlists) {
 			if (i == playlist) {
 				_list->SetItem (N, 0, std_to_wx(i->name()));
 			}
@@ -186,21 +186,21 @@ private:
 		_list->DeleteAllItems ();
 		_playlists.clear ();
 		for (boost::filesystem::directory_iterator i(*path); i != boost::filesystem::directory_iterator(); ++i) {
-			shared_ptr<SPL> spl(new SPL);
+			shared_ptr<SignalSPL> spl(new SignalSPL);
 			try {
 				spl->read (*i, _content_store);
 				add_playlist_to_model (spl);
 			} catch (...) {}
 		}
 
-		BOOST_FOREACH (shared_ptr<SPL> i, _playlists) {
+		BOOST_FOREACH (shared_ptr<SignalSPL> i, _playlists) {
 			add_playlist_to_view (i);
 		}
 	}
 
 	void new_playlist ()
 	{
-		shared_ptr<SPL> spl (new SPL(wx_to_std(_("New Playlist"))));
+		shared_ptr<SignalSPL> spl (new SignalSPL(wx_to_std(_("New Playlist"))));
 		add_playlist_to_model (spl);
 		add_playlist_to_view (spl);
 		_list->SetItemState (_list->GetItemCount() - 1, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
@@ -222,14 +222,14 @@ private:
 		_list->DeleteItem (selected);
 		_playlists.erase (_playlists.begin() + selected);
 
-		Edit (shared_ptr<SPL>());
+		Edit (shared_ptr<SignalSPL>());
 	}
 
 	void selection_changed ()
 	{
 		long int selected = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 		if (selected < 0 || selected >= int(_playlists.size())) {
-			Edit (shared_ptr<SPL>());
+			Edit (shared_ptr<SignalSPL>());
 		} else {
 			Edit (_playlists[selected]);
 		}
@@ -239,7 +239,7 @@ private:
 	wxListCtrl* _list;
 	wxButton* _new;
 	wxButton* _delete;
-	vector<shared_ptr<SPL> > _playlists;
+	vector<shared_ptr<SignalSPL> > _playlists;
 	ContentStore* _content_store;
 };
 
@@ -317,7 +317,7 @@ public:
 		return _sizer;
 	}
 
-	void set (shared_ptr<SPL> playlist)
+	void set (shared_ptr<SignalSPL> playlist)
 	{
 		_playlist = playlist;
 		_list->DeleteAllItems ();
@@ -332,7 +332,7 @@ public:
 		setup_sensitivity ();
 	}
 
-	shared_ptr<SPL> playlist () const
+	shared_ptr<SignalSPL> playlist () const
 	{
 		return _playlist;
 	}
@@ -443,7 +443,7 @@ private:
 	wxButton* _down;
 	wxButton* _add;
 	wxButton* _remove;
-	shared_ptr<SPL> _playlist;
+	shared_ptr<SignalSPL> _playlist;
 };
 
 
@@ -504,16 +504,16 @@ private:
 		_config_dialog->Show (this);
 	}
 
-	void change_playlist (shared_ptr<SPL> playlist)
+	void change_playlist (shared_ptr<SignalSPL> playlist)
 	{
-		shared_ptr<SPL> old = _playlist_content->playlist ();
+		shared_ptr<SignalSPL> old = _playlist_content->playlist ();
 		if (old) {
 			save_playlist (old);
 		}
 		_playlist_content->set (playlist);
 	}
 
-	void save_playlist (shared_ptr<SPL> playlist)
+	void save_playlist (shared_ptr<SignalSPL> playlist)
 	{
 		optional<boost::filesystem::path> dir = Config::instance()->player_playlist_directory();
 		if (!dir) {

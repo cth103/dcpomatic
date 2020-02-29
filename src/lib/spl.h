@@ -75,14 +75,11 @@ public:
 
 	void set_name (std::string name) {
 		_name = name;
-		NameChanged ();
 	}
 
 	bool missing () const {
 		return _missing;
 	}
-
-	boost::signals2::signal<void ()> NameChanged;
 
 private:
 	std::string _id;
@@ -90,6 +87,24 @@ private:
 	std::vector<SPLEntry> _spl;
 	/** true if any content was missing when read() was last called on this SPL */
 	bool _missing;
+};
+
+
+class SignalSPL : public SPL
+{
+public:
+	SignalSPL () {}
+
+	SignalSPL (std::string name)
+		: SPL (name)
+	{}
+
+	void set_name (std::string name) {
+		SPL::set_name (name);
+		NameChanged ();
+	}
+
+	boost::signals2::signal<void ()> NameChanged;
 };
 
 #endif
