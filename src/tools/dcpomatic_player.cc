@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -28,6 +28,7 @@
 #include "wx/player_config_dialog.h"
 #include "wx/verify_dcp_dialog.h"
 #include "wx/standard_controls.h"
+#include "wx/playlist_controls.h"
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 #include "wx/swaroop_controls.h"
 #endif
@@ -250,7 +251,13 @@ public:
 		_controls = sc;
 		sc->ResetFilm.connect (bind(&DOMFrame::reset_film_weak, this, _1));
 #else
-		_controls = new StandardControls (_overall_panel, _viewer, false);
+		if (Config::instance()->player_mode() == Config::PLAYER_MODE_DUAL) {
+			PlaylistControls* pc = new PlaylistControls (_overall_panel, _viewer);
+			_controls = pc;
+			pc->ResetFilm.connect (bind(&DOMFrame::reset_film_weak, this, _1));
+		} else {
+			_controls = new StandardControls (_overall_panel, _viewer, false);
+		}
 #endif
 		_viewer->set_dcp_decode_reduction (Config::instance()->decode_reduction ());
 		_viewer->PlaybackPermitted.connect (bind(&DOMFrame::playback_permitted, this));
