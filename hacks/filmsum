@@ -63,9 +63,11 @@ for c in soup.Metadata.Playlist.children:
         print()
         note('  Type', c.Type.text)
         note('  Position', dcp_time(c.Position))
-        note('  Video rate', c.VideoFrameRate.text)
-        note('  Video length', content_time_from_frames(c.VideoLength, float(c.VideoFrameRate.text)))
-        note('  Audio rate', c.AudioFrameRate.text)
+        if c.VideoFrameRate:
+            note('  Video rate', c.VideoFrameRate.text)
+            note('  Video length', content_time_from_frames(c.VideoLength, float(c.VideoFrameRate.text)))
+        if c.AudioFrameRate:
+            note('  Audio rate', c.AudioFrameRate.text)
         bool_note('  Reference video', c.ReferenceVideo, lambda x: not x)
         bool_note('  Reference audio', c.ReferenceAudio, lambda x: not x)
         bool_note('  Reference subtitle', c.ReferenceSubtitle, lambda x: not x)
