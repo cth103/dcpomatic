@@ -23,7 +23,7 @@
 #include "../wx/content_view.h"
 #include "../wx/dcpomatic_button.h"
 #include "../wx/about_dialog.h"
-#include "../wx/player_config_dialog.h"
+#include "../wx/playlist_editor_config_dialog.h"
 #include "../lib/util.h"
 #include "../lib/config.h"
 #include "../lib/cross.h"
@@ -499,7 +499,7 @@ private:
 	void edit_preferences ()
 	{
 		if (!_config_dialog) {
-			_config_dialog = create_player_config_dialog ();
+			_config_dialog = create_playlist_editor_config_dialog ();
 		}
 		_config_dialog->Show (this);
 	}

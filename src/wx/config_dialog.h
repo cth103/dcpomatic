@@ -214,4 +214,33 @@ private:
 	Button* _reset_to_default;
 };
 
+class LocationsPage : public StandardPage
+{
+public:
+	LocationsPage (wxSize panel_size, int border);
+
+	wxString GetName () const;
+
+#ifdef DCPOMATIC_OSX
+	wxBitmap GetLargeIcon () const;
+#endif
+
+private:
+	void setup ();
+	void config_changed ();
+	void content_directory_changed ();
+	void playlist_directory_changed ();
+	void kdm_directory_changed ();
+
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	void background_image_changed ();
+#endif
+
+	wxDirPickerCtrl* _content_directory;
+	wxDirPickerCtrl* _playlist_directory;
+	wxDirPickerCtrl* _kdm_directory;
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+	FilePickerCtrl* _background_image;
+#endif
+};
 #endif

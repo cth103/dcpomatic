@@ -102,6 +102,7 @@ sources = """
           player_information.cc
           playhead_to_timecode_dialog.cc
           playhead_to_frame_dialog.cc
+          playlist_editor_config_dialog.cc
           question_dialog.cc
           rating_dialog.cc
           qube_certificate_panel.cc
