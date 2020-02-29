@@ -38,6 +38,8 @@
 #include "lib/video_content.h"
 #include <wx/spinctrl.h>
 #include <boost/foreach.hpp>
+#include <boost/unordered_set.hpp>
+#include <boost/functional/hash.hpp>
 #include <set>
 #include <iostream>
 
@@ -309,6 +311,17 @@ VideoPanel::film_changed (Film::Property property)
 	}
 }
 
+std::size_t
+hash_value (boost::optional<ColourConversion> const & c)
+{
+	boost::hash<string> hasher;
+	if (!c) {
+		return hasher ("none");
+	}
+	return hasher (c->identifier());
+}
+
+
 void
 VideoPanel::film_content_changed (int property)
 {
@@ -326,16 +339,36 @@ VideoPanel::film_content_changed (int property)
 	    property == VideoContentProperty::SCALE) {
 		setup_description ();
 	} else if (property == VideoContentProperty::COLOUR_CONVERSION) {
-		if (vcs && vcs->video->colour_conversion ()) {
-			optional<size_t> preset = vcs->video->colour_conversion().get().preset ();
-			vector<PresetColourConversion> cc = PresetColourConversion::all ();
-			if (preset) {
-				checked_set (_colour_conversion, preset.get() + 1);
+		boost::unordered_set<optional<ColourConversion> > check;
+		BOOST_FOREACH (shared_ptr<const Content> i, vc) {
+			check.insert (i->video->colour_conversion());
+		}
+
+		/* Remove any "Many" entry that we might have added previously.  There should
+		 * be entries for each preset plus one for "None" and one for "Custom".
+		 */
+		vector<PresetColourConversion> cc = PresetColourConversion::all ();
+		if (_colour_conversion->GetCount() > cc.size() + 2) {
+			_colour_conversion->Delete (_colour_conversion->GetCount() - 1);
+		}
+
+		if (check.size() == 1) {
+			if (vcs && vcs->video->colour_conversion ()) {
+				optional<size_t> preset = vcs->video->colour_conversion().get().preset ();
+				if (preset) {
+					checked_set (_colour_conversion, preset.get() + 1);
+				} else {
+					checked_set (_colour_conversion, cc.size() + 1);
+				}
 			} else {
-				checked_set (_colour_conversion, cc.size() + 1);
+				checked_set (_colour_conversion, 0);
 			}
-		} else {
-			checked_set (_colour_conversion, 0);
+		} else if (check.size() > 1) {
+			/* Add a "many" entry and select it as an indication that multiple different
+			 * colour conversions are present in the selection.
+			 */
+			_colour_conversion->Append (_("Many"));
+			checked_set (_colour_conversion, _colour_conversion->GetCount() - 1);
 		}
 
 		setup_sensitivity ();
@@ -434,19 +467,20 @@ void
 VideoPanel::colour_conversion_changed ()
 {
 	ContentList vc = _parent->selected_video ();
-	if (vc.size() != 1) {
-		return;
-	}
 
 	int const s = _colour_conversion->GetSelection ();
 	vector<PresetColourConversion> all = PresetColourConversion::all ();
 
-	if (s == 0) {
-		vc.front()->video->unset_colour_conversion ();
-	} else if (s == int (all.size() + 1)) {
+	if (s == int(all.size() + 1)) {
 		edit_colour_conversion_clicked ();
 	} else {
-		vc.front()->video->set_colour_conversion (all[s - 1].conversion);
+		BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_video()) {
+			if (s == 0) {
+				i->video->unset_colour_conversion ();
+			} else if (s != int(all.size() + 2)) {
+				i->video->set_colour_conversion (all[s - 1].conversion);
+			}
+		}
 	}
 }
 
@@ -454,14 +488,13 @@ void
 VideoPanel::edit_colour_conversion_clicked ()
 {
 	ContentList vc = _parent->selected_video ();
-	if (vc.size() != 1) {
-		return;
-	}
 
 	ContentColourConversionDialog* d = new ContentColourConversionDialog (this, vc.front()->video->yuv ());
 	d->set (vc.front()->video->colour_conversion().get_value_or (PresetColourConversion::all().front().conversion));
 	if (d->ShowModal() == wxID_OK) {
-		vc.front()->video->set_colour_conversion (d->get ());
+		BOOST_FOREACH (shared_ptr<Content> i, vc) {
+			i->video->set_colour_conversion (d->get ());
+		}
 	} else {
 		/* Reset the colour conversion choice */
 		film_content_changed (VideoContentProperty::COLOUR_CONVERSION);
@@ -535,7 +568,7 @@ VideoPanel::setup_sensitivity ()
 		_description->Enable (true);
 		_filters->Enable (true);
 		_filters_button->Enable (single && !ffmpeg_sel.empty ());
-		_colour_conversion->Enable (single && !video_sel.empty ());
+		_colour_conversion->Enable (!video_sel.empty());
 	}
 
 	ContentList vc = _parent->selected_video ();
