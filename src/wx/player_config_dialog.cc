@@ -668,7 +668,7 @@ private:
 wxPreferencesEditor*
 create_player_config_dialog ()
 {
-	wxPreferencesEditor* e = new wxPreferencesEditor ();
+	wxPreferencesEditor* e = new wxPreferencesEditor (_("DCP-o-matic Player Preferences"));
 
 #ifdef DCPOMATIC_OSX
 	/* Width that we force some of the config panels to be on OSX so that
