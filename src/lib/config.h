@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -478,9 +478,9 @@ public:
 	}
 
 	enum PlayerMode {
-		PLAYER_MODE_WINDOW,
-		PLAYER_MODE_FULL,
-		PLAYER_MODE_DUAL
+		PLAYER_MODE_WINDOW, ///< one window containing image and controls
+		PLAYER_MODE_FULL,   ///< just the image filling the screen
+		PLAYER_MODE_DUAL    ///< image on one monitor and extended controls on the other
 	};
 
 	PlayerMode player_mode () const {
