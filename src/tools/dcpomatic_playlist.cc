@@ -574,7 +574,8 @@ private:
 	bool OnInit ()
 	try
 	{
-		SetAppName (_("DCP-o-matic KDM Creator"));
+		wxInitAllImageHandlers ();
+		SetAppName (_("DCP-o-matic Playlist Editor"));
 
 		if (!wxApp::OnInit()) {
 			return false;
