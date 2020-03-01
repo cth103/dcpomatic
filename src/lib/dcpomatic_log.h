@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -34,3 +34,5 @@ extern boost::shared_ptr<Log> dcpomatic_log;
 #define LOG_TIMING(...)       dcpomatic_log->log(String::compose(__VA_ARGS__), LogEntry::TYPE_TIMING);
 #define LOG_DEBUG_ENCODE(...) dcpomatic_log->log(String::compose(__VA_ARGS__), LogEntry::TYPE_DEBUG_ENCODE);
 #define LOG_DEBUG_PLAYER(...) dcpomatic_log->log(String::compose(__VA_ARGS__), LogEntry::TYPE_DEBUG_PLAYER);
+#define LOG_DEBUG_THREED(...) dcpomatic_log->log(String::compose(__VA_ARGS__), LogEntry::TYPE_DEBUG_THREED);
+#define LOG_DEBUG_THREED_NC(...) dcpomatic_log->log(__VA_ARGS__, LogEntry::TYPE_DEBUG_THREED);

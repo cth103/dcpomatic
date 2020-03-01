@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -23,9 +23,11 @@
 #include "dcpomatic_assert.h"
 #include "dcpomatic_log.h"
 #include <boost/foreach.hpp>
+#include <string>
 #include <iostream>
 
 using std::make_pair;
+using std::string;
 using boost::weak_ptr;
 using boost::shared_ptr;
 using boost::optional;
@@ -45,6 +47,8 @@ struct Comparator
 void
 Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 {
+	LOG_DEBUG_THREED ("Shuffler::video frame=%1 eyes=%2 part=%3", video.frame, static_cast<int>(video.eyes), static_cast<int>(video.part));
+
 	if (video.eyes != EYES_LEFT && video.eyes != EYES_RIGHT) {
 		/* Pass through anything that we don't care about */
 		Video (weak_piece, video);
@@ -55,6 +59,7 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 	DCPOMATIC_ASSERT (piece);
 
 	if (!_last && video.eyes == EYES_LEFT) {
+		LOG_DEBUG_THREED_NC ("Shuffler first after clear");
 		/* We haven't seen anything since the last clear() and we have some eyes-left so assume everything is OK */
 		Video (weak_piece, video);
 		_last = video;
@@ -74,6 +79,12 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 				(_store.front().second.frame >= (_last->frame + 1) && _store.front().second.eyes == EYES_LEFT  && _last->eyes == EYES_RIGHT)
 				);
 
+		if (!store_front_in_sequence) {
+			string const store = _store.empty() ? "store empty" : String::compose("store front frame=%1 eyes=%2", _store.front().second.frame, static_cast<int>(_store.front().second.eyes));
+			string const last = _last ? String::compose("last frame=%1 eyes=%2", _last->frame, static_cast<int>(_last->eyes)) : "no last";
+			LOG_DEBUG_THREED("Shuffler not in sequence: %1 %2", store, last);
+		}
+
 		if (!store_front_in_sequence && _store.size() <= _max_size) {
 			/* store_front_in_sequence means everything is ok; otherwise if the store is getting too big just
 			   start emitting things as best we can.  This can easily happen if, for example, there is only content
@@ -86,6 +97,7 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 			LOG_WARNING ("Shuffler is full after receiving frame %1; 3D sync may be incorrect.", video.frame);
 		}
 
+		LOG_DEBUG_THREED("Shuffler emits frame=%1 eyes=%2 store=%3", _store.front().second.frame, static_cast<int>(_store.front().second.eyes, _store.size()));
 		Video (_store.front().first, _store.front().second);
 		_last = _store.front().second;
 		_store.pop_front ();
@@ -95,6 +107,7 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 void
 Shuffler::clear ()
 {
+	LOG_DEBUG_THREED_NC ("Shuffler::clear");
 	_store.clear ();
 	_last = optional<ContentVideo>();
 }

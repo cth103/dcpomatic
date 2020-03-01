@@ -1233,7 +1233,7 @@ public:
 		, _log_warning (0)
 		, _log_error (0)
 		, _log_timing (0)
-		, _log_debug_decode (0)
+		, _log_debug_threed (0)
 		, _log_debug_encode (0)
 		, _log_debug_email (0)
 	{}
@@ -1346,8 +1346,8 @@ private:
 			/// TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
 			_log_timing = new CheckBox (_panel, S_("Config|Timing"));
 			t->Add (_log_timing, 1, wxEXPAND | wxALL);
-			_log_debug_decode = new CheckBox (_panel, _("Debug: decode"));
-			t->Add (_log_debug_decode, 1, wxEXPAND | wxALL);
+			_log_debug_threed = new CheckBox (_panel, _("Debug: 3D"));
+			t->Add (_log_debug_threed, 1, wxEXPAND | wxALL);
 			_log_debug_encode = new CheckBox (_panel, _("Debug: encode"));
 			t->Add (_log_debug_encode, 1, wxEXPAND | wxALL);
 			_log_debug_email = new CheckBox (_panel, _("Debug: email sending"));
@@ -1377,7 +1377,7 @@ private:
 		_log_warning->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
 		_log_error->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
 		_log_timing->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
-		_log_debug_decode->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
+		_log_debug_threed->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
 		_log_debug_encode->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
 		_log_debug_email->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
 #ifdef DCPOMATIC_WINDOWS
@@ -1406,7 +1406,7 @@ private:
 		checked_set (_log_warning, config->log_types() & LogEntry::TYPE_WARNING);
 		checked_set (_log_error, config->log_types() & LogEntry::TYPE_ERROR);
 		checked_set (_log_timing, config->log_types() & LogEntry::TYPE_TIMING);
-		checked_set (_log_debug_decode, config->log_types() & LogEntry::TYPE_DEBUG_DECODE);
+		checked_set (_log_debug_threed, config->log_types() & LogEntry::TYPE_DEBUG_THREED);
 		checked_set (_log_debug_encode, config->log_types() & LogEntry::TYPE_DEBUG_ENCODE);
 		checked_set (_log_debug_email, config->log_types() & LogEntry::TYPE_DEBUG_EMAIL);
 		checked_set (_frames_in_memory_multiplier, config->frames_in_memory_multiplier());
@@ -1479,8 +1479,8 @@ private:
 		if (_log_timing->GetValue ()) {
 			types |= LogEntry::TYPE_TIMING;
 		}
-		if (_log_debug_decode->GetValue ()) {
-			types |= LogEntry::TYPE_DEBUG_DECODE;
+		if (_log_debug_threed->GetValue ()) {
+			types |= LogEntry::TYPE_DEBUG_THREED;
 		}
 		if (_log_debug_encode->GetValue ()) {
 			types |= LogEntry::TYPE_DEBUG_ENCODE;
@@ -1511,7 +1511,7 @@ private:
 	wxCheckBox* _log_warning;
 	wxCheckBox* _log_error;
 	wxCheckBox* _log_timing;
-	wxCheckBox* _log_debug_decode;
+	wxCheckBox* _log_debug_threed;
 	wxCheckBox* _log_debug_encode;
 	wxCheckBox* _log_debug_email;
 #ifdef DCPOMATIC_WINDOWS
