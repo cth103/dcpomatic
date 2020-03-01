@@ -97,7 +97,7 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 			LOG_WARNING ("Shuffler is full after receiving frame %1; 3D sync may be incorrect.", video.frame);
 		}
 
-		LOG_DEBUG_THREED("Shuffler emits frame=%1 eyes=%2 store=%3", _store.front().second.frame, static_cast<int>(_store.front().second.eyes, _store.size()));
+		LOG_DEBUG_THREED("Shuffler emits frame=%1 eyes=%2 store=%3", _store.front().second.frame, static_cast<int>(_store.front().second.eyes), _store.size());
 		Video (_store.front().first, _store.front().second);
 		_last = _store.front().second;
 		_store.pop_front ();
