@@ -453,6 +453,7 @@ public:
 	explicit DOMFrame (wxString const & title)
 		: wxFrame (0, -1, title)
 		, _content_dialog (new ContentDialog(this))
+		, _config_dialog (0)
 	{
 		wxMenuBar* bar = new wxMenuBar;
 		setup_menu (bar);
