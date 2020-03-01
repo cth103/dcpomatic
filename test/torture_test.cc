@@ -56,23 +56,23 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_sequence (false);
 
-	/* Staircase at an offset of 2000 samples, trimmed both start and end, with a gain of 6dB */
+	/* Staircase at an offset of 2000 samples, trimmed both start and end, with a gain of exactly 2 (linear) */
 	shared_ptr<Content> staircase = content_factory("test/data/staircase.wav").front ();
 	film->examine_and_add_content (staircase);
 	BOOST_REQUIRE (!wait_for_jobs());
 	staircase->set_position (film, DCPTime::from_frames (2000, film->audio_frame_rate()));
 	staircase->set_trim_start (ContentTime::from_frames (12, 48000));
 	staircase->set_trim_end (ContentTime::from_frames (35, 48000));
-	staircase->audio->set_gain (linear_to_db(6));
+	staircase->audio->set_gain (20 * log10(2));
 
-	/* And again at an offset of 50000 samples, trimmed both start and end, with a gain of 6dB */
+	/* And again at an offset of 50000 samples, trimmed both start and end, with a gain of exactly 2 (linear) */
 	staircase = content_factory("test/data/staircase.wav").front ();
 	film->examine_and_add_content (staircase);
 	BOOST_REQUIRE (!wait_for_jobs());
 	staircase->set_position (film, DCPTime::from_frames(50000, film->audio_frame_rate()));
 	staircase->set_trim_start (ContentTime::from_frames (12, 48000));
 	staircase->set_trim_end (ContentTime::from_frames (35, 48000));
-	staircase->audio->set_gain (linear_to_db(6));
+	staircase->audio->set_gain (20 * log10(2));
 
 	/* 1s of red at 5s in */
 	shared_ptr<Content> red = content_factory("test/data/flat_red.png").front ();
