@@ -84,7 +84,7 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::PICTURE_HASH_INCORRECT:
 			text = wxString::Format(
 				_("The hash of the picture asset %s does not agree with the PKL file.  This probably means that the asset file is corrupt."),
-				std_to_wx(i.file()->filename().string()).data()
+				std_to_wx(i.file()->filename().string())
 				);
 			break;
 		case dcp::VerificationNote::PKL_CPL_PICTURE_HASHES_DISAGREE:
@@ -93,7 +93,7 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::SOUND_HASH_INCORRECT:
 			text = wxString::Format(
 				_("The hash of the sound asset %s does not agree with the PKL file.  This probably means that the asset file is corrupt."),
-				std_to_wx(i.file()->filename().string()).data()
+				std_to_wx(i.file()->filename().string())
 				);
 			break;
 		case dcp::VerificationNote::PKL_CPL_SOUND_HASHES_DISAGREE:
@@ -111,14 +111,14 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::XML_VALIDATION_ERROR:
 			if (i.line()) {
 				text = wxString::Format(
-					_("The XML in %s is malformed on line %d."),
-					std_to_wx(i.file()->filename().string()).data(),
+					_("The XML in %s is malformed on line %" PRIu64 "."),
+					std_to_wx(i.file()->filename().string()),
 					i.line().get()
 					);
 			} else {
 				text = wxString::Format(
 					_("The XML in %s is malformed."),
-					std_to_wx(i.file()->filename().string()).data()
+					std_to_wx(i.file()->filename().string())
 					);
 			}
 			break;
