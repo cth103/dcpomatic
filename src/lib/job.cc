@@ -62,6 +62,15 @@ Job::Job (shared_ptr<const Film> film)
 
 Job::~Job ()
 {
+#ifdef DCPOMATIC_DEBUG
+	/* Any subclass should have called destroy_thread in its destructor */
+	assert (!_thread);
+#endif
+}
+
+void
+Job::destroy_thread ()
+{
 	if (_thread) {
 		_thread->interrupt ();
 		/* We can't use DCPOMATIC_ASSERT here as it may throw an exception */
@@ -75,6 +84,7 @@ Job::~Job ()
 	}
 
 	delete _thread;
+	_thread = 0;
 }
 
 /** Start the job in a separate thread, returning immediately */

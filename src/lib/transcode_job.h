@@ -34,6 +34,7 @@ class TranscodeJob : public Job
 {
 public:
 	explicit TranscodeJob (boost::shared_ptr<const Film> film);
+	~TranscodeJob ();
 
 	std::string name () const;
 	std::string json_name () const;

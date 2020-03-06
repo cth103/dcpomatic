@@ -52,6 +52,11 @@ SendProblemReportJob::SendProblemReportJob (
 
 }
 
+SendProblemReportJob::~SendProblemReportJob ()
+{
+	destroy_thread ();
+}
+
 string
 SendProblemReportJob::name () const
 {

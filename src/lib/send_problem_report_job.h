@@ -31,6 +31,8 @@ public:
 		std::string summary
 		);
 
+	~SendProblemReportJob ();
+
 	std::string name () const;
 	std::string json_name () const;
 	void run ();

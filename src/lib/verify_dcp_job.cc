@@ -35,6 +35,11 @@ VerifyDCPJob::VerifyDCPJob (vector<boost::filesystem::path> directories)
 
 }
 
+VerifyDCPJob::~VerifyDCPJob ()
+{
+	destroy_thread ();
+}
+
 string
 VerifyDCPJob::name () const
 {

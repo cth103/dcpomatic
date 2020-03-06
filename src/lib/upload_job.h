@@ -28,6 +28,7 @@ class UploadJob : public Job
 {
 public:
 	explicit UploadJob (boost::shared_ptr<const Film>);
+	~UploadJob ();
 
 	std::string name () const;
 	std::string json_name () const;

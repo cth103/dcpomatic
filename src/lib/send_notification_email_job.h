@@ -24,6 +24,7 @@ class SendNotificationEmailJob : public Job
 {
 public:
 	explicit SendNotificationEmailJob (std::string body);
+	~SendNotificationEmailJob ();
 
 	std::string name () const;
 	std::string json_name () const;
