@@ -42,7 +42,7 @@ SendNotificationEmailJob::SendNotificationEmailJob (string body)
 
 SendNotificationEmailJob::~SendNotificationEmailJob ()
 {
-	destroy_thread ();
+	stop_thread ();
 }
 
 string

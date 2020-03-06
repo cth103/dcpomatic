@@ -43,7 +43,7 @@ CheckContentChangeJob::CheckContentChangeJob (shared_ptr<const Film> film, share
 
 CheckContentChangeJob::~CheckContentChangeJob()
 {
-	destroy_thread ();
+	stop_thread ();
 }
 
 string

@@ -54,7 +54,7 @@ SendProblemReportJob::SendProblemReportJob (
 
 SendProblemReportJob::~SendProblemReportJob ()
 {
-	destroy_thread ();
+	stop_thread ();
 }
 
 string

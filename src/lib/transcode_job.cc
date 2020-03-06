@@ -53,7 +53,7 @@ TranscodeJob::TranscodeJob (shared_ptr<const Film> film)
 
 TranscodeJob::~TranscodeJob ()
 {
-	destroy_thread ();
+	stop_thread ();
 }
 
 string

@@ -45,7 +45,7 @@ ExamineFFmpegSubtitlesJob::ExamineFFmpegSubtitlesJob (shared_ptr<const Film> fil
 
 ExamineFFmpegSubtitlesJob::~ExamineFFmpegSubtitlesJob ()
 {
-	destroy_thread ();
+	stop_thread ();
 }
 
 string

@@ -55,7 +55,7 @@ SendKDMEmailJob::SendKDMEmailJob (
 
 SendKDMEmailJob::~SendKDMEmailJob ()
 {
-	destroy_thread ();
+	stop_thread ();
 }
 
 string

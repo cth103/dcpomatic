@@ -40,7 +40,7 @@ ExamineContentJob::ExamineContentJob (shared_ptr<const Film> film, shared_ptr<Co
 
 ExamineContentJob::~ExamineContentJob ()
 {
-	destroy_thread ();
+	stop_thread ();
 }
 
 string

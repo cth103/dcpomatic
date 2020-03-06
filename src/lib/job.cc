@@ -63,13 +63,13 @@ Job::Job (shared_ptr<const Film> film)
 Job::~Job ()
 {
 #ifdef DCPOMATIC_DEBUG
-	/* Any subclass should have called destroy_thread in its destructor */
+	/* Any subclass should have called stop_thread in its destructor */
 	assert (!_thread);
 #endif
 }
 
 void
-Job::destroy_thread ()
+Job::stop_thread ()
 {
 	if (_thread) {
 		_thread->interrupt ();

@@ -82,7 +82,7 @@ AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> film, shared_ptr<const 
 
 AnalyseAudioJob::~AnalyseAudioJob ()
 {
-	destroy_thread ();
+	stop_thread ();
 	BOOST_FOREACH (Filter const * i, _filters) {
 		delete const_cast<Filter*> (i);
 	}
