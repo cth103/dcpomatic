@@ -40,6 +40,11 @@ public:
 
 	}
 
+	~TestJob ()
+	{
+		stop_thread ();
+	}
+
 	void set_finished_ok () {
 		set_state (FINISHED_OK);
 	}
