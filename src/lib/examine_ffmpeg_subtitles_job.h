@@ -28,6 +28,7 @@ class ExamineFFmpegSubtitlesJob : public Job, public FFmpeg
 {
 public:
 	ExamineFFmpegSubtitlesJob (boost::shared_ptr<const Film>, boost::shared_ptr<FFmpegContent>);
+	~ExamineFFmpegSubtitlesJob ();
 
 	std::string name () const;
 	std::string json_name () const;

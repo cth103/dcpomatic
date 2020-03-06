@@ -46,6 +46,11 @@ UploadJob::UploadJob (shared_ptr<const Film> film)
 
 }
 
+UploadJob::~UploadJob ()
+{
+	stop_thread ();
+}
+
 string
 UploadJob::name () const
 {

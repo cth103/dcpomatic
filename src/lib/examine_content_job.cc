@@ -38,6 +38,11 @@ ExamineContentJob::ExamineContentJob (shared_ptr<const Film> film, shared_ptr<Co
 
 }
 
+ExamineContentJob::~ExamineContentJob ()
+{
+	stop_thread ();
+}
+
 string
 ExamineContentJob::name () const
 {

@@ -42,6 +42,11 @@ CheckContentChangeJob::CheckContentChangeJob (shared_ptr<const Film> film, share
 
 }
 
+CheckContentChangeJob::~CheckContentChangeJob ()
+{
+	stop_thread ();
+}
+
 string
 CheckContentChangeJob::name () const
 {

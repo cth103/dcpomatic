@@ -28,6 +28,7 @@ class VerifyDCPJob : public Job
 {
 public:
 	explicit VerifyDCPJob (std::vector<boost::filesystem::path> directories);
+	~VerifyDCPJob ();
 
 	std::string name () const;
 	std::string json_name () const;

@@ -40,6 +40,7 @@ public:
 		dcp::NameFormat::Map name_values,
 		std::string cpl_name
 		);
+	~SendKDMEmailJob ();
 
 	std::string name () const;
 	std::string json_name () const;

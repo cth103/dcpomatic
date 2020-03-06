@@ -62,7 +62,10 @@ Job::Job (shared_ptr<const Film> film)
 
 Job::~Job ()
 {
-	stop_thread ();
+#ifdef DCPOMATIC_DEBUG
+	/* Any subclass should have called stop_thread in its destructor */
+	assert (!_thread.joinable());
+#endif
 }
 
 void

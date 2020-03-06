@@ -43,6 +43,11 @@ ExamineFFmpegSubtitlesJob::ExamineFFmpegSubtitlesJob (shared_ptr<const Film> fil
 
 }
 
+ExamineFFmpegSubtitlesJob::~ExamineFFmpegSubtitlesJob ()
+{
+	stop_thread ();
+}
+
 string
 ExamineFFmpegSubtitlesJob::name () const
 {

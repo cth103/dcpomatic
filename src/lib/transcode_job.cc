@@ -54,9 +54,6 @@ TranscodeJob::TranscodeJob (shared_ptr<const Film> film)
 
 TranscodeJob::~TranscodeJob ()
 {
-	/* We have to stop the job thread here as we're about to start tearing down
-	   the Encoder, which is bad news if the job thread is still feeding it data.
-	*/
 	stop_thread ();
 }
 

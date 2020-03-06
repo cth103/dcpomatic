@@ -53,6 +53,11 @@ SendKDMEmailJob::SendKDMEmailJob (
 
 }
 
+SendKDMEmailJob::~SendKDMEmailJob ()
+{
+	stop_thread ();
+}
+
 string
 SendKDMEmailJob::name () const
 {

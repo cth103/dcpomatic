@@ -40,6 +40,11 @@ SendNotificationEmailJob::SendNotificationEmailJob (string body)
 
 }
 
+SendNotificationEmailJob::~SendNotificationEmailJob ()
+{
+	stop_thread ();
+}
+
 string
 SendNotificationEmailJob::name () const
 {
