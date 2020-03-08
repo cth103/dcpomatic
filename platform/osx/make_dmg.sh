@@ -186,6 +186,7 @@ function copy_resources {
     cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2_server.icns "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2_player.icns "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2_batch.icns "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2_playlist.icns "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/preferences/colour_conversions.png "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/preferences/defaults.png "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/preferences/kdm_email.png "$dest"
