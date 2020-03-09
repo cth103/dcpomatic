@@ -514,3 +514,30 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short1)
 	BOOST_REQUIRE (dcp::verify(dirs, boost::bind(&no_op), boost::bind(&no_op), TestPaths::xsd).empty());
 }
 
+/** Leaving less than 1 second's gap between two pieces of content with
+ *  REELTYPE_BY_VIDEO_CONTENT should not make a <1s reel.
+ */
+BOOST_AUTO_TEST_CASE (reels_should_not_be_short2)
+{
+	shared_ptr<Film> film = new_test_film2 ("reels_should_not_be_short2");
+	film->set_video_frame_rate (24);
+	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+
+	shared_ptr<FFmpegContent> A(new FFmpegContent("test/data/flat_red.png"));
+	film->examine_and_add_content (A);
+	BOOST_REQUIRE (!wait_for_jobs());
+	A->video->set_length (240);
+
+	shared_ptr<FFmpegContent> B(new FFmpegContent("test/data/flat_red.png"));
+	film->examine_and_add_content (B);
+	BOOST_REQUIRE (!wait_for_jobs());
+	B->video->set_length (240);
+	B->set_position (film, DCPTime::from_seconds(10.2));
+
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	vector<boost::filesystem::path> dirs;
+	dirs.push_back (film->dir(film->dcp_name(false)));
+	BOOST_REQUIRE (dcp::verify(dirs, boost::bind(&no_op), boost::bind(&no_op), TestPaths::xsd).empty());
+}
