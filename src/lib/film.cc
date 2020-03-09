@@ -1643,13 +1643,17 @@ Film::reels () const
 		split_points.sort ();
 		split_points.unique ();
 
-		/* Make them into periods */
+		/* Make them into periods, coalescing any that are less than 1 second long */
 		optional<DCPTime> last;
 		BOOST_FOREACH (DCPTime t, split_points) {
-			if (last) {
+			if (last && (t - *last) >= DCPTime::from_seconds(1)) {
+				/* Period from *last to t is long enough; use it and start a new one */
 				p.push_back (DCPTimePeriod(*last, t));
+				last = t;
+			} else if (!last) {
+				/* That was the first time, so start a new period */
+				last = t;
 			}
-			last = t;
 		}
 		break;
 	}
