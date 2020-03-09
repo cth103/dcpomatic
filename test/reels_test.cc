@@ -121,6 +121,7 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	}
 
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	BOOST_CHECK_EQUAL (film->reels().size(), 3);
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	film->make_dcp ();
@@ -325,12 +326,12 @@ BOOST_AUTO_TEST_CASE (reels_test7)
 	film->examine_and_add_content (B);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	film->set_video_frame_rate (24);
-	A->video->set_length (3 * 24);
+	A->video->set_length (2 * 24);
 
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
 	BOOST_REQUIRE_EQUAL (film->reels().size(), 2);
-	BOOST_CHECK (film->reels().front() == DCPTimePeriod(DCPTime(0), DCPTime::from_frames(3 * 24, 24)));
-	BOOST_CHECK (film->reels().back() == DCPTimePeriod(DCPTime::from_frames(3 * 24, 24), DCPTime::from_frames(3 * 24 + 1, 24)));
+	BOOST_CHECK (film->reels().front() == DCPTimePeriod(DCPTime(0), DCPTime::from_frames(2 * 24, 24)));
+	BOOST_CHECK (film->reels().back() == DCPTimePeriod(DCPTime::from_frames(2 * 24, 24), DCPTime::from_frames(3 * 24 + 1, 24)));
 
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());
@@ -513,6 +514,12 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short1)
 	film->examine_and_add_content (A);
 	BOOST_REQUIRE (!wait_for_jobs());
 	A->video->set_length (23);
+
+	shared_ptr<FFmpegContent> B(new FFmpegContent("test/data/flat_red.png"));
+	film->examine_and_add_content (B);
+	BOOST_REQUIRE (!wait_for_jobs());
+	B->video->set_length (23);
+	B->set_position (film, DCPTime::from_frames(23, 24));
 
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
