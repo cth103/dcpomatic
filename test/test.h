@@ -26,6 +26,12 @@ class Image;
 
 extern boost::filesystem::path private_data;
 
+class TestPaths
+{
+public:
+	static boost::filesystem::path xsd;
+};
+
 extern bool wait_for_jobs ();
 extern void setup_test_config ();
 extern boost::shared_ptr<Film> new_test_film (std::string);

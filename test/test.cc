@@ -72,6 +72,7 @@ using boost::scoped_array;
 using boost::dynamic_pointer_cast;
 
 boost::filesystem::path private_data = boost::filesystem::canonical(boost::filesystem::path ("..") / boost::filesystem::path ("dcpomatic-test-private"));
+boost::filesystem::path TestPaths::xsd = boost::filesystem::canonical(boost::filesystem::path("..") / boost::filesystem::path("libdcp") / boost::filesystem::path("xsd"));
 
 void
 setup_test_config ()

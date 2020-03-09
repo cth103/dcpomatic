@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -39,7 +39,10 @@
 
 using std::list;
 using std::cout;
+using std::vector;
+using std::string;
 using boost::shared_ptr;
+using boost::function;
 using namespace dcpomatic;
 
 /** Test Film::reels() */
@@ -482,3 +485,32 @@ BOOST_AUTO_TEST_CASE (reels_test12)
 	BOOST_CHECK_EQUAL (i->from.get(), DCPTime::from_seconds(14).get());
 	BOOST_CHECK_EQUAL (i->to.get(),   DCPTime::from_seconds(19).get());
 }
+
+static void
+no_op ()
+{
+
+}
+
+
+/** Using less than 1 second's worth of content should not result in a reel
+ *  of less than 1 second's duration.
+ */
+BOOST_AUTO_TEST_CASE (reels_should_not_be_short1)
+{
+	shared_ptr<Film> film = new_test_film2 ("reels_should_not_be_short1");
+	film->set_video_frame_rate (24);
+
+	shared_ptr<FFmpegContent> A(new FFmpegContent("test/data/flat_red.png"));
+	film->examine_and_add_content (A);
+	BOOST_REQUIRE (!wait_for_jobs());
+	A->video->set_length (23);
+
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	vector<boost::filesystem::path> dirs;
+	dirs.push_back (film->dir(film->dcp_name(false)));
+	BOOST_REQUIRE (dcp::verify(dirs, boost::bind(&no_op), boost::bind(&no_op), TestPaths::xsd).empty());
+}
+
