@@ -565,3 +565,31 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short3)
 	BOOST_REQUIRE (dcp::verify(dirs, boost::bind(&no_op), boost::bind(&no_op), TestPaths::xsd).empty());
 }
 
+/** Having one piece of content less than 1s long in REELTYPE_BY_VIDEO_CONTENT
+ *  should not make a reel less than 1s long.
+ */
+BOOST_AUTO_TEST_CASE (reels_should_not_be_short4)
+{
+	shared_ptr<Film> film = new_test_film2 ("reels_should_not_be_short4");
+	film->set_video_frame_rate (24);
+	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+
+	shared_ptr<FFmpegContent> A(new FFmpegContent("test/data/flat_red.png"));
+	film->examine_and_add_content (A);
+	BOOST_REQUIRE (!wait_for_jobs());
+	A->video->set_length (240);
+
+	shared_ptr<FFmpegContent> B(new FFmpegContent("test/data/flat_red.png"));
+	film->examine_and_add_content (B);
+	BOOST_REQUIRE (!wait_for_jobs());
+	B->video->set_length (23);
+	B->set_position (film, DCPTime::from_frames(240, 24));
+
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	vector<boost::filesystem::path> dirs;
+	dirs.push_back (film->dir(film->dcp_name(false)));
+	BOOST_REQUIRE (dcp::verify(dirs, boost::bind(&no_op), boost::bind(&no_op), TestPaths::xsd).empty());
+}
+
