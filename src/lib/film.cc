@@ -1254,11 +1254,13 @@ Film::move_content_later (shared_ptr<Content> c)
 	_playlist->move_later (shared_from_this(), c);
 }
 
-/** @return length of the film from time 0 to the last thing on the playlist */
+/** @return length of the film from time 0 to the last thing on the playlist,
+ *  with a minimum length of 1 second.
+ */
 DCPTime
 Film::length () const
 {
-	return _playlist->length(shared_from_this()).ceil(video_frame_rate());
+	return max(DCPTime::from_seconds(1), _playlist->length(shared_from_this()).ceil(video_frame_rate()));
 }
 
 int
