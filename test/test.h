@@ -24,11 +24,11 @@
 class Film;
 class Image;
 
-extern boost::filesystem::path private_data;
 
 class TestPaths
 {
 public:
+	static boost::filesystem::path private_data;
 	static boost::filesystem::path xsd;
 };
 

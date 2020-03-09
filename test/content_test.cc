@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE (content_test1)
 	film->set_name ("content_test1");
 	film->set_container (Ratio::from_id ("185"));
 
-	shared_ptr<Content> content = content_factory(private_data / "demo_sound_bug.mkv").front ();
+	shared_ptr<Content> content = content_factory(TestPaths::private_data / "demo_sound_bug.mkv").front ();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	film->make_dcp ();

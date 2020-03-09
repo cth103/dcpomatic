@@ -67,7 +67,7 @@ check (shared_ptr<FFmpegDecoder> decoder, int frame)
 static void
 test (boost::filesystem::path file, vector<int> frames)
 {
-	boost::filesystem::path path = private_data / file;
+	boost::filesystem::path path = TestPaths::private_data / file;
 	BOOST_REQUIRE (boost::filesystem::exists (path));
 
 	shared_ptr<Film> film = new_test_film ("ffmpeg_decoder_seek_test_" + file.string());

@@ -71,7 +71,7 @@ using boost::shared_ptr;
 using boost::scoped_array;
 using boost::dynamic_pointer_cast;
 
-boost::filesystem::path private_data = boost::filesystem::canonical(boost::filesystem::path ("..") / boost::filesystem::path ("dcpomatic-test-private"));
+boost::filesystem::path TestPaths::TestPaths::private_data = boost::filesystem::canonical(boost::filesystem::path ("..") / boost::filesystem::path ("dcpomatic-test-private"));
 boost::filesystem::path TestPaths::xsd = boost::filesystem::canonical(boost::filesystem::path("..") / boost::filesystem::path("libdcp") / boost::filesystem::path("xsd"));
 
 void
@@ -114,7 +114,7 @@ struct TestConfig
 
 		char* env_private = getenv("DCPOMATIC_TEST_PRIVATE");
 		if (env_private) {
-			private_data = env_private;
+			TestPaths::TestPaths::private_data = env_private;
 		}
 
 		dcpomatic_log.reset (new FileLog("build/test/log"));

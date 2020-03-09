@@ -33,7 +33,7 @@ using boost::dynamic_pointer_cast;
 BOOST_AUTO_TEST_CASE (subtitle_charset_test1)
 {
 	shared_ptr<Film> film = new_test_film2 ("subtitle_charset_test1");
-	shared_ptr<Content> content = content_factory (private_data / "PADDINGTON soustitresVFdef.srt").front();
+	shared_ptr<Content> content = content_factory (TestPaths::private_data / "PADDINGTON soustitresVFdef.srt").front();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 }

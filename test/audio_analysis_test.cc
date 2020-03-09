@@ -111,7 +111,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name ("audio_analysis_test");
-	boost::filesystem::path p = private_data / "betty_L.wav";
+	boost::filesystem::path p = TestPaths::private_data / "betty_L.wav";
 
 	shared_ptr<FFmpegContent> c (new FFmpegContent(p));
 	film->examine_and_add_content (c);
@@ -128,7 +128,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_negative_delay_test)
 {
 	shared_ptr<Film> film = new_test_film ("audio_analysis_negative_delay_test");
 	film->set_name ("audio_analysis_negative_delay_test");
-	shared_ptr<FFmpegContent> c (new FFmpegContent(private_data / "boon_telly.mkv"));
+	shared_ptr<FFmpegContent> c (new FFmpegContent(TestPaths::private_data / "boon_telly.mkv"));
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -145,7 +145,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test2)
 {
 	shared_ptr<Film> film = new_test_film ("audio_analysis_test2");
 	film->set_name ("audio_analysis_test2");
-	shared_ptr<FFmpegContent> c (new FFmpegContent(private_data / "3d_thx_broadway_2010_lossless.m2ts"));
+	shared_ptr<FFmpegContent> c (new FFmpegContent(TestPaths::private_data / "3d_thx_broadway_2010_lossless.m2ts"));
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -192,7 +192,7 @@ BOOST_AUTO_TEST_CASE (analyse_audio_test4)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<Content> content = content_factory(private_data / "20 The Wedding Convoy Song.m4a").front();
+	shared_ptr<Content> content = content_factory(TestPaths::private_data / "20 The Wedding Convoy Song.m4a").front();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
