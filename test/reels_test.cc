@@ -492,6 +492,14 @@ no_op ()
 
 }
 
+static void
+dump_notes (list<dcp::VerificationNote> const & notes)
+{
+	BOOST_FOREACH (dcp::VerificationNote i, notes) {
+		std::cout << dcp::note_to_string(i) << "\n";
+	}
+}
+
 
 /** Using less than 1 second's worth of content should not result in a reel
  *  of less than 1 second's duration.
@@ -511,7 +519,9 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short1)
 
 	vector<boost::filesystem::path> dirs;
 	dirs.push_back (film->dir(film->dcp_name(false)));
-	BOOST_REQUIRE (dcp::verify(dirs, boost::bind(&no_op), boost::bind(&no_op), TestPaths::xsd).empty());
+	list<dcp::VerificationNote> const notes = dcp::verify(dirs, boost::bind(&no_op), boost::bind(&no_op), TestPaths::xsd);
+	dump_notes (notes);
+	BOOST_REQUIRE (notes.empty());
 }
 
 /** Leaving less than 1 second's gap between two pieces of content with
@@ -539,7 +549,9 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short2)
 
 	vector<boost::filesystem::path> dirs;
 	dirs.push_back (film->dir(film->dcp_name(false)));
-	BOOST_REQUIRE (dcp::verify(dirs, boost::bind(&no_op), boost::bind(&no_op), TestPaths::xsd).empty());
+	list<dcp::VerificationNote> const notes = dcp::verify(dirs, boost::bind(&no_op), boost::bind(&no_op), TestPaths::xsd);
+	dump_notes (notes);
+	BOOST_REQUIRE (notes.empty());
 }
 
 /** Setting REELTYPE_BY_LENGTH and using a small length value should not make
@@ -561,8 +573,9 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short3)
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	vector<boost::filesystem::path> dirs;
-	dirs.push_back (film->dir(film->dcp_name(false)));
-	BOOST_REQUIRE (dcp::verify(dirs, boost::bind(&no_op), boost::bind(&no_op), TestPaths::xsd).empty());
+	list<dcp::VerificationNote> const notes = dcp::verify(dirs, boost::bind(&no_op), boost::bind(&no_op), TestPaths::xsd);
+	dump_notes (notes);
+	BOOST_REQUIRE (notes.empty());
 }
 
 /** Having one piece of content less than 1s long in REELTYPE_BY_VIDEO_CONTENT
@@ -590,6 +603,8 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short4)
 
 	vector<boost::filesystem::path> dirs;
 	dirs.push_back (film->dir(film->dcp_name(false)));
-	BOOST_REQUIRE (dcp::verify(dirs, boost::bind(&no_op), boost::bind(&no_op), TestPaths::xsd).empty());
+	list<dcp::VerificationNote> const notes = dcp::verify(dirs, boost::bind(&no_op), boost::bind(&no_op), TestPaths::xsd);
+	dump_notes (notes);
+	BOOST_REQUIRE (notes.empty());
 }
 
