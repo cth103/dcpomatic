@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -1654,8 +1654,10 @@ Film::reels () const
 	case REELTYPE_BY_LENGTH:
 	{
 		DCPTime current;
-		/* Integer-divide reel length by the size of one frame to give the number of frames per reel */
-		Frame const reel_in_frames = _reel_length / ((j2k_bandwidth() / video_frame_rate()) / 8);
+		/* Integer-divide reel length by the size of one frame to give the number of frames per reel,
+		 * making sure we don't go less than 1s long.
+		 */
+		Frame const reel_in_frames = max(_reel_length / ((j2k_bandwidth() / video_frame_rate()) / 8), static_cast<Frame>(video_frame_rate()));
 		while (current < len) {
 			DCPTime end = min (len, current + DCPTime::from_frames (reel_in_frames, video_frame_rate ()));
 			p.push_back (DCPTimePeriod (current, end));
