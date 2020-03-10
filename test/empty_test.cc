@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -29,6 +29,7 @@
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
+using std::list;
 using boost::shared_ptr;
 using namespace dcpomatic;
 
@@ -63,11 +64,16 @@ BOOST_AUTO_TEST_CASE (empty_test1)
 
 	shared_ptr<Player> player (new Player(film, film->playlist()));
 	Empty black (film, player->_pieces, bind(&has_video, _1));
-	BOOST_REQUIRE_EQUAL (black._periods.size(), 2);
-	BOOST_CHECK (black._periods.front().from == DCPTime());
-	BOOST_CHECK (black._periods.front().to == DCPTime::from_frames(2, vfr));
-	BOOST_CHECK (black._periods.back().from == DCPTime::from_frames(5, vfr));
-	BOOST_CHECK (black._periods.back().to == DCPTime::from_frames(7, vfr));
+	BOOST_REQUIRE_EQUAL (black._periods.size(), 3);
+	list<dcpomatic::DCPTimePeriod>::const_iterator i = black._periods.begin();
+	BOOST_CHECK (i->from == DCPTime());
+	BOOST_CHECK (i->to == DCPTime::from_frames(2, vfr));
+	++i;
+	BOOST_CHECK (i->from == DCPTime::from_frames(5, vfr));
+	BOOST_CHECK (i->to == DCPTime::from_frames(7, vfr));
+	++i;
+	BOOST_CHECK (i->from == DCPTime::from_frames(8, vfr));
+	BOOST_CHECK (i->to == DCPTime::from_frames(24, vfr));
 }
 
 /** Some tests where the first empty period is not at time 0 */
@@ -96,7 +102,7 @@ BOOST_AUTO_TEST_CASE (empty_test2)
 
 	shared_ptr<Player> player (new Player(film, film->playlist()));
 	Empty black (film, player->_pieces, bind(&has_video, _1));
-	BOOST_REQUIRE_EQUAL (black._periods.size(), 1);
+	BOOST_REQUIRE_EQUAL (black._periods.size(), 2);
 	BOOST_CHECK (black._periods.front().from == DCPTime::from_frames(3, vfr));
 	BOOST_CHECK (black._periods.front().to == DCPTime::from_frames(7, vfr));
 
@@ -108,5 +114,7 @@ BOOST_AUTO_TEST_CASE (empty_test2)
 	black.set_position (DCPTime::from_frames (4, vfr));
 	BOOST_CHECK (!black.done ());
 	black.set_position (DCPTime::from_frames (7, vfr));
+	BOOST_CHECK (!black.done ());
+	black.set_position (DCPTime::from_frames (24, vfr));
 	BOOST_CHECK (black.done ());
 }

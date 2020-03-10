@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -28,6 +28,7 @@
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/dcp_content_type.h"
+#include "lib/video_content.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/regex.hpp>
 
@@ -58,6 +59,7 @@ BOOST_AUTO_TEST_CASE (file_naming_test)
 
 	shared_ptr<Film> film = new_test_film ("file_naming_test");
 	film->set_name ("file_naming_test");
+	film->set_video_frame_rate (24);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	shared_ptr<FFmpegContent> r (new FFmpegContent("test/data/flat_red.png"));
 	film->examine_and_add_content (r);
@@ -67,7 +69,18 @@ BOOST_AUTO_TEST_CASE (file_naming_test)
 	film->examine_and_add_content (b);
 	BOOST_REQUIRE (!wait_for_jobs());
 
+	r->set_position (film, dcpomatic::DCPTime::from_seconds(0));
+	r->set_video_frame_rate (24);
+	r->video->set_length (24);
+	g->set_position (film, dcpomatic::DCPTime::from_seconds(1));
+	g->set_video_frame_rate (24);
+	g->video->set_length (24);
+	b->set_position (film, dcpomatic::DCPTime::from_seconds(2));
+	b->set_video_frame_rate (24);
+	b->video->set_length (24);
+
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	film->write_metadata ();
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -105,6 +118,16 @@ BOOST_AUTO_TEST_CASE (file_naming_test2)
 	shared_ptr<FFmpegContent> b (new FFmpegContent("test/data/flat_blue.png"));
 	film->examine_and_add_content (b);
 	BOOST_REQUIRE (!wait_for_jobs());
+
+	r->set_position (film, dcpomatic::DCPTime::from_seconds(0));
+	r->set_video_frame_rate (24);
+	r->video->set_length (24);
+	g->set_position (film, dcpomatic::DCPTime::from_seconds(1));
+	g->set_video_frame_rate (24);
+	g->video->set_length (24);
+	b->set_position (film, dcpomatic::DCPTime::from_seconds(2));
+	b->set_video_frame_rate (24);
+	b->video->set_length (24);
 
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
 	film->make_dcp ();
