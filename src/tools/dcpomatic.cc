@@ -879,10 +879,10 @@ private:
 			);
 
 
-		dcp::LocalTime from (Config::instance()->decryption_chain()->leaf().not_before());
-		from.add_months (1);
-		dcp::LocalTime to (Config::instance()->decryption_chain()->leaf().not_after());
-		to.add_months (-1);
+		dcp::LocalTime from (Config::instance()->signer_chain()->leaf().not_before());
+		from.add_minutes (1);
+		dcp::LocalTime to (Config::instance()->signer_chain()->leaf().not_after());
+		to.add_minutes (-1);
 
 		optional<dcp::EncryptedKDM> kdm;
 		try {
