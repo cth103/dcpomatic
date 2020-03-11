@@ -447,10 +447,21 @@ public:
 
 		JobManager::instance()->add(shared_ptr<Job>(new CheckContentChangeJob(film)));
 	}
-	catch (std::exception& e) {
-		wxString p = std_to_wx (file.string ());
-		wxCharBuffer b = p.ToUTF8 ();
-		error_dialog (this, wxString::Format (_("Could not open film at %s"), p.data()), std_to_wx (e.what()));
+	catch (FileNotFoundError& e) {
+		boost::filesystem::path const dir = e.file().parent_path();
+		if (boost::filesystem::exists(dir / "ASSETMAP") || boost::filesystem::exists(dir / "ASSETMAP.xml")) {
+			error_dialog (
+				this, _("Could not open this folder as a DCP-o-matic project."),
+				_("It looks like you are trying to open a DCP.  File -> Open is for loading DCP-o-matic projects, not DCPs.  To import a DCP, create a new project with File -> New and then click the \"Add DCP...\" button.")
+				);
+		} else {
+			wxString const p = std_to_wx(file.string ());
+			error_dialog (this, wxString::Format(_("Could not open film at %s"), p.data()), std_to_wx(e.what()));
+		}
+
+	} catch (std::exception& e) {
+		wxString const p = std_to_wx (file.string());
+		error_dialog (this, wxString::Format(_("Could not open film at %s"), p.data()), std_to_wx(e.what()));
 	}
 
 	void set_film (shared_ptr<Film> film)

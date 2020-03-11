@@ -475,6 +475,10 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 		path = file (metadata_file);
 	}
 
+	if (!boost::filesystem::exists(*path)) {
+		throw FileNotFoundError(*path);
+	}
+
 	cxml::Document f ("Metadata");
 	f.read_file (path.get ());
 

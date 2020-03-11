@@ -40,6 +40,13 @@ OpenFileError::OpenFileError (boost::filesystem::path f, int error, Mode mode)
 
 }
 
+FileNotFoundError::FileNotFoundError (boost::filesystem::path f)
+	: runtime_error(String::compose("File %1 not found", f.string()))
+	, _file (f)
+{
+
+}
+
 ReadFileError::ReadFileError (boost::filesystem::path f, int e)
 	: FileError (String::compose (_("could not read from file %1 (%2)"), f.string(), strerror (e)), f)
 {

@@ -117,6 +117,22 @@ public:
 	OpenFileError (boost::filesystem::path f, int error, Mode mode);
 };
 
+class FileNotFoundError : public std::runtime_error
+{
+public:
+	FileNotFoundError (boost::filesystem::path f);
+	virtual ~FileNotFoundError () throw () {}
+
+	/** @return name of the file that this exception concerns */
+	boost::filesystem::path file () const {
+		return _file;
+	}
+
+private:
+	/** name of the file that this exception concerns */
+	boost::filesystem::path _file;
+};
+
 /** @class ReadFileError.
  *  @brief Indicates that some error occurred when trying to read from a file
  */
