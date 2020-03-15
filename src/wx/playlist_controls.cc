@@ -454,3 +454,17 @@ PlaylistControls::viewer_finished ()
 		_pause_button->Enable (false);
 	}
 }
+
+#ifdef DCPOMATIC_PLAYER_STRESS_TEST
+void
+PlaylistControls::play ()
+{
+	play_clicked ();
+}
+
+void
+PlaylistControls::stop ()
+{
+	stop_clicked ();
+}
+#endif

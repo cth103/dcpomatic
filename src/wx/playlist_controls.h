@@ -37,6 +37,11 @@ public:
 	*/
 	boost::signals2::signal<void (boost::weak_ptr<Film>)> ResetFilm;
 
+#ifdef DCPOMATIC_PLAYER_STRESS_TEST
+	void play ();
+	void stop ();
+#endif
+
 private:
 	void play_clicked ();
 	void pause_clicked ();

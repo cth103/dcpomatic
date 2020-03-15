@@ -199,6 +199,7 @@ public:
 		, _view_dual_screen (0)
 #ifdef DCPOMATIC_PLAYER_STRESS_TEST
 		, _timer (this)
+		, _stress_suspended (false)
 #endif
 {
 		dcpomatic_log.reset (new NullLog());
@@ -319,6 +320,10 @@ public:
 
 	void check_commands ()
 	{
+		if (_stress_suspended) {
+			return;
+		}
+
 		if (_current_command == _commands.end()) {
 			_timer.Stop ();
 			cout << "ST: finished.\n";
@@ -327,7 +332,6 @@ public:
 
 		switch (_current_command->type) {
 			case Command::OPEN:
-				cout << "ST: load " << _current_command->string_param << "\n";
 				load_dcp (_current_command->string_param);
 				++_current_command;
 				break;
@@ -504,8 +508,11 @@ public:
 
 		reset_film ();
 		try {
+			_stress_suspended = true;
 			shared_ptr<DCPContent> dcp (new DCPContent(dir));
-			_film->examine_and_add_content (dcp, true);
+			shared_ptr<Job> job (new ExamineContentJob(_film, dcp));
+			_examine_job_connection = job->Finished.connect(bind(&DOMFrame::add_dcp_to_film, this, weak_ptr<Job>(job), weak_ptr<Content>(dcp)));
+			JobManager::instance()->add (job);
 			bool const ok = display_progress (_("DCP-o-matic Player"), _("Loading content"));
 			if (!ok || !report_errors_from_last_job(this)) {
 				return;
@@ -516,6 +523,22 @@ public:
 		} catch (dcp::DCPReadError& e) {
 			error_dialog (this, wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())), std_to_wx(e.what()));
 		}
+	}
+
+	void add_dcp_to_film (weak_ptr<Job> weak_job, weak_ptr<Content> weak_content)
+	{
+		shared_ptr<Job> job = weak_job.lock ();
+		if (!job || !job->finished_ok()) {
+			return;
+		}
+
+		shared_ptr<Content> content = weak_content.lock ();
+		if (!content) {
+			return;
+		}
+
+		_film->add_content (content);
+		_stress_suspended = false;
 	}
 
 	void reset_film_weak (weak_ptr<Film> weak_film)
@@ -1131,6 +1154,7 @@ private:
 	SystemInformationDialog* _system_information_dialog;
 	boost::shared_ptr<Film> _film;
 	boost::signals2::scoped_connection _config_changed_connection;
+	boost::signals2::scoped_connection _examine_job_connection;
 	wxMenuItem* _file_add_ov;
 	wxMenuItem* _file_add_kdm;
 	wxMenuItem* _tools_verify;
@@ -1142,6 +1166,7 @@ private:
 	list<Command>::const_iterator _current_command;
 	/** Remaining time that the script must wait, in milliseconds */
 	optional<int> _wait_remaining;
+	bool _stress_suspended;
 #endif
 };
 
