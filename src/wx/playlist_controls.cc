@@ -52,7 +52,6 @@ PlaylistControls::PlaylistControls (wxWindow* parent, shared_ptr<FilmViewer> vie
 	, _stop_button (new Button(this, _("Stop")))
 	, _next_button (new Button(this, "Next"))
 	, _previous_button (new Button(this, "Previous"))
-	, _timer (this)
 {
 	_button_sizer->Add (_previous_button, 0, wxEXPAND);
 	_button_sizer->Add (_play_button, 0, wxEXPAND);
@@ -455,7 +454,6 @@ PlaylistControls::viewer_finished ()
 	}
 }
 
-#ifdef DCPOMATIC_PLAYER_STRESS_TEST
 void
 PlaylistControls::play ()
 {
@@ -467,4 +465,3 @@ PlaylistControls::stop ()
 {
 	stop_clicked ();
 }
-#endif

@@ -52,11 +52,11 @@ public:
 
 	virtual void log (wxString) {}
 	virtual void set_film (boost::shared_ptr<Film> film);
-#ifdef DCPOMATIC_PLAYER_STRESS_TEST
+
 	virtual void play () {};
 	virtual void stop () {};
 	void seek (int slider);
-#endif
+
 	boost::shared_ptr<Film> film () const;
 	void back_frame ();
 	void forward_frame ();

@@ -34,6 +34,7 @@
 #endif
 #include "wx/timer_display.h"
 #include "wx/system_information_dialog.h"
+#include "wx/player_stress_tester.h"
 #include "lib/cross.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -100,59 +101,6 @@ using boost::bind;
 using dcp::raw_convert;
 using namespace dcpomatic;
 
-#ifdef DCPOMATIC_PLAYER_STRESS_TEST
-/* Interval to check what to do next with the stress checker, in milliseconds */
-#define STRESS_TEST_CHECK_INTERVAL 20
-
-class Command
-{
-public:
-	enum Type {
-		NONE,
-		OPEN,
-		PLAY,
-		WAIT,
-		STOP,
-		SEEK,
-	};
-
-	Command(string line)
-		: type (NONE)
-		, int_param (0)
-	{
-		vector<string> bits;
-		boost::split (bits, line, boost::is_any_of(" "));
-		if (bits[0] == "O") {
-			if (bits.size() != 2) {
-				return;
-			}
-			type = OPEN;
-			string_param = bits[1];
-		} else if (bits[0] == "P") {
-			type = PLAY;
-		} else if (bits[0] == "W") {
-			if (bits.size() != 2) {
-				return;
-			}
-			type = WAIT;
-			int_param = raw_convert<int>(bits[1]);
-		} else if (bits[0] == "S") {
-			type = STOP;
-		} else if (bits[0] == "K") {
-			if (bits.size() != 2) {
-				return;
-			}
-			type = SEEK;
-			int_param = raw_convert<int>(bits[1]);
-		}
-	}
-
-	Type type;
-	string string_param;
-	int int_param;
-};
-#endif
-
 enum {
 	ID_file_open = 1,
 	ID_file_add_ov,
@@ -197,10 +145,6 @@ public:
 		, _system_information_dialog (0)
 		, _view_full_screen (0)
 		, _view_dual_screen (0)
-#ifdef DCPOMATIC_PLAYER_STRESS_TEST
-		, _timer (this)
-		, _stress_suspended (false)
-#endif
 {
 		dcpomatic_log.reset (new NullLog());
 
@@ -273,6 +217,8 @@ public:
 		int accelerators = 3;
 #endif
 
+		_stress.setup (this, _controls);
+
 		wxAcceleratorEntry* accel = new wxAcceleratorEntry[accelerators];
 		accel[0].Set(wxACCEL_NORMAL, WXK_SPACE, ID_start_stop);
 		accel[1].Set(wxACCEL_NORMAL, WXK_LEFT, ID_back_frame);
@@ -299,78 +245,12 @@ public:
 #endif
 		setup_screen ();
 
+		_stress.LoadDCP.connect (boost::bind(&DOMFrame::load_dcp, this, _1));
+
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		sc->check_restart ();
 #endif
 	}
-
-#ifdef DCPOMATIC_PLAYER_STRESS_TEST
-	void stress (boost::filesystem::path script_file)
-	{
-		Bind (wxEVT_TIMER, boost::bind(&DOMFrame::check_commands, this));
-		_timer.Start(STRESS_TEST_CHECK_INTERVAL);
-		vector<string> lines;
-		string const script = dcp::file_to_string(script_file);
-		boost::split (lines, script, boost::is_any_of("\n"));
-		BOOST_FOREACH (string i, lines) {
-			_commands.push_back (Command(i));
-		}
-		_current_command = _commands.begin();
-	}
-
-	void check_commands ()
-	{
-		if (_stress_suspended) {
-			return;
-		}
-
-		if (_current_command == _commands.end()) {
-			_timer.Stop ();
-			cout << "ST: finished.\n";
-			return;
-		}
-
-		switch (_current_command->type) {
-			case Command::OPEN:
-				load_dcp (_current_command->string_param);
-				++_current_command;
-				break;
-			case Command::PLAY:
-				cout << "ST: play\n";
-				_controls->play ();
-				++_current_command;
-				break;
-			case Command::WAIT:
-				/* int_param here is the number of milliseconds to wait */
-				if (_wait_remaining) {
-					_wait_remaining = *_wait_remaining - STRESS_TEST_CHECK_INTERVAL;
-					if (_wait_remaining < 0) {
-						cout << "ST: wait done.\n";
-						_wait_remaining = optional<int>();
-						++_current_command;
-					}
-				} else {
-					_wait_remaining = _current_command->int_param;
-					cout << "ST: waiting for " << *_wait_remaining << ".\n";
-				}
-				break;
-			case Command::STOP:
-				cout << "ST: stop\n";
-				_controls->stop ();
-				++_current_command;
-				break;
-			case Command::NONE:
-				++_current_command;
-				break;
-			case Command::SEEK:
-				/* int_param here is a number between 0 and 4095, corresponding to the possible slider positions */
-				cout << "ST: seek to " << _current_command->int_param << "\n";
-				_controls->seek (_current_command->int_param);
-				++_current_command;
-				break;
-		}
-	}
-#endif
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	void monitor_checker_state_changed ()
@@ -508,7 +388,7 @@ public:
 
 		reset_film ();
 		try {
-			_stress_suspended = true;
+			_stress.set_suspended (true);
 			shared_ptr<DCPContent> dcp (new DCPContent(dir));
 			shared_ptr<Job> job (new ExamineContentJob(_film, dcp));
 			_examine_job_connection = job->Finished.connect(bind(&DOMFrame::add_dcp_to_film, this, weak_ptr<Job>(job), weak_ptr<Content>(dcp)));
@@ -538,7 +418,7 @@ public:
 		}
 
 		_film->add_content (content);
-		_stress_suspended = false;
+		_stress.set_suspended (false);
 	}
 
 	void reset_film_weak (weak_ptr<Film> weak_film)
@@ -620,6 +500,11 @@ public:
 				}
 			}
 		}
+	}
+
+	void load_stress_script (boost::filesystem::path path)
+	{
+		_stress.load_script (path);
 	}
 
 private:
@@ -1135,8 +1020,6 @@ private:
 		_viewer->seek_by (_viewer->one_video_frame(), true);
 	}
 
-private:
-
 	wxFrame* _dual_screen;
 	bool _update_news_requested;
 	PlayerInformation* _info;
@@ -1160,22 +1043,13 @@ private:
 	wxMenuItem* _tools_verify;
 	wxMenuItem* _view_full_screen;
 	wxMenuItem* _view_dual_screen;
-#ifdef DCPOMATIC_PLAYER_STRESS_TEST
-	wxTimer _timer;
-	list<Command> _commands;
-	list<Command>::const_iterator _current_command;
-	/** Remaining time that the script must wait, in milliseconds */
-	optional<int> _wait_remaining;
-	bool _stress_suspended;
-#endif
+	PlayerStressTester _stress;
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {
 	{ wxCMD_LINE_PARAM, 0, 0, "DCP to load or create", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_OPTION, "c", "config", "Directory containing config.xml", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
-#ifdef DCPOMATIC_PLAYER_STRESS_TEST
 	{ wxCMD_LINE_OPTION, "s", "stress", "File containing description of stress test", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
-#endif
 	{ wxCMD_LINE_NONE, "", "", "", wxCmdLineParamType (0), 0 }
 };
 
@@ -1291,15 +1165,13 @@ private:
 				}
 			}
 
-#ifdef DCPOMATIC_PLAYER_STRESS_TEST
 			if (_stress) {
 				try {
-					_frame->stress (_stress.get());
+					_frame->load_stress_script (*_stress);
 				} catch (exception& e) {
 					error_dialog (0, wxString::Format("Could not load stress test file %s", std_to_wx(*_stress)));
 				}
 			}
-#endif
 
 			Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
 
@@ -1334,12 +1206,10 @@ private:
 		if (parser.Found("c", &config)) {
 			Config::override_path = wx_to_std (config);
 		}
-#ifdef DCPOMATIC_PLAYER_STRESS_TEST
 		wxString stress;
 		if (parser.Found("s", &stress)) {
 			_stress = wx_to_std (stress);
 		}
-#endif
 
 		return true;
 	}
@@ -1400,9 +1270,7 @@ private:
 
 	DOMFrame* _frame;
 	string _dcp_to_load;
-#ifdef DCPOMATIC_PLAYER_STRESS_TEST
 	boost::optional<string> _stress;
-#endif
 };
 
 IMPLEMENT_APP (App)

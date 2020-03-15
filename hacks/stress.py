@@ -22,12 +22,11 @@ def make_repeated_play(dcp, output, plays):
     # Hackily ignore frames here
     length = int(length_parts[0]) * 3600 + int(length_parts[1]) * 60 + int(length_parts[2])
     with open(output, 'w') as f:
-        print("O %s" % dcp, file=f)
         for i in range(0, plays):
+            print("O %s" % dcp, file=f)
             print("P", file=f)
             print("W %d" % (length * 1000), file=f)
             print("S", file=f)
-            print("K 0", file=f)
 
 make_seeks("/home/carl/DCP/Examples/BohemianRhapsody_TLR-7_S_DE-XX_DE_51_2K_TCFG_20180514_TM_IOP_OV/", "boho_seek", 64)
 make_repeated_play("/home/carl/DCP/Examples/BohemianRhapsody_TLR-7_S_DE-XX_DE_51_2K_TCFG_20180514_TM_IOP_OV/", "boho_long", 1000)

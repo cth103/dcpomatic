@@ -75,7 +75,6 @@ StandardControls::setup_sensitivity ()
 	_play_button->Enable (_film && !_film->content().empty() && !active_job);
 }
 
-#ifdef DCPOMATIC_PLAYER_STRESS_TEST
 void
 StandardControls::play ()
 {
@@ -89,4 +88,3 @@ StandardControls::stop ()
 	_play_button->SetValue (false);
 	play_clicked ();
 }
-#endif

@@ -407,7 +407,6 @@ Controls::film_change (ChangeType type, Film::Property p)
 	}
 }
 
-#ifdef DCPOMATIC_PLAYER_STRESS_TEST
 void
 Controls::seek (int slider)
 {
@@ -415,4 +414,3 @@ Controls::seek (int slider)
 	slider_moved (false);
 	slider_released ();
 }
-#endif

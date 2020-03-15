@@ -37,10 +37,8 @@ public:
 	*/
 	boost::signals2::signal<void (boost::weak_ptr<Film>)> ResetFilm;
 
-#ifdef DCPOMATIC_PLAYER_STRESS_TEST
 	void play ();
 	void stop ();
-#endif
 
 private:
 	void play_clicked ();
@@ -81,6 +79,4 @@ private:
 	std::vector<SPL> _playlists;
 	boost::optional<int> _selected_playlist;
 	int _selected_playlist_position;
-
-	wxTimer _timer;
 };

@@ -25,10 +25,8 @@ class StandardControls : public Controls
 public:
 	StandardControls (wxWindow* parent, boost::shared_ptr<FilmViewer> viewer, bool editor_controls);
 
-#ifdef DCPOMATIC_PLAYER_STRESS_TEST
 	void play ();
 	void stop ();
-#endif
 
 private:
 	void check_play_state ();
