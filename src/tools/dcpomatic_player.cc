@@ -101,6 +101,7 @@ using dcp::raw_convert;
 using namespace dcpomatic;
 
 #ifdef DCPOMATIC_PLAYER_STRESS_TEST
+/* Interval to check what to do next with the stress checker, in milliseconds */
 #define STRESS_TEST_CHECK_INTERVAL 20
 
 class Command
@@ -336,6 +337,7 @@ public:
 				++_current_command;
 				break;
 			case Command::WAIT:
+				/* int_param here is the number of milliseconds to wait */
 				if (_wait_remaining) {
 					_wait_remaining = *_wait_remaining - STRESS_TEST_CHECK_INTERVAL;
 					if (_wait_remaining < 0) {
@@ -1138,6 +1140,7 @@ private:
 	wxTimer _timer;
 	list<Command> _commands;
 	list<Command>::const_iterator _current_command;
+	/** Remaining time that the script must wait, in milliseconds */
 	optional<int> _wait_remaining;
 #endif
 };
