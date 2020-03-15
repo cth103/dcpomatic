@@ -23,6 +23,7 @@
 #include "config.h"
 #include <cstdio>
 #include <iostream>
+#include <cerrno>
 
 using std::cout;
 using std::string;
@@ -36,12 +37,18 @@ FileLog::FileLog (boost::filesystem::path file)
 	set_types (Config::instance()->log_types());
 }
 
+FileLog::FileLog (boost::filesystem::path file, int types)
+	: _file (file)
+{
+	set_types (types);
+}
+
 void
 FileLog::do_log (shared_ptr<const LogEntry> entry)
 {
 	FILE* f = fopen_boost (_file, "a");
 	if (!f) {
-		cout << "(could not log to " << _file.string() << "): " << entry.get() << "\n";
+		cout << "(could not log to " << _file.string() << " error " << errno << "): " << entry->get() << "\n";
 		return;
 	}
 

@@ -1,6 +1,6 @@
 # -*- mode: python -*-
 #
-#    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+#    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 #
 #    This file is part of DCP-o-matic.
 #
@@ -196,6 +196,15 @@ deb_depends['unstable'].extend(['libboost-filesystem1.67.0',
                                 'libx264-155',
                                 'libcurl4'])
 
+def can_build_disk(target):
+    # We can build dcpomatic2_disk on platforms that have Boost process and can build the lwext4
+    # library.  For now, just whitelist good ones here.
+    #
+    # - Lots of Linux distros don't have a new enough boost (1.64 or above)
+    # - On Centos 6 we can't build lwext4 because it needs a new CMake which Centos 6's g++ is not new enough to build.
+    # - On Centos 7 there is a build error in lwext4 related to __unused
+    return target.platform == 'windows' or target.platform == 'osx' or (target.platform == 'linux' and target.distro == 'ubuntu' and target.version in ['18.04', '18.10', '19.04'])
+
 def packages(name, packages, f):
     s = '%s: ' % name
     for p in packages:
@@ -245,6 +254,7 @@ def make_control(debian_version, bits, filename, debug, gui):
 
 def make_spec(filename, version, target, options, requires=None):
     """Make a .spec file for a RPM build"""
+    tools = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(filename))), "src/tools")
     f = open(filename, 'w')
     print('Summary:A program that generates Digital Cinema Packages (DCPs) from video and audio files', file=f)
     print('Name:dcpomatic2', file=f)
@@ -275,6 +285,9 @@ def make_spec(filename, version, target, options, requires=None):
     if options['variant'] == 'swaroop-studio':
         print('%{_bindir}/dcpomatic2_ecinema', file=f)
         print('%{_bindir}/dcpomatic2_uuid', file=f)
+    if os.path.exists(os.path.join(tools, "dcpomatic2_disk")):
+        print('%{_bindir}/dcpomatic2_disk', file=f)
+        print('%{_bindir}/dcpomatic2_disk_writer', file=f)
     print('%{_datadir}/applications/dcpomatic2.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_batch.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_server.desktop', file=f)
@@ -333,7 +346,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('%posttrans', file=f)
     print('/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :', file=f)
 
-def dependencies(target):
+def dependencies(target, options):
 
     if target.platform == 'linux':
         ffmpeg_options = { 'shared': False }
@@ -348,19 +361,23 @@ def dependencies(target):
         # Use distro-provided FFmpeg on Arch
         deps = []
 
-    deps.append(('libdcp', None))
-    deps.append(('libsub', None))
+    # Let's use C++11 mode if we can
+    cpp_lib_options = {'force-cpp11': True} if target.platform == 'osx' and target.bits == 64 else {}
+
+    deps.append(('libdcp', None, cpp_lib_options))
+    deps.append(('libsub', None, cpp_lib_options))
     deps.append(('rtaudio', 'carl'))
     # We get our OpenSSL libraries from the environment, but we
     # also need a patched openssl binary to make certificates.
     # This dependency is to get that binary, which is added into
     # the appropriate place later
     deps.append(('openssl', 'carl'))
+    if can_build_disk(target):
+        deps.append(('lwext4', 'carl2'))
 
     return deps
 
-def option_defaults():
-    return { "gui": True, "variant": None }
+option_defaults = { "gui": True, "variant": None, "disk": False }
 
 def configure_options(target, options):
     opt = ''
@@ -385,6 +402,8 @@ def configure_options(target, options):
                 # I worry that this will cause ABI problems but I don't have
                 # a better solution.
                 opt += ' --force-cpp11'
+    elif target.platform == 'osx' and target.bits == 64:
+        opt += ' --force-cpp11'
 
     if not options['gui']:
         opt += ' --disable-gui'
@@ -395,6 +414,9 @@ def configure_options(target, options):
     # Build Windows debug versions with static linking as I think gdb works better then
     if target.debug and target.platform == 'windows':
         opt += ' --static-dcpomatic'
+
+    if can_build_disk(target) and options['disk']:
+       opt += ' --enable-disk'
 
     return opt
 

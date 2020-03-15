@@ -114,3 +114,20 @@ GLError::GLError (char const * last, int e)
 {
 
 }
+
+CopyError::CopyError (string m, int n)
+	: runtime_error (String::compose("%1 (%2)", m, n))
+	, _message (m)
+	, _number (n)
+{
+
+}
+
+VerifyError::VerifyError (string m, int n)
+	: runtime_error (String::compose("%1 (%2)", m, n))
+	, _message (m)
+	, _number (n)
+{
+
+}
+

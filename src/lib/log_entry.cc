@@ -24,14 +24,15 @@
 
 #include "i18n.h"
 
-int const LogEntry::TYPE_GENERAL      = 0x1;
-int const LogEntry::TYPE_WARNING      = 0x2;
-int const LogEntry::TYPE_ERROR        = 0x4;
-int const LogEntry::TYPE_DEBUG_THREED = 0x8;
-int const LogEntry::TYPE_DEBUG_ENCODE = 0x10;
-int const LogEntry::TYPE_TIMING       = 0x20;
-int const LogEntry::TYPE_DEBUG_EMAIL  = 0x40;
-int const LogEntry::TYPE_DEBUG_PLAYER = 0x80;
+int const LogEntry::TYPE_GENERAL      = 0x001;
+int const LogEntry::TYPE_WARNING      = 0x002;
+int const LogEntry::TYPE_ERROR        = 0x004;
+int const LogEntry::TYPE_DEBUG_THREED = 0x008;
+int const LogEntry::TYPE_DEBUG_ENCODE = 0x010;
+int const LogEntry::TYPE_TIMING       = 0x020;
+int const LogEntry::TYPE_DEBUG_EMAIL  = 0x040;
+int const LogEntry::TYPE_DEBUG_PLAYER = 0x080;
+int const LogEntry::TYPE_DISK         = 0x100;
 
 using std::string;
 

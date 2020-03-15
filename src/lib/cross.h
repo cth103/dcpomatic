@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -30,6 +30,7 @@
 #endif
 #include <boost/filesystem.hpp>
 #include <boost/thread/mutex.hpp>
+#include <boost/optional.hpp>
 
 #ifdef DCPOMATIC_WINDOWS
 #define WEXITSTATUS(w) (w)
@@ -44,6 +45,7 @@ extern std::string cpu_info ();
 extern void run_ffprobe (boost::filesystem::path, boost::filesystem::path);
 extern std::list<std::pair<std::string, std::string> > mount_info ();
 extern boost::filesystem::path openssl_path ();
+extern boost::filesystem::path disk_writer_path ();
 #ifdef DCPOMATIC_OSX
 extern boost::filesystem::path app_contents ();
 #endif
@@ -60,6 +62,15 @@ extern int avio_open_boost (AVIOContext** s, boost::filesystem::path file, int f
 extern boost::filesystem::path home_directory ();
 extern std::string command_and_read (std::string cmd);
 extern bool running_32_on_64 ();
+extern void unprivileged ();
+extern boost::filesystem::path config_path ();
+
+class PrivilegeEscalator
+{
+public:
+	PrivilegeEscalator ();
+	~PrivilegeEscalator ();
+};
 
 /** @class Waker
  *  @brief A class which tries to keep the computer awake on various operating systems.
@@ -81,5 +92,35 @@ private:
 	IOPMAssertionID _assertion_id;
 #endif
 };
+
+class Drive
+{
+public:
+	Drive (std::string internal_name, uint64_t size, bool mounted, boost::optional<std::string> vendor, boost::optional<std::string> model)
+		: _internal_name(internal_name)
+		, _size(size)
+		, _mounted(mounted)
+		, _vendor(vendor)
+		, _model(model)
+	{}
+
+	std::string description () const;
+	std::string internal_name () const {
+		return _internal_name;
+	}
+	bool mounted () const {
+		return _mounted;
+	}
+
+private:
+	std::string _internal_name;
+	/** size in bytes */
+	uint64_t _size;
+	bool _mounted;
+	boost::optional<std::string> _vendor;
+	boost::optional<std::string> _model;
+};
+
+std::vector<Drive> get_drives ();
 
 #endif

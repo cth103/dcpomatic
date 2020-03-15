@@ -47,7 +47,7 @@ The script can be run using something like
 to load a script file called `stress` and start executing it.
 
 
-Adding a new language
+## Adding a new language
 
 - Edit src/wx/config_dialog.cc to add the language to languages.
 - Add to platform/windows/wscript, platform/osx/make_dmg.sh, cscript.

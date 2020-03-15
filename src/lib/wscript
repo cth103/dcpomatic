@@ -53,7 +53,7 @@ sources = """
           content.cc
           content_factory.cc
           create_cli.cc
-          cross.cc
+          cross_common.cc
           crypto.cc
           curl_uploader.cc
           datasat_ap2x.cc
@@ -197,15 +197,26 @@ def build(bld):
                  """
 
     if bld.env.TARGET_OSX:
-        obj.framework = ['IOKit', 'Foundation']
+        obj.framework = ['IOKit', 'Foundation', 'DiskArbitration']
 
     obj.source = sources + ' version.cc'
 
     if bld.env.VARIANT == 'swaroop-theater' or bld.env.VARIANT == 'swaroop-studio':
         obj.source += ' swaroop_spl.cc swaroop_spl_entry.cc'
 
+    if bld.env.ENABLE_DISK:
+        obj.source += ' copy_to_drive_job.cc nanomsg.cc'
+        obj.uselib += ' LWEXT4 NANOMSG'
+        if bld.env.TARGET_LINUX:
+            obj.uselib += ' POLKIT'
+
     if bld.env.TARGET_WINDOWS:
-        obj.uselib += ' WINSOCK2 DBGHELP SHLWAPI MSWSOCK BOOST_LOCALE'
+        obj.uselib += ' WINSOCK2 DBGHELP SHLWAPI MSWSOCK BOOST_LOCALE SETUPAPI'
+        obj.source += ' cross_windows.cc'
+    if bld.env.TARGET_OSX:
+        obj.source += ' cross_osx.cc'
+    if bld.env.TARGET_LINUX:
+        obj.source += ' cross_linux.cc'
     if bld.env.STATIC_DCPOMATIC:
         obj.uselib += ' XMLPP'
 

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -36,6 +36,7 @@ public:
 	static const int TYPE_TIMING;
 	static const int TYPE_DEBUG_EMAIL;
 	static const int TYPE_DEBUG_PLAYER;
+	static const int TYPE_DISK;
 
 	explicit LogEntry (int type);
 	virtual ~LogEntry () {}

@@ -24,6 +24,7 @@ class FileLog : public Log
 {
 public:
 	explicit FileLog (boost::filesystem::path file);
+	FileLog (boost::filesystem::path file, int types);
 
 	std::string head_and_tail (int amount = 1024) const;
 

@@ -51,6 +51,7 @@ sources = """
           credentials_download_certificate_panel.cc
           dcp_panel.cc
           dcpomatic_button.cc
+          drive_wipe_warning_dialog.cc
           email_dialog.cc
           image_sequence_dialog.cc
           isdcf_metadata_dialog.cc

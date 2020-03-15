@@ -32,8 +32,15 @@ def build(bld):
     uselib += 'AVUTIL SWSCALE SWRESAMPLE POSTPROC CURL BOOST_FILESYSTEM SSH ZIP CAIROMM FONTCONFIG PANGOMM SUB '
     uselib += 'SNDFILE SAMPLERATE BOOST_REGEX ICU NETTLE RTAUDIO PNG '
 
+    if bld.env.ENABLE_DISK:
+        if bld.env.TARGET_LINUX:
+            uselib += 'POLKIT '
+        uselib += 'LWEXT4 NANOMSG '
+
     if bld.env.TARGET_WINDOWS:
         uselib += 'WINSOCK2 DBGHELP SHLWAPI MSWSOCK BOOST_LOCALE WINSOCK2 OLE32 DSOUND WINMM KSUSER '
+    if bld.env.TARGET_LINUX:
+        uselib += 'DL '
 
     cli_tools = []
     if bld.env.VARIANT == 'swaroop-theater':
@@ -42,6 +49,8 @@ def build(bld):
         cli_tools = ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test', 'dcpomatic_kdm_cli', 'dcpomatic_create', 'swaroop_dcpomatic_ecinema', 'swaroop_dcpomatic_uuid']
     else:
         cli_tools = ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test', 'dcpomatic_kdm_cli', 'dcpomatic_create']
+        if bld.env.ENABLE_DISK:
+            cli_tools.append('dcpomatic_disk_writer')
 
     for t in cli_tools:
         obj = bld(features='cxx cxxprogram')
@@ -49,6 +58,10 @@ def build(bld):
         obj.includes = ['..']
         obj.use    = ['libdcpomatic2']
         obj.source = '%s.cc' % t
+        if bld.env.TARGET_WINDOWS and t == 'dcpomatic_disk_writer':
+            obj.source += ' ../../platform/windows/%s.rc' % t
+            # Prevent a console window opening when we start dcpomatic2_disk_writer
+            bld.env.LINKFLAGS.append('-Wl,-subsystem,windows')
         obj.target = t.replace('dcpomatic', 'dcpomatic2').replace('swaroop_', '')
         if t == 'server_test':
             obj.install_path = None
@@ -61,6 +74,8 @@ def build(bld):
             gui_tools = ['dcpomatic', 'dcpomatic_batch', 'dcpomatic_server', 'dcpomatic_kdm', 'dcpomatic_player', 'swaroop_dcpomatic_playlist']
         else:
             gui_tools = ['dcpomatic', 'dcpomatic_batch', 'dcpomatic_server', 'dcpomatic_kdm', 'dcpomatic_player', 'dcpomatic_playlist']
+            if bld.env.ENABLE_DISK:
+                gui_tools.append('dcpomatic_disk')
 
     for t in gui_tools:
         obj = bld(features='cxx cxxprogram')

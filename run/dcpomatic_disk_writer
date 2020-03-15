@@ -1,0 +1,31 @@
+#!/bin/bash
+
+export LD_LIBRARY_PATH=build/src/lib:build/src/wx:build/src/asdcplib/src:$LD_LIBRARY_PATH
+export DYLD_LIBRARY_PATH=build/src/lib:build/src/wx:build/src/asdcplib/src:/Users/carl/Environments/dcpomatic/64/lib
+exe=build/src/tools/dcpomatic2_disk_writer
+sudo chown root:root $exe
+sudo chmod 4755 $exe
+if [ "$1" == "--debug" ]; then
+    shift
+    gdb --args $exe $*
+elif [ "$1" == "--valgrind" ]; then
+    shift
+    valgrind --tool="memcheck" --suppressions=suppressions --track-fds=yes --show-leak-kinds=all --leak-check=full $exe $*
+elif [ "$1" == "--callgrind" ]; then
+    shift
+    valgrind --tool="callgrind" $exe $*
+elif [ "$1" == "--massif" ]; then
+    shift
+    valgrind --tool="massif" $exe $*
+elif [ "$1" == "--i18n" ]; then
+    shift
+    LANGUAGE=de_DE.UTF8 LANG=de_DE.UTF8 LC_ALL=de_DE.UTF8 $exe "$*"
+elif [ "$1" == "--perf" ]; then
+    shift
+    perf record $exe $*
+elif [ "$1" == "--scaled" ]; then
+    shift
+    ~/src/run_scaled/run_scaled --sleep=5 --scale=0.5 $exe $*
+else
+    $exe $*
+fi

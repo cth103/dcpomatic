@@ -314,5 +314,47 @@ public:
 	GLError (char const * last, int e);
 };
 
+/** @class CopyError
+ *  @brief An error which occurs when copying a DCP to a distribution drive.
+ */
+class CopyError : public std::runtime_error
+{
+public:
+	CopyError (std::string s, int n);
+	virtual ~CopyError () throw () {}
 
+	std::string message () const {
+		return _message;
+	}
+
+	int number () const {
+		return _number;
+	}
+
+private:
+	std::string _message;
+	int _number;
+};
+
+/** @class VerifyError
+ *  @brief An error which occurs when verifying a DCP that we copied to a distribution drive.
+ */
+class VerifyError : public std::runtime_error
+{
+public:
+	VerifyError (std::string s, int n);
+	virtual ~VerifyError () throw () {}
+
+	std::string message () const {
+		return _message;
+	}
+
+	int number () const {
+		return _number;
+	}
+
+private:
+	std::string _message;
+	int _number;
+};
 #endif

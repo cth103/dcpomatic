@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>dcpomatic2_disk</string>
+	<key>CFBundleGetInfoString</key>
+	<string>DCP-o-matic 2 Disk Writer</string>
+	<key>CFBundleIconFile</key>
+	<string>dcpomatic2_disk.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.dcpomatic.disk</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>DCP-o-matic 2 Disk Writer</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersions</key>
+	<string>@VERSION@</string>
+	<key>CFBundleSignature</key>
+	<string>DOMC</string>
+	<key>CFBundleVersion</key>
+	<string>@VERSION@</string>
+	<key>CFBundleAllowMixedLocalizations</key>
+	<true/>
+	<key>LSUIElement</key>
+	<string>0</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+</dict>
+</plist>

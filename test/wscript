@@ -39,6 +39,8 @@ def build(bld):
     obj.uselib += 'AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE SWRESAMPLE POSTPROC CXML SUB GLIB CURL SSH XMLSEC BOOST_REGEX ICU NETTLE MAGICK PNG '
     if bld.env.TARGET_WINDOWS:
         obj.uselib += 'WINSOCK2 DBGHELP SHLWAPI MSWSOCK BOOST_LOCALE '
+    if bld.env.TARGET_LINUX:
+        obj.uselib += 'DL '
     obj.use    = 'libdcpomatic2'
     obj.source = """
                  4k_test.cc

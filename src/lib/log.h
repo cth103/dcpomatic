@@ -46,6 +46,9 @@ public:
 	void dcp_log (dcp::NoteType type, std::string message);
 
 	void set_types (int types);
+	int types () const {
+		return _types;
+	}
 
 	/** @param amount Approximate number of bytes to return; the returned value
 	 *  may be shorter or longer than this.

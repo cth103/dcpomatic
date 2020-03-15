@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,6 +19,7 @@
 */
 
 #include "state.h"
+#include "cross.h"
 #include <glib.h>
 
 using std::string;
@@ -34,16 +35,7 @@ State::path (string file, bool create_directories)
 	if (override_path) {
 		p = *override_path;
 	} else {
-#ifdef DCPOMATIC_OSX
-		p /= g_get_home_dir ();
-		p /= "Library";
-		p /= "Preferences";
-		p /= "com.dcpomatic";
-		p /= "2";
-#else
-		p /= g_get_user_config_dir ();
-		p /= "dcpomatic2";
-#endif
+		p = config_path ();
 	}
 	boost::system::error_code ec;
 	if (create_directories) {
