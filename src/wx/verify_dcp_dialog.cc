@@ -122,6 +122,15 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 					);
 			}
 			break;
+		case dcp::VerificationNote::MISSING_ASSETMAP:
+			text = _("No ASSETMAP or ASSETMAP.xml file was found.");
+			break;
+		case dcp::VerificationNote::INTRINSIC_DURATION_TOO_SMALL:
+			text = _("An asset has an instrinsic duration of less than 1 second, which is invalid.");
+			break;
+		case dcp::VerificationNote::DURATION_TOO_SMALL:
+			text = _("An asset has a duration of less than 1 second, which is invalid.");
+			break;
 		}
 
 		_text->WriteText (text);
