@@ -536,28 +536,6 @@ get_drives ()
 	return drives;
 }
 
-string
-Drive::description () const
-{
-	char gb[64];
-	snprintf(gb, 64, "%.1f", _size / 1000000000.0);
-
-	string name;
-	if (_vendor) {
-		name += *_vendor;
-	}
-	if (_model) {
-		if (name.size() > 0) {
-			name += " " + *_model;
-		}
-	}
-	if (name.size() == 0) {
-		name = _("Unknown");
-	}
-
-	return String::compose("%1 (%2 GB) [%3]", name, gb, _internal_name);
-}
-
 boost::filesystem::path
 config_path ()
 {
