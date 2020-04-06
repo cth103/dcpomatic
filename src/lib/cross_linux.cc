@@ -31,7 +31,9 @@ extern "C" {
 }
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
+#ifdef DCPOMATIC_DISK
 #include <boost/dll/runtime_symbol_info.hpp>
+#endif
 #include <unistd.h>
 #include <mntent.h>
 #include <sys/types.h>
@@ -140,11 +142,13 @@ openssl_path ()
 	return "dcpomatic2_openssl";
 }
 
+#ifdef DCPOMATIC_DISK
 boost::filesystem::path
 disk_writer_path ()
 {
 	return boost::dll::program_location().parent_path() / "dcpomatic2_disk_writer";
 }
+#endif
 
 /* Apparently there is no way to create an ofstream using a UTF-8
    filename under Windows.  We are hence reduced to using fopen

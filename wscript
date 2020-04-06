@@ -74,7 +74,7 @@ def options(opt):
     opt.add_option('--force-cpp11',       action='store_true', default=False, help='force use of C++11')
     opt.add_option('--variant',           help='build variant (swaroop-studio, swaroop-theater)', choices=['swaroop-studio', 'swaroop-theater'])
     opt.add_option('--use-lld',           action='store_true', default=False, help='use lld linker')
-    opt.add_option('--enable-disk',       action='store_true', default=False, help='build dcpomatic2_disk tool; requires Boost process and lwext4 libraries')
+    opt.add_option('--enable-disk',       action='store_true', default=False, help='build dcpomatic2_disk tool; requires Boost process, lwext4 and nanomsg libraries')
 
 def configure(conf):
     conf.load('compiler_cxx')
@@ -134,6 +134,9 @@ def configure(conf):
         conf.env.VARIANT = conf.options.variant
         if conf.options.variant.startswith('swaroop-'):
             conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_VARIANT_SWAROOP')
+
+    if conf.options.enable_disk:
+        conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_DISK')
 
     if conf.options.use_lld:
         try:

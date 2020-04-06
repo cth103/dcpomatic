@@ -45,7 +45,9 @@ extern std::string cpu_info ();
 extern void run_ffprobe (boost::filesystem::path, boost::filesystem::path);
 extern std::list<std::pair<std::string, std::string> > mount_info ();
 extern boost::filesystem::path openssl_path ();
+#ifdef DCPOMATIC_DISK
 extern boost::filesystem::path disk_writer_path ();
+#endif
 #ifdef DCPOMATIC_OSX
 extern boost::filesystem::path app_contents ();
 #endif

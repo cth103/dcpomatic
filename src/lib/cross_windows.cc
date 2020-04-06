@@ -198,11 +198,13 @@ openssl_path ()
 	return executable_path() / "openssl.exe";
 }
 
+#ifdef DCPOMATIC_DISK
 boost::filesystem::path
 disk_writer_path ()
 {
 	return executable_path() / "dcpomatic2_disk_writer.exe";
 }
+#endif
 
 /* Apparently there is no way to create an ofstream using a UTF-8
    filename under Windows.  We are hence reduced to using fopen
