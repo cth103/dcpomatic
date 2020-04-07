@@ -1,9 +1,10 @@
 #!/bin/bash
 #
-# Syntax: make_dmg.sh <environment> <builddir> <type> <apple-id> <apple-password>
+SYNTAX="make_dmg.sh <environment> <builddir> <type> <disk> <apple-id> <apple-password>"
 # where <type> is universal or thin
+#       <disk> is yes or no
 #
-# e.g. make_dmg.sh /Users/carl/osx-environment /Users/carl/cdist universal foo@bar.net opensesame
+# e.g. make_dmg.sh /Users/carl/osx-environment /Users/carl/cdist universal yes foo@bar.net opensesame
 
 # Don't set -e here as egrep (used a few times) returns 1 if no matches
 # were found.
@@ -15,12 +16,19 @@ DMG_SIZE=256
 ENV=$1
 ROOT=$2
 TYPE=$3
-APPLE_ID=$4
-APPLE_PASSWORD=$5
+DISK=$4
+APPLE_ID=$5
+APPLE_PASSWORD=$6
 
 if [ "$TYPE" != "universal" -a "$TYPE" != "thin" ]; then
-    echo "Syntax: $0 <builddir> <type>"
+    echo $SYNTAX
     echo "where <type> is universal or thin"
+    exit 1
+fi
+
+if [ "$DISK" != "yes" -a "$DISK" != "no" ]; then
+    echo $SYNTAX
+    echo "where <disk> is yes or no"
     exit 1
 fi
 
@@ -503,6 +511,8 @@ rl=("$approot/MacOS/dcpomatic2_playlist" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
 make_dmg "$appdir" "" "DCP-o-matic Playlist Editor" com.dcpomatic.playlist
 
+if [ "$DISK" == "yes" ]; then
+
 # DCP-o-matic Disk Writer .app
 setup "DCP-o-matic 2 Disk Writer.app"
 copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_disk "$approot/MacOS"
@@ -577,3 +587,6 @@ mv $pkgbin/* "$pkgroot/Library/Application Support/com.dcpomatic/"
 pkgbuild --root $pkgroot --identifier com.dcpomatic.disk.writer --scripts $pkgbase/scripts "DCP-o-matic Disk Writer.pkg"
 
 make_dmg "$appdir" "DCP-o-matic Disk Writer.pkg" "DCP-o-matic Disk Writer" com.dcpomatic.disk
+
+fi
+
