@@ -386,9 +386,9 @@ idle ()
 		return true;
 	}
 
-	if (*s == "Q") {
+	if (*s == DISK_WRITER_QUIT) {
 		exit (EXIT_SUCCESS);
-	} else if (*s == "W") {
+	} else if (*s == DISK_WRITER_WRITE) {
 		dcp_path = nanomsg->blocking_get();
 		device = nanomsg->blocking_get();
 

@@ -63,7 +63,7 @@ CopyToDriveJob::json_name () const
 void
 CopyToDriveJob::run ()
 {
-	if (!_nanomsg.nonblocking_send(String::compose("W\n%1\n%2\n", _dcp.string(), _drive.internal_name()))) {
+	if (!_nanomsg.nonblocking_send(String::compose(DISK_WRITER_WRITE "\n%1\n%2\n", _dcp.string(), _drive.internal_name()))) {
 		throw CopyError ("Could not communicate with writer process", 0);
 	}
 

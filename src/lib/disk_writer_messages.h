@@ -18,60 +18,51 @@
 
 */
 
-/* dcpomatic_disk_writer receives
+/* We have the front-end application dcpomatic2_disk and the back-end
+ * dcpomatic2_disk_writer.  The communication is line-based, separated
+ * by \n.
+ */
 
-DCP pathname\n
-Internal name of drive to write to\n
+/* REQUEST TO WRITE DCP */
 
-   Then responds with one of the following.
-*/
+// Front-end sends:
+ 
+#define DISK_WRITER_WRITE "W"
+// DCP pathname
+// Internal name of the drive to write to
 
-/** Write finished and everything was OK, e.g.
+// Back-end responds:
 
-D\n
-
-*/
+// everything is ok
 #define DISK_WRITER_OK "D"
 
-/** There was an error.  Following this will come
-
-error message\n
-error number\n
-
-e.g.
-
-E\n
-Disc full\n
-42\n
-
-*/
+// there was an error
 #define DISK_WRITER_ERROR "E"
+// Error message
+// Error number
 
-/** The disk writer is formatting the drive.  It is not possible
- *  to give progress reports on this so the writer just tells us
- *  it's happening.  This is finished when DISK_WRITER_PROGRESS
- *  messages start arriving
- */
+//  the drive is being formatted
 #define DISK_WRITER_FORMATTING "F"
 
-/** Some progress has been made in the main "copy" part of the task.
- *  Following this will come
-
-progress as a float from 0 to 1\n
-
-e.g.
-
-P\n
-0.3\n
-
-*/
+// data is being copied, 30% done
 #define DISK_WRITER_PROGRESS "P"
+// 0.3\n
 
-/** dcpomatic_disk_writer may also receive
 
-Q\n
+/* REQUEST TO QUIT */
 
-as a request to quit.
-*/
+// Front-end sends:
 #define DISK_WRITER_QUIT "Q"
+
+
+/* REQUEST TO UNMOUNT A DRIVE */
+
+// Front-end sends:
+#define DISK_WRITER_UNMOUNT "U"
+// Internal name of the drive to write to
+
+// Back-end responds:
+// DISK_WRITER_OK
+// or
+// DISK_WRITER_ERROR
 
