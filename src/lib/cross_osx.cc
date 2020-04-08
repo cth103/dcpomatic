@@ -31,7 +31,6 @@ extern "C" {
 }
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
-#include <boost/dll/runtime_symbol_info.hpp>
 #include <boost/regex.hpp>
 #include <sys/sysctl.h>
 #include <mach-o/dyld.h>
@@ -94,7 +93,21 @@ cpu_info ()
 boost::filesystem::path
 app_contents ()
 {
-	return boost::dll::program_location().parent_path().parent_path();
+	/* Could use boost::dll::program_location().parent_path().parent_path() but that
+	 * boost library isn't in the 10.6 environment we're currently using and I don't
+	 * really want to change it right now.
+	 */
+	uint32_t size = 1024;
+	char buffer[size];
+	if (_NSGetExecutablePath (buffer, &size)) {
+		throw runtime_error ("_NSGetExecutablePath failed");
+	}
+
+	boost::filesystem::path path (buffer);
+	path = boost::filesystem::canonical (path);
+	path = path.parent_path ();
+	path = path.parent_path ();
+	return path;
 }
 
 boost::filesystem::path
