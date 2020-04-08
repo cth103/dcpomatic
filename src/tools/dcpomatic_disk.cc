@@ -22,6 +22,8 @@
 #include "wx/wx_util.h"
 #include "wx/job_manager_view.h"
 #include "wx/drive_wipe_warning_dialog.h"
+#include "wx/try_unmount_dialog.h"
+#include "wx/message_dialog.h"
 #include "lib/file_log.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/util.h"
@@ -44,8 +46,8 @@ using std::string;
 using std::exception;
 using std::cout;
 using std::cerr;
-using std::runtime_error;
 using boost::shared_ptr;
+using boost::optional;
 
 class DOMFrame : public wxFrame
 {
@@ -133,7 +135,7 @@ public:
 
 	~DOMFrame ()
 	{
-		_nanomsg.blocking_send(DISK_WRITER_QUIT "\n");
+		_nanomsg.send(DISK_WRITER_QUIT "\n", 2000);
 	}
 
 private:
@@ -163,6 +165,34 @@ private:
 	{
 		DCPOMATIC_ASSERT (_drive->GetSelection() != wxNOT_FOUND);
 		DCPOMATIC_ASSERT (static_cast<bool>(_dcp_path));
+
+		Drive const& drive = _drives[_drive->GetSelection()];
+		if (drive.mounted()) {
+			TryUnmountDialog* d = new TryUnmountDialog(this, drive.description());
+			int const r = d->ShowModal ();
+			d->Destroy ();
+			if (r == wxID_OK) {
+				if (!_nanomsg.send(DISK_WRITER_UNMOUNT "\n", 2000)) {
+					throw CommunicationFailedError ();
+				}
+				if (!_nanomsg.send(drive.internal_name() + "\n", 2000)) {
+					throw CommunicationFailedError ();
+				}
+				optional<string> reply = _nanomsg.receive (2000);
+				if (!reply || *reply != DISK_WRITER_OK) {
+					MessageDialog* m = new MessageDialog (
+							this,
+							_("DCP-o-matic Disk Writer"),
+							wxString::Format(_("The drive %s could not be unmounted.\nClose any application that is using it, then try again."), std_to_wx(drive.description()))
+							);
+					m->ShowModal ();
+					m->Destroy ();
+					return;
+				}
+			}
+		}
+
+		
 		DriveWipeWarningDialog* d = new DriveWipeWarningDialog (this, _drive->GetString(_drive->GetSelection()));
 		int const r = d->ShowModal ();
 		bool ok = r == wxID_OK && d->confirmed();
@@ -186,12 +216,7 @@ private:
 		_drive->Clear ();
 		int re_select = wxNOT_FOUND;
 		int j = 0;
-		_drives.clear ();
-		BOOST_FOREACH (Drive i, get_drives()) {
-			if (!i.mounted()) {
-				_drives.push_back (i);
-			}
-		}
+		_drives = get_drives ();
 		BOOST_FOREACH (Drive i, _drives) {
 			wxString const s = std_to_wx(i.description());
 			if (s == current) {

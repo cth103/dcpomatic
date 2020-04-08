@@ -24,6 +24,7 @@
 #include "dcpomatic_log.h"
 #include "config.h"
 #include "exceptions.h"
+#include "dcpomatic_log.h"
 #include <dcp/raw_convert.h>
 #include <glib.h>
 extern "C" {
@@ -37,6 +38,7 @@ extern "C" {
 #include <unistd.h>
 #include <mntent.h>
 #include <sys/types.h>
+#include <sys/mount.h>
 #include <ifaddrs.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -256,24 +258,33 @@ running_32_on_64 ()
 	return false;
 }
 
-vector<Drive>
-get_drives ()
+vector<pair<string, string> >
+get_mounts (string prefix)
 {
-	vector<Drive> drives;
+	vector<pair<string, string> > mounts;
 
-	using namespace boost::filesystem;
-	list<string> mounted_devices;
 	std::ifstream f("/proc/mounts");
 	string line;
 	while (f.good()) {
 		getline(f, line);
 		vector<string> bits;
 		boost::algorithm::split (bits, line, boost::is_any_of(" "));
-		if (bits.size() > 0 && boost::algorithm::starts_with(bits[0], "/dev/")) {
-			mounted_devices.push_back(bits[0]);
-			LOG_DISK("Mounted device %1", bits[0]);
+		if (bits.size() > 1 && boost::algorithm::starts_with(bits[0], prefix)) {
+			mounts.push_back(make_pair(bits[0], bits[1]));
+			LOG_DISK("Found mounted device %1 from prefix %2", bits[0], prefix);
 		}
 	}
+
+	return mounts;
+}
+
+vector<Drive>
+get_drives ()
+{
+	vector<Drive> drives;
+
+	using namespace boost::filesystem;
+	vector<pair<string, string> > mounted_devices = get_mounts("/dev/");
 
 	for (directory_iterator i = directory_iterator("/sys/block"); i != directory_iterator(); ++i) {
 		string const name = i->path().filename().string();
@@ -300,8 +311,8 @@ get_drives ()
 				model = dcp::file_to_string("/sys/block/" + name + "/device/model");
 				boost::trim(*model);
 			} catch (...) {}
-			BOOST_FOREACH (string j, mounted_devices) {
-				if (boost::algorithm::starts_with(j, "/dev/" + name)) {
+			for (vector<pair<string, string> >::const_iterator j = mounted_devices.begin(); j != mounted_devices.end(); ++j) {
+				if (boost::algorithm::starts_with(j->first, "/dev/" + name)) {
 					mounted = true;
 				}
 			}
@@ -342,3 +353,18 @@ config_path ()
 	p /= "dcpomatic2";
 	return p;
 }
+
+bool
+unmount_drive (string drive)
+{
+	vector<pair<string, string> > mounts = get_mounts (drive);
+	for (vector<pair<string, string> >::const_iterator i = mounts.begin(); i != mounts.end(); ++i) {
+		int const r = umount(i->second.c_str());
+		LOG_DISK("Tried to unmount %1 and got %2 and %3", i->second, r, errno);
+		if (r == -1) {
+			return false;
+		}
+	}
+	return true;
+}
+

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,34 +18,10 @@
 
 */
 
-#include "cross.h"
-#include "compose.hpp"
+#include <wx/wx.h>
 
-#include "i18n.h"
-
-using std::string;
-
-string
-Drive::description () const
+class TryUnmountDialog : public wxDialog
 {
-	char gb[64];
-	snprintf(gb, 64, "%.1f", _size / 1000000000.0);
-
-	string name;
-	if (_vendor) {
-		name += *_vendor;
-	}
-	if (_model) {
-		if (name.size() > 0) {
-			name += " " + *_model;
-		} else {
-			name = *_model;
-		}
-	}
-	if (name.size() == 0) {
-		name = _("Unknown");
-	}
-
-	return String::compose(_("%1 (%2 GB) [%3]"), name, gb, _internal_name);
-}
-
+public:
+	TryUnmountDialog (wxWindow* parent, wxString description);
+};

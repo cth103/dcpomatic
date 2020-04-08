@@ -37,6 +37,7 @@ using std::string;
 using std::cout;
 using std::min;
 using boost::shared_ptr;
+using boost::optional;
 using dcp::raw_convert;
 
 CopyToDriveJob::CopyToDriveJob (boost::filesystem::path dcp, Drive drive, Nanomsg& nanomsg)
@@ -63,30 +64,36 @@ CopyToDriveJob::json_name () const
 void
 CopyToDriveJob::run ()
 {
-	if (!_nanomsg.nonblocking_send(String::compose(DISK_WRITER_WRITE "\n%1\n%2\n", _dcp.string(), _drive.internal_name()))) {
-		throw CopyError ("Could not communicate with writer process", 0);
+	if (!_nanomsg.send(String::compose(DISK_WRITER_WRITE "\n%1\n%2\n", _dcp.string(), _drive.internal_name()), 2000)) {
+		throw CommunicationFailedError ();
 	}
 
 	bool formatting = false;
 	while (true) {
-		string s = _nanomsg.blocking_get ();
-		if (s == DISK_WRITER_OK) {
+		optional<string> s = _nanomsg.receive (10000);
+		if (!s) {
+			continue;
+		}
+		if (*s == DISK_WRITER_OK) {
 			set_state (FINISHED_OK);
 			return;
-		} else if (s == DISK_WRITER_ERROR) {
-			string const m = _nanomsg.blocking_get ();
-			string const n = _nanomsg.blocking_get ();
-			throw CopyError (m, raw_convert<int>(n));
-		} else if (s == DISK_WRITER_FORMATTING) {
+		} else if (*s == DISK_WRITER_ERROR) {
+			optional<string> const m = _nanomsg.receive (500);
+			optional<string> const n = _nanomsg.receive (500);
+			throw CopyError (m.get_value_or("Unknown"), raw_convert<int>(n.get_value_or("0")));
+		} else if (*s == DISK_WRITER_FORMATTING) {
 			sub ("Formatting drive");
 			set_progress_unknown ();
 			formatting = true;
-		} else if (s == DISK_WRITER_PROGRESS) {
+		} else if (*s == DISK_WRITER_PROGRESS) {
 			if (formatting) {
 				sub ("Copying DCP");
 				formatting = false;
 			}
-			set_progress (raw_convert<float>(_nanomsg.blocking_get()));
+			optional<string> progress = _nanomsg.receive (500);
+			if (progress) {
+				set_progress (raw_convert<float>(*progress));
+			}
 		}
 	}
 }

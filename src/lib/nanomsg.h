@@ -28,18 +28,21 @@ class Nanomsg : public boost::noncopyable
 public:
 	explicit Nanomsg (bool server);
 
-	void blocking_send (std::string s);
-	/** Try to send a message, returning true if successful, false
-	 *  if we should try again (EAGAIN) or throwing an exception on any other
-	 *  error.
+	/** Try to send a message, waiting for some timeout before giving up.
+	 *  @param timeout Timeout in milliseconds, or -1 for infinite timeout.
+	 *  @return true if the send happened, false if there was a timeout.
 	 */
-	bool nonblocking_send (std::string s);
-	std::string blocking_get ();
-	boost::optional<std::string> nonblocking_get ();
+	bool send (std::string s, int timeout);
+	
+	/** Try to receive a message, waiting for some timeout before giving up.
+	 *  @param timeout Timeout in milliseconds, or -1 for infinite timeout.
+	 *  @return Empty if the timeout was reached, otherwise the received string.
+	 */
+	boost::optional<std::string> receive (int timeout);
 
 private:
 	boost::optional<std::string> get_from_pending ();
-	void recv_and_parse (bool blocking);
+	void recv_and_parse (int flags);
 
 	int _socket;
 	std::list<std::string> _pending;

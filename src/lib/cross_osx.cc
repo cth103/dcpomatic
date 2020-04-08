@@ -485,3 +485,12 @@ config_path ()
 	p /= "2";
 	return p;
 }
+
+bool
+unmount_device (string device)
+{
+	int const r = umount(device.c_str());
+	LOG_DISK("Tried to unmount %1 and got %2 and %3", device, r, errno);
+	return r == 0;
+
+}

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -25,6 +25,7 @@
 
 using std::string;
 using std::runtime_error;
+using boost::optional;
 
 /** @param f File that we were trying to open */
 OpenFileError::OpenFileError (boost::filesystem::path f, int error, Mode mode)
@@ -115,10 +116,16 @@ GLError::GLError (char const * last, int e)
 
 }
 
-CopyError::CopyError (string m, int n)
-	: runtime_error (String::compose("%1 (%2)", m, n))
+CopyError::CopyError (string m, optional<int> n)
+	: runtime_error (String::compose("%1%2", m, n ? String::compose(" (%1)", *n) : ""))
 	, _message (m)
 	, _number (n)
+{
+
+}
+
+CommunicationFailedError::CommunicationFailedError ()
+	: CopyError (_("Lost communication between main and writer processes"))
 {
 
 }

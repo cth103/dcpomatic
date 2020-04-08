@@ -80,10 +80,11 @@ using boost::optional;
 #ifdef DCPOMATIC_LINUX
 static PolkitAuthority* polkit_authority = 0;
 #endif
-static boost::filesystem::path dcp_path;
-static std::string device;
 static uint64_t const block_size = 4096;
 static Nanomsg* nanomsg = 0;
+
+#define SHORT_TIMEOUT 100
+#define LONG_TIMEOUT 2000
 
 static
 void
@@ -147,7 +148,7 @@ write (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total
 		}
 		remaining -= this_time;
 		total_remaining -= this_time;
-		nanomsg->blocking_send(String::compose(DISK_WRITER_PROGRESS "\n%1\n", (1 - float(total_remaining) / total)));
+		nanomsg->send(String::compose(DISK_WRITER_PROGRESS "\n%1\n", (1 - float(total_remaining) / total)), SHORT_TIMEOUT);
 	}
 
 	fclose (in);
@@ -186,7 +187,7 @@ read (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_
 		digester.add (buffer, this_time);
 		remaining -= this_time;
 		total_remaining -= this_time;
-		nanomsg->blocking_send(String::compose(DISK_WRITER_PROGRESS "\n%1\n", (1 - float(total_remaining) / total)));
+		nanomsg->send(String::compose(DISK_WRITER_PROGRESS "\n%1\n", (1 - float(total_remaining) / total)), SHORT_TIMEOUT);
 	}
 
 	ext4_fclose (&in);
@@ -229,9 +230,10 @@ copy (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_
 	}
 }
 
+
 static
 void
-write ()
+write (boost::filesystem::path dcp_path, string device)
 try
 {
 //	ext4_dmask_set (DEBUG_ALL);
@@ -314,7 +316,7 @@ try
 	}
 	LOG_DISK_NC ("Opened partition");
 
-	nanomsg->blocking_send(DISK_WRITER_FORMATTING "\n");
+	nanomsg->send(DISK_WRITER_FORMATTING "\n", SHORT_TIMEOUT);
 
 	r = ext4_mkfs(&fs, bd, &info, F_SET_EXT4);
 	if (r != EOK) {
@@ -349,27 +351,37 @@ try
 	}
 
 	ext4_device_unregister("ext4_fs");
-	nanomsg->blocking_send(DISK_WRITER_OK "\n");
+	if (!nanomsg->send(DISK_WRITER_OK "\n", LONG_TIMEOUT)) {
+		throw CommunicationFailedError ();
+	}
 } catch (CopyError& e) {
-	LOG_DISK("CopyError: %1 %2", e.message(), e.number());
-	nanomsg->blocking_send(String::compose(DISK_WRITER_ERROR "\n%1\n%2\n", e.message(), e.number()));
+	LOG_DISK("CopyError (from write): %1 %2", e.message(), e.number().get_value_or(0));
+	nanomsg->send(String::compose(DISK_WRITER_ERROR "\n%1\n%2\n", e.message(), e.number().get_value_or(0)), LONG_TIMEOUT);
 } catch (VerifyError& e) {
-	LOG_DISK("VerifyError: %1 %2", e.message(), e.number());
-	nanomsg->blocking_send(String::compose(DISK_WRITER_ERROR "\n%1\n%2\n", e.message(), e.number()));
+	LOG_DISK("VerifyError (from write): %1 %2", e.message(), e.number());
+	nanomsg->send(String::compose(DISK_WRITER_ERROR "\n%1\n%2\n", e.message(), e.number()), LONG_TIMEOUT);
 } catch (exception& e) {
-	LOG_DISK("Exception: %1", e.what());
-	nanomsg->blocking_send(String::compose(DISK_WRITER_ERROR "\n%1\n0\n", e.what()));
+	LOG_DISK("Exception (from write): %1", e.what());
+	nanomsg->send(String::compose(DISK_WRITER_ERROR "\n%1\n0\n", e.what()), LONG_TIMEOUT);
 }
+
+struct Parameters
+{
+	boost::filesystem::path dcp_path;
+	std::string device;
+};
 
 #ifdef DCPOMATIC_LINUX
 static
 void
-polkit_callback (GObject *, GAsyncResult* res, gpointer)
+polkit_callback (GObject *, GAsyncResult* res, gpointer data)
 {
+	Parameters* parameters = reinterpret_cast<Parameters*> (data);
 	PolkitAuthorizationResult* result = polkit_authority_check_authorization_finish (polkit_authority, res, 0);
 	if (result && polkit_authorization_result_get_is_authorized(result)) {
-		write ();
+		write (parameters->dcp_path, parameters->device);
 	}
+	delete parameters;
 	if (result) {
 		g_object_unref (result);
 	}
@@ -378,40 +390,59 @@ polkit_callback (GObject *, GAsyncResult* res, gpointer)
 
 bool
 idle ()
+try
 {
 	using namespace boost::algorithm;
 
-	optional<string> s = nanomsg->nonblocking_get ();
+	optional<string> s = nanomsg->receive (0);
 	if (!s) {
 		return true;
 	}
 
 	if (*s == DISK_WRITER_QUIT) {
 		exit (EXIT_SUCCESS);
-	} else if (*s == DISK_WRITER_WRITE) {
-		dcp_path = nanomsg->blocking_get();
-		device = nanomsg->blocking_get();
+	} else if (*s == DISK_WRITER_UNMOUNT) {
+		/* XXX: should do Linux polkit stuff here */
+		optional<string> device = nanomsg->receive (LONG_TIMEOUT);
+		if (!device) {
+			throw CommunicationFailedError ();
+		}
+		if (unmount_drive(*device)) {
+			if (!nanomsg->send (DISK_WRITER_OK "\n", LONG_TIMEOUT)) {
+				throw CommunicationFailedError();
+			}
+		} else {
+			if (!nanomsg->send (DISK_WRITER_ERROR "\n", LONG_TIMEOUT)) {
+				throw CommunicationFailedError();
+			}
+		}
+	} else {
+		optional<string> dcp_path = nanomsg->receive(LONG_TIMEOUT);
+		optional<string> device = nanomsg->receive(LONG_TIMEOUT);
+		if (!dcp_path || !device) {
+			throw CommunicationFailedError();
+		}
 
 		/* Do some basic sanity checks; this is a bit belt-and-braces but it can't hurt... */
 
 #ifdef DCPOMATIC_OSX
-		if (!starts_with(device, "/dev/disk")) {
-			LOG_DISK ("Will not write to %1", device);
-			nanomsg->blocking_send(DISK_WRITER_ERROR "\nRefusing to write to this drive\n1\n");
+		if (!starts_with(*device, "/dev/disk")) {
+			LOG_DISK ("Will not write to %1", *device);
+			nanomsg->try_send(DISK_WRITER_ERROR "\nRefusing to write to this drive\n1\n", LONG_TIMEOUT);
 			return true;
 		}
 #endif
 #ifdef DCPOMATIC_LINUX
-		if (!starts_with(device, "/dev/sd") && !starts_with(device, "/dev/hd")) {
-			LOG_DISK ("Will not write to %1", device);
-			nanomsg->blocking_send(DISK_WRITER_ERROR "\nRefusing to write to this drive\n1\n");
+		if (!starts_with(*device, "/dev/sd") && !starts_with(*device, "/dev/hd")) {
+			LOG_DISK ("Will not write to %1", *device);
+			nanomsg->send(DISK_WRITER_ERROR "\nRefusing to write to this drive\n1\n", LONG_TIMEOUT);
 			return true;
 		}
 #endif
 #ifdef DCPOMATIC_WINDOWS
-		if (!starts_with(device, "\\\\.\\PHYSICALDRIVE")) {
-			LOG_DISK ("Will not write to %1", device);
-			nanomsg->blocking_send(DISK_WRITER_ERROR "\nRefusing to write to this drive\n1\n");
+		if (!starts_with(*device, "\\\\.\\PHYSICALDRIVE")) {
+			LOG_DISK ("Will not write to %1", *device);
+			nanomsg->try_send(DISK_WRITER_ERROR "\nRefusing to write to this drive\n1\n", LONG_TIMEOUT);
 			return true;
 		}
 #endif
@@ -419,36 +450,42 @@ idle ()
 		bool on_drive_list = false;
 		bool mounted = false;
 		for (auto const& i: get_drives()) {
-			if (i.internal_name() == device) {
+			if (i.internal_name() == *device) {
 				on_drive_list = true;
 				mounted = i.mounted();
 			}
 		}
 
 		if (!on_drive_list) {
-			LOG_DISK ("Will not write to %1 as it's not recognised as a drive", device);
-			nanomsg->blocking_send(DISK_WRITER_ERROR "\nRefusing to write to this drive\n1\n");
+			LOG_DISK ("Will not write to %1 as it's not recognised as a drive", *device);
+			nanomsg->send(DISK_WRITER_ERROR "\nRefusing to write to this drive\n1\n", LONG_TIMEOUT);
 			return true;
 		}
 		if (mounted) {
-			LOG_DISK ("Will not write to %1 as it's mounted", device);
-			nanomsg->blocking_send(DISK_WRITER_ERROR "\nRefusing to write to this drive\n1\n");
+			LOG_DISK ("Will not write to %1 as it's mounted", *device);
+			nanomsg->send(DISK_WRITER_ERROR "\nRefusing to write to this drive\n1\n", LONG_TIMEOUT);
 			return true;
 		}
 
-		LOG_DISK ("Here we go writing %1 to %2", dcp_path, device);
+		LOG_DISK ("Here we go writing %1 to %2", *dcp_path, *device);
 
 #ifdef DCPOMATIC_LINUX
 		polkit_authority = polkit_authority_get_sync (0, 0);
 		PolkitSubject* subject = polkit_unix_process_new (getppid());
+		Parameters* parameters = new Parameters;
+		parameters->dcp_path = *dcp_path;
+		parameters->device = *device;
 		polkit_authority_check_authorization (
-				polkit_authority, subject, "com.dcpomatic.write-drive", 0, POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION, 0, polkit_callback, 0
+				polkit_authority, subject, "com.dcpomatic.write-drive", 0, POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION, 0, polkit_callback, parameters
 				);
 #else
-		write ();
+		write (*dcp_path, *device);
 #endif
 	}
 
+	return true;
+} catch (exception& e) {
+	LOG_DISK("Exception (from idle): %1", e.what());
 	return true;
 }
 

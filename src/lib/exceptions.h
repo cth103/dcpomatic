@@ -30,6 +30,7 @@ extern "C" {
 #include <libavutil/pixfmt.h>
 }
 #include <boost/filesystem.hpp>
+#include <boost/optional.hpp>
 #include <stdexcept>
 #include <cstring>
 
@@ -320,21 +321,32 @@ public:
 class CopyError : public std::runtime_error
 {
 public:
-	CopyError (std::string s, int n);
+	CopyError (std::string s, boost::optional<int> n = boost::optional<int>());
 	virtual ~CopyError () throw () {}
 
 	std::string message () const {
 		return _message;
 	}
 
-	int number () const {
+	boost::optional<int> number () const {
 		return _number;
 	}
 
 private:
 	std::string _message;
-	int _number;
+	boost::optional<int> _number;
 };
+
+
+/** @class CommunicationFailedError
+ *  @brief Communcation between dcpomatic2_disk and _disk_writer failed somehow.
+ */
+class CommunicationFailedError : public CopyError
+{
+public:
+	CommunicationFailedError ();
+};
+
 
 /** @class VerifyError
  *  @brief An error which occurs when verifying a DCP that we copied to a distribution drive.

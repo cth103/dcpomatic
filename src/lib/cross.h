@@ -124,5 +124,9 @@ private:
 };
 
 std::vector<Drive> get_drives ();
+/** Unmount any mounted partitions on a drive.
+ *  @return true on success, false on failure.
+ */
+bool unmount_drive (std::string drive);
 
 #endif
