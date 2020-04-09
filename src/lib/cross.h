@@ -31,6 +31,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/optional.hpp>
+#include <boost/function.hpp>
 
 #ifdef DCPOMATIC_WINDOWS
 #define WEXITSTATUS(w) (w)
@@ -137,5 +138,7 @@ private:
 	boost::optional<std::string> _vendor;
 	boost::optional<std::string> _model;
 };
+
+void disk_write_finished ();
 
 #endif

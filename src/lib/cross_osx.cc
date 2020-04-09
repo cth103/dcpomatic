@@ -58,8 +58,10 @@ using std::vector;
 using std::cerr;
 using std::cout;
 using std::runtime_error;
+using std::map;
 using boost::shared_ptr;
 using boost::optional;
+using boost::function;
 
 /** @param s Number of seconds to sleep for */
 void
@@ -145,6 +147,7 @@ openssl_path ()
 }
 
 #ifdef DCPOMATIC_DISK
+/* Note: this isn't actually used at the moment as the disk writer is started as a service */
 boost::filesystem::path
 disk_writer_path ()
 {
@@ -333,25 +336,28 @@ is_whole_drive (DADiskRef& disk)
 	return whole_media;
 }
 
-static bool
-is_mounted (CFDictionaryRef& description)
+static optional<boost::filesystem::path>
+mount_point (CFDictionaryRef& description)
 {
 	CFURLRef volume_path_key = (CFURLRef) CFDictionaryGetValue (description, kDADiskDescriptionVolumePathKey);
 	char mount_path_buffer[1024];
-	return CFURLGetFileSystemRepresentation(volume_path_key, false, (UInt8 *) mount_path_buffer, sizeof(mount_path_buffer));
+	if (!CFURLGetFileSystemRepresentation(volume_path_key, false, (UInt8 *) mount_path_buffer, sizeof(mount_path_buffer))) {
+		return boost::optional<boost::filesystem::path>();
+	}
+	return boost::filesystem::path(mount_path_buffer);
 }
 
 /* Here follows some rather intricate and (probably) fragile code to find the list of available
  * "real" drives on macOS that we might want to write a DCP to.
  *
- * We use the Disk Arbitration framework to give us a series of devices (/dev/disk0, /dev/disk1,
- * /dev/disk1s1 and so on) and we use the API to gather useful information about these devices into
+ * We use the Disk Arbitration framework to give us a series of mount_points (/dev/disk0, /dev/disk1,
+ * /dev/disk1s1 and so on) and we use the API to gather useful information about these mount_points into
  * a vector of Disk structs.
  *
  * Then we read the Disks that we found and try to derive a list of drives that we should offer to the
  * user, with details of whether those drives are currently mounted or not.
  *
- * At the basic level we find the "disk"-level devices, looking at whether any of their partitions are mounted.
+ * At the basic level we find the "disk"-level mount_points, looking at whether any of their partitions are mounted.
  *
  * This is complicated enormously by recent-ish macOS versions' habit of making `synthesized' volumes which
  * reflect data in `real' partitions.  So, for example, we might have a real (physical) drive /dev/disk2 with
@@ -367,13 +373,13 @@ is_mounted (CFDictionaryRef& description)
 
 struct Disk
 {
-	string device;
+	string mount_point;
 	optional<string> vendor;
 	optional<string> model;
 	bool real;
 	string prt;
 	bool whole;
-	bool mounted;
+	vector<boost::filesystem::path> mount_points;
 	unsigned long size;
 };
 
@@ -388,7 +394,7 @@ disk_appeared (DADiskRef disk, void* context)
 
 	Disk this_disk;
 
-	this_disk.device = string("/dev/") + bsd_name;
+	this_disk.mount_point = string("/dev/") + bsd_name;
 
 	CFDictionaryRef description = DADiskCopyDescription (disk);
 
@@ -405,8 +411,18 @@ disk_appeared (DADiskRef disk, void* context)
 	this_disk.real = media_path->real;
 	this_disk.prt = media_path->prt;
 	this_disk.whole = is_whole_drive (disk);
-	this_disk.mounted = is_mounted (description);
-	LOG_DISK("%1 prt %2 whole %3 mounted %4", this_disk.real ? "Real" : "Synth", this_disk.prt, this_disk.whole ? "whole" : "part", this_disk.mounted ? "mounted" : "unmounted");
+	optional<boost::filesystem::path> mp = mount_point (description);
+	if (mp) {
+		this_disk.mount_points.push_back (*mp);
+	}
+
+	LOG_DISK(
+		"%1 prt %2 whole %3 mounted %4",
+		 this_disk.real ? "Real" : "Synth",
+		 this_disk.prt,
+		 this_disk.whole ? "whole" : "part",
+		 mp ? ("mounted at " + mp->string()) : "unmounted"
+		);
 
 	CFNumberGetValue ((CFNumberRef) CFDictionaryGetValue (description, kDADiskDescriptionMediaSizeKey), kCFNumberLongType, &this_disk.size);
 	CFRelease (description);
@@ -415,7 +431,7 @@ disk_appeared (DADiskRef disk, void* context)
 }
 
 vector<Drive>
-get_drives ()
+Drive::get ()
 {
 	using namespace boost::algorithm;
 	vector<Disk> disks;
@@ -439,27 +455,30 @@ get_drives ()
 			continue;
 		}
 		BOOST_FOREACH (Disk& j, disks) {
-			if (j.mounted && starts_with(j.device, i.device)) {
-				LOG_DISK("Marking %1 as mounted because %2 is", i.device, j.device);
-				i.mounted = true;
+			if (!j.mount_points.empty() && starts_with(j.mount_point, i.mount_point)) {
+				LOG_DISK("Marking %1 as mounted because %2 is", i.mount_point, j.mount_point);
+				std::copy(j.mount_points.begin(), j.mount_points.end(), back_inserter(i.mount_points));
 			}
 		}
 	}
 
-	/* Make a list of the PRT codes of mounted, synthesized disks */
-	vector<string> mounted_synths;
+	/* Make a map of the PRT codes and mount points of mounted, synthesized disks */
+	map<string, vector<boost::filesystem::path> > mounted_synths;
 	BOOST_FOREACH (Disk& i, disks) {
-		if (!i.real && i.mounted) {
-			LOG_DISK("Found a mounted synth %1 with %2", i.device, i.prt);
-			mounted_synths.push_back (i.prt);
+		if (!i.real && !i.mount_points.empty()) {
+			LOG_DISK("Found a mounted synth %1 with %2", i.mount_point, i.prt);
+			mounted_synths[i.prt] = i.mount_points;
 		}
 	}
 
 	/* Mark containers of those mounted synths as themselves mounted */
 	BOOST_FOREACH (Disk& i, disks) {
-		if (i.real && find(mounted_synths.begin(), mounted_synths.end(), i.prt) != mounted_synths.end()) {
-			LOG_DISK("Marking %1 (%2) as mounted because it contains a mounted synth", i.device, i.prt);
-			i.mounted = true;
+		if (i.real) {
+			map<string, vector<boost::filesystem::path> >::const_iterator j = mounted_synths.find(i.prt);
+			if (j != mounted_synths.end()) {
+				LOG_DISK("Marking %1 (%2) as mounted because it contains a mounted synth", i.mount_point, i.prt);
+				std::copy(j->second.begin(), j->second.end(), back_inserter(i.mount_points));
+			}
 		}
 	}
 
@@ -467,8 +486,8 @@ get_drives ()
 	BOOST_FOREACH (Disk& i, disks) {
 		if (i.whole) {
 			/* A whole disk that is not a container for a mounted synth */
-			LOG_DISK("Adding drive: %1 %2 %3 %4 %5", i.device, i.size, i.mounted ? "mounted" : "unmounted", i.vendor.get_value_or("[none]"), i.model.get_value_or("[none]"));
-			drives.push_back(Drive(i.device, i.size, i.mounted, i.vendor, i.model));
+			drives.push_back(Drive(i.mount_point, i.mount_points, i.size, i.vendor, i.model));
+			LOG_DISK_NC(drives.back().log_summary());
 		}
 	}
 	return drives;
@@ -486,11 +505,54 @@ config_path ()
 	return p;
 }
 
-bool
-unmount_device (string device)
+
+void done_callback(DADiskRef disk, DADissenterRef dissenter, void* context)
 {
-	int const r = umount(device.c_str());
-	LOG_DISK("Tried to unmount %1 and got %2 and %3", device, r, errno);
-	return r == 0;
+	LOG_DISK_NC("Unmount finished");
+	bool* success = reinterpret_cast<bool*> (context);
+	if (dissenter) {
+		LOG_DISK("Error: %1", DADissenterGetStatus(dissenter));
+		*success = false;
+	} else {
+		LOG_DISK_NC("Successful");
+		*success = true;
+	}
+}
+
+
+bool
+Drive::unmount ()
+{
+	LOG_DISK_NC("Unmount operation started");
+
+	DASessionRef session = DASessionCreate(kCFAllocatorDefault);
+	if (!session) {
+		return false;
+	}
+
+	DADiskRef disk = DADiskCreateFromBSDName(kCFAllocatorDefault, session, _device.c_str());
+	if (!disk) {
+		return false;
+	}
+	LOG_DISK("Requesting unmount of %1 from %2", _device, thread_id());
+	bool success = false;
+	DADiskUnmount(disk, kDADiskUnmountOptionWhole, &done_callback, &success);
+	CFRelease (disk);
+
+	CFRunLoopRef run_loop = CFRunLoopGetCurrent ();
+	DASessionScheduleWithRunLoop (session, run_loop, kCFRunLoopDefaultMode);
+	CFRunLoopStop (run_loop);
+	CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, 0);
+	CFRelease(session);
+
+	LOG_DISK_NC("End of unmount");
+	return success;
+}
+
+
+void
+disk_write_finished ()
+{
 
 }
+

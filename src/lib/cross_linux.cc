@@ -32,6 +32,7 @@ extern "C" {
 }
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
+#include <boost/function.hpp>
 #ifdef DCPOMATIC_DISK
 #include <boost/dll/runtime_symbol_info.hpp>
 #endif
@@ -58,6 +59,7 @@ using std::cout;
 using std::runtime_error;
 using boost::shared_ptr;
 using boost::optional;
+using boost::function;
 
 /** @param s Number of seconds to sleep for */
 void
@@ -329,7 +331,7 @@ Drive::get ()
 
 
 bool
-Drive::unmount () 
+Drive::unmount ()
 {
 	BOOST_FOREACH (boost::filesystem::path i, _mount_points) {
 		int const r = umount(i.string().c_str());
@@ -370,5 +372,12 @@ config_path ()
 	p /= g_get_user_config_dir ();
 	p /= "dcpomatic2";
 	return p;
+}
+
+
+void
+disk_write_finished ()
+{
+
 }
 

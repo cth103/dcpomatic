@@ -178,7 +178,7 @@ private:
 			if (!_nanomsg.send(DISK_WRITER_UNMOUNT "\n", 2000)) {
 				throw CommunicationFailedError ();
 			}
-			if (!_nanomsg.send(drive.as_xml() + "\n", 2000)) {
+			if (!_nanomsg.send(drive.as_xml(), 2000)) {
 				throw CommunicationFailedError ();
 			}
 			optional<string> reply = _nanomsg.receive (2000);
@@ -194,7 +194,7 @@ private:
 			}
 		}
 
-		
+
 		DriveWipeWarningDialog* d = new DriveWipeWarningDialog (this, _drive->GetString(_drive->GetSelection()));
 		int const r = d->ShowModal ();
 		bool ok = r == wxID_OK && d->confirmed();
@@ -244,7 +244,9 @@ private:
 	JobManagerView* _jobs;
 	boost::optional<boost::filesystem::path> _dcp_path;
 	std::vector<Drive> _drives;
+#ifndef DCPOMATIC_OSX
 	boost::process::child* _writer;
+#endif
 	Nanomsg _nanomsg;
 	wxSizer* _sizer;
 };
@@ -328,6 +330,44 @@ public:
 	{
 		signal_manager->ui_idle ();
 		ev.Skip ();
+	}
+
+	void report_exception ()
+	{
+		try {
+			throw;
+		} catch (FileError& e) {
+			error_dialog (
+				0,
+				wxString::Format (
+					_("An exception occurred: %s (%s)\n\n") + REPORT_PROBLEM,
+					std_to_wx (e.what()),
+					std_to_wx (e.file().string().c_str ())
+					)
+				);
+		} catch (exception& e) {
+			error_dialog (
+				0,
+				wxString::Format (
+					_("An exception occurred: %s.\n\n") + REPORT_PROBLEM,
+					std_to_wx (e.what ())
+					)
+				);
+		} catch (...) {
+			error_dialog (0, _("An unknown exception occurred.") + "  " + REPORT_PROBLEM);
+		}
+	}
+
+	bool OnExceptionInMainLoop ()
+	{
+		report_exception ();
+		/* This will terminate the program */
+		return false;
+	}
+
+	void OnUnhandledException ()
+	{
+		report_exception ();
 	}
 
 	DOMFrame* _frame;

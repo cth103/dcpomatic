@@ -27,7 +27,7 @@ TryUnmountDialog::TryUnmountDialog (wxWindow* parent, wxString description)
 	: wxDialog (parent, wxID_ANY, _("DCP-o-matic Disk Writer"))
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
-	wxStaticText* text = new StaticText (this, wxString::Format(_("The drive %s is mounted.\nIt must be unmounted before DCP-o-matic can write to it.  Do you want to try to unmount it now?"), description));
+	wxStaticText* text = new StaticText (this, wxString::Format(_("The drive %s is mounted.\nIt must be unmounted before DCP-o-matic can write to it.  Should DCP-o-matic try to unmount it now?"), description));
 	sizer->Add (text, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);

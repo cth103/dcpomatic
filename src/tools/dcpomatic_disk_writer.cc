@@ -119,6 +119,8 @@ write (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total
 	uint8_t* buffer = new uint8_t[block_size];
 	Digester digester;
 
+	int progress_frequency = 5000;
+	int progress_count = 0;
 	uint64_t remaining = file_size (from);
 	while (remaining > 0) {
 		uint64_t const this_time = min(remaining, block_size);
@@ -148,7 +150,11 @@ write (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total
 		}
 		remaining -= this_time;
 		total_remaining -= this_time;
-		nanomsg->send(String::compose(DISK_WRITER_PROGRESS "\n%1\n", (1 - float(total_remaining) / total)), SHORT_TIMEOUT);
+
+		++progress_count;
+		if ((progress_count % progress_frequency) == 0) {
+			nanomsg->send(String::compose(DISK_WRITER_PROGRESS "\n%1\n", (1 - float(total_remaining) / total)), SHORT_TIMEOUT);
+		}
 	}
 
 	fclose (in);
@@ -276,15 +282,17 @@ try
 	}
 	LOG_DISK_NC ("Wrote MBR");
 
-#ifdef DCPOMATIC_WINDOWS
 	struct ext4_mbr_bdevs bdevs;
 	r = ext4_mbr_scan (bd, &bdevs);
 	if (r != EOK) {
 		throw CopyError ("Failed to read MBR", r);
 	}
 
+#ifdef DCPOMATIC_WINDOWS
 	file_windows_partition_set (bdevs.partitions[0].part_offset, bdevs.partitions[0].part_size);
 #endif
+
+	LOG_DISK ("Writing to partition at %1 size %2; bd part size is %3", bdevs.partitions[0].part_offset, bdevs.partitions[0].part_size, bd->part_size);
 
 #ifdef DCPOMATIC_LINUX
 	/* Re-read the partition table */
@@ -354,6 +362,8 @@ try
 	if (!nanomsg->send(DISK_WRITER_OK "\n", LONG_TIMEOUT)) {
 		throw CommunicationFailedError ();
 	}
+
+	disk_write_finished ();
 } catch (CopyError& e) {
 	LOG_DISK("CopyError (from write): %1 %2", e.message(), e.number().get_value_or(0));
 	nanomsg->send(String::compose(DISK_WRITER_ERROR "\n%1\n%2\n", e.message(), e.number().get_value_or(0)), LONG_TIMEOUT);
@@ -388,6 +398,7 @@ polkit_callback (GObject *, GAsyncResult* res, gpointer data)
 }
 #endif
 
+
 bool
 idle ()
 try
@@ -399,6 +410,8 @@ try
 		return true;
 	}
 
+	LOG_DISK("Writer receives command: %1", *s);
+
 	if (*s == DISK_WRITER_QUIT) {
 		exit (EXIT_SUCCESS);
 	} else if (*s == DISK_WRITER_UNMOUNT) {
@@ -406,21 +419,19 @@ try
 		optional<string> xml_head = nanomsg->receive (LONG_TIMEOUT);
 		optional<string> xml_body = nanomsg->receive (LONG_TIMEOUT);
 		if (!xml_head || !xml_body) {
+			LOG_DISK_NC("Failed to receive unmount request");
 			throw CommunicationFailedError ();
 		}
-		if (Drive(*xml_head + *xml_body).unmount()) {
-			if (!nanomsg->send (DISK_WRITER_OK "\n", LONG_TIMEOUT)) {
-				throw CommunicationFailedError();
-			}
-		} else {
-			if (!nanomsg->send (DISK_WRITER_ERROR "\n", LONG_TIMEOUT)) {
-				throw CommunicationFailedError();
-			}
+		bool const success = Drive(*xml_head + *xml_body).unmount();
+		if (!nanomsg->send (success ? (DISK_WRITER_OK "\n") : (DISK_WRITER_ERROR "\n"), LONG_TIMEOUT)) {
+			LOG_DISK_NC("CommunicationFailedError in unmount_finished");
+			throw CommunicationFailedError ();
 		}
-	} else {
-		optional<string> dcp_path = nanomsg->receive(LONG_TIMEOUT);
-		optional<string> device = nanomsg->receive(LONG_TIMEOUT);
+	} else if (*s == DISK_WRITER_WRITE) {
+		optional<string> dcp_path = nanomsg->receive (LONG_TIMEOUT);
+		optional<string> device = nanomsg->receive (LONG_TIMEOUT);
 		if (!dcp_path || !device) {
+			LOG_DISK_NC("Failed to receive write request");
 			throw CommunicationFailedError();
 		}
 
@@ -429,7 +440,7 @@ try
 #ifdef DCPOMATIC_OSX
 		if (!starts_with(*device, "/dev/disk")) {
 			LOG_DISK ("Will not write to %1", *device);
-			nanomsg->try_send(DISK_WRITER_ERROR "\nRefusing to write to this drive\n1\n", LONG_TIMEOUT);
+			nanomsg->send(DISK_WRITER_ERROR "\nRefusing to write to this drive\n1\n", LONG_TIMEOUT);
 			return true;
 		}
 #endif
@@ -443,7 +454,7 @@ try
 #ifdef DCPOMATIC_WINDOWS
 		if (!starts_with(*device, "\\\\.\\PHYSICALDRIVE")) {
 			LOG_DISK ("Will not write to %1", *device);
-			nanomsg->try_send(DISK_WRITER_ERROR "\nRefusing to write to this drive\n1\n", LONG_TIMEOUT);
+			nanomsg->send(DISK_WRITER_ERROR "\nRefusing to write to this drive\n1\n", LONG_TIMEOUT);
 			return true;
 		}
 #endif

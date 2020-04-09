@@ -38,11 +38,13 @@ extern "C" {
 #include <winioctl.h>
 #include <ntdddisk.h>
 #include <setupapi.h>
+#include <fileapi.h>
 #undef DATADIR
 #include <shlwapi.h>
 #include <shellapi.h>
 #include <fcntl.h>
 #include <fstream>
+#include <map>
 
 #include "i18n.h"
 
@@ -56,8 +58,11 @@ using std::vector;
 using std::cerr;
 using std::cout;
 using std::runtime_error;
+using std::map;
 using boost::shared_ptr;
 using boost::optional;
+
+static std::vector<pair<HANDLE, string> > locked_volumes;
 
 /** @param s Number of seconds to sleep for */
 void
@@ -417,12 +422,28 @@ get_device_number (HDEVINFO device_info, SP_DEVINFO_DATA* device_info_data)
 	return device_number.DeviceNumber;
 }
 
+typedef map<int, vector<boost::filesystem::path> > MountPoints;
+
 /** Take a volume path (with a trailing \) and add any disk numbers related to that volume
  *  to @ref disks.
  */
 static void
-add_volume_disk_number (wchar_t* volume, vector<int>& disks)
+add_volume_mount_points (wchar_t* volume, MountPoints& mount_points)
 {
+	LOG_DISK("Looking at %1", wchar_to_utf8(volume));
+
+	wchar_t volume_path_names[512];
+	vector<boost::filesystem::path> mp;
+	DWORD returned;
+	if (GetVolumePathNamesForVolumeNameW(volume, volume_path_names, sizeof(volume_path_names) / sizeof(wchar_t), &returned)) {
+		wchar_t* p = volume_path_names;
+		while (*p != L'\0') {
+			mp.push_back (wchar_to_utf8(p));
+			LOG_DISK ("Found mount point %1", wchar_to_utf8(p));
+			p += wcslen(p) + 1;
+		}
+	}
+
 	/* Strip trailing \ */
 	size_t const len = wcslen (volume);
 	DCPOMATIC_ASSERT (len > 0);
@@ -444,41 +465,39 @@ add_volume_disk_number (wchar_t* volume, vector<int>& disks)
 		return;
 	}
 	DCPOMATIC_ASSERT (extents.NumberOfDiskExtents == 1);
-	return disks.push_back (extents.Extents[0].DiskNumber);
+
+	mount_points[extents.Extents[0].DiskNumber] = mp;
 }
 
-/* Return a list of disk numbers that contain volumes; i.e. a list of disk numbers that should
- * not be offered as targets to write to as they are "mounted" (whatever that means on Windows).
- */
-vector<int>
-disk_numbers_with_volumes ()
+MountPoints
+find_mount_points ()
 {
-	vector<int> disks;
+	MountPoints mount_points;
 
 	wchar_t volume_name[512];
 	HANDLE volume = FindFirstVolumeW (volume_name, sizeof(volume_name) / sizeof(wchar_t));
 	if (volume == INVALID_HANDLE_VALUE) {
-		return disks;
+		return MountPoints();
 	}
 
-	add_volume_disk_number (volume_name, disks);
+	add_volume_mount_points (volume_name, mount_points);
 	while (true) {
 		if (!FindNextVolumeW(volume, volume_name, sizeof(volume_name) / sizeof(wchar_t))) {
 			break;
 		}
-		add_volume_disk_number (volume_name, disks);
+		add_volume_mount_points (volume_name, mount_points);
 	}
 	FindVolumeClose (volume);
 
-	return disks;
+	return mount_points;
 }
 
 vector<Drive>
-get_drives ()
+Drive::get ()
 {
 	vector<Drive> drives;
 
-	vector<int> disks_to_ignore = disk_numbers_with_volumes ();
+	MountPoints mount_points = find_mount_points ();
 
 	/* Get a `device information set' containing information about all disks */
 	HDEVINFO device_info = SetupDiGetClassDevsA (&GUID_DEVICE_INTERFACE_DISK, 0, 0, DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
@@ -527,9 +546,18 @@ get_drives ()
 				&geom, sizeof(geom), &returned, 0
 				);
 
-		if (r && find(disks_to_ignore.begin(), disks_to_ignore.end(), *device_number) == disks_to_ignore.end()) {
+		LOG_DISK("Having a looky through %1 locked volumes", locked_volumes.size());
+		bool locked = false;
+		for (vector<pair<HANDLE, string> >::const_iterator i = locked_volumes.begin(); i != locked_volumes.end(); ++i) {
+			if (i->second == physical_drive) {
+				locked = true;
+			}
+		}
+
+		if (r) {
 			uint64_t const disk_size = geom.Cylinders.QuadPart * geom.TracksPerCylinder * geom.SectorsPerTrack * geom.BytesPerSector;
-			drives.push_back (Drive(physical_drive, disk_size, false, friendly_name, optional<string>()));
+			drives.push_back (Drive(physical_drive, locked ? vector<boost::filesystem::path>() : mount_points[*device_number], disk_size, friendly_name, optional<string>()));
+			LOG_DISK("Added drive %1%2", drives.back().log_summary(), locked ? "(locked by us)" : "");
 		}
 
 		CloseHandle (device);
@@ -537,6 +565,36 @@ get_drives ()
 
 	return drives;
 }
+
+
+bool
+Drive::unmount ()
+{
+	LOG_DISK("Unmounting %1 with %2 mount points XXX! MMMYEAH!", _device, _mount_points.size());
+	DCPOMATIC_ASSERT (_mount_points.size() == 1);
+	string const device_name = String::compose ("\\\\.\\%1", _mount_points.front());
+	string const truncated = device_name.substr (0, device_name.length() - 1);
+	//LOG_DISK("Actually opening %1", _device);
+	//HANDLE device = CreateFileA (_device.c_str(), (GENERIC_READ | GENERIC_WRITE), FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, 0);
+	LOG_DISK("Actually opening %1", truncated);
+	HANDLE device = CreateFileA (truncated.c_str(), (GENERIC_READ | GENERIC_WRITE), FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, 0);
+ 	if (device == INVALID_HANDLE_VALUE) {
+		LOG_DISK("Could not open %1 for unmount (%2)", truncated, GetLastError());
+		return false;
+	}
+	DWORD returned;
+	BOOL r = DeviceIoControl (device, FSCTL_LOCK_VOLUME, 0, 0, 0, 0, &returned, 0);
+	if (!r) {
+		LOG_DISK("Unmount of %1 failed (%2)", truncated, GetLastError());
+		return false;
+	}
+
+	LOG_DISK("Unmount of %1 succeeded", _device);
+	locked_volumes.push_back (make_pair(device, _device));
+
+	return true;
+}
+
 
 boost::filesystem::path
 config_path ()
@@ -546,3 +604,13 @@ config_path ()
 	p /= "dcpomatic2";
 	return p;
 }
+
+void
+disk_write_finished ()
+{
+	for (vector<pair<HANDLE, string> >::const_iterator i = locked_volumes.begin(); i != locked_volumes.end(); ++i) {
+		CloseHandle (i->first);
+	}
+}
+
+
