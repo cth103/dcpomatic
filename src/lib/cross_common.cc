@@ -20,10 +20,51 @@
 
 #include "cross.h"
 #include "compose.hpp"
+#include "dcpomatic_log.h"
+#include <dcp/raw_convert.h>
+#include <boost/foreach.hpp>
+#include <libxml++/libxml++.h>
+#include <iostream>
 
 #include "i18n.h"
 
 using std::string;
+
+Drive::Drive (string xml)
+{
+	cxml::Document doc;
+	doc.read_string (xml);
+	_device = doc.string_child("Device");
+	BOOST_FOREACH (cxml::ConstNodePtr i, doc.node_children("MountPoint")) {
+		_mount_points.push_back (i->content());
+	}
+	_size = doc.number_child<uint64_t>("Size");
+	_vendor = doc.optional_string_child("Vendor");
+	_model = doc.optional_string_child("Model");
+}
+
+
+string
+Drive::as_xml () const
+{
+	xmlpp::Document doc;
+	xmlpp::Element* root = doc.create_root_node ("Drive");
+	root->add_child("Device")->add_child_text(_device);
+	BOOST_FOREACH (boost::filesystem::path i, _mount_points) {
+		root->add_child("MountPoint")->add_child_text(i.string());
+	}
+	root->add_child("Size")->add_child_text(dcp::raw_convert<string>(_size));
+	if (_vendor) {
+		root->add_child("Vendor")->add_child_text(*_vendor);
+	}
+	if (_model) {
+		root->add_child("Model")->add_child_text(*_model);
+	}
+
+	std::cout << "xml is " << doc.write_to_string("UTF-8") << "\n";
+	return doc.write_to_string("UTF-8");
+}
+
 
 string
 Drive::description () const
@@ -46,6 +87,24 @@ Drive::description () const
 		name = _("Unknown");
 	}
 
-	return String::compose(_("%1 (%2 GB) [%3]"), name, gb, _internal_name);
+	return String::compose(_("%1 (%2 GB) [%3]"), name, gb, _device);
 }
 
+string
+Drive::log_summary () const
+{
+	string mp;
+	BOOST_FOREACH (boost::filesystem::path i, _mount_points) {
+		mp += i.string() + ",";
+	}
+	if (mp.empty()) {
+		mp = "[none]";
+	} else {
+		mp = mp.substr (0, mp.length() - 1);
+	}
+
+	return String::compose(
+		"Device %1 mounted on %2 size %3 vendor %4 model %5",
+		_device, mp, _size, _vendor.get_value_or("[none]"), _model.get_value_or("[none]")
+			);
+}

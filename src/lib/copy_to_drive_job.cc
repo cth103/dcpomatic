@@ -64,7 +64,7 @@ CopyToDriveJob::json_name () const
 void
 CopyToDriveJob::run ()
 {
-	if (!_nanomsg.send(String::compose(DISK_WRITER_WRITE "\n%1\n%2\n", _dcp.string(), _drive.internal_name()), 2000)) {
+	if (!_nanomsg.send(String::compose(DISK_WRITER_WRITE "\n%1\n%2\n", _dcp.string(), _drive.device()), 2000)) {
 		throw CommunicationFailedError ();
 	}
 

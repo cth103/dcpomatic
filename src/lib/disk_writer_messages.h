@@ -59,7 +59,7 @@
 
 // Front-end sends:
 #define DISK_WRITER_UNMOUNT "U"
-// Internal name of the drive to write to
+// XML representation of Drive object to unmount 
 
 // Back-end responds:
 // DISK_WRITER_OK

@@ -178,7 +178,7 @@ private:
 			if (!_nanomsg.send(DISK_WRITER_UNMOUNT "\n", 2000)) {
 				throw CommunicationFailedError ();
 			}
-			if (!_nanomsg.send(drive.internal_name() + "\n", 2000)) {
+			if (!_nanomsg.send(drive.as_xml() + "\n", 2000)) {
 				throw CommunicationFailedError ();
 			}
 			optional<string> reply = _nanomsg.receive (2000);
@@ -218,7 +218,7 @@ private:
 		_drive->Clear ();
 		int re_select = wxNOT_FOUND;
 		int j = 0;
-		_drives = get_drives ();
+		_drives = Drive::get ();
 		BOOST_FOREACH (Drive i, _drives) {
 			wxString const s = std_to_wx(i.description());
 			if (s == current) {

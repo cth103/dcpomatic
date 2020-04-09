@@ -98,35 +98,44 @@ private:
 class Drive
 {
 public:
-	Drive (std::string internal_name, uint64_t size, bool mounted, boost::optional<std::string> vendor, boost::optional<std::string> model)
-		: _internal_name(internal_name)
+	Drive (std::string device, std::vector<boost::filesystem::path> mount_points, uint64_t size, boost::optional<std::string> vendor, boost::optional<std::string> model)
+		: _device(device)
+		, _mount_points(mount_points)
 		, _size(size)
-		, _mounted(mounted)
 		, _vendor(vendor)
 		, _model(model)
 	{}
 
+	explicit Drive (std::string);
+
+	std::string as_xml () const;
+
 	std::string description () const;
-	std::string internal_name () const {
-		return _internal_name;
-	}
-	bool mounted () const {
-		return _mounted;
+
+	std::string device () const {
+		return _device;
 	}
 
+	bool mounted () const {
+		return !_mount_points.empty();
+	}
+
+	std::string log_summary () const;
+
+	/** Unmount any mounted partitions on a drive.
+	 *  @return true on success, false on failure.
+	 */
+	bool unmount ();
+
+	static std::vector<Drive> get ();
+
 private:
-	std::string _internal_name;
+	std::string _device;
+	std::vector<boost::filesystem::path> _mount_points;
 	/** size in bytes */
 	uint64_t _size;
-	bool _mounted;
 	boost::optional<std::string> _vendor;
 	boost::optional<std::string> _model;
 };
-
-std::vector<Drive> get_drives ();
-/** Unmount any mounted partitions on a drive.
- *  @return true on success, false on failure.
- */
-bool unmount_drive (std::string drive);
 
 #endif

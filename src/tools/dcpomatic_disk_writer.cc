@@ -403,11 +403,12 @@ try
 		exit (EXIT_SUCCESS);
 	} else if (*s == DISK_WRITER_UNMOUNT) {
 		/* XXX: should do Linux polkit stuff here */
-		optional<string> device = nanomsg->receive (LONG_TIMEOUT);
-		if (!device) {
+		optional<string> xml_head = nanomsg->receive (LONG_TIMEOUT);
+		optional<string> xml_body = nanomsg->receive (LONG_TIMEOUT);
+		if (!xml_head || !xml_body) {
 			throw CommunicationFailedError ();
 		}
-		if (unmount_drive(*device)) {
+		if (Drive(*xml_head + *xml_body).unmount()) {
 			if (!nanomsg->send (DISK_WRITER_OK "\n", LONG_TIMEOUT)) {
 				throw CommunicationFailedError();
 			}
@@ -449,8 +450,8 @@ try
 
 		bool on_drive_list = false;
 		bool mounted = false;
-		for (auto const& i: get_drives()) {
-			if (i.internal_name() == *device) {
+		for (auto const& i: Drive::get()) {
+			if (i.device() == *device) {
 				on_drive_list = true;
 				mounted = i.mounted();
 			}

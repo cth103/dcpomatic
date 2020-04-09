@@ -258,6 +258,8 @@ running_32_on_64 ()
 	return false;
 }
 
+
+static
 vector<pair<string, string> >
 get_mounts (string prefix)
 {
@@ -278,8 +280,9 @@ get_mounts (string prefix)
 	return mounts;
 }
 
+
 vector<Drive>
-get_drives ()
+Drive::get ()
 {
 	vector<Drive> drives;
 
@@ -300,7 +303,6 @@ get_drives ()
 			if (size == 0) {
 				continue;
 			}
-			bool mounted = false;
 			optional<string> vendor;
 			try {
 				vendor = dcp::file_to_string("/sys/block/" + name + "/device/vendor");
@@ -311,18 +313,34 @@ get_drives ()
 				model = dcp::file_to_string("/sys/block/" + name + "/device/model");
 				boost::trim(*model);
 			} catch (...) {}
+			vector<boost::filesystem::path> mount_points;
 			for (vector<pair<string, string> >::const_iterator j = mounted_devices.begin(); j != mounted_devices.end(); ++j) {
 				if (boost::algorithm::starts_with(j->first, "/dev/" + name)) {
-					mounted = true;
+					mount_points.push_back (j->second);
 				}
 			}
-			drives.push_back(Drive("/dev/" + i->path().filename().string(), size, mounted, vendor, model));
-			LOG_DISK("Block device %1 size %2 %3 vendor %4 model %5", name, size, mounted ? "mounted" : "not mounted", vendor.get_value_or("[none]"), model.get_value_or("[none]"));
+			drives.push_back(Drive("/dev/" + name, mount_points, size, vendor, model));
+			LOG_DISK_NC(drives.back().log_summary());
 		}
 	}
 
 	return drives;
 }
+
+
+bool
+Drive::unmount () 
+{
+	BOOST_FOREACH (boost::filesystem::path i, _mount_points) {
+		int const r = umount(i.string().c_str());
+		LOG_DISK("Tried to unmount %1 and got %2 and %3", i.string(), r, errno);
+		if (r == -1) {
+			return false;
+		}
+	}
+	return true;
+}
+
 
 void
 unprivileged ()
@@ -352,19 +370,5 @@ config_path ()
 	p /= g_get_user_config_dir ();
 	p /= "dcpomatic2";
 	return p;
-}
-
-bool
-unmount_drive (string drive)
-{
-	vector<pair<string, string> > mounts = get_mounts (drive);
-	for (vector<pair<string, string> >::const_iterator i = mounts.begin(); i != mounts.end(); ++i) {
-		int const r = umount(i->second.c_str());
-		LOG_DISK("Tried to unmount %1 and got %2 and %3", i->second, r, errno);
-		if (r == -1) {
-			return false;
-		}
-	}
-	return true;
 }
 
