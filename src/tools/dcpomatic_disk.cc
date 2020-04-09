@@ -171,24 +171,26 @@ private:
 			TryUnmountDialog* d = new TryUnmountDialog(this, drive.description());
 			int const r = d->ShowModal ();
 			d->Destroy ();
-			if (r == wxID_OK) {
-				if (!_nanomsg.send(DISK_WRITER_UNMOUNT "\n", 2000)) {
-					throw CommunicationFailedError ();
-				}
-				if (!_nanomsg.send(drive.internal_name() + "\n", 2000)) {
-					throw CommunicationFailedError ();
-				}
-				optional<string> reply = _nanomsg.receive (2000);
-				if (!reply || *reply != DISK_WRITER_OK) {
-					MessageDialog* m = new MessageDialog (
-							this,
-							_("DCP-o-matic Disk Writer"),
-							wxString::Format(_("The drive %s could not be unmounted.\nClose any application that is using it, then try again."), std_to_wx(drive.description()))
-							);
-					m->ShowModal ();
-					m->Destroy ();
-					return;
-				}
+			if (r != wxID_OK) {
+				return;
+			}
+
+			if (!_nanomsg.send(DISK_WRITER_UNMOUNT "\n", 2000)) {
+				throw CommunicationFailedError ();
+			}
+			if (!_nanomsg.send(drive.internal_name() + "\n", 2000)) {
+				throw CommunicationFailedError ();
+			}
+			optional<string> reply = _nanomsg.receive (2000);
+			if (!reply || *reply != DISK_WRITER_OK) {
+				MessageDialog* m = new MessageDialog (
+						this,
+						_("DCP-o-matic Disk Writer"),
+						wxString::Format(_("The drive %s could not be unmounted.\nClose any application that is using it, then try again."), std_to_wx(drive.description()))
+						);
+				m->ShowModal ();
+				m->Destroy ();
+				return;
 			}
 		}
 
