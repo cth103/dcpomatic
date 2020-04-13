@@ -116,6 +116,9 @@ J2KEncoder::end ()
 
 	terminate_threads ();
 
+	/* Something might have been thrown during terminate_threads */
+	rethrow ();
+
 	LOG_GENERAL (N_("Mopping up %1"), _queue.size());
 
 	/* The following sequence of events can occur in the above code:

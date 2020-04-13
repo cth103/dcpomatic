@@ -122,6 +122,42 @@ Job::run_wrapper ()
 		set_progress (1);
 		set_state (FINISHED_ERROR);
 
+	} catch (dcp::StartCompressionError& e) {
+
+		bool done = false;
+
+#ifdef DCPOMATIC_WINDOWS
+#if (__GNUC__ && !__x86_64__)
+		/* 32-bit */
+		set_error (
+			_("Failed to encode the DCP."),
+			_("This error has probably occurred because you are running the 32-bit version of DCP-o-matic and "
+			  "trying to use too many encoding threads.  Please reduce the 'number of threads DCP-o-matic should "
+			  "use' in the General tab of Preferences and try again.")
+			);
+		done = true;
+#else
+		/* 64-bit */
+		if (running_32_on_64()) {
+			set_error (
+				_("Failed to encode the DCP."),
+				_("This error has probably occurred because you are running the 32-bit version of DCP-o-matic.  Please re-install DCP-o-matic with the 64-bit installer and try again.")
+				);
+			done = true;
+		}
+#endif
+#endif
+
+		if (!done) {
+			set_error (
+				e.what (),
+				string (_("It is not known what caused this error.")) + "  " + REPORT_PROBLEM
+				);
+		}
+
+		set_progress (1);
+		set_state (FINISHED_ERROR);
+
 	} catch (OpenFileError& e) {
 
 		set_error (
