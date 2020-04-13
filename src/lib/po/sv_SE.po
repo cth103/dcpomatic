@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-09 02:01+0100\n"
+"POT-Creation-Date: 2020-04-14 00:46+0200\n"
 "PO-Revision-Date: 2018-02-01 10:36+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -66,11 +66,11 @@ msgstr " (%.2f:1)"
 
 #. / TRANSLATORS: the %1 in this string will be filled in with a day of the week
 #. / to say what day a job will finish.
-#: src/lib/job.cc:466
+#: src/lib/job.cc:494
 msgid " on %1"
 msgstr "på %1"
 
-#: src/lib/config.cc:1176
+#: src/lib/config.cc:1190
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -92,15 +92,19 @@ msgstr ""
 "Längd: $LENGTH\n"
 "Size: $SIZE\n"
 
-#: src/lib/config.cc:1154
+#: src/lib/config.cc:1168
 msgid "$JOB_NAME: $JOB_STATUS"
+msgstr ""
+
+#: src/lib/cross_common.cc:90
+msgid "%1 (%2 GB) [%3]"
 msgstr ""
 
 #: src/lib/atmos_mxf_content.cc:84
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
-#: src/lib/dcp_content.cc:269
+#: src/lib/dcp_content.cc:270
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -166,12 +170,12 @@ msgid "3D denoiser"
 msgstr "3D brusreducering"
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:146
+#: src/lib/transcode_job.cc:144
 #, c-format
 msgid "; %.1f fps"
 msgstr "; %.1f bps"
 
-#: src/lib/job.cc:471
+#: src/lib/job.cc:499
 msgid "; %1 remaining; finishing at %2%3"
 msgstr ";%1 kvarstående; klar vid %2%3"
 
@@ -184,13 +188,13 @@ msgid ""
 "<p>If you find DCP-o-matic useful, please consider a donation to the "
 "project. Financial support will help me to spend more time developing DCP-o-"
 "matic and making it better!<p><ul><li><a href=\"https://dcpomatic.com/"
-"donate_amount?amount=40\">Go to Paypal to donate £40</a><li><a href="
+"donate_amount?amount=40\">Go to Paypal to donate €40</a><li><a href="
 "\"https://dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate "
-"£20</a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to "
-"Paypal to donate £10</a></ul><p>Thank you!"
+"€20</a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to "
+"Paypal to donate €10</a></ul><p>Thank you!"
 msgstr ""
 
-#: src/lib/hints.cc:156
+#: src/lib/hints.cc:150
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
@@ -208,7 +212,7 @@ msgstr "ARIB STD-B67 ('Hybrid log-gamma')"
 msgid "Advertisement"
 msgstr "Advertisement"
 
-#: src/lib/hints.cc:148
+#: src/lib/hints.cc:142
 #, fuzzy
 msgid ""
 "All of your content is 2.35:1 or narrower but your DCP's container is Scope "
@@ -220,7 +224,7 @@ msgstr ""
 "(1.85:1) bild. Du kanske föredrar att sätta din DCP-container till Flat "
 "(1.85:1) i fliken \"DCP\"."
 
-#: src/lib/hints.cc:144
+#: src/lib/hints.cc:138
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -232,11 +236,11 @@ msgstr ""
 "(1.85:1) bild. Du kanske föredrar att sätta din DCP-container till Scope "
 "(2,39:1) i fliken \"DCP\"."
 
-#: src/lib/job.cc:111
+#: src/lib/job.cc:109
 msgid "An error occurred whilst handling the file %1."
 msgstr "Ett fel inträffade vid hantering av filen %1"
 
-#: src/lib/analyse_audio_job.cc:97
+#: src/lib/analyse_audio_job.cc:98
 #, fuzzy
 msgid "Analysing audio"
 msgstr "Analysera audio"
@@ -320,20 +324,20 @@ msgstr "BsH"
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:480
+#: src/lib/job.cc:508
 msgid "Cancelled"
 msgstr "Avbruten"
 
-#: src/lib/film.cc:309
+#: src/lib/film.cc:313
 #, fuzzy
 msgid "Cannot contain slashes"
 msgstr "får inte innehålla snedstreck"
 
-#: src/lib/exceptions.cc:61
+#: src/lib/exceptions.cc:70
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kan inte hantera pixelformat %1 under %2"
 
-#: src/lib/film.cc:1373
+#: src/lib/film.cc:1421
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 
@@ -345,15 +349,15 @@ msgstr "Center"
 msgid "Channels"
 msgstr "Kanaler"
 
-#: src/lib/check_content_change_job.cc:48
+#: src/lib/check_content_change_job.cc:53
 msgid "Checking content for changes"
 msgstr ""
 
-#: src/lib/reel_writer.cc:102
+#: src/lib/reel_writer.cc:206
 msgid "Checking existing image data"
 msgstr "Kontrollerar befintligt bilddata"
 
-#: src/lib/check_content_change_job.cc:90
+#: src/lib/check_content_change_job.cc:95
 msgid "Choose 'Make DCP' again when you have done this."
 msgstr ""
 
@@ -367,7 +371,7 @@ msgstr "BT2020 konstant luminans"
 msgid "Chroma-derived non-constant luminance"
 msgstr "BT2020 icke-konstant luminans"
 
-#: src/lib/types.cc:139
+#: src/lib/types.cc:140
 #, fuzzy
 msgid "Closed captions"
 msgstr "Brusreducering"
@@ -404,7 +408,7 @@ msgstr "Färgrymd"
 msgid "Computing digest"
 msgstr "Beräknar sammanfattning"
 
-#: src/lib/writer.cc:521
+#: src/lib/writer.cc:513
 msgid "Computing digests"
 msgstr "Beräknar sammanfattning"
 
@@ -539,9 +543,18 @@ msgstr "Innehåll som ska sammanfogas måste använda samma undertextström."
 msgid "Content video is %1x%2"
 msgstr "Original-videon är %1x%2"
 
-#: src/lib/upload_job.cc:52
+#: src/lib/upload_job.cc:57
 msgid "Copy DCP to TMS"
 msgstr "Kopiera DCP till TMS"
+
+#: src/lib/reel_writer.cc:101
+msgid "Copying old video file"
+msgstr ""
+
+#: src/lib/reel_writer.cc:335
+#, fuzzy
+msgid "Copying video file into DCP"
+msgstr "Icke-passande videostorlekar i DCP:n"
 
 #: src/lib/scp_uploader.cc:51
 msgid "Could not connect to server %1 (%2)"
@@ -560,7 +573,7 @@ msgstr "Kunde inte avkoda JPEG2000-fil %1 (%2)"
 msgid "Could not decode image (%1)"
 msgstr "Kunde inte avkoda bildfil (%1)"
 
-#: src/lib/encode_server_finder.cc:193
+#: src/lib/encode_server_finder.cc:185
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
 "o-matic is running."
@@ -568,7 +581,7 @@ msgstr ""
 "Kunde inte lyssna efter fjärranslutna kodningsservrar. Kanske en annan "
 "instans av DCP-o-matic körs."
 
-#: src/lib/job.cc:130 src/lib/job.cc:145
+#: src/lib/job.cc:164 src/lib/job.cc:179
 msgid "Could not open %1"
 msgstr "Kunde inte öppna %1"
 
@@ -585,7 +598,7 @@ msgstr "Kunde inte öppna hämtade ZIP-fil"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Kunde inte öppna hämtade ZIP-fil"
 
-#: src/lib/config.cc:1057
+#: src/lib/config.cc:1071
 #, fuzzy
 msgid "Could not open file for writing"
 msgstr "kunde inte öppna fil %1 för skrivning (%2)"
@@ -630,7 +643,7 @@ msgstr "DCI Flat"
 msgid "DCI Scope"
 msgstr "DCI Scope"
 
-#: src/lib/dcp_subtitle_content.cc:107
+#: src/lib/dcp_subtitle_content.cc:109
 msgid "DCP XML subtitles"
 msgstr "DCP XML undertexter"
 
@@ -647,7 +660,7 @@ msgstr "DCP kommer att köras på %.1f%% av källans hastighet.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP kommer att använda varannan bild från källan.\n"
 
-#: src/lib/job.cc:132 src/lib/job.cc:147
+#: src/lib/job.cc:166 src/lib/job.cc:181
 msgid ""
 "DCP-o-matic could not open the file %1 (%2).  Perhaps it does not exist or "
 "is in an unexpected format."
@@ -655,7 +668,7 @@ msgstr ""
 "DCP-o-matic kunde inte öppna filen %1 (%2). Saknas den, eller har den ett "
 "oförväntat format?"
 
-#: src/lib/film.cc:1295
+#: src/lib/film.cc:1344
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -666,7 +679,7 @@ msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
 msgstr "DCP-o-matic stödjer inte längre '%1'-filter, så det har stängts av."
 
-#: src/lib/config.cc:368 src/lib/config.cc:1151
+#: src/lib/config.cc:371 src/lib/config.cc:1165
 msgid "DCP-o-matic notification"
 msgstr ""
 
@@ -679,7 +692,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Avflätning"
 
-#: src/lib/config.cc:1139
+#: src/lib/config.cc:1153
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -724,23 +737,23 @@ msgid "Each content frame will be repeated %1 more times in the DCP.\n"
 msgstr ""
 "Varje bild från källan kommer att användas ytterligare %1 gång(er) i DCPn.\n"
 
-#: src/lib/send_kdm_email_job.cc:61
+#: src/lib/send_kdm_email_job.cc:66
 msgid "Email KDMs"
 msgstr "E-posta KDM:er"
 
-#: src/lib/send_kdm_email_job.cc:64
+#: src/lib/send_kdm_email_job.cc:69
 msgid "Email KDMs for %1"
 msgstr "E-posta KDM:er för %1"
 
-#: src/lib/send_notification_email_job.cc:46
+#: src/lib/send_notification_email_job.cc:51
 msgid "Email notification"
 msgstr ""
 
-#: src/lib/send_problem_report_job.cc:59
+#: src/lib/send_problem_report_job.cc:64
 msgid "Email problem report"
 msgstr "E-posta problemrapport"
 
-#: src/lib/send_problem_report_job.cc:62
+#: src/lib/send_problem_report_job.cc:67
 msgid "Email problem report for %1"
 msgstr "E-posta problemrapport för %1"
 
@@ -752,25 +765,25 @@ msgstr "Kodar"
 msgid "Episode"
 msgstr ""
 
-#: src/lib/exceptions.cc:67
+#: src/lib/exceptions.cc:76
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Fel i undertext-filen: såg %1 men förväntade %2"
 
-#: src/lib/job.cc:478
+#: src/lib/job.cc:506
 msgid "Error: %1"
 msgstr "Fel: %1"
 
-#: src/lib/hints.cc:266
+#: src/lib/hints.cc:260
 #, fuzzy
 msgid "Examining closed captions"
 msgstr "Undersök innehållet"
 
-#: src/lib/examine_content_job.cc:44
+#: src/lib/examine_content_job.cc:49
 #, fuzzy
 msgid "Examining content"
 msgstr "Undersök innehållet"
 
-#: src/lib/examine_ffmpeg_subtitles_job.cc:49
+#: src/lib/examine_ffmpeg_subtitles_job.cc:54
 #, fuzzy
 msgid "Examining subtitles"
 msgstr "Letar undertexter"
@@ -787,6 +800,11 @@ msgstr "FCC"
 #: src/lib/scp_uploader.cc:61
 msgid "Failed to authenticate with server (%1)"
 msgstr "Misslyckades att autentisera med server (%1)"
+
+#: src/lib/job.cc:133 src/lib/job.cc:143
+#, fuzzy
+msgid "Failed to encode the DCP."
+msgstr "Misslyckades att skicka epost (%1)"
 
 #: src/lib/emailer.cc:224
 #, fuzzy
@@ -813,7 +831,7 @@ msgstr "Söker längd"
 msgid "Frame rate"
 msgstr "Bildhastighet"
 
-#: src/lib/util.cc:902
+#: src/lib/util.cc:916
 msgid "Friday"
 msgstr "Fredag"
 
@@ -889,11 +907,11 @@ msgstr "IEC61966-2-1 (sRGB eller sYCC)"
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/hints.cc:169
+#: src/lib/hints.cc:163
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr ""
 
-#: src/lib/job.cc:155 src/lib/job.cc:211 src/lib/job.cc:221
+#: src/lib/job.cc:154 src/lib/job.cc:189 src/lib/job.cc:239 src/lib/job.cc:249
 msgid "It is not known what caused this error."
 msgstr "Det är inte känt vad som orsakade detta fel."
 
@@ -901,15 +919,15 @@ msgstr "Det är inte känt vad som orsakade detta fel."
 msgid "JEDEC P22"
 msgstr ""
 
-#: src/lib/config.cc:358 src/lib/config.cc:1136
+#: src/lib/config.cc:361 src/lib/config.cc:1150
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-leverans: $CPL_NAME"
 
-#: src/lib/dcp.cc:82
+#: src/lib/dcp.cc:58
 msgid "KDM was made for DCP-o-matic but not for its leaf certificate."
 msgstr ""
 
-#: src/lib/dcp.cc:80
+#: src/lib/dcp.cc:56
 msgid "KDM was not made for DCP-o-matic's decryption certificate."
 msgstr ""
 
@@ -917,7 +935,7 @@ msgstr ""
 msgid "Kernel deinterlacer"
 msgstr "Kernel-avflätare"
 
-#: src/lib/ffmpeg_encoder.cc:218 src/lib/util.cc:572
+#: src/lib/ffmpeg_encoder.cc:229 src/lib/util.cc:572
 msgid "L"
 msgstr "V"
 
@@ -973,6 +991,10 @@ msgstr "Logaritmisk (100:1 omfång)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logaritmisk (316:1 omfång)"
 
+#: src/lib/exceptions.cc:128
+msgid "Lost communication between main and writer processes"
+msgstr ""
+
 #: src/lib/util.cc:576
 msgid "Ls"
 msgstr "Vs"
@@ -1001,16 +1023,16 @@ msgstr "Icke överensstämmande bildhastigheter i DCP:n"
 msgid "Mismatched video sizes in DCP"
 msgstr "Icke-passande videostorlekar i DCP:n"
 
-#: src/lib/exceptions.cc:55
+#: src/lib/exceptions.cc:64
 #, fuzzy
 msgid "Missing required setting %1"
 msgstr "saknad nödvändig inställning %1"
 
-#: src/lib/util.cc:894
+#: src/lib/util.cc:908
 msgid "Monday"
 msgstr "Måndag"
 
-#: src/lib/writer.cc:630
+#: src/lib/writer.cc:623
 msgid "Mono"
 msgstr "Mono"
 
@@ -1018,11 +1040,11 @@ msgstr "Mono"
 msgid "Motion compensating deinterlacer"
 msgstr "Rörelsekompenserande avflätare"
 
-#: src/lib/dcp_decoder.cc:84
+#: src/lib/dcp_decoder.cc:98
 msgid "No CPLs found in DCP."
 msgstr ""
 
-#: src/lib/cinema_kdms.cc:201 src/lib/send_notification_email_job.cc:61
+#: src/lib/cinema_kdms.cc:201 src/lib/send_notification_email_job.cc:66
 msgid "No mail server configured in preferences"
 msgstr "Ingen epostserver har konfigurerats i inställningar"
 
@@ -1042,11 +1064,11 @@ msgstr "Inga giltiga bildfiler hittades i foldern."
 msgid "Noise reduction"
 msgstr "Brusreducering"
 
-#: src/lib/writer.cc:628
+#: src/lib/writer.cc:621
 msgid "None"
 msgstr "Inget"
 
-#: src/lib/job.cc:476
+#: src/lib/job.cc:504
 msgid "OK (ran for %1)"
 msgstr "OK (kördes %1)"
 
@@ -1059,7 +1081,7 @@ msgstr ""
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Endast den sista delen av innehållet som läggs ihop kan slut-trimmas."
 
-#: src/lib/types.cc:137
+#: src/lib/types.cc:138
 #, fuzzy
 msgid "Open subtitles"
 msgstr "Undertexter"
@@ -1069,7 +1091,7 @@ msgstr "Undertexter"
 msgid "Orientation"
 msgstr ""
 
-#: src/lib/job.cc:179
+#: src/lib/job.cc:213
 msgid "Out of memory"
 msgstr "Minnet slut"
 
@@ -1095,7 +1117,7 @@ msgstr "Policy"
 msgid "Prepared for video frame rate"
 msgstr "Förberedd för videobildshastighet"
 
-#: src/lib/exceptions.cc:85
+#: src/lib/exceptions.cc:94
 msgid "Programming error at %1:%2 %3"
 msgstr "Programmeringsfel vid %1:%2 %3"
 
@@ -1107,7 +1129,7 @@ msgstr ""
 msgid "Public Service Announcement"
 msgstr "Public Service Announcement"
 
-#: src/lib/ffmpeg_encoder.cc:226 src/lib/util.cc:573
+#: src/lib/ffmpeg_encoder.cc:237 src/lib/util.cc:573
 msgid "R"
 msgstr "H"
 
@@ -1212,7 +1234,7 @@ msgstr "SMPTE ST 432-1 D65 (2010)"
 msgid "SSH error (%1)"
 msgstr "SSH fel (%1)"
 
-#: src/lib/util.cc:904
+#: src/lib/util.cc:918
 msgid "Saturday"
 msgstr "Lördag"
 
@@ -1220,7 +1242,7 @@ msgstr "Lördag"
 msgid "Scanning image files"
 msgstr "Går igenom bildfiler"
 
-#: src/lib/send_problem_report_job.cc:74
+#: src/lib/send_problem_report_job.cc:79
 msgid "Sending email"
 msgstr "Skickar e-post"
 
@@ -1236,42 +1258,42 @@ msgstr "Storlek"
 msgid "Some audio will be resampled to %1Hz"
 msgstr "En del av audio kommer att samplas om till %1Hz"
 
-#: src/lib/check_content_change_job.cc:86
+#: src/lib/check_content_change_job.cc:91
 msgid ""
 "Some files have been changed since they were added to the project.\n"
 "\n"
 "These files will now be re-examined, so you may need to check their settings."
 msgstr ""
 
-#: src/lib/check_content_change_job.cc:97
+#: src/lib/check_content_change_job.cc:102
 msgid ""
 "Some files have been changed since they were added to the project.  Open the "
 "project in DCP-o-matic, check the settings, then save it before trying again."
 msgstr ""
 
-#: src/lib/hints.cc:318
+#: src/lib/hints.cc:309
 msgid ""
 "Some of your closed captions have lines longer than %1 characters, so they "
 "will probably be word-wrapped."
 msgstr ""
 
-#: src/lib/hints.cc:324
+#: src/lib/hints.cc:315
 msgid ""
 "Some of your closed captions span more than %1 lines, so they will be "
 "truncated."
 msgstr ""
 
-#: src/lib/film.cc:334
+#: src/lib/film.cc:342
 #, fuzzy
 msgid "Some of your content needs a KDM"
 msgstr "en del av ditt innehåll behöver en KDM"
 
-#: src/lib/film.cc:337
+#: src/lib/film.cc:345
 #, fuzzy
 msgid "Some of your content needs an OV"
 msgstr "en del av ditt innehåll behöver en OV"
 
-#: src/lib/writer.cc:632
+#: src/lib/writer.cc:625
 msgid "Stereo"
 msgstr "Stereo"
 
@@ -1283,7 +1305,7 @@ msgstr "Stereo till 5.1 uppmixning A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Stereo till 5.1 uppmixning B"
 
-#: src/lib/util.cc:892
+#: src/lib/util.cc:906
 msgid "Sunday"
 msgstr "Söndag"
 
@@ -1303,11 +1325,15 @@ msgstr "Test"
 msgid "Text subtitles"
 msgstr "Undertexter"
 
-#: src/lib/exceptions.cc:73
+#: src/lib/film.cc:325
+msgid "The DCP is empty, perhaps because all the content has zero length."
+msgstr ""
+
+#: src/lib/exceptions.cc:82
 msgid "The certificate chain for signing is invalid"
 msgstr "Certifikatkedjan för att signera är ogiltigt"
 
-#: src/lib/exceptions.cc:79
+#: src/lib/exceptions.cc:88
 msgid "The certificate chain for signing is invalid (%1)"
 msgstr "Certifikatkedjan för att signera är ogiltig (%1)"
 
@@ -1318,7 +1344,7 @@ msgid ""
 "ticking the 3D option in the DCP video tab."
 msgstr ""
 
-#: src/lib/job.cc:117
+#: src/lib/job.cc:115
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
@@ -1326,23 +1352,23 @@ msgstr ""
 "Enheten som filmen lagras på har för lite ledigt utrymme. Frigör utrymme och "
 "försök igen."
 
-#: src/lib/playlist.cc:224
+#: src/lib/playlist.cc:227
 msgid "The file %1 has been moved %2 milliseconds earlier."
 msgstr "Filen %1 har flyttats %2 millisekunder tidigare."
 
-#: src/lib/playlist.cc:219
+#: src/lib/playlist.cc:222
 msgid "The file %1 has been moved %2 milliseconds later."
 msgstr "Filen %1 har flyttats %2 millisekunder senare."
 
-#: src/lib/playlist.cc:244
+#: src/lib/playlist.cc:247
 msgid "The file %1 has been trimmed by %2 milliseconds less."
 msgstr "Filen %1 har trimmats med %2 millisekunder mindre."
 
-#: src/lib/playlist.cc:239
+#: src/lib/playlist.cc:242
 msgid "The file %1 has been trimmed by %2 milliseconds more."
 msgstr "Filen %1 har trimmats med %2 millisekunder mer."
 
-#: src/lib/hints.cc:207
+#: src/lib/hints.cc:201
 msgid ""
 "There is a large difference between the frame rate of your DCP and that of "
 "some of your content.  This will cause your audio to play back at a much "
@@ -1351,11 +1377,11 @@ msgid ""
 "systems support your chosen DCP rate."
 msgstr ""
 
-#: src/lib/dcp_content.cc:589
+#: src/lib/dcp_content.cc:590
 msgid "There is no video in this DCP"
 msgstr ""
 
-#: src/lib/job.cc:179
+#: src/lib/job.cc:213
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
 "operating system try reducing the number of encoding threads in the General "
@@ -1365,7 +1391,22 @@ msgstr ""
 "operativsystem, försök att minska antalet kodnings-trådar i Generellt-fliken "
 "under Inställningar."
 
-#: src/lib/exceptions.cc:91
+#: src/lib/job.cc:134
+msgid ""
+"This error has probably occurred because you are running the 32-bit version "
+"of DCP-o-matic and trying to use too many encoding threads.  Please reduce "
+"the 'number of threads DCP-o-matic should use' in the General tab of "
+"Preferences and try again."
+msgstr ""
+
+#: src/lib/job.cc:144
+msgid ""
+"This error has probably occurred because you are running the 32-bit version "
+"of DCP-o-matic.  Please re-install DCP-o-matic with the 64-bit installer and "
+"try again."
+msgstr ""
+
+#: src/lib/exceptions.cc:100
 msgid ""
 "This file is a KDM.  KDMs should be added to DCP content by right-clicking "
 "the content and choosing \"Add KDM\"."
@@ -1373,7 +1414,7 @@ msgstr ""
 "Detta är en KDM-fil. KDM:er ska läggas till i DCP:er genom att högerklicka "
 "på innehållet och välja \"Lägg till KDM\"."
 
-#: src/lib/film.cc:474
+#: src/lib/film.cc:487
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1381,7 +1422,7 @@ msgstr ""
 "Denna film skapades i en nyare version av DCP-o-matic, och den kan inte "
 "öppnas i denna version. Ledsen!"
 
-#: src/lib/film.cc:463
+#: src/lib/film.cc:472
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1391,11 +1432,11 @@ msgstr ""
 "inte öppnas i denna version. Du måste skapa en ny Film, lägga till ditt "
 "innehåll och konfigurera allt igen. Ursäkta!"
 
-#: src/lib/util.cc:900
+#: src/lib/util.cc:914
 msgid "Thursday"
 msgstr "Torsdag"
 
-#: src/lib/types.cc:135
+#: src/lib/types.cc:136
 msgid "Timed text"
 msgstr ""
 
@@ -1403,7 +1444,7 @@ msgstr ""
 msgid "Trailer"
 msgstr "Trailer"
 
-#: src/lib/transcode_job.cc:66
+#: src/lib/transcode_job.cc:63
 #, fuzzy
 msgid "Transcoding %1"
 msgstr "Konvertera %1"
@@ -1412,7 +1453,7 @@ msgstr "Konvertera %1"
 msgid "Transitional"
 msgstr "Transitional"
 
-#: src/lib/util.cc:896
+#: src/lib/util.cc:910
 msgid "Tuesday"
 msgstr "Tisdag"
 
@@ -1428,11 +1469,16 @@ msgstr "Oväntat innehåll i ZIP-fil"
 msgid "Unexpected image type received by server"
 msgstr "Oväntad bildtyp mottogs av server"
 
-#: src/lib/job.cc:220
+#: src/lib/cross_common.cc:87
+#, fuzzy
+msgid "Unknown"
+msgstr "okänd"
+
+#: src/lib/job.cc:248
 msgid "Unknown error"
 msgstr "Okänt fel"
 
-#: src/lib/ffmpeg_decoder.cc:328
+#: src/lib/ffmpeg_decoder.cc:330
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Okänt ljudformat (%1)"
 
@@ -1469,7 +1515,7 @@ msgstr "Uppmixa H"
 msgid "VI"
 msgstr "VI"
 
-#: src/lib/verify_dcp_job.cc:41
+#: src/lib/verify_dcp_job.cc:47
 msgid "Verify DCP"
 msgstr ""
 
@@ -1490,7 +1536,7 @@ msgstr "Väntar"
 msgid "Weave filter"
 msgstr "Telecine-filter"
 
-#: src/lib/util.cc:898
+#: src/lib/util.cc:912
 msgid "Wednesday"
 msgstr "Onsdag"
 
@@ -1503,7 +1549,7 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
-#: src/lib/hints.cc:182
+#: src/lib/hints.cc:176
 #, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
@@ -1514,7 +1560,7 @@ msgstr ""
 "Du uppmanas att antingen ändra bildhastigheten eller skapa en SMPTE DCP "
 "istället."
 
-#: src/lib/hints.cc:166
+#: src/lib/hints.cc:160
 #, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
@@ -1525,7 +1571,7 @@ msgstr ""
 "Du uppmanas att antingen ändra bildhastigheten eller skapa en SMPTE DCP "
 "istället."
 
-#: src/lib/hints.cc:176
+#: src/lib/hints.cc:170
 #, fuzzy
 msgid ""
 "You are set up for a DCP frame rate of 30fps, which is not supported by all "
@@ -1535,7 +1581,7 @@ msgstr ""
 "Du uppmanas att antingen ändra bildhastigheten eller skapa en SMPTE DCP "
 "istället."
 
-#: src/lib/hints.cc:229
+#: src/lib/hints.cc:223
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
@@ -1543,14 +1589,14 @@ msgstr ""
 "Du använder 3D-innehåll, men DCP:n är inställd för 2D. Ställ in DCP:n till "
 "3D om du vill spela upp den på ett 3D-system (t.ex. Real-D, MasterImage etc.)"
 
-#: src/lib/hints.cc:125
+#: src/lib/hints.cc:119
 msgid ""
 "You are using DCP-o-matic's stereo-to-5.1 upmixer.  This is experimental and "
 "may result in poor-quality audio.  If you continue, you should listen to the "
 "resulting DCP in a cinema to make sure that it sounds good."
 msgstr ""
 
-#: src/lib/hints.cc:218
+#: src/lib/hints.cc:212
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
@@ -1558,13 +1604,13 @@ msgstr ""
 "Du har %1 filer som ser ut att vara VOB-filer från DVD. Du borde sätta ihop "
 "dom för att vara säker på mjuka övergångar mellan filerna."
 
-#: src/lib/hints.cc:334
+#: src/lib/hints.cc:325
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
 msgstr ""
 
-#: src/lib/hints.cc:116
+#: src/lib/hints.cc:110
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
@@ -1572,20 +1618,20 @@ msgstr ""
 "Du har angivit en typsnittsfil som är större än 640kB. Risken är stor att "
 "detta leder till problem vid uppspelning."
 
-#: src/lib/film.cc:317
+#: src/lib/film.cc:321
 #, fuzzy
 msgid "You must add some content to the DCP before creating it"
 msgstr "Du måste lägga till något innehåll till DCP:n innan du skapar den"
 
-#: src/lib/hints.cc:120
+#: src/lib/hints.cc:114
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
-"projectors."
+"projectors.  You may want to set the DCP to have 6 channels.  It does not "
+"matter if your content has fewer channels, as DCP-o-matic will fill the "
+"extras with silence."
 msgstr ""
-"Din DCP har färre än 6 ljudkanaler. Detta kan orsaka problem på några "
-"projektorer."
 
-#: src/lib/hints.cc:152
+#: src/lib/hints.cc:146
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio"
@@ -1593,7 +1639,7 @@ msgstr ""
 "Din DCP använder ett ovanligt bildförhållande. Detta kan orsaka problem på "
 "några projektorer. Använd Flat eller Scope om möjligt."
 
-#: src/lib/hints.cc:254
+#: src/lib/hints.cc:248
 msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
@@ -1601,18 +1647,18 @@ msgstr ""
 "Din ljudvolym är väldigt hög (på %1). Du borde dra ner volymen på ditt "
 "ljudinnehåll."
 
-#: src/lib/config.cc:302
+#: src/lib/config.cc:305
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
 "Din förvalda container är inte korrekt och har ändrats till Flat (1.85:1)"
 
-#: src/lib/playlist.cc:215
+#: src/lib/playlist.cc:218
 msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
 msgstr "Ditt  projekt innehåller video som inte passar mot en helbildsgräns."
 
-#: src/lib/playlist.cc:235
+#: src/lib/playlist.cc:238
 msgid ""
 "Your project contains video content whose trim was not aligned to a frame "
 "boundary."
@@ -1628,7 +1674,7 @@ msgstr "[rörliga bilder]"
 msgid "[still]"
 msgstr "[stillbild]"
 
-#: src/lib/dcp_subtitle_content.cc:101 src/lib/string_text_file_content.cc:70
+#: src/lib/dcp_subtitle_content.cc:103 src/lib/string_text_file_content.cc:70
 msgid "[subtitles]"
 msgstr "[undertexter]"
 
@@ -1646,11 +1692,11 @@ msgstr "uppkopplingen tog för lång tid"
 msgid "connecting"
 msgstr "kopplar upp"
 
-#: src/lib/film.cc:313
+#: src/lib/film.cc:317
 msgid "container"
 msgstr "behållare"
 
-#: src/lib/film.cc:321
+#: src/lib/film.cc:329
 msgid "content type"
 msgstr "innehållstyp"
 
@@ -1658,23 +1704,30 @@ msgstr "innehållstyp"
 msgid "copying %1"
 msgstr "kopierar %1"
 
-#: src/lib/ffmpeg.cc:141 src/lib/ffmpeg_image_proxy.cc:157
+#: src/lib/ffmpeg.cc:136 src/lib/ffmpeg_image_proxy.cc:157
 msgid "could not find stream information"
 msgstr "kunde inte hitta information om strömmen"
 
-#: src/lib/reel_writer.cc:327
+#: src/lib/reel_writer.cc:365
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "kunde inte flytta audio in i DCP:n (%1)"
 
-#: src/lib/exceptions.cc:33
-msgid "could not open file %1 for reading (%2)"
+#: src/lib/exceptions.cc:35
+#, fuzzy
+msgid "could not open file %1 for read (%2)"
 msgstr "kunde inte öppna fil %1 för läsning (%2)"
 
-#: src/lib/exceptions.cc:33
-msgid "could not open file %1 for writing (%2)"
+#: src/lib/exceptions.cc:34
+#, fuzzy
+msgid "could not open file %1 for read/write (%2)"
+msgstr "kunde inte öppna fil %1 för läsning (%2)"
+
+#: src/lib/exceptions.cc:35
+#, fuzzy
+msgid "could not open file %1 for write (%2)"
 msgstr "kunde inte öppna fil %1 för skrivning (%2)"
 
-#: src/lib/exceptions.cc:43
+#: src/lib/exceptions.cc:52
 msgid "could not read from file %1 (%2)"
 msgstr "kunde inte läsa från fil %1 (%2)"
 
@@ -1686,7 +1739,7 @@ msgstr "kunde inte starta SCP-session (%1)"
 msgid "could not start SSH session"
 msgstr "kunde inte starta SSH-session"
 
-#: src/lib/exceptions.cc:49
+#: src/lib/exceptions.cc:58
 msgid "could not write to file %1 (%2)"
 msgstr "kunde inte skriva till fil %1 (%2)"
 
@@ -1712,73 +1765,73 @@ msgid "h"
 msgstr "h"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:680
+#: src/lib/dcp_content.cc:681
 #, fuzzy
 msgid "it does not have closed captions in all its reels."
 msgstr "DCP:n har inte ljud i alla rullar."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:675
+#: src/lib/dcp_content.cc:676
 #, fuzzy
 msgid "it does not have open subtitles in all its reels."
 msgstr "DCP:n har inte undertexter i alla rullar."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:643
+#: src/lib/dcp_content.cc:644
 #, fuzzy
 msgid "it does not have sound in all its reels."
 msgstr "DCP:n har inte ljud i alla rullar."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:542
+#: src/lib/dcp_content.cc:543
 #, fuzzy
 msgid "it has a different frame rate to the film."
 msgstr "Filmen har en annan bildfrekvens än denna DCP."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:604
+#: src/lib/dcp_content.cc:605
 #, fuzzy
 msgid "it is 2K and the film is 4K."
 msgstr "Filmen är av typen Interop och denna DCP är SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:601
+#: src/lib/dcp_content.cc:602
 #, fuzzy
 msgid "it is 4K and the film is 2K."
 msgstr "Filmen är av typen Interop och denna DCP är SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:530
+#: src/lib/dcp_content.cc:531
 #, fuzzy
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "Filmen är av typen Interop och denna DCP är SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:534
+#: src/lib/dcp_content.cc:535
 #, fuzzy
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "Filmen är av typen SMPTE och denna DCP är Interop."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:649
+#: src/lib/dcp_content.cc:650
 #, fuzzy
 msgid "it overlaps other audio content; remove the other content."
 msgstr "Det finns annat audioinnehåll som överlappar denna DCP; ta bort det."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:686
+#: src/lib/dcp_content.cc:687
 #, fuzzy
 msgid "it overlaps other text content; remove the other content."
 msgstr "Det finns annat videoinnehåll som överlappar denna DCP; ta bort det."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:614
+#: src/lib/dcp_content.cc:615
 #, fuzzy
 msgid "it overlaps other video content; remove the other content."
 msgstr "Det finns annat videoinnehåll som överlappar denna DCP; ta bort det."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:565
+#: src/lib/dcp_content.cc:566
 #, fuzzy
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
@@ -1788,7 +1841,7 @@ msgstr ""
 "enligt videoinnehåll'."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:609
+#: src/lib/dcp_content.cc:610
 #, fuzzy
 msgid "its video frame size differs from the film's."
 msgstr "Bildstorleken i denna film skiljer sig från DCP:ns."
@@ -1803,7 +1856,7 @@ msgstr "m"
 msgid "moving"
 msgstr "rörlig"
 
-#: src/lib/film.cc:309
+#: src/lib/film.cc:313
 msgid "name"
 msgstr "namn"
 
@@ -1816,7 +1869,7 @@ msgstr "s"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:330
+#: src/lib/film.cc:338
 msgid "some of your content is missing"
 msgstr "en del av ditt innehåll saknas"
 
@@ -1831,6 +1884,13 @@ msgstr "okänd"
 #: src/lib/video_content.cc:481
 msgid "video frames"
 msgstr "bildrutor"
+
+#~ msgid ""
+#~ "Your DCP has fewer than 6 audio channels.  This may cause problems on "
+#~ "some projectors."
+#~ msgstr ""
+#~ "Din DCP har färre än 6 ljudkanaler. Detta kan orsaka problem på några "
+#~ "projektorer."
 
 #~ msgid ""
 #~ "However, setting your DCP frame rate to 24 or 48 will cause a significant "
