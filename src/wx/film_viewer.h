@@ -134,6 +134,10 @@ public:
 	}
 	void finished ();
 
+	bool pending_idle_get () const {
+		return _idle_get;
+	}
+
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
 	boost::signals2::signal<void (dcpomatic::DCPTime)> Started;
 	boost::signals2::signal<void (dcpomatic::DCPTime)> Stopped;

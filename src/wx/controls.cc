@@ -170,7 +170,7 @@ Controls::stopped ()
 void
 Controls::update_position ()
 {
-	if (!_slider_being_moved) {
+	if (!_slider_being_moved && !_viewer->pending_idle_get()) {
 		update_position_label ();
 		update_position_slider ();
 	}
