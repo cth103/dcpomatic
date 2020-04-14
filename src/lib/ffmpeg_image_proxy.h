@@ -30,7 +30,7 @@ public:
 	explicit FFmpegImageProxy (dcp::Data);
 	FFmpegImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
 
-	std::pair<boost::shared_ptr<Image>, int> image (
+	Result image (
 		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
 		) const;
 

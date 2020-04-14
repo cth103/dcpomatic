@@ -927,7 +927,7 @@ emit_subtitle_image (ContentTimePeriod period, dcp::SubtitleImage sub, dcp::Size
 {
 	/* XXX: this is rather inefficient; decoding the image just to get its size */
 	FFmpegImageProxy proxy (sub.png_image());
-	shared_ptr<Image> image = proxy.image().first;
+	shared_ptr<Image> image = proxy.image().image;
 	/* set up rect with height and width */
 	dcpomatic::Rect<double> rect(0, 0, image->size().width / double(size.width), image->size().height / double(size.height));
 

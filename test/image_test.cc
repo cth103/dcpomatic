@@ -138,7 +138,7 @@ void
 alpha_blend_test_one (AVPixelFormat format, string suffix)
 {
 	shared_ptr<FFmpegImageProxy> proxy (new FFmpegImageProxy (TestPaths::private_data / "prophet_frame.tiff"));
-	shared_ptr<Image> raw = proxy->image().first;
+	shared_ptr<Image> raw = proxy->image().image;
 	shared_ptr<Image> background = raw->convert_pixel_format (dcp::YUV_TO_RGB_REC709, format, true, false);
 
 	shared_ptr<Image> overlay (new Image (AV_PIX_FMT_BGRA, dcp::Size(431, 891), true));
@@ -260,7 +260,7 @@ BOOST_AUTO_TEST_CASE (merge_test2)
 BOOST_AUTO_TEST_CASE (crop_scale_window_test)
 {
 	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/flat_red.png"));
-	shared_ptr<Image> raw = proxy->image().first;
+	shared_ptr<Image> raw = proxy->image().image;
 	shared_ptr<Image> out = raw->crop_scale_window(Crop(), dcp::Size(1998, 836), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_YUV420P, true, false);
 	shared_ptr<Image> save = out->scale(dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, false);
 	write_image(save, "build/test/crop_scale_window_test.png", "RGB");
@@ -278,7 +278,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test2)
 BOOST_AUTO_TEST_CASE (crop_scale_window_test3)
 {
 	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/player_seek_test_0.png"));
-	shared_ptr<Image> xyz = proxy->image().first->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, true, false);
+	shared_ptr<Image> xyz = proxy->image().image->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, true, false);
 	shared_ptr<Image> cropped = xyz->crop_scale_window(Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_RGB24, false, false);
 	write_image(cropped, "build/test/crop_scale_window_test3.png", "RGB", MagickCore::CharPixel);
 	check_image("test/data/crop_scale_window_test3.png", "build/test/crop_scale_window_test3.png");
@@ -287,7 +287,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test3)
 BOOST_AUTO_TEST_CASE (crop_scale_window_test4)
 {
 	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/player_seek_test_0.png"));
-	shared_ptr<Image> xyz = proxy->image().first->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, true, false);
+	shared_ptr<Image> xyz = proxy->image().image->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, true, false);
 	shared_ptr<Image> cropped = xyz->crop_scale_window(Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_XYZ12LE, false, false);
 	write_image(cropped, "build/test/crop_scale_window_test4.png", "RGB", MagickCore::ShortPixel);
 	check_image("test/data/crop_scale_window_test4.png", "build/test/crop_scale_window_test4.png");
@@ -296,7 +296,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test4)
 BOOST_AUTO_TEST_CASE (crop_scale_window_test5)
 {
 	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/player_seek_test_0.png"));
-	shared_ptr<Image> xyz = proxy->image().first->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_XYZ12LE, true, false);
+	shared_ptr<Image> xyz = proxy->image().image->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_XYZ12LE, true, false);
 	shared_ptr<Image> cropped = xyz->crop_scale_window(Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_RGB24, false, false);
 	write_image(cropped, "build/test/crop_scale_window_test5.png", "RGB", MagickCore::CharPixel);
 	check_image("test/data/crop_scale_window_test5.png", "build/test/crop_scale_window_test5.png");
@@ -305,7 +305,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test5)
 BOOST_AUTO_TEST_CASE (crop_scale_window_test6)
 {
 	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/player_seek_test_0.png"));
-	shared_ptr<Image> xyz = proxy->image().first->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_XYZ12LE, true, false);
+	shared_ptr<Image> xyz = proxy->image().image->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_XYZ12LE, true, false);
 	shared_ptr<Image> cropped = xyz->crop_scale_window(Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_XYZ12LE, false, false);
 	write_image(cropped, "build/test/crop_scale_window_test6.png", "RGB", MagickCore::ShortPixel);
 	check_image("test/data/crop_scale_window_test6.png", "build/test/crop_scale_window_test6.png");
@@ -314,7 +314,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test6)
 BOOST_AUTO_TEST_CASE (as_png_test)
 {
 	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/3d_test/000001.png"));
-	shared_ptr<Image> image_rgb = proxy->image().first;
+	shared_ptr<Image> image_rgb = proxy->image().image;
 	shared_ptr<Image> image_bgr = image_rgb->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_BGRA, true, false);
 	image_rgb->as_png().write ("build/test/as_png_rgb.png");
 	image_bgr->as_png().write ("build/test/as_png_bgr.png");
@@ -340,7 +340,7 @@ static void
 fade_test_format_red (AVPixelFormat f, float amount, string name)
 {
 	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/flat_red.png"));
-	shared_ptr<Image> red = proxy->image().first->convert_pixel_format(dcp::YUV_TO_RGB_REC709, f, true, false);
+	shared_ptr<Image> red = proxy->image().image->convert_pixel_format(dcp::YUV_TO_RGB_REC709, f, true, false);
 	red->fade (amount);
 	string const filename = "fade_test_red_" + name + ".png";
 	red->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGBA, true, false)->as_png().write("build/test/" + filename);

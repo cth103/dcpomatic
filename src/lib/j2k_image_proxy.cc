@@ -167,14 +167,15 @@ J2KImageProxy::prepare (optional<dcp::Size> target_size) const
 	return reduce;
 }
 
-pair<shared_ptr<Image>, int>
+
+ImageProxy::Result
 J2KImageProxy::image (optional<dcp::Size> target_size) const
 {
 	int const r = prepare (target_size);
 	/* I think this is safe without a lock on mutex.  _image is guaranteed to be
 	   set up when prepare() has happened.
 	*/
-	return make_pair (_image, r);
+	return Result (_image, r);
 }
 
 void

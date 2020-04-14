@@ -54,10 +54,10 @@ RawImageProxy::RawImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 	_image->read_from_socket (socket);
 }
 
-pair<shared_ptr<Image>, int>
+ImageProxy::Result
 RawImageProxy::image (optional<dcp::Size>) const
 {
-	return make_pair (_image, 0);
+	return Result (_image, 0);
 }
 
 void
@@ -83,7 +83,7 @@ RawImageProxy::same (shared_ptr<const ImageProxy> other) const
 		return false;
 	}
 
-	return (*_image.get()) == (*rp->image().first.get());
+	return (*_image.get()) == (*rp->image().image.get());
 }
 
 size_t

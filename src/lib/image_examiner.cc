@@ -64,7 +64,7 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 		delete[] buffer;
 	} else {
 		FFmpegImageProxy proxy(content->path(0));
-		_video_size = proxy.image().first->size();
+		_video_size = proxy.image().image->size();
 	}
 
 	if (content->still ()) {

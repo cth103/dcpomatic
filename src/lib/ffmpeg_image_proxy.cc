@@ -112,13 +112,14 @@ FFmpegImageProxy::avio_seek (int64_t const pos, int whence)
 	return _pos;
 }
 
-pair<shared_ptr<Image>, int>
+
+ImageProxy::Result
 FFmpegImageProxy::image (optional<dcp::Size>) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
 	if (_image) {
-		return make_pair (_image, 0);
+		return Result (_image, 0);
 	}
 
 	uint8_t* avio_buffer = static_cast<uint8_t*> (wrapped_av_malloc(4096));
@@ -192,7 +193,7 @@ FFmpegImageProxy::image (optional<dcp::Size>) const
 	av_free (avio_context->buffer);
 	av_free (avio_context);
 
-	return make_pair (_image, 0);
+	return Result (_image, 0);
 }
 
 void

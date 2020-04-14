@@ -60,14 +60,26 @@ class ImageProxy : public boost::noncopyable
 public:
 	virtual ~ImageProxy () {}
 
+	struct Result {
+		Result (boost::shared_ptr<Image> image_, int log2_scaling_)
+			: image (image_)
+			, log2_scaling (log2_scaling_)
+		{}
+
+		/** Image (which will be aligned) */
+		boost::shared_ptr<Image> image;
+		/** log2 of any scaling down that has already been applied to the image;
+		 *  e.g. if the image is already half the size of the original, this value
+		 *  will be 1.
+		 */
+		int log2_scaling;
+	};
+
 	/** @param log Log to write to, or 0.
 	 *  @param size Size that the returned image will be scaled to, in case this
 	 *  can be used as an optimisation.
-	 *  @return Image (which must be aligned) and log2 of any scaling down that has
-	 *  already been applied to the image; e.g. if the the image is already half the size
-	 *  of the original, the second part of the return value will be 1.
 	 */
-	virtual std::pair<boost::shared_ptr<Image>, int> image (
+	virtual Result image (
 		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
 		) const = 0;
 

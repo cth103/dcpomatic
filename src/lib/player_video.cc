@@ -132,31 +132,29 @@ PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, b
 	_image_out_size = _out_size;
 	_image_fade = _fade;
 
-	pair<shared_ptr<Image>, int> prox = _in->image (_inter_size);
-	shared_ptr<Image> im = prox.first;
-	int const reduce = prox.second;
+	ImageProxy::Result prox = _in->image (_inter_size);
 
 	Crop total_crop = _crop;
 	switch (_part) {
 	case PART_LEFT_HALF:
-		total_crop.right += im->size().width / 2;
+		total_crop.right += prox.image->size().width / 2;
 		break;
 	case PART_RIGHT_HALF:
-		total_crop.left += im->size().width / 2;
+		total_crop.left += prox.image->size().width / 2;
 		break;
 	case PART_TOP_HALF:
-		total_crop.bottom += im->size().height / 2;
+		total_crop.bottom += prox.image->size().height / 2;
 		break;
 	case PART_BOTTOM_HALF:
-		total_crop.top += im->size().height / 2;
+		total_crop.top += prox.image->size().height / 2;
 		break;
 	default:
 		break;
 	}
 
-	if (reduce > 0) {
+	if (prox.log2_scaling > 0) {
 		/* Scale the crop down to account for the scaling that has already happened in ImageProxy::image */
-		int const r = pow(2, reduce);
+		int const r = pow(2, prox.log2_scaling);
 		total_crop.left /= r;
 		total_crop.right /= r;
 		total_crop.top /= r;
@@ -168,8 +166,8 @@ PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, b
 		yuv_to_rgb = _colour_conversion.get().yuv_to_rgb();
 	}
 
-	_image = im->crop_scale_window (
-		total_crop, _inter_size, _out_size, yuv_to_rgb, _video_range, pixel_format (im->pixel_format()), aligned, fast
+	_image = prox.image->crop_scale_window (
+		total_crop, _inter_size, _out_size, yuv_to_rgb, _video_range, pixel_format (prox.image->pixel_format()), aligned, fast
 		);
 
 	if (_text) {
