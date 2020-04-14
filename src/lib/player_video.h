@@ -56,7 +56,8 @@ public:
 		boost::optional<ColourConversion>,
 		VideoRange video_range,
 		boost::weak_ptr<Content>,
-		boost::optional<Frame>
+		boost::optional<Frame>,
+		bool error
 		);
 
 	PlayerVideo (boost::shared_ptr<cxml::Node>, boost::shared_ptr<Socket>);
@@ -107,6 +108,10 @@ public:
 		return _content;
 	}
 
+	bool error () const {
+		return _error;
+	}
+
 private:
 	void make_image (boost::function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast) const;
 
@@ -137,6 +142,8 @@ private:
 	mutable dcp::Size _image_out_size;
 	/** _fade that was used to make _image */
 	mutable boost::optional<double> _image_fade;
+	/** true if there was an error when decoding our image */
+	mutable bool _error;
 };
 
 #endif

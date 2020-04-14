@@ -85,4 +85,6 @@ private:
 	AVPixelFormat _pixel_format;
 	mutable boost::mutex _mutex;
 	boost::optional<int> _forced_reduction;
+	/** true if an error occurred while decoding the JPEG2000 data, false if not */
+	mutable bool _error;
 };

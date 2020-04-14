@@ -38,6 +38,7 @@ VideoView::VideoView (FilmViewer* viewer)
 	, _eyes (EYES_LEFT)
 	, _three_d (false)
 	, _dropped (0)
+	, _errored (0)
 	, _gets (0)
 {
 
@@ -83,6 +84,10 @@ VideoView::get_next_frame (bool non_blocking)
 		_player_video.first->eyes() != EYES_BOTH
 		);
 
+	if (_player_video.first && _player_video.first->error()) {
+		++_errored;
+	}
+
 	return true;
 }
 
@@ -114,6 +119,7 @@ VideoView::start ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	_dropped = 0;
+	_errored = 0;
 }
 
 bool

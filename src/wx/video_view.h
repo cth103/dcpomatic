@@ -66,6 +66,11 @@ public:
 		return _dropped;
 	}
 
+	int errored () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _errored;
+	}
+
 	int gets () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _gets;
@@ -157,6 +162,7 @@ private:
 	bool _three_d;
 
 	int _dropped;
+	int _errored;
 	int _gets;
 };
 

@@ -51,6 +51,7 @@ J2KImageProxy::J2KImageProxy (boost::filesystem::path path, dcp::Size size, AVPi
 	: _data (path)
 	, _size (size)
 	, _pixel_format (pixel_format)
+	, _error (false)
 {
 	/* ::image assumes 16bpp */
 	DCPOMATIC_ASSERT (_pixel_format == AV_PIX_FMT_RGB48 || _pixel_format == AV_PIX_FMT_XYZ12LE);
@@ -66,6 +67,7 @@ J2KImageProxy::J2KImageProxy (
 	, _size (size)
 	, _pixel_format (pixel_format)
 	, _forced_reduction (forced_reduction)
+	, _error (false)
 {
 	/* ::image assumes 16bpp */
 	DCPOMATIC_ASSERT (_pixel_format == AV_PIX_FMT_RGB48 || _pixel_format == AV_PIX_FMT_XYZ12LE);
@@ -83,6 +85,7 @@ J2KImageProxy::J2KImageProxy (
 	, _eye (eye)
 	, _pixel_format (pixel_format)
 	, _forced_reduction (forced_reduction)
+	, _error (false)
 {
 	/* ::image assumes 16bpp */
 	DCPOMATIC_ASSERT (_pixel_format == AV_PIX_FMT_RGB48 || _pixel_format == AV_PIX_FMT_XYZ12LE);
@@ -99,6 +102,7 @@ J2KImageProxy::J2KImageProxy (
 }
 
 J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket)
+	: _error (false)
 {
 	_size = dcp::Size (xml->number_child<int> ("Width"), xml->number_child<int> ("Height"));
 	if (xml->optional_number_child<int> ("Eye")) {
@@ -136,29 +140,35 @@ J2KImageProxy::prepare (optional<dcp::Size> target_size) const
 		reduce = max (0, reduce);
 	}
 
-	shared_ptr<dcp::OpenJPEGImage> decompressed = dcp::decompress_j2k (const_cast<uint8_t*> (_data.data().get()), _data.size (), reduce);
-	_image.reset (new Image (_pixel_format, decompressed->size(), true));
+	try {
+		shared_ptr<dcp::OpenJPEGImage> decompressed = dcp::decompress_j2k (const_cast<uint8_t*> (_data.data().get()), _data.size (), reduce);
+		_image.reset (new Image (_pixel_format, decompressed->size(), true));
 
-	int const shift = 16 - decompressed->precision (0);
+		int const shift = 16 - decompressed->precision (0);
 
-	/* Copy data in whatever format (sRGB or XYZ) into our Image; I'm assuming
-	   the data is 12-bit either way.
-	*/
+		/* Copy data in whatever format (sRGB or XYZ) into our Image; I'm assuming
+		   the data is 12-bit either way.
+		   */
 
-	int const width = decompressed->size().width;
+		int const width = decompressed->size().width;
 
-	int p = 0;
-	int* decomp_0 = decompressed->data (0);
-	int* decomp_1 = decompressed->data (1);
-	int* decomp_2 = decompressed->data (2);
-	for (int y = 0; y < decompressed->size().height; ++y) {
-		uint16_t* q = (uint16_t *) (_image->data()[0] + y * _image->stride()[0]);
-		for (int x = 0; x < width; ++x) {
-			*q++ = decomp_0[p] << shift;
-			*q++ = decomp_1[p] << shift;
-			*q++ = decomp_2[p] << shift;
-			++p;
+		int p = 0;
+		int* decomp_0 = decompressed->data (0);
+		int* decomp_1 = decompressed->data (1);
+		int* decomp_2 = decompressed->data (2);
+		for (int y = 0; y < decompressed->size().height; ++y) {
+			uint16_t* q = (uint16_t *) (_image->data()[0] + y * _image->stride()[0]);
+			for (int x = 0; x < width; ++x) {
+				*q++ = decomp_0[p] << shift;
+				*q++ = decomp_1[p] << shift;
+				*q++ = decomp_2[p] << shift;
+				++p;
+			}
 		}
+	} catch (dcp::J2KDecompressionError& e) {
+		_image.reset (new Image (_pixel_format, _size, true));
+		_image->make_black ();
+		_error = true;
 	}
 
 	_target_size = target_size;
@@ -172,11 +182,13 @@ ImageProxy::Result
 J2KImageProxy::image (optional<dcp::Size> target_size) const
 {
 	int const r = prepare (target_size);
+
 	/* I think this is safe without a lock on mutex.  _image is guaranteed to be
 	   set up when prepare() has happened.
 	*/
-	return Result (_image, r);
+	return Result (_image, r, _error);
 }
+
 
 void
 J2KImageProxy::add_metadata (xmlpp::Node* node) const

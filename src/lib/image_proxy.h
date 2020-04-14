@@ -64,6 +64,13 @@ public:
 		Result (boost::shared_ptr<Image> image_, int log2_scaling_)
 			: image (image_)
 			, log2_scaling (log2_scaling_)
+			, error (false)
+		{}
+
+		Result (boost::shared_ptr<Image> image_, int log2_scaling_, bool error_)
+			: image (image_)
+			, log2_scaling (log2_scaling_)
+			, error (error_)
 		{}
 
 		/** Image (which will be aligned) */
@@ -73,6 +80,8 @@ public:
 		 *  will be 1.
 		 */
 		int log2_scaling;
+		/** true if there was an error during image decoding, otherwise false */
+		bool error;
 	};
 
 	/** @param log Log to write to, or 0.

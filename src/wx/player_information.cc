@@ -90,7 +90,13 @@ PlayerInformation::periodic_update ()
 {
 	shared_ptr<FilmViewer> fv = _viewer.lock ();
 	if (fv) {
-		checked_set (_dropped, wxString::Format(_("Dropped frames: %d"), fv->dropped()));
+		wxString s = wxString::Format(_("Dropped frames: %d"), fv->dropped() + fv->errored());
+		if (fv->errored() == 1) {
+			s += wxString::Format(_(" (%d error)"), fv->errored());
+		} else if (fv->errored() > 1) {
+			s += wxString::Format(_(" (%d errors)"), fv->errored());
+		}
+		checked_set (_dropped, s);
 	}
 }
 

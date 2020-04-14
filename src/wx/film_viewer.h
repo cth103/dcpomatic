@@ -96,6 +96,7 @@ public:
 	boost::optional<dcpomatic::DCPTime> audio_time () const;
 
 	int dropped () const;
+	int errored () const;
 	int gets () const;
 
 	int audio_callback (void* out, unsigned int frames);

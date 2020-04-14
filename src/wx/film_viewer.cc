@@ -679,6 +679,14 @@ FilmViewer::dropped () const
 	return _video_view->dropped ();
 }
 
+
+int
+FilmViewer::errored () const
+{
+	return _video_view->errored ();
+}
+
+
 int
 FilmViewer::gets () const
 {

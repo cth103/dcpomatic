@@ -54,7 +54,8 @@ PlayerVideo::PlayerVideo (
 	optional<ColourConversion> colour_conversion,
 	VideoRange video_range,
 	weak_ptr<Content> content,
-	optional<Frame> video_frame
+	optional<Frame> video_frame,
+	bool error
 	)
 	: _in (in)
 	, _crop (crop)
@@ -67,6 +68,7 @@ PlayerVideo::PlayerVideo (
 	, _video_range (video_range)
 	, _content (content)
 	, _video_frame (video_frame)
+	, _error (error)
 {
 
 }
@@ -81,6 +83,7 @@ PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket
 	_eyes = (Eyes) node->number_child<int> ("Eyes");
 	_part = (Part) node->number_child<int> ("Part");
 	_video_range = (VideoRange) node->number_child<int>("VideoRange");
+	_error = node->optional_bool_child("Error").get_value_or (false);
 
 	/* Assume that the ColourConversion uses the current state version */
 	_colour_conversion = ColourConversion::from_xml (node, Film::current_state_version);
@@ -133,6 +136,7 @@ PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, b
 	_image_fade = _fade;
 
 	ImageProxy::Result prox = _in->image (_inter_size);
+	_error = prox.error;
 
 	Crop total_crop = _crop;
 	switch (_part) {
@@ -194,6 +198,7 @@ PlayerVideo::add_metadata (xmlpp::Node* node) const
 	node->add_child("Eyes")->add_child_text (raw_convert<string> (static_cast<int> (_eyes)));
 	node->add_child("Part")->add_child_text (raw_convert<string> (static_cast<int> (_part)));
 	node->add_child("VideoRange")->add_child_text(raw_convert<string>(static_cast<int>(_video_range)));
+	node->add_child("Error")->add_child_text(_error ? "1" : "0");
 	if (_colour_conversion) {
 		_colour_conversion.get().as_xml (node);
 	}
@@ -315,7 +320,8 @@ PlayerVideo::shallow_copy () const
 			_colour_conversion,
 			_video_range,
 			_content,
-			_video_frame
+			_video_frame,
+			_error
 			)
 		);
 }
