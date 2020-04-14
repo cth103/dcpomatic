@@ -124,8 +124,16 @@ enum {
 	ID_tools_system_information,
 	/* IDs for shortcuts (with no associated menu item) */
 	ID_start_stop,
-	ID_back_frame,
-	ID_forward_frame
+	ID_go_back_frame,
+	ID_go_forward_frame,
+	ID_go_back_small_amount,
+	ID_go_forward_small_amount,
+	ID_go_back_medium_amount,
+	ID_go_forward_medium_amount,
+	ID_go_back_large_amount,
+	ID_go_forward_large_amount,
+	ID_go_to_start,
+	ID_go_to_end
 };
 
 class DOMFrame : public wxFrame
@@ -212,27 +220,43 @@ public:
 		_info = new PlayerInformation (_overall_panel, _viewer);
 		setup_main_sizer (Config::instance()->player_mode());
 #ifdef __WXOSX__
-		int accelerators = 4;
+		int accelerators = 12;
 #else
-		int accelerators = 3;
+		int accelerators = 11;
 #endif
 
 		_stress.setup (this, _controls);
 
 		wxAcceleratorEntry* accel = new wxAcceleratorEntry[accelerators];
-		accel[0].Set(wxACCEL_NORMAL, WXK_SPACE, ID_start_stop);
-		accel[1].Set(wxACCEL_NORMAL, WXK_LEFT, ID_back_frame);
-		accel[2].Set(wxACCEL_NORMAL, WXK_RIGHT, ID_forward_frame);
+		accel[0].Set(wxACCEL_NORMAL,                WXK_SPACE, ID_start_stop);
+		accel[1].Set(wxACCEL_NORMAL,                WXK_LEFT,  ID_go_back_frame);
+		accel[2].Set(wxACCEL_NORMAL,                WXK_RIGHT, ID_go_forward_frame);
+		accel[3].Set(wxACCEL_SHIFT,                 WXK_LEFT,  ID_go_back_small_amount);
+		accel[4].Set(wxACCEL_SHIFT,                 WXK_RIGHT, ID_go_forward_small_amount);
+		accel[5].Set(wxACCEL_CTRL,                  WXK_LEFT,  ID_go_back_medium_amount);
+		accel[6].Set(wxACCEL_CTRL,                  WXK_RIGHT, ID_go_forward_medium_amount);
+		accel[7].Set(wxACCEL_SHIFT | wxACCEL_CTRL,  WXK_LEFT,  ID_go_back_large_amount);
+		accel[8].Set(wxACCEL_SHIFT | wxACCEL_CTRL,  WXK_RIGHT, ID_go_forward_large_amount);
+		accel[9].Set(wxACCEL_NORMAL,                WXK_HOME,  ID_go_to_start);
+		accel[10].Set(wxACCEL_NORMAL,               WXK_END,   ID_go_to_end);
 #ifdef __WXOSX__
-		accel[3].Set(wxACCEL_CTRL, static_cast<int>('W'), ID_file_close);
+		accel[11].Set(wxACCEL_CTRL, static_cast<int>('W'), ID_file_close);
 #endif
 		wxAcceleratorTable accel_table (accelerators, accel);
 		SetAcceleratorTable (accel_table);
 		delete[] accel;
 
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::start_stop_pressed, this), ID_start_stop);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::back_frame, this), ID_back_frame);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::forward_frame, this), ID_forward_frame);
+		Bind (wxEVT_MENU, boost::bind(&DOMFrame::start_stop_pressed, this), ID_start_stop);
+		Bind (wxEVT_MENU, boost::bind(&DOMFrame::go_back_frame, this),      ID_go_back_frame);
+		Bind (wxEVT_MENU, boost::bind(&DOMFrame::go_forward_frame, this),   ID_go_forward_frame);
+		Bind (wxEVT_MENU, boost::bind(&DOMFrame::go_seconds,  this,   -60), ID_go_back_small_amount);
+		Bind (wxEVT_MENU, boost::bind(&DOMFrame::go_seconds,  this,    60), ID_go_forward_small_amount);
+		Bind (wxEVT_MENU, boost::bind(&DOMFrame::go_seconds,  this,  -600), ID_go_back_medium_amount);
+		Bind (wxEVT_MENU, boost::bind(&DOMFrame::go_seconds,  this,   600), ID_go_forward_medium_amount);
+		Bind (wxEVT_MENU, boost::bind(&DOMFrame::go_seconds,  this, -3600), ID_go_back_large_amount);
+		Bind (wxEVT_MENU, boost::bind(&DOMFrame::go_seconds,  this,  3600), ID_go_forward_large_amount);
+		Bind (wxEVT_MENU, boost::bind(&DOMFrame::go_to_start, this), ID_go_to_start);
+		Bind (wxEVT_MENU, boost::bind(&DOMFrame::go_to_end,   this), ID_go_to_end);
 
 		reset_film ();
 
@@ -1010,14 +1034,29 @@ private:
 		}
 	}
 
-	void back_frame ()
+	void go_back_frame ()
 	{
 		_viewer->seek_by (-_viewer->one_video_frame(), true);
 	}
 
-	void forward_frame ()
+	void go_forward_frame ()
 	{
 		_viewer->seek_by (_viewer->one_video_frame(), true);
+	}
+
+	void go_seconds (int s)
+	{
+		_viewer->seek_by (DCPTime::from_seconds(s), true);
+	}
+
+	void go_to_start ()
+	{
+		_viewer->seek (DCPTime(), true);
+	}
+
+	void go_to_end ()
+	{
+		_viewer->seek (_film->length() - _viewer->one_video_frame(), true);
 	}
 
 	wxFrame* _dual_screen;
