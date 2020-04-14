@@ -462,7 +462,7 @@ FilmViewer::seek (DCPTime t, bool accurate)
 	}
 
 	if (t >= _film->length ()) {
-		t = _film->length ();
+		t = _film->length() - one_video_frame();
 	}
 
 	suspend ();
