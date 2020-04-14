@@ -80,7 +80,7 @@ DCP::cpls () const
 				if (j.code() == dcp::VerificationNote::EMPTY_ASSET_PATH) {
 					LOG_WARNING("Empty path in ASSETMAP of %1", i.string());
 				} else {
-					boost::throw_exception(dcp::DCPReadError(dcp::note_to_string(j)));
+					boost::throw_exception(dcp::ReadError(dcp::note_to_string(j)));
 				}
 			}
 		}

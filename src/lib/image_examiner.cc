@@ -57,7 +57,7 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 		fclose (f);
 		try {
 			_video_size = dcp::decompress_j2k (buffer, size, 0)->size ();
-		} catch (dcp::DCPReadError& e) {
+		} catch (dcp::ReadError& e) {
 			delete[] buffer;
 			throw DecodeError (String::compose (_("Could not decode JPEG2000 file %1 (%2)"), path, e.what ()));
 		}

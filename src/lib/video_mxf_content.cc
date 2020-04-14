@@ -59,7 +59,7 @@ VideoMXFContent::valid_mxf (boost::filesystem::path path)
 		return true;
 	} catch (dcp::MXFFileError& e) {
 
-	} catch (dcp::DCPReadError& e) {
+	} catch (dcp::ReadError& e) {
 
 	}
 
@@ -69,7 +69,7 @@ VideoMXFContent::valid_mxf (boost::filesystem::path path)
 		return true;
 	} catch (dcp::MXFFileError& e) {
 
-	} catch (dcp::DCPReadError& e) {
+	} catch (dcp::ReadError& e) {
 
 	}
 

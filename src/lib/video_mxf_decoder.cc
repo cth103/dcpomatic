@@ -44,7 +44,7 @@ VideoMXFDecoder::VideoMXFDecoder (shared_ptr<const Film> film, shared_ptr<const 
 		mono.reset (new dcp::MonoPictureAsset (_content->path(0)));
 	} catch (dcp::MXFFileError& e) {
 		/* maybe it's stereo */
-	} catch (dcp::DCPReadError& e) {
+	} catch (dcp::ReadError& e) {
 		/* maybe it's stereo */
 	}
 
@@ -55,7 +55,7 @@ VideoMXFDecoder::VideoMXFDecoder (shared_ptr<const Film> film, shared_ptr<const 
 		if (!mono) {
 			throw;
 		}
-	} catch (dcp::DCPReadError& e) {
+	} catch (dcp::ReadError& e) {
 		if (!mono) {
 			throw;
 		}

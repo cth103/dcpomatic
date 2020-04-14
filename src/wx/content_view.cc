@@ -96,7 +96,7 @@ ContentView::update ()
 			}
 		} catch (boost::filesystem::filesystem_error& e) {
 			/* Never mind */
-		} catch (dcp::DCPReadError& e) {
+		} catch (dcp::ReadError& e) {
 			/* Never mind */
 		}
 	}

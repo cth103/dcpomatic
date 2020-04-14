@@ -197,7 +197,7 @@ CPLSummary::CPLSummary (boost::filesystem::path p)
 	list<dcp::VerificationNote> notes;
 	dcp.read (&notes);
 	if (!notes.empty()) {
-		throw dcp::DCPReadError(dcp::note_to_string(notes.front()));
+		throw dcp::ReadError(dcp::note_to_string(notes.front()));
 	}
 
 	cpl_id = dcp.cpls().front()->id();

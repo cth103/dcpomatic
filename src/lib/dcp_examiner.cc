@@ -219,7 +219,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				i->main_subtitle()->asset()->subtitles ();
 			}
 		}
-	} catch (dcp::DCPReadError& e) {
+	} catch (dcp::ReadError& e) {
 		_kdm_valid = false;
 	} catch (dcp::MiscError& e) {
 		_kdm_valid = false;

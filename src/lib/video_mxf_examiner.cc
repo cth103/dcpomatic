@@ -33,7 +33,7 @@ VideoMXFExaminer::VideoMXFExaminer (shared_ptr<const VideoMXFContent> content)
 		_asset.reset (new dcp::MonoPictureAsset (content->path(0)));
 	} catch (dcp::MXFFileError& e) {
 		/* maybe it's stereo */
-	} catch (dcp::DCPReadError& e) {
+	} catch (dcp::ReadError& e) {
 		/* maybe it's stereo */
 	}
 
