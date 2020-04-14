@@ -711,7 +711,7 @@ KeysPage::setup ()
 	}
 
 	wxButton* signing_advanced = new Button (_panel, _("Advanced..."));
-	sizer->Add (signing_advanced, 0, wxLEFT, _border);
+	sizer->Add (signing_advanced, 0, wxLEFT | wxBOTTOM, _border);
 	signing_advanced->Bind (wxEVT_BUTTON, bind (&KeysPage::signing_advanced, this));
 }
 
