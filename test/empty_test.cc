@@ -34,17 +34,14 @@ using boost::shared_ptr;
 using namespace dcpomatic;
 
 bool
-has_video (shared_ptr<Piece> piece)
+has_video (shared_ptr<const Content> content)
 {
-        return piece->decoder && piece->decoder->video;
+        return static_cast<bool>(content->video);
 }
 
 BOOST_AUTO_TEST_CASE (empty_test1)
 {
-	shared_ptr<Film> film = new_test_film ("empty_test1");
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
-	film->set_name ("empty_test1");
-	film->set_container (Ratio::from_id ("185"));
+	shared_ptr<Film> film = new_test_film2 ("empty_test1");
 	film->set_sequence (false);
 	shared_ptr<ImageContent> contentA (new ImageContent("test/data/simple_testcard_640x480.png"));
 	shared_ptr<ImageContent> contentB (new ImageContent("test/data/simple_testcard_640x480.png"));
@@ -55,6 +52,9 @@ BOOST_AUTO_TEST_CASE (empty_test1)
 
 	int const vfr = film->video_frame_rate ();
 
+	/* 0 1 2 3 4 5 6 7
+	 *     A A A     B
+	 */
 	contentA->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	contentA->video->set_length (3);
 	contentA->set_position (film, DCPTime::from_frames (2, vfr));
@@ -62,27 +62,20 @@ BOOST_AUTO_TEST_CASE (empty_test1)
 	contentB->video->set_length (1);
 	contentB->set_position (film, DCPTime::from_frames (7, vfr));
 
-	shared_ptr<Player> player (new Player(film, film->playlist()));
-	Empty black (film, player->_pieces, bind(&has_video, _1));
-	BOOST_REQUIRE_EQUAL (black._periods.size(), 3);
+	Empty black (film, film->playlist(), bind(&has_video, _1));
+	BOOST_REQUIRE_EQUAL (black._periods.size(), 2);
 	list<dcpomatic::DCPTimePeriod>::const_iterator i = black._periods.begin();
-	BOOST_CHECK (i->from == DCPTime());
-	BOOST_CHECK (i->to == DCPTime::from_frames(2, vfr));
+	BOOST_CHECK (i->from == DCPTime::from_frames(0, vfr));
+	BOOST_CHECK (i->to ==   DCPTime::from_frames(2, vfr));
 	++i;
 	BOOST_CHECK (i->from == DCPTime::from_frames(5, vfr));
-	BOOST_CHECK (i->to == DCPTime::from_frames(7, vfr));
-	++i;
-	BOOST_CHECK (i->from == DCPTime::from_frames(8, vfr));
-	BOOST_CHECK (i->to == DCPTime::from_frames(24, vfr));
+	BOOST_CHECK (i->to ==   DCPTime::from_frames(7, vfr));
 }
 
 /** Some tests where the first empty period is not at time 0 */
 BOOST_AUTO_TEST_CASE (empty_test2)
 {
-	shared_ptr<Film> film = new_test_film ("empty_test1");
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
-	film->set_name ("empty_test1");
-	film->set_container (Ratio::from_id ("185"));
+	shared_ptr<Film> film = new_test_film2 ("empty_test2");
 	film->set_sequence (false);
 	shared_ptr<ImageContent> contentA (new ImageContent("test/data/simple_testcard_640x480.png"));
 	shared_ptr<ImageContent> contentB (new ImageContent("test/data/simple_testcard_640x480.png"));
@@ -93,6 +86,9 @@ BOOST_AUTO_TEST_CASE (empty_test2)
 
 	int const vfr = film->video_frame_rate ();
 
+	/* 0 1 2 3 4 5 6 7
+	 * A A A         B
+	 */
 	contentA->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	contentA->video->set_length (3);
 	contentA->set_position (film, DCPTime(0));
@@ -100,9 +96,8 @@ BOOST_AUTO_TEST_CASE (empty_test2)
 	contentB->video->set_length (1);
 	contentB->set_position (film, DCPTime::from_frames(7, vfr));
 
-	shared_ptr<Player> player (new Player(film, film->playlist()));
-	Empty black (film, player->_pieces, bind(&has_video, _1));
-	BOOST_REQUIRE_EQUAL (black._periods.size(), 2);
+	Empty black (film, film->playlist(), bind(&has_video, _1));
+	BOOST_REQUIRE_EQUAL (black._periods.size(), 1);
 	BOOST_CHECK (black._periods.front().from == DCPTime::from_frames(3, vfr));
 	BOOST_CHECK (black._periods.front().to == DCPTime::from_frames(7, vfr));
 
@@ -114,7 +109,41 @@ BOOST_AUTO_TEST_CASE (empty_test2)
 	black.set_position (DCPTime::from_frames (4, vfr));
 	BOOST_CHECK (!black.done ());
 	black.set_position (DCPTime::from_frames (7, vfr));
-	BOOST_CHECK (!black.done ());
-	black.set_position (DCPTime::from_frames (24, vfr));
 	BOOST_CHECK (black.done ());
 }
+
+/** Test for when the film's playlist is not the same as the one passed into Empty */
+BOOST_AUTO_TEST_CASE (empty_test3)
+{
+	shared_ptr<Film> film = new_test_film2 ("empty_test3");
+	film->set_sequence (false);
+	shared_ptr<ImageContent> contentA (new ImageContent("test/data/simple_testcard_640x480.png"));
+	shared_ptr<ImageContent> contentB (new ImageContent("test/data/simple_testcard_640x480.png"));
+
+	film->examine_and_add_content (contentA);
+	film->examine_and_add_content (contentB);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	int const vfr = film->video_frame_rate ();
+
+	/* 0 1 2 3 4 5 6 7
+	 * A A A         B
+	 */
+	contentA->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
+	contentA->video->set_length (3);
+	contentA->set_position (film, DCPTime(0));
+	contentB->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
+	contentB->video->set_length (1);
+	contentB->set_position (film, DCPTime::from_frames(7, vfr));
+
+	shared_ptr<Playlist> playlist (new Playlist);
+	playlist->add (film, contentB);
+	Empty black (film, playlist, bind(&has_video, _1));
+	BOOST_REQUIRE_EQUAL (black._periods.size(), 1);
+	BOOST_CHECK (black._periods.front().from == DCPTime::from_frames(0, vfr));
+	BOOST_CHECK (black._periods.front().to == DCPTime::from_frames(7, vfr));
+
+	/* position should initially be the start of the first empty period */
+	BOOST_CHECK (black.position() == DCPTime::from_frames(0, vfr));
+}
+

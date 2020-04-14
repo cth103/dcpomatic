@@ -49,6 +49,7 @@ private:
 
 	boost::shared_ptr<AudioAnalysis> _analysis;
 	boost::weak_ptr<Film> _film;
+	/** content to analyse, or 0 to analyse all the film's content */
 	boost::weak_ptr<Content> _content;
 	int _channels;
 	boost::shared_ptr<const Playlist> _playlist;

@@ -125,15 +125,15 @@ Player::setup_pieces ()
 }
 
 bool
-have_video (shared_ptr<Piece> piece)
+have_video (shared_ptr<const Content> content)
 {
-	return piece->decoder && piece->decoder->video;
+	return static_cast<bool>(content->video);
 }
 
 bool
-have_audio (shared_ptr<Piece> piece)
+have_audio (shared_ptr<const Content> content)
 {
-	return piece->decoder && piece->decoder->audio;
+	return static_cast<bool>(content->audio);
 }
 
 void
@@ -237,8 +237,8 @@ Player::setup_pieces_unlocked ()
 		}
 	}
 
-	_black = Empty (_film, _pieces, bind(&have_video, _1));
-	_silent = Empty (_film, _pieces, bind(&have_audio, _1));
+	_black = Empty (_film, _playlist, bind(&have_video, _1));
+	_silent = Empty (_film, _playlist, bind(&have_audio, _1));
 
 	_last_video_time = DCPTime ();
 	_last_video_eyes = EYES_BOTH;

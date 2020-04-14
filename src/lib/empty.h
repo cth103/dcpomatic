@@ -28,14 +28,14 @@
 
 struct empty_test1;
 struct empty_test2;
+struct empty_test3;
 struct player_subframe_test;
-class Piece;
 
 class Empty
 {
 public:
 	Empty () {}
-	Empty (boost::shared_ptr<const Film> film, std::list<boost::shared_ptr<Piece> > pieces, boost::function<bool (boost::shared_ptr<Piece>)> part);
+	Empty (boost::shared_ptr<const Film> film, boost::shared_ptr<const Playlist> playlist, boost::function<bool (boost::shared_ptr<const Content>)> part);
 
 	dcpomatic::DCPTime position () const {
 		return _position;
@@ -50,6 +50,7 @@ public:
 private:
 	friend struct ::empty_test1;
 	friend struct ::empty_test2;
+	friend struct ::empty_test3;
 	friend struct ::player_subframe_test;
 
 	std::list<dcpomatic::DCPTimePeriod> _periods;
