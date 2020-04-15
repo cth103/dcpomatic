@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE (player_silence_padding_test)
 
 	accumulated.reset (new AudioBuffers (film->audio_channels(), 0));
 
-	shared_ptr<Player> player (new Player (film, film->playlist ()));
+	shared_ptr<Player> player (new Player(film, film->playlist(), film->length()));
 	player->Audio.connect (bind (&accumulate, _1, _2));
 	while (!player->pass ()) {}
 	BOOST_REQUIRE (accumulated->frames() >= 48000);
@@ -149,7 +149,7 @@ BOOST_AUTO_TEST_CASE (player_subframe_test)
 	/* Length should be rounded up from B's length to the next video frame */
 	BOOST_CHECK (film->length() == DCPTime::from_frames(3 * 24 + 1, 24));
 
-	shared_ptr<Player> player (new Player (film, film->playlist ()));
+	shared_ptr<Player> player (new Player(film, film->playlist(), film->length()));
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_black._periods.size(), 1);
 	BOOST_CHECK (player->_black._periods.front() == DCPTimePeriod(DCPTime::from_frames(3 * 24, 24), DCPTime::from_frames(3 * 24 + 1, 24)));
@@ -188,7 +188,7 @@ BOOST_AUTO_TEST_CASE (player_interleave_test)
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<Player> player (new Player(film, film->playlist()));
+	shared_ptr<Player> player (new Player(film, film->playlist(), film->length()));
 	player->Video.connect (bind (&video, _1, _2));
 	player->Audio.connect (bind (&audio, _1, _2));
 	video_frames = audio_frames = 0;
@@ -210,7 +210,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 	BOOST_REQUIRE (!wait_for_jobs ());
 	dcp->only_text()->set_use (true);
 
-	shared_ptr<Player> player (new Player (film, film->playlist()));
+	shared_ptr<Player> player (new Player(film, film->playlist(), film->length()));
 	player->set_fast ();
 	player->set_always_burn_open_subtitles ();
 	player->set_play_referenced ();
@@ -241,7 +241,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 	BOOST_REQUIRE (!wait_for_jobs ());
 	dcp->only_text()->set_use (true);
 
-	shared_ptr<Player> player (new Player (film, film->playlist()));
+	shared_ptr<Player> player (new Player(film, film->playlist(), film->length()));
 	player->set_fast ();
 	player->set_always_burn_open_subtitles ();
 	player->set_play_referenced ();
@@ -310,7 +310,7 @@ BOOST_AUTO_TEST_CASE (player_ignore_video_and_audio_test)
 	text->only_text()->set_type (TEXT_CLOSED_CAPTION);
 	text->only_text()->set_use (true);
 
-	shared_ptr<Player> player (new Player(film, film->playlist()));
+	shared_ptr<Player> player (new Player(film, film->playlist(), film->length()));
 	player->set_ignore_video ();
 	player->set_ignore_audio ();
 
@@ -329,7 +329,7 @@ BOOST_AUTO_TEST_CASE (player_trim_crash)
 	film->examine_and_add_content (boon);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	shared_ptr<Player> player (new Player(film, film->playlist()));
+	shared_ptr<Player> player (new Player(film, film->playlist(), film->length()));
 	player->set_fast ();
 	shared_ptr<Butler> butler (new Butler(player, AudioMapping(), 6, bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
 

@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE (butler_test1)
 		map.set (i, i, 1);
 	}
 
-	Butler butler (shared_ptr<Player>(new Player(film, film->playlist())), map, 6, bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, false);
+	Butler butler (shared_ptr<Player>(new Player(film, film->playlist(), film->length())), map, 6, bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, false);
 
 	BOOST_CHECK (butler.get_video(true, 0).second == DCPTime());
 	BOOST_CHECK (butler.get_video(true, 0).second == DCPTime::from_frames(1, 24));

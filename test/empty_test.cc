@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE (empty_test1)
 	contentB->video->set_length (1);
 	contentB->set_position (film, DCPTime::from_frames (7, vfr));
 
-	Empty black (film, film->playlist(), bind(&has_video, _1));
+	Empty black (film, film->playlist(), bind(&has_video, _1), film->playlist()->length(film));
 	BOOST_REQUIRE_EQUAL (black._periods.size(), 2);
 	list<dcpomatic::DCPTimePeriod>::const_iterator i = black._periods.begin();
 	BOOST_CHECK (i->from == DCPTime::from_frames(0, vfr));
@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE (empty_test2)
 	contentB->video->set_length (1);
 	contentB->set_position (film, DCPTime::from_frames(7, vfr));
 
-	Empty black (film, film->playlist(), bind(&has_video, _1));
+	Empty black (film, film->playlist(), bind(&has_video, _1), film->playlist()->length(film));
 	BOOST_REQUIRE_EQUAL (black._periods.size(), 1);
 	BOOST_CHECK (black._periods.front().from == DCPTime::from_frames(3, vfr));
 	BOOST_CHECK (black._periods.front().to == DCPTime::from_frames(7, vfr));
@@ -138,7 +138,7 @@ BOOST_AUTO_TEST_CASE (empty_test3)
 
 	shared_ptr<Playlist> playlist (new Playlist);
 	playlist->add (film, contentB);
-	Empty black (film, playlist, bind(&has_video, _1));
+	Empty black (film, playlist, bind(&has_video, _1), playlist->length(film));
 	BOOST_REQUIRE_EQUAL (black._periods.size(), 1);
 	BOOST_CHECK (black._periods.front().from == DCPTime::from_frames(0, vfr));
 	BOOST_CHECK (black._periods.front().to == DCPTime::from_frames(7, vfr));

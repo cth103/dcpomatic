@@ -145,7 +145,7 @@ main (int argc, char* argv[])
 		film.reset (new Film (film_dir));
 		film->read_metadata ();
 
-		shared_ptr<Player> player (new Player (film, film->playlist ()));
+		shared_ptr<Player> player (new Player(film, film->playlist(), film->length()));
 		player->Video.connect (bind (&process_video, _1));
 		while (!player->pass ()) {}
 	} catch (std::exception& e) {

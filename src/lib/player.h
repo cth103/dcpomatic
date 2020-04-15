@@ -68,7 +68,7 @@ public:
 class Player : public boost::enable_shared_from_this<Player>, public boost::noncopyable
 {
 public:
-	Player (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist> playlist);
+	Player (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist> playlist, dcpomatic::DCPTime playback_length);
 	~Player ();
 
 	bool pass ();
@@ -207,8 +207,7 @@ private:
 	ActiveText _active_texts[TEXT_COUNT];
 	boost::shared_ptr<AudioProcessor> _audio_processor;
 
-	/* Cached stuff */
-	boost::optional<dcpomatic::DCPTime> _film_length;
+	dcpomatic::DCPTime _playback_length;
 
 	boost::signals2::scoped_connection _film_changed_connection;
 	boost::signals2::scoped_connection _playlist_change_connection;

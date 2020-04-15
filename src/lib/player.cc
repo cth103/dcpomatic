@@ -84,7 +84,7 @@ int const PlayerProperty::FILM_CONTAINER = 702;
 int const PlayerProperty::FILM_VIDEO_FRAME_RATE = 703;
 int const PlayerProperty::DCP_DECODE_REDUCTION = 704;
 
-Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist)
+Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist, DCPTime playback_length)
 	: _film (film)
 	, _playlist (playlist)
 	, _suspended (0)
@@ -97,6 +97,7 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _play_referenced (false)
 	, _audio_merger (_film->audio_frame_rate())
 	, _shuffler (0)
+	, _playback_length (playback_length)
 {
 	_film_changed_connection = _film->Change.connect (bind (&Player::film_change, this, _1, _2));
 	/* The butler must hear about this first, so since we are proxying this through to the butler we must
@@ -237,15 +238,12 @@ Player::setup_pieces_unlocked ()
 		}
 	}
 
-	_black = Empty (_film, _playlist, bind(&have_video, _1));
-	_silent = Empty (_film, _playlist, bind(&have_audio, _1));
+	_black = Empty (_film, _playlist, bind(&have_video, _1), _playback_length);
+	_silent = Empty (_film, _playlist, bind(&have_audio, _1), _playback_length);
 
 	_last_video_time = DCPTime ();
 	_last_video_eyes = EYES_BOTH;
 	_last_audio_time = DCPTime ();
-
-	/* Cached value to save recalculating it on every ::pass */
-	_film_length = _film->length ();
 }
 
 void
@@ -566,15 +564,14 @@ bool
 Player::pass ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	DCPOMATIC_ASSERT (_film_length);
 
 	if (_suspended) {
 		/* We can't pass in this state */
 		return false;
 	}
 
-	if (*_film_length == DCPTime()) {
-		/* Special case of an empty Film; just give one black frame */
+	if (_playback_length == DCPTime()) {
+		/* Special; just give one black frame */
 		emit_video (black_player_video_frame(EYES_BOTH), DCPTime());
 		return true;
 	}
@@ -680,7 +677,7 @@ Player::pass ()
 	/* Work out the time before which the audio is definitely all here.  This is the earliest last_push_end of one
 	   of our streams, or the position of the _silent.
 	*/
-	DCPTime pull_to = *_film_length;
+	DCPTime pull_to = _playback_length;
 	for (map<AudioStreamPtr, StreamState>::const_iterator i = _stream_states.begin(); i != _stream_states.end(); ++i) {
 		if (!i->second.piece->done && i->second.last_push_end < pull_to) {
 			pull_to = i->second.last_push_end;

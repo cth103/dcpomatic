@@ -36,7 +36,7 @@ using boost::dynamic_pointer_cast;
 using boost::function;
 using namespace dcpomatic;
 
-Empty::Empty (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist, function<bool (shared_ptr<const Content>)> part)
+Empty::Empty (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist, function<bool (shared_ptr<const Content>)> part, DCPTime length)
 {
 	list<DCPTimePeriod> full;
 	BOOST_FOREACH (shared_ptr<Content> i, playlist->content()) {
@@ -45,7 +45,7 @@ Empty::Empty (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist, 
 		}
 	}
 
-	_periods = subtract (DCPTimePeriod(DCPTime(), playlist->length(film)), coalesce(full));
+	_periods = subtract (DCPTimePeriod(DCPTime(), length), coalesce(full));
 
 	if (!_periods.empty ()) {
 		_position = _periods.front().from;

@@ -92,7 +92,7 @@ test (boost::filesystem::path file)
 	ref_buffer_size = info.samplerate * info.channels;
 	ref_buffer = new float[ref_buffer_size];
 
-	shared_ptr<Player> player (new Player (film, film->playlist ()));
+	shared_ptr<Player> player (new Player(film, film->playlist(), film->length()));
 
 	player->Audio.connect (bind (&audio, _1, info.channels));
 	while (!player->pass ()) {}
