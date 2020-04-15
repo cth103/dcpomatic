@@ -55,7 +55,7 @@ public:
 		) const;
 
 	void add_metadata (xmlpp::Node *) const;
-	void send_binary (boost::shared_ptr<Socket>) const;
+	void write_to_socket (boost::shared_ptr<Socket>) const;
 	/** @return true if our image is definitely the same as another, false if it is probably not */
 	bool same (boost::shared_ptr<const ImageProxy>) const;
 	int prepare (boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const;

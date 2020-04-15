@@ -211,9 +211,9 @@ PlayerVideo::add_metadata (xmlpp::Node* node) const
 }
 
 void
-PlayerVideo::send_binary (shared_ptr<Socket> socket) const
+PlayerVideo::write_to_socket (shared_ptr<Socket> socket) const
 {
-	_in->send_binary (socket);
+	_in->write_to_socket (socket);
 	if (_text) {
 		_text->image->write_to_socket (socket);
 	}

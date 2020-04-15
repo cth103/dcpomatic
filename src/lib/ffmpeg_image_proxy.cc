@@ -203,7 +203,7 @@ FFmpegImageProxy::add_metadata (xmlpp::Node* node) const
 }
 
 void
-FFmpegImageProxy::send_binary (shared_ptr<Socket> socket) const
+FFmpegImageProxy::write_to_socket (shared_ptr<Socket> socket) const
 {
 	socket->write (_data.size());
 	socket->write (_data.data().get(), _data.size());

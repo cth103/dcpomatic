@@ -203,7 +203,7 @@ J2KImageProxy::add_metadata (xmlpp::Node* node) const
 }
 
 void
-J2KImageProxy::send_binary (shared_ptr<Socket> socket) const
+J2KImageProxy::write_to_socket (shared_ptr<Socket> socket) const
 {
 	socket->write (_data.data().get(), _data.size());
 }

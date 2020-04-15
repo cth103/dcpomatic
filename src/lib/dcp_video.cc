@@ -172,7 +172,7 @@ DCPVideo::encode_remotely (EncodeServerDescription serv, int timeout)
 
 	/* Send binary data */
 	LOG_TIMING("start-remote-send thread=%1", thread_id ());
-	_frame->send_binary (socket);
+	_frame->write_to_socket (socket);
 
 	/* Read the response (JPEG2000-encoded data); this blocks until the data
 	   is ready and sent back.

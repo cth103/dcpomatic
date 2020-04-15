@@ -70,7 +70,7 @@ RawImageProxy::add_metadata (xmlpp::Node* node) const
 }
 
 void
-RawImageProxy::send_binary (shared_ptr<Socket> socket) const
+RawImageProxy::write_to_socket (shared_ptr<Socket> socket) const
 {
 	_image->write_to_socket (socket);
 }

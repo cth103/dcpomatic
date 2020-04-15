@@ -73,7 +73,7 @@ public:
 	static AVPixelFormat keep_xyz_or_rgb (AVPixelFormat);
 
 	void add_metadata (xmlpp::Node* node) const;
-	void send_binary (boost::shared_ptr<Socket> socket) const;
+	void write_to_socket (boost::shared_ptr<Socket> socket) const;
 
 	bool reset_metadata (boost::shared_ptr<const Film> film, dcp::Size video_container_size, dcp::Size film_frame_size);
 
