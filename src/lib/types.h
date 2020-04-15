@@ -45,8 +45,11 @@ namespace xmlpp {
 /** The version number of the protocol used to communicate
  *  with servers.  Intended to be bumped when incompatibilities
  *  are introduced.  v2 uses 64+n
+ *
+ *  64 - first version used
+ *  65 - v2.16.0 - checksums added to communication
  */
-#define SERVER_LINK_VERSION (64+0)
+#define SERVER_LINK_VERSION (64+1)
 
 /** A film of F seconds at f FPS will be Ff frames;
     Consider some delta FPS d, so if we run the same
