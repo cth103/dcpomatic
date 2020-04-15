@@ -18,8 +18,11 @@
 
 */
 
+#include "digester.h"
 #include <boost/asio.hpp>
 #include <boost/noncopyable.hpp>
+#include <boost/scoped_ptr.hpp>
+#include <boost/weak_ptr.hpp>
 
 /** @class Socket
  *  @brief A class to wrap a boost::asio::ip::tcp::socket with some things
@@ -46,8 +49,36 @@ public:
 	void read (uint8_t* data, int size);
 	uint32_t read_uint32 ();
 
+	class ReadDigestScope
+	{
+	public:
+		ReadDigestScope (boost::shared_ptr<Socket> socket);
+		bool check ();
+	private:
+		boost::weak_ptr<Socket> _socket;
+	};
+
+	/** After one of these is created everything that is sent from the socket will be
+	 *  added to a digest.  When the DigestScope is destroyed the digest will be sent
+	 *  from the socket.
+	 */
+	class WriteDigestScope
+	{
+	public:
+		WriteDigestScope (boost::shared_ptr<Socket> socket);
+		~WriteDigestScope ();
+	private:
+		boost::weak_ptr<Socket> _socket;
+	};
+
 private:
+	friend class DigestScope;
+
 	void check ();
+	void start_read_digest ();
+	bool check_read_digest ();
+	void start_write_digest ();
+	void finish_write_digest ();
 
 	Socket (Socket const &);
 
@@ -55,4 +86,6 @@ private:
 	boost::asio::deadline_timer _deadline;
 	boost::asio::ip::tcp::socket _socket;
 	int _timeout;
+	boost::scoped_ptr<Digester> _read_digester;
+	boost::scoped_ptr<Digester> _write_digester;
 };

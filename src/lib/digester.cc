@@ -19,6 +19,7 @@
 */
 
 #include "digester.h"
+#include "dcpomatic_assert.h"
 #include <nettle/md5.h>
 #include <iomanip>
 #include <cstdio>
@@ -66,4 +67,17 @@ Digester::get () const
 	}
 
 	return _digest.get ();
+}
+
+void
+Digester::get (uint8_t* buffer) const
+{
+	md5_digest (&_context, MD5_DIGEST_SIZE, buffer);
+}
+
+
+int
+Digester::size () const
+{
+	return MD5_DIGEST_SIZE;
 }

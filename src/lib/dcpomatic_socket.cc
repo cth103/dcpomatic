@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -21,11 +21,15 @@
 #include "dcpomatic_socket.h"
 #include "compose.hpp"
 #include "exceptions.h"
+#include "dcpomatic_assert.h"
 #include <boost/bind.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <iostream>
 
 #include "i18n.h"
+
+using boost::shared_ptr;
+using boost::weak_ptr;
 
 /** @param timeout Timeout in seconds */
 Socket::Socket (int timeout)
@@ -89,6 +93,10 @@ Socket::write (uint8_t const * data, int size)
 	if (ec) {
 		throw NetworkError (String::compose (_("error during async_write (%1)"), ec.value ()));
 	}
+
+	if (_write_digester) {
+		_write_digester->add (data, static_cast<size_t>(size));
+	}
 }
 
 void
@@ -117,6 +125,10 @@ Socket::read (uint8_t* data, int size)
 	if (ec) {
 		throw NetworkError (String::compose (_("error during async_read (%1)"), ec.value ()));
 	}
+
+	if (_read_digester) {
+		_read_digester->add (data, static_cast<size_t>(size));
+	}
 }
 
 uint32_t
@@ -126,3 +138,98 @@ Socket::read_uint32 ()
 	read (reinterpret_cast<uint8_t *> (&v), 4);
 	return ntohl (v);
 }
+
+
+void
+Socket::start_read_digest ()
+{
+	DCPOMATIC_ASSERT (!_read_digester);
+	_read_digester.reset (new Digester());
+}
+
+void
+Socket::start_write_digest ()
+{
+	DCPOMATIC_ASSERT (!_write_digester);
+	_write_digester.reset (new Digester());
+}
+
+
+Socket::ReadDigestScope::ReadDigestScope (shared_ptr<Socket> socket)
+	: _socket (socket)
+{
+	socket->start_read_digest ();
+}
+
+
+bool
+Socket::ReadDigestScope::check ()
+{
+	shared_ptr<Socket> sp = _socket.lock ();
+	if (!sp) {
+		return false;
+	}
+
+	return sp->check_read_digest ();
+}
+
+
+Socket::WriteDigestScope::WriteDigestScope (shared_ptr<Socket> socket)
+	: _socket (socket)
+{
+	socket->start_write_digest ();
+}
+
+
+Socket::WriteDigestScope::~WriteDigestScope ()
+{
+	shared_ptr<Socket> sp = _socket.lock ();
+	if (sp) {
+		try {
+			sp->finish_write_digest ();
+		} catch (...) {
+			/* If we can't write our digest, something bad has happened
+			 * so let's just let it happen.
+			 */
+		}
+	}
+}
+
+
+bool
+Socket::check_read_digest ()
+{
+	DCPOMATIC_ASSERT (_read_digester);
+	int const size = _read_digester->size ();
+
+	uint8_t ref[size];
+	_read_digester->get (ref);
+
+	/* Make sure _read_digester is gone before we call read() so that the digest
+	 * isn't itself digested.
+	 */
+	_read_digester.reset ();
+
+	uint8_t actual[size];
+	read (actual, size);
+
+	return memcmp(ref, actual, size) == 0;
+}
+
+void
+Socket::finish_write_digest ()
+{
+	DCPOMATIC_ASSERT (_write_digester);
+	int const size = _write_digester->size();
+
+	uint8_t buffer[size];
+	_write_digester->get (buffer);
+
+	/* Make sure _write_digester is gone before we call write() so that the digest
+	 * isn't itself digested.
+	 */
+	_write_digester.reset ();
+
+	write (buffer, size);
+}
+

@@ -40,6 +40,10 @@ public:
 
 	std::string get () const;
 
+	void get (uint8_t* buffer) const;
+
+	int size () const;
+
 private:
 	mutable md5_ctx _context;
 	mutable boost::optional<std::string> _digest;

@@ -109,6 +109,7 @@ def build(bld):
                  silence_padding_test.cc
                  shuffler_test.cc
                  skip_frame_test.cc
+                 socket_test.cc
                  srt_subtitle_test.cc
                  ssa_subtitle_test.cc
                  stream_test.cc
