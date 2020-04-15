@@ -29,7 +29,6 @@
 #include <boost/scoped_array.hpp>
 
 using std::string;
-using boost::shared_array;
 using namespace dcpomatic;
 
 /** The cipher that this code uses */
@@ -43,7 +42,7 @@ dcpomatic::random_iv ()
 	RAND_bytes (iv.data().get(), iv.size());
 	return iv;
 }
-	
+
 dcp::Data
 dcpomatic::encrypt (string plaintext, dcp::Data key, dcp::Data iv)
 {
@@ -101,7 +100,7 @@ dcpomatic::decrypt (dcp::Data ciphertext, dcp::Data key, dcp::Data iv)
 	}
 
 	int plaintext_len = len;
-	
+
 	r = EVP_DecryptFinal_ex (ctx, plaintext.data().get() + len, &len);
 	if (r != 1) {
 		throw CryptoError ("could not finish decryption");

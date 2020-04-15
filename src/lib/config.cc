@@ -62,7 +62,6 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 using boost::algorithm::trim;
-using boost::shared_array;
 using dcp::raw_convert;
 
 Config* Config::_instance = 0;

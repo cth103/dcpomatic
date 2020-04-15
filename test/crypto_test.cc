@@ -26,7 +26,6 @@
 
 using std::string;
 using std::list;
-using boost::shared_array;
 
 BOOST_AUTO_TEST_CASE (crypto_test)
 {
