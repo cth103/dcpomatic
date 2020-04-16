@@ -121,6 +121,8 @@ EncodeServer::~EncodeServer ()
 int
 EncodeServer::process (shared_ptr<Socket> socket, struct timeval& after_read, struct timeval& after_encode)
 {
+	Socket::ReadDigestScope ds (socket);
+
 	uint32_t length = socket->read_uint32 ();
 	scoped_array<char> buffer (new char[length]);
 	socket->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
@@ -139,6 +141,10 @@ EncodeServer::process (shared_ptr<Socket> socket, struct timeval& after_read, st
 
 	shared_ptr<PlayerVideo> pvf (new PlayerVideo (xml, socket));
 
+	if (!ds.check()) {
+		throw NetworkError ("Checksums do not match");
+	}
+
 	DCPVideo dcp_video_frame (pvf, xml);
 
 	gettimeofday (&after_read, 0);
@@ -148,6 +154,7 @@ EncodeServer::process (shared_ptr<Socket> socket, struct timeval& after_read, st
 	gettimeofday (&after_encode, 0);
 
 	try {
+		Socket::WriteDigestScope ds (socket);
 		socket->write (encoded.size());
 		socket->write (encoded.data().get(), encoded.size());
 	} catch (std::exception& e) {

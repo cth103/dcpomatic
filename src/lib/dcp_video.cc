@@ -165,23 +165,31 @@ DCPVideo::encode_remotely (EncodeServerDescription serv, int timeout)
 
 	LOG_DEBUG_ENCODE (N_("Sending frame %1 to remote"), _index);
 
-	/* Send XML metadata */
-	string xml = doc.write_to_string ("UTF-8");
-	socket->write (xml.length() + 1);
-	socket->write ((uint8_t *) xml.c_str(), xml.length() + 1);
+	{
+		Socket::WriteDigestScope ds (socket);
 
-	/* Send binary data */
-	LOG_TIMING("start-remote-send thread=%1", thread_id ());
-	_frame->write_to_socket (socket);
+		/* Send XML metadata */
+		string xml = doc.write_to_string ("UTF-8");
+		socket->write (xml.length() + 1);
+		socket->write ((uint8_t *) xml.c_str(), xml.length() + 1);
+
+		/* Send binary data */
+		LOG_TIMING("start-remote-send thread=%1", thread_id ());
+		_frame->write_to_socket (socket);
+	}
 
 	/* Read the response (JPEG2000-encoded data); this blocks until the data
 	   is ready and sent back.
 	*/
+	Socket::ReadDigestScope ds (socket);
 	LOG_TIMING("start-remote-encode thread=%1", thread_id ());
 	Data e (socket->read_uint32 ());
 	LOG_TIMING("start-remote-receive thread=%1", thread_id ());
 	socket->read (e.data().get(), e.size());
 	LOG_TIMING("finish-remote-receive thread=%1", thread_id ());
+	if (!ds.check()) {
+		throw NetworkError ("Checksums do not match");
+	}
 
 	LOG_DEBUG_ENCODE (N_("Finished remotely-encoded frame %1"), _index);
 
