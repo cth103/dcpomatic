@@ -210,6 +210,9 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream) const
 		0, stream->stream(_format_context)->codec->channels, _frame->nb_samples, audio_sample_format (stream), 1
 		);
 
+	/* XXX: can't we just use _frame->nb_samples directly here? */
+	/* XXX: can't we use swr_convert() to do the format conversion? */
+
 	/* Deinterleave and convert to float */
 
 	/* total_samples and frames will be rounded down here, so if there are stray samples at the end
