@@ -89,8 +89,8 @@ private:
 
 /** @class Film
  *
- *  @brief A representation of some audio and video content, and details of
- *  how they should be presented in a DCP.
+ *  @brief A representation of some audio, video, subtitle and closed-caption content,
+ *  and details of how they should be presented in a DCP.
  *
  *  The content of a Film is held in a Playlist (created and managed by the Film).
  */
