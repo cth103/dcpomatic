@@ -20,6 +20,12 @@ elif [ "$1" == "--callgrind" ]; then
 elif [ "$1" == "--quiet" ]; then
     shift;
     build/test/unit-tests --catch_system_errors=no $*
+elif [ "$1" == "--drd" ]; then
+    shift;
+    valgrind --tool="drd" build/test/unit-tests $*
+elif [ "$1" == "--helgrind" ]; then
+    shift;
+    valgrind --tool="helgrind" build/test/unit-tests $*
 else
     ulimit -c unlimited
     build/test/unit-tests --catch_system_errors=no --log_level=test_suite $*
