@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -32,6 +32,7 @@ extern "C" {
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/thread/mutex.hpp>
+#include <boost/noncopyable.hpp>
 
 class Image;
 class ImageProxy;
@@ -42,7 +43,7 @@ class Socket;
  *  bits still their raw form.  We may want to combine the bits on a remote machine,
  *  or maybe not even bother to combine them at all.
  */
-class PlayerVideo
+class PlayerVideo : public boost::noncopyable
 {
 public:
 	PlayerVideo (
