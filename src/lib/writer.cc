@@ -367,11 +367,11 @@ try
 			/* (Hopefully temporarily) log anything that was not written */
 			if (!_queue.empty() && !have_sequenced_image_at_queue_head()) {
 				LOG_WARNING (N_("Finishing writer with a left-over queue of %1:"), _queue.size());
-				for (list<QueueItem>::const_iterator i = _queue.begin(); i != _queue.end(); ++i) {
-					if (i->type == QueueItem::FULL) {
-						LOG_WARNING (N_("- type FULL, frame %1, eyes %2"), i->frame, (int) i->eyes);
+				BOOST_FOREACH (QueueItem const& i, _queue) {
+					if (i.type == QueueItem::FULL) {
+						LOG_WARNING (N_("- type FULL, frame %1, eyes %2"), i.frame, (int) i.eyes);
 					} else {
-						LOG_WARNING (N_("- type FAKE, size %1, frame %2, eyes %3"), i->size, i->frame, (int) i->eyes);
+						LOG_WARNING (N_("- type FAKE, size %1, frame %2, eyes %3"), i.size, i.frame, (int) i.eyes);
 					}
 				}
 			}
