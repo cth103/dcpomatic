@@ -151,6 +151,30 @@ private:
 	int _maximum_frames_in_memory;
 	unsigned int _maximum_queue_size;
 
+	class LastWritten
+	{
+	public:
+		LastWritten()
+			: _frame(-1)
+			, _eyes(EYES_RIGHT)
+		{}
+
+		/** @return true if qi is the next item after this one */
+		bool next (QueueItem qi) const;
+		void update (QueueItem qi);
+
+		int frame () const {
+			return _frame;
+		}
+
+	private:
+		int _frame;
+		Eyes _eyes;
+	};
+
+	/** The last frame written to each reel */
+	std::vector<LastWritten> _last_written;
+
 	/** number of FULL written frames */
 	int _full_written;
 	/** number of FAKE written frames */

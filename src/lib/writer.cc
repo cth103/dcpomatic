@@ -87,6 +87,8 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 		_reels.push_back (ReelWriter (film, p, job, reel_index++, reels.size(), _film->content_summary(p)));
 	}
 
+	_last_written.resize (reels.size());
+
 	/* We can keep track of the current audio, subtitle and closed caption reels easily because audio
 	   and captions arrive to the Writer in sequence.  This is not so for video.
 	*/
@@ -300,7 +302,8 @@ Writer::write (shared_ptr<const AudioBuffers> audio, DCPTime const time)
 	}
 }
 
-/** This must be called from Writer::thread() with an appropriate lock held */
+
+/** Caller must hold a lock on _state_mutex */
 bool
 Writer::have_sequenced_image_at_queue_head ()
 {
@@ -309,29 +312,40 @@ Writer::have_sequenced_image_at_queue_head ()
 	}
 
 	_queue.sort ();
-
 	QueueItem const & f = _queue.front();
-	ReelWriter const & reel = _reels[f.reel];
+	return _last_written[f.reel].next(f);
+}
 
-	/* The queue should contain only EYES_LEFT/EYES_RIGHT pairs or EYES_BOTH */
 
-	if (f.eyes == EYES_BOTH) {
+bool
+Writer::LastWritten::next (QueueItem qi) const
+{
+	if (qi.eyes == EYES_BOTH) {
 		/* 2D */
-		return f.frame == (reel.last_written_video_frame() + 1);
+		return qi.frame == (_frame + 1);
 	}
 
 	/* 3D */
 
-	if (reel.last_written_eyes() == EYES_LEFT && f.frame == reel.last_written_video_frame() && f.eyes == EYES_RIGHT) {
+	if (_eyes == EYES_LEFT && qi.frame == _frame && qi.eyes == EYES_RIGHT) {
 		return true;
 	}
 
-	if (reel.last_written_eyes() == EYES_RIGHT && f.frame == (reel.last_written_video_frame() + 1) && f.eyes == EYES_LEFT) {
+	if (_eyes == EYES_RIGHT && qi.frame == (_frame + 1) && qi.eyes == EYES_LEFT) {
 		return true;
 	}
 
 	return false;
 }
+
+
+void
+Writer::LastWritten::update (QueueItem qi)
+{
+	_frame = qi.frame;
+	_eyes = qi.eyes;
+}
+
 
 void
 Writer::thread ()
@@ -381,6 +395,7 @@ try
 		/* Write any frames that we can write; i.e. those that are in sequence. */
 		while (have_sequenced_image_at_queue_head ()) {
 			QueueItem qi = _queue.front ();
+			_last_written[qi.reel].update (qi);
 			_queue.pop_front ();
 			if (qi.type == QueueItem::FULL && qi.encoded) {
 				--_queued_full_in_memory;
@@ -401,7 +416,7 @@ try
 				break;
 			case QueueItem::FAKE:
 				LOG_DEBUG_ENCODE (N_("Writer FAKE-writes %1"), qi.frame);
-				reel.fake_write (qi.frame, qi.eyes, qi.size);
+				reel.fake_write (qi.size);
 				++_fake_written;
 				break;
 			case QueueItem::REPEAT:
@@ -430,7 +445,7 @@ try
 			DCPOMATIC_ASSERT (i != _queue.rend());
 			++_pushed_to_disk;
 			/* For the log message below */
-			int const awaiting = _reels[_queue.front().reel].last_written_video_frame() + 1;
+			int const awaiting = _last_written[_queue.front().reel].frame() + 1;
 			lock.unlock ();
 
 			/* i is valid here, even though we don't hold a lock on the mutex,

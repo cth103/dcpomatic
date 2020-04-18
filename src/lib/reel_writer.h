@@ -64,7 +64,7 @@ public:
 		);
 
 	void write (boost::optional<dcp::Data> encoded, Frame frame, Eyes eyes);
-	void fake_write (Frame frame, Eyes eyes, int size);
+	void fake_write (int size);
 	void repeat_write (Frame frame, Eyes eyes);
 	void write (boost::shared_ptr<const AudioBuffers> audio);
 	void write (PlayerText text, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period);
@@ -77,14 +77,6 @@ public:
 
 	dcpomatic::DCPTimePeriod period () const {
 		return _period;
-	}
-
-	int last_written_video_frame () const {
-		return _last_written_video_frame;
-	}
-
-	Eyes last_written_eyes () const {
-		return _last_written_eyes;
 	}
 
 	int first_nonexistant_frame () const {
@@ -109,9 +101,6 @@ private:
 	int _first_nonexistant_frame;
 	/** the data of the last written frame, if there is one */
 	boost::optional<dcp::Data> _last_written[EYES_COUNT];
-	/** the index of the last written video frame within the reel */
-	int _last_written_video_frame;
-	Eyes _last_written_eyes;
 	/** index of this reel within the DCP (starting from 0) */
 	int _reel_index;
 	/** number of reels in the DCP */

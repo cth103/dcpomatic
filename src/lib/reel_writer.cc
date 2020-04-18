@@ -71,8 +71,6 @@ ReelWriter::ReelWriter (
 	)
 	: _film (film)
 	, _period (period)
-	, _last_written_video_frame (-1)
-	, _last_written_eyes (EYES_RIGHT)
 	, _reel_index (reel_index)
 	, _reel_count (reel_count)
 	, _content_summary (content_summary)
@@ -266,12 +264,10 @@ ReelWriter::write (optional<Data> encoded, Frame frame, Eyes eyes)
 	dcp::FrameInfo fin = _picture_asset_writer->write (encoded->data().get (), encoded->size());
 	write_frame_info (frame, eyes, fin);
 	_last_written[eyes] = encoded;
-	_last_written_video_frame = frame;
-	_last_written_eyes = eyes;
 }
 
 void
-ReelWriter::fake_write (Frame frame, Eyes eyes, int size)
+ReelWriter::fake_write (int size)
 {
 	if (!_picture_asset_writer) {
 		/* We're not writing any data */
@@ -279,8 +275,6 @@ ReelWriter::fake_write (Frame frame, Eyes eyes, int size)
 	}
 
 	_picture_asset_writer->fake_write (size);
-	_last_written_video_frame = frame;
-	_last_written_eyes = eyes;
 }
 
 void
@@ -296,8 +290,6 @@ ReelWriter::repeat_write (Frame frame, Eyes eyes)
 		_last_written[eyes]->size()
 		);
 	write_frame_info (frame, eyes, fin);
-	_last_written_video_frame = frame;
-	_last_written_eyes = eyes;
 }
 
 void
