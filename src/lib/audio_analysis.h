@@ -116,6 +116,14 @@ public:
 		_sample_rate = sr;
 	}
 
+	void set_leqm (double leqm) {
+		_leqm = leqm;
+	}
+
+	boost::optional<double> leqm () const {
+		return _leqm;
+	}
+
 	void write (boost::filesystem::path);
 
 	float gain_correction (boost::shared_ptr<const Playlist> playlist);
@@ -126,6 +134,7 @@ private:
 	std::vector<float> _true_peak;
 	boost::optional<float> _integrated_loudness;
 	boost::optional<float> _loudness_range;
+	boost::optional<double> _leqm;
 	/** If this analysis was run on a single piece of
 	 *  content we store its gain in dB when the analysis
 	 *  happened.

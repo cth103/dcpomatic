@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -201,4 +201,24 @@ BOOST_AUTO_TEST_CASE (analyse_audio_test4)
 	boost::signals2::connection c;
 	JobManager::instance()->analyse_audio (film, playlist, false, c, boost::bind (&finished));
 	BOOST_CHECK (!wait_for_jobs ());
+}
+
+BOOST_AUTO_TEST_CASE (analyse_audio_leqm_test)
+{
+	shared_ptr<Film> film = new_test_film2 ("analyse_audio_leqm_test");
+	film->set_audio_channels (2);
+	shared_ptr<Content> content = content_factory(TestPaths::private_data / "betty_stereo_48k.wav").front();
+	film->examine_and_add_content (content);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	shared_ptr<Playlist> playlist (new Playlist);
+	playlist->add (film, content);
+	boost::signals2::connection c;
+	JobManager::instance()->analyse_audio (film, playlist, false, c, boost::bind (&finished));
+	BOOST_CHECK (!wait_for_jobs());
+
+	AudioAnalysis analysis(film->audio_analysis_path(playlist));
+
+	/* The CLI tool of leqm_nrt gives this value for betty_stereo_48k.wav */
+	BOOST_CHECK_CLOSE (analysis.leqm().get_value_or(0), 88.276, 0.001);
 }

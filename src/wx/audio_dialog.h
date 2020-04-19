@@ -59,6 +59,7 @@ private:
 	wxStaticText* _true_peak;
 	wxStaticText* _integrated_loudness;
 	wxStaticText* _loudness_range;
+	wxStaticText* _leqm;
 	wxCheckBox* _channel_checkbox[MAX_DCP_AUDIO_CHANNELS];
 	wxCheckBox* _type_checkbox[AudioPoint::COUNT];
 	wxSlider* _smoothing;

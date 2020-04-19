@@ -93,6 +93,8 @@ AudioAnalysis::AudioAnalysis (boost::filesystem::path filename)
 	_analysis_gain = f.optional_number_child<double> ("AnalysisGain");
 	_samples_per_point = f.number_child<int64_t> ("SamplesPerPoint");
 	_sample_rate = f.number_child<int64_t> ("SampleRate");
+
+	_leqm = f.optional_number_child<double>("Leqm");
 }
 
 void
@@ -162,6 +164,10 @@ AudioAnalysis::write (boost::filesystem::path filename)
 	root->add_child("SamplesPerPoint")->add_child_text (raw_convert<string> (_samples_per_point));
 	root->add_child("SampleRate")->add_child_text (raw_convert<string> (_sample_rate));
 
+	if (_leqm) {
+		root->add_child("Leqm")->add_child_text(raw_convert<string>(*_leqm));
+	}
+
 	doc->write_to_file_formatted (filename.string ());
 }
 
@@ -212,3 +218,4 @@ AudioAnalysis::overall_true_peak () const
 
 	return p;
 }
+

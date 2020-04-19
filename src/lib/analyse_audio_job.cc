@@ -30,6 +30,7 @@
 #include "audio_filter_graph.h"
 #include "config.h"
 extern "C" {
+#include <leqm_nrt.h>
 #include <libavutil/channel_layout.h>
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 #include <libavfilter/f_ebur128.h>
@@ -50,6 +51,13 @@ using boost::dynamic_pointer_cast;
 using namespace dcpomatic;
 
 int const AnalyseAudioJob::_num_points = 1024;
+
+static void add_if_required(vector<double>& v, size_t i, double db)
+{
+	if (v.size() > i) {
+		v[i] = pow(10, db / 20);
+	}
+}
 
 /** @param from_zero true to analyse audio from time 0 in the playlist, otherwise begin at Playlist::start */
 AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist, bool from_zero)
@@ -79,6 +87,31 @@ AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> film, shared_ptr<const 
 	if (!_from_zero) {
 		_start = _playlist->start().get_value_or(DCPTime());
 	}
+
+	/* XXX: is this right?  Especially for more than 5.1? */
+	vector<double> channel_corrections(film->audio_channels(), 1);
+	add_if_required (channel_corrections,  4,   -3); // Ls
+	add_if_required (channel_corrections,  5,   -3); // Rs
+	add_if_required (channel_corrections,  6, -144); // HI
+	add_if_required (channel_corrections,  7, -144); // VI
+	add_if_required (channel_corrections,  8,   -3); // Lc
+	add_if_required (channel_corrections,  9,   -3); // Rc
+	add_if_required (channel_corrections, 10,   -3); // Lc
+	add_if_required (channel_corrections, 11,   -3); // Rc
+	add_if_required (channel_corrections, 12, -144); // DBox
+	add_if_required (channel_corrections, 13, -144); // Sync
+	add_if_required (channel_corrections, 14, -144); // Sign Language
+	add_if_required (channel_corrections, 15, -144); // Unused
+
+	_leqm.reset(new leqm_nrt::Calculator(
+		film->audio_channels(),
+		film->audio_frame_rate(),
+		24,
+		channel_corrections,
+		850, // suggested by leqm_nrt CLI source
+		64,  // suggested by leqm_nrt CLI source
+		boost::thread::hardware_concurrency()
+		));
 }
 
 AnalyseAudioJob::~AnalyseAudioJob ()
@@ -169,6 +202,7 @@ AnalyseAudioJob::run ()
 
 	_analysis->set_samples_per_point (_samples_per_point);
 	_analysis->set_sample_rate (_film->audio_frame_rate ());
+	_analysis->set_leqm (_leqm->leq_m());
 	_analysis->write (_path);
 
 	set_progress (1);
@@ -188,11 +222,15 @@ AnalyseAudioJob::analyse (shared_ptr<const AudioBuffers> b, DCPTime time)
 
 	int const frames = b->frames ();
 	int const channels = b->channels ();
+	vector<double> interleaved(frames * channels);
 
 	for (int j = 0; j < channels; ++j) {
 		float* data = b->data(j);
 		for (int i = 0; i < frames; ++i) {
 			float s = data[i];
+
+			interleaved[i * channels + j] = s;
+
 			float as = fabsf (s);
 			if (as < 10e-7) {
 				/* We may struggle to serialise and recover inf or -inf, so prevent such
@@ -214,6 +252,8 @@ AnalyseAudioJob::analyse (shared_ptr<const AudioBuffers> b, DCPTime time)
 			}
 		}
 	}
+
+	_leqm->add(interleaved);
 
 	_done += frames;
 

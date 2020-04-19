@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -26,6 +26,8 @@
 #include "audio_point.h"
 #include "types.h"
 #include "dcpomatic_time.h"
+#include <leqm_nrt.h>
+#include <boost/scoped_ptr.hpp>
 
 class AudioBuffers;
 class AudioAnalysis;
@@ -75,6 +77,8 @@ private:
 
 	boost::shared_ptr<AudioFilterGraph> _ebur128;
 	std::vector<Filter const *> _filters;
+
+	boost::scoped_ptr<leqm_nrt::Calculator> _leqm;
 
 	static const int _num_points;
 };

@@ -89,6 +89,8 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 	left->Add (_integrated_loudness, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
 	_loudness_range = new StaticText (this, wxT (""));
 	left->Add (_loudness_range, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
+	_leqm = new StaticText (this, wxT(""));
+	left->Add (_leqm, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
 
 	lr_sizer->Add (left, 1, wxALL | wxEXPAND, 12);
 
@@ -411,6 +413,14 @@ AudioDialog::setup_statistics ()
 			wxString::Format (
 				_("Loudness range %.2f LU"),
 				_analysis->loudness_range().get() + _analysis->gain_correction (_playlist)
+				)
+			);
+	}
+
+	if (static_cast<bool>(_analysis->leqm())) {
+		_leqm->SetLabel(
+			wxString::Format(
+				_("LEQ(m) %.2fdB"), _analysis->leqm().get() + _analysis->gain_correction(_playlist)
 				)
 			);
 	}

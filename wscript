@@ -270,6 +270,9 @@ def configure(conf):
     # cairomm
     conf.check_cfg(package='cairomm-1.0', args='--cflags --libs', uselib_store='CAIROMM', mandatory=True)
 
+    # leqm_nrt
+    conf.check_cfg(package='leqm_nrt', args='--cflags --libs', uselib_store='LEQM_NRT', mandatory=True)
+
     test_cxxflags = ''
     if have_c11:
         test_cxxflags = '-std=c++11'
