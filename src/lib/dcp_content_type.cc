@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,7 +24,7 @@
 
 #include "dcp_content_type.h"
 #include "dcpomatic_assert.h"
-#include <cassert>
+#include <boost/foreach.hpp>
 
 #include "i18n.h"
 
@@ -60,9 +60,9 @@ DCPContentType::setup_dcp_content_types ()
 DCPContentType const *
 DCPContentType::from_isdcf_name (string n)
 {
-	for (vector<DCPContentType const *>::const_iterator i = _dcp_content_types.begin(); i != _dcp_content_types.end(); ++i) {
-		if ((*i)->isdcf_name() == n) {
-			return *i;
+	BOOST_FOREACH (DCPContentType const * i, _dcp_content_types) {
+		if (i->isdcf_name() == n) {
+			return i;
 		}
 	}
 
