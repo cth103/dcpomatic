@@ -144,6 +144,12 @@ public:
 		return _content_kind;
 	}
 
+	dcp::Standard standard () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		DCPOMATIC_ASSERT (_standard);
+		return _standard.get ();
+	}
+
 	bool kdm_timing_window_valid () const;
 
 private:
