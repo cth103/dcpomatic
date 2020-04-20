@@ -51,6 +51,7 @@ public:
 	}
 
 	static DCPContentType const * from_isdcf_name (std::string);
+	static DCPContentType const * from_libdcp_kind (dcp::ContentKind);
 	static DCPContentType const * from_index (int);
 	static int as_index (DCPContentType const *);
 	static std::vector<DCPContentType const *> all ();

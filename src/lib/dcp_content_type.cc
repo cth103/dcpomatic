@@ -70,6 +70,20 @@ DCPContentType::from_isdcf_name (string n)
 }
 
 DCPContentType const *
+DCPContentType::from_libdcp_kind (dcp::ContentKind kind)
+{
+	BOOST_FOREACH (DCPContentType const * i, _dcp_content_types) {
+		if (i->libdcp_kind() == kind) {
+			return i;
+		}
+	}
+
+	DCPOMATIC_ASSERT (false);
+	return 0;
+}
+
+
+DCPContentType const *
 DCPContentType::from_index (int n)
 {
 	DCPOMATIC_ASSERT (n >= 0 && n < int (_dcp_content_types.size ()));
