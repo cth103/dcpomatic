@@ -150,6 +150,10 @@ public:
 		return _standard.get ();
 	}
 
+	std::map<dcp::Marker, dcpomatic::ContentTime> markers () const {
+		return _markers;
+	}
+
 	bool kdm_timing_window_valid () const;
 
 private:
@@ -198,6 +202,7 @@ private:
 	boost::optional<std::string> _cpl;
 	/** List of the lengths of the reels in this DCP */
 	std::list<int64_t> _reel_lengths;
+	std::map<dcp::Marker, dcpomatic::ContentTime> _markers;
 };
 
 #endif

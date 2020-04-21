@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -49,6 +49,7 @@ using std::distance;
 using std::pair;
 using std::vector;
 using std::list;
+using std::map;
 using boost::shared_ptr;
 using boost::scoped_ptr;
 using boost::optional;
@@ -146,6 +147,10 @@ DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
 	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("ReelLength")) {
 		_reel_lengths.push_back (raw_convert<int64_t> (i->content ()));
 	}
+
+	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("Marker")) {
+		_markers[dcp::marker_from_string(i->string_attribute("type"))] = ContentTime(raw_convert<int64_t>(i->content()));
+	}
 }
 
 void
@@ -240,6 +245,10 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		_content_kind = examiner->content_kind ();
 		_cpl = examiner->cpl ();
 		_reel_lengths = examiner->reel_lengths ();
+		map<dcp::Marker, dcp::Time> markers = examiner->markers();
+		for (map<dcp::Marker, dcp::Time>::const_iterator i = markers.begin(); i != markers.end(); ++i) {
+			_markers[i->first] = ContentTime(i->second.as_editable_units(DCPTime::HZ));
+		}
 	}
 
 	if (old_texts == texts) {
@@ -338,6 +347,12 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 	}
 	BOOST_FOREACH (int64_t i, _reel_lengths) {
 		node->add_child("ReelLength")->add_child_text (raw_convert<string> (i));
+	}
+
+	for (map<dcp::Marker, ContentTime>::const_iterator i = _markers.begin(); i != _markers.end(); ++i) {
+		xmlpp::Element* marker = node->add_child("Marker");
+		marker->set_attribute("type", dcp::marker_to_string(i->first));
+		marker->add_child_text(raw_convert<string>(i->second.get()));
 	}
 }
 

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -35,12 +35,16 @@
 #include "lib/job_manager.h"
 #include "lib/config.h"
 #include "lib/cross.h"
+#include "lib/video_content.h"
+#include "lib/content_factory.h"
 #include <dcp/cpl.h>
 #include <boost/test/unit_test.hpp>
 
 using std::vector;
 using std::string;
+using std::map;
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 
 /** Make an encrypted DCP, import it and make a new unencrypted DCP */
 BOOST_AUTO_TEST_CASE (import_dcp_test)
@@ -93,4 +97,58 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 
 	/* Should be 1s red, 1s green, 1s blue */
 	check_dcp ("test/data/import_dcp_test2", "build/test/import_dcp_test2/" + B->dcp_name());
+}
+
+
+/** Check that DCP markers are imported correctly */
+BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
+{
+	/* Make a DCP with some markers */
+	shared_ptr<Film> film = new_test_film2 ("import_dcp_markers_test");
+	shared_ptr<Content> content = content_factory("test/data/flat_red.png").front();
+	film->examine_and_add_content (content);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	content->video->set_length (24 * 60 * 10);
+
+	film->set_marker(dcp::FFOC, dcpomatic::DCPTime::from_seconds(1.91));
+	film->set_marker(dcp::FFMC, dcpomatic::DCPTime::from_seconds(9.4));
+	film->set_marker(dcp::LFMC, dcpomatic::DCPTime::from_seconds(9.99));
+
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	/* Import the DCP to a new film and check the markers */
+	shared_ptr<Film> film2 = new_test_film2 ("import_dcp_markers_test2");
+	shared_ptr<DCPContent> imported (new DCPContent(film->dir(film->dcp_name())));
+	film2->examine_and_add_content (imported);
+	BOOST_REQUIRE (!wait_for_jobs());
+	film2->write_metadata ();
+
+	BOOST_CHECK_EQUAL (imported->markers().size(), 3);
+
+	map<dcp::Marker, dcpomatic::ContentTime> markers = imported->markers();
+	BOOST_REQUIRE(markers.find(dcp::FFOC) != markers.end());
+	BOOST_CHECK(markers[dcp::FFOC] == dcpomatic::ContentTime(184000));
+	BOOST_REQUIRE(markers.find(dcp::FFMC) != markers.end());
+	BOOST_CHECK(markers[dcp::FFMC] == dcpomatic::ContentTime(904000));
+	BOOST_REQUIRE(markers.find(dcp::LFMC) != markers.end());
+	BOOST_CHECK(markers[dcp::LFMC] == dcpomatic::ContentTime(960000));
+
+	/* Load that film and check that the markers have been loaded */
+	shared_ptr<Film> film3(new Film(boost::filesystem::path("build/test/import_dcp_markers_test2")));
+	film3->read_metadata ();
+	BOOST_REQUIRE (film3->content().size() == 1);
+	shared_ptr<DCPContent> reloaded = dynamic_pointer_cast<DCPContent>(film3->content().front());
+	BOOST_REQUIRE (reloaded);
+
+	BOOST_CHECK_EQUAL (reloaded->markers().size(), 3);
+
+	markers = reloaded->markers();
+	BOOST_REQUIRE(markers.find(dcp::FFOC) != markers.end());
+	BOOST_CHECK(markers[dcp::FFOC] == dcpomatic::ContentTime(184000));
+	BOOST_REQUIRE(markers.find(dcp::FFMC) != markers.end());
+	BOOST_CHECK(markers[dcp::FFMC] == dcpomatic::ContentTime(904000));
+	BOOST_REQUIRE(markers.find(dcp::LFMC) != markers.end());
+	BOOST_CHECK(markers[dcp::LFMC] == dcpomatic::ContentTime(960000));
 }
