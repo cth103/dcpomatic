@@ -46,6 +46,7 @@ private:
 	void re_examine ();
 	void kdm ();
 	void ov ();
+	void set_dcp_settings ();
 	void remove ();
 	void maybe_found_missing (boost::weak_ptr<Job>, boost::weak_ptr<Content>, boost::weak_ptr<Content>);
 	void cpl_selected (wxCommandEvent& ev);
@@ -66,6 +67,7 @@ private:
 	wxMenuItem* _kdm;
 	wxMenuItem* _ov;
 	wxMenuItem* _choose_cpl;
+	wxMenuItem* _set_dcp_settings;
 	wxMenuItem* _remove;
 };
 

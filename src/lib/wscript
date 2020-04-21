@@ -52,6 +52,7 @@ sources = """
           config.cc
           content.cc
           content_factory.cc
+          copy_dcp_details_to_film.cc
           create_cli.cc
           cross_common.cc
           crypto.cc
