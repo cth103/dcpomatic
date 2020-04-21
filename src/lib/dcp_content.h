@@ -156,6 +156,8 @@ public:
 
 	bool kdm_timing_window_valid () const;
 
+	Resolution resolution () const;
+
 private:
 	friend class reels_test5;
 

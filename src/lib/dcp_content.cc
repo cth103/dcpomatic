@@ -606,13 +606,8 @@ DCPContent::can_reference_video (shared_ptr<const Film> film, string& why_not) c
 		return false;
 	}
 
-	Resolution video_res = RESOLUTION_2K;
-	if (video->size().width > 2048 || video->size().height > 1080) {
-		video_res = RESOLUTION_4K;
-	}
-
-	if (film->resolution() != video_res) {
-		if (video_res == RESOLUTION_4K) {
+	if (film->resolution() != resolution()) {
+		if (resolution() == RESOLUTION_4K) {
 			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
 			why_not = _("it is 4K and the film is 2K.");
 		} else {
@@ -738,3 +733,15 @@ DCPContent::kdm_timing_window_valid () const
 	dcp::LocalTime now;
 	return _kdm->not_valid_before() < now && now < _kdm->not_valid_after();
 }
+
+
+Resolution
+DCPContent::resolution () const
+{
+	if (video->size().width > 2048 || video->size().height > 1080) {
+		return RESOLUTION_4K;
+	}
+
+	return RESOLUTION_2K;
+}
+
