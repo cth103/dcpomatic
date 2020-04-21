@@ -381,6 +381,7 @@ public:
 	void set_reencode_j2k (bool);
 	void set_marker (dcp::Marker type, dcpomatic::DCPTime time);
 	void unset_marker (dcp::Marker type);
+	void clear_markers ();
 	void set_ratings (std::vector<dcp::Rating> r);
 	void set_content_version (std::string v);
 
