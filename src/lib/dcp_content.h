@@ -144,7 +144,27 @@ public:
 		return _content_kind;
 	}
 
+	dcp::Standard standard () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		DCPOMATIC_ASSERT (_standard);
+		return _standard.get ();
+	}
+
+	std::map<dcp::Marker, dcpomatic::ContentTime> markers () const {
+		return _markers;
+	}
+
 	bool kdm_timing_window_valid () const;
+
+	Resolution resolution () const;
+
+	std::vector<dcp::Rating> ratings () const {
+		return _ratings;
+	}
+
+	std::string content_version () const {
+		return _content_version;
+	}
 
 private:
 	friend class reels_test5;
@@ -192,6 +212,9 @@ private:
 	boost::optional<std::string> _cpl;
 	/** List of the lengths of the reels in this DCP */
 	std::list<int64_t> _reel_lengths;
+	std::map<dcp::Marker, dcpomatic::ContentTime> _markers;
+	std::vector<dcp::Rating> _ratings;
+	std::string _content_version;
 };
 
 #endif

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -25,6 +25,7 @@
 #include "video_examiner.h"
 #include "audio_examiner.h"
 #include "dcp.h"
+#include <dcp/dcp_time.h>
 
 class DCPContent;
 
@@ -118,6 +119,18 @@ public:
 		return _reel_lengths;
 	}
 
+	std::map<dcp::Marker, dcp::Time> markers () const {
+		return _markers;
+	}
+
+	std::vector<dcp::Rating> ratings () const {
+		return _ratings;
+	}
+
+	std::string content_version () const {
+		return _content_version;
+	}
+
 private:
 	boost::optional<double> _video_frame_rate;
 	boost::optional<dcp::Size> _video_size;
@@ -140,4 +153,7 @@ private:
 	dcp::ContentKind _content_kind;
 	std::string _cpl;
 	std::list<int64_t> _reel_lengths;
+	std::map<dcp::Marker, dcp::Time> _markers;
+	std::vector<dcp::Rating> _ratings;
+	std::string _content_version;
 };

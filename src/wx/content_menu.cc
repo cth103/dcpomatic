@@ -36,6 +36,7 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/audio_content.h"
 #include "lib/config.h"
+#include "lib/copy_dcp_details_to_film.h"
 #include <dcp/cpl.h>
 #include <dcp/exceptions.h>
 #include <wx/wx.h>
@@ -61,6 +62,7 @@ enum {
 	ID_kdm,
 	ID_ov,
 	ID_choose_cpl,
+	ID_set_dcp_settings,
 	ID_remove
 };
 
@@ -79,6 +81,7 @@ ContentMenu::ContentMenu (wxWindow* p)
 	_ov = _menu->Append (ID_ov, _("Add OV..."));
 	_cpl_menu = new wxMenu ();
 	_choose_cpl = _menu->Append (ID_choose_cpl, _("Choose CPL..."), _cpl_menu);
+	_set_dcp_settings = _menu->Append (ID_set_dcp_settings, _("Set project DCP settings from this DCP"));
 	_menu->AppendSeparator ();
 	_remove = _menu->Append (ID_remove, _("Remove"));
 
@@ -89,6 +92,7 @@ ContentMenu::ContentMenu (wxWindow* p)
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::re_examine, this), ID_re_examine);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::kdm, this), ID_kdm);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::ov, this), ID_ov);
+	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::set_dcp_settings, this), ID_set_dcp_settings);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::remove, this), ID_remove);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::cpl_selected, this, _1), 1, ID_repeat - 1);
 }
@@ -125,6 +129,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 		if (dcp) {
 			_kdm->Enable (dcp->encrypted ());
 			_ov->Enable (dcp->needs_assets ());
+			_set_dcp_settings->Enable (static_cast<bool>(dcp));
 			try {
 				DCPExaminer ex (dcp, true);
 				list<shared_ptr<dcp::CPL> > cpls = ex.cpls ();
@@ -153,9 +158,11 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 			_kdm->Enable (false);
 			_ov->Enable (false);
 			_choose_cpl->Enable (false);
+			_set_dcp_settings->Enable (false);
 		}
 	} else {
 		_kdm->Enable (false);
+		_set_dcp_settings->Enable (false);
 	}
 
 	_remove->Enable (!_content.empty ());
@@ -164,6 +171,22 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 	_parent->PopupMenu (_menu, p);
 	_pop_up_open = false;
 }
+
+
+void
+ContentMenu::set_dcp_settings ()
+{
+	shared_ptr<Film> film = _film.lock ();
+	if (!film) {
+		return;
+	}
+
+	DCPOMATIC_ASSERT (_content.size() == 1);
+	shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent>(_content.front());
+	DCPOMATIC_ASSERT (dcp);
+	copy_dcp_details_to_film (dcp, film);
+}
+
 
 void
 ContentMenu::repeat ()

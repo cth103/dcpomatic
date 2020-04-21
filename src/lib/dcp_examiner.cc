@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -23,6 +23,7 @@
 #include "exceptions.h"
 #include "image.h"
 #include "config.h"
+#include "util.h"
 #include <dcp/dcp.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/cpl.h>
@@ -40,6 +41,7 @@
 #include <dcp/subtitle_asset.h>
 #include <dcp/reel_subtitle_asset.h>
 #include <dcp/reel_closed_caption_asset.h>
+#include <dcp/reel_markers_asset.h>
 #include <dcp/sound_asset.h>
 #include <boost/foreach.hpp>
 #include <iostream>
@@ -49,6 +51,7 @@
 using std::list;
 using std::cout;
 using std::runtime_error;
+using std::map;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
@@ -183,6 +186,11 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			_text_count[TEXT_CLOSED_CAPTION]++;
 		}
 
+		if (i->main_markers ()) {
+			map<dcp::Marker, dcp::Time> rm = i->main_markers()->get();
+			_markers.insert (rm.begin(), rm.end());
+		}
+
 		if (i->main_picture()) {
 			_reel_lengths.push_back (i->main_picture()->actual_duration());
 		} else if (i->main_sound()) {
@@ -229,6 +237,8 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	_standard = cpl->standard().get();
 	_three_d = !cpl->reels().empty() && cpl->reels().front()->main_picture() &&
 		dynamic_pointer_cast<dcp::StereoPictureAsset> (cpl->reels().front()->main_picture()->asset());
+	_ratings = list_to_vector (cpl->ratings());
+	_content_version = cpl->content_version_label_text ();
 
 	_cpl = cpl->id ();
 }

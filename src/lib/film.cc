@@ -1778,6 +1778,15 @@ Film::unset_marker (dcp::Marker type)
 	_markers.erase (type);
 }
 
+
+void
+Film::clear_markers ()
+{
+	ChangeSignaller<Film> ch (this, MARKERS);
+	_markers.clear ();
+}
+
+
 void
 Film::set_ratings (vector<dcp::Rating> r)
 {
