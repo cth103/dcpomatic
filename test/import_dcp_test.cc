@@ -152,3 +152,47 @@ BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
 	BOOST_REQUIRE(markers.find(dcp::LFMC) != markers.end());
 	BOOST_CHECK(markers[dcp::LFMC] == dcpomatic::ContentTime(960000));
 }
+
+
+/** Check that DCP metadata (ratings and content version) are imported correctly */
+BOOST_AUTO_TEST_CASE (import_dcp_metadata_test)
+{
+	/* Make a DCP with some ratings and a content version */
+	shared_ptr<Film> film = new_test_film2 ("import_dcp_metadata_test");
+	shared_ptr<Content> content = content_factory("test/data/flat_red.png").front();
+	film->examine_and_add_content (content);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	content->video->set_length (10);
+
+	std::vector<dcp::Rating> ratings;
+	ratings.push_back (dcp::Rating("BBFC", "15"));
+	ratings.push_back (dcp::Rating("MPAA", "NC-17"));
+	film->set_ratings (ratings);
+
+	film->set_content_version ("Fred");
+
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	/* Import the DCP to a new film and check the metadata */
+	shared_ptr<Film> film2 = new_test_film2 ("import_dcp_metadata_test2");
+	shared_ptr<DCPContent> imported (new DCPContent(film->dir(film->dcp_name())));
+	film2->examine_and_add_content (imported);
+	BOOST_REQUIRE (!wait_for_jobs());
+	film2->write_metadata ();
+
+	BOOST_CHECK (imported->ratings() == ratings);
+	BOOST_CHECK_EQUAL (imported->content_version(), "Fred");
+
+	/* Load that film and check that the metadata has been loaded */
+	shared_ptr<Film> film3(new Film(boost::filesystem::path("build/test/import_dcp_metadata_test2")));
+	film3->read_metadata ();
+	BOOST_REQUIRE (film3->content().size() == 1);
+	shared_ptr<DCPContent> reloaded = dynamic_pointer_cast<DCPContent>(film3->content().front());
+	BOOST_REQUIRE (reloaded);
+
+	BOOST_CHECK (reloaded->ratings() == ratings);
+	BOOST_CHECK_EQUAL (reloaded->content_version(), "Fred");
+}
+

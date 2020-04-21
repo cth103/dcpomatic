@@ -158,6 +158,14 @@ public:
 
 	Resolution resolution () const;
 
+	std::vector<dcp::Rating> ratings () const {
+		return _ratings;
+	}
+
+	std::string content_version () const {
+		return _content_version;
+	}
+
 private:
 	friend class reels_test5;
 
@@ -205,6 +213,8 @@ private:
 	/** List of the lengths of the reels in this DCP */
 	std::list<int64_t> _reel_lengths;
 	std::map<dcp::Marker, dcpomatic::ContentTime> _markers;
+	std::vector<dcp::Rating> _ratings;
+	std::string _content_version;
 };
 
 #endif

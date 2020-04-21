@@ -151,6 +151,12 @@ DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
 	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("Marker")) {
 		_markers[dcp::marker_from_string(i->string_attribute("type"))] = ContentTime(raw_convert<int64_t>(i->content()));
 	}
+
+	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("Rating")) {
+		_ratings.push_back (dcp::Rating(i));
+	}
+
+	_content_version = node->optional_string_child("ContentVersion").get_value_or("");
 }
 
 void
@@ -249,6 +255,8 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		for (map<dcp::Marker, dcp::Time>::const_iterator i = markers.begin(); i != markers.end(); ++i) {
 			_markers[i->first] = ContentTime(i->second.as_editable_units(DCPTime::HZ));
 		}
+		_ratings = examiner->ratings ();
+		_content_version = examiner->content_version ();
 	}
 
 	if (old_texts == texts) {
@@ -354,6 +362,13 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 		marker->set_attribute("type", dcp::marker_to_string(i->first));
 		marker->add_child_text(raw_convert<string>(i->second.get()));
 	}
+
+	BOOST_FOREACH (dcp::Rating i, _ratings) {
+		xmlpp::Element* rating = node->add_child("Rating");
+		i.as_xml (rating);
+	}
+
+	node->add_child("ContentVersion")->add_child_text (_content_version);
 }
 
 DCPTime
