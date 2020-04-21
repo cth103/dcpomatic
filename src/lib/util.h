@@ -128,6 +128,17 @@ vector_to_list (std::vector<T> v)
 	return l;
 }
 
+template <class T>
+std::vector<T>
+list_to_vector (std::list<T> v)
+{
+	std::vector<T> l;
+	BOOST_FOREACH (T& i, v) {
+		l.push_back (i);
+	}
+	return l;
+}
+
 extern double db_to_linear (double db);
 extern double linear_to_db (double linear);
 
