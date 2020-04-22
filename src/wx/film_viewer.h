@@ -87,6 +87,7 @@ public:
 	void set_dcp_decode_reduction (boost::optional<int> reduction);
 	boost::optional<int> dcp_decode_reduction () const;
 	void set_outline_content (bool o);
+	void set_outline_subtitles (boost::optional<dcpomatic::Rect<double> >);
 	void set_eyes (Eyes e);
 	void set_pad_black (bool p);
 
@@ -122,6 +123,9 @@ public:
 	}
 	bool outline_content () const {
 		return _outline_content;
+	}
+	boost::optional<dcpomatic::Rect<double> > outline_subtitles () const {
+		return _outline_subtitles;
 	}
 	bool pad_black () const {
 		return _pad_black;
@@ -191,6 +195,7 @@ private:
 	ClosedCaptionsDialog* _closed_captions_dialog;
 
 	bool _outline_content;
+	boost::optional<dcpomatic::Rect<double> > _outline_subtitles;
 	/** true to pad the viewer panel with black, false to use
 	    the normal window background colour.
 	*/

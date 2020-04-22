@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,6 +24,7 @@ class wxCheckBox;
 class wxSpinCtrl;
 class TextView;
 class FontsDialog;
+class SubtitleAnalysis;
 
 class TextPanel : public ContentSubPanel
 {
@@ -50,16 +51,23 @@ private:
 	void fonts_dialog_clicked ();
 	void reference_clicked ();
 	void appearance_dialog_clicked ();
+	void outline_subtitles_changed ();
 	TextType current_type () const;
 	void update_dcp_tracks ();
 	void update_dcp_track_selection ();
 	void add_to_grid ();
+	void try_to_load_analysis ();
+	void analysis_finished ();
 
 	void setup_sensitivity ();
 	void setup_visibility ();
 
+	void update_outline_subtitles_in_viewer ();
+	void clear_outline_subtitles ();
+
 	wxCheckBox* _reference;
 	wxStaticText* _reference_note;
+	wxCheckBox* _outline_subtitles;
 	wxCheckBox* _use;
 	wxChoice* _type;
 	wxCheckBox* _burn;
@@ -93,5 +101,11 @@ private:
 	wxButton* _appearance_dialog_button;
 	TextType _original_type;
 
+	int _outline_subtitles_row;
 	int _language_row;
+
+	boost::weak_ptr<Content> _analysis_content;
+	boost::signals2::scoped_connection _analysis_finished_connection;
+	boost::shared_ptr<SubtitleAnalysis> _analysis;
+	bool _loading_analysis;
 };

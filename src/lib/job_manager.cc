@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -26,6 +26,7 @@
 #include "job.h"
 #include "cross.h"
 #include "analyse_audio_job.h"
+#include "analyse_subtitles_job.h"
 #include "film.h"
 #include <boost/thread.hpp>
 #include <boost/foreach.hpp>
@@ -249,6 +250,42 @@ JobManager::analyse_audio (
 
 	emit (boost::bind (boost::ref (JobAdded), weak_ptr<Job> (job)));
 }
+
+
+void
+JobManager::analyse_subtitles (
+	shared_ptr<const Film> film,
+	shared_ptr<Content> content,
+	boost::signals2::connection& connection,
+	function<void()> ready
+	)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+
+		BOOST_FOREACH (shared_ptr<Job> i, _jobs) {
+			shared_ptr<AnalyseSubtitlesJob> a = dynamic_pointer_cast<AnalyseSubtitlesJob> (i);
+			if (a && a->path() == film->subtitle_analysis_path(content)) {
+				i->when_finished (connection, ready);
+				return;
+			}
+		}
+	}
+
+	shared_ptr<AnalyseSubtitlesJob> job;
+
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+
+		job.reset (new AnalyseSubtitlesJob(film, content));
+		connection = job->Finished.connect (ready);
+		_jobs.push_back (job);
+		_empty_condition.notify_all ();
+	}
+
+	emit (boost::bind (boost::ref (JobAdded), weak_ptr<Job> (job)));
+}
+
 
 void
 JobManager::increase_priority (shared_ptr<Job> job)

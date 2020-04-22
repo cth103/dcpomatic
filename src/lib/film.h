@@ -106,6 +106,7 @@ public:
 	boost::filesystem::path internal_video_asset_filename (dcpomatic::DCPTimePeriod p) const;
 
 	boost::filesystem::path audio_analysis_path (boost::shared_ptr<const Playlist>) const;
+	boost::filesystem::path subtitle_analysis_path (boost::shared_ptr<const Content>) const;
 
 	void send_dcp_to_tms ();
 	void make_dcp (bool gui = false, bool check = true);

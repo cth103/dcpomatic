@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -29,6 +29,8 @@
 #include "static_text.h"
 #include "check_box.h"
 #include "dcpomatic_button.h"
+#include "film_viewer.h"
+#include "lib/job_manager.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/string_text_file_content.h"
 #include "lib/ffmpeg_subtitle_stream.h"
@@ -38,6 +40,8 @@
 #include "lib/dcp_content.h"
 #include "lib/text_content.h"
 #include "lib/decoder_factory.h"
+#include "lib/analyse_subtitles_job.h"
+#include "lib/subtitle_analysis.h"
 #include <wx/spinctrl.h>
 #include <boost/foreach.hpp>
 
@@ -48,10 +52,12 @@ using std::cout;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
+using boost::bind;
 
 /** @param t Original text type of the content, if known */
 TextPanel::TextPanel (ContentPanel* p, TextType t)
 	: ContentSubPanel (p, std_to_wx(text_type_to_name(t)))
+	, _outline_subtitles (0)
 	, _dcp_track_label (0)
 	, _dcp_track (0)
 	, _language_label (0)
@@ -59,6 +65,7 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	, _text_view (0)
 	, _fonts_dialog (0)
 	, _original_type (t)
+	, _loading_analysis (false)
 {
 	wxString refer = _("Use this DCP's subtitle as OV and make VF");
 	if (t == TEXT_CLOSED_CAPTION) {
@@ -154,6 +161,12 @@ TextPanel::setup_visibility ()
 			_grid->Add (_language, wxGBPosition(_language_row, 1), wxDefaultSpan, wxEXPAND);
 			film_content_changed (TextContentProperty::LANGUAGE);
 		}
+		if (!_outline_subtitles) {
+			_outline_subtitles = new CheckBox (this, _("Show subtitle area"));
+			_outline_subtitles->Bind (wxEVT_CHECKBOX, boost::bind (&TextPanel::outline_subtitles_changed, this));
+			_grid->Add (_outline_subtitles, wxGBPosition(_outline_subtitles_row, 0), wxGBSpan(1, 2));
+		}
+
 		break;
 	case TEXT_CLOSED_CAPTION:
 		if (_language_label) {
@@ -174,6 +187,11 @@ TextPanel::setup_visibility ()
 			_grid->Add (_dcp_track, wxGBPosition(_language_row, 1), wxDefaultSpan, wxEXPAND);
 			update_dcp_tracks ();
 			film_content_changed (TextContentProperty::DCP_TRACK);
+		}
+		if (_outline_subtitles) {
+			_outline_subtitles->Destroy ();
+			_outline_subtitles = 0;
+			clear_outline_subtitles ();
 		}
 		break;
 	default:
@@ -210,6 +228,9 @@ TextPanel::add_to_grid ()
 	_grid->Add (_burn, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
+	_outline_subtitles_row = r;
+	++r;
+
 	add_label_to_sizer (_grid, _offset_label, true, wxGBPosition (r, 0));
 	wxBoxSizer* offset = new wxBoxSizer (wxHORIZONTAL);
 	add_label_to_sizer (offset, _x_offset_label, true);
@@ -242,7 +263,6 @@ TextPanel::add_to_grid ()
 	}
 
 	_language_row = r;
-	setup_visibility ();
 	++r;
 
 	add_label_to_sizer (_grid, _stream_label, true, wxGBPosition (r, 0));
@@ -259,6 +279,8 @@ TextPanel::add_to_grid ()
 		_grid->Add (s, wxGBPosition (r, 0), wxGBSpan (1, 2));
 		++r;
 	}
+
+	setup_visibility ();
 }
 
 void
@@ -391,9 +413,11 @@ TextPanel::film_content_changed (int property)
 			}
 		}
 		setup_sensitivity ();
+		clear_outline_subtitles ();
 	} else if (property == TextContentProperty::USE) {
 		checked_set (_use, text ? text->use() : false);
 		setup_sensitivity ();
+		clear_outline_subtitles ();
 	} else if (property == TextContentProperty::TYPE) {
 		if (text) {
 			switch (text->type()) {
@@ -415,14 +439,19 @@ TextPanel::film_content_changed (int property)
 		checked_set (_burn, text ? text->burn() : false);
 	} else if (property == TextContentProperty::X_OFFSET) {
 		checked_set (_x_offset, text ? lrint (text->x_offset() * 100) : 0);
+		update_outline_subtitles_in_viewer ();
 	} else if (property == TextContentProperty::Y_OFFSET) {
 		checked_set (_y_offset, text ? lrint (text->y_offset() * 100) : 0);
+		update_outline_subtitles_in_viewer ();
 	} else if (property == TextContentProperty::X_SCALE) {
 		checked_set (_x_scale, text ? lrint (text->x_scale() * 100) : 100);
+		clear_outline_subtitles ();
 	} else if (property == TextContentProperty::Y_SCALE) {
 		checked_set (_y_scale, text ? lrint (text->y_scale() * 100) : 100);
+		clear_outline_subtitles ();
 	} else if (property == TextContentProperty::LINE_SPACING) {
 		checked_set (_line_spacing, text ? lrint (text->line_spacing() * 100) : 100);
+		clear_outline_subtitles ();
 	} else if (property == TextContentProperty::LANGUAGE) {
 		if (_language) {
 			checked_set (_language, text ? text->language() : "");
@@ -558,6 +587,9 @@ TextPanel::setup_sensitivity ()
 	/* Set up sensitivity */
 	_use->Enable (!reference && any_subs > 0);
 	bool const use = _use->GetValue ();
+	if (_outline_subtitles) {
+		_outline_subtitles->Enable (!_loading_analysis && any_subs && use && type == TEXT_OPEN_SUBTITLE);
+	}
 	_type->Enable (!reference && any_subs > 0 && use);
 	_burn->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
 	_x_offset->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
@@ -724,3 +756,123 @@ TextPanel::appearance_dialog_clicked ()
 	}
 	d->Destroy ();
 }
+
+
+
+/** The user has clicked on the outline subtitles check box */
+void
+TextPanel::outline_subtitles_changed ()
+{
+	if (_outline_subtitles->GetValue()) {
+		_analysis_content = _parent->selected_text().front();
+		try_to_load_analysis ();
+	} else {
+		clear_outline_subtitles ();
+	}
+}
+
+
+void
+TextPanel::try_to_load_analysis ()
+{
+	_loading_analysis = true;
+	setup_sensitivity ();
+	_analysis.reset ();
+
+	shared_ptr<Content> content = _analysis_content.lock ();
+	if (!content) {
+		_loading_analysis = false;
+		setup_sensitivity ();
+		return;
+	}
+
+	boost::filesystem::path const path = _parent->film()->subtitle_analysis_path(content);
+
+	if (!boost::filesystem::exists(path)) {
+		BOOST_FOREACH (shared_ptr<Job> i, JobManager::instance()->get()) {
+			if (dynamic_pointer_cast<AnalyseSubtitlesJob>(i)) {
+				i->cancel ();
+			}
+		}
+
+		JobManager::instance()->analyse_subtitles (
+			_parent->film(), content, _analysis_finished_connection, bind(&TextPanel::analysis_finished, this)
+			);
+		return;
+	}
+
+	try {
+		_analysis.reset (new SubtitleAnalysis(path));
+	} catch (OldFormatError& e) {
+		/* An old analysis file: recreate it */
+		JobManager::instance()->analyse_subtitles (
+			_parent->film(), content, _analysis_finished_connection, bind(&TextPanel::analysis_finished, this)
+			);
+		return;
+        }
+
+	update_outline_subtitles_in_viewer ();
+	_loading_analysis = false;
+	setup_sensitivity ();
+}
+
+
+void
+TextPanel::update_outline_subtitles_in_viewer ()
+{
+	shared_ptr<FilmViewer> fv = _parent->film_viewer().lock();
+	if (!fv) {
+		return;
+	}
+
+	if (_analysis) {
+		optional<dcpomatic::Rect<double> > rect = _analysis->bounding_box ();
+		if (rect) {
+			shared_ptr<Content> content = _analysis_content.lock ();
+			DCPOMATIC_ASSERT (content);
+			rect->x += content->text.front()->x_offset();
+			rect->y += content->text.front()->y_offset();
+		}
+		fv->set_outline_subtitles (rect);
+	} else {
+		fv->set_outline_subtitles (optional<dcpomatic::Rect<double> >());
+	}
+}
+
+
+/** Remove any current subtitle outline display */
+void
+TextPanel::clear_outline_subtitles ()
+{
+	_analysis.reset ();
+	update_outline_subtitles_in_viewer ();
+	if (_outline_subtitles) {
+		_outline_subtitles->SetValue (false);
+	}
+}
+
+
+void
+TextPanel::analysis_finished ()
+{
+	shared_ptr<Content> content = _analysis_content.lock ();
+	if (!content) {
+		_loading_analysis = false;
+		setup_sensitivity ();
+		return;
+	}
+
+	if (!boost::filesystem::exists(_parent->film()->subtitle_analysis_path(content))) {
+		/* We analysed and still nothing showed up, so maybe it was cancelled or it failed.
+		   Give up.
+		*/
+		error_dialog (_parent->window(), _("Could not analyse subtitles."));
+		clear_outline_subtitles ();
+		_loading_analysis = false;
+		setup_sensitivity ();
+		return;
+	}
+
+	try_to_load_analysis ();
+}
+

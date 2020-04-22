@@ -233,6 +233,15 @@ FilmViewer::set_outline_content (bool o)
 	_video_view->update ();
 }
 
+
+void
+FilmViewer::set_outline_subtitles (optional<dcpomatic::Rect<double> > rect)
+{
+	_outline_subtitles = rect;
+	_video_view->update ();
+}
+
+
 void
 FilmViewer::set_eyes (Eyes e)
 {

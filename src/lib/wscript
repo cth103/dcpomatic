@@ -23,6 +23,7 @@ import i18n
 sources = """
           active_text.cc
           analyse_audio_job.cc
+          analyse_subtitles_job.cc
           analytics.cc
           atmos_mxf_content.cc
           atomicity_checker.cc
@@ -157,6 +158,7 @@ sources = """
           string_text_file.cc
           string_text_file_content.cc
           string_text_file_decoder.cc
+          subtitle_analysis.cc
           subtitle_encoder.cc
           text_ring_buffers.cc
           timer.cc

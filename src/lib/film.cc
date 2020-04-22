@@ -54,6 +54,8 @@
 #include "cinema.h"
 #include "change_signaller.h"
 #include "check_content_change_job.h"
+#include "ffmpeg_subtitle_stream.h"
+#include "font.h"
 #include <libcxml/cxml.h>
 #include <dcp/cpl.h>
 #include <dcp/certificate_chain.h>
@@ -301,6 +303,39 @@ Film::audio_analysis_path (shared_ptr<const Playlist> playlist) const
 	p /= digester.get ();
 	return p;
 }
+
+
+boost::filesystem::path
+Film::subtitle_analysis_path (shared_ptr<const Content> content) const
+{
+	boost::filesystem::path p = dir ("analysis");
+
+	Digester digester;
+	digester.add (content->digest());
+
+	if (!content->text.empty()) {
+		shared_ptr<TextContent> tc = content->text.front();
+		digester.add (tc->x_scale());
+		digester.add (tc->y_scale());
+		BOOST_FOREACH (shared_ptr<dcpomatic::Font> i, tc->fonts()) {
+			digester.add (i->id());
+		}
+		if (tc->effect()) {
+			digester.add (tc->effect().get());
+		}
+		digester.add (tc->line_spacing());
+		digester.add (tc->outline_width());
+	}
+
+	shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent>(content);
+	if (fc) {
+		digester.add (fc->subtitle_stream()->identifier());
+	}
+
+	p /= digester.get ();
+	return p;
+}
+
 
 /** Add suitable Jobs to the JobManager to create a DCP for this Film.
  *  @param gui true if this is being called from a GUI tool.

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -32,6 +32,7 @@
 class Job;
 class Film;
 class Playlist;
+class Content;
 struct threed_test7;
 
 extern bool wait_for_jobs ();
@@ -60,6 +61,13 @@ public:
 		boost::shared_ptr<const Film> film,
 		boost::shared_ptr<const Playlist> playlist,
 		bool from_zero,
+		boost::signals2::connection& connection,
+		boost::function<void()> ready
+		);
+
+	void analyse_subtitles (
+		boost::shared_ptr<const Film> film,
+		boost::shared_ptr<Content> content,
 		boost::signals2::connection& connection,
 		boost::function<void()> ready
 		);

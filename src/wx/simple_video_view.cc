@@ -130,6 +130,15 @@ SimpleVideoView::paint ()
 		dc.SetBrush (*wxTRANSPARENT_BRUSH);
 		dc.DrawRectangle (_inter_position.x, _inter_position.y + (panel_size.GetHeight() - out_size.height) / 2, _inter_size.width, _inter_size.height);
 	}
+
+	optional<dcpomatic::Rect<double> > subs = _viewer->outline_subtitles();
+	if (subs) {
+		wxPen p (wxColour(0, 255, 0), 2);
+		dc.SetPen (p);
+		dc.SetBrush (*wxTRANSPARENT_BRUSH);
+		dc.DrawRectangle (subs->x * out_size.width, subs->y * out_size.height, subs->width * out_size.width, subs->height * out_size.height);
+	}
+
         _state_timer.unset();
 }
 
