@@ -83,6 +83,7 @@ int const PlayerProperty::PLAYLIST = 701;
 int const PlayerProperty::FILM_CONTAINER = 702;
 int const PlayerProperty::FILM_VIDEO_FRAME_RATE = 703;
 int const PlayerProperty::DCP_DECODE_REDUCTION = 704;
+int const PlayerProperty::PLAYBACK_LENGTH = 705;
 
 Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist, DCPTime playback_length)
 	: _film (film)
@@ -123,6 +124,16 @@ Player::setup_pieces ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	setup_pieces_unlocked ();
+}
+
+
+void
+Player::set_playback_length (DCPTime len)
+{
+	Change (CHANGE_TYPE_PENDING, PlayerProperty::PLAYBACK_LENGTH, false);
+	_playback_length = len;
+	Change (CHANGE_TYPE_DONE, PlayerProperty::PLAYBACK_LENGTH, false);
+	setup_pieces ();
 }
 
 bool

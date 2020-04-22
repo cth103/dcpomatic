@@ -60,6 +60,7 @@ public:
 	static int const FILM_CONTAINER;
 	static int const FILM_VIDEO_FRAME_RATE;
 	static int const DCP_DECODE_REDUCTION;
+	static int const PLAYBACK_LENGTH;
 };
 
 /** @class Player
@@ -81,6 +82,7 @@ public:
 		return _video_container_size;
 	}
 
+	void set_playback_length (dcpomatic::DCPTime len);
 	void set_video_container_size (dcp::Size);
 	void set_ignore_video ();
 	void set_ignore_audio ();

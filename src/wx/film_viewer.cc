@@ -406,6 +406,7 @@ void
 FilmViewer::film_length_change ()
 {
 	_video_view->set_length (_film->length());
+	_player->set_playback_length (_film->length());
 }
 
 /** Re-get the current frame slowly by seeking */
