@@ -200,6 +200,85 @@ setup_font (StringText const& subtitle, list<shared_ptr<Font> > const& fonts)
 }
 
 
+static float
+calculate_fade_factor (StringText const& first, DCPTime time, int frame_rate)
+{
+	float fade_factor = 1;
+
+	/* Round the fade start/end to the nearest frame start.  Otherwise if a subtitle starts just after
+	   the start of a frame it will be faded out.
+	*/
+	DCPTime const fade_in_start = DCPTime::from_seconds(first.in().as_seconds()).round(frame_rate);
+	DCPTime const fade_in_end = fade_in_start + DCPTime::from_seconds (first.fade_up_time().as_seconds ());
+	DCPTime const fade_out_end =  DCPTime::from_seconds (first.out().as_seconds()).round(frame_rate);
+	DCPTime const fade_out_start = fade_out_end - DCPTime::from_seconds (first.fade_down_time().as_seconds ());
+
+	if (fade_in_start <= time && time <= fade_in_end && fade_in_start != fade_in_end) {
+		fade_factor *= DCPTime(time - fade_in_start).seconds() / DCPTime(fade_in_end - fade_in_start).seconds();
+	}
+	if (fade_out_start <= time && time <= fade_out_end && fade_out_start != fade_out_end) {
+		fade_factor *= 1 - DCPTime(time - fade_out_start).seconds() / DCPTime(fade_out_end - fade_out_start).seconds();
+	}
+	if (time < fade_in_start || time > fade_out_end) {
+		fade_factor = 0;
+	}
+
+	return fade_factor;
+}
+
+
+static int
+x_position (StringText const& first, int target_width, int layout_width)
+{
+	int x = 0;
+	switch (first.h_align ()) {
+	case dcp::HALIGN_LEFT:
+		/* h_position is distance between left of frame and left of subtitle */
+		x = first.h_position() * target_width;
+		break;
+	case dcp::HALIGN_CENTER:
+		/* h_position is distance between centre of frame and centre of subtitle */
+		x = (0.5 + first.h_position()) * target_width - layout_width / 2;
+		break;
+	case dcp::HALIGN_RIGHT:
+		/* h_position is distance between right of frame and right of subtitle */
+		x = (1.0 - first.h_position()) * target_width - layout_width;
+		break;
+	}
+
+	return x;
+}
+
+
+
+static int
+y_position (StringText const& first, int target_height, int layout_height)
+{
+	int y = 0;
+	switch (first.v_align ()) {
+	case dcp::VALIGN_TOP:
+		/* SMPTE says that v_position is the distance between top
+		   of frame and top of subtitle, but this doesn't always seem to be
+		   the case in practice; Gunnar Ásgeirsson's Dolby server appears
+		   to put VALIGN_TOP subs with v_position as the distance between top
+		   of frame and bottom of subtitle.
+		*/
+		y = first.v_position() * target_height - layout_height;
+		break;
+	case dcp::VALIGN_CENTER:
+		/* v_position is distance between centre of frame and centre of subtitle */
+		y = (0.5 + first.v_position()) * target_height - layout_height / 2;
+		break;
+	case dcp::VALIGN_BOTTOM:
+		/* v_position is distance between bottom of frame and bottom of subtitle */
+		y = (1.0 - first.v_position()) * target_height - layout_height;
+		break;
+	}
+
+	return y;
+}
+
+
 /** @param subtitles A list of subtitles that are all on the same line,
  *  at the same time and with the same fade in/out.
  */
@@ -254,26 +333,7 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 
 	context->set_line_width (1);
 
-	/* Compute fade factor */
-	float fade_factor = 1;
-
-	/* Round the fade start/end to the nearest frame start.  Otherwise if a subtitle starts just after
-	   the start of a frame it will be faded out.
-	*/
-	DCPTime const fade_in_start = DCPTime::from_seconds(first.in().as_seconds()).round(frame_rate);
-	DCPTime const fade_in_end = fade_in_start + DCPTime::from_seconds (first.fade_up_time().as_seconds ());
-	DCPTime const fade_out_end =  DCPTime::from_seconds (first.out().as_seconds()).round(frame_rate);
-	DCPTime const fade_out_start = fade_out_end - DCPTime::from_seconds (first.fade_down_time().as_seconds ());
-
-	if (fade_in_start <= time && time <= fade_in_end && fade_in_start != fade_in_end) {
-		fade_factor *= DCPTime(time - fade_in_start).seconds() / DCPTime(fade_in_end - fade_in_start).seconds();
-	}
-	if (fade_out_start <= time && time <= fade_out_end && fade_out_start != fade_out_end) {
-		fade_factor *= 1 - DCPTime(time - fade_out_start).seconds() / DCPTime(fade_out_end - fade_out_start).seconds();
-	}
-	if (time < fade_in_start || time > fade_out_end) {
-		fade_factor = 0;
-	}
+	float const fade_factor = calculate_fade_factor (first, time, frame_rate);
 
 	/* Render the subtitle at the top left-hand corner of image */
 
@@ -325,43 +385,8 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 	layout_width *= xscale;
 	layout_height *= yscale;
 
-	int x = 0;
-	switch (first.h_align ()) {
-	case dcp::HALIGN_LEFT:
-		/* h_position is distance between left of frame and left of subtitle */
-		x = first.h_position() * target.width;
-		break;
-	case dcp::HALIGN_CENTER:
-		/* h_position is distance between centre of frame and centre of subtitle */
-		x = (0.5 + first.h_position()) * target.width - layout_width / 2;
-		break;
-	case dcp::HALIGN_RIGHT:
-		/* h_position is distance between right of frame and right of subtitle */
-		x = (1.0 - first.h_position()) * target.width - layout_width;
-		break;
-	}
-
-	int y = 0;
-	switch (first.v_align ()) {
-	case dcp::VALIGN_TOP:
-		/* SMPTE says that v_position is the distance between top
-		   of frame and top of subtitle, but this doesn't always seem to be
-		   the case in practice; Gunnar Ásgeirsson's Dolby server appears
-		   to put VALIGN_TOP subs with v_position as the distance between top
-		   of frame and bottom of subtitle.
-		*/
-		y = first.v_position() * target.height - layout_height;
-		break;
-	case dcp::VALIGN_CENTER:
-		/* v_position is distance between centre of frame and centre of subtitle */
-		y = (0.5 + first.v_position()) * target.height - layout_height / 2;
-		break;
-	case dcp::VALIGN_BOTTOM:
-		/* v_position is distance between bottom of frame and bottom of subtitle */
-		y = (1.0 - first.v_position()) * target.height - layout_height;
-		break;
-	}
-
+	int const x = x_position (first, target.width, layout_width);
+	int const y = y_position (first, target.height, layout_height);
 	return PositionImage (image, Position<int> (max (0, x), max (0, y)));
 }
 
