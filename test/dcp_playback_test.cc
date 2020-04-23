@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 
 	shared_ptr<Butler> butler (
 		new Butler(
-			shared_ptr<Player>(new Player(film, film->playlist(), film->length())),
+			shared_ptr<Player>(new Player(film)),
 			AudioMapping(6, 6),
 			6,
 			bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),

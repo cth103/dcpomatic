@@ -140,7 +140,7 @@ AnalyseAudioJob::json_name () const
 void
 AnalyseAudioJob::run ()
 {
-	shared_ptr<Player> player (new Player(_film, _playlist, _playlist->length(_film)));
+	shared_ptr<Player> player (new Player(_film, _playlist));
 	player->set_ignore_video ();
 	player->set_ignore_text ();
 	player->set_fast ();

@@ -65,7 +65,7 @@ ffmpeg_decoder_sequential_test_one (boost::filesystem::path file, float fps, int
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 	film->write_metadata ();
-	shared_ptr<Player> player (new Player(film, film->playlist(), film->length()));
+	shared_ptr<Player> player (new Player(film));
 
 	BOOST_REQUIRE (content->video_frame_rate());
 	BOOST_CHECK_CLOSE (content->video_frame_rate().get(), fps, 0.01);

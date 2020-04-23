@@ -85,7 +85,23 @@ int const PlayerProperty::FILM_VIDEO_FRAME_RATE = 703;
 int const PlayerProperty::DCP_DECODE_REDUCTION = 704;
 int const PlayerProperty::PLAYBACK_LENGTH = 705;
 
-Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist_, DCPTime playback_length)
+Player::Player (shared_ptr<const Film> film)
+	: _film (film)
+	, _suspended (0)
+	, _ignore_video (false)
+	, _ignore_audio (false)
+	, _ignore_text (false)
+	, _always_burn_open_subtitles (false)
+	, _fast (false)
+	, _tolerant (film->tolerant())
+	, _play_referenced (false)
+	, _audio_merger (_film->audio_frame_rate())
+	, _shuffler (0)
+{
+	construct ();
+}
+
+Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist_)
 	: _film (film)
 	, _playlist (playlist_)
 	, _suspended (0)
@@ -98,7 +114,12 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _play_referenced (false)
 	, _audio_merger (_film->audio_frame_rate())
 	, _shuffler (0)
-	, _playback_length (playback_length)
+{
+	construct ();
+}
+
+void
+Player::construct ()
 {
 	_film_changed_connection = _film->Change.connect (bind (&Player::film_change, this, _1, _2));
 	/* The butler must hear about this first, so since we are proxying this through to the butler we must
@@ -127,15 +148,6 @@ Player::setup_pieces ()
 }
 
 
-void
-Player::set_playback_length (DCPTime len)
-{
-	Change (CHANGE_TYPE_PENDING, PlayerProperty::PLAYBACK_LENGTH, false);
-	_playback_length = len;
-	Change (CHANGE_TYPE_DONE, PlayerProperty::PLAYBACK_LENGTH, false);
-	setup_pieces ();
-}
-
 bool
 have_video (shared_ptr<const Content> content)
 {
@@ -151,6 +163,8 @@ have_audio (shared_ptr<const Content> content)
 void
 Player::setup_pieces_unlocked ()
 {
+	_playback_length = _playlist ? _playlist->length(_film) : _film->length();
+
 	list<shared_ptr<Piece> > old_pieces = _pieces;
 	_pieces.clear ();
 
@@ -1247,6 +1261,6 @@ Player::content_time_to_dcp (shared_ptr<Content> content, ContentTime t)
 shared_ptr<const Playlist>
 Player::playlist () const
 {
-	return _playlist;
+	return _playlist ? _playlist : _film->playlist();
 }
 

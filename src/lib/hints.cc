@@ -259,7 +259,7 @@ Hints::thread ()
 
 	emit (bind(boost::ref(Progress), _("Examining closed captions")));
 
-	shared_ptr<Player> player (new Player(film, film->playlist(), film->length()));
+	shared_ptr<Player> player (new Player(film));
 	player->set_ignore_video ();
 	player->set_ignore_audio ();
 	player->Text.connect (bind(&Hints::text, this, _1, _2, _4));

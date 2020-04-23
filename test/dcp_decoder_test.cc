@@ -89,7 +89,7 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	ov_content.reset (new DCPContent(ov->dir(ov->dcp_name(false))));
 	test->examine_and_add_content (ov_content);
 	BOOST_REQUIRE (!wait_for_jobs());
-	shared_ptr<Player> player (new Player(test, test->playlist(), test->length()));
+	shared_ptr<Player> player (new Player(test));
 
 	shared_ptr<DCPDecoder> decoder = boost::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
 	BOOST_REQUIRE (decoder);
@@ -107,7 +107,7 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	shared_ptr<DCPContent> vf_content (new DCPContent(vf->dir(vf->dcp_name(false))));
 	test->examine_and_add_content (vf_content);
 	BOOST_REQUIRE (!wait_for_jobs());
-	player.reset (new Player(test, test->playlist(), test->length()));
+	player.reset (new Player(test));
 
 	decoder = boost::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
 	BOOST_REQUIRE (decoder);
@@ -125,7 +125,7 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	shared_ptr<DCPContent> encrypted_content (new DCPContent(encrypted->dir(encrypted->dcp_name(false))));
 	test->examine_and_add_content (encrypted_content);
 	BOOST_REQUIRE (!wait_for_jobs());
-	player.reset (new Player(test, test->playlist(), test->length()));
+	player.reset (new Player(test));
 
 	decoder = boost::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
 	BOOST_REQUIRE (decoder);

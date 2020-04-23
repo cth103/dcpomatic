@@ -134,7 +134,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test2)
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<Player> player (new Player(film, film->playlist(), film->length()));
+	shared_ptr<Player> player (new Player(film));
 	while (!player->pass ()) {}
 }
 
@@ -146,7 +146,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test3)
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<Player> player (new Player(film, film->playlist(), film->length()));
+	shared_ptr<Player> player (new Player(film));
 	player->set_fast ();
 	while (!player->pass ()) {}
 }

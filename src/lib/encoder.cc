@@ -41,7 +41,7 @@ using boost::shared_ptr;
 Encoder::Encoder (shared_ptr<const Film> film, weak_ptr<Job> job)
 	: _film (film)
 	, _job (job)
-	, _player (new Player(film, film->playlist(), film->length()))
+	, _player (new Player(film))
 {
 
 }

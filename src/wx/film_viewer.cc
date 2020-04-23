@@ -164,7 +164,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	}
 
 	try {
-		_player.reset (new Player(_film, _film->playlist(), _film->length()));
+		_player.reset (new Player(_film));
 		_player->set_fast ();
 		if (_dcp_decode_reduction) {
 			_player->set_dcp_decode_reduction (_dcp_decode_reduction);
@@ -406,7 +406,6 @@ void
 FilmViewer::film_length_change ()
 {
 	_video_view->set_length (_film->length());
-	_player->set_playback_length (_film->length());
 }
 
 /** Re-get the current frame slowly by seeking */

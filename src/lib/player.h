@@ -69,7 +69,8 @@ public:
 class Player : public boost::enable_shared_from_this<Player>, public boost::noncopyable
 {
 public:
-	Player (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist> playlist, dcpomatic::DCPTime playback_length);
+	Player (boost::shared_ptr<const Film>);
+	Player (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist> playlist);
 	~Player ();
 
 	bool pass ();
@@ -82,7 +83,6 @@ public:
 		return _video_container_size;
 	}
 
-	void set_playback_length (dcpomatic::DCPTime len);
 	void set_video_container_size (dcp::Size);
 	void set_ignore_video ();
 	void set_ignore_audio ();
@@ -115,6 +115,7 @@ private:
 	friend struct empty_test2;
 	friend struct check_reuse_old_data_test;
 
+	void construct ();
 	void setup_pieces ();
 	void setup_pieces_unlocked ();
 	void flush ();
@@ -151,6 +152,7 @@ private:
 	mutable boost::mutex _mutex;
 
 	boost::shared_ptr<const Film> _film;
+	/** Playlist, or 0 if we are using the one from the _film */
 	boost::shared_ptr<const Playlist> _playlist;
 
 	/** > 0 if we are suspended (i.e. pass() and seek() do nothing) */

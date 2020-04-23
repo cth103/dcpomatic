@@ -287,7 +287,7 @@ BOOST_AUTO_TEST_CASE (vf_test5)
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Check that the selected reel assets are right */
-	shared_ptr<Player> player (new Player(vf, vf->playlist(), vf->length()));
+	shared_ptr<Player> player (new Player(vf));
 	list<ReferencedReelAsset> a = player->get_reel_assets();
 	BOOST_REQUIRE_EQUAL (a.size(), 4);
 	list<ReferencedReelAsset>::const_iterator i = a.begin();
