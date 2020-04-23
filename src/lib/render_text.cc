@@ -212,18 +212,20 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 
 	DCPOMATIC_ASSERT (!subtitles.empty ());
 
+	StringText const& first = subtitles.front ();
+
 	/* Calculate x and y scale factors.  These are only used to stretch
 	   the font away from its normal aspect ratio.
 	*/
 	float xscale = 1;
 	float yscale = 1;
-	if (fabs (subtitles.front().aspect_adjust() - 1.0) > dcp::ASPECT_ADJUST_EPSILON) {
-		if (subtitles.front().aspect_adjust() < 1) {
-			xscale = max (0.25f, subtitles.front().aspect_adjust ());
+	if (fabs (first.aspect_adjust() - 1.0) > dcp::ASPECT_ADJUST_EPSILON) {
+		if (first.aspect_adjust() < 1) {
+			xscale = max (0.25f, first.aspect_adjust ());
 			yscale = 1;
 		} else {
 			xscale = 1;
-			yscale = 1 / min (4.0f, subtitles.front().aspect_adjust ());
+			yscale = 1 / min (4.0f, first.aspect_adjust ());
 		}
 	}
 
@@ -245,7 +247,7 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 	shared_ptr<Image> image = create_image (target.width, height);
 	Cairo::RefPtr<Cairo::Surface> surface = create_surface (image);
 	Cairo::RefPtr<Cairo::Context> context = Cairo::Context::create (surface);
-	string const font_name = setup_font (subtitles.front(), fonts);
+	string const font_name = setup_font (first, fonts);
 	Glib::RefPtr<Pango::Layout> layout = Pango::Layout::create (context);
 
 	layout->set_alignment (Pango::ALIGN_LEFT);
@@ -258,10 +260,10 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 	/* Round the fade start/end to the nearest frame start.  Otherwise if a subtitle starts just after
 	   the start of a frame it will be faded out.
 	*/
-	DCPTime const fade_in_start = DCPTime::from_seconds(subtitles.front().in().as_seconds()).round(frame_rate);
-	DCPTime const fade_in_end = fade_in_start + DCPTime::from_seconds (subtitles.front().fade_up_time().as_seconds ());
-	DCPTime const fade_out_end =  DCPTime::from_seconds (subtitles.front().out().as_seconds()).round(frame_rate);
-	DCPTime const fade_out_start = fade_out_end - DCPTime::from_seconds (subtitles.front().fade_down_time().as_seconds ());
+	DCPTime const fade_in_start = DCPTime::from_seconds(first.in().as_seconds()).round(frame_rate);
+	DCPTime const fade_in_end = fade_in_start + DCPTime::from_seconds (first.fade_up_time().as_seconds ());
+	DCPTime const fade_out_end =  DCPTime::from_seconds (first.out().as_seconds()).round(frame_rate);
+	DCPTime const fade_out_start = fade_out_end - DCPTime::from_seconds (first.fade_down_time().as_seconds ());
 
 	if (fade_in_start <= time && time <= fade_in_end && fade_in_start != fade_in_end) {
 		fade_factor *= DCPTime(time - fade_in_start).seconds() / DCPTime(fade_in_end - fade_in_start).seconds();
@@ -285,22 +287,22 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 	/* Shuffle the subtitle over very slightly if it has a border so that the left-hand
 	   side of the first character's border is not cut off.
 	*/
-	int const x_offset = subtitles.front().effect() == dcp::BORDER ? (target.width / 600.0) : 0;
+	int const x_offset = first.effect() == dcp::BORDER ? (target.width / 600.0) : 0;
 	/* Move down a bit so that accents on capital letters can be seen */
 	int const y_offset = target.height / 100.0;
 
-	if (subtitles.front().effect() == dcp::SHADOW) {
+	if (first.effect() == dcp::SHADOW) {
 		/* Drop-shadow effect */
-		set_source_rgba (context, subtitles.front().effect_colour(), fade_factor);
+		set_source_rgba (context, first.effect_colour(), fade_factor);
 		context->move_to (x_offset + 4, y_offset + 4);
 		layout->add_to_cairo_context (context);
 		context->fill ();
 	}
 
-	if (subtitles.front().effect() == dcp::BORDER) {
+	if (first.effect() == dcp::BORDER) {
 		/* Border effect; stroke the subtitle with a large (arbitrarily chosen) line width */
-		set_source_rgba (context, subtitles.front().effect_colour(), fade_factor);
-		context->set_line_width (subtitles.front().outline_width * target.width / 2048.0);
+		set_source_rgba (context, first.effect_colour(), fade_factor);
+		context->set_line_width (first.outline_width * target.width / 2048.0);
 		context->set_line_join (Cairo::LINE_JOIN_ROUND);
 		context->move_to (x_offset, y_offset);
 		layout->add_to_cairo_context (context);
@@ -324,23 +326,23 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 	layout_height *= yscale;
 
 	int x = 0;
-	switch (subtitles.front().h_align ()) {
+	switch (first.h_align ()) {
 	case dcp::HALIGN_LEFT:
 		/* h_position is distance between left of frame and left of subtitle */
-		x = subtitles.front().h_position() * target.width;
+		x = first.h_position() * target.width;
 		break;
 	case dcp::HALIGN_CENTER:
 		/* h_position is distance between centre of frame and centre of subtitle */
-		x = (0.5 + subtitles.front().h_position()) * target.width - layout_width / 2;
+		x = (0.5 + first.h_position()) * target.width - layout_width / 2;
 		break;
 	case dcp::HALIGN_RIGHT:
 		/* h_position is distance between right of frame and right of subtitle */
-		x = (1.0 - subtitles.front().h_position()) * target.width - layout_width;
+		x = (1.0 - first.h_position()) * target.width - layout_width;
 		break;
 	}
 
 	int y = 0;
-	switch (subtitles.front().v_align ()) {
+	switch (first.v_align ()) {
 	case dcp::VALIGN_TOP:
 		/* SMPTE says that v_position is the distance between top
 		   of frame and top of subtitle, but this doesn't always seem to be
@@ -348,15 +350,15 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 		   to put VALIGN_TOP subs with v_position as the distance between top
 		   of frame and bottom of subtitle.
 		*/
-		y = subtitles.front().v_position() * target.height - layout_height;
+		y = first.v_position() * target.height - layout_height;
 		break;
 	case dcp::VALIGN_CENTER:
 		/* v_position is distance between centre of frame and centre of subtitle */
-		y = (0.5 + subtitles.front().v_position()) * target.height - layout_height / 2;
+		y = (0.5 + first.v_position()) * target.height - layout_height / 2;
 		break;
 	case dcp::VALIGN_BOTTOM:
 		/* v_position is distance between bottom of frame and bottom of subtitle */
-		y = (1.0 - subtitles.front().v_position()) * target.height - layout_height;
+		y = (1.0 - first.v_position()) * target.height - layout_height;
 		break;
 	}
 
