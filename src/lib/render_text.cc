@@ -28,6 +28,7 @@
 #include <fontconfig/fontconfig.h>
 #include <cairomm/cairomm.h>
 #include <pangomm.h>
+#include <pango/pangocairo.h>
 #ifndef DCPOMATIC_HAVE_SHOW_IN_CAIRO_CONTEXT
 #include <pango/pangocairo.h>
 #endif
@@ -90,10 +91,10 @@ set_source_rgba (Cairo::RefPtr<Cairo::Context> context, dcp::Colour colour, floa
 
 
 static shared_ptr<Image>
-create_image (int width, int height)
+create_image (dcp::Size size)
 {
 	/* FFmpeg BGRA means first byte blue, second byte green, third byte red, fourth byte alpha */
-	shared_ptr<Image> image (new Image (AV_PIX_FMT_BGRA, dcp::Size (width, height), false));
+	shared_ptr<Image> image (new Image(AV_PIX_FMT_BGRA, size, false));
 	image->make_black ();
 	return image;
 }
@@ -279,6 +280,30 @@ y_position (StringText const& first, int target_height, int layout_height)
 }
 
 
+static void
+setup_layout (Glib::RefPtr<Pango::Layout> layout, string font_name, string markup)
+{
+	layout->set_alignment (Pango::ALIGN_LEFT);
+	Pango::FontDescription font (font_name);
+	layout->set_font_description (font);
+	layout->set_markup (markup);
+}
+
+/** Create a Pango layout using a dummy context which we can use to calculate the size
+ *  of the text we will render.  Then we can transfer the layout over to the real context
+ *  for the actual render.
+ */
+static Glib::RefPtr<Pango::Layout>
+create_layout()
+{
+	PangoFontMap* c_font_map = pango_cairo_font_map_new ();
+	Glib::RefPtr<Pango::FontMap> font_map = Glib::wrap (c_font_map);
+	PangoContext* c_context = pango_font_map_create_context (c_font_map);
+	Glib::RefPtr<Pango::Context> context = Glib::wrap (c_context);
+	return Pango::Layout::create (context);
+}
+
+
 /** @param subtitles A list of subtitles that are all on the same line,
  *  at the same time and with the same fade in/out.
  */
@@ -290,59 +315,33 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 	*/
 
 	DCPOMATIC_ASSERT (!subtitles.empty ());
-
 	StringText const& first = subtitles.front ();
+
+	string const font_name = setup_font (first, fonts);
+	float const fade_factor = calculate_fade_factor (first, time, frame_rate);
+	string const markup = marked_up (subtitles, target.height, fade_factor);
+	Glib::RefPtr<Pango::Layout> layout = create_layout ();
+	setup_layout (layout, font_name, markup);
+	dcp::Size size;
+	layout->get_pixel_size (size.width, size.height);
 
 	/* Calculate x and y scale factors.  These are only used to stretch
 	   the font away from its normal aspect ratio.
 	*/
-	float xscale = 1;
-	float yscale = 1;
+	float x_scale = 1;
+	float y_scale = 1;
 	if (fabs (first.aspect_adjust() - 1.0) > dcp::ASPECT_ADJUST_EPSILON) {
 		if (first.aspect_adjust() < 1) {
-			xscale = max (0.25f, first.aspect_adjust ());
-			yscale = 1;
+			x_scale = max (0.25f, first.aspect_adjust ());
+			y_scale = 1;
 		} else {
-			xscale = 1;
-			yscale = 1 / min (4.0f, first.aspect_adjust ());
+			x_scale = 1;
+			y_scale = 1 / min (4.0f, first.aspect_adjust ());
 		}
 	}
 
-	/* Make an empty bitmap as wide as target and at
-	   least tall enough for this subtitle.
-	*/
-
-	int largest = 0;
-	BOOST_FOREACH (dcp::SubtitleString const & i, subtitles) {
-		largest = max (largest, i.size());
-	}
-	/* Basic guess on height... */
-	int height = largest * target.height / (11 * 72);
-	/* ...scaled... */
-	height *= yscale;
-	/* ...and add a bit more for luck */
-	height += target.height / 11;
-
-	shared_ptr<Image> image = create_image (target.width, height);
-	Cairo::RefPtr<Cairo::Surface> surface = create_surface (image);
-	Cairo::RefPtr<Cairo::Context> context = Cairo::Context::create (surface);
-	string const font_name = setup_font (first, fonts);
-	Glib::RefPtr<Pango::Layout> layout = Pango::Layout::create (context);
-
-	layout->set_alignment (Pango::ALIGN_LEFT);
-
-	context->set_line_width (1);
-
-	float const fade_factor = calculate_fade_factor (first, time, frame_rate);
-
-	/* Render the subtitle at the top left-hand corner of image */
-
-	Pango::FontDescription font (font_name);
-	layout->set_font_description (font);
-	layout->set_markup (marked_up (subtitles, target.height, fade_factor));
-
-	context->scale (xscale, yscale);
-	layout->update_from_cairo_context (context);
+	size.width *= x_scale;
+	size.height *= y_scale;
 
 	/* Shuffle the subtitle over very slightly if it has a border so that the left-hand
 	   side of the first character's border is not cut off.
@@ -350,6 +349,17 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 	int const x_offset = first.effect() == dcp::BORDER ? (target.width / 600.0) : 0;
 	/* Move down a bit so that accents on capital letters can be seen */
 	int const y_offset = target.height / 100.0;
+
+	size.width += x_offset;
+	size.height += y_offset;
+
+	shared_ptr<Image> image = create_image (size);
+	Cairo::RefPtr<Cairo::Surface> surface = create_surface (image);
+	Cairo::RefPtr<Cairo::Context> context = Cairo::Context::create (surface);
+
+	context->set_line_width (1);
+	context->scale (x_scale, y_scale);
+	layout->update_from_cairo_context (context);
 
 	if (first.effect() == dcp::SHADOW) {
 		/* Drop-shadow effect */
@@ -379,16 +389,11 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 	pango_cairo_show_layout (context->cobj(), layout->gobj());
 #endif
 
-	int layout_width;
-	int layout_height;
-	layout->get_pixel_size (layout_width, layout_height);
-	layout_width *= xscale;
-	layout_height *= yscale;
-
-	int const x = x_position (first, target.width, layout_width);
-	int const y = y_position (first, target.height, layout_height);
-	return PositionImage (image, Position<int> (max (0, x), max (0, y)));
+	int const x = x_position (first, target.width, size.width);
+	int const y = y_position (first, target.height, size.height);
+	return PositionImage (image, Position<int>(max (0, x), max(0, y)));
 }
+
 
 /** @param time Time of the frame that these subtitles are going on.
  *  @param frame_rate DCP frame rate.
