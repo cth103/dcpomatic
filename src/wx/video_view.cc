@@ -73,10 +73,11 @@ VideoView::get_next_frame (bool non_blocking)
 
 	do {
 		Butler::Error e;
-		_player_video = butler->get_video (!non_blocking, &e);
-		if (!_player_video.first && e == Butler::AGAIN) {
+		pair<shared_ptr<PlayerVideo>, dcpomatic::DCPTime> pv = butler->get_video (!non_blocking, &e);
+		if (!pv.first && e == Butler::AGAIN) {
 			return false;
 		}
+		_player_video = pv;
 	} while (
 		_player_video.first &&
 		_three_d &&
