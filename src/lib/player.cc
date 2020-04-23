@@ -85,9 +85,9 @@ int const PlayerProperty::FILM_VIDEO_FRAME_RATE = 703;
 int const PlayerProperty::DCP_DECODE_REDUCTION = 704;
 int const PlayerProperty::PLAYBACK_LENGTH = 705;
 
-Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist, DCPTime playback_length)
+Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist_, DCPTime playback_length)
 	: _film (film)
-	, _playlist (playlist)
+	, _playlist (playlist_)
 	, _suspended (0)
 	, _ignore_video (false)
 	, _ignore_audio (false)
@@ -104,8 +104,8 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	/* The butler must hear about this first, so since we are proxying this through to the butler we must
 	   be first.
 	*/
-	_playlist_change_connection = _playlist->Change.connect (bind (&Player::playlist_change, this, _1), boost::signals2::at_front);
-	_playlist_content_change_connection = _playlist->ContentChange.connect (bind(&Player::playlist_content_change, this, _1, _3, _4));
+	_playlist_change_connection = playlist()->Change.connect (bind (&Player::playlist_change, this, _1), boost::signals2::at_front);
+	_playlist_content_change_connection = playlist()->ContentChange.connect (bind(&Player::playlist_content_change, this, _1, _3, _4));
 	set_video_container_size (_film->frame_size ());
 
 	film_change (CHANGE_TYPE_DONE, Film::AUDIO_PROCESSOR);
@@ -158,7 +158,7 @@ Player::setup_pieces_unlocked ()
 	_shuffler = new Shuffler();
 	_shuffler->Video.connect(bind(&Player::video, this, _1, _2));
 
-	BOOST_FOREACH (shared_ptr<Content> i, _playlist->content ()) {
+	BOOST_FOREACH (shared_ptr<Content> i, playlist()->content()) {
 
 		if (!i->paths_valid ()) {
 			continue;
@@ -249,8 +249,8 @@ Player::setup_pieces_unlocked ()
 		}
 	}
 
-	_black = Empty (_film, _playlist, bind(&have_video, _1), _playback_length);
-	_silent = Empty (_film, _playlist, bind(&have_audio, _1), _playback_length);
+	_black = Empty (_film, playlist(), bind(&have_video, _1), _playback_length);
+	_silent = Empty (_film, playlist(), bind(&have_audio, _1), _playback_length);
 
 	_last_video_time = DCPTime ();
 	_last_video_eyes = EYES_BOTH;
@@ -507,7 +507,7 @@ Player::get_reel_assets ()
 
 	list<ReferencedReelAsset> a;
 
-	BOOST_FOREACH (shared_ptr<Content> i, _playlist->content ()) {
+	BOOST_FOREACH (shared_ptr<Content> i, playlist()->content()) {
 		shared_ptr<DCPContent> j = dynamic_pointer_cast<DCPContent> (i);
 		if (!j) {
 			continue;
@@ -1242,3 +1242,11 @@ Player::content_time_to_dcp (shared_ptr<Content> content, ContentTime t)
 	/* We couldn't find this content; perhaps things are being changed over */
 	return optional<DCPTime>();
 }
+
+
+shared_ptr<const Playlist>
+Player::playlist () const
+{
+	return _playlist;
+}
+

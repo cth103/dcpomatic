@@ -142,6 +142,7 @@ private:
 	void emit_video (boost::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time);
 	void do_emit_video (boost::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time);
 	void emit_audio (boost::shared_ptr<AudioBuffers> data, dcpomatic::DCPTime time);
+	boost::shared_ptr<const Playlist> playlist () const;
 
 	/** Mutex to protect the whole Player state.  When it's used for the preview we have
 	    seek() and pass() called from the Butler thread and lots of other stuff called
