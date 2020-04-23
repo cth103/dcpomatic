@@ -88,52 +88,20 @@ set_source_rgba (Cairo::RefPtr<Cairo::Context> context, dcp::Colour colour, floa
 	context->set_source_rgba (float(colour.r) / 255, float(colour.g) / 255, float(colour.b) / 255, fade_factor);
 }
 
-/** @param subtitles A list of subtitles that are all on the same line,
- *  at the same time and with the same fade in/out.
- */
-static PositionImage
-render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target, DCPTime time, int frame_rate)
+
+static shared_ptr<Image>
+create_image (int width, int height)
 {
-	/* XXX: this method can only handle italic / bold changes mid-line,
-	   nothing else yet.
-	*/
-
-	DCPOMATIC_ASSERT (!subtitles.empty ());
-
-	/* Calculate x and y scale factors.  These are only used to stretch
-	   the font away from its normal aspect ratio.
-	*/
-	float xscale = 1;
-	float yscale = 1;
-	if (fabs (subtitles.front().aspect_adjust() - 1.0) > dcp::ASPECT_ADJUST_EPSILON) {
-		if (subtitles.front().aspect_adjust() < 1) {
-			xscale = max (0.25f, subtitles.front().aspect_adjust ());
-			yscale = 1;
-		} else {
-			xscale = 1;
-			yscale = 1 / min (4.0f, subtitles.front().aspect_adjust ());
-		}
-	}
-
-	/* Make an empty bitmap as wide as target and at
-	   least tall enough for this subtitle.
-	*/
-
-	int largest = 0;
-	BOOST_FOREACH (dcp::SubtitleString const & i, subtitles) {
-		largest = max (largest, i.size());
-	}
-	/* Basic guess on height... */
-	int height = largest * target.height / (11 * 72);
-	/* ...scaled... */
-	height *= yscale;
-	/* ...and add a bit more for luck */
-	height += target.height / 11;
-
 	/* FFmpeg BGRA means first byte blue, second byte green, third byte red, fourth byte alpha */
-	shared_ptr<Image> image (new Image (AV_PIX_FMT_BGRA, dcp::Size (target.width, height), false));
+	shared_ptr<Image> image (new Image (AV_PIX_FMT_BGRA, dcp::Size (width, height), false));
 	image->make_black ();
+	return image;
+}
 
+
+static Cairo::RefPtr<Cairo::ImageSurface>
+create_surface (shared_ptr<Image> image)
+{
 #ifdef DCPOMATIC_HAVE_FORMAT_STRIDE_FOR_WIDTH
 	Cairo::RefPtr<Cairo::ImageSurface> surface = Cairo::ImageSurface::create (
 		image->data()[0],
@@ -156,8 +124,13 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 		);
 #endif
 
-	Cairo::RefPtr<Cairo::Context> context = Cairo::Context::create (surface);
+	return surface;
+}
 
+
+static string
+setup_font (StringText const& subtitle, list<shared_ptr<Font> > const& fonts)
+{
 	if (!fc_config) {
 		fc_config = FcInitLoadConfig ();
 	}
@@ -177,7 +150,7 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 	}
 
 	BOOST_FOREACH (shared_ptr<Font> i, fonts) {
-		if (i->id() == subtitles.front().font() && i->file()) {
+		if (i->id() == subtitle.font() && i->file()) {
 			font_file = i->file ();
 		}
 	}
@@ -223,7 +196,56 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 	}
 
 	FcConfigSetCurrent (fc_config);
+	return font_name;
+}
 
+
+/** @param subtitles A list of subtitles that are all on the same line,
+ *  at the same time and with the same fade in/out.
+ */
+static PositionImage
+render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target, DCPTime time, int frame_rate)
+{
+	/* XXX: this method can only handle italic / bold changes mid-line,
+	   nothing else yet.
+	*/
+
+	DCPOMATIC_ASSERT (!subtitles.empty ());
+
+	/* Calculate x and y scale factors.  These are only used to stretch
+	   the font away from its normal aspect ratio.
+	*/
+	float xscale = 1;
+	float yscale = 1;
+	if (fabs (subtitles.front().aspect_adjust() - 1.0) > dcp::ASPECT_ADJUST_EPSILON) {
+		if (subtitles.front().aspect_adjust() < 1) {
+			xscale = max (0.25f, subtitles.front().aspect_adjust ());
+			yscale = 1;
+		} else {
+			xscale = 1;
+			yscale = 1 / min (4.0f, subtitles.front().aspect_adjust ());
+		}
+	}
+
+	/* Make an empty bitmap as wide as target and at
+	   least tall enough for this subtitle.
+	*/
+
+	int largest = 0;
+	BOOST_FOREACH (dcp::SubtitleString const & i, subtitles) {
+		largest = max (largest, i.size());
+	}
+	/* Basic guess on height... */
+	int height = largest * target.height / (11 * 72);
+	/* ...scaled... */
+	height *= yscale;
+	/* ...and add a bit more for luck */
+	height += target.height / 11;
+
+	shared_ptr<Image> image = create_image (target.width, height);
+	Cairo::RefPtr<Cairo::Surface> surface = create_surface (image);
+	Cairo::RefPtr<Cairo::Context> context = Cairo::Context::create (surface);
+	string const font_name = setup_font (subtitles.front(), fonts);
 	Glib::RefPtr<Pango::Layout> layout = Pango::Layout::create (context);
 
 	layout->set_alignment (Pango::ALIGN_LEFT);
