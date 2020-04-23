@@ -26,7 +26,7 @@ DriveWipeWarningDialog::DriveWipeWarningDialog (wxWindow* parent, wxString drive
 	: wxDialog (parent, wxID_ANY, _("Important notice"))
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
-	wxStaticText* text = new StaticText (this, wxEmptyString, wxDefaultPosition, wxSize(400, 300));
+	wxStaticText* text = new StaticText (this, wxEmptyString, wxDefaultPosition, wxSize(600, 400));
 	sizer->Add (text, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 	_yes = new wxTextCtrl (this, wxID_ANY);
 	sizer->Add (_yes, 0, wxALL, DCPOMATIC_DIALOG_BORDER);
@@ -42,9 +42,9 @@ DriveWipeWarningDialog::DriveWipeWarningDialog (wxWindow* parent, wxString drive
 
 	text->SetLabelMarkup (
 		wxString::Format(
-			_("If you continue with this operation <span weight=\"bold\" size=\"larger\">ALL DATA</span> "
-			  "on the drive %s will be <span weight=\"bold\" size=\"larger\">PERMANENTLY DESTROYED</span>.\n\n"
-			  "If you are sure you want to continue please type \"yes\" into the box below, then click OK."), drive
+			_("If you continue with this operation\n\n<span weight=\"bold\" size=\"20480\" foreground=\"red\">ALL DATA</span>\n\n"
+			  "on the drive\n\n<b>%s</b>\n\nwill be\n\n<span weight=\"bold\" size=\"20480\" foreground=\"red\">PERMANENTLY DESTROYED.</span>\n\n"
+			  "If you are sure you want to continue please type\n\n<tt>yes</tt>\n\ninto the box below, then click OK."), drive
 			)
 		);
 }
