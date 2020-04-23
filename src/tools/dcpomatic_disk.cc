@@ -24,6 +24,7 @@
 #include "wx/drive_wipe_warning_dialog.h"
 #include "wx/try_unmount_dialog.h"
 #include "wx/message_dialog.h"
+#include "wx/disk_warning_dialog.h"
 #include "lib/file_log.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/util.h"
@@ -300,6 +301,12 @@ public:
 			*/
 			Config::drop ();
 
+			DiskWarningDialog* warning = new DiskWarningDialog ();
+			warning->ShowModal ();
+			if (!warning->confirmed()) {
+				return false;
+			}
+
 			_frame = new DOMFrame (_("DCP-o-matic Disk Writer"));
 			SetTopWindow (_frame);
 
@@ -311,6 +318,7 @@ public:
 		catch (exception& e)
 		{
 			error_dialog (0, wxString::Format ("DCP-o-matic could not start."), std_to_wx(e.what()));
+			return false;
 		}
 
 		return true;
