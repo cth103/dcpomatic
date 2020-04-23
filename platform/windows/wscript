@@ -163,6 +163,7 @@ File "%static_deps%/bin/libwebp-7.dll"
     print("""
 File "%static_deps%/bin/libltdl-7.dll"
 File "%static_deps%/bin/libdl.dll"
+File "%cdist_deps%/bin/leqm_nrt.dll"
 File "%cdist_deps%/bin/asdcp-carl.dll"
 File "%cdist_deps%/bin/kumu-carl.dll"
     """, file=f)
