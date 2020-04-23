@@ -380,7 +380,7 @@ def dependencies(target, options):
 
     return deps
 
-option_defaults = { "gui": True, "variant": None, "disk": False }
+option_defaults = { "gui": True, "variant": None }
 
 def configure_options(target, options):
     opt = ''
@@ -418,7 +418,7 @@ def configure_options(target, options):
     if target.debug and target.platform == 'windows':
         opt += ' --static-dcpomatic'
 
-    if can_build_disk(target) and options['disk']:
+    if can_build_disk(target):
        opt += ' --enable-disk'
 
     return opt
