@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -31,9 +31,6 @@
 #include <boost/function.hpp>
 #include <boost/thread.hpp>
 #include <boost/signals2.hpp>
-#ifdef __WXGTK__
-#include <gtk/gtk.h>
-#endif
 
 class FilePickerCtrl;
 class wxDirPickerCtrl;
@@ -110,11 +107,7 @@ extern int wx_get (wxChoice* widget);
 extern int wx_get (wxSpinCtrl* widget);
 extern double wx_get (wxSpinCtrlDouble* widget);
 
-/* GTK 2.24.17 has a buggy GtkFileChooserButton and it was put in Ubuntu 13.04.
-   This also seems to apply to 2.24.20 in Ubuntu 13.10 and 2.24.23 in Ubuntu 14.04.
-   Use our own dir picker as this is the least bad option I can think of.
-*/
-#if defined(__WXMSW__) || (GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION == 24 && (GTK_MICRO_VERSION == 17 || GTK_MICRO_VERSION == 20 || GTK_MICRO_VERSION == 23))
+#if defined(__WXMSW__)
 #define DCPOMATIC_USE_OWN_PICKER
 #endif
 
