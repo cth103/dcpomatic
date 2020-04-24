@@ -157,7 +157,8 @@ deb_depends['9'].extend(['libboost-filesystem1.62.0',
                          'libssh-gcrypt-4',
                          'libnettle6',
                          'libx264-148',
-                         'libcurl3'])
+                         'libcurl3',
+                         'libxerces-c3.2'])
 
 deb_depends_gui['9'] = [ 'libwxgtk3.0-0v5',
                          'libxcb-xfixes0',
@@ -180,7 +181,9 @@ deb_depends['10'].extend(['libboost-filesystem1.67.0',
                           'libssh-gcrypt-4',
                           'libnettle6',
                           'libx264-155',
-                          'libcurl4'])
+                          'libcurl4',
+                          'libxerces-c3.2',
+                          'libnanomsg5'])
 
 deb_depends_gui['10'] = [ 'libwxgtk3.0-0v5',
                           'libxcb-xfixes0',
@@ -199,7 +202,8 @@ deb_depends['unstable'].extend(['libboost-filesystem1.67.0',
                                 'libicu63',
                                 'libnettle6',
                                 'libx264-155',
-                                'libcurl4'])
+                                'libcurl4',
+                                'libxerces-c3.2'])
 
 def can_build_disk(target):
     # We can build dcpomatic2_disk on platforms that have Boost process and can build the lwext4
