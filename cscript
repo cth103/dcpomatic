@@ -83,7 +83,8 @@ deb_depends['18.04'].extend(['libboost-filesystem1.65.1',
                              'libx264-152',
                              'libcurl4',
                              'libpulse0',
-                             'libxerces-c3.2'])
+                             'libxerces-c3.2',
+                             'libnanomsg4'])
 
 deb_depends['19.10'] = copy.deepcopy(deb_depends_base)
 deb_depends['19.10'].extend(['libboost-filesystem1.67.0',
@@ -101,7 +102,8 @@ deb_depends['19.10'].extend(['libboost-filesystem1.67.0',
                              'libx264-155',
                              'libcurl4',
                              'libpulse0',
-                             'libxerces-c3.2'])
+                             'libxerces-c3.2',
+                             'libnanomsg4'])
 
 deb_depends['20.04'] = copy.deepcopy(deb_depends_base)
 deb_depends['20.04'].extend(['libboost-filesystem1.71.0',
@@ -119,7 +121,8 @@ deb_depends['20.04'].extend(['libboost-filesystem1.71.0',
                              'libx264-155',
                              'libcurl4',
                              'libpulse0',
-                             'libxerces-c3.2'])
+                             'libxerces-c3.2',
+                             'libnanomsg4'])
 
 deb_depends['8'] = copy.deepcopy(deb_depends_base)
 deb_depends['8'].extend(['libboost-filesystem1.55.0',
