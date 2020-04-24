@@ -64,7 +64,8 @@ deb_depends['16.04'].extend(['libboost-filesystem1.58.0',
                              'libnettle6',
                              'libssh-4',
                              'libx264-148',
-                             'libcurl3'])
+                             'libcurl3',
+                             'libxerces-c3.2'])
 
 deb_depends['18.04'] = copy.deepcopy(deb_depends_base)
 deb_depends['18.04'].extend(['libboost-filesystem1.65.1',
@@ -81,7 +82,8 @@ deb_depends['18.04'].extend(['libboost-filesystem1.65.1',
                              'libssh-4',
                              'libx264-152',
                              'libcurl4',
-                             'libpulse0'])
+                             'libpulse0',
+                             'libxerces-c3.2'])
 
 deb_depends['19.10'] = copy.deepcopy(deb_depends_base)
 deb_depends['19.10'].extend(['libboost-filesystem1.67.0',
@@ -98,7 +100,8 @@ deb_depends['19.10'].extend(['libboost-filesystem1.67.0',
                              'libssh-4',
                              'libx264-155',
                              'libcurl4',
-                             'libpulse0'])
+                             'libpulse0',
+                             'libxerces-c3.2'])
 
 deb_depends['20.04'] = copy.deepcopy(deb_depends_base)
 deb_depends['20.04'].extend(['libboost-filesystem1.71.0',
