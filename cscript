@@ -65,7 +65,7 @@ deb_depends['16.04'].extend(['libboost-filesystem1.58.0',
                              'libssh-4',
                              'libx264-148',
                              'libcurl3',
-                             'libxerces-c3.2'])
+                             'libxerces-c3.1'])
 
 deb_depends['18.04'] = copy.deepcopy(deb_depends_base)
 deb_depends['18.04'].extend(['libboost-filesystem1.65.1',
