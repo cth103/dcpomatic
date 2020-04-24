@@ -36,7 +36,7 @@
 #include "lib/dcp_content.h"
 #include "lib/ffmpeg_content.h"
 #include <dcp/locale_convert.h>
-#ifdef __WXGTK__
+#ifndef __WXGTK3__
 #include <gtk/gtk.h>
 #endif
 #include <boost/foreach.hpp>
@@ -68,23 +68,23 @@ TimingPanel::TimingPanel (ContentPanel* p, weak_ptr<FilmViewer> viewer)
 
 	//// TRANSLATORS: this is an abbreviation for "hours"
 	_h_label = new StaticText (this, _("h"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
-#ifdef DCPOMATIC_LINUX
+#ifndef __WXGTK3__
 	/* Hack to work around failure to centre text on GTK */
 	gtk_label_set_line_wrap (GTK_LABEL(_h_label->GetHandle()), FALSE);
 #endif
 	//// TRANSLATORS: this is an abbreviation for "minutes"
 	_m_label = new StaticText (this, _("m"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
-#ifdef DCPOMATIC_LINUX
+#ifndef __WXGTK3__
 	gtk_label_set_line_wrap (GTK_LABEL (_m_label->GetHandle()), FALSE);
 #endif
 	//// TRANSLATORS: this is an abbreviation for "seconds"
 	_s_label = new StaticText (this, _("s"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
-#ifdef DCPOMATIC_LINUX
+#ifndef __WXGTK3__
 	gtk_label_set_line_wrap (GTK_LABEL(_s_label->GetHandle()), FALSE);
 #endif
 	//// TRANSLATORS: this is an abbreviation for "frames"
 	_f_label = new StaticText (this, _("f"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
-#ifdef DCPOMATIC_LINUX
+#ifndef __WXGTK3__
 	gtk_label_set_line_wrap (GTK_LABEL(_f_label->GetHandle()), FALSE);
 #endif
 

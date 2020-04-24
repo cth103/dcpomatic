@@ -33,12 +33,10 @@ deb_build_depends['16.04'] = copy.deepcopy(deb_build_depends_base)
 deb_build_depends['16.04'].extend(['libssh-dev'])
 deb_build_depends['18.04'] = copy.deepcopy(deb_build_depends_base)
 deb_build_depends['18.04'].extend(['libssh-dev'])
-deb_build_depends['19.04'] = copy.deepcopy(deb_build_depends_base)
-deb_build_depends['19.04'].extend(['libssh-dev'])
 deb_build_depends['19.10'] = copy.deepcopy(deb_build_depends_base)
 deb_build_depends['19.10'].extend(['libssh-dev'])
-deb_build_depends['7'] = copy.deepcopy(deb_build_depends_base)
-deb_build_depends['7'].extend(['libssh-dev'])
+deb_build_depends['20.04'] = copy.deepcopy(deb_build_depends_base)
+deb_build_depends['20.04'].extend(['libssh-dev'])
 deb_build_depends['8'] = copy.deepcopy(deb_build_depends_base)
 deb_build_depends['8'].extend(['libssh-gcrypt-dev'])
 deb_build_depends['9'] = copy.deepcopy(deb_build_depends_base)
@@ -85,23 +83,6 @@ deb_depends['18.04'].extend(['libboost-filesystem1.65.1',
                              'libcurl4',
                              'libpulse0'])
 
-deb_depends['19.04'] = copy.deepcopy(deb_depends_base)
-deb_depends['19.04'].extend(['libboost-filesystem1.67.0',
-                             'libboost-thread1.67.0',
-                             'libboost-regex1.67.0',
-                             'libboost-date-time1.67.0',
-                             'libcairomm-1.0-1v5',
-                             'libpangomm-1.4-1v5',
-                             'libxml++2.6-2v5',
-                             'libzip5',
-                             'libwxgtk3.0-0v5',
-                             'libicu63',
-                             'libnettle6',
-                             'libssh-4',
-                             'libx264-155',
-                             'libcurl4',
-                             'libpulse0'])
-
 deb_depends['19.10'] = copy.deepcopy(deb_depends_base)
 deb_depends['19.10'].extend(['libboost-filesystem1.67.0',
                              'libboost-thread1.67.0',
@@ -118,6 +99,24 @@ deb_depends['19.10'].extend(['libboost-filesystem1.67.0',
                              'libx264-155',
                              'libcurl4',
                              'libpulse0'])
+
+deb_depends['20.04'] = copy.deepcopy(deb_depends_base)
+deb_depends['20.04'].extend(['libboost-filesystem1.71.0',
+                             'libboost-thread1.71.0',
+                             'libboost-regex1.71.0',
+                             'libboost-date-time1.71.0',
+                             'libcairomm-1.0-1v5',
+                             'libpangomm-1.4-1v5',
+                             'libxml++2.6-2v5',
+                             'libzip5',
+                             'libwxgtk3.0-gtk3-0v5',
+                             'libicu66',
+                             'libnettle7',
+                             'libssh-4',
+                             'libx264-155',
+                             'libcurl4',
+                             'libpulse0',
+                             'libxerces-c3.2'])
 
 deb_depends['8'] = copy.deepcopy(deb_depends_base)
 deb_depends['8'].extend(['libboost-filesystem1.55.0',
