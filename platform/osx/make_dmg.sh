@@ -124,6 +124,7 @@ function copy_libs {
     copy_lib_root libswresample "$dest"
     copy_lib_root liblwext4 "$dest"
     copy_lib_root libblockdev "$dest"
+    copy_lib_root libleqm_nrt "$dest"
     copy $ROOT src/dcpomatic/build/src/lib/libdcpomatic2.dylib "$dest"
     copy $ROOT src/dcpomatic/build/src/wx/libdcpomatic2-wx.dylib "$dest"
     copy_lib_env libboost_system "$dest"
