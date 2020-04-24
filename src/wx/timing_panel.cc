@@ -36,6 +36,9 @@
 #include "lib/dcp_content.h"
 #include "lib/ffmpeg_content.h"
 #include <dcp/locale_convert.h>
+#ifdef __WXGTK__
+#include <gtk/gtk.h>
+#endif
 #include <boost/foreach.hpp>
 #include <set>
 #include <iostream>
