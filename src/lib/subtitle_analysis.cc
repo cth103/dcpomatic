@@ -50,6 +50,9 @@ SubtitleAnalysis::SubtitleAnalysis (boost::filesystem::path path)
 		_bounding_box->width = bounding_box->number_child<double>("Width");
 		_bounding_box->height = bounding_box->number_child<double>("Height");
 	}
+
+	_analysis_x_offset = f.number_child<double>("AnalysisXOffset");
+	_analysis_y_offset = f.number_child<double>("AnalysisYOffset");
 }
 
 
@@ -68,6 +71,9 @@ SubtitleAnalysis::write (boost::filesystem::path path) const
 		bounding_box->add_child("Width")->add_child_text(raw_convert<string>(_bounding_box->width));
 		bounding_box->add_child("Height")->add_child_text(raw_convert<string>(_bounding_box->height));
 	}
+
+	root->add_child("AnalysisXOffset")->add_child_text(raw_convert<string>(_analysis_x_offset));
+	root->add_child("AnalysisYOffset")->add_child_text(raw_convert<string>(_analysis_y_offset));
 
 	doc->write_to_file_formatted (path.string());
 }

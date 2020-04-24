@@ -53,7 +53,7 @@ public:
 	}
 
 	double analysis_y_offset () const {
-		return _analysis_x_offset;
+		return _analysis_y_offset;
 	}
 
 private:
