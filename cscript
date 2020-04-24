@@ -208,7 +208,22 @@ def can_build_disk(target):
     # - Lots of Linux distros don't have a new enough boost (1.64 or above)
     # - On Centos 6 we can't build lwext4 because it needs a new CMake which Centos 6's g++ is not new enough to build.
     # - On Centos 7 there is a build error in lwext4 related to __unused
-    return target.platform == 'windows' or target.platform == 'osx' or (target.platform == 'linux' and target.distro == 'ubuntu' and target.version in ['18.04', '19.10', '20.04'])
+    if target.platform == 'windows':
+        return True
+    if target.platform == 'osx':
+        return True
+    if target.platform == 'linux':
+        if target.distro == 'ubuntu' and target.version in ['18.04', '19.10', '20.04']:
+            return True
+        if target.distro == 'debian' and target.version == '10':
+            return True
+        if target.detail == 'appimage':
+            return True 
+        if target.distro == 'fedora' and target.version == '31':
+            return True
+        if target.distro == 'centos' and target.version == '8':
+            return True
+    return False
 
 def packages(name, packages, f):
     s = '%s: ' % name
