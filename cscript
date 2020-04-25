@@ -217,7 +217,7 @@ def can_build_disk(target):
     if target.platform == 'osx':
         return True
     if target.platform == 'linux':
-        if target.distro == 'ubuntu' and target.version in ['18.04', '19.10', '20.04']:
+        if target.distro == 'ubuntu' and target.version in ['16.04', '18.04', '19.10', '20.04']:
             return True
         if target.distro == 'debian' and target.version == '10':
             return True
