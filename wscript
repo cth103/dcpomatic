@@ -394,8 +394,9 @@ def configure(conf):
     if conf.options.enable_disk:
         if conf.check_cfg(package='nanomsg', args='--cflags --libs', uselib_store='NANOMSG', mandatory=False) is None:
             conf.check_cfg(package='libnanomsg', args='--cflags --libs', uselib_store='NANOMSG', mandatory=True)
-        # We link with nanomsg statically on Centos 8 so we need to link this as well
-        conf.env.LIB_NANOMSG.append('anl')
+        if conf.env.TARGET_LINUX:
+            # We link with nanomsg statically on Centos 8 so we need to link this as well
+            conf.env.LIB_NANOMSG.append('anl')
 
     # FFmpeg
     if conf.options.static_ffmpeg:
