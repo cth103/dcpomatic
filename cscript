@@ -158,7 +158,7 @@ deb_depends['9'].extend(['libboost-filesystem1.62.0',
                          'libnettle6',
                          'libx264-148',
                          'libcurl3',
-                         'libxerces-c3.2'])
+                         'libxerces-c3.1'])
 
 deb_depends_gui['9'] = [ 'libwxgtk3.0-0v5',
                          'libxcb-xfixes0',
