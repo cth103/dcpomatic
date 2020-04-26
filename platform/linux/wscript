@@ -29,6 +29,14 @@ def build(bld):
         obj.VERSION = bld.env.VERSION
         desktops.append(obj.target)
 
+        if bld.env.ENABLE_DISK:
+            obj = bld(features='subst')
+            obj.source = 'dcpomatic_disk.desktop.in'
+            obj.target = 'dcpomatic2_disk.desktop'
+            obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
+            obj.VERSION = bld.env.VERSION
+            desktops.append(obj.target)
+
     obj = bld(features='subst')
     obj.source = 'dcpomatic_player.desktop.in'
     obj.target = 'dcpomatic2_player.desktop'

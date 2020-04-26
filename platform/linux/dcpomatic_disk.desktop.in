@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Terminal=false
+Exec=@INSTALL_PREFIX@/bin/dcpomatic2_disk
+Name=DCP-o-matic 2 Disk Writer
+Icon=dcpomatic2_disk
+Comment=DCP writer
+Categories=AudioVideo;Video
