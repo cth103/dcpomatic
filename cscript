@@ -122,7 +122,7 @@ deb_depends['20.04'].extend(['libboost-filesystem1.71.0',
                              'libcurl4',
                              'libpulse0',
                              'libxerces-c3.2',
-                             'libnanomsg4'])
+                             'libnanomsg5'])
 
 deb_depends['8'] = copy.deepcopy(deb_depends_base)
 deb_depends['8'].extend(['libboost-filesystem1.55.0',
