@@ -117,6 +117,8 @@ public:
 		return _device;
 	}
 
+	std::string device_for_write () const;
+
 	bool mounted () const {
 		return !_mount_points.empty();
 	}

@@ -596,6 +596,13 @@ Drive::unmount ()
 }
 
 
+string
+Drive::device_for_write () const
+{
+	return device ();
+}
+
+
 boost::filesystem::path
 config_path ()
 {

@@ -493,6 +493,16 @@ Drive::get ()
 	return drives;
 }
 
+
+string
+Drive::device_for_write () const
+{
+	string w = _device;
+	boost::replace_all (w, "/dev/disk", "/dev/rdisk");
+	return w;
+}
+
+
 boost::filesystem::path
 config_path ()
 {
