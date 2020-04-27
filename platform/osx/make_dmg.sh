@@ -543,9 +543,9 @@ cat > $pkgroot/Library/LaunchDaemons/com.dcpomatic.disk.writer.plist <<EOF
     <key>Debug</key>
     <true/>
     <key>StandardOutPath</key>
-    <string>/Users/carl/damon.out.log</string>
+    <string>/var/log/dcpomatic_disk_writer_out.log</string>
     <key>StandardErrorPath</key>
-    <string>/Users/carl/damon.err.log</string>
+    <string>/var/log/dcpomatic_disk_writer_err.log</string>
 </dict>
 </plist>
 EOF
