@@ -187,6 +187,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	tested_by.Add (wxT ("Carsten Kurz"));
 	tested_by.Add (wxT ("Bill Lam"));
 	tested_by.Add (wxT ("Lilian Lefranc"));
+	tested_by.Add (wxT ("Sebastian Leitner"));
 	tested_by.Add (wxT ("Olivier Lemaire"));
 	tested_by.Add (wxT ("Gavin Lewarne"));
 	tested_by.Add (wxT ("Gérald Maruccia"));
