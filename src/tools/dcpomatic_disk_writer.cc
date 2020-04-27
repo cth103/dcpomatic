@@ -326,7 +326,7 @@ try
 
 	nanomsg->send(DISK_WRITER_FORMATTING "\n", SHORT_TIMEOUT);
 
-	r = ext4_mkfs(&fs, bd, &info, F_SET_EXT4);
+	r = ext4_mkfs(&fs, bd, &info, F_SET_EXT2);
 	if (r != EOK) {
 		throw CopyError ("Failed to make filesystem", r);
 	}
