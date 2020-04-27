@@ -165,6 +165,7 @@ sources = """
           transcode_job.cc
           types.cc
           signal_manager.cc
+          stdout_log.cc
           update_checker.cc
           upload_job.cc
           uploader.cc

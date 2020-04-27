@@ -42,6 +42,7 @@ extern "C" {
 #endif
 
 #ifdef DCPOMATIC_OSX
+#include "lib/stdout_log.h"
 #undef nil
 extern "C" {
 #include <lwext4/file_dev.h>
@@ -504,11 +505,20 @@ try
 int
 main ()
 {
+#ifdef DCPOMATIC_OSX
+	/* On macOS this is running as root, so config_path() will be somewhere in root's
+	 * home.  Instead, just write to stdout as the macOS process control stuff will
+	 * redirect this to a file in /var/log
+	 */
+	dcpomatic_log.reset(new StdoutLog(LogEntry::TYPE_DISK));
+	LOG_DISK_NC("dcpomatic_disk_writer started");
+#else
 	/* XXX: this is a hack, but I expect we'll need logs and I'm not sure if there's
 	 * a better place to put them.
 	 */
 	dcpomatic_log.reset(new FileLog(config_path() / "disk_writer.log", LogEntry::TYPE_DISK));
 	LOG_DISK_NC("dcpomatic_disk_writer started");
+#endif
 
 	try {
 		nanomsg = new Nanomsg (false);
