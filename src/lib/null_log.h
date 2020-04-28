@@ -22,11 +22,6 @@
 
 class NullLog : public Log
 {
-public:
-	std::string head_and_tail (int) const {
-		return "";
-	}
-
 private:
 	void do_log (boost::shared_ptr<const LogEntry>) {}
 };

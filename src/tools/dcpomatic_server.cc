@@ -72,11 +72,6 @@ public:
 		return a;
 	}
 
-	string head_and_tail (int) const {
-		/* Not necessary */
-		return "";
-	}
-
 	float fps () const {
 		boost::mutex::scoped_lock lm (_state_mutex);
 		return _fps;
