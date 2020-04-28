@@ -22,6 +22,7 @@
 #include "copy_to_drive_job.h"
 #include "compose.hpp"
 #include "exceptions.h"
+#include "dcpomatic_log.h"
 #include <dcp/raw_convert.h>
 #include <nanomsg/nn.h>
 #include <unistd.h>
@@ -64,7 +65,8 @@ CopyToDriveJob::json_name () const
 void
 CopyToDriveJob::run ()
 {
-	if (!_nanomsg.send(String::compose(DISK_WRITER_WRITE "\n%1\n%2\n", _dcp.string(), _drive.device()), 2000)) {
+	LOG_DISK("Sending write request to disk writer for %1 %2", _dcp.string(), _drive.device_for_write());
+	if (!_nanomsg.send(String::compose(DISK_WRITER_WRITE "\n%1\n%2\n", _dcp.string(), _drive.device_for_write()), 2000)) {
 		throw CommunicationFailedError ();
 	}
 
