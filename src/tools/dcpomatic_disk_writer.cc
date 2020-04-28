@@ -439,7 +439,7 @@ try
 		/* Do some basic sanity checks; this is a bit belt-and-braces but it can't hurt... */
 
 #ifdef DCPOMATIC_OSX
-		if (!starts_with(*device, "/dev/disk")) {
+		if (!starts_with(*device, "/dev/rdisk")) {
 			LOG_DISK ("Will not write to %1", *device);
 			nanomsg->send(DISK_WRITER_ERROR "\nRefusing to write to this drive\n1\n", LONG_TIMEOUT);
 			return true;
