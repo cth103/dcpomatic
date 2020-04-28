@@ -53,7 +53,9 @@ public:
 	/** @param amount Approximate number of bytes to return; the returned value
 	 *  may be shorter or longer than this.
 	 */
-	virtual std::string head_and_tail (int amount = 1024) const = 0;
+	virtual std::string head_and_tail (int amount = 1024) const {
+		return "";
+	}
 
 protected:
 
