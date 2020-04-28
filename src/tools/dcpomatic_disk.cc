@@ -176,6 +176,7 @@ private:
 				return;
 			}
 
+			LOG_DISK("Sending unmount request to disk writer for %1", drive.as_xml());
 			if (!_nanomsg.send(DISK_WRITER_UNMOUNT "\n", 2000)) {
 				throw CommunicationFailedError ();
 			}
