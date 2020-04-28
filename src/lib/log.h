@@ -54,6 +54,7 @@ public:
 	 *  may be shorter or longer than this.
 	 */
 	virtual std::string head_and_tail (int amount = 1024) const {
+		(void) amount;
 		return "";
 	}
 
