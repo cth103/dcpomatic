@@ -248,7 +248,7 @@ try
 	/* We rely on static initialization for these */
 	static struct ext4_fs fs;
 	static struct ext4_mkfs_info info;
-	info.block_size = 1024;
+	info.block_size = 4096;
 	info.inode_size = 128;
 	info.journal = false;
 
