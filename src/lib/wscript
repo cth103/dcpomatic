@@ -162,6 +162,7 @@ sources = """
           text_ring_buffers.cc
           timer.cc
           transcode_job.cc
+          trusted_device.cc
           types.cc
           signal_manager.cc
           stdout_log.cc

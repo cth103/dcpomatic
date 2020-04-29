@@ -22,6 +22,7 @@
 #define DCPOMATIC_SCREEN_H
 
 #include "kdm_with_metadata.h"
+#include "trusted_device.h"
 #include <dcp/certificate.h>
 #include <libcxml/cxml.h>
 #include <boost/optional.hpp>
@@ -29,24 +30,6 @@
 
 class Cinema;
 class Film;
-
-class TrustedDevice
-{
-public:
-	explicit TrustedDevice (std::string);
-	explicit TrustedDevice (dcp::Certificate);
-
-	boost::optional<dcp::Certificate> certificate () const {
-		return _certificate;
-	}
-
-	std::string thumbprint () const;
-	std::string as_string () const;
-
-private:
-	boost::optional<dcp::Certificate> _certificate;
-	boost::optional<std::string> _thumbprint;
-};
 
 namespace dcpomatic {
 
