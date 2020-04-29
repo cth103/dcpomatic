@@ -344,13 +344,6 @@ Drive::unmount ()
 }
 
 
-string
-Drive::device_for_write () const
-{
-	return device ();
-}
-
-
 void
 unprivileged ()
 {

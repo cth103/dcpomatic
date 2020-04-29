@@ -463,7 +463,7 @@ try
 		bool on_drive_list = false;
 		bool mounted = false;
 		for (auto const& i: Drive::get()) {
-			if (i.device_for_write() == *device) {
+			if (i.device() == *device) {
 				on_drive_list = true;
 				mounted = i.mounted();
 			}
