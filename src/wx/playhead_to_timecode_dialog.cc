@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -22,13 +22,14 @@
 
 using namespace dcpomatic;
 
-PlayheadToTimecodeDialog::PlayheadToTimecodeDialog (wxWindow* parent, int fps)
+PlayheadToTimecodeDialog::PlayheadToTimecodeDialog (wxWindow* parent, dcpomatic::DCPTime time, int fps)
 	: TableDialog (parent, _("Go to timecode"), 2, 1, true)
 	, _fps (fps)
 {
 	add (_("Go to"), true);
 	_timecode = add (new Timecode<DCPTime> (this, false));
 	_timecode->set_focus ();
+	_timecode->set_hint (time, fps);
 
 	layout ();
 }

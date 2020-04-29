@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,7 +24,7 @@
 class PlayheadToTimecodeDialog : public TableDialog
 {
 public:
-	PlayheadToTimecodeDialog (wxWindow* parent, int fps);
+	PlayheadToTimecodeDialog (wxWindow* parent, dcpomatic::DCPTime time, int fps);
 
 	dcpomatic::DCPTime get () const;
 

@@ -345,7 +345,7 @@ Controls::setup_sensitivity ()
 void
 Controls::timecode_clicked ()
 {
-	PlayheadToTimecodeDialog* dialog = new PlayheadToTimecodeDialog (this, _film->video_frame_rate ());
+	PlayheadToTimecodeDialog* dialog = new PlayheadToTimecodeDialog (this, _viewer->position(), _film->video_frame_rate());
 	if (dialog->ShowModal() == wxID_OK) {
 		_viewer->seek (dialog->get(), true);
 	}

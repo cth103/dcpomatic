@@ -81,19 +81,43 @@ public:
 		checked_set (_fixed, t.timecode (fps));
 	}
 
+	void set_hint (T t, float fps)
+	{
+		int h;
+		int m;
+		int s;
+		int f;
+		t.split (fps, h, m, s, f);
+
+		_hours->SetHint (std_to_wx(dcp::raw_convert<std::string>(h)));
+		_minutes->SetHint (std_to_wx(dcp::raw_convert<std::string>(m)));
+		_seconds->SetHint (std_to_wx(dcp::raw_convert<std::string>(s)));
+		_frames->SetHint (std_to_wx(dcp::raw_convert<std::string>(f)));
+	}
+
 	T get (float fps) const
 	{
 		T t;
-		std::string const h = wx_to_std (_hours->GetValue ());
+		std::string const h = value_or_hint (_hours);
 		t += T::from_seconds (dcp::raw_convert<int>(h.empty() ? "0" : h) * 3600);
-		std::string const m = wx_to_std (_minutes->GetValue());
+		std::string const m = value_or_hint (_minutes);
 		t += T::from_seconds (dcp::raw_convert<int>(m.empty() ? "0" : m) * 60);
-		std::string const s = wx_to_std (_seconds->GetValue());
+		std::string const s = value_or_hint (_seconds);
 		t += T::from_seconds (dcp::raw_convert<int>(s.empty() ? "0" : s));
-		std::string const f = wx_to_std (_frames->GetValue());
+		std::string const f = value_or_hint (_frames);
 		t += T::from_seconds (dcp::raw_convert<double>(f.empty() ? "0" : f) / fps);
 
 		return t;
+	}
+
+private:
+	std::string value_or_hint (wxTextCtrl const * t) const
+	{
+		if (!t->GetValue().IsEmpty()) {
+			return wx_to_std (t->GetValue());
+		} else {
+			return wx_to_std (t->GetHint());
+		}
 	}
 };
 
