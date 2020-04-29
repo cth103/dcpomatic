@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -23,9 +23,9 @@
 
 #include "wx_util.h"
 #include "lib/types.h"
+#include <dcp/raw_convert.h>
 #include <wx/wx.h>
 #include <boost/signals2.hpp>
-#include <boost/lexical_cast.hpp>
 
 class TimecodeBase : public wxPanel
 {
@@ -73,10 +73,10 @@ public:
 		int f;
 		t.split (fps, h, m, s, f);
 
-		checked_set (_hours, boost::lexical_cast<std::string> (h));
-		checked_set (_minutes, boost::lexical_cast<std::string> (m));
-		checked_set (_seconds, boost::lexical_cast<std::string> (s));
-		checked_set (_frames, boost::lexical_cast<std::string> (f));
+		checked_set (_hours, dcp::raw_convert<std::string>(h));
+		checked_set (_minutes, dcp::raw_convert<std::string>(m));
+		checked_set (_seconds, dcp::raw_convert<std::string>(s));
+		checked_set (_frames, dcp::raw_convert<std::string>(f));
 
 		checked_set (_fixed, t.timecode (fps));
 	}
@@ -85,13 +85,13 @@ public:
 	{
 		T t;
 		std::string const h = wx_to_std (_hours->GetValue ());
-		t += T::from_seconds (boost::lexical_cast<int> (h.empty() ? "0" : h) * 3600);
+		t += T::from_seconds (dcp::raw_convert<int>(h.empty() ? "0" : h) * 3600);
 		std::string const m = wx_to_std (_minutes->GetValue());
-		t += T::from_seconds (boost::lexical_cast<int> (m.empty() ? "0" : m) * 60);
+		t += T::from_seconds (dcp::raw_convert<int>(m.empty() ? "0" : m) * 60);
 		std::string const s = wx_to_std (_seconds->GetValue());
-		t += T::from_seconds (boost::lexical_cast<int> (s.empty() ? "0" : s));
+		t += T::from_seconds (dcp::raw_convert<int>(s.empty() ? "0" : s));
 		std::string const f = wx_to_std (_frames->GetValue());
-		t += T::from_seconds (boost::lexical_cast<double> (f.empty() ? "0" : f) / fps);
+		t += T::from_seconds (dcp::raw_convert<double>(f.empty() ? "0" : f) / fps);
 
 		return t;
 	}
