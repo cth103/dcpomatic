@@ -355,7 +355,7 @@ Controls::timecode_clicked ()
 void
 Controls::frame_number_clicked ()
 {
-	PlayheadToFrameDialog* dialog = new PlayheadToFrameDialog (this, _film->video_frame_rate ());
+	PlayheadToFrameDialog* dialog = new PlayheadToFrameDialog (this, _viewer->position(), _film->video_frame_rate());
 	if (dialog->ShowModal() == wxID_OK) {
 		_viewer->seek (dialog->get(), true);
 	}
