@@ -34,15 +34,8 @@ using boost::optional;
 using namespace dcpomatic;
 
 Screen::Screen (cxml::ConstNodePtr node)
-	: name (node->string_child("Name"))
-	, notes (node->optional_string_child("Notes").get_value_or (""))
+	: KDMRecipient (node)
 {
-	if (node->optional_string_child ("Certificate")) {
-		recipient = dcp::Certificate (node->string_child ("Certificate"));
-	} else if (node->optional_string_child ("Recipient")) {
-		recipient = dcp::Certificate (node->string_child ("Recipient"));
-	}
-
 	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children ("TrustedDevice")) {
 		if (boost::algorithm::starts_with(i->content(), "-----BEGIN CERTIFICATE-----")) {
 			trusted_devices.push_back (TrustedDevice(dcp::Certificate(i->content())));
@@ -55,13 +48,7 @@ Screen::Screen (cxml::ConstNodePtr node)
 void
 Screen::as_xml (xmlpp::Element* parent) const
 {
-	parent->add_child("Name")->add_child_text (name);
-	if (recipient) {
-		parent->add_child("Recipient")->add_child_text (recipient->certificate (true));
-	}
-
-	parent->add_child("Notes")->add_child_text (notes);
-
+	KDMRecipient::as_xml (parent);
 	BOOST_FOREACH (TrustedDevice i, trusted_devices) {
 		parent->add_child("TrustedDevice")->add_child_text(i.as_string());
 	}

@@ -22,6 +22,7 @@
 #define DCPOMATIC_SCREEN_H
 
 #include "kdm_with_metadata.h"
+#include "kdm_recipient.h"
 #include "trusted_device.h"
 #include <dcp/certificate.h>
 #include <libcxml/cxml.h>
@@ -40,14 +41,12 @@ namespace dcpomatic {
  *  `recipient' (i.e. the mediablock) and the certificates/thumbprints
  *  of any trusted devices.
  */
-class Screen
+class Screen : public KDMRecipient
 {
 public:
-	Screen (std::string const & na, std::string const & no, boost::optional<dcp::Certificate> rec, std::vector<TrustedDevice> td)
-		: name (na)
-		, notes (no)
-		, recipient (rec)
-		, trusted_devices (td)
+	Screen (std::string const & name_, std::string const & notes_, boost::optional<dcp::Certificate> recipient_, std::vector<TrustedDevice> trusted_devices_)
+		: KDMRecipient (name_, notes_, recipient_)
+		, trusted_devices (trusted_devices_)
 	{}
 
 	explicit Screen (cxml::ConstNodePtr);
@@ -56,9 +55,6 @@ public:
 	std::vector<std::string> trusted_device_thumbprints () const;
 
 	boost::shared_ptr<Cinema> cinema;
-	std::string name;
-	std::string notes;
-	boost::optional<dcp::Certificate> recipient;
 	std::vector<TrustedDevice> trusted_devices;
 };
 
