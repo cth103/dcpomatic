@@ -35,6 +35,7 @@ public:
 		WAIT,
 		STOP,
 		SEEK,
+		EXIT
 	};
 
 	Command(std::string line);

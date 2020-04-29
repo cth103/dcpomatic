@@ -67,6 +67,8 @@ Command::Command (string line)
 		}
 		type = SEEK;
 		int_param = raw_convert<int>(bits[1]);
+	} else if (bits[0] == "E") {
+		type = EXIT;
 	}
 }
 
@@ -155,6 +157,9 @@ PlayerStressTester::check_commands ()
 			cout << "ST: seek to " << _current_command->int_param << "\n";
 			_controls->seek (_current_command->int_param);
 			++_current_command;
+			break;
+		case Command::EXIT:
+			wxTheApp->GetTopWindow()->Destroy();
 			break;
 	}
 }

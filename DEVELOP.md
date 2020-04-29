@@ -36,9 +36,13 @@ Stop any current playback.
 
 Seek to some point in the current DCP, where 0 is the start and 4095 is the end; for example
 
-```S 2048```
+```K 2048```
 
 seeks half-way through the DCP.
+
+* `E`
+
+Stops playback and closes the player.
 
 The script can be run using something like
 
