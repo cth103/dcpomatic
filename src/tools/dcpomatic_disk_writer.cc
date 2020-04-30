@@ -243,7 +243,7 @@ void
 write (boost::filesystem::path dcp_path, string device)
 try
 {
-//	ext4_dmask_set (DEBUG_ALL);
+	ext4_dmask_set (DEBUG_ALL);
 
 	/* We rely on static initialization for these */
 	static struct ext4_fs fs;
@@ -277,7 +277,6 @@ try
 
 	/* XXX: not sure if disk_id matters */
 	int r = ext4_mbr_write (bd, &parts, 0);
-
 	if (r) {
 		throw CopyError ("Failed to write MBR", r);
 	}
