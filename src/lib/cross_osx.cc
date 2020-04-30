@@ -298,10 +298,19 @@ analyse_media_path (CFDictionaryRef& description)
 
 	void const* str = CFDictionaryGetValue (description, kDADiskDescriptionMediaPathKey);
 	if (!str) {
+		LOG_DISK_NC("There is no MediaPathKey");
 		return optional<MediaPath>();
 	}
 
 	string path(CFStringGetCStringPtr((CFStringRef) str, kCFStringEncodingUTF8));
+	LOG_DISK("MediaPathKey is %1", path);
+
+	if (path.find("/IOHDIXController") != string::npos) {
+		/* This is a disk image, so we completely ignore it */
+		LOG_DISK_NC("Ignoring this as it seems to be a disk image");
+		return optional<MediaPath>();
+	}
+
 	MediaPath mp;
 	if (starts_with(path, "IODeviceTree:")) {
 		mp.real = true;
