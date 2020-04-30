@@ -18,6 +18,7 @@
 
 */
 
+#include "lib/version.h"
 #include "lib/disk_writer_messages.h"
 #include "lib/compose.hpp"
 #include "lib/exceptions.h"
@@ -510,7 +511,7 @@ main ()
 	 * redirect this to a file in /var/log
 	 */
 	dcpomatic_log.reset(new StdoutLog(LogEntry::TYPE_DISK));
-	LOG_DISK_NC("dcpomatic_disk_writer started");
+	LOG_DISK("dcpomatic_disk_writer %1 started", dcpomatic_git_commit);
 #else
 	/* XXX: this is a hack, but I expect we'll need logs and I'm not sure if there's
 	 * a better place to put them.

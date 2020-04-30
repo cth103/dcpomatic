@@ -34,6 +34,7 @@
 #include "lib/copy_to_drive_job.h"
 #include "lib/job_manager.h"
 #include "lib/disk_writer_messages.h"
+#include "lib/version.h"
 #include <wx/wx.h>
 #include <boost/process.hpp>
 #ifdef DCPOMATIC_WINDOWS
@@ -112,7 +113,7 @@ public:
 		 */
 		dcpomatic_log.reset(new FileLog(config_path() / "disk.log"));
 		dcpomatic_log->set_types (dcpomatic_log->types() | LogEntry::TYPE_DISK);
-		LOG_DISK_NC("dcpomatic_disk started");
+		LOG_DISK("dcpomatic_disk %1 started", dcpomatic_git_commit);
 
 		drive_refresh ();
 
