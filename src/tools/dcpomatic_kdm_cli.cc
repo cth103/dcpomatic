@@ -229,11 +229,26 @@ from_film (
 	values['e'] = dcp::LocalTime(valid_to).date() + " " + dcp::LocalTime(valid_to).time_of_day(true, false);
 
 	try {
-		list<shared_ptr<ScreenKDM> > screen_kdms = film->make_kdms (
-			screens, cpl, valid_from, valid_to, formulation, disable_forensic_marking_picture, disable_forensic_marking_audio
-			);
+		list<shared_ptr<ScreenKDM> > kdms;
 
-		write_files (screen_kdms, zip, output, container_name_format, filename_format, values, verbose);
+		BOOST_FOREACH (shared_ptr<Screen> i, screens) {
+			if (i->recipient) {
+				dcp::EncryptedKDM const kdm = film->make_kdm (
+						i->recipient.get(),
+						i->trusted_device_thumbprints(),
+						cpl,
+						dcp::LocalTime(valid_from, i->cinema ? i->cinema->utc_offset_hour() : 0, i->cinema ? i->cinema->utc_offset_minute() : 0),
+						dcp::LocalTime(valid_to,   i->cinema ? i->cinema->utc_offset_hour() : 0, i->cinema ? i->cinema->utc_offset_minute() : 0),
+						formulation,
+						disable_forensic_marking_picture,
+						disable_forensic_marking_audio
+						);
+
+				kdms.push_back (shared_ptr<ScreenKDM>(new DCPScreenKDM(i, kdm)));
+			}
+		}
+
+		write_files (kdms, zip, output, container_name_format, filename_format, values, verbose);
 	} catch (FileError& e) {
 		cerr << program_name << ": " << e.what() << " (" << e.file().string() << ")\n";
 		exit (EXIT_FAILURE);

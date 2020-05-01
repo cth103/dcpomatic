@@ -161,10 +161,23 @@ KDMDialog::make_clicked ()
 			/* Forensic mark up to this channel; disabled on channels greater than this */
 			for_audio = _output->forensic_mark_audio_up_to();
 		}
-		screen_kdms = film->make_kdms (
-			_screens->screens(), _cpl->cpl(), _timing->from(), _timing->until(), _output->formulation(),
-			!_output->forensic_mark_video(), for_audio
-			);
+
+		BOOST_FOREACH (shared_ptr<dcpomatic::Screen> i, _screens->screens()) {
+			if (i->recipient) {
+				dcp::EncryptedKDM const kdm = film->make_kdm (
+						i->recipient.get(),
+						i->trusted_device_thumbprints(),
+						_cpl->cpl(),
+						dcp::LocalTime(_timing->from(),  i->cinema ? i->cinema->utc_offset_hour() : 0, i->cinema ? i->cinema->utc_offset_minute() : 0),
+						dcp::LocalTime(_timing->until(), i->cinema ? i->cinema->utc_offset_hour() : 0, i->cinema ? i->cinema->utc_offset_minute() : 0),
+						_output->formulation(),
+						!_output->forensic_mark_video(),
+						for_audio
+						);
+
+				screen_kdms.push_back (shared_ptr<ScreenKDM>(new DCPScreenKDM(i, kdm)));
+			}
+		}
 
 	} catch (dcp::BadKDMDateError& e) {
 		if (e.starts_too_early()) {
