@@ -384,7 +384,7 @@ def dependencies(target, options):
     # the appropriate place later
     deps.append(('openssl', 'carl'))
     if can_build_disk(target):
-        deps.append(('lwext4', 'carl2'))
+        deps.append(('lwext4', 'a2222efb'))
 
     return deps
 
