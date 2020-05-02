@@ -564,6 +564,7 @@ relink_absolute "/Library/Application Support/com.dcpomatic" "${rl[@]}"
 mkdir $pkgbase/scripts
 cat > $pkgbase/scripts/postinstall <<EOF
 #!/bin/sh
+/bin/launchctl unload "/Library/LaunchDaemons/com.dcpomatic.disk.writer.plist"
 /bin/launchctl load "/Library/LaunchDaemons/com.dcpomatic.disk.writer.plist"
 exit 0
 EOF
