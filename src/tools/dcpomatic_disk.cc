@@ -118,7 +118,8 @@ public:
 
 		drive_refresh ();
 
-		Bind (wxEVT_SIZE, boost::bind (&DOMFrame::sized, this, _1));
+		Bind (wxEVT_SIZE, boost::bind(&DOMFrame::sized, this, _1));
+		Bind (wxEVT_CLOSE_WINDOW, boost::bind(&DOMFrame::close, this, _1));
 
 		JobManager::instance()->ActiveJobsChanged.connect(boost::bind(&DOMFrame::setup_sensitivity, this));
 
@@ -150,6 +151,37 @@ private:
 		_sizer->Layout ();
 		ev.Skip ();
 	}
+
+
+	bool should_close ()
+	{
+		if (!JobManager::instance()->work_to_do()) {
+			return true;
+		}
+
+		wxMessageDialog* d = new wxMessageDialog (
+			0,
+			_("There are unfinished jobs; are you sure you want to quit?"),
+			_("Unfinished jobs"),
+			wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION
+			);
+
+		bool const r = d->ShowModal() == wxID_YES;
+		d->Destroy ();
+		return r;
+	}
+
+
+	void close (wxCloseEvent& ev)
+	{
+		if (!should_close()) {
+			ev.Veto ();
+			return;
+		}
+
+		ev.Skip ();
+	}
+
 
 	void open ()
 	{
@@ -312,6 +344,7 @@ public:
 			if (!warning->confirmed()) {
 				return false;
 			}
+			warning->Destroy ();
 
 			_frame = new DOMFrame (_("DCP-o-matic Disk Writer"));
 			SetTopWindow (_frame);
