@@ -274,6 +274,7 @@ get_mounts (string prefix)
 		vector<string> bits;
 		boost::algorithm::split (bits, line, boost::is_any_of(" "));
 		if (bits.size() > 1 && boost::algorithm::starts_with(bits[0], prefix)) {
+			boost::algorithm::replace_all (bits[1], "\\040", " ");
 			mounts.push_back(make_pair(bits[0], bits[1]));
 			LOG_DISK("Found mounted device %1 from prefix %2", bits[0], prefix);
 		}
