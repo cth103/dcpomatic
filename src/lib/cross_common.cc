@@ -61,7 +61,6 @@ Drive::as_xml () const
 		root->add_child("Model")->add_child_text(*_model);
 	}
 
-	std::cout << "xml is " << doc.write_to_string("UTF-8") << "\n";
 	return doc.write_to_string("UTF-8");
 }
 
