@@ -42,6 +42,7 @@
 #endif
 #ifdef DCPOMATIC_OSX
 #include <ApplicationServices/ApplicationServices.h>
+#include <notify.h>
 #endif
 
 using std::string;
@@ -132,7 +133,10 @@ public:
 		_writer = new boost::process::child (disk_writer_path());
 #endif
 
-		/* _writer is always running on macOS at the moment */
+#ifdef DCPOMATIC_OSX
+		LOG_DISK_NC("Sending notification to writer daemon");
+		notify_post ("com.dcpomatic.disk.writer.start");
+#endif
 	}
 
 	~DOMFrame ()

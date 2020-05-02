@@ -48,6 +48,7 @@ extern "C" {
 extern "C" {
 #include <lwext4/file_dev.h>
 }
+#include <xpc/xpc.h>
 #endif
 
 #ifdef DCPOMATIC_LINUX
@@ -518,6 +519,13 @@ main ()
 	 */
 	dcpomatic_log.reset(new FileLog(config_path() / "disk_writer.log", LogEntry::TYPE_DISK));
 	LOG_DISK_NC("dcpomatic_disk_writer started");
+#endif
+
+#ifdef DCPOMATIC_OSX
+	/* I *think* this confumes the notifyd event that we used to start the process, so we only
+	 * get started once per notification.
+	 */
+        xpc_set_event_stream_handler("com.apple.notifyd.matching", DISPATCH_TARGET_QUEUE_DEFAULT, ^(xpc_object_t event) {});
 #endif
 
 	try {

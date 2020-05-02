@@ -537,16 +537,21 @@ cat > $pkgroot/Library/LaunchDaemons/com.dcpomatic.disk.writer.plist <<EOF
         <key>DYLD_LIBRARY_PATH</key>
         <string><![CDATA[/Library/Application Support/com.dcpomatic]]></string>
     </dict>
-    <key>KeepAlive</key>
-    <true/>
-    <key>RunAtLoad</key>
-    <true/>
-    <key>Debug</key>
-    <true/>
     <key>StandardOutPath</key>
     <string>/var/log/dcpomatic_disk_writer_out.log</string>
     <key>StandardErrorPath</key>
     <string>/var/log/dcpomatic_disk_writer_err.log</string>
+    <key>LaunchEvents</key>
+    <dict>
+        <key>com.apple.notifyd.matching</key>
+        <dict>
+            <key>com.dcpomatic.disk.writer.start</key>
+            <dict>
+                <key>Notification</key>
+                <string>com.dcpomatic.disk.writer.start</string>
+            </dict>
+        </dict>
+    </dict>
 </dict>
 </plist>
 EOF
