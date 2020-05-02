@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-14 00:46+0200\n"
+"POT-Creation-Date: 2020-05-03 01:19+0200\n"
 "PO-Revision-Date: 2019-05-10 02:41+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -71,7 +71,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " am %1"
 
-#: src/lib/config.cc:1190
+#: src/lib/config.cc:1189
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -94,11 +94,11 @@ msgstr ""
 "Größe: $SIZE\n"
 "Bei Problemen mit diesem DCP kontaktieren Sie bitte:\n"
 
-#: src/lib/config.cc:1168
+#: src/lib/config.cc:1167
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
-#: src/lib/cross_common.cc:90
+#: src/lib/cross_common.cc:89
 msgid "%1 (%2 GB) [%3]"
 msgstr ""
 
@@ -106,7 +106,7 @@ msgstr ""
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
-#: src/lib/dcp_content.cc:270
+#: src/lib/dcp_content.cc:287
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -257,9 +257,14 @@ msgstr ""
 msgid "An error occurred whilst handling the file %1."
 msgstr "Beim Bearbeiten der Datei %1 trat ein Fehler auf."
 
-#: src/lib/analyse_audio_job.cc:98
+#: src/lib/analyse_audio_job.cc:131
 msgid "Analysing audio"
 msgstr "Audio wird analysiert"
+
+#: src/lib/analyse_subtitles_job.cc:48
+#, fuzzy
+msgid "Analysing subtitles"
+msgstr "Analysiere Untertitel"
 
 #: src/lib/audio_content.cc:258
 msgid "Audio will be resampled from %1Hz to %2Hz"
@@ -343,7 +348,7 @@ msgstr "C"
 msgid "Cancelled"
 msgstr "Abbruch"
 
-#: src/lib/film.cc:313
+#: src/lib/film.cc:348
 msgid "Cannot contain slashes"
 msgstr "Darf keine Schrägstriche enthalten"
 
@@ -351,7 +356,7 @@ msgstr "Darf keine Schrägstriche enthalten"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kann dieses Pixelformat %1 während %2 nicht bearbeiten"
 
-#: src/lib/film.cc:1421
+#: src/lib/film.cc:1456
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 "KDM Erzeugung nicht möglich, da dieses Projekt keine Verschlüsselung "
@@ -369,7 +374,7 @@ msgstr "Audio Kanäle"
 msgid "Checking content for changes"
 msgstr "Überprüfe Projektinhalte auf Änderungen"
 
-#: src/lib/reel_writer.cc:206
+#: src/lib/reel_writer.cc:204
 msgid "Checking existing image data"
 msgstr "Überprüfe bestehende Bilddateien"
 
@@ -421,7 +426,7 @@ msgstr "Farbraum"
 msgid "Computing digest"
 msgstr "Zusammenfassung berechnen"
 
-#: src/lib/writer.cc:513
+#: src/lib/writer.cc:528
 msgid "Computing digests"
 msgstr "Zusammenfassung ('Hashes') berechnen"
 
@@ -564,11 +569,11 @@ msgstr "Inhalt Video ist %1x%2"
 msgid "Copy DCP to TMS"
 msgstr "DCP auf TMS übertragen"
 
-#: src/lib/reel_writer.cc:101
+#: src/lib/reel_writer.cc:99
 msgid "Copying old video file"
 msgstr ""
 
-#: src/lib/reel_writer.cc:335
+#: src/lib/reel_writer.cc:327
 #, fuzzy
 msgid "Copying video file into DCP"
 msgstr "Unterschiedliche Auflösungen im DCP"
@@ -585,7 +590,7 @@ msgstr "Konnte entfernten Ordner %1 (%2) nicht erstellen."
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Fehler beim Dekodieren der JPEG2000 Datei %1 (%2)"
 
-#: src/lib/ffmpeg_image_proxy.cc:152
+#: src/lib/ffmpeg_image_proxy.cc:153
 msgid "Could not decode image (%1)"
 msgstr "Fehler beim Dekodieren der Bild-Datei (%1)"
 
@@ -613,7 +618,7 @@ msgstr "Heruntergeladene ZIP Datei kann nicht geöffnet werden."
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Heruntergeladene ZIP Datei kann nicht geöffnet werden (%1:%2: %3)"
 
-#: src/lib/config.cc:1071
+#: src/lib/config.cc:1070
 msgid "Could not open file for writing"
 msgstr "Datei konnte nicht zum Schreiben geöffnet werden."
 
@@ -682,7 +687,7 @@ msgstr ""
 "DCP-o-matic konnte die Datei %1 nicht öffnen (%2). Vielleicht existiert sie "
 "nicht oder ist in einem unerwarteten Format."
 
-#: src/lib/film.cc:1344
+#: src/lib/film.cc:1379
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -697,7 +702,7 @@ msgid ""
 msgstr ""
 "DCP-o-matic unterstützt den `%1' Filter nicht mehr, er wird deaktiviert."
 
-#: src/lib/config.cc:371 src/lib/config.cc:1165
+#: src/lib/config.cc:370 src/lib/config.cc:1164
 msgid "DCP-o-matic notification"
 msgstr "DCP-o-matic Benachrichtigungen"
 
@@ -710,7 +715,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "De-Interlacer"
 
-#: src/lib/config.cc:1153
+#: src/lib/config.cc:1152
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -929,7 +934,7 @@ msgstr "Ein unbekannter Fehler ist aufgetreten."
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:361 src/lib/config.cc:1150
+#: src/lib/config.cc:360 src/lib/config.cc:1149
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM Zustellung: $CPL_NAME"
 
@@ -1021,19 +1026,19 @@ msgstr "Mitte-Seite Decoder"
 msgid "Misc"
 msgstr "Verschiedenes"
 
-#: src/lib/dcp_examiner.cc:154
+#: src/lib/dcp_examiner.cc:157
 msgid "Mismatched audio channel counts in DCP"
 msgstr "Unterschiedliche Audio-Kanalzahlen im DCP"
 
-#: src/lib/dcp_examiner.cc:160
+#: src/lib/dcp_examiner.cc:163
 msgid "Mismatched audio sample rates in DCP"
 msgstr "Unterschiedliche Audioabtastraten im DCP"
 
-#: src/lib/dcp_examiner.cc:127
+#: src/lib/dcp_examiner.cc:130
 msgid "Mismatched frame rates in DCP"
 msgstr "Unterschiedliche Bildraten im DCP"
 
-#: src/lib/dcp_examiner.cc:135
+#: src/lib/dcp_examiner.cc:138
 msgid "Mismatched video sizes in DCP"
 msgstr "Unterschiedliche Auflösungen im DCP"
 
@@ -1045,7 +1050,7 @@ msgstr "Benötigte Einstellung %1 fehlt"
 msgid "Monday"
 msgstr "Montag"
 
-#: src/lib/writer.cc:623
+#: src/lib/writer.cc:638
 msgid "Mono"
 msgstr "Mono"
 
@@ -1077,7 +1082,7 @@ msgstr "Keine gültigen Bilddaten gefunden."
 msgid "Noise reduction"
 msgstr "Rauschunterdrückung"
 
-#: src/lib/writer.cc:621
+#: src/lib/writer.cc:636
 msgid "None"
 msgstr "Kein"
 
@@ -1315,15 +1320,15 @@ msgstr ""
 "Einige ihrer Closed Captions (CCAP) sind länger als %1 Zeile(n). Sie werden "
 "abgeschnitten."
 
-#: src/lib/film.cc:342
+#: src/lib/film.cc:377
 msgid "Some of your content needs a KDM"
 msgstr "Teile ihrer Quellinhalte (DCP) benötigen eine KDM"
 
-#: src/lib/film.cc:345
+#: src/lib/film.cc:380
 msgid "Some of your content needs an OV"
 msgstr "Teile ihrer Quellinhalte (DCP) benötigen eine OV-CPL"
 
-#: src/lib/writer.cc:625
+#: src/lib/writer.cc:640
 msgid "Stereo"
 msgstr "Stereo"
 
@@ -1355,7 +1360,7 @@ msgstr "Test - TST"
 msgid "Text subtitles"
 msgstr "Untertitel (Text)"
 
-#: src/lib/film.cc:325
+#: src/lib/film.cc:360
 msgid "The DCP is empty, perhaps because all the content has zero length."
 msgstr ""
 
@@ -1413,7 +1418,7 @@ msgstr ""
 "vorgesehene Projektionssystem diese Bildrate unterstützt, sollten Sie die "
 "DCP Bildrate auf den gleichen oder zumindest einen näheren Wert einstellen."
 
-#: src/lib/dcp_content.cc:590
+#: src/lib/dcp_content.cc:620
 msgid "There is no video in this DCP"
 msgstr "Dieses DCP enthält kein Bild"
 
@@ -1452,7 +1457,7 @@ msgstr ""
 "gehöriges geladenes DCP selektieren und mit <RechtsClick> \"KDM zuweisen\" "
 "ausführen!"
 
-#: src/lib/film.cc:487
+#: src/lib/film.cc:522
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1461,7 +1466,7 @@ msgstr ""
 "kann leider nicht mit dieser älteren Version geladen werden. Sie müssen den "
 "Film neu erstellen oder eine aktuelle Version installieren. Sorry!"
 
-#: src/lib/film.cc:472
+#: src/lib/film.cc:507
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1507,7 +1512,7 @@ msgstr "Ungültiger ZIP Inhalt"
 msgid "Unexpected image type received by server"
 msgstr "Ungültiges Bildformat vom Server erhalten"
 
-#: src/lib/cross_common.cc:87
+#: src/lib/cross_common.cc:86
 #, fuzzy
 msgid "Unknown"
 msgstr "unbekannt"
@@ -1516,7 +1521,7 @@ msgstr "unbekannt"
 msgid "Unknown error"
 msgstr "Unbekannter Fehler"
 
-#: src/lib/ffmpeg_decoder.cc:330
+#: src/lib/ffmpeg_decoder.cc:333
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Audio Sample Format (%1) nicht erkannt."
 
@@ -1664,7 +1669,7 @@ msgstr ""
 "speziellen Zeichensatz angewiesen sind, googlen Sie nach 'TI Font "
 "Compressor' und verwenden Sie ggfs. dieses Tool zur Behebung des Problems."
 
-#: src/lib/film.cc:321
+#: src/lib/film.cc:356
 msgid "You must add some content to the DCP before creating it"
 msgstr "Sie müssen erst Inhalte hinzufügen bevor Sie ein DCP erstellen können!"
 
@@ -1697,7 +1702,7 @@ msgstr ""
 "um -20dBFS RMS. Diese Angaben dienen nur zur Groborientierung. Prüfen Sie "
 "ihre DCPs in einem eingemessenen Kinosaal!"
 
-#: src/lib/config.cc:305
+#: src/lib/config.cc:304
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
@@ -1737,7 +1742,7 @@ msgstr "[Untertitel]"
 msgid "_reel%1"
 msgstr "_reel%1"
 
-#: src/lib/dcpomatic_socket.cc:69
+#: src/lib/dcpomatic_socket.cc:73
 msgid "connect timed out"
 msgstr "Zeit für Verbindungsaufbau abgelaufen"
 
@@ -1745,11 +1750,11 @@ msgstr "Zeit für Verbindungsaufbau abgelaufen"
 msgid "connecting"
 msgstr "verbinde..."
 
-#: src/lib/film.cc:317
+#: src/lib/film.cc:352
 msgid "container"
 msgstr "Containerformat"
 
-#: src/lib/film.cc:329
+#: src/lib/film.cc:364
 msgid "content type"
 msgstr "Inhaltsbeschreibung"
 
@@ -1757,11 +1762,11 @@ msgstr "Inhaltsbeschreibung"
 msgid "copying %1"
 msgstr "kopiere %1"
 
-#: src/lib/ffmpeg.cc:136 src/lib/ffmpeg_image_proxy.cc:157
+#: src/lib/ffmpeg.cc:142 src/lib/ffmpeg_image_proxy.cc:158
 msgid "could not find stream information"
 msgstr "Keine Spur-Information gefunden"
 
-#: src/lib/reel_writer.cc:365
+#: src/lib/reel_writer.cc:357
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "Audio konnte nicht in DCP (%1) kopiert werden"
 
@@ -1796,15 +1801,15 @@ msgstr "SSH Session konnte nicht gestartet werden"
 msgid "could not write to file %1 (%2)"
 msgstr "Datei %1 konnte nicht geschrieben werden (%2)"
 
-#: src/lib/dcpomatic_socket.cc:65
+#: src/lib/dcpomatic_socket.cc:69
 msgid "error during async_connect (%1)"
 msgstr "error during async_connect (%1)"
 
-#: src/lib/dcpomatic_socket.cc:118
+#: src/lib/dcpomatic_socket.cc:126
 msgid "error during async_read (%1)"
 msgstr "error during async_read (%1)"
 
-#: src/lib/dcpomatic_socket.cc:90
+#: src/lib/dcpomatic_socket.cc:94
 msgid "error during async_write (%1)"
 msgstr "error during async_write (%1)"
 
@@ -1818,77 +1823,77 @@ msgid "h"
 msgstr "h"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:681
+#: src/lib/dcp_content.cc:706
 msgid "it does not have closed captions in all its reels."
 msgstr ""
 "Das DCP enthält in einigen Akten ('Reels') keine Closed Captions (CCAP)."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:676
+#: src/lib/dcp_content.cc:701
 msgid "it does not have open subtitles in all its reels."
 msgstr "Das DCP enthält in einigen Akten ('Reels') keine Untertitel."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:644
+#: src/lib/dcp_content.cc:669
 msgid "it does not have sound in all its reels."
 msgstr "Das DCP enthält in einigen Akten ('Reels') keinen Ton."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:543
+#: src/lib/dcp_content.cc:573
 msgid "it has a different frame rate to the film."
 msgstr "Dieses Projekt verwendet eine andere Bildrate als dieses DCP."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:605
+#: src/lib/dcp_content.cc:630
 msgid "it is 2K and the film is 4K."
 msgstr ""
 "es ist in 2k, das gegenwärtige Projekt jedoch 4k. Eine Mischung ist nicht "
 "möglich!"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:602
+#: src/lib/dcp_content.cc:627
 msgid "it is 4K and the film is 2K."
 msgstr ""
 "es ist in 4k, das gegenwärtige Projekt jedoch 2k. Eine Mischung ist nicht "
 "möglich!"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:531
+#: src/lib/dcp_content.cc:561
 msgid "it is Interop and the film is set to SMPTE."
 msgstr ""
 "Dieses Projekt ist auf ’SMPTE’ Standard konfiguriert, das referenzierte DCP "
 "ist jedoch in ‚INTEROP‘! Eine Mischung ist nicht möglich!"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:535
+#: src/lib/dcp_content.cc:565
 msgid "it is SMPTE and the film is set to Interop."
 msgstr ""
 "Dieses Projekt ist auf ‚INTEROP‘ Standard konfiguriert, das referenzierte "
 "DCP ist jedoch in ‚SMPTE‘. Eine Mischung ist nicht möglich!"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:650
+#: src/lib/dcp_content.cc:675
 msgid "it overlaps other audio content; remove the other content."
 msgstr ""
 "Einige Audioanteile überlappen mit diesem DCP, bitte entfernen Sie diese (-"
 ">Zeitleiste)!"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:687
+#: src/lib/dcp_content.cc:712
 msgid "it overlaps other text content; remove the other content."
 msgstr ""
 "Einige Textanteile überlappen in diesem DCP, bitte entfernen Sie diese (-"
 ">Zeitleiste)!"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:615
+#: src/lib/dcp_content.cc:640
 msgid "it overlaps other video content; remove the other content."
 msgstr ""
 "Einige Videoanteile überlappen mit diesem DCP, bitte entfernen Sie diese (-"
 ">Zeitleiste)!"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:566
+#: src/lib/dcp_content.cc:596
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
@@ -1897,7 +1902,7 @@ msgstr ""
 "unter 'DCP' muss auf 'An Inhaltsgrenzen aufteilen' gesetzt werden."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:610
+#: src/lib/dcp_content.cc:635
 msgid "its video frame size differs from the film's."
 msgstr "Dieses Projekt verwendet eine andere Bildauflösung als dieses DCP."
 
@@ -1910,7 +1915,7 @@ msgstr "m"
 msgid "moving"
 msgstr "wird verschoben"
 
-#: src/lib/film.cc:313
+#: src/lib/film.cc:348
 msgid "name"
 msgstr "Name"
 
@@ -1923,7 +1928,7 @@ msgstr "s"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:338
+#: src/lib/film.cc:373
 msgid "some of your content is missing"
 msgstr "Inhalte fehlen"
 

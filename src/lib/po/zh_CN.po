@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-14 00:46+0200\n"
+"POT-Creation-Date: 2020-05-03 01:19+0200\n"
 "PO-Revision-Date: 2019-04-21 22:30+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -72,7 +72,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " on %1"
 
-#: src/lib/config.cc:1190
+#: src/lib/config.cc:1189
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -94,11 +94,11 @@ msgstr ""
 "长度: $LENGTH\n"
 "大小: $SIZE\n"
 
-#: src/lib/config.cc:1168
+#: src/lib/config.cc:1167
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
-#: src/lib/cross_common.cc:90
+#: src/lib/cross_common.cc:89
 msgid "%1 (%2 GB) [%3]"
 msgstr ""
 
@@ -106,7 +106,7 @@ msgstr ""
 msgid "%1 [Atmos]"
 msgstr "%1 [全景声]"
 
-#: src/lib/dcp_content.cc:270
+#: src/lib/dcp_content.cc:287
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -236,9 +236,14 @@ msgstr ""
 msgid "An error occurred whilst handling the file %1."
 msgstr "执行错误 %1."
 
-#: src/lib/analyse_audio_job.cc:98
+#: src/lib/analyse_audio_job.cc:131
 msgid "Analysing audio"
 msgstr "分析音频中"
+
+#: src/lib/analyse_subtitles_job.cc:48
+#, fuzzy
+msgid "Analysing subtitles"
+msgstr "定位字幕中"
 
 #: src/lib/audio_content.cc:258
 msgid "Audio will be resampled from %1Hz to %2Hz"
@@ -322,7 +327,7 @@ msgstr "中置"
 msgid "Cancelled"
 msgstr "取消"
 
-#: src/lib/film.cc:313
+#: src/lib/film.cc:348
 msgid "Cannot contain slashes"
 msgstr "不能包含斜杠"
 
@@ -330,7 +335,7 @@ msgstr "不能包含斜杠"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "在 %2 不能处理图片格式 %1"
 
-#: src/lib/film.cc:1421
+#: src/lib/film.cc:1456
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "不能生成KDM，因为项目没有被加密."
 
@@ -346,7 +351,7 @@ msgstr "声音通道"
 msgid "Checking content for changes"
 msgstr "检查媒体内容是否有改变"
 
-#: src/lib/reel_writer.cc:206
+#: src/lib/reel_writer.cc:204
 msgid "Checking existing image data"
 msgstr "检查现有的图像数据"
 
@@ -400,7 +405,7 @@ msgstr "色彩空间"
 msgid "Computing digest"
 msgstr "计算Hash值中"
 
-#: src/lib/writer.cc:513
+#: src/lib/writer.cc:528
 msgid "Computing digests"
 msgstr "计算Hash值中"
 
@@ -525,11 +530,11 @@ msgstr "源视频分辨率是 %1x%2"
 msgid "Copy DCP to TMS"
 msgstr "复制DCP到TMS（影院内容管理系统）"
 
-#: src/lib/reel_writer.cc:101
+#: src/lib/reel_writer.cc:99
 msgid "Copying old video file"
 msgstr ""
 
-#: src/lib/reel_writer.cc:335
+#: src/lib/reel_writer.cc:327
 #, fuzzy
 msgid "Copying video file into DCP"
 msgstr "DCP中的视频分辨率不匹配"
@@ -546,7 +551,7 @@ msgstr "无法创建远程目录 %1 (%2)"
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "无法解码JPEG2000文件%1 (%2)"
 
-#: src/lib/ffmpeg_image_proxy.cc:152
+#: src/lib/ffmpeg_image_proxy.cc:153
 msgid "Could not decode image (%1)"
 msgstr "无法解码图像媒体(%1)"
 
@@ -572,7 +577,7 @@ msgstr "无法打开下载的zip文件"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "无法打开下载的zip文件 (%1:%2: %3)"
 
-#: src/lib/config.cc:1071
+#: src/lib/config.cc:1070
 msgid "Could not open file for writing"
 msgstr "无法执行写入，目标文件无法打开"
 
@@ -639,7 +644,7 @@ msgid ""
 "is in an unexpected format."
 msgstr "无法打开文件%1 (%2)。文件不存在或格式无法识别。"
 
-#: src/lib/film.cc:1344
+#: src/lib/film.cc:1379
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -652,7 +657,7 @@ msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
 msgstr "不支持的格式`%1'。"
 
-#: src/lib/config.cc:371 src/lib/config.cc:1165
+#: src/lib/config.cc:370 src/lib/config.cc:1164
 msgid "DCP-o-matic notification"
 msgstr "DCP-o-matic提醒"
 
@@ -665,7 +670,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "去除隔行"
 
-#: src/lib/config.cc:1153
+#: src/lib/config.cc:1152
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -881,7 +886,7 @@ msgstr "未知错误."
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:361 src/lib/config.cc:1150
+#: src/lib/config.cc:360 src/lib/config.cc:1149
 msgid "KDM delivery: $CPL_NAME"
 msgstr "发行KDM: $CPL_NAME"
 
@@ -970,19 +975,19 @@ msgstr "中置解码"
 msgid "Misc"
 msgstr "其他"
 
-#: src/lib/dcp_examiner.cc:154
+#: src/lib/dcp_examiner.cc:157
 msgid "Mismatched audio channel counts in DCP"
 msgstr "DCP中的音频通道数不匹配"
 
-#: src/lib/dcp_examiner.cc:160
+#: src/lib/dcp_examiner.cc:163
 msgid "Mismatched audio sample rates in DCP"
 msgstr "DCP中的音频采样率不符合"
 
-#: src/lib/dcp_examiner.cc:127
+#: src/lib/dcp_examiner.cc:130
 msgid "Mismatched frame rates in DCP"
 msgstr "DCP中的帧率不匹配"
 
-#: src/lib/dcp_examiner.cc:135
+#: src/lib/dcp_examiner.cc:138
 msgid "Mismatched video sizes in DCP"
 msgstr "DCP中的视频分辨率不匹配"
 
@@ -994,7 +999,7 @@ msgstr "缺少必需的设置 %1"
 msgid "Monday"
 msgstr "星期一"
 
-#: src/lib/writer.cc:623
+#: src/lib/writer.cc:638
 msgid "Mono"
 msgstr "单声道"
 
@@ -1026,7 +1031,7 @@ msgstr "未发现有效的图片序列文件。"
 msgid "Noise reduction"
 msgstr "降噪"
 
-#: src/lib/writer.cc:621
+#: src/lib/writer.cc:636
 msgid "None"
 msgstr "无"
 
@@ -1244,15 +1249,15 @@ msgid ""
 "truncated."
 msgstr ""
 
-#: src/lib/film.cc:342
+#: src/lib/film.cc:377
 msgid "Some of your content needs a KDM"
 msgstr "一些内容需要KDM密匙"
 
-#: src/lib/film.cc:345
+#: src/lib/film.cc:380
 msgid "Some of your content needs an OV"
 msgstr "一些内容需要OV（声明原创）"
 
-#: src/lib/writer.cc:625
+#: src/lib/writer.cc:640
 msgid "Stereo"
 msgstr "双声道"
 
@@ -1284,7 +1289,7 @@ msgstr "测试片"
 msgid "Text subtitles"
 msgstr "文本字幕"
 
-#: src/lib/film.cc:325
+#: src/lib/film.cc:360
 msgid "The DCP is empty, perhaps because all the content has zero length."
 msgstr ""
 
@@ -1334,7 +1339,7 @@ msgid ""
 "systems support your chosen DCP rate."
 msgstr ""
 
-#: src/lib/dcp_content.cc:590
+#: src/lib/dcp_content.cc:620
 msgid "There is no video in this DCP"
 msgstr "DCP中不包含画面"
 
@@ -1368,13 +1373,13 @@ msgstr ""
 "这是一个KDM密匙文件。KDM密匙文件可以通过在你的DCP包上右键，点击添加KDM文件添"
 "加到DCP中。"
 
-#: src/lib/film.cc:487
+#: src/lib/film.cc:522
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
 msgstr "不支持新版本创建的工程文件!"
 
-#: src/lib/film.cc:472
+#: src/lib/film.cc:507
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1417,7 +1422,7 @@ msgstr "意外的ZIP文件的内容"
 msgid "Unexpected image type received by server"
 msgstr "服务器接收到意外的图像类型"
 
-#: src/lib/cross_common.cc:87
+#: src/lib/cross_common.cc:86
 #, fuzzy
 msgid "Unknown"
 msgstr "未知"
@@ -1426,7 +1431,7 @@ msgstr "未知"
 msgid "Unknown error"
 msgstr "未知错误"
 
-#: src/lib/ffmpeg_decoder.cc:330
+#: src/lib/ffmpeg_decoder.cc:333
 msgid "Unrecognised audio sample format (%1)"
 msgstr "无法识别的音频采样格式 (%1)"
 
@@ -1559,7 +1564,7 @@ msgid ""
 "likely to cause problems on playback."
 msgstr "您添加的字体文件超过了640KB，部分服务器不支持超过640KB大小的字体。"
 
-#: src/lib/film.cc:321
+#: src/lib/film.cc:356
 #, fuzzy
 msgid "You must add some content to the DCP before creating it"
 msgstr "您必须在创建DCP之前添加一些内容"
@@ -1586,7 +1591,7 @@ msgid ""
 "audio content."
 msgstr "您的音频增益过大 (在%1)，请降低音频增益。"
 
-#: src/lib/config.cc:305
+#: src/lib/config.cc:304
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr "默认设置的容器不可用，已被替换为Flat (1.85:1)"
@@ -1620,7 +1625,7 @@ msgstr "[字幕]"
 msgid "_reel%1"
 msgstr "_卷号%1"
 
-#: src/lib/dcpomatic_socket.cc:69
+#: src/lib/dcpomatic_socket.cc:73
 msgid "connect timed out"
 msgstr "连接超时"
 
@@ -1628,11 +1633,11 @@ msgstr "连接超时"
 msgid "connecting"
 msgstr "连接"
 
-#: src/lib/film.cc:317
+#: src/lib/film.cc:352
 msgid "container"
 msgstr "打包类型"
 
-#: src/lib/film.cc:329
+#: src/lib/film.cc:364
 msgid "content type"
 msgstr "打包类型"
 
@@ -1640,11 +1645,11 @@ msgstr "打包类型"
 msgid "copying %1"
 msgstr "复制中... %1"
 
-#: src/lib/ffmpeg.cc:136 src/lib/ffmpeg_image_proxy.cc:157
+#: src/lib/ffmpeg.cc:142 src/lib/ffmpeg_image_proxy.cc:158
 msgid "could not find stream information"
 msgstr "找不到流信息"
 
-#: src/lib/reel_writer.cc:365
+#: src/lib/reel_writer.cc:357
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "无法移动的音频文件 (%1)"
 
@@ -1679,15 +1684,15 @@ msgstr "无法启动SSH"
 msgid "could not write to file %1 (%2)"
 msgstr "不能写入文件 %1 (%2)"
 
-#: src/lib/dcpomatic_socket.cc:65
+#: src/lib/dcpomatic_socket.cc:69
 msgid "error during async_connect (%1)"
 msgstr "异步连接错误 (%1)"
 
-#: src/lib/dcpomatic_socket.cc:118
+#: src/lib/dcpomatic_socket.cc:126
 msgid "error during async_read (%1)"
 msgstr "异步读取错误 (%1)"
 
-#: src/lib/dcpomatic_socket.cc:90
+#: src/lib/dcpomatic_socket.cc:94
 msgid "error during async_write (%1)"
 msgstr "异步写入错误 (%1)"
 
@@ -1701,73 +1706,73 @@ msgid "h"
 msgstr "小时"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:681
+#: src/lib/dcp_content.cc:706
 #, fuzzy
 msgid "it does not have closed captions in all its reels."
 msgstr "该DCP的所有分卷无声音。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:676
+#: src/lib/dcp_content.cc:701
 #, fuzzy
 msgid "it does not have open subtitles in all its reels."
 msgstr "该DCP的所有分卷无字幕。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:644
+#: src/lib/dcp_content.cc:669
 #, fuzzy
 msgid "it does not have sound in all its reels."
 msgstr "该DCP的所有分卷无声音。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:543
+#: src/lib/dcp_content.cc:573
 #, fuzzy
 msgid "it has a different frame rate to the film."
 msgstr "影片与DCP的帧速率不一致."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:605
+#: src/lib/dcp_content.cc:630
 #, fuzzy
 msgid "it is 2K and the film is 4K."
 msgstr "打包内容被设置为Interop类型，而实际打包类型是 SMPTE。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:602
+#: src/lib/dcp_content.cc:627
 #, fuzzy
 msgid "it is 4K and the film is 2K."
 msgstr "打包内容被设置为Interop类型，而实际打包类型是 SMPTE。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:531
+#: src/lib/dcp_content.cc:561
 #, fuzzy
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "打包内容被设置为Interop类型，而实际打包类型是 SMPTE。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:535
+#: src/lib/dcp_content.cc:565
 #, fuzzy
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "打包内容被设置为SMPTE类型，而实际打包类型是 Interop。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:650
+#: src/lib/dcp_content.cc:675
 #, fuzzy
 msgid "it overlaps other audio content; remove the other content."
 msgstr "音频文件重复，请删除重复项."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:687
+#: src/lib/dcp_content.cc:712
 #, fuzzy
 msgid "it overlaps other text content; remove the other content."
 msgstr "视频文件重复，请删除重复项."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:615
+#: src/lib/dcp_content.cc:640
 #, fuzzy
 msgid "it overlaps other video content; remove the other content."
 msgstr "视频文件重复，请删除重复项."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:566
+#: src/lib/dcp_content.cc:596
 #, fuzzy
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
@@ -1775,7 +1780,7 @@ msgid ""
 msgstr "影片时长与DCP中的分卷时长不一致，请设置 【 分卷模式 】 来分割该内容。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:610
+#: src/lib/dcp_content.cc:635
 #, fuzzy
 msgid "its video frame size differs from the film's."
 msgstr "视频帧大小与DCP不一致。"
@@ -1789,7 +1794,7 @@ msgstr "分"
 msgid "moving"
 msgstr "移动"
 
-#: src/lib/film.cc:313
+#: src/lib/film.cc:348
 msgid "name"
 msgstr "名字"
 
@@ -1802,7 +1807,7 @@ msgstr "秒"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:338
+#: src/lib/film.cc:373
 msgid "some of your content is missing"
 msgstr "内容不完整"
 
