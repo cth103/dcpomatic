@@ -26,7 +26,7 @@
 /* REQUEST TO WRITE DCP */
 
 // Front-end sends:
- 
+
 #define DISK_WRITER_WRITE "W"
 // DCP pathname
 // Internal name of the drive to write to
@@ -41,12 +41,16 @@
 // Error message
 // Error number
 
-//  the drive is being formatted
+// the drive is being formatted
 #define DISK_WRITER_FORMATTING "F"
 
 // data is being copied, 30% done
-#define DISK_WRITER_PROGRESS "P"
+#define DISK_WRITER_COPY_PROGRESS "C"
 // 0.3\n
+
+// data is being veriried, 60% done
+#define DISK_WRITER_VERIFY_PROGRESS "V"
+// 0.6\n
 
 
 /* REQUEST TO QUIT */
@@ -59,7 +63,7 @@
 
 // Front-end sends:
 #define DISK_WRITER_UNMOUNT "U"
-// XML representation of Drive object to unmount 
+// XML representation of Drive object to unmount
 
 // Back-end responds:
 // DISK_WRITER_OK

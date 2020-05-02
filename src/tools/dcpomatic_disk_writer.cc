@@ -71,6 +71,7 @@ extern "C" {
 #include <sys/types.h>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::cin;
@@ -78,6 +79,7 @@ using std::min;
 using std::string;
 using std::runtime_error;
 using std::exception;
+using std::vector;
 using boost::optional;
 
 #ifdef DCPOMATIC_LINUX
@@ -156,7 +158,7 @@ write (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total
 
 		++progress_count;
 		if ((progress_count % progress_frequency) == 0) {
-			nanomsg->send(String::compose(DISK_WRITER_PROGRESS "\n%1\n", (1 - float(total_remaining) / total)), SHORT_TIMEOUT);
+			nanomsg->send(String::compose(DISK_WRITER_COPY_PROGRESS "\n%1\n", (1 - float(total_remaining) / total)), SHORT_TIMEOUT);
 		}
 	}
 
@@ -196,7 +198,7 @@ read (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_
 		digester.add (buffer, this_time);
 		remaining -= this_time;
 		total_remaining -= this_time;
-		nanomsg->send(String::compose(DISK_WRITER_PROGRESS "\n%1\n", (1 - float(total_remaining) / total)), SHORT_TIMEOUT);
+		nanomsg->send(String::compose(DISK_WRITER_VERIFY_PROGRESS "\n%1\n", (1 - float(total_remaining) / total)), SHORT_TIMEOUT);
 	}
 
 	ext4_fclose (&in);
@@ -206,12 +208,28 @@ read (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_
 }
 
 
+class CopiedFile
+{
+public:
+	CopiedFile (boost::filesystem::path from_, boost::filesystem::path to_, string write_digest_)
+		: from (from_)
+		, to (to_)
+		, write_digest (write_digest_)
+	{}
+
+	boost::filesystem::path from;
+	boost::filesystem::path to;
+	/** digest calculated from data as it was read from the source during write */
+	string write_digest;
+};
+
+
 /** @param from File to copy from.
  *  @param to Directory to copy to.
  */
 static
 void
-copy (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_remaining, uint64_t total)
+copy (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_remaining, uint64_t total, vector<CopiedFile>& copied_files)
 {
 	LOG_DISK ("Copy %1 -> %2", from.string(), to.generic_string());
 
@@ -226,14 +244,25 @@ copy (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_
 		}
 
 		for (directory_iterator i = directory_iterator(from); i != directory_iterator(); ++i) {
-			copy (i->path(), cr, total_remaining, total);
+			copy (i->path(), cr, total_remaining, total, copied_files);
 		}
 	} else {
 		string const write_digest = write (from, cr, total_remaining, total);
 		LOG_DISK ("Wrote %1 %2 with %3", from.string(), cr.generic_string(), write_digest);
-		string const read_digest = read (from, cr, total_remaining, total);
-		LOG_DISK ("Read %1 %2 with %3", from.string(), cr.generic_string(), write_digest);
-		if (write_digest != read_digest) {
+		copied_files.push_back (CopiedFile(from, cr, write_digest));
+	}
+}
+
+
+static
+void
+verify (vector<CopiedFile> const& copied_files, uint64_t total)
+{
+	uint64_t total_remaining = total;
+	BOOST_FOREACH (CopiedFile const& i, copied_files) {
+		string const read_digest = read (i.from, i.to, total_remaining, total);
+		LOG_DISK ("Read %1 %2 was %3 on write, now %4", i.from.string(), i.to.generic_string(), i.write_digest, read_digest);
+		if (read_digest != i.write_digest) {
 			throw VerifyError ("Hash of written data is incorrect", 0);
 		}
 	}
@@ -349,11 +378,22 @@ try
 	uint64_t total_bytes = 0;
 	count (dcp_path, total_bytes);
 
-	/* XXX: this is a hack.  We are going to "treat" every byte twice; write it, and then verify it.  Double the
-	 * bytes totals so that progress works itself out (assuming write is the same speed as read).
-	 */
-	total_bytes *= 2;
-	copy (dcp_path, "/mp", total_bytes, total_bytes);
+	uint64_t total_remaining = total_bytes;
+	vector<CopiedFile> copied_files;
+	copy (dcp_path, "/mp", total_remaining, total_bytes, copied_files);
+
+	/* Unmount and re-mount to make sure the write has finished */
+	r = ext4_umount("/mp/");
+	if (r != EOK) {
+		throw CopyError ("Failed to unmount device", r);
+	}
+	r = ext4_mount("ext4_fs", "/mp/", false);
+	if (r != EOK) {
+		throw CopyError ("Failed to mount device", r);
+	}
+	LOG_DISK_NC ("Re-mounted device");
+
+	verify (copied_files, total_bytes);
 
 	r = ext4_umount("/mp/");
 	if (r != EOK) {

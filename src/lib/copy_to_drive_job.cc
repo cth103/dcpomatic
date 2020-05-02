@@ -70,7 +70,13 @@ CopyToDriveJob::run ()
 		throw CommunicationFailedError ();
 	}
 
-	bool formatting = false;
+	enum State {
+		SETUP,
+		FORMAT,
+		COPY,
+		VERIFY
+	} state = SETUP;
+
 	while (true) {
 		optional<string> s = _nanomsg.receive (10000);
 		if (!s) {
@@ -84,13 +90,22 @@ CopyToDriveJob::run ()
 			optional<string> const n = _nanomsg.receive (500);
 			throw CopyError (m.get_value_or("Unknown"), raw_convert<int>(n.get_value_or("0")));
 		} else if (*s == DISK_WRITER_FORMATTING) {
-			sub ("Formatting drive");
+			sub (_("Formatting drive"));
 			set_progress_unknown ();
-			formatting = true;
-		} else if (*s == DISK_WRITER_PROGRESS) {
-			if (formatting) {
-				sub ("Copying DCP");
-				formatting = false;
+			state = FORMAT;
+		} else if (*s == DISK_WRITER_COPY_PROGRESS) {
+			if (state == FORMAT) {
+				sub (_("Copying DCP"));
+				state = COPY;
+			}
+			optional<string> progress = _nanomsg.receive (500);
+			if (progress) {
+				set_progress (raw_convert<float>(*progress));
+			}
+		} else if (*s == DISK_WRITER_VERIFY_PROGRESS) {
+			if (state == COPY) {
+				sub (_("Verifying copied files"));
+				state = VERIFY;
 			}
 			optional<string> progress = _nanomsg.receive (500);
 			if (progress) {
