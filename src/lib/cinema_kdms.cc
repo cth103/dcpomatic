@@ -27,8 +27,8 @@
 #include "emailer.h"
 #include "compose.hpp"
 #include "log.h"
+#include "zipper.h"
 #include "dcpomatic_log.h"
-#include <zip.h>
 #include <boost/foreach.hpp>
 
 #include "i18n.h"
@@ -43,39 +43,18 @@ using boost::function;
 void
 CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, dcp::NameFormat name_format, dcp::NameFormat::Map name_values) const
 {
-	int error;
-	struct zip* zip = zip_open (zip_file.string().c_str(), ZIP_CREATE | ZIP_EXCL, &error);
-	if (!zip) {
-		if (error == ZIP_ER_EXISTS) {
-			throw FileError ("ZIP file already exists", zip_file);
-		}
-		throw FileError ("could not create ZIP file", zip_file);
-	}
-
-	list<shared_ptr<string> > kdm_strings;
+	Zipper zipper (zip_file);
 
 	name_values['c'] = cinema->name;
 
 	BOOST_FOREACH (shared_ptr<ScreenKDM> i, screen_kdms) {
-		shared_ptr<string> kdm (new string(i->kdm_as_xml()));
-		kdm_strings.push_back (kdm);
-
-		struct zip_source* source = zip_source_buffer (zip, kdm->c_str(), kdm->length(), 0);
-		if (!source) {
-			throw runtime_error ("could not create ZIP source");
-		}
-
 		name_values['s'] = i->screen->name;
 		name_values['i'] = i->kdm_id ();
 		string const name = careful_string_filter(name_format.get(name_values, ".xml"));
-		if (zip_add (zip, name.c_str(), source) == -1) {
-			throw runtime_error ("failed to add KDM to ZIP archive");
-		}
+		zipper.add (name, i->kdm_as_xml());
 	}
 
-	if (zip_close (zip) == -1) {
-		throw runtime_error ("failed to close ZIP archive");
-	}
+	zipper.close ();
 }
 
 /** Collect a list of ScreenKDMs into a list of CinemaKDMs so that each

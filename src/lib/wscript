@@ -183,6 +183,7 @@ sources = """
           video_mxf_examiner.cc
           video_ring_buffers.cc
           writer.cc
+          zipper.cc
           """
 
 def build(bld):
