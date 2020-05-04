@@ -25,7 +25,6 @@
 #include "lib/film.h"
 #include "lib/cinema.h"
 #include "lib/kdm_with_metadata.h"
-#include "lib/cinema_kdms.h"
 #include "lib/config.h"
 #include "lib/exceptions.h"
 #include "lib/emailer.h"

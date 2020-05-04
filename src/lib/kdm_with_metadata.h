@@ -70,6 +70,41 @@ int write_files (
 	);
 
 
+void make_zip_file (std::list<KDMWithMetadataPtr> kdms, boost::filesystem::path zip_file, dcp::NameFormat name_format, dcp::NameFormat::Map name_values);
+
+
+std::list<std::list<KDMWithMetadataPtr> > collect (std::list<KDMWithMetadataPtr> kdms);
+
+
+int write_directories (
+		std::list<std::list<KDMWithMetadataPtr> > cinema_kdms,
+		boost::filesystem::path directory,
+		dcp::NameFormat container_name_format,
+		dcp::NameFormat filename_format,
+		dcp::NameFormat::Map name_values,
+		boost::function<bool (boost::filesystem::path)> confirm_overwrite
+		);
+
+
+int write_zip_files (
+		std::list<std::list<KDMWithMetadataPtr> > cinema_kdms,
+		boost::filesystem::path directory,
+		dcp::NameFormat container_name_format,
+		dcp::NameFormat filename_format,
+		dcp::NameFormat::Map name_values,
+		boost::function<bool (boost::filesystem::path)> confirm_overwrite
+		);
+
+
+void email (
+		std::list<std::list<KDMWithMetadataPtr> > cinema_kdms,
+		dcp::NameFormat container_name_format,
+		dcp::NameFormat filename_format,
+		dcp::NameFormat::Map name_values,
+		std::string cpl_name
+		);
+
+
 class DCPKDMWithMetadata : public KDMWithMetadata
 {
 public:

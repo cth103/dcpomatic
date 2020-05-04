@@ -40,7 +40,6 @@
 #include "lib/job_manager.h"
 #include "lib/kdm_with_metadata.h"
 #include "lib/exceptions.h"
-#include "lib/cinema_kdms.h"
 #include "lib/send_kdm_email_job.h"
 #include "lib/compose.hpp"
 #include "lib/cinema.h"

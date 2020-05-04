@@ -20,8 +20,8 @@
 
 #include "send_kdm_email_job.h"
 #include "compose.hpp"
+#include "kdm_with_metadata.h"
 #include "film.h"
-#include "cinema_kdms.h"
 #include <list>
 
 #include "i18n.h"

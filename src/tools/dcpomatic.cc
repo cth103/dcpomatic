@@ -72,7 +72,6 @@
 #include "lib/cross.h"
 #include "lib/content_factory.h"
 #include "lib/compose.hpp"
-#include "lib/cinema_kdms.h"
 #include "lib/dcpomatic_socket.h"
 #include "lib/hints.h"
 #include "lib/dcp_content.h"

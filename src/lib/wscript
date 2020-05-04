@@ -47,7 +47,6 @@ sources = """
           checker.cc
           check_content_change_job.cc
           cinema.cc
-          cinema_kdms.cc
           cinema_sound_processor.cc
           colour_conversion.cc
           config.cc

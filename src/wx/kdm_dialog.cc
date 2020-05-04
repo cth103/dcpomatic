@@ -31,7 +31,6 @@
 #include "lib/screen.h"
 #include "lib/kdm_with_metadata.h"
 #include "lib/job_manager.h"
-#include "lib/cinema_kdms.h"
 #include "lib/config.h"
 #include "lib/cinema.h"
 #include <libcxml/cxml.h>

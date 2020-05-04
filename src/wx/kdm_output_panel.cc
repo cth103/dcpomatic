@@ -20,7 +20,6 @@
 
 #include "lib/config.h"
 #include "lib/cinema.h"
-#include "lib/cinema_kdms.h"
 #include "lib/send_kdm_email_job.h"
 #include "kdm_output_panel.h"
 #include "kdm_timing_panel.h"
