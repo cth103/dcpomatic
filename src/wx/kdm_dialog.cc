@@ -29,7 +29,7 @@
 #include "dcpomatic_button.h"
 #include "lib/film.h"
 #include "lib/screen.h"
-#include "lib/screen_kdm.h"
+#include "lib/kdm_with_metadata.h"
 #include "lib/job_manager.h"
 #include "lib/cinema_kdms.h"
 #include "lib/config.h"
@@ -150,7 +150,7 @@ KDMDialog::make_clicked ()
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 
-	list<shared_ptr<ScreenKDM> > screen_kdms;
+	list<shared_ptr<KDMWithMetadata> > screen_kdms;
 	try {
 		/* Start off by enabling forensic marking for all */
 		optional<int> for_audio;
@@ -175,7 +175,7 @@ KDMDialog::make_clicked ()
 						for_audio
 						);
 
-				screen_kdms.push_back (shared_ptr<ScreenKDM>(new DCPScreenKDM(i, kdm)));
+				screen_kdms.push_back (shared_ptr<KDMWithMetadata>(new DCPKDMWithMetadata(i, kdm)));
 			}
 		}
 

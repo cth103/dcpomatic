@@ -50,7 +50,7 @@
 #include "text_content.h"
 #include "ffmpeg_content.h"
 #include "dcp_content.h"
-#include "screen_kdm.h"
+#include "kdm_with_metadata.h"
 #include "cinema.h"
 #include "change_signaller.h"
 #include "check_content_change_job.h"

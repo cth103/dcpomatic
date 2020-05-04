@@ -65,7 +65,7 @@
 #include "lib/job_manager.h"
 #include "lib/exceptions.h"
 #include "lib/cinema.h"
-#include "lib/screen_kdm.h"
+#include "lib/kdm_with_metadata.h"
 #include "lib/send_kdm_email_job.h"
 #include "lib/encode_server_finder.h"
 #include "lib/update_checker.h"

@@ -125,6 +125,7 @@ sources = """
           job_manager.cc
           j2k_encoder.cc
           json_server.cc
+          kdm_with_metadata.cc
           lock_file_checker.cc
           log.cc
           log_entry.cc
@@ -145,7 +146,6 @@ sources = """
           scoped_temporary.cc
           scp_uploader.cc
           screen.cc
-          screen_kdm.cc
           send_kdm_email_job.cc
           send_notification_email_job.cc
           send_problem_report_job.cc

@@ -18,8 +18,8 @@
 
 */
 
-#ifndef DCPOMATIC_SCREEN_KDM_H
-#define DCPOMATIC_SCREEN_KDM_H
+#ifndef DCPOMATIC_KDM_WITH_METADATA_H
+#define DCPOMATIC_KDM_WITH_METADATA_H
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 #include "encrypted_ecinema_kdm.h"
@@ -33,21 +33,21 @@ namespace dcpomatic {
 }
 
 /** Simple class to collect a screen and an encrypted KDM */
-class ScreenKDM
+class KDMWithMetadata
 {
 public:
-	ScreenKDM (boost::shared_ptr<dcpomatic::Screen> s)
+	KDMWithMetadata (boost::shared_ptr<dcpomatic::Screen> s)
 		: screen (s)
 	{}
 
-	virtual ~ScreenKDM () {}
+	virtual ~KDMWithMetadata () {}
 
 	virtual std::string kdm_as_xml () const = 0;
 	virtual void kdm_as_xml (boost::filesystem::path out) const = 0;
 	virtual std::string kdm_id () const = 0;
 
 	static int write_files (
-		std::list<boost::shared_ptr<ScreenKDM> > screen_kdms, boost::filesystem::path directory,
+		std::list<boost::shared_ptr<KDMWithMetadata> > screen_kdms, boost::filesystem::path directory,
 		dcp::NameFormat name_format, dcp::NameFormat::Map name_values,
 		boost::function<bool (boost::filesystem::path)> confirm_overwrite
 		);
@@ -55,11 +55,11 @@ public:
 	boost::shared_ptr<dcpomatic::Screen> screen;
 };
 
-class DCPScreenKDM : public ScreenKDM
+class DCPKDMWithMetadata : public KDMWithMetadata
 {
 public:
-	DCPScreenKDM (boost::shared_ptr<dcpomatic::Screen> s, dcp::EncryptedKDM k)
-		: ScreenKDM (s)
+	DCPKDMWithMetadata (boost::shared_ptr<dcpomatic::Screen> s, dcp::EncryptedKDM k)
+		: KDMWithMetadata (s)
 		, kdm (k)
 	{}
 
@@ -79,11 +79,11 @@ public:
 };
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
-class ECinemaScreenKDM : public ScreenKDM
+class ECinemaKDMWithMetadata : public KDMWithMetadata
 {
 public:
-	ECinemaScreenKDM (boost::shared_ptr<dcpomatic::Screen> s, EncryptedECinemaKDM k)
-		: ScreenKDM (s)
+	ECinemaKDMWithMetadata (boost::shared_ptr<dcpomatic::Screen> s, EncryptedECinemaKDM k)
+		: KDMWithMetadata (s)
 		, kdm (k)
 	{}
 
