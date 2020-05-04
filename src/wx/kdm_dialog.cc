@@ -175,7 +175,13 @@ KDMDialog::make_clicked ()
 						for_audio
 						);
 
-				screen_kdms.push_back (KDMWithMetadataPtr(new DCPKDMWithMetadata(i, kdm)));
+				dcp::NameFormat::Map name_values;
+				if (i->cinema) {
+					name_values['c'] = i->cinema->name;
+				}
+				name_values['s'] = i->name;
+
+				screen_kdms.push_back (KDMWithMetadataPtr(new DCPKDMWithMetadata(name_values, i->cinema, kdm)));
 			}
 		}
 

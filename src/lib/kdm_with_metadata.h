@@ -28,16 +28,14 @@
 #include <dcp/name_format.h>
 #include <boost/shared_ptr.hpp>
 
-namespace dcpomatic {
-	class Screen;
-}
+class Cinema;
 
-/** Simple class to collect a screen and an encrypted KDM */
 class KDMWithMetadata
 {
 public:
-	KDMWithMetadata (boost::shared_ptr<dcpomatic::Screen> s)
-		: screen (s)
+	KDMWithMetadata (dcp::NameFormat::Map const& name_values, boost::shared_ptr<Cinema> cinema)
+		: _name_values (name_values)
+		, _cinema (cinema)
 	{}
 
 	virtual ~KDMWithMetadata () {}
@@ -46,7 +44,19 @@ public:
 	virtual void kdm_as_xml (boost::filesystem::path out) const = 0;
 	virtual std::string kdm_id () const = 0;
 
-	boost::shared_ptr<dcpomatic::Screen> screen;
+	dcp::NameFormat::Map const& name_values () const {
+		return _name_values;
+	}
+
+	boost::optional<std::string> get (char k) const;
+
+	boost::shared_ptr<Cinema> cinema () const {
+		return _cinema;
+	}
+
+private:
+	dcp::NameFormat::Map _name_values;
+	boost::shared_ptr<Cinema> _cinema;
 };
 
 
@@ -63,8 +73,8 @@ int write_files (
 class DCPKDMWithMetadata : public KDMWithMetadata
 {
 public:
-	DCPKDMWithMetadata (boost::shared_ptr<dcpomatic::Screen> s, dcp::EncryptedKDM k)
-		: KDMWithMetadata (s)
+	DCPKDMWithMetadata (dcp::NameFormat::Map const& name_values, boost::shared_ptr<Cinema> cinema, dcp::EncryptedKDM k)
+		: KDMWithMetadata (name_values, cinema)
 		, kdm (k)
 	{}
 
@@ -87,8 +97,8 @@ public:
 class ECinemaKDMWithMetadata : public KDMWithMetadata
 {
 public:
-	ECinemaKDMWithMetadata (boost::shared_ptr<dcpomatic::Screen> s, EncryptedECinemaKDM k)
-		: KDMWithMetadata (s)
+	ECinemaKDMWithMetadata (dcp::NameValues::Map const& name_values, boost::shared_ptr<Cinema> cinema, EncryptedECinemaKDM k)
+		: KDMWithMetadata (name_values, cinema)
 		, kdm (k)
 	{}
 

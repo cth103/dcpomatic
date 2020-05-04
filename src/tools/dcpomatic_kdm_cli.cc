@@ -244,7 +244,11 @@ from_film (
 						disable_forensic_marking_audio
 						);
 
-				kdms.push_back (KDMWithMetadataPtr(new DCPKDMWithMetadata(i, kdm)));
+				dcp::NameFormat::Map name_values;
+				name_values['c'] = i->cinema->name;
+				name_values['s'] = i->name;
+
+				kdms.push_back (KDMWithMetadataPtr(new DCPKDMWithMetadata(name_values, i->cinema, kdm)));
 			}
 		}
 
@@ -351,10 +355,15 @@ from_dkdm (
 				continue;
 			}
 
+			dcp::NameFormat::Map name_values;
+			name_values['c'] = i->cinema->name;
+			name_values['s'] = i->name;
+
 			screen_kdms.push_back (
 				KDMWithMetadataPtr(
 					new DCPKDMWithMetadata(
-						i,
+						name_values,
+						i->cinema,
 						kdm_from_dkdm(
 							dkdm,
 							i->recipient.get(),

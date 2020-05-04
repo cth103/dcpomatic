@@ -29,6 +29,7 @@
 #include "log.h"
 #include "zipper.h"
 #include "dcpomatic_log.h"
+#include "kdm_with_metadata.h"
 #include <boost/foreach.hpp>
 
 #include "i18n.h"
@@ -39,6 +40,7 @@ using std::string;
 using std::runtime_error;
 using boost::shared_ptr;
 using boost::function;
+using boost::optional;
 
 void
 CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, dcp::NameFormat name_format, dcp::NameFormat::Map name_values) const
@@ -48,7 +50,6 @@ CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, dcp::NameFormat nam
 	name_values['c'] = cinema->name;
 
 	BOOST_FOREACH (KDMWithMetadataPtr i, screen_kdms) {
-		name_values['s'] = i->screen->name;
 		name_values['i'] = i->kdm_id ();
 		string const name = careful_string_filter(name_format.get(name_values, ".xml"));
 		zipper.add (name, i->kdm_as_xml());
@@ -72,14 +73,14 @@ CinemaKDMs::collect (list<KDMWithMetadataPtr> screen_kdms)
 		CinemaKDMs ck;
 
 		list<KDMWithMetadataPtr>::iterator i = screen_kdms.begin ();
-		ck.cinema = (*i)->screen->cinema;
+		ck.cinema = (*i)->cinema();
 		ck.screen_kdms.push_back (*i);
 		list<KDMWithMetadataPtr>::iterator j = i;
 		++i;
 		screen_kdms.remove (*j);
 
 		while (i != screen_kdms.end ()) {
-			if ((*i)->screen->cinema == ck.cinema) {
+			if ((*i)->cinema() == ck.cinema) {
 				ck.screen_kdms.push_back (*i);
 				list<KDMWithMetadataPtr>::iterator j = i;
 				++i;
@@ -210,7 +211,10 @@ CinemaKDMs::email (
 
 		string screens;
 		BOOST_FOREACH (KDMWithMetadataPtr j, i.screen_kdms) {
-			screens += j->screen->name + ", ";
+			optional<string> screen_name = j->get('n');
+			if (screen_name) {
+				screens += *screen_name + ", ";
+			}
 		}
 		boost::algorithm::replace_all (body, "$SCREENS", screens.substr (0, screens.length() - 2));
 

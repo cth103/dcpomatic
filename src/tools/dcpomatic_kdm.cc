@@ -326,10 +326,14 @@ private:
 						dcp::LocalTime (_timing->until(), i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute())
 						);
 
+					dcp::NameFormat::Map name_values;
+					name_values['c'] = i->cinema->name;
+					name_values['s'] = i->name;
+
 					/* Encrypt */
 					screen_kdms.push_back (
 						KDMWithMetadataPtr(
-							new ECinemaKDMWithMetadata(i, kdm.encrypt(i->recipient.get()))
+							new ECinemaKDMWithMetadata(name_values, i->cinema, kdm.encrypt(i->recipient.get()))
 							)
 						);
 				}
@@ -369,11 +373,16 @@ private:
 						kdm.add_key (j);
 					}
 
+					dcp::NameFormat::Map name_values;
+					name_values['c'] = i->cinema->name;
+					name_values['s'] = i->name;
+
 					/* Encrypt */
 					screen_kdms.push_back (
 						KDMWithMetadataPtr(
 							new DCPKDMWithMetadata(
-								i,
+								name_values,
+								i->cinema,
 								kdm.encrypt(
 									signer, i->recipient.get(), i->trusted_device_thumbprints(), _output->formulation(),
 									!_output->forensic_mark_video(), _output->forensic_mark_audio() ? boost::optional<int>() : 0

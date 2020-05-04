@@ -28,6 +28,7 @@ using std::string;
 using std::cout;
 using std::list;
 using boost::shared_ptr;
+using boost::optional;
 
 int
 write_files (
@@ -56,8 +57,6 @@ write_files (
 
 	/* Write KDMs to the specified directory */
 	BOOST_FOREACH (KDMWithMetadataPtr i, screen_kdms) {
-		name_values['c'] = i->screen->cinema ? i->screen->cinema->name : "";
-		name_values['s'] = i->screen->name;
 		name_values['i'] = i->kdm_id ();
 		boost::filesystem::path out = directory / careful_string_filter(name_format.get(name_values, ".xml"));
 		if (!boost::filesystem::exists (out) || confirm_overwrite (out)) {
@@ -67,4 +66,16 @@ write_files (
 	}
 
 	return written;
+}
+
+
+optional<string>
+KDMWithMetadata::get (char k) const
+{
+	dcp::NameFormat::Map::const_iterator i = _name_values.find (k);
+	if (i == _name_values.end()) {
+		return optional<string>();
+	}
+
+	return i->second;
 }
