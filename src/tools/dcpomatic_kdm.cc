@@ -303,7 +303,7 @@ private:
 				return;
 			}
 
-			list<shared_ptr<KDMWithMetadata> > screen_kdms;
+			list<KDMWithMetadataPtr> screen_kdms;
 			string title;
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
@@ -328,7 +328,7 @@ private:
 
 					/* Encrypt */
 					screen_kdms.push_back (
-						shared_ptr<KDMWithMetadata>(
+						KDMWithMetadataPtr(
 							new ECinemaKDMWithMetadata(i, kdm.encrypt(i->recipient.get()))
 							)
 						);
@@ -371,7 +371,7 @@ private:
 
 					/* Encrypt */
 					screen_kdms.push_back (
-						shared_ptr<KDMWithMetadata>(
+						KDMWithMetadataPtr(
 							new DCPKDMWithMetadata(
 								i,
 								kdm.encrypt(

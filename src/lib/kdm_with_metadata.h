@@ -46,14 +46,19 @@ public:
 	virtual void kdm_as_xml (boost::filesystem::path out) const = 0;
 	virtual std::string kdm_id () const = 0;
 
-	static int write_files (
-		std::list<boost::shared_ptr<KDMWithMetadata> > screen_kdms, boost::filesystem::path directory,
-		dcp::NameFormat name_format, dcp::NameFormat::Map name_values,
-		boost::function<bool (boost::filesystem::path)> confirm_overwrite
-		);
-
 	boost::shared_ptr<dcpomatic::Screen> screen;
 };
+
+
+typedef boost::shared_ptr<KDMWithMetadata> KDMWithMetadataPtr;
+
+
+int write_files (
+	std::list<KDMWithMetadataPtr> screen_kdms, boost::filesystem::path directory,
+	dcp::NameFormat name_format, dcp::NameFormat::Map name_values,
+	boost::function<bool (boost::filesystem::path)> confirm_overwrite
+	);
+
 
 class DCPKDMWithMetadata : public KDMWithMetadata
 {

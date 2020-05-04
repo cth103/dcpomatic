@@ -150,7 +150,7 @@ KDMDialog::make_clicked ()
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 
-	list<shared_ptr<KDMWithMetadata> > screen_kdms;
+	list<KDMWithMetadataPtr> screen_kdms;
 	try {
 		/* Start off by enabling forensic marking for all */
 		optional<int> for_audio;
@@ -175,7 +175,7 @@ KDMDialog::make_clicked ()
 						for_audio
 						);
 
-				screen_kdms.push_back (shared_ptr<KDMWithMetadata>(new DCPKDMWithMetadata(i, kdm)));
+				screen_kdms.push_back (KDMWithMetadataPtr(new DCPKDMWithMetadata(i, kdm)));
 			}
 		}
 

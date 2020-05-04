@@ -130,7 +130,7 @@ always_overwrite ()
 
 void
 write_files (
-	list<shared_ptr<KDMWithMetadata> > screen_kdms,
+	list<KDMWithMetadataPtr> screen_kdms,
 	bool zip,
 	boost::filesystem::path output,
 	dcp::NameFormat container_name_format,
@@ -153,7 +153,7 @@ write_files (
 			cout << "Wrote " << N << " ZIP files to " << output << "\n";
 		}
 	} else {
-		int const N = KDMWithMetadata::write_files (
+		int const N = write_files (
 			screen_kdms, output, filename_format, values,
 			bind (&always_overwrite)
 			);
@@ -229,7 +229,7 @@ from_film (
 	values['e'] = dcp::LocalTime(valid_to).date() + " " + dcp::LocalTime(valid_to).time_of_day(true, false);
 
 	try {
-		list<shared_ptr<KDMWithMetadata> > kdms;
+		list<KDMWithMetadataPtr> kdms;
 
 		BOOST_FOREACH (shared_ptr<Screen> i, screens) {
 			if (i->recipient) {
@@ -244,7 +244,7 @@ from_film (
 						disable_forensic_marking_audio
 						);
 
-				kdms.push_back (shared_ptr<KDMWithMetadata>(new DCPKDMWithMetadata(i, kdm)));
+				kdms.push_back (KDMWithMetadataPtr(new DCPKDMWithMetadata(i, kdm)));
 			}
 		}
 
@@ -345,14 +345,14 @@ from_dkdm (
 	values['e'] = dcp::LocalTime(valid_to).date() + " " + dcp::LocalTime(valid_to).time_of_day(true, false);
 
 	try {
-		list<shared_ptr<KDMWithMetadata> > screen_kdms;
+		list<KDMWithMetadataPtr> screen_kdms;
 		BOOST_FOREACH (shared_ptr<Screen> i, screens) {
 			if (!i->recipient) {
 				continue;
 			}
 
 			screen_kdms.push_back (
-				shared_ptr<KDMWithMetadata>(
+				KDMWithMetadataPtr(
 					new DCPKDMWithMetadata(
 						i,
 						kdm_from_dkdm(

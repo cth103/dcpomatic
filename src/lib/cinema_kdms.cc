@@ -47,7 +47,7 @@ CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, dcp::NameFormat nam
 
 	name_values['c'] = cinema->name;
 
-	BOOST_FOREACH (shared_ptr<KDMWithMetadata> i, screen_kdms) {
+	BOOST_FOREACH (KDMWithMetadataPtr i, screen_kdms) {
 		name_values['s'] = i->screen->name;
 		name_values['i'] = i->kdm_id ();
 		string const name = careful_string_filter(name_format.get(name_values, ".xml"));
@@ -61,7 +61,7 @@ CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, dcp::NameFormat nam
  *  CinemaKDM contains the KDMs for its cinema.
  */
 list<CinemaKDMs>
-CinemaKDMs::collect (list<shared_ptr<KDMWithMetadata> > screen_kdms)
+CinemaKDMs::collect (list<KDMWithMetadataPtr> screen_kdms)
 {
 	list<CinemaKDMs> cinema_kdms;
 
@@ -71,17 +71,17 @@ CinemaKDMs::collect (list<shared_ptr<KDMWithMetadata> > screen_kdms)
 
 		CinemaKDMs ck;
 
-		list<shared_ptr<KDMWithMetadata> >::iterator i = screen_kdms.begin ();
+		list<KDMWithMetadataPtr>::iterator i = screen_kdms.begin ();
 		ck.cinema = (*i)->screen->cinema;
 		ck.screen_kdms.push_back (*i);
-		list<shared_ptr<KDMWithMetadata> >::iterator j = i;
+		list<KDMWithMetadataPtr>::iterator j = i;
 		++i;
 		screen_kdms.remove (*j);
 
 		while (i != screen_kdms.end ()) {
 			if ((*i)->screen->cinema == ck.cinema) {
 				ck.screen_kdms.push_back (*i);
-				list<shared_ptr<KDMWithMetadata> >::iterator j = i;
+				list<KDMWithMetadataPtr>::iterator j = i;
 				++i;
 				screen_kdms.remove (*j);
 			} else {
@@ -117,7 +117,7 @@ CinemaKDMs::write_directories (
 		path /= container_name_format.get(name_values, "");
 		if (!boost::filesystem::exists (path) || confirm_overwrite (path)) {
 			boost::filesystem::create_directories (path);
-			KDMWithMetadata::write_files (i.screen_kdms, path, filename_format, name_values, confirm_overwrite);
+			write_files (i.screen_kdms, path, filename_format, name_values, confirm_overwrite);
 		}
 		written += i.screen_kdms.size();
 	}
@@ -209,7 +209,7 @@ CinemaKDMs::email (
 		boost::algorithm::replace_all (body, "$CINEMA_NAME", i.cinema->name);
 
 		string screens;
-		BOOST_FOREACH (shared_ptr<KDMWithMetadata> j, i.screen_kdms) {
+		BOOST_FOREACH (KDMWithMetadataPtr j, i.screen_kdms) {
 			screens += j->screen->name + ", ";
 		}
 		boost::algorithm::replace_all (body, "$SCREENS", screens.substr (0, screens.length() - 2));

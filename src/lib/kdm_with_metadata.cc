@@ -30,8 +30,8 @@ using std::list;
 using boost::shared_ptr;
 
 int
-KDMWithMetadata::write_files (
-	list<shared_ptr<KDMWithMetadata> > screen_kdms,
+write_files (
+	list<KDMWithMetadataPtr> screen_kdms,
 	boost::filesystem::path directory,
 	dcp::NameFormat name_format,
 	dcp::NameFormat::Map name_values,
@@ -42,7 +42,7 @@ KDMWithMetadata::write_files (
 
 	if (directory == "-") {
 		/* Write KDMs to the stdout */
-		BOOST_FOREACH (shared_ptr<KDMWithMetadata> i, screen_kdms) {
+		BOOST_FOREACH (KDMWithMetadataPtr i, screen_kdms) {
 			cout << i->kdm_as_xml ();
 			++written;
 		}
@@ -55,7 +55,7 @@ KDMWithMetadata::write_files (
 	}
 
 	/* Write KDMs to the specified directory */
-	BOOST_FOREACH (shared_ptr<KDMWithMetadata> i, screen_kdms) {
+	BOOST_FOREACH (KDMWithMetadataPtr i, screen_kdms) {
 		name_values['c'] = i->screen->cinema ? i->screen->cinema->name : "";
 		name_values['s'] = i->screen->name;
 		name_values['i'] = i->kdm_id ();
