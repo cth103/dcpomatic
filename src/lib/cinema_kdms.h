@@ -24,19 +24,12 @@ class Cinema;
 class Job;
 class Log;
 
-class CinemaKDMs
-{
-public:
-	boost::shared_ptr<Cinema> cinema;
-	std::list<KDMWithMetadataPtr > screen_kdms;
-};
+void make_zip_file (std::list<KDMWithMetadataPtr> kdms, boost::filesystem::path zip_file, dcp::NameFormat name_format, dcp::NameFormat::Map name_values);
 
-void make_zip_file (CinemaKDMs kdms, boost::filesystem::path zip_file, dcp::NameFormat name_format, dcp::NameFormat::Map name_values);
-
-std::list<CinemaKDMs> collect (std::list<KDMWithMetadataPtr > kdms);
+std::list<std::list<KDMWithMetadataPtr> > collect (std::list<KDMWithMetadataPtr> kdms);
 
 int write_directories (
-		std::list<CinemaKDMs> cinema_kdms,
+		std::list<std::list<KDMWithMetadataPtr> > cinema_kdms,
 		boost::filesystem::path directory,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
@@ -45,7 +38,7 @@ int write_directories (
 		);
 
 int write_zip_files (
-		std::list<CinemaKDMs> cinema_kdms,
+		std::list<std::list<KDMWithMetadataPtr> > cinema_kdms,
 		boost::filesystem::path directory,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
@@ -54,7 +47,7 @@ int write_zip_files (
 		);
 
 void email (
-		std::list<CinemaKDMs> cinema_kdms,
+		std::list<std::list<KDMWithMetadataPtr> > cinema_kdms,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
 		dcp::NameFormat::Map name_values,

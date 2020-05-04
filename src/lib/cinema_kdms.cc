@@ -43,13 +43,11 @@ using boost::function;
 using boost::optional;
 
 void
-make_zip_file (CinemaKDMs kdms, boost::filesystem::path zip_file, dcp::NameFormat name_format, dcp::NameFormat::Map name_values)
+make_zip_file (list<KDMWithMetadataPtr> kdms, boost::filesystem::path zip_file, dcp::NameFormat name_format, dcp::NameFormat::Map name_values)
 {
 	Zipper zipper (zip_file);
 
-	name_values['c'] = kdms.cinema->name;
-
-	BOOST_FOREACH (KDMWithMetadataPtr i, kdms.screen_kdms) {
+	BOOST_FOREACH (KDMWithMetadataPtr i, kdms) {
 		name_values['i'] = i->kdm_id ();
 		string const name = careful_string_filter(name_format.get(name_values, ".xml"));
 		zipper.add (name, i->kdm_as_xml());
@@ -58,30 +56,29 @@ make_zip_file (CinemaKDMs kdms, boost::filesystem::path zip_file, dcp::NameForma
 	zipper.close ();
 }
 
-/** Collect a list of KDMWithMetadatas into a list of CinemaKDMs so that each
+/** Collect a list of KDMWithMetadatas into a list of list<KDMWithMetadata> so that each
  *  CinemaKDM contains the KDMs for its cinema.
  */
-list<CinemaKDMs>
+list<list<KDMWithMetadataPtr> >
 collect (list<KDMWithMetadataPtr> screen_kdms)
 {
-	list<CinemaKDMs> cinema_kdms;
+	list<list<KDMWithMetadataPtr> > cinema_kdms;
 
 	while (!screen_kdms.empty ()) {
 
 		/* Get all the screens from a single cinema */
 
-		CinemaKDMs ck;
+		list<KDMWithMetadataPtr> ck;
 
 		list<KDMWithMetadataPtr>::iterator i = screen_kdms.begin ();
-		ck.cinema = (*i)->cinema();
-		ck.screen_kdms.push_back (*i);
+		ck.push_back (*i);
 		list<KDMWithMetadataPtr>::iterator j = i;
 		++i;
 		screen_kdms.remove (*j);
 
 		while (i != screen_kdms.end ()) {
-			if ((*i)->cinema() == ck.cinema) {
-				ck.screen_kdms.push_back (*i);
+			if ((*i)->cinema() == ck.front()->cinema()) {
+				ck.push_back (*i);
 				list<KDMWithMetadataPtr>::iterator j = i;
 				++i;
 				screen_kdms.remove (*j);
@@ -99,7 +96,7 @@ collect (list<KDMWithMetadataPtr> screen_kdms)
 /** Write one directory per cinema into another directory */
 int
 write_directories (
-	list<CinemaKDMs> cinema_kdms,
+	list<list<KDMWithMetadataPtr> > cinema_kdms,
 	boost::filesystem::path directory,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
@@ -112,15 +109,14 @@ write_directories (
 
 	int written = 0;
 
-	BOOST_FOREACH (CinemaKDMs const & i, cinema_kdms) {
+	BOOST_FOREACH (list<KDMWithMetadataPtr> const & i, cinema_kdms) {
 		boost::filesystem::path path = directory;
-		name_values['c'] = i.cinema->name;
 		path /= container_name_format.get(name_values, "");
 		if (!boost::filesystem::exists (path) || confirm_overwrite (path)) {
 			boost::filesystem::create_directories (path);
-			write_files (i.screen_kdms, path, filename_format, name_values, confirm_overwrite);
+			write_files (i, path, filename_format, name_values, confirm_overwrite);
 		}
-		written += i.screen_kdms.size();
+		written += i.size();
 	}
 
 	return written;
@@ -129,7 +125,7 @@ write_directories (
 /** Write one ZIP file per cinema into a directory */
 int
 write_zip_files (
-	list<CinemaKDMs> cinema_kdms,
+	list<list<KDMWithMetadataPtr> > cinema_kdms,
 	boost::filesystem::path directory,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
@@ -142,9 +138,8 @@ write_zip_files (
 
 	int written = 0;
 
-	BOOST_FOREACH (CinemaKDMs const & i, cinema_kdms) {
+	BOOST_FOREACH (list<KDMWithMetadataPtr> const & i, cinema_kdms) {
 		boost::filesystem::path path = directory;
-		name_values['c'] = i.cinema->name;
 		path /= container_name_format.get(name_values, ".zip");
 		if (!boost::filesystem::exists (path) || confirm_overwrite (path)) {
 			if (boost::filesystem::exists (path)) {
@@ -152,7 +147,7 @@ write_zip_files (
 				boost::filesystem::remove (path);
 			}
 			make_zip_file (i, path, filename_format, name_values);
-			written += i.screen_kdms.size();
+			written += i.size();
 		}
 	}
 
@@ -168,7 +163,7 @@ write_zip_files (
  */
 void
 email (
-	list<CinemaKDMs> cinema_kdms,
+	list<list<KDMWithMetadataPtr> > cinema_kdms,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
 	dcp::NameFormat::Map name_values,
@@ -184,13 +179,11 @@ email (
 	/* No specific screen */
 	name_values['s'] = "";
 
-	BOOST_FOREACH (CinemaKDMs const & i, cinema_kdms) {
+	BOOST_FOREACH (list<KDMWithMetadataPtr> const & i, cinema_kdms) {
 
-		if (i.cinema->emails.empty()) {
+		if (i.front()->cinema()->emails.empty()) {
 			continue;
 		}
-
-		name_values['c'] = i.cinema->name;
 
 		boost::filesystem::path zip_file = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path();
 		boost::filesystem::create_directories (zip_file);
@@ -201,16 +194,16 @@ email (
 		boost::algorithm::replace_all (subject, "$CPL_NAME", cpl_name);
 		boost::algorithm::replace_all (subject, "$START_TIME", name_values['b']);
 		boost::algorithm::replace_all (subject, "$END_TIME", name_values['e']);
-		boost::algorithm::replace_all (subject, "$CINEMA_NAME", i.cinema->name);
+		boost::algorithm::replace_all (subject, "$CINEMA_NAME", i.front()->cinema()->name);
 
 		string body = config->kdm_email().c_str();
 		boost::algorithm::replace_all (body, "$CPL_NAME", cpl_name);
 		boost::algorithm::replace_all (body, "$START_TIME", name_values['b']);
 		boost::algorithm::replace_all (body, "$END_TIME", name_values['e']);
-		boost::algorithm::replace_all (body, "$CINEMA_NAME", i.cinema->name);
+		boost::algorithm::replace_all (body, "$CINEMA_NAME", i.front()->cinema()->name);
 
 		string screens;
-		BOOST_FOREACH (KDMWithMetadataPtr j, i.screen_kdms) {
+		BOOST_FOREACH (KDMWithMetadataPtr j, i) {
 			optional<string> screen_name = j->get('n');
 			if (screen_name) {
 				screens += *screen_name + ", ";
@@ -218,7 +211,7 @@ email (
 		}
 		boost::algorithm::replace_all (body, "$SCREENS", screens.substr (0, screens.length() - 2));
 
-		Emailer email (config->kdm_from(), i.cinema->emails, subject, body);
+		Emailer email (config->kdm_from(), i.front()->cinema()->emails, subject, body);
 
 		BOOST_FOREACH (string i, config->kdm_cc()) {
 			email.add_cc (i);

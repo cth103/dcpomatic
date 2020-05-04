@@ -37,7 +37,7 @@ using boost::shared_ptr;
  *  @param cpl_name Name of the CPL that the KDMs are for.
  */
 SendKDMEmailJob::SendKDMEmailJob (
-	list<CinemaKDMs> cinema_kdms,
+	list<list<KDMWithMetadataPtr> > cinema_kdms,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
 	dcp::NameFormat::Map name_values,

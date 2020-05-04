@@ -186,7 +186,7 @@ KDMOutputPanel::make (
 	list<KDMWithMetadataPtr> screen_kdms, string name, KDMTimingPanel* timing, function<bool (boost::filesystem::path)> confirm_overwrite
 	)
 {
-	list<CinemaKDMs> const cinema_kdms = collect (screen_kdms);
+	list<list<KDMWithMetadataPtr> > const cinema_kdms = collect (screen_kdms);
 
 	/* Decide whether to proceed */
 
@@ -200,8 +200,8 @@ KDMOutputPanel::make (
 		}
 
 		bool cinemas_with_no_email = false;
-		BOOST_FOREACH (CinemaKDMs i, cinema_kdms) {
-			if (i.cinema->emails.empty ()) {
+		BOOST_FOREACH (list<KDMWithMetadataPtr> i, cinema_kdms) {
+			if (i.front()->cinema()->emails.empty ()) {
 				cinemas_with_no_email = true;
 			}
 		}
@@ -215,8 +215,8 @@ KDMOutputPanel::make (
 
 		if (proceed && Config::instance()->confirm_kdm_email ()) {
 			list<string> emails;
-			BOOST_FOREACH (CinemaKDMs i, cinema_kdms) {
-				BOOST_FOREACH (string j, i.cinema->emails) {
+			BOOST_FOREACH (list<KDMWithMetadataPtr> const& i, cinema_kdms) {
+				BOOST_FOREACH (string j, i.front()->cinema()->emails) {
 					emails.push_back (j);
 				}
 			}
