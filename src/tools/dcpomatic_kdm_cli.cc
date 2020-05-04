@@ -140,8 +140,8 @@ write_files (
 	)
 {
 	if (zip) {
-		int const N = CinemaKDMs::write_zip_files (
-			CinemaKDMs::collect (screen_kdms),
+		int const N = write_zip_files (
+			collect (screen_kdms),
 			output,
 			container_name_format,
 			filename_format,

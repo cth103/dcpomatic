@@ -79,7 +79,7 @@ void
 SendKDMEmailJob::run ()
 {
 	set_progress_unknown ();
-	CinemaKDMs::email (_cinema_kdms, _container_name_format, _filename_format, _name_values, _cpl_name);
+	email (_cinema_kdms, _container_name_format, _filename_format, _name_values, _cpl_name);
 	set_progress (1);
 	set_state (FINISHED_OK);
 }

@@ -43,13 +43,13 @@ using boost::function;
 using boost::optional;
 
 void
-CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, dcp::NameFormat name_format, dcp::NameFormat::Map name_values) const
+make_zip_file (CinemaKDMs kdms, boost::filesystem::path zip_file, dcp::NameFormat name_format, dcp::NameFormat::Map name_values)
 {
 	Zipper zipper (zip_file);
 
-	name_values['c'] = cinema->name;
+	name_values['c'] = kdms.cinema->name;
 
-	BOOST_FOREACH (KDMWithMetadataPtr i, screen_kdms) {
+	BOOST_FOREACH (KDMWithMetadataPtr i, kdms.screen_kdms) {
 		name_values['i'] = i->kdm_id ();
 		string const name = careful_string_filter(name_format.get(name_values, ".xml"));
 		zipper.add (name, i->kdm_as_xml());
@@ -62,7 +62,7 @@ CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, dcp::NameFormat nam
  *  CinemaKDM contains the KDMs for its cinema.
  */
 list<CinemaKDMs>
-CinemaKDMs::collect (list<KDMWithMetadataPtr> screen_kdms)
+collect (list<KDMWithMetadataPtr> screen_kdms)
 {
 	list<CinemaKDMs> cinema_kdms;
 
@@ -98,7 +98,7 @@ CinemaKDMs::collect (list<KDMWithMetadataPtr> screen_kdms)
 
 /** Write one directory per cinema into another directory */
 int
-CinemaKDMs::write_directories (
+write_directories (
 	list<CinemaKDMs> cinema_kdms,
 	boost::filesystem::path directory,
 	dcp::NameFormat container_name_format,
@@ -128,7 +128,7 @@ CinemaKDMs::write_directories (
 
 /** Write one ZIP file per cinema into a directory */
 int
-CinemaKDMs::write_zip_files (
+write_zip_files (
 	list<CinemaKDMs> cinema_kdms,
 	boost::filesystem::path directory,
 	dcp::NameFormat container_name_format,
@@ -151,7 +151,7 @@ CinemaKDMs::write_zip_files (
 				/* Creating a new zip file over an existing one is an error */
 				boost::filesystem::remove (path);
 			}
-			i.make_zip_file (path, filename_format, name_values);
+			make_zip_file (i, path, filename_format, name_values);
 			written += i.screen_kdms.size();
 		}
 	}
@@ -167,7 +167,7 @@ CinemaKDMs::write_zip_files (
  *  @param cpl_name Name of the CPL that the KDMs are for.
  */
 void
-CinemaKDMs::email (
+email (
 	list<CinemaKDMs> cinema_kdms,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
@@ -195,7 +195,7 @@ CinemaKDMs::email (
 		boost::filesystem::path zip_file = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path();
 		boost::filesystem::create_directories (zip_file);
 		zip_file /= container_name_format.get(name_values, ".zip");
-		i.make_zip_file (zip_file, filename_format, name_values);
+		make_zip_file (i, zip_file, filename_format, name_values);
 
 		string subject = config->kdm_subject();
 		boost::algorithm::replace_all (subject, "$CPL_NAME", cpl_name);

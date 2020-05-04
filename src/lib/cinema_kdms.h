@@ -27,11 +27,15 @@ class Log;
 class CinemaKDMs
 {
 public:
-	void make_zip_file (boost::filesystem::path zip_file, dcp::NameFormat name_format, dcp::NameFormat::Map name_values) const;
+	boost::shared_ptr<Cinema> cinema;
+	std::list<KDMWithMetadataPtr > screen_kdms;
+};
 
-	static std::list<CinemaKDMs> collect (std::list<KDMWithMetadataPtr > kdms);
+void make_zip_file (CinemaKDMs kdms, boost::filesystem::path zip_file, dcp::NameFormat name_format, dcp::NameFormat::Map name_values);
 
-	static int write_directories (
+std::list<CinemaKDMs> collect (std::list<KDMWithMetadataPtr > kdms);
+
+int write_directories (
 		std::list<CinemaKDMs> cinema_kdms,
 		boost::filesystem::path directory,
 		dcp::NameFormat container_name_format,
@@ -40,7 +44,7 @@ public:
 		boost::function<bool (boost::filesystem::path)> confirm_overwrite
 		);
 
-	static int write_zip_files (
+int write_zip_files (
 		std::list<CinemaKDMs> cinema_kdms,
 		boost::filesystem::path directory,
 		dcp::NameFormat container_name_format,
@@ -49,7 +53,7 @@ public:
 		boost::function<bool (boost::filesystem::path)> confirm_overwrite
 		);
 
-	static void email (
+void email (
 		std::list<CinemaKDMs> cinema_kdms,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
@@ -57,6 +61,3 @@ public:
 		std::string cpl_name
 		);
 
-	boost::shared_ptr<Cinema> cinema;
-	std::list<KDMWithMetadataPtr > screen_kdms;
-};

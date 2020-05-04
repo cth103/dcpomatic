@@ -186,7 +186,7 @@ KDMOutputPanel::make (
 	list<KDMWithMetadataPtr> screen_kdms, string name, KDMTimingPanel* timing, function<bool (boost::filesystem::path)> confirm_overwrite
 	)
 {
-	list<CinemaKDMs> const cinema_kdms = CinemaKDMs::collect (screen_kdms);
+	list<CinemaKDMs> const cinema_kdms = collect (screen_kdms);
 
 	/* Decide whether to proceed */
 
@@ -255,8 +255,8 @@ KDMOutputPanel::make (
 					confirm_overwrite
 					);
 			} else if (_write_folder->GetValue()) {
-				written = CinemaKDMs::write_directories (
-					CinemaKDMs::collect (screen_kdms),
+				written = write_directories (
+					collect (screen_kdms),
 					directory(),
 					_container_name_format->get(),
 					_filename_format->get(),
@@ -264,8 +264,8 @@ KDMOutputPanel::make (
 					confirm_overwrite
 					);
 			} else if (_write_zip->GetValue()) {
-				written = CinemaKDMs::write_zip_files (
-					CinemaKDMs::collect (screen_kdms),
+				written = write_zip_files (
+					collect (screen_kdms),
 					directory(),
 					_container_name_format->get(),
 					_filename_format->get(),
