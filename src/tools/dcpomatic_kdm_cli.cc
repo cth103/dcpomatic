@@ -134,7 +134,6 @@ write_files (
 	boost::filesystem::path output,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
-	dcp::NameFormat::Map values,
 	bool verbose
 	)
 {
@@ -144,7 +143,6 @@ write_files (
 			output,
 			container_name_format,
 			filename_format,
-			values,
 			bind (&always_overwrite)
 			);
 
@@ -153,7 +151,7 @@ write_files (
 		}
 	} else {
 		int const N = write_files (
-			kdms, output, filename_format, values,
+			kdms, output, filename_format,
 			bind (&always_overwrite)
 			);
 
@@ -256,7 +254,7 @@ from_film (
 			}
 		}
 
-		write_files (kdms, zip, output, container_name_format, filename_format, values, verbose);
+		write_files (kdms, zip, output, container_name_format, filename_format, verbose);
 	} catch (FileError& e) {
 		cerr << program_name << ": " << e.what() << " (" << e.file().string() << ")\n";
 		exit (EXIT_FAILURE);
@@ -380,7 +378,7 @@ from_dkdm (
 
 			kdms.push_back (KDMWithMetadataPtr(new DCPKDMWithMetadata(name_values, i->cinema, kdm)));
 		}
-		write_files (kdms, zip, output, container_name_format, filename_format, values, verbose);
+		write_files (kdms, zip, output, container_name_format, filename_format, verbose);
 	} catch (FileError& e) {
 		cerr << program_name << ": " << e.what() << " (" << e.file().string() << ")\n";
 		exit (EXIT_FAILURE);

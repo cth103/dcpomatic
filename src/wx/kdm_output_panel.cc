@@ -239,7 +239,6 @@ KDMOutputPanel::make (
 	shared_ptr<Job> job;
 
 	try {
-		dcp::NameFormat::Map name_values;
 
 		if (_write_to->GetValue()) {
 			if (_write_flat->GetValue()) {
@@ -247,7 +246,6 @@ KDMOutputPanel::make (
 					kdms,
 					directory(),
 					_filename_format->get(),
-					name_values,
 					confirm_overwrite
 					);
 			} else if (_write_folder->GetValue()) {
@@ -256,7 +254,6 @@ KDMOutputPanel::make (
 					directory(),
 					_container_name_format->get(),
 					_filename_format->get(),
-					name_values,
 					confirm_overwrite
 					);
 			} else if (_write_zip->GetValue()) {
@@ -265,7 +262,6 @@ KDMOutputPanel::make (
 					directory(),
 					_container_name_format->get(),
 					_filename_format->get(),
-					name_values,
 					confirm_overwrite
 					);
 			}
@@ -277,7 +273,6 @@ KDMOutputPanel::make (
 					cinema_kdms,
 					_container_name_format->get(),
 					_filename_format->get(),
-					name_values,
 					name
 					)
 				);

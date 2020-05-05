@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -29,26 +29,25 @@
 using std::string;
 using std::list;
 using boost::shared_ptr;
+using boost::optional;
 
-/** @param cinema_kdms KDMs to email.
+/** @param kdms KDMs to email.
  *  @param container_name_format Format to ues for folders / ZIP files.
  *  @param filename_format Format to use for filenames.
  *  @param name_values Values to substitute into \p container_name_format and \p filename_format.
  *  @param cpl_name Name of the CPL that the KDMs are for.
  */
 SendKDMEmailJob::SendKDMEmailJob (
-	list<list<KDMWithMetadataPtr> > cinema_kdms,
+	list<list<KDMWithMetadataPtr> > kdms,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
-	dcp::NameFormat::Map name_values,
 	string cpl_name
 	)
 	: Job (shared_ptr<Film>())
 	, _container_name_format (container_name_format)
 	, _filename_format (filename_format)
-	, _name_values (name_values)
 	, _cpl_name (cpl_name)
-	, _cinema_kdms (cinema_kdms)
+	, _kdms (kdms)
 {
 
 }
@@ -61,12 +60,12 @@ SendKDMEmailJob::~SendKDMEmailJob ()
 string
 SendKDMEmailJob::name () const
 {
-	dcp::NameFormat::Map::const_iterator i = _name_values.find ('f');
-	if (i == _name_values.end() || i->second.empty ()) {
+	optional<string> f = _kdms.front().front()->get('f');
+	if (!f || f->empty()) {
 		return _("Email KDMs");
 	}
 
-	return String::compose (_("Email KDMs for %1"), i->second);
+	return String::compose (_("Email KDMs for %2"), *f);
 }
 
 string
@@ -79,7 +78,7 @@ void
 SendKDMEmailJob::run ()
 {
 	set_progress_unknown ();
-	email (_cinema_kdms, _container_name_format, _filename_format, _name_values, _cpl_name);
+	email (_kdms, _container_name_format, _filename_format, _cpl_name);
 	set_progress (1);
 	set_state (FINISHED_OK);
 }

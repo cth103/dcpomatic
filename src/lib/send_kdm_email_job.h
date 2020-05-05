@@ -34,10 +34,9 @@ class SendKDMEmailJob : public Job
 {
 public:
 	SendKDMEmailJob (
-		std::list<std::list<KDMWithMetadataPtr> > cinema_kdms,
+		std::list<std::list<KDMWithMetadataPtr> > kdms,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
-		dcp::NameFormat::Map name_values,
 		std::string cpl_name
 		);
 	~SendKDMEmailJob ();
@@ -49,7 +48,6 @@ public:
 private:
 	dcp::NameFormat _container_name_format;
 	dcp::NameFormat _filename_format;
-	dcp::NameFormat::Map _name_values;
 	std::string _cpl_name;
-	std::list<std::list<KDMWithMetadataPtr> > _cinema_kdms;
+	std::list<std::list<KDMWithMetadataPtr> > _kdms;
 };

@@ -64,12 +64,11 @@ typedef boost::shared_ptr<KDMWithMetadata> KDMWithMetadataPtr;
 
 int write_files (
 	std::list<KDMWithMetadataPtr> screen_kdms, boost::filesystem::path directory,
-	dcp::NameFormat name_format, dcp::NameFormat::Map name_values,
-	boost::function<bool (boost::filesystem::path)> confirm_overwrite
+	dcp::NameFormat name_format, boost::function<bool (boost::filesystem::path)> confirm_overwrite
 	);
 
 
-void make_zip_file (std::list<KDMWithMetadataPtr> kdms, boost::filesystem::path zip_file, dcp::NameFormat name_format, dcp::NameFormat::Map name_values);
+void make_zip_file (std::list<KDMWithMetadataPtr> kdms, boost::filesystem::path zip_file, dcp::NameFormat name_format);
 
 
 std::list<std::list<KDMWithMetadataPtr> > collect (std::list<KDMWithMetadataPtr> kdms);
@@ -80,7 +79,6 @@ int write_directories (
 		boost::filesystem::path directory,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
-		dcp::NameFormat::Map name_values,
 		boost::function<bool (boost::filesystem::path)> confirm_overwrite
 		);
 
@@ -90,7 +88,6 @@ int write_zip_files (
 		boost::filesystem::path directory,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
-		dcp::NameFormat::Map name_values,
 		boost::function<bool (boost::filesystem::path)> confirm_overwrite
 		);
 
@@ -99,7 +96,6 @@ void email (
 		std::list<std::list<KDMWithMetadataPtr> > cinema_kdms,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
-		dcp::NameFormat::Map name_values,
 		std::string cpl_name
 		);
 
