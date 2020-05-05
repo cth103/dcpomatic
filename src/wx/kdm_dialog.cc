@@ -163,12 +163,15 @@ KDMDialog::make_clicked ()
 
 		BOOST_FOREACH (shared_ptr<dcpomatic::Screen> i, _screens->screens()) {
 			if (i->recipient) {
+				dcp::LocalTime const begin(_timing->from(),  i->cinema ? i->cinema->utc_offset_hour() : 0, i->cinema ? i->cinema->utc_offset_minute() : 0);
+				dcp::LocalTime const end(_timing->until(), i->cinema ? i->cinema->utc_offset_hour() : 0, i->cinema ? i->cinema->utc_offset_minute() : 0);
+
 				dcp::EncryptedKDM const kdm = film->make_kdm (
 						i->recipient.get(),
 						i->trusted_device_thumbprints(),
 						_cpl->cpl(),
-						dcp::LocalTime(_timing->from(),  i->cinema ? i->cinema->utc_offset_hour() : 0, i->cinema ? i->cinema->utc_offset_minute() : 0),
-						dcp::LocalTime(_timing->until(), i->cinema ? i->cinema->utc_offset_hour() : 0, i->cinema ? i->cinema->utc_offset_minute() : 0),
+						begin,
+						end,
 						_output->formulation(),
 						!_output->forensic_mark_video(),
 						for_audio
@@ -179,6 +182,9 @@ KDMDialog::make_clicked ()
 					name_values['c'] = i->cinema->name;
 				}
 				name_values['s'] = i->name;
+				name_values['f'] = film->name();
+				name_values['b'] = dcp::LocalTime(begin).date() + " " + dcp::LocalTime(begin).time_of_day(false, false);
+				name_values['e'] = dcp::LocalTime(end).date() + " " + dcp::LocalTime(end).time_of_day(false, false);
 
 				kdms.push_back (KDMWithMetadataPtr(new DCPKDMWithMetadata(name_values, i->cinema, kdm)));
 			}
@@ -196,7 +202,7 @@ KDMDialog::make_clicked ()
 		return;
 	}
 
-	pair<shared_ptr<Job>, int> result = _output->make (kdms, film->name(), _timing, bind (&KDMDialog::confirm_overwrite, this, _1));
+	pair<shared_ptr<Job>, int> result = _output->make (kdms, film->name(), bind (&KDMDialog::confirm_overwrite, this, _1));
 	if (result.first) {
 		JobManager::instance()->add (result.first);
 	}

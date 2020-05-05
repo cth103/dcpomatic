@@ -317,17 +317,23 @@ private:
 						continue;
 					}
 
+					dcp::LocalTime begin(_timing->from(), i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute());
+					dcp::LocalTime end(_timing->until(), i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute());
+
 					DecryptedECinemaKDM kdm (
 						decrypted.id(),
 						decrypted.name(),
 						decrypted.key(),
-						dcp::LocalTime (_timing->from(), i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
-						dcp::LocalTime (_timing->until(), i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute())
+						begin,
+						end
 						);
 
 					dcp::NameFormat::Map name_values;
 					name_values['c'] = i->cinema->name;
 					name_values['s'] = i->name;
+					name_values['f'] = title;
+					name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
+					name_values['e'] = end.date() + " " + end.time_of_day(true, false);
 
 					/* Encrypt */
 					kdms.push_back (
@@ -358,10 +364,13 @@ private:
 						continue;
 					}
 
+					dcp::LocalTime begin(_timing->from(), i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute());
+					dcp::LocalTime end(_timing->until(), i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute());
+
 					/* Make an empty KDM */
 					dcp::DecryptedKDM kdm (
-						dcp::LocalTime (_timing->from(), i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
-						dcp::LocalTime (_timing->until(), i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
+						begin,
+						end,
 						decrypted.annotation_text().get_value_or (""),
 						decrypted.content_title_text(),
 						dcp::LocalTime().as_string()
@@ -375,6 +384,9 @@ private:
 					dcp::NameFormat::Map name_values;
 					name_values['c'] = i->cinema->name;
 					name_values['s'] = i->name;
+					name_values['f'] = title;
+					name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
+					name_values['e'] = end.date() + " " + end.time_of_day(true, false);
 
 					/* Encrypt */
 					kdms.push_back (
@@ -397,7 +409,7 @@ private:
 			}
 
 			pair<shared_ptr<Job>, int> result = _output->make (
-				kdms, title, _timing, bind (&DOMFrame::confirm_overwrite, this, _1)
+				kdms, title, bind (&DOMFrame::confirm_overwrite, this, _1)
 				);
 
 			if (result.first) {

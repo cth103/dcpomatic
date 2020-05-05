@@ -54,7 +54,6 @@ public:
 	std::pair<boost::shared_ptr<Job>, int> make (
 		std::list<KDMWithMetadataPtr > screen_kdms,
 		std::string name,
-		KDMTimingPanel* timing,
 		boost::function<bool (boost::filesystem::path)> confirm_overwrite
 		);
 

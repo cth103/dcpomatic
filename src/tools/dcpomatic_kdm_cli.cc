@@ -223,21 +223,22 @@ from_film (
 	boost::filesystem::path cpl = cpls.front().cpl_file;
 
 	dcp::NameFormat::Map values;
-	values['f'] = film->name();
-	values['b'] = dcp::LocalTime(valid_from).date() + " " + dcp::LocalTime(valid_from).time_of_day(true, false);
-	values['e'] = dcp::LocalTime(valid_to).date() + " " + dcp::LocalTime(valid_to).time_of_day(true, false);
 
 	try {
 		list<KDMWithMetadataPtr> kdms;
 
 		BOOST_FOREACH (shared_ptr<Screen> i, screens) {
 			if (i->recipient) {
+
+				dcp::LocalTime const begin(valid_from, i->cinema ? i->cinema->utc_offset_hour() : 0, i->cinema ? i->cinema->utc_offset_minute() : 0);
+				dcp::LocalTime const end(valid_to,   i->cinema ? i->cinema->utc_offset_hour() : 0, i->cinema ? i->cinema->utc_offset_minute() : 0);
+
 				dcp::EncryptedKDM const kdm = film->make_kdm (
 						i->recipient.get(),
 						i->trusted_device_thumbprints(),
 						cpl,
-						dcp::LocalTime(valid_from, i->cinema ? i->cinema->utc_offset_hour() : 0, i->cinema ? i->cinema->utc_offset_minute() : 0),
-						dcp::LocalTime(valid_to,   i->cinema ? i->cinema->utc_offset_hour() : 0, i->cinema ? i->cinema->utc_offset_minute() : 0),
+						begin,
+						end,
 						formulation,
 						disable_forensic_marking_picture,
 						disable_forensic_marking_audio
@@ -246,6 +247,9 @@ from_film (
 				dcp::NameFormat::Map name_values;
 				name_values['c'] = i->cinema->name;
 				name_values['s'] = i->name;
+				name_values['f'] = film->name();
+				name_values['b'] = dcp::LocalTime(begin).date() + " " + dcp::LocalTime(begin).time_of_day(true, false);
+				name_values['e'] = dcp::LocalTime(end).date() + " " + dcp::LocalTime(end).time_of_day(true, false);
 
 				kdms.push_back (KDMWithMetadataPtr(new DCPKDMWithMetadata(name_values, i->cinema, kdm)));
 			}
@@ -343,9 +347,6 @@ from_dkdm (
 	)
 {
 	dcp::NameFormat::Map values;
-	values['f'] = dkdm.annotation_text().get_value_or("");
-	values['b'] = dcp::LocalTime(valid_from).date() + " " + dcp::LocalTime(valid_from).time_of_day(true, false);
-	values['e'] = dcp::LocalTime(valid_to).date() + " " + dcp::LocalTime(valid_to).time_of_day(true, false);
 
 	try {
 		list<KDMWithMetadataPtr> kdms;
@@ -354,9 +355,15 @@ from_dkdm (
 				continue;
 			}
 
+			dcp::LocalTime begin(valid_from, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute());
+			dcp::LocalTime end(valid_to, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute());
+
 			dcp::NameFormat::Map name_values;
 			name_values['c'] = i->cinema->name;
 			name_values['s'] = i->name;
+			name_values['f'] = dkdm.annotation_text().get_value_or("");
+			name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
+			name_values['e'] = end.date() + " " + end.time_of_day(true, false);
 
 			kdms.push_back (
 				KDMWithMetadataPtr(
@@ -367,8 +374,8 @@ from_dkdm (
 							dkdm,
 							i->recipient.get(),
 							i->trusted_device_thumbprints(),
-							dcp::LocalTime(valid_from, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
-							dcp::LocalTime(valid_to, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
+							begin,
+							end,
 							formulation,
 							disable_forensic_marking_picture,
 							disable_forensic_marking_audio
