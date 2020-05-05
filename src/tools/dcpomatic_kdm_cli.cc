@@ -129,7 +129,7 @@ always_overwrite ()
 
 void
 write_files (
-	list<KDMWithMetadataPtr> screen_kdms,
+	list<KDMWithMetadataPtr> kdms,
 	bool zip,
 	boost::filesystem::path output,
 	dcp::NameFormat container_name_format,
@@ -140,7 +140,7 @@ write_files (
 {
 	if (zip) {
 		int const N = write_zip_files (
-			collect (screen_kdms),
+			collect (kdms),
 			output,
 			container_name_format,
 			filename_format,
@@ -153,7 +153,7 @@ write_files (
 		}
 	} else {
 		int const N = write_files (
-			screen_kdms, output, filename_format, values,
+			kdms, output, filename_format, values,
 			bind (&always_overwrite)
 			);
 
@@ -348,7 +348,7 @@ from_dkdm (
 	values['e'] = dcp::LocalTime(valid_to).date() + " " + dcp::LocalTime(valid_to).time_of_day(true, false);
 
 	try {
-		list<KDMWithMetadataPtr> screen_kdms;
+		list<KDMWithMetadataPtr> kdms;
 		BOOST_FOREACH (shared_ptr<Screen> i, screens) {
 			if (!i->recipient) {
 				continue;
@@ -358,7 +358,7 @@ from_dkdm (
 			name_values['c'] = i->cinema->name;
 			name_values['s'] = i->name;
 
-			screen_kdms.push_back (
+			kdms.push_back (
 				KDMWithMetadataPtr(
 					new DCPKDMWithMetadata(
 						name_values,
@@ -377,7 +377,7 @@ from_dkdm (
 					)
 				);
 		}
-		write_files (screen_kdms, zip, output, container_name_format, filename_format, values, verbose);
+		write_files (kdms, zip, output, container_name_format, filename_format, values, verbose);
 	} catch (FileError& e) {
 		cerr << program_name << ": " << e.what() << " (" << e.file().string() << ")\n";
 		exit (EXIT_FAILURE);

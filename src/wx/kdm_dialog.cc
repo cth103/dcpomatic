@@ -149,7 +149,7 @@ KDMDialog::make_clicked ()
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 
-	list<KDMWithMetadataPtr> screen_kdms;
+	list<KDMWithMetadataPtr> kdms;
 	try {
 		/* Start off by enabling forensic marking for all */
 		optional<int> for_audio;
@@ -180,7 +180,7 @@ KDMDialog::make_clicked ()
 				}
 				name_values['s'] = i->name;
 
-				screen_kdms.push_back (KDMWithMetadataPtr(new DCPKDMWithMetadata(name_values, i->cinema, kdm)));
+				kdms.push_back (KDMWithMetadataPtr(new DCPKDMWithMetadata(name_values, i->cinema, kdm)));
 			}
 		}
 
@@ -196,7 +196,7 @@ KDMDialog::make_clicked ()
 		return;
 	}
 
-	pair<shared_ptr<Job>, int> result = _output->make (screen_kdms, film->name(), _timing, bind (&KDMDialog::confirm_overwrite, this, _1));
+	pair<shared_ptr<Job>, int> result = _output->make (kdms, film->name(), _timing, bind (&KDMDialog::confirm_overwrite, this, _1));
 	if (result.first) {
 		JobManager::instance()->add (result.first);
 	}

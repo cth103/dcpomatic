@@ -302,7 +302,7 @@ private:
 				return;
 			}
 
-			list<KDMWithMetadataPtr> screen_kdms;
+			list<KDMWithMetadataPtr> kdms;
 			string title;
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
@@ -330,7 +330,7 @@ private:
 					name_values['s'] = i->name;
 
 					/* Encrypt */
-					screen_kdms.push_back (
+					kdms.push_back (
 						KDMWithMetadataPtr(
 							new ECinemaKDMWithMetadata(name_values, i->cinema, kdm.encrypt(i->recipient.get()))
 							)
@@ -377,7 +377,7 @@ private:
 					name_values['s'] = i->name;
 
 					/* Encrypt */
-					screen_kdms.push_back (
+					kdms.push_back (
 						KDMWithMetadataPtr(
 							new DCPKDMWithMetadata(
 								name_values,
@@ -392,12 +392,12 @@ private:
 				}
 			}
 
-			if (screen_kdms.empty()) {
+			if (kdms.empty()) {
 				return;
 			}
 
 			pair<shared_ptr<Job>, int> result = _output->make (
-				screen_kdms, title, _timing, bind (&DOMFrame::confirm_overwrite, this, _1)
+				kdms, title, _timing, bind (&DOMFrame::confirm_overwrite, this, _1)
 				);
 
 			if (result.first) {

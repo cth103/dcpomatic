@@ -182,10 +182,10 @@ KDMOutputPanel::kdm_write_type_changed ()
 
 pair<shared_ptr<Job>, int>
 KDMOutputPanel::make (
-	list<KDMWithMetadataPtr> screen_kdms, string name, KDMTimingPanel* timing, function<bool (boost::filesystem::path)> confirm_overwrite
+	list<KDMWithMetadataPtr> kdms, string name, KDMTimingPanel* timing, function<bool (boost::filesystem::path)> confirm_overwrite
 	)
 {
-	list<list<KDMWithMetadataPtr> > const cinema_kdms = collect (screen_kdms);
+	list<list<KDMWithMetadataPtr> > const cinema_kdms = collect (kdms);
 
 	/* Decide whether to proceed */
 
@@ -247,7 +247,7 @@ KDMOutputPanel::make (
 		if (_write_to->GetValue()) {
 			if (_write_flat->GetValue()) {
 				written = write_files (
-					screen_kdms,
+					kdms,
 					directory(),
 					_filename_format->get(),
 					name_values,
@@ -255,7 +255,7 @@ KDMOutputPanel::make (
 					);
 			} else if (_write_folder->GetValue()) {
 				written = write_directories (
-					collect (screen_kdms),
+					collect (kdms),
 					directory(),
 					_container_name_format->get(),
 					_filename_format->get(),
@@ -264,7 +264,7 @@ KDMOutputPanel::make (
 					);
 			} else if (_write_zip->GetValue()) {
 				written = write_zip_files (
-					collect (screen_kdms),
+					collect (kdms),
 					directory(),
 					_container_name_format->get(),
 					_filename_format->get(),
