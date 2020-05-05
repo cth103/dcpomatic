@@ -92,6 +92,7 @@ def build(bld):
                  isdcf_name_test.cc
                  j2k_bandwidth_test.cc
                  job_test.cc
+                 kdm_naming_test.cc
                  make_black_test.cc
                  optimise_stills_test.cc
                  pixel_formats_test.cc
