@@ -250,6 +250,7 @@ from_film (
 				name_values['f'] = film->name();
 				name_values['b'] = dcp::LocalTime(begin).date() + " " + dcp::LocalTime(begin).time_of_day(true, false);
 				name_values['e'] = dcp::LocalTime(end).date() + " " + dcp::LocalTime(end).time_of_day(true, false);
+				name_values['i'] = kdm.cpl_id();
 
 				kdms.push_back (KDMWithMetadataPtr(new DCPKDMWithMetadata(name_values, i->cinema, kdm)));
 			}
@@ -358,19 +359,7 @@ from_dkdm (
 			dcp::LocalTime begin(valid_from, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute());
 			dcp::LocalTime end(valid_to, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute());
 
-			dcp::NameFormat::Map name_values;
-			name_values['c'] = i->cinema->name;
-			name_values['s'] = i->name;
-			name_values['f'] = dkdm.annotation_text().get_value_or("");
-			name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
-			name_values['e'] = end.date() + " " + end.time_of_day(true, false);
-
-			kdms.push_back (
-				KDMWithMetadataPtr(
-					new DCPKDMWithMetadata(
-						name_values,
-						i->cinema,
-						kdm_from_dkdm(
+			dcp::EncryptedKDM const kdm = kdm_from_dkdm(
 							dkdm,
 							i->recipient.get(),
 							i->trusted_device_thumbprints(),
@@ -379,10 +368,17 @@ from_dkdm (
 							formulation,
 							disable_forensic_marking_picture,
 							disable_forensic_marking_audio
-							)
-						)
-					)
-				);
+							);
+
+			dcp::NameFormat::Map name_values;
+			name_values['c'] = i->cinema->name;
+			name_values['s'] = i->name;
+			name_values['f'] = dkdm.annotation_text().get_value_or("");
+			name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
+			name_values['e'] = end.date() + " " + end.time_of_day(true, false);
+			name_values['i'] = kdm.cpl_id();
+
+			kdms.push_back (KDMWithMetadataPtr(new DCPKDMWithMetadata(name_values, i->cinema, kdm)));
 		}
 		write_files (kdms, zip, output, container_name_format, filename_format, values, verbose);
 	} catch (FileError& e) {

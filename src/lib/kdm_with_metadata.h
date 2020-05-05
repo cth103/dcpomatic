@@ -42,7 +42,6 @@ public:
 
 	virtual std::string kdm_as_xml () const = 0;
 	virtual void kdm_as_xml (boost::filesystem::path out) const = 0;
-	virtual std::string kdm_id () const = 0;
 
 	dcp::NameFormat::Map const& name_values () const {
 		return _name_values;
@@ -121,10 +120,6 @@ public:
 		return kdm.as_xml (out);
 	}
 
-	std::string kdm_id () const {
-		return kdm.cpl_id ();
-	}
-
 	dcp::EncryptedKDM kdm;
 };
 
@@ -143,10 +138,6 @@ public:
 
 	void kdm_as_xml (boost::filesystem::path out) const {
 		return kdm.as_xml (out);
-	}
-
-	std::string kdm_id () const {
-		return kdm.id ();
 	}
 
 	EncryptedECinemaKDM kdm;

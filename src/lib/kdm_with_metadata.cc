@@ -66,7 +66,6 @@ write_files (
 
 	/* Write KDMs to the specified directory */
 	BOOST_FOREACH (KDMWithMetadataPtr i, kdms) {
-		name_values['i'] = i->kdm_id ();
 		boost::filesystem::path out = directory / careful_string_filter(name_format.get(name_values, ".xml"));
 		if (!boost::filesystem::exists (out) || confirm_overwrite (out)) {
 			i->kdm_as_xml (out);
@@ -96,7 +95,6 @@ make_zip_file (list<KDMWithMetadataPtr> kdms, boost::filesystem::path zip_file, 
 	Zipper zipper (zip_file);
 
 	BOOST_FOREACH (KDMWithMetadataPtr i, kdms) {
-		name_values['i'] = i->kdm_id ();
 		string const name = careful_string_filter(name_format.get(name_values, ".xml"));
 		zipper.add (name, i->kdm_as_xml());
 	}

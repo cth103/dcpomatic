@@ -185,6 +185,7 @@ KDMDialog::make_clicked ()
 				name_values['f'] = film->name();
 				name_values['b'] = dcp::LocalTime(begin).date() + " " + dcp::LocalTime(begin).time_of_day(false, false);
 				name_values['e'] = dcp::LocalTime(end).date() + " " + dcp::LocalTime(end).time_of_day(false, false);
+				name_values['i'] = kdm.cpl_id();
 
 				kdms.push_back (KDMWithMetadataPtr(new DCPKDMWithMetadata(name_values, i->cinema, kdm)));
 			}

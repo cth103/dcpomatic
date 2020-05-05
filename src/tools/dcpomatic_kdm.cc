@@ -334,6 +334,7 @@ private:
 					name_values['f'] = title;
 					name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
 					name_values['e'] = end.date() + " " + end.time_of_day(true, false);
+					name_values['i'] = kdm.id();
 
 					/* Encrypt */
 					kdms.push_back (
@@ -381,24 +382,23 @@ private:
 						kdm.add_key (j);
 					}
 
+					dcp::EncryptedKDM const encrypted = kdm.encrypt(
+							signer, i->recipient.get(), i->trusted_device_thumbprints(), _output->formulation(),
+							!_output->forensic_mark_video(), _output->forensic_mark_audio() ? boost::optional<int>() : 0
+							);
+
 					dcp::NameFormat::Map name_values;
 					name_values['c'] = i->cinema->name;
 					name_values['s'] = i->name;
 					name_values['f'] = title;
 					name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
 					name_values['e'] = end.date() + " " + end.time_of_day(true, false);
+					name_values['i'] = encrypted.cpl_id ();
 
 					/* Encrypt */
 					kdms.push_back (
 						KDMWithMetadataPtr(
-							new DCPKDMWithMetadata(
-								name_values,
-								i->cinema,
-								kdm.encrypt(
-									signer, i->recipient.get(), i->trusted_device_thumbprints(), _output->formulation(),
-									!_output->forensic_mark_video(), _output->forensic_mark_audio() ? boost::optional<int>() : 0
-									)
-								)
+							new DCPKDMWithMetadata(name_values, i->cinema, encrypted)
 							)
 						);
 				}
