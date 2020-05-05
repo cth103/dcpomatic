@@ -104,10 +104,11 @@ void email (
 		);
 
 
-class DCPKDMWithMetadata : public KDMWithMetadata
+template <class T>
+class SpecialKDMWithMetadata : public KDMWithMetadata
 {
 public:
-	DCPKDMWithMetadata (dcp::NameFormat::Map const& name_values, boost::shared_ptr<Cinema> cinema, dcp::EncryptedKDM k)
+	SpecialKDMWithMetadata (dcp::NameFormat::Map const& name_values, boost::shared_ptr<Cinema> cinema, T k)
 		: KDMWithMetadata (name_values, cinema)
 		, kdm (k)
 	{}
@@ -120,28 +121,13 @@ public:
 		return kdm.as_xml (out);
 	}
 
-	dcp::EncryptedKDM kdm;
+	T kdm;
 };
 
+typedef SpecialKDMWithMetadata<dcp::EncryptedKDM> DCPKDMWithMetadata;
 #ifdef DCPOMATIC_VARIANT_SWAROOP
-class ECinemaKDMWithMetadata : public KDMWithMetadata
-{
-public:
-	ECinemaKDMWithMetadata (dcp::NameValues::Map const& name_values, boost::shared_ptr<Cinema> cinema, EncryptedECinemaKDM k)
-		: KDMWithMetadata (name_values, cinema)
-		, kdm (k)
-	{}
-
-	std::string kdm_as_xml () const {
-		return kdm.as_xml ();
-	}
-
-	void kdm_as_xml (boost::filesystem::path out) const {
-		return kdm.as_xml (out);
-	}
-
-	EncryptedECinemaKDM kdm;
-};
+typedef SpecialKDMWithMetadata<EncryptedECinemaKDM> ECinemaKDMWithMetadata;
 #endif
 
 #endif
+
