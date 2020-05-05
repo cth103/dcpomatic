@@ -33,7 +33,7 @@ class Cinema;
 class KDMWithMetadata
 {
 public:
-	KDMWithMetadata (dcp::NameFormat::Map const& name_values, boost::shared_ptr<Cinema> cinema)
+	KDMWithMetadata (dcp::NameFormat::Map const& name_values, boost::shared_ptr<const Cinema> cinema)
 		: _name_values (name_values)
 		, _cinema (cinema)
 	{}
@@ -49,13 +49,13 @@ public:
 
 	boost::optional<std::string> get (char k) const;
 
-	boost::shared_ptr<Cinema> cinema () const {
+	boost::shared_ptr<const Cinema> cinema () const {
 		return _cinema;
 	}
 
 private:
 	dcp::NameFormat::Map _name_values;
-	boost::shared_ptr<Cinema> _cinema;
+	boost::shared_ptr<const Cinema> _cinema;
 };
 
 
@@ -104,7 +104,7 @@ template <class T>
 class SpecialKDMWithMetadata : public KDMWithMetadata
 {
 public:
-	SpecialKDMWithMetadata (dcp::NameFormat::Map const& name_values, boost::shared_ptr<Cinema> cinema, T k)
+	SpecialKDMWithMetadata (dcp::NameFormat::Map const& name_values, boost::shared_ptr<const Cinema> cinema, T k)
 		: KDMWithMetadata (name_values, cinema)
 		, kdm (k)
 	{}
