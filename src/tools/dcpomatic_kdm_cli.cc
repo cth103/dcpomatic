@@ -220,40 +220,14 @@ from_film (
 
 	boost::filesystem::path cpl = cpls.front().cpl_file;
 
-	dcp::NameFormat::Map values;
-
 	try {
 		list<KDMWithMetadataPtr> kdms;
-
 		BOOST_FOREACH (shared_ptr<Screen> i, screens) {
-			if (i->recipient) {
-
-				dcp::LocalTime const begin(valid_from, i->cinema ? i->cinema->utc_offset_hour() : 0, i->cinema ? i->cinema->utc_offset_minute() : 0);
-				dcp::LocalTime const end(valid_to,   i->cinema ? i->cinema->utc_offset_hour() : 0, i->cinema ? i->cinema->utc_offset_minute() : 0);
-
-				dcp::EncryptedKDM const kdm = film->make_kdm (
-						i->recipient.get(),
-						i->trusted_device_thumbprints(),
-						cpl,
-						begin,
-						end,
-						formulation,
-						disable_forensic_marking_picture,
-						disable_forensic_marking_audio
-						);
-
-				dcp::NameFormat::Map name_values;
-				name_values['c'] = i->cinema->name;
-				name_values['s'] = i->name;
-				name_values['f'] = film->name();
-				name_values['b'] = dcp::LocalTime(begin).date() + " " + dcp::LocalTime(begin).time_of_day(true, false);
-				name_values['e'] = dcp::LocalTime(end).date() + " " + dcp::LocalTime(end).time_of_day(true, false);
-				name_values['i'] = kdm.cpl_id();
-
-				kdms.push_back (KDMWithMetadataPtr(new DCPKDMWithMetadata(name_values, i->cinema, kdm)));
+			KDMWithMetadataPtr p = kdm_for_screen (film, cpl, i, valid_from, valid_to, formulation, disable_forensic_marking_picture, disable_forensic_marking_audio);
+			if (p) {
+				kdms.push_back (p);
 			}
 		}
-
 		write_files (kdms, zip, output, container_name_format, filename_format, verbose);
 	} catch (FileError& e) {
 		cerr << program_name << ": " << e.what() << " (" << e.file().string() << ")\n";

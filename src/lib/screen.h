@@ -21,12 +21,14 @@
 #ifndef DCPOMATIC_SCREEN_H
 #define DCPOMATIC_SCREEN_H
 
+#include "kdm_with_metadata.h"
 #include <dcp/certificate.h>
 #include <libcxml/cxml.h>
 #include <boost/optional.hpp>
 #include <string>
 
 class Cinema;
+class Film;
 
 class TrustedDevice
 {
@@ -78,5 +80,18 @@ public:
 };
 
 }
+
+KDMWithMetadataPtr
+kdm_for_screen (
+	boost::shared_ptr<const Film> film,
+	boost::filesystem::path cpl,
+	boost::shared_ptr<const dcpomatic::Screen> screen,
+	boost::posix_time::ptime valid_from,
+	boost::posix_time::ptime valid_to,
+	dcp::Formulation formulation,
+	bool disable_forensic_marking_picture,
+	boost::optional<int> disable_forensic_marking_audio
+	);
+
 
 #endif

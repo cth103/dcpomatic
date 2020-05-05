@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,12 +19,18 @@
 */
 
 #include "screen.h"
+#include "kdm_with_metadata.h"
+#include "film.h"
+#include "cinema.h"
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 using std::string;
 using std::vector;
+using boost::shared_ptr;
+using boost::optional;
 using namespace dcpomatic;
 
 Screen::Screen (cxml::ConstNodePtr node)
@@ -102,3 +108,49 @@ TrustedDevice::thumbprint () const
 
 	return *_thumbprint;
 }
+
+
+KDMWithMetadataPtr
+kdm_for_screen (
+	shared_ptr<const Film> film,
+	boost::filesystem::path cpl,
+	shared_ptr<const dcpomatic::Screen> screen,
+	boost::posix_time::ptime valid_from,
+	boost::posix_time::ptime valid_to,
+	dcp::Formulation formulation,
+	bool disable_forensic_marking_picture,
+	optional<int> disable_forensic_marking_audio
+	)
+{
+	if (!screen->recipient) {
+		return KDMWithMetadataPtr();
+	}
+
+	shared_ptr<const Cinema> cinema = screen->cinema;
+	dcp::LocalTime const begin(valid_from, cinema ? cinema->utc_offset_hour() : 0, cinema ? cinema->utc_offset_minute() : 0);
+	dcp::LocalTime const end  (valid_to,   cinema ? cinema->utc_offset_hour() : 0, cinema ? cinema->utc_offset_minute() : 0);
+
+	dcp::EncryptedKDM const kdm = film->make_kdm (
+			screen->recipient.get(),
+			screen->trusted_device_thumbprints(),
+			cpl,
+			begin,
+			end,
+			formulation,
+			disable_forensic_marking_picture,
+			disable_forensic_marking_audio
+			);
+
+	dcp::NameFormat::Map name_values;
+	if (cinema) {
+		name_values['c'] = cinema->name;
+	}
+	name_values['s'] = screen->name;
+	name_values['f'] = film->name();
+	name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
+	name_values['e'] = end.date() + " " + end.time_of_day(true, false);
+	name_values['i'] = kdm.cpl_id();
+
+	return KDMWithMetadataPtr(new DCPKDMWithMetadata(name_values, cinema, kdm));
+}
+

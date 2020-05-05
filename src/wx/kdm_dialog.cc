@@ -162,35 +162,11 @@ KDMDialog::make_clicked ()
 		}
 
 		BOOST_FOREACH (shared_ptr<dcpomatic::Screen> i, _screens->screens()) {
-			if (i->recipient) {
-				dcp::LocalTime const begin(_timing->from(),  i->cinema ? i->cinema->utc_offset_hour() : 0, i->cinema ? i->cinema->utc_offset_minute() : 0);
-				dcp::LocalTime const end(_timing->until(), i->cinema ? i->cinema->utc_offset_hour() : 0, i->cinema ? i->cinema->utc_offset_minute() : 0);
-
-				dcp::EncryptedKDM const kdm = film->make_kdm (
-						i->recipient.get(),
-						i->trusted_device_thumbprints(),
-						_cpl->cpl(),
-						begin,
-						end,
-						_output->formulation(),
-						!_output->forensic_mark_video(),
-						for_audio
-						);
-
-				dcp::NameFormat::Map name_values;
-				if (i->cinema) {
-					name_values['c'] = i->cinema->name;
-				}
-				name_values['s'] = i->name;
-				name_values['f'] = film->name();
-				name_values['b'] = dcp::LocalTime(begin).date() + " " + dcp::LocalTime(begin).time_of_day(false, false);
-				name_values['e'] = dcp::LocalTime(end).date() + " " + dcp::LocalTime(end).time_of_day(false, false);
-				name_values['i'] = kdm.cpl_id();
-
-				kdms.push_back (KDMWithMetadataPtr(new DCPKDMWithMetadata(name_values, i->cinema, kdm)));
+			KDMWithMetadataPtr p = kdm_for_screen (film, _cpl->cpl(), i, _timing->from(), _timing->until(), _output->formulation(), !_output->forensic_mark_video(), for_audio);
+			if (p) {
+				kdms.push_back (p);
 			}
 		}
-
 	} catch (dcp::BadKDMDateError& e) {
 		if (e.starts_too_early()) {
 			error_dialog (this, _("The KDM start period is before (or close to) the start of the signing certificate's validity period.  Use a later start time for this KDM."));
