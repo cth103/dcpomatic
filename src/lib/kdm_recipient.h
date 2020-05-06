@@ -18,6 +18,9 @@
 
 */
 
+#ifndef DCPOMATIC_KDM_RECIPIENT_H
+#define DCPOMATIC_KDM_RECIPIENT_H
+
 #include <dcp/certificate.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
@@ -41,3 +44,5 @@ public:
 	std::string notes;
 	boost::optional<dcp::Certificate> recipient;
 };
+
+#endif
