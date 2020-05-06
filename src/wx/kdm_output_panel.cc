@@ -53,6 +53,7 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 	, _forensic_mark_audio_up_to (12)
 {
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, 0);
+	table->AddGrowableCol (1);
 
 	add_label_to_sizer (table, this, _("KDM type"), true);
 
@@ -200,7 +201,7 @@ KDMOutputPanel::make (
 
 		bool cinemas_with_no_email = false;
 		BOOST_FOREACH (list<KDMWithMetadataPtr> i, cinema_kdms) {
-			if (i.front()->cinema()->emails.empty ()) {
+			if (i.front()->emails().empty()) {
 				cinemas_with_no_email = true;
 			}
 		}
@@ -215,7 +216,7 @@ KDMOutputPanel::make (
 		if (proceed && Config::instance()->confirm_kdm_email ()) {
 			list<string> emails;
 			BOOST_FOREACH (list<KDMWithMetadataPtr> const& i, cinema_kdms) {
-				BOOST_FOREACH (string j, i.front()->cinema()->emails) {
+				BOOST_FOREACH (string j, i.front()->emails()) {
 					emails.push_back (j);
 				}
 			}

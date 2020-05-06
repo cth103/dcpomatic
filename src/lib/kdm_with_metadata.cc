@@ -103,7 +103,7 @@ make_zip_file (list<KDMWithMetadataPtr> kdms, boost::filesystem::path zip_file, 
 
 
 /** Collect a list of KDMWithMetadatas into a list of lists so that
- *  each list contains the KDMs for one cinema.
+ *  each list contains the KDMs for one list.
  */
 list<list<KDMWithMetadataPtr> >
 collect (list<KDMWithMetadataPtr> kdms)
@@ -115,7 +115,7 @@ collect (list<KDMWithMetadataPtr> kdms)
 		list<list<KDMWithMetadataPtr> >::iterator j = grouped.begin ();
 
 		while (j != grouped.end()) {
-			if (j->front()->cinema() == i->cinema()) {
+			if (j->front()->group() == i->group()) {
 				j->push_back (i);
 				break;
 			}
@@ -132,10 +132,10 @@ collect (list<KDMWithMetadataPtr> kdms)
 }
 
 
-/** Write one directory per cinema into another directory */
+/** Write one directory per list into another directory */
 int
 write_directories (
-	list<list<KDMWithMetadataPtr> > cinema_kdms,
+	list<list<KDMWithMetadataPtr> > kdms,
 	boost::filesystem::path directory,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
@@ -144,7 +144,7 @@ write_directories (
 {
 	int written = 0;
 
-	BOOST_FOREACH (list<KDMWithMetadataPtr> const & i, cinema_kdms) {
+	BOOST_FOREACH (list<KDMWithMetadataPtr> const & i, kdms) {
 		boost::filesystem::path path = directory;
 		path /= container_name_format.get(i.front()->name_values(), "", "s");
 		if (!boost::filesystem::exists (path) || confirm_overwrite (path)) {
@@ -161,7 +161,7 @@ write_directories (
 /** Write one ZIP file per cinema into a directory */
 int
 write_zip_files (
-	list<list<KDMWithMetadataPtr> > cinema_kdms,
+	list<list<KDMWithMetadataPtr> > kdms,
 	boost::filesystem::path directory,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
@@ -170,7 +170,7 @@ write_zip_files (
 {
 	int written = 0;
 
-	BOOST_FOREACH (list<KDMWithMetadataPtr> const & i, cinema_kdms) {
+	BOOST_FOREACH (list<KDMWithMetadataPtr> const & i, kdms) {
 		boost::filesystem::path path = directory;
 		path /= container_name_format.get(i.front()->name_values(), ".zip", "s");
 		if (!boost::filesystem::exists (path) || confirm_overwrite (path)) {
@@ -188,7 +188,7 @@ write_zip_files (
 
 
 /** Email one ZIP file per cinema to the cinema.
- *  @param cinema_kdms KDMS to email.
+ *  @param kdms KDMs to email.
  *  @param container_name_format Format of folder / ZIP to use.
  *  @param filename_format Format of filenames to use.
  *  @param name_values Values to substitute into \p container_name_format and \p filename_format.
@@ -196,7 +196,7 @@ write_zip_files (
  */
 void
 email (
-	list<list<KDMWithMetadataPtr> > cinema_kdms,
+	list<list<KDMWithMetadataPtr> > kdms,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
 	string cpl_name
@@ -208,9 +208,9 @@ email (
 		throw NetworkError (_("No mail server configured in preferences"));
 	}
 
-	BOOST_FOREACH (list<KDMWithMetadataPtr> const & i, cinema_kdms) {
+	BOOST_FOREACH (list<KDMWithMetadataPtr> const & i, kdms) {
 
-		if (i.front()->cinema()->emails.empty()) {
+		if (i.front()->emails().empty()) {
 			continue;
 		}
 
@@ -223,13 +223,13 @@ email (
 		boost::algorithm::replace_all (subject, "$CPL_NAME", cpl_name);
 		boost::algorithm::replace_all (subject, "$START_TIME", i.front()->get('b').get_value_or(""));
 		boost::algorithm::replace_all (subject, "$END_TIME", i.front()->get('e').get_value_or(""));
-		boost::algorithm::replace_all (subject, "$CINEMA_NAME", i.front()->cinema()->name);
+		boost::algorithm::replace_all (subject, "$CINEMA_NAME", i.front()->get('c').get_value_or(""));
 
 		string body = config->kdm_email().c_str();
 		boost::algorithm::replace_all (body, "$CPL_NAME", cpl_name);
 		boost::algorithm::replace_all (body, "$START_TIME", i.front()->get('b').get_value_or(""));
 		boost::algorithm::replace_all (body, "$END_TIME", i.front()->get('e').get_value_or(""));
-		boost::algorithm::replace_all (body, "$CINEMA_NAME", i.front()->cinema()->name);
+		boost::algorithm::replace_all (body, "$CINEMA_NAME", i.front()->get('c').get_value_or(""));
 
 		string screens;
 		BOOST_FOREACH (KDMWithMetadataPtr j, i) {
@@ -240,7 +240,7 @@ email (
 		}
 		boost::algorithm::replace_all (body, "$SCREENS", screens.substr (0, screens.length() - 2));
 
-		Emailer email (config->kdm_from(), i.front()->cinema()->emails, subject, body);
+		Emailer email (config->kdm_from(), i.front()->emails(), subject, body);
 
 		BOOST_FOREACH (string i, config->kdm_cc()) {
 			email.add_cc (i);

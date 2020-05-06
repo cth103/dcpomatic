@@ -34,11 +34,19 @@ class SendKDMEmailJob : public Job
 {
 public:
 	SendKDMEmailJob (
+		std::list<KDMWithMetadataPtr> kdms,
+		dcp::NameFormat container_name_format,
+		dcp::NameFormat filename_format,
+		std::string cpl_name
+		);
+
+	SendKDMEmailJob (
 		std::list<std::list<KDMWithMetadataPtr> > kdms,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
 		std::string cpl_name
 		);
+
 	~SendKDMEmailJob ();
 
 	std::string name () const;

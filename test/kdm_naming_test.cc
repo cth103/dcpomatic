@@ -191,7 +191,6 @@ BOOST_AUTO_TEST_CASE (directory_kdm_naming_test, * boost::unit_test::depends_on(
 	boost::algorithm::replace_all (until_time, ":", "-");
 
 	path const base = "build/test/directory_kdm_naming_test";
-	list<KDMWithMetadataPtr>::const_iterator i = kdms.begin ();
 
 	path dir_a = String::compose("Cinema_A_-_%s_-_my_great_film_-_%1_%2_-_%3_%4", from.date(), from_time, until.date(), until_time);
 	BOOST_CHECK_MESSAGE (boost::filesystem::exists(base / dir_a), "Directory " << dir_a << " not found");

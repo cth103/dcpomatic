@@ -77,6 +77,7 @@ sources = """
           decoder_part.cc
           decrypted_ecinema_kdm.cc
           digester.cc
+          dkdm_recipient.cc
           dkdm_wrapper.cc
           dolby_cp750.cc
           edid.cc

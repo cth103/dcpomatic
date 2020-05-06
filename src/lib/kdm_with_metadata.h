@@ -33,9 +33,10 @@ class Cinema;
 class KDMWithMetadata
 {
 public:
-	KDMWithMetadata (dcp::NameFormat::Map const& name_values, boost::shared_ptr<const Cinema> cinema)
+	KDMWithMetadata (dcp::NameFormat::Map const& name_values, void const* group, std::list<std::string> emails)
 		: _name_values (name_values)
-		, _cinema (cinema)
+		, _group (group)
+		, _emails (emails)
 	{}
 
 	virtual ~KDMWithMetadata () {}
@@ -49,13 +50,18 @@ public:
 
 	boost::optional<std::string> get (char k) const;
 
-	boost::shared_ptr<const Cinema> cinema () const {
-		return _cinema;
+	void const* group () const {
+		return _group;
+	}
+
+	std::list<std::string> emails () const {
+		return _emails;
 	}
 
 private:
 	dcp::NameFormat::Map _name_values;
-	boost::shared_ptr<const Cinema> _cinema;
+	void const* _group;
+	std::list<std::string> _emails;
 };
 
 
@@ -75,7 +81,7 @@ std::list<std::list<KDMWithMetadataPtr> > collect (std::list<KDMWithMetadataPtr>
 
 
 int write_directories (
-		std::list<std::list<KDMWithMetadataPtr> > cinema_kdms,
+		std::list<std::list<KDMWithMetadataPtr> > kdms,
 		boost::filesystem::path directory,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
@@ -84,7 +90,7 @@ int write_directories (
 
 
 int write_zip_files (
-		std::list<std::list<KDMWithMetadataPtr> > cinema_kdms,
+		std::list<std::list<KDMWithMetadataPtr> > kdms,
 		boost::filesystem::path directory,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
@@ -93,7 +99,7 @@ int write_zip_files (
 
 
 void email (
-		std::list<std::list<KDMWithMetadataPtr> > cinema_kdms,
+		std::list<std::list<KDMWithMetadataPtr> > kdms,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
 		std::string cpl_name
@@ -104,8 +110,8 @@ template <class T>
 class SpecialKDMWithMetadata : public KDMWithMetadata
 {
 public:
-	SpecialKDMWithMetadata (dcp::NameFormat::Map const& name_values, boost::shared_ptr<const Cinema> cinema, T k)
-		: KDMWithMetadata (name_values, cinema)
+	SpecialKDMWithMetadata (dcp::NameFormat::Map const& name_values, void const* group, std::list<std::string> emails, T k)
+		: KDMWithMetadata (name_values, group, emails)
 		, kdm (k)
 	{}
 

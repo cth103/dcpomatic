@@ -31,6 +31,24 @@ using std::list;
 using boost::shared_ptr;
 using boost::optional;
 
+SendKDMEmailJob::SendKDMEmailJob (
+	list<KDMWithMetadataPtr> kdms,
+	dcp::NameFormat container_name_format,
+	dcp::NameFormat filename_format,
+	string cpl_name
+	)
+	: Job (shared_ptr<Film>())
+	, _container_name_format (container_name_format)
+	, _filename_format (filename_format)
+	, _cpl_name (cpl_name)
+{
+	BOOST_FOREACH (KDMWithMetadataPtr i, kdms) {
+		list<KDMWithMetadataPtr> s;
+		s.push_back (i);
+		_kdms.push_back (s);
+	}
+}
+
 /** @param kdms KDMs to email.
  *  @param container_name_format Format to ues for folders / ZIP files.
  *  @param filename_format Format to use for filenames.

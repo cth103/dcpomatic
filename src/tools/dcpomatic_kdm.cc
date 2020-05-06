@@ -398,7 +398,7 @@ private:
 					/* Encrypt */
 					kdms.push_back (
 						KDMWithMetadataPtr(
-							new DCPKDMWithMetadata(name_values, i->cinema, encrypted)
+							new DCPKDMWithMetadata(name_values, i->cinema.get(), i->cinema->emails, encrypted)
 							)
 						);
 				}

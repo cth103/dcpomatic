@@ -53,19 +53,5 @@ private:
 	EditableList<std::string, EmailDialog>* _email_list;
 	std::vector<std::string> _emails;
 	wxChoice* _utc_offset;
-
-	struct Offset
-	{
-		Offset (wxString n, int h, int m)
-			: name (n)
-			, hour (h)
-			, minute (m)
-		{}
-
-		wxString name;
-		int hour;
-		int minute;
-	};
-
 	std::vector<Offset> _offsets;
 };

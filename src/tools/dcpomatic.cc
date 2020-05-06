@@ -33,6 +33,7 @@
 #include "wx/recreate_chain_dialog.h"
 #include "wx/about_dialog.h"
 #include "wx/kdm_dialog.h"
+#include "wx/dkdm_dialog.h"
 #include "wx/self_dkdm_dialog.h"
 #include "wx/servers_list_dialog.h"
 #include "wx/hints_dialog.h"
@@ -226,6 +227,7 @@ enum {
 	ID_jobs_make_dcp,
 	ID_jobs_make_dcp_batch,
 	ID_jobs_make_kdms,
+	ID_jobs_make_dkdms,
 	ID_jobs_make_self_dkdm,
 	ID_jobs_export,
 	ID_jobs_send_dcp_to_tms,
@@ -261,6 +263,7 @@ public:
 		, _servers_list_dialog (0)
 		, _config_dialog (0)
 		, _kdm_dialog (0)
+		, _dkdm_dialog (0)
 		, _templates_dialog (0)
 		, _file_menu (0)
 		, _history_items (0)
@@ -317,6 +320,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::content_scale_to_fit_height, this), ID_content_scale_to_fit_height);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_make_dcp, this),           ID_jobs_make_dcp);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_make_kdms, this),          ID_jobs_make_kdms);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_make_dkdms, this),         ID_jobs_make_dkdms);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_make_dcp_batch, this),     ID_jobs_make_dcp_batch);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_make_self_dkdm, this),     ID_jobs_make_self_dkdm);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_export, this),             ID_jobs_export);
@@ -794,6 +798,21 @@ private:
 
 		_kdm_dialog = new KDMDialog (this, _film);
 		_kdm_dialog->Show ();
+	}
+
+	void jobs_make_dkdms ()
+	{
+		if (!_film) {
+			return;
+		}
+
+		if (_dkdm_dialog) {
+			_dkdm_dialog->Destroy ();
+			_dkdm_dialog = 0;
+		}
+
+		_dkdm_dialog = new DKDMDialog (this, _film);
+		_dkdm_dialog->Show ();
 	}
 
 	/** @return false if we succeeded, true if not */
@@ -1313,6 +1332,7 @@ private:
 		add_item (jobs_menu, _("Make DCP in &batch converter\tCtrl-B"), ID_jobs_make_dcp_batch, NEEDS_FILM | NOT_DURING_DCP_CREATION);
 		jobs_menu->AppendSeparator ();
 		add_item (jobs_menu, _("Make &KDMs...\tCtrl-K"), ID_jobs_make_kdms, NEEDS_FILM);
+		add_item (jobs_menu, _("Make &DKDMs...\tCtrl-D"), ID_jobs_make_dkdms, NEEDS_FILM);
 		add_item (jobs_menu, _("Make DKDM for DCP-o-matic..."), ID_jobs_make_self_dkdm, NEEDS_FILM | NEEDS_ENCRYPTION);
 		jobs_menu->AppendSeparator ();
 		add_item (jobs_menu, _("Export...\tCtrl-E"), ID_jobs_export, NEEDS_FILM);
@@ -1484,6 +1504,7 @@ private:
 	ServersListDialog* _servers_list_dialog;
 	wxPreferencesEditor* _config_dialog;
 	KDMDialog* _kdm_dialog;
+	DKDMDialog* _dkdm_dialog;
 	TemplatesDialog* _templates_dialog;
 	wxMenu* _file_menu;
 	shared_ptr<Film> _film;
