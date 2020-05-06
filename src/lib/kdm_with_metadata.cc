@@ -146,7 +146,7 @@ write_directories (
 
 	BOOST_FOREACH (list<KDMWithMetadataPtr> const & i, cinema_kdms) {
 		boost::filesystem::path path = directory;
-		path /= container_name_format.get(i.front()->name_values(), "");
+		path /= container_name_format.get(i.front()->name_values(), "", "s");
 		if (!boost::filesystem::exists (path) || confirm_overwrite (path)) {
 			boost::filesystem::create_directories (path);
 			write_files (i, path, filename_format, confirm_overwrite);
@@ -172,7 +172,7 @@ write_zip_files (
 
 	BOOST_FOREACH (list<KDMWithMetadataPtr> const & i, cinema_kdms) {
 		boost::filesystem::path path = directory;
-		path /= container_name_format.get(i.front()->name_values(), ".zip");
+		path /= container_name_format.get(i.front()->name_values(), ".zip", "s");
 		if (!boost::filesystem::exists (path) || confirm_overwrite (path)) {
 			if (boost::filesystem::exists (path)) {
 				/* Creating a new zip file over an existing one is an error */
