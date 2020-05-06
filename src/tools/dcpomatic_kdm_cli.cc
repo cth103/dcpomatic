@@ -24,8 +24,7 @@
 
 #include "lib/film.h"
 #include "lib/cinema.h"
-#include "lib/screen_kdm.h"
-#include "lib/cinema_kdms.h"
+#include "lib/kdm_with_metadata.h"
 #include "lib/config.h"
 #include "lib/exceptions.h"
 #include "lib/emailer.h"
@@ -130,22 +129,20 @@ always_overwrite ()
 
 void
 write_files (
-	list<shared_ptr<ScreenKDM> > screen_kdms,
+	list<KDMWithMetadataPtr> kdms,
 	bool zip,
 	boost::filesystem::path output,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
-	dcp::NameFormat::Map values,
 	bool verbose
 	)
 {
 	if (zip) {
-		int const N = CinemaKDMs::write_zip_files (
-			CinemaKDMs::collect (screen_kdms),
+		int const N = write_zip_files (
+			collect (kdms),
 			output,
 			container_name_format,
 			filename_format,
-			values,
 			bind (&always_overwrite)
 			);
 
@@ -153,8 +150,8 @@ write_files (
 			cout << "Wrote " << N << " ZIP files to " << output << "\n";
 		}
 	} else {
-		int const N = ScreenKDM::write_files (
-			screen_kdms, output, filename_format, values,
+		int const N = write_files (
+			kdms, output, filename_format,
 			bind (&always_overwrite)
 			);
 
@@ -223,17 +220,15 @@ from_film (
 
 	boost::filesystem::path cpl = cpls.front().cpl_file;
 
-	dcp::NameFormat::Map values;
-	values['f'] = film->name();
-	values['b'] = dcp::LocalTime(valid_from).date() + " " + dcp::LocalTime(valid_from).time_of_day(true, false);
-	values['e'] = dcp::LocalTime(valid_to).date() + " " + dcp::LocalTime(valid_to).time_of_day(true, false);
-
 	try {
-		list<shared_ptr<ScreenKDM> > screen_kdms = film->make_kdms (
-			screens, cpl, valid_from, valid_to, formulation, disable_forensic_marking_picture, disable_forensic_marking_audio
-			);
-
-		write_files (screen_kdms, zip, output, container_name_format, filename_format, values, verbose);
+		list<KDMWithMetadataPtr> kdms;
+		BOOST_FOREACH (shared_ptr<Screen> i, screens) {
+			KDMWithMetadataPtr p = kdm_for_screen (film, cpl, i, valid_from, valid_to, formulation, disable_forensic_marking_picture, disable_forensic_marking_audio);
+			if (p) {
+				kdms.push_back (p);
+			}
+		}
+		write_files (kdms, zip, output, container_name_format, filename_format, verbose);
 	} catch (FileError& e) {
 		cerr << program_name << ": " << e.what() << " (" << e.file().string() << ")\n";
 		exit (EXIT_FAILURE);
@@ -325,36 +320,39 @@ from_dkdm (
 	)
 {
 	dcp::NameFormat::Map values;
-	values['f'] = dkdm.annotation_text().get_value_or("");
-	values['b'] = dcp::LocalTime(valid_from).date() + " " + dcp::LocalTime(valid_from).time_of_day(true, false);
-	values['e'] = dcp::LocalTime(valid_to).date() + " " + dcp::LocalTime(valid_to).time_of_day(true, false);
 
 	try {
-		list<shared_ptr<ScreenKDM> > screen_kdms;
+		list<KDMWithMetadataPtr> kdms;
 		BOOST_FOREACH (shared_ptr<Screen> i, screens) {
 			if (!i->recipient) {
 				continue;
 			}
 
-			screen_kdms.push_back (
-				shared_ptr<ScreenKDM>(
-					new DCPScreenKDM(
-						i,
-						kdm_from_dkdm(
+			dcp::LocalTime begin(valid_from, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute());
+			dcp::LocalTime end(valid_to, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute());
+
+			dcp::EncryptedKDM const kdm = kdm_from_dkdm(
 							dkdm,
 							i->recipient.get(),
 							i->trusted_device_thumbprints(),
-							dcp::LocalTime(valid_from, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
-							dcp::LocalTime(valid_to, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
+							begin,
+							end,
 							formulation,
 							disable_forensic_marking_picture,
 							disable_forensic_marking_audio
-							)
-						)
-					)
-				);
+							);
+
+			dcp::NameFormat::Map name_values;
+			name_values['c'] = i->cinema->name;
+			name_values['s'] = i->name;
+			name_values['f'] = dkdm.annotation_text().get_value_or("");
+			name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
+			name_values['e'] = end.date() + " " + end.time_of_day(true, false);
+			name_values['i'] = kdm.cpl_id();
+
+			kdms.push_back (KDMWithMetadataPtr(new DCPKDMWithMetadata(name_values, i->cinema.get(), i->cinema->emails, kdm)));
 		}
-		write_files (screen_kdms, zip, output, container_name_format, filename_format, values, verbose);
+		write_files (kdms, zip, output, container_name_format, filename_format, verbose);
 	} catch (FileError& e) {
 		cerr << program_name << ": " << e.what() << " (" << e.file().string() << ")\n";
 		exit (EXIT_FAILURE);

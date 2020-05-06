@@ -19,6 +19,7 @@
 */
 
 #include "job.h"
+#include "kdm_with_metadata.h"
 #include <dcp/types.h>
 #include <dcp/name_format.h>
 #include <boost/filesystem.hpp>
@@ -27,19 +28,25 @@ namespace dcpomatic {
 	class Screen;
 }
 
-class CinemaKDMs;
 class Log;
 
 class SendKDMEmailJob : public Job
 {
 public:
 	SendKDMEmailJob (
-		std::list<CinemaKDMs> cinema_kdms,
+		std::list<KDMWithMetadataPtr> kdms,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
-		dcp::NameFormat::Map name_values,
 		std::string cpl_name
 		);
+
+	SendKDMEmailJob (
+		std::list<std::list<KDMWithMetadataPtr> > kdms,
+		dcp::NameFormat container_name_format,
+		dcp::NameFormat filename_format,
+		std::string cpl_name
+		);
+
 	~SendKDMEmailJob ();
 
 	std::string name () const;
@@ -49,7 +56,6 @@ public:
 private:
 	dcp::NameFormat _container_name_format;
 	dcp::NameFormat _filename_format;
-	dcp::NameFormat::Map _name_values;
 	std::string _cpl_name;
-	std::list<CinemaKDMs> _cinema_kdms;
+	std::list<std::list<KDMWithMetadataPtr> > _kdms;
 };

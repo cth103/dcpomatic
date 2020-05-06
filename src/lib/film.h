@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -60,7 +60,6 @@ class AudioProcessor;
 class AudioMapping;
 class Ratio;
 class Job;
-class ScreenKDM;
 class Film;
 struct isdcf_name_test;
 
@@ -164,16 +163,6 @@ public:
 		boost::filesystem::path cpl_file,
 		dcp::LocalTime from,
 		dcp::LocalTime until,
-		dcp::Formulation formulation,
-		bool disable_forensic_marking_picture,
-		boost::optional<int> disable_forensic_marking_audio
-		) const;
-
-	std::list<boost::shared_ptr<ScreenKDM> > make_kdms (
-		std::list<boost::shared_ptr<dcpomatic::Screen> > screens,
-		boost::filesystem::path cpl_file,
-		boost::posix_time::ptime from,
-		boost::posix_time::ptime until,
 		dcp::Formulation formulation,
 		bool disable_forensic_marking_picture,
 		boost::optional<int> disable_forensic_marking_audio

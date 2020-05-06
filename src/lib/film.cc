@@ -50,7 +50,7 @@
 #include "text_content.h"
 #include "ffmpeg_content.h"
 #include "dcp_content.h"
-#include "screen_kdm.h"
+#include "kdm_with_metadata.h"
 #include "cinema.h"
 #include "change_signaller.h"
 #include "check_content_change_job.h"
@@ -1502,47 +1502,6 @@ Film::make_kdm (
 		).encrypt (signer, recipient, trusted_devices, formulation, disable_forensic_marking_picture, disable_forensic_marking_audio);
 }
 
-/** @param screens Screens to make KDMs for.
- *  @param cpl_file Path to CPL to make KDMs for.
- *  @param from KDM from time expressed as a local time in the time zone of the Screen's Cinema.
- *  @param until KDM to time expressed as a local time in the time zone of the Screen's Cinema.
- *  @param formulation KDM formulation to use.
- *  @param disable_forensic_marking_picture true to disable forensic marking of picture.
- *  @param disable_forensic_marking_audio if not set, don't disable forensic marking of audio.  If set to 0,
- *  disable all forensic marking; if set above 0, disable forensic marking above that channel.
- */
-list<shared_ptr<ScreenKDM> >
-Film::make_kdms (
-	list<shared_ptr<Screen> > screens,
-	boost::filesystem::path cpl_file,
-	boost::posix_time::ptime from,
-	boost::posix_time::ptime until,
-	dcp::Formulation formulation,
-	bool disable_forensic_marking_picture,
-	optional<int> disable_forensic_marking_audio
-	) const
-{
-	list<shared_ptr<ScreenKDM> > kdms;
-
-	BOOST_FOREACH (shared_ptr<Screen> i, screens) {
-		if (i->recipient) {
-			dcp::EncryptedKDM const kdm = make_kdm (
-				i->recipient.get(),
-				i->trusted_device_thumbprints(),
-				cpl_file,
-				dcp::LocalTime (from,  i->cinema ? i->cinema->utc_offset_hour() : 0, i->cinema ? i->cinema->utc_offset_minute() : 0),
-				dcp::LocalTime (until, i->cinema ? i->cinema->utc_offset_hour() : 0, i->cinema ? i->cinema->utc_offset_minute() : 0),
-				formulation,
-				disable_forensic_marking_picture,
-				disable_forensic_marking_audio
-				);
-
-			kdms.push_back (shared_ptr<ScreenKDM>(new DCPScreenKDM(i, kdm)));
-		}
-	}
-
-	return kdms;
-}
 
 /** @return The approximate disk space required to encode a DCP of this film with the
  *  current settings, in bytes.

@@ -20,7 +20,6 @@
 
 #include "lib/config.h"
 #include "lib/cinema.h"
-#include "lib/cinema_kdms.h"
 #include "lib/send_kdm_email_job.h"
 #include "kdm_output_panel.h"
 #include "kdm_timing_panel.h"
@@ -54,6 +53,7 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 	, _forensic_mark_audio_up_to (12)
 {
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, 0);
+	table->AddGrowableCol (1);
 
 	add_label_to_sizer (table, this, _("KDM type"), true);
 
@@ -183,10 +183,10 @@ KDMOutputPanel::kdm_write_type_changed ()
 
 pair<shared_ptr<Job>, int>
 KDMOutputPanel::make (
-	list<shared_ptr<ScreenKDM> > screen_kdms, string name, KDMTimingPanel* timing, function<bool (boost::filesystem::path)> confirm_overwrite
+	list<KDMWithMetadataPtr> kdms, string name, function<bool (boost::filesystem::path)> confirm_overwrite
 	)
 {
-	list<CinemaKDMs> const cinema_kdms = CinemaKDMs::collect (screen_kdms);
+	list<list<KDMWithMetadataPtr> > const cinema_kdms = collect (kdms);
 
 	/* Decide whether to proceed */
 
@@ -200,8 +200,8 @@ KDMOutputPanel::make (
 		}
 
 		bool cinemas_with_no_email = false;
-		BOOST_FOREACH (CinemaKDMs i, cinema_kdms) {
-			if (i.cinema->emails.empty ()) {
+		BOOST_FOREACH (list<KDMWithMetadataPtr> i, cinema_kdms) {
+			if (i.front()->emails().empty()) {
 				cinemas_with_no_email = true;
 			}
 		}
@@ -215,8 +215,8 @@ KDMOutputPanel::make (
 
 		if (proceed && Config::instance()->confirm_kdm_email ()) {
 			list<string> emails;
-			BOOST_FOREACH (CinemaKDMs i, cinema_kdms) {
-				BOOST_FOREACH (string j, i.cinema->emails) {
+			BOOST_FOREACH (list<KDMWithMetadataPtr> const& i, cinema_kdms) {
+				BOOST_FOREACH (string j, i.front()->emails()) {
 					emails.push_back (j);
 				}
 			}
@@ -240,36 +240,29 @@ KDMOutputPanel::make (
 	shared_ptr<Job> job;
 
 	try {
-		dcp::NameFormat::Map name_values;
-		name_values['f'] = name;
-		name_values['b'] = dcp::LocalTime(timing->from()).date() + " " + dcp::LocalTime(timing->from()).time_of_day(false, false);
-		name_values['e'] = dcp::LocalTime(timing->until()).date() + " " + dcp::LocalTime(timing->until()).time_of_day(false, false);
 
 		if (_write_to->GetValue()) {
 			if (_write_flat->GetValue()) {
-				written = ScreenKDM::write_files (
-					screen_kdms,
+				written = write_files (
+					kdms,
 					directory(),
 					_filename_format->get(),
-					name_values,
 					confirm_overwrite
 					);
 			} else if (_write_folder->GetValue()) {
-				written = CinemaKDMs::write_directories (
-					CinemaKDMs::collect (screen_kdms),
+				written = write_directories (
+					collect (kdms),
 					directory(),
 					_container_name_format->get(),
 					_filename_format->get(),
-					name_values,
 					confirm_overwrite
 					);
 			} else if (_write_zip->GetValue()) {
-				written = CinemaKDMs::write_zip_files (
-					CinemaKDMs::collect (screen_kdms),
+				written = write_zip_files (
+					collect (kdms),
 					directory(),
 					_container_name_format->get(),
 					_filename_format->get(),
-					name_values,
 					confirm_overwrite
 					);
 			}
@@ -281,7 +274,6 @@ KDMOutputPanel::make (
 					cinema_kdms,
 					_container_name_format->get(),
 					_filename_format->get(),
-					name_values,
 					name
 					)
 				);

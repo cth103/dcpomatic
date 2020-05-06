@@ -29,9 +29,8 @@
 #include "dcpomatic_button.h"
 #include "lib/film.h"
 #include "lib/screen.h"
-#include "lib/screen_kdm.h"
+#include "lib/kdm_with_metadata.h"
 #include "lib/job_manager.h"
-#include "lib/cinema_kdms.h"
 #include "lib/config.h"
 #include "lib/cinema.h"
 #include <libcxml/cxml.h>
@@ -150,7 +149,7 @@ KDMDialog::make_clicked ()
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 
-	list<shared_ptr<ScreenKDM> > screen_kdms;
+	list<KDMWithMetadataPtr> kdms;
 	try {
 		/* Start off by enabling forensic marking for all */
 		optional<int> for_audio;
@@ -161,11 +160,13 @@ KDMDialog::make_clicked ()
 			/* Forensic mark up to this channel; disabled on channels greater than this */
 			for_audio = _output->forensic_mark_audio_up_to();
 		}
-		screen_kdms = film->make_kdms (
-			_screens->screens(), _cpl->cpl(), _timing->from(), _timing->until(), _output->formulation(),
-			!_output->forensic_mark_video(), for_audio
-			);
 
+		BOOST_FOREACH (shared_ptr<dcpomatic::Screen> i, _screens->screens()) {
+			KDMWithMetadataPtr p = kdm_for_screen (film, _cpl->cpl(), i, _timing->from(), _timing->until(), _output->formulation(), !_output->forensic_mark_video(), for_audio);
+			if (p) {
+				kdms.push_back (p);
+			}
+		}
 	} catch (dcp::BadKDMDateError& e) {
 		if (e.starts_too_early()) {
 			error_dialog (this, _("The KDM start period is before (or close to) the start of the signing certificate's validity period.  Use a later start time for this KDM."));
@@ -178,7 +179,7 @@ KDMDialog::make_clicked ()
 		return;
 	}
 
-	pair<shared_ptr<Job>, int> result = _output->make (screen_kdms, film->name(), _timing, bind (&KDMDialog::confirm_overwrite, this, _1));
+	pair<shared_ptr<Job>, int> result = _output->make (kdms, film->name(), bind (&KDMDialog::confirm_overwrite, this, _1));
 	if (result.first) {
 		JobManager::instance()->add (result.first);
 	}

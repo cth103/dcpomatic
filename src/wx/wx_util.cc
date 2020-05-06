@@ -530,3 +530,40 @@ display_progress (wxString title, wxString task)
 
 	return ok;
 }
+
+
+int
+get_offsets (vector<Offset>& offsets)
+{
+	offsets.push_back (Offset(_("UTC-11"),  -11,  0));
+	offsets.push_back (Offset(_("UTC-10"),  -10,  0));
+	offsets.push_back (Offset(_("UTC-9"),    -9,  0));
+	offsets.push_back (Offset(_("UTC-8"),    -8,  0));
+	offsets.push_back (Offset(_("UTC-7"),    -7,  0));
+	offsets.push_back (Offset(_("UTC-6"),    -6,  0));
+	offsets.push_back (Offset(_("UTC-5"),    -5,  0));
+	offsets.push_back (Offset(_("UTC-4:30"), -4, 30));
+	offsets.push_back (Offset(_("UTC-4"),    -4,  0));
+	offsets.push_back (Offset(_("UTC-3:30"), -3, 30));
+	offsets.push_back (Offset(_("UTC-3"),    -3,  0));
+	offsets.push_back (Offset(_("UTC-2"),    -2,  0));
+	offsets.push_back (Offset(_("UTC-1"),    -1,  0));
+	int utc = offsets.size();
+	offsets.push_back (Offset(_("UTC")  ,     0,  0));
+	offsets.push_back (Offset(_("UTC+1"),     1,  0));
+	offsets.push_back (Offset(_("UTC+2"),     2,  0));
+	offsets.push_back (Offset(_("UTC+3"),     3,  0));
+	offsets.push_back (Offset(_("UTC+4"),     4,  0));
+	offsets.push_back (Offset(_("UTC+5"),     5,  0));
+	offsets.push_back (Offset(_("UTC+5:30"),  5, 30));
+	offsets.push_back (Offset(_("UTC+6"),     6,  0));
+	offsets.push_back (Offset(_("UTC+7"),     7,  0));
+	offsets.push_back (Offset(_("UTC+8"),     8,  0));
+	offsets.push_back (Offset(_("UTC+9"),     9,  0));
+	offsets.push_back (Offset(_("UTC+9:30"),  9, 30));
+	offsets.push_back (Offset(_("UTC+10"),   10,  0));
+	offsets.push_back (Offset(_("UTC+11"),   11,  0));
+	offsets.push_back (Offset(_("UTC+12"),   12,  0));
+
+	return utc;
+}

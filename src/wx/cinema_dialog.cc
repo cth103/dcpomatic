@@ -83,37 +83,8 @@ CinemaDialog::CinemaDialog (wxWindow* parent, wxString title, string name, list<
 		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 
-	_offsets.push_back (Offset (_("UTC-11"),  -11,  0));
-	_offsets.push_back (Offset (_("UTC-10"),  -10,  0));
-	_offsets.push_back (Offset (_("UTC-9"),    -9,  0));
-	_offsets.push_back (Offset (_("UTC-8"),    -8,  0));
-	_offsets.push_back (Offset (_("UTC-7"),    -7,  0));
-	_offsets.push_back (Offset (_("UTC-6"),    -6,  0));
-	_offsets.push_back (Offset (_("UTC-5"),    -5,  0));
-	_offsets.push_back (Offset (_("UTC-4:30"), -4, 30));
-	_offsets.push_back (Offset (_("UTC-4"),    -4,  0));
-	_offsets.push_back (Offset (_("UTC-3:30"), -3, 30));
-	_offsets.push_back (Offset (_("UTC-3"),    -3,  0));
-	_offsets.push_back (Offset (_("UTC-2"),    -2,  0));
-	_offsets.push_back (Offset (_("UTC-1"),    -1,  0));
-	_offsets.push_back (Offset (_("UTC")  ,     0,  0));
-	_offsets.push_back (Offset (_("UTC+1"),     1,  0));
-	_offsets.push_back (Offset (_("UTC+2"),     2,  0));
-	_offsets.push_back (Offset (_("UTC+3"),     3,  0));
-	_offsets.push_back (Offset (_("UTC+4"),     4,  0));
-	_offsets.push_back (Offset (_("UTC+5"),     5,  0));
-	_offsets.push_back (Offset (_("UTC+5:30"),  5, 30));
-	_offsets.push_back (Offset (_("UTC+6"),     6,  0));
-	_offsets.push_back (Offset (_("UTC+7"),     7,  0));
-	_offsets.push_back (Offset (_("UTC+8"),     8,  0));
-	_offsets.push_back (Offset (_("UTC+9"),     9,  0));
-	_offsets.push_back (Offset (_("UTC+9:30"),  9, 30));
-	_offsets.push_back (Offset (_("UTC+10"),   10,  0));
-	_offsets.push_back (Offset (_("UTC+11"),   11,  0));
-	_offsets.push_back (Offset (_("UTC+12"),   12,  0));
-
 	/* Default to UTC */
-	size_t sel = 13;
+	size_t sel = get_offsets (_offsets);
 	for (size_t i = 0; i < _offsets.size(); ++i) {
 		_utc_offset->Append (_offsets[i].name);
 		if (_offsets[i].hour == utc_offset_hour && _offsets[i].minute == utc_offset_minute) {

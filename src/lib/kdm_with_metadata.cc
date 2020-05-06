@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,159 +18,187 @@
 
 */
 
-#include "exceptions.h"
-#include "cinema_kdms.h"
+#include "kdm_with_metadata.h"
 #include "cinema.h"
 #include "screen.h"
-#include "config.h"
 #include "util.h"
-#include "emailer.h"
-#include "compose.hpp"
-#include "log.h"
 #include "zipper.h"
+#include "config.h"
 #include "dcpomatic_log.h"
+#include "emailer.h"
 #include <boost/foreach.hpp>
+#include <boost/function.hpp>
+#include <boost/function.hpp>
 
 #include "i18n.h"
 
-using std::list;
-using std::cout;
 using std::string;
-using std::runtime_error;
+using std::cout;
+using std::list;
 using boost::shared_ptr;
+using boost::optional;
 using boost::function;
 
+int
+write_files (
+	list<KDMWithMetadataPtr> kdms,
+	boost::filesystem::path directory,
+	dcp::NameFormat name_format,
+	boost::function<bool (boost::filesystem::path)> confirm_overwrite
+	)
+{
+	int written = 0;
+
+	if (directory == "-") {
+		/* Write KDMs to the stdout */
+		BOOST_FOREACH (KDMWithMetadataPtr i, kdms) {
+			cout << i->kdm_as_xml ();
+			++written;
+		}
+
+		return written;
+	}
+
+	if (!boost::filesystem::exists (directory)) {
+		boost::filesystem::create_directories (directory);
+	}
+
+	/* Write KDMs to the specified directory */
+	BOOST_FOREACH (KDMWithMetadataPtr i, kdms) {
+		boost::filesystem::path out = directory / careful_string_filter(name_format.get(i->name_values(), ".xml"));
+		if (!boost::filesystem::exists (out) || confirm_overwrite (out)) {
+			i->kdm_as_xml (out);
+			++written;
+		}
+	}
+
+	return written;
+}
+
+
+optional<string>
+KDMWithMetadata::get (char k) const
+{
+	dcp::NameFormat::Map::const_iterator i = _name_values.find (k);
+	if (i == _name_values.end()) {
+		return optional<string>();
+	}
+
+	return i->second;
+}
+
+
 void
-CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, dcp::NameFormat name_format, dcp::NameFormat::Map name_values) const
+make_zip_file (list<KDMWithMetadataPtr> kdms, boost::filesystem::path zip_file, dcp::NameFormat name_format)
 {
 	Zipper zipper (zip_file);
 
-	name_values['c'] = cinema->name;
-
-	BOOST_FOREACH (shared_ptr<ScreenKDM> i, screen_kdms) {
-		name_values['s'] = i->screen->name;
-		name_values['i'] = i->kdm_id ();
-		string const name = careful_string_filter(name_format.get(name_values, ".xml"));
+	BOOST_FOREACH (KDMWithMetadataPtr i, kdms) {
+		string const name = careful_string_filter(name_format.get(i->name_values(), ".xml"));
 		zipper.add (name, i->kdm_as_xml());
 	}
 
 	zipper.close ();
 }
 
-/** Collect a list of ScreenKDMs into a list of CinemaKDMs so that each
- *  CinemaKDM contains the KDMs for its cinema.
+
+/** Collect a list of KDMWithMetadatas into a list of lists so that
+ *  each list contains the KDMs for one list.
  */
-list<CinemaKDMs>
-CinemaKDMs::collect (list<shared_ptr<ScreenKDM> > screen_kdms)
+list<list<KDMWithMetadataPtr> >
+collect (list<KDMWithMetadataPtr> kdms)
 {
-	list<CinemaKDMs> cinema_kdms;
+	list<list<KDMWithMetadataPtr> > grouped;
 
-	while (!screen_kdms.empty ()) {
+	BOOST_FOREACH (KDMWithMetadataPtr i, kdms) {
 
-		/* Get all the screens from a single cinema */
+		list<list<KDMWithMetadataPtr> >::iterator j = grouped.begin ();
 
-		CinemaKDMs ck;
-
-		list<shared_ptr<ScreenKDM> >::iterator i = screen_kdms.begin ();
-		ck.cinema = (*i)->screen->cinema;
-		ck.screen_kdms.push_back (*i);
-		list<shared_ptr<ScreenKDM> >::iterator j = i;
-		++i;
-		screen_kdms.remove (*j);
-
-		while (i != screen_kdms.end ()) {
-			if ((*i)->screen->cinema == ck.cinema) {
-				ck.screen_kdms.push_back (*i);
-				list<shared_ptr<ScreenKDM> >::iterator j = i;
-				++i;
-				screen_kdms.remove (*j);
-			} else {
-				++i;
+		while (j != grouped.end()) {
+			if (j->front()->group() == i->group()) {
+				j->push_back (i);
+				break;
 			}
+			++j;
 		}
 
-		cinema_kdms.push_back (ck);
+		if (j == grouped.end()) {
+			grouped.push_back (list<KDMWithMetadataPtr>());
+			grouped.back().push_back (i);
+		}
 	}
 
-	return cinema_kdms;
+	return grouped;
 }
 
-/** Write one directory per cinema into another directory */
+
+/** Write one directory per list into another directory */
 int
-CinemaKDMs::write_directories (
-	list<CinemaKDMs> cinema_kdms,
+write_directories (
+	list<list<KDMWithMetadataPtr> > kdms,
 	boost::filesystem::path directory,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
-	dcp::NameFormat::Map name_values,
 	function<bool (boost::filesystem::path)> confirm_overwrite
 	)
 {
-	/* No specific screen */
-	name_values['s'] = "";
-
 	int written = 0;
 
-	BOOST_FOREACH (CinemaKDMs const & i, cinema_kdms) {
+	BOOST_FOREACH (list<KDMWithMetadataPtr> const & i, kdms) {
 		boost::filesystem::path path = directory;
-		name_values['c'] = i.cinema->name;
-		path /= container_name_format.get(name_values, "");
+		path /= container_name_format.get(i.front()->name_values(), "", "s");
 		if (!boost::filesystem::exists (path) || confirm_overwrite (path)) {
 			boost::filesystem::create_directories (path);
-			ScreenKDM::write_files (i.screen_kdms, path, filename_format, name_values, confirm_overwrite);
+			write_files (i, path, filename_format, confirm_overwrite);
 		}
-		written += i.screen_kdms.size();
+		written += i.size();
 	}
 
 	return written;
 }
 
+
 /** Write one ZIP file per cinema into a directory */
 int
-CinemaKDMs::write_zip_files (
-	list<CinemaKDMs> cinema_kdms,
+write_zip_files (
+	list<list<KDMWithMetadataPtr> > kdms,
 	boost::filesystem::path directory,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
-	dcp::NameFormat::Map name_values,
 	function<bool (boost::filesystem::path)> confirm_overwrite
 	)
 {
-	/* No specific screen */
-	name_values['s'] = "";
-
 	int written = 0;
 
-	BOOST_FOREACH (CinemaKDMs const & i, cinema_kdms) {
+	BOOST_FOREACH (list<KDMWithMetadataPtr> const & i, kdms) {
 		boost::filesystem::path path = directory;
-		name_values['c'] = i.cinema->name;
-		path /= container_name_format.get(name_values, ".zip");
+		path /= container_name_format.get(i.front()->name_values(), ".zip", "s");
 		if (!boost::filesystem::exists (path) || confirm_overwrite (path)) {
 			if (boost::filesystem::exists (path)) {
 				/* Creating a new zip file over an existing one is an error */
 				boost::filesystem::remove (path);
 			}
-			i.make_zip_file (path, filename_format, name_values);
-			written += i.screen_kdms.size();
+			make_zip_file (i, path, filename_format);
+			written += i.size();
 		}
 	}
 
 	return written;
 }
 
+
 /** Email one ZIP file per cinema to the cinema.
- *  @param cinema_kdms KDMS to email.
+ *  @param kdms KDMs to email.
  *  @param container_name_format Format of folder / ZIP to use.
  *  @param filename_format Format of filenames to use.
  *  @param name_values Values to substitute into \p container_name_format and \p filename_format.
  *  @param cpl_name Name of the CPL that the KDMs are for.
  */
 void
-CinemaKDMs::email (
-	list<CinemaKDMs> cinema_kdms,
+email (
+	list<list<KDMWithMetadataPtr> > kdms,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
-	dcp::NameFormat::Map name_values,
 	string cpl_name
 	)
 {
@@ -180,41 +208,39 @@ CinemaKDMs::email (
 		throw NetworkError (_("No mail server configured in preferences"));
 	}
 
-	/* No specific screen */
-	name_values['s'] = "";
+	BOOST_FOREACH (list<KDMWithMetadataPtr> const & i, kdms) {
 
-	BOOST_FOREACH (CinemaKDMs const & i, cinema_kdms) {
-
-		if (i.cinema->emails.empty()) {
+		if (i.front()->emails().empty()) {
 			continue;
 		}
 
-		name_values['c'] = i.cinema->name;
-
 		boost::filesystem::path zip_file = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path();
 		boost::filesystem::create_directories (zip_file);
-		zip_file /= container_name_format.get(name_values, ".zip");
-		i.make_zip_file (zip_file, filename_format, name_values);
+		zip_file /= container_name_format.get(i.front()->name_values(), ".zip");
+		make_zip_file (i, zip_file, filename_format);
 
 		string subject = config->kdm_subject();
 		boost::algorithm::replace_all (subject, "$CPL_NAME", cpl_name);
-		boost::algorithm::replace_all (subject, "$START_TIME", name_values['b']);
-		boost::algorithm::replace_all (subject, "$END_TIME", name_values['e']);
-		boost::algorithm::replace_all (subject, "$CINEMA_NAME", i.cinema->name);
+		boost::algorithm::replace_all (subject, "$START_TIME", i.front()->get('b').get_value_or(""));
+		boost::algorithm::replace_all (subject, "$END_TIME", i.front()->get('e').get_value_or(""));
+		boost::algorithm::replace_all (subject, "$CINEMA_NAME", i.front()->get('c').get_value_or(""));
 
 		string body = config->kdm_email().c_str();
 		boost::algorithm::replace_all (body, "$CPL_NAME", cpl_name);
-		boost::algorithm::replace_all (body, "$START_TIME", name_values['b']);
-		boost::algorithm::replace_all (body, "$END_TIME", name_values['e']);
-		boost::algorithm::replace_all (body, "$CINEMA_NAME", i.cinema->name);
+		boost::algorithm::replace_all (body, "$START_TIME", i.front()->get('b').get_value_or(""));
+		boost::algorithm::replace_all (body, "$END_TIME", i.front()->get('e').get_value_or(""));
+		boost::algorithm::replace_all (body, "$CINEMA_NAME", i.front()->get('c').get_value_or(""));
 
 		string screens;
-		BOOST_FOREACH (shared_ptr<ScreenKDM> j, i.screen_kdms) {
-			screens += j->screen->name + ", ";
+		BOOST_FOREACH (KDMWithMetadataPtr j, i) {
+			optional<string> screen_name = j->get('n');
+			if (screen_name) {
+				screens += *screen_name + ", ";
+			}
 		}
 		boost::algorithm::replace_all (body, "$SCREENS", screens.substr (0, screens.length() - 2));
 
-		Emailer email (config->kdm_from(), i.cinema->emails, subject, body);
+		Emailer email (config->kdm_from(), i.front()->emails(), subject, body);
 
 		BOOST_FOREACH (string i, config->kdm_cc()) {
 			email.add_cc (i);
@@ -223,7 +249,7 @@ CinemaKDMs::email (
 			email.add_bcc (config->kdm_bcc ());
 		}
 
-		email.add_attachment (zip_file, container_name_format.get(name_values, ".zip"), "application/zip");
+		email.add_attachment (zip_file, container_name_format.get(i.front()->name_values(), ".zip"), "application/zip");
 
 		Config* c = Config::instance ();
 

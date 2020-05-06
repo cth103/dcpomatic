@@ -21,30 +21,16 @@
 #ifndef DCPOMATIC_SCREEN_H
 #define DCPOMATIC_SCREEN_H
 
+#include "kdm_with_metadata.h"
+#include "kdm_recipient.h"
+#include "trusted_device.h"
 #include <dcp/certificate.h>
 #include <libcxml/cxml.h>
 #include <boost/optional.hpp>
 #include <string>
 
 class Cinema;
-
-class TrustedDevice
-{
-public:
-	explicit TrustedDevice (std::string);
-	explicit TrustedDevice (dcp::Certificate);
-
-	boost::optional<dcp::Certificate> certificate () const {
-		return _certificate;
-	}
-
-	std::string thumbprint () const;
-	std::string as_string () const;
-
-private:
-	boost::optional<dcp::Certificate> _certificate;
-	boost::optional<std::string> _thumbprint;
-};
+class Film;
 
 namespace dcpomatic {
 
@@ -55,14 +41,12 @@ namespace dcpomatic {
  *  `recipient' (i.e. the mediablock) and the certificates/thumbprints
  *  of any trusted devices.
  */
-class Screen
+class Screen : public KDMRecipient
 {
 public:
-	Screen (std::string const & na, std::string const & no, boost::optional<dcp::Certificate> rec, std::vector<TrustedDevice> td)
-		: name (na)
-		, notes (no)
-		, recipient (rec)
-		, trusted_devices (td)
+	Screen (std::string const & name_, std::string const & notes_, boost::optional<dcp::Certificate> recipient_, std::vector<TrustedDevice> trusted_devices_)
+		: KDMRecipient (name_, notes_, recipient_)
+		, trusted_devices (trusted_devices_)
 	{}
 
 	explicit Screen (cxml::ConstNodePtr);
@@ -71,12 +55,22 @@ public:
 	std::vector<std::string> trusted_device_thumbprints () const;
 
 	boost::shared_ptr<Cinema> cinema;
-	std::string name;
-	std::string notes;
-	boost::optional<dcp::Certificate> recipient;
 	std::vector<TrustedDevice> trusted_devices;
 };
 
 }
+
+KDMWithMetadataPtr
+kdm_for_screen (
+	boost::shared_ptr<const Film> film,
+	boost::filesystem::path cpl,
+	boost::shared_ptr<const dcpomatic::Screen> screen,
+	boost::posix_time::ptime valid_from,
+	boost::posix_time::ptime valid_to,
+	dcp::Formulation formulation,
+	bool disable_forensic_marking_picture,
+	boost::optional<int> disable_forensic_marking_audio
+	);
+
 
 #endif

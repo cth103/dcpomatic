@@ -88,6 +88,23 @@ extern double calculate_mark_interval (double start);
 extern bool display_progress (wxString title, wxString task);
 extern bool report_errors_from_last_job (wxWindow* parent);
 
+
+struct Offset
+{
+	Offset (wxString n, int h, int m)
+		: name (n)
+		, hour (h)
+		, minute (m)
+	{}
+
+	wxString name;
+	int hour;
+	int minute;
+};
+
+extern int get_offsets (std::vector<Offset>& offsets);
+
+
 extern void checked_set (FilePickerCtrl* widget, boost::filesystem::path value);
 extern void checked_set (wxDirPickerCtrl* widget, boost::filesystem::path value);
 extern void checked_set (wxSpinCtrl* widget, int value);

@@ -44,6 +44,7 @@ class Ratio;
 class Cinema;
 class Film;
 class DKDMGroup;
+class DKDMRecipient;
 
 /** @class Config
  *  @brief A singleton class holding configuration.
@@ -76,6 +77,7 @@ public:
 		USE_ANY_SERVERS,
 		SERVERS,
 		CINEMAS,
+		DKDM_RECIPIENTS,
 		SOUND,
 		SOUND_OUTPUT,
 		INTERFACE_COMPLEXITY,
@@ -146,6 +148,10 @@ public:
 
 	std::list<boost::shared_ptr<Cinema> > cinemas () const {
 		return _cinemas;
+	}
+
+	std::list<boost::shared_ptr<DKDMRecipient> > dkdm_recipients () const {
+		return _dkdm_recipients;
 	}
 
 	std::list<int> allowed_dcp_frame_rates () const {
@@ -342,6 +348,10 @@ public:
 		return _cinemas_file;
 	}
 
+	boost::filesystem::path dkdm_recipients_file () const {
+		return _dkdm_recipients_file;
+	}
+
 	bool show_hints_before_make_dcp () const {
 		return _show_hints_before_make_dcp;
 	}
@@ -356,6 +366,10 @@ public:
 
 	dcp::NameFormat kdm_filename_format () const {
 		return _kdm_filename_format;
+	}
+
+	dcp::NameFormat dkdm_filename_format () const {
+		return _dkdm_filename_format;
 	}
 
 	dcp::NameFormat dcp_metadata_filename_format () const {
@@ -617,6 +631,16 @@ public:
 		changed (CINEMAS);
 	}
 
+	void add_dkdm_recipient (boost::shared_ptr<DKDMRecipient> c) {
+		_dkdm_recipients.push_back (c);
+		changed (DKDM_RECIPIENTS);
+	}
+
+	void remove_dkdm_recipient (boost::shared_ptr<DKDMRecipient> c) {
+		_dkdm_recipients.remove (c);
+		changed (DKDM_RECIPIENTS);
+	}
+
 	void set_allowed_dcp_frame_rates (std::list<int> const & r) {
 		maybe_set (_allowed_dcp_frame_rates, r);
 	}
@@ -814,6 +838,8 @@ public:
 
 	void set_cinemas_file (boost::filesystem::path file);
 
+	void set_dkdm_recipients_file (boost::filesystem::path file);
+
 	void set_show_hints_before_make_dcp (bool s) {
 		maybe_set (_show_hints_before_make_dcp, s);
 	}
@@ -857,6 +883,10 @@ public:
 
 	void set_kdm_filename_format (dcp::NameFormat n) {
 		maybe_set (_kdm_filename_format, n);
+	}
+
+	void set_dkdm_filename_format (dcp::NameFormat n) {
+		maybe_set (_dkdm_filename_format, n);
 	}
 
 	void set_dcp_metadata_filename_format (dcp::NameFormat n) {
@@ -1111,6 +1141,7 @@ public:
 	void write () const;
 	void write_config () const;
 	void write_cinemas () const;
+	void write_dkdm_recipients () const;
 	void link (boost::filesystem::path new_file) const;
 	void copy_and_link (boost::filesystem::path new_file) const;
 	bool have_write_permission () const;
@@ -1136,6 +1167,7 @@ private:
 	void set_notification_email_to_default ();
 	void set_cover_sheet_to_default ();
 	void read_cinemas (cxml::Document const & f);
+	void read_dkdm_recipients (cxml::Document const & f);
 	boost::shared_ptr<dcp::CertificateChain> create_certificate_chain ();
 	boost::filesystem::path directory_or (boost::optional<boost::filesystem::path> dir, boost::filesystem::path a) const;
 	void add_to_history_internal (std::vector<boost::filesystem::path>& h, boost::filesystem::path p);
@@ -1215,6 +1247,7 @@ private:
 	boost::optional<boost::filesystem::path> _default_kdm_directory;
 	bool _default_upload_after_make_dcp;
 	std::list<boost::shared_ptr<Cinema> > _cinemas;
+	std::list<boost::shared_ptr<DKDMRecipient> > _dkdm_recipients;
 	std::string _mail_server;
 	int _mail_port;
 	EmailProtocol _mail_protocol;
@@ -1257,9 +1290,11 @@ private:
 	std::vector<boost::filesystem::path> _player_history;
 	boost::shared_ptr<DKDMGroup> _dkdms;
 	boost::filesystem::path _cinemas_file;
+	boost::filesystem::path _dkdm_recipients_file;
 	bool _show_hints_before_make_dcp;
 	bool _confirm_kdm_email;
 	dcp::NameFormat _kdm_filename_format;
+	dcp::NameFormat _dkdm_filename_format;
 	dcp::NameFormat _kdm_container_name_format;
 	dcp::NameFormat _dcp_metadata_filename_format;
 	dcp::NameFormat _dcp_asset_filename_format;

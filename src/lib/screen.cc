@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,24 +19,24 @@
 */
 
 #include "screen.h"
+#include "kdm_with_metadata.h"
+#include "film.h"
+#include "cinema.h"
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 using std::string;
 using std::vector;
+using std::list;
+using boost::shared_ptr;
+using boost::optional;
 using namespace dcpomatic;
 
 Screen::Screen (cxml::ConstNodePtr node)
-	: name (node->string_child("Name"))
-	, notes (node->optional_string_child("Notes").get_value_or (""))
+	: KDMRecipient (node)
 {
-	if (node->optional_string_child ("Certificate")) {
-		recipient = dcp::Certificate (node->string_child ("Certificate"));
-	} else if (node->optional_string_child ("Recipient")) {
-		recipient = dcp::Certificate (node->string_child ("Recipient"));
-	}
-
 	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children ("TrustedDevice")) {
 		if (boost::algorithm::starts_with(i->content(), "-----BEGIN CERTIFICATE-----")) {
 			trusted_devices.push_back (TrustedDevice(dcp::Certificate(i->content())));
@@ -49,13 +49,7 @@ Screen::Screen (cxml::ConstNodePtr node)
 void
 Screen::as_xml (xmlpp::Element* parent) const
 {
-	parent->add_child("Name")->add_child_text (name);
-	if (recipient) {
-		parent->add_child("Recipient")->add_child_text (recipient->certificate (true));
-	}
-
-	parent->add_child("Notes")->add_child_text (notes);
-
+	KDMRecipient::as_xml (parent);
 	BOOST_FOREACH (TrustedDevice i, trusted_devices) {
 		parent->add_child("TrustedDevice")->add_child_text(i.as_string());
 	}
@@ -71,34 +65,48 @@ Screen::trusted_device_thumbprints () const
 	return t;
 }
 
-TrustedDevice::TrustedDevice (string thumbprint)
-	: _thumbprint (thumbprint)
+
+KDMWithMetadataPtr
+kdm_for_screen (
+	shared_ptr<const Film> film,
+	boost::filesystem::path cpl,
+	shared_ptr<const dcpomatic::Screen> screen,
+	boost::posix_time::ptime valid_from,
+	boost::posix_time::ptime valid_to,
+	dcp::Formulation formulation,
+	bool disable_forensic_marking_picture,
+	optional<int> disable_forensic_marking_audio
+	)
 {
-
-}
-
-TrustedDevice::TrustedDevice (dcp::Certificate certificate)
-	: _certificate (certificate)
-{
-
-}
-
-string
-TrustedDevice::as_string () const
-{
-	if (_certificate) {
-		return _certificate->certificate(true);
+	if (!screen->recipient) {
+		return KDMWithMetadataPtr();
 	}
 
-	return *_thumbprint;
-}
+	shared_ptr<const Cinema> cinema = screen->cinema;
+	dcp::LocalTime const begin(valid_from, cinema ? cinema->utc_offset_hour() : 0, cinema ? cinema->utc_offset_minute() : 0);
+	dcp::LocalTime const end  (valid_to,   cinema ? cinema->utc_offset_hour() : 0, cinema ? cinema->utc_offset_minute() : 0);
 
-string
-TrustedDevice::thumbprint () const
-{
-	if (_certificate) {
-		return _certificate->thumbprint ();
+	dcp::EncryptedKDM const kdm = film->make_kdm (
+			screen->recipient.get(),
+			screen->trusted_device_thumbprints(),
+			cpl,
+			begin,
+			end,
+			formulation,
+			disable_forensic_marking_picture,
+			disable_forensic_marking_audio
+			);
+
+	dcp::NameFormat::Map name_values;
+	if (cinema) {
+		name_values['c'] = cinema->name;
 	}
+	name_values['s'] = screen->name;
+	name_values['f'] = film->name();
+	name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
+	name_values['e'] = end.date() + " " + end.time_of_day(true, false);
+	name_values['i'] = kdm.cpl_id();
 
-	return *_thumbprint;
+	return KDMWithMetadataPtr(new DCPKDMWithMetadata(name_values, cinema.get(), cinema ? cinema->emails : list<string>(), kdm));
 }
+
