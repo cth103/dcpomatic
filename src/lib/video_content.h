@@ -173,9 +173,6 @@ public:
 
 	boost::optional<double> fade (boost::shared_ptr<const Film> film, Frame) const;
 
-	void scale_and_crop_to_fit_width (boost::shared_ptr<const Film> film);
-	void scale_and_crop_to_fit_height (boost::shared_ptr<const Film> film);
-
 	std::string processing_description (boost::shared_ptr<const Film> film) const;
 
 	void set_length (Frame);

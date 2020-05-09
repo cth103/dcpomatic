@@ -354,29 +354,6 @@ VideoContent::size_after_crop () const
 	return crop().apply (size_after_3d_split ());
 }
 
-void
-VideoContent::scale_and_crop_to_fit_width (shared_ptr<const Film> film)
-{
-	set_scale (VideoContentScale(film->container()));
-
-	int const crop = max (0, int (size().height - double (film->frame_size().height) * size().width / film->frame_size().width));
-	set_left_crop (0);
-	set_right_crop (0);
-	set_top_crop (crop / 2);
-	set_bottom_crop (crop / 2);
-}
-
-void
-VideoContent::scale_and_crop_to_fit_height (shared_ptr<const Film> film)
-{
-	set_scale (VideoContentScale(film->container()));
-
-	int const crop = max (0, int (size().width - double (film->frame_size().width) * size().height / film->frame_size().height));
-	set_left_crop (crop / 2);
-	set_right_crop (crop / 2);
-	set_top_crop (0);
-	set_bottom_crop (0);
-}
 
 /** @param f Frame index within the whole (untrimmed) content.
  *  @return Fade factor (between 0 and 1) or unset if there is no fade.

@@ -222,8 +222,6 @@ enum {
 	ID_file_close = 100,
 	ID_edit_copy,
 	ID_edit_paste,
-	ID_content_scale_to_fit_width,
-	ID_content_scale_to_fit_height,
 	ID_jobs_make_dcp,
 	ID_jobs_make_dcp_batch,
 	ID_jobs_make_kdms,
@@ -316,8 +314,6 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_copy, this),               ID_edit_copy);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_paste, this),              ID_edit_paste);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_preferences, this),        wxID_PREFERENCES);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::content_scale_to_fit_width, this), ID_content_scale_to_fit_width);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::content_scale_to_fit_height, this), ID_content_scale_to_fit_height);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_make_dcp, this),           ID_jobs_make_dcp);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_make_kdms, this),          ID_jobs_make_kdms);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_make_dkdms, this),         ID_jobs_make_dkdms);
@@ -983,22 +979,6 @@ private:
 		d->Destroy ();
 	}
 
-	void content_scale_to_fit_width ()
-	{
-		ContentList vc = _film_editor->content_panel()->selected_video ();
-		for (ContentList::iterator i = vc.begin(); i != vc.end(); ++i) {
-			(*i)->video->scale_and_crop_to_fit_width (_film);
-		}
-	}
-
-	void content_scale_to_fit_height ()
-	{
-		ContentList vc = _film_editor->content_panel()->selected_video ();
-		for (ContentList::iterator i = vc.begin(); i != vc.end(); ++i) {
-			(*i)->video->scale_and_crop_to_fit_height (_film);
-		}
-	}
-
 	void jobs_send_dcp_to_tms ()
 	{
 		_film->send_dcp_to_tms ();
@@ -1323,10 +1303,6 @@ private:
 		add_item (edit, _("&Preferences...\tCtrl-P"), wxID_PREFERENCES, ALWAYS);
 #endif
 
-		wxMenu* content = new wxMenu;
-		add_item (content, _("Scale to fit &width"), ID_content_scale_to_fit_width, NEEDS_FILM | NEEDS_SELECTED_VIDEO_CONTENT);
-		add_item (content, _("Scale to fit &height"), ID_content_scale_to_fit_height, NEEDS_FILM | NEEDS_SELECTED_VIDEO_CONTENT);
-
 		wxMenu* jobs_menu = new wxMenu;
 		add_item (jobs_menu, _("&Make DCP\tCtrl-M"), ID_jobs_make_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION);
 		add_item (jobs_menu, _("Make DCP in &batch converter\tCtrl-B"), ID_jobs_make_dcp_batch, NEEDS_FILM | NOT_DURING_DCP_CREATION);
@@ -1365,7 +1341,6 @@ private:
 
 		m->Append (_file_menu, _("&File"));
 		m->Append (edit, _("&Edit"));
-		m->Append (content, _("&Content"));
 		m->Append (jobs_menu, _("&Jobs"));
 		m->Append (view, _("&View"));
 		m->Append (tools, _("&Tools"));
