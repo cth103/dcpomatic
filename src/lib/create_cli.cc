@@ -42,7 +42,6 @@ string CreateCLI::_help =
 	"  -c, --dcp-content-type <type> FTR, SHR, TLR, TST, XSN, RTG, TSR, POL, PSA or ADV\n"
 	"  -f, --dcp-frame-rate <rate>   set DCP video frame rate (otherwise guessed from content)\n"
 	"      --container-ratio <ratio> 119, 133, 137, 138, 166, 178, 185 or 239\n"
-	"      --content-ratio <ratio>   119, 133, 137, 138, 166, 178, 185 or 239\n"
 	"  -s, --still-length <n>        number of seconds that still content should last\n"
 	"      --standard <standard>     SMPTE or interop (default SMPTE)\n"
 	"      --no-use-isdcf-name       do not use an ISDCF name; use the specified name unmodified\n"
@@ -79,7 +78,6 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	, threed (false)
 	, dcp_content_type (0)
 	, container_ratio (0)
-	, content_ratio (0)
 	, still_length (10)
 	, standard (dcp::SMPTE)
 	, no_use_isdcf_name (false)
@@ -87,7 +85,6 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	, fourk (false)
 {
 	string dcp_content_type_string = "TST";
-	string content_ratio_string;
 	string container_ratio_string;
 	string standard_string = "SMPTE";
 	int dcp_frame_rate_int = 0;
@@ -136,7 +133,6 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		argument_option(i, argc, argv, "-c", "--dcp-content-type", &claimed, &error, &dcp_content_type_string);
 		argument_option(i, argc, argv, "-f", "--dcp-frame-rate",   &claimed, &error, &dcp_frame_rate_int);
 		argument_option(i, argc, argv, "",   "--container-ratio",  &claimed, &error, &container_ratio_string);
-		argument_option(i, argc, argv, "",   "--content-ratio",    &claimed, &error, &content_ratio_string);
 		argument_option(i, argc, argv, "-s", "--still-length",     &claimed, &error, &still_length);
 		argument_option(i, argc, argv, "",   "--standard",         &claimed, &error, &standard_string);
 		argument_option(i, argc, argv, "",   "--config",           &claimed, &error, &config_dir_string);
@@ -185,25 +181,12 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		return;
 	}
 
-	if (content_ratio_string.empty()) {
-		error = String::compose("%1: missing required option --content-ratio", argv[0]);
-		return;
-	}
-
-	content_ratio = Ratio::from_id (content_ratio_string);
-	if (!content_ratio) {
-		error = String::compose("%1: unrecognised content ratio %2", content_ratio_string);
-		return;
-	}
-
-	if (container_ratio_string.empty()) {
-		container_ratio_string = content_ratio_string;
-	}
-
-	container_ratio = Ratio::from_id (container_ratio_string);
-	if (!container_ratio) {
-		error = String::compose("%1: unrecognised container ratio %2", argv[0], container_ratio_string);
-		return;
+	if (!container_ratio_string.empty()) {
+		container_ratio = Ratio::from_id (container_ratio_string);
+		if (!container_ratio) {
+			error = String::compose("%1: unrecognised container ratio %2", argv[0], container_ratio_string);
+			return;
+		}
 	}
 
 	if (standard_string != "SMPTE" && standard_string != "interop") {

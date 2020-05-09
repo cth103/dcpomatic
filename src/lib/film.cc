@@ -132,8 +132,10 @@ string const Film::metadata_file = "metadata.xml";
  * 36 -> 37
  * TextContent can be in a Caption tag, and some of the tag names
  * have had Subtitle prefixes or suffixes removed.
+ * 37 -> 38
+ * VideoContent scale expressed just as "guess" or "custom"
  */
-int const Film::current_state_version = 37;
+int const Film::current_state_version = 38;
 
 /** Construct a Film object in a given directory.
  *
@@ -787,11 +789,7 @@ Film::isdcf_name (bool if_created_now) const
 		BOOST_FOREACH (shared_ptr<Content> i, content ()) {
 			if (i->video) {
 				/* Here's the first piece of video content */
-				if (i->video->scale().ratio ()) {
-					content_ratio = i->video->scale().ratio ();
-				} else {
-					content_ratio = Ratio::from_ratio (i->video->size().ratio ());
-				}
+				content_ratio = Ratio::nearest_from_ratio(i->video->scaled_size(frame_size()).ratio());
 				break;
 			}
 		}

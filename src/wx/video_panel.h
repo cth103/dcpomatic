@@ -25,7 +25,6 @@
 #include "content_sub_panel.h"
 #include "content_widget.h"
 #include "timecode.h"
-#include "lib/video_content_scale.h"
 #include "lib/film.h"
 
 class wxChoice;
@@ -55,6 +54,9 @@ private:
 	void fade_in_changed ();
 	void fade_out_changed ();
 	void add_to_grid ();
+	void scale_fit_clicked ();
+	void scale_custom_clicked ();
+	bool scale_custom_edit_clicked ();
 
 	void setup_description ();
 	void setup_sensitivity ();
@@ -77,8 +79,10 @@ private:
 	Timecode<dcpomatic::ContentTime>* _fade_in;
 	wxStaticText* _fade_out_label;
 	Timecode<dcpomatic::ContentTime>* _fade_out;
-	wxStaticText* _scale_to_label;
-	ContentChoice<VideoContent, VideoContentScale>* _scale;
+	wxStaticText* _scale_label;
+	wxRadioButton* _scale_fit;
+	wxRadioButton* _scale_custom;
+	wxButton* _scale_custom_edit;
 	wxStaticText* _description;
 	wxStaticText* _filters_label;
 	wxStaticText* _filters;

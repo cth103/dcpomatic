@@ -49,6 +49,7 @@ sources = """
           controls.cc
           closed_captions_dialog.cc
           credentials_download_certificate_panel.cc
+          custom_scale_dialog.cc
           dcp_panel.cc
           dcpomatic_button.cc
           disk_warning_dialog.cc
@@ -165,7 +166,7 @@ sources = """
 
 def configure(conf):
 
-    wx_libs = 'core,richtext,adv,html,xml'
+    wx_libs = 'core,richtext,adv,html,xml,propgrid'
 
     try:
         wx_config = '/usr/lib64/wx/config/gtk2-unicode-3.0'

@@ -53,8 +53,6 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	c->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
-
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));

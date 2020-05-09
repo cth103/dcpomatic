@@ -34,9 +34,9 @@
 using std::string;
 using boost::shared_ptr;
 
-static void scaling_test_for (shared_ptr<Film> film, shared_ptr<Content> content, string image, string container)
+static void scaling_test_for (shared_ptr<Film> film, shared_ptr<Content> content, float ratio, std::string image, string container)
 {
-	content->video->set_scale (VideoContentScale (Ratio::from_id (image)));
+	content->video->set_custom_ratio (ratio);
 	film->set_container (Ratio::from_id (container));
 	film->set_interop (false);
 	film->make_dcp ();
@@ -71,16 +71,16 @@ BOOST_AUTO_TEST_CASE (scaling_test)
 	imc->video->set_length (1);
 
 	/* F-133: 133 image in a flat container */
-	scaling_test_for (film, imc, "133", "185");
+	scaling_test_for (film, imc, 4.0 / 3, "133", "185");
 	/* F: flat image in a flat container */
-	scaling_test_for (film, imc, "185", "185");
+	scaling_test_for (film, imc, 1.85, "185", "185");
 	/* F-S: scope image in a flat container */
-	scaling_test_for (film, imc, "239", "185");
+	scaling_test_for (film, imc, 2.38695, "239", "185");
 
 	/* S-133: 133 image in a scope container */
-	scaling_test_for (film, imc, "133", "239");
+	scaling_test_for (film, imc, 4.0 / 3, "133", "239");
 	/* S-F: flat image in a scope container */
-	scaling_test_for (film, imc, "185", "239");
+	scaling_test_for (film, imc, 1.85, "185", "239");
 	/* S: scope image in a scope container */
-	scaling_test_for (film, imc, "239", "239");
+	scaling_test_for (film, imc, 2.38695, "239", "239");
 }

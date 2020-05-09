@@ -45,10 +45,8 @@ BOOST_AUTO_TEST_CASE (repeat_frame_test)
 	film->set_interop (false);
 	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/red_24.mp4"));
 	film->examine_and_add_content (c);
-
 	BOOST_REQUIRE (!wait_for_jobs());
-
-	c->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
+	c->video->set_custom_ratio (1.85);
 
 	film->set_video_frame_rate (48);
 	film->make_dcp ();

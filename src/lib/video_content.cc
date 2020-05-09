@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -48,6 +48,8 @@ int const VideoContentProperty::COLOUR_CONVERSION = 5;
 int const VideoContentProperty::FADE_IN           = 6;
 int const VideoContentProperty::FADE_OUT          = 7;
 int const VideoContentProperty::RANGE             = 8;
+int const VideoContentProperty::CUSTOM_RATIO      = 9;
+int const VideoContentProperty::CUSTOM_SIZE       = 10;
 
 using std::string;
 using std::setprecision;
@@ -70,7 +72,6 @@ VideoContent::VideoContent (Content* parent)
 	, _use (true)
 	, _length (0)
 	, _frame_type (VIDEO_FRAME_TYPE_2D)
-	, _scale (VideoContentScale (Ratio::from_id ("178")))
 	, _yuv (true)
 	, _fade_in (0)
 	, _fade_out (0)
@@ -139,10 +140,29 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 	if (version <= 7) {
 		optional<string> r = node->optional_string_child ("Ratio");
 		if (r) {
-			_scale = VideoContentScale (Ratio::from_id (r.get ()));
+			_legacy_ratio = Ratio::from_id(r.get())->ratio();
 		}
+	} else if (version <= 37) {
+		optional<string> ratio = node->node_child("Scale")->optional_string_child("Ratio");
+		if (ratio) {
+			_legacy_ratio = Ratio::from_id(ratio.get())->ratio();
+		}
+		optional<bool> scale = node->node_child("Scale")->optional_bool_child("Scale");
+		if (scale) {
+			if (*scale) {
+				/* This is what we used to call "no stretch" */
+				_legacy_ratio = _size.ratio();
+			} else {
+				/* This is what we used to call "no scale" */
+				_custom_size = _size;
+			}
+		}
+
 	} else {
-		_scale = VideoContentScale (node->node_child ("Scale"));
+		_custom_ratio = node->optional_number_child<float>("CustomRatio");
+		if (node->optional_number_child<int>("CustomWidth")) {
+			_custom_size = dcp::Size (node->number_child<int>("CustomWidth"), node->number_child<int>("CustomHeight"));
+		}
 	}
 
 	if (node->optional_node_child ("ColourConversion")) {
@@ -190,8 +210,12 @@ VideoContent::VideoContent (Content* parent, vector<shared_ptr<Content> > c)
 			throw JoinError (_("Content to be joined must have the same crop."));
 		}
 
-		if (c[i]->video->scale() != ref->scale()) {
-			throw JoinError (_("Content to be joined must have the same scale setting."));
+		if (c[i]->video->custom_ratio() != ref->custom_ratio()) {
+			throw JoinError (_("Content to be joined must have the same custom ratio setting."));
+		}
+
+		if (c[i]->video->custom_size() != ref->custom_size()) {
+			throw JoinError (_("Content to be joined must have the same custom size setting."));
 		}
 
 		if (c[i]->video->colour_conversion() != ref->colour_conversion()) {
@@ -213,7 +237,7 @@ VideoContent::VideoContent (Content* parent, vector<shared_ptr<Content> > c)
 	_size = ref->size ();
 	_frame_type = ref->frame_type ();
 	_crop = ref->crop ();
-	_scale = ref->scale ();
+	_custom_ratio = ref->custom_ratio ();
 	_colour_conversion = ref->colour_conversion ();
 	_fade_in = ref->fade_in ();
 	_fade_out = ref->fade_out ();
@@ -233,7 +257,13 @@ VideoContent::as_xml (xmlpp::Node* node) const
 		node->add_child("SampleAspectRatio")->add_child_text (raw_convert<string> (_sample_aspect_ratio.get ()));
 	}
 	_crop.as_xml (node);
-	_scale.as_xml (node->add_child("Scale"));
+	if (_custom_ratio) {
+		node->add_child("CustomRatio")->add_child_text(raw_convert<string>(*_custom_ratio));
+	}
+	if (_custom_size) {
+		node->add_child("CustomWidth")->add_child_text(raw_convert<string>(_custom_size->width));
+		node->add_child("CustomHeight")->add_child_text(raw_convert<string>(_custom_size->height));
+	}
 	if (_colour_conversion) {
 		_colour_conversion.get().as_xml (node->add_child("ColourConversion"));
 	}
@@ -265,15 +295,6 @@ VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
 		_sample_aspect_ratio = ar;
 		_yuv = yuv;
 		_range = range;
-
-		if (Config::instance()->default_scale_to ()) {
-			_scale = VideoContentScale (Config::instance()->default_scale_to ());
-		} else {
-			/* Guess correct scale from size and sample aspect ratio */
-			_scale = VideoContentScale (
-				Ratio::nearest_from_ratio (double (_size.width) * ar.get_value_or (1) / _size.height)
-				);
-		}
 	}
 
 	LOG_GENERAL ("Video length obtained from header as %1 frames", _length);
@@ -289,13 +310,15 @@ VideoContent::identifier () const
 {
 	char buffer[256];
 	snprintf (
-		buffer, sizeof(buffer), "%d_%d_%d_%d_%d_%s_%" PRId64 "_%" PRId64 "_%d",
+		buffer, sizeof(buffer), "%d_%d_%d_%d_%d_%f_%d_%d%" PRId64 "_%" PRId64 "_%d",
 		(_use ? 1 : 0),
 		crop().left,
 		crop().right,
 		crop().top,
 		crop().bottom,
-		scale().id().c_str(),
+		_custom_ratio.get_value_or(0),
+		_custom_size ? _custom_size->width : 0,
+		_custom_size ? _custom_size->height : 0,
 		_fade_in,
 		_fade_out,
 		_range == VIDEO_RANGE_FULL ? 0 : 1
@@ -379,7 +402,7 @@ VideoContent::fade (shared_ptr<const Film> film, Frame f) const
 }
 
 string
-VideoContent::processing_description (shared_ptr<const Film> film) const
+VideoContent::processing_description (shared_ptr<const Film> film)
 {
 	string d;
 	char buffer[256];
@@ -416,7 +439,7 @@ VideoContent::processing_description (shared_ptr<const Film> film) const
 	}
 
 	dcp::Size const container_size = film->frame_size ();
-	dcp::Size const scaled = scale().size (shared_from_this(), container_size, container_size);
+	dcp::Size const scaled = scaled_size (container_size);
 
 	if (scaled != size_after_crop ()) {
 		d += String::compose (
@@ -489,11 +512,6 @@ VideoContent::set_bottom_crop (int c)
 	maybe_set (_crop.bottom, c, VideoContentProperty::CROP);
 }
 
-void
-VideoContent::set_scale (VideoContentScale s)
-{
-	maybe_set (_scale, s, VideoContentProperty::SCALE);
-}
 
 void
 VideoContent::set_frame_type (VideoFrameType t)
@@ -551,7 +569,8 @@ VideoContent::take_settings_from (shared_ptr<const VideoContent> c)
 	set_right_crop (c->_crop.right);
 	set_top_crop (c->_crop.top);
 	set_bottom_crop (c->_crop.bottom);
-	set_scale (c->_scale);
+	set_custom_ratio (c->_custom_ratio);
+	set_custom_size (c->_custom_size);
 	set_fade_in (c->_fade_in);
 	set_fade_out (c->_fade_out);
 }
@@ -568,4 +587,49 @@ VideoContent::modify_trim_start (ContentTime& trim) const
 	if (_parent->video_frame_rate()) {
 		trim = trim.round (_parent->video_frame_rate().get());
 	}
+}
+
+
+/** @param film_container The size of the container for the DCP that we are working on */
+dcp::Size
+VideoContent::scaled_size (dcp::Size film_container)
+{
+	if (_custom_ratio) {
+		return fit_ratio_within(*_custom_ratio, film_container);
+	}
+
+	if (_custom_size) {
+		return *_custom_size;
+	}
+
+	dcp::Size size = size_after_crop ();
+	size.width *= _sample_aspect_ratio.get_value_or(1);
+
+	/* This is what we will return unless there is any legacy stuff to take into account */
+	dcp::Size auto_size = fit_ratio_within (size.ratio(), film_container);
+
+	if (_legacy_ratio) {
+		if (fit_ratio_within(*_legacy_ratio, film_container) != auto_size) {
+			_custom_ratio = *_legacy_ratio;
+			_legacy_ratio = optional<float>();
+			return fit_ratio_within(*_custom_ratio, film_container);
+		}
+		_legacy_ratio = 0;
+	}
+
+	return auto_size;
+}
+
+
+void
+VideoContent::set_custom_ratio (optional<float> ratio)
+{
+	maybe_set (_custom_ratio, ratio, VideoContentProperty::CUSTOM_RATIO);
+}
+
+
+void
+VideoContent::set_custom_size (optional<dcp::Size> size)
+{
+	maybe_set (_custom_size, size, VideoContentProperty::CUSTOM_SIZE);
 }

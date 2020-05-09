@@ -55,10 +55,8 @@ BOOST_AUTO_TEST_CASE (empty_test1)
 	/* 0 1 2 3 4 5 6 7
 	 *     A A A     B
 	 */
-	contentA->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	contentA->video->set_length (3);
 	contentA->set_position (film, DCPTime::from_frames (2, vfr));
-	contentB->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	contentB->video->set_length (1);
 	contentB->set_position (film, DCPTime::from_frames (7, vfr));
 
@@ -89,10 +87,8 @@ BOOST_AUTO_TEST_CASE (empty_test2)
 	/* 0 1 2 3 4 5 6 7
 	 * A A A         B
 	 */
-	contentA->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	contentA->video->set_length (3);
 	contentA->set_position (film, DCPTime(0));
-	contentB->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	contentB->video->set_length (1);
 	contentB->set_position (film, DCPTime::from_frames(7, vfr));
 
@@ -129,10 +125,8 @@ BOOST_AUTO_TEST_CASE (empty_test3)
 	/* 0 1 2 3 4 5 6 7
 	 * A A A         B
 	 */
-	contentA->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	contentA->video->set_length (3);
 	contentA->set_position (film, DCPTime(0));
-	contentB->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	contentB->video->set_length (1);
 	contentB->set_position (film, DCPTime::from_frames(7, vfr));
 

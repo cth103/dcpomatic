@@ -131,7 +131,6 @@ main (int argc, char* argv[])
 
 			BOOST_FOREACH (shared_ptr<Content> j, content) {
 				if (j->video) {
-					j->video->set_scale (VideoContentScale(cc.content_ratio));
 					j->video->set_frame_type (i.frame_type);
 				}
 			}

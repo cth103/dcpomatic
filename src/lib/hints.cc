@@ -123,7 +123,7 @@ Hints::thread ()
 	int scope = 0;
 	BOOST_FOREACH (shared_ptr<const Content> i, content) {
 		if (i->video) {
-			Ratio const * r = i->video->scale().ratio ();
+			Ratio const * r = Ratio::nearest_from_ratio(i->video->scaled_size(film->frame_size()).ratio());
 			if (r && r->id() == "239") {
 				++scope;
 			} else if (r && r->id() != "239" && r->id() != "190") {

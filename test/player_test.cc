@@ -103,12 +103,12 @@ BOOST_AUTO_TEST_CASE (player_black_fill_test)
 	film->examine_and_add_content (contentB);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	contentA->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	contentA->video->set_length (3);
 	contentA->set_position (film, DCPTime::from_frames(2, film->video_frame_rate()));
-	contentB->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
+	contentA->video->set_custom_ratio (1.85);
 	contentB->video->set_length (1);
 	contentB->set_position (film, DCPTime::from_frames(7, film->video_frame_rate()));
+	contentB->video->set_custom_ratio (1.85);
 
 	film->make_dcp ();
 

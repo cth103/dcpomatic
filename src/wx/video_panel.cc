@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -26,6 +26,7 @@
 #include "content_panel.h"
 #include "static_text.h"
 #include "check_box.h"
+#include "custom_scale_dialog.h"
 #include "dcpomatic_button.h"
 #include "lib/filter.h"
 #include "lib/ffmpeg_content.h"
@@ -55,27 +56,6 @@ using boost::bind;
 using boost::optional;
 using namespace dcpomatic;
 
-static VideoContentScale
-index_to_scale (int n)
-{
-	vector<VideoContentScale> scales = VideoContentScale::all ();
-	DCPOMATIC_ASSERT (n >= 0);
-	DCPOMATIC_ASSERT (n < int (scales.size ()));
-	return scales[n];
-}
-
-static int
-scale_to_index (VideoContentScale scale)
-{
-	vector<VideoContentScale> scales = VideoContentScale::all ();
-	for (size_t i = 0; i < scales.size(); ++i) {
-		if (scales[i] == scale) {
-			return i;
-		}
-	}
-
-	DCPOMATIC_ASSERT (false);
-}
 
 VideoPanel::VideoPanel (ContentPanel* p)
 	: ContentSubPanel (p, _("Video"))
@@ -150,21 +130,14 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_fade_out_label = create_label (this, _("Fade out"), true);
 	_fade_out = new Timecode<ContentTime> (this);
 
-	_scale_to_label = create_label (this, _("Scale to"), true);
-	_scale = new ContentChoice<VideoContent, VideoContentScale> (
-		this,
-		new wxChoice (this, wxID_ANY),
-		VideoContentProperty::SCALE,
-		&Content::video,
-		boost::mem_fn (&VideoContent::scale),
-		boost::mem_fn (&VideoContent::set_scale),
-		&index_to_scale,
-		&scale_to_index
-		);
-
 	wxClientDC dc (this);
 	wxSize size = dc.GetTextExtent (wxT ("A quite long name"));
 	size.SetHeight (-1);
+
+	_scale_label = create_label (this, _("Scale"), true);
+	_scale_fit = new wxRadioButton (this, wxID_ANY, _("to fit DCP"));
+	_scale_custom = new wxRadioButton (this, wxID_ANY, _("custom"), wxDefaultPosition, size);
+	_scale_custom_edit = new Button (this, _("Edit..."));
 
 	_filters_label = create_label (this, _("Filters"), true);
 	_filters = new StaticText (this, _("None"), wxDefaultPosition, size);
@@ -194,11 +167,6 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_right_crop->wrapped()->SetRange (0, 4096);
 	_bottom_crop->wrapped()->SetRange (0, 4096);
 
-	_scale->wrapped()->Clear ();
-	BOOST_FOREACH (VideoContentScale const & i, VideoContentScale::all ()) {
-		_scale->wrapped()->Append (std_to_wx (i.name ()));
-	}
-
 	_frame_type->wrapped()->Append (_("2D"));
 	_frame_type->wrapped()->Append (_("3D"));
 	_frame_type->wrapped()->Append (_("3D left/right"));
@@ -215,6 +183,9 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_use->Bind                           (wxEVT_CHECKBOX, boost::bind (&VideoPanel::use_clicked, this));
 	_reference->Bind                     (wxEVT_CHECKBOX, boost::bind (&VideoPanel::reference_clicked, this));
 	_filters_button->Bind                (wxEVT_BUTTON,   boost::bind (&VideoPanel::edit_filters_clicked, this));
+	_scale_fit->Bind                     (wxEVT_RADIOBUTTON, boost::bind (&VideoPanel::scale_fit_clicked, this));
+	_scale_custom->Bind                  (wxEVT_RADIOBUTTON, boost::bind (&VideoPanel::scale_custom_clicked, this));
+	_scale_custom_edit->Bind             (wxEVT_BUTTON,   boost::bind (&VideoPanel::scale_custom_edit_clicked, this));
 	_colour_conversion->Bind             (wxEVT_CHOICE,   boost::bind (&VideoPanel::colour_conversion_changed, this));
 	_range->Bind                         (wxEVT_CHOICE,   boost::bind (&VideoPanel::range_changed, this));
 	_edit_colour_conversion_button->Bind (wxEVT_BUTTON,   boost::bind (&VideoPanel::edit_colour_conversion_clicked, this));
@@ -260,11 +231,13 @@ VideoPanel::add_to_grid ()
 	add_label_to_sizer (crop, _bottom_crop_label, true, wxGBPosition (cr, 2));
 	_bottom_crop->add (crop, wxGBPosition (cr, 3));
 	add_label_to_sizer (_grid, _crop_label, true, wxGBPosition(r, 0));
-	_grid->Add (crop, wxGBPosition(r, 1), wxGBSpan(2, 3));
-	r += 2;
+	_grid->Add (crop, wxGBPosition(r, 1));
+	++r;
 
-	_scale_to_label->Show (full);
-	_scale->show (full);
+	_scale_label->Show (full);
+	_scale_fit->Show (full);
+	_scale_custom->Show (full);
+	_scale_custom_edit->Show (full);
 	_filters_label->Show (full);
 	_filters->Show (full);
 	_filters_button->Show (full);
@@ -283,8 +256,16 @@ VideoPanel::add_to_grid ()
 	++r;
 
 	if (full) {
-		add_label_to_sizer (_grid, _scale_to_label, true, wxGBPosition (r, 0));
-		_scale->add (_grid, wxGBPosition (r, 1), wxGBSpan (1, 2));
+		add_label_to_sizer (_grid, _scale_label, true, wxGBPosition (r, 0));
+		{
+			wxSizer* v = new wxBoxSizer (wxVERTICAL);
+			v->Add (_scale_fit, 0, wxBOTTOM, 4);
+			wxSizer* h = new wxBoxSizer (wxHORIZONTAL);
+			h->Add (_scale_custom, 1, wxRIGHT, 6);
+			h->Add (_scale_custom_edit, 0);
+			v->Add (h, 0);
+			_grid->Add (v, wxGBPosition(r, 1));
+		}
 		++r;
 
 		add_label_to_sizer (_grid, _filters_label, true, wxGBPosition (r, 0));
@@ -486,6 +467,20 @@ VideoPanel::film_content_changed (int property)
 		}
 
 		setup_sensitivity ();
+	} else if (property == VideoContentProperty::CUSTOM_RATIO || property == VideoContentProperty::CUSTOM_SIZE) {
+		set<Frame> check;
+		BOOST_FOREACH (shared_ptr<const Content> i, vc) {
+			check.insert (i->video->custom_ratio() || i->video->custom_size());
+		}
+
+		if (check.size() == 1) {
+			checked_set (_scale_fit, !vc.front()->video->custom_ratio() && !vc.front()->video->custom_size());
+			checked_set (_scale_custom, vc.front()->video->custom_ratio() || vc.front()->video->custom_size());
+		} else {
+			checked_set (_scale_fit, true);
+			checked_set (_scale_custom, false);
+		}
+		setup_sensitivity ();
 	}
 }
 
@@ -576,7 +571,6 @@ VideoPanel::content_selection_changed ()
 	_right_crop->set_content (video_sel);
 	_top_crop->set_content (video_sel);
 	_bottom_crop->set_content (video_sel);
-	_scale->set_content (video_sel);
 
 	film_content_changed (ContentProperty::VIDEO_FRAME_RATE);
 	film_content_changed (VideoContentProperty::CROP);
@@ -585,6 +579,8 @@ VideoPanel::content_selection_changed ()
 	film_content_changed (VideoContentProperty::FADE_OUT);
 	film_content_changed (VideoContentProperty::RANGE);
 	film_content_changed (VideoContentProperty::USE);
+	film_content_changed (VideoContentProperty::CUSTOM_RATIO);
+	film_content_changed (VideoContentProperty::CUSTOM_SIZE);
 	film_content_changed (FFmpegContentProperty::FILTERS);
 	film_content_changed (DCPContentProperty::REFERENCE_VIDEO);
 
@@ -623,7 +619,9 @@ VideoPanel::setup_sensitivity ()
 		_bottom_crop->wrapped()->Enable (false);
 		_fade_in->Enable (false);
 		_fade_out->Enable (false);
-		_scale->wrapped()->Enable (false);
+		_scale_fit->Enable (false);
+		_scale_custom->Enable (false);
+		_scale_custom_edit->Enable (false);
 		_description->Enable (false);
 		_filters->Enable (false);
 		_filters_button->Enable (false);
@@ -641,7 +639,9 @@ VideoPanel::setup_sensitivity ()
 		_bottom_crop->wrapped()->Enable (true);
 		_fade_in->Enable (!video_sel.empty ());
 		_fade_out->Enable (!video_sel.empty ());
-		_scale->wrapped()->Enable (true);
+		_scale_fit->Enable (true);
+		_scale_custom->Enable (true);
+		_scale_custom_edit->Enable (_scale_custom->GetValue());
 		_description->Enable (true);
 		_filters->Enable (true);
 		_filters_button->Enable (single && !ffmpeg_sel.empty ());
@@ -703,3 +703,39 @@ VideoPanel::reference_clicked ()
 
 	d->set_reference_video (_reference->GetValue ());
 }
+
+
+void
+VideoPanel::scale_fit_clicked ()
+{
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_video()) {
+		i->video->set_custom_ratio (optional<float>());
+	}
+}
+
+
+void
+VideoPanel::scale_custom_clicked ()
+{
+	if (!scale_custom_edit_clicked()) {
+		_scale_fit->SetValue (true);
+	}
+}
+
+
+bool
+VideoPanel::scale_custom_edit_clicked ()
+{
+	shared_ptr<const VideoContent> vc = _parent->selected_video().front()->video;
+	CustomScaleDialog* d = new CustomScaleDialog (this, vc->size(), _parent->film()->frame_size(), vc->custom_ratio(), vc->custom_size());
+	int const r = d->ShowModal ();
+	if (r == wxID_OK) {
+		BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_video()) {
+			i->video->set_custom_ratio (d->custom_ratio());
+			i->video->set_custom_size (d->custom_size());
+		}
+	}
+	d->Destroy ();
+	return r == wxID_OK;
+}
+

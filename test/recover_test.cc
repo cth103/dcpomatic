@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE (recover_test_2d)
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	boost::filesystem::path const video = "build/test/recover_test_2d/video/185_2K_d4343facdd66ca71f62a964fbade89f3_24_100000000_P_S_0_1200000.mxf";
+	boost::filesystem::path const video = "build/test/recover_test_2d/video/185_2K_02543352c540f4b083bff3f1e309d4a9_24_100000000_P_S_0_1200000.mxf";
 	boost::filesystem::copy_file (
 		video,
 		"build/test/recover_test_2d/original.mxf"
@@ -97,7 +97,7 @@ BOOST_AUTO_TEST_CASE (recover_test_3d, * boost::unit_test::depends_on("recover_t
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	boost::filesystem::path const video = "build/test/recover_test_3d/video/185_2K_342fe9115d2b446914b31f7602e48cc6_24_100000000_P_S_3D_0_96000.mxf";
+	boost::filesystem::path const video = "build/test/recover_test_3d/video/185_2K_70e6661af92ae94458784c16a21a9748_24_100000000_P_S_3D_0_96000.mxf";
 
 	boost::filesystem::copy_file (
 		video,
@@ -135,7 +135,7 @@ BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted, * boost::unit_test::depends_on(
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	boost::filesystem::path const video =
-		"build/test/recover_test_2d_encrypted/video/185_2K_d4343facdd66ca71f62a964fbade89f3_24_100000000_Eeafcb91c9f5472edf01f3a2404c57258_S_0_1200000.mxf";
+		"build/test/recover_test_2d_encrypted/video/185_2K_02543352c540f4b083bff3f1e309d4a9_24_100000000_Eeafcb91c9f5472edf01f3a2404c57258_S_0_1200000.mxf";
 
 	boost::filesystem::copy_file (
 		video,
