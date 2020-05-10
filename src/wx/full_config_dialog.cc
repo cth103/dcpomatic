@@ -340,10 +340,6 @@ private:
 		_container = new wxChoice (_panel, wxID_ANY);
 		table->Add (_container);
 
-		add_label_to_sizer (table, _panel, _("Default scale-to"), true);
-		_scale_to = new wxChoice (_panel, wxID_ANY);
-		table->Add (_scale_to);
-
 		add_label_to_sizer (table, _panel, _("Default content type"), true);
 		_dcp_content_type = new wxChoice (_panel, wxID_ANY);
 		table->Add (_dcp_content_type);
@@ -400,14 +396,6 @@ private:
 
 		_container->Bind (wxEVT_CHOICE, boost::bind (&DefaultsPage::container_changed, this));
 
-		_scale_to->Append (_("Guess from content"));
-
-		BOOST_FOREACH (Ratio const * i, Ratio::all()) {
-			_scale_to->Append (std_to_wx(i->image_nickname()));
-		}
-
-		_scale_to->Bind (wxEVT_CHOICE, boost::bind (&DefaultsPage::scale_to_changed, this));
-
 		BOOST_FOREACH (DCPContentType const * i, DCPContentType::all()) {
 			_dcp_content_type->Append (std_to_wx (i->pretty_name ()));
 		}
@@ -439,17 +427,6 @@ private:
 			if (containers[i] == config->default_container ()) {
 				_container->SetSelection (i);
 			}
-		}
-
-		vector<Ratio const *> ratios = Ratio::all ();
-		for (size_t i = 0; i < ratios.size(); ++i) {
-			if (ratios[i] == config->default_scale_to ()) {
-				_scale_to->SetSelection (i + 1);
-			}
-		}
-
-		if (!config->default_scale_to()) {
-			_scale_to->SetSelection (0);
 		}
 
 		vector<DCPContentType const *> const ct = DCPContentType::all ();
@@ -519,17 +496,6 @@ private:
 		Config::instance()->set_default_container (ratio[_container->GetSelection()]);
 	}
 
-	void scale_to_changed ()
-	{
-		int const s = _scale_to->GetSelection ();
-		if (s == 0) {
-			Config::instance()->set_default_scale_to (0);
-		} else {
-			vector<Ratio const *> ratio = Ratio::all ();
-			Config::instance()->set_default_scale_to (ratio[s - 1]);
-		}
-	}
-
 	void dcp_content_type_changed ()
 	{
 		vector<DCPContentType const *> ct = DCPContentType::all ();
@@ -558,7 +524,6 @@ private:
 	wxDirPickerCtrl* _kdm_directory;
 #endif
 	wxChoice* _container;
-	wxChoice* _scale_to;
 	wxChoice* _dcp_content_type;
 	wxChoice* _dcp_audio_channels;
 	wxChoice* _standard;
