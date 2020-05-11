@@ -96,14 +96,18 @@ main (int argc, char* argv[])
 		}
 		film->set_name (cc.name);
 
-		film->set_container (cc.container_ratio);
+		if (cc.container_ratio) {
+			film->set_container (cc.container_ratio);
+		}
 		film->set_dcp_content_type (cc.dcp_content_type);
 		film->set_interop (cc.standard == dcp::INTEROP);
 		film->set_use_isdcf_name (!cc.no_use_isdcf_name);
 		film->set_signed (!cc.no_sign);
 		film->set_encrypted (cc.encrypt);
 		film->set_three_d (cc.threed);
-		film->set_resolution (cc.fourk ? RESOLUTION_4K : RESOLUTION_2K);
+		if (cc.fourk) {
+			film->set_resolution (RESOLUTION_4K);
+		}
 		if (cc.j2k_bandwidth) {
 			film->set_j2k_bandwidth (*cc.j2k_bandwidth);
 		}

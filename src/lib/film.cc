@@ -164,6 +164,8 @@ Film::Film (optional<boost::filesystem::path> dir)
 	, _upload_after_make_dcp (Config::instance()->default_upload_after_make_dcp())
 	, _reencode_j2k (false)
 	, _user_explicit_video_frame_rate (false)
+	, _user_explicit_container (false)
+	, _user_explicit_resolution (false)
 	, _state_version (current_state_version)
 	, _dirty (false)
 	, _tolerant (false)
@@ -466,6 +468,8 @@ Film::metadata (bool with_content_paths) const
 		i.as_xml (root->add_child("Rating"));
 	}
 	root->add_child("ContentVersion")->add_child_text(_content_version);
+	root->add_child("UserExplicitContainer")->add_child_text(_user_explicit_container ? "1" : "0");
+	root->add_child("UserExplicitResolution")->add_child_text(_user_explicit_resolution ? "1" : "0");
 	_playlist->as_xml (root->add_child ("Playlist"), with_content_paths);
 
 	return doc;
@@ -614,6 +618,10 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	}
 
 	_content_version = f.optional_string_child("ContentVersion").get_value_or("");
+
+	/* Disable guessing for files made in previous DCP-o-matic versions */
+	_user_explicit_container = f.optional_bool_child("UserExplicitContainer").get_value_or(true);
+	_user_explicit_resolution = f.optional_bool_child("UserExplicitResolution").get_value_or(true);
 
 	list<string> notes;
 	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"), _state_version, notes);
@@ -969,19 +977,38 @@ Film::set_dcp_content_type (DCPContentType const * t)
 	_dcp_content_type = t;
 }
 
+
+/** @param explicit_user true if this is being set because of
+ *  a direct user request, false if it is being done because
+ *  DCP-o-matic is guessing the best container to use.
+ */
 void
-Film::set_container (Ratio const * c)
+Film::set_container (Ratio const * c, bool explicit_user)
 {
 	ChangeSignaller<Film> ch (this, CONTAINER);
 	_container = c;
+
+	if (explicit_user) {
+		_user_explicit_container = true;
+	}
 }
 
+
+/** @param explicit_user true if this is being set because of
+ *  a direct user request, false if it is being done because
+ *  DCP-o-matic is guessing the best resolution to use.
+ */
 void
-Film::set_resolution (Resolution r)
+Film::set_resolution (Resolution r, bool explicit_user)
 {
 	ChangeSignaller<Film> ch (this, RESOLUTION);
 	_resolution = r;
+
+	if (explicit_user) {
+		_user_explicit_resolution = true;
+	}
 }
+
 
 void
 Film::set_j2k_bandwidth (int b)
@@ -1267,12 +1294,54 @@ Film::add_content (shared_ptr<Content> c)
 	}
 
 	_playlist->add (shared_from_this(), c);
+
+	maybe_set_container_and_resolution ();
+}
+
+
+void
+Film::maybe_set_container_and_resolution ()
+{
+	/* Get the only piece of video content, if there is only one */
+	shared_ptr<VideoContent> video;
+	BOOST_FOREACH (shared_ptr<const Content> i, _playlist->content()) {
+		if (i->video) {
+			if (!video) {
+				video = i->video;
+			} else {
+				video.reset ();
+			}
+		}
+	}
+
+	if (video) {
+		/* This is the only piece of video content in this Film.  Use it to make a guess for
+		 * DCP container size and resolution, unless the user has already explicitly set these
+		 * things.
+		 */
+		if (!_user_explicit_container) {
+			if (video->size().ratio() > 2.3) {
+				set_container (Ratio::from_id("239"), false);
+			} else {
+				set_container (Ratio::from_id("185"), false);
+			}
+		}
+
+		if (!_user_explicit_resolution) {
+			if (video->size_after_crop().width > 2048 || video->size_after_crop().height > 1080) {
+				set_resolution (RESOLUTION_4K, false);
+			} else {
+				set_resolution (RESOLUTION_2K, false);
+			}
+		}
+	}
 }
 
 void
 Film::remove_content (shared_ptr<Content> c)
 {
 	_playlist->remove (c);
+	maybe_set_container_and_resolution ();
 }
 
 void
