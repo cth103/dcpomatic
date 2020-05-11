@@ -93,27 +93,6 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film, weak_pt
 	_film_changed_connection = film->Change.connect (bind (&TimelineDialog::film_change, this, _1, _2));
 }
 
-wxString
-TimelineDialog::bitmap_path (string name)
-{
-	boost::filesystem::path base;
-
-#ifdef DCPOMATIC_DEBUG
-	/* Hack to allow OS X to find icons when running from the source tree */
-	char* path = getenv ("DCPOMATIC_GRAPHICS");
-	if (path) {
-		base = path;
-	} else {
-		base = shared_path();
-	}
-#else
-	base = shared_path();
-#endif
-
-	boost::filesystem::path p = base / String::compose("%1.png", name);
-	return std_to_wx (p.string());
-}
-
 void
 TimelineDialog::film_change (ChangeType type, Film::Property p)
 {

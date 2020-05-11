@@ -35,7 +35,6 @@ public:
 private:
 	void film_change (ChangeType type, Film::Property);
 	void tool_clicked (wxCommandEvent& id);
-	wxString bitmap_path (std::string name);
 
 	boost::weak_ptr<Film> _film;
 	Timeline _timeline;
