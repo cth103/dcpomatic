@@ -38,6 +38,7 @@
 #include "lib/dcp_content.h"
 #include "lib/video_content.h"
 #include <wx/spinctrl.h>
+#include <wx/tglbtn.h>
 #include <boost/foreach.hpp>
 #include <boost/unordered_set.hpp>
 #include <boost/functional/hash.hpp>
@@ -84,44 +85,57 @@ VideoPanel::VideoPanel (ContentPanel* p)
 
 	_crop_label = create_label (this, _("Crop"), true);
 
+	int const crop_width = 56;
+	int const link_height = 28;
+
 	_left_crop_label = create_label (this, _("Left"), true);
 	_left_crop = new ContentSpinCtrl<VideoContent> (
 		this,
-		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
+		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(crop_width, -1)),
 		VideoContentProperty::CROP,
 		&Content::video,
 		boost::mem_fn (&VideoContent::left_crop),
-		boost::mem_fn (&VideoContent::set_left_crop)
+		boost::mem_fn (&VideoContent::set_left_crop),
+		boost::bind (&VideoPanel::left_crop_changed, this)
 		);
+
+	_left_right_link = new wxToggleButton (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(22, link_height));
+	_left_right_link->SetBitmap (wxBitmap(bitmap_path("link"), wxBITMAP_TYPE_PNG));
 
 	_right_crop_label = create_label (this, _("Right"), true);
 	_right_crop = new ContentSpinCtrl<VideoContent> (
 		this,
-		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
+		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(crop_width, -1)),
 		VideoContentProperty::CROP,
 		&Content::video,
 		boost::mem_fn (&VideoContent::right_crop),
-		boost::mem_fn (&VideoContent::set_right_crop)
+		boost::mem_fn (&VideoContent::set_right_crop),
+		boost::bind (&VideoPanel::right_crop_changed, this)
 		);
 
 	_top_crop_label = create_label (this, _("Top"), true);
 	_top_crop = new ContentSpinCtrl<VideoContent> (
 		this,
-		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
+		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(crop_width, -1)),
 		VideoContentProperty::CROP,
 		&Content::video,
 		boost::mem_fn (&VideoContent::top_crop),
-		boost::mem_fn (&VideoContent::set_top_crop)
+		boost::mem_fn (&VideoContent::set_top_crop),
+		boost::bind (&VideoPanel::top_crop_changed, this)
 		);
+
+	_top_bottom_link = new wxToggleButton (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(22, link_height));
+	_top_bottom_link->SetBitmap (wxBitmap(bitmap_path("link"), wxBITMAP_TYPE_PNG));
 
 	_bottom_crop_label = create_label (this, _("Bottom"), true);
 	_bottom_crop = new ContentSpinCtrl<VideoContent> (
 		this,
-		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
+		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(crop_width, -1)),
 		VideoContentProperty::CROP,
 		&Content::video,
 		boost::mem_fn (&VideoContent::bottom_crop),
-		boost::mem_fn (&VideoContent::set_bottom_crop)
+		boost::mem_fn (&VideoContent::set_bottom_crop),
+		boost::bind (&VideoPanel::bottom_crop_changed, this)
 		);
 
 	_fade_in_label = create_label (this, _("Fade in"), true);
@@ -189,6 +203,8 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_colour_conversion->Bind             (wxEVT_CHOICE,   boost::bind (&VideoPanel::colour_conversion_changed, this));
 	_range->Bind                         (wxEVT_CHOICE,   boost::bind (&VideoPanel::range_changed, this));
 	_edit_colour_conversion_button->Bind (wxEVT_BUTTON,   boost::bind (&VideoPanel::edit_colour_conversion_clicked, this));
+	_left_right_link->Bind               (wxEVT_TOGGLEBUTTON, boost::bind(&VideoPanel::left_right_link_clicked, this));
+	_top_bottom_link->Bind               (wxEVT_TOGGLEBUTTON, boost::bind(&VideoPanel::top_bottom_link_clicked, this));
 
 	add_to_grid ();
 }
@@ -223,13 +239,15 @@ VideoPanel::add_to_grid ()
 	wxGridBagSizer* crop = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	add_label_to_sizer (crop, _left_crop_label, true, wxGBPosition (cr, 0));
 	_left_crop->add (crop, wxGBPosition (cr, 1));
-	add_label_to_sizer (crop, _right_crop_label, true, wxGBPosition (cr, 2));
-	_right_crop->add (crop, wxGBPosition (cr, 3));
+	crop->Add (_left_right_link, wxGBPosition(cr, 2));
+	add_label_to_sizer (crop, _right_crop_label, true, wxGBPosition (cr, 3));
+	_right_crop->add (crop, wxGBPosition (cr, 4));
 	++cr;
 	add_label_to_sizer (crop, _top_crop_label, true, wxGBPosition (cr, 0));
 	_top_crop->add (crop, wxGBPosition (cr, 1));
-	add_label_to_sizer (crop, _bottom_crop_label, true, wxGBPosition (cr, 2));
-	_bottom_crop->add (crop, wxGBPosition (cr, 3));
+	crop->Add (_top_bottom_link, wxGBPosition(cr, 2));
+	add_label_to_sizer (crop, _bottom_crop_label, true, wxGBPosition (cr, 3));
+	_bottom_crop->add (crop, wxGBPosition (cr, 4));
 	add_label_to_sizer (_grid, _crop_label, true, wxGBPosition(r, 0));
 	_grid->Add (crop, wxGBPosition(r, 1));
 	++r;
@@ -738,4 +756,64 @@ VideoPanel::scale_custom_edit_clicked ()
 	d->Destroy ();
 	return r == wxID_OK;
 }
+
+
+void
+VideoPanel::left_right_link_clicked ()
+{
+	right_crop_changed ();
+}
+
+
+void
+VideoPanel::top_bottom_link_clicked ()
+{
+	bottom_crop_changed ();
+}
+
+
+void
+VideoPanel::left_crop_changed ()
+{
+	if (_left_right_link->GetValue()) {
+		BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_video()) {
+			i->video->set_right_crop (i->video->left_crop());
+		}
+	}
+}
+
+
+void
+VideoPanel::right_crop_changed ()
+{
+	if (_left_right_link->GetValue()) {
+		BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_video()) {
+			i->video->set_left_crop (i->video->right_crop());
+		}
+	}
+}
+
+
+void
+VideoPanel::top_crop_changed ()
+{
+	if (_top_bottom_link->GetValue()) {
+		BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_video()) {
+			i->video->set_bottom_crop (i->video->top_crop());
+		}
+	}
+}
+
+
+void
+VideoPanel::bottom_crop_changed ()
+{
+	if (_top_bottom_link->GetValue()) {
+		BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_video()) {
+			i->video->set_top_crop (i->video->bottom_crop());
+		}
+	}
+}
+
+
 

@@ -31,6 +31,7 @@ class wxChoice;
 class wxStaticText;
 class wxSpinCtrl;
 class wxButton;
+class wxToggleButton;
 
 /** @class VideoPanel
  *  @brief The video tab of the film editor.
@@ -57,6 +58,12 @@ private:
 	void scale_fit_clicked ();
 	void scale_custom_clicked ();
 	bool scale_custom_edit_clicked ();
+	void left_right_link_clicked ();
+	void top_bottom_link_clicked ();
+	void left_crop_changed ();
+	void right_crop_changed ();
+	void top_crop_changed ();
+	void bottom_crop_changed ();
 
 	void setup_description ();
 	void setup_sensitivity ();
@@ -69,10 +76,12 @@ private:
 	wxStaticText* _crop_label;
 	wxStaticText* _left_crop_label;
 	ContentSpinCtrl<VideoContent>* _left_crop;
+	wxToggleButton* _left_right_link;
 	wxStaticText* _right_crop_label;
 	ContentSpinCtrl<VideoContent>* _right_crop;
 	wxStaticText* _top_crop_label;
 	ContentSpinCtrl<VideoContent>* _top_crop;
+	wxToggleButton* _top_bottom_link;
 	wxStaticText* _bottom_crop_label;
 	ContentSpinCtrl<VideoContent>* _bottom_crop;
 	wxStaticText* _fade_in_label;
