@@ -159,7 +159,9 @@ private:
 	boost::atomic<int> _suspended;
 	std::list<boost::shared_ptr<Piece> > _pieces;
 
-	/** Size of the image in the DCP (e.g. 1990x1080 for flat) */
+	/** Size of the image we are rendering to; this may be the DCP frame size, or
+	 *  the size of preview in a window.
+	 */
 	dcp::Size _video_container_size;
 	boost::shared_ptr<Image> _black_image;
 

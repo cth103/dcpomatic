@@ -84,6 +84,9 @@ else
     $INKSCAPE tick.png src/tick.svg -w 16 -h 16
     $INKSCAPE no_tick.png src/no_tick.svg -w 16 -h 16
 
+    # Link icon
+    $INKSCAPE link.png src/link.svg -w 9 -h 16
+
     # favicon
     mkdir -p web
     convert src/web.png -resize 256x256 -transparent white web/favicon-256x256.png

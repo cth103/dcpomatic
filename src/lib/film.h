@@ -351,8 +351,8 @@ public:
 	void move_content_earlier (boost::shared_ptr<Content>);
 	void move_content_later (boost::shared_ptr<Content>);
 	void set_dcp_content_type (DCPContentType const *);
-	void set_container (Ratio const *);
-	void set_resolution (Resolution);
+	void set_container (Ratio const *, bool user_explicit = true);
+	void set_resolution (Resolution, bool user_explicit = true);
 	void set_signed (bool);
 	void set_encrypted (bool);
 	void set_key (dcp::Key key);
@@ -409,6 +409,7 @@ private:
 	void maybe_add_content (boost::weak_ptr<Job>, boost::weak_ptr<Content>, bool disable_audio_analysis);
 	void audio_analysis_finished ();
 	void check_settings_consistency ();
+	void maybe_set_container_and_resolution ();
 
 	static std::string const metadata_file;
 
@@ -462,6 +463,8 @@ private:
 	bool _reencode_j2k;
 	/** true if the user has ever explicitly set the video frame rate of this film */
 	bool _user_explicit_video_frame_rate;
+	bool _user_explicit_container;
+	bool _user_explicit_resolution;
 	std::map<dcp::Marker, dcpomatic::DCPTime> _markers;
 	std::vector<dcp::Rating> _ratings;
 	std::string _content_version;

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -22,7 +22,6 @@
 #define DCPOMATIC_VIDEO_CONTENT_H
 
 #include "colour_conversion.h"
-#include "video_content_scale.h"
 #include "dcpomatic_time.h"
 #include "user_property.h"
 #include "types.h"
@@ -48,6 +47,8 @@ public:
 	static int const FADE_IN;
 	static int const FADE_OUT;
 	static int const RANGE;
+	static int const CUSTOM_RATIO;
+	static int const CUSTOM_SIZE;
 };
 
 class VideoContent : public ContentPart, public boost::enable_shared_from_this<VideoContent>
@@ -87,7 +88,9 @@ public:
 	void set_top_crop (int);
 	void set_bottom_crop (int);
 
-	void set_scale (VideoContentScale);
+	void set_custom_ratio (boost::optional<float> ratio);
+	void set_custom_size (boost::optional<dcp::Size> size);
+
 	void unset_colour_conversion ();
 	void set_colour_conversion (ColourConversion);
 
@@ -127,11 +130,18 @@ public:
 		return _crop.bottom;
 	}
 
-	/** @return Description of how to scale this content (if indeed it should be scaled) */
-	VideoContentScale scale () const {
+
+	boost::optional<float> custom_ratio () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _scale;
+		return _custom_ratio;
 	}
+
+
+	boost::optional<dcp::Size> custom_size () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _custom_size;
+	}
+
 
 	boost::optional<ColourConversion> colour_conversion () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -168,15 +178,14 @@ public:
 		return _use;
 	}
 
+	/* XXX: names for these? */
 	dcp::Size size_after_3d_split () const;
 	dcp::Size size_after_crop () const;
+	dcp::Size scaled_size (dcp::Size container_size);
 
 	boost::optional<double> fade (boost::shared_ptr<const Film> film, Frame) const;
 
-	void scale_and_crop_to_fit_width (boost::shared_ptr<const Film> film);
-	void scale_and_crop_to_fit_height (boost::shared_ptr<const Film> film);
-
-	std::string processing_description (boost::shared_ptr<const Film> film) const;
+	std::string processing_description (boost::shared_ptr<const Film> film);
 
 	void set_length (Frame);
 
@@ -194,6 +203,9 @@ private:
 	friend struct best_dcp_frame_rate_test_single;
 	friend struct best_dcp_frame_rate_test_double;
 	friend struct audio_sampling_rate_test;
+	friend struct scaled_size_test1;
+	friend struct scaled_size_test2;
+	friend struct scaled_size_legacy_test;
 
 	VideoContent (Content* parent, cxml::ConstNodePtr, int);
 	void setup_default_colour_conversion ();
@@ -204,7 +216,15 @@ private:
 	dcp::Size _size;
 	VideoFrameType _frame_type;
 	Crop _crop;
-	VideoContentScale _scale;
+	/** ratio to scale cropped image to (or none to guess); i.e. if set, scale to _custom_ratio:1 */
+	boost::optional<float> _custom_ratio;
+	/** size to scale cropped image to; only used if _custom_ratio is none */
+	boost::optional<dcp::Size> _custom_size;
+	/** ratio obtained from an older metadata file; will be used to set up
+	 *  _custom_{ratio,size} (or not, if not required) on the first call to
+	 *  scaled_size()
+	 */
+	boost::optional<float> _legacy_ratio;
 	/** Sample aspect ratio obtained from the content file's header, if there is one */
 	boost::optional<double> _sample_aspect_ratio;
 	bool _yuv;

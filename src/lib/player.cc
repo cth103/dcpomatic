@@ -864,9 +864,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 			video.image,
 			piece->content->video->crop (),
 			piece->content->video->fade (_film, video.frame),
-			piece->content->video->scale().size (
-				piece->content->video, _video_container_size, _film->frame_size ()
-				),
+			scale_for_display(piece->content->video->scaled_size(_film->frame_size()), _video_container_size, _film->frame_size()),
 			_video_container_size,
 			video.eyes,
 			video.part,

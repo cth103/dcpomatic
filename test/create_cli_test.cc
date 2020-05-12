@@ -70,60 +70,53 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	cc = run ("dcpomatic2_create -h");
 	BOOST_REQUIRE (cc.error);
 
-	cc = run ("dcpomatic2_create x --content-ratio 185 --name frobozz --template bar");
+	cc = run ("dcpomatic2_create x --name frobozz --template bar");
 	BOOST_CHECK (!cc.error);
 	BOOST_CHECK_EQUAL (cc.name, "frobozz");
 	BOOST_REQUIRE (cc.template_name);
 	BOOST_CHECK_EQUAL (*cc.template_name, "bar");
 
-	cc = run ("dcpomatic2_create x --content-ratio 185 --dcp-content-type FTR");
+	cc = run ("dcpomatic2_create x --dcp-content-type FTR");
 	BOOST_CHECK (!cc.error);
 	BOOST_CHECK_EQUAL (cc.dcp_content_type, DCPContentType::from_isdcf_name("FTR"));
 
-	cc = run ("dcpomatic2_create x --content-ratio 185 --dcp-frame-rate 30");
+	cc = run ("dcpomatic2_create x --dcp-frame-rate 30");
 	BOOST_CHECK (!cc.error);
 	BOOST_REQUIRE (cc.dcp_frame_rate);
 	BOOST_CHECK_EQUAL (*cc.dcp_frame_rate, 30);
 
-	cc = run ("dcpomatic2_create x --content-ratio 185 --container-ratio 185");
+	cc = run ("dcpomatic2_create x --container-ratio 185");
 	BOOST_CHECK (!cc.error);
 	BOOST_CHECK_EQUAL (cc.container_ratio, Ratio::from_id("185"));
 
-	cc = run ("dcpomatic2_create x --content-ratio 185 --container-ratio XXX");
+	cc = run ("dcpomatic2_create x --container-ratio XXX");
 	BOOST_CHECK (cc.error);
 
-	cc = run ("dcpomatic2_create x --content-ratio 185 --content-ratio 239");
-	BOOST_CHECK (!cc.error);
-	BOOST_CHECK_EQUAL (cc.content_ratio, Ratio::from_id("239"));
-
-	cc = run ("dcpomatic2_create x --content-ratio 240");
-	BOOST_CHECK (cc.error);
-
-	cc = run ("dcpomatic2_create x --content-ratio 185 --still-length 42");
+	cc = run ("dcpomatic2_create x --still-length 42");
 	BOOST_CHECK (!cc.error);
 	BOOST_CHECK_EQUAL (cc.still_length, 42);
 
-	cc = run ("dcpomatic2_create x --content-ratio 185 --standard SMPTE");
+	cc = run ("dcpomatic2_create x --standard SMPTE");
 	BOOST_CHECK (!cc.error);
 	BOOST_CHECK_EQUAL (cc.standard, dcp::SMPTE);
 
-	cc = run ("dcpomatic2_create x --content-ratio 185 --standard SMPTEX");
+	cc = run ("dcpomatic2_create x --standard SMPTEX");
 	BOOST_CHECK (cc.error);
 
-	cc = run ("dcpomatic2_create x --content-ratio 185 --config foo/bar");
+	cc = run ("dcpomatic2_create x --config foo/bar");
 	BOOST_CHECK (!cc.error);
 	BOOST_REQUIRE (cc.config_dir);
 	BOOST_CHECK_EQUAL (*cc.config_dir, "foo/bar");
 
-	cc = run ("dcpomatic2_create x --content-ratio 185 --output fred/jim");
+	cc = run ("dcpomatic2_create x --output fred/jim");
 	BOOST_CHECK (!cc.error);
 	BOOST_REQUIRE (cc.output_dir);
 	BOOST_CHECK_EQUAL (*cc.output_dir, "fred/jim");
 
-	cc = run ("dcpomatic2_create x --content-ratio 185 --outputX fred/jim");
+	cc = run ("dcpomatic2_create x --outputX fred/jim");
 	BOOST_CHECK (cc.error);
 
-	cc = run ("dcpomatic2_create --content-ratio 185 --config foo/bar --still-length 42 --output flaps fred jim sheila");
+	cc = run ("dcpomatic2_create --config foo/bar --still-length 42 --output flaps fred jim sheila");
 	BOOST_CHECK (!cc.error);
 	BOOST_REQUIRE (cc.config_dir);
 	BOOST_CHECK_EQUAL (*cc.config_dir, "foo/bar");
@@ -138,7 +131,7 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK_EQUAL (cc.content[2].path, "sheila");
 	BOOST_CHECK_EQUAL (cc.content[2].frame_type, VIDEO_FRAME_TYPE_2D);
 
-	cc = run ("dcpomatic2_create --content-ratio 185 --left-eye left.mp4 --right-eye right.mp4");
+	cc = run ("dcpomatic2_create --left-eye left.mp4 --right-eye right.mp4");
 	BOOST_REQUIRE_EQUAL (cc.content.size(), 2);
 	BOOST_CHECK_EQUAL (cc.content[0].path, "left.mp4");
 	BOOST_CHECK_EQUAL (cc.content[0].frame_type, VIDEO_FRAME_TYPE_3D_LEFT);
@@ -146,13 +139,13 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK_EQUAL (cc.content[1].frame_type, VIDEO_FRAME_TYPE_3D_RIGHT);
 	BOOST_CHECK_EQUAL (cc.fourk, false);
 
-	cc = run ("dcpomatic2_create --fourk --content-ratio 185 foo.mp4");
+	cc = run ("dcpomatic2_create --fourk foo.mp4");
 	BOOST_REQUIRE_EQUAL (cc.content.size(), 1);
 	BOOST_CHECK_EQUAL (cc.content[0].path, "foo.mp4");
 	BOOST_CHECK_EQUAL (cc.fourk, true);
 	BOOST_CHECK (!cc.error);
 
-	cc = run ("dcpomatic2_create --j2k-bandwidth 120 --content-ratio 185 foo.mp4");
+	cc = run ("dcpomatic2_create --j2k-bandwidth 120 foo.mp4");
 	BOOST_REQUIRE_EQUAL (cc.content.size(), 1);
 	BOOST_CHECK_EQUAL (cc.content[0].path, "foo.mp4");
 	BOOST_REQUIRE (cc.j2k_bandwidth);

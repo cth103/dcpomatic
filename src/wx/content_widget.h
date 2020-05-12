@@ -52,6 +52,7 @@ public:
 	 *  @param part Part of Content that the property is in (e.g. &Content::video)
 	 *  @param model_getter Function on the Content to get the value.
 	 *  @param model_setter Function on the Content to set the value.
+	 *  @param view_changed Function called when the view has changed; useful for linking controls.
 	 *  @param view_to_model Function to convert a view value to a model value.
 	 *  @param model_to_view Function to convert a model value to a view value.
 	 */
@@ -62,6 +63,7 @@ public:
 		boost::function<boost::shared_ptr<S> (Content*)> part,
 		boost::function<U (S*)> model_getter,
 		boost::function<void (S*, U)> model_setter,
+		boost::function<void ()> view_changed,
 		boost::function<U (V)> view_to_model,
 		boost::function<V (U)> model_to_view
 		)
@@ -72,6 +74,7 @@ public:
 		, _part (part)
 		, _model_getter (model_getter)
 		, _model_setter (model_setter)
+		, _view_changed (view_changed)
 		, _view_to_model (view_to_model)
 		, _model_to_view (model_to_view)
 		, _ignore_model_changes (false)
@@ -146,6 +149,9 @@ public:
 		for (size_t i = 0; i < _content.size(); ++i) {
 			boost::bind (_model_setter, _part (_content[i].get()).get(), _view_to_model (wx_get (_wrapped))) ();
 		}
+		if (_view_changed) {
+			_view_changed ();
+		}
 		_ignore_model_changes = false;
 	}
 
@@ -207,6 +213,7 @@ private:
 	boost::function<boost::shared_ptr<S> (Content *)> _part;
 	boost::function<U (S*)> _model_getter;
 	boost::function<void (S*, U)> _model_setter;
+	boost::function<void ()> _view_changed;
 	boost::function<U (V)> _view_to_model;
 	boost::function<V (U)> _model_to_view;
 	std::list<boost::signals2::connection> _connections;
@@ -229,7 +236,8 @@ public:
 		int property,
 		boost::function<boost::shared_ptr<S> (Content *)> part,
 		boost::function<int (S*)> getter,
-		boost::function<void (S*, int)> setter
+		boost::function<void (S*, int)> setter,
+		boost::function<void ()> view_changed = boost::function<void ()>()
 		)
 		: ContentWidget<S, wxSpinCtrl, int, int> (
 			parent,
@@ -237,6 +245,7 @@ public:
 			property,
 			part,
 			getter, setter,
+			view_changed,
 			&caster<int, int>,
 			&caster<int, int>
 			)
@@ -255,7 +264,8 @@ public:
 		int property,
 		boost::function<boost::shared_ptr<S> (Content *)> part,
 		boost::function<double (S*)> getter,
-		boost::function<void (S*, double)> setter
+		boost::function<void (S*, double)> setter,
+		boost::function<void ()> view_changed = boost::function<void ()>()
 		)
 		: ContentWidget<S, wxSpinCtrlDouble, double, double> (
 			parent,
@@ -263,6 +273,7 @@ public:
 			property,
 			part,
 			getter, setter,
+			view_changed,
 			&caster<double, double>,
 			&caster<double, double>
 			)
@@ -283,7 +294,8 @@ public:
 		boost::function<U (S*)> getter,
 		boost::function<void (S*, U)> setter,
 		boost::function<U (int)> view_to_model,
-		boost::function<int (U)> model_to_view
+		boost::function<int (U)> model_to_view,
+		boost::function<void ()> view_changed = boost::function<void()>()
 		)
 		: ContentWidget<S, wxChoice, U, int> (
 			parent,
@@ -292,6 +304,7 @@ public:
 			part,
 			getter,
 			setter,
+			view_changed,
 			view_to_model,
 			model_to_view
 			)

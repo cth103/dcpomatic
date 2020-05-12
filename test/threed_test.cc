@@ -49,7 +49,6 @@ BOOST_AUTO_TEST_CASE (threed_test1)
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	c->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT_RIGHT);
-	c->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
@@ -72,7 +71,6 @@ BOOST_AUTO_TEST_CASE (threed_test2)
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	c->video->set_frame_type (VIDEO_FRAME_TYPE_3D_ALTERNATE);
-	c->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));

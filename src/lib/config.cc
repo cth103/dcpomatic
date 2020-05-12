@@ -99,7 +99,6 @@ Config::set_defaults ()
 	_language = optional<string> ();
 	_default_still_length = 10;
 	_default_container = Ratio::from_id ("185");
-	_default_scale_to = 0;
 	_default_dcp_content_type = DCPContentType::from_isdcf_name ("FTR");
 	_default_dcp_audio_channels = 6;
 	_default_j2k_bandwidth = 150000000;
@@ -307,11 +306,6 @@ try
 	if (_default_container && !_default_container->used_for_container()) {
 		Warning (_("Your default container is not valid and has been changed to Flat (1.85:1)"));
 		_default_container = Ratio::from_id ("185");
-	}
-
-	c = f.optional_string_child ("DefaultScaleTo");
-	if (c) {
-		_default_scale_to = Ratio::from_id (c.get ());
 	}
 
 	_default_dcp_content_type = DCPContentType::from_isdcf_name(f.optional_string_child("DefaultDCPContentType").get_value_or("FTR"));
@@ -718,12 +712,6 @@ Config::write_config () const
 		   <code>190</code>).
 		*/
 		root->add_child("DefaultContainer")->add_child_text (_default_container->id ());
-	}
-	if (_default_scale_to) {
-		/* [XML:opt] DefaultScaleTo ID of default ratio to scale content to when creating new films
-		   (see <code>DefaultContainer</code> for IDs).
-		*/
-		root->add_child("DefaultScaleTo")->add_child_text (_default_scale_to->id ());
 	}
 	if (_default_dcp_content_type) {
 		/* [XML:opt] DefaultDCPContentType Default content type ot use when creating new films (<code>FTR</code>, <code>SHR</code>,

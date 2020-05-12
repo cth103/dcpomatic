@@ -50,8 +50,6 @@ BOOST_AUTO_TEST_CASE (fourk_test)
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	c->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
-
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 

@@ -96,8 +96,10 @@ print_dump (shared_ptr<Film> film)
 			     << "\tcrop left " << c->video->left_crop()
 			     << " right " << c->video->right_crop()
 			     << " top " << c->video->top_crop()
-			     << " bottom " << c->video->bottom_crop() << "\n"
-			     << "\tscale " << c->video->scale().name() << "\n";
+			     << " bottom " << c->video->bottom_crop() << "\n";
+			if (c->video->custom_ratio()) {
+				cout << "\tscale to custom ratio " << *c->video->custom_ratio() << ":1\n";
+			}
 			if (c->video->colour_conversion()) {
 				if (c->video->colour_conversion().get().preset()) {
 					cout << "\tcolour conversion "

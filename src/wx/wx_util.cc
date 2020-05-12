@@ -567,3 +567,26 @@ get_offsets (vector<Offset>& offsets)
 
 	return utc;
 }
+
+
+wxString
+bitmap_path (string name)
+{
+	boost::filesystem::path base;
+
+#ifdef DCPOMATIC_DEBUG
+	/* Hack to allow OS X to find icons when running from the source tree */
+	char* path = getenv ("DCPOMATIC_GRAPHICS");
+	if (path) {
+		base = path;
+	} else {
+		base = shared_path();
+	}
+#else
+	base = shared_path();
+#endif
+
+	boost::filesystem::path p = base / String::compose("%1.png", name);
+	return std_to_wx (p.string());
+}
+

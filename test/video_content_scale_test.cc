@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,188 +18,128 @@
 
 */
 
-/** @file  test/video_content_scale_test.cc
- *  @brief Test VideoContentScale
- *  @ingroup selfcontained
- */
 
-#include "lib/ffmpeg_content.h"
 #include "lib/ratio.h"
 #include "lib/video_content.h"
-#include <dcp/raw_convert.h>
 #include <boost/test/unit_test.hpp>
 
-using std::list;
-using std::string;
-using std::cerr;
-using boost::shared_ptr;
-using boost::optional;
-using dcp::raw_convert;
 
-static
-void
-test (dcp::Size content_size, dcp::Size display_size, dcp::Size film_size, Crop crop, Ratio const * ratio, bool scale, dcp::Size correct)
+static dcp::Size const FOUR_TO_THREE(1436, 1080);
+static dcp::Size const FLAT(1998, 1080);
+static dcp::Size const SCOPE(2048, 858);
+
+
+/* Test VideoContent::scaled_size() without any legacy stuff */
+BOOST_AUTO_TEST_CASE (scaled_size_test1)
 {
-	shared_ptr<Film> film;
-	string s = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-		"<Content>"
-		"<Type>FFmpeg</Type>"
-		"<Path>/home/c.hetherington/DCP/prophet_long_clip.mkv</Path>"
-		"<Digest>f3f23663da5bef6d2cbaa0db066f3351314142710</Digest>"
-		"<Position>0</Position>"
-		"<TrimStart>0</TrimStart>"
-		"<TrimEnd>0</TrimEnd>"
-		"<VideoLength>2879</VideoLength>"
-		"<VideoWidth>" + raw_convert<string>(content_size.width) + "</VideoWidth>"
-		"<VideoHeight>" + raw_convert<string>(content_size.height) + "</VideoHeight>"
-		"<VideoFrameRate>23.97602462768555</VideoFrameRate>"
-		"<OriginalVideoFrameRate>23.97602462768555</OriginalVideoFrameRate>"
-		"<VideoFrameType>0</VideoFrameType>"
-		"<SampleAspectRatio>1</SampleAspectRatio>"
-		"<BitsPerPixel>12</BitsPerPixel>"
-		"<LeftCrop>" + raw_convert<string>(crop.left) + "</LeftCrop>"
-		"<RightCrop>" + raw_convert<string>(crop.right) + "</RightCrop>"
-		"<TopCrop>" + raw_convert<string>(crop.top) + "</TopCrop>"
-		"<BottomCrop>" + raw_convert<string>(crop.bottom) + "</BottomCrop>"
-		"<Scale>";
+	VideoContent vc (0);
 
-	if (ratio) {
-		s += "<Ratio>" + ratio->id() + "</Ratio>";
-	} else {
-		s += "<Scale>" + string(scale ? "1" : "0") + "</Scale>";
-	}
+	/* Images at full size and in DCP-approved sizes that will not be scaled */
+	// Flat/scope content into flat/scope container
+	vc._size = FLAT;
+	BOOST_CHECK_EQUAL (vc.scaled_size(FLAT), FLAT);
+	vc._size = SCOPE;
+	BOOST_CHECK_EQUAL (vc.scaled_size(SCOPE), SCOPE);
+	// 1.33:1 into flat container
+	vc._size = FOUR_TO_THREE;
+	BOOST_CHECK_EQUAL (vc.scaled_size(FLAT), dcp::Size(FOUR_TO_THREE));
+	// Scope into flat container
+	vc._size = SCOPE;
+	BOOST_CHECK_EQUAL (vc.scaled_size(FLAT), dcp::Size(1998, 837));
 
-	s += "</Scale>"
-		"<ColourConversion>"
-		"<InputGamma>2.4</InputGamma>"
-		"<InputGammaLinearised>1</InputGammaLinearised>"
-		"<Matrix i=\"0\" j=\"0\">0.4124564</Matrix>"
-		"<Matrix i=\"0\" j=\"1\">0.3575761</Matrix>"
-		"<Matrix i=\"0\" j=\"2\">0.1804375</Matrix>"
-		"<Matrix i=\"1\" j=\"0\">0.2126729</Matrix>"
-		"<Matrix i=\"1\" j=\"1\">0.7151522</Matrix>"
-		"<Matrix i=\"1\" j=\"2\">0.072175</Matrix>"
-		"<Matrix i=\"2\" j=\"0\">0.0193339</Matrix>"
-		"<Matrix i=\"2\" j=\"1\">0.119192</Matrix>"
-		"<Matrix i=\"2\" j=\"2\">0.9503041</Matrix>"
-		"<OutputGamma>2.6</OutputGamma>"
-		"</ColourConversion>"
-		"<AudioGain>0</AudioGain>"
-		"<AudioDelay>0</AudioDelay>"
-		"<SubtitleXOffset>0</SubtitleXOffset>"
-		"<SubtitleYOffset>0</SubtitleYOffset>"
-		"<SubtitleXScale>0</SubtitleXScale>"
-		"<SubtitleYScale>0</SubtitleYScale>"
-		"</Content>";
+	/* Smaller images but in the same ratios */
+	vc._size = dcp::Size(185, 100);
+	BOOST_CHECK_EQUAL (vc.scaled_size(FLAT), FLAT);
+	vc._size = dcp::Size(955, 400);
+	BOOST_CHECK_EQUAL (vc.scaled_size(SCOPE), SCOPE);
+	// 1.33:1 into flat container
+	vc._size = dcp::Size(133, 100);
+	BOOST_CHECK_EQUAL (vc.scaled_size(FLAT), dcp::Size(FOUR_TO_THREE));
+	// Scope into flat container
+	vc._size = dcp::Size(239, 100);
+	BOOST_CHECK_EQUAL (vc.scaled_size(FLAT), dcp::Size(1998, 836));
 
-	shared_ptr<cxml::Document> doc (new cxml::Document ());
-	doc->read_string (s);
+	/* Images at full size that are not DCP-approved but will still remain unscaled */
+	vc._size = dcp::Size(600, 1080);
+	BOOST_CHECK_EQUAL (vc.scaled_size(FLAT), dcp::Size(600, 1080));
+	vc._size = dcp::Size(1700, 1080);
+	BOOST_CHECK_EQUAL (vc.scaled_size(FLAT), dcp::Size(1700, 1080));
 
-	list<string> notes;
-	shared_ptr<FFmpegContent> vc (new FFmpegContent (doc, 10, notes));
-
-	optional<VideoContentScale> sc;
-	if (ratio) {
-		sc = VideoContentScale (ratio);
-	} else {
-		sc = VideoContentScale (scale);
-	}
-
-	dcp::Size answer = sc.get().size (vc->video, display_size, film_size);
-	if (answer != correct) {
-		cerr << "Testing " << vc->video->size().width << "x" << vc->video->size().height << "\n";
-		cerr << "Testing " << display_size.width << "x" << display_size.height << "\n";
-		cerr << answer.width << "x" << answer.height << " instead of " << correct.width << "x" << correct.height << "\n";
-	}
-	BOOST_CHECK (answer == correct);
+	/* Image at full size that is too big for the container and will be shrunk */
+	vc._size = dcp::Size(3000, 1080);
+	BOOST_CHECK_EQUAL (vc.scaled_size(FLAT), dcp::Size(1998, 719));
 }
 
-/* Test scale and stretch to specified ratio */
-BOOST_AUTO_TEST_CASE (video_content_scale_test_to_ratio)
+
+/* Same as scaled_size_test1 but with a non-unity sample aspect ratio */
+BOOST_AUTO_TEST_CASE (scaled_size_test2)
 {
-	/* To DCP */
+	VideoContent vc (0);
 
-	// Flat in flat container
-	test (
-		dcp::Size (400, 200),
-		dcp::Size (1998, 1080),
-		dcp::Size (1998, 1080),
-		Crop (0, 0, 0, 0),
-		Ratio::from_id ("185"),
-		true,
-		dcp::Size (1998, 1080)
-		);
+	vc._sample_aspect_ratio = 2;
 
-	// Scope in flat container
-	test (
-		dcp::Size (400, 200),
-		dcp::Size (1998, 1080),
-		dcp::Size (1998, 1080),
-		Crop (0, 0, 0, 0),
-		Ratio::from_id ("239"),
-		true,
-		dcp::Size (1998, 837)
-		);
+	/* Images at full size and in DCP-approved sizes that will not be scaled */
+	// Flat/scope content into flat/scope container
+	vc._size = dcp::Size (1998 / 2, 1080);
+	BOOST_CHECK_EQUAL (vc.scaled_size(FLAT), FLAT);
+	vc._size = dcp::Size (2048 / 2, 858);
+	BOOST_CHECK_EQUAL (vc.scaled_size(SCOPE), SCOPE);
+	// 1.33:1 into flat container
+	vc._size = dcp::Size (1436 / 2, 1080);
+	BOOST_CHECK_EQUAL (vc.scaled_size(FLAT), dcp::Size(FOUR_TO_THREE));
+	// Scope into flat container
+	vc._size = dcp::Size (2048 / 2, 858);
+	BOOST_CHECK_EQUAL (vc.scaled_size(FLAT), dcp::Size(1998, 837));
 
-	// Flat in scope container
-	test (
-		dcp::Size (400, 200),
-		dcp::Size (2048, 858),
-		dcp::Size (2048, 858),
-		Crop (0, 0, 0, 0),
-		Ratio::from_id ("185"),
-		true,
-		dcp::Size (1587, 858)
-		);
+	/* Smaller images but in the same ratios */
+	vc._size = dcp::Size(185, 200);
+	BOOST_CHECK_EQUAL (vc.scaled_size(FLAT), FLAT);
+	vc._size = dcp::Size(955, 800);
+	BOOST_CHECK_EQUAL (vc.scaled_size(SCOPE), SCOPE);
+	// 4:3 into flat container
+	vc._size = dcp::Size(133, 200);
+	BOOST_CHECK_EQUAL (vc.scaled_size(FLAT), dcp::Size(FOUR_TO_THREE));
+	// Scope into flat container
+	vc._size = dcp::Size(239, 200);
+	BOOST_CHECK_EQUAL (vc.scaled_size(FLAT), dcp::Size(1998, 836));
 
+	/* Images at full size that are not DCP-approved but will still remain unscaled */
+	vc._size = dcp::Size(600 / 2, 1080);
+	BOOST_CHECK_EQUAL (vc.scaled_size(FLAT), dcp::Size(600, 1080));
+	vc._size = dcp::Size(1700 / 2, 1080);
+	BOOST_CHECK_EQUAL (vc.scaled_size(FLAT), dcp::Size(1700, 1080));
 
-	/* To player */
-
-	// Flat in flat container
-	test (
-		dcp::Size (400, 200),
-		dcp::Size (185, 100),
-		dcp::Size (1998, 1080),
-		Crop (0, 0, 0, 0),
-		Ratio::from_id ("185"),
-		true,
-		dcp::Size (185, 100)
-		);
-
-	// Scope in flat container
-	test (
-		dcp::Size (400, 200),
-		dcp::Size (185, 100),
-		dcp::Size (1998, 1080),
-		Crop (0, 0, 0, 0),
-		Ratio::from_id ("239"),
-		true,
-		dcp::Size (185, 78)
-		);
-
-	// Flat in scope container
-	test (
-		dcp::Size (400, 200),
-		dcp::Size (239, 100),
-		dcp::Size (2048, 858),
-		Crop (0, 0, 0, 0),
-		Ratio::from_id ("185"),
-		true,
-		dcp::Size (185, 100)
-		);
+	/* Image at full size that is too big for the container and will be shrunk */
+	vc._size = dcp::Size(3000 / 2, 1080);
+	BOOST_CHECK_EQUAL (vc.scaled_size(FLAT), dcp::Size(1998, 719));
 }
 
-/* Test no scale */
-BOOST_AUTO_TEST_CASE (video_content_scale_no_scale)
+
+/* Test VideoContent::scaled_size() with some legacy stuff */
+BOOST_AUTO_TEST_CASE (scaled_size_legacy_test)
 {
-       /* No scale where the content is bigger than even the film container */
-       test (
-               dcp::Size (1920, 1080),
-               dcp::Size (887, 371),
-               dcp::Size (2048, 858),
-               Crop (),
-               0,
-               false,
-               dcp::Size (659, 371)
-               );
+	{
+		/* 640x480 content that the user had asked to be stretched to 1.85:1 */
+		VideoContent vc (0);
+		vc._size = dcp::Size(640, 480);
+		vc._legacy_ratio = Ratio::from_id("185")->ratio();
+		BOOST_CHECK_EQUAL (vc.scaled_size(FLAT), FLAT);
+	}
+
+	{
+		/* 640x480 content that the user had asked to be scaled to fit the container, without stretch */
+		VideoContent vc (0);
+		vc._size = dcp::Size(640, 480);
+		vc._legacy_ratio = 1.33;
+		BOOST_CHECK_EQUAL (vc.scaled_size(FLAT), FOUR_TO_THREE);
+	}
+
+	{
+		/* 640x480 content that the user had asked to be kept the same size */
+		VideoContent vc (0);
+		vc._size = dcp::Size(640, 480);
+		vc._custom_size = dcp::Size(640, 480);
+		BOOST_CHECK_EQUAL (vc.scaled_size(FLAT), dcp::Size(640, 480));
+	}
 }
+

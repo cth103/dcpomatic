@@ -48,7 +48,6 @@ BOOST_AUTO_TEST_CASE (skip_frame_test)
 
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	c->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	film->write_metadata ();
 
 	film->set_video_frame_rate (24);

@@ -116,6 +116,7 @@ extern void copy_in_bits (boost::filesystem::path from, boost::filesystem::path 
 extern boost::shared_ptr<dcp::CertificateChain> read_swaroop_chain (boost::filesystem::path path);
 extern void write_swaroop_chain (boost::shared_ptr<const dcp::CertificateChain> chain, boost::filesystem::path output);
 #endif
+extern dcp::Size scale_for_display (dcp::Size s, dcp::Size display_container, dcp::Size film_container);
 
 template <class T>
 std::list<T>

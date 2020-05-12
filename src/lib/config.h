@@ -186,10 +186,6 @@ public:
 		return _default_container;
 	}
 
-	Ratio const * default_scale_to () const {
-		return _default_scale_to;
-	}
-
 	DCPContentType const * default_dcp_content_type () const {
 		return _default_dcp_content_type;
 	}
@@ -684,10 +680,6 @@ public:
 
 	void set_default_container (Ratio const * c) {
 		maybe_set (_default_container, c);
-	}
-
-	void set_default_scale_to (Ratio const * c) {
-		maybe_set (_default_scale_to, c);
 	}
 
 	void set_default_dcp_content_type (DCPContentType const * t) {
@@ -1233,7 +1225,6 @@ private:
  	/** Default length of still image content (seconds) */
 	int _default_still_length;
 	Ratio const * _default_container;
-	Ratio const * _default_scale_to;
 	DCPContentType const * _default_dcp_content_type;
 	int _default_dcp_audio_channels;
 	std::string _dcp_issuer;

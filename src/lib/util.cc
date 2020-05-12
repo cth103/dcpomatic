@@ -394,7 +394,6 @@ dcpomatic_setup ()
 
 	Ratio::setup_ratios ();
 	PresetColourConversion::setup_colour_conversion_presets ();
-	VideoContentScale::setup_scales ();
 	DCPContentType::setup_dcp_content_types ();
 	Filter::setup_filters ();
 	CinemaSoundProcessor::setup_cinema_sound_processors ();
@@ -1182,5 +1181,23 @@ double
 linear_to_db (double linear)
 {
 	return 20 * log10(linear);
+}
+
+
+dcp::Size
+scale_for_display (dcp::Size s, dcp::Size display_container, dcp::Size film_container)
+{
+	/* Now scale it down if the display container is smaller than the film container */
+	if (display_container != film_container) {
+		float const scale = min (
+			float (display_container.width) / film_container.width,
+			float (display_container.height) / film_container.height
+			);
+
+		s.width = lrintf (s.width * scale);
+		s.height = lrintf (s.height * scale);
+	}
+
+	return s;
 }
 

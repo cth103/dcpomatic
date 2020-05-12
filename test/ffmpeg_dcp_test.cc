@@ -46,8 +46,6 @@ BOOST_AUTO_TEST_CASE (ffmpeg_dcp_test)
 
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	c->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
-
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	film->make_dcp ();
