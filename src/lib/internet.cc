@@ -79,24 +79,25 @@ get_from_url (string url, bool pasv, bool skip_pasv_ip, ScopedTemporary& temp)
 	return optional<string>();
 }
 
+
 optional<string>
-get_from_url (string url, bool pasv, bool skip_pasv_ip, function<void (boost::filesystem::path)> load)
+get_from_url (string url, bool pasv, bool skip_pasv_ip, function<optional<string> (boost::filesystem::path)> load)
 {
 	ScopedTemporary temp;
 	optional<string> e = get_from_url (url, pasv, skip_pasv_ip, temp);
 	if (e) {
 		return e;
 	}
-	load (temp.file());
-	return optional<string>();
+	return load (temp.file());
 }
+
 
 /** @param url URL of ZIP file.
  *  @param file Filename within ZIP file.
  *  @param load Function passed a (temporary) filesystem path of the unpacked file.
  */
 optional<string>
-get_from_zip_url (string url, string file, bool pasv, bool skip_pasv_ip, function<void (boost::filesystem::path)> load)
+get_from_zip_url (string url, string file, bool pasv, bool skip_pasv_ip, function<optional<string> (boost::filesystem::path)> load)
 {
 	/* Download the ZIP file to temp_zip */
 	ScopedTemporary temp_zip;
@@ -153,6 +154,5 @@ get_from_zip_url (string url, string file, bool pasv, bool skip_pasv_ip, functio
 	zip_close (zip);
 	temp_cert.close ();
 
-	load (temp_cert.file ());
-	return optional<string> ();
+	return load (temp_cert.file());
 }

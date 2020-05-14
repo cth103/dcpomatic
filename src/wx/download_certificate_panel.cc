@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -22,10 +22,12 @@
 #include "download_certificate_panel.h"
 #include "download_certificate_dialog.h"
 #include "lib/signal_manager.h"
+#include "lib/compose.hpp"
 #include <dcp/util.h>
 #include <dcp/exceptions.h>
 #include <boost/bind.hpp>
 
+using std::string;
 using boost::function;
 using boost::optional;
 
@@ -51,14 +53,15 @@ DownloadCertificatePanel::DownloadCertificatePanel (DownloadCertificateDialog* d
 	_overall_sizer->SetSizeHints (this);
 }
 
-void
+optional<string>
 DownloadCertificatePanel::load (boost::filesystem::path file)
 {
 	try {
 		_certificate = dcp::Certificate (dcp::file_to_string (file));
 	} catch (dcp::MiscError& e) {
-		error_dialog (this, _("Could not read certificate file."), std_to_wx(e.what()));
+		return String::compose(wx_to_std(_("Could not read certificate file (%1)")), e.what());
 	}
+	return optional<string>();
 }
 
 optional<dcp::Certificate>
