@@ -37,7 +37,7 @@ public:
 	virtual bool ready_to_download () const;
 
 	void download ();
-	void load (boost::filesystem::path);
+	boost::optional<std::string> load (boost::filesystem::path);
 	boost::optional<dcp::Certificate> certificate () const;
 
 protected:

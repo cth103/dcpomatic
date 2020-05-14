@@ -76,7 +76,7 @@ ChristieCertificatePanel::do_download ()
 		_dialog->message()->SetLabel(wxT(""));
 		error_dialog (this, std_to_wx(*all_errors));
 	} else {
-		_dialog->message()->SetLabel (_("Certificate downloaded"));
+		_dialog->message()->SetLabel (_("Certificate dowloaded"));
 		_dialog->setup_sensitivity ();
 	}
 }
