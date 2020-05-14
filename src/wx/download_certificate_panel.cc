@@ -24,6 +24,7 @@
 #include "lib/signal_manager.h"
 #include "lib/compose.hpp"
 #include <dcp/util.h>
+#include <dcp/certificate_chain.h>
 #include <dcp/exceptions.h>
 #include <boost/bind.hpp>
 
@@ -53,8 +54,9 @@ DownloadCertificatePanel::DownloadCertificatePanel (DownloadCertificateDialog* d
 	_overall_sizer->SetSizeHints (this);
 }
 
+
 optional<string>
-DownloadCertificatePanel::load (boost::filesystem::path file)
+DownloadCertificatePanel::load_certificate (boost::filesystem::path file)
 {
 	try {
 		_certificate = dcp::Certificate (dcp::file_to_string (file));
@@ -63,6 +65,19 @@ DownloadCertificatePanel::load (boost::filesystem::path file)
 	}
 	return optional<string>();
 }
+
+
+optional<string>
+DownloadCertificatePanel::load_certificate_from_chain (boost::filesystem::path file)
+{
+	try {
+		_certificate = dcp::CertificateChain (dcp::file_to_string(file)).leaf();
+	} catch (dcp::MiscError& e) {
+		return String::compose(wx_to_std(_("Could not read certificate file (%1)")), e.what());
+	}
+	return optional<string>();
+}
+
 
 optional<dcp::Certificate>
 DownloadCertificatePanel::certificate () const
