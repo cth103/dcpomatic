@@ -83,7 +83,7 @@ private:
 	boost::asio::io_service _prepare_service;
 	boost::shared_ptr<boost::asio::io_service::work> _prepare_work;
 
-	/** mutex to protect _pending_seek_position, _pending_seek_acurate, _finished, _died, _stop_thread */
+	/** mutex to protect _pending_seek_position, _pending_seek_accurate, _finished, _died, _stop_thread */
 	boost::mutex _mutex;
 	boost::condition _summon;
 	boost::condition _arrived;
