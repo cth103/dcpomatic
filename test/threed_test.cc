@@ -105,8 +105,6 @@ BOOST_AUTO_TEST_CASE (threed_test3)
 
 BOOST_AUTO_TEST_CASE (threed_test4)
 {
-	Config::instance()->set_master_encoding_threads (8);
-
 	shared_ptr<Film> film = new_test_film2 ("threed_test4");
 	shared_ptr<FFmpegContent> L (new FFmpegContent(TestPaths::private_data / "LEFT_TEST_DCP3D4K.mov"));
 	film->examine_and_add_content (L);
@@ -122,14 +120,10 @@ BOOST_AUTO_TEST_CASE (threed_test4)
 	film->write_metadata ();
 
 	BOOST_REQUIRE (!wait_for_jobs ());
-
-	Config::instance()->set_master_encoding_threads (8);
 }
 
 BOOST_AUTO_TEST_CASE (threed_test5)
 {
-	Config::instance()->set_master_encoding_threads (8);
-
 	shared_ptr<Film> film = new_test_film2 ("threed_test5");
 	shared_ptr<FFmpegContent> L (new FFmpegContent(TestPaths::private_data / "boon_telly.mkv"));
 	film->examine_and_add_content (L);
@@ -145,8 +139,6 @@ BOOST_AUTO_TEST_CASE (threed_test5)
 	film->write_metadata ();
 
 	BOOST_REQUIRE (!wait_for_jobs ());
-
-	Config::instance()->set_master_encoding_threads (1);
 }
 
 BOOST_AUTO_TEST_CASE (threed_test6)

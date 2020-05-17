@@ -77,7 +77,7 @@ boost::filesystem::path TestPaths::xsd = boost::filesystem::canonical(boost::fil
 void
 setup_test_config ()
 {
-	Config::instance()->set_master_encoding_threads (1);
+	Config::instance()->set_master_encoding_threads (boost::thread::hardware_concurrency());
 	Config::instance()->set_server_encoding_threads (1);
 	Config::instance()->set_server_port_base (61921);
 	Config::instance()->set_default_isdcf_metadata (ISDCFMetadata ());

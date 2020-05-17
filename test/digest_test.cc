@@ -72,10 +72,9 @@ BOOST_AUTO_TEST_CASE (digest_test)
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	Config::instance()->set_master_encoding_threads (4);
+	BOOST_CHECK (Config::instance()->master_encoding_threads() > 1);
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
-	Config::instance()->set_master_encoding_threads (1);
 
 	dcp::DCP dcp (film->dir (film->dcp_name ()));
 	dcp.read ();
