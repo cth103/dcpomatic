@@ -151,7 +151,7 @@ Player::setup_pieces ()
 bool
 have_video (shared_ptr<const Content> content)
 {
-	return static_cast<bool>(content->video);
+	return static_cast<bool>(content->video) && content->video->use();
 }
 
 bool
