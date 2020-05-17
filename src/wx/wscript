@@ -40,6 +40,7 @@ sources = """
           config_dialog.cc
           config_move_dialog.cc
           confirm_kdm_email_dialog.cc
+          content_advanced_dialog.cc
           content_colour_conversion_dialog.cc
           content_menu.cc
           content_panel.cc

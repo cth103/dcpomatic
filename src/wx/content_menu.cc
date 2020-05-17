@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,6 +24,7 @@
 #include "timeline_video_content_view.h"
 #include "timeline_audio_content_view.h"
 #include "content_properties_dialog.h"
+#include "content_advanced_dialog.h"
 #include "lib/playlist.h"
 #include "lib/film.h"
 #include "lib/image_content.h"
@@ -58,6 +59,7 @@ enum {
 	ID_join,
 	ID_find_missing,
 	ID_properties,
+	ID_advanced,
 	ID_re_examine,
 	ID_kdm,
 	ID_ov,
@@ -75,6 +77,7 @@ ContentMenu::ContentMenu (wxWindow* p)
 	_join = _menu->Append (ID_join, _("Join"));
 	_find_missing = _menu->Append (ID_find_missing, _("Find missing..."));
 	_properties = _menu->Append (ID_properties, _("Properties..."));
+	_advanced = _menu->Append (ID_advanced, _("Advanced settings..."));
 	_re_examine = _menu->Append (ID_re_examine, _("Re-examine..."));
 	_menu->AppendSeparator ();
 	_kdm = _menu->Append (ID_kdm, _("Add KDM..."));
@@ -89,6 +92,7 @@ ContentMenu::ContentMenu (wxWindow* p)
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::join, this), ID_join);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::find_missing, this), ID_find_missing);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::properties, this), ID_properties);
+	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::advanced, this), ID_advanced);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::re_examine, this), ID_re_examine);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::kdm, this), ID_kdm);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::ov, this), ID_ov);
@@ -122,6 +126,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 
 	_find_missing->Enable (_content.size() == 1 && !_content.front()->paths_valid ());
 	_properties->Enable (_content.size() == 1);
+	_advanced->Enable (_content.size() == 1);
 	_re_examine->Enable (!_content.empty ());
 
 	if (_content.size() == 1) {
@@ -444,6 +449,16 @@ ContentMenu::properties ()
 	d->ShowModal ();
 	d->Destroy ();
 }
+
+
+void
+ContentMenu::advanced ()
+{
+	ContentAdvancedDialog* d = new ContentAdvancedDialog (_parent, _content.front());
+	d->ShowModal ();
+	d->Destroy ();
+}
+
 
 void
 ContentMenu::cpl_selected (wxCommandEvent& ev)

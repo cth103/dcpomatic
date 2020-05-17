@@ -43,6 +43,7 @@ private:
 	void join ();
 	void find_missing ();
 	void properties ();
+	void advanced ();
 	void re_examine ();
 	void kdm ();
 	void ov ();
@@ -63,6 +64,7 @@ private:
 	wxMenuItem* _join;
 	wxMenuItem* _find_missing;
 	wxMenuItem* _properties;
+	wxMenuItem* _advanced;
 	wxMenuItem* _re_examine;
 	wxMenuItem* _kdm;
 	wxMenuItem* _ov;
