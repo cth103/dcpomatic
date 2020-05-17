@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/empty_test.cc
+ *  @brief Test the creation of Empty objects.
+ *  @ingroup specific
+ */
+
 #include "lib/film.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ratio.h"
