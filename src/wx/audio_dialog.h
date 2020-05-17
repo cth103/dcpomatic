@@ -26,12 +26,13 @@
 #include <boost/signals2.hpp>
 
 class AudioPlot;
+class FilmViewer;
 class Film;
 
 class AudioDialog : public wxDialog
 {
 public:
-	AudioDialog (wxWindow* parent, boost::shared_ptr<Film> film, boost::shared_ptr<Content> content = boost::shared_ptr<Content> ());
+	AudioDialog (wxWindow* parent, boost::shared_ptr<Film> film, boost::weak_ptr<FilmViewer> viewer, boost::shared_ptr<Content> content = boost::shared_ptr<Content>());
 
 	bool Show (bool show = true);
 
@@ -49,6 +50,7 @@ private:
 
 	boost::shared_ptr<AudioAnalysis> _analysis;
 	boost::weak_ptr<Film> _film;
+	boost::weak_ptr<FilmViewer> _viewer;
 	/** content to analyse, or 0 to analyse all the film's content */
 	boost::weak_ptr<Content> _content;
 	int _channels;

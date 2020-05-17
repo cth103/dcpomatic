@@ -1020,7 +1020,7 @@ DCPPanel::show_audio_clicked ()
 		_audio_dialog = 0;
 	}
 
-	AudioDialog* d = new AudioDialog (_panel, _film);
+	AudioDialog* d = new AudioDialog (_panel, _film, _viewer);
 	d->Show ();
 }
 

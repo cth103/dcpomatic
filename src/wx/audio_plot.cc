@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,10 +19,11 @@
 */
 
 #include "audio_plot.h"
+#include "wx_util.h"
+#include "film_viewer.h"
 #include "lib/audio_decoder.h"
 #include "lib/audio_analysis.h"
 #include "lib/compose.hpp"
-#include "wx/wx_util.h"
 #include <wx/graphics.h>
 #include <boost/bind.hpp>
 #include <iostream>
@@ -37,14 +38,16 @@ using std::map;
 using boost::bind;
 using boost::optional;
 using boost::shared_ptr;
+using boost::weak_ptr;
 using namespace dcpomatic;
 
 int const AudioPlot::_minimum = -70;
 int const AudioPlot::_cursor_size = 8;
 int const AudioPlot::max_smoothing = 128;
 
-AudioPlot::AudioPlot (wxWindow* parent)
+AudioPlot::AudioPlot (wxWindow* parent, weak_ptr<FilmViewer> viewer)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
+	, _viewer (viewer)
 	, _smoothing (max_smoothing / 2)
 	, _gain_correction (0)
 {
@@ -87,6 +90,7 @@ AudioPlot::AudioPlot (wxWindow* parent)
 	Bind (wxEVT_PAINT, boost::bind (&AudioPlot::paint, this));
 	Bind (wxEVT_MOTION, boost::bind (&AudioPlot::mouse_moved, this, _1));
 	Bind (wxEVT_LEAVE_WINDOW, boost::bind (&AudioPlot::mouse_leave, this, _1));
+	Bind (wxEVT_LEFT_DOWN, boost::bind(&AudioPlot::left_down, this));
 
 	SetMinSize (wxSize (640, 512));
 }
@@ -426,6 +430,19 @@ AudioPlot::search (map<int, PointList> const & search, wxMouseEvent const & ev, 
 		}
 	}
 }
+
+
+void
+AudioPlot::left_down ()
+{
+	if (_cursor) {
+		shared_ptr<FilmViewer> fv = _viewer.lock ();
+		if (fv) {
+			fv->seek (_cursor->time, true);
+		}
+	}
+}
+
 
 void
 AudioPlot::mouse_moved (wxMouseEvent& ev)

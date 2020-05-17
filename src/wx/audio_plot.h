@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -26,11 +26,12 @@
 #include <vector>
 
 struct Metrics;
+class FilmViewer;
 
 class AudioPlot : public wxPanel
 {
 public:
-	explicit AudioPlot (wxWindow *);
+	explicit AudioPlot (wxWindow *, boost::weak_ptr<FilmViewer> viewer);
 
 	void set_analysis (boost::shared_ptr<AudioAnalysis>);
 	void set_channel_visible (int c, bool v);
@@ -70,10 +71,12 @@ private:
 	void plot_rms (wxGraphicsPath &, int, Metrics const &) const;
 	float y_for_linear (float, Metrics const &) const;
 	AudioPoint get_point (int channel, int point) const;
+	void left_down ();
 	void mouse_moved (wxMouseEvent& ev);
 	void mouse_leave (wxMouseEvent& ev);
 	void search (std::map<int, PointList> const & search, wxMouseEvent const & ev, double& min_dist, Point& min_point) const;
 
+	boost::weak_ptr<FilmViewer> _viewer;
 	boost::shared_ptr<AudioAnalysis> _analysis;
 	bool _channel_visible[MAX_DCP_AUDIO_CHANNELS];
 	bool _type_visible[AudioPoint::COUNT];

@@ -38,6 +38,7 @@ using std::list;
 using std::vector;
 using std::pair;
 using boost::shared_ptr;
+using boost::weak_ptr;
 using boost::bind;
 using boost::optional;
 using boost::const_pointer_cast;
@@ -48,7 +49,7 @@ using namespace dcpomatic;
  *  @param film Film we are using.
  *  @param content Content to analyse, or 0 to analyse all of the film's audio.
  */
-AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content> content)
+AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, weak_ptr<FilmViewer> viewer, shared_ptr<Content> content)
 	: wxDialog (
 		parent,
 		wxID_ANY,
@@ -65,6 +66,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 #endif
 		)
 	, _film (film)
+	, _viewer (viewer)
 	, _content (content)
 	, _channels (film->audio_channels ())
 	, _plot (0)
@@ -79,7 +81,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 
 	_cursor = new StaticText (this, wxT("Cursor: none"));
 	left->Add (_cursor, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
-	_plot = new AudioPlot (this);
+	_plot = new AudioPlot (this, viewer);
 	left->Add (_plot, 1, wxTOP | wxEXPAND, 12);
 	_sample_peak = new StaticText (this, wxT (""));
 	left->Add (_sample_peak, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);

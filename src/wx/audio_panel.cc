@@ -365,7 +365,7 @@ AudioPanel::show_clicked ()
 		return;
 	}
 
-	_audio_dialog = new AudioDialog (this, _parent->film (), ac.front ());
+	_audio_dialog = new AudioDialog (this, _parent->film(), _parent->film_viewer(), ac.front());
 	_audio_dialog->Show ();
 }
 
