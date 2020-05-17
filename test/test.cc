@@ -297,6 +297,14 @@ note (dcp::NoteType t, string n)
 	}
 }
 
+
+void
+check_dcp (boost::filesystem::path ref, shared_ptr<const Film> film)
+{
+	check_dcp (ref, film->dir(film->dcp_name()));
+}
+
+
 void
 check_dcp (boost::filesystem::path ref, boost::filesystem::path check)
 {
