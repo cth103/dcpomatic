@@ -48,7 +48,6 @@ public:
 		);
 
 private:
-	wxChoice* _type;
 	NameFormatEditor* _filename_format;
 	wxCheckBox* _write_to;
 #ifdef DCPOMATIC_USE_OWN_PICKER
