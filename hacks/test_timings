@@ -1,0 +1,27 @@
+#!/usr/bin/python
+
+import sys
+
+if len(sys.argv) < 2:
+    print('Syntax %s <log>' % sys.argv[0], file=sys.stderr)
+    sys.exit(1)
+
+tests = {}
+
+with open(sys.argv[1]) as f:
+    while True:
+        l = f.readline()
+        if l == '':
+            break
+
+        s = l.split()
+        if len(s) == 8 and s[7][-2:] == 'us':
+            tests[float(s[7][:-2]) / 1000000] = s[4][1:-2]
+
+for t in sorted(tests):
+    s = int(t)
+    h = s // 3600
+    s -= h * 3600
+    m = s // 60
+    s -= m * 60
+    print("%30s %02d:%02d:%02d (%f)" % (tests[t], h, m, s, t))
