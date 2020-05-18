@@ -131,6 +131,15 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::DURATION_TOO_SMALL:
 			text = _("An asset has a duration of less than 1 second, which is invalid.");
 			break;
+		case dcp::VerificationNote::PICTURE_FRAME_TOO_LARGE:
+			text = _("At least one frame of the video data is over the limit of 250Mbit/s.");
+			break;
+		case dcp::VerificationNote::PICTURE_FRAME_NEARLY_TOO_LARGE:
+			text = _("At least one frame of the video data is close to the limit of 250MBit/s.");
+			break;
+		case dcp::VerificationNote::EXTERNAL_ASSET:
+			text = _("This DCP refers to at least one asset in another DCP, so it is a \"version file\" (VF)");
+			break;
 		}
 
 		_text->WriteText (text);
