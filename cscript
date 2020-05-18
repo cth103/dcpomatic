@@ -309,6 +309,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('%{_datadir}/dcpomatic2/zoom_all.png', file=f)
     print('%{_datadir}/dcpomatic2/tick.png', file=f)
     print('%{_datadir}/dcpomatic2/no_tick.png', file=f)
+    print('%{_datadir}/dcpomatic2/link.png', file=f)
     print('%{_datadir}/dcpomatic2/me.jpg', file=f)
     print('%{_datadir}/dcpomatic2/LiberationSans-Regular.ttf', file=f)
     print('%{_datadir}/dcpomatic2/LiberationSans-Italic.ttf', file=f)
