@@ -37,6 +37,7 @@
 #include "lib/encode_server_description.h"
 #include "lib/file_log.h"
 #include "lib/dcpomatic_log.h"
+#include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/thread.hpp>
 
@@ -85,7 +86,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 		p += sub_image->stride()[0];
 	}
 
-	dcpomatic_log.reset (new FileLog("build/test/client_server_test_rgb.log"));
+	LogSwitcher ls (shared_ptr<Log>(new FileLog("build/test/client_server_test_rgb.log")));
 
 	shared_ptr<PlayerVideo> pvf (
 		new PlayerVideo (
@@ -171,7 +172,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 		p += sub_image->stride()[0];
 	}
 
-	dcpomatic_log.reset (new FileLog("build/test/client_server_test_yuv.log"));
+	LogSwitcher ls (shared_ptr<Log>(new FileLog("build/test/client_server_test_yuv.log")));
 
 	shared_ptr<PlayerVideo> pvf (
 		new PlayerVideo (
@@ -244,7 +245,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 		}
 	}
 
-	dcpomatic_log.reset (new FileLog("build/test/client_server_test_j2k.log"));
+	LogSwitcher ls (shared_ptr<Log>(new FileLog("build/test/client_server_test_j2k.log")));
 
 	shared_ptr<PlayerVideo> raw_pvf (
 		new PlayerVideo (

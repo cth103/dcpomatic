@@ -20,9 +20,11 @@
 
 #include <Magick++.h>
 #include <boost/filesystem.hpp>
+#include <boost/shared_ptr.hpp>
 
 class Film;
 class Image;
+class Log;
 
 
 class TestPaths
@@ -51,3 +53,14 @@ boost::filesystem::path dcp_file (boost::shared_ptr<const Film> film, std::strin
 void check_one_frame (boost::filesystem::path dcp, int64_t index, boost::filesystem::path ref);
 extern boost::filesystem::path subtitle_file (boost::shared_ptr<Film> film);
 extern void make_random_file (boost::filesystem::path path, size_t size);
+
+class LogSwitcher
+{
+public:
+	LogSwitcher (boost::shared_ptr<Log> log);
+	~LogSwitcher ();
+
+private:
+	boost::shared_ptr<Log> _old;
+};
+

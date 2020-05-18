@@ -41,7 +41,7 @@ using boost::shared_ptr;
 BOOST_AUTO_TEST_CASE (fourk_test)
 {
 	shared_ptr<Film> film = new_test_film ("4k_test");
-	dcpomatic_log = film->log ();
+	LogSwitcher ls (film->log());
 	film->set_name ("4k_test");
 	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/test.mp4"));
 	film->set_resolution (RESOLUTION_4K);
