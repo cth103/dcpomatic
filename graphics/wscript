@@ -38,3 +38,4 @@ def build(bld):
         bld.install_files('${PREFIX}/share/dcpomatic2', 'me.jpg')
         bld.install_files('${PREFIX}/share/dcpomatic2', 'tick.png')
         bld.install_files('${PREFIX}/share/dcpomatic2', 'no_tick.png')
+        bld.install_files('${PREFIX}/share/dcpomatic2', 'link.png')
