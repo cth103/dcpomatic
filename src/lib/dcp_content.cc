@@ -610,7 +610,7 @@ DCPContent::can_reference (shared_ptr<const Film> film, function<bool (shared_pt
 static
 bool check_video (shared_ptr<const Content> c)
 {
-	return static_cast<bool>(c->video);
+	return static_cast<bool>(c->video) && c->video->use();
 }
 
 bool
@@ -643,7 +643,7 @@ DCPContent::can_reference_video (shared_ptr<const Film> film, string& why_not) c
 static
 bool check_audio (shared_ptr<const Content> c)
 {
-	return static_cast<bool>(c->audio);
+	return static_cast<bool>(c->audio) && !c->audio->mapping().mapped_output_channels().empty();
 }
 
 bool
