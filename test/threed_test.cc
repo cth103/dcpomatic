@@ -114,6 +114,12 @@ BOOST_AUTO_TEST_CASE (threed_test4)
 
 	L->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT);
 	R->video->set_frame_type (VIDEO_FRAME_TYPE_3D_RIGHT);
+	/* There doesn't seem much point in encoding the whole input, especially as we're only
+	 * checking for errors during the encode and not the result.  Also decoding these files
+	 * (4K HQ Prores) is very slow.
+	 */
+	L->set_trim_end (dcpomatic::ContentTime::from_seconds(22));
+	R->set_trim_end (dcpomatic::ContentTime::from_seconds(22));
 
 	film->set_three_d (true);
 	film->make_dcp ();
@@ -133,6 +139,11 @@ BOOST_AUTO_TEST_CASE (threed_test5)
 
 	L->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT);
 	R->video->set_frame_type (VIDEO_FRAME_TYPE_3D_RIGHT);
+	/* There doesn't seem much point in encoding the whole input, especially as we're only
+	 * checking for errors during the encode and not the result.
+	 */
+	L->set_trim_end (dcpomatic::ContentTime::from_seconds(3 * 60 + 20));
+	R->set_trim_end (dcpomatic::ContentTime::from_seconds(3 * 60 + 20));
 
 	film->set_three_d (true);
 	film->make_dcp ();
