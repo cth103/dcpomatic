@@ -122,3 +122,31 @@ BOOST_AUTO_TEST_CASE (content_test3)
 
 	BOOST_CHECK (content->trim_start() == ContentTime::from_seconds (15.0 / 25.0));
 }
+
+
+/** Content containing video will have its length rounded to the nearest video frame */
+BOOST_AUTO_TEST_CASE (content_test4)
+{
+	shared_ptr<Film> film = new_test_film2 ("content_test4");
+
+	shared_ptr<Content> video = content_factory("test/data/count300bd24.m2ts").front();
+	film->examine_and_add_content (video);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	video->set_trim_end (dcpomatic::ContentTime(3000));
+	BOOST_CHECK (video->length_after_trim(film) == DCPTime::from_frames(299, 24));
+}
+
+
+/** Content containing no video will not have its length rounded to the nearest video frame */
+BOOST_AUTO_TEST_CASE (content_test5)
+{
+	shared_ptr<Film> film = new_test_film2 ("content_test5");
+
+	shared_ptr<Content> audio = content_factory("test/data/sine_16_48_220_10.wav").front();
+	film->examine_and_add_content (audio);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	audio->set_trim_end (dcpomatic::ContentTime(3000));
+	BOOST_CHECK (audio->length_after_trim(film) == DCPTime(957000));
+}
