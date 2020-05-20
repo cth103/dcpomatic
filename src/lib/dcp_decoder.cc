@@ -451,7 +451,9 @@ DCPDecoder::calculate_lazy_digest (shared_ptr<const DCPContent> c) const
 	BOOST_FOREACH (boost::filesystem::path i, c->paths()) {
 		d.add (i.string());
 	}
-	d.add (static_cast<bool>(_dcp_content->kdm()));
+	if (_dcp_content->kdm()) {
+		d.add(_dcp_content->kdm()->id());
+	}
 	d.add (static_cast<bool>(c->cpl()));
 	if (c->cpl()) {
 		d.add (c->cpl().get());
