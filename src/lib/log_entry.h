@@ -35,7 +35,7 @@ public:
 	static const int TYPE_DEBUG_ENCODE;
 	static const int TYPE_TIMING;
 	static const int TYPE_DEBUG_EMAIL;
-	static const int TYPE_DEBUG_PLAYER;
+	static const int TYPE_DEBUG_VIDEO_VIEW; ///< real-time video viewing (i.e. "playback")
 	static const int TYPE_DISK;
 
 	explicit LogEntry (int type);

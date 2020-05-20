@@ -166,7 +166,7 @@ SimpleVideoView::timer ()
 		return;
 	}
 
-	LOG_DEBUG_PLAYER("%1 -> %2; delay %3", next.seconds(), _viewer->time().seconds(), max((next.seconds() - _viewer->time().seconds()) * 1000, 1.0));
+	LOG_DEBUG_VIDEO_VIEW("%1 -> %2; delay %3", next.seconds(), _viewer->time().seconds(), max((next.seconds() - _viewer->time().seconds()) * 1000, 1.0));
 	_timer.Start (max(1, time_until_next_frame().get_value_or(0)), wxTIMER_ONE_SHOT);
 
 	if (_viewer->butler()) {

@@ -33,7 +33,7 @@ extern boost::shared_ptr<Log> dcpomatic_log;
 #define LOG_WARNING_NC(...)   dcpomatic_log->log(__VA_ARGS__, LogEntry::TYPE_WARNING);
 #define LOG_TIMING(...)       dcpomatic_log->log(String::compose(__VA_ARGS__), LogEntry::TYPE_TIMING);
 #define LOG_DEBUG_ENCODE(...) dcpomatic_log->log(String::compose(__VA_ARGS__), LogEntry::TYPE_DEBUG_ENCODE);
-#define LOG_DEBUG_PLAYER(...) dcpomatic_log->log(String::compose(__VA_ARGS__), LogEntry::TYPE_DEBUG_PLAYER);
+#define LOG_DEBUG_VIDEO_VIEW(...) dcpomatic_log->log(String::compose(__VA_ARGS__), LogEntry::TYPE_DEBUG_VIDEO_VIEW);
 #define LOG_DEBUG_THREED(...) dcpomatic_log->log(String::compose(__VA_ARGS__), LogEntry::TYPE_DEBUG_THREED);
 #define LOG_DEBUG_THREED_NC(...) dcpomatic_log->log(__VA_ARGS__, LogEntry::TYPE_DEBUG_THREED);
 #define LOG_DISK(...)         dcpomatic_log->log(String::compose(__VA_ARGS__), LogEntry::TYPE_DISK);

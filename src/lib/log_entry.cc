@@ -31,7 +31,7 @@ int const LogEntry::TYPE_DEBUG_THREED = 0x008;
 int const LogEntry::TYPE_DEBUG_ENCODE = 0x010;
 int const LogEntry::TYPE_TIMING       = 0x020;
 int const LogEntry::TYPE_DEBUG_EMAIL  = 0x040;
-int const LogEntry::TYPE_DEBUG_PLAYER = 0x080;
+int const LogEntry::TYPE_DEBUG_VIDEO_VIEW = 0x080;
 int const LogEntry::TYPE_DISK         = 0x100;
 
 using std::string;
