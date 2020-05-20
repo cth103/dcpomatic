@@ -118,49 +118,57 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 
 	int stair = 12;
 
-	fr = sound_reader->get_frame (1);
-	for (int i = 0; i < fr->samples(); ++i) {
-		for (int j = 0; j < 6; ++j) {
-			if (j == 2) {
-				BOOST_CHECK_EQUAL ((fr->get(j, i) + 128) >> 8, stair * 2);
-				++stair;
-			} else {
-				BOOST_CHECK_EQUAL (fr->get(j, i), 0);
+	BOOST_TEST_CONTEXT("First staircase, frame #1") {
+		fr = sound_reader->get_frame (1);
+		for (int i = 0; i < fr->samples(); ++i) {
+			for (int j = 0; j < 6; ++j) {
+				if (j == 2) {
+					BOOST_CHECK_EQUAL ((fr->get(j, i) + 128) >> 8, stair * 2);
+					++stair;
+				} else {
+					BOOST_CHECK_EQUAL (fr->get(j, i), 0);
+				}
 			}
 		}
 	}
 
-	fr = sound_reader->get_frame (2);
-	for (int i = 0; i < fr->samples(); ++i) {
-		for (int j = 0; j < 6; ++j) {
-			if (j == 2) {
-				BOOST_CHECK_EQUAL ((fr->get(j, i) + 128) >> 8, stair * 2);
-				++stair;
-			} else {
-				BOOST_CHECK_EQUAL (fr->get(j, i), 0);
+	BOOST_TEST_CONTEXT("First staircase, frame #2") {
+		fr = sound_reader->get_frame (2);
+		for (int i = 0; i < fr->samples(); ++i) {
+			for (int j = 0; j < 6; ++j) {
+				if (j == 2) {
+					BOOST_CHECK_EQUAL ((fr->get(j, i) + 128) >> 8, stair * 2);
+					++stair;
+				} else {
+					BOOST_CHECK_EQUAL (fr->get(j, i), 0);
+				}
 			}
 		}
 	}
 
-	fr = sound_reader->get_frame (3);
-	for (int i = 0; i < fr->samples(); ++i) {
-		for (int j = 0; j < 6; ++j) {
-			if (j == 2 && i < (4753 - (2000 * 2))) {
-				BOOST_CHECK_EQUAL ((fr->get(j, i) + 128) >> 8, stair * 2);
-				++stair;
-			} else {
-				BOOST_CHECK_EQUAL (fr->get(j, i), 0);
+	BOOST_TEST_CONTEXT("First staircase, frame #3") {
+		fr = sound_reader->get_frame (3);
+		for (int i = 0; i < fr->samples(); ++i) {
+			for (int j = 0; j < 6; ++j) {
+				if (j == 2 && i < (4753 - (2000 * 2))) {
+					BOOST_CHECK_EQUAL ((fr->get(j, i) + 128) >> 8, stair * 2);
+					++stair;
+				} else {
+					BOOST_CHECK_EQUAL (fr->get(j, i), 0);
+				}
 			}
 		}
 	}
 
 	/* Then some silence */
 
-	for (int i = 4; i < 24; ++i) {
-		fr = sound_reader->get_frame (i);
-		for (int j = 0; j < fr->samples(); ++j) {
-			for (int k = 0; k < 6; ++k) {
-				BOOST_CHECK_EQUAL (fr->get(k, j), 0);
+	BOOST_TEST_CONTEXT("Silence") {
+		for (int i = 4; i < 24; ++i) {
+			fr = sound_reader->get_frame (i);
+			for (int j = 0; j < fr->samples(); ++j) {
+				for (int k = 0; k < 6; ++k) {
+					BOOST_CHECK_EQUAL (fr->get(k, j), 0);
+				}
 			}
 		}
 	}
