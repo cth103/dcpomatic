@@ -52,6 +52,7 @@ using std::list;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
+using boost::optional;
 
 enum {
 	/* Start at 256 so we can have IDs on _cpl_menu from 1 to 255 */
@@ -405,13 +406,37 @@ ContentMenu::kdm ()
 	wxFileDialog* d = new wxFileDialog (_parent, _("Select KDM"));
 
 	if (d->ShowModal() == wxID_OK) {
+		optional<dcp::EncryptedKDM> kdm;
 		try {
-			dcp->add_kdm (dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (d->GetPath ()), MAX_KDM_SIZE)));
+			kdm = dcp::EncryptedKDM (dcp::file_to_string(wx_to_std(d->GetPath()), MAX_KDM_SIZE));
 		} catch (exception& e) {
 			error_dialog (_parent, _("Could not load KDM"), std_to_wx(e.what()));
 			d->Destroy ();
 			return;
 		}
+
+		DCPExaminer ex (dcp, true);
+
+		bool kdm_matches_any_cpl = false;
+		BOOST_FOREACH (shared_ptr<dcp::CPL> i, ex.cpls()) {
+			if (i->id() == kdm->cpl_id()) {
+				kdm_matches_any_cpl = true;
+			}
+		}
+
+
+		bool kdm_matches_selected_cpl = dcp->cpl() || kdm->cpl_id() == dcp->cpl().get();
+
+		if (!kdm_matches_any_cpl) {
+			error_dialog (_parent, _("This KDM was not made for this DCP.  You will need a different one."));
+			return;
+		}
+
+		if (!kdm_matches_selected_cpl && kdm_matches_any_cpl) {
+			message_dialog (_parent, _("This KDM was made for one of the CPLs in this DCP, but not the currently selected one.  To play the currently-selected CPL you will need a different KDM."));
+		}
+
+		dcp->add_kdm (*kdm);
 
 		shared_ptr<Film> film = _film.lock ();
 		DCPOMATIC_ASSERT (film);
