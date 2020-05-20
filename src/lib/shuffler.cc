@@ -116,6 +116,7 @@ void
 Shuffler::flush ()
 {
 	BOOST_FOREACH (Store i, _store) {
+		LOG_DEBUG_PLAYER("Flushing %1 from shuffler", i.second.frame);
 		Video (i.first, i.second);
 	}
 }

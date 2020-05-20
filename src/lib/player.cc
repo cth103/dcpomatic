@@ -23,6 +23,7 @@
 #include "audio_buffers.h"
 #include "content_audio.h"
 #include "dcp_content.h"
+#include "dcpomatic_log.h"
 #include "job.h"
 #include "image.h"
 #include "raw_image_proxy.h"
@@ -664,6 +665,7 @@ Player::pass ()
 		break;
 	}
 	case BLACK:
+		LOG_DEBUG_PLAYER ("Emit black for gap at %1", to_string(_black.position()));
 		emit_video (black_player_video_frame(EYES_BOTH), _black.position());
 		_black.set_position (_black.position() + one_video_frame());
 		break;
@@ -836,10 +838,12 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 				}
 				while (j < fill_to || eyes != fill_to_eyes) {
 					if (last != _last_video.end()) {
+						LOG_DEBUG_PLAYER("Fill using last video at %1 in 3D mode", to_string(j));
 						shared_ptr<PlayerVideo> copy = last->second->shallow_copy();
 						copy->set_eyes (eyes);
 						emit_video (copy, j);
 					} else {
+						LOG_DEBUG_PLAYER("Fill using black at %1 in 3D mode", to_string(j));
 						emit_video (black_player_video_frame(eyes), j);
 					}
 					if (eyes == EYES_RIGHT) {
