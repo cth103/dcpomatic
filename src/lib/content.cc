@@ -303,7 +303,7 @@ Content::technical_summary () const
 DCPTime
 Content::length_after_trim (shared_ptr<const Film> film) const
 {
-	return max (DCPTime(), full_length(film) - DCPTime(trim_start() + trim_end(), film->active_frame_rate_change(position())));
+	return max(DCPTime(), full_length(film) - DCPTime(trim_start() + trim_end(), film->active_frame_rate_change(position()))).round(film->video_frame_rate());
 }
 
 /** @return string which changes when something about this content changes which affects
