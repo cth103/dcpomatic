@@ -28,6 +28,7 @@
 #include "types.h"
 #include "dcpomatic_time.h"
 #include "audio_mapping.h"
+#include <dcp/decrypted_kdm.h>
 #include <dcp/util.h>
 #include <dcp/subtitle_image.h>
 #include <boost/shared_ptr.hpp>
@@ -117,6 +118,7 @@ extern boost::shared_ptr<dcp::CertificateChain> read_swaroop_chain (boost::files
 extern void write_swaroop_chain (boost::shared_ptr<const dcp::CertificateChain> chain, boost::filesystem::path output);
 #endif
 extern dcp::Size scale_for_display (dcp::Size s, dcp::Size display_container, dcp::Size film_container);
+extern dcp::DecryptedKDM decrypt_kdm_with_helpful_error (dcp::EncryptedKDM kdm);
 
 template <class T>
 std::list<T>

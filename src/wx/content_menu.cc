@@ -40,6 +40,7 @@
 #include "lib/copy_dcp_details_to_film.h"
 #include <dcp/cpl.h>
 #include <dcp/exceptions.h>
+#include <dcp/decrypted_kdm.h>
 #include <wx/wx.h>
 #include <wx/dirdlg.h>
 #include <boost/foreach.hpp>
@@ -415,6 +416,17 @@ ContentMenu::kdm ()
 			return;
 		}
 
+		/* Try to decrypt it to get an early preview of any errors */
+		try {
+			decrypt_kdm_with_helpful_error (*kdm);
+		} catch (KDMError& e) {
+			error_dialog (_parent, std_to_wx(e.summary()), std_to_wx(e.detail()));
+			return;
+		} catch (exception& e) {
+			error_dialog (_parent, e.what());
+			return;
+		}
+
 		DCPExaminer ex (dcp, true);
 
 		bool kdm_matches_any_cpl = false;
@@ -423,7 +435,6 @@ ContentMenu::kdm ()
 				kdm_matches_any_cpl = true;
 			}
 		}
-
 
 		bool kdm_matches_selected_cpl = dcp->cpl() || kdm->cpl_id() == dcp->cpl().get();
 

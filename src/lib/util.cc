@@ -45,6 +45,7 @@
 #include "image.h"
 #include "text_decoder.h"
 #include "job_manager.h"
+#include <dcp/decrypted_kdm.h>
 #include <dcp/locale_convert.h>
 #include <dcp/util.h>
 #include <dcp/raw_convert.h>
@@ -1199,5 +1200,31 @@ scale_for_display (dcp::Size s, dcp::Size display_container, dcp::Size film_cont
 	}
 
 	return s;
+}
+
+
+dcp::DecryptedKDM
+decrypt_kdm_with_helpful_error (dcp::EncryptedKDM kdm)
+{
+	try {
+		return dcp::DecryptedKDM (kdm, Config::instance()->decryption_chain()->key().get());
+	} catch (dcp::KDMDecryptionError& e) {
+		/* Try to flesh out the error a bit */
+		string const kdm_subject_name = kdm.recipient_x509_subject_name();
+		bool on_chain = false;
+		shared_ptr<const dcp::CertificateChain> dc = Config::instance()->decryption_chain();
+		BOOST_FOREACH (dcp::Certificate i, dc->root_to_leaf()) {
+			if (i.subject() == kdm_subject_name) {
+				on_chain = true;
+			}
+		}
+		if (!on_chain) {
+			throw KDMError (_("This KDM was not made for DCP-o-matic's decryption certificate."), e.what());
+		} else if (on_chain && kdm_subject_name != dc->leaf().subject()) {
+			throw KDMError (_("This KDM was made for DCP-o-matic but not for its leaf certificate."), e.what());
+		} else {
+			throw;
+		}
+	}
 }
 
