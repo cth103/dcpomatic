@@ -199,8 +199,6 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_LINUX')
         conf.env.append_value('CXXFLAGS', ['-Wlogical-op', '-Wcast-align'])
         conf.check(lib='dl', uselib_store='DL', msg='Checking for library dl')
-        if not conf.env.DISABLE_GUI:
-            conf.check_cfg(package='gtk+-2.0', args='--cflags --libs', uselib_store='GTK', mandatory=True)
 
     # OSX
     if conf.env.TARGET_OSX:
