@@ -83,8 +83,13 @@ VideoPanel::VideoPanel (ContentPanel* p)
 
 	_crop_label = create_label (this, _("Crop"), true);
 
+#ifdef __WXGTK3__
+	int const crop_width = 128;
+	int const link_height = 64;
+#else
 	int const crop_width = 56;
 	int const link_height = 28;
+#endif
 
 	_left_crop_label = create_label (this, _("Left"), true);
 	_left_crop = new ContentSpinCtrl<VideoContent> (
@@ -144,11 +149,14 @@ VideoPanel::VideoPanel (ContentPanel* p)
 
 	wxClientDC dc (this);
 	wxSize size = dc.GetTextExtent (wxT ("A quite long name"));
+#ifdef __WXGTK3__
+	size.SetWidth (size.GetWidth() + 64);
+#endif
 	size.SetHeight (-1);
 
 	_scale_label = create_label (this, _("Scale"), true);
 	_scale_fit = new wxRadioButton (this, wxID_ANY, _("to fit DCP"));
-	_scale_custom = new wxRadioButton (this, wxID_ANY, _("custom"), wxDefaultPosition, size);
+	_scale_custom = new wxRadioButton (this, wxID_ANY, _("custom"));
 	_scale_custom_edit = new Button (this, _("Edit..."));
 
 	_filters_label = create_label (this, _("Filters"), true);
@@ -232,15 +240,29 @@ VideoPanel::add_to_grid ()
 	wxGridBagSizer* crop = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	add_label_to_sizer (crop, _left_crop_label, true, wxGBPosition (cr, 0));
 	_left_crop->add (crop, wxGBPosition (cr, 1));
+#ifdef __WXGTK3__
+	crop->Add (_left_right_link, wxGBPosition(cr, 2), wxGBSpan(2, 1));
+	++cr;
+	add_label_to_sizer (crop, _right_crop_label, true, wxGBPosition(cr, 0));
+	_right_crop->add (crop, wxGBPosition(cr, 1));
+#else
 	crop->Add (_left_right_link, wxGBPosition(cr, 2));
 	add_label_to_sizer (crop, _right_crop_label, true, wxGBPosition (cr, 3));
 	_right_crop->add (crop, wxGBPosition (cr, 4));
+#endif
 	++cr;
 	add_label_to_sizer (crop, _top_crop_label, true, wxGBPosition (cr, 0));
 	_top_crop->add (crop, wxGBPosition (cr, 1));
+#ifdef __WXGTK3__
+	crop->Add (_top_bottom_link, wxGBPosition(cr, 2), wxGBSpan(2, 1));
+	++cr;
+	add_label_to_sizer (crop, _bottom_crop_label, true, wxGBPosition(cr, 0));
+	_bottom_crop->add (crop, wxGBPosition(cr, 1));
+#else
 	crop->Add (_top_bottom_link, wxGBPosition(cr, 2));
 	add_label_to_sizer (crop, _bottom_crop_label, true, wxGBPosition (cr, 3));
 	_bottom_crop->add (crop, wxGBPosition (cr, 4));
+#endif
 	add_label_to_sizer (_grid, _crop_label, true, wxGBPosition(r, 0));
 	_grid->Add (crop, wxGBPosition(r, 1));
 	++r;
@@ -272,8 +294,8 @@ VideoPanel::add_to_grid ()
 			wxSizer* v = new wxBoxSizer (wxVERTICAL);
 			v->Add (_scale_fit, 0, wxBOTTOM, 4);
 			wxSizer* h = new wxBoxSizer (wxHORIZONTAL);
-			h->Add (_scale_custom, 1, wxRIGHT, 6);
-			h->Add (_scale_custom_edit, 0);
+			h->Add (_scale_custom, 1, wxRIGHT | wxALIGN_CENTER_VERTICAL, 6);
+			h->Add (_scale_custom_edit, 0, wxALIGN_CENTER_VERTICAL);
 			v->Add (h, 0);
 			_grid->Add (v, wxGBPosition(r, 1));
 		}

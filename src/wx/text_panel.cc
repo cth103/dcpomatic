@@ -87,20 +87,26 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 
 	_burn = new CheckBox (this, _("Burn subtitles into image"));
 
+#ifdef __WXGTK3__
+	int const spin_width = 118;
+#else
+	int const spin_width = 56;
+#endif
+
 	_offset_label = create_label (this, _("Offset"), true);
 	_x_offset_label = create_label (this, _("X"), true);
-	_x_offset = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
+	_x_offset = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(spin_width, -1));
 	_x_offset_pc_label = new StaticText (this, _("%"));
 	_y_offset_label = create_label (this, _("Y"), true);
-	_y_offset = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
+	_y_offset = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(spin_width, -1));
 	_y_offset_pc_label = new StaticText (this, _("%"));
 
 	_scale_label = create_label (this, _("Scale"), true);
 	_x_scale_label = create_label (this, _("X"), true);
-	_x_scale = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
+	_x_scale = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(spin_width, -1));
 	_x_scale_pc_label = new StaticText (this, _("%"));
 	_y_scale_label = create_label (this, S_("Coord|Y"), true);
-	_y_scale = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1));
+	_y_scale = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(spin_width, -1));
 	_y_scale_pc_label = new StaticText (this, _("%"));
 
 	_line_spacing_label = create_label (this, _("Line spacing"), true);
