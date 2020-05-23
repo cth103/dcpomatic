@@ -253,20 +253,12 @@ AudioMappingView::paint_row_labels (wxDC& dc, wxGraphicsContext* gc)
 				yp += dc.GetLogicalOrigin().y;
 			}
 
-			wxCoord old_x, old_y, old_width, old_height;
-			dc.GetClippingBox (&old_x, &old_y, &old_width, &old_height);
-			dc.DestroyClippingRegion ();
-			dc.SetClippingRegion (GRID_SPACING, yp + 4, GRID_SPACING, height - 8);
-
 			dc.DrawRotatedText (
 				std_to_wx(i.name),
 				GRID_SPACING + (GRID_SPACING - label_height) / 2,
 				y + (height + label_width) / 2,
 				90
 				);
-
-			dc.DestroyClippingRegion ();
-			dc.SetClippingRegion (old_x, old_y, old_width, old_height);
 		}
 
 		lines.MoveToPoint    (GRID_SPACING,     y);
@@ -370,27 +362,57 @@ AudioMappingView::paint ()
 
 	paint_static (dc, gc);
 
-	clip (dc, gc, LEFT_WIDTH, 0, GRID_SPACING * _output_channels.size(), GRID_SPACING * (2 + _input_channels.size()));
+	clip (
+		dc, gc,
+		LEFT_WIDTH,
+		0,
+		GRID_SPACING * _output_channels.size(),
+		GRID_SPACING * (2 + _input_channels.size())
+	     );
 	translate (dc, gc, hs, 0);
 	paint_column_labels (dc, gc);
 	restore (dc, gc);
 
-	clip (dc, gc, 0, TOP_HEIGHT, GRID_SPACING * (3 + _output_channels.size()), GRID_SPACING * _input_channels.size() + 1);
+	clip (
+		dc, gc,
+		0,
+		TOP_HEIGHT,
+		GRID_SPACING * 3,
+		min(int(GRID_SPACING * _input_channels.size()), GetSize().GetHeight() - TOP_HEIGHT)
+	     );
 	translate (dc, gc, 0, vs);
 	paint_row_labels (dc, gc);
 	restore (dc, gc);
 
-	clip (dc, gc, GRID_SPACING * 2, TOP_HEIGHT, GRID_SPACING * (1 + _output_channels.size()), GRID_SPACING * _input_channels.size() + 1);
+	clip (
+		dc, gc,
+		GRID_SPACING * 2,
+		TOP_HEIGHT,
+		GRID_SPACING * (1 + _output_channels.size()),
+		min(int(GRID_SPACING * (2 + _input_channels.size())), GetSize().GetHeight() - TOP_HEIGHT)
+	     );
 	translate (dc, gc, hs, vs);
 	paint_row_lines (gc);
 	restore (dc, gc);
 
-	clip (dc, gc, LEFT_WIDTH, GRID_SPACING, GRID_SPACING * (1 + _output_channels.size()), GRID_SPACING * (1 + _input_channels.size()));
+	clip (
+		dc, gc,
+		LEFT_WIDTH,
+		GRID_SPACING,
+		GRID_SPACING * (1 + _output_channels.size()),
+		min(int(GRID_SPACING * (1 + _input_channels.size())), GetSize().GetHeight() - GRID_SPACING)
+	     );
 	translate (dc, gc, hs, vs);
 	paint_column_lines (gc);
 	restore (dc, gc);
 
-	clip (dc, gc, LEFT_WIDTH, TOP_HEIGHT, GRID_SPACING * _output_channels.size(), GRID_SPACING * _input_channels.size());
+	clip (
+		dc, gc,
+		LEFT_WIDTH,
+		TOP_HEIGHT,
+		GRID_SPACING * _output_channels.size(),
+		min(int(GRID_SPACING * _input_channels.size()), GetSize().GetHeight() - TOP_HEIGHT)
+	     );
 	translate (dc, gc, hs, vs);
 	paint_indicators (dc);
 	restore (dc, gc);
