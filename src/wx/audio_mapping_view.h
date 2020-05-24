@@ -75,11 +75,11 @@ private:
 	void map_values_changed ();
 	void setup_sizes ();
 	void paint ();
-	void paint_static (wxDC& dc, wxGraphicsContext* gc);
-	void paint_column_labels (wxDC& dc, wxGraphicsContext* gc);
-	void paint_column_lines (wxGraphicsContext* gc);
-	void paint_row_labels (wxDC& dc, wxGraphicsContext* gc);
-	void paint_row_lines (wxGraphicsContext* gc);
+	void paint_static (wxDC& dc);
+	void paint_column_labels (wxDC& dc);
+	void paint_column_lines (wxDC& dc);
+	void paint_row_labels (wxDC& dc);
+	void paint_row_lines (wxDC& dc);
 	void paint_indicators (wxDC& dc);
 	void size (wxSizeEvent &);
 	void scroll ();

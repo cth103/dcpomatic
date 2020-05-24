@@ -159,9 +159,8 @@ AudioMappingView::scroll ()
 }
 
 void
-AudioMappingView::paint_static (wxDC& dc, wxGraphicsContext* gc)
+AudioMappingView::paint_static (wxDC& dc)
 {
-	gc->SetAntialiasMode (wxANTIALIAS_DEFAULT);
 	dc.SetFont (wxSWISS_FONT->Bold());
 	wxCoord label_width;
 	wxCoord label_height;
@@ -178,11 +177,10 @@ AudioMappingView::paint_static (wxDC& dc, wxGraphicsContext* gc)
 		);
 
 	dc.SetFont (*wxSWISS_FONT);
-	gc->SetPen (*wxBLACK_PEN);
 }
 
 void
-AudioMappingView::paint_column_labels (wxDC& dc, wxGraphicsContext* gc)
+AudioMappingView::paint_column_labels (wxDC& dc)
 {
 	wxCoord label_width;
 	wxCoord label_height;
@@ -193,33 +191,31 @@ AudioMappingView::paint_column_labels (wxDC& dc, wxGraphicsContext* gc)
 		++N;
 	}
 
-	wxGraphicsPath lines = gc->CreatePath ();
-	lines.MoveToPoint (LEFT_WIDTH, GRID_SPACING);
-	lines.AddLineToPoint (LEFT_WIDTH + _output_channels.size() * GRID_SPACING, GRID_SPACING);
-	lines.MoveToPoint (LEFT_WIDTH, GRID_SPACING * 2);
-	lines.AddLineToPoint (LEFT_WIDTH + _output_channels.size() * GRID_SPACING, GRID_SPACING * 2);
-	gc->StrokePath (lines);
+	dc.DrawLine(wxPoint(LEFT_WIDTH, GRID_SPACING), wxPoint(LEFT_WIDTH + _output_channels.size() * GRID_SPACING, GRID_SPACING));
+	dc.DrawLine(wxPoint(LEFT_WIDTH, GRID_SPACING * 2), wxPoint(LEFT_WIDTH + _output_channels.size() * GRID_SPACING, GRID_SPACING * 2));
 }
 
 void
-AudioMappingView::paint_column_lines (wxGraphicsContext* gc)
+AudioMappingView::paint_column_lines (wxDC& dc)
 {
-	wxGraphicsPath lines = gc->CreatePath ();
 	for (size_t i = 0; i < _output_channels.size(); ++i) {
-		lines.MoveToPoint    (LEFT_WIDTH + GRID_SPACING * i, GRID_SPACING);
-		lines.AddLineToPoint (LEFT_WIDTH + GRID_SPACING * i, TOP_HEIGHT + _input_channels.size() * GRID_SPACING);
+		dc.DrawLine (
+			wxPoint(LEFT_WIDTH + GRID_SPACING * i, GRID_SPACING),
+			wxPoint(LEFT_WIDTH + GRID_SPACING * i, TOP_HEIGHT + _input_channels.size() * GRID_SPACING)
+			);
 	}
-	lines.MoveToPoint    (LEFT_WIDTH + GRID_SPACING * _output_channels.size(), GRID_SPACING);
-	lines.AddLineToPoint (LEFT_WIDTH + GRID_SPACING * _output_channels.size(), TOP_HEIGHT + _input_channels.size() * GRID_SPACING);
-	gc->StrokePath (lines);
+
+	dc.DrawLine (
+		wxPoint(LEFT_WIDTH + GRID_SPACING * _output_channels.size(), GRID_SPACING),
+		wxPoint(LEFT_WIDTH + GRID_SPACING * _output_channels.size(), TOP_HEIGHT + _input_channels.size() * GRID_SPACING)
+		);
 }
 
 void
-AudioMappingView::paint_row_labels (wxDC& dc, wxGraphicsContext* gc)
+AudioMappingView::paint_row_labels (wxDC& dc)
 {
 	wxCoord label_width;
 	wxCoord label_height;
-	wxGraphicsPath lines = gc->CreatePath ();
 
 	/* Row channel labels */
 
@@ -233,8 +229,10 @@ AudioMappingView::paint_row_labels (wxDC& dc, wxGraphicsContext* gc)
 	/* Vertical lines on the left */
 
 	for (int i = 1; i < 3; ++i) {
-		lines.MoveToPoint    (GRID_SPACING * i, TOP_HEIGHT);
-		lines.AddLineToPoint (GRID_SPACING * i, TOP_HEIGHT + _input_channels.size() * GRID_SPACING);
+		dc.DrawLine (
+			wxPoint(GRID_SPACING * i, TOP_HEIGHT),
+			wxPoint(GRID_SPACING * i, TOP_HEIGHT + _input_channels.size() * GRID_SPACING)
+			);
 	}
 
 	/* Group labels and lines */
@@ -261,28 +259,26 @@ AudioMappingView::paint_row_labels (wxDC& dc, wxGraphicsContext* gc)
 				);
 		}
 
-		lines.MoveToPoint    (GRID_SPACING,     y);
-		lines.AddLineToPoint (GRID_SPACING * 2, y);
+		dc.DrawLine (wxPoint(GRID_SPACING, y), wxPoint(GRID_SPACING * 2, y));
 		y += height;
 	}
 
-	lines.MoveToPoint    (GRID_SPACING,     y);
-	lines.AddLineToPoint (GRID_SPACING * 2, y);
-
-	gc->StrokePath (lines);
-}
+	dc.DrawLine (wxPoint(GRID_SPACING, y), wxPoint(GRID_SPACING * 2, y));
+	}
 
 void
-AudioMappingView::paint_row_lines (wxGraphicsContext* gc)
+AudioMappingView::paint_row_lines (wxDC& dc)
 {
-	wxGraphicsPath lines = gc->CreatePath ();
 	for (size_t i = 0; i < _input_channels.size(); ++i) {
-		lines.MoveToPoint (GRID_SPACING * 2, TOP_HEIGHT + GRID_SPACING * i);
-		lines.AddLineToPoint (LEFT_WIDTH + _output_channels.size() * GRID_SPACING, TOP_HEIGHT + GRID_SPACING * i);
+		dc.DrawLine (
+			wxPoint(GRID_SPACING * 2, TOP_HEIGHT + GRID_SPACING * i),
+			wxPoint(LEFT_WIDTH + _output_channels.size() * GRID_SPACING, TOP_HEIGHT + GRID_SPACING * i)
+			);
 	}
-	lines.MoveToPoint (GRID_SPACING * 2, TOP_HEIGHT + GRID_SPACING * _input_channels.size());
-	lines.AddLineToPoint (LEFT_WIDTH + _output_channels.size() * GRID_SPACING, TOP_HEIGHT + GRID_SPACING * _input_channels.size());
-	gc->StrokePath (lines);
+	dc.DrawLine (
+		wxPoint(GRID_SPACING * 2, TOP_HEIGHT + GRID_SPACING * _input_channels.size()),
+		wxPoint(LEFT_WIDTH + _output_channels.size() * GRID_SPACING, TOP_HEIGHT + GRID_SPACING * _input_channels.size())
+		);
 }
 
 void
@@ -324,27 +320,22 @@ AudioMappingView::paint_indicators (wxDC& dc)
 }
 
 static
-void clip (wxDC& dc, wxGraphicsContext* gc, int x, int y, int w, int h)
+void clip (wxDC& dc, int x, int y, int w, int h)
 {
 	dc.SetClippingRegion (x, y, w, h);
-	gc->Clip (x, y, w, h);
 }
 
 static
-void translate (wxDC& dc, wxGraphicsContext* gc, int x, int y)
+void translate (wxDC& dc, int x, int y)
 {
-	gc->PushState ();
-	gc->Translate (-x, -y);
 	dc.SetLogicalOrigin (x, y);
 }
 
 static
-void restore (wxDC& dc, wxGraphicsContext* gc)
+void restore (wxDC& dc)
 {
 	dc.SetLogicalOrigin (0, 0);
-	gc->PopState ();
 	dc.DestroyClippingRegion ();
-	gc->ResetClip ();
 }
 
 void
@@ -352,72 +343,65 @@ AudioMappingView::paint ()
 {
 	wxPaintDC dc (_body);
 
-	wxGraphicsContext* gc = wxGraphicsContext::Create (dc);
-	if (!gc) {
-		return;
-	}
-
 	int const hs = _horizontal_scroll->GetThumbPosition ();
 	int const vs = _vertical_scroll->GetThumbPosition ();
 
-	paint_static (dc, gc);
+	paint_static (dc);
 
 	clip (
-		dc, gc,
+		dc,
 		LEFT_WIDTH,
 		0,
 		GRID_SPACING * _output_channels.size(),
 		GRID_SPACING * (2 + _input_channels.size())
 	     );
-	translate (dc, gc, hs, 0);
-	paint_column_labels (dc, gc);
-	restore (dc, gc);
+	translate (dc, hs, 0);
+	paint_column_labels (dc);
+	restore (dc);
 
 	clip (
-		dc, gc,
+		dc,
 		0,
 		TOP_HEIGHT,
 		GRID_SPACING * 3,
 		min(int(GRID_SPACING * _input_channels.size()), GetSize().GetHeight() - TOP_HEIGHT)
 	     );
-	translate (dc, gc, 0, vs);
-	paint_row_labels (dc, gc);
-	restore (dc, gc);
+	translate (dc, 0, vs);
+	paint_row_labels (dc);
+	restore (dc);
 
 	clip (
-		dc, gc,
+		dc,
 		GRID_SPACING * 2,
 		TOP_HEIGHT,
 		GRID_SPACING * (1 + _output_channels.size()),
 		min(int(GRID_SPACING * (2 + _input_channels.size())), GetSize().GetHeight() - TOP_HEIGHT)
 	     );
-	translate (dc, gc, hs, vs);
-	paint_row_lines (gc);
-	restore (dc, gc);
+	translate (dc, hs, vs);
+	paint_row_lines (dc);
+	restore (dc);
 
 	clip (
-		dc, gc,
+		dc,
 		LEFT_WIDTH,
 		GRID_SPACING,
 		GRID_SPACING * (1 + _output_channels.size()),
 		min(int(GRID_SPACING * (1 + _input_channels.size())), GetSize().GetHeight() - GRID_SPACING)
 	     );
-	translate (dc, gc, hs, vs);
-	paint_column_lines (gc);
-	restore (dc, gc);
+	translate (dc, hs, vs);
+	paint_column_lines (dc);
+	restore (dc);
 
 	clip (
-		dc, gc,
+		dc,
 		LEFT_WIDTH,
 		TOP_HEIGHT,
 		GRID_SPACING * _output_channels.size(),
 		min(int(GRID_SPACING * _input_channels.size()), GetSize().GetHeight() - TOP_HEIGHT)
 	     );
-	translate (dc, gc, hs, vs);
+	translate (dc, hs, vs);
 	paint_indicators (dc);
-	restore (dc, gc);
-
-	delete gc;
+	restore (dc);
 }
 
 optional<pair<int, int> >
