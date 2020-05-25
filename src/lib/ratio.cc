@@ -110,7 +110,6 @@ Ratio::containers ()
 	vector<Ratio const *> r;
 	r.push_back (Ratio::from_id ("185"));
 	r.push_back (Ratio::from_id ("239"));
-	r.push_back (Ratio::from_id ("190"));
 	return r;
 }
 

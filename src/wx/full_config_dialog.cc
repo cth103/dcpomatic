@@ -1245,7 +1245,7 @@ private:
 		table->Add (_allow_any_dcp_frame_rate, 1, wxEXPAND | wxALL);
 		table->AddSpacer (0);
 
-		_allow_any_container = new CheckBox (_panel, _("Allow non-standard container ratios"));
+		_allow_any_container = new CheckBox (_panel, _("Allow full-frame and non-standard container ratios"));
 		table->Add (_allow_any_container, 1, wxEXPAND | wxALL);
 		table->AddSpacer (0);
 

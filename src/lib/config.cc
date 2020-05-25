@@ -809,7 +809,7 @@ Config::write_config () const
 	root->add_child("MaximumJ2KBandwidth")->add_child_text (raw_convert<string> (_maximum_j2k_bandwidth));
 	/* [XML] AllowAnyDCPFrameRate 1 to allow users to specify any frame rate when creating DCPs, 0 to limit the GUI to standard rates. */
 	root->add_child("AllowAnyDCPFrameRate")->add_child_text (_allow_any_dcp_frame_rate ? "1" : "0");
-	/* [XML] AllowAnyContainer 1 to allow users to user any container ratio for their DCP, 0 to limit the GUI to standard containers. */
+	/* [XML] AllowAnyContainer 1 to allow users to user any container ratio for their DCP, 0 to limit the GUI to DCI Flat/Scope */
 	root->add_child("AllowAnyContainer")->add_child_text (_allow_any_container ? "1" : "0");
 	/* [XML] ShowExperimentalAudioProcessors 1 to offer users the (experimental) audio upmixer processors, 0 to hide them */
 	root->add_child("ShowExperimentalAudioProcessors")->add_child_text (_show_experimental_audio_processors ? "1" : "0");
