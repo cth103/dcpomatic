@@ -46,13 +46,19 @@ CustomScaleDialog::CustomScaleDialog (wxWindow* parent, dcp::Size initial, dcp::
 	_size_from_ratio = new wxStaticText (this, wxID_ANY, wxT(""));
 	add (_size_from_ratio, 1, wxALIGN_CENTER_VERTICAL);
 
+#ifdef __WXGTK3__
+	int const spin_width = 118;
+#else
+	int const spin_width = 64;
+#endif
+
 	_size = new wxRadioButton (this, wxID_ANY, _("Set size"));
 	add (_size);
 	s = new wxBoxSizer (wxHORIZONTAL);
-	_width = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1), wxSP_ARROW_KEYS, 1, film_container.width);
+	_width = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(spin_width, -1), wxSP_ARROW_KEYS, 1, film_container.width);
 	s->Add (_width, 1, wxRIGHT, 4);
 	add_label_to_sizer (s, this, wxT("x"), false);
-	_height = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(64, -1), wxSP_ARROW_KEYS, 1, film_container.height);
+	_height = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(spin_width, -1), wxSP_ARROW_KEYS, 1, film_container.height);
 	s->Add (_height, 1, wxRIGHT, 4);
 	add (s);
 	_ratio_from_size = new wxStaticText (this, wxID_ANY, wxT(""));
