@@ -26,14 +26,15 @@ Hello, and welcome to DCP-o-matic!
 <section>
 <title>What is DCP-o-matic?</title>
 
-<para>DCP-o-matic is a set of programs to perform the following tasks:</para>
+<para>DCP-o-matic is a set of programs to allow you to:</para>
 
 <itemizedlist>
-  <listitem>Creation of <ulink
-  url="http://en.wikipedia.org/wiki/Digital_Cinema_Package">Digital
+  <listitem>Create <ulink
+  url="https://en.wikipedia.org/wiki/Digital_Cinema_Package">Digital
   Cinema Packages</ulink> (DCPs) from video, audio, subtitle and closed-caption files.</listitem>
-  <listitem>Playback and verification of DCPs on a PC/Mac.</listitem>
-  <listitem>Creation of KDMs for DCPs.</listitem>
+  <listitem>Play and verify DCPs.</listitem>
+  <listitem>Create KDMs for DCPs.</listitem>
+  <listitem>Write cinema-format drives containing DCPs.</listitem>
 </itemizedlist>
 
 </section>
@@ -45,7 +46,7 @@ Hello, and welcome to DCP-o-matic!
 
 <para>
 DCP-o-matic is free and open-source and is licensed under the <ulink
-url="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU
+url="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU
 GPL</ulink>.
 </para>
 
@@ -89,7 +90,7 @@ Notes of an advanced nature are presented like this.  Ignore them unless you wan
 
 <para>
 To install DCP-o-matic on Windows, download the installer from
-<ulink url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>
+<ulink url="https://dcpomatic.com/">https://dcpomatic.com/</ulink>
 and double-click it.  Click through the installer wizard, and
 DCP-o-matic will be installed onto your machine.
 </para>
@@ -97,17 +98,10 @@ DCP-o-matic will be installed onto your machine.
 <para>
 If you are using a 32-bit version of Windows, you will need the 32-bit
 installer.  For 64-bit Windows, either installer will work, but I
-suggest you used the 64-bit version as it will allow DCP-o-matic to
+suggest you use the 64-bit version as it will allow DCP-o-matic to
 use more memory.  You may find that DCP-o-matic crashes if you run
 many parallel encoding threads (more than 4) on the 32-bit
 version.
-</para>
-
-<para>
-If you are still using Windows XP, download the specific XP version as
-it should be more stable on your machine than the &lsquo;normal&rsquo;
-Windows version.  Be aware, though, that support for Windows XP will
-not last forever and you should plan to upgrade if at all possible.
 </para>
 
 </section>
@@ -115,18 +109,22 @@ not last forever and you should plan to upgrade if at all possible.
 
 <!-- ============================================================== -->
 <section>
-<title>Mac OS X</title>
+<title>macOS</title>
 
 <para>
-DCP-o-matic will run on Mac OS X version 10.6 (Snow Leopard) and
-higher.  DCP-o-matic is split into five separate applications, each of
+DCP-o-matic will run on macOS version 10.6 (Snow Leopard) and
+higher.  DCP-o-matic is split into seven separate applications, each of
 which can be installed by downloading the <code>.dmg</code>,
 double-clicking to open and then dragging the icon to your
 <guilabel>Applications</guilabel> folder.
 </para>
 
 <para>
-If you are not sure which parts of DCP-o-matic to install, start
+Make sure you choose the correct download, depending on whether you are running macOS 10.9 (Mavericks) (or higher) or something older.
+</para>
+
+<para>
+If you don't know which parts of DCP-o-matic to install, start
 with the first (main) part.
 </para>
 
@@ -141,14 +139,14 @@ with the first (main) part.
 </para>
 
 <itemizedlist>
-  <listitem>Debian 7 (&lsquo;wheezy&rsquo;), 8 (&lsquo;jessie&rsquo;), 9 (&lsquo;squeeze&rsquo;) and unstable (&lsquo;sid&rsquo;)</listitem>
-  <listitem>Ubuntu 14.04 (&lsquo;Trusty Tahr&rsquo;), 16.04 (&lsquo;Xenial Xerus&rsquo;), 18.04 (&lsquo;Bionic Beaver&rsquo;) and 18.10 (&lsquo;Cosmic Cuttlefish&rsquo;)</listitem>
-  <listitem>Mint 17, 18 and 19</listitem>
+  <listitem>Debian 8 (&lsquo;jessie&rsquo;), 9 (&lsquo;squeeze&rsquo;), 10 (&lsquo;buster&rsquo;) and unstable (&lsquo;sid&rsquo;)</listitem>
+  <listitem>Ubuntu 16.04 (&lsquo;Xenial Xerus&rsquo;), 18.04 (&lsquo;Bionic Beaver&rsquo;), 19.10 (&lsquo;Eoan Ermine&rsquo;) and 20.04 (&lsquo;Focal Fossa&rsquo;)</listitem>
+  <listitem>Mint 18 and 19</listitem>
 </itemizedlist>
 
 <para>
 using <code>.deb</code> packages: download the appropriate package
-from <ulink url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>
+from <ulink url="https://dcpomatic.com/">https://dcpomatic.com/</ulink>
 and double-click it.  Debian, Ubuntu or Mint will install the necessary bits and
 pieces and set DCP-o-matic up for you.
 </para>
@@ -160,8 +158,8 @@ pieces and set DCP-o-matic up for you.
 <section>
   <title>Fedora, Centos and Mageia Linux</title>
 
-  <para>There are <code>.rpm</code> packages for Fedora 27, 28 and 29, Centos 6 and 7 and Mageia 6 on
-  <ulink url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>
+  <para>There are <code>.rpm</code> packages for Fedora 30, 31 and 32, Centos 7 and 8 and Mageia 7 on
+  <ulink url="https://dcpomatic.com/">https://dcpomatic.com/</ulink>
   </para>
 </section>
 <!-- ============================================================== -->
@@ -218,7 +216,7 @@ The following dependencies are required:
 <para>
 Once you have installed the development packages for the dependencies,
 download the source code from <ulink
-url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>,
+url="https://dcpomatic.com/">https://dcpomatic.com/</ulink>,
 unpack it and run the following commands from inside the source
 directory:
 </para>
@@ -1056,7 +1054,7 @@ are already in the XYZ colour space and require no conversion.
 <para>
 DCP-o-matic's colour conversion processes are discussed in much more
 detail in a separate document <ulink
-url="http://dcpomatic.com/manual/colour.pdf">colour.pdf</ulink>.
+url="https://dcpomatic.com/manual/colour.pdf">colour.pdf</ulink>.
 </para>
 
 </section>
@@ -2614,7 +2612,7 @@ You will need to restart DCP-o-matic to see the new language.
 <para>
 The translations for DCP-o-matic have been contributed by helpful
 users.  If your language is not on the last, head to <ulink
-url="http://dcpomatic.com/i18n.php">the DCP-o-matic website</ulink> to
+url="https://dcpomatic.com/i18n.php">the DCP-o-matic website</ulink> to
 find out how to contribute a translation.
 </para>
 </section>
@@ -2724,7 +2722,7 @@ If this checkbox is ticked an audio analysis will be run whenever content is add
 <para>
 The <guilabel>Check for updates on startup</guilabel> option, if
 enabled, will tell DCP-o-matic to check on <ulink
-url="http://dcpomatic.com/">dcpomatic.com</ulink> to see if there any
+url="https://dcpomatic.com/">dcpomatic.com</ulink> to see if there any
 newer versions of DCP-o-matic then the one you are running.  If so, a
 dialogue box will open with a link to download the new version.
 </para>
@@ -3368,7 +3366,7 @@ server or open a window to show its status.
 <para>If you would rather not bother installing DCP-o-matic on your
 server computers, the other option is to use the live-CD
 image that you can download from the <ulink
-url="http://dcpomatic.com/">DCP-o-matic web site.</ulink></para>
+url="https://dcpomatic.com/">DCP-o-matic web site.</ulink></para>
 
 <para>Either burn the image to CD, or write it to a USB stick (using
 something like <ulink
