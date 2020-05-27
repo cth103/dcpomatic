@@ -57,7 +57,6 @@ class Content;
 class Playlist;
 class AudioContent;
 class AudioProcessor;
-class AudioMapping;
 class Ratio;
 class Job;
 class Film;
