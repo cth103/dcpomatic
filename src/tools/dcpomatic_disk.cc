@@ -130,8 +130,12 @@ public:
 #endif
 
 #ifdef DCPOMATIC_LINUX
-		LOG_DISK("Starting writer process %1", disk_writer_path().string());
-		_writer = new boost::process::child (disk_writer_path());
+		if (getenv("DCPOMATIC_NO_START_WRITER")) {
+			LOG_DISK_NC("Not starting writer process as DCPOMATIC_NO_START_WRITER is set");
+		} else {
+			LOG_DISK("Starting writer process %1", disk_writer_path().string());
+			_writer = new boost::process::child (disk_writer_path());
+		}
 #endif
 
 #ifdef DCPOMATIC_OSX
