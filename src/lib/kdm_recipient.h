@@ -38,6 +38,8 @@ public:
 
 	explicit KDMRecipient (cxml::ConstNodePtr);
 
+	virtual ~KDMRecipient () {}
+
 	virtual void as_xml (xmlpp::Element *) const;
 
 	std::string name;
