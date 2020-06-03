@@ -49,17 +49,14 @@ extern boost::filesystem::path openssl_path ();
 #ifdef DCPOMATIC_DISK
 extern boost::filesystem::path disk_writer_path ();
 #endif
-#ifdef DCPOMATIC_OSX
-extern boost::filesystem::path app_contents ();
-#endif
 #ifdef DCPOMATIC_WINDOWS
 extern void maybe_open_console ();
 #endif
 extern boost::filesystem::path shared_path ();
 extern FILE * fopen_boost (boost::filesystem::path, std::string);
 extern int dcpomatic_fseek (FILE *, int64_t, int);
-extern void start_batch_converter (boost::filesystem::path dcpomatic);
-extern void start_player (boost::filesystem::path dcpomatic);
+extern void start_batch_converter ();
+extern void start_player ();
 extern uint64_t thread_id ();
 extern int avio_open_boost (AVIOContext** s, boost::filesystem::path file, int flags);
 extern boost::filesystem::path home_directory ();
@@ -67,6 +64,7 @@ extern std::string command_and_read (std::string cmd);
 extern bool running_32_on_64 ();
 extern void unprivileged ();
 extern boost::filesystem::path config_path ();
+extern boost::filesystem::path directory_containing_executable ();
 
 class PrivilegeEscalator
 {

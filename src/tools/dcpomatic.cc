@@ -812,7 +812,7 @@ private:
 	}
 
 	/** @return false if we succeeded, true if not */
-	bool send_to_other_tool (int port, function<void(boost::filesystem::path)> start, string message)
+	bool send_to_other_tool (int port, function<void()> start, string message)
 	{
 		/* i = 0; try to connect via socket
 		   i = 1; try again, and then try to start the tool
@@ -838,7 +838,7 @@ private:
 			}
 
 			if (i == 1) {
-				start (wx_to_std (wxStandardPaths::Get().GetExecutablePath()));
+				start ();
 			}
 
 			dcpomatic_sleep_seconds (1);
@@ -864,7 +864,7 @@ private:
 
 		_film->write_metadata ();
 
-		if (send_to_other_tool (BATCH_JOB_PORT, bind (&start_batch_converter, _1), _film->directory()->string())) {
+		if (send_to_other_tool (BATCH_JOB_PORT, &start_batch_converter, _film->directory()->string())) {
 			error_dialog (this, _("Could not find batch converter."));
 		}
 	}
@@ -875,7 +875,7 @@ private:
 			return;
 		}
 
-		if (send_to_other_tool (PLAYER_PLAY_PORT, bind (&start_player, _1), _film->dir(_film->dcp_name(false)).string())) {
+		if (send_to_other_tool (PLAYER_PLAY_PORT, &start_player, _film->dir(_film->dcp_name(false)).string())) {
 			error_dialog (this, _("Could not find player."));
 		}
 	}

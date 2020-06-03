@@ -362,7 +362,7 @@ dcpomatic_setup ()
 	/* Add our library directory to the libltdl search path so that
 	   xmlsec can find xmlsec1-openssl.
 	*/
-	boost::filesystem::path lib = app_contents ();
+	boost::filesystem::path lib = directory_containing_executable().parent_path();
 	lib /= "Frameworks";
 	setenv ("LTDL_LIBRARY_PATH", lib.c_str (), 1);
 #endif

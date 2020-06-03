@@ -127,8 +127,7 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
 	}
 
 	wchar_t dir[512];
-	GetModuleFileName (GetModuleHandle (0), dir, sizeof (dir));
-	PathRemoveFileSpec (dir);
+	MultiByteToWideChar (CP_UTF8, 0, directory_containing_executable().string().c_str(), -1, dir, sizeof(dir));
 	SetCurrentDirectory (dir);
 
 	STARTUPINFO startup_info;
@@ -185,31 +184,36 @@ mount_info ()
 	return m;
 }
 
-static boost::filesystem::path
-executable_path ()
+
+boost::filesystem::path
+directory_containing_executable ()
 {
 	return boost::dll::program_location().parent_path();
 }
 
+
 boost::filesystem::path
 shared_path ()
 {
-	return executable_path().parent_path();
+	return directory_containing_executable().parent_path();
 }
+
 
 boost::filesystem::path
 openssl_path ()
 {
-	return executable_path() / "openssl.exe";
+	return directory_containing_executable() / "openssl.exe";
 }
+
 
 #ifdef DCPOMATIC_DISK
 boost::filesystem::path
 disk_writer_path ()
 {
-	return executable_path() / "dcpomatic2_disk_writer.exe";
+	return directory_containing_executable() / "dcpomatic2_disk_writer.exe";
 }
 #endif
+
 
 /* Apparently there is no way to create an ofstream using a UTF-8
    filename under Windows.  We are hence reduced to using fopen
@@ -246,10 +250,11 @@ Waker::~Waker ()
 
 }
 
+
 void
-start_tool (boost::filesystem::path dcpomatic, string executable, string)
+start_tool (string executable)
 {
-	boost::filesystem::path batch = dcpomatic.parent_path() / executable;
+	boost::filesystem::path batch = directory_containing_executable() / executable;
 
 	STARTUPINFO startup_info;
 	ZeroMemory (&startup_info, sizeof (startup_info));
@@ -263,17 +268,20 @@ start_tool (boost::filesystem::path dcpomatic, string executable, string)
 	CreateProcess (0, cmd, 0, 0, FALSE, 0, 0, 0, &startup_info, &process_info);
 }
 
-void
-start_batch_converter (boost::filesystem::path dcpomatic)
-{
-	start_tool (dcpomatic, "dcpomatic2_batch", "DCP-o-matic\\ 2\\ Batch\\ Converter.app");
-}
 
 void
-start_player (boost::filesystem::path dcpomatic)
+start_batch_converter ()
 {
-	start_tool (dcpomatic, "dcpomatic2_player", "DCP-o-matic\\ 2\\ Player.app");
+	start_tool ("dcpomatic2_batch");
 }
+
+
+void
+start_player ()
+{
+	start_tool ("dcpomatic2_player");
+}
+
 
 uint64_t
 thread_id ()

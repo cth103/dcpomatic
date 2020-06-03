@@ -32,6 +32,9 @@ extern "C" {
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
 #include <boost/regex.hpp>
+#if BOOST_VERSION >= 106100
+#include <boost/dll/runtime_symbol_info.hpp>
+#endif
 #include <sys/sysctl.h>
 #include <mach-o/dyld.h>
 #include <IOKit/pwr_mgt/IOPMLib.h>
@@ -91,14 +94,13 @@ cpu_info ()
 	return info;
 }
 
-/** @return Path of the Contents directory in the .app */
+
 boost::filesystem::path
-app_contents ()
+directory_containing_executable ()
 {
-	/* Could use boost::dll::program_location().parent_path().parent_path() but that
-	 * boost library isn't in the 10.6 environment we're currently using and I don't
-	 * really want to change it right now.
-	 */
+#if BOOST_VERSION >= 106100
+	return boost::dll::program_location().parent_path();
+#else
 	uint32_t size = 1024;
 	char buffer[size];
 	if (_NSGetExecutablePath (buffer, &size)) {
@@ -107,28 +109,28 @@ app_contents ()
 
 	boost::filesystem::path path (buffer);
 	path = boost::filesystem::canonical (path);
-	path = path.parent_path ();
-	path = path.parent_path ();
-	return path;
+	return path.parent_path ();
+#endif
 }
+
 
 boost::filesystem::path
 shared_path ()
 {
-	return app_contents() / "Resources";
+	return directory_containing_executable().parent_path() / "Resources";
 }
+
 
 void
 run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
 {
-	boost::filesystem::path path = app_contents();
-	path /= "MacOS";
-	path /= "ffprobe";
+	boost::filesystem::path path = directory_containing_executable () / "ffprobe";
 
 	string ffprobe = "\"" + path.string() + "\" \"" + content.string() + "\" 2> \"" + out.string() + "\"";
 	LOG_GENERAL (N_("Probing with %1"), ffprobe);
 	system (ffprobe.c_str ());
 }
+
 
 list<pair<string, string> >
 mount_info ()
@@ -140,21 +142,16 @@ mount_info ()
 boost::filesystem::path
 openssl_path ()
 {
-	boost::filesystem::path path = app_contents();
-	path /= "MacOS";
-	path /= "openssl";
-	return path;
+	return directory_containing_executable() / "openssl";
 }
+
 
 #ifdef DCPOMATIC_DISK
 /* Note: this isn't actually used at the moment as the disk writer is started as a service */
 boost::filesystem::path
 disk_writer_path ()
 {
-	boost::filesystem::path path = app_contents();
-	path /= "MacOS";
-	path /= "dcpomatic2_disk_writer";
-	return path;
+	return directory_containing_executable() / "dcpomatic2_disk_writer";
 }
 #endif
 
@@ -196,9 +193,9 @@ Waker::~Waker ()
 }
 
 void
-start_tool (boost::filesystem::path dcpomatic, string executable, string app)
+start_tool (string executable, string app)
 {
-	boost::filesystem::path batch = dcpomatic.parent_path ();
+	boost::filesystem::path batch = directory_containing_executable();
 	batch = batch.parent_path (); // MacOS
 	batch = batch.parent_path (); // Contents
 	batch = batch.parent_path (); // DCP-o-matic.app
@@ -215,17 +212,20 @@ start_tool (boost::filesystem::path dcpomatic, string executable, string app)
 	}
 }
 
-void
-start_batch_converter (boost::filesystem::path dcpomatic)
-{
-	start_tool (dcpomatic, "dcpomatic2_batch", "DCP-o-matic\\ 2\\ Batch\\ Converter.app");
-}
 
 void
-start_player (boost::filesystem::path dcpomatic)
+start_batch_converter ()
 {
-	start_tool (dcpomatic, "dcpomatic2_player", "DCP-o-matic\\ 2\\ Player.app");
+	start_tool ("dcpomatic2_batch", "DCP-o-matic\\ 2\\ Batch\\ Converter.app");
 }
+
+
+void
+start_player ()
+{
+	start_tool ("dcpomatic2_player", "DCP-o-matic\\ 2\\ Player.app");
+}
+
 
 uint64_t
 thread_id ()

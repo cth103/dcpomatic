@@ -140,19 +140,35 @@ mount_info ()
 	return m;
 }
 
+
+boost::filesystem::path
+directory_containing_executable ()
+{
+#if BOOST_VERSION >= 106100
+	return boost::dll::program_location().parent_path();
+#else
+	char buffer[PATH_MAX];
+	ssize_t N = readlink ("/proc/self/exe", buffer, PATH_MAX);
+	return boost::filesystem::path(string(buffer, N)).parent_path();
+#endif
+}
+
+
 boost::filesystem::path
 openssl_path ()
 {
-	return "dcpomatic2_openssl";
+	return directory_containing_executable() / "dcpomatic2_openssl";
 }
+
 
 #ifdef DCPOMATIC_DISK
 boost::filesystem::path
 disk_writer_path ()
 {
-	return boost::dll::program_location().parent_path() / "dcpomatic2_disk_writer";
+	return directory_containing_executable() / "dcpomatic2_disk_writer";
 }
 #endif
+
 
 /* Apparently there is no way to create an ofstream using a UTF-8
    filename under Windows.  We are hence reduced to using fopen
@@ -186,10 +202,11 @@ Waker::~Waker ()
 
 }
 
+
 void
-start_tool (boost::filesystem::path dcpomatic, string executable, string)
+start_tool (string executable)
 {
-	boost::filesystem::path batch = dcpomatic.parent_path() / executable;
+	boost::filesystem::path batch = directory_containing_executable() / executable;
 
 	pid_t pid = fork ();
 	if (pid == 0) {
@@ -198,17 +215,20 @@ start_tool (boost::filesystem::path dcpomatic, string executable, string)
 	}
 }
 
-void
-start_batch_converter (boost::filesystem::path dcpomatic)
-{
-	start_tool (dcpomatic, "dcpomatic2_batch", "DCP-o-matic\\ 2\\ Batch\\ Converter.app");
-}
 
 void
-start_player (boost::filesystem::path dcpomatic)
+start_batch_converter ()
 {
-	start_tool (dcpomatic, "dcpomatic2_player", "DCP-o-matic\\ 2\\ Player.app");
+	start_tool ("dcpomatic2_batch");
 }
+
+
+void
+start_player ()
+{
+	start_tool ("dcpomatic2_player");
+}
+
 
 uint64_t
 thread_id ()
