@@ -226,7 +226,7 @@ avio_open_boost (AVIOContext** s, boost::filesystem::path file, int flags)
 boost::filesystem::path
 home_directory ()
 {
-		return getenv("HOME");
+	return getenv("HOME");
 }
 
 string
