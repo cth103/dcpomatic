@@ -82,12 +82,11 @@ CheckContentChangeJob::run ()
 		}
 	}
 
-	BOOST_FOREACH (shared_ptr<Content> i, changed) {
-		JobManager::instance()->add(shared_ptr<Job>(new ExamineContentJob(_film, i)));
-	}
-
 	if (!changed.empty()) {
 		if (_gui) {
+			BOOST_FOREACH (shared_ptr<Content> i, changed) {
+				JobManager::instance()->add(shared_ptr<Job>(new ExamineContentJob(_film, i)));
+			}
 			string m = _("Some files have been changed since they were added to the project.\n\nThese files will now be re-examined, so you may need to check their settings.");
 			if (_following) {
 				/* I'm assuming that _following is a make DCP job */
