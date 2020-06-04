@@ -614,7 +614,7 @@ VideoContent::scaled_size (dcp::Size film_container)
 			_legacy_ratio = optional<float>();
 			return fit_ratio_within(*_custom_ratio, film_container);
 		}
-		_legacy_ratio = 0;
+		_legacy_ratio = boost::optional<float>();
 	}
 
 	return auto_size;
