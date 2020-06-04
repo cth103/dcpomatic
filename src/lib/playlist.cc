@@ -70,13 +70,6 @@ Playlist::~Playlist ()
 void
 Playlist::content_change (weak_ptr<const Film> weak_film, ChangeType type, weak_ptr<Content> content, int property, bool frequent)
 {
-	/* Make sure we only hear about atomic changes (e.g. a PENDING always with the DONE/CANCELLED)
-	   Ignore any DONE/CANCELLED that arrives without a PENDING.
-	*/
-	if (_checker.send (type, property)) {
-		return;
-	}
-
 	shared_ptr<const Film> film = weak_film.lock ();
 	DCPOMATIC_ASSERT (film);
 
