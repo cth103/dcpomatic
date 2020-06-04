@@ -823,7 +823,9 @@ remap (shared_ptr<const AudioBuffers> input, int output_channels, AudioMapping m
 	shared_ptr<AudioBuffers> mapped (new AudioBuffers (output_channels, input->frames()));
 	mapped->make_silent ();
 
-	for (int i = 0; i < map.input_channels(); ++i) {
+	int to_do = min (map.input_channels(), input->channels());
+
+	for (int i = 0; i < to_do; ++i) {
 		for (int j = 0; j < mapped->channels(); ++j) {
 			if (map.get (i, static_cast<dcp::Channel> (j)) > 0) {
 				mapped->accumulate_channel (
