@@ -157,7 +157,12 @@ directory_containing_executable ()
 boost::filesystem::path
 openssl_path ()
 {
-	return directory_containing_executable() / "dcpomatic2_openssl";
+	boost::filesystem::path p = directory_containing_executable() / "dcpomatic2_openssl";
+	if (boost::filesystem::is_regular_file(p)) {
+		return p;
+	}
+
+	return "dcpomatic2_openssl";
 }
 
 
