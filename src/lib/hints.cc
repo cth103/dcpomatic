@@ -126,7 +126,7 @@ Hints::thread ()
 			Ratio const * r = Ratio::nearest_from_ratio(i->video->scaled_size(film->frame_size()).ratio());
 			if (r && r->id() == "239") {
 				++scope;
-			} else if (r && r->id() != "239" && r->id() != "190") {
+			} else if (r && r->id() != "239" && r->id() != "235" && r->id() != "190") {
 				++narrower_than_scope;
 			}
 		}
@@ -139,7 +139,7 @@ Hints::thread ()
 	}
 
 	if (!scope && narrower_than_scope && film_container == "239") {
-		hint (_("All of your content is 2.35:1 or narrower but your DCP's container is Scope (2.39:1).  This will pillar-box your content.  You may prefer to set your DCP's container to have the same ratio as your content."));
+		hint (_("All of your content narrower than 1.90:1 but your DCP's container is Scope (2.39:1).  This will pillar-box your content.  You may prefer to set your DCP's container to have the same ratio as your content."));
 	}
 
 	if (film_container != "185" && film_container != "239" && film_container != "190") {
