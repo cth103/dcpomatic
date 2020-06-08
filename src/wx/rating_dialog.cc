@@ -33,6 +33,8 @@ RatingDialog::RatingDialog (wxWindow* parent)
 	add (_label);
 
 	layout ();
+
+	_agency->SetFocus ();
 }
 
 void
