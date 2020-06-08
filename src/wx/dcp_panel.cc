@@ -793,7 +793,7 @@ DCPPanel::add_video_panel_to_grid ()
 		_frame_rate_sizer = new wxBoxSizer (wxHORIZONTAL);
 		_frame_rate_sizer->Add (_frame_rate_choice, 1, wxALIGN_CENTER_VERTICAL);
 		_frame_rate_sizer->Add (_frame_rate_spin, 1, wxALIGN_CENTER_VERTICAL);
-		_frame_rate_sizer->Add (_best_frame_rate, 1, wxALIGN_CENTER_VERTICAL);
+		_frame_rate_sizer->Add (_best_frame_rate, 1, wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
 		_video_grid->Add (_frame_rate_sizer, wxGBPosition (r, 1));
 		++r;
 	}
