@@ -98,9 +98,9 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 		_caption_reels[i] = _reels.begin ();
 	}
 
-	/* Check that the signer is OK if we need one */
+	/* Check that the signer is OK */
 	string reason;
-	if (_film->is_signed() && !Config::instance()->signer_chain()->valid(&reason)) {
+	if (!Config::instance()->signer_chain()->valid(&reason)) {
 		throw InvalidSignerError (reason);
 	}
 }
@@ -570,13 +570,11 @@ Writer::finish ()
 	cpl->set_content_version_label_text (_film->content_version());
 
 	shared_ptr<const dcp::CertificateChain> signer;
-	if (_film->is_signed ()) {
-		signer = Config::instance()->signer_chain ();
-		/* We did check earlier, but check again here to be on the safe side */
-		string reason;
-		if (!signer->valid (&reason)) {
-			throw InvalidSignerError (reason);
-		}
+	signer = Config::instance()->signer_chain ();
+	/* We did check earlier, but check again here to be on the safe side */
+	string reason;
+	if (!signer->valid (&reason)) {
+		throw InvalidSignerError (reason);
 	}
 
 	dcp.write_xml (_film->interop () ? dcp::INTEROP : dcp::SMPTE, meta, signer, Config::instance()->dcp_metadata_filename_format());

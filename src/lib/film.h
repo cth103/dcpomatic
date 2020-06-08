@@ -211,7 +211,6 @@ public:
 		DCP_CONTENT_TYPE,
 		CONTAINER,
 		RESOLUTION,
-		SIGNED,
 		ENCRYPTED,
 		KEY,
 		J2K_BANDWIDTH,
@@ -257,11 +256,6 @@ public:
 
 	Resolution resolution () const {
 		return _resolution;
-	}
-
-	/* signed is a reserved word */
-	bool is_signed () const {
-		return _signed;
 	}
 
 	bool encrypted () const {
@@ -352,7 +346,6 @@ public:
 	void set_dcp_content_type (DCPContentType const *);
 	void set_container (Ratio const *, bool user_explicit = true);
 	void set_resolution (Resolution, bool user_explicit = true);
-	void set_signed (bool);
 	void set_encrypted (bool);
 	void set_key (dcp::Key key);
 	void set_j2k_bandwidth (int);
@@ -431,7 +424,6 @@ private:
 	Ratio const * _container;
 	/** DCP resolution (2K or 4K) */
 	Resolution _resolution;
-	bool _signed;
 	bool _encrypted;
 	dcp::Key _key;
 	/** context ID used when encrypting picture assets; we keep it so that we can

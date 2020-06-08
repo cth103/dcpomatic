@@ -72,7 +72,6 @@ private:
 	void resolution_changed ();
 	void three_d_changed ();
 	void standard_changed ();
-	void signed_toggled ();
 	void encrypted_toggled ();
 	void edit_key_clicked ();
 	void audio_processor_changed ();
@@ -139,7 +138,6 @@ private:
 	wxChoice* _resolution;
 	wxStaticText* _standard_label;
 	wxChoice* _standard;
-	wxCheckBox* _signed;
 	wxCheckBox* _encrypted;
 	wxStaticText* _key_label;
 	wxStaticText* _key;

@@ -48,7 +48,6 @@ public:
 	int still_length;
 	dcp::Standard standard;
 	bool no_use_isdcf_name;
-	bool no_sign;
 	boost::optional<boost::filesystem::path> config_dir;
 	boost::optional<boost::filesystem::path> output_dir;
 	boost::optional<std::string> error;

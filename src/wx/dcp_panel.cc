@@ -97,7 +97,6 @@ DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> v
 	_dcp_content_type_label = create_label (_panel, _("Content Type"), true);
 	_dcp_content_type = new wxChoice (_panel, wxID_ANY);
 
-	_signed = new CheckBox (_panel, _("Signed"));
 	_encrypted = new CheckBox (_panel, _("Encrypted"));
 
         wxClientDC dc (_panel);
@@ -134,7 +133,6 @@ DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> v
 	_edit_isdcf_button->Bind     (wxEVT_BUTTON,   boost::bind (&DCPPanel::edit_isdcf_button_clicked, this));
 	_copy_isdcf_name_button->Bind(wxEVT_BUTTON,   boost::bind (&DCPPanel::copy_isdcf_name_button_clicked, this));
 	_dcp_content_type->Bind	     (wxEVT_CHOICE,   boost::bind (&DCPPanel::dcp_content_type_changed, this));
-	_signed->Bind                (wxEVT_CHECKBOX, boost::bind (&DCPPanel::signed_toggled, this));
 	_encrypted->Bind             (wxEVT_CHECKBOX, boost::bind (&DCPPanel::encrypted_toggled, this));
 	_edit_key->Bind              (wxEVT_BUTTON,   boost::bind (&DCPPanel::edit_key_clicked, this));
 	_reel_type->Bind             (wxEVT_CHOICE,   boost::bind (&DCPPanel::reel_type_changed, this));
@@ -202,12 +200,6 @@ DCPPanel::add_to_grid ()
 	add_label_to_sizer (_grid, _dcp_content_type_label, true, wxGBPosition (r, 0));
 	_grid->Add (_dcp_content_type, wxGBPosition (r, 1));
 	++r;
-
-	_signed->Show (full);
-	if (full) {
-		_grid->Add (_signed, wxGBPosition (r, 0), wxGBSpan (1, 2));
-		++r;
-	}
 
 	_grid->Add (_encrypted, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
@@ -295,16 +287,6 @@ DCPPanel::j2k_bandwidth_changed ()
 	}
 
 	_film->set_j2k_bandwidth (_j2k_bandwidth->GetValue() * 1000000);
-}
-
-void
-DCPPanel::signed_toggled ()
-{
-	if (!_film) {
-		return;
-	}
-
-	_film->set_signed (_signed->GetValue ());
 }
 
 void
@@ -425,18 +407,12 @@ DCPPanel::film_changed (int p)
 		checked_set (_dcp_content_type, DCPContentType::as_index (_film->dcp_content_type ()));
 		setup_dcp_name ();
 		break;
-	case Film::SIGNED:
-		checked_set (_signed, _film->is_signed ());
-		break;
 	case Film::ENCRYPTED:
 		checked_set (_encrypted, _film->encrypted ());
 		if (_film->encrypted ()) {
-			_film->set_signed (true);
-			_signed->Enable (false);
 			_key->Enable (_generally_sensitive);
 			_edit_key->Enable (_generally_sensitive);
 		} else {
-			_signed->Enable (_generally_sensitive);
 			_key->Enable (false);
 			_edit_key->Enable (false);
 		}
@@ -641,7 +617,6 @@ DCPPanel::set_film (shared_ptr<Film> film)
 	film_changed (Film::DCP_CONTENT_TYPE);
 	film_changed (Film::CONTAINER);
 	film_changed (Film::RESOLUTION);
-	film_changed (Film::SIGNED);
 	film_changed (Film::ENCRYPTED);
 	film_changed (Film::KEY);
 	film_changed (Film::J2K_BANDWIDTH);
@@ -680,7 +655,6 @@ DCPPanel::setup_sensitivity ()
 	if (_film && _film->encrypted ()) {
 		si = false;
 	}
-	_signed->Enable (si);
 
 	_encrypted->Enable              (_generally_sensitive);
 	_key->Enable                    (_generally_sensitive && _film && _film->encrypted ());

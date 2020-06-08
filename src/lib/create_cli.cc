@@ -81,7 +81,6 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	, still_length (10)
 	, standard (dcp::SMPTE)
 	, no_use_isdcf_name (false)
-	, no_sign (false)
 	, fourk (false)
 {
 	string dcp_content_type_string = "TST";
@@ -113,8 +112,6 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 			encrypt = claimed = true;
 		} else if (a == "--no-use-isdcf-name") {
 			no_use_isdcf_name = claimed = true;
-		} else if (a == "--no-sign") {
-			no_sign = claimed = true;
 		} else if (a == "--threed") {
 			threed = claimed = true;
 		} else if (a == "--left-eye") {

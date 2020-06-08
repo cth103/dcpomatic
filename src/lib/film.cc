@@ -148,7 +148,6 @@ Film::Film (optional<boost::filesystem::path> dir)
 	, _dcp_content_type (Config::instance()->default_dcp_content_type ())
 	, _container (Config::instance()->default_container ())
 	, _resolution (RESOLUTION_2K)
-	, _signed (true)
 	, _encrypted (false)
 	, _context_id (dcp::make_uuid ())
 	, _j2k_bandwidth (Config::instance()->default_j2k_bandwidth ())
@@ -447,7 +446,6 @@ Film::metadata (bool with_content_paths) const
 	root->add_child("ThreeD")->add_child_text (_three_d ? "1" : "0");
 	root->add_child("Sequence")->add_child_text (_sequence ? "1" : "0");
 	root->add_child("Interop")->add_child_text (_interop ? "1" : "0");
-	root->add_child("Signed")->add_child_text (_signed ? "1" : "0");
 	root->add_child("Encrypted")->add_child_text (_encrypted ? "1" : "0");
 	root->add_child("Key")->add_child_text (_key.hex ());
 	root->add_child("ContextID")->add_child_text (_context_id);
@@ -567,7 +565,6 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	_resolution = string_to_resolution (f.string_child ("Resolution"));
 	_j2k_bandwidth = f.number_child<int> ("J2KBandwidth");
 	_video_frame_rate = f.number_child<int> ("VideoFrameRate");
-	_signed = f.optional_bool_child("Signed").get_value_or (true);
 	_encrypted = f.bool_child ("Encrypted");
 	_audio_channels = f.number_child<int> ("AudioChannels");
 	/* We used to allow odd numbers (and zero) channels, but it's just not worth
@@ -1205,13 +1202,6 @@ Film::cpls () const
 }
 
 void
-Film::set_signed (bool s)
-{
-	ChangeSignaller<Film> ch (this, SIGNED);
-	_signed = s;
-}
-
-void
 Film::set_encrypted (bool e)
 {
 	ChangeSignaller<Film> ch (this, ENCRYPTED);
@@ -1757,7 +1747,6 @@ Film::use_template (string name)
 	_resolution = _template_film->_resolution;
 	_j2k_bandwidth = _template_film->_j2k_bandwidth;
 	_video_frame_rate = _template_film->_video_frame_rate;
-	_signed = _template_film->_signed;
 	_encrypted = _template_film->_encrypted;
 	_audio_channels = _template_film->_audio_channels;
 	_sequence = _template_film->_sequence;

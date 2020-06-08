@@ -102,7 +102,6 @@ main (int argc, char* argv[])
 		film->set_dcp_content_type (cc.dcp_content_type);
 		film->set_interop (cc.standard == dcp::INTEROP);
 		film->set_use_isdcf_name (!cc.no_use_isdcf_name);
-		film->set_signed (!cc.no_sign);
 		film->set_encrypted (cc.encrypt);
 		film->set_three_d (cc.threed);
 		if (cc.fourk) {
