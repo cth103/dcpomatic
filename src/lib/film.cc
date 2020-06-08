@@ -1208,13 +1208,6 @@ Film::set_encrypted (bool e)
 	_encrypted = e;
 }
 
-void
-Film::set_key (dcp::Key key)
-{
-	ChangeSignaller<Film> ch (this, KEY);
-	_key = key;
-}
-
 ContentList
 Film::content () const
 {

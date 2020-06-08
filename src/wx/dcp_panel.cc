@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,7 +20,6 @@
 
 #include "dcp_panel.h"
 #include "wx_util.h"
-#include "key_dialog.h"
 #include "isdcf_metadata_dialog.h"
 #include "audio_dialog.h"
 #include "focus_manager.h"
@@ -42,7 +41,6 @@
 #include "lib/dcp_content.h"
 #include "lib/audio_content.h"
 #include <dcp/locale_convert.h>
-#include <dcp/key.h>
 #include <wx/wx.h>
 #include <wx/notebook.h>
 #include <wx/gbsizer.h>
@@ -103,10 +101,6 @@ DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> v
         wxSize size = dc.GetTextExtent (wxT ("GGGGGGGG..."));
         size.SetHeight (-1);
 
-	_key_label = create_label (_panel, _("Key"), true);
-	_key = new StaticText (_panel, "", wxDefaultPosition, size);
-	_edit_key = new Button (_panel, _("Edit..."));
-
 	_reels_label = create_label (_panel, _("Reels"), true);
 	_reel_type = new wxChoice (_panel, wxID_ANY);
 
@@ -134,7 +128,6 @@ DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> v
 	_copy_isdcf_name_button->Bind(wxEVT_BUTTON,   boost::bind (&DCPPanel::copy_isdcf_name_button_clicked, this));
 	_dcp_content_type->Bind	     (wxEVT_CHOICE,   boost::bind (&DCPPanel::dcp_content_type_changed, this));
 	_encrypted->Bind             (wxEVT_CHECKBOX, boost::bind (&DCPPanel::encrypted_toggled, this));
-	_edit_key->Bind              (wxEVT_BUTTON,   boost::bind (&DCPPanel::edit_key_clicked, this));
 	_reel_type->Bind             (wxEVT_CHOICE,   boost::bind (&DCPPanel::reel_type_changed, this));
 	_reel_length->Bind           (wxEVT_SPINCTRL, boost::bind (&DCPPanel::reel_length_changed, this));
 	_standard->Bind              (wxEVT_CHOICE,   boost::bind (&DCPPanel::standard_changed, this));
@@ -205,9 +198,6 @@ DCPPanel::add_to_grid ()
 	++r;
 
 
-	_key_label->Show (full);
-	_key->Show (full);
-	_edit_key->Show (full);
 	_reels_label->Show (full);
 	_reel_type->Show (full);
 	_reel_length_label->Show (full);
@@ -222,15 +212,6 @@ DCPPanel::add_to_grid ()
 	_encrypted->Show (full);
 
 	if (full) {
-		add_label_to_sizer (_grid, _key_label, true, wxGBPosition (r, 0));
-		{
-			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-			s->Add (_key, 1, wxALIGN_CENTER_VERTICAL);
-			s->Add (_edit_key);
-			_grid->Add (s, wxGBPosition (r, 1));
-		}
-		++r;
-
 		add_label_to_sizer (_grid, _reels_label, true, wxGBPosition (r, 0));
 		_grid->Add (_reel_type, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 		++r;
@@ -257,16 +238,6 @@ DCPPanel::add_to_grid ()
 		_grid->Add (extra, wxGBPosition(r, 0), wxGBSpan(1, 2));
 		++r;
 	}
-}
-
-void
-DCPPanel::edit_key_clicked ()
-{
-	KeyDialog* d = new KeyDialog (_panel, _film->key ());
-	if (d->ShowModal () == wxID_OK) {
-		_film->set_key (d->key ());
-	}
-	d->Destroy ();
 }
 
 void
@@ -409,16 +380,6 @@ DCPPanel::film_changed (int p)
 		break;
 	case Film::ENCRYPTED:
 		checked_set (_encrypted, _film->encrypted ());
-		if (_film->encrypted ()) {
-			_key->Enable (_generally_sensitive);
-			_edit_key->Enable (_generally_sensitive);
-		} else {
-			_key->Enable (false);
-			_edit_key->Enable (false);
-		}
-		break;
-	case Film::KEY:
-		checked_set (_key, _film->key().hex().substr (0, 8) + "...");
 		break;
 	case Film::RESOLUTION:
 		checked_set (_resolution, _film->resolution() == RESOLUTION_2K ? 0 : 1);
@@ -618,7 +579,6 @@ DCPPanel::set_film (shared_ptr<Film> film)
 	film_changed (Film::CONTAINER);
 	film_changed (Film::RESOLUTION);
 	film_changed (Film::ENCRYPTED);
-	film_changed (Film::KEY);
 	film_changed (Film::J2K_BANDWIDTH);
 	film_changed (Film::ISDCF_METADATA);
 	film_changed (Film::VIDEO_FRAME_RATE);
@@ -650,15 +610,7 @@ DCPPanel::setup_sensitivity ()
 	_edit_isdcf_button->Enable      (_generally_sensitive);
 	_dcp_content_type->Enable       (_generally_sensitive);
 	_copy_isdcf_name_button->Enable (_generally_sensitive);
-
-	bool si = _generally_sensitive;
-	if (_film && _film->encrypted ()) {
-		si = false;
-	}
-
 	_encrypted->Enable              (_generally_sensitive);
-	_key->Enable                    (_generally_sensitive && _film && _film->encrypted ());
-	_edit_key->Enable               (_generally_sensitive && _film && _film->encrypted ());
 	_reel_type->Enable              (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->references_dcp_audio());
 	_reel_length->Enable            (_generally_sensitive && _film && _film->reel_type() == REELTYPE_BY_LENGTH);
 	_upload_after_make_dcp->Enable  (_generally_sensitive);

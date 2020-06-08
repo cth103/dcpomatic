@@ -61,6 +61,7 @@ class Ratio;
 class Job;
 class Film;
 struct isdcf_name_test;
+struct recover_test_2d_encrypted;
 
 class InfoFileHandle
 {
@@ -212,7 +213,6 @@ public:
 		CONTAINER,
 		RESOLUTION,
 		ENCRYPTED,
-		KEY,
 		J2K_BANDWIDTH,
 		ISDCF_METADATA,
 		VIDEO_FRAME_RATE,
@@ -347,7 +347,6 @@ public:
 	void set_container (Ratio const *, bool user_explicit = true);
 	void set_resolution (Resolution, bool user_explicit = true);
 	void set_encrypted (bool);
-	void set_key (dcp::Key key);
 	void set_j2k_bandwidth (int);
 	void set_isdcf_metadata (ISDCFMetadata);
 	void set_video_frame_rate (int rate, bool user_explicit = false);
@@ -387,6 +386,7 @@ public:
 private:
 
 	friend struct ::isdcf_name_test;
+	friend struct ::recover_test_2d_encrypted;
 	template <typename> friend class ChangeSignaller;
 
 	boost::filesystem::path info_file (dcpomatic::DCPTimePeriod p) const;

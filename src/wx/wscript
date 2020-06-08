@@ -91,7 +91,6 @@ sources = """
           kdm_dialog.cc
           kdm_output_panel.cc
           kdm_timing_panel.cc
-          key_dialog.cc
           make_chain_dialog.cc
           markers_dialog.cc
           message_dialog.cc

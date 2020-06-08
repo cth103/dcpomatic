@@ -73,7 +73,6 @@ private:
 	void three_d_changed ();
 	void standard_changed ();
 	void encrypted_toggled ();
-	void edit_key_clicked ();
 	void audio_processor_changed ();
 	void show_audio_clicked ();
 	void reel_type_changed ();
@@ -139,9 +138,6 @@ private:
 	wxStaticText* _standard_label;
 	wxChoice* _standard;
 	wxCheckBox* _encrypted;
-	wxStaticText* _key_label;
-	wxStaticText* _key;
-	wxButton* _edit_key;
 	wxStaticText* _reels_label;
 	wxChoice* _reel_type;
 	wxStaticText* _reel_length_label;
