@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -23,19 +23,46 @@
 
 class wxSpinCtrl;
 
+
 class TimePicker : public wxPanel
 {
 public:
-	TimePicker (wxWindow* parent, wxDateTime time);
+	TimePicker (wxWindow* parent);
+
+	virtual int hours () const = 0;
+	virtual int minutes () const = 0;
+
+	boost::signals2::signal<void ()> Changed;
+};
+
+
+class TimePickerSpin : public TimePicker
+{
+public:
+	TimePickerSpin (wxWindow* parent, wxDateTime time);
 
 	int hours () const;
 	int minutes () const;
 
-	boost::signals2::signal<void ()> Changed;
-
 private:
-	void spin_changed ();
+	void changed ();
 
 	wxSpinCtrl* _hours;
 	wxSpinCtrl* _minutes;
+};
+
+
+class TimePickerText : public TimePicker
+{
+public:
+	TimePickerText (wxWindow* parent, wxDateTime time);
+
+	int hours () const;
+	int minutes () const;
+
+private:
+	void changed ();
+
+	wxTextCtrl* _hours;
+	wxTextCtrl* _minutes;
 };

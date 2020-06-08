@@ -43,8 +43,17 @@ RecipientsPanel::RecipientsPanel (wxWindow* parent)
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 
-	_search = new wxSearchCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (200, -1));
+#ifdef __WXGTK3__
+	int const height = 30;
+#else
+	int const height = -1;
+#endif
+
+	_search = new wxSearchCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (200, height));
+#ifndef __WXGTK3__
+	/* The cancel button seems to be strangely broken in GTK3; clicking on it twice sometimes works */
 	_search->ShowCancelButton (true);
+#endif
 	sizer->Add (_search, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP);
 
 	wxBoxSizer* targets = new wxBoxSizer (wxHORIZONTAL);
