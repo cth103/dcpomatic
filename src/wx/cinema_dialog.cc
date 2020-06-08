@@ -96,6 +96,8 @@ CinemaDialog::CinemaDialog (wxWindow* parent, wxString title, string name, list<
 
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
+
+	_name->SetFocus ();
 }
 
 string

@@ -32,6 +32,8 @@ EmailDialog::EmailDialog (wxWindow* parent)
 	_email = add (new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxSize (400, -1)));
 
 	layout ();
+
+	_email->SetFocus ();
 }
 
 void

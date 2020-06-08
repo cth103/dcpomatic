@@ -97,6 +97,8 @@ ReportProblemDialog::ReportProblemDialog (wxWindow* parent, shared_ptr<Film> fil
 
 	_overall_sizer->Layout ();
 	_overall_sizer->SetSizeHints (this);
+
+	_summary->SetFocus ();
 }
 
 void

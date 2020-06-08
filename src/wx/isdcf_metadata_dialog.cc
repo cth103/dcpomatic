@@ -107,6 +107,8 @@ ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm, bo
 	setup_sensitivity ();
 
 	layout ();
+
+	_content_version->SetFocus ();
 }
 
 void

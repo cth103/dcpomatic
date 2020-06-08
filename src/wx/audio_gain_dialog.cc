@@ -38,6 +38,8 @@ AudioGainDialog::AudioGainDialog (wxWindow* parent, int c, int d, float v)
 	_gain->SetValue (linear_to_db(v));
 
 	layout ();
+
+	_gain->SetFocus ();
 }
 
 float

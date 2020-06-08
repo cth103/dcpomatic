@@ -92,6 +92,7 @@ MetadataDialog::MetadataDialog (wxWindow* parent, weak_ptr<Film> film)
 	overall_sizer->SetSizeHints (this);
 
 	_content_version->Bind (wxEVT_TEXT, boost::bind(&MetadataDialog::content_version_changed, this));
+	_content_version->SetFocus ();
 }
 
 vector<dcp::Rating>

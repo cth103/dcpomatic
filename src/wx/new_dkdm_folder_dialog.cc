@@ -26,6 +26,8 @@ NewDKDMFolderDialog::NewDKDMFolderDialog (wxWindow* parent)
 	add (_("Folder name"), true);
 	_name = add (new wxTextCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (300, -1)));
 	layout ();
+
+	_name->SetFocus ();
 }
 
 wxString

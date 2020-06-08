@@ -31,6 +31,8 @@ RepeatDialog::RepeatDialog (wxWindow* parent)
 	_number->SetRange (1, 1024);
 
 	layout ();
+
+	_number->SetFocus ();
 }
 
 int

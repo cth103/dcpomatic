@@ -41,6 +41,8 @@ ServerDialog::ServerDialog (wxWindow* parent)
 	_host = add (new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size));
 
 	layout ();
+
+	_host->SetFocus ();
 }
 
 void

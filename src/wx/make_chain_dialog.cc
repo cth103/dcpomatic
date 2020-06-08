@@ -88,4 +88,6 @@ MakeChainDialog::MakeChainDialog (
 	}
 
 	layout ();
+
+	_organisation->SetFocus ();
 }

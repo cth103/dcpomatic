@@ -43,6 +43,8 @@ MonitorDialog::MonitorDialog (wxWindow* parent)
 	_year_of_manufacture = add (new wxTextCtrl(this, wxID_ANY, wxT("")));
 
 	layout ();
+
+	_manufacturer_id->SetFocus ();
 }
 
 void
