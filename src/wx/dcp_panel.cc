@@ -706,8 +706,6 @@ DCPPanel::setup_frame_rate_widget ()
 		_frame_rate_choice->Show ();
 		_frame_rate_spin->Hide ();
 	}
-
-	_frame_rate_sizer->Layout ();
 }
 
 wxPanel *
@@ -728,13 +726,9 @@ DCPPanel::make_video_panel ()
 
 	_frame_rate_label = create_label (panel, _("Frame Rate"), true);
 	_frame_rate_choice = new wxChoice (panel, wxID_ANY);
-	_frame_rate_sizer = new wxBoxSizer (wxHORIZONTAL);
-	_frame_rate_sizer->Add (_frame_rate_choice, 1, wxALIGN_CENTER_VERTICAL);
 	_frame_rate_spin = new wxSpinCtrl (panel, wxID_ANY);
-	_frame_rate_sizer->Add (_frame_rate_spin, 1, wxALIGN_CENTER_VERTICAL);
 	setup_frame_rate_widget ();
 	_best_frame_rate = new Button (panel, _("Use best"));
-	_frame_rate_sizer->Add (_best_frame_rate, 1, wxALIGN_CENTER_VERTICAL);
 
 	_three_d = new CheckBox (panel, _("3D"));
 
