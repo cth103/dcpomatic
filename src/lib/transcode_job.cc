@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -22,6 +22,7 @@
  *  @brief A job which transcodes from one format to another.
  */
 
+#include "config.h"
 #include "transcode_job.h"
 #include "dcp_encoder.h"
 #include "upload_job.h"
@@ -101,7 +102,7 @@ TranscodeJob::run ()
 		}
 
 		/* XXX: this shouldn't be here */
-		if (_film->upload_after_make_dcp() && dynamic_pointer_cast<DCPEncoder>(_encoder)) {
+		if (Config::instance()->upload_after_make_dcp() && dynamic_pointer_cast<DCPEncoder>(_encoder)) {
 			shared_ptr<Job> job (new UploadJob (_film));
 			JobManager::instance()->add (job);
 		}

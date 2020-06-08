@@ -160,7 +160,6 @@ Film::Film (optional<boost::filesystem::path> dir)
 	, _audio_processor (0)
 	, _reel_type (REELTYPE_SINGLE)
 	, _reel_length (2000000000)
-	, _upload_after_make_dcp (Config::instance()->default_upload_after_make_dcp())
 	, _reencode_j2k (false)
 	, _user_explicit_video_frame_rate (false)
 	, _user_explicit_container (false)
@@ -454,7 +453,6 @@ Film::metadata (bool with_content_paths) const
 	}
 	root->add_child("ReelType")->add_child_text (raw_convert<string> (static_cast<int> (_reel_type)));
 	root->add_child("ReelLength")->add_child_text (raw_convert<string> (_reel_length));
-	root->add_child("UploadAfterMakeDCP")->add_child_text (_upload_after_make_dcp ? "1" : "0");
 	root->add_child("ReencodeJ2K")->add_child_text (_reencode_j2k ? "1" : "0");
 	root->add_child("UserExplicitVideoFrameRate")->add_child_text(_user_explicit_video_frame_rate ? "1" : "0");
 	for (map<dcp::Marker, DCPTime>::const_iterator i = _markers.begin(); i != _markers.end(); ++i) {
@@ -602,7 +600,6 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 
 	_reel_type = static_cast<ReelType> (f.optional_number_child<int>("ReelType").get_value_or (static_cast<int>(REELTYPE_SINGLE)));
 	_reel_length = f.optional_number_child<int64_t>("ReelLength").get_value_or (2000000000);
-	_upload_after_make_dcp = f.optional_bool_child("UploadAfterMakeDCP").get_value_or (false);
 	_reencode_j2k = f.optional_bool_child("ReencodeJ2K").get_value_or(false);
 	_user_explicit_video_frame_rate = f.optional_bool_child("UserExplicitVideoFrameRate").get_value_or(false);
 
@@ -1082,13 +1079,6 @@ Film::set_reel_length (int64_t r)
 {
 	ChangeSignaller<Film> ch (this, REEL_LENGTH);
 	_reel_length = r;
-}
-
-void
-Film::set_upload_after_make_dcp (bool u)
-{
-	ChangeSignaller<Film> ch (this, UPLOAD_AFTER_MAKE_DCP);
-	_upload_after_make_dcp = u;
 }
 
 void
@@ -1748,7 +1738,6 @@ Film::use_template (string name)
 	_audio_processor = _template_film->_audio_processor;
 	_reel_type = _template_film->_reel_type;
 	_reel_length = _template_film->_reel_length;
-	_upload_after_make_dcp = _template_film->_upload_after_make_dcp;
 	_isdcf_metadata = _template_film->_isdcf_metadata;
 }
 

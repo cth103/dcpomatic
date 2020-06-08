@@ -111,8 +111,6 @@ DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> v
 	_standard_label = create_label (_panel, _("Standard"), true);
 	_standard = new wxChoice (_panel, wxID_ANY);
 
-	_upload_after_make_dcp = new CheckBox (_panel, _("Upload DCP to TMS after it is made"));
-
 	_markers = new Button (_panel, _("Markers..."));
 	_metadata = new Button (_panel, _("Metadata..."));
 
@@ -131,7 +129,6 @@ DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> v
 	_reel_type->Bind             (wxEVT_CHOICE,   boost::bind (&DCPPanel::reel_type_changed, this));
 	_reel_length->Bind           (wxEVT_SPINCTRL, boost::bind (&DCPPanel::reel_length_changed, this));
 	_standard->Bind              (wxEVT_CHOICE,   boost::bind (&DCPPanel::standard_changed, this));
-	_upload_after_make_dcp->Bind (wxEVT_CHECKBOX, boost::bind (&DCPPanel::upload_after_make_dcp_changed, this));
 	_markers->Bind               (wxEVT_BUTTON,   boost::bind (&DCPPanel::markers_clicked, this));
 	_metadata->Bind              (wxEVT_BUTTON,   boost::bind (&DCPPanel::metadata_clicked, this));
 
@@ -205,7 +202,6 @@ DCPPanel::add_to_grid ()
 	_reel_length_gb_label->Show (full);
 	_standard_label->Show (full);
 	_standard->Show (full);
-	_upload_after_make_dcp->Show (full);
 	_markers->Show (full);
 	_metadata->Show (full);
 	_reencode_j2k->Show (full);
@@ -227,9 +223,6 @@ DCPPanel::add_to_grid ()
 
 		add_label_to_sizer (_grid, _standard_label, true, wxGBPosition (r, 0));
 		_grid->Add (_standard, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-		++r;
-
-		_grid->Add (_upload_after_make_dcp, wxGBPosition (r, 0), wxGBSpan (1, 2));
 		++r;
 
 		wxBoxSizer* extra = new wxBoxSizer (wxHORIZONTAL);
@@ -325,16 +318,6 @@ DCPPanel::standard_changed ()
 	}
 
 	_film->set_interop (_standard->GetSelection() == 1);
-}
-
-void
-DCPPanel::upload_after_make_dcp_changed ()
-{
-	if (!_film) {
-		return;
-	}
-
-	_film->set_upload_after_make_dcp (_upload_after_make_dcp->GetValue ());
 }
 
 void
@@ -466,9 +449,6 @@ DCPPanel::film_changed (int p)
 	case Film::REEL_LENGTH:
 		checked_set (_reel_length, _film->reel_length() / 1000000000LL);
 		break;
-	case Film::UPLOAD_AFTER_MAKE_DCP:
-		checked_set (_upload_after_make_dcp, _film->upload_after_make_dcp ());
-		break;
 	case Film::CONTENT:
 		setup_dcp_name ();
 		break;
@@ -589,7 +569,6 @@ DCPPanel::set_film (shared_ptr<Film> film)
 	film_changed (Film::AUDIO_PROCESSOR);
 	film_changed (Film::REEL_TYPE);
 	film_changed (Film::REEL_LENGTH);
-	film_changed (Film::UPLOAD_AFTER_MAKE_DCP);
 	film_changed (Film::REENCODE_J2K);
 
 	set_general_sensitivity(static_cast<bool>(_film));
@@ -613,7 +592,6 @@ DCPPanel::setup_sensitivity ()
 	_encrypted->Enable              (_generally_sensitive);
 	_reel_type->Enable              (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->references_dcp_audio());
 	_reel_length->Enable            (_generally_sensitive && _film && _film->reel_type() == REELTYPE_BY_LENGTH);
-	_upload_after_make_dcp->Enable  (_generally_sensitive);
 	_markers->Enable                (_generally_sensitive && _film && !_film->interop());
 	_metadata->Enable               (_generally_sensitive);
 	_frame_rate_choice->Enable      (_generally_sensitive && _film && !_film->references_dcp_video());

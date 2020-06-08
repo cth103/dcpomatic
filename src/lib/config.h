@@ -214,8 +214,8 @@ public:
 		return _default_interop;
 	}
 
-	bool default_upload_after_make_dcp () {
-		return _default_upload_after_make_dcp;
+	bool upload_after_make_dcp () {
+		return _upload_after_make_dcp;
 	}
 
 	void set_default_kdm_directory (boost::filesystem::path d) {
@@ -710,8 +710,8 @@ public:
 		maybe_set (_default_interop, i);
 	}
 
-	void set_default_upload_after_make_dcp (bool u) {
-		maybe_set (_default_upload_after_make_dcp, u);
+	void set_upload_after_make_dcp (bool u) {
+		maybe_set (_upload_after_make_dcp, u);
 	}
 
 	void set_mail_server (std::string s) {
@@ -1236,7 +1236,7 @@ private:
 	    the home directory will be offered.
 	*/
 	boost::optional<boost::filesystem::path> _default_kdm_directory;
-	bool _default_upload_after_make_dcp;
+	bool _upload_after_make_dcp;
 	std::list<boost::shared_ptr<Cinema> > _cinemas;
 	std::list<boost::shared_ptr<DKDMRecipient> > _dkdm_recipients;
 	std::string _mail_server;

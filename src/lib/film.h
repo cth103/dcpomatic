@@ -224,7 +224,6 @@ public:
 		AUDIO_PROCESSOR,
 		REEL_TYPE,
 		REEL_LENGTH,
-		UPLOAD_AFTER_MAKE_DCP,
 		REENCODE_J2K,
 		MARKERS,
 		RATINGS,
@@ -307,10 +306,6 @@ public:
 		return _reel_length;
 	}
 
-	bool upload_after_make_dcp () const {
-		return _upload_after_make_dcp;
-	}
-
 	std::string context_id () const {
 		return _context_id;
 	}
@@ -358,7 +353,6 @@ public:
 	void set_audio_processor (AudioProcessor const * processor);
 	void set_reel_type (ReelType);
 	void set_reel_length (int64_t);
-	void set_upload_after_make_dcp (bool);
 	void set_reencode_j2k (bool);
 	void set_marker (dcp::Marker type, dcpomatic::DCPTime time);
 	void unset_marker (dcp::Marker type);
@@ -450,7 +444,6 @@ private:
 	ReelType _reel_type;
 	/** Desired reel length in bytes, if _reel_type == REELTYPE_BY_LENGTH */
 	int64_t _reel_length;
-	bool _upload_after_make_dcp;
 	bool _reencode_j2k;
 	/** true if the user has ever explicitly set the video frame rate of this film */
 	bool _user_explicit_video_frame_rate;

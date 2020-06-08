@@ -77,7 +77,6 @@ private:
 	void show_audio_clicked ();
 	void reel_type_changed ();
 	void reel_length_changed ();
-	void upload_after_make_dcp_changed ();
 	void markers_clicked ();
 	void metadata_clicked ();
 	void reencode_j2k_changed ();
@@ -143,7 +142,6 @@ private:
 	wxStaticText* _reel_length_label;
 	wxStaticText* _reel_length_gb_label;
 	wxSpinCtrl* _reel_length;
-	wxCheckBox* _upload_after_make_dcp;
 	wxButton* _markers;
 	wxButton* _metadata;
 	wxSizer* _audio_panel_sizer;

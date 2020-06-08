@@ -379,9 +379,6 @@ private:
 
 		table->Add (_kdm_directory, 1, wxEXPAND);
 
-		_upload_after_make_dcp = new CheckBox (_panel, _("Default to enabling upload of DCP to TMS"));
-		table->Add (_upload_after_make_dcp, 1, wxEXPAND);
-
 		_still_length->SetRange (1, 3600);
 		_still_length->Bind (wxEVT_SPINCTRL, boost::bind (&DefaultsPage::still_length_changed, this));
 
@@ -414,8 +411,6 @@ private:
 		_standard->Append (_("SMPTE"));
 		_standard->Append (_("Interop"));
 		_standard->Bind (wxEVT_CHOICE, boost::bind (&DefaultsPage::standard_changed, this));
-
-		_upload_after_make_dcp->Bind (wxEVT_CHECKBOX, boost::bind (&DefaultsPage::upload_after_make_dcp_changed, this));
 	}
 
 	void config_changed ()
@@ -444,7 +439,6 @@ private:
 		checked_set (_dcp_audio_channels, locale_convert<string> (config->default_dcp_audio_channels()));
 		checked_set (_audio_delay, config->default_audio_delay ());
 		checked_set (_standard, config->default_interop() ? 1 : 0);
-		checked_set (_upload_after_make_dcp, config->default_upload_after_make_dcp());
 	}
 
 	void j2k_bandwidth_changed ()
@@ -507,11 +501,6 @@ private:
 		Config::instance()->set_default_interop (_standard->GetSelection() == 1);
 	}
 
-	void upload_after_make_dcp_changed ()
-	{
-		Config::instance()->set_default_upload_after_make_dcp (_upload_after_make_dcp->GetValue ());
-	}
-
 	wxSpinCtrl* _j2k_bandwidth;
 	wxSpinCtrl* _audio_delay;
 	wxButton* _isdcf_metadata_button;
@@ -527,7 +516,6 @@ private:
 	wxChoice* _dcp_content_type;
 	wxChoice* _dcp_audio_channels;
 	wxChoice* _standard;
-	wxCheckBox* _upload_after_make_dcp;
 };
 
 class EncodingServersPage : public StandardPage
@@ -612,6 +600,9 @@ public:
 private:
 	void setup ()
 	{
+		_upload = new CheckBox (_panel, _("Upload DCP to TMS after creation"));
+		_panel->GetSizer()->Add (_upload, 0, wxALL | wxEXPAND, _border);
+
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
 		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
@@ -639,6 +630,7 @@ private:
 		_tms_protocol->Append (_("SCP (for AAM and Doremi)"));
 		_tms_protocol->Append (_("FTP (for Dolby)"));
 
+		_upload->Bind (wxEVT_CHECKBOX, boost::bind(&TMSPage::upload_changed, this));
 		_tms_protocol->Bind (wxEVT_CHOICE, boost::bind (&TMSPage::tms_protocol_changed, this));
 		_tms_ip->Bind (wxEVT_TEXT, boost::bind (&TMSPage::tms_ip_changed, this));
 		_tms_path->Bind (wxEVT_TEXT, boost::bind (&TMSPage::tms_path_changed, this));
@@ -650,11 +642,17 @@ private:
 	{
 		Config* config = Config::instance ();
 
+		checked_set (_upload, config->upload_after_make_dcp());
 		checked_set (_tms_protocol, config->tms_protocol ());
 		checked_set (_tms_ip, config->tms_ip ());
 		checked_set (_tms_path, config->tms_path ());
 		checked_set (_tms_user, config->tms_user ());
 		checked_set (_tms_password, config->tms_password ());
+	}
+
+	void upload_changed ()
+	{
+		Config::instance()->set_upload_after_make_dcp (_upload->GetValue());
 	}
 
 	void tms_protocol_changed ()
@@ -682,6 +680,7 @@ private:
 		Config::instance()->set_tms_password (_tms_password->get());
 	}
 
+	CheckBox* _upload;
 	wxChoice* _tms_protocol;
 	wxTextCtrl* _tms_ip;
 	wxTextCtrl* _tms_path;

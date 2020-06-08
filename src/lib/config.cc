@@ -104,7 +104,7 @@ Config::set_defaults ()
 	_default_j2k_bandwidth = 150000000;
 	_default_audio_delay = 0;
 	_default_interop = true;
-	_default_upload_after_make_dcp = false;
+	_upload_after_make_dcp = false;
 	_mail_server = "";
 	_mail_port = 25;
 	_mail_protocol = EMAIL_PROTOCOL_AUTO;
@@ -317,7 +317,11 @@ try
 		_dcp_issuer = f.string_child ("DCPIssuer");
 	}
 
-	_default_upload_after_make_dcp = f.optional_bool_child("DefaultUploadAfterMakeDCP").get_value_or (false);
+	optional<bool> up = f.optional_bool_child("UploadAfterMakeDCP");
+	if (!up) {
+		up = f.optional_bool_child("DefaultUploadAfterMakeDCP");
+	}
+	_upload_after_make_dcp = up.get_value_or (false);
 	_dcp_creator = f.optional_string_child ("DCPCreator").get_value_or ("");
 
 	if (version && version.get() >= 2) {
@@ -725,8 +729,8 @@ Config::write_config () const
 	root->add_child("DCPIssuer")->add_child_text (_dcp_issuer);
 	/* [XML] DCPIssuer Creator text to write into CPL files. */
 	root->add_child("DCPCreator")->add_child_text (_dcp_creator);
-	/* [XML] DefaultUploadAfterMakeDCP 1 to default to uploading to a TMS after making a DCP, 0 to default to no upload. */
-	root->add_child("DefaultUploadAfterMakeDCP")->add_child_text (_default_upload_after_make_dcp ? "1" : "0");
+	/* [XML] UploadAfterMakeDCP 1 to upload to a TMS after making a DCP, 0 for no upload. */
+	root->add_child("UploadAfterMakeDCP")->add_child_text (_upload_after_make_dcp ? "1" : "0");
 
 	/* [XML] ISDCFMetadata Default ISDCF metadata to use for new films; child tags are <code>&lt;ContentVersion&gt;</code>,
 	   <code>&lt;AudioLanguage&gt;</code>, <code>&lt;SubtitleLanguage&gt;</code>, <code>&lt;Territory&gt;</code>,
