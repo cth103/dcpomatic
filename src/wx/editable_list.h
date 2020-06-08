@@ -87,7 +87,18 @@ public:
 			total_width += i.width.get_value_or (_default_width);
 		}
 
+#ifdef __WXGTK3__
+		/* With the GTK3 backend wxListCtrls are hard to pick out from the background of the
+		 * window, so put a border in to help.
+		 */
+		wxPanel* border = new wxPanel (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL | wxBORDER_THEME);
+		_list = new wxListCtrl (border, wxID_ANY, wxDefaultPosition, wxSize(total_width, 100), style);
+		wxBoxSizer* border_sizer = new wxBoxSizer (wxHORIZONTAL);
+		border_sizer->Add (_list, 1, wxALL | wxEXPAND, 2);
+		border->SetSizer (border_sizer);
+#else
 		_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize(total_width, 100), style);
+#endif
 
 		int j = 0;
 		BOOST_FOREACH (EditableListColumn i, _columns) {
@@ -98,7 +109,11 @@ public:
 			++j;
 		}
 
+#ifdef __WXGTK3__
+		_sizer->Add (border, 1, wxEXPAND);
+#else
 		_sizer->Add (_list, 1, wxEXPAND);
+#endif
 
 		{
 			wxSizer* s = new wxBoxSizer (wxVERTICAL);
