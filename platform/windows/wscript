@@ -326,6 +326,13 @@ File "%cdist_deps%/share/libdcp/xsd/xmldsig-core-schema.xsd"
 File "%cdist_deps%/share/libdcp/xsd/XMLSchema.dtd"
 File "%cdist_deps%/share/libdcp/xsd/XMLSchema.xsd"
 File "%cdist_deps%/share/libdcp/xsd/xml.xsd"
+File "%cdist_deps%/share/libdcp/xsd/DCDMSubtitle-2010.xsd"
+File "%cdist_deps%/share/libdcp/xsd/DCSubtitle.v1.mattsson.xsd"
+File "%cdist_deps%/share/libdcp/xsd/Main-Stereo-Picture-CPL.xsd"
+File "%cdist_deps%/share/libdcp/xsd/PROTO-ASDCP-AM-20040311.xsd"
+File "%cdist_deps%/share/libdcp/xsd/PROTO-ASDCP-CPL-20040511.xsd"
+File "%cdist_deps%/share/libdcp/xsd/PROTO-ASDCP-PKL-20040311.xsd"
+
 SectionEnd
     """, file=f)
 
