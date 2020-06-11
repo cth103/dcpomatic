@@ -550,9 +550,7 @@ def build(target, options):
     else:
         target.command('./waf configure --prefix=%s %s' % (target.directory, configure_options(target, options)))
         target.command('./waf')
-
-        if target.platform == 'linux' or target.platform == 'osx':
-            target.command('./waf install')
+        target.command('./waf install')
 
 def package_windows(target):
     identifier = ''
