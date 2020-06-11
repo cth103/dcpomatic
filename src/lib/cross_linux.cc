@@ -33,7 +33,7 @@ extern "C" {
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
 #include <boost/function.hpp>
-#ifdef DCPOMATIC_DISK
+#if BOOST_VERSION >= 106100
 #include <boost/dll/runtime_symbol_info.hpp>
 #endif
 #include <unistd.h>
