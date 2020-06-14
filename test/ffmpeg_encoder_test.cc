@@ -376,3 +376,20 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test7)
 	encoder.go ();
 }
 
+
+/** Stereo project with mixdown-to-stereo set */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test8)
+{
+	shared_ptr<Film> film = new_test_film2("ffmpeg_encoder_h264_test4");
+	film->examine_and_add_content(shared_ptr<DCPContent>(new DCPContent("test/data/scope_dcp")));
+	BOOST_REQUIRE(!wait_for_jobs());
+	film->set_audio_channels (2);
+
+	shared_ptr<Job> job(new TranscodeJob(film));
+	FFmpegEncoder encoder(film, job, "build/test/ffmpeg_encoder_h264_test8.mp4", EXPORT_FORMAT_H264_AAC, true, false, 23
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+			       , optional<dcp::Key>(), optional<string>()
+#endif
+		);
+	encoder.go();
+}
