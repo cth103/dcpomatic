@@ -130,8 +130,9 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 		throw runtime_error (String::compose ("could not open FFmpeg audio codec (%1)", buffer));
 	}
 
-	if (avio_open_boost (&_format_context->pb, _output, AVIO_FLAG_WRITE) < 0) {
-		throw runtime_error ("could not open FFmpeg output file");
+	r = avio_open_boost (&_format_context->pb, _output, AVIO_FLAG_WRITE);
+	if (r < 0) {
+		throw runtime_error (String::compose("could not open FFmpeg output file %1 (%2)", _output.string(), r));
 	}
 
 	AVDictionary* options = 0;
