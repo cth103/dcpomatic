@@ -133,11 +133,33 @@ private:
 
 		add_label_to_sizer (bottom_table, _panel, _("Issuer"), true);
 		_issuer = new wxTextCtrl (_panel, wxID_ANY);
+		_issuer->SetToolTip (_("This will be written to the DCP's XML files as the <Issuer>.  If it is blank, a default value mentioning DCP-o-matic will be used."));
 		bottom_table->Add (_issuer, 1, wxALL | wxEXPAND);
 
 		add_label_to_sizer (bottom_table, _panel, _("Creator"), true);
 		_creator = new wxTextCtrl (_panel, wxID_ANY);
+		_creator->SetToolTip (_("This will be written to the DCP's XML files as the <Creator>.  If it is blank, a default value mentioning DCP-o-matic will be used."));
 		bottom_table->Add (_creator, 1, wxALL | wxEXPAND);
+
+		add_label_to_sizer (bottom_table, _panel, _("Company name"), true);
+		_company_name = new wxTextCtrl (_panel, wxID_ANY);
+		_company_name->SetToolTip (_("This will be written to the DCP's MXF files as the 'company name'.  If it is blank, a default value mentioning libdcp (an internal DCP-o-matic library) will be used."));
+		bottom_table->Add (_company_name, 1, wxALL | wxEXPAND);
+
+		add_label_to_sizer (bottom_table, _panel, _("Product name"), true);
+		_product_name = new wxTextCtrl (_panel, wxID_ANY);
+		_product_name->SetToolTip (_("This will be written to the DCP's MXF files as the 'product name'.  If it is blank, a default value mentioning libdcp (an internal DCP-o-matic library) will be used."));
+		bottom_table->Add (_product_name, 1, wxALL | wxEXPAND);
+
+		add_label_to_sizer (bottom_table, _panel, _("Product version"), true);
+		_product_version = new wxTextCtrl (_panel, wxID_ANY);
+		_product_version->SetToolTip (_("This will be written to the DCP's MXF files as the 'product version'.  If it is blank, a default value mentioning libdcp (an internal DCP-o-matic library) will be used."));
+		bottom_table->Add (_product_version, 1, wxALL | wxEXPAND);
+
+		add_label_to_sizer (bottom_table, _panel, _("JPEG2000 comment"), true);
+		_j2k_comment = new wxTextCtrl (_panel, wxID_ANY);
+		_j2k_comment->SetToolTip (_("This will be written to the DCP's JPEG2000 data as a comment.  If it is blank, a default value mentioning libdcp (an internal DCP-o-matic library) will be used."));
+		bottom_table->Add (_j2k_comment, 1, wxALL | wxEXPAND);
 
 		table->Add (bottom_table, wxGBPosition (r, 0), wxGBSpan (2, 2), wxEXPAND);
 		++r;
@@ -162,6 +184,10 @@ private:
 
 		_issuer->Bind (wxEVT_TEXT, boost::bind (&FullGeneralPage::issuer_changed, this));
 		_creator->Bind (wxEVT_TEXT, boost::bind (&FullGeneralPage::creator_changed, this));
+		_company_name->Bind (wxEVT_TEXT, boost::bind (&FullGeneralPage::company_name_changed, this));
+		_product_name->Bind (wxEVT_TEXT, boost::bind (&FullGeneralPage::product_name_changed, this));
+		_product_version->Bind (wxEVT_TEXT, boost::bind (&FullGeneralPage::product_version_changed, this));
+		_j2k_comment->Bind (wxEVT_TEXT, boost::bind (&FullGeneralPage::j2k_comment_changed, this));
 	}
 
 	void config_changed ()
@@ -184,6 +210,10 @@ private:
 		checked_set (_automatic_audio_analysis, config->automatic_audio_analysis ());
 		checked_set (_issuer, config->dcp_issuer ());
 		checked_set (_creator, config->dcp_creator ());
+		checked_set (_company_name, config->dcp_company_name ());
+		checked_set (_product_name, config->dcp_product_name ());
+		checked_set (_product_version, config->dcp_product_version ());
+		checked_set (_j2k_comment, config->dcp_j2k_comment ());
 		checked_set (_config_file, config->config_file());
 		checked_set (_cinemas_file, config->cinemas_file());
 
@@ -245,6 +275,26 @@ private:
 		Config::instance()->set_dcp_creator (wx_to_std (_creator->GetValue ()));
 	}
 
+	void company_name_changed ()
+	{
+		Config::instance()->set_dcp_company_name (wx_to_std(_company_name->GetValue()));
+	}
+
+	void product_name_changed ()
+	{
+		Config::instance()->set_dcp_product_name (wx_to_std(_product_name->GetValue()));
+	}
+
+	void product_version_changed ()
+	{
+		Config::instance()->set_dcp_product_version (wx_to_std(_product_version->GetValue()));
+	}
+
+	void j2k_comment_changed ()
+	{
+		Config::instance()->set_dcp_j2k_comment (wx_to_std(_j2k_comment->GetValue()));
+	}
+
 	void config_file_changed ()
 	{
 		Config* config = Config::instance();
@@ -287,6 +337,10 @@ private:
 	wxCheckBox* _automatic_audio_analysis;
 	wxTextCtrl* _issuer;
 	wxTextCtrl* _creator;
+	wxTextCtrl* _company_name;
+	wxTextCtrl* _product_name;
+	wxTextCtrl* _product_version;
+	wxTextCtrl* _j2k_comment;
 };
 
 class DefaultsPage : public StandardPage

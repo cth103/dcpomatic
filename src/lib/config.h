@@ -202,6 +202,22 @@ public:
 		return _dcp_creator;
 	}
 
+	std::string dcp_company_name () const {
+		return _dcp_company_name;
+	}
+
+	std::string dcp_product_name () const {
+		return _dcp_product_name;
+	}
+
+	std::string dcp_product_version () const {
+		return _dcp_product_version;
+	}
+
+	std::string dcp_j2k_comment () const {
+		return _dcp_j2k_comment;
+	}
+
 	int default_j2k_bandwidth () const {
 		return _default_j2k_bandwidth;
 	}
@@ -696,6 +712,22 @@ public:
 
 	void set_dcp_creator (std::string c) {
 		maybe_set (_dcp_creator, c);
+	}
+
+	void set_dcp_company_name (std::string c) {
+		maybe_set (_dcp_company_name, c);
+	}
+
+	void set_dcp_product_name (std::string c) {
+		maybe_set (_dcp_product_name, c);
+	}
+
+	void set_dcp_product_version (std::string c) {
+		maybe_set (_dcp_product_version, c);
+	}
+
+	void set_dcp_j2k_comment (std::string c) {
+		maybe_set (_dcp_j2k_comment, c);
 	}
 
 	void set_default_j2k_bandwidth (int b) {
@@ -1229,6 +1261,10 @@ private:
 	int _default_dcp_audio_channels;
 	std::string _dcp_issuer;
 	std::string _dcp_creator;
+	std::string _dcp_company_name;
+	std::string _dcp_product_name;
+	std::string _dcp_product_version;
+	std::string _dcp_j2k_comment;
 	int _default_j2k_bandwidth;
 	int _default_audio_delay;
 	bool _default_interop;

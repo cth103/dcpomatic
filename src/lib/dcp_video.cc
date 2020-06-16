@@ -115,12 +115,15 @@ DCPVideo::convert_to_xyz (shared_ptr<const PlayerVideo> frame, dcp::NoteHandler 
 Data
 DCPVideo::encode_locally ()
 {
+	string const comment = Config::instance()->dcp_j2k_comment();
+
 	Data enc = compress_j2k (
 		convert_to_xyz (_frame, boost::bind(&Log::dcp_log, dcpomatic_log.get(), _1, _2)),
 		_j2k_bandwidth,
 		_frames_per_second,
 		_frame->eyes() == EYES_LEFT || _frame->eyes() == EYES_RIGHT,
-		_resolution == RESOLUTION_4K
+		_resolution == RESOLUTION_4K,
+		comment.empty() ? "libdcp" : comment
 		);
 
 	switch (_frame->eyes()) {

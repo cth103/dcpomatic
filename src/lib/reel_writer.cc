@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -27,6 +27,7 @@
 #include "digester.h"
 #include "font.h"
 #include "compose.hpp"
+#include "config.h"
 #include "audio_buffers.h"
 #include "image.h"
 #include <dcp/mono_picture_asset.h>
@@ -64,6 +65,23 @@ using dcp::raw_convert;
 using namespace dcpomatic;
 
 int const ReelWriter::_info_size = 48;
+
+static dcp::MXFMetadata
+mxf_metadata ()
+{
+	dcp::MXFMetadata meta;
+	Config* config = Config::instance();
+	if (!config->dcp_company_name().empty()) {
+		meta.company_name = config->dcp_company_name ();
+	}
+	if (!config->dcp_product_name().empty()) {
+		meta.product_name = config->dcp_product_name ();
+	}
+	if (!config->dcp_product_version().empty()) {
+		meta.product_version = config->dcp_product_version ();
+	}
+	return meta;
+}
 
 /** @param job Related job, or 0 */
 ReelWriter::ReelWriter (
@@ -113,6 +131,7 @@ ReelWriter::ReelWriter (
 		}
 
 		_picture_asset->set_size (_film->frame_size());
+		_picture_asset->set_metadata (mxf_metadata());
 
 		if (_film->encrypted ()) {
 			_picture_asset->set_key (_film->key());
@@ -135,6 +154,8 @@ ReelWriter::ReelWriter (
 		_sound_asset.reset (
 			new dcp::SoundAsset (dcp::Fraction (_film->video_frame_rate(), 1), _film->audio_frame_rate (), _film->audio_channels (), standard)
 			);
+
+		_sound_asset->set_metadata (mxf_metadata());
 
 		if (_film->encrypted ()) {
 			_sound_asset->set_key (_film->key ());
@@ -634,6 +655,7 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 		} else {
 			shared_ptr<dcp::SMPTESubtitleAsset> s (new dcp::SMPTESubtitleAsset ());
 			s->set_content_title_text (_film->name ());
+			s->set_metadata (mxf_metadata());
 			if (type == TEXT_OPEN_SUBTITLE && !lang.empty()) {
 				s->set_language (lang);
 			} else {

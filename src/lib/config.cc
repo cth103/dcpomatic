@@ -323,6 +323,10 @@ try
 	}
 	_upload_after_make_dcp = up.get_value_or (false);
 	_dcp_creator = f.optional_string_child ("DCPCreator").get_value_or ("");
+	_dcp_company_name = f.optional_string_child("DCPCompanyName").get_value_or("");
+	_dcp_product_name = f.optional_string_child("DCPProductName").get_value_or("");
+	_dcp_product_version = f.optional_string_child("DCPProductVersion").get_value_or("");
+	_dcp_j2k_comment = f.optional_string_child("DCPJ2KComment").get_value_or("");
 
 	if (version && version.get() >= 2) {
 		_default_isdcf_metadata = ISDCFMetadata (f.node_child ("ISDCFMetadata"));
@@ -729,6 +733,14 @@ Config::write_config () const
 	root->add_child("DCPIssuer")->add_child_text (_dcp_issuer);
 	/* [XML] DCPIssuer Creator text to write into CPL files. */
 	root->add_child("DCPCreator")->add_child_text (_dcp_creator);
+	/* [XML] Company name to write into MXF files. */
+	root->add_child("DCPCompanyName")->add_child_text (_dcp_company_name);
+	/* [XML] Product name to write into MXF files. */
+	root->add_child("DCPProductName")->add_child_text (_dcp_product_name);
+	/* [XML] Product version to write into MXF files. */
+	root->add_child("DCPProductVersion")->add_child_text (_dcp_product_version);
+	/* [XML] Comment to write into JPEG2000 data. */
+	root->add_child("DCPJ2KComment")->add_child_text (_dcp_j2k_comment);
 	/* [XML] UploadAfterMakeDCP 1 to upload to a TMS after making a DCP, 0 for no upload. */
 	root->add_child("UploadAfterMakeDCP")->add_child_text (_upload_after_make_dcp ? "1" : "0");
 
