@@ -258,11 +258,11 @@ private:
 	wxCheckBox* _automatic_audio_analysis;
 };
 
-class DefaultsPage : public StandardPage
+class DefaultsPage : public Page
 {
 public:
 	DefaultsPage (wxSize panel_size, int border)
-		: StandardPage (panel_size, border)
+		: Page (panel_size, border)
 	{}
 
 	wxString GetName () const
@@ -487,11 +487,11 @@ private:
 	wxChoice* _standard;
 };
 
-class EncodingServersPage : public StandardPage
+class EncodingServersPage : public Page
 {
 public:
 	EncodingServersPage (wxSize panel_size, int border)
-		: StandardPage (panel_size, border)
+		: Page (panel_size, border)
 	{}
 
 	wxString GetName () const
@@ -547,11 +547,11 @@ private:
 	EditableList<string, ServerDialog>* _servers_list;
 };
 
-class TMSPage : public StandardPage
+class TMSPage : public Page
 {
 public:
 	TMSPage (wxSize panel_size, int border)
-		: StandardPage (panel_size, border)
+		: Page (panel_size, border)
 	{}
 
 	wxString GetName () const
@@ -663,11 +663,11 @@ column (string s)
 	return s;
 }
 
-class EmailPage : public StandardPage
+class EmailPage : public Page
 {
 public:
 	EmailPage (wxSize panel_size, int border)
-		: StandardPage (panel_size, border)
+		: Page (panel_size, border)
 	{}
 
 	wxString GetName () const
@@ -793,16 +793,16 @@ private:
 	PasswordEntry* _password;
 };
 
-class KDMEmailPage : public StandardPage
+class KDMEmailPage : public Page
 {
 public:
 
 	KDMEmailPage (wxSize panel_size, int border)
 #ifdef DCPOMATIC_OSX
 		/* We have to force both width and height of this one */
-		: StandardPage (wxSize (panel_size.GetWidth(), 128), border)
+		: Page (wxSize (panel_size.GetWidth(), 128), border)
 #else
-		: StandardPage (panel_size, border)
+		: Page (panel_size, border)
 #endif
 	{}
 
@@ -914,15 +914,15 @@ private:
 	wxButton* _reset_email;
 };
 
-class NotificationsPage : public StandardPage
+class NotificationsPage : public Page
 {
 public:
 	NotificationsPage (wxSize panel_size, int border)
 #ifdef DCPOMATIC_OSX
 		/* We have to force both width and height of this one */
-		: StandardPage (wxSize (panel_size.GetWidth(), 128), border)
+		: Page (wxSize (panel_size.GetWidth(), 128), border)
 #else
-		: StandardPage (panel_size, border)
+		: Page (panel_size, border)
 #endif
 	{}
 
@@ -1084,16 +1084,16 @@ private:
 	wxButton* _reset_email;
 };
 
-class CoverSheetPage : public StandardPage
+class CoverSheetPage : public Page
 {
 public:
 
 	CoverSheetPage (wxSize panel_size, int border)
 #ifdef DCPOMATIC_OSX
 		/* We have to force both width and height of this one */
-		: StandardPage (wxSize (panel_size.GetWidth(), 128), border)
+		: Page (wxSize (panel_size.GetWidth(), 128), border)
 #else
-		: StandardPage (panel_size, border)
+		: Page (panel_size, border)
 #endif
 	{}
 
@@ -1149,11 +1149,11 @@ private:
 };
 
 
-class IdentifiersPage : public StandardPage
+class IdentifiersPage : public Page
 {
 public:
 	IdentifiersPage (wxSize panel_size, int border)
-		: StandardPage (panel_size, border)
+		: Page (panel_size, border)
 	{}
 
 	wxString GetName () const
@@ -1267,11 +1267,11 @@ private:
 /** @class AdvancedPage
  *  @brief Advanced page of the preferences dialog.
  */
-class AdvancedPage : public StockPage
+class AdvancedPage : public Page
 {
 public:
 	AdvancedPage (wxSize panel_size, int border)
-		: StockPage (Kind_Advanced, panel_size, border)
+		: Page (panel_size, border)
 		, _maximum_j2k_bandwidth (0)
 		, _allow_any_dcp_frame_rate (0)
 		, _allow_any_container (0)
@@ -1288,6 +1288,18 @@ public:
 		, _log_debug_player (0)
 		, _log_debug_audio_analysis (0)
 	{}
+
+	wxString GetName () const
+	{
+		return _("Advanced");
+	}
+
+#ifdef DCPOMATIC_OSX
+	wxBitmap GetLargeIcon () const
+	{
+		return wxBitmap ("advanced", wxBITMAP_TYPE_PNG_RESOURCE);
+	}
+#endif
 
 private:
 	void add_top_aligned_label_to_sizer (wxSizer* table, wxWindow* parent, wxString text)

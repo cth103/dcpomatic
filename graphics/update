@@ -21,14 +21,14 @@ if [ `uname -s` == "Darwin" ]; then
     done
 else
 
-    for c in icotool convert inkscape; do
+    for c in icotool convert inkscape inkbatch; do
         if [ ! -x "$(command -v $c)" ]; then
             echo "$c is required"
             exit 1
         fi
     done
 
-    INKSCAPE="inkscape -z -C -e"
+    INKSCAPE="inkscape -C --export-type=png"
 
     # OS X application icons
     mkdir -p osx
@@ -40,8 +40,8 @@ else
 	done
 	for p in $svg_apps; do
 	    mkdir -p osx/$p.iconset
-	    $INKSCAPE osx/$p.iconset/icon_${r}x${r}.png -w $r -h $r src/$p.svg
-	    $INKSCAPE osx/$p.iconset/icon_${r}x${r}@2x.png -w $r -h $r src/$p.svg
+	    $INKSCAPE --export-filename=osx/$p.iconset/icon_${r}x${r}.png -w $r -h $r src/$p.svg
+	    $INKSCAPE --export-filename=osx/$p.iconset/icon_${r}x${r}@2x.png -w $r -h $r src/$p.svg
 	done
     done
 
@@ -51,7 +51,7 @@ else
 	mkdir -p linux/$r
 	convert src/dcpomatic.png -resize $rx$r linux/$r/dcpomatic2.png
 	for p in $svg_apps; do
-	    $INKSCAPE linux/$r/$p.png src/$p.svg -w $r -h $r
+	    $INKSCAPE --export-filename=linux/$r/$p.png src/$p.svg -w $r -h $r
 	done
     done
 
@@ -63,29 +63,29 @@ else
     convert src/dcpomatic.png -resize 400x400 windows/dcpomatic.bmp
 
     # OS X preferences icons
-    # servers.png does not have an SVG version
     mkdir -p osx/preferences
-    for i in colour_conversions defaults email kdm_email cover_sheet keys tms notifications locations sound identifiers; do
-	$INKSCAPE osx/preferences/$i.png src/$i.svg -w 32 -h 32
+    for i in defaults email kdm_email cover_sheet keys tms notifications locations sound identifiers servers general advanced; do
+        inkbatch -i bounds-$i -o osx/preferences/$i.png --width 32 --height 32 src/preferences.svg
+        inkbatch -i bounds-$i -o osx/preferences/$i@2x.png --width 64 --height 64 src/preferences.svg
     done
 
     # OS X menu bar icon for the server
-    $INKSCAPE osx/dcpomatic_small.png -w 64 -h 64 src/dcpomatic_small.svg
+    $INKSCAPE --export-filename=osx/dcpomatic_small.png -w 64 -h 64 src/dcpomatic_small.svg
 
     # Splash screen (all platforms)
-    $INKSCAPE splash.png src/splash.svg -w 400 -h 300
+    $INKSCAPE --export-filename=splash.png src/splash.svg -w 400 -h 300
 
     # Timeline toolbar icons (all platforms)
     for i in select zoom zoom_all snap sequence; do
-        $INKSCAPE $i.png src/$i.svg -w 32 -h 32
+        $INKSCAPE --export-filename=$i.png src/$i.svg -w 32 -h 32
     done
 
     # Playlist editor tick/no-tick
-    $INKSCAPE tick.png src/tick.svg -w 16 -h 16
-    $INKSCAPE no_tick.png src/no_tick.svg -w 16 -h 16
+    $INKSCAPE --export-filename=tick.png src/tick.svg -w 16 -h 16
+    $INKSCAPE --export-filename=no_tick.png src/no_tick.svg -w 16 -h 16
 
     # Link icon
-    $INKSCAPE link.png src/link.svg -w 9 -h 16
+    $INKSCAPE --export-filename=link.png src/link.svg -w 9 -h 16
 
     # favicon
     mkdir -p web

@@ -46,11 +46,13 @@
 
 class AudioMappingView;
 
-class Page
+class Page : public wxPreferencesPage
 {
 public:
 	Page (wxSize panel_size, int border);
 	virtual ~Page () {}
+
+	wxWindow* CreateWindow (wxWindow* parent);
 
 protected:
 	wxWindow* create_window (wxWindow* parent);
@@ -70,24 +72,19 @@ private:
 	bool _window_exists;
 };
 
-class StockPage : public wxStockPreferencesPage, public Page
-{
-public:
-	StockPage (Kind kind, wxSize panel_size, int border);
-	wxWindow* CreateWindow (wxWindow* parent);
-};
-
-class StandardPage : public wxPreferencesPage, public Page
-{
-public:
-	StandardPage (wxSize panel_size, int border);
-	wxWindow* CreateWindow (wxWindow* parent);
-};
-
-class GeneralPage : public StockPage
+class GeneralPage : public Page
 {
 public:
 	GeneralPage (wxSize panel_size, int border);
+
+	wxString GetName () const;
+
+#ifdef DCPOMATIC_OSX
+	wxBitmap GetLargeIcon () const
+	{
+		return wxBitmap ("general", wxBITMAP_TYPE_PNG_RESOURCE);
+	}
+#endif
 
 protected:
 	void add_language_controls (wxGridBagSizer* table, int& r);
@@ -150,11 +147,11 @@ private:
 	boost::function<bool (void)> _nag_alter;
 };
 
-class KeysPage : public StandardPage
+class KeysPage : public Page
 {
 public:
 	KeysPage (wxSize panel_size, int border)
-		: StandardPage (panel_size, border)
+		: Page (panel_size, border)
 	{}
 
 	wxString GetName () const;
@@ -180,11 +177,11 @@ private:
 };
 
 
-class SoundPage : public StandardPage
+class SoundPage : public Page
 {
 public:
 	SoundPage (wxSize panel_size, int border)
-		: StandardPage (panel_size, border)
+		: Page (panel_size, border)
 	{}
 
 	wxString GetName() const;
@@ -214,7 +211,7 @@ private:
 	Button* _reset_to_default;
 };
 
-class LocationsPage : public StandardPage
+class LocationsPage : public Page
 {
 public:
 	LocationsPage (wxSize panel_size, int border);

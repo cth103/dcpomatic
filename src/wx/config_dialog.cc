@@ -53,6 +53,14 @@ Page::Page (wxSize panel_size, int border)
 	_config_connection = Config::instance()->Changed.connect (bind (&Page::config_changed_wrapper, this));
 }
 
+
+wxWindow*
+Page::CreateWindow (wxWindow* parent)
+{
+	return create_window (parent);
+}
+
+
 wxWindow*
 Page::create_window (wxWindow* parent)
 {
@@ -84,36 +92,19 @@ Page::window_destroyed ()
 }
 
 
-StockPage::StockPage (Kind kind, wxSize panel_size, int border)
-	: wxStockPreferencesPage (kind)
-	, Page (panel_size, border)
-{
-
-}
-
-wxWindow*
-StockPage::CreateWindow (wxWindow* parent)
-{
-	return create_window (parent);
-}
-
-StandardPage::StandardPage (wxSize panel_size, int border)
+GeneralPage::GeneralPage (wxSize panel_size, int border)
 	: Page (panel_size, border)
 {
 
 }
 
-wxWindow*
-StandardPage::CreateWindow (wxWindow* parent)
+
+wxString
+GeneralPage::GetName () const
 {
-	return create_window (parent);
+	return _("General");
 }
 
-GeneralPage::GeneralPage (wxSize panel_size, int border)
-	: StockPage (Kind_General, panel_size, border)
-{
-
-}
 
 void
 GeneralPage::add_language_controls (wxGridBagSizer* table, int& r)
@@ -1027,7 +1018,7 @@ SoundPage::get_sound_output ()
 
 
 LocationsPage::LocationsPage (wxSize panel_size, int border)
-	: StandardPage (panel_size, border)
+	: Page (panel_size, border)
 {
 
 }

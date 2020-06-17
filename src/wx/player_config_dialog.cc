@@ -270,16 +270,28 @@ private:
 /** @class PlayerAdvancedPage
  *  @brief Advanced page of the preferences dialog for the player.
  */
-class PlayerAdvancedPage : public StockPage
+class PlayerAdvancedPage : public Page
 {
 public:
 	PlayerAdvancedPage (wxSize panel_size, int border)
-		: StockPage (Kind_Advanced, panel_size, border)
+		: Page (panel_size, border)
 		, _log_general (0)
 		, _log_warning (0)
 		, _log_error (0)
 		, _log_timing (0)
 	{}
+
+	wxString GetName () const
+	{
+		return _("Advanced");
+	}
+
+#ifdef DCPOMATIC_OSX
+	wxBitmap GetLargeIcon () const
+	{
+		return wxBitmap ("advanced", wxBITMAP_TYPE_PNG_RESOURCE);
+	}
+#endif
 
 private:
 	void add_top_aligned_label_to_sizer (wxSizer* table, wxWindow* parent, wxString text)
