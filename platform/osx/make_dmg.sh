@@ -202,6 +202,7 @@ function copy_resources {
     cp $prefix/src/dcpomatic/graphics/osx/preferences/notifications.png "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/preferences/locations.png "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/preferences/sound.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/preferences/identifiers.png "$dest"
     cp $prefix/src/dcpomatic/fonts/LiberationSans-Regular.ttf "$dest"
     cp $prefix/src/dcpomatic/fonts/LiberationSans-Italic.ttf "$dest"
     cp $prefix/src/dcpomatic/fonts/LiberationSans-Bold.ttf "$dest"
