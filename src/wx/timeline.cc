@@ -420,12 +420,9 @@ Timeline::assign_tracks ()
 
 	bool have_atmos = false;
 	BOOST_FOREACH (shared_ptr<TimelineView> i, _views) {
-		shared_ptr<TimelineVideoContentView> cv = dynamic_pointer_cast<TimelineVideoContentView> (i);
-		if (!cv) {
-			continue;
-		}
-		if (dynamic_pointer_cast<TimelineAtmosContentView> (i)) {
-			cv->set_track (_tracks - 1);
+		shared_ptr<TimelineAtmosContentView> cv = dynamic_pointer_cast<TimelineAtmosContentView>(i);
+		if (cv) {
+			cv->set_track (_tracks);
 			have_atmos = true;
 		}
 	}
