@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -25,6 +25,7 @@
 #include <asdcp/KM_log.h>
 #include <dcp/atmos_asset.h>
 #include <dcp/exceptions.h>
+#include <dcp/raw_convert.h>
 #include <libxml++/libxml++.h>
 
 #include "i18n.h"
@@ -43,7 +44,10 @@ AtmosMXFContent::AtmosMXFContent (boost::filesystem::path path)
 AtmosMXFContent::AtmosMXFContent (cxml::ConstNodePtr node, int)
 	: Content (node)
 {
-
+	/* This was mistakenly left out for a while, so make sure we at least don't
+	 * crash if an old Film is loaded.
+	 */
+	_length = node->optional_number_child<Frame>("Length").get_value_or(0);
 }
 
 bool
@@ -89,6 +93,7 @@ AtmosMXFContent::as_xml (xmlpp::Node* node, bool with_paths) const
 {
 	node->add_child("Type")->add_child_text ("AtmosMXF");
 	Content::as_xml (node, with_paths);
+	node->add_child("Length")->add_child_text(dcp::raw_convert<string>(_length));
 }
 
 DCPTime
