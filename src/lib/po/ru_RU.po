@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-03 01:19+0200\n"
+"POT-Creation-Date: 2020-06-18 10:22+0200\n"
 "PO-Revision-Date: 2019-03-27 00:34+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -68,7 +68,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " на %1"
 
-#: src/lib/config.cc:1189
+#: src/lib/config.cc:1228
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -90,7 +90,7 @@ msgstr ""
 "Длительность: $LENGTH\n"
 "Размер: $SIZE\n"
 
-#: src/lib/config.cc:1167
+#: src/lib/config.cc:1206
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -168,7 +168,7 @@ msgid "3D denoiser"
 msgstr "Подавитель шума 3D"
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:144
+#: src/lib/transcode_job.cc:145
 #, c-format
 msgid "; %.1f fps"
 msgstr "; %.1f кадр/сек"
@@ -210,17 +210,6 @@ msgstr "ARIB STD-B67 ('Гибрид log-gamma')"
 msgid "Advertisement"
 msgstr "ADV (Реклама)"
 
-#: src/lib/hints.cc:142
-msgid ""
-"All of your content is 2.35:1 or narrower but your DCP's container is Scope "
-"(2.39:1).  This will pillar-box your content.  You may prefer to set your "
-"DCP's container to have the same ratio as your content."
-msgstr ""
-"Весь ваш контент имеет соотношение 2.35:1 или более узкое, но ваш DCP "
-"контейнер - SCOPE (2.39:1).  Это значит, что в кадре по бокам вашего "
-"контента будут черные области. Вы можете предпочесть, чтобы контейнер вашего "
-"DCP имел такое же соотношение, как и ваш контент."
-
 #: src/lib/hints.cc:138
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
@@ -231,6 +220,18 @@ msgstr ""
 "Весь ваш контент в SCOPE (2.39:1), но ваш DCP контейнер - FLAT (1.85:1). Это "
 "значит, что в кадре по верху и низу вашего контента будут черные области. Вы "
 "можете изменить формат кадра вашего DCP на SCOPE (2.39:1) на вкладке \"DCP\"."
+
+#: src/lib/hints.cc:142
+#, fuzzy
+msgid ""
+"All of your content narrower than 1.90:1 but your DCP's container is Scope "
+"(2.39:1).  This will pillar-box your content.  You may prefer to set your "
+"DCP's container to have the same ratio as your content."
+msgstr ""
+"Весь ваш контент имеет соотношение 2.35:1 или более узкое, но ваш DCP "
+"контейнер - SCOPE (2.39:1).  Это значит, что в кадре по бокам вашего "
+"контента будут черные области. Вы можете предпочесть, чтобы контейнер вашего "
+"DCP имел такое же соотношение, как и ваш контент."
 
 #: src/lib/job.cc:109
 msgid "An error occurred whilst handling the file %1."
@@ -327,7 +328,7 @@ msgstr "C"
 msgid "Cancelled"
 msgstr "Отменено"
 
-#: src/lib/film.cc:348
+#: src/lib/film.cc:350
 msgid "Cannot contain slashes"
 msgstr "Не может содержать слэши"
 
@@ -335,7 +336,7 @@ msgstr "Не может содержать слэши"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Невозможно обработать формат пикселя %1 во время %2"
 
-#: src/lib/film.cc:1456
+#: src/lib/film.cc:1496
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Нельзя создать KDM т.к. этот проект не зашифрован."
 
@@ -351,11 +352,11 @@ msgstr "Каналы"
 msgid "Checking content for changes"
 msgstr "Проверка контента на предмет изменений"
 
-#: src/lib/reel_writer.cc:204
+#: src/lib/reel_writer.cc:225
 msgid "Checking existing image data"
 msgstr "Проверка данных изображения"
 
-#: src/lib/check_content_change_job.cc:95
+#: src/lib/check_content_change_job.cc:94
 msgid "Choose 'Make DCP' again when you have done this."
 msgstr "Выберите снова ‘Сделать DCP’ когда закончите с этим."
 
@@ -435,7 +436,7 @@ msgid "Content to be joined must all have or not have video"
 msgstr ""
 "Для присоединения контента, всё остальное должно иметь либо не иметь видео"
 
-#: src/lib/video_content.cc:178
+#: src/lib/video_content.cc:198
 #, fuzzy
 msgid "Content to be joined must have all its video used or not used."
 msgstr "Для присоединения контента должна быть одинаковой частота кадров видео"
@@ -459,16 +460,28 @@ msgstr "Для присоединения контента должна быть
 msgid "Content to be joined must have the same audio gain."
 msgstr "Для присоединения контента должно быть одинаковое усиление аудио."
 
-#: src/lib/video_content.cc:198
+#: src/lib/video_content.cc:222
 msgid "Content to be joined must have the same colour conversion."
 msgstr ""
 "Для присоединения контента должно быть одинаковое преобразование цвета."
 
-#: src/lib/video_content.cc:190
+#: src/lib/video_content.cc:210
 msgid "Content to be joined must have the same crop."
 msgstr "Для присоединения контента должно быть одинаковое кадрирование."
 
-#: src/lib/video_content.cc:202
+#: src/lib/video_content.cc:214
+#, fuzzy
+msgid "Content to be joined must have the same custom ratio setting."
+msgstr ""
+"Для присоединения контента должны быть одинаковые параметры масштабирования."
+
+#: src/lib/video_content.cc:218
+#, fuzzy
+msgid "Content to be joined must have the same custom size setting."
+msgstr ""
+"Для присоединения контента должны быть одинаковые параметры масштабирования."
+
+#: src/lib/video_content.cc:226
 msgid "Content to be joined must have the same fades."
 msgstr "Для присоединения контента должно быть одинаковое угасание."
 
@@ -476,14 +489,9 @@ msgstr "Для присоединения контента должно быть
 msgid "Content to be joined must have the same outline width."
 msgstr "Для присоединения контента должна быть одинаковая ширина обводки."
 
-#: src/lib/video_content.cc:182
+#: src/lib/video_content.cc:202
 msgid "Content to be joined must have the same picture size."
 msgstr "Для присоединения контента должен быть одинаковый размер изображения."
-
-#: src/lib/video_content.cc:194
-msgid "Content to be joined must have the same scale setting."
-msgstr ""
-"Для присоединения контента должны быть одинаковые параметры масштабирования."
 
 #: src/lib/text_content.cc:265
 msgid "Content to be joined must have the same subtitle X offset."
@@ -523,7 +531,7 @@ msgstr ""
 msgid "Content to be joined must have the same video frame rate"
 msgstr "Для присоединения контента должна быть одинаковой частота кадров видео"
 
-#: src/lib/video_content.cc:186
+#: src/lib/video_content.cc:206
 msgid "Content to be joined must have the same video frame type."
 msgstr "Для присоединения контента должен быть одинаковый тип видео."
 
@@ -547,11 +555,11 @@ msgstr "Разрешение контента: %1x%2"
 msgid "Copy DCP to TMS"
 msgstr "Копировать DCP на TMS (Theater Management System)"
 
-#: src/lib/reel_writer.cc:99
+#: src/lib/reel_writer.cc:117
 msgid "Copying old video file"
 msgstr ""
 
-#: src/lib/reel_writer.cc:327
+#: src/lib/reel_writer.cc:348
 #, fuzzy
 msgid "Copying video file into DCP"
 msgstr "Несоответствие размера видео в DCP"
@@ -588,15 +596,15 @@ msgstr "Не удалось открыть %1"
 msgid "Could not open %1 to send"
 msgstr "Не удалось открыть %1 для отправки"
 
-#: src/lib/internet.cc:158 src/lib/internet.cc:163
+#: src/lib/internet.cc:159 src/lib/internet.cc:164
 msgid "Could not open downloaded ZIP file"
 msgstr "Не удалось открыть загруженный ZIP-архив"
 
-#: src/lib/internet.cc:170
+#: src/lib/internet.cc:171
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Не удалось открыть загруженный ZIP-файл (%1:%2: %3)"
 
-#: src/lib/config.cc:1070
+#: src/lib/config.cc:1092
 msgid "Could not open file for writing"
 msgstr "Не удалось открыть файл для записи"
 
@@ -665,7 +673,7 @@ msgstr ""
 "DCP-o-matic не удалось открыть файл %1 (%2). Возможно он не существует или "
 "имеет неожиданный формат."
 
-#: src/lib/film.cc:1379
+#: src/lib/film.cc:1419
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -680,7 +688,7 @@ msgid ""
 msgstr ""
 "DCP-o-matic больше не поддерживает фильтр `%1', поэтому он был выключен."
 
-#: src/lib/config.cc:370 src/lib/config.cc:1164
+#: src/lib/config.cc:378 src/lib/config.cc:1203
 msgid "DCP-o-matic notification"
 msgstr "Уведомление DCP-o-matic"
 
@@ -693,7 +701,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Деинтерлейсинг"
 
-#: src/lib/config.cc:1152
+#: src/lib/config.cc:1191
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -736,12 +744,13 @@ msgstr "Каждый кадр контента будет задвоен в DCP-
 msgid "Each content frame will be repeated %1 more times in the DCP.\n"
 msgstr "Каждый кадр контента будет повторен %1 раз в DCP-пакете.\n"
 
-#: src/lib/send_kdm_email_job.cc:66
+#: src/lib/send_kdm_email_job.cc:83
 msgid "Email KDMs"
 msgstr "Отправка ключей"
 
-#: src/lib/send_kdm_email_job.cc:69
-msgid "Email KDMs for %1"
+#: src/lib/send_kdm_email_job.cc:86
+#, fuzzy
+msgid "Email KDMs for %2"
 msgstr "Отправка ключей %1 по Email"
 
 #: src/lib/send_notification_email_job.cc:51
@@ -756,7 +765,7 @@ msgstr "Сообщить о проблеме"
 msgid "Email problem report for %1"
 msgstr "Ошибка отправки ключей %1 по E-mail"
 
-#: src/lib/dcp_encoder.cc:97 src/lib/ffmpeg_encoder.cc:130
+#: src/lib/dcp_encoder.cc:97 src/lib/ffmpeg_encoder.cc:142
 msgid "Encoding"
 msgstr "Кодирование"
 
@@ -810,7 +819,7 @@ msgstr "Ошибка отправки email"
 msgid "Feature"
 msgstr "FTR (Фильм)"
 
-#: src/lib/content.cc:436
+#: src/lib/content.cc:440
 msgid "Filename"
 msgstr "Имя файла"
 
@@ -822,11 +831,11 @@ msgstr "Проект"
 msgid "Finding length"
 msgstr "Расчет длительности"
 
-#: src/lib/content.cc:443
+#: src/lib/content.cc:447
 msgid "Frame rate"
 msgstr "Частота кадров"
 
-#: src/lib/util.cc:916
+#: src/lib/util.cc:918
 msgid "Friday"
 msgstr "Пятница"
 
@@ -912,23 +921,15 @@ msgstr "Неизвестно, что вызвало эту ошибку."
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:360 src/lib/config.cc:1149
+#: src/lib/config.cc:368 src/lib/config.cc:1188
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Назначение KDM: $CPL_NAME"
-
-#: src/lib/dcp.cc:58
-msgid "KDM was made for DCP-o-matic but not for its leaf certificate."
-msgstr "KDM был сделан для DCP-o-matic, но не для его leaf-сертификата."
-
-#: src/lib/dcp.cc:56
-msgid "KDM was not made for DCP-o-matic's decryption certificate."
-msgstr "KDM не был сделан для сертификата расшифровки DCP-o-matic."
 
 #: src/lib/filter.cc:72
 msgid "Kernel deinterlacer"
 msgstr "Деинтерлейсинг ядром"
 
-#: src/lib/ffmpeg_encoder.cc:229 src/lib/util.cc:572
+#: src/lib/ffmpeg_encoder.cc:241 src/lib/util.cc:572
 msgid "L"
 msgstr "L"
 
@@ -1020,11 +1021,11 @@ msgstr "Несоответствие размера видео в DCP"
 msgid "Missing required setting %1"
 msgstr "Отсутствует обязательная настройка %1"
 
-#: src/lib/util.cc:908
+#: src/lib/util.cc:910
 msgid "Monday"
 msgstr "Понедельник"
 
-#: src/lib/writer.cc:638
+#: src/lib/writer.cc:636
 msgid "Mono"
 msgstr "Моно"
 
@@ -1036,17 +1037,9 @@ msgstr "Диентерлейсер компенсации движения"
 msgid "No CPLs found in DCP."
 msgstr "В DCP не обнаружены CPL-файлы."
 
-#: src/lib/cinema_kdms.cc:201 src/lib/send_notification_email_job.cc:66
+#: src/lib/kdm_with_metadata.cc:208 src/lib/send_notification_email_job.cc:66
 msgid "No mail server configured in preferences"
 msgstr "Не настроен почтовый сервер в настройках"
-
-#: src/lib/video_content_scale.cc:105
-msgid "No scale"
-msgstr "Без масштабирования"
-
-#: src/lib/video_content_scale.cc:102
-msgid "No stretch"
-msgstr "Без растягивания"
 
 #: src/lib/image_content.cc:122
 msgid "No valid image files were found in the folder."
@@ -1056,7 +1049,7 @@ msgstr "В папке не найдено подходящих изображе�
 msgid "Noise reduction"
 msgstr "Подавление шума"
 
-#: src/lib/writer.cc:636
+#: src/lib/writer.cc:634
 msgid "None"
 msgstr "Ничего"
 
@@ -1094,7 +1087,7 @@ msgstr "Сверхполный подавитель шума небольшой 
 msgid "P3"
 msgstr "P3"
 
-#: src/lib/util.h:58
+#: src/lib/util.h:59
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
 "carl@dcpomatic.com"
@@ -1106,7 +1099,7 @@ msgstr ""
 msgid "Policy"
 msgstr "POL (Стратегический)"
 
-#: src/lib/content.cc:452
+#: src/lib/content.cc:456
 msgid "Prepared for video frame rate"
 msgstr "Подготовлено для частоты кадров видео"
 
@@ -1122,7 +1115,7 @@ msgstr ""
 msgid "Public Service Announcement"
 msgstr "PSA (Социальная реклама)"
 
-#: src/lib/ffmpeg_encoder.cc:237 src/lib/util.cc:573
+#: src/lib/ffmpeg_encoder.cc:249 src/lib/util.cc:573
 msgid "R"
 msgstr "R"
 
@@ -1227,7 +1220,7 @@ msgstr "SMPTE ST 432-1 D65 (2010)"
 msgid "SSH error (%1)"
 msgstr "Ошибка SSH (%1)"
 
-#: src/lib/util.cc:918
+#: src/lib/util.cc:920
 msgid "Saturday"
 msgstr "Суббота"
 
@@ -1251,7 +1244,7 @@ msgstr "Размер"
 msgid "Some audio will be resampled to %1Hz"
 msgstr "Некоторое аудио будет ресемплировано на %1 Гц"
 
-#: src/lib/check_content_change_job.cc:91
+#: src/lib/check_content_change_job.cc:90
 msgid ""
 "Some files have been changed since they were added to the project.\n"
 "\n"
@@ -1262,7 +1255,7 @@ msgstr ""
 "Эти файлы сейчас будут перепроверены, поэтому возможно вам придётся "
 "проверить их настройки."
 
-#: src/lib/check_content_change_job.cc:102
+#: src/lib/check_content_change_job.cc:101
 #, fuzzy
 msgid ""
 "Some files have been changed since they were added to the project.  Open the "
@@ -1287,15 +1280,15 @@ msgid ""
 "truncated."
 msgstr ""
 
-#: src/lib/film.cc:377
+#: src/lib/film.cc:379
 msgid "Some of your content needs a KDM"
 msgstr "Часть вашего контента требует KDM"
 
-#: src/lib/film.cc:380
+#: src/lib/film.cc:382
 msgid "Some of your content needs an OV"
 msgstr "Часть вашего контента требует OV"
 
-#: src/lib/writer.cc:640
+#: src/lib/writer.cc:638
 msgid "Stereo"
 msgstr "Стерео"
 
@@ -1307,7 +1300,7 @@ msgstr "Преобразователь A стерео-->5.1"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Преобразователь B стерео-->5.1"
 
-#: src/lib/util.cc:906
+#: src/lib/util.cc:908
 msgid "Sunday"
 msgstr "Воскресенье"
 
@@ -1327,7 +1320,7 @@ msgstr "TST (Тестовый)"
 msgid "Text subtitles"
 msgstr "Текстовые субтитры"
 
-#: src/lib/film.cc:360
+#: src/lib/film.cc:362
 msgid "The DCP is empty, perhaps because all the content has zero length."
 msgstr ""
 
@@ -1354,19 +1347,19 @@ msgstr ""
 "На устройство, на котором хранится проект, заканчивается место. Освободите "
 "немного места и попробуйте снова."
 
-#: src/lib/playlist.cc:227
+#: src/lib/playlist.cc:220
 msgid "The file %1 has been moved %2 milliseconds earlier."
 msgstr "Файл %1 перемещен на %2 миллисекунд ранее."
 
-#: src/lib/playlist.cc:222
+#: src/lib/playlist.cc:215
 msgid "The file %1 has been moved %2 milliseconds later."
 msgstr "Файл %1 перемещен на %2 миллисекунд позднее."
 
-#: src/lib/playlist.cc:247
+#: src/lib/playlist.cc:240
 msgid "The file %1 has been trimmed by %2 milliseconds less."
 msgstr "Файл %1 был обрезан на %2 миллисекунд менее."
 
-#: src/lib/playlist.cc:242
+#: src/lib/playlist.cc:235
 msgid "The file %1 has been trimmed by %2 milliseconds more."
 msgstr "Файл %1 был обрезан на %2 миллисекунд более."
 
@@ -1398,6 +1391,16 @@ msgstr ""
 "попробуйте уменьшить число потоков кодирования в Настройках во вкладке "
 "\"Основные\"."
 
+#: src/lib/util.cc:1226
+#, fuzzy
+msgid "This KDM was made for DCP-o-matic but not for its leaf certificate."
+msgstr "KDM был сделан для DCP-o-matic, но не для его leaf-сертификата."
+
+#: src/lib/util.cc:1224
+#, fuzzy
+msgid "This KDM was not made for DCP-o-matic's decryption certificate."
+msgstr "KDM не был сделан для сертификата расшифровки DCP-o-matic."
+
 #: src/lib/job.cc:134
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
@@ -1421,7 +1424,7 @@ msgstr ""
 "Этот файл - ключ (KDM). Ключи добавляются к DCP нажатием правой клавиши на "
 "контент и выбором \"Добавить KDM\" в контекстном меню."
 
-#: src/lib/film.cc:522
+#: src/lib/film.cc:524
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1429,7 +1432,7 @@ msgstr ""
 "Проект создан более новой версией DCP-o-matic и не быть загружен этой "
 "версией. Извините!"
 
-#: src/lib/film.cc:507
+#: src/lib/film.cc:509
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1439,7 +1442,7 @@ msgstr ""
 "быть загружен этой версией. Вам необходимо создать новый проект, заново "
 "добавить контент и настроить его. Извините!"
 
-#: src/lib/util.cc:914
+#: src/lib/util.cc:916
 msgid "Thursday"
 msgstr "Четверг"
 
@@ -1451,7 +1454,7 @@ msgstr ""
 msgid "Trailer"
 msgstr "TRL (Трейлер)"
 
-#: src/lib/transcode_job.cc:63
+#: src/lib/transcode_job.cc:64
 #, fuzzy
 msgid "Transcoding %1"
 msgstr "Транскодирование %1"
@@ -1460,7 +1463,7 @@ msgstr "Транскодирование %1"
 msgid "Transitional"
 msgstr "XSN (Транзитный)"
 
-#: src/lib/util.cc:910
+#: src/lib/util.cc:912
 msgid "Tuesday"
 msgstr "Вторник"
 
@@ -1468,7 +1471,7 @@ msgstr "Вторник"
 msgid "USL"
 msgstr ""
 
-#: src/lib/internet.cc:179
+#: src/lib/internet.cc:180
 msgid "Unexpected ZIP file contents"
 msgstr "Неожиданное содержимое ZIP-файла"
 
@@ -1541,7 +1544,7 @@ msgstr "Ожидание"
 msgid "Weave filter"
 msgstr "Фильтр Weave"
 
-#: src/lib/util.cc:912
+#: src/lib/util.cc:914
 msgid "Wednesday"
 msgstr "Среда"
 
@@ -1626,7 +1629,7 @@ msgstr ""
 "Вы выбрали шрифт, размер которого больше 640 кБ. Весьма вероятно, что это "
 "вызовет проблемы при воспроизведении."
 
-#: src/lib/film.cc:356
+#: src/lib/film.cc:358
 msgid "You must add some content to the DCP before creating it"
 msgstr "Вам необходимо добавить контент в DCP перед его созданием"
 
@@ -1655,20 +1658,20 @@ msgstr ""
 "Уровень вашего аудио слишком высок (на %1). Вам стоит понизить уровень "
 "громкости вашего аудио-контента."
 
-#: src/lib/config.cc:304
+#: src/lib/config.cc:307
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
 "Ваш контейнер по-умолчанию некорректен, поэтому был изменен на Flat (1.85:1)"
 
-#: src/lib/playlist.cc:218
+#: src/lib/playlist.cc:211
 msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
 msgstr ""
 "В вашем проекте содержится видеоконтент, который не был привязан к границе "
 "кадра."
 
-#: src/lib/playlist.cc:238
+#: src/lib/playlist.cc:231
 msgid ""
 "Your project contains video content whose trim was not aligned to a frame "
 "boundary."
@@ -1702,11 +1705,11 @@ msgstr "таймаут соединения"
 msgid "connecting"
 msgstr "соединение"
 
-#: src/lib/film.cc:352
+#: src/lib/film.cc:354
 msgid "container"
 msgstr "контейнер"
 
-#: src/lib/film.cc:364
+#: src/lib/film.cc:366
 msgid "content type"
 msgstr "тип контента"
 
@@ -1718,7 +1721,7 @@ msgstr "копирование %1"
 msgid "could not find stream information"
 msgstr "не удалось найти информацию о потоке"
 
-#: src/lib/reel_writer.cc:357
+#: src/lib/reel_writer.cc:378
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "не удалось переместить аудио в DCP-пакет (%1)"
 
@@ -1765,12 +1768,12 @@ msgstr "ошибка во время async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "ошибка во время async_write (%1)"
 
-#: src/lib/content.cc:445 src/lib/content.cc:454
+#: src/lib/content.cc:449 src/lib/content.cc:458
 msgid "frames per second"
 msgstr "кадра(ов) в секунду"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:189
+#: src/lib/util.cc:190
 msgid "h"
 msgstr "ч"
 
@@ -1844,7 +1847,7 @@ msgid "its video frame size differs from the film's."
 msgstr "размер кадра видео в проекте отличается от размера видео DCP."
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:198
+#: src/lib/util.cc:199
 msgid "m"
 msgstr "м"
 
@@ -1852,12 +1855,12 @@ msgstr "м"
 msgid "moving"
 msgstr "последовательность"
 
-#: src/lib/film.cc:348
+#: src/lib/film.cc:350
 msgid "name"
 msgstr "название"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:208
+#: src/lib/util.cc:209
 msgid "s"
 msgstr "с"
 
@@ -1865,7 +1868,7 @@ msgstr "с"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:373
+#: src/lib/film.cc:375
 msgid "some of your content is missing"
 msgstr "часть вашего контента отсутствует"
 
@@ -1880,6 +1883,12 @@ msgstr "неизвестно"
 #: src/lib/video_content.cc:481
 msgid "video frames"
 msgstr "видеокадры"
+
+#~ msgid "No scale"
+#~ msgstr "Без масштабирования"
+
+#~ msgid "No stretch"
+#~ msgstr "Без растягивания"
 
 #~ msgid ""
 #~ "Your DCP has fewer than 6 audio channels.  This may cause problems on "
