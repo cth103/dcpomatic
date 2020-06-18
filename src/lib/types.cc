@@ -194,10 +194,14 @@ CPLSummary::CPLSummary (boost::filesystem::path p)
 	: dcp_directory (p.leaf().string())
 {
 	dcp::DCP dcp (p);
+
 	list<dcp::VerificationNote> notes;
 	dcp.read (&notes);
-	if (!notes.empty()) {
-		throw dcp::ReadError(dcp::note_to_string(notes.front()));
+	BOOST_FOREACH (dcp::VerificationNote i, notes) {
+		if (i.code() != dcp::VerificationNote::EXTERNAL_ASSET) {
+			/* It's not just a warning about this DCP being a VF */
+			throw dcp::ReadError(dcp::note_to_string(i));
+		}
 	}
 
 	cpl_id = dcp.cpls().front()->id();
