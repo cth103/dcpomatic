@@ -1,31 +1,11 @@
 {
    Uninitialised value in AES_set_encrypt_key
    Memcheck:Value8
-   obj:/usr/lib/x86_64-linux-gnu/libcrypto.so.1.1
    fun:AES_set_encrypt_key
-   obj:*
-   obj:*
-   obj:*
-   obj:*
-   obj:*
-   obj:*
-}
-
-{
-   Uninitialised value in AES_set_encrypt_key
-   Memcheck:Value8
-   obj:/usr/lib/x86_64-linux-gnu/libcrypto.so.1.1
-   fun:AES_set_encrypt_key
-   obj:*
 }
 
 {
    Uninitialised value in AES_encrypt
    Memcheck:Value8
-   obj:/usr/lib/x86_64-linux-gnu/libcrypto.so.1.1
    fun:AES_encrypt
-   obj:*
-   obj:*
-   obj:*
-   obj:*
 }
