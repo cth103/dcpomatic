@@ -240,8 +240,11 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 			boost::mutex::scoped_lock lm (_mutex);
 			atmos.reset (new AtmosContent(this));
 		}
-		atmos->set_length (examiner->atmos_length());
+		/* Setting length will cause calculations to be made based on edit rate, so that must
+		 * be set up first otherwise hard-to-spot exceptions will be thrown.
+		 */
 		atmos->set_edit_rate (examiner->atmos_edit_rate());
+		atmos->set_length (examiner->atmos_length());
 	}
 
 	int texts = 0;
