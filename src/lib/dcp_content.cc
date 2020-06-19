@@ -236,8 +236,12 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	}
 
 	if (examiner->has_atmos()) {
-		boost::mutex::scoped_lock lm (_mutex);
-		atmos.reset (new AtmosContent(this));
+		{
+			boost::mutex::scoped_lock lm (_mutex);
+			atmos.reset (new AtmosContent(this));
+		}
+		atmos->set_length (examiner->atmos_length());
+		atmos->set_edit_rate (examiner->atmos_edit_rate());
 	}
 
 	int texts = 0;
