@@ -67,6 +67,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	, _kdm_valid (false)
 	, _three_d (false)
 	, _has_atmos (false)
+	, _atmos_length (0)
 {
 	shared_ptr<dcp::CPL> cpl;
 
@@ -198,6 +199,11 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 		if (i->atmos()) {
 			_has_atmos = true;
+			_atmos_length += i->atmos()->actual_duration();
+			if (_atmos_edit_rate != dcp::Fraction()) {
+				DCPOMATIC_ASSERT (i->atmos()->edit_rate() == _atmos_edit_rate);
+			}
+			_atmos_edit_rate = i->atmos()->edit_rate();
 		}
 
 		if (i->main_picture()) {

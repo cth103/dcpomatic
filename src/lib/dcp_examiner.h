@@ -135,6 +135,14 @@ public:
 		return _has_atmos;
 	}
 
+	Frame atmos_length () const {
+		return _atmos_length;
+	}
+
+	dcp::Fraction atmos_edit_rate () const {
+		return _atmos_edit_rate;
+	}
+
 private:
 	boost::optional<double> _video_frame_rate;
 	boost::optional<dcp::Size> _video_size;
@@ -161,4 +169,6 @@ private:
 	std::vector<dcp::Rating> _ratings;
 	std::string _content_version;
 	bool _has_atmos;
+	Frame _atmos_length;
+	dcp::Fraction _atmos_edit_rate;
 };
