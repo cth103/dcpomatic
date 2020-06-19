@@ -46,6 +46,7 @@ namespace cxml {
 
 class Job;
 class Film;
+class AtmosContent;
 
 class ContentProperty
 {
@@ -190,6 +191,7 @@ public:
 	boost::shared_ptr<VideoContent> video;
 	boost::shared_ptr<AudioContent> audio;
 	std::list<boost::shared_ptr<TextContent> > text;
+	boost::shared_ptr<AtmosContent> atmos;
 
 	boost::shared_ptr<TextContent> only_text () const;
 	boost::shared_ptr<TextContent> text_of_original_type (TextType type) const;

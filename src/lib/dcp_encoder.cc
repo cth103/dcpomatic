@@ -64,6 +64,7 @@ DCPEncoder::DCPEncoder (shared_ptr<const Film> film, weak_ptr<Job> job)
 	_player_video_connection = _player->Video.connect (bind (&DCPEncoder::video, this, _1, _2));
 	_player_audio_connection = _player->Audio.connect (bind (&DCPEncoder::audio, this, _1, _2));
 	_player_text_connection = _player->Text.connect (bind (&DCPEncoder::text, this, _1, _2, _3, _4));
+	_player_atmos_connection = _player->Atmos.connect (bind (&DCPEncoder::atmos, this, _1, _2, _3));
 
 	BOOST_FOREACH (shared_ptr<const Content> c, film->content ()) {
 		BOOST_FOREACH (shared_ptr<TextContent> i, c->text) {
@@ -80,6 +81,7 @@ DCPEncoder::~DCPEncoder ()
 	_player_video_connection.release ();
 	_player_audio_connection.release ();
 	_player_text_connection.release ();
+	_player_atmos_connection.release ();
 }
 
 void
@@ -156,6 +158,14 @@ DCPEncoder::text (PlayerText data, TextType type, optional<DCPTextTrack> track, 
 		_writer->write (data, type, track, period);
 	}
 }
+
+
+void
+DCPEncoder::atmos (shared_ptr<const dcp::AtmosFrame> data, DCPTime time, AtmosMetadata metadata)
+{
+	_writer->write (data, time, metadata);
+}
+
 
 optional<float>
 DCPEncoder::current_rate () const

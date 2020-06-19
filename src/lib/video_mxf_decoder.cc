@@ -76,7 +76,6 @@ VideoMXFDecoder::pass ()
 	double const vfr = _content->active_video_frame_rate (film());
 	int64_t const frame = _next.frames_round (vfr);
 
-
 	if (frame >= _content->video->length()) {
 		return true;
 	}

@@ -45,6 +45,7 @@ def build(bld):
     obj.use    = 'libdcpomatic2'
     obj.source = """
                  4k_test.cc
+                 atmos_test.cc
                  audio_analysis_test.cc
                  audio_buffers_test.cc
                  audio_delay_test.cc

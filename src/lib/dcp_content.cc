@@ -18,6 +18,7 @@
 
 */
 
+#include "atmos_content.h"
 #include "dcp_content.h"
 #include "video_content.h"
 #include "audio_content.h"
@@ -231,6 +232,11 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		AudioMapping m = as->mapping ();
 		m.make_default (film ? film->audio_processor() : 0);
 		as->set_mapping (m);
+	}
+
+	if (examiner->has_atmos()) {
+		boost::mutex::scoped_lock lm (_mutex);
+		atmos.reset (new AtmosContent(this));
 	}
 
 	int texts = 0;

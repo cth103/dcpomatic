@@ -594,13 +594,19 @@ DCPPanel::setup_sensitivity ()
 	_reel_length->Enable            (_generally_sensitive && _film && _film->reel_type() == REELTYPE_BY_LENGTH);
 	_markers->Enable                (_generally_sensitive && _film && !_film->interop());
 	_metadata->Enable               (_generally_sensitive);
-	_frame_rate_choice->Enable      (_generally_sensitive && _film && !_film->references_dcp_video());
-	_frame_rate_spin->Enable        (_generally_sensitive && _film && !_film->references_dcp_video());
+	_frame_rate_choice->Enable      (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->contains_atmos_content());
+	_frame_rate_spin->Enable        (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->contains_atmos_content());
 	_audio_channels->Enable         (_generally_sensitive && _film && !_film->references_dcp_audio());
 	_audio_processor->Enable        (_generally_sensitive && _film && !_film->references_dcp_audio());
 	_j2k_bandwidth->Enable          (_generally_sensitive && _film && !_film->references_dcp_video());
 	_container->Enable              (_generally_sensitive && _film && !_film->references_dcp_video());
-	_best_frame_rate->Enable        (_generally_sensitive && _film && _film->best_video_frame_rate () != _film->video_frame_rate ());
+	_best_frame_rate->Enable (
+		_generally_sensitive &&
+		_film &&
+		_film->best_video_frame_rate () != _film->video_frame_rate() &&
+		!_film->references_dcp_video() &&
+		!_film->contains_atmos_content()
+		);
 	_resolution->Enable             (_generally_sensitive && _film && !_film->references_dcp_video());
 	_three_d->Enable                (_generally_sensitive && _film && !_film->references_dcp_video());
 	_standard->Enable               (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->references_dcp_audio());

@@ -39,6 +39,7 @@
 #include <dcp/sound_asset.h>
 #include <dcp/sound_asset_reader.h>
 #include <dcp/subtitle_asset.h>
+#include <dcp/reel_atmos_asset.h>
 #include <dcp/reel_subtitle_asset.h>
 #include <dcp/reel_closed_caption_asset.h>
 #include <dcp/reel_markers_asset.h>
@@ -65,6 +66,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	, _needs_assets (false)
 	, _kdm_valid (false)
 	, _three_d (false)
+	, _has_atmos (false)
 {
 	shared_ptr<dcp::CPL> cpl;
 
@@ -94,6 +96,9 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 					++unsatisfied;
 				}
 				if (j->main_subtitle() && !j->main_subtitle()->asset_ref().resolved()) {
+					++unsatisfied;
+				}
+				if (j->atmos() && !j->atmos()->asset_ref().resolved()) {
 					++unsatisfied;
 				}
 			}
@@ -191,6 +196,10 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			_markers.insert (rm.begin(), rm.end());
 		}
 
+		if (i->atmos()) {
+			_has_atmos = true;
+		}
+
 		if (i->main_picture()) {
 			_reel_lengths.push_back (i->main_picture()->actual_duration());
 		} else if (i->main_sound()) {
@@ -199,6 +208,8 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			_reel_lengths.push_back (i->main_subtitle()->actual_duration());
 		} else if (!i->closed_captions().empty()) {
 			_reel_lengths.push_back (i->closed_captions().front()->actual_duration());
+		} else if (!i->atmos()) {
+			_reel_lengths.push_back (i->atmos()->actual_duration());
 		}
 	}
 
@@ -225,6 +236,10 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 			if (i->main_subtitle()) {
 				i->main_subtitle()->asset()->subtitles ();
+			}
+
+			if (i->atmos()) {
+				i->atmos()->asset()->start_read()->get_frame(0);
 			}
 		}
 	} catch (dcp::ReadError& e) {

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,14 @@
 
 */
 
+#include "atmos_metadata.h"
 #include "types.h"
 #include "dcpomatic_time.h"
 #include "referenced_reel_asset.h"
 #include "player_text.h"
 #include "dcp_text_track.h"
 #include <dcp/picture_asset_writer.h>
+#include <dcp/atmos_asset_writer.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 
@@ -47,6 +49,7 @@ namespace dcp {
 	class SoundAsset;
 	class SoundAssetWriter;
 	class SubtitleAsset;
+	class AtmosAsset;
 	class ReelAsset;
 	class Reel;
 }
@@ -68,6 +71,7 @@ public:
 	void repeat_write (Frame frame, Eyes eyes);
 	void write (boost::shared_ptr<const AudioBuffers> audio);
 	void write (PlayerText text, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period);
+	void write (boost::shared_ptr<const dcp::AtmosFrame> atmos, AtmosMetadata metadata);
 
 	void finish ();
 	boost::shared_ptr<dcp::Reel> create_reel (std::list<ReferencedReelAsset> const & refs, std::list<boost::shared_ptr<dcpomatic::Font> > const & fonts);
@@ -115,6 +119,8 @@ private:
 	boost::shared_ptr<dcp::SoundAssetWriter> _sound_asset_writer;
 	boost::shared_ptr<dcp::SubtitleAsset> _subtitle_asset;
 	std::map<DCPTextTrack, boost::shared_ptr<dcp::SubtitleAsset> > _closed_caption_assets;
+	boost::shared_ptr<dcp::AtmosAsset> _atmos_asset;
+	boost::shared_ptr<dcp::AtmosAssetWriter> _atmos_asset_writer;
 
 	static int const _info_size;
 };

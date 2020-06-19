@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -22,6 +22,7 @@
  *  @brief A decoder of existing DCPs.
  */
 
+#include "atmos_metadata.h"
 #include "decoder.h"
 #include "dcp.h"
 #include <dcp/mono_picture_asset_reader.h>
@@ -93,6 +94,8 @@ private:
 	boost::shared_ptr<dcp::StereoPictureAssetReader> _stereo_reader;
 	/** Reader for current sound asset, if applicable */
 	boost::shared_ptr<dcp::SoundAssetReader> _sound_reader;
+	boost::shared_ptr<dcp::AtmosAssetReader> _atmos_reader;
+	boost::optional<AtmosMetadata> _atmos_metadata;
 
 	bool _decode_referenced;
 	boost::optional<int> _forced_reduction;

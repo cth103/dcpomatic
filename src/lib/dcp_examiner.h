@@ -131,6 +131,10 @@ public:
 		return _content_version;
 	}
 
+	bool has_atmos () const {
+		return _has_atmos;
+	}
+
 private:
 	boost::optional<double> _video_frame_rate;
 	boost::optional<dcp::Size> _video_size;
@@ -156,4 +160,5 @@ private:
 	std::map<dcp::Marker, dcp::Time> _markers;
 	std::vector<dcp::Rating> _ratings;
 	std::string _content_version;
+	bool _has_atmos;
 };

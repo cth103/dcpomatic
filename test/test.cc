@@ -237,6 +237,83 @@ check_mxf_audio_file (boost::filesystem::path ref, boost::filesystem::path check
 	}
 }
 
+
+/** @return true if the files are the same, otherwise false */
+bool
+mxf_atmos_files_same (boost::filesystem::path ref, boost::filesystem::path check, bool verbose)
+{
+	ASDCP::ATMOS::MXFReader ref_reader;
+	BOOST_REQUIRE (!ASDCP_FAILURE(ref_reader.OpenRead(ref.string().c_str())));
+
+	ASDCP::ATMOS::AtmosDescriptor ref_desc;
+	BOOST_REQUIRE (!ASDCP_FAILURE(ref_reader.FillAtmosDescriptor(ref_desc)));
+
+	ASDCP::ATMOS::MXFReader check_reader;
+	BOOST_REQUIRE (!ASDCP_FAILURE(check_reader.OpenRead(check.string().c_str())));
+
+	ASDCP::ATMOS::AtmosDescriptor check_desc;
+	BOOST_REQUIRE (!ASDCP_FAILURE(check_reader.FillAtmosDescriptor(check_desc)));
+
+	if (ref_desc.EditRate.Numerator != check_desc.EditRate.Numerator) {
+		if (verbose) {
+			std::cout << "EditRate.Numerator differs.\n";
+		}
+		return false;
+	}
+	if (ref_desc.EditRate.Denominator != check_desc.EditRate.Denominator) {
+		if (verbose) {
+			std::cout << "EditRate.Denominator differs.\n";
+		}
+		return false;
+	}
+	if (ref_desc.ContainerDuration != check_desc.ContainerDuration) {
+		if (verbose) {
+			std::cout << "EditRate.ContainerDuration differs.\n";
+		}
+		return false;
+	}
+	if (ref_desc.FirstFrame != check_desc.FirstFrame) {
+		if (verbose) {
+			std::cout << "EditRate.FirstFrame differs.\n";
+		}
+		return false;
+	}
+	if (ref_desc.MaxChannelCount != check_desc.MaxChannelCount) {
+		if (verbose) {
+			std::cout << "EditRate.MaxChannelCount differs.\n";
+		}
+		return false;
+	}
+	if (ref_desc.MaxObjectCount != check_desc.MaxObjectCount) {
+		if (verbose) {
+			std::cout << "EditRate.MaxObjectCount differs.\n";
+		}
+		return false;
+	}
+	if (ref_desc.AtmosVersion != check_desc.AtmosVersion) {
+		if (verbose) {
+			std::cout << "EditRate.AtmosVersion differs.\n";
+		}
+		return false;
+	}
+
+	ASDCP::DCData::FrameBuffer ref_buffer (Kumu::Megabyte);
+	ASDCP::DCData::FrameBuffer check_buffer (Kumu::Megabyte);
+	for (size_t i = 0; i < ref_desc.ContainerDuration; ++i) {
+		ref_reader.ReadFrame (i, ref_buffer, 0);
+		check_reader.ReadFrame (i, check_buffer, 0);
+		if (memcmp(ref_buffer.RoData(), check_buffer.RoData(), ref_buffer.Size())) {
+			if (verbose) {
+				std::cout << "data differs.\n";
+			}
+			return false;
+		}
+	}
+
+	return true;
+}
+
+
 void
 check_image (boost::filesystem::path ref, boost::filesystem::path check, double threshold)
 {

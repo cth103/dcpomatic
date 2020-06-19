@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+#include "atmos_decoder.h"
 #include "dcp_decoder.h"
 #include "dcp_content.h"
 #include "audio_content.h"
@@ -47,6 +48,7 @@
 #include <dcp/sound_asset_reader.h>
 #include <dcp/subtitle_image.h>
 #include <dcp/decrypted_kdm.h>
+#include <dcp/reel_atmos_asset.h>
 #include <boost/foreach.hpp>
 #include <iostream>
 
@@ -75,6 +77,9 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 		BOOST_FOREACH (shared_ptr<TextContent> i, c->text) {
 			/* XXX: this time here should be the time of the first subtitle, not 0 */
 			text.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, i, ContentTime())));
+		}
+		if (c->atmos) {
+			atmos.reset (new AtmosDecoder (this, c));
 		}
 	}
 
@@ -215,6 +220,11 @@ DCPDecoder::pass ()
 		audio->emit (film(), _dcp_content->audio->stream(), data, ContentTime::from_frames (_offset, vfr) + _next);
 	}
 
+	if (_atmos_reader) {
+		DCPOMATIC_ASSERT (_atmos_metadata);
+		atmos->emit (film(), _atmos_reader->get_frame(frame), frame, *_atmos_metadata);
+	}
+
 	_next += ContentTime::from_frames (1, vfr);
 
 	if ((*_reel)->main_picture ()) {
@@ -341,6 +351,7 @@ DCPDecoder::get_readers ()
 		_mono_reader.reset ();
 		_stereo_reader.reset ();
 		_sound_reader.reset ();
+		_atmos_reader.reset ();
 		return;
 	}
 
@@ -365,6 +376,15 @@ DCPDecoder::get_readers ()
 		_sound_reader = (*_reel)->main_sound()->asset()->start_read ();
 	} else {
 		_sound_reader.reset ();
+	}
+
+	if ((*_reel)->atmos()) {
+		shared_ptr<dcp::AtmosAsset> asset = (*_reel)->atmos()->asset();
+		_atmos_reader = asset->start_read();
+		_atmos_metadata = AtmosMetadata (asset);
+	} else {
+		_atmos_reader.reset ();
+		_atmos_metadata = boost::none;
 	}
 }
 

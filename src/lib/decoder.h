@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -34,6 +34,7 @@ class Decoded;
 class VideoDecoder;
 class AudioDecoder;
 class TextDecoder;
+class AtmosDecoder;
 class DecoderPart;
 
 /** @class Decoder.
@@ -48,6 +49,7 @@ public:
 	boost::shared_ptr<VideoDecoder> video;
 	boost::shared_ptr<AudioDecoder> audio;
 	std::list<boost::shared_ptr<TextDecoder> > text;
+	boost::shared_ptr<AtmosDecoder> atmos;
 
 	boost::shared_ptr<TextDecoder> only_text () const;
 

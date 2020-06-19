@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+#include "atmos_metadata.h"
 #include "types.h"
 #include "player_text.h"
 #include "dcp_text_track.h"
 #include "encoder.h"
+#include <dcp/atmos_frame.h>
 #include <boost/weak_ptr.hpp>
 
 class Film;
@@ -54,6 +56,7 @@ private:
 	void video (boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime);
 	void audio (boost::shared_ptr<AudioBuffers>, dcpomatic::DCPTime);
 	void text (PlayerText, TextType, boost::optional<DCPTextTrack>, dcpomatic::DCPTimePeriod);
+	void atmos (boost::shared_ptr<const dcp::AtmosFrame>, dcpomatic::DCPTime, AtmosMetadata metadata);
 
 	boost::shared_ptr<Writer> _writer;
 	boost::shared_ptr<J2KEncoder> _j2k_encoder;
@@ -63,4 +66,5 @@ private:
 	boost::signals2::scoped_connection _player_video_connection;
 	boost::signals2::scoped_connection _player_audio_connection;
 	boost::signals2::scoped_connection _player_text_connection;
+	boost::signals2::scoped_connection _player_atmos_connection;
 };

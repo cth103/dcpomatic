@@ -18,6 +18,7 @@
 
 */
 
+#include "atmos_decoder.h"
 #include "player.h"
 #include "film.h"
 #include "audio_buffers.h"
@@ -193,12 +194,9 @@ Player::setup_pieces_unlocked ()
 		}
 
 		shared_ptr<Decoder> decoder = decoder_factory (_film, i, _fast, _tolerant, old_decoder);
-		FrameRateChange frc (_film, i);
+		DCPOMATIC_ASSERT (decoder);
 
-		if (!decoder) {
-			/* Not something that we can decode; e.g. Atmos content */
-			continue;
-		}
+		FrameRateChange frc (_film, i);
 
 		if (decoder->video && _ignore_video) {
 			decoder->video->set_ignore (true);
@@ -252,6 +250,10 @@ Player::setup_pieces_unlocked ()
 				);
 
 			++j;
+		}
+
+		if (decoder->atmos) {
+			decoder->atmos->Data.connect (bind(&Player::atmos, this, weak_ptr<Piece>(piece), _1));
 		}
 	}
 
@@ -1268,5 +1270,12 @@ shared_ptr<const Playlist>
 Player::playlist () const
 {
 	return _playlist ? _playlist : _film->playlist();
+}
+
+
+void
+Player::atmos (weak_ptr<Piece>, ContentAtmos data)
+{
+	Atmos (data.data, DCPTime::from_frames(data.frame, _film->video_frame_rate()), data.metadata);
 }
 

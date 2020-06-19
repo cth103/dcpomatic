@@ -52,6 +52,7 @@
 #include <dcp/picture_asset.h>
 #include <dcp/sound_asset.h>
 #include <dcp/subtitle_asset.h>
+#include <dcp/atmos_asset.h>
 extern "C" {
 #include <libavfilter/avfilter.h>
 #include <libavformat/avformat.h>
@@ -726,6 +727,21 @@ audio_asset_filename (shared_ptr<dcp::SoundAsset> asset, int reel_index, int ree
 	}
 	return Config::instance()->dcp_asset_filename_format().get(values, "_" + asset->id() + ".mxf");
 }
+
+
+string
+atmos_asset_filename (shared_ptr<dcp::AtmosAsset> asset, int reel_index, int reel_count, optional<string> summary)
+{
+	dcp::NameFormat::Map values;
+	values['t'] = "atmos";
+	values['r'] = raw_convert<string> (reel_index + 1);
+	values['n'] = raw_convert<string> (reel_count);
+	if (summary) {
+		values['c'] = careful_string_filter (summary.get());
+	}
+	return Config::instance()->dcp_asset_filename_format().get(values, "_" + asset->id() + ".mxf");
+}
+
 
 float
 relaxed_string_to_float (string s)

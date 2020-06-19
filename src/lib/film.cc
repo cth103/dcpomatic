@@ -23,6 +23,7 @@
  *  how they should be presented in a DCP.
  */
 
+#include "atmos_content.h"
 #include "film.h"
 #include "job.h"
 #include "util.h"
@@ -1397,6 +1398,21 @@ Film::playlist_change (ChangeType type)
 void
 Film::check_settings_consistency ()
 {
+	optional<int> atmos_rate;
+	BOOST_FOREACH (shared_ptr<Content> i, content()) {
+
+		if (i->atmos) {
+			int rate = lrintf (i->atmos->edit_rate().as_float());
+			if (atmos_rate && *atmos_rate != rate) {
+				Message (_("You have more than one piece of Atmos content, and they do not have the same frame rate.  You must remove some Atmos content."));
+			} else if (!atmos_rate && rate != video_frame_rate()) {
+				atmos_rate = rate;
+				set_video_frame_rate (rate, false);
+				Message (_("DCP-o-matic had to change your settings so that the film's frame rate is the same as that of your Atmos content."));
+			}
+		}
+	}
+
 	bool change_made = false;
 	BOOST_FOREACH (shared_ptr<Content> i, content()) {
 		shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent>(i);
@@ -1778,6 +1794,18 @@ Film::references_dcp_audio () const
 
 	return false;
 }
+
+
+bool
+Film::contains_atmos_content () const
+{
+	BOOST_FOREACH (shared_ptr<Content> i, _playlist->content()) {
+		if (i->atmos) {
+			return true;
+		}
+	}
+}
+
 
 list<DCPTextTrack>
 Film::closed_caption_tracks () const

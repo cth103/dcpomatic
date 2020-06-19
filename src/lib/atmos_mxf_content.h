@@ -41,7 +41,4 @@ public:
 	dcpomatic::DCPTime approximate_length () const;
 
 	static bool valid_mxf (boost::filesystem::path path);
-
-private:
-	Frame _length;
 };

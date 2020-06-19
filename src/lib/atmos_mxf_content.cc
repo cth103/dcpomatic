@@ -18,6 +18,7 @@
 
 */
 
+#include "atmos_content.h"
 #include "atmos_mxf_content.h"
 #include "job.h"
 #include "film.h"
@@ -44,10 +45,7 @@ AtmosMXFContent::AtmosMXFContent (boost::filesystem::path path)
 AtmosMXFContent::AtmosMXFContent (cxml::ConstNodePtr node, int)
 	: Content (node)
 {
-	/* This was mistakenly left out for a while, so make sure we at least don't
-	 * crash if an old Film is loaded.
-	 */
-	_length = node->optional_number_child<Frame>("Length").get_value_or(0);
+	atmos = AtmosContent::from_xml (this, node);
 }
 
 bool
@@ -78,7 +76,9 @@ AtmosMXFContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		_length = a->intrinsic_duration ();
+		atmos.reset (new AtmosContent(this));
+		atmos->set_length (a->intrinsic_duration());
+		atmos->set_edit_rate (a->edit_rate());
 	}
 }
 
@@ -93,18 +93,18 @@ AtmosMXFContent::as_xml (xmlpp::Node* node, bool with_paths) const
 {
 	node->add_child("Type")->add_child_text ("AtmosMXF");
 	Content::as_xml (node, with_paths);
-	node->add_child("Length")->add_child_text(dcp::raw_convert<string>(_length));
+	atmos->as_xml (node);
 }
 
 DCPTime
 AtmosMXFContent::full_length (shared_ptr<const Film> film) const
 {
 	FrameRateChange const frc (film, shared_from_this());
-	return DCPTime::from_frames (llrint (_length * frc.factor()), film->video_frame_rate());
+	return DCPTime::from_frames (llrint (atmos->length() * frc.factor()), film->video_frame_rate());
 }
 
 DCPTime
 AtmosMXFContent::approximate_length () const
 {
-	return DCPTime::from_frames (_length, 24);
+	return DCPTime::from_frames (atmos->length(), 24);
 }

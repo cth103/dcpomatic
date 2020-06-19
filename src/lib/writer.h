@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -22,10 +22,12 @@
  *  @brief Writer class.
  */
 
+#include "atmos_metadata.h"
 #include "types.h"
 #include "player_text.h"
 #include "exception_store.h"
 #include "dcp_text_track.h"
+#include <dcp/atmos_frame.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/thread.hpp>
@@ -111,6 +113,7 @@ public:
 	void write (PlayerText text, TextType type, boost::optional<DCPTextTrack>, dcpomatic::DCPTimePeriod period);
 	void write (std::list<boost::shared_ptr<dcpomatic::Font> > fonts);
 	void write (ReferencedReelAsset asset);
+	void write (boost::shared_ptr<const dcp::AtmosFrame> atmos, dcpomatic::DCPTime time, AtmosMetadata metadata);
 	void finish ();
 
 	void set_encoder_threads (int threads);
@@ -130,6 +133,7 @@ private:
 	std::vector<ReelWriter>::iterator _audio_reel;
 	std::vector<ReelWriter>::iterator _subtitle_reel;
 	std::map<DCPTextTrack, std::vector<ReelWriter>::iterator> _caption_reels;
+	std::vector<ReelWriter>::iterator _atmos_reel;
 
 	/** our thread */
 	boost::thread _thread;

@@ -97,6 +97,7 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 	BOOST_FOREACH (DCPTextTrack i, _film->closed_caption_tracks()) {
 		_caption_reels[i] = _reels.begin ();
 	}
+	_atmos_reel = _reels.begin ();
 
 	/* Check that the signer is OK */
 	string reason;
@@ -300,6 +301,19 @@ Writer::write (shared_ptr<const AudioBuffers> audio, DCPTime const time)
 			t += part_lengths[0];
 		}
 	}
+}
+
+
+void
+Writer::write (shared_ptr<const dcp::AtmosFrame> atmos, DCPTime time, AtmosMetadata metadata)
+{
+	if (_atmos_reel->period().to == time) {
+		++_atmos_reel;
+		DCPOMATIC_ASSERT (_atmos_reel != _reels.end());
+	}
+
+	/* We assume that we get a video frame's worth of data here */
+	_atmos_reel->write (atmos, metadata);
 }
 
 

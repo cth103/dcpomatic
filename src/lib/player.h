@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -21,11 +21,13 @@
 #ifndef DCPOMATIC_PLAYER_H
 #define DCPOMATIC_PLAYER_H
 
+#include "atmos_metadata.h"
 #include "player_text.h"
 #include "active_text.h"
 #include "content_text.h"
 #include "film.h"
 #include "content.h"
+#include "content_atmos.h"
 #include "position_image.h"
 #include "piece.h"
 #include "content_video.h"
@@ -46,6 +48,7 @@ namespace dcpomatic {
 	class Font;
 }
 
+class AtmosContent;
 class PlayerVideo;
 class Playlist;
 class AudioBuffers;
@@ -103,6 +106,7 @@ public:
 	 *  after the corresponding Video.
 	 */
 	boost::signals2::signal<void (PlayerText, TextType, boost::optional<DCPTextTrack>, dcpomatic::DCPTimePeriod)> Text;
+	boost::signals2::signal<void (boost::shared_ptr<const dcp::AtmosFrame>, dcpomatic::DCPTime, AtmosMetadata)> Atmos;
 
 private:
 	friend class PlayerWrapper;
@@ -129,11 +133,14 @@ private:
 	dcpomatic::ContentTime dcp_to_content_time (boost::shared_ptr<const Piece> piece, dcpomatic::DCPTime t) const;
 	dcpomatic::DCPTime content_time_to_dcp (boost::shared_ptr<const Piece> piece, dcpomatic::ContentTime t) const;
 	boost::shared_ptr<PlayerVideo> black_player_video_frame (Eyes eyes) const;
+
 	void video (boost::weak_ptr<Piece>, ContentVideo);
 	void audio (boost::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
 	void bitmap_text_start (boost::weak_ptr<Piece>, boost::weak_ptr<const TextContent>, ContentBitmapText);
 	void plain_text_start (boost::weak_ptr<Piece>, boost::weak_ptr<const TextContent>, ContentStringText);
 	void subtitle_stop (boost::weak_ptr<Piece>, boost::weak_ptr<const TextContent>, dcpomatic::ContentTime);
+	void atmos (boost::weak_ptr<Piece>, ContentAtmos);
+
 	dcpomatic::DCPTime one_video_frame () const;
 	void fill_audio (dcpomatic::DCPTimePeriod period);
 	std::pair<boost::shared_ptr<AudioBuffers>, dcpomatic::DCPTime> discard_audio (

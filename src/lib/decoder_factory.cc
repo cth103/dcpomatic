@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,8 @@
 
 */
 
+#include "atmos_mxf_content.h"
+#include "atmos_mxf_decoder.h"
 #include "ffmpeg_content.h"
 #include "ffmpeg_decoder.h"
 #include "dcp_content.h"
@@ -87,6 +89,11 @@ decoder_factory (shared_ptr<const Film> film, shared_ptr<const Content> content,
 	shared_ptr<const VideoMXFContent> vmc = dynamic_pointer_cast<const VideoMXFContent> (content);
 	if (vmc) {
 		return shared_ptr<Decoder> (new VideoMXFDecoder(film, vmc));
+	}
+
+	shared_ptr<const AtmosMXFContent> amc = dynamic_pointer_cast<const AtmosMXFContent> (content);
+	if (amc) {
+		return shared_ptr<Decoder> (new AtmosMXFDecoder(film, amc));
 	}
 
 	return shared_ptr<Decoder> ();

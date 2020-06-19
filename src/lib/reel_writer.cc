@@ -30,11 +30,14 @@
 #include "config.h"
 #include "audio_buffers.h"
 #include "image.h"
+#include <dcp/atmos_asset.h>
+#include <dcp/atmos_asset_writer.h>
 #include <dcp/mono_picture_asset.h>
 #include <dcp/stereo_picture_asset.h>
 #include <dcp/sound_asset.h>
 #include <dcp/sound_asset_writer.h>
 #include <dcp/reel.h>
+#include <dcp/reel_atmos_asset.h>
 #include <dcp/reel_mono_picture_asset.h>
 #include <dcp/reel_stereo_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
@@ -287,6 +290,23 @@ ReelWriter::write (optional<Data> encoded, Frame frame, Eyes eyes)
 	_last_written[eyes] = encoded;
 }
 
+
+void
+ReelWriter::write (shared_ptr<const dcp::AtmosFrame> atmos, AtmosMetadata metadata)
+{
+	if (!_atmos_asset) {
+		_atmos_asset = metadata.create (dcp::Fraction(_film->video_frame_rate(), 1));
+		if (_film->encrypted()) {
+			_atmos_asset->set_key(_film->key());
+		}
+		_atmos_asset_writer = _atmos_asset->start_write (
+			_film->directory().get() / atmos_asset_filename (_atmos_asset, _reel_index, _reel_count, _content_summary)
+			);
+	}
+	_atmos_asset_writer->write (atmos);
+}
+
+
 void
 ReelWriter::fake_write (int size)
 {
@@ -380,6 +400,24 @@ ReelWriter::finish ()
 		}
 
 		_sound_asset->set_file (audio_to);
+	}
+
+	if (_atmos_asset) {
+		_atmos_asset_writer->finalize ();
+		boost::filesystem::path atmos_to;
+		atmos_to /= _film->dir (_film->dcp_name());
+		string const aaf = atmos_asset_filename (_atmos_asset, _reel_index, _reel_count, _content_summary);
+		atmos_to /= aaf;
+
+		boost::system::error_code ec;
+		boost::filesystem::rename (_film->file(aaf), atmos_to, ec);
+		if (ec) {
+			throw FileError (
+				String::compose (_("could not move atmos asset into the DCP (%1)"), ec.value ()), aaf
+				);
+		}
+
+		_atmos_asset->set_file (atmos_to);
 	}
 }
 
@@ -590,6 +628,10 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 		reel->add (ma);
 	}
 
+	if (_atmos_asset) {
+		reel->add (shared_ptr<dcp::ReelAtmosAsset>(new dcp::ReelAtmosAsset(_atmos_asset, 0)));
+	}
+
 	return reel;
 }
 
@@ -602,6 +644,10 @@ ReelWriter::calculate_digests (boost::function<void (float)> set_progress)
 
 	if (_sound_asset) {
 		_sound_asset->hash (set_progress);
+	}
+
+	if (_atmos_asset) {
+		_atmos_asset->hash (set_progress);
 	}
 }
 

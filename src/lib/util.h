@@ -28,6 +28,7 @@
 #include "types.h"
 #include "dcpomatic_time.h"
 #include "audio_mapping.h"
+#include <dcp/atmos_asset.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/util.h>
 #include <dcp/subtitle_image.h>
@@ -101,6 +102,7 @@ extern void set_backtrace_file (boost::filesystem::path);
 extern std::map<std::string, std::string> split_get_request (std::string url);
 extern std::string video_asset_filename (boost::shared_ptr<dcp::PictureAsset> asset, int reel_index, int reel_count, boost::optional<std::string> content_summary);
 extern std::string audio_asset_filename (boost::shared_ptr<dcp::SoundAsset> asset, int reel_index, int reel_count, boost::optional<std::string> content_summary);
+extern std::string atmos_asset_filename (boost::shared_ptr<dcp::AtmosAsset> asset, int reel_index, int reel_count, boost::optional<std::string> content_summary);
 extern float relaxed_string_to_float (std::string);
 extern std::string careful_string_filter (std::string);
 extern std::pair<int, int> audio_channel_types (std::list<int> mapped, int channels);
