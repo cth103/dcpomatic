@@ -92,6 +92,7 @@ DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
 	video = VideoContent::from_xml (this, node, version);
 	audio = AudioContent::from_xml (this, node, version);
 	text = TextContent::from_xml (this, node, version);
+	atmos = AtmosContent::from_xml (this, node);
 
 	for (int i = 0; i < TEXT_COUNT; ++i) {
 		_reference_text[i] = false;
@@ -326,6 +327,10 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 
 	BOOST_FOREACH (shared_ptr<TextContent> i, text) {
 		i->as_xml (node);
+	}
+
+	if (atmos) {
+		atmos->as_xml (node);
 	}
 
 	boost::mutex::scoped_lock lm (_mutex);
