@@ -1804,6 +1804,8 @@ Film::contains_atmos_content () const
 			return true;
 		}
 	}
+
+	return false;
 }
 
 
