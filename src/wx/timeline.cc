@@ -262,8 +262,8 @@ Timeline::recreate_views ()
 			_views.push_back (shared_ptr<TimelineView> (new TimelineTextContentView (*this, i, j)));
 		}
 
-		if (dynamic_pointer_cast<AtmosMXFContent> (i)) {
-			_views.push_back (shared_ptr<TimelineView> (new TimelineAtmosContentView (*this, i)));
+		if (i->atmos) {
+			_views.push_back (shared_ptr<TimelineView>(new TimelineAtmosContentView(*this, i)));
 		}
 	}
 
