@@ -42,8 +42,8 @@ AtmosContent::AtmosContent (Content* parent)
 AtmosContent::AtmosContent (Content* parent, cxml::ConstNodePtr node)
 	: ContentPart (parent)
 {
-	_length = node->number_child<Frame>("Length");
-	_edit_rate = dcp::Fraction (node->string_child("EditRate"));
+	_length = node->number_child<Frame>("AtmosLength");
+	_edit_rate = dcp::Fraction (node->string_child("AtmosEditRate"));
 }
 
 
@@ -57,8 +57,8 @@ AtmosContent::from_xml (Content* parent, cxml::ConstNodePtr node)
 void
 AtmosContent::as_xml (xmlpp::Node* node) const
 {
-	node->add_child("Length")->add_child_text(dcp::raw_convert<string>(_length));
-	node->add_child("EditRate")->add_child_text(_edit_rate.as_string());
+	node->add_child("AtmosLength")->add_child_text(dcp::raw_convert<string>(_length));
+	node->add_child("AtmosEditRate")->add_child_text(_edit_rate.as_string());
 }
 
 
