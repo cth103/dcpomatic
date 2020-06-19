@@ -6,7 +6,7 @@ export LD_LIBRARY_PATH=build/src/lib:/home/c.hetherington/lib:$LD_LIBRARY_PATH
 export DCPOMATIC_LINUX_SHARE_PREFIX=`pwd`
 if [ "$1" == "--debug" ]; then
     shift;
-    gdb --args build/test/unit-tests --catch_system_errors=no --log-level=test_suite $*
+    gdb --args build/test/unit-tests --catch_system_errors=no --log_level=test_suite $*
 elif [ "$1" == "--backtrace" ]; then
     shift;
     gdb -batch -ex "run" -ex "thread apply all bt" -return-child-result --args build/test/unit-tests --catch_system_errors=yes $*
