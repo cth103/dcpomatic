@@ -71,7 +71,6 @@ sources = """
           film_name_location_dialog.cc
           film_viewer.cc
           filter_dialog.cc
-          filter_editor.cc
           focus_manager.cc
           fonts_dialog.cc
           full_config_dialog.cc

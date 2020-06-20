@@ -22,35 +22,91 @@
  *  @brief A dialog to select FFmpeg filters.
  */
 
-#include "lib/film.h"
+#include "check_box.h"
 #include "filter_dialog.h"
-#include "filter_editor.h"
+#include "static_text.h"
+#include "wx_util.h"
+#include "lib/film.h"
+#include "lib/filter.h"
+#include <boost/foreach.hpp>
+
 
 using namespace std;
 using boost::bind;
 
-FilterDialog::FilterDialog (wxWindow* parent, vector<Filter const *> const & f)
-	: wxDialog (parent, wxID_ANY, wxString (_("Filters")))
-	, _filters (new FilterEditor (this, f))
-{
-	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
-	sizer->Add (_filters, 1, wxEXPAND | wxALL, 6);
 
-	_filters->ActiveChanged.connect (bind (&FilterDialog::active_changed, this));
+FilterDialog::FilterDialog (wxWindow* parent, vector<Filter const *> const & active)
+	: wxDialog (parent, wxID_ANY, wxString(_("Filters")))
+{
+	wxPanel* panel = new wxPanel (this);
+	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+
+	vector<Filter const *> filters = Filter::all ();
+
+	typedef map<string, list<Filter const *> > CategoryMap;
+	CategoryMap categories;
+
+	BOOST_FOREACH (Filter const* i, filters) {
+		CategoryMap::iterator j = categories.find (i->category());
+		if (j == categories.end ()) {
+			list<Filter const *> c;
+			c.push_back (i);
+			categories[i->category()] = c;
+		} else {
+			j->second.push_back (i);
+		}
+	}
+
+	for (CategoryMap::iterator i = categories.begin(); i != categories.end(); ++i) {
+
+		wxStaticText* c = new StaticText (panel, std_to_wx(i->first));
+		wxFont font = c->GetFont();
+		font.SetWeight(wxFONTWEIGHT_BOLD);
+		c->SetFont(font);
+		sizer->Add (c, 1, wxTOP | wxBOTTOM, DCPOMATIC_SIZER_GAP);
+
+		BOOST_FOREACH (Filter const* j, i->second) {
+			wxCheckBox* b = new CheckBox(panel, std_to_wx(j->name()));
+			bool const a = find (active.begin(), active.end(), j) != active.end();
+			b->SetValue (a);
+			_filters[j] = b;
+			b->Bind (wxEVT_CHECKBOX, boost::bind(&FilterDialog::filter_toggled, this));
+			sizer->Add (b);
+		}
+
+		sizer->AddSpacer (6);
+	}
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {
 		sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 
-	SetSizer (sizer);
-	sizer->Layout ();
-	sizer->SetSizeHints (this);
+	panel->SetSizer (sizer);
+
+	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+	overall_sizer->Add (panel, 1, wxTOP | wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
+	SetSizerAndFit (overall_sizer);
 }
 
 
 void
-FilterDialog::active_changed ()
+FilterDialog::filter_toggled ()
 {
-	ActiveChanged (_filters->active ());
+	ActiveChanged (active());
 }
+
+
+vector<Filter const*>
+FilterDialog::active () const
+{
+	vector<Filter const *> active;
+	for (map<Filter const *, wxCheckBox*>::const_iterator i = _filters.begin(); i != _filters.end(); ++i) {
+		if (i->second->IsChecked()) {
+			active.push_back(i->first);
+		}
+	}
+
+	return active;
+}
+

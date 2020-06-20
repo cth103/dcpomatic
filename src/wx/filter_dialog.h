@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -26,7 +26,6 @@
 #include <boost/signals2.hpp>
 
 class Film;
-class FilterEditor;
 class Filter;
 
 /** @class FilterDialog
@@ -41,6 +40,8 @@ public:
 
 private:
 	void active_changed ();
+	void filter_toggled ();
+	std::vector<Filter const *> active () const;
 
-	FilterEditor* _filters;
+	std::map<Filter const *, wxCheckBox *> _filters;
 };
