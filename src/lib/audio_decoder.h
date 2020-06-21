@@ -54,7 +54,6 @@ public:
 
 	dcpomatic::ContentTime stream_position (boost::shared_ptr<const Film> film, AudioStreamPtr stream) const;
 
-	/** @return Number of frames of data that were accepted */
 	boost::signals2::signal<void (AudioStreamPtr, ContentAudio)> Data;
 
 private:
