@@ -38,27 +38,22 @@ using boost::shared_ptr;
 SystemInformationDialog::SystemInformationDialog (wxWindow* parent, weak_ptr<FilmViewer> weak_viewer)
 	: TableDialog (parent, _("System information"), 2, 1, false)
 {
-	add (_("OpenGL version"), true);
-	char const * v = (char const *) glGetString (GL_VERSION);
-	if (v) {
-		add (std_to_wx(v), false);
-	} else {
-		add (_("unknown (OpenGL not enabled in DCP-o-matic)"), false);
-	}
-
-
-	add (_("vsync"), true);
 	shared_ptr<FilmViewer> viewer = weak_viewer.lock ();
+	GLVideoView const * gl = viewer ? dynamic_cast<GLVideoView const *>(viewer->video_view()) : 0;
 
-	if (!viewer) {
-		add (_("unknown"), false);
+	if (!gl) {
+		add (_("OpenGL version"), true);
+		add (_("unknown (OpenGL not enabled in DCP-o-matic)"), false);
 	} else {
-		GLVideoView const * gl = dynamic_cast<GLVideoView const *>(viewer->video_view());
-		if (!gl) {
-			add (_("unknown"), false);
+		add (_("OpenGL version"), true);
+		char const * v = (char const *) glGetString (GL_VERSION);
+		if (v) {
+			add (std_to_wx(v), false);
 		} else {
-			add (gl->vsync_enabled() ? _("enabled") : _("not enabled"), false);
+			add (_("unknown"), false);
 		}
+		add (_("vsync"), true);
+		add (gl->vsync_enabled() ? _("enabled") : _("not enabled"), false);
 	}
 
 	layout ();
