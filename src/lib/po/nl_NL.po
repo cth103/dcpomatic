@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-18 10:22+0200\n"
-"PO-Revision-Date: 2019-05-05 23:21+0200\n"
+"PO-Revision-Date: 2020-06-24 21:09+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/video_content.cc:468
@@ -99,7 +99,7 @@ msgstr "$JOB_NAME: $JOB_STATUS"
 
 #: src/lib/cross_common.cc:89
 msgid "%1 (%2 GB) [%3]"
-msgstr ""
+msgstr "%1 (%2 GB) [%3]"
 
 #: src/lib/atmos_mxf_content.cc:84
 msgid "%1 [Atmos]"
@@ -181,7 +181,6 @@ msgid "; %1 remaining; finishing at %2%3"
 msgstr "; %1 resterend; klaar om %2%3"
 
 #: src/lib/analytics.cc:57
-#, fuzzy
 msgid ""
 "<h2>You have made %1 DCPs with DCP-o-matic!</h2><img width=\"20%%\" src="
 "\"memory:me.jpg\" align=\"center\"><p>Hello. I'm Carl and I'm the developer "
@@ -203,9 +202,9 @@ msgstr ""
 "donatie aan het project.  Financiële ondersteuning zal me helpen om meer "
 "tijd te besteden aan de ontwikkeling van DCP-o-matic en het beter te maken!"
 "<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Ga naar "
-"Paypal om £40 te doneren</a><li><a href=\"https://dcpomatic.com/"
-"donate_amount?amount=20\">Ga naar Paypal om £20 te doneren</a><li><a href="
-"\"https://dcpomatic.com/donate_amount?amount=10\">Ga naar Paypal om £10 te "
+"Paypal om €40 te doneren</a><li><a href=\"https://dcpomatic.com/"
+"donate_amount?amount=20\">Ga naar Paypal om €20 te doneren</a><li><a href="
+"\"https://dcpomatic.com/donate_amount?amount=10\">Ga naar Paypal om €10 te "
 "doneren</a></ul><p>Dank u wel!"
 
 #: src/lib/hints.cc:150
@@ -240,13 +239,12 @@ msgstr ""
 "instellen bij de DCP-instellingen."
 
 #: src/lib/hints.cc:142
-#, fuzzy
 msgid ""
 "All of your content narrower than 1.90:1 but your DCP's container is Scope "
 "(2.39:1).  This will pillar-box your content.  You may prefer to set your "
 "DCP's container to have the same ratio as your content."
 msgstr ""
-"Al uw content is 2,35:1 of smaller, maar uw DCP-container is Scope "
+"Al uw content is 1,90:1 of smaller, maar uw DCP-container is Scope "
 "(2,39:1).  Dit heeft tot gevolg dat er links en rechts van het beeld zwarte "
 "balken zullen komen.  U kunt ervoor kiezen om de DCP-container op dezelfde "
 "beeldverhouding als uw content in te stellen."
@@ -260,9 +258,8 @@ msgid "Analysing audio"
 msgstr "Analyseren audio"
 
 #: src/lib/analyse_subtitles_job.cc:48
-#, fuzzy
 msgid "Analysing subtitles"
-msgstr "Onderzoeken ondertitels"
+msgstr "Analyseren ondertitels"
 
 #: src/lib/audio_content.cc:258
 msgid "Audio will be resampled from %1Hz to %2Hz"
@@ -326,9 +323,8 @@ msgid "Bits per pixel"
 msgstr "Bits per pixel"
 
 #: src/lib/filter.cc:74
-#, fuzzy
 msgid "Bob Weaver Deinterlacing Filter"
-msgstr "Yet Another Deinterlacing Filter"
+msgstr "Bob Weaver Deinterlacing Filter"
 
 #: src/lib/util.cc:582
 msgid "BsL"
@@ -457,9 +453,10 @@ msgstr ""
 "hebben"
 
 #: src/lib/video_content.cc:198
-#, fuzzy
 msgid "Content to be joined must have all its video used or not used."
-msgstr "Samen te voegen content moet dezelfde video frame rate hebben"
+msgstr ""
+"Video van samen te voegen content moet allemaal wel, of allemaal niet "
+"gebruikt worden."
 
 #: src/lib/text_content.cc:261
 msgid "Content to be joined must have the same 'burn subtitles' setting."
@@ -490,14 +487,16 @@ msgid "Content to be joined must have the same crop."
 msgstr "Samen te voegen content moet dezelfde bijsnijding hebben."
 
 #: src/lib/video_content.cc:214
-#, fuzzy
 msgid "Content to be joined must have the same custom ratio setting."
-msgstr "Samen te voegen content moet dezelfde schaalinstelling hebben."
+msgstr ""
+"Samen te voegen content moet dezelfde instelling voor aangepaste "
+"beeldverhouding hebben."
 
 #: src/lib/video_content.cc:218
-#, fuzzy
 msgid "Content to be joined must have the same custom size setting."
-msgstr "Samen te voegen content moet dezelfde schaalinstelling hebben."
+msgstr ""
+"Samen te voegen content moet dezelfde instelling voor aangepaste grootte "
+"hebben."
 
 #: src/lib/video_content.cc:226
 msgid "Content to be joined must have the same fades."
@@ -570,12 +569,11 @@ msgstr "Kopieer DCP naar TMS"
 
 #: src/lib/reel_writer.cc:117
 msgid "Copying old video file"
-msgstr ""
+msgstr "Kopiëren oud video-bestand"
 
 #: src/lib/reel_writer.cc:348
-#, fuzzy
 msgid "Copying video file into DCP"
-msgstr "Ongelijke beeldgroottes in DCP"
+msgstr "Kopiëren videobestand naar DCP"
 
 #: src/lib/scp_uploader.cc:51
 msgid "Could not connect to server %1 (%2)"
@@ -708,7 +706,7 @@ msgstr "DCP-o-matic notificatie"
 
 #: src/lib/datasat_ap2x.cc:26
 msgid "Datasat AP20 or AP25"
-msgstr ""
+msgstr "Datasat AP20 of AP25"
 
 #: src/lib/filter.cc:71 src/lib/filter.cc:72 src/lib/filter.cc:73
 #: src/lib/filter.cc:74 src/lib/filter.cc:75
@@ -742,9 +740,8 @@ msgstr ""
 "DCP-o-matic"
 
 #: src/lib/dolby_cp750.cc:28
-#, fuzzy
 msgid "Dolby CP650 or CP750"
-msgstr "Dolby CP650 en CP750"
+msgstr "Dolby CP650 of CP750"
 
 #: src/lib/internet.cc:116
 msgid "Download failed (%1 error %2)"
@@ -763,9 +760,8 @@ msgid "Email KDMs"
 msgstr "E-mail KDM's"
 
 #: src/lib/send_kdm_email_job.cc:86
-#, fuzzy
 msgid "Email KDMs for %2"
-msgstr "E-mail KDM's voor %1"
+msgstr "E-mail KDM's voor %2"
 
 #: src/lib/send_notification_email_job.cc:51
 msgid "Email notification"
@@ -808,9 +804,8 @@ msgid "Examining subtitles"
 msgstr "Onderzoeken ondertitels"
 
 #: src/lib/subtitle_encoder.cc:80
-#, fuzzy
 msgid "Extracting"
-msgstr "Rating"
+msgstr "Uitpakken"
 
 #: src/lib/ffmpeg_content.cc:642
 msgid "FCC"
@@ -821,9 +816,8 @@ msgid "Failed to authenticate with server (%1)"
 msgstr "Authenticatiefout met server (%1)"
 
 #: src/lib/job.cc:133 src/lib/job.cc:143
-#, fuzzy
 msgid "Failed to encode the DCP."
-msgstr "Verzenden e-mail mislukt"
+msgstr "Encoderen van de DCP mislukt."
 
 #: src/lib/emailer.cc:224
 msgid "Failed to send email"
@@ -1001,7 +995,7 @@ msgstr "Logaritmisch (316: 1 bereik)"
 
 #: src/lib/exceptions.cc:128
 msgid "Lost communication between main and writer processes"
-msgstr ""
+msgstr "Verbroken communicatie tussen hoofd- en schrijfprocessen"
 
 #: src/lib/util.cc:576
 msgid "Ls"
@@ -1273,15 +1267,13 @@ msgstr ""
 "instellingen te controleren."
 
 #: src/lib/check_content_change_job.cc:101
-#, fuzzy
 msgid ""
 "Some files have been changed since they were added to the project.  Open the "
 "project in DCP-o-matic, check the settings, then save it before trying again."
 msgstr ""
-"Sommige bestanden zijn gewijzigd sinds ze aan het project zijn toegevoegd.\n"
-"\n"
-"Deze bestanden worden nu opnieuw onderzocht, dus het kan nodig zijn om hun "
-"instellingen te controleren."
+"Sommige bestanden zijn gewijzigd sinds ze aan het project zijn toegevoegd.  "
+"Open het project in DCP-o-matic, controleer de instellingen en bewaar "
+"voordat u het opnieuw probeert."
 
 #: src/lib/hints.cc:309
 msgid ""
@@ -1341,7 +1333,7 @@ msgstr "Tekst-ondertitels"
 
 #: src/lib/film.cc:362
 msgid "The DCP is empty, perhaps because all the content has zero length."
-msgstr ""
+msgstr "De DCP is leeg, misschien omdat alle content lengte nul heeft."
 
 #: src/lib/exceptions.cc:82
 msgid "The certificate chain for signing is invalid"
@@ -1357,6 +1349,9 @@ msgid ""
 "Please set it to 2D.  You can still make a 3D DCP from this content by "
 "ticking the 3D option in the DCP video tab."
 msgstr ""
+"Het content-bestand %1 is ingesteld als 3D, maar lijkt geen 3D-beelden te "
+"bevatten.  Stel het in op 2D.  U kunt nog steeds een 3D-DCP van deze content "
+"maken door in het DCP/Video-tabblad de 3D-optie aan te vinken."
 
 #: src/lib/job.cc:115
 msgid ""
@@ -1412,15 +1407,14 @@ msgstr ""
 "bit operating system draait."
 
 #: src/lib/util.cc:1226
-#, fuzzy
 msgid "This KDM was made for DCP-o-matic but not for its leaf certificate."
-msgstr "KDM is gemaakt voor DCP-o-matic maar niet voor het leaf-certificaat."
+msgstr ""
+"Deze KDM is gemaakt voor DCP-o-matic maar niet voor het leaf-certificaat."
 
 #: src/lib/util.cc:1224
-#, fuzzy
 msgid "This KDM was not made for DCP-o-matic's decryption certificate."
 msgstr ""
-"KDM is niet gemaakt voor het ontsleutelings-certificaat van DCP-o-matic."
+"Deze KDM is niet gemaakt voor het ontsleutelings-certificaat van DCP-o-matic."
 
 #: src/lib/job.cc:134
 msgid ""
@@ -1429,6 +1423,10 @@ msgid ""
 "the 'number of threads DCP-o-matic should use' in the General tab of "
 "Preferences and try again."
 msgstr ""
+"Deze fout is waarschijnlijk opgetreden omdat u de 32-bits versie van DCP-o-"
+"matic gebruikt en probeert te veel encoderings-threads te gebruiken.  "
+"Verminder het 'Aantal threads dat DCP-o-matic moet gebruiken' in het "
+"Algemeen-tabblad bij Voorkeuren en probeer het opnieuw."
 
 #: src/lib/job.cc:144
 msgid ""
@@ -1436,6 +1434,9 @@ msgid ""
 "of DCP-o-matic.  Please re-install DCP-o-matic with the 64-bit installer and "
 "try again."
 msgstr ""
+"Deze fout is waarschijnlijk opgetreden omdat u de 32-bits versie van DCP-o-"
+"matic gebruikt.  Installeer de 64-bits versie van DCP-o-matic en probeer het "
+"opnieuw."
 
 #: src/lib/exceptions.cc:100
 msgid ""
@@ -1490,7 +1491,7 @@ msgstr "Dinsdag"
 
 #: src/lib/usl.cc:26
 msgid "USL"
-msgstr ""
+msgstr "USL"
 
 #: src/lib/internet.cc:180
 msgid "Unexpected ZIP file contents"
@@ -1501,9 +1502,8 @@ msgid "Unexpected image type received by server"
 msgstr "Onverwacht beeldtype ontvangen door server"
 
 #: src/lib/cross_common.cc:86
-#, fuzzy
 msgid "Unknown"
-msgstr "onbekend"
+msgstr "Onbekend"
 
 #: src/lib/job.cc:248
 msgid "Unknown error"
@@ -1660,6 +1660,10 @@ msgid ""
 "matter if your content has fewer channels, as DCP-o-matic will fill the "
 "extras with silence."
 msgstr ""
+"Uw DCP heeft minder dan 6 audio-kanalen.  Dit kan problemen geven met "
+"sommige installaties.  Mogelijk wilt u de DCP instellen op 6 kanalen.  Het "
+"maakt niet uit of uw content minder kanalen heeft, DCP-o-matic vult de extra "
+"kanalen met stilte."
 
 #: src/lib/hints.cc:146
 msgid ""
@@ -1744,17 +1748,14 @@ msgid "could not move audio asset into the DCP (%1)"
 msgstr "kan audio asset niet naar de DCP verplaatsen (%1)"
 
 #: src/lib/exceptions.cc:35
-#, fuzzy
 msgid "could not open file %1 for read (%2)"
 msgstr "kan bestand %1 niet openen om te lezen (%2)"
 
 #: src/lib/exceptions.cc:34
-#, fuzzy
 msgid "could not open file %1 for read/write (%2)"
-msgstr "kan bestand %1 niet openen om te lezen (%2)"
+msgstr "kan bestand %1 niet openen om te lezen/schrijven (%2)"
 
 #: src/lib/exceptions.cc:35
-#, fuzzy
 msgid "could not open file %1 for write (%2)"
 msgstr "kan bestand %1 niet openen om te schrijven (%2)"
 
