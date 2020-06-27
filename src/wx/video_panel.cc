@@ -159,10 +159,6 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_scale_custom = new wxRadioButton (this, wxID_ANY, _("custom"));
 	_scale_custom_edit = new Button (this, _("Edit..."));
 
-	_filters_label = create_label (this, _("Filters"), true);
-	_filters = new StaticText (this, _("None"), wxDefaultPosition, size);
-	_filters_button = new Button (this, _("Edit..."));
-
 	_colour_conversion_label = create_label (this, _("Colour conversion"), true);
 	_colour_conversion = new wxChoice (this, wxID_ANY, wxDefaultPosition, size);
 	_colour_conversion->Append (_("None"));
@@ -201,7 +197,6 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_fade_out->Changed.connect (boost::bind (&VideoPanel::fade_out_changed, this));
 
 	_reference->Bind                     (wxEVT_CHECKBOX, boost::bind (&VideoPanel::reference_clicked, this));
-	_filters_button->Bind                (wxEVT_BUTTON,   boost::bind (&VideoPanel::edit_filters_clicked, this));
 	_scale_fit->Bind                     (wxEVT_RADIOBUTTON, boost::bind (&VideoPanel::scale_fit_clicked, this));
 	_scale_custom->Bind                  (wxEVT_RADIOBUTTON, boost::bind (&VideoPanel::scale_custom_clicked, this));
 	_scale_custom_edit->Bind             (wxEVT_BUTTON,   boost::bind (&VideoPanel::scale_custom_edit_clicked, this));
@@ -271,9 +266,6 @@ VideoPanel::add_to_grid ()
 	_scale_fit->Show (full);
 	_scale_custom->Show (full);
 	_scale_custom_edit->Show (full);
-	_filters_label->Show (full);
-	_filters->Show (full);
-	_filters_button->Show (full);
 	_colour_conversion_label->Show (full);
 	_colour_conversion->Show (full);
 	_edit_colour_conversion_button->Show (full);
@@ -298,15 +290,6 @@ VideoPanel::add_to_grid ()
 			h->Add (_scale_custom_edit, 0, wxALIGN_CENTER_VERTICAL);
 			v->Add (h, 0);
 			_grid->Add (v, wxGBPosition(r, 1));
-		}
-		++r;
-
-		add_label_to_sizer (_grid, _filters_label, true, wxGBPosition (r, 0));
-		{
-			wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-			s->Add (_filters, 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
-			s->Add (_filters_button, 0, wxALIGN_CENTER_VERTICAL);
-			_grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 		}
 		++r;
 
@@ -430,18 +413,6 @@ VideoPanel::film_content_changed (int property)
 
 		setup_sensitivity ();
 
-	} else if (property == FFmpegContentProperty::FILTERS) {
-		if (fcs) {
-			string p = Filter::ffmpeg_string (fcs->filters ());
-			if (p.empty ()) {
-				checked_set (_filters, _("None"));
-			} else {
-				if (p.length() > 25) {
-					p = p.substr (0, 25) + "...";
-				}
-				checked_set (_filters, p);
-			}
-		}
 	} else if (property == VideoContentProperty::USE) {
 		setup_sensitivity ();
 	} else if (property == VideoContentProperty::FADE_IN) {
@@ -506,20 +477,6 @@ VideoPanel::film_content_changed (int property)
 	}
 }
 
-/** Called when the `Edit filters' button has been clicked */
-void
-VideoPanel::edit_filters_clicked ()
-{
-	FFmpegContentList c = _parent->selected_ffmpeg ();
-	if (c.size() != 1) {
-		return;
-	}
-
-	FilterDialog* d = new FilterDialog (this, c.front()->filters());
-	d->ActiveChanged.connect (bind (&FFmpegContent::set_filters, c.front(), _1));
-	d->ShowModal ();
-	d->Destroy ();
-}
 
 void
 VideoPanel::setup_description ()
@@ -650,8 +607,6 @@ VideoPanel::setup_sensitivity ()
 		_scale_custom->Enable (false);
 		_scale_custom_edit->Enable (false);
 		_description->Enable (false);
-		_filters->Enable (false);
-		_filters_button->Enable (false);
 		_colour_conversion->Enable (false);
 		_range->Enable (false);
 	} else {
@@ -670,8 +625,6 @@ VideoPanel::setup_sensitivity ()
 		_scale_custom->Enable (true);
 		_scale_custom_edit->Enable (_scale_custom->GetValue());
 		_description->Enable (true);
-		_filters->Enable (true);
-		_filters_button->Enable (single && !ffmpeg_sel.empty ());
 		_colour_conversion->Enable (!video_sel.empty());
 		_range->Enable (single && !video_sel.empty());
 	}

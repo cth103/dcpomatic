@@ -47,7 +47,6 @@ public:
 
 private:
 	void reference_clicked ();
-	void edit_filters_clicked ();
 	void colour_conversion_changed ();
 	void edit_colour_conversion_clicked ();
 	void range_changed ();
@@ -91,9 +90,6 @@ private:
 	wxRadioButton* _scale_custom;
 	wxButton* _scale_custom_edit;
 	wxStaticText* _description;
-	wxStaticText* _filters_label;
-	wxStaticText* _filters;
-	wxButton* _filters_button;
 	wxStaticText* _colour_conversion_label;
 	wxChoice* _colour_conversion;
 	wxButton* _edit_colour_conversion_button;

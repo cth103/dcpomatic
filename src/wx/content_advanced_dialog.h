@@ -21,9 +21,11 @@
 
 #include <wx/wx.h>
 #include <boost/shared_ptr.hpp>
+#include <vector>
 
 
 class Content;
+class Filter;
 
 
 class ContentAdvancedDialog : public wxDialog
@@ -33,7 +35,13 @@ public:
 
 private:
 	void ignore_video_changed (wxCommandEvent& ev);
+	void edit_filters ();
+	void filters_changed (std::vector<Filter const *> filters);
+	void setup_filters ();
 
 	boost::shared_ptr<Content> _content;
+
+	wxStaticText* _filters;
+	wxButton* _filters_button;
 };
 
