@@ -149,9 +149,10 @@ TimelineContentView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> 
 	wxDouble lab_leading;
 	gc->SetFont (gc->CreateFont (*wxNORMAL_FONT, foreground_colour ()));
 	gc->GetTextExtent (lab, &lab_width, &lab_height, &lab_descent, &lab_leading);
+	gc->PushState ();
 	gc->Clip (wxRegion (time_x (position), y_pos (_track.get()), len.seconds() * _timeline.pixels_per_second().get_value_or(0), _timeline.pixels_per_track()));
 	gc->DrawText (lab, time_x (position) + 12, y_pos (_track.get() + 1) - lab_height - 4);
-	gc->ResetClip ();
+	gc->PopState ();
 }
 
 int
