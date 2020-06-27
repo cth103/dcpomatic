@@ -313,6 +313,44 @@ GLVideoView::stop ()
 	_playing = false;
 }
 
+
+void
+GLVideoView::thread_playing ()
+{
+	if (length() != dcpomatic::DCPTime()) {
+		dcpomatic::DCPTime const next = position() + one_video_frame();
+
+		if (next >= length()) {
+			_viewer->finished ();
+			return;
+		}
+
+		get_next_frame (false);
+		set_image_and_draw ();
+	}
+
+	while (true) {
+		optional<int> n = time_until_next_frame();
+		if (!n || *n > 5) {
+			break;
+		}
+		get_next_frame (true);
+		add_dropped ();
+	}
+}
+
+
+void
+GLVideoView::set_image_and_draw ()
+{
+	shared_ptr<PlayerVideo> pv = player_video().first;
+	if (pv) {
+		set_image (pv->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
+		draw (pv->inter_position(), pv->inter_size());
+	}
+}
+
+
 void
 GLVideoView::thread ()
 try
@@ -328,36 +366,13 @@ try
 		while (!_playing && !_one_shot) {
 			_thread_work_condition.wait (lm);
 		}
-		_one_shot = false;
 		lm.unlock ();
 
-		Position<int> inter_position;
-		dcp::Size inter_size;
-		if (length() != dcpomatic::DCPTime()) {
-			dcpomatic::DCPTime const next = position() + one_video_frame();
-
-			if (next >= length()) {
-				_viewer->finished ();
-				continue;
-			}
-
-			get_next_frame (false);
-			shared_ptr<PlayerVideo> pv = player_video().first;
-			if (pv) {
-				set_image (pv->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
-				inter_position = pv->inter_position();
-				inter_size = pv->inter_size();
-			}
-		}
-		draw (inter_position, inter_size);
-
-		while (true) {
-			optional<int> n = time_until_next_frame();
-			if (!n || *n > 5) {
-				break;
-			}
-			get_next_frame (true);
-			add_dropped ();
+		if (_playing) {
+			thread_playing ();
+		} else if (_one_shot) {
+			_one_shot = false;
+			set_image_and_draw ();
 		}
 
 		boost::this_thread::interruption_point ();
