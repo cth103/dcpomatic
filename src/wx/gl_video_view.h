@@ -72,8 +72,8 @@ private:
 
 	boost::mutex _playing_mutex;
 	boost::condition _thread_work_condition;
-	bool _playing;
-	bool _one_shot;
+	boost::atomic<bool> _playing;
+	boost::atomic<bool> _one_shot;
 
 	boost::shared_ptr<wxTimer> _timer;
 };
