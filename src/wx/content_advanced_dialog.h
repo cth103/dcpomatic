@@ -19,14 +19,14 @@
 */
 
 
-#include "table_dialog.h"
+#include <wx/wx.h>
 #include <boost/shared_ptr.hpp>
 
 
 class Content;
 
 
-class ContentAdvancedDialog : public TableDialog
+class ContentAdvancedDialog : public wxDialog
 {
 public:
 	ContentAdvancedDialog (wxWindow* parent, boost::shared_ptr<Content> content);

@@ -19,22 +19,34 @@
 */
 
 #include "content_advanced_dialog.h"
+#include "wx_util.h"
 #include "lib/content.h"
 #include "lib/video_content.h"
+#include <wx/gbsizer.h>
 #include <boost/bind.hpp>
 
 using boost::bind;
 using boost::shared_ptr;
 
 ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Content> content)
-	: TableDialog (parent, _("Advanced content settings"), 2, 0, false)
+	: wxDialog (parent, wxID_ANY, _("Advanced content settings"))
 	, _content (content)
 {
-	wxCheckBox* ignore_video = new wxCheckBox (this, wxID_ANY, _("Ignore this content's video and use only audio, subtitles and closed captions"));
-	add (ignore_video);
-	add_spacer ();
+	wxGridBagSizer* sizer = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 
-	layout ();
+	int r = 0;
+	wxCheckBox* ignore_video = new wxCheckBox (this, wxID_ANY, _("Ignore this content's video and use only audio, subtitles and closed captions"));
+	sizer->Add (ignore_video, wxGBPosition(r, 0), wxGBSpan(1, 2));
+	++r;
+
+	wxSizer* overall = new wxBoxSizer (wxVERTICAL);
+	overall->Add (sizer, 1, wxALL, DCPOMATIC_DIALOG_BORDER);
+	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
+	if (buttons) {
+		overall->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
+	}
+
+	SetSizerAndFit (overall);
 
 	ignore_video->Enable (static_cast<bool>(_content->video));
 	ignore_video->SetValue (_content->video ? !content->video->use() : false);
