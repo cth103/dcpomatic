@@ -71,7 +71,7 @@ private:
 	boost::thread _thread;
 
 	boost::mutex _playing_mutex;
-	boost::condition _playing_condition;
+	boost::condition _thread_work_condition;
 	bool _playing;
 	bool _one_shot;
 

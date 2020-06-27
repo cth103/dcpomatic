@@ -303,7 +303,7 @@ GLVideoView::start ()
 
 	boost::mutex::scoped_lock lm (_playing_mutex);
 	_playing = true;
-	_playing_condition.notify_all ();
+	_thread_work_condition.notify_all ();
 }
 
 void
@@ -326,7 +326,7 @@ try
 	while (true) {
 		boost::mutex::scoped_lock lm (_playing_mutex);
 		while (!_playing && !_one_shot) {
-			_playing_condition.wait (lm);
+			_thread_work_condition.wait (lm);
 		}
 		_one_shot = false;
 		lm.unlock ();
@@ -386,7 +386,7 @@ GLVideoView::request_one_shot ()
 {
 	boost::mutex::scoped_lock lm (_playing_mutex);
 	_one_shot = true;
-	_playing_condition.notify_all ();
+	_thread_work_condition.notify_all ();
 }
 
 void
