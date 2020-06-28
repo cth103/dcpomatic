@@ -36,7 +36,6 @@ public:
 	GLVideoView (FilmViewer* viewer, wxWindow* parent);
 	~GLVideoView ();
 
-	void set_image (boost::shared_ptr<const Image> image);
 	wxWindow* get () const {
 		return _canvas;
 	}
@@ -51,6 +50,7 @@ public:
 	}
 
 private:
+	void set_image (boost::shared_ptr<const Image> image);
 	void set_image_and_draw ();
 	void draw (Position<int> inter_position, dcp::Size inter_size);
 	void thread ();

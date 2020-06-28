@@ -30,10 +30,6 @@ class SimpleVideoView : public VideoView
 public:
 	SimpleVideoView (FilmViewer* viewer, wxWindow* parent);
 
-	void set_image (boost::shared_ptr<const Image> image) {
-		_image = image;
-	}
-
 	wxWindow* get () const {
 		return _panel;
 	}
@@ -43,6 +39,10 @@ public:
 	bool display_next_frame (bool non_blocking);
 
 private:
+	void set_image (boost::shared_ptr<const Image> image) {
+		_image = image;
+	}
+
 	void refresh_panel ();
 	void paint ();
 	void timer ();
