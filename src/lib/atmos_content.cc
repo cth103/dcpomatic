@@ -50,6 +50,10 @@ AtmosContent::AtmosContent (Content* parent, cxml::ConstNodePtr node)
 shared_ptr<AtmosContent>
 AtmosContent::from_xml (Content* parent, cxml::ConstNodePtr node)
 {
+	if (!node->optional_node_child("AtmosLength")) {
+		return shared_ptr<AtmosContent>();
+	}
+
 	return shared_ptr<AtmosContent> (new AtmosContent(parent, node));
 }
 
