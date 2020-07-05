@@ -23,6 +23,7 @@
 #include "analyse_audio_job.h"
 #include "audio_content.h"
 #include "compose.hpp"
+#include "dcpomatic_log.h"
 #include "film.h"
 #include "player.h"
 #include "playlist.h"
@@ -74,6 +75,8 @@ AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> film, shared_ptr<const 
 	, _ebur128 (new AudioFilterGraph (film->audio_frame_rate(), film->audio_channels()))
 #endif
 {
+	LOG_DEBUG_AUDIO_ANALYSIS_NC("AnalyseAudioJob::AnalyseAudioJob");
+
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 	_filters.push_back (new Filter ("ebur128", "ebur128", "audio", "ebur128=peak=true"));
 	_ebur128->setup (_filters);
@@ -140,6 +143,8 @@ AnalyseAudioJob::json_name () const
 void
 AnalyseAudioJob::run ()
 {
+	LOG_DEBUG_AUDIO_ANALYSIS_NC("AnalyseAudioJob::run");
+
 	shared_ptr<Player> player (new Player(_film, _playlist));
 	player->set_ignore_video ();
 	player->set_ignore_text ();
@@ -164,10 +169,14 @@ AnalyseAudioJob::run ()
 	}
 
 	if (has_any_audio) {
+		LOG_DEBUG_AUDIO_ANALYSIS("Seeking to %1", to_string(_start));
 		player->seek (_start, true);
 		_done = 0;
+		LOG_DEBUG_AUDIO_ANALYSIS("Starting loop for playlist of length %1", to_string(length));
 		while (!player->pass ()) {}
 	}
+
+	LOG_DEBUG_AUDIO_ANALYSIS_NC("Loop complete");
 
 	vector<AudioAnalysis::PeakTime> sample_peak;
 	for (int i = 0; i < _film->audio_channels(); ++i) {
@@ -205,6 +214,7 @@ AnalyseAudioJob::run ()
 	_analysis->set_leqm (_leqm->leq_m());
 	_analysis->write (_path);
 
+	LOG_DEBUG_AUDIO_ANALYSIS_NC("Job finished");
 	set_progress (1);
 	set_state (FINISHED_OK);
 }
@@ -212,6 +222,7 @@ AnalyseAudioJob::run ()
 void
 AnalyseAudioJob::analyse (shared_ptr<const AudioBuffers> b, DCPTime time)
 {
+	LOG_DEBUG_AUDIO_ANALYSIS("Received %1 frames at %2", b->frames(), to_string(time));
 	DCPOMATIC_ASSERT (time >= _start);
 
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
@@ -259,4 +270,5 @@ AnalyseAudioJob::analyse (shared_ptr<const AudioBuffers> b, DCPTime time)
 
 	DCPTime const length = _playlist->length (_film);
 	set_progress ((time.seconds() - _start.seconds()) / (length.seconds() - _start.seconds()));
+	LOG_DEBUG_AUDIO_ANALYSIS_NC("Frames processed");
 }

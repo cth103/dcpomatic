@@ -595,6 +595,7 @@ Player::pass ()
 
 	if (_suspended) {
 		/* We can't pass in this state */
+		LOG_DEBUG_PLAYER_NC ("Player is suspended");
 		return false;
 	}
 
@@ -655,6 +656,7 @@ Player::pass ()
 	switch (which) {
 	case CONTENT:
 	{
+		LOG_DEBUG_PLAYER ("Calling pass() on %1", earliest_content->content->path(0));
 		earliest_content->done = earliest_content->decoder->pass ();
 		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent>(earliest_content->content);
 		if (dcp && !_play_referenced && dcp->reference_audio()) {
@@ -673,6 +675,7 @@ Player::pass ()
 		break;
 	case SILENT:
 	{
+		LOG_DEBUG_PLAYER ("Emit silence for gap at %1", to_string(_silent.position()));
 		DCPTimePeriod period (_silent.period_at_position());
 		if (_last_audio_time) {
 			/* Sometimes the thing that happened last finishes fractionally before
@@ -716,6 +719,7 @@ Player::pass ()
 		pull_to = _silent.position();
 	}
 
+	LOG_DEBUG_PLAYER("Emitting audio up to %1", to_string(pull_to));
 	list<pair<shared_ptr<AudioBuffers>, DCPTime> > audio = _audio_merger.pull (pull_to);
 	for (list<pair<shared_ptr<AudioBuffers>, DCPTime> >::iterator i = audio.begin(); i != audio.end(); ++i) {
 		if (_last_audio_time && i->second < *_last_audio_time) {
@@ -808,6 +812,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 
 	/* Time of the first frame we will emit */
 	DCPTime const time = content_video_to_dcp (piece, video.frame);
+	LOG_DEBUG_PLAYER("Received video frame %1 at %2", video.frame, to_string(time));
 
 	/* Discard if it's before the content's period or the last accurate seek.  We can't discard
 	   if it's after the content's period here as in that case we still need to fill any gap between
@@ -912,6 +917,8 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 
 	/* Compute time in the DCP */
 	DCPTime time = resampled_audio_to_dcp (piece, content_audio.frame);
+	LOG_DEBUG_PLAYER("Received audio frame %1 at %2", content_audio.frame, to_string(time));
+
 	/* And the end of this block in the DCP */
 	DCPTime end = time + DCPTime::from_frames(content_audio.audio->frames(), rfr);
 
@@ -1079,6 +1086,7 @@ void
 Player::seek (DCPTime time, bool accurate)
 {
 	boost::mutex::scoped_lock lm (_mutex);
+	LOG_DEBUG_PLAYER("Seek to %1 (%2accurate)", to_string(time), accurate ? "" : "in");
 
 	if (_suspended) {
 		/* We can't seek in this state */

@@ -34,6 +34,7 @@ int const LogEntry::TYPE_DEBUG_EMAIL  = 0x040;
 int const LogEntry::TYPE_DEBUG_VIDEO_VIEW = 0x080;
 int const LogEntry::TYPE_DISK         = 0x100;
 int const LogEntry::TYPE_DEBUG_PLAYER = 0x200;
+int const LogEntry::TYPE_DEBUG_AUDIO_ANALYSIS = 0x400;
 
 using std::string;
 
