@@ -262,19 +262,10 @@ CertificateChainEditor::CertificateChainEditor (
 	, _get (get)
 	, _nag_alter (nag_alter)
 {
-	wxFont subheading_font (*wxNORMAL_FONT);
-	subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
-
 	_sizer = new wxBoxSizer (wxVERTICAL);
 
-	{
-		wxStaticText* m = new StaticText (this, title);
-		m->SetFont (subheading_font);
-		_sizer->Add (m, 0, wxALL, border);
-	}
-
 	wxBoxSizer* certificates_sizer = new wxBoxSizer (wxHORIZONTAL);
-	_sizer->Add (certificates_sizer, 0, wxLEFT | wxRIGHT, border);
+	_sizer->Add (certificates_sizer, 0, wxALL, border);
 
 	_certificates = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (440, 150), wxLC_REPORT | wxLC_SINGLE_SEL);
 
@@ -690,14 +681,18 @@ KeysPage::setup ()
 		sizer->Add (m, 0, wxALL, _border);
 	}
 
+	wxSizer* buttons = new wxBoxSizer (wxVERTICAL);
+
 	wxButton* export_decryption_certificate = new Button (_panel, _("Export KDM decryption certificate..."));
-	sizer->Add (export_decryption_certificate, 0, wxLEFT, _border);
+	buttons->Add (export_decryption_certificate, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 	wxButton* export_settings = new Button (_panel, _("Export all KDM decryption settings..."));
-	sizer->Add (export_settings, 0, wxLEFT, _border);
+	buttons->Add (export_settings, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 	wxButton* import_settings = new Button (_panel, _("Import all KDM decryption settings..."));
-	sizer->Add (import_settings, 0, wxLEFT, _border);
+	buttons->Add (import_settings, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 	wxButton* decryption_advanced = new Button (_panel, _("Advanced..."));
-	sizer->Add (decryption_advanced, 0, wxALL, _border);
+	buttons->Add (decryption_advanced, 0);
+
+	sizer->Add (buttons, 0, wxLEFT, _border);
 
 	export_decryption_certificate->Bind (wxEVT_BUTTON, bind (&KeysPage::export_decryption_certificate, this));
 	export_settings->Bind (wxEVT_BUTTON, bind (&KeysPage::export_decryption_chain_and_key, this));
