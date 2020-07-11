@@ -1270,6 +1270,10 @@ Film::add_content (shared_ptr<Content> c)
 	_playlist->add (shared_from_this(), c);
 
 	maybe_set_container_and_resolution ();
+	if (c->atmos) {
+		set_audio_channels (14);
+		set_interop (false);
+	}
 }
 
 

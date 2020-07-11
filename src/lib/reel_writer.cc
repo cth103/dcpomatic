@@ -170,7 +170,8 @@ ReelWriter::ReelWriter (
 		   of the DCP directory until the last minute.
 		*/
 		_sound_asset_writer = _sound_asset->start_write (
-			_film->directory().get() / audio_asset_filename (_sound_asset, _reel_index, _reel_count, _content_summary)
+			_film->directory().get() / audio_asset_filename (_sound_asset, _reel_index, _reel_count, _content_summary),
+			_film->contains_atmos_content()
 			);
 	}
 }

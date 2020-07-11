@@ -451,6 +451,7 @@ DCPPanel::film_changed (int p)
 		break;
 	case Film::CONTENT:
 		setup_dcp_name ();
+		setup_sensitivity ();
 		break;
 	default:
 		break;
@@ -596,7 +597,7 @@ DCPPanel::setup_sensitivity ()
 	_metadata->Enable               (_generally_sensitive);
 	_frame_rate_choice->Enable      (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->contains_atmos_content());
 	_frame_rate_spin->Enable        (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->contains_atmos_content());
-	_audio_channels->Enable         (_generally_sensitive && _film && !_film->references_dcp_audio());
+	_audio_channels->Enable         (_generally_sensitive && _film && !_film->references_dcp_audio() && !_film->contains_atmos_content());
 	_audio_processor->Enable        (_generally_sensitive && _film && !_film->references_dcp_audio());
 	_j2k_bandwidth->Enable          (_generally_sensitive && _film && !_film->references_dcp_video());
 	_container->Enable              (_generally_sensitive && _film && !_film->references_dcp_video());
@@ -609,7 +610,15 @@ DCPPanel::setup_sensitivity ()
 		);
 	_resolution->Enable             (_generally_sensitive && _film && !_film->references_dcp_video());
 	_three_d->Enable                (_generally_sensitive && _film && !_film->references_dcp_video());
-	_standard->Enable               (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->references_dcp_audio());
+
+	_standard->Enable (
+		_generally_sensitive &&
+		_film &&
+		!_film->references_dcp_video() &&
+		!_film->references_dcp_audio() &&
+		!_film->contains_atmos_content()
+		);
+
 	_reencode_j2k->Enable           (_generally_sensitive && _film);
 	_show_audio->Enable             (_generally_sensitive && _film);
 }
