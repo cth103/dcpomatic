@@ -222,7 +222,8 @@ DCPDecoder::pass ()
 
 	if (_atmos_reader) {
 		DCPOMATIC_ASSERT (_atmos_metadata);
-		atmos->emit (film(), _atmos_reader->get_frame(frame), frame, *_atmos_metadata);
+		int64_t const entry_point = (*_reel)->atmos()->entry_point().get_value_or(0);
+		atmos->emit (film(), _atmos_reader->get_frame(entry_point + frame), _offset + frame, *_atmos_metadata);
 	}
 
 	_next += ContentTime::from_frames (1, vfr);
