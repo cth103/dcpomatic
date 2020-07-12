@@ -308,7 +308,7 @@ shown in <xref linkend="fig-file-new"/>.
   <title>Creating a new film</title>
   <mediaobject>
     <imageobject>
-      <imagedata scale="250" fileref="screenshots/file-new&scs;"/>
+      <imagedata fileref="screenshots/file-new&scs;"/>
     </imageobject>
   </mediaobject>
 </figure>
@@ -322,7 +322,7 @@ linkend="fig-video-new-film"/>.
   <title>Dialogue box for creating a new film</title>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="screenshots/video-new-film&scs;"/>
+      <imagedata fileref="screenshots/new-film&scs;"/>
     </imageobject>
   </mediaobject>
 </figure>
@@ -424,7 +424,7 @@ linkend="fig-making-dcp"/>.
   <title>Making the DCP</title>
   <mediaobject>
     <imageobject>
-      <imagedata scale="250" fileref="screenshots/making-dcp&scs;"/>
+      <imagedata fileref="screenshots/making-dcp&scs;"/>
     </imageobject>
   </mediaobject>
 </figure>
@@ -468,7 +468,7 @@ shown in <xref linkend="fig-still-new-film"/>.
   <title>Dialogue box for creating a new film</title>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="screenshots/still-new-film&scs;"/>
+      <imagedata fileref="screenshots/new-film&scs;"/>
     </imageobject>
   </mediaobject>
 </figure>

@@ -6,56 +6,84 @@ DIAGRAMS := file-structure.svg 3d-left-right.svg 3d-top-bottom.svg timecode.svg 
             pipeline3.svg pipeline4.svg burn-in.svg discrete.svg dcp-copy.svg dcp-refer.svg reels-by-video.svg \
 	    crypt.svg
 
-SCREENSHOTS := file-new.png video-new-film.png still-new-film.png video-select-content-file.png \
-               still-select-content-file.png examine-thumbs.png examine-content.png timing-tab.png \
-               calculate-audio-gain.png add-file.png dcp-tab.png colour-conversion.png \
-               prefs-kdm-email.png prefs-general.png prefs-tms.png \
-               prefs-advanced.png prefs-defaults.png prefs-servers.png prefs-keys.png \
-               making-dcp.png filters.png video-tab.png audio-tab.png timing-tab.png \
-               audio-plot.png audio-map-eg1.png audio-map-eg2.png audio-map-eg3.png kdm.png \
-	       kdm-creator.png export.png
+SCREENSHOTS := file-new.pdf new-film.pdf video-select-content-file.pdf \
+               still-select-content-file.pdf examine-content.pdf timing-tab.pdf \
+               calculate-audio-gain.pdf add-file.pdf dcp-tab.pdf colour-conversion.pdf \
+               prefs-email.pdf prefs-kdm-email.pdf prefs-general.pdf prefs-tms.pdf prefs-cover-sheet.pdf \
+               prefs-advanced.pdf prefs-defaults.pdf prefs-servers.pdf prefs-keys.pdf \
+               prefs-notifications.pdf timeline1.pdf timed-text-tab.pdf \
+               making-dcp.pdf filters.pdf video-tab.pdf audio-tab.pdf \
+               audio-plot.pdf audio-map-eg1.pdf audio-map-eg2.pdf audio-map-eg3.pdf kdm.pdf \
+               kdm-creator.pdf export.pdf
 
 XML := dcpomatic.xml
 
 #
-# For the HTML: copy screenshots into html/screenshots, scaling some.
+# For the HTML: convert PDF screenshots to PNG and copy into html/screenshots, scaling some.
 #
-html/screenshots/%.png: screenshots/%.png
+html/screenshots/%.png: screenshots/%.pdf
 	mkdir -p html/screenshots
+	pdftoppm $< $(basename $@) -png -f 1 -singlefile -rx 80 -ry 80
+
+
+# For LaTeX/PDF: crop some of the PDF screenshots; use others as-is
+screenshots/%.pdf: raw-screenshots/%.pdf
 	cp $< $@
-html/screenshots/editor.png: screenshots/editor.png
-	mkdir -p html/screenshots
-	convert -resize 50% $< $@
-html/screenshots/mixer.png: screenshots/mixer.png
-	mkdir -p html/screenshots
-	convert -resize 50% $< $@
-html/screenshots/default-folder-for-new-sessions.png: screenshots/default-folder-for-new-sessions.png
-	mkdir -p html/screenshots
-	convert -resize 75% $< $@
-html/screenshots/welcome-to-ardour.png: screenshots/welcome-to-ardour.png
-	mkdir -p html/screenshots
-	convert -resize 75% $< $@
-html/screenshots/monitoring-choices.png: screenshots/monitoring-choices.png
-	mkdir -p html/screenshots
-	convert -resize 75% $< $@
-html/screenshots/monitor-section.png: screenshots/monitor-section.png
-	mkdir -p html/screenshots
-	convert -resize 75% $< $@
-html/screenshots/audio-midi-setup-device.png: screenshots/audio-midi-setup-device.png
-	mkdir -p html/screenshots
-	convert -resize 75% $< $@
-html/screenshots/new-session.png: screenshots/new-session.png
-	mkdir -p html/screenshots
-	convert -resize 75% $< $@
-html/screenshots/export-dialogue.png: screenshots/export-dialogue.png
-	mkdir -p html/screenshots
-	convert -resize 75% $< $@
-html/screenshots/making-dcp.png: screenshots/making-dcp.png
-	mkdir -p html/screenshots
-	convert -resize 75% $< $@
-html/screenshots/kdm-creator.png: screenshots/kdm-creator.png
-	mkdir -p html/screenshots
-	convert -resize 75% $< $@
+
+screenshots/prefs-general.pdf: raw-screenshots/prefs-general.pdf
+	python3 pdf_crop_by.py $< $@ 0 400 0 0
+
+screenshots/prefs-defaults.pdf: raw-screenshots/prefs-defaults.pdf
+	python3 pdf_crop_by.py $< $@ 0 400 0 0
+
+screenshots/prefs-servers.pdf: raw-screenshots/prefs-servers.pdf
+	python3 pdf_crop_by.py $< $@ 0 700 0 0
+
+screenshots/prefs-keys.pdf: raw-screenshots/prefs-keys.pdf
+	python3 pdf_crop_by.py $< $@ 0 600 0 0
+
+screenshots/prefs-tms.pdf: raw-screenshots/prefs-tms.pdf
+	python3 pdf_crop_by.py $< $@ 0 600 0 0
+
+screenshots/prefs-email.pdf: raw-screenshots/prefs-email.pdf
+	python3 pdf_crop_by.py $< $@ 0 700 0 0
+
+screenshots/prefs-cover-sheet.pdf: raw-screenshots/prefs-cover-sheet.pdf
+	python3 pdf_crop_by.py $< $@ 0 600 0 0
+
+screenshots/examine-content.pdf: raw-screenshots/examine-content.pdf
+	python3 pdf_crop_by.py $< $@ 460 270 200 580
+
+screenshots/audio-tab.pdf: raw-screenshots/audio-tab.pdf
+	python3 pdf_crop_by.py $< $@ 0 0 1230 380
+
+screenshots/timing-tab.pdf: raw-screenshots/timing-tab.pdf
+	python3 pdf_crop_by.py $< $@ 0 0 1230 380
+
+screenshots/timed-text-tab.pdf: raw-screenshots/timed-text-tab.pdf
+	python3 pdf_crop_by.py $< $@ 0 200 1230 380
+
+screenshots/video-tab.pdf: raw-screenshots/video-tab.pdf
+	python3 pdf_crop_by.py $< $@ 0 0 1230 295
+
+screenshots/add-file.pdf: raw-screenshots/add-file.pdf
+	python3 pdf_crop_by.py $< $@ 0 600 1210 0
+
+screenshots/making-dcp.pdf: raw-screenshots/making-dcp.pdf
+	python3 pdf_crop_by.py $< $@ 470 190 300 700
+
+screenshots/audio-map-eg1.pdf: raw-screenshots/audio-map-eg1.pdf
+	python3 pdf_crop_by.py $< $@ 10 195 1350 630
+
+screenshots/audio-map-eg2.pdf: raw-screenshots/audio-map-eg2.pdf
+	python3 pdf_crop_by.py $< $@ 10 195 1350 630
+
+screenshots/audio-map-eg3.pdf: raw-screenshots/audio-map-eg3.pdf
+	python3 pdf_crop_by.py $< $@ 10 75 1350 630
+
+screenshots/dcp-tab.pdf: raw-screenshots/dcp-tab.pdf
+	python3 pdf_crop_by.py $< $@ 0 200 1230 30
+
 
 # For HTML: convert diagrams from SVG to PNG
 diagrams/%.png:	diagrams/%.svg
@@ -73,7 +101,7 @@ config.xml:	../../src/lib/config.cc config.py
 #
 
 html:	$(XML) config.xml dcpomatic-html.xsl extensions-html.ent dcpomatic.css dcpomatic_create.xml dcpomatic_cli.xml dcpomatic_kdm_cli.xml \
-	$(addprefix html/screenshots/,$(SCREENSHOTS)) \
+	$(subst .pdf,.png,$(addprefix html/screenshots/,$(SCREENSHOTS))) \
 	$(subst .svg,.png,$(addprefix diagrams/,$(DIAGRAMS))) \
 
 # 	The DocBook needs to know what file extensions to look for
