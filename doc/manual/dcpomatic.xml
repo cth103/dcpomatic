@@ -72,7 +72,7 @@ This manual presents bits of DCP-o-matic's user interface (such as menu items or
 </para>
 
 <note>
-Notes of an advanced nature are presented like this.  Ignore them unless you want to know the gory details.
+Notes of an advanced nature are presented like this.  Ignore them unless you want to know the details.
 </note>
 
 </section>
@@ -139,7 +139,7 @@ with the first (main) part.
 </para>
 
 <itemizedlist>
-  <listitem>Debian 8 (&lsquo;jessie&rsquo;), 9 (&lsquo;squeeze&rsquo;), 10 (&lsquo;buster&rsquo;) and unstable (&lsquo;sid&rsquo;)</listitem>
+  <listitem>Debian 9 (&lsquo;squeeze&rsquo;), 10 (&lsquo;buster&rsquo;) and unstable (&lsquo;sid&rsquo;)</listitem>
   <listitem>Ubuntu 16.04 (&lsquo;Xenial Xerus&rsquo;), 18.04 (&lsquo;Bionic Beaver&rsquo;), 19.10 (&lsquo;Eoan Ermine&rsquo;) and 20.04 (&lsquo;Focal Fossa&rsquo;)</listitem>
   <listitem>Mint 18 and 19</listitem>
 </itemizedlist>
@@ -2470,7 +2470,7 @@ KDMs</guilabel>.
 <para>
 By default the <guilabel>DKDM</guilabel> list will list any DCPs for
 which you have clicked <guilabel>Make DKDM for
-DCP-o-matic</guilabel>in the main DCP-o-matic program.  If you have
+DCP-o-matic</guilabel> in the main DCP-o-matic program.  If you have
 other DKDMs you can add them by clicking <guilabel>Add...</guilabel> and
 specifying the file containing the DKDM.
 </para>
