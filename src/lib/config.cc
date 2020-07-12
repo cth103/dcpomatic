@@ -1000,11 +1000,11 @@ Config::write_config () const
 	}
 
 	if (_gdc_username) {
-		/* [XML] GCCUsername Username for logging into GDC's servers when downloading server certificates. */
+		/* [XML] GDCUsername Username for logging into GDC's servers when downloading server certificates. */
 		root->add_child("GDCUsername")->add_child_text(*_gdc_username);
 	}
 	if (_gdc_password) {
-		/* [XML] GCCPassword Password for logging into GDC's servers when downloading server certificates. */
+		/* [XML] GDCPassword Password for logging into GDC's servers when downloading server certificates. */
 		root->add_child("GDCPassword")->add_child_text(*_gdc_password);
 	}
 
