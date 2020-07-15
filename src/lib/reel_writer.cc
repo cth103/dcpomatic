@@ -242,7 +242,7 @@ ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
 
 	try {
 		info_file = _film->info_file_handle (_period, true);
-	} catch (OpenFileError) {
+	} catch (OpenFileError &) {
 		LOG_GENERAL_NC ("Could not open film info file");
 		fclose (asset_file);
 		return 0;
