@@ -139,14 +139,28 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 			dcp::VAlign v_align;
 			if (needs_placement) {
 				DCPOMATIC_ASSERT (i.vertical_position.line);
-				/* This 1.015 is an arbitrary value to lift the bottom sub off the bottom
-				   of the screen a bit to a pleasing degree.
-				*/
-				v_position = 1.015 -
-					(1 + bottom_line.get() - i.vertical_position.line.get())
-					* 1.2 * content()->line_spacing() * content()->y_scale() * j.font_size.proportional (72 * 11);
+				double const multiplier = 1.2 * content()->line_spacing() * content()->y_scale() * j.font_size.proportional (72 * 11);
+				switch (i.vertical_position.reference.get_value_or(sub::BOTTOM_OF_SCREEN)) {
+				case sub::BOTTOM_OF_SCREEN:
+				case sub::TOP_OF_SUBTITLE:
+					/* This 1.015 is an arbitrary value to lift the bottom sub off the bottom
+					   of the screen a bit to a pleasing degree.
+					   */
+					v_position = 1.015 -
+						(1 + bottom_line.get() - i.vertical_position.line.get()) * multiplier;
 
-				v_align = dcp::VALIGN_TOP;
+					v_align = dcp::VALIGN_TOP;
+					break;
+				case sub::TOP_OF_SCREEN:
+					/* This 0.1 is another fudge factor to bring the top line away from the top of the screen a little */
+					v_position = 0.12 + i.vertical_position.line.get() * multiplier;
+					v_align = dcp::VALIGN_TOP;
+					break;
+				case sub::VERTICAL_CENTRE_OF_SCREEN:
+					v_position = i.vertical_position.line.get() * multiplier;
+					v_align = dcp::VALIGN_CENTER;
+					break;
+				}
 			} else {
 				DCPOMATIC_ASSERT (i.vertical_position.reference);
 				if (i.vertical_position.proportional) {
