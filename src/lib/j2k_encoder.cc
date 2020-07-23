@@ -185,11 +185,7 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 {
 	_waker.nudge ();
 
-	size_t threads = 0;
-	{
-		boost::mutex::scoped_lock threads_lock (_threads_mutex);
-		threads = _threads.size ();
-	}
+	size_t threads = _threads->size();
 
 	boost::mutex::scoped_lock queue_lock (_queue_mutex);
 
@@ -250,26 +246,20 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 void
 J2KEncoder::terminate_threads ()
 {
-	boost::mutex::scoped_lock threads_lock (_threads_mutex);
-
-	int n = 0;
-	BOOST_FOREACH (boost::thread* i, _threads) {
-		/* Be careful not to throw in here otherwise _threads will not be clear()ed */
-		LOG_GENERAL ("Terminating thread %1 of %2", n + 1, _threads.size ());
-		i->interrupt ();
-		try {
-			i->join ();
-		} catch (exception& e) {
-			LOG_ERROR ("join() threw an exception: %1", e.what());
-		} catch (...) {
-			LOG_ERROR_NC ("join() threw an exception");
-		}
-		LOG_GENERAL_NC ("Thread terminated");
-		++n;
-		delete i;
+	if (!_threads) {
+		return;
 	}
 
-	_threads.clear ();
+	_threads->interrupt_all ();
+	try {
+		_threads->join_all ();
+	} catch (exception& e) {
+		LOG_ERROR ("join() threw an exception: %1", e.what());
+	} catch (...) {
+		LOG_ERROR_NC ("join() threw an exception");
+	}
+
+	_threads.reset ();
 }
 
 void
@@ -383,10 +373,9 @@ void
 J2KEncoder::servers_list_changed ()
 {
 	terminate_threads ();
+	_threads.reset (new boost::thread_group());
 
 	/* XXX: could re-use threads */
-
-	boost::mutex::scoped_lock lm (_threads_mutex);
 
 #ifdef BOOST_THREAD_PLATFORM_WIN32
 	OSVERSIONINFO info;
@@ -400,12 +389,11 @@ J2KEncoder::servers_list_changed ()
 
 	if (!Config::instance()->only_servers_encode ()) {
 		for (int i = 0; i < Config::instance()->master_encoding_threads (); ++i) {
-			boost::thread* t = new boost::thread (boost::bind(&J2KEncoder::encoder_thread, this, optional<EncodeServerDescription>()));
+			boost::thread* t = _threads->create_thread(boost::bind(&J2KEncoder::encoder_thread, this, optional<EncodeServerDescription>()));
 #ifdef DCPOMATIC_LINUX
 			pthread_setname_np (t->native_handle(), "encode-worker");
 #endif
-			_threads.push_back (t);
-#ifdef BOOST_THREAD_PLATFORM_WIN32
+#ifdef DCPOMATIC_WINDOWS
 			if (windows_xp) {
 				SetThreadAffinityMask (t->native_handle(), 1 << i);
 			}
@@ -420,9 +408,9 @@ J2KEncoder::servers_list_changed ()
 
 		LOG_GENERAL (N_("Adding %1 worker threads for remote %2"), i.threads(), i.host_name ());
 		for (int j = 0; j < i.threads(); ++j) {
-			_threads.push_back (new boost::thread(boost::bind(&J2KEncoder::encoder_thread, this, i)));
+			_threads->create_thread(boost::bind(&J2KEncoder::encoder_thread, this, i));
 		}
 	}
 
-	_writer->set_encoder_threads (_threads.size ());
+	_writer->set_encoder_threads (_threads->size());
 }

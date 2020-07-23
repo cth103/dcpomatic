@@ -87,9 +87,8 @@ private:
 
 	EventHistory _history;
 
-	/** Mutex for _threads */
-	mutable boost::mutex _threads_mutex;
-	std::list<boost::thread*> _threads;
+	boost::shared_ptr<boost::thread_group> _threads;
+
 	mutable boost::mutex _queue_mutex;
 	std::list<boost::shared_ptr<DCPVideo> > _queue;
 	/** condition to manage thread wakeups when we have nothing to do */
