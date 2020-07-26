@@ -21,7 +21,10 @@
 #ifndef DCPOMATIC_TABLE_DIALOG_H
 #define DCPOMATIC_TABLE_DIALOG_H
 
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 class TableDialog : public wxDialog
 {

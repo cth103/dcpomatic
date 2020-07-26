@@ -26,7 +26,10 @@
 #define DCPOMATIC_WX_UTIL_H
 
 #include "lib/dcpomatic_time.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <wx/gbsizer.h>
 #include <boost/function.hpp>
 #include <boost/thread.hpp>
