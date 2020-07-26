@@ -52,9 +52,11 @@ enum State {
 
 JSONServer::JSONServer (int port)
 {
-	thread* t = new thread (boost::bind (&JSONServer::run, this, port));
 #ifdef DCPOMATIC_LINUX
+	thread* t = new thread (boost::bind (&JSONServer::run, this, port));
 	pthread_setname_np (t->native_handle(), "json-server");
+#else
+	new thread (boost::bind (&JSONServer::run, this, port));
 #endif
 }
 

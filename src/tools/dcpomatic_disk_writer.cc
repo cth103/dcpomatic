@@ -27,6 +27,7 @@
 #include "lib/file_log.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/nanomsg.h"
+#include "lib/warnings.h"
 extern "C" {
 #include <lwext4/ext4_mbr.h>
 #include <lwext4/ext4_fs.h>
@@ -66,7 +67,10 @@ extern "C" {
 }
 #endif
 
+DCPOMATIC_DISABLE_WARNINGS
 #include <glibmm.h>
+DCPOMATIC_ENABLE_WARNINGS
+
 #include <unistd.h>
 #include <sys/types.h>
 #include <boost/filesystem.hpp>

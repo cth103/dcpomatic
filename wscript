@@ -322,7 +322,7 @@ def configure(conf):
         if conf.options.workaround_gssapi:
             conf.env.LIB_SSH = ['gssapi_krb5']
     else:
-        conf.check_cc(fragment="""
+        conf.check_cxx(fragment="""
                                #include <libssh/libssh.h>\n
                                int main () {\n
                                ssh_new ();\n
@@ -501,7 +501,7 @@ def configure(conf):
 
         conf.check_cxx(fragment="""
     			    #include <boost/thread.hpp>\n
-    			    int main() { boost::thread t (); }\n
+			    int main() { boost::thread t; }\n
 			    """,
                        msg='Checking for boost threading library',
                        libpath='/usr/local/lib',

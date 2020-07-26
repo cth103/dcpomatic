@@ -98,9 +98,6 @@
 #ifdef __WXMSW__
 #include <shellapi.h>
 #endif
-#ifdef __WXOSX__
-#include <ApplicationServices/ApplicationServices.h>
-#endif
 #include <boost/filesystem.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/foreach.hpp>
@@ -1548,10 +1545,9 @@ private:
 			unsetenv ("UBUNTU_MENUPROXY");
 #endif
 
-#ifdef __WXOSX__
-			ProcessSerialNumber serial;
-			GetCurrentProcess (&serial);
-			TransformProcessType (&serial, kProcessTransformToForegroundApplication);
+#ifdef DCPOMATIC_OSX
+			dcpomatic_sleep_seconds (1);
+			make_foreground_application ();
 #endif
 
 			dcpomatic_setup_path_encoding ();

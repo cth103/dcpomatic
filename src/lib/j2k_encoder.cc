@@ -389,11 +389,15 @@ J2KEncoder::servers_list_changed ()
 
 	if (!Config::instance()->only_servers_encode ()) {
 		for (int i = 0; i < Config::instance()->master_encoding_threads (); ++i) {
-			boost::thread* t = _threads->create_thread(boost::bind(&J2KEncoder::encoder_thread, this, optional<EncodeServerDescription>()));
 #ifdef DCPOMATIC_LINUX
+			boost::thread* t = _threads->create_thread(boost::bind(&J2KEncoder::encoder_thread, this, optional<EncodeServerDescription>()));
 			pthread_setname_np (t->native_handle(), "encode-worker");
 #endif
+#ifdef DCPOMATIC_OSX
+			_threads->create_thread(boost::bind(&J2KEncoder::encoder_thread, this, optional<EncodeServerDescription>()));
+#endif
 #ifdef DCPOMATIC_WINDOWS
+			boost::thread* t = _threads->create_thread(boost::bind(&J2KEncoder::encoder_thread, this, optional<EncodeServerDescription>()));
 			if (windows_xp) {
 				SetThreadAffinityMask (t->native_handle(), 1 << i);
 			}

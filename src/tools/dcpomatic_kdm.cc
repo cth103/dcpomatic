@@ -718,10 +718,8 @@ private:
 			unsetenv ("UBUNTU_MENUPROXY");
 #endif
 
-#ifdef __WXOSX__
-			ProcessSerialNumber serial;
-			GetCurrentProcess (&serial);
-			TransformProcessType (&serial, kProcessTransformToForegroundApplication);
+#ifdef DCPOMATIC_OSX
+			make_foreground_application ();
 #endif
 
 			dcpomatic_setup_path_encoding ();

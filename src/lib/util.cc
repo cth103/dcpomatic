@@ -66,7 +66,9 @@ extern "C" {
 #include <boost/range/algorithm/replace_if.hpp>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
+DCPOMATIC_DISABLE_WARNINGS
 #include <boost/locale.hpp>
+DCPOMATIC_ENABLE_WARNINGS
 #ifdef DCPOMATIC_WINDOWS
 #include <boost/locale.hpp>
 #include <dbghelp.h>

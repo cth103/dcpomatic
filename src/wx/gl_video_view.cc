@@ -180,7 +180,9 @@ GLVideoView::draw (Position<int> inter_position, dcp::Size inter_size)
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
 
+DCPOMATIC_DISABLE_WARNINGS
 	gluOrtho2D (0, canvas_size.GetWidth(), canvas_size.GetHeight(), 0);
+DCPOMATIC_ENABLE_WARNINGS
 	check_gl_error ("gluOrtho2d");
 	glMatrixMode (GL_MODELVIEW);
 	glLoadIdentity ();
