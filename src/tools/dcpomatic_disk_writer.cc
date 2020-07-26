@@ -525,7 +525,7 @@ try
 
 #ifdef DCPOMATIC_LINUX
 		polkit_authority = polkit_authority_get_sync (0, 0);
-		PolkitSubject* subject = polkit_unix_process_new (getppid());
+		PolkitSubject* subject = polkit_unix_process_new_for_owner (getppid(), 0, -1);
 		Parameters* parameters = new Parameters;
 		parameters->dcp_path = *dcp_path;
 		parameters->device = *device;
