@@ -119,13 +119,9 @@ def configure(conf):
 
     if conf.env['CXX_NAME'] == 'gcc':
         gcc = conf.env['CC_VERSION']
-        if int(gcc[0]) >= 4 and int(gcc[1]) > 1:
-            conf.env.append_value('CXXFLAGS', ['-Wno-unused-result'])
         if int(gcc[0]) >= 8:
             # I tried and failed to ignore these with _Pragma
             conf.env.append_value('CXXFLAGS', ['-Wno-cast-function-type'])
-        if int(gcc[0]) >= 9:
-            conf.env.append_value('CXXFLAGS', ['-Wno-deprecated-copy'])
         have_c11 = int(gcc[0]) >= 4 and int(gcc[1]) >= 8 and int(gcc[2]) >= 1
     else:
         have_c11 = False
