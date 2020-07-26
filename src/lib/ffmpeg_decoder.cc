@@ -206,9 +206,11 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream) const
 {
 	DCPOMATIC_ASSERT (bytes_per_audio_sample (stream));
 
+DCPOMATIC_DISABLE_WARNINGS
 	int const size = av_samples_get_buffer_size (
 		0, stream->stream(_format_context)->codec->channels, _frame->nb_samples, audio_sample_format (stream), 1
 		);
+DCPOMATIC_ENABLE_WARNINGS
 
 	/* XXX: can't we just use _frame->nb_samples directly here? */
 	/* XXX: can't we use swr_convert() to do the format conversion? */
@@ -339,7 +341,9 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream) const
 AVSampleFormat
 FFmpegDecoder::audio_sample_format (shared_ptr<FFmpegAudioStream> stream) const
 {
+DCPOMATIC_DISABLE_WARNINGS
 	return stream->stream (_format_context)->codec->sample_fmt;
+DCPOMATIC_ENABLE_WARNINGS
 }
 
 int
@@ -401,9 +405,11 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 		avcodec_flush_buffers (video_codec_context());
 	}
 
+DCPOMATIC_DISABLE_WARNINGS
 	BOOST_FOREACH (shared_ptr<FFmpegAudioStream> i, ffmpeg_content()->ffmpeg_audio_streams()) {
 		avcodec_flush_buffers (i->stream(_format_context)->codec);
 	}
+DCPOMATIC_ENABLE_WARNINGS
 
 	if (subtitle_codec_context ()) {
 		avcodec_flush_buffers (subtitle_codec_context ());
@@ -434,6 +440,7 @@ FFmpegDecoder::decode_audio_packet ()
 		return;
 	}
 
+DCPOMATIC_DISABLE_WARNINGS
 	while (copy_packet.size > 0) {
 
 		int frame_finished;
@@ -493,6 +500,7 @@ FFmpegDecoder::decode_audio_packet ()
 					to_string(_pts_offset)
 					);
 			}
+DCPOMATIC_ENABLE_WARNINGS
 
 			/* Give this data provided there is some, and its time is sane */
 			if (ct >= ContentTime() && data->frames() > 0) {
@@ -511,9 +519,11 @@ FFmpegDecoder::decode_video_packet ()
 	DCPOMATIC_ASSERT (_video_stream);
 
 	int frame_finished;
+DCPOMATIC_DISABLE_WARNINGS
 	if (avcodec_decode_video2 (video_codec_context(), _frame, &frame_finished, &_packet) < 0 || !frame_finished) {
 		return false;
 	}
+DCPOMATIC_ENABLE_WARNINGS
 
 	boost::mutex::scoped_lock lm (_filter_graphs_mutex);
 

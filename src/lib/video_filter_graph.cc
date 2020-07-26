@@ -18,9 +18,10 @@
 
 */
 
-#include "video_filter_graph.h"
-#include "image.h"
 #include "compose.hpp"
+#include "image.h"
+#include "video_filter_graph.h"
+#include "warnings.h"
 extern "C" {
 #include <libavfilter/buffersrc.h>
 #include <libavfilter/buffersink.h>
@@ -51,6 +52,7 @@ VideoFilterGraph::process (AVFrame* frame)
 {
 	list<pair<shared_ptr<Image>, int64_t> > images;
 
+DCPOMATIC_DISABLE_WARNINGS
 	if (_copy) {
 		images.push_back (make_pair (shared_ptr<Image> (new Image (frame)), av_frame_get_best_effort_timestamp (frame)));
 	} else {
@@ -68,6 +70,7 @@ VideoFilterGraph::process (AVFrame* frame)
 			av_frame_unref (_frame);
 		}
 	}
+DCPOMATIC_ENABLE_WARNINGS
 
 	return images;
 }

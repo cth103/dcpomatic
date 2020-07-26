@@ -45,6 +45,7 @@
 #include "image.h"
 #include "text_decoder.h"
 #include "job_manager.h"
+#include "warnings.h"
 #include <dcp/decrypted_kdm.h>
 #include <dcp/locale_convert.h>
 #include <dcp/util.h>
@@ -356,8 +357,10 @@ dcpomatic_setup ()
 	SetUnhandledExceptionFilter(exception_handler);
 #endif
 
+DCPOMATIC_DISABLE_WARNINGS
 	av_register_all ();
 	avfilter_register_all ();
+DCPOMATIC_ENABLE_WARNINGS
 
 #ifdef DCPOMATIC_OSX
 	/* Add our library directory to the libltdl search path so that

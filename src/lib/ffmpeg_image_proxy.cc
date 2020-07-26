@@ -86,7 +86,7 @@ avio_seek_wrapper (void* data, int64_t offset, int whence)
 int
 FFmpegImageProxy::avio_read (uint8_t* buffer, int const amount)
 {
-	int const to_do = min(int64_t(amount), _data.size() - _pos);
+	int const to_do = min(static_cast<int64_t>(amount), static_cast<int64_t>(_data.size()) - _pos);
 	if (to_do == 0) {
 		return AVERROR_EOF;
 	}
@@ -115,6 +115,7 @@ FFmpegImageProxy::avio_seek (int64_t const pos, int whence)
 	return _pos;
 }
 
+DCPOMATIC_DISABLE_WARNINGS
 
 ImageProxy::Result
 FFmpegImageProxy::image (optional<dcp::Size>) const
@@ -198,6 +199,8 @@ FFmpegImageProxy::image (optional<dcp::Size>) const
 
 	return Result (_image, 0);
 }
+
+DCPOMATIC_ENABLE_WARNINGS
 
 void
 FFmpegImageProxy::add_metadata (xmlpp::Node* node) const

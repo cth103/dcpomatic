@@ -18,6 +18,14 @@
 
 */
 
+#include "ffmpeg_examiner.h"
+#include "ffmpeg_content.h"
+#include "job.h"
+#include "ffmpeg_audio_stream.h"
+#include "ffmpeg_subtitle_stream.h"
+#include "util.h"
+#include "warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -26,12 +34,7 @@ extern "C" {
 #include <libavutil/eval.h>
 #include <libavutil/display.h>
 }
-#include "ffmpeg_examiner.h"
-#include "ffmpeg_content.h"
-#include "job.h"
-#include "ffmpeg_audio_stream.h"
-#include "ffmpeg_subtitle_stream.h"
-#include "util.h"
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/foreach.hpp>
 #include <iostream>
 
@@ -44,6 +47,7 @@ using boost::shared_ptr;
 using boost::optional;
 using namespace dcpomatic;
 
+
 /** @param job job that the examiner is operating in, or 0 */
 FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Job> job)
 	: FFmpeg (c)
@@ -54,6 +58,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 		AVStream* s = _format_context->streams[i];
+DCPOMATIC_DISABLE_WARNINGS
 		if (s->codec->codec_type == AVMEDIA_TYPE_AUDIO) {
 
 			/* This is a hack; sometimes it seems that _audio_codec_context->channel_layout isn't set up,
@@ -119,6 +124,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 		}
 
 		AVCodecContext* context = _format_context->streams[_packet.stream_index]->codec;
+DCPOMATIC_ENABLE_WARNINGS
 
 		if (_video_stream && _packet.stream_index == _video_stream.get()) {
 			video_packet (context);
@@ -175,6 +181,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 #endif
 }
 
+
 void
 FFmpegExaminer::video_packet (AVCodecContext* context)
 {
@@ -185,7 +192,9 @@ FFmpegExaminer::video_packet (AVCodecContext* context)
 	}
 
 	int frame_finished;
+DCPOMATIC_DISABLE_WARNINGS
 	if (avcodec_decode_video2 (context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
+DCPOMATIC_ENABLE_WARNINGS
 		if (!_first_video) {
 			_first_video = frame_time (_format_context->streams[_video_stream.get()]);
 		}
@@ -197,6 +206,7 @@ FFmpegExaminer::video_packet (AVCodecContext* context)
 	}
 }
 
+
 void
 FFmpegExaminer::audio_packet (AVCodecContext* context, shared_ptr<FFmpegAudioStream> stream)
 {
@@ -205,23 +215,29 @@ FFmpegExaminer::audio_packet (AVCodecContext* context, shared_ptr<FFmpegAudioStr
 	}
 
 	int frame_finished;
+DCPOMATIC_DISABLE_WARNINGS
 	if (avcodec_decode_audio4 (context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
+DCPOMATIC_ENABLE_WARNINGS
 		stream->first_audio = frame_time (stream->stream (_format_context));
 	}
 }
+
 
 optional<ContentTime>
 FFmpegExaminer::frame_time (AVStream* s) const
 {
 	optional<ContentTime> t;
 
+DCPOMATIC_DISABLE_WARNINGS
 	int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
+DCPOMATIC_ENABLE_WARNINGS
 	if (bet != AV_NOPTS_VALUE) {
 		t = ContentTime::from_seconds (bet * av_q2d (s->time_base));
 	}
 
 	return t;
 }
+
 
 optional<double>
 FFmpegExaminer::video_frame_rate () const

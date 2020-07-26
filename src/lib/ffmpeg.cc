@@ -70,9 +70,11 @@ FFmpeg::~FFmpeg ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
+DCPOMATIC_DISABLE_WARNINGS
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 		avcodec_close (_format_context->streams[i]->codec);
 	}
+DCPOMATIC_ENABLE_WARNINGS
 
 	av_frame_free (&_frame);
 	avformat_close_input (&_format_context);
@@ -146,6 +148,7 @@ FFmpeg::setup_general ()
 
 	optional<int> video_stream_undefined_frame_rate;
 
+DCPOMATIC_DISABLE_WARNINGS
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 		AVStream* s = _format_context->streams[i];
 		if (s->codec->codec_type == AVMEDIA_TYPE_VIDEO && avcodec_find_decoder(s->codec->codec_id)) {
@@ -158,6 +161,7 @@ FFmpeg::setup_general ()
 			}
 		}
 	}
+DCPOMATIC_ENABLE_WARNINGS
 
 	/* Files from iTunes sometimes have two video streams, one with the avg_frame_rate.num and .den set
 	   to zero.  Only use such a stream if there is no alternative.
@@ -204,6 +208,7 @@ FFmpeg::setup_decoders ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
+DCPOMATIC_DISABLE_WARNINGS
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 		AVCodecContext* context = _format_context->streams[i]->codec;
 
@@ -230,8 +235,10 @@ FFmpeg::setup_decoders ()
 			dcpomatic_log->log (String::compose ("No codec found for stream %1", i), LogEntry::TYPE_WARNING);
 		}
 	}
+DCPOMATIC_ENABLE_WARNINGS
 }
 
+DCPOMATIC_DISABLE_WARNINGS
 AVCodecContext *
 FFmpeg::video_codec_context () const
 {
@@ -251,6 +258,7 @@ FFmpeg::subtitle_codec_context () const
 
 	return _ffmpeg_content->subtitle_stream()->stream(_format_context)->codec;
 }
+DCPOMATIC_ENABLE_WARNINGS
 
 int
 FFmpeg::avio_read (uint8_t* buffer, int const amount)
