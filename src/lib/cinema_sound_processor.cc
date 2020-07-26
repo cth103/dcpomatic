@@ -107,7 +107,7 @@ CinemaSoundProcessor::as_index (CinemaSoundProcessor const * s)
 CinemaSoundProcessor const *
 CinemaSoundProcessor::from_index (int i)
 {
-	DCPOMATIC_ASSERT (i <= int(_cinema_sound_processors.size ()));
+	DCPOMATIC_ASSERT (i >= 0 && i < int(_cinema_sound_processors.size()));
 	return _cinema_sound_processors[i];
 }
 
