@@ -20,7 +20,8 @@
 
 #define DCPOMATIC_DISABLE_WARNINGS \
   _Pragma("GCC diagnostic push") \
-  _Pragma("GCC diagnostic ignored \"-Wdeprecated-declarations\"")
+  _Pragma("GCC diagnostic ignored \"-Wdeprecated-declarations\"") \
+  _Pragma("GCC diagnostic ignored \"-Wunused-parameter\"")
 
 #define DCPOMATIC_ENABLE_WARNINGS \
   _Pragma("GCC diagnostic pop")

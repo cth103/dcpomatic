@@ -18,7 +18,10 @@
 
 */
 
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <Magick++.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
 #include <boost/shared_ptr.hpp>
 
