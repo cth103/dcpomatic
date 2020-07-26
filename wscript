@@ -108,7 +108,6 @@ def configure(conf):
                                        '-Wextra',
                                        '-Wwrite-strings',
                                        # I tried and failed to ignore these with _Pragma
-                                       '-Wno-cast-function-type',
                                        '-Wno-ignored-qualifiers',
                                        '-D_FILE_OFFSET_BITS=64'])
 
@@ -122,6 +121,9 @@ def configure(conf):
         gcc = conf.env['CC_VERSION']
         if int(gcc[0]) >= 4 and int(gcc[1]) > 1:
             conf.env.append_value('CXXFLAGS', ['-Wno-unused-result'])
+        if int(gcc[0]) >= 8:
+            # I tried and failed to ignore these with _Pragma
+            conf.env.append_value('CXXFLAGS', ['-Wno-cast-function-type'])
         if int(gcc[0]) >= 9:
             conf.env.append_value('CXXFLAGS', ['-Wno-deprecated-copy'])
         have_c11 = int(gcc[0]) >= 4 and int(gcc[1]) >= 8 and int(gcc[2]) >= 1
