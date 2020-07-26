@@ -25,7 +25,10 @@
 #include "lib/film.h"
 #include "lib/hints.h"
 #include "lib/config.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/richtext/richtextctrl.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/foreach.hpp>
 
 using std::max;

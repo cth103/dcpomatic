@@ -84,14 +84,17 @@
 #include "lib/text_content.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/subtitle_encoder.h"
+#include "lib/warnings.h"
 #include <dcp/exceptions.h>
 #include <dcp/raw_convert.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/generic/aboutdlgg.h>
 #include <wx/stdpaths.h>
 #include <wx/cmdline.h>
 #include <wx/preferences.h>
 #include <wx/splash.h>
 #include <wx/wxhtml.h>
+DCPOMATIC_ENABLE_WARNINGS
 #ifdef __WXGTK__
 #include <X11/Xlib.h>
 #endif

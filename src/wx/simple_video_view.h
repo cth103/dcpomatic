@@ -20,8 +20,11 @@
 
 #include "video_view.h"
 #include "lib/position.h"
+#include "lib/warnings.h"
 #include <dcp/types.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 class FilmViewer;
 

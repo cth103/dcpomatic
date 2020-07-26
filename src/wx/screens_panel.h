@@ -18,7 +18,10 @@
 
 */
 
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <wx/srchctrl.h>
 #include <wx/treectrl.h>
 #include <boost/shared_ptr.hpp>

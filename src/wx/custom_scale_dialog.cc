@@ -23,9 +23,12 @@
 #include "wx_util.h"
 #include "lib/util.h"
 #include <dcp/raw_convert.h>
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 #include <wx/propgrid/property.h>
 #include <wx/propgrid/props.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 
 using boost::optional;

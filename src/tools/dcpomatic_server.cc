@@ -29,9 +29,12 @@
 #include "lib/signaller.h"
 #include "lib/cross.h"
 #include "lib/dcpomatic_log.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/taskbar.h>
 #include <wx/splash.h>
 #include <wx/icon.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/thread.hpp>
 #include <boost/foreach.hpp>
 #include <boost/optional.hpp>

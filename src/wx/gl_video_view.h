@@ -21,8 +21,11 @@
 #include "video_view.h"
 #include "lib/signaller.h"
 #include "lib/position.h"
-#include <wx/wx.h>
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/glcanvas.h>
+#include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <dcp/util.h>
 #include <boost/atomic.hpp>
 #include <boost/shared_ptr.hpp>

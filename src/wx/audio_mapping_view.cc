@@ -27,12 +27,15 @@
 #include "audio_gain_dialog.h"
 #include "lib/audio_mapping.h"
 #include "lib/util.h"
+#include "lib/warnings.h"
 #include <dcp/locale_convert.h>
 #include <dcp/types.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 #include <wx/renderer.h>
 #include <wx/grid.h>
 #include <wx/graphics.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/foreach.hpp>
 #include <iostream>
 

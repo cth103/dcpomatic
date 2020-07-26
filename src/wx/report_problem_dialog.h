@@ -18,7 +18,10 @@
 
 */
 
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/dialog.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/shared_ptr.hpp>
 
 class wxTextCtrl;

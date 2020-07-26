@@ -19,7 +19,10 @@
 */
 
 #include "lib/types.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/weak_ptr.hpp>
 #include <boost/signals2.hpp>
 

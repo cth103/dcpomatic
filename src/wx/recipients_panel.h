@@ -19,9 +19,12 @@
 */
 
 #include "lib/dkdm_recipient.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 #include <wx/srchctrl.h>
 #include <wx/treectrl.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <list>

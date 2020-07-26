@@ -22,6 +22,7 @@
   _Pragma("GCC diagnostic push") \
   _Pragma("GCC diagnostic ignored \"-Wdeprecated-declarations\"") \
   _Pragma("GCC diagnostic ignored \"-Wmissing-field-initializers\"") \
+  _Pragma("GCC diagnostic ignored \"-Wdeprecated-copy\"") \
   _Pragma("GCC diagnostic ignored \"-Wunused-parameter\"")
 
 #define DCPOMATIC_ENABLE_WARNINGS \

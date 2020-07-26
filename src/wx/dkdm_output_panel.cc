@@ -20,6 +20,7 @@
 
 #include "lib/config.h"
 #include "lib/send_kdm_email_job.h"
+#include "lib/warnings.h"
 #include "dkdm_output_panel.h"
 #include "kdm_timing_panel.h"
 #include "confirm_kdm_email_dialog.h"
@@ -32,7 +33,9 @@
 #ifdef DCPOMATIC_USE_OWN_PICKER
 #include "dir_picker_ctrl.h"
 #else
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/filepicker.h>
+DCPOMATIC_ENABLE_WARNINGS
 #endif
 #include <wx/stdpaths.h>
 

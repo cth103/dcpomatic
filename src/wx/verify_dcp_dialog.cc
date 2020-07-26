@@ -21,8 +21,11 @@
 #include "verify_dcp_dialog.h"
 #include "wx_util.h"
 #include "lib/verify_dcp_job.h"
+#include "lib/warnings.h"
 #include <dcp/verify.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/richtext/richtextctrl.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/foreach.hpp>
 
 using std::list;

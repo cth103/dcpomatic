@@ -21,7 +21,10 @@
 #include "update_dialog.h"
 #include "static_text.h"
 #include "wx_util.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/hyperlink.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 using std::string;
 using boost::optional;

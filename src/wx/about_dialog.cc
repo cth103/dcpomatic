@@ -27,8 +27,11 @@
 #include "static_text.h"
 #include "lib/version.h"
 #include "lib/compose.hpp"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/notebook.h>
 #include <wx/hyperlink.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 using std::vector;
 

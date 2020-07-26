@@ -22,7 +22,10 @@
 #include "file_picker_ctrl.h"
 #include "wx_util.h"
 #include "check_box.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/filepicker.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/bind.hpp>
 
 using std::string;

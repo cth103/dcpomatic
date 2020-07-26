@@ -22,8 +22,11 @@
 #include "wx_util.h"
 #include "time_picker.h"
 #include "static_text.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/datectrl.h>
 #include <wx/dateevt.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 using std::cout;
 using boost::bind;

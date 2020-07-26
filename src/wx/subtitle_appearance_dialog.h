@@ -20,7 +20,10 @@
 
 #include "timecode.h"
 #include "lib/rgba.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 
