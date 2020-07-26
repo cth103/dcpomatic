@@ -22,12 +22,15 @@
  *  @brief Some simple tests of FFmpegAudioStream.
  */
 
-#include <boost/test/unit_test.hpp>
-#include <libxml++/libxml++.h>
-#include <libcxml/cxml.h>
+#include "lib/film.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/ffmpeg_audio_stream.h"
-#include "lib/film.h"
+#include "lib/warnings.h"
+#include <libcxml/cxml.h>
+DCPOMATIC_DISABLE_WARNINGS
+#include <libxml++/libxml++.h>
+DCPOMATIC_ENABLE_WARNINGS
+#include <boost/test/unit_test.hpp>
 
 using std::pair;
 using std::list;

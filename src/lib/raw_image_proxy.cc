@@ -20,13 +20,16 @@
 
 #include "raw_image_proxy.h"
 #include "image.h"
+#include "warnings.h"
 #include <dcp/raw_convert.h>
 #include <dcp/util.h>
 #include <libcxml/cxml.h>
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
+DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 #include "i18n.h"
 

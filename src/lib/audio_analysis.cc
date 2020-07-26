@@ -23,8 +23,11 @@
 #include "util.h"
 #include "playlist.h"
 #include "audio_content.h"
+#include "warnings.h"
 #include <dcp/raw_convert.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
 #include <stdint.h>

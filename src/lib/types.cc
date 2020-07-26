@@ -21,12 +21,15 @@
 #include "types.h"
 #include "compose.hpp"
 #include "dcpomatic_assert.h"
+#include "warnings.h"
 #include <dcp/raw_convert.h>
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/reel_mxf.h>
 #include <dcp/reel_asset.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <libcxml/cxml.h>
 #include <boost/foreach.hpp>
 

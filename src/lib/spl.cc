@@ -18,11 +18,14 @@
 
 */
 
-#include "spl.h"
 #include "content_store.h"
+#include "spl.h"
+#include "warnings.h"
 #include <libcxml/cxml.h>
 #include <dcp/raw_convert.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/foreach.hpp>
 #include <iostream>
 

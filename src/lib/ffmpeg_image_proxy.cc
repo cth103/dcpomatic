@@ -25,12 +25,15 @@
 #include "image.h"
 #include "compose.hpp"
 #include "util.h"
+#include "warnings.h"
 #include <dcp/raw_convert.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 }
+DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <iostream>
 
 #include "i18n.h"

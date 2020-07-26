@@ -39,12 +39,15 @@
 #include "cross.h"
 #include "player_video.h"
 #include "compose.hpp"
+#include "warnings.h"
 #include <libcxml/cxml.h>
 #include <dcp/raw_convert.h>
 #include <dcp/openjpeg_image.h>
 #include <dcp/rgb_xyz.h>
 #include <dcp/j2k.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include <stdint.h>

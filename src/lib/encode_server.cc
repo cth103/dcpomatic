@@ -36,9 +36,12 @@
 #include "dcpomatic_log.h"
 #include "encoded_log_entry.h"
 #include "version.h"
+#include "warnings.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/algorithm/string.hpp>
 #include <boost/scoped_array.hpp>
 #include <boost/foreach.hpp>

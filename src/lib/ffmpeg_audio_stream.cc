@@ -20,7 +20,10 @@
 
 #include "ffmpeg_audio_stream.h"
 #include <dcp/raw_convert.h>
+#include "warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <libcxml/cxml.h>
 
 using std::string;

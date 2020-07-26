@@ -19,7 +19,10 @@
 */
 
 #include "rgba.h"
+#include "warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/lexical_cast.hpp>
 
 using std::string;
