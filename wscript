@@ -75,6 +75,7 @@ def options(opt):
     opt.add_option('--variant',           help='build variant (swaroop-studio, swaroop-theater)', choices=['swaroop-studio', 'swaroop-theater'])
     opt.add_option('--use-lld',           action='store_true', default=False, help='use lld linker')
     opt.add_option('--enable-disk',       action='store_true', default=False, help='build dcpomatic2_disk tool; requires Boost process, lwext4 and nanomsg libraries')
+    opt.add_option('--warnings-are-errors', action='store_true', default=False, help='build with -Werror')
 
 def configure(conf):
     conf.load('compiler_cxx')
@@ -106,15 +107,16 @@ def configure(conf):
                                        '-Wall',
                                        '-Wextra',
                                        '-Wwrite-strings',
-                                       '-Wsign-conversion',
-                                       # Remove auto_ptr warnings from libxml++-2.6
-                                       '-Wno-deprecated-declarations',
+                                       # I tried and failed to ignore these with _Pragma
+                                       '-Wno-cast-function-type',
                                        '-Wno-ignored-qualifiers',
-                                       '-Wno-parentheses',
                                        '-D_FILE_OFFSET_BITS=64'])
 
     if conf.options.force_cpp11:
         conf.env.append_value('CXXFLAGS', ['-std=c++11', '-DBOOST_NO_CXX11_SCOPED_ENUMS'])
+
+    if conf.options.warnings_are_errors:
+        conf.env.append_value('CXXFLAGS', '-Werror')
 
     if conf.env['CXX_NAME'] == 'gcc':
         gcc = conf.env['CC_VERSION']
@@ -325,7 +327,7 @@ def configure(conf):
         conf.check_cc(fragment="""
                                #include <libssh/libssh.h>\n
                                int main () {\n
-                               ssh_session s = ssh_new ();\n
+                               ssh_new ();\n
                                return 0;\n
                                }
                                """,
@@ -550,7 +552,7 @@ def configure(conf):
                 deps.append('boost_filesystem%s' % boost_lib_suffix)
             conf.check_cxx(fragment="""
                                 #include <boost/process.hpp>\n
-                                int main() { boost::process::child* c = new boost::process::child("foo"); }\n
+                                int main() { new boost::process::child("foo"); }\n
                                 """,
                            msg='Checking for boost process library',
                            lib=deps,
