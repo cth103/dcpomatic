@@ -379,11 +379,9 @@ unprivileged ()
 	uid_t ruid, euid, suid;
 	if (getresuid(&ruid, &euid, &suid) == -1) {
 		cerr << "getresuid() failed.\n";
-		exit (EXIT_FAILURE);
 	}
 	if (seteuid(ruid) == -1) {
 		cerr << "seteuid() failed.\n";
-		exit (EXIT_FAILURE);
 	}
 }
 
@@ -394,7 +392,10 @@ PrivilegeEscalator::~PrivilegeEscalator ()
 
 PrivilegeEscalator::PrivilegeEscalator ()
 {
-	seteuid (0);
+	int const r = seteuid(0);
+	if (r < 0) {
+		throw PrivilegeError (String::compose("seteuid() call failed with %1", errno));
+	}
 }
 
 boost::filesystem::path
