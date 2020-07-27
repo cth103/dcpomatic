@@ -93,12 +93,23 @@ FFmpegEncoder::FFmpegEncoder (
 		map = AudioMapping (ch, 2);
 		float const overall_gain = 2 / (4 + sqrt(2));
 		float const minus_3dB = 1 / sqrt(2);
-		map.set (dcp::LEFT,   0, overall_gain);
-		map.set (dcp::RIGHT,  1, overall_gain);
-		map.set (dcp::CENTRE, 0, overall_gain * minus_3dB);
-		map.set (dcp::CENTRE, 1, overall_gain * minus_3dB);
-		map.set (dcp::LS,     0, overall_gain);
-		map.set (dcp::RS,     1, overall_gain);
+		if (ch == 2) {
+			map.set (dcp::LEFT, 0, 1);
+			map.set (dcp::RIGHT, 1, 1);
+		} else if (ch == 4) {
+			map.set (dcp::LEFT,   0, overall_gain);
+			map.set (dcp::RIGHT,  1, overall_gain);
+			map.set (dcp::CENTRE, 0, overall_gain * minus_3dB);
+			map.set (dcp::CENTRE, 1, overall_gain * minus_3dB);
+			map.set (dcp::LS,     0, overall_gain);
+		} else if (ch >= 6) {
+			map.set (dcp::LEFT,   0, overall_gain);
+			map.set (dcp::RIGHT,  1, overall_gain);
+			map.set (dcp::CENTRE, 0, overall_gain * minus_3dB);
+			map.set (dcp::CENTRE, 1, overall_gain * minus_3dB);
+			map.set (dcp::LS,     0, overall_gain);
+			map.set (dcp::RS,     1, overall_gain);
+		}
 	} else {
 		_output_audio_channels = ch;
 		map = AudioMapping (ch, ch);
