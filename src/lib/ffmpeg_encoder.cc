@@ -61,38 +61,6 @@ FFmpegEncoder::FFmpegEncoder (
 	: Encoder (film, job)
 	, _history (200)
 {
-	int const files = split_reels ? film->reels().size() : 1;
-	for (int i = 0; i < files; ++i) {
-
-		boost::filesystem::path filename = output;
-		string extension = boost::filesystem::extension (filename);
-		filename = boost::filesystem::change_extension (filename, "");
-
-		if (files > 1) {
-			/// TRANSLATORS: _reel%1 here is to be added to an export filename to indicate
-			/// which reel it is.  Preserve the %1; it will be replaced with the reel number.
-			filename = filename.string() + String::compose(_("_reel%1"), i + 1);
-		}
-
-		_file_encoders.push_back (
-			FileEncoderSet (
-				_film->frame_size(),
-				_film->video_frame_rate(),
-				_film->audio_frame_rate(),
-				mixdown_to_stereo ? 2 : film->audio_channels(),
-				format,
-				x264_crf,
-				_film->three_d(),
-				filename,
-				extension
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-				, key
-				, id
-#endif
-				)
-			);
-	}
-
 	_player->set_always_burn_open_subtitles ();
 	_player->set_play_referenced ();
 
@@ -123,15 +91,51 @@ FFmpegEncoder::FFmpegEncoder (
 		}
 		/* XXX: maybe we should do something better for >6 channel DCPs */
 	} else {
-		_output_audio_channels = ch;
-		map = AudioMapping (ch, ch);
+		/* Our encoders don't really want to encode any channel count between 9 and 15 inclusive,
+		 * so let's just use 16 channel exports for any project with more than 8 channels.
+		 */
+		_output_audio_channels = ch > 8 ? 16 : ch;
+		map = AudioMapping (ch, _output_audio_channels);
 		for (int i = 0; i < ch; ++i) {
 			map.set (i, i, 1);
 		}
 	}
 
 	_butler.reset (new Butler(_player, map, _output_audio_channels, bind(&PlayerVideo::force, _1, FFmpegFileEncoder::pixel_format(format)), true, false));
+
+	int const files = split_reels ? film->reels().size() : 1;
+	for (int i = 0; i < files; ++i) {
+
+		boost::filesystem::path filename = output;
+		string extension = boost::filesystem::extension (filename);
+		filename = boost::filesystem::change_extension (filename, "");
+
+		if (files > 1) {
+			/// TRANSLATORS: _reel%1 here is to be added to an export filename to indicate
+			/// which reel it is.  Preserve the %1; it will be replaced with the reel number.
+			filename = filename.string() + String::compose(_("_reel%1"), i + 1);
+		}
+
+		_file_encoders.push_back (
+			FileEncoderSet (
+				_film->frame_size(),
+				_film->video_frame_rate(),
+				_film->audio_frame_rate(),
+				_output_audio_channels,
+				format,
+				x264_crf,
+				_film->three_d(),
+				filename,
+				extension
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+				, key
+				, id
+#endif
+				)
+			);
+	}
 }
+
 
 void
 FFmpegEncoder::go ()
