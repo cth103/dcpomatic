@@ -396,3 +396,28 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test8)
 		);
 	encoder.go();
 }
+
+
+/** 7.1/HI/VI (i.e. 12-channel) project */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test9)
+{
+	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_prores_test9");
+	film->set_name ("ffmpeg_encoder_prores_test9");
+	shared_ptr<ImageContent> c (new ImageContent(TestPaths::private_data / "bbc405.png"));
+	film->set_container (Ratio::from_id ("185"));
+	film->set_audio_channels (12);
+
+	film->examine_and_add_content (c);
+	BOOST_REQUIRE (!wait_for_jobs ());
+
+	c->video->set_length (240);
+
+	film->write_metadata ();
+	shared_ptr<Job> job (new TranscodeJob (film));
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_test9.mov", EXPORT_FORMAT_H264_AAC, false, false, 23
+#ifdef DCPOMATIC_VARIANT_SWAROOP
+			       , optional<dcp::Key>(), optional<string>()
+#endif
+		);
+	encoder.go ();
+}
