@@ -203,11 +203,8 @@ def configure(conf):
 
     # OSX
     if conf.env.TARGET_OSX:
-        conf.env.append_value('CXXFLAGS', ['-DDCPOMATIC_OSX', '-Wno-unused-function', '-Wno-unused-parameter', '-Wno-unused-local-typedef', '-Wno-potentially-evaluated-expression'])
+        conf.env.append_value('CXXFLAGS', ['-DDCPOMATIC_OSX'])
         conf.env.append_value('LINKFLAGS', '-headerpad_max_install_names')
-    else:
-        # Avoid the endless warnings about _t uninitialized in optional<>
-        conf.env.append_value('CXXFLAGS', '-Wno-maybe-uninitialized')
 
     #
     # Dependencies.
