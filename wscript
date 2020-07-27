@@ -122,6 +122,11 @@ def configure(conf):
         if int(gcc[0]) >= 8:
             # I tried and failed to ignore these with _Pragma
             conf.env.append_value('CXXFLAGS', ['-Wno-cast-function-type'])
+        elif int(gcc[0]) == 7:
+            # There appears to be a GCC bug which lingered from major versions 5--7 and which
+            # flags up these warnings all over the place in boost::optional.
+            # These seems to be the only practical way to hide it
+            conf.env.append_value('CXXFLAGS', ['-Wno-maybe-uninitialized'])
         have_c11 = int(gcc[0]) >= 4 and int(gcc[1]) >= 8 and int(gcc[2]) >= 1
     else:
         have_c11 = False
