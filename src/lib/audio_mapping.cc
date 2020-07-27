@@ -19,12 +19,15 @@
 */
 
 #include "audio_mapping.h"
-#include "util.h"
-#include "digester.h"
 #include "audio_processor.h"
+#include "digester.h"
+#include "util.h"
+#include "warnings.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/regex.hpp>
 #include <iostream>
 

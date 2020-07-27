@@ -19,7 +19,10 @@
 */
 
 #include "focus_manager.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/textctrl.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 FocusManager* FocusManager::_instance;
 

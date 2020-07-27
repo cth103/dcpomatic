@@ -53,6 +53,9 @@ ffmpeg_content_test (int number, boost::filesystem::path content, ExportFormat f
 		name += "prores";
 		extension = "mov";
 		break;
+	case EXPORT_FORMAT_H264_PCM:
+	case EXPORT_FORMAT_SUBTITLES_DCP:
+		BOOST_REQUIRE (false);
 	}
 
 	name = String::compose("%1_test%2", name, number);

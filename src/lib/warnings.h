@@ -18,33 +18,20 @@
 
 */
 
+#if __GNUC__ >= 9
+#define DCPOMATIC_DISABLE_WARNINGS \
+  _Pragma("GCC diagnostic push") \
+  _Pragma("GCC diagnostic ignored \"-Wdeprecated-declarations\"") \
+  _Pragma("GCC diagnostic ignored \"-Wmissing-field-initializers\"") \
+  _Pragma("GCC diagnostic ignored \"-Wdeprecated-copy\"") \
+  _Pragma("GCC diagnostic ignored \"-Wunused-parameter\"")
+#else
+#define DCPOMATIC_DISABLE_WARNINGS \
+  _Pragma("GCC diagnostic push") \
+  _Pragma("GCC diagnostic ignored \"-Wdeprecated-declarations\"") \
+  _Pragma("GCC diagnostic ignored \"-Wmissing-field-initializers\"") \
+  _Pragma("GCC diagnostic ignored \"-Wunused-parameter\"")
+#endif
 
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
-#include <wx/wx.h>
-DCPOMATIC_ENABLE_WARNINGS
-#include <boost/shared_ptr.hpp>
-#include <vector>
-
-
-class Content;
-class Filter;
-
-
-class ContentAdvancedDialog : public wxDialog
-{
-public:
-	ContentAdvancedDialog (wxWindow* parent, boost::shared_ptr<Content> content);
-
-private:
-	void ignore_video_changed (wxCommandEvent& ev);
-	void edit_filters ();
-	void filters_changed (std::vector<Filter const *> filters);
-	void setup_filters ();
-
-	boost::shared_ptr<Content> _content;
-
-	wxStaticText* _filters;
-	wxButton* _filters_button;
-};
-
+#define DCPOMATIC_ENABLE_WARNINGS \
+  _Pragma("GCC diagnostic pop")

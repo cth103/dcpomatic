@@ -21,10 +21,13 @@
 #ifndef DCPOMATIC_CONTENT_SUB_PANEL_H
 #define DCPOMATIC_CONTENT_SUB_PANEL_H
 
-#include <boost/shared_ptr.hpp>
-#include <wx/wx.h>
 #include "lib/film.h"
 #include "lib/config.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
+#include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
+#include <boost/shared_ptr.hpp>
 
 class ContentPanel;
 class Content;

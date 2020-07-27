@@ -27,6 +27,7 @@
 #include "lib/file_log.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/nanomsg.h"
+#include "lib/warnings.h"
 extern "C" {
 #include <lwext4/ext4_mbr.h>
 #include <lwext4/ext4_fs.h>
@@ -66,7 +67,10 @@ extern "C" {
 }
 #endif
 
+DCPOMATIC_DISABLE_WARNINGS
 #include <glibmm.h>
+DCPOMATIC_ENABLE_WARNINGS
+
 #include <unistd.h>
 #include <sys/types.h>
 #include <boost/filesystem.hpp>
@@ -525,7 +529,7 @@ try
 
 #ifdef DCPOMATIC_LINUX
 		polkit_authority = polkit_authority_get_sync (0, 0);
-		PolkitSubject* subject = polkit_unix_process_new (getppid());
+		PolkitSubject* subject = polkit_unix_process_new_for_owner (getppid(), 0, -1);
 		Parameters* parameters = new Parameters;
 		parameters->dcp_path = *dcp_path;
 		parameters->device = *device;
@@ -565,7 +569,7 @@ main ()
 	/* I *think* this confumes the notifyd event that we used to start the process, so we only
 	 * get started once per notification.
 	 */
-        xpc_set_event_stream_handler("com.apple.notifyd.matching", DISPATCH_TARGET_QUEUE_DEFAULT, ^(xpc_object_t event) {});
+        xpc_set_event_stream_handler("com.apple.notifyd.matching", DISPATCH_TARGET_QUEUE_DEFAULT, ^(xpc_object_t) {});
 #endif
 
 	try {

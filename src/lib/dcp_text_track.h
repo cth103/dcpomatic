@@ -21,8 +21,11 @@
 #ifndef DCPOMATIC_DCP_TEXT_TRACK_H
 #define DCPOMATIC_DCP_TEXT_TRACK_H
 
+#include "warnings.h"
 #include <libcxml/cxml.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 class DCPTextTrack
 {

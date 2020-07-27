@@ -18,9 +18,6 @@
 
 */
 
-#include "lib/config.h"
-#include "lib/cinema.h"
-#include "lib/send_kdm_email_job.h"
 #include "kdm_output_panel.h"
 #include "kdm_timing_panel.h"
 #include "confirm_kdm_email_dialog.h"
@@ -29,14 +26,22 @@
 #include "name_format_editor.h"
 #include "check_box.h"
 #include "dcpomatic_button.h"
+#include "lib/config.h"
+#include "lib/cinema.h"
+#include "lib/send_kdm_email_job.h"
+#include "lib/warnings.h"
 #include <dcp/exceptions.h>
 #include <dcp/types.h>
 #ifdef DCPOMATIC_USE_OWN_PICKER
 #include "dir_picker_ctrl.h"
 #else
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/filepicker.h>
+DCPOMATIC_ENABLE_WARNINGS
 #endif
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/stdpaths.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 using std::pair;
 using std::string;

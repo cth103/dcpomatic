@@ -45,6 +45,7 @@
 #include "image.h"
 #include "text_decoder.h"
 #include "job_manager.h"
+#include "warnings.h"
 #include <dcp/decrypted_kdm.h>
 #include <dcp/locale_convert.h>
 #include <dcp/util.h>
@@ -65,7 +66,9 @@ extern "C" {
 #include <boost/range/algorithm/replace_if.hpp>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
+DCPOMATIC_DISABLE_WARNINGS
 #include <boost/locale.hpp>
+DCPOMATIC_ENABLE_WARNINGS
 #ifdef DCPOMATIC_WINDOWS
 #include <boost/locale.hpp>
 #include <dbghelp.h>
@@ -230,6 +233,7 @@ addr2line (void const * const addr)
 	return system(addr2line_cmd);
 }
 
+DCPOMATIC_DISABLE_WARNINGS
 /** This is called when C signals occur on Windows (e.g. SIGSEGV)
  *  (NOT C++ exceptions!).  We write a backtrace to backtrace_file by dark means.
  *  Adapted from code here: http://spin.atomicobject.com/2013/01/13/exceptions-stack-traces-c/
@@ -286,6 +290,7 @@ exception_handler(struct _EXCEPTION_POINTERS * info)
 
 	return EXCEPTION_CONTINUE_SEARCH;
 }
+DCPOMATIC_ENABLE_WARNINGS
 #endif
 
 void
@@ -356,8 +361,10 @@ dcpomatic_setup ()
 	SetUnhandledExceptionFilter(exception_handler);
 #endif
 
+DCPOMATIC_DISABLE_WARNINGS
 	av_register_all ();
 	avfilter_register_all ();
+DCPOMATIC_ENABLE_WARNINGS
 
 #ifdef DCPOMATIC_OSX
 	/* Add our library directory to the libltdl search path so that

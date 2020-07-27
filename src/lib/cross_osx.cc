@@ -24,6 +24,7 @@
 #include "dcpomatic_log.h"
 #include "config.h"
 #include "exceptions.h"
+#include "warnings.h"
 #include <dcp/raw_convert.h>
 #include <glib.h>
 extern "C" {
@@ -35,6 +36,7 @@ extern "C" {
 #if BOOST_VERSION >= 106100
 #include <boost/dll/runtime_symbol_info.hpp>
 #endif
+#include <ApplicationServices/ApplicationServices.h>
 #include <sys/sysctl.h>
 #include <mach-o/dyld.h>
 #include <IOKit/pwr_mgt/IOPMLib.h>
@@ -180,10 +182,7 @@ Waker::nudge ()
 Waker::Waker ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	/* We should use this */
-        // IOPMAssertionCreateWithName (kIOPMAssertionTypeNoIdleSleep, kIOPMAssertionLevelOn, CFSTR ("Encoding DCP"), &_assertion_id);
-	/* but it's not available on 10.5, so we use this */
-        IOPMAssertionCreate (kIOPMAssertionTypeNoIdleSleep, kIOPMAssertionLevelOn, &_assertion_id);
+	IOPMAssertionCreateWithName (kIOPMAssertionTypeNoIdleSleep, kIOPMAssertionLevelOn, CFSTR ("Encoding DCP"), &_assertion_id);
 }
 
 Waker::~Waker ()
@@ -246,7 +245,7 @@ home_directory ()
 }
 
 string
-command_and_read (string cmd)
+command_and_read (string)
 {
 	return "";
 }
@@ -516,7 +515,7 @@ config_path ()
 }
 
 
-void done_callback(DADiskRef disk, DADissenterRef dissenter, void* context)
+void done_callback(DADiskRef, DADissenterRef dissenter, void* context)
 {
 	LOG_DISK_NC("Unmount finished");
 	bool* success = reinterpret_cast<bool*> (context);
@@ -564,5 +563,16 @@ void
 disk_write_finished ()
 {
 
+}
+
+
+void
+make_foreground_application ()
+{
+	ProcessSerialNumber serial;
+DCPOMATIC_DISABLE_WARNINGS
+	GetCurrentProcess (&serial);
+DCPOMATIC_ENABLE_WARNINGS
+	TransformProcessType (&serial, kProcessTransformToForegroundApplication);
 }
 

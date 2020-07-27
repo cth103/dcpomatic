@@ -31,11 +31,14 @@
 #include "lib/util.h"
 #include "lib/cross.h"
 #include "lib/job.h"
+#include "lib/warnings.h"
 #include <dcp/locale_convert.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/spinctrl.h>
 #include <wx/splash.h>
 #include <wx/progdlg.h>
 #include <wx/filepicker.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/thread.hpp>
 
 using std::string;

@@ -21,9 +21,12 @@
 #include "cross.h"
 #include "compose.hpp"
 #include "dcpomatic_log.h"
+#include "warnings.h"
 #include <dcp/raw_convert.h>
 #include <boost/foreach.hpp>
+DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <iostream>
 
 #include "i18n.h"

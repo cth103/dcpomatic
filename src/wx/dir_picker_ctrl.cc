@@ -22,9 +22,12 @@
 #include "wx_util.h"
 #include "static_text.h"
 #include "dcpomatic_button.h"
+#include "lib/warnings.h"
 #include <wx/wx.h>
 #include <wx/stdpaths.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/filepicker.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
 
 using namespace std;

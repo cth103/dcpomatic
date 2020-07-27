@@ -66,8 +66,8 @@ private:
 	dcpomatic::DCPTime _start;
 	bool _from_zero;
 
-	int64_t _done;
-	int64_t _samples_per_point;
+	Frame _done;
+	Frame _samples_per_point;
 	AudioPoint* _current;
 
 	float* _sample_peak;

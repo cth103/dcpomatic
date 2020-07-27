@@ -19,9 +19,12 @@
 */
 
 #include "isdcf_metadata.h"
+#include "warnings.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <iostream>
 
 #include "i18n.h"

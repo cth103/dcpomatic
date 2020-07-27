@@ -113,11 +113,13 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 		throw runtime_error ("could not create FFmpeg output audio stream");
 	}
 
+DCPOMATIC_DISABLE_WARNINGS
 	_video_stream->id = _video_stream_index;
 	_video_stream->codec = _video_codec_context;
 
 	_audio_stream->id = _audio_stream_index;
 	_audio_stream->codec = _audio_codec_context;
+DCPOMATIC_ENABLE_WARNINGS
 
 	if (avcodec_open2 (_video_codec_context, _video_codec, &_video_options) < 0) {
 		throw runtime_error ("could not open FFmpeg video codec");
@@ -239,7 +241,9 @@ FFmpegFileEncoder::flush ()
 		packet.size = 0;
 
 		int got_packet;
+DCPOMATIC_DISABLE_WARNINGS
 		avcodec_encode_video2 (_video_codec_context, &packet, 0, &got_packet);
+DCPOMATIC_ENABLE_WARNINGS
 		if (got_packet) {
 			packet.stream_index = 0;
 			av_interleaved_write_frame (_format_context, &packet);
@@ -252,7 +256,9 @@ FFmpegFileEncoder::flush ()
 		packet.data = 0;
 		packet.size = 0;
 
+DCPOMATIC_DISABLE_WARNINGS
 		avcodec_encode_audio2 (_audio_codec_context, &packet, 0, &got_packet);
+DCPOMATIC_ENABLE_WARNINGS
 		if (got_packet) {
 			packet.stream_index = 0;
 			av_interleaved_write_frame (_format_context, &packet);
@@ -307,9 +313,11 @@ FFmpegFileEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 	packet.size = 0;
 
 	int got_packet;
+DCPOMATIC_DISABLE_WARNINGS
 	if (avcodec_encode_video2 (_video_codec_context, &packet, frame, &got_packet) < 0) {
 		throw EncodeError ("FFmpeg video encode failed");
 	}
+DCPOMATIC_ENABLE_WARNINGS
 
 	if (got_packet && packet.size) {
 		packet.stream_index = _video_stream_index;
@@ -403,9 +411,11 @@ FFmpegFileEncoder::audio_frame (int size)
 	packet.size = 0;
 
 	int got_packet;
+DCPOMATIC_DISABLE_WARNINGS
 	if (avcodec_encode_audio2 (_audio_codec_context, &packet, frame, &got_packet) < 0) {
 		throw EncodeError ("FFmpeg audio encode failed");
 	}
+DCPOMATIC_ENABLE_WARNINGS
 
 	if (got_packet && packet.size) {
 		packet.stream_index = _audio_stream_index;

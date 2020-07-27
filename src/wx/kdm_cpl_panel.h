@@ -19,8 +19,11 @@
 */
 
 #include "lib/types.h"
+#include "lib/warnings.h"
 #include <boost/filesystem.hpp>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 class KDMCPLPanel : public wxPanel
 {

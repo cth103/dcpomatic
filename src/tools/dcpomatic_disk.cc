@@ -35,13 +35,15 @@
 #include "lib/job_manager.h"
 #include "lib/disk_writer_messages.h"
 #include "lib/version.h"
+#include "lib/warnings.h"
 #include <wx/wx.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <boost/process.hpp>
+DCPOMATIC_ENABLE_WARNINGS
 #ifdef DCPOMATIC_WINDOWS
 #include <boost/process/windows.hpp>
 #endif
 #ifdef DCPOMATIC_OSX
-#include <ApplicationServices/ApplicationServices.h>
 #include <notify.h>
 #endif
 
@@ -317,10 +319,8 @@ public:
 			unsetenv ("UBUNTU_MENUPROXY");
 #endif
 
-#ifdef __WXOSX__
-			ProcessSerialNumber serial;
-			GetCurrentProcess (&serial);
-			TransformProcessType (&serial, kProcessTransformToForegroundApplication);
+#ifdef DCPOMATIC_OSX
+			make_foreground_application ();
 #endif
 
 			dcpomatic_setup_path_encoding ();

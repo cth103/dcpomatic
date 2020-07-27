@@ -32,13 +32,16 @@
 #include "lib/util.h"
 #include "lib/cross.h"
 #include "lib/exceptions.h"
+#include "lib/warnings.h"
 #include <dcp/locale_convert.h>
 #include <dcp/exceptions.h>
 #include <dcp/certificate_chain.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/stdpaths.h>
 #include <wx/preferences.h>
 #include <wx/spinctrl.h>
 #include <wx/filepicker.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <RtAudio.h>
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>

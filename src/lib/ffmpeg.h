@@ -23,9 +23,12 @@
 
 #include "file_group.h"
 #include "ffmpeg_subtitle_period.h"
+#include "warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 extern "C" {
 #include <libavcodec/avcodec.h>
 }
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/shared_ptr.hpp>
 #include <boost/thread/mutex.hpp>
 

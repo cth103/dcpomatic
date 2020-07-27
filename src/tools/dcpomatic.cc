@@ -84,22 +84,22 @@
 #include "lib/text_content.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/subtitle_encoder.h"
+#include "lib/warnings.h"
 #include <dcp/exceptions.h>
 #include <dcp/raw_convert.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/generic/aboutdlgg.h>
 #include <wx/stdpaths.h>
 #include <wx/cmdline.h>
 #include <wx/preferences.h>
 #include <wx/splash.h>
 #include <wx/wxhtml.h>
+DCPOMATIC_ENABLE_WARNINGS
 #ifdef __WXGTK__
 #include <X11/Xlib.h>
 #endif
 #ifdef __WXMSW__
 #include <shellapi.h>
-#endif
-#ifdef __WXOSX__
-#include <ApplicationServices/ApplicationServices.h>
 #endif
 #include <boost/filesystem.hpp>
 #include <boost/noncopyable.hpp>
@@ -1548,10 +1548,9 @@ private:
 			unsetenv ("UBUNTU_MENUPROXY");
 #endif
 
-#ifdef __WXOSX__
-			ProcessSerialNumber serial;
-			GetCurrentProcess (&serial);
-			TransformProcessType (&serial, kProcessTransformToForegroundApplication);
+#ifdef DCPOMATIC_OSX
+			dcpomatic_sleep_seconds (1);
+			make_foreground_application ();
 #endif
 
 			dcpomatic_setup_path_encoding ();

@@ -51,10 +51,13 @@
 #include <dcp/encrypted_kdm.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/exceptions.h>
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 #include <wx/preferences.h>
 #include <wx/splash.h>
 #include <wx/filepicker.h>
+DCPOMATIC_ENABLE_WARNINGS
 #ifdef __WXOSX__
 #include <ApplicationServices/ApplicationServices.h>
 #endif
@@ -718,10 +721,8 @@ private:
 			unsetenv ("UBUNTU_MENUPROXY");
 #endif
 
-#ifdef __WXOSX__
-			ProcessSerialNumber serial;
-			GetCurrentProcess (&serial);
-			TransformProcessType (&serial, kProcessTransformToForegroundApplication);
+#ifdef DCPOMATIC_OSX
+			make_foreground_application ();
 #endif
 
 			dcpomatic_setup_path_encoding ();

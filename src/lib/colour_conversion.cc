@@ -22,6 +22,7 @@
 #include "colour_conversion.h"
 #include "util.h"
 #include "digester.h"
+#include "warnings.h"
 #include <dcp/raw_convert.h>
 #include <dcp/chromaticity.h>
 #include <dcp/gamma_transfer_function.h>
@@ -29,7 +30,9 @@
 #include <dcp/identity_transfer_function.h>
 #include <dcp/s_gamut3_transfer_function.h>
 #include <libcxml/cxml.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/foreach.hpp>
 #include <iostream>
 

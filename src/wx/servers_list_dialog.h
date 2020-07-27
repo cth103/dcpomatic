@@ -19,8 +19,11 @@
 */
 
 #include "lib/encode_server.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 #include <wx/listctrl.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
 
 class ServersListDialog : public wxDialog

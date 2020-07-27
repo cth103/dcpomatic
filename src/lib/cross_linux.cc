@@ -113,7 +113,10 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
 {
 	string ffprobe = "ffprobe \"" + content.string() + "\" 2> \"" + out.string() + "\"";
 	LOG_GENERAL (N_("Probing with %1"), ffprobe);
-        system (ffprobe.c_str ());
+	int const r = system (ffprobe.c_str());
+	if (r == -1 || (WIFEXITED(r) && WEXITSTATUS(r) != 0)) {
+		LOG_GENERAL (N_("Could not run ffprobe (system returned %1"), r);
+	}
 }
 
 list<pair<string, string> >
@@ -376,9 +379,10 @@ unprivileged ()
 	uid_t ruid, euid, suid;
 	if (getresuid(&ruid, &euid, &suid) == -1) {
 		cerr << "getresuid() failed.\n";
-		exit (EXIT_FAILURE);
 	}
-	seteuid (ruid);
+	if (seteuid(ruid) == -1) {
+		cerr << "seteuid() failed.\n";
+	}
 }
 
 PrivilegeEscalator::~PrivilegeEscalator ()
@@ -388,7 +392,10 @@ PrivilegeEscalator::~PrivilegeEscalator ()
 
 PrivilegeEscalator::PrivilegeEscalator ()
 {
-	seteuid (0);
+	int const r = seteuid(0);
+	if (r < 0) {
+		throw PrivilegeError (String::compose("seteuid() call failed with %1", errno));
+	}
 }
 
 boost::filesystem::path

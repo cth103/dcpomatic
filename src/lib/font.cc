@@ -20,7 +20,10 @@
 
 #include "font.h"
 #include "dcpomatic_assert.h"
+#include "warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/foreach.hpp>
 
 using std::string;

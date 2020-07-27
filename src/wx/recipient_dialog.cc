@@ -29,8 +29,11 @@
 #include "lib/util.h"
 #include <dcp/exceptions.h>
 #include <dcp/certificate_chain.h>
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/filepicker.h>
 #include <wx/validate.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <iostream>
 
 using std::string;

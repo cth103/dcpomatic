@@ -21,7 +21,10 @@
 #ifndef DCPOMATIC_I18N_HOOK_H
 #define DCPOMATIC_I18N_HOOK_H
 
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <map>
 
 class I18NHook

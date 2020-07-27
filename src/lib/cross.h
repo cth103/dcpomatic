@@ -40,12 +40,13 @@
 class Log;
 struct AVIOContext;
 
-void dcpomatic_sleep_seconds (int);
-void dcpomatic_sleep_milliseconds (int);
+extern void dcpomatic_sleep_seconds (int);
+extern void dcpomatic_sleep_milliseconds (int);
 extern std::string cpu_info ();
 extern void run_ffprobe (boost::filesystem::path, boost::filesystem::path);
 extern std::list<std::pair<std::string, std::string> > mount_info ();
 extern boost::filesystem::path openssl_path ();
+extern void make_foreground_application ();
 #ifdef DCPOMATIC_DISK
 extern boost::filesystem::path disk_writer_path ();
 #endif

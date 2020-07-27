@@ -20,9 +20,12 @@
 
 #include "subtitle_analysis.h"
 #include "exceptions.h"
+#include "warnings.h"
 #include <libcxml/cxml.h>
 #include <dcp/raw_convert.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 using std::string;
 using dcp::raw_convert;

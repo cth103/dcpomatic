@@ -20,8 +20,11 @@
 
 #include "ffmpeg_stream.h"
 #include "dcpomatic_assert.h"
+#include "warnings.h"
 #include <dcp/raw_convert.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
+DCPOMATIC_ENABLE_WARNINGS
 extern "C" {
 #include <libavformat/avformat.h>
 }

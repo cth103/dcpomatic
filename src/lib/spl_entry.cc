@@ -21,7 +21,10 @@
 #include "spl_entry.h"
 #include "dcp_content.h"
 #include "dcpomatic_assert.h"
+#include "warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;

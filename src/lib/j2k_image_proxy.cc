@@ -22,6 +22,7 @@
 #include "dcpomatic_socket.h"
 #include "image.h"
 #include "dcpomatic_assert.h"
+#include "warnings.h"
 #include <dcp/raw_convert.h>
 #include <dcp/openjpeg_image.h>
 #include <dcp/mono_picture_frame.h>
@@ -30,7 +31,9 @@
 #include <dcp/rgb_xyz.h>
 #include <dcp/j2k.h>
 #include <libcxml/cxml.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <iostream>
 
 #include "i18n.h"

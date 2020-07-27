@@ -21,9 +21,12 @@
 #include "html_dialog.h"
 #include "wx_util.h"
 #include "lib/cross.h"
+#include "lib/warnings.h"
 #include <boost/filesystem.hpp>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wxhtml.h>
 #include <wx/fs_mem.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <iostream>
 
 HTMLDialog::HTMLDialog (wxWindow* parent, wxString title, wxString html)

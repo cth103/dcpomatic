@@ -26,7 +26,10 @@
  *  one of those fonts.
  */
 
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
 #include <vector>

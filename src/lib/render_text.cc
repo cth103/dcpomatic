@@ -24,10 +24,13 @@
 #include "cross.h"
 #include "font.h"
 #include "dcpomatic_assert.h"
+#include "warnings.h"
 #include <dcp/raw_convert.h>
 #include <fontconfig/fontconfig.h>
 #include <cairomm/cairomm.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <pangomm.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <pango/pangocairo.h>
 #ifndef DCPOMATIC_HAVE_SHOW_IN_CAIRO_CONTEXT
 #include <pango/pangocairo.h>

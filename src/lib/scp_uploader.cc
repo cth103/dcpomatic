@@ -24,6 +24,7 @@
 #include "config.h"
 #include "cross.h"
 #include "compose.hpp"
+#include "warnings.h"
 #include <sys/stat.h>
 
 #include "i18n.h"
@@ -51,10 +52,12 @@ SCPUploader::SCPUploader (function<void (string)> set_status, function<void (flo
 		throw NetworkError (String::compose (_("Could not connect to server %1 (%2)"), Config::instance()->tms_ip(), ssh_get_error (_session)));
 	}
 
+DCPOMATIC_DISABLE_WARNINGS
 	r = ssh_is_server_known (_session);
 	if (r == SSH_SERVER_ERROR) {
 		throw NetworkError (String::compose (_("SSH error (%1)"), ssh_get_error (_session)));
 	}
+DCPOMATIC_ENABLE_WARNINGS
 
 	r = ssh_userauth_password (_session, 0, Config::instance()->tms_password().c_str ());
 	if (r != SSH_AUTH_SUCCESS) {
