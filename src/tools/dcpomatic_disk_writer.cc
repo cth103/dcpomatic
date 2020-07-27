@@ -569,7 +569,7 @@ main ()
 	/* I *think* this confumes the notifyd event that we used to start the process, so we only
 	 * get started once per notification.
 	 */
-        xpc_set_event_stream_handler("com.apple.notifyd.matching", DISPATCH_TARGET_QUEUE_DEFAULT, ^(xpc_object_t event) {});
+        xpc_set_event_stream_handler("com.apple.notifyd.matching", DISPATCH_TARGET_QUEUE_DEFAULT, ^(xpc_object_t) {});
 #endif
 
 	try {

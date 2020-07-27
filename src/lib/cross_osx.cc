@@ -245,7 +245,7 @@ home_directory ()
 }
 
 string
-command_and_read (string cmd)
+command_and_read (string)
 {
 	return "";
 }
@@ -515,7 +515,7 @@ config_path ()
 }
 
 
-void done_callback(DADiskRef disk, DADissenterRef dissenter, void* context)
+void done_callback(DADiskRef, DADissenterRef dissenter, void* context)
 {
 	LOG_DISK_NC("Unmount finished");
 	bool* success = reinterpret_cast<bool*> (context);

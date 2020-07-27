@@ -549,6 +549,7 @@ def configure(conf):
                                 #include <boost/process.hpp>\n
                                 int main() { new boost::process::child("foo"); }\n
                                 """,
+                           cxxflags='-Wno-unused-parameter',
                            msg='Checking for boost process library',
                            lib=deps,
                            uselib_store='BOOST_PROCESS')

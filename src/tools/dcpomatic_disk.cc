@@ -35,8 +35,11 @@
 #include "lib/job_manager.h"
 #include "lib/disk_writer_messages.h"
 #include "lib/version.h"
+#include "lib/warnings.h"
 #include <wx/wx.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <boost/process.hpp>
+DCPOMATIC_ENABLE_WARNINGS
 #ifdef DCPOMATIC_WINDOWS
 #include <boost/process/windows.hpp>
 #endif
