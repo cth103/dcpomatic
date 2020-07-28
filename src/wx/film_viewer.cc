@@ -47,6 +47,7 @@
 #include "lib/config.h"
 #include "lib/compose.hpp"
 #include "lib/dcpomatic_log.h"
+#include "lib/text_content.h"
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
@@ -179,6 +180,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	_player->set_play_referenced ();
 
 	_film->Change.connect (boost::bind (&FilmViewer::film_change, this, _1, _2));
+	_film->ContentChange.connect (boost::bind(&FilmViewer::content_change, this, _1, _3));
 	_film->LengthChange.connect (boost::bind(&FilmViewer::film_length_change, this));
 	_player->Change.connect (boost::bind (&FilmViewer::player_change, this, _1, _2, _3));
 
@@ -221,7 +223,7 @@ FilmViewer::recreate_butler ()
 		_butler->disable_audio ();
 	}
 
-	_closed_captions_dialog->set_film_and_butler (_film, _butler);
+	_closed_captions_dialog->set_butler (_butler);
 
 	resume ();
 }
@@ -408,6 +410,8 @@ FilmViewer::film_change (ChangeType type, Film::Property p)
 		_video_view->set_video_frame_rate (_film->video_frame_rate());
 	} else if (p == Film::THREE_D) {
 		_video_view->set_three_d (_film->three_d());
+	} else if (p == Film::CONTENT) {
+		_closed_captions_dialog->update_tracks (_film);
 	}
 }
 
@@ -702,4 +706,16 @@ FilmViewer::gets () const
 	return _video_view->gets ();
 }
 
+
+void
+FilmViewer::content_change (ChangeType type, int property)
+{
+	if (type != CHANGE_TYPE_DONE) {
+		return;
+	}
+
+	if (property == TextContentProperty::USE || property == TextContentProperty::TYPE || property == TextContentProperty::DCP_TRACK) {
+		_closed_captions_dialog->update_tracks (_film);
+	}
+}
 

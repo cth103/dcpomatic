@@ -35,7 +35,8 @@ public:
 	explicit ClosedCaptionsDialog (wxWindow* parent, FilmViewer* viewer);
 
 	void clear ();
-	void set_film_and_butler (boost::shared_ptr<Film>, boost::weak_ptr<Butler>);
+	void update_tracks (boost::shared_ptr<const Film> film);
+	void set_butler (boost::weak_ptr<Butler>);
 
 private:
 	void shown (wxShowEvent);
