@@ -191,6 +191,12 @@ ClosedCaptionsDialog::update (DCPTime time)
 		Refresh ();
 		_current_in_lines = true;
 	}
+
+	if (!_current && _tracks.empty()) {
+		for (int i = 0; i < CLOSED_CAPTION_LINES; ++i) {
+			_lines[i] = wxString();
+		}
+	}
 }
 
 void
@@ -201,8 +207,15 @@ ClosedCaptionsDialog::clear ()
 	Refresh ();
 }
 
+
 void
-ClosedCaptionsDialog::set_film_and_butler (shared_ptr<Film> film, weak_ptr<Butler> butler)
+ClosedCaptionsDialog::set_butler (weak_ptr<Butler> butler)
+{
+	_butler = butler;
+}
+
+void
+ClosedCaptionsDialog::update_tracks (shared_ptr<const Film> film)
 {
 	_tracks.clear ();
 
@@ -225,5 +238,5 @@ ClosedCaptionsDialog::set_film_and_butler (shared_ptr<Film> film, weak_ptr<Butle
 		_track->SetSelection (0);
 	}
 
-	_butler = butler;
+	track_selected ();
 }
