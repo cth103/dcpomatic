@@ -375,8 +375,8 @@ def dependencies(target, options):
             (target.platform == 'osx' and target.bits == 64) or
             (target.platform == 'windows')) else {}
 
-    deps.append(('libdcp', '9a8faac', cpp_lib_options))
-    deps.append(('libsub', '8da829d', cpp_lib_options))
+    deps.append(('libdcp', '5346d1c', cpp_lib_options))
+    deps.append(('libsub', '788ce6e', cpp_lib_options))
     deps.append(('leqm-nrt', 'carl'))
     deps.append(('rtaudio', 'carl'))
     # We get our OpenSSL libraries from the environment, but we
