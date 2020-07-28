@@ -36,9 +36,12 @@
 #include "lib/dcp_content.h"
 #include "lib/ffmpeg_content.h"
 #include <dcp/locale_convert.h>
+#include "lib/warnings.h"
 #if defined(__WXGTK20__) && !defined(__WXGTK3__)
 #define TIMING_PANEL_ALIGNMENT_HACK 1
+DCPOMATIC_DISABLE_WARNINGS
 #include <gtk/gtk.h>
+DCPOMATIC_ENABLE_WARNINGS
 #endif
 #include <boost/foreach.hpp>
 #include <set>
