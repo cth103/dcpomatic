@@ -50,6 +50,7 @@ private:
 	void try_to_load_analysis ();
 	void analysis_finished ();
 	void setup_statistics ();
+	void show_or_hide_channel_checkboxes ();
 
 	boost::shared_ptr<AudioAnalysis> _analysis;
 	boost::weak_ptr<Film> _film;
