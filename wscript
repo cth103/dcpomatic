@@ -109,8 +109,6 @@ def configure(conf):
                                        '-Wwrite-strings',
                                        # I tried and failed to ignore these with _Pragma
                                        '-Wno-ignored-qualifiers',
-                                       # Most gccs still give these warnings from boost::optional
-                                       '-Wno-maybe-uninitialized',
                                        '-D_FILE_OFFSET_BITS=64'])
 
     if conf.options.force_cpp11:
@@ -125,6 +123,8 @@ def configure(conf):
             # I tried and failed to ignore these with _Pragma
             conf.env.append_value('CXXFLAGS', ['-Wno-cast-function-type'])
         have_c11 = int(gcc[0]) >= 4 and int(gcc[1]) >= 8 and int(gcc[2]) >= 1
+        # Most gccs still give these warnings from boost::optional
+        conf.env.append_value('CXXFLAGS', ['-Wno-maybe-uninitialized'])
     else:
         have_c11 = False
 
