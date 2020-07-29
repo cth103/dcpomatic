@@ -48,8 +48,11 @@ public:
 
 	~TestServer ()
 	{
+		boost::this_thread::disable_interruption dis;
 		stop ();
-		_thread.join ();
+		try {
+			_thread.join ();
+		} catch (...) {}
 		delete[] _buffer;
 	}
 

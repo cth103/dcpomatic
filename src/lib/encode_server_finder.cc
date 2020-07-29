@@ -70,25 +70,19 @@ EncodeServerFinder::~EncodeServerFinder ()
 void
 EncodeServerFinder::stop ()
 {
+	boost::this_thread::disable_interruption dis;
+
 	_stop = true;
 
 	_search_condition.notify_all ();
-	if (_search_thread.joinable()) {
-		try {
-			_search_thread.join();
-		} catch (...) {
-
-		}
-	}
+	try {
+		_search_thread.join();
+	} catch (...) {}
 
 	_listen_io_service.stop ();
-	if (_listen_thread.joinable()) {
-		try {
-			_listen_thread.join ();
-		} catch (...) {
-
-		}
-	}
+	try {
+		_listen_thread.join ();
+	} catch (...) {}
 
 	boost::mutex::scoped_lock lm (_servers_mutex);
 	_servers.clear ();

@@ -62,6 +62,8 @@ JobManager::start ()
 
 JobManager::~JobManager ()
 {
+	boost::this_thread::disable_interruption dis;
+
 	BOOST_FOREACH (boost::signals2::connection& i, _connections) {
 		i.disconnect ();
 	}
@@ -72,13 +74,9 @@ JobManager::~JobManager ()
 		_empty_condition.notify_all ();
 	}
 
-	if (_scheduler.joinable()) {
-		try {
-			_scheduler.join();
-		} catch (...) {
-
-		}
-	}
+	try {
+		_scheduler.join();
+	} catch (...) {}
 }
 
 shared_ptr<Job>

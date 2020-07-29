@@ -69,17 +69,13 @@ Hints::start ()
 
 Hints::~Hints ()
 {
-	if (!_thread.joinable()) {
-		return;
-	}
+	boost::this_thread::disable_interruption dis;
 
 	try {
 		_stop = true;
 		_thread.interrupt ();
 		_thread.join ();
-	} catch (...) {
-
-	}
+	} catch (...) {}
 }
 
 void

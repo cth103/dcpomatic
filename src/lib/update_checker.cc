@@ -81,19 +81,17 @@ UpdateChecker::start ()
 
 UpdateChecker::~UpdateChecker ()
 {
+	boost::this_thread::disable_interruption dis;
+
 	{
 		boost::mutex::scoped_lock lm (_process_mutex);
 		_terminate = true;
 	}
 
 	_condition.notify_all ();
-	if (_thread.joinable()) {
-		try {
-			_thread.join ();
-		} catch (...) {
-
-		}
-	}
+	try {
+		_thread.join ();
+	} catch (...) {}
 
 	curl_easy_cleanup (_curl);
 	delete[] _buffer;

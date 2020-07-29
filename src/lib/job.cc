@@ -71,16 +71,12 @@ Job::~Job ()
 void
 Job::stop_thread ()
 {
-	if (!_thread.joinable()) {
-		return;
-	}
+	boost::this_thread::disable_interruption dis;
 
 	_thread.interrupt ();
 	try {
 		_thread.join ();
-	} catch (...) {
-		/* Too late to do anything about this */
-	}
+	} catch (...) {}
 }
 
 /** Start the job in a separate thread, returning immediately */

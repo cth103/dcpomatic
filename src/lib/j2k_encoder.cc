@@ -64,14 +64,7 @@ J2KEncoder::J2KEncoder (shared_ptr<const Film> film, shared_ptr<Writer> writer)
 
 J2KEncoder::~J2KEncoder ()
 {
-	try {
-		terminate_threads ();
-	} catch (...) {
-		/* Destructors must not throw exceptions; anything bad
-		   happening now is too late to worry about anyway,
-		   I think.
-		*/
-	}
+	terminate_threads ();
 }
 
 void
@@ -246,6 +239,8 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 void
 J2KEncoder::terminate_threads ()
 {
+	boost::this_thread::disable_interruption dis;
+
 	if (!_threads) {
 		return;
 	}

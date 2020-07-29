@@ -43,19 +43,17 @@ Checker::run ()
 
 Checker::~Checker ()
 {
+	boost::this_thread::disable_interruption dis;
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_terminate = true;
 	}
 
-	if (_thread.joinable()) {
-		_thread.interrupt ();
-		try {
-			_thread.join ();
-		} catch (...) {
-
-		}
-	}
+	_thread.interrupt ();
+	try {
+		_thread.join ();
+	} catch (...) {}
 }
 
 void

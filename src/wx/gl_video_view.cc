@@ -104,12 +104,12 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 
 GLVideoView::~GLVideoView ()
 {
+	boost::this_thread::disable_interruption dis;
+
 	try {
 		_thread.interrupt ();
 		_thread.join ();
-	} catch (...) {
-
-	}
+	} catch (...) {}
 
 	glDeleteTextures (1, &_id);
 }

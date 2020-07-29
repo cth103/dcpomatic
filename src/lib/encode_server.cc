@@ -83,6 +83,8 @@ EncodeServer::EncodeServer (bool verbose, int num_threads)
 
 EncodeServer::~EncodeServer ()
 {
+	boost::this_thread::disable_interruption dis;
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_terminate = true;
@@ -104,13 +106,9 @@ EncodeServer::~EncodeServer ()
 	}
 
 	_broadcast.io_service.stop ();
-	if (_broadcast.thread.joinable()) {
-		try {
-			_broadcast.thread.join ();
-		} catch (...) {
-
-		}
-	}
+	try {
+		_broadcast.thread.join ();
+	} catch (...) {}
 }
 
 /** @param after_read Filled in with gettimeofday() after reading the input from the network.

@@ -101,6 +101,8 @@ Butler::Butler (
 
 Butler::~Butler ()
 {
+	boost::this_thread::disable_interruption dis;
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_stop_thread = true;
@@ -113,9 +115,7 @@ Butler::~Butler ()
 	_thread.interrupt ();
 	try {
 		_thread.join ();
-	} catch (...) {
-
-	}
+	} catch (...) {}
 }
 
 /** Caller must hold a lock on _mutex */

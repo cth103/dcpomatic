@@ -489,17 +489,18 @@ catch (...)
 void
 Writer::terminate_thread (bool can_throw)
 {
+	boost::this_thread::disable_interruption dis;
+
 	boost::mutex::scoped_lock lock (_state_mutex);
-	if (!_thread.joinable()) {
-		return;
-	}
 
 	_finish = true;
 	_empty_condition.notify_all ();
 	_full_condition.notify_all ();
 	lock.unlock ();
 
-	_thread.join ();
+	try {
+		_thread.join ();
+	} catch (...) {}
 
 	if (can_throw) {
 		rethrow ();
