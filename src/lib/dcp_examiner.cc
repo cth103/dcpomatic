@@ -181,6 +181,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 			}
 
 			_text_count[TEXT_CLOSED_CAPTION]++;
+			_dcp_text_tracks.push_back (DCPTextTrack(j->annotation_text(), j->language().get_value_or(_("Unknown"))));
 		}
 
 		if (i->main_picture()) {

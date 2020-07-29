@@ -25,6 +25,9 @@
 #include "video_examiner.h"
 #include "audio_examiner.h"
 #include "dcp.h"
+#include "dcp_text_track.h"
+#include "dcpomatic_assert.h"
+#include <dcp/dcp_time.h>
 
 class DCPContent;
 
@@ -90,6 +93,11 @@ public:
 		return _text_count[type];
 	}
 
+	DCPTextTrack dcp_text_track (int i) const {
+		DCPOMATIC_ASSERT (i >= 0 && i < static_cast<int>(_dcp_text_tracks.size()));
+		return _dcp_text_tracks[i];
+	}
+
 	bool kdm_valid () const {
 		return _kdm_valid;
 	}
@@ -128,6 +136,8 @@ private:
 	bool _has_audio;
 	/** number of different assets of each type (OCAP/CCAP) */
 	int _text_count[TEXT_COUNT];
+	/** the DCPTextTracks for each of our CCAPs */
+	std::vector<DCPTextTrack> _dcp_text_tracks;
 	bool _encrypted;
 	bool _needs_assets;
 	bool _kdm_valid;
