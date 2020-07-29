@@ -191,6 +191,8 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	/* Keep about 1 second's worth of history samples */
 	_latency_history_count = _film->audio_frame_rate() / _audio_block_size;
 
+	_closed_captions_dialog->update_tracks (_film);
+
 	recreate_butler ();
 
 	calculate_sizes ();

@@ -253,7 +253,11 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		_name = examiner->name ();
 		for (int i = 0; i < TEXT_COUNT; ++i) {
 			for (int j = 0; j < examiner->text_count(static_cast<TextType>(i)); ++j) {
-				text.push_back (shared_ptr<TextContent>(new TextContent(this, static_cast<TextType>(i), static_cast<TextType>(i))));
+				shared_ptr<TextContent> c(new TextContent(this, static_cast<TextType>(i), static_cast<TextType>(i)));
+				if (i == TEXT_CLOSED_CAPTION) {
+					c->set_dcp_track (examiner->dcp_text_track(j));
+				}
+				text.push_back (c);
 			}
 		}
 		texts = text.size ();
