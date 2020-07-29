@@ -145,6 +145,7 @@ AudioPlot::paint ()
 	if (!_analysis || _analysis->channels() == 0) {
 		gc->SetFont (gc->CreateFont (*wxNORMAL_FONT));
 		gc->DrawText (_message, 32, 32);
+		delete gc;
 		return;
 	}
 
