@@ -106,6 +106,8 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 		_channel_checkbox[i]->Bind (wxEVT_CHECKBOX, boost::bind (&AudioDialog::channel_clicked, this, _1));
 	}
 
+	show_or_hide_channel_checkboxes ();
+
 	{
 		wxStaticText* m = new StaticText (this, _("Type"));
 		m->SetFont (subheading_font);
@@ -163,6 +165,20 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 	_plot->Cursor.connect (bind (&AudioDialog::set_cursor, this, _1, _2));
 }
 
+
+void
+AudioDialog::show_or_hide_channel_checkboxes ()
+{
+	for (int i = 0; i < _channels; ++i) {
+		_channel_checkbox[i]->Show ();
+	}
+
+	for (int i = _channels; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
+		_channel_checkbox[i]->Hide ();
+	}
+}
+
+
 void
 AudioDialog::try_to_load_analysis ()
 {
@@ -211,14 +227,7 @@ AudioDialog::try_to_load_analysis ()
 	_plot->set_analysis (_analysis);
 	_plot->set_gain_correction (_analysis->gain_correction (_playlist));
 	setup_statistics ();
-
-	for (int i = 0; i < _channels; ++i) {
-		_channel_checkbox[i]->Show ();
-	}
-
-	for (int i = _channels; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
-		_channel_checkbox[i]->Hide ();
-	}
+	show_or_hide_channel_checkboxes ();
 
 	/* Set up some defaults if no check boxes are checked */
 
