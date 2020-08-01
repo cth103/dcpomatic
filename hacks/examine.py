@@ -5,13 +5,16 @@ import shlex
 import sys
 
 AUDIO_STREAM = "1"
-types = ['audio']
+types = ['video']
+VIDEO_RATE = 29.97
 
 last_video = None
 last_video_pts = None
 
 last_audio_pts = {}
 last_channels = {}
+
+video_frame_count = 0
 
 def check_pts_dts(frame):
     diff = frame['pkt_pts_time'] - frame['pkt_dts_time']
@@ -22,16 +25,18 @@ def handle(frame):
     global last_video
     global last_video_pts
     global last_audio_pts
+    global video_frame_count
     if frame['media_type'] == 'video' and 'video' in types:
         if last_video_pts is not None and frame['pkt_pts_time'] <= last_video_pts:
             print 'Out of order video frame %f (%d) is same as or behind %f (%d)' % (frame['pkt_pts_time'], frame['pkt_pts'], last_video_pts, last_video)
         elif last_video_pts is not None:
-            print 'OK V    frame %f %f %f %f %d' % (frame['pkt_pts_time'], frame['pkt_dts_time'], frame['pkt_pts_time'] - last_video_pts, 1 / (frame['pkt_pts_time'] - last_video_pts), frame['pkt_size'])
+            print 'OK V    frame %f %f %f %f %d indices %d/%d' % (frame['pkt_pts_time'], frame['pkt_dts_time'], frame['pkt_pts_time'] - last_video_pts, 1 / (frame['pkt_pts_time'] - last_video_pts), frame['pkt_size'], video_frame_count, frame['pkt_pts_time'] * VIDEO_RATE)
             check_pts_dts(frame)
 	else:
-            print 'OK V    frame %f' % (frame['pkt_pts_time'])
+            print 'OK V    frame %f counted %d' % (frame['pkt_pts_time'], video_frame_count)
         last_video = frame['pkt_pts']
         last_video_pts = frame['pkt_pts_time']
+        video_frame_count += 1
     elif frame['media_type'] == 'audio' and 'audio' in types:
 	stream_index = frame['stream_index']
 	if stream_index in last_audio_pts and (stream_index == AUDIO_STREAM or AUDIO_STREAM is None):
