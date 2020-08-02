@@ -18,6 +18,7 @@
 
 */
 
+#include "dcpomatic_log.h"
 #include "ffmpeg_examiner.h"
 #include "ffmpeg_content.h"
 #include "job.h"
@@ -43,9 +44,16 @@ DCPOMATIC_ENABLE_WARNINGS
 using std::string;
 using std::cout;
 using std::max;
+using std::vector;
 using boost::shared_ptr;
 using boost::optional;
 using namespace dcpomatic;
+
+
+/* This is how many frames from the start of any video that we will examine to see if we
+ * can spot soft 2:3 pull-down ("telecine").
+ */
+static const int PULLDOWN_CHECK_FRAMES = 16;
 
 
 /** @param job job that the examiner is operating in, or 0 */
@@ -53,6 +61,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 	: FFmpeg (c)
 	, _video_length (0)
 	, _need_video_length (false)
+	, _pulldown (false)
 {
 	/* Find audio and subtitle streams */
 
@@ -106,9 +115,15 @@ DCPOMATIC_DISABLE_WARNINGS
 	/* Run through until we find:
 	 *   - the first video.
 	 *   - the first audio for each stream.
+	 *   - the top-field-first and repeat-first-frame values ("temporal_reference") for the first PULLDOWN_CHECK_FRAMES video frames.
 	 */
 
 	int64_t const len = _file_group.length ();
+	/* A string which we build up to describe the top-field-first and repeat-first-frame values for the first few frames.
+	 * It would be nicer to use something like vector<bool> here but we want to search the array for a pattern later,
+	 * and a string seems a reasonably neat way to do that.
+	 */
+	string temporal_reference;
 	while (true) {
 		int r = av_read_frame (_format_context, &_packet);
 		if (r < 0) {
@@ -127,7 +142,7 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 
 		if (_video_stream && _packet.stream_index == _video_stream.get()) {
-			video_packet (context);
+			video_packet (context, temporal_reference);
 		}
 
 		bool got_all_audio = true;
@@ -143,7 +158,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 		av_packet_unref (&_packet);
 
-		if (_first_video && got_all_audio) {
+		if (_first_video && got_all_audio && temporal_reference.size() >= PULLDOWN_CHECK_FRAMES) {
 			/* All done */
 			break;
 		}
@@ -173,6 +188,13 @@ DCPOMATIC_ENABLE_WARNINGS
 		DCPOMATIC_ASSERT (fabs (*_rotation - 90 * round (*_rotation / 90)) < 2);
 	}
 
+	LOG_GENERAL("Temporal reference was %1", temporal_reference);
+	if (temporal_reference.find("T2T3B2B3T2T3B2B3") || temporal_reference.find("B2B3T2T3B2B3T2T3")) {
+		/* The magical sequence (taken from mediainfo) suggests that 2:3 pull-down is in use */
+		_pulldown = true;
+		LOG_GENERAL_NC("Suggest that this may be 2:3 pull-down (soft telecine)");
+	}
+
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	AVDictionaryEntry* e = av_dict_get (_format_context->metadata, SWAROOP_ID_TAG, 0, 0);
 	if (e) {
@@ -182,12 +204,16 @@ DCPOMATIC_ENABLE_WARNINGS
 }
 
 
+/** @param temporal_reference A string to which we should add two characters per frame;
+ *  the first   is T or B depending on whether it's top- or bottom-field first,
+ *  ths seconds is 3 or 2 depending on whether "repeat_pict" is true or not.
+ */
 void
-FFmpegExaminer::video_packet (AVCodecContext* context)
+FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_reference)
 {
 	DCPOMATIC_ASSERT (_video_stream);
 
-	if (_first_video && !_need_video_length) {
+	if (_first_video && !_need_video_length && temporal_reference.size() >= PULLDOWN_CHECK_FRAMES) {
 		return;
 	}
 
@@ -202,6 +228,10 @@ DCPOMATIC_ENABLE_WARNINGS
 			_video_length = frame_time (
 				_format_context->streams[_video_stream.get()]
 				).get_value_or (ContentTime ()).frames_round (video_frame_rate().get ());
+		}
+		if (temporal_reference.size() < PULLDOWN_CHECK_FRAMES) {
+			temporal_reference += (_frame->top_field_first ? "T" : "B");
+			temporal_reference += (_frame->repeat_pict ? "3" : "2");
 		}
 	}
 }

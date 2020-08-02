@@ -77,6 +77,10 @@ public:
 		return _rotation;
 	}
 
+	bool pulldown () const {
+		return _pulldown;
+	}
+
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	boost::optional<std::string> id () const {
 		return _id;
@@ -84,7 +88,7 @@ public:
 #endif
 
 private:
-	void video_packet (AVCodecContext *);
+	void video_packet (AVCodecContext *, std::string& temporal_reference);
 	void audio_packet (AVCodecContext *, boost::shared_ptr<FFmpegAudioStream>);
 
 	std::string stream_name (AVStream* s) const;
@@ -101,6 +105,7 @@ private:
 	bool _need_video_length;
 
 	boost::optional<double> _rotation;
+	bool _pulldown;
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	boost::optional<std::string> _id;
