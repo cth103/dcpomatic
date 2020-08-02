@@ -363,6 +363,8 @@ public:
 #endif
 		} catch (dcp::DCPReadError& e) {
 			error_dialog (this, wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())), std_to_wx(e.what()));
+		} catch (DCPError& e) {
+			error_dialog (this, wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())), std_to_wx(e.what()));
 		}
 	}
 
