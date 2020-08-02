@@ -85,9 +85,11 @@ VideoPanel::VideoPanel (ContentPanel* p)
 
 #ifdef __WXGTK3__
 	int const crop_width = 128;
+	int const link_width = 32;
 	int const link_height = 64;
 #else
 	int const crop_width = 56;
+	int const link_width = 22;
 	int const link_height = 28;
 #endif
 
@@ -102,7 +104,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		boost::bind (&VideoPanel::left_crop_changed, this)
 		);
 
-	_left_right_link = new wxToggleButton (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(22, link_height));
+	_left_right_link = new wxToggleButton (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(link_width, link_height));
 	_left_right_link->SetBitmap (wxBitmap(bitmap_path("link"), wxBITMAP_TYPE_PNG));
 
 	_right_crop_label = create_label (this, _("Right"), true);
@@ -127,7 +129,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		boost::bind (&VideoPanel::top_crop_changed, this)
 		);
 
-	_top_bottom_link = new wxToggleButton (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(22, link_height));
+	_top_bottom_link = new wxToggleButton (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(link_width, link_height));
 	_top_bottom_link->SetBitmap (wxBitmap(bitmap_path("link"), wxBITMAP_TYPE_PNG));
 
 	_bottom_crop_label = create_label (this, _("Bottom"), true);
