@@ -343,13 +343,15 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 		}
 	}
 
+	float const border_width = dcp::BORDER ? (first.outline_width * target.width / 2048.0) : 0;
+	size.width += 2 * ceil (border_width);
+	size.height += 2 * ceil (border_width);
+
 	size.width *= x_scale;
 	size.height *= y_scale;
 
-	/* Shuffle the subtitle over very slightly if it has a border so that the left-hand
-	   side of the first character's border is not cut off.
-	*/
-	int const x_offset = first.effect() == dcp::BORDER ? (target.width / 600.0) : 0;
+	/* Shuffle the subtitle over by the border width (if we have any) so it's not cut off */
+	int const x_offset = ceil (border_width);
 	/* Move down a bit so that accents on capital letters can be seen */
 	int const y_offset = target.height / 100.0;
 
@@ -375,7 +377,7 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 	if (first.effect() == dcp::BORDER) {
 		/* Border effect; stroke the subtitle with a large (arbitrarily chosen) line width */
 		set_source_rgba (context, first.effect_colour(), fade_factor);
-		context->set_line_width (first.outline_width * target.width / 2048.0);
+		context->set_line_width (border_width);
 		context->set_line_join (Cairo::LINE_JOIN_ROUND);
 		context->move_to (x_offset, y_offset);
 		layout->add_to_cairo_context (context);
@@ -399,6 +401,7 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 
 
 /** @param time Time of the frame that these subtitles are going on.
+ *  @param target Size of the container that this subtitle will end up in.
  *  @param frame_rate DCP frame rate.
  */
 list<PositionImage>
