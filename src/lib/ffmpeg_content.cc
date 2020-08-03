@@ -337,6 +337,14 @@ FFmpegContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		set_default_colour_conversion ();
 	}
 
+	if (examiner->has_video() && examiner->pulldown() && video_frame_rate() && fabs(*video_frame_rate() - 29.97) < 0.001) {
+		/* FFmpeg has detected this file as 29.97 and the examiner thinks it is using "soft" 2:3 pulldown (telecine).
+		 * This means we can treat it as a 23.976fps file.
+		 */
+		set_video_frame_rate (24000.0 / 1001);
+		video->set_length (video->length() * 24.0 / 30);
+	}
+
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	_id = examiner->id ();
 #endif
