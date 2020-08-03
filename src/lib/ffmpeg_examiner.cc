@@ -158,7 +158,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 		av_packet_unref (&_packet);
 
-		if (_first_video && got_all_audio && temporal_reference.size() >= PULLDOWN_CHECK_FRAMES) {
+		if (_first_video && got_all_audio && temporal_reference.size() >= (PULLDOWN_CHECK_FRAMES * 2)) {
 			/* All done */
 			break;
 		}
@@ -213,7 +213,7 @@ FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_referenc
 {
 	DCPOMATIC_ASSERT (_video_stream);
 
-	if (_first_video && !_need_video_length && temporal_reference.size() >= PULLDOWN_CHECK_FRAMES) {
+	if (_first_video && !_need_video_length && temporal_reference.size() >= (PULLDOWN_CHECK_FRAMES * 2)) {
 		return;
 	}
 
@@ -229,7 +229,7 @@ DCPOMATIC_ENABLE_WARNINGS
 				_format_context->streams[_video_stream.get()]
 				).get_value_or (ContentTime ()).frames_round (video_frame_rate().get ());
 		}
-		if (temporal_reference.size() < PULLDOWN_CHECK_FRAMES) {
+		if (temporal_reference.size() < (PULLDOWN_CHECK_FRAMES * 2)) {
 			temporal_reference += (_frame->top_field_first ? "T" : "B");
 			temporal_reference += (_frame->repeat_pict ? "3" : "2");
 		}
