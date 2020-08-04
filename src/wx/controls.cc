@@ -259,15 +259,15 @@ void
 Controls::update_position_label ()
 {
 	if (!_film) {
-		_frame_number->SetLabel ("0");
-		_timecode->SetLabel ("0:0:0.0");
+		checked_set (_frame_number, wxT("0"));
+		checked_set (_timecode, wxT("0:0:0.0"));
 		return;
 	}
 
 	double const fps = _film->video_frame_rate ();
 	/* Count frame number from 1 ... not sure if this is the best idea */
-	_frame_number->SetLabel (wxString::Format (wxT("%ld"), lrint (_viewer->position().seconds() * fps) + 1));
-	_timecode->SetLabel (time_to_timecode (_viewer->position(), fps));
+	checked_set (_frame_number, wxString::Format (wxT("%ld"), lrint (_viewer->position().seconds() * fps) + 1));
+	checked_set (_timecode, time_to_timecode (_viewer->position(), fps));
 }
 
 void
