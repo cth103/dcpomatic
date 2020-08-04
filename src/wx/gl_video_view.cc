@@ -53,6 +53,17 @@ using std::cout;
 using boost::shared_ptr;
 using boost::optional;
 
+
+static void
+check_gl_error (char const * last)
+{
+	GLenum const e = glGetError ();
+	if (e != GL_NO_ERROR) {
+		throw GLError (last, e);
+	}
+}
+
+
 GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	: VideoView (viewer)
 	, _have_storage (false)
@@ -98,8 +109,11 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 #endif
 
 	glGenTextures (1, &_id);
+	check_gl_error ("glGenTextures");
 	glBindTexture (GL_TEXTURE_2D, _id);
+	check_gl_error ("glBindTexture");
 	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
+	check_gl_error ("glPixelStorei");
 }
 
 GLVideoView::~GLVideoView ()
@@ -128,14 +142,6 @@ GLVideoView::check_for_butler_errors ()
 	}
 }
 
-static void
-check_gl_error (char const * last)
-{
-	GLenum const e = glGetError ();
-	if (e != GL_NO_ERROR) {
-		throw GLError (last, e);
-	}
-}
 
 void
 GLVideoView::update ()
@@ -257,6 +263,7 @@ DCPOMATIC_ENABLE_WARNINGS
 	}
 
 	glFlush();
+	check_gl_error ("glFlush");
 
 	boost::mutex::scoped_lock lm (_canvas_mutex);
 	_canvas->SwapBuffers();
