@@ -578,7 +578,7 @@ Drive::get ()
 bool
 Drive::unmount ()
 {
-	LOG_DISK("Unmounting %1 with %2 mount points XXX! MMMYEAH!", _device, _mount_points.size());
+	LOG_DISK("Unmounting %1 with %2 mount points", _device, _mount_points.size());
 	DCPOMATIC_ASSERT (_mount_points.size() == 1);
 	string const device_name = String::compose ("\\\\.\\%1", _mount_points.front());
 	string const truncated = device_name.substr (0, device_name.length() - 1);
