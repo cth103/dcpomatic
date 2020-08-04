@@ -554,7 +554,7 @@ Drive::get ()
 				&geom, sizeof(geom), &returned, 0
 				);
 
-		LOG_DISK("Having a looky through %1 locked volumes", locked_volumes.size());
+		LOG_DISK("Having a look through %1 locked volumes", locked_volumes.size());
 		bool locked = false;
 		for (vector<pair<HANDLE, string> >::const_iterator i = locked_volumes.begin(); i != locked_volumes.end(); ++i) {
 			if (i->second == physical_drive) {
