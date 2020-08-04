@@ -117,11 +117,11 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 
 	wxSizer* write_options = new wxBoxSizer(wxVERTICAL);
 	_write_flat = new wxRadioButton (this, wxID_ANY, _("Write all KDMs to the same folder"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
-	write_options->Add (_write_flat);
+	write_options->Add (_write_flat, wxTOP | wxBOTTOM | DCPOMATIC_BUTTON_STACK_GAP);
 	_write_folder = new wxRadioButton (this, wxID_ANY, _("Write a folder for each cinema's KDMs"));
-	write_options->Add (_write_folder);
+	write_options->Add (_write_folder, wxTOP | wxBOTTOM | DCPOMATIC_BUTTON_STACK_GAP);
 	_write_zip = new wxRadioButton (this, wxID_ANY, _("Write a ZIP file for each cinema's KDMs"));
-	write_options->Add (_write_zip);
+	write_options->Add (_write_zip, wxTOP | wxBOTTOM | DCPOMATIC_BUTTON_STACK_GAP);
 	table->AddSpacer (0);
 	table->Add (write_options);
 
