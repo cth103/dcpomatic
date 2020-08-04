@@ -12,7 +12,18 @@ if [ `basename $pwd` != "graphics" ]; then
     exit 1
 fi
 
+function required_font()
+{
+    check=$(fc-list | grep "$1")
+    if [ "$check" == "" ]; then
+        echo "Missing font $1"
+        exit 1
+    fi
+}
+
 svg_apps="dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch dcpomatic2_player dcpomatic2_playlist dcpomatic2_disk"
+required_font "Libre Baskerville"
+
 
 if [ `uname -s` == "Darwin" ]; then
     # Convert OS X icons using OS X-only iconutil
