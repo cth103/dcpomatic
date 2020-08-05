@@ -52,6 +52,7 @@ FFmpegEncoder::FFmpegEncoder (
 	ExportFormat format,
 	bool mixdown_to_stereo,
 	bool split_reels,
+	bool audio_stream_per_channel,
 	int x264_crf
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	, optional<dcp::Key> key
@@ -123,6 +124,7 @@ FFmpegEncoder::FFmpegEncoder (
 				_film->audio_frame_rate(),
 				_output_audio_channels,
 				format,
+				audio_stream_per_channel,
 				x264_crf,
 				_film->three_d(),
 				filename,
@@ -230,6 +232,7 @@ FFmpegEncoder::FileEncoderSet::FileEncoderSet (
 	int audio_frame_rate,
 	int channels,
 	ExportFormat format,
+	bool audio_stream_per_channel,
 	int x264_crf,
 	bool three_d,
 	boost::filesystem::path output,
@@ -243,7 +246,9 @@ FFmpegEncoder::FileEncoderSet::FileEncoderSet (
 	if (three_d) {
 		/// TRANSLATORS: L here is an abbreviation for "left", to indicate the left-eye part of a 3D export
 		_encoders[EYES_LEFT] = shared_ptr<FFmpegFileEncoder>(
-			new FFmpegFileEncoder(video_frame_size, video_frame_rate, audio_frame_rate, channels, format, x264_crf, String::compose("%1_%2%3", output.string(), _("L"), extension)
+			new FFmpegFileEncoder(
+				video_frame_size, video_frame_rate, audio_frame_rate, channels, format,
+				audio_stream_per_channel, x264_crf, String::compose("%1_%2%3", output.string(), _("L"), extension)
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 					      , key, id
 #endif
@@ -251,7 +256,9 @@ FFmpegEncoder::FileEncoderSet::FileEncoderSet (
 			);
 		/// TRANSLATORS: R here is an abbreviation for "right", to indicate the right-eye part of a 3D export
 		_encoders[EYES_RIGHT] = shared_ptr<FFmpegFileEncoder>(
-			new FFmpegFileEncoder(video_frame_size, video_frame_rate, audio_frame_rate, channels, format, x264_crf, String::compose("%1_%2%3", output.string(), _("R"), extension)
+			new FFmpegFileEncoder(
+				video_frame_size, video_frame_rate, audio_frame_rate, channels, format,
+				audio_stream_per_channel, x264_crf, String::compose("%1_%2%3", output.string(), _("R"), extension)
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 					      , key, id
 #endif
@@ -259,7 +266,9 @@ FFmpegEncoder::FileEncoderSet::FileEncoderSet (
 			);
 	} else {
 		_encoders[EYES_BOTH]  = shared_ptr<FFmpegFileEncoder>(
-			new FFmpegFileEncoder(video_frame_size, video_frame_rate, audio_frame_rate, channels, format, x264_crf, String::compose("%1%2", output.string(), extension)
+			new FFmpegFileEncoder(
+				video_frame_size, video_frame_rate, audio_frame_rate, channels, format,
+				audio_stream_per_channel, x264_crf, String::compose("%1%2", output.string(), extension)
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 					      , key, id
 #endif

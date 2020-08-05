@@ -42,7 +42,168 @@ using boost::optional;
 using namespace dcpomatic;
 
 int FFmpegFileEncoder::_video_stream_index = 0;
-int FFmpegFileEncoder::_audio_stream_index = 1;
+int FFmpegFileEncoder::_audio_stream_index_base = 1;
+
+
+class ExportAudioStream : public boost::noncopyable
+{
+public:
+	ExportAudioStream (string codec_name, int channels, int frame_rate, AVSampleFormat sample_format, AVFormatContext* format_context, int stream_index)
+		: _format_context (format_context)
+		, _stream_index (stream_index)
+	{
+		_codec = avcodec_find_encoder_by_name (codec_name.c_str());
+		if (!_codec) {
+			throw runtime_error (String::compose("could not find FFmpeg encoder %1", codec_name));
+		}
+
+		_codec_context = avcodec_alloc_context3 (_codec);
+		if (!_codec_context) {
+			throw runtime_error ("could not allocate FFmpeg audio context");
+		}
+
+		avcodec_get_context_defaults3 (_codec_context, _codec);
+
+		/* XXX: configurable */
+		_codec_context->bit_rate = channels * 128 * 1024;
+		_codec_context->sample_fmt = sample_format;
+		_codec_context->sample_rate = frame_rate;
+		_codec_context->channel_layout = av_get_default_channel_layout (channels);
+		_codec_context->channels = channels;
+
+		_stream = avformat_new_stream (format_context, _codec);
+		if (!_stream) {
+			throw runtime_error ("could not create FFmpeg output audio stream");
+		}
+
+		_stream->id = stream_index;
+DCPOMATIC_DISABLE_WARNINGS
+		_stream->codec = _codec_context;
+DCPOMATIC_ENABLE_WARNINGS
+
+		int r = avcodec_open2 (_codec_context, _codec, 0);
+		if (r < 0) {
+			char buffer[256];
+			av_strerror (r, buffer, sizeof(buffer));
+			throw runtime_error (String::compose("could not open FFmpeg audio codec (%1)", buffer));
+		}
+	}
+
+	~ExportAudioStream ()
+	{
+		avcodec_close (_codec_context);
+	}
+
+	int frame_size () const {
+		return _codec_context->frame_size;
+	}
+
+	bool flush ()
+	{
+		AVPacket packet;
+		av_init_packet (&packet);
+		packet.data = 0;
+		packet.size = 0;
+		bool flushed = false;
+
+		int got_packet;
+DCPOMATIC_DISABLE_WARNINGS
+		avcodec_encode_audio2 (_codec_context, &packet, 0, &got_packet);
+DCPOMATIC_ENABLE_WARNINGS
+		if (got_packet) {
+			packet.stream_index = 0;
+			av_interleaved_write_frame (_format_context, &packet);
+		} else {
+			flushed = true;
+		}
+		av_packet_unref (&packet);
+		return flushed;
+	}
+
+	void write (int size, int channel_offset, int channels, float** data, int64_t sample_offset)
+	{
+		DCPOMATIC_ASSERT (size);
+
+		AVFrame* frame = av_frame_alloc ();
+		DCPOMATIC_ASSERT (frame);
+
+		int const buffer_size = av_samples_get_buffer_size (0, channels, size, _codec_context->sample_fmt, 0);
+		DCPOMATIC_ASSERT (buffer_size >= 0);
+
+		void* samples = av_malloc (buffer_size);
+		DCPOMATIC_ASSERT (samples);
+
+		frame->nb_samples = size;
+		int r = avcodec_fill_audio_frame (frame, channels, _codec_context->sample_fmt, (const uint8_t *) samples, buffer_size, 0);
+		DCPOMATIC_ASSERT (r >= 0);
+
+		switch (_codec_context->sample_fmt) {
+		case AV_SAMPLE_FMT_S16:
+		{
+			int16_t* q = reinterpret_cast<int16_t*> (samples);
+			for (int i = 0; i < size; ++i) {
+				for (int j = 0; j < channels; ++j) {
+					*q++ = data[j + channel_offset][i] * 32767;
+				}
+			}
+			break;
+		}
+		case AV_SAMPLE_FMT_S32:
+		{
+			int32_t* q = reinterpret_cast<int32_t*> (samples);
+			for (int i = 0; i < size; ++i) {
+				for (int j = 0; j < channels; ++j) {
+					*q++ = data[j + channel_offset][i] * 2147483647;
+				}
+			}
+			break;
+		}
+		case AV_SAMPLE_FMT_FLTP:
+		{
+			float* q = reinterpret_cast<float*> (samples);
+			for (int i = 0; i < channels; ++i) {
+				memcpy (q, data[i + channel_offset], sizeof(float) * size);
+				q += size;
+			}
+			break;
+		}
+		default:
+			DCPOMATIC_ASSERT (false);
+		}
+
+		DCPOMATIC_ASSERT (_codec_context->time_base.num == 1);
+		frame->pts = sample_offset * _codec_context->time_base.den / _codec_context->sample_rate;
+
+		AVPacket packet;
+		av_init_packet (&packet);
+		packet.data = 0;
+		packet.size = 0;
+		int got_packet;
+
+		DCPOMATIC_DISABLE_WARNINGS
+		if (avcodec_encode_audio2 (_codec_context, &packet, frame, &got_packet) < 0) {
+			throw EncodeError ("FFmpeg audio encode failed");
+		}
+		DCPOMATIC_ENABLE_WARNINGS
+
+		if (got_packet && packet.size) {
+			packet.stream_index = _stream_index;
+			av_interleaved_write_frame (_format_context, &packet);
+			av_packet_unref (&packet);
+		}
+
+		av_free (samples);
+		av_frame_free (&frame);
+	}
+
+private:
+	AVFormatContext* _format_context;
+	AVCodec* _codec;
+	AVCodecContext* _codec_context;
+	AVStream* _stream;
+	int _stream_index;
+};
+
 
 FFmpegFileEncoder::FFmpegFileEncoder (
 	dcp::Size video_frame_size,
@@ -50,6 +211,7 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 	int audio_frame_rate,
 	int channels,
 	ExportFormat format,
+	bool audio_stream_per_channel,
 	int x264_crf,
 	boost::filesystem::path output
 #ifdef DCPOMATIC_VARIANT_SWAROOP
@@ -57,7 +219,8 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 	, optional<string> id
 #endif
 	)
-	: _video_options (0)
+	: _audio_stream_per_channel (audio_stream_per_channel)
+	, _video_options (0)
 	, _audio_channels (channels)
 	, _output (output)
 	, _video_frame_size (video_frame_size)
@@ -91,9 +254,6 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 		DCPOMATIC_ASSERT (false);
 	}
 
-	setup_video ();
-	setup_audio ();
-
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 	int r = avformat_alloc_output_context2 (&_format_context, av_guess_format("mov", 0, 0), 0, 0);
 #else
@@ -103,34 +263,8 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 		throw runtime_error (String::compose("could not allocate FFmpeg format context (%1)", r));
 	}
 
-	_video_stream = avformat_new_stream (_format_context, _video_codec);
-	if (!_video_stream) {
-		throw runtime_error ("could not create FFmpeg output video stream");
-	}
-
-	_audio_stream = avformat_new_stream (_format_context, _audio_codec);
-	if (!_audio_stream) {
-		throw runtime_error ("could not create FFmpeg output audio stream");
-	}
-
-DCPOMATIC_DISABLE_WARNINGS
-	_video_stream->id = _video_stream_index;
-	_video_stream->codec = _video_codec_context;
-
-	_audio_stream->id = _audio_stream_index;
-	_audio_stream->codec = _audio_codec_context;
-DCPOMATIC_ENABLE_WARNINGS
-
-	if (avcodec_open2 (_video_codec_context, _video_codec, &_video_options) < 0) {
-		throw runtime_error ("could not open FFmpeg video codec");
-	}
-
-	r = avcodec_open2 (_audio_codec_context, _audio_codec, 0);
-	if (r < 0) {
-		char buffer[256];
-		av_strerror (r, buffer, sizeof(buffer));
-		throw runtime_error (String::compose ("could not open FFmpeg audio codec (%1)", buffer));
-	}
+	setup_video ();
+	setup_audio ();
 
 	r = avio_open_boost (&_format_context->pb, _output, AVIO_FLAG_WRITE);
 	if (r < 0) {
@@ -199,30 +333,38 @@ FFmpegFileEncoder::setup_video ()
 	_video_codec_context->time_base = (AVRational) { 1, _video_frame_rate };
 	_video_codec_context->pix_fmt = _pixel_format;
 	_video_codec_context->flags |= AV_CODEC_FLAG_QSCALE | AV_CODEC_FLAG_GLOBAL_HEADER;
+
+	_video_stream = avformat_new_stream (_format_context, _video_codec);
+	if (!_video_stream) {
+		throw runtime_error ("could not create FFmpeg output video stream");
+	}
+
+DCPOMATIC_DISABLE_WARNINGS
+	_video_stream->id = _video_stream_index;
+	_video_stream->codec = _video_codec_context;
+DCPOMATIC_ENABLE_WARNINGS
+
+	if (avcodec_open2 (_video_codec_context, _video_codec, &_video_options) < 0) {
+		throw runtime_error ("could not open FFmpeg video codec");
+	}
 }
+
 
 void
 FFmpegFileEncoder::setup_audio ()
 {
-	_audio_codec = avcodec_find_encoder_by_name (_audio_codec_name.c_str());
-	if (!_audio_codec) {
-		throw runtime_error (String::compose ("could not find FFmpeg encoder %1", _audio_codec_name));
+	int const streams = _audio_stream_per_channel ? _audio_channels : 1;
+	int const channels_per_stream = _audio_stream_per_channel ? 1 : _audio_channels;
+
+	for (int i = 0; i < streams; ++i) {
+		_audio_streams.push_back(
+			shared_ptr<ExportAudioStream>(
+				new ExportAudioStream(_audio_codec_name, channels_per_stream, _audio_frame_rate, _sample_format, _format_context, _audio_stream_index_base + i)
+				)
+			);
 	}
-
-	_audio_codec_context = avcodec_alloc_context3 (_audio_codec);
-	if (!_audio_codec_context) {
-		throw runtime_error ("could not allocate FFmpeg audio context");
-	}
-
-	avcodec_get_context_defaults3 (_audio_codec_context, _audio_codec);
-
-	/* XXX: configurable */
-	_audio_codec_context->bit_rate = _audio_channels * 128 * 1024;
-	_audio_codec_context->sample_fmt = _sample_format;
-	_audio_codec_context->sample_rate = _audio_frame_rate;
-	_audio_codec_context->channel_layout = av_get_default_channel_layout (_audio_channels);
-	_audio_codec_context->channels = _audio_channels;
 }
+
 
 void
 FFmpegFileEncoder::flush ()
@@ -252,26 +394,18 @@ DCPOMATIC_ENABLE_WARNINGS
 		}
 		av_packet_unref (&packet);
 
-		av_init_packet (&packet);
-		packet.data = 0;
-		packet.size = 0;
-
-DCPOMATIC_DISABLE_WARNINGS
-		avcodec_encode_audio2 (_audio_codec_context, &packet, 0, &got_packet);
-DCPOMATIC_ENABLE_WARNINGS
-		if (got_packet) {
-			packet.stream_index = 0;
-			av_interleaved_write_frame (_format_context, &packet);
-		} else {
-			flushed_audio = true;
+		flushed_audio = true;
+		BOOST_FOREACH (shared_ptr<ExportAudioStream> i, _audio_streams) {
+			if (!i->flush()) {
+				flushed_audio = false;
+			}
 		}
-		av_packet_unref (&packet);
 	}
 
 	av_write_trailer (_format_context);
 
+	_audio_streams.clear ();
 	avcodec_close (_video_codec_context);
-	avcodec_close (_audio_codec_context);
 	avio_close (_format_context->pb);
 	avformat_free_context (_format_context);
 }
@@ -335,7 +469,8 @@ FFmpegFileEncoder::audio (shared_ptr<AudioBuffers> audio)
 {
 	_pending_audio->append (audio);
 
-	int frame_size = _audio_codec_context->frame_size;
+	DCPOMATIC_ASSERT (!_audio_streams.empty());
+	int frame_size = _audio_streams[0]->frame_size();
 	if (frame_size == 0) {
 		/* codec has AV_CODEC_CAP_VARIABLE_FRAME_SIZE */
 		frame_size = _audio_frame_rate / _video_frame_rate;
@@ -349,82 +484,17 @@ FFmpegFileEncoder::audio (shared_ptr<AudioBuffers> audio)
 void
 FFmpegFileEncoder::audio_frame (int size)
 {
-	DCPOMATIC_ASSERT (size);
-
-	AVFrame* frame = av_frame_alloc ();
-	DCPOMATIC_ASSERT (frame);
-
-	int const channels = _pending_audio->channels();
-	DCPOMATIC_ASSERT (channels);
-
-	int const buffer_size = av_samples_get_buffer_size (0, channels, size, _audio_codec_context->sample_fmt, 0);
-	DCPOMATIC_ASSERT (buffer_size >= 0);
-
-	void* samples = av_malloc (buffer_size);
-	DCPOMATIC_ASSERT (samples);
-
-	frame->nb_samples = size;
-	int r = avcodec_fill_audio_frame (frame, channels, _audio_codec_context->sample_fmt, (const uint8_t *) samples, buffer_size, 0);
-	DCPOMATIC_ASSERT (r >= 0);
-
-	float** p = _pending_audio->data ();
-	switch (_audio_codec_context->sample_fmt) {
-	case AV_SAMPLE_FMT_S16:
-	{
-		int16_t* q = reinterpret_cast<int16_t*> (samples);
-		for (int i = 0; i < size; ++i) {
-			for (int j = 0; j < channels; ++j) {
-				*q++ = p[j][i] * 32767;
-			}
+	if (_audio_stream_per_channel) {
+		int offset = 0;
+		BOOST_FOREACH (shared_ptr<ExportAudioStream> i, _audio_streams) {
+			i->write (size, offset, 1, _pending_audio->data(), _audio_frames);
+			++offset;
 		}
-		break;
+	} else {
+		DCPOMATIC_ASSERT (!_audio_streams.empty());
+		DCPOMATIC_ASSERT (_pending_audio->channels());
+		_audio_streams[0]->write (size, 0, _pending_audio->channels(), _pending_audio->data(), _audio_frames);
 	}
-	case AV_SAMPLE_FMT_S32:
-	{
-		int32_t* q = reinterpret_cast<int32_t*> (samples);
-		for (int i = 0; i < size; ++i) {
-			for (int j = 0; j < channels; ++j) {
-				*q++ = p[j][i] * 2147483647;
-			}
-		}
-		break;
-	}
-	case AV_SAMPLE_FMT_FLTP:
-	{
-		float* q = reinterpret_cast<float*> (samples);
-		for (int i = 0; i < channels; ++i) {
-			memcpy (q, p[i], sizeof(float) * size);
-			q += size;
-		}
-		break;
-	}
-	default:
-		DCPOMATIC_ASSERT (false);
-	}
-
-	DCPOMATIC_ASSERT (_audio_stream->time_base.num == 1);
-	frame->pts = _audio_frames * _audio_stream->time_base.den / _audio_frame_rate;
-
-	AVPacket packet;
-	av_init_packet (&packet);
-	packet.data = 0;
-	packet.size = 0;
-
-	int got_packet;
-DCPOMATIC_DISABLE_WARNINGS
-	if (avcodec_encode_audio2 (_audio_codec_context, &packet, frame, &got_packet) < 0) {
-		throw EncodeError ("FFmpeg audio encode failed");
-	}
-DCPOMATIC_ENABLE_WARNINGS
-
-	if (got_packet && packet.size) {
-		packet.stream_index = _audio_stream_index;
-		av_interleaved_write_frame (_format_context, &packet);
-		av_packet_unref (&packet);
-	}
-
-	av_free (samples);
-	av_frame_free (&frame);
 
 	_pending_audio->trim_start (size);
 	_audio_frames += size;

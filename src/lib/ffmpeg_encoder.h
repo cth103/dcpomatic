@@ -38,6 +38,7 @@ public:
 		ExportFormat format,
 		bool mixdown_to_stereo,
 		bool split_reels,
+		bool audio_stream_per_channel,
 		int x264_crf
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 		, boost::optional<dcp::Key> key
@@ -64,6 +65,7 @@ private:
 			int audio_frame_rate,
 			int channels,
 			ExportFormat,
+			bool audio_stream_per_channel,
 			int x264_crf,
 			bool three_d,
 			boost::filesystem::path output,

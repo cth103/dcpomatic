@@ -34,6 +34,7 @@ public:
 	ExportFormat format () const;
 	bool mixdown_to_stereo () const;
 	bool split_reels () const;
+	bool split_streams () const;
 	int x264_crf () const;
 
 private:
@@ -44,6 +45,7 @@ private:
 	wxChoice* _format;
 	wxCheckBox* _mixdown;
 	wxCheckBox* _split_reels;
+	wxCheckBox* _split_streams;
 	wxSlider* _x264_crf;
 	wxStaticText* _x264_crf_label[2];
 	FilePickerCtrl* _file;

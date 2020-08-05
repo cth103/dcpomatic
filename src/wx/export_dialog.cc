@@ -70,6 +70,9 @@ ExportDialog::ExportDialog (wxWindow* parent, string name)
 	add_spacer ();
 	_split_reels = new CheckBox (this, _("Write reels into separate files"));
 	add (_split_reels, false);
+	add_spacer ();
+	_split_streams = new CheckBox (this, _("Write each audio channel to its own stream"));
+	add (_split_streams, false);
 	_x264_crf_label[0] = add (_("Quality"), true);
 	_x264_crf = new wxSlider (this, wxID_ANY, 23, 0, 51, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL | wxSL_LABELS);
 	add (_x264_crf, false);
@@ -147,6 +150,12 @@ bool
 ExportDialog::split_reels () const
 {
 	return _split_reels->GetValue ();
+}
+
+bool
+ExportDialog::split_streams () const
+{
+	return _split_streams->GetValue ();
 }
 
 int

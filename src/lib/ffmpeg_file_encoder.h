@@ -31,6 +31,10 @@ extern "C" {
 #include <libavformat/avformat.h>
 }
 
+
+class ExportAudioStream;
+
+
 class FFmpegFileEncoder
 {
 public:
@@ -40,6 +44,7 @@ public:
 		int audio_frame_rate,
 		int channels,
 		ExportFormat,
+		bool audio_stream_per_channel,
 		int x264_crf,
 		boost::filesystem::path output
 #ifdef DCPOMATIC_VARIANT_SWAROOP
@@ -67,11 +72,10 @@ private:
 
 	AVCodec* _video_codec;
 	AVCodecContext* _video_codec_context;
-	AVCodec* _audio_codec;
-	AVCodecContext* _audio_codec_context;
+	std::vector<boost::shared_ptr<ExportAudioStream> > _audio_streams;
+	bool _audio_stream_per_channel;
 	AVFormatContext* _format_context;
 	AVStream* _video_stream;
-	AVStream* _audio_stream;
 	AVPixelFormat _pixel_format;
 	AVSampleFormat _sample_format;
 	AVDictionary* _video_options;
@@ -95,7 +99,7 @@ private:
 	boost::mutex _pending_images_mutex;
 
 	static int _video_stream_index;
-	static int _audio_stream_index;
+	static int _audio_stream_index_base;
 };
 
 #endif

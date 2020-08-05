@@ -966,7 +966,7 @@ private:
 			} else {
 				job->set_encoder (
 					shared_ptr<FFmpegEncoder> (
-						new FFmpegEncoder (_film, job, d->path(), d->format(), d->mixdown_to_stereo(), d->split_reels(), d->x264_crf()
+						new FFmpegEncoder (_film, job, d->path(), d->format(), d->mixdown_to_stereo(), d->split_reels(), d->split_streams(), d->x264_crf()
 #ifdef DCPOMATIC_VARIANT_SWAROOP
 								   , optional<dcp::Key>(), optional<string>()
 #endif
