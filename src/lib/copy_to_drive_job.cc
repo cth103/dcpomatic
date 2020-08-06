@@ -53,7 +53,7 @@ CopyToDriveJob::CopyToDriveJob (boost::filesystem::path dcp, Drive drive, Nanoms
 string
 CopyToDriveJob::name () const
 {
-	return String::compose (_("Copying %1 to %2"), _dcp.filename().string(), _drive.description());
+	return String::compose (_("Copying %1\nto %2"), _dcp.filename().string(), _drive.description());
 }
 
 string
