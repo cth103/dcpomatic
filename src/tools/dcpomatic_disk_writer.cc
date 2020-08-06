@@ -89,7 +89,8 @@ using boost::optional;
 #ifdef DCPOMATIC_LINUX
 static PolkitAuthority* polkit_authority = 0;
 #endif
-static uint64_t const block_size = 4096;
+/* Use quite a big block size here, as ext4's fwrite() has quite a bit of overhead */
+static uint64_t const block_size = 4096 * 4096;
 static Nanomsg* nanomsg = 0;
 
 #define SHORT_TIMEOUT 100
@@ -128,7 +129,7 @@ write (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total
 	uint8_t* buffer = new uint8_t[block_size];
 	Digester digester;
 
-	int progress_frequency = 5000;
+	int progress_frequency = 1;
 	int progress_count = 0;
 	uint64_t remaining = file_size (from);
 	while (remaining > 0) {
