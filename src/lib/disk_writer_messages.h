@@ -48,7 +48,7 @@
 #define DISK_WRITER_COPY_PROGRESS "C"
 // 0.3\n
 
-// data is being veriried, 60% done
+// data is being verified, 60% done
 #define DISK_WRITER_VERIFY_PROGRESS "V"
 // 0.6\n
 
