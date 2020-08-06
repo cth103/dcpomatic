@@ -23,6 +23,16 @@
  * by \n.
  */
 
+/* PING */
+
+// Front-end sends:
+
+#define DISK_WRITER_PING "P"
+
+// Back-end responds
+
+#define DISK_WRITER_PONG "O"
+
 /* REQUEST TO WRITE DCP */
 
 // Front-end sends:

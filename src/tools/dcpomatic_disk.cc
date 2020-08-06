@@ -210,6 +210,31 @@ private:
 		DCPOMATIC_ASSERT (_drive->GetSelection() != wxNOT_FOUND);
 		DCPOMATIC_ASSERT (static_cast<bool>(_dcp_path));
 
+		bool have_writer = true;
+		if (!_nanomsg.send(DISK_WRITER_PING "\n", 2000)) {
+			have_writer = false;
+		} else {
+			optional<string> reply = _nanomsg.receive (2000);
+			if (!reply || *reply != DISK_WRITER_PONG) {
+				have_writer = false;
+			}
+		}
+
+		if (!have_writer) {
+#ifdef DCPOMATIC_WINDOWS
+			MessageDialog* m = new MessageDialog (
+				this,
+				_("DCP-o-matic Disk Writer"),
+				_("Do you see a 'User Account Control' dialogue asking about dcpomatic2_disk_writer.exe?  If so, click 'Yes', then try again.")
+				);
+			m->ShowModal ();
+			m->Destroy ();
+			return;
+#else
+			throw CommunicationFailedError ();
+#endif
+		}
+
 		Drive const& drive = _drives[_drive->GetSelection()];
 		if (drive.mounted()) {
 			TryUnmountDialog* d = new TryUnmountDialog(this, drive.description());

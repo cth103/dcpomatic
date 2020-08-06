@@ -460,6 +460,8 @@ try
 
 	if (*s == DISK_WRITER_QUIT) {
 		exit (EXIT_SUCCESS);
+	} else if (*s == DISK_WRITER_PING) {
+		nanomsg->send(DISK_WRITER_PONG "\n", LONG_TIMEOUT);
 	} else if (*s == DISK_WRITER_UNMOUNT) {
 		/* XXX: should do Linux polkit stuff here */
 		optional<string> xml_head = nanomsg->receive (LONG_TIMEOUT);
