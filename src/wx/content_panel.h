@@ -58,6 +58,8 @@ public:
 	void film_changed (Film::Property p);
 	void film_content_changed (int p);
 
+	void first_shown ();
+
 	wxWindow* window () const {
 		return _splitter;
 	}
@@ -101,6 +103,7 @@ private:
 	std::list<ContentSubPanel *> panels () const;
 
 	wxSplitterWindow* _splitter;
+	wxPanel* _top_panel;
 	wxNotebook* _notebook;
 	wxListCtrl* _content;
 	wxButton* _add_file;

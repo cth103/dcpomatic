@@ -44,6 +44,7 @@ public:
 	FilmEditor (wxWindow *, boost::weak_ptr<FilmViewer> viewer);
 
 	void set_film (boost::shared_ptr<Film>);
+	void first_shown ();
 
 	boost::signals2::signal<void (boost::filesystem::path)> FileChanged;
 	boost::signals2::signal<void (void)> SelectionChanged;

@@ -99,20 +99,14 @@ ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmV
 	}
 
 	_splitter = new LimitedSplitter (n);
-	optional<wxRect> screen;
-	int const sn = wxDisplay::GetFromWindow(_splitter);
-	if (sn >= 0) {
-		screen = wxDisplay(sn).GetClientArea();
-	}
-	wxPanel* top = new wxPanel (_splitter);
+	_top_panel = new wxPanel (_splitter);
 
 	_menu = new ContentMenu (_splitter);
-
 
 	{
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 
-		_content = new wxListCtrl (top, wxID_ANY, wxDefaultPosition, wxSize (320, 160), wxLC_REPORT | wxLC_NO_HEADER);
+		_content = new wxListCtrl (_top_panel, wxID_ANY, wxDefaultPosition, wxSize (320, 160), wxLC_REPORT | wxLC_NO_HEADER);
 		_content->DragAcceptFiles (true);
 		s->Add (_content, 1, wxEXPAND | wxTOP | wxBOTTOM, 6);
 
@@ -121,46 +115,39 @@ ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmV
 
 		wxBoxSizer* b = new wxBoxSizer (wxVERTICAL);
 
-		_add_file = new Button (top, _("Add file(s)..."));
+		_add_file = new Button (_top_panel, _("Add file(s)..."));
 		_add_file->SetToolTip (_("Add video, image, sound or subtitle files to the film."));
 		b->Add (_add_file, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_add_folder = new Button (top, _("Add folder..."));
+		_add_folder = new Button (_top_panel, _("Add folder..."));
 		_add_folder->SetToolTip (_("Add a folder of image files (which will be used as a moving image sequence) or a folder of sound files."));
 		b->Add (_add_folder, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_add_dcp = new Button (top, _("Add DCP..."));
+		_add_dcp = new Button (_top_panel, _("Add DCP..."));
 		_add_dcp->SetToolTip (_("Add a DCP."));
 		b->Add (_add_dcp, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_remove = new Button (top, _("Remove"));
+		_remove = new Button (_top_panel, _("Remove"));
 		_remove->SetToolTip (_("Remove the selected piece of content from the film."));
 		b->Add (_remove, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_earlier = new Button (top, _("Earlier"));
+		_earlier = new Button (_top_panel, _("Earlier"));
 		_earlier->SetToolTip (_("Move the selected piece of content earlier in the film."));
 		b->Add (_earlier, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_later = new Button (top, _("Later"));
+		_later = new Button (_top_panel, _("Later"));
 		_later->SetToolTip (_("Move the selected piece of content later in the film."));
 		b->Add (_later, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_timeline = new Button (top, _("Timeline..."));
+		_timeline = new Button (_top_panel, _("Timeline..."));
 		_timeline->SetToolTip (_("Open the timeline for the film."));
 		b->Add (_timeline, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
 		s->Add (b, 0, wxALL, 4);
-		top->SetSizer (s);
+		_top_panel->SetSizer (s);
 	}
 
 	_notebook = new wxNotebook (_splitter, wxID_ANY);
-
-	/* This is a hack to try and make the content notebook a sensible size; large on big displays but small
-	   enough on small displays to leave space for the content area.
-	*/
-	if (screen) {
-		_splitter->SplitHorizontally (top, _notebook, screen->height > 800 ? -600 : -150);
-	}
 
 	_timing_panel = new TimingPanel (this, _film_viewer);
 	_notebook->AddPage (_timing_panel, _("Timing"), false);
@@ -177,6 +164,24 @@ ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmV
 	_later->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::later_clicked, this));
 	_timeline->Bind	(wxEVT_BUTTON, boost::bind (&ContentPanel::timeline_clicked, this));
 }
+
+
+void
+ContentPanel::first_shown ()
+{
+	int const sn = wxDisplay::GetFromWindow(_splitter);
+	if (sn >= 0) {
+		wxRect const screen = wxDisplay(sn).GetClientArea();
+		/* This is a hack to try and make the content notebook a sensible size; large on big displays but small
+		   enough on small displays to leave space for the content area.
+		   */
+		_splitter->SplitHorizontally (_top_panel, _notebook, screen.height > 800 ? -600 : -150);
+	} else {
+		/* Fallback for when GetFromWindow fails for reasons that aren't clear */
+		_splitter->SplitHorizontally (_top_panel, _notebook, -600);
+	}
+}
+
 
 ContentList
 ContentPanel::selected ()

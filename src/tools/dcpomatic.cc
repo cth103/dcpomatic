@@ -268,6 +268,7 @@ public:
 		, _history_position (0)
 		, _history_separator (0)
 		, _update_news_requested (false)
+		, _first_shown_called (false)
 	{
 #if defined(DCPOMATIC_WINDOWS)
 		if (Config::instance()->win32_console ()) {
@@ -336,6 +337,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_report_a_problem, this),   ID_help_report_a_problem);
 
 		Bind (wxEVT_CLOSE_WINDOW, boost::bind (&DOMFrame::close, this, _1));
+		Bind (wxEVT_SHOW, boost::bind (&DOMFrame::show, this, _1));
 
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
@@ -489,6 +491,14 @@ public:
 	}
 
 private:
+
+	void show (wxShowEvent& ev)
+	{
+		if (ev.IsShown() && !_first_shown_called) {
+			_film_editor->first_shown ();
+			_first_shown_called = true;
+		}
+	}
 
 	void film_message (string m)
 	{
@@ -1498,6 +1508,7 @@ private:
 	boost::signals2::scoped_connection _analytics_message_connection;
 	bool _update_news_requested;
 	shared_ptr<Content> _clipboard;
+	bool _first_shown_called;
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {

@@ -156,3 +156,11 @@ FilmEditor::active_jobs_changed (optional<string> j)
 {
 	set_general_sensitivity (!j);
 }
+
+
+void
+FilmEditor::first_shown ()
+{
+	_content_panel->first_shown ();
+}
+
