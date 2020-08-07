@@ -80,6 +80,7 @@ public:
 		}
 
 		_stream->id = stream_index;
+		_stream->disposition |= AV_DISPOSITION_DEFAULT;
 DCPOMATIC_DISABLE_WARNINGS
 		_stream->codec = _codec_context;
 DCPOMATIC_ENABLE_WARNINGS
