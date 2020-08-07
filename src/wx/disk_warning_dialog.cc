@@ -42,8 +42,7 @@ DiskWarningDialog::DiskWarningDialog ()
 
 	text->SetLabelMarkup (
 		_("The <b>DCP-o-matic Disk Writer</b> is\n\n<span weight=\"bold\" size=\"20480\" foreground=\"red\">ALPHA-GRADE TEST SOFTWARE</span>\n\n"
-	          "and can\n\n<span weight=\"bold\" size=\"20480\" foreground=\"red\">DESTROY DATA!</span>\n\n"
-		  "Please do not continue unless Carl has asked you to test the software. "
+	          "and may\n\n<span weight=\"bold\" size=\"20480\" foreground=\"red\">DESTROY DATA!</span>\n\n"
 		  "If you are sure you want to continue please type\n\n<tt>I am sure</tt>\n\ninto the box below, then click OK.")
 		);
 }
