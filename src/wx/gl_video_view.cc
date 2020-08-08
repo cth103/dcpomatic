@@ -74,7 +74,6 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	_canvas = new wxGLCanvas (parent, wxID_ANY, 0, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
 	_canvas->Bind (wxEVT_PAINT, boost::bind(&GLVideoView::update, this));
 	_canvas->Bind (wxEVT_SIZE, boost::bind(boost::ref(Sized)));
-	_canvas->Bind (wxEVT_CREATE, boost::bind(&GLVideoView::create, this));
 
 	_canvas->Bind (wxEVT_TIMER, boost::bind(&GLVideoView::check_for_butler_errors, this));
 	_timer.reset (new wxTimer(_canvas));
@@ -111,6 +110,10 @@ GLVideoView::check_for_butler_errors ()
 void
 GLVideoView::update ()
 {
+	if (!_thread.joinable()) {
+		_thread = boost::thread (boost::bind(&GLVideoView::thread, this));
+	}
+
 	{
 		boost::mutex::scoped_lock lm (_canvas_mutex);
 		if (!_canvas->IsShownOnScreen()) {
@@ -414,10 +417,3 @@ GLVideoView::request_one_shot ()
 	_thread_work_condition.notify_all ();
 }
 
-void
-GLVideoView::create ()
-{
-	if (!_thread.joinable()) {
-		_thread = boost::thread (boost::bind(&GLVideoView::thread, this));
-	}
-}

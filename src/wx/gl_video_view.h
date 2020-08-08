@@ -60,7 +60,6 @@ private:
 	void thread ();
 	void thread_playing ();
 	void request_one_shot ();
-	void create ();
 	void check_for_butler_errors ();
 
 	/* Mutex for use of _canvas; it's only contended when our ::thread
