@@ -79,41 +79,6 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	_canvas->Bind (wxEVT_TIMER, boost::bind(&GLVideoView::check_for_butler_errors, this));
 	_timer.reset (new wxTimer(_canvas));
 	_timer->Start (2000);
-
-#if defined(DCPOMATIC_LINUX) && defined(DCPOMATIC_HAVE_GLX_SWAP_INTERVAL_EXT)
-	if (_canvas->IsExtensionSupported("GLX_EXT_swap_control")) {
-		/* Enable vsync */
-		Display* dpy = wxGetX11Display();
-		glXSwapIntervalEXT (dpy, DefaultScreen(dpy), 1);
-		_vsync_enabled = true;
-	}
-#endif
-
-#ifdef DCPOMATIC_WINDOWS
-	if (_canvas->IsExtensionSupported("WGL_EXT_swap_control")) {
-		/* Enable vsync */
-		PFNWGLSWAPINTERVALEXTPROC swap = (PFNWGLSWAPINTERVALEXTPROC) wglGetProcAddress("wglSwapIntervalEXT");
-		if (swap) {
-			swap (1);
-			_vsync_enabled = true;
-		}
-	}
-
-#endif
-
-#ifdef DCPOMATIC_OSX
-	/* Enable vsync */
-	GLint swapInterval = 1;
-	CGLSetParameter (CGLGetCurrentContext(), kCGLCPSwapInterval, &swapInterval);
-	_vsync_enabled = true;
-#endif
-
-	glGenTextures (1, &_id);
-	check_gl_error ("glGenTextures");
-	glBindTexture (GL_TEXTURE_2D, _id);
-	check_gl_error ("glBindTexture");
-	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
-	check_gl_error ("glPixelStorei");
 }
 
 GLVideoView::~GLVideoView ()
@@ -369,6 +334,42 @@ try
 		_context = new wxGLContext (_canvas); //local
 		_canvas->SetCurrent (*_context);
 	}
+
+
+#if defined(DCPOMATIC_LINUX) && defined(DCPOMATIC_HAVE_GLX_SWAP_INTERVAL_EXT)
+	if (_canvas->IsExtensionSupported("GLX_EXT_swap_control")) {
+		/* Enable vsync */
+		Display* dpy = wxGetX11Display();
+		glXSwapIntervalEXT (dpy, DefaultScreen(dpy), 1);
+		_vsync_enabled = true;
+	}
+#endif
+
+#ifdef DCPOMATIC_WINDOWS
+	if (_canvas->IsExtensionSupported("WGL_EXT_swap_control")) {
+		/* Enable vsync */
+		PFNWGLSWAPINTERVALEXTPROC swap = (PFNWGLSWAPINTERVALEXTPROC) wglGetProcAddress("wglSwapIntervalEXT");
+		if (swap) {
+			swap (1);
+			_vsync_enabled = true;
+		}
+	}
+
+#endif
+
+#ifdef DCPOMATIC_OSX
+	/* Enable vsync */
+	GLint swapInterval = 1;
+	CGLSetParameter (CGLGetCurrentContext(), kCGLCPSwapInterval, &swapInterval);
+	_vsync_enabled = true;
+#endif
+
+	glGenTextures (1, &_id);
+	check_gl_error ("glGenTextures");
+	glBindTexture (GL_TEXTURE_2D, _id);
+	check_gl_error ("glBindTexture");
+	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
+	check_gl_error ("glPixelStorei");
 
 	while (true) {
 		boost::mutex::scoped_lock lm (_playing_mutex);
