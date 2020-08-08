@@ -331,7 +331,7 @@ try
 {
 	{
 		boost::mutex::scoped_lock lm (_canvas_mutex);
-		_context = new wxGLContext (_canvas); //local
+		_context = new wxGLContext (_canvas);
 		_canvas->SetCurrent (*_context);
 	}
 
