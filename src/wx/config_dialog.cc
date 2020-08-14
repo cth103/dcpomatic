@@ -1040,7 +1040,6 @@ LocationsPage::GetLargeIcon () const
 void
 LocationsPage::setup ()
 {
-
 	int r = 0;
 
 	wxGridBagSizer* table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
