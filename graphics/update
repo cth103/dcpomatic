@@ -1,10 +1,12 @@
-#!/bin/bash
+#!/bin/bash -e
 #
 # Update generated stuff in graphics/ from the source files.
 #
 # It would be nice to do this with waf but:
 # a) getting the wscript right is a complete pain in the arse
 # b) running Inkscape from the command line on OS X is a complete pain in the arse
+
+set -e
 
 pwd=`pwd`
 if [ `basename $pwd` != "graphics" ]; then
