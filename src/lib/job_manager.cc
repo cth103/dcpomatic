@@ -228,7 +228,7 @@ JobManager::analyse_audio (
 
 		BOOST_FOREACH (shared_ptr<Job> i, _jobs) {
 			shared_ptr<AnalyseAudioJob> a = dynamic_pointer_cast<AnalyseAudioJob> (i);
-			if (a && a->path() == film->audio_analysis_path(playlist)) {
+			if (a && a->path() == film->audio_analysis_path(playlist) && !i->finished_cancelled()) {
 				i->when_finished (connection, ready);
 				return;
 			}
