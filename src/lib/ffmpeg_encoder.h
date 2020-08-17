@@ -84,13 +84,18 @@ private:
 		std::map<Eyes, boost::shared_ptr<FFmpegFileEncoder> > _encoders;
 	};
 
-	std::list<FileEncoderSet> _file_encoders;
 	int _output_audio_channels;
 
 	mutable boost::mutex _mutex;
 	dcpomatic::DCPTime _last_time;
 
 	EventHistory _history;
+
+	boost::filesystem::path _output;
+	ExportFormat _format;
+	bool _split_reels;
+	bool _audio_stream_per_channel;
+	int _x264_crf;
 
 	boost::shared_ptr<Butler> _butler;
 };

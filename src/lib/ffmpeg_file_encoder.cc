@@ -295,6 +295,15 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 	_pending_audio.reset (new AudioBuffers(channels, 0));
 }
 
+
+FFmpegFileEncoder::~FFmpegFileEncoder ()
+{
+	_audio_streams.clear ();
+	avcodec_close (_video_codec_context);
+	avformat_free_context (_format_context);
+}
+
+
 AVPixelFormat
 FFmpegFileEncoder::pixel_format (ExportFormat format)
 {
@@ -403,11 +412,6 @@ DCPOMATIC_ENABLE_WARNINGS
 	}
 
 	av_write_trailer (_format_context);
-
-	_audio_streams.clear ();
-	avcodec_close (_video_codec_context);
-	avio_close (_format_context->pb);
-	avformat_free_context (_format_context);
 }
 
 void
