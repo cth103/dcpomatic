@@ -49,11 +49,23 @@ public:
 
 	void seek (dcpomatic::DCPTime position, bool accurate);
 
-	enum Error {
-		NONE,
-		AGAIN,
-		DIED,
-		FINISHED
+	class Error {
+	public:
+		enum Code{
+			NONE,
+			AGAIN,
+			DIED,
+			FINISHED
+		};
+
+		Error()
+			: code (NONE)
+		{}
+
+		Code code;
+		std::string message;
+
+		std::string summary () const;
 	};
 
 	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> get_video (bool blocking, Error* e = 0);
@@ -94,6 +106,7 @@ private:
 	int _suspended;
 	bool _finished;
 	bool _died;
+	std::string _died_message;
 	bool _stop_thread;
 
 	AudioMapping _audio_mapping;

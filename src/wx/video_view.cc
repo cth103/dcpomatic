@@ -22,6 +22,7 @@
 #include "wx_util.h"
 #include "film_viewer.h"
 #include "lib/butler.h"
+#include "lib/dcpomatic_log.h"
 #include <boost/optional.hpp>
 
 using std::pair;
@@ -74,7 +75,10 @@ VideoView::get_next_frame (bool non_blocking)
 	do {
 		Butler::Error e;
 		pair<shared_ptr<PlayerVideo>, dcpomatic::DCPTime> pv = butler->get_video (!non_blocking, &e);
-		if (!pv.first && e == Butler::AGAIN) {
+		if (e.code == Butler::Error::DIED) {
+			LOG_ERROR ("Butler died with %1", e.summary());
+		}
+		if (!pv.first && e.code == Butler::Error::AGAIN) {
 			return false;
 		}
 		_player_video = pv;

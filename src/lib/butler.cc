@@ -208,6 +208,12 @@ try
 	boost::mutex::scoped_lock lm (_mutex);
 	_finished = true;
 	_arrived.notify_all ();
+} catch (std::exception& e) {
+	store_current ();
+	boost::mutex::scoped_lock lm (_mutex);
+	_died = true;
+	_died_message = e.what ();
+	_arrived.notify_all ();
 } catch (...) {
 	store_current ();
 	boost::mutex::scoped_lock lm (_mutex);
@@ -226,7 +232,7 @@ Butler::get_video (bool blocking, Error* e)
 
 	if (_suspended || (_video.empty() && !blocking)) {
 		if (e) {
-			*e = AGAIN;
+			e->code = Error::AGAIN;
 		}
 		return make_pair(shared_ptr<PlayerVideo>(), DCPTime());
 	}
@@ -239,11 +245,12 @@ Butler::get_video (bool blocking, Error* e)
 	if (_video.empty()) {
 		if (e) {
 			if (_died) {
-				*e = DIED;
+				e->code = Error::DIED;
+				e->message = _died_message;
 			} else if (_finished) {
-				*e = FINISHED;
+				e->code = Error::FINISHED;
 			} else {
-				*e = NONE;
+				e->code = Error::NONE;
 			}
 		}
 		return make_pair(shared_ptr<PlayerVideo>(), DCPTime());
@@ -298,6 +305,13 @@ try
 		video->prepare (_pixel_format, _aligned, _fast);
 		LOG_TIMING("finish-prepare in %1", thread_id());
 	}
+}
+catch (std::exception& e)
+{
+	store_current ();
+	boost::mutex::scoped_lock lm (_mutex);
+	_died = true;
+	_died_message = e.what ();
 }
 catch (...)
 {
@@ -406,3 +420,22 @@ Butler::text (PlayerText pt, TextType type, optional<DCPTextTrack> track, DCPTim
 
 	_closed_caption.put (pt, *track, period);
 }
+
+string
+Butler::Error::summary () const
+{
+	switch (code)
+	{
+		case Error::NONE:
+			return "No error registered";
+		case Error::AGAIN:
+			return "Butler not ready";
+		case Error::DIED:
+			return String::compose("Butler died (%1)", message);
+		case Error::FINISHED:
+			return "Butler finished";
+	}
+
+	return "";
+}
+
