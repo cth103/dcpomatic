@@ -34,45 +34,75 @@ using std::string;
 using boost::bind;
 
 
-ExportSubtitlesDialog::ExportSubtitlesDialog (wxWindow* parent, string name, bool interop)
+ExportSubtitlesDialog::ExportSubtitlesDialog (wxWindow* parent, int reels, bool interop)
 	: TableDialog (parent, _("Export subtitles"), 2, 1, true)
-	, _initial_name (name)
+	, _interop (interop)
 	, _include_font (0)
 {
 	_split_reels = new CheckBox (this, _("Write reels into separate files"));
 	add (_split_reels, false);
 	add_spacer ();
-	if (interop) {
-		_include_font = new CheckBox (this, _("Define font in output and export font file"));
-		add (_include_font, false);
-		add_spacer ();
+
+	if (reels > 1) {
+		_split_reels->Enable (false);
 	}
 
-	add (_("Output file"), true);
-	/* Don't warn overwrite here, because on Linux (at least) if we specify a filename like foo
-	   the wxFileDialog will check that foo exists, but we will add an extension so we actually
-	   need to check if foo.mov (or similar) exists.  I can't find a way to make wxWidgets do this,
-	   so disable its check and the caller will have to do it themselves.
-	*/
-	_file = new FilePickerCtrl (this, _("Select output file"), _("Subtitle files (.xml)|*.xml"), false, false);
-	_file->SetPath (_initial_name);
+	_include_font = new CheckBox (this, _("Define font in output and export font file"));
+	add (_include_font, false);
+	add_spacer ();
+
+	if (!_interop) {
+		_include_font->Enable (false);
+	}
+
+	wxString const wildcard = _interop ? _("Subtitle files (.xml)|*.xml") : _("Subtitle files (.mxf)|*.mxf");
+
+	_file_label = add (_("Output file"), true);
+	_file = new FilePickerCtrl (this, _("Select output file"), wildcard, false, true);
 	add (_file);
 
-	_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&ExportSubtitlesDialog::file_changed, this));
+	_dir_label = add (_("Output folder"), true);
+	_dir = new DirPickerCtrl (this);
+	add (_dir);
+
+	_split_reels->Bind (wxEVT_CHECKBOX, bind(&ExportSubtitlesDialog::setup_sensitivity, this));
+	_include_font->Bind (wxEVT_CHECKBOX, bind(&ExportSubtitlesDialog::setup_sensitivity, this));
+	_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&ExportSubtitlesDialog::setup_sensitivity, this));
+	_dir->Bind (wxEVT_DIRPICKER_CHANGED, bind(&ExportSubtitlesDialog::setup_sensitivity, this));
 
 	layout ();
-
-	wxButton* ok = dynamic_cast<wxButton *>(FindWindowById(wxID_OK, this));
-	ok->Enable (false);
+	setup_sensitivity ();
 }
 
 
+void
+ExportSubtitlesDialog::setup_sensitivity ()
+{
+	bool const multi = split_reels() || (_interop && _include_font->GetValue());
+	_file_label->Enable (!multi);
+	_file->Enable (!multi);
+	_dir_label->Enable (multi);
+	_dir->Enable (multi);
+
+	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById(wxID_OK, this));
+	DCPOMATIC_ASSERT (ok);
+	ok->Enable (path().is_absolute());
+}
+
+
+/** @return Either a full path to a file, if the output will be one file, or
+ *  a full path to a directory.
+ */
 boost::filesystem::path
 ExportSubtitlesDialog::path () const
 {
-	wxFileName fn (_file->GetPath());
-	fn.SetExt (".xml");
-	return wx_to_std (fn.GetFullPath());
+	if (_file->IsEnabled()) {
+		wxFileName fn (_file->GetPath());
+		fn.SetExt (_interop ? "xml" : "mxf");
+		return wx_to_std (fn.GetFullPath());
+	}
+
+	return wx_to_std (_dir->GetPath());
 }
 
 
@@ -86,14 +116,6 @@ ExportSubtitlesDialog::split_reels () const
 bool
 ExportSubtitlesDialog::include_font () const
 {
-	return _include_font ? _include_font->GetValue () : true;
+	return !_interop || _include_font->GetValue();
 }
 
-
-void
-ExportSubtitlesDialog::file_changed ()
-{
-	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById(wxID_OK, this));
-	DCPOMATIC_ASSERT (ok);
-	ok->Enable (path().is_absolute());
-}

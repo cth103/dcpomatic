@@ -37,7 +37,7 @@ class Film;
 class SubtitleEncoder : public Encoder
 {
 public:
-	SubtitleEncoder (boost::shared_ptr<const Film> film, boost::shared_ptr<Job> job, boost::filesystem::path output, bool split_reels, bool include_font);
+	SubtitleEncoder (boost::shared_ptr<const Film> film, boost::shared_ptr<Job> job, boost::filesystem::path output, std::string intial_name, bool split_reels, bool include_font);
 
 	void go ();
 

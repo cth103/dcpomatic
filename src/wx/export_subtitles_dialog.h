@@ -18,6 +18,7 @@
 
 */
 
+#include "dir_picker_ctrl.h"
 #include "table_dialog.h"
 #include <wx/wx.h>
 #include <boost/filesystem.hpp>
@@ -27,17 +28,20 @@ class FilePickerCtrl;
 class ExportSubtitlesDialog : public TableDialog
 {
 public:
-	ExportSubtitlesDialog (wxWindow* parent, std::string name, bool interop);
+	ExportSubtitlesDialog (wxWindow* parent, int reels, bool interop);
 
 	boost::filesystem::path path () const;
 	bool split_reels () const;
 	bool include_font () const;
 
 private:
-	void file_changed ();
+	void setup_sensitivity ();
 
-	std::string _initial_name;
+	bool _interop;
 	wxCheckBox* _split_reels;
 	wxCheckBox* _include_font;
+	wxStaticText* _file_label;
 	FilePickerCtrl* _file;
+	DirPickerCtrl* _dir;
+	wxStaticText* _dir_label;
 };

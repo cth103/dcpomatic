@@ -990,23 +990,11 @@ private:
 
 	void jobs_export_subtitles ()
 	{
-		ExportSubtitlesDialog* d = new ExportSubtitlesDialog (this, _film->isdcf_name(true), _film->interop());
+		ExportSubtitlesDialog* d = new ExportSubtitlesDialog (this, _film->reels().size(), _film->interop());
 		if (d->ShowModal() == wxID_OK) {
-			if (boost::filesystem::exists(d->path())) {
-				bool ok = confirm_dialog(
-						this,
-						wxString::Format (_("File %s already exists.  Do you want to overwrite it?"), std_to_wx(d->path().string()).data())
-						);
-
-				if (!ok) {
-					d->Destroy ();
-					return;
-				}
-			}
-
 			shared_ptr<TranscodeJob> job (new TranscodeJob (_film));
 			job->set_encoder (
-				shared_ptr<SubtitleEncoder>(new SubtitleEncoder(_film, job, d->path(), d->split_reels(), d->include_font()))
+				shared_ptr<SubtitleEncoder>(new SubtitleEncoder(_film, job, d->path(), _film->isdcf_name(true), d->split_reels(), d->include_font()))
 				);
 			JobManager::instance()->add (job);
 		}

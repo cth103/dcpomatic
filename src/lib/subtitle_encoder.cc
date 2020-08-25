@@ -40,8 +40,11 @@ using boost::shared_ptr;
 using boost::optional;
 using dcp::raw_convert;
 
-/** @param include_font true to refer to and export any font file (for Interop; ignored for SMPTE) */
-SubtitleEncoder::SubtitleEncoder (shared_ptr<const Film> film, shared_ptr<Job> job, boost::filesystem::path output, bool split_reels, bool include_font)
+/** @param output Directory, if there will be multiple output files, or a filename.
+ *  @param initial_name Hint that may be used to create filenames, if @ref output is a directory.
+ *  @param include_font true to refer to and export any font file (for Interop; ignored for SMPTE).
+ */
+SubtitleEncoder::SubtitleEncoder (shared_ptr<const Film> film, shared_ptr<Job> job, boost::filesystem::path output, string initial_name, bool split_reels, bool include_font)
 	: Encoder (film, job)
 	, _split_reels (split_reels)
 	, _include_font (include_font)
@@ -53,20 +56,23 @@ SubtitleEncoder::SubtitleEncoder (shared_ptr<const Film> film, shared_ptr<Job> j
 	_player->set_ignore_audio ();
 	_player->Text.connect (boost::bind(&SubtitleEncoder::text, this, _1, _2, _3, _4));
 
+	string const extension = film->interop() ? ".xml" : ".mxf";
+
 	int const files = split_reels ? film->reels().size() : 1;
 	for (int i = 0; i < files; ++i) {
 
 		boost::filesystem::path filename = output;
-		string extension = boost::filesystem::extension (filename);
-		filename = boost::filesystem::change_extension (filename, "");
-
-		if (files > 1) {
-			/// TRANSLATORS: _reel%1 here is to be added to an export filename to indicate
-			/// which reel it is.  Preserve the %1; it will be replaced with the reel number.
-			filename = filename.string() + String::compose(_("_reel%1"), i + 1);
+		if (boost::filesystem::is_directory(filename)) {
+			if (files > 1) {
+				/// TRANSLATORS: _reel%1 here is to be added to an export filename to indicate
+				/// which reel it is.  Preserve the %1; it will be replaced with the reel number.
+				filename /= String::compose("%1_reel%2", initial_name, i + 1);
+			} else {
+				filename /= initial_name;
+			}
 		}
 
-		_assets.push_back (make_pair(shared_ptr<dcp::SubtitleAsset>(), boost::filesystem::change_extension(filename, ".xml")));
+		_assets.push_back (make_pair(shared_ptr<dcp::SubtitleAsset>(), boost::filesystem::change_extension(filename, extension)));
 	}
 
 	BOOST_FOREACH (dcpomatic::DCPTimePeriod i, film->reels()) {
