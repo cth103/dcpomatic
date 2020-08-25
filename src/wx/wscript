@@ -66,6 +66,7 @@ sources = """
           download_certificate_dialog.cc
           download_certificate_panel.cc
           export_dialog.cc
+          export_subtitles_dialog.cc
           file_picker_ctrl.cc
           film_editor.cc
           film_name_location_dialog.cc

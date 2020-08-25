@@ -46,6 +46,7 @@
 #include "wx/templates_dialog.h"
 #include "wx/nag_dialog.h"
 #include "wx/export_dialog.h"
+#include "wx/export_subtitles_dialog.h"
 #include "wx/paste_dialog.h"
 #include "wx/focus_manager.h"
 #include "wx/html_dialog.h"
@@ -228,6 +229,7 @@ enum {
 	ID_jobs_make_dkdms,
 	ID_jobs_make_self_dkdm,
 	ID_jobs_export,
+	ID_jobs_export_subtitles,
 	ID_jobs_send_dcp_to_tms,
 	ID_jobs_show_dcp,
 	ID_jobs_open_dcp_in_player,
@@ -321,6 +323,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_make_dcp_batch, this),     ID_jobs_make_dcp_batch);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_make_self_dkdm, this),     ID_jobs_make_self_dkdm);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_export, this),             ID_jobs_export);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_export_subtitles, this),   ID_jobs_export_subtitles);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_send_dcp_to_tms, this),    ID_jobs_send_dcp_to_tms);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_show_dcp, this),           ID_jobs_show_dcp);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_open_dcp_in_player, this), ID_jobs_open_dcp_in_player);
@@ -989,6 +992,33 @@ private:
 		d->Destroy ();
 	}
 
+
+	void jobs_export_subtitles ()
+	{
+		ExportSubtitlesDialog* d = new ExportSubtitlesDialog (this, _film->isdcf_name(true));
+		if (d->ShowModal() == wxID_OK) {
+			if (boost::filesystem::exists(d->path())) {
+				bool ok = confirm_dialog(
+						this,
+						wxString::Format (_("File %s already exists.  Do you want to overwrite it?"), std_to_wx(d->path().string()).data())
+						);
+
+				if (!ok) {
+					d->Destroy ();
+					return;
+				}
+			}
+
+			shared_ptr<TranscodeJob> job (new TranscodeJob (_film));
+			job->set_encoder (
+				shared_ptr<SubtitleEncoder>(new SubtitleEncoder(_film, job, d->path(), d->split_reels()))
+				);
+			JobManager::instance()->add (job);
+		}
+		d->Destroy ();
+	}
+
+
 	void jobs_send_dcp_to_tms ()
 	{
 		_film->send_dcp_to_tms ();
@@ -1321,7 +1351,8 @@ private:
 		add_item (jobs_menu, _("Make &DKDMs...\tCtrl-D"), ID_jobs_make_dkdms, NEEDS_FILM);
 		add_item (jobs_menu, _("Make DKDM for DCP-o-matic..."), ID_jobs_make_self_dkdm, NEEDS_FILM | NEEDS_ENCRYPTION);
 		jobs_menu->AppendSeparator ();
-		add_item (jobs_menu, _("Export...\tCtrl-E"), ID_jobs_export, NEEDS_FILM);
+		add_item (jobs_menu, _("Export video file...\tCtrl-E"), ID_jobs_export, NEEDS_FILM);
+		add_item (jobs_menu, _("Export subtitles..."), ID_jobs_export_subtitles, NEEDS_FILM);
 		jobs_menu->AppendSeparator ();
 		add_item (jobs_menu, _("&Send DCP to TMS"), ID_jobs_send_dcp_to_tms, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
 
