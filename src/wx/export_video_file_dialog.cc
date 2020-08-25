@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,10 @@
 
 */
 
-#include "export_dialog.h"
+#include "check_box.h"
+#include "export_video_file_dialog.h"
 #include "file_picker_ctrl.h"
 #include "wx_util.h"
-#include "check_box.h"
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/filepicker.h>
@@ -53,8 +53,8 @@ ExportFormat formats[] = {
 	EXPORT_FORMAT_H264_AAC,
 };
 
-ExportDialog::ExportDialog (wxWindow* parent, string name)
-	: TableDialog (parent, _("Export film"), 2, 1, true)
+ExportVideoFileDialog::ExportVideoFileDialog (wxWindow* parent, string name)
+	: TableDialog (parent, _("Export video file"), 2, 1, true)
 	, _initial_name (name)
 {
 	add (_("Format"), true);
@@ -99,8 +99,8 @@ ExportDialog::ExportDialog (wxWindow* parent, string name)
 		_x264_crf_label[i]->Enable (false);
 	}
 
-	_format->Bind (wxEVT_CHOICE, bind (&ExportDialog::format_changed, this));
-	_file->Bind (wxEVT_FILEPICKER_CHANGED, bind (&ExportDialog::file_changed, this));
+	_format->Bind (wxEVT_CHOICE, bind (&ExportVideoFileDialog::format_changed, this));
+	_file->Bind (wxEVT_FILEPICKER_CHANGED, bind (&ExportVideoFileDialog::file_changed, this));
 
 	layout ();
 
@@ -109,7 +109,7 @@ ExportDialog::ExportDialog (wxWindow* parent, string name)
 }
 
 void
-ExportDialog::format_changed ()
+ExportVideoFileDialog::format_changed ()
 {
 	DCPOMATIC_ASSERT (_format->GetSelection() >= 0 && _format->GetSelection() < FORMATS);
 	_file->SetWildcard (format_filters[_format->GetSelection()]);
@@ -122,7 +122,7 @@ ExportDialog::format_changed ()
 }
 
 boost::filesystem::path
-ExportDialog::path () const
+ExportVideoFileDialog::path () const
 {
 	wxFileName fn (_file->GetPath());
 	fn.SetExt (format_extensions[_format->GetSelection()]);
@@ -130,38 +130,38 @@ ExportDialog::path () const
 }
 
 ExportFormat
-ExportDialog::format () const
+ExportVideoFileDialog::format () const
 {
 	DCPOMATIC_ASSERT (_format->GetSelection() >= 0 && _format->GetSelection() < FORMATS);
 	return formats[_format->GetSelection()];
 }
 
 bool
-ExportDialog::mixdown_to_stereo () const
+ExportVideoFileDialog::mixdown_to_stereo () const
 {
 	return _mixdown->GetValue ();
 }
 
 bool
-ExportDialog::split_reels () const
+ExportVideoFileDialog::split_reels () const
 {
 	return _split_reels->GetValue ();
 }
 
 bool
-ExportDialog::split_streams () const
+ExportVideoFileDialog::split_streams () const
 {
 	return _split_streams->GetValue ();
 }
 
 int
-ExportDialog::x264_crf () const
+ExportVideoFileDialog::x264_crf () const
 {
 	return _x264_crf->GetValue ();
 }
 
 void
-ExportDialog::file_changed ()
+ExportVideoFileDialog::file_changed ()
 {
 	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
 	DCPOMATIC_ASSERT (ok);

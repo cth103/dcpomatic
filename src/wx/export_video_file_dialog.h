@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -25,10 +25,10 @@
 
 class FilePickerCtrl;
 
-class ExportDialog : public TableDialog
+class ExportVideoFileDialog : public TableDialog
 {
 public:
-	explicit ExportDialog (wxWindow* parent, std::string name);
+	ExportVideoFileDialog (wxWindow* parent, std::string name);
 
 	boost::filesystem::path path () const;
 	ExportFormat format () const;
