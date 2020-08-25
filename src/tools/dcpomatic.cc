@@ -990,7 +990,7 @@ private:
 
 	void jobs_export_subtitles ()
 	{
-		ExportSubtitlesDialog* d = new ExportSubtitlesDialog (this, _film->isdcf_name(true));
+		ExportSubtitlesDialog* d = new ExportSubtitlesDialog (this, _film->isdcf_name(true), _film->interop());
 		if (d->ShowModal() == wxID_OK) {
 			if (boost::filesystem::exists(d->path())) {
 				bool ok = confirm_dialog(
@@ -1006,7 +1006,7 @@ private:
 
 			shared_ptr<TranscodeJob> job (new TranscodeJob (_film));
 			job->set_encoder (
-				shared_ptr<SubtitleEncoder>(new SubtitleEncoder(_film, job, d->path(), d->split_reels()))
+				shared_ptr<SubtitleEncoder>(new SubtitleEncoder(_film, job, d->path(), d->split_reels(), d->include_font()))
 				);
 			JobManager::instance()->add (job);
 		}

@@ -37,7 +37,7 @@ class Film;
 class SubtitleEncoder : public Encoder
 {
 public:
-	SubtitleEncoder (boost::shared_ptr<const Film> film, boost::shared_ptr<Job> job, boost::filesystem::path output, bool split_reels);
+	SubtitleEncoder (boost::shared_ptr<const Film> film, boost::shared_ptr<Job> job, boost::filesystem::path output, bool split_reels, bool include_font);
 
 	void go ();
 
@@ -54,6 +54,7 @@ private:
 	std::vector<std::pair<boost::shared_ptr<dcp::SubtitleAsset>, boost::filesystem::path> > _assets;
 	std::vector<dcpomatic::DCPTimePeriod> _reels;
 	bool _split_reels;
+	bool _include_font;
 	int _reel_index;
 	boost::optional<dcpomatic::DCPTime> _last;
 	dcpomatic::DCPTime _length;

@@ -27,15 +27,17 @@ class FilePickerCtrl;
 class ExportSubtitlesDialog : public TableDialog
 {
 public:
-	ExportSubtitlesDialog (wxWindow* parent, std::string name);
+	ExportSubtitlesDialog (wxWindow* parent, std::string name, bool interop);
 
 	boost::filesystem::path path () const;
 	bool split_reels () const;
+	bool include_font () const;
 
 private:
 	void file_changed ();
 
 	std::string _initial_name;
 	wxCheckBox* _split_reels;
+	wxCheckBox* _include_font;
 	FilePickerCtrl* _file;
 };

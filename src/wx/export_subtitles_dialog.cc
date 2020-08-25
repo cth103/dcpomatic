@@ -34,13 +34,19 @@ using std::string;
 using boost::bind;
 
 
-ExportSubtitlesDialog::ExportSubtitlesDialog (wxWindow* parent, string name)
+ExportSubtitlesDialog::ExportSubtitlesDialog (wxWindow* parent, string name, bool interop)
 	: TableDialog (parent, _("Export subtitles"), 2, 1, true)
 	, _initial_name (name)
+	, _include_font (0)
 {
 	_split_reels = new CheckBox (this, _("Write reels into separate files"));
 	add (_split_reels, false);
 	add_spacer ();
+	if (interop) {
+		_include_font = new CheckBox (this, _("Define font in output and export font file"));
+		add (_include_font, false);
+		add_spacer ();
+	}
 
 	add (_("Output file"), true);
 	/* Don't warn overwrite here, because on Linux (at least) if we specify a filename like foo
@@ -77,10 +83,17 @@ ExportSubtitlesDialog::split_reels () const
 }
 
 
+bool
+ExportSubtitlesDialog::include_font () const
+{
+	return _include_font ? _include_font->GetValue () : true;
+}
+
+
 void
 ExportSubtitlesDialog::file_changed ()
 {
-	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
+	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById(wxID_OK, this));
 	DCPOMATIC_ASSERT (ok);
 	ok->Enable (path().is_absolute());
 }

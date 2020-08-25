@@ -18,6 +18,7 @@
 
 */
 
+#include "font.h"
 #include "subtitle_encoder.h"
 #include "player.h"
 #include "compose.hpp"
@@ -39,9 +40,11 @@ using boost::shared_ptr;
 using boost::optional;
 using dcp::raw_convert;
 
-SubtitleEncoder::SubtitleEncoder (shared_ptr<const Film> film, shared_ptr<Job> job, boost::filesystem::path output, bool split_reels)
+/** @param include_font true to refer to and export any font file (for Interop; ignored for SMPTE) */
+SubtitleEncoder::SubtitleEncoder (shared_ptr<const Film> film, shared_ptr<Job> job, boost::filesystem::path output, bool split_reels, bool include_font)
 	: Encoder (film, job)
 	, _split_reels (split_reels)
+	, _include_font (include_font)
 	, _reel_index (0)
 	, _length (film->length())
 {
@@ -101,6 +104,12 @@ SubtitleEncoder::go ()
 			}
 		}
 
+		if (!_film->interop() || _include_font) {
+			BOOST_FOREACH (shared_ptr<dcpomatic::Font> j, _player->get_subtitle_fonts()) {
+				i->first->add_font (j->id(), default_font_file());
+			}
+		}
+
 		i->first->write (i->second);
 		++reel;
 	}
@@ -145,6 +154,9 @@ SubtitleEncoder::text (PlayerText subs, TextType type, optional<DCPTextTrack> tr
 		/* XXX: couldn't / shouldn't we use period here rather than getting time from the subtitle? */
 		i.set_in  (i.in());
 		i.set_out (i.out());
+		if (_film->interop() && !_include_font) {
+			i.unset_font ();
+		}
 		_assets[_reel_index].first->add (shared_ptr<dcp::Subtitle>(new dcp::SubtitleString(i)));
 	}
 
