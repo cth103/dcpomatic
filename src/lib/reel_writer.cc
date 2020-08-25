@@ -439,24 +439,9 @@ maybe_add_text (
 	shared_ptr<T> reel_asset;
 
 	if (asset) {
-		boost::filesystem::path liberation_normal;
-		try {
-			liberation_normal = shared_path() / "LiberationSans-Regular.ttf";
-			if (!boost::filesystem::exists (liberation_normal)) {
-				/* Hack for unit tests */
-				liberation_normal = shared_path() / "fonts" / "LiberationSans-Regular.ttf";
-			}
-		} catch (boost::filesystem::filesystem_error& e) {
-
-		}
-
-		if (!boost::filesystem::exists(liberation_normal)) {
-			liberation_normal = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
-		}
-
 		/* Add the font to the subtitle content */
 		BOOST_FOREACH (shared_ptr<Font> j, fonts) {
-			asset->add_font (j->id(), j->file().get_value_or(liberation_normal));
+			asset->add_font (j->id(), j->file().get_value_or(default_font_file()));
 		}
 
 		if (dynamic_pointer_cast<dcp::InteropSubtitleAsset> (asset)) {

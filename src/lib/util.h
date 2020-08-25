@@ -121,6 +121,7 @@ extern void write_swaroop_chain (boost::shared_ptr<const dcp::CertificateChain> 
 #endif
 extern dcp::Size scale_for_display (dcp::Size s, dcp::Size display_container, dcp::Size film_container);
 extern dcp::DecryptedKDM decrypt_kdm_with_helpful_error (dcp::EncryptedKDM kdm);
+extern boost::filesystem::path default_font_file ();
 
 template <class T>
 std::list<T>
