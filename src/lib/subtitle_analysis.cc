@@ -42,7 +42,7 @@ SubtitleAnalysis::SubtitleAnalysis (boost::filesystem::path path)
 
 	if (f.optional_number_child<int>("Version").get_value_or(1) < _current_state_version) {
 		/* Too old.  Throw an exception so that this analysis is re-run. */
-		throw OldFormatError ("Audio analysis file is too old");
+		throw OldFormatError ("Subtitle analysis file is too old");
 	}
 
 	cxml::NodePtr bounding_box = f.optional_node_child("BoundingBox");
