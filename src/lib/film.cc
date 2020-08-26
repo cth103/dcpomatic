@@ -1377,6 +1377,8 @@ Film::playlist_content_change (ChangeType type, weak_ptr<Content> c, int p, bool
 	} else {
 		ContentChange (type, c, p, frequent);
 	}
+
+	_dirty = true;
 }
 
 void
@@ -1394,6 +1396,8 @@ Film::playlist_change (ChangeType type)
 	if (type == CHANGE_TYPE_DONE) {
 		check_settings_consistency ();
 	}
+
+	_dirty = true;
 }
 
 /** Check for (and if necessary fix) impossible settings combinations, like
