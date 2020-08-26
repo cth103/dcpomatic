@@ -781,6 +781,10 @@ TextPanel::outline_subtitles_changed ()
 void
 TextPanel::try_to_load_analysis ()
 {
+	if (_loading_analysis) {
+		return;
+	}
+
 	_loading_analysis = true;
 	setup_sensitivity ();
 	_analysis.reset ();
@@ -879,6 +883,7 @@ TextPanel::analysis_finished ()
 		return;
 	}
 
+	_loading_analysis = false;
 	try_to_load_analysis ();
 }
 
