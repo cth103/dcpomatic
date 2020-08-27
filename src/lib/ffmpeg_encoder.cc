@@ -43,6 +43,9 @@ using boost::bind;
 using boost::weak_ptr;
 using boost::optional;
 using namespace dcpomatic;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 /** @param key Key to use to encrypt MP4 outputs */
 FFmpegEncoder::FFmpegEncoder (

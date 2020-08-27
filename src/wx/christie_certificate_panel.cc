@@ -28,6 +28,9 @@
 using std::string;
 using boost::optional;
 using boost::bind;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 ChristieCertificatePanel::ChristieCertificatePanel (DownloadCertificateDialog* dialog)
 	: CredentialsDownloadCertificatePanel (

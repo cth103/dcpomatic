@@ -24,6 +24,10 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <wx/textctrl.h>
 DCPOMATIC_ENABLE_WARNINGS
 
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
+
 FocusManager* FocusManager::_instance;
 
 FocusManager *

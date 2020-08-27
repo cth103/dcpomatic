@@ -38,6 +38,9 @@ using std::string;
 using std::min;
 using boost::shared_ptr;
 using boost::scoped_ptr;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 UploadJob::UploadJob (shared_ptr<const Film> film)
 	: Job (film)

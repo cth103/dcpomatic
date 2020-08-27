@@ -56,6 +56,9 @@ using boost::dynamic_pointer_cast;
 using boost::bind;
 using boost::optional;
 using namespace dcpomatic;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 /* 3 hours in 640 pixels */
 double const Timeline::_minimum_pixels_per_second = 640.0 / (60 * 60 * 3);

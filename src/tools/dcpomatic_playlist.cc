@@ -49,6 +49,9 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::bind;
 using boost::dynamic_pointer_cast;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 class ContentDialog : public wxDialog, public ContentStore
 {

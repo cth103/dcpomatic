@@ -28,6 +28,9 @@
 using std::list;
 using std::string;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 RecreateChainDialog::RecreateChainDialog (wxWindow* parent, wxString title, wxString message, wxString cancel, optional<Config::Nag> nag)
 	: QuestionDialog (parent, _("Certificate chain"), title, cancel)

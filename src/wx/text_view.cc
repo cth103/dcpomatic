@@ -36,6 +36,9 @@ using boost::weak_ptr;
 using boost::bind;
 using boost::dynamic_pointer_cast;
 using namespace dcpomatic;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 TextView::TextView (
 	wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content> content, shared_ptr<TextContent> text, shared_ptr<Decoder> decoder, weak_ptr<FilmViewer> viewer

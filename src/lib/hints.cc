@@ -50,6 +50,9 @@ using boost::weak_ptr;
 using boost::optional;
 using boost::bind;
 using namespace dcpomatic;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 Hints::Hints (weak_ptr<const Film> film)
 	: _film (film)

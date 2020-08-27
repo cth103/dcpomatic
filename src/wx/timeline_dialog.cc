@@ -34,6 +34,9 @@ using std::cout;
 using std::string;
 using boost::shared_ptr;
 using boost::weak_ptr;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film, weak_ptr<FilmViewer> viewer)
 	: wxDialog (

@@ -62,6 +62,9 @@ using boost::shared_ptr;
 using dcp::Size;
 using dcp::Data;
 using dcp::raw_convert;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 #define DCI_COEFFICENT (48.0 / 52.37)
 
@@ -120,7 +123,7 @@ DCPVideo::encode_locally ()
 {
 	string const comment = Config::instance()->dcp_j2k_comment();
 
-	Data enc = compress_j2k (
+	Data enc = dcp::compress_j2k (
 		convert_to_xyz (_frame, boost::bind(&Log::dcp_log, dcpomatic_log.get(), _1, _2)),
 		_j2k_bandwidth,
 		_frames_per_second,

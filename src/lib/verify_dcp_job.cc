@@ -28,6 +28,9 @@ using std::string;
 using std::vector;
 using boost::shared_ptr;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 VerifyDCPJob::VerifyDCPJob (vector<boost::filesystem::path> directories)
 	: Job (shared_ptr<Film>())

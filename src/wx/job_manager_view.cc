@@ -42,6 +42,9 @@ using std::cout;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::bind;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 /** @param parent Parent window.
  *  @param batch true to use BatchJobView, false to use NormalJobView.

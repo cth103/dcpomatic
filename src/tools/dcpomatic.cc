@@ -131,6 +131,9 @@ using boost::optional;
 using boost::function;
 using boost::is_any_of;
 using boost::algorithm::find;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using dcp::raw_convert;
 
 class FilmChangedClosingDialog : public boost::noncopyable

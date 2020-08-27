@@ -28,6 +28,9 @@
 
 using std::string;
 using boost::bind;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 TemplatesDialog::TemplatesDialog (wxWindow* parent)
 	: wxDialog (parent, wxID_ANY, _("Templates"))

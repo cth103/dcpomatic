@@ -28,6 +28,9 @@
 using std::list;
 using boost::shared_ptr;
 using namespace dcpomatic;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 TimelineContentView::TimelineContentView (Timeline& tl, shared_ptr<Content> c)
 	: TimelineView (tl)

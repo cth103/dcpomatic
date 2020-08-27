@@ -50,6 +50,9 @@ using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using namespace dcpomatic;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 int const AnalyseAudioJob::_num_points = 1024;
 

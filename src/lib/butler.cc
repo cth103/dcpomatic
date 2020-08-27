@@ -39,6 +39,9 @@ using boost::bind;
 using boost::optional;
 using boost::function;
 using namespace dcpomatic;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 /** Minimum video readahead in frames */
 #define MINIMUM_VIDEO_READAHEAD 10

@@ -56,6 +56,9 @@ using boost::dynamic_pointer_cast;
 using boost::bind;
 using boost::optional;
 using namespace dcpomatic;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 
 VideoPanel::VideoPanel (ContentPanel* p)

@@ -29,6 +29,10 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 #include <iostream>
 
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
+
 HTMLDialog::HTMLDialog (wxWindow* parent, wxString title, wxString html)
 	: wxDialog (parent, wxID_ANY, title)
 {

@@ -24,6 +24,9 @@
 #include <boost/foreach.hpp>
 
 using std::string;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 SaveTemplateDialog::SaveTemplateDialog (wxWindow* parent)
 	: TableDialog (parent, _("Save template"), 2, 1, true)

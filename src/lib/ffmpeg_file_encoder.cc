@@ -40,6 +40,9 @@ using boost::bind;
 using boost::weak_ptr;
 using boost::optional;
 using namespace dcpomatic;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 int FFmpegFileEncoder::_video_stream_index = 0;
 int FFmpegFileEncoder::_audio_stream_index_base = 1;
