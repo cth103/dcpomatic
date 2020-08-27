@@ -105,7 +105,11 @@ public:
 		update_from_model ();
 
 		for (typename List::iterator i = _content.begin(); i != _content.end(); ++i) {
+#if BOOST_VERSION >= 106100
+			_connections.push_back ((*i)->Change.connect (boost::bind (&ContentWidget::model_changed, this, boost::placeholders::_1, boost::placeholders::_3)));
+#else
 			_connections.push_back ((*i)->Change.connect (boost::bind (&ContentWidget::model_changed, this, _1, _3)));
+#endif
 		}
 	}
 

@@ -27,6 +27,7 @@
 #include "dcpomatic_socket.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
+#include <boost/bind/placeholders.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <iostream>
 
@@ -40,6 +41,9 @@ using boost::shared_ptr;
 using boost::scoped_array;
 using boost::weak_ptr;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using dcp::raw_convert;
 
 EncodeServerFinder* EncodeServerFinder::_instance = 0;

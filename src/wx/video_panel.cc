@@ -53,6 +53,9 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::bind;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 static VideoContentScale
 index_to_scale (int n)

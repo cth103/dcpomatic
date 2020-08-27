@@ -53,6 +53,9 @@ using boost::shared_ptr;
 using boost::thread;
 using boost::scoped_array;
 using boost::dynamic_pointer_cast;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 static list<boost::filesystem::path> films_to_load;
 

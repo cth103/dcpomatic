@@ -41,6 +41,9 @@ using std::list;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 FilmEditor::FilmEditor (wxWindow* parent, weak_ptr<FilmViewer> viewer)
 	: wxPanel (parent)

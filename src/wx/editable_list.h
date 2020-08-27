@@ -92,7 +92,11 @@ public:
 
 		_list->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, boost::bind (&EditableList::selection_changed, this));
 		_list->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&EditableList::selection_changed, this));
+#if BOOST_VERSION >= 106100
+		_list->Bind (wxEVT_SIZE, boost::bind (&EditableList::resized, this, boost::placeholders::_1));
+#else
 		_list->Bind (wxEVT_SIZE, boost::bind (&EditableList::resized, this, _1));
+#endif
 
 		refresh ();
 		selection_changed ();

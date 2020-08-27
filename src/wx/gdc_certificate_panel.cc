@@ -27,6 +27,9 @@
 
 using std::string;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 GDCCertificatePanel::GDCCertificatePanel (DownloadCertificateDialog* dialog)
 	: DownloadCertificatePanel (dialog)

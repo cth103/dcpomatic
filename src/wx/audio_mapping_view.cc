@@ -46,6 +46,9 @@ using std::pair;
 using std::make_pair;
 using boost::shared_ptr;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using dcp::locale_convert;
 
 #define INDICATOR_SIZE 20

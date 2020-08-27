@@ -51,6 +51,9 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using dcp::locale_convert;
 
 TimingPanel::TimingPanel (ContentPanel* p, weak_ptr<FilmViewer> viewer)

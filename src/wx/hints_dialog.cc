@@ -36,6 +36,9 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::bind;
 using boost::dynamic_pointer_cast;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> film, bool ok)
 	: wxDialog (parent, wxID_ANY, _("Hints"))

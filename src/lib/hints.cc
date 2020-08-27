@@ -49,6 +49,9 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::optional;
 using boost::bind;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 Hints::Hints (weak_ptr<const Film> film)
 	: _film (film)

@@ -58,6 +58,9 @@ using std::max;
 using std::make_pair;
 using boost::lexical_cast;
 using boost::shared_ptr;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using dcp::locale_convert;
 
 DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)

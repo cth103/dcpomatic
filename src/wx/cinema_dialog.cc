@@ -31,6 +31,9 @@ using std::back_inserter;
 using std::list;
 using std::cout;
 using boost::bind;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 static string
 column (string s)

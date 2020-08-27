@@ -48,6 +48,9 @@ using boost::thread;
 using boost::bind;
 using boost::optional;
 using boost::dynamic_pointer_cast;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 enum {
 	ID_status = 1,

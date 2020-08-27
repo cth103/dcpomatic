@@ -21,6 +21,10 @@
 #include "focus_manager.h"
 #include <wx/textctrl.h>
 
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
+
 FocusManager* FocusManager::_instance;
 
 FocusManager *

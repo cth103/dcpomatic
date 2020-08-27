@@ -41,6 +41,9 @@ using std::map;
 using boost::shared_ptr;
 using boost::bind;
 using boost::weak_ptr;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 FFmpegEncoder::FFmpegEncoder (
 	shared_ptr<const Film> film,

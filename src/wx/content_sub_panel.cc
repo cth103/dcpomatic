@@ -30,6 +30,9 @@
 using std::list;
 using std::string;
 using boost::shared_ptr;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 ContentSubPanel::ContentSubPanel (ContentPanel* p, wxString name)
 	: wxScrolledWindow (p->notebook(), wxID_ANY)

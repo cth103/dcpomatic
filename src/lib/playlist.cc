@@ -34,6 +34,7 @@
 #include "compose.hpp"
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
+#include <boost/bind/placeholders.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/foreach.hpp>
 #include <iostream>
@@ -51,6 +52,9 @@ using boost::optional;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 Playlist::Playlist ()
 	: _sequence (true)

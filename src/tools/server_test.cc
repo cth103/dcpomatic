@@ -43,6 +43,9 @@ using std::pair;
 using boost::shared_ptr;
 using boost::optional;
 using boost::bind;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using dcp::Data;
 
 static shared_ptr<Film> film;

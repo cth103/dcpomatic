@@ -28,6 +28,9 @@
 
 using std::list;
 using std::string;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 ConfirmKDMEmailDialog::ConfirmKDMEmailDialog (wxWindow* parent, list<string> emails)
 	: QuestionDialog (parent, _("Confirm KDM email"), _("Send emails"), _("Don't send emails"))

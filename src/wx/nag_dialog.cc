@@ -25,6 +25,9 @@
 #include <boost/foreach.hpp>
 
 using boost::shared_ptr;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 NagDialog::NagDialog (wxWindow* parent, Config::Nag nag, wxString message, bool can_cancel)
 	: wxDialog (parent, wxID_ANY, _("Important notice"))

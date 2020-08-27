@@ -42,6 +42,9 @@ using boost::bind;
 using boost::optional;
 using boost::const_pointer_cast;
 using boost::dynamic_pointer_cast;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 /** @param parent Parent window.
  *  @param film Film we are using.
