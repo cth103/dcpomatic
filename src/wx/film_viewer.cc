@@ -527,8 +527,12 @@ FilmViewer::config_changed (Config::Property p)
 		unsigned int st = 0;
 		if (Config::instance()->sound_output()) {
 			while (st < _audio.getDeviceCount()) {
-				if (_audio.getDeviceInfo(st).name == Config::instance()->sound_output().get()) {
-					break;
+				try {
+					if (_audio.getDeviceInfo(st).name == Config::instance()->sound_output().get()) {
+						break;
+					}
+				} catch (RtAudioError&) {
+					/* Something went wrong with that device so we don't want to use it anyway */
 				}
 				++st;
 			}
@@ -539,19 +543,19 @@ FilmViewer::config_changed (Config::Property p)
 			st = _audio.getDefaultOutputDevice();
 		}
 
-		_audio_channels = _audio.getDeviceInfo(st).outputChannels;
-
-		RtAudio::StreamParameters sp;
-		sp.deviceId = st;
-		sp.nChannels = _audio_channels;
-		sp.firstChannel = 0;
 		try {
+			_audio_channels = _audio.getDeviceInfo(st).outputChannels;
+			RtAudio::StreamParameters sp;
+			sp.deviceId = st;
+			sp.nChannels = _audio_channels;
+			sp.firstChannel = 0;
 			_audio.openStream (&sp, 0, RTAUDIO_FLOAT32, 48000, &_audio_block_size, &rtaudio_callback, this);
 #ifdef DCPOMATIC_USE_RTERROR
 		} catch (RtError& e) {
 #else
 		} catch (RtAudioError& e) {
 #endif
+			_audio_channels = 0;
 			error_dialog (
 				_video_view->get(),
 				_("Could not set up audio output.  There will be no audio during the preview."), std_to_wx(e.what())

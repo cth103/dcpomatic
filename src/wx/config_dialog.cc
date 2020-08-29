@@ -878,9 +878,17 @@ SoundPage::setup ()
 
 	RtAudio audio (DCPOMATIC_RTAUDIO_API);
 	for (unsigned int i = 0; i < audio.getDeviceCount(); ++i) {
-		RtAudio::DeviceInfo dev = audio.getDeviceInfo (i);
-		if (dev.probed && dev.outputChannels > 0) {
-			_sound_output->Append (std_to_wx (dev.name));
+		try {
+			RtAudio::DeviceInfo dev = audio.getDeviceInfo (i);
+			if (dev.probed && dev.outputChannels > 0) {
+				_sound_output->Append (std_to_wx (dev.name));
+			}
+#ifdef DCPOMATIC_USE_RTERROR
+		} catch (RtError&) {
+#else
+		} catch (RtAudioError&) {
+#endif
+			/* Something went wrong so let's just ignore that device */
 		}
 	}
 
@@ -913,7 +921,13 @@ SoundPage::sound_output_changed ()
 {
 	RtAudio audio (DCPOMATIC_RTAUDIO_API);
 	optional<string> const so = get_sound_output();
-	if (!so || *so == audio.getDeviceInfo(audio.getDefaultOutputDevice()).name) {
+	string default_device;
+	try {
+		default_device = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
+	} catch (RtAudioError&) {
+		/* Never mind */
+	}
+	if (!so || *so == default_device) {
 		Config::instance()->unset_sound_output ();
 	} else {
 		Config::instance()->set_sound_output (*so);
