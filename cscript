@@ -33,10 +33,10 @@ deb_build_depends['16.04'] = copy.deepcopy(deb_build_depends_base)
 deb_build_depends['16.04'].extend(['libssh-dev'])
 deb_build_depends['18.04'] = copy.deepcopy(deb_build_depends_base)
 deb_build_depends['18.04'].extend(['libssh-dev'])
-deb_build_depends['19.10'] = copy.deepcopy(deb_build_depends_base)
-deb_build_depends['19.10'].extend(['libssh-dev'])
 deb_build_depends['20.04'] = copy.deepcopy(deb_build_depends_base)
 deb_build_depends['20.04'].extend(['libssh-dev'])
+deb_build_depends['20.10'] = copy.deepcopy(deb_build_depends_base)
+deb_build_depends['20.10'].extend(['libssh-dev'])
 deb_build_depends['9'] = copy.deepcopy(deb_build_depends_base)
 deb_build_depends['9'].extend(['libssh-gcrypt-dev'])
 deb_build_depends['10'] = copy.deepcopy(deb_build_depends_base)
@@ -84,18 +84,18 @@ deb_depends['18.04'].extend(['libboost-filesystem1.65.1',
                              'libxerces-c3.2',
                              'libnanomsg4'])
 
-deb_depends['19.10'] = copy.deepcopy(deb_depends_base)
-deb_depends['19.10'].extend(['libboost-filesystem1.67.0',
-                             'libboost-thread1.67.0',
-                             'libboost-regex1.67.0',
-                             'libboost-date-time1.67.0',
+deb_depends['20.04'] = copy.deepcopy(deb_depends_base)
+deb_depends['20.04'].extend(['libboost-filesystem1.71.0',
+                             'libboost-thread1.71.0',
+                             'libboost-regex1.71.0',
+                             'libboost-date-time1.71.0',
                              'libcairomm-1.0-1v5',
                              'libpangomm-1.4-1v5',
                              'libxml++2.6-2v5',
                              'libzip5',
-                             'libwxgtk3.0-0v5',
-                             'libicu63',
-                             'libnettle6',
+                             'libwxgtk3.0-gtk3-0v5',
+                             'libicu66',
+                             'libnettle7',
                              'libssh-4',
                              'libx264-155',
                              'libcurl4',
@@ -103,8 +103,8 @@ deb_depends['19.10'].extend(['libboost-filesystem1.67.0',
                              'libxerces-c3.2',
                              'libnanomsg5'])
 
-deb_depends['20.04'] = copy.deepcopy(deb_depends_base)
-deb_depends['20.04'].extend(['libboost-filesystem1.71.0',
+deb_depends['20.10'] = copy.deepcopy(deb_depends_base)
+deb_depends['20.10'].extend(['libboost-filesystem1.71.0',
                              'libboost-thread1.71.0',
                              'libboost-regex1.71.0',
                              'libboost-date-time1.71.0',
@@ -197,7 +197,7 @@ def can_build_disk(target):
     if target.platform == 'osx':
         return True
     if target.platform == 'linux':
-        if target.distro == 'ubuntu' and target.version in ['18.04', '19.10', '20.04']:
+        if target.distro == 'ubuntu' and target.version in ['18.04', '20.04', '20.10']:
             return True
         if target.distro == 'debian' and target.version == '10':
             return True
