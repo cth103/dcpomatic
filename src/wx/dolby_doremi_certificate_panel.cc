@@ -145,7 +145,7 @@ DolbyDoremiCertificatePanel::do_download ()
 
 	/* Try dcp2000, imb and ims prefixes (see mantis #375) */
 
-	string const prefix = "ftp://anonymous@ftp.cinema.dolby.com/Certificates/";
+	string const prefix = "ftp://ftp.cinema.dolby.com/Certificates/";
 	list<string> urls;
 	list<string> files;
 
