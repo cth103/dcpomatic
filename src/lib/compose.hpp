@@ -31,8 +31,8 @@
 // more details.
 //
 
-#ifndef STRING_COMPOSE_H
-#define STRING_COMPOSE_H
+#ifndef DCPOMATIC_STRING_COMPOSE_H
+#define DCPOMATIC_STRING_COMPOSE_H
 
 #include <dcp/locale_convert.h>
 #include <boost/filesystem.hpp>
