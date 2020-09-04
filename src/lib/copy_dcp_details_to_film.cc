@@ -29,9 +29,12 @@
 #include <boost/shared_ptr.hpp>
 #include <map>
 
+
 using std::map;
 using std::string;
+using std::vector;
 using boost::shared_ptr;
+
 
 void
 copy_dcp_details_to_film (shared_ptr<const DCPContent> dcp, shared_ptr<Film> film)
@@ -67,7 +70,10 @@ copy_dcp_details_to_film (shared_ptr<const DCPContent> dcp, shared_ptr<Film> fil
 	}
 
 	film->set_ratings (dcp->ratings());
-	film->set_content_version (dcp->content_version());
+
+	vector<string> cv;
+	cv.push_back (dcp->content_version());
+	film->set_content_versions (cv);
 }
 
 

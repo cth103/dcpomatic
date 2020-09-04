@@ -165,6 +165,11 @@ Film::Film (optional<boost::filesystem::path> dir)
 	, _user_explicit_video_frame_rate (false)
 	, _user_explicit_container (false)
 	, _user_explicit_resolution (false)
+	, _name_language (dcp::LanguageTag("en-US"))
+	, _release_territory (dcp::LanguageTag::RegionSubtag("US"))
+	, _version_number (1)
+	, _status (dcp::FINAL)
+	, _luminance (dcp::Luminance(4.5, dcp::Luminance::FOOT_LAMBERT))
 	, _state_version (current_state_version)
 	, _dirty (false)
 	, _tolerant (false)
@@ -464,7 +469,18 @@ Film::metadata (bool with_content_paths) const
 	BOOST_FOREACH (dcp::Rating i, _ratings) {
 		i.as_xml (root->add_child("Rating"));
 	}
-	root->add_child("ContentVersion")->add_child_text(_content_version);
+	BOOST_FOREACH (string i, _content_versions) {
+		root->add_child("ContentVersion")->add_child_text(i);
+	}
+	root->add_child("NameLanguage")->add_child_text(_name_language.to_string());
+	root->add_child("ReleaseTerritory")->add_child_text(_release_territory.subtag());
+	root->add_child("VersionNumber")->add_child_text(raw_convert<string>(_version_number));
+	root->add_child("Status")->add_child_text(dcp::status_to_string(_status));
+	root->add_child("Chain")->add_child_text(_chain);
+	root->add_child("Distributor")->add_child_text(_distributor);
+	root->add_child("Facility")->add_child_text(_facility);
+	root->add_child("LuminanceValue")->add_child_text(raw_convert<string>(_luminance.value()));
+	root->add_child("LuminanceUnit")->add_child_text(dcp::Luminance::unit_to_string(_luminance.unit()));
 	root->add_child("UserExplicitContainer")->add_child_text(_user_explicit_container ? "1" : "0");
 	root->add_child("UserExplicitResolution")->add_child_text(_user_explicit_resolution ? "1" : "0");
 	_playlist->as_xml (root->add_child ("Playlist"), with_content_paths);
@@ -612,7 +628,35 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 		_ratings.push_back (dcp::Rating(i));
 	}
 
-	_content_version = f.optional_string_child("ContentVersion").get_value_or("");
+	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("ContentVersion")) {
+		_content_versions.push_back (i->content());
+	}
+
+	optional<string> name_language = f.optional_string_child("NameLanguage");
+	if (name_language) {
+		_name_language = dcp::LanguageTag (*name_language);
+	}
+	optional<string> release_territory = f.optional_string_child("ReleaseTerritory");
+	if (release_territory) {
+		_release_territory = dcp::LanguageTag::RegionSubtag (*release_territory);
+	}
+
+	_version_number = f.optional_number_child<int>("VersionNumber").get_value_or(0);
+
+	optional<string> status = f.optional_string_child("Status");
+	if (status) {
+		_status = dcp::string_to_status (*status);
+	}
+
+	_chain = f.optional_string_child("Chain").get_value_or("");
+	_distributor = f.optional_string_child("Distributor").get_value_or("");
+	_facility = f.optional_string_child("Facility").get_value_or("");
+
+	float value = f.optional_number_child<float>("LuminanceValue").get_value_or(4.5);
+	optional<string> unit = f.optional_string_child("LuminanceUnit");
+	if (unit) {
+		_luminance = dcp::Luminance (value, dcp::Luminance::string_to_unit(*unit));
+	}
 
 	/* Disable guessing for files made in previous DCP-o-matic versions */
 	_user_explicit_container = f.optional_bool_child("UserExplicitContainer").get_value_or(true);
@@ -1494,6 +1538,26 @@ Film::frame_size () const
 	return fit_ratio_within (container()->ratio(), full_frame ());
 }
 
+
+/** @return Area of Film::frame_size() that contains picture rather than pillar/letterboxing */
+dcp::Size
+Film::active_area () const
+{
+	dcp::Size const frame = frame_size ();
+	dcp::Size active;
+
+	BOOST_FOREACH (shared_ptr<Content> i, content()) {
+		if (i->video) {
+			dcp::Size s = i->video->scaled_size (frame);
+			active.width = max(active.width, s.width);
+			active.height = max(active.height, s.height);
+		}
+	}
+
+	return active;
+}
+
+
 /** @param recipient KDM recipient certificate.
  *  @param trusted_devices Certificate thumbprints of other trusted devices (can be empty).
  *  @param cpl_file CPL filename.
@@ -1865,11 +1929,76 @@ Film::set_ratings (vector<dcp::Rating> r)
 }
 
 void
-Film::set_content_version (string v)
+Film::set_content_versions (vector<string> v)
 {
-	ChangeSignaller<Film> ch (this, CONTENT_VERSION);
-	_content_version = v;
+	ChangeSignaller<Film> ch (this, CONTENT_VERSIONS);
+	_content_versions = v;
 }
+
+
+void
+Film::set_name_language (dcp::LanguageTag lang)
+{
+	ChangeSignaller<Film> ch (this, NAME_LANGUAGE);
+	_name_language = lang;
+}
+
+
+void
+Film::set_release_territory (dcp::LanguageTag::RegionSubtag region)
+{
+	ChangeSignaller<Film> ch (this, RELEASE_TERRITORY);
+	_release_territory = region;
+}
+
+
+void
+Film::set_status (dcp::Status s)
+{
+	ChangeSignaller<Film> ch (this, STATUS);
+	_status = s;
+}
+
+
+void
+Film::set_version_number (int v)
+{
+	ChangeSignaller<Film> ch (this, VERSION_NUMBER);
+	_version_number = v;
+}
+
+
+void
+Film::set_chain (string c)
+{
+	ChangeSignaller<Film> ch (this, CHAIN);
+	_chain = c;
+}
+
+
+void
+Film::set_distributor (string d)
+{
+	ChangeSignaller<Film> ch (this, DISTRIBUTOR);
+	_distributor = d;
+}
+
+
+void
+Film::set_luminance (dcp::Luminance l)
+{
+	ChangeSignaller<Film> ch (this, LUMINANCE);
+	_luminance = l;
+}
+
+
+void
+Film::set_facility (string f)
+{
+	ChangeSignaller<Film> ch (this, FACILITY);
+	_facility = f;
+}
+
 
 optional<DCPTime>
 Film::marker (dcp::Marker type) const

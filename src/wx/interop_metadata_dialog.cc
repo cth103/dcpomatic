@@ -18,7 +18,7 @@
 
 */
 
-#include "metadata_dialog.h"
+#include "interop_metadata_dialog.h"
 #include "editable_list.h"
 #include "rating_dialog.h"
 #include "lib/film.h"
@@ -40,7 +40,7 @@ column (dcp::Rating r, int c)
 	return r.label;
 }
 
-MetadataDialog::MetadataDialog (wxWindow* parent, weak_ptr<Film> film)
+InteropMetadataDialog::InteropMetadataDialog (wxWindow* parent, weak_ptr<Film> film)
 	: wxDialog (parent, wxID_ANY, _("Metadata"))
 	, _film (film)
 {
@@ -65,8 +65,8 @@ MetadataDialog::MetadataDialog (wxWindow* parent, weak_ptr<Film> film)
 	_ratings = new EditableList<dcp::Rating, RatingDialog> (
 		this,
 		columns,
-		boost::bind(&MetadataDialog::ratings, this),
-		boost::bind(&MetadataDialog::set_ratings, this, _1),
+		boost::bind(&InteropMetadataDialog::ratings, this),
+		boost::bind(&InteropMetadataDialog::set_ratings, this, _1),
 		boost::bind(&column, _1, _2),
 		true,
 		false
@@ -79,7 +79,8 @@ MetadataDialog::MetadataDialog (wxWindow* parent, weak_ptr<Film> film)
 
 	shared_ptr<Film> f = _film.lock();
 	DCPOMATIC_ASSERT (f);
-	_content_version->SetValue (std_to_wx(f->content_version()));
+	vector<string> cv = f->content_versions();
+	_content_version->SetValue (std_to_wx(cv.empty() ? "" : cv[0]));
 
 	overall_sizer->Add (sizer, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
@@ -91,12 +92,12 @@ MetadataDialog::MetadataDialog (wxWindow* parent, weak_ptr<Film> film)
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
 
-	_content_version->Bind (wxEVT_TEXT, boost::bind(&MetadataDialog::content_version_changed, this));
+	_content_version->Bind (wxEVT_TEXT, boost::bind(&InteropMetadataDialog::content_version_changed, this));
 	_content_version->SetFocus ();
 }
 
 vector<dcp::Rating>
-MetadataDialog::ratings () const
+InteropMetadataDialog::ratings () const
 {
 	shared_ptr<Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
@@ -104,7 +105,7 @@ MetadataDialog::ratings () const
 }
 
 void
-MetadataDialog::set_ratings (vector<dcp::Rating> r)
+InteropMetadataDialog::set_ratings (vector<dcp::Rating> r)
 {
 	shared_ptr<Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
@@ -112,9 +113,11 @@ MetadataDialog::set_ratings (vector<dcp::Rating> r)
 }
 
 void
-MetadataDialog::content_version_changed ()
+InteropMetadataDialog::content_version_changed ()
 {
 	shared_ptr<Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	film->set_content_version (wx_to_std(_content_version->GetValue()));
+	vector<string> cv;
+	cv.push_back (wx_to_std(_content_version->GetValue()));
+	film->set_content_versions (cv);
 }

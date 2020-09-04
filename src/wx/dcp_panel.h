@@ -36,7 +36,8 @@ class wxGridBagSizer;
 
 class AudioDialog;
 class MarkersDialog;
-class MetadataDialog;
+class InteropMetadataDialog;
+class SMPTEMetadataDialog;
 class Film;
 class FilmViewer;
 class Ratio;
@@ -148,7 +149,8 @@ private:
 
 	AudioDialog* _audio_dialog;
 	MarkersDialog* _markers_dialog;
-	MetadataDialog* _metadata_dialog;
+	InteropMetadataDialog* _interop_metadata_dialog;
+	SMPTEMetadataDialog* _smpte_metadata_dialog;
 
 	boost::shared_ptr<Film> _film;
 	boost::weak_ptr<FilmViewer> _viewer;

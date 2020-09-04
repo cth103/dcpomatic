@@ -32,6 +32,7 @@
 #include "frame_rate_change.h"
 #include "signaller.h"
 #include "dcp_text_track.h"
+#include <dcp/language_tag.h>
 #include <dcp/key.h>
 #include <dcp/encrypted_kdm.h>
 #include <boost/signals2.hpp>
@@ -140,6 +141,7 @@ public:
 
 	dcp::Size full_frame () const;
 	dcp::Size frame_size () const;
+	dcp::Size active_area () const;
 
 	std::vector<CPLSummary> cpls () const;
 
@@ -229,7 +231,15 @@ public:
 		REENCODE_J2K,
 		MARKERS,
 		RATINGS,
-		CONTENT_VERSION
+		CONTENT_VERSIONS,
+		NAME_LANGUAGE,
+		RELEASE_TERRITORY,
+		VERSION_NUMBER,
+		STATUS,
+		CHAIN,
+		DISTRIBUTOR,
+		FACILITY,
+		LUMINANCE
 	};
 
 
@@ -325,8 +335,40 @@ public:
 		return _ratings;
 	}
 
-	std::string content_version () const {
-		return _content_version;
+	std::vector<std::string> content_versions () const {
+		return _content_versions;
+	}
+
+	dcp::LanguageTag name_language () const {
+		return _name_language;
+	}
+
+	dcp::LanguageTag::RegionSubtag release_territory () const {
+		return _release_territory;
+	}
+
+	int version_number () const {
+		return _version_number;
+	}
+
+	dcp::Status status () const {
+		return _status;
+	}
+
+	std::string chain () const {
+		return _chain;
+	}
+
+	std::string distributor () const {
+		return _distributor;
+	}
+
+	std::string facility () const {
+		return _facility;
+	}
+
+	dcp::Luminance luminance () const {
+		return _luminance;
 	}
 
 	/* SET */
@@ -360,7 +402,15 @@ public:
 	void unset_marker (dcp::Marker type);
 	void clear_markers ();
 	void set_ratings (std::vector<dcp::Rating> r);
-	void set_content_version (std::string v);
+	void set_content_versions (std::vector<std::string> v);
+	void set_name_language (dcp::LanguageTag lang);
+	void set_release_territory (dcp::LanguageTag::RegionSubtag region);
+	void set_version_number (int v);
+	void set_status (dcp::Status s);
+	void set_chain (std::string c);
+	void set_facility (std::string f);
+	void set_distributor (std::string d);
+	void set_luminance (dcp::Luminance l);
 
 	/** Emitted when some property has of the Film is about to change or has changed */
 	mutable boost::signals2::signal<void (ChangeType, Property)> Change;
@@ -454,7 +504,15 @@ private:
 	bool _user_explicit_resolution;
 	std::map<dcp::Marker, dcpomatic::DCPTime> _markers;
 	std::vector<dcp::Rating> _ratings;
-	std::string _content_version;
+	std::vector<std::string> _content_versions;
+	dcp::LanguageTag _name_language;
+	dcp::LanguageTag::RegionSubtag _release_territory;
+	int _version_number;
+	dcp::Status _status;
+	std::string _chain;
+	std::string _distributor;
+	std::string _facility;
+	dcp::Luminance _luminance;
 
 	int _state_version;
 

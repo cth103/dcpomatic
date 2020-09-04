@@ -170,7 +170,9 @@ BOOST_AUTO_TEST_CASE (import_dcp_metadata_test)
 	ratings.push_back (dcp::Rating("MPAA", "NC-17"));
 	film->set_ratings (ratings);
 
-	film->set_content_version ("Fred");
+	vector<string> cv;
+	cv.push_back ("Fred");
+	film->set_content_versions (cv);
 
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());

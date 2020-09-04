@@ -562,11 +562,13 @@ Writer::finish ()
 	pool.join_all ();
 	service.stop ();
 
-	/* Add reels to CPL */
+	/* Add reels */
 
 	BOOST_FOREACH (ReelWriter& i, _reels) {
 		cpl->add (i.create_reel (_reel_assets, _fonts));
 	}
+
+	/* Add metadata */
 
 	string creator = Config::instance()->dcp_creator();
 	if (creator.empty()) {
@@ -580,11 +582,39 @@ Writer::finish ()
 
 	cpl->set_ratings (_film->ratings());
 
-	dcp::ContentVersion cv = cpl->content_version ();
-	cv.label_text = _film->content_version();
-	cpl->set_content_version (cv);
+	vector<dcp::ContentVersion> cv;
+	BOOST_FOREACH (string i, _film->content_versions()) {
+		cv.push_back (dcp::ContentVersion(i));
+	}
+	cpl->set_content_versions (cv);
 
 	cpl->set_full_content_title_text (_film->name());
+	cpl->set_full_content_title_text_language (_film->name_language());
+	cpl->set_release_territory (_film->release_territory());
+	cpl->set_version_number (_film->version_number());
+	cpl->set_status (_film->status());
+	cpl->set_chain (_film->chain());
+	cpl->set_distributor (_film->distributor());
+	cpl->set_facility (_film->facility());
+	cpl->set_luminance (_film->luminance());
+
+	list<int> ac = _film->mapped_audio_channels ();
+	dcp::MainSoundConfiguration::Field field = (
+		find(ac.begin(), ac.end(), static_cast<int>(dcp::BSL)) != ac.end() ||
+		find(ac.begin(), ac.end(), static_cast<int>(dcp::BSR)) != ac.end()
+		) ? dcp::MainSoundConfiguration::SEVEN_POINT_ONE : dcp::MainSoundConfiguration::FIVE_POINT_ONE;
+
+	dcp::MainSoundConfiguration msc (field, _film->audio_channels());
+	BOOST_FOREACH (int i, ac) {
+		if (i < _film->audio_channels()) {
+			msc.set_mapping (i, static_cast<dcp::Channel>(i));
+		}
+	}
+
+	cpl->set_main_sound_configuration (msc.to_string());
+	cpl->set_main_sound_sample_rate (_film->audio_frame_rate());
+	cpl->set_main_picture_stored_area (_film->frame_size());
+	cpl->set_main_picture_active_area (_film->active_area());
 
 	shared_ptr<const dcp::CertificateChain> signer;
 	signer = Config::instance()->signer_chain ();

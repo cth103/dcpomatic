@@ -28,7 +28,8 @@
 #include "check_box.h"
 #include "dcpomatic_button.h"
 #include "markers_dialog.h"
-#include "metadata_dialog.h"
+#include "interop_metadata_dialog.h"
+#include "smpte_metadata_dialog.h"
 #include "lib/ratio.h"
 #include "lib/config.h"
 #include "lib/dcp_content_type.h"
@@ -67,7 +68,8 @@ using dcp::locale_convert;
 DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> viewer)
 	: _audio_dialog (0)
 	, _markers_dialog (0)
-	, _metadata_dialog (0)
+	, _interop_metadata_dialog (0)
+	, _smpte_metadata_dialog (0)
 	, _film (film)
 	, _viewer (viewer)
 	, _generally_sensitive (true)
@@ -338,13 +340,23 @@ DCPPanel::markers_clicked ()
 void
 DCPPanel::metadata_clicked ()
 {
-	if (_metadata_dialog) {
-		_metadata_dialog->Destroy ();
-		_metadata_dialog = 0;
-	}
+	if (_film->interop()) {
+		if (_interop_metadata_dialog) {
+			_interop_metadata_dialog->Destroy ();
+			_interop_metadata_dialog = 0;
+		}
 
-	_metadata_dialog = new MetadataDialog (_panel, _film);
-	_metadata_dialog->Show ();
+		_interop_metadata_dialog = new InteropMetadataDialog (_panel, _film);
+		_interop_metadata_dialog->Show ();
+	} else {
+		if (_smpte_metadata_dialog) {
+			_smpte_metadata_dialog->Destroy ();
+			_smpte_metadata_dialog = 0;
+		}
+
+		_smpte_metadata_dialog = new SMPTEMetadataDialog (_panel, _film);
+		_smpte_metadata_dialog->Show ();
+	}
 }
 
 void
@@ -542,9 +554,13 @@ DCPPanel::set_film (shared_ptr<Film> film)
 		_markers_dialog->Destroy ();
 		_markers_dialog = 0;
 	}
-	if (_metadata_dialog) {
-		_metadata_dialog->Destroy ();
-		_metadata_dialog = 0;
+	if (_interop_metadata_dialog) {
+		_interop_metadata_dialog->Destroy ();
+		_interop_metadata_dialog = 0;
+	}
+	if (_smpte_metadata_dialog) {
+		_smpte_metadata_dialog->Destroy ();
+		_smpte_metadata_dialog = 0;
 	}
 
 	_film = film;

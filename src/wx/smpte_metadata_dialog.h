@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,26 +19,52 @@
 */
 
 #include "editable_list.h"
+#include "lib/film.h"
 #include <dcp/types.h>
 #include <wx/wx.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <vector>
 
+
 class Film;
 class RatingDialog;
+class ContentVersionDialog;
 
-class MetadataDialog : public wxDialog
+
+class SMPTEMetadataDialog : public wxDialog
 {
 public:
-	MetadataDialog (wxWindow* parent, boost::weak_ptr<Film> film);
+	SMPTEMetadataDialog (wxWindow* parent, boost::weak_ptr<Film> film);
 
 private:
 	std::vector<dcp::Rating> ratings () const;
 	void set_ratings (std::vector<dcp::Rating> r);
-	void content_version_changed ();
+	std::vector<std::string> content_versions () const;
+	void set_content_versions (std::vector<std::string> v);
+	void edit_name_language ();
+	void edit_release_territory ();
+	void version_number_changed ();
+	void status_changed ();
+	void chain_changed ();
+	void distributor_changed ();
+	void facility_changed ();
+	void luminance_changed ();
+	void film_changed (ChangeType type, Film::Property property);
+	boost::shared_ptr<Film> film () const;
 
 	boost::weak_ptr<Film> _film;
+	wxStaticText* _name_language;
+	wxStaticText* _release_territory;
+	wxSpinCtrl* _version_number;
+	wxChoice* _status;
+	wxTextCtrl* _chain;
+	wxTextCtrl* _distributor;
+	wxTextCtrl* _facility;
+	wxSpinCtrlDouble* _luminance_value;
+	wxChoice* _luminance_unit;
 	EditableList<dcp::Rating, RatingDialog>* _ratings;
-	wxTextCtrl* _content_version;
+	EditableList<std::string, ContentVersionDialog>* _content_versions;
+
+	boost::signals2::scoped_connection _film_changed_connection;
 };

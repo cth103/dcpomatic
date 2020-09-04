@@ -46,6 +46,7 @@ sources = """
           content_panel.cc
           content_properties_dialog.cc
           content_sub_panel.cc
+          content_version_dialog.cc
           content_view.cc
           controls.cc
           closed_captions_dialog.cc
@@ -82,6 +83,7 @@ sources = """
           html_dialog.cc
           initial_setup_dialog.cc
           instant_i18n_dialog.cc
+          interop_metadata_dialog.cc
           i18n_hook.cc
           job_view.cc
           job_view_dialog.cc
@@ -91,10 +93,10 @@ sources = """
           kdm_dialog.cc
           kdm_output_panel.cc
           kdm_timing_panel.cc
+          language_tag_dialog.cc
           make_chain_dialog.cc
           markers_dialog.cc
           message_dialog.cc
-          metadata_dialog.cc
           monitor_dialog.cc
           move_to_dialog.cc
           nag_dialog.cc
@@ -128,6 +130,7 @@ sources = """
           server_dialog.cc
           servers_list_dialog.cc
           simple_video_view.cc
+          smpte_metadata_dialog.cc
           standard_controls.cc
           static_text.cc
           subtitle_appearance_dialog.cc
