@@ -568,21 +568,23 @@ Writer::finish ()
 		cpl->add (i.create_reel (_reel_assets, _fonts));
 	}
 
-	dcp::XMLMetadata meta;
-	meta.annotation_text = cpl->annotation_text ();
-	meta.creator = Config::instance()->dcp_creator ();
-	if (meta.creator.empty ()) {
-		meta.creator = String::compose ("DCP-o-matic %1 %2", dcpomatic_version, dcpomatic_git_commit);
+	string creator = Config::instance()->dcp_creator();
+	if (creator.empty()) {
+		creator = String::compose("DCP-o-matic %1 %2", dcpomatic_version, dcpomatic_git_commit);
 	}
-	meta.issuer = Config::instance()->dcp_issuer ();
-	if (meta.issuer.empty ()) {
-		meta.issuer = String::compose ("DCP-o-matic %1 %2", dcpomatic_version, dcpomatic_git_commit);
-	}
-	meta.set_issue_date_now ();
 
-	cpl->set_metadata (meta);
-	cpl->set_ratings (vector_to_list(_film->ratings()));
-	cpl->set_content_version_label_text (_film->content_version());
+	string issuer = Config::instance()->dcp_issuer();
+	if (issuer.empty()) {
+		issuer = String::compose("DCP-o-matic %1 %2", dcpomatic_version, dcpomatic_git_commit);
+	}
+
+	cpl->set_ratings (_film->ratings());
+
+	dcp::ContentVersion cv = cpl->content_version ();
+	cv.label_text = _film->content_version();
+	cpl->set_content_version (cv);
+
+	cpl->set_full_content_title_text (_film->name());
 
 	shared_ptr<const dcp::CertificateChain> signer;
 	signer = Config::instance()->signer_chain ();
@@ -592,7 +594,15 @@ Writer::finish ()
 		throw InvalidSignerError (reason);
 	}
 
-	dcp.write_xml (_film->interop () ? dcp::INTEROP : dcp::SMPTE, meta, signer, Config::instance()->dcp_metadata_filename_format());
+	dcp.write_xml (
+		_film->interop() ? dcp::INTEROP : dcp::SMPTE,
+		issuer,
+		creator,
+		dcp::LocalTime().as_string(),
+		String::compose("Created by libdcp %1", dcp::version),
+		signer,
+		Config::instance()->dcp_metadata_filename_format()
+		);
 
 	LOG_GENERAL (
 		N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT, %4 pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk

@@ -259,8 +259,8 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	_standard = cpl->standard().get();
 	_three_d = !cpl->reels().empty() && cpl->reels().front()->main_picture() &&
 		dynamic_pointer_cast<dcp::StereoPictureAsset> (cpl->reels().front()->main_picture()->asset());
-	_ratings = list_to_vector (cpl->ratings());
-	_content_version = cpl->content_version_label_text ();
+	_ratings = cpl->ratings();
+	_content_version = cpl->content_version().label_text;
 
 	_cpl = cpl->id ();
 }

@@ -833,6 +833,10 @@ audio_channel_types (list<int> mapped, int channels)
 			break;
 		case dcp::HI:
 		case dcp::VI:
+		case dcp::SYNC_SIGNAL:
+		case dcp::SIGN_LANGUAGE:
+		case dcp::UNUSED:
+		case dcp::CHANNEL_COUNT:
 			break;
 		}
 	}
