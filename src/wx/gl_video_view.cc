@@ -40,7 +40,6 @@
 #ifdef DCPOMATIC_LINUX
 #include <GL/glu.h>
 #include <GL/glext.h>
-#include <GL/glxext.h>
 #endif
 
 #ifdef DCPOMATIC_WINDOWS

@@ -834,10 +834,10 @@ private:
 				switch (Config::instance()->image_display()) {
 				case 0:
 					_dual_screen->Move (0, 0);
-					Move (wxDisplay(0).GetClientArea().GetWidth(), 0);
+					Move (wxDisplay(0U).GetClientArea().GetWidth(), 0);
 					break;
 				case 1:
-					_dual_screen->Move (wxDisplay(0).GetClientArea().GetWidth(), 0);
+					_dual_screen->Move (wxDisplay(0U).GetClientArea().GetWidth(), 0);
 					// (0, 0) doesn't seem to work for some strange reason
 					Move (8, 8);
 					break;
