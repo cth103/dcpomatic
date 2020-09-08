@@ -516,7 +516,7 @@ private:
 		_panel->GetSizer()->Add (_use_any_servers, 0, wxALL, _border);
 
 		vector<EditableListColumn> columns;
-		columns.push_back (EditableListColumn(wx_to_std(_("IP address / host name"))));
+		columns.push_back (EditableListColumn(_("IP address / host name")));
 		_servers_list = new EditableList<string, ServerDialog> (
 			_panel,
 			columns,
@@ -837,7 +837,7 @@ private:
 		table->Add (_from, 1, wxEXPAND | wxALL);
 
 		vector<EditableListColumn> columns;
-		columns.push_back (EditableListColumn(wx_to_std(_("Address"))));
+		columns.push_back (EditableListColumn(_("Address")));
 		add_label_to_sizer (table, _panel, _("CC addresses"), true);
 		_cc = new EditableList<string, EmailDialog> (
 			_panel,
@@ -969,7 +969,7 @@ private:
 		table->Add (_to, 1, wxEXPAND | wxALL);
 
 		vector<EditableListColumn> columns;
-		columns.push_back (EditableListColumn(wx_to_std(_("Address"))));
+		columns.push_back (EditableListColumn(_("Address")));
 		add_label_to_sizer (table, _panel, _("CC addresses"), true);
 		_cc = new EditableList<string, EmailDialog> (
 			_panel,

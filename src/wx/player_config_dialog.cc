@@ -494,11 +494,11 @@ private:
 	void setup ()
 	{
 		vector<EditableListColumn> columns;
-		columns.push_back(EditableListColumn(wx_to_std(_("Manufacturer ID"))));
-		columns.push_back(EditableListColumn(wx_to_std(_("Product code"))));
-		columns.push_back(EditableListColumn(wx_to_std(_("Serial"))));
-		columns.push_back(EditableListColumn(wx_to_std(_("Manufacture week"))));
-		columns.push_back(EditableListColumn(wx_to_std(_("Manufacture year"))));
+		columns.push_back(EditableListColumn(_("Manufacturer ID")));
+		columns.push_back(EditableListColumn(_("Product code")));
+		columns.push_back(EditableListColumn(_("Serial")));
+		columns.push_back(EditableListColumn(_("Manufacture week")));
+		columns.push_back(EditableListColumn(_("Manufacture year")));
 		_monitor_list = new EditableList<Monitor, MonitorDialog> (
 			_panel,
 			columns,

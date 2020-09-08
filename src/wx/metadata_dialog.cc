@@ -60,8 +60,8 @@ MetadataDialog::MetadataDialog (wxWindow* parent, weak_ptr<Film> film)
 	}
 
 	vector<EditableListColumn> columns;
-	columns.push_back (EditableListColumn("Agency", 200, true));
-	columns.push_back (EditableListColumn("Label", 50, true));
+	columns.push_back (EditableListColumn(_("Agency"), 200, true));
+	columns.push_back (EditableListColumn(_("Label"), 50, true));
 	_ratings = new EditableList<dcp::Rating, RatingDialog> (
 		this,
 		columns,

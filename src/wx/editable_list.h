@@ -31,18 +31,18 @@
 class EditableListColumn
 {
 public:
-	EditableListColumn (std::string name_)
+	EditableListColumn (wxString name_)
 		: name (name_)
 		, growable (false)
 	{}
 
-	EditableListColumn (std::string name_, boost::optional<int> width_, bool growable_)
+	EditableListColumn (wxString name_, boost::optional<int> width_, bool growable_)
 		: name (name_)
 		, width (width_)
 		, growable (growable_)
 	{}
 
-	std::string name;
+	wxString name;
 	boost::optional<int> width;
 	bool growable;
 };
@@ -104,7 +104,7 @@ public:
 		BOOST_FOREACH (EditableListColumn i, _columns) {
 			wxListItem ip;
 			ip.SetId (j);
-			ip.SetText (std_to_wx(i.name));
+			ip.SetText (i.name);
 			_list->InsertColumn (j, ip);
 			++j;
 		}

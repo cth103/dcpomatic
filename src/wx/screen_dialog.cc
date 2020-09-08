@@ -149,7 +149,7 @@ ScreenDialog::ScreenDialog (
 	++r;
 
 	vector<EditableListColumn> columns;
-	columns.push_back (EditableListColumn(wx_to_std(_("Thumbprint"))));
+	columns.push_back (EditableListColumn(_("Thumbprint")));
 	_trusted_device_list = new EditableList<TrustedDevice, TrustedDeviceDialog> (
 		this,
 		columns,
