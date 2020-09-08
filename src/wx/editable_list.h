@@ -78,7 +78,7 @@ public:
 		SetSizer (_sizer);
 
 		long style = wxLC_REPORT | wxLC_SINGLE_SEL;
-		if (title) {
+		if (!title) {
 			style |= wxLC_NO_HEADER;
 		}
 
