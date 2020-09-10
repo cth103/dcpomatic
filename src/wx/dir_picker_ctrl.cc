@@ -39,7 +39,10 @@ DirPickerCtrl::DirPickerCtrl (wxWindow* parent)
 	_sizer = new wxBoxSizer (wxHORIZONTAL);
 
 	_folder = new StaticText (this, wxT(""));
-	_sizer->Add (_folder, 1, wxEXPAND | wxALL, 6);
+	wxFont font = _folder->GetFont ();
+	font.SetStyle (wxFONTSTYLE_ITALIC);
+	_folder->SetFont (font);
+	_sizer->Add (_folder, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 	_browse = new Button (this, _("Browse..."));
 	_sizer->Add (_browse, 0);
 
@@ -56,7 +59,7 @@ DirPickerCtrl::SetPath (wxString p)
 	if (_path == wxStandardPaths::Get().GetDocumentsDir()) {
 		_folder->SetLabel (_("My Documents"));
 	} else {
-		_folder->SetLabel (std_to_wx (filesystem::path (wx_to_std (_path)).leaf().string()));
+		_folder->SetLabel (_path);
 	}
 
 	wxCommandEvent ev (wxEVT_DIRPICKER_CHANGED, wxID_ANY);
