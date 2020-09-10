@@ -1,5 +1,5 @@
 #
-#    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+#    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 #
 #    This file is part of DCP-o-matic.
 #
@@ -73,7 +73,7 @@ def build(bld):
         elif bld.env.VARIANT == 'swaroop-studio':
             gui_tools = ['dcpomatic', 'dcpomatic_batch', 'dcpomatic_server', 'dcpomatic_kdm', 'dcpomatic_player', 'swaroop_dcpomatic_playlist']
         else:
-            gui_tools = ['dcpomatic', 'dcpomatic_batch', 'dcpomatic_server', 'dcpomatic_kdm', 'dcpomatic_player', 'dcpomatic_playlist']
+            gui_tools = ['dcpomatic', 'dcpomatic_batch', 'dcpomatic_server', 'dcpomatic_kdm', 'dcpomatic_player', 'dcpomatic_playlist', 'dcpomatic_combiner']
             if bld.env.ENABLE_DISK:
                 gui_tools.append('dcpomatic_disk')
 

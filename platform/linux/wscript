@@ -51,4 +51,11 @@ def build(bld):
     obj.VERSION = bld.env.VERSION
     desktops.append(obj.target)
 
+    obj = bld(features='subst')
+    obj.source = 'dcpomatic_combiner.desktop.in'
+    obj.target = 'dcpomatic2_combiner.desktop'
+    obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
+    obj.VERSION = bld.env.VERSION
+    desktops.append(obj.target)
+
     bld.install_files('${PREFIX}/share/applications', desktops)

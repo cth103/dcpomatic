@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Terminal=false
+Exec=@INSTALL_PREFIX@/bin/dcpomatic2_combiner
+Name=DCP-o-matic 2 Combiner
+Icon=dcpomatic2_combiner
+Comment=DCP combiner
+Categories=AudioVideo;Video

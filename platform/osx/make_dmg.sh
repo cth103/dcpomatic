@@ -191,6 +191,7 @@ function copy_resources {
     cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2_batch.icns "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2_playlist.icns "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2_disk.icns "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2_combiner.icns "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/preferences/defaults.png "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/preferences/defaults@2x.png "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/preferences/kdm_email.png "$dest"
@@ -521,6 +522,15 @@ cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_playlist.Info.plist "$app
 rl=("$approot/MacOS/dcpomatic2_playlist" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
 make_dmg "$appdir" "" "DCP-o-matic Playlist Editor" com.dcpomatic.playlist
+
+# DCP-o-matic Combiner
+setup "DCP-o-matic 2 Combiner.app"
+copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_combiner "$approot/MacOS"
+copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
+cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_combiner.Info.plist "$approot/Info.plist"
+rl=("$approot/MacOS/dcpomatic2_combiner" "$approot/Frameworks/"*.dylib)
+relink_relative "${rl[@]}"
+make_dmg "$appdir" "" "DCP-o-matic Combiner" com.dcpomatic.combiner
 
 # DCP-o-matic Disk Writer .app
 setup "DCP-o-matic 2 Disk Writer.app"

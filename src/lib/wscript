@@ -55,6 +55,7 @@ sources = """
           config.cc
           content.cc
           content_factory.cc
+          combine_dcp_job.cc
           copy_dcp_details_to_film.cc
           create_cli.cc
           cross_common.cc

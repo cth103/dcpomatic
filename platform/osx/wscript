@@ -6,3 +6,4 @@ def build(bld):
     obj = bld(features='subst', source='dcpomatic2_player.Info.plist.in', target='dcpomatic2_player.Info.plist', version=bld.env.VERSION)
     obj = bld(features='subst', source='dcpomatic2_playlist.Info.plist.in', target='dcpomatic2_playlist.Info.plist', version=bld.env.VERSION)
     obj = bld(features='subst', source='dcpomatic2_disk.Info.plist.in', target='dcpomatic2_disk.Info.plist', version=bld.env.VERSION)
+    obj = bld(features='subst', source='dcpomatic2_combiner.Info.plist.in', target='dcpomatic2_combiner.Info.plist', version=bld.env.VERSION)
