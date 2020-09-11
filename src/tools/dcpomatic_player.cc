@@ -150,6 +150,7 @@ public:
 		, _system_information_dialog (0)
 		, _view_full_screen (0)
 		, _view_dual_screen (0)
+		, _main_sizer (new wxBoxSizer (wxVERTICAL))
 {
 		dcpomatic_log.reset (new NullLog());
 
@@ -293,13 +294,15 @@ public:
 
 	void setup_main_sizer (Config::PlayerMode mode)
 	{
-		wxSizer* main_sizer = new wxBoxSizer (wxVERTICAL);
+		_main_sizer->Detach (_viewer->panel());
+		_main_sizer->Detach (_controls);
+		_main_sizer->Detach (_info);
 		if (mode != Config::PLAYER_MODE_DUAL) {
-			main_sizer->Add (_viewer->panel(), 1, wxEXPAND | wxALIGN_CENTER_VERTICAL);
+			_main_sizer->Add (_viewer->panel(), 1, wxEXPAND);
 		}
-		main_sizer->Add (_controls, mode == Config::PLAYER_MODE_DUAL ? 1 : 0, wxEXPAND | wxALL, 6);
-		main_sizer->Add (_info, 0, wxEXPAND | wxALL, 6);
-		_overall_panel->SetSizer (main_sizer);
+		_main_sizer->Add (_controls, mode == Config::PLAYER_MODE_DUAL ? 1 : 0, wxEXPAND | wxALL, 6);
+		_main_sizer->Add (_info, 0, wxEXPAND | wxALL, 6);
+		_overall_panel->SetSizer (_main_sizer);
 		_overall_panel->Layout ();
 	}
 
@@ -1081,6 +1084,7 @@ private:
 	wxMenuItem* _tools_verify;
 	wxMenuItem* _view_full_screen;
 	wxMenuItem* _view_dual_screen;
+	wxSizer* _main_sizer;
 	PlayerStressTester _stress;
 };
 
