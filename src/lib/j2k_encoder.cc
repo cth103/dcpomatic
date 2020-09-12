@@ -372,30 +372,13 @@ J2KEncoder::servers_list_changed ()
 
 	/* XXX: could re-use threads */
 
-#ifdef BOOST_THREAD_PLATFORM_WIN32
-	OSVERSIONINFO info;
-	info.dwOSVersionInfoSize = sizeof (OSVERSIONINFO);
-	GetVersionEx (&info);
-	bool const windows_xp = (info.dwMajorVersion == 5 && info.dwMinorVersion == 1);
-	if (windows_xp) {
-		LOG_GENERAL_NC (N_("Setting thread affinity for Windows XP"));
-	}
-#endif
-
 	if (!Config::instance()->only_servers_encode ()) {
 		for (int i = 0; i < Config::instance()->master_encoding_threads (); ++i) {
 #ifdef DCPOMATIC_LINUX
 			boost::thread* t = _threads->create_thread(boost::bind(&J2KEncoder::encoder_thread, this, optional<EncodeServerDescription>()));
 			pthread_setname_np (t->native_handle(), "encode-worker");
-#endif
-#ifdef DCPOMATIC_OSX
+#else
 			_threads->create_thread(boost::bind(&J2KEncoder::encoder_thread, this, optional<EncodeServerDescription>()));
-#endif
-#ifdef DCPOMATIC_WINDOWS
-			boost::thread* t = _threads->create_thread(boost::bind(&J2KEncoder::encoder_thread, this, optional<EncodeServerDescription>()));
-			if (windows_xp) {
-				SetThreadAffinityMask (t->native_handle(), 1 << i);
-			}
 #endif
 		}
 	}
