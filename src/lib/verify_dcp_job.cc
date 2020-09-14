@@ -68,7 +68,7 @@ VerifyDCPJob::update_stage (string s, optional<boost::filesystem::path> path)
 void
 VerifyDCPJob::run ()
 {
-	_notes = dcp::verify (_directories, bind (&VerifyDCPJob::update_stage, this, _1, _2), bind (&VerifyDCPJob::set_progress, this, _1, false), shared_path() / "xsd");
+	_notes = dcp::verify (_directories, bind (&VerifyDCPJob::update_stage, this, _1, _2), bind (&VerifyDCPJob::set_progress, this, _1, false), xsd_path());
 
 	bool failed = false;
 	BOOST_FOREACH (dcp::VerificationNote i, _notes) {

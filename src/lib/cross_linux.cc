@@ -103,10 +103,22 @@ shared_path ()
 {
 	char const * p = getenv ("DCPOMATIC_LINUX_SHARE_PREFIX");
 	if (p) {
-		return p;
+		return boost::filesystem::path(p) / "dcpomatic2";
 	}
-	return boost::filesystem::canonical (LINUX_SHARE_PREFIX);
+	return boost::filesystem::canonical(LINUX_SHARE_PREFIX) / "dcpomatic2";
 }
+
+
+boost::filesystem::path
+xsd_path ()
+{
+	char const * p = getenv ("DCPOMATIC_LINUX_SHARE_PREFIX");
+	if (p) {
+		return boost::filesystem::path(p) / "libdcp" / "xsd";
+	}
+	return boost::filesystem::canonical(LINUX_SHARE_PREFIX) / "libdcp" / "xsd";
+}
+
 
 void
 run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)

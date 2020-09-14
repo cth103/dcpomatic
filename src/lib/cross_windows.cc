@@ -200,6 +200,13 @@ shared_path ()
 
 
 boost::filesystem::path
+xsd_path ()
+{
+	return directory_containing_executable().parent_path() / "xsd";
+}
+
+
+boost::filesystem::path
 openssl_path ()
 {
 	return directory_containing_executable() / "openssl.exe";

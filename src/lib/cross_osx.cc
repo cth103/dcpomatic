@@ -123,6 +123,13 @@ shared_path ()
 }
 
 
+boost::filesystem::path
+xsd_path ()
+{
+	return shared_path() / "xsd";
+}
+
+
 void
 run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
 {
