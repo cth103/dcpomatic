@@ -117,7 +117,7 @@ directory_containing_executable ()
 
 
 boost::filesystem::path
-shared_path ()
+resources_path ()
 {
 	return directory_containing_executable().parent_path() / "Resources";
 }
@@ -126,7 +126,7 @@ shared_path ()
 boost::filesystem::path
 xsd_path ()
 {
-	return shared_path() / "xsd";
+	return resources_path() / "xsd";
 }
 
 

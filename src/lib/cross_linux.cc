@@ -99,7 +99,7 @@ cpu_info ()
 }
 
 boost::filesystem::path
-shared_path ()
+resources_path ()
 {
 	char const * p = getenv ("DCPOMATIC_LINUX_SHARE_PREFIX");
 	if (p) {

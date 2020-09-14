@@ -193,7 +193,7 @@ directory_containing_executable ()
 
 
 boost::filesystem::path
-shared_path ()
+resources_path ()
 {
 	return directory_containing_executable().parent_path();
 }

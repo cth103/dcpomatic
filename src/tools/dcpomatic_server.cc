@@ -218,7 +218,7 @@ public:
 #ifdef DCPOMATIC_WINDOWS
 		wxIcon icon (std_to_wx ("id"));
 #else
-		wxBitmap bitmap (wxString::Format (wxT ("%s/dcpomatic_small.png"), std_to_wx (shared_path().string())), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap (wxString::Format(wxT("%s/dcpomatic_small.png"), std_to_wx(resources_path().string())), wxBITMAP_TYPE_PNG);
 		wxIcon icon;
 		icon.CopyFromBitmap (bitmap);
 #endif

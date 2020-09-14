@@ -115,9 +115,9 @@ public:
 		tick_icon.LoadFile ("tick.png", wxBITMAP_TYPE_PNG_RESOURCE);
 		no_tick_icon.LoadFile ("no_tick.png", wxBITMAP_TYPE_PNG_RESOURCE);
 #else
-		boost::filesystem::path tick_path = shared_path() / "tick.png";
+		boost::filesystem::path tick_path = resources_path() / "tick.png";
 		tick_icon.LoadFile (std_to_wx(tick_path.string()));
-		boost::filesystem::path no_tick_path = shared_path() / "no_tick.png";
+		boost::filesystem::path no_tick_path = resources_path() / "no_tick.png";
 		no_tick_icon.LoadFile (std_to_wx(no_tick_path.string()));
 #endif
 		images->Add (tick_icon);

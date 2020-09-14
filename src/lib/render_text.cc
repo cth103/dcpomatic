@@ -142,7 +142,7 @@ setup_font (StringText const& subtitle, list<shared_ptr<Font> > const& fonts)
 	optional<boost::filesystem::path> font_file;
 
 	try {
-		font_file = shared_path () / "LiberationSans-Regular.ttf";
+		font_file = resources_path() / "LiberationSans-Regular.ttf";
 	} catch (boost::filesystem::filesystem_error& e) {
 
 	}

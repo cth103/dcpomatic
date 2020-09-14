@@ -379,12 +379,12 @@ DCPOMATIC_ENABLE_WARNINGS
 
 #ifdef DCPOMATIC_WINDOWS
 	putenv ("PANGOCAIRO_BACKEND=fontconfig");
-	putenv (String::compose("FONTCONFIG_PATH=%1", shared_path().string()).c_str());
+	putenv (String::compose("FONTCONFIG_PATH=%1", resources_path().string()).c_str());
 #endif
 
 #ifdef DCPOMATIC_OSX
 	setenv ("PANGOCAIRO_BACKEND", "fontconfig", 1);
-	setenv ("FONTCONFIG_PATH", shared_path().string().c_str(), 1);
+	setenv ("FONTCONFIG_PATH", resources_path().string().c_str(), 1);
 #endif
 
 	Pango::init ();
@@ -1259,10 +1259,10 @@ default_font_file ()
 {
 	boost::filesystem::path liberation_normal;
 	try {
-		liberation_normal = shared_path() / "LiberationSans-Regular.ttf";
+		liberation_normal = resources_path() / "LiberationSans-Regular.ttf";
 		if (!boost::filesystem::exists (liberation_normal)) {
 			/* Hack for unit tests */
-			liberation_normal = shared_path() / "fonts" / "LiberationSans-Regular.ttf";
+			liberation_normal = resources_path() / "fonts" / "LiberationSans-Regular.ttf";
 		}
 	} catch (boost::filesystem::filesystem_error& e) {
 

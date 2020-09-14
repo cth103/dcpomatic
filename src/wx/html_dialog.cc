@@ -43,7 +43,7 @@ HTMLDialog::HTMLDialog (wxWindow* parent, wxString title, wxString html)
 	/* Add some resources that are used by HTML passed into this dialog */
 	wxMemoryFSHandler::AddFile(
 		"me.jpg",
-		wxBitmap(std_to_wx(boost::filesystem::path(shared_path() / "me.jpg").string()), wxBITMAP_TYPE_JPEG), wxBITMAP_TYPE_JPEG
+		wxBitmap(std_to_wx(boost::filesystem::path(resources_path() / "me.jpg").string()), wxBITMAP_TYPE_JPEG), wxBITMAP_TYPE_JPEG
 		);
 
 	wxHtmlWindow* h = new wxHtmlWindow (this);

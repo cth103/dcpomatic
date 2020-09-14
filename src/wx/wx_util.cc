@@ -473,7 +473,7 @@ maybe_show_splash ()
 	wxSplashScreen* splash = 0;
 	try {
 		wxBitmap bitmap;
-		boost::filesystem::path p = shared_path () / "splash.png";
+		boost::filesystem::path p = resources_path() / "splash.png";
 		if (bitmap.LoadFile (std_to_wx (p.string ()), wxBITMAP_TYPE_PNG)) {
 			splash = new wxSplashScreen (bitmap, wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_NO_TIMEOUT, 0, 0, -1);
 			wxYield ();
@@ -583,10 +583,10 @@ bitmap_path (string name)
 	if (path) {
 		base = path;
 	} else {
-		base = shared_path();
+		base = resources_path();
 	}
 #else
-	base = shared_path();
+	base = resources_path();
 #endif
 
 	boost::filesystem::path p = base / String::compose("%1.png", name);
