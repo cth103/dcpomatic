@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -40,6 +40,7 @@ public:
 
 private:
 	void use_template_clicked ();
+	void setup_sensitivity ();
 
 	wxTextCtrl* _name;
 #ifdef DCPOMATIC_USE_OWN_PICKER
