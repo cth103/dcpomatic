@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -28,6 +28,7 @@ public:
 	std::string name () const;
 
 private:
+	void setup_sensitivity ();
 	void check (wxCommandEvent& ev);
 
 	wxTextCtrl* _name;
