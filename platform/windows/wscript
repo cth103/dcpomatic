@@ -348,8 +348,7 @@ SectionEnd
     else:
         print('CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"', file=f)
 
-    if variant != 'swaroop-theater':
-        print("""
+    print("""
 File "%binaries%/src/tools/dcpomatic2.exe"
 File "%binaries%/src/tools/dcpomatic2_batch.exe"
 File "%binaries%/src/tools/dcpomatic2_cli.exe"
@@ -371,24 +370,22 @@ File "%binaries%/src/tools/dcpomatic2_playlist.exe"
     """, file=f)
 
     if debug:
-        if variant != "swaroop-theater":
-            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 debug.lnk" "$INSTDIR\\bin\\dcpomatic2_debug.bat"', file=f)
-            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 Batch Converter debug.lnk" "$INSTDIR\\bin\\dcpomatic2_batch_debug.bat" ""', file=f)
-            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 KDM Creator debug.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm_debug.bat" ""', file=f)
-            if disk:
-                print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 Disk Writer debug.lnk" "$INSTDIR\\bin\\dcpomatic2_disk_debug.bat" ""', file=f)
-            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\Uninstall DCP-o-matic 2 debug.lnk" "$INSTDIR\\Uninstall.exe"', file=f)
+        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 debug.lnk" "$INSTDIR\\bin\\dcpomatic2_debug.bat"', file=f)
+        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 Batch Converter debug.lnk" "$INSTDIR\\bin\\dcpomatic2_batch_debug.bat" ""', file=f)
+        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 KDM Creator debug.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm_debug.bat" ""', file=f)
+        if disk:
+            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 Disk Writer debug.lnk" "$INSTDIR\\bin\\dcpomatic2_disk_debug.bat" ""', file=f)
+        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\Uninstall DCP-o-matic 2 debug.lnk" "$INSTDIR\\Uninstall.exe"', file=f)
         print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 Player debug.lnk" "$INSTDIR\\bin\\dcpomatic2_player_debug.bat" ""', file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 debug" "DisplayName" "DCP-o-matic 2 debug (remove only)"', file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 debug" "UninstallString" "$INSTDIR\\Uninstall.exe"', file=f)
     else:
-        if variant != "swaroop-theater":
-            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe"', file=f)
-            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 Batch Converter.lnk" "$INSTDIR\\bin\\dcpomatic2_batch.exe"', file=f)
-            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 KDM Creator.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm.exe"', file=f)
-            if disk:
-                print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 Disk Writer.lnk" "$INSTDIR\\bin\\dcpomatic2_disk.exe"', file=f)
-            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\Uninstall DCP-o-matic 2.lnk" "$INSTDIR\\Uninstall.exe"', file=f)
+        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe"', file=f)
+        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 Batch Converter.lnk" "$INSTDIR\\bin\\dcpomatic2_batch.exe"', file=f)
+        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 KDM Creator.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm.exe"', file=f)
+        if disk:
+            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 Disk Writer.lnk" "$INSTDIR\\bin\\dcpomatic2_disk.exe"', file=f)
+        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\Uninstall DCP-o-matic 2.lnk" "$INSTDIR\\Uninstall.exe"', file=f)
         print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 Player.lnk" "$INSTDIR\\bin\\dcpomatic2_player.exe"', file=f)
         print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 Playlist Editor.lnk" "$INSTDIR\\bin\\dcpomatic2_playlist.exe"', file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "DisplayName" "DCP-o-matic 2 (remove only)"', file=f)
@@ -399,26 +396,23 @@ File "%binaries%/src/tools/dcpomatic2_playlist.exe"
     if debug:
         print('Section "DCP-o-matic 2 debug desktop shortcuts" SEC_MASTER_DESKTOP', file=f)
         print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Player debug.lnk" "$INSTDIR\\bin\\dcpomatic2_player_debug.bat" ""', file=f)
-        if variant != "swaroop-theater":
-            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 debug.lnk" "$INSTDIR\\bin\\dcpomatic2_debug.bat" ""', file=f)
-            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Batch Converter debug.lnk" "$INSTDIR\\bin\\dcpomatic2_batch_debug.bat" ""', file=f)
-            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 KDM Creator debug.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm_debug.bat" ""', file=f)
-            if disk:
-                print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Disk Writer debug.lnk" "$INSTDIR\\bin\\dcpomatic2_disk_debug.bat" ""', file=f)
+        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 debug.lnk" "$INSTDIR\\bin\\dcpomatic2_debug.bat" ""', file=f)
+        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Batch Converter debug.lnk" "$INSTDIR\\bin\\dcpomatic2_batch_debug.bat" ""', file=f)
+        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 KDM Creator debug.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm_debug.bat" ""', file=f)
+        if disk:
+            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Disk Writer debug.lnk" "$INSTDIR\\bin\\dcpomatic2_disk_debug.bat" ""', file=f)
     else:
         print('Section "DCP-o-matic 2 desktop shortcuts" SEC_MASTER_DESKTOP', file=f)
         print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Player.lnk" "$INSTDIR\\bin\\dcpomatic2_player.exe"', file=f)
-        if variant != "swaroop-theater":
-            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe" ""', file=f)
-            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Batch Converter.lnk" "$INSTDIR\\bin\\dcpomatic2_batch.exe"', file=f)
-            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 KDM Creator.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm.exe"', file=f)
-            if disk:
-                print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Disk Writer.lnk" "$INSTDIR\\bin\\dcpomatic2_disk.exe"', file=f)
+        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe" ""', file=f)
+        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Batch Converter.lnk" "$INSTDIR\\bin\\dcpomatic2_batch.exe"', file=f)
+        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 KDM Creator.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm.exe"', file=f)
+        if disk:
+            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Disk Writer.lnk" "$INSTDIR\\bin\\dcpomatic2_disk.exe"', file=f)
 
     print("SectionEnd", file=f)
 
-    if not debug and variant != "swaroop-theater":
-        print("""
+    print("""
 Section "Encode server" SEC_SERVER
 SetOutPath "$INSTDIR\\bin"
 CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"
@@ -427,30 +421,26 @@ File "%binaries%/src/tools/dcpomatic2_server.exe"
 CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 Encode Server.lnk" "$INSTDIR\\bin\\dcpomatic2_server.exe" "" "$INSTDIR\\bin\\dcpomatic2_server.exe" 0
 CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\Uninstall DCP-o-matic 2.lnk" "$INSTDIR\\Uninstall.exe" "" "$INSTDIR\\Uninstall.exe" 0
 SectionEnd
-    """, file=f)
-
-        print("""
 Section "Encode server desktop shortcuts" SEC_SERVER_DESKTOP
 CreateShortCut "$DESKTOP\\DCP-o-matic 2 Encode Server.lnk" "$INSTDIR\\bin\\dcpomatic2_server.exe" ""
 SectionEnd
     """, file=f)
 
-    if variant != "swaroop-theater":
-        if debug:
-            print('LangString DESC_SEC_MASTER ${LANG_ENGLISH} "DCP-o-matic 2 debug"', file=f)
-            print('LangString DESC_SEC_MASTER_DESKTOP ${LANG_ENGLISH} "DCP-o-matic 2 debug desktop shortcuts"', file=f)
-        else:
-            print('LangString DESC_SEC_MASTER ${LANG_ENGLISH} "DCP-o-matic 2"', file=f)
-            print('LangString DESC_SEC_MASTER_DESKTOP ${LANG_ENGLISH} "DCP-o-matic 2 desktop shortcuts"', file=f)
-            print('LangString DESC_SEC_SERVER ${LANG_ENGLISH} "DCP-o-matic 2 Encode Server"', file=f)
-            print('LangString DESC_SEC_SERVER_DESKTOP ${LANG_ENGLISH} "DCP-o-matic 2 Encode Server desktop shortcuts"', file=f)
+    if debug:
+        print('LangString DESC_SEC_MASTER ${LANG_ENGLISH} "DCP-o-matic 2 debug"', file=f)
+        print('LangString DESC_SEC_MASTER_DESKTOP ${LANG_ENGLISH} "DCP-o-matic 2 debug desktop shortcuts"', file=f)
+    else:
+        print('LangString DESC_SEC_MASTER ${LANG_ENGLISH} "DCP-o-matic 2"', file=f)
+        print('LangString DESC_SEC_MASTER_DESKTOP ${LANG_ENGLISH} "DCP-o-matic 2 desktop shortcuts"', file=f)
+        print('LangString DESC_SEC_SERVER ${LANG_ENGLISH} "DCP-o-matic 2 Encode Server"', file=f)
+        print('LangString DESC_SEC_SERVER_DESKTOP ${LANG_ENGLISH} "DCP-o-matic 2 Encode Server desktop shortcuts"', file=f)
 
     print("""
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-  !insertmacro MUI_DESCRIPTION_TEXT ${SEC_MASTER} $(DESC_SEC_MASTER)
-  !insertmacro MUI_DESCRIPTION_TEXT ${SEC_MASTER_DESKTOP} $(DESC_SEC_MASTER_DESKTOP)
-  !insertmacro MUI_DESCRIPTION_TEXT ${SEC_SERVER} $(DESC_SEC_SERVER)
-  !insertmacro MUI_DESCRIPTION_TEXT ${SEC_SERVER_DESKTOP} $(DESC_SEC_SERVER_DESKTOP)
+!insertmacro MUI_DESCRIPTION_TEXT ${SEC_MASTER} $(DESC_SEC_MASTER)
+!insertmacro MUI_DESCRIPTION_TEXT ${SEC_MASTER_DESKTOP} $(DESC_SEC_MASTER_DESKTOP)
+!insertmacro MUI_DESCRIPTION_TEXT ${SEC_SERVER} $(DESC_SEC_SERVER)
+!insertmacro MUI_DESCRIPTION_TEXT ${SEC_SERVER_DESKTOP} $(DESC_SEC_SERVER_DESKTOP)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 !insertmacro MUI_PAGE_INSTFILES
