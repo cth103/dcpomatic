@@ -17,7 +17,11 @@ def write_installer(bits, dcpomatic_version, debug, variant, disk):
     if disk:
         tools.append(('disk', 'Disk Writer'))
 
-    os.makedirs('build/platform/windows', exist_ok=True)
+    # It would be nice to use exist_ok here but it requires quite a new python
+    try:
+        os.makedirs('build/platform/windows')
+    except:
+        pass
 
     filename = 'build/platform/windows/installer.%d.nsi' % bits
 
@@ -352,7 +356,7 @@ File "%resources%/dcpomatic2_disk_writer.exe.manifest"
     else:
         print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe"', file=f)
         for s, l in tools:
-            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 %s Converter.lnk" "$INSTDIR\\bin\\dcpomatic2_%s.exe"' % (l, s), file=f)
+            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 %s.lnk" "$INSTDIR\\bin\\dcpomatic2_%s.exe"' % (l, s), file=f)
         print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\Uninstall DCP-o-matic 2.lnk" "$INSTDIR\\Uninstall.exe"', file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "DisplayName" "DCP-o-matic 2 (remove only)"', file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "UninstallString" "$INSTDIR\\Uninstall.exe"', file=f)
