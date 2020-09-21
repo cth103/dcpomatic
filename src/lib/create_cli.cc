@@ -191,6 +191,10 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		return;
 	}
 
+	if (standard_string == "interop") {
+		standard = dcp::INTEROP;
+	}
+
 	if (content.empty()) {
 		error = String::compose("%1: no content specified", argv[0]);
 		return;

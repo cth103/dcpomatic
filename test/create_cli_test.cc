@@ -100,6 +100,10 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK (!cc.error);
 	BOOST_CHECK_EQUAL (cc.standard, dcp::SMPTE);
 
+	cc = run ("dcpomatic2_create x --standard interop");
+	BOOST_CHECK (!cc.error);
+	BOOST_CHECK_EQUAL (cc.standard, dcp::INTEROP);
+
 	cc = run ("dcpomatic2_create x --standard SMPTEX");
 	BOOST_CHECK (cc.error);
 
