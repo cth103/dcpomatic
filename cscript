@@ -286,6 +286,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('%{_bindir}/dcpomatic2_player', file=f)
     print('%{_bindir}/dcpomatic2_playlist', file=f)
     print('%{_bindir}/dcpomatic2_openssl', file=f)
+    print('%{_bindir}/dcpomatic2_combiner', file=f)
     if options['variant'] == 'swaroop-studio':
         print('%{_bindir}/dcpomatic2_ecinema', file=f)
         print('%{_bindir}/dcpomatic2_uuid', file=f)
@@ -298,7 +299,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('%{_datadir}/applications/dcpomatic2_kdm.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_player.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_playlist.desktop', file=f)
-    print('%{_datadir}/applications/dcpomatic2_playlist.desktop', file=f)
+    print('%{_datadir}/applications/dcpomatic2_combiner.desktop', file=f)
     if os.path.exists(os.path.join(tools, "dcpomatic2_disk")):
         print('%{_datadir}/applications/dcpomatic2_disk.desktop', file=f)
     print('%{_datadir}/dcpomatic2/dcpomatic2_server_small.png', file=f)
@@ -323,6 +324,7 @@ def make_spec(filename, version, target, options, requires=None):
         print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_player.png' % r, file=f)
         print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_playlist.png' % r, file=f)
         print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_disk.png' % r, file=f)
+        print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_combiner.png' % r, file=f)
     for l in ['de_DE', 'es_ES', 'fr_FR', 'it_IT', 'sv_SE', 'nl_NL', 'ru_RU', 'pl_PL', 'da_DK',
               'pt_PT', 'pt_BR', 'sk_SK', 'cs_CZ', 'uk_UA', 'zh_CN', 'tr_TR']:
         print('%%{_datadir}/locale/%s/LC_MESSAGES/dcpomatic2.mo' % l, file=f)
