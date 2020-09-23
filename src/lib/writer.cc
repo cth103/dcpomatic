@@ -599,10 +599,10 @@ Writer::finish ()
 	cpl->set_luminance (_film->luminance());
 
 	list<int> ac = _film->mapped_audio_channels ();
-	dcp::MainSoundConfiguration::Field field = (
+	dcp::MCASoundField field = (
 		find(ac.begin(), ac.end(), static_cast<int>(dcp::BSL)) != ac.end() ||
 		find(ac.begin(), ac.end(), static_cast<int>(dcp::BSR)) != ac.end()
-		) ? dcp::MainSoundConfiguration::SEVEN_POINT_ONE : dcp::MainSoundConfiguration::FIVE_POINT_ONE;
+		) ? dcp::SEVEN_POINT_ONE : dcp::FIVE_POINT_ONE;
 
 	dcp::MainSoundConfiguration msc (field, _film->audio_channels());
 	BOOST_FOREACH (int i, ac) {
