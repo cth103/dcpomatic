@@ -125,7 +125,7 @@ TranscodeJob::status () const
 
 	char buffer[256];
 	if (finished() || _encoder->finishing()) {
-		strncpy (buffer, Job::status().c_str(), 256);
+		strncpy (buffer, Job::status().c_str(), sizeof(buffer) - 1);
 	} else {
 		snprintf (
 			buffer, sizeof(buffer), "%s; %" PRId64 "/%" PRId64 " frames",
