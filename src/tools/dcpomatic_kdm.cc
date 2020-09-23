@@ -437,7 +437,7 @@ private:
 					std_to_wx(e.what())
 					);
 				return;
-			} catch (dcp::KDMDecryptionError) {
+			} catch (dcp::KDMDecryptionError &) {
 				error_dialog (
 					this,
 					_("Could not decrypt the DKDM.  Perhaps it was not created with the correct certificate.")
