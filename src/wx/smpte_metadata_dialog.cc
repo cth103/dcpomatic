@@ -66,7 +66,7 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 	wxButton* edit_name_language = 0;
 	Button* edit_release_territory = 0;
 
-	add_label_to_sizer(sizer, this, _("Title language"), true);
+	add_label_to_sizer(sizer, this, _("Title language"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	{
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_name_language = new wxStaticText (this, wxID_ANY, wxT(""));
@@ -77,7 +77,7 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 		sizer->Add (s, 0, wxEXPAND);
 	}
 
-	add_label_to_sizer (sizer, this, _("Release territory"), true);
+	add_label_to_sizer (sizer, this, _("Release territory"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	{
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_release_territory = new wxStaticText (this, wxID_ANY, wxT(""));
@@ -87,27 +87,27 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 		sizer->Add (s, 0, wxEXPAND);
 	}
 
-	add_label_to_sizer (sizer, this, _("Version number"), true);
+	add_label_to_sizer (sizer, this, _("Version number"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_version_number = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 1000);
 	sizer->Add (_version_number, 0);
 
-	add_label_to_sizer (sizer, this, _("Status"), true);
+	add_label_to_sizer (sizer, this, _("Status"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_status = new wxChoice (this, wxID_ANY);
 	sizer->Add (_status, 0);
 
-	add_label_to_sizer (sizer, this, _("Chain"), true);
+	add_label_to_sizer (sizer, this, _("Chain"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_chain = new wxTextCtrl (this, wxID_ANY);
 	sizer->Add (_chain, 1, wxEXPAND);
 
-	add_label_to_sizer (sizer, this, _("Distributor"), true);
+	add_label_to_sizer (sizer, this, _("Distributor"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_distributor = new wxTextCtrl (this, wxID_ANY);
 	sizer->Add (_distributor, 1, wxEXPAND);
 
-	add_label_to_sizer (sizer, this, _("Facility"), true);
+	add_label_to_sizer (sizer, this, _("Facility"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_facility = new wxTextCtrl (this, wxID_ANY);
 	sizer->Add (_facility, 1, wxEXPAND);
 
-	add_label_to_sizer (sizer, this, _("Luminance"), true);
+	add_label_to_sizer (sizer, this, _("Luminance"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	{
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_luminance_value = new wxSpinCtrlDouble (this, wxID_ANY);
