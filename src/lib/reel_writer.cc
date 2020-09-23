@@ -60,6 +60,7 @@ using std::string;
 using std::cout;
 using std::exception;
 using std::map;
+using std::vector;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
@@ -155,7 +156,7 @@ ReelWriter::ReelWriter (
 
 	if (_film->audio_channels ()) {
 		_sound_asset.reset (
-			new dcp::SoundAsset (dcp::Fraction (_film->video_frame_rate(), 1), _film->audio_frame_rate (), _film->audio_channels (), standard)
+			new dcp::SoundAsset (dcp::Fraction(_film->video_frame_rate(), 1), _film->audio_frame_rate(), _film->audio_channels(), _film->audio_language(), standard)
 			);
 
 		_sound_asset->set_metadata (mxf_metadata());
@@ -166,11 +167,17 @@ ReelWriter::ReelWriter (
 
 		DCPOMATIC_ASSERT (_film->directory());
 
+		vector<dcp::Channel> active;
+		BOOST_FOREACH (int i, _film->mapped_audio_channels()) {
+			active.push_back (static_cast<dcp::Channel>(i));
+		}
+
 		/* Write the sound asset into the film directory so that we leave the creation
 		   of the DCP directory until the last minute.
 		*/
 		_sound_asset_writer = _sound_asset->start_write (
 			_film->directory().get() / audio_asset_filename (_sound_asset, _reel_index, _reel_count, _content_summary),
+			active,
 			_film->contains_atmos_content()
 			);
 	}

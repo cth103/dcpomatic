@@ -64,8 +64,6 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 	sizer->AddGrowableCol (1, 1);
 
 	wxButton* edit_name_language = 0;
-	Button* edit_release_territory = 0;
-
 	add_label_to_sizer(sizer, this, _("Title language"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	{
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -77,6 +75,19 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 		sizer->Add (s, 0, wxEXPAND);
 	}
 
+	wxButton* edit_audio_language = 0;
+	add_label_to_sizer(sizer, this, _("Audio language"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
+	{
+		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_audio_language = new wxStaticText (this, wxID_ANY, wxT(""));
+		_audio_language->SetToolTip (_("The main language that is spoken in the film's soundtrack"));
+		s->Add (_audio_language, 1, wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
+		edit_audio_language = new Button (this, _("Edit..."));
+		s->Add (edit_audio_language, 0, wxLEFT, DCPOMATIC_SIZER_GAP);
+		sizer->Add (s, 0, wxEXPAND);
+	}
+
+	Button* edit_release_territory = 0;
 	add_label_to_sizer (sizer, this, _("Release territory"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	{
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -182,6 +193,7 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 	_luminance_unit->Append (_("foot lambert"));
 
 	edit_name_language->Bind (wxEVT_BUTTON, boost::bind(&SMPTEMetadataDialog::edit_name_language, this));
+	edit_audio_language->Bind (wxEVT_BUTTON, boost::bind(&SMPTEMetadataDialog::edit_audio_language, this));
 	edit_release_territory->Bind (wxEVT_BUTTON, boost::bind(&SMPTEMetadataDialog::edit_release_territory, this));
 	_version_number->Bind (wxEVT_SPINCTRL, boost::bind(&SMPTEMetadataDialog::version_number_changed, this));
 	_status->Bind (wxEVT_CHOICE, boost::bind(&SMPTEMetadataDialog::status_changed, this));
@@ -286,6 +298,16 @@ SMPTEMetadataDialog::edit_name_language ()
 	LanguageTagDialog* d = new LanguageTagDialog(this, film()->name_language());
 	d->ShowModal ();
 	film()->set_name_language (d->get());
+	d->Destroy ();
+}
+
+
+void
+SMPTEMetadataDialog::edit_audio_language ()
+{
+	LanguageTagDialog* d = new LanguageTagDialog(this, film()->audio_language());
+	d->ShowModal ();
+	film()->set_audio_language (d->get());
 	d->Destroy ();
 }
 

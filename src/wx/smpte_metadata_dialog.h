@@ -43,6 +43,7 @@ private:
 	std::vector<std::string> content_versions () const;
 	void set_content_versions (std::vector<std::string> v);
 	void edit_name_language ();
+	void edit_audio_language ();
 	void edit_release_territory ();
 	void version_number_changed ();
 	void status_changed ();
@@ -55,6 +56,7 @@ private:
 
 	boost::weak_ptr<Film> _film;
 	wxStaticText* _name_language;
+	wxStaticText* _audio_language;
 	wxStaticText* _release_territory;
 	wxSpinCtrl* _version_number;
 	wxChoice* _status;
