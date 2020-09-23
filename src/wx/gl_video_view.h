@@ -33,6 +33,7 @@ DCPOMATIC_ENABLE_WARNINGS
 #include <boost/thread/condition.hpp>
 #undef None
 #undef Success
+#undef Status
 
 class GLVideoView : public VideoView
 {

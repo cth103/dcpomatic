@@ -35,7 +35,6 @@
 #include <dcp/language_tag.h>
 #include <dcp/key.h>
 #include <dcp/encrypted_kdm.h>
-#include <dcp/types.h>
 #include <boost/signals2.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/thread.hpp>
