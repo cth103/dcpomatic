@@ -222,3 +222,10 @@ CPLSummary::CPLSummary (boost::filesystem::path p)
 
 	last_write_time = boost::filesystem::last_write_time (p);
 }
+
+
+bool operator== (NamedChannel const& a, NamedChannel const& b)
+{
+	return a.name == b.name && a.index == b.index;
+}
+

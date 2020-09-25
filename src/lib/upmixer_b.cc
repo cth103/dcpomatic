@@ -130,11 +130,11 @@ UpmixerB::make_audio_mapping_default (AudioMapping& mapping) const
 	}
 }
 
-vector<string>
+vector<NamedChannel>
 UpmixerB::input_names () const
 {
-	vector<string> n;
-	n.push_back (_("Upmix L"));
-	n.push_back (_("Upmix R"));
+	vector<NamedChannel> n;
+	n.push_back (NamedChannel(_("Upmix L"), 0));
+	n.push_back (NamedChannel(_("Upmix R"), 1));
 	return n;
 }

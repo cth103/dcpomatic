@@ -1016,15 +1016,15 @@ SoundPage::config_changed ()
 
 	_map->set (Config::instance()->audio_mapping(channels));
 
-	vector<string> input;
+	vector<NamedChannel> input;
 	for (int i = 0; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
-		input.push_back (short_audio_channel_name(i));
+		input.push_back (NamedChannel(short_audio_channel_name(i), i));
 	}
 	_map->set_input_channels (input);
 
-	vector<string> output;
+	vector<NamedChannel> output;
 	for (int i = 0; i < channels; ++i) {
-		output.push_back (dcp::raw_convert<string>(i));
+		output.push_back (NamedChannel(dcp::raw_convert<string>(i), i));
 	}
 	_map->set_output_channels (output);
 

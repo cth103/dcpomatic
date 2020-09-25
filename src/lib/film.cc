@@ -1707,7 +1707,7 @@ Film::subtitle_language () const
 /** @return The names of the channels that audio contents' outputs are passed into;
  *  this is either the DCP or a AudioProcessor.
  */
-vector<string>
+vector<NamedChannel>
 Film::audio_output_names () const
 {
 	if (audio_processor ()) {
@@ -1716,10 +1716,12 @@ Film::audio_output_names () const
 
 	DCPOMATIC_ASSERT (MAX_DCP_AUDIO_CHANNELS == 16);
 
-	vector<string> n;
+	vector<NamedChannel> n;
 
 	for (int i = 0; i < audio_channels(); ++i) {
-		n.push_back (short_audio_channel_name (i));
+		if (i != 8 && i != 9 && i != 15) {
+			n.push_back (NamedChannel(short_audio_channel_name(i), i));
+		}
 	}
 
 	return n;

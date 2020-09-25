@@ -265,17 +265,18 @@ AudioContent::processing_description (shared_ptr<const Film> film) const
 }
 
 /** @return User-visible names of each of our audio channels */
-vector<string>
+vector<NamedChannel>
 AudioContent::channel_names () const
 {
-	vector<string> n;
+	vector<NamedChannel> n;
 
-	int t = 1;
+	int index = 0;
+	int stream = 1;
 	BOOST_FOREACH (AudioStreamPtr i, streams ()) {
 		for (int j = 0; j < i->channels(); ++j) {
-			n.push_back (String::compose ("%1:%2", t, j + 1));
+			n.push_back (NamedChannel(String::compose ("%1:%2", stream, j + 1), index++));
 		}
-		++t;
+		++stream;
 	}
 
 	return n;

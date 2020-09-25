@@ -24,6 +24,7 @@
  */
 
 #include "lib/audio_mapping.h"
+#include "lib/types.h"
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -51,8 +52,8 @@ public:
 	AudioMappingView (wxWindow *, wxString left_label, wxString from, wxString top_label, wxString to);
 
 	void set (AudioMapping);
-	void set_input_channels (std::vector<std::string> const & names);
-	void set_output_channels (std::vector<std::string> const & names);
+	void set_input_channels (std::vector<NamedChannel> const& channels);
+	void set_output_channels (std::vector<NamedChannel> const& channels);
 
 	struct Group
 	{
@@ -90,11 +91,10 @@ private:
 	void right_down (wxMouseEvent &);
 	void motion (wxMouseEvent &);
 	void mouse_wheel (wxMouseEvent &);
-	boost::optional<std::pair<int, int> > mouse_event_to_channels (wxMouseEvent& ev) const;
+	boost::optional<std::pair<NamedChannel, NamedChannel> > mouse_event_to_channels (wxMouseEvent& ev) const;
 	boost::optional<std::string> mouse_event_to_input_group_name (wxMouseEvent& ev) const;
 	void setup ();
-	wxString safe_input_channel_name (int n) const;
-	wxString safe_output_channel_name (int n) const;
+	wxString input_channel_name_with_group (NamedChannel const& n) const;
 
 	void set_gain_from_menu (double linear);
 	void edit ();
@@ -113,9 +113,9 @@ private:
 	wxString _top_label;
 	wxString _to;
 
-	std::vector<std::string> _input_channels;
-	std::vector<std::string> _output_channels;
+	std::vector<NamedChannel> _input_channels;
+	std::vector<NamedChannel> _output_channels;
 	std::vector<Group> _input_groups;
 
-	boost::optional<std::pair<int, int> > _last_tooltip_channels;
+	boost::optional<std::pair<NamedChannel, NamedChannel> > _last_tooltip_channels;
 };

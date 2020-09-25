@@ -825,8 +825,6 @@ audio_channel_types (list<int> mapped, int channels)
 		case dcp::CENTRE:
 		case dcp::LS:
 		case dcp::RS:
-		case dcp::LC:
-		case dcp::RC:
 		case dcp::BSL:
 		case dcp::BSR:
 			++non_lfe;
@@ -836,7 +834,6 @@ audio_channel_types (list<int> mapped, int channels)
 		case dcp::MOTION_DATA:
 		case dcp::SYNC_SIGNAL:
 		case dcp::SIGN_LANGUAGE:
-		case dcp::UNUSED:
 		case dcp::CHANNEL_COUNT:
 			break;
 		}

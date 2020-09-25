@@ -177,7 +177,7 @@ public:
 
 	std::string subtitle_language () const;
 
-	std::vector<std::string> audio_output_names () const;
+	std::vector<NamedChannel> audio_output_names () const;
 
 	void repeat_content (ContentList, int);
 

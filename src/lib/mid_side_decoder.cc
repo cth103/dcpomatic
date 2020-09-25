@@ -90,13 +90,11 @@ MidSideDecoder::make_audio_mapping_default (AudioMapping& mapping) const
 	}
 }
 
-vector<string>
+vector<NamedChannel>
 MidSideDecoder::input_names () const
 {
-	vector<string> n;
-
-	n.push_back (_("Left"));
-	n.push_back (_("Right"));
-
+	vector<NamedChannel> n;
+	n.push_back (NamedChannel(_("Left"), 0));
+	n.push_back (NamedChannel(_("Right"), 1));
 	return n;
 }

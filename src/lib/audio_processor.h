@@ -25,6 +25,7 @@
 #ifndef DCPOMATIC_AUDIO_PROCESSOR_H
 #define DCPOMATIC_AUDIO_PROCESSOR_H
 
+#include "types.h"
 #include <boost/shared_ptr.hpp>
 #include <list>
 #include <string>
@@ -58,7 +59,7 @@ public:
 	/** Make the supplied audio mapping into a sensible default for this processor */
 	virtual void make_audio_mapping_default (AudioMapping& mapping) const = 0;
 	/** @return the user-visible (translated) names of each of our inputs, in order */
-	virtual std::vector<std::string> input_names () const = 0;
+	virtual std::vector<NamedChannel> input_names () const = 0;
 
 	static std::list<AudioProcessor const *> all ();
 	static std::list<AudioProcessor const *> visible ();

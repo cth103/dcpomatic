@@ -190,8 +190,6 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51-HI-VI_4K_DI_20140704_PP_SMPTE_OV");
 
 	film->set_audio_channels(10);
-	mapping.set (0, dcp::LC, 1.0);
-	mapping.set (0, dcp::RC, 1.0);
 	mapping.set (0, dcp::HI, 0.0);
 	mapping.set (0, dcp::VI, 0.0);
 	sound->audio->set_mapping (mapping);
@@ -204,8 +202,6 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_71-HI-VI_4K_DI_20140704_PP_SMPTE_OV");
 
 	film->set_audio_channels(12);
-	mapping.set (0, dcp::LC, 0.0);
-	mapping.set (0, dcp::RC, 0.0);
 	mapping.set (0, dcp::BSL, 1.0);
 	mapping.set (0, dcp::BSR, 1.0);
 	mapping.set (0, dcp::HI, 0.0);

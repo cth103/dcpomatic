@@ -191,9 +191,9 @@ AudioMappingView::paint_column_labels (wxDC& dc)
 	wxCoord label_width;
 	wxCoord label_height;
 	int N = 0;
-	BOOST_FOREACH (string i, _output_channels) {
-		dc.GetTextExtent (std_to_wx(i), &label_width, &label_height);
-		dc.DrawText (std_to_wx(i), LEFT_WIDTH + GRID_SPACING * N + (GRID_SPACING - label_width) / 2, GRID_SPACING + (GRID_SPACING - label_height) / 2);
+	BOOST_FOREACH (NamedChannel const& i, _output_channels) {
+		dc.GetTextExtent (std_to_wx(i.name), &label_width, &label_height);
+		dc.DrawText (std_to_wx(i.name), LEFT_WIDTH + GRID_SPACING * N + (GRID_SPACING - label_width) / 2, GRID_SPACING + (GRID_SPACING - label_height) / 2);
 		++N;
 	}
 
@@ -226,9 +226,9 @@ AudioMappingView::paint_row_labels (wxDC& dc)
 	/* Row channel labels */
 
 	int N = 0;
-	BOOST_FOREACH (string i, _input_channels) {
-		dc.GetTextExtent (std_to_wx(i), &label_width, &label_height);
-		dc.DrawText (std_to_wx(i), GRID_SPACING * 2 + (GRID_SPACING - label_width) / 2, TOP_HEIGHT + GRID_SPACING * N + (GRID_SPACING - label_height) / 2);
+	BOOST_FOREACH (NamedChannel const& i, _input_channels) {
+		dc.GetTextExtent (std_to_wx(i.name), &label_width, &label_height);
+		dc.DrawText (std_to_wx(i.name), GRID_SPACING * 2 + (GRID_SPACING - label_width) / 2, TOP_HEIGHT + GRID_SPACING * N + (GRID_SPACING - label_height) / 2);
 		++N;
 	}
 
@@ -305,7 +305,7 @@ AudioMappingView::paint_indicators (wxDC& dc)
 					)
 				);
 
-			float const value_dB = linear_to_db(_map.get(y, x));
+			float const value_dB = linear_to_db(_map.get(_input_channels[y].index, _output_channels[x].index));
 			wxColour const colour = value_dB <= 0 ? wxColour(0, 255, 0) : wxColour(255, 150, 0);
 			int const range = 18;
 			int height = 0;
@@ -410,24 +410,24 @@ AudioMappingView::paint ()
 	restore (dc);
 }
 
-optional<pair<int, int> >
+optional<pair<NamedChannel, NamedChannel> >
 AudioMappingView::mouse_event_to_channels (wxMouseEvent& ev) const
 {
 	int const x = ev.GetX() + _horizontal_scroll->GetThumbPosition();
 	int const y = ev.GetY() + _vertical_scroll->GetThumbPosition();
 
 	if (x <= LEFT_WIDTH || y < TOP_HEIGHT) {
-		return optional<pair<int, int> >();
+		return optional<pair<NamedChannel, NamedChannel> >();
 	}
 
 	int const input = (y - TOP_HEIGHT) / GRID_SPACING;
 	int const output = (x - LEFT_WIDTH) / GRID_SPACING;
 
 	if (input >= int(_input_channels.size()) || output >= int(_output_channels.size())) {
-		return optional<pair<int, int> >();
+		return optional<pair<NamedChannel, NamedChannel> >();
 	}
 
-	return make_pair (input, output);
+	return make_pair (_input_channels[input], _output_channels[output]);
 }
 
 optional<string>
@@ -451,15 +451,15 @@ AudioMappingView::mouse_event_to_input_group_name (wxMouseEvent& ev) const
 void
 AudioMappingView::left_down (wxMouseEvent& ev)
 {
-	optional<pair<int, int> > channels = mouse_event_to_channels (ev);
+	optional<pair<NamedChannel, NamedChannel> > channels = mouse_event_to_channels (ev);
 	if (!channels) {
 		return;
 	}
 
-	if (_map.get(channels->first, channels->second) > 0) {
-		_map.set (channels->first, channels->second, 0);
+	if (_map.get(channels->first.index, channels->second.index) > 0) {
+		_map.set (channels->first.index, channels->second.index, 0);
 	} else {
-		_map.set (channels->first, channels->second, 1);
+		_map.set (channels->first.index, channels->second.index, 1);
 	}
 
 	map_values_changed ();
@@ -468,13 +468,13 @@ AudioMappingView::left_down (wxMouseEvent& ev)
 void
 AudioMappingView::right_down (wxMouseEvent& ev)
 {
-	optional<pair<int, int> > channels = mouse_event_to_channels (ev);
+	optional<pair<NamedChannel, NamedChannel> > channels = mouse_event_to_channels (ev);
 	if (!channels) {
 		return;
 	}
 
-	_menu_input = channels->first;
-	_menu_output = channels->second;
+	_menu_input = channels->first.index;
+	_menu_output = channels->second.index;
 	PopupMenu (_menu, ev.GetPosition());
 }
 
@@ -499,7 +499,7 @@ void
 AudioMappingView::map_values_changed ()
 {
 	Changed (_map);
-	_last_tooltip_channels = optional<pair<int, int> >();
+	_last_tooltip_channels = optional<pair<NamedChannel, NamedChannel> >();
 	Refresh ();
 }
 
@@ -530,84 +530,72 @@ AudioMappingView::set (AudioMapping map)
 }
 
 void
-AudioMappingView::set_input_channels (vector<string> const & names)
+AudioMappingView::set_input_channels (vector<NamedChannel> const& channels)
 {
-	_input_channels = names;
+	_input_channels = channels;
 	setup ();
 	Refresh ();
 }
 
 void
-AudioMappingView::set_output_channels (vector<string> const & names)
+AudioMappingView::set_output_channels (vector<NamedChannel> const & channels)
 {
-	_output_channels = names;
+	_output_channels = channels;
 	setup ();
 	Refresh ();
 }
 
-wxString
-AudioMappingView::safe_input_channel_name (int n) const
-{
-	if (n >= int(_input_channels.size())) {
-		return wxString::Format ("%d", n + 1);
-	}
 
+wxString
+AudioMappingView::input_channel_name_with_group (NamedChannel const& n) const
+{
 	optional<wxString> group;
 	BOOST_FOREACH (Group i, _input_groups) {
-		if (i.from <= n && n <= i.to) {
+		if (i.from <= n.index && n.index <= i.to) {
 			group = std_to_wx (i.name);
 		}
 	}
 
 	if (group && !group->IsEmpty()) {
-		return wxString::Format ("%s/%s", group->data(), std_to_wx(_input_channels[n]).data());
+		return wxString::Format ("%s/%s", group->data(), std_to_wx(n.name).data());
 	}
 
-	return std_to_wx(_input_channels[n]);
+	return std_to_wx(n.name);
 }
 
-wxString
-AudioMappingView::safe_output_channel_name (int n) const
-{
-	if (n >= int(_output_channels.size())) {
-		return wxString::Format ("%d", n + 1);
-	}
-
-	return std_to_wx(_output_channels[n]);
-}
 
 void
 AudioMappingView::motion (wxMouseEvent& ev)
 {
-	optional<pair<int, int> > channels = mouse_event_to_channels (ev);
+	optional<pair<NamedChannel, NamedChannel> > channels = mouse_event_to_channels (ev);
 	if (channels) {
 		if (channels != _last_tooltip_channels) {
 			wxString s;
-			float const gain = _map.get(channels->first, channels->second);
+			float const gain = _map.get(channels->first.index, channels->second.index);
 			if (gain == 0) {
 				s = wxString::Format (
 					_("No audio will be passed from %s channel '%s' to %s channel '%s'."),
 					_from,
-					safe_input_channel_name(channels->first),
+					input_channel_name_with_group(channels->first),
 					_to,
-					safe_output_channel_name(channels->second)
+					std_to_wx(channels->second.name)
 					);
 			} else if (gain == 1) {
 				s = wxString::Format (
 					_("Audio will be passed from %s channel %s to %s channel %s unaltered."),
 					_from,
-					safe_input_channel_name(channels->first),
+					input_channel_name_with_group(channels->first),
 					_to,
-					safe_output_channel_name(channels->second)
+					std_to_wx(channels->second.name)
 					);
 			} else {
 				float const dB = linear_to_db(gain);
 				s = wxString::Format (
 					_("Audio will be passed from %s channel %s to %s channel %s with gain %.1fdB."),
 					_from,
-					safe_input_channel_name(channels->first),
+					input_channel_name_with_group(channels->first),
 					_to,
-					safe_output_channel_name(channels->second),
+					std_to_wx(channels->second.name),
 					dB
 					);
 			}
