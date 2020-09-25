@@ -995,9 +995,17 @@ SoundPage::config_changed ()
 	int channels = 0;
 	if (configured_so) {
 		for (unsigned int i = 0; i < audio.getDeviceCount(); ++i) {
-			RtAudio::DeviceInfo info = audio.getDeviceInfo(i);
-			if (info.name == *configured_so && info.outputChannels > 0) {
-				channels = info.outputChannels;
+			try {
+				RtAudio::DeviceInfo info = audio.getDeviceInfo(i);
+				if (info.name == *configured_so && info.outputChannels > 0) {
+					channels = info.outputChannels;
+				}
+#ifdef DCPOMATIC_USE_RTERROR
+			} catch (RtError&) {
+#else
+			} catch (RtAudioError&) {
+#endif
+				/* Never mind */
 			}
 		}
 	}
