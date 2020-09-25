@@ -534,7 +534,11 @@ FilmViewer::config_changed (Config::Property p)
 					if (_audio.getDeviceInfo(st).name == Config::instance()->sound_output().get()) {
 						break;
 					}
+#ifdef DCPOMATIC_USE_RTERROR
+				} catch (RtError&) {
+#else
 				} catch (RtAudioError&) {
+#endif
 					/* Something went wrong with that device so we don't want to use it anyway */
 				}
 				++st;

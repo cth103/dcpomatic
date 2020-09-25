@@ -927,7 +927,11 @@ SoundPage::sound_output_changed ()
 	string default_device;
 	try {
 		default_device = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
+#ifdef DCPOMATIC_USE_RTERROR
+	} catch (RtError&) {
+#else
 	} catch (RtAudioError&) {
+#endif
 		/* Never mind */
 	}
 	if (!so || *so == default_device) {
@@ -954,7 +958,11 @@ SoundPage::config_changed ()
 		RtAudio audio (DCPOMATIC_RTAUDIO_API);
 		try {
 			configured_so = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
-		} catch (RtAudioError& e) {
+#ifdef DCPOMATIC_USE_RTERROR
+		} catch (RtError&) {
+#else
+		} catch (RtAudioError&) {
+#endif
 			/* Probably no audio devices at all */
 		}
 	}
