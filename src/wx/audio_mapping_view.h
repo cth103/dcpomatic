@@ -48,7 +48,7 @@ DCPOMATIC_ENABLE_WARNINGS
 class AudioMappingView : public wxPanel
 {
 public:
-	explicit AudioMappingView (wxWindow *, wxString left_label, wxString from, wxString top_label, wxString to);
+	AudioMappingView (wxWindow *, wxString left_label, wxString from, wxString top_label, wxString to);
 
 	void set (AudioMapping);
 	void set_input_channels (std::vector<std::string> const & names);
