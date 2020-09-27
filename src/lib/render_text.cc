@@ -375,7 +375,7 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 	}
 
 	if (first.effect() == dcp::BORDER) {
-		/* Border effect; stroke the subtitle with a large (arbitrarily chosen) line width */
+		/* Border effect */
 		set_source_rgba (context, first.effect_colour(), fade_factor);
 		context->set_line_width (border_width);
 		context->set_line_join (Cairo::LINE_JOIN_ROUND);
@@ -386,13 +386,16 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 
 	/* The actual subtitle */
 
-	context->set_line_width (0);
+	set_source_rgba (context, first.colour(), fade_factor);
+
 	context->move_to (x_offset, y_offset);
-#ifdef DCPOMATIC_HAVE_SHOW_IN_CAIRO_CONTEXT
-	layout->show_in_cairo_context (context);
-#else
-	pango_cairo_show_layout (context->cobj(), layout->gobj());
-#endif
+	layout->add_to_cairo_context (context);
+	context->fill ();
+
+	context->set_line_width (0.5);
+	context->move_to (x_offset, y_offset);
+	layout->add_to_cairo_context (context);
+	context->stroke ();
 
 	int const x = x_position (first, target.width, size.width);
 	int const y = y_position (first, target.height, size.height);
