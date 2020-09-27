@@ -101,6 +101,11 @@ cpu_info ()
 boost::filesystem::path
 resources_path ()
 {
+	char* prefix = getenv ("DCPOMATIC_SHARE_PREFIX");
+	if (prefix) {
+		return boost::filesystem::path(prefix) / "dcpomatic2";
+	}
+
 	return directory_containing_executable().parent_path() / "share" / "dcpomatic2";
 }
 
@@ -108,14 +113,14 @@ resources_path ()
 boost::filesystem::path
 xsd_path ()
 {
-	return directory_containing_executable().parent_path() / "share" / "libdcp" / "xsd";
+	return boost::filesystem::canonical(LINUX_SHARE_PREFIX) / "libdcp" / "xsd";
 }
 
 
 boost::filesystem::path
 tags_path ()
 {
-	return directory_containing_executable().parent_path() / "share" / "libdcp" / "tags";
+	return boost::filesystem::canonical(LINUX_SHARE_PREFIX) / "libdcp" / "tags";
 }
 
 
