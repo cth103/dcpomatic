@@ -473,8 +473,7 @@ maybe_show_splash ()
 	wxSplashScreen* splash = 0;
 	try {
 		wxBitmap bitmap;
-		boost::filesystem::path p = resources_path() / "splash.png";
-		if (bitmap.LoadFile (std_to_wx (p.string ()), wxBITMAP_TYPE_PNG)) {
+		if (bitmap.LoadFile(bitmap_path("splash"), wxBITMAP_TYPE_PNG)) {
 			splash = new wxSplashScreen (bitmap, wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_NO_TIMEOUT, 0, 0, -1);
 			wxYield ();
 		}
@@ -578,7 +577,7 @@ bitmap_path (string name)
 	boost::filesystem::path base;
 
 #ifdef DCPOMATIC_DEBUG
-	/* Hack to allow OS X to find icons when running from the source tree */
+	/* Hack to allow Linux and OS X to find icons when running from the source tree */
 	char* path = getenv ("DCPOMATIC_GRAPHICS");
 	if (path) {
 		base = path;
