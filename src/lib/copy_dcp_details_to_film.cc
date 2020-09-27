@@ -70,10 +70,6 @@ copy_dcp_details_to_film (shared_ptr<const DCPContent> dcp, shared_ptr<Film> fil
 	}
 
 	film->set_ratings (dcp->ratings());
-
-	vector<string> cv;
-	cv.push_back (dcp->content_version());
-	film->set_content_versions (cv);
+	film->set_content_versions (dcp->content_versions());
 }
-
 

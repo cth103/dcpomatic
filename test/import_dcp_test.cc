@@ -185,7 +185,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_metadata_test)
 	film2->write_metadata ();
 
 	BOOST_CHECK (imported->ratings() == ratings);
-	BOOST_CHECK_EQUAL (imported->content_version(), "Fred");
+	BOOST_CHECK (imported->content_versions() == cv);
 
 	/* Load that film and check that the metadata has been loaded */
 	shared_ptr<Film> film3(new Film(boost::filesystem::path("build/test/import_dcp_metadata_test2")));
@@ -195,6 +195,6 @@ BOOST_AUTO_TEST_CASE (import_dcp_metadata_test)
 	BOOST_REQUIRE (reloaded);
 
 	BOOST_CHECK (reloaded->ratings() == ratings);
-	BOOST_CHECK_EQUAL (reloaded->content_version(), "Fred");
+	BOOST_CHECK (reloaded->content_versions() == cv);
 }
 

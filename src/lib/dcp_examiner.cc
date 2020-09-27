@@ -260,7 +260,9 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	_three_d = !cpl->reels().empty() && cpl->reels().front()->main_picture() &&
 		dynamic_pointer_cast<dcp::StereoPictureAsset> (cpl->reels().front()->main_picture()->asset());
 	_ratings = cpl->ratings();
-	_content_version = cpl->content_version().label_text;
+	BOOST_FOREACH (dcp::ContentVersion i, cpl->content_versions()) {
+		_content_versions.push_back (i.label_text);
+	}
 
 	_cpl = cpl->id ();
 }

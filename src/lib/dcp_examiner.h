@@ -134,8 +134,8 @@ public:
 		return _ratings;
 	}
 
-	std::string content_version () const {
-		return _content_version;
+	std::vector<std::string> content_versions () const {
+		return _content_versions;
 	}
 
 	bool has_atmos () const {
@@ -176,7 +176,7 @@ private:
 	std::list<int64_t> _reel_lengths;
 	std::map<dcp::Marker, dcp::Time> _markers;
 	std::vector<dcp::Rating> _ratings;
-	std::string _content_version;
+	std::vector<std::string> _content_versions;
 	bool _has_atmos;
 	Frame _atmos_length;
 	dcp::Fraction _atmos_edit_rate;

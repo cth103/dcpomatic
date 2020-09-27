@@ -158,7 +158,9 @@ DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
 		_ratings.push_back (dcp::Rating(i));
 	}
 
-	_content_version = node->optional_string_child("ContentVersion").get_value_or("");
+	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("ContentVersion")) {
+		_content_versions.push_back (i->content());
+	}
 }
 
 void
@@ -274,7 +276,7 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 			_markers[i->first] = ContentTime(i->second.as_editable_units(DCPTime::HZ));
 		}
 		_ratings = examiner->ratings ();
-		_content_version = examiner->content_version ();
+		_content_versions = examiner->content_versions ();
 	}
 
 	if (old_texts == texts) {
@@ -390,7 +392,9 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 		i.as_xml (rating);
 	}
 
-	node->add_child("ContentVersion")->add_child_text (_content_version);
+	BOOST_FOREACH (string i, _content_versions) {
+		node->add_child("ContentVersion")->add_child_text(i);
+	}
 }
 
 DCPTime
