@@ -207,6 +207,13 @@ xsd_path ()
 
 
 boost::filesystem::path
+tags_path ()
+{
+	return directory_containing_executable().parent_path() / "tags";
+}
+
+
+boost::filesystem::path
 openssl_path ()
 {
 	return directory_containing_executable() / "openssl.exe";

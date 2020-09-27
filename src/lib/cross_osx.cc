@@ -130,6 +130,13 @@ xsd_path ()
 }
 
 
+boost::filesystem::path
+tags_path ()
+{
+	return resources_path() / "tags";
+}
+
+
 void
 run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
 {
