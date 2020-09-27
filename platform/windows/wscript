@@ -329,6 +329,12 @@ File "%cdist_deps%/share/libdcp/xsd/PROTO-ASDCP-CPL-20040511.xsd"
 File "%cdist_deps%/share/libdcp/xsd/PROTO-ASDCP-PKL-20040311.xsd"
 File "%cdist_deps%/share/libdcp/xsd/Dolby-2012-AD.xsd"
 File "%cdist_deps%/share/libdcp/xsd/isdcf-mca.xsd"
+SetOutPath "$INSTDIR\\tags"
+File "%cdist_deps%/share/libdcp/tags/extlang"
+File "%cdist_deps%/share/libdcp/tags/language"
+File "%cdist_deps%/share/libdcp/tags/region"
+File "%cdist_deps%/share/libdcp/tags/script"
+File "%cdist_deps%/share/libdcp/tags/variant"
 
 SectionEnd
     """, file=f)
