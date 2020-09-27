@@ -29,6 +29,9 @@
 using std::string;
 using std::list;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 static string const base = "ftp://certificates.qubecinema.com/";
 
