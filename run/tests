@@ -3,7 +3,6 @@
 # e.g. --run_tests=foo
 
 export LD_LIBRARY_PATH=build/src/lib:/home/c.hetherington/lib:$LD_LIBRARY_PATH
-export DCPOMATIC_LINUX_SHARE_PREFIX=`pwd`
 if [ "$1" == "--debug" ]; then
     shift;
     gdb --args build/test/unit-tests --catch_system_errors=no --log_level=test_suite $*

@@ -101,22 +101,21 @@ cpu_info ()
 boost::filesystem::path
 resources_path ()
 {
-	char const * p = getenv ("DCPOMATIC_LINUX_SHARE_PREFIX");
-	if (p) {
-		return boost::filesystem::path(p) / "dcpomatic2";
-	}
-	return boost::filesystem::canonical(LINUX_SHARE_PREFIX) / "dcpomatic2";
+	return directory_containing_executable().parent_path() / "share" / "dcpomatic2";
 }
 
 
 boost::filesystem::path
 xsd_path ()
 {
-	char const * p = getenv ("DCPOMATIC_LINUX_SHARE_PREFIX");
-	if (p) {
-		return boost::filesystem::path(p) / "libdcp" / "xsd";
-	}
-	return boost::filesystem::canonical(LINUX_SHARE_PREFIX) / "libdcp" / "xsd";
+	return directory_containing_executable().parent_path() / "share" / "libdcp" / "xsd";
+}
+
+
+boost::filesystem::path
+tags_path ()
+{
+	return directory_containing_executable().parent_path() / "share" / "libdcp" / "tags";
 }
 
 

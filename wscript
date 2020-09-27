@@ -198,7 +198,6 @@ def configure(conf):
     if conf.env.TARGET_LINUX:
         conf.env.append_value('CXXFLAGS', '-mfpmath=sse')
         conf.env.append_value('CXXFLAGS', '-DLINUX_LOCALE_PREFIX="%s/share/locale"' % conf.env['INSTALL_PREFIX'])
-        conf.env.append_value('CXXFLAGS', '-DLINUX_SHARE_PREFIX="%s/share"' % conf.env['INSTALL_PREFIX'])
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_LINUX')
         conf.env.append_value('CXXFLAGS', ['-Wlogical-op', '-Wcast-align'])
         conf.check(lib='dl', uselib_store='DL', msg='Checking for library dl')
