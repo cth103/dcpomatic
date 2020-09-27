@@ -105,7 +105,7 @@ TimingPanel::TimingPanel (ContentPanel* p, weak_ptr<FilmViewer> viewer)
 	_trim_start_to_playhead = new Button (this, _("Trim up to current position"));
 	_trim_end_label = create_label (this, _("Trim from end"), true);
 	_trim_end = new Timecode<ContentTime> (this);
-	_trim_end_to_playhead = new Button (this, _("Trim after current position"));
+	_trim_end_to_playhead = new Button (this, _("Trim from current position to end"));
 	_play_length_label = create_label (this, _("Play length"), true);
 	_play_length = new Timecode<DCPTime> (this);
 
@@ -583,7 +583,7 @@ TimingPanel::trim_end_to_playhead_clicked ()
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		if (i->position() < ph && ph < i->end(film)) {
 			FrameRateChange const frc = film->active_frame_rate_change (i->position ());
-			i->set_trim_end (ContentTime(i->position() + i->full_length(film) - ph - DCPTime::from_frames(1, frc.dcp), frc) - i->trim_start());
+			i->set_trim_end (ContentTime(i->position() + i->full_length(film) - ph, frc) - i->trim_start());
 		}
 	}
 }
