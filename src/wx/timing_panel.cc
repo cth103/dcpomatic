@@ -563,11 +563,11 @@ TimingPanel::trim_start_to_playhead_clicked ()
 		}
 	}
 
+	fv->set_coalesce_player_changes (false);
+
 	if (new_ph) {
 		fv->seek (new_ph.get(), true);
 	}
-
-	fv->set_coalesce_player_changes (false);
 }
 
 void
