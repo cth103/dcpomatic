@@ -231,6 +231,7 @@ function copy_resources {
     cp $prefix/src/dcpomatic/graphics/me.jpg "$dest"
     cp $prefix/src/dcpomatic/graphics/link.png "$dest"
     cp -r $prefix/share/libdcp/xsd "$dest"
+    cp -r $prefix/share/libdcp/tags "$dest"
 
     # i18n: DCP-o-matic .mo files
     for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL ru_RU pl_PL da_DK pt_PT pt_BR sk_SK cs_CZ uk_UA zh_CN tr_TR; do
