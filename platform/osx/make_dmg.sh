@@ -404,38 +404,6 @@ EOF
 
     set -e
     codesign --verify --verbose --options runtime --sign "Developer ID Application: Carl Hetherington (R82DXSR997)" "$dmg"
-
-    # We only notarize thin builds, as if we're building universal binaries we must be on an OS
-    # sufficiently old that it can't notarize anyway
-    if [ "$TYPE" == "thin" ]; then
-
-	id=$(xcrun altool --notarize-app -t osx -f "$dmg" --primary-bundle-id $bundle_id -u $APPLE_ID -p $APPLE_PASSWORD --output-format xml | grep -C1 RequestUUID | tail -n 1 | sed -e "s/<string>//g" | sed -e "s/<\/string>//g")
-	N=0
-	while [ 1 ]; do
-	    echo "Checking up on $id"
-	    set +e
-            status=$(xcrun altool --notarization-info $id -u $APPLE_ID -p $APPLE_PASSWORD --output-format xml)
-	    set -e
-            summary=$(echo "$status" | grep -C1 "<key>Status</key>" | tail -n 1 | sed -e "s/	.//g")
-            echo "Got $summary"
-            if [ "$summary" == "<string>invalid</string>" ]; then
-                echo "Notarization failed."
-                echo $status
-                exit 1
-            fi
-	    if [ "$summary" == "<string>success</string>" ]; then
-		break
-	    fi
-	    sleep 30
-	    N=$((N+1))
-	    if [ "$N" == "30" ]; then
-		echo "Timed out waiting for notarization"
-		exit 1
-	    fi
-	done
-
-	xcrun stapler staple "$dmg"
-    fi
     set +e
 
     rm $tmp_dmg
