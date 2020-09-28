@@ -301,12 +301,10 @@ function sign {
 # @param #1 .app directory
 # @param #2 .pkg or ""
 # @param #3 full name e.g. DCP-o-matic Batch Converter
-# @param #4 bundle id e.g. com.dcpomatic.batch
 function make_dmg {
     local appdir="$1"
     local pkg="$2"
     local full_name="$3"
-    local bundle_id="$4"
     tmp_dmg=dcpomatic_tmp.dmg
     dmg="$full_name $version.dmg"
     vol_name=DCP-o-matic-$version
@@ -443,7 +441,7 @@ copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2" "$approot/MacOS/dcpomatic2_cli" "$approot/MacOS/dcpomatic2_create" "$approot/MacOS/ffprobe" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic" com.dcpomatic
+make_dmg "$appdir" "" "DCP-o-matic"
 
 # DCP-o-matic KDM Creator
 setup "DCP-o-matic 2 KDM Creator.app"
@@ -453,7 +451,7 @@ copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_kdm.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_kdm" "$approot/MacOS/dcpomatic2_kdm_cli" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic KDM Creator" com.dcpomatic.kdm
+make_dmg "$appdir" "" "DCP-o-matic KDM Creator"
 
 # DCP-o-matic Encode Server
 setup "DCP-o-matic 2 Encode Server.app"
@@ -463,7 +461,7 @@ copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_server.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_server" "$approot/MacOS/dcpomatic2_server_cli" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic Encode Server" com.dcpomatic.server
+make_dmg "$appdir" "" "DCP-o-matic Encode Server"
 
 # DCP-o-matic Batch Converter
 setup "DCP-o-matic 2 Batch converter.app"
@@ -472,7 +470,7 @@ copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_batch.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_batch" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic Batch Converter" com.dcpomatic.batch
+make_dmg "$appdir" "" "DCP-o-matic Batch Converter"
 
 # DCP-o-matic Player
 setup "DCP-o-matic 2 Player.app"
@@ -481,7 +479,7 @@ copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_player.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_player" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic Player" com.dcpomatic.player
+make_dmg "$appdir" "" "DCP-o-matic Player"
 
 # DCP-o-matic Playlist Editor
 setup "DCP-o-matic 2 Playlist Editor.app"
@@ -490,7 +488,7 @@ copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_playlist.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_playlist" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic Playlist Editor" com.dcpomatic.playlist
+make_dmg "$appdir" "" "DCP-o-matic Playlist Editor"
 
 # DCP-o-matic Combiner
 setup "DCP-o-matic 2 Combiner.app"
@@ -499,7 +497,7 @@ copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_combiner.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_combiner" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic Combiner" com.dcpomatic.combiner
+make_dmg "$appdir" "" "DCP-o-matic Combiner"
 
 # DCP-o-matic Disk Writer .app
 setup "DCP-o-matic 2 Disk Writer.app"
@@ -581,5 +579,5 @@ mkdir -p "$pkgroot/Library/Application Support/com.dcpomatic"
 mv $pkgbin/* "$pkgroot/Library/Application Support/com.dcpomatic/"
 pkgbuild --root $pkgroot --identifier com.dcpomatic.disk.writer --scripts $pkgbase/scripts "DCP-o-matic Disk Writer.pkg"
 
-make_dmg "$appdir" "DCP-o-matic Disk Writer.pkg" "DCP-o-matic Disk Writer" com.dcpomatic.disk
+make_dmg "$appdir" "DCP-o-matic Disk Writer.pkg" "DCP-o-matic Disk Writer"
 
