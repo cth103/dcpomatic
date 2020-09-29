@@ -25,6 +25,7 @@
 #include "font.h"
 #include "dcpomatic_assert.h"
 #include "warnings.h"
+#include "util.h"
 #include <dcp/raw_convert.h>
 #include <fontconfig/fontconfig.h>
 #include <cairomm/cairomm.h>
@@ -139,19 +140,7 @@ setup_font (StringText const& subtitle, list<shared_ptr<Font> > const& fonts)
 		fc_config = FcInitLoadConfig ();
 	}
 
-	optional<boost::filesystem::path> font_file;
-
-	try {
-		font_file = resources_path() / "LiberationSans-Regular.ttf";
-	} catch (boost::filesystem::filesystem_error& e) {
-
-	}
-
-	/* Hack: try the debian/ubuntu locations if getting the shared path failed */
-
-	if (!font_file || !boost::filesystem::exists(*font_file)) {
-		font_file = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
-	}
+	optional<boost::filesystem::path> font_file = default_font_file ();
 
 	BOOST_FOREACH (shared_ptr<Font> i, fonts) {
 		if (i->id() == subtitle.font() && i->file()) {
