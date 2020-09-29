@@ -2,7 +2,13 @@
 #
 # e.g. --run_tests=foo
 
-export LD_LIBRARY_PATH=build/src/lib:/home/c.hetherington/lib:$LD_LIBRARY_PATH
+if [ "$(uname)" == "Linux" ]; then 
+  export LD_LIBRARY_PATH=build/src/lib:/home/c.hetherington/lib:$LD_LIBRARY_PATH
+  rm -f build/test/openssl
+  # This must be our patched openssl or tests will fail
+  ln -s ../../../openssl/apps/openssl build/test/dcpomatic2_openssl
+fi
+
 if [ "$1" == "--debug" ]; then
     shift;
     gdb --args build/test/unit-tests --catch_system_errors=no --log_level=test_suite $*
