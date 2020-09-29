@@ -101,11 +101,6 @@ cpu_info ()
 boost::filesystem::path
 resources_path ()
 {
-	char* prefix = getenv ("DCPOMATIC_SHARE_PREFIX");
-	if (prefix) {
-		return boost::filesystem::path(prefix) / "dcpomatic2";
-	}
-
 	return directory_containing_executable().parent_path() / "share" / "dcpomatic2";
 }
 

@@ -5,7 +5,6 @@ build=$DIR/../build
 export LD_LIBRARY_PATH=$build/src/lib:$build/src/wx:$build/src/asdcplib/src:$LD_LIBRARY_PATH
 export DYLD_LIBRARY_PATH=$build/src/lib:$build/src/wx:$build/src/asdcplib/src:/Users/c.hetherington/osx-environment/64/lib
 export DCPOMATIC_GRAPHICS=$DIR/../graphics
-export DCPOMATIC_SHARE_PREFIX=.
 binary=$build/src/tools/dcpomatic2
 if [ "$1" == "--debug" ]; then
     shift
