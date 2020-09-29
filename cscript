@@ -394,8 +394,9 @@ option_defaults = { "gui": True, "variant": None }
 def configure_options(target, options):
     opt = ' --warnings-are-errors'
 
-    if not (target.platform == 'linux' and target.distro == 'ubuntu' and target.version == '18.04'):
-        # Currently we only build tests on Ubuntu 18.04
+    if not ((target.platform == 'linux' and target.distro == 'ubuntu' and target.version == '18.04') or
+            (target.platform == 'osx')):
+        # Currently we only build tests on Ubuntu 18.04 and macOS
         opt += ' --disable-tests'
 
     if target.debug:
