@@ -3,12 +3,25 @@
 # e.g. --run_tests=foo
 
 if [ "$(uname)" == "Linux" ]; then 
-  export LD_LIBRARY_PATH=build/src/lib:/home/c.hetherington/lib:$LD_LIBRARY_PATH
-  rm -f build/test/openssl
+  export LD_LIBRARY_PATH=build/src/lib:$LD_LIBRARY_PATH
+  rm -f build/test/dcpomatic2_openssl
   # This must be our patched openssl or tests will fail
   if [ ! -f build/test/dcpomatic2_openssl ]; then 
     ln -s ../../../openssl/apps/openssl build/test/dcpomatic2_openssl
   fi
+fi
+
+if [ "$(uname)" == "Darwin" ]; then
+  resources=build/Resources
+  rm -rf $resources
+  mkdir -p $resources
+  cp fonts/*.ttf $resources
+  cp -r ../libdcp/tags $resources
+  cp -r ../libdcp/xsd $resources
+  rm -f build/test/openssl
+  ln -s ../../../openssl/apps/openssl build/test/openssl
+  # SIP stops this being passed in from the caller's environment
+  export DYLD_LIBRARY_PATH=/Users/carl/osx-environment/64/lib
 fi
 
 if [ "$1" == "--debug" ]; then
