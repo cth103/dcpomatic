@@ -127,8 +127,8 @@ BOOST_AUTO_TEST_CASE (vf_test2)
 
 	dcp::DCP ov_c (ov->dir (ov->dcp_name ()));
 	ov_c.read ();
-	BOOST_REQUIRE_EQUAL (ov_c.cpls().size(), 1);
-	BOOST_REQUIRE_EQUAL (ov_c.cpls().front()->reels().size(), 1);
+	BOOST_REQUIRE_EQUAL (ov_c.cpls().size(), 1U);
+	BOOST_REQUIRE_EQUAL (ov_c.cpls().front()->reels().size(), 1U);
 	BOOST_REQUIRE (ov_c.cpls().front()->reels().front()->main_picture());
 	string const pic_id = ov_c.cpls().front()->reels().front()->main_picture()->id();
 	BOOST_REQUIRE (ov_c.cpls().front()->reels().front()->main_sound());
@@ -137,8 +137,8 @@ BOOST_AUTO_TEST_CASE (vf_test2)
 
 	dcp::DCP vf_c (vf->dir (vf->dcp_name ()));
 	vf_c.read ();
-	BOOST_REQUIRE_EQUAL (vf_c.cpls().size(), 1);
-	BOOST_REQUIRE_EQUAL (vf_c.cpls().front()->reels().size(), 1);
+	BOOST_REQUIRE_EQUAL (vf_c.cpls().size(), 1U);
+	BOOST_REQUIRE_EQUAL (vf_c.cpls().front()->reels().size(), 1U);
 	BOOST_REQUIRE (vf_c.cpls().front()->reels().front()->main_picture());
 	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_picture()->id(), pic_id);
 	BOOST_REQUIRE (vf_c.cpls().front()->reels().front()->main_sound());
@@ -184,8 +184,8 @@ BOOST_AUTO_TEST_CASE (vf_test3)
 
 	dcp::DCP vf_c (vf->dir (vf->dcp_name ()));
 	vf_c.read ();
-	BOOST_REQUIRE_EQUAL (vf_c.cpls().size(), 1);
-	BOOST_REQUIRE_EQUAL (vf_c.cpls().front()->reels().size(), 1);
+	BOOST_REQUIRE_EQUAL (vf_c.cpls().size(), 1U);
+	BOOST_REQUIRE_EQUAL (vf_c.cpls().front()->reels().size(), 1U);
 	BOOST_REQUIRE (vf_c.cpls().front()->reels().front()->main_picture());
 	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_picture()->entry_point().get_value_or(0), 24);
 	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_picture()->actual_duration(), 72);
@@ -234,8 +234,8 @@ BOOST_AUTO_TEST_CASE (vf_test4)
 
 	dcp::DCP ov_c (ov->dir (ov->dcp_name ()));
 	ov_c.read ();
-	BOOST_REQUIRE_EQUAL (ov_c.cpls().size(), 1);
-	BOOST_REQUIRE_EQUAL (ov_c.cpls().front()->reels().size(), 1);
+	BOOST_REQUIRE_EQUAL (ov_c.cpls().size(), 1U);
+	BOOST_REQUIRE_EQUAL (ov_c.cpls().front()->reels().size(), 1U);
 	BOOST_REQUIRE (ov_c.cpls().front()->reels().front()->main_picture());
 	string const pic_id = ov_c.cpls().front()->reels().front()->main_picture()->id();
 	BOOST_REQUIRE (ov_c.cpls().front()->reels().front()->main_sound());
@@ -244,8 +244,8 @@ BOOST_AUTO_TEST_CASE (vf_test4)
 
 	dcp::DCP vf_c (vf->dir (vf->dcp_name ()));
 	vf_c.read ();
-	BOOST_REQUIRE_EQUAL (vf_c.cpls().size(), 1);
-	BOOST_REQUIRE_EQUAL (vf_c.cpls().front()->reels().size(), 2);
+	BOOST_REQUIRE_EQUAL (vf_c.cpls().size(), 1U);
+	BOOST_REQUIRE_EQUAL (vf_c.cpls().front()->reels().size(), 2U);
 	BOOST_REQUIRE (vf_c.cpls().front()->reels().back()->main_picture());
 	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().back()->main_picture()->id(), pic_id);
 	BOOST_REQUIRE (vf_c.cpls().front()->reels().back()->main_sound());
@@ -289,7 +289,7 @@ BOOST_AUTO_TEST_CASE (vf_test5)
 	/* Check that the selected reel assets are right */
 	shared_ptr<Player> player (new Player(vf));
 	list<ReferencedReelAsset> a = player->get_reel_assets();
-	BOOST_REQUIRE_EQUAL (a.size(), 4);
+	BOOST_REQUIRE_EQUAL (a.size(), 4U);
 	list<ReferencedReelAsset>::const_iterator i = a.begin();
 	BOOST_CHECK (i->period == DCPTimePeriod(DCPTime(0), DCPTime(960000)));
 	++i;

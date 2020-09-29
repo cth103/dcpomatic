@@ -116,8 +116,8 @@ BOOST_AUTO_TEST_CASE (reel_reuse_video_test)
 	/* Find main picture and sound asset IDs */
 	dcp::DCP dcp1 (film->dir(film->dcp_name()));
 	dcp1.read ();
-	BOOST_REQUIRE_EQUAL (dcp1.cpls().size(), 1);
-	BOOST_REQUIRE_EQUAL (dcp1.cpls().front()->reels().size(), 1);
+	BOOST_REQUIRE_EQUAL (dcp1.cpls().size(), 1U);
+	BOOST_REQUIRE_EQUAL (dcp1.cpls().front()->reels().size(), 1U);
 	BOOST_REQUIRE (dcp1.cpls().front()->reels().front()->main_picture());
 	BOOST_REQUIRE (dcp1.cpls().front()->reels().front()->main_sound());
 	string const picture_id = dcp1.cpls().front()->reels().front()->main_picture()->asset()->id();
@@ -131,8 +131,8 @@ BOOST_AUTO_TEST_CASE (reel_reuse_video_test)
 	/* Video ID should be the same, sound different */
 	dcp::DCP dcp2 (film->dir(film->dcp_name()));
 	dcp2.read ();
-	BOOST_REQUIRE_EQUAL (dcp2.cpls().size(), 1);
-	BOOST_REQUIRE_EQUAL (dcp2.cpls().front()->reels().size(), 1);
+	BOOST_REQUIRE_EQUAL (dcp2.cpls().size(), 1U);
+	BOOST_REQUIRE_EQUAL (dcp2.cpls().front()->reels().size(), 1U);
 	BOOST_REQUIRE (dcp2.cpls().front()->reels().front()->main_picture());
 	BOOST_REQUIRE (dcp2.cpls().front()->reels().front()->main_sound());
 	BOOST_CHECK_EQUAL (picture_id, dcp2.cpls().front()->reels().front()->main_picture()->asset()->id());
@@ -146,8 +146,8 @@ BOOST_AUTO_TEST_CASE (reel_reuse_video_test)
 	/* Video and sound IDs should be different */
 	dcp::DCP dcp3 (film->dir(film->dcp_name()));
 	dcp3.read ();
-	BOOST_REQUIRE_EQUAL (dcp3.cpls().size(), 1);
-	BOOST_REQUIRE_EQUAL (dcp3.cpls().front()->reels().size(), 1);
+	BOOST_REQUIRE_EQUAL (dcp3.cpls().size(), 1U);
+	BOOST_REQUIRE_EQUAL (dcp3.cpls().front()->reels().size(), 1U);
 	BOOST_REQUIRE (dcp3.cpls().front()->reels().front()->main_picture());
 	BOOST_REQUIRE (dcp3.cpls().front()->reels().front()->main_sound());
 	BOOST_CHECK (picture_id != dcp3.cpls().front()->reels().front()->main_picture()->asset()->id());

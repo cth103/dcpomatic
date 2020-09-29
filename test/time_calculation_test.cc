@@ -198,7 +198,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	shared_ptr<Piece> piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (0.5)), 12);
@@ -210,7 +210,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (0.50)),   0);
@@ -224,7 +224,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (0.50)),   0);
@@ -241,7 +241,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (0.6)), 15);
@@ -253,7 +253,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (0.60)),   0);
@@ -270,7 +270,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (0.60)),   0);
@@ -289,7 +289,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (0.5)), 12);
@@ -301,7 +301,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (0.50)),   0);
@@ -315,7 +315,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (0.50)),   0);
@@ -333,7 +333,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	content->set_video_frame_rate (48);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (0.5)), 24);
@@ -345,7 +345,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	content->set_video_frame_rate (48);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (0.50)),   0);
@@ -359,7 +359,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	content->set_video_frame_rate (48);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (0.50)),   0);
@@ -373,7 +373,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	content->set_video_frame_rate (29.9978733);
 	film->set_video_frame_rate (30);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime (3200)), 1);
@@ -404,7 +404,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	shared_ptr<Piece> piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp (piece, 0).get(), 0);
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp (piece, 12).get(), DCPTime::from_seconds(0.5).get());
@@ -416,7 +416,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 0).get(), DCPTime::from_seconds(3.00).get());
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 36).get(), DCPTime::from_seconds(4.50).get());
@@ -428,7 +428,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 0).get(), DCPTime::from_seconds(1.50).get());
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 36).get(), DCPTime::from_seconds(3.00).get());
@@ -444,7 +444,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 0).get(), 0);
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 15).get(), DCPTime::from_seconds(0.6).get());
@@ -456,7 +456,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 0).get(), DCPTime::from_seconds(3.00).get());
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 40).get(), DCPTime::from_seconds(4.60).get());
@@ -468,7 +468,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 0).get(), 142080);
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 40).get(), 295680);
@@ -486,7 +486,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 0).get(), 0);
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 12).get(), DCPTime::from_seconds(0.5).get());
@@ -498,7 +498,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 0).get(), DCPTime::from_seconds(3.00).get());
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 36).get(), DCPTime::from_seconds(4.50).get());
@@ -510,7 +510,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 0).get(), DCPTime::from_seconds(1.50).get());
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 36).get(), DCPTime::from_seconds(3.00).get());
@@ -527,7 +527,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	content->set_video_frame_rate (48);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 0).get(), 0);
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 24).get(), DCPTime::from_seconds(0.5).get());
@@ -539,7 +539,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	content->set_video_frame_rate (48);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 0).get(), DCPTime::from_seconds(3.00).get());
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 72).get(), DCPTime::from_seconds(4.50).get());
@@ -551,7 +551,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	content->set_video_frame_rate (48);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 0).get(), DCPTime::from_seconds(1.50).get());
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp(piece, 72).get(), DCPTime::from_seconds(3.00).get());
@@ -582,7 +582,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	shared_ptr<Piece> piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (0.5)),  24000);
@@ -595,7 +595,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (0.50)),      0);
@@ -610,7 +610,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (0.50)),      0);
@@ -625,7 +625,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	film->set_video_frame_rate (25);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (0.6)),  28800);
@@ -638,7 +638,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	film->set_video_frame_rate (25);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (0.60)),      0);
@@ -655,7 +655,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	film->set_video_frame_rate (25);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (0.60)),      0);
@@ -674,7 +674,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	film->set_video_frame_rate (48);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (0.5)),  24000);
@@ -687,7 +687,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (0.50)),      0);
@@ -702,7 +702,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (0.50)),   0);
@@ -720,7 +720,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	film->set_video_frame_rate (48);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (0.5)),  24000);
@@ -733,7 +733,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (0.50)),      0);
@@ -748,7 +748,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (0.50)),   0);
@@ -763,7 +763,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 44100;
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (0.5)),  24000);
@@ -776,7 +776,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 44100;
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (0.50)),      0);
@@ -791,7 +791,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 44100;
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (0.50)),      0);
@@ -806,7 +806,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime ()), 54143L * 48000);
 }

@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK_EQUAL (cc.still_length, 42);
 	BOOST_REQUIRE (cc.output_dir);
 	BOOST_CHECK_EQUAL (*cc.output_dir, "flaps");
-	BOOST_REQUIRE_EQUAL (cc.content.size(), 3);
+	BOOST_REQUIRE_EQUAL (cc.content.size(), 3U);
 	BOOST_CHECK_EQUAL (cc.content[0].path, "fred");
 	BOOST_CHECK_EQUAL (cc.content[0].frame_type, VIDEO_FRAME_TYPE_2D);
 	BOOST_CHECK_EQUAL (cc.content[1].path, "jim");
@@ -136,7 +136,7 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK_EQUAL (cc.content[2].frame_type, VIDEO_FRAME_TYPE_2D);
 
 	cc = run ("dcpomatic2_create --left-eye left.mp4 --right-eye right.mp4");
-	BOOST_REQUIRE_EQUAL (cc.content.size(), 2);
+	BOOST_REQUIRE_EQUAL (cc.content.size(), 2U);
 	BOOST_CHECK_EQUAL (cc.content[0].path, "left.mp4");
 	BOOST_CHECK_EQUAL (cc.content[0].frame_type, VIDEO_FRAME_TYPE_3D_LEFT);
 	BOOST_CHECK_EQUAL (cc.content[1].path, "right.mp4");
@@ -144,13 +144,13 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK_EQUAL (cc.fourk, false);
 
 	cc = run ("dcpomatic2_create --fourk foo.mp4");
-	BOOST_REQUIRE_EQUAL (cc.content.size(), 1);
+	BOOST_REQUIRE_EQUAL (cc.content.size(), 1U);
 	BOOST_CHECK_EQUAL (cc.content[0].path, "foo.mp4");
 	BOOST_CHECK_EQUAL (cc.fourk, true);
 	BOOST_CHECK (!cc.error);
 
 	cc = run ("dcpomatic2_create --j2k-bandwidth 120 foo.mp4");
-	BOOST_REQUIRE_EQUAL (cc.content.size(), 1);
+	BOOST_REQUIRE_EQUAL (cc.content.size(), 1U);
 	BOOST_CHECK_EQUAL (cc.content[0].path, "foo.mp4");
 	BOOST_REQUIRE (cc.j2k_bandwidth);
 	BOOST_CHECK_EQUAL (*cc.j2k_bandwidth, 120000000);

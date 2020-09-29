@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE (audio_mapping_test)
 	}
 
 	list<int> mapped = four.mapped_output_channels ();
-	BOOST_CHECK_EQUAL (mapped.size(), 1);
+	BOOST_CHECK_EQUAL (mapped.size(), 1U);
 	BOOST_CHECK_EQUAL (mapped.front(), 1);
 
 	four.make_zero ();

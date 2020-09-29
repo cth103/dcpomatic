@@ -98,9 +98,9 @@ BOOST_AUTO_TEST_CASE (tidy_for_filename_test)
 
 BOOST_AUTO_TEST_CASE (utf8_strlen_test)
 {
-	BOOST_CHECK_EQUAL (utf8_strlen("hello world"), 11);
-	BOOST_CHECK_EQUAL (utf8_strlen("hëllo world"), 11);
-	BOOST_CHECK_EQUAL (utf8_strlen("hëłlo wørld"), 11);
+	BOOST_CHECK_EQUAL (utf8_strlen("hello world"), 11U);
+	BOOST_CHECK_EQUAL (utf8_strlen("hëllo world"), 11U);
+	BOOST_CHECK_EQUAL (utf8_strlen("hëłlo wørld"), 11U);
 }
 
 #ifdef DCPOMATIC_VARIANT_SWAROOP

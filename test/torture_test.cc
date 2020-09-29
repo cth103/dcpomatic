@@ -90,9 +90,9 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 	dcp.read ();
 
 	list<shared_ptr<dcp::CPL> > cpls = dcp.cpls ();
-	BOOST_REQUIRE_EQUAL (cpls.size(), 1);
+	BOOST_REQUIRE_EQUAL (cpls.size(), 1U);
 	list<shared_ptr<dcp::Reel> > reels = cpls.front()->reels ();
-	BOOST_REQUIRE_EQUAL (reels.size(), 1);
+	BOOST_REQUIRE_EQUAL (reels.size(), 1U);
 
 	/* Check sound */
 

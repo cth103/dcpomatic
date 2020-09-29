@@ -59,13 +59,13 @@ BOOST_AUTO_TEST_CASE (reels_test1)
 
 	film->set_reel_type (REELTYPE_SINGLE);
 	list<DCPTimePeriod> r = film->reels ();
-	BOOST_CHECK_EQUAL (r.size(), 1);
+	BOOST_CHECK_EQUAL (r.size(), 1U);
 	BOOST_CHECK_EQUAL (r.front().from.get(), 0);
 	BOOST_CHECK_EQUAL (r.front().to.get(), 288000 * 2);
 
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
 	r = film->reels ();
-	BOOST_CHECK_EQUAL (r.size(), 2);
+	BOOST_CHECK_EQUAL (r.size(), 2U);
 	BOOST_CHECK_EQUAL (r.front().from.get(), 0);
 	BOOST_CHECK_EQUAL (r.front().to.get(), 288000);
 	BOOST_CHECK_EQUAL (r.back().from.get(), 288000);
@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE (reels_test1)
 	/* This is just over 2.5s at 100Mbit/s; should correspond to 60 frames */
 	film->set_reel_length (31253154);
 	r = film->reels ();
-	BOOST_CHECK_EQUAL (r.size(), 3);
+	BOOST_CHECK_EQUAL (r.size(), 3U);
 	list<DCPTimePeriod>::const_iterator i = r.begin ();
 	BOOST_CHECK_EQUAL (i->from.get(), 0);
 	BOOST_CHECK_EQUAL (i->to.get(), DCPTime::from_frames(60, 24).get());
@@ -121,7 +121,7 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	}
 
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
-	BOOST_CHECK_EQUAL (film->reels().size(), 3);
+	BOOST_CHECK_EQUAL (film->reels().size(), 3U);
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	film->make_dcp ();
@@ -140,7 +140,7 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	list<DCPTimePeriod> r = film2->reels ();
-	BOOST_CHECK_EQUAL (r.size(), 3);
+	BOOST_CHECK_EQUAL (r.size(), 3U);
 	list<DCPTimePeriod>::const_iterator i = r.begin ();
 	BOOST_CHECK_EQUAL (i->from.get(), 0);
 	BOOST_CHECK_EQUAL (i->to.get(), 96000);
@@ -176,7 +176,7 @@ BOOST_AUTO_TEST_CASE (reels_test3)
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	list<DCPTimePeriod> reels = film->reels();
-	BOOST_REQUIRE_EQUAL (reels.size(), 4);
+	BOOST_REQUIRE_EQUAL (reels.size(), 4U);
 	list<DCPTimePeriod>::const_iterator i = reels.begin ();
 	BOOST_CHECK_EQUAL (i->from.get(), 0);
 	BOOST_CHECK_EQUAL (i->to.get(), 96000);
@@ -217,7 +217,7 @@ BOOST_AUTO_TEST_CASE (reels_test4)
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	list<DCPTimePeriod> reels = film->reels();
-	BOOST_REQUIRE_EQUAL (reels.size(), 4);
+	BOOST_REQUIRE_EQUAL (reels.size(), 4U);
 	list<DCPTimePeriod>::const_iterator i = reels.begin ();
 	BOOST_CHECK_EQUAL (i->from.get(), 0);
 	BOOST_CHECK_EQUAL (i->to.get(), 96000);
@@ -250,7 +250,7 @@ BOOST_AUTO_TEST_CASE (reels_test5)
 
 	{
 		list<DCPTimePeriod> p = dcp->reels (film);
-		BOOST_REQUIRE_EQUAL (p.size(), 4);
+		BOOST_REQUIRE_EQUAL (p.size(), 4U);
 		list<DCPTimePeriod>::const_iterator i = p.begin();
 		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(4000 + 0), DCPTime(4000 + 96000)));
 		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(4000 + 96000), DCPTime(4000 + 192000)));
@@ -261,7 +261,7 @@ BOOST_AUTO_TEST_CASE (reels_test5)
 	{
 		dcp->set_trim_start (ContentTime::from_seconds (0.5));
 		list<DCPTimePeriod> p = dcp->reels (film);
-		BOOST_REQUIRE_EQUAL (p.size(), 4);
+		BOOST_REQUIRE_EQUAL (p.size(), 4U);
 		list<DCPTimePeriod>::const_iterator i = p.begin();
 		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(4000 + 0), DCPTime(4000 + 48000)));
 		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(4000 + 48000), DCPTime(4000 + 144000)));
@@ -272,7 +272,7 @@ BOOST_AUTO_TEST_CASE (reels_test5)
 	{
 		dcp->set_trim_end (ContentTime::from_seconds (0.5));
 		list<DCPTimePeriod> p = dcp->reels (film);
-		BOOST_REQUIRE_EQUAL (p.size(), 4);
+		BOOST_REQUIRE_EQUAL (p.size(), 4U);
 		list<DCPTimePeriod>::const_iterator i = p.begin();
 		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(4000 + 0), DCPTime(4000 + 48000)));
 		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(4000 + 48000), DCPTime(4000 + 144000)));
@@ -283,7 +283,7 @@ BOOST_AUTO_TEST_CASE (reels_test5)
 	{
 		dcp->set_trim_start (ContentTime::from_seconds (1.5));
 		list<DCPTimePeriod> p = dcp->reels (film);
-		BOOST_REQUIRE_EQUAL (p.size(), 3);
+		BOOST_REQUIRE_EQUAL (p.size(), 3U);
 		list<DCPTimePeriod>::const_iterator i = p.begin();
 		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(4000 + 0), DCPTime(4000 + 48000)));
 		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(4000 + 48000), DCPTime(4000 + 144000)));
@@ -329,7 +329,7 @@ BOOST_AUTO_TEST_CASE (reels_test7)
 	A->video->set_length (2 * 24);
 
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
-	BOOST_REQUIRE_EQUAL (film->reels().size(), 2);
+	BOOST_REQUIRE_EQUAL (film->reels().size(), 2U);
 	BOOST_CHECK (film->reels().front() == DCPTimePeriod(DCPTime(0), DCPTime::from_frames(2 * 24, 24)));
 	BOOST_CHECK (film->reels().back() == DCPTimePeriod(DCPTime::from_frames(2 * 24, 24), DCPTime::from_frames(3 * 24 + 1, 24)));
 
@@ -439,7 +439,7 @@ BOOST_AUTO_TEST_CASE (reels_test11)
 	BOOST_CHECK_EQUAL (A->end(film).get(), DCPTime::from_seconds(1 + 10).get());
 
 	list<DCPTimePeriod> r = film->reels ();
-	BOOST_CHECK_EQUAL (r.size(), 2);
+	BOOST_CHECK_EQUAL (r.size(), 2U);
 	BOOST_CHECK_EQUAL (r.front().from.get(), 0);
 	BOOST_CHECK_EQUAL (r.front().to.get(), DCPTime::from_seconds(1).get());
 	BOOST_CHECK_EQUAL (r.back().from.get(), DCPTime::from_seconds(1).get());
@@ -471,7 +471,7 @@ BOOST_AUTO_TEST_CASE (reels_test12)
 	B->set_position (film, DCPTime::from_seconds(14));
 
 	list<DCPTimePeriod> r = film->reels ();
-	BOOST_REQUIRE_EQUAL (r.size(), 4);
+	BOOST_REQUIRE_EQUAL (r.size(), 4U);
 	list<DCPTimePeriod>::const_iterator i = r.begin ();
 
 	BOOST_CHECK_EQUAL (i->from.get(), 0);

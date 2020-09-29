@@ -64,11 +64,11 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_test)
 
 	dcp::DCP dcp ("build/test/subtitle_reel_test/" + film->dcp_name());
 	dcp.read ();
-	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1);
+	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1U);
 	shared_ptr<dcp::CPL> cpl = dcp.cpls().front();
 
 	list<shared_ptr<dcp::Reel> > reels = cpl->reels ();
-	BOOST_REQUIRE_EQUAL (reels.size(), 2);
+	BOOST_REQUIRE_EQUAL (reels.size(), 2U);
 	list<shared_ptr<dcp::Reel> >::const_iterator i = reels.begin ();
 	BOOST_REQUIRE ((*i)->main_subtitle());
 	BOOST_REQUIRE ((*i)->main_subtitle()->asset());
@@ -80,8 +80,8 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_test)
 	shared_ptr<dcp::InteropSubtitleAsset> B = boost::dynamic_pointer_cast<dcp::InteropSubtitleAsset>((*i)->main_subtitle()->asset());
 	BOOST_REQUIRE (B);
 
-	BOOST_REQUIRE_EQUAL (A->subtitles().size(), 1);
-	BOOST_REQUIRE_EQUAL (B->subtitles().size(), 1);
+	BOOST_REQUIRE_EQUAL (A->subtitles().size(), 1U);
+	BOOST_REQUIRE_EQUAL (B->subtitles().size(), 1U);
 
 	/* These times should be the same as they are should be offset from the start of the reel */
 	BOOST_CHECK (A->subtitles().front()->in() == B->subtitles().front()->in());

@@ -98,7 +98,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 	while (!decoder->pass() && !stored) {}
 
 	BOOST_REQUIRE (stored);
-	BOOST_REQUIRE_EQUAL (stored->subs.size(), 2);
+	BOOST_REQUIRE_EQUAL (stored->subs.size(), 2U);
 	BOOST_CHECK_EQUAL (stored->subs.front().text(), "Noch mal.");
 	BOOST_CHECK_EQUAL (stored->subs.back().text(), "Encore une fois.");
 }
@@ -180,7 +180,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test4)
 
 	cxml::Document doc ("DCSubtitle");
 	doc.read_file (subtitle_file (film));
-	BOOST_REQUIRE_EQUAL (doc.node_children("LoadFont").size(), 1);
+	BOOST_REQUIRE_EQUAL (doc.node_children("LoadFont").size(), 1U);
 }
 
 static
@@ -213,7 +213,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test5)
 
 	cxml::Document doc ("DCSubtitle");
 	doc.read_file (subtitle_file(film));
-	BOOST_REQUIRE_EQUAL (doc.node_children("LoadFont").size(), 1);
+	BOOST_REQUIRE_EQUAL (doc.node_children("LoadFont").size(), 1U);
 	BOOST_CHECK (doc.node_children("LoadFont").front()->string_attribute("Id") != "");
 
 	check_font_tags (doc.node_children());

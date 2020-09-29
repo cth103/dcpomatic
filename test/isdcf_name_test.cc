@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_audio_channels (1);
 	film->set_resolution (RESOLUTION_4K);
 	shared_ptr<Content> text = content_factory("test/data/subrip.srt").front();
-	BOOST_REQUIRE_EQUAL (text->text.size(), 1);
+	BOOST_REQUIRE_EQUAL (text->text.size(), 1U);
 	text->text.front()->set_language ("fr");
 	text->text.front()->set_burn (true);
 	film->examine_and_add_content (text);

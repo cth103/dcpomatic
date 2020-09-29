@@ -56,9 +56,9 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_number_test)
 
 	dcp::DCP dcp ("build/test/subtitle_reel_number_test/" + film->dcp_name());
 	dcp.read ();
-	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1);
+	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1U);
 	shared_ptr<dcp::CPL> cpl = dcp.cpls().front();
-	BOOST_REQUIRE_EQUAL (cpl->reels().size(), 6);
+	BOOST_REQUIRE_EQUAL (cpl->reels().size(), 6U);
 
 	int n = 1;
 	BOOST_FOREACH (shared_ptr<dcp::Reel> i, cpl->reels()) {

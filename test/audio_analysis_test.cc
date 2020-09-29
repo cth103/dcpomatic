@@ -89,7 +89,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_serialisation_test)
 		}
 	}
 
-	BOOST_REQUIRE_EQUAL (b.sample_peak().size(), 3);
+	BOOST_REQUIRE_EQUAL (b.sample_peak().size(), 3U);
 	for (int i = 0; i < channels; ++i) {
 		BOOST_CHECK_CLOSE (b.sample_peak()[i].peak, peak[i].peak, 1);
 		BOOST_CHECK_EQUAL (b.sample_peak()[i].time.get(), peak[i].time.get());

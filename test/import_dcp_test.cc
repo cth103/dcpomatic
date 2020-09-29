@@ -125,7 +125,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
 	BOOST_REQUIRE (!wait_for_jobs());
 	film2->write_metadata ();
 
-	BOOST_CHECK_EQUAL (imported->markers().size(), 3);
+	BOOST_CHECK_EQUAL (imported->markers().size(), 3U);
 
 	map<dcp::Marker, dcpomatic::ContentTime> markers = imported->markers();
 	BOOST_REQUIRE(markers.find(dcp::FFOC) != markers.end());
@@ -138,11 +138,11 @@ BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
 	/* Load that film and check that the markers have been loaded */
 	shared_ptr<Film> film3(new Film(boost::filesystem::path("build/test/import_dcp_markers_test2")));
 	film3->read_metadata ();
-	BOOST_REQUIRE (film3->content().size() == 1);
+	BOOST_REQUIRE_EQUAL (film3->content().size(), 1U);
 	shared_ptr<DCPContent> reloaded = dynamic_pointer_cast<DCPContent>(film3->content().front());
 	BOOST_REQUIRE (reloaded);
 
-	BOOST_CHECK_EQUAL (reloaded->markers().size(), 3);
+	BOOST_CHECK_EQUAL (reloaded->markers().size(), 3U);
 
 	markers = reloaded->markers();
 	BOOST_REQUIRE(markers.find(dcp::FFOC) != markers.end());
@@ -190,7 +190,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_metadata_test)
 	/* Load that film and check that the metadata has been loaded */
 	shared_ptr<Film> film3(new Film(boost::filesystem::path("build/test/import_dcp_metadata_test2")));
 	film3->read_metadata ();
-	BOOST_REQUIRE (film3->content().size() == 1);
+	BOOST_REQUIRE_EQUAL (film3->content().size(), 1U);
 	shared_ptr<DCPContent> reloaded = dynamic_pointer_cast<DCPContent>(film3->content().front());
 	BOOST_REQUIRE (reloaded);
 

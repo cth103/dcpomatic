@@ -151,9 +151,9 @@ BOOST_AUTO_TEST_CASE (player_subframe_test)
 
 	shared_ptr<Player> player (new Player(film));
 	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_black._periods.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_black._periods.size(), 1U);
 	BOOST_CHECK (player->_black._periods.front() == DCPTimePeriod(DCPTime::from_frames(3 * 24, 24), DCPTime::from_frames(3 * 24 + 1, 24)));
-	BOOST_REQUIRE_EQUAL (player->_silent._periods.size(), 1);
+	BOOST_REQUIRE_EQUAL (player->_silent._periods.size(), 1U);
 	BOOST_CHECK (player->_silent._periods.front() == DCPTimePeriod(DCPTime(289920), DCPTime::from_frames(3 * 24 + 1, 24)));
 }
 
@@ -318,7 +318,7 @@ BOOST_AUTO_TEST_CASE (player_ignore_video_and_audio_test)
 	player->Text.connect (bind (&store, &out, _1, _2, _3, _4));
 	while (!player->pass ()) {}
 
-	BOOST_CHECK_EQUAL (out.size(), 6);
+	BOOST_CHECK_EQUAL (out.size(), 6U);
 }
 
 /** Trigger a crash due to the assertion failure in Player::emit_audio */

@@ -51,8 +51,8 @@ BOOST_AUTO_TEST_CASE (closed_caption_test1)
 	dcp::DCP check (film->dir(film->dcp_name()));
 	check.read ();
 
-	BOOST_REQUIRE_EQUAL (check.cpls().size(), 1);
-	BOOST_REQUIRE_EQUAL (check.cpls().front()->reels().size(), 1);
+	BOOST_REQUIRE_EQUAL (check.cpls().size(), 1U);
+	BOOST_REQUIRE_EQUAL (check.cpls().front()->reels().size(), 1U);
 	BOOST_REQUIRE (!check.cpls().front()->reels().front()->closed_captions().empty());
 }
 
@@ -81,10 +81,10 @@ BOOST_AUTO_TEST_CASE (closed_caption_test2)
 	dcp::DCP check (film->dir(film->dcp_name()));
 	check.read ();
 
-	BOOST_REQUIRE_EQUAL (check.cpls().size(), 1);
-	BOOST_REQUIRE_EQUAL (check.cpls().front()->reels().size(), 1);
+	BOOST_REQUIRE_EQUAL (check.cpls().size(), 1U);
+	BOOST_REQUIRE_EQUAL (check.cpls().front()->reels().size(), 1U);
 	list<shared_ptr<dcp::ReelClosedCaptionAsset> > ccaps = check.cpls().front()->reels().front()->closed_captions();
-	BOOST_REQUIRE_EQUAL (ccaps.size(), 3);
+	BOOST_REQUIRE_EQUAL (ccaps.size(), 3U);
 
 	list<shared_ptr<dcp::ReelClosedCaptionAsset> >::const_iterator i = ccaps.begin ();
 	BOOST_CHECK_EQUAL ((*i)->annotation_text(), "First track");

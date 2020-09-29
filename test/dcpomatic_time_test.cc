@@ -244,7 +244,7 @@ BOOST_AUTO_TEST_CASE (dcpomatic_time_period_coalesce_test1)
 	p.push_back (A);
 	p.push_back (B);
 	list<DCPTimePeriod> q = coalesce (p);
-	BOOST_REQUIRE_EQUAL (q.size(), 2);
+	BOOST_REQUIRE_EQUAL (q.size(), 2U);
 	BOOST_CHECK (q.front() == DCPTimePeriod(DCPTime(14), DCPTime(29)));
 	BOOST_CHECK (q.back () == DCPTimePeriod(DCPTime(45), DCPTime(91)));
 }
@@ -257,7 +257,7 @@ BOOST_AUTO_TEST_CASE (dcpomatic_time_period_coalesce_test2)
 	p.push_back (A);
 	p.push_back (B);
 	list<DCPTimePeriod> q = coalesce (p);
-	BOOST_REQUIRE_EQUAL (q.size(), 1);
+	BOOST_REQUIRE_EQUAL (q.size(), 1U);
 	BOOST_CHECK (q.front() == DCPTimePeriod(DCPTime(14), DCPTime(91)));
 }
 
@@ -269,7 +269,7 @@ BOOST_AUTO_TEST_CASE (dcpomatic_time_period_coalesce_test3)
 	p.push_back (A);
 	p.push_back (B);
 	list<DCPTimePeriod> q = coalesce (p);
-	BOOST_REQUIRE_EQUAL (q.size(), 1);
+	BOOST_REQUIRE_EQUAL (q.size(), 1U);
 	BOOST_CHECK (q.front() == DCPTimePeriod(DCPTime(14), DCPTime(91)));
 }
 
@@ -283,7 +283,7 @@ BOOST_AUTO_TEST_CASE (dcpomatic_time_period_coalesce_test4)
 	p.push_back (B);
 	p.push_back (C);
 	list<DCPTimePeriod> q = coalesce (p);
-	BOOST_REQUIRE_EQUAL (q.size(), 1);
+	BOOST_REQUIRE_EQUAL (q.size(), 1U);
 	BOOST_CHECK (q.front() == DCPTimePeriod(DCPTime(14), DCPTime(106)));
 }
 
@@ -297,7 +297,7 @@ BOOST_AUTO_TEST_CASE (dcpomatic_time_period_coalesce_test5)
 	p.push_back (B);
 	p.push_back (C);
 	list<DCPTimePeriod> q = coalesce (p);
-	BOOST_REQUIRE_EQUAL (q.size(), 2);
+	BOOST_REQUIRE_EQUAL (q.size(), 2U);
 	BOOST_CHECK (q.front() == DCPTimePeriod(DCPTime(14), DCPTime(91)));
 	BOOST_CHECK (q.back()  == DCPTimePeriod(DCPTime(100), DCPTime(106)));
 }

@@ -136,20 +136,20 @@ BOOST_AUTO_TEST_CASE (no_use_video_test3)
 
 	dcp::DCP ov_a_check (ov_a->dir(ov_a->dcp_name()));
 	ov_a_check.read ();
-	BOOST_REQUIRE_EQUAL (ov_a_check.cpls().size(), 1);
-	BOOST_REQUIRE_EQUAL (ov_a_check.cpls().front()->reels().size(), 1);
+	BOOST_REQUIRE_EQUAL (ov_a_check.cpls().size(), 1U);
+	BOOST_REQUIRE_EQUAL (ov_a_check.cpls().front()->reels().size(), 1U);
 	shared_ptr<dcp::Reel> ov_a_reel (ov_a_check.cpls().front()->reels().front());
 
 	dcp::DCP ov_b_check (ov_b->dir(ov_b->dcp_name()));
 	ov_b_check.read ();
-	BOOST_REQUIRE_EQUAL (ov_b_check.cpls().size(), 1);
-	BOOST_REQUIRE_EQUAL (ov_b_check.cpls().front()->reels().size(), 1);
+	BOOST_REQUIRE_EQUAL (ov_b_check.cpls().size(), 1U);
+	BOOST_REQUIRE_EQUAL (ov_b_check.cpls().front()->reels().size(), 1U);
 	shared_ptr<dcp::Reel> ov_b_reel (ov_b_check.cpls().front()->reels().front());
 
 	dcp::DCP vf_check (vf->dir(vf->dcp_name()));
 	vf_check.read ();
-	BOOST_REQUIRE_EQUAL (vf_check.cpls().size(), 1);
-	BOOST_REQUIRE_EQUAL (vf_check.cpls().front()->reels().size(), 1);
+	BOOST_REQUIRE_EQUAL (vf_check.cpls().size(), 1U);
+	BOOST_REQUIRE_EQUAL (vf_check.cpls().front()->reels().size(), 1U);
 	shared_ptr<dcp::Reel> vf_reel (vf_check.cpls().front()->reels().front());
 
 	BOOST_CHECK_EQUAL (vf_reel->main_picture()->asset_ref().id(), ov_b_reel->main_picture()->asset_ref().id());
