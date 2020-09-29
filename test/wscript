@@ -30,7 +30,8 @@ def configure(conf):
                             int main() {}
                             """, msg = 'Checking for boost unit testing library', lib = 'boost_unit_test_framework%s' % boost_test_suffix, uselib_store = 'BOOST_TEST')
 
-    conf.check_cfg(package='ImageMagick++', args='--cflags --libs', uselib_store='MAGICK', mandatory=True)
+    if conf.check_cfg(package='ImageMagick++', args='--cflags --libs', uselib_store='MAGICK', mandatory=False) is None:
+        conf.check_cfg(package='Magick++', args='--cflags --libs', uselib_store='MAGICK', mandatory=True)
 
 def build(bld):
     obj = bld(features='cxx cxxprogram')
