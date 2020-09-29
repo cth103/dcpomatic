@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,14 +18,19 @@
 
 */
 
+
 #ifndef DCPOMATIC_PIECE_H
 #define DCPOMATIC_PIECE_H
 
-#include "types.h"
+
+#include "dcpomatic_time.h"
 #include "frame_rate_change.h"
+#include "types.h"
+
 
 class Content;
 class Decoder;
+
 
 class Piece
 {
@@ -39,8 +44,10 @@ public:
 
 	std::shared_ptr<Content> content;
 	std::shared_ptr<Decoder> decoder;
+	boost::optional<dcpomatic::DCPTimePeriod> ignore_video;
 	FrameRateChange frc;
 	bool done;
 };
+
 
 #endif

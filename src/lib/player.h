@@ -76,6 +76,7 @@ public:
 
 	Player (Player const& Player) = delete;
 	Player& operator= (Player const& Player) = delete;
+
 	bool pass ();
 	void seek (dcpomatic::DCPTime time, bool accurate);
 
@@ -118,6 +119,7 @@ private:
 	friend struct empty_test1;
 	friend struct empty_test2;
 	friend struct check_reuse_old_data_test;
+	friend struct overlap_video_test1;
 
 	void construct ();
 	void setup_pieces ();

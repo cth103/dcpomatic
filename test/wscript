@@ -98,6 +98,7 @@ def build(bld):
                  markers_test.cc
                  no_use_video_test.cc
                  optimise_stills_test.cc
+                 overlap_video_test.cc
                  pixel_formats_test.cc
                  player_test.cc
                  pulldown_detect_test.cc

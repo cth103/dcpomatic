@@ -266,6 +266,22 @@ Player::setup_pieces_unlocked ()
 		}
 	}
 
+	for (auto i = _pieces.begin(); i != _pieces.end(); ++i) {
+		if (auto video = (*i)->content->video) {
+			if (video->use() && video->frame_type() != VideoFrameType::THREE_D_LEFT && video->frame_type() != VideoFrameType::THREE_D_RIGHT) {
+				/* Look for content later in the content list with in-use video that overlaps this */
+				auto period = DCPTimePeriod((*i)->content->position(), (*i)->content->end(_film));
+				auto j = i;
+				++j;
+				for (; j != _pieces.end(); ++j) {
+					if ((*j)->content->video && (*j)->content->video->use()) {
+						(*i)->ignore_video = DCPTimePeriod((*j)->content->position(), (*j)->content->end(_film)).overlap(period);
+					}
+				}
+			}
+		}
+	}
+
 	_black = Empty (_film, playlist(), bind(&have_video, _1), _playback_length);
 	_silent = Empty (_film, playlist(), bind(&have_audio, _1), _playback_length);
 
@@ -848,6 +864,10 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	   `now' and the end of the content's period.
 	*/
 	if (time < piece->content->position() || (_last_video_time && time < *_last_video_time)) {
+		return;
+	}
+
+	if (piece->ignore_video && piece->ignore_video->contains(time)) {
 		return;
 	}
 
