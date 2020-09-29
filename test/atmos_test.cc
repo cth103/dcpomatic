@@ -82,7 +82,6 @@ BOOST_AUTO_TEST_CASE (atmos_encrypted_passthrough_test)
 	film2->examine_and_add_content (content2);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	std::cout << "making 2nd dcp.\n";
 	film2->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 
