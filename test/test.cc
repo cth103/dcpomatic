@@ -107,6 +107,9 @@ struct TestConfig
 {
 	TestConfig ()
 	{
+		State::override_path = "build/test/state";
+		boost::filesystem::remove_all (*State::override_path);
+
 		dcpomatic_setup ();
 		setup_test_config ();
 
