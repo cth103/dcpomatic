@@ -167,7 +167,7 @@ public:
 	}
 
 private:
-	friend class reels_test5;
+	friend struct reels_test5;
 
 	void add_properties (boost::shared_ptr<const Film> film, std::list<UserProperty>& p) const;
 
