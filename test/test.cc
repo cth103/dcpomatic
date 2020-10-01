@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -30,6 +30,7 @@
 #include "lib/job.h"
 #include "lib/cross.h"
 #include "lib/encode_server_finder.h"
+#include "lib/ffmpeg_image_proxy.h"
 #include "lib/image.h"
 #include "lib/ratio.h"
 #include "lib/dcp_content_type.h"
@@ -46,9 +47,9 @@
 #include <dcp/mono_picture_asset.h>
 #include <dcp/openjpeg_image.h>
 #include <asdcp/AS_DCP.h>
+#include <png.h>
 #include <sndfile.h>
 #include <libxml++/libxml++.h>
-#include <Magick++.h>
 extern "C" {
 #include <libavformat/avformat.h>
 }
@@ -317,21 +318,87 @@ mxf_atmos_files_same (boost::filesystem::path ref, boost::filesystem::path check
 }
 
 
+static
+double
+rms_error (boost::filesystem::path ref, boost::filesystem::path check)
+{
+	FFmpegImageProxy ref_proxy (ref);
+	shared_ptr<Image> ref_image = ref_proxy.image().image;
+	FFmpegImageProxy check_proxy (check);
+	shared_ptr<Image> check_image = check_proxy.image().image;
+
+	BOOST_REQUIRE_EQUAL (ref_image->pixel_format(), check_image->pixel_format());
+	AVPixelFormat const format = ref_image->pixel_format();
+
+	BOOST_REQUIRE (ref_image->size() == check_image->size());
+	int const width = ref_image->size().width;
+	int const height = ref_image->size().height;
+
+	double sum_square = 0;
+	switch (format) {
+		case AV_PIX_FMT_RGBA:
+		{
+			for (int y = 0; y < height; ++y) {
+				uint8_t* p = ref_image->data()[0] + y * ref_image->stride()[0];
+				uint8_t* q = check_image->data()[0] + y * check_image->stride()[0];
+				for (int x = 0; x < width; ++x) {
+					for (int c = 0; c < 4; ++c) {
+						sum_square += pow((*p++ - *q++), 2);
+					}
+				}
+			}
+			break;
+		}
+		case AV_PIX_FMT_RGB24:
+		{
+			for (int y = 0; y < height; ++y) {
+				uint8_t* p = ref_image->data()[0] + y * ref_image->stride()[0];
+				uint8_t* q = check_image->data()[0] + y * check_image->stride()[0];
+				for (int x = 0; x < width; ++x) {
+					for (int c = 0; c < 3; ++c) {
+						sum_square += pow((*p++ - *q++), 2);
+					}
+				}
+			}
+			break;
+		}
+		case AV_PIX_FMT_RGB48BE:
+		{
+			for (int y = 0; y < height; ++y) {
+				uint16_t* p = reinterpret_cast<uint16_t*>(ref_image->data()[0] + y * ref_image->stride()[0]);
+				uint16_t* q = reinterpret_cast<uint16_t*>(check_image->data()[0] + y * check_image->stride()[0]);
+				for (int x = 0; x < width; ++x) {
+					for (int c = 0; c < 3; ++c) {
+						sum_square += pow((*p++ - *q++), 2);
+					}
+				}
+			}
+			break;
+		}
+		default:
+			BOOST_REQUIRE_MESSAGE (false, "unrecognised pixel format " << format);
+	}
+
+	return sqrt(sum_square / (height * width));
+}
+
+
+BOOST_AUTO_TEST_CASE (rms_error_test)
+{
+	BOOST_CHECK_CLOSE (rms_error("test/data/check_image0.png", "test/data/check_image0.png"), 0, 0.001);
+	BOOST_CHECK_CLOSE (rms_error("test/data/check_image0.png", "test/data/check_image1.png"), 2.2778, 0.001);
+	BOOST_CHECK_CLOSE (rms_error("test/data/check_image0.png", "test/data/check_image2.png"), 59.8896, 0.001);
+	BOOST_CHECK_CLOSE (rms_error("test/data/check_image0.png", "test/data/check_image3.png"), 0.89164, 0.001);
+}
+
+
 void
 check_image (boost::filesystem::path ref, boost::filesystem::path check, double threshold)
 {
-	using namespace MagickCore;
-
-	Magick::Image ref_image;
-	ref_image.read (ref.string ());
-	Magick::Image check_image;
-	check_image.read (check.string ());
-	/* XXX: this is a hack; we really want the ImageMagick call but GraphicsMagick doesn't have it;
-	   this may cause random test failures on platforms that use GraphicsMagick.
-	*/
-	double const dist = ref_image.compare(check_image, Magick::RootMeanSquaredErrorMetric);
-	BOOST_CHECK_MESSAGE (dist < threshold, ref << " differs from " << check << " " << dist);
+	double const e = rms_error (ref, check);
+	BOOST_CHECK_MESSAGE (e < threshold, ref << " differs from " << check << " " << e);
 }
+
 
 void
 check_file (boost::filesystem::path ref, boost::filesystem::path check)
@@ -511,14 +578,104 @@ wait_for_jobs ()
 	return false;
 }
 
-void
-write_image (shared_ptr<const Image> image, boost::filesystem::path file, string format, MagickCore::StorageType pixel_type)
-{
-	using namespace MagickCore;
 
-	Magick::Image m (image->size().width, image->size().height, format.c_str(), pixel_type, (void *) image->data()[0]);
-	m.write (file.string ());
+class Memory
+{
+public:
+	Memory ()
+		: data(0)
+		, size(0)
+	{}
+
+	~Memory ()
+	{
+		free (data);
+	}
+
+	uint8_t* data;
+	size_t size;
+};
+
+
+static void
+png_write_data (png_structp png_ptr, png_bytep data, png_size_t length)
+{
+	Memory* mem = reinterpret_cast<Memory*>(png_get_io_ptr(png_ptr));
+	size_t size = mem->size + length;
+
+	if (mem->data) {
+		mem->data = reinterpret_cast<uint8_t*>(realloc(mem->data, size));
+	} else {
+		mem->data = reinterpret_cast<uint8_t*>(malloc(size));
+	}
+
+	BOOST_REQUIRE (mem->data);
+
+	memcpy (mem->data + mem->size, data, length);
+	mem->size += length;
 }
+
+
+static void
+png_flush (png_structp)
+{
+
+}
+
+
+static void
+png_error_fn (png_structp png_ptr, char const * message)
+{
+	reinterpret_cast<Image*>(png_get_error_ptr(png_ptr))->png_error (message);
+}
+
+
+void
+write_image (shared_ptr<const Image> image, boost::filesystem::path file)
+{
+	int png_color_type = 0;
+	int bits_per_pixel = 0;
+	switch (image->pixel_format()) {
+	case AV_PIX_FMT_RGB24:
+		png_color_type = PNG_COLOR_TYPE_RGB;
+		bits_per_pixel = 8;
+		break;
+	case AV_PIX_FMT_XYZ12LE:
+		png_color_type = PNG_COLOR_TYPE_RGB;
+		bits_per_pixel = 16;
+		break;
+	default:
+		BOOST_REQUIRE_MESSAGE (false, "unexpected pixel format " << image->pixel_format());
+	}
+
+	/* error handling? */
+	png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, reinterpret_cast<void*>(const_cast<Image*>(image.get())), png_error_fn, 0);
+	BOOST_REQUIRE (png_ptr);
+
+	Memory state;
+
+	png_set_write_fn (png_ptr, &state, png_write_data, png_flush);
+
+	png_infop info_ptr = png_create_info_struct(png_ptr);
+	BOOST_REQUIRE (info_ptr);
+
+	png_set_IHDR (png_ptr, info_ptr, image->size().width, image->size().height, bits_per_pixel, png_color_type, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+
+	png_byte ** row_pointers = reinterpret_cast<png_byte **>(png_malloc(png_ptr, image->size().height * sizeof(png_byte *)));
+	for (int i = 0; i < image->size().height; ++i) {
+		row_pointers[i] = (png_byte *) (image->data()[0] + i * image->stride()[0]);
+	}
+
+	png_write_info (png_ptr, info_ptr);
+	png_write_image (png_ptr, row_pointers);
+	png_write_end (png_ptr, info_ptr);
+
+	png_destroy_write_struct (&png_ptr, &info_ptr);
+	png_free (png_ptr, row_pointers);
+
+	dcp::Data(state.data, state.size).write(file);
+}
+
 
 void
 check_ffmpeg (boost::filesystem::path ref, boost::filesystem::path check, int audio_tolerance)

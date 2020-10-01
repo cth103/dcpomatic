@@ -30,14 +30,11 @@ def configure(conf):
                             int main() {}
                             """, msg = 'Checking for boost unit testing library', lib = 'boost_unit_test_framework%s' % boost_test_suffix, uselib_store = 'BOOST_TEST')
 
-    if conf.check_cfg(package='ImageMagick++', args='--cflags --libs', uselib_store='MAGICK', mandatory=False) is None:
-        conf.check_cfg(package='Magick++', args='--cflags --libs', uselib_store='MAGICK', mandatory=True)
-
 def build(bld):
     obj = bld(features='cxx cxxprogram')
     obj.name   = 'unit-tests'
     obj.uselib =  'BOOST_TEST BOOST_THREAD BOOST_FILESYSTEM BOOST_DATETIME SNDFILE SAMPLERATE DCP FONTCONFIG CAIROMM PANGOMM XMLPP '
-    obj.uselib += 'AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE SWRESAMPLE POSTPROC CXML SUB GLIB CURL SSH XMLSEC BOOST_REGEX ICU NETTLE MAGICK PNG '
+    obj.uselib += 'AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE SWRESAMPLE POSTPROC CXML SUB GLIB CURL SSH XMLSEC BOOST_REGEX ICU NETTLE PNG '
     obj.uselib += 'LEQM_NRT ZIP '
     if bld.env.TARGET_WINDOWS:
         obj.uselib += 'WINSOCK2 DBGHELP SHLWAPI MSWSOCK BOOST_LOCALE '
