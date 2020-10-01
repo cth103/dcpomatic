@@ -31,6 +31,8 @@ rewrite_bad_config ()
 	boost::system::error_code ec;
 	boost::filesystem::remove ("build/test/bad_config/config.xml", ec);
 
+	Config::override_path = "build/test/bad_config";
+	boost::filesystem::create_directories ("build/test/bad_config");
 	ofstream f ("build/test/bad_config/config.xml");
 	f << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 	  << "<Config>\n"
@@ -46,13 +48,7 @@ BOOST_AUTO_TEST_CASE (config_backup_test)
 
 	Config::drop();
 
-	boost::system::error_code ec;
-	boost::filesystem::remove ("build/test/bad_config/config.xml.1", ec);
-	boost::filesystem::remove ("build/test/bad_config/config.xml.2", ec);
-	boost::filesystem::remove ("build/test/bad_config/config.xml.3", ec);
-	boost::filesystem::remove ("build/test/bad_config/config.xml.4", ec);
-	boost::filesystem::remove ("build/test/bad_config/config.xml.5", ec);
-	boost::filesystem::remove ("build/test/bad_config/config.xml.5", ec);
+	boost::filesystem::remove_all ("build/test/bad_config");
 
 	rewrite_bad_config();
 
