@@ -67,11 +67,11 @@ VideoWaveformDialog::VideoWaveformDialog (wxWindow* parent, weak_ptr<const Film>
 	overall_sizer->Add (controls, 0, wxALL | wxEXPAND, DCPOMATIC_SIZER_X_GAP);
 
 	wxBoxSizer* position = new wxBoxSizer (wxHORIZONTAL);
-	add_label_to_sizer (position, this, _("Image X position"), true);
+	add_label_to_sizer (position, this, _("Image X position"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 	_x_position = new StaticText (this, "");
 	_x_position->SetMinSize (wxSize (64, -1));
 	position->Add (_x_position, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
-	add_label_to_sizer (position, this, _("component value"), true);
+	add_label_to_sizer (position, this, _("component value"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 	_value = new StaticText (this, "");
 	_value->SetMinSize (wxSize (64, -1));
 	position->Add (_value, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
