@@ -808,5 +808,5 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
 	piece = player->_pieces.front ();
-	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime ()), 54143L * 48000);
+	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime ()), 54143LL * 48000);
 }
