@@ -38,6 +38,7 @@ BOOST_AUTO_TEST_CASE (crypto_test)
 	BOOST_REQUIRE_EQUAL (dcpomatic::decrypt (ciphertext, key, iv), "Can you see any fish?");
 
 	key.data()[5]++;
+	key.data()[6]++;
 	BOOST_REQUIRE_THROW (dcpomatic::decrypt (ciphertext, key, iv), CryptoError);
 }
 
