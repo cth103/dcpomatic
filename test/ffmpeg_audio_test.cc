@@ -128,7 +128,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 BOOST_AUTO_TEST_CASE (ffmpeg_audio_test2)
 {
 	shared_ptr<Film> film = new_test_film2 ("ffmpeg_audio_test2");
-	shared_ptr<Content> content = content_factory(TestPaths::private_data / "wayne.mkv").front();
+	shared_ptr<Content> content = content_factory(TestPaths::private_data() / "wayne.mkv").front();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
@@ -140,7 +140,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test2)
 BOOST_AUTO_TEST_CASE (ffmpeg_audio_test3)
 {
 	shared_ptr<Film> film = new_test_film2 ("ffmpeg_audio_test2");
-	shared_ptr<Content> content = content_factory(TestPaths::private_data / "wayne.mkv").front();
+	shared_ptr<Content> content = content_factory(TestPaths::private_data() / "wayne.mkv").front();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 

@@ -57,7 +57,7 @@ check (shared_ptr<PlayerVideo>, DCPTime time)
 void
 ffmpeg_decoder_sequential_test_one (boost::filesystem::path file, float fps, int video_length)
 {
-	boost::filesystem::path path = TestPaths::private_data / file;
+	boost::filesystem::path path = TestPaths::private_data() / file;
 	BOOST_REQUIRE (boost::filesystem::exists (path));
 
 	shared_ptr<Film> film = new_test_film ("ffmpeg_decoder_sequential_test_" + file.string());

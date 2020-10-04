@@ -205,7 +205,7 @@ BOOST_AUTO_TEST_CASE (player_interleave_test)
 BOOST_AUTO_TEST_CASE (player_seek_test)
 {
 	shared_ptr<Film> film (new Film (optional<boost::filesystem::path>()));
-	shared_ptr<DCPContent> dcp (new DCPContent(TestPaths::private_data / "awkward_subs"));
+	shared_ptr<DCPContent> dcp (new DCPContent(TestPaths::private_data() / "awkward_subs"));
 	film->examine_and_add_content (dcp, true);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	dcp->only_text()->set_use (true);
@@ -236,7 +236,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 BOOST_AUTO_TEST_CASE (player_seek_test2)
 {
 	shared_ptr<Film> film (new Film (optional<boost::filesystem::path>()));
-	shared_ptr<DCPContent> dcp (new DCPContent(TestPaths::private_data / "awkward_subs2"));
+	shared_ptr<DCPContent> dcp (new DCPContent(TestPaths::private_data() / "awkward_subs2"));
 	film->examine_and_add_content (dcp, true);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	dcp->only_text()->set_use (true);
@@ -302,7 +302,7 @@ store (list<Sub>* out, PlayerText text, TextType type, optional<DCPTextTrack> tr
 BOOST_AUTO_TEST_CASE (player_ignore_video_and_audio_test)
 {
 	shared_ptr<Film> film = new_test_film2 ("player_ignore_video_and_audio_test");
-	shared_ptr<Content> ff = content_factory(TestPaths::private_data / "boon_telly.mkv").front();
+	shared_ptr<Content> ff = content_factory(TestPaths::private_data() / "boon_telly.mkv").front();
 	film->examine_and_add_content (ff);
 	shared_ptr<Content> text = content_factory("test/data/subrip.srt").front();
 	film->examine_and_add_content (text);
@@ -325,7 +325,7 @@ BOOST_AUTO_TEST_CASE (player_ignore_video_and_audio_test)
 BOOST_AUTO_TEST_CASE (player_trim_crash)
 {
 	shared_ptr<Film> film = new_test_film2 ("player_trim_crash");
-	shared_ptr<Content> boon = content_factory(TestPaths::private_data / "boon_telly.mkv").front();
+	shared_ptr<Content> boon = content_factory(TestPaths::private_data() / "boon_telly.mkv").front();
 	film->examine_and_add_content (boon);
 	BOOST_REQUIRE (!wait_for_jobs());
 

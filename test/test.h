@@ -30,8 +30,8 @@ class Log;
 class TestPaths
 {
 public:
-	static boost::filesystem::path private_data;
-	static boost::filesystem::path xsd;
+	static boost::filesystem::path private_data();
+	static boost::filesystem::path xsd();
 };
 
 extern bool wait_for_jobs ();

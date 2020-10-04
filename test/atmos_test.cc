@@ -38,8 +38,8 @@ using boost::shared_ptr;
 BOOST_AUTO_TEST_CASE (atmos_passthrough_test)
 {
 	shared_ptr<Film> film = new_test_film2 ("atmos_passthrough_test");
-	boost::filesystem::path ref = TestPaths::private_data / "atmos_asset.mxf";
-	shared_ptr<Content> content = content_factory (TestPaths::private_data / "atmos_asset.mxf").front();
+	boost::filesystem::path ref = TestPaths::private_data() / "atmos_asset.mxf";
+	shared_ptr<Content> content = content_factory (TestPaths::private_data() / "atmos_asset.mxf").front();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -53,8 +53,8 @@ BOOST_AUTO_TEST_CASE (atmos_passthrough_test)
 BOOST_AUTO_TEST_CASE (atmos_encrypted_passthrough_test)
 {
 	shared_ptr<Film> film = new_test_film2 ("atmos_encrypted_passthrough_test");
-	boost::filesystem::path ref = TestPaths::private_data / "atmos_asset.mxf";
-	shared_ptr<Content> content = content_factory (TestPaths::private_data / "atmos_asset.mxf").front();
+	boost::filesystem::path ref = TestPaths::private_data() / "atmos_asset.mxf";
+	shared_ptr<Content> content = content_factory (TestPaths::private_data() / "atmos_asset.mxf").front();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 

@@ -106,9 +106,9 @@ BOOST_AUTO_TEST_CASE (threed_test3)
 BOOST_AUTO_TEST_CASE (threed_test4)
 {
 	shared_ptr<Film> film = new_test_film2 ("threed_test4");
-	shared_ptr<FFmpegContent> L (new FFmpegContent(TestPaths::private_data / "LEFT_TEST_DCP3D4K.mov"));
+	shared_ptr<FFmpegContent> L (new FFmpegContent(TestPaths::private_data() / "LEFT_TEST_DCP3D4K.mov"));
 	film->examine_and_add_content (L);
-	shared_ptr<FFmpegContent> R (new FFmpegContent(TestPaths::private_data / "RIGHT_TEST_DCP3D4K.mov"));
+	shared_ptr<FFmpegContent> R (new FFmpegContent(TestPaths::private_data() / "RIGHT_TEST_DCP3D4K.mov"));
 	film->examine_and_add_content (R);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -131,9 +131,9 @@ BOOST_AUTO_TEST_CASE (threed_test4)
 BOOST_AUTO_TEST_CASE (threed_test5)
 {
 	shared_ptr<Film> film = new_test_film2 ("threed_test5");
-	shared_ptr<FFmpegContent> L (new FFmpegContent(TestPaths::private_data / "boon_telly.mkv"));
+	shared_ptr<FFmpegContent> L (new FFmpegContent(TestPaths::private_data() / "boon_telly.mkv"));
 	film->examine_and_add_content (L);
-	shared_ptr<FFmpegContent> R (new FFmpegContent(TestPaths::private_data / "boon_telly.mkv"));
+	shared_ptr<FFmpegContent> R (new FFmpegContent(TestPaths::private_data() / "boon_telly.mkv"));
 	film->examine_and_add_content (R);
 	BOOST_REQUIRE (!wait_for_jobs());
 

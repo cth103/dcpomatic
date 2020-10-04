@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_examiner_test)
  */
 BOOST_AUTO_TEST_CASE (ffmpeg_examiner_probesize_test)
 {
-	shared_ptr<FFmpegContent> content (new FFmpegContent(TestPaths::private_data / "RockyTop10 Playlist Flat.m4v"));
+	shared_ptr<FFmpegContent> content (new FFmpegContent(TestPaths::private_data() / "RockyTop10 Playlist Flat.m4v"));
 	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer(content));
 
 	BOOST_CHECK_EQUAL (examiner->audio_streams().size(), 2U);

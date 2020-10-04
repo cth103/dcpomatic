@@ -136,7 +136,7 @@ BOOST_AUTO_TEST_CASE (silence_padding_test)
 BOOST_AUTO_TEST_CASE (silence_padding_test2)
 {
 	shared_ptr<Film> film = new_test_film2 ("silence_padding_test2");
-	shared_ptr<FFmpegContent> content (new FFmpegContent(TestPaths::private_data / "cars.mov"));
+	shared_ptr<FFmpegContent> content (new FFmpegContent(TestPaths::private_data() / "cars.mov"));
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 

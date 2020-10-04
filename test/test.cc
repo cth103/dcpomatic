@@ -72,8 +72,24 @@ using boost::shared_ptr;
 using boost::scoped_array;
 using boost::dynamic_pointer_cast;
 
-boost::filesystem::path TestPaths::TestPaths::private_data = boost::filesystem::canonical(boost::filesystem::path ("..") / boost::filesystem::path ("dcpomatic-test-private"));
-boost::filesystem::path TestPaths::xsd = boost::filesystem::canonical(boost::filesystem::path("..") / boost::filesystem::path("libdcp") / boost::filesystem::path("xsd"));
+
+boost::filesystem::path
+TestPaths::TestPaths::private_data ()
+{
+	char* env = getenv("DCPOMATIC_TEST_PRIVATE");
+	if (env) {
+		return boost::filesystem::path(env);
+	}
+
+	return boost::filesystem::canonical(boost::filesystem::path ("..") / boost::filesystem::path ("dcpomatic-test-private"));
+}
+
+
+boost::filesystem::path TestPaths::xsd ()
+{
+	return boost::filesystem::canonical(boost::filesystem::path("..") / boost::filesystem::path("libdcp") / boost::filesystem::path("xsd"));
+}
+
 
 void
 setup_test_config ()
@@ -117,11 +133,6 @@ struct TestConfig
 		EncodeServerFinder::instance()->stop ();
 
 		signal_manager = new TestSignalManager ();
-
-		char* env_private = getenv("DCPOMATIC_TEST_PRIVATE");
-		if (env_private) {
-			TestPaths::TestPaths::private_data = env_private;
-		}
 
 		dcpomatic_log.reset (new FileLog("build/test/log"));
 	}

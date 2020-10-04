@@ -137,7 +137,7 @@ BOOST_AUTO_TEST_CASE (compact_image_test)
 void
 alpha_blend_test_one (AVPixelFormat format, string suffix)
 {
-	shared_ptr<FFmpegImageProxy> proxy (new FFmpegImageProxy (TestPaths::private_data / "prophet_frame.tiff"));
+	shared_ptr<FFmpegImageProxy> proxy (new FFmpegImageProxy (TestPaths::private_data() / "prophet_frame.tiff"));
 	shared_ptr<Image> raw = proxy->image().image;
 	shared_ptr<Image> background = raw->convert_pixel_format (dcp::YUV_TO_RGB_REC709, format, true, false);
 
@@ -173,7 +173,7 @@ alpha_blend_test_one (AVPixelFormat format, string suffix)
 	shared_ptr<Image> save = background->convert_pixel_format (dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, false);
 
 	write_image (save, "build/test/image_test_" + suffix + ".png");
-	check_image ("build/test/image_test_" + suffix + ".png", TestPaths::private_data / ("image_test_" + suffix + ".png"));
+	check_image ("build/test/image_test_" + suffix + ".png", TestPaths::private_data() / ("image_test_" + suffix + ".png"));
 }
 
 /** Test Image::alpha_blend */

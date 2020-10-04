@@ -18,7 +18,7 @@
 
 */
 
-/** @file  test/j2k_bandwidth_test.cc
+/** @file  test/bandwidth_test.cc
  *  @brief Test whether we output whatever J2K bandwidth is requested.
  *  @ingroup specific
  */
@@ -40,12 +40,12 @@ check (int target_bits_per_second)
 {
 	int const duration = 10;
 
-	string const name = "j2k_bandwidth_test_" + dcp::raw_convert<string> (target_bits_per_second);
+	string const name = "bandwidth_test_" + dcp::raw_convert<string> (target_bits_per_second);
 	shared_ptr<Film> film = new_test_film (name);
 	film->set_name (name);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_j2k_bandwidth (target_bits_per_second);
-	shared_ptr<ImageContent> content (new ImageContent(TestPaths::private_data / "prophet_frame.tiff"));
+	shared_ptr<ImageContent> content (new ImageContent(TestPaths::private_data() / "prophet_frame.tiff"));
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 	content->video->set_length (24 * duration);
@@ -63,7 +63,7 @@ check (int target_bits_per_second)
 	BOOST_CHECK ((actual_bits_per_second / target_bits_per_second) < 1.15);
 }
 
-BOOST_AUTO_TEST_CASE (j2k_bandwidth_test)
+BOOST_AUTO_TEST_CASE (bandwidth_test)
 {
 	check (50000000);
 	check (100000000);

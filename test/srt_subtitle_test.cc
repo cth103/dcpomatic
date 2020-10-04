@@ -105,7 +105,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 	film->set_name ("frobozz");
 	film->set_interop (true);
 	film->set_audio_channels (6);
-	shared_ptr<StringTextFileContent> content (new StringTextFileContent(TestPaths::private_data / "Ankoemmling_short.srt"));
+	shared_ptr<StringTextFileContent> content (new StringTextFileContent(TestPaths::private_data() / "Ankoemmling_short.srt"));
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -115,7 +115,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	check_subtitle_file (film, TestPaths::private_data / "Ankoemmling_short.xml");
+	check_subtitle_file (film, TestPaths::private_data() / "Ankoemmling_short.xml");
 }
 
 /** Build a small DCP with no picture and a single subtitle overlaid onto it */

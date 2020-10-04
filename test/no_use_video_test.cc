@@ -72,8 +72,8 @@ BOOST_AUTO_TEST_CASE (no_use_video_test1)
 BOOST_AUTO_TEST_CASE (no_use_video_test2)
 {
 	shared_ptr<Film> film = new_test_film2 ("no_use_video_test2");
-	shared_ptr<Content> A = content_factory (TestPaths::private_data / "dolby_aurora.vob").front();
-	shared_ptr<Content> B = content_factory (TestPaths::private_data / "big_buck_bunny_trailer_480p.mov").front();
+	shared_ptr<Content> A = content_factory (TestPaths::private_data() / "dolby_aurora.vob").front();
+	shared_ptr<Content> B = content_factory (TestPaths::private_data() / "big_buck_bunny_trailer_480p.mov").front();
 	film->examine_and_add_content (A);
 	film->examine_and_add_content (B);
 	BOOST_REQUIRE (!wait_for_jobs());

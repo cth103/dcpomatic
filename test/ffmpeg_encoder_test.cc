@@ -88,19 +88,19 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test1)
 /** Dolby Aurora trailer VOB -> Prores */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test2)
 {
-	ffmpeg_content_test (2, TestPaths::private_data / "dolby_aurora.vob", EXPORT_FORMAT_PRORES);
+	ffmpeg_content_test (2, TestPaths::private_data() / "dolby_aurora.vob", EXPORT_FORMAT_PRORES);
 }
 
 /** Sintel trailer -> Prores */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test3)
 {
-	ffmpeg_content_test (3, TestPaths::private_data / "Sintel_Trailer1.480p.DivX_Plus_HD.mkv", EXPORT_FORMAT_PRORES);
+	ffmpeg_content_test (3, TestPaths::private_data() / "Sintel_Trailer1.480p.DivX_Plus_HD.mkv", EXPORT_FORMAT_PRORES);
 }
 
 /** Big Buck Bunny trailer -> Prores */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test4)
 {
-	ffmpeg_content_test (4, TestPaths::private_data / "big_buck_bunny_trailer_480p.mov", EXPORT_FORMAT_PRORES);
+	ffmpeg_content_test (4, TestPaths::private_data() / "big_buck_bunny_trailer_480p.mov", EXPORT_FORMAT_PRORES);
 }
 
 /** Still image -> Prores */
@@ -108,7 +108,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test5)
 {
 	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_prores_test5");
 	film->set_name ("ffmpeg_encoder_prores_test5");
-	shared_ptr<ImageContent> c (new ImageContent(TestPaths::private_data / "bbc405.png"));
+	shared_ptr<ImageContent> c (new ImageContent(TestPaths::private_data() / "bbc405.png"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
@@ -322,7 +322,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test5)
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test6)
 {
 	shared_ptr<Film> film = new_test_film2 ("ffmpeg_encoder_h264_test6_ov");
-	film->examine_and_add_content (shared_ptr<ImageContent>(new ImageContent(TestPaths::private_data / "bbc405.png")));
+	film->examine_and_add_content (shared_ptr<ImageContent>(new ImageContent(TestPaths::private_data() / "bbc405.png")));
 	BOOST_REQUIRE (!wait_for_jobs());
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -352,9 +352,9 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test6)
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test7)
 {
 	shared_ptr<Film> film = new_test_film2 ("ffmpeg_encoder_h264_test7_data");
-	shared_ptr<Content> L (shared_ptr<ImageContent>(new ImageContent(TestPaths::private_data / "bbc405.png")));
+	shared_ptr<Content> L (shared_ptr<ImageContent>(new ImageContent(TestPaths::private_data() / "bbc405.png")));
 	film->examine_and_add_content (L);
-	shared_ptr<Content> R (shared_ptr<ImageContent>(new ImageContent(TestPaths::private_data / "bbc405.png")));
+	shared_ptr<Content> R (shared_ptr<ImageContent>(new ImageContent(TestPaths::private_data() / "bbc405.png")));
 	film->examine_and_add_content (R);
 	BOOST_REQUIRE (!wait_for_jobs());
 	L->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT);
@@ -403,7 +403,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test9)
 {
 	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_prores_test9");
 	film->set_name ("ffmpeg_encoder_prores_test9");
-	shared_ptr<ImageContent> c (new ImageContent(TestPaths::private_data / "bbc405.png"));
+	shared_ptr<ImageContent> c (new ImageContent(TestPaths::private_data() / "bbc405.png"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (12);
 
