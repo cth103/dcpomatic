@@ -175,8 +175,11 @@ BOOST_AUTO_TEST_CASE (threed_test6)
 /** Check 2D content set as being 3D; this should give an informative error */
 BOOST_AUTO_TEST_CASE (threed_test7)
 {
+	using boost::filesystem::path;
+
 	shared_ptr<Film> film = new_test_film2 ("threed_test7");
-	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/red_24.mp4"));
+	path const content_path = "test/data/red_24.mp4";
+	shared_ptr<FFmpegContent> c (new FFmpegContent(content_path));
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -208,7 +211,7 @@ BOOST_AUTO_TEST_CASE (threed_test7)
 		}
 	}
 	BOOST_REQUIRE (failed);
-	BOOST_CHECK_EQUAL (failed->error_summary(), "The content file test/data/red_24.mp4 is set as 3D but does not appear to contain 3D images.  Please set it to 2D.  You can still make a 3D DCP from this content by ticking the 3D option in the DCP video tab.");
+	BOOST_CHECK_EQUAL (failed->error_summary(), String::compose("The content file %1 is set as 3D but does not appear to contain 3D images.  Please set it to 2D.  You can still make a 3D DCP from this content by ticking the 3D option in the DCP video tab.", content_path.string()));
 
 	while (signal_manager->ui_idle ()) {}
 
