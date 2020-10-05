@@ -20,14 +20,18 @@
 
 #include "lib/server.h"
 #include "lib/dcpomatic_socket.h"
+#include <dcp/raw_convert.h>
 #include <boost/thread.hpp>
 #include <boost/test/unit_test.hpp>
 #include <boost/shared_ptr.hpp>
 #include <cstring>
 #include <iostream>
 
+
+using std::string;
 using boost::shared_ptr;
 using boost::bind;
+
 
 #define TEST_SERVER_PORT 9142
 #define TEST_SERVER_BUFFER_LENGTH 1024
@@ -115,11 +119,18 @@ send (shared_ptr<Socket> socket, char const* message)
 /** Basic test to see if Socket can send and receive data */
 BOOST_AUTO_TEST_CASE (socket_basic_test)
 {
+	using boost::asio::ip::tcp;
+
 	TestServer server(false);
 	server.expect (13);
 
+	boost::asio::io_service io_service;
+	tcp::resolver resolver (io_service);
+	tcp::resolver::query query ("127.0.0.1", dcp::raw_convert<string>(TEST_SERVER_PORT));
+	tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
+
 	shared_ptr<Socket> socket (new Socket);
-	socket->connect (boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), TEST_SERVER_PORT));
+	socket->connect (*endpoint_iterator);
 	send (socket, "Hello world!");
 
 	server.await ();
@@ -130,11 +141,18 @@ BOOST_AUTO_TEST_CASE (socket_basic_test)
 /** Check that the socket "auto-digest" creation works */
 BOOST_AUTO_TEST_CASE (socket_digest_test1)
 {
+	using boost::asio::ip::tcp;
+
 	TestServer server(false);
 	server.expect (13 + 16);
 
+	boost::asio::io_service io_service;
+	tcp::resolver resolver (io_service);
+	tcp::resolver::query query ("127.0.0.1", dcp::raw_convert<string>(TEST_SERVER_PORT));
+	tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
+
 	shared_ptr<Socket> socket(new Socket);
-	socket->connect (boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), TEST_SERVER_PORT));
+	socket->connect (*endpoint_iterator);
 	{
 		Socket::WriteDigestScope ds(socket);
 		send (socket, "Hello world!");
@@ -152,11 +170,18 @@ BOOST_AUTO_TEST_CASE (socket_digest_test1)
 /** Check that the socket "auto-digest" round-trip works */
 BOOST_AUTO_TEST_CASE (socket_digest_test2)
 {
+	using boost::asio::ip::tcp;
+
 	TestServer server(true);
 	server.expect (13);
 
+	boost::asio::io_service io_service;
+	tcp::resolver resolver (io_service);
+	tcp::resolver::query query ("127.0.0.1", dcp::raw_convert<string>(TEST_SERVER_PORT));
+	tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
+
 	shared_ptr<Socket> socket(new Socket);
-	socket->connect (boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), TEST_SERVER_PORT));
+	socket->connect (*endpoint_iterator);
 	{
 		Socket::WriteDigestScope ds(socket);
 		send (socket, "Hello world!");
