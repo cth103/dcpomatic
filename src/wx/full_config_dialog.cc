@@ -288,15 +288,15 @@ private:
 		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 
 		{
-			add_label_to_sizer (table, _panel, _("Default duration of still images"), true);
+			add_label_to_sizer (table, _panel, _("Default duration of still images"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 			_still_length = new wxSpinCtrl (_panel);
 			s->Add (_still_length);
-			add_label_to_sizer (s, _panel, _("s"), false);
+			add_label_to_sizer (s, _panel, _("s"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 			table->Add (s, 1);
 		}
 
-		add_label_to_sizer (table, _panel, _("Default directory for new films"), true);
+		add_label_to_sizer (table, _panel, _("Default directory for new films"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 #ifdef DCPOMATIC_USE_OWN_PICKER
 		_directory = new DirPickerCtrl (_panel);
 #else
@@ -304,45 +304,45 @@ private:
 #endif
 		table->Add (_directory, 1, wxEXPAND);
 
-		add_label_to_sizer (table, _panel, _("Default ISDCF name details"), true);
+		add_label_to_sizer (table, _panel, _("Default ISDCF name details"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_isdcf_metadata_button = new Button (_panel, _("Edit..."));
 		table->Add (_isdcf_metadata_button);
 
-		add_label_to_sizer (table, _panel, _("Default container"), true);
+		add_label_to_sizer (table, _panel, _("Default container"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_container = new wxChoice (_panel, wxID_ANY);
 		table->Add (_container);
 
-		add_label_to_sizer (table, _panel, _("Default content type"), true);
+		add_label_to_sizer (table, _panel, _("Default content type"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_dcp_content_type = new wxChoice (_panel, wxID_ANY);
 		table->Add (_dcp_content_type);
 
-		add_label_to_sizer (table, _panel, _("Default DCP audio channels"), true);
+		add_label_to_sizer (table, _panel, _("Default DCP audio channels"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_dcp_audio_channels = new wxChoice (_panel, wxID_ANY);
 		table->Add (_dcp_audio_channels);
 
 		{
-			add_label_to_sizer (table, _panel, _("Default JPEG2000 bandwidth"), true);
+			add_label_to_sizer (table, _panel, _("Default JPEG2000 bandwidth"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 			_j2k_bandwidth = new wxSpinCtrl (_panel);
 			s->Add (_j2k_bandwidth);
-			add_label_to_sizer (s, _panel, _("Mbit/s"), false);
+			add_label_to_sizer (s, _panel, _("Mbit/s"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 			table->Add (s, 1);
 		}
 
 		{
-			add_label_to_sizer (table, _panel, _("Default audio delay"), true);
+			add_label_to_sizer (table, _panel, _("Default audio delay"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 			_audio_delay = new wxSpinCtrl (_panel);
 			s->Add (_audio_delay);
-			add_label_to_sizer (s, _panel, _("ms"), false);
+			add_label_to_sizer (s, _panel, _("ms"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 			table->Add (s, 1);
 		}
 
-		add_label_to_sizer (table, _panel, _("Default standard"), true);
+		add_label_to_sizer (table, _panel, _("Default standard"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_standard = new wxChoice (_panel, wxID_ANY);
 		table->Add (_standard);
 
-		add_label_to_sizer (table, _panel, _("Default KDM directory"), true);
+		add_label_to_sizer (table, _panel, _("Default KDM directory"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 #ifdef DCPOMATIC_USE_OWN_PICKER
 		_kdm_directory = new DirPickerCtrl (_panel);
 #else
@@ -579,23 +579,23 @@ private:
 		table->AddGrowableCol (1, 1);
 		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 
-		add_label_to_sizer (table, _panel, _("Protocol"), true);
+		add_label_to_sizer (table, _panel, _("Protocol"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_tms_protocol = new wxChoice (_panel, wxID_ANY);
 		table->Add (_tms_protocol, 1, wxEXPAND);
 
-		add_label_to_sizer (table, _panel, _("IP address"), true);
+		add_label_to_sizer (table, _panel, _("IP address"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_tms_ip = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_tms_ip, 1, wxEXPAND);
 
-		add_label_to_sizer (table, _panel, _("Target path"), true);
+		add_label_to_sizer (table, _panel, _("Target path"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_tms_path = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_tms_path, 1, wxEXPAND);
 
-		add_label_to_sizer (table, _panel, _("User name"), true);
+		add_label_to_sizer (table, _panel, _("User name"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_tms_user = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_tms_user, 1, wxEXPAND);
 
-		add_label_to_sizer (table, _panel, _("Password"), true);
+		add_label_to_sizer (table, _panel, _("Password"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_tms_password = new PasswordEntry (_panel);
 		table->Add (_tms_password->get_panel(), 1, wxEXPAND);
 
@@ -692,16 +692,16 @@ private:
 		table->AddGrowableCol (1, 1);
 		_panel->GetSizer()->Add (table, 1, wxEXPAND | wxALL, _border);
 
-		add_label_to_sizer (table, _panel, _("Outgoing mail server"), true);
+		add_label_to_sizer (table, _panel, _("Outgoing mail server"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		{
 			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 			_server = new wxTextCtrl (_panel, wxID_ANY);
 			s->Add (_server, 1, wxEXPAND | wxALL);
-			add_label_to_sizer (s, _panel, _("port"), false);
+			add_label_to_sizer (s, _panel, _("port"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 			_port = new wxSpinCtrl (_panel, wxID_ANY);
 			_port->SetRange (0, 65535);
 			s->Add (_port);
-			add_label_to_sizer (s, _panel, _("protocol"), false);
+			add_label_to_sizer (s, _panel, _("protocol"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 			_protocol = new wxChoice (_panel, wxID_ANY);
 			/* Make sure this matches the switches in config_changed and port_changed below */
 			_protocol->Append (_("Auto"));
@@ -712,11 +712,11 @@ private:
 			table->Add (s, 1, wxEXPAND | wxALL);
 		}
 
-		add_label_to_sizer (table, _panel, _("User name"), true);
+		add_label_to_sizer (table, _panel, _("User name"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_user = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_user, 1, wxEXPAND | wxALL);
 
-		add_label_to_sizer (table, _panel, _("Password"), true);
+		add_label_to_sizer (table, _panel, _("Password"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_password = new PasswordEntry (_panel);
 		table->Add (_password->get_panel(), 1, wxEXPAND | wxALL);
 
@@ -828,17 +828,17 @@ private:
 		table->AddGrowableCol (1, 1);
 		_panel->GetSizer()->Add (table, 1, wxEXPAND | wxALL, _border);
 
-		add_label_to_sizer (table, _panel, _("Subject"), true);
+		add_label_to_sizer (table, _panel, _("Subject"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_subject = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_subject, 1, wxEXPAND | wxALL);
 
-		add_label_to_sizer (table, _panel, _("From address"), true);
+		add_label_to_sizer (table, _panel, _("From address"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_from = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_from, 1, wxEXPAND | wxALL);
 
 		vector<EditableListColumn> columns;
 		columns.push_back (EditableListColumn(_("Address")));
-		add_label_to_sizer (table, _panel, _("CC addresses"), true);
+		add_label_to_sizer (table, _panel, _("CC addresses"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_cc = new EditableList<string, EmailDialog> (
 			_panel,
 			columns,
@@ -848,7 +848,7 @@ private:
 			);
 		table->Add (_cc, 1, wxEXPAND | wxALL);
 
-		add_label_to_sizer (table, _panel, _("BCC address"), true);
+		add_label_to_sizer (table, _panel, _("BCC address"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_bcc = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_bcc, 1, wxEXPAND | wxALL);
 
@@ -956,21 +956,21 @@ private:
 		table->Add (_enable_email, 1, wxEXPAND | wxALL);
 		table->AddSpacer (0);
 
-		add_label_to_sizer (table, _panel, _("Subject"), true);
+		add_label_to_sizer (table, _panel, _("Subject"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_subject = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_subject, 1, wxEXPAND | wxALL);
 
-		add_label_to_sizer (table, _panel, _("From address"), true);
+		add_label_to_sizer (table, _panel, _("From address"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_from = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_from, 1, wxEXPAND | wxALL);
 
-		add_label_to_sizer (table, _panel, _("To address"), true);
+		add_label_to_sizer (table, _panel, _("To address"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_to = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_to, 1, wxEXPAND | wxALL);
 
 		vector<EditableListColumn> columns;
 		columns.push_back (EditableListColumn(_("Address")));
-		add_label_to_sizer (table, _panel, _("CC addresses"), true);
+		add_label_to_sizer (table, _panel, _("CC addresses"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_cc = new EditableList<string, EmailDialog> (
 			_panel,
 			columns,
@@ -980,7 +980,7 @@ private:
 			);
 		table->Add (_cc, 1, wxEXPAND | wxALL);
 
-		add_label_to_sizer (table, _panel, _("BCC address"), true);
+		add_label_to_sizer (table, _panel, _("BCC address"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_bcc = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_bcc, 1, wxEXPAND | wxALL);
 
@@ -1177,32 +1177,32 @@ private:
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
 
-		add_label_to_sizer (table, _panel, _("Issuer"), true);
+		add_label_to_sizer (table, _panel, _("Issuer"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_issuer = new wxTextCtrl (_panel, wxID_ANY);
 		_issuer->SetToolTip (_("This will be written to the DCP's XML files as the <Issuer>.  If it is blank, a default value mentioning DCP-o-matic will be used."));
 		table->Add (_issuer, 1, wxALL | wxEXPAND);
 
-		add_label_to_sizer (table, _panel, _("Creator"), true);
+		add_label_to_sizer (table, _panel, _("Creator"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_creator = new wxTextCtrl (_panel, wxID_ANY);
 		_creator->SetToolTip (_("This will be written to the DCP's XML files as the <Creator>.  If it is blank, a default value mentioning DCP-o-matic will be used."));
 		table->Add (_creator, 1, wxALL | wxEXPAND);
 
-		add_label_to_sizer (table, _panel, _("Company name"), true);
+		add_label_to_sizer (table, _panel, _("Company name"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_company_name = new wxTextCtrl (_panel, wxID_ANY);
 		_company_name->SetToolTip (_("This will be written to the DCP's MXF files as the 'company name'.  If it is blank, a default value mentioning libdcp (an internal DCP-o-matic library) will be used."));
 		table->Add (_company_name, 1, wxALL | wxEXPAND);
 
-		add_label_to_sizer (table, _panel, _("Product name"), true);
+		add_label_to_sizer (table, _panel, _("Product name"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_product_name = new wxTextCtrl (_panel, wxID_ANY);
 		_product_name->SetToolTip (_("This will be written to the DCP's MXF files as the 'product name'.  If it is blank, a default value mentioning libdcp (an internal DCP-o-matic library) will be used."));
 		table->Add (_product_name, 1, wxALL | wxEXPAND);
 
-		add_label_to_sizer (table, _panel, _("Product version"), true);
+		add_label_to_sizer (table, _panel, _("Product version"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_product_version = new wxTextCtrl (_panel, wxID_ANY);
 		_product_version->SetToolTip (_("This will be written to the DCP's MXF files as the 'product version'.  If it is blank, a default value mentioning libdcp (an internal DCP-o-matic library) will be used."));
 		table->Add (_product_version, 1, wxALL | wxEXPAND);
 
-		add_label_to_sizer (table, _panel, _("JPEG2000 comment"), true);
+		add_label_to_sizer (table, _panel, _("JPEG2000 comment"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_j2k_comment = new wxTextCtrl (_panel, wxID_ANY);
 		_j2k_comment->SetToolTip (_("This will be written to the DCP's JPEG2000 data as a comment.  If it is blank, a default value mentioning libdcp (an internal DCP-o-matic library) will be used."));
 		table->Add (_j2k_comment, 1, wxALL | wxEXPAND);
@@ -1323,7 +1323,7 @@ private:
 		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 
 		{
-			add_label_to_sizer (table, _panel, _("Maximum JPEG2000 bandwidth"), true);
+			add_label_to_sizer (table, _panel, _("Maximum JPEG2000 bandwidth"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 			_maximum_j2k_bandwidth = new wxSpinCtrl (_panel);
 			s->Add (_maximum_j2k_bandwidth, 1);
@@ -1331,7 +1331,7 @@ private:
 			table->Add (s, 1);
 		}
 
-		add_label_to_sizer (table, _panel, _("Video display mode"), true);
+		add_label_to_sizer (table, _panel, _("Video display mode"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_video_display_mode = new wxChoice (_panel, wxID_ANY);
 		table->Add (_video_display_mode);
 
@@ -1363,7 +1363,7 @@ private:
 		table->AddSpacer (0);
 
 		{
-			add_label_to_sizer (table, _panel, _("Maximum number of frames to store per thread"), true);
+			add_label_to_sizer (table, _panel, _("Maximum number of frames to store per thread"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 			_frames_in_memory_multiplier = new wxSpinCtrl (_panel);
 			s->Add (_frames_in_memory_multiplier, 1);

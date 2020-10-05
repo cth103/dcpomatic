@@ -74,7 +74,7 @@ KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	/* Sub-heading: Screens */
 	wxStaticText* h = new StaticText (this, _("Screens"));
 	h->SetFont (subheading_font);
-	left->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
+	left->Add (h, 0, wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 	_screens = new ScreensPanel (this);
 	left->Add (_screens, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 
@@ -82,14 +82,14 @@ KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	/// TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 	h = new StaticText (this, S_("KDM|Timing"));
 	h->SetFont (subheading_font);
-	right->Add (h, 0, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP * 2);
+	right->Add (h);
 	_timing = new KDMTimingPanel (this);
 	right->Add (_timing);
 
 	/* Sub-heading: CPL */
 	h = new StaticText (this, _("CPL"));
 	h->SetFont (subheading_font);
-	right->Add (h, 0, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP * 2);
+	right->Add (h);
 
 	vector<CPLSummary> cpls;
 	BOOST_FOREACH (CPLSummary const & i, film->cpls()) {
@@ -104,7 +104,7 @@ KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	/* Sub-heading: Output */
 	h = new StaticText (this, _("Output"));
 	h->SetFont (subheading_font);
-	right->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
+	right->Add (h, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
 	_output = new KDMOutputPanel (this, film->interop ());
 	right->Add (_output, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP);
 

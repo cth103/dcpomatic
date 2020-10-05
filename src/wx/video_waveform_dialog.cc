@@ -57,10 +57,10 @@ VideoWaveformDialog::VideoWaveformDialog (wxWindow* parent, weak_ptr<const Film>
 	_component->Append (wxT ("X"));
 	_component->Append (wxT ("Y"));
 	_component->Append (wxT ("Z"));
-	add_label_to_sizer (controls, this, _("Component"), true);
+	add_label_to_sizer (controls, this, _("Component"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 	controls->Add (_component, 1, wxALL, DCPOMATIC_SIZER_X_GAP);
 
-	add_label_to_sizer (controls, this, _("Contrast"), true);
+	add_label_to_sizer (controls, this, _("Contrast"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 	_contrast = new wxSlider (this, wxID_ANY, 0, 0, 256);
 	controls->Add (_contrast, 1, wxALL, DCPOMATIC_SIZER_X_GAP);
 

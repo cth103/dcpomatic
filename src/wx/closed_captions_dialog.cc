@@ -60,7 +60,7 @@ ClosedCaptionsDialog::ClosedCaptionsDialog (wxWindow* parent, FilmViewer* viewer
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 
 	wxBoxSizer* track_sizer = new wxBoxSizer (wxHORIZONTAL);
-	add_label_to_sizer (track_sizer, this, _("Track"), true);
+	add_label_to_sizer (track_sizer, this, _("Track"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 	track_sizer->Add (_track, 0, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_X_GAP);
 
 	sizer->Add (track_sizer, 0, wxALL, DCPOMATIC_SIZER_GAP);

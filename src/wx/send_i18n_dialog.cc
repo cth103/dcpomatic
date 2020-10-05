@@ -34,15 +34,15 @@ SendI18NDialog::SendI18NDialog (wxWindow* parent)
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
 
-	add_label_to_sizer (table, this, _("Your name"), true);
+	add_label_to_sizer (table, this, _("Your name"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 	_name = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_name, 0, wxEXPAND);
 
-	add_label_to_sizer (table, this, _("Your email"), true);
+	add_label_to_sizer (table, this, _("Your email"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 	_email = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_email, 0, wxEXPAND);
 
-	add_label_to_sizer (table, this, _("Language"), true);
+	add_label_to_sizer (table, this, _("Language"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 	_language = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_language, 0, wxEXPAND);
 

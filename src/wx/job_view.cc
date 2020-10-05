@@ -69,12 +69,12 @@ JobView::setup ()
 
 	_cancel = new Button (_container, _("Cancel"));
 	_cancel->Bind (wxEVT_BUTTON, &JobView::cancel_clicked, this);
-	_buttons->Add (_cancel, 1, wxALIGN_CENTER_VERTICAL);
+	_buttons->Add (_cancel, 1, wxALIGN_CENTER_VERTICAL | wxRIGHT, DCPOMATIC_BUTTON_STACK_GAP);
 
 	_details = new Button (_container, _("Details..."));
 	_details->Bind (wxEVT_BUTTON, &JobView::details_clicked, this);
 	_details->Enable (false);
-	_buttons->Add (_details, 1, wxALIGN_CENTER_VERTICAL);
+	_buttons->Add (_details, 1, wxALIGN_CENTER_VERTICAL | wxRIGHT, DCPOMATIC_BUTTON_STACK_GAP);
 
 	finish_setup (_container, _buttons);
 

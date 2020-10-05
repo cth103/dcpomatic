@@ -52,10 +52,10 @@ TimePickerSpin::TimePickerSpin (wxWindow* parent, wxDateTime time)
 
 	wxBoxSizer* sizer = new wxBoxSizer (wxHORIZONTAL);
 	_hours = new wxSpinCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size);
-	sizer->Add (_hours, 1, wxEXPAND | wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
+	sizer->Add (_hours, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
 	sizer->Add (new StaticText (this, wxT (":")), 0, wxALIGN_CENTER_VERTICAL);
 	_minutes = new wxSpinCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size);
-	sizer->Add (_minutes, 1, wxEXPAND | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
+	sizer->Add (_minutes, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 
 	SetSizerAndFit (sizer);
 
@@ -101,10 +101,10 @@ TimePickerText::TimePickerText (wxWindow* parent, wxDateTime time)
 
 	wxBoxSizer* sizer = new wxBoxSizer (wxHORIZONTAL);
 	_hours = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size);
-	sizer->Add (_hours, 1, wxEXPAND | wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
+	sizer->Add (_hours, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
 	sizer->Add (new StaticText (this, wxT (":")), 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, 4);
 	_minutes = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size);
-	sizer->Add (_minutes, 1, wxEXPAND | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
+	sizer->Add (_minutes, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 
 	SetSizerAndFit (sizer);
 

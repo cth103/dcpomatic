@@ -60,7 +60,7 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, 0);
 	table->AddGrowableCol (1);
 
-	add_label_to_sizer (table, this, _("KDM type"), true);
+	add_label_to_sizer (table, this, _("KDM type"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 
 	wxBoxSizer* type = new wxBoxSizer (wxHORIZONTAL);
 	_type = new wxChoice (this, wxID_ANY);
