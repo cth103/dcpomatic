@@ -55,8 +55,6 @@ BOOST_AUTO_TEST_CASE (audio_analysis_serialisation_test)
 	int const channels = 3;
 	int const points = 4096;
 
-	srand (1);
-
 	AudioAnalysis a (3);
 	for (int i = 0; i < channels; ++i) {
 		for (int j = 0; j < points; ++j) {
@@ -77,15 +75,14 @@ BOOST_AUTO_TEST_CASE (audio_analysis_serialisation_test)
 	a.set_sample_rate (48000);
 	a.write ("build/test/audio_analysis_serialisation_test");
 
-	srand (1);
-
 	AudioAnalysis b ("build/test/audio_analysis_serialisation_test");
 	for (int i = 0; i < channels; ++i) {
 		BOOST_CHECK_EQUAL (b.points(i), points);
 		for (int j = 0; j < points; ++j) {
-			AudioPoint p = b.get_point (i, j);
-			BOOST_CHECK_CLOSE (p[AudioPoint::PEAK], random_float (), 1);
-			BOOST_CHECK_CLOSE (p[AudioPoint::RMS],  random_float (), 1);
+			AudioPoint p = a.get_point (i, j);
+			AudioPoint q = b.get_point (i, j);
+			BOOST_CHECK_CLOSE (p[AudioPoint::PEAK], q[AudioPoint::PEAK], 1);
+			BOOST_CHECK_CLOSE (p[AudioPoint::RMS],  q[AudioPoint::RMS], 1);
 		}
 	}
 
