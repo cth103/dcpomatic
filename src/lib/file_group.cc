@@ -37,6 +37,7 @@ using std::cout;
 FileGroup::FileGroup ()
 	: _current_path (0)
 	, _current_file (0)
+	, _current_size (0)
 {
 
 }
@@ -45,6 +46,7 @@ FileGroup::FileGroup ()
 FileGroup::FileGroup (boost::filesystem::path p)
 	: _current_path (0)
 	, _current_file (0)
+	, _current_size (0)
 {
 	_paths.push_back (p);
 	ensure_open_path (0);
@@ -95,6 +97,7 @@ FileGroup::ensure_open_path (size_t p) const
 	if (_current_file == 0) {
 		throw OpenFileError (_paths[_current_path], errno, OpenFileError::READ);
 	}
+	_current_size = boost::filesystem::file_size (_paths[_current_path]);
 }
 
 int64_t
@@ -155,7 +158,15 @@ FileGroup::read (uint8_t* buffer, int amount) const
 {
 	int read = 0;
 	while (true) {
-		int const this_time = fread (buffer + read, 1, amount - read, _current_file);
+		int64_t to_read = amount - read;
+#ifdef DCPOMATIC_WINDOWS
+		/* If we over-read from the file by too much on Windows we get a errno=22 rather than an feof condition,
+		 * for unknown reasons.  So if we're going to over-read, we need to do it by a little bit, so that feof
+		 * still gets triggered but there is no errno=22.
+		 */
+		to_read = std::min(to_read, static_cast<int64_t>(_current_size - _ftelli64(_current_file) + 1));
+#endif
+		int const this_time = fread (buffer + read, 1, to_read, _current_file);
 		read += this_time;
 		if (read == amount) {
 			/* Done */

@@ -52,6 +52,7 @@ private:
 	/** Index of path that we are currently reading from */
 	mutable size_t _current_path;
 	mutable FILE* _current_file;
+	mutable size_t _current_size;
 };
 
 #endif
