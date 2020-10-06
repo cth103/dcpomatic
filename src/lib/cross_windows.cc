@@ -126,12 +126,8 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
 		return;
 	}
 
-	wchar_t previous_dir[512];
-	GetCurrentDirectory (sizeof(previous_dir), previous_dir);
-
 	wchar_t dir[512];
 	MultiByteToWideChar (CP_UTF8, 0, directory_containing_executable().string().c_str(), -1, dir, sizeof(dir));
-	SetCurrentDirectory (dir);
 
 	STARTUPINFO startup_info;
 	ZeroMemory (&startup_info, sizeof (startup_info));
@@ -150,16 +146,14 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
 
 	PROCESS_INFORMATION process_info;
 	ZeroMemory (&process_info, sizeof (process_info));
-	if (!CreateProcess (0, command, 0, 0, TRUE, CREATE_NO_WINDOW, 0, 0, &startup_info, &process_info)) {
+	if (!CreateProcess (0, command, 0, 0, TRUE, CREATE_NO_WINDOW, 0, dir, &startup_info, &process_info)) {
 		LOG_ERROR_NC (N_("ffprobe call failed (could not CreateProcess)"));
-		SetCurrentDirectory (previous_dir);
 		return;
 	}
 
 	FILE* o = fopen_boost (out, "w");
 	if (!o) {
 		LOG_ERROR_NC (N_("ffprobe call failed (could not create output file)"));
-		SetCurrentDirectory (previous_dir);
 		return;
 	}
 
@@ -180,8 +174,6 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
 	CloseHandle (process_info.hProcess);
 	CloseHandle (process_info.hThread);
 	CloseHandle (child_stderr_read);
-
-	SetCurrentDirectory (previous_dir);
 }
 
 list<pair<string, string> >
