@@ -29,6 +29,9 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/video_content.h"
+#ifdef DCPOMATIC_WINDOWS
+#include <boost/locale.hpp>
+#endif
 #include <boost/test/unit_test.hpp>
 #include <boost/regex.hpp>
 
@@ -111,6 +114,13 @@ BOOST_AUTO_TEST_CASE (file_naming_test2)
 	shared_ptr<Film> film = new_test_film ("file_naming_test2");
 	film->set_name ("file_naming_test2");
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
+
+#ifdef DCPOMATIC_WINDOWS
+	/* This is necessary so that the UTF8 string constant below gets converted properly */
+	std::locale::global(boost::locale::generator().generate(""));
+	boost::filesystem::path::imbue(std::locale());
+#endif
+
 	shared_ptr<FFmpegContent> r (new FFmpegContent("test/data/flät_red.png"));
 	film->examine_and_add_content (r);
 	shared_ptr<FFmpegContent> g (new FFmpegContent("test/data/flat_green.png"));
