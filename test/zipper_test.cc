@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE (zipper_test1)
 
 	boost::filesystem::remove_all ("build/test/zipper_test1", ec);
 	int const r = system ("unzip build/test/zipped.zip -d build/test/zipper_test1");
-	BOOST_REQUIRE (r == 0);
+	BOOST_REQUIRE_EQUAL (r, 0);
 
 	BOOST_CHECK_EQUAL (dcp::file_to_string("build/test/zipper_test1/foo.txt"), "1234567890");
 	BOOST_CHECK_EQUAL (dcp::file_to_string("build/test/zipper_test1/bar.txt"), "xxxxxxCCCCbbbbbbb1");
