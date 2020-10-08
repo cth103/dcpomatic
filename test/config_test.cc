@@ -29,9 +29,8 @@ static void
 rewrite_bad_config ()
 {
 	boost::system::error_code ec;
-	boost::filesystem::remove ("build/test/config.xml", ec);
+	boost::filesystem::remove ("build/test/bad_config/config.xml", ec);
 
-	Config::override_path = "build/test/bad_config";
 	ofstream f ("build/test/bad_config/config.xml");
 	f << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 	  << "<Config>\n"
@@ -43,51 +42,53 @@ rewrite_bad_config ()
 
 BOOST_AUTO_TEST_CASE (config_backup_test)
 {
+	Config::override_path = "build/test/bad_config";
+
 	Config::drop();
 
 	boost::system::error_code ec;
-	boost::filesystem::remove ("build/test/config.xml.1", ec);
-	boost::filesystem::remove ("build/test/config.xml.2", ec);
-	boost::filesystem::remove ("build/test/config.xml.3", ec);
-	boost::filesystem::remove ("build/test/config.xml.4", ec);
-	boost::filesystem::remove ("build/test/config.xml.5", ec);
-	boost::filesystem::remove ("build/test/config.xml.5", ec);
+	boost::filesystem::remove ("build/test/bad_config/config.xml.1", ec);
+	boost::filesystem::remove ("build/test/bad_config/config.xml.2", ec);
+	boost::filesystem::remove ("build/test/bad_config/config.xml.3", ec);
+	boost::filesystem::remove ("build/test/bad_config/config.xml.4", ec);
+	boost::filesystem::remove ("build/test/bad_config/config.xml.5", ec);
+	boost::filesystem::remove ("build/test/bad_config/config.xml.5", ec);
 
 	rewrite_bad_config();
 
 	Config::instance();
 
-	BOOST_CHECK ( boost::filesystem::exists ("build/test/config.xml.1"));
-	BOOST_CHECK (!boost::filesystem::exists ("build/test/config.xml.2"));
-	BOOST_CHECK (!boost::filesystem::exists ("build/test/config.xml.3"));
-	BOOST_CHECK (!boost::filesystem::exists ("build/test/config.xml.4"));
+	BOOST_CHECK ( boost::filesystem::exists ("build/test/bad_config/config.xml.1"));
+	BOOST_CHECK (!boost::filesystem::exists ("build/test/bad_config/config.xml.2"));
+	BOOST_CHECK (!boost::filesystem::exists ("build/test/bad_config/config.xml.3"));
+	BOOST_CHECK (!boost::filesystem::exists ("build/test/bad_config/config.xml.4"));
 
 	Config::drop();
 	rewrite_bad_config();
 	Config::instance();
 
-	BOOST_CHECK ( boost::filesystem::exists ("build/test/config.xml.1"));
-	BOOST_CHECK ( boost::filesystem::exists ("build/test/config.xml.2"));
-	BOOST_CHECK (!boost::filesystem::exists ("build/test/config.xml.3"));
-	BOOST_CHECK (!boost::filesystem::exists ("build/test/config.xml.4"));
+	BOOST_CHECK ( boost::filesystem::exists ("build/test/bad_config/config.xml.1"));
+	BOOST_CHECK ( boost::filesystem::exists ("build/test/bad_config/config.xml.2"));
+	BOOST_CHECK (!boost::filesystem::exists ("build/test/bad_config/config.xml.3"));
+	BOOST_CHECK (!boost::filesystem::exists ("build/test/bad_config/config.xml.4"));
 
 	Config::drop();
 	rewrite_bad_config();
 	Config::instance();
 
-	BOOST_CHECK ( boost::filesystem::exists ("build/test/config.xml.1"));
-	BOOST_CHECK ( boost::filesystem::exists ("build/test/config.xml.2"));
-	BOOST_CHECK ( boost::filesystem::exists ("build/test/config.xml.3"));
-	BOOST_CHECK (!boost::filesystem::exists ("build/test/config.xml.4"));
+	BOOST_CHECK ( boost::filesystem::exists ("build/test/bad_config/config.xml.1"));
+	BOOST_CHECK ( boost::filesystem::exists ("build/test/bad_config/config.xml.2"));
+	BOOST_CHECK ( boost::filesystem::exists ("build/test/bad_config/config.xml.3"));
+	BOOST_CHECK (!boost::filesystem::exists ("build/test/bad_config/config.xml.4"));
 
 	Config::drop();
 	rewrite_bad_config();
 	Config::instance();
 
-	BOOST_CHECK (boost::filesystem::exists ("build/test/config.xml.1"));
-	BOOST_CHECK (boost::filesystem::exists ("build/test/config.xml.2"));
-	BOOST_CHECK (boost::filesystem::exists ("build/test/config.xml.3"));
-	BOOST_CHECK (boost::filesystem::exists ("build/test/config.xml.4"));
+	BOOST_CHECK (boost::filesystem::exists ("build/test/bad_config/config.xml.1"));
+	BOOST_CHECK (boost::filesystem::exists ("build/test/bad_config/config.xml.2"));
+	BOOST_CHECK (boost::filesystem::exists ("build/test/bad_config/config.xml.3"));
+	BOOST_CHECK (boost::filesystem::exists ("build/test/bad_config/config.xml.4"));
 
 	/* This test has called Config::set_defaults(), so take us back
 	   to the config that we want for our tests.
