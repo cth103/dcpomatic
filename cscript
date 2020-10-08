@@ -739,7 +739,7 @@ def make_manual(target):
     target.command('pdflatex colour.tex')
     return [os.path.abspath('pdf'), os.path.abspath('html'), os.path.abspath('colour.pdf')]
 
-def test(target, test):
+def test(target, options, test):
     if target.platform != 'windows':
         target.set('LC_ALL', 'C')
         cmd = 'run/tests '
