@@ -6,7 +6,9 @@ if [ "$(uname)" == "Linux" ]; then
   export LD_LIBRARY_PATH=build/src/lib:/home/c.hetherington/lib:$LD_LIBRARY_PATH
   rm -f build/test/openssl
   # This must be our patched openssl or tests will fail
-  ln -s ../../../openssl/apps/openssl build/test/dcpomatic2_openssl
+  if [ ! -f build/test/dcpomatic2_openssl ]; then 
+    ln -s ../../../openssl/apps/openssl build/test/dcpomatic2_openssl
+  fi
 fi
 
 if [ "$1" == "--debug" ]; then
