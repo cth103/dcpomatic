@@ -35,6 +35,9 @@
 #include "test.h"
 
 using boost::shared_ptr;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using namespace dcpomatic;
 
 static SNDFILE* L;

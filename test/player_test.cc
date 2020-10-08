@@ -49,6 +49,9 @@ using std::pair;
 using boost::shared_ptr;
 using boost::bind;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using namespace dcpomatic;
 
 static shared_ptr<AudioBuffers> accumulated;

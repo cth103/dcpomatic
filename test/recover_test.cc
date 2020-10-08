@@ -38,6 +38,9 @@
 using std::cout;
 using std::string;
 using boost::shared_ptr;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 static void
 note (dcp::NoteType t, string n)

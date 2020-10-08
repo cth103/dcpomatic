@@ -35,6 +35,9 @@ using std::string;
 using std::vector;
 using std::list;
 using boost::shared_ptr;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using namespace dcpomatic;
 
 BOOST_AUTO_TEST_CASE (digest_head_tail_test)

@@ -7,6 +7,10 @@ using std::list;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
+
 
 static void
 push (Shuffler& s, int frame, Eyes eyes)

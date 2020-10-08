@@ -37,6 +37,9 @@
 #include <iostream>
 
 using std::min;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using boost::shared_ptr;
 
 static SNDFILE* ref = 0;

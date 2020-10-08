@@ -28,6 +28,9 @@
 using std::pair;
 using boost::shared_ptr;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using namespace dcpomatic;
 
 /** Simulate the work that the player does, for profiling */
