@@ -22,6 +22,8 @@ if [ "$(uname)" == "Darwin" ]; then
   ln -s ../../../openssl/apps/openssl build/test/openssl
   # SIP stops this being passed in from the caller's environment
   export DYLD_LIBRARY_PATH=/Users/ci/osx-environment/64/lib
+  # We need to find ffcmp in here
+  export PATH=$PATH:/Users/ci/workspace/bin
 fi
 
 if [ "$1" == "--debug" ]; then
