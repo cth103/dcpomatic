@@ -455,7 +455,6 @@ BOOST_AUTO_TEST_CASE (player_silence_at_end_crash)
 	BOOST_REQUIRE (!wait_for_jobs());
 	content3->set_position (film2, DCPTime::from_seconds(1.5));
 	film2->set_video_frame_rate (24);
-	std::cout << "Here we go.\n";
 	film2->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 }
