@@ -469,12 +469,14 @@ DCPOMATIC_DISABLE_WARNINGS
 			shared_ptr<AudioBuffers> data = deinterleave_audio (*stream);
 
 			ContentTime ct;
-			if (_frame->pts == AV_NOPTS_VALUE && _next_time[stream_index]) {
+			if (_frame->pts == AV_NOPTS_VALUE) {
 				/* In some streams we see not every frame coming through with a timestamp; for those
 				   that have AV_NOPTS_VALUE we need to work out the timestamp ourselves.  This is
 				   particularly noticeable with TrueHD streams (see #1111).
 				*/
-				ct = *_next_time[stream_index];
+				if (_next_time[stream_index]) {
+					ct = *_next_time[stream_index];
+				}
 			} else {
 				ct = ContentTime::from_seconds (
 					av_frame_get_best_effort_timestamp (_frame) *
