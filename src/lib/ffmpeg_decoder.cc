@@ -399,6 +399,10 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	}
 
 	_have_current_subtitle = false;
+
+	BOOST_FOREACH (optional<ContentTime>& i, _next_time) {
+		i = optional<ContentTime>();
+	}
 }
 
 void
