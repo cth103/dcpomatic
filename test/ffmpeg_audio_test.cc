@@ -150,3 +150,18 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test3)
 	player->set_fast ();
 	while (!player->pass ()) {}
 }
+
+
+/** Decode a file whose audio previously crashed DCP-o-matic (#1857) */
+BOOST_AUTO_TEST_CASE (ffmpeg_audio_test4)
+{
+	shared_ptr<Film> film = new_test_film2 ("ffmpeg_audio_test4");
+	shared_ptr<Content> content = content_factory(private_data / "Actuellement aout 2020.wmv").front();
+	film->examine_and_add_content (content);
+	BOOST_REQUIRE (!wait_for_jobs ());
+
+	shared_ptr<Player> player (new Player(film, film->playlist()));
+	player->set_fast ();
+	BOOST_CHECK_NO_THROW (while (!player->pass()) {});
+}
+
