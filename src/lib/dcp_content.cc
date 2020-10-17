@@ -202,7 +202,6 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	bool const needed_assets = needs_assets ();
 	bool const needed_kdm = needs_kdm ();
 	string const old_name = name ();
-	int const old_texts = text.size ();
 
 	ChangeSignaller<Content> cc_texts (this, DCPContentProperty::TEXTS);
 	ChangeSignaller<Content> cc_assets (this, DCPContentProperty::NEEDS_ASSETS);
@@ -249,20 +248,21 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		atmos->set_length (examiner->atmos_length());
 	}
 
-	int texts = 0;
+	list<shared_ptr<TextContent> > new_text;
+	for (int i = 0; i < TEXT_COUNT; ++i) {
+		for (int j = 0; j < examiner->text_count(static_cast<TextType>(i)); ++j) {
+			shared_ptr<TextContent> c(new TextContent(this, static_cast<TextType>(i), static_cast<TextType>(i)));
+			if (i == TEXT_CLOSED_CAPTION) {
+				c->set_dcp_track (examiner->dcp_text_track(j));
+			}
+			new_text.push_back (c);
+		}
+	}
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
+		text = new_text;
 		_name = examiner->name ();
-		for (int i = 0; i < TEXT_COUNT; ++i) {
-			for (int j = 0; j < examiner->text_count(static_cast<TextType>(i)); ++j) {
-				shared_ptr<TextContent> c(new TextContent(this, static_cast<TextType>(i), static_cast<TextType>(i)));
-				if (i == TEXT_CLOSED_CAPTION) {
-					c->set_dcp_track (examiner->dcp_text_track(j));
-				}
-				text.push_back (c);
-			}
-		}
-		texts = text.size ();
 		_encrypted = examiner->encrypted ();
 		_needs_assets = examiner->needs_assets ();
 		_kdm_valid = examiner->kdm_valid ();
@@ -277,10 +277,6 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		}
 		_ratings = examiner->ratings ();
 		_content_versions = examiner->content_versions ();
-	}
-
-	if (old_texts == texts) {
-		cc_texts.abort ();
 	}
 
 	if (needed_assets == needs_assets()) {
