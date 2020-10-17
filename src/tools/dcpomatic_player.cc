@@ -785,6 +785,7 @@ private:
 
 		dcp->set_cpl ((*i)->id());
 		dcp->examine (_film, shared_ptr<Job>());
+		_info->triggered_update ();
 	}
 
 	void view_full_screen ()
