@@ -273,15 +273,8 @@ public:
 		wxImageList* images = new wxImageList (16, 16);
 		wxIcon tick_icon;
 		wxIcon no_tick_icon;
-#ifdef DCPOMATIC_OSX
-		tick_icon.LoadFile ("tick.png", wxBITMAP_TYPE_PNG_RESOURCE);
-		no_tick_icon.LoadFile ("no_tick.png", wxBITMAP_TYPE_PNG_RESOURCE);
-#else
-		boost::filesystem::path tick_path = resources_path() / "tick.png";
-		tick_icon.LoadFile (std_to_wx(tick_path.string()), wxBITMAP_TYPE_PNG);
-		boost::filesystem::path no_tick_path = resources_path() / "no_tick.png";
-		no_tick_icon.LoadFile (std_to_wx(no_tick_path.string()), wxBITMAP_TYPE_PNG);
-#endif
+		tick_icon.LoadFile (bitmap_path("tick"), wxBITMAP_TYPE_PNG);
+		no_tick_icon.LoadFile (bitmap_path("no_tick"), wxBITMAP_TYPE_PNG);
 		images->Add (tick_icon);
 		images->Add (no_tick_icon);
 
