@@ -38,8 +38,7 @@ override_dh_auto_install:
 	mkdir -p debian/dcpomatic/usr/share/locale/ru/LC_MESSAGES/
 	cp -a /usr/share/locale/ru/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/ru/LC_MESSAGES/dcpomatic2-wxstd.mo
 	cp -a $(CDIST_DIRECTORY)/src/openssl/apps/openssl debian/dcpomatic/usr/bin/dcpomatic2_openssl
-	mkdir -p debian/dcpomatic/usr/share/libdcp
-	cp -ar $(CDIST_DIRECTORY)/share/libdcp/xsd debian/dcpomatic/usr/share/libdcp
+	cp -ar $(CDIST_DIRECTORY)/share/libdcp debian/dcpomatic/usr/share
 
 .PHONY: override_dh_strip
 override_dh_strip:
