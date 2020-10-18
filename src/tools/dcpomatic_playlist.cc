@@ -518,7 +518,7 @@ private:
 	{
 		optional<boost::filesystem::path> dir = Config::instance()->player_playlist_directory();
 		if (!dir) {
-			error_dialog (this, _("No playlist folder is specified in preferences.  Please set on and then try again."));
+			error_dialog (this, _("No playlist folder is specified in preferences.  Please set one and then try again."));
 			return;
 		}
 		playlist->write (*dir / (playlist->id() + ".xml"));
