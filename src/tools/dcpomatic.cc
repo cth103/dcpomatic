@@ -882,7 +882,7 @@ private:
 
 		if (send_to_other_tool (BATCH_JOB_PORT, &start_batch_converter, _film->directory()->string())) {
 #ifdef DCPOMATIC_OSX
-			error_dialog (this, _("Could not start the batch converter.  You may need to download it from dcpomatic.com.");
+			error_dialog (this, _("Could not start the batch converter.  You may need to download it from dcpomatic.com."));
 #else
 			error_dialog (this, _("Could not find batch converter."));
 #endif
@@ -897,7 +897,7 @@ private:
 
 		if (send_to_other_tool (PLAYER_PLAY_PORT, &start_player, _film->dir(_film->dcp_name(false)).string())) {
 #ifdef DCPOMATIC_OSX
-			error_dialog (this, _("Could not start the player.  You may need to download it from dcpomatic.com.");
+			error_dialog (this, _("Could not start the player.  You may need to download it from dcpomatic.com."));
 #else
 			error_dialog (this, _("Could not find player."));
 #endif
