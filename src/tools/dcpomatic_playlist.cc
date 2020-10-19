@@ -73,6 +73,8 @@ public:
 		}
 
 		overall_sizer->Layout ();
+
+		_config_changed_connection = Config::instance()->Changed.connect(boost::bind(&ContentView::update, _content_view));
 	}
 
 	shared_ptr<Content> selected () const
@@ -87,6 +89,7 @@ public:
 
 private:
 	ContentView* _content_view;
+	boost::signals2::scoped_connection _config_changed_connection;
 };
 
 
