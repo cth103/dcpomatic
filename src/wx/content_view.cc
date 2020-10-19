@@ -82,6 +82,8 @@ ContentView::update ()
 
 	for (directory_iterator i = directory_iterator(*dir); i != directory_iterator(); ++i) {
 		try {
+			progress.Pulse ();
+
 			shared_ptr<Content> content;
 			if (is_directory(*i) && (is_regular_file(*i / "ASSETMAP") || is_regular_file(*i / "ASSETMAP.xml"))) {
 				content.reset (new DCPContent(*i));
