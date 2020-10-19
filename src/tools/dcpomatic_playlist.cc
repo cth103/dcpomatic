@@ -476,6 +476,8 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_exit, this), wxID_EXIT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_about, this), wxID_ABOUT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_preferences, this), wxID_PREFERENCES);
+
+		_config_changed_connection = Config::instance()->Changed.connect(boost::bind(&DOMFrame::config_changed, this));
 	}
 
 private:
@@ -548,10 +550,28 @@ private:
 		m->Append (help, _("&Help"));
 	}
 
+
+	void config_changed ()
+	{
+		try {
+			Config::instance()->write_config();
+		} catch (exception& e) {
+			error_dialog (
+				this,
+				wxString::Format (
+					_("Could not write to config file at %s.  Your changes have not been saved."),
+					std_to_wx (Config::instance()->cinemas_file().string()).data()
+					)
+				);
+		}
+	}
+
+
 	ContentDialog* _content_dialog;
 	PlaylistList* _playlist_list;
 	PlaylistContent* _playlist_content;
 	wxPreferencesEditor* _config_dialog;
+	boost::signals2::scoped_connection _config_changed_connection;
 };
 
 /** @class App
