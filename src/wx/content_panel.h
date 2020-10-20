@@ -59,6 +59,8 @@ public:
 		/* Try to stop the top bit of the splitter getting so small that buttons disappear */
 		return new_position > 220;
 	}
+
+	void first_shown (wxWindow* top, wxWindow* bottom);
 };
 
 
@@ -123,7 +125,7 @@ private:
 	void add_files (std::list<boost::filesystem::path>);
 	std::list<ContentSubPanel *> panels () const;
 
-	wxSplitterWindow* _splitter;
+	LimitedSplitter* _splitter;
 	wxPanel* _top_panel;
 	wxNotebook* _notebook;
 	wxListCtrl* _content;

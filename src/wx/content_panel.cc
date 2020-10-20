@@ -154,17 +154,7 @@ ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmV
 void
 ContentPanel::first_shown ()
 {
-	int const sn = wxDisplay::GetFromWindow(_splitter);
-	if (sn >= 0) {
-		wxRect const screen = wxDisplay(sn).GetClientArea();
-		/* This is a hack to try and make the content notebook a sensible size; large on big displays but small
-		   enough on small displays to leave space for the content area.
-		   */
-		_splitter->SplitHorizontally (_top_panel, _notebook, screen.height > 800 ? -600 : -150);
-	} else {
-		/* Fallback for when GetFromWindow fails for reasons that aren't clear */
-		_splitter->SplitHorizontally (_top_panel, _notebook, -600);
-	}
+	_splitter->first_shown (_top_panel, _notebook);
 }
 
 
@@ -808,4 +798,22 @@ ContentPanel::panels () const
 	}
 	p.push_back (_timing_panel);
 	return p;
+}
+
+
+void
+LimitedSplitter::first_shown (wxWindow* top, wxWindow* bottom)
+{
+	int const sn = wxDisplay::GetFromWindow(this);
+	if (sn >= 0) {
+		wxRect const screen = wxDisplay(sn).GetClientArea();
+		/* This is a hack to try and make the content notebook a sensible size; large on big displays but small
+		   enough on small displays to leave space for the content area.
+		   */
+		SplitHorizontally (top, bottom, screen.height > 800 ? -600 : -150);
+	} else {
+		/* Fallback for when GetFromWindow fails for reasons that aren't clear */
+		SplitHorizontally (top, bottom, -600);
+	}
+
 }
