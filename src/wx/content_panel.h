@@ -54,6 +54,12 @@ public:
 	}
 
 	void first_shown (wxWindow* top, wxWindow* bottom);
+
+private:
+	void sized (wxSizeEvent& ev);
+
+	bool _first_shown;
+	int const _top_panel_minimum_size;
 };
 
 
