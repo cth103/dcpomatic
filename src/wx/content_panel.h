@@ -45,14 +45,7 @@ class FilmViewer;
 class LimitedSplitter : public wxSplitterWindow
 {
 public:
-	LimitedSplitter (wxWindow* parent)
-		: wxSplitterWindow (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_NOBORDER | wxSP_3DSASH | wxSP_LIVE_UPDATE)
-	{
-		/* This value doesn't really mean much but we just want to stop double-click on the
-		   divider from shrinking the bottom panel (#1601).
-		*/
-		SetMinimumPaneSize (64);
-	}
+	LimitedSplitter (wxWindow* parent);
 
 	bool OnSashPositionChange (int new_position)
 	{
