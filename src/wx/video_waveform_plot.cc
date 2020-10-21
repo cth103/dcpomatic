@@ -38,11 +38,16 @@ using std::max;
 using std::string;
 using boost::weak_ptr;
 using boost::shared_ptr;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using dcp::locale_convert;
+
 
 int const VideoWaveformPlot::_vertical_margin = 8;
 int const VideoWaveformPlot::_pixel_values = 4096;
 int const VideoWaveformPlot::_x_axis_width = 52;
+
 
 VideoWaveformPlot::VideoWaveformPlot (wxWindow* parent, weak_ptr<const Film> film, weak_ptr<FilmViewer> viewer)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)

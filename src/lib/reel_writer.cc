@@ -64,6 +64,9 @@ using std::vector;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using dcp::Data;
 using dcp::raw_convert;
 using namespace dcpomatic;

@@ -35,6 +35,9 @@ using std::make_pair;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using namespace dcpomatic;
 
 ClosedCaptionsDialog::ClosedCaptionsDialog (wxWindow* parent, FilmViewer* viewer)

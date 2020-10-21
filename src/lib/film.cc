@@ -102,6 +102,9 @@ using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 using boost::is_any_of;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using dcp::raw_convert;
 using namespace dcpomatic;
 

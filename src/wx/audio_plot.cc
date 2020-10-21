@@ -39,6 +39,9 @@ using boost::bind;
 using boost::optional;
 using boost::shared_ptr;
 using boost::weak_ptr;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using namespace dcpomatic;
 
 int const AudioPlot::_minimum = -70;

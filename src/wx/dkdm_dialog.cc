@@ -49,6 +49,10 @@ using std::runtime_error;
 using boost::shared_ptr;
 using boost::bind;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
+
 
 DKDMDialog::DKDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	: wxDialog (parent, wxID_ANY, _("Make DKDMs"))

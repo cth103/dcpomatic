@@ -79,6 +79,9 @@ using boost::bind;
 using boost::optional;
 using boost::ref;
 using boost::dynamic_pointer_cast;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using namespace dcpomatic;
 
 enum {

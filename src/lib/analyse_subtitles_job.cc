@@ -33,6 +33,9 @@
 using std::string;
 using boost::shared_ptr;
 using boost::weak_ptr;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 AnalyseSubtitlesJob::AnalyseSubtitlesJob (shared_ptr<const Film> film, shared_ptr<Content> content)
 	: Job (film)

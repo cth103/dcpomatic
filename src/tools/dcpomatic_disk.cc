@@ -53,6 +53,10 @@ using std::cout;
 using std::cerr;
 using boost::shared_ptr;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
+
 
 class DOMFrame : public wxFrame
 {

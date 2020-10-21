@@ -42,6 +42,9 @@ using std::vector;
 using std::list;
 using boost::optional;
 using boost::bind;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 
 static string

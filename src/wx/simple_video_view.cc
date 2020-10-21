@@ -33,7 +33,11 @@ using std::max;
 using std::string;
 using boost::optional;
 using boost::shared_ptr;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using namespace dcpomatic;
+
 
 SimpleVideoView::SimpleVideoView (FilmViewer* viewer, wxWindow* parent)
 	: VideoView (viewer)

@@ -27,6 +27,10 @@
 
 using std::map;
 using std::string;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
+
 
 map<string, string> I18NHook::_translations;
 

@@ -29,6 +29,10 @@ using std::string;
 using std::vector;
 using boost::weak_ptr;
 using boost::shared_ptr;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
+
 
 static string
 column (dcp::Rating r, int c)

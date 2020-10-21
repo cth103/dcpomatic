@@ -30,6 +30,10 @@ using std::cout;
 using boost::bind;
 using boost::weak_ptr;
 using boost::shared_ptr;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
+
 
 VideoWaveformDialog::VideoWaveformDialog (wxWindow* parent, weak_ptr<const Film> film, weak_ptr<FilmViewer> viewer)
 	: wxDialog (

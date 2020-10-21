@@ -68,6 +68,9 @@ using boost::bind;
 using boost::shared_ptr;
 using boost::function;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using dcp::locale_convert;
 
 class PlayerGeneralPage : public GeneralPage

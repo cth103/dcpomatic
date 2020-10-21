@@ -95,6 +95,9 @@ using boost::optional;
 using boost::dynamic_pointer_cast;
 using boost::thread;
 using boost::bind;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using dcp::raw_convert;
 using namespace dcpomatic;
 

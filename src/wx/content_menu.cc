@@ -54,6 +54,10 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
+
 
 enum {
 	/* Start at 256 so we can have IDs on _cpl_menu from 1 to 255 */

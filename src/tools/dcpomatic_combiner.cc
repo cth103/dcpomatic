@@ -43,6 +43,9 @@ using std::vector;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 using boost::shared_ptr;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 
 static string
