@@ -270,7 +270,7 @@ AudioMappingView::paint_row_labels (wxDC& dc)
 	}
 
 	dc.DrawLine (wxPoint(GRID_SPACING, y), wxPoint(GRID_SPACING * 2, y));
-	}
+}
 
 void
 AudioMappingView::paint_row_lines (wxDC& dc)
