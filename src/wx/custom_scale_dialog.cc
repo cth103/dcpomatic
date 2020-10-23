@@ -44,7 +44,7 @@ CustomScaleDialog::CustomScaleDialog (wxWindow* parent, dcp::Size initial, dcp::
 	wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 	_ratio = new wxTextCtrl (this, wxID_ANY, _(""), wxDefaultPosition, wxDefaultSize, 0, wxNumericPropertyValidator(wxNumericPropertyValidator::Float));
 	s->Add (_ratio, 1, wxRIGHT, 4);
-	add_label_to_sizer (s, this, wxT(":1"), false);
+	add_label_to_sizer (s, this, wxT(":1"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	add (s);
 	_size_from_ratio = new wxStaticText (this, wxID_ANY, wxT(""));
 	add (_size_from_ratio, 1, wxALIGN_CENTER_VERTICAL);
@@ -60,7 +60,7 @@ CustomScaleDialog::CustomScaleDialog (wxWindow* parent, dcp::Size initial, dcp::
 	s = new wxBoxSizer (wxHORIZONTAL);
 	_width = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(spin_width, -1), wxSP_ARROW_KEYS, 1, film_container.width);
 	s->Add (_width, 1, wxRIGHT, 4);
-	add_label_to_sizer (s, this, wxT("x"), false);
+	add_label_to_sizer (s, this, wxT("x"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_height = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(spin_width, -1), wxSP_ARROW_KEYS, 1, film_container.height);
 	s->Add (_height, 1, wxRIGHT, 4);
 	add (s);
