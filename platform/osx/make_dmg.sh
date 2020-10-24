@@ -516,6 +516,7 @@ make_dmg "$appdir" "" "DCP-o-matic Combiner"
 setup "DCP-o-matic 2 Disk Writer.app"
 copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_disk "$approot/MacOS"
 copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
+cp $prefix/src/dcpomatic/platform/osx/uninstall_disk.applescript "$approot/Resources"
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_disk.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_disk" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"

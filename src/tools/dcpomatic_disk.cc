@@ -58,6 +58,13 @@ using namespace boost::placeholders;
 #endif
 
 
+#ifdef DCPOMATIC_OSX
+enum {
+	ID_tools_uninstall = 1,
+};
+#endif
+
+
 class DOMFrame : public wxFrame
 {
 public:
@@ -66,6 +73,15 @@ public:
 		, _nanomsg (true)
 		, _sizer (new wxBoxSizer(wxVERTICAL))
 	{
+#ifdef DCPOMATIC_OSX
+		wxMenuBar* bar = new wxMenuBar;
+		wxMenu* tools = new wxMenu;
+		tools->Append(ID_tools_uninstall, _("Uninstall..."));
+		bar->Append(tools, _("Tools"));
+		SetMenuBar (bar);
+		Bind (wxEVT_MENU, boost::bind(&DOMFrame::uninstall, this), ID_tools_uninstall);
+#endif
+
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
 		*/
@@ -161,6 +177,14 @@ private:
 		_sizer->Layout ();
 		ev.Skip ();
 	}
+
+
+#ifdef DCPOMATIC_OSX
+	void uninstall()
+	{
+		system(String::compose("osascript \"%1/uninstall_disk.applescript\"", resources_path().string()).c_str());
+	}
+#endif
 
 
 	bool should_close ()
@@ -349,6 +373,7 @@ public:
 #endif
 
 #ifdef DCPOMATIC_OSX
+			dcpomatic_sleep_seconds (1);
 			make_foreground_application ();
 #endif
 

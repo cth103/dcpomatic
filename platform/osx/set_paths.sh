@@ -1,4 +1,4 @@
-base=$HOME/test
+base=$HOME/dcpomatic
 env=$HOME/osx-environment
 sdk=$HOME/SDK
 
