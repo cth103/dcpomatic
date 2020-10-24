@@ -28,6 +28,17 @@ fi
 mkdir -p build/platform/osx
 cd build/platform/osx
 
+cat <<EOF > entitlements.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>com.apple.security.cs.disable-library-validation</key>
+  <true/>
+</dict>
+</plist>
+EOF
+
 function copy {
     case $TYPE in
 	universal)
@@ -292,7 +303,7 @@ function relink_absolute {
 }
 
 function sign {
-    codesign --deep --force --verify --verbose --options runtime --sign "Developer ID Application: Carl Hetherington (R82DXSR997)" "$1"
+    codesign --deep --force --verify --verbose --options runtime --entitlements entitlements.plist --sign "Developer ID Application: Carl Hetherington (R82DXSR997)" "$1"
     if [ "$?" != "0" ]; then
 	echo "Failed to sign $1"
 	exit 1
@@ -403,7 +414,7 @@ EOF
     xattr -c "$dmg"
 
     set -e
-    codesign --verify --verbose --options runtime --sign "Developer ID Application: Carl Hetherington (R82DXSR997)" "$dmg"
+    codesign --verify --verbose --options runtime --entitlements entitlements.plist --sign "Developer ID Application: Carl Hetherington (R82DXSR997)" "$dmg"
     set +e
 
     rm $tmp_dmg
