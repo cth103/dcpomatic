@@ -193,7 +193,7 @@ def configure(conf):
 
     conf.in_msg = 1
     wx_version = conf.check_cfg(package='wxwidgets', path=wx_config, args='--version').strip()
-    conf.im_msg = 0
+    conf.in_msg = 0
     if not wx_version.startswith('3.'):
         conf.fatal('wxwidgets version 3.x.y is required; %s found' % wx_version)
 
