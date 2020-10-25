@@ -61,7 +61,7 @@ JobView::setup ()
 	_gauge->SetMinSize (wxSize (0, -1));
 	_gauge_message->Add (_gauge, 0, wxEXPAND | wxLEFT | wxRIGHT);
 	_message = new StaticText (_container, wxT(" \n "), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_MIDDLE);
-	_gauge_message->Add (_message, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
+	_gauge_message->Add (_message, 1, wxEXPAND | wxALL, 6);
 	_table->Insert (n, _gauge_message, 1, wxEXPAND | wxLEFT | wxRIGHT);
 	++n;
 

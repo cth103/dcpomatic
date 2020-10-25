@@ -214,7 +214,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	tested_by.Add (wxT ("Wolfgang Woehl"));
 	add_section (_("Tested by"), tested_by);
 
-	sizer->Add (_notebook, wxSizerFlags().Centre().Border(wxALL, 16).Expand());
+	sizer->Add (_notebook, wxSizerFlags().Centre().Border(wxALL, 16));
 
 	overall_sizer->Add (sizer);
 
@@ -251,7 +251,7 @@ AboutDialog::add_section (wxString name, wxArrayString credits)
 
 	int c = 0;
 	for (size_t i = 0; i < credits.Count(); ++i) {
-		add_label_to_sizer (sizers[c], panel, credits[i], false);
+		add_label_to_vertical_sizer (sizers[c], panel, credits[i], false);
 		++c;
 		if (c == N) {
 			c = 0;

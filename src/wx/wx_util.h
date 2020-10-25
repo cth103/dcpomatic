@@ -72,6 +72,7 @@ extern void message_dialog (wxWindow *, wxString);
 extern bool confirm_dialog (wxWindow *, wxString);
 extern wxStaticText* create_label (wxWindow* p, wxString t, bool left);
 extern wxStaticText* add_label_to_sizer (wxSizer *, wxWindow *, wxString, bool left, int prop = 0, int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT);
+extern wxStaticText* add_label_to_vertical_sizer (wxSizer *, wxWindow *, wxString, bool left, int prop = 0, int flags = wxLEFT | wxRIGHT);
 extern wxStaticText* add_label_to_sizer (wxSizer *, wxStaticText *, bool left, int prop = 0, int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT);
 extern wxStaticText* add_label_to_sizer (wxGridBagSizer *, wxWindow *, wxString, bool, wxGBPosition, wxGBSpan span = wxDefaultSpan);
 extern wxStaticText* add_label_to_sizer (wxGridBagSizer *, wxStaticText *, bool, wxGBPosition, wxGBSpan span = wxDefaultSpan);

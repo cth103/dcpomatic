@@ -99,7 +99,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 	{
 		wxStaticText* m = new StaticText (this, _("Channels"));
 		m->SetFont (subheading_font);
-		right->Add (m, 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM, 16);
+		right->Add (m, 1, wxTOP | wxBOTTOM, 16);
 	}
 
 	for (int i = 0; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
@@ -114,7 +114,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 	{
 		wxStaticText* m = new StaticText (this, _("Type"));
 		m->SetFont (subheading_font);
-		right->Add (m, 1, wxALIGN_CENTER_VERTICAL | wxTOP, 16);
+		right->Add (m, 1, wxTOP, 16);
 	}
 
 	wxString const types[] = {
@@ -131,7 +131,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 	{
 		wxStaticText* m = new StaticText (this, _("Smoothing"));
 		m->SetFont (subheading_font);
-		right->Add (m, 1, wxALIGN_CENTER_VERTICAL | wxTOP, 16);
+		right->Add (m, 1, wxTOP, 16);
 	}
 
 	_smoothing = new wxSlider (this, wxID_ANY, AudioPlot::max_smoothing / 2, 1, AudioPlot::max_smoothing);

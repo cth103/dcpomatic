@@ -80,6 +80,22 @@ add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, bool left, int prop, in
 	return m;
 }
 
+
+/* Hack: this is the same but has different default flags */
+wxStaticText *
+add_label_to_vertical_sizer (wxSizer* s, wxWindow* p, wxString t, bool left, int prop, int flags)
+{
+#ifdef __WXOSX__
+	if (left) {
+		flags |= wxALIGN_RIGHT;
+	}
+#endif
+	wxStaticText* m = create_label (p, t, left);
+	s->Add (m, prop, flags, 6);
+	return m;
+}
+
+
 wxStaticText *
 #ifdef __WXOSX__
 add_label_to_sizer (wxSizer* s, wxStaticText* t, bool left, int prop, int flags)

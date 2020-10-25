@@ -130,6 +130,7 @@ public:
 		, _history_separator (0)
 		, _view_full_screen (0)
 		, _view_dual_screen (0)
+		, _main_sizer (new wxBoxSizer(wxVERTICAL))
 	{
 		dcpomatic_log.reset (new NullLog());
 
@@ -245,13 +246,15 @@ public:
 
 	void setup_main_sizer (Config::PlayerMode mode)
 	{
-		wxSizer* main_sizer = new wxBoxSizer (wxVERTICAL);
+		_main_sizer->Detach (_viewer->panel());
+		_main_sizer->Detach (_controls);
+		_main_sizer->Detach (_info);
 		if (mode != Config::PLAYER_MODE_DUAL) {
-			main_sizer->Add (_viewer->panel(), 1, wxEXPAND | wxALIGN_CENTER_VERTICAL);
+			_main_sizer->Add (_viewer->panel(), 1, wxEXPAND);
 		}
-		main_sizer->Add (_controls, mode == Config::PLAYER_MODE_DUAL ? 1 : 0, wxEXPAND | wxALL, 6);
-		main_sizer->Add (_info, 0, wxEXPAND | wxALL, 6);
-		_overall_panel->SetSizer (main_sizer);
+		_main_sizer->Add (_controls, mode == Config::PLAYER_MODE_DUAL ? 1 : 0, wxEXPAND | wxALL, 6);
+		_main_sizer->Add (_info, 0, wxEXPAND | wxALL, 6);
+		_overall_panel->SetSizer (_main_sizer);
 		_overall_panel->Layout ();
 	}
 
@@ -719,10 +722,10 @@ private:
 				switch (Config::instance()->image_display()) {
 				case 0:
 					_dual_screen->Move (0, 0);
-					Move (wxDisplay(0).GetClientArea().GetWidth(), 0);
+					Move (wxDisplay(0U).GetClientArea().GetWidth(), 0);
 					break;
 				case 1:
-					_dual_screen->Move (wxDisplay(0).GetClientArea().GetWidth(), 0);
+					_dual_screen->Move (wxDisplay(0U).GetClientArea().GetWidth(), 0);
 					// (0, 0) doesn't seem to work for some strange reason
 					Move (8, 8);
 					break;
@@ -935,6 +938,7 @@ private:
 	wxMenuItem* _tools_verify;
 	wxMenuItem* _view_full_screen;
 	wxMenuItem* _view_dual_screen;
+	wxSizer* _main_sizer;
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {
