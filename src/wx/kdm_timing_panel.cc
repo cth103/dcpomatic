@@ -33,13 +33,29 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 {
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 
+#ifdef __WXGTK3__
+	/* wxDatePickerCtrl is too small with the GTK3 backend so we need to make it bigger with some fudge factors */
+	wxClientDC dc (parent);
+	wxSize size = dc.GetTextExtent (wxT("99/99/9999"));
+	size.SetWidth (size.GetWidth() * 1.75);
+	size.SetHeight (-1);
+#else
+	wxSize size = wxDefaultSize;
+#endif
+
 	wxSizer* table = new wxBoxSizer (wxHORIZONTAL);
 	add_label_to_sizer (table, this, _("From"), true);
 	wxDateTime from;
 	from.SetToCurrent ();
-	_from_date = new wxDatePickerCtrl (this, wxID_ANY, from);
+	_from_date = new wxDatePickerCtrl (this, wxID_ANY, from, wxDefaultPosition, size);
 	table->Add (_from_date, 0, wxALIGN_CENTER_VERTICAL);
-	_from_time = new TimePicker (this, from);
+
+#ifdef __WXGTK3__
+	_from_time = new TimePickerText (this, from);
+#else
+	_from_time = new TimePickerSpin (this, from);
+#endif
+
 #ifdef DCPOMATIC_OSX
 	/* Hack to tweak alignment, which I can't get right by "proper" means for some reason */
 	table->Add (_from_time, 0, wxALIGN_CENTER_VERTICAL | wxTOP, 4);
@@ -51,9 +67,15 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 	wxDateTime to = from;
 	/* 1 week from now */
 	to.Add (wxDateSpan (0, 0, 1, 0));
-	_until_date = new wxDatePickerCtrl (this, wxID_ANY, to);
+	_until_date = new wxDatePickerCtrl (this, wxID_ANY, to, wxDefaultPosition, size);
 	table->Add (_until_date, 0, wxALIGN_CENTER_VERTICAL);
-	_until_time = new TimePicker (this, to);
+
+#ifdef __WXGTK3__
+	_until_time = new TimePickerText (this, to);
+#else
+	_until_time = new TimePickerSpin (this, to);
+#endif
+
 #ifdef DCPOMATIC_OSX
 	table->Add (_until_time, 0, wxALIGN_CENTER_VERTICAL | wxTOP, 4);
 #else

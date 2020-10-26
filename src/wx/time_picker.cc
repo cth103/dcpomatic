@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -35,8 +35,16 @@ using std::cout;
 using boost::bind;
 using dcp::locale_convert;
 
-TimePicker::TimePicker (wxWindow* parent, wxDateTime time)
+
+TimePicker::TimePicker (wxWindow* parent)
 	: wxPanel (parent)
+{
+
+}
+
+
+TimePickerSpin::TimePickerSpin (wxWindow* parent, wxDateTime time)
+	: TimePicker (parent)
 {
 	wxClientDC dc (parent);
 	wxSize size = dc.GetTextExtent (wxT ("9999999"));
@@ -58,24 +66,77 @@ TimePicker::TimePicker (wxWindow* parent, wxDateTime time)
 	_minutes->SetValue (time.GetMinute ());
 	_minutes->SetRange (0, 59);
 
-	_hours->Bind (wxEVT_SPINCTRL, (bind (&TimePicker::spin_changed, this)));
-	_minutes->Bind (wxEVT_SPINCTRL, (bind (&TimePicker::spin_changed, this)));
+	_hours->Bind (wxEVT_SPINCTRL, (bind (&TimePickerSpin::changed, this)));
+	_minutes->Bind (wxEVT_SPINCTRL, (bind (&TimePickerSpin::changed, this)));
 }
 
+
 void
-TimePicker::spin_changed ()
+TimePickerSpin::changed ()
 {
 	Changed ();
 }
 
+
 int
-TimePicker::hours () const
+TimePickerSpin::hours () const
 {
 	return _hours->GetValue();
 }
 
+
 int
-TimePicker::minutes () const
+TimePickerSpin::minutes () const
 {
 	return _minutes->GetValue();
 }
+
+
+TimePickerText::TimePickerText (wxWindow* parent, wxDateTime time)
+	: TimePicker (parent)
+{
+	wxClientDC dc (parent);
+	wxSize size = dc.GetTextExtent (wxT("99999"));
+	size.SetHeight (-1);
+
+	wxBoxSizer* sizer = new wxBoxSizer (wxHORIZONTAL);
+	_hours = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size);
+	sizer->Add (_hours, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
+	sizer->Add (new StaticText (this, wxT (":")), 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, 4);
+	_minutes = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size);
+	sizer->Add (_minutes, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
+
+	SetSizerAndFit (sizer);
+
+	_minutes->MoveAfterInTabOrder (_hours);
+
+	_hours->SetValue (wxString::Format("%d", time.GetHour()));
+	_minutes->SetValue (wxString::Format("%d", time.GetMinute()));
+
+	_hours->Bind (wxEVT_TEXT, (bind(&TimePickerText::changed, this)));
+	_minutes->Bind (wxEVT_TEXT, (bind(&TimePickerText::changed, this)));
+}
+
+
+void
+TimePickerText::changed ()
+{
+	Changed ();
+}
+
+
+int
+TimePickerText::hours () const
+{
+	return max(0, min(23, wxAtoi(_hours->GetValue())));
+}
+
+
+int
+TimePickerText::minutes () const
+{
+	return max(0, min(59, wxAtoi(_minutes->GetValue())));
+}
+
+
+
