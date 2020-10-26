@@ -61,6 +61,7 @@ private:
 	wxStaticText* _reference_note;
 	wxStaticText* _type_label;
 	ContentChoice<VideoContent, VideoFrameType>* _frame_type;
+	wxStaticText* _crop_label;
 	wxStaticText* _left_crop_label;
 	ContentSpinCtrl<VideoContent>* _left_crop;
 	wxStaticText* _right_crop_label;
