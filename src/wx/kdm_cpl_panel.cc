@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -22,6 +22,10 @@
 #include "wx_util.h"
 #include "static_text.h"
 #include "dcpomatic_button.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
+#include <libxml++/libxml++.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <libcxml/cxml.h>
 #include <boost/foreach.hpp>
 
@@ -106,33 +110,33 @@ KDMCPLPanel::cpl_browse_clicked ()
 
 	d->Destroy ();
 
-	/* XXX: hack alert */
-	cxml::Document cpl_document ("CompositionPlaylist");
-	cpl_document.read_file (cpl_file);
+	try {
+		/* XXX: hack alert */
+		cxml::Document cpl_document ("CompositionPlaylist");
+		cpl_document.read_file (cpl_file);
 
-	bool encrypted = false;
-	BOOST_FOREACH (cxml::ConstNodePtr i, cpl_document.node_children("ReelList")) {
-		BOOST_FOREACH (cxml::ConstNodePtr j, i->node_children("Reel")) {
-			BOOST_FOREACH (cxml::ConstNodePtr k, j->node_children("AssetList")) {
-				BOOST_FOREACH (cxml::ConstNodePtr l, k->node_children()) {
-					if (!l->node_children("KeyId").empty()) {
-						encrypted = true;
+		bool encrypted = false;
+		BOOST_FOREACH (cxml::ConstNodePtr i, cpl_document.node_children("ReelList")) {
+			BOOST_FOREACH (cxml::ConstNodePtr j, i->node_children("Reel")) {
+				BOOST_FOREACH (cxml::ConstNodePtr k, j->node_children("AssetList")) {
+					BOOST_FOREACH (cxml::ConstNodePtr l, k->node_children()) {
+						if (!l->node_children("KeyId").empty()) {
+							encrypted = true;
+						}
 					}
 				}
 			}
 		}
-	}
 
-	if (!encrypted) {
-		error_dialog (this, _("This CPL contains no encrypted assets."));
-		return;
-	}
+		if (!encrypted) {
+			error_dialog (this, _("This CPL contains no encrypted assets."));
+			return;
+		}
 
-	/* We're ignoring the CPLSummary timestamp stuff here and just putting the new one in at the end
-	   of the list, then selecting it.
-	*/
+		/* We're ignoring the CPLSummary timestamp stuff here and just putting the new one in at the end
+		   of the list, then selecting it.
+		*/
 
-	try {
 		_cpls.push_back (
 			CPLSummary (
 				dcp_dir.filename().string(),
@@ -143,8 +147,11 @@ KDMCPLPanel::cpl_browse_clicked ()
 				0
 				)
 			);
-	} catch (cxml::Error &) {
-		error_dialog (this, _("This is not a valid CPL file"));
+	} catch (xmlpp::exception& e) {
+		error_dialog (this, _("This is not a valid CPL file"), std_to_wx(e.what()));
+		return;
+	} catch (cxml::Error& e) {
+		error_dialog (this, _("This is not a valid CPL file"), std_to_wx(e.what()));
 		return;
 	}
 
