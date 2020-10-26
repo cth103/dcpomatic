@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-05 20:19+0100\n"
+"POT-Creation-Date: 2020-10-26 12:00+0100\n"
 "PO-Revision-Date: 2019-03-27 00:14+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -38,29 +38,30 @@ msgstr ""
 msgid "%"
 msgstr "%"
 
-#: src/wx/film_name_location_dialog.cc:131
+#: src/wx/film_name_location_dialog.cc:145
 msgid "%1 already exists as a file, so you cannot use it for a film."
 msgstr ""
 "%1 уже существует как файл, поэтому вы не можете использовать его в проекте."
 
-#: src/wx/kdm_dialog.cc:172
+#: src/wx/kdm_dialog.cc:175
 #, c-format
 msgid "%d KDM written to %s"
 msgstr "%d KDM записан в %s"
 
-#: src/wx/kdm_dialog.cc:172
+#: src/wx/kdm_dialog.cc:175
 #, c-format
 msgid "%d KDMs written to %s"
 msgstr "%d KDM записаны в %s"
 
-#: src/wx/config_dialog.cc:289
+#: src/wx/config_dialog.cc:292
 #, fuzzy, c-format
 msgid "%d channels on %s"
 msgstr "Аудио каналы: %d"
 
 #: src/wx/about_dialog.cc:84
+#, fuzzy
 msgid ""
-"(C) 2012-2019 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2020 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
 "(C) 2012-2019 Carl Hetherington, Terrence Meiczinger\n"
@@ -70,11 +71,11 @@ msgstr ""
 msgid "(None)"
 msgstr "(Ничего)"
 
-#: src/wx/full_config_dialog.cc:1415
+#: src/wx/full_config_dialog.cc:1418
 msgid "(restart DCP-o-matic to see all ratios)"
 msgstr "(перезапустите DCP-o-matic, чтобы увидеть все соотношения)"
 
-#: src/wx/config_dialog.cc:145
+#: src/wx/config_dialog.cc:148
 msgid "(restart DCP-o-matic to see language changes)"
 msgstr "(перезапустите программу для изменения языка)"
 
@@ -84,7 +85,7 @@ msgid ""
 "in the 'timed text' tab)"
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:71
+#: src/wx/audio_mapping_view.cc:74
 msgid "-6dB"
 msgstr "-6 дБ"
 
@@ -92,11 +93,11 @@ msgstr "-6 дБ"
 msgid "0 is best, 51 is worst"
 msgstr "0 - лучшее, 51 - худшее"
 
-#: src/wx/wx_util.cc:447
+#: src/wx/wx_util.cc:463
 msgid "12 - 7.1/HI/VI"
 msgstr "12 - 7.1/HI/VI"
 
-#: src/wx/wx_util.cc:439
+#: src/wx/wx_util.cc:455
 msgid "2 - stereo"
 msgstr "2 - стерео"
 
@@ -104,7 +105,7 @@ msgstr "2 - стерео"
 msgid "255"
 msgstr "255"
 
-#: src/wx/video_panel.cc:190
+#: src/wx/video_panel.cc:203
 msgid "2D"
 msgstr "2D"
 
@@ -112,55 +113,55 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "2D версия контента, доступного в 3D"
 
-#: src/wx/dcp_panel.cc:795
+#: src/wx/dcp_panel.cc:792
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:765 src/wx/video_panel.cc:191
+#: src/wx/dcp_panel.cc:762 src/wx/video_panel.cc:204
 msgid "3D"
 msgstr "3D"
 
-#: src/wx/video_panel.cc:194
+#: src/wx/video_panel.cc:207
 msgid "3D alternate"
 msgstr "3D альтернатива"
 
-#: src/wx/video_panel.cc:195
+#: src/wx/video_panel.cc:208
 msgid "3D left only"
 msgstr "3D только левый"
 
-#: src/wx/video_panel.cc:192
+#: src/wx/video_panel.cc:205
 msgid "3D left/right"
 msgstr "3D левый/правый"
 
-#: src/wx/video_panel.cc:196
+#: src/wx/video_panel.cc:209
 msgid "3D right only"
 msgstr "3D только правый"
 
-#: src/wx/video_panel.cc:193
+#: src/wx/video_panel.cc:206
 msgid "3D top/bottom"
 msgstr "3D верх/низ"
 
-#: src/wx/wx_util.cc:441
+#: src/wx/wx_util.cc:457
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - Л/Ц/П/НЧ"
 
-#: src/wx/dcp_panel.cc:796
+#: src/wx/dcp_panel.cc:793
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/wx_util.cc:443
+#: src/wx/wx_util.cc:459
 msgid "6 - 5.1"
 msgstr "6 - 5.1"
 
-#: src/wx/wx_util.cc:445
+#: src/wx/wx_util.cc:461
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/subtitle_appearance_dialog.cc:107
+#: src/wx/subtitle_appearance_dialog.cc:110
 msgid "<b>New colour</b>"
 msgstr "<b>Новый цвет</b>"
 
-#: src/wx/subtitle_appearance_dialog.cc:104
+#: src/wx/subtitle_appearance_dialog.cc:107
 msgid "<b>Original colour</b>"
 msgstr "<b>Исходный цвет</b>"
 
@@ -176,7 +177,7 @@ msgstr ""
 
 #. //trac.wxwidgets.org/ticket/13389
 #.
-#: src/wx/timing_panel.cc:109
+#: src/wx/timing_panel.cc:117
 msgid ""
 "<i>Only change this if the content's frame rate has been read incorrectly.</"
 "i>"
@@ -197,7 +198,8 @@ msgid ""
 "\n"
 "Please choose which mode you would like to start DCP-o-matic in:"
 msgstr ""
-"<span weight=\"bold\" size=\"larger\">Добро пожаловать в DCP-o-matic!</span>\n"
+"<span weight=\"bold\" size=\"larger\">Добро пожаловать в DCP-o-matic!</"
+"span>\n"
 "\n"
 "DCP-o-matic может работать в двух режимах: ‘<i>простом</i>’ или ‘<i>полном</"
 "i>’.\n"
@@ -216,11 +218,11 @@ msgstr "A"
 msgid "A new version of DCP-o-matic is available."
 msgstr "Доступна новая версия DCP-o-matic."
 
-#: src/wx/config_dialog.cc:273
+#: src/wx/config_dialog.cc:276
 msgid "ALSA"
 msgstr ""
 
-#: src/wx/config_dialog.cc:269
+#: src/wx/config_dialog.cc:272
 msgid "ASIO"
 msgstr ""
 
@@ -228,7 +230,7 @@ msgstr ""
 msgid "About DCP-o-matic"
 msgstr "О программе"
 
-#: src/wx/full_config_dialog.cc:994
+#: src/wx/full_config_dialog.cc:997
 msgid "Accounts"
 msgstr "Аккаунты"
 
@@ -244,7 +246,7 @@ msgstr "Добавить кинотеатр"
 msgid "Add Cinema..."
 msgstr "Добавить кинотеатр..."
 
-#: src/wx/content_panel.cc:127
+#: src/wx/content_panel.cc:133
 msgid "Add DCP..."
 msgstr "Добавить DCP..."
 
@@ -268,22 +270,22 @@ msgstr "Добавить экран"
 msgid "Add Screen..."
 msgstr "Добавить экран..."
 
-#: src/wx/content_panel.cc:128
+#: src/wx/content_panel.cc:134
 msgid "Add a DCP."
 msgstr "Добавить DCP."
 
-#: src/wx/content_panel.cc:124
+#: src/wx/content_panel.cc:130
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
 msgstr ""
 "Добавить папку последовательности изображений или папку звуковых файлов."
 
-#: src/wx/content_panel.cc:119
+#: src/wx/content_panel.cc:125
 msgid "Add file(s)..."
 msgstr "Добавить файл(ы)..."
 
-#: src/wx/content_panel.cc:123
+#: src/wx/content_panel.cc:129
 msgid "Add folder..."
 msgstr "Добавить папку..."
 
@@ -295,15 +297,15 @@ msgstr "Добавить последовательность изображен
 msgid "Add new..."
 msgstr "Добавить новый…"
 
-#: src/wx/content_panel.cc:120
+#: src/wx/content_panel.cc:126
 msgid "Add video, image, sound or subtitle files to the film."
 msgstr "Добавить видео, изображение, звук или субтитры в проект."
 
-#: src/wx/config_dialog.cc:421 src/wx/editable_list.h:76
+#: src/wx/config_dialog.cc:424 src/wx/editable_list.h:76
 msgid "Add..."
 msgstr "Добавить..."
 
-#: src/wx/config_dialog.cc:519
+#: src/wx/config_dialog.cc:522
 msgid ""
 "Adding this certificate would make the chain inconsistent, so it will not be "
 "added. Add certificates in order from root to intermediate to leaf."
@@ -312,8 +314,8 @@ msgstr ""
 "он не будет добавлен. Добавляйте сертификаты в порядке «Root» -> "
 "«Intermediate» -> «Leaf»."
 
-#: src/wx/cinema_dialog.cc:71 src/wx/full_config_dialog.cc:905
-#: src/wx/full_config_dialog.cc:1176
+#: src/wx/cinema_dialog.cc:74 src/wx/full_config_dialog.cc:908
+#: src/wx/full_config_dialog.cc:1179
 msgid "Address"
 msgstr "Адрес"
 
@@ -325,16 +327,16 @@ msgstr "Отрегулировать белую точку по"
 msgid "Advanced KDM options"
 msgstr "Продвинутые опции KDM"
 
-#: src/wx/config_dialog.cc:813 src/wx/config_dialog.cc:827
+#: src/wx/config_dialog.cc:816 src/wx/config_dialog.cc:830
 #: src/wx/kdm_output_panel.cc:70
 msgid "Advanced..."
 msgstr "Продвинутые…"
 
-#: src/wx/full_config_dialog.cc:1407
+#: src/wx/full_config_dialog.cc:1410
 msgid "Allow any DCP frame rate"
 msgstr "Разрешить любую частоту кадров DCP"
 
-#: src/wx/full_config_dialog.cc:1411
+#: src/wx/full_config_dialog.cc:1414
 msgid "Allow non-standard container ratios"
 msgstr "Разрешить нестандартные соотношения контейнера"
 
@@ -342,7 +344,7 @@ msgstr "Разрешить нестандартные соотношения к�
 msgid "Alpha   0"
 msgstr "Альфа  0"
 
-#: src/wx/about_dialog.cc:150
+#: src/wx/about_dialog.cc:157
 msgid "Also supported by"
 msgstr "Также поддерживается"
 
@@ -358,7 +360,7 @@ msgstr "Внешний вид..."
 msgid "Are you sure you want to cancel this job?"
 msgstr "Вы точно хотите отменить эту задачу?"
 
-#: src/wx/confirm_kdm_email_dialog.cc:35
+#: src/wx/confirm_kdm_email_dialog.cc:38
 msgid ""
 "Are you sure you want to send emails to the following addresses?\n"
 "\n"
@@ -370,8 +372,8 @@ msgstr ""
 msgid "Atmos"
 msgstr "Atmos"
 
-#: src/wx/audio_dialog.cc:54 src/wx/audio_panel.cc:51
-#: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:121
+#: src/wx/audio_dialog.cc:57 src/wx/audio_panel.cc:54
+#: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:124
 #: src/wx/timeline_labels_view.cc:40 src/wx/timeline_labels_view.cc:87
 msgid "Audio"
 msgstr "Аудио"
@@ -385,14 +387,14 @@ msgstr "Язык аудио (напр. RU)"
 msgid "Audio channels: %d"
 msgstr "Аудио каналы: %d"
 
-#: src/wx/audio_mapping_view.cc:522
+#: src/wx/audio_mapping_view.cc:560
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d unaltered."
 msgstr ""
 "Аудио будет переведено из канала %d контента в канал %d DCP без изменений."
 
-#: src/wx/audio_mapping_view.cc:525
+#: src/wx/audio_mapping_view.cc:566
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d with gain "
@@ -401,11 +403,11 @@ msgstr ""
 "Аудио будет переведено из канала %d контента в канал %d DCP с усилением "
 "%.1fdB."
 
-#: src/wx/full_config_dialog.cc:772
+#: src/wx/full_config_dialog.cc:775
 msgid "Auto"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:126
+#: src/wx/full_config_dialog.cc:129
 msgid "Automatically analyse content audio"
 msgstr "Автоматически анализировать аудио-контент"
 
@@ -413,7 +415,7 @@ msgstr "Автоматически анализировать аудио-кон�
 msgid "B"
 msgstr "B"
 
-#: src/wx/full_config_dialog.cc:916 src/wx/full_config_dialog.cc:1187
+#: src/wx/full_config_dialog.cc:919 src/wx/full_config_dialog.cc:1190
 msgid "BCC address"
 msgstr "Скрытая копия"
 
@@ -421,7 +423,7 @@ msgstr "Скрытая копия"
 msgid "Background image"
 msgstr "Фоновая картинка"
 
-#: src/wx/barco_alchemy_certificate_panel.cc:76
+#: src/wx/barco_alchemy_certificate_panel.cc:79
 msgid "Barco Alchemy"
 msgstr "Barco Alchemy"
 
@@ -429,8 +431,9 @@ msgstr "Barco Alchemy"
 msgid "Blue chromaticity"
 msgstr "Синяя цветность"
 
-#: src/wx/video_panel.cc:130
-msgid "Bottom crop"
+#: src/wx/video_panel.cc:143
+#, fuzzy
+msgid "Bottom"
 msgstr "Обрезка снизу"
 
 #: src/wx/dir_picker_ctrl.cc:40 src/wx/kdm_cpl_panel.cc:41
@@ -445,11 +448,11 @@ msgstr "Вшить субтитры в изображение"
 msgid "But I have to use fader"
 msgstr "Но я должен использовать микшер"
 
-#: src/wx/full_config_dialog.cc:906 src/wx/full_config_dialog.cc:1177
+#: src/wx/full_config_dialog.cc:909 src/wx/full_config_dialog.cc:1180
 msgid "CC addresses"
 msgstr "Получатели"
 
-#: src/wx/kdm_cpl_panel.cc:38 src/wx/kdm_dialog.cc:87
+#: src/wx/kdm_cpl_panel.cc:38 src/wx/kdm_dialog.cc:90
 #: src/wx/self_dkdm_dialog.cc:61
 msgid "CPL"
 msgstr "CPL"
@@ -466,7 +469,7 @@ msgstr "CPL аннотация"
 msgid "CPL's content is not encrypted."
 msgstr "Содержание CPL-файла не зашифровано."
 
-#: src/wx/audio_panel.cc:76
+#: src/wx/audio_panel.cc:79
 msgid "Calculate..."
 msgstr "Просчитать..."
 
@@ -474,34 +477,34 @@ msgstr "Просчитать..."
 msgid "Cancel"
 msgstr "Отмена"
 
-#: src/wx/content_sub_panel.cc:68
+#: src/wx/content_sub_panel.cc:71
 msgid "Cannot reference this DCP."
 msgstr "Нельзя ссылаться на этот DCP."
 
-#: src/wx/content_sub_panel.cc:70
+#: src/wx/content_sub_panel.cc:73
 msgid "Cannot reference this DCP: "
 msgstr "Нельзя ссылаться на этот DCP: "
 
-#: src/wx/text_view.cc:67
+#: src/wx/text_view.cc:70
 msgid "Caption"
 msgstr "Титр"
 
-#: src/wx/subtitle_appearance_dialog.cc:49
+#: src/wx/subtitle_appearance_dialog.cc:52
 msgid "Caption appearance"
 msgstr "Внешний вид титров"
 
-#: src/wx/text_view.cc:42
+#: src/wx/text_view.cc:45
 msgid "Captions"
 msgstr "Титры"
 
-#: src/wx/recreate_chain_dialog.cc:33
+#: src/wx/recreate_chain_dialog.cc:36
 msgid "Certificate chain"
 msgstr "Цепочка сертификатов"
 
-#: src/wx/barco_alchemy_certificate_panel.cc:68
-#: src/wx/christie_certificate_panel.cc:76
-#: src/wx/dolby_doremi_certificate_panel.cc:189
-#: src/wx/gdc_certificate_panel.cc:60
+#: src/wx/barco_alchemy_certificate_panel.cc:71
+#: src/wx/christie_certificate_panel.cc:79
+#: src/wx/dolby_doremi_certificate_panel.cc:192
+#: src/wx/gdc_certificate_panel.cc:63
 msgid "Certificate downloaded"
 msgstr "Сертификат загружен"
 
@@ -513,15 +516,15 @@ msgstr "Цепочка"
 msgid "Channel gain"
 msgstr "Усиление канала"
 
-#: src/wx/audio_dialog.cc:97 src/wx/dcp_panel.cc:875
+#: src/wx/audio_dialog.cc:100 src/wx/dcp_panel.cc:872
 msgid "Channels"
 msgstr "Каналы"
 
-#: src/wx/config_dialog.cc:194
+#: src/wx/config_dialog.cc:197
 msgid "Check for testing updates on startup"
 msgstr "Проверять тестовые обновления при запуске"
 
-#: src/wx/config_dialog.cc:190
+#: src/wx/config_dialog.cc:193
 msgid "Check for updates on startup"
 msgstr "Проверять обновления при запуске"
 
@@ -529,7 +532,7 @@ msgstr "Проверять обновления при запуске"
 msgid "Choose CPL..."
 msgstr "Выберите CPL..."
 
-#: src/wx/content_panel.cc:513
+#: src/wx/content_panel.cc:515
 msgid "Choose a DCP folder"
 msgstr "Выбрать папку DCP"
 
@@ -537,11 +540,11 @@ msgstr "Выбрать папку DCP"
 msgid "Choose a file"
 msgstr "Выбрать файл"
 
-#: src/wx/content_panel.cc:440
+#: src/wx/content_panel.cc:442
 msgid "Choose a file or files"
 msgstr "Выбрать файл или файлы"
 
-#: src/wx/content_menu.cc:294 src/wx/content_panel.cc:468
+#: src/wx/content_menu.cc:294 src/wx/content_panel.cc:470
 msgid "Choose a folder"
 msgstr "Выбрать папку"
 
@@ -553,11 +556,11 @@ msgstr "Выбрать шрифт"
 msgid "Choose a font file"
 msgstr "Выбрать файл шрифта"
 
-#: src/wx/christie_certificate_panel.cc:84
+#: src/wx/christie_certificate_panel.cc:87
 msgid "Christie"
 msgstr "Christie"
 
-#: src/wx/full_config_dialog.cc:111
+#: src/wx/full_config_dialog.cc:114
 msgid "Cinema and screen database file"
 msgstr "Файл БД кинотеатров и экранов"
 
@@ -571,16 +574,16 @@ msgstr ""
 msgid "Closed captions"
 msgstr "Скрытые титры"
 
-#: src/wx/subtitle_appearance_dialog.cc:74
+#: src/wx/subtitle_appearance_dialog.cc:77
 msgid "Colour"
 msgstr "Цвет"
 
-#: src/wx/content_colour_conversion_dialog.cc:38 src/wx/video_panel.cc:166
+#: src/wx/content_colour_conversion_dialog.cc:38 src/wx/video_panel.cc:179
 msgid "Colour conversion"
 msgstr "Преобразование цвета"
 
 #. / TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
-#: src/wx/video_panel.cc:174
+#: src/wx/video_panel.cc:187
 msgid "Colour|Custom"
 msgstr "Пользовательское"
 
@@ -588,25 +591,25 @@ msgstr "Пользовательское"
 msgid "Component"
 msgstr "Компонент"
 
-#: src/wx/full_config_dialog.cc:106
+#: src/wx/full_config_dialog.cc:109
 msgid "Configuration file"
 msgstr "Конфигурационный файл"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-#: src/wx/full_config_dialog.cc:1474
+#: src/wx/full_config_dialog.cc:1477
 msgid "Config|Timing"
 msgstr "Тайминг"
 
-#: src/wx/confirm_kdm_email_dialog.cc:33
+#: src/wx/confirm_kdm_email_dialog.cc:36
 msgid "Confirm KDM email"
 msgstr "Подтверждение email KDM"
 
-#: src/wx/dcp_panel.cc:748
+#: src/wx/dcp_panel.cc:749
 msgid "Container"
 msgstr "Контейнер"
 
-#: src/wx/audio_mapping_view.cc:165 src/wx/audio_mapping_view.cc:167
-#: src/wx/film_editor.cc:54
+#: src/wx/audio_mapping_view.cc:168 src/wx/audio_mapping_view.cc:170
+#: src/wx/film_editor.cc:57
 msgid "Content"
 msgstr "Контент"
 
@@ -614,7 +617,7 @@ msgstr "Контент"
 msgid "Content Properties"
 msgstr "Свойства контента"
 
-#: src/wx/dcp_panel.cc:91
+#: src/wx/dcp_panel.cc:94
 msgid "Content Type"
 msgstr "Тип контента"
 
@@ -635,20 +638,20 @@ msgstr "Контраст"
 msgid "Coord|Y"
 msgstr "Координата|Y"
 
-#: src/wx/dcp_panel.cc:81
+#: src/wx/dcp_panel.cc:84
 msgid "Copy as name"
 msgstr "Копировать в название"
 
-#: src/wx/config_dialog.cc:268
+#: src/wx/config_dialog.cc:271
 #, fuzzy
 msgid "CoreAudio"
 msgstr "Аудио"
 
-#: src/wx/audio_dialog.cc:278
+#: src/wx/audio_dialog.cc:290
 msgid "Could not analyse audio."
 msgstr "Не удалось проанализировать аудио."
 
-#: src/wx/config_dialog.cc:502
+#: src/wx/config_dialog.cc:505
 #, c-format
 msgid "Could not import certificate (%s)"
 msgstr "Не удалось импортировать сертификат (%s)"
@@ -657,7 +660,7 @@ msgstr "Не удалось импортировать сертификат (%s)
 msgid "Could not load KDM"
 msgstr "Не удалось загрузить KDM"
 
-#: src/wx/screen_dialog.cc:71
+#: src/wx/screen_dialog.cc:74
 #, c-format
 msgid "Could not load certficate (%s)"
 msgstr "Не удалось загрузить сертификат (%s)"
@@ -666,23 +669,28 @@ msgstr "Не удалось загрузить сертификат (%s)"
 msgid "Could not load image file."
 msgstr "Не удалось загрузить изображение."
 
-#: src/wx/config_dialog.cc:528 src/wx/config_dialog.cc:751
-#: src/wx/download_certificate_panel.cc:60 src/wx/screen_dialog.cc:201
-#: src/wx/screen_dialog.cc:206
+#: src/wx/download_certificate_panel.cc:64
+#: src/wx/download_certificate_panel.cc:76
+#, fuzzy
+msgid "Could not read certificate file (%1)"
+msgstr "Не удалось прочитать файл сертификата."
+
+#: src/wx/config_dialog.cc:531 src/wx/config_dialog.cc:754
+#: src/wx/screen_dialog.cc:204 src/wx/screen_dialog.cc:209
 msgid "Could not read certificate file."
 msgstr "Не удалось прочитать файл сертификата."
 
-#: src/wx/config_dialog.cc:741
+#: src/wx/config_dialog.cc:744
 #, c-format
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Не удалось прочитать файл ключа; файл слишком длинный (%s)"
 
-#: src/wx/film_viewer.cc:669
+#: src/wx/film_viewer.cc:694
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr "Не удалось настроить вывод аудио.  При предпросмотре не будет звука."
 
-#: src/wx/full_config_dialog.cc:1309
+#: src/wx/full_config_dialog.cc:1312
 #, fuzzy
 msgid "Cover Sheet"
 msgstr "Обложка"
@@ -691,21 +699,25 @@ msgstr "Обложка"
 msgid "Create in folder"
 msgstr "Создать в папке"
 
-#: src/wx/full_config_dialog.cc:139
+#: src/wx/full_config_dialog.cc:142
 msgid "Creator"
 msgstr "Создатель"
 
-#: src/wx/audio_dialog.cc:436
+#: src/wx/video_panel.cc:105
+msgid "Crop"
+msgstr "Кадрирование"
+
+#: src/wx/audio_dialog.cc:448
 #, c-format
 msgid "Cursor: %.1fdB at %s"
 msgstr "Указатель: %.1fдБ на %s"
 
-#: src/wx/audio_dialog.cc:430
+#: src/wx/audio_dialog.cc:442
 msgid "Cursor: none"
 msgstr "Указатель: ничего"
 
-#: src/wx/audio_mapping_view.cc:160 src/wx/audio_mapping_view.cc:161
-#: src/wx/film_editor.cc:56 src/wx/player_information.cc:55
+#: src/wx/audio_mapping_view.cc:163 src/wx/audio_mapping_view.cc:164
+#: src/wx/film_editor.cc:59 src/wx/player_information.cc:55
 msgid "DCP"
 msgstr "DCP"
 
@@ -713,7 +725,7 @@ msgstr "DCP"
 msgid "DCP Text Track"
 msgstr "Текстовая дорожка DCP"
 
-#: src/wx/full_config_dialog.cc:1447
+#: src/wx/full_config_dialog.cc:1450
 msgid "DCP asset filename format"
 msgstr "Формат именования данных DCP"
 
@@ -721,7 +733,7 @@ msgstr "Формат именования данных DCP"
 msgid "DCP directory"
 msgstr "Папка DCP"
 
-#: src/wx/full_config_dialog.cc:1435
+#: src/wx/full_config_dialog.cc:1438
 msgid "DCP metadata filename format"
 msgstr "Формат именования метаданных DCP"
 
@@ -738,11 +750,11 @@ msgid "DCP verification"
 msgstr "Проверка DCP"
 
 #: src/wx/about_dialog.cc:51 src/wx/content_view.cc:77 src/wx/job_view.cc:154
-#: src/wx/wx_util.cc:138 src/wx/wx_util.cc:155 src/wx/wx_util.cc:163
+#: src/wx/wx_util.cc:154 src/wx/wx_util.cc:171 src/wx/wx_util.cc:179
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/wx/audio_dialog.cc:154
+#: src/wx/audio_dialog.cc:159
 #, c-format
 msgid "DCP-o-matic audio - %s"
 msgstr "DCP-o-matic аудио - %s"
@@ -755,15 +767,15 @@ msgstr "Настройка DCP-o-matic"
 msgid "Debug log file"
 msgstr "Отладочный лог-файл"
 
-#: src/wx/full_config_dialog.cc:1476
+#: src/wx/full_config_dialog.cc:1479
 msgid "Debug: decode"
 msgstr "Отладка: декодирование"
 
-#: src/wx/full_config_dialog.cc:1480
+#: src/wx/full_config_dialog.cc:1483
 msgid "Debug: email sending"
 msgstr "Отладка: отправка email"
 
-#: src/wx/full_config_dialog.cc:1478
+#: src/wx/full_config_dialog.cc:1481
 msgid "Debug: encode"
 msgstr "Отладка: кодирование"
 
@@ -772,67 +784,67 @@ msgstr "Отладка: кодирование"
 msgid "Decode resolution: %dx%d"
 msgstr "Разрешение декодирования: %dx%d"
 
-#: src/wx/config_dialog.cc:802 src/wx/config_dialog.cc:836
+#: src/wx/config_dialog.cc:805 src/wx/config_dialog.cc:839
 msgid "Decrypting KDMs"
 msgstr "Ключи расшифровки (KDM)"
 
-#: src/wx/full_config_dialog.cc:352
+#: src/wx/full_config_dialog.cc:355
 msgid "Default DCP audio channels"
 msgstr "Аудиоканалы DCP по умолчанию"
 
-#: src/wx/full_config_dialog.cc:336
+#: src/wx/full_config_dialog.cc:339
 msgid "Default ISDCF name details"
 msgstr "Значения ISDCF по умолчанию"
 
-#: src/wx/full_config_dialog.cc:357
+#: src/wx/full_config_dialog.cc:360
 msgid "Default JPEG2000 bandwidth"
 msgstr "Стандартная пропускная способность JPEG2000"
 
-#: src/wx/full_config_dialog.cc:378
+#: src/wx/full_config_dialog.cc:381
 msgid "Default KDM directory"
 msgstr "Стандартный папка KDM"
 
-#: src/wx/full_config_dialog.cc:366
+#: src/wx/full_config_dialog.cc:369
 msgid "Default audio delay"
 msgstr "Стандартная задержка аудио"
 
-#: src/wx/full_config_dialog.cc:340
+#: src/wx/full_config_dialog.cc:343
 msgid "Default container"
 msgstr "Стандартный формат кадра"
 
-#: src/wx/full_config_dialog.cc:348
+#: src/wx/full_config_dialog.cc:351
 msgid "Default content type"
 msgstr "Стандартный тип контента"
 
-#: src/wx/full_config_dialog.cc:328
+#: src/wx/full_config_dialog.cc:331
 msgid "Default directory for new films"
 msgstr "Стандартная папка для новых проектов"
 
-#: src/wx/full_config_dialog.cc:320
+#: src/wx/full_config_dialog.cc:323
 msgid "Default duration of still images"
 msgstr "Стандартная длительность статичного изображения"
 
-#: src/wx/full_config_dialog.cc:344
+#: src/wx/full_config_dialog.cc:347
 msgid "Default scale-to"
 msgstr "Стандартное масштабирование"
 
-#: src/wx/full_config_dialog.cc:374
+#: src/wx/full_config_dialog.cc:377
 msgid "Default standard"
 msgstr "Стандарт по умолчанию"
 
-#: src/wx/full_config_dialog.cc:387
+#: src/wx/full_config_dialog.cc:390
 msgid "Default to enabling upload of DCP to TMS"
 msgstr "По-умолчанию загружать DCP на TMS"
 
-#: src/wx/full_config_dialog.cc:302
+#: src/wx/full_config_dialog.cc:305
 msgid "Defaults"
 msgstr "Стандартные"
 
-#: src/wx/audio_panel.cc:78
+#: src/wx/audio_panel.cc:81
 msgid "Delay"
 msgstr "Задержка"
 
-#: src/wx/dcp_panel.cc:80 src/wx/job_view.cc:74
+#: src/wx/dcp_panel.cc:83 src/wx/job_view.cc:74
 msgid "Details..."
 msgstr "Детали..."
 
@@ -844,31 +856,31 @@ msgstr "Устройство"
 msgid "Devices"
 msgstr "Устройства"
 
-#: src/wx/config_dialog.cc:270
+#: src/wx/config_dialog.cc:273
 msgid "Direct Sound"
 msgstr ""
 
-#: src/wx/recreate_chain_dialog.cc:33
+#: src/wx/recreate_chain_dialog.cc:36
 msgid "Do nothing"
 msgstr "Ничего не делать"
 
-#: src/wx/dolby_doremi_certificate_panel.cc:206
+#: src/wx/dolby_doremi_certificate_panel.cc:209
 msgid "Dolby / Doremi"
 msgstr "Dolby / Doremi"
 
-#: src/wx/confirm_kdm_email_dialog.cc:42 src/wx/recreate_chain_dialog.cc:41
+#: src/wx/confirm_kdm_email_dialog.cc:45 src/wx/recreate_chain_dialog.cc:44
 msgid "Don't ask this again"
 msgstr "Больше не спрашивать"
 
-#: src/wx/confirm_kdm_email_dialog.cc:33
+#: src/wx/confirm_kdm_email_dialog.cc:36
 msgid "Don't send emails"
 msgstr "Не отправлять email-ы"
 
-#: src/wx/hints_dialog.cc:57
+#: src/wx/hints_dialog.cc:60
 msgid "Don't show hints again"
 msgstr "Больше не показывать подсказки"
 
-#: src/wx/nag_dialog.cc:37
+#: src/wx/nag_dialog.cc:40
 msgid "Don't show this message again"
 msgstr "Больше не показывать это сообщение"
 
@@ -880,11 +892,11 @@ msgstr "Скачать"
 msgid "Download certificate"
 msgstr "Скачать сертификат"
 
-#: src/wx/screen_dialog.cc:135
+#: src/wx/screen_dialog.cc:138
 msgid "Download..."
 msgstr "Загрузка..."
 
-#: src/wx/download_certificate_panel.cc:73
+#: src/wx/download_certificate_panel.cc:91
 msgid "Downloading certificate"
 msgstr "Скачивание сертификата"
 
@@ -897,7 +909,7 @@ msgstr "Потерянные кадры: %d"
 msgid "Dual-screen displays"
 msgstr "Двойной экран"
 
-#: src/wx/config_dialog.cc:276
+#: src/wx/config_dialog.cc:279
 msgid "Dummy"
 msgstr ""
 
@@ -905,7 +917,7 @@ msgstr ""
 msgid "Duration"
 msgstr "Длительность"
 
-#: src/wx/content_panel.cc:135
+#: src/wx/content_panel.cc:141
 msgid "Earlier"
 msgstr "Выше"
 
@@ -925,22 +937,22 @@ msgstr "Редактировать кинотеатр"
 msgid "Edit screen"
 msgstr "Редактировать экран"
 
-#: src/wx/audio_mapping_view.cc:72 src/wx/dcp_panel.cc:103
-#: src/wx/fonts_dialog.cc:63 src/wx/full_config_dialog.cc:337
-#: src/wx/video_panel.cc:164 src/wx/video_panel.cc:175
+#: src/wx/audio_mapping_view.cc:75 src/wx/dcp_panel.cc:106
+#: src/wx/fonts_dialog.cc:63 src/wx/full_config_dialog.cc:340
+#: src/wx/video_panel.cc:177 src/wx/video_panel.cc:188
 #: src/wx/editable_list.h:79
 msgid "Edit..."
 msgstr "Редактировать..."
 
-#: src/wx/subtitle_appearance_dialog.cc:77
+#: src/wx/subtitle_appearance_dialog.cc:80
 msgid "Effect"
 msgstr "Эффект"
 
-#: src/wx/subtitle_appearance_dialog.cc:80
+#: src/wx/subtitle_appearance_dialog.cc:83
 msgid "Effect colour"
 msgstr "Цвет эффекта"
 
-#: src/wx/full_config_dialog.cc:743 src/wx/full_config_dialog.cc:1159
+#: src/wx/full_config_dialog.cc:746 src/wx/full_config_dialog.cc:1162
 msgid "Email"
 msgstr "E-mail"
 
@@ -948,7 +960,7 @@ msgstr "E-mail"
 msgid "Email address"
 msgstr "E-mail адрес"
 
-#: src/wx/cinema_dialog.cc:65
+#: src/wx/cinema_dialog.cc:68
 msgid "Email addresses for KDM delivery"
 msgstr "Email адреса для доставки KDM"
 
@@ -956,11 +968,11 @@ msgstr "Email адреса для доставки KDM"
 msgid "Encoding Servers"
 msgstr "Сервера кодирования"
 
-#: src/wx/dcp_panel.cc:95
+#: src/wx/dcp_panel.cc:98
 msgid "Encrypted"
 msgstr "Зашифрованный"
 
-#: src/wx/text_view.cc:59
+#: src/wx/text_view.cc:62
 msgid "End"
 msgstr "Конец"
 
@@ -969,23 +981,23 @@ msgstr "Конец"
 msgid "Enter your email address for the contact, not %s"
 msgstr "Введите ваш email для связи, не %s"
 
-#: src/wx/full_config_dialog.cc:1471
+#: src/wx/full_config_dialog.cc:1474
 msgid "Errors"
 msgstr "Ошибки"
 
-#: src/wx/config_dialog.cc:425
+#: src/wx/config_dialog.cc:428
 msgid "Export"
 msgstr "Экспорт"
 
-#: src/wx/config_dialog.cc:807
+#: src/wx/config_dialog.cc:810
 msgid "Export KDM decryption certificate..."
 msgstr "Экспортировать сертификат расшифровки KDM…"
 
-#: src/wx/config_dialog.cc:809
+#: src/wx/config_dialog.cc:812
 msgid "Export all KDM decryption settings..."
 msgstr "Экспортировать все настройки расшифровки KDM…"
 
-#: src/wx/config_dialog.cc:449
+#: src/wx/config_dialog.cc:452
 msgid "Export chain..."
 msgstr "Экспортировать цепочку…"
 
@@ -993,11 +1005,11 @@ msgstr "Экспортировать цепочку…"
 msgid "Export film"
 msgstr "Экспортировать проект"
 
-#: src/wx/config_dialog.cc:442 src/wx/full_config_dialog.cc:114
+#: src/wx/config_dialog.cc:445 src/wx/full_config_dialog.cc:117
 msgid "Export..."
 msgstr "Экспорт..."
 
-#: src/wx/full_config_dialog.cc:676
+#: src/wx/full_config_dialog.cc:679
 msgid "FTP (for Dolby)"
 msgstr "FTP (для Dolby)"
 
@@ -1005,19 +1017,19 @@ msgstr "FTP (для Dolby)"
 msgid "Facility (e.g. DLA)"
 msgstr "Предприятие (напр. DLA)"
 
-#: src/wx/video_panel.cc:140
+#: src/wx/video_panel.cc:153
 msgid "Fade in"
 msgstr "Постепенное появление"
 
-#: src/wx/subtitle_appearance_dialog.cc:88
+#: src/wx/subtitle_appearance_dialog.cc:91
 msgid "Fade in time"
 msgstr "Время постепенного появления"
 
-#: src/wx/video_panel.cc:143
+#: src/wx/video_panel.cc:156
 msgid "Fade out"
 msgstr "Постепенное затухание"
 
-#: src/wx/subtitle_appearance_dialog.cc:91
+#: src/wx/subtitle_appearance_dialog.cc:94
 msgid "Fade out time"
 msgstr "Время постепенного затухания"
 
@@ -1025,7 +1037,7 @@ msgstr "Время постепенного затухания"
 msgid "File"
 msgstr "Файл"
 
-#: src/wx/kdm_dialog.cc:142
+#: src/wx/kdm_dialog.cc:145
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "Файл %s уже существует. Вы хотите перезаписать его?"
@@ -1038,11 +1050,11 @@ msgstr "Формат названия файла"
 msgid "Film name"
 msgstr "Название проекта"
 
-#: src/wx/filter_dialog.cc:33 src/wx/video_panel.cc:162
+#: src/wx/filter_dialog.cc:33 src/wx/video_panel.cc:175
 msgid "Filters"
 msgstr "Фильтры"
 
-#: src/wx/full_config_dialog.cc:121
+#: src/wx/full_config_dialog.cc:124
 msgid ""
 "Find integrated loudness, true peak and loudness range when analysing audio"
 msgstr ""
@@ -1053,7 +1065,7 @@ msgstr ""
 msgid "Find missing..."
 msgstr "Найти отсутствующее..."
 
-#: src/wx/subtitle_appearance_dialog.cc:119
+#: src/wx/subtitle_appearance_dialog.cc:122
 msgid "Finding the colours in these subtitles..."
 msgstr "Поиск цветов в данных субтитрах…"
 
@@ -1085,7 +1097,7 @@ msgstr "Форензик-метка видео"
 msgid "Format"
 msgstr "Формат"
 
-#: src/wx/dcp_panel.cc:755
+#: src/wx/dcp_panel.cc:756
 msgid "Frame Rate"
 msgstr "Частота Кадров"
 
@@ -1108,7 +1120,7 @@ msgstr ""
 msgid "From"
 msgstr "От"
 
-#: src/wx/full_config_dialog.cc:900 src/wx/full_config_dialog.cc:1167
+#: src/wx/full_config_dialog.cc:903 src/wx/full_config_dialog.cc:1170
 msgid "From address"
 msgstr "Отправитель"
 
@@ -1116,11 +1128,11 @@ msgstr "Отправитель"
 msgid "From template"
 msgstr "Из шаблона"
 
-#: src/wx/audio_mapping_view.cc:70 src/wx/full_config_dialog.cc:150
+#: src/wx/audio_mapping_view.cc:73 src/wx/full_config_dialog.cc:153
 msgid "Full"
 msgstr "Full"
 
-#: src/wx/timing_panel.cc:89
+#: src/wx/timing_panel.cc:97
 msgid "Full length"
 msgstr "Полная длительность"
 
@@ -1128,23 +1140,23 @@ msgstr "Полная длительность"
 msgid "Full mode"
 msgstr "Полный режим"
 
-#: src/wx/dcp_panel.cc:110
+#: src/wx/dcp_panel.cc:113
 msgid "GB"
 msgstr "ГБ"
 
-#: src/wx/gdc_certificate_panel.cc:68
+#: src/wx/gdc_certificate_panel.cc:71
 msgid "GDC"
 msgstr "GDC"
 
-#: src/wx/full_config_dialog.cc:1030
+#: src/wx/full_config_dialog.cc:1033
 msgid "GDC password"
 msgstr "Пароль GDC"
 
-#: src/wx/full_config_dialog.cc:1026
+#: src/wx/full_config_dialog.cc:1029
 msgid "GDC user name"
 msgstr "Пользователь GDC"
 
-#: src/wx/audio_panel.cc:65
+#: src/wx/audio_panel.cc:68
 msgid "Gain"
 msgstr "Усиление"
 
@@ -1157,15 +1169,15 @@ msgstr "Калькулятор усиления"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Усиление для канала %d контента в канале %d DCP"
 
-#: src/wx/content_properties_dialog.cc:71 src/wx/full_config_dialog.cc:1467
+#: src/wx/content_properties_dialog.cc:71 src/wx/full_config_dialog.cc:1470
 msgid "General"
 msgstr "Основные"
 
-#: src/wx/screen_dialog.cc:134
+#: src/wx/screen_dialog.cc:137
 msgid "Get from file..."
 msgstr "Выбрать из файла..."
 
-#: src/wx/hints_dialog.cc:68
+#: src/wx/hints_dialog.cc:71
 msgid "Go back"
 msgstr "Назад"
 
@@ -1186,7 +1198,7 @@ msgstr "Перейти к таймкоду"
 msgid "Green chromaticity"
 msgstr "Зеленая цветность"
 
-#: src/wx/full_config_dialog.cc:404
+#: src/wx/full_config_dialog.cc:407
 msgid "Guess from content"
 msgstr "Угадать из контента"
 
@@ -1194,7 +1206,7 @@ msgstr "Угадать из контента"
 msgid "Higher priority"
 msgstr "Более высокий приоритет"
 
-#: src/wx/hints_dialog.cc:41
+#: src/wx/hints_dialog.cc:44
 msgid "Hints"
 msgstr "Подсказки"
 
@@ -1214,11 +1226,11 @@ msgstr "Я хочу воспроизвести это в микшере"
 msgid "ID"
 msgstr "ID"
 
-#: src/wx/full_config_dialog.cc:659
+#: src/wx/full_config_dialog.cc:662
 msgid "IP address"
 msgstr "IP адрес"
 
-#: src/wx/full_config_dialog.cc:595
+#: src/wx/full_config_dialog.cc:598
 msgid "IP address / host name"
 msgstr "IP адрес / имя хоста"
 
@@ -1226,7 +1238,7 @@ msgstr "IP адрес / имя хоста"
 msgid "ISDCF name"
 msgstr "Имя ISDCF"
 
-#: src/wx/config_dialog.cc:890
+#: src/wx/config_dialog.cc:893
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created with the current certificates and key.  Also, "
@@ -1238,7 +1250,7 @@ msgstr ""
 "Также, любые KDM, отправленные вам, станут бесполезны. Действуйте с "
 "осторожностью!"
 
-#: src/wx/config_dialog.cc:940
+#: src/wx/config_dialog.cc:943
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
@@ -1260,15 +1272,15 @@ msgstr "Изображение на основном, управление на 
 msgid "Image on secondary, controls on primary"
 msgstr "Изображение на второстепенном, управление на основном"
 
-#: src/wx/config_dialog.cc:811
+#: src/wx/config_dialog.cc:814
 msgid "Import all KDM decryption settings..."
 msgstr "Импортировать все настройки расшифровки KDM…"
 
-#: src/wx/config_dialog.cc:440
+#: src/wx/config_dialog.cc:443
 msgid "Import..."
 msgstr "Импортировать…"
 
-#: src/wx/nag_dialog.cc:30
+#: src/wx/nag_dialog.cc:33
 msgid "Important notice"
 msgstr "Важное замечание"
 
@@ -1292,16 +1304,16 @@ msgstr "Входная мощность"
 msgid "Input transfer function"
 msgstr "Входная функция передачи"
 
-#: src/wx/audio_dialog.cc:402
+#: src/wx/audio_dialog.cc:414
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Интегрированная громкость %.2f LUFS"
 
-#: src/wx/full_config_dialog.cc:91
+#: src/wx/full_config_dialog.cc:94
 msgid "Interface complexity"
 msgstr "Сложность интерфейса"
 
-#: src/wx/config_dialog.cc:631
+#: src/wx/config_dialog.cc:634
 msgid "Intermediate"
 msgstr "Intermediate"
 
@@ -1309,11 +1321,11 @@ msgstr "Intermediate"
 msgid "Intermediate common name"
 msgstr "Intermediate common name"
 
-#: src/wx/dcp_panel.cc:148 src/wx/full_config_dialog.cc:428
+#: src/wx/dcp_panel.cc:151 src/wx/full_config_dialog.cc:431
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/config_dialog.cc:928
+#: src/wx/config_dialog.cc:931
 msgid "Invalid DCP-o-matic export file"
 msgstr "Неверный файл экспорта DCP-o-matic"
 
@@ -1321,15 +1333,15 @@ msgstr "Неверный файл экспорта DCP-o-matic"
 msgid "Inverse 2.6 gamma correction on output"
 msgstr "Коррекция инверсии 2.6 гаммы на выходе"
 
-#: src/wx/full_config_dialog.cc:135
+#: src/wx/full_config_dialog.cc:138
 msgid "Issuer"
 msgstr "Издатель"
 
-#: src/wx/config_dialog.cc:272
+#: src/wx/config_dialog.cc:275
 msgid "JACK"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:767
+#: src/wx/dcp_panel.cc:764
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
@@ -1345,7 +1357,7 @@ msgstr "Подсоединить"
 msgid "Jump to selected content"
 msgstr "Перейти к выбранному контенту"
 
-#: src/wx/full_config_dialog.cc:879
+#: src/wx/full_config_dialog.cc:882
 msgid "KDM Email"
 msgstr "Почта KDM"
 
@@ -1362,19 +1374,19 @@ msgid "KDM type"
 msgstr "Тип KDM"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
-#: src/wx/kdm_dialog.cc:80
+#: src/wx/kdm_dialog.cc:83
 msgid "KDM|Timing"
 msgstr "Тайминг"
 
-#: src/wx/timeline_dialog.cc:70
+#: src/wx/timeline_dialog.cc:73
 msgid "Keep video and subtitles in sequence"
 msgstr "Хранить видео и субтитры в последовательности"
 
-#: src/wx/dcp_panel.cc:101 src/wx/key_dialog.cc:29 src/wx/key_dialog.cc:31
+#: src/wx/dcp_panel.cc:104 src/wx/key_dialog.cc:29 src/wx/key_dialog.cc:31
 msgid "Key"
 msgstr "Ключ"
 
-#: src/wx/config_dialog.cc:790
+#: src/wx/config_dialog.cc:793
 msgid "Keys"
 msgstr "Ключи"
 
@@ -1383,11 +1395,11 @@ msgstr "Ключи"
 msgid "Language"
 msgstr "Язык"
 
-#: src/wx/content_panel.cc:139
+#: src/wx/content_panel.cc:145
 msgid "Later"
 msgstr "Ниже"
 
-#: src/wx/config_dialog.cc:629
+#: src/wx/config_dialog.cc:632
 msgid "Leaf"
 msgstr "Leaf"
 
@@ -1395,21 +1407,17 @@ msgstr "Leaf"
 msgid "Leaf common name"
 msgstr "Leaf common name"
 
-#: src/wx/config_dialog.cc:434
+#: src/wx/config_dialog.cc:437
 msgid "Leaf private key"
 msgstr "Leaf private key"
 
-#: src/wx/config_dialog.cc:454
+#: src/wx/config_dialog.cc:457
 msgid "Leaf private key does not match leaf certificate!"
 msgstr "Приватный leaf-ключ не соответствует leaf-сертификату!"
 
-#: src/wx/controls.cc:79
+#: src/wx/controls.cc:79 src/wx/video_panel.cc:113
 msgid "Left"
 msgstr "Слева"
-
-#: src/wx/video_panel.cc:100
-msgid "Left crop"
-msgstr "Обрезка слева"
 
 #: src/wx/content_properties_dialog.cc:80
 msgid "Length"
@@ -1423,7 +1431,7 @@ msgstr "Продолжительность: %1 (%2 frames)"
 msgid "Line spacing"
 msgstr "Интервал между рядами"
 
-#: src/wx/screen_dialog.cc:56
+#: src/wx/screen_dialog.cc:59
 msgid "Load certificate..."
 msgstr "Скачать сертификат…"
 
@@ -1435,11 +1443,11 @@ msgstr "Расположения"
 msgid "Lock file"
 msgstr "Файл блокировки"
 
-#: src/wx/full_config_dialog.cc:1465
+#: src/wx/full_config_dialog.cc:1468
 msgid "Log"
 msgstr "Лог"
 
-#: src/wx/audio_dialog.cc:411
+#: src/wx/audio_dialog.cc:423
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr "Диапазон громкости %.2f LU"
@@ -1448,7 +1456,7 @@ msgstr "Диапазон громкости %.2f LU"
 msgid "Lower priority"
 msgstr "Более низкий приоритет"
 
-#: src/wx/content_panel.cc:726
+#: src/wx/content_panel.cc:728
 msgid "MISSING: "
 msgstr "ОТСУТСТВУЕТ: "
 
@@ -1464,7 +1472,7 @@ msgstr "MP4 / H.264"
 msgid "MP4 files (*.mp4)|*.mp4"
 msgstr "MP4 файлы  (*.mp4)|*.mp4"
 
-#: src/wx/hints_dialog.cc:67
+#: src/wx/hints_dialog.cc:70
 msgid "Make DCP"
 msgstr "Сделать DCP"
 
@@ -1472,7 +1480,7 @@ msgstr "Сделать DCP"
 msgid "Make DKDM for DCP-o-matic"
 msgstr "Сгенерировать DKDM для DCP-o-matic"
 
-#: src/wx/kdm_dialog.cc:56 src/wx/kdm_dialog.cc:108
+#: src/wx/kdm_dialog.cc:59 src/wx/kdm_dialog.cc:111
 msgid "Make KDMs"
 msgstr "Сгенерировать ключи KDM"
 
@@ -1496,6 +1504,10 @@ msgstr "ID изготовителя"
 msgid "Manufacturer product code"
 msgstr "Код продукта изготовителя"
 
+#: src/wx/video_panel.cc:394
+msgid "Many"
+msgstr ""
+
 #: src/wx/isdcf_metadata_dialog.cc:85
 msgid "Mastered luminance (e.g. 14fl)"
 msgstr "Яркость (напр. 14 фут-ламберт)"
@@ -1504,20 +1516,20 @@ msgstr "Яркость (напр. 14 фут-ламберт)"
 msgid "Matrix"
 msgstr "Матрица"
 
-#: src/wx/full_config_dialog.cc:1399
+#: src/wx/full_config_dialog.cc:1402
 msgid "Maximum JPEG2000 bandwidth"
 msgstr "Максимальная пропускная способность JPEG2000"
 
-#: src/wx/full_config_dialog.cc:1427
+#: src/wx/full_config_dialog.cc:1430
 msgid "Maximum number of frames to store per thread"
 msgstr "Максимальное число хранимых кадров на поток"
 
-#: src/wx/dcp_panel.cc:769 src/wx/full_config_dialog.cc:361
-#: src/wx/full_config_dialog.cc:1403
+#: src/wx/dcp_panel.cc:766 src/wx/full_config_dialog.cc:364
+#: src/wx/full_config_dialog.cc:1406
 msgid "Mbit/s"
 msgstr "МБит/с"
 
-#: src/wx/full_config_dialog.cc:1155
+#: src/wx/full_config_dialog.cc:1158
 msgid "Message box"
 msgstr "Диалоговое окно"
 
@@ -1533,19 +1545,19 @@ msgstr "Переместить конфигурацию"
 msgid "Move content"
 msgstr "Передвинуть контент"
 
-#: src/wx/content_panel.cc:136
+#: src/wx/content_panel.cc:142
 msgid "Move the selected piece of content earlier in the film."
 msgstr "Переместить выбранный элемент контента ранее в проекте."
 
-#: src/wx/content_panel.cc:140
+#: src/wx/content_panel.cc:146
 msgid "Move the selected piece of content later in the film."
 msgstr "Переместить выбранный элемент контента позднее в проекте."
 
-#: src/wx/timing_panel.cc:88
+#: src/wx/timing_panel.cc:96
 msgid "Move to start of reel"
 msgstr "Передвинуть к началу катушки"
 
-#: src/wx/video_panel.cc:418
+#: src/wx/video_panel.cc:475
 msgid "Multiple content selected"
 msgstr "Множественное выделение контента"
 
@@ -1561,16 +1573,16 @@ msgstr "Мои документы"
 msgid "My problem is"
 msgstr "Моя проблема"
 
-#: src/wx/content_panel.cc:730
+#: src/wx/content_panel.cc:732
 msgid "NEEDS KDM: "
 msgstr "НЕОБХОДИМ KDM: "
 
-#: src/wx/content_panel.cc:734
+#: src/wx/content_panel.cc:736
 msgid "NEEDS OV: "
 msgstr "НЕОБХОДИМ OV: "
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:75
-#: src/wx/dcp_text_track_dialog.cc:29 src/wx/screen_dialog.cc:112
+#: src/wx/cinema_dialog.cc:53 src/wx/dcp_panel.cc:78
+#: src/wx/dcp_text_track_dialog.cc:29 src/wx/screen_dialog.cc:115
 msgid "Name"
 msgstr "Название"
 
@@ -1590,7 +1602,7 @@ msgstr "Новое название"
 msgid "New versions of DCP-o-matic are available."
 msgstr "Доступны новые версии DCP-o-matic."
 
-#: src/wx/barco_alchemy_certificate_panel.cc:49
+#: src/wx/barco_alchemy_certificate_panel.cc:52
 msgid ""
 "No Barco username/password configured.  Add your account details to the "
 "Accounts page in Preferences."
@@ -1598,7 +1610,7 @@ msgstr ""
 "Имя пользователя/пароль Barco не настроены.  Добавьте ваши учетные данные на "
 "вкладке «Аккаунты» в Настройках."
 
-#: src/wx/christie_certificate_panel.cc:43
+#: src/wx/christie_certificate_panel.cc:46
 msgid ""
 "No Christie username/password configured.  Add your account details to the "
 "Accounts page in Preferences."
@@ -1610,7 +1622,7 @@ msgstr ""
 msgid "No DCP loaded."
 msgstr "Нет загруженных DCP."
 
-#: src/wx/gdc_certificate_panel.cc:43
+#: src/wx/gdc_certificate_panel.cc:46
 msgid ""
 "No GDC username/password configured.  Add your account details to the "
 "Accounts page in Preferences."
@@ -1618,27 +1630,27 @@ msgstr ""
 "Имя пользователя/пароль GDC не настроены.  Добавьте ваши учетные данные на "
 "вкладке «Аккаунты» в Настройках."
 
-#: src/wx/audio_mapping_view.cc:520
+#: src/wx/audio_mapping_view.cc:555
 #, c-format
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "Аудио не будет перемещено из канала %d контента в канал %d DCP."
 
-#: src/wx/content_panel.cc:487
+#: src/wx/content_panel.cc:489
 msgid "No content found in this folder."
 msgstr "В данной папке не обнаружен контент."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:881 src/wx/subtitle_appearance_dialog.cc:140
-#: src/wx/video_panel.cc:163 src/wx/video_panel.cc:168
-#: src/wx/video_panel.cc:347
+#: src/wx/dcp_panel.cc:878 src/wx/subtitle_appearance_dialog.cc:143
+#: src/wx/video_panel.cc:176 src/wx/video_panel.cc:181
+#: src/wx/video_panel.cc:404
 msgid "None"
 msgstr "Ничего"
 
-#: src/wx/cinema_dialog.cc:60 src/wx/screen_dialog.cc:117
+#: src/wx/cinema_dialog.cc:63 src/wx/screen_dialog.cc:120
 msgid "Notes"
 msgstr "Заметки"
 
-#: src/wx/full_config_dialog.cc:1138
+#: src/wx/full_config_dialog.cc:1141
 msgid "Notifications"
 msgstr "Уведомления"
 
@@ -1646,21 +1658,21 @@ msgstr "Уведомления"
 msgid "Notify when complete"
 msgstr "Уведомить по завершении"
 
-#: src/wx/full_config_dialog.cc:101
+#: src/wx/full_config_dialog.cc:104
 msgid "Number of threads DCP-o-matic encode server should use"
 msgstr ""
 "Количество потоков, которое должен использовать сервер кодирования DCP-o-"
 "matic"
 
-#: src/wx/full_config_dialog.cc:96
+#: src/wx/full_config_dialog.cc:99
 msgid "Number of threads DCP-o-matic should use"
 msgstr "Количество потоков, которое должен использовать DCP-o-matic"
 
-#: src/wx/config_dialog.cc:275
+#: src/wx/config_dialog.cc:278
 msgid "OSS"
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:69
+#: src/wx/audio_mapping_view.cc:72
 msgid "Off"
 msgstr "Выключен"
 
@@ -1668,15 +1680,15 @@ msgstr "Выключен"
 msgid "Offset"
 msgstr "Смещение"
 
-#: src/wx/full_config_dialog.cc:1422
+#: src/wx/full_config_dialog.cc:1425
 msgid "Only servers encode"
 msgstr "Кодирование только серверами"
 
-#: src/wx/full_config_dialog.cc:1486
+#: src/wx/full_config_dialog.cc:1489
 msgid "Open console window"
 msgstr "Открыть консольное окно"
 
-#: src/wx/content_panel.cc:144
+#: src/wx/content_panel.cc:150
 msgid "Open the timeline for the film."
 msgstr "Открыть таймлайн проекта."
 
@@ -1688,15 +1700,15 @@ msgstr "Organisation"
 msgid "Organisational unit"
 msgstr "Organisational unit"
 
-#: src/wx/screen_dialog.cc:142
+#: src/wx/screen_dialog.cc:145
 msgid "Other trusted devices"
 msgstr "Иные доверенные устройства"
 
-#: src/wx/full_config_dialog.cc:760
+#: src/wx/full_config_dialog.cc:763
 msgid "Outgoing mail server"
 msgstr "Исходящий почтовый сервер"
 
-#: src/wx/subtitle_appearance_dialog.cc:141
+#: src/wx/subtitle_appearance_dialog.cc:144
 msgid "Outline"
 msgstr "Контур"
 
@@ -1704,16 +1716,16 @@ msgstr "Контур"
 msgid "Outline content"
 msgstr "Очертить контент"
 
-#: src/wx/subtitle_appearance_dialog.cc:83
+#: src/wx/subtitle_appearance_dialog.cc:86
 msgid "Outline width"
 msgstr "Ширина обводки"
 
-#: src/wx/subtitle_appearance_dialog.cc:305
+#: src/wx/subtitle_appearance_dialog.cc:308
 msgid "Outline width cannot be set unless you are burning in captions"
 msgstr ""
 "Ширина обводки не может быть установлена, если вы не делаете вшитые титры"
 
-#: src/wx/kdm_dialog.cc:102 src/wx/self_dkdm_dialog.cc:68
+#: src/wx/kdm_dialog.cc:105 src/wx/self_dkdm_dialog.cc:68
 msgid "Output"
 msgstr "Вывод"
 
@@ -1729,7 +1741,7 @@ msgstr "Коррекция выходной гаммы"
 msgid "Overwrite this file with current configuration"
 msgstr "Перезаписать этот файл текущей конфиграцией"
 
-#: src/wx/full_config_dialog.cc:671 src/wx/full_config_dialog.cc:784
+#: src/wx/full_config_dialog.cc:674 src/wx/full_config_dialog.cc:787
 msgid "Password"
 msgstr "Пароль"
 
@@ -1749,20 +1761,24 @@ msgstr "Вставить настройки субтитров и титров"
 msgid "Paste video settings"
 msgstr "Вставить настройки видео"
 
+#: src/wx/about_dialog.cc:149
+msgid "Patrons"
+msgstr ""
+
 #: src/wx/normal_job_view.cc:38 src/wx/normal_job_view.cc:54
 msgid "Pause"
 msgstr "Пазуа"
 
-#: src/wx/audio_dialog.cc:116
+#: src/wx/audio_dialog.cc:121
 msgid "Peak"
 msgstr "Вершина"
 
-#: src/wx/audio_panel.cc:375
+#: src/wx/audio_panel.cc:378
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr "Пиковая громкость %.2fдБ"
 
-#: src/wx/audio_panel.cc:377
+#: src/wx/audio_panel.cc:380
 msgid "Peak: unknown"
 msgstr "Пиковая громкость: неизвестна"
 
@@ -1774,7 +1790,7 @@ msgstr "Производительность"
 msgid "Period"
 msgstr "Период"
 
-#: src/wx/full_config_dialog.cc:773
+#: src/wx/full_config_dialog.cc:776
 msgid "Plain"
 msgstr ""
 
@@ -1782,11 +1798,11 @@ msgstr ""
 msgid "Play"
 msgstr "Вопроизведение"
 
-#: src/wx/timing_panel.cc:97
+#: src/wx/timing_panel.cc:105
 msgid "Play length"
 msgstr "Длительность воспроизведения"
 
-#: src/wx/config_dialog.cc:160
+#: src/wx/config_dialog.cc:163
 msgid "Play sound via"
 msgstr "Вопроизводить звук через"
 
@@ -1806,7 +1822,7 @@ msgstr ""
 msgid "Please wait; audio is being analysed..."
 msgstr "Пожалуйста подождите - аудио анализируется..."
 
-#: src/wx/timing_panel.cc:86
+#: src/wx/timing_panel.cc:94
 msgid "Position"
 msgstr "Позиция"
 
@@ -1818,7 +1834,7 @@ msgstr "Пре-релиз"
 msgid "ProRes"
 msgstr "ProRes"
 
-#: src/wx/dcp_panel.cc:879
+#: src/wx/dcp_panel.cc:876
 msgid "Processor"
 msgstr "Обработка"
 
@@ -1830,11 +1846,11 @@ msgstr "Код продукта"
 msgid "Properties..."
 msgstr "Свойства..."
 
-#: src/wx/full_config_dialog.cc:655
+#: src/wx/full_config_dialog.cc:658
 msgid "Protocol"
 msgstr "Протокол"
 
-#: src/wx/config_dialog.cc:274
+#: src/wx/config_dialog.cc:277
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
@@ -1846,7 +1862,7 @@ msgstr "Качество"
 msgid "RGB to XYZ conversion"
 msgstr "Преобразование RGB в XYZ"
 
-#: src/wx/audio_dialog.cc:117
+#: src/wx/audio_dialog.cc:122
 msgid "RMS"
 msgstr "Rated Maximum Sinusoidal"
 
@@ -1858,7 +1874,7 @@ msgstr "Случайный"
 msgid "Rating (e.g. 15)"
 msgstr "Рейтинг (напр. NR)"
 
-#: src/wx/dcp_panel.cc:771
+#: src/wx/dcp_panel.cc:768
 msgid "Re-encode JPEG2000 data from input"
 msgstr "Перекодировать данные JPEG2000"
 
@@ -1866,7 +1882,7 @@ msgstr "Перекодировать данные JPEG2000"
 msgid "Re-examine..."
 msgstr "Перепроверить..."
 
-#: src/wx/config_dialog.cc:447
+#: src/wx/config_dialog.cc:450
 msgid "Re-make certificates and key..."
 msgstr "Пересоздать сертификаты и ключ..."
 
@@ -1886,11 +1902,11 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/wx/screen_dialog.cc:129
+#: src/wx/screen_dialog.cc:132
 msgid "Recipient certificate"
 msgstr "Сертификат получателя"
 
-#: src/wx/recreate_chain_dialog.cc:33
+#: src/wx/recreate_chain_dialog.cc:36
 msgid "Recreate signing certificates"
 msgstr "Пересоздать сертификаты подписи"
 
@@ -1907,21 +1923,21 @@ msgstr "Красная цветность"
 msgid "Reel %d"
 msgstr "Бобина %d"
 
-#: src/wx/dcp_panel.cc:108
+#: src/wx/dcp_panel.cc:111
 msgid "Reel length"
 msgstr "Длительность бобины"
 
-#: src/wx/dcp_panel.cc:105
+#: src/wx/dcp_panel.cc:108
 msgid "Reels"
 msgstr "Бобины"
 
 #. / TRANSLATORS: translate the word "Custom" here; do not include the "Reel|" prefix
-#: src/wx/dcp_panel.cc:143
+#: src/wx/dcp_panel.cc:146
 msgid "Reel|Custom"
 msgstr "Пользовательское"
 
-#: src/wx/config_dialog.cc:423 src/wx/content_menu.cc:83
-#: src/wx/content_panel.cc:131 src/wx/templates_dialog.cc:53
+#: src/wx/config_dialog.cc:426 src/wx/content_menu.cc:83
+#: src/wx/content_panel.cc:137 src/wx/templates_dialog.cc:56
 #: src/wx/editable_list.h:82
 msgid "Remove"
 msgstr "Убрать"
@@ -1934,7 +1950,7 @@ msgstr "Убрать кинотеатр"
 msgid "Remove Screen"
 msgstr "Убрать экран"
 
-#: src/wx/content_panel.cc:132
+#: src/wx/content_panel.cc:138
 msgid "Remove the selected piece of content from the film."
 msgstr "Убрать выбранный элемент контента из проекта."
 
@@ -1942,7 +1958,7 @@ msgstr "Убрать выбранный элемент контента из п�
 msgid "Rename template"
 msgstr "Переименовать шаблон"
 
-#: src/wx/templates_dialog.cc:51
+#: src/wx/templates_dialog.cc:54
 msgid "Rename..."
 msgstr "Переименовать..."
 
@@ -1962,15 +1978,15 @@ msgstr "Повторить..."
 msgid "Report A Problem"
 msgstr "Сообщить Об Ошибке"
 
-#: src/wx/full_config_dialog.cc:923 src/wx/full_config_dialog.cc:1194
+#: src/wx/full_config_dialog.cc:926 src/wx/full_config_dialog.cc:1197
 msgid "Reset to default subject and text"
 msgstr "Сбросить по умолчанию тему и текст"
 
-#: src/wx/full_config_dialog.cc:1325
+#: src/wx/full_config_dialog.cc:1328
 msgid "Reset to default text"
 msgstr "Сбросить по умолчанию текст"
 
-#: src/wx/dcp_panel.cc:752
+#: src/wx/dcp_panel.cc:753
 msgid "Resolution"
 msgstr "Разрешение"
 
@@ -1978,7 +1994,7 @@ msgstr "Разрешение"
 msgid "Respect KDM validity periods"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:126
+#: src/wx/subtitle_appearance_dialog.cc:129
 msgid "Restore to original colours"
 msgstr "Восстановить исходные цвета"
 
@@ -1986,19 +2002,15 @@ msgstr "Восстановить исходные цвета"
 msgid "Resume"
 msgstr "Продолжить"
 
-#: src/wx/controls.cc:80
+#: src/wx/controls.cc:80 src/wx/video_panel.cc:123
 msgid "Right"
 msgstr "Справа"
 
-#: src/wx/audio_mapping_view.cc:528
+#: src/wx/audio_mapping_view.cc:571
 msgid "Right click to change gain."
 msgstr "Правый клик для изменения усиления."
 
-#: src/wx/video_panel.cc:110
-msgid "Right crop"
-msgstr "Обрезка справа"
-
-#: src/wx/config_dialog.cc:627
+#: src/wx/config_dialog.cc:630
 msgid "Root"
 msgstr "Root"
 
@@ -2010,28 +2022,28 @@ msgstr "Root common name"
 msgid "S-Gamut3"
 msgstr "S-Gamut3"
 
-#: src/wx/full_config_dialog.cc:675
+#: src/wx/full_config_dialog.cc:678
 msgid "SCP (for AAM and Doremi)"
 msgstr "SCP (для AAM и Doremi)"
 
-#: src/wx/dcp_panel.cc:147 src/wx/full_config_dialog.cc:427
+#: src/wx/dcp_panel.cc:150 src/wx/full_config_dialog.cc:430
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/full_config_dialog.cc:775
+#: src/wx/full_config_dialog.cc:778
 msgid "SSL"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:774
+#: src/wx/full_config_dialog.cc:777
 msgid "STARTTLS"
 msgstr ""
 
-#: src/wx/audio_dialog.cc:371
+#: src/wx/audio_dialog.cc:383
 #, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "Пиковая громкость сэмпла %.2fдБ в %s на %s"
 
-#: src/wx/save_template_dialog.cc:29
+#: src/wx/save_template_dialog.cc:32
 msgid "Save template"
 msgstr "Сохранить шаблон"
 
@@ -2043,19 +2055,19 @@ msgstr "Сохранить в список инструмента генерац
 msgid "Scale"
 msgstr "Масштабировать"
 
-#: src/wx/video_panel.cc:146
+#: src/wx/video_panel.cc:159
 msgid "Scale to"
 msgstr "Масштабирование"
 
-#: src/wx/kdm_dialog.cc:72
+#: src/wx/kdm_dialog.cc:75
 msgid "Screens"
 msgstr "Экраны"
 
-#: src/wx/full_config_dialog.cc:591
+#: src/wx/full_config_dialog.cc:594
 msgid "Search network for servers"
 msgstr "Искать сервера в сети"
 
-#: src/wx/timeline_dialog.cc:66
+#: src/wx/timeline_dialog.cc:69
 msgid "Select"
 msgstr "Выбрать"
 
@@ -2063,24 +2075,24 @@ msgstr "Выбрать"
 msgid "Select CPL XML file"
 msgstr "Выберите XML-файл CPL"
 
-#: src/wx/config_dialog.cc:493 src/wx/config_dialog.cc:567
-#: src/wx/config_dialog.cc:949 src/wx/screen_dialog.cc:213
+#: src/wx/config_dialog.cc:496 src/wx/config_dialog.cc:570
+#: src/wx/config_dialog.cc:952 src/wx/screen_dialog.cc:216
 msgid "Select Certificate File"
 msgstr "Выберите файл сертификата"
 
-#: src/wx/config_dialog.cc:595
+#: src/wx/config_dialog.cc:598
 msgid "Select Chain File"
 msgstr "Выберите файл цепочки"
 
-#: src/wx/full_config_dialog.cc:197
+#: src/wx/full_config_dialog.cc:200
 msgid "Select Cinemas File"
 msgstr "Выберите файл Кинотеатров"
 
-#: src/wx/config_dialog.cc:862
+#: src/wx/config_dialog.cc:865
 msgid "Select Export File"
 msgstr "Выберите файл экспорта"
 
-#: src/wx/config_dialog.cc:897
+#: src/wx/config_dialog.cc:900
 msgid "Select File To Import"
 msgstr "Выберите импортируемый файл"
 
@@ -2088,7 +2100,7 @@ msgstr "Выберите импортируемый файл"
 msgid "Select KDM"
 msgstr "Выберите KDM"
 
-#: src/wx/config_dialog.cc:733 src/wx/config_dialog.cc:769
+#: src/wx/config_dialog.cc:736 src/wx/config_dialog.cc:772
 msgid "Select Key File"
 msgstr "Выберите файл ключа"
 
@@ -2100,15 +2112,15 @@ msgstr "Выберите OV"
 msgid "Select activity log file"
 msgstr "Выберите лог-файл активности"
 
-#: src/wx/timeline_dialog.cc:66
+#: src/wx/timeline_dialog.cc:69
 msgid "Select and move content"
 msgstr "Выберите и переместите контент"
 
-#: src/wx/full_config_dialog.cc:112
+#: src/wx/full_config_dialog.cc:115
 msgid "Select cinema and screen database file"
 msgstr "Выберите файл БД кинотеатров и залов"
 
-#: src/wx/full_config_dialog.cc:107
+#: src/wx/full_config_dialog.cc:110
 msgid "Select configuration file"
 msgstr "Выберите файл конфигурации"
 
@@ -2132,7 +2144,7 @@ msgstr "Выберите выходной файл"
 msgid "Send by email"
 msgstr "Отправить по email"
 
-#: src/wx/confirm_kdm_email_dialog.cc:33
+#: src/wx/confirm_kdm_email_dialog.cc:36
 msgid "Send emails"
 msgstr "Отправить email-ы"
 
@@ -2144,7 +2156,7 @@ msgstr "Отправить логи"
 msgid "Send translations"
 msgstr "Отправить перевод"
 
-#: src/wx/timeline_dialog.cc:70
+#: src/wx/timeline_dialog.cc:73
 msgid "Sequence"
 msgstr "Последовательность"
 
@@ -2152,7 +2164,7 @@ msgstr "Последовательность"
 msgid "Serial"
 msgstr "Серийный"
 
-#: src/wx/download_certificate_panel.cc:44 src/wx/monitor_dialog.cc:38
+#: src/wx/download_certificate_panel.cc:47 src/wx/monitor_dialog.cc:38
 msgid "Serial number"
 msgstr "Серийный номер"
 
@@ -2160,43 +2172,43 @@ msgstr "Серийный номер"
 msgid "Server"
 msgstr "Сервер"
 
-#: src/wx/full_config_dialog.cc:578
+#: src/wx/full_config_dialog.cc:581
 msgid "Servers"
 msgstr "Сервера"
 
-#: src/wx/timecode.cc:66 src/wx/timing_panel.cc:102
+#: src/wx/timecode.cc:66 src/wx/timing_panel.cc:110
 msgid "Set"
 msgstr "Назначить"
 
-#: src/wx/config_dialog.cc:119
+#: src/wx/config_dialog.cc:122
 msgid "Set language"
 msgstr "Выбрать язык"
 
-#: src/wx/subtitle_appearance_dialog.cc:219
+#: src/wx/subtitle_appearance_dialog.cc:222
 msgid "Set to"
 msgstr "Назначить"
 
-#: src/wx/subtitle_appearance_dialog.cc:142
+#: src/wx/subtitle_appearance_dialog.cc:145
 msgid "Shadow"
 msgstr "Тень"
 
-#: src/wx/dcp_panel.cc:886
+#: src/wx/dcp_panel.cc:883
 msgid "Show audio..."
 msgstr "Показать аудио..."
 
-#: src/wx/audio_panel.cc:62
+#: src/wx/audio_panel.cc:65
 msgid "Show graph of audio levels..."
 msgstr "Показать график и уровни аудио..."
 
-#: src/wx/dcp_panel.cc:94
+#: src/wx/dcp_panel.cc:97
 msgid "Signed"
 msgstr "Подписанный"
 
-#: src/wx/config_dialog.cc:822 src/wx/config_dialog.cc:849
+#: src/wx/config_dialog.cc:825 src/wx/config_dialog.cc:852
 msgid "Signing DCPs and KDMs"
 msgstr "Подписывание DCP и KDM"
 
-#: src/wx/full_config_dialog.cc:149
+#: src/wx/full_config_dialog.cc:152
 msgid "Simple"
 msgstr "Простой"
 
@@ -2212,7 +2224,7 @@ msgstr "Простая гамма, выровненная для малых зн
 msgid "Simple mode"
 msgstr "Простой режим"
 
-#: src/wx/dcp_panel.cc:140
+#: src/wx/dcp_panel.cc:143
 msgid "Single reel"
 msgstr "Одна бобина"
 
@@ -2221,15 +2233,15 @@ msgstr "Одна бобина"
 msgid "Size: %dx%d"
 msgstr "Размер: %dx%d"
 
-#: src/wx/audio_dialog.cc:127
+#: src/wx/audio_dialog.cc:132
 msgid "Smoothing"
 msgstr "Сглаживание"
 
-#: src/wx/timeline_dialog.cc:69
+#: src/wx/timeline_dialog.cc:72
 msgid "Snap"
 msgstr "Присоединять"
 
-#: src/wx/dcp_panel.cc:141
+#: src/wx/dcp_panel.cc:144
 msgid "Split by video content"
 msgstr "Разделять по видео-контенту"
 
@@ -2237,11 +2249,11 @@ msgstr "Разделять по видео-контенту"
 msgid "Stable version "
 msgstr "Стабильная версия "
 
-#: src/wx/dcp_panel.cc:112
+#: src/wx/dcp_panel.cc:115
 msgid "Standard"
 msgstr "Стандарт"
 
-#: src/wx/text_view.cc:51
+#: src/wx/text_view.cc:54
 msgid "Start"
 msgstr "Начало"
 
@@ -2261,11 +2273,11 @@ msgstr "Поток"
 msgid "Studio (e.g. TCF)"
 msgstr "Студия (напр. TCF)"
 
-#: src/wx/full_config_dialog.cc:896 src/wx/full_config_dialog.cc:1163
+#: src/wx/full_config_dialog.cc:899 src/wx/full_config_dialog.cc:1166
 msgid "Subject"
 msgstr "Тема"
 
-#: src/wx/about_dialog.cc:146
+#: src/wx/about_dialog.cc:153
 msgid "Subscribers"
 msgstr "Подписчики"
 
@@ -2286,11 +2298,11 @@ msgstr "Субтитры: нет"
 msgid "Subtitles: yes"
 msgstr "Субтитры: да"
 
-#: src/wx/full_config_dialog.cc:638
+#: src/wx/full_config_dialog.cc:641
 msgid "TMS"
 msgstr "TMS"
 
-#: src/wx/full_config_dialog.cc:663
+#: src/wx/full_config_dialog.cc:666
 msgid "Target path"
 msgstr "Целевой путь"
 
@@ -2298,19 +2310,19 @@ msgstr "Целевой путь"
 msgid "Temp version"
 msgstr "Временная версия"
 
-#: src/wx/templates_dialog.cc:43
+#: src/wx/templates_dialog.cc:46
 msgid "Template"
 msgstr "Шаблон"
 
-#: src/wx/save_template_dialog.cc:31
+#: src/wx/save_template_dialog.cc:34
 msgid "Template name"
 msgstr "Название шаблона"
 
-#: src/wx/save_template_dialog.cc:52 src/wx/templates_dialog.cc:126
+#: src/wx/save_template_dialog.cc:55 src/wx/templates_dialog.cc:129
 msgid "Template names must not be empty."
 msgstr "Названия шаблонов не должны быть пустыми."
 
-#: src/wx/templates_dialog.cc:33
+#: src/wx/templates_dialog.cc:36
 msgid "Templates"
 msgstr "Шаблоны"
 
@@ -2322,11 +2334,11 @@ msgstr "Территория (напр. UA)"
 msgid "Test version "
 msgstr "Тестовая версия "
 
-#: src/wx/about_dialog.cc:208
+#: src/wx/about_dialog.cc:215
 msgid "Tested by"
 msgstr "Тестирование"
 
-#: src/wx/kdm_timing_panel.cc:115
+#: src/wx/kdm_timing_panel.cc:121
 msgid "The 'until' time must be after the 'from' time."
 msgstr "Время \"до\" должно быть после времени \"от\"."
 
@@ -2340,7 +2352,7 @@ msgstr "Хэши PKL и CPL несогласованны с изображени
 msgid "The PKL and CPL hashes disagree for a sound asset."
 msgstr "Хэши PKL и CPL несогласованны со звуком."
 
-#: src/wx/recreate_chain_dialog.cc:35
+#: src/wx/recreate_chain_dialog.cc:38
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
 "contains a small error\n"
@@ -2363,7 +2375,7 @@ msgstr ""
 "Файлы, которые вы выбрали - не те, которые отсутствуют. Либо попробуйте "
 "снова, выбрав правильные файлы, либо удалите отсутствующий контент."
 
-#: src/wx/film_name_location_dialog.cc:121
+#: src/wx/film_name_location_dialog.cc:135
 msgid ""
 "The directory %1 already exists and is not empty.  Are you sure you want to "
 "use it?"
@@ -2413,20 +2425,20 @@ msgstr "У изображения в бобине неверная частот�
 msgid "Theatre name"
 msgstr "Название кинотеатра"
 
-#: src/wx/hints_dialog.cc:132
+#: src/wx/hints_dialog.cc:135
 msgid "There are no hints yet: project check in progress."
 msgstr "Подсказок пока нет: проект проверяется."
 
-#: src/wx/hints_dialog.cc:130
+#: src/wx/hints_dialog.cc:133
 msgid "There are no hints: everything looks good!"
 msgstr "Нет подсказок: похоже всё хорошо!"
 
-#: src/wx/save_template_dialog.cc:55
+#: src/wx/save_template_dialog.cc:58
 msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
 msgstr "Уже есть шаблон с таким названием. Вы хотите перезаписать его?"
 
-#: src/wx/film_viewer.cc:148
+#: src/wx/film_viewer.cc:152
 msgid "There is not enough free memory to do that."
 msgstr "Недостаточно памяти, чтобы сделать это."
 
@@ -2434,7 +2446,7 @@ msgstr "Недостаточно памяти, чтобы сделать это.
 msgid "This CPL contains no encrypted assets."
 msgstr "Данный CPL не имеет зашифрованного содержимого."
 
-#: src/wx/config_dialog.cc:510
+#: src/wx/config_dialog.cc:513
 msgid ""
 "This file contains other certificates (or other data) after its first "
 "certificate. Only the first certificate will be used."
@@ -2450,36 +2462,36 @@ msgstr "Это не правильный CPL файл"
 msgid "Threads"
 msgstr "Потоки"
 
-#: src/wx/config_dialog.cc:407 src/wx/screen_dialog.cc:54
-#: src/wx/screen_dialog.cc:146
+#: src/wx/config_dialog.cc:410 src/wx/screen_dialog.cc:57
+#: src/wx/screen_dialog.cc:149
 msgid "Thumbprint"
 msgstr "Отпечаток"
 
-#: src/wx/timeline_dialog.cc:41
+#: src/wx/timeline_dialog.cc:44
 msgid "Timeline"
 msgstr "Линейка"
 
-#: src/wx/content_panel.cc:143
+#: src/wx/content_panel.cc:149
 msgid "Timeline..."
 msgstr "Линейка..."
 
-#: src/wx/content_panel.cc:161
+#: src/wx/content_panel.cc:170
 #, fuzzy
 msgid "Timing"
 msgstr "Тайминг"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
-#: src/wx/timing_panel.cc:55
+#: src/wx/timing_panel.cc:62
 msgid "Timing|Timing"
 msgstr "Тайминг"
 
-#: src/wx/full_config_dialog.cc:1171
+#: src/wx/full_config_dialog.cc:1174
 msgid "To address"
 msgstr "Кому адрес"
 
-#: src/wx/video_panel.cc:120
-msgid "Top crop"
-msgstr "Обрезка сверху"
+#: src/wx/video_panel.cc:133
+msgid "Top"
+msgstr "Верх"
 
 #: src/wx/closed_captions_dialog.cc:61
 msgid "Track"
@@ -2493,153 +2505,153 @@ msgstr "Перевести"
 msgid "Translated by"
 msgstr "Перевод"
 
-#: src/wx/timing_panel.cc:96
+#: src/wx/timing_panel.cc:104
 msgid "Trim after current position"
 msgstr "Обрезать с текущей позиции"
 
-#: src/wx/timing_panel.cc:94
+#: src/wx/timing_panel.cc:102
 msgid "Trim from end"
 msgstr "Обрезать с конца"
 
-#: src/wx/timing_panel.cc:91
+#: src/wx/timing_panel.cc:99
 msgid "Trim from start"
 msgstr "Обрезать с начала"
 
-#: src/wx/timing_panel.cc:93
+#: src/wx/timing_panel.cc:101
 msgid "Trim up to current position"
 msgstr "Обрезать до текущей позиции"
 
-#: src/wx/audio_dialog.cc:388
+#: src/wx/audio_dialog.cc:400
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr "Пиковая громкость %.2fдБ"
 
-#: src/wx/screen_dialog.cc:52
+#: src/wx/screen_dialog.cc:55
 msgid "Trusted Device"
 msgstr "Доверенные устройства"
 
-#: src/wx/screen_dialog.cc:65
+#: src/wx/screen_dialog.cc:68
 msgid "Trusted Device certificate"
 msgstr "Сертификат Доверенного Устройства"
 
-#: src/wx/audio_dialog.cc:110 src/wx/config_dialog.cc:399
-#: src/wx/video_panel.cc:88
+#: src/wx/audio_dialog.cc:115 src/wx/config_dialog.cc:402
+#: src/wx/video_panel.cc:93
 msgid "Type"
 msgstr "Тип"
 
-#: src/wx/cinema_dialog.cc:99
+#: src/wx/cinema_dialog.cc:102
 msgid "UTC"
 msgstr "UTC"
 
-#: src/wx/cinema_dialog.cc:55
+#: src/wx/cinema_dialog.cc:58
 msgid "UTC offset (time zone)"
 msgstr "Смещение UTC (часовой пояс)"
 
-#: src/wx/cinema_dialog.cc:100
+#: src/wx/cinema_dialog.cc:103
 msgid "UTC+1"
 msgstr "UTC+1"
 
-#: src/wx/cinema_dialog.cc:111
+#: src/wx/cinema_dialog.cc:114
 msgid "UTC+10"
 msgstr "UTC+10"
 
-#: src/wx/cinema_dialog.cc:112
+#: src/wx/cinema_dialog.cc:115
 msgid "UTC+11"
 msgstr "UTC+11"
 
-#: src/wx/cinema_dialog.cc:113
+#: src/wx/cinema_dialog.cc:116
 msgid "UTC+12"
 msgstr "UTC+12"
 
-#: src/wx/cinema_dialog.cc:101
+#: src/wx/cinema_dialog.cc:104
 msgid "UTC+2"
 msgstr "UTC+2"
 
-#: src/wx/cinema_dialog.cc:102
+#: src/wx/cinema_dialog.cc:105
 msgid "UTC+3"
 msgstr "UTC+3"
 
-#: src/wx/cinema_dialog.cc:103
+#: src/wx/cinema_dialog.cc:106
 msgid "UTC+4"
 msgstr "UTC+4"
 
-#: src/wx/cinema_dialog.cc:104
+#: src/wx/cinema_dialog.cc:107
 msgid "UTC+5"
 msgstr "UTC+5"
 
-#: src/wx/cinema_dialog.cc:105
+#: src/wx/cinema_dialog.cc:108
 msgid "UTC+5:30"
 msgstr "UTC+5:30"
 
-#: src/wx/cinema_dialog.cc:106
+#: src/wx/cinema_dialog.cc:109
 msgid "UTC+6"
 msgstr "UTC+6"
 
-#: src/wx/cinema_dialog.cc:107
+#: src/wx/cinema_dialog.cc:110
 msgid "UTC+7"
 msgstr "UTC+7"
 
-#: src/wx/cinema_dialog.cc:108
+#: src/wx/cinema_dialog.cc:111
 msgid "UTC+8"
 msgstr "UTC+8"
 
-#: src/wx/cinema_dialog.cc:109
+#: src/wx/cinema_dialog.cc:112
 msgid "UTC+9"
 msgstr "UTC+9"
 
-#: src/wx/cinema_dialog.cc:110
+#: src/wx/cinema_dialog.cc:113
 msgid "UTC+9:30"
 msgstr "UTC+9:30"
 
-#: src/wx/cinema_dialog.cc:98
+#: src/wx/cinema_dialog.cc:101
 msgid "UTC-1"
 msgstr "UTC-1"
 
-#: src/wx/cinema_dialog.cc:87
+#: src/wx/cinema_dialog.cc:90
 msgid "UTC-10"
 msgstr "UTC-10"
 
-#: src/wx/cinema_dialog.cc:86
+#: src/wx/cinema_dialog.cc:89
 msgid "UTC-11"
 msgstr "UTC-11"
 
-#: src/wx/cinema_dialog.cc:97
+#: src/wx/cinema_dialog.cc:100
 msgid "UTC-2"
 msgstr "UTC-2"
 
-#: src/wx/cinema_dialog.cc:96
+#: src/wx/cinema_dialog.cc:99
 msgid "UTC-3"
 msgstr "UTC-3"
 
-#: src/wx/cinema_dialog.cc:95
+#: src/wx/cinema_dialog.cc:98
 msgid "UTC-3:30"
 msgstr "UTC-3:30"
 
-#: src/wx/cinema_dialog.cc:94
+#: src/wx/cinema_dialog.cc:97
 msgid "UTC-4"
 msgstr "UTC-4"
 
-#: src/wx/cinema_dialog.cc:93
+#: src/wx/cinema_dialog.cc:96
 msgid "UTC-4:30"
 msgstr "UTC-4:30"
 
-#: src/wx/cinema_dialog.cc:92
+#: src/wx/cinema_dialog.cc:95
 msgid "UTC-5"
 msgstr "UTC-5"
 
-#: src/wx/cinema_dialog.cc:91
+#: src/wx/cinema_dialog.cc:94
 msgid "UTC-6"
 msgstr "UTC-6"
 
-#: src/wx/cinema_dialog.cc:90
+#: src/wx/cinema_dialog.cc:93
 msgid "UTC-7"
 msgstr "UTC-7"
 
-#: src/wx/cinema_dialog.cc:89
+#: src/wx/cinema_dialog.cc:92
 msgid "UTC-8"
 msgstr "UTC-8"
 
-#: src/wx/cinema_dialog.cc:88
+#: src/wx/cinema_dialog.cc:91
 msgid "UTC-9"
 msgstr "UTC-9"
 
@@ -2647,11 +2659,11 @@ msgstr "UTC-9"
 msgid "Update"
 msgstr "Обновление"
 
-#: src/wx/dcp_panel.cc:115
+#: src/wx/dcp_panel.cc:118
 msgid "Upload DCP to TMS after it is made"
 msgstr "Загрузить DCP на TMS после окончания конвертации"
 
-#: src/wx/dcp_panel.cc:79
+#: src/wx/dcp_panel.cc:82
 msgid "Use ISDCF name"
 msgstr "Использовать ISDCF"
 
@@ -2659,7 +2671,7 @@ msgstr "Использовать ISDCF"
 msgid "Use as"
 msgstr "Использовать как"
 
-#: src/wx/dcp_panel.cc:762
+#: src/wx/dcp_panel.cc:760
 msgid "Use best"
 msgstr "Использовать лучшее"
 
@@ -2667,7 +2679,7 @@ msgstr "Использовать лучшее"
 msgid "Use preset"
 msgstr "Использовать заготовку"
 
-#: src/wx/audio_panel.cc:54
+#: src/wx/audio_panel.cc:57
 msgid "Use this DCP's audio as OV and make VF"
 msgstr "Использовать аудио этого DCP как OV и сделать VF"
 
@@ -2679,7 +2691,7 @@ msgstr "Использовать титры этого DCP как OV и сдел
 msgid "Use this DCP's subtitle as OV and make VF"
 msgstr "Использовать субтитры этого DCP как OV и сделать VF"
 
-#: src/wx/video_panel.cc:80
+#: src/wx/video_panel.cc:85
 msgid "Use this DCP's video as OV and make VF"
 msgstr "Использовать видео этого DCP как OV и сделать VF"
 
@@ -2687,13 +2699,13 @@ msgstr "Использовать видео этого DCP как OV и сдел
 msgid "Use this file as new configuration"
 msgstr "Использовать этот файл как новую конфигурацию"
 
-#: src/wx/full_config_dialog.cc:667 src/wx/full_config_dialog.cc:780
+#: src/wx/full_config_dialog.cc:670 src/wx/full_config_dialog.cc:783
 msgid "User name"
 msgstr "Имя пользователя"
 
-#: src/wx/content_properties_dialog.cc:74 src/wx/dcp_panel.cc:120
+#: src/wx/content_properties_dialog.cc:74 src/wx/dcp_panel.cc:123
 #: src/wx/timeline_labels_view.cc:39 src/wx/timeline_labels_view.cc:70
-#: src/wx/video_panel.cc:78
+#: src/wx/video_panel.cc:83
 msgid "Video"
 msgstr "Видео"
 
@@ -2701,7 +2713,7 @@ msgstr "Видео"
 msgid "Video Waveform"
 msgstr "График видео"
 
-#: src/wx/timing_panel.cc:100
+#: src/wx/timing_panel.cc:108
 msgid "Video frame rate"
 msgstr "Частота кадров видео"
 
@@ -2709,11 +2721,11 @@ msgstr "Частота кадров видео"
 msgid "View..."
 msgstr "Просмотр..."
 
-#: src/wx/config_dialog.cc:271
+#: src/wx/config_dialog.cc:274
 msgid "WASAPI"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:1469
+#: src/wx/full_config_dialog.cc:1472
 msgid "Warnings"
 msgstr "Предупреждения"
 
@@ -2826,36 +2838,36 @@ msgstr "Ваш e-mail адрес"
 msgid "Your name"
 msgstr "Ваше имя"
 
-#: src/wx/timeline_dialog.cc:67
+#: src/wx/timeline_dialog.cc:70
 msgid "Zoom"
 msgstr "Увеличить"
 
-#: src/wx/timeline_dialog.cc:68
+#: src/wx/timeline_dialog.cc:71
 msgid "Zoom all"
 msgstr "Увеличить всё"
 
-#: src/wx/timeline_dialog.cc:67
+#: src/wx/timeline_dialog.cc:70
 msgid "Zoom in / out"
 msgstr "Увеличить/уменьшить"
 
-#: src/wx/timeline_dialog.cc:68
+#: src/wx/timeline_dialog.cc:71
 #, fuzzy
 msgid "Zoom out to whole film"
 msgstr "Уменьшить до всего проекта"
 
-#: src/wx/full_config_dialog.cc:1014
+#: src/wx/full_config_dialog.cc:1017
 msgid "certificates.barco.com password"
 msgstr "пароль certificates.barco.com"
 
-#: src/wx/full_config_dialog.cc:1010
+#: src/wx/full_config_dialog.cc:1013
 msgid "certificates.barco.com user name"
 msgstr "имя пользователя certificates.barco.com"
 
-#: src/wx/full_config_dialog.cc:1022
+#: src/wx/full_config_dialog.cc:1025
 msgid "certificates.christiedigital.com password"
 msgstr "пароль certificates.christiedigital.com"
 
-#: src/wx/full_config_dialog.cc:1018
+#: src/wx/full_config_dialog.cc:1021
 msgid "certificates.christiedigital.com user name"
 msgstr "имя пользователя certificates.christiedigital.com"
 
@@ -2871,15 +2883,15 @@ msgstr "скрытые титры"
 msgid "component value"
 msgstr "значение компонента"
 
-#: src/wx/full_config_dialog.cc:1452
+#: src/wx/full_config_dialog.cc:1455
 msgid "content filename"
 msgstr "имя файла контента"
 
-#: src/wx/audio_gain_dialog.cc:31 src/wx/audio_panel.cc:75
+#: src/wx/audio_gain_dialog.cc:31 src/wx/audio_panel.cc:78
 msgid "dB"
 msgstr "дБ"
 
-#: src/wx/config_dialog.cc:949
+#: src/wx/config_dialog.cc:952
 msgid "dcpomatic_kdm_decryption_cert.pem"
 msgstr "dcpomatic_kdm_decryption_cert.pem"
 
@@ -2889,7 +2901,7 @@ msgid "e.g. %s"
 msgstr "напр. %s"
 
 #. // TRANSLATORS: this is an abbreviation for "frames"
-#: src/wx/timing_panel.cc:81
+#: src/wx/timing_panel.cc:89
 msgid "f"
 msgstr "к"
 
@@ -2910,12 +2922,12 @@ msgid "full screen with controls on other monitor"
 msgstr "полный экран с управлением на другом мониторе"
 
 #. // TRANSLATORS: this is an abbreviation for "hours"
-#: src/wx/timing_panel.cc:65
+#: src/wx/timing_panel.cc:73
 msgid "h"
 msgstr "ч"
 
 #. // TRANSLATORS: this is an abbreviation for "minutes"
-#: src/wx/timing_panel.cc:71
+#: src/wx/timing_panel.cc:79
 msgid "m"
 msgstr "м"
 
@@ -2928,11 +2940,11 @@ msgid "minutes"
 msgstr "минуты"
 
 #. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-#: src/wx/audio_panel.cc:89 src/wx/full_config_dialog.cc:370
+#: src/wx/audio_panel.cc:92 src/wx/full_config_dialog.cc:373
 msgid "ms"
 msgstr "мс"
 
-#: src/wx/full_config_dialog.cc:1451
+#: src/wx/full_config_dialog.cc:1454
 msgid "number of reels"
 msgstr "количество бобин"
 
@@ -2940,21 +2952,21 @@ msgstr "количество бобин"
 msgid "open subtitles"
 msgstr "открыть субтитры"
 
-#: src/wx/full_config_dialog.cc:765
+#: src/wx/full_config_dialog.cc:768
 msgid "port"
 msgstr "порт"
 
-#: src/wx/full_config_dialog.cc:769
+#: src/wx/full_config_dialog.cc:772
 #, fuzzy
 msgid "protocol"
 msgstr "Протокол"
 
-#: src/wx/full_config_dialog.cc:1450
+#: src/wx/full_config_dialog.cc:1453
 msgid "reel number"
 msgstr "номер бобины"
 
 #. // TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/full_config_dialog.cc:324 src/wx/timing_panel.cc:76
+#: src/wx/full_config_dialog.cc:327 src/wx/timing_panel.cc:84
 msgid "s"
 msgstr "с"
 
@@ -2974,11 +2986,11 @@ msgstr "раз"
 msgid "to date/time"
 msgstr "до даты/времени"
 
-#: src/wx/full_config_dialog.cc:1437
+#: src/wx/full_config_dialog.cc:1440
 msgid "type (cpl/pkl)"
 msgstr "тип (cpl/pkl)"
 
-#: src/wx/full_config_dialog.cc:1449
+#: src/wx/full_config_dialog.cc:1452
 msgid "type (j2c/pcm/sub)"
 msgstr "тип (j2c/pcm/sub)"
 
@@ -2997,6 +3009,15 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#~ msgid "Left crop"
+#~ msgstr "Обрезка слева"
+
+#~ msgid "Right crop"
+#~ msgstr "Обрезка справа"
+
+#~ msgid "Top crop"
+#~ msgstr "Обрезка сверху"
 
 #, fuzzy
 #~ msgid "Log file"
@@ -3046,12 +3067,6 @@ msgstr "y"
 #, fuzzy
 #~ msgid "Select playlist file"
 #~ msgstr "Выберите выходной файл"
-
-#~ msgid "Crop"
-#~ msgstr "Кадрирование"
-
-#~ msgid "Top"
-#~ msgstr "Верх"
 
 #, fuzzy
 #~ msgid "Subtitle/captions"
