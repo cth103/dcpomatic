@@ -170,6 +170,9 @@ VideoPanel::VideoPanel (ContentPanel* p)
 
 	wxClientDC dc (this);
 	wxSize size = dc.GetTextExtent (wxT ("A quite long name"));
+#ifdef __WXGTK3__
+	size.SetWidth (size.GetWidth() + 64);
+#endif
 	size.SetHeight (-1);
 
 	_filters_label = create_label (this, _("Filters"), true);
