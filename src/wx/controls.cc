@@ -104,10 +104,17 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 
 	_v_sizer->Add (h_sizer, 0, wxEXPAND | wxALL, 6);
 
+#ifdef __WXGTK3__
+	_frame_number->SetMinSize (wxSize (100, -1));
+	_rewind_button->SetMinSize (wxSize (48, -1));
+	_back_button->SetMinSize (wxSize (48, -1));
+	_forward_button->SetMinSize (wxSize (48, -1));
+#else
 	_frame_number->SetMinSize (wxSize (84, -1));
 	_rewind_button->SetMinSize (wxSize (32, -1));
 	_back_button->SetMinSize (wxSize (32, -1));
 	_forward_button->SetMinSize (wxSize (32, -1));
+#endif
 
 	if (_eye) {
 		_eye->Bind (wxEVT_CHOICE, boost::bind (&Controls::eye_changed, this));
