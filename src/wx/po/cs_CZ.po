@@ -434,9 +434,8 @@ msgid "Blue chromaticity"
 msgstr "Modrá barevnost"
 
 #: src/wx/video_panel.cc:143
-#, fuzzy
 msgid "Bottom"
-msgstr "Spodní oříznutí"
+msgstr "Spodní"
 
 #: src/wx/dir_picker_ctrl.cc:40 src/wx/kdm_cpl_panel.cc:41
 msgid "Browse..."

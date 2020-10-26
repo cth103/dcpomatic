@@ -425,7 +425,6 @@ msgid "Blue chromaticity"
 msgstr "Cromaticidade azul"
 
 #: src/wx/video_panel.cc:143
-#, fuzzy
 msgid "Bottom"
 msgstr "Inferior"
 

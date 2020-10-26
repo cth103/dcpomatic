@@ -448,9 +448,8 @@ msgid "Blue chromaticity"
 msgstr "Blau Chromatizität"
 
 #: src/wx/video_panel.cc:143
-#, fuzzy
 msgid "Bottom"
-msgstr "Beschnitt unten"
+msgstr "Unten"
 
 #: src/wx/dir_picker_ctrl.cc:40 src/wx/kdm_cpl_panel.cc:41
 msgid "Browse..."

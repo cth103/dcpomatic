@@ -425,7 +425,6 @@ msgid "Blue chromaticity"
 msgstr "Modrá farebnosť"
 
 #: src/wx/video_panel.cc:143
-#, fuzzy
 msgid "Bottom"
 msgstr "Spodok"
 

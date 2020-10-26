@@ -431,9 +431,8 @@ msgid "Blue chromaticity"
 msgstr "蓝色色度"
 
 #: src/wx/video_panel.cc:143
-#, fuzzy
 msgid "Bottom"
-msgstr "底部裁切"
+msgstr "底部"
 
 #: src/wx/dir_picker_ctrl.cc:40 src/wx/kdm_cpl_panel.cc:41
 msgid "Browse..."

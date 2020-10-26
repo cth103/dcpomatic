@@ -440,9 +440,8 @@ msgid "Blue chromaticity"
 msgstr "Chromaticité du Bleu"
 
 #: src/wx/video_panel.cc:143
-#, fuzzy
 msgid "Bottom"
-msgstr "Rognage bas"
+msgstr "Bas"
 
 #: src/wx/dir_picker_ctrl.cc:40 src/wx/kdm_cpl_panel.cc:41
 msgid "Browse..."
