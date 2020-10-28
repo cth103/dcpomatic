@@ -150,18 +150,31 @@ DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
 void
 DCPContent::read_directory (boost::filesystem::path p)
 {
-	read_sub_directory (p);
+	using namespace boost::filesystem;
 
 	bool have_assetmap = false;
-	BOOST_FOREACH (boost::filesystem::path i, paths()) {
-		if (i.filename() == "ASSETMAP" || i.filename() == "ASSETMAP.xml") {
+	bool have_metadata = false;
+
+	for (directory_iterator i(p); i != directory_iterator(); ++i) {
+		if (i->path().filename() == "ASSETMAP" || i->path().filename() == "ASSETMAP.xml") {
 			have_assetmap = true;
+		} else if (i->path().filename() == "metadata.xml") {
+			have_metadata = true;
 		}
 	}
 
 	if (!have_assetmap) {
-		throw DCPError ("No ASSETMAP or ASSETMAP.xml file found: is this a DCP?");
+		if (!have_metadata) {
+			throw DCPError ("No ASSETMAP or ASSETMAP.xml file found: is this a DCP?");
+		} else {
+			throw DCPError (
+				"This looks like a DCP-o-matic project folder, which cannot be added to a different project.  "
+				"Choose the DCP directory inside the DCP-o-matic project folder if that's what you want to import."
+				);
+		}
 	}
+
+	read_sub_directory (p);
 }
 
 void
