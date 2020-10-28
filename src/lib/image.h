@@ -49,7 +49,9 @@ public:
 	~Image ();
 
 	uint8_t * const * data () const;
+	/** @return array of sizes of the data in each line, in bytes (not including any alignment padding) */
 	int const * line_size () const;
+	/** @return array of sizes of the data in each line, in bytes (including any alignment padding) */
 	int const * stride () const;
 	dcp::Size size () const;
 	bool aligned () const;
