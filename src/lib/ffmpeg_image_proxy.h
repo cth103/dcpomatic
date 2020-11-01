@@ -19,7 +19,7 @@
 */
 
 #include "image_proxy.h"
-#include <dcp/data.h>
+#include <dcp/array_data.h>
 #include <boost/thread/mutex.hpp>
 #include <boost/filesystem.hpp>
 
@@ -27,7 +27,7 @@ class FFmpegImageProxy : public ImageProxy
 {
 public:
 	explicit FFmpegImageProxy (boost::filesystem::path);
-	explicit FFmpegImageProxy (dcp::Data);
+	explicit FFmpegImageProxy (dcp::ArrayData);
 	FFmpegImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
 
 	Result image (
@@ -43,7 +43,7 @@ public:
 	int64_t avio_seek (int64_t const pos, int whence);
 
 private:
-	dcp::Data _data;
+	dcp::ArrayData _data;
 	mutable int64_t _pos;
 	/** Path of a file that this image came from, if applicable; stored so that
 	    failed-decode errors can give more detail.

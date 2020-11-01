@@ -56,7 +56,7 @@ FFmpegImageProxy::FFmpegImageProxy (boost::filesystem::path path)
 
 }
 
-FFmpegImageProxy::FFmpegImageProxy (dcp::Data data)
+FFmpegImageProxy::FFmpegImageProxy (dcp::ArrayData data)
 	: _data (data)
 	, _pos (0)
 {
@@ -67,8 +67,8 @@ FFmpegImageProxy::FFmpegImageProxy (shared_ptr<cxml::Node>, shared_ptr<Socket> s
 	: _pos (0)
 {
 	uint32_t const size = socket->read_uint32 ();
-	_data = dcp::Data (size);
-	socket->read (_data.data().get(), size);
+	_data = dcp::ArrayData (size);
+	socket->read (_data.data(), size);
 }
 
 static int
@@ -90,7 +90,7 @@ FFmpegImageProxy::avio_read (uint8_t* buffer, int const amount)
 	if (to_do == 0) {
 		return AVERROR_EOF;
 	}
-	memcpy (buffer, _data.data().get() + _pos, to_do);
+	memcpy (buffer, _data.data() + _pos, to_do);
 	_pos += to_do;
 	return to_do;
 }
@@ -212,7 +212,7 @@ void
 FFmpegImageProxy::write_to_socket (shared_ptr<Socket> socket) const
 {
 	socket->write (_data.size());
-	socket->write (_data.data().get(), _data.size());
+	socket->write (_data.data(), _data.size());
 }
 
 bool
@@ -223,11 +223,7 @@ FFmpegImageProxy::same (shared_ptr<const ImageProxy> other) const
 		return false;
 	}
 
-	if (_data.size() != mp->_data.size()) {
-		return false;
-	}
-
-	return memcmp (_data.data().get(), mp->_data.data().get(), _data.size()) == 0;
+	return _data == mp->_data;
 }
 
 size_t

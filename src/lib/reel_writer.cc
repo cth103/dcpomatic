@@ -762,15 +762,15 @@ ReelWriter::existing_picture_frame_ok (FILE* asset_file, shared_ptr<InfoFileHand
 
 	/* Read the data from the asset and hash it */
 	dcpomatic_fseek (asset_file, info.offset, SEEK_SET);
-	Data data (info.size);
-	size_t const read = fread (data.data().get(), 1, data.size(), asset_file);
+	ArrayData data (info.size);
+	size_t const read = fread (data.data(), 1, data.size(), asset_file);
 	LOG_GENERAL ("Read %1 bytes of asset data; wanted %2", read, info.size);
 	if (read != static_cast<size_t> (data.size ())) {
 		LOG_GENERAL ("Existing frame %1 is incomplete", frame);
 		ok = false;
 	} else {
 		Digester digester;
-		digester.add (data.data().get(), data.size());
+		digester.add (data.data(), data.size());
 		LOG_GENERAL ("Hash %1 vs %2", digester.get(), info.hash);
 		if (digester.get() != info.hash) {
 			LOG_GENERAL ("Existing frame %1 failed hash check", frame);

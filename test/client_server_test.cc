@@ -46,16 +46,16 @@ using boost::shared_ptr;
 using boost::thread;
 using boost::optional;
 using boost::weak_ptr;
-using dcp::Data;
+using dcp::ArrayData;
 
 void
-do_remote_encode (shared_ptr<DCPVideo> frame, EncodeServerDescription description, Data locally_encoded)
+do_remote_encode (shared_ptr<DCPVideo> frame, EncodeServerDescription description, ArrayData locally_encoded)
 {
-	Data remotely_encoded;
+	ArrayData remotely_encoded;
 	BOOST_REQUIRE_NO_THROW (remotely_encoded = frame->encode_remotely (description, 1200));
 
 	BOOST_REQUIRE_EQUAL (locally_encoded.size(), remotely_encoded.size());
-	BOOST_CHECK_EQUAL (memcmp (locally_encoded.data().get(), remotely_encoded.data().get(), locally_encoded.size()), 0);
+	BOOST_CHECK_EQUAL (memcmp (locally_encoded.data(), remotely_encoded.data(), locally_encoded.size()), 0);
 }
 
 BOOST_AUTO_TEST_CASE (client_server_test_rgb)
@@ -117,7 +117,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 			)
 		);
 
-	Data locally_encoded = frame->encode_locally ();
+	ArrayData locally_encoded = frame->encode_locally ();
 
 	EncodeServer* server = new EncodeServer (true, 2);
 
@@ -203,7 +203,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 			)
 		);
 
-	Data locally_encoded = frame->encode_locally ();
+	ArrayData locally_encoded = frame->encode_locally ();
 
 	EncodeServer* server = new EncodeServer (true, 2);
 
@@ -274,7 +274,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 			)
 		);
 
-	Data raw_locally_encoded = raw_frame->encode_locally ();
+	ArrayData raw_locally_encoded = raw_frame->encode_locally ();
 
 	shared_ptr<PlayerVideo> j2k_pvf (
 		new PlayerVideo (
@@ -303,7 +303,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 			)
 		);
 
-	Data j2k_locally_encoded = j2k_frame->encode_locally ();
+	ArrayData j2k_locally_encoded = j2k_frame->encode_locally ();
 
 	EncodeServer* server = new EncodeServer (true, 2);
 

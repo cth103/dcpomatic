@@ -687,7 +687,7 @@ write_image (shared_ptr<const Image> image, boost::filesystem::path file)
 	png_destroy_write_struct (&png_ptr, &info_ptr);
 	png_free (png_ptr, row_pointers);
 
-	dcp::Data(state.data, state.size).write(file);
+	dcp::ArrayData(state.data, state.size).write(file);
 }
 
 

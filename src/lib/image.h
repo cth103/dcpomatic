@@ -31,6 +31,7 @@
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
+#include <dcp/array_data.h>
 #include <dcp/colour_conversion.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
@@ -83,7 +84,7 @@ public:
 
 	size_t memory_used () const;
 
-	dcp::Data as_png () const;
+	dcp::ArrayData as_png () const;
 
 	void png_error (char const * message);
 

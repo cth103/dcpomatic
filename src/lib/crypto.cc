@@ -34,39 +34,39 @@ using namespace dcpomatic;
 /** The cipher that this code uses */
 #define CIPHER EVP_aes_256_cbc()
 
-dcp::Data
+dcp::ArrayData
 dcpomatic::random_iv ()
 {
 	EVP_CIPHER const * cipher = CIPHER;
-	dcp::Data iv (EVP_CIPHER_iv_length(cipher));
-	RAND_bytes (iv.data().get(), iv.size());
+	dcp::ArrayData iv (EVP_CIPHER_iv_length(cipher));
+	RAND_bytes (iv.data(), iv.size());
 	return iv;
 }
 
-dcp::Data
-dcpomatic::encrypt (string plaintext, dcp::Data key, dcp::Data iv)
+dcp::ArrayData
+dcpomatic::encrypt (string plaintext, dcp::ArrayData key, dcp::ArrayData iv)
 {
 	EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new ();
 	if (!ctx) {
 		throw CryptoError ("could not create cipher context");
 	}
 
-	int r = EVP_EncryptInit_ex (ctx, CIPHER, 0, key.data().get(), iv.data().get());
+	int r = EVP_EncryptInit_ex (ctx, CIPHER, 0, key.data(), iv.data());
 	if (r != 1) {
 		throw CryptoError ("could not initialise cipher context for encryption");
 	}
 
-	dcp::Data ciphertext (plaintext.size() * 2);
+	dcp::ArrayData ciphertext (plaintext.size() * 2);
 
 	int len;
-	r = EVP_EncryptUpdate (ctx, ciphertext.data().get(), &len, (uint8_t const *) plaintext.c_str(), plaintext.size());
+	r = EVP_EncryptUpdate (ctx, ciphertext.data(), &len, (uint8_t const *) plaintext.c_str(), plaintext.size());
 	if (r != 1) {
 		throw CryptoError ("could not encrypt data");
 	}
 
 	int ciphertext_len = len;
 
-	r = EVP_EncryptFinal_ex (ctx, ciphertext.data().get() + len, &len);
+	r = EVP_EncryptFinal_ex (ctx, ciphertext.data() + len, &len);
 	if (r != 1) {
 		throw CryptoError ("could not finish encryption");
 	}
@@ -79,40 +79,40 @@ dcpomatic::encrypt (string plaintext, dcp::Data key, dcp::Data iv)
 }
 
 string
-dcpomatic::decrypt (dcp::Data ciphertext, dcp::Data key, dcp::Data iv)
+dcpomatic::decrypt (dcp::ArrayData ciphertext, dcp::ArrayData key, dcp::ArrayData iv)
 {
 	EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new ();
 	if (!ctx) {
 		throw CryptoError ("could not create cipher context");
 	}
 
-	int r = EVP_DecryptInit_ex (ctx, CIPHER, 0, key.data().get(), iv.data().get());
+	int r = EVP_DecryptInit_ex (ctx, CIPHER, 0, key.data(), iv.data());
 	if (r != 1) {
 		throw CryptoError ("could not initialise cipher context for decryption");
 	}
 
-	dcp::Data plaintext (ciphertext.size() * 2);
+	dcp::ArrayData plaintext (ciphertext.size() * 2);
 
 	int len;
-	r = EVP_DecryptUpdate (ctx, plaintext.data().get(), &len, ciphertext.data().get(), ciphertext.size());
+	r = EVP_DecryptUpdate (ctx, plaintext.data(), &len, ciphertext.data(), ciphertext.size());
 	if (r != 1) {
 		throw CryptoError ("could not decrypt data");
 	}
 
 	int plaintext_len = len;
 
-	r = EVP_DecryptFinal_ex (ctx, plaintext.data().get() + len, &len);
+	r = EVP_DecryptFinal_ex (ctx, plaintext.data() + len, &len);
 	if (r != 1) {
 		throw CryptoError ("could not finish decryption");
 	}
 
 	plaintext_len += len;
 	plaintext.set_size (plaintext_len + 1);
-	plaintext.data().get()[plaintext_len] = '\0';
+	plaintext.data()[plaintext_len] = '\0';
 
 	EVP_CIPHER_CTX_free (ctx);
 
-	return string ((char *) plaintext.data().get());
+	return string ((char *) plaintext.data());
 }
 
 int

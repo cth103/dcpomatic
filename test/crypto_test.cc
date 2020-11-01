@@ -29,12 +29,12 @@ using std::list;
 
 BOOST_AUTO_TEST_CASE (crypto_test)
 {
-	dcp::Data key (dcpomatic::crypto_key_length());
-	dcp::Data iv = dcpomatic::random_iv ();
+	dcp::ArrayData key (dcpomatic::crypto_key_length());
+	dcp::ArrayData iv = dcpomatic::random_iv ();
 
-	RAND_bytes (key.data().get(), dcpomatic::crypto_key_length());
+	RAND_bytes (key.data(), dcpomatic::crypto_key_length());
 
-	dcp::Data ciphertext = dcpomatic::encrypt ("Can you see any fish?", key, iv);
+	dcp::ArrayData ciphertext = dcpomatic::encrypt ("Can you see any fish?", key, iv);
 	BOOST_REQUIRE_EQUAL (dcpomatic::decrypt (ciphertext, key, iv), "Can you see any fish?");
 
 	key.data()[5]++;

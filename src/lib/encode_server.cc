@@ -65,8 +65,8 @@ using boost::thread;
 using boost::bind;
 using boost::scoped_array;
 using boost::optional;
+using dcp::ArrayData;
 using dcp::Size;
-using dcp::Data;
 using dcp::raw_convert;
 
 EncodeServer::EncodeServer (bool verbose, int num_threads)
@@ -145,14 +145,14 @@ EncodeServer::process (shared_ptr<Socket> socket, struct timeval& after_read, st
 
 	gettimeofday (&after_read, 0);
 
-	Data encoded = dcp_video_frame.encode_locally ();
+	ArrayData encoded = dcp_video_frame.encode_locally ();
 
 	gettimeofday (&after_encode, 0);
 
 	try {
 		Socket::WriteDigestScope ds (socket);
 		socket->write (encoded.size());
-		socket->write (encoded.data().get(), encoded.size());
+		socket->write (encoded.data(), encoded.size());
 	} catch (std::exception& e) {
 		cerr << "Send failed; frame " << dcp_video_frame.index() << "\n";
 		LOG_ERROR ("Send failed; frame %1", dcp_video_frame.index());

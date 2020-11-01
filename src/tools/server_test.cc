@@ -46,7 +46,7 @@ using boost::bind;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
-using dcp::Data;
+using dcp::ArrayData;
 
 static shared_ptr<Film> film;
 static EncodeServerDescription* server;
@@ -63,8 +63,8 @@ process_video (shared_ptr<PlayerVideo> pvf)
 
 	++frame_count;
 
-	Data local_encoded = local->encode_locally ();
-	Data remote_encoded;
+	ArrayData local_encoded = local->encode_locally ();
+	ArrayData remote_encoded;
 
 	string remote_error;
 	try {
@@ -83,8 +83,8 @@ process_video (shared_ptr<PlayerVideo> pvf)
 		return;
 	}
 
-	uint8_t* p = local_encoded.data().get ();
-	uint8_t* q = remote_encoded.data().get ();
+	uint8_t* p = local_encoded.data();
+	uint8_t* q = remote_encoded.data();
 	for (int i = 0; i < local_encoded.size(); ++i) {
 		if (*p++ != *q++) {
 			cout << "\033[0;31mdata differ\033[0m at byte " << i << "\n";

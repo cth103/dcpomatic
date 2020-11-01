@@ -38,7 +38,7 @@ using std::string;
 using boost::shared_ptr;
 using boost::scoped_array;
 using boost::optional;
-using dcp::Data;
+using dcp::ArrayData;
 using namespace dcpomatic;
 
 StringTextFile::StringTextFile (shared_ptr<const StringTextFileContent> content)
@@ -64,11 +64,11 @@ StringTextFile::StringTextFile (shared_ptr<const StringTextFileContent> content)
 	} else {
 		/* Text-based file; sort out its character encoding before we try to parse it */
 
-		Data in (content->path (0));
+		ArrayData in (content->path (0));
 
 		UErrorCode status = U_ZERO_ERROR;
 		UCharsetDetector* detector = ucsdet_open (&status);
-		ucsdet_setText (detector, reinterpret_cast<const char *> (in.data().get()), in.size(), &status);
+		ucsdet_setText (detector, reinterpret_cast<const char *>(in.data()), in.size(), &status);
 
 		UCharsetMatch const * match = ucsdet_detect (detector, &status);
 		char const * in_charset = ucsdet_getName (match, &status);
@@ -78,7 +78,7 @@ StringTextFile::StringTextFile (shared_ptr<const StringTextFileContent> content)
 		scoped_array<uint16_t> utf16 (new uint16_t[in.size() * 2]);
 		int const utf16_len = ucnv_toUChars (
 				to_utf16, reinterpret_cast<UChar*>(utf16.get()), in.size() * 2,
-				reinterpret_cast<const char *> (in.data().get()), in.size(),
+				reinterpret_cast<const char *>(in.data()), in.size(),
 				&status
 				);
 

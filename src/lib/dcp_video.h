@@ -21,7 +21,7 @@
 #include "types.h"
 #include "encode_server_description.h"
 #include <libcxml/cxml.h>
-#include <dcp/data.h>
+#include <dcp/array_data.h>
 
 /** @file  src/dcp_video_frame.h
  *  @brief A single frame of video destined for a DCP.
@@ -45,8 +45,8 @@ public:
 	DCPVideo (boost::shared_ptr<const PlayerVideo>, int, int, int, Resolution);
 	DCPVideo (boost::shared_ptr<const PlayerVideo>, cxml::ConstNodePtr);
 
-	dcp::Data encode_locally ();
-	dcp::Data encode_remotely (EncodeServerDescription, int timeout = 30);
+	dcp::ArrayData encode_locally ();
+	dcp::ArrayData encode_remotely (EncodeServerDescription, int timeout = 30);
 
 	int index () const {
 		return _index;

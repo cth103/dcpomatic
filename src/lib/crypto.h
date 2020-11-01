@@ -18,14 +18,14 @@
 
 */
 
-#include <dcp/data.h>
+#include <dcp/array_data.h>
 
 namespace dcpomatic {
-	
-dcp::Data random_iv ();
-dcp::Data encrypt (std::string plaintext, dcp::Data key, dcp::Data iv);
-std::string decrypt (dcp::Data ciphertext, dcp::Data key, dcp::Data iv);
-int crypto_key_length ();	
+
+dcp::ArrayData random_iv ();
+dcp::ArrayData encrypt (std::string plaintext, dcp::ArrayData key, dcp::ArrayData iv);
+std::string decrypt (dcp::ArrayData ciphertext, dcp::ArrayData key, dcp::ArrayData iv);
+int crypto_key_length ();
 
 }
 

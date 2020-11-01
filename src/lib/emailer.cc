@@ -35,7 +35,7 @@ using std::list;
 using std::cout;
 using std::pair;
 using boost::shared_ptr;
-using dcp::Data;
+using dcp::ArrayData;
 
 Emailer::Emailer (string from, list<string> to, string subject, string body)
 	: _from (from)
@@ -155,8 +155,8 @@ Emailer::send (string server, int port, EmailProtocol protocol, string user, str
 		BIO* bio = BIO_new (BIO_s_mem());
 		bio = BIO_push (b64, bio);
 
-		Data data (i.file);
-		BIO_write (bio, data.data().get(), data.size());
+		ArrayData data (i.file);
+		BIO_write (bio, data.data(), data.size());
 		(void) BIO_flush (bio);
 
 		char* out;

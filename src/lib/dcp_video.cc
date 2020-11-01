@@ -60,7 +60,7 @@ using std::string;
 using std::cout;
 using boost::shared_ptr;
 using dcp::Size;
-using dcp::Data;
+using dcp::ArrayData;
 using dcp::raw_convert;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -118,12 +118,12 @@ DCPVideo::convert_to_xyz (shared_ptr<const PlayerVideo> frame, dcp::NoteHandler 
 /** J2K-encode this frame on the local host.
  *  @return Encoded data.
  */
-Data
+ArrayData
 DCPVideo::encode_locally ()
 {
 	string const comment = Config::instance()->dcp_j2k_comment();
 
-	Data enc = dcp::compress_j2k (
+	ArrayData enc = dcp::compress_j2k (
 		convert_to_xyz (_frame, boost::bind(&Log::dcp_log, dcpomatic_log.get(), _1, _2)),
 		_j2k_bandwidth,
 		_frames_per_second,
@@ -154,7 +154,7 @@ DCPVideo::encode_locally ()
  *  @param timeout timeout in seconds.
  *  @return Encoded data.
  */
-Data
+ArrayData
 DCPVideo::encode_remotely (EncodeServerDescription serv, int timeout)
 {
 	boost::asio::io_service io_service;
@@ -192,9 +192,9 @@ DCPVideo::encode_remotely (EncodeServerDescription serv, int timeout)
 	*/
 	Socket::ReadDigestScope ds (socket);
 	LOG_TIMING("start-remote-encode thread=%1", thread_id ());
-	Data e (socket->read_uint32 ());
+	ArrayData e (socket->read_uint32 ());
 	LOG_TIMING("start-remote-receive thread=%1", thread_id ());
-	socket->read (e.data().get(), e.size());
+	socket->read (e.data(), e.size());
 	LOG_TIMING("finish-remote-receive thread=%1", thread_id ());
 	if (!ds.check()) {
 		throw NetworkError ("Checksums do not match");

@@ -1278,7 +1278,7 @@ Image::png_error (char const * message)
 	throw EncodeError (String::compose ("Error during PNG write: %1", message));
 }
 
-dcp::Data
+dcp::ArrayData
 Image::as_png () const
 {
 	DCPOMATIC_ASSERT (bytes_per_pixel(0) == 4);
@@ -1317,5 +1317,5 @@ Image::as_png () const
 	png_destroy_write_struct (&png_ptr, &info_ptr);
 	png_free (png_ptr, row_pointers);
 
-	return dcp::Data (state.data, state.size);
+	return dcp::ArrayData (state.data, state.size);
 }
