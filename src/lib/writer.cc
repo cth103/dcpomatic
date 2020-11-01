@@ -66,6 +66,7 @@ using boost::optional;
 using namespace boost::placeholders;
 #endif
 using dcp::Data;
+using dcp::ArrayData;
 using namespace dcpomatic;
 
 Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
@@ -130,7 +131,7 @@ Writer::~Writer ()
  *  @param eyes Eyes that this frame image is for.
  */
 void
-Writer::write (Data encoded, Frame frame, Eyes eyes)
+Writer::write (shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_state_mutex);
 
@@ -426,7 +427,7 @@ try
 			case QueueItem::FULL:
 				LOG_DEBUG_ENCODE (N_("Writer FULL-writes %1 (%2)"), qi.frame, (int) qi.eyes);
 				if (!qi.encoded) {
-					qi.encoded = Data (_film->j2c_path (qi.reel, qi.frame, qi.eyes, false));
+					qi.encoded.reset (new ArrayData(_film->j2c_path(qi.reel, qi.frame, qi.eyes, false)));
 				}
 				reel.write (qi.encoded, qi.frame, qi.eyes);
 				++_full_written;

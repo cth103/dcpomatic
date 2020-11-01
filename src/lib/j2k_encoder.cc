@@ -127,7 +127,7 @@ J2KEncoder::end ()
 		LOG_GENERAL (N_("Encode left-over frame %1"), (*i)->index ());
 		try {
 			_writer->write (
-				(*i)->encode_locally(),
+				shared_ptr<dcp::Data>(new dcp::ArrayData((*i)->encode_locally())),
 				(*i)->index(),
 				(*i)->eyes()
 				);
@@ -296,12 +296,12 @@ try
 
 			lock.unlock ();
 
-			optional<Data> encoded;
+			shared_ptr<Data> encoded;
 
 			/* We need to encode this input */
 			if (server) {
 				try {
-					encoded = vf->encode_remotely (server.get ());
+					encoded.reset(new dcp::ArrayData(vf->encode_remotely(server.get())));
 
 					if (remote_backoff > 0) {
 						LOG_GENERAL ("%1 was lost, but now she is found; removing backoff", server->host_name ());
@@ -324,7 +324,7 @@ try
 			} else {
 				try {
 					LOG_TIMING ("start-local-encode thread=%1 frame=%2", thread_id(), vf->index());
-					encoded = vf->encode_locally ();
+					encoded.reset(new dcp::ArrayData(vf->encode_locally()));
 					LOG_TIMING ("finish-local-encode thread=%1 frame=%2", thread_id(), vf->index());
 				} catch (std::exception& e) {
 					/* This is very bad, so don't cope with it, just pass it on */
@@ -334,7 +334,7 @@ try
 			}
 
 			if (encoded) {
-				_writer->write (encoded.get(), vf->index (), vf->eyes ());
+				_writer->write (encoded, vf->index(), vf->eyes());
 				frame_done ();
 			} else {
 				lock.lock ();

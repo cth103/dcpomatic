@@ -70,7 +70,7 @@ public:
 	} type;
 
 	/** encoded data for FULL */
-	boost::optional<dcp::Data> encoded;
+	boost::shared_ptr<const dcp::Data> encoded;
 	/** size of data for FAKE */
 	int size;
 	/** reel index */
@@ -105,7 +105,7 @@ public:
 
 	bool can_fake_write (Frame) const;
 
-	void write (dcp::Data, Frame, Eyes);
+	void write (boost::shared_ptr<const dcp::Data>, Frame, Eyes);
 	void fake_write (Frame, Eyes);
 	bool can_repeat (Frame) const;
 	void repeat (Frame, Eyes);

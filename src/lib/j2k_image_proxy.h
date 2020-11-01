@@ -19,8 +19,8 @@
 */
 
 #include "image_proxy.h"
+#include <dcp/array_data.h>
 #include <dcp/util.h>
-#include <dcp/data.h>
 #include <boost/thread/mutex.hpp>
 
 namespace dcp {
@@ -60,7 +60,7 @@ public:
 	bool same (boost::shared_ptr<const ImageProxy>) const;
 	int prepare (boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const;
 
-	dcp::Data j2k () const {
+	boost::shared_ptr<const dcp::Data> j2k () const {
 		return _data;
 	}
 
@@ -74,9 +74,9 @@ private:
 	friend struct client_server_test_j2k;
 
 	/* For tests */
-	J2KImageProxy (dcp::Data data, dcp::Size size, AVPixelFormat pixel_format);
+	J2KImageProxy (dcp::ArrayData data, dcp::Size size, AVPixelFormat pixel_format);
 
-	dcp::Data _data;
+	boost::shared_ptr<const dcp::Data> _data;
 	dcp::Size _size;
 	boost::optional<dcp::Eye> _eye;
 	mutable boost::shared_ptr<Image> _image;

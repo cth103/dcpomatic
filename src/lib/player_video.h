@@ -79,7 +79,7 @@ public:
 	bool reset_metadata (boost::shared_ptr<const Film> film, dcp::Size video_container_size, dcp::Size film_frame_size);
 
 	bool has_j2k () const;
-	dcp::Data j2k () const;
+	boost::shared_ptr<const dcp::Data> j2k () const;
 
 	Eyes eyes () const {
 		return _eyes;

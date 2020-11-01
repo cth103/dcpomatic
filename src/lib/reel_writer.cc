@@ -67,6 +67,7 @@ using boost::dynamic_pointer_cast;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
+using dcp::ArrayData;
 using dcp::Data;
 using dcp::raw_convert;
 using namespace dcpomatic;
@@ -289,14 +290,14 @@ ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
 }
 
 void
-ReelWriter::write (optional<Data> encoded, Frame frame, Eyes eyes)
+ReelWriter::write (shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
 {
 	if (!_picture_asset_writer) {
 		/* We're not writing any data */
 		return;
 	}
 
-	dcp::FrameInfo fin = _picture_asset_writer->write (encoded->data().get (), encoded->size());
+	dcp::FrameInfo fin = _picture_asset_writer->write (encoded->data(), encoded->size());
 	write_frame_info (frame, eyes, fin);
 	_last_written[eyes] = encoded;
 }
@@ -338,7 +339,7 @@ ReelWriter::repeat_write (Frame frame, Eyes eyes)
 	}
 
 	dcp::FrameInfo fin = _picture_asset_writer->write (
-		_last_written[eyes]->data().get(),
+		_last_written[eyes]->data(),
 		_last_written[eyes]->size()
 		);
 	write_frame_info (frame, eyes, fin);
