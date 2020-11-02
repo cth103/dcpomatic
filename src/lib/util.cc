@@ -592,7 +592,7 @@ short_audio_channel_name (int c)
 		_("DBP"),
 		_("DBS"),
 		"",
-		""
+		_("Sign")
 	};
 
 	return channels[c];

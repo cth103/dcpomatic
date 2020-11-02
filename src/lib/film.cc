@@ -1722,7 +1722,7 @@ Film::audio_output_names () const
 	vector<NamedChannel> n;
 
 	for (int i = 0; i < audio_channels(); ++i) {
-		if (i != 8 && i != 9 && i != 15) {
+		if (i != 8 && i != 9) {
 			n.push_back (NamedChannel(short_audio_channel_name(i), i));
 		}
 	}
