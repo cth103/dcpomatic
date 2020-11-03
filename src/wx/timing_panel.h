@@ -42,8 +42,6 @@ private:
 	void trim_end_changed ();
 	void trim_end_to_playhead_clicked ();
 	void play_length_changed ();
-	void video_frame_rate_changed ();
-	void set_video_frame_rate ();
 	void update_full_length ();
 	void update_play_length ();
 	void setup_sensitivity ();
@@ -56,7 +54,6 @@ private:
 	wxStaticText* _s_label;
 	wxStaticText* _f_label;
 	wxStaticText* _colon[3];
-	wxStaticText* _tip;
 	wxStaticText* _position_label;
 	Timecode<dcpomatic::DCPTime>* _position;
 	wxButton* _move_to_start_of_reel;
@@ -70,9 +67,6 @@ private:
 	Timecode<dcpomatic::ContentTime>* _trim_end;
 	wxStaticText* _play_length_label;
 	Timecode<dcpomatic::DCPTime>* _play_length;
-	wxStaticText* _video_frame_rate_label;
-	wxTextCtrl* _video_frame_rate;
-	wxButton* _set_video_frame_rate;
 
 	Suspender _film_content_changed_suspender;
 };

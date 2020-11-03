@@ -41,10 +41,14 @@ private:
 	void edit_filters ();
 	void filters_changed (std::vector<Filter const *> filters);
 	void setup_filters ();
+	void set_video_frame_rate ();
+	void video_frame_rate_changed ();
 
 	boost::shared_ptr<Content> _content;
 
 	wxStaticText* _filters;
 	wxButton* _filters_button;
+	wxTextCtrl* _video_frame_rate;
+	wxButton* _set_video_frame_rate;
 };
 

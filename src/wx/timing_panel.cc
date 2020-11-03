@@ -109,36 +109,6 @@ TimingPanel::TimingPanel (ContentPanel* p, weak_ptr<FilmViewer> viewer)
 	_play_length_label = create_label (this, _("Play length"), true);
 	_play_length = new Timecode<DCPTime> (this);
 
-	_video_frame_rate_label = create_label (this, _("Video frame rate"), true);
-	_video_frame_rate = new wxTextCtrl (this, wxID_ANY);
-	_set_video_frame_rate = new Button (this, _("Set"));
-	_set_video_frame_rate->Enable (false);
-
-	/* We can't use Wrap() here as it doesn't work with markup:
-	 * http://trac.wxwidgets.org/ticket/13389
-	 */
-
-	wxString in = _("<i>Only change this if the content's frame rate has been read incorrectly.</i>");
-	wxString out;
-	int const width = 20;
-	int current = 0;
-	for (size_t i = 0; i < in.Length(); ++i) {
-		if (in[i] == ' ' && current >= width) {
-			out += '\n';
-			current = 0;
-		} else {
-			out += in[i];
-			++current;
-		}
-	}
-
-	_tip = new StaticText (this, wxT (""));
-	_tip->SetLabelMarkup (out);
-#ifdef DCPOMATIC_OSX
-	/* Hack to stop hidden text on some versions of OS X */
-	_tip->SetMinSize (wxSize (-1, 256));
-#endif
-
 	_position->Changed.connect    (boost::bind (&TimingPanel::position_changed, this));
 	_move_to_start_of_reel->Bind  (wxEVT_BUTTON, boost::bind (&TimingPanel::move_to_start_of_reel_clicked, this));
 	_full_length->Changed.connect (boost::bind (&TimingPanel::full_length_changed, this));
@@ -147,8 +117,6 @@ TimingPanel::TimingPanel (ContentPanel* p, weak_ptr<FilmViewer> viewer)
 	_trim_end->Changed.connect    (boost::bind (&TimingPanel::trim_end_changed, this));
 	_trim_end_to_playhead->Bind   (wxEVT_BUTTON, boost::bind (&TimingPanel::trim_end_to_playhead_clicked, this));
 	_play_length->Changed.connect (boost::bind (&TimingPanel::play_length_changed, this));
-	_video_frame_rate->Bind       (wxEVT_TEXT, boost::bind (&TimingPanel::video_frame_rate_changed, this));
-	_set_video_frame_rate->Bind   (wxEVT_BUTTON, boost::bind (&TimingPanel::set_video_frame_rate, this));
 
 	shared_ptr<FilmViewer> fv = _viewer.lock ();
 	DCPOMATIC_ASSERT (fv);
@@ -185,10 +153,6 @@ TimingPanel::add_to_grid ()
 	_full_length->Show (full);
 	_play_length_label->Show (full);
 	_play_length->Show (full);
-	_video_frame_rate_label->Show (full);
-	_video_frame_rate->Show (full);
-	_set_video_frame_rate->Show (full);
-	_tip->Show (full);
 
 	if (full) {
 		_grid->Add (_move_to_start_of_reel, wxGBPosition(r, 1));
@@ -217,17 +181,6 @@ TimingPanel::add_to_grid ()
 		add_label_to_sizer (_grid, _play_length_label, true, wxGBPosition(r, 0));
 		_grid->Add (_play_length, wxGBPosition(r, 1));
 		++r;
-
-		{
-			add_label_to_sizer (_grid, _video_frame_rate_label, true, wxGBPosition(r, 0));
-			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-			s->Add (_video_frame_rate, 1, wxEXPAND);
-			s->Add (_set_video_frame_rate, 0, wxLEFT | wxRIGHT, 8);
-			_grid->Add (s, wxGBPosition(r, 1), wxGBSpan(1, 2));
-		}
-		++r;
-
-		_grid->Add (_tip, wxGBPosition(r, 1), wxGBSpan(1, 2));
 	}
 
 	/* Completely speculative fix for #891 */
@@ -356,16 +309,6 @@ TimingPanel::film_content_changed (int property)
 			}
 
 		}
-
-		bool const single_frame_image_content = content && dynamic_pointer_cast<const ImageContent> (content) && content->number_of_paths() == 1;
-
-		if ((check_vc.size() == 1 || count_ac == 1 || count_sc == 1) && !single_frame_image_content) {
-			checked_set (_video_frame_rate, locale_convert<string> (content->video_frame_rate().get(), 5));
-			_video_frame_rate->Enable (true);
-		} else {
-			checked_set (_video_frame_rate, wxT (""));
-			_video_frame_rate->Enable (false);
-		}
 	}
 
 	bool have_still = false;
@@ -378,7 +321,6 @@ TimingPanel::film_content_changed (int property)
 
 	_full_length->set_editable (have_still);
 	_play_length->set_editable (!have_still);
-	_set_video_frame_rate->Enable (false);
 	setup_sensitivity ();
 }
 
@@ -480,45 +422,6 @@ TimingPanel::play_length_changed ()
 	}
 }
 
-void
-TimingPanel::video_frame_rate_changed ()
-{
-	bool enable = true;
-	if (_video_frame_rate->GetValue() == wxT("")) {
-		/* No frame rate has been entered; if the user clicks "set" now it would unset the video
-		   frame rate in the selected content.  This can't be allowed for some content types.
-		*/
-		BOOST_FOREACH (shared_ptr<Content> i, _parent->selected()) {
-			if (
-				dynamic_pointer_cast<DCPContent>(i) ||
-				dynamic_pointer_cast<FFmpegContent>(i)
-				) {
-				enable = false;
-			}
-		}
-	}
-
-	_set_video_frame_rate->Enable (enable);
-}
-
-void
-TimingPanel::set_video_frame_rate ()
-{
-	optional<double> fr;
-	if (_video_frame_rate->GetValue() != wxT("")) {
-		fr = locale_convert<double> (wx_to_std (_video_frame_rate->GetValue ()));
-	}
-	Suspender::Block bl = _film_content_changed_suspender.block ();
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
-		if (fr) {
-			i->set_video_frame_rate (*fr);
-		} else {
-			i->unset_video_frame_rate ();
-		}
-	}
-
-	_set_video_frame_rate->Enable (false);
-}
 
 void
 TimingPanel::content_selection_changed ()
@@ -599,7 +502,6 @@ TimingPanel::setup_sensitivity ()
 	_trim_start->Enable (e);
 	_trim_end->Enable (e);
 	_play_length->Enable (e);
-	_video_frame_rate->Enable (e);
 
 	shared_ptr<FilmViewer> fv = _viewer.lock ();
 	DCPOMATIC_ASSERT (fv);
