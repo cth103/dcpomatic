@@ -112,16 +112,17 @@ GLVideoView::check_for_butler_errors ()
 void
 GLVideoView::update ()
 {
-	if (!_thread.joinable()) {
-		_thread = boost::thread (boost::bind(&GLVideoView::thread, this));
-	}
-
 	{
 		boost::mutex::scoped_lock lm (_canvas_mutex);
 		if (!_canvas->IsShownOnScreen()) {
 			return;
 		}
 	}
+
+	if (!_thread.joinable()) {
+		_thread = boost::thread (boost::bind(&GLVideoView::thread, this));
+	}
+
 	request_one_shot ();
 }
 
