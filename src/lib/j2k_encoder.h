@@ -87,6 +87,7 @@ private:
 
 	EventHistory _history;
 
+	boost::mutex _threads_mutex;
 	boost::shared_ptr<boost::thread_group> _threads;
 
 	mutable boost::mutex _queue_mutex;

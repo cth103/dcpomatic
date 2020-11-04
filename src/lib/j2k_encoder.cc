@@ -178,7 +178,11 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 {
 	_waker.nudge ();
 
-	size_t threads = _threads->size();
+	size_t threads = 0;
+	{
+		boost::mutex::scoped_lock lm (_threads_mutex);
+		threads = _threads->size();
+	}
 
 	boost::mutex::scoped_lock queue_lock (_queue_mutex);
 
@@ -240,6 +244,7 @@ void
 J2KEncoder::terminate_threads ()
 {
 	boost::this_thread::disable_interruption dis;
+	boost::mutex::scoped_lock lm (_threads_mutex);
 
 	if (!_threads) {
 		return;
@@ -369,6 +374,8 @@ J2KEncoder::servers_list_changed ()
 {
 	terminate_threads ();
 	_threads.reset (new boost::thread_group());
+
+	boost::mutex::scoped_lock lm (_threads_mutex);
 
 	/* XXX: could re-use threads */
 
