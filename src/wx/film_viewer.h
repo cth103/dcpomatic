@@ -140,12 +140,13 @@ public:
 		return _closed_captions_dialog;
 	}
 	void finished ();
+	void image_changed (boost::shared_ptr<PlayerVideo> video);
 
 	bool pending_idle_get () const {
 		return _idle_get;
 	}
 
-	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
+	boost::signals2::signal<void (boost::shared_ptr<PlayerVideo>)> ImageChanged;
 	boost::signals2::signal<void (dcpomatic::DCPTime)> Started;
 	boost::signals2::signal<void (dcpomatic::DCPTime)> Stopped;
 	/** While playing back we reached the end of the film (emitted from GUI thread) */

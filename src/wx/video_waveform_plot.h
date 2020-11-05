@@ -55,7 +55,7 @@ private:
 	void paint ();
 	void sized (wxSizeEvent &);
 	void create_waveform ();
-	void set_image (boost::weak_ptr<PlayerVideo>);
+	void set_image (boost::shared_ptr<PlayerVideo>);
 	void mouse_moved (wxMouseEvent &);
 
 	boost::weak_ptr<const Film> _film;

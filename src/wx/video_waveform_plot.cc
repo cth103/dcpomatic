@@ -192,18 +192,16 @@ note ()
 }
 
 void
-VideoWaveformPlot::set_image (weak_ptr<PlayerVideo> image)
+VideoWaveformPlot::set_image (shared_ptr<PlayerVideo> image)
 {
 	if (!_enabled) {
 		return;
 	}
 
-	shared_ptr<PlayerVideo> pv = image.lock ();
-	DCPOMATIC_ASSERT (pv);
 	/* We must copy the PlayerVideo here as we will call ::image() on it, potentially
 	   with a different pixel_format than was used when ::prepare() was called.
 	*/
-	_image = DCPVideo::convert_to_xyz (pv->shallow_copy(), boost::bind (&note));
+	_image = DCPVideo::convert_to_xyz (image->shallow_copy(), boost::bind(&note));
 	_dirty = true;
 	Refresh ();
 }

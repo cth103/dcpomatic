@@ -258,7 +258,7 @@ SimpleVideoView::update ()
 		);
 
 	_state_timer.set ("ImageChanged");
-	_viewer->ImageChanged (player_video().first);
+	_viewer->image_changed (player_video().first);
 	_state_timer.unset ();
 
 	_inter_position = player_video().first->inter_position ();

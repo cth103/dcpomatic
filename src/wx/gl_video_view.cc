@@ -327,6 +327,7 @@ GLVideoView::set_image_and_draw ()
 	if (pv) {
 		set_image (pv->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
 		draw (pv->inter_position(), pv->inter_size());
+		_viewer->image_changed (pv);
 	}
 }
 

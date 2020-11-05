@@ -732,3 +732,10 @@ FilmViewer::content_change (ChangeType type, int property)
 	}
 }
 
+
+void
+FilmViewer::image_changed (shared_ptr<PlayerVideo> pv)
+{
+	emit (boost::bind(boost::ref(ImageChanged), pv));
+}
+
