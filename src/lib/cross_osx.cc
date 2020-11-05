@@ -209,9 +209,8 @@ void
 start_tool (string executable, string app)
 {
 	boost::filesystem::path exe_path = directory_containing_executable();
-	exe_path = exe_path.parent_path (); // MacOS
 	exe_path = exe_path.parent_path (); // Contents
-	exe_path = exe_path.parent_path (); // DCP-o-matic.app
+	exe_path = exe_path.parent_path (); // DCP-o-matic 2.app
 	exe_path = exe_path.parent_path (); // Applications
 	exe_path /= app;
 	exe_path /= "Contents";
