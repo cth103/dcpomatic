@@ -208,20 +208,23 @@ Waker::~Waker ()
 void
 start_tool (string executable, string app)
 {
-	boost::filesystem::path batch = directory_containing_executable();
-	batch = batch.parent_path (); // MacOS
-	batch = batch.parent_path (); // Contents
-	batch = batch.parent_path (); // DCP-o-matic.app
-	batch = batch.parent_path (); // Applications
-	batch /= app;
-	batch /= "Contents";
-	batch /= "MacOS";
-	batch /= executable;
+	boost::filesystem::path exe_path = directory_containing_executable();
+	exe_path = exe_path.parent_path (); // MacOS
+	exe_path = exe_path.parent_path (); // Contents
+	exe_path = exe_path.parent_path (); // DCP-o-matic.app
+	exe_path = exe_path.parent_path (); // Applications
+	exe_path /= app;
+	exe_path /= "Contents";
+	exe_path /= "MacOS";
+	exe_path /= executable;
 
 	pid_t pid = fork ();
 	if (pid == 0) {
-		int const r = system (batch.string().c_str());
+		LOG_GENERAL ("start_tool %1 %2 with path %3", executable, app, exe_path.string());
+		int const r = system (exe_path.string().c_str());
 		exit (WEXITSTATUS (r));
+	} else if (pid == -1) {
+		LOG_ERROR_NC("Fork failed in start_tool");
 	}
 }
 
