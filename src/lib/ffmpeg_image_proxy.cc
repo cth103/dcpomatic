@@ -30,6 +30,7 @@
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
+#include <libavutil/pixdesc.h>
 }
 DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
@@ -48,23 +49,26 @@ using boost::optional;
 using boost::dynamic_pointer_cast;
 using dcp::raw_convert;
 
-FFmpegImageProxy::FFmpegImageProxy (boost::filesystem::path path)
+FFmpegImageProxy::FFmpegImageProxy (boost::filesystem::path path, VideoRange video_range)
 	: _data (path)
+	, _video_range (video_range)
 	, _pos (0)
 	, _path (path)
 {
 
 }
 
-FFmpegImageProxy::FFmpegImageProxy (dcp::ArrayData data)
+FFmpegImageProxy::FFmpegImageProxy (dcp::ArrayData data, VideoRange video_range)
 	: _data (data)
+	, _video_range (video_range)
 	, _pos (0)
 {
 
 }
 
-FFmpegImageProxy::FFmpegImageProxy (shared_ptr<cxml::Node>, shared_ptr<Socket> socket)
-	: _pos (0)
+FFmpegImageProxy::FFmpegImageProxy (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket)
+	: _video_range (string_to_video_range(node->string_child("VideoRange")))
+	, _pos (0)
 {
 	uint32_t const size = socket->read_uint32 ();
 	_data = dcp::ArrayData (size);
@@ -188,7 +192,16 @@ FFmpegImageProxy::image (optional<dcp::Size>) const
 		throw DecodeError (N_("could not decode video"));
 	}
 
-	_image.reset (new Image (frame));
+	AVPixelFormat const pix_fmt = static_cast<AVPixelFormat>(frame->format);
+
+	_image.reset (new Image(frame));
+	if (_video_range == VIDEO_RANGE_VIDEO && av_pix_fmt_desc_get(pix_fmt)->flags & AV_PIX_FMT_FLAG_RGB) {
+		/* Asking for the video range to be converted by libswscale (in Image) will not work for
+		 * RGB sources since that method only processes video range in YUV and greyscale.  So we have
+		 * to do it ourselves here.
+		 */
+		_image->video_range_to_full_range();
+	}
 
 	av_packet_unref (&packet);
 	av_frame_free (&frame);
@@ -206,6 +219,7 @@ void
 FFmpegImageProxy::add_metadata (xmlpp::Node* node) const
 {
 	node->add_child("Type")->add_child_text (N_("FFmpeg"));
+	node->add_child("VideoRange")->add_child_text(video_range_to_string(_video_range));
 }
 
 void

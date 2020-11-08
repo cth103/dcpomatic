@@ -229,3 +229,31 @@ bool operator== (NamedChannel const& a, NamedChannel const& b)
 	return a.name == b.name && a.index == b.index;
 }
 
+
+string
+video_range_to_string (VideoRange r)
+{
+	switch (r) {
+	case VIDEO_RANGE_FULL:
+		return "full";
+	case VIDEO_RANGE_VIDEO:
+		return "video";
+	default:
+		DCPOMATIC_ASSERT (false);
+	}
+}
+
+
+VideoRange
+string_to_video_range (string s)
+{
+	if (s == "full") {
+		return VIDEO_RANGE_FULL;
+	} else if (s == "video") {
+		return VIDEO_RANGE_VIDEO;
+	}
+
+	DCPOMATIC_ASSERT (false);
+	return VIDEO_RANGE_FULL;
+}
+

@@ -70,7 +70,7 @@ ImageDecoder::pass ()
 			*/
 			_image.reset (new J2KImageProxy (path, _image_content->video->size(), pf));
 		} else {
-			_image.reset (new FFmpegImageProxy (path));
+			_image.reset (new FFmpegImageProxy(path, _image_content->video->range()));
 		}
 	}
 

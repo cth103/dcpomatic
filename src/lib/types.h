@@ -139,11 +139,16 @@ enum ChangeType
 	CHANGE_TYPE_CANCELLED
 };
 
+
 enum VideoRange
 {
 	VIDEO_RANGE_FULL, ///< full,  or "JPEG" (0-255 for 8-bit)
 	VIDEO_RANGE_VIDEO ///< video, or "MPEG" (16-235 for 8-bit)
 };
+
+extern std::string video_range_to_string (VideoRange r);
+extern VideoRange string_to_video_range (std::string s);
+
 
 /** Type of captions.
  *

@@ -19,6 +19,7 @@
 */
 
 #include "image_proxy.h"
+#include "types.h"
 #include <dcp/array_data.h>
 #include <boost/thread/mutex.hpp>
 #include <boost/filesystem.hpp>
@@ -26,8 +27,8 @@
 class FFmpegImageProxy : public ImageProxy
 {
 public:
-	explicit FFmpegImageProxy (boost::filesystem::path);
-	explicit FFmpegImageProxy (dcp::ArrayData);
+	explicit FFmpegImageProxy (boost::filesystem::path, VideoRange video_range);
+	explicit FFmpegImageProxy (dcp::ArrayData, VideoRange video_range);
 	FFmpegImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
 
 	Result image (
@@ -44,6 +45,7 @@ public:
 
 private:
 	dcp::ArrayData _data;
+	VideoRange _video_range;
 	mutable int64_t _pos;
 	/** Path of a file that this image came from, if applicable; stored so that
 	    failed-decode errors can give more detail.

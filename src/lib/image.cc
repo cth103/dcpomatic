@@ -1319,3 +1319,46 @@ Image::as_png () const
 
 	return dcp::ArrayData (state.data, state.size);
 }
+
+
+void
+Image::video_range_to_full_range ()
+{
+	switch (_pixel_format) {
+	case AV_PIX_FMT_RGB24:
+	{
+		float const factor = 256.0 / 219.0;
+		uint8_t* p = data()[0];
+		int const lines = sample_size(0).height;
+		for (int y = 0; y < lines; ++y) {
+			uint8_t* q = p;
+			for (int x = 0; x < line_size()[0]; ++x) {
+				*q = int((*q - 16) * factor);
+				++q;
+			}
+			p += stride()[0];
+		}
+		break;
+	}
+	case AV_PIX_FMT_GBRP12LE:
+	{
+		float const factor = 4096.0 / 3504.0;
+		for (int c = 0; c < 3; ++c) {
+			uint16_t* p = reinterpret_cast<uint16_t*>(data()[c]);
+			int const lines = sample_size(c).height;
+			for (int y = 0; y < lines; ++y) {
+				uint16_t* q = p;
+				int const line_size_pixels = line_size()[c] / 2;
+				for (int x = 0; x < line_size_pixels; ++x) {
+					*q = int((*q - 256) * factor);
+					++q;
+				}
+			}
+		}
+		break;
+	}
+	default:
+		throw PixelFormatError ("video_range_to_full_range()", _pixel_format);
+	}
+}
+
