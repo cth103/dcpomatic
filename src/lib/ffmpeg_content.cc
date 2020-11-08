@@ -540,8 +540,10 @@ FFmpegContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& 
 		video->add_properties (p);
 
 		if (_bits_per_pixel) {
-			int const sub = 219 * pow (2, _bits_per_pixel.get() - 8);
-			int const total = pow (2, _bits_per_pixel.get());
+			/* Assuming there's three components, so bits per pixel component is _bits_per_pixel / 3 */
+			int const lim_start = pow(2, _bits_per_pixel.get() / 3 - 4);
+			int const lim_end = 235 * pow(2, _bits_per_pixel.get() / 3 - 8);
+			int const total = pow(2, _bits_per_pixel.get() / 3);
 
 			switch (_color_range.get_value_or(AVCOL_RANGE_UNSPECIFIED)) {
 			case AVCOL_RANGE_UNSPECIFIED:
@@ -554,7 +556,7 @@ FFmpegContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& 
 				/// file is limited, so that not all possible values are valid.
 				p.push_back (
 					UserProperty (
-						UserProperty::VIDEO, _("Colour range"), String::compose (_("Limited (%1-%2)"), (total - sub) / 2, (total + sub) / 2)
+						UserProperty::VIDEO, _("Colour range"), String::compose(_("Limited (%1-%2)"), lim_start, lim_end)
 						)
 					);
 				break;
