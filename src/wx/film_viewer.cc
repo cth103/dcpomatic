@@ -534,11 +534,7 @@ FilmViewer::config_changed (Config::Property p)
 					if (_audio.getDeviceInfo(st).name == Config::instance()->sound_output().get()) {
 						break;
 					}
-#ifdef DCPOMATIC_USE_RTERROR
-				} catch (RtError&) {
-#else
 				} catch (RtAudioError&) {
-#endif
 					/* Something went wrong with that device so we don't want to use it anyway */
 				}
 				++st;
@@ -557,11 +553,7 @@ FilmViewer::config_changed (Config::Property p)
 			sp.nChannels = _audio_channels;
 			sp.firstChannel = 0;
 			_audio.openStream (&sp, 0, RTAUDIO_FLOAT32, 48000, &_audio_block_size, &rtaudio_callback, this);
-#ifdef DCPOMATIC_USE_RTERROR
-		} catch (RtError& e) {
-#else
 		} catch (RtAudioError& e) {
-#endif
 			_audio_channels = 0;
 			error_dialog (
 				_video_view->get(),

@@ -886,11 +886,7 @@ SoundPage::setup ()
 			if (dev.probed && dev.outputChannels > 0) {
 				_sound_output->Append (std_to_wx (dev.name));
 			}
-#ifdef DCPOMATIC_USE_RTERROR
-		} catch (RtError&) {
-#else
 		} catch (RtAudioError&) {
-#endif
 			/* Something went wrong so let's just ignore that device */
 		}
 	}
@@ -927,11 +923,7 @@ SoundPage::sound_output_changed ()
 	string default_device;
 	try {
 		default_device = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
-#ifdef DCPOMATIC_USE_RTERROR
-	} catch (RtError&) {
-#else
 	} catch (RtAudioError&) {
-#endif
 		/* Never mind */
 	}
 	if (!so || *so == default_device) {
@@ -958,11 +950,7 @@ SoundPage::config_changed ()
 		RtAudio audio (DCPOMATIC_RTAUDIO_API);
 		try {
 			configured_so = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
-#ifdef DCPOMATIC_USE_RTERROR
-		} catch (RtError&) {
-#else
 		} catch (RtAudioError&) {
-#endif
 			/* Probably no audio devices at all */
 		}
 	}
@@ -1000,11 +988,7 @@ SoundPage::config_changed ()
 				if (info.name == *configured_so && info.outputChannels > 0) {
 					channels = info.outputChannels;
 				}
-#ifdef DCPOMATIC_USE_RTERROR
-			} catch (RtError&) {
-#else
 			} catch (RtAudioError&) {
-#endif
 				/* Never mind */
 			}
 		}

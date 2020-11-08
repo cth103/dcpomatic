@@ -263,16 +263,6 @@ def configure(conf):
         conf.env.LIB_RTAUDIO.append('mfuuid')
         conf.env.LIB_RTAUDIO.append('wmcodecdspuuid')
 
-    conf.check_cxx(fragment="""
-                            #include <RtAudio.h>\n
-                            int main() { throw RtError("Hello"); }
-			    """,
-                   msg='Checking for RtError class',
-                   use='RTAUDIO',
-                   uselib_store='',
-                   define_name='DCPOMATIC_USE_RTERROR',
-                   mandatory=False)
-
     if conf.env.TARGET_WINDOWS or conf.env.TARGET_LINUX:
         conf.check_cfg(package='gl', args='--cflags --libs', uselib_store='GL', mandatory=True)
         conf.check_cfg(package='glu', args='--cflags --libs', uselib_store='GLU', mandatory=True)
