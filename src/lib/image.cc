@@ -988,7 +988,6 @@ Image::swap (Image & other)
 	std::swap (_aligned, other._aligned);
 }
 
-/** Destroy a Image */
 Image::~Image ()
 {
 	for (int i = 0; i < planes(); ++i) {
