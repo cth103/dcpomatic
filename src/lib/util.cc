@@ -1247,7 +1247,7 @@ decrypt_kdm_with_helpful_error (dcp::EncryptedKDM kdm)
 		}
 		if (!on_chain) {
 			throw KDMError (_("This KDM was not made for DCP-o-matic's decryption certificate."), e.what());
-		} else if (on_chain && kdm_subject_name != dc->leaf().subject()) {
+		} else if (kdm_subject_name != dc->leaf().subject()) {
 			throw KDMError (_("This KDM was made for DCP-o-matic but not for its leaf certificate."), e.what());
 		} else {
 			throw;
