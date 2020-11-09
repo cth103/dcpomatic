@@ -380,6 +380,8 @@ SMPTEMetadataDialog::luminance_changed ()
 	case 1:
 		unit = dcp::Luminance::FOOT_LAMBERT;
 		break;
+	default:
+		DCPOMATIC_ASSERT (false);
 	}
 
 	film()->set_luminance (dcp::Luminance(_luminance_value->GetValue(), unit));
