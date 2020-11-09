@@ -332,7 +332,7 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 		}
 	}
 
-	float const border_width = dcp::BORDER ? (first.outline_width * target.width / 2048.0) : 0;
+	float const border_width = first.effect() == dcp::BORDER ? (first.outline_width * target.width / 2048.0) : 0;
 	size.width += 2 * ceil (border_width);
 	size.height += 2 * ceil (border_width);
 
