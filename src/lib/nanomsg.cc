@@ -123,9 +123,4 @@ Nanomsg::receive (int timeout)
 	recv_and_parse (timeout ? 0 : NN_DONTWAIT);
 
 	return get_from_pending ();
-	if (!l) {
-		throw CommunicationFailedError ();
-	}
-
-	return *l;
 }
