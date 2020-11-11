@@ -184,8 +184,6 @@ DCPOMATIC_ENABLE_WARNINGS
 		}
 
 		_rotation = *_rotation - 360 * floor (*_rotation / 360 + 0.9 / 360);
-
-		DCPOMATIC_ASSERT (fabs (*_rotation - 90 * round (*_rotation / 90)) < 2);
 	}
 
 	LOG_GENERAL("Temporal reference was %1", temporal_reference);
