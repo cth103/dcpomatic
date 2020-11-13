@@ -239,23 +239,23 @@ TextPanel::add_to_grid ()
 
 	add_label_to_sizer (_grid, _offset_label, true, wxGBPosition (r, 0));
 	wxBoxSizer* offset = new wxBoxSizer (wxHORIZONTAL);
-	add_label_to_sizer (offset, _x_offset_label, true);
+	add_label_to_sizer (offset, _x_offset_label, true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	offset->Add (_x_offset, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
 	offset->Add (_x_offset_pc_label, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP * 2);
-	add_label_to_sizer (offset, _y_offset_label, true);
+	add_label_to_sizer (offset, _y_offset_label, true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	offset->Add (_y_offset, 0);
-	add_label_to_sizer (offset, _y_offset_pc_label, false);
+	add_label_to_sizer (offset, _y_offset_pc_label, false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_grid->Add (offset, wxGBPosition (r, 1));
 	++r;
 
 	add_label_to_sizer (_grid, _scale_label, true, wxGBPosition (r, 0));
 	wxBoxSizer* scale = new wxBoxSizer (wxHORIZONTAL);
-	add_label_to_sizer (scale, _x_scale_label, true);
+	add_label_to_sizer (scale, _x_scale_label, true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	scale->Add (_x_scale, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
 	scale->Add (_x_scale_pc_label, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP * 2);
-	add_label_to_sizer (scale, _y_scale_label, true);
+	add_label_to_sizer (scale, _y_scale_label, true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	scale->Add (_y_scale, 0);
-	add_label_to_sizer (scale, _y_scale_pc_label, false);
+	add_label_to_sizer (scale, _y_scale_pc_label, false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_grid->Add (scale, wxGBPosition (r, 1));
 	++r;
 
@@ -263,7 +263,7 @@ TextPanel::add_to_grid ()
 		add_label_to_sizer (_grid, _line_spacing_label, true, wxGBPosition (r, 0));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		s->Add (_line_spacing);
-		add_label_to_sizer (s, _line_spacing_pc_label, false);
+		add_label_to_sizer (s, _line_spacing_pc_label, false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 		_grid->Add (s, wxGBPosition (r, 1));
 		++r;
 	}
