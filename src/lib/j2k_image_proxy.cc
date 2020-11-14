@@ -221,6 +221,7 @@ J2KImageProxy::J2KImageProxy (ArrayData data, dcp::Size size, AVPixelFormat pixe
 	: _data (new ArrayData(data))
 	, _size (size)
 	, _pixel_format (pixel_format)
+	, _error (false)
 {
 	/* ::image assumes 16bpp */
 	DCPOMATIC_ASSERT (_pixel_format == AV_PIX_FMT_RGB48 || _pixel_format == AV_PIX_FMT_XYZ12LE);
