@@ -56,6 +56,7 @@ private:
 	std::string subtag_type_name (dcp::LanguageTag::SubtagType type);
 	void search_changed (std::string search);
 	void add_to_current_tag (dcp::LanguageTag::SubtagType type, boost::optional<dcp::LanguageTag::SubtagData> subtag);
+	void remove_from_current_tag ();
 	void current_tag_selection_changed ();
 	void chosen_subtag_changed (boost::optional<dcp::LanguageTag::SubtagData> selection);
 	void setup_sensitivity ();
@@ -67,6 +68,7 @@ private:
 	wxButton* _add_region;
 	wxButton* _add_variant;
 	wxButton* _add_external;
+	wxButton* _remove;
 };
 
 

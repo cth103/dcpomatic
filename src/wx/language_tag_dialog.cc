@@ -37,6 +37,7 @@
 #include <vector>
 
 
+using std::min;
 using std::pair;
 using std::string;
 using std::vector;
@@ -197,6 +198,8 @@ LanguageTagDialog::LanguageTagDialog (wxWindow* parent, dcp::LanguageTag tag)
 	button_sizer->Add (_add_variant, 0, wxTOP | wxBOTTOM | wxEXPAND, 2);
 	_add_external = new wxButton(this, wxID_ANY, "Add external");
 	button_sizer->Add (_add_external, 0, wxTOP | wxBOTTOM | wxEXPAND, 2);
+	_remove = new wxButton(this, wxID_ANY, "Remove");
+	button_sizer->Add (_remove, 0, wxTOP | wxBOTTOM | wxEXPAND, 2);
 
 	_choose_subtag_panel = new LanguageSubtagPanel (this);
 	_choose_subtag_panel->set (dcp::LanguageTag::LANGUAGE, "");
@@ -233,10 +236,29 @@ LanguageTagDialog::LanguageTagDialog (wxWindow* parent, dcp::LanguageTag tag)
 	_add_region->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::REGION, boost::optional<dcp::LanguageTag::SubtagData>()));
 	_add_variant->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::VARIANT, boost::optional<dcp::LanguageTag::SubtagData>()));
 	_add_external->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::EXTLANG, boost::optional<dcp::LanguageTag::SubtagData>()));
+	_remove->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagDialog::remove_from_current_tag, this));
 	_choose_subtag_panel->SelectionChanged.connect(bind(&LanguageTagDialog::chosen_subtag_changed, this, _1));
 	_choose_subtag_panel->SearchChanged.connect(bind(&LanguageTagDialog::search_changed, this, _1));
 	_current_tag_list->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind(&LanguageTagDialog::current_tag_selection_changed, this));
 	_current_tag_list->Bind (wxEVT_LIST_ITEM_DESELECTED, boost::bind(&LanguageTagDialog::current_tag_selection_changed, this));
+}
+
+
+void
+LanguageTagDialog::remove_from_current_tag ()
+{
+	long int selected = _current_tag_list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	if (selected <= 0) {
+		return;
+	}
+
+	_current_tag_subtags.erase (_current_tag_subtags.begin() + selected);
+	_current_tag_list->DeleteItem (selected);
+
+	_current_tag_list->SetItemState (min(selected, _current_tag_list->GetItemCount() - 1L), wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+
+	setup_sensitivity ();
+	current_tag_selection_changed ();
 }
 
 
@@ -354,6 +376,8 @@ LanguageTagDialog::chosen_subtag_changed (optional<dcp::LanguageTag::SubtagData>
 		_current_tag_list->SetItem (selected, 0, subtag_type_name(_current_tag_subtags[selected].type));
 		_current_tag_list->SetItem (selected, 1, selection->description);
 	}
+
+	setup_sensitivity ();
 }
 
 void
@@ -381,6 +405,8 @@ LanguageTagDialog::setup_sensitivity ()
 				break;
 		}
 	}
+	long int selected = _current_tag_list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	_remove->Enable (selected > 0);
 }
 
 
