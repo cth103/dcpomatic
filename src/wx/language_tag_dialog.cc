@@ -70,6 +70,11 @@ public:
 				SetItemState (item, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 				EnsureVisible (item);
 			}
+		} else {
+			if (GetItemCount() > 0) {
+				/* The new list sometimes isn't visible without this */
+				EnsureVisible (0);
+			}
 		}
 	}
 
