@@ -1,0 +1,941 @@
+diff --git a/src/lib/crypto.cc b/src/lib/crypto.cc
+index c67fc27fa..494924daa 100644
+--- a/src/lib/crypto.cc
++++ b/src/lib/crypto.cc
+@@ -34,39 +34,39 @@ using namespace dcpomatic;
+ /** The cipher that this code uses */
+ #define CIPHER EVP_aes_256_cbc()
+ 
+-dcp::Data
++dcp::ArrayData
+ dcpomatic::random_iv ()
+ {
+ 	EVP_CIPHER const * cipher = CIPHER;
+-	dcp::Data iv (EVP_CIPHER_iv_length(cipher));
+-	RAND_bytes (iv.data().get(), iv.size());
++	dcp::ArrayData iv (EVP_CIPHER_iv_length(cipher));
++	RAND_bytes (iv.data(), iv.size());
+ 	return iv;
+ }
+ 
+-dcp::Data
+-dcpomatic::encrypt (string plaintext, dcp::Data key, dcp::Data iv)
++dcp::ArrayData
++dcpomatic::encrypt (string plaintext, dcp::ArrayData key, dcp::ArrayData iv)
+ {
+ 	EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new ();
+ 	if (!ctx) {
+ 		throw CryptoError ("could not create cipher context");
+ 	}
+ 
+-	int r = EVP_EncryptInit_ex (ctx, CIPHER, 0, key.data().get(), iv.data().get());
++	int r = EVP_EncryptInit_ex (ctx, CIPHER, 0, key.data(), iv.data());
+ 	if (r != 1) {
+ 		throw CryptoError ("could not initialise cipher context for encryption");
+ 	}
+ 
+-	dcp::Data ciphertext (plaintext.size() * 2);
++	dcp::ArrayData ciphertext (plaintext.size() * 2);
+ 
+ 	int len;
+-	r = EVP_EncryptUpdate (ctx, ciphertext.data().get(), &len, (uint8_t const *) plaintext.c_str(), plaintext.size());
++	r = EVP_EncryptUpdate (ctx, ciphertext.data(), &len, (uint8_t const *) plaintext.c_str(), plaintext.size());
+ 	if (r != 1) {
+ 		throw CryptoError ("could not encrypt data");
+ 	}
+ 
+ 	int ciphertext_len = len;
+ 
+-	r = EVP_EncryptFinal_ex (ctx, ciphertext.data().get() + len, &len);
++	r = EVP_EncryptFinal_ex (ctx, ciphertext.data() + len, &len);
+ 	if (r != 1) {
+ 		throw CryptoError ("could not finish encryption");
+ 	}
+@@ -79,40 +79,40 @@ dcpomatic::encrypt (string plaintext, dcp::Data key, dcp::Data iv)
+ }
+ 
+ string
+-dcpomatic::decrypt (dcp::Data ciphertext, dcp::Data key, dcp::Data iv)
++dcpomatic::decrypt (dcp::ArrayData ciphertext, dcp::ArrayData key, dcp::ArrayData iv)
+ {
+ 	EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new ();
+ 	if (!ctx) {
+ 		throw CryptoError ("could not create cipher context");
+ 	}
+ 
+-	int r = EVP_DecryptInit_ex (ctx, CIPHER, 0, key.data().get(), iv.data().get());
++	int r = EVP_DecryptInit_ex (ctx, CIPHER, 0, key.data(), iv.data());
+ 	if (r != 1) {
+ 		throw CryptoError ("could not initialise cipher context for decryption");
+ 	}
+ 
+-	dcp::Data plaintext (ciphertext.size() * 2);
++	dcp::ArrayData plaintext (ciphertext.size() * 2);
+ 
+ 	int len;
+-	r = EVP_DecryptUpdate (ctx, plaintext.data().get(), &len, ciphertext.data().get(), ciphertext.size());
++	r = EVP_DecryptUpdate (ctx, plaintext.data(), &len, ciphertext.data(), ciphertext.size());
+ 	if (r != 1) {
+ 		throw CryptoError ("could not decrypt data");
+ 	}
+ 
+ 	int plaintext_len = len;
+ 
+-	r = EVP_DecryptFinal_ex (ctx, plaintext.data().get() + len, &len);
++	r = EVP_DecryptFinal_ex (ctx, plaintext.data() + len, &len);
+ 	if (r != 1) {
+ 		throw CryptoError ("could not finish decryption");
+ 	}
+ 
+ 	plaintext_len += len;
+ 	plaintext.set_size (plaintext_len + 1);
+-	plaintext.data().get()[plaintext_len] = '\0';
++	plaintext.data()[plaintext_len] = '\0';
+ 
+ 	EVP_CIPHER_CTX_free (ctx);
+ 
+-	return string ((char *) plaintext.data().get());
++	return string ((char *) plaintext.data());
+ }
+ 
+ int
+diff --git a/src/lib/crypto.h b/src/lib/crypto.h
+index e450d4db1..ee0ff9b55 100644
+--- a/src/lib/crypto.h
++++ b/src/lib/crypto.h
+@@ -18,14 +18,14 @@
+ 
+ */
+ 
+-#include <dcp/data.h>
++#include <dcp/array_data.h>
+ 
+ namespace dcpomatic {
+-	
+-dcp::Data random_iv ();
+-dcp::Data encrypt (std::string plaintext, dcp::Data key, dcp::Data iv);
+-std::string decrypt (dcp::Data ciphertext, dcp::Data key, dcp::Data iv);
+-int crypto_key_length ();	
++
++dcp::ArrayData random_iv ();
++dcp::ArrayData encrypt (std::string plaintext, dcp::ArrayData key, dcp::ArrayData iv);
++std::string decrypt (dcp::ArrayData ciphertext, dcp::ArrayData key, dcp::ArrayData iv);
++int crypto_key_length ();
+ 
+ }
+ 
+diff --git a/src/lib/dcp_video.cc b/src/lib/dcp_video.cc
+index 36928b3fc..b3461e569 100644
+--- a/src/lib/dcp_video.cc
++++ b/src/lib/dcp_video.cc
+@@ -60,7 +60,7 @@ using std::string;
+ using std::cout;
+ using boost::shared_ptr;
+ using dcp::Size;
+-using dcp::Data;
++using dcp::ArrayData;
+ using dcp::raw_convert;
+ #if BOOST_VERSION >= 106100
+ using namespace boost::placeholders;
+@@ -118,12 +118,12 @@ DCPVideo::convert_to_xyz (shared_ptr<const PlayerVideo> frame, dcp::NoteHandler
+ /** J2K-encode this frame on the local host.
+  *  @return Encoded data.
+  */
+-Data
++ArrayData
+ DCPVideo::encode_locally ()
+ {
+ 	string const comment = Config::instance()->dcp_j2k_comment();
+ 
+-	Data enc = dcp::compress_j2k (
++	ArrayData enc = dcp::compress_j2k (
+ 		convert_to_xyz (_frame, boost::bind(&Log::dcp_log, dcpomatic_log.get(), _1, _2)),
+ 		_j2k_bandwidth,
+ 		_frames_per_second,
+@@ -154,7 +154,7 @@ DCPVideo::encode_locally ()
+  *  @param timeout timeout in seconds.
+  *  @return Encoded data.
+  */
+-Data
++ArrayData
+ DCPVideo::encode_remotely (EncodeServerDescription serv, int timeout)
+ {
+ 	boost::asio::io_service io_service;
+@@ -192,9 +192,9 @@ DCPVideo::encode_remotely (EncodeServerDescription serv, int timeout)
+ 	*/
+ 	Socket::ReadDigestScope ds (socket);
+ 	LOG_TIMING("start-remote-encode thread=%1", thread_id ());
+-	Data e (socket->read_uint32 ());
++	ArrayData e (socket->read_uint32 ());
+ 	LOG_TIMING("start-remote-receive thread=%1", thread_id ());
+-	socket->read (e.data().get(), e.size());
++	socket->read (e.data(), e.size());
+ 	LOG_TIMING("finish-remote-receive thread=%1", thread_id ());
+ 	if (!ds.check()) {
+ 		throw NetworkError ("Checksums do not match");
+diff --git a/src/lib/dcp_video.h b/src/lib/dcp_video.h
+index 81ddc4470..aa11d7d3c 100644
+--- a/src/lib/dcp_video.h
++++ b/src/lib/dcp_video.h
+@@ -21,7 +21,7 @@
+ #include "types.h"
+ #include "encode_server_description.h"
+ #include <libcxml/cxml.h>
+-#include <dcp/data.h>
++#include <dcp/array_data.h>
+ 
+ /** @file  src/dcp_video_frame.h
+  *  @brief A single frame of video destined for a DCP.
+@@ -45,8 +45,8 @@ public:
+ 	DCPVideo (boost::shared_ptr<const PlayerVideo>, int, int, int, Resolution);
+ 	DCPVideo (boost::shared_ptr<const PlayerVideo>, cxml::ConstNodePtr);
+ 
+-	dcp::Data encode_locally ();
+-	dcp::Data encode_remotely (EncodeServerDescription, int timeout = 30);
++	dcp::ArrayData encode_locally ();
++	dcp::ArrayData encode_remotely (EncodeServerDescription, int timeout = 30);
+ 
+ 	int index () const {
+ 		return _index;
+diff --git a/src/lib/emailer.cc b/src/lib/emailer.cc
+index dc216e90c..6fe537eb1 100644
+--- a/src/lib/emailer.cc
++++ b/src/lib/emailer.cc
+@@ -35,7 +35,7 @@ using std::list;
+ using std::cout;
+ using std::pair;
+ using boost::shared_ptr;
+-using dcp::Data;
++using dcp::ArrayData;
+ 
+ Emailer::Emailer (string from, list<string> to, string subject, string body)
+ 	: _from (from)
+@@ -155,8 +155,8 @@ Emailer::send (string server, int port, EmailProtocol protocol, string user, str
+ 		BIO* bio = BIO_new (BIO_s_mem());
+ 		bio = BIO_push (b64, bio);
+ 
+-		Data data (i.file);
+-		BIO_write (bio, data.data().get(), data.size());
++		ArrayData data (i.file);
++		BIO_write (bio, data.data(), data.size());
+ 		(void) BIO_flush (bio);
+ 
+ 		char* out;
+diff --git a/src/lib/encode_server.cc b/src/lib/encode_server.cc
+index f4224798b..9e096fdfa 100644
+--- a/src/lib/encode_server.cc
++++ b/src/lib/encode_server.cc
+@@ -65,8 +65,8 @@ using boost::thread;
+ using boost::bind;
+ using boost::scoped_array;
+ using boost::optional;
++using dcp::ArrayData;
+ using dcp::Size;
+-using dcp::Data;
+ using dcp::raw_convert;
+ 
+ EncodeServer::EncodeServer (bool verbose, int num_threads)
+@@ -145,14 +145,14 @@ EncodeServer::process (shared_ptr<Socket> socket, struct timeval& after_read, st
+ 
+ 	gettimeofday (&after_read, 0);
+ 
+-	Data encoded = dcp_video_frame.encode_locally ();
++	ArrayData encoded = dcp_video_frame.encode_locally ();
+ 
+ 	gettimeofday (&after_encode, 0);
+ 
+ 	try {
+ 		Socket::WriteDigestScope ds (socket);
+ 		socket->write (encoded.size());
+-		socket->write (encoded.data().get(), encoded.size());
++		socket->write (encoded.data(), encoded.size());
+ 	} catch (std::exception& e) {
+ 		cerr << "Send failed; frame " << dcp_video_frame.index() << "\n";
+ 		LOG_ERROR ("Send failed; frame %1", dcp_video_frame.index());
+diff --git a/src/lib/ffmpeg_image_proxy.cc b/src/lib/ffmpeg_image_proxy.cc
+index f2b72059b..602185bb8 100644
+--- a/src/lib/ffmpeg_image_proxy.cc
++++ b/src/lib/ffmpeg_image_proxy.cc
+@@ -56,7 +56,7 @@ FFmpegImageProxy::FFmpegImageProxy (boost::filesystem::path path)
+ 
+ }
+ 
+-FFmpegImageProxy::FFmpegImageProxy (dcp::Data data)
++FFmpegImageProxy::FFmpegImageProxy (dcp::ArrayData data)
+ 	: _data (data)
+ 	, _pos (0)
+ {
+@@ -67,8 +67,8 @@ FFmpegImageProxy::FFmpegImageProxy (shared_ptr<cxml::Node>, shared_ptr<Socket> s
+ 	: _pos (0)
+ {
+ 	uint32_t const size = socket->read_uint32 ();
+-	_data = dcp::Data (size);
+-	socket->read (_data.data().get(), size);
++	_data = dcp::ArrayData (size);
++	socket->read (_data.data(), size);
+ }
+ 
+ static int
+@@ -90,7 +90,7 @@ FFmpegImageProxy::avio_read (uint8_t* buffer, int const amount)
+ 	if (to_do == 0) {
+ 		return AVERROR_EOF;
+ 	}
+-	memcpy (buffer, _data.data().get() + _pos, to_do);
++	memcpy (buffer, _data.data() + _pos, to_do);
+ 	_pos += to_do;
+ 	return to_do;
+ }
+@@ -212,7 +212,7 @@ void
+ FFmpegImageProxy::write_to_socket (shared_ptr<Socket> socket) const
+ {
+ 	socket->write (_data.size());
+-	socket->write (_data.data().get(), _data.size());
++	socket->write (_data.data(), _data.size());
+ }
+ 
+ bool
+@@ -223,11 +223,7 @@ FFmpegImageProxy::same (shared_ptr<const ImageProxy> other) const
+ 		return false;
+ 	}
+ 
+-	if (_data.size() != mp->_data.size()) {
+-		return false;
+-	}
+-
+-	return memcmp (_data.data().get(), mp->_data.data().get(), _data.size()) == 0;
++	return _data == mp->_data;
+ }
+ 
+ size_t
+diff --git a/src/lib/ffmpeg_image_proxy.h b/src/lib/ffmpeg_image_proxy.h
+index aa77003a4..62b99d280 100644
+--- a/src/lib/ffmpeg_image_proxy.h
++++ b/src/lib/ffmpeg_image_proxy.h
+@@ -19,7 +19,7 @@
+ */
+ 
+ #include "image_proxy.h"
+-#include <dcp/data.h>
++#include <dcp/array_data.h>
+ #include <boost/thread/mutex.hpp>
+ #include <boost/filesystem.hpp>
+ 
+@@ -27,7 +27,7 @@ class FFmpegImageProxy : public ImageProxy
+ {
+ public:
+ 	explicit FFmpegImageProxy (boost::filesystem::path);
+-	explicit FFmpegImageProxy (dcp::Data);
++	explicit FFmpegImageProxy (dcp::ArrayData);
+ 	FFmpegImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
+ 
+ 	Result image (
+@@ -43,7 +43,7 @@ public:
+ 	int64_t avio_seek (int64_t const pos, int whence);
+ 
+ private:
+-	dcp::Data _data;
++	dcp::ArrayData _data;
+ 	mutable int64_t _pos;
+ 	/** Path of a file that this image came from, if applicable; stored so that
+ 	    failed-decode errors can give more detail.
+diff --git a/src/lib/image.cc b/src/lib/image.cc
+index 002c7df9a..03f1bf6dc 100644
+--- a/src/lib/image.cc
++++ b/src/lib/image.cc
+@@ -1278,7 +1278,7 @@ Image::png_error (char const * message)
+ 	throw EncodeError (String::compose ("Error during PNG write: %1", message));
+ }
+ 
+-dcp::Data
++dcp::ArrayData
+ Image::as_png () const
+ {
+ 	DCPOMATIC_ASSERT (bytes_per_pixel(0) == 4);
+@@ -1317,5 +1317,5 @@ Image::as_png () const
+ 	png_destroy_write_struct (&png_ptr, &info_ptr);
+ 	png_free (png_ptr, row_pointers);
+ 
+-	return dcp::Data (state.data, state.size);
++	return dcp::ArrayData (state.data, state.size);
+ }
+diff --git a/src/lib/image.h b/src/lib/image.h
+index eab71c2b1..ab9b3c78a 100644
+--- a/src/lib/image.h
++++ b/src/lib/image.h
+@@ -31,6 +31,7 @@
+ extern "C" {
+ #include <libavutil/pixfmt.h>
+ }
++#include <dcp/array_data.h>
+ #include <dcp/colour_conversion.h>
+ #include <boost/shared_ptr.hpp>
+ #include <boost/enable_shared_from_this.hpp>
+@@ -83,7 +84,7 @@ public:
+ 
+ 	size_t memory_used () const;
+ 
+-	dcp::Data as_png () const;
++	dcp::ArrayData as_png () const;
+ 
+ 	void png_error (char const * message);
+ 
+diff --git a/src/lib/j2k_encoder.cc b/src/lib/j2k_encoder.cc
+index 64cd38147..18bb27645 100644
+--- a/src/lib/j2k_encoder.cc
++++ b/src/lib/j2k_encoder.cc
+@@ -127,7 +127,7 @@ J2KEncoder::end ()
+ 		LOG_GENERAL (N_("Encode left-over frame %1"), (*i)->index ());
+ 		try {
+ 			_writer->write (
+-				(*i)->encode_locally(),
++				shared_ptr<dcp::Data>(new dcp::ArrayData((*i)->encode_locally())),
+ 				(*i)->index(),
+ 				(*i)->eyes()
+ 				);
+@@ -296,12 +296,12 @@ try
+ 
+ 			lock.unlock ();
+ 
+-			optional<Data> encoded;
++			shared_ptr<Data> encoded;
+ 
+ 			/* We need to encode this input */
+ 			if (server) {
+ 				try {
+-					encoded = vf->encode_remotely (server.get ());
++					encoded.reset(new dcp::ArrayData(vf->encode_remotely(server.get())));
+ 
+ 					if (remote_backoff > 0) {
+ 						LOG_GENERAL ("%1 was lost, but now she is found; removing backoff", server->host_name ());
+@@ -324,7 +324,7 @@ try
+ 			} else {
+ 				try {
+ 					LOG_TIMING ("start-local-encode thread=%1 frame=%2", thread_id(), vf->index());
+-					encoded = vf->encode_locally ();
++					encoded.reset(new dcp::ArrayData(vf->encode_locally()));
+ 					LOG_TIMING ("finish-local-encode thread=%1 frame=%2", thread_id(), vf->index());
+ 				} catch (std::exception& e) {
+ 					/* This is very bad, so don't cope with it, just pass it on */
+@@ -334,7 +334,7 @@ try
+ 			}
+ 
+ 			if (encoded) {
+-				_writer->write (encoded.get(), vf->index (), vf->eyes ());
++				_writer->write (encoded, vf->index(), vf->eyes());
+ 				frame_done ();
+ 			} else {
+ 				lock.lock ();
+diff --git a/src/lib/j2k_image_proxy.cc b/src/lib/j2k_image_proxy.cc
+index 08ebc343c..064bbec7b 100644
+--- a/src/lib/j2k_image_proxy.cc
++++ b/src/lib/j2k_image_proxy.cc
+@@ -46,12 +46,12 @@ using std::make_pair;
+ using boost::shared_ptr;
+ using boost::optional;
+ using boost::dynamic_pointer_cast;
+-using dcp::Data;
++using dcp::ArrayData;
+ using dcp::raw_convert;
+ 
+ /** Construct a J2KImageProxy from a JPEG2000 file */
+ J2KImageProxy::J2KImageProxy (boost::filesystem::path path, dcp::Size size, AVPixelFormat pixel_format)
+-	: _data (path)
++	: _data (new dcp::ArrayData(path))
+ 	, _size (size)
+ 	, _pixel_format (pixel_format)
+ 	, _error (false)
+@@ -60,13 +60,14 @@ J2KImageProxy::J2KImageProxy (boost::filesystem::path path, dcp::Size size, AVPi
+ 	DCPOMATIC_ASSERT (_pixel_format == AV_PIX_FMT_RGB48 || _pixel_format == AV_PIX_FMT_XYZ12LE);
+ }
+ 
++
+ J2KImageProxy::J2KImageProxy (
+ 	shared_ptr<const dcp::MonoPictureFrame> frame,
+ 	dcp::Size size,
+ 	AVPixelFormat pixel_format,
+ 	optional<int> forced_reduction
+ 	)
+-	: _data (frame->j2k_size ())
++	: _data (frame)
+ 	, _size (size)
+ 	, _pixel_format (pixel_format)
+ 	, _forced_reduction (forced_reduction)
+@@ -74,9 +75,9 @@ J2KImageProxy::J2KImageProxy (
+ {
+ 	/* ::image assumes 16bpp */
+ 	DCPOMATIC_ASSERT (_pixel_format == AV_PIX_FMT_RGB48 || _pixel_format == AV_PIX_FMT_XYZ12LE);
+-	memcpy (_data.data().get(), frame->j2k_data(), _data.size ());
+ }
+ 
++
+ J2KImageProxy::J2KImageProxy (
+ 	shared_ptr<const dcp::StereoPictureFrame> frame,
+ 	dcp::Size size,
+@@ -84,7 +85,8 @@ J2KImageProxy::J2KImageProxy (
+ 	AVPixelFormat pixel_format,
+ 	optional<int> forced_reduction
+ 	)
+-	: _size (size)
++	: _data (eye ? frame->left() : frame->right())
++	, _size (size)
+ 	, _eye (eye)
+ 	, _pixel_format (pixel_format)
+ 	, _forced_reduction (forced_reduction)
+@@ -92,18 +94,9 @@ J2KImageProxy::J2KImageProxy (
+ {
+ 	/* ::image assumes 16bpp */
+ 	DCPOMATIC_ASSERT (_pixel_format == AV_PIX_FMT_RGB48 || _pixel_format == AV_PIX_FMT_XYZ12LE);
+-	switch (eye) {
+-	case dcp::EYE_LEFT:
+-		_data = Data (frame->left_j2k_size ());
+-		memcpy (_data.data().get(), frame->left_j2k_data(), _data.size ());
+-		break;
+-	case dcp::EYE_RIGHT:
+-		_data = Data (frame->right_j2k_size ());
+-		memcpy (_data.data().get(), frame->right_j2k_data(), _data.size ());
+-		break;
+-	}
+ }
+ 
++
+ J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket)
+ 	: _error (false)
+ {
+@@ -111,13 +104,14 @@ J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
+ 	if (xml->optional_number_child<int> ("Eye")) {
+ 		_eye = static_cast<dcp::Eye> (xml->number_child<int> ("Eye"));
+ 	}
+-	_data = Data (xml->number_child<int> ("Size"));
++	shared_ptr<ArrayData> data(new ArrayData(xml->number_child<int>("Size")));
+ 	/* This only matters when we are using J2KImageProxy for the preview, which
+ 	   will never use this constructor (which is only used for passing data to
+ 	   encode servers).  So we can put anything in here.  It's a bit of a hack.
+ 	*/
+ 	_pixel_format = AV_PIX_FMT_XYZ12LE;
+-	socket->read (_data.data().get (), _data.size ());
++	socket->read (data->data(), data->size());
++	_data = data;
+ }
+ 
+ int
+@@ -144,7 +138,8 @@ J2KImageProxy::prepare (optional<dcp::Size> target_size) const
+ 	}
+ 
+ 	try {
+-		shared_ptr<dcp::OpenJPEGImage> decompressed = dcp::decompress_j2k (const_cast<uint8_t*> (_data.data().get()), _data.size (), reduce);
++		/* XXX: should check that potentially trashing _data here doesn't matter */
++		shared_ptr<dcp::OpenJPEGImage> decompressed = dcp::decompress_j2k (const_cast<uint8_t*>(_data->data()), _data->size(), reduce);
+ 		_image.reset (new Image (_pixel_format, decompressed->size(), true));
+ 
+ 		int const shift = 16 - decompressed->precision (0);
+@@ -202,13 +197,13 @@ J2KImageProxy::add_metadata (xmlpp::Node* node) const
+ 	if (_eye) {
+ 		node->add_child("Eye")->add_child_text (raw_convert<string> (static_cast<int> (_eye.get ())));
+ 	}
+-	node->add_child("Size")->add_child_text (raw_convert<string> (_data.size ()));
++	node->add_child("Size")->add_child_text (raw_convert<string>(_data->size()));
+ }
+ 
+ void
+ J2KImageProxy::write_to_socket (shared_ptr<Socket> socket) const
+ {
+-	socket->write (_data.data().get(), _data.size());
++	socket->write (_data->data(), _data->size());
+ }
+ 
+ bool
+@@ -219,15 +214,11 @@ J2KImageProxy::same (shared_ptr<const ImageProxy> other) const
+ 		return false;
+ 	}
+ 
+-	if (_data.size() != jp->_data.size()) {
+-		return false;
+-	}
+-
+-	return memcmp (_data.data().get(), jp->_data.data().get(), _data.size()) == 0;
++	return *_data == *jp->_data;
+ }
+ 
+-J2KImageProxy::J2KImageProxy (Data data, dcp::Size size, AVPixelFormat pixel_format)
+-	: _data (data)
++J2KImageProxy::J2KImageProxy (ArrayData data, dcp::Size size, AVPixelFormat pixel_format)
++	: _data (new ArrayData(data))
+ 	, _size (size)
+ 	, _pixel_format (pixel_format)
+ {
+@@ -238,7 +229,7 @@ J2KImageProxy::J2KImageProxy (Data data, dcp::Size size, AVPixelFormat pixel_for
+ size_t
+ J2KImageProxy::memory_used () const
+ {
+-	size_t m = _data.size();
++	size_t m = _data->size();
+ 	if (_image) {
+ 		/* 3 components, 16-bits per pixel */
+ 		m += 3 * 2 * _image->size().width * _image->size().height;
+diff --git a/src/lib/j2k_image_proxy.h b/src/lib/j2k_image_proxy.h
+index 71bcffb2c..3eccc213d 100644
+--- a/src/lib/j2k_image_proxy.h
++++ b/src/lib/j2k_image_proxy.h
+@@ -19,8 +19,8 @@
+ */
+ 
+ #include "image_proxy.h"
++#include <dcp/array_data.h>
+ #include <dcp/util.h>
+-#include <dcp/data.h>
+ #include <boost/thread/mutex.hpp>
+ 
+ namespace dcp {
+@@ -60,7 +60,7 @@ public:
+ 	bool same (boost::shared_ptr<const ImageProxy>) const;
+ 	int prepare (boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const;
+ 
+-	dcp::Data j2k () const {
++	boost::shared_ptr<const dcp::Data> j2k () const {
+ 		return _data;
+ 	}
+ 
+@@ -74,9 +74,9 @@ private:
+ 	friend struct client_server_test_j2k;
+ 
+ 	/* For tests */
+-	J2KImageProxy (dcp::Data data, dcp::Size size, AVPixelFormat pixel_format);
++	J2KImageProxy (dcp::ArrayData data, dcp::Size size, AVPixelFormat pixel_format);
+ 
+-	dcp::Data _data;
++	boost::shared_ptr<const dcp::Data> _data;
+ 	dcp::Size _size;
+ 	boost::optional<dcp::Eye> _eye;
+ 	mutable boost::shared_ptr<Image> _image;
+diff --git a/src/lib/player_video.cc b/src/lib/player_video.cc
+index 10e798ed5..620245781 100644
+--- a/src/lib/player_video.cc
++++ b/src/lib/player_video.cc
+@@ -232,7 +232,7 @@ PlayerVideo::has_j2k () const
+ 	return _crop == Crop () && _out_size == j2k->size() && !_text && !_fade && !_colour_conversion;
+ }
+ 
+-Data
++shared_ptr<const dcp::Data>
+ PlayerVideo::j2k () const
+ {
+ 	shared_ptr<const J2KImageProxy> j2k = dynamic_pointer_cast<const J2KImageProxy> (_in);
+diff --git a/src/lib/player_video.h b/src/lib/player_video.h
+index 1a4a01d58..6043632c2 100644
+--- a/src/lib/player_video.h
++++ b/src/lib/player_video.h
+@@ -79,7 +79,7 @@ public:
+ 	bool reset_metadata (boost::shared_ptr<const Film> film, dcp::Size video_container_size, dcp::Size film_frame_size);
+ 
+ 	bool has_j2k () const;
+-	dcp::Data j2k () const;
++	boost::shared_ptr<const dcp::Data> j2k () const;
+ 
+ 	Eyes eyes () const {
+ 		return _eyes;
+diff --git a/src/lib/reel_writer.cc b/src/lib/reel_writer.cc
+index a42c6182a..7ed79d818 100644
+--- a/src/lib/reel_writer.cc
++++ b/src/lib/reel_writer.cc
+@@ -67,6 +67,7 @@ using boost::dynamic_pointer_cast;
+ #if BOOST_VERSION >= 106100
+ using namespace boost::placeholders;
+ #endif
++using dcp::ArrayData;
+ using dcp::Data;
+ using dcp::raw_convert;
+ using namespace dcpomatic;
+@@ -289,14 +290,14 @@ ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
+ }
+ 
+ void
+-ReelWriter::write (optional<Data> encoded, Frame frame, Eyes eyes)
++ReelWriter::write (shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
+ {
+ 	if (!_picture_asset_writer) {
+ 		/* We're not writing any data */
+ 		return;
+ 	}
+ 
+-	dcp::FrameInfo fin = _picture_asset_writer->write (encoded->data().get (), encoded->size());
++	dcp::FrameInfo fin = _picture_asset_writer->write (encoded->data(), encoded->size());
+ 	write_frame_info (frame, eyes, fin);
+ 	_last_written[eyes] = encoded;
+ }
+@@ -338,7 +339,7 @@ ReelWriter::repeat_write (Frame frame, Eyes eyes)
+ 	}
+ 
+ 	dcp::FrameInfo fin = _picture_asset_writer->write (
+-		_last_written[eyes]->data().get(),
++		_last_written[eyes]->data(),
+ 		_last_written[eyes]->size()
+ 		);
+ 	write_frame_info (frame, eyes, fin);
+@@ -762,15 +763,15 @@ ReelWriter::existing_picture_frame_ok (FILE* asset_file, shared_ptr<InfoFileHand
+ 
+ 	/* Read the data from the asset and hash it */
+ 	dcpomatic_fseek (asset_file, info.offset, SEEK_SET);
+-	Data data (info.size);
+-	size_t const read = fread (data.data().get(), 1, data.size(), asset_file);
++	ArrayData data (info.size);
++	size_t const read = fread (data.data(), 1, data.size(), asset_file);
+ 	LOG_GENERAL ("Read %1 bytes of asset data; wanted %2", read, info.size);
+ 	if (read != static_cast<size_t> (data.size ())) {
+ 		LOG_GENERAL ("Existing frame %1 is incomplete", frame);
+ 		ok = false;
+ 	} else {
+ 		Digester digester;
+-		digester.add (data.data().get(), data.size());
++		digester.add (data.data(), data.size());
+ 		LOG_GENERAL ("Hash %1 vs %2", digester.get(), info.hash);
+ 		if (digester.get() != info.hash) {
+ 			LOG_GENERAL ("Existing frame %1 failed hash check", frame);
+diff --git a/src/lib/reel_writer.h b/src/lib/reel_writer.h
+index 17bfc7ba2..09c29adae 100644
+--- a/src/lib/reel_writer.h
++++ b/src/lib/reel_writer.h
+@@ -66,7 +66,7 @@ public:
+ 		boost::optional<std::string> content_summary
+ 		);
+ 
+-	void write (boost::optional<dcp::Data> encoded, Frame frame, Eyes eyes);
++	void write (boost::shared_ptr<const dcp::Data> encoded, Frame frame, Eyes eyes);
+ 	void fake_write (int size);
+ 	void repeat_write (Frame frame, Eyes eyes);
+ 	void write (boost::shared_ptr<const AudioBuffers> audio);
+@@ -104,7 +104,7 @@ private:
+ 	/** the first picture frame index that does not already exist in our MXF */
+ 	int _first_nonexistant_frame;
+ 	/** the data of the last written frame, if there is one */
+-	boost::optional<dcp::Data> _last_written[EYES_COUNT];
++	boost::shared_ptr<const dcp::Data> _last_written[EYES_COUNT];
+ 	/** index of this reel within the DCP (starting from 0) */
+ 	int _reel_index;
+ 	/** number of reels in the DCP */
+diff --git a/src/lib/string_text_file.cc b/src/lib/string_text_file.cc
+index d3c56832d..793619003 100644
+--- a/src/lib/string_text_file.cc
++++ b/src/lib/string_text_file.cc
+@@ -38,7 +38,7 @@ using std::string;
+ using boost::shared_ptr;
+ using boost::scoped_array;
+ using boost::optional;
+-using dcp::Data;
++using dcp::ArrayData;
+ using namespace dcpomatic;
+ 
+ StringTextFile::StringTextFile (shared_ptr<const StringTextFileContent> content)
+@@ -64,11 +64,11 @@ StringTextFile::StringTextFile (shared_ptr<const StringTextFileContent> content)
+ 	} else {
+ 		/* Text-based file; sort out its character encoding before we try to parse it */
+ 
+-		Data in (content->path (0));
++		ArrayData in (content->path (0));
+ 
+ 		UErrorCode status = U_ZERO_ERROR;
+ 		UCharsetDetector* detector = ucsdet_open (&status);
+-		ucsdet_setText (detector, reinterpret_cast<const char *> (in.data().get()), in.size(), &status);
++		ucsdet_setText (detector, reinterpret_cast<const char *>(in.data()), in.size(), &status);
+ 
+ 		UCharsetMatch const * match = ucsdet_detect (detector, &status);
+ 		char const * in_charset = ucsdet_getName (match, &status);
+@@ -78,7 +78,7 @@ StringTextFile::StringTextFile (shared_ptr<const StringTextFileContent> content)
+ 		scoped_array<uint16_t> utf16 (new uint16_t[in.size() * 2]);
+ 		int const utf16_len = ucnv_toUChars (
+ 				to_utf16, reinterpret_cast<UChar*>(utf16.get()), in.size() * 2,
+-				reinterpret_cast<const char *> (in.data().get()), in.size(),
++				reinterpret_cast<const char *>(in.data()), in.size(),
+ 				&status
+ 				);
+ 
+diff --git a/src/lib/writer.cc b/src/lib/writer.cc
+index d3fdc5128..346cbb0c2 100644
+--- a/src/lib/writer.cc
++++ b/src/lib/writer.cc
+@@ -66,6 +66,7 @@ using boost::optional;
+ using namespace boost::placeholders;
+ #endif
+ using dcp::Data;
++using dcp::ArrayData;
+ using namespace dcpomatic;
+ 
+ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
+@@ -130,7 +131,7 @@ Writer::~Writer ()
+  *  @param eyes Eyes that this frame image is for.
+  */
+ void
+-Writer::write (Data encoded, Frame frame, Eyes eyes)
++Writer::write (shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
+ {
+ 	boost::mutex::scoped_lock lock (_state_mutex);
+ 
+@@ -426,7 +427,7 @@ try
+ 			case QueueItem::FULL:
+ 				LOG_DEBUG_ENCODE (N_("Writer FULL-writes %1 (%2)"), qi.frame, (int) qi.eyes);
+ 				if (!qi.encoded) {
+-					qi.encoded = Data (_film->j2c_path (qi.reel, qi.frame, qi.eyes, false));
++					qi.encoded.reset (new ArrayData(_film->j2c_path(qi.reel, qi.frame, qi.eyes, false)));
+ 				}
+ 				reel.write (qi.encoded, qi.frame, qi.eyes);
+ 				++_full_written;
+diff --git a/src/lib/writer.h b/src/lib/writer.h
+index 71e04df96..fd7db69db 100644
+--- a/src/lib/writer.h
++++ b/src/lib/writer.h
+@@ -35,7 +35,7 @@
+ #include <list>
+ 
+ namespace dcp {
+-	class Data;
++	class ArrayData;
+ }
+ 
+ namespace dcpomatic {
+@@ -70,7 +70,7 @@ public:
+ 	} type;
+ 
+ 	/** encoded data for FULL */
+-	boost::optional<dcp::Data> encoded;
++	boost::shared_ptr<const dcp::Data> encoded;
+ 	/** size of data for FAKE */
+ 	int size;
+ 	/** reel index */
+@@ -105,7 +105,7 @@ public:
+ 
+ 	bool can_fake_write (Frame) const;
+ 
+-	void write (dcp::Data, Frame, Eyes);
++	void write (boost::shared_ptr<const dcp::Data>, Frame, Eyes);
+ 	void fake_write (Frame, Eyes);
+ 	bool can_repeat (Frame) const;
+ 	void repeat (Frame, Eyes);
+diff --git a/src/tools/server_test.cc b/src/tools/server_test.cc
+index 99a6b4caf..b64970f62 100644
+--- a/src/tools/server_test.cc
++++ b/src/tools/server_test.cc
+@@ -46,7 +46,7 @@ using boost::bind;
+ #if BOOST_VERSION >= 106100
+ using namespace boost::placeholders;
+ #endif
+-using dcp::Data;
++using dcp::ArrayData;
+ 
+ static shared_ptr<Film> film;
+ static EncodeServerDescription* server;
+@@ -63,8 +63,8 @@ process_video (shared_ptr<PlayerVideo> pvf)
+ 
+ 	++frame_count;
+ 
+-	Data local_encoded = local->encode_locally ();
+-	Data remote_encoded;
++	ArrayData local_encoded = local->encode_locally ();
++	ArrayData remote_encoded;
+ 
+ 	string remote_error;
+ 	try {
+@@ -83,8 +83,8 @@ process_video (shared_ptr<PlayerVideo> pvf)
+ 		return;
+ 	}
+ 
+-	uint8_t* p = local_encoded.data().get ();
+-	uint8_t* q = remote_encoded.data().get ();
++	uint8_t* p = local_encoded.data();
++	uint8_t* q = remote_encoded.data();
+ 	for (int i = 0; i < local_encoded.size(); ++i) {
+ 		if (*p++ != *q++) {
+ 			cout << "\033[0;31mdata differ\033[0m at byte " << i << "\n";
+diff --git a/test/client_server_test.cc b/test/client_server_test.cc
+index 75cee85b3..22eeedbab 100644
+--- a/test/client_server_test.cc
++++ b/test/client_server_test.cc
+@@ -46,16 +46,16 @@ using boost::shared_ptr;
+ using boost::thread;
+ using boost::optional;
+ using boost::weak_ptr;
+-using dcp::Data;
++using dcp::ArrayData;
+ 
+ void
+-do_remote_encode (shared_ptr<DCPVideo> frame, EncodeServerDescription description, Data locally_encoded)
++do_remote_encode (shared_ptr<DCPVideo> frame, EncodeServerDescription description, ArrayData locally_encoded)
+ {
+-	Data remotely_encoded;
++	ArrayData remotely_encoded;
+ 	BOOST_REQUIRE_NO_THROW (remotely_encoded = frame->encode_remotely (description, 1200));
+ 
+ 	BOOST_REQUIRE_EQUAL (locally_encoded.size(), remotely_encoded.size());
+-	BOOST_CHECK_EQUAL (memcmp (locally_encoded.data().get(), remotely_encoded.data().get(), locally_encoded.size()), 0);
++	BOOST_CHECK_EQUAL (memcmp (locally_encoded.data(), remotely_encoded.data(), locally_encoded.size()), 0);
+ }
+ 
+ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
+@@ -117,7 +117,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
+ 			)
+ 		);
+ 
+-	Data locally_encoded = frame->encode_locally ();
++	ArrayData locally_encoded = frame->encode_locally ();
+ 
+ 	EncodeServer* server = new EncodeServer (true, 2);
+ 
+@@ -203,7 +203,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
+ 			)
+ 		);
+ 
+-	Data locally_encoded = frame->encode_locally ();
++	ArrayData locally_encoded = frame->encode_locally ();
+ 
+ 	EncodeServer* server = new EncodeServer (true, 2);
+ 
+@@ -274,7 +274,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
+ 			)
+ 		);
+ 
+-	Data raw_locally_encoded = raw_frame->encode_locally ();
++	ArrayData raw_locally_encoded = raw_frame->encode_locally ();
+ 
+ 	shared_ptr<PlayerVideo> j2k_pvf (
+ 		new PlayerVideo (
+@@ -303,7 +303,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
+ 			)
+ 		);
+ 
+-	Data j2k_locally_encoded = j2k_frame->encode_locally ();
++	ArrayData j2k_locally_encoded = j2k_frame->encode_locally ();
+ 
+ 	EncodeServer* server = new EncodeServer (true, 2);
+ 
+diff --git a/test/crypto_test.cc b/test/crypto_test.cc
+index e1069b42f..26c6748b8 100644
+--- a/test/crypto_test.cc
++++ b/test/crypto_test.cc
+@@ -29,12 +29,12 @@ using std::list;
+ 
+ BOOST_AUTO_TEST_CASE (crypto_test)
+ {
+-	dcp::Data key (dcpomatic::crypto_key_length());
+-	dcp::Data iv = dcpomatic::random_iv ();
++	dcp::ArrayData key (dcpomatic::crypto_key_length());
++	dcp::ArrayData iv = dcpomatic::random_iv ();
+ 
+-	RAND_bytes (key.data().get(), dcpomatic::crypto_key_length());
++	RAND_bytes (key.data(), dcpomatic::crypto_key_length());
+ 
+-	dcp::Data ciphertext = dcpomatic::encrypt ("Can you see any fish?", key, iv);
++	dcp::ArrayData ciphertext = dcpomatic::encrypt ("Can you see any fish?", key, iv);
+ 	BOOST_REQUIRE_EQUAL (dcpomatic::decrypt (ciphertext, key, iv), "Can you see any fish?");
+ 
+ 	key.data()[5]++;
+diff --git a/test/test.cc b/test/test.cc
+index 03e8768f4..9ac202b80 100644
+--- a/test/test.cc
++++ b/test/test.cc
+@@ -687,7 +687,7 @@ write_image (shared_ptr<const Image> image, boost::filesystem::path file)
+ 	png_destroy_write_struct (&png_ptr, &info_ptr);
+ 	png_free (png_ptr, row_pointers);
+ 
+-	dcp::Data(state.data, state.size).write(file);
++	dcp::ArrayData(state.data, state.size).write(file);
+ }
+ 
+ 

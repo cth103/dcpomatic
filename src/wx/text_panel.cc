@@ -242,9 +242,14 @@ TextPanel::add_to_grid ()
 	add_label_to_sizer (offset, _x_offset_label, true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	offset->Add (_x_offset, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
 	offset->Add (_x_offset_pc_label, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP * 2);
+#ifdef __WXGTK3__
+	_grid->Add (offset, wxGBPosition(r, 1));
+	++r;
+	offset = new wxBoxSizer (wxHORIZONTAL);
+#endif
 	add_label_to_sizer (offset, _y_offset_label, true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
-	offset->Add (_y_offset, 0);
-	add_label_to_sizer (offset, _y_offset_pc_label, false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
+	offset->Add (_y_offset, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
+	add_label_to_sizer (offset, _y_offset_pc_label, false, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_grid->Add (offset, wxGBPosition (r, 1));
 	++r;
 
@@ -253,9 +258,14 @@ TextPanel::add_to_grid ()
 	add_label_to_sizer (scale, _x_scale_label, true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	scale->Add (_x_scale, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
 	scale->Add (_x_scale_pc_label, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP * 2);
+#ifdef __WXGTK3__
+	_grid->Add (scale, wxGBPosition(r, 1));
+	++r;
+	scale = new wxBoxSizer (wxHORIZONTAL);
+#endif
 	add_label_to_sizer (scale, _y_scale_label, true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
-	scale->Add (_y_scale, 0);
-	add_label_to_sizer (scale, _y_scale_pc_label, false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
+	scale->Add (_y_scale, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
+	add_label_to_sizer (scale, _y_scale_pc_label, false, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_grid->Add (scale, wxGBPosition (r, 1));
 	++r;
 
