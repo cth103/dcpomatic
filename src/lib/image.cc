@@ -122,14 +122,24 @@ Image::planes () const
  *  @param inter_size Size to scale the cropped image to.
  *  @param out_size Size of output frame; if this is larger than inter_size there will be black padding.
  *  @param yuv_to_rgb YUV to RGB transformation to use, if required.
+ *  @param video_range Video range of the image.
  *  @param out_format Output pixel format.
  *  @param out_aligned true to make the output image aligned.
+ *  @param out_video_range Video range to use for the output image.
  *  @param fast Try to be fast at the possible expense of quality; at present this means using
  *  fast bilinear rather than bicubic scaling.
  */
 shared_ptr<Image>
 Image::crop_scale_window (
-	Crop crop, dcp::Size inter_size, dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, VideoRange video_range, AVPixelFormat out_format, bool out_aligned, bool fast
+	Crop crop,
+	dcp::Size inter_size,
+	dcp::Size out_size,
+	dcp::YUVToRGB yuv_to_rgb,
+	VideoRange video_range,
+	AVPixelFormat out_format,
+	VideoRange out_video_range,
+	bool out_aligned,
+	bool fast
 	) const
 {
 	/* Empirical testing suggests that sws_scale() will crash if
@@ -171,13 +181,13 @@ Image::crop_scale_window (
 	   1 -> destination range JPEG (i.e. "full", 0-255)
 
 	   But remember: sws_setColorspaceDetails ignores these
-	   parameters unless the corresponding image isYUV or isGray.
-	   (If it's neither, it uses video range).
+	   parameters unless the both source and destination images
+	   are isYUV or isGray.  (If either is not, it uses video range).
 	*/
 	sws_setColorspaceDetails (
 		scale_context,
 		sws_getCoefficients (lut[yuv_to_rgb]), video_range == VIDEO_RANGE_VIDEO ? 0 : 1,
-		sws_getCoefficients (lut[yuv_to_rgb]), 1,
+		sws_getCoefficients (lut[yuv_to_rgb]), out_video_range == VIDEO_RANGE_VIDEO ? 0 : 1,
 		0, 1 << 16, 1 << 16
 		);
 

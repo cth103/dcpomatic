@@ -47,6 +47,7 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 			AudioMapping(6, 6),
 			6,
 			bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),
+			VIDEO_RANGE_FULL,
 			false,
 			true)
 		);
@@ -58,7 +59,7 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 		}
 		/* assuming DCP is 24fps/48kHz */
 		butler->get_audio (audio_buffer, 2000);
-		p.first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true);
+		p.first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VIDEO_RANGE_FULL, false, true);
 	}
 	delete[] audio_buffer;
 }

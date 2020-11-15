@@ -62,6 +62,7 @@ Butler::Butler (
 	AudioMapping audio_mapping,
 	int audio_channels,
 	function<AVPixelFormat (AVPixelFormat)> pixel_format,
+	VideoRange video_range,
 	bool aligned,
 	bool fast
 	)
@@ -76,6 +77,7 @@ Butler::Butler (
 	, _audio_channels (audio_channels)
 	, _disable_audio (false)
 	, _pixel_format (pixel_format)
+	, _video_range (video_range)
 	, _aligned (aligned)
 	, _fast (fast)
 {
@@ -305,7 +307,7 @@ try
 	/* If the weak_ptr cannot be locked the video obviously no longer requires any work */
 	if (video) {
 		LOG_TIMING("start-prepare in %1", thread_id());
-		video->prepare (_pixel_format, _aligned, _fast);
+		video->prepare (_pixel_format, _video_range, _aligned, _fast);
 		LOG_TIMING("finish-prepare in %1", thread_id());
 	}
 }

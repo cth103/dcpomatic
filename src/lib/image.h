@@ -66,7 +66,15 @@ public:
 	boost::shared_ptr<Image> convert_pixel_format (dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool aligned, bool fast) const;
 	boost::shared_ptr<Image> scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool aligned, bool fast) const;
 	boost::shared_ptr<Image> crop_scale_window (
-		Crop crop, dcp::Size inter_size, dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, VideoRange video_range, AVPixelFormat out_format, bool aligned, bool fast
+		Crop crop,
+		dcp::Size inter_size,
+		dcp::Size out_size,
+		dcp::YUVToRGB yuv_to_rgb,
+		VideoRange video_range,
+		AVPixelFormat out_format,
+		VideoRange out_video_range,
+		bool aligned,
+		bool fast
 		) const;
 
 	void make_black ();

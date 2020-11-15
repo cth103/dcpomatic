@@ -219,6 +219,7 @@ FilmViewer::recreate_butler ()
 			Config::instance()->audio_mapping(_audio_channels),
 			_audio_channels,
 			bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),
+			VIDEO_RANGE_FULL,
 			false,
 			true
 			)

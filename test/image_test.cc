@@ -261,7 +261,9 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test)
 {
 	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/flat_red.png", VIDEO_RANGE_FULL));
 	shared_ptr<Image> raw = proxy->image().image;
-	shared_ptr<Image> out = raw->crop_scale_window(Crop(), dcp::Size(1998, 836), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_YUV420P, true, false);
+	shared_ptr<Image> out = raw->crop_scale_window(
+		Crop(), dcp::Size(1998, 836), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_YUV420P, VIDEO_RANGE_FULL, true, false
+		);
 	shared_ptr<Image> save = out->scale(dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, false);
 	write_image(save, "build/test/crop_scale_window_test.png");
 	check_image("test/data/crop_scale_window_test.png", "build/test/crop_scale_window_test.png");
@@ -271,15 +273,21 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test)
 BOOST_AUTO_TEST_CASE (crop_scale_window_test2)
 {
 	shared_ptr<Image> image (new Image(AV_PIX_FMT_XYZ12LE, dcp::Size(2048, 858), true));
-	image->crop_scale_window (Crop(279, 0, 0, 0), dcp::Size(1069, 448), dcp::Size(1069, 578), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_RGB24, false, false);
-	image->crop_scale_window (Crop(2048, 0, 0, 0), dcp::Size(1069, 448), dcp::Size(1069, 578), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_RGB24, false, false);
+	image->crop_scale_window (
+		Crop(279, 0, 0, 0), dcp::Size(1069, 448), dcp::Size(1069, 578), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_RGB24, VIDEO_RANGE_FULL, false, false
+		);
+	image->crop_scale_window (
+		Crop(2048, 0, 0, 0), dcp::Size(1069, 448), dcp::Size(1069, 578), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_RGB24, VIDEO_RANGE_FULL, false, false
+		);
 }
 
 BOOST_AUTO_TEST_CASE (crop_scale_window_test3)
 {
 	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/player_seek_test_0.png", VIDEO_RANGE_FULL));
 	shared_ptr<Image> xyz = proxy->image().image->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, true, false);
-	shared_ptr<Image> cropped = xyz->crop_scale_window(Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_RGB24, false, false);
+	shared_ptr<Image> cropped = xyz->crop_scale_window(
+		Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_RGB24, VIDEO_RANGE_FULL, false, false
+		);
 	write_image(cropped, "build/test/crop_scale_window_test3.png");
 	check_image("test/data/crop_scale_window_test3.png", "build/test/crop_scale_window_test3.png");
 }
@@ -288,7 +296,9 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test4)
 {
 	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/player_seek_test_0.png", VIDEO_RANGE_FULL));
 	shared_ptr<Image> xyz = proxy->image().image->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, true, false);
-	shared_ptr<Image> cropped = xyz->crop_scale_window(Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_XYZ12LE, false, false);
+	shared_ptr<Image> cropped = xyz->crop_scale_window(
+		Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_XYZ12LE, VIDEO_RANGE_FULL, false, false
+		);
 	write_image(cropped, "build/test/crop_scale_window_test4.png");
 	check_image("test/data/crop_scale_window_test4.png", "build/test/crop_scale_window_test4.png", 35000);
 }
@@ -297,7 +307,9 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test5)
 {
 	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/player_seek_test_0.png", VIDEO_RANGE_FULL));
 	shared_ptr<Image> xyz = proxy->image().image->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_XYZ12LE, true, false);
-	shared_ptr<Image> cropped = xyz->crop_scale_window(Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_RGB24, false, false);
+	shared_ptr<Image> cropped = xyz->crop_scale_window(
+		Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_RGB24, VIDEO_RANGE_FULL, false, false
+		);
 	write_image(cropped, "build/test/crop_scale_window_test5.png");
 	check_image("test/data/crop_scale_window_test5.png", "build/test/crop_scale_window_test5.png");
 }
@@ -306,7 +318,9 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test6)
 {
 	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/player_seek_test_0.png", VIDEO_RANGE_FULL));
 	shared_ptr<Image> xyz = proxy->image().image->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_XYZ12LE, true, false);
-	shared_ptr<Image> cropped = xyz->crop_scale_window(Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_XYZ12LE, false, false);
+	shared_ptr<Image> cropped = xyz->crop_scale_window(
+		Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_XYZ12LE, VIDEO_RANGE_FULL, false, false
+		);
 	write_image(cropped, "build/test/crop_scale_window_test6.png");
 	check_image("test/data/crop_scale_window_test6.png", "build/test/crop_scale_window_test6.png", 35000);
 }

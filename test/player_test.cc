@@ -218,7 +218,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 	player->set_always_burn_open_subtitles ();
 	player->set_play_referenced ();
 
-	shared_ptr<Butler> butler (new Butler (player, AudioMapping(), 2, bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
+	shared_ptr<Butler> butler (new Butler (player, AudioMapping(), 2, bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VIDEO_RANGE_FULL, false, true));
 	butler->disable_audio();
 
 	for (int i = 0; i < 10; ++i) {
@@ -226,7 +226,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 		butler->seek (t, true);
 		pair<shared_ptr<PlayerVideo>, DCPTime> video = butler->get_video(true, 0);
 		BOOST_CHECK_EQUAL(video.second.get(), t.get());
-		write_image(video.first->image(bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true), String::compose("build/test/player_seek_test_%1.png", i));
+		write_image(video.first->image(bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VIDEO_RANGE_FULL, false, true), String::compose("build/test/player_seek_test_%1.png", i));
 		/* This 14.08 is empirically chosen (hopefully) to accept changes in rendering between the reference and a test machine
 		   (17.10 and 16.04 seem to anti-alias a little differently) but to reject gross errors e.g. missing fonts or missing
 		   text altogether.
@@ -249,7 +249,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 	player->set_always_burn_open_subtitles ();
 	player->set_play_referenced ();
 
-	shared_ptr<Butler> butler (new Butler(player, AudioMapping(), 2, bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
+	shared_ptr<Butler> butler (new Butler(player, AudioMapping(), 2, bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VIDEO_RANGE_FULL, false, true));
 	butler->disable_audio();
 
 	butler->seek(DCPTime::from_seconds(5), true);
@@ -259,7 +259,9 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 		butler->seek (t, true);
 		pair<shared_ptr<PlayerVideo>, DCPTime> video = butler->get_video(true, 0);
 		BOOST_CHECK_EQUAL(video.second.get(), t.get());
-		write_image(video.first->image(bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true), String::compose("build/test/player_seek_test2_%1.png", i));
+		write_image(
+			video.first->image(bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VIDEO_RANGE_FULL, false, true), String::compose("build/test/player_seek_test2_%1.png", i)
+			);
 		check_image(String::compose("test/data/player_seek_test2_%1.png", i), String::compose("build/test/player_seek_test2_%1.png", i), 14.08);
 	}
 }
@@ -334,7 +336,7 @@ BOOST_AUTO_TEST_CASE (player_trim_crash)
 
 	shared_ptr<Player> player (new Player(film));
 	player->set_fast ();
-	shared_ptr<Butler> butler (new Butler(player, AudioMapping(), 6, bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), false, true));
+	shared_ptr<Butler> butler (new Butler(player, AudioMapping(), 6, bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VIDEO_RANGE_FULL, false, true));
 
 	/* Wait for the butler to fill */
 	dcpomatic_sleep_seconds (5);

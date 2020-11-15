@@ -110,7 +110,9 @@ FFmpegEncoder::FFmpegEncoder (
 		}
 	}
 
-	_butler.reset (new Butler(_player, map, _output_audio_channels, bind(&PlayerVideo::force, _1, FFmpegFileEncoder::pixel_format(format)), true, false));
+	_butler.reset (
+		new Butler(_player, map, _output_audio_channels, bind(&PlayerVideo::force, _1, FFmpegFileEncoder::pixel_format(format)), VIDEO_RANGE_VIDEO, true, false)
+		);
 }
 
 

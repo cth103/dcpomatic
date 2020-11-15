@@ -41,6 +41,7 @@ public:
 		AudioMapping map,
 		int audio_channels,
 		boost::function<AVPixelFormat (AVPixelFormat)> pixel_format,
+		VideoRange video_range,
 		bool aligned,
 		bool fast
 		);
@@ -115,6 +116,7 @@ private:
 	bool _disable_audio;
 
 	boost::function<AVPixelFormat (AVPixelFormat)> _pixel_format;
+	VideoRange _video_range;
 	bool _aligned;
 	bool _fast;
 

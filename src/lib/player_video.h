@@ -67,8 +67,8 @@ public:
 
 	void set_text (PositionImage);
 
-	void prepare (boost::function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast);
-	boost::shared_ptr<Image> image (boost::function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast) const;
+	void prepare (boost::function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool aligned, bool fast);
+	boost::shared_ptr<Image> image (boost::function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool aligned, bool fast) const;
 
 	static AVPixelFormat force (AVPixelFormat, AVPixelFormat);
 	static AVPixelFormat keep_xyz_or_rgb (AVPixelFormat);
@@ -114,7 +114,7 @@ public:
 	}
 
 private:
-	void make_image (boost::function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast) const;
+	void make_image (boost::function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool aligned, bool fast) const;
 
 	boost::shared_ptr<const ImageProxy> _in;
 	Crop _crop;

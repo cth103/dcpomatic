@@ -420,8 +420,10 @@ DCPOMATIC_ENABLE_WARNINGS
 void
 FFmpegFileEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 {
+	/* All our output formats are video range at the moment */
 	shared_ptr<Image> image = video->image (
 		bind (&PlayerVideo::force, _1, _pixel_format),
+		VIDEO_RANGE_VIDEO,
 		true,
 		false
 		);

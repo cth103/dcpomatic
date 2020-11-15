@@ -109,13 +109,13 @@ PlayerVideo::set_text (PositionImage image)
 }
 
 shared_ptr<Image>
-PlayerVideo::image (function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast) const
+PlayerVideo::image (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool aligned, bool fast) const
 {
 	/* XXX: this assumes that image() and prepare() are only ever called with the same parameters (except crop, inter size, out size, fade) */
 
 	boost::mutex::scoped_lock lm (_mutex);
 	if (!_image || _crop != _image_crop || _inter_size != _image_inter_size || _out_size != _image_out_size || _fade != _image_fade) {
-		make_image (pixel_format, aligned, fast);
+		make_image (pixel_format, video_range, aligned, fast);
 	}
 	return _image;
 }
@@ -128,7 +128,7 @@ PlayerVideo::image (function<AVPixelFormat (AVPixelFormat)> pixel_format, bool a
  *  @param fast true to be fast at the expense of quality.
  */
 void
-PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast) const
+PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool aligned, bool fast) const
 {
 	_image_crop = _crop;
 	_image_inter_size = _inter_size;
@@ -171,7 +171,7 @@ PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, b
 	}
 
 	_image = prox.image->crop_scale_window (
-		total_crop, _inter_size, _out_size, yuv_to_rgb, _video_range, pixel_format (prox.image->pixel_format()), aligned, fast
+		total_crop, _inter_size, _out_size, yuv_to_rgb, _video_range, pixel_format (prox.image->pixel_format()), video_range, aligned, fast
 		);
 
 	if (_text) {
@@ -289,12 +289,12 @@ PlayerVideo::keep_xyz_or_rgb (AVPixelFormat p)
 }
 
 void
-PlayerVideo::prepare (function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast)
+PlayerVideo::prepare (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool aligned, bool fast)
 {
 	_in->prepare (_inter_size);
 	boost::mutex::scoped_lock lm (_mutex);
 	if (!_image) {
-		make_image (pixel_format, aligned, fast);
+		make_image (pixel_format, video_range, aligned, fast);
 	}
 }
 
