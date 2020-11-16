@@ -72,7 +72,7 @@ Image::vertical_factor (int n) const
 		throw PixelFormatError ("line_factor()", _pixel_format);
 	}
 
-	return pow (2.0f, d->log2_chroma_h);
+	return lrintf(powf(2.0f, d->log2_chroma_h));
 }
 
 int
@@ -87,7 +87,7 @@ Image::horizontal_factor (int n) const
 		throw PixelFormatError ("sample_size()", _pixel_format);
 	}
 
-	return pow (2.0f, d->log2_chroma_w);
+	return lrintf(powf(2.0f, d->log2_chroma_w));
 }
 
 /** @param n Component index.
