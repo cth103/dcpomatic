@@ -55,6 +55,11 @@ using std::runtime_error;
 using boost::shared_ptr;
 using dcp::Size;
 
+
+/** The memory alignment, in bytes, used for each row of an image if aligment is requested */
+#define ALIGNMENT 64
+
+
 int
 Image::vertical_factor (int n) const
 {
@@ -838,7 +843,7 @@ Image::bytes_per_pixel (int c) const
  *
  *  @param p Pixel format.
  *  @param s Size in pixels.
- *  @param aligned true to make each row of this image aligned to a 32-byte boundary.
+ *  @param aligned true to make each row of this image aligned to a ALIGNMENT-byte boundary.
  */
 Image::Image (AVPixelFormat p, dcp::Size s, bool aligned)
 	: _size (s)
@@ -862,7 +867,7 @@ Image::allocate ()
 
 	for (int i = 0; i < planes(); ++i) {
 		_line_size[i] = ceil (_size.width * bytes_per_pixel(i));
-		_stride[i] = stride_round_up (i, _line_size, _aligned ? 32 : 1);
+		_stride[i] = stride_round_up (i, _line_size, _aligned ? ALIGNMENT : 1);
 
 		/* The assembler function ff_rgb24ToY_avx (in libswscale/x86/input.asm)
 		   uses a 16-byte fetch to read three bytes (R/G/B) of image data.
@@ -875,7 +880,7 @@ Image::allocate ()
 
 		   Further to the above, valgrind is now telling me that ff_rgb24ToY_ssse3
 		   over-reads by more then _avx.  I can't follow the code to work out how much,
-		   so I'll just over-allocate by 32 bytes and have done with it.  Empirical
+		   so I'll just over-allocate by ALIGNMENT bytes and have done with it.  Empirical
 		   testing suggests that it works.
 
 		   In addition to these concerns, we may read/write as much as a whole extra line
@@ -901,12 +906,12 @@ Image::allocate ()
 		   |XXXwrittenXXX|<------line-size------------->|XXXwrittenXXXXXXwrittenXXX
 		                                                               ^^^^ out of bounds
 		*/
-		_data[i] = (uint8_t *) wrapped_av_malloc (_stride[i] * (sample_size(i).height + 1) + 32);
+		_data[i] = (uint8_t *) wrapped_av_malloc (_stride[i] * (sample_size(i).height + 1) + ALIGNMENT);
 #if HAVE_VALGRIND_MEMCHECK_H
 		/* The data between the end of the line size and the stride is undefined but processed by
 		   libswscale, causing lots of valgrind errors.  Mark it all defined to quell these errors.
 		*/
-		VALGRIND_MAKE_MEM_DEFINED (_data[i], _stride[i] * (sample_size(i).height + 1) + 32);
+		VALGRIND_MAKE_MEM_DEFINED (_data[i], _stride[i] * (sample_size(i).height + 1) + ALIGNMENT);
 #endif
 	}
 }
