@@ -24,6 +24,7 @@
  *  @see test/make_black_test.cc, test/pixel_formats_test.cc
  */
 
+#include "lib/compose.hpp"
 #include "lib/image.h"
 #include "lib/ffmpeg_image_proxy.h"
 #include "test.h"
@@ -324,6 +325,33 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test6)
 	write_image(cropped, "build/test/crop_scale_window_test6.png");
 	check_image("test/data/crop_scale_window_test6.png", "build/test/crop_scale_window_test6.png", 35000);
 }
+
+
+/** Test some small crops with an image that shows up errors in registration of the YUV planes (#1872) */
+BOOST_AUTO_TEST_CASE (crop_scale_window_test7)
+{
+	using namespace boost::filesystem;
+	for (int left_crop = 0; left_crop < 8; ++left_crop) {
+		shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/rgb_grey_testcard.png", VIDEO_RANGE_FULL));
+		shared_ptr<Image> yuv = proxy->image().image->convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_YUV420P, true, false);
+		int rounded = left_crop - (left_crop % 2);
+		shared_ptr<Image> cropped = yuv->crop_scale_window(
+			Crop(left_crop, 0, 0, 0),
+			dcp::Size(1998 - rounded, 1080),
+			dcp::Size(1998 - rounded, 1080),
+			dcp::YUV_TO_RGB_REC709,
+			VIDEO_RANGE_VIDEO,
+			AV_PIX_FMT_RGB24,
+			VIDEO_RANGE_VIDEO,
+			true,
+			false
+			);
+		path file = String::compose("crop_scale_window_test7-%1.png", left_crop);
+		write_image(cropped, path("build") / "test" / file);
+		check_image(path("test") / "data" / file, path("build") / "test" / file, 10);
+	}
+}
+
 
 BOOST_AUTO_TEST_CASE (as_png_test)
 {

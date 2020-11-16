@@ -122,6 +122,23 @@ Image::planes () const
 	return d->nb_components;
 }
 
+
+static
+int
+round_width_for_subsampling (int p, AVPixFmtDescriptor const * desc)
+{
+	return p & ~ ((1 << desc->log2_chroma_w) - 1);
+}
+
+
+static
+int
+round_height_for_subsampling (int p, AVPixFmtDescriptor const * desc)
+{
+	return p & ~ ((1 << desc->log2_chroma_h) - 1);
+}
+
+
 /** Crop this image, scale it to `inter_size' and then place it in a black frame of `out_size'.
  *  @param crop Amount to crop by.
  *  @param inter_size Size to scale the cropped image to.
@@ -158,8 +175,23 @@ Image::crop_scale_window (
 	shared_ptr<Image> out (new Image(out_format, out_size, out_aligned));
 	out->make_black ();
 
+	AVPixFmtDescriptor const * in_desc = av_pix_fmt_desc_get (_pixel_format);
+	if (!in_desc) {
+		throw PixelFormatError ("crop_scale_window()", _pixel_format);
+	}
+
+	/* Round down so that we crop only the number of pixels that is straightforward
+	 * considering any subsampling.
+	 */
+	Crop rounded_crop(
+		round_width_for_subsampling(crop.left, in_desc),
+		round_width_for_subsampling(crop.right, in_desc),
+		round_height_for_subsampling(crop.top, in_desc),
+		round_height_for_subsampling(crop.bottom, in_desc)
+		);
+
 	/* Size of the image after any crop */
-	dcp::Size const cropped_size = crop.apply (size ());
+	dcp::Size const cropped_size = rounded_crop.apply (size());
 
 	/* Scale context for a scale from cropped_size to inter_size */
 	struct SwsContext* scale_context = sws_getContext (
@@ -196,35 +228,27 @@ Image::crop_scale_window (
 		0, 1 << 16, 1 << 16
 		);
 
-	AVPixFmtDescriptor const * in_desc = av_pix_fmt_desc_get (_pixel_format);
-	if (!in_desc) {
-		throw PixelFormatError ("crop_scale_window()", _pixel_format);
-	}
-
 	/* Prepare input data pointers with crop */
 	uint8_t* scale_in_data[planes()];
 	for (int c = 0; c < planes(); ++c) {
-		/* To work out the crop in bytes, start by multiplying
-		   the crop by the (average) bytes per pixel.  Then
-		   round down so that we don't crop a subsampled pixel until
-		   we've cropped all of its Y-channel pixels.
-		*/
-		int const x = lrintf (bytes_per_pixel(c) * crop.left) & ~ ((int) in_desc->log2_chroma_w);
-		scale_in_data[c] = data()[c] + x + stride()[c] * (crop.top / vertical_factor(c));
+		int const x = lrintf(bytes_per_pixel(c) * rounded_crop.left);
+		scale_in_data[c] = data()[c] + x + stride()[c] * (rounded_crop.top / vertical_factor(c));
 	}
-
-	/* Corner of the image within out_size */
-	Position<int> const corner ((out_size.width - inter_size.width) / 2, (out_size.height - inter_size.height) / 2);
 
 	AVPixFmtDescriptor const * out_desc = av_pix_fmt_desc_get (out_format);
 	if (!out_desc) {
 		throw PixelFormatError ("crop_scale_window()", out_format);
 	}
 
+	/* Corner of the image within out_size */
+	Position<int> const corner (
+		round_width_for_subsampling((out_size.width - inter_size.width) / 2, out_desc),
+		round_height_for_subsampling((out_size.height - inter_size.height) / 2, out_desc)
+		);
+
 	uint8_t* scale_out_data[out->planes()];
 	for (int c = 0; c < out->planes(); ++c) {
-		/* See the note in the crop loop above */
-		int const x = lrintf (out->bytes_per_pixel(c) * corner.x) & ~ ((int) out_desc->log2_chroma_w);
+		int const x = lrintf(out->bytes_per_pixel(c) * corner.x);
 		scale_out_data[c] = out->data()[c] + x + out->stride()[c] * (corner.y / out->vertical_factor(c));
 	}
 
@@ -237,7 +261,7 @@ Image::crop_scale_window (
 
 	sws_freeContext (scale_context);
 
-	if (crop != Crop() && cropped_size == inter_size && _pixel_format == out_format) {
+	if (rounded_crop != Crop() && cropped_size == inter_size) {
 		/* We are cropping without any scaling or pixel format conversion, so FFmpeg may have left some
 		   data behind in our image.  Clear it out.  It may get to the point where we should just stop
 		   trying to be clever with cropping.
