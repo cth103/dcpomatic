@@ -39,8 +39,8 @@ BOOST_AUTO_TEST_CASE (aligned_image_test)
 {
 	Image* s = new Image (AV_PIX_FMT_RGB24, dcp::Size (50, 50), true);
 	BOOST_CHECK_EQUAL (s->planes(), 1);
-	/* 160 is 150 aligned to the nearest 32 bytes */
-	BOOST_CHECK_EQUAL (s->stride()[0], 160);
+	/* 192 is 150 aligned to the nearest 64 bytes */
+	BOOST_CHECK_EQUAL (s->stride()[0], 192);
 	BOOST_CHECK_EQUAL (s->line_size()[0], 150);
 	BOOST_CHECK (s->data()[0]);
 	BOOST_CHECK (!s->data()[1]);
@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE (aligned_image_test)
 	/* copy constructor */
 	Image* t = new Image (*s);
 	BOOST_CHECK_EQUAL (t->planes(), 1);
-	BOOST_CHECK_EQUAL (t->stride()[0], 160);
+	BOOST_CHECK_EQUAL (t->stride()[0], 192);
 	BOOST_CHECK_EQUAL (t->line_size()[0], 150);
 	BOOST_CHECK (t->data()[0]);
 	BOOST_CHECK (!t->data()[1]);
@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE (aligned_image_test)
 	Image* u = new Image (AV_PIX_FMT_YUV422P, dcp::Size (150, 150), false);
 	*u = *s;
 	BOOST_CHECK_EQUAL (u->planes(), 1);
-	BOOST_CHECK_EQUAL (u->stride()[0], 160);
+	BOOST_CHECK_EQUAL (u->stride()[0], 192);
 	BOOST_CHECK_EQUAL (u->line_size()[0], 150);
 	BOOST_CHECK (u->data()[0]);
 	BOOST_CHECK (!u->data()[1]);
