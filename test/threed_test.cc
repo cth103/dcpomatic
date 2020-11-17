@@ -34,6 +34,7 @@
 #include "lib/cross.h"
 #include "lib/job.h"
 #include "lib/dcpomatic_log.h"
+#include <boost/shared_ptr.hpp>
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 

@@ -24,6 +24,7 @@
 #include "lib/content_factory.h"
 #include "lib/string_text_file.h"
 #include "lib/string_text_file_content.h"
+#include <boost/shared_ptr.hpp>
 #include <boost/test/unit_test.hpp>
 
 using boost::shared_ptr;

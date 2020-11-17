@@ -20,6 +20,7 @@
 
 #include <Magick++.h>
 #include <boost/filesystem.hpp>
+#include <boost/shared_ptr.hpp>
 
 class Film;
 class Image;
