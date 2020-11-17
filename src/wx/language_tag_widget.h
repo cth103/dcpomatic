@@ -34,7 +34,11 @@ class wxWindow;
 class LanguageTagWidget : public boost::noncopyable
 {
 public:
-	LanguageTagWidget (wxWindow* parent, wxSizer* sizer, wxString label, wxString tooltip, dcp::LanguageTag tag);
+	LanguageTagWidget (wxWindow* parent, wxString tooltip, dcp::LanguageTag tag);
+
+	wxSizer* sizer () const {
+		return _sizer;
+	}
 
 	void set (dcp::LanguageTag tag);
 
@@ -47,5 +51,6 @@ private:
 	wxButton* _edit;
 	wxWindow* _parent;
 	dcp::LanguageTag _tag;
+	wxSizer* _sizer;
 };
 

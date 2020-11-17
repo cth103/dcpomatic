@@ -67,21 +67,21 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 	wxFlexGridSizer* sizer = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	sizer->AddGrowableCol (1, 1);
 
+	add_label_to_sizer (sizer, this, _("Title language"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_name_language = new LanguageTagWidget(
 		this,
-		sizer,
-		_("Title language"),
 		wxString::Format(_("The language that the film's title (\"%s\") is in"), std_to_wx(film()->name())),
 		film()->name_language()
 		);
+	sizer->Add (_name_language->sizer(), 0, wxEXPAND);
 
+	add_label_to_sizer (sizer, this, _("Audio language"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_audio_language = new LanguageTagWidget(
 		this,
-		sizer,
-		_("Audio language"),
 		_("The main language that is spoken in the film's soundtrack"),
 		film()->audio_language()
 		);
+	sizer->Add (_audio_language->sizer(), 0, wxEXPAND);
 
 	Button* edit_release_territory = 0;
 	add_label_to_sizer (sizer, this, _("Release territory"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);

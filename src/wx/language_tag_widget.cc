@@ -26,18 +26,16 @@
 #include <wx/wx.h>
 
 
-LanguageTagWidget::LanguageTagWidget (wxWindow* parent, wxSizer* sizer, wxString label, wxString tooltip, dcp::LanguageTag tag)
+LanguageTagWidget::LanguageTagWidget (wxWindow* parent, wxString tooltip, dcp::LanguageTag tag)
 	: _parent (parent)
+	, _sizer (new wxBoxSizer(wxHORIZONTAL))
 {
-	add_label_to_sizer(sizer, parent, label, true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
-	wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 	_language = new wxStaticText (parent, wxID_ANY, wxT(""));
 	_language->SetToolTip (tooltip);
 	set (tag);
-	s->Add (_language, 1, wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
+	_sizer->Add (_language, 1, wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
 	_edit = new Button (parent, _("Edit..."));
-	s->Add (_edit, 0, wxLEFT, DCPOMATIC_SIZER_GAP);
-	sizer->Add (s, 0, wxEXPAND);
+	_sizer->Add (_edit, 0, wxLEFT, DCPOMATIC_SIZER_GAP);
 
 	_edit->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagWidget::edit, this));
 }
