@@ -118,13 +118,13 @@ public:
 		{
 			wxSizer* s = new wxBoxSizer (wxVERTICAL);
 			_add = new Button (this, _("Add..."));
-			s->Add (_add, 0, wxTOP | wxBOTTOM, 2);
+			s->Add (_add, 1, wxEXPAND | wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 			if (can_edit) {
 				_edit = new Button (this, _("Edit..."));
-				s->Add (_edit, 0, wxTOP | wxBOTTOM, 2);
+				s->Add (_edit, 1, wxEXPAND | wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 			}
 			_remove = new Button (this, _("Remove"));
-			s->Add (_remove, 0, wxTOP | wxBOTTOM, 2);
+			s->Add (_remove, 1, wxEXPAND | wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 			_sizer->Add (s, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
 		}
 
