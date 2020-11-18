@@ -660,15 +660,12 @@ Writer::write_cover_sheet ()
 	boost::algorithm::replace_all (text, "$CONTAINER", _film->container()->container_nickname());
 	boost::algorithm::replace_all (text, "$AUDIO_LANGUAGE", _film->isdcf_metadata().audio_language);
 
-	optional<string> subtitle_language;
-	BOOST_FOREACH (shared_ptr<Content> i, _film->content()) {
-		BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
-			if (j->type() == TEXT_OPEN_SUBTITLE && j->use()) {
-				subtitle_language = j->language ();
-			}
-		}
+	vector<dcp::LanguageTag> subtitle_languages = _film->subtitle_languages();
+	if (subtitle_languages.empty()) {
+		boost::algorithm::replace_all (text, "$SUBTITLE_LANGUAGE", "None");
+	} else {
+		boost::algorithm::replace_all (text, "$SUBTITLE_LANGUAGE", subtitle_languages.front().description());
 	}
-	boost::algorithm::replace_all (text, "$SUBTITLE_LANGUAGE", subtitle_language.get_value_or("None"));
 
 	boost::uintmax_t size = 0;
 	for (

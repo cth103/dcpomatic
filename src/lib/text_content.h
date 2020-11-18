@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -40,7 +40,6 @@ public:
 	static int const Y_SCALE;
 	static int const USE;
 	static int const BURN;
-	static int const LANGUAGE;
 	static int const FONTS;
 	static int const COLOUR;
 	static int const EFFECT;
@@ -77,7 +76,6 @@ public:
 	void set_y_offset (double);
 	void set_x_scale (double);
 	void set_y_scale (double);
-	void set_language (std::string language);
 	void set_colour (dcp::Colour);
 	void unset_colour ();
 	void set_effect (dcp::Effect);
@@ -127,11 +125,6 @@ public:
 	std::list<boost::shared_ptr<dcpomatic::Font> > fonts () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _fonts;
-	}
-
-	std::string language () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _language;
 	}
 
 	boost::optional<dcp::Colour> colour () const {
@@ -185,10 +178,6 @@ public:
 	}
 
 	static std::list<boost::shared_ptr<TextContent> > from_xml (Content* parent, cxml::ConstNodePtr, int version);
-
-protected:
-	/** subtitle language (e.g. "German") or empty if it is not known */
-	std::string _language;
 
 private:
 	friend struct ffmpeg_pts_offset_test;

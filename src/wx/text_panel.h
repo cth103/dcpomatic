@@ -45,7 +45,6 @@ private:
 	void y_scale_changed ();
 	void line_spacing_changed ();
 	void dcp_track_changed ();
-	void language_changed ();
 	void stream_changed ();
 	void text_view_clicked ();
 	void fonts_dialog_clicked ();
@@ -90,8 +89,6 @@ private:
 	wxSpinCtrl* _line_spacing;
 	wxStaticText* _dcp_track_label;
 	wxChoice* _dcp_track;
-	wxStaticText* _language_label;
-	wxTextCtrl* _language;
 	wxStaticText* _stream_label;
 	wxChoice* _stream;
 	wxButton* _text_view_button;
@@ -102,7 +99,7 @@ private:
 	TextType _original_type;
 
 	int _outline_subtitles_row;
-	int _language_row;
+	int _ccap_track_row;
 
 	boost::weak_ptr<Content> _analysis_content;
 	boost::signals2::scoped_connection _analysis_finished_connection;

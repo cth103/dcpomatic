@@ -69,12 +69,6 @@ DCPSubtitleContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	/* Default to turning these subtitles on */
 	only_text()->set_use (true);
 
-	if (iop) {
-		only_text()->set_language (iop->language ());
-	} else if (smpte) {
-		only_text()->set_language (smpte->language().get_value_or (""));
-	}
-
 	_length = ContentTime::from_seconds (sc->latest_subtitle_out().as_seconds ());
 
 	sc->fix_empty_font_ids ();

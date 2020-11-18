@@ -60,8 +60,6 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	, _outline_subtitles (0)
 	, _dcp_track_label (0)
 	, _dcp_track (0)
-	, _language_label (0)
-	, _language (0)
 	, _text_view (0)
 	, _fonts_dialog (0)
 	, _original_type (t)
@@ -157,16 +155,6 @@ TextPanel::setup_visibility ()
 			_dcp_track->Destroy ();
 			_dcp_track = 0;
 		}
-		if (!_language_label) {
-			_language_label = create_label (this, _("Language"), true);
-			add_label_to_sizer (_grid, _language_label, true, wxGBPosition(_language_row, 0));
-		}
-		if (!_language) {
-			_language = new wxTextCtrl (this, wxID_ANY);
-			_language->Bind (wxEVT_TEXT, boost::bind(&TextPanel::language_changed, this));
-			_grid->Add (_language, wxGBPosition(_language_row, 1), wxDefaultSpan, wxEXPAND);
-			film_content_changed (TextContentProperty::LANGUAGE);
-		}
 		if (!_outline_subtitles) {
 			_outline_subtitles = new CheckBox (this, _("Show subtitle area"));
 			_outline_subtitles->Bind (wxEVT_CHECKBOX, boost::bind (&TextPanel::outline_subtitles_changed, this));
@@ -175,22 +163,14 @@ TextPanel::setup_visibility ()
 
 		break;
 	case TEXT_CLOSED_CAPTION:
-		if (_language_label) {
-			_language_label->Destroy ();
-			_language_label = 0;
-		}
-		if (_language) {
-			_language->Destroy ();
-			_language = 0;
-		}
 		if (!_dcp_track_label) {
 			_dcp_track_label = create_label (this, _("CCAP track"), true);
-			add_label_to_sizer (_grid, _dcp_track_label, true, wxGBPosition(_language_row, 0));
+			add_label_to_sizer (_grid, _dcp_track_label, true, wxGBPosition(_ccap_track_row, 0));
 		}
 		if (!_dcp_track) {
 			_dcp_track = new wxChoice (this, wxID_ANY);
 			_dcp_track->Bind (wxEVT_CHOICE, boost::bind(&TextPanel::dcp_track_changed, this));
-			_grid->Add (_dcp_track, wxGBPosition(_language_row, 1), wxDefaultSpan, wxEXPAND);
+			_grid->Add (_dcp_track, wxGBPosition(_ccap_track_row, 1), wxDefaultSpan, wxEXPAND);
 			update_dcp_tracks ();
 			film_content_changed (TextContentProperty::DCP_TRACK);
 		}
@@ -278,7 +258,7 @@ TextPanel::add_to_grid ()
 		++r;
 	}
 
-	_language_row = r;
+	_ccap_track_row = r;
 	++r;
 
 	add_label_to_sizer (_grid, _stream_label, true, wxGBPosition (r, 0));
@@ -468,10 +448,6 @@ TextPanel::film_content_changed (int property)
 	} else if (property == TextContentProperty::LINE_SPACING) {
 		checked_set (_line_spacing, text ? lrint (text->line_spacing() * 100) : 100);
 		clear_outline_subtitles ();
-	} else if (property == TextContentProperty::LANGUAGE) {
-		if (_language) {
-			checked_set (_language, text ? text->language() : "");
-		}
 	} else if (property == TextContentProperty::DCP_TRACK) {
 		if (_dcp_track) {
 			update_dcp_track_selection ();
@@ -684,15 +660,6 @@ TextPanel::line_spacing_changed ()
 }
 
 void
-TextPanel::language_changed ()
-{
-	DCPOMATIC_ASSERT (_language);
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text ()) {
-		i->text_of_original_type(_original_type)->set_language (wx_to_std (_language->GetValue()));
-	}
-}
-
-void
 TextPanel::content_selection_changed ()
 {
 	film_content_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
@@ -703,7 +670,6 @@ TextPanel::content_selection_changed ()
 	film_content_changed (TextContentProperty::X_SCALE);
 	film_content_changed (TextContentProperty::Y_SCALE);
 	film_content_changed (TextContentProperty::LINE_SPACING);
-	film_content_changed (TextContentProperty::LANGUAGE);
 	film_content_changed (TextContentProperty::FONTS);
 	film_content_changed (TextContentProperty::TYPE);
 	film_content_changed (TextContentProperty::DCP_TRACK);

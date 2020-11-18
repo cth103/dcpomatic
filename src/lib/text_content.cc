@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -47,17 +47,16 @@ int const TextContentProperty::X_SCALE = 502;
 int const TextContentProperty::Y_SCALE = 503;
 int const TextContentProperty::USE = 504;
 int const TextContentProperty::BURN = 505;
-int const TextContentProperty::LANGUAGE = 506;
-int const TextContentProperty::FONTS = 507;
-int const TextContentProperty::COLOUR = 508;
-int const TextContentProperty::EFFECT = 509;
-int const TextContentProperty::EFFECT_COLOUR = 510;
-int const TextContentProperty::LINE_SPACING = 511;
-int const TextContentProperty::FADE_IN = 512;
-int const TextContentProperty::FADE_OUT = 513;
-int const TextContentProperty::OUTLINE_WIDTH = 514;
-int const TextContentProperty::TYPE = 515;
-int const TextContentProperty::DCP_TRACK = 516;
+int const TextContentProperty::FONTS = 506;
+int const TextContentProperty::COLOUR = 507;
+int const TextContentProperty::EFFECT = 508;
+int const TextContentProperty::EFFECT_COLOUR = 509;
+int const TextContentProperty::LINE_SPACING = 510;
+int const TextContentProperty::FADE_IN = 511;
+int const TextContentProperty::FADE_OUT = 512;
+int const TextContentProperty::OUTLINE_WIDTH = 513;
+int const TextContentProperty::TYPE = 514;
+int const TextContentProperty::DCP_TRACK = 515;
 
 TextContent::TextContent (Content* parent, TextType type, TextType original_type)
 	: ContentPart (parent)
@@ -215,12 +214,6 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 		_fade_out = ContentTime (*fo);
 	}
 
-	if (version >= 37) {
-		_language = node->optional_string_child ("Language").get_value_or ("");
-	} else {
-		_language = node->optional_string_child ("SubtitleLanguage").get_value_or ("");
-	}
-
 	list<cxml::NodePtr> fonts = node->node_children ("Font");
 	for (list<cxml::NodePtr>::const_iterator i = fonts.begin(); i != fonts.end(); ++i) {
 		_fonts.push_back (shared_ptr<Font> (new Font (*i)));
@@ -316,7 +309,6 @@ TextContent::TextContent (Content* parent, vector<shared_ptr<Content> > c)
 	_y_offset = ref->y_offset ();
 	_x_scale = ref->x_scale ();
 	_y_scale = ref->y_scale ();
-	_language = ref->language ();
 	_fonts = ref_fonts;
 	_line_spacing = ref->line_spacing ();
 	_fade_in = ref->fade_in ();
@@ -343,7 +335,6 @@ TextContent::as_xml (xmlpp::Node* root) const
 	text->add_child("YOffset")->add_child_text (raw_convert<string> (_y_offset));
 	text->add_child("XScale")->add_child_text (raw_convert<string> (_x_scale));
 	text->add_child("YScale")->add_child_text (raw_convert<string> (_y_scale));
-	text->add_child("Language")->add_child_text (_language);
 	if (_colour) {
 		text->add_child("Red")->add_child_text (raw_convert<string> (_colour->r));
 		text->add_child("Green")->add_child_text (raw_convert<string> (_colour->g));
@@ -410,9 +401,7 @@ TextContent::identifier () const
 		s += "_" + f->file().get_value_or("Default").string();
 	}
 
-	/* The DCP track and language are for metadata only, and don't affect
-	   how this content looks.
-	*/
+	/* The DCP track is for metadata only, and doesn't affect how this content looks */
 
 	return s;
 }
@@ -515,12 +504,6 @@ void
 TextContent::set_y_scale (double s)
 {
 	maybe_set (_y_scale, s, TextContentProperty::Y_SCALE);
-}
-
-void
-TextContent::set_language (string language)
-{
-	maybe_set (_language, language, TextContentProperty::LANGUAGE);
 }
 
 void
