@@ -88,7 +88,7 @@ InteropMetadataDialog::InteropMetadataDialog (wxWindow* parent, weak_ptr<Film> f
 		);
 	sizer->Add (_ratings, 1, wxEXPAND);
 
-	add_label_to_sizer (sizer, this, _("Content version"), true);
+	add_label_to_sizer (sizer, this, _("Content version"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_content_version = new wxTextCtrl (this, wxID_ANY);
 	sizer->Add (_content_version, 1, wxEXPAND);
 
