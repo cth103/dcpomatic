@@ -129,7 +129,7 @@ public:
 		_sizer->Add (grid, 1, wxALL | wxEXPAND, DCPOMATIC_DIALOG_BORDER);
 		overall_panel->SetSizer (_sizer);
 		Fit ();
-		SetSize (768, GetSize().GetHeight() + 32);
+		SetSize (1024, GetSize().GetHeight() + 32);
 
 		/* XXX: this is a hack, but I expect we'll need logs and I'm not sure if there's
 		 * a better place to put them.
