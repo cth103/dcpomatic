@@ -130,18 +130,18 @@ SubtitleEncoder::text (PlayerText subs, TextType type, optional<DCPTextTrack> tr
 
 	if (!_assets[_reel_index].first) {
 		shared_ptr<dcp::SubtitleAsset> asset;
-		string lang = _film->subtitle_language ();
+		vector<dcp::LanguageTag> lang = _film->subtitle_languages ();
 		if (_film->interop ()) {
 			shared_ptr<dcp::InteropSubtitleAsset> s (new dcp::InteropSubtitleAsset());
 			s->set_movie_title (_film->name());
-			s->set_language (lang.empty() ? "Unknown" : lang);
+			s->set_language (lang.empty() ? "Unknown" : lang.front().to_string());
 			s->set_reel_number (raw_convert<string>(_reel_index + 1));
 			_assets[_reel_index].first = s;
 		} else {
 			shared_ptr<dcp::SMPTESubtitleAsset> s (new dcp::SMPTESubtitleAsset());
 			s->set_content_title_text (_film->name());
 			if (!lang.empty()) {
-				s->set_language (lang);
+				s->set_language (lang.front().to_string());
 			} else {
 				s->set_language (track->language);
 			}

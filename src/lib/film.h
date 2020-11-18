@@ -175,8 +175,6 @@ public:
 		return _state_version;
 	}
 
-	std::string subtitle_language () const;
-
 	std::vector<NamedChannel> audio_output_names () const;
 
 	void repeat_content (ContentList, int);
@@ -240,7 +238,8 @@ public:
 		CHAIN,
 		DISTRIBUTOR,
 		FACILITY,
-		LUMINANCE
+		LUMINANCE,
+		SUBTITLE_LANGUAGES
 	};
 
 
@@ -378,6 +377,10 @@ public:
 		return _luminance;
 	}
 
+	std::vector<dcp::LanguageTag> subtitle_languages () const {
+		return _subtitle_languages;
+	}
+
 	/* SET */
 
 	void set_directory (boost::filesystem::path);
@@ -419,6 +422,9 @@ public:
 	void set_facility (std::string f);
 	void set_distributor (std::string d);
 	void set_luminance (dcp::Luminance l);
+	void set_subtitle_language (dcp::LanguageTag language);
+	void unset_subtitle_language ();
+	void set_subtitle_languages (std::vector<dcp::LanguageTag> languages);
 
 	void add_ffoc_lfoc (Markers& markers) const;
 
@@ -524,6 +530,7 @@ private:
 	std::string _distributor;
 	std::string _facility;
 	dcp::Luminance _luminance;
+	std::vector<dcp::LanguageTag> _subtitle_languages;
 
 	int _state_version;
 

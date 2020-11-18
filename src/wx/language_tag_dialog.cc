@@ -224,18 +224,7 @@ LanguageTagDialog::LanguageTagDialog (wxWindow* parent, dcp::LanguageTag tag)
 
 	SetSizerAndFit (overall_sizer);
 
-	bool have_language = false;
-	vector<pair<dcp::LanguageTag::SubtagType, dcp::LanguageTag::SubtagData> > subtags = tag.subtags();
-	for (vector<pair<dcp::LanguageTag::SubtagType, dcp::LanguageTag::SubtagData> >::const_iterator i = subtags.begin(); i != subtags.end(); ++i) {
-		add_to_current_tag (i->first, i->second);
-		if (i->first == dcp::LanguageTag::LANGUAGE) {
-			have_language = true;
-		}
-	}
-
-	if (!have_language) {
-		add_to_current_tag (dcp::LanguageTag::LANGUAGE, dcp::LanguageTag::SubtagData("en", "English"));
-	}
+	set (tag);
 
 	_add_script->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::SCRIPT, boost::optional<dcp::LanguageTag::SubtagData>()));
 	_add_region->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::REGION, boost::optional<dcp::LanguageTag::SubtagData>()));
@@ -300,6 +289,27 @@ dcp::LanguageTag LanguageTagDialog::get () const
 	tag.set_variants (variants);
 	tag.set_extlangs (extlangs);
 	return tag;
+}
+
+
+void
+LanguageTagDialog::set (dcp::LanguageTag tag)
+{
+	_current_tag_subtags.clear ();
+	_current_tag_list->DeleteAllItems ();
+
+	bool have_language = false;
+	vector<pair<dcp::LanguageTag::SubtagType, dcp::LanguageTag::SubtagData> > subtags = tag.subtags();
+	for (vector<pair<dcp::LanguageTag::SubtagType, dcp::LanguageTag::SubtagData> >::const_iterator i = subtags.begin(); i != subtags.end(); ++i) {
+		add_to_current_tag (i->first, i->second);
+		if (i->first == dcp::LanguageTag::LANGUAGE) {
+			have_language = true;
+		}
+	}
+
+	if (!have_language) {
+		add_to_current_tag (dcp::LanguageTag::LANGUAGE, dcp::LanguageTag::SubtagData("en", "English"));
+	}
 }
 
 

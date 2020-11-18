@@ -40,7 +40,11 @@ public:
 		return _sizer;
 	}
 
+	dcp::LanguageTag get () const {
+		return _tag;
+	}
 	void set (dcp::LanguageTag tag);
+	void enable (bool e);
 
 	boost::signals2::signal<void (dcp::LanguageTag)> Changed;
 

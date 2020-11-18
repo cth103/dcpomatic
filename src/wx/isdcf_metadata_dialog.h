@@ -34,12 +34,8 @@ public:
 	ISDCFMetadata isdcf_metadata () const;
 
 private:
-	void setup_sensitivity ();
-
 	wxSpinCtrl* _content_version;
 	wxTextCtrl* _audio_language;
-	wxCheckBox* _enable_subtitle_language;
-	wxTextCtrl* _subtitle_language;
 	wxTextCtrl* _territory;
 	wxTextCtrl* _rating;
 	wxTextCtrl* _studio;

@@ -488,6 +488,9 @@ Film::metadata (bool with_content_paths) const
 	root->add_child("LuminanceUnit")->add_child_text(dcp::Luminance::unit_to_string(_luminance.unit()));
 	root->add_child("UserExplicitContainer")->add_child_text(_user_explicit_container ? "1" : "0");
 	root->add_child("UserExplicitResolution")->add_child_text(_user_explicit_resolution ? "1" : "0");
+	BOOST_FOREACH (dcp::LanguageTag i, _subtitle_languages) {
+		root->add_child("SubtitleLanguage")->add_child_text(i.to_string());
+	}
 	_playlist->as_xml (root->add_child ("Playlist"), with_content_paths);
 
 	return doc;
@@ -670,6 +673,10 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	/* Disable guessing for files made in previous DCP-o-matic versions */
 	_user_explicit_container = f.optional_bool_child("UserExplicitContainer").get_value_or(true);
 	_user_explicit_resolution = f.optional_bool_child("UserExplicitResolution").get_value_or(true);
+
+	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("SubtitleLanguage")) {
+		_subtitle_languages.push_back (dcp::LanguageTag(i->content()));
+	}
 
 	list<string> notes;
 	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"), _state_version, notes);
@@ -863,39 +870,27 @@ Film::isdcf_name (bool if_created_now) const
 		   for now I'm just appending -CCAP if we have any closed captions.
 		*/
 
-		optional<string> subtitle_language;
 		bool burnt_in = true;
 		bool ccap = false;
 		BOOST_FOREACH (shared_ptr<Content> i, content()) {
 			BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
-				if (j->type() == TEXT_OPEN_SUBTITLE && j->use()) {
-					subtitle_language = j->language ();
-					if (!j->burn()) {
-						burnt_in = false;
-					}
+				if (j->type() == TEXT_OPEN_SUBTITLE && j->use() && !j->burn()) {
+					burnt_in = false;
 				} else if (j->type() == TEXT_CLOSED_CAPTION && j->use()) {
 					ccap = true;
 				}
 			}
 		}
 
-		if (dm.subtitle_language) {
-			/* Subtitle language is overridden in ISDCF metadata, primarily to handle
-			   content with pre-burnt subtitles.
-			*/
-			d += "-" + *dm.subtitle_language;
-			if (ccap) {
-				d += "-CCAP";
-			}
-		} else if (subtitle_language) {
-			/* Language is worked out from the content */
-			if (burnt_in && *subtitle_language != "XX") {
-				transform (subtitle_language->begin(), subtitle_language->end(), subtitle_language->begin(), ::tolower);
+		if (!_subtitle_languages.empty()) {
+			string lang = _subtitle_languages.front().language().get_value_or("en").subtag();
+			if (burnt_in) {
+				transform (lang.begin(), lang.end(), lang.begin(), ::tolower);
 			} else {
-				transform (subtitle_language->begin(), subtitle_language->end(), subtitle_language->begin(), ::toupper);
+				transform (lang.begin(), lang.end(), lang.begin(), ::toupper);
 			}
 
-			d += "-" + *subtitle_language;
+			d += "-" + lang;
 			if (ccap) {
 				d += "-CCAP";
 			}
@@ -1684,29 +1679,6 @@ Film::should_be_enough_disk_space (double& required, double& available, bool& ca
 	return (available - required) > 1;
 }
 
-string
-Film::subtitle_language () const
-{
-	set<string> languages;
-
-	BOOST_FOREACH (shared_ptr<Content> i, content()) {
-		BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
-			languages.insert (j->language ());
-		}
-	}
-
-	string all;
-	BOOST_FOREACH (string s, languages) {
-		if (!all.empty ()) {
-			all += "/" + s;
-		} else {
-			all += s;
-		}
-	}
-
-	return all;
-}
-
 /** @return The names of the channels that audio contents' outputs are passed into;
  *  this is either the DCP or a AudioProcessor.
  */
@@ -2008,6 +1980,31 @@ Film::set_luminance (dcp::Luminance l)
 {
 	ChangeSignaller<Film> ch (this, LUMINANCE);
 	_luminance = l;
+}
+
+
+void
+Film::set_subtitle_language (dcp::LanguageTag language)
+{
+	vector<dcp::LanguageTag> lang;
+	lang.push_back (language);
+	set_subtitle_languages (lang);
+}
+
+
+void
+Film::unset_subtitle_language ()
+{
+	ChangeSignaller<Film> ch (this, SUBTITLE_LANGUAGES);
+	_subtitle_languages.clear();
+}
+
+
+void
+Film::set_subtitle_languages (vector<dcp::LanguageTag> languages)
+{
+	ChangeSignaller<Film> ch (this, SUBTITLE_LANGUAGES);
+	_subtitle_languages = languages;
 }
 
 

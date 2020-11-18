@@ -46,8 +46,6 @@ public:
 
 	int content_version;
 	std::string audio_language;
-	/** if set, this overrides any languages specified in individual Content objects */
-	boost::optional<std::string> subtitle_language;
 	std::string territory;
 	std::string rating;
 	std::string studio;

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,7 @@
 
 #include "interop_metadata_dialog.h"
 #include "editable_list.h"
+#include "language_tag_widget.h"
 #include "rating_dialog.h"
 #include "lib/film.h"
 #include <dcp/types.h>
@@ -54,6 +55,16 @@ InteropMetadataDialog::InteropMetadataDialog (wxWindow* parent, weak_ptr<Film> f
 	wxFlexGridSizer* sizer = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	sizer->AddGrowableCol (1, 1);
 
+	shared_ptr<Film> f = _film.lock();
+	DCPOMATIC_ASSERT (f);
+
+	_enable_subtitle_language = new wxCheckBox (this, wxID_ANY, _("Subtitle language"));
+	sizer->Add (_enable_subtitle_language, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
+	vector<dcp::LanguageTag> langs = f->subtitle_languages ();
+	_enable_subtitle_language->SetValue (!langs.empty());
+	_subtitle_language = new LanguageTagWidget (this, wxT(""), langs.empty() ? dcp::LanguageTag("en-US") : langs.front());
+	sizer->Add (_subtitle_language->sizer(), 1, wxEXPAND);
+
 	{
 		int flags = wxALIGN_TOP | wxLEFT | wxRIGHT | wxTOP;
 #ifdef __WXOSX__
@@ -81,8 +92,6 @@ InteropMetadataDialog::InteropMetadataDialog (wxWindow* parent, weak_ptr<Film> f
 	_content_version = new wxTextCtrl (this, wxID_ANY);
 	sizer->Add (_content_version, 1, wxEXPAND);
 
-	shared_ptr<Film> f = _film.lock();
-	DCPOMATIC_ASSERT (f);
 	vector<string> cv = f->content_versions();
 	_content_version->SetValue (std_to_wx(cv.empty() ? "" : cv[0]));
 
@@ -96,9 +105,40 @@ InteropMetadataDialog::InteropMetadataDialog (wxWindow* parent, weak_ptr<Film> f
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
 
+	_enable_subtitle_language->Bind (wxEVT_CHECKBOX, boost::bind(&InteropMetadataDialog::setup_sensitivity, this));
+	_subtitle_language->Changed.connect (boost::bind(&InteropMetadataDialog::subtitle_language_changed, this, _1));
+
 	_content_version->Bind (wxEVT_TEXT, boost::bind(&InteropMetadataDialog::content_version_changed, this));
 	_content_version->SetFocus ();
+
+	setup_sensitivity ();
 }
+
+
+void
+InteropMetadataDialog::setup_sensitivity ()
+{
+	bool const enabled = _enable_subtitle_language->GetValue();
+	_subtitle_language->enable (enabled);
+
+	shared_ptr<Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	if (enabled) {
+		film->set_subtitle_language (_subtitle_language->get());
+	} else {
+		film->unset_subtitle_language ();
+	}
+}
+
+
+void
+InteropMetadataDialog::subtitle_language_changed (dcp::LanguageTag language)
+{
+	shared_ptr<Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	film->set_subtitle_language (language);
+}
+
 
 vector<dcp::Rating>
 InteropMetadataDialog::ratings () const

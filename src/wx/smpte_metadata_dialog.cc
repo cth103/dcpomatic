@@ -40,6 +40,13 @@ using namespace boost::placeholders;
 
 
 static string
+additional_subtitle_language_column (dcp::LanguageTag r, int)
+{
+	return r.to_string();
+}
+
+
+static string
 ratings_column (dcp::Rating r, int c)
 {
 	if (c == 0) {
@@ -82,6 +89,38 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 		film()->audio_language()
 		);
 	sizer->Add (_audio_language->sizer(), 0, wxEXPAND);
+
+	_enable_main_subtitle_language = new wxCheckBox (this, wxID_ANY, _("Main subtitle language"));
+	sizer->Add (_enable_main_subtitle_language, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
+	vector<dcp::LanguageTag> subtitle_languages = film()->subtitle_languages();
+	_main_subtitle_language = new LanguageTagWidget(
+		this,
+		_("The main language that is displayed in the film's subtitles"),
+		subtitle_languages.empty() ? dcp::LanguageTag("en-US") : subtitle_languages.front()
+		);
+	sizer->Add (_main_subtitle_language->sizer(), 0, wxEXPAND);
+
+	{
+		int flags = wxALIGN_TOP | wxLEFT | wxRIGHT | wxTOP;
+#ifdef __WXOSX__
+		flags |= wxALIGN_RIGHT;
+#endif
+		wxStaticText* m = create_label (this, _("Additional subtitle languages"), true);
+		sizer->Add (m, 0, flags, DCPOMATIC_SIZER_GAP);
+	}
+
+	vector<EditableListColumn> columns;
+	columns.push_back (EditableListColumn("Language", 250, true));
+	_additional_subtitle_languages = new EditableList<dcp::LanguageTag, LanguageTagDialog> (
+		this,
+		columns,
+		boost::bind(&SMPTEMetadataDialog::additional_subtitle_languages, this),
+		boost::bind(&SMPTEMetadataDialog::set_additional_subtitle_languages, this, _1),
+		boost::bind(&additional_subtitle_language_column, _1, _2),
+		true,
+		false
+		);
+	sizer->Add (_additional_subtitle_languages, 1, wxEXPAND);
 
 	Button* edit_release_territory = 0;
 	add_label_to_sizer (sizer, this, _("Release territory"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
@@ -135,7 +174,7 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 		sizer->Add (m, 0, flags, DCPOMATIC_SIZER_GAP);
 	}
 
-	vector<EditableListColumn> columns;
+	columns.clear ();
 	columns.push_back (EditableListColumn("Agency", 200, true));
 	columns.push_back (EditableListColumn("Label", 50, true));
 	_ratings = new EditableList<dcp::Rating, RatingDialog> (
@@ -190,6 +229,8 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 
 	_name_language->Changed.connect (boost::bind(&SMPTEMetadataDialog::name_language_changed, this, _1));
 	_audio_language->Changed.connect (boost::bind(&SMPTEMetadataDialog::audio_language_changed, this, _1));
+	_enable_main_subtitle_language->Bind (wxEVT_CHECKBOX, boost::bind(&SMPTEMetadataDialog::enable_main_subtitle_changed, this));
+	_main_subtitle_language->Changed.connect (boost::bind(&SMPTEMetadataDialog::main_subtitle_language_changed, this, _1));
 	edit_release_territory->Bind (wxEVT_BUTTON, boost::bind(&SMPTEMetadataDialog::edit_release_territory, this));
 	_version_number->Bind (wxEVT_SPINCTRL, boost::bind(&SMPTEMetadataDialog::version_number_changed, this));
 	_status->Bind (wxEVT_CHOICE, boost::bind(&SMPTEMetadataDialog::status_changed, this));
@@ -212,6 +253,9 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 	film_changed (CHANGE_TYPE_DONE, Film::FACILITY);
 	film_changed (CHANGE_TYPE_DONE, Film::CONTENT_VERSIONS);
 	film_changed (CHANGE_TYPE_DONE, Film::LUMINANCE);
+	film_changed (CHANGE_TYPE_DONE, Film::SUBTITLE_LANGUAGES);
+
+	setup_sensitivity ();
 }
 
 
@@ -255,6 +299,14 @@ SMPTEMetadataDialog::film_changed (ChangeType type, Film::Property property)
 		case dcp::Luminance::FOOT_LAMBERT:
 			checked_set (_luminance_unit, 1);
 			break;
+		}
+	} else if (property == Film::SUBTITLE_LANGUAGES) {
+		vector<dcp::LanguageTag> languages = film()->subtitle_languages();
+		checked_set (_enable_main_subtitle_language, !languages.empty());
+		if (!languages.empty()) {
+			_main_subtitle_language->set (languages.front());
+		} else {
+			_main_subtitle_language->set (dcp::LanguageTag("en-US"));
 		}
 	}
 }
@@ -386,3 +438,65 @@ SMPTEMetadataDialog::luminance_changed ()
 
 	film()->set_luminance (dcp::Luminance(_luminance_value->GetValue(), unit));
 }
+
+
+void
+SMPTEMetadataDialog::enable_main_subtitle_changed ()
+{
+	setup_sensitivity ();
+	bool enabled = _enable_main_subtitle_language->GetValue ();
+	if (enabled) {
+		film()->set_subtitle_language (_main_subtitle_language->get());
+	} else {
+		set_additional_subtitle_languages (vector<dcp::LanguageTag>());
+		_additional_subtitle_languages->refresh ();
+		film()->unset_subtitle_language ();
+	}
+}
+
+
+void
+SMPTEMetadataDialog::setup_sensitivity ()
+{
+	bool const enabled = _enable_main_subtitle_language->GetValue ();
+	_main_subtitle_language->enable (enabled);
+	_additional_subtitle_languages->Enable (enabled);
+}
+
+
+void
+SMPTEMetadataDialog::main_subtitle_language_changed (dcp::LanguageTag tag)
+{
+	vector<dcp::LanguageTag> existing = film()->subtitle_languages();
+	if (existing.empty()) {
+		existing.push_back (tag);
+	} else {
+		existing[0] = tag;
+	}
+
+	film()->set_subtitle_languages (existing);
+}
+
+
+vector<dcp::LanguageTag>
+SMPTEMetadataDialog::additional_subtitle_languages ()
+{
+	vector<dcp::LanguageTag> all = film()->subtitle_languages();
+	if (all.empty()) {
+		return all;
+	}
+
+	return vector<dcp::LanguageTag>(all.begin() + 1, all.end());
+}
+
+
+void
+SMPTEMetadataDialog::set_additional_subtitle_languages (vector<dcp::LanguageTag> languages)
+{
+	vector<dcp::LanguageTag> all = film()->subtitle_languages();
+	DCPOMATIC_ASSERT (!all.empty());
+	all.resize (1);
+	copy (languages.begin(), languages.end(), back_inserter(all));
+	film()->set_subtitle_languages (all);
+}
+

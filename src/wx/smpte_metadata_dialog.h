@@ -19,7 +19,9 @@
 */
 
 #include "editable_list.h"
+#include "language_tag_dialog.h"
 #include "lib/film.h"
+#include <dcp/language_tag.h>
 #include <dcp/types.h>
 #include <wx/wx.h>
 #include <boost/shared_ptr.hpp>
@@ -45,6 +47,10 @@ private:
 	void set_content_versions (std::vector<std::string> v);
 	void name_language_changed (dcp::LanguageTag tag);
 	void audio_language_changed (dcp::LanguageTag tag);
+	void enable_main_subtitle_changed ();
+	void main_subtitle_language_changed (dcp::LanguageTag tag);
+	std::vector<dcp::LanguageTag> additional_subtitle_languages ();
+	void set_additional_subtitle_languages (std::vector<dcp::LanguageTag> languages);
 	void edit_release_territory ();
 	void version_number_changed ();
 	void status_changed ();
@@ -53,11 +59,15 @@ private:
 	void facility_changed ();
 	void luminance_changed ();
 	void film_changed (ChangeType type, Film::Property property);
+	void setup_sensitivity ();
 	boost::shared_ptr<Film> film () const;
 
 	boost::weak_ptr<Film> _film;
 	LanguageTagWidget* _name_language;
 	LanguageTagWidget* _audio_language;
+	wxCheckBox* _enable_main_subtitle_language;
+	LanguageTagWidget* _main_subtitle_language;
+	EditableList<dcp::LanguageTag, LanguageTagDialog>* _additional_subtitle_languages;
 	wxStaticText* _release_territory;
 	wxSpinCtrl* _version_number;
 	wxChoice* _status;

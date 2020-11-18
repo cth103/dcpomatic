@@ -685,12 +685,12 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 	}
 
 	if (!asset) {
-		string lang = _film->subtitle_language ();
+		vector<dcp::LanguageTag> lang = _film->subtitle_languages ();
 		if (_film->interop ()) {
 			shared_ptr<dcp::InteropSubtitleAsset> s (new dcp::InteropSubtitleAsset ());
 			s->set_movie_title (_film->name ());
 			if (type == TEXT_OPEN_SUBTITLE) {
-				s->set_language (lang.empty() ? "Unknown" : lang);
+				s->set_language (lang.empty() ? "Unknown" : lang.front().to_string());
 			} else {
 				s->set_language (track->language);
 			}
@@ -701,7 +701,7 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 			s->set_content_title_text (_film->name ());
 			s->set_metadata (mxf_metadata());
 			if (type == TEXT_OPEN_SUBTITLE && !lang.empty()) {
-				s->set_language (lang);
+				s->set_language (lang.front().to_string());
 			} else {
 				s->set_language (track->language);
 			}

@@ -19,6 +19,10 @@
 */
 
 
+#ifndef DCPOMATIC_LANGUAGE_TAG_DIALOG_H
+#define DCPOMATIC_LANGUAGE_TAG_DIALOG_H
+
+
 #include "lib/warnings.h"
 #include <dcp/language_tag.h>
 DCPOMATIC_DISABLE_WARNINGS
@@ -46,10 +50,10 @@ public:
 		std::string last_search;
 	};
 
-	LanguageTagDialog (wxWindow* parent, dcp::LanguageTag tag);
+	LanguageTagDialog (wxWindow* parent, dcp::LanguageTag tag = dcp::LanguageTag("en"));
 
 	dcp::LanguageTag get () const;
-
+	void set (dcp::LanguageTag tag);
 
 private:
 
@@ -84,3 +88,5 @@ private:
 	LanguageSubtagPanel* _panel;
 };
 
+
+#endif

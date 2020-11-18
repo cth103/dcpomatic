@@ -58,3 +58,11 @@ LanguageTagWidget::set (dcp::LanguageTag tag)
 	_tag = tag;
 	checked_set (_language, std_to_wx(tag.to_string()));
 }
+
+
+void
+LanguageTagWidget::enable (bool e)
+{
+	_language->Enable (e);
+	_edit->Enable (e);
+}
