@@ -686,6 +686,39 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 		set_backtrace_file (file ("backtrace.txt"));
 	}
 
+	/* Around 2.15.108 we removed subtitle language state from the text content and the ISDCF
+	 * metadata and put it into the Film instead.  If we've loaded an old Film let's try and fish
+	 * out the settings from where they were so that they don't get lost.
+	 */
+
+	optional<dcp::LanguageTag> found_language;
+
+	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_child("Playlist")->node_children("Content")) {
+		cxml::ConstNodePtr text = i->optional_node_child("Text");
+		if (text && text->optional_string_child("Language") && !found_language) {
+			try {
+				found_language = dcp::LanguageTag(text->string_child("Language"));
+			} catch (...) {}
+		}
+	}
+
+	optional<string> isdcf_language = f.node_child("ISDCFMetadata")->optional_string_child("SubtitleLanguage");
+	if (isdcf_language && !found_language) {
+		try {
+			found_language = dcp::LanguageTag(*isdcf_language);
+		} catch (...) {
+			try {
+				found_language = dcp::LanguageTag(boost::algorithm::to_lower_copy(*isdcf_language));
+			} catch (...) {
+
+			}
+		}
+	}
+
+	if (found_language) {
+		_subtitle_languages.push_back (*found_language);
+	}
+
 	_dirty = false;
 	return notes;
 }
