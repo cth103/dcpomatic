@@ -602,8 +602,10 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 		shared_ptr<dcp::ReelClosedCaptionAsset> a = maybe_add_text<dcp::ReelClosedCaptionAsset> (
 			i->second, reel_picture_asset->actual_duration(), reel, refs, fonts, _film, _period
 			);
-		a->set_annotation_text (i->first.name);
-		a->set_language (i->first.language);
+		if (a) {
+			a->set_annotation_text (i->first.name);
+			a->set_language (i->first.language);
+		}
 	}
 
 	Film::Markers markers = _film->markers ();
