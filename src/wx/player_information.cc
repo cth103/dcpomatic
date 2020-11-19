@@ -52,27 +52,27 @@ PlayerInformation::PlayerInformation (wxWindow* parent, weak_ptr<FilmViewer> vie
 
 	{
 		wxSizer* s = new wxBoxSizer (wxVERTICAL);
-		add_label_to_sizer(s, this, _("DCP"), false, 0)->SetFont(title_font);
+		add_label_to_vertical_sizer(s, this, _("DCP"), false, 0)->SetFont(title_font);
 		for (int i = 0; i < dcp_lines / 2; ++i) {
-			_dcp[i] = add_label_to_sizer(s, this, wxT(""), false, 0);
+			_dcp[i] = add_label_to_vertical_sizer(s, this, wxT(""), false, 0);
 		}
 		_sizer->Add (s, 1, wxEXPAND | wxALL, 6);
 	}
 
 	{
 		wxSizer* s = new wxBoxSizer (wxVERTICAL);
-		add_label_to_sizer(s, this, wxT(" "), false, 0);
+		add_label_to_vertical_sizer(s, this, wxT(" "), false, 0);
 		for (int i = dcp_lines / 2; i < dcp_lines; ++i) {
-			_dcp[i] = add_label_to_sizer(s, this, wxT(""), false, 0);
+			_dcp[i] = add_label_to_vertical_sizer(s, this, wxT(""), false, 0);
 		}
 		_sizer->Add (s, 1, wxEXPAND | wxALL, 6);
 	}
 
 	{
 		wxSizer* s = new wxBoxSizer (wxVERTICAL);
-		add_label_to_sizer(s, this, _("Performance"), false, 0)->SetFont(title_font);
-		_dropped = add_label_to_sizer(s, this, wxT(""), false, 0);
-		_decode_resolution = add_label_to_sizer(s, this, wxT(""), false, 0);
+		add_label_to_vertical_sizer(s, this, _("Performance"), false, 0)->SetFont(title_font);
+		_dropped = add_label_to_vertical_sizer(s, this, wxT(""), false, 0);
+		_decode_resolution = add_label_to_vertical_sizer(s, this, wxT(""), false, 0);
 		_sizer->Add (s, 2, wxEXPAND | wxALL, 6);
 	}
 
