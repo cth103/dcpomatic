@@ -597,7 +597,11 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 	}
 	reel->add (reel_sound_asset);
 
-	maybe_add_text<dcp::ReelSubtitleAsset> (_subtitle_asset, reel_picture_asset->actual_duration(), reel, refs, fonts, _film, _period);
+	shared_ptr<dcp::ReelSubtitleAsset> subtitle = maybe_add_text<dcp::ReelSubtitleAsset> (_subtitle_asset, reel_picture_asset->actual_duration(), reel, refs, fonts, _film, _period);
+	if (subtitle && !_film->subtitle_languages().empty()) {
+		subtitle->set_language (_film->subtitle_languages().front());
+	}
+
 	for (map<DCPTextTrack, shared_ptr<dcp::SubtitleAsset> >::const_iterator i = _closed_caption_assets.begin(); i != _closed_caption_assets.end(); ++i) {
 		shared_ptr<dcp::ReelClosedCaptionAsset> a = maybe_add_text<dcp::ReelClosedCaptionAsset> (
 			i->second, reel_picture_asset->actual_duration(), reel, refs, fonts, _film, _period
@@ -703,9 +707,9 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 			s->set_content_title_text (_film->name ());
 			s->set_metadata (mxf_metadata());
 			if (type == TEXT_OPEN_SUBTITLE && !lang.empty()) {
-				s->set_language (lang.front().to_string());
+				s->set_language (lang.front());
 			} else {
-				s->set_language (track->language);
+				s->set_language (dcp::LanguageTag(track->language));
 			}
 			s->set_edit_rate (dcp::Fraction (_film->video_frame_rate (), 1));
 			s->set_reel_number (_reel_index + 1);

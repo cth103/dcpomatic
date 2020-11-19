@@ -620,6 +620,11 @@ Writer::finish ()
 	cpl->set_main_picture_stored_area (_film->frame_size());
 	cpl->set_main_picture_active_area (_film->active_area());
 
+	vector<dcp::LanguageTag> sl = _film->subtitle_languages();
+	if (sl.size() > 1) {
+		cpl->set_additional_subtitle_languages(std::vector<dcp::LanguageTag>(sl.begin() + 1, sl.end()));
+	}
+
 	shared_ptr<const dcp::CertificateChain> signer;
 	signer = Config::instance()->signer_chain ();
 	/* We did check earlier, but check again here to be on the safe side */
