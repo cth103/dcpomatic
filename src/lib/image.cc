@@ -183,6 +183,14 @@ Image::crop_scale_window (
 	/* Size of the image after any crop */
 	dcp::Size const cropped_size = rounded_crop.apply (size());
 
+	/* Hack: if we're not doing quite the crop that we were asked for, and we carry on scaling
+	 * to the inter_size we were asked for, there is a small but noticeable wobble in the image
+	 * luminance (#1872).  This hack means we will jump in steps of the subsampling distance
+	 * in both crop and scale.
+	 */
+	inter_size.width = round_width_for_subsampling(inter_size.width, in_desc);
+	inter_size.height = round_width_for_subsampling(inter_size.height, in_desc);
+
 	/* Scale context for a scale from cropped_size to inter_size */
 	struct SwsContext* scale_context = sws_getContext (
 			cropped_size.width, cropped_size.height, pixel_format(),
