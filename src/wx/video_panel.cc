@@ -631,7 +631,7 @@ VideoPanel::setup_sensitivity ()
 		_scale_custom_edit->Enable (_scale_custom->GetValue());
 		_description->Enable (true);
 		_colour_conversion->Enable (!video_sel.empty());
-		_range->Enable (single && !video_sel.empty());
+		_range->Enable (single && !video_sel.empty() && !dcp);
 	}
 
 	ContentList vc = _parent->selected_video ();
