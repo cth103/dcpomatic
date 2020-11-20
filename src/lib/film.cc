@@ -2062,3 +2062,17 @@ InfoFileHandle::~InfoFileHandle ()
 {
 	fclose (_handle);
 }
+
+
+/** Add FFOC and LFOC markers to a list if they are not already there */
+void
+Film::add_ffoc_lfoc (Markers& markers) const
+{
+	if (markers.find(dcp::Marker::FFOC) == markers.end()) {
+		markers[dcp::Marker::FFOC] = dcpomatic::DCPTime(0);
+	}
+
+	if (markers.find(dcp::Marker::LFOC) == markers.end()) {
+		markers[dcp::Marker::LFOC] = length() - DCPTime::from_frames(1, video_frame_rate());
+	}
+}

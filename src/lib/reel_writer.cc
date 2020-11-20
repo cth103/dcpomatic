@@ -606,9 +606,10 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 		a->set_language (i->first.language);
 	}
 
-	map<dcp::Marker, DCPTime> markers = _film->markers ();
-	map<dcp::Marker, DCPTime> reel_markers;
-	for (map<dcp::Marker, DCPTime>::const_iterator i = markers.begin(); i != markers.end(); ++i) {
+	Film::Markers markers = _film->markers ();
+	_film->add_ffoc_lfoc (markers);
+	Film::Markers reel_markers;
+	for (Film::Markers::const_iterator i = markers.begin(); i != markers.end(); ++i) {
 		if (_period.contains(i->second)) {
 			reel_markers[i->first] = i->second;
 		}

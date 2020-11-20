@@ -327,8 +327,10 @@ public:
 		return _reencode_j2k;
 	}
 
+	typedef std::map<dcp::Marker, dcpomatic::DCPTime> Markers;
+
 	boost::optional<dcpomatic::DCPTime> marker (dcp::Marker type) const;
-	std::map<dcp::Marker, dcpomatic::DCPTime> markers () const {
+	Markers markers () const {
 		return _markers;
 	}
 
@@ -417,6 +419,8 @@ public:
 	void set_facility (std::string f);
 	void set_distributor (std::string d);
 	void set_luminance (dcp::Luminance l);
+
+	void add_ffoc_lfoc (Markers& markers) const;
 
 	/** Emitted when some property has of the Film is about to change or has changed */
 	mutable boost::signals2::signal<void (ChangeType, Property)> Change;

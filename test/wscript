@@ -94,6 +94,7 @@ def build(bld):
                  job_test.cc
                  kdm_naming_test.cc
                  make_black_test.cc
+                 markers_test.cc
                  no_use_video_test.cc
                  optimise_stills_test.cc
                  pixel_formats_test.cc
