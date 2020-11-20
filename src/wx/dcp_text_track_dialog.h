@@ -25,6 +25,10 @@
 #include "wx_util.h"
 #include "lib/dcp_text_track.h"
 
+
+class LanguageTagWidget;
+
+
 class DCPTextTrackDialog : public TableDialog
 {
 public:
@@ -34,7 +38,7 @@ public:
 
 private:
 	wxTextCtrl* _name;
-	wxTextCtrl* _language;
+	LanguageTagWidget* _language;
 };
 
 #endif

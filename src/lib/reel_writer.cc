@@ -608,7 +608,7 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 			);
 		if (a) {
 			a->set_annotation_text (i->first.name);
-			a->set_language (i->first.language);
+			a->set_language (dcp::LanguageTag(i->first.language));
 		}
 	}
 

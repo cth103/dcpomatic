@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,14 @@
 
 */
 
+
 #include "dcp_text_track_dialog.h"
+#include "language_tag_widget.h"
 #include <boost/algorithm/string.hpp>
 
+
 using std::string;
+
 
 DCPTextTrackDialog::DCPTextTrackDialog (wxWindow* parent)
 	: TableDialog (parent, _("DCP Text Track"), 2, 1, true)
@@ -29,13 +33,15 @@ DCPTextTrackDialog::DCPTextTrackDialog (wxWindow* parent)
 	add (_("Name"), true);
 	add (_name = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(300, -1)));
 	add (_("Language"), true);
-	add (_language = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(150, -1)));
+	_language = new LanguageTagWidget (this, wxT(""), dcp::LanguageTag("en-US"));
+	add (_language->sizer());
 
 	layout ();
 }
 
+
 DCPTextTrack
 DCPTextTrackDialog::get () const
 {
-	return DCPTextTrack(wx_to_std(_name->GetValue()), wx_to_std(_language->GetValue()));
+	return DCPTextTrack(wx_to_std(_name->GetValue()), _language->get().to_string());
 }
