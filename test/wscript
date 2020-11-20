@@ -93,7 +93,6 @@ def build(bld):
                  j2k_bandwidth_test.cc
                  job_test.cc
                  kdm_naming_test.cc
-                 make_black_test.cc
                  markers_test.cc
                  no_use_video_test.cc
                  optimise_stills_test.cc
