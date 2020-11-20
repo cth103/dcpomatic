@@ -708,7 +708,7 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 			s->set_metadata (mxf_metadata());
 			if (type == TEXT_OPEN_SUBTITLE && !lang.empty()) {
 				s->set_language (lang.front());
-			} else {
+			} else if (track && !track->language.empty()) {
 				s->set_language (dcp::LanguageTag(track->language));
 			}
 			s->set_edit_rate (dcp::Fraction (_film->video_frame_rate (), 1));
