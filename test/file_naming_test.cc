@@ -20,7 +20,7 @@
 
 /** @file  test/file_naming_test.cc
  *  @brief Test how files in DCPs are named.
- *  @ingroup specific
+ *  @ingroup feature
  */
 
 #include "test.h"

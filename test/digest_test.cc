@@ -20,7 +20,7 @@
 
 /** @file  test/digest_test.cc
  *  @brief Check computed DCP digests against references calculated by the `openssl` binary.
- *  @ingroup specific
+ *  @ingroup feature
  */
 
 #include "lib/film.h"

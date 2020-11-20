@@ -19,7 +19,7 @@
 */
 
 /** @file  test/dcpomatic_time_test.cc
- *  @brief Test Time and TimePeriod classes.
+ *  @brief Test dcpomatic::Time and dcpomatic::TimePeriod classes.
  *  @ingroup selfcontained
  */
 

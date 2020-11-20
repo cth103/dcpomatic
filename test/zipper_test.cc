@@ -19,7 +19,7 @@
 */
 
 /** @file  test/zipper_test.cc
- *  @brief Tests of Zipper class.
+ *  @brief Test Zipper class.
  *  @ingroup selfcontained
  */
 

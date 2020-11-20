@@ -20,7 +20,7 @@
 
 /** @file test/scaling_test.cc
  *  @brief Test scaling and black-padding of images from a still-image source.
- *  @ingroup specific
+ *  @ingroup feature
  */
 
 #include <boost/test/unit_test.hpp>

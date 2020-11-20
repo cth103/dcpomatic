@@ -20,7 +20,7 @@
 
 /** @file  test/ffmpeg_examiner_test.cc
  *  @brief FFmpegExaminer tests
- *  @ingroup specific
+ *  @ingroup selfcontained
  */
 
 #include <boost/test/unit_test.hpp>

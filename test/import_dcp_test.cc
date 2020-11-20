@@ -20,7 +20,7 @@
 
 /** @file  test/import_dcp_test.cc
  *  @brief Test import of encrypted DCPs.
- *  @ingroup specific
+ *  @ingroup feature
  */
 
 #include "test.h"

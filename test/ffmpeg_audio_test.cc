@@ -20,7 +20,7 @@
 
 /** @file  test/ffmpeg_audio_test.cc
  *  @brief Test reading audio from an FFmpeg file.
- *  @ingroup specific
+ *  @ingroup feature
  */
 
 #include "lib/ffmpeg_content.h"

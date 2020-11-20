@@ -20,7 +20,7 @@
 
 /** @file  test/time_calculation_test.cc
  *  @brief Test calculation of timings when frame rates change.
- *  @ingroup specific
+ *  @ingroup feature
  */
 
 #include "lib/film.h"

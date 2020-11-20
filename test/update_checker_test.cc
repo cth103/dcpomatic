@@ -20,7 +20,7 @@
 
 /** @file  test/update_checker_test.cc
  *  @brief Check UpdateChecker::version_less_than
- *  @ingroup specific
+ *  @ingroup selfcontained
  */
 
 #include <boost/test/unit_test.hpp>

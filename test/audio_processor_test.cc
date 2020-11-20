@@ -20,7 +20,7 @@
 
 /** @file  test/audio_processor_test.cc
  *  @brief Test audio processors.
- *  @ingroup specific
+ *  @ingroup feature
  */
 
 #include "lib/audio_processor.h"

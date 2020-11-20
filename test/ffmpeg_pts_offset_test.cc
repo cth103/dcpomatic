@@ -20,7 +20,7 @@
 
 /** @file  test/ffmpeg_pts_offset_test.cc
  *  @brief Check the computation of _pts_offset in FFmpegDecoder.
- *  @ingroup specific
+ *  @ingroup selfcontained
  */
 
 #include <boost/test/unit_test.hpp>

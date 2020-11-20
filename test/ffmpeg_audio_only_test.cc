@@ -20,7 +20,7 @@
 
 /** @file  test/ffmpeg_audio_only_test.cc
  *  @brief Test FFmpeg content with audio but no video.
- *  @ingroup specific
+ *  @ingroup feature
  */
 
 #include "lib/film.h"

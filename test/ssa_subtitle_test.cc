@@ -20,7 +20,7 @@
 
 /** @file  test/ssa_subtitle_test.cc
  *  @brief Test use of SSA subtitle files.
- *  @ingroup specific
+ *  @ingroup feature
  */
 
 #include "lib/film.h"

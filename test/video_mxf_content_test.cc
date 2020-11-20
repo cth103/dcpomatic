@@ -20,7 +20,7 @@
 
 /** @file  test/video_mxf_content_test.cc
  *  @brief Test use of Video MXF content.
- *  @ingroup specific
+ *  @ingroup feature
  */
 
 #include "lib/film.h"

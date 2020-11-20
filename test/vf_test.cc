@@ -20,7 +20,7 @@
 
 /** @file  test/vf_Test.cc
  *  @brief Various VF-related tests.
- *  @ingroup specific
+ *  @ingroup feature
  */
 
 #include "lib/film.h"

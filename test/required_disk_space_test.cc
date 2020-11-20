@@ -20,7 +20,7 @@
 
 /** @file  test/required_disk_space_test.cc
  *  @brief Check Film::required_disk_space
- *  @ingroup specific
+ *  @ingroup selfcontained
  */
 
 #include "lib/content_factory.h"

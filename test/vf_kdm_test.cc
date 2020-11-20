@@ -20,7 +20,7 @@
 
 /** @file  test/vf_kdm_test.cc
  *  @brief Test encrypted VF creation and import
- *  @ingroup specific
+ *  @ingroup feature
  */
 
 #include "test.h"

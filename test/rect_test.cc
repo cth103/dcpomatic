@@ -19,7 +19,7 @@
 */
 
 /** @file  test/rect_test.cc
- *  @brief Test Rect class.
+ *  @brief Test dcpomatic::Rect class.
  *  @ingroup selfcontained
  */
 

@@ -20,7 +20,7 @@
 
 /** @file  test/interrupt_encoder_test.cc
  *  @brief Test clean shutdown of threads if a DCP encode is interrupted.
- *  @ingroup specific
+ *  @ingroup feature
  */
 
 #include "lib/film.h"

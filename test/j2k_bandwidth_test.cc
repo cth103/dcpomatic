@@ -20,7 +20,7 @@
 
 /** @file  test/bandwidth_test.cc
  *  @brief Test whether we output whatever J2K bandwidth is requested.
- *  @ingroup specific
+ *  @ingroup feature
  */
 
 #include "test.h"

@@ -20,7 +20,7 @@
 
 /** @file  test/client_server_test.cc
  *  @brief Test the server class.
- *  @ingroup specific
+ *  @ingroup feature
  *
  *  Create a test image and then encode it using the standard mechanism
  *  and also using a EncodeServer object running on localhost.  Compare the resulting

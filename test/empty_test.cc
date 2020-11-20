@@ -20,7 +20,7 @@
 
 /** @file  test/empty_test.cc
  *  @brief Test the creation of Empty objects.
- *  @ingroup specific
+ *  @ingroup feature
  */
 
 #include "lib/film.h"

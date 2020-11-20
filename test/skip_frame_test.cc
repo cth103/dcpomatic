@@ -21,7 +21,7 @@
 /** @file  test/skip_frame_test.cc
  *  @brief Test the skip of frames by the player when putting a 48fps
  *  source into a 24fps DCP.
- *  @ingroup specific
+ *  @ingroup feature
  *
  *  @see test/repeat_frame_test.cc
  */

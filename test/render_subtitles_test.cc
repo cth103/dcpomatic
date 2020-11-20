@@ -20,7 +20,7 @@
 
 /** @file  test/render_text_test.cc
  *  @brief Check markup of subtitles for rendering.
- *  @ingroup specific
+ *  @ingroup feature
  */
 
 #include "lib/render_text.h"

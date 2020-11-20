@@ -20,7 +20,7 @@
 
 /** @file  test/upmixer_a_test.cc
  *  @brief Check the Upmixer A against some reference sound files.
- *  @ingroup specific
+ *  @ingroup selfcontained
  */
 
 #include <boost/test/unit_test.hpp>

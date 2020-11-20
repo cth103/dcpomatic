@@ -20,7 +20,7 @@
 
 /** @file  test/isdcf_name_test.cc
  *  @brief Test creation of ISDCF names.
- *  @ingroup specific
+ *  @ingroup feature
  */
 
 #include <boost/test/unit_test.hpp>

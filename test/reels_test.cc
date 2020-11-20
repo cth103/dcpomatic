@@ -20,7 +20,7 @@
 
 /** @file  test/reels_test.cc
  *  @brief Check manipulation of reels in various ways.
- *  @ingroup specific
+ *  @ingroup feature
  */
 
 #include "lib/film.h"

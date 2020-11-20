@@ -21,7 +21,7 @@
 
 /** @file  test/video_level_test.cc
  *  @brief Test that video level ranges are handled correctly.
- *  @ingroup specific
+ *  @ingroup feature
  */
 
 
