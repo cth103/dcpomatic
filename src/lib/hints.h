@@ -48,6 +48,19 @@ private:
 	void thread ();
 	void hint (std::string h);
 	void text (PlayerText text, TextType type, dcpomatic::DCPTimePeriod period);
+	boost::shared_ptr<const Film> film () const;
+
+	void check_big_font_files ();
+	void check_few_audio_channels ();
+	void check_upmixers ();
+	void check_incorrect_container ();
+	void check_unusual_container ();
+	void check_high_j2k_bandwidth ();
+	void check_frame_rate ();
+	void check_speed_up ();
+	void check_vob ();
+	void check_3d_in_2d ();
+	void check_loudness ();
 
 	boost::weak_ptr<const Film> _film;
 	boost::thread _thread;
