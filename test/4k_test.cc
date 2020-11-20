@@ -18,7 +18,7 @@
 
 */
 
-/** @defgroup completedcp Complete builds of DCPs with various characteristics, testing broad areas of code */
+/** @defgroup completedcp Complete builds of DCPs */
 
 /** @file  test/4k_test.cc
  *  @brief Run a 4K encode from a simple input.
