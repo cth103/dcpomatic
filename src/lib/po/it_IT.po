@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-18 10:22+0200\n"
+"POT-Creation-Date: 2020-11-21 23:59+0100\n"
 "PO-Revision-Date: 2018-09-30 14:16+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -66,11 +66,11 @@ msgstr " (%.2f:1)"
 
 #. / TRANSLATORS: the %1 in this string will be filled in with a day of the week
 #. / to say what day a job will finish.
-#: src/lib/job.cc:494
+#: src/lib/job.cc:490
 msgid " on %1"
 msgstr " on %1"
 
-#: src/lib/config.cc:1228
+#: src/lib/config.cc:1213
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -92,31 +92,31 @@ msgstr ""
 "Lunghezza: $ LUNGHEZZA\n"
 "Dimensioni: $ DIMENSIONI\n"
 
-#: src/lib/config.cc:1206
+#: src/lib/config.cc:1191
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$NOME_LAVORO: $STATO_LAVORO"
 
-#: src/lib/cross_common.cc:89
+#: src/lib/cross_common.cc:92
 msgid "%1 (%2 GB) [%3]"
 msgstr ""
 
-#: src/lib/atmos_mxf_content.cc:84
+#: src/lib/atmos_mxf_content.cc:88
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
-#: src/lib/dcp_content.cc:287
+#: src/lib/dcp_content.cc:319
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
-#: src/lib/ffmpeg_content.cc:353
+#: src/lib/ffmpeg_content.cc:361
 msgid "%1 [audio]"
 msgstr "%1 [audio]"
 
-#: src/lib/ffmpeg_content.cc:349
+#: src/lib/ffmpeg_content.cc:357
 msgid "%1 [movie]"
 msgstr "%1 [film]"
 
-#: src/lib/ffmpeg_content.cc:351 src/lib/video_mxf_content.cc:97
+#: src/lib/ffmpeg_content.cc:359 src/lib/video_mxf_content.cc:97
 msgid "%1 [video]"
 msgstr "%1 [video]"
 
@@ -175,11 +175,11 @@ msgstr "Riduzione rumore 3D"
 msgid "; %.1f fps"
 msgstr "; %.1f fps"
 
-#: src/lib/job.cc:499
+#: src/lib/job.cc:495
 msgid "; %1 remaining; finishing at %2%3"
 msgstr "; %1 rimanente; alla fine %2%3"
 
-#: src/lib/analytics.cc:57
+#: src/lib/analytics.cc:60
 msgid ""
 "<h2>You have made %1 DCPs with DCP-o-matic!</h2><img width=\"20%%\" src="
 "\"memory:me.jpg\" align=\"center\"><p>Hello. I'm Carl and I'm the developer "
@@ -194,7 +194,7 @@ msgid ""
 "Paypal to donate €10</a></ul><p>Thank you!"
 msgstr ""
 
-#: src/lib/hints.cc:150
+#: src/lib/hints.cc:147
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
@@ -204,7 +204,7 @@ msgstr ""
 "rate molto alto. È consigliato mantenere la banda JPEG2000 intorno ai "
 "200Mbit/s; è improbabile che si vedano effetti significativi sull'immagine."
 
-#: src/lib/ffmpeg_content.cc:631
+#: src/lib/ffmpeg_content.cc:641
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
 msgstr "ARIB STD-B67 ('log-gamma ibrido')"
 
@@ -212,7 +212,7 @@ msgstr "ARIB STD-B67 ('log-gamma ibrido')"
 msgid "Advertisement"
 msgstr "Pubblicità"
 
-#: src/lib/hints.cc:138
+#: src/lib/hints.cc:124
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -224,7 +224,7 @@ msgstr ""
 "Forse è preferibile impostare il contenitore DCP su Scope (2.39:1) nel tab "
 "\"DCP\"."
 
-#: src/lib/hints.cc:142
+#: src/lib/hints.cc:128
 #, fuzzy
 msgid ""
 "All of your content narrower than 1.90:1 but your DCP's container is Scope "
@@ -235,16 +235,16 @@ msgstr ""
 "questo modo il contenuto sarà della dimensione Flat (1.85:1). Forse è "
 "preferibile impostare il contenitore DCP su Flat (1.85:1) nel tab \"DCP\"."
 
-#: src/lib/job.cc:109
+#: src/lib/job.cc:105
 msgid "An error occurred whilst handling the file %1."
 msgstr "Errore durante l'elaborazione del file %1."
 
-#: src/lib/analyse_audio_job.cc:131
+#: src/lib/analyse_audio_job.cc:137
 #, fuzzy
 msgid "Analysing audio"
 msgstr "Analizza l'audio"
 
-#: src/lib/analyse_subtitles_job.cc:48
+#: src/lib/analyse_subtitles_job.cc:51
 #, fuzzy
 msgid "Analysing subtitles"
 msgstr "Trova sottotitoli"
@@ -261,52 +261,52 @@ msgstr "L'audio sarà ricampionato a %1Hz"
 msgid "Audio will not be resampled"
 msgstr "L'audio non sarà ricampionato"
 
-#: src/lib/ffmpeg_content.cc:625
+#: src/lib/ffmpeg_content.cc:635
 msgid "BT1361 extended colour gamut"
 msgstr "BT1361 gamma colori estesa"
 
-#: src/lib/ffmpeg_content.cc:593
+#: src/lib/ffmpeg_content.cc:603
 msgid "BT2020"
 msgstr "BT2020"
 
-#: src/lib/ffmpeg_content.cc:648
+#: src/lib/ffmpeg_content.cc:658
 msgid "BT2020 constant luminance"
 msgstr "BT2020 luminanza costante"
 
-#: src/lib/ffmpeg_content.cc:627
+#: src/lib/ffmpeg_content.cc:637
 msgid "BT2020 for a 10-bit system"
 msgstr "BT2020 per sistema a 10-bit"
 
-#: src/lib/ffmpeg_content.cc:628
+#: src/lib/ffmpeg_content.cc:638
 msgid "BT2020 for a 12-bit system"
 msgstr "BT2020 per sistema a 12-bit"
 
-#: src/lib/ffmpeg_content.cc:647
+#: src/lib/ffmpeg_content.cc:657
 msgid "BT2020 non-constant luminance"
 msgstr "BT2020 luminanza non costante"
 
-#: src/lib/ffmpeg_content.cc:652
+#: src/lib/ffmpeg_content.cc:662
 msgid "BT2100"
 msgstr "BT2100"
 
-#: src/lib/ffmpeg_content.cc:589
+#: src/lib/ffmpeg_content.cc:599
 msgid "BT470BG"
 msgstr "BT470BG"
 
-#: src/lib/ffmpeg_content.cc:643
+#: src/lib/ffmpeg_content.cc:653
 msgid "BT470BG (BT601-6)"
 msgstr "BT470BG (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:588
+#: src/lib/ffmpeg_content.cc:598
 msgid "BT470M"
 msgstr "BT470M"
 
-#: src/lib/ffmpeg_content.cc:585 src/lib/ffmpeg_content.cc:614
-#: src/lib/ffmpeg_content.cc:639
+#: src/lib/ffmpeg_content.cc:595 src/lib/ffmpeg_content.cc:624
+#: src/lib/ffmpeg_content.cc:649
 msgid "BT709"
 msgstr "BT709"
 
-#: src/lib/ffmpeg_content.cc:659
+#: src/lib/ffmpeg_content.cc:669
 msgid "Bits per pixel"
 msgstr "Bits per pixel"
 
@@ -315,23 +315,23 @@ msgstr "Bits per pixel"
 msgid "Bob Weaver Deinterlacing Filter"
 msgstr "Altro filtro di deinterlacciamento"
 
-#: src/lib/util.cc:582
+#: src/lib/util.cc:590
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:583
+#: src/lib/util.cc:591
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:574
+#: src/lib/util.cc:582
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:508
+#: src/lib/job.cc:504
 msgid "Cancelled"
 msgstr "Cancellato"
 
-#: src/lib/film.cc:350
+#: src/lib/film.cc:360
 msgid "Cannot contain slashes"
 msgstr "Non può contenere slash"
 
@@ -339,16 +339,16 @@ msgstr "Non può contenere slash"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Impossibile gestire il formato pixel %1 durante %2"
 
-#: src/lib/film.cc:1496
+#: src/lib/film.cc:1621
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 "Impossibile creare un KDM in quanto questo progetto non è crittografato."
 
-#: src/lib/util.cc:543
+#: src/lib/util.cc:551
 msgid "Centre"
 msgstr "Centro"
 
-#: src/lib/audio_content.cc:293
+#: src/lib/audio_content.cc:294
 msgid "Channels"
 msgstr "Canali"
 
@@ -356,7 +356,7 @@ msgstr "Canali"
 msgid "Checking content for changes"
 msgstr ""
 
-#: src/lib/reel_writer.cc:225
+#: src/lib/reel_writer.cc:240
 msgid "Checking existing image data"
 msgstr "Controllo dati immagine esistente in corso"
 
@@ -364,20 +364,20 @@ msgstr "Controllo dati immagine esistente in corso"
 msgid "Choose 'Make DCP' again when you have done this."
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:651
+#: src/lib/ffmpeg_content.cc:661
 msgid "Chroma-derived constant luminance"
 msgstr "Luminanza costante derivata dal Chroma"
 
-#: src/lib/ffmpeg_content.cc:650
+#: src/lib/ffmpeg_content.cc:660
 msgid "Chroma-derived non-constant luminance"
 msgstr "Luminanza non costante derivata dal Chroma"
 
-#: src/lib/types.cc:140
+#: src/lib/types.cc:143
 #, fuzzy
 msgid "Closed captions"
 msgstr "Riduzione rumore"
 
-#: src/lib/ffmpeg_content.cc:610
+#: src/lib/ffmpeg_content.cc:620
 msgid "Colour primaries"
 msgstr "Colori primari"
 
@@ -391,29 +391,33 @@ msgstr "Colori primari"
 #. / file is limited, so that not all possible values are valid.
 #. / TRANSLATORS: this means that the range of pixel values used in this
 #. / file is full, so that all possible pixel values are valid.
-#: src/lib/ffmpeg_content.cc:542 src/lib/ffmpeg_content.cc:549
-#: src/lib/ffmpeg_content.cc:556 src/lib/ffmpeg_content.cc:566
-#: src/lib/ffmpeg_content.cc:571 src/lib/ffmpeg_content.cc:576
+#: src/lib/ffmpeg_content.cc:552 src/lib/ffmpeg_content.cc:559
+#: src/lib/ffmpeg_content.cc:566 src/lib/ffmpeg_content.cc:576
+#: src/lib/ffmpeg_content.cc:581 src/lib/ffmpeg_content.cc:586
 msgid "Colour range"
 msgstr "Gamma colori"
 
-#: src/lib/ffmpeg_content.cc:635
+#: src/lib/ffmpeg_content.cc:645
 msgid "Colour transfer characteristic"
 msgstr "Caratteristica di trasferimento del colore"
 
-#: src/lib/ffmpeg_content.cc:656
+#: src/lib/ffmpeg_content.cc:666
 msgid "Colourspace"
 msgstr "Spazio colore"
+
+#: src/lib/combine_dcp_job.cc:46
+msgid "Combine DCPs"
+msgstr ""
 
 #: src/lib/content.cc:186
 msgid "Computing digest"
 msgstr "Calcolo assimilazione dati"
 
-#: src/lib/writer.cc:528
+#: src/lib/writer.cc:547
 msgid "Computing digests"
 msgstr "Calcolo assimilazioni dati"
 
-#: src/lib/analytics.cc:55
+#: src/lib/analytics.cc:58
 msgid "Congratulations!"
 msgstr ""
 
@@ -421,7 +425,7 @@ msgstr ""
 msgid "Content and DCP have the same rate.\n"
 msgstr "La sorgente e il DCP hanno la stessa frequenza di fotogrammi.\n"
 
-#: src/lib/audio_content.cc:294
+#: src/lib/audio_content.cc:295
 msgid "Content audio sample rate"
 msgstr "Frequenza di campionamento del contenuto audio"
 
@@ -443,13 +447,13 @@ msgstr "Tutti i contenuti da unire possono avere o non avere la traccia video"
 msgid "Content to be joined must have all its video used or not used."
 msgstr "Il contenuto da unire deve avere la stessa frequenza fotogrammi"
 
-#: src/lib/text_content.cc:261
+#: src/lib/text_content.cc:254
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr ""
 "Il contenuto da unire deve avere le stesse impostazioni di 'masterizza "
 "sottotitoli'."
 
-#: src/lib/text_content.cc:257
+#: src/lib/text_content.cc:250
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr ""
 "Il contenuto da unire deve avere le stesse impostazioni di 'usa sottotitoli'."
@@ -484,7 +488,7 @@ msgstr "Il contenuto da unire deve avere la stessa scala."
 msgid "Content to be joined must have the same fades."
 msgstr "Il contenuto da unire deve avere le stesse dissolvenze."
 
-#: src/lib/text_content.cc:289
+#: src/lib/text_content.cc:282
 msgid "Content to be joined must have the same outline width."
 msgstr "Il contenuto da unire deve avere la stessa dimensione."
 
@@ -492,30 +496,30 @@ msgstr "Il contenuto da unire deve avere la stessa dimensione."
 msgid "Content to be joined must have the same picture size."
 msgstr "Il contenuto da unire deve avere la stessa dimensione dell'immagine."
 
-#: src/lib/text_content.cc:265
+#: src/lib/text_content.cc:258
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr ""
 "Il contenuto da unire deve avere lo stesso spostamento X dei sottotitoli."
 
-#: src/lib/text_content.cc:273
+#: src/lib/text_content.cc:266
 msgid "Content to be joined must have the same subtitle X scale."
 msgstr "Il contenuto da unire deve avere la stessa scala X dei sottotitoli."
 
-#: src/lib/text_content.cc:269
+#: src/lib/text_content.cc:262
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr ""
 "Il contenuto da unire deve avere lo stesso spostamento Y dei sottotitoli."
 
-#: src/lib/text_content.cc:277
+#: src/lib/text_content.cc:270
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Il contenuto da unire deve avere la stessa scala Y dei sottotitoli."
 
-#: src/lib/text_content.cc:285
+#: src/lib/text_content.cc:278
 msgid "Content to be joined must have the same subtitle fades."
 msgstr ""
 "Il contenuto da unire deve avere le stesse dissolvenze dei sottotitoli."
 
-#: src/lib/text_content.cc:281
+#: src/lib/text_content.cc:274
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr "Il contenuto da unire deve avere la stessa interlinea dei sottotitoli."
 
@@ -527,12 +531,12 @@ msgstr "Il contenuto da unire deve avere la stessa frequenza fotogrammi"
 msgid "Content to be joined must have the same video frame type."
 msgstr "Il contenuto da unire deve avere lo stesso tipo di fotogramma video."
 
-#: src/lib/text_content.cc:298
+#: src/lib/text_content.cc:291
 #, fuzzy
 msgid "Content to be joined must use the same DCP track."
 msgstr "Il contenuto da unire deve usare gli stessi caratteri."
 
-#: src/lib/text_content.cc:294 src/lib/text_content.cc:306
+#: src/lib/text_content.cc:287 src/lib/text_content.cc:299
 msgid "Content to be joined must use the same fonts."
 msgstr "Il contenuto da unire deve usare gli stessi caratteri."
 
@@ -544,24 +548,24 @@ msgstr "Il contenuto da unire deve usare lo stesso flusso di sottotitoli."
 msgid "Content video is %1x%2"
 msgstr "Il contenuto video è %1x%2"
 
-#: src/lib/upload_job.cc:57
+#: src/lib/upload_job.cc:60
 msgid "Copy DCP to TMS"
 msgstr "Copia DCP nel TMS"
 
-#: src/lib/reel_writer.cc:117
+#: src/lib/reel_writer.cc:125
 msgid "Copying old video file"
 msgstr ""
 
-#: src/lib/reel_writer.cc:348
+#: src/lib/reel_writer.cc:380
 #, fuzzy
 msgid "Copying video file into DCP"
 msgstr "La dimensione video nel DCP non corrisponde"
 
-#: src/lib/scp_uploader.cc:51
+#: src/lib/scp_uploader.cc:52
 msgid "Could not connect to server %1 (%2)"
 msgstr "Impossibile connettersi al server %1 (%2)"
 
-#: src/lib/scp_uploader.cc:88
+#: src/lib/scp_uploader.cc:91
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Impossibile creare la cartella remota %1 (%2)"
 
@@ -569,12 +573,12 @@ msgstr "Impossibile creare la cartella remota %1 (%2)"
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Impossibile decodificare il file JPEG2000 %1 (%2)"
 
-#: src/lib/ffmpeg_image_proxy.cc:153
+#: src/lib/ffmpeg_image_proxy.cc:161
 #, fuzzy
 msgid "Could not decode image (%1)"
 msgstr "Impossibile decodificare il file immagine (%1)"
 
-#: src/lib/encode_server_finder.cc:185
+#: src/lib/encode_server_finder.cc:183
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
 "o-matic is running."
@@ -582,11 +586,11 @@ msgstr ""
 "Impossibile connettersi ai server di codifica remoti. Forse è in esecuzione "
 "un'altra istanza di DCP-o-MATIC."
 
-#: src/lib/job.cc:164 src/lib/job.cc:179
+#: src/lib/job.cc:160 src/lib/job.cc:175
 msgid "Could not open %1"
 msgstr "Impossibile aprire %1"
 
-#: src/lib/curl_uploader.cc:86 src/lib/scp_uploader.cc:101
+#: src/lib/curl_uploader.cc:86 src/lib/scp_uploader.cc:104
 msgid "Could not open %1 to send"
 msgstr "Impossibile aprire %1 da inviare"
 
@@ -599,7 +603,7 @@ msgstr "Impossibile aprire il file ZIP scaricato"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Impossibile aprire il file ZIP scaricato"
 
-#: src/lib/config.cc:1092
+#: src/lib/config.cc:1077
 #, fuzzy
 msgid "Could not open file for writing"
 msgstr "impossibile aprire il file %1 per la scrittura (%2)"
@@ -608,7 +612,7 @@ msgstr "impossibile aprire il file %1 per la scrittura (%2)"
 msgid "Could not read subtitles (%1 / %2)"
 msgstr "Impossibile leggere i sottotitoli (%1 / %2)"
 
-#: src/lib/scp_uploader.cc:71
+#: src/lib/scp_uploader.cc:74
 msgid "Could not start SCP session (%1)"
 msgstr "Impossibile avviare la sessione SCP (%1)"
 
@@ -616,23 +620,23 @@ msgstr "Impossibile avviare la sessione SCP (%1)"
 msgid "Could not start transfer"
 msgstr "Impossibile avviare il trasferimento"
 
-#: src/lib/curl_uploader.cc:93 src/lib/scp_uploader.cc:118
+#: src/lib/curl_uploader.cc:93 src/lib/scp_uploader.cc:121
 msgid "Could not write to remote file (%1)"
 msgstr "Impossibile scrivere il file remoto (%1)"
 
-#: src/lib/util.cc:553
+#: src/lib/util.cc:561
 msgid "D-BOX primary"
 msgstr "D-BOX principale"
 
-#: src/lib/util.cc:554
+#: src/lib/util.cc:562
 msgid "D-BOX secondary"
 msgstr "D-BOX secondario"
 
-#: src/lib/util.cc:584
+#: src/lib/util.cc:592
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:585
+#: src/lib/util.cc:593
 msgid "DBS"
 msgstr "DBS"
 
@@ -644,11 +648,11 @@ msgstr "DCI Flat"
 msgid "DCI Scope"
 msgstr "DCI Scope"
 
-#: src/lib/dcp_subtitle_content.cc:109
+#: src/lib/dcp_subtitle_content.cc:103
 msgid "DCP XML subtitles"
 msgstr "DCP XML sottotitoli"
 
-#: src/lib/audio_content.cc:314
+#: src/lib/audio_content.cc:315
 msgid "DCP sample rate"
 msgstr "DCP frequenza di campionamento"
 
@@ -661,7 +665,7 @@ msgstr "Il DCP andrà al %.1f%% della velocità originale.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "Il DCP utilizzerà ogni altro fotogramma del contenuto.\n"
 
-#: src/lib/job.cc:166 src/lib/job.cc:181
+#: src/lib/job.cc:162 src/lib/job.cc:177
 msgid ""
 "DCP-o-matic could not open the file %1 (%2).  Perhaps it does not exist or "
 "is in an unexpected format."
@@ -669,10 +673,16 @@ msgstr ""
 "DCP-o-MATIC non riesce ad aprire il file %1 (%2). Forse non esiste oppure è "
 "un formato non riconosciuto."
 
-#: src/lib/film.cc:1419
+#: src/lib/film.cc:1524
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
+msgstr ""
+
+#: src/lib/film.cc:1500
+msgid ""
+"DCP-o-matic had to change your settings so that the film's frame rate is the "
+"same as that of your Atmos content."
 msgstr ""
 
 #: src/lib/ffmpeg_content.cc:119
@@ -681,7 +691,7 @@ msgid ""
 msgstr ""
 "DCP-o-MATIC non supporta più il filtro '%1', quindi è stato disattivato."
 
-#: src/lib/config.cc:378 src/lib/config.cc:1203
+#: src/lib/config.cc:377 src/lib/config.cc:1188
 msgid "DCP-o-matic notification"
 msgstr "DCP-o-MATIC notifica"
 
@@ -694,7 +704,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "De-interlacciamento"
 
-#: src/lib/config.cc:1191
+#: src/lib/config.cc:1176
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -759,7 +769,7 @@ msgstr "Email rapporto problemi"
 msgid "Email problem report for %1"
 msgstr "Email rapporto problemi per %1"
 
-#: src/lib/dcp_encoder.cc:97 src/lib/ffmpeg_encoder.cc:142
+#: src/lib/dcp_encoder.cc:102 src/lib/ffmpeg_encoder.cc:125
 msgid "Encoding"
 msgstr "Codifica"
 
@@ -771,11 +781,11 @@ msgstr ""
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Errore nel file dei sottotitoli: letto %1 ma era atteso %2"
 
-#: src/lib/job.cc:506
+#: src/lib/job.cc:502
 msgid "Error: %1"
 msgstr "Errore: %1"
 
-#: src/lib/hints.cc:260
+#: src/lib/hints.cc:332
 #, fuzzy
 msgid "Examining closed captions"
 msgstr "Esamino il contenuto"
@@ -790,20 +800,20 @@ msgstr "Esamina il contenuto"
 msgid "Examining subtitles"
 msgstr "Trova sottotitoli"
 
-#: src/lib/subtitle_encoder.cc:80
+#: src/lib/subtitle_encoder.cc:89
 #, fuzzy
 msgid "Extracting"
 msgstr "Punteggio"
 
-#: src/lib/ffmpeg_content.cc:642
+#: src/lib/ffmpeg_content.cc:652
 msgid "FCC"
 msgstr "FCC"
 
-#: src/lib/scp_uploader.cc:61
+#: src/lib/scp_uploader.cc:64
 msgid "Failed to authenticate with server (%1)"
 msgstr "Autenticazione con il server fallita (%1)"
 
-#: src/lib/job.cc:133 src/lib/job.cc:143
+#: src/lib/job.cc:129 src/lib/job.cc:139
 #, fuzzy
 msgid "Failed to encode the DCP."
 msgstr "Invio email fallito (%1)"
@@ -821,11 +831,11 @@ msgstr "Lungometraggio"
 msgid "Filename"
 msgstr "Nome file"
 
-#: src/lib/ffmpeg_content.cc:592
+#: src/lib/ffmpeg_content.cc:602
 msgid "Film"
 msgstr "Film"
 
-#: src/lib/ffmpeg_examiner.cc:98
+#: src/lib/ffmpeg_examiner.cc:112
 msgid "Finding length"
 msgstr "Determina lunghezza"
 
@@ -833,15 +843,15 @@ msgstr "Determina lunghezza"
 msgid "Frame rate"
 msgstr "Frequenza  fotogrammi"
 
-#: src/lib/util.cc:918
+#: src/lib/util.cc:943
 msgid "Friday"
 msgstr "Venerdì"
 
-#: src/lib/ffmpeg_content.cc:576
+#: src/lib/ffmpeg_content.cc:586
 msgid "Full"
 msgstr "Completo"
 
-#: src/lib/ffmpeg_content.cc:556
+#: src/lib/ffmpeg_content.cc:566
 msgid "Full (0-%1)"
 msgstr "Completo (0-%1)"
 
@@ -849,27 +859,27 @@ msgstr "Completo (0-%1)"
 msgid "Full frame"
 msgstr "Fotogramma intero"
 
-#: src/lib/audio_content.cc:321
+#: src/lib/audio_content.cc:322
 msgid "Full length in audio samples at DCP rate"
 msgstr "Lunghezza completa nei campioni audio alla velocità DCP"
 
-#: src/lib/audio_content.cc:308
+#: src/lib/audio_content.cc:309
 msgid "Full length in audio samples at content rate"
 msgstr "Lunghezza completa nei campioni audio alla frequenza del contenuto"
 
-#: src/lib/audio_content.cc:315
+#: src/lib/audio_content.cc:316
 msgid "Full length in video frames at DCP rate"
 msgstr "Lunghezza completa nei fotogrammi video alla frequenza del DCP"
 
-#: src/lib/audio_content.cc:301
+#: src/lib/audio_content.cc:302
 msgid "Full length in video frames at content rate"
 msgstr "Lunghezza completa nei fotogrammi video alla frequenza del contenuto"
 
-#: src/lib/ffmpeg_content.cc:617
+#: src/lib/ffmpeg_content.cc:627
 msgid "Gamma 22 (BT470M)"
 msgstr "Gamma 22 (BT470M)"
 
-#: src/lib/ffmpeg_content.cc:618
+#: src/lib/ffmpeg_content.cc:628
 msgid "Gamma 28 (BT470BG)"
 msgstr "Gamma 28 (BT470BG)"
 
@@ -877,11 +887,11 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Gradiente debander"
 
-#: src/lib/util.cc:578
+#: src/lib/util.cc:586
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:547
+#: src/lib/util.cc:555
 msgid "Hearing impaired"
 msgstr "Non udenti"
 
@@ -893,31 +903,31 @@ msgstr "Riduzzione del rumore 3D di alta qualità"
 msgid "Horizontal flip"
 msgstr "Vibrazione orizzontale"
 
-#: src/lib/audio_content.cc:294 src/lib/audio_content.cc:314
+#: src/lib/audio_content.cc:295 src/lib/audio_content.cc:315
 msgid "Hz"
 msgstr "Hz"
 
-#: src/lib/ffmpeg_content.cc:626
+#: src/lib/ffmpeg_content.cc:636
 msgid "IEC61966-2-1 (sRGB or sYCC)"
 msgstr "IEC61966-2-1 (sRGB o sYCC)"
 
-#: src/lib/ffmpeg_content.cc:624
+#: src/lib/ffmpeg_content.cc:634
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/hints.cc:163
+#: src/lib/hints.cc:166
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr ""
 
-#: src/lib/job.cc:154 src/lib/job.cc:189 src/lib/job.cc:239 src/lib/job.cc:249
+#: src/lib/job.cc:150 src/lib/job.cc:185 src/lib/job.cc:235 src/lib/job.cc:245
 msgid "It is not known what caused this error."
 msgstr "Non è chiaro cosa ha causato l'errore."
 
-#: src/lib/ffmpeg_content.cc:606
+#: src/lib/ffmpeg_content.cc:616
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:368 src/lib/config.cc:1188
+#: src/lib/config.cc:367 src/lib/config.cc:1173
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Consegna KDM: $NOME_CPL"
 
@@ -925,27 +935,27 @@ msgstr "Consegna KDM: $NOME_CPL"
 msgid "Kernel deinterlacer"
 msgstr "Deinterlacciatore Kernel"
 
-#: src/lib/ffmpeg_encoder.cc:241 src/lib/util.cc:572
+#: src/lib/ffmpeg_encoder.cc:263 src/lib/util.cc:580
 msgid "L"
 msgstr "L"
 
-#: src/lib/util.cc:580
+#: src/lib/util.cc:588
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:541
+#: src/lib/mid_side_decoder.cc:97 src/lib/util.cc:549
 msgid "Left"
 msgstr "Sinistro"
 
-#: src/lib/util.cc:549
+#: src/lib/util.cc:557
 msgid "Left centre"
 msgstr "Sinistro centro"
 
-#: src/lib/util.cc:551
+#: src/lib/util.cc:559
 msgid "Left rear surround"
 msgstr "Surround posteriore sinistro"
 
-#: src/lib/util.cc:545
+#: src/lib/util.cc:553
 msgid "Left surround"
 msgstr "Surround sinistro"
 
@@ -953,31 +963,31 @@ msgstr "Surround sinistro"
 msgid "Length"
 msgstr "Lunghezza"
 
-#: src/lib/util.cc:575
+#: src/lib/util.cc:583
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:544
+#: src/lib/util.cc:552
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
-#: src/lib/ffmpeg_content.cc:571
+#: src/lib/ffmpeg_content.cc:581
 msgid "Limited"
 msgstr "Limitato"
 
-#: src/lib/ffmpeg_content.cc:549
+#: src/lib/ffmpeg_content.cc:559
 msgid "Limited (%1-%2)"
 msgstr "Limitato (%1-%2)"
 
-#: src/lib/ffmpeg_content.cc:621
+#: src/lib/ffmpeg_content.cc:631
 msgid "Linear"
 msgstr "Lineare"
 
-#: src/lib/ffmpeg_content.cc:622
+#: src/lib/ffmpeg_content.cc:632
 msgid "Logarithmic (100:1 range)"
 msgstr "Logaritmico (ampiezza 100:1)"
 
-#: src/lib/ffmpeg_content.cc:623
+#: src/lib/ffmpeg_content.cc:633
 msgid "Logarithmic (316:1 range)"
 msgstr "Logaritmico (ampiezza 316:1)"
 
@@ -985,7 +995,7 @@ msgstr "Logaritmico (ampiezza 316:1)"
 msgid "Lost communication between main and writer processes"
 msgstr ""
 
-#: src/lib/util.cc:576
+#: src/lib/util.cc:584
 msgid "Ls"
 msgstr "Ls"
 
@@ -997,19 +1007,19 @@ msgstr "Decodificatore Mid-Side"
 msgid "Misc"
 msgstr "Varie"
 
-#: src/lib/dcp_examiner.cc:157
+#: src/lib/dcp_examiner.cc:163
 msgid "Mismatched audio channel counts in DCP"
 msgstr "Il numero di canali audio nel DCP non corrisponde"
 
-#: src/lib/dcp_examiner.cc:163
+#: src/lib/dcp_examiner.cc:169
 msgid "Mismatched audio sample rates in DCP"
 msgstr "La frequenza di campionamento audio nel DCP non corrisponde"
 
-#: src/lib/dcp_examiner.cc:130
+#: src/lib/dcp_examiner.cc:136
 msgid "Mismatched frame rates in DCP"
 msgstr "La frequenza fotogrammi nel DCP non corrisponde"
 
-#: src/lib/dcp_examiner.cc:138
+#: src/lib/dcp_examiner.cc:144
 msgid "Mismatched video sizes in DCP"
 msgstr "La dimensione video nel DCP non corrisponde"
 
@@ -1017,11 +1027,11 @@ msgstr "La dimensione video nel DCP non corrisponde"
 msgid "Missing required setting %1"
 msgstr "Impostazione obbligatoria mancante %1"
 
-#: src/lib/util.cc:910
+#: src/lib/util.cc:935
 msgid "Monday"
 msgstr "Lunedì"
 
-#: src/lib/writer.cc:636
+#: src/lib/writer.cc:697
 msgid "Mono"
 msgstr "Mono"
 
@@ -1029,7 +1039,7 @@ msgstr "Mono"
 msgid "Motion compensating deinterlacer"
 msgstr "Dinterlacciatore con compensazione di movimento"
 
-#: src/lib/dcp_decoder.cc:98
+#: src/lib/dcp_decoder.cc:103
 msgid "No CPLs found in DCP."
 msgstr "Nessun CPLs trovato nel DCP."
 
@@ -1045,11 +1055,11 @@ msgstr "Nessun file immagine valido trovato nella cartella."
 msgid "Noise reduction"
 msgstr "Riduzione rumore"
 
-#: src/lib/writer.cc:634
+#: src/lib/writer.cc:695
 msgid "None"
 msgstr "Nulla"
 
-#: src/lib/job.cc:504
+#: src/lib/job.cc:500
 msgid "OK (ran for %1)"
 msgstr "OK (eseguito al %1)"
 
@@ -1062,7 +1072,7 @@ msgstr ""
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Solo l'ultima parte del contenuto da unire può avere un taglio finale."
 
-#: src/lib/types.cc:138
+#: src/lib/types.cc:141
 #, fuzzy
 msgid "Open subtitles"
 msgstr "Testo sottotitoli"
@@ -1072,7 +1082,7 @@ msgstr "Testo sottotitoli"
 msgid "Orientation"
 msgstr "Orientamento"
 
-#: src/lib/job.cc:213
+#: src/lib/job.cc:209
 msgid "Out of memory"
 msgstr "Memoria esaurita"
 
@@ -1080,11 +1090,11 @@ msgstr "Memoria esaurita"
 msgid "Overcomplete wavelet denoiser"
 msgstr "Analisi per la riduzione del rumore completata"
 
-#: src/lib/colour_conversion.cc:284
+#: src/lib/colour_conversion.cc:287
 msgid "P3"
 msgstr "P3"
 
-#: src/lib/util.h:59
+#: src/lib/util.h:60
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
 "carl@dcpomatic.com"
@@ -1110,11 +1120,11 @@ msgstr ""
 msgid "Public Service Announcement"
 msgstr "Annuncio di pubblico servizio"
 
-#: src/lib/ffmpeg_encoder.cc:249 src/lib/util.cc:573
+#: src/lib/ffmpeg_encoder.cc:273 src/lib/util.cc:581
 msgid "R"
 msgstr "R"
 
-#: src/lib/ffmpeg_content.cc:638
+#: src/lib/ffmpeg_content.cc:648
 msgid "RGB / sRGB (IEC61966-2-1)"
 msgstr "RGB / sRGB (IEC61966-2-1)"
 
@@ -1122,39 +1132,39 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Punteggio"
 
-#: src/lib/util.cc:581
+#: src/lib/util.cc:589
 msgid "Rc"
 msgstr "Rc"
 
-#: src/lib/colour_conversion.cc:285
+#: src/lib/colour_conversion.cc:288
 msgid "Rec. 1886"
 msgstr "Rec. 1886"
 
-#: src/lib/colour_conversion.cc:286
+#: src/lib/colour_conversion.cc:289
 msgid "Rec. 2020"
 msgstr "Rec. 2020"
 
-#: src/lib/colour_conversion.cc:282
+#: src/lib/colour_conversion.cc:285
 msgid "Rec. 601"
 msgstr "Rec. 601"
 
-#: src/lib/colour_conversion.cc:283
+#: src/lib/colour_conversion.cc:286
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:542
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:550
 msgid "Right"
 msgstr "Destro"
 
-#: src/lib/util.cc:550
+#: src/lib/util.cc:558
 msgid "Right centre"
 msgstr "Destro centro"
 
-#: src/lib/util.cc:552
+#: src/lib/util.cc:560
 msgid "Right rear surround"
 msgstr "Surround posteriore destro"
 
-#: src/lib/util.cc:546
+#: src/lib/util.cc:554
 msgid "Right surround"
 msgstr "Surround destro"
 
@@ -1166,56 +1176,63 @@ msgstr "Ruota di 90 gradi in senso antiorario"
 msgid "Rotate 90 degrees clockwise"
 msgstr "Ruota di 90 gradi in senso orario"
 
-#: src/lib/util.cc:577
+#: src/lib/util.cc:585
 msgid "Rs"
 msgstr "Rs"
 
-#: src/lib/colour_conversion.cc:287
+#: src/lib/colour_conversion.cc:290
 msgid "S-Gamut3/S-Log3"
 msgstr "S-Gamut3/S-Log3"
 
-#: src/lib/ffmpeg_content.cc:590 src/lib/ffmpeg_content.cc:619
+#: src/lib/ffmpeg_content.cc:600 src/lib/ffmpeg_content.cc:629
 msgid "SMPTE 170M (BT601)"
 msgstr "SMPTE 170M (BT601)"
 
-#: src/lib/ffmpeg_content.cc:644
+#: src/lib/ffmpeg_content.cc:654
 msgid "SMPTE 170M (BT601-6)"
 msgstr "SMPTE 170M (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:649
+#: src/lib/ffmpeg_content.cc:659
 msgid "SMPTE 2085, Y'D'zD'x"
 msgstr "SMPTE 2085, Y'D'zD'x"
 
-#: src/lib/ffmpeg_content.cc:591 src/lib/ffmpeg_content.cc:620
-#: src/lib/ffmpeg_content.cc:645
+#: src/lib/ffmpeg_content.cc:601 src/lib/ffmpeg_content.cc:630
+#: src/lib/ffmpeg_content.cc:655
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/ffmpeg_content.cc:629
+#: src/lib/hints.cc:415
+msgid ""
+"SMPTE DCPs with the type FTR (feature) should have markers for the first "
+"frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
+"You should add these markers using the 'Markers' button in the DCP tab."
+msgstr ""
+
+#: src/lib/ffmpeg_content.cc:639
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
 msgstr "SMPTE ST 2084 per sistemi a 10, 12, 14 e 16 bit"
 
-#: src/lib/ffmpeg_content.cc:630
+#: src/lib/ffmpeg_content.cc:640
 msgid "SMPTE ST 428-1"
 msgstr "SMPTE ST 428-1"
 
-#: src/lib/ffmpeg_content.cc:594
+#: src/lib/ffmpeg_content.cc:604
 msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
 msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
-#: src/lib/ffmpeg_content.cc:595
+#: src/lib/ffmpeg_content.cc:605
 msgid "SMPTE ST 431-2 (2011)"
 msgstr "SMPTE ST 431-2 (2011)"
 
-#: src/lib/ffmpeg_content.cc:596
+#: src/lib/ffmpeg_content.cc:606
 msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr "SMPTE ST 432-1 D65 (2010)"
 
-#: src/lib/scp_uploader.cc:56
+#: src/lib/scp_uploader.cc:58
 msgid "SSH error (%1)"
 msgstr "Errore SSH (%1)"
 
-#: src/lib/util.cc:920
+#: src/lib/util.cc:945
 msgid "Saturday"
 msgstr "Sabato"
 
@@ -1252,27 +1269,27 @@ msgid ""
 "project in DCP-o-matic, check the settings, then save it before trying again."
 msgstr ""
 
-#: src/lib/hints.cc:309
+#: src/lib/hints.cc:381
 msgid ""
 "Some of your closed captions have lines longer than %1 characters, so they "
 "will probably be word-wrapped."
 msgstr ""
 
-#: src/lib/hints.cc:315
+#: src/lib/hints.cc:387
 msgid ""
 "Some of your closed captions span more than %1 lines, so they will be "
 "truncated."
 msgstr ""
 
-#: src/lib/film.cc:379
+#: src/lib/film.cc:389
 msgid "Some of your content needs a KDM"
 msgstr "Alcuni dei tuoi contenuti richiedono una KDM"
 
-#: src/lib/film.cc:382
+#: src/lib/film.cc:392
 msgid "Some of your content needs an OV"
 msgstr "Alcuni dei tuoi contenuti richiedono un OV"
 
-#: src/lib/writer.cc:638
+#: src/lib/writer.cc:699
 msgid "Stereo"
 msgstr "Stereo"
 
@@ -1284,7 +1301,7 @@ msgstr "Da Stereo a 5.1 up-mixer A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Da Stereo a 5.1 up-mixer B"
 
-#: src/lib/util.cc:908
+#: src/lib/util.cc:933
 msgid "Sunday"
 msgstr "Domenica"
 
@@ -1304,7 +1321,7 @@ msgstr "Test"
 msgid "Text subtitles"
 msgstr "Testo sottotitoli"
 
-#: src/lib/film.cc:362
+#: src/lib/film.cc:372
 msgid "The DCP is empty, perhaps because all the content has zero length."
 msgstr ""
 
@@ -1323,7 +1340,7 @@ msgid ""
 "ticking the 3D option in the DCP video tab."
 msgstr ""
 
-#: src/lib/job.cc:115
+#: src/lib/job.cc:111
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
@@ -1331,23 +1348,23 @@ msgstr ""
 "Sul disco dove è memorizzato il film non c'è abbastanza spazio. Liberare "
 "altro spazio e riprovare."
 
-#: src/lib/playlist.cc:220
+#: src/lib/playlist.cc:224
 msgid "The file %1 has been moved %2 milliseconds earlier."
 msgstr "Il file %1 é stato anticipato di %2 millisecondi."
 
-#: src/lib/playlist.cc:215
+#: src/lib/playlist.cc:219
 msgid "The file %1 has been moved %2 milliseconds later."
 msgstr "Il file %1 é stato posticipato di %2 millisecondi."
 
-#: src/lib/playlist.cc:240
+#: src/lib/playlist.cc:244
 msgid "The file %1 has been trimmed by %2 milliseconds less."
 msgstr "Il file %1 é stato tagliato di %2 millisecondi in meno."
 
-#: src/lib/playlist.cc:235
+#: src/lib/playlist.cc:239
 msgid "The file %1 has been trimmed by %2 milliseconds more."
 msgstr "Il file %1 é stato tagliato di %2 millisecondi in piú."
 
-#: src/lib/hints.cc:201
+#: src/lib/hints.cc:209
 msgid ""
 "There is a large difference between the frame rate of your DCP and that of "
 "some of your content.  This will cause your audio to play back at a much "
@@ -1362,11 +1379,11 @@ msgstr ""
 "che i sistemi di proiezione selezionati supportino la frequenza del DCP "
 "scelta."
 
-#: src/lib/dcp_content.cc:620
+#: src/lib/dcp_content.cc:658
 msgid "There is no video in this DCP"
 msgstr "Nessun video in questo DCP"
 
-#: src/lib/job.cc:213
+#: src/lib/job.cc:209
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
 "operating system try reducing the number of encoding threads in the General "
@@ -1376,15 +1393,15 @@ msgstr ""
 "operativo a 32 bit, provare a ridurre il numero di thread di codifica nella "
 "scheda Generale delle Preferenze."
 
-#: src/lib/util.cc:1226
+#: src/lib/util.cc:1251
 msgid "This KDM was made for DCP-o-matic but not for its leaf certificate."
 msgstr ""
 
-#: src/lib/util.cc:1224
+#: src/lib/util.cc:1249
 msgid "This KDM was not made for DCP-o-matic's decryption certificate."
 msgstr ""
 
-#: src/lib/job.cc:134
+#: src/lib/job.cc:130
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
 "of DCP-o-matic and trying to use too many encoding threads.  Please reduce "
@@ -1392,7 +1409,7 @@ msgid ""
 "Preferences and try again."
 msgstr ""
 
-#: src/lib/job.cc:144
+#: src/lib/job.cc:140
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
 "of DCP-o-matic.  Please re-install DCP-o-matic with the 64-bit installer and "
@@ -1407,7 +1424,7 @@ msgstr ""
 "Questo file è un KDM, deve essere aggiunti al contenuto DCP facendo clic con "
 "il pulsante destro del mouse sul contenuto e scegliendo \"Aggiungi KDM\"."
 
-#: src/lib/film.cc:524
+#: src/lib/film.cc:549
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1415,7 +1432,7 @@ msgstr ""
 "Questo film è stato creato con una versione più recente di DCP-o-matic e non "
 "può essere caricato in questa versione. Scusate!"
 
-#: src/lib/film.cc:509
+#: src/lib/film.cc:534
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1426,11 +1443,11 @@ msgstr ""
 "nuovo film, aggiungere nuovamente i tuoi contenuti e configurarli "
 "nuovamente. Scusate!"
 
-#: src/lib/util.cc:916
+#: src/lib/util.cc:941
 msgid "Thursday"
 msgstr "Giovedì"
 
-#: src/lib/types.cc:136
+#: src/lib/types.cc:139
 msgid "Timed text"
 msgstr ""
 
@@ -1447,7 +1464,7 @@ msgstr "Transcodifica %1"
 msgid "Transitional"
 msgstr "Di transizione"
 
-#: src/lib/util.cc:912
+#: src/lib/util.cc:937
 msgid "Tuesday"
 msgstr "Martedì"
 
@@ -1463,16 +1480,16 @@ msgstr "Contenuti dei file ZIP non corretti"
 msgid "Unexpected image type received by server"
 msgstr "Immagine ricevuta dal server inaspettata"
 
-#: src/lib/cross_common.cc:86
+#: src/lib/cross_common.cc:89 src/lib/dcp_examiner.cc:193
 #, fuzzy
 msgid "Unknown"
 msgstr "sconosciuto"
 
-#: src/lib/job.cc:248
+#: src/lib/job.cc:244
 msgid "Unknown error"
 msgstr "Errore sconosciuto"
 
-#: src/lib/ffmpeg_decoder.cc:333
+#: src/lib/ffmpeg_decoder.cc:335
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Formato campionamento audio non riconosciuto (%1)"
 
@@ -1480,19 +1497,19 @@ msgstr "Formato campionamento audio non riconosciuto (%1)"
 msgid "Unsharp mask and Gaussian blur"
 msgstr "Maschera di contrasto e sfocatura Gaussiana"
 
-#: src/lib/ffmpeg_content.cc:542 src/lib/ffmpeg_content.cc:566
-#: src/lib/ffmpeg_content.cc:584 src/lib/ffmpeg_content.cc:586
-#: src/lib/ffmpeg_content.cc:587 src/lib/ffmpeg_content.cc:613
-#: src/lib/ffmpeg_content.cc:615 src/lib/ffmpeg_content.cc:616
-#: src/lib/ffmpeg_content.cc:640 src/lib/ffmpeg_content.cc:641
+#: src/lib/ffmpeg_content.cc:552 src/lib/ffmpeg_content.cc:576
+#: src/lib/ffmpeg_content.cc:594 src/lib/ffmpeg_content.cc:596
+#: src/lib/ffmpeg_content.cc:597 src/lib/ffmpeg_content.cc:623
+#: src/lib/ffmpeg_content.cc:625 src/lib/ffmpeg_content.cc:626
+#: src/lib/ffmpeg_content.cc:650 src/lib/ffmpeg_content.cc:651
 msgid "Unspecified"
 msgstr "Non specificato"
 
-#: src/lib/colour_conversion.cc:240
+#: src/lib/colour_conversion.cc:243
 msgid "Untitled"
 msgstr "Senza titolo"
 
-#: src/lib/util.cc:555 src/lib/util.cc:556
+#: src/lib/util.cc:563 src/lib/util.cc:564
 msgid "Unused"
 msgstr "Non utilizzato"
 
@@ -1504,11 +1521,11 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/util.cc:579
+#: src/lib/util.cc:587
 msgid "VI"
 msgstr "VI"
 
-#: src/lib/verify_dcp_job.cc:47
+#: src/lib/verify_dcp_job.cc:50
 msgid "Verify DCP"
 msgstr "Verifica DCP"
 
@@ -1516,11 +1533,11 @@ msgstr "Verifica DCP"
 msgid "Vertical flip"
 msgstr "Vibrazione verticale"
 
-#: src/lib/util.cc:548
+#: src/lib/util.cc:556
 msgid "Visually impaired"
 msgstr "Visivamente alterata"
 
-#: src/lib/upload_job.cc:44
+#: src/lib/upload_job.cc:47
 msgid "Waiting"
 msgstr "Attendere"
 
@@ -1528,11 +1545,11 @@ msgstr "Attendere"
 msgid "Weave filter"
 msgstr "Filtro Weave"
 
-#: src/lib/util.cc:914
+#: src/lib/util.cc:939
 msgid "Wednesday"
 msgstr "Mercoledì"
 
-#: src/lib/ffmpeg_content.cc:646
+#: src/lib/ffmpeg_content.cc:656
 msgid "YCOCG"
 msgstr "YCOCG"
 
@@ -1540,7 +1557,7 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Altro filtro di deinterlacciamento"
 
-#: src/lib/hints.cc:176
+#: src/lib/hints.cc:179
 #, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
@@ -1551,7 +1568,7 @@ msgstr ""
 "supportata . Si consiglia di modificare la frequenza fotogrammi del DCP o di "
 "creare un DCP SMPTE."
 
-#: src/lib/hints.cc:160
+#: src/lib/hints.cc:163
 #, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
@@ -1562,7 +1579,7 @@ msgstr ""
 "supportata . Si consiglia di modificare la frequenza fotogrammi del DCP o di "
 "creare un DCP SMPTE."
 
-#: src/lib/hints.cc:170
+#: src/lib/hints.cc:173
 #, fuzzy
 msgid ""
 "You are set up for a DCP frame rate of 30fps, which is not supported by all "
@@ -1572,7 +1589,7 @@ msgstr ""
 "supportata . Si consiglia di modificare la frequenza fotogrammi del DCP o di "
 "creare un DCP SMPTE."
 
-#: src/lib/hints.cc:223
+#: src/lib/hints.cc:265
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
@@ -1581,7 +1598,7 @@ msgstr ""
 "3D se vuoi vedere il contenuto su un vero sistema 3D (come Real-D, "
 "MasterImage, ecc.)"
 
-#: src/lib/hints.cc:119
+#: src/lib/hints.cc:100
 msgid ""
 "You are using DCP-o-matic's stereo-to-5.1 upmixer.  This is experimental and "
 "may result in poor-quality audio.  If you continue, you should listen to the "
@@ -1592,7 +1609,7 @@ msgstr ""
 "dovresti ascoltare il DCP creato in un cinema per assicurarti che il suono "
 "sia buono."
 
-#: src/lib/hints.cc:212
+#: src/lib/hints.cc:249
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
@@ -1600,13 +1617,19 @@ msgstr ""
 "Hai %1 files che sembrano provenire da un DVD (files VOB). Dovresti unirli "
 "per assicurare una transizione senza salti."
 
-#: src/lib/hints.cc:325
+#: src/lib/film.cc:1496
+msgid ""
+"You have more than one piece of Atmos content, and they do not have the same "
+"frame rate.  You must remove some Atmos content."
+msgstr ""
+
+#: src/lib/hints.cc:394
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
 msgstr ""
 
-#: src/lib/hints.cc:110
+#: src/lib/hints.cc:233
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
@@ -1614,11 +1637,11 @@ msgstr ""
 "Hai specificato un font la cui dimensione supera i 640kB. Probabilmente ci "
 "saranno problemi nella riproduzione."
 
-#: src/lib/film.cc:358
+#: src/lib/film.cc:368
 msgid "You must add some content to the DCP before creating it"
 msgstr "Devi aggiungere dei contenuti al DCP prima di crearlo"
 
-#: src/lib/hints.cc:114
+#: src/lib/hints.cc:90
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors.  You may want to set the DCP to have 6 channels.  It does not "
@@ -1626,7 +1649,7 @@ msgid ""
 "extras with silence."
 msgstr ""
 
-#: src/lib/hints.cc:146
+#: src/lib/hints.cc:138
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio"
@@ -1635,7 +1658,7 @@ msgstr ""
 "causare problemi su alcuni proiettori. Se possibile, usa Flat o Scope come "
 "contenitore per il DCP"
 
-#: src/lib/hints.cc:248
+#: src/lib/hints.cc:295
 msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
@@ -1643,19 +1666,19 @@ msgstr ""
 "Il tuo livello audio è molto alto (su %1). Dovresti ridurre il guadagno del "
 "tuo contenuto audio."
 
-#: src/lib/config.cc:307
+#: src/lib/config.cc:306
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr "Contenitore non valido. Modificato automaticamente in Flat (1.85:1)"
 
-#: src/lib/playlist.cc:211
+#: src/lib/playlist.cc:215
 msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
 msgstr ""
 "Il tuo progetto contiene contenuti video non allineati a un margine del "
 "fotogramma."
 
-#: src/lib/playlist.cc:231
+#: src/lib/playlist.cc:235
 msgid ""
 "Your project contains video content whose trim was not aligned to a frame "
 "boundary."
@@ -1671,13 +1694,13 @@ msgstr "[spostamento immagini]"
 msgid "[still]"
 msgstr "[fermo immagine]"
 
-#: src/lib/dcp_subtitle_content.cc:103 src/lib/string_text_file_content.cc:70
+#: src/lib/dcp_subtitle_content.cc:97 src/lib/string_text_file_content.cc:70
 msgid "[subtitles]"
 msgstr "[sottotitoli]"
 
 #. / TRANSLATORS: _reel%1 here is to be added to an export filename to indicate
 #. / which reel it is.  Preserve the %1; it will be replaced with the reel number.
-#: src/lib/ffmpeg_encoder.cc:74 src/lib/subtitle_encoder.cc:63
+#: src/lib/ffmpeg_encoder.cc:142
 msgid "_reel%1"
 msgstr ""
 
@@ -1689,11 +1712,11 @@ msgstr "connessione scaduta"
 msgid "connecting"
 msgstr "connessione in corso"
 
-#: src/lib/film.cc:354
+#: src/lib/film.cc:364
 msgid "container"
 msgstr "contenitore"
 
-#: src/lib/film.cc:366
+#: src/lib/film.cc:376
 msgid "content type"
 msgstr "tipo di contenuto"
 
@@ -1701,11 +1724,16 @@ msgstr "tipo di contenuto"
 msgid "copying %1"
 msgstr "copia %1"
 
-#: src/lib/ffmpeg.cc:142 src/lib/ffmpeg_image_proxy.cc:158
+#: src/lib/ffmpeg.cc:144 src/lib/ffmpeg_image_proxy.cc:166
 msgid "could not find stream information"
 msgstr "non riesco a trovare informazioni sul flusso"
 
-#: src/lib/reel_writer.cc:378
+#: src/lib/reel_writer.cc:428
+#, fuzzy
+msgid "could not move atmos asset into the DCP (%1)"
+msgstr "impossibile spostare la risorsa audio nel DCP (%1)"
+
+#: src/lib/reel_writer.cc:410
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "impossibile spostare la risorsa audio nel DCP (%1)"
 
@@ -1728,11 +1756,11 @@ msgstr "impossibile aprire il file %1 per la scrittura (%2)"
 msgid "could not read from file %1 (%2)"
 msgstr "Impossibile leggere dal file %1 (%2)"
 
-#: src/lib/scp_uploader.cc:66
+#: src/lib/scp_uploader.cc:69
 msgid "could not start SCP session (%1)"
 msgstr "Impossibile avviare la sessione SCP (%1)"
 
-#: src/lib/scp_uploader.cc:41
+#: src/lib/scp_uploader.cc:42
 msgid "could not start SSH session"
 msgstr "Impossibile avviare la sessione SSH"
 
@@ -1757,72 +1785,72 @@ msgid "frames per second"
 msgstr "fotogrammi per secondo"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:190
+#: src/lib/util.cc:194
 msgid "h"
 msgstr "h"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:706
+#: src/lib/dcp_content.cc:744
 #, fuzzy
 msgid "it does not have closed captions in all its reels."
 msgstr "il DCP non ha sonoro in nessuna delle parti."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:701
+#: src/lib/dcp_content.cc:739
 #, fuzzy
 msgid "it does not have open subtitles in all its reels."
 msgstr "il DCP non ha sottotitoli in nessuna delle parti."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:669
+#: src/lib/dcp_content.cc:707
 msgid "it does not have sound in all its reels."
 msgstr "il DCP non ha sonoro in nessuna delle parti."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:573
+#: src/lib/dcp_content.cc:611
 msgid "it has a different frame rate to the film."
 msgstr "il DCP ha una frequenza fotogrammi diversa rispetto al film."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:630
+#: src/lib/dcp_content.cc:668
 #, fuzzy
 msgid "it is 2K and the film is 4K."
 msgstr "il film è impostato su Interop e questo DCP è SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:627
+#: src/lib/dcp_content.cc:665
 #, fuzzy
 msgid "it is 4K and the film is 2K."
 msgstr "il film è impostato su Interop e questo DCP è SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:561
+#: src/lib/dcp_content.cc:599
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "il film è impostato su Interop e questo DCP è SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:565
+#: src/lib/dcp_content.cc:603
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "il film è impostato su SMPTE e questo DCP è Interop."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:675
+#: src/lib/dcp_content.cc:713
 msgid "it overlaps other audio content; remove the other content."
 msgstr "c'è un altro flusso audio che si sovrappone; rimuoverlo."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:712
+#: src/lib/dcp_content.cc:750
 #, fuzzy
 msgid "it overlaps other text content; remove the other content."
 msgstr "c'è un altro flusso video che si sovrappone; rimuoverlo."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:640
+#: src/lib/dcp_content.cc:678
 msgid "it overlaps other video content; remove the other content."
 msgstr "c'è un altro flusso video che si sovrappone; rimuoverlo."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:596
+#: src/lib/dcp_content.cc:634
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
@@ -1831,12 +1859,12 @@ msgstr ""
 "bobina su \"dividi per contenuto video\"."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:635
+#: src/lib/dcp_content.cc:673
 msgid "its video frame size differs from the film's."
 msgstr "la dimensione del frame nel film è diversa da quella del DCP."
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:199
+#: src/lib/util.cc:203
 msgid "m"
 msgstr "m"
 
@@ -1844,20 +1872,20 @@ msgstr "m"
 msgid "moving"
 msgstr "spostamento"
 
-#: src/lib/film.cc:350
+#: src/lib/film.cc:360
 msgid "name"
 msgstr "nome"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:209
+#: src/lib/util.cc:213
 msgid "s"
 msgstr "s"
 
-#: src/lib/colour_conversion.cc:281
+#: src/lib/colour_conversion.cc:284
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:375
+#: src/lib/film.cc:385
 msgid "some of your content is missing"
 msgstr "alcuni dei tuoi contenuti sono mancanti"
 
@@ -1865,7 +1893,7 @@ msgstr "alcuni dei tuoi contenuti sono mancanti"
 msgid "still"
 msgstr "fermo immagine"
 
-#: src/lib/ffmpeg_examiner.cc:264
+#: src/lib/ffmpeg_examiner.cc:308
 msgid "unknown"
 msgstr "sconosciuto"
 
