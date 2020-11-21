@@ -125,7 +125,10 @@ BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
 	BOOST_REQUIRE (!wait_for_jobs());
 	film2->write_metadata ();
 
-	BOOST_CHECK_EQUAL (imported->markers().size(), 3U);
+	/* When import_dcp_markers_test was made a LFOC marker will automatically
+	 * have been added.
+	 */
+	BOOST_CHECK_EQUAL (imported->markers().size(), 4U);
 
 	map<dcp::Marker, dcpomatic::ContentTime> markers = imported->markers();
 	BOOST_REQUIRE(markers.find(dcp::FFOC) != markers.end());
@@ -142,7 +145,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
 	shared_ptr<DCPContent> reloaded = dynamic_pointer_cast<DCPContent>(film3->content().front());
 	BOOST_REQUIRE (reloaded);
 
-	BOOST_CHECK_EQUAL (reloaded->markers().size(), 3U);
+	BOOST_CHECK_EQUAL (reloaded->markers().size(), 4U);
 
 	markers = reloaded->markers();
 	BOOST_REQUIRE(markers.find(dcp::FFOC) != markers.end());
