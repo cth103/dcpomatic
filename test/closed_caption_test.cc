@@ -69,11 +69,11 @@ BOOST_AUTO_TEST_CASE (closed_caption_test2)
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	content1->only_text()->set_type (TEXT_CLOSED_CAPTION);
-	content1->only_text()->set_dcp_track (DCPTextTrack("First track", "French"));
+	content1->only_text()->set_dcp_track (DCPTextTrack("First track", "fr-FR"));
 	content2->only_text()->set_type (TEXT_CLOSED_CAPTION);
-	content2->only_text()->set_dcp_track (DCPTextTrack("Second track", "German"));
+	content2->only_text()->set_dcp_track (DCPTextTrack("Second track", "de-DE"));
 	content3->only_text()->set_type (TEXT_CLOSED_CAPTION);
-	content3->only_text()->set_dcp_track (DCPTextTrack("Third track", "Italian"));
+	content3->only_text()->set_dcp_track (DCPTextTrack("Third track", "it-IT"));
 
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());
@@ -89,13 +89,13 @@ BOOST_AUTO_TEST_CASE (closed_caption_test2)
 	list<shared_ptr<dcp::ReelClosedCaptionAsset> >::const_iterator i = ccaps.begin ();
 	BOOST_CHECK_EQUAL ((*i)->annotation_text(), "First track");
 	BOOST_REQUIRE (static_cast<bool>((*i)->language()));
-	BOOST_CHECK_EQUAL ((*i)->language().get(), "French");
+	BOOST_CHECK_EQUAL ((*i)->language().get(), "fr-FR");
 	++i;
 	BOOST_CHECK_EQUAL ((*i)->annotation_text(), "Second track");
 	BOOST_REQUIRE (static_cast<bool>((*i)->language()));
-	BOOST_CHECK_EQUAL ((*i)->language().get(), "German");
+	BOOST_CHECK_EQUAL ((*i)->language().get(), "de-DE");
 	++i;
 	BOOST_CHECK_EQUAL ((*i)->annotation_text(), "Third track");
 	BOOST_REQUIRE (static_cast<bool>((*i)->language()));
-	BOOST_CHECK_EQUAL ((*i)->language().get(), "Italian");
+	BOOST_CHECK_EQUAL ((*i)->language().get(), "it-IT");
 }

@@ -134,7 +134,9 @@ SubtitleEncoder::text (PlayerText subs, TextType type, optional<DCPTextTrack> tr
 		if (_film->interop ()) {
 			shared_ptr<dcp::InteropSubtitleAsset> s (new dcp::InteropSubtitleAsset());
 			s->set_movie_title (_film->name());
-			s->set_language (lang.empty() ? "Unknown" : lang.front().to_string());
+			if (!lang.empty()) {
+				s->set_language (lang.front().to_string());
+			}
 			s->set_reel_number (raw_convert<string>(_reel_index + 1));
 			_assets[_reel_index].first = s;
 		} else {
@@ -142,7 +144,7 @@ SubtitleEncoder::text (PlayerText subs, TextType type, optional<DCPTextTrack> tr
 			s->set_content_title_text (_film->name());
 			if (!lang.empty()) {
 				s->set_language (lang.front());
-			} else {
+			} else if (!track->language.empty()) {
 				s->set_language (dcp::LanguageTag(track->language));
 			}
 			s->set_edit_rate (dcp::Fraction (_film->video_frame_rate(), 1));

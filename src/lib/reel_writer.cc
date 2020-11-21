@@ -608,7 +608,9 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 			);
 		if (a) {
 			a->set_annotation_text (i->first.name);
-			a->set_language (dcp::LanguageTag(i->first.language));
+			if (!i->first.language.empty()) {
+				a->set_language (dcp::LanguageTag(i->first.language));
+			}
 		}
 	}
 
@@ -697,7 +699,7 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 			s->set_movie_title (_film->name ());
 			if (type == TEXT_OPEN_SUBTITLE) {
 				s->set_language (lang.empty() ? "Unknown" : lang.front().to_string());
-			} else {
+			} else if (!track->language.empty()) {
 				s->set_language (track->language);
 			}
 			s->set_reel_number (raw_convert<string> (_reel_index + 1));
