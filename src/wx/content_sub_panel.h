@@ -22,7 +22,6 @@
 #define DCPOMATIC_CONTENT_SUB_PANEL_H
 
 #include "lib/film.h"
-#include "lib/config.h"
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -58,10 +57,6 @@ protected:
 	wxSizer* _sizer;
 	wxGridBagSizer* _grid;
 	wxString _name;
-
-private:
-	void config_changed (Config::Property);
-	boost::signals2::scoped_connection _config_connection;
 };
 
 #endif

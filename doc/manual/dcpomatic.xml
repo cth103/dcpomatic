@@ -240,33 +240,6 @@ in a shell.
 </para>
 </section>
 
-<!-- ============================================================== -->
-<section>
-<title>&lsquo;Simple&rsquo; and &lsquo;Full&rsquo; modes</title>
-
-<para>When you start DCP-o-matic for the first time it will ask you if
-you want to use &lsquo;simple&rsquo; or &lsquo;full&rsquo; mode.
-</para>
-
-<para>The difference between these two is that some of DCP-o-matic's
-more complex or less-used controls are hidden from view in
-&lsquo;Simple&rsquo; mode.  This makes the interface simpler to
-navigate.  You may wish to choose this mode if you do not have much
-experience with DCP or video processing.
-</para>
-
-<para>Even if you choose &lsquo;Simple&rsquo; mode you can always go
-back to &lsquo;Full&rsquo; mode by changing the <guilabel>Interface
-complexity</guilabel> setting in the <guilabel>General</guilabel> tab
-of <guilabel>Preferences</guilabel>.
-</para>
-
-<para>
-All the screenshots in this manual are from a copy of DCP-o-matic in &lsquo;Full&rsquo; mode.
-</para>
-
-</section>
-
 </chapter>
 
 

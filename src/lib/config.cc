@@ -165,7 +165,6 @@ Config::set_defaults ()
 	_christie_password = optional<string>();
 	_gdc_username = optional<string>();
 	_gdc_password = optional<string>();
-	_interface_complexity = INTERFACE_SIMPLE;
 	_player_mode = PLAYER_MODE_WINDOW;
 	_image_display = 0;
 	_video_view_type = VIDEO_VIEW_SIMPLE;
@@ -571,10 +570,6 @@ try
 	_gdc_username = f.optional_string_child("GDCUsername");
 	_gdc_password = f.optional_string_child("GDCPassword");
 
-	optional<string> ic = f.optional_string_child("InterfaceComplexity");
-	if (ic && *ic == "full") {
-		_interface_complexity = INTERFACE_FULL;
-	}
 	optional<string> pm = f.optional_string_child("PlayerMode");
 	if (pm && *pm == "window") {
 		_player_mode = PLAYER_MODE_WINDOW;
@@ -1006,16 +1001,6 @@ Config::write_config () const
 	if (_gdc_password) {
 		/* [XML] GDCPassword Password for logging into GDC's servers when downloading server certificates. */
 		root->add_child("GDCPassword")->add_child_text(*_gdc_password);
-	}
-
-	/* [XML] InterfaceComplexity <code>simple</code> for the reduced interface or <code>full</code> for the full interface. */
-	switch (_interface_complexity) {
-	case INTERFACE_SIMPLE:
-		root->add_child("InterfaceComplexity")->add_child_text("simple");
-		break;
-	case INTERFACE_FULL:
-		root->add_child("InterfaceComplexity")->add_child_text("full");
-		break;
 	}
 
 	/* [XML] PlayerMode <code>window</code> for a single window, <code>full</code> for full-screen and <code>dual</code> for full screen playback

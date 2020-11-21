@@ -129,8 +129,6 @@ TimingPanel::TimingPanel (ContentPanel* p, weak_ptr<FilmViewer> viewer)
 void
 TimingPanel::add_to_grid ()
 {
-	bool const full = Config::instance()->interface_complexity() == Config::INTERFACE_FULL;
-
 	int r = 0;
 
 	wxSizer* labels = new wxBoxSizer (wxHORIZONTAL);
@@ -148,20 +146,12 @@ TimingPanel::add_to_grid ()
 	_grid->Add (_position, wxGBPosition(r, 1));
 	++r;
 
-	_move_to_start_of_reel->Show (full);
-	_full_length_label->Show (full);
-	_full_length->Show (full);
-	_play_length_label->Show (full);
-	_play_length->Show (full);
+	_grid->Add (_move_to_start_of_reel, wxGBPosition(r, 1));
+	++r;
 
-	if (full) {
-		_grid->Add (_move_to_start_of_reel, wxGBPosition(r, 1));
-		++r;
-
-		add_label_to_sizer (_grid, _full_length_label, true, wxGBPosition(r, 0));
-		_grid->Add (_full_length, wxGBPosition(r, 1));
-		++r;
-	}
+	add_label_to_sizer (_grid, _full_length_label, true, wxGBPosition(r, 0));
+	_grid->Add (_full_length, wxGBPosition(r, 1));
+	++r;
 
 	add_label_to_sizer (_grid, _trim_start_label, true, wxGBPosition(r, 0));
 	_grid->Add (_trim_start, wxGBPosition(r, 1));
@@ -177,11 +167,9 @@ TimingPanel::add_to_grid ()
 	_grid->Add (_trim_end_to_playhead, wxGBPosition(r, 1));
 	++r;
 
-	if (full) {
-		add_label_to_sizer (_grid, _play_length_label, true, wxGBPosition(r, 0));
-		_grid->Add (_play_length, wxGBPosition(r, 1));
-		++r;
-	}
+	add_label_to_sizer (_grid, _play_length_label, true, wxGBPosition(r, 0));
+	_grid->Add (_play_length, wxGBPosition(r, 1));
+	++r;
 
 	/* Completely speculative fix for #891 */
 	_grid->Layout ();

@@ -81,7 +81,6 @@ sources = """
           gl_video_view.cc
           hints_dialog.cc
           html_dialog.cc
-          initial_setup_dialog.cc
           instant_i18n_dialog.cc
           interop_metadata_dialog.cc
           i18n_hook.cc

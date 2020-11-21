@@ -190,20 +190,13 @@ TextPanel::setup_visibility ()
 void
 TextPanel::add_to_grid ()
 {
-	Config::Interface const interface = Config::instance()->interface_complexity();
-
 	int r = 0;
 
-	_reference->Show (interface == Config::INTERFACE_FULL);
-	_reference_note->Show (interface == Config::INTERFACE_FULL);
-
-	if (interface == Config::INTERFACE_FULL) {
-		wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
-		reference_sizer->Add (_reference, 0);
-		reference_sizer->Add (_reference_note, 0);
-		_grid->Add (reference_sizer, wxGBPosition(r, 0), wxGBSpan(1, 4));
-		++r;
-	}
+	wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
+	reference_sizer->Add (_reference, 0);
+	reference_sizer->Add (_reference_note, 0);
+	_grid->Add (reference_sizer, wxGBPosition(r, 0), wxGBSpan(1, 4));
+	++r;
 
 	wxBoxSizer* use = new wxBoxSizer (wxHORIZONTAL);
 	use->Add (_use, 0, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);

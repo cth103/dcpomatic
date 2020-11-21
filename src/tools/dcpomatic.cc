@@ -50,7 +50,6 @@
 #include "wx/paste_dialog.h"
 #include "wx/focus_manager.h"
 #include "wx/html_dialog.h"
-#include "wx/initial_setup_dialog.h"
 #include "wx/send_i18n_dialog.h"
 #include "wx/i18n_hook.h"
 #include "lib/film.h"
@@ -1619,13 +1618,6 @@ private:
 			SetTopWindow (_frame);
 			_frame->Maximize ();
 			close_splash ();
-
-			if (!Config::instance()->nagged(Config::NAG_INITIAL_SETUP)) {
-				InitialSetupDialog* d = new InitialSetupDialog ();
-				d->ShowModal ();
-				d->Destroy ();
-				Config::instance()->set_nagged(Config::NAG_INITIAL_SETUP, true);
-			}
 
 			if (running_32_on_64 ()) {
 				NagDialog::maybe_nag (

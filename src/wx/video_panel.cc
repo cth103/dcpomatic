@@ -217,20 +217,13 @@ VideoPanel::VideoPanel (ContentPanel* p)
 void
 VideoPanel::add_to_grid ()
 {
-	bool const full = Config::instance()->interface_complexity() == Config::INTERFACE_FULL;
-
 	int r = 0;
 
-	_reference->Show (full);
-	_reference_note->Show (full && !_reference_note->GetLabel().IsEmpty());
-
-	if (full) {
-		wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
-		reference_sizer->Add (_reference, 0);
-		reference_sizer->Add (_reference_note, 0);
-		_grid->Add (reference_sizer, wxGBPosition(r, 0), wxGBSpan(1, 3));
-		++r;
-	}
+	wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
+	reference_sizer->Add (_reference, 0);
+	reference_sizer->Add (_reference_note, 0);
+	_grid->Add (reference_sizer, wxGBPosition(r, 0), wxGBSpan(1, 3));
+	++r;
 
 	add_label_to_sizer (_grid, _type_label, true, wxGBPosition(r, 0));
 	_frame_type->add (_grid, wxGBPosition(r, 1), wxGBSpan(1, 2));
@@ -267,16 +260,6 @@ VideoPanel::add_to_grid ()
 	_grid->Add (crop, wxGBPosition(r, 1));
 	++r;
 
-	_scale_label->Show (full);
-	_scale_fit->Show (full);
-	_scale_custom->Show (full);
-	_scale_custom_edit->Show (full);
-	_colour_conversion_label->Show (full);
-	_colour_conversion->Show (full);
-	_edit_colour_conversion_button->Show (full);
-	_range_label->Show (full);
-	_range->Show (full);
-
 	add_label_to_sizer (_grid, _fade_in_label, true, wxGBPosition (r, 0));
 	_grid->Add (_fade_in, wxGBPosition (r, 1), wxGBSpan (1, 3));
 	++r;
@@ -285,32 +268,30 @@ VideoPanel::add_to_grid ()
 	_grid->Add (_fade_out, wxGBPosition (r, 1), wxGBSpan (1, 3));
 	++r;
 
-	if (full) {
-		add_label_to_sizer (_grid, _scale_label, true, wxGBPosition (r, 0));
-		{
-			wxSizer* v = new wxBoxSizer (wxVERTICAL);
-			v->Add (_scale_fit, 0, wxBOTTOM, 4);
-			wxSizer* h = new wxBoxSizer (wxHORIZONTAL);
-			h->Add (_scale_custom, 1, wxRIGHT | wxALIGN_CENTER_VERTICAL, 6);
-			h->Add (_scale_custom_edit, 0, wxALIGN_CENTER_VERTICAL);
-			v->Add (h, 0);
-			_grid->Add (v, wxGBPosition(r, 1));
-		}
-		++r;
-
-		add_label_to_sizer (_grid, _colour_conversion_label, true, wxGBPosition(r, 0));
-		{
-			wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-			s->Add (_colour_conversion, 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
-			s->Add (_edit_colour_conversion_button, 0, wxALIGN_CENTER_VERTICAL);
-			_grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-		}
-		++r;
-
-		add_label_to_sizer (_grid, _range_label, true, wxGBPosition(r, 0));
-		_grid->Add (_range, wxGBPosition(r, 1), wxGBSpan(1, 2), wxALIGN_CENTER_VERTICAL);
-		++r;
+	add_label_to_sizer (_grid, _scale_label, true, wxGBPosition (r, 0));
+	{
+		wxSizer* v = new wxBoxSizer (wxVERTICAL);
+		v->Add (_scale_fit, 0, wxBOTTOM, 4);
+		wxSizer* h = new wxBoxSizer (wxHORIZONTAL);
+		h->Add (_scale_custom, 1, wxRIGHT | wxALIGN_CENTER_VERTICAL, 6);
+		h->Add (_scale_custom_edit, 0, wxALIGN_CENTER_VERTICAL);
+		v->Add (h, 0);
+		_grid->Add (v, wxGBPosition(r, 1));
 	}
+	++r;
+
+	add_label_to_sizer (_grid, _colour_conversion_label, true, wxGBPosition(r, 0));
+	{
+		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		s->Add (_colour_conversion, 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
+		s->Add (_edit_colour_conversion_button, 0, wxALIGN_CENTER_VERTICAL);
+		_grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	}
+	++r;
+
+	add_label_to_sizer (_grid, _range_label, true, wxGBPosition(r, 0));
+	_grid->Add (_range, wxGBPosition(r, 1), wxGBSpan(1, 2), wxALIGN_CENTER_VERTICAL);
+	++r;
 
 	_grid->Add (_description, wxGBPosition (r, 0), wxGBSpan (1, 4), wxEXPAND | wxALIGN_CENTER_VERTICAL, 6);
 	++r;

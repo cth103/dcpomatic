@@ -80,7 +80,6 @@ public:
 		DKDM_RECIPIENTS,
 		SOUND,
 		SOUND_OUTPUT,
-		INTERFACE_COMPLEXITY,
 		PLAYER_CONTENT_DIRECTORY,
 		PLAYER_PLAYLIST_DIRECTORY,
 		PLAYER_DEBUG_LOG,
@@ -401,8 +400,6 @@ public:
 		NAG_ENCRYPTED_METADATA,
 		NAG_ALTER_DECRYPTION_CHAIN,
 		NAG_BAD_SIGNER_CHAIN,
-		/* Not really a nag but it's the same idea */
-		NAG_INITIAL_SETUP,
 		NAG_IMPORT_DECRYPTION_CHAIN,
 		NAG_DELETE_DKDM,
 		NAG_32_ON_64,
@@ -492,15 +489,6 @@ public:
 
 	boost::optional<std::string> gdc_password () const {
 		return _gdc_password;
-	}
-
-	enum Interface {
-		INTERFACE_SIMPLE,
-		INTERFACE_FULL
-	};
-
-	Interface interface_complexity () const {
-		return _interface_complexity;
 	}
 
 	enum PlayerMode {
@@ -1014,10 +1002,6 @@ public:
 		maybe_set (_gdc_password, boost::optional<std::string>());
 	}
 
-	void set_interface_complexity (Interface i) {
-		maybe_set (_interface_complexity, i, INTERFACE_COMPLEXITY);
-	}
-
 	void set_player_mode (PlayerMode m) {
 		maybe_set (_player_mode, m);
 	}
@@ -1344,7 +1328,6 @@ private:
 	boost::optional<std::string> _christie_password;
 	boost::optional<std::string> _gdc_username;
 	boost::optional<std::string> _gdc_password;
-	Interface _interface_complexity;
 	PlayerMode _player_mode;
 	int _image_display;
 	VideoViewType _video_view_type;
