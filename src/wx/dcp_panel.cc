@@ -380,6 +380,7 @@ DCPPanel::film_changed (int p)
 		break;
 	}
 	case Film::ISDCF_METADATA:
+	case Film::SUBTITLE_LANGUAGES:
 		setup_dcp_name ();
 		break;
 	case Film::VIDEO_FRAME_RATE:
