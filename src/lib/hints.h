@@ -61,6 +61,7 @@ private:
 	void check_vob ();
 	void check_3d_in_2d ();
 	void check_loudness ();
+	void check_ffec_and_ffmc_in_smpte_feature ();
 
 	boost::weak_ptr<const Film> _film;
 	boost::thread _thread;

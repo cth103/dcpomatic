@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+#include "dcp_content_type.h"
 #include "hints.h"
 #include "types.h"
 #include "film.h"
@@ -326,6 +327,7 @@ Hints::thread ()
 	check_vob ();
 	check_3d_in_2d ();
 	check_loudness ();
+	check_ffec_and_ffmc_in_smpte_feature ();
 
 	emit (bind(boost::ref(Progress), _("Examining closed captions")));
 
@@ -402,4 +404,14 @@ Hints::film () const
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 	return film;
+}
+
+
+void
+Hints::check_ffec_and_ffmc_in_smpte_feature ()
+{
+	shared_ptr<const Film> f = film();
+	if (!f->interop() && f->dcp_content_type()->libdcp_kind() == dcp::FEATURE && (!f->marker(dcp::FFEC) || !f->marker(dcp::FFMC))) {
+		hint (_("SMPTE DCPs with the type FTR (feature) should have markers for the first frame of end credits (FFEC) and the first frame of moving credits (FFMC).  You should add these markers using the 'Markers' button in the DCP tab."));
+	}
 }
