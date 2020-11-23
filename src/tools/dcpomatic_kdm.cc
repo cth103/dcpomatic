@@ -45,9 +45,6 @@
 #include "lib/cinema.h"
 #include "lib/dkdm_wrapper.h"
 #include "lib/cross.h"
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-#include "lib/decrypted_ecinema_kdm.h"
-#endif
 #include <dcp/encrypted_kdm.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/exceptions.h>
@@ -311,47 +308,6 @@ private:
 			list<KDMWithMetadataPtr> kdms;
 			string title;
 
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-			shared_ptr<ECinemaDKDM> ecinema_dkdm = boost::dynamic_pointer_cast<ECinemaDKDM> (dkdm_base);
-			if (ecinema_dkdm) {
-				DecryptedECinemaKDM decrypted (ecinema_dkdm->dkdm(), Config::instance()->decryption_chain()->key().get());
-				title = decrypted.name ();
-
-				BOOST_FOREACH (shared_ptr<Screen> i, _screens->screens()) {
-
-					if (!i->recipient) {
-						continue;
-					}
-
-					dcp::LocalTime begin(_timing->from(), i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute());
-					dcp::LocalTime end(_timing->until(), i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute());
-
-					DecryptedECinemaKDM kdm (
-						decrypted.id(),
-						decrypted.name(),
-						decrypted.key(),
-						begin,
-						end
-						);
-
-					dcp::NameFormat::Map name_values;
-					name_values['c'] = i->cinema->name;
-					name_values['s'] = i->name;
-					name_values['f'] = title;
-					name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
-					name_values['e'] = end.date() + " " + end.time_of_day(true, false);
-					name_values['i'] = kdm.id();
-
-					/* Encrypt */
-					kdms.push_back (
-						KDMWithMetadataPtr(
-							new ECinemaKDMWithMetadata(name_values, i->cinema, kdm.encrypt(i->recipient.get()))
-							)
-						);
-				}
-			}
-#endif
-
 			shared_ptr<DKDM> dkdm = boost::dynamic_pointer_cast<DKDM> (dkdm_base);
 			if (dkdm) {
 
@@ -404,7 +360,7 @@ private:
 					/* Encrypt */
 					kdms.push_back (
 						KDMWithMetadataPtr(
-							new DCPKDMWithMetadata(name_values, i->cinema.get(), i->cinema->emails, encrypted)
+							new KDMWithMetadata(name_values, i->cinema.get(), i->cinema->emails, encrypted)
 							)
 						);
 				}
@@ -493,44 +449,6 @@ private:
 		if (d->ShowModal() == wxID_OK) {
 			shared_ptr<const dcp::CertificateChain> chain = Config::instance()->decryption_chain();
 			DCPOMATIC_ASSERT (chain->key());
-
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-			try {
-				cxml::Document test_doc;
-				string const xml_string = dcp::file_to_string (wx_to_std(d->GetPath()), MAX_KDM_SIZE);
-				test_doc.read_string (xml_string);
-				if (test_doc.root_name() == "ECinemaSecurityMessage") {
-					EncryptedECinemaKDM ekdm(xml_string);
-					/* Decrypt the DKDM to make sure that we can */
-					DecryptedECinemaKDM dkdm(ekdm, chain->key().get());
-
-					shared_ptr<DKDMBase> new_dkdm(new ECinemaDKDM(ekdm));
-					shared_ptr<DKDMGroup> group = dynamic_pointer_cast<DKDMGroup> (selected_dkdm());
-					if (!group) {
-						group = Config::instance()->dkdms();
-					}
-					add_dkdm_model (new_dkdm, group);
-					add_dkdm_view (new_dkdm);
-					d->Destroy ();
-					return;
-				}
-			} catch (KDMError& e) {
-				error_dialog (
-					this, "Could not read file as a KDM.  Perhaps it is badly formatted, created with the wrong certificate, or not a KDM at all.",
-					std_to_wx(e.what())
-					);
-				d->Destroy ();
-				return;
-			} catch (dcp::MiscError& e) {
-				error_dialog (
-					this,
-					_("Could not read file as a KDM.  It is much too large.  Make sure you are loading a DKDM (XML) file."),
-					std_to_wx(e.what())
-					);
-				d->Destroy ();
-				return;
-			}
-#endif
 
 			try {
 				dcp::EncryptedKDM ekdm(dcp::file_to_string (wx_to_std (d->GetPath ()), MAX_KDM_SIZE));

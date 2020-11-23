@@ -1,41 +1,41 @@
 def build(bld):
     desktops = []
-    if bld.env.VARIANT != 'swaroop-theater':
+
+    obj = bld(features='subst')
+    obj.source = 'dcpomatic.desktop.in'
+    obj.target = 'dcpomatic2.desktop'
+    obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
+    obj.VERSION = bld.env.VERSION
+    desktops.append(obj.target)
+
+    obj = bld(features='subst')
+    obj.source = 'dcpomatic_batch.desktop.in'
+    obj.target = 'dcpomatic2_batch.desktop'
+    obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
+    obj.VERSION = bld.env.VERSION
+    desktops.append(obj.target)
+
+    obj = bld(features='subst')
+    obj.source = 'dcpomatic_server.desktop.in'
+    obj.target = 'dcpomatic2_server.desktop'
+    obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
+    obj.VERSION = bld.env.VERSION
+    desktops.append(obj.target)
+
+    obj = bld(features='subst')
+    obj.source = 'dcpomatic_kdm.desktop.in'
+    obj.target = 'dcpomatic2_kdm.desktop'
+    obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
+    obj.VERSION = bld.env.VERSION
+    desktops.append(obj.target)
+
+    if bld.env.ENABLE_DISK:
         obj = bld(features='subst')
-        obj.source = 'dcpomatic.desktop.in'
-        obj.target = 'dcpomatic2.desktop'
+        obj.source = 'dcpomatic_disk.desktop.in'
+        obj.target = 'dcpomatic2_disk.desktop'
         obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
         obj.VERSION = bld.env.VERSION
         desktops.append(obj.target)
-
-        obj = bld(features='subst')
-        obj.source = 'dcpomatic_batch.desktop.in'
-        obj.target = 'dcpomatic2_batch.desktop'
-        obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
-        obj.VERSION = bld.env.VERSION
-        desktops.append(obj.target)
-
-        obj = bld(features='subst')
-        obj.source = 'dcpomatic_server.desktop.in'
-        obj.target = 'dcpomatic2_server.desktop'
-        obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
-        obj.VERSION = bld.env.VERSION
-        desktops.append(obj.target)
-
-        obj = bld(features='subst')
-        obj.source = 'dcpomatic_kdm.desktop.in'
-        obj.target = 'dcpomatic2_kdm.desktop'
-        obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
-        obj.VERSION = bld.env.VERSION
-        desktops.append(obj.target)
-
-        if bld.env.ENABLE_DISK:
-            obj = bld(features='subst')
-            obj.source = 'dcpomatic_disk.desktop.in'
-            obj.target = 'dcpomatic2_disk.desktop'
-            obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
-            obj.VERSION = bld.env.VERSION
-            desktops.append(obj.target)
 
     obj = bld(features='subst')
     obj.source = 'dcpomatic_player.desktop.in'

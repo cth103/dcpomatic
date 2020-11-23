@@ -1077,19 +1077,9 @@ LocationsPage::setup ()
 	table->Add (_kdm_directory, wxGBPosition (r, 1));
 	++r;
 
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	add_label_to_sizer (table, _panel, _("Background image"), true, wxGBPosition (r, 0));
-	_background_image = new FilePickerCtrl (_panel, _("Select image file"), "*.png;*.jpg;*.jpeg;*.tif;*.tiff", true, false);
-	table->Add (_background_image, wxGBPosition (r, 1));
-	++r;
-#endif
-
 	_content_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&LocationsPage::content_directory_changed, this));
 	_playlist_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&LocationsPage::playlist_directory_changed, this));
 	_kdm_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&LocationsPage::kdm_directory_changed, this));
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	_background_image->Bind (wxEVT_FILEPICKER_CHANGED, bind(&LocationsPage::background_image_changed, this));
-#endif
 }
 
 void
@@ -1106,11 +1096,6 @@ LocationsPage::config_changed ()
 	if (config->player_kdm_directory()) {
 		checked_set (_kdm_directory, *config->player_kdm_directory());
 	}
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	if (config->player_background_image()) {
-		checked_set (_background_image, *config->player_background_image());
-	}
-#endif
 }
 
 void
@@ -1130,20 +1115,3 @@ LocationsPage::kdm_directory_changed ()
 {
 	Config::instance()->set_player_kdm_directory(wx_to_std(_kdm_directory->GetPath()));
 }
-
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-void
-LocationsPage::background_image_changed ()
-{
-	boost::filesystem::path const f = wx_to_std(_background_image->GetPath());
-	if (!boost::filesystem::is_regular_file(f) || !wxImage::CanRead(std_to_wx(f.string()))) {
-		error_dialog (0, _("Could not load image file."));
-		if (Config::instance()->player_background_image()) {
-			checked_set (_background_image, *Config::instance()->player_background_image());
-		}
-		return;
-	}
-
-	Config::instance()->set_player_background_image(f);
-}
-#endif

@@ -93,9 +93,6 @@ FilmViewer::FilmViewer (wxWindow* p)
 	, _closed_captions_dialog (new ClosedCaptionsDialog(p, this))
 	, _outline_content (false)
 	, _pad_black (false)
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	, _background_image (false)
-#endif
 	, _idle_get (false)
 {
 	switch (Config::instance()->video_view_type()) {
@@ -507,13 +504,6 @@ FilmViewer::seek (DCPTime t, bool accurate)
 void
 FilmViewer::config_changed (Config::Property p)
 {
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	if (p == Config::PLAYER_BACKGROUND_IMAGE) {
-		_video_view->update ();
-		return;
-	}
-#endif
-
 	if (p == Config::AUDIO_MAPPING) {
 		recreate_butler ();
 		return;

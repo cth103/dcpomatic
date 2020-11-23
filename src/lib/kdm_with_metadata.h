@@ -21,9 +21,6 @@
 #ifndef DCPOMATIC_KDM_WITH_METADATA_H
 #define DCPOMATIC_KDM_WITH_METADATA_H
 
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-#include "encrypted_ecinema_kdm.h"
-#endif
 #include <dcp/encrypted_kdm.h>
 #include <dcp/name_format.h>
 #include <boost/shared_ptr.hpp>
@@ -33,16 +30,20 @@ class Cinema;
 class KDMWithMetadata
 {
 public:
-	KDMWithMetadata (dcp::NameFormat::Map const& name_values, void const* group, std::list<std::string> emails)
+	KDMWithMetadata (dcp::NameFormat::Map const& name_values, void const* group, std::list<std::string> emails, dcp::EncryptedKDM kdm)
 		: _name_values (name_values)
 		, _group (group)
 		, _emails (emails)
+		, _kdm (kdm)
 	{}
 
-	virtual ~KDMWithMetadata () {}
+	std::string kdm_as_xml () const {
+		return _kdm.as_xml ();
+	}
 
-	virtual std::string kdm_as_xml () const = 0;
-	virtual void kdm_as_xml (boost::filesystem::path out) const = 0;
+	void kdm_as_xml (boost::filesystem::path out) const {
+		return _kdm.as_xml (out);
+	}
 
 	dcp::NameFormat::Map const& name_values () const {
 		return _name_values;
@@ -62,6 +63,7 @@ private:
 	dcp::NameFormat::Map _name_values;
 	void const* _group;
 	std::list<std::string> _emails;
+	dcp::EncryptedKDM _kdm;
 };
 
 
@@ -104,32 +106,6 @@ void email (
 		dcp::NameFormat filename_format,
 		std::string cpl_name
 		);
-
-
-template <class T>
-class SpecialKDMWithMetadata : public KDMWithMetadata
-{
-public:
-	SpecialKDMWithMetadata (dcp::NameFormat::Map const& name_values, void const* group, std::list<std::string> emails, T k)
-		: KDMWithMetadata (name_values, group, emails)
-		, kdm (k)
-	{}
-
-	std::string kdm_as_xml () const {
-		return kdm.as_xml ();
-	}
-
-	void kdm_as_xml (boost::filesystem::path out) const {
-		return kdm.as_xml (out);
-	}
-
-	T kdm;
-};
-
-typedef SpecialKDMWithMetadata<dcp::EncryptedKDM> DCPKDMWithMetadata;
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-typedef SpecialKDMWithMetadata<EncryptedECinemaKDM> ECinemaKDMWithMetadata;
-#endif
 
 #endif
 

@@ -126,9 +126,7 @@ private:
 	boost::optional<ColourConversion> _colour_conversion;
 	VideoRange _video_range;
 	boost::optional<PositionImage> _text;
-	/** Content that we came from.  This is so that reset_metadata() can work, and also
-	 *  for variant:swaroop's non-skippable ads.
-	 */
+	/** Content that we came from.  This is so that reset_metadata() can work. */
 	boost::weak_ptr<Content> _content;
 	/** Video frame that we came from.  Again, this is for reset_metadata() */
 	boost::optional<Frame> _video_frame;

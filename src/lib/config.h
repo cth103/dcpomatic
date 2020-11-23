@@ -86,9 +86,6 @@ public:
 		HISTORY,
 		SHOW_EXPERIMENTAL_AUDIO_PROCESSORS,
 		AUDIO_MAPPING,
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-		PLAYER_BACKGROUND_IMAGE,
-#endif
 		OTHER
 	};
 
@@ -539,36 +536,6 @@ public:
 	}
 
 	AudioMapping audio_mapping (int output_channels);
-
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	boost::optional<boost::filesystem::path> player_background_image () const {
-		return _player_background_image;
-	}
-
-	std::string kdm_server_url () const {
-		return _kdm_server_url;
-	}
-
-	std::string player_watermark_theatre () const {
-		return _player_watermark_theatre;
-	}
-
-	int player_watermark_period () const {
-		return _player_watermark_period;
-	}
-
-	int player_watermark_duration () const {
-		return _player_watermark_duration;
-	}
-
-	std::vector<Monitor> required_monitors () const {
-		return _required_monitors;
-	}
-
-	boost::optional<boost::filesystem::path> player_lock_file () const {
-		return _player_lock_file;
-	}
-#endif
 
 	/* SET (mostly) */
 
@@ -1081,52 +1048,6 @@ public:
 	void set_audio_mapping (AudioMapping m);
 	void set_audio_mapping_to_default ();
 
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	void set_player_background_image (boost::filesystem::path p) {
-		maybe_set (_player_background_image, p, PLAYER_BACKGROUND_IMAGE);
-	}
-
-	void unset_player_background_image () {
-		if (!_player_background_image) {
-			return;
-		}
-		_player_background_image = boost::none;
-		changed (PLAYER_BACKGROUND_IMAGE);
-	}
-
-	void set_kdm_server_url (std::string s) {
-		maybe_set (_kdm_server_url, s);
-	}
-
-	void set_player_watermark_theatre (std::string p) {
-		maybe_set (_player_watermark_theatre, p);
-	}
-
-	void set_player_watermark_period (int minutes) {
-		maybe_set (_player_watermark_period, minutes);
-	}
-
-	void set_player_watermark_duration (int milliseconds) {
-		maybe_set (_player_watermark_duration, milliseconds);
-	}
-
-	void set_required_monitors (std::vector<Monitor> monitors) {
-		maybe_set (_required_monitors, monitors);
-	}
-
-	void set_player_lock_file (boost::filesystem::path p) {
-		maybe_set (_player_lock_file, p);
-	}
-
-	void unset_player_lock_file () {
-		if (!_player_lock_file) {
-			return;
-		}
-		_player_lock_file = boost::none;
-		changed ();
-	}
-#endif
-
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -1276,16 +1197,10 @@ private:
 	std::string _notification_bcc;
 	std::string _notification_email;
 	boost::shared_ptr<const dcp::CertificateChain> _signer_chain;
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	boost::filesystem::path _signer_chain_path;
-#endif
 	/** Chain used to decrypt KDMs; the leaf of this chain is the target
 	 *  certificate for making KDMs given to DCP-o-matic.
 	 */
 	boost::shared_ptr<const dcp::CertificateChain> _decryption_chain;
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	boost::filesystem::path _decryption_chain_path;
-#endif
 	/** true to check for updates on startup */
 	bool _check_for_updates;
 	bool _check_for_test_updates;
@@ -1346,18 +1261,6 @@ private:
 	boost::optional<boost::filesystem::path> _player_playlist_directory;
 	boost::optional<boost::filesystem::path> _player_kdm_directory;
 	boost::optional<AudioMapping> _audio_mapping;
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	boost::optional<boost::filesystem::path> _player_background_image;
-	std::string _kdm_server_url;
-	std::string _player_watermark_theatre;
-	/** watermark period in minutes */
-	int _player_watermark_period;
-	/** watermark duration in milliseconds */
-	int _player_watermark_duration;
-	std::vector<Monitor> _required_monitors;
-	/** a file which, if specified, must be present for the player to work */
-	boost::optional<boost::filesystem::path> _player_lock_file;
-#endif
 
 	static int const _current_version;
 

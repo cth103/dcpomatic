@@ -65,10 +65,6 @@ namespace dcp {
 #define CLOSED_CAPTION_LINES 3
 /** Maximum line length of closed caption viewers */
 #define CLOSED_CAPTION_LENGTH 30
-/* We are mis-using genre here, as only some metadata tags are written/read.
-   I tried the use_metadata_tags option but it didn't seem to make any difference.
-*/
-#define SWAROOP_ID_TAG "genre"
 
 extern std::string program_name;
 extern bool is_batch_converter;
@@ -115,10 +111,6 @@ extern std::string day_of_week_to_string (boost::gregorian::greg_weekday d);
 extern void emit_subtitle_image (dcpomatic::ContentTimePeriod period, dcp::SubtitleImage sub, dcp::Size size, boost::shared_ptr<TextDecoder> decoder);
 extern bool show_jobs_on_console (bool progress);
 extern void copy_in_bits (boost::filesystem::path from, boost::filesystem::path to, boost::function<void (float)>);
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-extern boost::shared_ptr<dcp::CertificateChain> read_swaroop_chain (boost::filesystem::path path);
-extern void write_swaroop_chain (boost::shared_ptr<const dcp::CertificateChain> chain, boost::filesystem::path output);
-#endif
 extern dcp::Size scale_for_display (dcp::Size s, dcp::Size display_container, dcp::Size film_container);
 extern dcp::DecryptedKDM decrypt_kdm_with_helpful_error (dcp::EncryptedKDM kdm);
 extern boost::filesystem::path default_font_file ();

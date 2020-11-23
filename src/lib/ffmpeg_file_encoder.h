@@ -47,10 +47,6 @@ public:
 		bool audio_stream_per_channel,
 		int x264_crf,
 		boost::filesystem::path output
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-		, boost::optional<dcp::Key> key
-		, boost::optional<std::string> id
-#endif
 		);
 
 	~FFmpegFileEncoder ();

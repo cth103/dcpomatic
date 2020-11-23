@@ -218,10 +218,6 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 	bool audio_stream_per_channel,
 	int x264_crf,
 	boost::filesystem::path output
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	, optional<dcp::Key> key
-	, optional<string> id
-#endif
 	)
 	: _audio_stream_per_channel (audio_stream_per_channel)
 	, _video_options (0)
@@ -258,11 +254,7 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 		DCPOMATIC_ASSERT (false);
 	}
 
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	int r = avformat_alloc_output_context2 (&_format_context, av_guess_format("mov", 0, 0), 0, 0);
-#else
 	int r = avformat_alloc_output_context2 (&_format_context, 0, 0, _output.string().c_str());
-#endif
 	if (!_format_context) {
 		throw runtime_error (String::compose("could not allocate FFmpeg format context (%1)", r));
 	}
@@ -276,21 +268,6 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 	}
 
 	AVDictionary* options = 0;
-
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	if (key) {
-		av_dict_set (&options, "encryption_key", key->hex().c_str(), 0);
-		/* XXX: is this OK? */
-		av_dict_set (&options, "encryption_kid", "00000000000000000000000000000000", 0);
-		av_dict_set (&options, "encryption_scheme", "cenc-aes-ctr", 0);
-	}
-
-	if (id) {
-		if (av_dict_set(&_format_context->metadata, SWAROOP_ID_TAG, id->c_str(), 0) < 0) {
-			throw runtime_error ("Could not write ID to output");
-		}
-	}
-#endif
 
 	if (avformat_write_header (_format_context, &options) < 0) {
 		throw runtime_error ("could not write header to FFmpeg output file");

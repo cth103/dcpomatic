@@ -285,9 +285,6 @@ def make_spec(filename, version, target, options, requires=None):
     print('%{_bindir}/dcpomatic2_playlist', file=f)
     print('%{_bindir}/dcpomatic2_openssl', file=f)
     print('%{_bindir}/dcpomatic2_combiner', file=f)
-    if options['variant'] == 'swaroop-studio':
-        print('%{_bindir}/dcpomatic2_ecinema', file=f)
-        print('%{_bindir}/dcpomatic2_uuid', file=f)
     if os.path.exists(os.path.join(tools, "dcpomatic2_disk")):
         print('%{_bindir}/dcpomatic2_disk', file=f)
         print('%{_bindir}/dcpomatic2_disk_writer', file=f)

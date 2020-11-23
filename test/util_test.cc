@@ -106,27 +106,6 @@ BOOST_AUTO_TEST_CASE (utf8_strlen_test)
 	BOOST_CHECK_EQUAL (utf8_strlen("hëłlo wørld"), 11U);
 }
 
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-BOOST_AUTO_TEST_CASE (swaroop_chain_test)
-{
-	shared_ptr<dcp::CertificateChain> cc (
-		new dcp::CertificateChain (
-			openssl_path(),
-			"dcpomatic.com",
-			"dcpomatic.com",
-			".dcpomatic.smpte-430-2.ROOT",
-			".dcpomatic.smpte-430-2.INTERMEDIATE",
-			"CS.dcpomatic.smpte-430-2.LEAF"
-			)
-		);
-
-	write_swaroop_chain (cc, "build/test/swaroop_chain");
-	shared_ptr<dcp::CertificateChain> back = read_swaroop_chain ("build/test/swaroop_chain");
-
-	BOOST_CHECK (cc->root_to_leaf() == back->root_to_leaf());
-}
-#endif
-
 BOOST_AUTO_TEST_CASE (careful_string_filter_test)
 {
 	BOOST_CHECK_EQUAL ("hello_world", careful_string_filter("hello_world"));

@@ -1,7 +1,7 @@
 from __future__ import print_function
 import os
 
-def write_installer(bits, dcpomatic_version, debug, variant, disk):
+def write_installer(bits, dcpomatic_version, debug, disk):
 
     tools = [
         ('batch', 'Batch Converter'),
@@ -471,5 +471,5 @@ DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\U
 
 
 def build(bld):
-    write_installer(32, bld.env.VERSION, bld.env.DEBUG, bld.env.VARIANT, bld.env.ENABLE_DISK)
-    write_installer(64, bld.env.VERSION, bld.env.DEBUG, bld.env.VARIANT, bld.env.ENABLE_DISK)
+    write_installer(32, bld.env.VERSION, bld.env.DEBUG, bld.env.ENABLE_DISK)
+    write_installer(64, bld.env.VERSION, bld.env.DEBUG, bld.env.ENABLE_DISK)

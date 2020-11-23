@@ -142,12 +142,6 @@ protected:
 
 	FilmViewer* _viewer;
 
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	bool _in_watermark;
-	int _watermark_x;
-	int _watermark_y;
-#endif
-
 	StateTimer _state_timer;
 
 private:

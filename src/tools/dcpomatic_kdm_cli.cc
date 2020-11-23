@@ -354,7 +354,7 @@ from_dkdm (
 			name_values['e'] = end.date() + " " + end.time_of_day(true, false);
 			name_values['i'] = kdm.cpl_id();
 
-			kdms.push_back (KDMWithMetadataPtr(new DCPKDMWithMetadata(name_values, i->cinema.get(), i->cinema->emails, kdm)));
+			kdms.push_back (KDMWithMetadataPtr(new KDMWithMetadata(name_values, i->cinema.get(), i->cinema->emails, kdm)));
 		}
 		write_files (kdms, zip, output, container_name_format, filename_format, verbose);
 	} catch (FileError& e) {

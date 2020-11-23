@@ -90,6 +90,6 @@ kdm_for_dkdm_recipient (
 	name_values['e'] = end.date() + " " + end.time_of_day(true, false);
 	name_values['i'] = kdm.cpl_id();
 
-	return KDMWithMetadataPtr(new DCPKDMWithMetadata(name_values, 0, recipient->emails, kdm));
+	return KDMWithMetadataPtr(new KDMWithMetadata(name_values, 0, recipient->emails, kdm));
 }
 

@@ -175,16 +175,6 @@ Config::set_defaults ()
 	_player_playlist_directory = boost::none;
 	_player_kdm_directory = boost::none;
 	_audio_mapping = boost::none;
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	_player_background_image = boost::none;
-	_kdm_server_url = "http://localhost:8000/{CPL}";
-	_player_watermark_theatre = "";
-	_player_watermark_period = 1;
-	_player_watermark_duration = 50;
-	_player_lock_file = boost::none;
-	_signer_chain_path = "signer";
-	_decryption_chain_path = "decryption";
-#endif
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -241,14 +231,6 @@ void
 Config::read ()
 try
 {
-#if defined(DCPOMATIC_VARIANT_SWAROOP) && defined(DCPOMATIC_LINUX)
-	if (geteuid() == 0) {
-		/* Take ownership of the config file if we're root */
-		chown (config_file().string().c_str(), 0, 0);
-		chmod (config_file().string().c_str(), 0644);
-	}
-#endif
-
 	cxml::Document f ("Config");
 	f.read_file (config_file ());
 
@@ -411,21 +393,6 @@ try
 	}
 
 	cxml::NodePtr signer = f.optional_node_child ("Signer");
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	if (signer && signer->node_children().size() == 1) {
-		/* The content of <Signer> is a path to a file; if it's relative it's in the same
-		   directory as .config. */
-		_signer_chain_path = signer->content();
-		if (_signer_chain_path.is_relative()) {
-			_signer_chain = read_swaroop_chain (path(_signer_chain_path.string()));
-		} else {
-			_signer_chain = read_swaroop_chain (_signer_chain_path);
-		}
-	} else {
-		/* <Signer> is not present or has children: ignore it and remake. */
-		_signer_chain = create_certificate_chain ();
-	}
-#else
 	if (signer) {
 		shared_ptr<dcp::CertificateChain> c (new dcp::CertificateChain ());
 		/* Read the signing certificates and private key in from the config file */
@@ -438,24 +405,8 @@ try
 		/* Make a new set of signing certificates and key */
 		_signer_chain = create_certificate_chain ();
 	}
-#endif
 
 	cxml::NodePtr decryption = f.optional_node_child ("Decryption");
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	if (decryption && decryption->node_children().size() == 1) {
-		/* The content of <Decryption> is a path to a file; if it's relative, it's in the same
-		   directory as .config. */
-		_decryption_chain_path = decryption->content();
-		if (_decryption_chain_path.is_relative()) {
-			_decryption_chain = read_swaroop_chain (path(_decryption_chain_path.string()));
-		} else {
-			_decryption_chain = read_swaroop_chain (_decryption_chain_path);
-		}
-	} else {
-		/* <Decryption> is not present or has more children: ignore it and remake. */
-		_decryption_chain = create_certificate_chain ();
-	}
-#else
 	if (decryption) {
 		shared_ptr<dcp::CertificateChain> c (new dcp::CertificateChain ());
 		BOOST_FOREACH (cxml::NodePtr i, decryption->node_children ("Certificate")) {
@@ -466,7 +417,6 @@ try
 	} else {
 		_decryption_chain = create_certificate_chain ();
 	}
-#endif
 
 	/* These must be done before we call Bad as that might set one
 	   of the nags.
@@ -600,18 +550,6 @@ try
 	if (f.optional_node_child("AudioMapping")) {
 		_audio_mapping = AudioMapping (f.node_child("AudioMapping"), Film::current_state_version);
 	}
-
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	_player_background_image = f.optional_string_child("PlayerBackgroundImage");
-	_kdm_server_url = f.optional_string_child("KDMServerURL").get_value_or("http://localhost:8000/{CPL}");
-	_player_watermark_theatre = f.optional_string_child("PlayerWatermarkTheatre").get_value_or("");
-	_player_watermark_period = f.optional_number_child<int>("PlayerWatermarkPeriod").get_value_or(1);
-	_player_watermark_duration = f.optional_number_child<int>("PlayerWatermarkDuration").get_value_or(150);
-	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("RequiredMonitor")) {
-		_required_monitors.push_back(Monitor(i));
-	}
-	_player_lock_file = f.optional_string_child("PlayerLockFile");
-#endif
 
 	if (boost::filesystem::exists (_cinemas_file)) {
 		cxml::Document f ("Cinemas");
@@ -838,14 +776,6 @@ Config::write_config () const
 	root->add_child("Win32Console")->add_child_text (_win32_console ? "1" : "0");
 #endif
 
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	if (_signer_chain_path.is_relative()) {
-		write_swaroop_chain (_signer_chain, path(_signer_chain_path.string()));
-	} else {
-		write_swaroop_chain (_signer_chain, _signer_chain_path);
-	}
-	root->add_child("Signer")->add_child_text(_signer_chain_path.string());
-#else
 	/* [XML] Signer Certificate chain and private key to use when signing DCPs and KDMs.  Should contain <code>&lt;Certificate&gt;</code>
 	   tags in order and a <code>&lt;PrivateKey&gt;</code> tag all containing PEM-encoded certificates or private keys as appropriate.
 	*/
@@ -855,16 +785,7 @@ Config::write_config () const
 		signer->add_child("Certificate")->add_child_text (i.certificate (true));
 	}
 	signer->add_child("PrivateKey")->add_child_text (_signer_chain->key().get ());
-#endif
 
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	if (_decryption_chain_path.is_relative()) {
-		write_swaroop_chain (_decryption_chain, path(_decryption_chain_path.string()));
-	} else {
-		write_swaroop_chain (_decryption_chain, _decryption_chain_path);
-	}
-	root->add_child("Decryption")->add_child_text(_decryption_chain_path.string());
-#else
 	/* [XML] Decryption Certificate chain and private key to use when decrypting KDMs */
 	xmlpp::Element* decryption = root->add_child ("Decryption");
 	DCPOMATIC_ASSERT (_decryption_chain);
@@ -872,7 +793,6 @@ Config::write_config () const
 		decryption->add_child("Certificate")->add_child_text (i.certificate (true));
 	}
 	decryption->add_child("PrivateKey")->add_child_text (_decryption_chain->key().get ());
-#endif
 
 	/* [XML] History Filename of DCP to present in the <guilabel>File</guilabel> menu of the GUI; there can be more than one
 	   of these tags.
@@ -1053,21 +973,6 @@ Config::write_config () const
 	if (_audio_mapping) {
 		_audio_mapping->as_xml (root->add_child("AudioMapping"));
 	}
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	if (_player_background_image) {
-		root->add_child("PlayerBackgroundImage")->add_child_text(_player_background_image->string());
-	}
-	root->add_child("KDMServerURL")->add_child_text(_kdm_server_url);
-	root->add_child("PlayerWatermarkTheatre")->add_child_text(_player_watermark_theatre);
-	root->add_child("PlayerWatermarkPeriod")->add_child_text(raw_convert<string>(_player_watermark_period));
-	root->add_child("PlayerWatermarkDuration")->add_child_text(raw_convert<string>(_player_watermark_duration));
-	BOOST_FOREACH (Monitor i, _required_monitors) {
-		i.as_xml(root->add_child("RequiredMonitor"));
-	}
-	if (_player_lock_file) {
-		root->add_child("PlayerLockFile")->add_child_text(_player_lock_file->string());
-	}
-#endif
 
 	try {
 		string const s = doc.write_to_string_formatted ();

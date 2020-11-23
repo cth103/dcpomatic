@@ -29,9 +29,6 @@
 #include "wx/verify_dcp_dialog.h"
 #include "wx/standard_controls.h"
 #include "wx/playlist_controls.h"
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-#include "wx/swaroop_controls.h"
-#endif
 #include "wx/timer_display.h"
 #include "wx/system_information_dialog.h"
 #include "wx/player_stress_tester.h"
@@ -55,8 +52,6 @@
 #include "lib/server.h"
 #include "lib/dcpomatic_socket.h"
 #include "lib/scoped_temporary.h"
-#include "lib/monitor_checker.h"
-#include "lib/lock_file_checker.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/file_log.h"
@@ -201,11 +196,6 @@ public:
 		_overall_panel = new wxPanel (this, wxID_ANY);
 
 		_viewer.reset (new FilmViewer (_overall_panel));
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-		SwaroopControls* sc = new SwaroopControls (_overall_panel, _viewer);
-		_controls = sc;
-		sc->ResetFilm.connect (bind(&DOMFrame::reset_film_weak, this, _1));
-#else
 		if (Config::instance()->player_mode() == Config::PLAYER_MODE_DUAL) {
 			PlaylistControls* pc = new PlaylistControls (_overall_panel, _viewer);
 			_controls = pc;
@@ -213,7 +203,6 @@ public:
 		} else {
 			_controls = new StandardControls (_overall_panel, _viewer, false);
 		}
-#endif
 		_viewer->set_dcp_decode_reduction (Config::instance()->decode_reduction ());
 		_viewer->PlaybackPermitted.connect (bind(&DOMFrame::playback_permitted, this));
 		_viewer->Started.connect (bind(&DOMFrame::playback_started, this, _1));
@@ -262,38 +251,10 @@ public:
 		reset_film ();
 
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-		MonitorChecker::instance()->StateChanged.connect(boost::bind(&DOMFrame::monitor_checker_state_changed, this));
-		MonitorChecker::instance()->run ();
-		LockFileChecker::instance()->StateChanged.connect(boost::bind(&DOMFrame::lock_checker_state_changed, this));
-		LockFileChecker::instance()->run ();
-#endif
 		setup_screen ();
 
 		_stress.LoadDCP.connect (boost::bind(&DOMFrame::load_dcp, this, _1));
-
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-		sc->check_restart ();
-#endif
 	}
-
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	void monitor_checker_state_changed ()
-	{
-		if (!MonitorChecker::instance()->ok()) {
-			_viewer->stop ();
-			error_dialog (this, _("The required display devices are not connected correctly."));
-		}
-	}
-
-	void lock_checker_state_changed ()
-	{
-		if (!LockFileChecker::instance()->ok()) {
-			_viewer->stop ();
-			error_dialog (this, _("The lock file is not present."));
-		}
-	}
-#endif
 
 	void setup_main_sizer (Config::PlayerMode mode)
 	{
@@ -311,16 +272,6 @@ public:
 
 	bool playback_permitted ()
 	{
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-		if (!MonitorChecker::instance()->ok()) {
-			error_dialog (this, _("The required display devices are not connected correctly."));
-			return false;
-		}
-		if (!LockFileChecker::instance()->ok()) {
-			error_dialog (this, _("The lock file is not present."));
-			return false;
-		}
-#endif
 		if (!_film || !Config::instance()->respect_kdm_validity_periods()) {
 			return true;
 		}
@@ -332,15 +283,6 @@ public:
 				ok = false;
 			}
 		}
-
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-		BOOST_FOREACH (shared_ptr<Content> i, _film->content()) {
-			shared_ptr<FFmpegContent> c = dynamic_pointer_cast<FFmpegContent>(i);
-			if (c && !c->kdm_timing_window_valid()) {
-				ok = false;
-			}
-		}
-#endif
 
 		if (!ok) {
 			error_dialog (this, _("The KDM does not allow playback of this content at this time."));
@@ -391,14 +333,6 @@ public:
 
 	void playback_stopped (DCPTime time)
 	{
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-		try {
-			boost::filesystem::remove (Config::path("position"));
-		} catch (...) {
-			/* Never mind */
-		}
-#endif
-
 		_controls->log (wxString::Format("playback-stopped %s", time.timecode(_film->video_frame_rate()).c_str()));
 	}
 
@@ -424,9 +358,7 @@ public:
 			if (!ok || !report_errors_from_last_job(this)) {
 				return;
 			}
-#ifndef DCPOMATIC_VARIANT_SWAROOP
 			Config::instance()->add_to_player_history (dir);
-#endif
 		} catch (dcp::ReadError& e) {
 			error_dialog (this, wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())), std_to_wx(e.what()));
 		} catch (DCPError& e) {
@@ -587,10 +519,8 @@ private:
 		optional<int> c = Config::instance()->decode_reduction();
 		_view_cpl = view->Append(ID_view_cpl, _("CPL"), _cpl_menu);
 		view->AppendSeparator();
-#ifndef DCPOMATIC_VARIANT_SWAROOP
 		_view_full_screen = view->AppendCheckItem(ID_view_full_screen, _("Full screen\tF11"));
 		_view_dual_screen = view->AppendCheckItem(ID_view_dual_screen, _("Dual screen\tShift+F11"));
-#endif
 		setup_menu ();
 		view->AppendSeparator();
 		view->Append(ID_view_closed_captions, _("Closed captions..."));
@@ -702,22 +632,8 @@ private:
 
 		if (d->ShowModal() == wxID_OK) {
 			DCPOMATIC_ASSERT (_film);
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-			shared_ptr<FFmpegContent> ffmpeg = boost::dynamic_pointer_cast<FFmpegContent>(_film->content().front());
-			if (ffmpeg) {
-				try {
-					ffmpeg->add_kdm (EncryptedECinemaKDM(dcp::file_to_string(wx_to_std(d->GetPath()), MAX_KDM_SIZE)));
-				} catch (exception& e) {
-					error_dialog (this, wxString::Format(_("Could not load KDM.")), std_to_wx(e.what()));
-					d->Destroy();
-					return;
-				}
-			}
-#endif
 			shared_ptr<DCPContent> dcp = boost::dynamic_pointer_cast<DCPContent>(_film->content().front());
-#ifndef DCPOMATIC_VARIANT_SWAROOP
 			DCPOMATIC_ASSERT (dcp);
-#endif
 			try {
 				if (dcp) {
 					dcp->add_kdm (dcp::EncryptedKDM(dcp::file_to_string(wx_to_std(d->GetPath()), MAX_KDM_SIZE)));

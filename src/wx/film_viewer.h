@@ -105,17 +105,6 @@ public:
 
 	int audio_callback (void* out, unsigned int frames);
 
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	void set_background_image (bool b) {
-		_background_image = b;
-		_video_view->update ();
-	}
-
-	bool background_image () const {
-		return _background_image;
-	}
-#endif
-
 	StateTimer const & state_timer () const {
 		return _video_view->state_timer ();
 	}
@@ -205,10 +194,6 @@ private:
 	    the normal window background colour.
 	*/
 	bool _pad_black;
-
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	bool _background_image;
-#endif
 
 	/** true if an get() is required next time we are idle */
 	bool _idle_get;

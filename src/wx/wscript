@@ -304,10 +304,7 @@ def build(bld):
     if bld.env.TARGET_OSX:
         obj.framework = ['CoreAudio', 'OpenGL']
     obj.use = 'libdcpomatic2'
-    if not len(bld.env.VARIANT) == 0 and bld.env.VARIANT.startswith('swaroop-'):
-        obj.source = sources + " swaroop_controls.cc"
-    else:
-        obj.source = sources
+    obj.source = sources
     obj.target = 'dcpomatic2-wx'
 
     i18n.po_to_mo(os.path.join('src', 'wx'), 'libdcpomatic2-wx', bld)

@@ -192,13 +192,6 @@ DCPOMATIC_ENABLE_WARNINGS
 		_pulldown = true;
 		LOG_GENERAL_NC("Suggest that this may be 2:3 pull-down (soft telecine)");
 	}
-
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	AVDictionaryEntry* e = av_dict_get (_format_context->metadata, SWAROOP_ID_TAG, 0, 0);
-	if (e) {
-		_id = e->value;
-	}
-#endif
 }
 
 

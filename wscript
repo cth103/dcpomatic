@@ -72,7 +72,6 @@ def options(opt):
     opt.add_option('--static-curl',       action='store_true', default=False, help='link statically to libcurl')
     opt.add_option('--workaround-gssapi', action='store_true', default=False, help='link to gssapi_krb5')
     opt.add_option('--force-cpp11',       action='store_true', default=False, help='force use of C++11')
-    opt.add_option('--variant',           help='build variant (swaroop-studio, swaroop-theater)', choices=['swaroop-studio', 'swaroop-theater'])
     opt.add_option('--use-lld',           action='store_true', default=False, help='use lld linker')
     opt.add_option('--enable-disk',       action='store_true', default=False, help='build dcpomatic2_disk tool; requires Boost process, lwext4 and nanomsg libraries')
     opt.add_option('--warnings-are-errors', action='store_true', default=False, help='build with -Werror')
@@ -132,11 +131,6 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', ['-g', '-DDCPOMATIC_DEBUG', '-fno-omit-frame-pointer'])
     else:
         conf.env.append_value('CXXFLAGS', '-O2')
-
-    if conf.options.variant is not None:
-        conf.env.VARIANT = conf.options.variant
-        if conf.options.variant.startswith('swaroop-'):
-            conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_VARIANT_SWAROOP')
 
     if conf.options.enable_disk:
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_DISK')

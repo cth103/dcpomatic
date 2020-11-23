@@ -47,7 +47,6 @@ sources = """
           text_content.cc
           text_decoder.cc
           case_insensitive_sorter.cc
-          checker.cc
           check_content_change_job.cc
           cinema.cc
           cinema_sound_processor.cc
@@ -79,7 +78,6 @@ sources = """
           decoder.cc
           decoder_factory.cc
           decoder_part.cc
-          decrypted_ecinema_kdm.cc
           digester.cc
           dkdm_recipient.cc
           dkdm_wrapper.cc
@@ -91,7 +89,6 @@ sources = """
           encode_server.cc
           encode_server_finder.cc
           encoded_log_entry.cc
-          encrypted_ecinema_kdm.cc
           environment_info.cc
           event_history.cc
           examine_content_job.cc
@@ -131,11 +128,9 @@ sources = """
           json_server.cc
           kdm_with_metadata.cc
           kdm_recipient.cc
-          lock_file_checker.cc
           log.cc
           log_entry.cc
           mid_side_decoder.cc
-          monitor_checker.cc
           overlaps.cc
           player.cc
           player_text.cc
@@ -210,9 +205,6 @@ def build(bld):
         obj.framework = ['IOKit', 'Foundation', 'DiskArbitration', 'ApplicationServices']
 
     obj.source = sources + ' version.cc'
-
-    if bld.env.VARIANT == 'swaroop-theater' or bld.env.VARIANT == 'swaroop-studio':
-        obj.source += ' swaroop_spl.cc swaroop_spl_entry.cc'
 
     if bld.env.ENABLE_DISK:
         obj.source += ' copy_to_drive_job.cc nanomsg.cc'

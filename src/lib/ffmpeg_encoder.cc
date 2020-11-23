@@ -57,10 +57,6 @@ FFmpegEncoder::FFmpegEncoder (
 	bool split_reels,
 	bool audio_stream_per_channel,
 	int x264_crf
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	, optional<dcp::Key> key
-	, optional<string> id
-#endif
 	)
 	: Encoder (film, job)
 	, _history (200)
@@ -154,10 +150,6 @@ FFmpegEncoder::go ()
 				_film->three_d(),
 				filename,
 				extension
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-				, key
-				, id
-#endif
 				)
 			);
 	}
@@ -249,10 +241,6 @@ FFmpegEncoder::FileEncoderSet::FileEncoderSet (
 	bool three_d,
 	boost::filesystem::path output,
 	string extension
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	, optional<dcp::Key> key
-	, optional<string> id
-#endif
 	)
 {
 	if (three_d) {
@@ -260,31 +248,19 @@ FFmpegEncoder::FileEncoderSet::FileEncoderSet (
 		_encoders[EYES_LEFT] = shared_ptr<FFmpegFileEncoder>(
 			new FFmpegFileEncoder(
 				video_frame_size, video_frame_rate, audio_frame_rate, channels, format,
-				audio_stream_per_channel, x264_crf, String::compose("%1_%2%3", output.string(), _("L"), extension)
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-					      , key, id
-#endif
-				)
+				audio_stream_per_channel, x264_crf, String::compose("%1_%2%3", output.string(), _("L"), extension))
 			);
 		/// TRANSLATORS: R here is an abbreviation for "right", to indicate the right-eye part of a 3D export
 		_encoders[EYES_RIGHT] = shared_ptr<FFmpegFileEncoder>(
 			new FFmpegFileEncoder(
 				video_frame_size, video_frame_rate, audio_frame_rate, channels, format,
-				audio_stream_per_channel, x264_crf, String::compose("%1_%2%3", output.string(), _("R"), extension)
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-					      , key, id
-#endif
-				)
+				audio_stream_per_channel, x264_crf, String::compose("%1_%2%3", output.string(), _("R"), extension))
 			);
 	} else {
 		_encoders[EYES_BOTH]  = shared_ptr<FFmpegFileEncoder>(
 			new FFmpegFileEncoder(
 				video_frame_size, video_frame_rate, audio_frame_rate, channels, format,
-				audio_stream_per_channel, x264_crf, String::compose("%1%2", output.string(), extension)
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-					      , key, id
-#endif
-				)
+				audio_stream_per_channel, x264_crf, String::compose("%1%2", output.string(), extension))
 			);
 	}
 }

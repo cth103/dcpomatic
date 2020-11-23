@@ -66,19 +66,6 @@ SimpleVideoView::paint ()
 	dcp::Size const out_size = _viewer->out_size ();
 	wxSize const panel_size = _panel->GetSize ();
 
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	if (_viewer->background_image()) {
-		dc.Clear ();
-		optional<boost::filesystem::path> bg = Config::instance()->player_background_image();
-		if (bg) {
-			wxImage image (std_to_wx(bg->string()));
-			wxBitmap bitmap (image);
-			dc.DrawBitmap (bitmap, max(0, (panel_size.GetWidth() - image.GetSize().GetWidth()) / 2), max(0, (panel_size.GetHeight() - image.GetSize().GetHeight()) / 2));
-		}
-		return;
-	}
-#endif
-
 	if (!out_size.width || !out_size.height || !_image || out_size != _image->size()) {
 		dc.Clear ();
 	} else {
@@ -86,27 +73,6 @@ SimpleVideoView::paint ()
 		wxImage frame (out_size.width, out_size.height, _image->data()[0], true);
 		wxBitmap frame_bitmap (frame);
 		dc.DrawBitmap (frame_bitmap, 0, max(0, (panel_size.GetHeight() - out_size.height) / 2));
-
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-		DCPTime const period = DCPTime::from_seconds(Config::instance()->player_watermark_period() * 60);
-		int64_t n = position().get() / period.get();
-		DCPTime from(n * period.get());
-		DCPTime to = from + DCPTime::from_seconds(Config::instance()->player_watermark_duration() / 1000.0);
-		if (from <= position() && position() <= to) {
-			if (!_in_watermark) {
-				_in_watermark = true;
-				_watermark_x = rand() % panel_size.GetWidth();
-				_watermark_y = rand() % panel_size.GetHeight();
-			}
-			dc.SetTextForeground(*wxWHITE);
-			string wm = Config::instance()->player_watermark_theatre();
-			boost::posix_time::ptime t = boost::posix_time::second_clock::local_time();
-			wm += "\n" + boost::posix_time::to_iso_extended_string(t);
-			dc.DrawText(std_to_wx(wm), _watermark_x, _watermark_y);
-		} else {
-			_in_watermark = false;
-		}
-#endif
 	}
 
 	if (out_size.width < panel_size.GetWidth()) {

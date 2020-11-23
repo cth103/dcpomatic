@@ -232,15 +232,8 @@ private:
 	void playlist_directory_changed ();
 	void kdm_directory_changed ();
 
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	void background_image_changed ();
-#endif
-
 	wxDirPickerCtrl* _content_directory;
 	wxDirPickerCtrl* _playlist_directory;
 	wxDirPickerCtrl* _kdm_directory;
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	FilePickerCtrl* _background_image;
-#endif
 };
 #endif

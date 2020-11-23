@@ -159,12 +159,6 @@ FFmpegDecoder::flush ()
 bool
 FFmpegDecoder::pass ()
 {
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	if (_ffmpeg_content->encrypted() && !_ffmpeg_content->kdm()) {
-		return true;
-	}
-#endif
-
 	int r = av_read_frame (_format_context, &_packet);
 
 	/* AVERROR_INVALIDDATA can apparently be returned sometimes even when av_read_frame

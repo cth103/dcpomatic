@@ -133,28 +133,12 @@ private:
 		table->Add (_debug_log_file, wxGBPosition(r, 1));
 		++r;
 
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-		add_label_to_sizer (table, _panel, _("KDM server URL"), true, wxGBPosition(r, 0));
-		_kdm_server_url = new wxTextCtrl (_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(400, -1));
-		table->Add (_kdm_server_url, wxGBPosition (r, 1));
-		++r;
-
-		add_label_to_sizer (table, _panel, _("Lock file"), true, wxGBPosition(r, 0));
-		_lock_file = new FilePickerCtrl (_panel, _("Select lock file"), "*", true, true);
-		table->Add (_lock_file, wxGBPosition (r, 1));
-		++r;
-#endif
-
 		_player_mode->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::player_mode_changed, this));
 		_image_display->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::image_display_changed, this));
 		_video_display_mode->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::video_display_mode_changed, this));
 		_respect_kdm->Bind (wxEVT_CHECKBOX, bind(&PlayerGeneralPage::respect_kdm_changed, this));
 		_activity_log_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::activity_log_file_changed, this));
 		_debug_log_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::debug_log_file_changed, this));
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-		_kdm_server_url->Bind (wxEVT_TEXT, bind(&PlayerGeneralPage::kdm_server_url_changed, this));
-		_lock_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::lock_file_changed, this));
-#endif
 	}
 
 	void config_changed ()
@@ -192,12 +176,6 @@ private:
 		if (config->player_debug_log_file()) {
 			checked_set (_debug_log_file, *config->player_debug_log_file());
 		}
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-		checked_set (_kdm_server_url, config->kdm_server_url());
-		if (config->player_lock_file()) {
-			checked_set (_lock_file, config->player_lock_file().get());
-		}
-#endif
 	}
 
 private:
@@ -245,28 +223,12 @@ private:
 		Config::instance()->set_player_debug_log_file(wx_to_std(_debug_log_file->GetPath()));
 	}
 
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	void kdm_server_url_changed ()
-	{
-		Config::instance()->set_kdm_server_url(wx_to_std(_kdm_server_url->GetValue()));
-	}
-
-	void lock_file_changed ()
-	{
-		Config::instance()->set_player_lock_file(wx_to_std(_lock_file->GetPath()));
-	}
-#endif
-
 	wxChoice* _player_mode;
 	wxChoice* _image_display;
 	wxChoice* _video_display_mode;
 	wxCheckBox* _respect_kdm;
 	FilePickerCtrl* _activity_log_file;
 	FilePickerCtrl* _debug_log_file;
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	wxTextCtrl* _kdm_server_url;
-	FilePickerCtrl* _lock_file;
-#endif
 };
 
 
@@ -392,169 +354,6 @@ private:
 };
 
 
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-class WatermarkPage : public StandardPage
-{
-public:
-	WatermarkPage (wxSize panel_size, int border)
-		: StandardPage (panel_size, border)
-	{}
-
-	wxString GetName () const
-	{
-		return _("Watermark");
-	}
-
-#ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const
-	{
-		/* XXX: this icon doesn't exist; this is just to make the swaroop variant build on OS X */
-		return wxBitmap ("watermark", wxBITMAP_TYPE_PNG_RESOURCE);
-	}
-#endif
-
-private:
-	void setup ()
-	{
-		wxGridBagSizer* table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
-
-		int r = 0;
-
-		add_label_to_sizer (table, _panel, _("Theatre name"), true, wxGBPosition(r, 0));
-		_theatre = new wxTextCtrl (_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(300, -1));
-		table->Add (_theatre, wxGBPosition(r, 1), wxGBSpan(1, 2));
-		++r;
-
-		add_label_to_sizer (table, _panel, _("Period"), true, wxGBPosition(r, 0));
-		_period = new wxSpinCtrl (_panel, wxID_ANY);
-		_period->SetRange (1, 60);
-		table->Add (_period, wxGBPosition(r, 1));
-		add_label_to_sizer (table, _panel, _("minutes"), false, wxGBPosition(r, 2));
-		++r;
-
-		add_label_to_sizer (table, _panel, _("Duration"), true, wxGBPosition(r, 0));
-		_duration = new wxSpinCtrl (_panel, wxID_ANY);
-		_duration->SetRange (100, 5000);
-		table->Add (_duration, wxGBPosition(r, 1));
-		add_label_to_sizer (table, _panel, _("milliseconds"), false, wxGBPosition(r, 2));
-		++r;
-
-		_theatre->Bind (wxEVT_TEXT, bind(&WatermarkPage::theatre_changed, this));
-		_duration->Bind (wxEVT_SPINCTRL, bind(&WatermarkPage::duration_changed, this));
-		_period->Bind (wxEVT_SPINCTRL, bind(&WatermarkPage::period_changed, this));
-	}
-
-	void config_changed ()
-	{
-		Config* config = Config::instance ();
-		checked_set (_theatre, config->player_watermark_theatre());
-		checked_set (_duration, config->player_watermark_duration());
-		checked_set (_period, config->player_watermark_period());
-	}
-
-	void theatre_changed ()
-	{
-		Config::instance()->set_player_watermark_theatre(wx_to_std(_theatre->GetValue()));
-	}
-
-	void period_changed ()
-	{
-		Config::instance()->set_player_watermark_period(_period->GetValue());
-	}
-
-	void duration_changed ()
-	{
-		Config::instance()->set_player_watermark_duration(_duration->GetValue());
-	}
-
-	wxTextCtrl* _theatre;
-	wxSpinCtrl* _period;
-	wxSpinCtrl* _duration;
-};
-
-class DevicesPage : public StandardPage
-{
-public:
-	DevicesPage (wxSize panel_size, int border)
-		: StandardPage (panel_size, border)
-	{}
-
-	wxString GetName () const
-	{
-		return _("Devices");
-	}
-
-#ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const
-	{
-		/* XXX: this icon doesn't exist; this is just to make the swaroop variant build on OS X */
-		return wxBitmap ("devices", wxBITMAP_TYPE_PNG_RESOURCE);
-	}
-#endif
-
-private:
-	void setup ()
-	{
-		vector<EditableListColumn> columns;
-		columns.push_back(EditableListColumn(_("Manufacturer ID")));
-		columns.push_back(EditableListColumn(_("Product code")));
-		columns.push_back(EditableListColumn(_("Serial")));
-		columns.push_back(EditableListColumn(_("Manufacture week")));
-		columns.push_back(EditableListColumn(_("Manufacture year")));
-		_monitor_list = new EditableList<Monitor, MonitorDialog> (
-			_panel,
-			columns,
-			boost::bind (&Config::required_monitors, Config::instance()),
-			boost::bind (&Config::set_required_monitors, Config::instance(), _1),
-			boost::bind (&DevicesPage::monitor_column, this, _1, _2),
-			true,
-			true
-			);
-		_panel->GetSizer()->Add(_monitor_list, 1, wxEXPAND | wxALL, _border);
-
-		wxButton* get = new Button(_panel, _("Read current devices"));
-		_panel->GetSizer()->Add(get, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
-		get->Bind(wxEVT_BUTTON, bind(&DevicesPage::get_clicked, this));
-	}
-
-	void get_clicked ()
-	{
-		Config::instance()->set_required_monitors(get_monitors());
-		_monitor_list->refresh ();
-	}
-
-	string monitor_column (Monitor m, int c)
-	{
-		switch (c) {
-		case 0:
-			return m.manufacturer_id;
-		case 1:
-			return locale_convert<string>(m.manufacturer_product_code);
-		case 2:
-			return locale_convert<string>(m.serial_number);
-		case 3:
-			return locale_convert<string>(m.week_of_manufacture);
-		case 4:
-			return locale_convert<string>(m.year_of_manufacture);
-		default:
-			DCPOMATIC_ASSERT(false);
-		}
-
-		return "";
-	}
-
-	void config_changed ()
-	{
-		_monitor_list->refresh ();
-	}
-
-private:
-	EditableList<Monitor, MonitorDialog>* _monitor_list;
-};
-
-#endif
-
 wxPreferencesEditor*
 create_player_config_dialog ()
 {
@@ -576,10 +375,6 @@ create_player_config_dialog ()
 	e->AddPage (new SoundPage(ps, border));
 	e->AddPage (new LocationsPage(ps, border));
 	e->AddPage (new KeysPage(ps, border));
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-	e->AddPage (new WatermarkPage(ps, border));
-	e->AddPage (new DevicesPage(ps, border));
-#endif
 	e->AddPage (new PlayerAdvancedPage(ps, border));
 	return e;
 }

@@ -985,11 +985,7 @@ private:
 			shared_ptr<TranscodeJob> job (new TranscodeJob (_film));
 			job->set_encoder (
 				shared_ptr<FFmpegEncoder> (
-					new FFmpegEncoder (_film, job, d->path(), d->format(), d->mixdown_to_stereo(), d->split_reels(), d->split_streams(), d->x264_crf()
-#ifdef DCPOMATIC_VARIANT_SWAROOP
-							   , optional<dcp::Key>(), optional<string>()
-#endif
-						)
+					new FFmpegEncoder (_film, job, d->path(), d->format(), d->mixdown_to_stereo(), d->split_reels(), d->split_streams(), d->x264_crf())
 					)
 				);
 			JobManager::instance()->add (job);
