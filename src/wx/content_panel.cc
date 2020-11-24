@@ -803,6 +803,7 @@ ContentPanel::panels () const
 
 LimitedSplitter::LimitedSplitter (wxWindow* parent)
 	: wxSplitterWindow (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_NOBORDER | wxSP_3DSASH | wxSP_LIVE_UPDATE)
+	, _first_shown (false)
 	, _top_panel_minimum_size (350)
 {
 	/* This value doesn't really mean much but we just want to stop double-click on the
@@ -828,7 +829,7 @@ LimitedSplitter::first_shown (wxWindow* top, wxWindow* bottom)
 		/* Fallback for when GetFromWindow fails for reasons that aren't clear */
 		SplitHorizontally (top, bottom, -600);
 	}
-
+	_first_shown = true;
 }
 
 
