@@ -92,8 +92,15 @@ BOOST_AUTO_TEST_CASE (file_group_test)
 	BOOST_CHECK_EQUAL (fg.read (test, total_length * 3), total_length - pos);
 	BOOST_CHECK_EQUAL (memcmp (data + pos, test, total_length - pos), 0);
 
-	/* Bad seek */
-	BOOST_CHECK_EQUAL (fg.seek (total_length * 2, SEEK_SET), -1);
+	/* Seeking off the end of the file should not give an error */
+	BOOST_CHECK_EQUAL (fg.seek (total_length * 2, SEEK_SET), total_length * 2);
+	/* and attempting to read should return nothing */
+	BOOST_CHECK_EQUAL (fg.read (test, 64), 0);
+	/* but the requested seek should be remembered, so if we now go back (relatively) */
+	BOOST_CHECK_EQUAL (fg.seek (-total_length * 2, SEEK_CUR), 0);
+	/* we should be at the start again */
+	BOOST_CHECK_EQUAL (fg.read (test, 64), 64);
+	BOOST_CHECK_EQUAL (memcmp (data, test, 64), 0);
 
 	/* SEEK_SET */
 	BOOST_CHECK_EQUAL (fg.seek (999, SEEK_SET), 999);
