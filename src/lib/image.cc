@@ -173,15 +173,26 @@ Image::crop_scale_window (
 	/* Round down so that we crop only the number of pixels that is straightforward
 	 * considering any subsampling.
 	 */
-	Crop rounded_crop(
+	Crop corrected_crop(
 		round_width_for_subsampling(crop.left, in_desc),
 		round_width_for_subsampling(crop.right, in_desc),
 		round_height_for_subsampling(crop.top, in_desc),
 		round_height_for_subsampling(crop.bottom, in_desc)
 		);
 
+	/* Also check that we aren't cropping more image than there actually is */
+	if ((corrected_crop.left + corrected_crop.right) >= (size().width - 4)) {
+		corrected_crop.left = 0;
+		corrected_crop.right = size().width - 4;
+	}
+
+	if ((corrected_crop.top + corrected_crop.bottom) >= (size().height - 4)) {
+		corrected_crop.top = 0;
+		corrected_crop.bottom = size().height - 4;
+	}
+
 	/* Size of the image after any crop */
-	dcp::Size const cropped_size = rounded_crop.apply (size());
+	dcp::Size const cropped_size = corrected_crop.apply (size());
 
 	/* Hack: if we're not doing quite the crop that we were asked for, and we carry on scaling
 	 * to the inter_size we were asked for, there is a small but noticeable wobble in the image
@@ -230,8 +241,8 @@ Image::crop_scale_window (
 	/* Prepare input data pointers with crop */
 	uint8_t* scale_in_data[planes()];
 	for (int c = 0; c < planes(); ++c) {
-		int const x = lrintf(bytes_per_pixel(c) * rounded_crop.left);
-		scale_in_data[c] = data()[c] + x + stride()[c] * (rounded_crop.top / vertical_factor(c));
+		int const x = lrintf(bytes_per_pixel(c) * corrected_crop.left);
+		scale_in_data[c] = data()[c] + x + stride()[c] * (corrected_crop.top / vertical_factor(c));
 	}
 
 	AVPixFmtDescriptor const * out_desc = av_pix_fmt_desc_get (out_format);
@@ -260,7 +271,7 @@ Image::crop_scale_window (
 
 	sws_freeContext (scale_context);
 
-	if (rounded_crop != Crop() && cropped_size == inter_size) {
+	if (corrected_crop != Crop() && cropped_size == inter_size) {
 		/* We are cropping without any scaling or pixel format conversion, so FFmpeg may have left some
 		   data behind in our image.  Clear it out.  It may get to the point where we should just stop
 		   trying to be clever with cropping.
