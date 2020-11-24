@@ -125,6 +125,7 @@ private:
 	size_t video_reel (int frame) const;
 	void set_digest_progress (Job* job, float progress);
 	void write_cover_sheet ();
+	void calculate_referenced_digests (boost::function<void (float)> set_progress);
 
 	/** our Film */
 	boost::shared_ptr<const Film> _film;

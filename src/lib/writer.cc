@@ -38,6 +38,7 @@
 #include "text_content.h"
 #include <dcp/cpl.h>
 #include <dcp/locale_convert.h>
+#include <dcp/reel_mxf.h>
 #include <boost/foreach.hpp>
 #include <fstream>
 #include <cerrno>
@@ -557,10 +558,11 @@ Writer::finish ()
 		pool.create_thread (boost::bind (&boost::asio::io_service::run, &service));
 	}
 
+	boost::function<void (float)> set_progress = boost::bind (&Writer::set_digest_progress, this, job.get(), _1);
 	BOOST_FOREACH (ReelWriter& i, _reels) {
-		boost::function<void (float)> set_progress = boost::bind (&Writer::set_digest_progress, this, job.get(), _1);
 		service.post (boost::bind (&ReelWriter::calculate_digests, &i, set_progress));
 	}
+	service.post (boost::bind (&Writer::calculate_referenced_digests, this, set_progress));
 
 	work.reset ();
 	pool.join_all ();
@@ -849,3 +851,18 @@ Writer::set_digest_progress (Job* job, float progress)
 	Waker waker;
 	waker.nudge ();
 }
+
+
+/** Calculate hashes for any referenced MXF assets which do not already have one */
+void
+Writer::calculate_referenced_digests (boost::function<void (float)> set_progress)
+{
+	BOOST_FOREACH (ReferencedReelAsset const& i, _reel_assets) {
+		shared_ptr<dcp::ReelMXF> mxf = dynamic_pointer_cast<dcp::ReelMXF>(i.asset);
+		if (mxf && !mxf->hash()) {
+			mxf->asset_ref().asset()->hash (set_progress);
+			mxf->set_hash (mxf->asset_ref().asset()->hash());
+		}
+	}
+}
+
