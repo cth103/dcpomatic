@@ -132,12 +132,18 @@ FileGroup::seek (int64_t pos, int whence) const
 		if (sub_pos < int64_t (len)) {
 			break;
 		}
-		sub_pos -= len;
 		++i;
+		if (i < _paths.size()) {
+			/* If we've run out of files we need to seek off the end of the last file */
+			sub_pos -= len;
+		}
 	}
 
 	if (i == _paths.size ()) {
-		return -1;
+		/* Seeking too far isn't an error; we'll seek too far in the last file which
+		 * will "pass on" fseek()'s behaviour to our caller.
+		 */
+		i--;
 	}
 
 	ensure_open_path (i);
