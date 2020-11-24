@@ -479,3 +479,20 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 		++N;
 	}
 }
+
+
+/** Make sure the image isn't corrupted if it is cropped too much.  This can happen when a
+ *  filler 128x128 black frame is emitted from the FFmpegDecoder and the overall crop in either direction
+ *  is greater than 128 pixels.
+ */
+BOOST_AUTO_TEST_CASE (over_crop_test)
+{
+	shared_ptr<Image> image (new Image (AV_PIX_FMT_RGB24, dcp::Size(128, 128), true));
+	image->make_black ();
+	shared_ptr<Image> scaled = image->crop_scale_window (
+		Crop(0, 0, 128, 128), dcp::Size(1323, 565), dcp::Size(1349, 565), dcp::YUV_TO_RGB_REC709, VIDEO_RANGE_FULL, AV_PIX_FMT_RGB24, VIDEO_RANGE_FULL, true, true
+		);
+	string const filename = "over_crop_test.png";
+	write_image (scaled, "build/test/" + filename);
+	check_image ("test/data/" + filename, "build/test/" + filename);
+}
