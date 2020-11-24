@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-21 23:59+0100\n"
-"PO-Revision-Date: 2020-06-24 21:09+0200\n"
+"PO-Revision-Date: 2020-11-24 02:36+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -194,7 +194,7 @@ msgid ""
 "€20</a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to "
 "Paypal to donate €10</a></ul><p>Thank you!"
 msgstr ""
-"<h2>U hebt %1 DCP's gemaakt met DCP-o-matic!</h2><img width=\"20%%\" src="
+"<h2>U heeft %1 DCP's gemaakt met DCP-o-matic!</h2><img width=\"20%%\" src="
 "\"memory:me.jpg\" align=\"center\"><p>Hallo.  Ik ben Carl en ik ben de "
 "ontwikkelaar van DCP-o-matic.  Ik werk eraan in mijn vrije tijd (met de hulp "
 "van een fijn vrijwilligersteam van testers en vertalers) en ik geef het vrij "
@@ -416,7 +416,7 @@ msgstr "Kleurruimte"
 
 #: src/lib/combine_dcp_job.cc:46
 msgid "Combine DCPs"
-msgstr ""
+msgstr "Combineer DCP's"
 
 #: src/lib/content.cc:186
 msgid "Computing digest"
@@ -577,7 +577,7 @@ msgstr "Kopiëren oud video-bestand"
 
 #: src/lib/reel_writer.cc:380
 msgid "Copying video file into DCP"
-msgstr "Kopiëren videobestand naar DCP"
+msgstr "Kopiëren video-bestand naar DCP"
 
 #: src/lib/scp_uploader.cc:52
 msgid "Could not connect to server %1 (%2)"
@@ -698,14 +698,12 @@ msgstr ""
 "zoals u wilt."
 
 #: src/lib/film.cc:1500
-#, fuzzy
 msgid ""
 "DCP-o-matic had to change your settings so that the film's frame rate is the "
 "same as that of your Atmos content."
 msgstr ""
-"DCP-o-matic moest uw instellingen voor refereren aan DCP's als OV wijzigen.  "
-"Controleer a.u.b. deze instellingen om er zeker van te zijn dat ze zijn "
-"zoals u wilt."
+"DCP-o-matic moest uw instellingen wijzigen zodat de frame rate van de film "
+"hetzelfde is als die van uw Atmos-content."
 
 #: src/lib/ffmpeg_content.cc:119
 msgid ""
@@ -1227,6 +1225,10 @@ msgid ""
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
 "You should add these markers using the 'Markers' button in the DCP tab."
 msgstr ""
+"SMPTE DCP's met het type FTR (feature) moeten markers hebben voor het eerste "
+"frame van de aftiteling (FFEC: first frame of end credits) en het eerste "
+"frame van de bewegende aftiteling (FFMC: first frame of moving credits).  U "
+"moet deze markers toevoegen met de knop 'Markers' in het DCP-tabblad."
 
 #: src/lib/ffmpeg_content.cc:639
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
@@ -1604,7 +1606,7 @@ msgid ""
 "supported by all projectors.  You are advised to change the DCP frame rate "
 "to %2 fps."
 msgstr ""
-"U hebt een frame rate van %1 fps voor de DCP ingesteld.  Deze frame rate "
+"U heeft een frame rate van %1 fps voor de DCP ingesteld.  Deze frame rate "
 "wordt niet door alle projectoren ondersteund.  U wordt geadviseerd om de DCP "
 "frame rate te wijzigen in %2 fps."
 
@@ -1614,7 +1616,7 @@ msgid ""
 "supported by all projectors.  You may want to consider changing your frame "
 "rate to %2 fps."
 msgstr ""
-"U hebt een frame rate van %1 fps voor de DCP ingesteld.  Deze frame rate "
+"U heeft een frame rate van %1 fps voor de DCP ingesteld.  Deze frame rate "
 "wordt niet door alle projectoren ondersteund.  U kunt overwegen om de DCP "
 "frame rate te wijzigen in %2 fps."
 
@@ -1623,7 +1625,7 @@ msgid ""
 "You are set up for a DCP frame rate of 30fps, which is not supported by all "
 "projectors.  Be aware that you may have compatibility problems."
 msgstr ""
-"U hebt een frame rate van 30 fps voor de DCP ingesteld.  Deze frame rate "
+"U heeft een frame rate van 30 fps voor de DCP ingesteld.  Deze frame rate "
 "wordt niet door alle projectoren ondersteund.  Houd er rekening mee dat u "
 "compatibiliteitsproblemen kunt krijgen."
 
@@ -1659,13 +1661,15 @@ msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
 msgstr ""
+"U heeft meer dan één stuk Atmos-content en ze hebben niet dezelfde frame "
+"rate.  U moet een deel van de Atmos-content verwijderen."
 
 #: src/lib/hints.cc:394
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
 msgstr ""
-"U hebt overlappende closed captions.  Die zijn niet toegestaan in Interop "
+"U heeft overlappende closed captions.  Die zijn niet toegestaan in Interop "
 "DCP's.  Verander uw DCP-standaard in SMPTE."
 
 #: src/lib/hints.cc:233
@@ -1673,7 +1677,7 @@ msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
 msgstr ""
-"U hebt een lettertype-bestand gespecificeerd dat groter is dan 640kB.  Dit "
+"U heeft een lettertype-bestand gespecificeerd dat groter is dan 640kB.  Dit "
 "zal zeer waarschijnlijk problemen bij het afspelen geven."
 
 #: src/lib/film.cc:368
@@ -1771,9 +1775,8 @@ msgid "could not find stream information"
 msgstr "kan geen stream-informatie vinden"
 
 #: src/lib/reel_writer.cc:428
-#, fuzzy
 msgid "could not move atmos asset into the DCP (%1)"
-msgstr "kan audio asset niet naar de DCP verplaatsen (%1)"
+msgstr "kan Atmos asset niet naar de DCP verplaatsen (%1)"
 
 #: src/lib/reel_writer.cc:410
 msgid "could not move audio asset into the DCP (%1)"

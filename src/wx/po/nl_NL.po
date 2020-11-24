@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-21 23:59+0100\n"
-"PO-Revision-Date: 2020-06-25 06:32+0200\n"
+"PO-Revision-Date: 2020-11-24 02:53+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -310,7 +309,7 @@ msgstr ""
 
 #: src/wx/smpte_metadata_dialog.cc:108
 msgid "Additional subtitle languages"
-msgstr ""
+msgstr "Extra ondertitelingstalen"
 
 #: src/wx/cinema_dialog.cc:74 src/wx/full_config_dialog.cc:812
 #: src/wx/full_config_dialog.cc:944 src/wx/recipient_dialog.cc:90
@@ -322,9 +321,8 @@ msgid "Adjust white point to"
 msgstr "Pas witpunt aan naar"
 
 #: src/wx/full_config_dialog.cc:1269 src/wx/player_config_dialog.cc:289
-#, fuzzy
 msgid "Advanced"
-msgstr "Geavanceerd..."
+msgstr "Geavanceerd"
 
 #: src/wx/kdm_advanced_dialog.cc:29
 msgid "Advanced KDM options"
@@ -434,9 +432,8 @@ msgid "Audio channels: %d"
 msgstr "Audio-kanalen: %d"
 
 #: src/wx/smpte_metadata_dialog.cc:85
-#, fuzzy
 msgid "Audio language"
-msgstr "Stel taal in"
+msgstr "Taal audio"
 
 #: src/wx/audio_mapping_view.cc:585
 #, c-format
@@ -702,9 +699,8 @@ msgid "Content version"
 msgstr "Content-versie"
 
 #: src/wx/smpte_metadata_dialog.cc:196
-#, fuzzy
 msgid "Content versions"
-msgstr "Content-versie"
+msgstr "Content-versies"
 
 #: src/wx/video_waveform_dialog.cc:67
 msgid "Contrast"
@@ -869,9 +865,8 @@ msgid "Debug: 3D"
 msgstr "Debug: 3D"
 
 #: src/wx/full_config_dialog.cc:1397
-#, fuzzy
 msgid "Debug: audio analysis"
-msgstr "Standaard audio-vertraging"
+msgstr "Debug: audio-analyse"
 
 #: src/wx/full_config_dialog.cc:1391
 msgid "Debug: email sending"
@@ -882,14 +877,12 @@ msgid "Debug: encode"
 msgstr "Debug: encoderen"
 
 #: src/wx/full_config_dialog.cc:1395
-#, fuzzy
 msgid "Debug: player"
-msgstr "Debug: 3D"
+msgstr "Debug: player"
 
 #: src/wx/full_config_dialog.cc:1393
-#, fuzzy
 msgid "Debug: video view"
-msgstr "Debug: encoderen"
+msgstr "Debug: videoweergave"
 
 #: src/wx/player_information.cc:175
 #, c-format
@@ -947,6 +940,7 @@ msgstr "Standaard-instellingen"
 #: src/wx/export_subtitles_dialog.cc:50
 msgid "Define font in output and export font file"
 msgstr ""
+"Definieer het lettertype in de output en exporteer het lettertype-bestand"
 
 #: src/wx/audio_panel.cc:81
 msgid "Delay"
@@ -970,7 +964,7 @@ msgstr "Direct Sound"
 
 #: src/wx/smpte_metadata_dialog.cc:148
 msgid "Distributor"
-msgstr ""
+msgstr "Distributeur"
 
 #: src/wx/dolby_doremi_certificate_panel.cc:209
 msgid "Dolby / Doremi"
@@ -1115,14 +1109,12 @@ msgid "Export chain..."
 msgstr "Exporteer keten..."
 
 #: src/wx/export_subtitles_dialog.cc:38
-#, fuzzy
 msgid "Export subtitles"
-msgstr "open ondertitels"
+msgstr "Exporteer ondertitels"
 
 #: src/wx/export_video_file_dialog.cc:57
-#, fuzzy
 msgid "Export video file"
-msgstr "Exporteer film"
+msgstr "Exporteer video-bestand"
 
 #: src/wx/config_dialog.cc:314 src/wx/full_config_dialog.cc:113
 msgid "Export..."
@@ -1133,9 +1125,8 @@ msgid "FTP (for Dolby)"
 msgstr "FTP (voor Dolby)"
 
 #: src/wx/smpte_metadata_dialog.cc:152
-#, fuzzy
 msgid "Facility"
-msgstr "Kwaliteit"
+msgstr "Lab"
 
 #: src/wx/isdcf_metadata_dialog.cc:53
 msgid "Facility (e.g. DLA)"
@@ -1180,7 +1171,7 @@ msgstr "Filters"
 
 #: src/wx/smpte_metadata_dialog.cc:225
 msgid "Final"
-msgstr ""
+msgstr "Definitief"
 
 #: src/wx/full_config_dialog.cc:118
 msgid ""
@@ -1420,7 +1411,7 @@ msgid ""
 "useless.  Proceed with caution!"
 msgstr ""
 "Als u doorgaat met deze operatie, kunt u geen DKDM's meer gebruiken die u "
-"hebt aangemaakt met de huidige certificaten en sleutel.  Ook zullen alle "
+"heeft aangemaakt met de huidige certificaten en sleutel.  Ook zullen alle "
 "KDM's die naar u zijn verzonden voor deze certificaten, nutteloos worden.  "
 "Ga voorzichtig verder!"
 
@@ -1431,7 +1422,7 @@ msgid ""
 "become useless.  Proceed with caution!"
 msgstr ""
 "Als u doorgaat met deze operatie, kunt u geen DKDM's meer gebruiken die u "
-"hebt aangemaakt.  Ook zullen alle KDM's die naar u zijn verzonden nutteloos "
+"heeft aangemaakt.  Ook zullen alle KDM's die naar u zijn verzonden nutteloos "
 "worden.  Ga voorzichtig verder!"
 
 #: src/wx/content_advanced_dialog.cc:87
@@ -1673,7 +1664,7 @@ msgstr "Lagere prioriteit"
 
 #: src/wx/smpte_metadata_dialog.cc:156
 msgid "Luminance"
-msgstr ""
+msgstr "Luminantie"
 
 #: src/wx/content_panel.cc:711
 msgid "MISSING: "
@@ -1692,9 +1683,8 @@ msgid "MP4 files (*.mp4)|*.mp4"
 msgstr "MP4-bestanden (*.mp4)|*.mp4"
 
 #: src/wx/smpte_metadata_dialog.cc:93
-#, fuzzy
 msgid "Main subtitle language"
-msgstr "Taal ondertiteling (bv. NL)"
+msgstr "Hoofdtaal ondertitels"
 
 #: src/wx/hints_dialog.cc:73
 msgid "Make DCP"
@@ -1980,18 +1970,16 @@ msgid "Output file"
 msgstr "Output-bestand"
 
 #: src/wx/export_subtitles_dialog.cc:64
-#, fuzzy
 msgid "Output folder"
-msgstr "Output-bestand"
+msgstr "Output-map"
 
 #: src/wx/colour_conversion_editor.cc:205
 msgid "Output gamma correction"
 msgstr "Output-gammacorrectie"
 
 #: src/wx/content_advanced_dialog.cc:76
-#, fuzzy
 msgid "Override detected video frame rate"
-msgstr "Video frame rate"
+msgstr "Overschrijf gedetecteerde video frame rate"
 
 #: src/wx/config_move_dialog.cc:31
 msgid "Overwrite this file with current configuration"
@@ -2221,11 +2209,11 @@ msgstr "Aangepast"
 
 #: src/wx/language_tag_dialog.cc:429
 msgid "Region"
-msgstr ""
+msgstr "Regio"
 
 #: src/wx/smpte_metadata_dialog.cc:126
 msgid "Release territory"
-msgstr ""
+msgstr "Releasegebied"
 
 #: src/wx/config_dialog.cc:293 src/wx/content_menu.cc:95
 #: src/wx/content_panel.cc:115 src/wx/recipients_panel.cc:71
@@ -2587,7 +2575,7 @@ msgstr "Start player als"
 
 #: src/wx/smpte_metadata_dialog.cc:140
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: src/wx/playlist_controls.cc:52
 msgid "Stop"
@@ -2610,19 +2598,16 @@ msgid "Subscribers"
 msgstr "Abonnees"
 
 #: src/wx/export_subtitles_dialog.cc:58
-#, fuzzy
 msgid "Subtitle files (.mxf)|*.mxf"
-msgstr "Ondertitelbestanden (*.xml)|*.xml"
+msgstr "Ondertitelbestanden (.mxf)|*.mxf"
 
 #: src/wx/export_subtitles_dialog.cc:58
-#, fuzzy
 msgid "Subtitle files (.xml)|*.xml"
-msgstr "Ondertitelbestanden (*.xml)|*.xml"
+msgstr "Ondertitelbestanden (.xml)|*.xml"
 
 #: src/wx/interop_metadata_dialog.cc:61
-#, fuzzy
 msgid "Subtitle language"
-msgstr "Taal ondertiteling (bv. NL)"
+msgstr "Taal ondertiteling"
 
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:75
 msgid "Subtitles/captions"
@@ -2670,7 +2655,7 @@ msgstr "Templates"
 
 #: src/wx/smpte_metadata_dialog.cc:223
 msgid "Temporary"
-msgstr ""
+msgstr "Tijdelijk"
 
 #: src/wx/isdcf_metadata_dialog.cc:44
 msgid "Territory (e.g. UK)"
@@ -2689,7 +2674,6 @@ msgid "The 'until' time must be after the 'from' time."
 msgstr "De 'tot'-tijd moet na de 'van'-tijd zijn."
 
 #: src/wx/disk_warning_dialog.cc:44
-#, fuzzy
 msgid ""
 "The <b>DCP-o-matic Disk Writer</b> is\n"
 "\n"
@@ -2717,7 +2701,6 @@ msgstr ""
 "<span weight=\"bold\" size=\"20480\" foreground=\"red\">DATA VERNIETIGEN!</"
 "span>\n"
 "\n"
-"Ga a.u.b. niet verder tenzij Carl u heeft gevraagd de software te testen.  "
 "Als u zeker weet dat u wilt doorgaan, typ dan\n"
 "\n"
 "<tt>I am sure</tt>\n"
@@ -2830,15 +2813,15 @@ msgstr ""
 #: src/wx/smpte_metadata_dialog.cc:80
 #, c-format
 msgid "The language that the film's title (\"%s\") is in"
-msgstr ""
+msgstr "De taal van de filmtitel (\"%s\")"
 
 #: src/wx/smpte_metadata_dialog.cc:98
 msgid "The main language that is displayed in the film's subtitles"
-msgstr ""
+msgstr "De hoofdtaal die wordt weergegeven in de ondertitels van de film"
 
 #: src/wx/smpte_metadata_dialog.cc:88
 msgid "The main language that is spoken in the film's soundtrack"
-msgstr ""
+msgstr "De hoofdtaal die wordt gesproken in de soundtrack van de film"
 
 #: src/wx/verify_dcp_dialog.cc:85
 msgid "The picture in a reel has an invalid frame rate"
@@ -2889,7 +2872,7 @@ msgstr ""
 
 #: src/wx/content_menu.cc:446
 msgid "This KDM was not made for this DCP.  You will need a different one."
-msgstr "Deze KDM is niet gemaakt voor deze DCP.  U hebt een andere nodig."
+msgstr "Deze KDM is niet gemaakt voor deze DCP.  U heeft een andere nodig."
 
 #: src/wx/config_dialog.cc:380
 msgid ""
@@ -2986,9 +2969,8 @@ msgid "Timing|Timing"
 msgstr "Timing"
 
 #: src/wx/smpte_metadata_dialog.cc:77
-#, fuzzy
 msgid "Title language"
-msgstr "Stel taal in"
+msgstr "Taal titel"
 
 #: src/wx/full_config_dialog.cc:939
 msgid "To address"
@@ -3011,9 +2993,8 @@ msgid "Translated by"
 msgstr "Vertaald door"
 
 #: src/wx/timing_panel.cc:108
-#, fuzzy
 msgid "Trim from current position to end"
-msgstr "Wegknippen vanaf huidige positie"
+msgstr "Wegknippen vanaf huidige positie tot het einde"
 
 #: src/wx/timing_panel.cc:106
 msgid "Trim from end"
@@ -3211,9 +3192,8 @@ msgid "User name"
 msgstr "Gebruikersnaam"
 
 #: src/wx/smpte_metadata_dialog.cc:136
-#, fuzzy
 msgid "Version number"
-msgstr "Serienummer"
+msgstr "Versienummer"
 
 #: src/wx/content_properties_dialog.cc:74 src/wx/dcp_panel.cc:125
 #: src/wx/timeline_labels_view.cc:39 src/wx/timeline_labels_view.cc:70
@@ -3234,13 +3214,12 @@ msgid "Video display mode"
 msgstr "Video weergavemodus"
 
 #: src/wx/content_advanced_dialog.cc:65
-#, fuzzy
 msgid "Video filters"
-msgstr "Video frame rate"
+msgstr "Video-filters"
 
 #: src/wx/content_advanced_dialog.cc:78
 msgid "Video frame rate that content was prepared for"
-msgstr ""
+msgstr "Video frame rate waarvoor de content is voorbereid"
 
 #: src/wx/text_panel.cc:117
 msgid "View..."
@@ -3288,7 +3267,7 @@ msgstr "Schrijf alle KDM's naar dezelfde map"
 
 #: src/wx/export_video_file_dialog.cc:70
 msgid "Write each audio channel to its own stream"
-msgstr ""
+msgstr "Schrijf elk audiokanaal naar zijn eigen stream"
 
 #: src/wx/export_subtitles_dialog.cc:42 src/wx/export_video_file_dialog.cc:67
 msgid "Write reels into separate files"
@@ -3346,8 +3325,8 @@ msgid ""
 "You have selected some cinemas that have no configured email address.  Do "
 "you want to continue?"
 msgstr ""
-"U hebt een aantal bioscopen geselecteerd die geen geconfigureerd e-mailadres "
-"hebben.  Wilt u doorgaan?"
+"U heeft een aantal bioscopen geselecteerd die geen geconfigureerd e-"
+"mailadres hebben.  Wilt u doorgaan?"
 
 #: src/wx/dkdm_output_panel.cc:118 src/wx/kdm_output_panel.cc:208
 msgid ""
@@ -3386,7 +3365,7 @@ msgstr "Zoom uit naar hele film"
 
 #: src/wx/smpte_metadata_dialog.cc:227
 msgid "candela per m²"
-msgstr ""
+msgstr "candela per m²"
 
 #: src/wx/kdm_output_panel.cc:91
 msgid "cinema"
@@ -3440,7 +3419,7 @@ msgstr "filmnaam"
 
 #: src/wx/smpte_metadata_dialog.cc:228
 msgid "foot lambert"
-msgstr ""
+msgstr "foot lambert"
 
 #: src/wx/dkdm_output_panel.cc:60 src/wx/kdm_output_panel.cc:93
 msgid "from date/time"
