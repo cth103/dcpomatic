@@ -268,29 +268,6 @@ home_directory ()
 	return getenv("HOME");
 }
 
-string
-command_and_read (string cmd)
-{
-	FILE* pipe = popen (cmd.c_str(), "r");
-	if (!pipe) {
-		throw runtime_error ("popen failed");
-	}
-
-	string result;
-	char buffer[128];
-	try {
-		while (fgets(buffer, sizeof(buffer), pipe)) {
-			result += buffer;
-		}
-	} catch (...) {
-		pclose (pipe);
-		throw;
-	}
-
-	pclose (pipe);
-	return result;
-}
-
 /** @return true if this process is a 32-bit one running on a 64-bit-capable OS */
 bool
 running_32_on_64 ()

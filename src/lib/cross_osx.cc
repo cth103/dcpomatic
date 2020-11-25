@@ -260,12 +260,6 @@ home_directory ()
 		return getenv("HOME");
 }
 
-string
-command_and_read (string)
-{
-	return "";
-}
-
 /** @return true if this process is a 32-bit one running on a 64-bit-capable OS */
 bool
 running_32_on_64 ()
