@@ -456,6 +456,8 @@ TextPanel::film_content_changed (int property)
 		setup_sensitivity ();
 	} else if (property == DCPContentProperty::TEXTS) {
 		setup_sensitivity ();
+	} else if (property == ContentProperty::TRIM_START) {
+		setup_sensitivity ();
 	}
 }
 

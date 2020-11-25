@@ -35,7 +35,9 @@
 #include <dcp/dcp.h>
 #include <dcp/raw_convert.h>
 #include <dcp/exceptions.h>
+#include <dcp/reel_closed_caption_asset.h>
 #include <dcp/reel_picture_asset.h>
+#include <dcp/reel_subtitle_asset.h>
 #include <dcp/reel.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
@@ -734,17 +736,38 @@ DCPContent::can_reference_text (shared_ptr<const Film> film, TextType type, stri
 	}
 
         BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder->reels()) {
-                if (type == TEXT_OPEN_SUBTITLE && !i->main_subtitle()) {
-			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-                        why_not = _("it does not have open subtitles in all its reels.");
-                        return false;
+                if (type == TEXT_OPEN_SUBTITLE) {
+			if (!i->main_subtitle()) {
+				/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+				why_not = _("it does not have open subtitles in all its reels.");
+				return false;
+			} else if (i->main_subtitle()->entry_point().get_value_or(0) != 0) {
+				/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+				why_not = _("one if its subtitle reels has a non-zero entry point so it must be re-written.");
+				return false;
+			}
                 }
-		if (type == TEXT_CLOSED_CAPTION && i->closed_captions().empty()) {
-			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-                        why_not = _("it does not have closed captions in all its reels.");
-                        return false;
+		if (type == TEXT_CLOSED_CAPTION) {
+			if (i->closed_captions().empty()) {
+				/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+				why_not = _("it does not have closed captions in all its reels.");
+				return false;
+			}
+			BOOST_FOREACH (shared_ptr<dcp::ReelClosedCaptionAsset> j, i->closed_captions()) {
+				if (j->entry_point().get_value_or(0) != 0) {
+					/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+					why_not = _("one if its closed caption has a non-zero entry point so it must be re-written.");
+					return false;
+				}
+			}
 		}
         }
+
+	if (trim_start() != dcpomatic::ContentTime()) {
+		/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+		why_not = _("it has a start trim so its subtitles or closed captions must be re-written.");
+		return false;
+	}
 
 	/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
 	return can_reference (film, bind (&check_text, _1), _("it overlaps other text content; remove the other content."), why_not);
