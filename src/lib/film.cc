@@ -1518,6 +1518,14 @@ Film::check_settings_consistency ()
 			d->set_reference_audio(false);
 			change_made = true;
 		}
+		if (d->reference_text(TEXT_OPEN_SUBTITLE) && !d->can_reference_text(shared_from_this(), TEXT_OPEN_SUBTITLE, why_not)) {
+			d->set_reference_text(TEXT_OPEN_SUBTITLE, false);
+			change_made = true;
+		}
+		if (d->reference_text(TEXT_CLOSED_CAPTION) && !d->can_reference_text(shared_from_this(), TEXT_CLOSED_CAPTION, why_not)) {
+			d->set_reference_text(TEXT_CLOSED_CAPTION, false);
+			change_made = true;
+		}
 	}
 
 	if (change_made) {
