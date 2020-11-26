@@ -122,15 +122,14 @@ try
 		}
 
 		/* Query our `definite' servers (if there are any) */
-		vector<string> servers = Config::instance()->servers ();
-		for (vector<string>::const_iterator i = servers.begin(); i != servers.end(); ++i) {
-			if (server_found (*i)) {
+		BOOST_FOREACH (string const& i, Config::instance()->servers()) {
+			if (server_found(i)) {
 				/* Don't bother asking a server that we already know about */
 				continue;
 			}
 			try {
 				boost::asio::ip::udp::resolver resolver (io_service);
-				boost::asio::ip::udp::resolver::query query (*i, raw_convert<string> (HELLO_PORT));
+				boost::asio::ip::udp::resolver::query query (i, raw_convert<string> (HELLO_PORT));
 				boost::asio::ip::udp::endpoint end_point (*resolver.resolve (query));
 				socket.send_to (boost::asio::buffer (data.c_str(), data.size() + 1), end_point);
 			} catch (...) {
