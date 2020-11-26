@@ -54,9 +54,9 @@ BOOST_AUTO_TEST_CASE (automatic_ffoc_lfoc_markers_test1)
 
 	dcp::DCP dcp (String::compose("build/test/%1/%2", name, film->dcp_name()));
 	dcp.read ();
-	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1);
+	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1U);
 	shared_ptr<dcp::CPL> cpl = dcp.cpls().front();
-	BOOST_REQUIRE_EQUAL (cpl->reels().size(), 1);
+	BOOST_REQUIRE_EQUAL (cpl->reels().size(), 1U);
 	shared_ptr<dcp::Reel> reel = cpl->reels().front();
 	shared_ptr<dcp::ReelMarkersAsset> markers = reel->main_markers();
 	BOOST_REQUIRE (markers);
@@ -86,9 +86,9 @@ BOOST_AUTO_TEST_CASE (automatic_ffoc_lfoc_markers_test2)
 
 	dcp::DCP dcp (String::compose("build/test/%1/%2", name, film->dcp_name()));
 	dcp.read ();
-	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1);
+	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1U);
 	shared_ptr<dcp::CPL> cpl = dcp.cpls().front();
-	BOOST_REQUIRE_EQUAL (cpl->reels().size(), 1);
+	BOOST_REQUIRE_EQUAL (cpl->reels().size(), 1U);
 	shared_ptr<dcp::Reel> reel = cpl->reels().front();
 	shared_ptr<dcp::ReelMarkersAsset> markers = reel->main_markers();
 	BOOST_REQUIRE (markers);
