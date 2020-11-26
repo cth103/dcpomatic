@@ -123,10 +123,6 @@ try
 
 		/* Query our `definite' servers (if there are any) */
 		BOOST_FOREACH (string const& i, Config::instance()->servers()) {
-			if (server_found(i)) {
-				/* Don't bother asking a server that we already know about */
-				continue;
-			}
 			try {
 				boost::asio::ip::udp::resolver resolver (io_service);
 				boost::asio::ip::udp::resolver::query query (i, raw_convert<string> (HELLO_PORT));
