@@ -64,6 +64,7 @@ J2KEncoder::J2KEncoder (shared_ptr<const Film> film, shared_ptr<Writer> writer)
 
 J2KEncoder::~J2KEncoder ()
 {
+	boost::mutex::scoped_lock lm (_threads_mutex);
 	terminate_threads ();
 }
 
@@ -107,7 +108,10 @@ J2KEncoder::end ()
 
 	LOG_GENERAL_NC (N_("Terminating encoder threads"));
 
-	terminate_threads ();
+	{
+		boost::mutex::scoped_lock lm (_threads_mutex);
+		terminate_threads ();
+	}
 
 	/* Something might have been thrown during terminate_threads */
 	rethrow ();
@@ -240,11 +244,12 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 	_last_player_video_time = time;
 }
 
+
+/** Caller must hold a lock on _threads_mutex */
 void
 J2KEncoder::terminate_threads ()
 {
 	boost::this_thread::disable_interruption dis;
-	boost::mutex::scoped_lock lm (_threads_mutex);
 
 	if (!_threads) {
 		return;
@@ -372,10 +377,10 @@ catch (...)
 void
 J2KEncoder::servers_list_changed ()
 {
+	boost::mutex::scoped_lock lm (_threads_mutex);
+
 	terminate_threads ();
 	_threads.reset (new boost::thread_group());
-
-	boost::mutex::scoped_lock lm (_threads_mutex);
 
 	/* XXX: could re-use threads */
 
