@@ -57,6 +57,9 @@ using std::pair;
 using std::string;
 using boost::dynamic_pointer_cast;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using boost::shared_ptr;
 
 
