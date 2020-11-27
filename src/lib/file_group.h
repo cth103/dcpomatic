@@ -53,6 +53,7 @@ private:
 	mutable size_t _current_path;
 	mutable FILE* _current_file;
 	mutable size_t _current_size;
+	mutable int64_t _position;
 };
 
 #endif

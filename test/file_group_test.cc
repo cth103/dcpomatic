@@ -88,9 +88,14 @@ BOOST_AUTO_TEST_CASE (file_group_test)
 	BOOST_CHECK_EQUAL (memcmp (data + pos, test, 128), 0);
 	pos += 128;
 
-	/* Read overlapping B/C/D and over-reading */
+	/* Read overlapping B/C/D and over-reading by a lot */
 	BOOST_CHECK_EQUAL (fg.read (test, total_length * 3), total_length - pos);
 	BOOST_CHECK_EQUAL (memcmp (data + pos, test, total_length - pos), 0);
+
+	/* Over-read by a little */
+	BOOST_CHECK_EQUAL (fg.seek (0, SEEK_SET), 0);
+	BOOST_CHECK_EQUAL (fg.read (test, total_length), total_length);
+	BOOST_CHECK_EQUAL (fg.read (test, 1), 0);
 
 	/* Seeking off the end of the file should not give an error */
 	BOOST_CHECK_EQUAL (fg.seek (total_length * 2, SEEK_SET), total_length * 2);

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -26,18 +26,18 @@
 #include "exceptions.h"
 #include "cross.h"
 #include "compose.hpp"
+#include "dcpomatic_assert.h"
 #include <sndfile.h>
 #include <cstdio>
-#include <iostream>
 
 using std::vector;
-using std::cout;
 
 /** Construct a FileGroup with no files */
 FileGroup::FileGroup ()
 	: _current_path (0)
 	, _current_file (0)
 	, _current_size (0)
+	, _position (0)
 {
 
 }
@@ -103,55 +103,39 @@ FileGroup::ensure_open_path (size_t p) const
 int64_t
 FileGroup::seek (int64_t pos, int whence) const
 {
-	/* Convert pos to `full_pos', which is an offset from the start
-	   of all the files.
-	*/
-	int64_t full_pos = 0;
 	switch (whence) {
 	case SEEK_SET:
-		full_pos = pos;
+		_position = pos;
 		break;
 	case SEEK_CUR:
-		for (size_t i = 0; i < _current_path; ++i) {
-			full_pos += boost::filesystem::file_size (_paths[i]);
-		}
-#ifdef DCPOMATIC_WINDOWS
-		full_pos += _ftelli64 (_current_file);
-#else
-		full_pos += ftell (_current_file);
-#endif
-		full_pos += pos;
+		_position += pos;
 		break;
 	case SEEK_END:
-		full_pos = length() - pos;
+		_position = length() - pos;
 		break;
 	}
 
-	/* Seek to full_pos */
+	/* Find an offset within one of the files, if _position is within a file */
 	size_t i = 0;
-	int64_t sub_pos = full_pos;
-	while (i < _paths.size ()) {
+	int64_t sub_pos = _position;
+	while (i < _paths.size()) {
 		boost::uintmax_t len = boost::filesystem::file_size (_paths[i]);
-		if (sub_pos < int64_t (len)) {
+		if (sub_pos < int64_t(len)) {
 			break;
 		}
+		sub_pos -= int64_t(len);
 		++i;
-		if (i < _paths.size()) {
-			/* If we've run out of files we need to seek off the end of the last file */
-			sub_pos -= len;
-		}
 	}
 
-	if (i == _paths.size ()) {
-		/* Seeking too far isn't an error; we'll seek too far in the last file which
-		 * will "pass on" fseek()'s behaviour to our caller.
-		 */
-		i--;
+	if (i < _paths.size()) {
+		ensure_open_path (i);
+		dcpomatic_fseek (_current_file, sub_pos, SEEK_SET);
+	} else {
+		ensure_open_path (_paths.size() - 1);
+		dcpomatic_fseek (_current_file, _current_size, SEEK_SET);
 	}
 
-	ensure_open_path (i);
-	dcpomatic_fseek (_current_file, sub_pos, SEEK_SET);
-	return full_pos;
+	return _position;
 }
 
 /** Try to read some data from the current position into a buffer.
@@ -164,16 +148,32 @@ FileGroup::read (uint8_t* buffer, int amount) const
 {
 	int read = 0;
 	while (true) {
-		int64_t to_read = amount - read;
+
+		bool eof = false;
+		size_t to_read = amount - read;
+
+		DCPOMATIC_ASSERT (_current_file);
+
 #ifdef DCPOMATIC_WINDOWS
-		/* If we over-read from the file by too much on Windows we get a errno=22 rather than an feof condition,
-		 * for unknown reasons.  So if we're going to over-read, we need to do it by a little bit, so that feof
-		 * still gets triggered but there is no errno=22.
-		 */
-		to_read = std::min(to_read, static_cast<int64_t>(_current_size - _ftelli64(_current_file) + 1));
+		int64_t const current_position = _ftelli64 (_current_file);
+		if (current_position == -1) {
+			to_read = 0;
+			eof = true;
+		} else if ((current_position + to_read) > _current_size) {
+			to_read = _current_size - current_position;
+			eof = true;
+		}
+#else
+		long const current_position = ftell(_current_file);
+		if ((current_position + to_read) > _current_size) {
+			to_read = _current_size - current_position;
+			eof = true;
+		}
 #endif
+
 		int const this_time = fread (buffer + read, 1, to_read, _current_file);
 		read += this_time;
+		_position += this_time;
 		if (read == amount) {
 			/* Done */
 			break;
@@ -183,7 +183,7 @@ FileGroup::read (uint8_t* buffer, int amount) const
 			throw FileError (String::compose("fread error %1", errno), _paths[_current_path]);
 		}
 
-		if (feof (_current_file)) {
+		if (eof) {
 			/* See if there is another file to use */
 			if ((_current_path + 1) >= _paths.size()) {
 				break;
