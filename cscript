@@ -737,11 +737,11 @@ def make_manual(target):
 def test(target, options, test):
     target.set('LC_ALL', 'C')
     if target.platform == 'windows':
-        cmd = 'run\\tests'
+        cmd = 'run\\tests '
     else:
         cmd = 'run/tests '
     if target.debug:
         cmd += '--backtrace '
     if test is not None:
-        cmd += '--run_test=%s' % test
+        cmd += '-t %s' % test
     target.command(cmd)
