@@ -32,6 +32,7 @@
 #include "wx/timer_display.h"
 #include "wx/system_information_dialog.h"
 #include "wx/player_stress_tester.h"
+#include "wx/verify_dcp_progress_dialog.h"
 #include "lib/cross.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -787,18 +788,15 @@ private:
 		shared_ptr<DCPContent> dcp = boost::dynamic_pointer_cast<DCPContent>(_film->content().front());
 		DCPOMATIC_ASSERT (dcp);
 
-		JobManager* jm = JobManager::instance ();
-		jm->add (shared_ptr<Job> (new VerifyDCPJob (dcp->directories())));
-		bool const ok = display_progress (_("DCP-o-matic Player"), _("Verifying DCP"));
-		if (!ok) {
+		shared_ptr<VerifyDCPJob> job (new VerifyDCPJob(dcp->directories()));
+		VerifyDCPProgressDialog* progress = new VerifyDCPProgressDialog(this, _("DCP-o-matic Player"));
+		bool const completed = progress->run (job);
+		progress->Destroy ();
+		if (!completed) {
 			return;
 		}
 
-		DCPOMATIC_ASSERT (!jm->get().empty());
-		shared_ptr<VerifyDCPJob> last = dynamic_pointer_cast<VerifyDCPJob> (jm->get().back());
-		DCPOMATIC_ASSERT (last);
-
-		VerifyDCPDialog* d = new VerifyDCPDialog (this, last);
+		VerifyDCPDialog* d = new VerifyDCPDialog (this, job);
 		d->ShowModal ();
 		d->Destroy ();
 	}
