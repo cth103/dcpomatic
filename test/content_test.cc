@@ -23,6 +23,7 @@
  *  @ingroup completedcp
  */
 
+#include "lib/audio_content.h"
 #include "lib/film.h"
 #include "lib/dcp_content_type.h"
 #include "lib/content_factory.h"
@@ -149,4 +150,29 @@ BOOST_AUTO_TEST_CASE (content_test5)
 
 	audio->set_trim_end (dcpomatic::ContentTime(3000));
 	BOOST_CHECK (audio->length_after_trim(film) == DCPTime(957000));
+}
+
+
+/** Sync error #1833 */
+BOOST_AUTO_TEST_CASE (content_test6)
+{
+	shared_ptr<Film> film = new_test_film2 ("content_test6");
+	film->examine_and_add_content (content_factory(TestPaths::private_data() / "fha.mkv").front());
+	BOOST_REQUIRE (!wait_for_jobs());
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+	check_dcp (TestPaths::private_data() / "fha", film);
+}
+
+
+/** Reel length error when making the test for #1833 */
+BOOST_AUTO_TEST_CASE (content_test7)
+{
+	shared_ptr<Film> film = new_test_film2 ("content_test7");
+	shared_ptr<Content> content = content_factory(TestPaths::private_data() / "clapperboard.mp4").front();
+	film->examine_and_add_content (content);
+	BOOST_REQUIRE (!wait_for_jobs());
+	content->audio->set_delay (-1000);
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
 }

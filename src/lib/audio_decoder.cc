@@ -48,25 +48,51 @@ AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> cont
 	}
 }
 
+/** @param time_already_delayed true if the delay should not be added to time */
 void
-AudioDecoder::emit (shared_ptr<const Film> film, AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, ContentTime time)
+AudioDecoder::emit (shared_ptr<const Film> film, AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, ContentTime time, bool time_already_delayed)
 {
 	if (ignore ()) {
 		return;
 	}
 
+	/* Amount of error we will tolerate on audio timestamps; see comment below.
+	 * We'll use 1 24fps video frame at 48kHz as this seems to be roughly how
+	 * ffplay does it.
+	 */
+	static Frame const slack_frames = 48000 / 24;
+
+	int const resampled_rate = _content->resampled_frame_rate(film);
+	if (!time_already_delayed) {
+		time += ContentTime::from_seconds (_content->delay() / 1000.0);
+	}
+
+	bool reset = false;
 	if (_positions[stream] == 0) {
 		/* This is the first data we have received since initialisation or seek.  Set
 		   the position based on the ContentTime that was given.  After this first time
-		   we just count samples, as it seems that ContentTimes are unreliable from
-		   FFmpegDecoder (not quite continuous; perhaps due to some rounding error).
+		   we just count samples unless the timestamp is more than slack_frames away
+		   from where we think it should be.  This is because ContentTimes seem to be
+		   slightly unreliable from FFmpegDecoder (i.e. not sample accurate), but we still
+		   need to obey them sometimes otherwise we get sync problems such as #1833.
 		*/
 		if (_content->delay() > 0) {
 			/* Insert silence to give the delay */
 			silence (_content->delay ());
 		}
-		time += ContentTime::from_seconds (_content->delay() / 1000.0);
-		_positions[stream] = time.frames_round (_content->resampled_frame_rate(film));
+		reset = true;
+	} else if (std::abs(_positions[stream] - time.frames_round(resampled_rate)) > slack_frames) {
+		reset = true;
+		LOG_GENERAL (
+			"Reset audio position: was %1, new data at %2, slack: %3 frames",
+			_positions[stream],
+			time.frames_round(resampled_rate),
+			std::abs(_positions[stream] - time.frames_round(resampled_rate))
+			);
+	}
+
+	if (reset) {
+		_positions[stream] = time.frames_round (resampled_rate);
 	}
 
 	shared_ptr<Resampler> resampler;
@@ -74,15 +100,15 @@ AudioDecoder::emit (shared_ptr<const Film> film, AudioStreamPtr stream, shared_p
 	if (i != _resamplers.end ()) {
 		resampler = i->second;
 	} else {
-		if (stream->frame_rate() != _content->resampled_frame_rate(film)) {
+		if (stream->frame_rate() != resampled_rate) {
 			LOG_GENERAL (
 				"Creating new resampler from %1 to %2 with %3 channels",
 				stream->frame_rate(),
-				_content->resampled_frame_rate(film),
+				resampled_rate,
 				stream->channels()
 				);
 
-			resampler.reset (new Resampler (stream->frame_rate(), _content->resampled_frame_rate(film), stream->channels()));
+			resampler.reset (new Resampler(stream->frame_rate(), resampled_rate, stream->channels()));
 			if (_fast) {
 				resampler->set_fast ();
 			}

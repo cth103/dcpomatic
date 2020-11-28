@@ -48,7 +48,7 @@ public:
 	AudioDecoder (Decoder* parent, boost::shared_ptr<const AudioContent> content, bool fast);
 
 	boost::optional<dcpomatic::ContentTime> position (boost::shared_ptr<const Film> film) const;
-	void emit (boost::shared_ptr<const Film> film, AudioStreamPtr stream, boost::shared_ptr<const AudioBuffers>, dcpomatic::ContentTime);
+	void emit (boost::shared_ptr<const Film> film, AudioStreamPtr stream, boost::shared_ptr<const AudioBuffers>, dcpomatic::ContentTime, bool time_already_delayed = false);
 	void seek ();
 	void flush ();
 

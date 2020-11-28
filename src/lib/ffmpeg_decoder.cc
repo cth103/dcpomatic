@@ -145,7 +145,7 @@ FFmpegDecoder::flush ()
 				ContentTime to_do = min (full_length - a, ContentTime::from_seconds (0.1));
 				shared_ptr<AudioBuffers> silence (new AudioBuffers (i->channels(), to_do.frames_ceil (i->frame_rate())));
 				silence->make_silent ();
-				audio->emit (film(), i, silence, a);
+				audio->emit (film(), i, silence, a, true);
 				a += to_do;
 			}
 		}
