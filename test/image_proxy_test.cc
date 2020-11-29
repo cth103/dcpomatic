@@ -30,7 +30,7 @@ using boost::shared_ptr;
 
 
 static const boost::filesystem::path data_file0 = TestPaths::private_data() / "player_seek_test_0.png";
-static const boost::filesystem::path data_file1 = TestPaths::private_data9) / "player_seek_test_1.png";
+static const boost::filesystem::path data_file1 = TestPaths::private_data() / "player_seek_test_1.png";
 
 
 BOOST_AUTO_TEST_CASE (j2k_image_proxy_same_test)
