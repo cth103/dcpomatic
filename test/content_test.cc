@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE (content_test1)
 		}
 	}
 
-	check_mxf_audio_file ("test/data/content_test1.mxf", check);
+	check_mxf_audio_file (TestPaths::private_data() / "content_test1.mxf", check);
 }
 
 /** Taking some 23.976fps content and trimming 0.5s (in content time) from the start

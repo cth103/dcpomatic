@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE (no_use_video_test2)
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	check_dcp ("test/data/no_use_video_test2", film);
+	check_dcp (TestPaths::private_data() / "no_use_video_test2", film);
 }
 
 

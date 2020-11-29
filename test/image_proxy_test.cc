@@ -21,6 +21,7 @@
 
 #include "lib/ffmpeg_image_proxy.h"
 #include "lib/j2k_image_proxy.h"
+#include "test.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/test/unit_test.hpp>
 
@@ -28,8 +29,8 @@
 using boost::shared_ptr;
 
 
-static const char data_file0[] = "test/data/player_seek_test_0.png";
-static const char data_file1[] = "test/data/player_seek_test_1.png";
+static const boost::filesystem::path data_file0 = TestPaths::private_data() / "player_seek_test_0.png";
+static const boost::filesystem::path data_file1 = TestPaths::private_data9) / "player_seek_test_1.png";
 
 
 BOOST_AUTO_TEST_CASE (j2k_image_proxy_same_test)
