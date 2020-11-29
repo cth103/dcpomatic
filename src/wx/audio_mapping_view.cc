@@ -252,6 +252,7 @@ AudioMappingView::paint_row_labels (wxDC& dc)
 		}
 
 		{
+			wxDCClipper clip (dc, wxRect(GRID_SPACING, y, GRID_SPACING, height));
 			int yp = y;
 			if ((yp - 2 * GRID_SPACING) < dc.GetLogicalOrigin().y) {
 				yp += dc.GetLogicalOrigin().y;
