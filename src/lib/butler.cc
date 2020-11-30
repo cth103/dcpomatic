@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -58,6 +58,7 @@ using namespace boost::placeholders;
  *  @param fast Same as above for the `fast' flag.
  */
 Butler::Butler (
+	weak_ptr<const Film> film,
 	shared_ptr<Player> player,
 	AudioMapping audio_mapping,
 	int audio_channels,
@@ -66,7 +67,8 @@ Butler::Butler (
 	bool aligned,
 	bool fast
 	)
-	: _player (player)
+	: _film (film)
+	, _player (player)
 	, _prepare_work (new boost::asio::io_service::work (_prepare_service))
 	, _pending_seek_accurate (false)
 	, _suspended (0)

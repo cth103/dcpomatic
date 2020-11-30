@@ -218,7 +218,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 	player->set_always_burn_open_subtitles ();
 	player->set_play_referenced ();
 
-	shared_ptr<Butler> butler (new Butler (player, AudioMapping(), 2, bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VIDEO_RANGE_FULL, false, true));
+	shared_ptr<Butler> butler (new Butler (film, player, AudioMapping(), 2, bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VIDEO_RANGE_FULL, false, true));
 	butler->disable_audio();
 
 	for (int i = 0; i < 10; ++i) {
@@ -249,7 +249,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 	player->set_always_burn_open_subtitles ();
 	player->set_play_referenced ();
 
-	shared_ptr<Butler> butler (new Butler(player, AudioMapping(), 2, bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VIDEO_RANGE_FULL, false, true));
+	shared_ptr<Butler> butler (new Butler(film, player, AudioMapping(), 2, bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VIDEO_RANGE_FULL, false, true));
 	butler->disable_audio();
 
 	butler->seek(DCPTime::from_seconds(5), true);
@@ -336,7 +336,7 @@ BOOST_AUTO_TEST_CASE (player_trim_crash)
 
 	shared_ptr<Player> player (new Player(film));
 	player->set_fast ();
-	shared_ptr<Butler> butler (new Butler(player, AudioMapping(), 6, bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VIDEO_RANGE_FULL, false, true));
+	shared_ptr<Butler> butler (new Butler(film, player, AudioMapping(), 6, bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VIDEO_RANGE_FULL, false, true));
 
 	/* Wait for the butler to fill */
 	dcpomatic_sleep_seconds (5);

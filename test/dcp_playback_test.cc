@@ -43,6 +43,7 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 
 	shared_ptr<Butler> butler (
 		new Butler(
+			film,
 			shared_ptr<Player>(new Player(film)),
 			AudioMapping(6, 6),
 			6,

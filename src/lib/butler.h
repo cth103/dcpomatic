@@ -37,6 +37,7 @@ class Butler : public ExceptionStore, public boost::noncopyable
 {
 public:
 	Butler (
+		boost::weak_ptr<const Film> film,
 		boost::shared_ptr<Player> player,
 		AudioMapping map,
 		int audio_channels,
@@ -87,6 +88,7 @@ private:
 	void player_change (ChangeType type);
 	void seek_unlocked (dcpomatic::DCPTime position, bool accurate);
 
+	boost::weak_ptr<const Film> _film;
 	boost::shared_ptr<Player> _player;
 	boost::thread _thread;
 

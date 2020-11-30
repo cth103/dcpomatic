@@ -212,6 +212,7 @@ FilmViewer::recreate_butler ()
 
 	_butler.reset(
 		new Butler(
+			_film,
 			_player,
 			Config::instance()->audio_mapping(_audio_channels),
 			_audio_channels,
