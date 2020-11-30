@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -25,6 +25,7 @@
 #include "image_proxy.h"
 #include "j2k_image_proxy.h"
 #include "film.h"
+#include "player.h"
 #include <dcp/raw_convert.h>
 extern "C" {
 #include <libavutil/pixfmt.h>
@@ -330,7 +331,7 @@ PlayerVideo::shallow_copy () const
  *  @return true if this was possible, false if not.
  */
 bool
-PlayerVideo::reset_metadata (shared_ptr<const Film> film, dcp::Size video_container_size, dcp::Size film_frame_size)
+PlayerVideo::reset_metadata (shared_ptr<const Film> film, dcp::Size player_video_container_size)
 {
 	shared_ptr<Content> content = _content.lock();
 	if (!content || !_video_frame) {
@@ -339,8 +340,8 @@ PlayerVideo::reset_metadata (shared_ptr<const Film> film, dcp::Size video_contai
 
 	_crop = content->video->crop();
 	_fade = content->video->fade(film, _video_frame.get());
-	_inter_size = scale_for_display(content->video->scaled_size(film_frame_size), video_container_size, film_frame_size);
-	_out_size = video_container_size;
+	_inter_size = scale_for_display(content->video->scaled_size(film->frame_size()), player_video_container_size, film->frame_size());
+	_out_size = player_video_container_size;
 	_colour_conversion = content->video->colour_conversion();
 	_video_range = content->video->range();
 
