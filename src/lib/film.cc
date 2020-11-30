@@ -702,15 +702,17 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 		}
 	}
 
-	optional<string> isdcf_language = f.node_child("ISDCFMetadata")->optional_string_child("SubtitleLanguage");
-	if (isdcf_language && !found_language) {
-		try {
-			found_language = dcp::LanguageTag(*isdcf_language);
-		} catch (...) {
+	if (_state_version >= 9) {
+		optional<string> isdcf_language = f.node_child("ISDCFMetadata")->optional_string_child("SubtitleLanguage");
+		if (isdcf_language && !found_language) {
 			try {
-				found_language = dcp::LanguageTag(boost::algorithm::to_lower_copy(*isdcf_language));
+				found_language = dcp::LanguageTag(*isdcf_language);
 			} catch (...) {
+				try {
+					found_language = dcp::LanguageTag(boost::algorithm::to_lower_copy(*isdcf_language));
+				} catch (...) {
 
+				}
 			}
 		}
 	}
