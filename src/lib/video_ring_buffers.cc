@@ -77,6 +77,7 @@ VideoRingBuffers::clear ()
 pair<size_t, string>
 VideoRingBuffers::memory_used () const
 {
+	boost::mutex::scoped_lock lm (_mutex);
 	size_t m = 0;
 	for (list<pair<shared_ptr<PlayerVideo>, DCPTime> >::const_iterator i = _data.begin(); i != _data.end(); ++i) {
 		m += i->first->memory_used();
