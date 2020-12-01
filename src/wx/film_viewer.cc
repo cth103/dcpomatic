@@ -442,7 +442,7 @@ FilmViewer::quick_refresh ()
 	if (!_video_view || !_film || !_player) {
 		return true;
 	}
-	return _video_view->refresh_metadata (_film, _player->video_container_size());
+	return _video_view->reset_metadata (_film, _player->video_container_size());
 }
 
 void

@@ -125,7 +125,7 @@ VideoView::start ()
 }
 
 bool
-VideoView::refresh_metadata (shared_ptr<const Film> film, dcp::Size player_video_container_size)
+VideoView::reset_metadata (shared_ptr<const Film> film, dcp::Size player_video_container_size)
 {
 	pair<shared_ptr<PlayerVideo>, dcpomatic::DCPTime> pv = player_video ();
 	if (!pv.first) {
