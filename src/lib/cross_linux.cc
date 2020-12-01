@@ -373,16 +373,23 @@ unprivileged ()
 	}
 }
 
+
+bool PrivilegeEscalator::test = false;
+
 PrivilegeEscalator::~PrivilegeEscalator ()
 {
-	unprivileged ();
+	if (!test) {
+		unprivileged ();
+	}
 }
 
 PrivilegeEscalator::PrivilegeEscalator ()
 {
-	int const r = seteuid(0);
-	if (r < 0) {
-		throw PrivilegeError (String::compose("seteuid() call failed with %1", errno));
+	if (!test) {
+		int const r = seteuid(0);
+		if (r < 0) {
+			throw PrivilegeError (String::compose("seteuid() call failed with %1", errno));
+		}
 	}
 }
 

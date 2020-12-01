@@ -73,6 +73,8 @@ class PrivilegeEscalator
 public:
 	PrivilegeEscalator ();
 	~PrivilegeEscalator ();
+
+	static bool test;
 };
 
 /** @class Waker
