@@ -280,18 +280,28 @@ Player::setup_pieces_unlocked ()
 void
 Player::playlist_content_change (ChangeType type, int property, bool frequent)
 {
-	if (type == CHANGE_TYPE_PENDING) {
-		/* The player content is probably about to change, so we can't carry on
-		   until that has happened and we've rebuilt our pieces.  Stop pass()
-		   and seek() from working until then.
-		*/
-		++_suspended;
-	} else if (type == CHANGE_TYPE_DONE) {
-		/* A change in our content has gone through.  Re-build our pieces. */
-		setup_pieces ();
-		--_suspended;
-	} else if (type == CHANGE_TYPE_CANCELLED) {
-		--_suspended;
+	if (property == VideoContentProperty::CROP) {
+		if (type == CHANGE_TYPE_DONE) {
+			dcp::Size const vcs = video_container_size();
+			boost::mutex::scoped_lock lm (_mutex);
+			for (list<pair<shared_ptr<PlayerVideo>, DCPTime> >::const_iterator i = _delay.begin(); i != _delay.end(); ++i) {
+				i->first->reset_metadata (_film, vcs);
+			}
+		}
+	} else {
+		if (type == CHANGE_TYPE_PENDING) {
+			/* The player content is probably about to change, so we can't carry on
+			   until that has happened and we've rebuilt our pieces.  Stop pass()
+			   and seek() from working until then.
+			*/
+			++_suspended;
+		} else if (type == CHANGE_TYPE_DONE) {
+			/* A change in our content has gone through.  Re-build our pieces. */
+			setup_pieces ();
+			--_suspended;
+		} else if (type == CHANGE_TYPE_CANCELLED) {
+			--_suspended;
+		}
 	}
 
 	Change (type, property, frequent);

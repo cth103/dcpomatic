@@ -26,6 +26,7 @@
 #include "cross.h"
 #include "compose.hpp"
 #include "exceptions.h"
+#include "video_content.h"
 #include <boost/weak_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 
@@ -89,7 +90,7 @@ Butler::Butler (
 	/* The butler must hear about things first, otherwise it might not sort out suspensions in time for
 	   get_video() to be called in response to this signal.
 	*/
-	_player_change_connection = _player->Change.connect (bind (&Butler::player_change, this, _1), boost::signals2::at_front);
+	_player_change_connection = _player->Change.connect (bind (&Butler::player_change, this, _1, _2), boost::signals2::at_front);
 	_thread = boost::thread (bind(&Butler::thread, this));
 #ifdef DCPOMATIC_LINUX
 	pthread_setname_np (_thread.native_handle(), "butler");
@@ -381,8 +382,18 @@ Butler::memory_used () const
 }
 
 void
-Butler::player_change (ChangeType type)
+Butler::player_change (ChangeType type, int property)
 {
+	if (property == VideoContentProperty::CROP) {
+		if (type == CHANGE_TYPE_DONE) {
+			shared_ptr<const Film> film = _film.lock();
+			if (film) {
+				_video.reset_metadata (film, _player->video_container_size());
+			}
+		}
+		return;
+	}
+
 	boost::mutex::scoped_lock lm (_mutex);
 
 	if (type == CHANGE_TYPE_PENDING) {
