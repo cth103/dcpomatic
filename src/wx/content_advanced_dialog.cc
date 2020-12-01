@@ -31,6 +31,9 @@
 #include "lib/image_content.h"
 #include "lib/video_content.h"
 #include <wx/gbsizer.h>
+DCPOMATIC_DISABLE_WARNINGS
+#include <wx/propgrid/props.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/bind.hpp>
 
 
@@ -77,7 +80,7 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 	} else {
 		video_frame_rate_label = add_label_to_sizer (sizer, this, _("Video frame rate that content was prepared for"), true, wxGBPosition(r, 0));
 	}
-	_video_frame_rate = new wxTextCtrl (this, wxID_ANY);
+	_video_frame_rate = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, wxDefaultSize, 0, wxNumericPropertyValidator(wxNumericPropertyValidator::Float));
 	sizer->Add (_video_frame_rate, wxGBPosition(r, 1));
 	_set_video_frame_rate = new Button (this, _("Set"));
 	_set_video_frame_rate->Enable (false);
