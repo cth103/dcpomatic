@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -84,3 +84,14 @@ VideoRingBuffers::memory_used () const
 	}
 	return make_pair(m, String::compose("%1 frames", _data.size()));
 }
+
+
+void
+VideoRingBuffers::reset_metadata (shared_ptr<const Film> film, dcp::Size player_video_container_size)
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	for (list<pair<shared_ptr<PlayerVideo>, DCPTime> >::const_iterator i = _data.begin(); i != _data.end(); ++i) {
+		i->first->reset_metadata (film, player_video_container_size);
+	}
+}
+

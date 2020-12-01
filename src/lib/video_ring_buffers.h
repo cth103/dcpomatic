@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -26,7 +26,10 @@
 #include <boost/shared_ptr.hpp>
 #include <utility>
 
+
+class Film;
 class PlayerVideo;
+
 
 class VideoRingBuffers : public boost::noncopyable
 {
@@ -37,6 +40,8 @@ public:
 	void clear ();
 	Frame size () const;
 	bool empty () const;
+
+	void reset_metadata (boost::shared_ptr<const Film> film, dcp::Size player_video_container_size);
 
 	std::pair<size_t, std::string> memory_used () const;
 
