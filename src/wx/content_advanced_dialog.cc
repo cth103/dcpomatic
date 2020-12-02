@@ -32,6 +32,8 @@
 #include "lib/video_content.h"
 #include <wx/gbsizer.h>
 DCPOMATIC_DISABLE_WARNINGS
+#include <wx/wx.h>
+#include <wx/propgrid/property.h>
 #include <wx/propgrid/props.h>
 DCPOMATIC_ENABLE_WARNINGS
 #include <boost/bind.hpp>
