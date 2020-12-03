@@ -371,7 +371,7 @@ def dependencies(target, options):
             (target.platform == 'windows')) else {}
 
     deps.append(('libdcp', '2b522d0', cpp_lib_options))
-    deps.append(('libsub', 'fd87fad', cpp_lib_options))
+    deps.append(('libsub', 'dcd8bf5', cpp_lib_options))
     deps.append(('leqm-nrt', 'carl'))
     deps.append(('rtaudio', 'carl'))
     # We get our OpenSSL libraries from the environment, but we
