@@ -387,10 +387,6 @@ try
 			LOG_TIMING (N_("writer-wake queue=%1"), _queue.size());
 		}
 
-		if (_finish && _queue.empty()) {
-			return;
-		}
-
 		/* We stop here if we have been asked to finish, and if either the queue
 		   is empty or we do not have a sequenced image at its head (if this is the
 		   case we will never terminate as no new frames will be sent once
