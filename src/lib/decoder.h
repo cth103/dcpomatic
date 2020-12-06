@@ -28,6 +28,7 @@
 #include "types.h"
 #include "film.h"
 #include "dcpomatic_time.h"
+#include "weak_film.h"
 #include <boost/utility.hpp>
 
 class Decoded;
@@ -40,7 +41,7 @@ class DecoderPart;
 /** @class Decoder.
  *  @brief Parent class for decoders of content.
  */
-class Decoder : public boost::noncopyable
+class Decoder : public boost::noncopyable, public WeakConstFilm
 {
 public:
 	Decoder (boost::weak_ptr<const Film> film);
@@ -60,12 +61,6 @@ public:
 	virtual void seek (dcpomatic::ContentTime time, bool accurate);
 
 	virtual dcpomatic::ContentTime position () const;
-
-protected:
-	boost::shared_ptr<const Film> film () const;
-
-private:
-	boost::weak_ptr<const Film> _film;
 };
 
 #endif

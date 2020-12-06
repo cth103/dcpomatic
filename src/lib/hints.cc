@@ -56,7 +56,7 @@ using namespace boost::placeholders;
 #endif
 
 Hints::Hints (weak_ptr<const Film> film)
-	: _film (film)
+	: WeakConstFilm (film)
 	, _long_ccap (false)
 	, _overlap_ccap (false)
 	, _too_many_ccap_lines (false)
@@ -457,15 +457,6 @@ Hints::open_subtitle (PlayerText text, DCPTimePeriod period)
 	}
 
 	_last_subtitle = period;
-}
-
-
-shared_ptr<const Film>
-Hints::film () const
-{
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-	return film;
 }
 
 

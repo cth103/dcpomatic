@@ -66,7 +66,7 @@ content_versions_column (string v, int)
 
 SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_film)
 	: wxDialog (parent, wxID_ANY, _("Metadata"))
-	, _film (weak_film)
+	, WeakFilm (weak_film)
 {
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (overall_sizer);
@@ -364,15 +364,6 @@ SMPTEMetadataDialog::edit_release_territory ()
 		film()->set_release_territory (*tag);
 	}
 	d->Destroy ();
-}
-
-
-shared_ptr<Film>
-SMPTEMetadataDialog::film () const
-{
-	shared_ptr<Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-	return film;
 }
 
 

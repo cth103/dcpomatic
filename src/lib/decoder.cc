@@ -32,7 +32,7 @@ using boost::weak_ptr;
 using namespace dcpomatic;
 
 Decoder::Decoder (weak_ptr<const Film> film)
-	: _film (film)
+	: WeakConstFilm (film)
 {
 
 }
@@ -92,12 +92,4 @@ Decoder::only_text () const
 		return shared_ptr<TextDecoder> ();
 	}
 	return text.front ();
-}
-
-shared_ptr<const Film>
-Decoder::film () const
-{
-	shared_ptr<const Film> f = _film.lock ();
-	DCPOMATIC_ASSERT (f);
-	return f;
 }

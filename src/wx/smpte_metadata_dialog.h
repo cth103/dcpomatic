@@ -21,6 +21,7 @@
 #include "editable_list.h"
 #include "language_tag_dialog.h"
 #include "lib/film.h"
+#include "lib/weak_film.h"
 #include <dcp/language_tag.h>
 #include <dcp/types.h>
 #include <wx/wx.h>
@@ -35,7 +36,7 @@ class ContentVersionDialog;
 class LanguageTagWidget;
 
 
-class SMPTEMetadataDialog : public wxDialog
+class SMPTEMetadataDialog : public wxDialog, public WeakFilm
 {
 public:
 	SMPTEMetadataDialog (wxWindow* parent, boost::weak_ptr<Film> film);
@@ -60,9 +61,7 @@ private:
 	void luminance_changed ();
 	void film_changed (ChangeType type, Film::Property property);
 	void setup_sensitivity ();
-	boost::shared_ptr<Film> film () const;
 
-	boost::weak_ptr<Film> _film;
 	LanguageTagWidget* _name_language;
 	LanguageTagWidget* _audio_language;
 	wxCheckBox* _enable_main_subtitle_language;

@@ -23,6 +23,7 @@
 #include "types.h"
 #include "dcp_text_track.h"
 #include "dcpomatic_time.h"
+#include "weak_film.h"
 #include <boost/weak_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <boost/atomic.hpp>
@@ -31,7 +32,7 @@
 
 class Film;
 
-class Hints : public Signaller, public ExceptionStore
+class Hints : public Signaller, public ExceptionStore, public WeakConstFilm
 {
 public:
 	explicit Hints (boost::weak_ptr<const Film> film);
@@ -55,7 +56,6 @@ private:
 	void text (PlayerText text, TextType type, dcpomatic::DCPTimePeriod period);
 	void closed_caption (PlayerText text, dcpomatic::DCPTimePeriod period);
 	void open_subtitle (PlayerText text, dcpomatic::DCPTimePeriod period);
-	boost::shared_ptr<const Film> film () const;
 
 	void check_big_font_files ();
 	void check_few_audio_channels ();
@@ -70,7 +70,6 @@ private:
 	void check_loudness ();
 	void check_ffec_and_ffmc_in_smpte_feature ();
 
-	boost::weak_ptr<const Film> _film;
 	boost::thread _thread;
 
 	bool _long_ccap;
