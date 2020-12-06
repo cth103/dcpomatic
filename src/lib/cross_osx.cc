@@ -586,3 +586,9 @@ DCPOMATIC_ENABLE_WARNINGS
 	TransformProcessType (&serial, kProcessTransformToForegroundApplication);
 }
 
+
+string
+dcpomatic::get_process_id ()
+{
+	return dcp::raw_convert<string>(getpid());
+}

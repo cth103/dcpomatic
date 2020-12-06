@@ -629,3 +629,9 @@ disk_write_finished ()
 }
 
 
+string
+dcpomatic::get_process_id ()
+{
+	return dcp::raw_convert<string>(GetCurrentProcessId());
+}
+
