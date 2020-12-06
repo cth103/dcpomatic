@@ -27,6 +27,7 @@
 #include "player_text.h"
 #include "exception_store.h"
 #include "dcp_text_track.h"
+#include "weak_film.h"
 #include <dcp/atmos_frame.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
@@ -95,10 +96,10 @@ bool operator== (QueueItem const & a, QueueItem const & b);
  *  will sort it out.  write() for AudioBuffers must be called in order.
  */
 
-class Writer : public ExceptionStore, public boost::noncopyable
+class Writer : public ExceptionStore, public boost::noncopyable, public WeakConstFilm
 {
 public:
-	Writer (boost::shared_ptr<const Film>, boost::weak_ptr<Job>);
+	Writer (boost::weak_ptr<const Film>, boost::weak_ptr<Job>);
 	~Writer ();
 
 	void start ();
@@ -127,8 +128,6 @@ private:
 	void write_cover_sheet ();
 	void calculate_referenced_digests (boost::function<void (float)> set_progress);
 
-	/** our Film */
-	boost::shared_ptr<const Film> _film;
 	boost::weak_ptr<Job> _job;
 	std::vector<ReelWriter> _reels;
 	std::vector<ReelWriter>::iterator _audio_reel;

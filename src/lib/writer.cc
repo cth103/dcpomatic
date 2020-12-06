@@ -70,8 +70,8 @@ using dcp::Data;
 using dcp::ArrayData;
 using namespace dcpomatic;
 
-Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
-	: _film (film)
+Writer::Writer (weak_ptr<const Film> weak_film, weak_ptr<Job> j)
+	: WeakConstFilm (weak_film)
 	, _job (j)
 	, _finish (false)
 	, _queued_full_in_memory (0)
@@ -87,9 +87,9 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 	DCPOMATIC_ASSERT (job);
 
 	int reel_index = 0;
-	list<DCPTimePeriod> const reels = _film->reels ();
+	list<DCPTimePeriod> const reels = film()->reels();
 	BOOST_FOREACH (DCPTimePeriod p, reels) {
-		_reels.push_back (ReelWriter(film, p, job, reel_index++, reels.size()));
+		_reels.push_back (ReelWriter(film(), p, job, reel_index++, reels.size()));
 	}
 
 	_last_written.resize (reels.size());
@@ -99,7 +99,7 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 	*/
 	_audio_reel = _reels.begin ();
 	_subtitle_reel = _reels.begin ();
-	BOOST_FOREACH (DCPTextTrack i, _film->closed_caption_tracks()) {
+	BOOST_FOREACH (DCPTextTrack i, film()->closed_caption_tracks()) {
 		_caption_reels[i] = _reels.begin ();
 	}
 	_atmos_reel = _reels.begin ();
@@ -149,7 +149,7 @@ Writer::write (shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
 	qi.reel = video_reel (frame);
 	qi.frame = frame - _reels[qi.reel].start ();
 
-	if (_film->three_d() && eyes == EYES_BOTH) {
+	if (film()->three_d() && eyes == EYES_BOTH) {
 		/* 2D material in a 3D DCP; fake the 3D */
 		qi.eyes = EYES_LEFT;
 		_queue.push_back (qi);
@@ -194,7 +194,7 @@ Writer::repeat (Frame frame, Eyes eyes)
 	qi.type = QueueItem::REPEAT;
 	qi.reel = video_reel (frame);
 	qi.frame = frame - _reels[qi.reel].start ();
-	if (_film->three_d() && eyes == EYES_BOTH) {
+	if (film()->three_d() && eyes == EYES_BOTH) {
 		qi.eyes = EYES_LEFT;
 		_queue.push_back (qi);
 		qi.eyes = EYES_RIGHT;
@@ -228,13 +228,13 @@ Writer::fake_write (Frame frame, Eyes eyes)
 	qi.type = QueueItem::FAKE;
 
 	{
-		shared_ptr<InfoFileHandle> info_file = _film->info_file_handle(_reels[reel].period(), true);
+		shared_ptr<InfoFileHandle> info_file = film()->info_file_handle(_reels[reel].period(), true);
 		qi.size = _reels[reel].read_frame_info(info_file, frame_in_reel, eyes).size;
 	}
 
 	qi.reel = reel;
 	qi.frame = frame_in_reel;
-	if (_film->three_d() && eyes == EYES_BOTH) {
+	if (film()->three_d() && eyes == EYES_BOTH) {
 		qi.eyes = EYES_LEFT;
 		_queue.push_back (qi);
 		qi.eyes = EYES_RIGHT;
@@ -258,7 +258,7 @@ Writer::write (shared_ptr<const AudioBuffers> audio, DCPTime const time)
 {
 	DCPOMATIC_ASSERT (audio);
 
-	int const afr = _film->audio_frame_rate();
+	int const afr = film()->audio_frame_rate();
 
 	DCPTime const end = time + DCPTime::from_frames(audio->frames(), afr);
 
@@ -424,7 +424,7 @@ try
 			case QueueItem::FULL:
 				LOG_DEBUG_ENCODE (N_("Writer FULL-writes %1 (%2)"), qi.frame, (int) qi.eyes);
 				if (!qi.encoded) {
-					qi.encoded.reset (new ArrayData(_film->j2c_path(qi.reel, qi.frame, qi.eyes, false)));
+					qi.encoded.reset (new ArrayData(film()->j2c_path(qi.reel, qi.frame, qi.eyes, false)));
 				}
 				reel.write (qi.encoded, qi.frame, qi.eyes);
 				++_full_written;
@@ -471,8 +471,8 @@ try
 			LOG_GENERAL ("Writer full; pushes %1 to disk while awaiting %2", i->frame, awaiting);
 
 			i->encoded->write_via_temp (
-				_film->j2c_path (i->reel, i->frame, i->eyes, true),
-				_film->j2c_path (i->reel, i->frame, i->eyes, false)
+				film()->j2c_path(i->reel, i->frame, i->eyes, true),
+				film()->j2c_path(i->reel, i->frame, i->eyes, false)
 				);
 
 			lock.lock ();
@@ -527,12 +527,12 @@ Writer::finish ()
 
 	LOG_GENERAL_NC ("Writing XML");
 
-	dcp::DCP dcp (_film->dir (_film->dcp_name()));
+	dcp::DCP dcp (film()->dir(film()->dcp_name()));
 
 	shared_ptr<dcp::CPL> cpl (
 		new dcp::CPL (
-			_film->dcp_name(),
-			_film->dcp_content_type()->libdcp_kind ()
+			film()->dcp_name(),
+			film()->dcp_content_type()->libdcp_kind ()
 			)
 		);
 
@@ -582,43 +582,43 @@ Writer::finish ()
 		issuer = String::compose("DCP-o-matic %1 %2", dcpomatic_version, dcpomatic_git_commit);
 	}
 
-	cpl->set_ratings (_film->ratings());
+	cpl->set_ratings (film()->ratings());
 
 	vector<dcp::ContentVersion> cv;
-	BOOST_FOREACH (string i, _film->content_versions()) {
+	BOOST_FOREACH (string i, film()->content_versions()) {
 		cv.push_back (dcp::ContentVersion(i));
 	}
 	cpl->set_content_versions (cv);
 
-	cpl->set_full_content_title_text (_film->name());
-	cpl->set_full_content_title_text_language (_film->name_language());
-	cpl->set_release_territory (_film->release_territory());
-	cpl->set_version_number (_film->version_number());
-	cpl->set_status (_film->status());
-	cpl->set_chain (_film->chain());
-	cpl->set_distributor (_film->distributor());
-	cpl->set_facility (_film->facility());
-	cpl->set_luminance (_film->luminance());
+	cpl->set_full_content_title_text (film()->name());
+	cpl->set_full_content_title_text_language (film()->name_language());
+	cpl->set_release_territory (film()->release_territory());
+	cpl->set_version_number (film()->version_number());
+	cpl->set_status (film()->status());
+	cpl->set_chain (film()->chain());
+	cpl->set_distributor (film()->distributor());
+	cpl->set_facility (film()->facility());
+	cpl->set_luminance (film()->luminance());
 
-	list<int> ac = _film->mapped_audio_channels ();
+	list<int> ac = film()->mapped_audio_channels();
 	dcp::MCASoundField field = (
 		find(ac.begin(), ac.end(), static_cast<int>(dcp::BSL)) != ac.end() ||
 		find(ac.begin(), ac.end(), static_cast<int>(dcp::BSR)) != ac.end()
 		) ? dcp::SEVEN_POINT_ONE : dcp::FIVE_POINT_ONE;
 
-	dcp::MainSoundConfiguration msc (field, _film->audio_channels());
+	dcp::MainSoundConfiguration msc (field, film()->audio_channels());
 	BOOST_FOREACH (int i, ac) {
-		if (i < _film->audio_channels()) {
+		if (i < film()->audio_channels()) {
 			msc.set_mapping (i, static_cast<dcp::Channel>(i));
 		}
 	}
 
 	cpl->set_main_sound_configuration (msc.to_string());
-	cpl->set_main_sound_sample_rate (_film->audio_frame_rate());
-	cpl->set_main_picture_stored_area (_film->frame_size());
-	cpl->set_main_picture_active_area (_film->active_area());
+	cpl->set_main_sound_sample_rate (film()->audio_frame_rate());
+	cpl->set_main_picture_stored_area (film()->frame_size());
+	cpl->set_main_picture_active_area (film()->active_area());
 
-	vector<dcp::LanguageTag> sl = _film->subtitle_languages();
+	vector<dcp::LanguageTag> sl = film()->subtitle_languages();
 	if (sl.size() > 1) {
 		cpl->set_additional_subtitle_languages(std::vector<dcp::LanguageTag>(sl.begin() + 1, sl.end()));
 	}
@@ -632,7 +632,7 @@ Writer::finish ()
 	}
 
 	dcp.write_xml (
-		_film->interop() ? dcp::INTEROP : dcp::SMPTE,
+		film()->interop() ? dcp::INTEROP : dcp::SMPTE,
 		issuer,
 		creator,
 		dcp::LocalTime().as_string(),
@@ -651,19 +651,19 @@ Writer::finish ()
 void
 Writer::write_cover_sheet ()
 {
-	boost::filesystem::path const cover = _film->file ("COVER_SHEET.txt");
+	boost::filesystem::path const cover = film()->file("COVER_SHEET.txt");
 	FILE* f = fopen_boost (cover, "w");
 	if (!f) {
 		throw OpenFileError (cover, errno, OpenFileError::WRITE);
 	}
 
 	string text = Config::instance()->cover_sheet ();
-	boost::algorithm::replace_all (text, "$CPL_NAME", _film->name());
-	boost::algorithm::replace_all (text, "$TYPE", _film->dcp_content_type()->pretty_name());
-	boost::algorithm::replace_all (text, "$CONTAINER", _film->container()->container_nickname());
-	boost::algorithm::replace_all (text, "$AUDIO_LANGUAGE", _film->isdcf_metadata().audio_language);
+	boost::algorithm::replace_all (text, "$CPL_NAME", film()->name());
+	boost::algorithm::replace_all (text, "$TYPE", film()->dcp_content_type()->pretty_name());
+	boost::algorithm::replace_all (text, "$CONTAINER", film()->container()->container_nickname());
+	boost::algorithm::replace_all (text, "$AUDIO_LANGUAGE", film()->isdcf_metadata().audio_language);
 
-	vector<dcp::LanguageTag> subtitle_languages = _film->subtitle_languages();
+	vector<dcp::LanguageTag> subtitle_languages = film()->subtitle_languages();
 	if (subtitle_languages.empty()) {
 		boost::algorithm::replace_all (text, "$SUBTITLE_LANGUAGE", "None");
 	} else {
@@ -672,7 +672,7 @@ Writer::write_cover_sheet ()
 
 	boost::uintmax_t size = 0;
 	for (
-		boost::filesystem::recursive_directory_iterator i = boost::filesystem::recursive_directory_iterator(_film->dir(_film->dcp_name()));
+		boost::filesystem::recursive_directory_iterator i = boost::filesystem::recursive_directory_iterator(film()->dir(film()->dcp_name()));
 		i != boost::filesystem::recursive_directory_iterator();
 		++i) {
 		if (boost::filesystem::is_regular_file (i->path ())) {
@@ -686,7 +686,7 @@ Writer::write_cover_sheet ()
 		boost::algorithm::replace_all (text, "$SIZE", String::compose ("%1MB", dcp::locale_convert<string> (size / 1000000.0, 1, true)));
 	}
 
-	pair<int, int> ch = audio_channel_types (_film->mapped_audio_channels(), _film->audio_channels());
+	pair<int, int> ch = audio_channel_types (film()->mapped_audio_channels(), film()->audio_channels());
 	string description = String::compose("%1.%2", ch.first, ch.second);
 
 	if (description == "0.0") {
@@ -699,7 +699,7 @@ Writer::write_cover_sheet ()
 	boost::algorithm::replace_all (text, "$AUDIO", description);
 
 	int h, m, s, fr;
-	_film->length().split (_film->video_frame_rate(), h, m, s, fr);
+	film()->length().split(film()->video_frame_rate(), h, m, s, fr);
 	string length;
 	if (h == 0 && m == 0) {
 		length = String::compose("%1s", s);
@@ -721,7 +721,7 @@ Writer::write_cover_sheet ()
 bool
 Writer::can_fake_write (Frame frame) const
 {
-	if (_film->encrypted()) {
+	if (film()->encrypted()) {
 		/* We need to re-write the frame because the asset ID is embedded in the HMAC... I think... */
 		return false;
 	}
@@ -821,7 +821,7 @@ Writer::write (ReferencedReelAsset asset)
 size_t
 Writer::video_reel (int frame) const
 {
-	DCPTime t = DCPTime::from_frames (frame, _film->video_frame_rate ());
+	DCPTime t = DCPTime::from_frames (frame, film()->video_frame_rate());
 	size_t i = 0;
 	while (i < _reels.size() && !_reels[i].period().contains (t)) {
 		++i;
