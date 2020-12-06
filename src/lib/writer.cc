@@ -70,6 +70,16 @@ using dcp::Data;
 using dcp::ArrayData;
 using namespace dcpomatic;
 
+
+static
+void
+ignore_progress (float)
+{
+
+}
+
+
+/** @param j Job to report progress to, or 0 */
 Writer::Writer (weak_ptr<const Film> weak_film, weak_ptr<Job> j)
 	: WeakConstFilm (weak_film)
 	, _job (j)
@@ -84,7 +94,6 @@ Writer::Writer (weak_ptr<const Film> weak_film, weak_ptr<Job> j)
 	, _pushed_to_disk (0)
 {
 	shared_ptr<Job> job = _job.lock ();
-	DCPOMATIC_ASSERT (job);
 
 	int reel_index = 0;
 	list<DCPTimePeriod> const reels = film()->reels();
@@ -541,7 +550,9 @@ Writer::finish ()
 	/* Calculate digests for each reel in parallel */
 
 	shared_ptr<Job> job = _job.lock ();
-	job->sub (_("Computing digests"));
+	if (job) {
+		job->sub (_("Computing digests"));
+	}
 
 	boost::asio::io_service service;
 	boost::thread_group pool;
@@ -554,7 +565,13 @@ Writer::finish ()
 		pool.create_thread (boost::bind (&boost::asio::io_service::run, &service));
 	}
 
-	boost::function<void (float)> set_progress = boost::bind (&Writer::set_digest_progress, this, job.get(), _1);
+	boost::function<void (float)> set_progress;
+	if (job) {
+		set_progress = boost::bind (&Writer::set_digest_progress, this, job.get(), _1);
+	} else {
+		set_progress = &ignore_progress;
+	}
+
 	BOOST_FOREACH (ReelWriter& i, _reels) {
 		service.post (boost::bind (&ReelWriter::calculate_digests, &i, set_progress));
 	}
