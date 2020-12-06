@@ -347,7 +347,7 @@ ReelWriter::repeat_write (Frame frame, Eyes eyes)
 }
 
 void
-ReelWriter::finish ()
+ReelWriter::finish (boost::filesystem::path output_dcp)
 {
 	if (_picture_asset_writer && !_picture_asset_writer->finalize ()) {
 		/* Nothing was written to the picture asset */
@@ -364,8 +364,7 @@ ReelWriter::finish ()
 	if (_picture_asset) {
 		DCPOMATIC_ASSERT (_picture_asset->file());
 		boost::filesystem::path video_from = _picture_asset->file().get();
-		boost::filesystem::path video_to;
-		video_to /= film()->dir(film()->dcp_name());
+		boost::filesystem::path video_to = output_dcp;
 		video_to /= video_asset_filename (_picture_asset, _reel_index, _reel_count, _content_summary);
 		/* There may be an existing "to" file if we are recreating a DCP in the same place without
 		   changing any video.
@@ -399,8 +398,7 @@ ReelWriter::finish ()
 
 	/* Move the audio asset into the DCP */
 	if (_sound_asset) {
-		boost::filesystem::path audio_to;
-		audio_to /= film()->dir(film()->dcp_name ());
+		boost::filesystem::path audio_to = output_dcp;
 		string const aaf = audio_asset_filename (_sound_asset, _reel_index, _reel_count, _content_summary);
 		audio_to /= aaf;
 
@@ -417,8 +415,7 @@ ReelWriter::finish ()
 
 	if (_atmos_asset) {
 		_atmos_asset_writer->finalize ();
-		boost::filesystem::path atmos_to;
-		atmos_to /= film()->dir(film()->dcp_name());
+		boost::filesystem::path atmos_to = output_dcp;
 		string const aaf = atmos_asset_filename (_atmos_asset, _reel_index, _reel_count, _content_summary);
 		atmos_to /= aaf;
 
@@ -443,7 +440,8 @@ maybe_add_text (
 	list<ReferencedReelAsset> const & refs,
 	list<shared_ptr<Font> > const & fonts,
 	shared_ptr<const Film> film,
-	DCPTimePeriod period
+	DCPTimePeriod period,
+	boost::filesystem::path output_dcp
 	)
 {
 	Frame const period_duration = period.duration().frames_round(film->video_frame_rate());
@@ -457,7 +455,7 @@ maybe_add_text (
 		}
 
 		if (dynamic_pointer_cast<dcp::InteropSubtitleAsset> (asset)) {
-			boost::filesystem::path directory = film->dir (film->dcp_name ()) / asset->id ();
+			boost::filesystem::path directory = output_dcp / asset->id ();
 			boost::filesystem::create_directories (directory);
 			asset->write (directory / ("sub_" + asset->id() + ".xml"));
 		} else {
@@ -469,7 +467,7 @@ maybe_add_text (
 			dynamic_pointer_cast<dcp::SMPTESubtitleAsset>(asset)->set_intrinsic_duration (picture_duration);
 
 			asset->write (
-				film->dir(film->dcp_name()) / ("sub_" + asset->id() + ".mxf")
+				output_dcp / ("sub_" + asset->id() + ".mxf")
 				);
 		}
 
@@ -607,16 +605,24 @@ ReelWriter::create_reel_sound (shared_ptr<dcp::Reel> reel, list<ReferencedReelAs
 
 
 void
-ReelWriter::create_reel_text (shared_ptr<dcp::Reel> reel, list<ReferencedReelAsset> const & refs, list<shared_ptr<Font> > const& fonts, int64_t duration) const
+ReelWriter::create_reel_text (
+	shared_ptr<dcp::Reel> reel,
+	list<ReferencedReelAsset> const & refs,
+	list<shared_ptr<Font> > const& fonts,
+	int64_t duration,
+	boost::filesystem::path output_dcp
+	) const
 {
-	shared_ptr<dcp::ReelSubtitleAsset> subtitle = maybe_add_text<dcp::ReelSubtitleAsset> (_subtitle_asset, duration, reel, refs, fonts, film(), _period);
+	shared_ptr<dcp::ReelSubtitleAsset> subtitle = maybe_add_text<dcp::ReelSubtitleAsset> (
+		_subtitle_asset, duration, reel, refs, fonts, film(), _period, output_dcp
+		);
 	if (subtitle && !film()->subtitle_languages().empty()) {
 		subtitle->set_language (film()->subtitle_languages().front());
 	}
 
 	for (map<DCPTextTrack, shared_ptr<dcp::SubtitleAsset> >::const_iterator i = _closed_caption_assets.begin(); i != _closed_caption_assets.end(); ++i) {
 		shared_ptr<dcp::ReelClosedCaptionAsset> a = maybe_add_text<dcp::ReelClosedCaptionAsset> (
-			i->second, duration, reel, refs, fonts, film(), _period
+			i->second, duration, reel, refs, fonts, film(), _period, output_dcp
 			);
 		if (a) {
 			a->set_annotation_text (i->first.name);
@@ -655,14 +661,14 @@ ReelWriter::create_reel_markers (shared_ptr<dcp::Reel> reel) const
 
 
 shared_ptr<dcp::Reel>
-ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr<Font> > const & fonts)
+ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr<Font> > const & fonts, boost::filesystem::path output_dcp)
 {
 	LOG_GENERAL ("create_reel for %1-%2; %3 of %4", _period.from.get(), _period.to.get(), _reel_index, _reel_count);
 
 	shared_ptr<dcp::Reel> reel (new dcp::Reel());
 	shared_ptr<dcp::ReelPictureAsset> reel_picture_asset = create_reel_picture (reel, refs);
 	create_reel_sound (reel, refs);
-	create_reel_text (reel, refs, fonts, reel_picture_asset->actual_duration());
+	create_reel_text (reel, refs, fonts, reel_picture_asset->actual_duration(), output_dcp);
 	create_reel_markers (reel);
 
 	if (_atmos_asset) {

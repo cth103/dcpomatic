@@ -517,8 +517,10 @@ Writer::terminate_thread (bool can_throw)
 	}
 }
 
+
+/** @param output_dcp Path to DCP folder to write */
 void
-Writer::finish ()
+Writer::finish (boost::filesystem::path output_dcp)
 {
 	if (!_thread.joinable()) {
 		return;
@@ -531,12 +533,12 @@ Writer::finish ()
 	LOG_GENERAL_NC ("Finishing ReelWriters");
 
 	BOOST_FOREACH (ReelWriter& i, _reels) {
-		i.finish ();
+		i.finish (output_dcp);
 	}
 
 	LOG_GENERAL_NC ("Writing XML");
 
-	dcp::DCP dcp (film()->dir(film()->dcp_name()));
+	dcp::DCP dcp (output_dcp);
 
 	shared_ptr<dcp::CPL> cpl (
 		new dcp::CPL (
@@ -584,7 +586,7 @@ Writer::finish ()
 	/* Add reels */
 
 	BOOST_FOREACH (ReelWriter& i, _reels) {
-		cpl->add (i.create_reel (_reel_assets, _fonts));
+		cpl->add (i.create_reel(_reel_assets, _fonts, output_dcp));
 	}
 
 	/* Add metadata */
@@ -662,11 +664,11 @@ Writer::finish ()
 		N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT, %4 pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk
 		);
 
-	write_cover_sheet ();
+	write_cover_sheet (output_dcp);
 }
 
 void
-Writer::write_cover_sheet ()
+Writer::write_cover_sheet (boost::filesystem::path output_dcp)
 {
 	boost::filesystem::path const cover = film()->file("COVER_SHEET.txt");
 	FILE* f = fopen_boost (cover, "w");
@@ -689,7 +691,7 @@ Writer::write_cover_sheet ()
 
 	boost::uintmax_t size = 0;
 	for (
-		boost::filesystem::recursive_directory_iterator i = boost::filesystem::recursive_directory_iterator(film()->dir(film()->dcp_name()));
+		boost::filesystem::recursive_directory_iterator i = boost::filesystem::recursive_directory_iterator(output_dcp);
 		i != boost::filesystem::recursive_directory_iterator();
 		++i) {
 		if (boost::filesystem::is_regular_file (i->path ())) {

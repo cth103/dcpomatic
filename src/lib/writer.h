@@ -115,7 +115,7 @@ public:
 	void write (std::list<boost::shared_ptr<dcpomatic::Font> > fonts);
 	void write (ReferencedReelAsset asset);
 	void write (boost::shared_ptr<const dcp::AtmosFrame> atmos, dcpomatic::DCPTime time, AtmosMetadata metadata);
-	void finish ();
+	void finish (boost::filesystem::path output_dcp);
 
 	void set_encoder_threads (int threads);
 
@@ -125,7 +125,7 @@ private:
 	bool have_sequenced_image_at_queue_head ();
 	size_t video_reel (int frame) const;
 	void set_digest_progress (Job* job, float progress);
-	void write_cover_sheet ();
+	void write_cover_sheet (boost::filesystem::path output_dcp);
 	void calculate_referenced_digests (boost::function<void (float)> set_progress);
 
 	boost::weak_ptr<Job> _job;

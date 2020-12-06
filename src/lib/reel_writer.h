@@ -74,8 +74,10 @@ public:
 	void write (PlayerText text, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period);
 	void write (boost::shared_ptr<const dcp::AtmosFrame> atmos, AtmosMetadata metadata);
 
-	void finish ();
-	boost::shared_ptr<dcp::Reel> create_reel (std::list<ReferencedReelAsset> const & refs, std::list<boost::shared_ptr<dcpomatic::Font> > const & fonts);
+	void finish (boost::filesystem::path output_dcp);
+	boost::shared_ptr<dcp::Reel> create_reel (
+		std::list<ReferencedReelAsset> const & refs, std::list<boost::shared_ptr<dcpomatic::Font> > const & fonts, boost::filesystem::path output_dcp
+		);
 	void calculate_digests (boost::function<void (float)> set_progress);
 
 	Frame start () const;
@@ -104,7 +106,8 @@ private:
 	void create_reel_text (
 		boost::shared_ptr<dcp::Reel> reel,
 		std::list<ReferencedReelAsset> const & refs, std::list<boost::shared_ptr<dcpomatic::Font> > const& fonts,
-		int64_t duration
+		int64_t duration,
+		boost::filesystem::path output_dcp
 		) const;
 	void create_reel_markers (boost::shared_ptr<dcp::Reel> reel) const;
 
