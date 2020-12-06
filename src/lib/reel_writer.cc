@@ -93,13 +93,13 @@ mxf_metadata ()
 
 /** @param job Related job, or 0 */
 ReelWriter::ReelWriter (
-	shared_ptr<const Film> film, DCPTimePeriod period, shared_ptr<Job> job, int reel_index, int reel_count, optional<string> content_summary
+	shared_ptr<const Film> film, DCPTimePeriod period, shared_ptr<Job> job, int reel_index, int reel_count
 	)
 	: _film (film)
 	, _period (period)
 	, _reel_index (reel_index)
 	, _reel_count (reel_count)
-	, _content_summary (content_summary)
+	, _content_summary (film->content_summary(period))
 	, _job (job)
 {
 	/* Create or find our picture asset in a subdirectory, named

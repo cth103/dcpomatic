@@ -62,8 +62,7 @@ public:
 		dcpomatic::DCPTimePeriod period,
 		boost::shared_ptr<Job> job,
 		int reel_index,
-		int reel_count,
-		boost::optional<std::string> content_summary
+		int reel_count
 		);
 
 	void write (boost::shared_ptr<const dcp::Data> encoded, Frame frame, Eyes eyes);
