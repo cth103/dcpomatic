@@ -62,9 +62,9 @@ namespace dcp {
 /** Largest KDM size (in bytes) that will be accepted */
 #define MAX_KDM_SIZE (256 * 1024)
 /** Number of lines that closed caption viewers will display */
-#define CLOSED_CAPTION_LINES 3
+#define MAX_CLOSED_CAPTION_LINES 3
 /** Maximum line length of closed caption viewers, according to SMPTE Bv2.1 */
-#define CLOSED_CAPTION_LENGTH 32
+#define MAX_CLOSED_CAPTION_LENGTH 32
 
 extern std::string program_name;
 extern bool is_batch_converter;

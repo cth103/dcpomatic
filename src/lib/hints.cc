@@ -60,6 +60,11 @@ Hints::Hints (weak_ptr<const Film> film)
 	, _long_ccap (false)
 	, _overlap_ccap (false)
 	, _too_many_ccap_lines (false)
+	, _early_subtitle (false)
+	, _short_subtitle (false)
+	, _subtitles_too_close (false)
+	, _too_many_subtitle_lines (false)
+	, _long_subtitle (false)
 	, _stop (false)
 {
 
@@ -368,33 +373,90 @@ Hints::hint (string h)
 void
 Hints::text (PlayerText text, TextType type, DCPTimePeriod period)
 {
-	if (type != TEXT_CLOSED_CAPTION) {
-		return;
+	switch (type) {
+	case TEXT_CLOSED_CAPTION:
+		closed_caption (text, period);
+		break;
+	case TEXT_OPEN_SUBTITLE:
+		open_subtitle (text, period);
+		break;
+	default:
+		break;
 	}
+}
 
+
+void
+Hints::closed_caption (PlayerText text, DCPTimePeriod period)
+{
 	int lines = text.string.size();
 	BOOST_FOREACH (StringText i, text.string) {
-		if (utf8_strlen(i.text()) > CLOSED_CAPTION_LENGTH) {
+		if (utf8_strlen(i.text()) > MAX_CLOSED_CAPTION_LENGTH) {
 			++lines;
 			if (!_long_ccap) {
 				_long_ccap = true;
-				hint (String::compose(_("Some of your closed captions have lines longer than %1 characters, so they will probably be word-wrapped."), CLOSED_CAPTION_LENGTH));
+				hint (
+					String::compose(
+						"At least one of your closed caption lines has more than %1 characters.  "
+						"It is advisable to make each line %1 characters at most in length.",
+						MAX_CLOSED_CAPTION_LENGTH,
+						MAX_CLOSED_CAPTION_LENGTH)
+				     );
 			}
 		}
 	}
 
-	if (!_too_many_ccap_lines && lines > CLOSED_CAPTION_LINES) {
-		hint (String::compose(_("Some of your closed captions span more than %1 lines, so they will be truncated."), CLOSED_CAPTION_LINES));
+	if (!_too_many_ccap_lines && lines > MAX_CLOSED_CAPTION_LINES) {
+		hint (String::compose(_("Some of your closed captions span more than %1 lines, so they will be truncated."), MAX_CLOSED_CAPTION_LINES));
 		_too_many_ccap_lines = true;
 	}
 
 	/* XXX: maybe overlapping closed captions (i.e. different languages) are OK with Interop? */
-	if (film()->interop() && !_overlap_ccap && _last && _last->overlap(period)) {
+	if (film()->interop() && !_overlap_ccap && _last_ccap && _last_ccap->overlap(period)) {
 		_overlap_ccap = true;
 		hint (_("You have overlapping closed captions, which are not allowed in Interop DCPs.  Change your DCP standard to SMPTE."));
 	}
 
-	_last = period;
+	_last_ccap = period;
+}
+
+
+void
+Hints::open_subtitle (PlayerText text, DCPTimePeriod period)
+{
+	if (period.from < DCPTime::from_seconds(4) && !_early_subtitle) {
+		_early_subtitle = true;
+		hint (_("It is advisable to put your first subtitle at least 4 seconds after the start of the DCP to make sure it is seen."));
+	}
+
+	int const vfr = film()->video_frame_rate ();
+
+	if (period.duration().frames_round(vfr) < 15 && !_short_subtitle) {
+		_short_subtitle = true;
+		hint (_("At least one of your subtitles lasts less than 15 frames.  It is advisable to make each subtitle at least 15 frames long."));
+	}
+
+	if (_last_subtitle && DCPTime(period.from - _last_subtitle->to).frames_round(vfr) < 2 && !_subtitles_too_close) {
+		_subtitles_too_close = true;
+		hint (_("At least one of your subtitles starts less than 2 frames after the previous one.  It is advisable to make the gap between subtitles at least 2 frames."));
+	}
+
+	if (text.string.size() > 3 && !_too_many_subtitle_lines) {
+		_too_many_subtitle_lines = true;
+		hint (_("At least one of your subtitles has more than 3 lines.  It is advisable to use no more than 3 lines."));
+	}
+
+	size_t longest_line = 0;
+	BOOST_FOREACH (StringText const& i, text.string) {
+		longest_line = max (longest_line, i.text().length());
+	}
+
+	if (longest_line > 52 && !_long_subtitle) {
+		_long_subtitle = true;
+		hint (_("At least one of your subtitle lines has more than 52 characters.  It is advisable to make each line 52 characters at most in length."));
+	}
+
+	_last_subtitle = period;
 }
 
 
@@ -414,4 +476,11 @@ Hints::check_ffec_and_ffmc_in_smpte_feature ()
 	if (!f->interop() && f->dcp_content_type()->libdcp_kind() == dcp::FEATURE && (!f->marker(dcp::FFEC) || !f->marker(dcp::FFMC))) {
 		hint (_("SMPTE DCPs with the type FTR (feature) should have markers for the first frame of end credits (FFEC) and the first frame of moving credits (FFMC).  You should add these markers using the 'Markers' button in the DCP tab."));
 	}
+}
+
+
+void
+Hints::join ()
+{
+	_thread.join ();
 }

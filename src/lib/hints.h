@@ -44,10 +44,17 @@ public:
 	boost::signals2::signal<void (void)> Pulse;
 	boost::signals2::signal<void (void)> Finished;
 
+	/* For tests only */
+	void join ();
+
 private:
+	friend struct hint_subtitle_too_early;
+
 	void thread ();
 	void hint (std::string h);
 	void text (PlayerText text, TextType type, dcpomatic::DCPTimePeriod period);
+	void closed_caption (PlayerText text, dcpomatic::DCPTimePeriod period);
+	void open_subtitle (PlayerText text, dcpomatic::DCPTimePeriod period);
 	boost::shared_ptr<const Film> film () const;
 
 	void check_big_font_files ();
@@ -69,7 +76,14 @@ private:
 	bool _long_ccap;
 	bool _overlap_ccap;
 	bool _too_many_ccap_lines;
-	boost::optional<dcpomatic::DCPTimePeriod> _last;
+	boost::optional<dcpomatic::DCPTimePeriod> _last_ccap;
+
+	bool _early_subtitle;
+	bool _short_subtitle;
+	bool _subtitles_too_close;
+	bool _too_many_subtitle_lines;
+	bool _long_subtitle;
+	boost::optional<dcpomatic::DCPTimePeriod> _last_subtitle;
 
 	boost::atomic<bool> _stop;
 };

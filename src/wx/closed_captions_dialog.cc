@@ -58,7 +58,7 @@ ClosedCaptionsDialog::ClosedCaptionsDialog (wxWindow* parent, FilmViewer* viewer
 	, _current_in_lines (false)
 	, _timer (this)
 {
-	_lines.resize (CLOSED_CAPTION_LINES);
+	_lines.resize (MAX_CLOSED_CAPTION_LINES);
 
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 
@@ -104,16 +104,16 @@ ClosedCaptionsDialog::paint ()
 	dc.SetTextForeground (*wxWHITE);
 
 	/* Choose a font which fits vertically */
-	int const line_height = max (8, dc.GetSize().GetHeight() / CLOSED_CAPTION_LINES);
+	int const line_height = max (8, dc.GetSize().GetHeight() / MAX_CLOSED_CAPTION_LINES);
 	wxFont font (*wxNORMAL_FONT);
 	font.SetPixelSize (wxSize (0, line_height * 0.8));
 	dc.SetFont (font);
 
-	for (int i = 0; i < CLOSED_CAPTION_LINES; ++i) {
-		wxString const good = _lines[i].Left (CLOSED_CAPTION_LENGTH);
+	for (int i = 0; i < MAX_CLOSED_CAPTION_LINES; ++i) {
+		wxString const good = _lines[i].Left (MAX_CLOSED_CAPTION_LENGTH);
 		dc.DrawText (good, 8, line_height * i);
-		if (_lines[i].Length() > CLOSED_CAPTION_LENGTH) {
-			wxString const bad = _lines[i].Right (_lines[i].Length() - CLOSED_CAPTION_LENGTH);
+		if (_lines[i].Length() > MAX_CLOSED_CAPTION_LENGTH) {
+			wxString const bad = _lines[i].Right (_lines[i].Length() - MAX_CLOSED_CAPTION_LENGTH);
 			wxSize size = dc.GetTextExtent (good);
 			dc.SetTextForeground (*wxRED);
 			dc.DrawText (bad, 8 + size.GetWidth(), line_height * i);
@@ -158,7 +158,7 @@ ClosedCaptionsDialog::update ()
 
 	if (_current && _current->period.to < time) {
 		/* Current one has finished; clear out */
-		for (int j = 0; j < CLOSED_CAPTION_LINES; ++j) {
+		for (int j = 0; j < MAX_CLOSED_CAPTION_LINES; ++j) {
 			_lines[j] = "";
 		}
 		Refresh ();
@@ -192,7 +192,7 @@ ClosedCaptionsDialog::update ()
 
 		list<StringText> to_show = _current->text.string;
 
-		for (int j = 0; j < CLOSED_CAPTION_LINES; ++j) {
+		for (int j = 0; j < MAX_CLOSED_CAPTION_LINES; ++j) {
 			_lines[j] = "";
 		}
 
@@ -200,7 +200,7 @@ ClosedCaptionsDialog::update ()
 
 		list<StringText>::const_iterator j = to_show.begin();
 		int k = 0;
-		while (j != to_show.end() && k < CLOSED_CAPTION_LINES) {
+		while (j != to_show.end() && k < MAX_CLOSED_CAPTION_LINES) {
 			_lines[k] = j->text();
 			++j;
 			++k;
@@ -211,7 +211,7 @@ ClosedCaptionsDialog::update ()
 	}
 
 	if (!_current && _tracks.empty()) {
-		for (int i = 0; i < CLOSED_CAPTION_LINES; ++i) {
+		for (int i = 0; i < MAX_CLOSED_CAPTION_LINES; ++i) {
 			_lines[i] = wxString();
 		}
 	}
