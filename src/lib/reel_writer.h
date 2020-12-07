@@ -64,7 +64,8 @@ public:
 		dcpomatic::DCPTimePeriod period,
 		boost::shared_ptr<Job> job,
 		int reel_index,
-		int reel_count
+		int reel_count,
+		bool text_only
 		);
 
 	void write (boost::shared_ptr<const dcp::Data> encoded, Frame frame, Eyes eyes);
@@ -122,6 +123,7 @@ private:
 	int _reel_count;
 	boost::optional<std::string> _content_summary;
 	boost::weak_ptr<Job> _job;
+	bool _text_only;
 
 	boost::shared_ptr<dcp::PictureAsset> _picture_asset;
 	/** picture asset writer, or 0 if we are not writing any picture because we already have one */

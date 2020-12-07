@@ -79,8 +79,10 @@ ignore_progress (float)
 }
 
 
-/** @param j Job to report progress to, or 0 */
-Writer::Writer (weak_ptr<const Film> weak_film, weak_ptr<Job> j)
+/** @param j Job to report progress to, or 0.
+ *  @param text_only true to enable only the text (subtitle/ccap) parts of the writer.
+ */
+Writer::Writer (weak_ptr<const Film> weak_film, weak_ptr<Job> j, bool text_only)
 	: WeakConstFilm (weak_film)
 	, _job (j)
 	, _finish (false)
@@ -92,13 +94,14 @@ Writer::Writer (weak_ptr<const Film> weak_film, weak_ptr<Job> j)
 	, _fake_written (0)
 	, _repeat_written (0)
 	, _pushed_to_disk (0)
+	, _text_only (text_only)
 {
 	shared_ptr<Job> job = _job.lock ();
 
 	int reel_index = 0;
 	list<DCPTimePeriod> const reels = film()->reels();
 	BOOST_FOREACH (DCPTimePeriod p, reels) {
-		_reels.push_back (ReelWriter(weak_film, p, job, reel_index++, reels.size()));
+		_reels.push_back (ReelWriter(weak_film, p, job, reel_index++, reels.size(), text_only));
 	}
 
 	_last_written.resize (reels.size());
@@ -123,15 +126,19 @@ Writer::Writer (weak_ptr<const Film> weak_film, weak_ptr<Job> j)
 void
 Writer::start ()
 {
-	_thread = boost::thread (boost::bind(&Writer::thread, this));
+	if (!_text_only) {
+		_thread = boost::thread (boost::bind(&Writer::thread, this));
 #ifdef DCPOMATIC_LINUX
-	pthread_setname_np (_thread.native_handle(), "writer");
+		pthread_setname_np (_thread.native_handle(), "writer");
 #endif
+	}
 }
 
 Writer::~Writer ()
 {
-	terminate_thread (false);
+	if (!_text_only) {
+		terminate_thread (false);
+	}
 }
 
 /** Pass a video frame to the writer for writing to disk at some point.
@@ -522,13 +529,10 @@ Writer::terminate_thread (bool can_throw)
 void
 Writer::finish (boost::filesystem::path output_dcp)
 {
-	if (!_thread.joinable()) {
-		return;
+	if (_thread.joinable()) {
+		LOG_GENERAL_NC ("Terminating writer thread");
+		terminate_thread (true);
 	}
-
-	LOG_GENERAL_NC ("Terminating writer thread");
-
-	terminate_thread (true);
 
 	LOG_GENERAL_NC ("Finishing ReelWriters");
 

@@ -92,9 +92,13 @@ mxf_metadata ()
 	return meta;
 }
 
-/** @param job Related job, or 0 */
+/** @param job Related job, or 0.
+ *  @param text_only true to enable a special mode where the writer will expect only subtitles and closed captions to be written
+ *  (no picture nor sound) and not give errors in that case.  This is used by the hints system to check the potential sizes of
+ *  subtitle / closed caption files.
+ */
 ReelWriter::ReelWriter (
-	weak_ptr<const Film> weak_film, DCPTimePeriod period, shared_ptr<Job> job, int reel_index, int reel_count
+	weak_ptr<const Film> weak_film, DCPTimePeriod period, shared_ptr<Job> job, int reel_index, int reel_count, bool text_only
 	)
 	: WeakConstFilm (weak_film)
 	, _period (period)
@@ -102,6 +106,7 @@ ReelWriter::ReelWriter (
 	, _reel_count (reel_count)
 	, _content_summary (film()->content_summary(period))
 	, _job (job)
+	, _text_only (text_only)
 {
 	/* Create or find our picture asset in a subdirectory, named
 	   according to those film's parameters which affect the video
@@ -441,7 +446,8 @@ maybe_add_text (
 	list<shared_ptr<Font> > const & fonts,
 	shared_ptr<const Film> film,
 	DCPTimePeriod period,
-	boost::filesystem::path output_dcp
+	boost::filesystem::path output_dcp,
+	bool text_only
 	)
 {
 	Frame const period_duration = period.duration().frames_round(film->video_frame_rate());
@@ -494,7 +500,7 @@ maybe_add_text (
 	}
 
 	if (reel_asset) {
-		if (reel_asset->actual_duration() != period_duration) {
+		if (!text_only && reel_asset->actual_duration() != period_duration) {
 			throw ProgrammingError (
 				__FILE__, __LINE__,
 				String::compose ("%1 vs %2", reel_asset->actual_duration(), period_duration)
@@ -614,7 +620,7 @@ ReelWriter::create_reel_text (
 	) const
 {
 	shared_ptr<dcp::ReelSubtitleAsset> subtitle = maybe_add_text<dcp::ReelSubtitleAsset> (
-		_subtitle_asset, duration, reel, refs, fonts, film(), _period, output_dcp
+		_subtitle_asset, duration, reel, refs, fonts, film(), _period, output_dcp, _text_only
 		);
 	if (subtitle && !film()->subtitle_languages().empty()) {
 		subtitle->set_language (film()->subtitle_languages().front());
@@ -622,7 +628,7 @@ ReelWriter::create_reel_text (
 
 	for (map<DCPTextTrack, shared_ptr<dcp::SubtitleAsset> >::const_iterator i = _closed_caption_assets.begin(); i != _closed_caption_assets.end(); ++i) {
 		shared_ptr<dcp::ReelClosedCaptionAsset> a = maybe_add_text<dcp::ReelClosedCaptionAsset> (
-			i->second, duration, reel, refs, fonts, film(), _period, output_dcp
+			i->second, duration, reel, refs, fonts, film(), _period, output_dcp, _text_only
 			);
 		if (a) {
 			a->set_annotation_text (i->first.name);
@@ -666,10 +672,20 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 	LOG_GENERAL ("create_reel for %1-%2; %3 of %4", _period.from.get(), _period.to.get(), _reel_index, _reel_count);
 
 	shared_ptr<dcp::Reel> reel (new dcp::Reel());
-	shared_ptr<dcp::ReelPictureAsset> reel_picture_asset = create_reel_picture (reel, refs);
-	create_reel_sound (reel, refs);
-	create_reel_text (reel, refs, fonts, reel_picture_asset->actual_duration(), output_dcp);
-	create_reel_markers (reel);
+
+	/* This is a bit of a hack; in the strange `_text_only' mode we have no picture, so we don't know
+	 * how long the subtitle / CCAP assets should be.  However, since we're only writing them to see
+	 * how big they are, we don't care about that.
+	 */
+	int64_t duration = 0;
+	if (!_text_only) {
+		shared_ptr<dcp::ReelPictureAsset> reel_picture_asset = create_reel_picture (reel, refs);
+		duration = reel_picture_asset->actual_duration ();
+		create_reel_sound (reel, refs);
+		create_reel_markers (reel);
+	}
+
+	create_reel_text (reel, refs, fonts, duration, output_dcp);
 
 	if (_atmos_asset) {
 		reel->add (shared_ptr<dcp::ReelAtmosAsset>(new dcp::ReelAtmosAsset(_atmos_asset, 0)));

@@ -30,7 +30,10 @@
 #include <vector>
 #include <string>
 
+
 class Film;
+class Writer;
+
 
 class Hints : public Signaller, public ExceptionStore, public WeakConstFilm
 {
@@ -53,7 +56,7 @@ private:
 
 	void thread ();
 	void hint (std::string h);
-	void text (PlayerText text, TextType type, dcpomatic::DCPTimePeriod period);
+	void text (PlayerText text, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period);
 	void closed_caption (PlayerText text, dcpomatic::DCPTimePeriod period);
 	void open_subtitle (PlayerText text, dcpomatic::DCPTimePeriod period);
 
@@ -71,6 +74,11 @@ private:
 	void check_ffec_and_ffmc_in_smpte_feature ();
 
 	boost::thread _thread;
+	/** This is used to make a partial DCP containing only the subtitles and closed captions that
+	 *  our final DCP will have.  This means we can see how big the files will be and warn if they
+	 *  will be too big.
+	 */
+	boost::shared_ptr<Writer> _writer;
 
 	bool _long_ccap;
 	bool _overlap_ccap;

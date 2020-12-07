@@ -33,7 +33,12 @@
 #include "util.h"
 #include "cross.h"
 #include "player.h"
+#include "writer.h"
+#include <dcp/cpl.h>
 #include <dcp/raw_convert.h>
+#include <dcp/reel.h>
+#include <dcp/reel_closed_caption_asset.h>
+#include <dcp/reel_subtitle_asset.h>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
 #include <iostream>
@@ -55,8 +60,16 @@ using namespace dcpomatic;
 using namespace boost::placeholders;
 #endif
 
+
+/* When checking to see if things are too big, we'll say they are if they
+ * are more than the target size minus this "slack."
+ */
+#define SIZE_SLACK 4096
+
+
 Hints::Hints (weak_ptr<const Film> film)
 	: WeakConstFilm (film)
+	, _writer (new Writer(film, weak_ptr<Job>(), true))
 	, _long_ccap (false)
 	, _overlap_ccap (false)
 	, _too_many_ccap_lines (false)
@@ -226,7 +239,7 @@ Hints::check_big_font_files ()
 			BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
 				BOOST_FOREACH (shared_ptr<Font> k, j->fonts()) {
 					optional<boost::filesystem::path> const p = k->file ();
-					if (p && boost::filesystem::file_size(p.get()) >= (640 * 1024)) {
+					if (p && boost::filesystem::file_size(p.get()) >= (MAX_FONT_FILE_SIZE - SIZE_SLACK)) {
 						big_font_files = true;
 					}
 				}
@@ -311,6 +324,14 @@ Hints::check_loudness ()
 }
 
 
+static
+bool
+subtitle_mxf_too_big (shared_ptr<dcp::SubtitleAsset> asset)
+{
+	return asset && asset->file() && boost::filesystem::file_size(*asset->file()) >= (MAX_TEXT_MXF_SIZE - SIZE_SLACK);
+}
+
+
 void
 Hints::thread ()
 {
@@ -339,7 +360,7 @@ Hints::thread ()
 	shared_ptr<Player> player (new Player(film));
 	player->set_ignore_video ();
 	player->set_ignore_audio ();
-	player->Text.connect (bind(&Hints::text, this, _1, _2, _4));
+	player->Text.connect (bind(&Hints::text, this, _1, _2, _3, _4));
 
 	struct timeval last_pulse;
 	gettimeofday (&last_pulse, 0);
@@ -361,6 +382,45 @@ Hints::thread ()
 		store_current ();
 	}
 
+	_writer->write (player->get_subtitle_fonts());
+
+	bool ccap_xml_too_big = false;
+	bool ccap_mxf_too_big = false;
+	bool subs_mxf_too_big = false;
+
+	boost::filesystem::path dcp_dir = film->dir("hints") / dcpomatic::get_process_id();
+	boost::filesystem::remove_all (dcp_dir);
+	_writer->finish (film->dir("hints") / dcpomatic::get_process_id());
+	dcp::DCP dcp (dcp_dir);
+	dcp.read ();
+	DCPOMATIC_ASSERT (dcp.cpls().size() == 1);
+	BOOST_FOREACH (shared_ptr<dcp::Reel> reel, dcp.cpls().front()->reels()) {
+		BOOST_FOREACH (shared_ptr<dcp::ReelClosedCaptionAsset> ccap, reel->closed_captions()) {
+			if (ccap->asset() && ccap->asset()->xml_as_string().length() > static_cast<size_t>(MAX_CLOSED_CAPTION_XML_SIZE - SIZE_SLACK) && !ccap_xml_too_big) {
+				hint (_(
+						"At least one of your closed caption files' XML part is larger than " MAX_CLOSED_CAPTION_XML_SIZE_TEXT
+						".  You should divide the DCP into shorter reels."
+				       ));
+				ccap_xml_too_big = true;
+			}
+			if (subtitle_mxf_too_big(ccap->asset()) && !ccap_mxf_too_big) {
+				hint (_(
+						"At least one of your closed caption files is larger than " MAX_TEXT_MXF_SIZE_TEXT
+						" in total.  You should divide the DCP into shorter reels."
+				       ));
+				ccap_mxf_too_big = true;
+			}
+		}
+		if (reel->main_subtitle() && subtitle_mxf_too_big(reel->main_subtitle()->asset()) && !subs_mxf_too_big) {
+			hint (_(
+					"At least one of your subtitle files is larger than " MAX_TEXT_MXF_SIZE_TEXT " in total.  "
+					"You should divide the DCP into shorter reels."
+			       ));
+			subs_mxf_too_big = true;
+		}
+	}
+	boost::filesystem::remove_all (dcp_dir);
+
 	emit (bind(boost::ref(Finished)));
 }
 
@@ -371,8 +431,10 @@ Hints::hint (string h)
 }
 
 void
-Hints::text (PlayerText text, TextType type, DCPTimePeriod period)
+Hints::text (PlayerText text, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
 {
+	_writer->write (text, type, track, period);
+
 	switch (type) {
 	case TEXT_CLOSED_CAPTION:
 		closed_caption (text, period);

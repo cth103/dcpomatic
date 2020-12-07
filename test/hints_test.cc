@@ -21,7 +21,9 @@
 
 #include "lib/content.h"
 #include "lib/content_factory.h"
+#include "lib/cross.h"
 #include "lib/film.h"
+#include "lib/font.h"
 #include "lib/hints.h"
 #include "lib/text_content.h"
 #include "lib/util.h"
@@ -32,6 +34,7 @@
 
 using std::string;
 using std::vector;
+using boost::optional;
 using boost::shared_ptr;
 
 
@@ -62,7 +65,7 @@ get_hints (shared_ptr<Film> film)
 
 static
 void
-check (TextType type, string name, string expected_hint)
+check (TextType type, string name, optional<string> expected_hint = optional<string>())
 {
 	shared_ptr<Film> film = new_test_film2 (name);
 	shared_ptr<Content> content = content_factory("test/data/" + name + ".srt").front();
@@ -71,8 +74,12 @@ check (TextType type, string name, string expected_hint)
 	BOOST_REQUIRE (!wait_for_jobs());
 	vector<string> hints = get_hints (film);
 
-	BOOST_REQUIRE_EQUAL (hints.size(), 1);
-	BOOST_CHECK_EQUAL (hints[0], expected_hint);
+	if (expected_hint) {
+		BOOST_REQUIRE_EQUAL (hints.size(), 1);
+		BOOST_CHECK_EQUAL (hints[0], *expected_hint);
+	} else {
+		BOOST_CHECK (hints.empty());
+	}
 }
 
 
@@ -101,7 +108,7 @@ BOOST_AUTO_TEST_CASE (hint_subtitle_too_early)
 	check (
 		TEXT_OPEN_SUBTITLE,
 		"hint_subtitle_too_early",
-		"It is advisable to put your first subtitle at least 4 seconds after the start of the DCP to make sure it is seen."
+		string("It is advisable to put your first subtitle at least 4 seconds after the start of the DCP to make sure it is seen.")
 		);
 }
 
@@ -111,7 +118,7 @@ BOOST_AUTO_TEST_CASE (hint_short_subtitles)
 	check (
 		TEXT_OPEN_SUBTITLE,
 		"hint_short_subtitles",
-		"At least one of your subtitles lasts less than 15 frames.  It is advisable to make each subtitle at least 15 frames long."
+		string("At least one of your subtitles lasts less than 15 frames.  It is advisable to make each subtitle at least 15 frames long.")
 		);
 }
 
@@ -121,7 +128,7 @@ BOOST_AUTO_TEST_CASE (hint_subtitles_too_close)
 	check (
 		TEXT_OPEN_SUBTITLE,
 		"hint_subtitles_too_close",
-		"At least one of your subtitles starts less than 2 frames after the previous one.  It is advisable to make the gap between subtitles at least 2 frames."
+		string("At least one of your subtitles starts less than 2 frames after the previous one.  It is advisable to make the gap between subtitles at least 2 frames.")
 	      );
 }
 
@@ -131,7 +138,7 @@ BOOST_AUTO_TEST_CASE (hint_many_subtitle_lines)
 	check (
 		TEXT_OPEN_SUBTITLE,
 		"hint_many_subtitle_lines",
-		"At least one of your subtitles has more than 3 lines.  It is advisable to use no more than 3 lines."
+		string("At least one of your subtitles has more than 3 lines.  It is advisable to use no more than 3 lines.")
 	      );
 }
 
@@ -141,7 +148,64 @@ BOOST_AUTO_TEST_CASE (hint_subtitle_too_long)
 	check (
 		TEXT_OPEN_SUBTITLE,
 		"hint_subtitle_too_long",
-		"At least one of your subtitle lines has more than 52 characters.  It is advisable to make each line 52 characters at most in length."
+		string("At least one of your subtitle lines has more than 52 characters.  It is advisable to make each line 52 characters at most in length.")
 	      );
+}
+
+
+BOOST_AUTO_TEST_CASE (hint_subtitle_mxf_too_big)
+{
+	string const name = "hint_subtitle_mxf_too_big";
+
+	shared_ptr<Film> film = new_test_film2 (name);
+	shared_ptr<Content> content = content_factory("test/data/" + name + ".srt").front();
+	content->text.front()->set_type (TEXT_OPEN_SUBTITLE);
+	for (int i = 1; i < 512; ++i) {
+		shared_ptr<dcpomatic::Font> font(new dcpomatic::Font(String::compose("font_%1", i)));
+		font->set_file ("test/data/LiberationSans-Regular.ttf");
+		content->text.front()->add_font(font);
+	}
+	film->examine_and_add_content (content);
+	BOOST_REQUIRE (!wait_for_jobs());
+	vector<string> hints = get_hints (film);
+
+	BOOST_REQUIRE_EQUAL (hints.size(), 1);
+	BOOST_CHECK_EQUAL (
+		hints[0],
+		"At least one of your subtitle files is larger than " MAX_TEXT_MXF_SIZE_TEXT " in total.  "
+		"You should divide the DCP into shorter reels."
+		);
+}
+
+
+BOOST_AUTO_TEST_CASE (hint_closed_caption_xml_too_big)
+{
+	string const name = "hint_closed_caption_xml_too_big";
+
+	shared_ptr<Film> film = new_test_film2 (name);
+
+	FILE* ccap = fopen_boost (String::compose("build/test/%1.srt", name), "w");
+	BOOST_REQUIRE (ccap);
+	for (int i = 0; i < 2048; ++i) {
+		fprintf(ccap, "%d\n", i + 1);
+		int second = i * 2;
+		int minute = second % 60;
+		fprintf(ccap, "00:%02d:%02d,000 --> 00:%02d:%02d,000\n", minute, second, minute, second + 1);
+		fprintf(ccap, "Here are some closed captions.\n\n");
+	}
+	fclose (ccap);
+
+	shared_ptr<Content> content = content_factory("build/test/" + name + ".srt").front();
+	content->text.front()->set_type (TEXT_CLOSED_CAPTION);
+	film->examine_and_add_content (content);
+	BOOST_REQUIRE (!wait_for_jobs());
+	vector<string> hints = get_hints (film);
+
+	BOOST_REQUIRE_EQUAL (hints.size(), 1);
+	BOOST_CHECK_EQUAL (
+		hints[0],
+		"At least one of your closed caption files' XML part is larger than " MAX_CLOSED_CAPTION_XML_SIZE_TEXT ".  "
+		"You should divide the DCP into shorter reels."
+		);
 }
 

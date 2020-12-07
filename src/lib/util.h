@@ -65,6 +65,15 @@ namespace dcp {
 #define MAX_CLOSED_CAPTION_LINES 3
 /** Maximum line length of closed caption viewers, according to SMPTE Bv2.1 */
 #define MAX_CLOSED_CAPTION_LENGTH 32
+/** Maximum size of a subtitle / closed caption MXF in bytes, according to SMPTE Bv2.1 */
+#define MAX_TEXT_MXF_SIZE (115 * 1024 * 1024)
+#define MAX_TEXT_MXF_SIZE_TEXT "115MB"
+/** Maximum size of a font file, in bytes */
+#define MAX_FONT_FILE_SIZE (640 * 1024)
+#define MAX_FONT_FILE_SIZE_TEXT "640KB"
+/** Maximum size of the XML part of a closed caption file, according to SMPTE Bv2.1 */
+#define MAX_CLOSED_CAPTION_XML_SIZE (256 * 1024)
+#define MAX_CLOSED_CAPTION_XML_SIZE_TEXT "256KB"
 
 extern std::string program_name;
 extern bool is_batch_converter;

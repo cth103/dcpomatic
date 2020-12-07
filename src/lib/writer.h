@@ -99,7 +99,7 @@ bool operator== (QueueItem const & a, QueueItem const & b);
 class Writer : public ExceptionStore, public boost::noncopyable, public WeakConstFilm
 {
 public:
-	Writer (boost::weak_ptr<const Film>, boost::weak_ptr<Job>);
+	Writer (boost::weak_ptr<const Film>, boost::weak_ptr<Job>, bool text_only = false);
 	~Writer ();
 
 	void start ();
@@ -188,6 +188,8 @@ private:
 	    due to the limit of frames to be held in memory.
 	*/
 	int _pushed_to_disk;
+
+	bool _text_only;
 
 	boost::mutex _digest_progresses_mutex;
 	std::map<boost::thread::id, float> _digest_progresses;
