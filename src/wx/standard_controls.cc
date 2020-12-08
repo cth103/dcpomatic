@@ -29,7 +29,7 @@ StandardControls::StandardControls (wxWindow* parent, shared_ptr<FilmViewer> vie
 	: Controls (parent, viewer, editor_controls)
 	, _play_button (new wxToggleButton(this, wxID_ANY, _("Play")))
 {
-	_button_sizer->Add (_play_button, 0, wxEXPAND);
+	_button_sizer->Add (_play_button, 0, wxALL | wxALIGN_CENTER_VERTICAL, 2);
 	_play_button->Bind (wxEVT_TOGGLEBUTTON, boost::bind(&StandardControls::play_clicked, this));
 }
 
