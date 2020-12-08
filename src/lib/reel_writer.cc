@@ -728,6 +728,46 @@ ReelWriter::write (shared_ptr<const AudioBuffers> audio)
 	_sound_asset_writer->write (audio->data(), audio->frames());
 }
 
+
+shared_ptr<dcp::SubtitleAsset>
+ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track) const
+{
+	shared_ptr<dcp::SubtitleAsset> asset;
+
+	vector<dcp::LanguageTag> lang = film()->subtitle_languages();
+	if (film()->interop()) {
+		shared_ptr<dcp::InteropSubtitleAsset> s (new dcp::InteropSubtitleAsset ());
+		s->set_movie_title (film()->name());
+		if (type == TEXT_OPEN_SUBTITLE) {
+			s->set_language (lang.empty() ? "Unknown" : lang.front().to_string());
+		} else if (!track->language.empty()) {
+			s->set_language (track->language);
+		}
+		s->set_reel_number (raw_convert<string> (_reel_index + 1));
+		asset = s;
+	} else {
+		shared_ptr<dcp::SMPTESubtitleAsset> s (new dcp::SMPTESubtitleAsset ());
+		s->set_content_title_text (film()->name());
+		s->set_metadata (mxf_metadata());
+		if (type == TEXT_OPEN_SUBTITLE && !lang.empty()) {
+			s->set_language (lang.front());
+		} else if (track && !track->language.empty()) {
+			s->set_language (dcp::LanguageTag(track->language));
+		}
+		s->set_edit_rate (dcp::Fraction (film()->video_frame_rate(), 1));
+		s->set_reel_number (_reel_index + 1);
+		s->set_time_code_rate (film()->video_frame_rate());
+		s->set_start_time (dcp::Time ());
+		if (film()->encrypted()) {
+			s->set_key (film()->key());
+		}
+		asset = s;
+	}
+
+	return asset;
+}
+
+
 void
 ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
 {
@@ -746,35 +786,7 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 	}
 
 	if (!asset) {
-		vector<dcp::LanguageTag> lang = film()->subtitle_languages();
-		if (film()->interop()) {
-			shared_ptr<dcp::InteropSubtitleAsset> s (new dcp::InteropSubtitleAsset ());
-			s->set_movie_title (film()->name());
-			if (type == TEXT_OPEN_SUBTITLE) {
-				s->set_language (lang.empty() ? "Unknown" : lang.front().to_string());
-			} else if (!track->language.empty()) {
-				s->set_language (track->language);
-			}
-			s->set_reel_number (raw_convert<string> (_reel_index + 1));
-			asset = s;
-		} else {
-			shared_ptr<dcp::SMPTESubtitleAsset> s (new dcp::SMPTESubtitleAsset ());
-			s->set_content_title_text (film()->name());
-			s->set_metadata (mxf_metadata());
-			if (type == TEXT_OPEN_SUBTITLE && !lang.empty()) {
-				s->set_language (lang.front());
-			} else if (track && !track->language.empty()) {
-				s->set_language (dcp::LanguageTag(track->language));
-			}
-			s->set_edit_rate (dcp::Fraction (film()->video_frame_rate(), 1));
-			s->set_reel_number (_reel_index + 1);
-			s->set_time_code_rate (film()->video_frame_rate());
-			s->set_start_time (dcp::Time ());
-			if (film()->encrypted()) {
-				s->set_key (film()->key());
-			}
-			asset = s;
-		}
+		asset = empty_text_asset (type, track);
 	}
 
 	switch (type) {
