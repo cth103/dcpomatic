@@ -75,7 +75,7 @@ check (TextType type, string name, optional<string> expected_hint = optional<str
 	vector<string> hints = get_hints (film);
 
 	if (expected_hint) {
-		BOOST_REQUIRE_EQUAL (hints.size(), 1);
+		BOOST_REQUIRE_EQUAL (hints.size(), 1U);
 		BOOST_CHECK_EQUAL (hints[0], *expected_hint);
 	} else {
 		BOOST_CHECK (hints.empty());
@@ -169,7 +169,7 @@ BOOST_AUTO_TEST_CASE (hint_subtitle_mxf_too_big)
 	BOOST_REQUIRE (!wait_for_jobs());
 	vector<string> hints = get_hints (film);
 
-	BOOST_REQUIRE_EQUAL (hints.size(), 1);
+	BOOST_REQUIRE_EQUAL (hints.size(), 1U);
 	BOOST_CHECK_EQUAL (
 		hints[0],
 		"At least one of your subtitle files is larger than " MAX_TEXT_MXF_SIZE_TEXT " in total.  "
@@ -201,7 +201,7 @@ BOOST_AUTO_TEST_CASE (hint_closed_caption_xml_too_big)
 	BOOST_REQUIRE (!wait_for_jobs());
 	vector<string> hints = get_hints (film);
 
-	BOOST_REQUIRE_EQUAL (hints.size(), 1);
+	BOOST_REQUIRE_EQUAL (hints.size(), 1U);
 	BOOST_CHECK_EQUAL (
 		hints[0],
 		"At least one of your closed caption files' XML part is larger than " MAX_CLOSED_CAPTION_XML_SIZE_TEXT ".  "
