@@ -62,8 +62,9 @@ TimecodeBase::TimecodeBase (wxWindow* parent, bool set_button)
 	_frames = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, s, 0, validator);
 	_frames->SetMaxLength (2);
 	editable_sizer->Add (_frames);
+
 	if (set_button) {
-		_set_button = new Button (_editable, _("Set"));
+		_set_button = new Button (_editable, _("Set"), wxDefaultPosition, small_button_size(parent, _("Set")));
 		editable_sizer->Add (_set_button, 0, wxLEFT | wxRIGHT, 8);
 	}
 	_editable->SetSizerAndFit (editable_sizer);

@@ -91,6 +91,7 @@ extern double calculate_mark_interval (double start);
 extern bool display_progress (wxString title, wxString task);
 extern bool report_errors_from_last_job (wxWindow* parent);
 extern wxString bitmap_path (std::string name);
+extern wxSize small_button_size (wxWindow* parent, wxString text);
 
 struct Offset
 {

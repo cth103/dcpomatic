@@ -166,7 +166,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_scale_label = create_label (this, _("Scale"), true);
 	_scale_fit = new wxRadioButton (this, wxID_ANY, _("to fit DCP"));
 	_scale_custom = new wxRadioButton (this, wxID_ANY, _("custom"));
-	_scale_custom_edit = new Button (this, _("Edit..."));
+	_scale_custom_edit = new Button (this, _("Edit..."), wxDefaultPosition, small_button_size(this, _("Edit...")));
 
 	_colour_conversion_label = create_label (this, _("Colour conversion"), true);
 	_colour_conversion = new wxChoice (this, wxID_ANY, wxDefaultPosition, size);
@@ -177,7 +177,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 
 	/// TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
 	_colour_conversion->Append (S_("Colour|Custom"));
-	_edit_colour_conversion_button = new Button (this, _("Edit..."));
+	_edit_colour_conversion_button = new Button (this, _("Edit..."), wxDefaultPosition, small_button_size(this, _("Edit...")));
 
 	_range_label = create_label (this, _("Range"), true);
 	_range = new wxChoice (this, wxID_ANY);

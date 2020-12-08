@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -590,5 +590,16 @@ bitmap_path (string name)
 
 	boost::filesystem::path p = base / String::compose("%1.png", name);
 	return std_to_wx (p.string());
+}
+
+
+wxSize
+small_button_size (wxWindow* parent, wxString text)
+{
+	wxClientDC dc (parent);
+	wxSize size = dc.GetTextExtent (text);
+	size.SetHeight (-1);
+	size.IncBy (24, 0);
+	return size;
 }
 
