@@ -24,6 +24,7 @@
 #include "referenced_reel_asset.h"
 #include "player_text.h"
 #include "dcp_text_track.h"
+#include "weak_film.h"
 #include <dcp/picture_asset_writer.h>
 #include <dcp/atmos_asset_writer.h>
 #include <boost/shared_ptr.hpp>
@@ -55,11 +56,11 @@ namespace dcp {
 	class ReelPictureAsset;
 }
 
-class ReelWriter
+class ReelWriter : public WeakConstFilm
 {
 public:
 	ReelWriter (
-		boost::shared_ptr<const Film> film,
+		boost::weak_ptr<const Film> film,
 		dcpomatic::DCPTimePeriod period,
 		boost::shared_ptr<Job> job,
 		int reel_index,
@@ -106,8 +107,6 @@ private:
 		int64_t duration
 		) const;
 	void create_reel_markers (boost::shared_ptr<dcp::Reel> reel) const;
-
-	boost::shared_ptr<const Film> _film;
 
 	dcpomatic::DCPTimePeriod _period;
 	/** the first picture frame index that does not already exist in our MXF */

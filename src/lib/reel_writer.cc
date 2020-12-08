@@ -67,6 +67,7 @@ using boost::dynamic_pointer_cast;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
+using boost::weak_ptr;
 using dcp::ArrayData;
 using dcp::Data;
 using dcp::raw_convert;
@@ -93,13 +94,13 @@ mxf_metadata ()
 
 /** @param job Related job, or 0 */
 ReelWriter::ReelWriter (
-	shared_ptr<const Film> film, DCPTimePeriod period, shared_ptr<Job> job, int reel_index, int reel_count
+	weak_ptr<const Film> weak_film, DCPTimePeriod period, shared_ptr<Job> job, int reel_index, int reel_count
 	)
-	: _film (film)
+	: WeakConstFilm (weak_film)
 	, _period (period)
 	, _reel_index (reel_index)
 	, _reel_count (reel_count)
-	, _content_summary (film->content_summary(period))
+	, _content_summary (film()->content_summary(period))
 	, _job (job)
 {
 	/* Create or find our picture asset in a subdirectory, named
@@ -107,14 +108,14 @@ ReelWriter::ReelWriter (
 	   output.  We will hard-link it into the DCP later.
 	*/
 
-	dcp::Standard const standard = _film->interop() ? dcp::INTEROP : dcp::SMPTE;
+	dcp::Standard const standard = film()->interop() ? dcp::INTEROP : dcp::SMPTE;
 
 	boost::filesystem::path const asset =
-		_film->internal_video_asset_dir() / _film->internal_video_asset_filename(_period);
+		film()->internal_video_asset_dir() / film()->internal_video_asset_filename(_period);
 
 	_first_nonexistant_frame = check_existing_picture_asset (asset);
 
-	if (_first_nonexistant_frame < period.duration().frames_round(_film->video_frame_rate())) {
+	if (_first_nonexistant_frame < period.duration().frames_round(film()->video_frame_rate())) {
 		/* We do not have a complete picture asset.  If there is an
 		   existing asset, break any hard links to it as we are about
 		   to change its contents (if only by changing the IDs); see
@@ -132,18 +133,18 @@ ReelWriter::ReelWriter (
 		}
 
 
-		if (_film->three_d ()) {
-			_picture_asset.reset (new dcp::StereoPictureAsset(dcp::Fraction(_film->video_frame_rate(), 1), standard));
+		if (film()->three_d()) {
+			_picture_asset.reset (new dcp::StereoPictureAsset(dcp::Fraction(film()->video_frame_rate(), 1), standard));
 		} else {
-			_picture_asset.reset (new dcp::MonoPictureAsset(dcp::Fraction(_film->video_frame_rate(), 1), standard));
+			_picture_asset.reset (new dcp::MonoPictureAsset(dcp::Fraction(film()->video_frame_rate(), 1), standard));
 		}
 
-		_picture_asset->set_size (_film->frame_size());
+		_picture_asset->set_size (film()->frame_size());
 		_picture_asset->set_metadata (mxf_metadata());
 
-		if (_film->encrypted ()) {
-			_picture_asset->set_key (_film->key());
-			_picture_asset->set_context_id (_film->context_id());
+		if (film()->encrypted()) {
+			_picture_asset->set_key (film()->key());
+			_picture_asset->set_context_id (film()->context_id());
 		}
 
 		_picture_asset->set_file (asset);
@@ -151,28 +152,28 @@ ReelWriter::ReelWriter (
 	} else {
 		/* We already have a complete picture asset that we can just re-use */
 		/* XXX: what about if the encryption key changes? */
-		if (_film->three_d ()) {
+		if (film()->three_d()) {
 			_picture_asset.reset (new dcp::StereoPictureAsset(asset));
 		} else {
 			_picture_asset.reset (new dcp::MonoPictureAsset(asset));
 		}
 	}
 
-	if (_film->audio_channels ()) {
+	if (film()->audio_channels()) {
 		_sound_asset.reset (
-			new dcp::SoundAsset (dcp::Fraction(_film->video_frame_rate(), 1), _film->audio_frame_rate(), _film->audio_channels(), _film->audio_language(), standard)
+			new dcp::SoundAsset (dcp::Fraction(film()->video_frame_rate(), 1), film()->audio_frame_rate(), film()->audio_channels(), film()->audio_language(), standard)
 			);
 
 		_sound_asset->set_metadata (mxf_metadata());
 
-		if (_film->encrypted ()) {
-			_sound_asset->set_key (_film->key ());
+		if (film()->encrypted()) {
+			_sound_asset->set_key (film()->key());
 		}
 
-		DCPOMATIC_ASSERT (_film->directory());
+		DCPOMATIC_ASSERT (film()->directory());
 
 		vector<dcp::Channel> active;
-		BOOST_FOREACH (int i, _film->mapped_audio_channels()) {
+		BOOST_FOREACH (int i, film()->mapped_audio_channels()) {
 			active.push_back (static_cast<dcp::Channel>(i));
 		}
 
@@ -180,9 +181,9 @@ ReelWriter::ReelWriter (
 		   of the DCP directory until the last minute.
 		*/
 		_sound_asset_writer = _sound_asset->start_write (
-			_film->directory().get() / audio_asset_filename (_sound_asset, _reel_index, _reel_count, _content_summary),
+			film()->directory().get() / audio_asset_filename (_sound_asset, _reel_index, _reel_count, _content_summary),
 			active,
-			_film->contains_atmos_content()
+			film()->contains_atmos_content()
 			);
 	}
 }
@@ -191,7 +192,7 @@ ReelWriter::ReelWriter (
 void
 ReelWriter::write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const
 {
-	shared_ptr<InfoFileHandle> handle = _film->info_file_handle(_period, false);
+	shared_ptr<InfoFileHandle> handle = film()->info_file_handle(_period, false);
 	dcpomatic_fseek (handle->get(), frame_info_position(frame, eyes), SEEK_SET);
 	checked_fwrite (&info.offset, sizeof(info.offset), handle->get(), handle->file());
 	checked_fwrite (&info.size, sizeof (info.size), handle->get(), handle->file());
@@ -252,7 +253,7 @@ ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
 	shared_ptr<InfoFileHandle> info_file;
 
 	try {
-		info_file = _film->info_file_handle (_period, true);
+		info_file = film()->info_file_handle (_period, true);
 	} catch (OpenFileError &) {
 		LOG_GENERAL_NC ("Could not open film info file");
 		fclose (asset_file);
@@ -264,7 +265,7 @@ ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
 	LOG_GENERAL ("The last FI is %1; info file is %2, info size %3", n, boost::filesystem::file_size(info_file->file()), _info_size);
 
 	Frame first_nonexistant_frame;
-	if (_film->three_d ()) {
+	if (film()->three_d()) {
 		/* Start looking at the last left frame */
 		first_nonexistant_frame = n / 2;
 	} else {
@@ -275,7 +276,7 @@ ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
 		--first_nonexistant_frame;
 	}
 
-	if (!_film->three_d() && first_nonexistant_frame > 0) {
+	if (!film()->three_d() && first_nonexistant_frame > 0) {
 		/* If we are doing 3D we might have found a good L frame with no R, so only
 		   do this if we're in 2D and we've just found a good B(oth) frame.
 		*/
@@ -307,12 +308,12 @@ void
 ReelWriter::write (shared_ptr<const dcp::AtmosFrame> atmos, AtmosMetadata metadata)
 {
 	if (!_atmos_asset) {
-		_atmos_asset = metadata.create (dcp::Fraction(_film->video_frame_rate(), 1));
-		if (_film->encrypted()) {
-			_atmos_asset->set_key(_film->key());
+		_atmos_asset = metadata.create (dcp::Fraction(film()->video_frame_rate(), 1));
+		if (film()->encrypted()) {
+			_atmos_asset->set_key(film()->key());
 		}
 		_atmos_asset_writer = _atmos_asset->start_write (
-			_film->directory().get() / atmos_asset_filename (_atmos_asset, _reel_index, _reel_count, _content_summary)
+			film()->directory().get() / atmos_asset_filename (_atmos_asset, _reel_index, _reel_count, _content_summary)
 			);
 	}
 	_atmos_asset_writer->write (atmos);
@@ -364,7 +365,7 @@ ReelWriter::finish ()
 		DCPOMATIC_ASSERT (_picture_asset->file());
 		boost::filesystem::path video_from = _picture_asset->file().get();
 		boost::filesystem::path video_to;
-		video_to /= _film->dir (_film->dcp_name());
+		video_to /= film()->dir(film()->dcp_name());
 		video_to /= video_asset_filename (_picture_asset, _reel_index, _reel_count, _content_summary);
 		/* There may be an existing "to" file if we are recreating a DCP in the same place without
 		   changing any video.
@@ -399,12 +400,12 @@ ReelWriter::finish ()
 	/* Move the audio asset into the DCP */
 	if (_sound_asset) {
 		boost::filesystem::path audio_to;
-		audio_to /= _film->dir (_film->dcp_name ());
+		audio_to /= film()->dir(film()->dcp_name ());
 		string const aaf = audio_asset_filename (_sound_asset, _reel_index, _reel_count, _content_summary);
 		audio_to /= aaf;
 
 		boost::system::error_code ec;
-		boost::filesystem::rename (_film->file (aaf), audio_to, ec);
+		boost::filesystem::rename (film()->file(aaf), audio_to, ec);
 		if (ec) {
 			throw FileError (
 				String::compose (_("could not move audio asset into the DCP (%1)"), ec.value ()), aaf
@@ -417,12 +418,12 @@ ReelWriter::finish ()
 	if (_atmos_asset) {
 		_atmos_asset_writer->finalize ();
 		boost::filesystem::path atmos_to;
-		atmos_to /= _film->dir (_film->dcp_name());
+		atmos_to /= film()->dir(film()->dcp_name());
 		string const aaf = atmos_asset_filename (_atmos_asset, _reel_index, _reel_count, _content_summary);
 		atmos_to /= aaf;
 
 		boost::system::error_code ec;
-		boost::filesystem::rename (_film->file(aaf), atmos_to, ec);
+		boost::filesystem::rename (film()->file(aaf), atmos_to, ec);
 		if (ec) {
 			throw FileError (
 				String::compose (_("could not move atmos asset into the DCP (%1)"), ec.value ()), aaf
@@ -538,7 +539,7 @@ ReelWriter::create_reel_picture (shared_ptr<dcp::Reel> reel, list<ReferencedReel
 		}
 	}
 
-	Frame const period_duration = _period.duration().frames_round(_film->video_frame_rate());
+	Frame const period_duration = _period.duration().frames_round(film()->video_frame_rate());
 
 	DCPOMATIC_ASSERT (reel_asset);
 	if (reel_asset->duration() != period_duration) {
@@ -584,7 +585,7 @@ ReelWriter::create_reel_sound (shared_ptr<dcp::Reel> reel, list<ReferencedReelAs
 		}
 	}
 
-	Frame const period_duration = _period.duration().frames_round(_film->video_frame_rate());
+	Frame const period_duration = _period.duration().frames_round(film()->video_frame_rate());
 
 	DCPOMATIC_ASSERT (reel_asset);
 	if (reel_asset->actual_duration() != period_duration) {
@@ -608,14 +609,14 @@ ReelWriter::create_reel_sound (shared_ptr<dcp::Reel> reel, list<ReferencedReelAs
 void
 ReelWriter::create_reel_text (shared_ptr<dcp::Reel> reel, list<ReferencedReelAsset> const & refs, list<shared_ptr<Font> > const& fonts, int64_t duration) const
 {
-	shared_ptr<dcp::ReelSubtitleAsset> subtitle = maybe_add_text<dcp::ReelSubtitleAsset> (_subtitle_asset, duration, reel, refs, fonts, _film, _period);
-	if (subtitle && !_film->subtitle_languages().empty()) {
-		subtitle->set_language (_film->subtitle_languages().front());
+	shared_ptr<dcp::ReelSubtitleAsset> subtitle = maybe_add_text<dcp::ReelSubtitleAsset> (_subtitle_asset, duration, reel, refs, fonts, film(), _period);
+	if (subtitle && !film()->subtitle_languages().empty()) {
+		subtitle->set_language (film()->subtitle_languages().front());
 	}
 
 	for (map<DCPTextTrack, shared_ptr<dcp::SubtitleAsset> >::const_iterator i = _closed_caption_assets.begin(); i != _closed_caption_assets.end(); ++i) {
 		shared_ptr<dcp::ReelClosedCaptionAsset> a = maybe_add_text<dcp::ReelClosedCaptionAsset> (
-			i->second, duration, reel, refs, fonts, _film, _period
+			i->second, duration, reel, refs, fonts, film(), _period
 			);
 		if (a) {
 			a->set_annotation_text (i->first.name);
@@ -631,8 +632,8 @@ ReelWriter::create_reel_text (shared_ptr<dcp::Reel> reel, list<ReferencedReelAss
 void
 ReelWriter::create_reel_markers (shared_ptr<dcp::Reel> reel) const
 {
-	Film::Markers markers = _film->markers ();
-	_film->add_ffoc_lfoc (markers);
+	Film::Markers markers = film()->markers();
+	film()->add_ffoc_lfoc(markers);
 	Film::Markers reel_markers;
 	for (Film::Markers::const_iterator i = markers.begin(); i != markers.end(); ++i) {
 		if (_period.contains(i->second)) {
@@ -641,12 +642,12 @@ ReelWriter::create_reel_markers (shared_ptr<dcp::Reel> reel) const
 	}
 
 	if (!reel_markers.empty ()) {
-		shared_ptr<dcp::ReelMarkersAsset> ma (new dcp::ReelMarkersAsset(dcp::Fraction(_film->video_frame_rate(), 1), 0));
+		shared_ptr<dcp::ReelMarkersAsset> ma (new dcp::ReelMarkersAsset(dcp::Fraction(film()->video_frame_rate(), 1), 0));
 		for (map<dcp::Marker, DCPTime>::const_iterator i = reel_markers.begin(); i != reel_markers.end(); ++i) {
 			int h, m, s, f;
 			DCPTime relative = i->second - _period.from;
-			relative.split (_film->video_frame_rate(), h, m, s, f);
-			ma->set (i->first, dcp::Time(h, m, s, f, _film->video_frame_rate()));
+			relative.split (film()->video_frame_rate(), h, m, s, f);
+			ma->set (i->first, dcp::Time(h, m, s, f, film()->video_frame_rate()));
 		}
 		reel->add (ma);
 	}
@@ -690,7 +691,7 @@ ReelWriter::calculate_digests (boost::function<void (float)> set_progress)
 Frame
 ReelWriter::start () const
 {
-	return _period.from.frames_floor (_film->video_frame_rate());
+	return _period.from.frames_floor (film()->video_frame_rate());
 }
 
 
@@ -723,10 +724,10 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 	}
 
 	if (!asset) {
-		vector<dcp::LanguageTag> lang = _film->subtitle_languages ();
-		if (_film->interop ()) {
+		vector<dcp::LanguageTag> lang = film()->subtitle_languages();
+		if (film()->interop()) {
 			shared_ptr<dcp::InteropSubtitleAsset> s (new dcp::InteropSubtitleAsset ());
-			s->set_movie_title (_film->name ());
+			s->set_movie_title (film()->name());
 			if (type == TEXT_OPEN_SUBTITLE) {
 				s->set_language (lang.empty() ? "Unknown" : lang.front().to_string());
 			} else if (!track->language.empty()) {
@@ -736,19 +737,19 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 			asset = s;
 		} else {
 			shared_ptr<dcp::SMPTESubtitleAsset> s (new dcp::SMPTESubtitleAsset ());
-			s->set_content_title_text (_film->name ());
+			s->set_content_title_text (film()->name());
 			s->set_metadata (mxf_metadata());
 			if (type == TEXT_OPEN_SUBTITLE && !lang.empty()) {
 				s->set_language (lang.front());
 			} else if (track && !track->language.empty()) {
 				s->set_language (dcp::LanguageTag(track->language));
 			}
-			s->set_edit_rate (dcp::Fraction (_film->video_frame_rate (), 1));
+			s->set_edit_rate (dcp::Fraction (film()->video_frame_rate(), 1));
 			s->set_reel_number (_reel_index + 1);
-			s->set_time_code_rate (_film->video_frame_rate ());
+			s->set_time_code_rate (film()->video_frame_rate());
 			s->set_start_time (dcp::Time ());
-			if (_film->encrypted ()) {
-				s->set_key (_film->key ());
+			if (film()->encrypted()) {
+				s->set_key (film()->key());
 			}
 			asset = s;
 		}
@@ -778,8 +779,8 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 			shared_ptr<dcp::Subtitle>(
 				new dcp::SubtitleImage(
 					i.image->as_png(),
-					dcp::Time(period.from.seconds() - _period.from.seconds(), _film->video_frame_rate()),
-					dcp::Time(period.to.seconds() - _period.from.seconds(), _film->video_frame_rate()),
+					dcp::Time(period.from.seconds() - _period.from.seconds(), film()->video_frame_rate()),
+					dcp::Time(period.to.seconds() - _period.from.seconds(), film()->video_frame_rate()),
 					i.rectangle.x, dcp::HALIGN_LEFT, i.rectangle.y, dcp::VALIGN_TOP,
 					dcp::Time(), dcp::Time()
 					)
@@ -796,7 +797,7 @@ ReelWriter::existing_picture_frame_ok (FILE* asset_file, shared_ptr<InfoFileHand
 	/* Read the data from the info file; for 3D we just check the left
 	   frames until we find a good one.
 	*/
-	dcp::FrameInfo const info = read_frame_info (info_file, frame, _film->three_d () ? EYES_LEFT : EYES_BOTH);
+	dcp::FrameInfo const info = read_frame_info (info_file, frame, film()->three_d() ? EYES_LEFT : EYES_BOTH);
 
 	bool ok = true;
 

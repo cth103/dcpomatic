@@ -89,7 +89,7 @@ Writer::Writer (weak_ptr<const Film> weak_film, weak_ptr<Job> j)
 	int reel_index = 0;
 	list<DCPTimePeriod> const reels = film()->reels();
 	BOOST_FOREACH (DCPTimePeriod p, reels) {
-		_reels.push_back (ReelWriter(film(), p, job, reel_index++, reels.size()));
+		_reels.push_back (ReelWriter(weak_film, p, job, reel_index++, reels.size()));
 	}
 
 	_last_written.resize (reels.size());
