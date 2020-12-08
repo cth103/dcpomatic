@@ -117,12 +117,12 @@ public:
 	}
 
 	/** Add this widget to a wxGridBagSizer */
-	void add (wxGridBagSizer* sizer, wxGBPosition position, wxGBSpan span = wxDefaultSpan)
+	void add (wxGridBagSizer* sizer, wxGBPosition position, wxGBSpan span = wxDefaultSpan, int flag = 0)
 	{
 		_sizer = sizer;
 		_position = position;
 		_span = span;
-		_sizer->Add (_wrapped, _position, _span);
+		_sizer->Add (_wrapped, _position, _span, flag);
 	}
 
 	/** Update the view from the model */
