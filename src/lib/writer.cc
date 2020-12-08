@@ -95,6 +95,7 @@ Writer::Writer (weak_ptr<const Film> weak_film, weak_ptr<Job> j, bool text_only)
 	, _repeat_written (0)
 	, _pushed_to_disk (0)
 	, _text_only (text_only)
+	, _have_subtitles (false)
 {
 	shared_ptr<Job> job = _job.lock ();
 
@@ -590,7 +591,7 @@ Writer::finish (boost::filesystem::path output_dcp)
 	/* Add reels */
 
 	BOOST_FOREACH (ReelWriter& i, _reels) {
-		cpl->add (i.create_reel(_reel_assets, _fonts, output_dcp));
+		cpl->add (i.create_reel(_reel_assets, _fonts, output_dcp, _have_subtitles, _have_closed_captions));
 	}
 
 	/* Add metadata */
@@ -769,11 +770,13 @@ Writer::write (PlayerText text, TextType type, optional<DCPTextTrack> track, DCP
 	switch (type) {
 	case TEXT_OPEN_SUBTITLE:
 		reel = &_subtitle_reel;
+		_have_subtitles = true;
 		break;
 	case TEXT_CLOSED_CAPTION:
 		DCPOMATIC_ASSERT (track);
 		DCPOMATIC_ASSERT (_caption_reels.find(*track) != _caption_reels.end());
 		reel = &_caption_reels[*track];
+		_have_closed_captions.insert (*track);
 		break;
 	default:
 		DCPOMATIC_ASSERT (false);

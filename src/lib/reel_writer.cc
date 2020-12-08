@@ -60,6 +60,7 @@ using std::string;
 using std::cout;
 using std::exception;
 using std::map;
+using std::set;
 using std::vector;
 using boost::shared_ptr;
 using boost::optional;
@@ -616,25 +617,57 @@ ReelWriter::create_reel_text (
 	list<ReferencedReelAsset> const & refs,
 	list<shared_ptr<Font> > const& fonts,
 	int64_t duration,
-	boost::filesystem::path output_dcp
+	boost::filesystem::path output_dcp,
+	bool ensure_subtitles,
+	set<DCPTextTrack> ensure_closed_captions
 	) const
 {
 	shared_ptr<dcp::ReelSubtitleAsset> subtitle = maybe_add_text<dcp::ReelSubtitleAsset> (
 		_subtitle_asset, duration, reel, refs, fonts, film(), _period, output_dcp, _text_only
 		);
-	if (subtitle && !film()->subtitle_languages().empty()) {
-		subtitle->set_language (film()->subtitle_languages().front());
+
+	if (subtitle) {
+		/* We have a subtitle asset that we either made or are referencing */
+		if (!film()->subtitle_languages().empty()) {
+			subtitle->set_language (film()->subtitle_languages().front());
+		}
+	} else if (ensure_subtitles) {
+		/* We had no subtitle asset, but we've been asked to make sure there is one */
+		subtitle = maybe_add_text<dcp::ReelSubtitleAsset>(
+			empty_text_asset(TEXT_OPEN_SUBTITLE, optional<DCPTextTrack>()),
+			duration,
+			reel,
+			refs,
+			fonts,
+			film(),
+			_period,
+			output_dcp,
+			_text_only
+			);
 	}
 
 	for (map<DCPTextTrack, shared_ptr<dcp::SubtitleAsset> >::const_iterator i = _closed_caption_assets.begin(); i != _closed_caption_assets.end(); ++i) {
 		shared_ptr<dcp::ReelClosedCaptionAsset> a = maybe_add_text<dcp::ReelClosedCaptionAsset> (
 			i->second, duration, reel, refs, fonts, film(), _period, output_dcp, _text_only
 			);
-		if (a) {
-			a->set_annotation_text (i->first.name);
-			if (!i->first.language.empty()) {
-				a->set_language (dcp::LanguageTag(i->first.language));
-			}
+		DCPOMATIC_ASSERT (a);
+		a->set_annotation_text (i->first.name);
+		if (!i->first.language.empty()) {
+			a->set_language (dcp::LanguageTag(i->first.language));
+		}
+
+		ensure_closed_captions.erase (i->first);
+	}
+
+	/* Make empty tracks for anything we've been asked to ensure but that we haven't added */
+	BOOST_FOREACH (DCPTextTrack i, ensure_closed_captions) {
+		shared_ptr<dcp::ReelClosedCaptionAsset> a = maybe_add_text<dcp::ReelClosedCaptionAsset> (
+			empty_text_asset(TEXT_CLOSED_CAPTION, i), duration, reel, refs, fonts, film(), _period, output_dcp, _text_only
+			);
+		DCPOMATIC_ASSERT (a);
+		a->set_annotation_text (i.name);
+		if (!i.language.empty()) {
+			a->set_language (dcp::LanguageTag(i.language));
 		}
 	}
 }
@@ -666,8 +699,17 @@ ReelWriter::create_reel_markers (shared_ptr<dcp::Reel> reel) const
 }
 
 
+/** @param ensure_subtitles true to make sure the reel has a subtitle asset.
+ *  @param ensure_closed_captions make sure the reel has these closed caption tracks.
+ */
 shared_ptr<dcp::Reel>
-ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr<Font> > const & fonts, boost::filesystem::path output_dcp)
+ReelWriter::create_reel (
+	list<ReferencedReelAsset> const & refs,
+	list<shared_ptr<Font> > const & fonts,
+	boost::filesystem::path output_dcp,
+	bool ensure_subtitles,
+	set<DCPTextTrack> ensure_closed_captions
+	)
 {
 	LOG_GENERAL ("create_reel for %1-%2; %3 of %4", _period.from.get(), _period.to.get(), _reel_index, _reel_count);
 
@@ -685,7 +727,7 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 		create_reel_markers (reel);
 	}
 
-	create_reel_text (reel, refs, fonts, duration, output_dcp);
+	create_reel_text (reel, refs, fonts, duration, output_dcp, ensure_subtitles, ensure_closed_captions);
 
 	if (_atmos_asset) {
 		reel->add (shared_ptr<dcp::ReelAtmosAsset>(new dcp::ReelAtmosAsset(_atmos_asset, 0)));

@@ -197,4 +197,9 @@ private:
 	std::list<ReferencedReelAsset> _reel_assets;
 
 	std::list<boost::shared_ptr<dcpomatic::Font> > _fonts;
+
+	/** true if any reel has any subtitles */
+	bool _have_subtitles;
+	/** all closed caption tracks that we have on any reel */
+	std::set<DCPTextTrack> _have_closed_captions;
 };

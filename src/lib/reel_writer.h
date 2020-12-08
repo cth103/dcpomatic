@@ -77,7 +77,11 @@ public:
 
 	void finish (boost::filesystem::path output_dcp);
 	boost::shared_ptr<dcp::Reel> create_reel (
-		std::list<ReferencedReelAsset> const & refs, std::list<boost::shared_ptr<dcpomatic::Font> > const & fonts, boost::filesystem::path output_dcp
+		std::list<ReferencedReelAsset> const & refs,
+		std::list<boost::shared_ptr<dcpomatic::Font> > const & fonts,
+		boost::filesystem::path output_dcp,
+		bool ensure_subtitles,
+		std::set<DCPTextTrack> ensure_closed_captions
 		);
 	void calculate_digests (boost::function<void (float)> set_progress);
 
@@ -109,7 +113,9 @@ private:
 		boost::shared_ptr<dcp::Reel> reel,
 		std::list<ReferencedReelAsset> const & refs, std::list<boost::shared_ptr<dcpomatic::Font> > const& fonts,
 		int64_t duration,
-		boost::filesystem::path output_dcp
+		boost::filesystem::path output_dcp,
+		bool ensure_subtitles,
+		std::set<DCPTextTrack> ensure_closed_captions
 		) const;
 	void create_reel_markers (boost::shared_ptr<dcp::Reel> reel) const;
 
