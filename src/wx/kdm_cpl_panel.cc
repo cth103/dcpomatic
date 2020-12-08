@@ -43,7 +43,7 @@ KDMCPLPanel::KDMCPLPanel (wxWindow* parent, vector<CPLSummary> cpls)
 	_cpl = new wxChoice (this, wxID_ANY);
 	s->Add (_cpl, 1, wxEXPAND);
 	_cpl_browse = new Button (this, _("Browse..."));
-	s->Add (_cpl_browse, 0, wxALIGN_CENTER_VERTICAL);
+	s->Add (_cpl_browse, 0, wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
 	vertical->Add (s, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP + 2);
 
 	/* CPL details */

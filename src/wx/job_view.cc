@@ -83,7 +83,7 @@ JobView::setup ()
 	_notify = new CheckBox (_container, _("Notify when complete"));
 	_notify->Bind (wxEVT_CHECKBOX, bind (&JobView::notify_clicked, this));
 	_notify->SetValue (Config::instance()->default_notify());
-	_controls->Add (_notify);
+	_controls->Add (_notify, 0, wxTOP, DCPOMATIC_BUTTON_STACK_GAP);
 
 	_table->Insert (n, _controls, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3);
 

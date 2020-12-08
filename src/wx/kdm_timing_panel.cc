@@ -47,11 +47,16 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 #endif
 
 	wxSizer* table = new wxBoxSizer (wxHORIZONTAL);
-	add_label_to_sizer (table, this, _("From"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
+	add_label_to_sizer (table, this, _("From"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 	wxDateTime from;
 	from.SetToCurrent ();
 	_from_date = new wxDatePickerCtrl (this, wxID_ANY, from, wxDefaultPosition, size);
+#ifdef DCPOMATIC_OSX
+	/* Hack to tweak alignment, which I can't get right by "proper" means for some reason */
+	table->Add (_from_date, 0, wxALIGN_CENTER_VERTICAL | wxBOTTOM, 4);
+#else
 	table->Add (_from_date, 0, wxALIGN_CENTER_VERTICAL);
+#endif
 
 #ifdef __WXGTK3__
 	_from_time = new TimePickerText (this, from);
@@ -59,19 +64,19 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 	_from_time = new TimePickerSpin (this, from);
 #endif
 
-#ifdef DCPOMATIC_OSX
-	/* Hack to tweak alignment, which I can't get right by "proper" means for some reason */
-	table->Add (_from_time, 0, wxALIGN_CENTER_VERTICAL | wxTOP, 4);
-#else
 	table->Add (_from_time, 0, wxALIGN_CENTER_VERTICAL);
-#endif
 
-	add_label_to_sizer (table, this, _("until"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
+	add_label_to_sizer (table, this, _("until"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 	wxDateTime to = from;
 	/* 1 week from now */
 	to.Add (wxDateSpan (0, 0, 1, 0));
 	_until_date = new wxDatePickerCtrl (this, wxID_ANY, to, wxDefaultPosition, size);
+#ifdef DCPOMATIC_OSX
+	/* Hack to tweak alignment, which I can't get right by "proper" means for some reason */
+	table->Add (_until_date, 0, wxALIGN_CENTER_VERTICAL | wxBOTTOM, 4);
+#else
 	table->Add (_until_date, 0, wxALIGN_CENTER_VERTICAL);
+#endif
 
 #ifdef __WXGTK3__
 	_until_time = new TimePickerText (this, to);
@@ -79,13 +84,9 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 	_until_time = new TimePickerSpin (this, to);
 #endif
 
-#ifdef DCPOMATIC_OSX
-	table->Add (_until_time, 0, wxALIGN_CENTER_VERTICAL | wxTOP, 4);
-#else
 	table->Add (_until_time, 0, wxALIGN_CENTER_VERTICAL);
-#endif
 
-	overall_sizer->Add (table);
+	overall_sizer->Add (table, 0, wxTOP, DCPOMATIC_SIZER_GAP);
 
 	_warning = new StaticText (this, wxT(""));
 	overall_sizer->Add (_warning, 0, wxTOP, DCPOMATIC_SIZER_GAP);

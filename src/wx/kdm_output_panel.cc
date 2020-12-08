@@ -78,7 +78,7 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 	type->Add (_type, 1, wxEXPAND);
 	_type->SetSelection (0);
 	wxButton* advanced = new Button (this, _("Advanced..."));
-	type->Add (advanced, 0, wxALIGN_CENTER_VERTICAL);
+	type->Add (advanced, 0, wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
 	table->Add (type, 1, wxEXPAND);
 
 	add_label_to_sizer (table, this, _("Folder / ZIP name format"), true, 0, wxALIGN_TOP | wxTOP | wxLEFT | wxRIGHT);
