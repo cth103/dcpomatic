@@ -52,6 +52,7 @@ namespace dcp {
 	class AtmosAsset;
 	class ReelAsset;
 	class Reel;
+	class ReelPictureAsset;
 }
 
 class ReelWriter
@@ -96,6 +97,15 @@ private:
 	long frame_info_position (Frame frame, Eyes eyes) const;
 	Frame check_existing_picture_asset (boost::filesystem::path asset);
 	bool existing_picture_frame_ok (FILE* asset_file, boost::shared_ptr<InfoFileHandle> info_file, Frame frame) const;
+
+	boost::shared_ptr<dcp::ReelPictureAsset> create_reel_picture (boost::shared_ptr<dcp::Reel> reel, std::list<ReferencedReelAsset> const & refs) const;
+	void create_reel_sound (boost::shared_ptr<dcp::Reel> reel, std::list<ReferencedReelAsset> const & refs) const;
+	void create_reel_text (
+		boost::shared_ptr<dcp::Reel> reel,
+		std::list<ReferencedReelAsset> const & refs, std::list<boost::shared_ptr<dcpomatic::Font> > const& fonts,
+		int64_t duration
+		) const;
+	void create_reel_markers (boost::shared_ptr<dcp::Reel> reel) const;
 
 	boost::shared_ptr<const Film> _film;
 

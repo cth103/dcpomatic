@@ -507,25 +507,22 @@ maybe_add_text (
 	return reel_asset;
 }
 
-shared_ptr<dcp::Reel>
-ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr<Font> > const & fonts)
+
+shared_ptr<dcp::ReelPictureAsset>
+ReelWriter::create_reel_picture (shared_ptr<dcp::Reel> reel, list<ReferencedReelAsset> const & refs) const
 {
-	LOG_GENERAL ("create_reel for %1-%2; %3 of %4", _period.from.get(), _period.to.get(), _reel_index, _reel_count);
-
-	shared_ptr<dcp::Reel> reel (new dcp::Reel ());
-
-	shared_ptr<dcp::ReelPictureAsset> reel_picture_asset;
+	shared_ptr<dcp::ReelPictureAsset> reel_asset;
 
 	if (_picture_asset) {
 		/* We have made a picture asset of our own.  Put it into the reel */
 		shared_ptr<dcp::MonoPictureAsset> mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (_picture_asset);
 		if (mono) {
-			reel_picture_asset.reset (new dcp::ReelMonoPictureAsset (mono, 0));
+			reel_asset.reset (new dcp::ReelMonoPictureAsset (mono, 0));
 		}
 
 		shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (_picture_asset);
 		if (stereo) {
-			reel_picture_asset.reset (new dcp::ReelStereoPictureAsset (stereo, 0));
+			reel_asset.reset (new dcp::ReelStereoPictureAsset (stereo, 0));
 		}
 	} else {
 		LOG_GENERAL ("no picture asset of our own; look through %1", refs.size());
@@ -536,32 +533,39 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 				LOG_GENERAL ("candidate picture asset period is %1-%2", j.period.from.get(), j.period.to.get());
 			}
 			if (k && j.period == _period) {
-				reel_picture_asset = k;
+				reel_asset = k;
 			}
 		}
 	}
 
 	Frame const period_duration = _period.duration().frames_round(_film->video_frame_rate());
 
-	DCPOMATIC_ASSERT (reel_picture_asset);
-	if (reel_picture_asset->duration() != period_duration) {
+	DCPOMATIC_ASSERT (reel_asset);
+	if (reel_asset->duration() != period_duration) {
 		throw ProgrammingError (
 			__FILE__, __LINE__,
-			String::compose ("%1 vs %2", reel_picture_asset->actual_duration(), period_duration)
+			String::compose ("%1 vs %2", reel_asset->actual_duration(), period_duration)
 			);
 	}
-	reel->add (reel_picture_asset);
+	reel->add (reel_asset);
 
 	/* If we have a hash for this asset in the CPL, assume that it is correct */
-	if (reel_picture_asset->hash()) {
-		reel_picture_asset->asset_ref()->set_hash (reel_picture_asset->hash().get());
+	if (reel_asset->hash()) {
+		reel_asset->asset_ref()->set_hash (reel_asset->hash().get());
 	}
 
-	shared_ptr<dcp::ReelSoundAsset> reel_sound_asset;
+	return reel_asset;
+}
+
+
+void
+ReelWriter::create_reel_sound (shared_ptr<dcp::Reel> reel, list<ReferencedReelAsset> const & refs) const
+{
+	shared_ptr<dcp::ReelSoundAsset> reel_asset;
 
 	if (_sound_asset) {
 		/* We have made a sound asset of our own.  Put it into the reel */
-		reel_sound_asset.reset (new dcp::ReelSoundAsset (_sound_asset, 0));
+		reel_asset.reset (new dcp::ReelSoundAsset(_sound_asset, 0));
 	} else {
 		LOG_GENERAL ("no sound asset of our own; look through %1", refs.size());
 		/* We don't have a sound asset of our own; hopefully we have one to reference */
@@ -571,7 +575,7 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 				LOG_GENERAL ("candidate sound asset period is %1-%2", j.period.from.get(), j.period.to.get());
 			}
 			if (k && j.period == _period) {
-				reel_sound_asset = k;
+				reel_asset = k;
 				/* If we have a hash for this asset in the CPL, assume that it is correct */
 				if (k->hash()) {
 					k->asset_ref()->set_hash (k->hash().get());
@@ -580,31 +584,38 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 		}
 	}
 
-	DCPOMATIC_ASSERT (reel_sound_asset);
-	if (reel_sound_asset->actual_duration() != period_duration) {
+	Frame const period_duration = _period.duration().frames_round(_film->video_frame_rate());
+
+	DCPOMATIC_ASSERT (reel_asset);
+	if (reel_asset->actual_duration() != period_duration) {
 		LOG_ERROR (
 			"Reel sound asset has length %1 but reel period is %2",
-			reel_sound_asset->actual_duration(),
+			reel_asset->actual_duration(),
 			period_duration
 			);
-		if (reel_sound_asset->actual_duration() != period_duration) {
+		if (reel_asset->actual_duration() != period_duration) {
 			throw ProgrammingError (
 				__FILE__, __LINE__,
-				String::compose ("%1 vs %2", reel_sound_asset->actual_duration(), period_duration)
+				String::compose ("%1 vs %2", reel_asset->actual_duration(), period_duration)
 				);
 		}
 
 	}
-	reel->add (reel_sound_asset);
+	reel->add (reel_asset);
+}
 
-	shared_ptr<dcp::ReelSubtitleAsset> subtitle = maybe_add_text<dcp::ReelSubtitleAsset> (_subtitle_asset, reel_picture_asset->actual_duration(), reel, refs, fonts, _film, _period);
+
+void
+ReelWriter::create_reel_text (shared_ptr<dcp::Reel> reel, list<ReferencedReelAsset> const & refs, list<shared_ptr<Font> > const& fonts, int64_t duration) const
+{
+	shared_ptr<dcp::ReelSubtitleAsset> subtitle = maybe_add_text<dcp::ReelSubtitleAsset> (_subtitle_asset, duration, reel, refs, fonts, _film, _period);
 	if (subtitle && !_film->subtitle_languages().empty()) {
 		subtitle->set_language (_film->subtitle_languages().front());
 	}
 
 	for (map<DCPTextTrack, shared_ptr<dcp::SubtitleAsset> >::const_iterator i = _closed_caption_assets.begin(); i != _closed_caption_assets.end(); ++i) {
 		shared_ptr<dcp::ReelClosedCaptionAsset> a = maybe_add_text<dcp::ReelClosedCaptionAsset> (
-			i->second, reel_picture_asset->actual_duration(), reel, refs, fonts, _film, _period
+			i->second, duration, reel, refs, fonts, _film, _period
 			);
 		if (a) {
 			a->set_annotation_text (i->first.name);
@@ -613,7 +624,13 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 			}
 		}
 	}
+}
 
+
+
+void
+ReelWriter::create_reel_markers (shared_ptr<dcp::Reel> reel) const
+{
 	Film::Markers markers = _film->markers ();
 	_film->add_ffoc_lfoc (markers);
 	Film::Markers reel_markers;
@@ -633,6 +650,19 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 		}
 		reel->add (ma);
 	}
+}
+
+
+shared_ptr<dcp::Reel>
+ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr<Font> > const & fonts)
+{
+	LOG_GENERAL ("create_reel for %1-%2; %3 of %4", _period.from.get(), _period.to.get(), _reel_index, _reel_count);
+
+	shared_ptr<dcp::Reel> reel (new dcp::Reel());
+	shared_ptr<dcp::ReelPictureAsset> reel_picture_asset = create_reel_picture (reel, refs);
+	create_reel_sound (reel, refs);
+	create_reel_text (reel, refs, fonts, reel_picture_asset->actual_duration());
+	create_reel_markers (reel);
 
 	if (_atmos_asset) {
 		reel->add (shared_ptr<dcp::ReelAtmosAsset>(new dcp::ReelAtmosAsset(_atmos_asset, 0)));
