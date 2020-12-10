@@ -26,7 +26,7 @@
 #include "transcode_job.h"
 #include <dcp/raw_convert.h>
 #include <boost/asio.hpp>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <boost/thread.hpp>
 #include <iostream>
 

@@ -23,7 +23,7 @@
 #include "static_text.h"
 #include <dcp/locale_convert.h>
 #include <wx/spinctrl.h>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <iomanip>
 
 using std::setfill;

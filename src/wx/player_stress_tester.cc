@@ -25,7 +25,7 @@
 #include <wx/wx.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <string>
 #include <vector>
 #include <iostream>

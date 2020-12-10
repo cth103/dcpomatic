@@ -25,7 +25,7 @@
 #include "lib/audio_analysis.h"
 #include "lib/compose.hpp"
 #include <wx/graphics.h>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <iostream>
 #include <cfloat>
 

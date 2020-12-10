@@ -26,7 +26,7 @@
 #include <dcp/util.h>
 #include <dcp/certificate_chain.h>
 #include <dcp/exceptions.h>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 using std::string;
 using boost::function;

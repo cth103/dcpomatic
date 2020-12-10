@@ -28,7 +28,7 @@
 #include "lib/film.h"
 #include <dcp/types.h>
 #include <wx/gbsizer.h>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <iostream>
 
 using std::cout;

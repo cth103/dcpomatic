@@ -25,7 +25,7 @@
 #include "lib/butler.h"
 #include "lib/text_content.h"
 #include "lib/compose.hpp"
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 using std::list;
 using std::max;

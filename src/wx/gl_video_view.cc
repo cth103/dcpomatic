@@ -27,7 +27,7 @@
 #include "lib/cross.h"
 #include "lib/player_video.h"
 #include "lib/butler.h"
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <iostream>
 
 #ifdef DCPOMATIC_OSX

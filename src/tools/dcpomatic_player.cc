@@ -69,7 +69,7 @@
 #ifdef __WXGTK__
 #include <X11/Xlib.h>
 #endif
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <boost/algorithm/string.hpp>
 #include <iostream>
 

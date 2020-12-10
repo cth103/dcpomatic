@@ -29,7 +29,7 @@
 #include <dcp/openjpeg_image.h>
 #include <wx/rawbmp.h>
 #include <wx/graphics.h>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <iostream>
 
 using std::cout;

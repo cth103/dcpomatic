@@ -36,7 +36,7 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <wx/propgrid/property.h>
 #include <wx/propgrid/props.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 
 using std::string;

@@ -27,7 +27,7 @@
 #include "lib/butler.h"
 #include <dcp/util.h>
 #include <wx/wx.h>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 using std::max;
 using std::string;

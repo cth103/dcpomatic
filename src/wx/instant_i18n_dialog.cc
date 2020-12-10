@@ -20,7 +20,7 @@
 
 #include "instant_i18n_dialog.h"
 #include "wx_util.h"
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 using boost::bind;
 

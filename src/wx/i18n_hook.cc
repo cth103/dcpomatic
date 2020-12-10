@@ -23,7 +23,7 @@
 #include "wx_util.h"
 #include "lib/cross.h"
 #include <wx/wx.h>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 using std::map;
 using std::string;

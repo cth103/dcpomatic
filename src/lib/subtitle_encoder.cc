@@ -28,7 +28,7 @@
 #include <dcp/smpte_subtitle_asset.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/filesystem.hpp>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 #include "i18n.h"
 
@@ -38,6 +38,9 @@ using std::pair;
 using std::vector;
 using boost::shared_ptr;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using dcp::raw_convert;
 
 /** @param output Directory, if there will be multiple output files, or a filename.

@@ -29,7 +29,7 @@
 #include "test.h"
 #include <dcp/certificate_chain.h>
 #include <boost/test/unit_test.hpp>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 using std::string;
 using std::vector;

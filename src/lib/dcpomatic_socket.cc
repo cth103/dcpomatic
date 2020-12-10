@@ -22,7 +22,7 @@
 #include "compose.hpp"
 #include "exceptions.h"
 #include "dcpomatic_assert.h"
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <iostream>
 

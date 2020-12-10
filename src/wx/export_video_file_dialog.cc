@@ -26,7 +26,7 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/filepicker.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 using std::string;
 using boost::bind;

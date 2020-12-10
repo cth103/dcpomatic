@@ -58,7 +58,7 @@ DCPOMATIC_ENABLE_WARNINGS
 #ifdef __WXOSX__
 #include <ApplicationServices/ApplicationServices.h>
 #endif
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <boost/foreach.hpp>
 
 #ifdef check
