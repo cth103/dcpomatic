@@ -121,9 +121,9 @@ BOOST_AUTO_TEST_CASE (subtitle_in_all_reels_test)
 
 	dcp::DCP dcp ("build/test/subtitle_in_all_reels_test/" + film->dcp_name());
 	dcp.read ();
-	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1);
+	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1U);
 	shared_ptr<dcp::CPL> cpl = dcp.cpls().front();
-	BOOST_REQUIRE_EQUAL (cpl->reels().size(), 3);
+	BOOST_REQUIRE_EQUAL (cpl->reels().size(), 3U);
 
 	BOOST_FOREACH (shared_ptr<dcp::Reel> i, cpl->reels()) {
 		BOOST_CHECK (i->main_subtitle());
@@ -166,12 +166,12 @@ BOOST_AUTO_TEST_CASE (closed_captions_in_all_reels_test)
 
 	dcp::DCP dcp ("build/test/closed_captions_in_all_reels_test/" + film->dcp_name());
 	dcp.read ();
-	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1);
+	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1U);
 	shared_ptr<dcp::CPL> cpl = dcp.cpls().front();
-	BOOST_REQUIRE_EQUAL (cpl->reels().size(), 3);
+	BOOST_REQUIRE_EQUAL (cpl->reels().size(), 3U);
 
 	BOOST_FOREACH (shared_ptr<dcp::Reel> i, cpl->reels()) {
-		BOOST_REQUIRE_EQUAL (i->closed_captions().size(), 2);
+		BOOST_REQUIRE_EQUAL (i->closed_captions().size(), 2U);
 		optional<string> first = i->closed_captions().front()->language();
 		optional<string> second = i->closed_captions().back()->language();
 		BOOST_REQUIRE (first);
