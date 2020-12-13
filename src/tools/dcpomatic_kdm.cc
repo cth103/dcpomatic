@@ -133,20 +133,20 @@ public:
 
 		wxStaticText* h = new StaticText (overall_panel, _("Screens"));
 		h->SetFont (subheading_font);
-		left->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
+		left->Add (h, 0, wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 		_screens = new ScreensPanel (overall_panel);
 		left->Add (_screens, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 
 		/// TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 		h = new StaticText (overall_panel, S_("KDM|Timing"));
 		h->SetFont (subheading_font);
-		right->Add (h, 0, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP * 2);
+		right->Add (h, 0, 0, DCPOMATIC_SIZER_Y_GAP * 2);
 		_timing = new KDMTimingPanel (overall_panel);
 		right->Add (_timing, 0, wxALL, DCPOMATIC_SIZER_Y_GAP);
 
 		h = new StaticText (overall_panel, _("DKDM"));
 		h->SetFont (subheading_font);
-		right->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
+		right->Add (h, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
 		wxBoxSizer* dkdm_sizer = new wxBoxSizer (wxHORIZONTAL);
 		_dkdm = new wxTreeCtrl (
 			overall_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT
@@ -166,7 +166,7 @@ public:
 
 		h = new StaticText (overall_panel, _("Output"));
 		h->SetFont (subheading_font);
-		right->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
+		right->Add (h, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
 		/* XXX: hard-coded non-interop here */
 		_output = new KDMOutputPanel (overall_panel, false);
 		right->Add (_output, 0, wxALL, DCPOMATIC_SIZER_Y_GAP);
