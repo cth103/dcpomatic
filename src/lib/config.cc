@@ -763,8 +763,9 @@ Config::write_config () const
 	/* [XML] ShowExperimentalAudioProcessors 1 to offer users the (experimental) audio upmixer processors, 0 to hide them */
 	root->add_child("ShowExperimentalAudioProcessors")->add_child_text (_show_experimental_audio_processors ? "1" : "0");
 	/* [XML] LogTypes Types of logging to write; a bitfield where 1 is general notes, 2 warnings, 4 errors, 8 debug information related
-	   to encoding, 16 debug information related to encoding, 32 debug information for timing purposes, 64 debug information related
-	   to sending email.
+	   to 3D, 16 debug information related to encoding, 32 debug information for timing purposes, 64 debug information related
+	   to sending email, 128 debug information related to the video view, 256 information about disk writing, 512 debug information
+	   related to the player, 1024 debug information related to audio analyses.
 	*/
 	root->add_child("LogTypes")->add_child_text (raw_convert<string> (_log_types));
 	/* [XML] AnalyseEBUR128 1 to do EBUR128 analyses when analysing audio, otherwise 0. */
