@@ -110,6 +110,7 @@ sources = """
           filter.cc
           ffmpeg_image_proxy.cc
           font.cc
+          font_data.cc
           frame_interval_checker.cc
           frame_rate_change.cc
           hints.cc
