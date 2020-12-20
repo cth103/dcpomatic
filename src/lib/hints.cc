@@ -390,7 +390,15 @@ Hints::thread ()
 
 	boost::filesystem::path dcp_dir = film->dir("hints") / dcpomatic::get_process_id();
 	boost::filesystem::remove_all (dcp_dir);
-	_writer->finish (film->dir("hints") / dcpomatic::get_process_id());
+
+	try {
+		_writer->finish (film->dir("hints") / dcpomatic::get_process_id());
+	} catch (...) {
+		store_current ();
+		emit (bind(boost::ref(Finished)));
+		return;
+	}
+
 	dcp::DCP dcp (dcp_dir);
 	dcp.read ();
 	DCPOMATIC_ASSERT (dcp.cpls().size() == 1);
