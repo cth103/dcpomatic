@@ -32,7 +32,7 @@
 #include "cross.h"
 #include "audio_buffers.h"
 #include "version.h"
-#include "font.h"
+#include "font_data.h"
 #include "util.h"
 #include "reel_writer.h"
 #include "text_content.h"
@@ -792,14 +792,14 @@ Writer::write (PlayerText text, TextType type, optional<DCPTextTrack> track, DCP
 }
 
 void
-Writer::write (list<shared_ptr<Font> > fonts)
+Writer::write (vector<FontData> fonts)
 {
 	/* Just keep a list of unique fonts and we'll deal with them in ::finish */
 
-	BOOST_FOREACH (shared_ptr<Font> i, fonts) {
+	BOOST_FOREACH (FontData const& i, fonts) {
 		bool got = false;
-		BOOST_FOREACH (shared_ptr<Font> j, _fonts) {
-			if (*i == *j) {
+		BOOST_FOREACH (FontData const& j, _fonts) {
+			if (i == j) {
 				got = true;
 			}
 		}

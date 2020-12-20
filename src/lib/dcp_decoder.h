@@ -59,6 +59,8 @@ public:
 	bool pass ();
 	void seek (dcpomatic::ContentTime t, bool accurate);
 
+	std::vector<dcpomatic::FontData> fonts () const;
+
 	std::string lazy_digest () const {
 		return _lazy_digest;
 	}

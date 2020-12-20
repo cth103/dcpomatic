@@ -31,7 +31,7 @@
 #include <boost/weak_ptr.hpp>
 
 namespace dcpomatic {
-	class Font;
+	class FontData;
 }
 
 class Film;
@@ -78,7 +78,7 @@ public:
 	void finish (boost::filesystem::path output_dcp);
 	boost::shared_ptr<dcp::Reel> create_reel (
 		std::list<ReferencedReelAsset> const & refs,
-		std::list<boost::shared_ptr<dcpomatic::Font> > const & fonts,
+		std::vector<dcpomatic::FontData> const & fonts,
 		boost::filesystem::path output_dcp,
 		bool ensure_subtitles,
 		std::set<DCPTextTrack> ensure_closed_captions
@@ -111,7 +111,8 @@ private:
 	void create_reel_sound (boost::shared_ptr<dcp::Reel> reel, std::list<ReferencedReelAsset> const & refs) const;
 	void create_reel_text (
 		boost::shared_ptr<dcp::Reel> reel,
-		std::list<ReferencedReelAsset> const & refs, std::list<boost::shared_ptr<dcpomatic::Font> > const& fonts,
+		std::list<ReferencedReelAsset> const & refs,
+		std::vector<dcpomatic::FontData> const& fonts,
 		int64_t duration,
 		boost::filesystem::path output_dcp,
 		bool ensure_subtitles,
@@ -131,6 +132,8 @@ private:
 	boost::optional<std::string> _content_summary;
 	boost::weak_ptr<Job> _job;
 	bool _text_only;
+
+	dcp::ArrayData _default_font;
 
 	boost::shared_ptr<dcp::PictureAsset> _picture_asset;
 	/** picture asset writer, or 0 if we are not writing any picture because we already have one */

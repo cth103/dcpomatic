@@ -56,7 +56,9 @@
 
 using std::list;
 using std::cout;
+using std::map;
 using std::string;
+using std::vector;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
@@ -487,3 +489,20 @@ DCPDecoder::position () const
 {
 	return ContentTime::from_frames(_offset, _dcp_content->active_video_frame_rate(film())) + _next;
 }
+
+
+vector<FontData>
+DCPDecoder::fonts () const
+{
+	vector<FontData> data;
+	BOOST_FOREACH (shared_ptr<dcp::Reel> i, _reels) {
+		if (i->main_subtitle() && i->main_subtitle()->asset()) {
+			map<string, dcp::ArrayData> fm = i->main_subtitle()->asset()->font_data();
+			for (map<string, dcp::ArrayData>::const_iterator j = fm.begin(); j != fm.end(); ++j) {
+				data.push_back (FontData(j->first, j->second));
+			}
+		}
+	}
+	return data;
+}
+

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -21,10 +21,14 @@
 #include "dcp_subtitle_decoder.h"
 #include "dcp_subtitle_content.h"
 #include <dcp/interop_subtitle_asset.h>
+#include <dcp/load_font_node.h>
 #include <iostream>
 
-using std::list;
 using std::cout;
+using std::list;
+using std::map;
+using std::string;
+using std::vector;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::bind;
@@ -43,6 +47,18 @@ DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const Film> film, shared_ptr<
 		first = content_time_period(*_next).from;
 	}
 	text.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, content->only_text(), first)));
+
+	map<string, dcp::ArrayData> fm = c->font_data();
+	for (map<string, dcp::ArrayData>::const_iterator j = fm.begin(); j != fm.end(); ++j) {
+		_fonts.push_back (FontData(j->first, j->second));
+	}
+
+	/* Add a default font for any LoadFont nodes in our file which we haven't yet found fonts for */
+	BOOST_FOREACH (shared_ptr<dcp::LoadFontNode> i, c->load_font_nodes()) {
+		if (fm.find(i->id) == fm.end()) {
+			_fonts.push_back (FontData(i->id, dcp::ArrayData(default_font_file())));
+		}
+	}
 }
 
 void
@@ -105,3 +121,11 @@ DCPSubtitleDecoder::content_time_period (shared_ptr<dcp::Subtitle> s) const
 		ContentTime::from_seconds (s->out().as_seconds ())
 		);
 }
+
+
+vector<dcpomatic::FontData>
+DCPSubtitleDecoder::fonts () const
+{
+	return _fonts;
+}
+

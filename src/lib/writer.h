@@ -40,7 +40,7 @@ namespace dcp {
 }
 
 namespace dcpomatic {
-	class Font;
+	class FontData;
 }
 
 class Film;
@@ -112,7 +112,7 @@ public:
 	void repeat (Frame, Eyes);
 	void write (boost::shared_ptr<const AudioBuffers>, dcpomatic::DCPTime time);
 	void write (PlayerText text, TextType type, boost::optional<DCPTextTrack>, dcpomatic::DCPTimePeriod period);
-	void write (std::list<boost::shared_ptr<dcpomatic::Font> > fonts);
+	void write (std::vector<dcpomatic::FontData> fonts);
 	void write (ReferencedReelAsset asset);
 	void write (boost::shared_ptr<const dcp::AtmosFrame> atmos, dcpomatic::DCPTime time, AtmosMetadata metadata);
 	void finish (boost::filesystem::path output_dcp);
@@ -196,7 +196,7 @@ private:
 
 	std::list<ReferencedReelAsset> _reel_assets;
 
-	std::list<boost::shared_ptr<dcpomatic::Font> > _fonts;
+	std::vector<dcpomatic::FontData> _fonts;
 
 	/** true if any reel has any subtitles */
 	bool _have_subtitles;

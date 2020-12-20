@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,7 +18,7 @@
 
 */
 
-#include "font.h"
+#include "font_data.h"
 #include "subtitle_encoder.h"
 #include "player.h"
 #include "compose.hpp"
@@ -81,6 +81,8 @@ SubtitleEncoder::SubtitleEncoder (shared_ptr<const Film> film, shared_ptr<Job> j
 	BOOST_FOREACH (dcpomatic::DCPTimePeriod i, film->reels()) {
 		_reels.push_back (i);
 	}
+
+	_default_font = dcp::ArrayData (default_font_file());
 }
 
 void
@@ -114,8 +116,8 @@ SubtitleEncoder::go ()
 		}
 
 		if (!_film->interop() || _include_font) {
-			BOOST_FOREACH (shared_ptr<dcpomatic::Font> j, _player->get_subtitle_fonts()) {
-				i->first->add_font (j->id(), default_font_file());
+			BOOST_FOREACH (dcpomatic::FontData j, _player->get_subtitle_fonts()) {
+				i->first->add_font (j.id, _default_font);
 			}
 		}
 

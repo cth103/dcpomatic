@@ -45,7 +45,7 @@ namespace dcp {
 }
 
 namespace dcpomatic {
-	class Font;
+	class FontData;
 }
 
 class AtmosContent;
@@ -79,7 +79,7 @@ public:
 	bool pass ();
 	void seek (dcpomatic::DCPTime time, bool accurate);
 
-	std::list<boost::shared_ptr<dcpomatic::Font> > get_subtitle_fonts ();
+	std::vector<dcpomatic::FontData> get_subtitle_fonts ();
 	std::list<ReferencedReelAsset> get_reel_assets ();
 	dcp::Size video_container_size () const {
 		boost::mutex::scoped_lock lm (_mutex);

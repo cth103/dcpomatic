@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,7 @@
 
 #include "text_decoder.h"
 #include "dcp_subtitle.h"
+#include "font_data.h"
 
 class DCPSubtitleContent;
 
@@ -31,9 +32,13 @@ public:
 	bool pass ();
 	void seek (dcpomatic::ContentTime time, bool accurate);
 
+	std::vector<dcpomatic::FontData> fonts () const;
+
 private:
 	dcpomatic::ContentTimePeriod content_time_period (boost::shared_ptr<dcp::Subtitle> s) const;
 
 	std::list<boost::shared_ptr<dcp::Subtitle> > _subtitles;
 	std::list<boost::shared_ptr<dcp::Subtitle> >::const_iterator _next;
+
+	std::vector<dcpomatic::FontData> _fonts;
 };

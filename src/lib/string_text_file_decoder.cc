@@ -89,3 +89,17 @@ StringTextFileDecoder::content_time_period (sub::Subtitle s) const
 		ContentTime::from_seconds (s.to.all_as_seconds())
 		);
 }
+
+
+vector<FontData>
+StringTextFileDecoder::fonts () const
+{
+	vector<FontData> data;
+	BOOST_FOREACH (shared_ptr<TextDecoder> i, text) {
+		BOOST_FOREACH (shared_ptr<Font> j, i->content()->fonts()) {
+			data.push_back (FontData(j));
+		}
+	}
+	return data;
+}
+

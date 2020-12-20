@@ -25,7 +25,7 @@
 #include "log.h"
 #include "dcpomatic_log.h"
 #include "digester.h"
-#include "font.h"
+#include "font_data.h"
 #include "compose.hpp"
 #include "config.h"
 #include "audio_buffers.h"
@@ -192,6 +192,8 @@ ReelWriter::ReelWriter (
 			film()->contains_atmos_content()
 			);
 	}
+
+	_default_font = dcp::ArrayData(default_font_file());
 }
 
 /** @param frame reel-relative frame */
@@ -444,7 +446,8 @@ maybe_add_text (
 	int64_t picture_duration,
 	shared_ptr<dcp::Reel> reel,
 	list<ReferencedReelAsset> const & refs,
-	list<shared_ptr<Font> > const & fonts,
+	vector<FontData> const & fonts,
+	dcp::ArrayData default_font,
 	shared_ptr<const Film> film,
 	DCPTimePeriod period,
 	boost::filesystem::path output_dcp,
@@ -457,8 +460,8 @@ maybe_add_text (
 
 	if (asset) {
 		/* Add the font to the subtitle content */
-		BOOST_FOREACH (shared_ptr<Font> j, fonts) {
-			asset->add_font (j->id(), j->file().get_value_or(default_font_file()));
+		BOOST_FOREACH (FontData const& j, fonts) {
+			asset->add_font (j.id, j.data.get_value_or(default_font));
 		}
 
 		if (dynamic_pointer_cast<dcp::InteropSubtitleAsset> (asset)) {
@@ -615,7 +618,7 @@ void
 ReelWriter::create_reel_text (
 	shared_ptr<dcp::Reel> reel,
 	list<ReferencedReelAsset> const & refs,
-	list<shared_ptr<Font> > const& fonts,
+	vector<FontData> const& fonts,
 	int64_t duration,
 	boost::filesystem::path output_dcp,
 	bool ensure_subtitles,
@@ -623,7 +626,7 @@ ReelWriter::create_reel_text (
 	) const
 {
 	shared_ptr<dcp::ReelSubtitleAsset> subtitle = maybe_add_text<dcp::ReelSubtitleAsset> (
-		_subtitle_asset, duration, reel, refs, fonts, film(), _period, output_dcp, _text_only
+		_subtitle_asset, duration, reel, refs, fonts, _default_font, film(), _period, output_dcp, _text_only
 		);
 
 	if (subtitle) {
@@ -639,6 +642,7 @@ ReelWriter::create_reel_text (
 			reel,
 			refs,
 			fonts,
+			_default_font,
 			film(),
 			_period,
 			output_dcp,
@@ -648,7 +652,7 @@ ReelWriter::create_reel_text (
 
 	for (map<DCPTextTrack, shared_ptr<dcp::SubtitleAsset> >::const_iterator i = _closed_caption_assets.begin(); i != _closed_caption_assets.end(); ++i) {
 		shared_ptr<dcp::ReelClosedCaptionAsset> a = maybe_add_text<dcp::ReelClosedCaptionAsset> (
-			i->second, duration, reel, refs, fonts, film(), _period, output_dcp, _text_only
+			i->second, duration, reel, refs, fonts, _default_font, film(), _period, output_dcp, _text_only
 			);
 		DCPOMATIC_ASSERT (a);
 		a->set_annotation_text (i->first.name);
@@ -662,7 +666,7 @@ ReelWriter::create_reel_text (
 	/* Make empty tracks for anything we've been asked to ensure but that we haven't added */
 	BOOST_FOREACH (DCPTextTrack i, ensure_closed_captions) {
 		shared_ptr<dcp::ReelClosedCaptionAsset> a = maybe_add_text<dcp::ReelClosedCaptionAsset> (
-			empty_text_asset(TEXT_CLOSED_CAPTION, i), duration, reel, refs, fonts, film(), _period, output_dcp, _text_only
+			empty_text_asset(TEXT_CLOSED_CAPTION, i), duration, reel, refs, fonts, _default_font, film(), _period, output_dcp, _text_only
 			);
 		DCPOMATIC_ASSERT (a);
 		a->set_annotation_text (i.name);
@@ -705,7 +709,7 @@ ReelWriter::create_reel_markers (shared_ptr<dcp::Reel> reel) const
 shared_ptr<dcp::Reel>
 ReelWriter::create_reel (
 	list<ReferencedReelAsset> const & refs,
-	list<shared_ptr<Font> > const & fonts,
+	vector<FontData> const & fonts,
 	boost::filesystem::path output_dcp,
 	bool ensure_subtitles,
 	set<DCPTextTrack> ensure_closed_captions

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -46,6 +46,7 @@
 using std::string;
 using std::cout;
 using std::list;
+using std::vector;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
@@ -103,13 +104,13 @@ DCPEncoder::go ()
 	}
 
 	if (_non_burnt_subtitles) {
-		list<shared_ptr<Font> > fonts = _player->get_subtitle_fonts ();
+		vector<FontData> fonts = _player->get_subtitle_fonts ();
 
 		if (fonts.size() > 1 && _film->interop()) {
 			/* Interop will ignore second and subsequent <LoadFont>s so don't even
 			   write them as they upset some validators.
 			*/
-			shared_ptr<Font> first = fonts.front ();
+			FontData first = fonts.front ();
 			fonts.clear ();
 			fonts.push_back (first);
 		}

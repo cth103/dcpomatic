@@ -27,6 +27,7 @@
 #include "text_content.h"
 #include "audio_processor.h"
 #include "font.h"
+#include "font_data.h"
 #include "ratio.h"
 #include "audio_analysis.h"
 #include "compose.hpp"

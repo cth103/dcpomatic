@@ -448,20 +448,18 @@ Player::content_time_to_dcp (shared_ptr<const Piece> piece, ContentTime t) const
 	return max (DCPTime (), DCPTime (t - piece->content->trim_start(), piece->frc) + piece->content->position());
 }
 
-list<shared_ptr<Font> >
+vector<FontData>
 Player::get_subtitle_fonts ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	list<shared_ptr<Font> > fonts;
+	vector<FontData> fonts;
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
-		BOOST_FOREACH (shared_ptr<TextContent> j, i->content->text) {
-			/* XXX: things may go wrong if there are duplicate font IDs
-			   with different font files.
-			*/
-			list<shared_ptr<Font> > f = j->fonts ();
-			copy (f.begin(), f.end(), back_inserter (fonts));
-		}
+		/* XXX: things may go wrong if there are duplicate font IDs
+		   with different font files.
+		*/
+		vector<FontData> f = i->decoder->fonts ();
+		copy (f.begin(), f.end(), back_inserter(fonts));
 	}
 
 	return fonts;

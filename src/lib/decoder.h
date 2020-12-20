@@ -27,6 +27,7 @@
 
 #include "types.h"
 #include "film.h"
+#include "font_data.h"
 #include "dcpomatic_time.h"
 #include "weak_film.h"
 #include <boost/utility.hpp>
@@ -61,6 +62,10 @@ public:
 	virtual void seek (dcpomatic::ContentTime time, bool accurate);
 
 	virtual dcpomatic::ContentTime position () const;
+
+	virtual std::vector<dcpomatic::FontData> fonts () const {
+		return std::vector<dcpomatic::FontData>();
+	}
 };
 
 #endif

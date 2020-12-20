@@ -19,6 +19,10 @@
 */
 
 
+#ifndef DCPOMATIC_FONT_DATA_H
+#define DCPOMATIC_FONT_DATA_H
+
+
 #include <dcp/array_data.h>
 #include <boost/optional.hpp>
 #include <string>
@@ -51,3 +55,6 @@ extern bool operator!= (FontData const& a, FontData const& b);
 
 
 }
+
+
+#endif
