@@ -155,7 +155,7 @@ ReelWriter::ReelWriter (
 
 		_picture_asset->set_file (asset);
 		_picture_asset_writer = _picture_asset->start_write (asset, _first_nonexistant_frame > 0);
-	} else {
+	} else if (!text_only) {
 		/* We already have a complete picture asset that we can just re-use */
 		/* XXX: what about if the encryption key changes? */
 		if (film()->three_d()) {
