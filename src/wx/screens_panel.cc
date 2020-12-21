@@ -206,6 +206,16 @@ ScreensPanel::edit_cinema_clicked ()
 void
 ScreensPanel::remove_cinema_clicked ()
 {
+	if (_selected_cinemas.size() == 1) {
+		if (!confirm_dialog(this, wxString::Format(_("Are you sure you want to remove the cinema '%s'?"), std_to_wx(_selected_cinemas.begin()->second->name)))) {
+			return;
+		}
+	} else {
+		if (!confirm_dialog(this, wxString::Format(_("Are you sure you want to remove %d cinemas?"), int(_selected_cinemas.size())))) {
+			return;
+		}
+	}
+
 	for (CinemaMap::iterator i = _selected_cinemas.begin(); i != _selected_cinemas.end(); ++i) {
 		Config::instance()->remove_cinema (i->second);
 		_targets->Delete (i->first);
@@ -296,6 +306,16 @@ ScreensPanel::edit_screen_clicked ()
 void
 ScreensPanel::remove_screen_clicked ()
 {
+	if (_selected_screens.size() == 1) {
+		if (!confirm_dialog(this, wxString::Format(_("Are you sure you want to remove the screen '%s'?"), std_to_wx(_selected_screens.begin()->second->name)))) {
+			return;
+		}
+	} else {
+		if (!confirm_dialog(this, wxString::Format(_("Are you sure you want to remove %d screens?"), int(_selected_screens.size())))) {
+			return;
+		}
+	}
+
 	for (ScreenMap::iterator i = _selected_screens.begin(); i != _selected_screens.end(); ++i) {
 		CinemaMap::iterator j = _cinemas.begin ();
 		while (j != _cinemas.end ()) {
