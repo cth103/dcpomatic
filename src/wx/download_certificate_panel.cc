@@ -44,7 +44,7 @@ DownloadCertificatePanel::DownloadCertificatePanel (DownloadCertificateDialog* d
 
 	_overall_sizer->Add (_table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	add_label_to_sizer (_table, this, _("Serial number"), true);
+	add_label_to_sizer (_table, this, _("Serial number"), true, 0, wxALIGN_CENTER_VERTICAL);
 	_serial = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxSize (300, -1));
 	_table->Add (_serial, 1, wxEXPAND);
 

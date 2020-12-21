@@ -44,11 +44,11 @@ CredentialsDownloadCertificatePanel::CredentialsDownloadCertificatePanel (
 	, _set_password (set_password)
 	, _unset_password (unset_password)
 {
-	add_label_to_sizer (_table, this, _("User name"), true);
+	add_label_to_sizer (_table, this, _("User name"), true, 0, wxALIGN_CENTER_VERTICAL);
 	_username = new wxTextCtrl (this, wxID_ANY, std_to_wx(_get_username().get_value_or("")), wxDefaultPosition, wxSize(300, -1));
 	_table->Add (_username, 1, wxEXPAND);
 
-	add_label_to_sizer (_table, this, _("Password"), true);
+	add_label_to_sizer (_table, this, _("Password"), true, 0, wxALIGN_CENTER_VERTICAL);
 	_password = new PasswordEntry (this);
 	_password->set (_get_password().get_value_or(""));
 	_table->Add (_password->get_panel(), 1, wxEXPAND);
