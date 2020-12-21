@@ -115,7 +115,8 @@ ScreensPanel::setup_sensitivity ()
 	_remove_screen->Enable (_selected_screens.size() >= 1);
 }
 
-void
+
+optional<wxTreeItemId>
 ScreensPanel::add_cinema (shared_ptr<Cinema> c)
 {
 	string search = wx_to_std (_search->GetValue ());
@@ -125,19 +126,23 @@ ScreensPanel::add_cinema (shared_ptr<Cinema> c)
 		string name = c->name;
 		transform (name.begin(), name.end(), name.begin(), ::tolower);
 		if (name.find (search) == string::npos) {
-			return;
+			return optional<wxTreeItemId>();
 		}
 	}
 
-	_cinemas[_targets->AppendItem (_root, std_to_wx (c->name))] = c;
+	wxTreeItemId id = _targets->AppendItem(_root, std_to_wx(c->name));
 
-	list<shared_ptr<Screen> > sc = c->screens ();
-	for (list<shared_ptr<Screen> >::iterator i = sc.begin(); i != sc.end(); ++i) {
-		add_screen (c, *i);
+	_cinemas[id] = c;
+
+	BOOST_FOREACH (shared_ptr<Screen> i, c->screens()) {
+		add_screen (c, i);
 	}
 
 	_targets->SortChildren (_root);
+
+	return id;
 }
+
 
 optional<wxTreeItemId>
 ScreensPanel::add_screen (shared_ptr<Cinema> c, shared_ptr<Screen> s)
@@ -162,7 +167,11 @@ ScreensPanel::add_cinema_clicked ()
 	if (d->ShowModal () == wxID_OK) {
 		shared_ptr<Cinema> c (new Cinema (d->name(), d->emails(), d->notes(), d->utc_offset_hour(), d->utc_offset_minute()));
 		Config::instance()->add_cinema (c);
-		add_cinema (c);
+		optional<wxTreeItemId> id = add_cinema (c);
+		if (id) {
+			_targets->Unselect ();
+			_targets->SelectItem (*id);
+		}
 	}
 
 	d->Destroy ();

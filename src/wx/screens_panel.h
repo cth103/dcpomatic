@@ -48,7 +48,7 @@ public:
 
 private:
 	void add_cinemas ();
-	void add_cinema (boost::shared_ptr<Cinema>);
+	boost::optional<wxTreeItemId> add_cinema (boost::shared_ptr<Cinema>);
 	boost::optional<wxTreeItemId> add_screen (boost::shared_ptr<Cinema>, boost::shared_ptr<dcpomatic::Screen>);
 	void add_cinema_clicked ();
 	void edit_cinema_clicked ();
