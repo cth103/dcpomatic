@@ -62,6 +62,7 @@ ChristieCertificatePanel::do_download ()
 	string const url = String::compose ("%1F-IMB/F-IMB_%2_sha256.pem", prefix, serial);
 
 	optional<string> all_errors;
+	bool ok = true;
 
 	optional<string> error = get_from_url (url, true, false, boost::bind(&DownloadCertificatePanel::load_certificate_from_chain, this, _1));
 	if (error) {
@@ -72,15 +73,16 @@ ChristieCertificatePanel::do_download ()
 		error = get_from_url (url, true, false, boost::bind(&DownloadCertificatePanel::load_certificate_from_chain, this, _1));
 		if (error) {
 			*all_errors += "\n" + *error;
+			ok = false;
 		}
 	}
 
-	if (all_errors) {
-		_dialog->message()->SetLabel(wxT(""));
-		error_dialog (this, std_to_wx(*all_errors));
-	} else {
+	if (ok) {
 		_dialog->message()->SetLabel (_("Certificate downloaded"));
 		_dialog->setup_sensitivity ();
+	} else {
+		_dialog->message()->SetLabel(wxT(""));
+		error_dialog (this, std_to_wx(*all_errors));
 	}
 }
 
