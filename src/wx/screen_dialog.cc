@@ -69,12 +69,13 @@ public:
 	void load_certificate ()
 	{
 		wxFileDialog* d = new wxFileDialog (this, _("Trusted Device certificate"));
-		d->ShowModal ();
-		try {
-			_certificate = dcp::Certificate(dcp::file_to_string(wx_to_std(d->GetPath())));
-			_thumbprint->SetValue (std_to_wx(_certificate->thumbprint()));
-		} catch (dcp::MiscError& e) {
-			error_dialog (this, wxString::Format(_("Could not load certficate (%s)"), std_to_wx(e.what())));
+		if (d->ShowModal() == wxID_OK) {
+			try {
+				_certificate = dcp::Certificate(dcp::file_to_string(wx_to_std(d->GetPath())));
+				_thumbprint->SetValue (std_to_wx(_certificate->thumbprint()));
+			} catch (dcp::MiscError& e) {
+				error_dialog (this, wxString::Format(_("Could not load certficate (%s)"), std_to_wx(e.what())));
+			}
 		}
 	}
 
