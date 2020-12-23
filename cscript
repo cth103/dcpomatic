@@ -386,7 +386,7 @@ def dependencies(target, options):
     deps.append(('openssl', 'arm64'))
     if can_build_disk(target):
         deps.append(('lwext4', 'arm64'))
-    deps.append(('ffcmp', None))
+    deps.append(('ffcmp', 'arm64'))
 
     return deps
 
