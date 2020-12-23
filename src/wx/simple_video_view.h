@@ -39,7 +39,7 @@ public:
 
 	void update ();
 	void start ();
-	bool display_next_frame (bool non_blocking);
+	NextFrameResult display_next_frame (bool non_blocking);
 
 private:
 	void set_image (boost::shared_ptr<const Image> image) {

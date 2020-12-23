@@ -52,18 +52,19 @@ VideoView::clear ()
 
 /** Could be called from any thread.
  *  @param non_blocking true to return false quickly if no video is available quickly.
- *  @return false if we gave up because it would take too long, otherwise true.
+ *  @return FAIL if there's no frame, AGAIN if the method should be called again, or SUCCESS
+ *  if there is a frame.
  */
-bool
+VideoView::NextFrameResult
 VideoView::get_next_frame (bool non_blocking)
 {
 	if (length() == dcpomatic::DCPTime()) {
-		return true;
+		return FAIL;
 	}
 
 	shared_ptr<Butler> butler = _viewer->butler ();
 	if (!butler) {
-		return false;
+		return FAIL;
 	}
 	add_get ();
 
@@ -75,8 +76,8 @@ VideoView::get_next_frame (bool non_blocking)
 		if (e.code == Butler::Error::DIED) {
 			LOG_ERROR ("Butler died with %1", e.summary());
 		}
-		if (!pv.first && e.code == Butler::Error::AGAIN) {
-			return false;
+		if (!pv.first) {
+			return e.code == Butler::Error::AGAIN ? AGAIN : FAIL;
 		}
 		_player_video = pv;
 	} while (
@@ -90,7 +91,7 @@ VideoView::get_next_frame (bool non_blocking)
 		++_errored;
 	}
 
-	return true;
+	return SUCCESS;
 }
 
 dcpomatic::DCPTime

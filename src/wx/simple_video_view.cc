@@ -156,19 +156,12 @@ SimpleVideoView::start ()
  *  false to ask the butler to block until it has video (unless it is suspended).
  *  @return true on success, false if we did nothing because it would have taken too long.
  */
-bool
+VideoView::NextFrameResult
 SimpleVideoView::display_next_frame (bool non_blocking)
 {
-	bool r = get_next_frame (non_blocking);
-	if (!r) {
-		if (non_blocking) {
-			/* No video available; return saying we failed */
-			return false;
-		} else {
-			/* Player was suspended; come back later */
-			signal_manager->when_idle (boost::bind(&SimpleVideoView::display_next_frame, this, false));
-			return false;
-		}
+	NextFrameResult const r = get_next_frame (non_blocking);
+	if (r != SUCCESS) {
+		return r;
 	}
 
 	update ();
@@ -179,7 +172,7 @@ SimpleVideoView::display_next_frame (bool non_blocking)
 		error_dialog (get(), e.what());
 	}
 
-	return true;
+	return SUCCESS;
 }
 
 void

@@ -50,8 +50,15 @@ public:
 	virtual void start ();
 	/** Called when playback stops */
 	virtual void stop () {}
+
+	enum NextFrameResult {
+		FAIL,
+		AGAIN,
+		SUCCESS
+	};
+
 	/** Get the next frame and display it; used after seek */
-	virtual bool display_next_frame (bool) = 0;
+	virtual NextFrameResult display_next_frame (bool) = 0;
 
 	void clear ();
 	bool reset_metadata (boost::shared_ptr<const Film> film, dcp::Size player_video_container_size);
@@ -112,7 +119,7 @@ public:
 	}
 
 protected:
-	bool get_next_frame (bool non_blocking);
+	NextFrameResult get_next_frame (bool non_blocking);
 	boost::optional<int> time_until_next_frame () const;
 	dcpomatic::DCPTime one_video_frame () const;
 

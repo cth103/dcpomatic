@@ -405,13 +405,15 @@ catch (boost::thread_interrupted& e)
 	store_current ();
 }
 
-bool
+
+VideoView::NextFrameResult
 GLVideoView::display_next_frame (bool non_blocking)
 {
-	bool const r = get_next_frame (non_blocking);
+	NextFrameResult const r = get_next_frame (non_blocking);
 	request_one_shot ();
 	return r;
 }
+
 
 void
 GLVideoView::request_one_shot ()

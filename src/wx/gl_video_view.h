@@ -48,7 +48,7 @@ public:
 	void start ();
 	void stop ();
 
-	bool display_next_frame (bool);
+	NextFrameResult display_next_frame (bool);
 
 	bool vsync_enabled () const {
 		return _vsync_enabled;

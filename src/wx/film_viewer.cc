@@ -137,11 +137,11 @@ FilmViewer::idle_handler ()
 		return;
 	}
 
-	if (_video_view->display_next_frame(true)) {
-		_idle_get = false;
-	} else {
+	if (_video_view->display_next_frame(true) == VideoView::AGAIN) {
 		/* get() could not complete quickly so we'll try again later */
 		signal_manager->when_idle (boost::bind(&FilmViewer::idle_handler, this));
+	} else {
+		_idle_get = false;
 	}
 }
 
@@ -346,8 +346,11 @@ FilmViewer::start ()
 	}
 
 	_playing = true;
-	_video_view->start ();
+	/* Calling start() below may directly result in Stopped being emitted, and if that
+	 * happens we want it to come after the Started signal, so do that first.
+	 */
 	Started (position());
+	_video_view->start ();
 }
 
 bool
@@ -496,7 +499,7 @@ FilmViewer::seek (DCPTime t, bool accurate)
 		/* We're going to start playing again straight away
 		   so wait for the seek to finish.
 		*/
-		while (!_video_view->display_next_frame(false)) {}
+		while (_video_view->display_next_frame(false) == VideoView::AGAIN) {}
 	}
 
 	resume ();
