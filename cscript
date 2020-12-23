@@ -417,7 +417,7 @@ def configure_options(target, options):
                 # I worry that this will cause ABI problems but I don't have
                 # a better solution.
                 opt += ' --force-cpp11'
-    elif target.platform == 'osx' and target.bits == 64:
+    elif target.platform == 'osx' and target.arch != 'i386':
         opt += ' --force-cpp11'
 
     if not options['gui']:
