@@ -372,7 +372,7 @@ def dependencies(target, options):
 
     # Let's use C++11 mode if we can
     cpp_lib_options = {'force-cpp11': True} if (
-            (target.platform == 'osx' and target.bits == 64) or
+            (target.platform == 'osx') or
             (target.platform == 'windows')) else {}
 
     deps.append(('libdcp', 'c6665c1', cpp_lib_options))
