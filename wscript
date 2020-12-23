@@ -253,6 +253,18 @@ def configure(conf):
                    define_name='DCPOMATIC_HAVE_ZIP_SOURCE_T'
                    )
 
+    # libbz2; must be explicitly linked on macOS for some reason
+    conf.check_cxx(fragment="""
+                            #include <bzlib.h>
+                            int main() { BZ2_bzCompressInit(0, 0, 0, 0); }
+                            """,
+                   mandatory=True,
+                   msg="Checking for libbz2",
+                   okmsg='yes',
+                   lib='bz2',
+                   uselib_store="BZ2"
+                   )
+
     # fontconfig
     conf.check_cfg(package='fontconfig', args='--cflags --libs', uselib_store='FONTCONFIG', mandatory=True)
 
