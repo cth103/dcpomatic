@@ -365,7 +365,7 @@ def dependencies(target, options):
         ffmpeg_options = {}
 
     if target.platform != 'linux' or target.distro != 'arch':
-        deps = [('ffmpeg-cdist', 'd798b45', ffmpeg_options)]
+        deps = [('ffmpeg-cdist', 'e89aa4a', ffmpeg_options)]
     else:
         # Use distro-provided FFmpeg on Arch
         deps = []
@@ -377,16 +377,16 @@ def dependencies(target, options):
 
     deps.append(('libdcp', 'c6665c1', cpp_lib_options))
     deps.append(('libsub', '64eb116', cpp_lib_options))
-    deps.append(('leqm-nrt', 'carl'))
-    deps.append(('rtaudio', 'carl'))
+    deps.append(('leqm-nrt', '131f971'))
+    deps.append(('rtaudio', 'f619b76'))
     # We get our OpenSSL libraries from the environment, but we
     # also need a patched openssl binary to make certificates.
     # This dependency is to get that binary, which is added into
     # the appropriate place later
-    deps.append(('openssl', 'carl'))
+    deps.append(('openssl', '0b7b7f1'))
     if can_build_disk(target):
-        deps.append(('lwext4', '370b3de6'))
-    deps.append(('ffcmp', None))
+        deps.append(('lwext4', '01c7d4c'))
+    deps.append(('ffcmp', 'a915540'))
 
     return deps
 
