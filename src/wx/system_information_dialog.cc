@@ -24,7 +24,6 @@
 #include "film_viewer.h"
 
 #ifdef DCPOMATIC_OSX
-#define GL_SILENCE_DEPRECATION 1
 #include <OpenGL/glu.h>
 #include <OpenGL/glext.h>
 #else
