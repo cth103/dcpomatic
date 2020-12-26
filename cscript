@@ -688,10 +688,10 @@ def package(target, version, options):
                 return package_debian(target, cpu, version, options)
             elif target.distro == 'centos' or target.distro == 'fedora' or target.distro == 'mageia':
                 return package_rpm(target, cpu, version, options)
-    elif target.platform == 'osx' and target.bits is None:
+    elif target.platform == 'osx' and hasattr(target, 'archs'):
         target.command('bash platform/osx/make_dmg.sh %s %s universal no %s %s' % (target.environment_prefix, target.directory, target.apple_id, target.apple_password))
         return [os.path.abspath(x) for x in glob.glob('build/platform/osx/DCP-o-matic*.dmg')]
-    elif target.platform == 'osx' and target.bits == 64:
+    elif target.platform == 'osx' and hasattr(target, 'arch'):
         target.command('bash platform/osx/make_dmg.sh %s %s thin %s %s' % (target.environment_prefix, target.directory, target.apple_id, target.apple_password))
         packages = []
         for x in glob.glob('build/platform/osx/DCP-o-matic*.dmg'):
