@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-23 02:02+0100\n"
-"PO-Revision-Date: 2020-11-24 02:36+0100\n"
+"PO-Revision-Date: 2020-12-25 02:22+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -263,39 +263,48 @@ msgstr "Analyseren ondertitels"
 
 #: src/lib/hints.cc:417
 msgid "At least one of your closed caption files is larger than "
-msgstr ""
+msgstr "Ten minste één van uw closed caption bestanden is groter dan "
 
 #: src/lib/hints.cc:410
 msgid "At least one of your closed caption files' XML part is larger than "
 msgstr ""
+"Ten minste één XML-gedeelte van uw closed caption bestanden is groter dan "
 
 #: src/lib/hints.cc:425
 msgid "At least one of your subtitle files is larger than "
-msgstr ""
+msgstr "Ten minste één van uw ondertitelbestanden is groter dan "
 
 #: src/lib/hints.cc:527
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "advisable to make each line 52 characters at most in length."
 msgstr ""
+"Ten minste één van uw ondertitel-regels heeft meer dan 52 tekens.  Het is "
+"verstandig om niet meer dan 52 tekens in een regel te gebruiken."
 
 #: src/lib/hints.cc:517
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
 msgstr ""
+"Ten minste één van uw ondertitels heeft meer dan 3 regels.  Het is "
+"verstandig om niet meer dan 3 regels te gebruiken."
 
 #: src/lib/hints.cc:507
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
 msgstr ""
+"Ten minste één van uw ondertitels duurt minder dan 15 frames.  Het is "
+"verstandig om elke ondertitel minstens 15 frames lang te maken."
 
 #: src/lib/hints.cc:512
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
 msgstr ""
+"Ten minste één van uw ondertitels begint minder dan 2 frames na de vorige.  "
+"Het is verstandig om minstens 2 frames tussen ondertitels te laten."
 
 #: src/lib/audio_content.cc:258
 msgid "Audio will be resampled from %1Hz to %2Hz"
@@ -833,7 +842,7 @@ msgstr "Episode"
 
 #: src/lib/exceptions.cc:76
 msgid "Error in subtitle file: saw %1 while expecting %2"
-msgstr "Fout in ondertitel-bestand: %1 gelezen terwijl %2 verwacht werd"
+msgstr "Fout in ondertitelbestand: %1 gelezen terwijl %2 verwacht werd"
 
 #: src/lib/job.cc:502
 msgid "Error: %1"
@@ -974,6 +983,8 @@ msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
 msgstr ""
+"Het is raadzaam om uw eerste ondertitel minstens 4 seconden na het begin van "
+"de DCP te plaatsen om er zeker van te zijn dat deze wordt gezien."
 
 #: src/lib/job.cc:150 src/lib/job.cc:185 src/lib/job.cc:235 src/lib/job.cc:245
 msgid "It is not known what caused this error."
@@ -1890,6 +1901,8 @@ msgstr "hij heeft een andere frame rate dan de film."
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr ""
+"er is een gedeelte van het begin weggeknipt, dus de ondertitels of closed "
+"captions moeten opnieuw geschreven worden."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:670
@@ -1959,6 +1972,8 @@ msgid ""
 "one if its closed caption has a non-zero entry point so it must be re-"
 "written."
 msgstr ""
+"één van zijn closed captions heeft een ingangspunt dat niet nul is, dus die "
+"moet opnieuw geschreven worden."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:746
@@ -1966,6 +1981,8 @@ msgid ""
 "one if its subtitle reels has a non-zero entry point so it must be re-"
 "written."
 msgstr ""
+"één van zijn ondertitel-reels heeft een ingangspunt dat niet nul is, dus die "
+"moet opnieuw geschreven worden."
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
 #: src/lib/util.cc:213
