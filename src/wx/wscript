@@ -172,6 +172,14 @@ def configure(conf):
 
     wx_libs = 'core,richtext,adv,html,xml,propgrid'
 
+    if conf.options.wx_config is not None:
+        conf.check_cfg(msg='Checking for wxWidgets using gtk2-unicode-3.0',
+                       package='',
+                       path=conf.options.wx_config,
+                       args='--cppflags --cxxflags --libs %s --gl-libs' % wx_libs,
+                       uselib_store='WXWIDGETS',
+                       mandatory=True)
+
     try:
         wx_config = '/usr/lib64/wx/config/gtk2-unicode-3.0'
         conf.check_cfg(msg='Checking for wxWidgets using gtk2-unicode-3.0',

@@ -76,6 +76,7 @@ def options(opt):
     opt.add_option('--use-lld',           action='store_true', default=False, help='use lld linker')
     opt.add_option('--enable-disk',       action='store_true', default=False, help='build dcpomatic2_disk tool; requires Boost process, lwext4 and nanomsg libraries')
     opt.add_option('--warnings-are-errors', action='store_true', default=False, help='build with -Werror')
+    opt.add_option('--wx-config',         help='path to wx-config')
 
 def configure(conf):
     conf.load('compiler_cxx')
