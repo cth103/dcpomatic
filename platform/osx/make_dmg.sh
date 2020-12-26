@@ -1,9 +1,9 @@
 #!/bin/bash
 #
 SYNTAX="make_dmg.sh <environment> <builddir> <type> <apple-id> <apple-password>"
-# where <type> is universal or thin
+# where <type> is arm-intel-64, intel-32-64 or arm64
 #
-# e.g. make_dmg.sh /Users/carl/osx-environment /Users/carl/cdist universal foo@bar.net opensesame
+# e.g. make_dmg.sh /Users/carl/osx-environment /Users/carl/cdist arm-intel-64 foo@bar.net opensesame
 
 # Don't set -e here as egrep (used a few times) returns 1 if no matches
 # were found.
@@ -18,9 +18,9 @@ TYPE=$3
 APPLE_ID=$4
 APPLE_PASSWORD=$5
 
-if [ "$TYPE" != "universal" -a "$TYPE" != "thin" ]; then
+if [ "$TYPE" != "arm-intel-64" -a "$TYPE" != "intel-32-64" -a "$TYPE" != "arm64" ]; then
     echo $SYNTAX
-    echo "where <type> is universal or thin"
+    echo "where <type> is arm-intel-64, intel-32-64 or arm64"
     exit 1
 fi
 
@@ -41,18 +41,29 @@ EOF
 
 function copy {
     case $TYPE in
-	universal)
-	    for f in $1/32/$2; do
+	arm-intel-64)
+	    for f in $1/arm64/$2; do
 		if [ -h $f ]; then
 		    ln -s $(readlink $f) "$3/`basename $f`"
 		else
-		    g=`echo $f | sed -e "s/\/32\//\/64\//g"`
+		    g=`echo $f | sed -e "s/\/arm64\//\/x86_64\//g"`
 		    mkdir -p "$3"
 		    lipo -create $f $g -output "$3/`basename $f`"
 		fi
 	    done
 	    ;;
-	thin)
+	intel-32-64)
+	    for f in $1/i386/$2; do
+		if [ -h $f ]; then
+		    ln -s $(readlink $f) "$3/`basename $f`"
+		else
+		    g=`echo $f | sed -e "s/\/i386\//\/x86_64\//g"`
+		    mkdir -p "$3"
+		    lipo -create $f $g -output "$3/`basename $f`"
+		fi
+	    done
+	    ;;
+	arm64)
 	    if [ -h $1/$2 ]; then
 		ln -s $(readlink $1/$2) "$3/`basename $f`"
             else
@@ -64,18 +75,29 @@ function copy {
 
 function copy_lib_root {
     case $TYPE in
-	universal)
-	    for f in $ROOT/32/lib/$1*.dylib; do
+	arm-intel-64)
+	    for f in $ROOT/arm64/lib/$1*.dylib; do
 		if [ -h $f ]; then
 		    ln -s $(readlink $f) "$2/`basename $f`"
 		else
-		    g=`echo $f | sed -e "s/\/32\//\/64\//g"`
+		    g=`echo $f | sed -e "s/\/arm64\//\/x86_64\//g"`
 		    mkdir -p "$2"
 		    lipo -create $f $g -output "$2/`basename $f`"
 		fi
 	    done
 	    ;;
-	thin)
+	intel-32-64)
+	    for f in $ROOT/intel-32-64/lib/$1*.dylib; do
+		if [ -h $f ]; then
+		    ln -s $(readlink $f) "$2/`basename $f`"
+		else
+		    g=`echo $f | sed -e "s/\/i386\//\/x86_64\//g"`
+		    mkdir -p "$2"
+		    lipo -create $f $g -output "$2/`basename $f`"
+		fi
+	    done
+	    ;;
+	arm64)
 	    for f in $ROOT/lib/$1*.dylib; do
 		if [ -h $f ]; then
 		    ln -s $(readlink $f) "$2/`basename $f`"
@@ -91,19 +113,30 @@ function copy_lib_root {
 
 function copy_lib_env {
     case $TYPE in
-	universal)
-	    for f in $ENV/32/lib/$1*.dylib; do
+	arm-intel-64)
+	    for f in $ENV/arm64/lib/$1*.dylib; do
 		if [ -h $f ]; then
 		    ln -s $(readlink $f) "$2/`basename $f`"
 		else
-		    g=`echo $f | sed -e "s/\/32\//\/64\//g"`
+		    g=`echo $f | sed -e "s/\/arm64\//\/x86_64\//g"`
 		    mkdir -p "$2"
 		    lipo -create $f $g -output "$2/`basename $f`"
 		fi
 	    done
 	    ;;
-	thin)
-	    for f in $ENV/64/lib/$1*.dylib; do
+	intel-32-64)
+	    for f in $ENV/i386/lib/$1*.dylib; do
+		if [ -h $f ]; then
+		    ln -s $(readlink $f) "$2/`basename $f`"
+		else
+		    g=`echo $f | sed -e "s/\/i386\//\/x86_64\//g"`
+		    mkdir -p "$2"
+		    lipo -create $f $g -output "$2/`basename $f`"
+		fi
+	    done
+	    ;;
+	arm64)
+	    for f in $ENV/arm64/lib/$1*.dylib; do
 		if [ -h $f ]; then
 		    ln -s $(readlink $f) "$2/`basename $f`"
 		else
@@ -187,10 +220,13 @@ function copy_libs {
 function copy_resources {
     local dest="$1"
     case $TYPE in
-	universal)
-	    local prefix=$ROOT/32
+        arm-intel-64)
+	    local prefix=$ROOT/x86_64
 	    ;;
-	thin)
+	intel-32-64)
+	    local prefix=$ROOT/x86_64
+	    ;;
+	arm64)
 	    local prefix=$ROOT
 	    ;;
     esac
@@ -257,7 +293,7 @@ function copy_resources {
     # i18n: wxWidgets .mo files
     for lang in de es fr it sv nl ru pl da cs; do
 	mkdir "$dest/$lang"
-	cp $ENV/64/share/locale/$lang/LC_MESSAGES/wxstd.mo "$dest/$lang"
+	cp $ENV/x86_64/share/locale/$lang/LC_MESSAGES/wxstd.mo "$dest/$lang"
     done
 }
 
@@ -272,9 +308,11 @@ function relink_relative {
 	for dep in $deps; do
 	    base=`basename $dep`
 	    if [ "$TYPE" == "universal" ]; then
-		# $dep will be a path within 64/; make a 32/ path too
-		dep32=`echo $dep | sed -e "s/\/64\//\/32\//g"`
-		changes="$changes -change $dep @executable_path/../Frameworks/$base -change $dep32 @executable_path/../Frameworks/$base"
+		# $dep will be a path within x86_64/; make i386 and arm64 paths too
+		dep_i386=`echo $dep | sed -e "s/\/x86_64\//\/i386\//g"`
+		changes="$changes -change $dep @executable_path/../Frameworks/$base -change $dep_i386 @executable_path/../Frameworks/$base"
+		dep_arm64=`echo $dep | sed -e "s/\/x86_64\//\/arm64\//g"`
+		changes="$changes -change $dep @executable_path/../Frameworks/$base -change $dep_arm64 @executable_path/../Frameworks/$base"
 	    else
 		changes="$changes -change $dep @executable_path/../Frameworks/$base"
 	    fi
