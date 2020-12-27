@@ -474,10 +474,15 @@ function setup {
 }
 
 case $TYPE in
-    universal)
-	prefix=$ROOT/32
+    arm-intel-64)
+	# copy() writes the universal binary to arm64
+	prefix=$ROOT/arm64
 	;;
-    thin)
+    intel-32-64)
+	# copy() writes the universal binary to i386
+	prefix=$ROOT/i386
+	;;
+    arm64)
 	prefix=$ROOT
 	;;
 esac
