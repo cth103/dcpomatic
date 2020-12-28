@@ -35,6 +35,8 @@ cat <<EOF > entitlements.plist
 <dict>
   <key>com.apple.security.cs.disable-library-validation</key>
   <true/>
+  <key>com.apple.security.cs.allow-dyld-environment-variables</key>
+  <true/>
 </dict>
 </plist>
 EOF
