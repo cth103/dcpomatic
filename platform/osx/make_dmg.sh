@@ -214,6 +214,11 @@ function copy_libs {
     copy_lib_env libvorbis "$dest"
     copy_lib_env libogg "$dest"
     copy_lib_env libxerces-c "$dest"
+    copy_lib_env libcrypto "$dest"
+    copy_lib_env libssl "$dest"
+    copy_lib_env libfribidi "$dest"
+    copy_lib_env libgio "$dest"
+    copy_lib_env libz "$dest"
 }
 
 # @param #1 directory to copy to
