@@ -173,6 +173,7 @@ def configure(conf):
     wx_libs = 'core,richtext,adv,html,xml,propgrid'
 
     if conf.options.wx_config is not None:
+        wx_config = conf.options.wx_config
         conf.check_cfg(msg='Checking for wxWidgets using %s' % conf.options.wx_config,
                        package='',
                        path=conf.options.wx_config,
