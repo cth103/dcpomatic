@@ -172,7 +172,6 @@ def configure(conf):
 
     wx_libs = 'core,richtext,adv,html,xml,propgrid'
 
-    print(conf.options.wx_config)
     if conf.options.wx_config is not None:
         conf.check_cfg(msg='Checking for wxWidgets using %s' % conf.options.wx_config,
                        package='',
@@ -180,32 +179,32 @@ def configure(conf):
                        args='--cppflags --cxxflags --libs %s --gl-libs' % wx_libs,
                        uselib_store='WXWIDGETS',
                        mandatory=True)
-
-    try:
-        wx_config = '/usr/lib64/wx/config/gtk2-unicode-3.0'
-        conf.check_cfg(msg='Checking for wxWidgets using gtk2-unicode-3.0',
-                       package='',
-                       path=wx_config,
-                       args='--cppflags --cxxflags --libs %s --gl-libs' % wx_libs,
-                       uselib_store='WXWIDGETS',
-                       mandatory=True)
-    except:
+    else:
         try:
-            wx_config = 'wx-config-3.0-gtk2'
-            conf.check_cfg(msg='Checking for wxWidgets using wx-config-3.0-gtk2',
+            wx_config = '/usr/lib64/wx/config/gtk2-unicode-3.0'
+            conf.check_cfg(msg='Checking for wxWidgets using gtk2-unicode-3.0',
                            package='',
                            path=wx_config,
                            args='--cppflags --cxxflags --libs %s --gl-libs' % wx_libs,
                            uselib_store='WXWIDGETS',
                            mandatory=True)
         except:
-            wx_config = 'wx-config'
-            conf.check_cfg(msg='Checking for wxWidgets using wx-config',
-                           package='',
-                           path=wx_config,
-                           args='--cppflags --cxxflags --libs %s --gl-libs' % wx_libs,
-                           uselib_store='WXWIDGETS',
-                           mandatory=True)
+            try:
+                wx_config = 'wx-config-3.0-gtk2'
+                conf.check_cfg(msg='Checking for wxWidgets using wx-config-3.0-gtk2',
+                               package='',
+                               path=wx_config,
+                               args='--cppflags --cxxflags --libs %s --gl-libs' % wx_libs,
+                               uselib_store='WXWIDGETS',
+                               mandatory=True)
+            except:
+                wx_config = 'wx-config'
+                conf.check_cfg(msg='Checking for wxWidgets using wx-config',
+                               package='',
+                               path=wx_config,
+                               args='--cppflags --cxxflags --libs %s --gl-libs' % wx_libs,
+                               uselib_store='WXWIDGETS',
+                               mandatory=True)
 
     if conf.env.TARGET_LINUX:
         conf.env.append_value('CXXFLAGS', ['-DGLX_GLXEXT_PROTOTYPES'])
