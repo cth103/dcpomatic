@@ -690,11 +690,11 @@ def package(target, version, options):
                 return package_rpm(target, cpu, version, options)
     elif target.platform == 'osx':
         name = ''
-        if sorted(target.archs) == sorted(('arm64', 'x86_64')):
+        if hasattr(target, 'archs') and sorted(target.archs) == sorted(('arm64', 'x86_64')):
             name = 'arm-intel-64'
-        elif sorted(target.archs) == sorted(('i386', 'x86_64')):
+        elif hasattr(target, 'archs') and sorted(target.archs) == sorted(('i386', 'x86_64')):
             name = 'intel-32-64'
-        elif target.archs == ['arm64']:
+        elif hasattr(target, 'arch') and target.arch == ['arm64']:
             name = 'arm64'
         target.command('bash platform/osx/make_dmg.sh %s %s %s %s %s' % (target.environment_prefix, target.directory, name, target.apple_id, target.apple_password))
         packages = []
