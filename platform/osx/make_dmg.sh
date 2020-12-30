@@ -218,6 +218,7 @@ function copy_libs {
     copy_lib_env libxerces-c "$dest"
     copy_lib_env libcrypto "$dest"
     copy_lib_env libssl "$dest"
+    copy_lib_env libfribidi "$dest"
 }
 
 # @param #1 directory to copy to
