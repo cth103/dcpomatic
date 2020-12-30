@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-SYNTAX="make_dmg.sh <environment> <builddir> <type> <apple-id> <apple-password>"
-# where <type> is arm-intel-64, intel-32-64 or arm64
+SYNTAX="make_dmg.sh <environment> <builddir> <type> <sdk> <apple-id> <apple-password>"
+# where <type> is arm-intel, intel or arm
 #
 # e.g. make_dmg.sh /Users/carl/osx-environment /Users/carl/cdist arm-intel-64 foo@bar.net opensesame
 
@@ -15,12 +15,13 @@ DMG_SIZE=256
 ENV=$1
 ROOT=$2
 TYPE=$3
-APPLE_ID=$4
-APPLE_PASSWORD=$5
+SDK=$4
+APPLE_ID=$5
+APPLE_PASSWORD=$6
 
-if [ "$TYPE" != "arm-intel-64" -a "$TYPE" != "intel-32-64" -a "$TYPE" != "arm64" ]; then
+if [ "$TYPE" != "arm-intel" -a "$TYPE" != "intel" -a "$TYPE" != "arm" ]; then
     echo $SYNTAX
-    echo "where <type> is arm-intel-64, intel-32-64 or arm64"
+    echo "where <type> is arm-intel, intel or arm"
     exit 1
 fi
 
@@ -43,7 +44,7 @@ EOF
 
 function copy {
     case $TYPE in
-	arm-intel-64)
+	arm-intel)
 	    for f in $1/arm64/$2; do
 		if [ -h $f ]; then
 		    ln -s $(readlink $f) "$3/`basename $f`"
@@ -54,20 +55,9 @@ function copy {
 		fi
 	    done
 	    ;;
-	intel-32-64)
-	    for f in $1/i386/$2; do
-		if [ -h $f ]; then
-		    ln -s $(readlink $f) "$3/`basename $f`"
-		else
-		    g=`echo $f | sed -e "s/\/i386\//\/x86_64\//g"`
-		    mkdir -p "$3"
-		    lipo -create $f $g -output "$3/`basename $f`"
-		fi
-	    done
-	    ;;
-	arm64)
+        intel|arm)
 	    if [ -h $1/$2 ]; then
-		ln -s $(readlink $1/$2) "$3/`basename $f`"
+	        ln -s $(readlink $1/$2) "$3/`basename $f`"
             else
 	        cp $1/$2 "$3"
 	    fi
@@ -77,36 +67,24 @@ function copy {
 
 function copy_lib_root {
     case $TYPE in
-	arm-intel-64)
-	    for f in $ROOT/arm64/lib/$1*.dylib; do
-		if [ -h $f ]; then
-		    ln -s $(readlink $f) "$2/`basename $f`"
-		else
-		    g=`echo $f | sed -e "s/\/arm64\//\/x86_64\//g"`
-		    mkdir -p "$2"
-		    lipo -create $f $g -output "$2/`basename $f`"
-		fi
-	    done
-	    ;;
-	intel-32-64)
-	    for f in $ROOT/intel-32-64/lib/$1*.dylib; do
-		if [ -h $f ]; then
-		    ln -s $(readlink $f) "$2/`basename $f`"
-		else
-		    g=`echo $f | sed -e "s/\/i386\//\/x86_64\//g"`
-		    mkdir -p "$2"
-		    lipo -create $f $g -output "$2/`basename $f`"
-		fi
-	    done
-	    ;;
-	arm64)
+	arm-intel)
+		for f in $ROOT/arm64/lib/$1*.dylib; do
+			if [ -h $f ]; then
+				ln -s $(readlink $f) "$2/`basename $f`"
+			else
+				g=`echo $f | sed -e "s/\/arm64\//\/x86_64\//g"`
+				mkdir -p "$2"
+				lipo -create $f $g -output "$2/`basename $f`"
+			fi
+		done
+		;;
+    intel|arm)
 	    for f in $ROOT/lib/$1*.dylib; do
-		if [ -h $f ]; then
-		    ln -s $(readlink $f) "$2/`basename $f`"
-		else
-		    mkdir -p "$2"
-		    cp $f "$2"
-		fi
+			if [ -h $f ]; then
+				ln -s $(readlink $f) "$2/`basename $f`"
+			else
+				cp $f "$2/`basename $f`"
+			fi
 	    done
 	    ;;
     esac
@@ -115,36 +93,35 @@ function copy_lib_root {
 
 function copy_lib_env {
     case $TYPE in
-	arm-intel-64)
-	    for f in $ENV/arm64/lib/$1*.dylib; do
-		if [ -h $f ]; then
-		    ln -s $(readlink $f) "$2/`basename $f`"
-		else
-		    g=`echo $f | sed -e "s/\/arm64\//\/x86_64\//g"`
-		    mkdir -p "$2"
-		    lipo -create $f $g -output "$2/`basename $f`"
-		fi
+	arm-intel)
+	    for f in $ENV/arm64/$SDK/lib/$1*.dylib; do
+			if [ -h $f ]; then
+				ln -s $(readlink $f) "$2/`basename $f`"
+			else
+				g=`echo $f | sed -e "s/\/arm64\//\/x86_64\//g"`
+				mkdir -p "$2"
+				lipo -create $f $g -output "$2/`basename $f`"
+			fi
 	    done
 	    ;;
-	intel-32-64)
-	    for f in $ENV/i386/lib/$1*.dylib; do
-		if [ -h $f ]; then
-		    ln -s $(readlink $f) "$2/`basename $f`"
-		else
-		    g=`echo $f | sed -e "s/\/i386\//\/x86_64\//g"`
-		    mkdir -p "$2"
-		    lipo -create $f $g -output "$2/`basename $f`"
-		fi
+	intel)
+	    for f in $ENV/x86_64/$SDK/lib/$1*.dylib; do
+			if [ -h $f ]; then
+				ln -s $(readlink $f) "$2/`basename $f`"
+			else
+				mkdir -p "$2"
+				cp $f "$2"
+			fi
 	    done
 	    ;;
-	arm64)
-	    for f in $ENV/arm64/lib/$1*.dylib; do
-		if [ -h $f ]; then
-		    ln -s $(readlink $f) "$2/`basename $f`"
-		else
-		    mkdir -p "$2"
-		    cp $f "$2"
-		fi
+	arm)
+	    for f in $ENV/arm64/$SDK/lib/$1*.dylib; do
+			if [ -h $f ]; then
+				ln -s $(readlink $f) "$2/`basename $f`"
+			else
+				mkdir -p "$2"
+				cp $f "$2"
+			fi
 	    done
 	    ;;
     esac
@@ -227,13 +204,10 @@ function copy_libs {
 function copy_resources {
     local dest="$1"
     case $TYPE in
-        arm-intel-64)
-	    local prefix=$ROOT/x86_64
-	    ;;
-	intel-32-64)
-	    local prefix=$ROOT/x86_64
-	    ;;
-	arm64)
+	arm-intel)
+		local prefix=$ROOT/x86_64
+		;;
+	intel|arm)
 	    local prefix=$ROOT
 	    ;;
     esac
@@ -300,7 +274,7 @@ function copy_resources {
     # i18n: wxWidgets .mo files
     for lang in de es fr it sv nl ru pl da cs; do
 	mkdir "$dest/$lang"
-	cp $ENV/x86_64/share/locale/$lang/LC_MESSAGES/wxstd.mo "$dest/$lang"
+	cp $ENV/x86_64/$SDK/share/locale/$lang/LC_MESSAGES/wxstd.mo "$dest/$lang"
     done
 }
 
@@ -481,15 +455,11 @@ function setup {
 }
 
 case $TYPE in
-    arm-intel-64)
+    arm-intel)
 	# copy() writes the universal binary to arm64
 	prefix=$ROOT/arm64
 	;;
-    intel-32-64)
-	# copy() writes the universal binary to i386
-	prefix=$ROOT/i386
-	;;
-    arm64)
+    intel|arm)
 	prefix=$ROOT
 	;;
 esac

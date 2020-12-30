@@ -688,14 +688,16 @@ def package(target, version, options):
                 return package_debian(target, cpu, version, options)
             elif target.distro == 'centos' or target.distro == 'fedora' or target.distro == 'mageia':
                 return package_rpm(target, cpu, version, options)
-    elif target.platform == 'osx' and hasattr(target, 'archs') and sorted(target.archs) == sorted(('arm64', 'x86_64')):
-        target.command('bash platform/osx/make_dmg.sh %s %s arm-intel-64 %s %s' % (target.environment_prefix, target.directory, target.apple_id, target.apple_password))
-        return [os.path.abspath(x) for x in glob.glob('build/platform/osx/DCP-o-matic*.dmg')]
-    elif target.platform == 'osx' and hasattr(target, 'archs') and sorted(target.archs) == sorted(('i386', 'x86_64')):
-        target.command('bash platform/osx/make_dmg.sh %s %s intel-32-64 %s %s' % (target.environment_prefix, target.directory, target.apple_id, target.apple_password))
-        return [os.path.abspath(x) for x in glob.glob('build/platform/osx/DCP-o-matic*.dmg')]
-    elif target.platform == 'osx' and hasattr(target, 'arch') and target.arch == 'arm64':
-        target.command('bash platform/osx/make_dmg.sh %s %s arm64 %s %s' % (target.environment_prefix, target.directory, target.apple_id, target.apple_password))
+    elif target.platform == 'osx':
+        name = ''
+        if hasattr(target, 'archs') and sorted(target.archs) == sorted(('arm64', 'x86_64')):
+            name = 'arm-intel'
+        elif hasattr(target, 'arch'):
+            if target.arch == 'x86_64':
+                name = 'intel'
+            elif target.arch == 'arm64':
+                name = 'arm'
+        target.command('bash platform/osx/make_dmg.sh %s %s %s %s %s %s' % (target.environment_prefix, target.directory, name, target.sdk, target.apple_id, target.apple_password))
         packages = []
         for x in glob.glob('build/platform/osx/DCP-o-matic*.dmg'):
             a = os.path.abspath(x)
