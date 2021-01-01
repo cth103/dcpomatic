@@ -58,7 +58,8 @@ def options(opt):
     opt.add_option('--disable-gui',       action='store_true', default=False, help='disable building of GUI tools')
     opt.add_option('--disable-tests',     action='store_true', default=False, help='disable building of tests')
     opt.add_option('--install-prefix',                         default=None,  help='prefix of where DCP-o-matic will be installed')
-    opt.add_option('--target-windows',    action='store_true', default=False, help='set up to do a cross-compile to make a Windows package')
+    opt.add_option('--target-windows',    action='store_true', default=False, help='set up to do a cross-compile for Windows')
+    opt.add_option('--target-macos-arm64', action='store_true', default=False, help='set up to do a cross-compile for macOS arm64')
     opt.add_option('--static-dcpomatic',  action='store_true', default=False, help='link to components of DCP-o-matic statically')
     opt.add_option('--static-boost',      action='store_true', default=False, help='link statically to Boost')
     opt.add_option('--static-wxwidgets',  action='store_true', default=False, help='link statically to wxWidgets')
@@ -75,6 +76,7 @@ def options(opt):
     opt.add_option('--use-lld',           action='store_true', default=False, help='use lld linker')
     opt.add_option('--enable-disk',       action='store_true', default=False, help='build dcpomatic2_disk tool; requires Boost process, lwext4 and nanomsg libraries')
     opt.add_option('--warnings-are-errors', action='store_true', default=False, help='build with -Werror')
+    opt.add_option('--wx-config',         help='path to wx-config')
 
 def configure(conf):
     conf.load('compiler_cxx')
@@ -101,7 +103,6 @@ def configure(conf):
     conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS',
                                        '-D__STDC_LIMIT_MACROS',
                                        '-D__STDC_FORMAT_MACROS',
-                                       '-msse',
                                        '-fno-strict-aliasing',
                                        '-Wall',
                                        '-Wextra',
@@ -115,6 +116,9 @@ def configure(conf):
 
     if conf.options.warnings_are_errors:
         conf.env.append_value('CXXFLAGS', '-Werror')
+
+    if not conf.options.target_macos_arm64:
+        conf.env.append_value('CXXFLAGS', '-msse')
 
     if conf.env['CXX_NAME'] == 'gcc':
         gcc = conf.env['CC_VERSION']
