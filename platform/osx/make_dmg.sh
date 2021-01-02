@@ -284,7 +284,7 @@ function relink_relative {
     local linkers=("$@")
 
     for obj in "${linkers[@]}"; do
-	deps=`otool -L "$obj" | awk '{print $1}' | egrep "($to_relink)" | egrep "($ENV|$ROOT|boost|libicu)"`
+	deps=`otool -L "$obj" | awk '{print $1}' | egrep "($to_relink)" | egrep "($ENV|$ROOT|boost|libicu|libssh)"`
 	changes=""
 	for dep in $deps; do
 	    base=`basename $dep`
@@ -313,11 +313,11 @@ function relink_absolute {
     local linkers=("$@")
 
     for obj in "${linkers[@]}"; do
-	deps=`otool -L "$obj" | awk '{print $1}' | egrep "($to_relink)" | egrep "($ENV|$ROOT|boost|libicu)"`
-	for dep in $deps; do
-	    base=`basename $dep`
-            install_name_tool -change "$dep" "$target"/$base -id `basename "$obj"` "$obj"
-	done
+		deps=`otool -L "$obj" | awk '{print $1}' | egrep "($to_relink)" | egrep "($ENV|$ROOT|boost|libicu|libssh)"`
+		for dep in $deps; do
+			base=`basename $dep`
+			install_name_tool -change "$dep" "$target"/$base -id `basename "$obj"` "$obj"
+		done
     done
 }
 
