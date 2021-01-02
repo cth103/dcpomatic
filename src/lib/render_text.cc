@@ -289,8 +289,10 @@ static Glib::RefPtr<Pango::Layout>
 create_layout()
 {
 	PangoFontMap* c_font_map = pango_cairo_font_map_new ();
+	DCPOMATIC_ASSERT (c_font_map);
 	Glib::RefPtr<Pango::FontMap> font_map = Glib::wrap (c_font_map);
 	PangoContext* c_context = pango_font_map_create_context (c_font_map);
+	DCPOMATIC_ASSERT (c_context);
 	Glib::RefPtr<Pango::Context> context = Glib::wrap (c_context);
 	return Pango::Layout::create (context);
 }
