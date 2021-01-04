@@ -20,7 +20,6 @@
 
 #include <boost/noncopyable.hpp>
 #include <boost/filesystem.hpp>
-#include <boost/shared_ptr.hpp>
 #include <vector>
 
 class Zipper : public boost::noncopyable
@@ -34,6 +33,6 @@ public:
 
 private:
 	struct zip* _zip;
-	std::vector<boost::shared_ptr<std::string> > _store;
+	std::vector<std::shared_ptr<std::string> > _store;
 };
 

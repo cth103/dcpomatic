@@ -38,7 +38,7 @@ using std::string;
 using std::cout;
 using std::list;
 using std::vector;
-using boost::shared_ptr;
+using std::shared_ptr;
 using namespace dcpomatic;
 
 ImageContent::ImageContent (boost::filesystem::path p)

@@ -46,7 +46,7 @@ using std::cout;
 using std::vector;
 using std::make_pair;
 using std::runtime_error;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::bind;
 using boost::optional;
 #if BOOST_VERSION >= 106100

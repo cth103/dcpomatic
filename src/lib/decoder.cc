@@ -27,8 +27,8 @@
 
 using std::cout;
 using boost::optional;
-using boost::shared_ptr;
-using boost::weak_ptr;
+using std::shared_ptr;
+using std::weak_ptr;
 using namespace dcpomatic;
 
 Decoder::Decoder (weak_ptr<const Film> film)

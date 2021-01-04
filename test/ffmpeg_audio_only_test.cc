@@ -40,14 +40,14 @@ using std::min;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
-using boost::shared_ptr;
+using std::shared_ptr;
 
 static SNDFILE* ref = 0;
 static int ref_buffer_size = 0;
 static float* ref_buffer = 0;
 
 static void
-audio (boost::shared_ptr<AudioBuffers> audio, int channels)
+audio (std::shared_ptr<AudioBuffers> audio, int channels)
 {
 	/* Check that we have a big enough buffer */
 	BOOST_CHECK (audio->frames() * audio->channels() < ref_buffer_size);

@@ -22,7 +22,7 @@
 #include "normal_job_view.h"
 #include "lib/job.h"
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
 JobViewDialog::JobViewDialog (wxWindow* parent, wxString title, shared_ptr<Job> job)
 	: TableDialog (parent, title, 4, 0, false)

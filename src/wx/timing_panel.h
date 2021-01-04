@@ -27,7 +27,7 @@ class FilmViewer;
 class TimingPanel : public ContentSubPanel
 {
 public:
-	TimingPanel (ContentPanel *, boost::weak_ptr<FilmViewer> viewer);
+	TimingPanel (ContentPanel *, std::weak_ptr<FilmViewer> viewer);
 
 	void film_changed (Film::Property);
 	void film_content_changed (int);
@@ -47,7 +47,7 @@ private:
 	void setup_sensitivity ();
 	void add_to_grid ();
 
-	boost::weak_ptr<FilmViewer> _viewer;
+	std::weak_ptr<FilmViewer> _viewer;
 
 	wxStaticText* _h_label;
 	wxStaticText* _m_label;

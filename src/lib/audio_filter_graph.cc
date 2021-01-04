@@ -32,7 +32,7 @@ extern "C" {
 
 using std::string;
 using std::cout;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 AudioFilterGraph::AudioFilterGraph (int sample_rate, int channels)
 	: _sample_rate (sample_rate)

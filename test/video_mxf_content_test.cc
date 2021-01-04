@@ -32,8 +32,8 @@
 #include <dcp/mono_picture_asset.h>
 #include <boost/test/unit_test.hpp>
 
-using boost::shared_ptr;
-using boost::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::dynamic_pointer_cast;
 
 static boost::filesystem::path ref_mxf = "test/data/scaling_test_185_185/j2c_c75af074-2809-453c-9192-6affb76b4ba3.mxf";
 

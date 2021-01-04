@@ -18,9 +18,11 @@
 
 */
 
-#include <boost/shared_ptr.hpp>
+
+#include <memory>
+
 
 class DCPContent;
 class Film;
 
-extern void copy_dcp_details_to_film (boost::shared_ptr<const DCPContent> dcp, boost::shared_ptr<Film> film);
+extern void copy_dcp_details_to_film (std::shared_ptr<const DCPContent> dcp, std::shared_ptr<Film> film);

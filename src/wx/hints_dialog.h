@@ -23,7 +23,6 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/weak_ptr.hpp>
 #include <boost/signals2.hpp>
 
 class wxRichTextCtrl;
@@ -33,7 +32,7 @@ class Hints;
 class HintsDialog : public wxDialog
 {
 public:
-	HintsDialog (wxWindow* parent, boost::weak_ptr<Film>, bool ok);
+	HintsDialog (wxWindow* parent, std::weak_ptr<Film>, bool ok);
 
 private:
 	void film_change (ChangeType);
@@ -45,7 +44,7 @@ private:
 	void finished ();
 	void progress (std::string m);
 
-	boost::weak_ptr<Film> _film;
+	std::weak_ptr<Film> _film;
 	wxGauge* _gauge;
 	wxStaticText* _gauge_message;
 	wxRichTextCtrl* _text;

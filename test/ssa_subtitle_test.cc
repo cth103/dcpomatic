@@ -36,7 +36,7 @@
 
 using std::string;
 using std::list;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 /** Make a DCP with subs from a .ssa file */
 BOOST_AUTO_TEST_CASE (ssa_subtitle_test1)

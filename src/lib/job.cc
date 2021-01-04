@@ -43,7 +43,7 @@
 using std::string;
 using std::list;
 using std::cout;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 using boost::function;
 using namespace dcpomatic;

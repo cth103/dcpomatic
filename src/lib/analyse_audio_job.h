@@ -46,7 +46,7 @@ class Filter;
 class AnalyseAudioJob : public Job
 {
 public:
-	AnalyseAudioJob (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist>, bool from_zero);
+	AnalyseAudioJob (std::shared_ptr<const Film>, std::shared_ptr<const Playlist>, bool from_zero);
 	~AnalyseAudioJob ();
 
 	std::string name () const;
@@ -58,9 +58,9 @@ public:
 	}
 
 private:
-	void analyse (boost::shared_ptr<const AudioBuffers>, dcpomatic::DCPTime time);
+	void analyse (std::shared_ptr<const AudioBuffers>, dcpomatic::DCPTime time);
 
-	boost::shared_ptr<const Playlist> _playlist;
+	std::shared_ptr<const Playlist> _playlist;
 	/** playlist's audio analysis path when the job was created */
 	boost::filesystem::path _path;
 	dcpomatic::DCPTime _start;
@@ -73,9 +73,9 @@ private:
 	float* _sample_peak;
 	Frame* _sample_peak_frame;
 
-	boost::shared_ptr<AudioAnalysis> _analysis;
+	std::shared_ptr<AudioAnalysis> _analysis;
 
-	boost::shared_ptr<AudioFilterGraph> _ebur128;
+	std::shared_ptr<AudioFilterGraph> _ebur128;
 	std::vector<Filter const *> _filters;
 
 	boost::scoped_ptr<leqm_nrt::Calculator> _leqm;

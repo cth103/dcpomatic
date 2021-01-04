@@ -32,8 +32,8 @@
 #endif
 
 using std::string;
-using boost::weak_ptr;
-using boost::shared_ptr;
+using std::weak_ptr;
+using std::shared_ptr;
 
 SystemInformationDialog::SystemInformationDialog (wxWindow* parent, weak_ptr<FilmViewer> weak_viewer)
 	: TableDialog (parent, _("System information"), 2, 1, false)

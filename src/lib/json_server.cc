@@ -35,8 +35,8 @@ using std::cout;
 using std::map;
 using std::list;
 using boost::thread;
-using boost::shared_ptr;
-using boost::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::dynamic_pointer_cast;
 using boost::asio::ip::tcp;
 using dcp::raw_convert;
 

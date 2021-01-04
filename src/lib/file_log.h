@@ -29,7 +29,7 @@ public:
 	std::string head_and_tail (int amount = 1024) const;
 
 private:
-	void do_log (boost::shared_ptr<const LogEntry> entry);
+	void do_log (std::shared_ptr<const LogEntry> entry);
 
 	/** filename to write to */
 	boost::filesystem::path _file;

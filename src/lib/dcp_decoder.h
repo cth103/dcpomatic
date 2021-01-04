@@ -42,14 +42,14 @@ class DCPDecoder : public DCP, public Decoder
 {
 public:
 	DCPDecoder (
-		boost::shared_ptr<const Film> film,
-		boost::shared_ptr<const DCPContent>,
+		std::shared_ptr<const Film> film,
+		std::shared_ptr<const DCPContent>,
 		bool fast,
 		bool tolerant,
-		boost::shared_ptr<DCPDecoder> old
+		std::shared_ptr<DCPDecoder> old
 		);
 
-	std::list<boost::shared_ptr<dcp::Reel> > reels () const {
+	std::list<std::shared_ptr<dcp::Reel> > reels () const {
 		return _reels;
 	}
 
@@ -75,28 +75,28 @@ private:
 	void pass_texts (dcpomatic::ContentTime next, dcp::Size size);
 	void pass_texts (
 		dcpomatic::ContentTime next,
-		boost::shared_ptr<dcp::SubtitleAsset> asset,
+		std::shared_ptr<dcp::SubtitleAsset> asset,
 		bool reference,
 		int64_t entry_point,
-		boost::shared_ptr<TextDecoder> decoder,
+		std::shared_ptr<TextDecoder> decoder,
 		dcp::Size size
 		);
-	std::string calculate_lazy_digest (boost::shared_ptr<const DCPContent>) const;
+	std::string calculate_lazy_digest (std::shared_ptr<const DCPContent>) const;
 
 	/** Time of next thing to return from pass relative to the start of _reel */
 	dcpomatic::ContentTime _next;
-	std::list<boost::shared_ptr<dcp::Reel> > _reels;
+	std::list<std::shared_ptr<dcp::Reel> > _reels;
 
-	std::list<boost::shared_ptr<dcp::Reel> >::iterator _reel;
+	std::list<std::shared_ptr<dcp::Reel> >::iterator _reel;
 	/** Offset of _reel from the start of the content in frames */
 	int64_t _offset;
 	/** Reader for current mono picture asset, if applicable */
-	boost::shared_ptr<dcp::MonoPictureAssetReader> _mono_reader;
+	std::shared_ptr<dcp::MonoPictureAssetReader> _mono_reader;
 	/** Reader for current stereo picture asset, if applicable */
-	boost::shared_ptr<dcp::StereoPictureAssetReader> _stereo_reader;
+	std::shared_ptr<dcp::StereoPictureAssetReader> _stereo_reader;
 	/** Reader for current sound asset, if applicable */
-	boost::shared_ptr<dcp::SoundAssetReader> _sound_reader;
-	boost::shared_ptr<dcp::AtmosAssetReader> _atmos_reader;
+	std::shared_ptr<dcp::SoundAssetReader> _sound_reader;
+	std::shared_ptr<dcp::AtmosAssetReader> _atmos_reader;
 	boost::optional<AtmosMetadata> _atmos_metadata;
 
 	bool _decode_referenced;

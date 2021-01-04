@@ -39,8 +39,8 @@ using std::list;
 using std::map;
 using std::min;
 using std::cout;
-using boost::shared_ptr;
-using boost::weak_ptr;
+using std::shared_ptr;
+using std::weak_ptr;
 using boost::bind;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;

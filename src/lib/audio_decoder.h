@@ -29,7 +29,6 @@
 #include "content_audio.h"
 #include "audio_stream.h"
 #include "decoder_part.h"
-#include <boost/enable_shared_from_this.hpp>
 #include <boost/signals2.hpp>
 
 class AudioBuffers;
@@ -42,30 +41,30 @@ class Resampler;
 /** @class AudioDecoder.
  *  @brief Parent class for audio decoders.
  */
-class AudioDecoder : public boost::enable_shared_from_this<AudioDecoder>, public DecoderPart
+class AudioDecoder : public std::enable_shared_from_this<AudioDecoder>, public DecoderPart
 {
 public:
-	AudioDecoder (Decoder* parent, boost::shared_ptr<const AudioContent> content, bool fast);
+	AudioDecoder (Decoder* parent, std::shared_ptr<const AudioContent> content, bool fast);
 
-	boost::optional<dcpomatic::ContentTime> position (boost::shared_ptr<const Film> film) const;
-	void emit (boost::shared_ptr<const Film> film, AudioStreamPtr stream, boost::shared_ptr<const AudioBuffers>, dcpomatic::ContentTime, bool time_already_delayed = false);
+	boost::optional<dcpomatic::ContentTime> position (std::shared_ptr<const Film> film) const;
+	void emit (std::shared_ptr<const Film> film, AudioStreamPtr stream, std::shared_ptr<const AudioBuffers>, dcpomatic::ContentTime, bool time_already_delayed = false);
 	void seek ();
 	void flush ();
 
-	dcpomatic::ContentTime stream_position (boost::shared_ptr<const Film> film, AudioStreamPtr stream) const;
+	dcpomatic::ContentTime stream_position (std::shared_ptr<const Film> film, AudioStreamPtr stream) const;
 
 	boost::signals2::signal<void (AudioStreamPtr, ContentAudio)> Data;
 
 private:
 	void silence (int milliseconds);
 
-	boost::shared_ptr<const AudioContent> _content;
+	std::shared_ptr<const AudioContent> _content;
 	/** Frame after the last one that was emitted from Data (i.e. at the resampled rate, if applicable)
 	 *  for each AudioStream.
 	 */
 	typedef std::map<AudioStreamPtr, Frame> PositionMap;
 	PositionMap _positions;
-	typedef std::map<AudioStreamPtr, boost::shared_ptr<Resampler> > ResamplerMap;
+	typedef std::map<AudioStreamPtr, std::shared_ptr<Resampler> > ResamplerMap;
 	ResamplerMap _resamplers;
 
 	bool _fast;

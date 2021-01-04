@@ -29,7 +29,6 @@ extern "C" {
 #include <libavcodec/avcodec.h>
 }
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/shared_ptr.hpp>
 #include <boost/thread/mutex.hpp>
 
 struct AVFormatContext;
@@ -43,10 +42,10 @@ class Log;
 class FFmpeg
 {
 public:
-	explicit FFmpeg (boost::shared_ptr<const FFmpegContent>);
+	explicit FFmpeg (std::shared_ptr<const FFmpegContent>);
 	virtual ~FFmpeg ();
 
-	boost::shared_ptr<const FFmpegContent> ffmpeg_content () const {
+	std::shared_ptr<const FFmpegContent> ffmpeg_content () const {
 		return _ffmpeg_content;
 	}
 
@@ -57,12 +56,12 @@ protected:
 	AVCodecContext* video_codec_context () const;
 	AVCodecContext* subtitle_codec_context () const;
 	dcpomatic::ContentTime pts_offset (
-		std::vector<boost::shared_ptr<FFmpegAudioStream> > audio_streams, boost::optional<dcpomatic::ContentTime> first_video, double video_frame_rate
+		std::vector<std::shared_ptr<FFmpegAudioStream> > audio_streams, boost::optional<dcpomatic::ContentTime> first_video, double video_frame_rate
 		) const;
 
 	static FFmpegSubtitlePeriod subtitle_period (AVSubtitle const & sub);
 
-	boost::shared_ptr<const FFmpegContent> _ffmpeg_content;
+	std::shared_ptr<const FFmpegContent> _ffmpeg_content;
 
 	uint8_t* _avio_buffer;
 	int _avio_buffer_size;
@@ -87,7 +86,7 @@ private:
 	void setup_decoders ();
 
 	static void ffmpeg_log_callback (void* ptr, int level, const char* fmt, va_list vl);
-	static boost::weak_ptr<Log> _ffmpeg_log;
+	static std::weak_ptr<Log> _ffmpeg_log;
 };
 
 #endif

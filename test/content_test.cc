@@ -32,7 +32,7 @@
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
-using boost::shared_ptr;
+using std::shared_ptr;
 using namespace dcpomatic;
 
 /** There has been garbled audio with this piece of content */

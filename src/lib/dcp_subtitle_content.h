@@ -27,11 +27,11 @@ public:
 	DCPSubtitleContent (boost::filesystem::path);
 	DCPSubtitleContent (cxml::ConstNodePtr, int);
 
-	void examine (boost::shared_ptr<const Film> film, boost::shared_ptr<Job>);
+	void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job>);
 	std::string summary () const;
 	std::string technical_summary () const;
 	void as_xml (xmlpp::Node *, bool with_paths) const;
-	dcpomatic::DCPTime full_length (boost::shared_ptr<const Film> film) const;
+	dcpomatic::DCPTime full_length (std::shared_ptr<const Film> film) const;
 	dcpomatic::DCPTime approximate_length () const;
 
 private:

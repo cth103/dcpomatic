@@ -26,7 +26,7 @@
 class TimelineAtmosContentView : public TimelineContentView
 {
 public:
-	TimelineAtmosContentView (Timeline& tl, boost::shared_ptr<Content> c);
+	TimelineAtmosContentView (Timeline& tl, std::shared_ptr<Content> c);
 
 private:
 	bool active () const {

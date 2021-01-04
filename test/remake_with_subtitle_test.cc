@@ -25,8 +25,8 @@
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
-using boost::shared_ptr;
-using boost::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::dynamic_pointer_cast;
 
 /** Check that if we remake a DCP having turned off subtitles the code notices
  *  and doesn't re-use the old video data.

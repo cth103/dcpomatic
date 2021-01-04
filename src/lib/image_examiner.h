@@ -25,7 +25,7 @@ class ImageContent;
 class ImageExaminer : public VideoExaminer
 {
 public:
-	ImageExaminer (boost::shared_ptr<const Film>, boost::shared_ptr<const ImageContent>, boost::shared_ptr<Job>);
+	ImageExaminer (std::shared_ptr<const Film>, std::shared_ptr<const ImageContent>, std::shared_ptr<Job>);
 
 	bool has_video () const {
 		return true;
@@ -41,8 +41,8 @@ public:
 	}
 
 private:
-	boost::weak_ptr<const Film> _film;
-	boost::shared_ptr<const ImageContent> _image_content;
+	std::weak_ptr<const Film> _film;
+	std::shared_ptr<const ImageContent> _image_content;
 	boost::optional<dcp::Size> _video_size;
 	Frame _video_length;
 };

@@ -33,7 +33,7 @@ using std::cout;
 using std::map;
 using std::string;
 using std::make_pair;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 using namespace dcpomatic;
 

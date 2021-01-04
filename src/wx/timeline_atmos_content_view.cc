@@ -20,7 +20,7 @@
 
 #include "timeline_atmos_content_view.h"
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
 /** @class TimelineAtmosContentView
  *  @brief Timeline view for AtmosContent.

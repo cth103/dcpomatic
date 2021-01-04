@@ -24,7 +24,6 @@
 #include "atmos_metadata.h"
 #include "types.h"
 #include <dcp/atmos_asset_reader.h>
-#include <boost/shared_ptr.hpp>
 
 /** @class ContentAtmos
  *  @brief Some Atmos data that has come out of a decoder.
@@ -32,13 +31,13 @@
 class ContentAtmos
 {
 public:
-	ContentAtmos (boost::shared_ptr<const dcp::AtmosFrame> data_, Frame frame_, AtmosMetadata metadata_)
+	ContentAtmos (std::shared_ptr<const dcp::AtmosFrame> data_, Frame frame_, AtmosMetadata metadata_)
 		: data (data_)
 		, frame (frame_)
 		, metadata (metadata_)
 	{}
 
-	boost::shared_ptr<const dcp::AtmosFrame> data;
+	std::shared_ptr<const dcp::AtmosFrame> data;
 	Frame frame;
 	AtmosMetadata metadata;
 };

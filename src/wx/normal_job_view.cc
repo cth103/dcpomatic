@@ -23,7 +23,7 @@
 #include "lib/job.h"
 #include <wx/wx.h>
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
 NormalJobView::NormalJobView (shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table)
 	: JobView (job, parent, container, table)

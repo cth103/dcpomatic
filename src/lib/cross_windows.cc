@@ -59,7 +59,7 @@ using std::cerr;
 using std::cout;
 using std::runtime_error;
 using std::map;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 
 static std::vector<pair<HANDLE, string> > locked_volumes;

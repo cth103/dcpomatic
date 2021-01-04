@@ -29,15 +29,15 @@ class FFmpegImageProxy : public ImageProxy
 public:
 	explicit FFmpegImageProxy (boost::filesystem::path, VideoRange video_range);
 	explicit FFmpegImageProxy (dcp::ArrayData, VideoRange video_range);
-	FFmpegImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
+	FFmpegImageProxy (std::shared_ptr<cxml::Node> xml, std::shared_ptr<Socket> socket);
 
 	Result image (
 		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
 		) const;
 
 	void add_metadata (xmlpp::Node *) const;
-	void write_to_socket (boost::shared_ptr<Socket>) const;
-	bool same (boost::shared_ptr<const ImageProxy> other) const;
+	void write_to_socket (std::shared_ptr<Socket>) const;
+	bool same (std::shared_ptr<const ImageProxy> other) const;
 	size_t memory_used () const;
 
 	int avio_read (uint8_t* buffer, int const amount);
@@ -51,6 +51,6 @@ private:
 	    failed-decode errors can give more detail.
 	*/
 	boost::optional<boost::filesystem::path> _path;
-	mutable boost::shared_ptr<Image> _image;
+	mutable std::shared_ptr<Image> _image;
 	mutable boost::mutex _mutex;
 };

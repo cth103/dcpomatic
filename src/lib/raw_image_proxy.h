@@ -26,20 +26,20 @@
 class RawImageProxy : public ImageProxy
 {
 public:
-	explicit RawImageProxy (boost::shared_ptr<Image>);
-	RawImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
+	explicit RawImageProxy (std::shared_ptr<Image>);
+	RawImageProxy (std::shared_ptr<cxml::Node> xml, std::shared_ptr<Socket> socket);
 
 	Result image (
 		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
 		) const;
 
 	void add_metadata (xmlpp::Node *) const;
-	void write_to_socket (boost::shared_ptr<Socket>) const;
-	bool same (boost::shared_ptr<const ImageProxy>) const;
+	void write_to_socket (std::shared_ptr<Socket>) const;
+	bool same (std::shared_ptr<const ImageProxy>) const;
 	size_t memory_used () const;
 
 private:
-	boost::shared_ptr<Image> _image;
+	std::shared_ptr<Image> _image;
 };
 
 #endif

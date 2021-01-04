@@ -18,7 +18,9 @@
 
 */
 
-#include <boost/shared_ptr.hpp>
+
+#include <memory>
+
 
 class Content;
 
@@ -28,5 +30,5 @@ class Content;
 class ContentStore
 {
 public:
-	virtual boost::shared_ptr<Content> get (std::string digest) const = 0;
+	virtual std::shared_ptr<Content> get (std::string digest) const = 0;
 };

@@ -34,7 +34,7 @@ public:
 	DecoderPart (Decoder* parent);
 	virtual ~DecoderPart () {}
 
-	virtual boost::optional<dcpomatic::ContentTime> position (boost::shared_ptr<const Film> film) const = 0;
+	virtual boost::optional<dcpomatic::ContentTime> position (std::shared_ptr<const Film> film) const = 0;
 	virtual void seek () = 0;
 
 	void set_ignore (bool i) {

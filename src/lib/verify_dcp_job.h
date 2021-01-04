@@ -20,7 +20,6 @@
 
 #include "job.h"
 #include <dcp/verify.h>
-#include <boost/shared_ptr.hpp>
 
 class Content;
 

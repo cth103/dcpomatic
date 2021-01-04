@@ -42,10 +42,10 @@ using std::cerr;
 using std::list;
 using std::vector;
 using std::runtime_error;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 using boost::bind;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
@@ -533,8 +533,8 @@ int main (int argc, char* argv[])
 	}
 
 	if (list_cinemas) {
-		list<boost::shared_ptr<Cinema> > cinemas = Config::instance()->cinemas ();
-		for (list<boost::shared_ptr<Cinema> >::const_iterator i = cinemas.begin(); i != cinemas.end(); ++i) {
+		list<std::shared_ptr<Cinema> > cinemas = Config::instance()->cinemas ();
+		for (list<std::shared_ptr<Cinema> >::const_iterator i = cinemas.begin(); i != cinemas.end(); ++i) {
 			cout << (*i)->name << " (" << Emailer::address_list ((*i)->emails) << ")\n";
 		}
 		exit (EXIT_SUCCESS);

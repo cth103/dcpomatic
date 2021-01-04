@@ -28,7 +28,6 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 #include <dcp/util.h>
 #include <boost/atomic.hpp>
-#include <boost/shared_ptr.hpp>
 #include <boost/thread.hpp>
 #include <boost/thread/condition.hpp>
 #undef None
@@ -55,7 +54,7 @@ public:
 	}
 
 private:
-	void set_image (boost::shared_ptr<const Image> image);
+	void set_image (std::shared_ptr<const Image> image);
 	void set_image_and_draw ();
 	void draw (Position<int> inter_position, dcp::Size inter_size);
 	void thread ();
@@ -81,5 +80,5 @@ private:
 	boost::atomic<bool> _playing;
 	boost::atomic<bool> _one_shot;
 
-	boost::shared_ptr<wxTimer> _timer;
+	std::shared_ptr<wxTimer> _timer;
 };

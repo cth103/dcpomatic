@@ -18,7 +18,10 @@
 
 */
 
+
 #include "content.h"
+#include <memory>
+
 
 class AtmosMXFContent : public Content
 {
@@ -26,18 +29,18 @@ public:
 	AtmosMXFContent (boost::filesystem::path path);
 	AtmosMXFContent (cxml::ConstNodePtr node, int version);
 
-	boost::shared_ptr<AtmosMXFContent> shared_from_this () {
-		return boost::dynamic_pointer_cast<AtmosMXFContent> (Content::shared_from_this ());
+	std::shared_ptr<AtmosMXFContent> shared_from_this () {
+		return std::dynamic_pointer_cast<AtmosMXFContent> (Content::shared_from_this());
 	}
 
-	boost::shared_ptr<const AtmosMXFContent> shared_from_this () const {
-		return boost::dynamic_pointer_cast<const AtmosMXFContent> (Content::shared_from_this ());
+	std::shared_ptr<const AtmosMXFContent> shared_from_this () const {
+		return std::dynamic_pointer_cast<const AtmosMXFContent> (Content::shared_from_this());
 	}
 
-	void examine (boost::shared_ptr<const Film> film, boost::shared_ptr<Job> job);
+	void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job> job);
 	std::string summary () const;
 	void as_xml (xmlpp::Node* node, bool with_path) const;
-	dcpomatic::DCPTime full_length (boost::shared_ptr<const Film> film) const;
+	dcpomatic::DCPTime full_length (std::shared_ptr<const Film> film) const;
 	dcpomatic::DCPTime approximate_length () const;
 
 	static bool valid_mxf (boost::filesystem::path path);

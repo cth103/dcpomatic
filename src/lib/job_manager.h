@@ -43,13 +43,13 @@ extern bool wait_for_jobs ();
 class JobManager : public Signaller, public boost::noncopyable
 {
 public:
-	boost::shared_ptr<Job> add (boost::shared_ptr<Job>);
-	boost::shared_ptr<Job> add_after (boost::shared_ptr<Job> after, boost::shared_ptr<Job> j);
-	std::list<boost::shared_ptr<Job> > get () const;
+	std::shared_ptr<Job> add (std::shared_ptr<Job>);
+	std::shared_ptr<Job> add_after (std::shared_ptr<Job> after, std::shared_ptr<Job> j);
+	std::list<std::shared_ptr<Job> > get () const;
 	bool work_to_do () const;
 	bool errors () const;
-	void increase_priority (boost::shared_ptr<Job>);
-	void decrease_priority (boost::shared_ptr<Job>);
+	void increase_priority (std::shared_ptr<Job>);
+	void decrease_priority (std::shared_ptr<Job>);
 	void pause ();
 	void resume ();
 	bool paused () const {
@@ -58,21 +58,21 @@ public:
 	}
 
 	void analyse_audio (
-		boost::shared_ptr<const Film> film,
-		boost::shared_ptr<const Playlist> playlist,
+		std::shared_ptr<const Film> film,
+		std::shared_ptr<const Playlist> playlist,
 		bool from_zero,
 		boost::signals2::connection& connection,
 		boost::function<void()> ready
 		);
 
 	void analyse_subtitles (
-		boost::shared_ptr<const Film> film,
-		boost::shared_ptr<Content> content,
+		std::shared_ptr<const Film> film,
+		std::shared_ptr<Content> content,
 		boost::signals2::connection& connection,
 		boost::function<void()> ready
 		);
 
-	boost::signals2::signal<void (boost::weak_ptr<Job>)> JobAdded;
+	boost::signals2::signal<void (std::weak_ptr<Job>)> JobAdded;
 	boost::signals2::signal<void ()> JobsReordered;
 	boost::signals2::signal<void (boost::optional<std::string>, boost::optional<std::string>)> ActiveJobsChanged;
 
@@ -94,11 +94,11 @@ private:
 	mutable boost::mutex _mutex;
 	boost::condition _empty_condition;
 	/** List of jobs in the order that they will be executed */
-	std::list<boost::shared_ptr<Job> > _jobs;
+	std::list<std::shared_ptr<Job> > _jobs;
 	std::list<boost::signals2::connection> _connections;
 	bool _terminate;
 	bool _paused;
-	boost::shared_ptr<Job> _paused_job;
+	std::shared_ptr<Job> _paused_job;
 
 	boost::optional<std::string> _last_active_job;
 	boost::thread _scheduler;

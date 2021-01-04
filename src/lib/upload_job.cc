@@ -36,7 +36,7 @@
 
 using std::string;
 using std::min;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::scoped_ptr;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;

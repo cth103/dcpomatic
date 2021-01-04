@@ -21,20 +21,22 @@
 #ifndef DCPOMATIC_BITMAP_CAPTION_H
 #define DCPOMATIC_BITMAP_CAPTION_H
 
+
 #include "rect.h"
-#include <boost/shared_ptr.hpp>
+#include <memory>
+
 
 class Image;
 
 class BitmapText
 {
 public:
-	BitmapText (boost::shared_ptr<Image> i, dcpomatic::Rect<double> r)
+	BitmapText (std::shared_ptr<Image> i, dcpomatic::Rect<double> r)
 		: image (i)
 		, rectangle (r)
 	{}
 
-	boost::shared_ptr<Image> image;
+	std::shared_ptr<Image> image;
 	/** Area that the subtitle covers on its corresponding video, expressed in
 	 *  proportions of the image size; e.g. rectangle.x = 0.5 would mean that
 	 *  the rectangle starts half-way across the video.

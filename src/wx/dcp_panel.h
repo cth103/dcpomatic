@@ -19,7 +19,6 @@
 */
 
 #include "lib/config.h"
-#include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
 
 class wxNotebook;
@@ -45,9 +44,9 @@ class Ratio;
 class DCPPanel : public boost::noncopyable
 {
 public:
-	DCPPanel (wxNotebook *, boost::shared_ptr<Film>, boost::weak_ptr<FilmViewer> viewer);
+	DCPPanel (wxNotebook *, std::shared_ptr<Film>, std::weak_ptr<FilmViewer> viewer);
 
-	void set_film (boost::shared_ptr<Film>);
+	void set_film (std::shared_ptr<Film>);
 	void set_general_sensitivity (bool);
 
 	void film_changed (int);
@@ -152,7 +151,7 @@ private:
 	InteropMetadataDialog* _interop_metadata_dialog;
 	SMPTEMetadataDialog* _smpte_metadata_dialog;
 
-	boost::shared_ptr<Film> _film;
-	boost::weak_ptr<FilmViewer> _viewer;
+	std::shared_ptr<Film> _film;
+	std::weak_ptr<FilmViewer> _viewer;
 	bool _generally_sensitive;
 };

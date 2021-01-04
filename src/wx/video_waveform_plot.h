@@ -22,8 +22,6 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 #include <boost/signals2.hpp>
 
 namespace dcp {
@@ -38,7 +36,7 @@ class FilmViewer;
 class VideoWaveformPlot : public wxPanel
 {
 public:
-	VideoWaveformPlot (wxWindow* parent, boost::weak_ptr<const Film> film, boost::weak_ptr<FilmViewer> viewer);
+	VideoWaveformPlot (wxWindow* parent, std::weak_ptr<const Film> film, std::weak_ptr<FilmViewer> viewer);
 
 	void set_enabled (bool e);
 	void set_component (int c);
@@ -55,12 +53,12 @@ private:
 	void paint ();
 	void sized (wxSizeEvent &);
 	void create_waveform ();
-	void set_image (boost::shared_ptr<PlayerVideo>);
+	void set_image (std::shared_ptr<PlayerVideo>);
 	void mouse_moved (wxMouseEvent &);
 
-	boost::weak_ptr<const Film> _film;
-	boost::shared_ptr<dcp::OpenJPEGImage> _image;
-	boost::shared_ptr<const Image> _waveform;
+	std::weak_ptr<const Film> _film;
+	std::shared_ptr<dcp::OpenJPEGImage> _image;
+	std::shared_ptr<const Image> _waveform;
 	bool _dirty;
 	bool _enabled;
 	int _component;

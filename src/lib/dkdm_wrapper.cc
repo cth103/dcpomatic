@@ -29,8 +29,8 @@ DCPOMATIC_ENABLE_WARNINGS
 
 using std::string;
 using std::list;
-using boost::shared_ptr;
-using boost::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::dynamic_pointer_cast;
 
 shared_ptr<DKDMBase>
 DKDMBase::read (cxml::ConstNodePtr node)

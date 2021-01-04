@@ -29,7 +29,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 using std::string;
 using dcp::raw_convert;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 int const SubtitleAnalysis::_current_state_version = 1;
 

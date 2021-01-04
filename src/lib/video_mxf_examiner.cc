@@ -24,7 +24,7 @@
 #include <dcp/mono_picture_asset.h>
 #include <dcp/stereo_picture_asset.h>
 
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 
 VideoMXFExaminer::VideoMXFExaminer (shared_ptr<const VideoMXFContent> content)

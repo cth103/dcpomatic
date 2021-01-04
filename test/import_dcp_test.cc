@@ -43,8 +43,8 @@
 using std::vector;
 using std::string;
 using std::map;
-using boost::shared_ptr;
-using boost::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::dynamic_pointer_cast;
 
 /** Make an encrypted DCP, import it and make a new unencrypted DCP */
 BOOST_AUTO_TEST_CASE (import_dcp_test)

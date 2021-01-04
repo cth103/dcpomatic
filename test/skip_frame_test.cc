@@ -34,7 +34,7 @@
 #include "lib/dcp_content_type.h"
 #include "lib/video_content.h"
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (skip_frame_test)
 {

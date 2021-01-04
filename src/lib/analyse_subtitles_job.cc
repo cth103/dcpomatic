@@ -31,8 +31,8 @@
 #include "i18n.h"
 
 using std::string;
-using boost::shared_ptr;
-using boost::weak_ptr;
+using std::shared_ptr;
+using std::weak_ptr;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif

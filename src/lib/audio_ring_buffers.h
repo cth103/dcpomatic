@@ -24,7 +24,6 @@
 #include "audio_buffers.h"
 #include "types.h"
 #include "dcpomatic_time.h"
-#include <boost/shared_ptr.hpp>
 #include <boost/thread.hpp>
 #include <list>
 
@@ -33,7 +32,7 @@ class AudioRingBuffers : public boost::noncopyable
 public:
 	AudioRingBuffers ();
 
-	void put (boost::shared_ptr<const AudioBuffers> data, dcpomatic::DCPTime time, int frame_rate);
+	void put (std::shared_ptr<const AudioBuffers> data, dcpomatic::DCPTime time, int frame_rate);
 	boost::optional<dcpomatic::DCPTime> get (float* out, int channels, int frames);
 	boost::optional<dcpomatic::DCPTime> peek () const;
 
@@ -42,7 +41,7 @@ public:
 
 private:
 	mutable boost::mutex _mutex;
-	std::list<std::pair<boost::shared_ptr<const AudioBuffers>, dcpomatic::DCPTime> > _buffers;
+	std::list<std::pair<std::shared_ptr<const AudioBuffers>, dcpomatic::DCPTime> > _buffers;
 	int _used_in_head;
 };
 

@@ -38,7 +38,7 @@
 
 using std::vector;
 using std::string;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (vf_kdm_test)
 {

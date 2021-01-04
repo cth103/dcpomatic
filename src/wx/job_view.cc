@@ -36,9 +36,9 @@
 
 using std::string;
 using std::min;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::bind;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 
 JobView::JobView (shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table)
 	: _job (job)

@@ -21,8 +21,10 @@
 #ifndef DCPOMATIC_POSITION_IMAGE_H
 #define DCPOMATIC_POSITION_IMAGE_H
 
+
 #include "position.h"
-#include <boost/shared_ptr.hpp>
+#include <memory>
+
 
 class Image;
 
@@ -31,12 +33,12 @@ class PositionImage
 public:
 	PositionImage () {}
 
-	PositionImage (boost::shared_ptr<Image> i, Position<int> p)
+	PositionImage (std::shared_ptr<Image> i, Position<int> p)
 		: image (i)
 		, position (p)
 	{}
 
-	boost::shared_ptr<Image> image;
+	std::shared_ptr<Image> image;
 	Position<int> position;
 
 	bool same (PositionImage const & other) const;

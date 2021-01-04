@@ -22,11 +22,14 @@
  *  @brief AudioBuffers class.
  */
 
+
 #ifndef DCPOMATIC_AUDIO_BUFFERS_H
 #define DCPOMATIC_AUDIO_BUFFERS_H
 
-#include <boost/shared_ptr.hpp>
+
 #include <stdint.h>
+#include <memory>
+
 
 /** @class AudioBuffers
  *  @brief A class to hold multi-channel audio data in float format.
@@ -40,14 +43,14 @@ class AudioBuffers
 public:
 	AudioBuffers (int channels, int32_t frames);
 	AudioBuffers (AudioBuffers const &);
-	explicit AudioBuffers (boost::shared_ptr<const AudioBuffers>);
-	AudioBuffers (boost::shared_ptr<const AudioBuffers> other, int32_t frames_to_copy, int32_t read_offset);
+	explicit AudioBuffers (std::shared_ptr<const AudioBuffers>);
+	AudioBuffers (std::shared_ptr<const AudioBuffers> other, int32_t frames_to_copy, int32_t read_offset);
 	~AudioBuffers ();
 
 	AudioBuffers & operator= (AudioBuffers const &);
 
-	boost::shared_ptr<AudioBuffers> clone () const;
-	boost::shared_ptr<AudioBuffers> channel (int) const;
+	std::shared_ptr<AudioBuffers> clone () const;
+	std::shared_ptr<AudioBuffers> channel (int) const;
 
 	void ensure_size (int32_t);
 
@@ -78,7 +81,7 @@ public:
 	void move (int32_t frames, int32_t from, int32_t to);
 	void accumulate_channel (AudioBuffers const * from, int from_channel, int to_channel, float gain = 1);
 	void accumulate_frames (AudioBuffers const * from, int32_t frames, int32_t read_offset, int32_t write_offset);
-	void append (boost::shared_ptr<const AudioBuffers> other);
+	void append (std::shared_ptr<const AudioBuffers> other);
 	void trim_start (int32_t frames);
 
 private:

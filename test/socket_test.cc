@@ -23,13 +23,12 @@
 #include <dcp/raw_convert.h>
 #include <boost/thread.hpp>
 #include <boost/test/unit_test.hpp>
-#include <boost/shared_ptr.hpp>
 #include <cstring>
 #include <iostream>
 
 
 using std::string;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::bind;
 
 
@@ -83,7 +82,7 @@ public:
 	}
 
 private:
-	void handle (boost::shared_ptr<Socket> socket)
+	void handle (std::shared_ptr<Socket> socket)
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		BOOST_REQUIRE (_size);

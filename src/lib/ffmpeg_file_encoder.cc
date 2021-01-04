@@ -35,9 +35,9 @@ using std::string;
 using std::runtime_error;
 using std::cout;
 using std::pair;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::bind;
-using boost::weak_ptr;
+using std::weak_ptr;
 using boost::optional;
 using namespace dcpomatic;
 #if BOOST_VERSION >= 106100

@@ -18,11 +18,12 @@
 
 */
 
+
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 
 class Job;
@@ -37,7 +38,7 @@ class VerifyDCPProgressDialog : public wxDialog
 public:
 	VerifyDCPProgressDialog (wxWindow* parent, wxString title);
 
-	bool run (boost::shared_ptr<Job> job);
+	bool run (std::shared_ptr<Job> job);
 
 private:
 	void cancel ();

@@ -24,7 +24,6 @@
 #include "dcp_text_track.h"
 #include "encoder.h"
 #include <dcp/atmos_frame.h>
-#include <boost/weak_ptr.hpp>
 
 class Film;
 class J2KEncoder;
@@ -38,7 +37,7 @@ class AudioBuffers;
 class DCPEncoder : public Encoder
 {
 public:
-	DCPEncoder (boost::shared_ptr<const Film> film, boost::weak_ptr<Job> job);
+	DCPEncoder (std::shared_ptr<const Film> film, std::weak_ptr<Job> job);
 	~DCPEncoder ();
 
 	void go ();
@@ -53,13 +52,13 @@ public:
 
 private:
 
-	void video (boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime);
-	void audio (boost::shared_ptr<AudioBuffers>, dcpomatic::DCPTime);
+	void video (std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime);
+	void audio (std::shared_ptr<AudioBuffers>, dcpomatic::DCPTime);
 	void text (PlayerText, TextType, boost::optional<DCPTextTrack>, dcpomatic::DCPTimePeriod);
-	void atmos (boost::shared_ptr<const dcp::AtmosFrame>, dcpomatic::DCPTime, AtmosMetadata metadata);
+	void atmos (std::shared_ptr<const dcp::AtmosFrame>, dcpomatic::DCPTime, AtmosMetadata metadata);
 
-	boost::shared_ptr<Writer> _writer;
-	boost::shared_ptr<J2KEncoder> _j2k_encoder;
+	std::shared_ptr<Writer> _writer;
+	std::shared_ptr<J2KEncoder> _j2k_encoder;
 	bool _finishing;
 	bool _non_burnt_subtitles;
 

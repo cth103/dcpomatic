@@ -24,8 +24,6 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
 #include <wx/listctrl.h>
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 
 class Decoder;
 class FilmViewer;
@@ -36,11 +34,11 @@ class TextView : public wxDialog
 public:
 	TextView (
 		wxWindow *,
-		boost::shared_ptr<Film>,
-		boost::shared_ptr<Content> content,
-		boost::shared_ptr<TextContent> caption,
-		boost::shared_ptr<Decoder>,
-		boost::weak_ptr<FilmViewer> viewer
+		std::shared_ptr<Film>,
+		std::shared_ptr<Content> content,
+		std::shared_ptr<TextContent> caption,
+		std::shared_ptr<Decoder>,
+		std::weak_ptr<FilmViewer> viewer
 		);
 
 private:
@@ -53,6 +51,6 @@ private:
 	boost::optional<FrameRateChange> _frc;
 	boost::optional<int> _last_count;
 	std::vector<dcpomatic::ContentTime> _start_times;
-	boost::weak_ptr<Content> _content;
-	boost::weak_ptr<FilmViewer> _film_viewer;
+	std::weak_ptr<Content> _content;
+	std::weak_ptr<FilmViewer> _film_viewer;
 };

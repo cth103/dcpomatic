@@ -39,7 +39,7 @@
 
 using std::string;
 using boost::lexical_cast;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 static void
 test_silence_padding (int channels)

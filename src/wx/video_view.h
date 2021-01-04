@@ -25,7 +25,6 @@
 #include "lib/timer.h"
 #include "lib/types.h"
 #include "lib/exception_store.h"
-#include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <boost/thread.hpp>
 #include <boost/noncopyable.hpp>
@@ -61,7 +60,7 @@ public:
 	virtual NextFrameResult display_next_frame (bool) = 0;
 
 	void clear ();
-	bool reset_metadata (boost::shared_ptr<const Film> film, dcp::Size player_video_container_size);
+	bool reset_metadata (std::shared_ptr<const Film> film, dcp::Size player_video_container_size);
 
 	/** Emitted from the GUI thread when our display changes in size */
 	boost::signals2::signal<void()> Sized;
@@ -133,7 +132,7 @@ protected:
 		return _length;
 	}
 
-	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> player_video () const {
+	std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> player_video () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _player_video;
 	}
@@ -156,7 +155,7 @@ private:
 	/** Mutex protecting all the state in this class */
 	mutable boost::mutex _mutex;
 
-	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> _player_video;
+	std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> _player_video;
 	int _video_frame_rate;
 	/** length of the film we are playing, or 0 if there is none */
 	dcpomatic::DCPTime _length;

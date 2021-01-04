@@ -33,8 +33,8 @@ class AudioMerger
 public:
 	explicit AudioMerger (int frame_rate);
 
-	std::list<std::pair<boost::shared_ptr<AudioBuffers>, dcpomatic::DCPTime> > pull (dcpomatic::DCPTime time);
-	void push (boost::shared_ptr<const AudioBuffers> audio, dcpomatic::DCPTime time);
+	std::list<std::pair<std::shared_ptr<AudioBuffers>, dcpomatic::DCPTime> > pull (dcpomatic::DCPTime time);
+	void push (std::shared_ptr<const AudioBuffers> audio, dcpomatic::DCPTime time);
 	void clear ();
 
 private:
@@ -54,13 +54,13 @@ private:
 			, frame_rate (r)
 		{}
 
-		Buffer (boost::shared_ptr<AudioBuffers> a, dcpomatic::DCPTime t, int r)
+		Buffer (std::shared_ptr<AudioBuffers> a, dcpomatic::DCPTime t, int r)
 			: audio (a)
 			, time (t)
 			, frame_rate (r)
 		{}
 
-		boost::shared_ptr<AudioBuffers> audio;
+		std::shared_ptr<AudioBuffers> audio;
 		dcpomatic::DCPTime time;
 		int frame_rate;
 

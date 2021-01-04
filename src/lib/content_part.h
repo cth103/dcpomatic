@@ -24,7 +24,6 @@
 
 #include "content.h"
 #include "change_signaller.h"
-#include <boost/weak_ptr.hpp>
 #include <boost/thread/mutex.hpp>
 
 class Content;

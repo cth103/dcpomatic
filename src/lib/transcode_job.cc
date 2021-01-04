@@ -42,9 +42,9 @@ using std::string;
 using std::fixed;
 using std::setprecision;
 using std::cout;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 
 /** @param film Film to use */
 TranscodeJob::TranscodeJob (shared_ptr<const Film> film)

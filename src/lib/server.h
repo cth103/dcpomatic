@@ -43,10 +43,10 @@ protected:
 	bool _terminate;
 
 private:
-	virtual void handle (boost::shared_ptr<Socket> socket) = 0;
+	virtual void handle (std::shared_ptr<Socket> socket) = 0;
 
 	void start_accept ();
-	void handle_accept (boost::shared_ptr<Socket>, boost::system::error_code const &);
+	void handle_accept (std::shared_ptr<Socket>, boost::system::error_code const &);
 
 	boost::asio::io_service _io_service;
 	boost::asio::ip::tcp::acceptor _acceptor;

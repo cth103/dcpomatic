@@ -24,7 +24,6 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 #include <wx/srchctrl.h>
 #include <wx/treectrl.h>
-#include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <list>
 #include <map>
@@ -41,15 +40,15 @@ public:
 	explicit ScreensPanel (wxWindow* parent);
 	~ScreensPanel ();
 
-	std::list<boost::shared_ptr<dcpomatic::Screen> > screens () const;
+	std::list<std::shared_ptr<dcpomatic::Screen> > screens () const;
 	void setup_sensitivity ();
 
 	boost::signals2::signal<void ()> ScreensChanged;
 
 private:
 	void add_cinemas ();
-	boost::optional<wxTreeItemId> add_cinema (boost::shared_ptr<Cinema>);
-	boost::optional<wxTreeItemId> add_screen (boost::shared_ptr<Cinema>, boost::shared_ptr<dcpomatic::Screen>);
+	boost::optional<wxTreeItemId> add_cinema (std::shared_ptr<Cinema>);
+	boost::optional<wxTreeItemId> add_screen (std::shared_ptr<Cinema>, std::shared_ptr<dcpomatic::Screen>);
 	void add_cinema_clicked ();
 	void edit_cinema_clicked ();
 	void remove_cinema_clicked ();
@@ -70,8 +69,8 @@ private:
 	wxButton* _remove_screen;
 	wxTreeItemId _root;
 
-	typedef std::map<wxTreeItemId, boost::shared_ptr<Cinema> > CinemaMap;
-	typedef std::map<wxTreeItemId, boost::shared_ptr<dcpomatic::Screen> > ScreenMap;
+	typedef std::map<wxTreeItemId, std::shared_ptr<Cinema> > CinemaMap;
+	typedef std::map<wxTreeItemId, std::shared_ptr<dcpomatic::Screen> > ScreenMap;
 
 	CinemaMap _cinemas;
 	ScreenMap _screens;

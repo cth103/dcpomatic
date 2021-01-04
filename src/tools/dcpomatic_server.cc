@@ -46,11 +46,11 @@ using std::exception;
 using std::list;
 using std::fixed;
 using std::setprecision;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::thread;
 using boost::bind;
 using boost::optional;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
@@ -206,7 +206,7 @@ private:
 
 	wxTextCtrl* _text;
 	wxStaticText* _fps;
-	boost::shared_ptr<wxTimer> _timer;
+	std::shared_ptr<wxTimer> _timer;
 };
 
 class TaskBarIcon : public wxTaskBarIcon

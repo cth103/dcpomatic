@@ -26,7 +26,7 @@
 class TimelineAudioContentView : public TimelineContentView
 {
 public:
-	TimelineAudioContentView (Timeline& tl, boost::shared_ptr<Content> c);
+	TimelineAudioContentView (Timeline& tl, std::shared_ptr<Content> c);
 
 private:
 	bool active () const {

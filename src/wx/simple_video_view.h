@@ -42,7 +42,7 @@ public:
 	NextFrameResult display_next_frame (bool non_blocking);
 
 private:
-	void set_image (boost::shared_ptr<const Image> image) {
+	void set_image (std::shared_ptr<const Image> image) {
 		_image = image;
 	}
 
@@ -51,7 +51,7 @@ private:
 	void timer ();
 
 	wxPanel* _panel;
-	boost::shared_ptr<const Image> _image;
+	std::shared_ptr<const Image> _image;
 	wxTimer _timer;
 	Position<int> _inter_position;
 	dcp::Size _inter_size;

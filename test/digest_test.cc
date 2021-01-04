@@ -36,7 +36,7 @@
 
 using std::list;
 using std::string;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 static string
 openssl_hash (boost::filesystem::path file)

@@ -26,7 +26,7 @@
 #include <boost/foreach.hpp>
 
 using std::list;
-using boost::shared_ptr;
+using std::shared_ptr;
 using namespace dcpomatic;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;

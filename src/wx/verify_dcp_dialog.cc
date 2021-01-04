@@ -29,7 +29,7 @@ DCPOMATIC_ENABLE_WARNINGS
 #include <boost/foreach.hpp>
 
 using std::list;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job)
 	: wxDialog (parent, wxID_ANY, _("DCP verification"))

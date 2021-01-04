@@ -34,7 +34,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/signals2.hpp>
 #include <boost/thread/mutex.hpp>
-#include <boost/enable_shared_from_this.hpp>
+
 
 namespace xmlpp {
 	class Node;
@@ -62,23 +62,23 @@ public:
 /** @class Content
  *  @brief A piece of content represented by one or more files on disk.
  */
-class Content : public boost::enable_shared_from_this<Content>, public Signaller, public boost::noncopyable
+class Content : public std::enable_shared_from_this<Content>, public Signaller, public boost::noncopyable
 {
 public:
 	explicit Content ();
 	Content (dcpomatic::DCPTime);
 	Content (boost::filesystem::path);
 	Content (cxml::ConstNodePtr);
-	Content (std::vector<boost::shared_ptr<Content> >);
+	Content (std::vector<std::shared_ptr<Content> >);
 	virtual ~Content () {}
 
 	/** Examine the content to establish digest, frame rates and any other
 	 *  useful metadata.
 	 *  @param job Job to use to report progress, or 0.
 	 */
-	virtual void examine (boost::shared_ptr<const Film> film, boost::shared_ptr<Job> job);
+	virtual void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job> job);
 
-	virtual void take_settings_from (boost::shared_ptr<const Content> c);
+	virtual void take_settings_from (std::shared_ptr<const Content> c);
 
 	/** @return Quick one-line summary of the content, as will be presented in the
 	 *  film editor.
@@ -91,15 +91,15 @@ public:
 	virtual std::string technical_summary () const;
 
 	virtual void as_xml (xmlpp::Node *, bool with_paths) const;
-	virtual dcpomatic::DCPTime full_length (boost::shared_ptr<const Film>) const = 0;
+	virtual dcpomatic::DCPTime full_length (std::shared_ptr<const Film>) const = 0;
 	virtual dcpomatic::DCPTime approximate_length () const = 0;
 	virtual std::string identifier () const;
 	/** @return points at which to split this content when
 	 *  REELTYPE_BY_VIDEO_CONTENT is in use.
 	 */
-	virtual std::list<dcpomatic::DCPTime> reel_split_points (boost::shared_ptr<const Film>) const;
+	virtual std::list<dcpomatic::DCPTime> reel_split_points (std::shared_ptr<const Film>) const;
 
-	boost::shared_ptr<Content> clone () const;
+	std::shared_ptr<Content> clone () const;
 
 	void set_paths (std::vector<boost::filesystem::path> paths);
 
@@ -136,7 +136,7 @@ public:
 		return _digest;
 	}
 
-	void set_position (boost::shared_ptr<const Film> film, dcpomatic::DCPTime, bool force_emit = false);
+	void set_position (std::shared_ptr<const Film> film, dcpomatic::DCPTime, bool force_emit = false);
 
 	/** dcpomatic::DCPTime that this content starts; i.e. the time that the first
 	 *  bit of the content (trimmed or not) will happen.
@@ -161,11 +161,11 @@ public:
 	}
 
 	/** @return Time immediately after the last thing in this content */
-	dcpomatic::DCPTime end (boost::shared_ptr<const Film> film) const {
+	dcpomatic::DCPTime end (std::shared_ptr<const Film> film) const {
 		return position() + length_after_trim(film);
 	}
 
-	dcpomatic::DCPTime length_after_trim (boost::shared_ptr<const Film> film) const;
+	dcpomatic::DCPTime length_after_trim (std::shared_ptr<const Film> film) const;
 
 	boost::optional<double> video_frame_rate () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -175,30 +175,30 @@ public:
 	void set_video_frame_rate (double r);
 	void unset_video_frame_rate ();
 
-	double active_video_frame_rate (boost::shared_ptr<const Film> film) const;
+	double active_video_frame_rate (std::shared_ptr<const Film> film) const;
 
 	void set_change_signals_frequent (bool f) {
 		_change_signals_frequent = f;
 	}
 
-	std::list<UserProperty> user_properties (boost::shared_ptr<const Film> film) const;
+	std::list<UserProperty> user_properties (std::shared_ptr<const Film> film) const;
 
 	std::string calculate_digest () const;
 
 	/* CHANGE_TYPE_PENDING and CHANGE_TYPE_CANCELLED may be emitted from any thread; CHANGE_TYPE_DONE always from GUI thread */
-	boost::signals2::signal<void (ChangeType, boost::weak_ptr<Content>, int, bool)> Change;
+	boost::signals2::signal<void (ChangeType, std::weak_ptr<Content>, int, bool)> Change;
 
-	boost::shared_ptr<VideoContent> video;
-	boost::shared_ptr<AudioContent> audio;
-	std::list<boost::shared_ptr<TextContent> > text;
-	boost::shared_ptr<AtmosContent> atmos;
+	std::shared_ptr<VideoContent> video;
+	std::shared_ptr<AudioContent> audio;
+	std::list<std::shared_ptr<TextContent> > text;
+	std::shared_ptr<AtmosContent> atmos;
 
-	boost::shared_ptr<TextContent> only_text () const;
-	boost::shared_ptr<TextContent> text_of_original_type (TextType type) const;
+	std::shared_ptr<TextContent> only_text () const;
+	std::shared_ptr<TextContent> text_of_original_type (TextType type) const;
 
 protected:
 
-	virtual void add_properties (boost::shared_ptr<const Film> film, std::list<UserProperty> &) const;
+	virtual void add_properties (std::shared_ptr<const Film> film, std::list<UserProperty> &) const;
 
 	/** _mutex which should be used to protect accesses, as examine
 	 *  jobs can update content state in threads other than the main one.

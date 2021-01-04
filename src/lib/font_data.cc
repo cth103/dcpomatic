@@ -22,10 +22,9 @@
 #include "font.h"
 #include "font_data.h"
 #include "dcpomatic_assert.h"
-#include <boost/shared_ptr.hpp>
 
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
 
 dcpomatic::FontData::FontData (shared_ptr<const Font> font)

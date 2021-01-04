@@ -28,8 +28,8 @@
 
 using std::make_pair;
 using std::string;
-using boost::weak_ptr;
-using boost::shared_ptr;
+using std::weak_ptr;
+using std::shared_ptr;
 using boost::optional;
 
 int const Shuffler::_max_size = 64;

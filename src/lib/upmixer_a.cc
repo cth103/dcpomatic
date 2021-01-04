@@ -27,7 +27,7 @@
 using std::string;
 using std::min;
 using std::vector;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 UpmixerA::UpmixerA (int sampling_rate)
 	: _left (0.02, 1900.0 / sampling_rate, 4800.0 / sampling_rate)

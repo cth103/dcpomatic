@@ -30,15 +30,15 @@ class Decoder;
 class Piece
 {
 public:
-	Piece (boost::shared_ptr<Content> c, boost::shared_ptr<Decoder> d, FrameRateChange f)
+	Piece (std::shared_ptr<Content> c, std::shared_ptr<Decoder> d, FrameRateChange f)
 		: content (c)
 		, decoder (d)
 		, frc (f)
 		, done (false)
 	{}
 
-	boost::shared_ptr<Content> content;
-	boost::shared_ptr<Decoder> decoder;
+	std::shared_ptr<Content> content;
+	std::shared_ptr<Decoder> decoder;
 	FrameRateChange frc;
 	bool done;
 };

@@ -22,7 +22,7 @@
 #include "lib/text_content.h"
 #include "lib/content.h"
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
 TimelineTextContentView::TimelineTextContentView (Timeline& tl, shared_ptr<Content> c, shared_ptr<TextContent> caption)
 	: TimelineContentView (tl, c)

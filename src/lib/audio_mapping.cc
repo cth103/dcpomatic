@@ -39,8 +39,8 @@ using std::string;
 using std::min;
 using std::vector;
 using std::abs;
-using boost::shared_ptr;
-using boost::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::dynamic_pointer_cast;
 using boost::optional;
 using dcp::raw_convert;
 

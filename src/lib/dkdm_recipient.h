@@ -54,9 +54,9 @@ public:
 
 KDMWithMetadataPtr
 kdm_for_dkdm_recipient (
-	boost::shared_ptr<const Film> film,
+	std::shared_ptr<const Film> film,
 	boost::filesystem::path cpl,
-	boost::shared_ptr<DKDMRecipient> recipient,
+	std::shared_ptr<DKDMRecipient> recipient,
 	boost::posix_time::ptime valid_from,
 	boost::posix_time::ptime valid_to
 	);

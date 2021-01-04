@@ -35,7 +35,7 @@
 #include "lib/audio_content.h"
 #include "test.h"
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
 /* Test Playlist::best_dcp_frame_rate and FrameRateChange
    with a single piece of content.

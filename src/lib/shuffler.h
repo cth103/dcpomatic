@@ -31,11 +31,11 @@ class Shuffler
 public:
 	void clear ();
 	void flush ();
-	void video (boost::weak_ptr<Piece>, ContentVideo video);
+	void video (std::weak_ptr<Piece>, ContentVideo video);
 
-	boost::signals2::signal<void (boost::weak_ptr<Piece>, ContentVideo)> Video;
+	boost::signals2::signal<void (std::weak_ptr<Piece>, ContentVideo)> Video;
 
-	typedef std::pair<boost::weak_ptr<Piece>, ContentVideo> Store;
+	typedef std::pair<std::weak_ptr<Piece>, ContentVideo> Store;
 
 private:
 	friend struct ::shuffler_test5;

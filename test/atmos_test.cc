@@ -32,7 +32,7 @@
 using std::string;
 using std::vector;
 using boost::optional;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 
 BOOST_AUTO_TEST_CASE (atmos_passthrough_test)

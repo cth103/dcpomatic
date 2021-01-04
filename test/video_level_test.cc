@@ -55,12 +55,12 @@ using std::make_pair;
 using std::max;
 using std::pair;
 using std::string;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
-using boost::shared_ptr;
+using std::shared_ptr;
 
 
 static

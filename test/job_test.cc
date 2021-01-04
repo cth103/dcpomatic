@@ -29,7 +29,7 @@
 #include "lib/cross.h"
 
 using std::string;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 class TestJob : public Job
 {

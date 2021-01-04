@@ -27,7 +27,7 @@
 using std::string;
 using std::min;
 using std::vector;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 string
 MidSideDecoder::name () const

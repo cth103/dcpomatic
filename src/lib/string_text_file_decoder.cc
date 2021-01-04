@@ -31,9 +31,9 @@ using std::vector;
 using std::string;
 using std::cout;
 using std::max;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 using namespace dcpomatic;
 
 StringTextFileDecoder::StringTextFileDecoder (shared_ptr<const Film> film, shared_ptr<const StringTextFileContent> content)

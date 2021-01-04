@@ -28,7 +28,7 @@
 
 using std::string;
 using std::exception;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 shared_ptr<dcp::SubtitleAsset>
 DCPSubtitle::load (boost::filesystem::path file) const

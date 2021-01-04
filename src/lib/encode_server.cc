@@ -60,7 +60,7 @@ using std::list;
 using std::cout;
 using std::cerr;
 using std::fixed;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::thread;
 using boost::bind;
 using boost::scoped_array;

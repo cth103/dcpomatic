@@ -23,8 +23,6 @@
 #include "text_ring_buffers.h"
 #include "audio_mapping.h"
 #include "exception_store.h"
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 #include <boost/thread.hpp>
 #include <boost/thread/condition.hpp>
 #include <boost/signals2.hpp>
@@ -37,8 +35,8 @@ class Butler : public ExceptionStore, public boost::noncopyable
 {
 public:
 	Butler (
-		boost::weak_ptr<const Film> film,
-		boost::shared_ptr<Player> player,
+		std::weak_ptr<const Film> film,
+		std::shared_ptr<Player> player,
 		AudioMapping map,
 		int audio_channels,
 		boost::function<AVPixelFormat (AVPixelFormat)> pixel_format,
@@ -70,7 +68,7 @@ public:
 		std::string summary () const;
 	};
 
-	std::pair<boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> get_video (bool blocking, Error* e = 0);
+	std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> get_video (bool blocking, Error* e = 0);
 	boost::optional<dcpomatic::DCPTime> get_audio (float* out, Frame frames);
 	boost::optional<TextRingBuffers::Data> get_closed_caption ();
 
@@ -80,16 +78,16 @@ public:
 
 private:
 	void thread ();
-	void video (boost::shared_ptr<PlayerVideo> video, dcpomatic::DCPTime time);
-	void audio (boost::shared_ptr<AudioBuffers> audio, dcpomatic::DCPTime time, int frame_rate);
+	void video (std::shared_ptr<PlayerVideo> video, dcpomatic::DCPTime time);
+	void audio (std::shared_ptr<AudioBuffers> audio, dcpomatic::DCPTime time, int frame_rate);
 	void text (PlayerText pt, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period);
 	bool should_run () const;
-	void prepare (boost::weak_ptr<PlayerVideo> video);
+	void prepare (std::weak_ptr<PlayerVideo> video);
 	void player_change (ChangeType type, int property);
 	void seek_unlocked (dcpomatic::DCPTime position, bool accurate);
 
-	boost::weak_ptr<const Film> _film;
-	boost::shared_ptr<Player> _player;
+	std::weak_ptr<const Film> _film;
+	std::shared_ptr<Player> _player;
 	boost::thread _thread;
 
 	VideoRingBuffers _video;
@@ -98,7 +96,7 @@ private:
 
 	boost::thread_group _prepare_pool;
 	boost::asio::io_service _prepare_service;
-	boost::shared_ptr<boost::asio::io_service::work> _prepare_work;
+	std::shared_ptr<boost::asio::io_service::work> _prepare_work;
 
 	/** mutex to protect _pending_seek_position, _pending_seek_accurate, _finished, _died, _stop_thread */
 	boost::mutex _mutex;

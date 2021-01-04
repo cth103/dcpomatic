@@ -59,9 +59,9 @@ using std::map;
 using std::min;
 using std::max;
 using std::vector;
-using boost::shared_ptr;
-using boost::weak_ptr;
-using boost::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::weak_ptr;
+using std::dynamic_pointer_cast;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;

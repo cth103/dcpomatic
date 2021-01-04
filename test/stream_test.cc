@@ -34,7 +34,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 using std::pair;
 using std::list;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (stream_test)
 {

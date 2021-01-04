@@ -31,7 +31,7 @@
 
 using std::pair;
 using std::cout;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 static void
 resampler_test_one (int from, int to)

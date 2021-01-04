@@ -26,7 +26,7 @@
 #include <boost/test/unit_test.hpp>
 
 using std::pair;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;

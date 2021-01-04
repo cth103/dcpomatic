@@ -21,7 +21,6 @@
 #include "table_dialog.h"
 #include "lib/isdcf_metadata.h"
 #include <wx/textctrl.h>
-#include <boost/shared_ptr.hpp>
 
 class wxSpinCtrl;
 class Film;

@@ -23,5 +23,5 @@
 class NullLog : public Log
 {
 private:
-	void do_log (boost::shared_ptr<const LogEntry>) {}
+	void do_log (std::shared_ptr<const LogEntry>) {}
 };

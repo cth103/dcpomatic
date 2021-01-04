@@ -23,8 +23,6 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <wx/listctrl.h>
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 #include <boost/filesystem.hpp>
 
 class Content;
@@ -33,7 +31,7 @@ class TextContent;
 class FontsDialog : public wxDialog
 {
 public:
-	FontsDialog (wxWindow* parent, boost::shared_ptr<Content>, boost::shared_ptr<TextContent> caption);
+	FontsDialog (wxWindow* parent, std::shared_ptr<Content>, std::shared_ptr<TextContent> caption);
 
 private:
 	void setup ();
@@ -41,8 +39,8 @@ private:
 	void selection_changed ();
 	void edit_clicked ();
 
-	boost::weak_ptr<Content> _content;
-	boost::weak_ptr<TextContent> _caption;
+	std::weak_ptr<Content> _content;
+	std::weak_ptr<TextContent> _caption;
 	wxListCtrl* _fonts;
 	wxButton* _edit;
 };

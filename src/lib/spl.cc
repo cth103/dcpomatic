@@ -31,7 +31,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 using std::cout;
 using std::string;
-using boost::shared_ptr;
+using std::shared_ptr;
 using dcp::raw_convert;
 
 void

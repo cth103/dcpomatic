@@ -28,7 +28,7 @@ class Content;
 class AnalyseSubtitlesJob : public Job
 {
 public:
-	AnalyseSubtitlesJob (boost::shared_ptr<const Film> film, boost::shared_ptr<Content> content);
+	AnalyseSubtitlesJob (std::shared_ptr<const Film> film, std::shared_ptr<Content> content);
 
 	std::string name () const;
 	std::string json_name () const;
@@ -41,7 +41,7 @@ public:
 private:
 	void analyse (PlayerText text, TextType type);
 
-	boost::weak_ptr<Content> _content;
+	std::weak_ptr<Content> _content;
 	boost::filesystem::path _path;
 	boost::optional<dcpomatic::Rect<double> > _bounding_box;
 };

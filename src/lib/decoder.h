@@ -45,15 +45,15 @@ class DecoderPart;
 class Decoder : public boost::noncopyable, public WeakConstFilm
 {
 public:
-	Decoder (boost::weak_ptr<const Film> film);
+	Decoder (std::weak_ptr<const Film> film);
 	virtual ~Decoder () {}
 
-	boost::shared_ptr<VideoDecoder> video;
-	boost::shared_ptr<AudioDecoder> audio;
-	std::list<boost::shared_ptr<TextDecoder> > text;
-	boost::shared_ptr<AtmosDecoder> atmos;
+	std::shared_ptr<VideoDecoder> video;
+	std::shared_ptr<AudioDecoder> audio;
+	std::list<std::shared_ptr<TextDecoder> > text;
+	std::shared_ptr<AtmosDecoder> atmos;
 
-	boost::shared_ptr<TextDecoder> only_text () const;
+	std::shared_ptr<TextDecoder> only_text () const;
 
 	/** Do some decoding and perhaps emit video, audio or subtitle data.
 	 *  @return true if this decoder will emit no more data unless a seek() happens.

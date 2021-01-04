@@ -31,7 +31,7 @@ using std::max;
 using std::list;
 using std::cout;
 using std::make_pair;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 using namespace dcpomatic;
 
@@ -95,7 +95,7 @@ AudioMerger::pull (DCPTime time)
 
 /** Push some data into the merger at a given time */
 void
-AudioMerger::push (boost::shared_ptr<const AudioBuffers> audio, DCPTime time)
+AudioMerger::push (std::shared_ptr<const AudioBuffers> audio, DCPTime time)
 {
 	DCPOMATIC_ASSERT (audio->frames() > 0);
 

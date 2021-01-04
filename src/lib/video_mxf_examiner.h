@@ -29,7 +29,7 @@ namespace dcp {
 class VideoMXFExaminer : public VideoExaminer
 {
 public:
-	explicit VideoMXFExaminer (boost::shared_ptr<const VideoMXFContent>);
+	explicit VideoMXFExaminer (std::shared_ptr<const VideoMXFContent>);
 
 	bool has_video () const {
 		return true;
@@ -44,5 +44,5 @@ public:
 	}
 
 private:
-	boost::shared_ptr<dcp::PictureAsset> _asset;
+	std::shared_ptr<dcp::PictureAsset> _asset;
 };

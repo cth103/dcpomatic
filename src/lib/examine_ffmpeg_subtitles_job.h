@@ -20,14 +20,13 @@
 
 #include "job.h"
 #include "ffmpeg.h"
-#include <boost/shared_ptr.hpp>
 
 class FFmpegContent;
 
 class ExamineFFmpegSubtitlesJob : public Job, public FFmpeg
 {
 public:
-	ExamineFFmpegSubtitlesJob (boost::shared_ptr<const Film>, boost::shared_ptr<FFmpegContent>);
+	ExamineFFmpegSubtitlesJob (std::shared_ptr<const Film>, std::shared_ptr<FFmpegContent>);
 	~ExamineFFmpegSubtitlesJob ();
 
 	std::string name () const;
@@ -35,5 +34,5 @@ public:
 	void run ();
 
 private:
-	boost::shared_ptr<FFmpegContent> _content;
+	std::shared_ptr<FFmpegContent> _content;
 };

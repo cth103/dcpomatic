@@ -68,11 +68,11 @@ using std::min;
 using std::pair;
 using std::max;
 using std::map;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::is_any_of;
 using boost::split;
 using boost::optional;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 using dcp::Size;
 using namespace dcpomatic;
 

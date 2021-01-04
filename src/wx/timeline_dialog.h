@@ -18,8 +18,6 @@
 
 */
 
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 #include <wx/wx.h>
 #include "timeline.h"
 
@@ -28,7 +26,7 @@ class Playlist;
 class TimelineDialog : public wxDialog
 {
 public:
-	TimelineDialog (ContentPanel *, boost::shared_ptr<Film>, boost::weak_ptr<FilmViewer> viewer);
+	TimelineDialog (ContentPanel *, std::shared_ptr<Film>, std::weak_ptr<FilmViewer> viewer);
 
 	void set_selection (ContentList selection);
 
@@ -36,7 +34,7 @@ private:
 	void film_change (ChangeType type, Film::Property);
 	void tool_clicked (wxCommandEvent& id);
 
-	boost::weak_ptr<Film> _film;
+	std::weak_ptr<Film> _film;
 	Timeline _timeline;
 	wxToolBar* _toolbar;
 	boost::signals2::scoped_connection _film_changed_connection;

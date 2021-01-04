@@ -39,7 +39,7 @@ using std::max;
 using std::min;
 using std::string;
 using std::list;
-using boost::shared_ptr;
+using std::shared_ptr;
 using dcp::raw_convert;
 
 bool operator== (Crop const & a, Crop const & b)

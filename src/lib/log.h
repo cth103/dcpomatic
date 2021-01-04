@@ -41,7 +41,7 @@ public:
 	Log ();
 	virtual ~Log () {}
 
-	void log (boost::shared_ptr<const LogEntry> entry);
+	void log (std::shared_ptr<const LogEntry> entry);
 	void log (std::string message, int type);
 	void dcp_log (dcp::NoteType type, std::string message);
 
@@ -64,7 +64,7 @@ protected:
 	mutable boost::mutex _mutex;
 
 private:
-	virtual void do_log (boost::shared_ptr<const LogEntry> entry) = 0;
+	virtual void do_log (std::shared_ptr<const LogEntry> entry) = 0;
 
 	/** bit-field of log types which should be put into the log (others are ignored) */
 	int _types;

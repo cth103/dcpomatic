@@ -48,7 +48,7 @@ using std::max;
 using std::pair;
 using std::cerr;
 using std::make_pair;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 using boost::algorithm::replace_all;
 using namespace dcpomatic;

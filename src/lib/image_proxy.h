@@ -29,7 +29,6 @@ extern "C" {
 #include <libavutil/pixfmt.h>
 }
 #include <dcp/types.h>
-#include <boost/shared_ptr.hpp>
 #include <boost/optional.hpp>
 #include <boost/utility.hpp>
 
@@ -61,20 +60,20 @@ public:
 	virtual ~ImageProxy () {}
 
 	struct Result {
-		Result (boost::shared_ptr<Image> image_, int log2_scaling_)
+		Result (std::shared_ptr<Image> image_, int log2_scaling_)
 			: image (image_)
 			, log2_scaling (log2_scaling_)
 			, error (false)
 		{}
 
-		Result (boost::shared_ptr<Image> image_, int log2_scaling_, bool error_)
+		Result (std::shared_ptr<Image> image_, int log2_scaling_, bool error_)
 			: image (image_)
 			, log2_scaling (log2_scaling_)
 			, error (error_)
 		{}
 
 		/** Image (which will be aligned) */
-		boost::shared_ptr<Image> image;
+		std::shared_ptr<Image> image;
 		/** log2 of any scaling down that has already been applied to the image;
 		 *  e.g. if the image is already half the size of the original, this value
 		 *  will be 1.
@@ -93,9 +92,9 @@ public:
 		) const = 0;
 
 	virtual void add_metadata (xmlpp::Node *) const = 0;
-	virtual void write_to_socket (boost::shared_ptr<Socket>) const = 0;
+	virtual void write_to_socket (std::shared_ptr<Socket>) const = 0;
 	/** @return true if our image is definitely the same as another, false if it is probably not */
-	virtual bool same (boost::shared_ptr<const ImageProxy>) const = 0;
+	virtual bool same (std::shared_ptr<const ImageProxy>) const = 0;
 	/** Do any useful work that would speed up a subsequent call to ::image().
 	 *  This method may be called in a different thread to image().
 	 *  @return log2 of any scaling down that will be applied to the image.
@@ -104,6 +103,6 @@ public:
 	virtual size_t memory_used () const = 0;
 };
 
-boost::shared_ptr<ImageProxy> image_proxy_factory (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
+std::shared_ptr<ImageProxy> image_proxy_factory (std::shared_ptr<cxml::Node> xml, std::shared_ptr<Socket> socket);
 
 #endif

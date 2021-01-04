@@ -44,15 +44,15 @@ class AudioContent : public ContentPart
 {
 public:
 	explicit AudioContent (Content* parent);
-	AudioContent (Content* parent, std::vector<boost::shared_ptr<Content> >);
+	AudioContent (Content* parent, std::vector<std::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;
 	std::string technical_summary () const;
-	void take_settings_from (boost::shared_ptr<const AudioContent> c);
+	void take_settings_from (std::shared_ptr<const AudioContent> c);
 
 	AudioMapping mapping () const;
 	void set_mapping (AudioMapping);
-	int resampled_frame_rate (boost::shared_ptr<const Film> film) const;
+	int resampled_frame_rate (std::shared_ptr<const Film> film) const;
 	std::vector<NamedChannel> channel_names () const;
 
 	void set_gain (double);
@@ -68,7 +68,7 @@ public:
 		return _delay;
 	}
 
-	std::string processing_description (boost::shared_ptr<const Film> film) const;
+	std::string processing_description (std::shared_ptr<const Film> film) const;
 
 	std::vector<AudioStreamPtr> streams () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -80,12 +80,12 @@ public:
 	void set_streams (std::vector<AudioStreamPtr> streams);
 	AudioStreamPtr stream () const;
 
-	void add_properties (boost::shared_ptr<const Film> film, std::list<UserProperty> &) const;
+	void add_properties (std::shared_ptr<const Film> film, std::list<UserProperty> &) const;
 
-	void modify_position (boost::shared_ptr<const Film> film, dcpomatic::DCPTime& pos) const;
+	void modify_position (std::shared_ptr<const Film> film, dcpomatic::DCPTime& pos) const;
 	void modify_trim_start (dcpomatic::ContentTime& pos) const;
 
-	static boost::shared_ptr<AudioContent> from_xml (Content* parent, cxml::ConstNodePtr, int version);
+	static std::shared_ptr<AudioContent> from_xml (Content* parent, cxml::ConstNodePtr, int version);
 
 private:
 

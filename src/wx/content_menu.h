@@ -24,8 +24,7 @@
 #include "timeline_content_view.h"
 #include "lib/types.h"
 #include <wx/wx.h>
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
+#include <memory>
 
 class Film;
 class Job;
@@ -36,7 +35,7 @@ class ContentMenu : public boost::noncopyable
 public:
 	explicit ContentMenu (wxWindow* p);
 
-	void popup (boost::weak_ptr<Film>, ContentList, TimelineContentViewList, wxPoint);
+	void popup (std::weak_ptr<Film>, ContentList, TimelineContentViewList, wxPoint);
 
 private:
 	void repeat ();
@@ -49,13 +48,13 @@ private:
 	void ov ();
 	void set_dcp_settings ();
 	void remove ();
-	void maybe_found_missing (boost::weak_ptr<Job>, boost::weak_ptr<Content>, boost::weak_ptr<Content>);
+	void maybe_found_missing (std::weak_ptr<Job>, std::weak_ptr<Content>, std::weak_ptr<Content>);
 	void cpl_selected (wxCommandEvent& ev);
 
 	wxMenu* _menu;
 	wxMenu* _cpl_menu;
 	/** Film that we are working with; set up by popup() */
-	boost::weak_ptr<Film> _film;
+	std::weak_ptr<Film> _film;
 	wxWindow* _parent;
 	bool _pop_up_open;
 	ContentList _content;

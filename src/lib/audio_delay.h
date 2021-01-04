@@ -18,7 +18,9 @@
 
 */
 
-#include <boost/shared_ptr.hpp>
+
+#include <memory>
+
 
 class AudioBuffers;
 
@@ -29,10 +31,10 @@ class AudioDelay
 {
 public:
 	explicit AudioDelay (int samples);
-	boost::shared_ptr<AudioBuffers> run (boost::shared_ptr<const AudioBuffers> in);
+	std::shared_ptr<AudioBuffers> run (std::shared_ptr<const AudioBuffers> in);
 	void flush ();
 
 private:
-	boost::shared_ptr<AudioBuffers> _tail;
+	std::shared_ptr<AudioBuffers> _tail;
 	int _samples;
 };

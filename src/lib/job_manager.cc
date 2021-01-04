@@ -35,10 +35,10 @@
 using std::string;
 using std::list;
 using std::cout;
-using boost::shared_ptr;
-using boost::weak_ptr;
+using std::shared_ptr;
+using std::weak_ptr;
 using boost::function;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 using boost::optional;
 using boost::bind;
 

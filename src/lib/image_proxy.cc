@@ -33,7 +33,7 @@
 
 using std::cout;
 using std::string;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 shared_ptr<ImageProxy>
 image_proxy_factory (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket)

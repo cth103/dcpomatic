@@ -30,10 +30,10 @@
 #include "lib/video_content.h"
 #include <dcp/raw_convert.h>
 #include <boost/test/unit_test.hpp>
-#include <boost/shared_ptr.hpp>
+
 
 using std::string;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 static void
 check (int target_bits_per_second)

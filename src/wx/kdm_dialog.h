@@ -21,7 +21,6 @@
 #include "wx_util.h"
 #include <dcp/types.h>
 #include <wx/wx.h>
-#include <boost/shared_ptr.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <map>
 
@@ -40,14 +39,14 @@ struct CPLSummary;
 class KDMDialog : public wxDialog
 {
 public:
-	KDMDialog (wxWindow *, boost::shared_ptr<const Film> film);
+	KDMDialog (wxWindow *, std::shared_ptr<const Film> film);
 
 private:
 	void setup_sensitivity ();
 	void make_clicked ();
 	bool confirm_overwrite (boost::filesystem::path path);
 
-	boost::weak_ptr<const Film> _film;
+	std::weak_ptr<const Film> _film;
 	ScreensPanel* _screens;
 	KDMTimingPanel* _timing;
 	KDMCPLPanel* _cpl;

@@ -27,7 +27,7 @@
 #include "lib/audio_filter.h"
 #include "lib/audio_buffers.h"
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
 static void
 audio_filter_impulse_test_one (AudioFilter& f, int block_size, int num_blocks)

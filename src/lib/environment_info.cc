@@ -38,7 +38,7 @@ extern "C" {
 using std::string;
 using std::list;
 using std::pair;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 /** @param v Version as used by FFmpeg.
  *  @return A string representation of v.

@@ -51,8 +51,8 @@ public:
 
 	~FFmpegFileEncoder ();
 
-	void video (boost::shared_ptr<PlayerVideo>, dcpomatic::DCPTime);
-	void audio (boost::shared_ptr<AudioBuffers>);
+	void video (std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime);
+	void audio (std::shared_ptr<AudioBuffers>);
 	void subtitle (PlayerText, dcpomatic::DCPTimePeriod);
 
 	void flush ();
@@ -70,7 +70,7 @@ private:
 
 	AVCodec* _video_codec;
 	AVCodecContext* _video_codec_context;
-	std::vector<boost::shared_ptr<ExportAudioStream> > _audio_streams;
+	std::vector<std::shared_ptr<ExportAudioStream> > _audio_streams;
 	bool _audio_stream_per_channel;
 	AVFormatContext* _format_context;
 	AVStream* _video_stream;
@@ -88,12 +88,12 @@ private:
 
 	int64_t _audio_frames;
 
-	boost::shared_ptr<AudioBuffers> _pending_audio;
+	std::shared_ptr<AudioBuffers> _pending_audio;
 
 	/** Store of shared_ptr<Image> to keep them alive whilst raw pointers into
 	    their data have been passed to FFmpeg.
 	*/
-	std::map<uint8_t*, boost::shared_ptr<const Image> > _pending_images;
+	std::map<uint8_t*, std::shared_ptr<const Image> > _pending_images;
 	boost::mutex _pending_images_mutex;
 
 	static int _video_stream_index;

@@ -63,13 +63,13 @@ public:
 
 	void show_closed_captions ();
 
-	void set_film (boost::shared_ptr<Film>);
-	boost::shared_ptr<Film> film () const {
+	void set_film (std::shared_ptr<Film>);
+	std::shared_ptr<Film> film () const {
 		return _film;
 	}
 
 	void seek (dcpomatic::DCPTime t, bool accurate);
-	void seek (boost::shared_ptr<Content> content, dcpomatic::ContentTime p, bool accurate);
+	void seek (std::shared_ptr<Content> content, dcpomatic::ContentTime p, bool accurate);
 	void seek_by (dcpomatic::DCPTime by, bool accurate);
 	/** @return our `playhead' position; this may not lie exactly on a frame boundary */
 	dcpomatic::DCPTime position () const {
@@ -122,20 +122,20 @@ public:
 	bool pad_black () const {
 		return _pad_black;
 	}
-	boost::shared_ptr<Butler> butler () const {
+	std::shared_ptr<Butler> butler () const {
 		return _butler;
 	}
 	ClosedCaptionsDialog* closed_captions_dialog () const {
 		return _closed_captions_dialog;
 	}
 	void finished ();
-	void image_changed (boost::shared_ptr<PlayerVideo> video);
+	void image_changed (std::shared_ptr<PlayerVideo> video);
 
 	bool pending_idle_get () const {
 		return _idle_get;
 	}
 
-	boost::signals2::signal<void (boost::shared_ptr<PlayerVideo>)> ImageChanged;
+	boost::signals2::signal<void (std::shared_ptr<PlayerVideo>)> ImageChanged;
 	boost::signals2::signal<void (dcpomatic::DCPTime)> Started;
 	boost::signals2::signal<void (dcpomatic::DCPTime)> Stopped;
 	/** While playing back we reached the end of the film (emitted from GUI thread) */
@@ -162,8 +162,8 @@ private:
 
 	bool quick_refresh ();
 
-	boost::shared_ptr<Film> _film;
-	boost::shared_ptr<Player> _player;
+	std::shared_ptr<Film> _film;
+	std::shared_ptr<Player> _player;
 
 	VideoView* _video_view;
 	bool _coalesce_player_changes;
@@ -177,7 +177,7 @@ private:
 	unsigned int _audio_block_size;
 	bool _playing;
 	int _suspended;
-	boost::shared_ptr<Butler> _butler;
+	std::shared_ptr<Butler> _butler;
 
 	std::list<Frame> _latency_history;
 	/** Mutex to protect _latency_history */

@@ -37,13 +37,13 @@ class Content;
 class TimelineContentView : public TimelineView
 {
 public:
-	TimelineContentView (Timeline& tl, boost::shared_ptr<Content> c);
+	TimelineContentView (Timeline& tl, std::shared_ptr<Content> c);
 
 	dcpomatic::Rect<int> bbox () const;
 
 	void set_selected (bool s);
 	bool selected () const;
-	boost::shared_ptr<Content> content () const;
+	std::shared_ptr<Content> content () const;
 	void set_track (int t);
 	void unset_track ();
 	boost::optional<int> track () const;
@@ -55,7 +55,7 @@ public:
 
 protected:
 
-	boost::weak_ptr<Content> _content;
+	std::weak_ptr<Content> _content;
 
 private:
 
@@ -69,6 +69,6 @@ private:
 	boost::signals2::scoped_connection _content_connection;
 };
 
-typedef std::vector<boost::shared_ptr<TimelineContentView> > TimelineContentViewList;
+typedef std::vector<std::shared_ptr<TimelineContentView> > TimelineContentViewList;
 
 #endif

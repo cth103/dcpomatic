@@ -32,9 +32,9 @@
 
 using std::string;
 using std::vector;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 
 /** Check for bug #1126 whereby making a new DCP using the same video asset as an old one
  *  corrupts the old one.

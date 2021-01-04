@@ -31,8 +31,8 @@
 
 #include "i18n.h"
 
-using boost::weak_ptr;
-using boost::shared_ptr;
+using std::weak_ptr;
+using std::shared_ptr;
 
 /** Construct an encoder.
  *  @param film Film that we are encoding.

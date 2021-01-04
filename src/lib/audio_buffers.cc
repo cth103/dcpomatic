@@ -27,7 +27,7 @@
 #include <stdexcept>
 
 using std::bad_alloc;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 /** Construct an AudioBuffers.  Audio data is undefined after this constructor.
  *  @param channels Number of channels.
@@ -47,13 +47,13 @@ AudioBuffers::AudioBuffers (AudioBuffers const & other)
 	copy_from (&other, other._frames, 0, 0);
 }
 
-AudioBuffers::AudioBuffers (boost::shared_ptr<const AudioBuffers> other)
+AudioBuffers::AudioBuffers (std::shared_ptr<const AudioBuffers> other)
 {
 	allocate (other->_channels, other->_frames);
 	copy_from (other.get(), other->_frames, 0, 0);
 }
 
-AudioBuffers::AudioBuffers (boost::shared_ptr<const AudioBuffers> other, int32_t frames_to_copy, int32_t read_offset)
+AudioBuffers::AudioBuffers (std::shared_ptr<const AudioBuffers> other, int32_t frames_to_copy, int32_t read_offset)
 {
 	allocate (other->_channels, frames_to_copy);
 	copy_from (other.get(), frames_to_copy, read_offset, 0);

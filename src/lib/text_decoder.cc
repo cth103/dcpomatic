@@ -24,7 +24,6 @@
 #include "log.h"
 #include "compose.hpp"
 #include <sub/subtitle.h>
-#include <boost/shared_ptr.hpp>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
 #include <iostream>
@@ -34,7 +33,7 @@ using std::cout;
 using std::string;
 using std::min;
 using std::max;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 using boost::function;
 using namespace dcpomatic;

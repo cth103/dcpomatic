@@ -29,7 +29,7 @@ using std::cout;
 using std::make_pair;
 using std::pair;
 using std::list;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 using namespace dcpomatic;
 

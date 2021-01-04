@@ -23,7 +23,6 @@
 
 #include <dcp/encrypted_kdm.h>
 #include <dcp/name_format.h>
-#include <boost/shared_ptr.hpp>
 
 class Cinema;
 
@@ -67,7 +66,7 @@ private:
 };
 
 
-typedef boost::shared_ptr<KDMWithMetadata> KDMWithMetadataPtr;
+typedef std::shared_ptr<KDMWithMetadata> KDMWithMetadataPtr;
 
 
 int write_files (

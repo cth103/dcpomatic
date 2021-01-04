@@ -29,7 +29,7 @@
 #include "lib/ffmpeg_audio_stream.h"
 #include "test.h"
 
-using boost::shared_ptr;
+using std::shared_ptr;
 using namespace dcpomatic;
 
 /** Check that the FFmpegExaminer can extract the first video and audio time

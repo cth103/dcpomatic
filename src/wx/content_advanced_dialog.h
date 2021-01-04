@@ -23,7 +23,7 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <vector>
 
 
@@ -34,7 +34,7 @@ class Filter;
 class ContentAdvancedDialog : public wxDialog
 {
 public:
-	ContentAdvancedDialog (wxWindow* parent, boost::shared_ptr<Content> content);
+	ContentAdvancedDialog (wxWindow* parent, std::shared_ptr<Content> content);
 
 private:
 	void ignore_video_changed (wxCommandEvent& ev);
@@ -44,7 +44,7 @@ private:
 	void set_video_frame_rate ();
 	void video_frame_rate_changed ();
 
-	boost::shared_ptr<Content> _content;
+	std::shared_ptr<Content> _content;
 
 	wxStaticText* _filters;
 	wxButton* _filters_button;

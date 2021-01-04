@@ -27,15 +27,14 @@
 #include "compose.hpp"
 #include "exceptions.h"
 #include "video_content.h"
-#include <boost/weak_ptr.hpp>
-#include <boost/shared_ptr.hpp>
+
 
 using std::cout;
 using std::pair;
 using std::make_pair;
 using std::string;
-using boost::weak_ptr;
-using boost::shared_ptr;
+using std::weak_ptr;
+using std::shared_ptr;
 using boost::bind;
 using boost::optional;
 using boost::function;

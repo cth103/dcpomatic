@@ -28,7 +28,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 
 using std::string;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 
 int const AtmosContentProperty::EDIT_RATE = 700;

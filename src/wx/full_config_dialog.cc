@@ -68,7 +68,7 @@ using std::pair;
 using std::make_pair;
 using std::map;
 using boost::bind;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::function;
 using boost::optional;
 #if BOOST_VERSION >= 106100

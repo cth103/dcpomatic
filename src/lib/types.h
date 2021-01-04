@@ -24,7 +24,6 @@
 #include "position.h"
 #include "rect.h"
 #include <dcp/util.h>
-#include <boost/shared_ptr.hpp>
 #include <vector>
 #include <stdint.h>
 
@@ -86,8 +85,8 @@ namespace xmlpp {
 /** Port on which player listens for play requests */
 #define PLAYER_PLAY_PORT (Config::instance()->server_port_base()+5)
 
-typedef std::vector<boost::shared_ptr<Content> > ContentList;
-typedef std::vector<boost::shared_ptr<FFmpegContent> > FFmpegContentList;
+typedef std::vector<std::shared_ptr<Content> > ContentList;
+typedef std::vector<std::shared_ptr<FFmpegContent> > FFmpegContentList;
 
 typedef int64_t Frame;
 
@@ -190,7 +189,7 @@ struct Crop
 {
 	Crop () : left (0), right (0), top (0), bottom (0) {}
 	Crop (int l, int r, int t, int b) : left (l), right (r), top (t), bottom (b) {}
-	explicit Crop (boost::shared_ptr<cxml::Node>);
+	explicit Crop (std::shared_ptr<cxml::Node>);
 
 	/** Number of pixels to remove from the left-hand side */
 	int left;

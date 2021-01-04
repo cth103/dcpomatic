@@ -26,22 +26,22 @@ public:
 	VideoMXFContent (boost::filesystem::path path);
 	VideoMXFContent (cxml::ConstNodePtr node, int version);
 
-	boost::shared_ptr<VideoMXFContent> shared_from_this () {
-		return boost::dynamic_pointer_cast<VideoMXFContent> (Content::shared_from_this ());
+	std::shared_ptr<VideoMXFContent> shared_from_this () {
+		return std::dynamic_pointer_cast<VideoMXFContent> (Content::shared_from_this ());
 	}
 
-	boost::shared_ptr<const VideoMXFContent> shared_from_this () const {
-		return boost::dynamic_pointer_cast<const VideoMXFContent> (Content::shared_from_this ());
+	std::shared_ptr<const VideoMXFContent> shared_from_this () const {
+		return std::dynamic_pointer_cast<const VideoMXFContent> (Content::shared_from_this ());
 	}
 
-	void examine (boost::shared_ptr<const Film> film, boost::shared_ptr<Job> job);
+	void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job> job);
 	std::string summary () const;
 	std::string technical_summary () const;
 	std::string identifier () const;
 	void as_xml (xmlpp::Node* node, bool with_paths) const;
-	dcpomatic::DCPTime full_length (boost::shared_ptr<const Film> film) const;
+	dcpomatic::DCPTime full_length (std::shared_ptr<const Film> film) const;
 	dcpomatic::DCPTime approximate_length () const;
-	void add_properties (boost::shared_ptr<const Film> film, std::list<UserProperty>& p) const;
+	void add_properties (std::shared_ptr<const Film> film, std::list<UserProperty>& p) const;
 
 	static bool valid_mxf (boost::filesystem::path path);
 };

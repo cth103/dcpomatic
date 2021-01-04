@@ -21,7 +21,6 @@
 #ifndef DCPOMATIC_DCP_SUBTITLE_H
 #define DCPOMATIC_DCP_SUBTITLE_H
 
-#include <boost/shared_ptr.hpp>
 #include <boost/filesystem.hpp>
 
 namespace dcp {
@@ -31,7 +30,7 @@ namespace dcp {
 class DCPSubtitle
 {
 protected:
-	boost::shared_ptr<dcp::SubtitleAsset> load (boost::filesystem::path) const;
+	std::shared_ptr<dcp::SubtitleAsset> load (boost::filesystem::path) const;
 };
 
 #endif

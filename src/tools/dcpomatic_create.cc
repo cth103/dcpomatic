@@ -50,8 +50,8 @@ using std::cout;
 using std::cerr;
 using std::list;
 using std::exception;
-using boost::shared_ptr;
-using boost::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::dynamic_pointer_cast;
 using boost::optional;
 
 class SimpleSignalManager : public SignalManager

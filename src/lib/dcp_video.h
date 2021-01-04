@@ -42,8 +42,8 @@ class PlayerVideo;
 class DCPVideo : public boost::noncopyable
 {
 public:
-	DCPVideo (boost::shared_ptr<const PlayerVideo>, int, int, int, Resolution);
-	DCPVideo (boost::shared_ptr<const PlayerVideo>, cxml::ConstNodePtr);
+	DCPVideo (std::shared_ptr<const PlayerVideo>, int, int, int, Resolution);
+	DCPVideo (std::shared_ptr<const PlayerVideo>, cxml::ConstNodePtr);
 
 	dcp::ArrayData encode_locally ();
 	dcp::ArrayData encode_remotely (EncodeServerDescription, int timeout = 30);
@@ -54,15 +54,15 @@ public:
 
 	Eyes eyes () const;
 
-	bool same (boost::shared_ptr<const DCPVideo> other) const;
+	bool same (std::shared_ptr<const DCPVideo> other) const;
 
-	static boost::shared_ptr<dcp::OpenJPEGImage> convert_to_xyz (boost::shared_ptr<const PlayerVideo> frame, dcp::NoteHandler note);
+	static std::shared_ptr<dcp::OpenJPEGImage> convert_to_xyz (std::shared_ptr<const PlayerVideo> frame, dcp::NoteHandler note);
 
 private:
 
 	void add_metadata (xmlpp::Element *) const;
 
-	boost::shared_ptr<const PlayerVideo> _frame;
+	std::shared_ptr<const PlayerVideo> _frame;
 	int _index;			 ///< frame index within the DCP's intrinsic duration
 	int _frames_per_second;		 ///< Frames per second that we will use for the DCP
 	int _j2k_bandwidth;		 ///< J2K bandwidth to use

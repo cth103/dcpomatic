@@ -38,7 +38,7 @@ class Font;
 class FontData
 {
 public:
-	FontData (boost::shared_ptr<const Font> font);
+	FontData (std::shared_ptr<const Font> font);
 
 	FontData (std::string id_, dcp::ArrayData data_)
 		: id(id_)

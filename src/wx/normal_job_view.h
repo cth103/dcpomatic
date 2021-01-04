@@ -25,7 +25,7 @@ class wxSizer;
 class NormalJobView : public JobView
 {
 public:
-	NormalJobView (boost::shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table);
+	NormalJobView (std::shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table);
 
 	void setup ();
 

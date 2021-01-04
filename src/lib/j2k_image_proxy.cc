@@ -43,9 +43,9 @@ using std::cout;
 using std::max;
 using std::pair;
 using std::make_pair;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 using dcp::ArrayData;
 using dcp::raw_convert;
 

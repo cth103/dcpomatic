@@ -24,7 +24,6 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <vector>
 
@@ -34,9 +33,9 @@ class FilmViewer;
 class AudioPlot : public wxPanel
 {
 public:
-	explicit AudioPlot (wxWindow *, boost::weak_ptr<FilmViewer> viewer);
+	explicit AudioPlot (wxWindow *, std::weak_ptr<FilmViewer> viewer);
 
-	void set_analysis (boost::shared_ptr<AudioAnalysis>);
+	void set_analysis (std::shared_ptr<AudioAnalysis>);
 	void set_channel_visible (int c, bool v);
 	void set_type_visible (int t, bool v);
 	void set_smoothing (int);
@@ -79,8 +78,8 @@ private:
 	void mouse_leave (wxMouseEvent& ev);
 	void search (std::map<int, PointList> const & search, wxMouseEvent const & ev, double& min_dist, Point& min_point) const;
 
-	boost::weak_ptr<FilmViewer> _viewer;
-	boost::shared_ptr<AudioAnalysis> _analysis;
+	std::weak_ptr<FilmViewer> _viewer;
+	std::shared_ptr<AudioAnalysis> _analysis;
 	bool _channel_visible[MAX_DCP_AUDIO_CHANNELS];
 	bool _type_visible[AudioPoint::COUNT];
 	int _smoothing;

@@ -73,9 +73,9 @@ using std::pair;
 using std::map;
 using std::make_pair;
 using std::copy;
-using boost::shared_ptr;
-using boost::weak_ptr;
-using boost::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::weak_ptr;
+using std::dynamic_pointer_cast;
 using boost::optional;
 using boost::scoped_ptr;
 #if BOOST_VERSION >= 106100
@@ -384,7 +384,7 @@ Player::black_player_video_frame (Eyes eyes) const
 			PART_WHOLE,
 			PresetColourConversion::all().front().conversion,
 			VIDEO_RANGE_FULL,
-			boost::weak_ptr<Content>(),
+			std::weak_ptr<Content>(),
 			boost::optional<Frame>(),
 			false
 		)

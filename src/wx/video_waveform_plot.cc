@@ -36,8 +36,8 @@ using std::cout;
 using std::min;
 using std::max;
 using std::string;
-using boost::weak_ptr;
-using boost::shared_ptr;
+using std::weak_ptr;
+using std::shared_ptr;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif

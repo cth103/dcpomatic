@@ -39,7 +39,7 @@ using std::pair;
 using std::list;
 using std::cout;
 using std::string;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::bind;
 using namespace dcpomatic;
 

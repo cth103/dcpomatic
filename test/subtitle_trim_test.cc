@@ -23,7 +23,7 @@
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
-using boost::shared_ptr;
+using std::shared_ptr;
 using namespace dcpomatic;
 
 /** Check for no crash when trimming DCP subtitles (#1275) */

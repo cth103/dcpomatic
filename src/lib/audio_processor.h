@@ -26,7 +26,6 @@
 #define DCPOMATIC_AUDIO_PROCESSOR_H
 
 #include "types.h"
-#include <boost/shared_ptr.hpp>
 #include <list>
 #include <string>
 #include <vector>
@@ -52,9 +51,9 @@ public:
 	/** @return Number of output channels */
 	virtual int out_channels () const = 0;
 	/** @return A clone of this AudioProcessor for operation at the specified sampling rate */
-	virtual boost::shared_ptr<AudioProcessor> clone (int sampling_rate) const = 0;
+	virtual std::shared_ptr<AudioProcessor> clone (int sampling_rate) const = 0;
 	/** Process some data, returning the processed result truncated or padded to `channels' */
-	virtual boost::shared_ptr<AudioBuffers> run (boost::shared_ptr<const AudioBuffers>, int channels) = 0;
+	virtual std::shared_ptr<AudioBuffers> run (std::shared_ptr<const AudioBuffers>, int channels) = 0;
 	virtual void flush () {}
 	/** Make the supplied audio mapping into a sensible default for this processor */
 	virtual void make_audio_mapping_default (AudioMapping& mapping) const = 0;

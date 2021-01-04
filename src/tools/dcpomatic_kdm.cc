@@ -71,11 +71,11 @@ using std::string;
 using std::vector;
 using std::pair;
 using std::map;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::bind;
 using boost::optional;
 using boost::ref;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
@@ -308,7 +308,7 @@ private:
 			list<KDMWithMetadataPtr> kdms;
 			string title;
 
-			shared_ptr<DKDM> dkdm = boost::dynamic_pointer_cast<DKDM> (dkdm_base);
+			shared_ptr<DKDM> dkdm = std::dynamic_pointer_cast<DKDM> (dkdm_base);
 			if (dkdm) {
 
 				/* Decrypt the DKDM */
@@ -596,7 +596,7 @@ private:
 	ScreensPanel* _screens;
 	KDMTimingPanel* _timing;
 	wxTreeCtrl* _dkdm;
-	typedef std::map<wxTreeItemId, boost::shared_ptr<DKDMBase> > DKDMMap;
+	typedef std::map<wxTreeItemId, std::shared_ptr<DKDMBase> > DKDMMap;
 	DKDMMap _dkdm_id;
 	wxButton* _add_dkdm;
 	wxButton* _add_dkdm_folder;

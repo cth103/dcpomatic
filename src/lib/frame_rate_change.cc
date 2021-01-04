@@ -28,7 +28,7 @@
 #include "i18n.h"
 
 using std::string;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 static bool
 about_equal (double a, double b)

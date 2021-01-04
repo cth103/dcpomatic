@@ -22,7 +22,6 @@
 #define DCPOMATIC_DCP_H
 
 #include <dcp/cpl.h>
-#include <boost/shared_ptr.hpp>
 #include <list>
 #include <iostream>
 
@@ -31,15 +30,15 @@ class DCPContent;
 class DCP
 {
 public:
-	std::list<boost::shared_ptr<dcp::CPL> > cpls () const;
+	std::list<std::shared_ptr<dcp::CPL> > cpls () const;
 
 protected:
-	explicit DCP (boost::shared_ptr<const DCPContent> content, bool tolerant)
+	explicit DCP (std::shared_ptr<const DCPContent> content, bool tolerant)
 		: _dcp_content (content)
 		, _tolerant (tolerant)
 	{}
 
-	boost::shared_ptr<const DCPContent> _dcp_content;
+	std::shared_ptr<const DCPContent> _dcp_content;
 
 private:
 	bool _tolerant;

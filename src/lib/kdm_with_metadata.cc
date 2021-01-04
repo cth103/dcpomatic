@@ -35,7 +35,7 @@
 using std::string;
 using std::cout;
 using std::list;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 using boost::function;
 

@@ -31,7 +31,7 @@
 
 using std::string;
 using std::min;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::function;
 
 SCPUploader::SCPUploader (function<void (string)> set_status, function<void (float)> set_progress)

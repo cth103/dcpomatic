@@ -43,8 +43,8 @@ using std::cout;
 using std::string;
 using std::list;
 using std::pair;
-using boost::dynamic_pointer_cast;
-using boost::shared_ptr;
+using std::dynamic_pointer_cast;
+using std::shared_ptr;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;

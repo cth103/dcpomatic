@@ -18,11 +18,13 @@
 
 */
 
+
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/dialog.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/shared_ptr.hpp>
+#include <memory>
+
 
 class wxTextCtrl;
 class wxFlexGridSizer;
@@ -32,12 +34,12 @@ class Film;
 class ReportProblemDialog : public wxDialog
 {
 public:
-	ReportProblemDialog (wxWindow* parent, boost::shared_ptr<Film> film = boost::shared_ptr<Film>());
+	ReportProblemDialog (wxWindow* parent, std::shared_ptr<Film> film = std::shared_ptr<Film>());
 
 	void report ();
 
 private:
-	boost::shared_ptr<Film> _film;
+	std::shared_ptr<Film> _film;
 
 	wxSizer* _overall_sizer;
 	wxFlexGridSizer* _table;

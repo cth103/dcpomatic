@@ -32,8 +32,8 @@ class FFmpegEncoder : public Encoder
 {
 public:
 	FFmpegEncoder (
-		boost::shared_ptr<const Film> film,
-		boost::weak_ptr<Job> job,
+		std::shared_ptr<const Film> film,
+		std::weak_ptr<Job> job,
 		boost::filesystem::path output,
 		ExportFormat format,
 		bool mixdown_to_stereo,
@@ -68,12 +68,12 @@ private:
 			std::string extension
 			);
 
-		boost::shared_ptr<FFmpegFileEncoder> get (Eyes eyes) const;
+		std::shared_ptr<FFmpegFileEncoder> get (Eyes eyes) const;
 		void flush ();
-		void audio (boost::shared_ptr<AudioBuffers>);
+		void audio (std::shared_ptr<AudioBuffers>);
 
 	private:
-		std::map<Eyes, boost::shared_ptr<FFmpegFileEncoder> > _encoders;
+		std::map<Eyes, std::shared_ptr<FFmpegFileEncoder> > _encoders;
 	};
 
 	int _output_audio_channels;
@@ -89,7 +89,7 @@ private:
 	bool _audio_stream_per_channel;
 	int _x264_crf;
 
-	boost::shared_ptr<Butler> _butler;
+	std::shared_ptr<Butler> _butler;
 };
 
 #endif

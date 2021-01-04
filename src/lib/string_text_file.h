@@ -23,7 +23,6 @@
 
 #include "dcpomatic_time.h"
 #include <sub/subtitle.h>
-#include <boost/shared_ptr.hpp>
 #include <vector>
 
 class StringTextFileContent;
@@ -41,7 +40,7 @@ class plain_text_parse_test;
 class StringTextFile
 {
 public:
-	explicit StringTextFile (boost::shared_ptr<const StringTextFileContent>);
+	explicit StringTextFile (std::shared_ptr<const StringTextFileContent>);
 
 	boost::optional<dcpomatic::ContentTime> first () const;
 	dcpomatic::ContentTime length () const;

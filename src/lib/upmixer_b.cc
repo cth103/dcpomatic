@@ -27,7 +27,7 @@
 using std::string;
 using std::min;
 using std::vector;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 UpmixerB::UpmixerB (int sampling_rate)
 	: _lfe (0.01, 150.0 / sampling_rate)

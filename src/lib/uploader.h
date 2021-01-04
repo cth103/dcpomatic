@@ -21,7 +21,6 @@
 #ifndef DCPOMATIC_UPLOADER_H
 #define DCPOMATIC_UPLOADER_H
 
-#include <boost/shared_ptr.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/function.hpp>
 

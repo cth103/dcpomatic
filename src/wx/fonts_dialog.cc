@@ -32,7 +32,7 @@
 using std::list;
 using std::string;
 using std::cout;
-using boost::shared_ptr;
+using std::shared_ptr;
 using namespace dcpomatic;
 
 FontsDialog::FontsDialog (wxWindow* parent, shared_ptr<Content> content, shared_ptr<TextContent> caption)

@@ -33,19 +33,17 @@ extern "C" {
 }
 #include <dcp/array_data.h>
 #include <dcp/colour_conversion.h>
-#include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
 
 struct AVFrame;
 class Socket;
 
-class Image : public boost::enable_shared_from_this<Image>
+class Image : public std::enable_shared_from_this<Image>
 {
 public:
 	Image (AVPixelFormat p, dcp::Size s, bool aligned);
 	explicit Image (AVFrame *);
 	explicit Image (Image const &);
-	Image (boost::shared_ptr<const Image>, bool);
+	Image (std::shared_ptr<const Image>, bool);
 	Image& operator= (Image const &);
 	~Image ();
 
@@ -63,9 +61,9 @@ public:
 	dcp::Size sample_size (int) const;
 	float bytes_per_pixel (int) const;
 
-	boost::shared_ptr<Image> convert_pixel_format (dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool aligned, bool fast) const;
-	boost::shared_ptr<Image> scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool aligned, bool fast) const;
-	boost::shared_ptr<Image> crop_scale_window (
+	std::shared_ptr<Image> convert_pixel_format (dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool aligned, bool fast) const;
+	std::shared_ptr<Image> scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool aligned, bool fast) const;
+	std::shared_ptr<Image> crop_scale_window (
 		Crop crop,
 		dcp::Size inter_size,
 		dcp::Size out_size,
@@ -79,13 +77,13 @@ public:
 
 	void make_black ();
 	void make_transparent ();
-	void alpha_blend (boost::shared_ptr<const Image> image, Position<int> pos);
-	void copy (boost::shared_ptr<const Image> image, Position<int> pos);
+	void alpha_blend (std::shared_ptr<const Image> image, Position<int> pos);
+	void copy (std::shared_ptr<const Image> image, Position<int> pos);
 	void fade (float);
 	void video_range_to_full_range ();
 
-	void read_from_socket (boost::shared_ptr<Socket>);
-	void write_to_socket (boost::shared_ptr<Socket>) const;
+	void read_from_socket (std::shared_ptr<Socket>);
+	void write_to_socket (std::shared_ptr<Socket>) const;
 
 	AVPixelFormat pixel_format () const {
 		return _pixel_format;
@@ -97,7 +95,7 @@ public:
 
 	void png_error (char const * message);
 
-	static boost::shared_ptr<const Image> ensure_aligned (boost::shared_ptr<const Image> image);
+	static std::shared_ptr<const Image> ensure_aligned (std::shared_ptr<const Image> image);
 
 private:
 	friend struct pixel_formats_test;

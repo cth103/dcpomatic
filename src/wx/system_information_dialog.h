@@ -18,14 +18,16 @@
 
 */
 
+
 #include "table_dialog.h"
-#include <boost/weak_ptr.hpp>
+#include <memory>
+
 
 class FilmViewer;
 
 class SystemInformationDialog : public TableDialog
 {
 public:
-	SystemInformationDialog (wxWindow* parent, boost::weak_ptr<FilmViewer> viewer);
+	SystemInformationDialog (wxWindow* parent, std::weak_ptr<FilmViewer> viewer);
 
 };

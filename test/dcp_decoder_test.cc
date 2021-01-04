@@ -39,7 +39,7 @@
 using std::list;
 using std::string;
 using std::vector;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 /* Check that DCPDecoder reuses old data when it should */
 BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
@@ -91,12 +91,12 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	BOOST_REQUIRE (!wait_for_jobs());
 	shared_ptr<Player> player (new Player(test));
 
-	shared_ptr<DCPDecoder> decoder = boost::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
+	shared_ptr<DCPDecoder> decoder = std::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
 	BOOST_REQUIRE (decoder);
 	list<shared_ptr<dcp::Reel> > reels = decoder->reels();
 
 	ov_content->set_position (test, dcpomatic::DCPTime(96000));
-	decoder = boost::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
+	decoder = std::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
 	BOOST_REQUIRE (decoder);
 	BOOST_REQUIRE (reels == decoder->reels());
 
@@ -109,14 +109,14 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	BOOST_REQUIRE (!wait_for_jobs());
 	player.reset (new Player(test));
 
-	decoder = boost::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
+	decoder = std::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
 	BOOST_REQUIRE (decoder);
 	reels = decoder->reels();
 
 	vf_content->add_ov (ov->dir(ov->dcp_name(false)));
 	JobManager::instance()->add (shared_ptr<Job>(new ExamineContentJob(test, vf_content)));
 	BOOST_REQUIRE (!wait_for_jobs());
-	decoder = boost::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
+	decoder = std::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
 	BOOST_REQUIRE (decoder);
 	BOOST_REQUIRE (reels != decoder->reels());
 
@@ -127,14 +127,14 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	BOOST_REQUIRE (!wait_for_jobs());
 	player.reset (new Player(test));
 
-	decoder = boost::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
+	decoder = std::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
 	BOOST_REQUIRE (decoder);
 	reels = decoder->reels();
 
 	encrypted_content->add_kdm (kdm);
 	JobManager::instance()->add (shared_ptr<Job>(new ExamineContentJob(test, encrypted_content)));
 	BOOST_REQUIRE (!wait_for_jobs());
-	decoder = boost::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
+	decoder = std::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
 	BOOST_REQUIRE (decoder);
 	BOOST_REQUIRE (reels != decoder->reels());
 }

@@ -33,7 +33,6 @@
 #include <dcp/name_format.h>
 #include <dcp/certificate_chain.h>
 #include <dcp/encrypted_kdm.h>
-#include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <boost/filesystem.hpp>
 #include <vector>
@@ -142,11 +141,11 @@ public:
 		return _tms_password;
 	}
 
-	std::list<boost::shared_ptr<Cinema> > cinemas () const {
+	std::list<std::shared_ptr<Cinema> > cinemas () const {
 		return _cinemas;
 	}
 
-	std::list<boost::shared_ptr<DKDMRecipient> > dkdm_recipients () const {
+	std::list<std::shared_ptr<DKDMRecipient> > dkdm_recipients () const {
 		return _dkdm_recipients;
 	}
 
@@ -302,11 +301,11 @@ public:
 		return _notification_email;
 	}
 
-	boost::shared_ptr<const dcp::CertificateChain> signer_chain () const {
+	std::shared_ptr<const dcp::CertificateChain> signer_chain () const {
 		return _signer_chain;
 	}
 
-	boost::shared_ptr<const dcp::CertificateChain> decryption_chain () const {
+	std::shared_ptr<const dcp::CertificateChain> decryption_chain () const {
 		return _decryption_chain;
 	}
 
@@ -348,7 +347,7 @@ public:
 		return _player_history;
 	}
 
-	boost::shared_ptr<DKDMGroup> dkdms () const {
+	std::shared_ptr<DKDMGroup> dkdms () const {
 		return _dkdms;
 	}
 
@@ -588,22 +587,22 @@ public:
 		maybe_set (_tms_password, p);
 	}
 
-	void add_cinema (boost::shared_ptr<Cinema> c) {
+	void add_cinema (std::shared_ptr<Cinema> c) {
 		_cinemas.push_back (c);
 		changed (CINEMAS);
 	}
 
-	void remove_cinema (boost::shared_ptr<Cinema> c) {
+	void remove_cinema (std::shared_ptr<Cinema> c) {
 		_cinemas.remove (c);
 		changed (CINEMAS);
 	}
 
-	void add_dkdm_recipient (boost::shared_ptr<DKDMRecipient> c) {
+	void add_dkdm_recipient (std::shared_ptr<DKDMRecipient> c) {
 		_dkdm_recipients.push_back (c);
 		changed (DKDM_RECIPIENTS);
 	}
 
-	void remove_dkdm_recipient (boost::shared_ptr<DKDMRecipient> c) {
+	void remove_dkdm_recipient (std::shared_ptr<DKDMRecipient> c) {
 		_dkdm_recipients.remove (c);
 		changed (DKDM_RECIPIENTS);
 	}
@@ -769,11 +768,11 @@ public:
 
 	void reset_notification_email ();
 
-	void set_signer_chain (boost::shared_ptr<const dcp::CertificateChain> s) {
+	void set_signer_chain (std::shared_ptr<const dcp::CertificateChain> s) {
 		maybe_set (_signer_chain, s);
 	}
 
-	void set_decryption_chain (boost::shared_ptr<const dcp::CertificateChain> c) {
+	void set_decryption_chain (std::shared_ptr<const dcp::CertificateChain> c) {
 		maybe_set (_decryption_chain, c);
 	}
 
@@ -810,7 +809,7 @@ public:
 	}
 #endif
 
-	void set_dkdms (boost::shared_ptr<DKDMGroup> dkdms) {
+	void set_dkdms (std::shared_ptr<DKDMGroup> dkdms) {
 		_dkdms = dkdms;
 		changed ();
 	}
@@ -1075,7 +1074,7 @@ public:
 	void copy_and_link (boost::filesystem::path new_file) const;
 	bool have_write_permission () const;
 
-	void save_template (boost::shared_ptr<const Film> film, std::string name) const;
+	void save_template (std::shared_ptr<const Film> film, std::string name) const;
 	bool existing_template (std::string name) const;
 	std::list<std::string> templates () const;
 	boost::filesystem::path template_path (std::string name) const;
@@ -1097,7 +1096,7 @@ private:
 	void set_cover_sheet_to_default ();
 	void read_cinemas (cxml::Document const & f);
 	void read_dkdm_recipients (cxml::Document const & f);
-	boost::shared_ptr<dcp::CertificateChain> create_certificate_chain ();
+	std::shared_ptr<dcp::CertificateChain> create_certificate_chain ();
 	boost::filesystem::path directory_or (boost::optional<boost::filesystem::path> dir, boost::filesystem::path a) const;
 	void add_to_history_internal (std::vector<boost::filesystem::path>& h, boost::filesystem::path p);
 	void clean_history_internal (std::vector<boost::filesystem::path>& h);
@@ -1178,8 +1177,8 @@ private:
 	*/
 	boost::optional<boost::filesystem::path> _default_kdm_directory;
 	bool _upload_after_make_dcp;
-	std::list<boost::shared_ptr<Cinema> > _cinemas;
-	std::list<boost::shared_ptr<DKDMRecipient> > _dkdm_recipients;
+	std::list<std::shared_ptr<Cinema> > _cinemas;
+	std::list<std::shared_ptr<DKDMRecipient> > _dkdm_recipients;
 	std::string _mail_server;
 	int _mail_port;
 	EmailProtocol _mail_protocol;
@@ -1196,11 +1195,11 @@ private:
 	std::vector<std::string> _notification_cc;
 	std::string _notification_bcc;
 	std::string _notification_email;
-	boost::shared_ptr<const dcp::CertificateChain> _signer_chain;
+	std::shared_ptr<const dcp::CertificateChain> _signer_chain;
 	/** Chain used to decrypt KDMs; the leaf of this chain is the target
 	 *  certificate for making KDMs given to DCP-o-matic.
 	 */
-	boost::shared_ptr<const dcp::CertificateChain> _decryption_chain;
+	std::shared_ptr<const dcp::CertificateChain> _decryption_chain;
 	/** true to check for updates on startup */
 	bool _check_for_updates;
 	bool _check_for_test_updates;
@@ -1214,7 +1213,7 @@ private:
 #endif
 	std::vector<boost::filesystem::path> _history;
 	std::vector<boost::filesystem::path> _player_history;
-	boost::shared_ptr<DKDMGroup> _dkdms;
+	std::shared_ptr<DKDMGroup> _dkdms;
 	boost::filesystem::path _cinemas_file;
 	boost::filesystem::path _dkdm_recipients_file;
 	bool _show_hints_before_make_dcp;

@@ -35,8 +35,8 @@ public:
 	explicit ClosedCaptionsDialog (wxWindow* parent, FilmViewer* viewer);
 
 	void clear ();
-	void update_tracks (boost::shared_ptr<const Film> film);
-	void set_butler (boost::weak_ptr<Butler>);
+	void update_tracks (std::shared_ptr<const Film> film);
+	void set_butler (std::weak_ptr<Butler>);
 
 private:
 	void shown (wxShowEvent);
@@ -51,6 +51,6 @@ private:
 	bool _current_in_lines;
 	std::vector<wxString> _lines;
 	std::vector<DCPTextTrack> _tracks;
-	boost::weak_ptr<Butler> _butler;
+	std::weak_ptr<Butler> _butler;
 	wxTimer _timer;
 };

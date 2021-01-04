@@ -24,8 +24,6 @@
 #include "lib/rect.h"
 #include "lib/film.h"
 #include <wx/wx.h>
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 #include <boost/signals2.hpp>
 
 class Film;
@@ -39,9 +37,9 @@ class FilmViewer;
 class Timeline : public wxPanel
 {
 public:
-	Timeline (wxWindow *, ContentPanel *, boost::shared_ptr<Film>, boost::weak_ptr<FilmViewer> viewer);
+	Timeline (wxWindow *, ContentPanel *, std::shared_ptr<Film>, std::weak_ptr<FilmViewer> viewer);
 
-	boost::shared_ptr<const Film> film () const;
+	std::shared_ptr<const Film> film () const;
 
 	void force_redraw (dcpomatic::Rect<int> const &);
 
@@ -106,7 +104,7 @@ private:
 	void zoom_all ();
 	void update_playhead ();
 
-	boost::shared_ptr<TimelineView> event_to_view (wxMouseEvent &);
+	std::shared_ptr<TimelineView> event_to_view (wxMouseEvent &);
 	TimelineContentViewList selected_views () const;
 	ContentList selected_content () const;
 	void maybe_snap (dcpomatic::DCPTime a, dcpomatic::DCPTime b, boost::optional<dcpomatic::DCPTime>& nearest_distance) const;
@@ -114,18 +112,18 @@ private:
 	wxScrolledCanvas* _labels_canvas;
 	wxScrolledCanvas* _main_canvas;
 	ContentPanel* _content_panel;
-	boost::weak_ptr<Film> _film;
-	boost::weak_ptr<FilmViewer> _viewer;
+	std::weak_ptr<Film> _film;
+	std::weak_ptr<FilmViewer> _viewer;
 	TimelineViewList _views;
-	boost::shared_ptr<TimelineTimeAxisView> _time_axis_view;
-	boost::shared_ptr<TimelineReelsView> _reels_view;
-	boost::shared_ptr<TimelineLabelsView> _labels_view;
+	std::shared_ptr<TimelineTimeAxisView> _time_axis_view;
+	std::shared_ptr<TimelineReelsView> _reels_view;
+	std::shared_ptr<TimelineLabelsView> _labels_view;
 	int _tracks;
 	boost::optional<double> _pixels_per_second;
 	bool _left_down;
 	wxPoint _down_point;
 	boost::optional<wxPoint> _zoom_point;
-	boost::shared_ptr<TimelineContentView> _down_view;
+	std::shared_ptr<TimelineContentView> _down_view;
 	dcpomatic::DCPTime _down_view_position;
 	bool _first_move;
 	ContentMenu _menu;

@@ -35,7 +35,7 @@
 #include "lib/video_content.h"
 #include "test.h"
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (ffmpeg_dcp_test)
 {

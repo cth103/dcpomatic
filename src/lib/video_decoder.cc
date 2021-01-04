@@ -34,7 +34,7 @@ using std::cout;
 using std::list;
 using std::max;
 using std::back_inserter;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 using namespace dcpomatic;
 

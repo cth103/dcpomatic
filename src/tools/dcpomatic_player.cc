@@ -84,11 +84,11 @@ using std::cout;
 using std::list;
 using std::exception;
 using std::vector;
-using boost::shared_ptr;
-using boost::weak_ptr;
+using std::shared_ptr;
+using std::weak_ptr;
 using boost::scoped_array;
 using boost::optional;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 using boost::thread;
 using boost::bind;
 #if BOOST_VERSION >= 106100
@@ -604,7 +604,7 @@ private:
 
 		if (r == wxID_OK) {
 			DCPOMATIC_ASSERT (_film);
-			shared_ptr<DCPContent> dcp = boost::dynamic_pointer_cast<DCPContent>(_film->content().front());
+			shared_ptr<DCPContent> dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
 			DCPOMATIC_ASSERT (dcp);
 			dcp->add_ov (wx_to_std(c->GetPath()));
 			JobManager::instance()->add(shared_ptr<Job>(new ExamineContentJob (_film, dcp)));
@@ -633,7 +633,7 @@ private:
 
 		if (d->ShowModal() == wxID_OK) {
 			DCPOMATIC_ASSERT (_film);
-			shared_ptr<DCPContent> dcp = boost::dynamic_pointer_cast<DCPContent>(_film->content().front());
+			shared_ptr<DCPContent> dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
 			DCPOMATIC_ASSERT (dcp);
 			try {
 				if (dcp) {
@@ -690,7 +690,7 @@ private:
 
 	void view_cpl (wxCommandEvent& ev)
 	{
-		shared_ptr<DCPContent> dcp = boost::dynamic_pointer_cast<DCPContent>(_film->content().front());
+		shared_ptr<DCPContent> dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
 		DCPOMATIC_ASSERT (dcp);
 		DCPExaminer ex (dcp, true);
 		int id = ev.GetId() - ID_view_cpl;
@@ -785,7 +785,7 @@ private:
 
 	void tools_verify ()
 	{
-		shared_ptr<DCPContent> dcp = boost::dynamic_pointer_cast<DCPContent>(_film->content().front());
+		shared_ptr<DCPContent> dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
 		DCPOMATIC_ASSERT (dcp);
 
 		shared_ptr<VerifyDCPJob> job (new VerifyDCPJob(dcp->directories()));
@@ -994,7 +994,7 @@ private:
 	shared_ptr<FilmViewer> _viewer;
 	Controls* _controls;
 	SystemInformationDialog* _system_information_dialog;
-	boost::shared_ptr<Film> _film;
+	std::shared_ptr<Film> _film;
 	boost::signals2::scoped_connection _config_changed_connection;
 	boost::signals2::scoped_connection _examine_job_connection;
 	wxMenuItem* _file_add_ov;

@@ -37,14 +37,14 @@ public:
 		, part (PART_WHOLE)
 	{}
 
-	ContentVideo (boost::shared_ptr<const ImageProxy> i, Frame f, Eyes e, Part p)
+	ContentVideo (std::shared_ptr<const ImageProxy> i, Frame f, Eyes e, Part p)
 		: image (i)
 		, frame (f)
 		, eyes (e)
 		, part (p)
 	{}
 
-	boost::shared_ptr<const ImageProxy> image;
+	std::shared_ptr<const ImageProxy> image;
 	Frame frame;
 	Eyes eyes;
 	Part part;

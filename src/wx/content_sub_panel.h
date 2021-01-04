@@ -26,7 +26,6 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/shared_ptr.hpp>
 
 class ContentPanel;
 class Content;
@@ -50,7 +49,7 @@ public:
 
 protected:
 
-	void setup_refer_button (wxCheckBox* button, wxStaticText* note, boost::shared_ptr<DCPContent> dcp, bool can_reference, wxString cannot) const;
+	void setup_refer_button (wxCheckBox* button, wxStaticText* note, std::shared_ptr<DCPContent> dcp, bool can_reference, wxString cannot) const;
 	virtual void add_to_grid () = 0;
 
 	ContentPanel* _parent;

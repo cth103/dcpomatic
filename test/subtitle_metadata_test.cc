@@ -27,12 +27,11 @@
 #include "lib/film.h"
 #include "test.h"
 #include <boost/filesystem.hpp>
-#include <boost/shared_ptr.hpp>
 #include <boost/test/unit_test.hpp>
 
 
 using std::vector;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 
 BOOST_AUTO_TEST_CASE (subtitle_metadata_test1)

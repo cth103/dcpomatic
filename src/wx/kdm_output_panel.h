@@ -51,7 +51,7 @@ public:
 		return _forensic_mark_audio_up_to;
 	}
 
-	std::pair<boost::shared_ptr<Job>, int> make (
+	std::pair<std::shared_ptr<Job>, int> make (
 		std::list<KDMWithMetadataPtr > screen_kdms,
 		std::string name,
 		boost::function<bool (boost::filesystem::path)> confirm_overwrite

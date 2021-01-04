@@ -22,7 +22,6 @@
 #define DCPOMATIC_JOB_VIEW_H
 
 #include <boost/noncopyable.hpp>
-#include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 
 class Job;
@@ -40,7 +39,7 @@ class wxCheckBox;
 class JobView : public boost::noncopyable
 {
 public:
-	JobView (boost::shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table);
+	JobView (std::shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table);
 	virtual ~JobView () {}
 
 	virtual int insert_position () const = 0;
@@ -51,14 +50,14 @@ public:
 	void insert (int pos);
 	void detach ();
 
-	boost::shared_ptr<Job> job () const {
+	std::shared_ptr<Job> job () const {
 		return _job;
 	}
 
 protected:
 	virtual void finished ();
 
-	boost::shared_ptr<Job> _job;
+	std::shared_ptr<Job> _job;
 	wxFlexGridSizer* _table;
 	/** sizer for buttons (cancel, details, pause etc.) */
 	wxBoxSizer* _buttons;

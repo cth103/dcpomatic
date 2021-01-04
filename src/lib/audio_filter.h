@@ -21,7 +21,9 @@
 #ifndef DCPOMATIC_AUDIO_FILTER_H
 #define DCPOMATIC_AUDIO_FILTER_H
 
-#include <boost/shared_ptr.hpp>
+
+#include <memory>
+
 
 class AudioBuffers;
 struct audio_filter_impulse_input_test;
@@ -43,7 +45,7 @@ public:
 
 	virtual ~AudioFilter ();
 
-	boost::shared_ptr<AudioBuffers> run (boost::shared_ptr<const AudioBuffers> in);
+	std::shared_ptr<AudioBuffers> run (std::shared_ptr<const AudioBuffers> in);
 
 	void flush ();
 
@@ -55,7 +57,7 @@ protected:
 
 	float* _ir;
 	int _M;
-	boost::shared_ptr<AudioBuffers> _tail;
+	std::shared_ptr<AudioBuffers> _tail;
 };
 
 class LowPassAudioFilter : public AudioFilter

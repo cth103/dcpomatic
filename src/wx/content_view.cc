@@ -35,10 +35,10 @@
 using std::string;
 using std::cout;
 using std::list;
-using boost::shared_ptr;
-using boost::weak_ptr;
+using std::shared_ptr;
+using std::weak_ptr;
 using boost::optional;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 using namespace dcpomatic;
 
 ContentView::ContentView (wxWindow* parent)

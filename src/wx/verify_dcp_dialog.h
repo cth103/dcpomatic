@@ -31,7 +31,7 @@ class VerifyDCPJob;
 class VerifyDCPDialog : public wxDialog
 {
 public:
-	VerifyDCPDialog (wxWindow* parent, boost::shared_ptr<VerifyDCPJob> job);
+	VerifyDCPDialog (wxWindow* parent, std::shared_ptr<VerifyDCPJob> job);
 
 private:
 	wxRichTextCtrl* _text;

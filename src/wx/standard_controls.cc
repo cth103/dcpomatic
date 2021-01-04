@@ -23,7 +23,7 @@
 #include <wx/wx.h>
 #include <wx/tglbtn.h>
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
 StandardControls::StandardControls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor_controls)
 	: Controls (parent, viewer, editor_controls)

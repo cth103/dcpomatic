@@ -33,7 +33,7 @@
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
 /** Interrupt a DCP encode when it is in progress, as this used to (still does?)
  *  sometimes give an error related to pthreads.

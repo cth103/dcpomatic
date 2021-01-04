@@ -44,9 +44,9 @@ using std::cout;
 using std::pair;
 using std::min;
 using std::make_pair;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 using dcp::raw_convert;
 
 FFmpegImageProxy::FFmpegImageProxy (boost::filesystem::path path, VideoRange video_range)

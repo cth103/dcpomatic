@@ -24,7 +24,7 @@
 #include <cmath>
 
 using std::min;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 /** @return array of floats which the caller must destroy with delete[] */
 float *

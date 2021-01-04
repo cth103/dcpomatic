@@ -27,7 +27,7 @@
 
 using std::string;
 using std::runtime_error;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 
 Zipper::Zipper (boost::filesystem::path file)

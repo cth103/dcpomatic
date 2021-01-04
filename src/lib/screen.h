@@ -54,7 +54,7 @@ public:
 	void as_xml (xmlpp::Element *) const;
 	std::vector<std::string> trusted_device_thumbprints () const;
 
-	boost::shared_ptr<Cinema> cinema;
+	std::shared_ptr<Cinema> cinema;
 	std::vector<TrustedDevice> trusted_devices;
 };
 
@@ -62,9 +62,9 @@ public:
 
 KDMWithMetadataPtr
 kdm_for_screen (
-	boost::shared_ptr<const Film> film,
+	std::shared_ptr<const Film> film,
 	boost::filesystem::path cpl,
-	boost::shared_ptr<const dcpomatic::Screen> screen,
+	std::shared_ptr<const dcpomatic::Screen> screen,
 	boost::posix_time::ptime valid_from,
 	boost::posix_time::ptime valid_to,
 	dcp::Formulation formulation,

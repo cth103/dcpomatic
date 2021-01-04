@@ -49,22 +49,22 @@ class FFmpegContent : public Content
 public:
 	FFmpegContent (boost::filesystem::path);
 	FFmpegContent (cxml::ConstNodePtr, int version, std::list<std::string> &);
-	FFmpegContent (std::vector<boost::shared_ptr<Content> >);
+	FFmpegContent (std::vector<std::shared_ptr<Content> >);
 
-	boost::shared_ptr<FFmpegContent> shared_from_this () {
-		return boost::dynamic_pointer_cast<FFmpegContent> (Content::shared_from_this ());
+	std::shared_ptr<FFmpegContent> shared_from_this () {
+		return std::dynamic_pointer_cast<FFmpegContent> (Content::shared_from_this ());
 	}
 
-	boost::shared_ptr<const FFmpegContent> shared_from_this () const {
-		return boost::dynamic_pointer_cast<const FFmpegContent> (Content::shared_from_this ());
+	std::shared_ptr<const FFmpegContent> shared_from_this () const {
+		return std::dynamic_pointer_cast<const FFmpegContent> (Content::shared_from_this ());
 	}
 
-	void examine (boost::shared_ptr<const Film> film, boost::shared_ptr<Job>);
-	void take_settings_from (boost::shared_ptr<const Content> c);
+	void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job>);
+	void take_settings_from (std::shared_ptr<const Content> c);
 	std::string summary () const;
 	std::string technical_summary () const;
 	void as_xml (xmlpp::Node *, bool with_paths) const;
-	dcpomatic::DCPTime full_length (boost::shared_ptr<const Film> film) const;
+	dcpomatic::DCPTime full_length (std::shared_ptr<const Film> film) const;
 	dcpomatic::DCPTime approximate_length () const;
 
 	std::string identifier () const;
@@ -73,24 +73,24 @@ public:
 
 	void set_filters (std::vector<Filter const *> const &);
 
-	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {
+	std::vector<std::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _subtitle_streams;
 	}
 
-	boost::shared_ptr<FFmpegSubtitleStream> subtitle_stream () const {
+	std::shared_ptr<FFmpegSubtitleStream> subtitle_stream () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _subtitle_stream;
 	}
 
-	std::vector<boost::shared_ptr<FFmpegAudioStream> > ffmpeg_audio_streams () const;
+	std::vector<std::shared_ptr<FFmpegAudioStream> > ffmpeg_audio_streams () const;
 
 	std::vector<Filter const *> filters () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _filters;
 	}
 
-	void set_subtitle_stream (boost::shared_ptr<FFmpegSubtitleStream>);
+	void set_subtitle_stream (std::shared_ptr<FFmpegSubtitleStream>);
 
 	boost::optional<dcpomatic::ContentTime> first_video () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -100,13 +100,13 @@ public:
 	void signal_subtitle_stream_changed ();
 
 private:
-	void add_properties (boost::shared_ptr<const Film> film, std::list<UserProperty> &) const;
+	void add_properties (std::shared_ptr<const Film> film, std::list<UserProperty> &) const;
 
 	friend struct ffmpeg_pts_offset_test;
 	friend struct audio_sampling_rate_test;
 
-	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > _subtitle_streams;
-	boost::shared_ptr<FFmpegSubtitleStream> _subtitle_stream;
+	std::vector<std::shared_ptr<FFmpegSubtitleStream> > _subtitle_streams;
+	std::shared_ptr<FFmpegSubtitleStream> _subtitle_stream;
 	boost::optional<dcpomatic::ContentTime> _first_video;
 	/** Video filters that should be used when generating DCPs */
 	std::vector<Filter const *> _filters;

@@ -60,7 +60,7 @@ public:
 		wxWindow* parent,
 		T* wrapped,
 		int property,
-		boost::function<boost::shared_ptr<S> (Content*)> part,
+		boost::function<std::shared_ptr<S> (Content*)> part,
 		boost::function<U (S*)> model_getter,
 		boost::function<void (S*, U)> model_setter,
 		boost::function<void ()> view_changed,
@@ -90,7 +90,7 @@ public:
 		return _wrapped;
 	}
 
-	typedef std::vector<boost::shared_ptr<Content> > List;
+	typedef std::vector<std::shared_ptr<Content> > List;
 
 	/** Set the content that this control is working on (i.e. the selected content) */
 	void set_content (List content)
@@ -214,7 +214,7 @@ private:
 	wxButton* _button;
 	List _content;
 	int _property;
-	boost::function<boost::shared_ptr<S> (Content *)> _part;
+	boost::function<std::shared_ptr<S> (Content *)> _part;
 	boost::function<U (S*)> _model_getter;
 	boost::function<void (S*, U)> _model_setter;
 	boost::function<void ()> _view_changed;
@@ -238,7 +238,7 @@ public:
 		wxWindow* parent,
 		wxSpinCtrl* wrapped,
 		int property,
-		boost::function<boost::shared_ptr<S> (Content *)> part,
+		boost::function<std::shared_ptr<S> (Content *)> part,
 		boost::function<int (S*)> getter,
 		boost::function<void (S*, int)> setter,
 		boost::function<void ()> view_changed = boost::function<void ()>()
@@ -266,7 +266,7 @@ public:
 		wxWindow* parent,
 		wxSpinCtrlDouble* wrapped,
 		int property,
-		boost::function<boost::shared_ptr<S> (Content *)> part,
+		boost::function<std::shared_ptr<S> (Content *)> part,
 		boost::function<double (S*)> getter,
 		boost::function<void (S*, double)> setter,
 		boost::function<void ()> view_changed = boost::function<void ()>()
@@ -294,7 +294,7 @@ public:
 		wxWindow* parent,
 		wxChoice* wrapped,
 		int property,
-		boost::function<boost::shared_ptr<S> (Content *)> part,
+		boost::function<std::shared_ptr<S> (Content *)> part,
 		boost::function<U (S*)> getter,
 		boost::function<void (S*, U)> setter,
 		boost::function<U (int)> view_to_model,

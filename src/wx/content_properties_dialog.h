@@ -20,7 +20,6 @@
 
 #include "table_dialog.h"
 #include "lib/user_property.h"
-#include <boost/shared_ptr.hpp>
 #include <list>
 #include <map>
 
@@ -31,7 +30,7 @@ class UserProperty;
 class ContentPropertiesDialog : public TableDialog
 {
 public:
-	ContentPropertiesDialog (wxWindow* parent, boost::shared_ptr<const Film> film, boost::shared_ptr<Content> content);
+	ContentPropertiesDialog (wxWindow* parent, std::shared_ptr<const Film> film, std::shared_ptr<Content> content);
 
 private:
 	void maybe_add_group (std::map<UserProperty::Category, std::list<UserProperty> > const & groups, UserProperty::Category category);

@@ -36,8 +36,8 @@ DCPOMATIC_ENABLE_WARNINGS
 using std::string;
 using std::pair;
 using std::make_pair;
-using boost::shared_ptr;
-using boost::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::dynamic_pointer_cast;
 using boost::optional;
 using dcp::raw_convert;
 

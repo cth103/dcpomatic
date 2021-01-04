@@ -18,13 +18,14 @@
 
 */
 
+
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 #include <list>
+#include <memory>
+
 
 class Marker;
 class Film;
@@ -33,9 +34,9 @@ class FilmViewer;
 class MarkersDialog : public wxDialog
 {
 public:
-	MarkersDialog (wxWindow* parent, boost::weak_ptr<Film> film, boost::weak_ptr<FilmViewer> viewer);
+	MarkersDialog (wxWindow* parent, std::weak_ptr<Film> film, std::weak_ptr<FilmViewer> viewer);
 
 private:
-	std::list<boost::shared_ptr<Marker> > _markers;
-	boost::weak_ptr<Film> _film;
+	std::list<std::shared_ptr<Marker> > _markers;
+	std::weak_ptr<Film> _film;
 };

@@ -45,7 +45,7 @@ using std::string;
 using std::cout;
 using std::max;
 using std::vector;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 using namespace dcpomatic;
 

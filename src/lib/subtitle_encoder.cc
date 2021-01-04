@@ -26,7 +26,6 @@
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/raw_convert.h>
 #include <dcp/smpte_subtitle_asset.h>
-#include <boost/shared_ptr.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/bind/bind.hpp>
 
@@ -36,7 +35,7 @@ using std::string;
 using std::make_pair;
 using std::pair;
 using std::vector;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;

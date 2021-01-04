@@ -101,8 +101,8 @@ private:
 	int _outline_subtitles_row;
 	int _ccap_track_row;
 
-	boost::weak_ptr<Content> _analysis_content;
+	std::weak_ptr<Content> _analysis_content;
 	boost::signals2::scoped_connection _analysis_finished_connection;
-	boost::shared_ptr<SubtitleAnalysis> _analysis;
+	std::shared_ptr<SubtitleAnalysis> _analysis;
 	bool _loading_analysis;
 };

@@ -39,8 +39,8 @@ using std::string;
 using std::vector;
 using boost::starts_with;
 using boost::split;
-using boost::dynamic_pointer_cast;
-using boost::shared_ptr;
+using std::dynamic_pointer_cast;
+using std::shared_ptr;
 
 static
 void

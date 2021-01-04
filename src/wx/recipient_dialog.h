@@ -24,7 +24,6 @@
 #include "lib/screen.h"
 #include <dcp/certificate.h>
 #include <wx/wx.h>
-#include <boost/shared_ptr.hpp>
 #include <boost/optional.hpp>
 
 class Progress;

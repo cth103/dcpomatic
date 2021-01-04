@@ -23,7 +23,6 @@
 #include "dcp_text_track.h"
 #include "encoder.h"
 #include "dcpomatic_time.h"
-#include <boost/weak_ptr.hpp>
 
 namespace dcp {
 	class SubtitleAsset;
@@ -37,7 +36,7 @@ class Film;
 class SubtitleEncoder : public Encoder
 {
 public:
-	SubtitleEncoder (boost::shared_ptr<const Film> film, boost::shared_ptr<Job> job, boost::filesystem::path output, std::string intial_name, bool split_reels, bool include_font);
+	SubtitleEncoder (std::shared_ptr<const Film> film, std::shared_ptr<Job> job, boost::filesystem::path output, std::string intial_name, bool split_reels, bool include_font);
 
 	void go ();
 
@@ -51,7 +50,7 @@ public:
 private:
 	void text (PlayerText subs, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period);
 
-	std::vector<std::pair<boost::shared_ptr<dcp::SubtitleAsset>, boost::filesystem::path> > _assets;
+	std::vector<std::pair<std::shared_ptr<dcp::SubtitleAsset>, boost::filesystem::path> > _assets;
 	std::vector<dcpomatic::DCPTimePeriod> _reels;
 	bool _split_reels;
 	bool _include_font;

@@ -23,7 +23,7 @@
 #include <dcp/atmos_asset.h>
 
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
 
 AtmosMetadata::AtmosMetadata (shared_ptr<const dcp::AtmosAsset> asset)

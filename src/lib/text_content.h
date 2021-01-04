@@ -62,13 +62,13 @@ class TextContent : public ContentPart
 {
 public:
 	TextContent (Content* parent, TextType type, TextType original_type);
-	TextContent (Content* parent, std::vector<boost::shared_ptr<Content> >);
+	TextContent (Content* parent, std::vector<std::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;
 	std::string identifier () const;
-	void take_settings_from (boost::shared_ptr<const TextContent> c);
+	void take_settings_from (std::shared_ptr<const TextContent> c);
 
-	void add_font (boost::shared_ptr<dcpomatic::Font> font);
+	void add_font (std::shared_ptr<dcpomatic::Font> font);
 
 	void set_use (bool);
 	void set_burn (bool);
@@ -122,7 +122,7 @@ public:
 		return _y_scale;
 	}
 
-	std::list<boost::shared_ptr<dcpomatic::Font> > fonts () const {
+	std::list<std::shared_ptr<dcpomatic::Font> > fonts () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _fonts;
 	}
@@ -177,7 +177,7 @@ public:
 		return _dcp_track;
 	}
 
-	static std::list<boost::shared_ptr<TextContent> > from_xml (Content* parent, cxml::ConstNodePtr, int version);
+	static std::list<std::shared_ptr<TextContent> > from_xml (Content* parent, cxml::ConstNodePtr, int version);
 
 private:
 	friend struct ffmpeg_pts_offset_test;
@@ -202,7 +202,7 @@ private:
 	double _x_scale;
 	/** y scale factor to apply to subtitles */
 	double _y_scale;
-	std::list<boost::shared_ptr<dcpomatic::Font> > _fonts;
+	std::list<std::shared_ptr<dcpomatic::Font> > _fonts;
 	boost::optional<dcp::Colour> _colour;
 	boost::optional<dcp::Effect> _effect;
 	boost::optional<dcp::Colour> _effect_colour;

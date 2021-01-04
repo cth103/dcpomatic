@@ -41,8 +41,8 @@
 #include <boost/test/unit_test.hpp>
 
 
-using boost::dynamic_pointer_cast;
-using boost::shared_ptr;
+using std::dynamic_pointer_cast;
+using std::shared_ptr;
 
 
 /** Overlay two video-only bits of content, don't use the video on one and

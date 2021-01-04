@@ -45,7 +45,7 @@
 
 using std::string;
 using std::list;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 
 /** Create a Content object from an XML node.
@@ -59,7 +59,7 @@ content_factory (cxml::ConstNodePtr node, int version, list<string>& notes)
 {
 	string const type = node->string_child ("Type");
 
-	boost::shared_ptr<Content> content;
+	std::shared_ptr<Content> content;
 
 	if (type == "FFmpeg") {
 		/* SndfileContent is now handled by the FFmpeg code rather than by

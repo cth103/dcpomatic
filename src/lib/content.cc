@@ -48,7 +48,7 @@ using std::cout;
 using std::vector;
 using std::max;
 using std::pair;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 using dcp::raw_convert;
 using dcp::locale_convert;
@@ -206,7 +206,7 @@ Content::signal_change (ChangeType c, int p)
 		} else {
 			emit (boost::bind (boost::ref(Change), c, shared_from_this(), p, _change_signals_frequent));
 		}
-	} catch (boost::bad_weak_ptr &) {
+	} catch (std::bad_weak_ptr &) {
 		/* This must be during construction; never mind */
 	}
 }

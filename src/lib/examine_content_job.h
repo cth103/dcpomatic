@@ -19,24 +19,23 @@
 */
 
 #include "job.h"
-#include <boost/shared_ptr.hpp>
 
 class Content;
 
 class ExamineContentJob : public Job
 {
 public:
-	ExamineContentJob (boost::shared_ptr<const Film>, boost::shared_ptr<Content>);
+	ExamineContentJob (std::shared_ptr<const Film>, std::shared_ptr<Content>);
 	~ExamineContentJob ();
 
 	std::string name () const;
 	std::string json_name () const;
 	void run ();
 
-	boost::shared_ptr<Content> content () const {
+	std::shared_ptr<Content> content () const {
 		return _content;
 	}
 
 private:
-	boost::shared_ptr<Content> _content;
+	std::shared_ptr<Content> _content;
 };

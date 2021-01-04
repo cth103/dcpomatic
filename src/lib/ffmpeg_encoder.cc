@@ -38,9 +38,9 @@ using std::cout;
 using std::pair;
 using std::list;
 using std::map;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::bind;
-using boost::weak_ptr;
+using std::weak_ptr;
 using boost::optional;
 using namespace dcpomatic;
 #if BOOST_VERSION >= 106100
@@ -279,7 +279,7 @@ FFmpegEncoder::FileEncoderSet::get (Eyes eyes) const
 		}
 	}
 
-	map<Eyes, boost::shared_ptr<FFmpegFileEncoder> >::const_iterator i = _encoders.find (eyes);
+	map<Eyes, std::shared_ptr<FFmpegFileEncoder> >::const_iterator i = _encoders.find (eyes);
 	DCPOMATIC_ASSERT (i != _encoders.end());
 	return i->second;
 }
@@ -287,7 +287,7 @@ FFmpegEncoder::FileEncoderSet::get (Eyes eyes) const
 void
 FFmpegEncoder::FileEncoderSet::flush ()
 {
-	for (map<Eyes, boost::shared_ptr<FFmpegFileEncoder> >::iterator i = _encoders.begin(); i != _encoders.end(); ++i) {
+	for (map<Eyes, std::shared_ptr<FFmpegFileEncoder> >::iterator i = _encoders.begin(); i != _encoders.end(); ++i) {
 		i->second->flush ();
 	}
 }
@@ -295,7 +295,7 @@ FFmpegEncoder::FileEncoderSet::flush ()
 void
 FFmpegEncoder::FileEncoderSet::audio (shared_ptr<AudioBuffers> a)
 {
-	for (map<Eyes, boost::shared_ptr<FFmpegFileEncoder> >::iterator i = _encoders.begin(); i != _encoders.end(); ++i) {
+	for (map<Eyes, std::shared_ptr<FFmpegFileEncoder> >::iterator i = _encoders.begin(); i != _encoders.end(); ++i) {
 		i->second->audio (a);
 	}
 }

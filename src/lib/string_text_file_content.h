@@ -31,19 +31,19 @@ public:
 	StringTextFileContent (boost::filesystem::path);
 	StringTextFileContent (cxml::ConstNodePtr, int);
 
-	boost::shared_ptr<StringTextFileContent> shared_from_this () {
-		return boost::dynamic_pointer_cast<StringTextFileContent> (Content::shared_from_this ());
+	std::shared_ptr<StringTextFileContent> shared_from_this () {
+		return std::dynamic_pointer_cast<StringTextFileContent> (Content::shared_from_this ());
 	}
 
-	boost::shared_ptr<const StringTextFileContent> shared_from_this () const {
-		return boost::dynamic_pointer_cast<const StringTextFileContent> (Content::shared_from_this ());
+	std::shared_ptr<const StringTextFileContent> shared_from_this () const {
+		return std::dynamic_pointer_cast<const StringTextFileContent> (Content::shared_from_this ());
 	}
 
-	void examine (boost::shared_ptr<const Film> film, boost::shared_ptr<Job>);
+	void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job>);
 	std::string summary () const;
 	std::string technical_summary () const;
 	void as_xml (xmlpp::Node *, bool with_paths) const;
-	dcpomatic::DCPTime full_length (boost::shared_ptr<const Film> film) const;
+	dcpomatic::DCPTime full_length (std::shared_ptr<const Film> film) const;
 	dcpomatic::DCPTime approximate_length () const;
 	std::string identifier () const;
 

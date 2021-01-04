@@ -35,7 +35,6 @@
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/bind/placeholders.hpp>
-#include <boost/shared_ptr.hpp>
 #include <boost/foreach.hpp>
 #include <iostream>
 
@@ -49,9 +48,9 @@ using std::max;
 using std::string;
 using std::pair;
 using boost::optional;
-using boost::shared_ptr;
-using boost::weak_ptr;
-using boost::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::weak_ptr;
+using std::dynamic_pointer_cast;
 using namespace dcpomatic;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;

@@ -40,9 +40,9 @@ public:
 	std::list<PlayerText> get_burnt (dcpomatic::DCPTimePeriod period, bool always_burn_captions) const;
 	void clear_before (dcpomatic::DCPTime time);
 	void clear ();
-	void add_from (boost::weak_ptr<const TextContent> content, PlayerText ps, dcpomatic::DCPTime from);
-	std::pair<PlayerText, dcpomatic::DCPTime> add_to (boost::weak_ptr<const TextContent> content, dcpomatic::DCPTime to);
-	bool have (boost::weak_ptr<const TextContent> content) const;
+	void add_from (std::weak_ptr<const TextContent> content, PlayerText ps, dcpomatic::DCPTime from);
+	std::pair<PlayerText, dcpomatic::DCPTime> add_to (std::weak_ptr<const TextContent> content, dcpomatic::DCPTime to);
+	bool have (std::weak_ptr<const TextContent> content) const;
 
 private:
 	class Period
@@ -60,7 +60,7 @@ private:
 		boost::optional<dcpomatic::DCPTime> to;
 	};
 
-	typedef std::map<boost::weak_ptr<const TextContent>, std::list<Period> > Map;
+	typedef std::map<std::weak_ptr<const TextContent>, std::list<Period>, std::owner_less<std::weak_ptr<const TextContent>>> Map;
 
 	mutable boost::mutex _mutex;
 	Map _data;

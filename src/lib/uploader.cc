@@ -25,7 +25,7 @@
 #include "i18n.h"
 
 using std::string;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::function;
 
 Uploader::Uploader (function<void (string)> set_status, function<void (float)> set_progress)

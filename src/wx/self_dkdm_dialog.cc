@@ -49,10 +49,10 @@ using std::pair;
 using std::cout;
 using std::vector;
 using std::make_pair;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::bind;
 
-SelfDKDMDialog::SelfDKDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
+SelfDKDMDialog::SelfDKDMDialog (wxWindow* parent, std::shared_ptr<const Film> film)
 	: wxDialog (parent, wxID_ANY, _("Make DKDM for DCP-o-matic"))
 {
 	/* Main sizer */

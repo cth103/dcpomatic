@@ -29,7 +29,7 @@
 
 using std::string;
 using std::cout;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 ExamineContentJob::ExamineContentJob (shared_ptr<const Film> film, shared_ptr<Content> c)
 	: Job (film)

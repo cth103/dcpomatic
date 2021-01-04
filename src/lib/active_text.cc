@@ -18,16 +18,16 @@
 
 */
 
+
 #include "active_text.h"
 #include "text_content.h"
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
+
 
 using std::list;
 using std::pair;
 using std::make_pair;
-using boost::weak_ptr;
-using boost::shared_ptr;
+using std::weak_ptr;
+using std::shared_ptr;
 using boost::optional;
 using namespace dcpomatic;
 

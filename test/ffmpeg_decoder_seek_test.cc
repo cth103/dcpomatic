@@ -42,7 +42,7 @@ using std::cerr;
 using std::vector;
 using std::list;
 using std::cout;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;

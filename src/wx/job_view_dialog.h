@@ -18,9 +18,10 @@
 
 */
 
+
 #include "table_dialog.h"
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
+#include <memory>
+
 
 class JobView;
 class Job;
@@ -28,13 +29,13 @@ class Job;
 class JobViewDialog : public TableDialog
 {
 public:
-	JobViewDialog (wxWindow* parent, wxString title, boost::shared_ptr<Job> job);
+	JobViewDialog (wxWindow* parent, wxString title, std::shared_ptr<Job> job);
 	~JobViewDialog ();
 
 private:
 	void periodic ();
 
 	JobView* _view;
-	boost::weak_ptr<Job> _job;
-	boost::shared_ptr<wxTimer> _timer;
+	std::weak_ptr<Job> _job;
+	std::shared_ptr<wxTimer> _timer;
 };

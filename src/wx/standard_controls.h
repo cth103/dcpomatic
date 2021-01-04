@@ -23,7 +23,7 @@
 class StandardControls : public Controls
 {
 public:
-	StandardControls (wxWindow* parent, boost::shared_ptr<FilmViewer> viewer, bool editor_controls);
+	StandardControls (wxWindow* parent, std::shared_ptr<FilmViewer> viewer, bool editor_controls);
 
 	void play ();
 	void stop ();

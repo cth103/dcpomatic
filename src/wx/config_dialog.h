@@ -114,8 +114,8 @@ public:
 		wxWindow* parent,
 		wxString title,
 		int border,
-		boost::function<void (boost::shared_ptr<dcp::CertificateChain>)> set,
-		boost::function<boost::shared_ptr<const dcp::CertificateChain> (void)> get,
+		boost::function<void (std::shared_ptr<dcp::CertificateChain>)> set,
+		boost::function<std::shared_ptr<const dcp::CertificateChain> (void)> get,
 		boost::function<bool (void)> nag_alter
 		);
 
@@ -145,8 +145,8 @@ private:
 	wxStaticText* _private_key_bad;
 	wxSizer* _sizer;
 	wxBoxSizer* _button_sizer;
-	boost::function<void (boost::shared_ptr<dcp::CertificateChain>)> _set;
-	boost::function<boost::shared_ptr<const dcp::CertificateChain> (void)> _get;
+	boost::function<void (std::shared_ptr<dcp::CertificateChain>)> _set;
+	boost::function<std::shared_ptr<const dcp::CertificateChain> (void)> _get;
 	boost::function<bool (void)> _nag_alter;
 };
 

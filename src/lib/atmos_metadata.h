@@ -22,13 +22,12 @@
 #define DCPOMATIC_ATMOS_METADATA_H
 
 #include <dcp/atmos_asset.h>
-#include <boost/shared_ptr.hpp>
 
 class AtmosMetadata
 {
 public:
-	AtmosMetadata (boost::shared_ptr<const dcp::AtmosAsset> asset);
-	boost::shared_ptr<dcp::AtmosAsset> create (dcp::Fraction edit_rate) const;
+	AtmosMetadata (std::shared_ptr<const dcp::AtmosAsset> asset);
+	std::shared_ptr<dcp::AtmosAsset> create (dcp::Fraction edit_rate) const;
 
 private:
 	int _first_frame;

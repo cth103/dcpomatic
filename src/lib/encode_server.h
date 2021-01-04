@@ -48,14 +48,14 @@ public:
 	void run ();
 
 private:
-	void handle (boost::shared_ptr<Socket>);
+	void handle (std::shared_ptr<Socket>);
 	void worker_thread ();
-	int process (boost::shared_ptr<Socket> socket, struct timeval &, struct timeval &);
+	int process (std::shared_ptr<Socket> socket, struct timeval &, struct timeval &);
 	void broadcast_thread ();
 	void broadcast_received ();
 
 	boost::thread_group _worker_threads;
-	std::list<boost::shared_ptr<Socket> > _queue;
+	std::list<std::shared_ptr<Socket> > _queue;
 	boost::condition _full_condition;
 	boost::condition _empty_condition;
 	bool _verbose;

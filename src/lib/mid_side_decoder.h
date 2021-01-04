@@ -26,8 +26,8 @@ public:
 	std::string name () const;
 	std::string id () const;
 	int out_channels () const;
-	boost::shared_ptr<AudioProcessor> clone (int) const;
-	boost::shared_ptr<AudioBuffers> run (boost::shared_ptr<const AudioBuffers>, int channels);
+	std::shared_ptr<AudioProcessor> clone (int) const;
+	std::shared_ptr<AudioBuffers> run (std::shared_ptr<const AudioBuffers>, int channels);
 	void make_audio_mapping_default (AudioMapping& mapping) const;
 	std::vector<NamedChannel> input_names () const;
 };

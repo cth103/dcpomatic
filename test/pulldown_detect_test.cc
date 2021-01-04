@@ -26,7 +26,7 @@
 #include <boost/test/unit_test.hpp>
 
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
 
 BOOST_AUTO_TEST_CASE (pulldown_detect_test1)

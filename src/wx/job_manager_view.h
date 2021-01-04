@@ -22,15 +22,18 @@
  *  @brief Class which is a wxPanel for showing the progress of jobs.
  */
 
+
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/shared_ptr.hpp>
 #include <list>
+#include <memory>
+
 
 class Job;
 class JobView;
+
 
 /** @class JobManagerView
  *  @brief Class which is a wxPanel for showing the progress of jobs.
@@ -41,15 +44,15 @@ public:
 	JobManagerView (wxWindow *, bool batch);
 
 private:
-	void job_added (boost::weak_ptr<Job>);
+	void job_added (std::weak_ptr<Job>);
 	void periodic ();
 	void replace ();
 	void job_list_changed ();
 
 	wxPanel* _panel;
 	wxFlexGridSizer* _table;
-	boost::shared_ptr<wxTimer> _timer;
+	std::shared_ptr<wxTimer> _timer;
 	bool _batch;
 
-	std::list<boost::shared_ptr<JobView> > _job_records;
+	std::list<std::shared_ptr<JobView> > _job_records;
 };

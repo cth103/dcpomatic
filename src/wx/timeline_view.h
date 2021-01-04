@@ -53,6 +53,6 @@ private:
 	dcpomatic::Rect<int> _last_paint_bbox;
 };
 
-typedef std::vector<boost::shared_ptr<TimelineView> > TimelineViewList;
+typedef std::vector<std::shared_ptr<TimelineView> > TimelineViewList;
 
 #endif

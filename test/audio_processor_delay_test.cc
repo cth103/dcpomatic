@@ -31,7 +31,7 @@
 
 using std::cerr;
 using std::cout;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 #define CHECK_SAMPLE(c,f,r) \
 	if (fabs(out->data(c)[f] - (r)) > 0.1) {			\

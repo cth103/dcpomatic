@@ -58,7 +58,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 using std::string;
 using std::cout;
-using boost::shared_ptr;
+using std::shared_ptr;
 using dcp::Size;
 using dcp::ArrayData;
 using dcp::raw_convert;

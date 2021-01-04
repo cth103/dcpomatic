@@ -31,8 +31,8 @@ using std::string;
 using std::list;
 using std::pair;
 using std::map;
-using boost::shared_ptr;
-using boost::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::dynamic_pointer_cast;
 
 ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<const Film> film, shared_ptr<Content> content)
 	: TableDialog (parent, _("Content Properties"), 2, 1, false)

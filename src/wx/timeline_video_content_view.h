@@ -26,7 +26,7 @@
 class TimelineVideoContentView : public TimelineContentView
 {
 public:
-	TimelineVideoContentView (Timeline& tl, boost::shared_ptr<Content> c);
+	TimelineVideoContentView (Timeline& tl, std::shared_ptr<Content> c);
 
 private:
 	bool active () const;

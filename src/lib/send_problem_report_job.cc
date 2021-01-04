@@ -34,7 +34,7 @@
 
 using std::string;
 using std::list;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 /** @param film Film thta the problem is with, or 0.
  *  @param from Email address to use for From:

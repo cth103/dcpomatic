@@ -20,7 +20,6 @@
 
 #include "wx_util.h"
 #include <wx/wx.h>
-#include <boost/shared_ptr.hpp>
 #include <map>
 
 class Film;
@@ -34,14 +33,14 @@ struct CPLSummary;
 class DKDMDialog : public wxDialog
 {
 public:
-	DKDMDialog (wxWindow *, boost::shared_ptr<const Film> film);
+	DKDMDialog (wxWindow *, std::shared_ptr<const Film> film);
 
 private:
 	void setup_sensitivity ();
 	void make_clicked ();
 	bool confirm_overwrite (boost::filesystem::path path);
 
-	boost::weak_ptr<const Film> _film;
+	std::weak_ptr<const Film> _film;
 	RecipientsPanel* _recipients;
 	KDMTimingPanel* _timing;
 	KDMCPLPanel* _cpl;

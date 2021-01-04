@@ -41,7 +41,7 @@ public:
 
 	boost::filesystem::path directory () const;
 
-	std::pair<boost::shared_ptr<Job>, int> make (
+	std::pair<std::shared_ptr<Job>, int> make (
 		std::list<KDMWithMetadataPtr > kdms,
 		std::string name,
 		boost::function<bool (boost::filesystem::path)> confirm_overwrite

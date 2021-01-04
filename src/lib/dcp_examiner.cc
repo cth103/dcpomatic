@@ -53,8 +53,8 @@ using std::list;
 using std::cout;
 using std::runtime_error;
 using std::map;
-using boost::shared_ptr;
-using boost::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::dynamic_pointer_cast;
 
 DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	: DCP (content, tolerant)

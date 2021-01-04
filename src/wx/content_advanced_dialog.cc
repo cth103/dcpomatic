@@ -42,9 +42,9 @@ DCPOMATIC_ENABLE_WARNINGS
 using std::string;
 using std::vector;
 using boost::bind;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 using boost::optional;
-using boost::shared_ptr;
+using std::shared_ptr;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif

@@ -27,6 +27,6 @@ public:
 
 private:
 	void run (int port);
-	void handle (boost::shared_ptr<boost::asio::ip::tcp::socket> socket);
-	void request (std::string url, boost::shared_ptr<boost::asio::ip::tcp::socket> socket);
+	void handle (std::shared_ptr<boost::asio::ip::tcp::socket> socket);
+	void request (std::string url, std::shared_ptr<boost::asio::ip::tcp::socket> socket);
 };

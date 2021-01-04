@@ -31,7 +31,7 @@ public:
 	AudioFilterGraph (int sample_rate, int channels);
 	~AudioFilterGraph ();
 
-	void process (boost::shared_ptr<const AudioBuffers> audio);
+	void process (std::shared_ptr<const AudioBuffers> audio);
 
 protected:
 	std::string src_parameters () const;

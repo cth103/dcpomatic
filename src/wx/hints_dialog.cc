@@ -35,15 +35,15 @@ using std::max;
 using std::vector;
 using std::string;
 using std::cout;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 using boost::bind;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
 
-HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> film, bool ok)
+HintsDialog::HintsDialog (wxWindow* parent, std::weak_ptr<Film> film, bool ok)
 	: wxDialog (parent, wxID_ANY, _("Hints"))
 	, _film (film)
 	, _hints (0)
@@ -82,7 +82,7 @@ HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> film, bool ok)
 
 	_text->GetCaret()->Hide ();
 
-	boost::shared_ptr<Film> locked_film = _film.lock ();
+	std::shared_ptr<Film> locked_film = _film.lock ();
 	if (locked_film) {
 		_film_change_connection = locked_film->Change.connect (boost::bind (&HintsDialog::film_change, this, _1));
 		_film_content_change_connection = locked_film->ContentChange.connect (boost::bind (&HintsDialog::film_content_change, this, _1));
@@ -101,7 +101,7 @@ HintsDialog::film_change (ChangeType type)
 	_text->Clear ();
 	_current.clear ();
 
-	boost::shared_ptr<Film> film = _film.lock ();
+	std::shared_ptr<Film> film = _film.lock ();
 	if (!film) {
 		return;
 	}

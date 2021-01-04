@@ -23,7 +23,7 @@
 #include "wx_util.h"
 
 using std::string;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 
 ServerDialog::ServerDialog (wxWindow* parent)

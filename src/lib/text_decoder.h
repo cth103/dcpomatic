@@ -40,16 +40,16 @@ class TextDecoder : public DecoderPart
 public:
 	TextDecoder (
 		Decoder* parent,
-		boost::shared_ptr<const TextContent>,
+		std::shared_ptr<const TextContent>,
 		dcpomatic::ContentTime first
 		);
 
-	boost::optional<dcpomatic::ContentTime> position (boost::shared_ptr<const Film>) const {
+	boost::optional<dcpomatic::ContentTime> position (std::shared_ptr<const Film>) const {
 		return _position;
 	}
 
-	void emit_bitmap_start (dcpomatic::ContentTime from, boost::shared_ptr<Image> image, dcpomatic::Rect<double> rect);
-	void emit_bitmap (dcpomatic::ContentTimePeriod period, boost::shared_ptr<Image> image, dcpomatic::Rect<double> rect);
+	void emit_bitmap_start (dcpomatic::ContentTime from, std::shared_ptr<Image> image, dcpomatic::Rect<double> rect);
+	void emit_bitmap (dcpomatic::ContentTimePeriod period, std::shared_ptr<Image> image, dcpomatic::Rect<double> rect);
 	void emit_plain_start (dcpomatic::ContentTime from, std::list<dcp::SubtitleString> s);
 	void emit_plain_start (dcpomatic::ContentTime from, sub::Subtitle const & subtitle);
 	void emit_plain (dcpomatic::ContentTimePeriod period, std::list<dcp::SubtitleString> s);
@@ -58,7 +58,7 @@ public:
 
 	void seek ();
 
-	boost::shared_ptr<const TextContent> content () const {
+	std::shared_ptr<const TextContent> content () const {
 		return _content;
 	}
 
@@ -67,7 +67,7 @@ public:
 	boost::signals2::signal<void (dcpomatic::ContentTime)> Stop;
 
 private:
-	boost::shared_ptr<const TextContent> _content;
+	std::shared_ptr<const TextContent> _content;
 	boost::optional<dcpomatic::ContentTime> _position;
 };
 

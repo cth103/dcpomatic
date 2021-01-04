@@ -26,7 +26,7 @@
 #include <wx/sizer.h>
 #include <wx/spinctrl.h>
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
 /** @param parent Parent window.
  *  @param dm Initial ISDCF metadata.

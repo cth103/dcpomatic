@@ -26,7 +26,7 @@ public:
 	VideoFilterGraph (dcp::Size s, AVPixelFormat p, dcp::Fraction r);
 
 	bool can_process (dcp::Size s, AVPixelFormat p) const;
-	std::list<std::pair<boost::shared_ptr<Image>, int64_t> > process (AVFrame * frame);
+	std::list<std::pair<std::shared_ptr<Image>, int64_t> > process (AVFrame * frame);
 
 protected:
 	std::string src_parameters () const;

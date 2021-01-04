@@ -26,7 +26,7 @@
 #include <boost/optional.hpp>
 
 using std::pair;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 
 VideoView::VideoView (FilmViewer* viewer)

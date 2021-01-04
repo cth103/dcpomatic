@@ -45,7 +45,7 @@
 using std::string;
 using std::cout;
 using boost::lexical_cast;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 static
 void test_audio_delay (int delay_in_ms)

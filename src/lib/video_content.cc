@@ -61,9 +61,9 @@ using std::fixed;
 using std::setprecision;
 using std::list;
 using std::pair;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 using dcp::raw_convert;
 using namespace dcpomatic;
 

@@ -20,7 +20,8 @@
 
 #include <dcp/encrypted_kdm.h>
 #include <libcxml/cxml.h>
-#include <boost/enable_shared_from_this.hpp>
+#include <memory>
+
 
 namespace xmlpp {
 	class Element;
@@ -28,25 +29,25 @@ namespace xmlpp {
 
 class DKDMGroup;
 
-class DKDMBase : public boost::enable_shared_from_this<DKDMBase>
+class DKDMBase : public std::enable_shared_from_this<DKDMBase>
 {
 public:
 	virtual ~DKDMBase () {}
 	virtual std::string name () const = 0;
 	virtual void as_xml (xmlpp::Element *) const = 0;
 
-	static boost::shared_ptr<DKDMBase> read (cxml::ConstNodePtr node);
+	static std::shared_ptr<DKDMBase> read (cxml::ConstNodePtr node);
 
-	boost::shared_ptr<DKDMGroup> parent () const {
+	std::shared_ptr<DKDMGroup> parent () const {
 		return _parent;
 	}
 
-	void set_parent (boost::shared_ptr<DKDMGroup> parent) {
+	void set_parent (std::shared_ptr<DKDMGroup> parent) {
 		_parent = parent;
 	}
 
 private:
-	boost::shared_ptr<DKDMGroup> _parent;
+	std::shared_ptr<DKDMGroup> _parent;
 };
 
 class DKDM : public DKDMBase
@@ -80,14 +81,14 @@ public:
 
 	void as_xml (xmlpp::Element *) const;
 
-	std::list<boost::shared_ptr<DKDMBase> > children () const {
+	std::list<std::shared_ptr<DKDMBase> > children () const {
 		return _children;
 	}
 
-	void add (boost::shared_ptr<DKDMBase> child, boost::shared_ptr<DKDM> previous = boost::shared_ptr<DKDM> ());
-        void remove (boost::shared_ptr<DKDMBase> child);
+	void add (std::shared_ptr<DKDMBase> child, std::shared_ptr<DKDM> previous = std::shared_ptr<DKDM> ());
+        void remove (std::shared_ptr<DKDMBase> child);
 
 private:
 	std::string _name;
-	std::list<boost::shared_ptr<DKDMBase> > _children;
+	std::list<std::shared_ptr<DKDMBase> > _children;
 };

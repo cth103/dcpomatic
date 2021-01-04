@@ -23,7 +23,6 @@
  */
 
 #include "job.h"
-#include <boost/shared_ptr.hpp>
 
 class Encoder;
 
@@ -33,7 +32,7 @@ class Encoder;
 class TranscodeJob : public Job
 {
 public:
-	explicit TranscodeJob (boost::shared_ptr<const Film> film);
+	explicit TranscodeJob (std::shared_ptr<const Film> film);
 	~TranscodeJob ();
 
 	std::string name () const;
@@ -41,10 +40,10 @@ public:
 	void run ();
 	std::string status () const;
 
-	void set_encoder (boost::shared_ptr<Encoder> t);
+	void set_encoder (std::shared_ptr<Encoder> t);
 
 private:
 	int remaining_time () const;
 
-	boost::shared_ptr<Encoder> _encoder;
+	std::shared_ptr<Encoder> _encoder;
 };

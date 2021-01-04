@@ -22,7 +22,6 @@
 #include <boost/asio.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 
 /** @class Socket
  *  @brief A class to wrap a boost::asio::ip::tcp::socket with some things
@@ -52,10 +51,10 @@ public:
 	class ReadDigestScope
 	{
 	public:
-		ReadDigestScope (boost::shared_ptr<Socket> socket);
+		ReadDigestScope (std::shared_ptr<Socket> socket);
 		bool check ();
 	private:
-		boost::weak_ptr<Socket> _socket;
+		std::weak_ptr<Socket> _socket;
 	};
 
 	/** After one of these is created everything that is sent from the socket will be
@@ -65,10 +64,10 @@ public:
 	class WriteDigestScope
 	{
 	public:
-		WriteDigestScope (boost::shared_ptr<Socket> socket);
+		WriteDigestScope (std::shared_ptr<Socket> socket);
 		~WriteDigestScope ();
 	private:
-		boost::weak_ptr<Socket> _socket;
+		std::weak_ptr<Socket> _socket;
 	};
 
 private:

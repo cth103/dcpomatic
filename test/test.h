@@ -18,9 +18,10 @@
 
 */
 
+
 #include "lib/warnings.h"
 #include <boost/filesystem.hpp>
-#include <boost/shared_ptr.hpp>
+
 
 class Film;
 class Image;
@@ -36,10 +37,10 @@ public:
 
 extern bool wait_for_jobs ();
 extern void setup_test_config ();
-extern boost::shared_ptr<Film> new_test_film (std::string);
-extern boost::shared_ptr<Film> new_test_film2 (std::string);
+extern std::shared_ptr<Film> new_test_film (std::string);
+extern std::shared_ptr<Film> new_test_film2 (std::string);
 extern void check_dcp (boost::filesystem::path, boost::filesystem::path);
-extern void check_dcp (boost::filesystem::path, boost::shared_ptr<const Film>);
+extern void check_dcp (boost::filesystem::path, std::shared_ptr<const Film>);
 extern void check_file (boost::filesystem::path ref, boost::filesystem::path check);
 extern void check_wav_file (boost::filesystem::path ref, boost::filesystem::path check);
 extern void check_mxf_audio_file (boost::filesystem::path ref, boost::filesystem::path check);
@@ -49,19 +50,19 @@ extern void check_file (boost::filesystem::path, boost::filesystem::path);
 extern void check_ffmpeg (boost::filesystem::path, boost::filesystem::path, int audio_tolerance);
 extern void check_image (boost::filesystem::path, boost::filesystem::path, double threshold = 4);
 extern boost::filesystem::path test_film_dir (std::string);
-extern void write_image (boost::shared_ptr<const Image> image, boost::filesystem::path file);
-boost::filesystem::path dcp_file (boost::shared_ptr<const Film> film, std::string prefix);
+extern void write_image (std::shared_ptr<const Image> image, boost::filesystem::path file);
+boost::filesystem::path dcp_file (std::shared_ptr<const Film> film, std::string prefix);
 void check_one_frame (boost::filesystem::path dcp, int64_t index, boost::filesystem::path ref);
-extern boost::filesystem::path subtitle_file (boost::shared_ptr<Film> film);
+extern boost::filesystem::path subtitle_file (std::shared_ptr<Film> film);
 extern void make_random_file (boost::filesystem::path path, size_t size);
 
 class LogSwitcher
 {
 public:
-	LogSwitcher (boost::shared_ptr<Log> log);
+	LogSwitcher (std::shared_ptr<Log> log);
 	~LogSwitcher ();
 
 private:
-	boost::shared_ptr<Log> _old;
+	std::shared_ptr<Log> _old;
 };
 

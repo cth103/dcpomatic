@@ -22,8 +22,6 @@
 #include <dcp/language_tag.h>
 #include <dcp/types.h>
 #include <wx/wx.h>
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 #include <vector>
 
 class Film;
@@ -34,7 +32,7 @@ class RatingDialog;
 class InteropMetadataDialog : public wxDialog
 {
 public:
-	InteropMetadataDialog (wxWindow* parent, boost::weak_ptr<Film> film);
+	InteropMetadataDialog (wxWindow* parent, std::weak_ptr<Film> film);
 
 private:
 	std::vector<dcp::Rating> ratings () const;
@@ -43,7 +41,7 @@ private:
 	void setup_sensitivity ();
 	void subtitle_language_changed (dcp::LanguageTag tag);
 
-	boost::weak_ptr<Film> _film;
+	std::weak_ptr<Film> _film;
 	wxCheckBox* _enable_subtitle_language;
 	LanguageTagWidget* _subtitle_language;
 	EditableList<dcp::Rating, RatingDialog>* _ratings;

@@ -29,8 +29,6 @@
 #include "dcp_text_track.h"
 #include "weak_film.h"
 #include <dcp/atmos_frame.h>
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 #include <boost/thread.hpp>
 #include <boost/thread/condition.hpp>
 #include <list>
@@ -71,7 +69,7 @@ public:
 	} type;
 
 	/** encoded data for FULL */
-	boost::shared_ptr<const dcp::Data> encoded;
+	std::shared_ptr<const dcp::Data> encoded;
 	/** size of data for FAKE */
 	int size;
 	/** reel index */
@@ -99,22 +97,22 @@ bool operator== (QueueItem const & a, QueueItem const & b);
 class Writer : public ExceptionStore, public boost::noncopyable, public WeakConstFilm
 {
 public:
-	Writer (boost::weak_ptr<const Film>, boost::weak_ptr<Job>, bool text_only = false);
+	Writer (std::weak_ptr<const Film>, std::weak_ptr<Job>, bool text_only = false);
 	~Writer ();
 
 	void start ();
 
 	bool can_fake_write (Frame) const;
 
-	void write (boost::shared_ptr<const dcp::Data>, Frame, Eyes);
+	void write (std::shared_ptr<const dcp::Data>, Frame, Eyes);
 	void fake_write (Frame, Eyes);
 	bool can_repeat (Frame) const;
 	void repeat (Frame, Eyes);
-	void write (boost::shared_ptr<const AudioBuffers>, dcpomatic::DCPTime time);
+	void write (std::shared_ptr<const AudioBuffers>, dcpomatic::DCPTime time);
 	void write (PlayerText text, TextType type, boost::optional<DCPTextTrack>, dcpomatic::DCPTimePeriod period);
 	void write (std::vector<dcpomatic::FontData> fonts);
 	void write (ReferencedReelAsset asset);
-	void write (boost::shared_ptr<const dcp::AtmosFrame> atmos, dcpomatic::DCPTime time, AtmosMetadata metadata);
+	void write (std::shared_ptr<const dcp::AtmosFrame> atmos, dcpomatic::DCPTime time, AtmosMetadata metadata);
 	void finish (boost::filesystem::path output_dcp);
 
 	void set_encoder_threads (int threads);
@@ -128,7 +126,7 @@ private:
 	void write_cover_sheet (boost::filesystem::path output_dcp);
 	void calculate_referenced_digests (boost::function<void (float)> set_progress);
 
-	boost::weak_ptr<Job> _job;
+	std::weak_ptr<Job> _job;
 	std::vector<ReelWriter> _reels;
 	std::vector<ReelWriter>::iterator _audio_reel;
 	std::vector<ReelWriter>::iterator _subtitle_reel;

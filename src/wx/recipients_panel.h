@@ -25,7 +25,6 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <wx/srchctrl.h>
 #include <wx/treectrl.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <list>
 #include <map>
@@ -40,12 +39,12 @@ public:
 
 	void setup_sensitivity ();
 
-	std::list<boost::shared_ptr<DKDMRecipient> > recipients () const;
+	std::list<std::shared_ptr<DKDMRecipient> > recipients () const;
 	boost::signals2::signal<void ()> RecipientsChanged;
 
 private:
 	void add_recipients ();
-	void add_recipient (boost::shared_ptr<DKDMRecipient>);
+	void add_recipient (std::shared_ptr<DKDMRecipient>);
 	void add_recipient_clicked ();
 	void edit_recipient_clicked ();
 	void remove_recipient_clicked ();
@@ -60,7 +59,7 @@ private:
 	wxButton* _remove_recipient;
 	wxTreeItemId _root;
 
-	typedef std::map<wxTreeItemId, boost::shared_ptr<DKDMRecipient> > RecipientMap;
+	typedef std::map<wxTreeItemId, std::shared_ptr<DKDMRecipient> > RecipientMap;
 	RecipientMap _recipients;
 	RecipientMap _selected;
 

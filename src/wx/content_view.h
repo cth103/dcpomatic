@@ -23,8 +23,6 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/listctrl.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 #include <vector>
 
 class Content;
@@ -35,14 +33,14 @@ class ContentView : public wxListCtrl, public ContentStore
 public:
 	ContentView (wxWindow* parent);
 
-	boost::shared_ptr<Content> selected () const;
+	std::shared_ptr<Content> selected () const;
 	void update ();
 
-	boost::shared_ptr<Content> get (std::string digest) const;
+	std::shared_ptr<Content> get (std::string digest) const;
 
 private:
-	void add (boost::shared_ptr<Content> content);
+	void add (std::shared_ptr<Content> content);
 
-	boost::weak_ptr<Film> _film;
-	std::vector<boost::shared_ptr<Content> > _content;
+	std::weak_ptr<Film> _film;
+	std::vector<std::shared_ptr<Content> > _content;
 };

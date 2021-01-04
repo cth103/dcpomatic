@@ -28,7 +28,7 @@
 using std::cout;
 using std::string;
 using std::max;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 /** @param file Filename to write log to */
 FileLog::FileLog (boost::filesystem::path file)

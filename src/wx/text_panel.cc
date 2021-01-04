@@ -49,9 +49,9 @@ using std::vector;
 using std::string;
 using std::list;
 using std::cout;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 using boost::bind;
 
 /** @param t Original text type of the content, if known */
@@ -512,10 +512,10 @@ TextPanel::setup_sensitivity ()
 	ContentList sel = _parent->selected_text ();
 	BOOST_FOREACH (shared_ptr<Content> i, sel) {
 		/* These are the content types that could include subtitles */
-		shared_ptr<const FFmpegContent> fc = boost::dynamic_pointer_cast<const FFmpegContent> (i);
-		shared_ptr<const StringTextFileContent> sc = boost::dynamic_pointer_cast<const StringTextFileContent> (i);
-		shared_ptr<const DCPContent> dc = boost::dynamic_pointer_cast<const DCPContent> (i);
-		shared_ptr<const DCPSubtitleContent> dsc = boost::dynamic_pointer_cast<const DCPSubtitleContent> (i);
+		shared_ptr<const FFmpegContent> fc = std::dynamic_pointer_cast<const FFmpegContent> (i);
+		shared_ptr<const StringTextFileContent> sc = std::dynamic_pointer_cast<const StringTextFileContent> (i);
+		shared_ptr<const DCPContent> dc = std::dynamic_pointer_cast<const DCPContent> (i);
+		shared_ptr<const DCPSubtitleContent> dsc = std::dynamic_pointer_cast<const DCPSubtitleContent> (i);
 		if (fc) {
 			if (!fc->text.empty()) {
 				++ffmpeg_subs;

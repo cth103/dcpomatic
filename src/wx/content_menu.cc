@@ -50,9 +50,9 @@ using std::cout;
 using std::vector;
 using std::exception;
 using std::list;
-using boost::shared_ptr;
-using boost::weak_ptr;
-using boost::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::weak_ptr;
+using std::dynamic_pointer_cast;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -357,9 +357,9 @@ ContentMenu::find_missing ()
 			bind (
 				&ContentMenu::maybe_found_missing,
 				this,
-				boost::weak_ptr<Job> (j),
-				boost::weak_ptr<Content> (_content.front ()),
-				boost::weak_ptr<Content> (i)
+				std::weak_ptr<Job> (j),
+				std::weak_ptr<Content> (_content.front ()),
+				std::weak_ptr<Content> (i)
 				)
 			);
 

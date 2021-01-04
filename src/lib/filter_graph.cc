@@ -42,8 +42,8 @@ using std::pair;
 using std::make_pair;
 using std::cout;
 using std::vector;
-using boost::shared_ptr;
-using boost::weak_ptr;
+using std::shared_ptr;
+using std::weak_ptr;
 using dcp::Size;
 
 /** Construct a FilterGraph for the settings in a piece of content */

@@ -52,7 +52,7 @@ using std::cout;
 using std::cerr;
 using std::list;
 using std::runtime_error;
-using boost::shared_ptr;
+using std::shared_ptr;
 using dcp::Size;
 
 
@@ -952,7 +952,7 @@ Image::allocate ()
 }
 
 Image::Image (Image const & other)
-	: boost::enable_shared_from_this<Image>(other)
+	: std::enable_shared_from_this<Image>(other)
 	, _size (other._size)
 	, _pixel_format (other._pixel_format)
 	, _aligned (other._aligned)

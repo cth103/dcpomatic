@@ -46,14 +46,14 @@ using std::string;
 using std::cout;
 using std::cerr;
 using std::vector;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 using dcp::raw_convert;
 using namespace dcpomatic;
 
 boost::mutex FFmpeg::_mutex;
 
-FFmpeg::FFmpeg (boost::shared_ptr<const FFmpegContent> c)
+FFmpeg::FFmpeg (std::shared_ptr<const FFmpegContent> c)
 	: _ffmpeg_content (c)
 	, _avio_buffer (0)
 	, _avio_buffer_size (4096)

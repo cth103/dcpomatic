@@ -24,7 +24,6 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/shared_ptr.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <map>
 
@@ -36,7 +35,7 @@ class DirPickerCtrl;
 class SelfDKDMDialog : public wxDialog
 {
 public:
-	SelfDKDMDialog (wxWindow *, boost::shared_ptr<const Film>);
+	SelfDKDMDialog (wxWindow *, std::shared_ptr<const Film>);
 
 	boost::filesystem::path cpl () const;
 

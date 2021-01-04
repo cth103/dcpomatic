@@ -24,7 +24,6 @@
 #include "util.h"
 #include "frame_rate_change.h"
 #include <libcxml/cxml.h>
-#include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <boost/thread.hpp>
 #include <list>
@@ -33,7 +32,7 @@ class Film;
 
 struct ContentSorter
 {
-	bool operator() (boost::shared_ptr<Content> a, boost::shared_ptr<Content> b);
+	bool operator() (std::shared_ptr<Content> a, std::shared_ptr<Content> b);
 };
 
 /** @class Playlist
@@ -47,33 +46,33 @@ public:
 	~Playlist ();
 
 	void as_xml (xmlpp::Node *, bool with_content_paths);
-	void set_from_xml (boost::shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, std::list<std::string>& notes);
+	void set_from_xml (std::shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, std::list<std::string>& notes);
 
-	void add (boost::shared_ptr<const Film> film, boost::shared_ptr<Content>);
-	void remove (boost::shared_ptr<Content>);
+	void add (std::shared_ptr<const Film> film, std::shared_ptr<Content>);
+	void remove (std::shared_ptr<Content>);
 	void remove (ContentList);
-	void move_earlier (boost::shared_ptr<const Film> film, boost::shared_ptr<Content>);
-	void move_later (boost::shared_ptr<const Film> film, boost::shared_ptr<Content>);
+	void move_earlier (std::shared_ptr<const Film> film, std::shared_ptr<Content>);
+	void move_later (std::shared_ptr<const Film> film, std::shared_ptr<Content>);
 
 	ContentList content () const;
 
 	std::string video_identifier () const;
 
-	dcpomatic::DCPTime length (boost::shared_ptr<const Film> film) const;
+	dcpomatic::DCPTime length (std::shared_ptr<const Film> film) const;
 	boost::optional<dcpomatic::DCPTime> start () const;
-	int64_t required_disk_space (boost::shared_ptr<const Film> film, int j2k_bandwidth, int audio_channels, int audio_frame_rate) const;
+	int64_t required_disk_space (std::shared_ptr<const Film> film, int j2k_bandwidth, int audio_channels, int audio_frame_rate) const;
 
 	int best_video_frame_rate () const;
-	dcpomatic::DCPTime video_end (boost::shared_ptr<const Film> film) const;
-	dcpomatic::DCPTime text_end (boost::shared_ptr<const Film> film) const;
+	dcpomatic::DCPTime video_end (std::shared_ptr<const Film> film) const;
+	dcpomatic::DCPTime text_end (std::shared_ptr<const Film> film) const;
 	FrameRateChange active_frame_rate_change (dcpomatic::DCPTime, int dcp_frame_rate) const;
-	std::string content_summary (boost::shared_ptr<const Film> film, dcpomatic::DCPTimePeriod period) const;
+	std::string content_summary (std::shared_ptr<const Film> film, dcpomatic::DCPTimePeriod period) const;
 	std::pair<double, double> speed_up_range (int dcp_video_frame_rate) const;
 
 	void set_sequence (bool);
-	void maybe_sequence (boost::shared_ptr<const Film> film);
+	void maybe_sequence (std::shared_ptr<const Film> film);
 
-	void repeat (boost::shared_ptr<const Film> film, ContentList, int);
+	void repeat (std::shared_ptr<const Film> film, ContentList, int);
 
 	/** Emitted when content has been added to or removed from the playlist; implies OrderChanged */
 	mutable boost::signals2::signal<void (ChangeType)> Change;
@@ -81,12 +80,12 @@ public:
 	/** Emitted when the length might have changed; may sometimes be emitted when it has not */
 	mutable boost::signals2::signal<void ()> LengthChange;
 
-	mutable boost::signals2::signal<void (ChangeType, boost::weak_ptr<Content>, int, bool)> ContentChange;
+	mutable boost::signals2::signal<void (ChangeType, std::weak_ptr<Content>, int, bool)> ContentChange;
 
 private:
-	void content_change (boost::weak_ptr<const Film>, ChangeType, boost::weak_ptr<Content>, int, bool);
+	void content_change (std::weak_ptr<const Film>, ChangeType, std::weak_ptr<Content>, int, bool);
 	void disconnect ();
-	void reconnect (boost::shared_ptr<const Film> film);
+	void reconnect (std::shared_ptr<const Film> film);
 
 	mutable boost::mutex _mutex;
 	/** List of content.  Kept sorted in position order. */

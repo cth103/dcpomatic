@@ -37,7 +37,7 @@
 #include <iostream>
 
 using std::cout;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 /** Basic sanity check of 3D_LEFT_RIGHT */
 BOOST_AUTO_TEST_CASE (threed_test1)

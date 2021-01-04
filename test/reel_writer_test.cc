@@ -39,7 +39,7 @@
 #include <boost/test/unit_test.hpp>
 
 using std::string;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 
 static bool equal (dcp::FrameInfo a, ReelWriter const & writer, shared_ptr<InfoFileHandle> file, Frame frame, Eyes eyes)

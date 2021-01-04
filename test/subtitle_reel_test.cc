@@ -38,7 +38,7 @@
 using std::list;
 using std::string;
 using boost::optional;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 
 /* Check that timings are done correctly for multi-reel DCPs with PNG subs */
@@ -80,12 +80,12 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_test)
 	list<shared_ptr<dcp::Reel> >::const_iterator i = reels.begin ();
 	BOOST_REQUIRE ((*i)->main_subtitle());
 	BOOST_REQUIRE ((*i)->main_subtitle()->asset());
-	shared_ptr<dcp::InteropSubtitleAsset> A = boost::dynamic_pointer_cast<dcp::InteropSubtitleAsset>((*i)->main_subtitle()->asset());
+	shared_ptr<dcp::InteropSubtitleAsset> A = std::dynamic_pointer_cast<dcp::InteropSubtitleAsset>((*i)->main_subtitle()->asset());
 	BOOST_REQUIRE (A);
 	++i;
 	BOOST_REQUIRE ((*i)->main_subtitle());
 	BOOST_REQUIRE ((*i)->main_subtitle()->asset());
-	shared_ptr<dcp::InteropSubtitleAsset> B = boost::dynamic_pointer_cast<dcp::InteropSubtitleAsset>((*i)->main_subtitle()->asset());
+	shared_ptr<dcp::InteropSubtitleAsset> B = std::dynamic_pointer_cast<dcp::InteropSubtitleAsset>((*i)->main_subtitle()->asset());
 	BOOST_REQUIRE (B);
 
 	BOOST_REQUIRE_EQUAL (A->subtitles().size(), 1U);

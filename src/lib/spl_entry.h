@@ -23,7 +23,6 @@
 
 #include <libcxml/cxml.h>
 #include <dcp/types.h>
-#include <boost/shared_ptr.hpp>
 
 namespace xmlpp {
 	class Element;
@@ -34,11 +33,11 @@ class Content;
 class SPLEntry
 {
 public:
-	SPLEntry (boost::shared_ptr<Content> content);
+	SPLEntry (std::shared_ptr<Content> content);
 
 	void as_xml (xmlpp::Element* e);
 
-	boost::shared_ptr<Content> content;
+	std::shared_ptr<Content> content;
 	std::string name;
 	/** Digest of this content */
 	std::string digest;
@@ -48,7 +47,7 @@ public:
 	bool encrypted;
 
 private:
-	void construct (boost::shared_ptr<Content> content);
+	void construct (std::shared_ptr<Content> content);
 };
 
 #endif

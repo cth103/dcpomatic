@@ -31,10 +31,10 @@
 #include "lib/text_decoder.h"
 
 using std::list;
-using boost::shared_ptr;
-using boost::weak_ptr;
+using std::shared_ptr;
+using std::weak_ptr;
 using boost::bind;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 using namespace dcpomatic;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;

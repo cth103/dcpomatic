@@ -35,7 +35,7 @@
 using std::vector;
 using std::cout;
 using std::string;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::scoped_array;
 using boost::optional;
 using dcp::ArrayData;

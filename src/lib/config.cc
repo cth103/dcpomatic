@@ -59,9 +59,9 @@ using std::max;
 using std::remove;
 using std::exception;
 using std::cerr;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 using boost::algorithm::trim;
 using dcp::raw_convert;
 

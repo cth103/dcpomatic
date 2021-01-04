@@ -31,7 +31,6 @@
 #include "content_video.h"
 #include "decoder_part.h"
 #include <boost/signals2.hpp>
-#include <boost/shared_ptr.hpp>
 
 class VideoContent;
 class ImageProxy;
@@ -45,24 +44,24 @@ class FrameIntervalChecker;
 class VideoDecoder : public DecoderPart
 {
 public:
-	VideoDecoder (Decoder* parent, boost::shared_ptr<const Content> c);
+	VideoDecoder (Decoder* parent, std::shared_ptr<const Content> c);
 
 	friend struct video_decoder_fill_test1;
 	friend struct video_decoder_fill_test2;
 	friend struct ffmpeg_pts_offset_test;
 	friend void ffmpeg_decoder_sequential_test_one (boost::filesystem::path file, float fps, int gaps, int video_length);
 
-	boost::optional<dcpomatic::ContentTime> position (boost::shared_ptr<const Film>) const {
+	boost::optional<dcpomatic::ContentTime> position (std::shared_ptr<const Film>) const {
 		return _position;
 	}
 
 	void seek ();
-	void emit (boost::shared_ptr<const Film> film, boost::shared_ptr<const ImageProxy>, Frame frame);
+	void emit (std::shared_ptr<const Film> film, std::shared_ptr<const ImageProxy>, Frame frame);
 
 	boost::signals2::signal<void (ContentVideo)> Data;
 
 private:
-	boost::shared_ptr<const Content> _content;
+	std::shared_ptr<const Content> _content;
 	/** Frame of last thing to be emitted; only used for 3D */
 	boost::optional<Frame> _last_emitted_frame;
 	boost::optional<Eyes> _last_emitted_eyes;

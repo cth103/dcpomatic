@@ -103,7 +103,7 @@ using std::cout;
 using std::bad_alloc;
 using std::set_terminate;
 using std::make_pair;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::thread;
 using boost::optional;
 using boost::lexical_cast;

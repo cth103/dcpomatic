@@ -34,7 +34,7 @@ using std::min;
 using std::list;
 using std::cout;
 using std::pair;
-using boost::shared_ptr;
+using std::shared_ptr;
 using dcp::ArrayData;
 
 Emailer::Emailer (string from, list<string> to, string subject, string body)

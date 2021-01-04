@@ -24,8 +24,6 @@
 
 
 #include "dcpomatic_assert.h"
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 
 
 class Film;
@@ -35,15 +33,15 @@ template <class T>
 class WeakFilmTemplate
 {
 public:
-	WeakFilmTemplate (boost::weak_ptr<T> f)
+	WeakFilmTemplate (std::weak_ptr<T> f)
 		: _film(f)
 	{}
 
 protected:
-	boost::weak_ptr<T> _film;
+	std::weak_ptr<T> _film;
 
-	boost::shared_ptr<T> film () const {
-		boost::shared_ptr<T> f = _film.lock();
+	std::shared_ptr<T> film () const {
+		std::shared_ptr<T> f = _film.lock();
 		DCPOMATIC_ASSERT (f);
 		return f;
 	}

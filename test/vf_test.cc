@@ -43,8 +43,8 @@
 using std::list;
 using std::string;
 using std::cout;
-using boost::shared_ptr;
-using boost::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::dynamic_pointer_cast;
 using namespace dcpomatic;
 
 /** Test the logic which decides whether a DCP can be referenced or not */

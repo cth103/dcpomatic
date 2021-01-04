@@ -29,7 +29,7 @@
 #include <boost/test/unit_test.hpp>
 
 using std::list;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 /** Basic test that Interop closed captions are written */
 BOOST_AUTO_TEST_CASE (closed_caption_test1)

@@ -26,14 +26,13 @@
 #include "audio_content.h"
 #include "ratio.h"
 #include "dcp_content_type.h"
-#include <boost/shared_ptr.hpp>
 #include <map>
 
 
 using std::map;
 using std::string;
 using std::vector;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 
 void

@@ -48,7 +48,7 @@ using std::string;
 using std::list;
 using std::exception;
 using std::make_pair;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::function;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;

@@ -45,8 +45,8 @@
 using std::list;
 using std::cout;
 using std::exception;
-using boost::shared_ptr;
-using boost::weak_ptr;
+using std::shared_ptr;
+using std::weak_ptr;
 using boost::optional;
 using dcp::Data;
 using namespace dcpomatic;

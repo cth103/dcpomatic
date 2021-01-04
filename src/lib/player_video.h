@@ -29,8 +29,6 @@
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/noncopyable.hpp>
 
@@ -47,7 +45,7 @@ class PlayerVideo : public boost::noncopyable
 {
 public:
 	PlayerVideo (
-		boost::shared_ptr<const ImageProxy>,
+		std::shared_ptr<const ImageProxy>,
 		Crop,
 		boost::optional<double>,
 		dcp::Size,
@@ -56,30 +54,30 @@ public:
 		Part,
 		boost::optional<ColourConversion>,
 		VideoRange video_range,
-		boost::weak_ptr<Content>,
+		std::weak_ptr<Content>,
 		boost::optional<Frame>,
 		bool error
 		);
 
-	PlayerVideo (boost::shared_ptr<cxml::Node>, boost::shared_ptr<Socket>);
+	PlayerVideo (std::shared_ptr<cxml::Node>, std::shared_ptr<Socket>);
 
-	boost::shared_ptr<PlayerVideo> shallow_copy () const;
+	std::shared_ptr<PlayerVideo> shallow_copy () const;
 
 	void set_text (PositionImage);
 
 	void prepare (boost::function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool aligned, bool fast);
-	boost::shared_ptr<Image> image (boost::function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool aligned, bool fast) const;
+	std::shared_ptr<Image> image (boost::function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool aligned, bool fast) const;
 
 	static AVPixelFormat force (AVPixelFormat, AVPixelFormat);
 	static AVPixelFormat keep_xyz_or_rgb (AVPixelFormat);
 
 	void add_metadata (xmlpp::Node* node) const;
-	void write_to_socket (boost::shared_ptr<Socket> socket) const;
+	void write_to_socket (std::shared_ptr<Socket> socket) const;
 
-	bool reset_metadata (boost::shared_ptr<const Film> film, dcp::Size player_video_container_size);
+	bool reset_metadata (std::shared_ptr<const Film> film, dcp::Size player_video_container_size);
 
 	bool has_j2k () const;
-	boost::shared_ptr<const dcp::Data> j2k () const;
+	std::shared_ptr<const dcp::Data> j2k () const;
 
 	Eyes eyes () const {
 		return _eyes;
@@ -101,11 +99,11 @@ public:
 		return _inter_size;
 	}
 
-	bool same (boost::shared_ptr<const PlayerVideo> other) const;
+	bool same (std::shared_ptr<const PlayerVideo> other) const;
 
 	size_t memory_used () const;
 
-	boost::weak_ptr<Content> content () const {
+	std::weak_ptr<Content> content () const {
 		return _content;
 	}
 
@@ -116,7 +114,7 @@ public:
 private:
 	void make_image (boost::function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool aligned, bool fast) const;
 
-	boost::shared_ptr<const ImageProxy> _in;
+	std::shared_ptr<const ImageProxy> _in;
 	Crop _crop;
 	boost::optional<double> _fade;
 	dcp::Size _inter_size;
@@ -127,12 +125,12 @@ private:
 	VideoRange _video_range;
 	boost::optional<PositionImage> _text;
 	/** Content that we came from.  This is so that reset_metadata() can work. */
-	boost::weak_ptr<Content> _content;
+	std::weak_ptr<Content> _content;
 	/** Video frame that we came from.  Again, this is for reset_metadata() */
 	boost::optional<Frame> _video_frame;
 
 	mutable boost::mutex _mutex;
-	mutable boost::shared_ptr<Image> _image;
+	mutable std::shared_ptr<Image> _image;
 	/** _crop that was used to make _image */
 	mutable Crop _image_crop;
 	/** _inter_size that was used to make _image */

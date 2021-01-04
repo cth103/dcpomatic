@@ -27,8 +27,6 @@
 #include "weak_film.h"
 #include <dcp/picture_asset_writer.h>
 #include <dcp/atmos_asset_writer.h>
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 
 namespace dcpomatic {
 	class FontData;
@@ -60,23 +58,23 @@ class ReelWriter : public WeakConstFilm
 {
 public:
 	ReelWriter (
-		boost::weak_ptr<const Film> film,
+		std::weak_ptr<const Film> film,
 		dcpomatic::DCPTimePeriod period,
-		boost::shared_ptr<Job> job,
+		std::shared_ptr<Job> job,
 		int reel_index,
 		int reel_count,
 		bool text_only
 		);
 
-	void write (boost::shared_ptr<const dcp::Data> encoded, Frame frame, Eyes eyes);
+	void write (std::shared_ptr<const dcp::Data> encoded, Frame frame, Eyes eyes);
 	void fake_write (int size);
 	void repeat_write (Frame frame, Eyes eyes);
-	void write (boost::shared_ptr<const AudioBuffers> audio);
+	void write (std::shared_ptr<const AudioBuffers> audio);
 	void write (PlayerText text, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period);
-	void write (boost::shared_ptr<const dcp::AtmosFrame> atmos, AtmosMetadata metadata);
+	void write (std::shared_ptr<const dcp::AtmosFrame> atmos, AtmosMetadata metadata);
 
 	void finish (boost::filesystem::path output_dcp);
-	boost::shared_ptr<dcp::Reel> create_reel (
+	std::shared_ptr<dcp::Reel> create_reel (
 		std::list<ReferencedReelAsset> const & refs,
 		std::vector<dcpomatic::FontData> const & fonts,
 		boost::filesystem::path output_dcp,
@@ -95,7 +93,7 @@ public:
 		return _first_nonexistant_frame;
 	}
 
-	dcp::FrameInfo read_frame_info (boost::shared_ptr<InfoFileHandle> info, Frame frame, Eyes eyes) const;
+	dcp::FrameInfo read_frame_info (std::shared_ptr<InfoFileHandle> info, Frame frame, Eyes eyes) const;
 
 private:
 
@@ -104,13 +102,13 @@ private:
 	void write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const;
 	long frame_info_position (Frame frame, Eyes eyes) const;
 	Frame check_existing_picture_asset (boost::filesystem::path asset);
-	bool existing_picture_frame_ok (FILE* asset_file, boost::shared_ptr<InfoFileHandle> info_file, Frame frame) const;
-	boost::shared_ptr<dcp::SubtitleAsset> empty_text_asset (TextType type, boost::optional<DCPTextTrack> track) const;
+	bool existing_picture_frame_ok (FILE* asset_file, std::shared_ptr<InfoFileHandle> info_file, Frame frame) const;
+	std::shared_ptr<dcp::SubtitleAsset> empty_text_asset (TextType type, boost::optional<DCPTextTrack> track) const;
 
-	boost::shared_ptr<dcp::ReelPictureAsset> create_reel_picture (boost::shared_ptr<dcp::Reel> reel, std::list<ReferencedReelAsset> const & refs) const;
-	void create_reel_sound (boost::shared_ptr<dcp::Reel> reel, std::list<ReferencedReelAsset> const & refs) const;
+	std::shared_ptr<dcp::ReelPictureAsset> create_reel_picture (std::shared_ptr<dcp::Reel> reel, std::list<ReferencedReelAsset> const & refs) const;
+	void create_reel_sound (std::shared_ptr<dcp::Reel> reel, std::list<ReferencedReelAsset> const & refs) const;
 	void create_reel_text (
-		boost::shared_ptr<dcp::Reel> reel,
+		std::shared_ptr<dcp::Reel> reel,
 		std::list<ReferencedReelAsset> const & refs,
 		std::vector<dcpomatic::FontData> const& fonts,
 		int64_t duration,
@@ -118,32 +116,32 @@ private:
 		bool ensure_subtitles,
 		std::set<DCPTextTrack> ensure_closed_captions
 		) const;
-	void create_reel_markers (boost::shared_ptr<dcp::Reel> reel) const;
+	void create_reel_markers (std::shared_ptr<dcp::Reel> reel) const;
 
 	dcpomatic::DCPTimePeriod _period;
 	/** the first picture frame index that does not already exist in our MXF */
 	int _first_nonexistant_frame;
 	/** the data of the last written frame, if there is one */
-	boost::shared_ptr<const dcp::Data> _last_written[EYES_COUNT];
+	std::shared_ptr<const dcp::Data> _last_written[EYES_COUNT];
 	/** index of this reel within the DCP (starting from 0) */
 	int _reel_index;
 	/** number of reels in the DCP */
 	int _reel_count;
 	boost::optional<std::string> _content_summary;
-	boost::weak_ptr<Job> _job;
+	std::weak_ptr<Job> _job;
 	bool _text_only;
 
 	dcp::ArrayData _default_font;
 
-	boost::shared_ptr<dcp::PictureAsset> _picture_asset;
+	std::shared_ptr<dcp::PictureAsset> _picture_asset;
 	/** picture asset writer, or 0 if we are not writing any picture because we already have one */
-	boost::shared_ptr<dcp::PictureAssetWriter> _picture_asset_writer;
-	boost::shared_ptr<dcp::SoundAsset> _sound_asset;
-	boost::shared_ptr<dcp::SoundAssetWriter> _sound_asset_writer;
-	boost::shared_ptr<dcp::SubtitleAsset> _subtitle_asset;
-	std::map<DCPTextTrack, boost::shared_ptr<dcp::SubtitleAsset> > _closed_caption_assets;
-	boost::shared_ptr<dcp::AtmosAsset> _atmos_asset;
-	boost::shared_ptr<dcp::AtmosAssetWriter> _atmos_asset_writer;
+	std::shared_ptr<dcp::PictureAssetWriter> _picture_asset_writer;
+	std::shared_ptr<dcp::SoundAsset> _sound_asset;
+	std::shared_ptr<dcp::SoundAssetWriter> _sound_asset_writer;
+	std::shared_ptr<dcp::SubtitleAsset> _subtitle_asset;
+	std::map<DCPTextTrack, std::shared_ptr<dcp::SubtitleAsset> > _closed_caption_assets;
+	std::shared_ptr<dcp::AtmosAsset> _atmos_asset;
+	std::shared_ptr<dcp::AtmosAssetWriter> _atmos_asset_writer;
 
 	static int const _info_size;
 };

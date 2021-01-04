@@ -23,7 +23,6 @@
 
 #include "types.h"
 #include "player_text.h"
-#include <boost/weak_ptr.hpp>
 #include <boost/signals2.hpp>
 
 class Film;
@@ -37,7 +36,7 @@ class AudioBuffers;
 class Encoder : public boost::noncopyable
 {
 public:
-	Encoder (boost::shared_ptr<const Film> film, boost::weak_ptr<Job> job);
+	Encoder (std::shared_ptr<const Film> film, std::weak_ptr<Job> job);
 	virtual ~Encoder () {}
 
 	virtual void go () = 0;
@@ -52,9 +51,9 @@ public:
 	virtual bool finishing () const = 0;
 
 protected:
-	boost::shared_ptr<const Film> _film;
-	boost::weak_ptr<Job> _job;
-	boost::shared_ptr<Player> _player;
+	std::shared_ptr<const Film> _film;
+	std::weak_ptr<Job> _job;
+	std::shared_ptr<Player> _player;
 };
 
 #endif

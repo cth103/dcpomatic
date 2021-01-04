@@ -39,7 +39,6 @@
 #include "lib/video_content.h"
 #include "lib/atmos_mxf_content.h"
 #include <wx/graphics.h>
-#include <boost/weak_ptr.hpp>
 #include <boost/foreach.hpp>
 #include <list>
 #include <iterator>
@@ -50,9 +49,9 @@ using std::cout;
 using std::min;
 using std::max;
 using std::abs;
-using boost::shared_ptr;
-using boost::weak_ptr;
-using boost::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::weak_ptr;
+using std::dynamic_pointer_cast;
 using boost::bind;
 using boost::optional;
 using namespace dcpomatic;

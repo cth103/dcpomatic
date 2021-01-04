@@ -23,7 +23,7 @@
 class BatchJobView : public JobView
 {
 public:
-	BatchJobView (boost::shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table);
+	BatchJobView (std::shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table);
 
 private:
 	int insert_position () const;

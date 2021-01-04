@@ -28,18 +28,18 @@ class Log;
 class VideoMXFDecoder : public Decoder
 {
 public:
-	VideoMXFDecoder (boost::shared_ptr<const Film> film, boost::shared_ptr<const VideoMXFContent>);
+	VideoMXFDecoder (std::shared_ptr<const Film> film, std::shared_ptr<const VideoMXFContent>);
 
 	bool pass ();
 	void seek (dcpomatic::ContentTime t, bool accurate);
 
 private:
 
-	boost::shared_ptr<const VideoMXFContent> _content;
+	std::shared_ptr<const VideoMXFContent> _content;
 	/** Time of next thing to return from pass */
 	dcpomatic::ContentTime _next;
 
-	boost::shared_ptr<dcp::MonoPictureAssetReader> _mono_reader;
-	boost::shared_ptr<dcp::StereoPictureAssetReader> _stereo_reader;
+	std::shared_ptr<dcp::MonoPictureAssetReader> _mono_reader;
+	std::shared_ptr<dcp::StereoPictureAssetReader> _stereo_reader;
 	dcp::Size _size;
 };

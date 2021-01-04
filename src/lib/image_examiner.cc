@@ -38,7 +38,7 @@
 using std::cout;
 using std::list;
 using std::sort;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 
 ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const ImageContent> content, shared_ptr<Job>)

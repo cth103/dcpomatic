@@ -23,7 +23,7 @@
 
 #include "i18n.h"
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
 Server::Server (int port, int timeout)
 	: _terminate (false)

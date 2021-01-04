@@ -27,7 +27,7 @@
 #include "film.h"
 
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
 
 AtmosDecoder::AtmosDecoder (Decoder* parent, shared_ptr<const Content> content)

@@ -28,7 +28,6 @@
 extern "C" {
 #include <libavcodec/avcodec.h>
 }
-#include <boost/shared_ptr.hpp>
 #include <boost/thread/mutex.hpp>
 #include <stdint.h>
 
@@ -45,7 +44,7 @@ struct ffmpeg_pts_offset_test;
 class FFmpegDecoder : public FFmpeg, public Decoder
 {
 public:
-	FFmpegDecoder (boost::shared_ptr<const Film> film, boost::shared_ptr<const FFmpegContent>, bool fast);
+	FFmpegDecoder (std::shared_ptr<const Film> film, std::shared_ptr<const FFmpegContent>, bool fast);
 
 	bool pass ();
 	void seek (dcpomatic::ContentTime time, bool);
@@ -55,8 +54,8 @@ private:
 
 	void flush ();
 
-	AVSampleFormat audio_sample_format (boost::shared_ptr<FFmpegAudioStream> stream) const;
-	int bytes_per_audio_sample (boost::shared_ptr<FFmpegAudioStream> stream) const;
+	AVSampleFormat audio_sample_format (std::shared_ptr<FFmpegAudioStream> stream) const;
+	int bytes_per_audio_sample (std::shared_ptr<FFmpegAudioStream> stream) const;
 
 	bool decode_video_packet ();
 	void decode_audio_packet ();
@@ -66,9 +65,9 @@ private:
 	void decode_ass_subtitle (std::string ass, dcpomatic::ContentTime from);
 
 	void maybe_add_subtitle ();
-	boost::shared_ptr<AudioBuffers> deinterleave_audio (boost::shared_ptr<FFmpegAudioStream> stream) const;
+	std::shared_ptr<AudioBuffers> deinterleave_audio (std::shared_ptr<FFmpegAudioStream> stream) const;
 
-	std::list<boost::shared_ptr<VideoFilterGraph> > _filter_graphs;
+	std::list<std::shared_ptr<VideoFilterGraph> > _filter_graphs;
 	boost::mutex _filter_graphs_mutex;
 
 	dcpomatic::ContentTime _pts_offset;
@@ -76,7 +75,7 @@ private:
 	/** true if we have a subtitle which has not had emit_stop called for it yet */
 	bool _have_current_subtitle;
 
-	boost::shared_ptr<Image> _black_image;
+	std::shared_ptr<Image> _black_image;
 
 	std::vector<boost::optional<dcpomatic::ContentTime> > _next_time;
 };

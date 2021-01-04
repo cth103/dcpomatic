@@ -53,11 +53,11 @@ using std::pair;
 using std::vector;
 using std::list;
 using std::map;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::scoped_ptr;
 using boost::optional;
 using boost::function;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif

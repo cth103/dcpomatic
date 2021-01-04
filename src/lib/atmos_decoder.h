@@ -28,19 +28,19 @@
 class AtmosDecoder : public DecoderPart
 {
 public:
-	AtmosDecoder (Decoder* parent, boost::shared_ptr<const Content> content);
+	AtmosDecoder (Decoder* parent, std::shared_ptr<const Content> content);
 
-	boost::optional<dcpomatic::ContentTime> position (boost::shared_ptr<const Film>) const {
+	boost::optional<dcpomatic::ContentTime> position (std::shared_ptr<const Film>) const {
 		return _position;
 	}
 
 	void seek ();
 
-	void emit (boost::shared_ptr<const Film> film, boost::shared_ptr<const dcp::AtmosFrame> data, Frame frame, AtmosMetadata metadata);
+	void emit (std::shared_ptr<const Film> film, std::shared_ptr<const dcp::AtmosFrame> data, Frame frame, AtmosMetadata metadata);
 
 	boost::signals2::signal<void (ContentAtmos)> Data;
 
 private:
-	boost::shared_ptr<const Content> _content;
+	std::shared_ptr<const Content> _content;
 	boost::optional<dcpomatic::ContentTime> _position;
 };

@@ -31,7 +31,7 @@ class Job;
 class FFmpegExaminer : public FFmpeg, public VideoExaminer
 {
 public:
-	FFmpegExaminer (boost::shared_ptr<const FFmpegContent>, boost::shared_ptr<Job> job = boost::shared_ptr<Job> ());
+	FFmpegExaminer (std::shared_ptr<const FFmpegContent>, std::shared_ptr<Job> job = std::shared_ptr<Job> ());
 
 	bool has_video () const;
 
@@ -41,11 +41,11 @@ public:
 	boost::optional<double> sample_aspect_ratio () const;
 	bool yuv () const;
 
-	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {
+	std::vector<std::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {
 		return _subtitle_streams;
 	}
 
-	std::vector<boost::shared_ptr<FFmpegAudioStream> > audio_streams () const {
+	std::vector<std::shared_ptr<FFmpegAudioStream> > audio_streams () const {
 		return _audio_streams;
 	}
 
@@ -83,14 +83,14 @@ public:
 
 private:
 	void video_packet (AVCodecContext *, std::string& temporal_reference);
-	void audio_packet (AVCodecContext *, boost::shared_ptr<FFmpegAudioStream>);
+	void audio_packet (AVCodecContext *, std::shared_ptr<FFmpegAudioStream>);
 
 	std::string stream_name (AVStream* s) const;
 	std::string subtitle_stream_name (AVStream* s) const;
 	boost::optional<dcpomatic::ContentTime> frame_time (AVStream* s) const;
 
-	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > _subtitle_streams;
-	std::vector<boost::shared_ptr<FFmpegAudioStream> > _audio_streams;
+	std::vector<std::shared_ptr<FFmpegSubtitleStream> > _subtitle_streams;
+	std::vector<std::shared_ptr<FFmpegAudioStream> > _audio_streams;
 	boost::optional<dcpomatic::ContentTime> _first_video;
 	/** Video length, either obtained from the header or derived by running
 	 *  through the whole file.
@@ -115,6 +115,6 @@ private:
 		dcpomatic::ContentTime time;
 	};
 
-	typedef std::map<boost::shared_ptr<FFmpegSubtitleStream>, boost::optional<SubtitleStart> > LastSubtitleMap;
+	typedef std::map<std::shared_ptr<FFmpegSubtitleStream>, boost::optional<SubtitleStart> > LastSubtitleMap;
 	LastSubtitleMap _last_subtitle_start;
 };

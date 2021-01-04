@@ -22,4 +22,4 @@
 #include "null_log.h"
 
 /** The current log; set up by the front-ends when they have a Film to log into */
-boost::shared_ptr<Log> dcpomatic_log (new NullLog());
+std::shared_ptr<Log> dcpomatic_log (new NullLog());

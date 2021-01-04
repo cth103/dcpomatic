@@ -27,9 +27,9 @@ class ImageProxy;
 class ImageDecoder : public Decoder
 {
 public:
-	ImageDecoder (boost::shared_ptr<const Film> film, boost::shared_ptr<const ImageContent> c);
+	ImageDecoder (std::shared_ptr<const Film> film, std::shared_ptr<const ImageContent> c);
 
-	boost::shared_ptr<const ImageContent> content () {
+	std::shared_ptr<const ImageContent> content () {
 		return _image_content;
 	}
 
@@ -38,7 +38,7 @@ public:
 
 private:
 
-	boost::shared_ptr<const ImageContent> _image_content;
-	boost::shared_ptr<ImageProxy> _image;
+	std::shared_ptr<const ImageContent> _image_content;
+	std::shared_ptr<ImageProxy> _image;
 	Frame _frame_video_position;
 };

@@ -22,7 +22,6 @@
 #include "lib/types.h"
 #include "lib/film.h"
 #include <wx/splitter.h>
-#include <boost/shared_ptr.hpp>
 #include <list>
 
 class wxNotebook;
@@ -66,15 +65,15 @@ private:
 class ContentPanel : public boost::noncopyable
 {
 public:
-	ContentPanel (wxNotebook *, boost::shared_ptr<Film>, boost::weak_ptr<FilmViewer> viewer);
+	ContentPanel (wxNotebook *, std::shared_ptr<Film>, std::weak_ptr<FilmViewer> viewer);
 
-	boost::shared_ptr<Film> film () const {
+	std::shared_ptr<Film> film () const {
 		return _film;
 	}
 
-	void set_film (boost::shared_ptr<Film>);
+	void set_film (std::shared_ptr<Film>);
 	void set_general_sensitivity (bool s);
-	void set_selection (boost::weak_ptr<Content>);
+	void set_selection (std::weak_ptr<Content>);
 	void set_selection (ContentList cl);
 
 	void film_changed (Film::Property p);
@@ -100,7 +99,7 @@ public:
 	bool remove_clicked (bool hotkey);
 	void timeline_clicked ();
 
-	boost::weak_ptr<FilmViewer> film_viewer () const {
+	std::weak_ptr<FilmViewer> film_viewer () const {
 		return _film_viewer;
 	}
 
@@ -144,8 +143,8 @@ private:
 	wxNotebook* _parent;
 	wxWindow* _last_selected_tab;
 
-	boost::shared_ptr<Film> _film;
-	boost::weak_ptr<FilmViewer> _film_viewer;
+	std::shared_ptr<Film> _film;
+	std::weak_ptr<FilmViewer> _film_viewer;
 	bool _generally_sensitive;
 	bool _ignore_deselect;
 	bool _no_check_selection;

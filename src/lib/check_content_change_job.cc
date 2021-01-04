@@ -31,7 +31,7 @@
 using std::string;
 using std::list;
 using std::cout;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 /** @param gui true if we are running this job from the GUI, false if it's the CLI */
 CheckContentChangeJob::CheckContentChangeJob (shared_ptr<const Film> film, shared_ptr<Job> following, bool gui)

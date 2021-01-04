@@ -41,9 +41,9 @@ class FilmViewer;
 class FilmEditor : public wxPanel
 {
 public:
-	FilmEditor (wxWindow *, boost::weak_ptr<FilmViewer> viewer);
+	FilmEditor (wxWindow *, std::weak_ptr<FilmViewer> viewer);
 
-	void set_film (boost::shared_ptr<Film>);
+	void set_film (std::shared_ptr<Film>);
 	void first_shown ();
 
 	boost::signals2::signal<void (boost::filesystem::path)> FileChanged;
@@ -55,7 +55,7 @@ public:
 		return _content_panel;
 	}
 
-	boost::shared_ptr<Film> film () const {
+	std::shared_ptr<Film> film () const {
 		return _film;
 	}
 
@@ -73,5 +73,5 @@ private:
 	DCPPanel* _dcp_panel;
 
 	/** The film we are editing */
-	boost::shared_ptr<Film> _film;
+	std::shared_ptr<Film> _film;
 };

@@ -26,14 +26,14 @@
 #include "lib/kdm_with_metadata.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
-#include <boost/shared_ptr.hpp>
+
 
 using std::list;
 using std::string;
 using std::vector;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
-using boost::dynamic_pointer_cast;
+using std::dynamic_pointer_cast;
 
 static
 bool

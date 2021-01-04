@@ -24,7 +24,6 @@
 #include "dcp_text_track.h"
 #include "dcpomatic_time.h"
 #include "weak_film.h"
-#include <boost/weak_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <boost/atomic.hpp>
 #include <vector>
@@ -38,7 +37,7 @@ class Writer;
 class Hints : public Signaller, public ExceptionStore, public WeakConstFilm
 {
 public:
-	explicit Hints (boost::weak_ptr<const Film> film);
+	explicit Hints (std::weak_ptr<const Film> film);
 	~Hints ();
 
 	void start ();
@@ -78,7 +77,7 @@ private:
 	 *  our final DCP will have.  This means we can see how big the files will be and warn if they
 	 *  will be too big.
 	 */
-	boost::shared_ptr<Writer> _writer;
+	std::shared_ptr<Writer> _writer;
 
 	bool _long_ccap;
 	bool _overlap_ccap;

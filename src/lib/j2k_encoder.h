@@ -29,13 +29,11 @@
 #include "cross.h"
 #include "event_history.h"
 #include "exception_store.h"
-#include <boost/shared_ptr.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/condition.hpp>
 #include <boost/thread.hpp>
 #include <boost/optional.hpp>
 #include <boost/signals2.hpp>
-#include <boost/enable_shared_from_this.hpp>
 #include <list>
 #include <stdint.h>
 
@@ -53,17 +51,17 @@ class PlayerVideo;
  *  the work around threads and encoding servers.
  */
 
-class J2KEncoder : public boost::noncopyable, public ExceptionStore, public boost::enable_shared_from_this<J2KEncoder>
+class J2KEncoder : public boost::noncopyable, public ExceptionStore, public std::enable_shared_from_this<J2KEncoder>
 {
 public:
-	J2KEncoder (boost::shared_ptr<const Film> film, boost::shared_ptr<Writer> writer);
+	J2KEncoder (std::shared_ptr<const Film> film, std::shared_ptr<Writer> writer);
 	~J2KEncoder ();
 
 	/** Called to indicate that a processing run is about to begin */
 	void begin ();
 
 	/** Called to pass a bit of video to be encoded as the next DCP frame */
-	void encode (boost::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time);
+	void encode (std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time);
 
 	/** Called when a processing run has finished */
 	void end ();
@@ -75,7 +73,7 @@ public:
 
 private:
 
-	static void call_servers_list_changed (boost::weak_ptr<J2KEncoder> encoder);
+	static void call_servers_list_changed (std::weak_ptr<J2KEncoder> encoder);
 
 	void frame_done ();
 
@@ -83,24 +81,24 @@ private:
 	void terminate_threads ();
 
 	/** Film that we are encoding */
-	boost::shared_ptr<const Film> _film;
+	std::shared_ptr<const Film> _film;
 
 	EventHistory _history;
 
 	boost::mutex _threads_mutex;
-	boost::shared_ptr<boost::thread_group> _threads;
+	std::shared_ptr<boost::thread_group> _threads;
 
 	mutable boost::mutex _queue_mutex;
-	std::list<boost::shared_ptr<DCPVideo> > _queue;
+	std::list<std::shared_ptr<DCPVideo> > _queue;
 	/** condition to manage thread wakeups when we have nothing to do */
 	boost::condition _empty_condition;
 	/** condition to manage thread wakeups when we have too much to do */
 	boost::condition _full_condition;
 
-	boost::shared_ptr<Writer> _writer;
+	std::shared_ptr<Writer> _writer;
 	Waker _waker;
 
-	boost::shared_ptr<PlayerVideo> _last_player_video[EYES_COUNT];
+	std::shared_ptr<PlayerVideo> _last_player_video[EYES_COUNT];
 	boost::optional<dcpomatic::DCPTime> _last_player_video_time;
 
 	boost::signals2::scoped_connection _server_found_connection;

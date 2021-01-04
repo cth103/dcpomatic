@@ -32,7 +32,7 @@
 #include "test.h"
 
 using std::string;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 static void scaling_test_for (shared_ptr<Film> film, shared_ptr<Content> content, float ratio, std::string image, string container)
 {

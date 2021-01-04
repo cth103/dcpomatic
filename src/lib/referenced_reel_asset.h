@@ -26,13 +26,13 @@
 class ReferencedReelAsset
 {
 public:
-	ReferencedReelAsset (boost::shared_ptr<dcp::ReelAsset> asset_, dcpomatic::DCPTimePeriod period_)
+	ReferencedReelAsset (std::shared_ptr<dcp::ReelAsset> asset_, dcpomatic::DCPTimePeriod period_)
 		: asset (asset_)
 		, period (period_)
 	{}
 
 	/** The asset */
-	boost::shared_ptr<dcp::ReelAsset> asset;
+	std::shared_ptr<dcp::ReelAsset> asset;
 	/** Period that this asset covers in the DCP */
 	dcpomatic::DCPTimePeriod period;
 };

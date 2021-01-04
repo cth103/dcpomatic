@@ -64,7 +64,7 @@ private:
 
 	boost::optional<std::list<EncodeServerDescription>::iterator> server_found (std::string);
 	void start_accept ();
-	void handle_accept (boost::system::error_code ec, boost::shared_ptr<Socket> socket);
+	void handle_accept (boost::system::error_code ec, std::shared_ptr<Socket> socket);
 
 	void config_changed (Config::Property what);
 
@@ -79,7 +79,7 @@ private:
 	mutable boost::mutex _servers_mutex;
 
 	boost::asio::io_service _listen_io_service;
-	boost::shared_ptr<boost::asio::ip::tcp::acceptor> _listen_acceptor;
+	std::shared_ptr<boost::asio::ip::tcp::acceptor> _listen_acceptor;
 	bool _stop;
 
 	boost::condition _search_condition;

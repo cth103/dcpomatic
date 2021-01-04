@@ -28,15 +28,15 @@ class AtmosMXFContent;
 class AtmosMXFDecoder : public Decoder
 {
 public:
-	AtmosMXFDecoder (boost::shared_ptr<const Film> film, boost::shared_ptr<const AtmosMXFContent>);
+	AtmosMXFDecoder (std::shared_ptr<const Film> film, std::shared_ptr<const AtmosMXFContent>);
 
 	bool pass ();
 	void seek (dcpomatic::ContentTime t, bool accurate);
 
 private:
-	boost::shared_ptr<const AtmosMXFContent> _content;
+	std::shared_ptr<const AtmosMXFContent> _content;
 	dcpomatic::ContentTime _next;
-	boost::shared_ptr<dcp::AtmosAssetReader> _reader;
+	std::shared_ptr<dcp::AtmosAssetReader> _reader;
 	boost::optional<AtmosMetadata> _metadata;
 };
 

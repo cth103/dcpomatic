@@ -25,7 +25,6 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 
 class AudioPlot;
@@ -35,7 +34,7 @@ class Film;
 class AudioDialog : public wxDialog
 {
 public:
-	AudioDialog (wxWindow* parent, boost::shared_ptr<Film> film, boost::weak_ptr<FilmViewer> viewer, boost::shared_ptr<Content> content = boost::shared_ptr<Content>());
+	AudioDialog (wxWindow* parent, std::shared_ptr<Film> film, std::weak_ptr<FilmViewer> viewer, std::shared_ptr<Content> content = std::shared_ptr<Content>());
 
 	bool Show (bool show = true);
 
@@ -52,13 +51,13 @@ private:
 	void setup_statistics ();
 	void show_or_hide_channel_checkboxes ();
 
-	boost::shared_ptr<AudioAnalysis> _analysis;
-	boost::weak_ptr<Film> _film;
-	boost::weak_ptr<FilmViewer> _viewer;
+	std::shared_ptr<AudioAnalysis> _analysis;
+	std::weak_ptr<Film> _film;
+	std::weak_ptr<FilmViewer> _viewer;
 	/** content to analyse, or 0 to analyse all the film's content */
-	boost::weak_ptr<Content> _content;
+	std::weak_ptr<Content> _content;
 	int _channels;
-	boost::shared_ptr<const Playlist> _playlist;
+	std::shared_ptr<const Playlist> _playlist;
 	wxStaticText* _cursor;
 	AudioPlot* _plot;
 	wxStaticText* _sample_peak;

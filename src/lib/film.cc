@@ -97,9 +97,9 @@ using std::back_inserter;
 using std::map;
 using std::exception;
 using std::find;
-using boost::shared_ptr;
-using boost::weak_ptr;
-using boost::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::weak_ptr;
+using std::dynamic_pointer_cast;
 using boost::optional;
 using boost::is_any_of;
 #if BOOST_VERSION >= 106100

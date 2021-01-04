@@ -26,9 +26,9 @@
 #include <dcp/atmos_asset.h>
 #include <dcp/atmos_asset_reader.h>
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
-AtmosMXFDecoder::AtmosMXFDecoder (boost::shared_ptr<const Film> film, boost::shared_ptr<const AtmosMXFContent> content)
+AtmosMXFDecoder::AtmosMXFDecoder (std::shared_ptr<const Film> film, std::shared_ptr<const AtmosMXFContent> content)
 	: Decoder (film)
 	, _content (content)
 {

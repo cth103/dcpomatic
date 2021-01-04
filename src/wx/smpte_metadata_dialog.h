@@ -25,8 +25,6 @@
 #include <dcp/language_tag.h>
 #include <dcp/types.h>
 #include <wx/wx.h>
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 #include <vector>
 
 
@@ -39,7 +37,7 @@ class LanguageTagWidget;
 class SMPTEMetadataDialog : public wxDialog, public WeakFilm
 {
 public:
-	SMPTEMetadataDialog (wxWindow* parent, boost::weak_ptr<Film> film);
+	SMPTEMetadataDialog (wxWindow* parent, std::weak_ptr<Film> film);
 
 private:
 	std::vector<dcp::Rating> ratings () const;

@@ -25,13 +25,12 @@
 #include "lib/job.h"
 #include "lib/job_manager.h"
 #include <wx/evtloop.h>
-#include <boost/shared_ptr.hpp>
 #include <string>
 
 
 using std::string;
 using boost::optional;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 
 static int const max_file_name_length = 80;

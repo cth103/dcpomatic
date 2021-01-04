@@ -27,7 +27,6 @@
 
 #include "signaller.h"
 #include <boost/thread/mutex.hpp>
-#include <boost/enable_shared_from_this.hpp>
 #include <boost/signals2.hpp>
 #include <boost/thread.hpp>
 #include <string>
@@ -37,10 +36,10 @@ class Film;
 /** @class Job
  *  @brief A parent class to represent long-running tasks which are run in their own thread.
  */
-class Job : public boost::enable_shared_from_this<Job>, public Signaller, public boost::noncopyable
+class Job : public std::enable_shared_from_this<Job>, public Signaller, public boost::noncopyable
 {
 public:
-	explicit Job (boost::shared_ptr<const Film> film);
+	explicit Job (std::shared_ptr<const Film> film);
 	virtual ~Job ();
 
 	/** @return user-readable name of this job */
@@ -80,7 +79,7 @@ public:
 	void sub (std::string);
 	boost::optional<float> progress () const;
 
-	boost::shared_ptr<const Film> film () const {
+	std::shared_ptr<const Film> film () const {
 		return _film;
 	}
 
@@ -114,7 +113,7 @@ protected:
 	void check_for_interruption_or_pause ();
 	void stop_thread ();
 
-	boost::shared_ptr<const Film> _film;
+	std::shared_ptr<const Film> _film;
 
 private:
 

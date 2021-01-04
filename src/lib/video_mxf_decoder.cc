@@ -29,7 +29,7 @@
 #include <dcp/stereo_picture_asset_reader.h>
 #include <dcp/exceptions.h>
 
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 using namespace dcpomatic;
 

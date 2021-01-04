@@ -28,7 +28,7 @@
 #include <wx/sizer.h>
 
 using std::string;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 /** @param parent Parent window.
  *  @param film Film that we are working on, or 0.

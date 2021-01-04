@@ -26,8 +26,8 @@
 #include "lib/string_text_file_content.h"
 #include <boost/test/unit_test.hpp>
 
-using boost::shared_ptr;
-using boost::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::dynamic_pointer_cast;
 
 /** Test parsing of UTF16 CR/LF input */
 BOOST_AUTO_TEST_CASE (subtitle_charset_test1)

@@ -32,7 +32,7 @@
 #include <iostream>
 
 using std::cout;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (colour_conversion_test1)
 {

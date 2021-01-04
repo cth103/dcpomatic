@@ -37,7 +37,7 @@ class AtmosContent : public ContentPart
 public:
 	AtmosContent (Content* parent);
 
-	static boost::shared_ptr<AtmosContent> from_xml (Content* parent, cxml::ConstNodePtr node);
+	static std::shared_ptr<AtmosContent> from_xml (Content* parent, cxml::ConstNodePtr node);
 
 	void as_xml (xmlpp::Node* node) const;
 

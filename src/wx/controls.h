@@ -28,7 +28,6 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 
 class FilmViewer;
@@ -49,18 +48,18 @@ class Controls : public wxPanel
 public:
 	Controls (
 		wxWindow* parent,
-		boost::shared_ptr<FilmViewer>,
+		std::shared_ptr<FilmViewer>,
 		bool editor_controls = true
 		);
 
 	virtual void log (wxString) {}
-	virtual void set_film (boost::shared_ptr<Film> film);
+	virtual void set_film (std::shared_ptr<Film> film);
 
 	virtual void play () {};
 	virtual void stop () {};
 	void seek (int slider);
 
-	boost::shared_ptr<Film> film () const;
+	std::shared_ptr<Film> film () const;
 	void back_frame ();
 	void forward_frame ();
 
@@ -72,9 +71,9 @@ protected:
 
 	wxSizer* _v_sizer;
 	wxBoxSizer* _button_sizer;
-	boost::shared_ptr<Film> _film;
+	std::shared_ptr<Film> _film;
 	wxSlider* _slider;
-	boost::shared_ptr<FilmViewer> _viewer;
+	std::shared_ptr<FilmViewer> _viewer;
 	boost::optional<std::string> _active_job;
 
 private:
@@ -91,13 +90,13 @@ private:
 	void timecode_clicked ();
 	void active_jobs_changed (boost::optional<std::string>);
 	dcpomatic::DCPTime nudge_amount (wxKeyboardState& ev);
-	void image_changed (boost::weak_ptr<PlayerVideo>);
+	void image_changed (std::weak_ptr<PlayerVideo>);
 	void outline_content_changed ();
 	void eye_changed ();
 	void update_position ();
 	void film_change (ChangeType, Film::Property);
 
-	typedef std::pair<boost::shared_ptr<dcp::CPL>, boost::filesystem::path> CPL;
+	typedef std::pair<std::shared_ptr<dcp::CPL>, boost::filesystem::path> CPL;
 
 	bool _slider_being_moved;
 

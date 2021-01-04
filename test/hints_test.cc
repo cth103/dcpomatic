@@ -28,14 +28,13 @@
 #include "lib/text_content.h"
 #include "lib/util.h"
 #include "test.h"
-#include <boost/shared_ptr.hpp>
 #include <boost/test/unit_test.hpp>
 
 
 using std::string;
 using std::vector;
 using boost::optional;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 
 vector<string> current_hints;

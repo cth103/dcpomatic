@@ -32,7 +32,7 @@
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
 /** Test the mid-side decoder for analysis and DCP-making */
 BOOST_AUTO_TEST_CASE (audio_processor_test)

@@ -21,7 +21,7 @@
 #include "decoder_part.h"
 #include "decoder.h"
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
 DecoderPart::DecoderPart (Decoder* parent)
 	: _parent (parent)

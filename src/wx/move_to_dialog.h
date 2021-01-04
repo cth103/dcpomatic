@@ -20,7 +20,6 @@
 
 #include "table_dialog.h"
 #include "lib/dcpomatic_time.h"
-#include <boost/weak_ptr.hpp>
 #include <boost/optional.hpp>
 
 class Film;
@@ -29,11 +28,11 @@ class wxSpinCtrl;
 class MoveToDialog : public TableDialog
 {
 public:
-	MoveToDialog (wxWindow* parent, boost::optional<dcpomatic::DCPTime> position, boost::shared_ptr<const Film> film);
+	MoveToDialog (wxWindow* parent, boost::optional<dcpomatic::DCPTime> position, std::shared_ptr<const Film> film);
 
 	dcpomatic::DCPTime position () const;
 
 private:
-	boost::weak_ptr<const Film> _film;
+	std::weak_ptr<const Film> _film;
 	wxSpinCtrl* _reel;
 };

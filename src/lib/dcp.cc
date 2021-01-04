@@ -34,8 +34,8 @@
 
 using std::list;
 using std::string;
-using boost::shared_ptr;
-using boost::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::dynamic_pointer_cast;
 
 
 /** Find all the CPLs in our directories, cross-add assets and return the CPLs */

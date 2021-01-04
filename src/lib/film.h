@@ -36,7 +36,6 @@
 #include <dcp/key.h>
 #include <dcp/encrypted_kdm.h>
 #include <boost/signals2.hpp>
-#include <boost/enable_shared_from_this.hpp>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/thread/mutex.hpp>
@@ -95,19 +94,19 @@ private:
  *
  *  The content of a Film is held in a Playlist (created and managed by the Film).
  */
-class Film : public boost::enable_shared_from_this<Film>, public Signaller, public boost::noncopyable
+class Film : public std::enable_shared_from_this<Film>, public Signaller, public boost::noncopyable
 {
 public:
 	explicit Film (boost::optional<boost::filesystem::path> dir);
 	~Film ();
 
-	boost::shared_ptr<InfoFileHandle> info_file_handle (dcpomatic::DCPTimePeriod period, bool read) const;
+	std::shared_ptr<InfoFileHandle> info_file_handle (dcpomatic::DCPTimePeriod period, bool read) const;
 	boost::filesystem::path j2c_path (int, Frame, Eyes, bool) const;
 	boost::filesystem::path internal_video_asset_dir () const;
 	boost::filesystem::path internal_video_asset_filename (dcpomatic::DCPTimePeriod p) const;
 
-	boost::filesystem::path audio_analysis_path (boost::shared_ptr<const Playlist>) const;
-	boost::filesystem::path subtitle_analysis_path (boost::shared_ptr<const Content>) const;
+	boost::filesystem::path audio_analysis_path (std::shared_ptr<const Playlist>) const;
+	boost::filesystem::path subtitle_analysis_path (std::shared_ptr<const Content>) const;
 
 	void send_dcp_to_tms ();
 	void make_dcp (bool gui = false, bool check = true);
@@ -115,7 +114,7 @@ public:
 	/** @return Logger.
 	 *  It is safe to call this from any thread.
 	 */
-	boost::shared_ptr<Log> log () const {
+	std::shared_ptr<Log> log () const {
 		return _log;
 	}
 
@@ -127,9 +126,9 @@ public:
 	void write_metadata () const;
 	void write_metadata (boost::filesystem::path path) const;
 	void write_template (boost::filesystem::path path) const;
-	boost::shared_ptr<xmlpp::Document> metadata (bool with_content_paths = true) const;
+	std::shared_ptr<xmlpp::Document> metadata (bool with_content_paths = true) const;
 
-	void copy_from (boost::shared_ptr<const Film> film);
+	void copy_from (std::shared_ptr<const Film> film);
 
 	std::string isdcf_name (bool if_created_now) const;
 	std::string dcp_name (bool if_created_now = false) const;
@@ -179,7 +178,7 @@ public:
 
 	void repeat_content (ContentList, int);
 
-	boost::shared_ptr<const Playlist> playlist () const {
+	std::shared_ptr<const Playlist> playlist () const {
 		return _playlist;
 	}
 
@@ -386,12 +385,12 @@ public:
 	void set_directory (boost::filesystem::path);
 	void set_name (std::string);
 	void set_use_isdcf_name (bool);
-	void examine_and_add_content (boost::shared_ptr<Content> content, bool disable_audio_analysis = false);
-	void add_content (boost::shared_ptr<Content>);
-	void remove_content (boost::shared_ptr<Content>);
+	void examine_and_add_content (std::shared_ptr<Content> content, bool disable_audio_analysis = false);
+	void add_content (std::shared_ptr<Content>);
+	void remove_content (std::shared_ptr<Content>);
 	void remove_content (ContentList);
-	void move_content_earlier (boost::shared_ptr<Content>);
-	void move_content_later (boost::shared_ptr<Content>);
+	void move_content_earlier (std::shared_ptr<Content>);
+	void move_content_later (std::shared_ptr<Content>);
 	void set_dcp_content_type (DCPContentType const *);
 	void set_container (Ratio const *, bool user_explicit = true);
 	void set_resolution (Resolution, bool user_explicit = true);
@@ -432,7 +431,7 @@ public:
 	mutable boost::signals2::signal<void (ChangeType, Property)> Change;
 
 	/** Emitted when some property of our content has changed */
-	mutable boost::signals2::signal<void (ChangeType, boost::weak_ptr<Content>, int, bool)> ContentChange;
+	mutable boost::signals2::signal<void (ChangeType, std::weak_ptr<Content>, int, bool)> ContentChange;
 
 	/** Emitted when the film's length might have changed; this is not like a normal
 	    property as its value is derived from the playlist, so it has its own signal.
@@ -459,9 +458,9 @@ private:
 	std::string video_identifier () const;
 	void playlist_change (ChangeType);
 	void playlist_order_changed ();
-	void playlist_content_change (ChangeType type, boost::weak_ptr<Content>, int, bool frequent);
+	void playlist_content_change (ChangeType type, std::weak_ptr<Content>, int, bool frequent);
 	void playlist_length_change ();
-	void maybe_add_content (boost::weak_ptr<Job>, boost::weak_ptr<Content>, bool disable_audio_analysis);
+	void maybe_add_content (std::weak_ptr<Job>, std::weak_ptr<Content>, bool disable_audio_analysis);
 	void audio_analysis_finished ();
 	void check_settings_consistency ();
 	void maybe_set_container_and_resolution ();
@@ -469,8 +468,8 @@ private:
 	static std::string const metadata_file;
 
 	/** Log to write to */
-	boost::shared_ptr<Log> _log;
-	boost::shared_ptr<Playlist> _playlist;
+	std::shared_ptr<Log> _log;
+	std::shared_ptr<Playlist> _playlist;
 
 	/** Complete path to directory containing the film metadata;
 	 *  must not be relative.
@@ -537,7 +536,7 @@ private:
 	/** true if our state has changed since we last saved it */
 	mutable bool _dirty;
 	/** film being used as a template, or 0 */
-	boost::shared_ptr<Film> _template_film;
+	std::shared_ptr<Film> _template_film;
 
 	/** Be tolerant of errors in content (currently applies to DCP only).
 	    Not saved as state.

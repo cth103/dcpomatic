@@ -26,16 +26,16 @@ class DCPContent;
 class PlaylistControls : public Controls
 {
 public:
-	PlaylistControls (wxWindow* parent, boost::shared_ptr<FilmViewer> viewer);
+	PlaylistControls (wxWindow* parent, std::shared_ptr<FilmViewer> viewer);
 
 	void log (wxString s);
-	void set_film (boost::shared_ptr<Film> film);
+	void set_film (std::shared_ptr<Film> film);
 
 	/** This is so that we can tell our parent player to reset the film
 	    when we have created one from a SPL.  We could call a method
 	    in the player's DOMFrame but we don't have that in a header.
 	*/
-	boost::signals2::signal<void (boost::weak_ptr<Film>)> ResetFilm;
+	boost::signals2::signal<void (std::weak_ptr<Film>)> ResetFilm;
 
 	void play ();
 	void stop ();
@@ -62,7 +62,7 @@ private:
 	bool can_do_next ();
 	void deselect_playlist ();
 
-	boost::optional<dcp::EncryptedKDM> get_kdm_from_directory (boost::shared_ptr<DCPContent> dcp);
+	boost::optional<dcp::EncryptedKDM> get_kdm_from_directory (std::shared_ptr<DCPContent> dcp);
 
 	wxButton* _play_button;
 	wxButton* _pause_button;

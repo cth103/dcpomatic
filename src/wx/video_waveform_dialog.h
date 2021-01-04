@@ -18,11 +18,13 @@
 
 */
 
+
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/weak_ptr.hpp>
+#include <memory>
+
 
 class VideoWaveformPlot;
 class FilmViewer;
@@ -31,7 +33,7 @@ class Film;
 class VideoWaveformDialog : public wxDialog
 {
 public:
-	VideoWaveformDialog (wxWindow* parent, boost::weak_ptr<const Film> film, boost::weak_ptr<FilmViewer> viewer);
+	VideoWaveformDialog (wxWindow* parent, std::weak_ptr<const Film> film, std::weak_ptr<FilmViewer> viewer);
 
 private:
 	void shown (wxShowEvent &);
@@ -39,7 +41,7 @@ private:
 	void contrast_changed ();
 	void mouse_moved (int x1, int x2, int y1, int y2);
 
-	boost::weak_ptr<FilmViewer> _viewer;
+	std::weak_ptr<FilmViewer> _viewer;
 	VideoWaveformPlot* _plot;
 	wxChoice* _component;
 	wxSlider* _contrast;

@@ -20,7 +20,6 @@
 
 #include "types.h"
 #include <samplerate.h>
-#include <boost/shared_ptr.hpp>
 #include <boost/utility.hpp>
 
 class AudioBuffers;
@@ -31,8 +30,8 @@ public:
 	Resampler (int, int, int);
 	~Resampler ();
 
-	boost::shared_ptr<const AudioBuffers> run (boost::shared_ptr<const AudioBuffers>);
-	boost::shared_ptr<const AudioBuffers> flush ();
+	std::shared_ptr<const AudioBuffers> run (std::shared_ptr<const AudioBuffers>);
+	std::shared_ptr<const AudioBuffers> flush ();
 	void reset ();
 	void set_fast ();
 

@@ -27,7 +27,7 @@
 
 using std::string;
 using std::list;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (image_content_fade_test)
 {

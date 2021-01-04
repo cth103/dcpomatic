@@ -25,7 +25,7 @@
 #include <wx/button.h>
 
 using std::list;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 BatchJobView::BatchJobView (shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table)
 	: JobView (job, parent, container, table)

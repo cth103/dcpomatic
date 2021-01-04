@@ -29,12 +29,12 @@ class TextContent;
 class TimelineTextContentView : public TimelineContentView
 {
 public:
-	TimelineTextContentView (Timeline& tl, boost::shared_ptr<Content>, boost::shared_ptr<TextContent>);
+	TimelineTextContentView (Timeline& tl, std::shared_ptr<Content>, std::shared_ptr<TextContent>);
 
 private:
 	bool active () const;
 	wxColour background_colour () const;
 	wxColour foreground_colour () const;
 
-	boost::shared_ptr<TextContent> _caption;
+	std::shared_ptr<TextContent> _caption;
 };

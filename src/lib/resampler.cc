@@ -33,7 +33,7 @@ using std::cout;
 using std::pair;
 using std::make_pair;
 using std::runtime_error;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 /** @param in Input sampling rate (Hz)
  *  @param out Output sampling rate (Hz)

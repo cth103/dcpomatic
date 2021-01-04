@@ -36,8 +36,8 @@
 #include <boost/foreach.hpp>
 
 using std::list;
-using boost::shared_ptr;
-using boost::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::dynamic_pointer_cast;
 
 template <class T>
 shared_ptr<T>

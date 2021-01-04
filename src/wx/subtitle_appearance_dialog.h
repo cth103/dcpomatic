@@ -24,7 +24,6 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 
 class wxRadioButton;
@@ -41,7 +40,7 @@ class Job;
 class SubtitleAppearanceDialog : public wxDialog
 {
 public:
-	SubtitleAppearanceDialog (wxWindow* parent, boost::shared_ptr<const Film> film, boost::shared_ptr<Content> content, boost::shared_ptr<TextContent> caption);
+	SubtitleAppearanceDialog (wxWindow* parent, std::shared_ptr<const Film> film, std::shared_ptr<Content> content, std::shared_ptr<TextContent> caption);
 
 	void apply ();
 
@@ -53,7 +52,7 @@ private:
 	void active_jobs_changed (boost::optional<std::string> last);
 	void add_colours ();
 
-	boost::weak_ptr<const Film> _film;
+	std::weak_ptr<const Film> _film;
 	wxCheckBox* _force_colour;
 	wxColourPickerCtrl* _colour;
 	wxCheckBox* _force_effect;
@@ -73,14 +72,14 @@ private:
 	wxStaticText* _finding;
 	wxFlexGridSizer* _colour_table;
 
-	boost::shared_ptr<Content> _content;
-	boost::shared_ptr<TextContent> _caption;
-	boost::shared_ptr<FFmpegSubtitleStream> _stream;
+	std::shared_ptr<Content> _content;
+	std::shared_ptr<TextContent> _caption;
+	std::shared_ptr<FFmpegSubtitleStream> _stream;
 
 	boost::signals2::scoped_connection _content_connection;
 	boost::signals2::scoped_connection _job_manager_connection;
 
-	boost::weak_ptr<Job> _job;
+	std::weak_ptr<Job> _job;
 
 	static int const NONE;
 	static int const OUTLINE;

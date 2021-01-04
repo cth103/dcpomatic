@@ -27,8 +27,6 @@
 #include "types.h"
 #include "content_part.h"
 #include <boost/thread/mutex.hpp>
-#include <boost/weak_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
 
 class VideoExaminer;
 class Ratio;
@@ -51,16 +49,16 @@ public:
 	static int const CUSTOM_SIZE;
 };
 
-class VideoContent : public ContentPart, public boost::enable_shared_from_this<VideoContent>
+class VideoContent : public ContentPart, public std::enable_shared_from_this<VideoContent>
 {
 public:
 	explicit VideoContent (Content* parent);
-	VideoContent (Content* parent, std::vector<boost::shared_ptr<Content> >);
+	VideoContent (Content* parent, std::vector<std::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;
 	std::string technical_summary () const;
 	std::string identifier () const;
-	void take_settings_from (boost::shared_ptr<const VideoContent> c);
+	void take_settings_from (std::shared_ptr<const VideoContent> c);
 
 	Frame length () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -183,19 +181,19 @@ public:
 	dcp::Size size_after_crop () const;
 	dcp::Size scaled_size (dcp::Size container_size);
 
-	boost::optional<double> fade (boost::shared_ptr<const Film> film, Frame) const;
+	boost::optional<double> fade (std::shared_ptr<const Film> film, Frame) const;
 
-	std::string processing_description (boost::shared_ptr<const Film> film);
+	std::string processing_description (std::shared_ptr<const Film> film);
 
 	void set_length (Frame);
 
-	void take_from_examiner (boost::shared_ptr<VideoExaminer>);
+	void take_from_examiner (std::shared_ptr<VideoExaminer>);
 	void add_properties (std::list<UserProperty> &) const;
 
-	void modify_position (boost::shared_ptr<const Film> film, dcpomatic::DCPTime& pos) const;
+	void modify_position (std::shared_ptr<const Film> film, dcpomatic::DCPTime& pos) const;
 	void modify_trim_start (dcpomatic::ContentTime& pos) const;
 
-	static boost::shared_ptr<VideoContent> from_xml (Content* parent, cxml::ConstNodePtr, int);
+	static std::shared_ptr<VideoContent> from_xml (Content* parent, cxml::ConstNodePtr, int);
 
 private:
 

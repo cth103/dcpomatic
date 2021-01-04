@@ -42,10 +42,10 @@
 #include <boost/thread.hpp>
 
 using std::list;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::thread;
 using boost::optional;
-using boost::weak_ptr;
+using std::weak_ptr;
 using dcp::ArrayData;
 
 void

@@ -34,33 +34,33 @@ public:
 	J2KImageProxy (boost::filesystem::path path, dcp::Size, AVPixelFormat pixel_format);
 
 	J2KImageProxy (
-		boost::shared_ptr<const dcp::MonoPictureFrame> frame,
+		std::shared_ptr<const dcp::MonoPictureFrame> frame,
 		dcp::Size,
 		AVPixelFormat pixel_format,
 		boost::optional<int> forced_reduction
 		);
 
 	J2KImageProxy (
-		boost::shared_ptr<const dcp::StereoPictureFrame> frame,
+		std::shared_ptr<const dcp::StereoPictureFrame> frame,
 		dcp::Size,
 		dcp::Eye,
 		AVPixelFormat pixel_format,
 		boost::optional<int> forced_reduction
 		);
 
-	J2KImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
+	J2KImageProxy (std::shared_ptr<cxml::Node> xml, std::shared_ptr<Socket> socket);
 
 	Result image (
 		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
 		) const;
 
 	void add_metadata (xmlpp::Node *) const;
-	void write_to_socket (boost::shared_ptr<Socket>) const;
+	void write_to_socket (std::shared_ptr<Socket>) const;
 	/** @return true if our image is definitely the same as another, false if it is probably not */
-	bool same (boost::shared_ptr<const ImageProxy>) const;
+	bool same (std::shared_ptr<const ImageProxy>) const;
 	int prepare (boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const;
 
-	boost::shared_ptr<const dcp::Data> j2k () const {
+	std::shared_ptr<const dcp::Data> j2k () const {
 		return _data;
 	}
 
@@ -76,10 +76,10 @@ private:
 	/* For tests */
 	J2KImageProxy (dcp::ArrayData data, dcp::Size size, AVPixelFormat pixel_format);
 
-	boost::shared_ptr<const dcp::Data> _data;
+	std::shared_ptr<const dcp::Data> _data;
 	dcp::Size _size;
 	boost::optional<dcp::Eye> _eye;
-	mutable boost::shared_ptr<Image> _image;
+	mutable std::shared_ptr<Image> _image;
 	mutable boost::optional<dcp::Size> _target_size;
 	mutable boost::optional<int> _reduce;
 	AVPixelFormat _pixel_format;

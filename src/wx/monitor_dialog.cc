@@ -25,7 +25,7 @@
 
 using std::string;
 using dcp::locale_convert;
-using boost::shared_ptr;
+using std::shared_ptr;
 using boost::optional;
 
 MonitorDialog::MonitorDialog (wxWindow* parent)
