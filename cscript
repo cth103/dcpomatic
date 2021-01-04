@@ -383,7 +383,7 @@ def dependencies(target, options):
     # also need a patched openssl binary to make certificates.
     # This dependency is to get that binary, which is added into
     # the appropriate place later
-    deps.append(('openssl', '0b7b7f1'))
+    deps.append(('openssl', '7f29dd5'))
     if can_build_disk(target):
         deps.append(('lwext4', '01c7d4c'))
     deps.append(('ffcmp', 'a915540'))
