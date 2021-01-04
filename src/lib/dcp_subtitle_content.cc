@@ -27,7 +27,6 @@
 #include <dcp/smpte_subtitle_asset.h>
 #include <dcp/interop_load_font_node.h>
 #include <libxml++/libxml++.h>
-#include <boost/foreach.hpp>
 
 #include "i18n.h"
 
@@ -73,7 +72,7 @@ DCPSubtitleContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 
 	sc->fix_empty_font_ids ();
 
-	BOOST_FOREACH (shared_ptr<dcp::LoadFontNode> i, sc->load_font_nodes ()) {
+	for (auto i: sc->load_font_nodes()) {
 		only_text()->add_font (shared_ptr<Font> (new Font (i->id)));
 	}
 }

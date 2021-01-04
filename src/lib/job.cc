@@ -34,7 +34,6 @@
 #include <sub/exceptions.h>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
-#include <boost/foreach.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <iostream>
 
@@ -196,7 +195,7 @@ Job::run_wrapper ()
 	} catch (sub::SubripError& e) {
 
 		string extra = "Error is near:\n";
-		BOOST_FOREACH (string i, e.context()) {
+		for (auto i: e.context()) {
 			extra += i + "\n";
 		}
 

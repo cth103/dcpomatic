@@ -28,7 +28,6 @@
 #include <dcp/raw_convert.h>
 #include <curl/curl.h>
 #include <zip.h>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::string;
@@ -195,7 +194,7 @@ DolbyDoremiCertificatePanel::do_download ()
 		_dialog->message()->SetLabel (wxT (""));
 
 		string s;
-		BOOST_FOREACH (string e, errors) {
+		for (auto e: errors) {
 			s += e + "\n";
 		}
 

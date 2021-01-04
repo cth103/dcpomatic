@@ -48,7 +48,6 @@
 #include <wx/listctrl.h>
 #include <wx/display.h>
 #include <boost/filesystem.hpp>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::list;
@@ -183,7 +182,7 @@ ContentPanel::selected_video ()
 {
 	ContentList vc;
 
-	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
+	for (auto i: selected()) {
 		if (i->video) {
 			vc.push_back (i);
 		}
@@ -197,7 +196,7 @@ ContentPanel::selected_audio ()
 {
 	ContentList ac;
 
-	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
+	for (auto i: selected()) {
 		if (i->audio) {
 			ac.push_back (i);
 		}
@@ -211,7 +210,7 @@ ContentPanel::selected_text ()
 {
 	ContentList sc;
 
-	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
+	for (auto i: selected()) {
 		if (!i->text.empty()) {
 			sc.push_back (i);
 		}
@@ -225,7 +224,7 @@ ContentPanel::selected_ffmpeg ()
 {
 	FFmpegContentList sc;
 
-	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
+	for (auto i: selected()) {
 		shared_ptr<FFmpegContent> t = dynamic_pointer_cast<FFmpegContent> (i);
 		if (t) {
 			sc.push_back (t);
@@ -247,7 +246,7 @@ ContentPanel::film_changed (Film::Property p)
 		break;
 	}
 
-	BOOST_FOREACH (ContentSubPanel* i, panels()) {
+	for (auto i: panels()) {
 		i->film_changed (p);
 	}
 }
@@ -286,12 +285,12 @@ ContentPanel::check_selection ()
 
 	setup_sensitivity ();
 
-	BOOST_FOREACH (ContentSubPanel* i, panels()) {
+	for (auto i: panels()) {
 		i->content_selection_changed ();
 	}
 
 	optional<DCPTime> go_to;
-	BOOST_FOREACH (shared_ptr<Content> i, selected()) {
+	for (auto i: selected()) {
 		DCPTime p;
 		p = i->position();
 		if (dynamic_pointer_cast<StringTextFileContent>(i) && i->paths_valid()) {
@@ -333,14 +332,14 @@ ContentPanel::check_selection ()
 	bool have_video = false;
 	bool have_audio = false;
 	bool have_text[TEXT_COUNT] = { false, false };
-	BOOST_FOREACH (shared_ptr<Content> i, selected()) {
+	for (auto i: selected()) {
 		if (i->video) {
 			have_video = true;
 		}
 		if (i->audio) {
 			have_audio = true;
 		}
-		BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
+		for (auto j: i->text) {
 			have_text[j->original_type()] = true;
 		}
 	}
@@ -468,7 +467,7 @@ ContentPanel::add_folder_clicked ()
 		return;
 	}
 
-	BOOST_FOREACH (shared_ptr<Content> i, content) {
+	for (auto i: content) {
 		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (i);
 		if (ic) {
 			ImageSequenceDialog* e = new ImageSequenceDialog (_splitter);
@@ -517,7 +516,7 @@ ContentPanel::remove_clicked (bool hotkey)
 		return true;
 	}
 
-	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
+	for (auto i: selected ()) {
 		_film->remove_content (i);
 	}
 
@@ -669,7 +668,7 @@ ContentPanel::film_content_changed (int property)
 		setup ();
 	}
 
-	BOOST_FOREACH (ContentSubPanel* i, panels()) {
+	for (auto i: panels()) {
 		i->film_content_changed (property);
 	}
 }
@@ -697,7 +696,7 @@ ContentPanel::setup ()
 
 	_content->DeleteAllItems ();
 
-	BOOST_FOREACH (shared_ptr<Content> i, content) {
+	for (auto i: content) {
 		int const t = _content->GetItemCount ();
 		bool const valid = i->paths_valid ();
 
@@ -771,8 +770,8 @@ ContentPanel::add_files (list<boost::filesystem::path> paths)
 	/* XXX: check for lots of files here and do something */
 
 	try {
-		BOOST_FOREACH (boost::filesystem::path i, paths) {
-			BOOST_FOREACH (shared_ptr<Content> j, content_factory(i)) {
+		for (auto i: paths) {
+			for (auto j: content_factory(i)) {
 				_film->examine_and_add_content (j);
 			}
 		}

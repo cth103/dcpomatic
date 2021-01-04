@@ -64,7 +64,6 @@ DCPOMATIC_ENABLE_WARNINGS
 #include <sys/types.h>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::cin;

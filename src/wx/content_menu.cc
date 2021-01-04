@@ -43,7 +43,6 @@
 #include <dcp/decrypted_kdm.h>
 #include <wx/wx.h>
 #include <wx/dirdlg.h>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::cout;
@@ -122,7 +121,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 	_repeat->Enable (!_content.empty ());
 
 	int n = 0;
-	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+	for (auto i: _content) {
 		if (dynamic_pointer_cast<FFmpegContent> (i)) {
 			++n;
 		}
@@ -147,7 +146,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 				_choose_cpl->Enable (cpls.size() > 1);
 				/* We can't have 0 as a menu item ID on OS X */
 				int id = 1;
-				BOOST_FOREACH (shared_ptr<dcp::CPL> i, cpls) {
+				for (auto i: cpls) {
 					wxMenuItem* item = _cpl_menu->AppendRadioItem (
 						id++,
 						wxString::Format (
@@ -228,7 +227,7 @@ void
 ContentMenu::join ()
 {
 	vector<shared_ptr<Content> > fc;
-	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+	for (auto i: _content) {
 		shared_ptr<FFmpegContent> f = dynamic_pointer_cast<FFmpegContent> (i);
 		if (f) {
 			fc.push_back (f);
@@ -269,7 +268,7 @@ ContentMenu::remove ()
 		/* Special case: we only remove FFmpegContent if its video view is selected;
 		   if not, and its audio view is selected, we unmap the audio.
 		*/
-		BOOST_FOREACH (shared_ptr<Content> i, _content) {
+		for (auto i: _content) {
 			shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (i);
 			if (!fc) {
 				continue;
@@ -278,7 +277,7 @@ ContentMenu::remove ()
 			shared_ptr<TimelineVideoContentView> video;
 			shared_ptr<TimelineAudioContentView> audio;
 
-			BOOST_FOREACH (shared_ptr<TimelineContentView> j, _views) {
+			for (auto j: _views) {
 				shared_ptr<TimelineVideoContentView> v = dynamic_pointer_cast<TimelineVideoContentView> (j);
 				shared_ptr<TimelineAudioContentView> a = dynamic_pointer_cast<TimelineAudioContentView> (j);
 				if (v && v->content() == fc) {
@@ -350,7 +349,7 @@ ContentMenu::find_missing ()
 		return;
 	}
 
-	BOOST_FOREACH (shared_ptr<Content> i, content) {
+	for (auto i: content) {
 		shared_ptr<Job> j (new ExamineContentJob (film, i));
 
 		j->Finished.connect (
@@ -375,7 +374,7 @@ ContentMenu::re_examine ()
 		return;
 	}
 
-	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+	for (auto i: _content) {
 		JobManager::instance()->add (shared_ptr<Job> (new ExamineContentJob (film, i)));
 	}
 }
@@ -434,7 +433,7 @@ ContentMenu::kdm ()
 		DCPExaminer ex (dcp, true);
 
 		bool kdm_matches_any_cpl = false;
-		BOOST_FOREACH (shared_ptr<dcp::CPL> i, ex.cpls()) {
+		for (auto i: ex.cpls()) {
 			if (i->id() == kdm->cpl_id()) {
 				kdm_matches_any_cpl = true;
 			}

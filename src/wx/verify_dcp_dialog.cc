@@ -26,7 +26,6 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/richtext/richtextctrl.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/foreach.hpp>
 
 using std::list;
 using std::shared_ptr;
@@ -63,7 +62,7 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		_text->Newline();
 	}
 
-	BOOST_FOREACH (dcp::VerificationNote i, job->notes()) {
+	for (auto i: job->notes()) {
 		switch (i.type()) {
 		case dcp::VerificationNote::VERIFY_WARNING:
 			_text->BeginStandardBullet (N_("standard/diamond"), 1, 50);

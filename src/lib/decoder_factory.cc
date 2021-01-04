@@ -33,7 +33,6 @@
 #include "video_mxf_content.h"
 #include "video_mxf_decoder.h"
 #include "timer.h"
-#include <boost/foreach.hpp>
 
 using std::list;
 using std::shared_ptr;

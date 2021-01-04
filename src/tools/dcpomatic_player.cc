@@ -278,7 +278,7 @@ public:
 		}
 
 		bool ok = true;
-		BOOST_FOREACH (shared_ptr<Content> i, _film->content()) {
+		for (auto i: _film->content()) {
 			shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent>(i);
 			if (d && !d->kdm_timing_window_valid()) {
 				ok = false;
@@ -303,7 +303,7 @@ public:
 		if (dcp) {
 			DCPExaminer ex (dcp, true);
 			shared_ptr<dcp::CPL> playing_cpl;
-			BOOST_FOREACH (shared_ptr<dcp::CPL> i, ex.cpls()) {
+			for (auto i: ex.cpls()) {
 				if (!dcp->cpl() || i->id() == *dcp->cpl()) {
 					playing_cpl = i;
 				}
@@ -415,10 +415,10 @@ public:
 		/* Start off as Flat */
 		_film->set_container (Ratio::from_id("185"));
 
-		BOOST_FOREACH (shared_ptr<Content> i, _film->content()) {
+		for (auto i: _film->content()) {
 			shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent>(i);
 
-			BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
+			for (auto j: i->text) {
 				j->set_use (true);
 			}
 
@@ -452,7 +452,7 @@ public:
 			if (first) {
 				DCPExaminer ex (first, true);
 				int id = ID_view_cpl;
-				BOOST_FOREACH (shared_ptr<dcp::CPL> i, ex.cpls()) {
+				for (auto i: ex.cpls()) {
 					wxMenuItem* j = _cpl_menu->AppendRadioItem(
 						id,
 						wxString::Format("%s (%s)", std_to_wx(i->annotation_text()).data(), std_to_wx(i->id()).data())
@@ -612,7 +612,7 @@ private:
 			if (!ok || !report_errors_from_last_job(this)) {
 				return;
 			}
-			BOOST_FOREACH (shared_ptr<TextContent> i, dcp->text) {
+			for (auto i: dcp->text) {
 				i->set_use (true);
 			}
 			if (dcp->video) {

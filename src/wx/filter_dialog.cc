@@ -28,7 +28,6 @@
 #include "wx_util.h"
 #include "lib/film.h"
 #include "lib/filter.h"
-#include <boost/foreach.hpp>
 
 
 using namespace std;
@@ -46,7 +45,7 @@ FilterDialog::FilterDialog (wxWindow* parent, vector<Filter const *> const & act
 	typedef map<string, list<Filter const *> > CategoryMap;
 	CategoryMap categories;
 
-	BOOST_FOREACH (Filter const* i, filters) {
+	for (auto i: filters) {
 		CategoryMap::iterator j = categories.find (i->category());
 		if (j == categories.end ()) {
 			list<Filter const *> c;
@@ -65,7 +64,7 @@ FilterDialog::FilterDialog (wxWindow* parent, vector<Filter const *> const & act
 		c->SetFont(font);
 		sizer->Add (c, 1, wxTOP | wxBOTTOM, DCPOMATIC_SIZER_GAP);
 
-		BOOST_FOREACH (Filter const* j, i->second) {
+		for (auto j: i->second) {
 			wxCheckBox* b = new CheckBox(panel, std_to_wx(j->name()));
 			bool const a = find (active.begin(), active.end(), j) != active.end();
 			b->SetValue (a);

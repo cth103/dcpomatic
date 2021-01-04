@@ -25,7 +25,6 @@
 #include "log.h"
 #include "resampler.h"
 #include "compose.hpp"
-#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -43,7 +42,7 @@ AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> cont
 	, _fast (fast)
 {
 	/* Set up _positions so that we have one for each stream */
-	BOOST_FOREACH (AudioStreamPtr i, content->streams ()) {
+	for (auto i: content->streams ()) {
 		_positions[i] = 0;
 	}
 }
@@ -184,7 +183,7 @@ AudioDecoder::flush ()
 void
 AudioDecoder::silence (int milliseconds)
 {
-	BOOST_FOREACH (AudioStreamPtr i, _content->streams ()) {
+	for (auto i: _content->streams()) {
 		int const samples = ContentTime::from_seconds(milliseconds / 1000.0).frames_round(i->frame_rate());
 		shared_ptr<AudioBuffers> silence (new AudioBuffers (i->channels(), samples));
 		silence->make_silent ();

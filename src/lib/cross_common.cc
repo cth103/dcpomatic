@@ -23,7 +23,6 @@
 #include "dcpomatic_log.h"
 #include "warnings.h"
 #include <dcp/raw_convert.h>
-#include <boost/foreach.hpp>
 DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 DCPOMATIC_ENABLE_WARNINGS
@@ -38,7 +37,7 @@ Drive::Drive (string xml)
 	cxml::Document doc;
 	doc.read_string (xml);
 	_device = doc.string_child("Device");
-	BOOST_FOREACH (cxml::ConstNodePtr i, doc.node_children("MountPoint")) {
+	for (auto i: doc.node_children("MountPoint")) {
 		_mount_points.push_back (i->content());
 	}
 	_size = doc.number_child<uint64_t>("Size");
@@ -53,7 +52,7 @@ Drive::as_xml () const
 	xmlpp::Document doc;
 	xmlpp::Element* root = doc.create_root_node ("Drive");
 	root->add_child("Device")->add_child_text(_device);
-	BOOST_FOREACH (boost::filesystem::path i, _mount_points) {
+	for (auto i: _mount_points) {
 		root->add_child("MountPoint")->add_child_text(i.string());
 	}
 	root->add_child("Size")->add_child_text(dcp::raw_convert<string>(_size));
@@ -96,7 +95,7 @@ string
 Drive::log_summary () const
 {
 	string mp;
-	BOOST_FOREACH (boost::filesystem::path i, _mount_points) {
+	for (auto i: _mount_points) {
 		mp += i.string() + ",";
 	}
 	if (mp.empty()) {

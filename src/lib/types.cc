@@ -31,7 +31,6 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 DCPOMATIC_ENABLE_WARNINGS
 #include <libcxml/cxml.h>
-#include <boost/foreach.hpp>
 
 #include "i18n.h"
 
@@ -200,7 +199,7 @@ CPLSummary::CPLSummary (boost::filesystem::path p)
 
 	list<dcp::VerificationNote> notes;
 	dcp.read (&notes);
-	BOOST_FOREACH (dcp::VerificationNote i, notes) {
+	for (auto i: notes) {
 		if (i.code() != dcp::VerificationNote::EXTERNAL_ASSET) {
 			/* It's not just a warning about this DCP being a VF */
 			throw dcp::ReadError(dcp::note_to_string(i));
@@ -212,8 +211,8 @@ CPLSummary::CPLSummary (boost::filesystem::path p)
 	cpl_file = dcp.cpls().front()->file().get();
 
 	encrypted = false;
-	BOOST_FOREACH (shared_ptr<dcp::CPL> j, dcp.cpls()) {
-		BOOST_FOREACH (shared_ptr<const dcp::ReelMXF> k, j->reel_mxfs()) {
+	for (auto j: dcp.cpls()) {
+		for (auto k: j->reel_mxfs()) {
 			if (k->key_id()) {
 				encrypted = true;
 			}

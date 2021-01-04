@@ -83,7 +83,7 @@ public:
 		}
 
 		int total_width = 0;
-		BOOST_FOREACH (EditableListColumn i, _columns) {
+		for (auto i: _columns) {
 			total_width += i.width.get_value_or (_default_width);
 		}
 
@@ -101,7 +101,7 @@ public:
 #endif
 
 		int j = 0;
-		BOOST_FOREACH (EditableListColumn i, _columns) {
+		for (auto i: _columns) {
 			wxListItem ip;
 			ip.SetId (j);
 			ip.SetText (i.name);
@@ -268,7 +268,7 @@ private:
 		int fixed_width = 0;
 		int growable = 0;
 		int j = 0;
-		BOOST_FOREACH (EditableListColumn i, _columns) {
+		for (auto i: _columns) {
 			fixed_width += i.width.get_value_or (_default_width);
 			if (!i.growable) {
 				_list->SetColumnWidth (j, i.width.get_value_or(_default_width));
@@ -279,7 +279,7 @@ private:
 		}
 
 		j = 0;
-		BOOST_FOREACH (EditableListColumn i, _columns) {
+		for (auto i: _columns) {
 			if (i.growable) {
 				_list->SetColumnWidth (j, i.width.get_value_or(_default_width) + (w - fixed_width) / growable);
 			}

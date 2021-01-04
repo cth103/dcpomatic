@@ -25,7 +25,6 @@
 #include <curl/curl.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/date_time/c_local_time_adjustor.hpp>
-#include <boost/foreach.hpp>
 
 #include "i18n.h"
 
@@ -144,7 +143,7 @@ Emailer::send (string server, int port, EmailProtocol protocol, string user, str
 
 	_email += _body;
 
-	BOOST_FOREACH (Attachment i, _attachments) {
+	for (auto i: _attachments) {
 		_email += "\r\n\r\n--" + boundary + "\r\n"
 			"Content-Type: " + i.mime_type + "; name=" + i.name + "\r\n"
 			"Content-Transfer-Encoding: Base64\r\n"
@@ -194,13 +193,13 @@ Emailer::send (string server, int port, EmailProtocol protocol, string user, str
 	curl_easy_setopt (curl, CURLOPT_MAIL_FROM, _from.c_str());
 
 	struct curl_slist* recipients = 0;
-	BOOST_FOREACH (string i, _to) {
+	for (auto i: _to) {
 		recipients = curl_slist_append (recipients, i.c_str());
 	}
-	BOOST_FOREACH (string i, _cc) {
+	for (auto i: _cc) {
 		recipients = curl_slist_append (recipients, i.c_str());
 	}
-	BOOST_FOREACH (string i, _bcc) {
+	for (auto i: _bcc) {
 		recipients = curl_slist_append (recipients, i.c_str());
 	}
 
@@ -233,7 +232,7 @@ string
 Emailer::address_list (list<string> addresses)
 {
 	string o;
-	BOOST_FOREACH (string i, addresses) {
+	for (auto i: addresses) {
 		o += i + ", ";
 	}
 

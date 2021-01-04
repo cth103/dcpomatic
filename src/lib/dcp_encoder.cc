@@ -38,7 +38,6 @@
 #include "text_content.h"
 #include "player_video.h"
 #include <boost/signals2.hpp>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -70,8 +69,8 @@ DCPEncoder::DCPEncoder (shared_ptr<const Film> film, weak_ptr<Job> job)
 	_player_text_connection = _player->Text.connect (bind (&DCPEncoder::text, this, _1, _2, _3, _4));
 	_player_atmos_connection = _player->Atmos.connect (bind (&DCPEncoder::atmos, this, _1, _2, _3));
 
-	BOOST_FOREACH (shared_ptr<const Content> c, film->content ()) {
-		BOOST_FOREACH (shared_ptr<TextContent> i, c->text) {
+	for (auto c: film->content ()) {
+		for (auto i: c->text) {
 			if (i->use() && !i->burn()) {
 				_non_burnt_subtitles = true;
 			}
@@ -120,7 +119,7 @@ DCPEncoder::go ()
 
 	while (!_player->pass ()) {}
 
-	BOOST_FOREACH (ReferencedReelAsset i, _player->get_reel_assets ()) {
+	for (auto i: _player->get_reel_assets()) {
 		_writer->write (i);
 	}
 

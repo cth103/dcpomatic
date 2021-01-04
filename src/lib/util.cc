@@ -810,7 +810,7 @@ audio_channel_types (list<int> mapped, int channels)
 	int non_lfe = 0;
 	int lfe = 0;
 
-	BOOST_FOREACH (int i, mapped) {
+	for (auto i: mapped) {
 		if (i >= channels) {
 			/* This channel is mapped but is not included in the DCP */
 			continue;
@@ -1007,7 +1007,7 @@ show_jobs_on_console (bool progress)
 
 		first = false;
 
-		BOOST_FOREACH (shared_ptr<Job> i, jobs) {
+		for (auto i: jobs) {
 			if (progress) {
 				cout << i->name();
 				if (!i->sub_name().empty()) {
@@ -1135,7 +1135,7 @@ decrypt_kdm_with_helpful_error (dcp::EncryptedKDM kdm)
 		string const kdm_subject_name = kdm.recipient_x509_subject_name();
 		bool on_chain = false;
 		shared_ptr<const dcp::CertificateChain> dc = Config::instance()->decryption_chain();
-		BOOST_FOREACH (dcp::Certificate i, dc->root_to_leaf()) {
+		for (auto i: dc->root_to_leaf()) {
 			if (i.subject() == kdm_subject_name) {
 				on_chain = true;
 			}

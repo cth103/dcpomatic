@@ -91,7 +91,7 @@ DKDMDialog::DKDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	right->Add (h);
 
 	vector<CPLSummary> cpls;
-	BOOST_FOREACH (CPLSummary const & i, film->cpls()) {
+	for (auto const& i: film->cpls()) {
 		if (i.encrypted) {
 			cpls.push_back (i);
 		}
@@ -153,7 +153,7 @@ DKDMDialog::make_clicked ()
 
 	list<KDMWithMetadataPtr> kdms;
 	try {
-		BOOST_FOREACH (shared_ptr<DKDMRecipient> i, _recipients->recipients()) {
+		for (auto i: _recipients->recipients()) {
 			KDMWithMetadataPtr p = kdm_for_dkdm_recipient (film, _cpl->cpl(), i, _timing->from(), _timing->until());
 			if (p) {
 				kdms.push_back (p);

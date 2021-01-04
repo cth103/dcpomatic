@@ -33,7 +33,6 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -293,7 +292,7 @@ PresetColourConversion::setup_colour_conversion_presets ()
 PresetColourConversion
 PresetColourConversion::from_id (string s)
 {
-	BOOST_FOREACH (PresetColourConversion const& i, _presets) {
+	for (auto const& i: _presets) {
 		if (i.id == s) {
 			return i;
 		}

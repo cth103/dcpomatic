@@ -35,7 +35,6 @@
 #include "lib/dcp_content.h"
 #include "lib/audio_content.h"
 #include <wx/spinctrl.h>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::vector;
@@ -196,7 +195,7 @@ AudioPanel::film_content_changed (int property)
 
 			vector<AudioMappingView::Group> groups;
 			int c = 0;
-			BOOST_FOREACH (shared_ptr<const AudioStream> i, ac.front()->audio->streams()) {
+			for (auto i: ac.front()->audio->streams()) {
 				shared_ptr<const FFmpegAudioStream> f = dynamic_pointer_cast<const FFmpegAudioStream> (i);
 				string name = "";
 				if (f) {

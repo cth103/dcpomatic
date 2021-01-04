@@ -24,7 +24,6 @@
 #include "dcpomatic_button.h"
 #include "lib/config.h"
 #include <wx/wx.h>
-#include <boost/foreach.hpp>
 
 using std::string;
 using boost::bind;
@@ -82,7 +81,7 @@ TemplatesDialog::refresh ()
 {
 	_list->DeleteAllItems ();
 
-	BOOST_FOREACH (string i, Config::instance()->templates()) {
+	for (auto i: Config::instance()->templates()) {
 		wxListItem list_item;
 		int const n = _list->GetItemCount ();
 		list_item.SetId (n);

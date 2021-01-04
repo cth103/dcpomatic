@@ -54,7 +54,7 @@ ActiveText::get_burnt (DCPTimePeriod period, bool always_burn_captions) const
 			continue;
 		}
 
-		BOOST_FOREACH (Period j, i->second) {
+		for (auto j: i->second) {
 			DCPTimePeriod test (j.from, j.to.get_value_or(DCPTime::max()));
 			optional<DCPTimePeriod> overlap = period.overlap (test);
 			if (overlap && overlap->duration() > DCPTime(period.duration().get() / 2)) {
@@ -77,7 +77,7 @@ ActiveText::clear_before (DCPTime time)
 	Map updated;
 	for (Map::const_iterator i = _data.begin(); i != _data.end(); ++i) {
 		list<Period> as;
-		BOOST_FOREACH (Period j, i->second) {
+		for (auto j: i->second) {
 			if (!j.to || j.to.get() >= time) {
 				as.push_back (j);
 			}
@@ -119,7 +119,7 @@ ActiveText::add_to (weak_ptr<const TextContent> content, DCPTime to)
 
 	_data[content].back().to = to;
 
-	BOOST_FOREACH (StringText& i, _data[content].back().subs.string) {
+	for (auto& i: _data[content].back().subs.string) {
 		i.set_out (dcp::Time(to.seconds(), 1000));
 	}
 

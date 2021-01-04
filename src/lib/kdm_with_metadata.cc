@@ -26,7 +26,6 @@
 #include "config.h"
 #include "dcpomatic_log.h"
 #include "emailer.h"
-#include <boost/foreach.hpp>
 #include <boost/function.hpp>
 #include <boost/function.hpp>
 
@@ -51,7 +50,7 @@ write_files (
 
 	if (directory == "-") {
 		/* Write KDMs to the stdout */
-		BOOST_FOREACH (KDMWithMetadataPtr i, kdms) {
+		for (auto i: kdms) {
 			cout << i->kdm_as_xml ();
 			++written;
 		}
@@ -64,7 +63,7 @@ write_files (
 	}
 
 	/* Write KDMs to the specified directory */
-	BOOST_FOREACH (KDMWithMetadataPtr i, kdms) {
+	for (auto i: kdms) {
 		boost::filesystem::path out = directory / careful_string_filter(name_format.get(i->name_values(), ".xml"));
 		if (!boost::filesystem::exists (out) || confirm_overwrite (out)) {
 			i->kdm_as_xml (out);
@@ -93,7 +92,7 @@ make_zip_file (list<KDMWithMetadataPtr> kdms, boost::filesystem::path zip_file, 
 {
 	Zipper zipper (zip_file);
 
-	BOOST_FOREACH (KDMWithMetadataPtr i, kdms) {
+	for (auto i: kdms) {
 		string const name = careful_string_filter(name_format.get(i->name_values(), ".xml"));
 		zipper.add (name, i->kdm_as_xml());
 	}
@@ -110,7 +109,7 @@ collect (list<KDMWithMetadataPtr> kdms)
 {
 	list<list<KDMWithMetadataPtr> > grouped;
 
-	BOOST_FOREACH (KDMWithMetadataPtr i, kdms) {
+	for (auto i: kdms) {
 
 		list<list<KDMWithMetadataPtr> >::iterator j = grouped.begin ();
 
@@ -144,7 +143,7 @@ write_directories (
 {
 	int written = 0;
 
-	BOOST_FOREACH (list<KDMWithMetadataPtr> const & i, kdms) {
+	for (auto const& i: kdms) {
 		boost::filesystem::path path = directory;
 		path /= container_name_format.get(i.front()->name_values(), "", "s");
 		if (!boost::filesystem::exists (path) || confirm_overwrite (path)) {
@@ -170,7 +169,7 @@ write_zip_files (
 {
 	int written = 0;
 
-	BOOST_FOREACH (list<KDMWithMetadataPtr> const & i, kdms) {
+	for (auto const& i: kdms) {
 		boost::filesystem::path path = directory;
 		path /= container_name_format.get(i.front()->name_values(), ".zip", "s");
 		if (!boost::filesystem::exists (path) || confirm_overwrite (path)) {
@@ -208,7 +207,7 @@ email (
 		throw NetworkError (_("No mail server configured in preferences"));
 	}
 
-	BOOST_FOREACH (list<KDMWithMetadataPtr> const & i, kdms) {
+	for (auto const& i: kdms) {
 
 		if (i.front()->emails().empty()) {
 			continue;
@@ -232,7 +231,7 @@ email (
 		boost::algorithm::replace_all (body, "$CINEMA_NAME", i.front()->get('c').get_value_or(""));
 
 		string screens;
-		BOOST_FOREACH (KDMWithMetadataPtr j, i) {
+		for (auto j: i) {
 			optional<string> screen_name = j->get('n');
 			if (screen_name) {
 				screens += *screen_name + ", ";
@@ -242,7 +241,7 @@ email (
 
 		Emailer email (config->kdm_from(), i.front()->emails(), subject, body);
 
-		BOOST_FOREACH (string i, config->kdm_cc()) {
+		for (auto i: config->kdm_cc()) {
 			email.add_cc (i);
 		}
 		if (!config->kdm_bcc().empty ()) {

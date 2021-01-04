@@ -23,7 +23,6 @@
 #include "config.h"
 #include "emailer.h"
 #include "compose.hpp"
-#include <boost/foreach.hpp>
 #include <list>
 
 #include "i18n.h"
@@ -70,7 +69,7 @@ SendNotificationEmailJob::run ()
 	list<string> to;
 	to.push_back (config->notification_to ());
 	Emailer email (config->notification_from(), to, config->notification_subject(), _body);
-	BOOST_FOREACH (string i, config->notification_cc()) {
+	for (auto i: config->notification_cc()) {
 		email.add_cc (i);
 	}
 	if (!config->notification_bcc().empty()) {

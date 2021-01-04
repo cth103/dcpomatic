@@ -25,7 +25,6 @@
 #include "log.h"
 #include "frame_interval_checker.h"
 #include "compose.hpp"
-#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"

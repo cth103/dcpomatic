@@ -198,13 +198,13 @@ BOOST_AUTO_TEST_CASE (threed_test7)
 	while (signal_manager->ui_idle ()) {}
 
 	std::cout << "Here's the jobs:\n";
-	BOOST_FOREACH (shared_ptr<Job> i, jm->_jobs) {
+	for (auto i: jm->_jobs) {
 		std::cout << i->name() << " " << i->status() << " " << i->is_new() << " " << i->running() << " " << i->finished() << " " << i->finished_ok() << " " << i->finished_in_error() << "\n";
 	}
 
 	BOOST_REQUIRE (jm->errors());
 	shared_ptr<Job> failed;
-	BOOST_FOREACH (shared_ptr<Job> i, jm->_jobs) {
+	for (auto i: jm->_jobs) {
 		if (i->finished_in_error()) {
 			BOOST_REQUIRE (!failed);
 			failed = i;

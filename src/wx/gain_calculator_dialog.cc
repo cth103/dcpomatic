@@ -37,7 +37,7 @@ GainCalculatorDialog::GainCalculatorDialog (wxWindow* parent)
 	add (_("But I have to use fader"), true);
 	_actual = add (new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, wxTextValidator (wxFILTER_NUMERIC)));
 
-	BOOST_FOREACH (CinemaSoundProcessor const * i, CinemaSoundProcessor::all()) {
+	for (auto i: CinemaSoundProcessor::all()) {
 		_processor->Append (std_to_wx(i->name()));
 	}
 

@@ -31,7 +31,6 @@
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/reel_closed_caption_asset.h>
 #include <dcp/reel_subtitle_asset.h>
-#include <boost/foreach.hpp>
 #include <boost/test/unit_test.hpp>
 
 
@@ -125,7 +124,7 @@ BOOST_AUTO_TEST_CASE (subtitle_in_all_reels_test)
 	shared_ptr<dcp::CPL> cpl = dcp.cpls().front();
 	BOOST_REQUIRE_EQUAL (cpl->reels().size(), 3U);
 
-	BOOST_FOREACH (shared_ptr<dcp::Reel> i, cpl->reels()) {
+	for (auto i: cpl->reels()) {
 		BOOST_CHECK (i->main_subtitle());
 	}
 }
@@ -170,7 +169,7 @@ BOOST_AUTO_TEST_CASE (closed_captions_in_all_reels_test)
 	shared_ptr<dcp::CPL> cpl = dcp.cpls().front();
 	BOOST_REQUIRE_EQUAL (cpl->reels().size(), 3U);
 
-	BOOST_FOREACH (shared_ptr<dcp::Reel> i, cpl->reels()) {
+	for (auto i: cpl->reels()) {
 		BOOST_REQUIRE_EQUAL (i->closed_captions().size(), 2U);
 		optional<string> first = i->closed_captions().front()->language();
 		optional<string> second = i->closed_captions().back()->language();

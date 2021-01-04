@@ -26,7 +26,6 @@
 #include "lib/content.h"
 #include "lib/text_content.h"
 #include <wx/wx.h>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::list;
@@ -92,7 +91,7 @@ FontsDialog::setup ()
 
 	_fonts->DeleteAllItems ();
 	size_t n = 0;
-	BOOST_FOREACH (shared_ptr<Font> i, caption->fonts ()) {
+	for (auto i: caption->fonts ()) {
 		wxListItem item;
 		item.SetId (n);
 		_fonts->InsertItem (item);
@@ -131,7 +130,7 @@ FontsDialog::edit_clicked ()
 	int const item = _fonts->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	string const id = wx_to_std (_fonts->GetItemText (item, 0));
 	shared_ptr<Font> font;
-	BOOST_FOREACH (shared_ptr<Font> i, caption->fonts()) {
+	for (auto i: caption->fonts()) {
 		if (i->id() == id) {
 			font = i;
 		}

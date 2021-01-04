@@ -36,7 +36,6 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <wx/grid.h>
 #include <wx/graphics.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::cout;
@@ -191,7 +190,7 @@ AudioMappingView::paint_column_labels (wxDC& dc)
 	wxCoord label_width;
 	wxCoord label_height;
 	int N = 0;
-	BOOST_FOREACH (NamedChannel const& i, _output_channels) {
+	for (auto const& i: _output_channels) {
 		dc.GetTextExtent (std_to_wx(i.name), &label_width, &label_height);
 		dc.DrawText (std_to_wx(i.name), LEFT_WIDTH + GRID_SPACING * N + (GRID_SPACING - label_width) / 2, GRID_SPACING + (GRID_SPACING - label_height) / 2);
 		++N;
@@ -226,7 +225,7 @@ AudioMappingView::paint_row_labels (wxDC& dc)
 	/* Row channel labels */
 
 	int N = 0;
-	BOOST_FOREACH (NamedChannel const& i, _input_channels) {
+	for (auto const& i: _input_channels) {
 		dc.GetTextExtent (std_to_wx(i.name), &label_width, &label_height);
 		dc.DrawText (std_to_wx(i.name), GRID_SPACING * 2 + (GRID_SPACING - label_width) / 2, TOP_HEIGHT + GRID_SPACING * N + (GRID_SPACING - label_height) / 2);
 		++N;
@@ -244,7 +243,7 @@ AudioMappingView::paint_row_labels (wxDC& dc)
 	/* Group labels and lines */
 
 	int y = TOP_HEIGHT;
-	BOOST_FOREACH (Group i, _input_groups) {
+	for (auto i: _input_groups) {
 		int const height = (i.to - i.from + 1) * GRID_SPACING;
 		dc.GetTextExtent (std_to_wx(i.name), &label_width, &label_height);
 		if (label_width > height) {
@@ -440,7 +439,7 @@ AudioMappingView::mouse_event_to_input_group_name (wxMouseEvent& ev) const
 	}
 
 	int y = (ev.GetY() + _vertical_scroll->GetThumbPosition() - (GRID_SPACING * 2)) / GRID_SPACING;
-	BOOST_FOREACH (Group i, _input_groups) {
+	for (auto i: _input_groups) {
 		if (i.from <= y && y <= i.to) {
 			return i.name;
 		}
@@ -551,7 +550,7 @@ wxString
 AudioMappingView::input_channel_name_with_group (NamedChannel const& n) const
 {
 	optional<wxString> group;
-	BOOST_FOREACH (Group i, _input_groups) {
+	for (auto i: _input_groups) {
 		if (i.from <= n.index && n.index <= i.to) {
 			group = std_to_wx (i.name);
 		}

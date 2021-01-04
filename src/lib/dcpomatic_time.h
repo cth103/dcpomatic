@@ -28,7 +28,6 @@
 #include "frame_rate_change.h"
 #include "dcpomatic_assert.h"
 #include <boost/optional.hpp>
-#include <boost/foreach.hpp>
 #include <stdint.h>
 #include <cmath>
 #include <ostream>
@@ -319,9 +318,9 @@ std::list<TimePeriod<T> > subtract (TimePeriod<T> A, std::list<TimePeriod<T> > c
 	std::list<TimePeriod<T> > result;
 	result.push_back (A);
 
-	BOOST_FOREACH (TimePeriod<T> i, B) {
+	for (auto i: B) {
 		std::list<TimePeriod<T> > new_result;
-		BOOST_FOREACH (TimePeriod<T> j, result) {
+		for (auto j: result) {
 			boost::optional<TimePeriod<T> > ov = i.overlap (j);
 			if (ov) {
 				if (*ov == i) {

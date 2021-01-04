@@ -38,7 +38,6 @@
 #include <dcp/exceptions.h>
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
-#include <boost/foreach.hpp>
 #include <getopt.h>
 #include <string>
 #include <iostream>
@@ -111,7 +110,7 @@ main (int argc, char* argv[])
 			film->set_j2k_bandwidth (*cc.j2k_bandwidth);
 		}
 
-		BOOST_FOREACH (CreateCLI::Content i, cc.content) {
+		for (auto i: cc.content) {
 			boost::filesystem::path const can = boost::filesystem::canonical (i.path);
 			list<shared_ptr<Content> > content;
 
@@ -122,7 +121,7 @@ main (int argc, char* argv[])
 				content = content_factory (can);
 			}
 
-			BOOST_FOREACH (shared_ptr<Content> j, content) {
+			for (auto j: content) {
 				film->examine_and_add_content (j);
 			}
 
@@ -132,7 +131,7 @@ main (int argc, char* argv[])
 
 			while (signal_manager->ui_idle() > 0) {}
 
-			BOOST_FOREACH (shared_ptr<Content> j, content) {
+			for (auto j: content) {
 				if (j->video) {
 					j->video->set_frame_type (i.frame_type);
 				}
@@ -143,7 +142,7 @@ main (int argc, char* argv[])
 			film->set_video_frame_rate (*cc.dcp_frame_rate);
 		}
 
-		BOOST_FOREACH (shared_ptr<Content> i, film->content()) {
+		for (auto i: film->content()) {
 			shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (i);
 			if (ic && ic->still()) {
 				ic->video->set_length (cc.still_length * 24);
@@ -151,7 +150,7 @@ main (int argc, char* argv[])
 		}
 
 		if (jm->errors ()) {
-			BOOST_FOREACH (shared_ptr<Job> i, jm->get()) {
+			for (auto i: jm->get()) {
 				if (i->finished_in_error()) {
 					cerr << i->error_summary() << "\n"
 					     << i->error_details() << "\n";

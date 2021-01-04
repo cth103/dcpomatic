@@ -24,7 +24,6 @@
 
 #include "dcp_content_type.h"
 #include "dcpomatic_assert.h"
-#include <boost/foreach.hpp>
 
 #include "i18n.h"
 
@@ -60,7 +59,7 @@ DCPContentType::setup_dcp_content_types ()
 DCPContentType const *
 DCPContentType::from_isdcf_name (string n)
 {
-	BOOST_FOREACH (DCPContentType const * i, _dcp_content_types) {
+	for (auto i: _dcp_content_types) {
 		if (i->isdcf_name() == n) {
 			return i;
 		}
@@ -72,7 +71,7 @@ DCPContentType::from_isdcf_name (string n)
 DCPContentType const *
 DCPContentType::from_libdcp_kind (dcp::ContentKind kind)
 {
-	BOOST_FOREACH (DCPContentType const * i, _dcp_content_types) {
+	for (auto i: _dcp_content_types) {
 		if (i->libdcp_kind() == kind) {
 			return i;
 		}

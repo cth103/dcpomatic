@@ -22,7 +22,6 @@
 #include "wx_util.h"
 #include <wx/listctrl.h>
 #include <boost/filesystem.hpp>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::cout;
@@ -62,7 +61,7 @@ SystemFontDialog::SystemFontDialog (wxWindow* parent)
 	sizer->Add (_list, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
 
 	int n = 0;
-	BOOST_FOREACH (boost::filesystem::path i, _fonts) {
+	for (auto i: _fonts) {
 		_list->InsertItem (n++, std_to_wx (i.leaf().stem().string ()));
 	}
 

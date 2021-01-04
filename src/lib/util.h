@@ -128,7 +128,7 @@ std::list<T>
 vector_to_list (std::vector<T> v)
 {
 	std::list<T> l;
-	BOOST_FOREACH (T& i, v) {
+	for (auto& i: v) {
 		l.push_back (i);
 	}
 	return l;
@@ -139,7 +139,7 @@ std::vector<T>
 list_to_vector (std::list<T> v)
 {
 	std::vector<T> l;
-	BOOST_FOREACH (T& i, v) {
+	for (auto& i: v) {
 		l.push_back (i);
 	}
 	return l;

@@ -40,7 +40,6 @@
 #include <wx/splash.h>
 #include <wx/preferences.h>
 #include <wx/wx.h>
-#include <boost/foreach.hpp>
 #include <iostream>
 #include <set>
 
@@ -179,13 +178,13 @@ public:
 
 			set<shared_ptr<const Film> > films;
 
-			BOOST_FOREACH (shared_ptr<Job> i, JobManager::instance()->get()) {
+			for (auto i: JobManager::instance()->get()) {
 				films.insert (i->film());
 			}
 
-			BOOST_FOREACH (shared_ptr<const Film> i, films) {
+			for (auto i: films) {
 				double progress = 0;
-				BOOST_FOREACH (shared_ptr<Job> j, JobManager::instance()->get()) {
+				for (auto j: JobManager::instance()->get()) {
 					if (i == j->film() && dynamic_pointer_cast<TranscodeJob>(j)) {
 						progress = j->progress().get_value_or(0);
 					}
@@ -438,7 +437,7 @@ class App : public wxApp
 		this->Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
 
 		shared_ptr<Film> film;
-		BOOST_FOREACH (boost::filesystem::path i, films_to_load) {
+		for (auto i: films_to_load) {
 			if (boost::filesystem::is_directory (i)) {
 				try {
 					film.reset (new Film (i));

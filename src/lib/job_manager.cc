@@ -29,7 +29,6 @@
 #include "analyse_subtitles_job.h"
 #include "film.h"
 #include <boost/thread.hpp>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::string;
@@ -64,7 +63,7 @@ JobManager::~JobManager ()
 {
 	boost::this_thread::disable_interruption dis;
 
-	BOOST_FOREACH (boost::signals2::connection& i, _connections) {
+	for (auto& i: _connections) {
 		i.disconnect ();
 	}
 
@@ -132,7 +131,7 @@ bool
 JobManager::errors () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	BOOST_FOREACH (shared_ptr<Job> i, _jobs) {
+	for (auto i: _jobs) {
 		if (i->finished_in_error ()) {
 			return true;
 		}
@@ -151,7 +150,7 @@ JobManager::scheduler ()
 		while (true) {
 			bool have_new = false;
 			bool have_running = false;
-			BOOST_FOREACH (shared_ptr<Job> i, _jobs) {
+			for (auto i: _jobs) {
 				if (i->running()) {
 					have_running = true;
 				}
@@ -171,7 +170,7 @@ JobManager::scheduler ()
 			break;
 		}
 
-		BOOST_FOREACH (shared_ptr<Job> i, _jobs) {
+		for (auto i: _jobs) {
 			if (i->is_new()) {
 				_connections.push_back (i->FinishedImmediate.connect(bind(&JobManager::job_finished, this)));
 				i->start ();
@@ -226,7 +225,7 @@ JobManager::analyse_audio (
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 
-		BOOST_FOREACH (shared_ptr<Job> i, _jobs) {
+		for (auto i: _jobs) {
 			shared_ptr<AnalyseAudioJob> a = dynamic_pointer_cast<AnalyseAudioJob> (i);
 			if (a && a->path() == film->audio_analysis_path(playlist) && !i->finished_cancelled()) {
 				i->when_finished (connection, ready);
@@ -261,7 +260,7 @@ JobManager::analyse_subtitles (
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 
-		BOOST_FOREACH (shared_ptr<Job> i, _jobs) {
+		for (auto i: _jobs) {
 			shared_ptr<AnalyseSubtitlesJob> a = dynamic_pointer_cast<AnalyseSubtitlesJob> (i);
 			if (a && a->path() == film->subtitle_analysis_path(content)) {
 				i->when_finished (connection, ready);
@@ -315,7 +314,7 @@ JobManager::priority_changed ()
 		boost::mutex::scoped_lock lm (_mutex);
 
 		bool first = true;
-		BOOST_FOREACH (shared_ptr<Job> i, _jobs) {
+		for (auto i: _jobs) {
 			if (first) {
 				if (i->is_new ()) {
 					i->start ();
@@ -366,7 +365,7 @@ JobManager::pause ()
 		return;
 	}
 
-	BOOST_FOREACH (shared_ptr<Job> i, _jobs) {
+	for (auto i: _jobs) {
 		if (i->pause_by_user()) {
 			_paused_job = i;
 		}

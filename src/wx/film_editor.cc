@@ -32,7 +32,6 @@
 #include "lib/dcp_content.h"
 #include <wx/wx.h>
 #include <wx/notebook.h>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::cout;

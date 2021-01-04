@@ -26,7 +26,6 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::cout;
@@ -43,7 +42,7 @@ SPL::read (boost::filesystem::path path, ContentStore* store)
 	doc.read_file (path);
 	_id = doc.string_child("Id");
 	_name = doc.string_child("Name");
-	BOOST_FOREACH (cxml::ConstNodePtr i, doc.node_children("Entry")) {
+	for (auto i: doc.node_children("Entry")) {
 		shared_ptr<Content> c = store->get(i->string_child("Digest"));
 		if (c) {
 			add (SPLEntry(c));
@@ -60,7 +59,7 @@ SPL::write (boost::filesystem::path path) const
 	xmlpp::Element* root = doc.create_root_node ("SPL");
 	root->add_child("Id")->add_child_text (_id);
 	root->add_child("Name")->add_child_text (_name);
-	BOOST_FOREACH (SPLEntry i, _spl) {
+	for (auto i: _spl) {
 		i.as_xml (root->add_child("Entry"));
 	}
 	doc.write_to_file_formatted (path.string());

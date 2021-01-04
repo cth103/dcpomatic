@@ -37,7 +37,6 @@ extern "C" {
 #include <libavfilter/f_ebur128.h>
 #endif
 }
-#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -123,7 +122,7 @@ AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> film, shared_ptr<const 
 AnalyseAudioJob::~AnalyseAudioJob ()
 {
 	stop_thread ();
-	BOOST_FOREACH (Filter const * i, _filters) {
+	for (auto i: _filters) {
 		delete const_cast<Filter*> (i);
 	}
 	delete[] _current;
@@ -165,7 +164,7 @@ AnalyseAudioJob::run ()
 	_analysis.reset (new AudioAnalysis (_film->audio_channels ()));
 
 	bool has_any_audio = false;
-	BOOST_FOREACH (shared_ptr<Content> c, _playlist->content ()) {
+	for (auto c: _playlist->content()) {
 		if (c->audio) {
 			has_any_audio = true;
 		}

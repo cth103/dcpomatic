@@ -26,7 +26,6 @@
 extern "C" {
 #include <libavfilter/avfilter.h>
 }
-#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -103,7 +102,7 @@ Filter::ffmpeg_string (vector<Filter const *> const & filters)
 {
 	string ff;
 
-	BOOST_FOREACH (Filter const * i, filters) {
+	for (auto const i: filters) {
 		if (!ff.empty ()) {
 			ff += N_(",");
 		}

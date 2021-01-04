@@ -54,7 +54,7 @@ DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const Film> film, shared_ptr<
 	}
 
 	/* Add a default font for any LoadFont nodes in our file which we haven't yet found fonts for */
-	BOOST_FOREACH (shared_ptr<dcp::LoadFontNode> i, c->load_font_nodes()) {
+	for (auto i: c->load_font_nodes()) {
 		if (fm.find(i->id) == fm.end()) {
 			_fonts.push_back (FontData(i->id, dcp::ArrayData(default_font_file())));
 		}

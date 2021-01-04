@@ -60,7 +60,7 @@ AudioMerger::pull (DCPTime time)
 	list<Buffer> new_buffers;
 
 	_buffers.sort (AudioMerger::BufferComparator());
-	BOOST_FOREACH (Buffer i, _buffers) {
+	for (auto i: _buffers) {
 		if (i.period().to <= time) {
 			/* Completely within the pull period */
 			DCPOMATIC_ASSERT (i.audio->frames() > 0);
@@ -102,7 +102,7 @@ AudioMerger::push (std::shared_ptr<const AudioBuffers> audio, DCPTime time)
 	DCPTimePeriod period (time, time + DCPTime::from_frames (audio->frames(), _frame_rate));
 
 	/* Mix any overlapping parts of this new block with existing ones */
-	BOOST_FOREACH (Buffer i, _buffers) {
+	for (auto i: _buffers) {
 		optional<DCPTimePeriod> overlap = i.period().overlap (period);
 		if (overlap) {
 			int32_t const offset = frames(DCPTime(overlap->from - i.time));
@@ -116,12 +116,12 @@ AudioMerger::push (std::shared_ptr<const AudioBuffers> audio, DCPTime time)
 	}
 
 	list<DCPTimePeriod> periods;
-	BOOST_FOREACH (Buffer i, _buffers) {
+	for (auto i: _buffers) {
 		periods.push_back (i.period ());
 	}
 
 	/* Add the non-overlapping parts */
-	BOOST_FOREACH (DCPTimePeriod i, subtract (period, periods)) {
+	for (auto i: subtract(period, periods)) {
 		list<Buffer>::iterator before = _buffers.end();
 		list<Buffer>::iterator after = _buffers.end();
 		for (list<Buffer>::iterator j = _buffers.begin(); j != _buffers.end(); ++j) {

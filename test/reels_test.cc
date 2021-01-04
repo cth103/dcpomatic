@@ -34,7 +34,6 @@
 #include "lib/content_factory.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::list;
@@ -496,7 +495,7 @@ no_op ()
 static void
 dump_notes (list<dcp::VerificationNote> const & notes)
 {
-	BOOST_FOREACH (dcp::VerificationNote i, notes) {
+	for (auto i: notes) {
 		std::cout << dcp::note_to_string(i) << "\n";
 	}
 }

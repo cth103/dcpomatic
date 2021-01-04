@@ -23,7 +23,6 @@
 #include "recipient_dialog.h"
 #include "dcpomatic_button.h"
 #include "lib/config.h"
-#include <boost/foreach.hpp>
 #include <list>
 #include <iostream>
 
@@ -225,7 +224,7 @@ RecipientsPanel::add_recipients ()
 {
 	_root = _targets->AddRoot ("Foo");
 
-	BOOST_FOREACH (shared_ptr<DKDMRecipient> i, Config::instance()->dkdm_recipients()) {
+	for (auto i: Config::instance()->dkdm_recipients()) {
 		add_recipient (i);
 	}
 }

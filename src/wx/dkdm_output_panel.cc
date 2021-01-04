@@ -119,7 +119,7 @@ DKDMOutputPanel::make (
 		}
 
 		bool kdms_with_no_email = false;
-		BOOST_FOREACH (KDMWithMetadataPtr i, kdms) {
+		for (auto i: kdms) {
 			if (i->emails().empty()) {
 				kdms_with_no_email = true;
 			}
@@ -134,8 +134,8 @@ DKDMOutputPanel::make (
 
 		if (proceed && Config::instance()->confirm_kdm_email()) {
 			list<string> emails;
-			BOOST_FOREACH (KDMWithMetadataPtr const& i, kdms) {
-				BOOST_FOREACH (string j, i->emails()) {
+			for (auto const& i: kdms) {
+				for (auto j: i->emails()) {
 					emails.push_back (j);
 				}
 			}

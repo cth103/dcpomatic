@@ -39,7 +39,6 @@
 #include "lib/video_content.h"
 #include <wx/spinctrl.h>
 #include <wx/tglbtn.h>
-#include <boost/foreach.hpp>
 #include <boost/unordered_set.hpp>
 #include <boost/functional/hash.hpp>
 #include <set>
@@ -171,7 +170,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_colour_conversion_label = create_label (this, _("Colour conversion"), true);
 	_colour_conversion = new wxChoice (this, wxID_ANY, wxDefaultPosition, size);
 	_colour_conversion->Append (_("None"));
-	BOOST_FOREACH (PresetColourConversion const & i, PresetColourConversion::all()) {
+	for (auto const& i: PresetColourConversion::all()) {
 		_colour_conversion->Append (std_to_wx (i.name));
 	}
 
@@ -371,7 +370,7 @@ VideoPanel::film_content_changed (int property)
 		setup_description ();
 	} else if (property == VideoContentProperty::COLOUR_CONVERSION) {
 		boost::unordered_set<optional<ColourConversion> > check;
-		BOOST_FOREACH (shared_ptr<const Content> i, vc) {
+		for (auto i: vc) {
 			check.insert (i->video->colour_conversion());
 		}
 
@@ -408,7 +407,7 @@ VideoPanel::film_content_changed (int property)
 		setup_sensitivity ();
 	} else if (property == VideoContentProperty::FADE_IN) {
 		set<Frame> check;
-		BOOST_FOREACH (shared_ptr<const Content> i, vc) {
+		for (auto i: vc) {
 			check.insert (i->video->fade_in ());
 		}
 
@@ -422,7 +421,7 @@ VideoPanel::film_content_changed (int property)
 		}
 	} else if (property == VideoContentProperty::FADE_OUT) {
 		set<Frame> check;
-		BOOST_FOREACH (shared_ptr<const Content> i, vc) {
+		for (auto i: vc) {
 			check.insert (i->video->fade_out ());
 		}
 
@@ -453,7 +452,7 @@ VideoPanel::film_content_changed (int property)
 		setup_sensitivity ();
 	} else if (property == VideoContentProperty::CUSTOM_RATIO || property == VideoContentProperty::CUSTOM_SIZE) {
 		set<Frame> check;
-		BOOST_FOREACH (shared_ptr<const Content> i, vc) {
+		for (auto i: vc) {
 			check.insert (i->video->custom_ratio() || i->video->custom_size());
 		}
 
@@ -503,7 +502,7 @@ VideoPanel::colour_conversion_changed ()
 	if (s == int(all.size() + 1)) {
 		edit_colour_conversion_clicked ();
 	} else {
-		BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_video()) {
+		for (auto i: _parent->selected_video()) {
 			if (s == 0) {
 				i->video->unset_colour_conversion ();
 			} else if (s != int(all.size() + 2)) {
@@ -521,7 +520,7 @@ VideoPanel::edit_colour_conversion_clicked ()
 	ContentColourConversionDialog* d = new ContentColourConversionDialog (this, vc.front()->video->yuv ());
 	d->set (vc.front()->video->colour_conversion().get_value_or (PresetColourConversion::all().front().conversion));
 	if (d->ShowModal() == wxID_OK) {
-		BOOST_FOREACH (shared_ptr<Content> i, vc) {
+		for (auto i: vc) {
 			i->video->set_colour_conversion (d->get ());
 		}
 	} else {
@@ -578,7 +577,7 @@ VideoPanel::setup_sensitivity ()
 	setup_refer_button (_reference, _reference_note, dcp, can_reference, cannot);
 
 	bool any_use = false;
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_video()) {
+	for (auto i: _parent->selected_video()) {
 		if (i->video && i->video->use()) {
 			any_use = true;
 		}
@@ -636,7 +635,7 @@ VideoPanel::setup_sensitivity ()
 void
 VideoPanel::fade_in_changed ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_video ()) {
+	for (auto i: _parent->selected_video ()) {
 		double const vfr = i->active_video_frame_rate (_parent->film());
 		i->video->set_fade_in (_fade_in->get(vfr).frames_round(vfr));
 	}
@@ -645,7 +644,7 @@ VideoPanel::fade_in_changed ()
 void
 VideoPanel::fade_out_changed ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_video ()) {
+	for (auto i: _parent->selected_video ()) {
 		double const vfr = i->active_video_frame_rate (_parent->film());
 		i->video->set_fade_out (_fade_out->get(vfr).frames_round(vfr));
 	}
@@ -672,7 +671,7 @@ VideoPanel::reference_clicked ()
 void
 VideoPanel::scale_fit_clicked ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_video()) {
+	for (auto i: _parent->selected_video()) {
 		i->video->set_custom_ratio (optional<float>());
 	}
 }
@@ -694,7 +693,7 @@ VideoPanel::scale_custom_edit_clicked ()
 	CustomScaleDialog* d = new CustomScaleDialog (this, vc->size(), _parent->film()->frame_size(), vc->custom_ratio(), vc->custom_size());
 	int const r = d->ShowModal ();
 	if (r == wxID_OK) {
-		BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_video()) {
+		for (auto i: _parent->selected_video()) {
 			i->video->set_custom_ratio (d->custom_ratio());
 			i->video->set_custom_size (d->custom_size());
 		}
@@ -722,7 +721,7 @@ void
 VideoPanel::left_crop_changed ()
 {
 	if (_left_right_link->GetValue()) {
-		BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_video()) {
+		for (auto i: _parent->selected_video()) {
 			i->video->set_right_crop (i->video->left_crop());
 		}
 	}
@@ -733,7 +732,7 @@ void
 VideoPanel::right_crop_changed ()
 {
 	if (_left_right_link->GetValue()) {
-		BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_video()) {
+		for (auto i: _parent->selected_video()) {
 			i->video->set_left_crop (i->video->right_crop());
 		}
 	}
@@ -744,7 +743,7 @@ void
 VideoPanel::top_crop_changed ()
 {
 	if (_top_bottom_link->GetValue()) {
-		BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_video()) {
+		for (auto i: _parent->selected_video()) {
 			i->video->set_bottom_crop (i->video->top_crop());
 		}
 	}
@@ -755,7 +754,7 @@ void
 VideoPanel::bottom_crop_changed ()
 {
 	if (_top_bottom_link->GetValue()) {
-		BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_video()) {
+		for (auto i: _parent->selected_video()) {
 			i->video->set_top_crop (i->video->bottom_crop());
 		}
 	}

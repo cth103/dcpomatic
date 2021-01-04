@@ -71,7 +71,7 @@ TimelineAudioContentView::label () const
 	list<int> mapped = ac->mapping().mapped_output_channels();
 	if (!mapped.empty ()) {
 		s += " → ";
-		BOOST_FOREACH (int i, mapped) {
+		for (auto i: mapped) {
 			s += std_to_wx(short_audio_channel_name(i)) + ", ";
 		}
 		s = s.Left(s.Length() - 2);

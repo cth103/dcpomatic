@@ -103,7 +103,6 @@ DCPOMATIC_ENABLE_WARNINGS
 #endif
 #include <boost/filesystem.hpp>
 #include <boost/noncopyable.hpp>
-#include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
 #include <iostream>
 #include <fstream>
@@ -445,7 +444,7 @@ public:
 				);
 		}
 
-		BOOST_FOREACH (string i, notes) {
+		for (auto i: notes) {
 			error_dialog (0, std_to_wx(i));
 		}
 
@@ -687,7 +686,7 @@ private:
 
 		PasteDialog* d = new PasteDialog (this, static_cast<bool>(_clipboard->video), static_cast<bool>(_clipboard->audio), !_clipboard->text.empty());
 		if (d->ShowModal() == wxID_OK) {
-			BOOST_FOREACH (shared_ptr<Content> i, _film_editor->content_panel()->selected()) {
+			for (auto i: _film_editor->content_panel()->selected()) {
 				if (d->video() && i->video) {
 					DCPOMATIC_ASSERT (_clipboard->video);
 					i->video->take_settings_from (_clipboard->video);
@@ -1638,7 +1637,7 @@ private:
 			if (!_film_to_create.empty ()) {
 				_frame->new_film (_film_to_create, optional<string> ());
 				if (!_content_to_add.empty ()) {
-					BOOST_FOREACH (shared_ptr<Content> i, content_factory(_content_to_add)) {
+					for (auto i: content_factory(_content_to_add)) {
 						_frame->film()->examine_and_add_content (i);
 					}
 				}

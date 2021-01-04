@@ -23,7 +23,6 @@
 #include "examine_content_job.h"
 #include "content.h"
 #include "film.h"
-#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -66,7 +65,7 @@ CheckContentChangeJob::run ()
 
 	list<shared_ptr<Content> > changed;
 
-	BOOST_FOREACH (shared_ptr<Content> i, _film->content()) {
+	for (auto i: _film->content()) {
 		bool ic = false;
 		for (size_t j = 0; j < i->number_of_paths(); ++j) {
 			if (boost::filesystem::last_write_time(i->path(j)) != i->last_write_time(j)) {
@@ -84,7 +83,7 @@ CheckContentChangeJob::run ()
 
 	if (!changed.empty()) {
 		if (_gui) {
-			BOOST_FOREACH (shared_ptr<Content> i, changed) {
+			for (auto i: changed) {
 				JobManager::instance()->add(shared_ptr<Job>(new ExamineContentJob(_film, i)));
 			}
 			string m = _("Some files have been changed since they were added to the project.\n\nThese files will now be re-examined, so you may need to check their settings.");

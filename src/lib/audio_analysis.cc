@@ -29,7 +29,6 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 DCPOMATIC_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
-#include <boost/foreach.hpp>
 #include <stdint.h>
 #include <cmath>
 #include <cstdio>
@@ -68,17 +67,17 @@ AudioAnalysis::AudioAnalysis (boost::filesystem::path filename)
 		throw OldFormatError ("Audio analysis file is too old");
 	}
 
-	BOOST_FOREACH (cxml::NodePtr i, f.node_children ("Channel")) {
+	for (auto i: f.node_children("Channel")) {
 		vector<AudioPoint> channel;
 
-		BOOST_FOREACH (cxml::NodePtr j, i->node_children ("Point")) {
-			channel.push_back (AudioPoint (j));
+		for (auto j: i->node_children("Point")) {
+			channel.push_back (AudioPoint(j));
 		}
 
 		_data.push_back (channel);
 	}
 
-	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children ("SamplePeak")) {
+	for (auto i: f.node_children ("SamplePeak")) {
 		_sample_peak.push_back (
 			PeakTime (
 				dcp::raw_convert<float>(i->content()), DCPTime(i->number_attribute<Frame>("Time"))
@@ -86,7 +85,7 @@ AudioAnalysis::AudioAnalysis (boost::filesystem::path filename)
 			);
 	}
 
-	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children ("TruePeak")) {
+	for (auto i: f.node_children ("TruePeak")) {
 		_true_peak.push_back (dcp::raw_convert<float> (i->content ()));
 	}
 
@@ -135,9 +134,9 @@ AudioAnalysis::write (boost::filesystem::path filename)
 
 	root->add_child("Version")->add_child_text (raw_convert<string> (_current_state_version));
 
-	BOOST_FOREACH (vector<AudioPoint>& i, _data) {
+	for (auto& i: _data) {
 		xmlpp::Element* channel = root->add_child ("Channel");
-		BOOST_FOREACH (AudioPoint& j, i) {
+		for (auto& j: i) {
 			j.as_xml (channel->add_child ("Point"));
 		}
 	}
@@ -148,7 +147,7 @@ AudioAnalysis::write (boost::filesystem::path filename)
 		n->set_attribute ("Time", raw_convert<string> (_sample_peak[i].time.get()));
 	}
 
-	BOOST_FOREACH (float i, _true_peak) {
+	for (auto i: _true_peak) {
 		root->add_child("TruePeak")->add_child_text (raw_convert<string> (i));
 	}
 
@@ -213,7 +212,7 @@ AudioAnalysis::overall_true_peak () const
 {
 	optional<float> p;
 
-	BOOST_FOREACH (float i, _true_peak) {
+	for (auto i: _true_peak) {
 		if (!p || i > *p) {
 			p = i;
 		}

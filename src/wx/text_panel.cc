@@ -43,7 +43,6 @@
 #include "lib/analyse_subtitles_job.h"
 #include "lib/subtitle_analysis.h"
 #include <wx/spinctrl.h>
-#include <boost/foreach.hpp>
 
 using std::vector;
 using std::string;
@@ -279,7 +278,7 @@ TextPanel::update_dcp_track_selection ()
 
 	optional<DCPTextTrack> selected;
 	bool many = false;
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text()) {
+	for (auto i: _parent->selected_text()) {
 		shared_ptr<TextContent> t = i->text_of_original_type(_original_type);
 		if (t) {
 			optional<DCPTextTrack> dt = t->dcp_track();
@@ -292,7 +291,7 @@ TextPanel::update_dcp_track_selection ()
 	}
 
 	int n = 0;
-	BOOST_FOREACH (DCPTextTrack i, _parent->film()->closed_caption_tracks()) {
+	for (auto i: _parent->film()->closed_caption_tracks()) {
 		if (!many && selected && *selected == i) {
 			_dcp_track->SetSelection (n);
 		}
@@ -310,7 +309,7 @@ TextPanel::update_dcp_tracks ()
 	DCPOMATIC_ASSERT (_dcp_track);
 
 	_dcp_track->Clear ();
-	BOOST_FOREACH (DCPTextTrack i, _parent->film()->closed_caption_tracks()) {
+	for (auto i: _parent->film()->closed_caption_tracks()) {
 		/* XXX: don't display the "magic" track which has empty name and language;
 		   this is a nasty hack (see also Film::closed_caption_tracks)
 		*/
@@ -339,7 +338,7 @@ TextPanel::dcp_track_changed ()
 		d->Destroy ();
 	} else {
 		/* Find the DCPTextTrack that was selected */
-		BOOST_FOREACH (DCPTextTrack i, _parent->film()->closed_caption_tracks()) {
+		for (auto i: _parent->film()->closed_caption_tracks()) {
 			if (i.summary() == wx_to_std(_dcp_track->GetStringSelection())) {
 				track = i;
 			}
@@ -347,7 +346,7 @@ TextPanel::dcp_track_changed ()
 	}
 
 	if (track) {
-		BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text()) {
+		for (auto i: _parent->selected_text()) {
 			shared_ptr<TextContent> t = i->text_of_original_type(_original_type);
 			if (t && t->type() == TEXT_CLOSED_CAPTION) {
 				t->set_dcp_track(*track);
@@ -464,7 +463,7 @@ TextPanel::film_content_changed (int property)
 void
 TextPanel::use_toggled ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text()) {
+	for (auto i: _parent->selected_text()) {
 		i->text_of_original_type(_original_type)->set_use (_use->GetValue());
 	}
 }
@@ -486,7 +485,7 @@ TextPanel::current_type () const
 void
 TextPanel::type_changed ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text()) {
+	for (auto i: _parent->selected_text()) {
 		i->text_of_original_type(_original_type)->set_type (current_type ());
 	}
 
@@ -496,7 +495,7 @@ TextPanel::type_changed ()
 void
 TextPanel::burn_toggled ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text ()) {
+	for (auto i: _parent->selected_text ()) {
 		i->text_of_original_type(_original_type)->set_burn (_burn->GetValue());
 	}
 }
@@ -510,7 +509,7 @@ TextPanel::setup_sensitivity ()
 	/* DCP subs can't have their line spacing changed */
 	int dcp_subs = 0;
 	ContentList sel = _parent->selected_text ();
-	BOOST_FOREACH (shared_ptr<Content> i, sel) {
+	for (auto i: sel) {
 		/* These are the content types that could include subtitles */
 		shared_ptr<const FFmpegContent> fc = std::dynamic_pointer_cast<const FFmpegContent> (i);
 		shared_ptr<const StringTextFileContent> sc = std::dynamic_pointer_cast<const StringTextFileContent> (i);
@@ -616,7 +615,7 @@ TextPanel::stream_changed ()
 void
 TextPanel::x_offset_changed ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text ()) {
+	for (auto i: _parent->selected_text ()) {
 		i->text_of_original_type(_original_type)->set_x_offset (_x_offset->GetValue() / 100.0);
 	}
 }
@@ -624,7 +623,7 @@ TextPanel::x_offset_changed ()
 void
 TextPanel::y_offset_changed ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text ()) {
+	for (auto i: _parent->selected_text ()) {
 		i->text_of_original_type(_original_type)->set_y_offset (_y_offset->GetValue() / 100.0);
 	}
 }
@@ -641,7 +640,7 @@ TextPanel::x_scale_changed ()
 void
 TextPanel::y_scale_changed ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text ()) {
+	for (auto i: _parent->selected_text ()) {
 		i->text_of_original_type(_original_type)->set_y_scale (_y_scale->GetValue() / 100.0);
 	}
 }
@@ -649,7 +648,7 @@ TextPanel::y_scale_changed ()
 void
 TextPanel::line_spacing_changed ()
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_text ()) {
+	for (auto i: _parent->selected_text ()) {
 		i->text_of_original_type(_original_type)->set_line_spacing (_line_spacing->GetValue() / 100.0);
 	}
 }
@@ -770,7 +769,7 @@ TextPanel::try_to_load_analysis ()
 	boost::filesystem::path const path = _parent->film()->subtitle_analysis_path(content);
 
 	if (!boost::filesystem::exists(path)) {
-		BOOST_FOREACH (shared_ptr<Job> i, JobManager::instance()->get()) {
+		for (auto i: JobManager::instance()->get()) {
 			if (dynamic_pointer_cast<AnalyseSubtitlesJob>(i)) {
 				i->cancel ();
 			}

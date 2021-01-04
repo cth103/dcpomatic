@@ -21,7 +21,6 @@
 #include "save_template_dialog.h"
 #include "wx_util.h"
 #include "lib/config.h"
-#include <boost/foreach.hpp>
 
 using std::string;
 #if BOOST_VERSION >= 106100

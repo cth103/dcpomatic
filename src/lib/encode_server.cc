@@ -44,7 +44,6 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 #include <boost/algorithm/string.hpp>
 #include <boost/scoped_array.hpp>
-#include <boost/foreach.hpp>
 #ifdef HAVE_VALGRIND_H
 #include <valgrind/memcheck.h>
 #endif

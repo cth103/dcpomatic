@@ -23,7 +23,6 @@
 #include "static_text.h"
 #include "check_box.h"
 #include "lib/config.h"
-#include <boost/foreach.hpp>
 
 using std::list;
 using std::string;

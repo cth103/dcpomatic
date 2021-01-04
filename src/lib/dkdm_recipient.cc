@@ -22,7 +22,6 @@
 #include "kdm_with_metadata.h"
 #include "film.h"
 #include <dcp/raw_convert.h>
-#include <boost/foreach.hpp>
 
 
 using std::string;
@@ -34,7 +33,7 @@ using dcp::raw_convert;
 DKDMRecipient::DKDMRecipient (cxml::ConstNodePtr node)
 	: KDMRecipient (node)
 {
-	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("Email")) {
+	for (auto i: node->node_children("Email")) {
 		emails.push_back (i->content());
 	}
 
@@ -48,7 +47,7 @@ DKDMRecipient::as_xml (xmlpp::Element* node) const
 {
 	KDMRecipient::as_xml (node);
 
-	BOOST_FOREACH (string i, emails) {
+	for (auto i: emails) {
 		node->add_child("Email")->add_child_text(i);
 	}
 

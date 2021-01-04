@@ -41,7 +41,6 @@
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/foreach.hpp>
 #include <boost/thread.hpp>
 #include <cstdlib>
 #include <fstream>
@@ -262,7 +261,7 @@ try
 	boost::optional<bool> u = f.optional_bool_child ("UseAnyServers");
 	_use_any_servers = u.get_value_or (true);
 
-	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("Server")) {
+	for (auto i: f.node_children("Server")) {
 		if (i->node_children("HostName").size() == 1) {
 			_servers.push_back (i->string_child ("HostName"));
 		} else {
@@ -348,7 +347,7 @@ try
 
 	_kdm_subject = f.optional_string_child ("KDMSubject").get_value_or (_("KDM delivery: $CPL_NAME"));
 	_kdm_from = f.string_child ("KDMFrom");
-	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("KDMCC")) {
+	for (auto i: f.node_children("KDMCC")) {
 		if (!i->content().empty()) {
 			_kdm_cc.push_back (i->content ());
 		}
@@ -359,7 +358,7 @@ try
 	_notification_subject = f.optional_string_child("NotificationSubject").get_value_or(_("DCP-o-matic notification"));
 	_notification_from = f.optional_string_child("NotificationFrom").get_value_or("");
 	_notification_to = f.optional_string_child("NotificationTo").get_value_or("");
-	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("NotificationCC")) {
+	for (auto i: f.node_children("NotificationCC")) {
 		if (!i->content().empty()) {
 			_notification_cc.push_back (i->content ());
 		}
@@ -384,11 +383,11 @@ try
 	_win32_console = f.optional_bool_child ("Win32Console").get_value_or (false);
 #endif
 
-	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("History")) {
+	for (auto i: f.node_children("History")) {
 		_history.push_back (i->content ());
 	}
 
-	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("PlayerHistory")) {
+	for (auto i: f.node_children("PlayerHistory")) {
 		_player_history.push_back (i->content ());
 	}
 
@@ -396,7 +395,7 @@ try
 	if (signer) {
 		shared_ptr<dcp::CertificateChain> c (new dcp::CertificateChain ());
 		/* Read the signing certificates and private key in from the config file */
-		BOOST_FOREACH (cxml::NodePtr i, signer->node_children ("Certificate")) {
+		for (auto i: signer->node_children ("Certificate")) {
 			c->add (dcp::Certificate (i->content ()));
 		}
 		c->set_key (signer->string_child ("PrivateKey"));
@@ -409,7 +408,7 @@ try
 	cxml::NodePtr decryption = f.optional_node_child ("Decryption");
 	if (decryption) {
 		shared_ptr<dcp::CertificateChain> c (new dcp::CertificateChain ());
-		BOOST_FOREACH (cxml::NodePtr i, decryption->node_children ("Certificate")) {
+		for (auto i: decryption->node_children ("Certificate")) {
 			c->add (dcp::Certificate (i->content ()));
 		}
 		c->set_key (decryption->string_child ("PrivateKey"));
@@ -421,7 +420,7 @@ try
 	/* These must be done before we call Bad as that might set one
 	   of the nags.
 	*/
-	BOOST_FOREACH (cxml::NodePtr i, f.node_children("Nagged")) {
+	for (auto i: f.node_children("Nagged")) {
 		int const id = i->number_attribute<int>("Id");
 		if (id >= 0 && id < NAG_COUNT) {
 			_nagged[id] = raw_convert<int>(i->content());
@@ -430,7 +429,7 @@ try
 
 	optional<BadReason> bad;
 
-	BOOST_FOREACH (dcp::Certificate const & i, _signer_chain->unordered()) {
+	for (auto const& i: _signer_chain->unordered()) {
 		if (i.has_utf8_strings()) {
 			bad = BAD_SIGNER_UTF8_STRINGS;
 		}
@@ -465,7 +464,7 @@ try
 	} else {
 		/* Old-style: one or more DKDM nodes */
 		_dkdms.reset (new DKDMGroup ("root"));
-		BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("DKDM")) {
+		for (auto i: f.node_children("DKDM")) {
 			_dkdms->add (DKDMBase::read (i));
 		}
 	}
@@ -506,7 +505,7 @@ try
 	_decode_reduction = f.optional_number_child<int>("DecodeReduction");
 	_default_notify = f.optional_bool_child("DefaultNotify").get_value_or(false);
 
-	BOOST_FOREACH (cxml::NodePtr i, f.node_children("Notification")) {
+	for (auto i: f.node_children("Notification")) {
 		int const id = i->number_attribute<int>("Id");
 		if (id >= 0 && id < NOTIFICATION_COUNT) {
 			_notification[id] = raw_convert<int>(i->content());
@@ -622,7 +621,7 @@ Config::write_config () const
 	/* [XML] UseAnyServers 1 to broadcast to look for encoding servers to use, 0 to use only those configured. */
 	root->add_child("UseAnyServers")->add_child_text (_use_any_servers ? "1" : "0");
 
-	BOOST_FOREACH (string i, _servers) {
+	for (auto i: _servers) {
 		/* [XML:opt] Server IP address or hostname of an encoding server to use; you can use as many of these tags
 		   as you like.
 		*/
@@ -725,7 +724,7 @@ Config::write_config () const
 	root->add_child("KDMSubject")->add_child_text (_kdm_subject);
 	/* [XML] KDMFrom From address to use for KDM emails. */
 	root->add_child("KDMFrom")->add_child_text (_kdm_from);
-	BOOST_FOREACH (string i, _kdm_cc) {
+	for (auto i: _kdm_cc) {
 		/* [XML] KDMCC CC address to use for KDM emails; you can use as many of these tags as you like. */
 		root->add_child("KDMCC")->add_child_text (i);
 	}
@@ -740,7 +739,7 @@ Config::write_config () const
 	root->add_child("NotificationFrom")->add_child_text (_notification_from);
 	/* [XML] NotificationFrom To address to use for notification emails. */
 	root->add_child("NotificationTo")->add_child_text (_notification_to);
-	BOOST_FOREACH (string i, _notification_cc) {
+	for (auto i: _notification_cc) {
 		/* [XML] NotificationCC CC address to use for notification emails; you can use as many of these tags as you like. */
 		root->add_child("NotificationCC")->add_child_text (i);
 	}
@@ -782,7 +781,7 @@ Config::write_config () const
 	*/
 	xmlpp::Element* signer = root->add_child ("Signer");
 	DCPOMATIC_ASSERT (_signer_chain);
-	BOOST_FOREACH (dcp::Certificate const & i, _signer_chain->unordered()) {
+	for (auto const& i: _signer_chain->unordered()) {
 		signer->add_child("Certificate")->add_child_text (i.certificate (true));
 	}
 	signer->add_child("PrivateKey")->add_child_text (_signer_chain->key().get ());
@@ -790,7 +789,7 @@ Config::write_config () const
 	/* [XML] Decryption Certificate chain and private key to use when decrypting KDMs */
 	xmlpp::Element* decryption = root->add_child ("Decryption");
 	DCPOMATIC_ASSERT (_decryption_chain);
-	BOOST_FOREACH (dcp::Certificate const & i, _decryption_chain->unordered()) {
+	for (auto const& i: _decryption_chain->unordered()) {
 		decryption->add_child("Certificate")->add_child_text (i.certificate (true));
 	}
 	decryption->add_child("PrivateKey")->add_child_text (_decryption_chain->key().get ());
@@ -798,14 +797,14 @@ Config::write_config () const
 	/* [XML] History Filename of DCP to present in the <guilabel>File</guilabel> menu of the GUI; there can be more than one
 	   of these tags.
 	*/
-	BOOST_FOREACH (boost::filesystem::path i, _history) {
+	for (auto i: _history) {
 		root->add_child("History")->add_child_text (i.string ());
 	}
 
 	/* [XML] History Filename of DCP to present in the <guilabel>File</guilabel> menu of the player; there can be more than one
 	   of these tags.
 	*/
-	BOOST_FOREACH (boost::filesystem::path i, _player_history) {
+	for (auto i: _player_history) {
 		root->add_child("PlayerHistory")->add_child_text (i.string ());
 	}
 
@@ -1002,7 +1001,7 @@ write_file (string root_node, string node, string version, list<shared_ptr<T> > 
 	xmlpp::Element* root = doc.create_root_node (root_node);
 	root->add_child("Version")->add_child_text(version);
 
-	BOOST_FOREACH (shared_ptr<T> i, things) {
+	for (auto i: things) {
 		i->as_xml (root->add_child(node));
 	}
 
@@ -1172,7 +1171,7 @@ Config::clean_history_internal (vector<boost::filesystem::path>& h)
 {
 	vector<boost::filesystem::path> old = h;
 	h.clear ();
-	BOOST_FOREACH (boost::filesystem::path i, old) {
+	for (auto i: old) {
 		try {
 			if (boost::filesystem::is_directory(i)) {
 				h.push_back (i);
@@ -1194,7 +1193,7 @@ Config::read_cinemas (cxml::Document const & f)
 {
 	_cinemas.clear ();
 	list<cxml::NodePtr> cin = f.node_children ("Cinema");
-	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("Cinema")) {
+	for (auto i: f.node_children("Cinema")) {
 		/* Slightly grotty two-part construction of Cinema here so that we can use
 		   shared_from_this.
 		*/
@@ -1229,7 +1228,7 @@ Config::read_dkdm_recipients (cxml::Document const & f)
 {
 	_dkdm_recipients.clear ();
 	list<cxml::NodePtr> cin = f.node_children ("DKDMRecipient");
-	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("DKDMRecipient")) {
+	for (auto i: f.node_children("DKDMRecipient")) {
 		_dkdm_recipients.push_back (shared_ptr<DKDMRecipient>(new DKDMRecipient(i)));
 	}
 }

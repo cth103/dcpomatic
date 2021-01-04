@@ -35,7 +35,6 @@
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/bind/placeholders.hpp>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -138,7 +137,7 @@ Playlist::maybe_sequence (shared_ptr<const Film> film)
 
 	DCPTime next_left;
 	DCPTime next_right;
-	BOOST_FOREACH (shared_ptr<Content> i, cont) {
+	for (auto i: cont) {
 		if (!i->video) {
 			continue;
 		}
@@ -157,7 +156,7 @@ Playlist::maybe_sequence (shared_ptr<const Film> film)
 	/* Captions */
 
 	DCPTime next;
-	BOOST_FOREACH (shared_ptr<Content> i, cont) {
+	for (auto i: cont) {
 		if (i->text.empty() || find (placed.begin(), placed.end(), i) != placed.end()) {
 			continue;
 		}
@@ -177,9 +176,9 @@ Playlist::video_identifier () const
 {
 	string t;
 
-	BOOST_FOREACH (shared_ptr<const Content> i, content()) {
+	for (auto i: content()) {
 		bool burn = false;
-		BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
+		for (auto j: i->text) {
 			if (j->burn()) {
 				burn = true;
 			}
@@ -204,7 +203,7 @@ Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	BOOST_FOREACH (cxml::NodePtr i, node->node_children ("Content")) {
+	for (auto i: node->node_children ("Content")) {
 		shared_ptr<Content> content = content_factory (i, version, notes);
 
 		/* See if this content should be nudged to start on a video frame */
@@ -262,7 +261,7 @@ Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 void
 Playlist::as_xml (xmlpp::Node* node, bool with_content_paths)
 {
-	BOOST_FOREACH (shared_ptr<Content> i, content()) {
+	for (auto i: content()) {
 		i->as_xml (node->add_child ("Content"), with_content_paths);
 	}
 }
@@ -325,7 +324,7 @@ Playlist::remove (ContentList c)
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 
-		BOOST_FOREACH (shared_ptr<Content> i, c) {
+		for (auto i: c) {
 			ContentList::iterator j = _content.begin ();
 			while (j != _content.end() && *j != i) {
 				++j;
@@ -366,12 +365,12 @@ Playlist::best_video_frame_rate () const
 	list<FrameRateCandidate> candidates;
 
 	/* Start with the ones without skip / repeat so they will get matched in preference to skipped/repeated ones */
-	BOOST_FOREACH (int i, allowed_dcp_frame_rates) {
+	for (auto i: allowed_dcp_frame_rates) {
 		candidates.push_back (FrameRateCandidate(i, i));
 	}
 
 	/* Then the skip/repeat ones */
-	BOOST_FOREACH (int i, allowed_dcp_frame_rates) {
+	for (auto i: allowed_dcp_frame_rates) {
 		candidates.push_back (FrameRateCandidate (float(i) / 2, i));
 		candidates.push_back (FrameRateCandidate (float(i) * 2, i));
 	}
@@ -383,7 +382,7 @@ Playlist::best_video_frame_rate () const
 	while (i != candidates.end()) {
 
 		float this_error = 0;
-		BOOST_FOREACH (shared_ptr<Content> j, content()) {
+		for (auto j: content()) {
 			if (!j->video || !j->video_frame_rate()) {
 				continue;
 			}
@@ -418,7 +417,7 @@ DCPTime
 Playlist::length (shared_ptr<const Film> film) const
 {
 	DCPTime len;
-	BOOST_FOREACH (shared_ptr<const Content> i, content()) {
+	for (auto i: content()) {
 		len = max (len, i->end(film));
 	}
 
@@ -435,7 +434,7 @@ Playlist::start () const
 	}
 
 	DCPTime start = DCPTime::max ();
-	BOOST_FOREACH (shared_ptr<Content> i, cont) {
+	for (auto i: cont) {
 		start = min (start, i->position ());
 	}
 
@@ -446,7 +445,7 @@ Playlist::start () const
 void
 Playlist::disconnect ()
 {
-	BOOST_FOREACH (boost::signals2::connection& i, _content_connections) {
+	for (auto& i: _content_connections) {
 		i.disconnect ();
 	}
 
@@ -459,7 +458,7 @@ Playlist::reconnect (shared_ptr<const Film> film)
 {
 	disconnect ();
 
-	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+	for (auto i: _content) {
 		_content_connections.push_back (i->Change.connect(boost::bind(&Playlist::content_change, this, film, _1, _2, _3, _4)));
 	}
 }
@@ -468,7 +467,7 @@ DCPTime
 Playlist::video_end (shared_ptr<const Film> film) const
 {
 	DCPTime end;
-	BOOST_FOREACH (shared_ptr<Content> i, content()) {
+	for (auto i: content()) {
 		if (i->video) {
 			end = max (end, i->end(film));
 		}
@@ -481,7 +480,7 @@ DCPTime
 Playlist::text_end (shared_ptr<const Film> film) const
 {
 	DCPTime end;
-	BOOST_FOREACH (shared_ptr<Content> i, content()) {
+	for (auto i: content()) {
 		if (!i->text.empty ()) {
 			end = max (end, i->end(film));
 		}
@@ -552,7 +551,7 @@ void
 Playlist::repeat (shared_ptr<const Film> film, ContentList c, int n)
 {
 	pair<DCPTime, DCPTime> range (DCPTime::max (), DCPTime ());
-	BOOST_FOREACH (shared_ptr<Content> i, c) {
+	for (auto i: c) {
 		range.first = min (range.first, i->position ());
 		range.second = max (range.second, i->position ());
 		range.first = min (range.first, i->end(film));
@@ -566,7 +565,7 @@ Playlist::repeat (shared_ptr<const Film> film, ContentList c, int n)
 
 		DCPTime pos = range.second;
 		for (int i = 0; i < n; ++i) {
-			BOOST_FOREACH (shared_ptr<Content> j, c) {
+			for (auto j: c) {
 				shared_ptr<Content> copy = j->clone ();
 				copy->set_position (film, pos + copy->position() - range.first);
 				_content.push_back (copy);
@@ -634,7 +633,7 @@ Playlist::required_disk_space (shared_ptr<const Film> film, int j2k_bandwidth, i
 	int64_t video = uint64_t (j2k_bandwidth / 8) * length(film).seconds();
 	int64_t audio = uint64_t (audio_channels * audio_frame_rate * 3) * length(film).seconds();
 
-	BOOST_FOREACH (shared_ptr<Content> i, content()) {
+	for (auto i: content()) {
 		shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent> (i);
 		if (d) {
 			if (d->reference_video()) {
@@ -655,7 +654,7 @@ Playlist::content_summary (shared_ptr<const Film> film, DCPTimePeriod period) co
 {
 	string best_summary;
 	int best_score = -1;
-	BOOST_FOREACH (shared_ptr<Content> i, content()) {
+	for (auto i: content()) {
 		int score = 0;
 		optional<DCPTimePeriod> const o = DCPTimePeriod(i->position(), i->end(film)).overlap (period);
 		if (o) {
@@ -680,7 +679,7 @@ Playlist::speed_up_range (int dcp_video_frame_rate) const
 {
 	pair<double, double> range (DBL_MAX, -DBL_MAX);
 
-	BOOST_FOREACH (shared_ptr<Content> i, content()) {
+	for (auto i: content()) {
 		if (!i->video) {
 			continue;
 		}

@@ -212,7 +212,7 @@ FFmpegEncoder::go ()
 	}
 	delete[] interleaved;
 
-	BOOST_FOREACH (FileEncoderSet i, file_encoders) {
+	for (auto i: file_encoders) {
 		i.flush ();
 	}
 }

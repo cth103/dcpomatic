@@ -21,7 +21,6 @@
 #include "overlaps.h"
 #include "types.h"
 #include "content.h"
-#include <boost/foreach.hpp>
 
 using std::shared_ptr;
 using boost::function;
@@ -31,7 +30,7 @@ ContentList overlaps (shared_ptr<const Film> film, ContentList cl, function<bool
 {
 	ContentList overlaps;
 	DCPTimePeriod period (from, to);
-	BOOST_FOREACH (shared_ptr<Content> i, cl) {
+	for (auto i: cl) {
 		if (part(i) && DCPTimePeriod(i->position(), i->end(film)).overlap(period)) {
 			overlaps.push_back (i);
 		}

@@ -56,7 +56,6 @@
 #include <dcp/reel_subtitle_asset.h>
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_closed_caption_asset.h>
-#include <boost/foreach.hpp>
 #include <stdint.h>
 #include <algorithm>
 #include <iostream>
@@ -177,7 +176,7 @@ Player::setup_pieces_unlocked ()
 	_shuffler = new Shuffler();
 	_shuffler->Video.connect(bind(&Player::video, this, _1, _2));
 
-	BOOST_FOREACH (shared_ptr<Content> i, playlist()->content()) {
+	for (auto i: playlist()->content()) {
 
 		if (!i->paths_valid ()) {
 			continue;
@@ -189,7 +188,7 @@ Player::setup_pieces_unlocked ()
 		}
 
 		shared_ptr<Decoder> old_decoder;
-		BOOST_FOREACH (shared_ptr<Piece> j, old_pieces) {
+		for (auto j: old_pieces) {
 			if (j->content == i) {
 				old_decoder = j->decoder;
 				break;
@@ -210,7 +209,7 @@ Player::setup_pieces_unlocked ()
 		}
 
 		if (_ignore_text) {
-			BOOST_FOREACH (shared_ptr<TextDecoder> i, decoder->text) {
+			for (auto i: decoder->text) {
 				i->set_ignore (true);
 			}
 		}
@@ -261,9 +260,9 @@ Player::setup_pieces_unlocked ()
 	}
 
 	_stream_states.clear ();
-	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
+	for (auto i: _pieces) {
 		if (i->content->audio) {
-			BOOST_FOREACH (AudioStreamPtr j, i->content->audio->streams()) {
+			for (auto j: i->content->audio->streams()) {
 				_stream_states[j] = StreamState (i, i->content->position ());
 			}
 		}
@@ -454,7 +453,7 @@ Player::get_subtitle_fonts ()
 	boost::mutex::scoped_lock lm (_mutex);
 
 	vector<FontData> fonts;
-	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
+	for (auto i: _pieces) {
 		/* XXX: things may go wrong if there are duplicate font IDs
 		   with different font files.
 		*/
@@ -535,7 +534,7 @@ Player::get_reel_assets ()
 
 	list<ReferencedReelAsset> a;
 
-	BOOST_FOREACH (shared_ptr<Content> i, playlist()->content()) {
+	for (auto i: playlist()->content()) {
 		shared_ptr<DCPContent> j = dynamic_pointer_cast<DCPContent> (i);
 		if (!j) {
 			continue;
@@ -558,12 +557,12 @@ Player::get_reel_assets ()
 		int64_t offset_from_start = 0;
 		/* position in the asset from the end */
 		int64_t offset_from_end = 0;
-		BOOST_FOREACH (shared_ptr<dcp::Reel> k, decoder->reels()) {
+		for (auto k: decoder->reels()) {
 			/* Assume that main picture duration is the length of the reel */
 			offset_from_end += k->main_picture()->actual_duration();
 		}
 
-		BOOST_FOREACH (shared_ptr<dcp::Reel> k, decoder->reels()) {
+		for (auto k: decoder->reels()) {
 
 			/* Assume that main picture duration is the length of the reel */
 			int64_t const reel_duration = k->main_picture()->actual_duration();
@@ -586,7 +585,7 @@ Player::get_reel_assets ()
 			}
 
 			if (j->reference_text (TEXT_CLOSED_CAPTION)) {
-				BOOST_FOREACH (shared_ptr<dcp::ReelClosedCaptionAsset> l, k->closed_captions()) {
+				for (auto l: k->closed_captions()) {
 					maybe_add_asset (a, l, reel_trim_start, reel_trim_end, from, ffr);
 				}
 			}
@@ -621,7 +620,7 @@ Player::pass ()
 	shared_ptr<Piece> earliest_content;
 	optional<DCPTime> earliest_time;
 
-	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
+	for (auto i: _pieces) {
 		if (i->done) {
 			continue;
 		}
@@ -765,13 +764,13 @@ Player::open_subtitles_for_frame (DCPTime time) const
 	list<PositionImage> captions;
 	int const vfr = _film->video_frame_rate();
 
-	BOOST_FOREACH (
-		PlayerText j,
+	for (
+		auto j:
 		_active_texts[TEXT_OPEN_SUBTITLE].get_burnt(DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_open_subtitles)
 		) {
 
 		/* Bitmap subtitles */
-		BOOST_FOREACH (BitmapText i, j.bitmap) {
+		for (auto i: j.bitmap) {
 			if (!i.image) {
 				continue;
 			}
@@ -1034,7 +1033,7 @@ Player::plain_text_start (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, Co
 		return;
 	}
 
-	BOOST_FOREACH (dcp::SubtitleString s, subtitle.subs) {
+	for (auto s: subtitle.subs) {
 		s.set_h_position (s.h_position() + text->x_offset ());
 		s.set_v_position (s.v_position() + text->y_offset ());
 		float const xs = text->x_scale();
@@ -1119,7 +1118,7 @@ Player::seek (DCPTime time, bool accurate)
 		_active_texts[i].clear ();
 	}
 
-	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
+	for (auto i: _pieces) {
 		if (time < i->content->position()) {
 			/* Before; seek to the start of the content.  Even if this request is for an inaccurate seek
 			   we must seek this (following) content accurately, otherwise when we come to the end of the current
@@ -1274,7 +1273,7 @@ Player::content_time_to_dcp (shared_ptr<Content> content, ContentTime t)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
+	for (auto i: _pieces) {
 		if (i->content == content) {
 			return content_time_to_dcp (i, t);
 		}

@@ -303,7 +303,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test6)
 	shared_ptr<Content> subs = content_factory("test/data/subrip.srt").front();
 	film2->examine_and_add_content (subs);
 	BOOST_REQUIRE (!wait_for_jobs());
-	BOOST_FOREACH (shared_ptr<TextContent> i, subs->text) {
+	for (auto i: subs->text) {
 		i->set_use (true);
 	}
 

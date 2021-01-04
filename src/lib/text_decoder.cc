@@ -24,7 +24,6 @@
 #include "log.h"
 #include "compose.hpp"
 #include <sub/subtitle.h>
-#include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
 #include <iostream>
 
@@ -67,7 +66,7 @@ TextDecoder::emit_bitmap_start (ContentTime from, shared_ptr<Image> image, dcpom
 void
 TextDecoder::emit_plain_start (ContentTime from, list<dcp::SubtitleString> s)
 {
-	BOOST_FOREACH (dcp::SubtitleString& i, s) {
+	for (auto& i: s) {
 		/* We must escape < and > in strings, otherwise they might confuse our subtitle
 		   renderer (which uses some HTML-esque markup to do bold/italic etc.)
 		*/
@@ -104,7 +103,7 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 	/* See if our next subtitle needs to be vertically placed on screen by us */
 	bool needs_placement = false;
 	optional<int> bottom_line;
-	BOOST_FOREACH (sub::Line i, subtitle.lines) {
+	for (auto i: subtitle.lines) {
 		if (!i.vertical_position.reference || (i.vertical_position.line && !i.vertical_position.lines) || i.vertical_position.reference.get() == sub::TOP_OF_SUBTITLE) {
 			needs_placement = true;
 			if (!bottom_line || bottom_line.get() < i.vertical_position.line.get()) {
@@ -115,7 +114,7 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 
 	/* Find the lowest proportional position */
 	optional<float> lowest_proportional;
-	BOOST_FOREACH (sub::Line i, subtitle.lines) {
+	for (auto i: subtitle.lines) {
 		if (i.vertical_position.proportional) {
 			if (!lowest_proportional) {
 				lowest_proportional = i.vertical_position.proportional;
@@ -126,8 +125,8 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 	}
 
 	list<dcp::SubtitleString> out;
-	BOOST_FOREACH (sub::Line i, subtitle.lines) {
-		BOOST_FOREACH (sub::Block j, i.blocks) {
+	for (auto i: subtitle.lines) {
+		for (auto j: i.blocks) {
 
 			if (!j.font_size.specified()) {
 				/* Fallback default font size if no other has been specified */

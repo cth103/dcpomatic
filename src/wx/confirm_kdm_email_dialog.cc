@@ -23,7 +23,6 @@
 #include "static_text.h"
 #include "check_box.h"
 #include "lib/config.h"
-#include <boost/foreach.hpp>
 
 using std::list;
 using std::string;
@@ -35,7 +34,7 @@ ConfirmKDMEmailDialog::ConfirmKDMEmailDialog (wxWindow* parent, list<string> ema
 	: QuestionDialog (parent, _("Confirm KDM email"), _("Send emails"), _("Don't send emails"))
 {
 	wxString message = _("Are you sure you want to send emails to the following addresses?\n\n");
-	BOOST_FOREACH (string i, emails) {
+	for (auto i: emails) {
 		message += "\t" + std_to_wx (i) + "\n";
 	}
 

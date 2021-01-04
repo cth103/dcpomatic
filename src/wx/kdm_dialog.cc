@@ -92,7 +92,7 @@ KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	right->Add (h);
 
 	vector<CPLSummary> cpls;
-	BOOST_FOREACH (CPLSummary const & i, film->cpls()) {
+	for (auto const& i: film->cpls()) {
 		if (i.encrypted) {
 			cpls.push_back (i);
 		}
@@ -164,7 +164,7 @@ KDMDialog::make_clicked ()
 			for_audio = _output->forensic_mark_audio_up_to();
 		}
 
-		BOOST_FOREACH (shared_ptr<dcpomatic::Screen> i, _screens->screens()) {
+		for (auto i: _screens->screens()) {
 			KDMWithMetadataPtr p = kdm_for_screen (film, _cpl->cpl(), i, _timing->from(), _timing->until(), _output->formulation(), !_output->forensic_mark_video(), for_audio);
 			if (p) {
 				kdms.push_back (p);

@@ -310,7 +310,7 @@ AudioPlot::plot_peak (wxGraphicsPath& path, int channel, Metrics const & metrics
 	DCPOMATIC_ASSERT (_peak.find(channel) != _peak.end());
 
 	path.MoveToPoint (_peak[channel][0].draw);
-	BOOST_FOREACH (Point const & i, _peak[channel]) {
+	for (auto const& i: _peak[channel]) {
 		path.AddLineToPoint (i.draw);
 	}
 }
@@ -379,7 +379,7 @@ AudioPlot::plot_rms (wxGraphicsPath& path, int channel, Metrics const & metrics)
 	DCPOMATIC_ASSERT (_rms.find(channel) != _rms.end());
 
 	path.MoveToPoint (_rms[channel][0].draw);
-	BOOST_FOREACH (Point const & i, _rms[channel]) {
+	for (auto const& i: _rms[channel]) {
 		path.AddLineToPoint (i.draw);
 	}
 }
@@ -425,7 +425,7 @@ void
 AudioPlot::search (map<int, PointList> const & search, wxMouseEvent const & ev, double& min_dist, Point& min_point) const
 {
 	for (map<int, PointList>::const_iterator i = search.begin(); i != search.end(); ++i) {
-		BOOST_FOREACH (Point const & j, i->second) {
+		for (auto const& j: i->second) {
 			double const dist = pow(ev.GetX() - j.draw.x, 2) + pow(ev.GetY() - j.draw.y, 2);
 			if (dist < min_dist) {
 				min_dist = dist;

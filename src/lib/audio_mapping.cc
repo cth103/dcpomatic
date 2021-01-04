@@ -237,7 +237,7 @@ AudioMapping::mapped_output_channels () const
 	list<int> mapped;
 
 	for (vector<vector<float> >::const_iterator i = _gain.begin(); i != _gain.end(); ++i) {
-		BOOST_FOREACH (dcp::Channel j, dcp::used_audio_channels()) {
+		for (auto j: dcp::used_audio_channels()) {
 			if (abs ((*i)[j]) > minus_96_db) {
 				mapped.push_back (j);
 			}

@@ -21,7 +21,6 @@
 #include "audio_ring_buffers.h"
 #include "dcpomatic_assert.h"
 #include "exceptions.h"
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::min;

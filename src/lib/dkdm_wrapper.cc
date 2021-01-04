@@ -25,7 +25,6 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/foreach.hpp>
 
 using std::string;
 using std::list;
@@ -39,7 +38,7 @@ DKDMBase::read (cxml::ConstNodePtr node)
 		return shared_ptr<DKDM> (new DKDM (dcp::EncryptedKDM (node->content ())));
 	} else if (node->name() == "DKDMGroup") {
 		shared_ptr<DKDMGroup> group (new DKDMGroup (node->string_attribute ("Name")));
-		BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children()) {
+		for (auto i: node->node_children()) {
 			shared_ptr<DKDMBase> c = read (i);
 			if (c) {
 				group->add (c);
@@ -68,7 +67,7 @@ DKDMGroup::as_xml (xmlpp::Element* node) const
 {
 	xmlpp::Element* f = node->add_child("DKDMGroup");
 	f->set_attribute ("Name", _name);
-	BOOST_FOREACH (shared_ptr<DKDMBase> i, _children) {
+	for (auto i: _children) {
 		i->as_xml (f);
 	}
 }

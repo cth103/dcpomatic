@@ -92,7 +92,7 @@ Content::Content (cxml::ConstNodePtr node)
 	: _change_signals_frequent (false)
 {
 	list<cxml::NodePtr> path_children = node->node_children ("Path");
-	BOOST_FOREACH (cxml::NodePtr i, path_children) {
+	for (auto i: path_children) {
 		_paths.push_back (i->content());
 		optional<time_t> const mod = i->optional_number_attribute<time_t>("mtime");
 		if (mod) {
@@ -192,7 +192,7 @@ Content::examine (shared_ptr<const Film>, shared_ptr<Job> job)
 	_digest = d;
 
 	_last_write_times.clear ();
-	BOOST_FOREACH (boost::filesystem::path i, _paths) {
+	for (auto i: _paths) {
 		_last_write_times.push_back (boost::filesystem::last_write_time(i));
 	}
 }
@@ -327,7 +327,7 @@ Content::identifier () const
 bool
 Content::paths_valid () const
 {
-	BOOST_FOREACH (boost::filesystem::path i, _paths) {
+	for (auto i: _paths) {
 		if (!boost::filesystem::exists (i)) {
 			return false;
 		}
@@ -345,7 +345,7 @@ Content::set_paths (vector<boost::filesystem::path> paths)
 		boost::mutex::scoped_lock lm (_mutex);
 		_paths = paths;
 		_last_write_times.clear ();
-		BOOST_FOREACH (boost::filesystem::path i, _paths) {
+		for (auto i: _paths) {
 			_last_write_times.push_back (boost::filesystem::last_write_time(i));
 		}
 	}
@@ -495,7 +495,7 @@ Content::only_text () const
 shared_ptr<TextContent>
 Content::text_of_original_type (TextType type) const
 {
-	BOOST_FOREACH (shared_ptr<TextContent> i, text) {
+	for (auto i: text) {
 		if (i->original_type() == type) {
 			return i;
 		}

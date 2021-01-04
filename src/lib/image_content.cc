@@ -29,7 +29,6 @@
 #include "image_filename_sorter.h"
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -163,7 +162,7 @@ ImageContent::still () const
 void
 ImageContent::set_default_colour_conversion ()
 {
-	BOOST_FOREACH (boost::filesystem::path i, paths()) {
+	for (auto i: paths()) {
 		if (valid_j2k_file (i)) {
 			/* We default to no colour conversion if we have JPEG2000 files */
 			video->unset_colour_conversion ();

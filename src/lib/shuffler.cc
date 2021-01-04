@@ -22,7 +22,6 @@
 #include "content_video.h"
 #include "dcpomatic_assert.h"
 #include "dcpomatic_log.h"
-#include <boost/foreach.hpp>
 #include <string>
 #include <iostream>
 
@@ -115,8 +114,7 @@ Shuffler::clear ()
 void
 Shuffler::flush ()
 {
-	BOOST_FOREACH (Store i, _store) {
-		LOG_DEBUG_PLAYER("Flushing %1 from shuffler", i.second.frame);
+	for (auto i: _store) {
 		Video (i.first, i.second);
 	}
 }

@@ -35,7 +35,6 @@
 #include "lib/audio_content.h"
 #include "lib/dcpomatic_log.h"
 #include <dcp/version.h>
-#include <boost/foreach.hpp>
 #include <getopt.h>
 #include <iostream>
 #include <iomanip>
@@ -82,7 +81,7 @@ print_dump (shared_ptr<Film> film)
 	     << "Output " << film->video_frame_rate() << "fps " << (film->three_d() ? "3D" : "2D") << " " << (film->audio_frame_rate() / 1000) << "kHz\n"
 	     << (film->interop() ? "Inter-Op" : "SMPTE") << " " << (film->encrypted() ? "encrypted" : "unencrypted") << "\n";
 
-	BOOST_FOREACH (shared_ptr<Content> c, film->content ()) {
+	for (auto c: film->content()) {
 		cout << "\n"
 		     << c->path(0) << "\n"
 		     << "\tat " << c->position().seconds ()
@@ -140,7 +139,7 @@ list_servers ()
 			++N;
 
 			/* Report the state of configured servers */
-			BOOST_FOREACH (string i, Config::instance()->servers()) {
+			for (auto i: Config::instance()->servers()) {
 				cout << std::left << setw(24) << i << " ";
 
 				/* See if this server is on the active list; if so, remove it and note
@@ -168,7 +167,7 @@ list_servers ()
 			}
 
 			/* Now report any left that have been found by broadcast */
-			BOOST_FOREACH (EncodeServerDescription const & i, servers) {
+			for (auto const& i: servers) {
 				if (i.current_link_version()) {
 					cout << std::left << setw(24) << i.host_name() << " UP     " << i.threads() << "\n";
 				} else {

@@ -24,7 +24,6 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/foreach.hpp>
 
 using std::string;
 using namespace dcpomatic;
@@ -32,7 +31,7 @@ using namespace dcpomatic;
 Font::Font (cxml::NodePtr node)
 	: _id (node->string_child ("Id"))
 {
-	BOOST_FOREACH (cxml::NodePtr i, node->node_children("File")) {
+	for (auto i: node->node_children("File")) {
 		string variant = i->optional_string_attribute("Variant").get_value_or ("Normal");
 		if (variant == "Normal") {
 			_file = i->content();

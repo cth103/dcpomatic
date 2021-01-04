@@ -21,7 +21,6 @@
 #include "video_ring_buffers.h"
 #include "player_video.h"
 #include "compose.hpp"
-#include <boost/foreach.hpp>
 #include <list>
 #include <iostream>
 

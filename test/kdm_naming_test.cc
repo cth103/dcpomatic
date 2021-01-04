@@ -162,7 +162,7 @@ BOOST_AUTO_TEST_CASE (directory_kdm_naming_test, * boost::unit_test::depends_on(
 	string const cpl_id = cpls.front().cpl_id;
 
 	list<KDMWithMetadataPtr> kdms;
-	BOOST_FOREACH (shared_ptr<dcpomatic::Screen> i, screens) {
+	for (auto i: screens) {
 		KDMWithMetadataPtr kdm = kdm_for_screen (
 				film,
 				cpls.front().cpl_file,

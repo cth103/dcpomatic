@@ -36,7 +36,6 @@ DCPOMATIC_ENABLE_WARNINGS
 #ifndef DCPOMATIC_HAVE_SHOW_IN_CAIRO_CONTEXT
 #include <pango/pangocairo.h>
 #endif
-#include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
 #include <iostream>
 
@@ -61,7 +60,7 @@ marked_up (list<StringText> subtitles, int target_height, float fade_factor)
 {
 	string out;
 
-	BOOST_FOREACH (StringText const & i, subtitles) {
+	for (auto const& i: subtitles) {
 		out += "<span ";
 		if (i.italic()) {
 			out += "style=\"italic\" ";
@@ -142,7 +141,7 @@ setup_font (StringText const& subtitle, list<shared_ptr<Font> > const& fonts)
 
 	optional<boost::filesystem::path> font_file = default_font_file ();
 
-	BOOST_FOREACH (shared_ptr<Font> i, fonts) {
+	for (auto i: fonts) {
 		if (i->id() == subtitle.font() && i->file()) {
 			font_file = i->file ();
 		}
@@ -404,7 +403,7 @@ render_text (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 	list<StringText> pending;
 	list<PositionImage> images;
 
-	BOOST_FOREACH (StringText const & i, subtitles) {
+	for (auto const& i: subtitles) {
 		if (!pending.empty() && (i.v_align() != pending.back().v_align() || fabs(i.v_position() - pending.back().v_position()) > 1e-4)) {
 			images.push_back (render_line (pending, fonts, target, time, frame_rate));
 			pending.clear ();

@@ -31,7 +31,6 @@ extern "C" {
 #include <libavformat/avio.h>
 }
 #include <boost/algorithm/string.hpp>
-#include <boost/foreach.hpp>
 #include <boost/regex.hpp>
 #if BOOST_VERSION >= 106100
 #include <boost/dll/runtime_symbol_info.hpp>
@@ -331,7 +330,7 @@ analyse_media_path (CFDictionaryRef& description)
 
 	vector<string> bits;
 	split(bits, path, boost::is_any_of("/"));
-	BOOST_FOREACH (string i, bits) {
+	for (auto i: bits) {
 		if (starts_with(i, "PRT")) {
 			mp.prt = i;
 		}
@@ -468,11 +467,11 @@ Drive::get ()
 	CFRelease(session);
 
 	/* Mark disks containing mounted partitions as themselves mounted */
-	BOOST_FOREACH (Disk& i, disks) {
+	for (auto& i: disks) {
 		if (!i.whole) {
 			continue;
 		}
-		BOOST_FOREACH (Disk& j, disks) {
+		for (auto& j: disks) {
 			if (!j.mount_points.empty() && starts_with(j.mount_point, i.mount_point)) {
 				LOG_DISK("Marking %1 as mounted because %2 is", i.mount_point, j.mount_point);
 				std::copy(j.mount_points.begin(), j.mount_points.end(), back_inserter(i.mount_points));
@@ -482,7 +481,7 @@ Drive::get ()
 
 	/* Make a map of the PRT codes and mount points of mounted, synthesized disks */
 	map<string, vector<boost::filesystem::path> > mounted_synths;
-	BOOST_FOREACH (Disk& i, disks) {
+	for (auto& i: disks) {
 		if (!i.real && !i.mount_points.empty()) {
 			LOG_DISK("Found a mounted synth %1 with %2", i.mount_point, i.prt);
 			mounted_synths[i.prt] = i.mount_points;
@@ -490,7 +489,7 @@ Drive::get ()
 	}
 
 	/* Mark containers of those mounted synths as themselves mounted */
-	BOOST_FOREACH (Disk& i, disks) {
+	for (auto& i: disks) {
 		if (i.real) {
 			map<string, vector<boost::filesystem::path> >::const_iterator j = mounted_synths.find(i.prt);
 			if (j != mounted_synths.end()) {
@@ -501,7 +500,7 @@ Drive::get ()
 	}
 
 	vector<Drive> drives;
-	BOOST_FOREACH (Disk& i, disks) {
+	for (auto& i: disks) {
 		if (i.whole) {
 			/* A whole disk that is not a container for a mounted synth */
 			drives.push_back(Drive(i.mount_point, i.mount_points, i.size, i.vendor, i.model));

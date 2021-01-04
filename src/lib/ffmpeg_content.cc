@@ -41,7 +41,6 @@ extern "C" {
 #include <libavutil/pixdesc.h>
 }
 #include <libxml++/libxml++.h>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -202,7 +201,7 @@ FFmpegContent::as_xml (xmlpp::Node* node, bool with_paths) const
 	if (audio) {
 		audio->as_xml (node);
 
-		BOOST_FOREACH (AudioStreamPtr i, audio->streams ()) {
+		for (auto i: audio->streams ()) {
 			shared_ptr<FFmpegAudioStream> f = dynamic_pointer_cast<FFmpegAudioStream> (i);
 			DCPOMATIC_ASSERT (f);
 			f->as_xml (node->add_child("AudioStream"));
@@ -296,7 +295,7 @@ FFmpegContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		if (!examiner->audio_streams().empty ()) {
 			audio.reset (new AudioContent (this));
 
-			BOOST_FOREACH (shared_ptr<FFmpegAudioStream> i, examiner->audio_streams ()) {
+			for (auto i: examiner->audio_streams ()) {
 				audio->add_stream (i);
 			}
 
@@ -345,7 +344,7 @@ string
 FFmpegContent::technical_summary () const
 {
 	string as = "";
-	BOOST_FOREACH (shared_ptr<FFmpegAudioStream> i, ffmpeg_audio_streams ()) {
+	for (auto i: ffmpeg_audio_streams ()) {
 		as += i->technical_summary () + " " ;
 	}
 
@@ -408,7 +407,7 @@ FFmpegContent::full_length (shared_ptr<const Film> film) const
 
 	if (audio) {
 		DCPTime longest;
-		BOOST_FOREACH (AudioStreamPtr i, audio->streams()) {
+		for (auto i: audio->streams()) {
 			longest = max (longest, DCPTime::from_frames(llrint(i->length() / frc.speed_up), i->frame_rate()));
 		}
 		return longest;
@@ -429,7 +428,7 @@ FFmpegContent::approximate_length () const
 	DCPOMATIC_ASSERT (audio);
 
 	Frame longest = 0;
-	BOOST_FOREACH (AudioStreamPtr i, audio->streams ()) {
+	for (auto i: audio->streams()) {
 		longest = max (longest, Frame(llrint(i->length())));
 	}
 
@@ -670,7 +669,7 @@ FFmpegContent::ffmpeg_audio_streams () const
 	vector<shared_ptr<FFmpegAudioStream> > fa;
 
 	if (audio) {
-		BOOST_FOREACH (AudioStreamPtr i, audio->streams()) {
+		for (auto i: audio->streams()) {
 			fa.push_back (dynamic_pointer_cast<FFmpegAudioStream> (i));
 		}
 	}

@@ -55,7 +55,7 @@ FrameIntervalChecker::guess () const
 	}
 
 	int near_1 = 0;
-	BOOST_FOREACH (double i, _intervals) {
+	for (auto i: _intervals) {
 		if (i > 0.5) {
 			++near_1;
 		}

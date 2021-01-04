@@ -44,7 +44,6 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 #include <RtAudio.h>
 #include <boost/filesystem.hpp>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 class AudioMappingView;

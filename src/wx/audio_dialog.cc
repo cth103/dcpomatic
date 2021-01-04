@@ -30,7 +30,6 @@
 #include "lib/job_manager.h"
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::cout;
@@ -204,7 +203,7 @@ AudioDialog::try_to_load_analysis ()
 		_plot->set_analysis (shared_ptr<AudioAnalysis> ());
 		_analysis.reset ();
 
-		BOOST_FOREACH (shared_ptr<Job> i, JobManager::instance()->get()) {
+		for (auto i: JobManager::instance()->get()) {
 			if (dynamic_pointer_cast<AnalyseAudioJob>(i)) {
 				i->cancel ();
 			}
@@ -256,7 +255,7 @@ AudioDialog::try_to_load_analysis ()
 			mapped = film->mapped_audio_channels ();
 		}
 
-		BOOST_FOREACH (int i, mapped) {
+		for (auto i: mapped) {
 			if (_channel_checkbox[i]) {
 				_channel_checkbox[i]->SetValue (true);
 				_plot->set_channel_visible (i, true);

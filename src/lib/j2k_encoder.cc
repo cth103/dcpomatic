@@ -37,7 +37,6 @@
 #include "encode_server_description.h"
 #include "compose.hpp"
 #include <libcxml/cxml.h>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -396,7 +395,7 @@ J2KEncoder::servers_list_changed ()
 		}
 	}
 
-	BOOST_FOREACH (EncodeServerDescription i, EncodeServerFinder::instance()->servers()) {
+	for (auto i: EncodeServerFinder::instance()->servers()) {
 		if (!i.current_link_version()) {
 			continue;
 		}

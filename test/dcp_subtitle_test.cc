@@ -55,7 +55,7 @@ store (ContentStringText sub)
 	if (!stored) {
 		stored = sub;
 	} else {
-		BOOST_FOREACH (dcp::SubtitleString i, sub.subs) {
+		for (auto i: sub.subs) {
 			stored->subs.push_back (i);
 		}
 	}
@@ -190,7 +190,7 @@ static
 void
 check_font_tags (list<cxml::NodePtr> nodes)
 {
-	BOOST_FOREACH (cxml::NodePtr i, nodes) {
+	for (auto i: nodes) {
 		if (i->name() == "Font") {
 			BOOST_CHECK (!i->optional_string_attribute("Id") || i->string_attribute("Id") != "");
 		}

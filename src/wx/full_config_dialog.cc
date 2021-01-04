@@ -57,7 +57,6 @@
 #include <wx/filepicker.h>
 #include <RtAudio.h>
 #include <boost/filesystem.hpp>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::vector;
@@ -331,13 +330,13 @@ private:
 
 		_isdcf_metadata_button->Bind (wxEVT_BUTTON, boost::bind (&DefaultsPage::edit_isdcf_metadata_clicked, this));
 
-		BOOST_FOREACH (Ratio const * i, Ratio::containers()) {
+		for (auto i: Ratio::containers()) {
 			_container->Append (std_to_wx(i->container_nickname()));
 		}
 
 		_container->Bind (wxEVT_CHOICE, boost::bind (&DefaultsPage::container_changed, this));
 
-		BOOST_FOREACH (DCPContentType const * i, DCPContentType::all()) {
+		for (auto i: DCPContentType::all()) {
 			_dcp_content_type->Append (std_to_wx (i->pretty_name ()));
 		}
 

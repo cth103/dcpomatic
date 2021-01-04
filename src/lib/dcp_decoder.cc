@@ -49,7 +49,6 @@
 #include <dcp/subtitle_image.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/reel_atmos_asset.h>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -76,7 +75,7 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 		if (c->audio) {
 			audio.reset (new AudioDecoder (this, c->audio, fast));
 		}
-		BOOST_FOREACH (shared_ptr<TextContent> i, c->text) {
+		for (auto i: c->text) {
 			/* XXX: this time here should be the time of the first subtitle, not 0 */
 			text.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, i, ContentTime())));
 		}
@@ -106,7 +105,7 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 		}
 
 		shared_ptr<dcp::CPL> cpl;
-		BOOST_FOREACH (shared_ptr<dcp::CPL> i, cpl_list) {
+		for (auto i: cpl_list) {
 			if (_dcp_content->cpl() && i->id() == _dcp_content->cpl().get()) {
 				cpl = i;
 			}
@@ -263,7 +262,7 @@ DCPDecoder::pass_texts (ContentTime next, dcp::Size size)
 		++decoder;
 	}
 
-	BOOST_FOREACH (shared_ptr<dcp::ReelClosedCaptionAsset> i, (*_reel)->closed_captions()) {
+	for (auto i: (*_reel)->closed_captions()) {
 		pass_texts (
 			next, i->asset(), _dcp_content->reference_text(TEXT_CLOSED_CAPTION), i->entry_point().get_value_or(0), *decoder, size
 			);
@@ -289,7 +288,7 @@ DCPDecoder::pass_texts (
 
 		list<dcp::SubtitleString> strings;
 
-		BOOST_FOREACH (shared_ptr<dcp::Subtitle> i, subs) {
+		for (auto i: subs) {
 			shared_ptr<dcp::SubtitleString> is = dynamic_pointer_cast<dcp::SubtitleString> (i);
 			if (is) {
 				if (!strings.empty() && (strings.back().in() != is->in() || strings.back().out() != is->out())) {
@@ -471,7 +470,7 @@ string
 DCPDecoder::calculate_lazy_digest (shared_ptr<const DCPContent> c) const
 {
 	Digester d;
-	BOOST_FOREACH (boost::filesystem::path i, c->paths()) {
+	for (auto i: c->paths()) {
 		d.add (i.string());
 	}
 	if (_dcp_content->kdm()) {
@@ -495,7 +494,7 @@ vector<FontData>
 DCPDecoder::fonts () const
 {
 	vector<FontData> data;
-	BOOST_FOREACH (shared_ptr<dcp::Reel> i, _reels) {
+	for (auto i: _reels) {
 		if (i->main_subtitle() && i->main_subtitle()->asset()) {
 			map<string, dcp::ArrayData> fm = i->main_subtitle()->asset()->font_data();
 			for (map<string, dcp::ArrayData>::const_iterator j = fm.begin(); j != fm.end(); ++j) {

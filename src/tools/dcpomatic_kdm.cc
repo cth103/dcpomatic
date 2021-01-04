@@ -59,7 +59,6 @@ DCPOMATIC_ENABLE_WARNINGS
 #include <ApplicationServices/ApplicationServices.h>
 #endif
 #include <boost/bind/bind.hpp>
-#include <boost/foreach.hpp>
 
 #ifdef check
 #undef check
@@ -321,7 +320,7 @@ private:
 					throw InvalidSignerError ();
 				}
 
-				BOOST_FOREACH (shared_ptr<Screen> i, _screens->screens()) {
+				for (auto i: _screens->screens()) {
 
 					if (!i->recipient) {
 						continue;
@@ -340,7 +339,7 @@ private:
 						);
 
 					/* Add keys from the DKDM */
-					BOOST_FOREACH (dcp::DecryptedKDMKey const & j, decrypted.keys()) {
+					for (auto const& j: decrypted.keys()) {
 						kdm.add_key (j);
 					}
 
@@ -522,7 +521,7 @@ private:
 		/* Add children */
 		shared_ptr<DKDMGroup> g = dynamic_pointer_cast<DKDMGroup> (base);
 		if (g) {
-			BOOST_FOREACH (shared_ptr<DKDMBase> i, g->children()) {
+			for (auto i: g->children()) {
 				add_dkdm_view (i);
 			}
 		}

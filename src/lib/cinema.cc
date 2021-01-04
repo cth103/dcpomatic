@@ -24,7 +24,6 @@
 #include <libcxml/cxml.h>
 #include <dcp/raw_convert.h>
 #include <libxml++/libxml++.h>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::list;
@@ -37,7 +36,7 @@ Cinema::Cinema (cxml::ConstNodePtr node)
 	: name (node->string_child ("Name"))
 	, notes (node->optional_string_child("Notes").get_value_or(""))
 {
-	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("Email")) {
+	for (auto i: node->node_children("Email")) {
 		emails.push_back (i->content ());
 	}
 
@@ -67,7 +66,7 @@ Cinema::as_xml (xmlpp::Element* parent) const
 {
 	parent->add_child("Name")->add_child_text (name);
 
-	BOOST_FOREACH (string i, emails) {
+	for (auto i: emails) {
 		parent->add_child("Email")->add_child_text (i);
 	}
 
@@ -76,7 +75,7 @@ Cinema::as_xml (xmlpp::Element* parent) const
 	parent->add_child("UTCOffsetHour")->add_child_text (raw_convert<string> (_utc_offset_hour));
 	parent->add_child("UTCOffsetMinute")->add_child_text (raw_convert<string> (_utc_offset_minute));
 
-	BOOST_FOREACH (shared_ptr<Screen> i, _screens) {
+	for (auto i: _screens) {
 		i->as_xml (parent->add_child ("Screen"));
 	}
 }

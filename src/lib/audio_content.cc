@@ -27,7 +27,6 @@
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -137,7 +136,7 @@ string
 AudioContent::technical_summary () const
 {
 	string s = "audio: ";
-	BOOST_FOREACH (AudioStreamPtr i, streams ()) {
+	for (auto i: streams()) {
 		s += String::compose ("stream channels %1 rate %2 ", i->channels(), i->frame_rate());
 	}
 
@@ -150,7 +149,7 @@ AudioContent::set_mapping (AudioMapping mapping)
 	ChangeSignaller<Content> cc (_parent, AudioContentProperty::STREAMS);
 
 	int c = 0;
-	BOOST_FOREACH (AudioStreamPtr i, streams ()) {
+	for (auto i: streams()) {
 		AudioMapping stream_mapping (i->channels (), MAX_DCP_AUDIO_CHANNELS);
 		for (int j = 0; j < i->channels(); ++j) {
 			for (int k = 0; k < MAX_DCP_AUDIO_CHANNELS; ++k) {
@@ -166,7 +165,7 @@ AudioMapping
 AudioContent::mapping () const
 {
 	int channels = 0;
-	BOOST_FOREACH (AudioStreamPtr i, streams ()) {
+	for (auto i: streams()) {
 		channels += i->channels ();
 	}
 
@@ -175,7 +174,7 @@ AudioContent::mapping () const
 
 	int c = 0;
 	int s = 0;
-	BOOST_FOREACH (AudioStreamPtr i, streams ()) {
+	for (auto i: streams()) {
 		AudioMapping mapping = i->mapping ();
 		for (int j = 0; j < mapping.input_channels(); ++j) {
 			for (int k = 0; k < MAX_DCP_AUDIO_CHANNELS; ++k) {
@@ -232,7 +231,7 @@ AudioContent::processing_description (shared_ptr<const Film> film) const
 	bool same = true;
 
 	optional<int> common_frame_rate;
-	BOOST_FOREACH (AudioStreamPtr i, streams()) {
+	for (auto i: streams()) {
 		if (i->frame_rate() != resampled_frame_rate(film)) {
 			resampled = true;
 		} else {
@@ -272,7 +271,7 @@ AudioContent::channel_names () const
 
 	int index = 0;
 	int stream = 1;
-	BOOST_FOREACH (AudioStreamPtr i, streams ()) {
+	for (auto i: streams()) {
 		for (int j = 0; j < i->channels(); ++j) {
 			n.push_back (NamedChannel(String::compose ("%1:%2", stream, j + 1), index++));
 		}

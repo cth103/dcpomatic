@@ -57,7 +57,6 @@ extern "C" {
 #include <lwext4/ext4_mkfs.h>
 }
 #include <boost/filesystem.hpp>
-#include <boost/foreach.hpp>
 #include <string>
 
 
@@ -246,7 +245,7 @@ void
 verify (vector<CopiedFile> const& copied_files, uint64_t total, Nanomsg* nanomsg)
 {
 	uint64_t total_remaining = total;
-	BOOST_FOREACH (CopiedFile const& i, copied_files) {
+	for (auto const& i: copied_files) {
 		string const read_digest = read (i.from, i.to, total_remaining, total, nanomsg);
 		LOG_DISK ("Read %1 %2 was %3 on write, now %4", i.from.string(), i.to.generic_string(), i.write_digest, read_digest);
 		if (read_digest != i.write_digest) {

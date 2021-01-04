@@ -24,7 +24,6 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::string;
@@ -43,7 +42,7 @@ FFmpegSubtitleStream::FFmpegSubtitleStream (cxml::ConstNodePtr node, int version
 {
 	if (version >= 33) {
 		boost::mutex::scoped_lock lm (_mutex);
-		BOOST_FOREACH (cxml::NodePtr i, node->node_children ("Colour")) {
+		for (auto i: node->node_children ("Colour")) {
 			_colours[RGBA(i->node_child("From"))] = RGBA (i->node_child("To"));
 		}
 	}

@@ -94,7 +94,7 @@ TextView::TextView (
 	_frc = film->active_frame_rate_change (content->position());
 
 	/* Find the decoder that is being used for our TextContent and attach to it */
-	BOOST_FOREACH (shared_ptr<TextDecoder> i, decoder->text) {
+	for (auto i: decoder->text) {
 		if (i->content() == text) {
 			i->PlainStart.connect (bind (&TextView::data_start, this, _1));
 			i->Stop.connect (bind (&TextView::data_stop, this, _1));
@@ -107,7 +107,7 @@ TextView::TextView (
 void
 TextView::data_start (ContentStringText cts)
 {
-	BOOST_FOREACH (dcp::SubtitleString const & i, cts.subs) {
+	for (auto const& i: cts.subs) {
 		wxListItem list_item;
 		list_item.SetId (_subs);
 		_list->InsertItem (list_item);

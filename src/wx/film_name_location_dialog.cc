@@ -28,7 +28,6 @@
 #include "lib/compose.hpp"
 #include <wx/stdpaths.h>
 #include <boost/filesystem.hpp>
-#include <boost/foreach.hpp>
 
 using namespace std;
 using namespace boost;
@@ -68,7 +67,7 @@ FilmNameLocationDialog::FilmNameLocationDialog (wxWindow* parent, wxString title
 	if (offer_templates) {
 		_template_name->Enable (false);
 
-		BOOST_FOREACH (string i, Config::instance()->templates ()) {
+		for (auto i: Config::instance()->templates ()) {
 			_template_name->Append (std_to_wx (i));
 		}
 

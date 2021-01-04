@@ -53,7 +53,7 @@ QubeCertificatePanel::do_download ()
 
 	string const serial = wx_to_std(_serial->GetValue());
 	optional<string> name;
-	BOOST_FOREACH (string i, files) {
+	for (auto i: files) {
 		if (boost::algorithm::starts_with(i, String::compose("%1-%2-", _type, serial))) {
 			name = i;
 			break;

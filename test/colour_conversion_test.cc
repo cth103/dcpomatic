@@ -28,7 +28,6 @@
 #include <dcp/gamma_transfer_function.h>
 #include <libxml++/libxml++.h>
 #include <boost/test/unit_test.hpp>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::cout;
@@ -105,7 +104,7 @@ BOOST_AUTO_TEST_CASE (colour_conversion_test3)
 /** Test a round trip via the XML representation */
 BOOST_AUTO_TEST_CASE (colour_conversion_test4)
 {
-	BOOST_FOREACH (PresetColourConversion const & i, PresetColourConversion::all ()) {
+	for (auto const& i: PresetColourConversion::all ()) {
 		xmlpp::Document out;
 		xmlpp::Element* out_root = out.create_root_node ("Test");
 		i.conversion.as_xml (out_root);

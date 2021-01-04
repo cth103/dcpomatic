@@ -39,7 +39,6 @@
 #include <dcp/cpl.h>
 #include <dcp/locale_convert.h>
 #include <dcp/reel_mxf.h>
-#include <boost/foreach.hpp>
 #include <fstream>
 #include <cerrno>
 #include <iostream>
@@ -101,7 +100,7 @@ Writer::Writer (weak_ptr<const Film> weak_film, weak_ptr<Job> j, bool text_only)
 
 	int reel_index = 0;
 	list<DCPTimePeriod> const reels = film()->reels();
-	BOOST_FOREACH (DCPTimePeriod p, reels) {
+	for (auto p: reels) {
 		_reels.push_back (ReelWriter(weak_film, p, job, reel_index++, reels.size(), text_only));
 	}
 
@@ -112,7 +111,7 @@ Writer::Writer (weak_ptr<const Film> weak_film, weak_ptr<Job> j, bool text_only)
 	*/
 	_audio_reel = _reels.begin ();
 	_subtitle_reel = _reels.begin ();
-	BOOST_FOREACH (DCPTextTrack i, film()->closed_caption_tracks()) {
+	for (auto i: film()->closed_caption_tracks()) {
 		_caption_reels[i] = _reels.begin ();
 	}
 	_atmos_reel = _reels.begin ();
@@ -413,7 +412,7 @@ try
 			/* (Hopefully temporarily) log anything that was not written */
 			if (!_queue.empty() && !have_sequenced_image_at_queue_head()) {
 				LOG_WARNING (N_("Finishing writer with a left-over queue of %1:"), _queue.size());
-				BOOST_FOREACH (QueueItem const& i, _queue) {
+				for (auto const& i: _queue) {
 					if (i.type == QueueItem::FULL) {
 						LOG_WARNING (N_("- type FULL, frame %1, eyes %2"), i.frame, (int) i.eyes);
 					} else {
@@ -537,7 +536,7 @@ Writer::finish (boost::filesystem::path output_dcp)
 
 	LOG_GENERAL_NC ("Finishing ReelWriters");
 
-	BOOST_FOREACH (ReelWriter& i, _reels) {
+	for (auto& i: _reels) {
 		i.finish (output_dcp);
 	}
 
@@ -579,7 +578,7 @@ Writer::finish (boost::filesystem::path output_dcp)
 		set_progress = &ignore_progress;
 	}
 
-	BOOST_FOREACH (ReelWriter& i, _reels) {
+	for (auto& i: _reels) {
 		service.post (boost::bind (&ReelWriter::calculate_digests, &i, set_progress));
 	}
 	service.post (boost::bind (&Writer::calculate_referenced_digests, this, set_progress));
@@ -590,7 +589,7 @@ Writer::finish (boost::filesystem::path output_dcp)
 
 	/* Add reels */
 
-	BOOST_FOREACH (ReelWriter& i, _reels) {
+	for (auto& i: _reels) {
 		cpl->add (i.create_reel(_reel_assets, _fonts, output_dcp, _have_subtitles, _have_closed_captions));
 	}
 
@@ -609,7 +608,7 @@ Writer::finish (boost::filesystem::path output_dcp)
 	cpl->set_ratings (film()->ratings());
 
 	vector<dcp::ContentVersion> cv;
-	BOOST_FOREACH (string i, film()->content_versions()) {
+	for (auto i: film()->content_versions()) {
 		cv.push_back (dcp::ContentVersion(i));
 	}
 	cpl->set_content_versions (cv);
@@ -631,7 +630,7 @@ Writer::finish (boost::filesystem::path output_dcp)
 		) ? dcp::SEVEN_POINT_ONE : dcp::FIVE_POINT_ONE;
 
 	dcp::MainSoundConfiguration msc (field, film()->audio_channels());
-	BOOST_FOREACH (int i, ac) {
+	for (auto i: ac) {
 		if (i < film()->audio_channels()) {
 			msc.set_mapping (i, static_cast<dcp::Channel>(i));
 		}
@@ -796,9 +795,9 @@ Writer::write (vector<FontData> fonts)
 {
 	/* Just keep a list of unique fonts and we'll deal with them in ::finish */
 
-	BOOST_FOREACH (FontData const& i, fonts) {
+	for (auto const& i: fonts) {
 		bool got = false;
-		BOOST_FOREACH (FontData const& j, _fonts) {
+		for (auto& j: _fonts) {
 			if (i == j) {
 				got = true;
 			}
@@ -879,7 +878,7 @@ Writer::set_digest_progress (Job* job, float progress)
 void
 Writer::calculate_referenced_digests (boost::function<void (float)> set_progress)
 {
-	BOOST_FOREACH (ReferencedReelAsset const& i, _reel_assets) {
+	for (auto const& i: _reel_assets) {
 		shared_ptr<dcp::ReelMXF> mxf = dynamic_pointer_cast<dcp::ReelMXF>(i.asset);
 		if (mxf && !mxf->hash()) {
 			mxf->asset_ref().asset()->hash (set_progress);

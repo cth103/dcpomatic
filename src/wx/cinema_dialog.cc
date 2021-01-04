@@ -22,7 +22,6 @@
 #include "wx_util.h"
 #include "lib/dcpomatic_assert.h"
 #include "lib/util.h"
-#include <boost/foreach.hpp>
 
 using std::string;
 using std::vector;

@@ -29,7 +29,6 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/richtext/richtextctrl.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/foreach.hpp>
 
 using std::max;
 using std::vector;
@@ -139,7 +138,7 @@ HintsDialog::update ()
 		}
 	} else {
 		_text->BeginStandardBullet (N_("standard/circle"), 1, 50);
-		BOOST_FOREACH (string i, _current) {
+		for (auto i: _current) {
 			_text->WriteText (std_to_wx (i));
 			_text->Newline ();
 		}

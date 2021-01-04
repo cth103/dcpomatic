@@ -42,7 +42,7 @@ SendKDMEmailJob::SendKDMEmailJob (
 	, _filename_format (filename_format)
 	, _cpl_name (cpl_name)
 {
-	BOOST_FOREACH (KDMWithMetadataPtr i, kdms) {
+	for (auto i: kdms) {
 		list<KDMWithMetadataPtr> s;
 		s.push_back (i);
 		_kdms.push_back (s);

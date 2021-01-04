@@ -26,7 +26,6 @@
 #include "lib/config.h"
 #include "lib/cinema.h"
 #include "lib/screen.h"
-#include <boost/foreach.hpp>
 
 using std::list;
 using std::pair;
@@ -134,7 +133,7 @@ ScreensPanel::add_cinema (shared_ptr<Cinema> c)
 
 	_cinemas[id] = c;
 
-	BOOST_FOREACH (shared_ptr<Screen> i, c->screens()) {
+	for (auto i: c->screens()) {
 		add_screen (c, i);
 	}
 
@@ -239,7 +238,7 @@ ScreensPanel::add_screen_clicked ()
 		return;
 	}
 
-	BOOST_FOREACH (shared_ptr<Screen> i, c->screens ()) {
+	for (auto i: c->screens ()) {
 		if (i->name == d->name()) {
 			error_dialog (
 				GetParent(),
@@ -280,7 +279,7 @@ ScreensPanel::edit_screen_clicked ()
 	}
 
 	shared_ptr<Cinema> c = s.second->cinema;
-	BOOST_FOREACH (shared_ptr<Screen> i, c->screens ()) {
+	for (auto i: c->screens ()) {
 		if (i != s.second && i->name == d->name()) {
 			error_dialog (
 				GetParent(),
@@ -399,7 +398,7 @@ ScreensPanel::add_cinemas ()
 {
 	_root = _targets->AddRoot ("Foo");
 
-	BOOST_FOREACH (shared_ptr<Cinema> i, Config::instance()->cinemas ()) {
+	for (auto i: Config::instance()->cinemas()) {
 		add_cinema (i);
 	}
 }

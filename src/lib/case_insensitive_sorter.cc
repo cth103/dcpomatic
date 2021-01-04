@@ -20,7 +20,6 @@
 
 #include "case_insensitive_sorter.h"
 #include <boost/filesystem.hpp>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::string;

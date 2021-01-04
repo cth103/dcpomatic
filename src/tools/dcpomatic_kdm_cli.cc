@@ -226,7 +226,7 @@ from_film (
 
 	try {
 		list<KDMWithMetadataPtr> kdms;
-		BOOST_FOREACH (shared_ptr<Screen> i, screens) {
+		for (auto i: screens) {
 			KDMWithMetadataPtr p = kdm_for_screen (film, cpl, i, valid_from, valid_to, formulation, disable_forensic_marking_picture, disable_forensic_marking_audio);
 			if (p) {
 				kdms.push_back (p);
@@ -248,7 +248,7 @@ from_film (
 optional<dcp::EncryptedKDM>
 sub_find_dkdm (shared_ptr<DKDMGroup> group, string cpl_id)
 {
-	BOOST_FOREACH (shared_ptr<DKDMBase> i, group->children()) {
+	for (auto i: group->children()) {
 		shared_ptr<DKDMGroup> g = dynamic_pointer_cast<DKDMGroup>(i);
 		if (g) {
 			optional<dcp::EncryptedKDM> dkdm = sub_find_dkdm (g, cpl_id);
@@ -300,7 +300,7 @@ kdm_from_dkdm (
 		dcp::LocalTime().as_string()
 		);
 
-	BOOST_FOREACH (dcp::DecryptedKDMKey const & j, dkdm.keys()) {
+	for (auto const& j: dkdm.keys()) {
 		kdm.add_key(j);
 	}
 
@@ -327,7 +327,7 @@ from_dkdm (
 
 	try {
 		list<KDMWithMetadataPtr> kdms;
-		BOOST_FOREACH (shared_ptr<Screen> i, screens) {
+		for (auto i: screens) {
 			if (!i->recipient) {
 				continue;
 			}
@@ -375,7 +375,7 @@ dump_dkdm_group (shared_ptr<DKDMGroup> group, int indent)
 		}
 		cout << group->name() << "\n";
 	}
-	BOOST_FOREACH (shared_ptr<DKDMBase> i, group->children()) {
+	for (auto i: group->children()) {
 		shared_ptr<DKDMGroup> g = dynamic_pointer_cast<DKDMGroup>(i);
 		if (g) {
 			dump_dkdm_group (g, indent + 2);

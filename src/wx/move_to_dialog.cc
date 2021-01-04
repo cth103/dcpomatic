@@ -21,7 +21,6 @@
 #include "move_to_dialog.h"
 #include "lib/film.h"
 #include <wx/spinctrl.h>
-#include <boost/foreach.hpp>
 
 using std::list;
 using std::shared_ptr;
@@ -41,7 +40,7 @@ MoveToDialog::MoveToDialog (wxWindow* parent, optional<DCPTime> position, shared
 
 	if (position) {
 		int j = 0;
-		BOOST_FOREACH (DCPTimePeriod i, film->reels()) {
+		for (auto i: film->reels()) {
 			if (i.from == position.get()) {
 				_reel->SetValue (j + 1);
 			}

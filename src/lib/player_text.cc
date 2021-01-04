@@ -20,7 +20,6 @@
 
 #include "player_text.h"
 #include "font.h"
-#include <boost/foreach.hpp>
 
 using std::list;
 using std::shared_ptr;
@@ -29,9 +28,9 @@ using namespace dcpomatic;
 void
 PlayerText::add_fonts (list<shared_ptr<Font> > fonts_)
 {
-	BOOST_FOREACH (shared_ptr<Font> i, fonts_) {
+	for (auto i: fonts_) {
 		bool got = false;
-		BOOST_FOREACH (shared_ptr<Font> j, fonts) {
+		for (auto j: fonts) {
 			if (*i == *j) {
 				got = true;
 			}

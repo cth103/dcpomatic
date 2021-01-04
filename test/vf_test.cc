@@ -37,7 +37,6 @@
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
 #include <boost/test/unit_test.hpp>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::list;

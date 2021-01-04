@@ -25,7 +25,6 @@
 #include "lib/compose.hpp"
 #include "lib/log.h"
 #include <wx/notebook.h>
-#include <boost/foreach.hpp>
 
 using std::list;
 using std::string;

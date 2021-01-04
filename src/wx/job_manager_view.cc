@@ -31,7 +31,6 @@
 #include "lib/util.h"
 #include "lib/exceptions.h"
 #include "lib/compose.hpp"
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::string;
@@ -109,9 +108,9 @@ JobManagerView::replace ()
 
 	list<shared_ptr<JobView> > new_job_records;
 
-	BOOST_FOREACH (shared_ptr<Job> i, JobManager::instance()->get()) {
+	for (auto i: JobManager::instance()->get()) {
 		/* Find this job's JobView */
-		BOOST_FOREACH (shared_ptr<JobView> j, _job_records) {
+		for (auto j: _job_records) {
 			if (j->job() == i) {
 				new_job_records.push_back (j);
 				break;
@@ -119,13 +118,13 @@ JobManagerView::replace ()
 		}
 	}
 
-	BOOST_FOREACH (shared_ptr<JobView> i, _job_records) {
+	for (auto i: _job_records) {
 		i->detach ();
 	}
 
 	_job_records = new_job_records;
 
-	BOOST_FOREACH (shared_ptr<JobView> i, _job_records) {
+	for (auto i: _job_records) {
 		i->insert (i->insert_position ());
 	}
 
@@ -135,7 +134,7 @@ JobManagerView::replace ()
 void
 JobManagerView::job_list_changed ()
 {
-	BOOST_FOREACH (shared_ptr<JobView> i, _job_records) {
+	for (auto i: _job_records) {
 		i->job_list_changed ();
 	}
 }

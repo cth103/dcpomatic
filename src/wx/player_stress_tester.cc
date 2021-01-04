@@ -24,7 +24,6 @@
 #include <dcp/util.h>
 #include <wx/wx.h>
 #include <boost/algorithm/string.hpp>
-#include <boost/foreach.hpp>
 #include <boost/bind/bind.hpp>
 #include <string>
 #include <vector>
@@ -99,7 +98,7 @@ PlayerStressTester::load_script (boost::filesystem::path file)
 	vector<string> lines;
 	string const script = dcp::file_to_string(file);
 	boost::split (lines, script, boost::is_any_of("\n"));
-	BOOST_FOREACH (string i, lines) {
+	for (auto i: lines) {
 		_commands.push_back (Command(i));
 	}
 	_current_command = _commands.begin();

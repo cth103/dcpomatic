@@ -60,7 +60,7 @@ Decoder::position () const
 	   which can cause bugs like #1581.
 	*/
 	if (!pos) {
-		BOOST_FOREACH (shared_ptr<TextDecoder> i, text) {
+		for (auto i: text) {
 			if (!i->ignore() && (!pos || i->position(f) < *pos)) {
 				pos = i->position(f);
 			}
@@ -79,7 +79,7 @@ Decoder::seek (ContentTime, bool)
 	if (audio) {
 		audio->seek ();
 	}
-	BOOST_FOREACH (shared_ptr<TextDecoder> i, text) {
+	for (auto i: text) {
 		i->seek ();
 	}
 }

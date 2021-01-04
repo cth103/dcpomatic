@@ -385,7 +385,7 @@ DCPOMATIC_ENABLE_WARNINGS
 		av_packet_unref (&packet);
 
 		flushed_audio = true;
-		BOOST_FOREACH (shared_ptr<ExportAudioStream> i, _audio_streams) {
+		for (auto i: _audio_streams) {
 			if (!i->flush()) {
 				flushed_audio = false;
 			}
@@ -473,7 +473,7 @@ FFmpegFileEncoder::audio_frame (int size)
 {
 	if (_audio_stream_per_channel) {
 		int offset = 0;
-		BOOST_FOREACH (shared_ptr<ExportAudioStream> i, _audio_streams) {
+		for (auto i: _audio_streams) {
 			i->write (size, offset, 1, _pending_audio->data(), _audio_frames);
 			++offset;
 		}

@@ -27,7 +27,6 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/foreach.hpp>
 #include <boost/signals2.hpp>
 
 class NameFormatEditor

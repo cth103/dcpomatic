@@ -106,7 +106,7 @@ ContentView::update ()
 	while (jm->work_to_do()) {
 		if (!progress.Pulse()) {
 			/* user pressed cancel */
-			BOOST_FOREACH (shared_ptr<Job> i, jm->get()) {
+			for (auto i: jm->get()) {
 				i->cancel();
 			}
 			return;
@@ -115,7 +115,7 @@ ContentView::update ()
 	}
 
 	/* Add content from successful jobs and report errors */
-	BOOST_FOREACH (shared_ptr<ExamineContentJob> i, jobs) {
+	for (auto i: jobs) {
 		if (i->finished_in_error()) {
 			error_dialog(this, std_to_wx(i->error_summary()) + ".\n", std_to_wx(i->error_details()));
 		} else {
@@ -156,7 +156,7 @@ ContentView::add (shared_ptr<Content> content)
 shared_ptr<Content>
 ContentView::get (string digest) const
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+	for (auto i: _content) {
 		if (i->digest() == digest) {
 			return i;
 		}

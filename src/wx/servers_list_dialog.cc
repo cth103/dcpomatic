@@ -23,7 +23,6 @@
 #include "lib/encode_server_finder.h"
 #include "lib/encode_server_description.h"
 #include <boost/lexical_cast.hpp>
-#include <boost/foreach.hpp>
 
 using std::list;
 using std::string;
@@ -77,7 +76,7 @@ ServersListDialog::servers_list_changed ()
 
 	int n = 0;
 
-	BOOST_FOREACH (EncodeServerDescription i, EncodeServerFinder::instance()->servers()) {
+	for (auto i: EncodeServerFinder::instance()->servers()) {
 		wxListItem list_item;
 		list_item.SetId (n);
 		_list->InsertItem (list_item);

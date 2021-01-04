@@ -22,7 +22,6 @@
 #include "wx_util.h"
 #include "static_text.h"
 #include "check_box.h"
-#include <boost/foreach.hpp>
 
 using std::shared_ptr;
 #if BOOST_VERSION >= 106100

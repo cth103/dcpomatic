@@ -317,7 +317,7 @@ private:
 		int re_select = wxNOT_FOUND;
 		int j = 0;
 		_drives = Drive::get ();
-		BOOST_FOREACH (Drive i, _drives) {
+		for (auto i: _drives) {
 			wxString const s = std_to_wx(i.description());
 			if (s == current) {
 				re_select = j;

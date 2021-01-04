@@ -39,7 +39,6 @@
 #include "lib/video_content.h"
 #include "lib/atmos_mxf_content.h"
 #include <wx/graphics.h>
-#include <boost/foreach.hpp>
 #include <list>
 #include <iterator>
 #include <iostream>
@@ -174,13 +173,13 @@ Timeline::paint_main ()
 
 	gc->SetAntialiasMode (wxANTIALIAS_DEFAULT);
 
-	BOOST_FOREACH (shared_ptr<TimelineView> i, _views) {
+	for (auto i: _views) {
 
 		shared_ptr<TimelineContentView> ic = dynamic_pointer_cast<TimelineContentView> (i);
 
 		/* Find areas of overlap with other content views, so that we can plot them */
 		list<dcpomatic::Rect<int> > overlaps;
-		BOOST_FOREACH (shared_ptr<TimelineView> j, _views) {
+		for (auto j: _views) {
 			shared_ptr<TimelineContentView> jc = dynamic_pointer_cast<TimelineContentView> (j);
 			/* No overlap with non-content views, views no different tracks, audio views or non-active views */
 			if (!ic || !jc || i == j || ic->track() != jc->track() || ic->track().get_value_or(2) >= 2 || !ic->active() || !jc->active()) {
@@ -251,7 +250,7 @@ Timeline::recreate_views ()
 	_views.push_back (_time_axis_view);
 	_views.push_back (_reels_view);
 
-	BOOST_FOREACH (shared_ptr<Content> i, film->content ()) {
+	for (auto i: film->content ()) {
 		if (i->video) {
 			_views.push_back (shared_ptr<TimelineView> (new TimelineVideoContentView (*this, i)));
 		}
@@ -260,7 +259,7 @@ Timeline::recreate_views ()
 			_views.push_back (shared_ptr<TimelineView> (new TimelineAudioContentView (*this, i)));
 		}
 
-		BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
+		for (auto j: i->text) {
 			_views.push_back (shared_ptr<TimelineView> (new TimelineTextContentView (*this, i, j)));
 		}
 
@@ -299,7 +298,7 @@ place (shared_ptr<const Film> film, TimelineViewList& views, int& tracks)
 {
 	int const base = tracks;
 
-	BOOST_FOREACH (shared_ptr<TimelineView> i, views) {
+	for (auto i: views) {
 		if (!dynamic_pointer_cast<T>(i)) {
 			continue;
 		}
@@ -396,7 +395,7 @@ Timeline::assign_tracks ()
 	/* Video */
 
 	bool have_3d = false;
-	BOOST_FOREACH (shared_ptr<TimelineView> i, _views) {
+	for (auto i: _views) {
 		shared_ptr<TimelineVideoContentView> cv = dynamic_pointer_cast<TimelineVideoContentView> (i);
 		if (!cv) {
 			continue;
@@ -421,7 +420,7 @@ Timeline::assign_tracks ()
 	/* Atmos */
 
 	bool have_atmos = false;
-	BOOST_FOREACH (shared_ptr<TimelineView> i, _views) {
+	for (auto i: _views) {
 		shared_ptr<TimelineAtmosContentView> cv = dynamic_pointer_cast<TimelineAtmosContentView>(i);
 		if (cv) {
 			cv->set_track (_tracks);
@@ -559,7 +558,7 @@ Timeline::left_down_select (wxMouseEvent& ev)
 			_start_snaps.push_back (cv->content()->end(film));
 			_end_snaps.push_back (cv->content()->end(film));
 
-			BOOST_FOREACH (DCPTime i, cv->content()->reel_split_points(film)) {
+			for (auto i: cv->content()->reel_split_points(film)) {
 				_start_snaps.push_back (i);
 			}
 		}
@@ -776,11 +775,11 @@ Timeline::set_position_from_event (wxMouseEvent& ev, bool force_emit)
 
 		/* Find the nearest snap point */
 
-		BOOST_FOREACH (DCPTime i, _start_snaps) {
+		for (auto i: _start_snaps) {
 			maybe_snap (i, new_position, nearest_distance);
 		}
 
-		BOOST_FOREACH (DCPTime i, _end_snaps) {
+		for (auto i: _end_snaps) {
 			maybe_snap (i, new_end, nearest_distance);
 		}
 

@@ -19,7 +19,6 @@
 */
 
 #include "suspender.h"
-#include <boost/foreach.hpp>
 
 Suspender::Suspender(boost::function<void (int)> handler)
 	: _handler (handler)
@@ -56,7 +55,7 @@ Suspender::decrement ()
 {
 	--_count;
 	if (_count == 0) {
-		BOOST_FOREACH (int i, _pending) {
+		for (auto i: _pending) {
 			_handler (i);
 		}
 		_pending.clear ();

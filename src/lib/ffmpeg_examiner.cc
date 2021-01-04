@@ -36,7 +36,6 @@ extern "C" {
 #include <libavutil/display.h>
 }
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"

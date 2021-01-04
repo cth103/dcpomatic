@@ -69,7 +69,6 @@
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/foreach.hpp>
 #include <boost/regex.hpp>
 #include <unistd.h>
 #include <stdexcept>
@@ -220,11 +219,11 @@ Film::Film (optional<boost::filesystem::path> dir)
 
 Film::~Film ()
 {
-	BOOST_FOREACH (boost::signals2::connection& i, _job_connections) {
+	for (auto& i: _job_connections) {
 		i.disconnect ();
 	}
 
-	BOOST_FOREACH (boost::signals2::connection& i, _audio_analysis_connections) {
+	for (auto& i: _audio_analysis_connections) {
 		i.disconnect ();
 	}
 }
@@ -288,7 +287,7 @@ Film::audio_analysis_path (shared_ptr<const Playlist> playlist) const
 	boost::filesystem::path p = dir ("analysis");
 
 	Digester digester;
-	BOOST_FOREACH (shared_ptr<Content> i, playlist->content ()) {
+	for (auto i: playlist->content ()) {
 		if (!i->audio) {
 			continue;
 		}
@@ -329,7 +328,7 @@ Film::subtitle_analysis_path (shared_ptr<const Content> content) const
 		shared_ptr<TextContent> tc = content->text.front();
 		digester.add (tc->x_scale());
 		digester.add (tc->y_scale());
-		BOOST_FOREACH (shared_ptr<dcpomatic::Font> i, tc->fonts()) {
+		for (auto i: tc->fonts()) {
 			digester.add (i->id());
 		}
 		if (tc->effect()) {
@@ -380,7 +379,7 @@ Film::make_dcp (bool gui, bool check)
 		set_name ("DCP");
 	}
 
-	BOOST_FOREACH (shared_ptr<const Content> i, content ()) {
+	for (auto i: content ()) {
 		if (!i->paths_valid()) {
 			throw runtime_error (_("some of your content is missing"));
 		}
@@ -395,11 +394,11 @@ Film::make_dcp (bool gui, bool check)
 
 	set_isdcf_date_today ();
 
-	BOOST_FOREACH (string i, environment_info ()) {
+	for (auto i: environment_info ()) {
 		LOG_GENERAL_NC (i);
 	}
 
-	BOOST_FOREACH (shared_ptr<const Content> i, content ()) {
+	for (auto i: content ()) {
 		LOG_GENERAL ("Content: %1", i->technical_summary());
 	}
 	LOG_GENERAL ("DCP video rate %1 fps", video_frame_rate());
@@ -470,10 +469,10 @@ Film::metadata (bool with_content_paths) const
 		m->set_attribute("Type", dcp::marker_to_string(i->first));
 		m->add_child_text(raw_convert<string>(i->second.get()));
 	}
-	BOOST_FOREACH (dcp::Rating i, _ratings) {
+	for (auto i: _ratings) {
 		i.as_xml (root->add_child("Rating"));
 	}
-	BOOST_FOREACH (string i, _content_versions) {
+	for (auto i: _content_versions) {
 		root->add_child("ContentVersion")->add_child_text(i);
 	}
 	root->add_child("NameLanguage")->add_child_text(_name_language.to_string());
@@ -488,7 +487,7 @@ Film::metadata (bool with_content_paths) const
 	root->add_child("LuminanceUnit")->add_child_text(dcp::Luminance::unit_to_string(_luminance.unit()));
 	root->add_child("UserExplicitContainer")->add_child_text(_user_explicit_container ? "1" : "0");
 	root->add_child("UserExplicitResolution")->add_child_text(_user_explicit_resolution ? "1" : "0");
-	BOOST_FOREACH (dcp::LanguageTag i, _subtitle_languages) {
+	for (auto i: _subtitle_languages) {
 		root->add_child("SubtitleLanguage")->add_child_text(i.to_string());
 	}
 	_playlist->as_xml (root->add_child ("Playlist"), with_content_paths);
@@ -628,15 +627,15 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	_reencode_j2k = f.optional_bool_child("ReencodeJ2K").get_value_or(false);
 	_user_explicit_video_frame_rate = f.optional_bool_child("UserExplicitVideoFrameRate").get_value_or(false);
 
-	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("Marker")) {
+	for (auto i: f.node_children("Marker")) {
 		_markers[dcp::marker_from_string(i->string_attribute("Type"))] = DCPTime(dcp::raw_convert<DCPTime::Type>(i->content()));
 	}
 
-	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("Rating")) {
+	for (auto i: f.node_children("Rating")) {
 		_ratings.push_back (dcp::Rating(i));
 	}
 
-	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("ContentVersion")) {
+	for (auto i: f.node_children("ContentVersion")) {
 		_content_versions.push_back (i->content());
 	}
 
@@ -674,7 +673,7 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	_user_explicit_container = f.optional_bool_child("UserExplicitContainer").get_value_or(true);
 	_user_explicit_resolution = f.optional_bool_child("UserExplicitResolution").get_value_or(true);
 
-	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("SubtitleLanguage")) {
+	for (auto i: f.node_children("SubtitleLanguage")) {
 		_subtitle_languages.push_back (dcp::LanguageTag(i->content()));
 	}
 
@@ -693,7 +692,7 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 
 	optional<dcp::LanguageTag> found_language;
 
-	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_child("Playlist")->node_children("Content")) {
+	for (auto i: f.node_child("Playlist")->node_children("Content")) {
 		cxml::ConstNodePtr text = i->optional_node_child("Text");
 		if (text && text->optional_string_child("Language") && !found_language) {
 			try {
@@ -773,7 +772,7 @@ Film::mapped_audio_channels () const
 			mapped.push_back (i);
 		}
 	} else {
-		BOOST_FOREACH (shared_ptr<Content> i, content ()) {
+		for (auto i: content ()) {
 			if (i->audio) {
 				list<int> c = i->audio->mapping().mapped_output_channels ();
 				copy (c.begin(), c.end(), back_inserter (mapped));
@@ -884,7 +883,7 @@ Film::isdcf_name (bool if_created_now) const
 	/* Interior aspect ratio.  The standard says we don't do this for trailers, for some strange reason */
 	if (dcp_content_type() && dcp_content_type()->libdcp_kind() != dcp::TRAILER) {
 		Ratio const * content_ratio = 0;
-		BOOST_FOREACH (shared_ptr<Content> i, content ()) {
+		for (auto i: content ()) {
 			if (i->video) {
 				/* Here's the first piece of video content */
 				content_ratio = Ratio::nearest_from_ratio(i->video->scaled_size(frame_size()).ratio());
@@ -907,8 +906,8 @@ Film::isdcf_name (bool if_created_now) const
 
 		bool burnt_in = true;
 		bool ccap = false;
-		BOOST_FOREACH (shared_ptr<Content> i, content()) {
-			BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
+		for (auto i: content()) {
+			for (auto j: i->text) {
 				if (j->type() == TEXT_OPEN_SUBTITLE && j->use() && !j->burn()) {
 					burnt_in = false;
 				} else if (j->type() == TEXT_CLOSED_CAPTION && j->use()) {
@@ -989,7 +988,7 @@ Film::isdcf_name (bool if_created_now) const
 	}
 
 	bool vf = false;
-	BOOST_FOREACH (shared_ptr<Content> i, content ()) {
+	for (auto i: content()) {
 		shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (i);
 		if (!dc) {
 			continue;
@@ -1345,7 +1344,7 @@ Film::add_content (shared_ptr<Content> c)
 
 	if (_template_film) {
 		/* Take settings from the first piece of content of c's type in _template */
-		BOOST_FOREACH (shared_ptr<Content> i, _template_film->content()) {
+		for (auto i: _template_film->content()) {
 			c->take_settings_from (i);
 		}
 	}
@@ -1365,7 +1364,7 @@ Film::maybe_set_container_and_resolution ()
 {
 	/* Get the only piece of video content, if there is only one */
 	shared_ptr<VideoContent> video;
-	BOOST_FOREACH (shared_ptr<const Content> i, _playlist->content()) {
+	for (auto i: _playlist->content()) {
 		if (i->video) {
 			if (!video) {
 				video = i->video;
@@ -1490,7 +1489,7 @@ void
 Film::check_settings_consistency ()
 {
 	optional<int> atmos_rate;
-	BOOST_FOREACH (shared_ptr<Content> i, content()) {
+	for (auto i: content()) {
 
 		if (i->atmos) {
 			int rate = lrintf (i->atmos->edit_rate().as_float());
@@ -1505,7 +1504,7 @@ Film::check_settings_consistency ()
 	}
 
 	bool change_made = false;
-	BOOST_FOREACH (shared_ptr<Content> i, content()) {
+	for (auto i: content()) {
 		shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent>(i);
 		if (!d) {
 			continue;
@@ -1593,7 +1592,7 @@ Film::active_area () const
 	dcp::Size const frame = frame_size ();
 	dcp::Size active;
 
-	BOOST_FOREACH (shared_ptr<Content> i, content()) {
+	for (auto i: content()) {
 		if (i->video) {
 			dcp::Size s = i->video->scaled_size (frame);
 			active.width = max(active.width, s.width);
@@ -1639,7 +1638,7 @@ Film::make_kdm (
 
 	/* Find keys that have been added to imported, encrypted DCP content */
 	list<dcp::DecryptedKDMKey> imported_keys;
-	BOOST_FOREACH (shared_ptr<Content> i, content()) {
+	for (auto i: content()) {
 		shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent> (i);
 		if (d && d->kdm()) {
 			dcp::DecryptedKDM kdm (d->kdm().get(), Config::instance()->decryption_chain()->key().get());
@@ -1650,14 +1649,14 @@ Film::make_kdm (
 
 	map<shared_ptr<const dcp::ReelMXF>, dcp::Key> keys;
 
-	BOOST_FOREACH(shared_ptr<const dcp::ReelMXF> i, cpl->reel_mxfs()) {
+	for (auto i: cpl->reel_mxfs()) {
 		if (!i->key_id()) {
 			continue;
 		}
 
 		/* Get any imported key for this ID */
 		bool done = false;
-		BOOST_FOREACH (dcp::DecryptedKDMKey j, imported_keys) {
+		for (auto j: imported_keys) {
 			if (j.id() == i->key_id().get()) {
 				LOG_GENERAL ("Using imported key for %1", i->key_id().get());
 				keys[i] = j.key();
@@ -1779,9 +1778,9 @@ Film::reels () const
 		list<DCPTime> split_points;
 		split_points.push_back (DCPTime());
 		split_points.push_back (len);
-		BOOST_FOREACH (shared_ptr<Content> c, content()) {
+		for (auto c: content()) {
 			if (c->video) {
-				BOOST_FOREACH (DCPTime t, c->reel_split_points(shared_from_this())) {
+				for (auto t: c->reel_split_points(shared_from_this())) {
 					split_points.push_back (t);
 				}
 				split_points.push_back (c->end(shared_from_this()));
@@ -1793,7 +1792,7 @@ Film::reels () const
 
 		/* Make them into periods, coalescing any that are less than 1 second long */
 		optional<DCPTime> last;
-		BOOST_FOREACH (DCPTime t, split_points) {
+		for (auto t: split_points) {
 			if (last && (t - *last) >= DCPTime::from_seconds(1)) {
 				/* Period from *last to t is long enough; use it and start a new one */
 				p.push_back (DCPTimePeriod(*last, t));
@@ -1870,7 +1869,7 @@ Film::copy_from (shared_ptr<const Film> film)
 bool
 Film::references_dcp_video () const
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _playlist->content()) {
+	for (auto i: _playlist->content()) {
 		shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent>(i);
 		if (d && d->reference_video()) {
 			return true;
@@ -1883,7 +1882,7 @@ Film::references_dcp_video () const
 bool
 Film::references_dcp_audio () const
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _playlist->content()) {
+	for (auto i: _playlist->content()) {
 		shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent>(i);
 		if (d && d->reference_audio()) {
 			return true;
@@ -1897,7 +1896,7 @@ Film::references_dcp_audio () const
 bool
 Film::contains_atmos_content () const
 {
-	BOOST_FOREACH (shared_ptr<Content> i, _playlist->content()) {
+	for (auto i: _playlist->content()) {
 		if (i->atmos) {
 			return true;
 		}
@@ -1911,8 +1910,8 @@ list<DCPTextTrack>
 Film::closed_caption_tracks () const
 {
 	list<DCPTextTrack> tt;
-	BOOST_FOREACH (shared_ptr<Content> i, content()) {
-		BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
+	for (auto i: content()) {
+		for (auto j: i->text) {
 			/* XXX: Empty DCPTextTrack ends up being a magic value here - the "unknown" or "not specified" track */
 			DCPTextTrack dtt = j->dcp_track().get_value_or(DCPTextTrack());
 			if (j->type() == TEXT_CLOSED_CAPTION && find(tt.begin(), tt.end(), dtt) == tt.end()) {

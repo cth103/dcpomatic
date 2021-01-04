@@ -237,8 +237,8 @@ ClosedCaptionsDialog::update_tracks (shared_ptr<const Film> film)
 {
 	_tracks.clear ();
 
-	BOOST_FOREACH (shared_ptr<Content> i, film->content()) {
-		BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
+	for (auto i: film->content()) {
+		for (auto j: i->text) {
 			if (j->use() && j->type() == TEXT_CLOSED_CAPTION && j->dcp_track()) {
 				if (find(_tracks.begin(), _tracks.end(), j->dcp_track()) == _tracks.end()) {
 					_tracks.push_back (*j->dcp_track());
@@ -248,7 +248,7 @@ ClosedCaptionsDialog::update_tracks (shared_ptr<const Film> film)
 	}
 
 	_track->Clear ();
-	BOOST_FOREACH (DCPTextTrack const & i, _tracks) {
+	for (auto const& i: _tracks) {
 		_track->Append (std_to_wx(String::compose("%1 (%2)", i.name, i.language)));
 	}
 

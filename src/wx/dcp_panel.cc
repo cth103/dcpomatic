@@ -47,7 +47,6 @@
 #include <wx/gbsizer.h>
 #include <wx/spinctrl.h>
 #include <boost/lexical_cast.hpp>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::cout;
@@ -137,7 +136,7 @@ DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> v
 	_markers->Bind               (wxEVT_BUTTON,   boost::bind (&DCPPanel::markers_clicked, this));
 	_metadata->Bind              (wxEVT_BUTTON,   boost::bind (&DCPPanel::metadata_clicked, this));
 
-	BOOST_FOREACH (DCPContentType const * i, DCPContentType::all()) {
+	for (auto i: DCPContentType::all()) {
 		_dcp_content_type->Append (std_to_wx (i->pretty_name ()));
 	}
 
@@ -746,11 +745,11 @@ DCPPanel::make_video_panel ()
 	_three_d->Bind	 	 (wxEVT_CHECKBOX, boost::bind(&DCPPanel::three_d_changed, this));
 	_reencode_j2k->Bind      (wxEVT_CHECKBOX, boost::bind(&DCPPanel::reencode_j2k_changed, this));
 
-	BOOST_FOREACH (Ratio const * i, Ratio::containers()) {
+	for (auto i: Ratio::containers()) {
 		_container->Append (std_to_wx(i->container_nickname()));
 	}
 
-	BOOST_FOREACH (int i, Config::instance()->allowed_dcp_frame_rates()) {
+	for (auto i: Config::instance()->allowed_dcp_frame_rates()) {
 		_frame_rate_choice->Append (std_to_wx (boost::lexical_cast<string> (i)));
 	}
 
@@ -923,7 +922,7 @@ void
 DCPPanel::add_audio_processors ()
 {
 	_audio_processor->Append (_("None"), new wxStringClientData (N_("none")));
-	BOOST_FOREACH (AudioProcessor const * ap, AudioProcessor::visible()) {
+	for (auto ap: AudioProcessor::visible()) {
 		_audio_processor->Append (std_to_wx(ap->name()), new wxStringClientData(std_to_wx(ap->id())));
 	}
 	_audio_panel_sizer->Layout();

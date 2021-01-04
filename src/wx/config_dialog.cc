@@ -488,7 +488,7 @@ CertificateChainEditor::update_certificate_list ()
 	_certificates->DeleteAllItems ();
 	size_t n = 0;
 	dcp::CertificateChain::List certs = _get()->root_to_leaf ();
-	BOOST_FOREACH (dcp::Certificate const & i, certs) {
+	for (auto const& i: certs) {
 		wxListItem item;
 		item.SetId (n);
 		_certificates->InsertItem (item);

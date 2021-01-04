@@ -463,7 +463,7 @@ FilmViewer::set_coalesce_player_changes (bool c)
 	_coalesce_player_changes = c;
 
 	if (!c) {
-		BOOST_FOREACH (int i, _pending_player_changes) {
+		for (auto i: _pending_player_changes) {
 			player_change (CHANGE_TYPE_DONE, i, false);
 		}
 		_pending_player_changes.clear ();
@@ -622,7 +622,7 @@ FilmViewer::average_latency () const
         }
 
         Frame total = 0;
-        BOOST_FOREACH (Frame i, _latency_history) {
+        for (auto i: _latency_history) {
                 total += i;
         }
 

@@ -31,7 +31,6 @@ extern "C" {
 #include <libavformat/avio.h>
 }
 #include <boost/algorithm/string.hpp>
-#include <boost/foreach.hpp>
 #include <boost/dll/runtime_symbol_info.hpp>
 #include <windows.h>
 #include <winternl.h>

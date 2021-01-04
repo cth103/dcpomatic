@@ -31,7 +31,6 @@ extern "C" {
 #include <libavformat/avio.h>
 }
 #include <boost/algorithm/string.hpp>
-#include <boost/foreach.hpp>
 #include <boost/function.hpp>
 #if BOOST_VERSION >= 106100
 #include <boost/dll/runtime_symbol_info.hpp>
@@ -350,7 +349,7 @@ Drive::get ()
 bool
 Drive::unmount ()
 {
-	BOOST_FOREACH (boost::filesystem::path i, _mount_points) {
+	for (auto i: _mount_points) {
 		int const r = umount(i.string().c_str());
 		LOG_DISK("Tried to unmount %1 and got %2 and %3", i.string(), r, errno);
 		if (r == -1) {

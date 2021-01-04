@@ -55,7 +55,7 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 	_pages.push_back (new QubeCertificatePanel (this, N_("QXI")));
 	_pages.push_back (new QubeCertificatePanel (this, N_("QXPD")));
 
-	BOOST_FOREACH (DownloadCertificatePanel* i, _pages) {
+	for (auto i: _pages) {
 		_notebook->AddPage (i, i->name(), true);
 	}
 

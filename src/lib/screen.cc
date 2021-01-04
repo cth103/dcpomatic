@@ -23,7 +23,6 @@
 #include "film.h"
 #include "cinema.h"
 #include <libxml++/libxml++.h>
-#include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 
@@ -37,7 +36,7 @@ using namespace dcpomatic;
 Screen::Screen (cxml::ConstNodePtr node)
 	: KDMRecipient (node)
 {
-	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children ("TrustedDevice")) {
+	for (auto i: node->node_children ("TrustedDevice")) {
 		if (boost::algorithm::starts_with(i->content(), "-----BEGIN CERTIFICATE-----")) {
 			trusted_devices.push_back (TrustedDevice(dcp::Certificate(i->content())));
 		} else {
@@ -50,7 +49,7 @@ void
 Screen::as_xml (xmlpp::Element* parent) const
 {
 	KDMRecipient::as_xml (parent);
-	BOOST_FOREACH (TrustedDevice i, trusted_devices) {
+	for (auto i: trusted_devices) {
 		parent->add_child("TrustedDevice")->add_child_text(i.as_string());
 	}
 }
@@ -59,7 +58,7 @@ vector<string>
 Screen::trusted_device_thumbprints () const
 {
 	vector<string> t;
-	BOOST_FOREACH (TrustedDevice i, trusted_devices) {
+	for (auto i: trusted_devices) {
 		t.push_back (i.thumbprint());
 	}
 	return t;

@@ -27,7 +27,6 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 DCPOMATIC_ENABLE_WARNINGS
 #include <libcxml/cxml.h>
-#include <boost/foreach.hpp>
 
 using std::vector;
 
@@ -72,7 +71,7 @@ KDMCPLPanel::update_cpl_choice ()
 {
 	_cpl->Clear ();
 
-	BOOST_FOREACH (CPLSummary const & i, _cpls) {
+	for (auto const& i: _cpls) {
 		_cpl->Append (std_to_wx(i.cpl_id));
 
 		if (_cpls.size() > 0) {
@@ -116,10 +115,10 @@ KDMCPLPanel::cpl_browse_clicked ()
 		cpl_document.read_file (cpl_file);
 
 		bool encrypted = false;
-		BOOST_FOREACH (cxml::ConstNodePtr i, cpl_document.node_children("ReelList")) {
-			BOOST_FOREACH (cxml::ConstNodePtr j, i->node_children("Reel")) {
-				BOOST_FOREACH (cxml::ConstNodePtr k, j->node_children("AssetList")) {
-					BOOST_FOREACH (cxml::ConstNodePtr l, k->node_children()) {
+		for (auto i: cpl_document.node_children("ReelList")) {
+			for (auto j: i->node_children("Reel")) {
+				for (auto k: j->node_children("AssetList")) {
+					for (auto l: k->node_children()) {
 						if (!l->node_children("KeyId").empty()) {
 							encrypted = true;
 						}

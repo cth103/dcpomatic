@@ -51,7 +51,6 @@ extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 }
-#include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
 #include <vector>
 #include <iomanip>
@@ -134,7 +133,7 @@ FFmpegDecoder::flush ()
 		}
 	}
 
-	BOOST_FOREACH (shared_ptr<FFmpegAudioStream> i, _ffmpeg_content->ffmpeg_audio_streams ()) {
+	for (auto i: _ffmpeg_content->ffmpeg_audio_streams ()) {
 		ContentTime a = audio->stream_position(film(), i);
 		/* Unfortunately if a is 0 that really means that we don't know the stream position since
 		   there has been no data on it since the last seek.  In this case we'll just do nothing
@@ -400,7 +399,7 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	}
 
 DCPOMATIC_DISABLE_WARNINGS
-	BOOST_FOREACH (shared_ptr<FFmpegAudioStream> i, ffmpeg_content()->ffmpeg_audio_streams()) {
+	for (auto i: ffmpeg_content()->ffmpeg_audio_streams()) {
 		avcodec_flush_buffers (i->stream(_format_context)->codec);
 	}
 DCPOMATIC_ENABLE_WARNINGS
@@ -411,7 +410,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 	_have_current_subtitle = false;
 
-	BOOST_FOREACH (optional<ContentTime>& i, _next_time) {
+	for (auto& i: _next_time) {
 		i = optional<ContentTime>();
 	}
 }
@@ -744,7 +743,7 @@ FFmpegDecoder::decode_ass_subtitle (string ass, ContentTime from)
 		_ffmpeg_content->video->size().height
 		);
 
-	BOOST_FOREACH (sub::Subtitle const & i, sub::collect<list<sub::Subtitle> > (raw)) {
+	for (auto const& i: sub::collect<list<sub::Subtitle> > (raw)) {
 		only_text()->emit_plain_start (from, i);
 	}
 }

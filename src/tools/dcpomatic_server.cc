@@ -36,7 +36,6 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <wx/icon.h>
 DCPOMATIC_ENABLE_WARNINGS
 #include <boost/thread.hpp>
-#include <boost/foreach.hpp>
 #include <boost/optional.hpp>
 #include <iostream>
 
@@ -72,7 +71,7 @@ public:
 
 	string get () const {
 		string a;
-		BOOST_FOREACH (string const & i, _log) {
+		for (auto const& i: _log) {
 			a += i + "\n";
 		}
 		return a;

@@ -26,7 +26,6 @@
 #include "lib/config.h"
 #include "lib/util.h"
 #include <wx/statline.h>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::string;
@@ -65,7 +64,7 @@ ContentColourConversionDialog::ContentColourConversionDialog (wxWindow* parent, 
 
 	_editor_connection = _editor->Changed.connect (boost::bind (&ContentColourConversionDialog::check_for_preset, this));
 
-	BOOST_FOREACH (PresetColourConversion const &i, PresetColourConversion::all ()) {
+	for (auto const& i: PresetColourConversion::all ()) {
 		_preset_choice->Append (std_to_wx (i.name));
 	}
 }

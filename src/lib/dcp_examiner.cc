@@ -44,7 +44,6 @@
 #include <dcp/reel_closed_caption_asset.h>
 #include <dcp/reel_markers_asset.h>
 #include <dcp/sound_asset.h>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -77,7 +76,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 	if (content->cpl ()) {
 		/* Use the CPL that the content was using before */
-		BOOST_FOREACH (shared_ptr<dcp::CPL> i, cpls()) {
+		for (auto i: cpls()) {
 			if (i->id() == content->cpl().get()) {
 				cpl = i;
 			}
@@ -87,9 +86,9 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 		int least_unsatisfied = INT_MAX;
 
-		BOOST_FOREACH (shared_ptr<dcp::CPL> i, cpls()) {
+		for (auto i: cpls()) {
 			int unsatisfied = 0;
-			BOOST_FOREACH (shared_ptr<dcp::Reel> j, i->reels()) {
+			for (auto j: i->reels()) {
 				if (j->main_picture() && !j->main_picture()->asset_ref().resolved()) {
 					++unsatisfied;
 				}
@@ -119,7 +118,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	_name = cpl->content_title_text ();
 	_content_kind = cpl->content_kind ();
 
-	BOOST_FOREACH (shared_ptr<dcp::Reel> i, cpl->reels()) {
+	for (auto i: cpl->reels()) {
 
 		if (i->main_picture ()) {
 			if (!i->main_picture()->asset_ref().resolved()) {
@@ -182,7 +181,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			_text_count[TEXT_OPEN_SUBTITLE] = 1;
 		}
 
-		BOOST_FOREACH (shared_ptr<dcp::ReelClosedCaptionAsset> j, i->closed_captions()) {
+		for (auto j: i->closed_captions()) {
 			if (!j->asset_ref().resolved()) {
 				/* We are missing this asset so we can't continue; examination will be repeated later */
 				_needs_assets = true;
@@ -225,7 +224,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 	/* Check that we can read the first picture, sound and subtitle frames of each reel */
 	try {
-		BOOST_FOREACH (shared_ptr<dcp::Reel> i, cpl->reels()) {
+		for (auto i: cpl->reels()) {
 			shared_ptr<dcp::PictureAsset> pic = i->main_picture()->asset ();
 			shared_ptr<dcp::MonoPictureAsset> mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (pic);
 			shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (pic);
@@ -260,7 +259,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	_three_d = !cpl->reels().empty() && cpl->reels().front()->main_picture() &&
 		dynamic_pointer_cast<dcp::StereoPictureAsset> (cpl->reels().front()->main_picture()->asset());
 	_ratings = cpl->ratings();
-	BOOST_FOREACH (dcp::ContentVersion i, cpl->content_versions()) {
+	for (auto i: cpl->content_versions()) {
 		_content_versions.push_back (i.label_text);
 	}
 

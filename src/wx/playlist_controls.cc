@@ -288,7 +288,7 @@ PlaylistControls::update_playlist_directory ()
 	}
 
 	sort (_playlists.begin(), _playlists.end(), SPLComparator());
-	BOOST_FOREACH (SPL i, _playlists) {
+	for (auto i: _playlists) {
 		add_playlist_to_list (i);
 	}
 
@@ -349,7 +349,7 @@ PlaylistControls::select_playlist (int selected, int position)
 
 	wxProgressDialog dialog (_("DCP-o-matic"), "Loading playlist and KDMs");
 
-	BOOST_FOREACH (SPLEntry const & i, _playlists[selected].get()) {
+	for (auto const& i: _playlists[selected].get()) {
 		dialog.Pulse ();
 		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (i.content);
 		if (dcp && dcp->needs_kdm()) {
@@ -375,7 +375,7 @@ PlaylistControls::select_playlist (int selected, int position)
 	_current_spl_view->DeleteAllItems ();
 
 	int N = 0;
-	BOOST_FOREACH (SPLEntry i, _playlists[selected].get()) {
+	for (auto i: _playlists[selected].get()) {
 		wxListItem it;
 		it.SetId (N);
 		it.SetColumn (0);

@@ -77,7 +77,7 @@ SubtitleEncoder::SubtitleEncoder (shared_ptr<const Film> film, shared_ptr<Job> j
 		_assets.push_back (make_pair(shared_ptr<dcp::SubtitleAsset>(), boost::filesystem::change_extension(filename, extension)));
 	}
 
-	BOOST_FOREACH (dcpomatic::DCPTimePeriod i, film->reels()) {
+	for (auto i: film->reels()) {
 		_reels.push_back (i);
 	}
 
@@ -115,7 +115,7 @@ SubtitleEncoder::go ()
 		}
 
 		if (!_film->interop() || _include_font) {
-			BOOST_FOREACH (dcpomatic::FontData j, _player->get_subtitle_fonts()) {
+			for (auto j: _player->get_subtitle_fonts()) {
 				i->first->add_font (j.id, _default_font);
 			}
 		}
@@ -162,7 +162,7 @@ SubtitleEncoder::text (PlayerText subs, TextType type, optional<DCPTextTrack> tr
 		}
 	}
 
-	BOOST_FOREACH (StringText i, subs.string) {
+	for (auto i: subs.string) {
 		/* XXX: couldn't / shouldn't we use period here rather than getting time from the subtitle? */
 		i.set_in  (i.in());
 		i.set_out (i.out());

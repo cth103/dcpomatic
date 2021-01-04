@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_number_test)
 	BOOST_REQUIRE_EQUAL (cpl->reels().size(), 6U);
 
 	int n = 1;
-	BOOST_FOREACH (shared_ptr<dcp::Reel> i, cpl->reels()) {
+	for (auto i: cpl->reels()) {
 		if (i->main_subtitle()) {
 			shared_ptr<dcp::InteropSubtitleAsset> ass = dynamic_pointer_cast<dcp::InteropSubtitleAsset>(i->main_subtitle()->asset());
 			BOOST_REQUIRE (ass);

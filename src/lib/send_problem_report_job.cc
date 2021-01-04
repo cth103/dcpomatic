@@ -28,7 +28,6 @@
 #include "emailer.h"
 #include "environment_info.h"
 #include <libxml++/libxml++.h>
-#include <boost/foreach.hpp>
 
 #include "i18n.h"
 
@@ -83,7 +82,7 @@ SendProblemReportJob::run ()
 
 	body += "Version: " + string (dcpomatic_version) + " " + string (dcpomatic_git_commit) + "\n\n";
 
-	BOOST_FOREACH (string i, environment_info ()) {
+	for (auto i: environment_info ()) {
 		body += i + "\n";
 	}
 

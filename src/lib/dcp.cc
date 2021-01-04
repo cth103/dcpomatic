@@ -28,7 +28,6 @@
 #include <dcp/dcp.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/exceptions.h>
-#include <boost/foreach.hpp>
 
 #include "i18n.h"
 
@@ -46,13 +45,13 @@ DCP::cpls () const
 	list<shared_ptr<dcp::CPL> > cpls;
 
 	LOG_GENERAL ("Reading %1 DCP directories", _dcp_content->directories().size());
-	BOOST_FOREACH (boost::filesystem::path i, _dcp_content->directories()) {
+	for (auto i: _dcp_content->directories()) {
 		shared_ptr<dcp::DCP> dcp (new dcp::DCP (i));
 		list<dcp::VerificationNote> notes;
 		dcp->read (&notes, true);
 		if (!_tolerant) {
 			/** We accept and ignore EMPTY_ASSET_PATH and EXTERNAL_ASSET but everything else is bad */
-			BOOST_FOREACH (dcp::VerificationNote j, notes) {
+			for (auto j: notes) {
 				if (j.code() == dcp::VerificationNote::EMPTY_ASSET_PATH || j.code() == dcp::VerificationNote::EXTERNAL_ASSET) {
 					LOG_WARNING("Empty path in ASSETMAP of %1", i.string());
 				} else {
@@ -62,13 +61,13 @@ DCP::cpls () const
 		}
 		dcps.push_back (dcp);
 		LOG_GENERAL ("Reading DCP %1: %2 CPLs", i.string(), dcp->cpls().size());
-		BOOST_FOREACH (shared_ptr<dcp::CPL> i, dcp->cpls()) {
+		for (auto i: dcp->cpls()) {
 			cpls.push_back (i);
 		}
 	}
 
-	BOOST_FOREACH (shared_ptr<dcp::DCP> i, dcps) {
-		BOOST_FOREACH (shared_ptr<dcp::DCP> j, dcps) {
+	for (auto i: dcps) {
+		for (auto j: dcps) {
 			if (i != j) {
 				i->resolve_refs (j->assets (true));
 			}
@@ -77,7 +76,7 @@ DCP::cpls () const
 
 	if (_dcp_content->kdm ()) {
 		dcp::DecryptedKDM k = decrypt_kdm_with_helpful_error (_dcp_content->kdm().get());
-		BOOST_FOREACH (shared_ptr<dcp::DCP> i, dcps) {
+		for (auto i: dcps) {
 			i->add (k);
 		}
 	}

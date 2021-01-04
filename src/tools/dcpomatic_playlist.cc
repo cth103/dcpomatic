@@ -36,7 +36,6 @@
 #include <wx/imaglist.h>
 #include <wx/spinctrl.h>
 #include <wx/preferences.h>
-#include <boost/foreach.hpp>
 
 using std::exception;
 using std::cout;
@@ -171,7 +170,7 @@ private:
 		}
 
 		int N = 0;
-		BOOST_FOREACH (shared_ptr<SignalSPL> i, _playlists) {
+		for (auto i: _playlists) {
 			if (i == playlist) {
 				_list->SetItem (N, 0, std_to_wx(i->name()));
 			}
@@ -196,7 +195,7 @@ private:
 			} catch (...) {}
 		}
 
-		BOOST_FOREACH (shared_ptr<SignalSPL> i, _playlists) {
+		for (auto i: _playlists) {
 			add_playlist_to_view (i);
 		}
 	}
@@ -318,7 +317,7 @@ public:
 		_playlist = playlist;
 		_list->DeleteAllItems ();
 		if (_playlist) {
-			BOOST_FOREACH (SPLEntry i, _playlist->get()) {
+			for (auto i: _playlist->get()) {
 				add (i);
 			}
 			_name->SetValue (std_to_wx(_playlist->name()));

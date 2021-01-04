@@ -26,7 +26,6 @@
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -105,7 +104,7 @@ TextContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 	}
 
 	list<shared_ptr<TextContent> > c;
-	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("Text")) {
+	for (auto i: node->node_children("Text")) {
 		c.push_back (shared_ptr<TextContent> (new TextContent (parent, i, version)));
 	}
 
@@ -397,7 +396,7 @@ TextContent::identifier () const
 	/* XXX: I suppose really _fonts shouldn't be in here, since not all
 	   types of subtitle content involve fonts.
 	*/
-	BOOST_FOREACH (shared_ptr<Font> f, _fonts) {
+	for (auto f: _fonts) {
 		s += "_" + f->file().get_value_or("Default").string();
 	}
 
@@ -416,13 +415,13 @@ TextContent::add_font (shared_ptr<Font> font)
 void
 TextContent::connect_to_fonts ()
 {
-	BOOST_FOREACH (boost::signals2::connection& i, _font_connections) {
+	for (auto const& i: _font_connections) {
 		i.disconnect ();
 	}
 
 	_font_connections.clear ();
 
-	BOOST_FOREACH (shared_ptr<Font> i, _fonts) {
+	for (auto i: _fonts) {
 		_font_connections.push_back (i->Changed.connect (boost::bind (&TextContent::font_changed, this)));
 	}
 }

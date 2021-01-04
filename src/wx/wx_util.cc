@@ -522,7 +522,7 @@ display_progress (wxString title, wxString task)
 		dcpomatic_sleep_seconds (1);
 		if (!progress.Pulse()) {
 			/* user pressed cancel */
-			BOOST_FOREACH (shared_ptr<Job> i, jm->get()) {
+			for (auto i: jm->get()) {
 				i->cancel();
 			}
 			ok = false;

@@ -51,7 +51,6 @@
 #include <dcp/smpte_subtitle_asset.h>
 #include <dcp/raw_convert.h>
 #include <dcp/subtitle_image.h>
-#include <boost/foreach.hpp>
 
 #include "i18n.h"
 
@@ -179,7 +178,7 @@ ReelWriter::ReelWriter (
 		DCPOMATIC_ASSERT (film()->directory());
 
 		vector<dcp::Channel> active;
-		BOOST_FOREACH (int i, film()->mapped_audio_channels()) {
+		for (auto i: film()->mapped_audio_channels()) {
 			active.push_back (static_cast<dcp::Channel>(i));
 		}
 
@@ -460,7 +459,7 @@ maybe_add_text (
 
 	if (asset) {
 		/* Add the font to the subtitle content */
-		BOOST_FOREACH (FontData const& j, fonts) {
+		for (auto const& j: fonts) {
 			asset->add_font (j.id, j.data.get_value_or(default_font));
 		}
 
@@ -491,7 +490,7 @@ maybe_add_text (
 			);
 	} else {
 		/* We don't have a subtitle asset of our own; hopefully we have one to reference */
-		BOOST_FOREACH (ReferencedReelAsset j, refs) {
+		for (auto j: refs) {
 			shared_ptr<T> k = dynamic_pointer_cast<T> (j.asset);
 			if (k && j.period == period) {
 				reel_asset = k;
@@ -536,7 +535,7 @@ ReelWriter::create_reel_picture (shared_ptr<dcp::Reel> reel, list<ReferencedReel
 	} else {
 		LOG_GENERAL ("no picture asset of our own; look through %1", refs.size());
 		/* We don't have a picture asset of our own; hopefully we have one to reference */
-		BOOST_FOREACH (ReferencedReelAsset j, refs) {
+		for (auto j: refs) {
 			shared_ptr<dcp::ReelPictureAsset> k = dynamic_pointer_cast<dcp::ReelPictureAsset> (j.asset);
 			if (k) {
 				LOG_GENERAL ("candidate picture asset period is %1-%2", j.period.from.get(), j.period.to.get());
@@ -578,7 +577,7 @@ ReelWriter::create_reel_sound (shared_ptr<dcp::Reel> reel, list<ReferencedReelAs
 	} else {
 		LOG_GENERAL ("no sound asset of our own; look through %1", refs.size());
 		/* We don't have a sound asset of our own; hopefully we have one to reference */
-		BOOST_FOREACH (ReferencedReelAsset j, refs) {
+		for (auto j: refs) {
 			shared_ptr<dcp::ReelSoundAsset> k = dynamic_pointer_cast<dcp::ReelSoundAsset> (j.asset);
 			if (k) {
 				LOG_GENERAL ("candidate sound asset period is %1-%2", j.period.from.get(), j.period.to.get());
@@ -664,7 +663,7 @@ ReelWriter::create_reel_text (
 	}
 
 	/* Make empty tracks for anything we've been asked to ensure but that we haven't added */
-	BOOST_FOREACH (DCPTextTrack i, ensure_closed_captions) {
+	for (auto i: ensure_closed_captions) {
 		shared_ptr<dcp::ReelClosedCaptionAsset> a = maybe_add_text<dcp::ReelClosedCaptionAsset> (
 			empty_text_asset(TEXT_CLOSED_CAPTION, i), duration, reel, refs, fonts, _default_font, film(), _period, output_dcp, _text_only
 			);
@@ -847,14 +846,14 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 		DCPOMATIC_ASSERT (false);
 	}
 
-	BOOST_FOREACH (StringText i, subs.string) {
+	for (auto i: subs.string) {
 		/* XXX: couldn't / shouldn't we use period here rather than getting time from the subtitle? */
 		i.set_in  (i.in()  - dcp::Time (_period.from.seconds(), i.in().tcr));
 		i.set_out (i.out() - dcp::Time (_period.from.seconds(), i.out().tcr));
 		asset->add (shared_ptr<dcp::Subtitle>(new dcp::SubtitleString(i)));
 	}
 
-	BOOST_FOREACH (BitmapText i, subs.bitmap) {
+	for (auto i: subs.bitmap) {
 		asset->add (
 			shared_ptr<dcp::Subtitle>(
 				new dcp::SubtitleImage(

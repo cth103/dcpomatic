@@ -26,7 +26,6 @@
 #include "dcp_content.h"
 #include "dcpomatic_time_coalesce.h"
 #include "piece.h"
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::cout;
@@ -39,7 +38,7 @@ using namespace dcpomatic;
 Empty::Empty (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist, function<bool (shared_ptr<const Content>)> part, DCPTime length)
 {
 	list<DCPTimePeriod> full;
-	BOOST_FOREACH (shared_ptr<Content> i, playlist->content()) {
+	for (auto i: playlist->content()) {
 		if (part(i)) {
 			full.push_back (DCPTimePeriod (i->position(), i->end(film)));
 		}
@@ -57,13 +56,13 @@ Empty::set_position (DCPTime position)
 {
 	_position = position;
 
-	BOOST_FOREACH (DCPTimePeriod i, _periods) {
+	for (auto i: _periods) {
 		if (i.contains(_position)) {
 			return;
 		}
 	}
 
-	BOOST_FOREACH (DCPTimePeriod i, _periods) {
+	for (auto i: _periods) {
 		if (i.from > _position) {
 			_position = i.from;
 			return;
@@ -74,7 +73,7 @@ Empty::set_position (DCPTime position)
 DCPTimePeriod
 Empty::period_at_position () const
 {
-	BOOST_FOREACH (DCPTimePeriod i, _periods) {
+	for (auto i: _periods) {
 		if (i.contains(_position)) {
 			return DCPTimePeriod (_position, i.to);
 		}
@@ -87,7 +86,7 @@ bool
 Empty::done () const
 {
 	DCPTime latest;
-	BOOST_FOREACH (DCPTimePeriod i, _periods) {
+	for (auto i: _periods) {
 		latest = max (latest, i.to);
 	}
 

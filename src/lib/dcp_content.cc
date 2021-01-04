@@ -40,7 +40,6 @@
 #include <dcp/reel_subtitle_asset.h>
 #include <dcp/reel.h>
 #include <libxml++/libxml++.h>
-#include <boost/foreach.hpp>
 #include <iterator>
 #include <iostream>
 
@@ -151,19 +150,19 @@ DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
 		_content_kind = dcp::content_kind_from_string (*ck);
 	}
 	_cpl = node->optional_string_child("CPL");
-	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("ReelLength")) {
+	for (auto i: node->node_children("ReelLength")) {
 		_reel_lengths.push_back (raw_convert<int64_t> (i->content ()));
 	}
 
-	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("Marker")) {
+	for (auto i: node->node_children("Marker")) {
 		_markers[dcp::marker_from_string(i->string_attribute("type"))] = ContentTime(raw_convert<int64_t>(i->content()));
 	}
 
-	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("Rating")) {
+	for (auto i: node->node_children("Rating")) {
 		_ratings.push_back (dcp::Rating(i));
 	}
 
-	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("ContentVersion")) {
+	for (auto i: node->node_children("ContentVersion")) {
 		_content_versions.push_back (i->content());
 	}
 }
@@ -352,7 +351,7 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 		audio->stream()->mapping().as_xml (node->add_child("AudioMapping"));
 	}
 
-	BOOST_FOREACH (shared_ptr<TextContent> i, text) {
+	for (auto i: text) {
 		i->as_xml (node);
 	}
 
@@ -391,7 +390,7 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 	if (_cpl) {
 		node->add_child("CPL")->add_child_text (_cpl.get ());
 	}
-	BOOST_FOREACH (int64_t i, _reel_lengths) {
+	for (auto i: _reel_lengths) {
 		node->add_child("ReelLength")->add_child_text (raw_convert<string> (i));
 	}
 
@@ -401,12 +400,12 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 		marker->add_child_text(raw_convert<string>(i->second.get()));
 	}
 
-	BOOST_FOREACH (dcp::Rating i, _ratings) {
+	for (auto i: _ratings) {
 		xmlpp::Element* rating = node->add_child("Rating");
 		i.as_xml (rating);
 	}
 
-	BOOST_FOREACH (string i, _content_versions) {
+	for (auto i: _content_versions) {
 		node->add_child("ContentVersion")->add_child_text(i);
 	}
 }
@@ -439,7 +438,7 @@ DCPContent::identifier () const
 		s += video->identifier() + "_";
 	}
 
-	BOOST_FOREACH (shared_ptr<TextContent> i, text) {
+	for (auto i: text) {
 		s += i->identifier () + " ";
 	}
 
@@ -566,7 +565,7 @@ DCPContent::reels (shared_ptr<const Film> film) const
 	/* The starting point of this content on the timeline */
 	DCPTime pos = position() - DCPTime (trim_start().get());
 
-	BOOST_FOREACH (int64_t i, reel_lengths) {
+	for (auto i: reel_lengths) {
 		/* This reel runs from `pos' to `to' */
 		DCPTime const to = pos + DCPTime::from_frames (i, film->video_frame_rate());
 		if (to > position()) {
@@ -585,7 +584,7 @@ list<DCPTime>
 DCPContent::reel_split_points (shared_ptr<const Film> film) const
 {
 	list<DCPTime> s;
-	BOOST_FOREACH (DCPTimePeriod i, reels(film)) {
+	for (auto i: reels(film)) {
 		s.push_back (i.from);
 	}
 	return s;
@@ -630,7 +629,7 @@ DCPContent::can_reference (shared_ptr<const Film> film, function<bool (shared_pt
 	/* fr must contain reels().  It can also contain other reels, but it must at
 	   least contain reels().
 	*/
-	BOOST_FOREACH (DCPTimePeriod i, reel_list) {
+	for (auto i: reel_list) {
 		if (find (fr.begin(), fr.end(), i) == fr.end ()) {
 			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
 			why_not = _("its reel lengths differ from those in the film; set the reel mode to 'split by video content'.");
@@ -703,7 +702,7 @@ DCPContent::can_reference_audio (shared_ptr<const Film> film, string& why_not) c
 		return false;
 	}
 
-        BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder->reels()) {
+        for (auto i: decoder->reels()) {
                 if (!i->main_sound()) {
 			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
                         why_not = _("it does not have sound in all its reels.");
@@ -735,7 +734,7 @@ DCPContent::can_reference_text (shared_ptr<const Film> film, TextType type, stri
 		return false;
 	}
 
-        BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder->reels()) {
+        for (auto i: decoder->reels()) {
                 if (type == TEXT_OPEN_SUBTITLE) {
 			if (!i->main_subtitle()) {
 				/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
@@ -753,7 +752,7 @@ DCPContent::can_reference_text (shared_ptr<const Film> film, TextType type, stri
 				why_not = _("it does not have closed captions in all its reels.");
 				return false;
 			}
-			BOOST_FOREACH (shared_ptr<dcp::ReelClosedCaptionAsset> j, i->closed_captions()) {
+			for (auto j: i->closed_captions()) {
 				if (j->entry_point().get_value_or(0) != 0) {
 					/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
 					why_not = _("one if its closed caption has a non-zero entry point so it must be re-written.");

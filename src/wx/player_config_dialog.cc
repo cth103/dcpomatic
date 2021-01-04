@@ -54,7 +54,6 @@
 #include <wx/filepicker.h>
 #include <RtAudio.h>
 #include <boost/filesystem.hpp>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::vector;

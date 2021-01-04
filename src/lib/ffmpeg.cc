@@ -37,7 +37,6 @@ extern "C" {
 #include <libswscale/swscale.h>
 }
 #include <boost/algorithm/string.hpp>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -314,7 +313,7 @@ FFmpeg::pts_offset (vector<shared_ptr<FFmpegAudioStream> > audio_streams, option
 		po = - first_video.get ();
 	}
 
-	BOOST_FOREACH (shared_ptr<FFmpegAudioStream> i, audio_streams) {
+	for (auto i: audio_streams) {
 		if (i->first_audio) {
 			po = max (po, - i->first_audio.get ());
 		}

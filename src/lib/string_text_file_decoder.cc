@@ -23,7 +23,6 @@
 #include "text_content.h"
 #include "text_decoder.h"
 #include <dcp/subtitle_string.h>
-#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::list;
@@ -95,8 +94,8 @@ vector<FontData>
 StringTextFileDecoder::fonts () const
 {
 	vector<FontData> data;
-	BOOST_FOREACH (shared_ptr<TextDecoder> i, text) {
-		BOOST_FOREACH (shared_ptr<Font> j, i->content()->fonts()) {
+	for (auto i: text) {
+		for (auto j: i->content()->fonts()) {
 			data.push_back (FontData(j));
 		}
 	}

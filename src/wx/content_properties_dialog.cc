@@ -25,7 +25,6 @@
 #include "lib/video_content.h"
 #include "lib/audio_content.h"
 #include <boost/algorithm/string.hpp>
-#include <boost/foreach.hpp>
 
 using std::string;
 using std::list;
@@ -38,7 +37,7 @@ ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<c
 	: TableDialog (parent, _("Content Properties"), 2, 1, false)
 {
 	map<UserProperty::Category, list<UserProperty> > grouped;
-	BOOST_FOREACH (UserProperty i, content->user_properties(film)) {
+	for (auto i: content->user_properties(film)) {
 		if (grouped.find(i.category) == grouped.end()) {
 			grouped[i.category] = list<UserProperty> ();
 		}
@@ -91,7 +90,7 @@ ContentPropertiesDialog::maybe_add_group (map<UserProperty::Category, list<UserP
 	add (m, false);
 	add_spacer ();
 
-	BOOST_FOREACH (UserProperty j, i->second) {
+	for (auto j: i->second) {
 		add (std_to_wx (j.key), true);
 		add (new StaticText (this, std_to_wx (j.value + " " + j.unit)));
 	}

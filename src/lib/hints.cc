@@ -40,7 +40,6 @@
 #include <dcp/reel.h>
 #include <dcp/reel_closed_caption_asset.h>
 #include <dcp/reel_subtitle_asset.h>
-#include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
 #include <iostream>
 
@@ -126,7 +125,7 @@ Hints::check_incorrect_container ()
 {
 	int narrower_than_scope = 0;
 	int scope = 0;
-	BOOST_FOREACH (shared_ptr<const Content> i, film()->content()) {
+	for (auto i: film()->content()) {
 		if (i->video) {
 			Ratio const * r = Ratio::nearest_from_ratio(i->video->scaled_size(film()->frame_size()).ratio());
 			if (r && r->id() == "239") {
@@ -206,7 +205,7 @@ Hints::check_speed_up ()
 {
 	optional<double> lowest_speed_up;
 	optional<double> highest_speed_up;
-	BOOST_FOREACH (shared_ptr<const Content> i, film()->content()) {
+	for (auto i: film()->content()) {
 		double spu = film()->active_frame_rate_change(i->position()).speed_up;
 		if (!lowest_speed_up || spu < *lowest_speed_up) {
 			lowest_speed_up = spu;
@@ -236,9 +235,9 @@ Hints::check_big_font_files ()
 {
 	bool big_font_files = false;
 	if (film()->interop ()) {
-		BOOST_FOREACH (shared_ptr<Content> i, film()->content()) {
-			BOOST_FOREACH (shared_ptr<TextContent> j, i->text) {
-				BOOST_FOREACH (shared_ptr<Font> k, j->fonts()) {
+		for (auto i: film()->content()) {
+			for (auto j: i->text) {
+				for (auto k: j->fonts()) {
 					optional<boost::filesystem::path> const p = k->file ();
 					if (p && boost::filesystem::file_size(p.get()) >= (MAX_FONT_FILE_SIZE - SIZE_SLACK)) {
 						big_font_files = true;
@@ -258,7 +257,7 @@ void
 Hints::check_vob ()
 {
 	int vob = 0;
-	BOOST_FOREACH (shared_ptr<const Content> i, film()->content()) {
+	for (auto i: film()->content()) {
 		if (boost::algorithm::starts_with (i->path(0).filename().string(), "VTS_")) {
 			++vob;
 		}
@@ -274,7 +273,7 @@ void
 Hints::check_3d_in_2d ()
 {
 	int three_d = 0;
-	BOOST_FOREACH (shared_ptr<const Content> i, film()->content()) {
+	for (auto i: film()->content()) {
 		if (i->video && i->video->frame_type() != VIDEO_FRAME_TYPE_2D) {
 			++three_d;
 		}
@@ -403,8 +402,8 @@ Hints::thread ()
 	dcp::DCP dcp (dcp_dir);
 	dcp.read ();
 	DCPOMATIC_ASSERT (dcp.cpls().size() == 1);
-	BOOST_FOREACH (shared_ptr<dcp::Reel> reel, dcp.cpls().front()->reels()) {
-		BOOST_FOREACH (shared_ptr<dcp::ReelClosedCaptionAsset> ccap, reel->closed_captions()) {
+	for (auto reel: dcp.cpls().front()->reels()) {
+		for (auto ccap: reel->closed_captions()) {
 			if (ccap->asset() && ccap->asset()->xml_as_string().length() > static_cast<size_t>(MAX_CLOSED_CAPTION_XML_SIZE - SIZE_SLACK) && !ccap_xml_too_big) {
 				hint (_(
 						"At least one of your closed caption files' XML part is larger than " MAX_CLOSED_CAPTION_XML_SIZE_TEXT
@@ -461,7 +460,7 @@ void
 Hints::closed_caption (PlayerText text, DCPTimePeriod period)
 {
 	int lines = text.string.size();
-	BOOST_FOREACH (StringText i, text.string) {
+	for (auto i: text.string) {
 		if (utf8_strlen(i.text()) > MAX_CLOSED_CAPTION_LENGTH) {
 			++lines;
 			if (!_long_ccap) {
@@ -518,7 +517,7 @@ Hints::open_subtitle (PlayerText text, DCPTimePeriod period)
 	}
 
 	size_t longest_line = 0;
-	BOOST_FOREACH (StringText const& i, text.string) {
+	for (auto const& i: text.string) {
 		longest_line = max (longest_line, i.text().length());
 	}
 

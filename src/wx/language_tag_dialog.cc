@@ -27,7 +27,6 @@
 #include <wx/wx.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/bind/bind.hpp>
-#include <boost/foreach.hpp>
 #include <boost/optional.hpp>
 #include <boost/signals2.hpp>
 #include <iostream>
@@ -85,7 +84,7 @@ public:
 			_matching_subtags.clear ();
 
 			boost::algorithm::to_lower(search);
-			BOOST_FOREACH (dcp::LanguageTag::SubtagData const& i, _all_subtags) {
+			for (auto const& i: _all_subtags) {
 				if (
 					(boost::algorithm::to_lower_copy(i.subtag).find(search) != string::npos) ||
 					(boost::algorithm::to_lower_copy(i.description).find(search) != string::npos)) {
@@ -262,7 +261,7 @@ dcp::LanguageTag LanguageTagDialog::get () const
 	vector<dcp::LanguageTag::VariantSubtag> variants;
 	vector<dcp::LanguageTag::ExtlangSubtag> extlangs;
 
-	BOOST_FOREACH (Subtag i, _current_tag_subtags) {
+	for (auto i: _current_tag_subtags) {
 		if (!i.subtag) {
 			continue;
 		}
@@ -401,7 +400,7 @@ LanguageTagDialog::setup_sensitivity ()
 	_add_region->Enable ();
 	_add_variant->Enable ();
 	_add_external->Enable ();
-	BOOST_FOREACH (Subtag const& i, _current_tag_subtags) {
+	for (auto const& i: _current_tag_subtags) {
 		switch (i.type) {
 			case dcp::LanguageTag::SCRIPT:
 				_add_script->Enable (false);

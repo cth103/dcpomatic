@@ -22,7 +22,6 @@
 #include "timeline.h"
 #include <wx/wx.h>
 #include <wx/graphics.h>
-#include <boost/foreach.hpp>
 
 using std::min;
 using std::list;
@@ -67,7 +66,7 @@ TimelineReelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> >)
 	gc->SetFont (gc->CreateFont (*wxNORMAL_FONT, wxColour (0, 0, 255)));
 
 	int reel = 1;
-	BOOST_FOREACH (DCPTimePeriod i, _timeline.film()->reels()) {
+	for (auto i: _timeline.film()->reels()) {
 		int const size = min (8.0, i.duration().seconds() * pps / 2);
 
 		wxGraphicsPath path = gc->CreatePath ();

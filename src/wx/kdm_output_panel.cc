@@ -209,7 +209,7 @@ KDMOutputPanel::make (
 		}
 
 		bool cinemas_with_no_email = false;
-		BOOST_FOREACH (list<KDMWithMetadataPtr> i, cinema_kdms) {
+		for (auto i: cinema_kdms) {
 			if (i.front()->emails().empty()) {
 				cinemas_with_no_email = true;
 			}
@@ -224,8 +224,8 @@ KDMOutputPanel::make (
 
 		if (proceed && Config::instance()->confirm_kdm_email ()) {
 			list<string> emails;
-			BOOST_FOREACH (list<KDMWithMetadataPtr> const& i, cinema_kdms) {
-				BOOST_FOREACH (string j, i.front()->emails()) {
+			for (auto const& i: cinema_kdms) {
+				for (auto j: i.front()->emails()) {
 					emails.push_back (j);
 				}
 			}
