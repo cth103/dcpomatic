@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-SYNTAX="make_dmg.sh <environment> <builddir> <intel-sdk> <arm-sdk> <apple-id> <apple-password>"
+SYNTAX="make_dmg.sh <environment> <builddir> <apple-id> <apple-password>"
 #
-# e.g. make_dmg.sh /Users/carl/osx-environment /Users/carl/cdist 10.9 11.0 foo@bar.net opensesame
+# e.g. make_dmg.sh /Users/carl/osx-environment /Users/carl/cdist foo@bar.net opensesame
 
 # Don't set -e here as egrep (used a few times) returns 1 if no matches
 # were found.
@@ -13,10 +13,8 @@ version=`git describe --tags --abbrev=0 | sed -e "s/v//"`
 DMG_SIZE=256
 ENV=$1
 ROOT=$2
-INTEL_SDK=$3
-ARM_SDK=$4
-APPLE_ID=$5
-APPLE_PASSWORD=$6
+APPLE_ID=$3
+APPLE_PASSWORD=$4
 
 # This is our work area for making up the .dmgs
 mkdir -p build/platform/osx
@@ -61,7 +59,7 @@ function copy_lib_root {
 }
 
 function copy_lib_env {
-	for f in $ENV/arm64/$ARM_SDK/lib/$1*.dylib; do
+	for f in $ENV/arm64/lib/$1*.dylib; do
 		if [ -h $f ]; then
 			ln -s $(readlink $f) "$2/`basename $f`"
 		else
@@ -212,7 +210,7 @@ function copy_resources {
     # i18n: wxWidgets .mo files
     for lang in de es fr it sv nl ru pl da cs; do
 	mkdir "$dest/$lang"
-	cp $ENV/x86_64/$INTEL_SDK/share/locale/$lang/LC_MESSAGES/wxstd.mo "$dest/$lang"
+	cp $ENV/x86_64/share/locale/$lang/LC_MESSAGES/wxstd.mo "$dest/$lang"
     done
 }
 
