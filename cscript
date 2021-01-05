@@ -370,11 +370,6 @@ def dependencies(target, options):
         # Use distro-provided FFmpeg on Arch
         deps = []
 
-    # Let's use C++11 mode if we can
-    cpp_lib_options = {'force-cpp11': True} if (
-            (target.platform == 'osx') or
-            (target.platform == 'windows')) else {}
-
     deps.append(('libdcp', 'd39880e'))
     deps.append(('libsub', 'ee5d2c8'))
     deps.append(('leqm-nrt', '131f971'))
