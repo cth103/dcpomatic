@@ -1,9 +1,8 @@
 #!/bin/bash
 #
-SYNTAX="make_dmg.sh <environment> <builddir> <type> <sdk> <apple-id> <apple-password>"
-# where <type> is arm-intel, intel or arm
+SYNTAX="make_dmg.sh <environment> <builddir> <intel-sdk> <arm-sdk> <apple-id> <apple-password>"
 #
-# e.g. make_dmg.sh /Users/carl/osx-environment /Users/carl/cdist arm-intel-64 foo@bar.net opensesame
+# e.g. make_dmg.sh /Users/carl/osx-environment /Users/carl/cdist 10.9 11.0 foo@bar.net opensesame
 
 # Don't set -e here as egrep (used a few times) returns 1 if no matches
 # were found.
@@ -14,16 +13,10 @@ version=`git describe --tags --abbrev=0 | sed -e "s/v//"`
 DMG_SIZE=256
 ENV=$1
 ROOT=$2
-TYPE=$3
-SDK=$4
+INTEL_SDK=$3
+ARM_SDK=$4
 APPLE_ID=$5
 APPLE_PASSWORD=$6
-
-if [ "$TYPE" != "arm-intel" -a "$TYPE" != "intel" -a "$TYPE" != "arm" ]; then
-    echo $SYNTAX
-    echo "where <type> is arm-intel, intel or arm"
-    exit 1
-fi
 
 # This is our work area for making up the .dmgs
 mkdir -p build/platform/osx
@@ -43,88 +36,40 @@ cat <<EOF > entitlements.plist
 EOF
 
 function copy {
-    case $TYPE in
-	arm-intel)
-	    for f in $1/arm64/$2; do
+	for f in $1/arm64/$2; do
 		if [ -h $f ]; then
-		    ln -s $(readlink $f) "$3/`basename $f`"
+			ln -s $(readlink $f) "$3/`basename $f`"
 		else
-		    g=`echo $f | sed -e "s/\/arm64\//\/x86_64\//g"`
-		    mkdir -p "$3"
-		    lipo -create $f $g -output "$3/`basename $f`"
+			g=`echo $f | sed -e "s/\/arm64\//\/x86_64\//g"`
+			mkdir -p "$3"
+			lipo -create $f $g -output "$3/`basename $f`"
 		fi
-	    done
-	    ;;
-        intel|arm)
-	    if [ -h $1/$2 ]; then
-	        ln -s $(readlink $1/$2) "$3/`basename $f`"
-            else
-	        cp $1/$2 "$3"
-	    fi
-	    ;;
-    esac
+	done
 }
 
 function copy_lib_root {
-    case $TYPE in
-	arm-intel)
-		for f in $ROOT/arm64/lib/$1*.dylib; do
-			if [ -h $f ]; then
-				ln -s $(readlink $f) "$2/`basename $f`"
-			else
-				g=`echo $f | sed -e "s/\/arm64\//\/x86_64\//g"`
-				mkdir -p "$2"
-				lipo -create $f $g -output "$2/`basename $f`"
-			fi
-		done
-		;;
-    intel|arm)
-	    for f in $ROOT/lib/$1*.dylib; do
-			if [ -h $f ]; then
-				ln -s $(readlink $f) "$2/`basename $f`"
-			else
-				cp $f "$2/`basename $f`"
-			fi
-	    done
-	    ;;
-    esac
+	for f in $ROOT/arm64/lib/$1*.dylib; do
+		if [ -h $f ]; then
+			ln -s $(readlink $f) "$2/`basename $f`"
+		else
+			g=`echo $f | sed -e "s/\/arm64\//\/x86_64\//g"`
+			mkdir -p "$2"
+			lipo -create $f $g -output "$2/`basename $f`"
+		fi
+	done
     to_relink="$to_relink|$1"
 }
 
 function copy_lib_env {
-    case $TYPE in
-	arm-intel)
-	    for f in $ENV/arm64/$SDK/lib/$1*.dylib; do
-			if [ -h $f ]; then
-				ln -s $(readlink $f) "$2/`basename $f`"
-			else
-				g=`echo $f | sed -e "s/\/arm64\//\/x86_64\//g"`
-				mkdir -p "$2"
-				lipo -create $f $g -output "$2/`basename $f`"
-			fi
-	    done
-	    ;;
-	intel)
-	    for f in $ENV/x86_64/$SDK/lib/$1*.dylib; do
-			if [ -h $f ]; then
-				ln -s $(readlink $f) "$2/`basename $f`"
-			else
-				mkdir -p "$2"
-				cp $f "$2"
-			fi
-	    done
-	    ;;
-	arm)
-	    for f in $ENV/arm64/$SDK/lib/$1*.dylib; do
-			if [ -h $f ]; then
-				ln -s $(readlink $f) "$2/`basename $f`"
-			else
-				mkdir -p "$2"
-				cp $f "$2"
-			fi
-	    done
-	    ;;
-    esac
+	for f in $ENV/arm64/$ARM_SDK/lib/$1*.dylib; do
+		if [ -h $f ]; then
+			ln -s $(readlink $f) "$2/`basename $f`"
+		else
+			g=`echo $f | sed -e "s/\/arm64\//\/x86_64\//g"`
+			mkdir -p "$2"
+			lipo -create $f $g -output "$2/`basename $f`"
+		fi
+	done
     to_relink="$to_relink|$1"
 }
 
@@ -203,14 +148,7 @@ function copy_libs {
 # @param #1 directory to copy to
 function copy_resources {
     local dest="$1"
-    case $TYPE in
-	arm-intel)
-		local prefix=$ROOT/x86_64
-		;;
-	intel|arm)
-	    local prefix=$ROOT
-	    ;;
-    esac
+	local prefix=$ROOT/x86_64
     cp $prefix/src/dcpomatic/graphics/osx/dcpomatic_small.png "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2.icns "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2_kdm.icns "$dest"
@@ -274,7 +212,7 @@ function copy_resources {
     # i18n: wxWidgets .mo files
     for lang in de es fr it sv nl ru pl da cs; do
 	mkdir "$dest/$lang"
-	cp $ENV/x86_64/$SDK/share/locale/$lang/LC_MESSAGES/wxstd.mo "$dest/$lang"
+	cp $ENV/x86_64/$INTEL_SDK/share/locale/$lang/LC_MESSAGES/wxstd.mo "$dest/$lang"
     done
 }
 
@@ -288,15 +226,9 @@ function relink_relative {
 	changes=""
 	for dep in $deps; do
 	    base=`basename $dep`
-	    if [ "$TYPE" == "universal" ]; then
-		# $dep will be a path within x86_64/; make i386 and arm64 paths too
-		dep_i386=`echo $dep | sed -e "s/\/x86_64\//\/i386\//g"`
-		changes="$changes -change $dep @executable_path/../Frameworks/$base -change $dep_i386 @executable_path/../Frameworks/$base"
+		# $dep will be a path within x86_64; make arm64 path too
 		dep_arm64=`echo $dep | sed -e "s/\/x86_64\//\/arm64\//g"`
 		changes="$changes -change $dep @executable_path/../Frameworks/$base -change $dep_arm64 @executable_path/../Frameworks/$base"
-	    else
-		changes="$changes -change $dep @executable_path/../Frameworks/$base"
-	    fi
 	done
 	if test "x$changes" != "x"; then
 	    install_name_tool $changes -id `basename "$obj"` "$obj"
@@ -454,15 +386,7 @@ function setup {
     copy_resources "$approot/Resources"
 }
 
-case $TYPE in
-    arm-intel)
-	# copy() writes the universal binary to arm64
-	prefix=$ROOT/arm64
-	;;
-    intel|arm)
-	prefix=$ROOT
-	;;
-esac
+prefix=$ROOT/arm64
 
 # DCP-o-matic main
 setup "DCP-o-matic 2.app"
