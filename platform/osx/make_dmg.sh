@@ -219,19 +219,19 @@ function relink_relative {
     to_relink=`echo $to_relink | sed -e "s/\+//g"`
     local linkers=("$@")
 
-    for obj in "${linkers[@]}"; do
-	deps=`otool -L "$obj" | awk '{print $1}' | egrep "($to_relink)" | egrep "($ENV|$ROOT|boost|libicu|libssh)"`
-	changes=""
-	for dep in $deps; do
-	    base=`basename $dep`
-		# $dep will be a path within x86_64; make arm64 path too
-		dep_arm64=`echo $dep | sed -e "s/\/x86_64\//\/arm64\//g"`
-		changes="$changes -change $dep @executable_path/../Frameworks/$base -change $dep_arm64 @executable_path/../Frameworks/$base"
+	for obj in "${linkers[@]}"; do
+		for arch in x86_64 arm64; do
+			deps=`otool -arch $arch -L "$obj" | awk '{print $1}' | egrep "($to_relink)" | egrep "($ENV|$ROOT|boost|libicu|libssh)"`
+			changes=""
+			for dep in $deps; do
+				base=`basename $dep`
+				changes="$changes -change $dep @executable_path/../Frameworks/$base"
+			done
+			if test "x$changes" != "x"; then
+				install_name_tool $changes -id `basename "$obj"` "$obj"
+			fi
+		done
 	done
-	if test "x$changes" != "x"; then
-	    install_name_tool $changes -id `basename "$obj"` "$obj"
-	fi
-    done
 }
 
 # param $1 directory things should be relinked into
@@ -243,10 +243,12 @@ function relink_absolute {
     local linkers=("$@")
 
     for obj in "${linkers[@]}"; do
-		deps=`otool -L "$obj" | awk '{print $1}' | egrep "($to_relink)" | egrep "($ENV|$ROOT|boost|libicu|libssh)"`
-		for dep in $deps; do
-			base=`basename $dep`
-			install_name_tool -change "$dep" "$target"/$base -id `basename "$obj"` "$obj"
+		for arch in x86_64 arm64; do
+			deps=`otool -arch $arch -L "$obj" | awk '{print $1}' | egrep "($to_relink)" | egrep "($ENV|$ROOT|boost|libicu|libssh)"`
+			for dep in $deps; do
+				base=`basename $dep`
+				install_name_tool -change "$dep" "$target"/$base -id `basename "$obj"` "$obj"
+			done
 		done
     done
 }
