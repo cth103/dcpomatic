@@ -41,6 +41,7 @@
 using std::cout;
 using std::list;
 using std::shared_ptr;
+using std::vector;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -188,7 +189,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test4)
 
 static
 void
-check_font_tags (list<cxml::NodePtr> nodes)
+check_font_tags (vector<cxml::NodePtr> nodes)
 {
 	for (auto i: nodes) {
 		if (i->name() == "Font") {

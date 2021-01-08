@@ -320,7 +320,7 @@ def configure(conf):
 
     # libcxml
     if conf.options.static_cxml:
-        conf.check_cfg(package='libcxml', atleast_version='0.16.0', args='--cflags', uselib_store='CXML', mandatory=True)
+        conf.check_cfg(package='libcxml', atleast_version='0.17.0', args='--cflags', uselib_store='CXML', mandatory=True)
         conf.env.STLIB_CXML = ['cxml']
     else:
         conf.check_cfg(package='libcxml', atleast_version='0.16.0', args='--cflags --libs', uselib_store='CXML', mandatory=True)
