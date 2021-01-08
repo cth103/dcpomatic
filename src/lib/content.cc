@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -91,10 +91,9 @@ Content::Content (boost::filesystem::path p)
 Content::Content (cxml::ConstNodePtr node)
 	: _change_signals_frequent (false)
 {
-	list<cxml::NodePtr> path_children = node->node_children ("Path");
-	for (auto i: path_children) {
+	for (auto i: node->node_children("Path")) {
 		_paths.push_back (i->content());
-		optional<time_t> const mod = i->optional_number_attribute<time_t>("mtime");
+		auto const mod = i->optional_number_attribute<time_t>("mtime");
 		if (mod) {
 			_last_write_times.push_back (*mod);
 		} else if (boost::filesystem::exists(i->content())) {
@@ -169,7 +168,7 @@ string
 Content::calculate_digest () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	vector<boost::filesystem::path> p = _paths;
+	auto p = _paths;
 	lm.unlock ();
 
 	/* Some content files are very big, so we use a poor man's
@@ -186,7 +185,7 @@ Content::examine (shared_ptr<const Film>, shared_ptr<Job> job)
 		job->sub (_("Computing digest"));
 	}
 
-	string const d = calculate_digest ();
+	auto const d = calculate_digest ();
 
 	boost::mutex::scoped_lock lm (_mutex);
 	_digest = d;
@@ -282,7 +281,7 @@ Content::clone () const
 {
 	/* This is a bit naughty, but I can't think of a compelling reason not to do it ... */
 	xmlpp::Document doc;
-	xmlpp::Node* node = doc.create_root_node ("Content");
+	auto node = doc.create_root_node ("Content");
 	as_xml (node, true);
 
 	/* notes is unused here (we assume) */
@@ -293,7 +292,7 @@ Content::clone () const
 string
 Content::technical_summary () const
 {
-	string s = String::compose ("%1 %2 %3", path_summary(), digest(), position().seconds());
+	auto s = String::compose ("%1 %2 %3", path_summary(), digest(), position().seconds());
 	if (_video_frame_rate) {
 		s += String::compose(" %1", *_video_frame_rate);
 	}
@@ -303,7 +302,7 @@ Content::technical_summary () const
 DCPTime
 Content::length_after_trim (shared_ptr<const Film> film) const
 {
-	DCPTime length = max(DCPTime(), full_length(film) - DCPTime(trim_start() + trim_end(), film->active_frame_rate_change(position())));
+	auto length = max(DCPTime(), full_length(film) - DCPTime(trim_start() + trim_end(), film->active_frame_rate_change(position())));
 	if (video) {
 		length = length.round(film->video_frame_rate());
 	}
@@ -358,7 +357,7 @@ Content::path_summary () const
 
 	DCPOMATIC_ASSERT (number_of_paths ());
 
-	string s = path(0).filename().string ();
+	auto s = path(0).filename().string();
 	if (number_of_paths() > 1) {
 		s += " ...";
 	}
@@ -473,8 +472,8 @@ Content::take_settings_from (shared_ptr<const Content> c)
 		audio->take_settings_from (c->audio);
 	}
 
-	list<shared_ptr<TextContent> >::iterator i = text.begin ();
-	list<shared_ptr<TextContent> >::const_iterator j = c->text.begin ();
+	auto i = text.begin ();
+	auto j = c->text.begin ();
 	while (i != text.end() && j != c->text.end()) {
 		(*i)->take_settings_from (*j);
 		++i;

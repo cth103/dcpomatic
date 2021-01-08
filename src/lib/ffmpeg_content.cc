@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -52,6 +52,7 @@ using std::cout;
 using std::pair;
 using std::make_pair;
 using std::max;
+using std::make_shared;
 using std::shared_ptr;
 using std::dynamic_pointer_cast;
 using boost::optional;
@@ -73,7 +74,7 @@ template <class T>
 optional<T>
 get_optional_enum (cxml::ConstNodePtr node, string name)
 {
-	optional<int> const v = node->optional_number_child<int>(name);
+	auto const v = node->optional_number_child<int>(name);
 	if (!v) {
 		return optional<T>();
 	}
@@ -87,35 +88,32 @@ FFmpegContent::FFmpegContent (cxml::ConstNodePtr node, int version, list<string>
 	audio = AudioContent::from_xml (this, node, version);
 	text = TextContent::from_xml (this, node, version);
 
-	list<cxml::NodePtr> c = node->node_children ("SubtitleStream");
-	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
-		_subtitle_streams.push_back (shared_ptr<FFmpegSubtitleStream> (new FFmpegSubtitleStream (*i, version)));
-		if ((*i)->optional_number_child<int> ("Selected")) {
+	for (auto i: node->node_children("SubtitleStream")) {
+		_subtitle_streams.push_back (make_shared<FFmpegSubtitleStream>(i, version));
+		if (i->optional_number_child<int>("Selected")) {
 			_subtitle_stream = _subtitle_streams.back ();
 		}
 	}
 
-	c = node->node_children ("AudioStream");
-	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
-		shared_ptr<FFmpegAudioStream> as (new FFmpegAudioStream (*i, version));
+	for (auto i: node->node_children("AudioStream")) {
+		auto as = make_shared<FFmpegAudioStream>(i, version);
 		audio->add_stream (as);
-		if (version < 11 && !(*i)->optional_node_child ("Selected")) {
+		if (version < 11 && !i->optional_node_child ("Selected")) {
 			/* This is an old file and this stream is not selected, so un-map it */
 			as->set_mapping (AudioMapping (as->channels (), MAX_DCP_AUDIO_CHANNELS));
 		}
 	}
 
-	c = node->node_children ("Filter");
-	for (list<cxml::NodePtr>::iterator i = c.begin(); i != c.end(); ++i) {
-		Filter const * f = Filter::from_id ((*i)->content ());
+	for (auto i: node->node_children("Filter")) {
+		Filter const * f = Filter::from_id(i->content());
 		if (f) {
 			_filters.push_back (f);
 		} else {
-			notes.push_back (String::compose (_("DCP-o-matic no longer supports the `%1' filter, so it has been turned off."), (*i)->content()));
+			notes.push_back (String::compose (_("DCP-o-matic no longer supports the `%1' filter, so it has been turned off."), i->content()));
 		}
 	}
 
-	optional<ContentTime::Type> const f = node->optional_number_child<ContentTime::Type> ("FirstVideo");
+	auto const f = node->optional_number_child<ContentTime::Type> ("FirstVideo");
 	if (f) {
 		_first_video = ContentTime (f.get ());
 	}
@@ -130,7 +128,7 @@ FFmpegContent::FFmpegContent (cxml::ConstNodePtr node, int version, list<string>
 FFmpegContent::FFmpegContent (vector<shared_ptr<Content> > c)
 	: Content (c)
 {
-	vector<shared_ptr<Content> >::const_iterator i = c.begin ();
+	auto i = c.begin ();
 
 	bool need_video = false;
 	bool need_audio = false;
@@ -156,20 +154,20 @@ FFmpegContent::FFmpegContent (vector<shared_ptr<Content> > c)
 	}
 
 	if (need_video) {
-		video.reset (new VideoContent (this, c));
+		video = make_shared<VideoContent>(this, c);
 	}
 	if (need_audio) {
-		audio.reset (new AudioContent (this, c));
+		audio = make_shared<AudioContent>(this, c);
 	}
 	if (need_text) {
-		text.push_back (shared_ptr<TextContent> (new TextContent (this, c)));
+		text.push_back (make_shared<TextContent>(this, c));
 	}
 
-	shared_ptr<FFmpegContent> ref = dynamic_pointer_cast<FFmpegContent> (c[0]);
+	auto ref = dynamic_pointer_cast<FFmpegContent> (c[0]);
 	DCPOMATIC_ASSERT (ref);
 
 	for (size_t i = 0; i < c.size(); ++i) {
-		shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c[i]);
+		auto fc = dynamic_pointer_cast<FFmpegContent>(c[i]);
 		if (fc->only_text() && fc->only_text()->use() && *(fc->_subtitle_stream.get()) != *(ref->_subtitle_stream.get())) {
 			throw JoinError (_("Content to be joined must use the same subtitle stream."));
 		}
@@ -202,7 +200,7 @@ FFmpegContent::as_xml (xmlpp::Node* node, bool with_paths) const
 		audio->as_xml (node);
 
 		for (auto i: audio->streams ()) {
-			shared_ptr<FFmpegAudioStream> f = dynamic_pointer_cast<FFmpegAudioStream> (i);
+			auto f = dynamic_pointer_cast<FFmpegAudioStream> (i);
 			DCPOMATIC_ASSERT (f);
 			f->as_xml (node->add_child("AudioStream"));
 		}
@@ -214,16 +212,16 @@ FFmpegContent::as_xml (xmlpp::Node* node, bool with_paths) const
 
 	boost::mutex::scoped_lock lm (_mutex);
 
-	for (vector<shared_ptr<FFmpegSubtitleStream> >::const_iterator i = _subtitle_streams.begin(); i != _subtitle_streams.end(); ++i) {
-		xmlpp::Node* t = node->add_child("SubtitleStream");
-		if (_subtitle_stream && *i == _subtitle_stream) {
+	for (auto i: _subtitle_streams) {
+		auto t = node->add_child("SubtitleStream");
+		if (_subtitle_stream && i == _subtitle_stream) {
 			t->add_child("Selected")->add_child_text("1");
 		}
-		(*i)->as_xml (t);
+		i->as_xml (t);
 	}
 
-	for (vector<Filter const *>::const_iterator i = _filters.begin(); i != _filters.end(); ++i) {
-		node->add_child("Filter")->add_child_text ((*i)->id ());
+	for (auto i: _filters) {
+		node->add_child("Filter")->add_child_text(i->id());
 	}
 
 	if (_first_video) {
@@ -259,14 +257,14 @@ FFmpegContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 
 	Content::examine (film, job);
 
-	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (shared_from_this (), job));
+	auto examiner = make_shared<FFmpegExaminer>(shared_from_this (), job);
 
 	if (examiner->has_video ()) {
 		video.reset (new VideoContent (this));
 		video->take_from_examiner (examiner);
 	}
 
-	boost::filesystem::path first_path = path (0);
+	auto first_path = path (0);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -280,7 +278,7 @@ FFmpegContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 			_bits_per_pixel = examiner->bits_per_pixel ();
 
 			if (examiner->rotation()) {
-				double rot = *examiner->rotation ();
+				auto rot = *examiner->rotation ();
 				if (fabs (rot - 180) < 1.0) {
 					_filters.push_back (Filter::from_id ("vflip"));
 					_filters.push_back (Filter::from_id ("hflip"));
@@ -293,14 +291,14 @@ FFmpegContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		}
 
 		if (!examiner->audio_streams().empty ()) {
-			audio.reset (new AudioContent (this));
+			audio = make_shared<AudioContent>(this);
 
-			for (auto i: examiner->audio_streams ()) {
+			for (auto i: examiner->audio_streams()) {
 				audio->add_stream (i);
 			}
 
-			AudioStreamPtr as = audio->streams().front();
-			AudioMapping m = as->mapping ();
+			auto as = audio->streams().front();
+			auto m = as->mapping ();
 			m.make_default (film ? film->audio_processor() : 0, first_path);
 			as->set_mapping (m);
 		}
@@ -308,7 +306,7 @@ FFmpegContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		_subtitle_streams = examiner->subtitle_streams ();
 		if (!_subtitle_streams.empty ()) {
 			text.clear ();
-			text.push_back (shared_ptr<TextContent> (new TextContent (this, TEXT_OPEN_SUBTITLE, TEXT_UNKNOWN)));
+			text.push_back (make_shared<TextContent>(this, TEXT_OPEN_SUBTITLE, TEXT_UNKNOWN));
 			_subtitle_stream = _subtitle_streams.front ();
 		}
 	}
@@ -357,9 +355,9 @@ FFmpegContent::technical_summary () const
 		ss = _subtitle_stream->technical_summary ();
 	}
 
-	string filt = Filter::ffmpeg_string (_filters);
+	auto filt = Filter::ffmpeg_string (_filters);
 
-	string s = Content::technical_summary ();
+	auto s = Content::technical_summary ();
 
 	if (video) {
 		s += " - " + video->technical_summary ();
@@ -465,8 +463,8 @@ FFmpegContent::identifier () const
 		s += "_" + _subtitle_stream->identifier ();
 	}
 
-	for (vector<Filter const *>::const_iterator i = _filters.begin(); i != _filters.end(); ++i) {
-		s += "_" + (*i)->id ();
+	for (auto i: _filters) {
+		s += "_" + i->id();
 	}
 
 	return s;
@@ -477,7 +475,7 @@ FFmpegContent::set_default_colour_conversion ()
 {
 	DCPOMATIC_ASSERT (video);
 
-	dcp::Size const s = video->size ();
+	auto const s = video->size ();
 
 	boost::mutex::scoped_lock lm (_mutex);
 
@@ -680,7 +678,7 @@ FFmpegContent::ffmpeg_audio_streams () const
 void
 FFmpegContent::take_settings_from (shared_ptr<const Content> c)
 {
-	shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (c);
+	auto fc = dynamic_pointer_cast<const FFmpegContent> (c);
 	if (!fc) {
 		return;
 		}

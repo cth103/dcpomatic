@@ -63,6 +63,7 @@ class TextContent : public ContentPart
 public:
 	TextContent (Content* parent, TextType type, TextType original_type);
 	TextContent (Content* parent, std::vector<std::shared_ptr<Content> >);
+	TextContent (Content* parent, cxml::ConstNodePtr, int version);
 
 	void as_xml (xmlpp::Node *) const;
 	std::string identifier () const;
@@ -182,7 +183,6 @@ public:
 private:
 	friend struct ffmpeg_pts_offset_test;
 
-	TextContent (Content* parent, cxml::ConstNodePtr, int version);
 	void font_changed ();
 	void connect_to_fonts ();
 

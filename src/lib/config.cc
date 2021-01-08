@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -59,6 +59,7 @@ using std::remove;
 using std::exception;
 using std::cerr;
 using std::shared_ptr;
+using std::make_shared;
 using boost::optional;
 using std::dynamic_pointer_cast;
 using boost::algorithm::trim;
@@ -198,15 +199,13 @@ Config::restore_defaults ()
 shared_ptr<dcp::CertificateChain>
 Config::create_certificate_chain ()
 {
-	return shared_ptr<dcp::CertificateChain> (
-		new dcp::CertificateChain (
-			openssl_path(),
-			"dcpomatic.com",
-			"dcpomatic.com",
-			".dcpomatic.smpte-430-2.ROOT",
-			".dcpomatic.smpte-430-2.INTERMEDIATE",
-			"CS.dcpomatic.smpte-430-2.LEAF"
-			)
+	return make_shared<dcp::CertificateChain> (
+		openssl_path(),
+		"dcpomatic.com",
+		"dcpomatic.com",
+		".dcpomatic.smpte-430-2.ROOT",
+		".dcpomatic.smpte-430-2.INTERMEDIATE",
+		"CS.dcpomatic.smpte-430-2.LEAF"
 		);
 }
 
@@ -233,7 +232,7 @@ try
 	cxml::Document f ("Config");
 	f.read_file (config_file ());
 
-	optional<int> version = f.optional_number_child<int> ("Version");
+	auto version = f.optional_number_child<int> ("Version");
 	if (version && *version < _current_version) {
 		/* Back up the old config before we re-write it in a back-incompatible way */
 		backup ();
@@ -252,13 +251,13 @@ try
 		_default_directory = boost::optional<boost::filesystem::path> ();
 	}
 
-	boost::optional<int> b = f.optional_number_child<int> ("ServerPort");
+	auto b = f.optional_number_child<int> ("ServerPort");
 	if (!b) {
 		b = f.optional_number_child<int> ("ServerPortBase");
 	}
 	_server_port_base = b.get ();
 
-	boost::optional<bool> u = f.optional_bool_child ("UseAnyServers");
+	auto u = f.optional_bool_child ("UseAnyServers");
 	_use_any_servers = u.get_value_or (true);
 
 	for (auto i: f.node_children("Server")) {
@@ -278,7 +277,7 @@ try
 
 	_language = f.optional_string_child ("Language");
 
-	optional<string> c = f.optional_string_child ("DefaultContainer");
+	auto c = f.optional_string_child ("DefaultContainer");
 	if (c) {
 		_default_container = Ratio::from_id (c.get ());
 	}
@@ -297,7 +296,7 @@ try
 		_dcp_issuer = f.string_child ("DCPIssuer");
 	}
 
-	optional<bool> up = f.optional_bool_child("UploadAfterMakeDCP");
+	auto up = f.optional_bool_child("UploadAfterMakeDCP");
 	if (!up) {
 		up = f.optional_bool_child("DefaultUploadAfterMakeDCP");
 	}
@@ -391,9 +390,9 @@ try
 		_player_history.push_back (i->content ());
 	}
 
-	cxml::NodePtr signer = f.optional_node_child ("Signer");
+	auto signer = f.optional_node_child ("Signer");
 	if (signer) {
-		shared_ptr<dcp::CertificateChain> c (new dcp::CertificateChain ());
+		auto c = make_shared<dcp::CertificateChain>();
 		/* Read the signing certificates and private key in from the config file */
 		for (auto i: signer->node_children ("Certificate")) {
 			c->add (dcp::Certificate (i->content ()));
@@ -405,9 +404,9 @@ try
 		_signer_chain = create_certificate_chain ();
 	}
 
-	cxml::NodePtr decryption = f.optional_node_child ("Decryption");
+	auto decryption = f.optional_node_child ("Decryption");
 	if (decryption) {
-		shared_ptr<dcp::CertificateChain> c (new dcp::CertificateChain ());
+		auto c = make_shared<dcp::CertificateChain>();
 		for (auto i: decryption->node_children ("Certificate")) {
 			c->add (dcp::Certificate (i->content ()));
 		}
@@ -421,7 +420,7 @@ try
 	   of the nags.
 	*/
 	for (auto i: f.node_children("Nagged")) {
-		int const id = i->number_attribute<int>("Id");
+		auto const id = i->number_attribute<int>("Id");
 		if (id >= 0 && id < NAG_COUNT) {
 			_nagged[id] = raw_convert<int>(i->content());
 		}
@@ -444,7 +443,7 @@ try
 	}
 
 	if (bad) {
-		optional<bool> const remake = Bad(*bad);
+		auto const remake = Bad(*bad);
 		if (remake && *remake) {
 			switch (*bad) {
 			case BAD_SIGNER_UTF8_STRINGS:
@@ -519,7 +518,7 @@ try
 	_gdc_username = f.optional_string_child("GDCUsername");
 	_gdc_password = f.optional_string_child("GDCPassword");
 
-	optional<string> pm = f.optional_string_child("PlayerMode");
+	auto pm = f.optional_string_child("PlayerMode");
 	if (pm && *pm == "window") {
 		_player_mode = PLAYER_MODE_WINDOW;
 	} else if (pm && *pm == "full") {
@@ -529,7 +528,7 @@ try
 	}
 
 	_image_display = f.optional_number_child<int>("ImageDisplay").get_value_or(0);
-	optional<string> vc = f.optional_string_child("VideoViewType");
+	auto vc = f.optional_string_child("VideoViewType");
 	if (vc && *vc == "opengl") {
 		_video_view_type = VIDEO_VIEW_OPENGL;
 	} else if (vc && *vc == "simple") {
@@ -601,7 +600,7 @@ void
 Config::write_config () const
 {
 	xmlpp::Document doc;
-	xmlpp::Element* root = doc.create_root_node ("Config");
+	auto root = doc.create_root_node ("Config");
 
 	/* [XML] Version The version number of the configuration file format. */
 	root->add_child("Version")->add_child_text (raw_convert<string>(_current_version));
@@ -779,7 +778,7 @@ Config::write_config () const
 	/* [XML] Signer Certificate chain and private key to use when signing DCPs and KDMs.  Should contain <code>&lt;Certificate&gt;</code>
 	   tags in order and a <code>&lt;PrivateKey&gt;</code> tag all containing PEM-encoded certificates or private keys as appropriate.
 	*/
-	xmlpp::Element* signer = root->add_child ("Signer");
+	auto signer = root->add_child ("Signer");
 	DCPOMATIC_ASSERT (_signer_chain);
 	for (auto const& i: _signer_chain->unordered()) {
 		signer->add_child("Certificate")->add_child_text (i.certificate (true));
@@ -787,7 +786,7 @@ Config::write_config () const
 	signer->add_child("PrivateKey")->add_child_text (_signer_chain->key().get ());
 
 	/* [XML] Decryption Certificate chain and private key to use when decrypting KDMs */
-	xmlpp::Element* decryption = root->add_child ("Decryption");
+	auto decryption = root->add_child ("Decryption");
 	DCPOMATIC_ASSERT (_decryption_chain);
 	for (auto const& i: _decryption_chain->unordered()) {
 		decryption->add_child("Certificate")->add_child_text (i.certificate (true));
@@ -975,9 +974,9 @@ Config::write_config () const
 	}
 
 	try {
-		string const s = doc.write_to_string_formatted ();
+		auto const s = doc.write_to_string_formatted ();
 		boost::filesystem::path tmp (string(config_file().string()).append(".tmp"));
-		FILE* f = fopen_boost (tmp, "w");
+		auto f = fopen_boost (tmp, "w");
 		if (!f) {
 			throw FileError (_("Could not open file for writing"), tmp);
 		}
@@ -995,10 +994,10 @@ Config::write_config () const
 
 template <class T>
 void
-write_file (string root_node, string node, string version, list<shared_ptr<T> > things, boost::filesystem::path file)
+write_file (string root_node, string node, string version, list<shared_ptr<T>> things, boost::filesystem::path file)
 {
 	xmlpp::Document doc;
-	xmlpp::Element* root = doc.create_root_node (root_node);
+	auto root = doc.create_root_node (root_node);
 	root->add_child("Version")->add_child_text(version);
 
 	for (auto i: things) {
@@ -1051,7 +1050,7 @@ Config::directory_or (optional<boost::filesystem::path> dir, boost::filesystem::
 	}
 
 	boost::system::error_code ec;
-	bool const e = boost::filesystem::exists (*dir, ec);
+	auto const e = boost::filesystem::exists (*dir, ec);
 	if (ec || !e) {
 		return a;
 	}
@@ -1169,7 +1168,7 @@ Config::add_to_history_internal (vector<boost::filesystem::path>& h, boost::file
 void
 Config::clean_history_internal (vector<boost::filesystem::path>& h)
 {
-	vector<boost::filesystem::path> old = h;
+	auto old = h;
 	h.clear ();
 	for (auto i: old) {
 		try {
@@ -1192,12 +1191,11 @@ void
 Config::read_cinemas (cxml::Document const & f)
 {
 	_cinemas.clear ();
-	list<cxml::NodePtr> cin = f.node_children ("Cinema");
 	for (auto i: f.node_children("Cinema")) {
 		/* Slightly grotty two-part construction of Cinema here so that we can use
 		   shared_from_this.
 		*/
-		shared_ptr<Cinema> cinema (new Cinema (i));
+		auto cinema = make_shared<Cinema>(i);
 		cinema->read_screens (i);
 		_cinemas.push_back (cinema);
 	}
@@ -1227,7 +1225,6 @@ void
 Config::read_dkdm_recipients (cxml::Document const & f)
 {
 	_dkdm_recipients.clear ();
-	list<cxml::NodePtr> cin = f.node_children ("DKDMRecipient");
 	for (auto i: f.node_children("DKDMRecipient")) {
 		_dkdm_recipients.push_back (shared_ptr<DKDMRecipient>(new DKDMRecipient(i)));
 	}
@@ -1263,12 +1260,12 @@ list<string>
 Config::templates () const
 {
 	if (!boost::filesystem::exists (path ("templates"))) {
-		return list<string> ();
+		return {};
 	}
 
 	list<string> n;
-	for (boost::filesystem::directory_iterator i (path("templates")); i != boost::filesystem::directory_iterator(); ++i) {
-		n.push_back (i->path().filename().string());
+	for (auto const& i: boost::filesystem::directory_iterator(path("templates"))) {
+		n.push_back (i.path().filename().string());
 	}
 	return n;
 }
@@ -1302,7 +1299,7 @@ boost::filesystem::path
 Config::config_file ()
 {
 	cxml::Document f ("Config");
-	boost::filesystem::path main = path("config.xml", false);
+	auto main = path("config.xml", false);
 	if (!boost::filesystem::exists (main)) {
 		/* It doesn't exist, so there can't be any links; just return it */
 		return main;
@@ -1311,7 +1308,7 @@ Config::config_file ()
 	/* See if there's a link */
 	try {
 		f.read_file (main);
-		optional<string> link = f.optional_string_child("Link");
+		auto link = f.optional_string_child("Link");
 		if (link) {
 			return *link;
 		}
@@ -1356,7 +1353,7 @@ Config::copy_and_link (boost::filesystem::path new_file) const
 bool
 Config::have_write_permission () const
 {
-	FILE* f = fopen_boost (config_file(), "r+");
+	auto f = fopen_boost (config_file(), "r+");
 	if (!f) {
 		return false;
 	}
@@ -1409,7 +1406,7 @@ void
 Config::set_audio_mapping_to_default ()
 {
 	DCPOMATIC_ASSERT (_audio_mapping);
-	int const ch = _audio_mapping->output_channels ();
+	auto const ch = _audio_mapping->output_channels ();
 	_audio_mapping = boost::none;
 	_audio_mapping = audio_mapping (ch);
 	changed (AUDIO_MAPPING);

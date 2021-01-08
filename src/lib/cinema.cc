@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -55,9 +55,8 @@ Cinema::Cinema (cxml::ConstNodePtr node)
 void
 Cinema::read_screens (cxml::ConstNodePtr node)
 {
-	list<cxml::NodePtr> s = node->node_children ("Screen");
-	for (list<cxml::NodePtr>::iterator i = s.begin(); i != s.end(); ++i) {
-		add_screen (shared_ptr<Screen> (new Screen (*i)));
+	for (auto i: node->node_children("Screen")) {
+		add_screen (shared_ptr<Screen>(new Screen(i)));
 	}
 }
 

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -155,24 +155,22 @@ AudioMapping::AudioMapping (cxml::ConstNodePtr node, int state_version)
 
 	if (state_version <= 5) {
 		/* Old-style: on/off mapping */
-		list<cxml::NodePtr> const c = node->node_children ("Map");
-		for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
-			set ((*i)->number_child<int> ("ContentIndex"), static_cast<dcp::Channel> ((*i)->number_child<int> ("DCP")), 1);
+		for (auto i: node->node_children ("Map")) {
+			set (i->number_child<int>("ContentIndex"), static_cast<dcp::Channel>(i->number_child<int>("DCP")), 1);
 		}
 	} else {
-		list<cxml::NodePtr> const c = node->node_children ("Gain");
-		for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
+		for (auto i: node->node_children("Gain")) {
 			if (state_version < 32) {
 				set (
-					(*i)->number_attribute<int> ("Content"),
-					static_cast<dcp::Channel> ((*i)->number_attribute<int> ("DCP")),
-					raw_convert<float> ((*i)->content ())
+					i->number_attribute<int>("Content"),
+					static_cast<dcp::Channel>(i->number_attribute<int>("DCP")),
+					raw_convert<float>(i->content())
 					);
 			} else {
 				set (
-					(*i)->number_attribute<int> ("Input"),
-					(*i)->number_attribute<int> ("Output"),
-					raw_convert<float> ((*i)->content ())
+					i->number_attribute<int>("Input"),
+					i->number_attribute<int>("Output"),
+					raw_convert<float>(i->content())
 					);
 			}
 		}
@@ -203,7 +201,7 @@ AudioMapping::as_xml (xmlpp::Node* node) const
 
 	for (int c = 0; c < _input_channels; ++c) {
 		for (int d = 0; d < _output_channels; ++d) {
-			xmlpp::Element* t = node->add_child ("Gain");
+			auto t = node->add_child ("Gain");
 			t->set_attribute ("Input", raw_convert<string> (c));
 			t->set_attribute ("Output", raw_convert<string> (d));
 			t->add_child_text (raw_convert<string> (get (c, d)));
@@ -236,9 +234,9 @@ AudioMapping::mapped_output_channels () const
 
 	list<int> mapped;
 
-	for (vector<vector<float> >::const_iterator i = _gain.begin(); i != _gain.end(); ++i) {
+	for (auto const& i: _gain) {
 		for (auto j: dcp::used_audio_channels()) {
-			if (abs ((*i)[j]) > minus_96_db) {
+			if (abs(i[j]) > minus_96_db) {
 				mapped.push_back (j);
 			}
 		}
@@ -253,9 +251,9 @@ AudioMapping::mapped_output_channels () const
 void
 AudioMapping::unmap_all ()
 {
-	for (vector<vector<float> >::iterator i = _gain.begin(); i != _gain.end(); ++i) {
-		for (vector<float>::iterator j = i->begin(); j != i->end(); ++j) {
-			*j = 0;
+	for (auto& i: _gain) {
+		for (auto& j: i) {
+			j = 0;
 		}
 	}
 }

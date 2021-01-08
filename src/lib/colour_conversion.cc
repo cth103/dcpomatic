@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -41,6 +41,7 @@ using std::list;
 using std::string;
 using std::cout;
 using std::vector;
+using std::make_shared;
 using std::shared_ptr;
 using boost::optional;
 using std::dynamic_pointer_cast;
@@ -68,19 +69,19 @@ ColourConversion::ColourConversion (cxml::NodePtr node, int version)
 
 		/* Version 2.x */
 
-		cxml::ConstNodePtr in_node = node->node_child ("InputTransferFunction");
-		string in_type = in_node->string_child ("Type");
+		auto in_node = node->node_child ("InputTransferFunction");
+		auto in_type = in_node->string_child ("Type");
 		if (in_type == "Gamma") {
-			_in.reset (new dcp::GammaTransferFunction (in_node->number_child<double> ("Gamma")));
+			_in = make_shared<dcp::GammaTransferFunction>(in_node->number_child<double> ("Gamma"));
 		} else if (in_type == "ModifiedGamma") {
-			_in.reset (new dcp::ModifiedGammaTransferFunction (
-					   in_node->number_child<double> ("Power"),
-					   in_node->number_child<double> ("Threshold"),
-					   in_node->number_child<double> ("A"),
-					   in_node->number_child<double> ("B")
-					   ));
+			_in = make_shared<dcp::ModifiedGammaTransferFunction>(
+					   in_node->number_child<double>("Power"),
+					   in_node->number_child<double>("Threshold"),
+					   in_node->number_child<double>("A"),
+					   in_node->number_child<double>("B")
+					   );
 		} else if (in_type == "SGamut3") {
-			_in.reset (new dcp::SGamut3TransferFunction ());
+			_in = make_shared<dcp::SGamut3TransferFunction>();
 		}
 
 	} else {
@@ -96,14 +97,14 @@ ColourConversion::ColourConversion (cxml::NodePtr node, int version)
 
 	_yuv_to_rgb = static_cast<dcp::YUVToRGB> (node->optional_number_child<int>("YUVToRGB").get_value_or (dcp::YUV_TO_RGB_REC601));
 
-	list<cxml::NodePtr> m = node->node_children ("Matrix");
+	auto m = node->node_children ("Matrix");
 	if (!m.empty ()) {
 		/* Read in old <Matrix> nodes and convert them to chromaticities */
 		boost::numeric::ublas::matrix<double> C (3, 3);
-		for (list<cxml::NodePtr>::iterator i = m.begin(); i != m.end(); ++i) {
-			int const ti = (*i)->number_attribute<int> ("i");
-			int const tj = (*i)->number_attribute<int> ("j");
-			C(ti, tj) = raw_convert<double> ((*i)->content ());
+		for (auto i: m) {
+			int const ti = i->number_attribute<int>("i");
+			int const tj = i->number_attribute<int>("j");
+			C(ti, tj) = raw_convert<double>(i->content());
 		}
 
 		double const rd = C(0, 0) + C(1, 0) + C(2, 0);
@@ -127,11 +128,11 @@ ColourConversion::ColourConversion (cxml::NodePtr node, int version)
 		}
 	}
 
-	optional<double> gamma = node->optional_number_child<double> ("OutputGamma");
+	auto gamma = node->optional_number_child<double>("OutputGamma");
 	if (gamma) {
-		_out.reset (new dcp::GammaTransferFunction (node->number_child<double> ("OutputGamma")));
+		_out = make_shared<dcp::GammaTransferFunction>(node->number_child<double>("OutputGamma"));
 	} else {
-		_out.reset (new dcp::IdentityTransferFunction ());
+		_out = make_shared<dcp::IdentityTransferFunction>();
 	}
 }
 
@@ -148,13 +149,13 @@ ColourConversion::from_xml (cxml::NodePtr node, int version)
 void
 ColourConversion::as_xml (xmlpp::Node* node) const
 {
-	xmlpp::Node* in_node = node->add_child ("InputTransferFunction");
+	auto in_node = node->add_child ("InputTransferFunction");
 	if (dynamic_pointer_cast<const dcp::GammaTransferFunction> (_in)) {
-		shared_ptr<const dcp::GammaTransferFunction> tf = dynamic_pointer_cast<const dcp::GammaTransferFunction> (_in);
+		auto tf = dynamic_pointer_cast<const dcp::GammaTransferFunction> (_in);
 		in_node->add_child("Type")->add_child_text ("Gamma");
 		in_node->add_child("Gamma")->add_child_text (raw_convert<string> (tf->gamma ()));
 	} else if (dynamic_pointer_cast<const dcp::ModifiedGammaTransferFunction> (_in)) {
-		shared_ptr<const dcp::ModifiedGammaTransferFunction> tf = dynamic_pointer_cast<const dcp::ModifiedGammaTransferFunction> (_in);
+		auto tf = dynamic_pointer_cast<const dcp::ModifiedGammaTransferFunction> (_in);
 		in_node->add_child("Type")->add_child_text ("ModifiedGamma");
 		in_node->add_child("Power")->add_child_text (raw_convert<string> (tf->power ()));
 		in_node->add_child("Threshold")->add_child_text (raw_convert<string> (tf->threshold ()));
@@ -187,14 +188,14 @@ ColourConversion::as_xml (xmlpp::Node* node) const
 optional<size_t>
 ColourConversion::preset () const
 {
-	vector<PresetColourConversion> presets = PresetColourConversion::all ();
+	auto presets = PresetColourConversion::all ();
 	size_t i = 0;
 	while (i < presets.size() && presets[i].conversion != *this) {
 		++i;
 	}
 
 	if (i >= presets.size ()) {
-		return optional<size_t> ();
+		return {};
 	}
 
 	return i;
@@ -230,7 +231,7 @@ ColourConversion::identifier () const
 		digester.add (_adjusted_white.get().y);
 	}
 
-	shared_ptr<const dcp::GammaTransferFunction> gf = dynamic_pointer_cast<const dcp::GammaTransferFunction> (_out);
+	auto gf = dynamic_pointer_cast<const dcp::GammaTransferFunction> (_out);
 	if (gf) {
 		digester.add (gf->gamma ());
 	}

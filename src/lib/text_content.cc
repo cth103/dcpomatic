@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -35,6 +35,7 @@ using std::vector;
 using std::cout;
 using std::list;
 using std::shared_ptr;
+using std::make_shared;
 using std::dynamic_pointer_cast;
 using boost::optional;
 using dcp::raw_convert;
@@ -76,7 +77,7 @@ TextContent::TextContent (Content* parent, TextType type, TextType original_type
 /** @return TextContents from node or <Text> nodes under node (according to version).
  *  The list could be empty if no TextContents are found.
  */
-list<shared_ptr<TextContent> >
+list<shared_ptr<TextContent>>
 TextContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 {
 	if (version < 34) {
@@ -84,7 +85,7 @@ TextContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 		   subtitle streams, so check for that.
 		*/
 		if (node->string_child("Type") == "FFmpeg" && node->node_children("SubtitleStream").empty()) {
-			return list<shared_ptr<TextContent> >();
+			return {};
 		}
 
 		/* Otherwise we can drop through to the newer logic */
@@ -92,20 +93,20 @@ TextContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 
 	if (version < 37) {
 		if (!node->optional_number_child<double>("SubtitleXOffset") && !node->optional_number_child<double>("SubtitleOffset")) {
-			return list<shared_ptr<TextContent> >();
+			return {};
 		}
-		list<shared_ptr<TextContent> > c;
-		c.push_back (shared_ptr<TextContent> (new TextContent (parent, node, version)));
+		list<shared_ptr<TextContent>> c;
+		c.push_back (make_shared<TextContent>(parent, node, version));
 		return c;
 	}
 
 	if (!node->optional_node_child("Text")) {
-		return list<shared_ptr<TextContent> >();
+		return {};
 	}
 
-	list<shared_ptr<TextContent> > c;
+	list<shared_ptr<TextContent>> c;
 	for (auto i: node->node_children("Text")) {
-		c.push_back (shared_ptr<TextContent> (new TextContent (parent, i, version)));
+		c.push_back (make_shared<TextContent>(parent, i, version));
 	}
 
 	return c;
@@ -150,7 +151,7 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 		_effect = dcp::NONE;
 	}
 
-	optional<string> effect = node->optional_string_child("Effect");
+	auto effect = node->optional_string_child("Effect");
 	if (effect) {
 		if (*effect == "none") {
 			_effect = dcp::NONE;
@@ -171,17 +172,17 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 		_x_scale = _y_scale = node->number_child<double> ("SubtitleScale");
 	}
 
-	optional<int> r = node->optional_number_child<int>("Red");
-	optional<int> g = node->optional_number_child<int>("Green");
-	optional<int> b = node->optional_number_child<int>("Blue");
+	auto r = node->optional_number_child<int>("Red");
+	auto g = node->optional_number_child<int>("Green");
+	auto b = node->optional_number_child<int>("Blue");
 	if (r && g && b) {
 		_colour = dcp::Colour (*r, *g, *b);
 	}
 
 	if (version >= 36) {
-		optional<int> er = node->optional_number_child<int>("EffectRed");
-		optional<int> eg = node->optional_number_child<int>("EffectGreen");
-		optional<int> eb = node->optional_number_child<int>("EffectBlue");
+		auto er = node->optional_number_child<int>("EffectRed");
+		auto eg = node->optional_number_child<int>("EffectGreen");
+		auto eb = node->optional_number_child<int>("EffectBlue");
 		if (er && eg && eb) {
 			_effect_colour = dcp::Colour (*er, *eg, *eb);
 		}
@@ -213,9 +214,8 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 		_fade_out = ContentTime (*fo);
 	}
 
-	list<cxml::NodePtr> fonts = node->node_children ("Font");
-	for (list<cxml::NodePtr>::const_iterator i = fonts.begin(); i != fonts.end(); ++i) {
-		_fonts.push_back (shared_ptr<Font> (new Font (*i)));
+	for (auto i: node->node_children ("Font")) {
+		_fonts.push_back (make_shared<Font>(i));
 	}
 
 	connect_to_fonts ();
@@ -227,21 +227,21 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 		}
 	}
 
-	cxml::ConstNodePtr dt = node->optional_node_child("DCPTrack");
+	auto dt = node->optional_node_child("DCPTrack");
 	if (dt) {
 		_dcp_track = DCPTextTrack (dt);
 	}
 }
 
-TextContent::TextContent (Content* parent, vector<shared_ptr<Content> > c)
+TextContent::TextContent (Content* parent, vector<shared_ptr<Content>> c)
 	: ContentPart (parent)
 {
 	/* This constructor is for join which is only supported for content types
 	   that have a single text, so we can use only_text() here.
 	*/
-	shared_ptr<TextContent> ref = c[0]->only_text();
+	auto ref = c[0]->only_text();
 	DCPOMATIC_ASSERT (ref);
-	list<shared_ptr<Font> > ref_fonts = ref->fonts ();
+	auto ref_fonts = ref->fonts ();
 
 	for (size_t i = 1; i < c.size(); ++i) {
 
@@ -281,7 +281,7 @@ TextContent::TextContent (Content* parent, vector<shared_ptr<Content> > c)
 			throw JoinError (_("Content to be joined must have the same outline width."));
 		}
 
-		list<shared_ptr<Font> > fonts = c[i]->only_text()->fonts ();
+		auto fonts = c[i]->only_text()->fonts ();
 		if (fonts.size() != ref_fonts.size()) {
 			throw JoinError (_("Content to be joined must use the same fonts."));
 		}
@@ -290,8 +290,8 @@ TextContent::TextContent (Content* parent, vector<shared_ptr<Content> > c)
 			throw JoinError (_("Content to be joined must use the same DCP track."));
 		}
 
-		list<shared_ptr<Font> >::const_iterator j = ref_fonts.begin ();
-		list<shared_ptr<Font> >::const_iterator k = fonts.begin ();
+		auto j = ref_fonts.begin ();
+		auto k = fonts.begin ();
 
 		while (j != ref_fonts.end ()) {
 			if (**j != **k) {
@@ -326,7 +326,7 @@ TextContent::as_xml (xmlpp::Node* root) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	xmlpp::Element* text = root->add_child ("Text");
+	auto text = root->add_child ("Text");
 
 	text->add_child("Use")->add_child_text (_use ? "1" : "0");
 	text->add_child("Burn")->add_child_text (_burn ? "1" : "0");
@@ -366,8 +366,8 @@ TextContent::as_xml (xmlpp::Node* root) const
 	}
 	text->add_child("OutlineWidth")->add_child_text (raw_convert<string> (_outline_width));
 
-	for (list<shared_ptr<Font> >::const_iterator i = _fonts.begin(); i != _fonts.end(); ++i) {
-		(*i)->as_xml (text->add_child("Font"));
+	for (auto i: _fonts) {
+		i->as_xml (text->add_child("Font"));
 	}
 
 	text->add_child("Type")->add_child_text (text_type_to_string(_type));
@@ -380,7 +380,7 @@ TextContent::as_xml (xmlpp::Node* root) const
 string
 TextContent::identifier () const
 {
-	string s = raw_convert<string> (x_scale())
+	auto s = raw_convert<string> (x_scale())
 		+ "_" + raw_convert<string> (y_scale())
 		+ "_" + raw_convert<string> (x_offset())
 		+ "_" + raw_convert<string> (y_offset())
