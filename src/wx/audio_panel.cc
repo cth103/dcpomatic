@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -42,6 +42,7 @@ using std::cout;
 using std::string;
 using std::list;
 using std::pair;
+using std::make_shared;
 using std::dynamic_pointer_cast;
 using std::shared_ptr;
 using boost::optional;
@@ -56,7 +57,7 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	_reference = new CheckBox (this, _("Use this DCP's audio as OV and make VF"));
 	_reference_note = new StaticText (this, wxT(""));
 	_reference_note->Wrap (200);
-	wxFont font = _reference_note->GetFont();
+	auto font = _reference_note->GetFont();
 	font.SetStyle(wxFONTSTYLE_ITALIC);
 	font.SetPointSize(font.GetPointSize() - 1);
 	_reference_note->SetFont(font);
@@ -122,7 +123,7 @@ AudioPanel::add_to_grid ()
 {
 	int r = 0;
 
-	wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
+	auto reference_sizer = new wxBoxSizer (wxVERTICAL);
 	reference_sizer->Add (_reference, 0);
 	reference_sizer->Add (_reference_note, 0);
 	_grid->Add (reference_sizer, wxGBPosition(r, 0), wxGBSpan(1, 4));
@@ -134,7 +135,7 @@ AudioPanel::add_to_grid ()
 
 	add_label_to_sizer (_grid, _gain_label, true, wxGBPosition(r, 0));
 	{
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		auto s = new wxBoxSizer (wxHORIZONTAL);
 		s->Add (_gain->wrapped(), 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
 		s->Add (_gain_db_label, 0, wxALIGN_CENTER_VERTICAL);
 		_grid->Add (s, wxGBPosition(r, 1));
@@ -144,7 +145,7 @@ AudioPanel::add_to_grid ()
 	++r;
 
 	add_label_to_sizer (_grid, _delay_label, true, wxGBPosition(r, 0));
-	wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+	auto s = new wxBoxSizer (wxHORIZONTAL);
 	s->Add (_delay->wrapped(), 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
 	s->Add (_delay_ms_label, 0, wxALIGN_CENTER_VERTICAL);
 	_grid->Add (s, wxGBPosition(r, 1));
@@ -155,7 +156,7 @@ AudioPanel::~AudioPanel ()
 {
 	if (_audio_dialog) {
 		_audio_dialog->Destroy ();
-		_audio_dialog = 0;
+		_audio_dialog = nullptr;
 	}
 }
 
@@ -187,7 +188,7 @@ AudioPanel::film_changed (Film::Property property)
 void
 AudioPanel::film_content_changed (int property)
 {
-	ContentList ac = _parent->selected_audio ();
+	auto ac = _parent->selected_audio ();
 	if (property == AudioContentProperty::STREAMS) {
 		if (ac.size() == 1) {
 			_mapping->set (ac.front()->audio->mapping());
@@ -196,7 +197,7 @@ AudioPanel::film_content_changed (int property)
 			vector<AudioMappingView::Group> groups;
 			int c = 0;
 			for (auto i: ac.front()->audio->streams()) {
-				shared_ptr<const FFmpegAudioStream> f = dynamic_pointer_cast<const FFmpegAudioStream> (i);
+				auto f = dynamic_pointer_cast<const FFmpegAudioStream> (i);
 				string name = "";
 				if (f) {
 					name = f->name;
@@ -234,17 +235,17 @@ AudioPanel::film_content_changed (int property)
 void
 AudioPanel::gain_calculate_button_clicked ()
 {
-	GainCalculatorDialog* d = new GainCalculatorDialog (this);
-	int const r = d->ShowModal ();
-	optional<float> c = d->db_change();
+	auto d = new GainCalculatorDialog (this);
+	auto const r = d->ShowModal ();
+	auto c = d->db_change();
 
 	if (r == wxID_CANCEL || !c) {
 		d->Destroy ();
 		return;
 	}
 
-	optional<float> old_peak_dB = peak ();
-	double old_value = _gain->wrapped()->GetValue();
+	auto old_peak_dB = peak ();
+	auto old_value = _gain->wrapped()->GetValue();
 	_gain->wrapped()->SetValue(old_value + *c);
 
 	/* This appears to be necessary, as the change is not signalled,
@@ -252,7 +253,7 @@ AudioPanel::gain_calculate_button_clicked ()
 	*/
 	_gain->view_changed ();
 
-	optional<float> peak_dB = peak ();
+	auto peak_dB = peak ();
 	if (old_peak_dB && *old_peak_dB < -0.5 && peak_dB && *peak_dB > -0.5) {
 		error_dialog (this, _("It is not possible to adjust the content's gain for this fader change as it would cause the DCP's audio to clip.  The gain has not been changed."));
 		_gain->wrapped()->SetValue (old_value);
@@ -265,7 +266,7 @@ AudioPanel::gain_calculate_button_clicked ()
 void
 AudioPanel::setup_description ()
 {
-	ContentList ac = _parent->selected_audio ();
+	auto ac = _parent->selected_audio ();
 	if (ac.size () != 1) {
 		checked_set (_description, wxT (""));
 		return;
@@ -277,7 +278,7 @@ AudioPanel::setup_description ()
 void
 AudioPanel::mapping_changed (AudioMapping m)
 {
-	ContentList c = _parent->selected_audio ();
+	auto c = _parent->selected_audio ();
 	if (c.size() == 1) {
 		c.front()->audio->set_mapping (m);
 	}
@@ -286,7 +287,7 @@ AudioPanel::mapping_changed (AudioMapping m)
 void
 AudioPanel::content_selection_changed ()
 {
-	ContentList sel = _parent->selected_audio ();
+	auto sel = _parent->selected_audio ();
 
 	_gain->set_content (sel);
 	_delay->set_content (sel);
@@ -301,7 +302,7 @@ AudioPanel::content_selection_changed ()
 void
 AudioPanel::setup_sensitivity ()
 {
-	ContentList sel = _parent->selected_audio ();
+	auto sel = _parent->selected_audio ();
 
 	shared_ptr<DCPContent> dcp;
 	if (sel.size() == 1) {
@@ -342,10 +343,10 @@ AudioPanel::show_clicked ()
 {
 	if (_audio_dialog) {
 		_audio_dialog->Destroy ();
-		_audio_dialog = 0;
+		_audio_dialog = nullptr;
 	}
 
-	ContentList ac = _parent->selected_audio ();
+	auto ac = _parent->selected_audio ();
 	if (ac.size() != 1) {
 		return;
 	}
@@ -360,12 +361,12 @@ AudioPanel::peak () const
 {
 	optional<float> peak_dB;
 
-	ContentList sel = _parent->selected_audio ();
+	auto sel = _parent->selected_audio ();
 	if (sel.size() == 1) {
-		shared_ptr<Playlist> playlist (new Playlist);
+		auto playlist = make_shared<Playlist>();
 		playlist->add (_parent->film(), sel.front());
 		try {
-			shared_ptr<AudioAnalysis> analysis (new AudioAnalysis(_parent->film()->audio_analysis_path(playlist)));
+			auto analysis = make_shared<AudioAnalysis>(_parent->film()->audio_analysis_path(playlist));
 			peak_dB = linear_to_db(analysis->overall_sample_peak().first.peak) + analysis->gain_correction(playlist);
 		} catch (...) {
 
@@ -378,9 +379,9 @@ AudioPanel::peak () const
 void
 AudioPanel::setup_peak ()
 {
-	ContentList sel = _parent->selected_audio ();
+	auto sel = _parent->selected_audio ();
 
-	optional<float> peak_dB = peak ();
+	auto peak_dB = peak ();
 	if (sel.size() != 1) {
 		_peak->SetLabel (wxT(""));
 	} else {
@@ -392,7 +393,7 @@ AudioPanel::setup_peak ()
 		}
 	}
 
-	static wxColour normal = _peak->GetForegroundColour ();
+	static auto normal = _peak->GetForegroundColour ();
 
 	if (peak_dB && *peak_dB > -0.5) {
 		_peak->SetForegroundColour (wxColour (255, 0, 0));
@@ -417,12 +418,12 @@ AudioPanel::active_jobs_changed (optional<string> old_active, optional<string> n
 void
 AudioPanel::reference_clicked ()
 {
-	ContentList c = _parent->selected ();
+	auto c = _parent->selected ();
 	if (c.size() != 1) {
 		return;
 	}
 
-	shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent> (c.front ());
+	auto d = dynamic_pointer_cast<DCPContent>(c.front());
 	if (!d) {
 		return;
 	}
@@ -436,6 +437,6 @@ AudioPanel::set_film (shared_ptr<Film>)
 	/* We are changing film, so destroy any audio dialog for the old one */
 	if (_audio_dialog) {
 		_audio_dialog->Destroy ();
-		_audio_dialog = 0;
+		_audio_dialog = nullptr;
 	}
 }

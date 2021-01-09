@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -33,6 +33,7 @@ using std::cout;
 using std::map;
 using std::pair;
 using std::shared_ptr;
+using std::make_shared;
 using boost::optional;
 using namespace dcpomatic;
 
@@ -66,7 +67,7 @@ AudioDecoder::emit (shared_ptr<const Film> film, AudioStreamPtr stream, shared_p
 		time += ContentTime::from_seconds (_content->delay() / 1000.0);
 	}
 
-	bool reset = false;
+	auto reset = false;
 	if (_positions[stream] == 0) {
 		/* This is the first data we have received since initialisation or seek.  Set
 		   the position based on the ContentTime that was given.  After this first time
@@ -95,7 +96,7 @@ AudioDecoder::emit (shared_ptr<const Film> film, AudioStreamPtr stream, shared_p
 	}
 
 	shared_ptr<Resampler> resampler;
-	ResamplerMap::iterator i = _resamplers.find(stream);
+	auto i = _resamplers.find(stream);
 	if (i != _resamplers.end ()) {
 		resampler = i->second;
 	} else {
@@ -107,7 +108,7 @@ AudioDecoder::emit (shared_ptr<const Film> film, AudioStreamPtr stream, shared_p
 				stream->channels()
 				);
 
-			resampler.reset (new Resampler(stream->frame_rate(), resampled_rate, stream->channels()));
+			resampler = make_shared<Resampler>(stream->frame_rate(), resampled_rate, stream->channels());
 			if (_fast) {
 				resampler->set_fast ();
 			}
@@ -116,7 +117,7 @@ AudioDecoder::emit (shared_ptr<const Film> film, AudioStreamPtr stream, shared_p
 	}
 
 	if (resampler) {
-		shared_ptr<const AudioBuffers> ro = resampler->run (data);
+		auto ro = resampler->run (data);
 		if (ro->frames() == 0) {
 			return;
 		}
@@ -131,7 +132,7 @@ AudioDecoder::emit (shared_ptr<const Film> film, AudioStreamPtr stream, shared_p
 ContentTime
 AudioDecoder::stream_position (shared_ptr<const Film> film, AudioStreamPtr stream) const
 {
-	PositionMap::const_iterator i = _positions.find (stream);
+	auto i = _positions.find (stream);
 	DCPOMATIC_ASSERT (i != _positions.end ());
 	return ContentTime::from_frames (i->second, _content->resampled_frame_rate(film));
 }
@@ -140,8 +141,8 @@ boost::optional<ContentTime>
 AudioDecoder::position (shared_ptr<const Film> film) const
 {
 	optional<ContentTime> p;
-	for (PositionMap::const_iterator i = _positions.begin(); i != _positions.end(); ++i) {
-		ContentTime const ct = stream_position (film, i->first);
+	for (auto i: _positions) {
+		auto const ct = stream_position (film, i.first);
 		if (!p || ct < *p) {
 			p = ct;
 		}
@@ -153,24 +154,24 @@ AudioDecoder::position (shared_ptr<const Film> film) const
 void
 AudioDecoder::seek ()
 {
-	for (ResamplerMap::iterator i = _resamplers.begin(); i != _resamplers.end(); ++i) {
-		i->second->flush ();
-		i->second->reset ();
+	for (auto i: _resamplers) {
+		i.second->flush ();
+		i.second->reset ();
 	}
 
-	for (PositionMap::iterator i = _positions.begin(); i != _positions.end(); ++i) {
-		i->second = 0;
+	for (auto& i: _positions) {
+		i.second = 0;
 	}
 }
 
 void
 AudioDecoder::flush ()
 {
-	for (ResamplerMap::iterator i = _resamplers.begin(); i != _resamplers.end(); ++i) {
-		shared_ptr<const AudioBuffers> ro = i->second->flush ();
+	for (auto const& i: _resamplers) {
+		auto ro = i.second->flush ();
 		if (ro->frames() > 0) {
-			Data (i->first, ContentAudio (ro, _positions[i->first]));
-			_positions[i->first] += ro->frames();
+			Data (i.first, ContentAudio (ro, _positions[i.first]));
+			_positions[i.first] += ro->frames();
 		}
 	}
 
@@ -185,7 +186,7 @@ AudioDecoder::silence (int milliseconds)
 {
 	for (auto i: _content->streams()) {
 		int const samples = ContentTime::from_seconds(milliseconds / 1000.0).frames_round(i->frame_rate());
-		shared_ptr<AudioBuffers> silence (new AudioBuffers (i->channels(), samples));
+		auto silence = make_shared<AudioBuffers>(i->channels(), samples);
 		silence->make_silent ();
 		Data (i, ContentAudio (silence, _positions[i]));
 	}
