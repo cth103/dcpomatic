@@ -88,7 +88,7 @@ ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmV
 	_menu = new ContentMenu (_splitter);
 
 	{
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		auto s = new wxBoxSizer (wxHORIZONTAL);
 
 		_content = new wxListCtrl (_top_panel, wxID_ANY, wxDefaultPosition, wxSize (320, 160), wxLC_REPORT | wxLC_NO_HEADER);
 		_content->DragAcceptFiles (true);
@@ -97,7 +97,7 @@ ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmV
 		_content->InsertColumn (0, wxT(""));
 		_content->SetColumnWidth (0, 512);
 
-		wxBoxSizer* b = new wxBoxSizer (wxVERTICAL);
+		auto b = new wxBoxSizer (wxVERTICAL);
 
 		_add_file = new Button (_top_panel, _("Add file(s)..."));
 		_add_file->SetToolTip (_("Add video, image, sound or subtitle files to the film."));
@@ -168,7 +168,7 @@ ContentPanel::selected ()
 			break;
 		}
 
-		ContentList cl = _film->content();
+		auto cl = _film->content();
 		if (s < int (cl.size())) {
 			sel.push_back (cl[s]);
 		}
@@ -225,7 +225,7 @@ ContentPanel::selected_ffmpeg ()
 	FFmpegContentList sc;
 
 	for (auto i: selected()) {
-		shared_ptr<FFmpegContent> t = dynamic_pointer_cast<FFmpegContent> (i);
+		auto t = dynamic_pointer_cast<FFmpegContent> (i);
 		if (t) {
 			sc.push_back (t);
 		}
@@ -308,7 +308,7 @@ ContentPanel::check_selection ()
 	}
 
 	if (go_to && Config::instance()->jump_to_selected() && signal_manager) {
-		shared_ptr<FilmViewer> fv = _film_viewer.lock ();
+		auto fv = _film_viewer.lock ();
 		DCPOMATIC_ASSERT (fv);
 		signal_manager->when_idle(boost::bind(&FilmViewer::seek, fv.get(), go_to.get().ceil(_film->video_frame_rate()), true));
 	}
@@ -385,7 +385,7 @@ ContentPanel::check_selection ()
 
 	/* Set up the tab selection */
 
-	bool done = false;
+	auto done = false;
 	for (size_t i = 0; i < _notebook->GetPageCount(); ++i) {
 		if (_notebook->GetPage(i) == _last_selected_tab) {
 			_notebook->SetSelection (i);
@@ -414,7 +414,7 @@ ContentPanel::add_file_clicked ()
 	/* The wxFD_CHANGE_DIR here prevents a `could not set working directory' error 123 on Windows when using
 	   non-Latin filenames or paths.
 	*/
-	wxFileDialog* d = new wxFileDialog (
+	auto d = new wxFileDialog (
 		_splitter,
 		_("Choose a file or files"),
 		wxT (""),
@@ -444,7 +444,7 @@ ContentPanel::add_file_clicked ()
 void
 ContentPanel::add_folder_clicked ()
 {
-	wxDirDialog* d = new wxDirDialog (_splitter, _("Choose a folder"), wxT(""), wxDD_DIR_MUST_EXIST);
+	auto d = new wxDirDialog (_splitter, _("Choose a folder"), wxT(""), wxDD_DIR_MUST_EXIST);
 	int r = d->ShowModal ();
 	boost::filesystem::path const path (wx_to_std (d->GetPath ()));
 	d->Destroy ();
@@ -468,11 +468,11 @@ ContentPanel::add_folder_clicked ()
 	}
 
 	for (auto i: content) {
-		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (i);
+		auto ic = dynamic_pointer_cast<ImageContent> (i);
 		if (ic) {
-			ImageSequenceDialog* e = new ImageSequenceDialog (_splitter);
+			auto e = new ImageSequenceDialog (_splitter);
 			r = e->ShowModal ();
-			float const frame_rate = e->frame_rate ();
+			auto const frame_rate = e->frame_rate ();
 			e->Destroy ();
 
 			if (r != wxID_OK) {
@@ -489,7 +489,7 @@ ContentPanel::add_folder_clicked ()
 void
 ContentPanel::add_dcp_clicked ()
 {
-	wxDirDialog* d = new wxDirDialog (_splitter, _("Choose a DCP folder"), wxT(""), wxDD_DIR_MUST_EXIST);
+	auto d = new wxDirDialog (_splitter, _("Choose a DCP folder"), wxT(""), wxDD_DIR_MUST_EXIST);
 	int r = d->ShowModal ();
 	boost::filesystem::path const path (wx_to_std (d->GetPath ()));
 	d->Destroy ();
@@ -533,7 +533,7 @@ ContentPanel::timeline_clicked ()
 
 	if (_timeline_dialog) {
 		_timeline_dialog->Destroy ();
-		_timeline_dialog = 0;
+		_timeline_dialog = nullptr;
 	}
 
 	_timeline_dialog = new TimelineDialog (this, _film, _film_viewer);
@@ -555,9 +555,9 @@ ContentPanel::setup_sensitivity ()
 	_add_folder->Enable (_generally_sensitive);
 	_add_dcp->Enable (_generally_sensitive);
 
-	ContentList selection = selected ();
-	ContentList video_selection = selected_video ();
-	ContentList audio_selection = selected_audio ();
+	auto selection = selected ();
+	auto video_selection = selected_video ();
+	auto audio_selection = selected_audio ();
 
 	_remove->Enable   (_generally_sensitive && !selection.empty());
 	_earlier->Enable  (_generally_sensitive && selection.size() == 1);
@@ -607,7 +607,7 @@ ContentPanel::set_general_sensitivity (bool s)
 void
 ContentPanel::earlier_clicked ()
 {
-	ContentList sel = selected ();
+	auto sel = selected ();
 	if (sel.size() == 1) {
 		_film->move_content_earlier (sel.front ());
 		check_selection ();
@@ -617,7 +617,7 @@ ContentPanel::earlier_clicked ()
 void
 ContentPanel::later_clicked ()
 {
-	ContentList sel = selected ();
+	auto sel = selected ();
 	if (sel.size() == 1) {
 		_film->move_content_later (sel.front ());
 		check_selection ();
@@ -627,7 +627,7 @@ ContentPanel::later_clicked ()
 void
 ContentPanel::set_selection (weak_ptr<Content> wc)
 {
-	ContentList content = _film->content ();
+	auto content = _film->content ();
 	for (size_t i = 0; i < content.size(); ++i) {
 		if (content[i] == wc.lock ()) {
 			_content->SetItemState (i, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
@@ -642,7 +642,7 @@ ContentPanel::set_selection (ContentList cl)
 {
 	_no_check_selection = true;
 
-	ContentList content = _film->content ();
+	auto content = _film->content ();
 	for (size_t i = 0; i < content.size(); ++i) {
 		if (find(cl.begin(), cl.end(), content[i]) != cl.end()) {
 			_content->SetItemState (i, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
@@ -682,10 +682,10 @@ ContentPanel::setup ()
 		return;
 	}
 
-	ContentList content = _film->content ();
+	auto content = _film->content ();
 
-	Content* selected_content = 0;
-	int const s = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	Content* selected_content = nullptr;
+	auto const s = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (s != -1) {
 		wxListItem item;
 		item.SetId (s);
@@ -700,11 +700,11 @@ ContentPanel::setup ()
 		int const t = _content->GetItemCount ();
 		bool const valid = i->paths_valid ();
 
-		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (i);
+		auto dcp = dynamic_pointer_cast<DCPContent> (i);
 		bool const needs_kdm = dcp && dcp->needs_kdm ();
 		bool const needs_assets = dcp && dcp->needs_assets ();
 
-		wxString s = std_to_wx (i->summary ());
+		auto s = std_to_wx (i->summary ());
 
 		if (!valid) {
 			s = _("MISSING: ") + s;
@@ -748,7 +748,7 @@ ContentPanel::files_dropped (wxDropFilesEvent& event)
 		return;
 	}
 
-	wxString* paths = event.GetFiles ();
+	auto paths = event.GetFiles ();
 	list<boost::filesystem::path> path_list;
 	for (int i = 0; i < event.GetNumberOfFiles(); i++) {
 		path_list.push_back (wx_to_std (paths[i]));

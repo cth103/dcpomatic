@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -102,7 +102,7 @@ DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> v
 	_encrypted = new CheckBox (_panel, _("Encrypted"));
 
         wxClientDC dc (_panel);
-        wxSize size = dc.GetTextExtent (wxT ("GGGGGGGG..."));
+        auto size = dc.GetTextExtent (wxT ("GGGGGGGG..."));
         size.SetHeight (-1);
 
 	_reels_label = create_label (_panel, _("Reels"), true);
@@ -205,7 +205,7 @@ DCPPanel::add_to_grid ()
 	_grid->Add (_standard, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 
-	wxBoxSizer* extra = new wxBoxSizer (wxHORIZONTAL);
+	auto extra = new wxBoxSizer (wxHORIZONTAL);
 	extra->Add (_markers, 1, wxRIGHT, DCPOMATIC_SIZER_X_GAP);
 	extra->Add (_metadata, 1, wxRIGHT, DCPOMATIC_SIZER_X_GAP);
 	_grid->Add (extra, wxGBPosition(r, 0), wxGBSpan(1, 2));
@@ -523,19 +523,19 @@ DCPPanel::set_film (shared_ptr<Film> film)
 	/* We are changing film, so destroy any dialogs for the old one */
 	if (_audio_dialog) {
 		_audio_dialog->Destroy ();
-		_audio_dialog = 0;
+		_audio_dialog = nullptr;
 	}
 	if (_markers_dialog) {
 		_markers_dialog->Destroy ();
-		_markers_dialog = 0;
+		_markers_dialog = nullptr;
 	}
 	if (_interop_metadata_dialog) {
 		_interop_metadata_dialog->Destroy ();
-		_interop_metadata_dialog = 0;
+		_interop_metadata_dialog = nullptr;
 	}
 	if (_smpte_metadata_dialog) {
 		_smpte_metadata_dialog->Destroy ();
-		_smpte_metadata_dialog = 0;
+		_smpte_metadata_dialog = nullptr;
 	}
 
 	_film = film;
@@ -634,7 +634,7 @@ DCPPanel::edit_isdcf_button_clicked ()
 		return;
 	}
 
-	ISDCFMetadataDialog* d = new ISDCFMetadataDialog (_panel, _film->isdcf_metadata (), _film->three_d ());
+	auto d = new ISDCFMetadataDialog (_panel, _film->isdcf_metadata (), _film->three_d ());
 	d->ShowModal ();
 	_film->set_isdcf_metadata (d->isdcf_metadata ());
 	d->Destroy ();
@@ -707,8 +707,8 @@ DCPPanel::setup_frame_rate_widget ()
 wxPanel *
 DCPPanel::make_video_panel ()
 {
-	wxPanel* panel = new wxPanel (_notebook);
-	wxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+	auto panel = new wxPanel (_notebook);
+	auto sizer = new wxBoxSizer (wxVERTICAL);
 	_video_grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	sizer->Add (_video_grid, 0, wxALL, 8);
 	panel->SetSizer (sizer);
@@ -796,7 +796,7 @@ DCPPanel::add_video_panel_to_grid ()
 	++r;
 
 	add_label_to_sizer (_video_grid, _j2k_bandwidth_label, true, wxGBPosition (r, 0));
-	wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+	auto s = new wxBoxSizer (wxHORIZONTAL);
 	s->Add (_j2k_bandwidth, 0, wxALIGN_CENTER_VERTICAL);
 	add_label_to_sizer (s, _mbits_label, false, 0, wxALIGN_CENTER_VERTICAL);
 	_video_grid->Add (s, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
@@ -822,7 +822,7 @@ DCPPanel::minimum_allowed_audio_channels () const
 wxPanel *
 DCPPanel::make_audio_panel ()
 {
-	wxPanel* panel = new wxPanel (_notebook);
+	auto panel = new wxPanel (_notebook);
 	_audio_panel_sizer = new wxBoxSizer (wxVERTICAL);
 	_audio_grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	_audio_panel_sizer->Add (_audio_grid, 0, wxALL, 8);
@@ -878,7 +878,7 @@ DCPPanel::audio_processor_changed ()
 		return;
 	}
 
-	string const s = string_client_data (_audio_processor->GetClientObject (_audio_processor->GetSelection ()));
+	auto const s = string_client_data (_audio_processor->GetClientObject (_audio_processor->GetSelection ()));
 	_film->set_audio_processor (AudioProcessor::from_id (s));
 }
 
@@ -894,7 +894,7 @@ DCPPanel::show_audio_clicked ()
 		_audio_dialog = 0;
 	}
 
-	AudioDialog* d = new AudioDialog (_panel, _film, _viewer);
+	auto d = new AudioDialog (_panel, _film, _viewer);
 	d->Show ();
 }
 

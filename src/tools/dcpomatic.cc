@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -123,6 +123,7 @@ using std::map;
 using std::make_pair;
 using std::list;
 using std::exception;
+using std::make_shared;
 using std::shared_ptr;
 using std::dynamic_pointer_cast;
 using boost::optional;
@@ -293,7 +294,7 @@ public:
 		}
 #endif
 
-		wxMenuBar* bar = new wxMenuBar;
+		auto bar = new wxMenuBar;
 		setup_menu (bar);
 		SetMenuBar (bar);
 
@@ -351,9 +352,9 @@ public:
 		_film_viewer.reset (new FilmViewer (overall_panel));
 		_controls = new StandardControls (overall_panel, _film_viewer, true);
 		_film_editor = new FilmEditor (overall_panel, _film_viewer);
-		JobManagerView* job_manager_view = new JobManagerView (overall_panel, false);
+		auto job_manager_view = new JobManagerView (overall_panel, false);
 
-		wxBoxSizer* right_sizer = new wxBoxSizer (wxVERTICAL);
+		auto right_sizer = new wxBoxSizer (wxVERTICAL);
 		right_sizer->Add (_film_viewer->panel(), 2, wxEXPAND | wxALL, 6);
 		right_sizer->Add (_controls, 0, wxEXPAND | wxALL, 6);
 		right_sizer->Add (job_manager_view, 1, wxEXPAND | wxALL, 6);
@@ -421,7 +422,7 @@ public:
 
 	void new_film (boost::filesystem::path path, optional<string> template_name)
 	{
-		shared_ptr<Film> film (new Film (path));
+		auto film = make_shared<Film>(path);
 		if (template_name) {
 			film->use_template (template_name.get());
 		}
@@ -433,8 +434,8 @@ public:
 	void load_film (boost::filesystem::path file)
 	try
 	{
-		shared_ptr<Film> film (new Film (file));
-		list<string> const notes = film->read_metadata ();
+		auto film = make_shared<Film>(file);
+		auto const notes = film->read_metadata ();
 
 		if (film->state_version() == 4) {
 			error_dialog (
@@ -453,19 +454,19 @@ public:
 		JobManager::instance()->add(shared_ptr<Job>(new CheckContentChangeJob(film)));
 	}
 	catch (FileNotFoundError& e) {
-		boost::filesystem::path const dir = e.file().parent_path();
+		auto const dir = e.file().parent_path();
 		if (boost::filesystem::exists(dir / "ASSETMAP") || boost::filesystem::exists(dir / "ASSETMAP.xml")) {
 			error_dialog (
 				this, _("Could not open this folder as a DCP-o-matic project."),
 				_("It looks like you are trying to open a DCP.  File -> Open is for loading DCP-o-matic projects, not DCPs.  To import a DCP, create a new project with File -> New and then click the \"Add DCP...\" button.")
 				);
 		} else {
-			wxString const p = std_to_wx(file.string ());
+			auto const p = std_to_wx(file.string ());
 			error_dialog (this, wxString::Format(_("Could not open film at %s"), p.data()), std_to_wx(e.what()));
 		}
 
 	} catch (std::exception& e) {
-		wxString const p = std_to_wx (file.string());
+		auto const p = std_to_wx (file.string());
 		error_dialog (this, wxString::Format(_("Could not open film at %s"), p.data()), std_to_wx(e.what()));
 	}
 
@@ -518,7 +519,7 @@ private:
 
 	void file_changed (boost::filesystem::path f)
 	{
-		string s = wx_to_std (_("DCP-o-matic"));
+		auto s = wx_to_std(_("DCP-o-matic"));
 		if (!f.empty ()) {
 			s += " - " + f.string ();
 		}
@@ -528,7 +529,7 @@ private:
 
 	void file_new ()
 	{
-		FilmNameLocationDialog* d = new FilmNameLocationDialog (this, _("New Film"), true);
+		auto d = new FilmNameLocationDialog (this, _("New Film"), true);
 		int const r = d->ShowModal ();
 
 		if (r == wxID_OK && d->check_path() && maybe_save_then_delete_film<FilmChangedClosingDialog>()) {
@@ -563,7 +564,7 @@ private:
 
 	void file_open ()
 	{
-		wxDirDialog* c = new wxDirDialog (
+		auto c = new wxDirDialog (
 			this,
 			_("Select film to open"),
 			std_to_wx (Config::instance()->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir())).string ()),
@@ -594,7 +595,7 @@ private:
 
 	void file_save_as_template ()
 	{
-		SaveTemplateDialog* d = new SaveTemplateDialog (this);
+		auto d = new SaveTemplateDialog (this);
 		int const r = d->ShowModal ();
 		if (r == wxID_OK) {
 			Config::instance()->save_template (_film, d->name ());
@@ -604,7 +605,7 @@ private:
 
 	void file_duplicate ()
 	{
-		FilmNameLocationDialog* d = new FilmNameLocationDialog (this, _("Duplicate Film"), false);
+		auto d = new FilmNameLocationDialog (this, _("Duplicate Film"), false);
 		int const r = d->ShowModal ();
 
 		if (r == wxID_OK && d->check_path() && maybe_save_film<FilmChangedDuplicatingDialog>()) {
@@ -619,7 +620,7 @@ private:
 
 	void file_duplicate_and_open ()
 	{
-		FilmNameLocationDialog* d = new FilmNameLocationDialog (this, _("Duplicate Film"), false);
+		auto d = new FilmNameLocationDialog (this, _("Duplicate Film"), false);
 		int const r = d->ShowModal ();
 
 		if (r == wxID_OK && d->check_path() && maybe_save_film<FilmChangedDuplicatingDialog>()) {
@@ -637,7 +638,7 @@ private:
 	{
 		if (_film && _film->dirty ()) {
 
-			FilmChangedClosingDialog* dialog = new FilmChangedClosingDialog (_film->name ());
+			auto dialog = new FilmChangedClosingDialog (_film->name ());
 			int const r = dialog->run ();
 			delete dialog;
 
@@ -660,7 +661,7 @@ private:
 
 	void file_history (wxCommandEvent& event)
 	{
-		vector<boost::filesystem::path> history = Config::instance()->history ();
+		auto history = Config::instance()->history ();
 		int n = event.GetId() - ID_file_history;
 		if (n >= 0 && n < static_cast<int> (history.size ()) && maybe_save_then_delete_film<FilmChangedClosingDialog>()) {
 			load_film (history[n]);
@@ -675,7 +676,7 @@ private:
 
 	void edit_copy ()
 	{
-		ContentList const sel = _film_editor->content_panel()->selected();
+		auto const sel = _film_editor->content_panel()->selected();
 		DCPOMATIC_ASSERT (sel.size() == 1);
 		_clipboard = sel.front()->clone();
 	}
@@ -684,7 +685,7 @@ private:
 	{
 		DCPOMATIC_ASSERT (_clipboard);
 
-		PasteDialog* d = new PasteDialog (this, static_cast<bool>(_clipboard->video), static_cast<bool>(_clipboard->audio), !_clipboard->text.empty());
+		auto d = new PasteDialog (this, static_cast<bool>(_clipboard->video), static_cast<bool>(_clipboard->audio), !_clipboard->text.empty());
 		if (d->ShowModal() == wxID_OK) {
 			for (auto i: _film_editor->content_panel()->selected()) {
 				if (d->video() && i->video) {
@@ -697,8 +698,8 @@ private:
 				}
 
 				if (d->text()) {
-					list<shared_ptr<TextContent> >::iterator j = i->text.begin ();
-					list<shared_ptr<TextContent> >::const_iterator k = _clipboard->text.begin ();
+					auto j = i->text.begin ();
+					auto k = _clipboard->text.begin ();
 					while (j != i->text.end() && k != _clipboard->text.end()) {
 						(*j)->take_settings_from (*k);
 						++j;
@@ -720,7 +721,7 @@ private:
 
 	void tools_restore_default_preferences ()
 	{
-		wxMessageDialog* d = new wxMessageDialog (
+		auto d = new wxMessageDialog (
 			0,
 			_("Are you sure you want to restore preferences to their defaults?  This cannot be undone."),
 			_("Restore default preferences"),
@@ -754,7 +755,7 @@ private:
 		}
 
 		if (Config::instance()->show_hints_before_make_dcp()) {
-			HintsDialog* hints = new HintsDialog (this, _film, false);
+			auto hints = new HintsDialog (this, _film, false);
 			int const r = hints->ShowModal();
 			hints->Destroy ();
 			if (r == wxID_CANCEL) {
@@ -868,7 +869,7 @@ private:
 		}
 
 		if (Config::instance()->show_hints_before_make_dcp()) {
-			HintsDialog* hints = new HintsDialog (this, _film, false);
+			auto hints = new HintsDialog (this, _film, false);
 			int const r = hints->ShowModal();
 			hints->Destroy ();
 			if (r == wxID_CANCEL) {
@@ -908,7 +909,7 @@ private:
 			return;
 		}
 
-		SelfDKDMDialog* d = new SelfDKDMDialog (this, _film);
+		auto d = new SelfDKDMDialog (this, _film);
 		if (d->ShowModal () != wxID_OK) {
 			d->Destroy ();
 			return;
@@ -952,11 +953,11 @@ private:
 
 		if (kdm) {
 			if (d->internal ()) {
-				shared_ptr<DKDMGroup> dkdms = Config::instance()->dkdms ();
+				auto dkdms = Config::instance()->dkdms();
 				dkdms->add (shared_ptr<DKDM> (new DKDM (kdm.get())));
 				Config::instance()->changed ();
 			} else {
-				boost::filesystem::path path = d->directory() / (_film->dcp_name(false) + "_DKDM.xml");
+				auto path = d->directory() / (_film->dcp_name(false) + "_DKDM.xml");
 				kdm->as_xml (path);
 			}
 		}
@@ -967,7 +968,7 @@ private:
 
 	void jobs_export_video_file ()
 	{
-		ExportVideoFileDialog* d = new ExportVideoFileDialog (this, _film->isdcf_name(true));
+		auto d = new ExportVideoFileDialog (this, _film->isdcf_name(true));
 		if (d->ShowModal() == wxID_OK) {
 			if (boost::filesystem::exists(d->path())) {
 				bool ok = confirm_dialog(
@@ -981,11 +982,10 @@ private:
 				}
 			}
 
-			shared_ptr<TranscodeJob> job (new TranscodeJob (_film));
+			auto job = make_shared<TranscodeJob>(_film);
 			job->set_encoder (
-				shared_ptr<FFmpegEncoder> (
-					new FFmpegEncoder (_film, job, d->path(), d->format(), d->mixdown_to_stereo(), d->split_reels(), d->split_streams(), d->x264_crf())
-					)
+				make_shared<FFmpegEncoder> (
+					_film, job, d->path(), d->format(), d->mixdown_to_stereo(), d->split_reels(), d->split_streams(), d->x264_crf())
 				);
 			JobManager::instance()->add (job);
 		}
@@ -995,11 +995,11 @@ private:
 
 	void jobs_export_subtitles ()
 	{
-		ExportSubtitlesDialog* d = new ExportSubtitlesDialog (this, _film->reels().size(), _film->interop());
+		auto d = new ExportSubtitlesDialog (this, _film->reels().size(), _film->interop());
 		if (d->ShowModal() == wxID_OK) {
-			shared_ptr<TranscodeJob> job (new TranscodeJob (_film));
+			auto job = make_shared<TranscodeJob>(_film);
 			job->set_encoder (
-				shared_ptr<SubtitleEncoder>(new SubtitleEncoder(_film, job, d->path(), _film->isdcf_name(true), d->split_reels(), d->include_font()))
+				make_shared<SubtitleEncoder>(_film, job, d->path(), _film->isdcf_name(true), d->split_reels(), d->include_font())
 				);
 			JobManager::instance()->add (job);
 		}
@@ -1105,19 +1105,18 @@ private:
 
 	void tools_send_translations ()
 	{
-		SendI18NDialog* d = new SendI18NDialog (this);
+		auto d = new SendI18NDialog (this);
 		if (d->ShowModal() == wxID_OK) {
 			string body;
 			body += d->name() + "\n";
 			body += d->language() + "\n";
 			body += string(dcpomatic_version) + " " + string(dcpomatic_git_commit) + "\n";
 			body += "--\n";
-			map<string, string> translations = I18NHook::translations ();
-			for (map<string, string>::const_iterator i = translations.begin(); i != translations.end(); ++i) {
-				body += i->first + "\n" + i->second + "\n\n";
+			auto translations = I18NHook::translations ();
+			for (auto i: translations) {
+				body += i.first + "\n" + i.second + "\n\n";
 			}
-			list<string> to;
-			to.push_back ("carl@dcpomatic.com");
+			list<string> to = { "carl@dcpomatic.com" };
 			Emailer emailer (d->email(), to, "DCP-o-matic translations", body);
 			emailer.send ("main.carlh.net", 2525, EMAIL_PROTOCOL_STARTTLS);
 		}
@@ -1127,14 +1126,14 @@ private:
 
 	void help_about ()
 	{
-		AboutDialog* d = new AboutDialog (this);
+		auto d = new AboutDialog (this);
 		d->ShowModal ();
 		d->Destroy ();
 	}
 
 	void help_report_a_problem ()
 	{
-		ReportProblemDialog* d = new ReportProblemDialog (this, _film);
+		auto d = new ReportProblemDialog (this, _film);
 		if (d->ShowModal () == wxID_OK) {
 			d->report ();
 		}
@@ -1147,7 +1146,7 @@ private:
 			return true;
 		}
 
-		wxMessageDialog* d = new wxMessageDialog (
+		auto d = new wxMessageDialog (
 			0,
 			_("There are unfinished jobs; are you sure you want to quit?"),
 			_("Unfinished jobs"),
@@ -1168,7 +1167,7 @@ private:
 
 		if (_film && _film->dirty ()) {
 
-			FilmChangedClosingDialog* dialog = new FilmChangedClosingDialog (_film->name ());
+			auto dialog = new FilmChangedClosingDialog (_film->name ());
 			int const r = dialog->run ();
 			delete dialog;
 
@@ -1201,8 +1200,8 @@ private:
 
 	void set_menu_sensitivity ()
 	{
-		list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
-		list<shared_ptr<Job> >::iterator i = jobs.begin();
+		auto jobs = JobManager::instance()->get ();
+		auto i = jobs.begin();
 		while (i != jobs.end() && (*i)->json_name() != "transcode") {
 			++i;
 		}
@@ -1212,43 +1211,43 @@ private:
 		bool const have_selected_content = !_film_editor->content_panel()->selected().empty();
 		bool const have_selected_video_content = !_film_editor->content_panel()->selected_video().empty();
 
-		for (map<wxMenuItem*, int>::iterator j = menu_items.begin(); j != menu_items.end(); ++j) {
+		for (auto j: menu_items) {
 
 			bool enabled = true;
 
-			if ((j->second & NEEDS_FILM) && !_film) {
+			if ((j.second & NEEDS_FILM) && !_film) {
 				enabled = false;
 			}
 
-			if ((j->second & NOT_DURING_DCP_CREATION) && dcp_creation) {
+			if ((j.second & NOT_DURING_DCP_CREATION) && dcp_creation) {
 				enabled = false;
 			}
 
-			if ((j->second & NEEDS_CPL) && !have_cpl) {
+			if ((j.second & NEEDS_CPL) && !have_cpl) {
 				enabled = false;
 			}
 
-			if ((j->second & NEEDS_SELECTED_CONTENT) && !have_selected_content) {
+			if ((j.second & NEEDS_SELECTED_CONTENT) && !have_selected_content) {
 				enabled = false;
 			}
 
-			if ((j->second & NEEDS_SINGLE_SELECTED_CONTENT) && !have_single_selected_content) {
+			if ((j.second & NEEDS_SINGLE_SELECTED_CONTENT) && !have_single_selected_content) {
 				enabled = false;
 			}
 
-			if ((j->second & NEEDS_SELECTED_VIDEO_CONTENT) && !have_selected_video_content) {
+			if ((j.second & NEEDS_SELECTED_VIDEO_CONTENT) && !have_selected_video_content) {
 				enabled = false;
 			}
 
-			if ((j->second & NEEDS_CLIPBOARD) && !_clipboard) {
+			if ((j.second & NEEDS_CLIPBOARD) && !_clipboard) {
 				enabled = false;
 			}
 
-			if ((j->second & NEEDS_ENCRYPTION) && (!_film || !_film->encrypted())) {
+			if ((j.second & NEEDS_ENCRYPTION) && (!_film || !_film->encrypted())) {
 				enabled = false;
 			}
 
-			j->first->Enable (enabled);
+			j.first->Enable (enabled);
 		}
 	}
 
@@ -1290,7 +1289,7 @@ private:
 
 	void add_item (wxMenu* menu, wxString text, int id, int sens)
 	{
-		wxMenuItem* item = menu->Append (id, text);
+		auto item = menu->Append (id, text);
 		menu_items.insert (make_pair (item, sens));
 	}
 
@@ -1427,7 +1426,7 @@ private:
 
 		/* Clear out non-existant history items before we re-build the menu */
 		Config::instance()->clean_history ();
-		vector<boost::filesystem::path> history = Config::instance()->history ();
+		auto history = Config::instance()->history();
 
 		if (!history.empty ()) {
 			_history_separator = _file_menu->InsertSeparator (pos++);
@@ -1450,7 +1449,7 @@ private:
 
 	void update_checker_state_changed ()
 	{
-		UpdateChecker* uc = UpdateChecker::instance ();
+		auto uc = UpdateChecker::instance ();
 
 		bool const announce =
 			_update_news_requested ||
@@ -1464,7 +1463,7 @@ private:
 		}
 
 		if (uc->state() == UpdateChecker::YES) {
-			UpdateDialog* dialog = new UpdateDialog (this, uc->stable (), uc->test ());
+			auto dialog = new UpdateDialog (this, uc->stable(), uc->test());
 			dialog->ShowModal ();
 			dialog->Destroy ();
 		} else if (uc->state() == UpdateChecker::FAILED) {
@@ -1502,7 +1501,7 @@ private:
 
 	void analytics_message (string title, string html)
 	{
-		HTMLDialog* d = new HTMLDialog(this, std_to_wx(title), std_to_wx(html));
+		auto d = new HTMLDialog(this, std_to_wx(title), std_to_wx(html));
 		d->ShowModal();
 		d->Destroy();
 	}
@@ -1658,9 +1657,9 @@ private:
 		{
 			if (_splash) {
 				_splash->Destroy ();
-				_splash = 0;
+				_splash = nullptr;
 			}
-			error_dialog (0, wxString::Format ("DCP-o-matic could not start."), std_to_wx(e.what()));
+			error_dialog (nullptr, wxString::Format ("DCP-o-matic could not start."), std_to_wx(e.what()));
 		}
 
 		return true;
@@ -1720,7 +1719,7 @@ private:
 				);
 		} catch (exception& e) {
 			error_dialog (
-				0,
+				nullptr,
 				wxString::Format (
 					_("An exception occurred: %s.\n\n") + REPORT_PROBLEM,
 					std_to_wx (e.what ())
@@ -1785,16 +1784,16 @@ private:
 		   when we open our recreate dialog, close it, *then* try to Destroy the splash (the Destroy fails).
 		*/
 		_splash->Destroy ();
-		_splash = 0;
+		_splash = nullptr;
 
-		Config* config = Config::instance();
+		auto config = Config::instance();
 		switch (reason) {
 		case Config::BAD_SIGNER_UTF8_STRINGS:
 		{
 			if (config->nagged(Config::NAG_BAD_SIGNER_CHAIN)) {
 				return false;
 			}
-			RecreateChainDialog* d = new RecreateChainDialog (
+			auto d = new RecreateChainDialog (
 				_frame, _("Recreate signing certificates"),
 				_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs contains a small error\n"
 				  "which will prevent DCPs from being validated correctly on some systems.  Do you want to re-create\n"
@@ -1808,7 +1807,7 @@ private:
 		}
 		case Config::BAD_SIGNER_INCONSISTENT:
 		{
-			RecreateChainDialog* d = new RecreateChainDialog (
+			auto d = new RecreateChainDialog (
 				_frame, _("Recreate signing certificates"),
 				_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs is inconsistent and\n"
 				  "cannot be used.  DCP-o-matic cannot start unless you re-create it.  Do you want to re-create\n"
@@ -1824,7 +1823,7 @@ private:
 		}
 		case Config::BAD_DECRYPTION_INCONSISTENT:
 		{
-			RecreateChainDialog* d = new RecreateChainDialog (
+			auto d = new RecreateChainDialog (
 				_frame, _("Recreate KDM decryption chain"),
 				_("The certificate chain that DCP-o-matic uses for decrypting KDMs is inconsistent and\n"
 				  "cannot be used.  DCP-o-matic cannot start unless you re-create it.  Do you want to re-create\n"

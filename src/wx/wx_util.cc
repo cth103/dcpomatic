@@ -80,7 +80,7 @@ add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, bool left, int prop, in
 		flags |= wxALIGN_RIGHT;
 	}
 #endif
-	wxStaticText* m = create_label (p, t, left);
+	auto m = create_label (p, t, left);
 	s->Add (m, prop, flags, 6);
 	return m;
 }
@@ -110,7 +110,7 @@ add_label_to_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, bool left, wxGBP
 		flags |= wxALIGN_RIGHT;
 	}
 #endif
-	wxStaticText* m = create_label (p, t, left);
+	auto m = create_label (p, t, left);
 	s->Add (m, pos, span, flags);
 	return m;
 }
@@ -140,7 +140,7 @@ add_label_to_sizer (wxGridBagSizer* s, wxStaticText* t, bool, wxGBPosition pos, 
 void
 error_dialog (wxWindow* parent, wxString m, optional<wxString> e)
 {
-	wxMessageDialog* d = new wxMessageDialog (parent, m, _("DCP-o-matic"), wxOK | wxICON_ERROR);
+	auto d = new wxMessageDialog (parent, m, _("DCP-o-matic"), wxOK | wxICON_ERROR);
 	if (e) {
 		wxString em = *e;
 		em[0] = wxToupper (em[0]);
@@ -157,7 +157,7 @@ error_dialog (wxWindow* parent, wxString m, optional<wxString> e)
 void
 message_dialog (wxWindow* parent, wxString m)
 {
-	wxMessageDialog* d = new wxMessageDialog (parent, m, _("DCP-o-matic"), wxOK | wxICON_INFORMATION);
+	auto d = new wxMessageDialog (parent, m, _("DCP-o-matic"), wxOK | wxICON_INFORMATION);
 	d->ShowModal ();
 	d->Destroy ();
 }
@@ -253,7 +253,7 @@ checked_set (wxChoice* widget, int value)
 void
 checked_set (wxChoice* widget, string value)
 {
-	wxClientData* o = 0;
+	wxClientData* o = nullptr;
 	if (widget->GetSelection() != -1) {
 		o = widget->GetClientObject (widget->GetSelection ());
 	}
@@ -285,8 +285,8 @@ checked_set (wxChoice* widget, vector<pair<string, string> > items)
        }
 
        widget->Clear ();
-       for (vector<pair<string, string> >::const_iterator i = items.begin(); i != items.end(); ++i) {
-               widget->Append (std_to_wx (i->first), new wxStringClientData (std_to_wx (i->second)));
+       for (auto i: items) {
+               widget->Append (std_to_wx(i.first), new wxStringClientData(std_to_wx(i.second)));
        }
 }
 
@@ -351,15 +351,15 @@ dcpomatic_setup_i18n ()
 {
 	int language = wxLANGUAGE_DEFAULT;
 
-	boost::optional<string> config_lang = Config::instance()->language ();
+	auto config_lang = Config::instance()->language ();
 	if (config_lang && !config_lang->empty ()) {
-		wxLanguageInfo const * li = wxLocale::FindLanguageInfo (std_to_wx (config_lang.get ()));
+		auto const li = wxLocale::FindLanguageInfo (std_to_wx (config_lang.get ()));
 		if (li) {
 			language = li->Language;
 		}
 	}
 
-	wxLocale* locale = 0;
+	wxLocale* locale = nullptr;
 	if (wxLocale::IsAvailable (language)) {
 		locale = new wxLocale (language, wxLOCALE_LOAD_DEFAULT);
 
@@ -418,7 +418,7 @@ wx_get (wxSpinCtrlDouble* w)
 wxString
 context_translation (wxString s)
 {
-	wxString t = wxGetTranslation (s);
+	auto t = wxGetTranslation (s);
 	if (t == s) {
 		/* No translation; strip the context */
 		int c = t.Find (wxT ("|"));
@@ -433,7 +433,7 @@ context_translation (wxString s)
 wxString
 time_to_timecode (DCPTime t, double fps)
 {
-	double w = t.seconds ();
+	auto w = t.seconds ();
 	int const h = (w / 3600);
 	w -= h * 3600;
 	int const m = (w / 60);
@@ -470,7 +470,7 @@ setup_audio_channels_choice (wxChoice* choice, int minimum)
 wxSplashScreen *
 maybe_show_splash ()
 {
-	wxSplashScreen* splash = 0;
+	wxSplashScreen* splash = nullptr;
 	try {
 		wxBitmap bitmap;
 		if (bitmap.LoadFile(bitmap_path("splash"), wxBITMAP_TYPE_PNG)) {
@@ -512,7 +512,7 @@ calculate_mark_interval (double mark_interval)
 bool
 display_progress (wxString title, wxString task)
 {
-	JobManager* jm = JobManager::instance ();
+	auto jm = JobManager::instance ();
 
 	wxProgressDialog progress (title, task, 100, 0, wxPD_CAN_ABORT);
 
@@ -597,7 +597,7 @@ wxSize
 small_button_size (wxWindow* parent, wxString text)
 {
 	wxClientDC dc (parent);
-	wxSize size = dc.GetTextExtent (text);
+	auto size = dc.GetTextExtent (text);
 	size.SetHeight (-1);
 	size.IncBy (24, 0);
 	return size;

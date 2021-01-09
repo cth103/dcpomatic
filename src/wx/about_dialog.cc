@@ -38,8 +38,8 @@ using std::vector;
 AboutDialog::AboutDialog (wxWindow* parent)
 	: wxDialog (parent, wxID_ANY, _("About DCP-o-matic"))
 {
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
+	auto sizer = new wxBoxSizer (wxVERTICAL);
 
 	wxFont title_font (*wxNORMAL_FONT);
 	title_font.SetPointSize (title_font.GetPointSize() + 12);
@@ -51,7 +51,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	wxFont version_font (*wxNORMAL_FONT);
 	version_font.SetWeight (wxFONTWEIGHT_BOLD);
 
-	wxStaticText* t = new StaticText (this, _("DCP-o-matic"));
+	auto t = new StaticText (this, _("DCP-o-matic"));
 	t->SetFont (title_font);
 	sizer->Add (t, wxSizerFlags().Centre().Border(wxALL, 16));
 
@@ -74,7 +74,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 
 	sizer->Add (t, wxSizerFlags().Centre().Border(wxALL, 8));
 
-	wxHyperlinkCtrl* h = new wxHyperlinkCtrl (
+	auto h = new wxHyperlinkCtrl (
 		this, wxID_ANY,
 		wxT ("dcpomatic.com"),
 		wxT ("https://dcpomatic.com")
@@ -238,14 +238,14 @@ AboutDialog::AboutDialog (wxWindow* parent)
 void
 AboutDialog::add_section (wxString name, wxArrayString credits)
 {
-	static bool first = true;
+	static auto first = true;
 	int const N = 4;
 
-	wxScrolledWindow* panel = new wxScrolledWindow (_notebook);
+	auto panel = new wxScrolledWindow (_notebook);
 	panel->SetMaxSize (wxSize (-1, 380));
 	panel->EnableScrolling (false, true);
 	panel->SetScrollRate (0, 32);
-	wxSizer* overall_sizer = new wxBoxSizer (wxHORIZONTAL);
+	auto overall_sizer = new wxBoxSizer (wxHORIZONTAL);
 
 	vector<wxSizer*> sizers;
 
