@@ -31,7 +31,7 @@ TimecodeBase::TimecodeBase (wxWindow* parent, bool set_button)
 	: wxPanel (parent)
 	, _set_button (0)
 {
-	wxSize const s = TimecodeBase::size (parent);
+	auto const s = TimecodeBase::size (parent);
 
 	wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);
 	wxArrayString list;
@@ -46,7 +46,7 @@ TimecodeBase::TimecodeBase (wxWindow* parent, bool set_button)
 	_sizer = new wxBoxSizer (wxHORIZONTAL);
 
 	_editable = new wxPanel (this);
-	wxSizer* editable_sizer = new wxBoxSizer (wxHORIZONTAL);
+	auto editable_sizer = new wxBoxSizer (wxHORIZONTAL);
 	_hours = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, s, 0, validator);
 	_hours->SetMaxLength (2);
 	editable_sizer->Add (_hours);
@@ -131,7 +131,7 @@ wxSize
 TimecodeBase::size (wxWindow* parent)
 {
 	wxClientDC dc (parent);
-	wxSize size = dc.GetTextExtent (wxT ("9999"));
+	auto size = dc.GetTextExtent(wxT("9999"));
 	size.SetHeight (-1);
 	return size;
 }

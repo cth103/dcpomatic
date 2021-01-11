@@ -60,6 +60,7 @@ using std::cout;
 using std::cerr;
 using std::fixed;
 using std::shared_ptr;
+using std::make_shared;
 using boost::thread;
 using boost::bind;
 using boost::scoped_array;
@@ -123,7 +124,7 @@ EncodeServer::process (shared_ptr<Socket> socket, struct timeval& after_read, st
 	socket->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
 
 	string s (buffer.get());
-	shared_ptr<cxml::Document> xml (new cxml::Document ("EncodingRequest"));
+	auto xml = make_shared<cxml::Document>("EncodingRequest");
 	xml->read_string (s);
 	/* This is a double-check; the server shouldn't even be on the candidate list
 	   if it is the wrong version, but it doesn't hurt to make sure here.
@@ -134,7 +135,7 @@ EncodeServer::process (shared_ptr<Socket> socket, struct timeval& after_read, st
 		return -1;
 	}
 
-	shared_ptr<PlayerVideo> pvf (new PlayerVideo (xml, socket));
+	auto pvf = make_shared<PlayerVideo>(xml, socket);
 
 	if (!ds.check()) {
 		throw NetworkError ("Checksums do not match");
@@ -144,7 +145,7 @@ EncodeServer::process (shared_ptr<Socket> socket, struct timeval& after_read, st
 
 	gettimeofday (&after_read, 0);
 
-	ArrayData encoded = dcp_video_frame.encode_locally ();
+	auto encoded = dcp_video_frame.encode_locally ();
 
 	gettimeofday (&after_encode, 0);
 
@@ -174,7 +175,7 @@ EncodeServer::worker_thread ()
 			return;
 		}
 
-		shared_ptr<Socket> socket = _queue.front ();
+		auto socket = _queue.front ();
 		_queue.pop_front ();
 
 		lock.unlock ();
@@ -207,13 +208,11 @@ EncodeServer::worker_thread ()
 			struct timeval end;
 			gettimeofday (&end, 0);
 
-			shared_ptr<EncodedLogEntry> e (
-				new EncodedLogEntry (
-					frame, ip,
-					seconds(after_read) - seconds(start),
-					seconds(after_encode) - seconds(after_read),
-					seconds(end) - seconds(after_encode)
-					)
+			auto e = make_shared<EncodedLogEntry>(
+				frame, ip,
+				seconds(after_read) - seconds(start),
+				seconds(after_encode) - seconds(after_read),
+				seconds(end) - seconds(after_encode)
 				);
 
 			if (_verbose) {
@@ -256,7 +255,7 @@ void
 EncodeServer::broadcast_thread ()
 try
 {
-	boost::asio::ip::address address = boost::asio::ip::address_v4::any ();
+	auto address = boost::asio::ip::address_v4::any ();
 	boost::asio::ip::udp::endpoint listen_endpoint (address, HELLO_PORT);
 
 	_broadcast.socket = new boost::asio::ip::udp::socket (_broadcast.io_service);
@@ -284,17 +283,17 @@ EncodeServer::broadcast_received ()
 	if (strcmp (_broadcast.buffer, DCPOMATIC_HELLO) == 0) {
 		/* Reply to the client saying what we can do */
 		xmlpp::Document doc;
-		xmlpp::Element* root = doc.create_root_node ("ServerAvailable");
+		auto root = doc.create_root_node ("ServerAvailable");
 		root->add_child("Threads")->add_child_text (raw_convert<string> (_worker_threads.size ()));
 		root->add_child("Version")->add_child_text (raw_convert<string> (SERVER_LINK_VERSION));
-		string xml = doc.write_to_string ("UTF-8");
+		auto xml = doc.write_to_string ("UTF-8");
 
 		if (_verbose) {
 			cout << "Offering services to master " << _broadcast.send_endpoint.address().to_string () << "\n";
 		}
 
 		try {
-			shared_ptr<Socket> socket (new Socket);
+			auto socket = make_shared<Socket>();
 			socket->connect (boost::asio::ip::tcp::endpoint (_broadcast.send_endpoint.address(), MAIN_SERVER_PRESENCE_PORT));
 			socket->write (xml.length() + 1);
 			socket->write ((uint8_t *) xml.c_str(), xml.length() + 1);
@@ -303,7 +302,7 @@ EncodeServer::broadcast_received ()
 		}
 
 		try {
-			shared_ptr<Socket> socket (new Socket);
+			auto socket = make_shared<Socket>();
 			socket->connect (boost::asio::ip::tcp::endpoint (_broadcast.send_endpoint.address(), BATCH_SERVER_PRESENCE_PORT));
 			socket->write (xml.length() + 1);
 			socket->write ((uint8_t *) xml.c_str(), xml.length() + 1);

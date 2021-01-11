@@ -46,6 +46,7 @@ using std::cout;
 using std::exception;
 using std::shared_ptr;
 using std::weak_ptr;
+using std::make_shared;
 using boost::optional;
 using dcp::Data;
 using namespace dcpomatic;
@@ -83,7 +84,7 @@ J2KEncoder::begin ()
 void
 J2KEncoder::call_servers_list_changed (weak_ptr<J2KEncoder> encoder)
 {
-	shared_ptr<J2KEncoder> e = encoder.lock ();
+	auto e = encoder.lock ();
 	if (e) {
 		e->servers_list_changed ();
 	}
@@ -126,13 +127,13 @@ J2KEncoder::end ()
 	     So just mop up anything left in the queue here.
 	*/
 
-	for (list<shared_ptr<DCPVideo> >::iterator i = _queue.begin(); i != _queue.end(); ++i) {
-		LOG_GENERAL (N_("Encode left-over frame %1"), (*i)->index ());
+	for (auto i: _queue) {
+		LOG_GENERAL(N_("Encode left-over frame %1"), i->index());
 		try {
 			_writer->write (
-				shared_ptr<dcp::Data>(new dcp::ArrayData((*i)->encode_locally())),
-				(*i)->index(),
-				(*i)->eyes()
+				make_shared<dcp::ArrayData>(i->encode_locally()),
+				i->index(),
+				i->eyes()
 				);
 			frame_done ();
 		} catch (std::exception& e) {
@@ -205,7 +206,7 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 	*/
 	rethrow ();
 
-	Frame const position = time.frames_floor(_film->video_frame_rate());
+	auto const position = time.frames_floor(_film->video_frame_rate());
 
 	if (_writer->can_fake_write (position)) {
 		/* We can fake-write this frame */
@@ -224,15 +225,13 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 		LOG_DEBUG_ENCODE("Frame @ %1 ENCODE", to_string(time));
 		/* Queue this new frame for encoding */
 		LOG_TIMING ("add-frame-to-queue queue=%1", _queue.size ());
-		_queue.push_back (shared_ptr<DCPVideo> (
-					  new DCPVideo (
-						  pv,
-						  position,
-						  _film->video_frame_rate(),
-						  _film->j2k_bandwidth(),
-						  _film->resolution()
-						  )
-					  ));
+		_queue.push_back (make_shared<DCPVideo>(
+				pv,
+				position,
+				_film->video_frame_rate(),
+				_film->j2k_bandwidth(),
+				_film->resolution()
+				));
 
 		/* The queue might not be empty any more, so notify anything which is
 		   waiting on that.
@@ -292,7 +291,7 @@ try
 		}
 
 		LOG_TIMING ("encoder-wake thread=%1 queue=%2", thread_id(), _queue.size());
-		shared_ptr<DCPVideo> vf = _queue.front ();
+		auto vf = _queue.front ();
 
 		/* We're about to commit to either encoding this frame or putting it back onto the queue,
 		   so we must not be interrupted until one or other of these things have happened.  This
@@ -311,7 +310,7 @@ try
 			/* We need to encode this input */
 			if (server) {
 				try {
-					encoded.reset(new dcp::ArrayData(vf->encode_remotely(server.get())));
+					encoded = make_shared<dcp::ArrayData>(vf->encode_remotely(server.get()));
 
 					if (remote_backoff > 0) {
 						LOG_GENERAL ("%1 was lost, but now she is found; removing backoff", server->host_name ());
@@ -334,7 +333,7 @@ try
 			} else {
 				try {
 					LOG_TIMING ("start-local-encode thread=%1 frame=%2", thread_id(), vf->index());
-					encoded.reset(new dcp::ArrayData(vf->encode_locally()));
+					encoded = make_shared<dcp::ArrayData>(vf->encode_locally());
 					LOG_TIMING ("finish-local-encode thread=%1 frame=%2", thread_id(), vf->index());
 				} catch (std::exception& e) {
 					/* This is very bad, so don't cope with it, just pass it on */
@@ -380,14 +379,14 @@ J2KEncoder::servers_list_changed ()
 	boost::mutex::scoped_lock lm (_threads_mutex);
 
 	terminate_threads ();
-	_threads.reset (new boost::thread_group());
+	_threads = make_shared<boost::thread_group>();
 
 	/* XXX: could re-use threads */
 
 	if (!Config::instance()->only_servers_encode ()) {
 		for (int i = 0; i < Config::instance()->master_encoding_threads (); ++i) {
 #ifdef DCPOMATIC_LINUX
-			boost::thread* t = _threads->create_thread(boost::bind(&J2KEncoder::encoder_thread, this, optional<EncodeServerDescription>()));
+			auto t = _threads->create_thread(boost::bind(&J2KEncoder::encoder_thread, this, optional<EncodeServerDescription>()));
 			pthread_setname_np (t->native_handle(), "encode-worker");
 #else
 			_threads->create_thread(boost::bind(&J2KEncoder::encoder_thread, this, optional<EncodeServerDescription>()));

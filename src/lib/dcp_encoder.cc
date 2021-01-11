@@ -49,6 +49,7 @@ using std::vector;
 using std::shared_ptr;
 using std::weak_ptr;
 using std::dynamic_pointer_cast;
+using std::make_shared;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -90,26 +91,26 @@ DCPEncoder::~DCPEncoder ()
 void
 DCPEncoder::go ()
 {
-	_writer.reset (new Writer (_film, _job));
+	_writer = make_shared<Writer>(_film, _job);
 	_writer->start ();
 
-	_j2k_encoder.reset (new J2KEncoder (_film, _writer));
+	_j2k_encoder = make_shared<J2KEncoder>(_film, _writer);
 	_j2k_encoder->begin ();
 
 	{
-		shared_ptr<Job> job = _job.lock ();
+		auto job = _job.lock ();
 		DCPOMATIC_ASSERT (job);
 		job->sub (_("Encoding"));
 	}
 
 	if (_non_burnt_subtitles) {
-		vector<FontData> fonts = _player->get_subtitle_fonts ();
+		auto fonts = _player->get_subtitle_fonts ();
 
 		if (fonts.size() > 1 && _film->interop()) {
 			/* Interop will ignore second and subsequent <LoadFont>s so don't even
 			   write them as they upset some validators.
 			*/
-			FontData first = fonts.front ();
+			auto first = fonts.front();
 			fonts.clear ();
 			fonts.push_back (first);
 		}
@@ -149,7 +150,7 @@ DCPEncoder::audio (shared_ptr<AudioBuffers> data, DCPTime time)
 {
 	_writer->write (data, time);
 
-	shared_ptr<Job> job = _job.lock ();
+	auto job = _job.lock ();
 	DCPOMATIC_ASSERT (job);
 	job->set_progress (float(time.get()) / _film->length().get());
 }
@@ -174,7 +175,7 @@ optional<float>
 DCPEncoder::current_rate () const
 {
 	if (!_j2k_encoder) {
-		return optional<float>();
+		return {};
 	}
 
 	return _j2k_encoder->current_encoding_rate ();

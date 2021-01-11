@@ -67,6 +67,7 @@ struct atmos_encrypted_passthrough_test;
 class InfoFileHandle
 {
 public:
+	InfoFileHandle (boost::mutex& mutex, boost::filesystem::path file, bool read);
 	~InfoFileHandle ();
 
 	FILE* get () const {
@@ -79,8 +80,6 @@ public:
 
 private:
 	friend class Film;
-
-	InfoFileHandle (boost::mutex& mutex, boost::filesystem::path file, bool read);
 
 	boost::mutex::scoped_lock _lock;
 	FILE* _handle;

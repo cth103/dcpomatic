@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -104,6 +104,7 @@ using std::bad_alloc;
 using std::set_terminate;
 using std::make_pair;
 using std::shared_ptr;
+using std::make_shared;
 using boost::thread;
 using boost::optional;
 using boost::lexical_cast;
@@ -241,7 +242,7 @@ DCPOMATIC_DISABLE_WARNINGS
 LONG WINAPI
 exception_handler(struct _EXCEPTION_POINTERS * info)
 {
-	FILE* f = fopen_boost (backtrace_file, "w");
+	auto f = fopen_boost (backtrace_file, "w");
 	fprintf (f, "C-style exception %d\n", info->ExceptionRecord->ExceptionCode);
 	fclose(f);
 
@@ -370,7 +371,7 @@ DCPOMATIC_ENABLE_WARNINGS
 	/* Add our library directory to the libltdl search path so that
 	   xmlsec can find xmlsec1-openssl.
 	*/
-	boost::filesystem::path lib = directory_containing_executable().parent_path();
+	auto lib = directory_containing_executable().parent_path();
 	lib /= "Frameworks";
 	setenv ("LTDL_LIBRARY_PATH", lib.c_str (), 1);
 #endif
@@ -398,7 +399,7 @@ DCPOMATIC_ENABLE_WARNINGS
 		"Hello dolly", dcp::NONE, dcp::Colour(), dcp::Time(), dcp::Time()
 		);
 	subs.push_back (StringText(ss, 0));
-	render_text (subs, list<shared_ptr<Font> >(), dcp::Size(640, 480), DCPTime(), 24);
+	render_text (subs, list<shared_ptr<Font>>(), dcp::Size(640, 480), DCPTime(), 24);
 #endif
 
 	Ratio::setup_ratios ();
@@ -479,7 +480,7 @@ digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 	char* p = buffer.get ();
 	int i = 0;
 	while (i < int64_t (files.size()) && to_do > 0) {
-		FILE* f = fopen_boost (files[i], "rb");
+		auto f = fopen_boost (files[i], "rb");
 		if (!f) {
 			throw OpenFileError (files[i].string(), errno, OpenFileError::READ);
 		}
@@ -499,7 +500,7 @@ digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 	p = buffer.get ();
 	i = files.size() - 1;
 	while (i >= 0 && to_do > 0) {
-		FILE* f = fopen_boost (files[i], "rb");
+		auto f = fopen_boost (files[i], "rb");
 		if (!f) {
 			throw OpenFileError (files[i].string(), errno, OpenFileError::READ);
 		}
@@ -606,7 +607,7 @@ valid_image_file (boost::filesystem::path f)
 		return false;
 	}
 
-	string ext = f.extension().string();
+	auto ext = f.extension().string();
 	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
 	return (
 		ext == ".tif" || ext == ".tiff" || ext == ".jpg" || ext == ".jpeg" ||
@@ -623,7 +624,7 @@ valid_sound_file (boost::filesystem::path f)
 		return false;
 	}
 
-	string ext = f.extension().string();
+	auto ext = f.extension().string();
 	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
 	return (ext == ".wav" || ext == ".mp3" || ext == ".aif" || ext == ".aiff");
 }
@@ -631,7 +632,7 @@ valid_sound_file (boost::filesystem::path f)
 bool
 valid_j2k_file (boost::filesystem::path f)
 {
-	string ext = f.extension().string();
+	auto ext = f.extension().string();
 	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
 	return (ext == ".j2k" || ext == ".j2c" || ext == ".jp2");
 }
@@ -656,7 +657,7 @@ fit_ratio_within (float ratio, dcp::Size full_frame)
 void *
 wrapped_av_malloc (size_t s)
 {
-	void* p = av_malloc (s);
+	auto p = av_malloc (s);
 	if (!p) {
 		throw bad_alloc ();
 	}
@@ -845,7 +846,7 @@ audio_channel_types (list<int> mapped, int channels)
 shared_ptr<AudioBuffers>
 remap (shared_ptr<const AudioBuffers> input, int output_channels, AudioMapping map)
 {
-	shared_ptr<AudioBuffers> mapped (new AudioBuffers (output_channels, input->frames()));
+	auto mapped = make_shared<AudioBuffers>(output_channels, input->frames());
 	mapped->make_silent ();
 
 	int to_do = min (map.input_channels(), input->channels());
@@ -954,7 +955,7 @@ emit_subtitle_image (ContentTimePeriod period, dcp::SubtitleImage sub, dcp::Size
 {
 	/* XXX: this is rather inefficient; decoding the image just to get its size */
 	FFmpegImageProxy proxy (sub.png_image(), VIDEO_RANGE_FULL);
-	shared_ptr<Image> image = proxy.image().image;
+	auto image = proxy.image().image;
 	/* set up rect with height and width */
 	dcpomatic::Rect<double> rect(0, 0, image->size().width / double(size.width), image->size().height / double(size.height));
 
@@ -996,7 +997,7 @@ show_jobs_on_console (bool progress)
 
 		dcpomatic_sleep_seconds (5);
 
-		list<shared_ptr<Job> > jobs = JobManager::instance()->get();
+		auto jobs = JobManager::instance()->get();
 
 		if (!first && progress) {
 			for (size_t i = 0; i < jobs.size(); ++i) {
@@ -1046,11 +1047,11 @@ show_jobs_on_console (bool progress)
 void
 copy_in_bits (boost::filesystem::path from, boost::filesystem::path to, boost::function<void (float)> progress)
 {
-	FILE* f = fopen_boost (from, "rb");
+	auto f = fopen_boost (from, "rb");
 	if (!f) {
 		throw OpenFileError (from, errno, OpenFileError::READ);
 	}
-	FILE* t = fopen_boost (to, "wb");
+	auto t = fopen_boost (to, "wb");
 	if (!t) {
 		fclose (f);
 		throw OpenFileError (to, errno, OpenFileError::WRITE);
@@ -1059,7 +1060,7 @@ copy_in_bits (boost::filesystem::path from, boost::filesystem::path to, boost::f
 	/* on the order of a second's worth of copying */
 	boost::uintmax_t const chunk = 20 * 1024 * 1024;
 
-	uint8_t* buffer = static_cast<uint8_t*> (malloc(chunk));
+	auto buffer = static_cast<uint8_t*> (malloc(chunk));
 	if (!buffer) {
 		throw std::bad_alloc ();
 	}
@@ -1132,9 +1133,9 @@ decrypt_kdm_with_helpful_error (dcp::EncryptedKDM kdm)
 		return dcp::DecryptedKDM (kdm, Config::instance()->decryption_chain()->key().get());
 	} catch (dcp::KDMDecryptionError& e) {
 		/* Try to flesh out the error a bit */
-		string const kdm_subject_name = kdm.recipient_x509_subject_name();
+		auto const kdm_subject_name = kdm.recipient_x509_subject_name();
 		bool on_chain = false;
-		shared_ptr<const dcp::CertificateChain> dc = Config::instance()->decryption_chain();
+		auto dc = Config::instance()->decryption_chain();
 		for (auto i: dc->root_to_leaf()) {
 			if (i.subject() == kdm_subject_name) {
 				on_chain = true;
