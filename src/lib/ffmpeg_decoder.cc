@@ -736,14 +736,14 @@ FFmpegDecoder::decode_ass_subtitle (string ass, ContentTime from)
 	}
 
 	sub::RawSubtitle base;
-	list<sub::RawSubtitle> raw = sub::SSAReader::parse_line (
+	auto raw = sub::SSAReader::parse_line (
 		base,
 		text,
 		_ffmpeg_content->video->size().width,
 		_ffmpeg_content->video->size().height
 		);
 
-	for (auto const& i: sub::collect<list<sub::Subtitle> > (raw)) {
+	for (auto const& i: sub::collect<vector<sub::Subtitle>> (raw)) {
 		only_text()->emit_plain_start (from, i);
 	}
 }
