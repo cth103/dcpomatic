@@ -125,9 +125,11 @@ environment_info ()
 
 #if __GNUC__
 #if __x86_64__
-	info.push_back ("Built for 64-bit");
+	info.push_back ("Built for x86 64-bit");
+#elif __aarch64__
+	info.push_back ("Built for ARM 64-bit");
 #else
-	info.push_back ("Built for 32-bit");
+	info.push_back ("Built for x86 32-bit");
 #endif
 #endif
 
