@@ -38,6 +38,7 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <wx/splash.h>
 #include <wx/progdlg.h>
 #include <wx/filepicker.h>
+#include <wx/sizer.h>
 DCPOMATIC_ENABLE_WARNINGS
 #include <boost/thread.hpp>
 
@@ -64,6 +65,19 @@ create_label (wxWindow* p, wxString t, bool)
 	return new StaticText (p, t);
 }
 
+
+static
+setup_osx_flags (wxSizer* s, bool left, int& flags)
+{
+	if (left) {
+		auto box = dynamic_cast<wxBoxSizer>(s);
+		if (!box || box->GetOrientation() != wxHORIZONTAL) {
+			flags |= wxALIGN_RIGHT;
+		}
+	}
+}
+
+
 /** Add a wxStaticText to a wxSizer, aligning it at vertical centre.
  *  @param s Sizer to add to.
  *  @param p Parent window for the wxStaticText.
@@ -76,9 +90,7 @@ wxStaticText *
 add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, bool left, int prop, int flags)
 {
 #ifdef __WXOSX__
-	if (left) {
-		flags |= wxALIGN_RIGHT;
-	}
+	setup_osx_flags (s, left, flags);
 #endif
 	auto m = create_label (p, t, left);
 	s->Add (m, prop, flags, 6);
@@ -93,9 +105,7 @@ add_label_to_sizer (wxSizer* s, wxStaticText* t, bool, int prop, int flags)
 #endif
 {
 #ifdef __WXOSX__
-	if (left) {
-		flags |= wxALIGN_RIGHT;
-	}
+	setup_osx_flags (s, left, flags);
 #endif
 	s->Add (t, prop, flags, 6);
 	return t;
@@ -106,9 +116,7 @@ add_label_to_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, bool left, wxGBP
 {
 	int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT;
 #ifdef __WXOSX__
-	if (left) {
-		flags |= wxALIGN_RIGHT;
-	}
+	setup_osx_flags (s, left, flags);
 #endif
 	auto m = create_label (p, t, left);
 	s->Add (m, pos, span, flags);
@@ -124,9 +132,7 @@ add_label_to_sizer (wxGridBagSizer* s, wxStaticText* t, bool, wxGBPosition pos, 
 {
 	int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT;
 #ifdef __WXOSX__
-	if (left) {
-		flags |= wxALIGN_RIGHT;
-	}
+	setup_osx_flags (s, left, flags);
 #endif
 	s->Add (t, pos, span, flags);
 	return t;
