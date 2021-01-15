@@ -75,18 +75,20 @@ SimpleVideoView::paint ()
 		dc.DrawBitmap (frame_bitmap, 0, max(0, (panel_size.GetHeight() - out_size.height) / 2));
 	}
 
+	auto appearance = wxSystemSettings::GetAppearance();
+	auto const pad_colour = (_viewer->pad_black() || appearance.IsDark()) ? wxColour(0, 0, 0) : wxColour(240, 240, 240);
+
 	if (out_size.width < panel_size.GetWidth()) {
-		/* XXX: these colours are right for GNOME; may need adjusting for other OS */
-		wxPen   p (_viewer->pad_black() ? wxColour(0, 0, 0) : wxColour(240, 240, 240));
-		wxBrush b (_viewer->pad_black() ? wxColour(0, 0, 0) : wxColour(240, 240, 240));
+		wxPen   p (pad_colour);
+		wxBrush b (pad_colour);
 		dc.SetPen (p);
 		dc.SetBrush (b);
 		dc.DrawRectangle (out_size.width, 0, panel_size.GetWidth() - out_size.width, panel_size.GetHeight());
 	}
 
 	if (out_size.height < panel_size.GetHeight()) {
-		wxPen   p (_viewer->pad_black() ? wxColour(0, 0, 0) : wxColour(240, 240, 240));
-		wxBrush b (_viewer->pad_black() ? wxColour(0, 0, 0) : wxColour(240, 240, 240));
+		wxPen   p (pad_colour);
+		wxBrush b (pad_colour);
 		dc.SetPen (p);
 		dc.SetBrush (b);
 		int const gap = (panel_size.GetHeight() - out_size.height) / 2;
