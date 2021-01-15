@@ -68,6 +68,7 @@ check_gl_error (char const * last)
 
 GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	: VideoView (viewer)
+	, _context (nullptr)
 	, _have_storage (false)
 	, _vsync_enabled (false)
 	, _playing (false)
@@ -117,6 +118,11 @@ GLVideoView::update ()
 		if (!_canvas->IsShownOnScreen()) {
 			return;
 		}
+
+#ifdef DCPOMATIC_OSX
+		/* macOS gives errors if we don't do this (and therefore [NSOpenGLContext setView:]) from the main thread */
+		ensure_context ();
+#endif
 	}
 
 	if (!_thread.joinable()) {
@@ -124,6 +130,16 @@ GLVideoView::update ()
 	}
 
 	request_one_shot ();
+}
+
+
+void
+GLVideoView::ensure_context ()
+{
+	if (!_context) {
+		_context = new wxGLContext (_canvas);
+		_canvas->SetCurrent (*_context);
+	}
 }
 
 void
@@ -338,10 +354,21 @@ try
 {
 	{
 		boost::mutex::scoped_lock lm (_canvas_mutex);
-		_context = new wxGLContext (_canvas);
-		_canvas->SetCurrent (*_context);
-	}
 
+#if defined(DCPOMATIC_OSX)
+		/* Without this we see errors like
+		 * ../src/osx/cocoa/glcanvas.mm(194): assert ""context"" failed in SwapBuffers(): should have current context [in thread 700006970000]
+		 */
+		WXGLSetCurrentContext (_context->GetWXGLContext());
+#else
+		/* We must call this here on Linux otherwise we get no image (for reasons
+		 * that aren't clear).  However, doing ensure_context() from this thread
+		 * on macOS gives
+		 * "[NSOpenGLContext setView:] must be called from the main thread".
+		 */
+		ensure_context ();
+#endif
+	}
 
 #if defined(DCPOMATIC_LINUX) && defined(DCPOMATIC_HAVE_GLX_SWAP_INTERVAL_EXT)
 	if (_canvas->IsExtensionSupported("GLX_EXT_swap_control")) {

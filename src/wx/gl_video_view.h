@@ -61,6 +61,7 @@ private:
 	void thread_playing ();
 	void request_one_shot ();
 	void check_for_butler_errors ();
+	void ensure_context ();
 
 	/* Mutex for use of _canvas; it's only contended when our ::thread
 	   is started up so this may be overkill.
