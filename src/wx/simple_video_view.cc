@@ -75,8 +75,14 @@ SimpleVideoView::paint ()
 		dc.DrawBitmap (frame_bitmap, 0, max(0, (panel_size.GetHeight() - out_size.height) / 2));
 	}
 
+#ifdef DCPOMATIC_OSX
 	auto appearance = wxSystemSettings::GetAppearance();
-	auto const pad_colour = (_viewer->pad_black() || appearance.IsDark()) ? wxColour(0, 0, 0) : wxColour(240, 240, 240);
+	auto dark = appearance.IsDark();
+#else
+	auto dark = false;
+#endif
+
+	auto const pad_colour = (_viewer->pad_black() || dark) ? wxColour(0, 0, 0) : wxColour(240, 240, 240);
 
 	if (out_size.width < panel_size.GetWidth()) {
 		wxPen   p (pad_colour);
