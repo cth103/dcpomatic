@@ -67,10 +67,11 @@ create_label (wxWindow* p, wxString t, bool)
 
 
 static
+void
 setup_osx_flags (wxSizer* s, bool left, int& flags)
 {
 	if (left) {
-		auto box = dynamic_cast<wxBoxSizer>(s);
+		auto box = dynamic_cast<wxBoxSizer*>(s);
 		if (!box || box->GetOrientation() != wxHORIZONTAL) {
 			flags |= wxALIGN_RIGHT;
 		}
