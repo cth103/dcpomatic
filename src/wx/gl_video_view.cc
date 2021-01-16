@@ -161,7 +161,9 @@ GLVideoView::draw (Position<int> inter_position, dcp::Size inter_size)
 	wxSize canvas_size;
 	{
 		boost::mutex::scoped_lock lm (_canvas_mutex);
-		canvas_size = _canvas->GetSize ();
+		if (_canvas) {
+			canvas_size = _canvas->GetSize ();
+		}
 	}
 
 	if (canvas_size.GetWidth() < 64 || canvas_size.GetHeight() < 0) {
