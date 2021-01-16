@@ -196,7 +196,7 @@ DCPPanel::add_to_grid ()
 	{
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		s->Add (_reel_length);
-		add_label_to_sizer (s, _reel_length_gb_label, false);
+		add_label_to_sizer (s, _reel_length_gb_label, false, 0, wxLEFT | wxALIGN_CENTER_VERTICAL);
 		_grid->Add (s, wxGBPosition (r, 1));
 	}
 	++r;
@@ -798,7 +798,7 @@ DCPPanel::add_video_panel_to_grid ()
 	add_label_to_sizer (_video_grid, _j2k_bandwidth_label, true, wxGBPosition (r, 0));
 	auto s = new wxBoxSizer (wxHORIZONTAL);
 	s->Add (_j2k_bandwidth, 0, wxALIGN_CENTER_VERTICAL);
-	add_label_to_sizer (s, _mbits_label, false, 0, wxALIGN_CENTER_VERTICAL);
+	add_label_to_sizer (s, _mbits_label, false, 0, wxLEFT | wxALIGN_CENTER_VERTICAL);
 	_video_grid->Add (s, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
 	++r;
 	_video_grid->Add (_reencode_j2k, wxGBPosition(r, 0), wxGBSpan(1, 2));
