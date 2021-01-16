@@ -66,6 +66,7 @@ create_label (wxWindow* p, wxString t, bool)
 }
 
 
+#ifdef __WXOSX__
 static
 void
 setup_osx_flags (wxSizer* s, bool left, int& flags)
@@ -77,6 +78,7 @@ setup_osx_flags (wxSizer* s, bool left, int& flags)
 		}
 	}
 }
+#endif
 
 
 /** Add a wxStaticText to a wxSizer, aligning it at vertical centre.
