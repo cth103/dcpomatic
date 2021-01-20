@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -32,10 +32,11 @@
 #include <iostream>
 
 using std::cout;
-using boost::bind;
 using std::shared_ptr;
 using std::weak_ptr;
+using std::make_shared;
 using boost::optional;
+using boost::bind;
 using dcpomatic::DCPTime;
 
 class Marker
@@ -113,16 +114,16 @@ MarkersDialog::MarkersDialog (wxWindow* parent, weak_ptr<Film> film, weak_ptr<Fi
 	wxGridBagSizer* grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 
 	int r = 0;
-	_markers.push_back (shared_ptr<Marker>(new Marker(this, grid, r++, film, viewer, _("First frame of composition"), dcp::FFOC)));
-	_markers.push_back (shared_ptr<Marker>(new Marker(this, grid, r++, film, viewer, _("Last frame of composition"), dcp::LFOC)));
-	_markers.push_back (shared_ptr<Marker>(new Marker(this, grid, r++, film, viewer, _("First frame of title credits"), dcp::FFTC)));
-	_markers.push_back (shared_ptr<Marker>(new Marker(this, grid, r++, film, viewer, _("Last frame of title credits"), dcp::LFTC)));
-	_markers.push_back (shared_ptr<Marker>(new Marker(this, grid, r++, film, viewer, _("First frame of intermission"), dcp::FFOI)));
-	_markers.push_back (shared_ptr<Marker>(new Marker(this, grid, r++, film, viewer, _("Last frame of intermission"), dcp::LFOI)));
-	_markers.push_back (shared_ptr<Marker>(new Marker(this, grid, r++, film, viewer, _("First frame of end credits"), dcp::FFEC)));
-	_markers.push_back (shared_ptr<Marker>(new Marker(this, grid, r++, film, viewer, _("Last frame of end credits"), dcp::LFEC)));
-	_markers.push_back (shared_ptr<Marker>(new Marker(this, grid, r++, film, viewer, _("First frame of moving credits"), dcp::FFMC)));
-	_markers.push_back (shared_ptr<Marker>(new Marker(this, grid, r++, film, viewer, _("Last frame of moving credits"), dcp::LFMC)));
+	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("First frame of composition"), dcp::Marker::FFOC));
+	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("Last frame of composition"), dcp::Marker::LFOC));
+	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("First frame of title credits"), dcp::Marker::FFTC));
+	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("Last frame of title credits"), dcp::Marker::LFTC));
+	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("First frame of intermission"), dcp::Marker::FFOI));
+	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("Last frame of intermission"), dcp::Marker::LFOI));
+	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("First frame of end credits"), dcp::Marker::FFEC));
+	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("Last frame of end credits"), dcp::Marker::LFEC));
+	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("First frame of moving credits"), dcp::Marker::FFMC));
+	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("Last frame of moving credits"), dcp::Marker::LFMC));
 
 	sizer->Add (grid, 0, wxALL, 8);
 	SetSizerAndFit (sizer);

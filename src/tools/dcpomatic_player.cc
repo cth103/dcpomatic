@@ -315,7 +315,7 @@ public:
 					"playback-started %s %s %s",
 					time.timecode(_film->video_frame_rate()).c_str(),
 					dcp->directories().front().string().c_str(),
-					playing_cpl->annotation_text().c_str()
+					playing_cpl->annotation_text().get_value_or("").c_str()
 					)
 				);
 		}
@@ -455,7 +455,7 @@ public:
 				for (auto i: ex.cpls()) {
 					wxMenuItem* j = _cpl_menu->AppendRadioItem(
 						id,
-						wxString::Format("%s (%s)", std_to_wx(i->annotation_text()).data(), std_to_wx(i->id()).data())
+						wxString::Format("%s (%s)", std_to_wx(i->annotation_text().get_value_or("")).data(), std_to_wx(i->id()).data())
 						);
 					j->Check(!first->cpl() || i->id() == *first->cpl());
 					++id;
@@ -532,7 +532,7 @@ private:
 		view->AppendRadioItem(ID_view_scale_quarter, _("Decode at quarter resolution"))->Check(c && c.get() == 2);
 
 		wxMenu* tools = new wxMenu;
-		_tools_verify = tools->Append (ID_tools_verify, _("Verify DCP"));
+		_tools_verify = tools->Append (ID_tools_verify, _("Verify DCP..."));
 		tools->AppendSeparator ();
 		tools->Append (ID_tools_check_for_updates, _("Check for updates"));
 		tools->Append (ID_tools_timing, _("Timing..."));

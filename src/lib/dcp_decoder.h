@@ -49,7 +49,7 @@ public:
 		std::shared_ptr<DCPDecoder> old
 		);
 
-	std::list<std::shared_ptr<dcp::Reel> > reels () const {
+	std::vector<std::shared_ptr<dcp::Reel>> reels () const {
 		return _reels;
 	}
 
@@ -85,9 +85,9 @@ private:
 
 	/** Time of next thing to return from pass relative to the start of _reel */
 	dcpomatic::ContentTime _next;
-	std::list<std::shared_ptr<dcp::Reel> > _reels;
+	std::vector<std::shared_ptr<dcp::Reel>> _reels;
 
-	std::list<std::shared_ptr<dcp::Reel> >::iterator _reel;
+	std::vector<std::shared_ptr<dcp::Reel>>::iterator _reel;
 	/** Offset of _reel from the start of the content in frames */
 	int64_t _offset;
 	/** Reader for current mono picture asset, if applicable */

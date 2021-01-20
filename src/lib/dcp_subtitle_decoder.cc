@@ -67,7 +67,7 @@ DCPSubtitleDecoder::seek (ContentTime time, bool accurate)
 	Decoder::seek (time, accurate);
 
 	_next = _subtitles.begin ();
-	list<shared_ptr<dcp::Subtitle> >::const_iterator i = _subtitles.begin ();
+	auto i = _subtitles.begin ();
 	while (i != _subtitles.end() && ContentTime::from_seconds ((*_next)->in().as_seconds()) < time) {
 		++i;
 	}
@@ -92,7 +92,7 @@ DCPSubtitleDecoder::pass ()
 	ContentTimePeriod const p = content_time_period (*_next);
 
 	while (_next != _subtitles.end () && content_time_period (*_next) == p) {
-		shared_ptr<dcp::SubtitleString> ns = dynamic_pointer_cast<dcp::SubtitleString>(*_next);
+		auto ns = dynamic_pointer_cast<const dcp::SubtitleString>(*_next);
 		if (ns) {
 			s.push_back (*ns);
 			++_next;
@@ -101,7 +101,7 @@ DCPSubtitleDecoder::pass ()
 			   this would need to be done both here and in DCPDecoder.
 			*/
 
-			shared_ptr<dcp::SubtitleImage> ni = dynamic_pointer_cast<dcp::SubtitleImage>(*_next);
+			auto ni = dynamic_pointer_cast<const dcp::SubtitleImage>(*_next);
 			if (ni) {
 				emit_subtitle_image (p, *ni, film()->frame_size(), only_text());
 				++_next;
@@ -114,12 +114,12 @@ DCPSubtitleDecoder::pass ()
 }
 
 ContentTimePeriod
-DCPSubtitleDecoder::content_time_period (shared_ptr<dcp::Subtitle> s) const
+DCPSubtitleDecoder::content_time_period (shared_ptr<const dcp::Subtitle> s) const
 {
-	return ContentTimePeriod (
-		ContentTime::from_seconds (s->in().as_seconds ()),
-		ContentTime::from_seconds (s->out().as_seconds ())
-		);
+	return {
+		ContentTime::from_seconds(s->in().as_seconds()),
+		ContentTime::from_seconds(s->out().as_seconds())
+	};
 }
 
 

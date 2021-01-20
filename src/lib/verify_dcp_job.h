@@ -33,7 +33,7 @@ public:
 	std::string json_name () const;
 	void run ();
 
-	std::list<dcp::VerificationNote> notes () const {
+	std::vector<dcp::VerificationNote> notes () const {
 		return _notes;
 	}
 
@@ -41,5 +41,5 @@ private:
 	void update_stage (std::string s, boost::optional<boost::filesystem::path> path);
 
 	std::vector<boost::filesystem::path> _directories;
-	std::list<dcp::VerificationNote> _notes;
+	std::vector<dcp::VerificationNote> _notes;
 };

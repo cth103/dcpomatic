@@ -35,10 +35,10 @@ public:
 	std::vector<dcpomatic::FontData> fonts () const;
 
 private:
-	dcpomatic::ContentTimePeriod content_time_period (std::shared_ptr<dcp::Subtitle> s) const;
+	dcpomatic::ContentTimePeriod content_time_period (std::shared_ptr<const dcp::Subtitle> s) const;
 
-	std::list<std::shared_ptr<dcp::Subtitle> > _subtitles;
-	std::list<std::shared_ptr<dcp::Subtitle> >::const_iterator _next;
+	std::vector<std::shared_ptr<const dcp::Subtitle>> _subtitles;
+	std::vector<std::shared_ptr<const dcp::Subtitle>>::const_iterator _next;
 
 	std::vector<dcpomatic::FontData> _fonts;
 };

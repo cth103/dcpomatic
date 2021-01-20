@@ -62,6 +62,7 @@ using std::map;
 using std::set;
 using std::vector;
 using std::shared_ptr;
+using std::make_shared;
 using boost::optional;
 using std::dynamic_pointer_cast;
 #if BOOST_VERSION >= 106100
@@ -690,7 +691,7 @@ ReelWriter::create_reel_markers (shared_ptr<dcp::Reel> reel) const
 	}
 
 	if (!reel_markers.empty ()) {
-		shared_ptr<dcp::ReelMarkersAsset> ma (new dcp::ReelMarkersAsset(dcp::Fraction(film()->video_frame_rate(), 1), 0));
+		auto ma = make_shared<dcp::ReelMarkersAsset>(dcp::Fraction(film()->video_frame_rate(), 1), reel->duration(), 0);
 		for (map<dcp::Marker, DCPTime>::const_iterator i = reel_markers.begin(); i != reel_markers.end(); ++i) {
 			int h, m, s, f;
 			DCPTime relative = i->second - _period.from;

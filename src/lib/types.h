@@ -236,7 +236,7 @@ struct CPLSummary
 
 	std::string dcp_directory;
 	std::string cpl_id;
-	std::string cpl_annotation_text;
+	boost::optional<std::string> cpl_annotation_text;
 	boost::filesystem::path cpl_file;
 	/** true if this CPL has any encrypted assets */
 	bool encrypted;

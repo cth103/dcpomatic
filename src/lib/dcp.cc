@@ -34,20 +34,22 @@
 using std::list;
 using std::string;
 using std::shared_ptr;
+using std::make_shared;
 using std::dynamic_pointer_cast;
+using std::vector;
 
 
 /** Find all the CPLs in our directories, cross-add assets and return the CPLs */
 list<shared_ptr<dcp::CPL> >
 DCP::cpls () const
 {
-	list<shared_ptr<dcp::DCP> > dcps;
-	list<shared_ptr<dcp::CPL> > cpls;
+	list<shared_ptr<dcp::DCP>> dcps;
+	list<shared_ptr<dcp::CPL>> cpls;
 
 	LOG_GENERAL ("Reading %1 DCP directories", _dcp_content->directories().size());
 	for (auto i: _dcp_content->directories()) {
-		shared_ptr<dcp::DCP> dcp (new dcp::DCP (i));
-		list<dcp::VerificationNote> notes;
+		auto dcp = make_shared<dcp::DCP>(i);
+		vector<dcp::VerificationNote> notes;
 		dcp->read (&notes, true);
 		if (!_tolerant) {
 			/** We accept and ignore EMPTY_ASSET_PATH and EXTERNAL_ASSET but everything else is bad */

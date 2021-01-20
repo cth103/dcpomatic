@@ -280,7 +280,7 @@ DCPDecoder::pass_texts (
 	int64_t const frame = next.frames_round (vfr);
 
 	if (_decode_referenced || !reference) {
-		list<shared_ptr<dcp::Subtitle> > subs = asset->subtitles_during (
+		auto subs = asset->subtitles_during (
 			dcp::Time (entry_point + frame, vfr, vfr),
 			dcp::Time (entry_point + frame + 1, vfr, vfr),
 			true
@@ -289,10 +289,10 @@ DCPDecoder::pass_texts (
 		list<dcp::SubtitleString> strings;
 
 		for (auto i: subs) {
-			shared_ptr<dcp::SubtitleString> is = dynamic_pointer_cast<dcp::SubtitleString> (i);
+			auto is = dynamic_pointer_cast<const dcp::SubtitleString>(i);
 			if (is) {
 				if (!strings.empty() && (strings.back().in() != is->in() || strings.back().out() != is->out())) {
-					dcp::SubtitleString b = strings.back();
+					auto b = strings.back();
 					decoder->emit_plain (
 						ContentTimePeriod (
 							ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(b.in().as_seconds()),
@@ -310,7 +310,7 @@ DCPDecoder::pass_texts (
 			   this would need to be done both here and in DCPSubtitleDecoder.
 			*/
 
-			shared_ptr<dcp::SubtitleImage> ii = dynamic_pointer_cast<dcp::SubtitleImage> (i);
+			auto ii = dynamic_pointer_cast<const dcp::SubtitleImage>(i);
 			if (ii) {
 				emit_subtitle_image (
 					ContentTimePeriod (
@@ -325,7 +325,7 @@ DCPDecoder::pass_texts (
 		}
 
 		if (!strings.empty()) {
-			dcp::SubtitleString b = strings.back();
+			auto b = strings.back();
 			decoder->emit_plain (
 				ContentTimePeriod (
 					ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(b.in().as_seconds()),

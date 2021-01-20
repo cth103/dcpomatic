@@ -34,5 +34,6 @@ public:
 	VerifyDCPDialog (wxWindow* parent, std::shared_ptr<VerifyDCPJob> job);
 
 private:
-	wxRichTextCtrl* _text;
+	wxStaticText* _summary;
+	std::map<dcp::VerificationNote::Type, wxRichTextCtrl*> _pages;
 };

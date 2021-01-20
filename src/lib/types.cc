@@ -39,6 +39,7 @@ using std::min;
 using std::string;
 using std::list;
 using std::shared_ptr;
+using std::vector;
 using dcp::raw_convert;
 
 bool operator== (Crop const & a, Crop const & b)
@@ -197,7 +198,7 @@ CPLSummary::CPLSummary (boost::filesystem::path p)
 {
 	dcp::DCP dcp (p);
 
-	list<dcp::VerificationNote> notes;
+	vector<dcp::VerificationNote> notes;
 	dcp.read (&notes);
 	for (auto i: notes) {
 		if (i.code() != dcp::VerificationNote::EXTERNAL_ASSET) {

@@ -89,23 +89,23 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 	dcp::DCP dcp ("build/test/torture_test1/" + film->dcp_name(false));
 	dcp.read ();
 
-	list<shared_ptr<dcp::CPL> > cpls = dcp.cpls ();
+	auto cpls = dcp.cpls ();
 	BOOST_REQUIRE_EQUAL (cpls.size(), 1U);
-	list<shared_ptr<dcp::Reel> > reels = cpls.front()->reels ();
+	auto reels = cpls.front()->reels ();
 	BOOST_REQUIRE_EQUAL (reels.size(), 1U);
 
 	/* Check sound */
 
-	shared_ptr<dcp::ReelSoundAsset> reel_sound = reels.front()->main_sound();
+	auto reel_sound = reels.front()->main_sound();
 	BOOST_REQUIRE (reel_sound);
-	shared_ptr<dcp::SoundAsset> sound = reel_sound->asset();
+	auto sound = reel_sound->asset();
 	BOOST_REQUIRE (sound);
 	BOOST_CHECK_EQUAL (sound->intrinsic_duration(), 144);
 
 	shared_ptr<dcp::SoundAssetReader> sound_reader = sound->start_read ();
 
 	/* First frame silent */
-	shared_ptr<const dcp::SoundFrame> fr = sound_reader->get_frame (0);
+	auto fr = sound_reader->get_frame (0);
 	for (int i = 0; i < fr->samples(); ++i) {
 		for (int j = 0; j < 6; ++j) {
 			BOOST_CHECK_EQUAL (fr->get(j, i), 0);

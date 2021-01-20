@@ -79,9 +79,9 @@ BOOST_AUTO_TEST_CASE (digest_test)
 	dcp::DCP dcp (film->dir (film->dcp_name ()));
 	dcp.read ();
 	BOOST_CHECK_EQUAL (dcp.cpls().size(), 1U);
-	list<shared_ptr<dcp::Reel> > reels = dcp.cpls().front()->reels ();
+	auto reels = dcp.cpls()[0]->reels();
 
-	list<shared_ptr<dcp::Reel> >::const_iterator i = reels.begin ();
+	auto i = reels.begin ();
 	BOOST_REQUIRE (i != reels.end ());
 	BOOST_REQUIRE ((*i)->main_picture()->hash());
 	BOOST_REQUIRE ((*i)->main_picture()->asset()->file());

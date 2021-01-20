@@ -142,7 +142,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 			_set_dcp_settings->Enable (static_cast<bool>(dcp));
 			try {
 				DCPExaminer ex (dcp, true);
-				list<shared_ptr<dcp::CPL> > cpls = ex.cpls ();
+				auto cpls = ex.cpls ();
 				_choose_cpl->Enable (cpls.size() > 1);
 				/* We can't have 0 as a menu item ID on OS X */
 				int id = 1;
@@ -151,7 +151,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 						id++,
 						wxString::Format (
 							"%s (%s)",
-							std_to_wx(i->annotation_text()).data(),
+							std_to_wx(i->annotation_text().get_value_or("")).data(),
 							std_to_wx(i->id()).data()
 							)
 						);

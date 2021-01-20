@@ -39,6 +39,7 @@
 using std::list;
 using std::string;
 using std::vector;
+using std::make_shared;
 using std::shared_ptr;
 
 /* Check that DCPDecoder reuses old data when it should */
@@ -46,14 +47,14 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 {
 	/* Make some DCPs */
 
-	shared_ptr<Film> ov = new_test_film2 ("check_reuse_old_data_ov");
+	auto ov = new_test_film2 ("check_reuse_old_data_ov");
 	ov->examine_and_add_content (content_factory("test/data/flat_red.png").front());
 	BOOST_REQUIRE (!wait_for_jobs());
 	ov->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	shared_ptr<Film> vf = new_test_film2 ("check_reuse_old_data_vf");
-	shared_ptr<DCPContent> ov_content(new DCPContent(ov->dir(ov->dcp_name(false))));
+	auto vf = new_test_film2 ("check_reuse_old_data_vf");
+	auto ov_content = make_shared<DCPContent>(ov->dir(ov->dcp_name(false)));
 	vf->examine_and_add_content (ov_content);
 	vf->examine_and_add_content (content_factory("test/data/L.wav").front());
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -61,7 +62,7 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	vf->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	shared_ptr<Film> encrypted = new_test_film2 ("check_reuse_old_data_decrypted");
+	auto encrypted = new_test_film2 ("check_reuse_old_data_decrypted");
 	encrypted->examine_and_add_content (content_factory("test/data/flat_red.png").front());
 	BOOST_REQUIRE (!wait_for_jobs());
 	encrypted->set_encrypted (true);
@@ -71,7 +72,7 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	dcp::DCP encrypted_dcp (encrypted->dir(encrypted->dcp_name()));
 	encrypted_dcp.read ();
 
-	dcp::EncryptedKDM kdm = encrypted->make_kdm (
+	auto kdm = encrypted->make_kdm (
 		Config::instance()->decryption_chain()->leaf(),
 		vector<string>(),
 		encrypted_dcp.cpls().front()->file().get(),
@@ -85,15 +86,15 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	/* Add just the OV to a new project, move it around a bit and check that
 	   the _reels get reused.
 	*/
-	shared_ptr<Film> test = new_test_film2 ("check_reuse_old_data_test1");
-	ov_content.reset (new DCPContent(ov->dir(ov->dcp_name(false))));
+	auto test = new_test_film2 ("check_reuse_old_data_test1");
+	ov_content = make_shared<DCPContent>(ov->dir(ov->dcp_name(false)));
 	test->examine_and_add_content (ov_content);
 	BOOST_REQUIRE (!wait_for_jobs());
-	shared_ptr<Player> player (new Player(test));
+	auto player = make_shared<Player>(test);
 
-	shared_ptr<DCPDecoder> decoder = std::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
+	auto decoder = std::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
 	BOOST_REQUIRE (decoder);
-	list<shared_ptr<dcp::Reel> > reels = decoder->reels();
+	auto reels = decoder->reels();
 
 	ov_content->set_position (test, dcpomatic::DCPTime(96000));
 	decoder = std::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
@@ -104,7 +105,7 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	   _reels did not get reused.
 	*/
 	test = new_test_film2 ("check_reuse_old_data_test2");
-	shared_ptr<DCPContent> vf_content (new DCPContent(vf->dir(vf->dcp_name(false))));
+	auto vf_content = make_shared<DCPContent>(vf->dir(vf->dcp_name(false)));
 	test->examine_and_add_content (vf_content);
 	BOOST_REQUIRE (!wait_for_jobs());
 	player.reset (new Player(test));
@@ -114,7 +115,7 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	reels = decoder->reels();
 
 	vf_content->add_ov (ov->dir(ov->dcp_name(false)));
-	JobManager::instance()->add (shared_ptr<Job>(new ExamineContentJob(test, vf_content)));
+	JobManager::instance()->add (make_shared<ExamineContentJob>(test, vf_content));
 	BOOST_REQUIRE (!wait_for_jobs());
 	decoder = std::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
 	BOOST_REQUIRE (decoder);
@@ -122,17 +123,17 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 
 	/* Add a KDM to an encrypted DCP and check that the _reels did not get reused */
 	test = new_test_film2 ("check_reuse_old_data_test3");
-	shared_ptr<DCPContent> encrypted_content (new DCPContent(encrypted->dir(encrypted->dcp_name(false))));
+	auto encrypted_content = make_shared<DCPContent>(encrypted->dir(encrypted->dcp_name(false)));
 	test->examine_and_add_content (encrypted_content);
 	BOOST_REQUIRE (!wait_for_jobs());
-	player.reset (new Player(test));
+	player = make_shared<Player>(test);
 
 	decoder = std::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
 	BOOST_REQUIRE (decoder);
 	reels = decoder->reels();
 
 	encrypted_content->add_kdm (kdm);
-	JobManager::instance()->add (shared_ptr<Job>(new ExamineContentJob(test, encrypted_content)));
+	JobManager::instance()->add (make_shared<ExamineContentJob>(test, encrypted_content));
 	BOOST_REQUIRE (!wait_for_jobs());
 	decoder = std::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
 	BOOST_REQUIRE (decoder);

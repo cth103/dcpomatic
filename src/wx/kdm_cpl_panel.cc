@@ -92,7 +92,7 @@ KDMCPLPanel::update_cpl_summary ()
 
 	_dcp_directory->SetLabel (std_to_wx (_cpls[n].dcp_directory));
 	_cpl_id->SetLabel (std_to_wx (_cpls[n].cpl_id));
-	_cpl_annotation_text->SetLabel (std_to_wx (_cpls[n].cpl_annotation_text));
+	_cpl_annotation_text->SetLabel (std_to_wx(_cpls[n].cpl_annotation_text.get_value_or("")));
 }
 
 void

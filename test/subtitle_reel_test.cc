@@ -74,17 +74,17 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_test)
 	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1U);
 	shared_ptr<dcp::CPL> cpl = dcp.cpls().front();
 
-	list<shared_ptr<dcp::Reel> > reels = cpl->reels ();
+	auto reels = cpl->reels ();
 	BOOST_REQUIRE_EQUAL (reels.size(), 2U);
-	list<shared_ptr<dcp::Reel> >::const_iterator i = reels.begin ();
+	auto i = reels.begin ();
 	BOOST_REQUIRE ((*i)->main_subtitle());
 	BOOST_REQUIRE ((*i)->main_subtitle()->asset());
-	shared_ptr<dcp::InteropSubtitleAsset> A = std::dynamic_pointer_cast<dcp::InteropSubtitleAsset>((*i)->main_subtitle()->asset());
+	auto A = std::dynamic_pointer_cast<dcp::InteropSubtitleAsset>((*i)->main_subtitle()->asset());
 	BOOST_REQUIRE (A);
 	++i;
 	BOOST_REQUIRE ((*i)->main_subtitle());
 	BOOST_REQUIRE ((*i)->main_subtitle()->asset());
-	shared_ptr<dcp::InteropSubtitleAsset> B = std::dynamic_pointer_cast<dcp::InteropSubtitleAsset>((*i)->main_subtitle()->asset());
+	auto B = std::dynamic_pointer_cast<dcp::InteropSubtitleAsset>((*i)->main_subtitle()->asset());
 	BOOST_REQUIRE (B);
 
 	BOOST_REQUIRE_EQUAL (A->subtitles().size(), 1U);

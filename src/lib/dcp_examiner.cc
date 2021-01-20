@@ -219,7 +219,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 		}
 	}
 
-	_encrypted = cpl->encrypted ();
+	_encrypted = cpl->any_encrypted ();
 	_kdm_valid = true;
 
 	/* Check that we can read the first picture, sound and subtitle frames of each reel */
