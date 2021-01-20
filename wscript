@@ -72,7 +72,6 @@ def options(opt):
     opt.add_option('--static-sub',        action='store_true', default=False, help='link statically to libsub')
     opt.add_option('--static-curl',       action='store_true', default=False, help='link statically to libcurl')
     opt.add_option('--workaround-gssapi', action='store_true', default=False, help='link to gssapi_krb5')
-    opt.add_option('--force-cpp11',       action='store_true', default=False, help='force use of C++11')
     opt.add_option('--use-lld',           action='store_true', default=False, help='use lld linker')
     opt.add_option('--enable-disk',       action='store_true', default=False, help='build dcpomatic2_disk tool; requires Boost process, lwext4 and nanomsg libraries')
     opt.add_option('--warnings-are-errors', action='store_true', default=False, help='build with -Werror')
@@ -109,10 +108,8 @@ def configure(conf):
                                        '-Wwrite-strings',
                                        # I tried and failed to ignore these with _Pragma
                                        '-Wno-ignored-qualifiers',
-                                       '-D_FILE_OFFSET_BITS=64'])
-
-    if conf.options.force_cpp11:
-        conf.env.append_value('CXXFLAGS', ['-std=c++11', '-DBOOST_NO_CXX11_SCOPED_ENUMS'])
+                                       '-D_FILE_OFFSET_BITS=64',
+                                       '-std=c++11'])
 
     if conf.options.warnings_are_errors:
         conf.env.append_value('CXXFLAGS', '-Werror')
@@ -158,7 +155,6 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-DUNICODE')
         conf.env.append_value('CXXFLAGS', '-DBOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN')
         conf.env.append_value('CXXFLAGS', '-mfpmath=sse')
-        conf.env.append_value('CXXFLAGS', '-std=c++11')
         conf.env.append_value('CXXFLAGS', '-Wcast-align')
         wxrc = os.popen('wx-config --rescomp').read().split()[1:]
         conf.env.append_value('WINRCFLAGS', wxrc)
@@ -280,10 +276,6 @@ def configure(conf):
 
     # leqm_nrt
     conf.check_cfg(package='leqm_nrt', args='--cflags --libs', uselib_store='LEQM_NRT', mandatory=True)
-
-    test_cxxflags = ''
-    if have_c11:
-        test_cxxflags = '-std=c++11'
 
     # See if we have Cairo::ImageSurface::format_stride_for_width; Centos 5 does not
     conf.check_cxx(fragment="""
@@ -565,15 +557,6 @@ def configure(conf):
                            msg='Checking for boost process library',
                            lib=deps,
                            uselib_store='BOOST_PROCESS')
-
-    # libxml++ requires glibmm and versions of glibmm 2.45.31 and later
-    # must be built with -std=c++11 as they use c++11
-    # features and c++11 is not (yet) the default in gcc.
-    glibmm_version = conf.cmd_and_log(['pkg-config', '--modversion', 'glibmm-2.4'], output=Context.STDOUT, quiet=Context.BOTH)
-    s = glibmm_version.split('.')
-    v = (int(s[0]) << 16) | (int(s[1]) << 8) | int(s[2])
-    if v >= 0x022D1F:
-        conf.env.append_value('CXXFLAGS', '-std=c++11')
 
     # Other stuff
 

@@ -407,13 +407,6 @@ def configure_options(target, options):
                 opt += ' --static-boost --static-xmlpp'
             elif target.version == '7':
                 opt += ' --workaround-gssapi'
-                # Centos 7 ships with glibmm 2.50.0 which requires C++11
-                # but its compiler (gcc 4.8.5) defaults to C++97.  Go figure.
-                # I worry that this will cause ABI problems but I don't have
-                # a better solution.
-                opt += ' --force-cpp11'
-    elif target.platform == 'osx':
-        opt += ' --force-cpp11'
 
     if not options['gui']:
         opt += ' --disable-gui'
