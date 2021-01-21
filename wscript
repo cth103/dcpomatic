@@ -154,6 +154,7 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-DBOOST_USE_WINDOWS_H')
         conf.env.append_value('CXXFLAGS', '-DUNICODE')
         conf.env.append_value('CXXFLAGS', '-DBOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN')
+        conf.env.append_value('CXXFLAGS', '-DNOGDI')
         conf.env.append_value('CXXFLAGS', '-mfpmath=sse')
         conf.env.append_value('CXXFLAGS', '-Wcast-align')
         wxrc = os.popen('wx-config --rescomp').read().split()[1:]
