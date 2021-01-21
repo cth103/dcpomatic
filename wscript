@@ -285,7 +285,6 @@ def configure(conf):
                                 return 0; }\n
                             """,
                        mandatory=False,
-                       cxxflags=test_cxxflags,
                        msg='Checking for format_stride_for_width',
                        okmsg='yes',
                        includes=conf.env['INCLUDES_CAIROMM'],
@@ -303,7 +302,6 @@ def configure(conf):
                             """,
                        mandatory=False,
                        msg='Checking for show_in_cairo_context',
-                       cxxflags=test_cxxflags,
                        okmsg='yes',
                        includes=conf.env['INCLUDES_PANGOMM'],
                        uselib='PANGOMM',
