@@ -395,8 +395,8 @@ DCPOMATIC_ENABLE_WARNINGS
 	/* Render something to fontconfig to create its cache */
 	list<StringText> subs;
 	dcp::SubtitleString ss(
-		optional<string>(), false, false, false, dcp::Colour(), 42, 1, dcp::Time(), dcp::Time(), 0, dcp::HAlign::CENTER, 0, dcp::VAlign::CENTER, dcp::DIRECTION_LTR,
-		"Hello dolly", dcp::NONE, dcp::Colour(), dcp::Time(), dcp::Time()
+		optional<string>(), false, false, false, dcp::Colour(), 42, 1, dcp::Time(), dcp::Time(), 0, dcp::HAlign::CENTER, 0, dcp::VAlign::CENTER, dcp::Direction::LTR,
+		"Hello dolly", dcp::Effect::NONE, dcp::Colour(), dcp::Time(), dcp::Time()
 		);
 	subs.push_back (StringText(ss, 0));
 	render_text (subs, list<shared_ptr<Font>>(), dcp::Size(640, 480), DCPTime(), 24);
