@@ -54,7 +54,7 @@ DCP::cpls () const
 		if (!_tolerant) {
 			/** We accept and ignore EMPTY_ASSET_PATH and EXTERNAL_ASSET but everything else is bad */
 			for (auto j: notes) {
-				if (j.code() == dcp::VerificationNote::EMPTY_ASSET_PATH || j.code() == dcp::VerificationNote::EXTERNAL_ASSET) {
+				if (j.code() == dcp::VerificationNote::Code::EMPTY_ASSET_PATH || j.code() == dcp::VerificationNote::Code::EXTERNAL_ASSET) {
 					LOG_WARNING("Empty path in ASSETMAP of %1", i.string());
 				} else {
 					boost::throw_exception(dcp::ReadError(dcp::note_to_string(j)));

@@ -114,7 +114,7 @@ ReelWriter::ReelWriter (
 	   output.  We will hard-link it into the DCP later.
 	*/
 
-	dcp::Standard const standard = film()->interop() ? dcp::INTEROP : dcp::SMPTE;
+	dcp::Standard const standard = film()->interop() ? dcp::Standard::INTEROP : dcp::Standard::SMPTE;
 
 	boost::filesystem::path const asset =
 		film()->internal_video_asset_dir() / film()->internal_video_asset_filename(_period);
@@ -861,7 +861,7 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 					i.image->as_png(),
 					dcp::Time(period.from.seconds() - _period.from.seconds(), film()->video_frame_rate()),
 					dcp::Time(period.to.seconds() - _period.from.seconds(), film()->video_frame_rate()),
-					i.rectangle.x, dcp::HALIGN_LEFT, i.rectangle.y, dcp::VALIGN_TOP,
+					i.rectangle.x, dcp::HAlign::LEFT, i.rectangle.y, dcp::VAlign::TOP,
 					dcp::Time(), dcp::Time()
 					)
 				)

@@ -78,21 +78,21 @@ FFmpegEncoder::FFmpegEncoder (
 		float const overall_gain = 2 / (4 + sqrt(2));
 		float const minus_3dB = 1 / sqrt(2);
 		if (ch == 2) {
-			map.set (dcp::LEFT, 0, 1);
-			map.set (dcp::RIGHT, 1, 1);
+			map.set (dcp::Channel::LEFT, 0, 1);
+			map.set (dcp::Channel::RIGHT, 1, 1);
 		} else if (ch == 4) {
-			map.set (dcp::LEFT,   0, overall_gain);
-			map.set (dcp::RIGHT,  1, overall_gain);
-			map.set (dcp::CENTRE, 0, overall_gain * minus_3dB);
-			map.set (dcp::CENTRE, 1, overall_gain * minus_3dB);
-			map.set (dcp::LS,     0, overall_gain);
+			map.set (dcp::Channel::LEFT,   0, overall_gain);
+			map.set (dcp::Channel::RIGHT,  1, overall_gain);
+			map.set (dcp::Channel::CENTRE, 0, overall_gain * minus_3dB);
+			map.set (dcp::Channel::CENTRE, 1, overall_gain * minus_3dB);
+			map.set (dcp::Channel::LS,     0, overall_gain);
 		} else if (ch >= 6) {
-			map.set (dcp::LEFT,   0, overall_gain);
-			map.set (dcp::RIGHT,  1, overall_gain);
-			map.set (dcp::CENTRE, 0, overall_gain * minus_3dB);
-			map.set (dcp::CENTRE, 1, overall_gain * minus_3dB);
-			map.set (dcp::LS,     0, overall_gain);
-			map.set (dcp::RS,     1, overall_gain);
+			map.set (dcp::Channel::LEFT,   0, overall_gain);
+			map.set (dcp::Channel::RIGHT,  1, overall_gain);
+			map.set (dcp::Channel::CENTRE, 0, overall_gain * minus_3dB);
+			map.set (dcp::Channel::CENTRE, 1, overall_gain * minus_3dB);
+			map.set (dcp::Channel::LS,     0, overall_gain);
+			map.set (dcp::Channel::RS,     1, overall_gain);
 		}
 		/* XXX: maybe we should do something better for >6 channel DCPs */
 	} else {

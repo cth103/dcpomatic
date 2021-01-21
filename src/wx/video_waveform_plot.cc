@@ -181,7 +181,7 @@ VideoWaveformPlot::create_waveform ()
 
 	_waveform = _waveform->scale (
 		dcp::Size (GetSize().GetWidth() - _x_axis_width, waveform_height),
-		dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, false
+		dcp::YUVToRGB::REC709, AV_PIX_FMT_RGB24, false, false
 		);
 }
 

@@ -144,21 +144,21 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 	}
 
 	if (node->optional_bool_child("Outline").get_value_or(false)) {
-		_effect = dcp::BORDER;
+		_effect = dcp::Effect::BORDER;
 	} else if (node->optional_bool_child("Shadow").get_value_or(false)) {
-		_effect = dcp::SHADOW;
+		_effect = dcp::Effect::SHADOW;
 	} else {
-		_effect = dcp::NONE;
+		_effect = dcp::Effect::NONE;
 	}
 
 	auto effect = node->optional_string_child("Effect");
 	if (effect) {
 		if (*effect == "none") {
-			_effect = dcp::NONE;
+			_effect = dcp::Effect::NONE;
 		} else if (*effect == "outline") {
-			_effect = dcp::BORDER;
+			_effect = dcp::Effect::BORDER;
 		} else if (*effect == "shadow") {
-			_effect = dcp::SHADOW;
+			_effect = dcp::Effect::SHADOW;
 		}
 	}
 
@@ -341,13 +341,13 @@ TextContent::as_xml (xmlpp::Node* root) const
 	}
 	if (_effect) {
 		switch (*_effect) {
-		case dcp::NONE:
+		case dcp::Effect::NONE:
 			text->add_child("Effect")->add_child_text("none");
 			break;
-		case dcp::BORDER:
+		case dcp::Effect::BORDER:
 			text->add_child("Effect")->add_child_text("outline");
 			break;
-		case dcp::SHADOW:
+		case dcp::Effect::SHADOW:
 			text->add_child("Effect")->add_child_text("shadow");
 			break;
 		}
@@ -389,7 +389,7 @@ TextContent::identifier () const
 		+ "_" + raw_convert<string> (fade_out().get_value_or(ContentTime()).get())
 		+ "_" + raw_convert<string> (outline_width())
 		+ "_" + raw_convert<string> (colour().get_value_or(dcp::Colour(255, 255, 255)).to_argb_string())
-		+ "_" + raw_convert<string> (dcp::effect_to_string(effect().get_value_or(dcp::NONE)))
+		+ "_" + raw_convert<string> (dcp::effect_to_string(effect().get_value_or(dcp::Effect::NONE)))
 		+ "_" + raw_convert<string> (effect_colour().get_value_or(dcp::Colour(0, 0, 0)).to_argb_string())
 		+ "_" + raw_convert<string> (_parent->video_frame_rate().get_value_or(0));
 

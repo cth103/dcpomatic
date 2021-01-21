@@ -68,12 +68,12 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 
 	wxBoxSizer* type = new wxBoxSizer (wxHORIZONTAL);
 	_type = new wxChoice (this, wxID_ANY);
-	_type->Append ("Modified Transitional 1", ((void *) dcp::MODIFIED_TRANSITIONAL_1));
-	_type->Append ("Multiple Modified Transitional 1", ((void *) dcp::MULTIPLE_MODIFIED_TRANSITIONAL_1));
-	_type->Append ("Modified Transitional 1 (without AuthorizedDeviceInfo)", ((void *) dcp::MODIFIED_TRANSITIONAL_TEST));
+	_type->Append ("Modified Transitional 1", ((void *) dcp::Formulation::MODIFIED_TRANSITIONAL_1));
+	_type->Append ("Multiple Modified Transitional 1", ((void *) dcp::Formulation::MULTIPLE_MODIFIED_TRANSITIONAL_1));
+	_type->Append ("Modified Transitional 1 (without AuthorizedDeviceInfo)", ((void *) dcp::Formulation::MODIFIED_TRANSITIONAL_TEST));
 	if (!interop) {
-		_type->Append ("DCI Any", ((void *) dcp::DCI_ANY));
-		_type->Append ("DCI Specific", ((void *) dcp::DCI_SPECIFIC));
+		_type->Append ("DCI Any", ((void *) dcp::Formulation::DCI_ANY));
+		_type->Append ("DCI Specific", ((void *) dcp::Formulation::DCI_SPECIFIC));
 	}
 	type->Add (_type, 1, wxEXPAND);
 	_type->SetSelection (0);

@@ -172,8 +172,8 @@ Film::Film (optional<boost::filesystem::path> dir)
 	, _audio_language (dcp::LanguageTag("en-US"))
 	, _release_territory (dcp::LanguageTag::RegionSubtag("US"))
 	, _version_number (1)
-	, _status (dcp::FINAL)
-	, _luminance (dcp::Luminance(4.5, dcp::Luminance::FOOT_LAMBERT))
+	, _status (dcp::Status::FINAL)
+	, _luminance (dcp::Luminance(4.5, dcp::Luminance::Unit::FOOT_LAMBERT))
 	, _state_version (current_state_version)
 	, _dirty (false)
 	, _tolerant (false)
@@ -770,10 +770,10 @@ Film::mapped_audio_channels () const
 			mapped.push_back (i);
 		}
 	} else {
-		for (auto i: content ()) {
+		for (auto i: content()) {
 			if (i->audio) {
-				auto c = i->audio->mapping().mapped_output_channels ();
-				copy (c.begin(), c.end(), back_inserter (mapped));
+				auto c = i->audio->mapping().mapped_output_channels();
+				copy (c.begin(), c.end(), back_inserter(mapped));
 			}
 		}
 
@@ -879,7 +879,7 @@ Film::isdcf_name (bool if_created_now) const
 	/* XXX: this uses the first bit of content only */
 
 	/* Interior aspect ratio.  The standard says we don't do this for trailers, for some strange reason */
-	if (dcp_content_type() && dcp_content_type()->libdcp_kind() != dcp::TRAILER) {
+	if (dcp_content_type() && dcp_content_type()->libdcp_kind() != dcp::ContentKind::TRAILER) {
 		Ratio const* content_ratio = nullptr;
 		for (auto i: content ()) {
 			if (i->video) {
@@ -952,10 +952,10 @@ Film::isdcf_name (bool if_created_now) const
 		d += String::compose("_%1%2", ch.first, ch.second);
 	}
 
-	if (audio_channels() > static_cast<int>(dcp::HI) && find(mapped.begin(), mapped.end(), dcp::HI) != mapped.end()) {
+	if (audio_channels() > static_cast<int>(dcp::Channel::HI) && find(mapped.begin(), mapped.end(), static_cast<int>(dcp::Channel::HI)) != mapped.end()) {
 		d += "-HI";
 	}
-	if (audio_channels() > static_cast<int>(dcp::VI) && find(mapped.begin(), mapped.end(), dcp::VI) != mapped.end()) {
+	if (audio_channels() > static_cast<int>(dcp::Channel::VI) && find(mapped.begin(), mapped.end(), static_cast<int>(dcp::Channel::VI)) != mapped.end()) {
 		d += "-VI";
 	}
 

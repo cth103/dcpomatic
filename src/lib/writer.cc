@@ -623,15 +623,15 @@ Writer::finish (boost::filesystem::path output_dcp)
 	cpl->set_facility (film()->facility());
 	cpl->set_luminance (film()->luminance());
 
-	list<int> ac = film()->mapped_audio_channels();
+	auto ac = film()->mapped_audio_channels();
 	dcp::MCASoundField field = (
-		find(ac.begin(), ac.end(), static_cast<int>(dcp::BSL)) != ac.end() ||
-		find(ac.begin(), ac.end(), static_cast<int>(dcp::BSR)) != ac.end()
-		) ? dcp::SEVEN_POINT_ONE : dcp::FIVE_POINT_ONE;
+		find(ac.begin(), ac.end(), static_cast<int>(dcp::Channel::BSL)) != ac.end() ||
+		find(ac.begin(), ac.end(), static_cast<int>(dcp::Channel::BSR)) != ac.end()
+		) ? dcp::MCASoundField::SEVEN_POINT_ONE : dcp::MCASoundField::FIVE_POINT_ONE;
 
 	dcp::MainSoundConfiguration msc (field, film()->audio_channels());
 	for (auto i: ac) {
-		if (i < film()->audio_channels()) {
+		if (static_cast<int>(i) < film()->audio_channels()) {
 			msc.set_mapping (i, static_cast<dcp::Channel>(i));
 		}
 	}
@@ -655,7 +655,7 @@ Writer::finish (boost::filesystem::path output_dcp)
 	}
 
 	dcp.write_xml (
-		film()->interop() ? dcp::INTEROP : dcp::SMPTE,
+		film()->interop() ? dcp::Standard::INTEROP : dcp::Standard::SMPTE,
 		issuer,
 		creator,
 		dcp::LocalTime().as_string(),

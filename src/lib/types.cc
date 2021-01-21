@@ -201,7 +201,7 @@ CPLSummary::CPLSummary (boost::filesystem::path p)
 	vector<dcp::VerificationNote> notes;
 	dcp.read (&notes);
 	for (auto i: notes) {
-		if (i.code() != dcp::VerificationNote::EXTERNAL_ASSET) {
+		if (i.code() != dcp::VerificationNote::Code::EXTERNAL_ASSET) {
 			/* It's not just a warning about this DCP being a VF */
 			throw dcp::ReadError(dcp::note_to_string(i));
 		}

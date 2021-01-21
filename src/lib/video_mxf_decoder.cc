@@ -92,14 +92,14 @@ VideoMXFDecoder::pass ()
 		video->emit (
 			film(),
 			shared_ptr<ImageProxy> (
-				new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::EYE_LEFT, AV_PIX_FMT_XYZ12LE, optional<int>())
+				new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::Eye::LEFT, AV_PIX_FMT_XYZ12LE, optional<int>())
 				),
 			frame
 			);
 		video->emit (
 			film(),
 			shared_ptr<ImageProxy> (
-				new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::EYE_RIGHT, AV_PIX_FMT_XYZ12LE, optional<int>())
+				new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::Eye::RIGHT, AV_PIX_FMT_XYZ12LE, optional<int>())
 				),
 			frame
 			);

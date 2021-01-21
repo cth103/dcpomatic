@@ -224,15 +224,15 @@ x_position (StringText const& first, int target_width, int layout_width)
 {
 	int x = 0;
 	switch (first.h_align ()) {
-	case dcp::HALIGN_LEFT:
+	case dcp::HAlign::LEFT:
 		/* h_position is distance between left of frame and left of subtitle */
 		x = first.h_position() * target_width;
 		break;
-	case dcp::HALIGN_CENTER:
+	case dcp::HAlign::CENTER:
 		/* h_position is distance between centre of frame and centre of subtitle */
 		x = (0.5 + first.h_position()) * target_width - layout_width / 2;
 		break;
-	case dcp::HALIGN_RIGHT:
+	case dcp::HAlign::RIGHT:
 		/* h_position is distance between right of frame and right of subtitle */
 		x = (1.0 - first.h_position()) * target_width - layout_width;
 		break;
@@ -248,20 +248,20 @@ y_position (StringText const& first, int target_height, int layout_height)
 {
 	int y = 0;
 	switch (first.v_align ()) {
-	case dcp::VALIGN_TOP:
+	case dcp::VAlign::TOP:
 		/* SMPTE says that v_position is the distance between top
 		   of frame and top of subtitle, but this doesn't always seem to be
 		   the case in practice; Gunnar Ásgeirsson's Dolby server appears
-		   to put VALIGN_TOP subs with v_position as the distance between top
+		   to put VAlign::TOP subs with v_position as the distance between top
 		   of frame and bottom of subtitle.
 		*/
 		y = first.v_position() * target_height - layout_height;
 		break;
-	case dcp::VALIGN_CENTER:
+	case dcp::VAlign::CENTER:
 		/* v_position is distance between centre of frame and centre of subtitle */
 		y = (0.5 + first.v_position()) * target_height - layout_height / 2;
 		break;
-	case dcp::VALIGN_BOTTOM:
+	case dcp::VAlign::BOTTOM:
 		/* v_position is distance between bottom of frame and bottom of subtitle */
 		y = (1.0 - first.v_position()) * target_height - layout_height;
 		break;
@@ -333,7 +333,7 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 		}
 	}
 
-	float const border_width = first.effect() == dcp::BORDER ? (first.outline_width * target.width / 2048.0) : 0;
+	float const border_width = first.effect() == dcp::Effect::BORDER ? (first.outline_width * target.width / 2048.0) : 0;
 	size.width += 2 * ceil (border_width);
 	size.height += 2 * ceil (border_width);
 
@@ -356,7 +356,7 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 	context->scale (x_scale, y_scale);
 	layout->update_from_cairo_context (context);
 
-	if (first.effect() == dcp::SHADOW) {
+	if (first.effect() == dcp::Effect::SHADOW) {
 		/* Drop-shadow effect */
 		set_source_rgba (context, first.effect_colour(), fade_factor);
 		context->move_to (x_offset + 4, y_offset + 4);
@@ -364,7 +364,7 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 		context->fill ();
 	}
 
-	if (first.effect() == dcp::BORDER) {
+	if (first.effect() == dcp::Effect::BORDER) {
 		/* Border effect */
 		set_source_rgba (context, first.effect_colour(), fade_factor);
 		context->set_line_width (border_width);

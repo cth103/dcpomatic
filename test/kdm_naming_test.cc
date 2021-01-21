@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 			cinema_a_screen_1,
 			boost::posix_time::time_from_string(from_string),
 			boost::posix_time::time_from_string(until_string),
-			dcp::MODIFIED_TRANSITIONAL_1,
+			dcp::Formulation::MODIFIED_TRANSITIONAL_1,
 			false,
 			optional<int>()
 			);
@@ -169,7 +169,7 @@ BOOST_AUTO_TEST_CASE (directory_kdm_naming_test, * boost::unit_test::depends_on(
 				i,
 				boost::posix_time::time_from_string(from_string),
 				boost::posix_time::time_from_string(until_string),
-				dcp::MODIFIED_TRANSITIONAL_1,
+				dcp::Formulation::MODIFIED_TRANSITIONAL_1,
 				false,
 				optional<int>()
 				);

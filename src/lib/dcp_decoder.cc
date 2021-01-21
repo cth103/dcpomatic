@@ -178,7 +178,7 @@ DCPDecoder::pass ()
 					new J2KImageProxy (
 						_stereo_reader->get_frame (entry_point + frame),
 						picture_asset->size(),
-						dcp::EYE_LEFT,
+						dcp::Eye::LEFT,
 						AV_PIX_FMT_XYZ12LE,
 						_forced_reduction
 						)
@@ -192,7 +192,7 @@ DCPDecoder::pass ()
 					new J2KImageProxy (
 						_stereo_reader->get_frame (entry_point + frame),
 						picture_asset->size(),
-						dcp::EYE_RIGHT,
+						dcp::Eye::RIGHT,
 						AV_PIX_FMT_XYZ12LE,
 						_forced_reduction
 						)

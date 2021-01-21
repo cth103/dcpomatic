@@ -162,56 +162,56 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 
 	AudioMapping mapping = sound->audio->mapping ();
 
-	mapping.set (0, dcp::LEFT, 1.0);
+	mapping.set (0, dcp::Channel::LEFT, 1.0);
 	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_20_4K_DI_20140704_PP_SMPTE_OV");
-	mapping.set (0, dcp::RIGHT, 1.0);
+	mapping.set (0, dcp::Channel::RIGHT, 1.0);
 	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_30_4K_DI_20140704_PP_SMPTE_OV");
-	mapping.set (0, dcp::LFE, 1.0);
+	mapping.set (0, dcp::Channel::LFE, 1.0);
 	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_31_4K_DI_20140704_PP_SMPTE_OV");
-	mapping.set (0, dcp::LS, 1.0);
+	mapping.set (0, dcp::Channel::LS, 1.0);
 	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_41_4K_DI_20140704_PP_SMPTE_OV");
-	mapping.set (0, dcp::RS, 1.0);
+	mapping.set (0, dcp::Channel::RS, 1.0);
 	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51_4K_DI_20140704_PP_SMPTE_OV");
-	mapping.set (0, dcp::HI, 1.0);
+	mapping.set (0, dcp::Channel::HI, 1.0);
 	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51_4K_DI_20140704_PP_SMPTE_OV");
 
 	film->set_audio_channels (8);
-	mapping.set (0, dcp::HI, 1.0);
+	mapping.set (0, dcp::Channel::HI, 1.0);
 	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51-HI_4K_DI_20140704_PP_SMPTE_OV");
-	mapping.set (0, dcp::VI, 1.0);
+	mapping.set (0, dcp::Channel::VI, 1.0);
 	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51-HI-VI_4K_DI_20140704_PP_SMPTE_OV");
 
 	film->set_audio_channels(10);
-	mapping.set (0, dcp::HI, 0.0);
-	mapping.set (0, dcp::VI, 0.0);
+	mapping.set (0, dcp::Channel::HI, 0.0);
+	mapping.set (0, dcp::Channel::VI, 0.0);
 	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51_4K_DI_20140704_PP_SMPTE_OV");
-	mapping.set (0, dcp::HI, 1.0);
+	mapping.set (0, dcp::Channel::HI, 1.0);
 	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51-HI_4K_DI_20140704_PP_SMPTE_OV");
-	mapping.set (0, dcp::VI, 1.0);
+	mapping.set (0, dcp::Channel::VI, 1.0);
 	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51-HI-VI_4K_DI_20140704_PP_SMPTE_OV");
 
 	film->set_audio_channels(12);
-	mapping.set (0, dcp::BSL, 1.0);
-	mapping.set (0, dcp::BSR, 1.0);
-	mapping.set (0, dcp::HI, 0.0);
-	mapping.set (0, dcp::VI, 0.0);
+	mapping.set (0, dcp::Channel::BSL, 1.0);
+	mapping.set (0, dcp::Channel::BSR, 1.0);
+	mapping.set (0, dcp::Channel::HI, 0.0);
+	mapping.set (0, dcp::Channel::VI, 0.0);
 	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_71_4K_DI_20140704_PP_SMPTE_OV");
-	mapping.set (0, dcp::HI, 1.0);
+	mapping.set (0, dcp::Channel::HI, 1.0);
 	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_71-HI_4K_DI_20140704_PP_SMPTE_OV");
-	mapping.set (0, dcp::VI, 1.0);
+	mapping.set (0, dcp::Channel::VI, 1.0);
 	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_71-HI-VI_4K_DI_20140704_PP_SMPTE_OV");
 }

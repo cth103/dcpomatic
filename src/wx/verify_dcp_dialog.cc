@@ -42,12 +42,12 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 	sizer->Add (notebook, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	map<dcp::VerificationNote::Type, wxRichTextCtrl*> pages;
-	pages[dcp::VerificationNote::VERIFY_ERROR] = new wxRichTextCtrl (notebook, wxID_ANY, wxEmptyString, wxDefaultPosition, {400, 300}, wxRE_READONLY);
-	notebook->AddPage (pages[dcp::VerificationNote::VERIFY_ERROR], _("Errors"));
-	pages[dcp::VerificationNote::VERIFY_BV21_ERROR] = new wxRichTextCtrl (notebook, wxID_ANY, wxEmptyString, wxDefaultPosition, {400, 300}, wxRE_READONLY);
-	notebook->AddPage (pages[dcp::VerificationNote::VERIFY_BV21_ERROR], _("SMPTE Bv2.1 errors"));
-	pages[dcp::VerificationNote::VERIFY_WARNING] = new wxRichTextCtrl (notebook, wxID_ANY, wxEmptyString, wxDefaultPosition, {400, 300}, wxRE_READONLY);
-	notebook->AddPage (pages[dcp::VerificationNote::VERIFY_WARNING], _("Warnings"));
+	pages[dcp::VerificationNote::Type::ERROR] = new wxRichTextCtrl (notebook, wxID_ANY, wxEmptyString, wxDefaultPosition, {400, 300}, wxRE_READONLY);
+	notebook->AddPage (pages[dcp::VerificationNote::Type::ERROR], _("Errors"));
+	pages[dcp::VerificationNote::Type::BV21_ERROR] = new wxRichTextCtrl (notebook, wxID_ANY, wxEmptyString, wxDefaultPosition, {400, 300}, wxRE_READONLY);
+	notebook->AddPage (pages[dcp::VerificationNote::Type::BV21_ERROR], _("SMPTE Bv2.1 errors"));
+	pages[dcp::VerificationNote::Type::WARNING] = new wxRichTextCtrl (notebook, wxID_ANY, wxEmptyString, wxDefaultPosition, {400, 300}, wxRE_READONLY);
+	notebook->AddPage (pages[dcp::VerificationNote::Type::WARNING], _("Warnings"));
 
 	auto summary = new wxStaticText (this, wxID_ANY, wxT(""));
 	sizer->Add (summary, 0, wxALL, DCPOMATIC_DIALOG_BORDER);
@@ -71,9 +71,9 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 	}
 
 	map<dcp::VerificationNote::Type, int> counts;
-	counts[dcp::VerificationNote::VERIFY_WARNING] = 0;
-	counts[dcp::VerificationNote::VERIFY_BV21_ERROR] = 0;
-	counts[dcp::VerificationNote::VERIFY_ERROR] = 0;
+	counts[dcp::VerificationNote::Type::WARNING] = 0;
+	counts[dcp::VerificationNote::Type::BV21_ERROR] = 0;
+	counts[dcp::VerificationNote::Type::ERROR] = 0;
 
 	auto add_bullet = [&pages](dcp::VerificationNote::Type type, wxString message) {
 		pages[type]->BeginStandardBullet(N_("standard/diamond"), 1, 50);
@@ -98,202 +98,202 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 
 	if (job->finished_in_error() && job->error_summary() != "") {
 		/* We have an error that did not come from dcp::verify */
-		add_bullet (dcp::VerificationNote::VERIFY_ERROR, std_to_wx(job->error_summary()));
+		add_bullet (dcp::VerificationNote::Type::ERROR, std_to_wx(job->error_summary()));
 	}
 
 	for (auto i: job->notes()) {
 		switch (i.code()) {
-		case dcp::VerificationNote::FAILED_READ:
+		case dcp::VerificationNote::Code::FAILED_READ:
 			add (i, std_to_wx(*i.note()));
 			break;
-		case dcp::VerificationNote::MISMATCHED_CPL_HASHES:
+		case dcp::VerificationNote::Code::MISMATCHED_CPL_HASHES:
 			add(i, _("The hash of the CPL %n in the PKL does not agree with the CPL file.  This probably means that the CPL file is corrupt."));
 			break;
-		case dcp::VerificationNote::INVALID_PICTURE_FRAME_RATE:
+		case dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE:
 			add(i, _("The picture in a reel has a frame rate of %n, which is not valid."));
 			break;
-		case dcp::VerificationNote::INCORRECT_PICTURE_HASH:
+		case dcp::VerificationNote::Code::INCORRECT_PICTURE_HASH:
 			add(i, _("The hash of the picture asset %f does not agree with the PKL file.  This probably means that the asset file is corrupt."));
 			break;
-		case dcp::VerificationNote::MISMATCHED_PICTURE_HASHES:
+		case dcp::VerificationNote::Code::MISMATCHED_PICTURE_HASHES:
 			add(i, _("The PKL and CPL hashes disagree for picture asset %f."));
 			break;
-		case dcp::VerificationNote::INCORRECT_SOUND_HASH:
+		case dcp::VerificationNote::Code::INCORRECT_SOUND_HASH:
 			add(i, _("The hash of the sound asset %f does not agree with the PKL file.  This probably means that the asset file is corrupt."));
 			break;
-		case dcp::VerificationNote::MISMATCHED_SOUND_HASHES:
+		case dcp::VerificationNote::Code::MISMATCHED_SOUND_HASHES:
 			add(i, _("The PKL and CPL hashes disagree for sound asset %f."));
 			break;
-		case dcp::VerificationNote::EMPTY_ASSET_PATH:
+		case dcp::VerificationNote::Code::EMPTY_ASSET_PATH:
 			add(i, _("An asset has an empty path in the ASSETMAP."));
 			break;
-		case dcp::VerificationNote::MISSING_ASSET:
+		case dcp::VerificationNote::Code::MISSING_ASSET:
 			add(i, _("The asset %f is missing."));
 			break;
-		case dcp::VerificationNote::MISMATCHED_STANDARD:
+		case dcp::VerificationNote::Code::MISMATCHED_STANDARD:
 			add(i, _("Parts of the DCP are written according to the Interop standard and parts according to SMPTE."));
 			break;
-		case dcp::VerificationNote::INVALID_XML:
+		case dcp::VerificationNote::Code::INVALID_XML:
 			if (i.line()) {
 				add(i, _("The XML in %f is malformed on line %l (%n)."));
 			} else {
 				add(i, _("The XML in %f is malformed (%n)."));
 			}
 			break;
-		case dcp::VerificationNote::MISSING_ASSETMAP:
+		case dcp::VerificationNote::Code::MISSING_ASSETMAP:
 			add(i, _("No ASSETMAP or ASSETMAP.xml file was found."));
 			break;
-		case dcp::VerificationNote::INVALID_INTRINSIC_DURATION:
+		case dcp::VerificationNote::Code::INVALID_INTRINSIC_DURATION:
 			add(i, _("The asset %n has an instrinsic duration of less than 1 second, which is invalid."));
 			break;
-		case dcp::VerificationNote::INVALID_DURATION:
+		case dcp::VerificationNote::Code::INVALID_DURATION:
 			add(i, _("The asset %n has a duration of less than 1 second, which is invalid."));
 			break;
-		case dcp::VerificationNote::INVALID_PICTURE_FRAME_SIZE_IN_BYTES:
+		case dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_SIZE_IN_BYTES:
 			add(i, _("At least one frame of the video asset %f is over the limit of 250Mbit/s."));
 			break;
-		case dcp::VerificationNote::NEARLY_INVALID_PICTURE_FRAME_SIZE_IN_BYTES:
+		case dcp::VerificationNote::Code::NEARLY_INVALID_PICTURE_FRAME_SIZE_IN_BYTES:
 			add(i, _("At least one frame of the video asset %f is close to the limit of 250MBit/s."));
 			break;
-		case dcp::VerificationNote::EXTERNAL_ASSET:
+		case dcp::VerificationNote::Code::EXTERNAL_ASSET:
 			add(i, _("This DCP refers to at the asset %n in another DCP (and perhaps others), so it is a \"version file\" (VF)"));
 			break;
-		case dcp::VerificationNote::INVALID_STANDARD:
+		case dcp::VerificationNote::Code::INVALID_STANDARD:
 			add(i, _("This DCP uses the Interop standard, but it should be made with SMPTE."));
 			break;
-		case dcp::VerificationNote::INVALID_LANGUAGE:
+		case dcp::VerificationNote::Code::INVALID_LANGUAGE:
 			add(i, _("The invalid language tag %n is used."));
 			break;
-		case dcp::VerificationNote::INVALID_PICTURE_SIZE_IN_PIXELS:
+		case dcp::VerificationNote::Code::INVALID_PICTURE_SIZE_IN_PIXELS:
 			add(i, _("The video asset %f uses the invalid image size %n."));
 			break;
-		case dcp::VerificationNote::INVALID_PICTURE_FRAME_RATE_FOR_2K:
+		case dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE_FOR_2K:
 			add(i, _("The video asset %f uses the invalid frame rate %n."));
 			break;
-		case dcp::VerificationNote::INVALID_PICTURE_FRAME_RATE_FOR_4K:
+		case dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE_FOR_4K:
 			add(i, _("The video asset %f uses the frame rate %n which is invalid for 4K video."));
 			break;
-		case dcp::VerificationNote::INVALID_PICTURE_ASSET_RESOLUTION_FOR_3D:
+		case dcp::VerificationNote::Code::INVALID_PICTURE_ASSET_RESOLUTION_FOR_3D:
 			add(i, _("The video asset %f uses the frame rate %n which is invalid for 3D video."));
 			break;
-		case dcp::VerificationNote::INVALID_CLOSED_CAPTION_XML_SIZE_IN_BYTES:
+		case dcp::VerificationNote::Code::INVALID_CLOSED_CAPTION_XML_SIZE_IN_BYTES:
 			add(i, _("The XML in the closed caption asset %f takes up %n bytes which is over the 256KB limit."));
 			break;
-		case dcp::VerificationNote::INVALID_TIMED_TEXT_SIZE_IN_BYTES:
+		case dcp::VerificationNote::Code::INVALID_TIMED_TEXT_SIZE_IN_BYTES:
 			add(i, _("The timed text asset %f takes up %n bytes which is over the 115MB limit."));
 			break;
-		case dcp::VerificationNote::INVALID_TIMED_TEXT_FONT_SIZE_IN_BYTES:
+		case dcp::VerificationNote::Code::INVALID_TIMED_TEXT_FONT_SIZE_IN_BYTES:
 			add(i, _("The fonts in the timed text asset %f take up %n bytes which is over the 10MB limit."));
 			break;
-		case dcp::VerificationNote::MISSING_SUBTITLE_LANGUAGE:
+		case dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE:
 			add(i, _("The subtitle asset %f contains no <Language> tag."));
 			break;
-		case dcp::VerificationNote::MISMATCHED_SUBTITLE_LANGUAGES:
+		case dcp::VerificationNote::Code::MISMATCHED_SUBTITLE_LANGUAGES:
 			add(i, _("Not all subtitle assets specify the same <Language> tag."));
 			break;
-		case dcp::VerificationNote::MISSING_SUBTITLE_START_TIME:
+		case dcp::VerificationNote::Code::MISSING_SUBTITLE_START_TIME:
 			add(i, _("The subtitle asset %f contains no <StartTime> tag."));
 			break;
-		case dcp::VerificationNote::INVALID_SUBTITLE_START_TIME:
+		case dcp::VerificationNote::Code::INVALID_SUBTITLE_START_TIME:
 			add(i, _("The subtitle asset %f has a <StartTime> which is not zero."));
 			break;
-		case dcp::VerificationNote::INVALID_SUBTITLE_FIRST_TEXT_TIME:
+		case dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME:
 			add(i, _("The first subtitle or closed caption happens before 4s into the first reel."));
 			break;
-		case dcp::VerificationNote::INVALID_SUBTITLE_DURATION:
+		case dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION:
 			add(i, _("At least one subtitle lasts less than 15 frames."));
 			break;
-		case dcp::VerificationNote::INVALID_SUBTITLE_SPACING:
+		case dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING:
 			add(i, _("At least one pair of subtitles is separated by less than 2 frames."));
 			break;
-		case dcp::VerificationNote::INVALID_SUBTITLE_LINE_COUNT:
+		case dcp::VerificationNote::Code::INVALID_SUBTITLE_LINE_COUNT:
 			add(i, _("There are more than 3 subtitle lines in at least one place."));
 			break;
-		case dcp::VerificationNote::NEARLY_INVALID_SUBTITLE_LINE_LENGTH:
+		case dcp::VerificationNote::Code::NEARLY_INVALID_SUBTITLE_LINE_LENGTH:
 			add(i, _("There are more than 52 characters in at least one subtitle line."));
 			break;
-		case dcp::VerificationNote::INVALID_SUBTITLE_LINE_LENGTH:
+		case dcp::VerificationNote::Code::INVALID_SUBTITLE_LINE_LENGTH:
 			add(i, _("There are more than 79 characters in at least one subtitle line."));
 			break;
-		case dcp::VerificationNote::INVALID_CLOSED_CAPTION_LINE_COUNT:
+		case dcp::VerificationNote::Code::INVALID_CLOSED_CAPTION_LINE_COUNT:
 			add(i, _("There are more than 3 closed caption lines in at least one place."));
 			break;
-		case dcp::VerificationNote::INVALID_CLOSED_CAPTION_LINE_LENGTH:
+		case dcp::VerificationNote::Code::INVALID_CLOSED_CAPTION_LINE_LENGTH:
 			add(i, _("There are more than 32 characters in at least one closed caption line."));
 			break;
-		case dcp::VerificationNote::INVALID_SOUND_FRAME_RATE:
+		case dcp::VerificationNote::Code::INVALID_SOUND_FRAME_RATE:
 			add(i, _("The sound asset %f has an invalid frame rate of %n."));
 			break;
-		case dcp::VerificationNote::MISSING_CPL_ANNOTATION_TEXT:
+		case dcp::VerificationNote::Code::MISSING_CPL_ANNOTATION_TEXT:
 			add(i, _("The CPL %n has no <AnnotationText> tag."));
 			break;
-		case dcp::VerificationNote::MISMATCHED_CPL_ANNOTATION_TEXT:
+		case dcp::VerificationNote::Code::MISMATCHED_CPL_ANNOTATION_TEXT:
 			add(i, _("The CPL %n has an <AnnotationText> which is not the same as its <ContentTitleText>."));
 			break;
-		case dcp::VerificationNote::MISMATCHED_ASSET_DURATION:
+		case dcp::VerificationNote::Code::MISMATCHED_ASSET_DURATION:
 			add(i, _("At least one asset in a reel does not have the same duration as the others."));
 			break;
-		case dcp::VerificationNote::MISSING_MAIN_SUBTITLE_FROM_SOME_REELS:
+		case dcp::VerificationNote::Code::MISSING_MAIN_SUBTITLE_FROM_SOME_REELS:
 			add(i, _("The DCP has subtitles but at least one reel has no subtitle asset."));
 			break;
-		case dcp::VerificationNote::MISMATCHED_CLOSED_CAPTION_ASSET_COUNTS:
+		case dcp::VerificationNote::Code::MISMATCHED_CLOSED_CAPTION_ASSET_COUNTS:
 			add(i, _("The DCP has closed captions but not every reel has the same number of closed caption assets."));
 			break;
-		case dcp::VerificationNote::MISSING_SUBTITLE_ENTRY_POINT:
+		case dcp::VerificationNote::Code::MISSING_SUBTITLE_ENTRY_POINT:
 			add(i, _("The subtitle asset %n has no <EntryPoint> tag."));
 			break;
-		case dcp::VerificationNote::INCORRECT_SUBTITLE_ENTRY_POINT:
+		case dcp::VerificationNote::Code::INCORRECT_SUBTITLE_ENTRY_POINT:
 			add(i, _("Subtitle asset %n has a non-zero <EntryPoint>."));
 			break;
-		case dcp::VerificationNote::MISSING_CLOSED_CAPTION_ENTRY_POINT:
+		case dcp::VerificationNote::Code::MISSING_CLOSED_CAPTION_ENTRY_POINT:
 			add(i, _("The closed caption asset %n has no <EntryPoint> tag."));
 			break;
-		case dcp::VerificationNote::INCORRECT_CLOSED_CAPTION_ENTRY_POINT:
+		case dcp::VerificationNote::Code::INCORRECT_CLOSED_CAPTION_ENTRY_POINT:
 			add(i, _("Closed caption asset %n has a non-zero <EntryPoint>."));
 			break;
-		case dcp::VerificationNote::MISSING_HASH:
+		case dcp::VerificationNote::Code::MISSING_HASH:
 			add(i, _("The asset %n has no <Hash> in the CPL."));
 			break;
-		case dcp::VerificationNote::MISSING_FFEC_IN_FEATURE:
+		case dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE:
 			add(i, _("The DCP is a feature but has no FFEC (first frame of end credits) marker."));
 			break;
-		case dcp::VerificationNote::MISSING_FFMC_IN_FEATURE:
+		case dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE:
 			add(i, _("The DCP is a feature but has no FFMC (first frame of moving credits) marker."));
 			break;
-		case dcp::VerificationNote::MISSING_FFOC:
+		case dcp::VerificationNote::Code::MISSING_FFOC:
 			add(i, _("The DCP has no FFOC (first frame of content) marker."));
 			break;
-		case dcp::VerificationNote::MISSING_LFOC:
+		case dcp::VerificationNote::Code::MISSING_LFOC:
 			add(i, _("The DCP has no LFOC (last frame of content) marker."));
 			break;
-		case dcp::VerificationNote::INCORRECT_FFOC:
+		case dcp::VerificationNote::Code::INCORRECT_FFOC:
 			add(i, _("The DCP has a FFOC of %n instead of 1."));
 			break;
-		case dcp::VerificationNote::INCORRECT_LFOC:
+		case dcp::VerificationNote::Code::INCORRECT_LFOC:
 			add(i, _("The DCP has a LFOC of %n instead of the reel duration minus one."));
 			break;
-		case dcp::VerificationNote::MISSING_CPL_METADATA:
+		case dcp::VerificationNote::Code::MISSING_CPL_METADATA:
 			add(i, _("The CPL %n has no CPL metadata tag."));
 			break;
-		case dcp::VerificationNote::MISSING_CPL_METADATA_VERSION_NUMBER:
+		case dcp::VerificationNote::Code::MISSING_CPL_METADATA_VERSION_NUMBER:
 			add(i, _("The CPL %n has no CPL metadata version number tag."));
 			break;
-		case dcp::VerificationNote::MISSING_EXTENSION_METADATA:
+		case dcp::VerificationNote::Code::MISSING_EXTENSION_METADATA:
 			add(i, _("The CPL %n has no CPL extension metadata tag."));
 			break;
-		case dcp::VerificationNote::INVALID_EXTENSION_METADATA:
+		case dcp::VerificationNote::Code::INVALID_EXTENSION_METADATA:
 			add(i, _("The CPL %f has an invalid CPL extension metadata tag (%n)"));
 			break;
-		case dcp::VerificationNote::UNSIGNED_CPL_WITH_ENCRYPTED_CONTENT:
+		case dcp::VerificationNote::Code::UNSIGNED_CPL_WITH_ENCRYPTED_CONTENT:
 			add(i, _("The CPL %n has encrypted content but is not signed."));
 			break;
-		case dcp::VerificationNote::UNSIGNED_PKL_WITH_ENCRYPTED_CONTENT:
+		case dcp::VerificationNote::Code::UNSIGNED_PKL_WITH_ENCRYPTED_CONTENT:
 			add(i, _("The PKL %n has encrypted content but is not signed."));
 			break;
-		case dcp::VerificationNote::MISMATCHED_PKL_ANNOTATION_TEXT_WITH_CPL:
+		case dcp::VerificationNote::Code::MISMATCHED_PKL_ANNOTATION_TEXT_WITH_CPL:
 			add(i, _("The PKL %n has an <AnnotationText> which does not match its CPL's <ContentTitleText>."));
 			break;
-		case dcp::VerificationNote::PARTIALLY_ENCRYPTED:
+		case dcp::VerificationNote::Code::PARTIALLY_ENCRYPTED:
 			add(i, _("The DCP has encrypted content, but not all its assets are encrypted."));
 			break;
 		}
@@ -301,41 +301,41 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 
 	wxString summary_text;
 
-	if (counts[dcp::VerificationNote::VERIFY_ERROR] == 1) {
+	if (counts[dcp::VerificationNote::Type::ERROR] == 1) {
 		/// TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 		summary_text = _("1 error, ");
 	} else {
 		/// TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-		summary_text = wxString::Format("%d errors, ", counts[dcp::VerificationNote::VERIFY_ERROR]);
+		summary_text = wxString::Format("%d errors, ", counts[dcp::VerificationNote::Type::ERROR]);
 	}
 
-	if (counts[dcp::VerificationNote::VERIFY_BV21_ERROR] == 1) {
+	if (counts[dcp::VerificationNote::Type::BV21_ERROR] == 1) {
 		/// TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 		summary_text += _("1 Bv2.1 error, ");
 	} else {
 		/// TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-		summary_text += wxString::Format("%d Bv2.1 errors, ", counts[dcp::VerificationNote::VERIFY_BV21_ERROR]);
+		summary_text += wxString::Format("%d Bv2.1 errors, ", counts[dcp::VerificationNote::Type::BV21_ERROR]);
 	}
 
-	if (counts[dcp::VerificationNote::VERIFY_WARNING] == 1) {
+	if (counts[dcp::VerificationNote::Type::WARNING] == 1) {
 		/// TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 		summary_text += _("and 1 warning.");
 	} else {
 		/// TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-		summary_text += wxString::Format("and %d warnings.", counts[dcp::VerificationNote::VERIFY_WARNING]);
+		summary_text += wxString::Format("and %d warnings.", counts[dcp::VerificationNote::Type::WARNING]);
 	}
 
 	summary->SetLabel(summary_text);
 
-	if (counts[dcp::VerificationNote::VERIFY_ERROR] == 0) {
-		add_bullet (dcp::VerificationNote::VERIFY_ERROR, _("No errors found."));
+	if (counts[dcp::VerificationNote::Type::ERROR] == 0) {
+		add_bullet (dcp::VerificationNote::Type::ERROR, _("No errors found."));
 	}
 
-	if (counts[dcp::VerificationNote::VERIFY_BV21_ERROR] == 0) {
-		add_bullet (dcp::VerificationNote::VERIFY_BV21_ERROR, _("No SMPTE Bv2.1 errors found."));
+	if (counts[dcp::VerificationNote::Type::BV21_ERROR] == 0) {
+		add_bullet (dcp::VerificationNote::Type::BV21_ERROR, _("No SMPTE Bv2.1 errors found."));
 	}
 
-	if (counts[dcp::VerificationNote::VERIFY_WARNING] == 0) {
-		add_bullet (dcp::VerificationNote::VERIFY_WARNING, _("No warnings found."));
+	if (counts[dcp::VerificationNote::Type::WARNING] == 0) {
+		add_bullet (dcp::VerificationNote::Type::WARNING, _("No warnings found."));
 	}
 }

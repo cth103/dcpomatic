@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE (atmos_encrypted_passthrough_test)
 		dcp_file(film, "cpl"),
 		dcp::LocalTime(),
 		dcp::LocalTime(),
-		dcp::MODIFIED_TRANSITIONAL_1,
+		dcp::Formulation::MODIFIED_TRANSITIONAL_1,
 		false,
 		optional<int>()
 		);

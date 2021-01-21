@@ -95,7 +95,7 @@ ColourConversion::ColourConversion (cxml::NodePtr node, int version)
 		}
 	}
 
-	_yuv_to_rgb = static_cast<dcp::YUVToRGB> (node->optional_number_child<int>("YUVToRGB").get_value_or (dcp::YUV_TO_RGB_REC601));
+	_yuv_to_rgb = static_cast<dcp::YUVToRGB>(node->optional_number_child<int>("YUVToRGB").get_value_or(static_cast<int>(dcp::YUVToRGB::REC601)));
 
 	auto m = node->node_children ("Matrix");
 	if (!m.empty ()) {

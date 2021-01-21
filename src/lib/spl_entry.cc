@@ -44,11 +44,11 @@ SPLEntry::construct (shared_ptr<Content> c)
 		name = dcp->name ();
 		DCPOMATIC_ASSERT (dcp->cpl());
 		id = *dcp->cpl();
-		kind = dcp->content_kind().get_value_or(dcp::FEATURE);
+		kind = dcp->content_kind().get_value_or(dcp::ContentKind::FEATURE);
 		encrypted = dcp->encrypted ();
 	} else {
 		name = content->path(0).filename().string();
-		kind = dcp::FEATURE;
+		kind = dcp::ContentKind::FEATURE;
 	}
 }
 

@@ -458,7 +458,7 @@ check_file (boost::filesystem::path ref, boost::filesystem::path check)
 static void
 note (dcp::NoteType t, string n)
 {
-	if (t == dcp::DCP_ERROR) {
+	if (t == dcp::NoteType::ERROR) {
 		cerr << n << "\n";
 	}
 }
@@ -788,5 +788,26 @@ LogSwitcher::LogSwitcher (shared_ptr<Log> log)
 LogSwitcher::~LogSwitcher ()
 {
 	dcpomatic_log = _old;
+}
+
+std::ostream&
+dcp::operator<< (std::ostream& s, dcp::Size i)
+{
+	s << i.width << "x" << i.height;
+	return s;
+}
+
+std::ostream&
+dcp::operator<< (std::ostream& s, Standard t)
+{
+	switch (t) {
+	case Standard::INTEROP:
+		s << "interop";
+		break;
+	case Standard::SMPTE:
+		s << "smpte";
+		break;
+	}
+	return s;
 }
 

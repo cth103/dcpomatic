@@ -269,18 +269,18 @@ SMPTEMetadataDialog::film_changed (ChangeType type, Film::Property property)
 	if (property == Film::NAME_LANGUAGE) {
 		_name_language->set (film()->name_language());
 	} else if (property == Film::RELEASE_TERRITORY) {
-		checked_set (_release_territory, std_to_wx(*dcp::LanguageTag::get_subtag_description(dcp::LanguageTag::REGION, film()->release_territory().subtag())));
+		checked_set (_release_territory, std_to_wx(*dcp::LanguageTag::get_subtag_description(dcp::LanguageTag::SubtagType::REGION, film()->release_territory().subtag())));
 	} else if (property == Film::VERSION_NUMBER) {
 		checked_set (_version_number, film()->version_number());
 	} else if (property == Film::STATUS) {
 		switch (film()->status()) {
-		case dcp::TEMP:
+		case dcp::Status::TEMP:
 			checked_set (_status, 0);
 			break;
-		case dcp::PRE:
+		case dcp::Status::PRE:
 			checked_set (_status, 1);
 			break;
-		case dcp::FINAL:
+		case dcp::Status::FINAL:
 			checked_set (_status, 2);
 			break;
 		}
@@ -293,10 +293,10 @@ SMPTEMetadataDialog::film_changed (ChangeType type, Film::Property property)
 	} else if (property == Film::LUMINANCE) {
 		checked_set (_luminance_value, film()->luminance().value());
 		switch (film()->luminance().unit()) {
-		case dcp::Luminance::CANDELA_PER_SQUARE_METRE:
+		case dcp::Luminance::Unit::CANDELA_PER_SQUARE_METRE:
 			checked_set (_luminance_unit, 0);
 			break;
-		case dcp::Luminance::FOOT_LAMBERT:
+		case dcp::Luminance::Unit::FOOT_LAMBERT:
 			checked_set (_luminance_unit, 1);
 			break;
 		}
@@ -379,13 +379,13 @@ SMPTEMetadataDialog::status_changed ()
 {
 	switch (_status->GetSelection()) {
 	case 0:
-		film()->set_status (dcp::TEMP);
+		film()->set_status(dcp::Status::TEMP);
 		break;
 	case 1:
-		film()->set_status (dcp::PRE);
+		film()->set_status(dcp::Status::PRE);
 		break;
 	case 2:
-		film()->set_status (dcp::FINAL);
+		film()->set_status(dcp::Status::FINAL);
 		break;
 	}
 }
@@ -418,10 +418,10 @@ SMPTEMetadataDialog::luminance_changed ()
 	dcp::Luminance::Unit unit;
 	switch (_luminance_unit->GetSelection()) {
 	case 0:
-		unit = dcp::Luminance::CANDELA_PER_SQUARE_METRE;
+		unit = dcp::Luminance::Unit::CANDELA_PER_SQUARE_METRE;
 		break;
 	case 1:
-		unit = dcp::Luminance::FOOT_LAMBERT;
+		unit = dcp::Luminance::Unit::FOOT_LAMBERT;
 		break;
 	default:
 		DCPOMATIC_ASSERT (false);

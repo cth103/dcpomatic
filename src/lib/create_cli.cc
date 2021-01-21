@@ -79,7 +79,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	, dcp_content_type (0)
 	, container_ratio (0)
 	, still_length (10)
-	, standard (dcp::SMPTE)
+	, standard (dcp::Standard::SMPTE)
 	, no_use_isdcf_name (false)
 	, fourk (false)
 {
@@ -192,7 +192,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	}
 
 	if (standard_string == "interop") {
-		standard = dcp::INTEROP;
+		standard = dcp::Standard::INTEROP;
 	}
 
 	if (content.empty()) {

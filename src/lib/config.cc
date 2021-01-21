@@ -1376,14 +1376,14 @@ Config::audio_mapping (int output_channels)
 			   Map so that Lt = L(-3dB) + Ls(-3dB) + C(-6dB) + Lfe(-10dB)
 			   Rt = R(-3dB) + Rs(-3dB) + C(-6dB) + Lfe(-10dB)
 			*/
-			_audio_mapping->set (dcp::LEFT,   0, 1 / sqrt(2));  // L   -> Lt
-			_audio_mapping->set (dcp::RIGHT,  1, 1 / sqrt(2));  // R   -> Rt
-			_audio_mapping->set (dcp::CENTRE, 0, 1 / 2.0);      // C   -> Lt
-			_audio_mapping->set (dcp::CENTRE, 1, 1 / 2.0);      // C   -> Rt
-			_audio_mapping->set (dcp::LFE,    0, 1 / sqrt(10)); // Lfe -> Lt
-			_audio_mapping->set (dcp::LFE,    1, 1 / sqrt(10)); // Lfe -> Rt
-			_audio_mapping->set (dcp::LS,     0, 1 / sqrt(2));  // Ls  -> Lt
-			_audio_mapping->set (dcp::RS,     1, 1 / sqrt(2));  // Rs  -> Rt
+			_audio_mapping->set (dcp::Channel::LEFT,   0, 1 / sqrt(2));  // L   -> Lt
+			_audio_mapping->set (dcp::Channel::RIGHT,  1, 1 / sqrt(2));  // R   -> Rt
+			_audio_mapping->set (dcp::Channel::CENTRE, 0, 1 / 2.0);      // C   -> Lt
+			_audio_mapping->set (dcp::Channel::CENTRE, 1, 1 / 2.0);      // C   -> Rt
+			_audio_mapping->set (dcp::Channel::LFE,    0, 1 / sqrt(10)); // Lfe -> Lt
+			_audio_mapping->set (dcp::Channel::LFE,    1, 1 / sqrt(10)); // Lfe -> Rt
+			_audio_mapping->set (dcp::Channel::LS,     0, 1 / sqrt(2));  // Ls  -> Lt
+			_audio_mapping->set (dcp::Channel::RS,     1, 1 / sqrt(2));  // Rs  -> Rt
 		} else {
 			/* 1:1 mapping */
 			for (int i = 0; i < min (MAX_DCP_AUDIO_CHANNELS, output_channels); ++i) {

@@ -407,7 +407,7 @@ int main (int argc, char* argv[])
 	bool list_dkdm_cpls = false;
 	optional<string> duration_string;
 	bool verbose = false;
-	dcp::Formulation formulation = dcp::MODIFIED_TRANSITIONAL_1;
+	dcp::Formulation formulation = dcp::Formulation::MODIFIED_TRANSITIONAL_1;
 	bool disable_forensic_marking_picture = false;
 	optional<int> disable_forensic_marking_audio;
 
@@ -467,13 +467,13 @@ int main (int argc, char* argv[])
 			break;
 		case 'F':
 			if (string (optarg) == "modified-transitional-1") {
-				formulation = dcp::MODIFIED_TRANSITIONAL_1;
+				formulation = dcp::Formulation::MODIFIED_TRANSITIONAL_1;
 			} else if (string (optarg) == "multiple-modified-transitional-1") {
-				formulation = dcp::MULTIPLE_MODIFIED_TRANSITIONAL_1;
+				formulation = dcp::Formulation::MULTIPLE_MODIFIED_TRANSITIONAL_1;
 			} else if (string (optarg) == "dci-any") {
-				formulation = dcp::DCI_ANY;
+				formulation = dcp::Formulation::DCI_ANY;
 			} else if (string (optarg) == "dci-specific") {
-				formulation = dcp::DCI_SPECIFIC;
+				formulation = dcp::Formulation::DCI_SPECIFIC;
 			} else {
 				error ("unrecognised KDM formulation " + string (optarg));
 			}

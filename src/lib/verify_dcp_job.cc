@@ -72,7 +72,7 @@ VerifyDCPJob::run ()
 
 	bool failed = false;
 	for (auto i: _notes) {
-		if (i.type() == dcp::VerificationNote::VERIFY_ERROR) {
+		if (i.type() == dcp::VerificationNote::Type::ERROR) {
 			failed = true;
 		}
 	}

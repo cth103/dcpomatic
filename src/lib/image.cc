@@ -215,8 +215,8 @@ Image::crop_scale_window (
 		throw runtime_error (N_("Could not allocate SwsContext"));
 	}
 
-	DCPOMATIC_ASSERT (yuv_to_rgb < dcp::YUV_TO_RGB_COUNT);
-	int const lut[dcp::YUV_TO_RGB_COUNT] = {
+	DCPOMATIC_ASSERT (yuv_to_rgb < dcp::YUVToRGB::COUNT);
+	int const lut[static_cast<int>(dcp::YUVToRGB::COUNT)] = {
 		SWS_CS_ITU601,
 		SWS_CS_ITU709
 	};
@@ -234,8 +234,8 @@ Image::crop_scale_window (
 	*/
 	sws_setColorspaceDetails (
 		scale_context,
-		sws_getCoefficients (lut[yuv_to_rgb]), video_range == VIDEO_RANGE_VIDEO ? 0 : 1,
-		sws_getCoefficients (lut[yuv_to_rgb]), out_video_range == VIDEO_RANGE_VIDEO ? 0 : 1,
+		sws_getCoefficients (lut[static_cast<int>(yuv_to_rgb)]), video_range == VIDEO_RANGE_VIDEO ? 0 : 1,
+		sws_getCoefficients (lut[static_cast<int>(yuv_to_rgb)]), out_video_range == VIDEO_RANGE_VIDEO ? 0 : 1,
 		0, 1 << 16, 1 << 16
 		);
 
@@ -312,8 +312,8 @@ Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_fo
 		(fast ? SWS_FAST_BILINEAR : SWS_BICUBIC) | SWS_ACCURATE_RND, 0, 0, 0
 		);
 
-	DCPOMATIC_ASSERT (yuv_to_rgb < dcp::YUV_TO_RGB_COUNT);
-	int const lut[dcp::YUV_TO_RGB_COUNT] = {
+	DCPOMATIC_ASSERT (yuv_to_rgb < dcp::YUVToRGB::COUNT);
+	int const lut[static_cast<int>(dcp::YUVToRGB::COUNT)] = {
 		SWS_CS_ITU601,
 		SWS_CS_ITU709
 	};
@@ -331,8 +331,8 @@ Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_fo
 	*/
 	sws_setColorspaceDetails (
 		scale_context,
-		sws_getCoefficients (lut[yuv_to_rgb]), 0,
-		sws_getCoefficients (lut[yuv_to_rgb]), 0,
+		sws_getCoefficients (lut[static_cast<int>(yuv_to_rgb)]), 0,
+		sws_getCoefficients (lut[static_cast<int>(yuv_to_rgb)]), 0,
 		0, 1 << 16, 1 << 16
 		);
 
@@ -680,7 +680,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	}
 	case AV_PIX_FMT_YUV420P:
 	{
-		shared_ptr<Image> yuv = other->convert_pixel_format (dcp::YUV_TO_RGB_REC709, _pixel_format, false, false);
+		shared_ptr<Image> yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, false, false);
 		dcp::Size const ts = size();
 		dcp::Size const os = yuv->size();
 		for (int ty = start_ty, oy = start_oy; ty < ts.height && oy < os.height; ++ty, ++oy) {
@@ -715,7 +715,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	}
 	case AV_PIX_FMT_YUV420P10:
 	{
-		shared_ptr<Image> yuv = other->convert_pixel_format (dcp::YUV_TO_RGB_REC709, _pixel_format, false, false);
+		shared_ptr<Image> yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, false, false);
 		dcp::Size const ts = size();
 		dcp::Size const os = yuv->size();
 		for (int ty = start_ty, oy = start_oy; ty < ts.height && oy < os.height; ++ty, ++oy) {
@@ -750,7 +750,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	}
 	case AV_PIX_FMT_YUV422P10LE:
 	{
-		shared_ptr<Image> yuv = other->convert_pixel_format (dcp::YUV_TO_RGB_REC709, _pixel_format, false, false);
+		shared_ptr<Image> yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, false, false);
 		dcp::Size const ts = size();
 		dcp::Size const os = yuv->size();
 		for (int ty = start_ty, oy = start_oy; ty < ts.height && oy < os.height; ++ty, ++oy) {
@@ -1333,7 +1333,7 @@ Image::as_png () const
 	DCPOMATIC_ASSERT (bytes_per_pixel(0) == 4);
 	DCPOMATIC_ASSERT (planes() == 1);
 	if (pixel_format() != AV_PIX_FMT_RGBA) {
-		return convert_pixel_format(dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGBA, true, false)->as_png();
+		return convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGBA, true, false)->as_png();
 	}
 
 	/* error handling? */

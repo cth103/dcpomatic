@@ -95,7 +95,7 @@ BOOST_AUTO_TEST_CASE (remake_id_test2)
 		*cpl,
 		dcp::LocalTime ("2030-01-01T01:00:00+00:00"),
 		dcp::LocalTime ("2031-01-01T01:00:00+00:00"),
-		dcp::MODIFIED_TRANSITIONAL_1,
+		dcp::Formulation::MODIFIED_TRANSITIONAL_1,
 		true,
 		0
 		);

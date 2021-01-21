@@ -31,9 +31,12 @@
 
 #include "i18n.h"
 
+
 using std::string;
 using std::cout;
 using std::shared_ptr;
+using std::make_shared;
+
 
 Log::Log ()
 	: _types (0)
@@ -63,7 +66,7 @@ Log::log (string message, int type)
 		return;
 	}
 
-	shared_ptr<StringLogEntry> e (new StringLogEntry (type, message));
+	auto e = make_shared<StringLogEntry>(type, message);
 
 	do_log (e);
 }
@@ -72,14 +75,14 @@ void
 Log::dcp_log (dcp::NoteType type, string m)
 {
 	switch (type) {
-	case dcp::DCP_PROGRESS:
-		do_log (shared_ptr<const LogEntry> (new StringLogEntry (LogEntry::TYPE_GENERAL, m)));
+	case dcp::NoteType::PROGRESS:
+		do_log (make_shared<StringLogEntry>(LogEntry::TYPE_GENERAL, m));
 		break;
-	case dcp::DCP_ERROR:
-		do_log (shared_ptr<const LogEntry> (new StringLogEntry (LogEntry::TYPE_ERROR, m)));
+	case dcp::NoteType::ERROR:
+		do_log (make_shared<StringLogEntry>(LogEntry::TYPE_ERROR, m));
 		break;
-	case dcp::DCP_NOTE:
-		do_log (shared_ptr<const LogEntry> (new StringLogEntry (LogEntry::TYPE_WARNING, m)));
+	case dcp::NoteType::NOTE:
+		do_log (make_shared<StringLogEntry>(LogEntry::TYPE_WARNING, m));
 		break;
 	}
 }

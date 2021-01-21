@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -28,6 +28,7 @@
 #include <dcp/util.h>
 #include "lib/ratio.h"
 #include "lib/util.h"
+#include "test.h"
 
 using std::ostream;
 

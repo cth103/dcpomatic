@@ -225,14 +225,14 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	/* Check that we can read the first picture, sound and subtitle frames of each reel */
 	try {
 		for (auto i: cpl->reels()) {
-			shared_ptr<dcp::PictureAsset> pic = i->main_picture()->asset ();
-			shared_ptr<dcp::MonoPictureAsset> mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (pic);
-			shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (pic);
+			auto pic = i->main_picture()->asset ();
+			auto mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (pic);
+			auto stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (pic);
 
 			if (mono) {
 				mono->start_read()->get_frame(0)->xyz_image ();
 			} else {
-				stereo->start_read()->get_frame(0)->xyz_image (dcp::EYE_LEFT);
+				stereo->start_read()->get_frame(0)->xyz_image(dcp::Eye::LEFT);
 			}
 
 			if (i->main_sound()) {

@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 		encrypted_dcp.cpls().front()->file().get(),
 		dcp::LocalTime ("2030-07-21T00:00:00+00:00"),
 		dcp::LocalTime ("2031-07-21T00:00:00+00:00"),
-		dcp::MODIFIED_TRANSITIONAL_1,
+		dcp::Formulation::MODIFIED_TRANSITIONAL_1,
 		true, 0
 		);
 

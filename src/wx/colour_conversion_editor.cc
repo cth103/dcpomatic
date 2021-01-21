@@ -267,7 +267,7 @@ ColourConversionEditor::set (ColourConversion conversion)
 		checked_set (_input, 2);
 	}
 
-	_yuv_to_rgb->SetSelection (conversion.yuv_to_rgb ());
+	_yuv_to_rgb->SetSelection (static_cast<int>(conversion.yuv_to_rgb()));
 
 	_ignore_chromaticity_changed = true;
 

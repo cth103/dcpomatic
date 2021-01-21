@@ -166,7 +166,7 @@ PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, V
 		total_crop.bottom /= r;
 	}
 
-	dcp::YUVToRGB yuv_to_rgb = dcp::YUV_TO_RGB_REC601;
+	dcp::YUVToRGB yuv_to_rgb = dcp::YUVToRGB::REC601;
 	if (_colour_conversion) {
 		yuv_to_rgb = _colour_conversion.get().yuv_to_rgb();
 	}

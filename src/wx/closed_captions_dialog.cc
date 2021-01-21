@@ -134,11 +134,11 @@ private:
 	float from_top (StringText const & c) const
 	{
 		switch (c.v_align()) {
-		case dcp::VALIGN_TOP:
+		case dcp::VAlign::TOP:
 			return c.v_position();
-		case dcp::VALIGN_CENTER:
+		case dcp::VAlign::CENTER:
 			return c.v_position() + 0.5;
-		case dcp::VALIGN_BOTTOM:
+		case dcp::VAlign::BOTTOM:
 			return 1.0 - c.v_position();
 		}
 		DCPOMATIC_ASSERT (false);

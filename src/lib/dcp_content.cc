@@ -136,9 +136,9 @@ DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
 	if (node->optional_string_child("Standard")) {
 		string const s = node->optional_string_child("Standard").get();
 		if (s == "Interop") {
-			_standard = dcp::INTEROP;
+			_standard = dcp::Standard::INTEROP;
 		} else if (s == "SMPTE") {
-			_standard = dcp::SMPTE;
+			_standard = dcp::Standard::SMPTE;
 		} else {
 			DCPOMATIC_ASSERT (false);
 		}
@@ -373,10 +373,10 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 	node->add_child("ReferenceClosedCaption")->add_child_text(_reference_text[TEXT_CLOSED_CAPTION] ? "1" : "0");
 	if (_standard) {
 		switch (_standard.get ()) {
-		case dcp::INTEROP:
+		case dcp::Standard::INTEROP:
 			node->add_child("Standard")->add_child_text ("Interop");
 			break;
-		case dcp::SMPTE:
+		case dcp::Standard::SMPTE:
 			node->add_child("Standard")->add_child_text ("SMPTE");
 			break;
 		default:
@@ -595,11 +595,11 @@ DCPContent::can_reference (shared_ptr<const Film> film, function<bool (shared_pt
 {
 	/* We must be using the same standard as the film */
 	if (_standard) {
-		if (_standard.get() == dcp::INTEROP && !film->interop()) {
+		if (_standard.get() == dcp::Standard::INTEROP && !film->interop()) {
 			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
 			why_not = _("it is Interop and the film is set to SMPTE.");
 			return false;
-		} else if (_standard.get() == dcp::SMPTE && film->interop()) {
+		} else if (_standard.get() == dcp::Standard::SMPTE && film->interop()) {
 			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
 			why_not = _("it is SMPTE and the film is set to Interop.");
 			return false;

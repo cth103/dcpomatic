@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -21,6 +21,7 @@
 #include "lib/create_cli.h"
 #include "lib/ratio.h"
 #include "lib/dcp_content_type.h"
+#include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string/predicate.hpp>
@@ -98,11 +99,11 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 
 	cc = run ("dcpomatic2_create x --standard SMPTE");
 	BOOST_CHECK (!cc.error);
-	BOOST_CHECK_EQUAL (cc.standard, dcp::SMPTE);
+	BOOST_CHECK_EQUAL (cc.standard, dcp::Standard::SMPTE);
 
 	cc = run ("dcpomatic2_create x --standard interop");
 	BOOST_CHECK (!cc.error);
-	BOOST_CHECK_EQUAL (cc.standard, dcp::INTEROP);
+	BOOST_CHECK_EQUAL (cc.standard, dcp::Standard::INTEROP);
 
 	cc = run ("dcpomatic2_create x --standard SMPTEX");
 	BOOST_CHECK (cc.error);

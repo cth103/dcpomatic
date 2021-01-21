@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -25,6 +25,7 @@
 #ifndef DCPOMATIC_AUDIO_MAPPING_H
 #define DCPOMATIC_AUDIO_MAPPING_H
 
+#include <dcp/types.h>
 #include <libcxml/cxml.h>
 #include <vector>
 
@@ -51,8 +52,11 @@ public:
 	void make_zero ();
 	void make_default (AudioProcessor const * processor, boost::optional<boost::filesystem::path> filename = boost::optional<boost::filesystem::path>());
 
+	void set (dcp::Channel input_channel, int output_channel, float);
 	void set (int input_channel, int output_channel, float);
+	void set (int input_channel, dcp::Channel output_channel, float);
 	float get (int input_channel, int output_channel) const;
+	float get (int input_channel, dcp::Channel output_channel) const;
 
 	int input_channels () const {
 		return _input_channels;

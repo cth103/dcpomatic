@@ -147,16 +147,16 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 					v_position = 1.015 -
 						(1 + bottom_line.get() - i.vertical_position.line.get()) * multiplier;
 
-					v_align = dcp::VALIGN_TOP;
+					v_align = dcp::VAlign::TOP;
 					break;
 				case sub::TOP_OF_SCREEN:
 					/* This 0.1 is another fudge factor to bring the top line away from the top of the screen a little */
 					v_position = 0.12 + i.vertical_position.line.get() * multiplier;
-					v_align = dcp::VALIGN_TOP;
+					v_align = dcp::VAlign::TOP;
 					break;
 				case sub::VERTICAL_CENTRE_OF_SCREEN:
 					v_position = i.vertical_position.line.get() * multiplier;
-					v_align = dcp::VALIGN_CENTER;
+					v_align = dcp::VAlign::CENTER;
 					break;
 				}
 			} else {
@@ -176,16 +176,16 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 
 				switch (i.vertical_position.reference.get()) {
 				case sub::TOP_OF_SCREEN:
-					v_align = dcp::VALIGN_TOP;
+					v_align = dcp::VAlign::TOP;
 					break;
 				case sub::VERTICAL_CENTRE_OF_SCREEN:
-					v_align = dcp::VALIGN_CENTER;
+					v_align = dcp::VAlign::CENTER;
 					break;
 				case sub::BOTTOM_OF_SCREEN:
-					v_align = dcp::VALIGN_BOTTOM;
+					v_align = dcp::VAlign::BOTTOM;
 					break;
 				default:
-					v_align = dcp::VALIGN_TOP;
+					v_align = dcp::VAlign::TOP;
 					break;
 				}
 			}
@@ -194,18 +194,18 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 			float h_position = i.horizontal_position.proportional;
 			switch (i.horizontal_position.reference) {
 			case sub::LEFT_OF_SCREEN:
-				h_align = dcp::HALIGN_LEFT;
+				h_align = dcp::HAlign::LEFT;
 				h_position = max(h_position, 0.05f);
 				break;
 			case sub::HORIZONTAL_CENTRE_OF_SCREEN:
-				h_align = dcp::HALIGN_CENTER;
+				h_align = dcp::HAlign::CENTER;
 				break;
 			case sub::RIGHT_OF_SCREEN:
-				h_align = dcp::HALIGN_RIGHT;
+				h_align = dcp::HAlign::RIGHT;
 				h_position = max(h_position, 0.05f);
 				break;
 			default:
-				h_align = dcp::HALIGN_CENTER;
+				h_align = dcp::HAlign::CENTER;
 				break;
 			}
 
@@ -230,9 +230,9 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 					h_align,
 					v_position,
 					v_align,
-					dcp::DIRECTION_LTR,
+					dcp::Direction::LTR,
 					j.text,
-					dcp::NONE,
+					dcp::Effect::NONE,
 					j.effect_colour.get_value_or(sub::Colour(0, 0, 0)).dcp(),
 					/* Hack: we should use subtitle.fade_up and subtitle.fade_down here
 					   but the times of these often don't have a frame rate associated

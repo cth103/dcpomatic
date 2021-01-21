@@ -21,6 +21,7 @@
 
 #include "lib/ratio.h"
 #include "lib/video_content.h"
+#include "test.h"
 #include <boost/test/unit_test.hpp>
 
 

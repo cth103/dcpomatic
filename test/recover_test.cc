@@ -45,7 +45,7 @@ using namespace boost::placeholders;
 static void
 note (dcp::NoteType t, string n)
 {
-	if (t == dcp::DCP_ERROR) {
+	if (t == dcp::NoteType::ERROR) {
 		cout << n << "\n";
 	}
 }

@@ -205,7 +205,7 @@ LanguageTagDialog::LanguageTagDialog (wxWindow* parent, dcp::LanguageTag tag)
 	button_sizer->Add (_remove, 0, wxTOP | wxBOTTOM | wxEXPAND, 2);
 
 	_choose_subtag_panel = new LanguageSubtagPanel (this);
-	_choose_subtag_panel->set (dcp::LanguageTag::LANGUAGE, "");
+	_choose_subtag_panel->set (dcp::LanguageTag::SubtagType::LANGUAGE, "");
 
 	wxBoxSizer* ltor_sizer = new wxBoxSizer (wxHORIZONTAL);
 	ltor_sizer->Add (_current_tag_list, 1, wxALL, 8);
@@ -224,10 +224,10 @@ LanguageTagDialog::LanguageTagDialog (wxWindow* parent, dcp::LanguageTag tag)
 
 	set (tag);
 
-	_add_script->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::SCRIPT, boost::optional<dcp::LanguageTag::SubtagData>()));
-	_add_region->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::REGION, boost::optional<dcp::LanguageTag::SubtagData>()));
-	_add_variant->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::VARIANT, boost::optional<dcp::LanguageTag::SubtagData>()));
-	_add_external->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::EXTLANG, boost::optional<dcp::LanguageTag::SubtagData>()));
+	_add_script->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::SubtagType::SCRIPT, boost::optional<dcp::LanguageTag::SubtagData>()));
+	_add_region->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::SubtagType::REGION, boost::optional<dcp::LanguageTag::SubtagData>()));
+	_add_variant->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::SubtagType::VARIANT, boost::optional<dcp::LanguageTag::SubtagData>()));
+	_add_external->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::SubtagType::EXTLANG, boost::optional<dcp::LanguageTag::SubtagData>()));
 	_remove->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagDialog::remove_from_current_tag, this));
 	_choose_subtag_panel->SelectionChanged.connect(bind(&LanguageTagDialog::chosen_subtag_changed, this, _1));
 	_choose_subtag_panel->SearchChanged.connect(bind(&LanguageTagDialog::search_changed, this, _1));
@@ -266,19 +266,19 @@ dcp::LanguageTag LanguageTagDialog::get () const
 			continue;
 		}
 		switch (i.type) {
-			case dcp::LanguageTag::LANGUAGE:
+			case dcp::LanguageTag::SubtagType::LANGUAGE:
 				tag.set_language (i.subtag->subtag);
 				break;
-			case dcp::LanguageTag::SCRIPT:
+			case dcp::LanguageTag::SubtagType::SCRIPT:
 				tag.set_script (i.subtag->subtag);
 				break;
-			case dcp::LanguageTag::REGION:
+			case dcp::LanguageTag::SubtagType::REGION:
 				tag.set_region (i.subtag->subtag);
 				break;
-			case dcp::LanguageTag::VARIANT:
+			case dcp::LanguageTag::SubtagType::VARIANT:
 				variants.push_back (i.subtag->subtag);
 				break;
-			case dcp::LanguageTag::EXTLANG:
+			case dcp::LanguageTag::SubtagType::EXTLANG:
 				extlangs.push_back (i.subtag->subtag);
 				break;
 		}
@@ -297,16 +297,15 @@ LanguageTagDialog::set (dcp::LanguageTag tag)
 	_current_tag_list->DeleteAllItems ();
 
 	bool have_language = false;
-	vector<pair<dcp::LanguageTag::SubtagType, dcp::LanguageTag::SubtagData> > subtags = tag.subtags();
-	for (vector<pair<dcp::LanguageTag::SubtagType, dcp::LanguageTag::SubtagData> >::const_iterator i = subtags.begin(); i != subtags.end(); ++i) {
-		add_to_current_tag (i->first, i->second);
-		if (i->first == dcp::LanguageTag::LANGUAGE) {
+	for (auto const& i: tag.subtags()) {
+		add_to_current_tag (i.first, i.second);
+		if (i.first == dcp::LanguageTag::SubtagType::LANGUAGE) {
 			have_language = true;
 		}
 	}
 
 	if (!have_language) {
-		add_to_current_tag (dcp::LanguageTag::LANGUAGE, dcp::LanguageTag::SubtagData("en", "English"));
+		add_to_current_tag (dcp::LanguageTag::SubtagType::LANGUAGE, dcp::LanguageTag::SubtagData("en", "English"));
 	}
 }
 
@@ -314,15 +313,15 @@ LanguageTagDialog::set (dcp::LanguageTag tag)
 string LanguageTagDialog::subtag_type_name (dcp::LanguageTag::SubtagType type)
 {
 	switch (type) {
-		case dcp::LanguageTag::LANGUAGE:
+		case dcp::LanguageTag::SubtagType::LANGUAGE:
 			return "Language";
-		case dcp::LanguageTag::SCRIPT:
+		case dcp::LanguageTag::SubtagType::SCRIPT:
 			return "Script";
-		case dcp::LanguageTag::REGION:
+		case dcp::LanguageTag::SubtagType::REGION:
 			return "Region";
-		case dcp::LanguageTag::VARIANT:
+		case dcp::LanguageTag::SubtagType::VARIANT:
 			return "Variant";
-		case dcp::LanguageTag::EXTLANG:
+		case dcp::LanguageTag::SubtagType::EXTLANG:
 			return "External";
 	}
 
@@ -402,16 +401,16 @@ LanguageTagDialog::setup_sensitivity ()
 	_add_external->Enable ();
 	for (auto const& i: _current_tag_subtags) {
 		switch (i.type) {
-			case dcp::LanguageTag::SCRIPT:
+			case dcp::LanguageTag::SubtagType::SCRIPT:
 				_add_script->Enable (false);
 				break;
-			case dcp::LanguageTag::REGION:
+			case dcp::LanguageTag::SubtagType::REGION:
 				_add_region->Enable (false);
 				break;
-			case dcp::LanguageTag::VARIANT:
+			case dcp::LanguageTag::SubtagType::VARIANT:
 				_add_variant->Enable (false);
 				break;
-			case dcp::LanguageTag::EXTLANG:
+			case dcp::LanguageTag::SubtagType::EXTLANG:
 				_add_external->Enable (false);
 				break;
 			default:
@@ -437,7 +436,7 @@ RegionSubtagDialog::RegionSubtagDialog (wxWindow* parent, dcp::LanguageTag::Regi
 
 	SetSizer (sizer);
 
-	_panel->set (dcp::LanguageTag::REGION, "", *dcp::LanguageTag::get_subtag_data(region));
+	_panel->set (dcp::LanguageTag::SubtagType::REGION, "", *dcp::LanguageTag::get_subtag_data(region));
 }
 
 

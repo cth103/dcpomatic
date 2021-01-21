@@ -42,18 +42,18 @@ DCPContentType::DCPContentType (string p, dcp::ContentKind k, string d)
 void
 DCPContentType::setup_dcp_content_types ()
 {
-	_dcp_content_types.push_back (new DCPContentType (_("Feature"), dcp::FEATURE, N_("FTR")));
-	_dcp_content_types.push_back (new DCPContentType (_("Short"), dcp::SHORT, N_("SHR")));
-	_dcp_content_types.push_back (new DCPContentType (_("Trailer"), dcp::TRAILER, N_("TLR")));
-	_dcp_content_types.push_back (new DCPContentType (_("Test"), dcp::TEST, N_("TST")));
-	_dcp_content_types.push_back (new DCPContentType (_("Transitional"), dcp::TRANSITIONAL, N_("XSN")));
-	_dcp_content_types.push_back (new DCPContentType (_("Rating"), dcp::RATING, N_("RTG")));
-	_dcp_content_types.push_back (new DCPContentType (_("Teaser"), dcp::TEASER, N_("TSR")));
-	_dcp_content_types.push_back (new DCPContentType (_("Policy"), dcp::POLICY, N_("POL")));
-	_dcp_content_types.push_back (new DCPContentType (_("Public Service Announcement"), dcp::PUBLIC_SERVICE_ANNOUNCEMENT, N_("PSA")));
-	_dcp_content_types.push_back (new DCPContentType (_("Advertisement"), dcp::ADVERTISEMENT, N_("ADV")));
-	_dcp_content_types.push_back (new DCPContentType (_("Episode"), dcp::EPISODE, N_("EPS")));
-	_dcp_content_types.push_back (new DCPContentType (_("Promo"), dcp::PROMO, N_("PRO")));
+	_dcp_content_types.push_back (new DCPContentType(_("Feature"), dcp::ContentKind::FEATURE, N_("FTR")));
+	_dcp_content_types.push_back (new DCPContentType(_("Short"), dcp::ContentKind::SHORT, N_("SHR")));
+	_dcp_content_types.push_back (new DCPContentType(_("Trailer"), dcp::ContentKind::TRAILER, N_("TLR")));
+	_dcp_content_types.push_back (new DCPContentType(_("Test"), dcp::ContentKind::TEST, N_("TST")));
+	_dcp_content_types.push_back (new DCPContentType(_("Transitional"), dcp::ContentKind::TRANSITIONAL, N_("XSN")));
+	_dcp_content_types.push_back (new DCPContentType(_("Rating"), dcp::ContentKind::RATING, N_("RTG")));
+	_dcp_content_types.push_back (new DCPContentType(_("Teaser"), dcp::ContentKind::TEASER, N_("TSR")));
+	_dcp_content_types.push_back (new DCPContentType(_("Policy"), dcp::ContentKind::POLICY, N_("POL")));
+	_dcp_content_types.push_back (new DCPContentType(_("Public Service Announcement"), dcp::ContentKind::PUBLIC_SERVICE_ANNOUNCEMENT, N_("PSA")));
+	_dcp_content_types.push_back (new DCPContentType(_("Advertisement"), dcp::ContentKind::ADVERTISEMENT, N_("ADV")));
+	_dcp_content_types.push_back (new DCPContentType(_("Episode"), dcp::ContentKind::EPISODE, N_("EPS")));
+	_dcp_content_types.push_back (new DCPContentType(_("Promo"), dcp::ContentKind::PROMO, N_("PRO")));
 }
 
 DCPContentType const *

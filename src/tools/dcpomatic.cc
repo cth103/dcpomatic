@@ -939,7 +939,7 @@ private:
 				vector<string>(),
 				d->cpl (),
 				from, to,
-				dcp::MODIFIED_TRANSITIONAL_1,
+				dcp::Formulation::MODIFIED_TRANSITIONAL_1,
 				true,
 				0
 				);

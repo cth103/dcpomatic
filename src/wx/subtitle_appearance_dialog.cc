@@ -160,13 +160,13 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 	_force_effect->SetValue (static_cast<bool>(effect));
 	if (effect) {
 		switch (*effect) {
-		case dcp::NONE:
+		case dcp::Effect::NONE:
 			_effect->SetSelection (NONE);
 			break;
-		case dcp::BORDER:
+		case dcp::Effect::BORDER:
 			_effect->SetSelection (OUTLINE);
 			break;
-		case dcp::SHADOW:
+		case dcp::Effect::SHADOW:
 			_effect->SetSelection (SHADOW);
 			break;
 		}
@@ -245,13 +245,13 @@ SubtitleAppearanceDialog::apply ()
 	if (_force_effect->GetValue()) {
 		switch (_effect->GetSelection()) {
 		case NONE:
-			_caption->set_effect (dcp::NONE);
+			_caption->set_effect (dcp::Effect::NONE);
 			break;
 		case OUTLINE:
-			_caption->set_effect (dcp::BORDER);
+			_caption->set_effect (dcp::Effect::BORDER);
 			break;
 		case SHADOW:
-			_caption->set_effect (dcp::SHADOW);
+			_caption->set_effect (dcp::Effect::SHADOW);
 			break;
 		}
 	} else {

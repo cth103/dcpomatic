@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,7 @@
 
 
 #include "lib/warnings.h"
+#include <dcp/types.h>
 #include <boost/filesystem.hpp>
 
 
@@ -66,3 +67,9 @@ private:
 	std::shared_ptr<Log> _old;
 };
 
+namespace dcp {
+
+std::ostream& operator<< (std::ostream& s, dcp::Size i);
+std::ostream& operator<< (std::ostream& s, Standard t);
+
+}

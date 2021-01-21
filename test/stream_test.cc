@@ -82,11 +82,11 @@ BOOST_AUTO_TEST_CASE (stream_test)
 	BOOST_CHECK_EQUAL (a.name, "hello there world");
 	BOOST_CHECK_EQUAL (a.mapping().input_channels(), 2);
 
-	BOOST_CHECK_EQUAL (a.mapping().get (0, static_cast<int> (dcp::LEFT)), 1);
-	BOOST_CHECK_EQUAL (a.mapping().get (0, static_cast<int> (dcp::RIGHT)), 0);
-	BOOST_CHECK_EQUAL (a.mapping().get (0, static_cast<int> (dcp::CENTRE)), 1);
-	BOOST_CHECK_EQUAL (a.mapping().get (1, static_cast<int> (dcp::LEFT)), 0);
-	BOOST_CHECK_EQUAL (a.mapping().get (1, static_cast<int> (dcp::RIGHT)), 1);
-	BOOST_CHECK_EQUAL (a.mapping().get (1, static_cast<int> (dcp::CENTRE)), 1);
+	BOOST_CHECK_EQUAL (a.mapping().get(0, dcp::Channel::LEFT), 1);
+	BOOST_CHECK_EQUAL (a.mapping().get(0, dcp::Channel::RIGHT), 0);
+	BOOST_CHECK_EQUAL (a.mapping().get(0, dcp::Channel::CENTRE), 1);
+	BOOST_CHECK_EQUAL (a.mapping().get(1, dcp::Channel::LEFT), 0);
+	BOOST_CHECK_EQUAL (a.mapping().get(1, dcp::Channel::RIGHT), 1);
+	BOOST_CHECK_EQUAL (a.mapping().get(1, dcp::Channel::CENTRE), 1);
 }
 

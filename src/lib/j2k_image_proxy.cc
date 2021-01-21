@@ -85,7 +85,7 @@ J2KImageProxy::J2KImageProxy (
 	AVPixelFormat pixel_format,
 	optional<int> forced_reduction
 	)
-	: _data (eye ? frame->left() : frame->right())
+	: _data (eye == dcp::Eye::LEFT ? frame->left() : frame->right())
 	, _size (size)
 	, _eye (eye)
 	, _pixel_format (pixel_format)

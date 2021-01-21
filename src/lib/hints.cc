@@ -534,7 +534,7 @@ void
 Hints::check_ffec_and_ffmc_in_smpte_feature ()
 {
 	shared_ptr<const Film> f = film();
-	if (!f->interop() && f->dcp_content_type()->libdcp_kind() == dcp::FEATURE && (!f->marker(dcp::Marker::FFEC) || !f->marker(dcp::Marker::FFMC))) {
+	if (!f->interop() && f->dcp_content_type()->libdcp_kind() == dcp::ContentKind::FEATURE && (!f->marker(dcp::Marker::FFEC) || !f->marker(dcp::Marker::FFMC))) {
 		hint (_("SMPTE DCPs with the type FTR (feature) should have markers for the first frame of end credits (FFEC) and the first frame of moving credits (FFMC).  You should add these markers using the 'Markers' button in the DCP tab."));
 	}
 }

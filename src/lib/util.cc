@@ -395,7 +395,7 @@ DCPOMATIC_ENABLE_WARNINGS
 	/* Render something to fontconfig to create its cache */
 	list<StringText> subs;
 	dcp::SubtitleString ss(
-		optional<string>(), false, false, false, dcp::Colour(), 42, 1, dcp::Time(), dcp::Time(), 0, dcp::HALIGN_CENTER, 0, dcp::VALIGN_CENTER, dcp::DIRECTION_LTR,
+		optional<string>(), false, false, false, dcp::Colour(), 42, 1, dcp::Time(), dcp::Time(), 0, dcp::HAlign::CENTER, 0, dcp::VAlign::CENTER, dcp::DIRECTION_LTR,
 		"Hello dolly", dcp::NONE, dcp::Colour(), dcp::Time(), dcp::Time()
 		);
 	subs.push_back (StringText(ss, 0));
@@ -818,24 +818,24 @@ audio_channel_types (list<int> mapped, int channels)
 		}
 
 		switch (static_cast<dcp::Channel>(i)) {
-		case dcp::LFE:
+		case dcp::Channel::LFE:
 			++lfe;
 			break;
-		case dcp::LEFT:
-		case dcp::RIGHT:
-		case dcp::CENTRE:
-		case dcp::LS:
-		case dcp::RS:
-		case dcp::BSL:
-		case dcp::BSR:
+		case dcp::Channel::LEFT:
+		case dcp::Channel::RIGHT:
+		case dcp::Channel::CENTRE:
+		case dcp::Channel::LS:
+		case dcp::Channel::RS:
+		case dcp::Channel::BSL:
+		case dcp::Channel::BSR:
 			++non_lfe;
 			break;
-		case dcp::HI:
-		case dcp::VI:
-		case dcp::MOTION_DATA:
-		case dcp::SYNC_SIGNAL:
-		case dcp::SIGN_LANGUAGE:
-		case dcp::CHANNEL_COUNT:
+		case dcp::Channel::HI:
+		case dcp::Channel::VI:
+		case dcp::Channel::MOTION_DATA:
+		case dcp::Channel::SYNC_SIGNAL:
+		case dcp::Channel::SIGN_LANGUAGE:
+		case dcp::Channel::CHANNEL_COUNT:
 			break;
 		}
 	}
@@ -853,12 +853,12 @@ remap (shared_ptr<const AudioBuffers> input, int output_channels, AudioMapping m
 
 	for (int i = 0; i < to_do; ++i) {
 		for (int j = 0; j < mapped->channels(); ++j) {
-			if (map.get (i, static_cast<dcp::Channel> (j)) > 0) {
-				mapped->accumulate_channel (
+			if (map.get(i, j) > 0) {
+				mapped->accumulate_channel(
 					input.get(),
 					i,
-					static_cast<dcp::Channel> (j),
-					map.get (i, static_cast<dcp::Channel> (j))
+					j,
+					map.get(i, j)
 					);
 			}
 		}
@@ -962,25 +962,25 @@ emit_subtitle_image (ContentTimePeriod period, dcp::SubtitleImage sub, dcp::Size
 	/* add in position */
 
 	switch (sub.h_align()) {
-	case dcp::HALIGN_LEFT:
+	case dcp::HAlign::LEFT:
 		rect.x += sub.h_position();
 		break;
-	case dcp::HALIGN_CENTER:
+	case dcp::HAlign::CENTER:
 		rect.x += 0.5 + sub.h_position() - rect.width / 2;
 		break;
-	case dcp::HALIGN_RIGHT:
+	case dcp::HAlign::RIGHT:
 		rect.x += 1 - sub.h_position() - rect.width;
 		break;
 	}
 
 	switch (sub.v_align()) {
-	case dcp::VALIGN_TOP:
+	case dcp::VAlign::TOP:
 		rect.y += sub.v_position();
 		break;
-	case dcp::VALIGN_CENTER:
+	case dcp::VAlign::CENTER:
 		rect.y += 0.5 + sub.v_position() - rect.height / 2;
 		break;
-	case dcp::VALIGN_BOTTOM:
+	case dcp::VAlign::BOTTOM:
 		rect.y += 1 - sub.v_position() - rect.height;
 		break;
 	}
