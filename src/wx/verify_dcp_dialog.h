@@ -23,7 +23,8 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <list>
+#include <map>
+
 
 class wxRichTextCtrl;
 class VerifyDCPJob;
