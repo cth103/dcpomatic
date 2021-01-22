@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE (automatic_ffoc_lfoc_markers_test1)
 
 	auto ffoc = markers->get (dcp::Marker::FFOC);
 	BOOST_REQUIRE (ffoc);
-	BOOST_CHECK (*ffoc == dcp::Time (0, 0, 0, 0, 24));
+	BOOST_CHECK (*ffoc == dcp::Time(0, 0, 0, 1, 24));
 	auto lfoc = markers->get (dcp::Marker::LFOC);
 	BOOST_REQUIRE (lfoc);
 	BOOST_CHECK (*lfoc == dcp::Time(0, 0, 9, 23, 24));
