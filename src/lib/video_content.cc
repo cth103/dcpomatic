@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -97,7 +97,7 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 	_size.height = node->number_child<int> ("VideoHeight");
 
 	/* Backwards compatibility */
-	optional<double> r = node->optional_number_child<double>("VideoFrameRate");
+	auto r = node->optional_number_child<double>("VideoFrameRate");
 	if (r) {
 		_parent->set_video_frame_rate (r.get ());
 	}
@@ -143,11 +143,11 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 			_legacy_ratio = Ratio::from_id(r.get())->ratio();
 		}
 	} else if (version <= 37) {
-		optional<string> ratio = node->node_child("Scale")->optional_string_child("Ratio");
+		auto ratio = node->node_child("Scale")->optional_string_child("Ratio");
 		if (ratio) {
 			_legacy_ratio = Ratio::from_id(ratio.get())->ratio();
 		}
-		optional<bool> scale = node->node_child("Scale")->optional_bool_child("Scale");
+		auto scale = node->node_child("Scale")->optional_bool_child("Scale");
 		if (scale) {
 			if (*scale) {
 				/* This is what we used to call "no stretch" */
@@ -189,7 +189,7 @@ VideoContent::VideoContent (Content* parent, vector<shared_ptr<Content> > c)
 	, _length (0)
 	, _yuv (false)
 {
-	shared_ptr<VideoContent> ref = c[0]->video;
+	auto ref = c[0]->video;
 	DCPOMATIC_ASSERT (ref);
 
 	for (size_t i = 1; i < c.size(); ++i) {
@@ -277,11 +277,11 @@ void
 VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
 {
 	/* These examiner calls could call other content methods which take a lock on the mutex */
-	dcp::Size const vs = d->video_size ();
-	Frame vl = d->video_length ();
-	optional<double> const ar = d->sample_aspect_ratio ();
-	bool const yuv = d->yuv ();
-	VideoRange const range = d->range ();
+	auto const vs = d->video_size ();
+	auto vl = d->video_length ();
+	auto const ar = d->sample_aspect_ratio ();
+	auto const yuv = d->yuv ();
+	auto const range = d->range ();
 
 	ChangeSignaller<Content> cc1 (_parent, VideoContentProperty::SIZE);
 	ChangeSignaller<Content> cc2 (_parent, VideoContentProperty::SCALE);
@@ -353,7 +353,7 @@ VideoContent::technical_summary () const
 dcp::Size
 VideoContent::size_after_3d_split () const
 {
-	dcp::Size const s = size ();
+	auto const s = size ();
 	switch (frame_type ()) {
 	case VIDEO_FRAME_TYPE_2D:
 	case VIDEO_FRAME_TYPE_3D:
@@ -388,12 +388,12 @@ VideoContent::fade (shared_ptr<const Film> film, Frame f) const
 
 	double const vfr = _parent->active_video_frame_rate(film);
 
-	Frame const ts = _parent->trim_start().frames_round(vfr);
+	auto const ts = _parent->trim_start().frames_round(vfr);
 	if ((f - ts) < fade_in()) {
 		return double (f - ts) / fade_in();
 	}
 
-	Frame fade_out_start = length() - _parent->trim_end().frames_round(vfr) - fade_out();
+	auto fade_out_start = length() - _parent->trim_end().frames_round(vfr) - fade_out();
 	if (f >= fade_out_start) {
 		return 1 - double (f - fade_out_start) / fade_out();
 	}
@@ -438,8 +438,8 @@ VideoContent::processing_description (shared_ptr<const Film> film)
 		d += buffer;
 	}
 
-	dcp::Size const container_size = film->frame_size ();
-	dcp::Size const scaled = scaled_size (container_size);
+	auto const container_size = film->frame_size ();
+	auto const scaled = scaled_size (container_size);
 
 	if (scaled != size_after_crop ()) {
 		d += String::compose (
@@ -602,11 +602,11 @@ VideoContent::scaled_size (dcp::Size film_container)
 		return *_custom_size;
 	}
 
-	dcp::Size size = size_after_crop ();
+	auto size = size_after_crop ();
 	size.width *= _sample_aspect_ratio.get_value_or(1);
 
 	/* This is what we will return unless there is any legacy stuff to take into account */
-	dcp::Size auto_size = fit_ratio_within (size.ratio(), film_container);
+	auto auto_size = fit_ratio_within (size.ratio(), film_container);
 
 	if (_legacy_ratio) {
 		if (fit_ratio_within(*_legacy_ratio, film_container) != auto_size) {

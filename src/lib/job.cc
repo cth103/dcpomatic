@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -104,7 +104,7 @@ Job::run_wrapper ()
 		string m = String::compose (_("An error occurred whilst handling the file %1."), boost::filesystem::path (e.filename()).leaf());
 
 		try {
-			boost::filesystem::space_info const s = boost::filesystem::space (e.filename());
+			auto const s = boost::filesystem::space (e.filename());
 			if (s.available < pow (1024, 3)) {
 				m += N_("\n\n");
 				m += _("The drive that the film is stored on is low in disc space.  Free some more space and try again.");
@@ -478,8 +478,8 @@ Job::status () const
 		s += buffer;
 
 		if (t > 10 && r > 0) {
-			boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
-			boost::posix_time::ptime finish = now + boost::posix_time::seconds(r);
+			auto now = boost::posix_time::second_clock::local_time();
+			auto finish = now + boost::posix_time::seconds(r);
 			char finish_string[16];
 			snprintf (finish_string, sizeof(finish_string), "%02d:%02d", int(finish.time_of_day().hours()), int(finish.time_of_day().minutes()));
 			string day;

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -34,6 +34,7 @@
 #include "i18n.h"
 
 using std::cout;
+using std::make_shared;
 using std::shared_ptr;
 using dcp::Size;
 using namespace dcpomatic;
@@ -43,7 +44,7 @@ ImageDecoder::ImageDecoder (shared_ptr<const Film> film, shared_ptr<const ImageC
 	, _image_content (c)
 	, _frame_video_position (0)
 {
-	video.reset (new VideoDecoder (this, c));
+	video = make_shared<VideoDecoder>(this, c);
 }
 
 bool
@@ -55,7 +56,7 @@ ImageDecoder::pass ()
 
 	if (!_image_content->still() || !_image) {
 		/* Either we need an image or we are using moving images, so load one */
-		boost::filesystem::path path = _image_content->path (_image_content->still() ? 0 : _frame_video_position);
+		auto path = _image_content->path (_image_content->still() ? 0 : _frame_video_position);
 		if (valid_j2k_file (path)) {
 			AVPixelFormat pf;
 			if (_image_content->video->colour_conversion()) {
@@ -68,9 +69,9 @@ ImageDecoder::pass ()
 			/* We can't extract image size from a JPEG2000 codestream without decoding it,
 			   so pass in the image content's size here.
 			*/
-			_image.reset (new J2KImageProxy (path, _image_content->video->size(), pf));
+			_image = make_shared<J2KImageProxy>(path, _image_content->video->size(), pf);
 		} else {
-			_image.reset (new FFmpegImageProxy(path, _image_content->video->range()));
+			_image = make_shared<FFmpegImageProxy>(path, _image_content->video->range());
 		}
 	}
 

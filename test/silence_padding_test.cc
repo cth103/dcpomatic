@@ -37,20 +37,21 @@
 #include <dcp/sound_asset_reader.h>
 #include <boost/test/unit_test.hpp>
 
+using std::make_shared;
 using std::string;
-using boost::lexical_cast;
 using std::shared_ptr;
+using boost::lexical_cast;
 
 static void
 test_silence_padding (int channels)
 {
 	string const film_name = "silence_padding_test_" + lexical_cast<string> (channels);
-	shared_ptr<Film> film = new_test_film (film_name);
+	auto film = new_test_film (film_name);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name (film_name);
 
-	shared_ptr<FFmpegContent> content (new FFmpegContent("test/data/staircase.wav"));
+	auto content = make_shared<FFmpegContent>("test/data/staircase.wav");
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -64,7 +65,7 @@ test_silence_padding (int channels)
 	dcp::DCP check (path.string ());
 	check.read ();
 
-	shared_ptr<const dcp::ReelSoundAsset> sound_asset = check.cpls().front()->reels().front()->main_sound ();
+	auto sound_asset = check.cpls()[0]->reels()[0]->main_sound();
 	BOOST_CHECK (sound_asset);
 	BOOST_CHECK_EQUAL (sound_asset->asset()->channels (), channels);
 
@@ -74,7 +75,7 @@ test_silence_padding (int channels)
 	int frame = 0;
 
 	while (n < sound_asset->asset()->intrinsic_duration()) {
-		shared_ptr<const dcp::SoundFrame> sound_frame = sound_asset->asset()->start_read()->get_frame (frame++);
+		auto sound_frame = sound_asset->asset()->start_read()->get_frame(frame++);
 		uint8_t const * d = sound_frame->data ();
 
 		for (int i = 0; i < sound_frame->size(); i += (3 * sound_asset->asset()->channels())) {
@@ -135,8 +136,8 @@ BOOST_AUTO_TEST_CASE (silence_padding_test)
 
 BOOST_AUTO_TEST_CASE (silence_padding_test2)
 {
-	shared_ptr<Film> film = new_test_film2 ("silence_padding_test2");
-	shared_ptr<FFmpegContent> content (new FFmpegContent(TestPaths::private_data() / "cars.mov"));
+	auto film = new_test_film2 ("silence_padding_test2");
+	auto content = make_shared<FFmpegContent>(TestPaths::private_data() / "cars.mov");
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
