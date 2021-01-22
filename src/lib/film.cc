@@ -2104,7 +2104,7 @@ void
 Film::add_ffoc_lfoc (Markers& markers) const
 {
 	if (markers.find(dcp::Marker::FFOC) == markers.end()) {
-		markers[dcp::Marker::FFOC] = dcpomatic::DCPTime(0);
+		markers[dcp::Marker::FFOC] = dcpomatic::DCPTime::from_frames(1, video_frame_rate());
 	}
 
 	if (markers.find(dcp::Marker::LFOC) == markers.end()) {
