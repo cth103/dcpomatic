@@ -659,7 +659,7 @@ Writer::finish (boost::filesystem::path output_dcp)
 		issuer,
 		creator,
 		dcp::LocalTime().as_string(),
-		String::compose("Created by libdcp %1", dcp::version),
+		film()->dcp_name(),
 		signer,
 		Config::instance()->dcp_metadata_filename_format()
 		);
