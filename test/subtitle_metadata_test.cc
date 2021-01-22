@@ -70,6 +70,6 @@ BOOST_AUTO_TEST_CASE (subtitle_metadata_test2)
 
 	vector<dcp::LanguageTag> langs = film->subtitle_languages ();
 	BOOST_REQUIRE (!langs.empty());
-	BOOST_CHECK_EQUAL (langs.front().to_string(), "fr");
+	BOOST_CHECK_EQUAL (langs.front().to_string(), "FR");
 }
 

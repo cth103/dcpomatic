@@ -35,7 +35,7 @@
 using std::shared_ptr;
 using std::dynamic_pointer_cast;
 
-static boost::filesystem::path ref_mxf = "test/data/scaling_test_185_185/j2c_c75af074-2809-453c-9192-6affb76b4ba3.mxf";
+static boost::filesystem::path ref_mxf = "test/data/scaling_test_185_185/j2c_74b946f4-1c33-4209-b639-b834de675eac.mxf";
 
 static void note (dcp::NoteType, std::string)
 {
