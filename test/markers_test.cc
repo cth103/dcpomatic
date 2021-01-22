@@ -44,7 +44,7 @@ using std::shared_ptr;
 BOOST_AUTO_TEST_CASE (automatic_ffoc_lfoc_markers_test1)
 {
 	string const name = "automatic_ffoc_lfoc_markers_test1";
-	shared_ptr<Film> film = new_test_film2 (name);
+	auto film = new_test_film2 (name);
 	film->examine_and_add_content (content_factory("test/data/flat_red.png").front());
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -55,16 +55,16 @@ BOOST_AUTO_TEST_CASE (automatic_ffoc_lfoc_markers_test1)
 	dcp::DCP dcp (String::compose("build/test/%1/%2", name, film->dcp_name()));
 	dcp.read ();
 	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1U);
-	shared_ptr<dcp::CPL> cpl = dcp.cpls().front();
+	auto cpl = dcp.cpls().front();
 	BOOST_REQUIRE_EQUAL (cpl->reels().size(), 1U);
-	shared_ptr<dcp::Reel> reel = cpl->reels().front();
-	shared_ptr<dcp::ReelMarkersAsset> markers = reel->main_markers();
+	auto reel = cpl->reels()[0];
+	auto markers = reel->main_markers();
 	BOOST_REQUIRE (markers);
 
-	optional<dcp::Time> ffoc = markers->get (dcp::Marker::FFOC);
+	auto ffoc = markers->get (dcp::Marker::FFOC);
 	BOOST_REQUIRE (ffoc);
 	BOOST_CHECK (*ffoc == dcp::Time (0, 0, 0, 0, 24));
-	optional<dcp::Time> lfoc = markers->get (dcp::Marker::LFOC);
+	auto lfoc = markers->get (dcp::Marker::LFOC);
 	BOOST_REQUIRE (lfoc);
 	BOOST_CHECK (*lfoc == dcp::Time(0, 0, 9, 23, 24));
 }
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE (automatic_ffoc_lfoc_markers_test1)
 BOOST_AUTO_TEST_CASE (automatic_ffoc_lfoc_markers_test2)
 {
 	string const name = "automatic_ffoc_lfoc_markers_test2";
-	shared_ptr<Film> film = new_test_film2 (name);
+	auto film = new_test_film2 (name);
 	film->examine_and_add_content (content_factory("test/data/flat_red.png").front());
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -87,16 +87,16 @@ BOOST_AUTO_TEST_CASE (automatic_ffoc_lfoc_markers_test2)
 	dcp::DCP dcp (String::compose("build/test/%1/%2", name, film->dcp_name()));
 	dcp.read ();
 	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1U);
-	shared_ptr<dcp::CPL> cpl = dcp.cpls().front();
+	auto cpl = dcp.cpls().front();
 	BOOST_REQUIRE_EQUAL (cpl->reels().size(), 1U);
-	shared_ptr<dcp::Reel> reel = cpl->reels().front();
-	shared_ptr<dcp::ReelMarkersAsset> markers = reel->main_markers();
+	auto reel = cpl->reels()[0];
+	auto markers = reel->main_markers();
 	BOOST_REQUIRE (markers);
 
-	optional<dcp::Time> ffoc = markers->get (dcp::Marker::FFOC);
+	auto ffoc = markers->get (dcp::Marker::FFOC);
 	BOOST_REQUIRE (ffoc);
 	BOOST_CHECK (*ffoc == dcp::Time (0, 0, 1, 0, 24));
-	optional<dcp::Time> lfoc = markers->get (dcp::Marker::LFOC);
+	auto lfoc = markers->get (dcp::Marker::LFOC);
 	BOOST_REQUIRE (lfoc);
 	BOOST_CHECK (*lfoc == dcp::Time(0, 0, 9, 0, 24));
 }
