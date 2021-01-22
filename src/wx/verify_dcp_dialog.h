@@ -33,8 +33,4 @@ class VerifyDCPDialog : public wxDialog
 {
 public:
 	VerifyDCPDialog (wxWindow* parent, std::shared_ptr<VerifyDCPJob> job);
-
-private:
-	wxStaticText* _summary;
-	std::map<dcp::VerificationNote::Type, wxRichTextCtrl*> _pages;
 };
