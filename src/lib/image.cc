@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,24 +18,26 @@
 
 */
 
+
 /** @file src/image.cc
  *  @brief A class to describe a video image.
  */
 
-#include "image.h"
-#include "exceptions.h"
-#include "timer.h"
-#include "rect.h"
-#include "util.h"
+
 #include "compose.hpp"
 #include "dcpomatic_socket.h"
+#include "exceptions.h"
+#include "image.h"
+#include "rect.h"
+#include "timer.h"
+#include "util.h"
 #include <dcp/rgb_xyz.h>
 #include <dcp/transfer_function.h>
 extern "C" {
-#include <libswscale/swscale.h>
-#include <libavutil/pixfmt.h>
-#include <libavutil/pixdesc.h>
 #include <libavutil/frame.h>
+#include <libavutil/pixdesc.h>
+#include <libavutil/pixfmt.h>
+#include <libswscale/swscale.h>
 }
 #include <png.h>
 #if HAVE_VALGRIND_MEMCHECK_H
@@ -43,16 +45,19 @@ extern "C" {
 #endif
 #include <iostream>
 
+
 #include "i18n.h"
 
-using std::string;
-using std::min;
-using std::max;
-using std::cout;
+
 using std::cerr;
+using std::cout;
 using std::list;
+using std::make_shared;
+using std::max;
+using std::min;
 using std::runtime_error;
 using std::shared_ptr;
+using std::string;
 using dcp::Size;
 
 
@@ -67,7 +72,7 @@ Image::vertical_factor (int n) const
 		return 1;
 	}
 
-	AVPixFmtDescriptor const * d = av_pix_fmt_desc_get(_pixel_format);
+	auto d = av_pix_fmt_desc_get(_pixel_format);
 	if (!d) {
 		throw PixelFormatError ("line_factor()", _pixel_format);
 	}
@@ -82,7 +87,7 @@ Image::horizontal_factor (int n) const
 		return 1;
 	}
 
-	AVPixFmtDescriptor const * d = av_pix_fmt_desc_get(_pixel_format);
+	auto d = av_pix_fmt_desc_get(_pixel_format);
 	if (!d) {
 		throw PixelFormatError ("sample_size()", _pixel_format);
 	}
@@ -97,8 +102,8 @@ dcp::Size
 Image::sample_size (int n) const
 {
 	return dcp::Size (
-		lrint (ceil (static_cast<double>(size().width) / horizontal_factor (n))),
-		lrint (ceil (static_cast<double>(size().height) / vertical_factor (n)))
+		lrint (ceil(static_cast<double>(size().width) / horizontal_factor (n))),
+		lrint (ceil(static_cast<double>(size().height) / vertical_factor (n)))
 		);
 }
 
@@ -106,7 +111,7 @@ Image::sample_size (int n) const
 int
 Image::planes () const
 {
-	AVPixFmtDescriptor const * d = av_pix_fmt_desc_get(_pixel_format);
+	auto d = av_pix_fmt_desc_get(_pixel_format);
 	if (!d) {
 		throw PixelFormatError ("planes()", _pixel_format);
 	}
@@ -172,10 +177,10 @@ Image::crop_scale_window (
 	DCPOMATIC_ASSERT (out_size.width >= inter_size.width);
 	DCPOMATIC_ASSERT (out_size.height >= inter_size.height);
 
-	shared_ptr<Image> out (new Image(out_format, out_size, out_aligned));
+	auto out = make_shared<Image>(out_format, out_size, out_aligned);
 	out->make_black ();
 
-	AVPixFmtDescriptor const * in_desc = av_pix_fmt_desc_get (_pixel_format);
+	auto in_desc = av_pix_fmt_desc_get (_pixel_format);
 	if (!in_desc) {
 		throw PixelFormatError ("crop_scale_window()", _pixel_format);
 	}
@@ -202,10 +207,10 @@ Image::crop_scale_window (
 	}
 
 	/* Size of the image after any crop */
-	dcp::Size const cropped_size = corrected_crop.apply (size());
+	auto const cropped_size = corrected_crop.apply (size());
 
 	/* Scale context for a scale from cropped_size to inter_size */
-	struct SwsContext* scale_context = sws_getContext (
+	auto scale_context = sws_getContext (
 			cropped_size.width, cropped_size.height, pixel_format(),
 			inter_size.width, inter_size.height, out_format,
 			fast ? SWS_FAST_BILINEAR : SWS_BICUBIC, 0, 0, 0
@@ -246,7 +251,7 @@ Image::crop_scale_window (
 		scale_in_data[c] = data()[c] + x + stride()[c] * (corrected_crop.top / vertical_factor(c));
 	}
 
-	AVPixFmtDescriptor const * out_desc = av_pix_fmt_desc_get (out_format);
+	auto out_desc = av_pix_fmt_desc_get (out_format);
 	if (!out_desc) {
 		throw PixelFormatError ("crop_scale_window()", out_format);
 	}
@@ -304,9 +309,8 @@ Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_fo
 	*/
 	DCPOMATIC_ASSERT (aligned ());
 
-	shared_ptr<Image> scaled (new Image (out_format, out_size, out_aligned));
-
-	struct SwsContext* scale_context = sws_getContext (
+	auto scaled = make_shared<Image>(out_format, out_size, out_aligned);
+	auto scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),
 		out_size.width, out_size.height, out_format,
 		(fast ? SWS_FAST_BILINEAR : SWS_BICUBIC) | SWS_ACCURATE_RND, 0, 0, 0
@@ -354,7 +358,7 @@ Image::yuv_16_black (uint16_t v, bool alpha)
 {
 	memset (data()[0], 0, sample_size(0).height * stride()[0]);
 	for (int i = 1; i < 3; ++i) {
-		int16_t* p = reinterpret_cast<int16_t*> (data()[i]);
+		auto p = reinterpret_cast<int16_t*> (data()[i]);
 		int const lines = sample_size(i).height;
 		for (int y = 0; y < lines; ++y) {
 			/* We divide by 2 here because we are writing 2 bytes at a time */
@@ -645,7 +649,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	}
 	case AV_PIX_FMT_XYZ12LE:
 	{
-		dcp::ColourConversion conv = dcp::ColourConversion::srgb_to_xyz();
+		auto conv = dcp::ColourConversion::srgb_to_xyz();
 		double fast_matrix[9];
 		dcp::combined_rgb_to_xyz (conv, fast_matrix);
 		double const * lut_in = conv.in()->lut (8, false);
@@ -680,7 +684,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	}
 	case AV_PIX_FMT_YUV420P:
 	{
-		shared_ptr<Image> yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, false, false);
+		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, false, false);
 		dcp::Size const ts = size();
 		dcp::Size const os = yuv->size();
 		for (int ty = start_ty, oy = start_oy; ty < ts.height && oy < os.height; ++ty, ++oy) {
@@ -715,7 +719,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	}
 	case AV_PIX_FMT_YUV420P10:
 	{
-		shared_ptr<Image> yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, false, false);
+		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, false, false);
 		dcp::Size const ts = size();
 		dcp::Size const os = yuv->size();
 		for (int ty = start_ty, oy = start_oy; ty < ts.height && oy < os.height; ++ty, ++oy) {
@@ -750,7 +754,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	}
 	case AV_PIX_FMT_YUV422P10LE:
 	{
-		shared_ptr<Image> yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, false, false);
+		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, false, false);
 		dcp::Size const ts = size();
 		dcp::Size const os = yuv->size();
 		for (int ty = start_ty, oy = start_oy; ty < ts.height && oy < os.height; ++ty, ++oy) {
@@ -830,7 +834,7 @@ Image::write_to_socket (shared_ptr<Socket> socket) const
 float
 Image::bytes_per_pixel (int c) const
 {
-	AVPixFmtDescriptor const * d = av_pix_fmt_desc_get(_pixel_format);
+	auto d = av_pix_fmt_desc_get(_pixel_format);
 	if (!d) {
 		throw PixelFormatError ("bytes_per_pixel()", _pixel_format);
 	}
@@ -1079,11 +1083,12 @@ Image::aligned () const
 	return _aligned;
 }
 
+
 PositionImage
 merge (list<PositionImage> images)
 {
 	if (images.empty ()) {
-		return PositionImage ();
+		return {};
 	}
 
 	if (images.size() == 1) {
@@ -1091,18 +1096,19 @@ merge (list<PositionImage> images)
 	}
 
 	dcpomatic::Rect<int> all (images.front().position, images.front().image->size().width, images.front().image->size().height);
-	for (list<PositionImage>::const_iterator i = images.begin(); i != images.end(); ++i) {
-		all.extend (dcpomatic::Rect<int> (i->position, i->image->size().width, i->image->size().height));
+	for (auto const& i: images) {
+		all.extend (dcpomatic::Rect<int>(i.position, i.image->size().width, i.image->size().height));
 	}
 
-	shared_ptr<Image> merged (new Image (images.front().image->pixel_format (), dcp::Size (all.width, all.height), true));
+	auto merged = make_shared<Image>(images.front().image->pixel_format(), dcp::Size(all.width, all.height), true);
 	merged->make_transparent ();
-	for (list<PositionImage>::const_iterator i = images.begin(); i != images.end(); ++i) {
-		merged->alpha_blend (i->image, i->position - all.position());
+	for (auto const& i: images) {
+		merged->alpha_blend (i.image, i.position - all.position());
 	}
 
 	return PositionImage (merged, all.position ());
 }
+
 
 bool
 operator== (Image const & a, Image const & b)
@@ -1259,7 +1265,7 @@ Image::ensure_aligned (shared_ptr<const Image> image)
 		return image;
 	}
 
-	return shared_ptr<Image> (new Image (image, true));
+	return make_shared<Image>(image, true);
 }
 
 size_t
@@ -1292,7 +1298,7 @@ public:
 static void
 png_write_data (png_structp png_ptr, png_bytep data, png_size_t length)
 {
-	Memory* mem = reinterpret_cast<Memory*>(png_get_io_ptr(png_ptr));
+	auto mem = reinterpret_cast<Memory*>(png_get_io_ptr(png_ptr));
 	size_t size = mem->size + length;
 
 	if (mem->data) {
