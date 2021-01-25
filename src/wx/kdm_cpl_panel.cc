@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -34,11 +34,11 @@ KDMCPLPanel::KDMCPLPanel (wxWindow* parent, vector<CPLSummary> cpls)
 	: wxPanel (parent, wxID_ANY)
 	, _cpls (cpls)
 {
-	wxBoxSizer* vertical = new wxBoxSizer (wxVERTICAL);
+	auto vertical = new wxBoxSizer (wxVERTICAL);
 
 	/* CPL choice */
-	wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-	add_label_to_sizer (s, this, _("CPL"), true);
+	auto s = new wxBoxSizer (wxHORIZONTAL);
+	add_label_to_sizer (s, this, _("CPL"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_cpl = new wxChoice (this, wxID_ANY);
 	s->Add (_cpl, 1, wxEXPAND);
 	_cpl_browse = new Button (this, _("Browse..."));
