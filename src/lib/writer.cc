@@ -38,7 +38,7 @@
 #include "text_content.h"
 #include <dcp/cpl.h>
 #include <dcp/locale_convert.h>
-#include <dcp/reel_mxf.h>
+#include <dcp/reel_file_asset.h>
 #include <fstream>
 #include <cerrno>
 #include <iostream>
@@ -99,7 +99,7 @@ Writer::Writer (weak_ptr<const Film> weak_film, weak_ptr<Job> j, bool text_only)
 	shared_ptr<Job> job = _job.lock ();
 
 	int reel_index = 0;
-	list<DCPTimePeriod> const reels = film()->reels();
+	auto const reels = film()->reels();
 	for (auto p: reels) {
 		_reels.push_back (ReelWriter(weak_film, p, job, reel_index++, reels.size(), text_only));
 	}
@@ -879,10 +879,10 @@ void
 Writer::calculate_referenced_digests (boost::function<void (float)> set_progress)
 {
 	for (auto const& i: _reel_assets) {
-		shared_ptr<dcp::ReelMXF> mxf = dynamic_pointer_cast<dcp::ReelMXF>(i.asset);
-		if (mxf && !mxf->hash()) {
-			mxf->asset_ref().asset()->hash (set_progress);
-			mxf->set_hash (mxf->asset_ref().asset()->hash());
+		auto file = dynamic_pointer_cast<dcp::ReelFileAsset>(i.asset);
+		if (file && !file->hash()) {
+			file->asset_ref().asset()->hash (set_progress);
+			file->set_hash (file->asset_ref().asset()->hash());
 		}
 	}
 }

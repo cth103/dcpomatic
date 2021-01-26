@@ -64,7 +64,7 @@
 #include <dcp/local_time.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/raw_convert.h>
-#include <dcp/reel_mxf.h>
+#include <dcp/reel_file_asset.h>
 #include <dcp/reel_asset.h>
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
@@ -1645,9 +1645,9 @@ Film::make_kdm (
 		}
 	}
 
-	map<shared_ptr<const dcp::ReelMXF>, dcp::Key> keys;
+	map<shared_ptr<const dcp::ReelFileAsset>, dcp::Key> keys;
 
-	for (auto i: cpl->reel_mxfs()) {
+	for (auto i: cpl->reel_file_assets()) {
 		if (!i->key_id()) {
 			continue;
 		}
