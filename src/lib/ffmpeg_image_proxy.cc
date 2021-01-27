@@ -195,7 +195,7 @@ FFmpegImageProxy::image (optional<dcp::Size>) const
 	AVPixelFormat const pix_fmt = static_cast<AVPixelFormat>(frame->format);
 
 	_image.reset (new Image(frame));
-	if (_video_range == VIDEO_RANGE_VIDEO && av_pix_fmt_desc_get(pix_fmt)->flags & AV_PIX_FMT_FLAG_RGB) {
+	if (_video_range == VideoRange::VIDEO && av_pix_fmt_desc_get(pix_fmt)->flags & AV_PIX_FMT_FLAG_RGB) {
 		/* Asking for the video range to be converted by libswscale (in Image) will not work for
 		 * RGB sources since that method only processes video range in YUV and greyscale.  So we have
 		 * to do it ourselves here.

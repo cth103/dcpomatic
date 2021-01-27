@@ -311,10 +311,10 @@ VideoPanel::range_changed ()
 
 	switch (_range->GetSelection()) {
 	case 0:
-		vc.front()->video->set_range (VIDEO_RANGE_FULL);
+		vc.front()->video->set_range (VideoRange::FULL);
 		break;
 	case 1:
-		vc.front()->video->set_range (VIDEO_RANGE_VIDEO);
+		vc.front()->video->set_range (VideoRange::VIDEO);
 		break;
 	default:
 		DCPOMATIC_ASSERT (false);
@@ -444,7 +444,7 @@ VideoPanel::film_content_changed (int property)
 		setup_sensitivity ();
 	} else if (property == VideoContentProperty::RANGE) {
 		if (vcs) {
-			checked_set (_range, vcs->video->range() == VIDEO_RANGE_FULL ? 0 : 1);
+			checked_set (_range, vcs->video->range() == VideoRange::FULL ? 0 : 1);
 		} else {
 			checked_set (_range, 0);
 		}

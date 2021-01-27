@@ -234,9 +234,9 @@ string
 video_range_to_string (VideoRange r)
 {
 	switch (r) {
-	case VIDEO_RANGE_FULL:
+	case VideoRange::FULL:
 		return "full";
-	case VIDEO_RANGE_VIDEO:
+	case VideoRange::VIDEO:
 		return "video";
 	default:
 		DCPOMATIC_ASSERT (false);
@@ -248,12 +248,12 @@ VideoRange
 string_to_video_range (string s)
 {
 	if (s == "full") {
-		return VIDEO_RANGE_FULL;
+		return VideoRange::FULL;
 	} else if (s == "video") {
-		return VIDEO_RANGE_VIDEO;
+		return VideoRange::VIDEO;
 	}
 
 	DCPOMATIC_ASSERT (false);
-	return VIDEO_RANGE_FULL;
+	return VideoRange::FULL;
 }
 

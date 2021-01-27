@@ -75,7 +75,7 @@ VideoContent::VideoContent (Content* parent)
 	, _yuv (true)
 	, _fade_in (0)
 	, _fade_out (0)
-	, _range (VIDEO_RANGE_FULL)
+	, _range (VideoRange::FULL)
 {
 
 }
@@ -178,9 +178,9 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 		_fade_in = _fade_out = 0;
 	}
 
-	_range = VIDEO_RANGE_FULL;
+	_range = VideoRange::FULL;
 	if (node->optional_string_child("Range").get_value_or("full") == "video") {
-		_range = VIDEO_RANGE_VIDEO;
+		_range = VideoRange::VIDEO;
 	}
 }
 
@@ -270,7 +270,7 @@ VideoContent::as_xml (xmlpp::Node* node) const
 	node->add_child("YUV")->add_child_text (_yuv ? "1" : "0");
 	node->add_child("FadeIn")->add_child_text (raw_convert<string> (_fade_in));
 	node->add_child("FadeOut")->add_child_text (raw_convert<string> (_fade_out));
-	node->add_child("Range")->add_child_text(_range == VIDEO_RANGE_FULL ? "full" : "video");
+	node->add_child("Range")->add_child_text(_range == VideoRange::FULL ? "full" : "video");
 }
 
 void
@@ -321,7 +321,7 @@ VideoContent::identifier () const
 		_custom_size ? _custom_size->height : 0,
 		_fade_in,
 		_fade_out,
-		_range == VIDEO_RANGE_FULL ? 0 : 1
+		_range == VideoRange::FULL ? 0 : 1
 		);
 
 	string s (buffer);

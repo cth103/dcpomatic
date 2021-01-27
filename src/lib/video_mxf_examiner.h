@@ -40,7 +40,7 @@ public:
 	boost::optional<double> sample_aspect_ratio () const;
 	bool yuv () const;
 	VideoRange range () const {
-		return VIDEO_RANGE_FULL;
+		return VideoRange::FULL;
 	}
 
 private:

@@ -431,9 +431,9 @@ FFmpegExaminer::range () const
 	switch (color_range()) {
 	case AVCOL_RANGE_MPEG:
 	case AVCOL_RANGE_UNSPECIFIED:
-		return VIDEO_RANGE_VIDEO;
+		return VideoRange::VIDEO;
 	case AVCOL_RANGE_JPEG:
 	default:
-		return VIDEO_RANGE_FULL;
+		return VideoRange::FULL;
 	}
 }

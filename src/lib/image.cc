@@ -239,8 +239,8 @@ Image::crop_scale_window (
 	*/
 	sws_setColorspaceDetails (
 		scale_context,
-		sws_getCoefficients (lut[static_cast<int>(yuv_to_rgb)]), video_range == VIDEO_RANGE_VIDEO ? 0 : 1,
-		sws_getCoefficients (lut[static_cast<int>(yuv_to_rgb)]), out_video_range == VIDEO_RANGE_VIDEO ? 0 : 1,
+		sws_getCoefficients (lut[static_cast<int>(yuv_to_rgb)]), video_range == VideoRange::VIDEO ? 0 : 1,
+		sws_getCoefficients (lut[static_cast<int>(yuv_to_rgb)]), out_video_range == VideoRange::VIDEO ? 0 : 1,
 		0, 1 << 16, 1 << 16
 		);
 

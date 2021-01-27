@@ -89,7 +89,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_image_full_range_not_changed)
 
 	write_image (grey_image(size, grey_pixel), file);
 
-	FFmpegImageProxy proxy (file, VIDEO_RANGE_FULL);
+	FFmpegImageProxy proxy (file, VideoRange::FULL);
 	ImageProxy::Result result = proxy.image ();
 	BOOST_REQUIRE (!result.error);
 
@@ -111,7 +111,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_image_video_range_expanded)
 
 	write_image (grey_image(size, grey_pixel), file);
 
-	FFmpegImageProxy proxy (file, VIDEO_RANGE_VIDEO);
+	FFmpegImageProxy proxy (file, VideoRange::VIDEO);
 	ImageProxy::Result result = proxy.image ();
 	BOOST_REQUIRE (!result.error);
 
@@ -289,7 +289,7 @@ movie_VoF (string name)
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
-	content->video->set_range (VIDEO_RANGE_FULL);
+	content->video->set_range (VideoRange::FULL);
 
 	pair<int, int> range = pixel_range (film, content);
 	BOOST_CHECK_EQUAL (range.first, 15);
@@ -326,7 +326,7 @@ movie_FoV (string name)
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
-	content->video->set_range (VIDEO_RANGE_VIDEO);
+	content->video->set_range (VideoRange::VIDEO);
 
 	pair<int, int> range = pixel_range (film, content);
 	BOOST_CHECK_EQUAL (range.first, 0);
@@ -363,7 +363,7 @@ image_FoV (string name)
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
-	content->video->set_range (VIDEO_RANGE_VIDEO);
+	content->video->set_range (VideoRange::VIDEO);
 
 	pair<int, int> range = pixel_range (film, content);
 	BOOST_CHECK_EQUAL (range.first, 11);

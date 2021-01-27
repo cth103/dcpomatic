@@ -37,7 +37,7 @@ public:
 	}
 	bool yuv () const;
 	VideoRange range () const {
-		return VIDEO_RANGE_FULL;
+		return VideoRange::FULL;
 	}
 
 private:

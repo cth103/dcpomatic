@@ -339,9 +339,9 @@ static
 double
 rms_error (boost::filesystem::path ref, boost::filesystem::path check)
 {
-	FFmpegImageProxy ref_proxy (ref, VIDEO_RANGE_FULL);
+	FFmpegImageProxy ref_proxy (ref, VideoRange::FULL);
 	shared_ptr<Image> ref_image = ref_proxy.image().image;
-	FFmpegImageProxy check_proxy (check, VIDEO_RANGE_FULL);
+	FFmpegImageProxy check_proxy (check, VideoRange::FULL);
 	shared_ptr<Image> check_image = check_proxy.image().image;
 
 	BOOST_REQUIRE_EQUAL (ref_image->pixel_format(), check_image->pixel_format());

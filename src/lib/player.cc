@@ -382,7 +382,7 @@ Player::black_player_video_frame (Eyes eyes) const
 			eyes,
 			PART_WHOLE,
 			PresetColourConversion::all().front().conversion,
-			VIDEO_RANGE_FULL,
+			VideoRange::FULL,
 			std::weak_ptr<Content>(),
 			boost::optional<Frame>(),
 			false
