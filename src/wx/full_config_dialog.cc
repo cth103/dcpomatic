@@ -1452,7 +1452,7 @@ private:
 		checked_set (_log_warning, config->log_types() & LogEntry::TYPE_WARNING);
 		checked_set (_log_error, config->log_types() & LogEntry::TYPE_ERROR);
 		checked_set (_log_timing, config->log_types() & LogEntry::TYPE_TIMING);
-		checked_set (_log_debug_threed, config->log_types() & LogEntry::TYPE_DEBUG_THREED);
+		checked_set (_log_debug_threed, config->log_types() & LogEntry::TYPE_DEBUG_THREE_D);
 		checked_set (_log_debug_encode, config->log_types() & LogEntry::TYPE_DEBUG_ENCODE);
 		checked_set (_log_debug_email, config->log_types() & LogEntry::TYPE_DEBUG_EMAIL);
 		checked_set (_log_debug_video_view, config->log_types() & LogEntry::TYPE_DEBUG_VIDEO_VIEW);
@@ -1529,7 +1529,7 @@ private:
 			types |= LogEntry::TYPE_TIMING;
 		}
 		if (_log_debug_threed->GetValue ()) {
-			types |= LogEntry::TYPE_DEBUG_THREED;
+			types |= LogEntry::TYPE_DEBUG_THREE_D;
 		}
 		if (_log_debug_encode->GetValue ()) {
 			types |= LogEntry::TYPE_DEBUG_ENCODE;

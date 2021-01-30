@@ -27,7 +27,7 @@
 int const LogEntry::TYPE_GENERAL      = 0x001;
 int const LogEntry::TYPE_WARNING      = 0x002;
 int const LogEntry::TYPE_ERROR        = 0x004;
-int const LogEntry::TYPE_DEBUG_THREED = 0x008;
+int const LogEntry::TYPE_DEBUG_THREE_D = 0x008;
 int const LogEntry::TYPE_DEBUG_ENCODE = 0x010;
 int const LogEntry::TYPE_TIMING       = 0x020;
 int const LogEntry::TYPE_DEBUG_EMAIL  = 0x040;

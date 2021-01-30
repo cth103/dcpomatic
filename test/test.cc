@@ -109,7 +109,7 @@ setup_test_config ()
 	Config::instance()->set_default_still_length (10);
 	Config::instance()->set_log_types (
 		LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING |
-		LogEntry::TYPE_ERROR | LogEntry::TYPE_DEBUG_THREED |
+		LogEntry::TYPE_ERROR | LogEntry::TYPE_DEBUG_THREE_D |
 		LogEntry::TYPE_DEBUG_ENCODE | LogEntry::TYPE_DEBUG_PLAYER |
 		LogEntry::TYPE_DISK
 		);
