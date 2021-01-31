@@ -195,14 +195,14 @@ private:
 	void button_clicked ()
 	{
 		U const v = boost::bind (_model_getter, _part(_content.front().get()).get())();
-		for (typename List::iterator i = _content.begin (); i != _content.end(); ++i) {
-			boost::bind (_model_setter, _part(i->get()).get(), v) ();
+		for (auto const& i: _content) {
+			boost::bind (_model_setter, _part(i.get()).get(), v)();
 		}
 	}
 
 	void model_changed (ChangeType type, int property)
 	{
-		if (type == CHANGE_TYPE_DONE && property == _property && !_ignore_model_changes) {
+		if (type == ChangeType::DONE && property == _property && !_ignore_model_changes) {
 			update_from_model ();
 		}
 	}

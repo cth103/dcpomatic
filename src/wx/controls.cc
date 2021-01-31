@@ -190,7 +190,7 @@ Controls::update_position ()
 void
 Controls::eye_changed ()
 {
-	_viewer->set_eyes (_eye->GetSelection() == 0 ? EYES_LEFT : EYES_RIGHT);
+	_viewer->set_eyes (_eye->GetSelection() == 0 ? Eyes::LEFT : Eyes::RIGHT);
 }
 
 void
@@ -407,7 +407,7 @@ Controls::film () const
 void
 Controls::film_change (ChangeType type, Film::Property p)
 {
-	if (type == CHANGE_TYPE_DONE) {
+	if (type == ChangeType::DONE) {
 		if (p == Film::CONTENT) {
 			setup_sensitivity ();
 			update_position_label ();

@@ -314,12 +314,12 @@ AudioDialog::channel_clicked (wxCommandEvent& ev)
 void
 AudioDialog::film_change (ChangeType type, int p)
 {
-	if (type != CHANGE_TYPE_DONE) {
+	if (type != ChangeType::DONE) {
 		return;
 	}
 
 	if (p == Film::AUDIO_CHANNELS) {
-		shared_ptr<Film> film = _film.lock ();
+		auto film = _film.lock ();
 		if (film) {
 			_channels = film->audio_channels ();
 			try_to_load_analysis ();
@@ -330,7 +330,7 @@ AudioDialog::film_change (ChangeType type, int p)
 void
 AudioDialog::content_change (ChangeType type, int p)
 {
-	if (type != CHANGE_TYPE_DONE) {
+	if (type != ChangeType::DONE) {
 		return;
 	}
 
@@ -375,12 +375,12 @@ AudioDialog::setup_statistics ()
 		return;
 	}
 
-	shared_ptr<Film> film = _film.lock ();
+	auto film = _film.lock ();
 	if (!film) {
 		return;
 	}
 
-	pair<AudioAnalysis::PeakTime, int> const peak = _analysis->overall_sample_peak ();
+	auto const peak = _analysis->overall_sample_peak ();
 	float const peak_dB = linear_to_db(peak.first.peak) + _analysis->gain_correction(_playlist);
 	_sample_peak->SetLabel (
 		wxString::Format (
@@ -412,7 +412,7 @@ AudioDialog::setup_statistics ()
 
 	/* XXX: check whether it's ok to add dB gain to these quantities */
 
-	if (static_cast<bool>(_analysis->integrated_loudness ())) {
+	if (static_cast<bool>(_analysis->integrated_loudness())) {
 		_integrated_loudness->SetLabel (
 			wxString::Format (
 				_("Integrated loudness %.2f LUFS"),
@@ -421,7 +421,7 @@ AudioDialog::setup_statistics ()
 			);
 	}
 
-	if (static_cast<bool>(_analysis->loudness_range ())) {
+	if (static_cast<bool>(_analysis->loudness_range())) {
 		_loudness_range->SetLabel (
 			wxString::Format (
 				_("Loudness range %.2f LU"),
@@ -455,7 +455,7 @@ AudioDialog::set_cursor (optional<DCPTime> time, optional<float> db)
 		return;
 	}
 
-	shared_ptr<Film> film = _film.lock();
+	auto film = _film.lock();
 	DCPOMATIC_ASSERT (film);
 	_cursor->SetLabel (wxString::Format (_("Cursor: %.1fdB at %s"), *db, time->timecode(film->video_frame_rate())));
 }

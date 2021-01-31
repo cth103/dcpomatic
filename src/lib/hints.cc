@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -45,13 +45,14 @@
 
 #include "i18n.h"
 
-using std::vector;
-using std::string;
-using std::pair;
-using std::min;
-using std::max;
 using std::cout;
+using std::make_shared;
+using std::max;
+using std::min;
+using std::pair;
 using std::shared_ptr;
+using std::string;
+using std::vector;
 using std::weak_ptr;
 using boost::optional;
 using boost::bind;
@@ -113,7 +114,7 @@ Hints::check_few_audio_channels ()
 void
 Hints::check_upmixers ()
 {
-	AudioProcessor const * ap = film()->audio_processor();
+	auto ap = film()->audio_processor();
 	if (ap && (ap->id() == "stereo-5.1-upmix-a" || ap->id() == "stereo-5.1-upmix-b")) {
 		hint (_("You are using DCP-o-matic's stereo-to-5.1 upmixer.  This is experimental and may result in poor-quality audio.  If you continue, you should listen to the resulting DCP in a cinema to make sure that it sounds good."));
 	}
@@ -151,7 +152,7 @@ Hints::check_incorrect_container ()
 void
 Hints::check_unusual_container ()
 {
-	string const film_container = film()->container()->id();
+	auto const film_container = film()->container()->id();
 	if (film_container != "185" && film_container != "239" && film_container != "190") {
 		hint (_("Your DCP uses an unusual container ratio.  This may cause problems on some projectors.  If possible, use Flat or Scope for the DCP container ratio"));
 	}
@@ -170,7 +171,7 @@ Hints::check_high_j2k_bandwidth ()
 void
 Hints::check_frame_rate ()
 {
-	shared_ptr<const Film> f = film ();
+	auto f = film ();
 	switch (f->video_frame_rate()) {
 	case 24:
 		/* Fine */
@@ -274,7 +275,7 @@ Hints::check_3d_in_2d ()
 {
 	int three_d = 0;
 	for (auto i: film()->content()) {
-		if (i->video && i->video->frame_type() != VIDEO_FRAME_TYPE_2D) {
+		if (i->video && i->video->frame_type() != VideoFrameType::TWO_D) {
 			++three_d;
 		}
 	}
@@ -288,15 +289,15 @@ Hints::check_3d_in_2d ()
 void
 Hints::check_loudness ()
 {
-	boost::filesystem::path path = film()->audio_analysis_path(film()->playlist());
+	auto path = film()->audio_analysis_path(film()->playlist());
 	if (boost::filesystem::exists (path)) {
 		try {
-			shared_ptr<AudioAnalysis> an (new AudioAnalysis (path));
+			auto an = make_shared<AudioAnalysis>(path);
 
 			string ch;
 
-			vector<AudioAnalysis::PeakTime> sample_peak = an->sample_peak ();
-			vector<float> true_peak = an->true_peak ();
+			auto sample_peak = an->sample_peak ();
+			auto true_peak = an->true_peak ();
 
 			for (size_t i = 0; i < sample_peak.size(); ++i) {
 				float const peak = max (sample_peak[i].peak, true_peak.empty() ? 0 : true_peak[i]);
@@ -335,12 +336,12 @@ subtitle_mxf_too_big (shared_ptr<dcp::SubtitleAsset> asset)
 void
 Hints::thread ()
 {
-	shared_ptr<const Film> film = _film.lock ();
+	auto film = _film.lock ();
 	if (!film) {
 		return;
 	}
 
-	ContentList content = film->content ();
+	auto content = film->content ();
 
 	check_big_font_files ();
 	check_few_audio_channels ();
@@ -357,7 +358,7 @@ Hints::thread ()
 
 	emit (bind(boost::ref(Progress), _("Examining closed captions")));
 
-	shared_ptr<Player> player (new Player(film));
+	auto player = make_shared<Player>(film);
 	player->set_ignore_video ();
 	player->set_ignore_audio ();
 	player->Text.connect (bind(&Hints::text, this, _1, _2, _3, _4));
@@ -402,7 +403,7 @@ Hints::thread ()
 	dcp::DCP dcp (dcp_dir);
 	dcp.read ();
 	DCPOMATIC_ASSERT (dcp.cpls().size() == 1);
-	for (auto reel: dcp.cpls().front()->reels()) {
+	for (auto reel: dcp.cpls()[0]->reels()) {
 		for (auto ccap: reel->closed_captions()) {
 			if (ccap->asset() && ccap->asset()->xml_as_string().length() > static_cast<size_t>(MAX_CLOSED_CAPTION_XML_SIZE - SIZE_SLACK) && !ccap_xml_too_big) {
 				hint (_(
@@ -444,10 +445,10 @@ Hints::text (PlayerText text, TextType type, optional<DCPTextTrack> track, DCPTi
 	_writer->write (text, type, track, period);
 
 	switch (type) {
-	case TEXT_CLOSED_CAPTION:
+	case TextType::CLOSED_CAPTION:
 		closed_caption (text, period);
 		break;
-	case TEXT_OPEN_SUBTITLE:
+	case TextType::OPEN_SUBTITLE:
 		open_subtitle (text, period);
 		break;
 	default:
@@ -533,7 +534,7 @@ Hints::open_subtitle (PlayerText text, DCPTimePeriod period)
 void
 Hints::check_ffec_and_ffmc_in_smpte_feature ()
 {
-	shared_ptr<const Film> f = film();
+	auto f = film();
 	if (!f->interop() && f->dcp_content_type()->libdcp_kind() == dcp::ContentKind::FEATURE && (!f->marker(dcp::Marker::FFEC) || !f->marker(dcp::Marker::FFMC))) {
 		hint (_("SMPTE DCPs with the type FTR (feature) should have markers for the first frame of end credits (FFEC) and the first frame of moving credits (FFMC).  You should add these markers using the 'Markers' button in the DCP tab."));
 	}

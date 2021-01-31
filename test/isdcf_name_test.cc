@@ -68,7 +68,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_container (Ratio::from_id ("239"));
 	film->_isdcf_date = boost::gregorian::date (2014, boost::gregorian::Jul, 4);
 	film->set_audio_channels (1);
-	film->set_resolution (RESOLUTION_4K);
+	film->set_resolution (Resolution::FOUR_K);
 	film->set_subtitle_language (dcp::LanguageTag("fr-FR"));
 	shared_ptr<Content> text = content_factory("test/data/subrip.srt").front();
 	BOOST_REQUIRE_EQUAL (text->text.size(), 1U);

@@ -45,14 +45,15 @@
 
 #include "i18n.h"
 
-using std::string;
 using std::cout;
 using std::distance;
-using std::pair;
-using std::vector;
 using std::list;
+using std::make_shared;
 using std::map;
+using std::pair;
 using std::shared_ptr;
+using std::string;
+using std::vector;
 using boost::scoped_ptr;
 using boost::optional;
 using boost::function;
@@ -85,7 +86,7 @@ DCPContent::DCPContent (boost::filesystem::path p)
 	read_directory (p);
 	set_default_colour_conversion ();
 
-	for (int i = 0; i < TEXT_COUNT; ++i) {
+	for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
 		_reference_text[i] = false;
 	}
 }
@@ -98,21 +99,19 @@ DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
 	text = TextContent::from_xml (this, node, version);
 	atmos = AtmosContent::from_xml (this, node);
 
-	for (int i = 0; i < TEXT_COUNT; ++i) {
+	for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
 		_reference_text[i] = false;
 	}
 
 	if (video && audio) {
 		audio->set_stream (
-			AudioStreamPtr (
-				new AudioStream (
-					node->number_child<int> ("AudioFrameRate"),
-					/* AudioLength was not present in some old metadata versions */
-					node->optional_number_child<Frame>("AudioLength").get_value_or (
-						video->length() * node->number_child<int>("AudioFrameRate") / video_frame_rate().get()
-						),
-					AudioMapping (node->node_child ("AudioMapping"), version)
-					)
+			make_shared<AudioStream> (
+				node->number_child<int> ("AudioFrameRate"),
+				/* AudioLength was not present in some old metadata versions */
+				node->optional_number_child<Frame>("AudioLength").get_value_or (
+					video->length() * node->number_child<int>("AudioFrameRate") / video_frame_rate().get()
+					),
+				AudioMapping (node->node_child ("AudioMapping"), version)
 				)
 			);
 	}
@@ -127,14 +126,14 @@ DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
 	_reference_video = node->optional_bool_child ("ReferenceVideo").get_value_or (false);
 	_reference_audio = node->optional_bool_child ("ReferenceAudio").get_value_or (false);
 	if (version >= 37) {
-		_reference_text[TEXT_OPEN_SUBTITLE] = node->optional_bool_child("ReferenceOpenSubtitle").get_value_or(false);
-		_reference_text[TEXT_CLOSED_CAPTION] = node->optional_bool_child("ReferenceClosedCaption").get_value_or(false);
+		_reference_text[static_cast<int>(TextType::OPEN_SUBTITLE)] = node->optional_bool_child("ReferenceOpenSubtitle").get_value_or(false);
+		_reference_text[static_cast<int>(TextType::CLOSED_CAPTION)] = node->optional_bool_child("ReferenceClosedCaption").get_value_or(false);
 	} else {
-		_reference_text[TEXT_OPEN_SUBTITLE] = node->optional_bool_child("ReferenceSubtitle").get_value_or(false);
-		_reference_text[TEXT_CLOSED_CAPTION] = false;
+		_reference_text[static_cast<int>(TextType::OPEN_SUBTITLE)] = node->optional_bool_child("ReferenceSubtitle").get_value_or(false);
+		_reference_text[static_cast<int>(TextType::CLOSED_CAPTION)] = false;
 	}
 	if (node->optional_string_child("Standard")) {
-		string const s = node->optional_string_child("Standard").get();
+		auto const s = node->optional_string_child("Standard").get();
 		if (s == "Interop") {
 			_standard = dcp::Standard::INTEROP;
 		} else if (s == "SMPTE") {
@@ -145,7 +144,7 @@ DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
 	}
 	_three_d = node->optional_bool_child("ThreeD").get_value_or (false);
 
-	optional<string> ck = node->optional_string_child("ContentKind");
+	auto ck = node->optional_string_child("ContentKind");
 	if (ck) {
 		_content_kind = dcp::content_kind_from_string (*ck);
 	}
@@ -201,13 +200,13 @@ void
 DCPContent::read_sub_directory (boost::filesystem::path p)
 {
 	LOG_GENERAL ("DCPContent::read_sub_directory reads %1", p.string());
-	for (boost::filesystem::directory_iterator i(p); i != boost::filesystem::directory_iterator(); ++i) {
-		if (boost::filesystem::is_regular_file (i->path())) {
-			LOG_GENERAL ("Inside there's regular file %1", i->path().string());
-			add_path (i->path());
-		} else if (boost::filesystem::is_directory (i->path ())) {
-			LOG_GENERAL ("Inside there's directory %1", i->path().string());
-			read_sub_directory (i->path());
+	for (auto i: boost::filesystem::directory_iterator(p)) {
+		if (boost::filesystem::is_regular_file(i.path())) {
+			LOG_GENERAL ("Inside there's regular file %1", i.path().string());
+			add_path (i.path());
+		} else if (boost::filesystem::is_directory (i.path())) {
+			LOG_GENERAL ("Inside there's directory %1", i.path().string());
+			read_sub_directory (i.path());
 		}
 	}
 }
@@ -230,12 +229,12 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	}
 	Content::examine (film, job);
 
-	shared_ptr<DCPExaminer> examiner (new DCPExaminer(shared_from_this(), film ? film->tolerant() : true));
+	auto examiner = make_shared<DCPExaminer>(shared_from_this(), film ? film->tolerant() : true);
 
 	if (examiner->has_video()) {
 		{
 			boost::mutex::scoped_lock lm (_mutex);
-			video.reset (new VideoContent (this));
+			video = make_shared<VideoContent>(this);
 		}
 		video->take_from_examiner (examiner);
 		set_default_colour_conversion ();
@@ -244,11 +243,11 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	if (examiner->has_audio()) {
 		{
 			boost::mutex::scoped_lock lm (_mutex);
-			audio.reset (new AudioContent (this));
+			audio = make_shared<AudioContent>(this);
 		}
-		AudioStreamPtr as (new AudioStream (examiner->audio_frame_rate(), examiner->audio_length(), examiner->audio_channels()));
+		auto as = make_shared<AudioStream>(examiner->audio_frame_rate(), examiner->audio_length(), examiner->audio_channels());
 		audio->set_stream (as);
-		AudioMapping m = as->mapping ();
+		auto m = as->mapping ();
 		m.make_default (film ? film->audio_processor() : 0);
 		as->set_mapping (m);
 	}
@@ -256,7 +255,7 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	if (examiner->has_atmos()) {
 		{
 			boost::mutex::scoped_lock lm (_mutex);
-			atmos.reset (new AtmosContent(this));
+			atmos = make_shared<AtmosContent>(this);
 		}
 		/* Setting length will cause calculations to be made based on edit rate, so that must
 		 * be set up first otherwise hard-to-spot exceptions will be thrown.
@@ -266,10 +265,10 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	}
 
 	list<shared_ptr<TextContent> > new_text;
-	for (int i = 0; i < TEXT_COUNT; ++i) {
+	for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
 		for (int j = 0; j < examiner->text_count(static_cast<TextType>(i)); ++j) {
-			shared_ptr<TextContent> c(new TextContent(this, static_cast<TextType>(i), static_cast<TextType>(i)));
-			if (i == TEXT_CLOSED_CAPTION) {
+			auto c = make_shared<TextContent>(this, static_cast<TextType>(i), static_cast<TextType>(i));
+			if (i == static_cast<int>(TextType::CLOSED_CAPTION)) {
 				c->set_dcp_track (examiner->dcp_text_track(j));
 			}
 			new_text.push_back (c);
@@ -288,9 +287,8 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		_content_kind = examiner->content_kind ();
 		_cpl = examiner->cpl ();
 		_reel_lengths = examiner->reel_lengths ();
-		map<dcp::Marker, dcp::Time> markers = examiner->markers();
-		for (map<dcp::Marker, dcp::Time>::const_iterator i = markers.begin(); i != markers.end(); ++i) {
-			_markers[i->first] = ContentTime(i->second.as_editable_units(DCPTime::HZ));
+		for (auto const& i: examiner->markers()) {
+			_markers[i.first] = ContentTime(i.second.as_editable_units(DCPTime::HZ));
 		}
 		_ratings = examiner->ratings ();
 		_content_versions = examiner->content_versions ();
@@ -309,7 +307,7 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	}
 
 	if (video) {
-		video->set_frame_type (_three_d ? VIDEO_FRAME_TYPE_3D : VIDEO_FRAME_TYPE_2D);
+		video->set_frame_type (_three_d ? VideoFrameType::THREE_D : VideoFrameType::TWO_D);
 	}
 }
 
@@ -369,8 +367,8 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 	node->add_child("KDMValid")->add_child_text (_kdm_valid ? "1" : "0");
 	node->add_child("ReferenceVideo")->add_child_text (_reference_video ? "1" : "0");
 	node->add_child("ReferenceAudio")->add_child_text (_reference_audio ? "1" : "0");
-	node->add_child("ReferenceOpenSubtitle")->add_child_text(_reference_text[TEXT_OPEN_SUBTITLE] ? "1" : "0");
-	node->add_child("ReferenceClosedCaption")->add_child_text(_reference_text[TEXT_CLOSED_CAPTION] ? "1" : "0");
+	node->add_child("ReferenceOpenSubtitle")->add_child_text(_reference_text[static_cast<int>(TextType::OPEN_SUBTITLE)] ? "1" : "0");
+	node->add_child("ReferenceClosedCaption")->add_child_text(_reference_text[static_cast<int>(TextType::CLOSED_CAPTION)] ? "1" : "0");
 	if (_standard) {
 		switch (_standard.get ()) {
 		case dcp::Standard::INTEROP:
@@ -394,14 +392,14 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 		node->add_child("ReelLength")->add_child_text (raw_convert<string> (i));
 	}
 
-	for (map<dcp::Marker, ContentTime>::const_iterator i = _markers.begin(); i != _markers.end(); ++i) {
-		xmlpp::Element* marker = node->add_child("Marker");
-		marker->set_attribute("type", dcp::marker_to_string(i->first));
-		marker->add_child_text(raw_convert<string>(i->second.get()));
+	for (auto const& i: _markers) {
+		auto marker = node->add_child("Marker");
+		marker->set_attribute("type", dcp::marker_to_string(i.first));
+		marker->add_child_text(raw_convert<string>(i.second.get()));
 	}
 
 	for (auto i: _ratings) {
-		xmlpp::Element* rating = node->add_child("Rating");
+		auto rating = node->add_child("Rating");
 		i.as_xml (rating);
 	}
 
@@ -414,7 +412,7 @@ DCPTime
 DCPContent::full_length (shared_ptr<const Film> film) const
 {
 	if (!video) {
-		return DCPTime();
+		return {};
 	}
 	FrameRateChange const frc (film, shared_from_this());
 	return DCPTime::from_frames (llrint(video->length() * frc.factor()), film->video_frame_rate());
@@ -424,7 +422,7 @@ DCPTime
 DCPContent::approximate_length () const
 {
 	if (!video) {
-		return DCPTime();
+		return {};
 	}
 	return DCPTime::from_frames (video->length(), 24);
 }
@@ -443,7 +441,7 @@ DCPContent::identifier () const
 	}
 
 	s += string (_reference_video ? "1" : "0");
-	for (int i = 0; i < TEXT_COUNT; ++i) {
+	for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
 		s += string (_reference_text[i] ? "1" : "0");
 	}
 	return s;
@@ -537,15 +535,15 @@ DCPContent::set_reference_text (TextType type, bool r)
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		_reference_text[type] = r;
+		_reference_text[static_cast<int>(type)] = r;
 	}
 }
 
 list<DCPTimePeriod>
 DCPContent::reels (shared_ptr<const Film> film) const
 {
-	list<int64_t> reel_lengths = _reel_lengths;
-	if (reel_lengths.empty ()) {
+	auto reel_lengths = _reel_lengths;
+	if (reel_lengths.empty()) {
 		/* Old metadata with no reel lengths; get them here instead */
 		try {
 			scoped_ptr<DCPExaminer> examiner (new DCPExaminer(shared_from_this(), film->tolerant()));
@@ -563,13 +561,13 @@ DCPContent::reels (shared_ptr<const Film> film) const
 	*/
 
 	/* The starting point of this content on the timeline */
-	DCPTime pos = position() - DCPTime (trim_start().get());
+	auto pos = position() - DCPTime (trim_start().get());
 
 	for (auto i: reel_lengths) {
 		/* This reel runs from `pos' to `to' */
 		DCPTime const to = pos + DCPTime::from_frames (i, film->video_frame_rate());
 		if (to > position()) {
-			p.push_back (DCPTimePeriod (max(position(), pos), min(end(film), to)));
+			p.push_back (DCPTimePeriod(max(position(), pos), min(end(film), to)));
 			if (to > end(film)) {
 				break;
 			}
@@ -613,7 +611,7 @@ DCPContent::can_reference (shared_ptr<const Film> film, function<bool (shared_pt
 		return false;
 	}
 
-	list<DCPTimePeriod> const fr = film->reels ();
+	auto const fr = film->reels ();
 
 	list<DCPTimePeriod> reel_list;
 	try {
@@ -637,7 +635,7 @@ DCPContent::can_reference (shared_ptr<const Film> film, function<bool (shared_pt
 		}
 	}
 
-	ContentList a = overlaps (film, film->content(), part, position(), end(film));
+	auto a = overlaps (film, film->content(), part, position(), end(film));
 	if (a.size() != 1 || a.front().get() != this) {
 		why_not = overlapping;
 		return false;
@@ -661,7 +659,7 @@ DCPContent::can_reference_video (shared_ptr<const Film> film, string& why_not) c
 	}
 
 	if (film->resolution() != resolution()) {
-		if (resolution() == RESOLUTION_4K) {
+		if (resolution() == Resolution::FOUR_K) {
 			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
 			why_not = _("it is 4K and the film is 2K.");
 		} else {
@@ -735,7 +733,7 @@ DCPContent::can_reference_text (shared_ptr<const Film> film, TextType type, stri
 	}
 
         for (auto i: decoder->reels()) {
-                if (type == TEXT_OPEN_SUBTITLE) {
+                if (type == TextType::OPEN_SUBTITLE) {
 			if (!i->main_subtitle()) {
 				/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
 				why_not = _("it does not have open subtitles in all its reels.");
@@ -746,7 +744,7 @@ DCPContent::can_reference_text (shared_ptr<const Film> film, TextType type, stri
 				return false;
 			}
                 }
-		if (type == TEXT_CLOSED_CAPTION) {
+		if (type == TextType::CLOSED_CAPTION) {
 			if (i->closed_captions().empty()) {
 				/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
 				why_not = _("it does not have closed captions in all its reels.");
@@ -775,14 +773,14 @@ DCPContent::can_reference_text (shared_ptr<const Film> film, TextType type, stri
 void
 DCPContent::take_settings_from (shared_ptr<const Content> c)
 {
-	shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (c);
+	auto dc = dynamic_pointer_cast<const DCPContent>(c);
 	if (!dc) {
 		return;
 	}
 
 	_reference_video = dc->_reference_video;
 	_reference_audio = dc->_reference_audio;
-	for (int i = 0; i < TEXT_COUNT; ++i) {
+	for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
 		_reference_text[i] = dc->_reference_text[i];
 	}
 }
@@ -814,9 +812,9 @@ Resolution
 DCPContent::resolution () const
 {
 	if (video->size().width > 2048 || video->size().height > 1080) {
-		return RESOLUTION_4K;
+		return Resolution::FOUR_K;
 	}
 
-	return RESOLUTION_2K;
+	return Resolution::TWO_K;
 }
 

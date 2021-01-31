@@ -56,9 +56,10 @@ DCPOMATIC_ENABLE_WARNINGS
 
 #include "i18n.h"
 
-using std::string;
 using std::cout;
+using std::make_shared;
 using std::shared_ptr;
+using std::string;
 using dcp::Size;
 using dcp::ArrayData;
 using dcp::raw_convert;
@@ -91,7 +92,7 @@ DCPVideo::DCPVideo (shared_ptr<const PlayerVideo> frame, shared_ptr<const cxml::
 	_index = node->number_child<int> ("Index");
 	_frames_per_second = node->number_child<int> ("FramesPerSecond");
 	_j2k_bandwidth = node->number_child<int> ("J2KBandwidth");
-	_resolution = Resolution (node->optional_number_child<int>("Resolution").get_value_or (RESOLUTION_2K));
+	_resolution = Resolution (node->optional_number_child<int>("Resolution").get_value_or(static_cast<int>(Resolution::TWO_K)));
 }
 
 shared_ptr<dcp::OpenJPEGImage>
@@ -99,7 +100,7 @@ DCPVideo::convert_to_xyz (shared_ptr<const PlayerVideo> frame, dcp::NoteHandler 
 {
 	shared_ptr<dcp::OpenJPEGImage> xyz;
 
-	shared_ptr<Image> image = frame->image (bind (&PlayerVideo::keep_xyz_or_rgb, _1), VideoRange::FULL, true, false);
+	auto image = frame->image (bind(&PlayerVideo::keep_xyz_or_rgb, _1), VideoRange::FULL, true, false);
 	if (frame->colour_conversion()) {
 		xyz = dcp::rgb_to_xyz (
 			image->data()[0],
@@ -109,7 +110,7 @@ DCPVideo::convert_to_xyz (shared_ptr<const PlayerVideo> frame, dcp::NoteHandler 
 			note
 			);
 	} else {
-		xyz.reset (new dcp::OpenJPEGImage (image->data()[0], image->size(), image->stride()[0]));
+		xyz = make_shared<dcp::OpenJPEGImage>(image->data()[0], image->size(), image->stride()[0]);
 	}
 
 	return xyz;
@@ -121,25 +122,25 @@ DCPVideo::convert_to_xyz (shared_ptr<const PlayerVideo> frame, dcp::NoteHandler 
 ArrayData
 DCPVideo::encode_locally ()
 {
-	string const comment = Config::instance()->dcp_j2k_comment();
+	auto const comment = Config::instance()->dcp_j2k_comment();
 
-	ArrayData enc = dcp::compress_j2k (
+	auto enc = dcp::compress_j2k (
 		convert_to_xyz (_frame, boost::bind(&Log::dcp_log, dcpomatic_log.get(), _1, _2)),
 		_j2k_bandwidth,
 		_frames_per_second,
-		_frame->eyes() == EYES_LEFT || _frame->eyes() == EYES_RIGHT,
-		_resolution == RESOLUTION_4K,
+		_frame->eyes() == Eyes::LEFT || _frame->eyes() == Eyes::RIGHT,
+		_resolution == Resolution::FOUR_K,
 		comment.empty() ? "libdcp" : comment
 		);
 
 	switch (_frame->eyes()) {
-	case EYES_BOTH:
+	case Eyes::BOTH:
 		LOG_DEBUG_ENCODE (N_("Finished locally-encoded frame %1 for mono"), _index);
 		break;
-	case EYES_LEFT:
+	case Eyes::LEFT:
 		LOG_DEBUG_ENCODE (N_("Finished locally-encoded frame %1 for L"), _index);
 		break;
-	case EYES_RIGHT:
+	case Eyes::RIGHT:
 		LOG_DEBUG_ENCODE (N_("Finished locally-encoded frame %1 for R"), _index);
 		break;
 	default:
@@ -162,13 +163,13 @@ DCPVideo::encode_remotely (EncodeServerDescription serv, int timeout)
 	boost::asio::ip::tcp::resolver::query query (serv.host_name(), raw_convert<string> (ENCODE_FRAME_PORT));
 	boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 
-	shared_ptr<Socket> socket (new Socket (timeout));
+	auto socket = make_shared<Socket>(timeout);
 
 	socket->connect (*endpoint_iterator);
 
 	/* Collect all XML metadata */
 	xmlpp::Document doc;
-	xmlpp::Element* root = doc.create_root_node ("EncodingRequest");
+	auto root = doc.create_root_node ("EncodingRequest");
 	root->add_child("Version")->add_child_text (raw_convert<string> (SERVER_LINK_VERSION));
 	add_metadata (root);
 
@@ -178,7 +179,7 @@ DCPVideo::encode_remotely (EncodeServerDescription serv, int timeout)
 		Socket::WriteDigestScope ds (socket);
 
 		/* Send XML metadata */
-		string xml = doc.write_to_string ("UTF-8");
+		auto xml = doc.write_to_string ("UTF-8");
 		socket->write (xml.length() + 1);
 		socket->write ((uint8_t *) xml.c_str(), xml.length() + 1);
 

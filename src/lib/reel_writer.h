@@ -122,7 +122,7 @@ private:
 	/** the first picture frame index that does not already exist in our MXF */
 	int _first_nonexistant_frame;
 	/** the data of the last written frame, if there is one */
-	std::shared_ptr<const dcp::Data> _last_written[EYES_COUNT];
+	std::shared_ptr<const dcp::Data> _last_written[static_cast<int>(Eyes::COUNT)];
 	/** index of this reel within the DCP (starting from 0) */
 	int _reel_index;
 	/** number of reels in the DCP */

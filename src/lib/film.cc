@@ -151,7 +151,7 @@ Film::Film (optional<boost::filesystem::path> dir)
 	, _use_isdcf_name (true)
 	, _dcp_content_type (Config::instance()->default_dcp_content_type ())
 	, _container (Config::instance()->default_container ())
-	, _resolution (RESOLUTION_2K)
+	, _resolution (Resolution::TWO_K)
 	, _encrypted (false)
 	, _context_id (dcp::make_uuid ())
 	, _j2k_bandwidth (Config::instance()->default_j2k_bandwidth ())
@@ -162,7 +162,7 @@ Film::Film (optional<boost::filesystem::path> dir)
 	, _sequence (true)
 	, _interop (Config::instance()->default_interop ())
 	, _audio_processor (0)
-	, _reel_type (REELTYPE_SINGLE)
+	, _reel_type (ReelType::SINGLE)
 	, _reel_length (2000000000)
 	, _reencode_j2k (false)
 	, _user_explicit_video_frame_rate (false)
@@ -620,7 +620,7 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 		}
 	}
 
-	_reel_type = static_cast<ReelType> (f.optional_number_child<int>("ReelType").get_value_or (static_cast<int>(REELTYPE_SINGLE)));
+	_reel_type = static_cast<ReelType> (f.optional_number_child<int>("ReelType").get_value_or (static_cast<int>(ReelType::SINGLE)));
 	_reel_length = f.optional_number_child<int64_t>("ReelLength").get_value_or (2000000000);
 	_reencode_j2k = f.optional_bool_child("ReencodeJ2K").get_value_or(false);
 	_user_explicit_video_frame_rate = f.optional_bool_child("UserExplicitVideoFrameRate").get_value_or(false);
@@ -906,9 +906,9 @@ Film::isdcf_name (bool if_created_now) const
 		auto ccap = false;
 		for (auto i: content()) {
 			for (auto j: i->text) {
-				if (j->type() == TEXT_OPEN_SUBTITLE && j->use() && !j->burn()) {
+				if (j->type() == TextType::OPEN_SUBTITLE && j->use() && !j->burn()) {
 					burnt_in = false;
-				} else if (j->type() == TEXT_CLOSED_CAPTION && j->use()) {
+				} else if (j->type() == TextType::CLOSED_CAPTION && j->use()) {
 					ccap = true;
 				}
 			}
@@ -993,7 +993,7 @@ Film::isdcf_name (bool if_created_now) const
 		}
 
 		bool any_text = false;
-		for (int i = 0; i < TEXT_COUNT; ++i) {
+		for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
 			if (dc->reference_text(static_cast<TextType>(i))) {
 				any_text = true;
 			}
@@ -1178,7 +1178,7 @@ Film::signal_change (ChangeType type, int p)
 void
 Film::signal_change (ChangeType type, Property p)
 {
-	if (type == CHANGE_TYPE_DONE) {
+	if (type == ChangeType::DONE) {
 		_dirty = true;
 
 		if (p == Film::CONTENT) {
@@ -1217,9 +1217,9 @@ Film::j2c_path (int reel, Frame frame, Eyes eyes, bool tmp) const
 	snprintf(buffer, sizeof(buffer), "%08d_%08" PRId64, reel, frame);
 	string s (buffer);
 
-	if (eyes == EYES_LEFT) {
+	if (eyes == Eyes::LEFT) {
 		s += ".L";
-	} else if (eyes == EYES_RIGHT) {
+	} else if (eyes == Eyes::RIGHT) {
 		s += ".R";
 	}
 
@@ -1387,9 +1387,9 @@ Film::maybe_set_container_and_resolution ()
 
 		if (!_user_explicit_resolution) {
 			if (video->size_after_crop().width > 2048 || video->size_after_crop().height > 1080) {
-				set_resolution (RESOLUTION_4K, false);
+				set_resolution (Resolution::FOUR_K, false);
 			} else {
-				set_resolution (RESOLUTION_2K, false);
+				set_resolution (Resolution::TWO_K, false);
 			}
 		}
 	}
@@ -1449,7 +1449,7 @@ Film::playlist_content_change (ChangeType type, weak_ptr<Content> c, int p, bool
 		signal_change (type, Film::NAME);
 	}
 
-	if (type == CHANGE_TYPE_DONE) {
+	if (type == ChangeType::DONE) {
 		emit (boost::bind (boost::ref (ContentChange), type, c, p, frequent));
 		if (!frequent) {
 			check_settings_consistency ();
@@ -1473,7 +1473,7 @@ Film::playlist_change (ChangeType type)
 	signal_change (type, CONTENT);
 	signal_change (type, NAME);
 
-	if (type == CHANGE_TYPE_DONE) {
+	if (type == ChangeType::DONE) {
 		check_settings_consistency ();
 	}
 
@@ -1517,12 +1517,12 @@ Film::check_settings_consistency ()
 			d->set_reference_audio(false);
 			change_made = true;
 		}
-		if (d->reference_text(TEXT_OPEN_SUBTITLE) && !d->can_reference_text(shared_from_this(), TEXT_OPEN_SUBTITLE, why_not)) {
-			d->set_reference_text(TEXT_OPEN_SUBTITLE, false);
+		if (d->reference_text(TextType::OPEN_SUBTITLE) && !d->can_reference_text(shared_from_this(), TextType::OPEN_SUBTITLE, why_not)) {
+			d->set_reference_text(TextType::OPEN_SUBTITLE, false);
 			change_made = true;
 		}
-		if (d->reference_text(TEXT_CLOSED_CAPTION) && !d->can_reference_text(shared_from_this(), TEXT_CLOSED_CAPTION, why_not)) {
-			d->set_reference_text(TEXT_CLOSED_CAPTION, false);
+		if (d->reference_text(TextType::CLOSED_CAPTION) && !d->can_reference_text(shared_from_this(), TextType::CLOSED_CAPTION, why_not)) {
+			d->set_reference_text(TextType::CLOSED_CAPTION, false);
 			change_made = true;
 		}
 	}
@@ -1536,7 +1536,7 @@ void
 Film::playlist_order_changed ()
 {
 	/* XXX: missing PENDING */
-	signal_change (CHANGE_TYPE_DONE, CONTENT_ORDER);
+	signal_change (ChangeType::DONE, CONTENT_ORDER);
 }
 
 int
@@ -1565,9 +1565,9 @@ dcp::Size
 Film::full_frame () const
 {
 	switch (_resolution) {
-	case RESOLUTION_2K:
+	case Resolution::TWO_K:
 		return dcp::Size (2048, 1080);
-	case RESOLUTION_4K:
+	case Resolution::FOUR_K:
 		return dcp::Size (4096, 2160);
 	}
 
@@ -1767,10 +1767,10 @@ Film::reels () const
 	auto const len = length();
 
 	switch (reel_type ()) {
-	case REELTYPE_SINGLE:
+	case ReelType::SINGLE:
 		p.push_back (DCPTimePeriod (DCPTime (), len));
 		break;
-	case REELTYPE_BY_VIDEO_CONTENT:
+	case ReelType::BY_VIDEO_CONTENT:
 	{
 		/* Collect all reel boundaries */
 		list<DCPTime> split_points;
@@ -1802,7 +1802,7 @@ Film::reels () const
 		}
 		break;
 	}
-	case REELTYPE_BY_LENGTH:
+	case ReelType::BY_LENGTH:
 	{
 		DCPTime current;
 		/* Integer-divide reel length by the size of one frame to give the number of frames per reel,
@@ -1912,7 +1912,7 @@ Film::closed_caption_tracks () const
 		for (auto j: i->text) {
 			/* XXX: Empty DCPTextTrack ends up being a magic value here - the "unknown" or "not specified" track */
 			auto dtt = j->dcp_track().get_value_or(DCPTextTrack());
-			if (j->type() == TEXT_CLOSED_CAPTION && find(tt.begin(), tt.end(), dtt) == tt.end()) {
+			if (j->type() == TextType::CLOSED_CAPTION && find(tt.begin(), tt.end(), dtt) == tt.end()) {
 				tt.push_back (dtt);
 			}
 		}

@@ -72,7 +72,7 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 	 */
 	if (_frame_interval_checker) {
 		_frame_interval_checker->feed (frame_time, afr);
-		if (_frame_interval_checker->guess() == FrameIntervalChecker::PROBABLY_NOT_3D && vft == VIDEO_FRAME_TYPE_3D) {
+		if (_frame_interval_checker->guess() == FrameIntervalChecker::PROBABLY_NOT_3D && vft == VideoFrameType::THREE_D) {
 			boost::throw_exception (
 				DecodeError(
 					String::compose(
@@ -90,7 +90,7 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 	}
 
 	Frame frame;
-	Eyes eyes = EYES_BOTH;
+	Eyes eyes = Eyes::BOTH;
 	if (!_position) {
 		/* This is the first data we have received since initialisation or seek.  Set
 		   the position based on the frame that was given.  After this first time
@@ -101,21 +101,21 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 		   If we drop the frame with the duplicated timestamp we obviously lose sync.
 		*/
 		_position = ContentTime::from_frames (decoder_frame, afr);
-		if (vft == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
+		if (vft == VideoFrameType::THREE_D_ALTERNATE) {
 			frame = decoder_frame / 2;
-			_last_emitted_eyes = EYES_RIGHT;
+			_last_emitted_eyes = Eyes::RIGHT;
 		} else {
 			frame = decoder_frame;
 		}
 	} else {
-		if (vft == VIDEO_FRAME_TYPE_3D || vft == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
+		if (vft == VideoFrameType::THREE_D || vft == VideoFrameType::THREE_D_ALTERNATE) {
 			DCPOMATIC_ASSERT (_last_emitted_eyes);
-			if (_last_emitted_eyes.get() == EYES_RIGHT) {
+			if (_last_emitted_eyes.get() == Eyes::RIGHT) {
 				frame = _position->frames_round(afr) + 1;
-				eyes = EYES_LEFT;
+				eyes = Eyes::LEFT;
 			} else {
 				frame = _position->frames_round(afr);
-				eyes = EYES_RIGHT;
+				eyes = Eyes::RIGHT;
 			}
 		} else {
 			frame = _position->frames_round(afr) + 1;
@@ -123,35 +123,35 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 	}
 
 	switch (vft) {
-	case VIDEO_FRAME_TYPE_2D:
-		Data (ContentVideo (image, frame, EYES_BOTH, PART_WHOLE));
+	case VideoFrameType::TWO_D:
+		Data (ContentVideo (image, frame, Eyes::BOTH, Part::WHOLE));
 		break;
-	case VIDEO_FRAME_TYPE_3D:
+	case VideoFrameType::THREE_D:
 	{
-		Data (ContentVideo (image, frame, eyes, PART_WHOLE));
+		Data (ContentVideo (image, frame, eyes, Part::WHOLE));
 		_last_emitted_frame = frame;
 		_last_emitted_eyes = eyes;
 		break;
 	}
-	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
+	case VideoFrameType::THREE_D_ALTERNATE:
 	{
-		Data (ContentVideo (image, frame, eyes, PART_WHOLE));
+		Data (ContentVideo (image, frame, eyes, Part::WHOLE));
 		_last_emitted_eyes = eyes;
 		break;
 	}
-	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
-		Data (ContentVideo (image, frame, EYES_LEFT, PART_LEFT_HALF));
-		Data (ContentVideo (image, frame, EYES_RIGHT, PART_RIGHT_HALF));
+	case VideoFrameType::THREE_D_LEFT_RIGHT:
+		Data (ContentVideo (image, frame, Eyes::LEFT, Part::LEFT_HALF));
+		Data (ContentVideo (image, frame, Eyes::RIGHT, Part::RIGHT_HALF));
 		break;
-	case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
-		Data (ContentVideo (image, frame, EYES_LEFT, PART_TOP_HALF));
-		Data (ContentVideo (image, frame, EYES_RIGHT, PART_BOTTOM_HALF));
+	case VideoFrameType::THREE_D_TOP_BOTTOM:
+		Data (ContentVideo (image, frame, Eyes::LEFT, Part::TOP_HALF));
+		Data (ContentVideo (image, frame, Eyes::RIGHT, Part::BOTTOM_HALF));
 		break;
-	case VIDEO_FRAME_TYPE_3D_LEFT:
-		Data (ContentVideo (image, frame, EYES_LEFT, PART_WHOLE));
+	case VideoFrameType::THREE_D_LEFT:
+		Data (ContentVideo (image, frame, Eyes::LEFT, Part::WHOLE));
 		break;
-	case VIDEO_FRAME_TYPE_3D_RIGHT:
-		Data (ContentVideo (image, frame, EYES_RIGHT, PART_WHOLE));
+	case VideoFrameType::THREE_D_RIGHT:
+		Data (ContentVideo (image, frame, Eyes::RIGHT, Part::WHOLE));
 		break;
 	default:
 		DCPOMATIC_ASSERT (false);

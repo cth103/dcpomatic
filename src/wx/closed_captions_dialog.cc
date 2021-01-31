@@ -239,7 +239,7 @@ ClosedCaptionsDialog::update_tracks (shared_ptr<const Film> film)
 
 	for (auto i: film->content()) {
 		for (auto j: i->text) {
-			if (j->use() && j->type() == TEXT_CLOSED_CAPTION && j->dcp_track()) {
+			if (j->use() && j->type() == TextType::CLOSED_CAPTION && j->dcp_track()) {
 				if (find(_tracks.begin(), _tracks.end(), j->dcp_track()) == _tracks.end()) {
 					_tracks.push_back (*j->dcp_track());
 				}

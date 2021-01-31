@@ -33,7 +33,7 @@ VideoView::VideoView (FilmViewer* viewer)
 	: _viewer (viewer)
 	, _state_timer ("viewer")
 	, _video_frame_rate (0)
-	, _eyes (EYES_LEFT)
+	, _eyes (Eyes::LEFT)
 	, _three_d (false)
 	, _dropped (0)
 	, _errored (0)
@@ -84,7 +84,7 @@ VideoView::get_next_frame (bool non_blocking)
 		_player_video.first &&
 		_three_d &&
 		_eyes != _player_video.first->eyes() &&
-		_player_video.first->eyes() != EYES_BOTH
+		_player_video.first->eyes() != Eyes::BOTH
 		);
 
 	if (_player_video.first && _player_video.first->error()) {
@@ -109,8 +109,8 @@ VideoView::time_until_next_frame () const
 		return optional<int>();
 	}
 
-	dcpomatic::DCPTime const next = position() + one_video_frame();
-	dcpomatic::DCPTime const time = _viewer->audio_time().get_value_or(position());
+	auto const next = position() + one_video_frame();
+	auto const time = _viewer->audio_time().get_value_or(position());
 	if (next < time) {
 		return 0;
 	}
@@ -128,7 +128,7 @@ VideoView::start ()
 bool
 VideoView::reset_metadata (shared_ptr<const Film> film, dcp::Size player_video_container_size)
 {
-	pair<shared_ptr<PlayerVideo>, dcpomatic::DCPTime> pv = player_video ();
+	auto pv = player_video ();
 	if (!pv.first) {
 		return false;
 	}

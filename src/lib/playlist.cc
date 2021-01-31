@@ -72,10 +72,10 @@ Playlist::~Playlist ()
 void
 Playlist::content_change (weak_ptr<const Film> weak_film, ChangeType type, weak_ptr<Content> content, int property, bool frequent)
 {
-	shared_ptr<const Film> film = weak_film.lock ();
+	auto film = weak_film.lock ();
 	DCPOMATIC_ASSERT (film);
 
-	if (type == CHANGE_TYPE_DONE) {
+	if (type == ChangeType::DONE) {
 		if (
 			property == ContentProperty::TRIM_START ||
 			property == ContentProperty::TRIM_END ||
@@ -142,7 +142,7 @@ Playlist::maybe_sequence (shared_ptr<const Film> film)
 			continue;
 		}
 
-		if (i->video->frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) {
+		if (i->video->frame_type() == VideoFrameType::THREE_D_RIGHT) {
 			i->set_position (film, next_right);
 			next_right = i->end(film);
 		} else {
@@ -204,10 +204,10 @@ Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 	boost::mutex::scoped_lock lm (_mutex);
 
 	for (auto i: node->node_children ("Content")) {
-		shared_ptr<Content> content = content_factory (i, version, notes);
+		auto content = content_factory (i, version, notes);
 
 		/* See if this content should be nudged to start on a video frame */
-		DCPTime const old_pos = content->position();
+		auto const old_pos = content->position();
 		content->set_position(film, old_pos);
 		if (old_pos != content->position()) {
 			string note = _("Your project contains video content that was not aligned to a frame boundary.");
@@ -269,7 +269,7 @@ Playlist::as_xml (xmlpp::Node* node, bool with_content_paths)
 void
 Playlist::add (shared_ptr<const Film> film, shared_ptr<Content> c)
 {
-	Change (CHANGE_TYPE_PENDING);
+	Change (ChangeType::PENDING);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -278,7 +278,7 @@ Playlist::add (shared_ptr<const Film> film, shared_ptr<Content> c)
 		reconnect (film);
 	}
 
-	Change (CHANGE_TYPE_DONE);
+	Change (ChangeType::DONE);
 
 	LengthChange ();
 }
@@ -286,14 +286,14 @@ Playlist::add (shared_ptr<const Film> film, shared_ptr<Content> c)
 void
 Playlist::remove (shared_ptr<Content> c)
 {
-	Change (CHANGE_TYPE_PENDING);
+	Change (ChangeType::PENDING);
 
 	bool cancelled = false;
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 
-		ContentList::iterator i = _content.begin ();
+		auto i = _content.begin ();
 		while (i != _content.end() && *i != c) {
 			++i;
 		}
@@ -306,9 +306,9 @@ Playlist::remove (shared_ptr<Content> c)
 	}
 
 	if (cancelled) {
-		Change (CHANGE_TYPE_CANCELLED);
+		Change (ChangeType::CANCELLED);
 	} else {
-		Change (CHANGE_TYPE_DONE);
+		Change (ChangeType::DONE);
 	}
 
 	/* This won't change order, so it does not need a sort */
@@ -319,7 +319,7 @@ Playlist::remove (shared_ptr<Content> c)
 void
 Playlist::remove (ContentList c)
 {
-	Change (CHANGE_TYPE_PENDING);
+	Change (ChangeType::PENDING);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -336,7 +336,7 @@ Playlist::remove (ContentList c)
 		}
 	}
 
-	Change (CHANGE_TYPE_DONE);
+	Change (ChangeType::DONE);
 
 	/* This won't change order, so it does not need a sort */
 
@@ -359,7 +359,7 @@ public:
 int
 Playlist::best_video_frame_rate () const
 {
-	list<int> const allowed_dcp_frame_rates = Config::instance()->allowed_dcp_frame_rates ();
+	auto const allowed_dcp_frame_rates = Config::instance()->allowed_dcp_frame_rates ();
 
 	/* Work out what rates we could manage, including those achieved by using skip / repeat */
 	list<FrameRateCandidate> candidates;
@@ -378,7 +378,7 @@ Playlist::best_video_frame_rate () const
 	/* Pick the best one */
 	float error = std::numeric_limits<float>::max ();
 	optional<FrameRateCandidate> best;
-	list<FrameRateCandidate>::iterator i = candidates.begin();
+	auto i = candidates.begin();
 	while (i != candidates.end()) {
 
 		float this_error = 0;
@@ -428,12 +428,12 @@ Playlist::length (shared_ptr<const Film> film) const
 optional<DCPTime>
 Playlist::start () const
 {
-	ContentList cont = content ();
+	auto cont = content ();
 	if (cont.empty()) {
-		return optional<DCPTime> ();
+		return {};
 	}
 
-	DCPTime start = DCPTime::max ();
+	auto start = DCPTime::max ();
 	for (auto i: cont) {
 		start = min (start, i->position ());
 	}
@@ -558,7 +558,7 @@ Playlist::repeat (shared_ptr<const Film> film, ContentList c, int n)
 		range.second = max (range.second, i->end(film));
 	}
 
-	Change (CHANGE_TYPE_PENDING);
+	Change (ChangeType::PENDING);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -566,7 +566,7 @@ Playlist::repeat (shared_ptr<const Film> film, ContentList c, int n)
 		DCPTime pos = range.second;
 		for (int i = 0; i < n; ++i) {
 			for (auto j: c) {
-				shared_ptr<Content> copy = j->clone ();
+				auto copy = j->clone ();
 				copy->set_position (film, pos + copy->position() - range.first);
 				_content.push_back (copy);
 			}
@@ -577,15 +577,15 @@ Playlist::repeat (shared_ptr<const Film> film, ContentList c, int n)
 		reconnect (film);
 	}
 
-	Change (CHANGE_TYPE_DONE);
+	Change (ChangeType::DONE);
 }
 
 void
 Playlist::move_earlier (shared_ptr<const Film> film, shared_ptr<Content> c)
 {
-	ContentList cont = content ();
-	ContentList::iterator previous = cont.end();
-	ContentList::iterator i = cont.begin();
+	auto cont = content ();
+	auto previous = cont.end();
+	auto i = cont.begin();
 	while (i != cont.end() && *i != c) {
 		previous = i;
 		++i;
@@ -596,9 +596,9 @@ Playlist::move_earlier (shared_ptr<const Film> film, shared_ptr<Content> c)
 		return;
 	}
 
-	shared_ptr<Content> previous_c = *previous;
+	auto previous_c = *previous;
 
-	DCPTime const p = previous_c->position ();
+	auto const p = previous_c->position ();
 	previous_c->set_position (film, p + c->length_after_trim(film));
 	c->set_position (film, p);
 }
@@ -606,8 +606,8 @@ Playlist::move_earlier (shared_ptr<const Film> film, shared_ptr<Content> c)
 void
 Playlist::move_later (shared_ptr<const Film> film, shared_ptr<Content> c)
 {
-	ContentList cont = content ();
-	ContentList::iterator i = cont.begin();
+	auto cont = content ();
+	auto i = cont.begin();
 	while (i != cont.end() && *i != c) {
 		++i;
 	}
@@ -621,7 +621,7 @@ Playlist::move_later (shared_ptr<const Film> film, shared_ptr<Content> c)
 		return;
 	}
 
-	shared_ptr<Content> next_c = *next;
+	auto next_c = *next;
 
 	next_c->set_position (film, c->position());
 	c->set_position (film, c->position() + next_c->length_after_trim(film));
@@ -634,7 +634,7 @@ Playlist::required_disk_space (shared_ptr<const Film> film, int j2k_bandwidth, i
 	int64_t audio = uint64_t (audio_channels * audio_frame_rate * 3) * length(film).seconds();
 
 	for (auto i: content()) {
-		shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent> (i);
+		auto d = dynamic_pointer_cast<DCPContent> (i);
 		if (d) {
 			if (d->reference_video()) {
 				video -= uint64_t (j2k_bandwidth / 8) * d->length_after_trim(film).seconds();
@@ -656,7 +656,7 @@ Playlist::content_summary (shared_ptr<const Film> film, DCPTimePeriod period) co
 	int best_score = -1;
 	for (auto i: content()) {
 		int score = 0;
-		optional<DCPTimePeriod> const o = DCPTimePeriod(i->position(), i->end(film)).overlap (period);
+		auto const o = DCPTimePeriod(i->position(), i->end(film)).overlap (period);
 		if (o) {
 			score += 100 * o.get().duration().get() / period.duration().get();
 		}

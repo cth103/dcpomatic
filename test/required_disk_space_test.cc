@@ -24,11 +24,12 @@
  */
 
 #include "lib/content_factory.h"
-#include "lib/film.h"
 #include "lib/dcp_content.h"
+#include "lib/film.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
+using std::make_shared;
 using std::shared_ptr;
 using std::dynamic_pointer_cast;
 
@@ -40,14 +41,14 @@ void check_within_n (int64_t a, int64_t b, int64_t n)
 
 BOOST_AUTO_TEST_CASE (required_disk_space_test)
 {
-	shared_ptr<Film> film = new_test_film ("required_disk_space_test");
+	auto film = new_test_film ("required_disk_space_test");
 	film->set_j2k_bandwidth (100000000);
 	film->set_audio_channels (6);
-	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
-	shared_ptr<Content> content_a = content_factory("test/data/flat_blue.png").front();
+	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
+	auto content_a = content_factory("test/data/flat_blue.png").front();
 	BOOST_REQUIRE (content_a);
 	film->examine_and_add_content (content_a);
-	shared_ptr<DCPContent> content_b (new DCPContent("test/data/burnt_subtitle_test_dcp"));
+	auto content_b = make_shared<DCPContent>("test/data/burnt_subtitle_test_dcp");
 	film->examine_and_add_content (content_b);
 	BOOST_REQUIRE (!wait_for_jobs());
 	film->write_metadata ();

@@ -91,7 +91,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	string config_dir_string;
 	string output_dir_string;
 	int j2k_bandwidth_int = 0;
-	VideoFrameType next_frame_type = VIDEO_FRAME_TYPE_2D;
+	auto next_frame_type = VideoFrameType::TWO_D;
 
 	int i = 1;
 	while (i < argc) {
@@ -115,10 +115,10 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		} else if (a == "--threed") {
 			threed = claimed = true;
 		} else if (a == "--left-eye") {
-			next_frame_type = VIDEO_FRAME_TYPE_3D_LEFT;
+			next_frame_type = VideoFrameType::THREE_D_LEFT;
 			claimed = true;
 		} else if (a == "--right-eye") {
-			next_frame_type = VIDEO_FRAME_TYPE_3D_RIGHT;
+			next_frame_type = VideoFrameType::THREE_D_RIGHT;
 			claimed = true;
 		} else if (a == "--fourk") {
 			fourk = true;
@@ -145,7 +145,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 				c.path = a;
 				c.frame_type = next_frame_type;
 				content.push_back (c);
-				next_frame_type = VIDEO_FRAME_TYPE_2D;
+				next_frame_type = VideoFrameType::TWO_D;
 			}
 		}
 

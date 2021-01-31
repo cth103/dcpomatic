@@ -57,20 +57,10 @@ using std::dynamic_pointer_cast;
 
 DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	: DCP (content, tolerant)
-	, _video_length (0)
-	, _audio_length (0)
-	, _has_video (false)
-	, _has_audio (false)
-	, _encrypted (false)
-	, _needs_assets (false)
-	, _kdm_valid (false)
-	, _three_d (false)
-	, _has_atmos (false)
-	, _atmos_length (0)
 {
 	shared_ptr<dcp::CPL> cpl;
 
-	for (int i = 0; i < TEXT_COUNT; ++i) {
+	for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
 		_text_count[i] = 0;
 	}
 
@@ -127,7 +117,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				return;
 			}
 
-			dcp::Fraction const frac = i->main_picture()->edit_rate ();
+			auto const frac = i->main_picture()->edit_rate ();
 			float const fr = float(frac.numerator) / frac.denominator;
 			if (!_video_frame_rate) {
 				_video_frame_rate = fr;
@@ -136,7 +126,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			}
 
 			_has_video = true;
-			shared_ptr<dcp::PictureAsset> asset = i->main_picture()->asset ();
+			auto asset = i->main_picture()->asset();
 			if (!_video_size) {
 				_video_size = asset->size ();
 			} else if (_video_size.get() != asset->size ()) {
@@ -154,7 +144,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			}
 
 			_has_audio = true;
-			shared_ptr<dcp::SoundAsset> asset = i->main_sound()->asset ();
+			auto asset = i->main_sound()->asset();
 
 			if (!_audio_channels) {
 				_audio_channels = asset->channels ();
@@ -178,7 +168,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				return;
 			}
 
-			_text_count[TEXT_OPEN_SUBTITLE] = 1;
+			_text_count[static_cast<int>(TextType::OPEN_SUBTITLE)] = 1;
 		}
 
 		for (auto j: i->closed_captions()) {
@@ -188,7 +178,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				return;
 			}
 
-			_text_count[TEXT_CLOSED_CAPTION]++;
+			_text_count[static_cast<int>(TextType::CLOSED_CAPTION)]++;
 			_dcp_text_tracks.push_back (DCPTextTrack(j->annotation_text(), j->language().get_value_or(_("Unknown"))));
 		}
 

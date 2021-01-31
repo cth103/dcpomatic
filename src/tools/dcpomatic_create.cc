@@ -104,7 +104,7 @@ main (int argc, char* argv[])
 		film->set_encrypted (cc.encrypt);
 		film->set_three_d (cc.threed);
 		if (cc.fourk) {
-			film->set_resolution (RESOLUTION_4K);
+			film->set_resolution (Resolution::FOUR_K);
 		}
 		if (cc.j2k_bandwidth) {
 			film->set_j2k_bandwidth (*cc.j2k_bandwidth);

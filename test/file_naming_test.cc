@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE (file_naming_test)
 	b->set_video_frame_rate (24);
 	b->video->set_length (24);
 
-	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	film->write_metadata ();
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -139,7 +139,7 @@ BOOST_AUTO_TEST_CASE (file_naming_test2)
 	b->set_video_frame_rate (24);
 	b->video->set_length (24);
 
-	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 

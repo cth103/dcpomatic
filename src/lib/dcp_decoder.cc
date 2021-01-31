@@ -254,7 +254,7 @@ DCPDecoder::pass_texts (ContentTime next, dcp::Size size)
 		pass_texts (
 			next,
 			(*_reel)->main_subtitle()->asset(),
-			_dcp_content->reference_text(TEXT_OPEN_SUBTITLE),
+			_dcp_content->reference_text(TextType::OPEN_SUBTITLE),
 			(*_reel)->main_subtitle()->entry_point().get_value_or(0),
 			*decoder,
 			size
@@ -264,7 +264,7 @@ DCPDecoder::pass_texts (ContentTime next, dcp::Size size)
 
 	for (auto i: (*_reel)->closed_captions()) {
 		pass_texts (
-			next, i->asset(), _dcp_content->reference_text(TEXT_CLOSED_CAPTION), i->entry_point().get_value_or(0), *decoder, size
+			next, i->asset(), _dcp_content->reference_text(TextType::CLOSED_CAPTION), i->entry_point().get_value_or(0), *decoder, size
 			);
 		++decoder;
 	}

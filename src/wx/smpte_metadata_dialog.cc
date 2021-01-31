@@ -244,16 +244,16 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 
 	_film_changed_connection = film()->Change.connect(boost::bind(&SMPTEMetadataDialog::film_changed, this, _1, _2));
 
-	film_changed (CHANGE_TYPE_DONE, Film::NAME_LANGUAGE);
-	film_changed (CHANGE_TYPE_DONE, Film::RELEASE_TERRITORY);
-	film_changed (CHANGE_TYPE_DONE, Film::VERSION_NUMBER);
-	film_changed (CHANGE_TYPE_DONE, Film::STATUS);
-	film_changed (CHANGE_TYPE_DONE, Film::CHAIN);
-	film_changed (CHANGE_TYPE_DONE, Film::DISTRIBUTOR);
-	film_changed (CHANGE_TYPE_DONE, Film::FACILITY);
-	film_changed (CHANGE_TYPE_DONE, Film::CONTENT_VERSIONS);
-	film_changed (CHANGE_TYPE_DONE, Film::LUMINANCE);
-	film_changed (CHANGE_TYPE_DONE, Film::SUBTITLE_LANGUAGES);
+	film_changed (ChangeType::DONE, Film::NAME_LANGUAGE);
+	film_changed (ChangeType::DONE, Film::RELEASE_TERRITORY);
+	film_changed (ChangeType::DONE, Film::VERSION_NUMBER);
+	film_changed (ChangeType::DONE, Film::STATUS);
+	film_changed (ChangeType::DONE, Film::CHAIN);
+	film_changed (ChangeType::DONE, Film::DISTRIBUTOR);
+	film_changed (ChangeType::DONE, Film::FACILITY);
+	film_changed (ChangeType::DONE, Film::CONTENT_VERSIONS);
+	film_changed (ChangeType::DONE, Film::LUMINANCE);
+	film_changed (ChangeType::DONE, Film::SUBTITLE_LANGUAGES);
 
 	setup_sensitivity ();
 }
@@ -262,7 +262,7 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 void
 SMPTEMetadataDialog::film_changed (ChangeType type, Film::Property property)
 {
-	if (type != CHANGE_TYPE_DONE || film()->interop()) {
+	if (type != ChangeType::DONE || film()->interop()) {
 		return;
 	}
 

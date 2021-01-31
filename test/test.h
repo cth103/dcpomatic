@@ -20,7 +20,7 @@
 
 
 #include "lib/warnings.h"
-#include <dcp/types.h>
+#include "lib/types.h"
 #include <boost/filesystem.hpp>
 
 
@@ -67,9 +67,12 @@ private:
 	std::shared_ptr<Log> _old;
 };
 
+
 namespace dcp {
 
 std::ostream& operator<< (std::ostream& s, dcp::Size i);
-std::ostream& operator<< (std::ostream& s, Standard t);
+std::ostream& operator<< (std::ostream& s, dcp::Standard t);
 
 }
+
+std::ostream& operator<< (std::ostream& s, VideoFrameType f);

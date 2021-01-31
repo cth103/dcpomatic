@@ -30,8 +30,9 @@
 
 #include "i18n.h"
 
-using std::string;
+using std::make_shared;
 using std::shared_ptr;
+using std::string;
 using std::weak_ptr;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -62,12 +63,12 @@ AnalyseSubtitlesJob::json_name () const
 void
 AnalyseSubtitlesJob::run ()
 {
-	shared_ptr<Playlist> playlist (new Playlist());
-	shared_ptr<Content> content = _content.lock ();
+	auto playlist = make_shared<Playlist>();
+	auto content = _content.lock ();
 	DCPOMATIC_ASSERT (content);
 	playlist->add (_film, content);
 
-	shared_ptr<Player> player (new Player(_film, playlist));
+	auto player = make_shared<Player>(_film, playlist);
 	player->set_ignore_audio ();
 	player->set_fast ();
 	player->set_play_referenced ();
@@ -90,7 +91,7 @@ AnalyseSubtitlesJob::run ()
 void
 AnalyseSubtitlesJob::analyse (PlayerText text, TextType type)
 {
-	if (type != TEXT_OPEN_SUBTITLE) {
+	if (type != TextType::OPEN_SUBTITLE) {
 		return;
 	}
 

@@ -85,7 +85,7 @@ check (TextType type, string name, optional<string> expected_hint = optional<str
 BOOST_AUTO_TEST_CASE (hint_closed_caption_too_long)
 {
 	check (
-		TEXT_CLOSED_CAPTION,
+		TextType::CLOSED_CAPTION,
 		"hint_closed_caption_too_long",
 		String::compose("At least one of your closed caption lines has more than %1 characters.  It is advisable to make each line %1 characters at most in length.", MAX_CLOSED_CAPTION_LENGTH, MAX_CLOSED_CAPTION_LENGTH)
 	      );
@@ -95,7 +95,7 @@ BOOST_AUTO_TEST_CASE (hint_closed_caption_too_long)
 BOOST_AUTO_TEST_CASE (hint_many_closed_caption_lines)
 {
 	check (
-		TEXT_CLOSED_CAPTION,
+		TextType::CLOSED_CAPTION,
 		"hint_many_closed_caption_lines",
 		String::compose("Some of your closed captions span more than %1 lines, so they will be truncated.", MAX_CLOSED_CAPTION_LINES)
 	      );
@@ -105,7 +105,7 @@ BOOST_AUTO_TEST_CASE (hint_many_closed_caption_lines)
 BOOST_AUTO_TEST_CASE (hint_subtitle_too_early)
 {
 	check (
-		TEXT_OPEN_SUBTITLE,
+		TextType::OPEN_SUBTITLE,
 		"hint_subtitle_too_early",
 		string("It is advisable to put your first subtitle at least 4 seconds after the start of the DCP to make sure it is seen.")
 		);
@@ -115,7 +115,7 @@ BOOST_AUTO_TEST_CASE (hint_subtitle_too_early)
 BOOST_AUTO_TEST_CASE (hint_short_subtitles)
 {
 	check (
-		TEXT_OPEN_SUBTITLE,
+		TextType::OPEN_SUBTITLE,
 		"hint_short_subtitles",
 		string("At least one of your subtitles lasts less than 15 frames.  It is advisable to make each subtitle at least 15 frames long.")
 		);
@@ -125,7 +125,7 @@ BOOST_AUTO_TEST_CASE (hint_short_subtitles)
 BOOST_AUTO_TEST_CASE (hint_subtitles_too_close)
 {
 	check (
-		TEXT_OPEN_SUBTITLE,
+		TextType::OPEN_SUBTITLE,
 		"hint_subtitles_too_close",
 		string("At least one of your subtitles starts less than 2 frames after the previous one.  It is advisable to make the gap between subtitles at least 2 frames.")
 	      );
@@ -135,7 +135,7 @@ BOOST_AUTO_TEST_CASE (hint_subtitles_too_close)
 BOOST_AUTO_TEST_CASE (hint_many_subtitle_lines)
 {
 	check (
-		TEXT_OPEN_SUBTITLE,
+		TextType::OPEN_SUBTITLE,
 		"hint_many_subtitle_lines",
 		string("At least one of your subtitles has more than 3 lines.  It is advisable to use no more than 3 lines.")
 	      );
@@ -145,7 +145,7 @@ BOOST_AUTO_TEST_CASE (hint_many_subtitle_lines)
 BOOST_AUTO_TEST_CASE (hint_subtitle_too_long)
 {
 	check (
-		TEXT_OPEN_SUBTITLE,
+		TextType::OPEN_SUBTITLE,
 		"hint_subtitle_too_long",
 		string("At least one of your subtitle lines has more than 52 characters.  It is advisable to make each line 52 characters at most in length.")
 	      );
@@ -158,7 +158,7 @@ BOOST_AUTO_TEST_CASE (hint_subtitle_mxf_too_big)
 
 	shared_ptr<Film> film = new_test_film2 (name);
 	shared_ptr<Content> content = content_factory("test/data/" + name + ".srt").front();
-	content->text.front()->set_type (TEXT_OPEN_SUBTITLE);
+	content->text.front()->set_type (TextType::OPEN_SUBTITLE);
 	for (int i = 1; i < 512; ++i) {
 		shared_ptr<dcpomatic::Font> font(new dcpomatic::Font(String::compose("font_%1", i)));
 		font->set_file ("test/data/LiberationSans-Regular.ttf");
@@ -195,7 +195,7 @@ BOOST_AUTO_TEST_CASE (hint_closed_caption_xml_too_big)
 	fclose (ccap);
 
 	shared_ptr<Content> content = content_factory("build/test/" + name + ".srt").front();
-	content->text.front()->set_type (TEXT_CLOSED_CAPTION);
+	content->text.front()->set_type (TextType::CLOSED_CAPTION);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 	vector<string> hints = get_hints (film);

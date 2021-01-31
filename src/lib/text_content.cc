@@ -120,10 +120,10 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 	, _y_offset (0)
 	, _x_scale (1)
 	, _y_scale (1)
-	, _line_spacing (node->optional_number_child<double>("LineSpacing").get_value_or (1))
-	, _outline_width (node->optional_number_child<int>("OutlineWidth").get_value_or (4))
-	, _type (TEXT_OPEN_SUBTITLE)
-	, _original_type (TEXT_OPEN_SUBTITLE)
+	, _line_spacing (node->optional_number_child<double>("LineSpacing").get_value_or(1))
+	, _outline_width (node->optional_number_child<int>("OutlineWidth").get_value_or(4))
+	, _type (TextType::OPEN_SUBTITLE)
+	, _original_type (TextType::OPEN_SUBTITLE)
 {
 	if (version >= 37) {
 		_use = node->bool_child ("Use");

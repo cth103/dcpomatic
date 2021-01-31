@@ -176,7 +176,7 @@ Emailer::send (string server, int port, EmailProtocol protocol, string user, str
 		throw NetworkError ("Could not initialise libcurl");
 	}
 
-	if ((protocol == EMAIL_PROTOCOL_AUTO && port == 465) || protocol == EMAIL_PROTOCOL_SSL) {
+	if ((protocol == EmailProtocol::AUTO && port == 465) || protocol == EmailProtocol::SSL) {
 		/* "SSL" or "Implicit TLS"; I think curl wants us to use smtps here */
 		curl_easy_setopt (curl, CURLOPT_URL, String::compose("smtps://%1:%2", server, port).c_str());
 	} else {
@@ -209,7 +209,7 @@ Emailer::send (string server, int port, EmailProtocol protocol, string user, str
 	curl_easy_setopt (curl, CURLOPT_READDATA, this);
 	curl_easy_setopt (curl, CURLOPT_UPLOAD, 1L);
 
-	if (protocol == EMAIL_PROTOCOL_AUTO || protocol == EMAIL_PROTOCOL_STARTTLS) {
+	if (protocol == EmailProtocol::AUTO || protocol == EmailProtocol::STARTTLS) {
 		curl_easy_setopt (curl, CURLOPT_USE_SSL, (long) CURLUSESSL_TRY);
 	}
 	curl_easy_setopt (curl, CURLOPT_SSL_VERIFYPEER, 0L);

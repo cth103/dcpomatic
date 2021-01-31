@@ -57,7 +57,7 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film, weak_pt
 	, _film (film)
 	, _timeline (this, cp, film, viewer)
 {
-	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+	auto sizer = new wxBoxSizer (wxVERTICAL);
 
 	wxBitmap select (bitmap_path("select"), wxBITMAP_TYPE_PNG);
 	wxBitmap zoom (bitmap_path("zoom"), wxBITMAP_TYPE_PNG);
@@ -91,7 +91,7 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film, weak_pt
 	sizer->SetSizeHints (this);
 
         _toolbar->ToggleTool ((int) Timeline::SNAP, _timeline.snap ());
-	film_change (CHANGE_TYPE_DONE, Film::SEQUENCE);
+	film_change (ChangeType::DONE, Film::SEQUENCE);
 
 	_film_changed_connection = film->Change.connect (bind (&TimelineDialog::film_change, this, _1, _2));
 }
@@ -99,11 +99,11 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film, weak_pt
 void
 TimelineDialog::film_change (ChangeType type, Film::Property p)
 {
-	if (type != CHANGE_TYPE_DONE) {
+	if (type != ChangeType::DONE) {
 		return;
 	}
 
-	shared_ptr<Film> film = _film.lock ();
+	auto film = _film.lock ();
 	if (!film) {
 		return;
 	}
@@ -127,7 +127,7 @@ TimelineDialog::tool_clicked (wxCommandEvent& ev)
 	if (t == Timeline::SNAP) {
 		_timeline.set_snap (_toolbar->GetToolState ((int) t));
 	} else if (t == Timeline::SEQUENCE) {
-		shared_ptr<Film> film = _film.lock ();
+		auto film = _film.lock ();
 		if (film) {
 			film->set_sequence (_toolbar->GetToolState ((int) t));
 		}

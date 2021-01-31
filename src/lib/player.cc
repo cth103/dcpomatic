@@ -62,19 +62,20 @@
 
 #include "i18n.h"
 
-using std::list;
+using std::copy;
 using std::cout;
-using std::min;
+using std::dynamic_pointer_cast;
+using std::list;
+using std::make_pair;
+using std::make_shared;
+using std::map;
 using std::max;
 using std::min;
-using std::vector;
+using std::min;
 using std::pair;
-using std::map;
-using std::make_pair;
-using std::copy;
 using std::shared_ptr;
+using std::vector;
 using std::weak_ptr;
-using std::dynamic_pointer_cast;
 using boost::optional;
 using boost::scoped_ptr;
 #if BOOST_VERSION >= 106100
@@ -92,15 +93,8 @@ int const PlayerProperty::PLAYBACK_LENGTH = 705;
 Player::Player (shared_ptr<const Film> film)
 	: _film (film)
 	, _suspended (0)
-	, _ignore_video (false)
-	, _ignore_audio (false)
-	, _ignore_text (false)
-	, _always_burn_open_subtitles (false)
-	, _fast (false)
 	, _tolerant (film->tolerant())
-	, _play_referenced (false)
 	, _audio_merger (_film->audio_frame_rate())
-	, _shuffler (0)
 {
 	construct ();
 }
@@ -109,15 +103,8 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	: _film (film)
 	, _playlist (playlist_)
 	, _suspended (0)
-	, _ignore_video (false)
-	, _ignore_audio (false)
-	, _ignore_text (false)
-	, _always_burn_open_subtitles (false)
-	, _fast (false)
 	, _tolerant (film->tolerant())
-	, _play_referenced (false)
 	, _audio_merger (_film->audio_frame_rate())
-	, _shuffler (0)
 {
 	construct ();
 }
@@ -133,7 +120,7 @@ Player::construct ()
 	_playlist_content_change_connection = playlist()->ContentChange.connect (bind(&Player::playlist_content_change, this, _1, _3, _4));
 	set_video_container_size (_film->frame_size ());
 
-	film_change (CHANGE_TYPE_DONE, Film::AUDIO_PROCESSOR);
+	film_change (ChangeType::DONE, Film::AUDIO_PROCESSOR);
 
 	setup_pieces ();
 	seek (DCPTime (), true);
@@ -169,7 +156,7 @@ Player::setup_pieces_unlocked ()
 {
 	_playback_length = _playlist ? _playlist->length(_film) : _film->length();
 
-	list<shared_ptr<Piece> > old_pieces = _pieces;
+	auto old_pieces = _pieces;
 	_pieces.clear ();
 
 	delete _shuffler;
@@ -195,7 +182,7 @@ Player::setup_pieces_unlocked ()
 			}
 		}
 
-		shared_ptr<Decoder> decoder = decoder_factory (_film, i, _fast, _tolerant, old_decoder);
+		auto decoder = decoder_factory (_film, i, _fast, _tolerant, old_decoder);
 		DCPOMATIC_ASSERT (decoder);
 
 		FrameRateChange frc (_film, i);
@@ -214,7 +201,7 @@ Player::setup_pieces_unlocked ()
 			}
 		}
 
-		shared_ptr<DCPDecoder> dcp = dynamic_pointer_cast<DCPDecoder> (decoder);
+		auto dcp = dynamic_pointer_cast<DCPDecoder> (decoder);
 		if (dcp) {
 			dcp->set_decode_referenced (_play_referenced);
 			if (_play_referenced) {
@@ -222,15 +209,15 @@ Player::setup_pieces_unlocked ()
 			}
 		}
 
-		shared_ptr<Piece> piece (new Piece (i, decoder, frc));
+		auto piece = make_shared<Piece>(i, decoder, frc);
 		_pieces.push_back (piece);
 
 		if (decoder->video) {
-			if (i->video->frame_type() == VIDEO_FRAME_TYPE_3D_LEFT || i->video->frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) {
+			if (i->video->frame_type() == VideoFrameType::THREE_D_LEFT || i->video->frame_type() == VideoFrameType::THREE_D_RIGHT) {
 				/* We need a Shuffler to cope with 3D L/R video data arriving out of sequence */
-				decoder->video->Data.connect (bind (&Shuffler::video, _shuffler, weak_ptr<Piece>(piece), _1));
+				decoder->video->Data.connect (bind(&Shuffler::video, _shuffler, weak_ptr<Piece>(piece), _1));
 			} else {
-				decoder->video->Data.connect (bind (&Player::video, this, weak_ptr<Piece>(piece), _1));
+				decoder->video->Data.connect (bind(&Player::video, this, weak_ptr<Piece>(piece), _1));
 			}
 		}
 
@@ -238,7 +225,7 @@ Player::setup_pieces_unlocked ()
 			decoder->audio->Data.connect (bind (&Player::audio, this, weak_ptr<Piece> (piece), _1, _2));
 		}
 
-		list<shared_ptr<TextDecoder> >::const_iterator j = decoder->text.begin();
+		auto j = decoder->text.begin();
 
 		while (j != decoder->text.end()) {
 			(*j)->BitmapStart.connect (
@@ -272,7 +259,7 @@ Player::setup_pieces_unlocked ()
 	_silent = Empty (_film, playlist(), bind(&have_audio, _1), _playback_length);
 
 	_last_video_time = DCPTime ();
-	_last_video_eyes = EYES_BOTH;
+	_last_video_eyes = Eyes::BOTH;
 	_last_audio_time = DCPTime ();
 }
 
@@ -280,7 +267,7 @@ void
 Player::playlist_content_change (ChangeType type, int property, bool frequent)
 {
 	if (property == VideoContentProperty::CROP) {
-		if (type == CHANGE_TYPE_DONE) {
+		if (type == ChangeType::DONE) {
 			dcp::Size const vcs = video_container_size();
 			boost::mutex::scoped_lock lm (_mutex);
 			for (list<pair<shared_ptr<PlayerVideo>, DCPTime> >::const_iterator i = _delay.begin(); i != _delay.end(); ++i) {
@@ -288,17 +275,17 @@ Player::playlist_content_change (ChangeType type, int property, bool frequent)
 			}
 		}
 	} else {
-		if (type == CHANGE_TYPE_PENDING) {
+		if (type == ChangeType::PENDING) {
 			/* The player content is probably about to change, so we can't carry on
 			   until that has happened and we've rebuilt our pieces.  Stop pass()
 			   and seek() from working until then.
 			*/
 			++_suspended;
-		} else if (type == CHANGE_TYPE_DONE) {
+		} else if (type == ChangeType::DONE) {
 			/* A change in our content has gone through.  Re-build our pieces. */
 			setup_pieces ();
 			--_suspended;
-		} else if (type == CHANGE_TYPE_CANCELLED) {
+		} else if (type == ChangeType::CANCELLED) {
 			--_suspended;
 		}
 	}
@@ -309,14 +296,14 @@ Player::playlist_content_change (ChangeType type, int property, bool frequent)
 void
 Player::set_video_container_size (dcp::Size s)
 {
-	Change (CHANGE_TYPE_PENDING, PlayerProperty::VIDEO_CONTAINER_SIZE, false);
+	Change (ChangeType::PENDING, PlayerProperty::VIDEO_CONTAINER_SIZE, false);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 
 		if (s == _video_container_size) {
 			lm.unlock ();
-			Change (CHANGE_TYPE_CANCELLED, PlayerProperty::VIDEO_CONTAINER_SIZE, false);
+			Change (ChangeType::CANCELLED, PlayerProperty::VIDEO_CONTAINER_SIZE, false);
 			return;
 		}
 
@@ -326,13 +313,13 @@ Player::set_video_container_size (dcp::Size s)
 		_black_image->make_black ();
 	}
 
-	Change (CHANGE_TYPE_DONE, PlayerProperty::VIDEO_CONTAINER_SIZE, false);
+	Change (ChangeType::DONE, PlayerProperty::VIDEO_CONTAINER_SIZE, false);
 }
 
 void
 Player::playlist_change (ChangeType type)
 {
-	if (type == CHANGE_TYPE_DONE) {
+	if (type == ChangeType::DONE) {
 		setup_pieces ();
 	}
 	Change (type, PlayerProperty::PLAYLIST, false);
@@ -352,17 +339,17 @@ Player::film_change (ChangeType type, Film::Property p)
 		/* Pieces contain a FrameRateChange which contains the DCP frame rate,
 		   so we need new pieces here.
 		*/
-		if (type == CHANGE_TYPE_DONE) {
+		if (type == ChangeType::DONE) {
 			setup_pieces ();
 		}
 		Change (type, PlayerProperty::FILM_VIDEO_FRAME_RATE, false);
 	} else if (p == Film::AUDIO_PROCESSOR) {
-		if (type == CHANGE_TYPE_DONE && _film->audio_processor ()) {
+		if (type == ChangeType::DONE && _film->audio_processor ()) {
 			boost::mutex::scoped_lock lm (_mutex);
 			_audio_processor = _film->audio_processor()->clone (_film->audio_frame_rate ());
 		}
 	} else if (p == Film::AUDIO_CHANNELS) {
-		if (type == CHANGE_TYPE_DONE) {
+		if (type == ChangeType::DONE) {
 			boost::mutex::scoped_lock lm (_mutex);
 			_audio_merger.clear ();
 		}
@@ -372,21 +359,19 @@ Player::film_change (ChangeType type, Film::Property p)
 shared_ptr<PlayerVideo>
 Player::black_player_video_frame (Eyes eyes) const
 {
-	return shared_ptr<PlayerVideo> (
-		new PlayerVideo (
-			shared_ptr<const ImageProxy> (new RawImageProxy (_black_image)),
-			Crop (),
-			optional<double> (),
-			_video_container_size,
-			_video_container_size,
-			eyes,
-			PART_WHOLE,
-			PresetColourConversion::all().front().conversion,
-			VideoRange::FULL,
-			std::weak_ptr<Content>(),
-			boost::optional<Frame>(),
-			false
-		)
+	return std::make_shared<PlayerVideo> (
+		std::make_shared<const RawImageProxy>(_black_image),
+		Crop(),
+		optional<double>(),
+		_video_container_size,
+		_video_container_size,
+		eyes,
+		Part::WHOLE,
+		PresetColourConversion::all().front().conversion,
+		VideoRange::FULL,
+		std::weak_ptr<Content>(),
+		boost::optional<Frame>(),
+		false
 	);
 }
 
@@ -411,14 +396,14 @@ DCPTime
 Player::content_video_to_dcp (shared_ptr<const Piece> piece, Frame f) const
 {
 	/* See comment in dcp_to_content_video */
-	DCPTime const d = DCPTime::from_frames (f * piece->frc.factor(), piece->frc.dcp) - DCPTime(piece->content->trim_start(), piece->frc);
+	auto const d = DCPTime::from_frames (f * piece->frc.factor(), piece->frc.dcp) - DCPTime(piece->content->trim_start(), piece->frc);
 	return d + piece->content->position();
 }
 
 Frame
 Player::dcp_to_resampled_audio (shared_ptr<const Piece> piece, DCPTime t) const
 {
-	DCPTime s = t - piece->content->position ();
+	auto s = t - piece->content->position ();
 	s = min (piece->content->length_after_trim(_film), s);
 	/* See notes in dcp_to_content_video */
 	return max (DCPTime (), DCPTime (piece->content->trim_start (), piece->frc) + s).frames_floor (_film->audio_frame_rate ());
@@ -436,7 +421,7 @@ Player::resampled_audio_to_dcp (shared_ptr<const Piece> piece, Frame f) const
 ContentTime
 Player::dcp_to_content_time (shared_ptr<const Piece> piece, DCPTime t) const
 {
-	DCPTime s = t - piece->content->position ();
+	auto s = t - piece->content->position ();
 	s = min (piece->content->length_after_trim(_film), s);
 	return max (ContentTime (), ContentTime (s, piece->frc) + piece->content->trim_start());
 }
@@ -444,7 +429,7 @@ Player::dcp_to_content_time (shared_ptr<const Piece> piece, DCPTime t) const
 DCPTime
 Player::content_time_to_dcp (shared_ptr<const Piece> piece, ContentTime t) const
 {
-	return max (DCPTime (), DCPTime (t - piece->content->trim_start(), piece->frc) + piece->content->position());
+	return max (DCPTime(), DCPTime(t - piece->content->trim_start(), piece->frc) + piece->content->position());
 }
 
 vector<FontData>
@@ -457,7 +442,7 @@ Player::get_subtitle_fonts ()
 		/* XXX: things may go wrong if there are duplicate font IDs
 		   with different font files.
 		*/
-		vector<FontData> f = i->decoder->fonts ();
+		auto f = i->decoder->fonts ();
 		copy (f.begin(), f.end(), back_inserter(fonts));
 	}
 
@@ -580,11 +565,11 @@ Player::get_reel_assets ()
 				maybe_add_asset (a, k->main_sound(), reel_trim_start, reel_trim_end, from, ffr);
 			}
 
-			if (j->reference_text (TEXT_OPEN_SUBTITLE)) {
+			if (j->reference_text (TextType::OPEN_SUBTITLE)) {
 				maybe_add_asset (a, k->main_subtitle(), reel_trim_start, reel_trim_end, from, ffr);
 			}
 
-			if (j->reference_text (TEXT_CLOSED_CAPTION)) {
+			if (j->reference_text (TextType::CLOSED_CAPTION)) {
 				for (auto l: k->closed_captions()) {
 					maybe_add_asset (a, l, reel_trim_start, reel_trim_end, from, ffr);
 				}
@@ -611,7 +596,7 @@ Player::pass ()
 
 	if (_playback_length == DCPTime()) {
 		/* Special; just give one black frame */
-		emit_video (black_player_video_frame(EYES_BOTH), DCPTime());
+		emit_video (black_player_video_frame(Eyes::BOTH), DCPTime());
 		return true;
 	}
 
@@ -680,7 +665,7 @@ Player::pass ()
 	}
 	case BLACK:
 		LOG_DEBUG_PLAYER ("Emit black for gap at %1", to_string(_black.position()));
-		emit_video (black_player_video_frame(EYES_BOTH), _black.position());
+		emit_video (black_player_video_frame(Eyes::BOTH), _black.position());
 		_black.set_position (_black.position() + one_video_frame());
 		break;
 	case SILENT:
@@ -766,7 +751,7 @@ Player::open_subtitles_for_frame (DCPTime time) const
 
 	for (
 		auto j:
-		_active_texts[TEXT_OPEN_SUBTITLE].get_burnt(DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_open_subtitles)
+		_active_texts[static_cast<int>(TextType::OPEN_SUBTITLE)].get_burnt(DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_open_subtitles)
 		) {
 
 		/* Bitmap subtitles */
@@ -845,17 +830,17 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 			LastVideoMap::const_iterator last = _last_video.find (wp);
 			if (_film->three_d()) {
 				Eyes fill_to_eyes = video.eyes;
-				if (fill_to_eyes == EYES_BOTH) {
-					fill_to_eyes = EYES_LEFT;
+				if (fill_to_eyes == Eyes::BOTH) {
+					fill_to_eyes = Eyes::LEFT;
 				}
 				if (fill_to == piece->content->end(_film)) {
 					/* Don't fill after the end of the content */
-					fill_to_eyes = EYES_LEFT;
+					fill_to_eyes = Eyes::LEFT;
 				}
 				DCPTime j = fill_from;
-				Eyes eyes = _last_video_eyes.get_value_or(EYES_LEFT);
-				if (eyes == EYES_BOTH) {
-					eyes = EYES_LEFT;
+				Eyes eyes = _last_video_eyes.get_value_or(Eyes::LEFT);
+				if (eyes == Eyes::BOTH) {
+					eyes = Eyes::LEFT;
 				}
 				while (j < fill_to || eyes != fill_to_eyes) {
 					if (last != _last_video.end()) {
@@ -867,7 +852,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 						LOG_DEBUG_PLAYER("Fill using black at %1 in 3D mode", to_string(j));
 						emit_video (black_player_video_frame(eyes), j);
 					}
-					if (eyes == EYES_RIGHT) {
+					if (eyes == Eyes::RIGHT) {
 						j += one_video_frame();
 					}
 					eyes = increment_eyes (eyes);
@@ -877,7 +862,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 					if (last != _last_video.end()) {
 						emit_video (last->second, j);
 					} else {
-						emit_video (black_player_video_frame(EYES_BOTH), j);
+						emit_video (black_player_video_frame(Eyes::BOTH), j);
 					}
 				}
 			}
@@ -1014,7 +999,7 @@ Player::bitmap_text_start (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, C
 	ps.bitmap.push_back (BitmapText(image->scale(scaled_size, dcp::YUVToRGB::REC601, image->pixel_format(), true, _fast), subtitle.sub.rectangle));
 	DCPTime from (content_time_to_dcp (piece, subtitle.from()));
 
-	_active_texts[text->type()].add_from (wc, ps, from);
+	_active_texts[static_cast<int>(text->type())].add_from (wc, ps, from);
 }
 
 void
@@ -1058,7 +1043,7 @@ Player::plain_text_start (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, Co
 		ps.add_fonts (text->fonts ());
 	}
 
-	_active_texts[text->type()].add_from (wc, ps, from);
+	_active_texts[static_cast<int>(text->type())].add_from (wc, ps, from);
 }
 
 void
@@ -1069,7 +1054,7 @@ Player::subtitle_stop (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, Conte
 		return;
 	}
 
-	if (!_active_texts[text->type()].have(wc)) {
+	if (!_active_texts[static_cast<int>(text->type())].have(wc)) {
 		return;
 	}
 
@@ -1084,9 +1069,9 @@ Player::subtitle_stop (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, Conte
 		return;
 	}
 
-	pair<PlayerText, DCPTime> from = _active_texts[text->type()].add_to (wc, dcp_to);
+	pair<PlayerText, DCPTime> from = _active_texts[static_cast<int>(text->type())].add_to (wc, dcp_to);
 
-	bool const always = (text->type() == TEXT_OPEN_SUBTITLE && _always_burn_open_subtitles);
+	bool const always = (text->type() == TextType::OPEN_SUBTITLE && _always_burn_open_subtitles);
 	if (text->use() && !always && !text->burn()) {
 		Text (from.first, text->type(), text->dcp_track().get_value_or(DCPTextTrack()), DCPTimePeriod (from.second, dcp_to));
 	}
@@ -1114,7 +1099,7 @@ Player::seek (DCPTime time, bool accurate)
 	}
 
 	_audio_merger.clear ();
-	for (int i = 0; i < TEXT_COUNT; ++i) {
+	for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
 		_active_texts[i].clear ();
 	}
 
@@ -1139,7 +1124,7 @@ Player::seek (DCPTime time, bool accurate)
 
 	if (accurate) {
 		_last_video_time = time;
-		_last_video_eyes = EYES_LEFT;
+		_last_video_eyes = Eyes::LEFT;
 		_last_audio_time = time;
 	} else {
 		_last_video_time = optional<DCPTime>();
@@ -1161,7 +1146,7 @@ Player::emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 	*/
 	_delay.push_back (make_pair (pv, time));
 
-	if (pv->eyes() == EYES_BOTH || pv->eyes() == EYES_RIGHT) {
+	if (pv->eyes() == Eyes::BOTH || pv->eyes() == Eyes::RIGHT) {
 		_last_video_time = time + one_video_frame();
 	}
 	_last_video_eyes = increment_eyes (pv->eyes());
@@ -1178,13 +1163,13 @@ Player::emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 void
 Player::do_emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 {
-	if (pv->eyes() == EYES_BOTH || pv->eyes() == EYES_RIGHT) {
-		for (int i = 0; i < TEXT_COUNT; ++i) {
+	if (pv->eyes() == Eyes::BOTH || pv->eyes() == Eyes::RIGHT) {
+		for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
 			_active_texts[i].clear_before (time);
 		}
 	}
 
-	optional<PositionImage> subtitles = open_subtitles_for_frame (time);
+	auto subtitles = open_subtitles_for_frame (time);
 	if (subtitles) {
 		pv->set_text (subtitles.get ());
 	}
@@ -1250,14 +1235,14 @@ Player::discard_audio (shared_ptr<const AudioBuffers> audio, DCPTime time, DCPTi
 void
 Player::set_dcp_decode_reduction (optional<int> reduction)
 {
-	Change (CHANGE_TYPE_PENDING, PlayerProperty::DCP_DECODE_REDUCTION, false);
+	Change (ChangeType::PENDING, PlayerProperty::DCP_DECODE_REDUCTION, false);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 
 		if (reduction == _dcp_decode_reduction) {
 			lm.unlock ();
-			Change (CHANGE_TYPE_CANCELLED, PlayerProperty::DCP_DECODE_REDUCTION, false);
+			Change (ChangeType::CANCELLED, PlayerProperty::DCP_DECODE_REDUCTION, false);
 			return;
 		}
 
@@ -1265,7 +1250,7 @@ Player::set_dcp_decode_reduction (optional<int> reduction)
 		setup_pieces_unlocked ();
 	}
 
-	Change (CHANGE_TYPE_DONE, PlayerProperty::DCP_DECODE_REDUCTION, false);
+	Change (ChangeType::DONE, PlayerProperty::DCP_DECODE_REDUCTION, false);
 }
 
 optional<DCPTime>
@@ -1280,7 +1265,7 @@ Player::content_time_to_dcp (shared_ptr<Content> content, ContentTime t)
 	}
 
 	/* We couldn't find this content; perhaps things are being changed over */
-	return optional<DCPTime>();
+	return {};
 }
 
 

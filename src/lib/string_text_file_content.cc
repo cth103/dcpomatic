@@ -33,6 +33,7 @@
 using std::string;
 using std::cout;
 using std::shared_ptr;
+using std::make_shared;
 using boost::optional;
 using dcp::raw_convert;
 using namespace dcpomatic;
@@ -40,7 +41,7 @@ using namespace dcpomatic;
 StringTextFileContent::StringTextFileContent (boost::filesystem::path path)
 	: Content (path)
 {
-	text.push_back (shared_ptr<TextContent> (new TextContent (this, TEXT_OPEN_SUBTITLE, TEXT_UNKNOWN)));
+	text.push_back (shared_ptr<TextContent> (new TextContent (this, TextType::OPEN_SUBTITLE, TextType::UNKNOWN)));
 }
 
 StringTextFileContent::StringTextFileContent (cxml::ConstNodePtr node, int version)
@@ -61,7 +62,7 @@ StringTextFileContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job
 
 	boost::mutex::scoped_lock lm (_mutex);
 	_length = s.length ();
-	only_text()->add_font (shared_ptr<Font> (new Font (TEXT_FONT_ID)));
+	only_text()->add_font (make_shared<Font>(TEXT_FONT_ID));
 }
 
 string

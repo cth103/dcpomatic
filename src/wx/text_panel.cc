@@ -65,7 +65,7 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	, _loading_analysis (false)
 {
 	wxString refer = _("Use this DCP's subtitle as OV and make VF");
-	if (t == TEXT_CLOSED_CAPTION) {
+	if (t == TextType::CLOSED_CAPTION) {
 		refer = _("Use this DCP's closed caption as OV and make VF");
 	}
 
@@ -145,7 +145,7 @@ void
 TextPanel::setup_visibility ()
 {
 	switch (current_type()) {
-	case TEXT_OPEN_SUBTITLE:
+	case TextType::OPEN_SUBTITLE:
 		if (_dcp_track_label) {
 			_dcp_track_label->Destroy ();
 			_dcp_track_label = 0;
@@ -161,7 +161,7 @@ TextPanel::setup_visibility ()
 		}
 
 		break;
-	case TEXT_CLOSED_CAPTION:
+	case TextType::CLOSED_CAPTION:
 		if (!_dcp_track_label) {
 			_dcp_track_label = create_label (this, _("CCAP track"), true);
 			add_label_to_sizer (_grid, _dcp_track_label, true, wxGBPosition(_ccap_track_row, 0));
@@ -348,7 +348,7 @@ TextPanel::dcp_track_changed ()
 	if (track) {
 		for (auto i: _parent->selected_text()) {
 			shared_ptr<TextContent> t = i->text_of_original_type(_original_type);
-			if (t && t->type() == TEXT_CLOSED_CAPTION) {
+			if (t && t->type() == TextType::CLOSED_CAPTION) {
 				t->set_dcp_track(*track);
 			}
 		}
@@ -409,10 +409,10 @@ TextPanel::film_content_changed (int property)
 	} else if (property == TextContentProperty::TYPE) {
 		if (text) {
 			switch (text->type()) {
-			case TEXT_OPEN_SUBTITLE:
+			case TextType::OPEN_SUBTITLE:
 				_type->SetSelection (0);
 				break;
-			case TEXT_CLOSED_CAPTION:
+			case TextType::CLOSED_CAPTION:
 				_type->SetSelection (1);
 				break;
 			default:
@@ -474,12 +474,12 @@ TextPanel::current_type () const
 {
 	switch (_type->GetSelection()) {
 	case 0:
-		return TEXT_OPEN_SUBTITLE;
+		return TextType::OPEN_SUBTITLE;
 	case 1:
-		return TEXT_CLOSED_CAPTION;
+		return TextType::CLOSED_CAPTION;
 	}
 
-	return TEXT_UNKNOWN;
+	return TextType::UNKNOWN;
 }
 
 void
@@ -558,10 +558,10 @@ TextPanel::setup_sensitivity ()
 	}
 
 	switch (type) {
-	case TEXT_OPEN_SUBTITLE:
+	case TextType::OPEN_SUBTITLE:
 		_type->SetSelection (0);
 		break;
-	case TEXT_CLOSED_CAPTION:
+	case TextType::CLOSED_CAPTION:
 		if (_type->GetCount() > 1) {
 			_type->SetSelection (1);
 		}
@@ -574,35 +574,35 @@ TextPanel::setup_sensitivity ()
 	_use->Enable (!reference && any_subs > 0);
 	bool const use = _use->GetValue ();
 	if (_outline_subtitles) {
-		_outline_subtitles->Enable (!_loading_analysis && any_subs && use && type == TEXT_OPEN_SUBTITLE);
+		_outline_subtitles->Enable (!_loading_analysis && any_subs && use && type == TextType::OPEN_SUBTITLE);
 	}
 	_type->Enable (!reference && any_subs > 0 && use);
-	_burn->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
-	_x_offset->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
-	_y_offset->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
-	_x_scale->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
-	_y_scale->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
-	_line_spacing->Enable (!reference && use && type == TEXT_OPEN_SUBTITLE && dcp_subs < any_subs);
+	_burn->Enable (!reference && any_subs > 0 && use && type == TextType::OPEN_SUBTITLE);
+	_x_offset->Enable (!reference && any_subs > 0 && use && type == TextType::OPEN_SUBTITLE);
+	_y_offset->Enable (!reference && any_subs > 0 && use && type == TextType::OPEN_SUBTITLE);
+	_x_scale->Enable (!reference && any_subs > 0 && use && type == TextType::OPEN_SUBTITLE);
+	_y_scale->Enable (!reference && any_subs > 0 && use && type == TextType::OPEN_SUBTITLE);
+	_line_spacing->Enable (!reference && use && type == TextType::OPEN_SUBTITLE && dcp_subs < any_subs);
 	_stream->Enable (!reference && ffmpeg_subs == 1);
 	/* Ideally we would check here to see if the FFmpeg content has "string" subs (i.e. not bitmaps) */
 	_text_view_button->Enable (!reference && any_subs > 0 && ffmpeg_subs == 0);
-	_fonts_dialog_button->Enable (!reference && any_subs > 0 && ffmpeg_subs == 0 && type == TEXT_OPEN_SUBTITLE);
-	_appearance_dialog_button->Enable (!reference && any_subs > 0 && use && type == TEXT_OPEN_SUBTITLE);
+	_fonts_dialog_button->Enable (!reference && any_subs > 0 && ffmpeg_subs == 0 && type == TextType::OPEN_SUBTITLE);
+	_appearance_dialog_button->Enable (!reference && any_subs > 0 && use && type == TextType::OPEN_SUBTITLE);
 }
 
 void
 TextPanel::stream_changed ()
 {
-	FFmpegContentList fc = _parent->selected_ffmpeg ();
+	auto fc = _parent->selected_ffmpeg ();
 	if (fc.size() != 1) {
 		return;
 	}
 
-	shared_ptr<FFmpegContent> fcs = fc.front ();
+	auto fcs = fc.front ();
 
-	vector<shared_ptr<FFmpegSubtitleStream> > a = fcs->subtitle_streams ();
-	vector<shared_ptr<FFmpegSubtitleStream> >::iterator i = a.begin ();
-	string const s = string_client_data (_stream->GetClientObject (_stream->GetSelection ()));
+	auto a = fcs->subtitle_streams ();
+	auto i = a.begin ();
+	auto const s = string_client_data (_stream->GetClientObject (_stream->GetSelection ()));
 	while (i != a.end() && (*i)->identifier () != s) {
 		++i;
 	}
@@ -631,7 +631,7 @@ TextPanel::y_offset_changed ()
 void
 TextPanel::x_scale_changed ()
 {
-	ContentList c = _parent->selected_text ();
+	auto c = _parent->selected_text ();
 	if (c.size() == 1) {
 		c.front()->text_of_original_type(_original_type)->set_x_scale (_x_scale->GetValue() / 100.0);
 	}
@@ -694,10 +694,10 @@ TextPanel::fonts_dialog_clicked ()
 {
 	if (_fonts_dialog) {
 		_fonts_dialog->Destroy ();
-		_fonts_dialog = 0;
+		_fonts_dialog = nullptr;
 	}
 
-	ContentList c = _parent->selected_text ();
+	auto c = _parent->selected_text ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
 	_fonts_dialog = new FontsDialog (this, c.front(), c.front()->text_of_original_type(_original_type));
@@ -707,12 +707,12 @@ TextPanel::fonts_dialog_clicked ()
 void
 TextPanel::reference_clicked ()
 {
-	ContentList c = _parent->selected ();
+	auto c = _parent->selected ();
 	if (c.size() != 1) {
 		return;
 	}
 
-	shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent> (c.front ());
+	auto d = dynamic_pointer_cast<DCPContent> (c.front ());
 	if (!d) {
 		return;
 	}
@@ -723,10 +723,10 @@ TextPanel::reference_clicked ()
 void
 TextPanel::appearance_dialog_clicked ()
 {
-	ContentList c = _parent->selected_text ();
+	auto c = _parent->selected_text ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
-	SubtitleAppearanceDialog* d = new SubtitleAppearanceDialog (this, _parent->film(), c.front(), c.front()->text_of_original_type(_original_type));
+	auto d = new SubtitleAppearanceDialog (this, _parent->film(), c.front(), c.front()->text_of_original_type(_original_type));
 	if (d->ShowModal () == wxID_OK) {
 		d->apply ();
 	}
@@ -759,14 +759,14 @@ TextPanel::try_to_load_analysis ()
 	setup_sensitivity ();
 	_analysis.reset ();
 
-	shared_ptr<Content> content = _analysis_content.lock ();
+	auto content = _analysis_content.lock ();
 	if (!content) {
 		_loading_analysis = false;
 		setup_sensitivity ();
 		return;
 	}
 
-	boost::filesystem::path const path = _parent->film()->subtitle_analysis_path(content);
+	auto const path = _parent->film()->subtitle_analysis_path(content);
 
 	if (!boost::filesystem::exists(path)) {
 		for (auto i: JobManager::instance()->get()) {
@@ -800,15 +800,15 @@ TextPanel::try_to_load_analysis ()
 void
 TextPanel::update_outline_subtitles_in_viewer ()
 {
-	shared_ptr<FilmViewer> fv = _parent->film_viewer().lock();
+	auto fv = _parent->film_viewer().lock();
 	if (!fv) {
 		return;
 	}
 
 	if (_analysis) {
-		optional<dcpomatic::Rect<double> > rect = _analysis->bounding_box ();
+		auto rect = _analysis->bounding_box ();
 		if (rect) {
-			shared_ptr<Content> content = _analysis_content.lock ();
+			auto content = _analysis_content.lock ();
 			DCPOMATIC_ASSERT (content);
 			rect->x += content->text.front()->x_offset();
 			rect->y += content->text.front()->y_offset();
@@ -835,7 +835,7 @@ TextPanel::clear_outline_subtitles ()
 void
 TextPanel::analysis_finished ()
 {
-	shared_ptr<Content> content = _analysis_content.lock ();
+	auto content = _analysis_content.lock ();
 	if (!content) {
 		_loading_analysis = false;
 		setup_sensitivity ();

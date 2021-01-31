@@ -44,10 +44,10 @@ TimelineContentView::bbox () const
 {
 	DCPOMATIC_ASSERT (_track);
 
-	shared_ptr<const Film> film = _timeline.film ();
-	shared_ptr<const Content> content = _content.lock ();
+	auto film = _timeline.film ();
+	auto content = _content.lock ();
 	if (!film || !content) {
-		return dcpomatic::Rect<int> ();
+		return {};
 	}
 
 	return dcpomatic::Rect<int> (
@@ -86,7 +86,7 @@ TimelineContentView::set_track (int t)
 void
 TimelineContentView::unset_track ()
 {
-	_track = boost::optional<int> ();
+	_track = boost::optional<int>();
 }
 
 boost::optional<int>
@@ -100,8 +100,8 @@ TimelineContentView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> 
 {
 	DCPOMATIC_ASSERT (_track);
 
-	shared_ptr<const Film> film = _timeline.film ();
-	shared_ptr<const Content> cont = content ();
+	auto film = _timeline.film ();
+	auto cont = content ();
 	if (!film || !cont) {
 		return;
 	}
@@ -119,7 +119,7 @@ TimelineContentView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> 
 	}
 
 	/* Outline */
-	wxGraphicsPath path = gc->CreatePath ();
+	auto path = gc->CreatePath ();
 	path.MoveToPoint    (time_x (position) + 2,	      y_pos (_track.get()) + 4);
 	path.AddLineToPoint (time_x (position + len) - 1,     y_pos (_track.get()) + 4);
 	path.AddLineToPoint (time_x (position + len) - 1,     y_pos (_track.get() + 1) - 4);
@@ -139,12 +139,12 @@ TimelineContentView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> 
 
 	/* Overlaps */
 	gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (foreground_colour(), wxBRUSHSTYLE_CROSSDIAG_HATCH));
-	for (list<dcpomatic::Rect<int> >::const_iterator i = overlaps.begin(); i != overlaps.end(); ++i) {
-		gc->DrawRectangle (i->x, i->y + 4, i->width, i->height - 8);
+	for (auto const& i: overlaps) {
+		gc->DrawRectangle (i.x, i.y + 4, i.width, i.height - 8);
 	}
 
 	/* Label text */
-	wxString lab = label ();
+	auto lab = label ();
 	wxDouble lab_width;
 	wxDouble lab_height;
 	wxDouble lab_descent;
@@ -166,7 +166,7 @@ TimelineContentView::y_pos (int t) const
 void
 TimelineContentView::content_change (ChangeType type, int p)
 {
-	if (type != CHANGE_TYPE_DONE) {
+	if (type != ChangeType::DONE) {
 		return;
 	}
 

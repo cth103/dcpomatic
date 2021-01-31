@@ -165,12 +165,12 @@ Writer::write (shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
 	qi.reel = video_reel (frame);
 	qi.frame = frame - _reels[qi.reel].start ();
 
-	if (film()->three_d() && eyes == EYES_BOTH) {
+	if (film()->three_d() && eyes == Eyes::BOTH) {
 		/* 2D material in a 3D DCP; fake the 3D */
-		qi.eyes = EYES_LEFT;
+		qi.eyes = Eyes::LEFT;
 		_queue.push_back (qi);
 		++_queued_full_in_memory;
-		qi.eyes = EYES_RIGHT;
+		qi.eyes = Eyes::RIGHT;
 		_queue.push_back (qi);
 		++_queued_full_in_memory;
 	} else {
@@ -210,10 +210,10 @@ Writer::repeat (Frame frame, Eyes eyes)
 	qi.type = QueueItem::REPEAT;
 	qi.reel = video_reel (frame);
 	qi.frame = frame - _reels[qi.reel].start ();
-	if (film()->three_d() && eyes == EYES_BOTH) {
-		qi.eyes = EYES_LEFT;
+	if (film()->three_d() && eyes == Eyes::BOTH) {
+		qi.eyes = Eyes::LEFT;
 		_queue.push_back (qi);
-		qi.eyes = EYES_RIGHT;
+		qi.eyes = Eyes::RIGHT;
 		_queue.push_back (qi);
 	} else {
 		qi.eyes = eyes;
@@ -250,10 +250,10 @@ Writer::fake_write (Frame frame, Eyes eyes)
 
 	qi.reel = reel;
 	qi.frame = frame_in_reel;
-	if (film()->three_d() && eyes == EYES_BOTH) {
-		qi.eyes = EYES_LEFT;
+	if (film()->three_d() && eyes == Eyes::BOTH) {
+		qi.eyes = Eyes::LEFT;
 		_queue.push_back (qi);
-		qi.eyes = EYES_RIGHT;
+		qi.eyes = Eyes::RIGHT;
 		_queue.push_back (qi);
 	} else {
 		qi.eyes = eyes;
@@ -355,18 +355,18 @@ Writer::have_sequenced_image_at_queue_head ()
 bool
 Writer::LastWritten::next (QueueItem qi) const
 {
-	if (qi.eyes == EYES_BOTH) {
+	if (qi.eyes == Eyes::BOTH) {
 		/* 2D */
 		return qi.frame == (_frame + 1);
 	}
 
 	/* 3D */
 
-	if (_eyes == EYES_LEFT && qi.frame == _frame && qi.eyes == EYES_RIGHT) {
+	if (_eyes == Eyes::LEFT && qi.frame == _frame && qi.eyes == Eyes::RIGHT) {
 		return true;
 	}
 
-	if (_eyes == EYES_RIGHT && qi.frame == (_frame + 1) && qi.eyes == EYES_LEFT) {
+	if (_eyes == Eyes::RIGHT && qi.frame == (_frame + 1) && qi.eyes == Eyes::LEFT) {
 		return true;
 	}
 
@@ -760,18 +760,18 @@ Writer::can_fake_write (Frame frame) const
 	return (frame != 0 && frame < reel.first_nonexistant_frame());
 }
 
-/** @param track Closed caption track if type == TEXT_CLOSED_CAPTION */
+/** @param track Closed caption track if type == TextType::CLOSED_CAPTION */
 void
 Writer::write (PlayerText text, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
 {
-	vector<ReelWriter>::iterator* reel = 0;
+	vector<ReelWriter>::iterator* reel = nullptr;
 
 	switch (type) {
-	case TEXT_OPEN_SUBTITLE:
+	case TextType::OPEN_SUBTITLE:
 		reel = &_subtitle_reel;
 		_have_subtitles = true;
 		break;
-	case TEXT_CLOSED_CAPTION:
+	case TextType::CLOSED_CAPTION:
 		DCPOMATIC_ASSERT (track);
 		DCPOMATIC_ASSERT (_caption_reels.find(*track) != _caption_reels.end());
 		reel = &_caption_reels[*track];
@@ -846,7 +846,7 @@ Writer::write (ReferencedReelAsset asset)
 size_t
 Writer::video_reel (int frame) const
 {
-	DCPTime t = DCPTime::from_frames (frame, film()->video_frame_rate());
+	auto t = DCPTime::from_frames (frame, film()->video_frame_rate());
 	size_t i = 0;
 	while (i < _reels.size() && !_reels[i].period().contains (t)) {
 		++i;
@@ -863,8 +863,8 @@ Writer::set_digest_progress (Job* job, float progress)
 
 	_digest_progresses[boost::this_thread::get_id()] = progress;
 	float min_progress = FLT_MAX;
-	for (map<boost::thread::id, float>::const_iterator i = _digest_progresses.begin(); i != _digest_progresses.end(); ++i) {
-		min_progress = min (min_progress, i->second);
+	for (auto const& i: _digest_progresses) {
+		min_progress = min (min_progress, i.second);
 	}
 
 	job->set_progress (min_progress);

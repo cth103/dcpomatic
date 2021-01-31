@@ -200,7 +200,7 @@ void
 Content::signal_change (ChangeType c, int p)
 {
 	try {
-		if (c == CHANGE_TYPE_PENDING || c == CHANGE_TYPE_CANCELLED) {
+		if (c == ChangeType::PENDING || c == ChangeType::CANCELLED) {
 			Change (c, shared_from_this(), p, _change_signals_frequent);
 		} else {
 			emit (boost::bind (boost::ref(Change), c, shared_from_this(), p, _change_signals_frequent));

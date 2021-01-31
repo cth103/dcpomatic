@@ -50,50 +50,50 @@ static bool equal (dcp::FrameInfo a, ReelWriter const & writer, shared_ptr<InfoF
 
 BOOST_AUTO_TEST_CASE (write_frame_info_test)
 {
-	shared_ptr<Film> film = new_test_film2 ("write_frame_info_test");
+	auto film = new_test_film2 ("write_frame_info_test");
 	dcpomatic::DCPTimePeriod const period (dcpomatic::DCPTime(0), dcpomatic::DCPTime(96000));
 	ReelWriter writer (film, period, shared_ptr<Job>(), 0, 1, false);
 
 	/* Write the first one */
 
 	dcp::FrameInfo info1(0, 123, "12345678901234567890123456789012");
-	writer.write_frame_info (0, EYES_LEFT, info1);
+	writer.write_frame_info (0, Eyes::LEFT, info1);
 	{
-		shared_ptr<InfoFileHandle> file = film->info_file_handle(period, true);
-		BOOST_CHECK (equal(info1, writer, file, 0, EYES_LEFT));
+		auto file = film->info_file_handle(period, true);
+		BOOST_CHECK (equal(info1, writer, file, 0, Eyes::LEFT));
 	}
 
 	/* Write some more */
 
 	dcp::FrameInfo info2(596, 14921, "123acb789f1234ae782012n456339522");
-	writer.write_frame_info (5, EYES_RIGHT, info2);
+	writer.write_frame_info (5, Eyes::RIGHT, info2);
 
 	{
-		shared_ptr<InfoFileHandle> file = film->info_file_handle(period, true);
-		BOOST_CHECK (equal(info1, writer, file, 0, EYES_LEFT));
-		BOOST_CHECK (equal(info2, writer, file, 5, EYES_RIGHT));
+		auto file = film->info_file_handle(period, true);
+		BOOST_CHECK (equal(info1, writer, file, 0, Eyes::LEFT));
+		BOOST_CHECK (equal(info2, writer, file, 5, Eyes::RIGHT));
 	}
 
 	dcp::FrameInfo info3(12494, 99157123, "xxxxyyyyabc12356ffsfdsf456339522");
-	writer.write_frame_info (10, EYES_LEFT, info3);
+	writer.write_frame_info (10, Eyes::LEFT, info3);
 
 	{
-		shared_ptr<InfoFileHandle> file = film->info_file_handle(period, true);
-		BOOST_CHECK (equal(info1, writer, file, 0, EYES_LEFT));
-		BOOST_CHECK (equal(info2, writer, file, 5, EYES_RIGHT));
-		BOOST_CHECK (equal(info3, writer, file, 10, EYES_LEFT));
+		auto file = film->info_file_handle(period, true);
+		BOOST_CHECK (equal(info1, writer, file, 0, Eyes::LEFT));
+		BOOST_CHECK (equal(info2, writer, file, 5, Eyes::RIGHT));
+		BOOST_CHECK (equal(info3, writer, file, 10, Eyes::LEFT));
 	}
 
 	/* Overwrite one */
 
 	dcp::FrameInfo info4(55512494, 123599157123, "ABCDEFGyabc12356ffsfdsf4563395ZZ");
-	writer.write_frame_info (5, EYES_RIGHT, info4);
+	writer.write_frame_info (5, Eyes::RIGHT, info4);
 
 	{
-		shared_ptr<InfoFileHandle> file = film->info_file_handle(period, true);
-		BOOST_CHECK (equal(info1, writer, file, 0, EYES_LEFT));
-		BOOST_CHECK (equal(info4, writer, file, 5, EYES_RIGHT));
-		BOOST_CHECK (equal(info3, writer, file, 10, EYES_LEFT));
+		auto file = film->info_file_handle(period, true);
+		BOOST_CHECK (equal(info1, writer, file, 0, Eyes::LEFT));
+		BOOST_CHECK (equal(info4, writer, file, 5, Eyes::RIGHT));
+		BOOST_CHECK (equal(info3, writer, file, 10, Eyes::LEFT));
 	}
 }
 
@@ -103,11 +103,11 @@ BOOST_AUTO_TEST_CASE (write_frame_info_test)
 BOOST_AUTO_TEST_CASE (reel_reuse_video_test)
 {
 	/* Make a DCP */
-	shared_ptr<Film> film = new_test_film2 ("reel_reuse_video_test");
-	shared_ptr<Content> video = content_factory("test/data/flat_red.png").front();
+	auto film = new_test_film2 ("reel_reuse_video_test");
+	auto video = content_factory("test/data/flat_red.png").front();
 	film->examine_and_add_content (video);
 	BOOST_REQUIRE (!wait_for_jobs());
-	shared_ptr<Content> audio = content_factory("test/data/white.wav").front();
+	auto audio = content_factory("test/data/white.wav").front();
 	film->examine_and_add_content (audio);
 	BOOST_REQUIRE (!wait_for_jobs());
 	film->make_dcp ();

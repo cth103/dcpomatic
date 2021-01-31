@@ -33,8 +33,8 @@ class ContentVideo
 public:
 	ContentVideo ()
 		: frame (0)
-		, eyes (EYES_LEFT)
-		, part (PART_WHOLE)
+		, eyes (Eyes::LEFT)
+		, part (Part::WHOLE)
 	{}
 
 	ContentVideo (std::shared_ptr<const ImageProxy> i, Frame f, Eyes e, Part p)

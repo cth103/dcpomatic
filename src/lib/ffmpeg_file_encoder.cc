@@ -231,20 +231,20 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 	_pixel_format = pixel_format (format);
 
 	switch (format) {
-	case EXPORT_FORMAT_PRORES:
+	case ExportFormat::PRORES:
 		_sample_format = AV_SAMPLE_FMT_S16;
 		_video_codec_name = "prores_ks";
 		_audio_codec_name = "pcm_s16le";
 		av_dict_set (&_video_options, "profile", "3", 0);
 		av_dict_set (&_video_options, "threads", "auto", 0);
 		break;
-	case EXPORT_FORMAT_H264_AAC:
+	case ExportFormat::H264_AAC:
 		_sample_format = AV_SAMPLE_FMT_FLTP;
 		_video_codec_name = "libx264";
 		_audio_codec_name = "aac";
 		av_dict_set_int (&_video_options, "crf", x264_crf, 0);
 		break;
-	case EXPORT_FORMAT_H264_PCM:
+	case ExportFormat::H264_PCM:
 		_sample_format = AV_SAMPLE_FMT_S32;
 		_video_codec_name = "libx264";
 		_audio_codec_name = "pcm_s24le";
@@ -289,10 +289,10 @@ AVPixelFormat
 FFmpegFileEncoder::pixel_format (ExportFormat format)
 {
 	switch (format) {
-	case EXPORT_FORMAT_PRORES:
+	case ExportFormat::PRORES:
 		return AV_PIX_FMT_YUV422P10;
-	case EXPORT_FORMAT_H264_AAC:
-	case EXPORT_FORMAT_H264_PCM:
+	case ExportFormat::H264_AAC:
+	case ExportFormat::H264_PCM:
 		return AV_PIX_FMT_YUV420P;
 	default:
 		DCPOMATIC_ASSERT (false);
@@ -399,14 +399,14 @@ void
 FFmpegFileEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 {
 	/* All our output formats are video range at the moment */
-	shared_ptr<Image> image = video->image (
+	auto image = video->image (
 		bind (&PlayerVideo::force, _1, _pixel_format),
 		VideoRange::VIDEO,
 		true,
 		false
 		);
 
-	AVFrame* frame = av_frame_alloc ();
+	auto frame = av_frame_alloc ();
 	DCPOMATIC_ASSERT (frame);
 
 	{

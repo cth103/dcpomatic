@@ -404,7 +404,7 @@ public:
 
 	void film_changed (ChangeType type, Film::Property property)
 	{
-		if (type != CHANGE_TYPE_DONE || property != Film::CONTENT) {
+		if (type != ChangeType::DONE || property != Film::CONTENT) {
 			return;
 		}
 
@@ -416,14 +416,14 @@ public:
 		_film->set_container (Ratio::from_id("185"));
 
 		for (auto i: _film->content()) {
-			shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent>(i);
+			auto dcp = dynamic_pointer_cast<DCPContent>(i);
 
 			for (auto j: i->text) {
 				j->set_use (true);
 			}
 
 			if (i->video) {
-				Ratio const * r = Ratio::nearest_from_ratio(i->video->size().ratio());
+				auto const r = Ratio::nearest_from_ratio(i->video->size().ratio());
 				if (r->id() == "239") {
 					/* Any scope content means we use scope */
 					_film->set_container(r);
@@ -431,7 +431,7 @@ public:
 			}
 
 			/* Any 3D content means we use 3D mode */
-			if (i->video && i->video->frame_type() != VIDEO_FRAME_TYPE_2D) {
+			if (i->video && i->video->frame_type() != VideoFrameType::TWO_D) {
 				_film->set_three_d (true);
 			}
 		}
@@ -441,19 +441,19 @@ public:
 
 		set_menu_sensitivity ();
 
-		wxMenuItemList old = _cpl_menu->GetMenuItems();
-		for (wxMenuItemList::iterator i = old.begin(); i != old.end(); ++i) {
-			_cpl_menu->Remove (*i);
+		auto old = _cpl_menu->GetMenuItems();
+		for (auto const& i: old) {
+			_cpl_menu->Remove (i);
 		}
 
 		if (_film->content().size() == 1) {
 			/* Offer a CPL menu */
-			shared_ptr<DCPContent> first = dynamic_pointer_cast<DCPContent>(_film->content().front());
+			auto first = dynamic_pointer_cast<DCPContent>(_film->content().front());
 			if (first) {
 				DCPExaminer ex (first, true);
 				int id = ID_view_cpl;
 				for (auto i: ex.cpls()) {
-					wxMenuItem* j = _cpl_menu->AppendRadioItem(
+					auto j = _cpl_menu->AppendRadioItem(
 						id,
 						wxString::Format("%s (%s)", std_to_wx(i->annotation_text().get_value_or("")).data(), std_to_wx(i->id()).data())
 						);
@@ -473,11 +473,11 @@ private:
 
 	bool report_errors_from_last_job (wxWindow* parent) const
 	{
-		JobManager* jm = JobManager::instance ();
+		auto jm = JobManager::instance ();
 
 		DCPOMATIC_ASSERT (!jm->get().empty());
 
-		shared_ptr<Job> last = jm->get().back();
+		auto last = jm->get().back();
 		if (last->finished_in_error()) {
 			error_dialog(parent, wxString::Format(_("Could not load DCP.\n\n%s."), std_to_wx(last->error_summary()).data()), std_to_wx(last->error_details()));
 			return false;

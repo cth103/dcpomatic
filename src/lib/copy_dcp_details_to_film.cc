@@ -38,7 +38,7 @@ using std::shared_ptr;
 void
 copy_dcp_details_to_film (shared_ptr<const DCPContent> dcp, shared_ptr<Film> film)
 {
-	string name = dcp->name ();
+	auto name = dcp->name ();
 	name = name.substr (0, name.find("_"));
 	film->set_name (name);
 	film->set_use_isdcf_name (true);
@@ -46,7 +46,7 @@ copy_dcp_details_to_film (shared_ptr<const DCPContent> dcp, shared_ptr<Film> fil
 		film->set_dcp_content_type (DCPContentType::from_libdcp_kind(dcp->content_kind().get()));
 	}
 	film->set_encrypted (dcp->encrypted());
-	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	film->set_interop (dcp->standard() == dcp::Standard::INTEROP);
 	film->set_three_d (dcp->three_d());
 
@@ -61,11 +61,9 @@ copy_dcp_details_to_film (shared_ptr<const DCPContent> dcp, shared_ptr<Film> fil
 		film->set_audio_channels (dcp->audio->stream()->channels());
 	}
 
-	map<dcp::Marker, dcpomatic::ContentTime> dcp_markers;
-	map<dcp::Marker, dcpomatic::DCPTime> film_markers;
 	film->clear_markers ();
-	for (map<dcp::Marker, dcpomatic::ContentTime>::const_iterator i = dcp_markers.begin(); i != dcp_markers.end(); ++i) {
-		film->set_marker (i->first, dcpomatic::DCPTime(i->second.get()));
+	for (auto const& i: dcp->markers()) {
+		film->set_marker (i.first, dcpomatic::DCPTime(i.second.get()));
 	}
 
 	film->set_ratings (dcp->ratings());

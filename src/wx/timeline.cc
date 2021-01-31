@@ -112,7 +112,7 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film, w
 	_main_canvas->Bind   (wxEVT_SCROLLWIN_PAGEDOWN,   boost::bind (&Timeline::scrolled,     this, _1));
 	_main_canvas->Bind   (wxEVT_SCROLLWIN_THUMBTRACK, boost::bind (&Timeline::scrolled,     this, _1));
 
-	film_change (CHANGE_TYPE_DONE, Film::CONTENT);
+	film_change (ChangeType::DONE, Film::CONTENT);
 
 	SetMinSize (wxSize (640, 4 * pixels_per_track() + 96));
 
@@ -227,7 +227,7 @@ Timeline::paint_main ()
 void
 Timeline::film_change (ChangeType type, Film::Property p)
 {
-	if (type != CHANGE_TYPE_DONE) {
+	if (type != ChangeType::DONE) {
 		return;
 	}
 
@@ -277,7 +277,7 @@ Timeline::recreate_views ()
 void
 Timeline::film_content_change (ChangeType type, int property, bool frequent)
 {
-	if (type != CHANGE_TYPE_DONE) {
+	if (type != ChangeType::DONE) {
 		return;
 	}
 
@@ -403,7 +403,7 @@ Timeline::assign_tracks ()
 		}
 
 		/* Video on tracks 0 and maybe 1 (left and right eye) */
-		if (cv->content()->video->frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) {
+		if (cv->content()->video->frame_type() == VideoFrameType::THREE_D_RIGHT) {
 			cv->set_track (1);
 			_tracks = max (_tracks, 2);
 			have_3d = true;

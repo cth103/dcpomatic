@@ -97,7 +97,7 @@ BOOST_AUTO_TEST_CASE (optimise_stills_test2)
 	shared_ptr<Content> content = content_factory("test/data/flat_red.png").front ();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
-	content->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT_RIGHT);
+	content->video->set_frame_type (VideoFrameType::THREE_D_LEFT_RIGHT);
 	film->set_three_d (true);
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());

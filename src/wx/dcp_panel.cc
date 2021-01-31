@@ -286,7 +286,7 @@ DCPPanel::resolution_changed ()
 		return;
 	}
 
-	_film->set_resolution (_resolution->GetSelection() == 0 ? RESOLUTION_2K : RESOLUTION_4K);
+	_film->set_resolution (_resolution->GetSelection() == 0 ? Resolution::TWO_K : Resolution::FOUR_K);
 }
 
 void
@@ -354,7 +354,7 @@ DCPPanel::film_changed (int p)
 		checked_set (_encrypted, _film->encrypted ());
 		break;
 	case Film::RESOLUTION:
-		checked_set (_resolution, _film->resolution() == RESOLUTION_2K ? 0 : 1);
+		checked_set (_resolution, _film->resolution() == Resolution::TWO_K ? 0 : 1);
 		setup_container ();
 		setup_dcp_name ();
 		break;
@@ -433,8 +433,8 @@ DCPPanel::film_changed (int p)
 		film_changed (Film::AUDIO_CHANNELS);
 		break;
 	case Film::REEL_TYPE:
-		checked_set (_reel_type, _film->reel_type ());
-		_reel_length->Enable (_film->reel_type() == REELTYPE_BY_LENGTH);
+		checked_set (_reel_type, static_cast<int>(_film->reel_type()));
+		_reel_length->Enable (_film->reel_type() == ReelType::BY_LENGTH);
 		break;
 	case Film::REEL_LENGTH:
 		checked_set (_reel_length, _film->reel_length() / 1000000000LL);
@@ -586,7 +586,7 @@ DCPPanel::setup_sensitivity ()
 	_copy_isdcf_name_button->Enable (_generally_sensitive);
 	_encrypted->Enable              (_generally_sensitive);
 	_reel_type->Enable              (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->references_dcp_audio());
-	_reel_length->Enable            (_generally_sensitive && _film && _film->reel_type() == REELTYPE_BY_LENGTH);
+	_reel_length->Enable            (_generally_sensitive && _film && _film->reel_type() == ReelType::BY_LENGTH);
 	_markers->Enable                (_generally_sensitive && _film && !_film->interop());
 	_metadata->Enable               (_generally_sensitive);
 	_frame_rate_choice->Enable      (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->contains_atmos_content());

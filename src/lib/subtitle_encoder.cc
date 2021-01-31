@@ -31,11 +31,12 @@
 
 #include "i18n.h"
 
-using std::string;
 using std::make_pair;
+using std::make_shared;
 using std::pair;
-using std::vector;
 using std::shared_ptr;
+using std::string;
+using std::vector;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -128,7 +129,7 @@ SubtitleEncoder::go ()
 void
 SubtitleEncoder::text (PlayerText subs, TextType type, optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period)
 {
-	if (type != TEXT_OPEN_SUBTITLE) {
+	if (type != TextType::OPEN_SUBTITLE) {
 		return;
 	}
 
@@ -136,7 +137,7 @@ SubtitleEncoder::text (PlayerText subs, TextType type, optional<DCPTextTrack> tr
 		shared_ptr<dcp::SubtitleAsset> asset;
 		vector<dcp::LanguageTag> lang = _film->subtitle_languages ();
 		if (_film->interop ()) {
-			shared_ptr<dcp::InteropSubtitleAsset> s (new dcp::InteropSubtitleAsset());
+			auto s = make_shared<dcp::InteropSubtitleAsset>();
 			s->set_movie_title (_film->name());
 			if (!lang.empty()) {
 				s->set_language (lang.front().to_string());
@@ -144,7 +145,7 @@ SubtitleEncoder::text (PlayerText subs, TextType type, optional<DCPTextTrack> tr
 			s->set_reel_number (raw_convert<string>(_reel_index + 1));
 			_assets[_reel_index].first = s;
 		} else {
-			shared_ptr<dcp::SMPTESubtitleAsset> s (new dcp::SMPTESubtitleAsset());
+			auto s = make_shared<dcp::SMPTESubtitleAsset>();
 			s->set_content_title_text (_film->name());
 			if (!lang.empty()) {
 				s->set_language (lang.front());

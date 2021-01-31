@@ -72,16 +72,16 @@ UploadJob::run ()
 	LOG_GENERAL_NC (N_("Upload job starting"));
 
 	scoped_ptr<Uploader> uploader;
-	switch (Config::instance()->tms_protocol ()) {
-	case FILE_TRANSFER_PROTOCOL_SCP:
-		uploader.reset (new SCPUploader (bind (&UploadJob::set_status, this, _1), bind (&UploadJob::set_progress, this, _1, false)));
+	switch (Config::instance()->tms_protocol()) {
+	case FileTransferProtocol::SCP:
+		uploader.reset (new SCPUploader(bind (&UploadJob::set_status, this, _1), bind(&UploadJob::set_progress, this, _1, false)));
 		break;
-	case FILE_TRANSFER_PROTOCOL_FTP:
-		uploader.reset (new CurlUploader (bind (&UploadJob::set_status, this, _1), bind (&UploadJob::set_progress, this, _1, false)));
+	case FileTransferProtocol::FTP:
+		uploader.reset (new CurlUploader(bind (&UploadJob::set_status, this, _1), bind(&UploadJob::set_progress, this, _1, false)));
 		break;
 	}
 
-	uploader->upload (_film->dir (_film->dcp_name ()));
+	uploader->upload (_film->dir(_film->dcp_name()));
 
 	set_progress (1);
 	set_status (N_(""));

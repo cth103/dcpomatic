@@ -53,6 +53,7 @@ class VideoContent : public ContentPart, public std::enable_shared_from_this<Vid
 {
 public:
 	explicit VideoContent (Content* parent);
+	VideoContent (Content* parent, cxml::ConstNodePtr, int);
 	VideoContent (Content* parent, std::vector<std::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;
@@ -67,7 +68,7 @@ public:
 
 	Frame length_after_3d_combine () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		if (_frame_type == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
+		if (_frame_type == VideoFrameType::THREE_D_ALTERNATE) {
 			return _length / 2;
 		}
 
@@ -205,7 +206,6 @@ private:
 	friend struct scaled_size_test2;
 	friend struct scaled_size_legacy_test;
 
-	VideoContent (Content* parent, cxml::ConstNodePtr, int);
 	void setup_default_colour_conversion ();
 
 	bool _use;

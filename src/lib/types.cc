@@ -59,9 +59,9 @@ string
 resolution_to_string (Resolution r)
 {
 	switch (r) {
-	case RESOLUTION_2K:
+	case Resolution::TWO_K:
 		return "2K";
-	case RESOLUTION_4K:
+	case Resolution::FOUR_K:
 		return "4K";
 	}
 
@@ -74,15 +74,15 @@ Resolution
 string_to_resolution (string s)
 {
 	if (s == "2K") {
-		return RESOLUTION_2K;
+		return Resolution::TWO_K;
 	}
 
 	if (s == "4K") {
-		return RESOLUTION_4K;
+		return Resolution::FOUR_K;
 	}
 
 	DCPOMATIC_ASSERT (false);
-	return RESOLUTION_2K;
+	return Resolution::TWO_K;
 }
 
 Crop::Crop (shared_ptr<cxml::Node> node)
@@ -106,11 +106,11 @@ TextType
 string_to_text_type (string s)
 {
 	if (s == "unknown") {
-		return TEXT_UNKNOWN;
+		return TextType::UNKNOWN;
 	} else if (s == "open-subtitle") {
-		return TEXT_OPEN_SUBTITLE;
+		return TextType::OPEN_SUBTITLE;
 	} else if (s == "closed-caption") {
-		return TEXT_CLOSED_CAPTION;
+		return TextType::CLOSED_CAPTION;
 	} else {
 		throw MetadataError (String::compose ("Unknown text type %1", s));
 	}
@@ -120,11 +120,11 @@ string
 text_type_to_string (TextType t)
 {
 	switch (t) {
-	case TEXT_UNKNOWN:
+	case TextType::UNKNOWN:
 		return "unknown";
-	case TEXT_OPEN_SUBTITLE:
+	case TextType::OPEN_SUBTITLE:
 		return "open-subtitle";
-	case TEXT_CLOSED_CAPTION:
+	case TextType::CLOSED_CAPTION:
 		return "closed-caption";
 	default:
 		DCPOMATIC_ASSERT (false);
@@ -135,11 +135,11 @@ string
 text_type_to_name (TextType t)
 {
 	switch (t) {
-	case TEXT_UNKNOWN:
+	case TextType::UNKNOWN:
 		return _("Timed text");
-	case TEXT_OPEN_SUBTITLE:
+	case TextType::OPEN_SUBTITLE:
 		return _("Open subtitles");
-	case TEXT_CLOSED_CAPTION:
+	case TextType::CLOSED_CAPTION:
 		return _("Closed captions");
 	default:
 		DCPOMATIC_ASSERT (false);
@@ -150,19 +150,19 @@ string
 video_frame_type_to_string (VideoFrameType t)
 {
 	switch (t) {
-	case VIDEO_FRAME_TYPE_2D:
+	case VideoFrameType::TWO_D:
 		return "2d";
-	case VIDEO_FRAME_TYPE_3D:
+	case VideoFrameType::THREE_D:
 		return "3d";
-	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
+	case VideoFrameType::THREE_D_LEFT_RIGHT:
 		return "3d-left-right";
-	case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
+	case VideoFrameType::THREE_D_TOP_BOTTOM:
 		return "3d-top-bottom";
-	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
+	case VideoFrameType::THREE_D_ALTERNATE:
 		return "3d-alternate";
-	case VIDEO_FRAME_TYPE_3D_LEFT:
+	case VideoFrameType::THREE_D_LEFT:
 		return "3d-left";
-	case VIDEO_FRAME_TYPE_3D_RIGHT:
+	case VideoFrameType::THREE_D_RIGHT:
 		return "3d-right";
 	default:
 		DCPOMATIC_ASSERT (false);
@@ -175,19 +175,19 @@ VideoFrameType
 string_to_video_frame_type (string s)
 {
 	if (s == "2d") {
-		return VIDEO_FRAME_TYPE_2D;
+		return VideoFrameType::TWO_D;
 	} else if (s == "3d") {
-		return VIDEO_FRAME_TYPE_3D;
+		return VideoFrameType::THREE_D;
 	} else if (s == "3d-left-right") {
-		return VIDEO_FRAME_TYPE_3D_LEFT_RIGHT;
+		return VideoFrameType::THREE_D_LEFT_RIGHT;
 	} else if (s == "3d-top-bottom") {
-		return VIDEO_FRAME_TYPE_3D_TOP_BOTTOM;
+		return VideoFrameType::THREE_D_TOP_BOTTOM;
 	} else if (s == "3d-alternate") {
-		return VIDEO_FRAME_TYPE_3D_ALTERNATE;
+		return VideoFrameType::THREE_D_ALTERNATE;
 	} else if (s == "3d-left") {
-		return VIDEO_FRAME_TYPE_3D_LEFT;
+		return VideoFrameType::THREE_D_LEFT;
 	} else if (s == "3d-right") {
-		return VIDEO_FRAME_TYPE_3D_RIGHT;
+		return VideoFrameType::THREE_D_RIGHT;
 	}
 
 	DCPOMATIC_ASSERT (false);

@@ -56,20 +56,20 @@ BOOST_AUTO_TEST_CASE (vf_test1)
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Multi-reel DCP can't be referenced if we are using a single reel for the project */
-	film->set_reel_type (REELTYPE_SINGLE);
+	film->set_reel_type (ReelType::SINGLE);
 	string why_not;
 	BOOST_CHECK (!dcp->can_reference_video(film, why_not));
 	BOOST_CHECK (!dcp->can_reference_audio(film, why_not));
-	BOOST_CHECK (!dcp->can_reference_text(film, TEXT_OPEN_SUBTITLE, why_not));
-	BOOST_CHECK (!dcp->can_reference_text(film, TEXT_CLOSED_CAPTION, why_not));
+	BOOST_CHECK (!dcp->can_reference_text(film, TextType::OPEN_SUBTITLE, why_not));
+	BOOST_CHECK (!dcp->can_reference_text(film, TextType::CLOSED_CAPTION, why_not));
 
 	/* Multi-reel DCP can be referenced if we are using by-video-content */
-	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	BOOST_CHECK (dcp->can_reference_video(film, why_not));
 	BOOST_CHECK (dcp->can_reference_audio(film, why_not));
 	/* (but reels_test2 has no texts to reference) */
-	BOOST_CHECK (!dcp->can_reference_text(film, TEXT_OPEN_SUBTITLE, why_not));
-	BOOST_CHECK (!dcp->can_reference_text(film, TEXT_CLOSED_CAPTION, why_not));
+	BOOST_CHECK (!dcp->can_reference_text(film, TextType::OPEN_SUBTITLE, why_not));
+	BOOST_CHECK (!dcp->can_reference_text(film, TextType::CLOSED_CAPTION, why_not));
 
 	shared_ptr<FFmpegContent> other (new FFmpegContent("test/data/test.mp4"));
 	film->examine_and_add_content (other);
@@ -85,8 +85,8 @@ BOOST_AUTO_TEST_CASE (vf_test1)
 	BOOST_CHECK (dcp->can_reference_video(film, why_not));
 	BOOST_CHECK (dcp->can_reference_audio(film, why_not));
 	/* (reels_test2 has no texts to reference) */
-	BOOST_CHECK (!dcp->can_reference_text(film, TEXT_OPEN_SUBTITLE, why_not));
-	BOOST_CHECK (!dcp->can_reference_text(film, TEXT_CLOSED_CAPTION, why_not));
+	BOOST_CHECK (!dcp->can_reference_text(film, TextType::OPEN_SUBTITLE, why_not));
+	BOOST_CHECK (!dcp->can_reference_text(film, TextType::CLOSED_CAPTION, why_not));
 }
 
 /** Make a OV with video and audio and a VF referencing the OV and adding subs */
@@ -110,7 +110,7 @@ BOOST_AUTO_TEST_CASE (vf_test2)
 	shared_ptr<Film> vf = new_test_film ("vf_test2_vf");
 	vf->set_name ("vf_test2_vf");
 	vf->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
-	vf->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	vf->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	shared_ptr<DCPContent> dcp (new DCPContent(ov->dir (ov->dcp_name ())));
 	BOOST_REQUIRE (dcp);
 	vf->examine_and_add_content (dcp);
@@ -168,7 +168,7 @@ BOOST_AUTO_TEST_CASE (vf_test3)
 	shared_ptr<Film> vf = new_test_film ("vf_test3_vf");
 	vf->set_name ("vf_test3_vf");
 	vf->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
-	vf->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	vf->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	shared_ptr<DCPContent> dcp (new DCPContent(ov->dir(ov->dcp_name())));
 	BOOST_REQUIRE (dcp);
 	dcp->set_trim_start (ContentTime::from_seconds (1));
@@ -214,7 +214,7 @@ BOOST_AUTO_TEST_CASE (vf_test4)
 	shared_ptr<Film> vf = new_test_film ("vf_test4_vf");
 	vf->set_name ("vf_test4_vf");
 	vf->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
-	vf->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	vf->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	vf->set_sequence (false);
 	shared_ptr<DCPContent> dcp (new DCPContent(ov->dir(ov->dcp_name())));
 	BOOST_REQUIRE (dcp);
@@ -257,7 +257,7 @@ BOOST_AUTO_TEST_CASE (vf_test5)
 	/* Make the OV */
 	shared_ptr<Film> ov = new_test_film ("vf_test5_ov");
 	ov->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
-	ov->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	ov->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	for (int i = 0; i < 3; ++i) {
 		shared_ptr<Content> video = content_factory("test/data/flat_red.png").front();
 		ov->examine_and_add_content (video);
@@ -273,7 +273,7 @@ BOOST_AUTO_TEST_CASE (vf_test5)
 	shared_ptr<Film> vf = new_test_film ("vf_test5_vf");
 	vf->set_name ("vf_test5_vf");
 	vf->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
-	vf->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	vf->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	vf->set_sequence (false);
 	shared_ptr<DCPContent> dcp (new DCPContent(ov->dir(ov->dcp_name())));
 	BOOST_REQUIRE (dcp);
@@ -306,7 +306,7 @@ BOOST_AUTO_TEST_CASE (vf_test6)
 	/* Make the OV */
 	shared_ptr<Film> ov = new_test_film ("vf_test6_ov");
 	ov->set_dcp_content_type (DCPContentType::from_isdcf_name("TST"));
-	ov->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	ov->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	shared_ptr<Content> video = content_factory("test/data/flat_red.png").front();
 	ov->examine_and_add_content (video);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -318,7 +318,7 @@ BOOST_AUTO_TEST_CASE (vf_test6)
 	shared_ptr<Film> vf = new_test_film ("vf_test6_vf");
 	vf->set_name ("vf_test6_vf");
 	vf->set_dcp_content_type (DCPContentType::from_isdcf_name("TST"));
-	vf->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	vf->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	vf->set_sequence (false);
 	shared_ptr<DCPContent> dcp (new DCPContent(ov->dir(ov->dcp_name())));
 	BOOST_REQUIRE (dcp);
@@ -361,7 +361,7 @@ BOOST_AUTO_TEST_CASE (vf_test7)
 	shared_ptr<DCPContent> ov2_dcp (new DCPContent(ov1->dir(ov1->dcp_name())));
 	vf->examine_and_add_content (ov2_dcp);
 	BOOST_REQUIRE (!wait_for_jobs());
-	vf->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	vf->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	ov1_dcp->set_reference_video (true);
 	ov2_dcp->set_reference_video (true);
 	ov1_dcp->set_position (vf, DCPTime::from_seconds(1));

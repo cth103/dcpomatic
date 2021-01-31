@@ -54,7 +54,7 @@ public:
 		: size (0)
 		, reel (0)
 		, frame (0)
-		, eyes (EYES_BOTH)
+		, eyes (Eyes::BOTH)
 	{}
 
 	enum Type {
@@ -158,7 +158,7 @@ private:
 	public:
 		LastWritten()
 			: _frame(-1)
-			, _eyes(EYES_RIGHT)
+			, _eyes(Eyes::RIGHT)
 		{}
 
 		/** @return true if qi is the next item after this one */

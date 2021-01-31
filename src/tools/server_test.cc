@@ -55,8 +55,8 @@ static int frame_count = 0;
 void
 process_video (shared_ptr<PlayerVideo> pvf)
 {
-	shared_ptr<DCPVideo> local  (new DCPVideo (pvf, frame_count, film->video_frame_rate(), 250000000, RESOLUTION_2K));
-	shared_ptr<DCPVideo> remote (new DCPVideo (pvf, frame_count, film->video_frame_rate(), 250000000, RESOLUTION_2K));
+	shared_ptr<DCPVideo> local  (new DCPVideo (pvf, frame_count, film->video_frame_rate(), 250000000, Resolution::TWO_K));
+	shared_ptr<DCPVideo> remote (new DCPVideo (pvf, frame_count, film->video_frame_rate(), 250000000, Resolution::TWO_K));
 
 	cout << "Frame " << frame_count << ": ";
 	cout.flush ();

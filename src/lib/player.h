@@ -171,17 +171,17 @@ private:
 	std::shared_ptr<Image> _black_image;
 
 	/** true if the player should ignore all video; i.e. never produce any */
-	bool _ignore_video;
-	bool _ignore_audio;
+	bool _ignore_video = false;
+	bool _ignore_audio = false;
 	/** true if the player should ignore all text; i.e. never produce any */
-	bool _ignore_text;
-	bool _always_burn_open_subtitles;
+	bool _ignore_text = false;
+	bool _always_burn_open_subtitles = false;
 	/** true if we should try to be fast rather than high quality */
-	bool _fast;
+	bool _fast = false;
 	/** true if we should keep going in the face of `survivable' errors */
-	bool _tolerant;
+	bool _tolerant = false;
 	/** true if we should `play' (i.e output) referenced DCP data (e.g. for preview) */
-	bool _play_referenced;
+	bool _play_referenced = false;
 
 	/** Time just after the last video frame we emitted, or the time of the last accurate seek */
 	boost::optional<dcpomatic::DCPTime> _last_video_time;
@@ -195,7 +195,7 @@ private:
 	LastVideoMap _last_video;
 
 	AudioMerger _audio_merger;
-	Shuffler* _shuffler;
+	Shuffler* _shuffler = nullptr;
 	std::list<std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> > _delay;
 
 	class StreamState
@@ -216,7 +216,7 @@ private:
 	Empty _black;
 	Empty _silent;
 
-	ActiveText _active_texts[TEXT_COUNT];
+	ActiveText _active_texts[static_cast<int>(TextType::COUNT)];
 	std::shared_ptr<AudioProcessor> _audio_processor;
 
 	dcpomatic::DCPTime _playback_length;

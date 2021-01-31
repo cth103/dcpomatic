@@ -512,7 +512,7 @@ private:
 
 	void film_change (ChangeType type)
 	{
-		if (type == CHANGE_TYPE_DONE) {
+		if (type == ChangeType::DONE) {
 			set_menu_sensitivity ();
 		}
 	}
@@ -1118,7 +1118,7 @@ private:
 			}
 			list<string> to = { "carl@dcpomatic.com" };
 			Emailer emailer (d->email(), to, "DCP-o-matic translations", body);
-			emailer.send ("main.carlh.net", 2525, EMAIL_PROTOCOL_STARTTLS);
+			emailer.send ("main.carlh.net", 2525, EmailProtocol::STARTTLS);
 		}
 
 		d->Destroy ();

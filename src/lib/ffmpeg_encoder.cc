@@ -32,15 +32,16 @@
 
 #include "i18n.h"
 
-using std::string;
-using std::runtime_error;
 using std::cout;
-using std::pair;
 using std::list;
+using std::make_shared;
 using std::map;
+using std::pair;
+using std::runtime_error;
 using std::shared_ptr;
-using boost::bind;
+using std::string;
 using std::weak_ptr;
+using boost::bind;
 using boost::optional;
 using namespace dcpomatic;
 #if BOOST_VERSION >= 106100
@@ -106,8 +107,8 @@ FFmpegEncoder::FFmpegEncoder (
 		}
 	}
 
-	_butler.reset (
-		new Butler(_film, _player, map, _output_audio_channels, bind(&PlayerVideo::force, _1, FFmpegFileEncoder::pixel_format(format)), VideoRange::VIDEO, true, false)
+	_butler = std::make_shared<Butler>(
+		_film, _player, map, _output_audio_channels, bind(&PlayerVideo::force, _1, FFmpegFileEncoder::pixel_format(format)), VideoRange::VIDEO, true, false
 		);
 }
 
@@ -116,7 +117,7 @@ void
 FFmpegEncoder::go ()
 {
 	{
-		shared_ptr<Job> job = _job.lock ();
+		auto job = _job.lock ();
 		DCPOMATIC_ASSERT (job);
 		job->sub (_("Encoding"));
 	}
@@ -154,14 +155,14 @@ FFmpegEncoder::go ()
 			);
 	}
 
-	list<DCPTimePeriod> reel_periods = _film->reels ();
-	list<DCPTimePeriod>::const_iterator reel = reel_periods.begin ();
-	list<FileEncoderSet>::iterator encoder = file_encoders.begin ();
+	auto reel_periods = _film->reels ();
+	auto reel = reel_periods.begin ();
+	auto encoder = file_encoders.begin ();
 
-	DCPTime const video_frame = DCPTime::from_frames (1, _film->video_frame_rate ());
+	auto const video_frame = DCPTime::from_frames (1, _film->video_frame_rate ());
 	int const audio_frames = video_frame.frames_round(_film->audio_frame_rate());
 	float* interleaved = new float[_output_audio_channels * audio_frames];
-	shared_ptr<AudioBuffers> deinterleaved (new AudioBuffers (_output_audio_channels, audio_frames));
+	auto deinterleaved = make_shared<AudioBuffers>(_output_audio_channels, audio_frames);
 	int const gets_per_frame = _film->three_d() ? 2 : 1;
 	for (DCPTime i; i < _film->length(); i += video_frame) {
 
@@ -175,7 +176,7 @@ FFmpegEncoder::go ()
 
 		for (int j = 0; j < gets_per_frame; ++j) {
 			Butler::Error e;
-			pair<shared_ptr<PlayerVideo>, DCPTime> v = _butler->get_video (true, &e);
+			auto v = _butler->get_video (true, &e);
 			_butler->rethrow ();
 			if (!v.first) {
 				throw DecodeError(String::compose("Error during decoding: %1", e.summary()));
@@ -245,22 +246,19 @@ FFmpegEncoder::FileEncoderSet::FileEncoderSet (
 {
 	if (three_d) {
 		/// TRANSLATORS: L here is an abbreviation for "left", to indicate the left-eye part of a 3D export
-		_encoders[EYES_LEFT] = shared_ptr<FFmpegFileEncoder>(
-			new FFmpegFileEncoder(
-				video_frame_size, video_frame_rate, audio_frame_rate, channels, format,
-				audio_stream_per_channel, x264_crf, String::compose("%1_%2%3", output.string(), _("L"), extension))
+		_encoders[Eyes::LEFT] = make_shared<FFmpegFileEncoder>(
+			video_frame_size, video_frame_rate, audio_frame_rate, channels, format,
+			audio_stream_per_channel, x264_crf, String::compose("%1_%2%3", output.string(), _("L"), extension)
 			);
 		/// TRANSLATORS: R here is an abbreviation for "right", to indicate the right-eye part of a 3D export
-		_encoders[EYES_RIGHT] = shared_ptr<FFmpegFileEncoder>(
-			new FFmpegFileEncoder(
-				video_frame_size, video_frame_rate, audio_frame_rate, channels, format,
-				audio_stream_per_channel, x264_crf, String::compose("%1_%2%3", output.string(), _("R"), extension))
+		_encoders[Eyes::RIGHT] = make_shared<FFmpegFileEncoder>(
+			video_frame_size, video_frame_rate, audio_frame_rate, channels, format,
+			audio_stream_per_channel, x264_crf, String::compose("%1_%2%3", output.string(), _("R"), extension)
 			);
 	} else {
-		_encoders[EYES_BOTH]  = shared_ptr<FFmpegFileEncoder>(
-			new FFmpegFileEncoder(
-				video_frame_size, video_frame_rate, audio_frame_rate, channels, format,
-				audio_stream_per_channel, x264_crf, String::compose("%1%2", output.string(), extension))
+		_encoders[Eyes::BOTH] = make_shared<FFmpegFileEncoder>(
+			video_frame_size, video_frame_rate, audio_frame_rate, channels, format,
+			audio_stream_per_channel, x264_crf, String::compose("%1%2", output.string(), extension)
 			);
 	}
 }
@@ -270,10 +268,10 @@ FFmpegEncoder::FileEncoderSet::get (Eyes eyes) const
 {
 	if (_encoders.size() == 1) {
 		/* We are doing a 2D export... */
-		if (eyes == EYES_LEFT) {
+		if (eyes == Eyes::LEFT) {
 			/* ...but we got some 3D data; put the left eye into the output... */
-			eyes = EYES_BOTH;
-		} else if (eyes == EYES_RIGHT) {
+			eyes = Eyes::BOTH;
+		} else if (eyes == Eyes::RIGHT) {
 			/* ...and ignore the right eye.*/
 			return shared_ptr<FFmpegFileEncoder>();
 		}
@@ -287,15 +285,15 @@ FFmpegEncoder::FileEncoderSet::get (Eyes eyes) const
 void
 FFmpegEncoder::FileEncoderSet::flush ()
 {
-	for (map<Eyes, std::shared_ptr<FFmpegFileEncoder> >::iterator i = _encoders.begin(); i != _encoders.end(); ++i) {
-		i->second->flush ();
+	for (auto& i: _encoders) {
+		i.second->flush ();
 	}
 }
 
 void
 FFmpegEncoder::FileEncoderSet::audio (shared_ptr<AudioBuffers> a)
 {
-	for (map<Eyes, std::shared_ptr<FFmpegFileEncoder> >::iterator i = _encoders.begin(); i != _encoders.end(); ++i) {
-		i->second->audio (a);
+	for (auto& i: _encoders) {
+		i.second->audio (a);
 	}
 }

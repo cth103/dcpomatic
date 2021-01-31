@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE (digest_test)
 	film->examine_and_add_content (r);
 	film->examine_and_add_content (g);
 	film->examine_and_add_content (b);
-	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	BOOST_CHECK (Config::instance()->master_encoding_threads() > 1);

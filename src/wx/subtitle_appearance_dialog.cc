@@ -59,7 +59,7 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 	, _content (content)
 	, _caption (caption)
 {
-	shared_ptr<FFmpegContent> ff = dynamic_pointer_cast<FFmpegContent> (content);
+	auto ff = dynamic_pointer_cast<FFmpegContent> (content);
 	if (ff) {
 		_stream = ff->subtitle_stream ();
 		/* XXX: assuming that all FFmpeg streams have bitmap subs */
@@ -135,7 +135,7 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 		_overall_sizer->Add (restore, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
 	}
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
+	auto buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {
 		_overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
@@ -174,7 +174,7 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 		_effect->SetSelection (NONE);
 	}
 
-	optional<dcp::Colour> effect_colour = _caption->effect_colour();
+	auto effect_colour = _caption->effect_colour();
 	_force_effect_colour->SetValue (static_cast<bool>(effect_colour));
 	if (effect_colour) {
 		_effect_colour->SetColour (wxColour (effect_colour->r, effect_colour->g, effect_colour->b));
@@ -182,7 +182,7 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 		_effect_colour->SetColour (wxColour (0, 0, 0));
 	}
 
-	optional<ContentTime> fade_in = _caption->fade_in();
+	auto fade_in = _caption->fade_in();
 	_force_fade_in->SetValue (static_cast<bool>(fade_in));
 	if (fade_in) {
 		_fade_in->set (*fade_in, _content->active_video_frame_rate(film));
@@ -190,7 +190,7 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 		_fade_in->set (ContentTime(), _content->active_video_frame_rate(film));
 	}
 
-	optional<ContentTime> fade_out = _caption->fade_out();
+	auto fade_out = _caption->fade_out();
 	_force_fade_out->SetValue (static_cast<bool>(fade_out));
 	if (fade_out) {
 		_fade_out->set (*fade_out, _content->active_video_frame_rate(film));
@@ -214,7 +214,7 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 void
 SubtitleAppearanceDialog::content_change (ChangeType type)
 {
-	if (type == CHANGE_TYPE_DONE) {
+	if (type == ChangeType::DONE) {
 		setup_sensitivity ();
 	}
 }
@@ -222,8 +222,8 @@ SubtitleAppearanceDialog::content_change (ChangeType type)
 wxCheckBox*
 SubtitleAppearanceDialog::set_to (wxWindow* w, int& r)
 {
-	wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-	wxCheckBox* set_to = new CheckBox (this, _("Set to"));
+	auto s = new wxBoxSizer (wxHORIZONTAL);
+	auto set_to = new CheckBox (this, _("Set to"));
 	s->Add (set_to, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, 8);
 	s->Add (w, 0, wxALIGN_CENTER_VERTICAL);
 	_table->Add (s, wxGBPosition (r, 1));
@@ -234,10 +234,10 @@ SubtitleAppearanceDialog::set_to (wxWindow* w, int& r)
 void
 SubtitleAppearanceDialog::apply ()
 {
-	shared_ptr<const Film> film = _film.lock ();
+	auto film = _film.lock ();
 
 	if (_force_colour->GetValue ()) {
-		wxColour const c = _colour->GetColour ();
+		auto const c = _colour->GetColour ();
 		_caption->set_colour (dcp::Colour (c.Red(), c.Green(), c.Blue()));
 	} else {
 		_caption->unset_colour ();
@@ -258,7 +258,7 @@ SubtitleAppearanceDialog::apply ()
 		_caption->unset_effect ();
 	}
 	if (_force_effect_colour->GetValue ()) {
-		wxColour const ec = _effect_colour->GetColour ();
+		auto const ec = _effect_colour->GetColour ();
 		_caption->set_effect_colour (dcp::Colour (ec.Red(), ec.Green(), ec.Blue()));
 	} else {
 		_caption->unset_effect_colour ();
@@ -276,12 +276,12 @@ SubtitleAppearanceDialog::apply ()
 	_caption->set_outline_width (_outline_width->GetValue ());
 
 	if (_stream) {
-		for (map<RGBA, RGBAColourPicker*>::const_iterator i = _pickers.begin(); i != _pickers.end(); ++i) {
-			_stream->set_colour (i->first, i->second->colour ());
+		for (auto const& i: _pickers) {
+			_stream->set_colour (i.first, i.second->colour());
 		}
 	}
 
-	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (_content);
+	auto fc = dynamic_pointer_cast<FFmpegContent> (_content);
 	if (fc) {
 		fc->signal_subtitle_stream_changed ();
 	}
@@ -290,8 +290,8 @@ SubtitleAppearanceDialog::apply ()
 void
 SubtitleAppearanceDialog::restore ()
 {
-	for (map<RGBA, RGBAColourPicker*>::const_iterator i = _pickers.begin(); i != _pickers.end(); ++i) {
-		i->second->set (i->first);
+	for (auto const& i: _pickers) {
+		i.second->set (i.first);
 	}
 }
 
@@ -330,13 +330,13 @@ SubtitleAppearanceDialog::active_jobs_changed (optional<string> last)
 void
 SubtitleAppearanceDialog::add_colours ()
 {
-	map<RGBA, RGBA> colours = _stream->colours ();
-	for (map<RGBA, RGBA>::const_iterator i = colours.begin(); i != colours.end(); ++i) {
-		wxPanel* from = new wxPanel (_colours_panel, wxID_ANY);
-		from->SetBackgroundColour (wxColour (i->first.r, i->first.g, i->first.b, i->first.a));
+	auto colours = _stream->colours ();
+	for (auto const& i: _stream->colours()) {
+		auto from = new wxPanel(_colours_panel, wxID_ANY);
+		from->SetBackgroundColour(wxColour(i.first.r, i.first.g, i.first.b, i.first.a));
 		_colour_table->Add (from, 1, wxEXPAND);
-		RGBAColourPicker* to = new RGBAColourPicker (_colours_panel, i->second);
+		auto to = new RGBAColourPicker(_colours_panel, i.second);
 		_colour_table->Add (to, 1, wxEXPAND);
-		_pickers[i->first] = to;
+		_pickers[i.first] = to;
 	}
 }

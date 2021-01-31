@@ -49,8 +49,8 @@ wxString format_extensions[] = {
 };
 
 ExportFormat formats[] = {
-	EXPORT_FORMAT_PRORES,
-	EXPORT_FORMAT_H264_AAC,
+	ExportFormat::PRORES,
+	ExportFormat::H264_AAC,
 };
 
 ExportVideoFileDialog::ExportVideoFileDialog (wxWindow* parent, string name)

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,14 +18,14 @@
 
 */
 
-#include "player_video.h"
 #include "content.h"
-#include "video_content.h"
+#include "film.h"
 #include "image.h"
 #include "image_proxy.h"
 #include "j2k_image_proxy.h"
-#include "film.h"
 #include "player.h"
+#include "player_video.h"
+#include "video_content.h"
 #include <dcp/raw_convert.h>
 extern "C" {
 #include <libavutil/pixfmt.h>
@@ -33,12 +33,13 @@ extern "C" {
 #include <libxml++/libxml++.h>
 #include <iostream>
 
-using std::string;
 using std::cout;
+using std::dynamic_pointer_cast;
+using std::make_shared;
 using std::pair;
 using std::shared_ptr;
+using std::string;
 using std::weak_ptr;
-using std::dynamic_pointer_cast;
 using boost::optional;
 using boost::function;
 using dcp::Data;
@@ -81,25 +82,25 @@ PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket
 
 	_inter_size = dcp::Size (node->number_child<int> ("InterWidth"), node->number_child<int> ("InterHeight"));
 	_out_size = dcp::Size (node->number_child<int> ("OutWidth"), node->number_child<int> ("OutHeight"));
-	_eyes = (Eyes) node->number_child<int> ("Eyes");
-	_part = (Part) node->number_child<int> ("Part");
-	_video_range = (VideoRange) node->number_child<int>("VideoRange");
+	_eyes = static_cast<Eyes>(node->number_child<int>("Eyes"));
+	_part = static_cast<Part>(node->number_child<int>("Part"));
+	_video_range = static_cast<VideoRange>(node->number_child<int>("VideoRange"));
 	_error = node->optional_bool_child("Error").get_value_or (false);
 
 	/* Assume that the ColourConversion uses the current state version */
 	_colour_conversion = ColourConversion::from_xml (node, Film::current_state_version);
 
-	_in = image_proxy_factory (node->node_child ("In"), socket);
+	_in = image_proxy_factory (node->node_child("In"), socket);
 
-	if (node->optional_number_child<int> ("SubtitleX")) {
+	if (node->optional_number_child<int>("SubtitleX")) {
 
-		shared_ptr<Image> image (
-			new Image (AV_PIX_FMT_BGRA, dcp::Size (node->number_child<int> ("SubtitleWidth"), node->number_child<int> ("SubtitleHeight")), true)
+		auto image = make_shared<Image> (
+			AV_PIX_FMT_BGRA, dcp::Size(node->number_child<int>("SubtitleWidth"), node->number_child<int>("SubtitleHeight")), true
 			);
 
 		image->read_from_socket (socket);
 
-		_text = PositionImage (image, Position<int> (node->number_child<int> ("SubtitleX"), node->number_child<int> ("SubtitleY")));
+		_text = PositionImage (image, Position<int>(node->number_child<int>("SubtitleX"), node->number_child<int>("SubtitleY")));
 	}
 }
 
@@ -136,21 +137,21 @@ PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, V
 	_image_out_size = _out_size;
 	_image_fade = _fade;
 
-	ImageProxy::Result prox = _in->image (_inter_size);
+	auto prox = _in->image (_inter_size);
 	_error = prox.error;
 
-	Crop total_crop = _crop;
+	auto total_crop = _crop;
 	switch (_part) {
-	case PART_LEFT_HALF:
+	case Part::LEFT_HALF:
 		total_crop.right += prox.image->size().width / 2;
 		break;
-	case PART_RIGHT_HALF:
+	case Part::RIGHT_HALF:
 		total_crop.left += prox.image->size().width / 2;
 		break;
-	case PART_TOP_HALF:
+	case Part::TOP_HALF:
 		total_crop.bottom += prox.image->size().height / 2;
 		break;
-	case PART_BOTTOM_HALF:
+	case Part::BOTTOM_HALF:
 		total_crop.top += prox.image->size().height / 2;
 		break;
 	default:
@@ -225,18 +226,18 @@ PlayerVideo::has_j2k () const
 {
 	/* XXX: maybe other things */
 
-	shared_ptr<const J2KImageProxy> j2k = dynamic_pointer_cast<const J2KImageProxy> (_in);
+	auto j2k = dynamic_pointer_cast<const J2KImageProxy> (_in);
 	if (!j2k) {
 		return false;
 	}
 
-	return _crop == Crop () && _out_size == j2k->size() && !_text && !_fade && !_colour_conversion;
+	return _crop == Crop() && _out_size == j2k->size() && !_text && !_fade && !_colour_conversion;
 }
 
 shared_ptr<const dcp::Data>
 PlayerVideo::j2k () const
 {
-	shared_ptr<const J2KImageProxy> j2k = dynamic_pointer_cast<const J2KImageProxy> (_in);
+	auto j2k = dynamic_pointer_cast<const J2KImageProxy> (_in);
 	DCPOMATIC_ASSERT (j2k);
 	return j2k->j2k ();
 }
@@ -309,21 +310,19 @@ PlayerVideo::memory_used () const
 shared_ptr<PlayerVideo>
 PlayerVideo::shallow_copy () const
 {
-	return shared_ptr<PlayerVideo>(
-		new PlayerVideo(
-			_in,
-			_crop,
-			_fade,
-			_inter_size,
-			_out_size,
-			_eyes,
-			_part,
-			_colour_conversion,
-			_video_range,
-			_content,
-			_video_frame,
-			_error
-			)
+	return std::make_shared<PlayerVideo>(
+		_in,
+		_crop,
+		_fade,
+		_inter_size,
+		_out_size,
+		_eyes,
+		_part,
+		_colour_conversion,
+		_video_range,
+		_content,
+		_video_frame,
+		_error
 		);
 }
 
@@ -333,7 +332,7 @@ PlayerVideo::shallow_copy () const
 bool
 PlayerVideo::reset_metadata (shared_ptr<const Film> film, dcp::Size player_video_container_size)
 {
-	shared_ptr<Content> content = _content.lock();
+	auto content = _content.lock();
 	if (!content || !_video_frame) {
 		return false;
 	}

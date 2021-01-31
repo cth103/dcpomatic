@@ -56,6 +56,7 @@ using std::max;
 using std::pair;
 using std::string;
 using std::dynamic_pointer_cast;
+using std::make_shared;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -67,7 +68,7 @@ static
 shared_ptr<Image>
 grey_image (dcp::Size size, uint8_t pixel)
 {
-	shared_ptr<Image> grey(new Image(AV_PIX_FMT_RGB24, size, true));
+	auto grey = make_shared<Image>(AV_PIX_FMT_RGB24, size, true);
 	for (int y = 0; y < size.height; ++y) {
 		uint8_t* p = grey->data()[0] + y * grey->stride()[0];
 		for (int x = 0; x < size.width; ++x) {
@@ -414,14 +415,14 @@ V_movie_range (shared_ptr<Film> film)
 	shared_ptr<TranscodeJob> job (new TranscodeJob(film));
 	job->set_encoder (
 		shared_ptr<FFmpegEncoder>(
-			new FFmpegEncoder (film, job, film->file("export.mov"), EXPORT_FORMAT_PRORES, true, false, false, 23)
+			new FFmpegEncoder (film, job, film->file("export.mov"), ExportFormat::PRORES, true, false, false, 23)
 			)
 		);
 	JobManager::instance()->add (job);
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* This is a bit of a hack; add the exported file into the project so we can decode it */
-	shared_ptr<FFmpegContent> content(new FFmpegContent(film->file("export.mov")));
+	auto content = make_shared<FFmpegContent>(film->file("export.mov"));
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 

@@ -80,7 +80,7 @@ SendProblemReportJob::run ()
 
 	string body = _summary + "\n\n";
 
-	body += "Version: " + string (dcpomatic_version) + " " + string (dcpomatic_git_commit) + "\n\n";
+	body += "Version: " + string(dcpomatic_version) + " " + string(dcpomatic_git_commit) + "\n\n";
 
 	for (auto i: environment_info ()) {
 		body += i + "\n";
@@ -101,11 +101,8 @@ SendProblemReportJob::run ()
 		body += "---<8----\n";
 	}
 
-	list<string> to;
-	to.push_back ("carl@dcpomatic.com");
-
-	Emailer emailer (_from, to, "DCP-o-matic problem report", body);
-	emailer.send ("main.carlh.net", 2525, EMAIL_PROTOCOL_STARTTLS);
+	Emailer emailer (_from, {"carl@dcpomatic.com"}, "DCP-o-matic problem report", body);
+	emailer.send ("main.carlh.net", 2525, EmailProtocol::STARTTLS);
 
 	set_progress (1);
 	set_state (FINISHED_OK);

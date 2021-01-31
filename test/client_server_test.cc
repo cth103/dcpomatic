@@ -43,9 +43,10 @@
 
 using std::list;
 using std::shared_ptr;
+using std::weak_ptr;
+using std::make_shared;
 using boost::thread;
 using boost::optional;
-using std::weak_ptr;
 using dcp::ArrayData;
 
 void
@@ -60,7 +61,7 @@ do_remote_encode (shared_ptr<DCPVideo> frame, EncodeServerDescription descriptio
 
 BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 {
-	shared_ptr<Image> image (new Image (AV_PIX_FMT_RGB24, dcp::Size (1998, 1080), true));
+	auto image = make_shared<Image>(AV_PIX_FMT_RGB24, dcp::Size (1998, 1080), true);
 	uint8_t* p = image->data()[0];
 
 	for (int y = 0; y < 1080; ++y) {
@@ -73,7 +74,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 		p += image->stride()[0];
 	}
 
-	shared_ptr<Image> sub_image (new Image (AV_PIX_FMT_BGRA, dcp::Size (100, 200), true));
+	auto sub_image = make_shared<Image>(AV_PIX_FMT_BGRA, dcp::Size (100, 200), true);
 	p = sub_image->data()[0];
 	for (int y = 0; y < 200; ++y) {
 		uint8_t* q = p;
@@ -86,42 +87,38 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 		p += sub_image->stride()[0];
 	}
 
-	LogSwitcher ls (shared_ptr<Log>(new FileLog("build/test/client_server_test_rgb.log")));
+	LogSwitcher ls (make_shared<FileLog>("build/test/client_server_test_rgb.log"));
 
-	shared_ptr<PlayerVideo> pvf (
-		new PlayerVideo (
-			shared_ptr<ImageProxy> (new RawImageProxy (image)),
-			Crop (),
-			optional<double> (),
-			dcp::Size (1998, 1080),
-			dcp::Size (1998, 1080),
-			EYES_BOTH,
-			PART_WHOLE,
-			ColourConversion(),
-			VideoRange::FULL,
-			weak_ptr<Content>(),
-			optional<Frame>(),
-			false
-			)
+	auto pvf = std::make_shared<PlayerVideo>(
+		make_shared<RawImageProxy>(image),
+		Crop (),
+		optional<double> (),
+		dcp::Size (1998, 1080),
+		dcp::Size (1998, 1080),
+		Eyes::BOTH,
+		Part::WHOLE,
+		ColourConversion(),
+		VideoRange::FULL,
+		weak_ptr<Content>(),
+		optional<Frame>(),
+		false
 		);
 
-	pvf->set_text (PositionImage (sub_image, Position<int> (50, 60)));
+	pvf->set_text (PositionImage(sub_image, Position<int>(50, 60)));
 
-	shared_ptr<DCPVideo> frame (
-		new DCPVideo (
-			pvf,
-			0,
-			24,
-			200000000,
-			RESOLUTION_2K
-			)
+	auto frame = make_shared<DCPVideo> (
+		pvf,
+		0,
+		24,
+		200000000,
+		Resolution::TWO_K
 		);
 
-	ArrayData locally_encoded = frame->encode_locally ();
+	auto locally_encoded = frame->encode_locally ();
 
-	EncodeServer* server = new EncodeServer (true, 2);
+	auto server = new EncodeServer (true, 2);
 
-	thread* server_thread = new thread (boost::bind (&EncodeServer::run, server));
+	auto server_thread = new thread (boost::bind(&EncodeServer::run, server));
 
 	/* Let the server get itself ready */
 	dcpomatic_sleep_seconds (1);
@@ -134,12 +131,12 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 		threads.push_back (new thread (boost::bind (do_remote_encode, frame, description, locally_encoded)));
 	}
 
-	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {
-		(*i)->join ();
+	for (auto i: threads) {
+		i->join ();
 	}
 
-	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {
-		delete *i;
+	for (auto i: threads) {
+		delete i;
 	}
 
 	server->stop ();
@@ -150,7 +147,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 
 BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 {
-	shared_ptr<Image> image (new Image (AV_PIX_FMT_YUV420P, dcp::Size (1998, 1080), true));
+	auto image = make_shared<Image>(AV_PIX_FMT_YUV420P, dcp::Size (1998, 1080), true);
 
 	for (int i = 0; i < image->planes(); ++i) {
 		uint8_t* p = image->data()[i];
@@ -159,7 +156,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 		}
 	}
 
-	shared_ptr<Image> sub_image (new Image (AV_PIX_FMT_BGRA, dcp::Size (100, 200), true));
+	auto sub_image = make_shared<Image>(AV_PIX_FMT_BGRA, dcp::Size (100, 200), true);
 	uint8_t* p = sub_image->data()[0];
 	for (int y = 0; y < 200; ++y) {
 		uint8_t* q = p;
@@ -172,42 +169,38 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 		p += sub_image->stride()[0];
 	}
 
-	LogSwitcher ls (shared_ptr<Log>(new FileLog("build/test/client_server_test_yuv.log")));
+	LogSwitcher ls (make_shared<FileLog>("build/test/client_server_test_yuv.log"));
 
-	shared_ptr<PlayerVideo> pvf (
-		new PlayerVideo (
-			shared_ptr<ImageProxy> (new RawImageProxy (image)),
-			Crop (),
-			optional<double> (),
-			dcp::Size (1998, 1080),
-			dcp::Size (1998, 1080),
-			EYES_BOTH,
-			PART_WHOLE,
-			ColourConversion(),
-			VideoRange::FULL,
-			weak_ptr<Content>(),
-			optional<Frame>(),
-			false
-			)
+	auto pvf = std::make_shared<PlayerVideo>(
+		std::make_shared<RawImageProxy>(image),
+		Crop(),
+		optional<double>(),
+		dcp::Size(1998, 1080),
+		dcp::Size(1998, 1080),
+		Eyes::BOTH,
+		Part::WHOLE,
+		ColourConversion(),
+		VideoRange::FULL,
+		weak_ptr<Content>(),
+		optional<Frame>(),
+		false
 		);
 
-	pvf->set_text (PositionImage (sub_image, Position<int> (50, 60)));
+	pvf->set_text (PositionImage(sub_image, Position<int>(50, 60)));
 
-	shared_ptr<DCPVideo> frame (
-		new DCPVideo (
-			pvf,
-			0,
-			24,
-			200000000,
-			RESOLUTION_2K
-			)
+	auto frame = make_shared<DCPVideo>(
+		pvf,
+		0,
+		24,
+		200000000,
+		Resolution::TWO_K
 		);
 
-	ArrayData locally_encoded = frame->encode_locally ();
+	auto locally_encoded = frame->encode_locally ();
 
-	EncodeServer* server = new EncodeServer (true, 2);
+	auto server = new EncodeServer (true, 2);
 
-	thread* server_thread = new thread (boost::bind (&EncodeServer::run, server));
+	auto server_thread = new thread(boost::bind(&EncodeServer::run, server));
 
 	/* Let the server get itself ready */
 	dcpomatic_sleep_seconds (1);
@@ -217,15 +210,15 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 
 	list<thread*> threads;
 	for (int i = 0; i < 8; ++i) {
-		threads.push_back (new thread (boost::bind (do_remote_encode, frame, description, locally_encoded)));
+		threads.push_back (new thread(boost::bind(do_remote_encode, frame, description, locally_encoded)));
 	}
 
-	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {
-		(*i)->join ();
+	for (auto i: threads) {
+		i->join ();
 	}
 
-	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {
-		delete *i;
+	for (auto i: threads) {
+		delete i;
 	}
 
 	server->stop ();
@@ -236,7 +229,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 
 BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 {
-	shared_ptr<Image> image (new Image (AV_PIX_FMT_YUV420P, dcp::Size (1998, 1080), true));
+	auto image = make_shared<Image>(AV_PIX_FMT_YUV420P, dcp::Size (1998, 1080), true);
 
 	for (int i = 0; i < image->planes(); ++i) {
 		uint8_t* p = image->data()[i];
@@ -245,69 +238,61 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 		}
 	}
 
-	LogSwitcher ls (shared_ptr<Log>(new FileLog("build/test/client_server_test_j2k.log")));
+	LogSwitcher ls (make_shared<FileLog>("build/test/client_server_test_j2k.log"));
 
-	shared_ptr<PlayerVideo> raw_pvf (
-		new PlayerVideo (
-			shared_ptr<ImageProxy> (new RawImageProxy (image)),
-			Crop (),
-			optional<double> (),
-			dcp::Size (1998, 1080),
-			dcp::Size (1998, 1080),
-			EYES_BOTH,
-			PART_WHOLE,
-			ColourConversion(),
-			VideoRange::FULL,
-			weak_ptr<Content>(),
-			optional<Frame>(),
-			false
-			)
+	auto raw_pvf = std::make_shared<PlayerVideo> (
+		std::make_shared<RawImageProxy>(image),
+		Crop(),
+		optional<double>(),
+		dcp::Size(1998, 1080),
+		dcp::Size(1998, 1080),
+		Eyes::BOTH,
+		Part::WHOLE,
+		ColourConversion(),
+		VideoRange::FULL,
+		weak_ptr<Content>(),
+		optional<Frame>(),
+		false
 		);
 
-	shared_ptr<DCPVideo> raw_frame (
-		new DCPVideo (
-			raw_pvf,
-			0,
-			24,
-			200000000,
-			RESOLUTION_2K
-			)
+	auto raw_frame = make_shared<DCPVideo> (
+		raw_pvf,
+		0,
+		24,
+		200000000,
+		Resolution::TWO_K
 		);
 
-	ArrayData raw_locally_encoded = raw_frame->encode_locally ();
+	auto raw_locally_encoded = raw_frame->encode_locally ();
 
-	shared_ptr<PlayerVideo> j2k_pvf (
-		new PlayerVideo (
-			shared_ptr<ImageProxy> (new J2KImageProxy (raw_locally_encoded, dcp::Size (1998, 1080), AV_PIX_FMT_XYZ12LE)),
-			Crop (),
-			optional<double> (),
-			dcp::Size (1998, 1080),
-			dcp::Size (1998, 1080),
-			EYES_BOTH,
-			PART_WHOLE,
-			PresetColourConversion::all().front().conversion,
-			VideoRange::FULL,
-			weak_ptr<Content>(),
-			optional<Frame>(),
-			false
-			)
+	auto j2k_pvf = std::make_shared<PlayerVideo> (
+		std::make_shared<J2KImageProxy>(raw_locally_encoded, dcp::Size(1998, 1080), AV_PIX_FMT_XYZ12LE),
+		Crop(),
+		optional<double>(),
+		dcp::Size(1998, 1080),
+		dcp::Size(1998, 1080),
+		Eyes::BOTH,
+		Part::WHOLE,
+		PresetColourConversion::all().front().conversion,
+		VideoRange::FULL,
+		weak_ptr<Content>(),
+		optional<Frame>(),
+		false
 		);
 
-	shared_ptr<DCPVideo> j2k_frame (
-		new DCPVideo (
-			j2k_pvf,
-			0,
-			24,
-			200000000,
-			RESOLUTION_2K
-			)
+	auto j2k_frame = make_shared<DCPVideo> (
+		j2k_pvf,
+		0,
+		24,
+		200000000,
+		Resolution::TWO_K
 		);
 
-	ArrayData j2k_locally_encoded = j2k_frame->encode_locally ();
+	auto j2k_locally_encoded = j2k_frame->encode_locally ();
 
-	EncodeServer* server = new EncodeServer (true, 2);
+	auto server = new EncodeServer (true, 2);
 
-	thread* server_thread = new thread (boost::bind (&EncodeServer::run, server));
+	auto server_thread = new thread (boost::bind (&EncodeServer::run, server));
 
 	/* Let the server get itself ready */
 	dcpomatic_sleep_seconds (1);
@@ -317,15 +302,15 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 
 	list<thread*> threads;
 	for (int i = 0; i < 8; ++i) {
-		threads.push_back (new thread (boost::bind (do_remote_encode, j2k_frame, description, j2k_locally_encoded)));
+		threads.push_back (new thread(boost::bind(do_remote_encode, j2k_frame, description, j2k_locally_encoded)));
 	}
 
-	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {
-		(*i)->join ();
+	for (auto i: threads) {
+		i->join ();
 	}
 
-	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {
-		delete *i;
+	for (auto i: threads) {
+		delete i;
 	}
 
 	server->stop ();

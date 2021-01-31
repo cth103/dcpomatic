@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_number_test)
 	BOOST_REQUIRE (!wait_for_jobs ());
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
-	film->set_reel_type (REELTYPE_BY_LENGTH);
+	film->set_reel_type (ReelType::BY_LENGTH);
 	film->set_interop (true);
 	film->set_reel_length (1024 * 1024 * 512);
 	film->make_dcp ();
@@ -57,13 +57,13 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_number_test)
 	dcp::DCP dcp ("build/test/subtitle_reel_number_test/" + film->dcp_name());
 	dcp.read ();
 	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1U);
-	shared_ptr<dcp::CPL> cpl = dcp.cpls().front();
+	auto cpl = dcp.cpls()[0];
 	BOOST_REQUIRE_EQUAL (cpl->reels().size(), 6U);
 
 	int n = 1;
 	for (auto i: cpl->reels()) {
 		if (i->main_subtitle()) {
-			shared_ptr<dcp::InteropSubtitleAsset> ass = dynamic_pointer_cast<dcp::InteropSubtitleAsset>(i->main_subtitle()->asset());
+			auto ass = dynamic_pointer_cast<dcp::InteropSubtitleAsset>(i->main_subtitle()->asset());
 			BOOST_REQUIRE (ass);
 			BOOST_CHECK_EQUAL (ass->reel_number(), dcp::raw_convert<string>(n));
 			++n;

@@ -87,20 +87,20 @@ HintsDialog::HintsDialog (wxWindow* parent, std::weak_ptr<Film> film, bool ok)
 		_film_content_change_connection = locked_film->ContentChange.connect (boost::bind (&HintsDialog::film_content_change, this, _1));
 	}
 
-	film_change (CHANGE_TYPE_DONE);
+	film_change (ChangeType::DONE);
 }
 
 void
 HintsDialog::film_change (ChangeType type)
 {
-	if (type != CHANGE_TYPE_DONE) {
+	if (type != ChangeType::DONE) {
 		return;
 	}
 
 	_text->Clear ();
 	_current.clear ();
 
-	std::shared_ptr<Film> film = _film.lock ();
+	auto film = _film.lock ();
 	if (!film) {
 		return;
 	}

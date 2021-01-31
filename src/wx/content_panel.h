@@ -136,7 +136,7 @@ private:
 	wxButton* _timeline;
 	VideoPanel* _video_panel;
 	AudioPanel* _audio_panel;
-	TextPanel* _text_panel[TEXT_COUNT];
+	TextPanel* _text_panel[static_cast<int>(TextType::COUNT)];
 	TimingPanel* _timing_panel;
 	ContentMenu* _menu;
 	TimelineDialog* _timeline_dialog;

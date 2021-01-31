@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE (closed_caption_test1)
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	content->only_text()->set_type (TEXT_CLOSED_CAPTION);
+	content->only_text()->set_type (TextType::CLOSED_CAPTION);
 
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());
@@ -68,11 +68,11 @@ BOOST_AUTO_TEST_CASE (closed_caption_test2)
 	film->examine_and_add_content (content3);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	content1->only_text()->set_type (TEXT_CLOSED_CAPTION);
+	content1->only_text()->set_type (TextType::CLOSED_CAPTION);
 	content1->only_text()->set_dcp_track (DCPTextTrack("First track", "fr-FR"));
-	content2->only_text()->set_type (TEXT_CLOSED_CAPTION);
+	content2->only_text()->set_type (TextType::CLOSED_CAPTION);
 	content2->only_text()->set_dcp_track (DCPTextTrack("Second track", "de-DE"));
-	content3->only_text()->set_type (TEXT_CLOSED_CAPTION);
+	content3->only_text()->set_type (TextType::CLOSED_CAPTION);
 	content3->only_text()->set_dcp_track (DCPTextTrack("Third track", "it-IT"));
 
 	film->make_dcp ();

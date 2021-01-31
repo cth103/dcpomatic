@@ -586,7 +586,7 @@ private:
 		Config* config = Config::instance ();
 
 		checked_set (_upload, config->upload_after_make_dcp());
-		checked_set (_tms_protocol, config->tms_protocol ());
+		checked_set (_tms_protocol, static_cast<int>(config->tms_protocol()));
 		checked_set (_tms_ip, config->tms_ip ());
 		checked_set (_tms_path, config->tms_path ());
 		checked_set (_tms_user, config->tms_user ());
@@ -700,21 +700,21 @@ private:
 
 	void config_changed ()
 	{
-		Config* config = Config::instance ();
+		auto config = Config::instance ();
 
 		checked_set (_server, config->mail_server ());
 		checked_set (_port, config->mail_port ());
 		switch (config->mail_protocol()) {
-		case EMAIL_PROTOCOL_AUTO:
+		case EmailProtocol::AUTO:
 			checked_set (_protocol, 0);
 			break;
-		case EMAIL_PROTOCOL_PLAIN:
+		case EmailProtocol::PLAIN:
 			checked_set (_protocol, 1);
 			break;
-		case EMAIL_PROTOCOL_STARTTLS:
+		case EmailProtocol::STARTTLS:
 			checked_set (_protocol, 2);
 			break;
-		case EMAIL_PROTOCOL_SSL:
+		case EmailProtocol::SSL:
 			checked_set (_protocol, 3);
 			break;
 		}
@@ -736,16 +736,16 @@ private:
 	{
 		switch (_protocol->GetSelection()) {
 		case 0:
-			Config::instance()->set_mail_protocol(EMAIL_PROTOCOL_AUTO);
+			Config::instance()->set_mail_protocol(EmailProtocol::AUTO);
 			break;
 		case 1:
-			Config::instance()->set_mail_protocol(EMAIL_PROTOCOL_PLAIN);
+			Config::instance()->set_mail_protocol(EmailProtocol::PLAIN);
 			break;
 		case 2:
-			Config::instance()->set_mail_protocol(EMAIL_PROTOCOL_STARTTLS);
+			Config::instance()->set_mail_protocol(EmailProtocol::STARTTLS);
 			break;
 		case 3:
-			Config::instance()->set_mail_protocol(EMAIL_PROTOCOL_SSL);
+			Config::instance()->set_mail_protocol(EmailProtocol::SSL);
 			break;
 		}
 	}

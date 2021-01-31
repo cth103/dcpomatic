@@ -384,8 +384,8 @@ void
 Butler::player_change (ChangeType type, int property)
 {
 	if (property == VideoContentProperty::CROP) {
-		if (type == CHANGE_TYPE_DONE) {
-			shared_ptr<const Film> film = _film.lock();
+		if (type == ChangeType::DONE) {
+			auto film = _film.lock();
 			if (film) {
 				_video.reset_metadata (film, _player->video_container_size());
 			}
@@ -395,9 +395,9 @@ Butler::player_change (ChangeType type, int property)
 
 	boost::mutex::scoped_lock lm (_mutex);
 
-	if (type == CHANGE_TYPE_PENDING) {
+	if (type == ChangeType::PENDING) {
 		++_suspended;
-	} else if (type == CHANGE_TYPE_DONE) {
+	} else if (type == ChangeType::DONE) {
 		--_suspended;
 		if (_died || _pending_seek_position) {
 			lm.unlock ();
@@ -406,7 +406,7 @@ Butler::player_change (ChangeType type, int property)
 		}
 
 		DCPTime seek_to;
-		DCPTime next = _video.get().second;
+		auto next = _video.get().second;
 		if (_awaiting && _awaiting > next) {
 			/* We have recently done a player_changed seek and our buffers haven't been refilled yet,
 			   so assume that we're seeking to the same place as last time.
@@ -418,7 +418,7 @@ Butler::player_change (ChangeType type, int property)
 
 		seek_unlocked (seek_to, true);
 		_awaiting = seek_to;
-	} else if (type == CHANGE_TYPE_CANCELLED) {
+	} else if (type == ChangeType::CANCELLED) {
 		--_suspended;
 	}
 
@@ -429,7 +429,7 @@ Butler::player_change (ChangeType type, int property)
 void
 Butler::text (PlayerText pt, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
 {
-	if (type != TEXT_CLOSED_CAPTION) {
+	if (type != TextType::CLOSED_CAPTION) {
 		return;
 	}
 

@@ -62,6 +62,7 @@ using std::setprecision;
 using std::list;
 using std::pair;
 using std::shared_ptr;
+using std::make_shared;
 using boost::optional;
 using std::dynamic_pointer_cast;
 using dcp::raw_convert;
@@ -71,7 +72,7 @@ VideoContent::VideoContent (Content* parent)
 	: ContentPart (parent)
 	, _use (true)
 	, _length (0)
-	, _frame_type (VIDEO_FRAME_TYPE_2D)
+	, _frame_type (VideoFrameType::TWO_D)
 	, _yuv (true)
 	, _fade_in (0)
 	, _fade_out (0)
@@ -84,10 +85,10 @@ shared_ptr<VideoContent>
 VideoContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 {
 	if (!node->optional_number_child<int> ("VideoWidth")) {
-		return shared_ptr<VideoContent> ();
+		return {};
 	}
 
-	return shared_ptr<VideoContent> (new VideoContent (parent, node, version));
+	return make_shared<VideoContent>(parent, node, version);
 }
 
 VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int version)
@@ -109,22 +110,22 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 		/* Snapshot of the VideoFrameType enum at version 34 */
 		switch (node->number_child<int> ("VideoFrameType")) {
 		case 0:
-			_frame_type = VIDEO_FRAME_TYPE_2D;
+			_frame_type = VideoFrameType::TWO_D;
 			break;
 		case 1:
-			_frame_type = VIDEO_FRAME_TYPE_3D_LEFT_RIGHT;
+			_frame_type = VideoFrameType::THREE_D_LEFT_RIGHT;
 			break;
 		case 2:
-			_frame_type = VIDEO_FRAME_TYPE_3D_TOP_BOTTOM;
+			_frame_type = VideoFrameType::THREE_D_TOP_BOTTOM;
 			break;
 		case 3:
-			_frame_type = VIDEO_FRAME_TYPE_3D_ALTERNATE;
+			_frame_type = VideoFrameType::THREE_D_ALTERNATE;
 			break;
 		case 4:
-			_frame_type = VIDEO_FRAME_TYPE_3D_LEFT;
+			_frame_type = VideoFrameType::THREE_D_LEFT;
 			break;
 		case 5:
-			_frame_type = VIDEO_FRAME_TYPE_3D_RIGHT;
+			_frame_type = VideoFrameType::THREE_D_RIGHT;
 			break;
 		}
 	} else {
@@ -138,7 +139,7 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 	_crop.bottom = node->number_child<int> ("BottomCrop");
 
 	if (version <= 7) {
-		optional<string> r = node->optional_string_child ("Ratio");
+		auto r = node->optional_string_child ("Ratio");
 		if (r) {
 			_legacy_ratio = Ratio::from_id(r.get())->ratio();
 		}
@@ -355,15 +356,15 @@ VideoContent::size_after_3d_split () const
 {
 	auto const s = size ();
 	switch (frame_type ()) {
-	case VIDEO_FRAME_TYPE_2D:
-	case VIDEO_FRAME_TYPE_3D:
-	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
-	case VIDEO_FRAME_TYPE_3D_LEFT:
-	case VIDEO_FRAME_TYPE_3D_RIGHT:
+	case VideoFrameType::TWO_D:
+	case VideoFrameType::THREE_D:
+	case VideoFrameType::THREE_D_ALTERNATE:
+	case VideoFrameType::THREE_D_LEFT:
+	case VideoFrameType::THREE_D_RIGHT:
 		return s;
-	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
+	case VideoFrameType::THREE_D_LEFT_RIGHT:
 		return dcp::Size (s.width / 2, s.height);
-	case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
+	case VideoFrameType::THREE_D_TOP_BOTTOM:
 		return dcp::Size (s.width, s.height / 2);
 	}
 

@@ -312,7 +312,7 @@ BOOST_AUTO_TEST_CASE (player_ignore_video_and_audio_test)
 	shared_ptr<Content> text = content_factory("test/data/subrip.srt").front();
 	film->examine_and_add_content (text);
 	BOOST_REQUIRE (!wait_for_jobs());
-	text->only_text()->set_type (TEXT_CLOSED_CAPTION);
+	text->only_text()->set_type (TextType::CLOSED_CAPTION);
 	text->only_text()->set_use (true);
 
 	shared_ptr<Player> player (new Player(film));
@@ -375,9 +375,9 @@ BOOST_AUTO_TEST_CASE (player_3d_test_1)
 	film->examine_and_add_content (right);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	left->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT);
+	left->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
 	left->set_position (film, DCPTime());
-	right->video->set_frame_type (VIDEO_FRAME_TYPE_3D_RIGHT);
+	right->video->set_frame_type (VideoFrameType::THREE_D_RIGHT);
 	right->set_position (film, DCPTime());
 	film->set_three_d (true);
 
@@ -404,9 +404,9 @@ BOOST_AUTO_TEST_CASE (player_3d_test_2)
 	film->examine_and_add_content (right);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	left->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT);
+	left->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
 	left->set_position (film, DCPTime());
-	right->video->set_frame_type (VIDEO_FRAME_TYPE_3D_RIGHT);
+	right->video->set_frame_type (VideoFrameType::THREE_D_RIGHT);
 	right->set_position (film, DCPTime());
 	film->set_three_d (true);
 

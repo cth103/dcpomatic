@@ -32,15 +32,15 @@ public:
 		, _property (p)
 		, _done (true)
 	{
-		_thing->signal_change (CHANGE_TYPE_PENDING, _property);
+		_thing->signal_change (ChangeType::PENDING, _property);
 	}
 
 	~ChangeSignaller ()
 	{
 		if (_done) {
-			_thing->signal_change (CHANGE_TYPE_DONE, _property);
+			_thing->signal_change (ChangeType::DONE, _property);
 		} else {
-			_thing->signal_change (CHANGE_TYPE_CANCELLED, _property);
+			_thing->signal_change (ChangeType::CANCELLED, _property);
 		}
 	}
 

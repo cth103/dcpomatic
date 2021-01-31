@@ -50,6 +50,9 @@ public:
 
 	J2KImageProxy (std::shared_ptr<cxml::Node> xml, std::shared_ptr<Socket> socket);
 
+	/* For tests */
+	J2KImageProxy (dcp::ArrayData data, dcp::Size size, AVPixelFormat pixel_format);
+
 	Result image (
 		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
 		) const;
@@ -71,11 +74,6 @@ public:
 	size_t memory_used () const;
 
 private:
-	friend struct client_server_test_j2k;
-
-	/* For tests */
-	J2KImageProxy (dcp::ArrayData data, dcp::Size size, AVPixelFormat pixel_format);
-
 	std::shared_ptr<const dcp::Data> _data;
 	dcp::Size _size;
 	boost::optional<dcp::Eye> _eye;

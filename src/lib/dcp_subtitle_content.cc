@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -30,17 +30,18 @@
 
 #include "i18n.h"
 
-using std::string;
-using std::list;
-using std::shared_ptr;
 using std::dynamic_pointer_cast;
+using std::list;
+using std::make_shared;
+using std::shared_ptr;
+using std::string;
 using dcp::raw_convert;
 using namespace dcpomatic;
 
 DCPSubtitleContent::DCPSubtitleContent (boost::filesystem::path path)
 	: Content (path)
 {
-	text.push_back (shared_ptr<TextContent> (new TextContent (this, TEXT_OPEN_SUBTITLE, TEXT_OPEN_SUBTITLE)));
+	text.push_back (make_shared<TextContent>(this, TextType::OPEN_SUBTITLE, TextType::OPEN_SUBTITLE));
 }
 
 DCPSubtitleContent::DCPSubtitleContent (cxml::ConstNodePtr node, int version)
@@ -55,10 +56,10 @@ DCPSubtitleContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 {
 	Content::examine (film, job);
 
-	shared_ptr<dcp::SubtitleAsset> sc = load (path (0));
+	auto sc = load (path(0));
 
-	shared_ptr<dcp::InteropSubtitleAsset> iop = dynamic_pointer_cast<dcp::InteropSubtitleAsset> (sc);
-	shared_ptr<dcp::SMPTESubtitleAsset> smpte = dynamic_pointer_cast<dcp::SMPTESubtitleAsset> (sc);
+	auto iop = dynamic_pointer_cast<dcp::InteropSubtitleAsset>(sc);
+	auto smpte = dynamic_pointer_cast<dcp::SMPTESubtitleAsset>(sc);
 	if (smpte) {
 		set_video_frame_rate (smpte->edit_rate().numerator);
 	}
@@ -68,12 +69,12 @@ DCPSubtitleContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	/* Default to turning these subtitles on */
 	only_text()->set_use (true);
 
-	_length = ContentTime::from_seconds (sc->latest_subtitle_out().as_seconds ());
+	_length = ContentTime::from_seconds (sc->latest_subtitle_out().as_seconds());
 
 	sc->fix_empty_font_ids ();
 
 	for (auto i: sc->load_font_nodes()) {
-		only_text()->add_font (shared_ptr<Font> (new Font (i->id)));
+		only_text()->add_font(make_shared<Font>(i->id));
 	}
 }
 

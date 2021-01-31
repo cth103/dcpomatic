@@ -133,10 +133,10 @@ void
 DCPEncoder::video (shared_ptr<PlayerVideo> data, DCPTime time)
 {
 	if (!_film->three_d()) {
-		if (data->eyes() == EYES_LEFT) {
+		if (data->eyes() == Eyes::LEFT) {
 			/* Use left-eye images for both eyes... */
-			data->set_eyes (EYES_BOTH);
-		} else if (data->eyes() == EYES_RIGHT) {
+			data->set_eyes (Eyes::BOTH);
+		} else if (data->eyes() == Eyes::RIGHT) {
 			/* ...and discard the right */
 			return;
 		}
@@ -158,7 +158,7 @@ DCPEncoder::audio (shared_ptr<AudioBuffers> data, DCPTime time)
 void
 DCPEncoder::text (PlayerText data, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
 {
-	if (type == TEXT_CLOSED_CAPTION || _non_burnt_subtitles) {
+	if (type == TextType::CLOSED_CAPTION || _non_burnt_subtitles) {
 		_writer->write (data, type, track, period);
 	}
 }

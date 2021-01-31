@@ -98,7 +98,7 @@ private:
 	std::shared_ptr<Writer> _writer;
 	Waker _waker;
 
-	std::shared_ptr<PlayerVideo> _last_player_video[EYES_COUNT];
+	std::shared_ptr<PlayerVideo> _last_player_video[static_cast<int>(Eyes::COUNT)];
 	boost::optional<dcpomatic::DCPTime> _last_player_video_time;
 
 	boost::signals2::scoped_connection _server_found_connection;

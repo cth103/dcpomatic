@@ -36,8 +36,9 @@
 #include <iostream>
 
 using std::cout;
-using std::string;
+using std::make_shared;
 using std::shared_ptr;
+using std::string;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
@@ -85,15 +86,15 @@ BOOST_AUTO_TEST_CASE (recover_test_2d)
 
 BOOST_AUTO_TEST_CASE (recover_test_3d, * boost::unit_test::depends_on("recover_test_2d"))
 {
-	shared_ptr<Film> film = new_test_film ("recover_test_3d");
+	auto film = new_test_film ("recover_test_3d");
 	film->set_interop (false);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name ("recover_test");
 	film->set_three_d (true);
 
-	shared_ptr<ImageContent> content (new ImageContent("test/data/3d_test"));
-	content->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT_RIGHT);
+	auto content = make_shared<ImageContent>("test/data/3d_test");
+	content->video->set_frame_type (VideoFrameType::THREE_D_LEFT_RIGHT);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -112,8 +113,8 @@ BOOST_AUTO_TEST_CASE (recover_test_3d, * boost::unit_test::depends_on("recover_t
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	shared_ptr<dcp::StereoPictureAsset> A (new dcp::StereoPictureAsset ("build/test/recover_test_3d/original.mxf"));
-	shared_ptr<dcp::StereoPictureAsset> B (new dcp::StereoPictureAsset (video));
+	auto A = make_shared<dcp::StereoPictureAsset>("build/test/recover_test_3d/original.mxf");
+	auto B = make_shared<dcp::StereoPictureAsset>(video);
 
 	dcp::EqualityOptions eq;
 	BOOST_CHECK (A->equals (B, eq, boost::bind (&note, _1, _2)));
@@ -122,7 +123,7 @@ BOOST_AUTO_TEST_CASE (recover_test_3d, * boost::unit_test::depends_on("recover_t
 
 BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted, * boost::unit_test::depends_on("recover_test_3d"))
 {
-	shared_ptr<Film> film = new_test_film ("recover_test_2d_encrypted");
+	auto film = new_test_film ("recover_test_2d_encrypted");
 	film->set_interop (false);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
@@ -130,7 +131,7 @@ BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted, * boost::unit_test::depends_on(
 	film->set_encrypted (true);
 	film->_key = dcp::Key("eafcb91c9f5472edf01f3a2404c57258");
 
-	shared_ptr<FFmpegContent> content (new FFmpegContent("test/data/count300bd24.m2ts"));
+	auto content = make_shared<FFmpegContent>("test/data/count300bd24.m2ts");
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -150,9 +151,9 @@ BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted, * boost::unit_test::depends_on(
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	shared_ptr<dcp::MonoPictureAsset> A (new dcp::MonoPictureAsset ("build/test/recover_test_2d_encrypted/original.mxf"));
+	auto A = make_shared<dcp::MonoPictureAsset>("build/test/recover_test_2d_encrypted/original.mxf");
 	A->set_key (film->key ());
-	shared_ptr<dcp::MonoPictureAsset> B (new dcp::MonoPictureAsset (video));
+	auto B = make_shared<dcp::MonoPictureAsset>(video);
 	B->set_key (film->key ());
 
 	dcp::EqualityOptions eq;

@@ -870,11 +870,11 @@ remap (shared_ptr<const AudioBuffers> input, int output_channels, AudioMapping m
 Eyes
 increment_eyes (Eyes e)
 {
-	if (e == EYES_LEFT) {
-		return EYES_RIGHT;
+	if (e == Eyes::LEFT) {
+		return Eyes::RIGHT;
 	}
 
-	return EYES_LEFT;
+	return Eyes::LEFT;
 }
 
 void

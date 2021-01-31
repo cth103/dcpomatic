@@ -78,7 +78,7 @@ ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmV
 	, _ignore_deselect (false)
 	, _no_check_selection (false)
 {
-	for (int i = 0; i < TEXT_COUNT; ++i) {
+	for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
 		_text_panel[i] = 0;
 	}
 
@@ -331,7 +331,7 @@ ContentPanel::check_selection ()
 
 	bool have_video = false;
 	bool have_audio = false;
-	bool have_text[TEXT_COUNT] = { false, false };
+	bool have_text[static_cast<int>(TextType::COUNT)] = { false, false };
 	for (auto i: selected()) {
 		if (i->video) {
 			have_video = true;
@@ -340,7 +340,7 @@ ContentPanel::check_selection ()
 			have_audio = true;
 		}
 		for (auto j: i->text) {
-			have_text[j->original_type()] = true;
+			have_text[static_cast<int>(j->original_type())] = true;
 		}
 	}
 
@@ -370,7 +370,7 @@ ContentPanel::check_selection ()
 		++off;
 	}
 
-	for (int i = 0; i < TEXT_COUNT; ++i) {
+	for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
 		if (have_text[i] && !_text_panel[i]) {
 			_text_panel[i] = new TextPanel (this, static_cast<TextType>(i));
 			_notebook->InsertPage (off, _text_panel[i], _text_panel[i]->name());
@@ -570,7 +570,7 @@ ContentPanel::setup_sensitivity ()
 	if (_audio_panel) {
 		_audio_panel->Enable (_generally_sensitive && audio_selection.size() > 0);
 	}
-	for (int i = 0; i < TEXT_COUNT; ++i) {
+	for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
 		if (_text_panel[i]) {
 			_text_panel[i]->Enable (_generally_sensitive && selection.size() == 1 && !selection.front()->text.empty());
 		}
@@ -790,7 +790,7 @@ ContentPanel::panels () const
 	if (_audio_panel) {
 		p.push_back (_audio_panel);
 	}
-	for (int i = 0; i < TEXT_COUNT; ++i) {
+	for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
 		if (_text_panel[i]) {
 			p.push_back (_text_panel[i]);
 		}

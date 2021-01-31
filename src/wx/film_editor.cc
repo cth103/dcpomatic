@@ -73,7 +73,7 @@ FilmEditor::FilmEditor (wxWindow* parent, weak_ptr<FilmViewer> viewer)
 void
 FilmEditor::film_change (ChangeType type, Film::Property p)
 {
-	if (type != CHANGE_TYPE_DONE) {
+	if (type != ChangeType::DONE) {
 		return;
 	}
 
@@ -95,7 +95,7 @@ FilmEditor::film_change (ChangeType type, Film::Property p)
 void
 FilmEditor::film_content_change (ChangeType type, int property)
 {
-	if (type != CHANGE_TYPE_DONE) {
+	if (type != ChangeType::DONE) {
 		return;
 	}
 

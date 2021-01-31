@@ -94,7 +94,7 @@ public:
 	 *  @return Number of assets of this type in this DCP.
 	 */
 	int text_count (TextType type) const {
-		return _text_count[type];
+		return _text_count[static_cast<int>(type)];
 	}
 
 	DCPTextTrack dcp_text_track (int i) const {
@@ -153,31 +153,31 @@ public:
 private:
 	boost::optional<double> _video_frame_rate;
 	boost::optional<dcp::Size> _video_size;
-	Frame _video_length;
+	Frame _video_length = 0;
 	boost::optional<int> _audio_channels;
 	boost::optional<int> _audio_frame_rate;
-	Frame _audio_length;
+	Frame _audio_length = 0;
 	std::string _name;
 	/** true if this DCP has video content (but false if it has unresolved references to video content) */
-	bool _has_video;
+	bool _has_video = false;
 	/** true if this DCP has audio content (but false if it has unresolved references to audio content) */
-	bool _has_audio;
+	bool _has_audio = false;
 	/** number of different assets of each type (OCAP/CCAP) */
-	int _text_count[TEXT_COUNT];
+	int _text_count[static_cast<int>(TextType::COUNT)];
 	/** the DCPTextTracks for each of our CCAPs */
 	std::vector<DCPTextTrack> _dcp_text_tracks;
-	bool _encrypted;
-	bool _needs_assets;
-	bool _kdm_valid;
+	bool _encrypted = false;
+	bool _needs_assets = false;
+	bool _kdm_valid = false;
 	boost::optional<dcp::Standard> _standard;
-	bool _three_d;
+	bool _three_d = false;
 	dcp::ContentKind _content_kind;
 	std::string _cpl;
 	std::list<int64_t> _reel_lengths;
 	std::map<dcp::Marker, dcp::Time> _markers;
 	std::vector<dcp::Rating> _ratings;
 	std::vector<std::string> _content_versions;
-	bool _has_atmos;
-	Frame _atmos_length;
+	bool _has_atmos = false;
+	Frame _atmos_length = 0;
 	dcp::Fraction _atmos_edit_rate;
 };

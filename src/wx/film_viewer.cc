@@ -184,8 +184,8 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	_film->LengthChange.connect (boost::bind(&FilmViewer::film_length_change, this));
 	_player->Change.connect (boost::bind (&FilmViewer::player_change, this, _1, _2, _3));
 
-	film_change (CHANGE_TYPE_DONE, Film::VIDEO_FRAME_RATE);
-	film_change (CHANGE_TYPE_DONE, Film::THREE_D);
+	film_change (ChangeType::DONE, Film::VIDEO_FRAME_RATE);
+	film_change (ChangeType::DONE, Film::THREE_D);
 	film_length_change ();
 
 	/* Keep about 1 second's worth of history samples */
@@ -376,7 +376,7 @@ FilmViewer::stop ()
 void
 FilmViewer::player_change (ChangeType type, int property, bool frequent)
 {
-	if (type != CHANGE_TYPE_DONE || frequent) {
+	if (type != ChangeType::DONE || frequent) {
 		return;
 	}
 
@@ -407,7 +407,7 @@ FilmViewer::player_change (ChangeType type, int property, bool frequent)
 void
 FilmViewer::film_change (ChangeType type, Film::Property p)
 {
-	if (type != CHANGE_TYPE_DONE) {
+	if (type != ChangeType::DONE) {
 		return;
 	}
 
@@ -464,7 +464,7 @@ FilmViewer::set_coalesce_player_changes (bool c)
 
 	if (!c) {
 		for (auto i: _pending_player_changes) {
-			player_change (CHANGE_TYPE_DONE, i, false);
+			player_change (ChangeType::DONE, i, false);
 		}
 		_pending_player_changes.clear ();
 	}
@@ -710,7 +710,7 @@ FilmViewer::gets () const
 void
 FilmViewer::content_change (ChangeType type, int property)
 {
-	if (type != CHANGE_TYPE_DONE) {
+	if (type != ChangeType::DONE) {
 		return;
 	}
 

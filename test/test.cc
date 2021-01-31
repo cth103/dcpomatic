@@ -798,7 +798,7 @@ dcp::operator<< (std::ostream& s, dcp::Size i)
 }
 
 std::ostream&
-dcp::operator<< (std::ostream& s, Standard t)
+dcp::operator<< (std::ostream& s, dcp::Standard t)
 {
 	switch (t) {
 	case Standard::INTEROP:
@@ -808,6 +808,13 @@ dcp::operator<< (std::ostream& s, Standard t)
 		s << "smpte";
 		break;
 	}
+	return s;
+}
+
+std::ostream&
+operator<< (std::ostream&s, VideoFrameType f)
+{
+	s << video_frame_type_to_string(f);
 	return s;
 }
 

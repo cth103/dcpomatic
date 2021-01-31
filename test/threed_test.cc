@@ -39,7 +39,7 @@
 using std::cout;
 using std::shared_ptr;
 
-/** Basic sanity check of 3D_LEFT_RIGHT */
+/** Basic sanity check of THREE_D_LEFT_RIGHT */
 BOOST_AUTO_TEST_CASE (threed_test1)
 {
 	shared_ptr<Film> film = new_test_film ("threed_test1");
@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE (threed_test1)
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	c->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT_RIGHT);
+	c->video->set_frame_type (VideoFrameType::THREE_D_LEFT_RIGHT);
 
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE (threed_test1)
 	BOOST_REQUIRE (!wait_for_jobs ());
 }
 
-/** Basic sanity check of 3D_ALTERNATE; at the moment this is just to make sure
+/** Basic sanity check of THREE_D_ALTERNATE; at the moment this is just to make sure
  *  that such a transcode completes without error.
  */
 BOOST_AUTO_TEST_CASE (threed_test2)
@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_CASE (threed_test2)
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	c->video->set_frame_type (VIDEO_FRAME_TYPE_3D_ALTERNATE);
+	c->video->set_frame_type (VideoFrameType::THREE_D_ALTERNATE);
 
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE (threed_test2)
 	BOOST_REQUIRE (!wait_for_jobs ());
 }
 
-/** Basic sanity check of 3D_LEFT and 3D_RIGHT; at the moment this is just to make sure
+/** Basic sanity check of THREE_D_LEFT and THREE_D_RIGHT; at the moment this is just to make sure
  *  that such a transcode completes without error.
  */
 BOOST_AUTO_TEST_CASE (threed_test3)
@@ -93,8 +93,8 @@ BOOST_AUTO_TEST_CASE (threed_test3)
 	film->examine_and_add_content (R);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	L->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT);
-	R->video->set_frame_type (VIDEO_FRAME_TYPE_3D_RIGHT);
+	L->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
+	R->video->set_frame_type (VideoFrameType::THREE_D_RIGHT);
 
 	film->set_three_d (true);
 	film->make_dcp ();
@@ -112,8 +112,8 @@ BOOST_AUTO_TEST_CASE (threed_test4)
 	film->examine_and_add_content (R);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	L->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT);
-	R->video->set_frame_type (VIDEO_FRAME_TYPE_3D_RIGHT);
+	L->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
+	R->video->set_frame_type (VideoFrameType::THREE_D_RIGHT);
 	/* There doesn't seem much point in encoding the whole input, especially as we're only
 	 * checking for errors during the encode and not the result.  Also decoding these files
 	 * (4K HQ Prores) is very slow.
@@ -137,8 +137,8 @@ BOOST_AUTO_TEST_CASE (threed_test5)
 	film->examine_and_add_content (R);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	L->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT);
-	R->video->set_frame_type (VIDEO_FRAME_TYPE_3D_RIGHT);
+	L->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
+	R->video->set_frame_type (VideoFrameType::THREE_D_RIGHT);
 	/* There doesn't seem much point in encoding the whole input, especially as we're only
 	 * checking for errors during the encode and not the result.
 	 */
@@ -161,8 +161,8 @@ BOOST_AUTO_TEST_CASE (threed_test6)
 	film->examine_and_add_content (R);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	L->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT);
-	R->video->set_frame_type (VIDEO_FRAME_TYPE_3D_RIGHT);
+	L->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
+	R->video->set_frame_type (VideoFrameType::THREE_D_RIGHT);
 
 	film->set_three_d (true);
 	film->make_dcp ();
@@ -183,7 +183,7 @@ BOOST_AUTO_TEST_CASE (threed_test7)
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	c->video->set_frame_type (VIDEO_FRAME_TYPE_3D);
+	c->video->set_frame_type (VideoFrameType::THREE_D);
 
 	film->set_three_d (true);
 	film->make_dcp ();
