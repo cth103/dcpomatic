@@ -212,7 +212,7 @@ private:
 	friend struct best_dcp_frame_rate_test_single;
 	friend struct best_dcp_frame_rate_test_double;
 	friend struct audio_sampling_rate_test;
-	template<class> friend class ChangeSignaller;
+	template<class, class> friend class ChangeSignaller;
 
 	void signal_change (ChangeType, int);
 
@@ -231,5 +231,9 @@ private:
 	boost::optional<double> _video_frame_rate;
 	bool _change_signals_frequent;
 };
+
+
+typedef ChangeSignaller<Content, int> ContentChangeSignaller;
+
 
 #endif

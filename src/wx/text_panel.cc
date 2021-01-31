@@ -360,7 +360,7 @@ TextPanel::dcp_track_changed ()
 void
 TextPanel::film_changed (Film::Property property)
 {
-	if (property == Film::CONTENT || property == Film::REEL_TYPE || property == Film::INTEROP) {
+	if (property == Film::Property::CONTENT || property == Film::Property::REEL_TYPE || property == Film::Property::INTEROP) {
 		setup_sensitivity ();
 	}
 }

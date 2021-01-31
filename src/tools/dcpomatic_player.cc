@@ -404,7 +404,7 @@ public:
 
 	void film_changed (ChangeType type, Film::Property property)
 	{
-		if (type != ChangeType::DONE || property != Film::CONTENT) {
+		if (type != ChangeType::DONE || property != Film::Property::CONTENT) {
 			return;
 		}
 

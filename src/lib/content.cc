@@ -229,7 +229,7 @@ Content::set_position (shared_ptr<const Film> film, DCPTime p, bool force_emit)
 		audio->modify_position (film, p);
 	}
 
-	ChangeSignaller<Content> cc (this, ContentProperty::POSITION);
+	ContentChangeSignaller cc (this, ContentProperty::POSITION);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -256,7 +256,7 @@ Content::set_trim_start (ContentTime t)
 		audio->modify_trim_start (t);
 	}
 
-	ChangeSignaller<Content> cc (this, ContentProperty::TRIM_START);
+	ContentChangeSignaller cc (this, ContentProperty::TRIM_START);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -267,7 +267,7 @@ Content::set_trim_start (ContentTime t)
 void
 Content::set_trim_end (ContentTime t)
 {
-	ChangeSignaller<Content> cc (this, ContentProperty::TRIM_END);
+	ContentChangeSignaller cc (this, ContentProperty::TRIM_END);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -338,7 +338,7 @@ Content::paths_valid () const
 void
 Content::set_paths (vector<boost::filesystem::path> paths)
 {
-	ChangeSignaller<Content> cc (this, ContentProperty::PATH);
+	ContentChangeSignaller cc (this, ContentProperty::PATH);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -389,7 +389,7 @@ Content::reel_split_points (shared_ptr<const Film>) const
 void
 Content::set_video_frame_rate (double r)
 {
-	ChangeSignaller<Content> cc (this, ContentProperty::VIDEO_FRAME_RATE);
+	ContentChangeSignaller cc (this, ContentProperty::VIDEO_FRAME_RATE);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -408,7 +408,7 @@ Content::set_video_frame_rate (double r)
 void
 Content::unset_video_frame_rate ()
 {
-	ChangeSignaller<Content> cc (this, ContentProperty::VIDEO_FRAME_RATE);
+	ContentChangeSignaller cc (this, ContentProperty::VIDEO_FRAME_RATE);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);

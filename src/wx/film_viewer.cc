@@ -184,8 +184,8 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	_film->LengthChange.connect (boost::bind(&FilmViewer::film_length_change, this));
 	_player->Change.connect (boost::bind (&FilmViewer::player_change, this, _1, _2, _3));
 
-	film_change (ChangeType::DONE, Film::VIDEO_FRAME_RATE);
-	film_change (ChangeType::DONE, Film::THREE_D);
+	film_change (ChangeType::DONE, Film::Property::VIDEO_FRAME_RATE);
+	film_change (ChangeType::DONE, Film::Property::THREE_D);
 	film_length_change ();
 
 	/* Keep about 1 second's worth of history samples */
@@ -411,13 +411,13 @@ FilmViewer::film_change (ChangeType type, Film::Property p)
 		return;
 	}
 
-	if (p == Film::AUDIO_CHANNELS) {
+	if (p == Film::Property::AUDIO_CHANNELS) {
 		recreate_butler ();
-	} else if (p == Film::VIDEO_FRAME_RATE) {
+	} else if (p == Film::Property::VIDEO_FRAME_RATE) {
 		_video_view->set_video_frame_rate (_film->video_frame_rate());
-	} else if (p == Film::THREE_D) {
+	} else if (p == Film::Property::THREE_D) {
 		_video_view->set_three_d (_film->three_d());
-	} else if (p == Film::CONTENT) {
+	} else if (p == Film::Property::CONTENT) {
 		_closed_captions_dialog->update_tracks (_film);
 	}
 }

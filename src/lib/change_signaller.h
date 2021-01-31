@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,16 +18,24 @@
 
 */
 
+
 #ifndef DCPOMATIC_CHANGE_SIGNALLER_H
 #define DCPOMATIC_CHANGE_SIGNALLER_H
 
-#include <boost/noncopyable.hpp>
 
-template <class T>
-class ChangeSignaller : public boost::noncopyable
+enum class ChangeType
+{
+	PENDING,
+	DONE,
+	CANCELLED
+};
+
+
+template <class T, class P>
+class ChangeSignaller
 {
 public:
-	ChangeSignaller (T* t, int p)
+	ChangeSignaller (T* t, P p)
 		: _thing (t)
 		, _property (p)
 		, _done (true)
@@ -44,6 +52,9 @@ public:
 		}
 	}
 
+	ChangeSignaller (ChangeSignaller const&) = delete;
+	ChangeSignaller& operator== (ChangeSignaller const&) = delete;
+
 	void abort ()
 	{
 		_done = false;
@@ -51,8 +62,9 @@ public:
 
 private:
 	T* _thing;
-	int _property;
+	P _property;
 	bool _done;
 };
+
 
 #endif

@@ -41,7 +41,7 @@ public:
 	void set_cursor (boost::optional<dcpomatic::DCPTime> time, boost::optional<float> db);
 
 private:
-	void film_change (ChangeType, int);
+	void film_change (ChangeType, Film::Property);
 	void content_change (ChangeType, int);
 	void channel_clicked (wxCommandEvent &);
 	void type_clicked (wxCommandEvent &);

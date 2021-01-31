@@ -120,7 +120,7 @@ Player::construct ()
 	_playlist_content_change_connection = playlist()->ContentChange.connect (bind(&Player::playlist_content_change, this, _1, _3, _4));
 	set_video_container_size (_film->frame_size ());
 
-	film_change (ChangeType::DONE, Film::AUDIO_PROCESSOR);
+	film_change (ChangeType::DONE, Film::Property::AUDIO_PROCESSOR);
 
 	setup_pieces ();
 	seek (DCPTime (), true);
@@ -333,9 +333,9 @@ Player::film_change (ChangeType type, Film::Property p)
 	   last time we were run.
 	*/
 
-	if (p == Film::CONTAINER) {
+	if (p == Film::Property::CONTAINER) {
 		Change (type, PlayerProperty::FILM_CONTAINER, false);
-	} else if (p == Film::VIDEO_FRAME_RATE) {
+	} else if (p == Film::Property::VIDEO_FRAME_RATE) {
 		/* Pieces contain a FrameRateChange which contains the DCP frame rate,
 		   so we need new pieces here.
 		*/
@@ -343,12 +343,12 @@ Player::film_change (ChangeType type, Film::Property p)
 			setup_pieces ();
 		}
 		Change (type, PlayerProperty::FILM_VIDEO_FRAME_RATE, false);
-	} else if (p == Film::AUDIO_PROCESSOR) {
+	} else if (p == Film::Property::AUDIO_PROCESSOR) {
 		if (type == ChangeType::DONE && _film->audio_processor ()) {
 			boost::mutex::scoped_lock lm (_mutex);
 			_audio_processor = _film->audio_processor()->clone (_film->audio_frame_rate ());
 		}
-	} else if (p == Film::AUDIO_CHANNELS) {
+	} else if (p == Film::Property::AUDIO_CHANNELS) {
 		if (type == ChangeType::DONE) {
 			boost::mutex::scoped_lock lm (_mutex);
 			_audio_merger.clear ();

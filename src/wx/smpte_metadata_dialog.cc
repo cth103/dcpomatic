@@ -244,16 +244,16 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 
 	_film_changed_connection = film()->Change.connect(boost::bind(&SMPTEMetadataDialog::film_changed, this, _1, _2));
 
-	film_changed (ChangeType::DONE, Film::NAME_LANGUAGE);
-	film_changed (ChangeType::DONE, Film::RELEASE_TERRITORY);
-	film_changed (ChangeType::DONE, Film::VERSION_NUMBER);
-	film_changed (ChangeType::DONE, Film::STATUS);
-	film_changed (ChangeType::DONE, Film::CHAIN);
-	film_changed (ChangeType::DONE, Film::DISTRIBUTOR);
-	film_changed (ChangeType::DONE, Film::FACILITY);
-	film_changed (ChangeType::DONE, Film::CONTENT_VERSIONS);
-	film_changed (ChangeType::DONE, Film::LUMINANCE);
-	film_changed (ChangeType::DONE, Film::SUBTITLE_LANGUAGES);
+	film_changed (ChangeType::DONE, Film::Property::NAME_LANGUAGE);
+	film_changed (ChangeType::DONE, Film::Property::RELEASE_TERRITORY);
+	film_changed (ChangeType::DONE, Film::Property::VERSION_NUMBER);
+	film_changed (ChangeType::DONE, Film::Property::STATUS);
+	film_changed (ChangeType::DONE, Film::Property::CHAIN);
+	film_changed (ChangeType::DONE, Film::Property::DISTRIBUTOR);
+	film_changed (ChangeType::DONE, Film::Property::FACILITY);
+	film_changed (ChangeType::DONE, Film::Property::CONTENT_VERSIONS);
+	film_changed (ChangeType::DONE, Film::Property::LUMINANCE);
+	film_changed (ChangeType::DONE, Film::Property::SUBTITLE_LANGUAGES);
 
 	setup_sensitivity ();
 }
@@ -266,13 +266,13 @@ SMPTEMetadataDialog::film_changed (ChangeType type, Film::Property property)
 		return;
 	}
 
-	if (property == Film::NAME_LANGUAGE) {
+	if (property == Film::Property::NAME_LANGUAGE) {
 		_name_language->set (film()->name_language());
-	} else if (property == Film::RELEASE_TERRITORY) {
+	} else if (property == Film::Property::RELEASE_TERRITORY) {
 		checked_set (_release_territory, std_to_wx(*dcp::LanguageTag::get_subtag_description(dcp::LanguageTag::SubtagType::REGION, film()->release_territory().subtag())));
-	} else if (property == Film::VERSION_NUMBER) {
+	} else if (property == Film::Property::VERSION_NUMBER) {
 		checked_set (_version_number, film()->version_number());
-	} else if (property == Film::STATUS) {
+	} else if (property == Film::Property::STATUS) {
 		switch (film()->status()) {
 		case dcp::Status::TEMP:
 			checked_set (_status, 0);
@@ -284,13 +284,13 @@ SMPTEMetadataDialog::film_changed (ChangeType type, Film::Property property)
 			checked_set (_status, 2);
 			break;
 		}
-	} else if (property == Film::CHAIN) {
+	} else if (property == Film::Property::CHAIN) {
 		checked_set (_chain, film()->chain());
-	} else if (property == Film::DISTRIBUTOR) {
+	} else if (property == Film::Property::DISTRIBUTOR) {
 		checked_set (_distributor, film()->distributor());
-	} else if (property == Film::FACILITY) {
+	} else if (property == Film::Property::FACILITY) {
 		checked_set (_facility, film()->facility());
-	} else if (property == Film::LUMINANCE) {
+	} else if (property == Film::Property::LUMINANCE) {
 		checked_set (_luminance_value, film()->luminance().value());
 		switch (film()->luminance().unit()) {
 		case dcp::Luminance::Unit::CANDELA_PER_SQUARE_METRE:
@@ -300,7 +300,7 @@ SMPTEMetadataDialog::film_changed (ChangeType type, Film::Property property)
 			checked_set (_luminance_unit, 1);
 			break;
 		}
-	} else if (property == Film::SUBTITLE_LANGUAGES) {
+	} else if (property == Film::Property::SUBTITLE_LANGUAGES) {
 		vector<dcp::LanguageTag> languages = film()->subtitle_languages();
 		checked_set (_enable_main_subtitle_language, !languages.empty());
 		if (!languages.empty()) {
@@ -357,11 +357,11 @@ SMPTEMetadataDialog::audio_language_changed (dcp::LanguageTag tag)
 void
 SMPTEMetadataDialog::edit_release_territory ()
 {
-	RegionSubtagDialog* d = new RegionSubtagDialog(this, film()->release_territory());
+	auto d = new RegionSubtagDialog(this, film()->release_territory());
 	d->ShowModal ();
-	optional<dcp::LanguageTag::RegionSubtag> tag = d->get();
+	auto tag = d->get();
 	if (tag) {
-		film()->set_release_territory (*tag);
+		film()->set_release_territory(*tag);
 	}
 	d->Destroy ();
 }

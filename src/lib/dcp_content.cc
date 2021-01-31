@@ -219,10 +219,10 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	bool const needed_kdm = needs_kdm ();
 	string const old_name = name ();
 
-	ChangeSignaller<Content> cc_texts (this, DCPContentProperty::TEXTS);
-	ChangeSignaller<Content> cc_assets (this, DCPContentProperty::NEEDS_ASSETS);
-	ChangeSignaller<Content> cc_kdm (this, DCPContentProperty::NEEDS_KDM);
-	ChangeSignaller<Content> cc_name (this, DCPContentProperty::NAME);
+	ContentChangeSignaller cc_texts (this, DCPContentProperty::TEXTS);
+	ContentChangeSignaller cc_assets (this, DCPContentProperty::NEEDS_ASSETS);
+	ContentChangeSignaller cc_kdm (this, DCPContentProperty::NEEDS_KDM);
+	ContentChangeSignaller cc_name (this, DCPContentProperty::NAME);
 
 	if (job) {
 		job->set_progress_unknown ();
@@ -509,7 +509,7 @@ DCPContent::set_default_colour_conversion ()
 void
 DCPContent::set_reference_video (bool r)
 {
-	ChangeSignaller<Content> cc (this, DCPContentProperty::REFERENCE_VIDEO);
+	ContentChangeSignaller cc (this, DCPContentProperty::REFERENCE_VIDEO);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -520,7 +520,7 @@ DCPContent::set_reference_video (bool r)
 void
 DCPContent::set_reference_audio (bool r)
 {
-	ChangeSignaller<Content> cc (this, DCPContentProperty::REFERENCE_AUDIO);
+	ContentChangeSignaller cc (this, DCPContentProperty::REFERENCE_AUDIO);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -531,7 +531,7 @@ DCPContent::set_reference_audio (bool r)
 void
 DCPContent::set_reference_text (TextType type, bool r)
 {
-	ChangeSignaller<Content> cc (this, DCPContentProperty::REFERENCE_TEXT);
+	ContentChangeSignaller cc (this, DCPContentProperty::REFERENCE_TEXT);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -788,7 +788,7 @@ DCPContent::take_settings_from (shared_ptr<const Content> c)
 void
 DCPContent::set_cpl (string id)
 {
-	ChangeSignaller<Content> cc (this, DCPContentProperty::CPL);
+	ContentChangeSignaller cc (this, DCPContentProperty::CPL);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);

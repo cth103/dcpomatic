@@ -408,11 +408,11 @@ void
 Controls::film_change (ChangeType type, Film::Property p)
 {
 	if (type == ChangeType::DONE) {
-		if (p == Film::CONTENT) {
+		if (p == Film::Property::CONTENT) {
 			setup_sensitivity ();
 			update_position_label ();
 			update_position_slider ();
-		} else if (p == Film::THREE_D) {
+		} else if (p == Film::Property::THREE_D) {
 			setup_sensitivity ();
 		}
 	}

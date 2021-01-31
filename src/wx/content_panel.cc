@@ -238,8 +238,8 @@ void
 ContentPanel::film_changed (Film::Property p)
 {
 	switch (p) {
-	case Film::CONTENT:
-	case Film::CONTENT_ORDER:
+	case Film::Property::CONTENT:
+	case Film::Property::CONTENT_ORDER:
 		setup ();
 		break;
 	default:
@@ -587,8 +587,8 @@ ContentPanel::set_film (shared_ptr<Film> film)
 
 	_film = film;
 
-	film_changed (Film::CONTENT);
-	film_changed (Film::AUDIO_CHANNELS);
+	film_changed (Film::Property::CONTENT);
+	film_changed (Film::Property::AUDIO_CHANNELS);
 
 	if (_film) {
 		check_selection ();

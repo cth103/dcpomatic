@@ -425,7 +425,7 @@ TimingPanel::content_selection_changed ()
 void
 TimingPanel::film_changed (Film::Property p)
 {
-	if (p == Film::VIDEO_FRAME_RATE) {
+	if (p == Film::Property::VIDEO_FRAME_RATE) {
 		update_full_length ();
 		update_play_length ();
 	}

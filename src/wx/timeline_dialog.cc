@@ -91,7 +91,7 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film, weak_pt
 	sizer->SetSizeHints (this);
 
         _toolbar->ToggleTool ((int) Timeline::SNAP, _timeline.snap ());
-	film_change (ChangeType::DONE, Film::SEQUENCE);
+	film_change (ChangeType::DONE, Film::Property::SEQUENCE);
 
 	_film_changed_connection = film->Change.connect (bind (&TimelineDialog::film_change, this, _1, _2));
 }
@@ -108,7 +108,7 @@ TimelineDialog::film_change (ChangeType type, Film::Property p)
 		return;
 	}
 
-	if (p == Film::SEQUENCE) {
+	if (p == Film::Property::SEQUENCE) {
 		_toolbar->ToggleTool ((int) Timeline::SEQUENCE, film->sequence ());
 	}
 }

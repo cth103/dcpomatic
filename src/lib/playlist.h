@@ -21,8 +21,9 @@
 #ifndef DCPOMATIC_PLAYLIST_H
 #define DCPOMATIC_PLAYLIST_H
 
-#include "util.h"
+#include "change_signaller.h"
 #include "frame_rate_change.h"
+#include "util.h"
 #include <libcxml/cxml.h>
 #include <boost/signals2.hpp>
 #include <boost/thread.hpp>

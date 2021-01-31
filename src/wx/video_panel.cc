@@ -326,14 +326,14 @@ void
 VideoPanel::film_changed (Film::Property property)
 {
 	switch (property) {
-	case Film::VIDEO_FRAME_RATE:
-	case Film::CONTAINER:
-	case Film::RESOLUTION:
+	case Film::Property::VIDEO_FRAME_RATE:
+	case Film::Property::CONTAINER:
+	case Film::Property::RESOLUTION:
 		setup_description ();
 		setup_sensitivity ();
 		break;
-	case Film::REEL_TYPE:
-	case Film::INTEROP:
+	case Film::Property::REEL_TYPE:
+	case Film::Property::INTEROP:
 		setup_sensitivity ();
 		break;
 	default:

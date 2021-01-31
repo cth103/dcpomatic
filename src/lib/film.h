@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -26,22 +26,23 @@
 #ifndef DCPOMATIC_FILM_H
 #define DCPOMATIC_FILM_H
 
-#include "util.h"
-#include "types.h"
-#include "isdcf_metadata.h"
-#include "frame_rate_change.h"
-#include "signaller.h"
+#include "change_signaller.h"
 #include "dcp_text_track.h"
-#include <dcp/language_tag.h>
-#include <dcp/key.h>
+#include "frame_rate_change.h"
+#include "isdcf_metadata.h"
+#include "signaller.h"
+#include "types.h"
+#include "util.h"
 #include <dcp/encrypted_kdm.h>
+#include <dcp/key.h>
+#include <dcp/language_tag.h>
+#include <boost/filesystem.hpp>
 #include <boost/signals2.hpp>
 #include <boost/thread.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/thread/mutex.hpp>
+#include <inttypes.h>
 #include <string>
 #include <vector>
-#include <inttypes.h>
 
 namespace xmlpp {
 	class Document;
@@ -201,7 +202,7 @@ public:
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
 	*/
-	enum Property {
+	enum class Property {
 		NONE,
 		NAME,
 		USE_ISDCF_NAME,
@@ -448,7 +449,7 @@ private:
 	friend struct ::isdcf_name_test;
 	friend struct ::recover_test_2d_encrypted;
 	friend struct ::atmos_encrypted_passthrough_test;
-	template <typename> friend class ChangeSignaller;
+	template <class, class> friend class ChangeSignaller;
 
 	boost::filesystem::path info_file (dcpomatic::DCPTimePeriod p) const;
 
@@ -554,5 +555,9 @@ private:
 	friend struct paths_test;
 	friend struct film_metadata_test;
 };
+
+
+typedef ChangeSignaller<Film, Film::Property> FilmChangeSignaller;
+
 
 #endif

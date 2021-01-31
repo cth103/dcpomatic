@@ -1034,21 +1034,21 @@ Film::set_directory (boost::filesystem::path d)
 void
 Film::set_name (string n)
 {
-	ChangeSignaller<Film> ch (this, NAME);
+	FilmChangeSignaller ch (this, Property::NAME);
 	_name = n;
 }
 
 void
 Film::set_use_isdcf_name (bool u)
 {
-	ChangeSignaller<Film> ch (this, USE_ISDCF_NAME);
+	FilmChangeSignaller ch (this, Property::USE_ISDCF_NAME);
 	_use_isdcf_name = u;
 }
 
 void
 Film::set_dcp_content_type (DCPContentType const * t)
 {
-	ChangeSignaller<Film> ch (this, DCP_CONTENT_TYPE);
+	FilmChangeSignaller ch (this, Property::DCP_CONTENT_TYPE);
 	_dcp_content_type = t;
 }
 
@@ -1060,7 +1060,7 @@ Film::set_dcp_content_type (DCPContentType const * t)
 void
 Film::set_container (Ratio const * c, bool explicit_user)
 {
-	ChangeSignaller<Film> ch (this, CONTAINER);
+	FilmChangeSignaller ch (this, Property::CONTAINER);
 	_container = c;
 
 	if (explicit_user) {
@@ -1076,7 +1076,7 @@ Film::set_container (Ratio const * c, bool explicit_user)
 void
 Film::set_resolution (Resolution r, bool explicit_user)
 {
-	ChangeSignaller<Film> ch (this, RESOLUTION);
+	FilmChangeSignaller ch (this, Property::RESOLUTION);
 	_resolution = r;
 
 	if (explicit_user) {
@@ -1088,14 +1088,14 @@ Film::set_resolution (Resolution r, bool explicit_user)
 void
 Film::set_j2k_bandwidth (int b)
 {
-	ChangeSignaller<Film> ch (this, J2K_BANDWIDTH);
+	FilmChangeSignaller ch (this, Property::J2K_BANDWIDTH);
 	_j2k_bandwidth = b;
 }
 
 void
 Film::set_isdcf_metadata (ISDCFMetadata m)
 {
-	ChangeSignaller<Film> ch (this, ISDCF_METADATA);
+	FilmChangeSignaller ch (this, Property::ISDCF_METADATA);
 	_isdcf_metadata = m;
 }
 
@@ -1106,7 +1106,7 @@ Film::set_isdcf_metadata (ISDCFMetadata m)
 void
 Film::set_video_frame_rate (int f, bool user_explicit)
 {
-	ChangeSignaller<Film> ch (this, VIDEO_FRAME_RATE);
+	FilmChangeSignaller ch (this, Property::VIDEO_FRAME_RATE);
 	_video_frame_rate = f;
 	if (user_explicit) {
 		_user_explicit_video_frame_rate = true;
@@ -1116,18 +1116,18 @@ Film::set_video_frame_rate (int f, bool user_explicit)
 void
 Film::set_audio_channels (int c)
 {
-	ChangeSignaller<Film> ch (this, AUDIO_CHANNELS);
+	FilmChangeSignaller ch (this, Property::AUDIO_CHANNELS);
 	_audio_channels = c;
 }
 
 void
 Film::set_three_d (bool t)
 {
-	ChangeSignaller<Film> ch (this, THREE_D);
+	FilmChangeSignaller ch (this, Property::THREE_D);
 	_three_d = t;
 
 	if (_three_d && _isdcf_metadata.two_d_version_of_three_d) {
-		ChangeSignaller<Film> ch (this, ISDCF_METADATA);
+		FilmChangeSignaller ch (this, Property::ISDCF_METADATA);
 		_isdcf_metadata.two_d_version_of_three_d = false;
 	}
 }
@@ -1135,22 +1135,22 @@ Film::set_three_d (bool t)
 void
 Film::set_interop (bool i)
 {
-	ChangeSignaller<Film> ch (this, INTEROP);
+	FilmChangeSignaller ch (this, Property::INTEROP);
 	_interop = i;
 }
 
 void
 Film::set_audio_processor (AudioProcessor const * processor)
 {
-	ChangeSignaller<Film> ch1 (this, AUDIO_PROCESSOR);
-	ChangeSignaller<Film> ch2 (this, AUDIO_CHANNELS);
+	FilmChangeSignaller ch1 (this, Property::AUDIO_PROCESSOR);
+	FilmChangeSignaller ch2 (this, Property::AUDIO_CHANNELS);
 	_audio_processor = processor;
 }
 
 void
 Film::set_reel_type (ReelType t)
 {
-	ChangeSignaller<Film> ch (this, REEL_TYPE);
+	FilmChangeSignaller ch (this, Property::REEL_TYPE);
 	_reel_type = t;
 }
 
@@ -1158,14 +1158,14 @@ Film::set_reel_type (ReelType t)
 void
 Film::set_reel_length (int64_t r)
 {
-	ChangeSignaller<Film> ch (this, REEL_LENGTH);
+	FilmChangeSignaller ch (this, Property::REEL_LENGTH);
 	_reel_length = r;
 }
 
 void
 Film::set_reencode_j2k (bool r)
 {
-	ChangeSignaller<Film> ch (this, REENCODE_J2K);
+	FilmChangeSignaller ch (this, Property::REENCODE_J2K);
 	_reencode_j2k = r;
 }
 
@@ -1181,7 +1181,7 @@ Film::signal_change (ChangeType type, Property p)
 	if (type == ChangeType::DONE) {
 		_dirty = true;
 
-		if (p == Film::CONTENT) {
+		if (p == Property::CONTENT) {
 			if (!_user_explicit_video_frame_rate) {
 				set_video_frame_rate (best_video_frame_rate());
 			}
@@ -1189,7 +1189,7 @@ Film::signal_change (ChangeType type, Property p)
 
 		emit (boost::bind (boost::ref (Change), type, p));
 
-		if (p == Film::VIDEO_FRAME_RATE || p == Film::SEQUENCE) {
+		if (p == Property::VIDEO_FRAME_RATE || p == Property::SEQUENCE) {
 			/* We want to call Playlist::maybe_sequence but this must happen after the
 			   main signal emission (since the butler will see that emission and un-suspend itself).
 			*/
@@ -1275,7 +1275,7 @@ Film::cpls () const
 void
 Film::set_encrypted (bool e)
 {
-	ChangeSignaller<Film> ch (this, ENCRYPTED);
+	FilmChangeSignaller ch (this, Property::ENCRYPTED);
 	_encrypted = e;
 }
 
@@ -1444,9 +1444,9 @@ void
 Film::playlist_content_change (ChangeType type, weak_ptr<Content> c, int p, bool frequent)
 {
 	if (p == ContentProperty::VIDEO_FRAME_RATE) {
-		signal_change (type, Film::CONTENT);
+		signal_change (type, Property::CONTENT);
 	} else if (p == AudioContentProperty::STREAMS) {
-		signal_change (type, Film::NAME);
+		signal_change (type, Property::NAME);
 	}
 
 	if (type == ChangeType::DONE) {
@@ -1470,8 +1470,8 @@ Film::playlist_length_change ()
 void
 Film::playlist_change (ChangeType type)
 {
-	signal_change (type, CONTENT);
-	signal_change (type, NAME);
+	signal_change (type, Property::CONTENT);
+	signal_change (type, Property::NAME);
 
 	if (type == ChangeType::DONE) {
 		check_settings_consistency ();
@@ -1536,7 +1536,7 @@ void
 Film::playlist_order_changed ()
 {
 	/* XXX: missing PENDING */
-	signal_change (ChangeType::DONE, CONTENT_ORDER);
+	signal_change (ChangeType::DONE, Property::CONTENT_ORDER);
 }
 
 int
@@ -1555,7 +1555,7 @@ Film::set_sequence (bool s)
 		return;
 	}
 
-	ChangeSignaller<Film> cc (this, SEQUENCE);
+	FilmChangeSignaller cc (this, Property::SEQUENCE);
 	_sequence = s;
 	_playlist->set_sequence (s);
 }
@@ -1924,14 +1924,14 @@ Film::closed_caption_tracks () const
 void
 Film::set_marker (dcp::Marker type, DCPTime time)
 {
-	ChangeSignaller<Film> ch (this, MARKERS);
+	FilmChangeSignaller ch (this, Property::MARKERS);
 	_markers[type] = time;
 }
 
 void
 Film::unset_marker (dcp::Marker type)
 {
-	ChangeSignaller<Film> ch (this, MARKERS);
+	FilmChangeSignaller ch (this, Property::MARKERS);
 	_markers.erase (type);
 }
 
@@ -1939,7 +1939,7 @@ Film::unset_marker (dcp::Marker type)
 void
 Film::clear_markers ()
 {
-	ChangeSignaller<Film> ch (this, MARKERS);
+	FilmChangeSignaller ch (this, Property::MARKERS);
 	_markers.clear ();
 }
 
@@ -1947,14 +1947,14 @@ Film::clear_markers ()
 void
 Film::set_ratings (vector<dcp::Rating> r)
 {
-	ChangeSignaller<Film> ch (this, RATINGS);
+	FilmChangeSignaller ch (this, Property::RATINGS);
 	_ratings = r;
 }
 
 void
 Film::set_content_versions (vector<string> v)
 {
-	ChangeSignaller<Film> ch (this, CONTENT_VERSIONS);
+	FilmChangeSignaller ch (this, Property::CONTENT_VERSIONS);
 	_content_versions = v;
 }
 
@@ -1962,7 +1962,7 @@ Film::set_content_versions (vector<string> v)
 void
 Film::set_name_language (dcp::LanguageTag lang)
 {
-	ChangeSignaller<Film> ch (this, NAME_LANGUAGE);
+	FilmChangeSignaller ch (this, Property::NAME_LANGUAGE);
 	_name_language = lang;
 }
 
@@ -1970,7 +1970,7 @@ Film::set_name_language (dcp::LanguageTag lang)
 void
 Film::set_audio_language (dcp::LanguageTag lang)
 {
-	ChangeSignaller<Film> ch (this, AUDIO_LANGUAGE);
+	FilmChangeSignaller ch (this, Property::AUDIO_LANGUAGE);
 	_audio_language = lang;
 }
 
@@ -1978,7 +1978,7 @@ Film::set_audio_language (dcp::LanguageTag lang)
 void
 Film::set_release_territory (dcp::LanguageTag::RegionSubtag region)
 {
-	ChangeSignaller<Film> ch (this, RELEASE_TERRITORY);
+	FilmChangeSignaller ch (this, Property::RELEASE_TERRITORY);
 	_release_territory = region;
 }
 
@@ -1986,7 +1986,7 @@ Film::set_release_territory (dcp::LanguageTag::RegionSubtag region)
 void
 Film::set_status (dcp::Status s)
 {
-	ChangeSignaller<Film> ch (this, STATUS);
+	FilmChangeSignaller ch (this, Property::STATUS);
 	_status = s;
 }
 
@@ -1994,7 +1994,7 @@ Film::set_status (dcp::Status s)
 void
 Film::set_version_number (int v)
 {
-	ChangeSignaller<Film> ch (this, VERSION_NUMBER);
+	FilmChangeSignaller ch (this, Property::VERSION_NUMBER);
 	_version_number = v;
 }
 
@@ -2002,7 +2002,7 @@ Film::set_version_number (int v)
 void
 Film::set_chain (string c)
 {
-	ChangeSignaller<Film> ch (this, CHAIN);
+	FilmChangeSignaller ch (this, Property::CHAIN);
 	_chain = c;
 }
 
@@ -2010,7 +2010,7 @@ Film::set_chain (string c)
 void
 Film::set_distributor (string d)
 {
-	ChangeSignaller<Film> ch (this, DISTRIBUTOR);
+	FilmChangeSignaller ch (this, Property::DISTRIBUTOR);
 	_distributor = d;
 }
 
@@ -2018,7 +2018,7 @@ Film::set_distributor (string d)
 void
 Film::set_luminance (dcp::Luminance l)
 {
-	ChangeSignaller<Film> ch (this, LUMINANCE);
+	FilmChangeSignaller ch (this, Property::LUMINANCE);
 	_luminance = l;
 }
 
@@ -2033,7 +2033,7 @@ Film::set_subtitle_language (dcp::LanguageTag language)
 void
 Film::unset_subtitle_language ()
 {
-	ChangeSignaller<Film> ch (this, SUBTITLE_LANGUAGES);
+	FilmChangeSignaller ch (this, Property::SUBTITLE_LANGUAGES);
 	_subtitle_languages.clear();
 }
 
@@ -2041,7 +2041,7 @@ Film::unset_subtitle_language ()
 void
 Film::set_subtitle_languages (vector<dcp::LanguageTag> languages)
 {
-	ChangeSignaller<Film> ch (this, SUBTITLE_LANGUAGES);
+	FilmChangeSignaller ch (this, Property::SUBTITLE_LANGUAGES);
 	_subtitle_languages = languages;
 }
 
@@ -2049,7 +2049,7 @@ Film::set_subtitle_languages (vector<dcp::LanguageTag> languages)
 void
 Film::set_facility (string f)
 {
-	ChangeSignaller<Film> ch (this, FACILITY);
+	FilmChangeSignaller ch (this, Property::FACILITY);
 	_facility = f;
 }
 

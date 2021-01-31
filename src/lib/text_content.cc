@@ -430,7 +430,7 @@ void
 TextContent::font_changed ()
 {
 	/* XXX: too late */
-	ChangeSignaller<Content> cc (_parent, TextContentProperty::FONTS);
+	ContentChangeSignaller cc (_parent, TextContentProperty::FONTS);
 }
 
 void

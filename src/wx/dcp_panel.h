@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,8 +18,10 @@
 
 */
 
+
 #include "lib/config.h"
-#include <boost/noncopyable.hpp>
+#include "lib/film.h"
+
 
 class wxNotebook;
 class wxPanel;
@@ -41,15 +43,18 @@ class Film;
 class FilmViewer;
 class Ratio;
 
-class DCPPanel : public boost::noncopyable
+class DCPPanel
 {
 public:
 	DCPPanel (wxNotebook *, std::shared_ptr<Film>, std::weak_ptr<FilmViewer> viewer);
 
+	DCPPanel (DCPPanel const&) = delete;
+	DCPPanel& operator= (DCPPanel const&) = delete;
+
 	void set_film (std::shared_ptr<Film>);
 	void set_general_sensitivity (bool);
 
-	void film_changed (int);
+	void film_changed (Film::Property);
 	void film_content_changed (int);
 
 	wxPanel* panel () const {

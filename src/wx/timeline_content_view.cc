@@ -34,7 +34,6 @@ using namespace boost::placeholders;
 TimelineContentView::TimelineContentView (Timeline& tl, shared_ptr<Content> c)
 	: TimelineView (tl)
 	, _content (c)
-	, _selected (false)
 {
 	_content_connection = c->Change.connect (bind (&TimelineContentView::content_change, this, _1, _3));
 }

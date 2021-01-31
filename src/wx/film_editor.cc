@@ -86,7 +86,7 @@ FilmEditor::film_change (ChangeType type, Film::Property p)
 	_content_panel->film_changed (p);
 	_dcp_panel->film_changed (p);
 
-	if (p == Film::CONTENT && !_film->content().empty ()) {
+	if (p == Film::Property::CONTENT && !_film->content().empty()) {
 		/* Select newly-added content */
 		_content_panel->set_selection (_film->content().back ());
 	}

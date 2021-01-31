@@ -146,7 +146,7 @@ AudioContent::technical_summary () const
 void
 AudioContent::set_mapping (AudioMapping mapping)
 {
-	ChangeSignaller<Content> cc (_parent, AudioContentProperty::STREAMS);
+	ContentChangeSignaller cc (_parent, AudioContentProperty::STREAMS);
 
 	int c = 0;
 	for (auto i: streams()) {
@@ -328,7 +328,7 @@ AudioContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& p
 void
 AudioContent::set_streams (vector<AudioStreamPtr> streams)
 {
-	ChangeSignaller<Content> cc (_parent, AudioContentProperty::STREAMS);
+	ContentChangeSignaller cc (_parent, AudioContentProperty::STREAMS);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -347,7 +347,7 @@ AudioContent::stream () const
 void
 AudioContent::add_stream (AudioStreamPtr stream)
 {
-	ChangeSignaller<Content> cc (_parent, AudioContentProperty::STREAMS);
+	ContentChangeSignaller cc (_parent, AudioContentProperty::STREAMS);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -358,7 +358,7 @@ AudioContent::add_stream (AudioStreamPtr stream)
 void
 AudioContent::set_stream (AudioStreamPtr stream)
 {
-	ChangeSignaller<Content> cc (_parent, AudioContentProperty::STREAMS);
+	ContentChangeSignaller cc (_parent, AudioContentProperty::STREAMS);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);

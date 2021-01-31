@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -21,6 +21,7 @@
 #ifndef DCPOMATIC_TIMELINE_CONTENT_VIEW_H
 #define DCPOMATIC_TIMELINE_CONTENT_VIEW_H
 
+#include "lib/change_signaller.h"
 #include "lib/types.h"
 #include "lib/warnings.h"
 #include "timeline_view.h"
@@ -64,7 +65,7 @@ private:
 	void content_change (ChangeType type, int p);
 
 	boost::optional<int> _track;
-	bool _selected;
+	bool _selected = false;
 
 	boost::signals2::scoped_connection _content_connection;
 };

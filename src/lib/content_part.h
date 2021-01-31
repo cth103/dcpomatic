@@ -41,7 +41,7 @@ protected:
 	void
 	maybe_set (T& member, T new_value, int property) const
 	{
-		ChangeSignaller<Content> cc (_parent, property);
+		ContentChangeSignaller cc (_parent, property);
 		{
 			boost::mutex::scoped_lock lm (_mutex);
 			if (member == new_value) {
@@ -56,7 +56,7 @@ protected:
 	void
 	maybe_set (boost::optional<T>& member, T new_value, int property) const
 	{
-		ChangeSignaller<Content> cc (_parent, property);
+		ContentChangeSignaller cc (_parent, property);
 		{
 			boost::mutex::scoped_lock lm (_mutex);
 			if (member && member.get() == new_value) {

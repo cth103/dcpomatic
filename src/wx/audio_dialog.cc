@@ -101,7 +101,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, weak_ptr<Film
 	wxBoxSizer* right = new wxBoxSizer (wxVERTICAL);
 
 	{
-		wxStaticText* m = new StaticText (this, _("Channels"));
+		auto m = new StaticText (this, _("Channels"));
 		m->SetFont (subheading_font);
 		right->Add (m, 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM, 16);
 	}
@@ -116,7 +116,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, weak_ptr<Film
 	show_or_hide_channel_checkboxes ();
 
 	{
-		wxStaticText* m = new StaticText (this, _("Type"));
+		auto m = new StaticText (this, _("Type"));
 		m->SetFont (subheading_font);
 		right->Add (m, 1, wxALIGN_CENTER_VERTICAL | wxTOP, 16);
 	}
@@ -133,7 +133,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, weak_ptr<Film
 	}
 
 	{
-		wxStaticText* m = new StaticText (this, _("Smoothing"));
+		auto m = new StaticText (this, _("Smoothing"));
 		m->SetFont (subheading_font);
 		right->Add (m, 1, wxALIGN_CENTER_VERTICAL | wxTOP, 16);
 	}
@@ -312,13 +312,13 @@ AudioDialog::channel_clicked (wxCommandEvent& ev)
 }
 
 void
-AudioDialog::film_change (ChangeType type, int p)
+AudioDialog::film_change (ChangeType type, Film::Property p)
 {
 	if (type != ChangeType::DONE) {
 		return;
 	}
 
-	if (p == Film::AUDIO_CHANNELS) {
+	if (p == Film::Property::AUDIO_CHANNELS) {
 		auto film = _film.lock ();
 		if (film) {
 			_channels = film->audio_channels ();

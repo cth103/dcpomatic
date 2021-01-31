@@ -18,12 +18,14 @@
 
 */
 
-#include "lib/types.h"
+
+#include "lib/change_signaller.h"
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
+
 
 class wxRichTextCtrl;
 class Film;

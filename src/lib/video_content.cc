@@ -284,10 +284,10 @@ VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
 	auto const yuv = d->yuv ();
 	auto const range = d->range ();
 
-	ChangeSignaller<Content> cc1 (_parent, VideoContentProperty::SIZE);
-	ChangeSignaller<Content> cc2 (_parent, VideoContentProperty::SCALE);
-	ChangeSignaller<Content> cc3 (_parent, ContentProperty::LENGTH);
-	ChangeSignaller<Content> cc4 (_parent, VideoContentProperty::RANGE);
+	ContentChangeSignaller cc1 (_parent, VideoContentProperty::SIZE);
+	ContentChangeSignaller cc2 (_parent, VideoContentProperty::SCALE);
+	ContentChangeSignaller cc3 (_parent, ContentProperty::LENGTH);
+	ContentChangeSignaller cc4 (_parent, VideoContentProperty::RANGE);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);

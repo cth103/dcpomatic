@@ -131,13 +131,6 @@ enum class ReelType
 	BY_LENGTH
 };
 
-enum class ChangeType
-{
-	PENDING,
-	DONE,
-	CANCELLED
-};
-
 
 enum class VideoRange
 {
