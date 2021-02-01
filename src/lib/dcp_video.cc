@@ -128,6 +128,7 @@ DCPVideo::encode_locally ()
 	int constexpr minimum_size = 65536;
 
 	auto xyz = convert_to_xyz (_frame, boost::bind(&Log::dcp_log, dcpomatic_log.get(), _1, _2));
+	int noise_amount = 2;
 	while (true) {
 		enc = dcp::compress_j2k (
 			xyz,
@@ -153,10 +154,14 @@ DCPVideo::encode_locally ()
 		for (auto c = 0; c < 3; ++c) {
 			auto p = xyz->data(c);
 			for (auto i = 0; i < pixels; ++i) {
-				*p = std::min(4095, std::max(0, *p + rand() % 2));
+				*p = std::min(4095, std::max(0, *p + rand() % noise_amount));
 				++p;
 			}
 		}
+
+		++noise_amount;
+		/* Something's gone badly wrong if this much noise doesn't help */
+		DCP_ASSERT (noise_amount < 16);
 	}
 
 	switch (_frame->eyes()) {
