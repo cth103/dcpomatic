@@ -106,6 +106,8 @@ GLVideoView::check_for_butler_errors ()
 		_viewer->butler()->rethrow ();
 	} catch (DecodeError& e) {
 		error_dialog (get(), e.what());
+	} catch (dcp::ReadError& e) {
+		error_dialog (get(), wxString::Format(_("Could not read DCP: %s"), std_to_wx(e.what())));
 	}
 }
 
