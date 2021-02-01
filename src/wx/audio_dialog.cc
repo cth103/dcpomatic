@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,13 +20,13 @@
 
 #include "audio_dialog.h"
 #include "audio_plot.h"
-#include "wx_util.h"
-#include "static_text.h"
 #include "check_box.h"
-#include "lib/audio_analysis.h"
-#include "lib/film.h"
+#include "static_text.h"
+#include "wx_util.h"
 #include "lib/analyse_audio_job.h"
+#include "lib/audio_analysis.h"
 #include "lib/audio_content.h"
+#include "lib/film.h"
 #include "lib/job_manager.h"
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
@@ -34,9 +34,10 @@
 
 using std::cout;
 using std::list;
-using std::vector;
+using std::make_shared;
 using std::pair;
 using std::shared_ptr;
+using std::vector;
 using std::weak_ptr;
 using boost::bind;
 using boost::optional;
@@ -71,15 +72,15 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, weak_ptr<Film
 	, _viewer (viewer)
 	, _content (content)
 	, _channels (film->audio_channels ())
-	, _plot (0)
+	, _plot (nullptr)
 {
 	wxFont subheading_font (*wxNORMAL_FONT);
 	subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
 
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	wxBoxSizer* lr_sizer = new wxBoxSizer (wxHORIZONTAL);
+	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
+	auto lr_sizer = new wxBoxSizer (wxHORIZONTAL);
 
-	wxBoxSizer* left = new wxBoxSizer (wxVERTICAL);
+	auto left = new wxBoxSizer (wxVERTICAL);
 
 	_cursor = new StaticText (this, wxT("Cursor: none"));
 	left->Add (_cursor, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
@@ -98,12 +99,12 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, weak_ptr<Film
 
 	lr_sizer->Add (left, 1, wxALL | wxEXPAND, 12);
 
-	wxBoxSizer* right = new wxBoxSizer (wxVERTICAL);
+	auto right = new wxBoxSizer (wxVERTICAL);
 
 	{
 		auto m = new StaticText (this, _("Channels"));
 		m->SetFont (subheading_font);
-		right->Add (m, 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM, 16);
+		right->Add (m, 1, wxTOP | wxBOTTOM, 16);
 	}
 
 	for (int i = 0; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
@@ -118,7 +119,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, weak_ptr<Film
 	{
 		auto m = new StaticText (this, _("Type"));
 		m->SetFont (subheading_font);
-		right->Add (m, 1, wxALIGN_CENTER_VERTICAL | wxTOP, 16);
+		right->Add (m, 1, wxTOP, 16);
 	}
 
 	wxString const types[] = {
@@ -135,7 +136,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, weak_ptr<Film
 	{
 		auto m = new StaticText (this, _("Smoothing"));
 		m->SetFont (subheading_font);
-		right->Add (m, 1, wxALIGN_CENTER_VERTICAL | wxTOP, 16);
+		right->Add (m, 1, wxTOP, 16);
 	}
 
 	_smoothing = new wxSlider (this, wxID_ANY, AudioPlot::max_smoothing / 2, 1, AudioPlot::max_smoothing);
@@ -147,7 +148,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, weak_ptr<Film
 	overall_sizer->Add (lr_sizer, 0, wxEXPAND);
 
 #ifdef DCPOMATIC_LINUX
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxCLOSE);
+	auto buttons = CreateSeparatedButtonSizer (wxCLOSE);
 	if (buttons) {
 		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
@@ -158,12 +159,12 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, weak_ptr<Film
 	overall_sizer->SetSizeHints (this);
 
 	_film_connection = film->Change.connect (boost::bind(&AudioDialog::film_change, this, _1, _2));
-	_film_content_connection = film->ContentChange.connect (boost::bind (&AudioDialog::content_change, this, _1, _3));
+	_film_content_connection = film->ContentChange.connect(boost::bind(&AudioDialog::content_change, this, _1, _3));
 	DCPOMATIC_ASSERT (film->directory());
 	SetTitle(wxString::Format(_("DCP-o-matic audio - %s"), std_to_wx(film->directory().get().string())));
 
 	if (content) {
-		_playlist.reset (new Playlist ());
+		_playlist = make_shared<Playlist>();
 		const_pointer_cast<Playlist>(_playlist)->add(film, content);
 	} else {
 		_playlist = film->playlist ();
@@ -193,12 +194,12 @@ AudioDialog::try_to_load_analysis ()
 		return;
 	}
 
-	shared_ptr<const Film> film = _film.lock ();
+	auto film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 
-	shared_ptr<Content> check = _content.lock();
+	auto check = _content.lock();
 
-	boost::filesystem::path const path = film->audio_analysis_path (_playlist);
+	auto const path = film->audio_analysis_path (_playlist);
 	if (!boost::filesystem::exists (path)) {
 		_plot->set_analysis (shared_ptr<AudioAnalysis> ());
 		_analysis.reset ();
@@ -247,7 +248,7 @@ AudioDialog::try_to_load_analysis ()
 		/* Nothing checked; check mapped ones */
 
 		list<int> mapped;
-		shared_ptr<Content> content = _content.lock ();
+		auto content = _content.lock ();
 
 		if (content) {
 			mapped = content->audio->mapping().mapped_output_channels ();
@@ -281,7 +282,7 @@ AudioDialog::try_to_load_analysis ()
 void
 AudioDialog::analysis_finished ()
 {
-	shared_ptr<const Film> film = _film.lock ();
+	auto film = _film.lock ();
 	if (!film) {
 		/* This should not happen, but if it does we should just give up quietly */
 		return;
