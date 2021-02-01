@@ -197,11 +197,6 @@ BOOST_AUTO_TEST_CASE (threed_test7)
 
 	while (signal_manager->ui_idle ()) {}
 
-	std::cout << "Here's the jobs:\n";
-	for (auto i: jm->_jobs) {
-		std::cout << i->name() << " " << i->status() << " " << i->is_new() << " " << i->running() << " " << i->finished() << " " << i->finished_ok() << " " << i->finished_in_error() << "\n";
-	}
-
 	BOOST_REQUIRE (jm->errors());
 	shared_ptr<Job> failed;
 	for (auto i: jm->_jobs) {
