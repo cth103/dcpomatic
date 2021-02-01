@@ -36,15 +36,18 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
+
 using std::cout;
+using std::make_shared;
 using std::shared_ptr;
+
 
 /** Basic sanity check of THREE_D_LEFT_RIGHT */
 BOOST_AUTO_TEST_CASE (threed_test1)
 {
-	shared_ptr<Film> film = new_test_film ("threed_test1");
+	auto film = new_test_film ("threed_test1");
 	film->set_name ("test_film1");
-	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/test.mp4"));
+	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -64,9 +67,9 @@ BOOST_AUTO_TEST_CASE (threed_test1)
  */
 BOOST_AUTO_TEST_CASE (threed_test2)
 {
-	shared_ptr<Film> film = new_test_film ("threed_test2");
+	auto film = new_test_film ("threed_test2");
 	film->set_name ("test_film2");
-	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/test.mp4"));
+	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -87,9 +90,9 @@ BOOST_AUTO_TEST_CASE (threed_test2)
 BOOST_AUTO_TEST_CASE (threed_test3)
 {
 	shared_ptr<Film> film = new_test_film2 ("threed_test3");
-	shared_ptr<FFmpegContent> L (new FFmpegContent("test/data/test.mp4"));
+	auto L = make_shared<FFmpegContent>("test/data/test.mp4");
 	film->examine_and_add_content (L);
-	shared_ptr<FFmpegContent> R (new FFmpegContent("test/data/test.mp4"));
+	auto R = make_shared<FFmpegContent>("test/data/test.mp4");
 	film->examine_and_add_content (R);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -105,10 +108,10 @@ BOOST_AUTO_TEST_CASE (threed_test3)
 
 BOOST_AUTO_TEST_CASE (threed_test4)
 {
-	shared_ptr<Film> film = new_test_film2 ("threed_test4");
-	shared_ptr<FFmpegContent> L (new FFmpegContent(TestPaths::private_data() / "LEFT_TEST_DCP3D4K.mov"));
+	auto film = new_test_film2 ("threed_test4");
+	auto L = make_shared<FFmpegContent>(TestPaths::private_data() / "LEFT_TEST_DCP3D4K.mov");
 	film->examine_and_add_content (L);
-	shared_ptr<FFmpegContent> R (new FFmpegContent(TestPaths::private_data() / "RIGHT_TEST_DCP3D4K.mov"));
+	auto R = make_shared<FFmpegContent>(TestPaths::private_data() / "RIGHT_TEST_DCP3D4K.mov");
 	film->examine_and_add_content (R);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -130,10 +133,10 @@ BOOST_AUTO_TEST_CASE (threed_test4)
 
 BOOST_AUTO_TEST_CASE (threed_test5)
 {
-	shared_ptr<Film> film = new_test_film2 ("threed_test5");
-	shared_ptr<FFmpegContent> L (new FFmpegContent(TestPaths::private_data() / "boon_telly.mkv"));
+	auto film = new_test_film2 ("threed_test5");
+	auto L = make_shared<FFmpegContent>(TestPaths::private_data() / "boon_telly.mkv");
 	film->examine_and_add_content (L);
-	shared_ptr<FFmpegContent> R (new FFmpegContent(TestPaths::private_data() / "boon_telly.mkv"));
+	auto R = make_shared<FFmpegContent>(TestPaths::private_data() / "boon_telly.mkv");
 	film->examine_and_add_content (R);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -154,10 +157,10 @@ BOOST_AUTO_TEST_CASE (threed_test5)
 
 BOOST_AUTO_TEST_CASE (threed_test6)
 {
-	shared_ptr<Film> film = new_test_film2 ("threed_test6");
-	shared_ptr<FFmpegContent> L (new FFmpegContent("test/data/3dL.mp4"));
+	auto film = new_test_film2 ("threed_test6");
+	auto L = make_shared<FFmpegContent>("test/data/3dL.mp4");
 	film->examine_and_add_content (L);
-	shared_ptr<FFmpegContent> R (new FFmpegContent("test/data/3dR.mp4"));
+	auto R = make_shared<FFmpegContent>("test/data/3dR.mp4");
 	film->examine_and_add_content (R);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -177,9 +180,9 @@ BOOST_AUTO_TEST_CASE (threed_test7)
 {
 	using boost::filesystem::path;
 
-	shared_ptr<Film> film = new_test_film2 ("threed_test7");
+	auto film = new_test_film2 ("threed_test7");
 	path const content_path = "test/data/red_24.mp4";
-	shared_ptr<FFmpegContent> c (new FFmpegContent(content_path));
+	auto c = make_shared<FFmpegContent>(content_path);
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -189,7 +192,7 @@ BOOST_AUTO_TEST_CASE (threed_test7)
 	film->make_dcp ();
 	film->write_metadata ();
 
-	JobManager* jm = JobManager::instance ();
+	auto jm = JobManager::instance ();
 	while (jm->work_to_do ()) {
 		while (signal_manager->ui_idle()) {}
 		dcpomatic_sleep_seconds (1);
