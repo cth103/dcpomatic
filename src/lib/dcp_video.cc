@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 /** @file  src/dcp_video_frame.cc
  *  @brief A single frame of video destined for a DCP.
  *
@@ -28,17 +29,19 @@
  *  of images that require encoding.
  */
 
-#include "dcp_video.h"
+
+#include "compose.hpp"
 #include "config.h"
-#include "exceptions.h"
-#include "encode_server_description.h"
+#include "cross.h"
+#include "dcp_video.h"
+#include "dcpomatic_log.h"
 #include "dcpomatic_socket.h"
+#include "encode_server_description.h"
+#include "exceptions.h"
 #include "image.h"
 #include "log.h"
-#include "dcpomatic_log.h"
-#include "cross.h"
 #include "player_video.h"
-#include "compose.hpp"
+#include "rng.h"
 #include "warnings.h"
 #include <libcxml/cxml.h>
 #include <dcp/raw_convert.h>
@@ -143,6 +146,8 @@ DCPVideo::encode_locally ()
 			break;
 		}
 
+		LOG_GENERAL (N_("Frame %1 encoded size was small (%2); adding noise at level %3"), _index, enc.size(), noise_amount);
+
 		/* The JPEG2000 is too low-bitrate for some decoders <cough>DSS200</cough> so add some noise
 		 * and try again.  This is slow but hopefully won't happen too often.  We have to do
 		 * convert_to_xyz() again because compress_j2k() corrupts its xyz parameter.
@@ -151,10 +156,11 @@ DCPVideo::encode_locally ()
 		xyz = convert_to_xyz (_frame, boost::bind(&Log::dcp_log, dcpomatic_log.get(), _1, _2));
 		auto size = xyz->size ();
 		auto pixels = size.width * size.height;
+		dcpomatic::RNG rng(42);
 		for (auto c = 0; c < 3; ++c) {
 			auto p = xyz->data(c);
 			for (auto i = 0; i < pixels; ++i) {
-				*p = std::min(4095, std::max(0, *p + rand() % noise_amount));
+				*p = std::min(4095, std::max(0, *p + (rng.get() % noise_amount)));
 				++p;
 			}
 		}

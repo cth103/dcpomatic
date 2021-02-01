@@ -438,7 +438,7 @@ BOOST_AUTO_TEST_CASE (movie_V_to_dcp)
 	pair<int, int> range = dcp_range (movie_V("movie_V_to_dcp"));
 	/* Video range has been correctly expanded to full for the DCP */
 	BOOST_CHECK_EQUAL (range.first, 0);
-	BOOST_CHECK_EQUAL (range.second, 4082);
+	BOOST_CHECK_EQUAL (range.second, 4085);
 }
 
 
@@ -448,8 +448,8 @@ BOOST_AUTO_TEST_CASE (movie_VoF_to_dcp)
 	/* We said that video range data was really full range, so here we are in the DCP
 	 * with video-range data.
 	 */
-	BOOST_CHECK_EQUAL (range.first, 350);
-	BOOST_CHECK_EQUAL (range.second, 3832);
+	BOOST_CHECK_EQUAL (range.first, 348);
+	BOOST_CHECK_EQUAL (range.second, 3833);
 }
 
 
@@ -458,7 +458,7 @@ BOOST_AUTO_TEST_CASE (movie_F_to_dcp)
 	pair<int, int> range = dcp_range (movie_F("movie_F_to_dcp"));
 	/* The nearly-full-range of the input has been preserved */
 	BOOST_CHECK_EQUAL (range.first, 0);
-	BOOST_CHECK_EQUAL (range.second, 4082);
+	BOOST_CHECK_EQUAL (range.second, 4085);
 }
 
 
@@ -475,15 +475,15 @@ BOOST_AUTO_TEST_CASE (image_F_to_dcp)
 {
 	pair<int, int> range = dcp_range (image_F("image_F_to_dcp"));
 	BOOST_CHECK_EQUAL (range.first, 0);
-	BOOST_CHECK_EQUAL (range.second, 4081);
+	BOOST_CHECK_EQUAL (range.second, 4085);
 }
 
 
 BOOST_AUTO_TEST_CASE (image_FoV_to_dcp)
 {
 	pair<int, int> range = dcp_range (image_FoV("image_FoV_to_dcp"));
-	BOOST_CHECK_EQUAL (range.first, 431);
-	BOOST_CHECK_EQUAL (range.second, 4012);
+	BOOST_CHECK_EQUAL (range.first, 429);
+	BOOST_CHECK_EQUAL (range.second, 4014);
 }
 
 

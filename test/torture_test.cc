@@ -234,7 +234,7 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 
 	shared_ptr<dcp::MonoPictureAssetReader> picture_reader = picture->start_read ();
 
-	/* First 5 * 24 = 120 frames should be black */
+	/* First 5 * 24 = 120 frames should be black, possibly with a little noise to raise the bitrate */
 
 	shared_ptr<dcp::OpenJPEGImage> ref;
 	for (int i = 0; i < 120; ++i) {
@@ -242,15 +242,17 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 		shared_ptr<dcp::OpenJPEGImage> image = fr->xyz_image ();
 		dcp::Size const size = image->size ();
 		if (i == 0) {
+			/* Check the first frame pixel by pixel... */
 			for (int c = 0; c < 3; ++c) {
 				for (int y = 0; y < size.height; ++y) {
 					for (int x = 0; x < size.width; ++x) {
-						BOOST_REQUIRE_EQUAL (image->data(c)[y * size.height + x], 0);
+						BOOST_REQUIRE (image->data(c)[y * size.height + x] <= 3);
 					}
 				}
 			}
 			ref = image;
 		} else {
+			/* ... then all the others should be the same */
 			for (int c = 0; c < 3; ++c) {
 				BOOST_REQUIRE_MESSAGE (
 					memcmp (image->data(c), ref->data(c), size.width * size.height * sizeof(int)) == 0,
@@ -260,7 +262,7 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 		}
 	}
 
-	/* Then 24 red */
+	/* Then 24 red, perhaps also with some noise */
 
 	for (int i = 120; i < 144; ++i) {
 		shared_ptr<const dcp::MonoPictureFrame> fr = picture_reader->get_frame (i);
@@ -270,15 +272,15 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 			for (int y = 0; y < size.height; ++y) {
 				for (int x = 0; x < size.width; ++x) {
 					BOOST_REQUIRE_MESSAGE (
-						abs(image->data(0)[y * size.height + x] - 2808) <= 2,
+						abs(image->data(0)[y * size.height + x] - 2808) <= 5,
 						"failed on frame " << i << " with image data " << image->data(0)[y * size.height + x]
 						);
 					BOOST_REQUIRE_MESSAGE (
-						abs(image->data(1)[y * size.height + x] - 2176) <= 2,
+						abs(image->data(1)[y * size.height + x] - 2176) <= 5,
 						"failed on frame " << i << " with image data " << image->data(1)[y * size.height + x]
 						);
 					BOOST_REQUIRE_MESSAGE (
-						abs(image->data(2)[y * size.height + x] - 865) <= 2,
+						abs(image->data(2)[y * size.height + x] - 865) <= 5,
 						"failed on frame " << i << " with image data " << image->data(2)[y * size.height + x]
 						);
 				}
