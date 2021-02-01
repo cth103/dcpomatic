@@ -22,30 +22,30 @@
  *  @brief Overall test stuff and useful methods for tests.
  */
 
+#include "lib/compose.hpp"
 #include "lib/config.h"
-#include "lib/util.h"
-#include "lib/signal_manager.h"
-#include "lib/film.h"
-#include "lib/job_manager.h"
-#include "lib/job.h"
 #include "lib/cross.h"
+#include "lib/dcp_content_type.h"
+#include "lib/dcpomatic_log.h"
 #include "lib/encode_server_finder.h"
 #include "lib/ffmpeg_image_proxy.h"
-#include "lib/image.h"
-#include "lib/ratio.h"
-#include "lib/dcp_content_type.h"
-#include "lib/log_entry.h"
-#include "lib/compose.hpp"
 #include "lib/file_log.h"
-#include "lib/dcpomatic_log.h"
+#include "lib/film.h"
+#include "lib/image.h"
+#include "lib/job.h"
+#include "lib/job_manager.h"
+#include "lib/log_entry.h"
+#include "lib/ratio.h"
+#include "lib/signal_manager.h"
+#include "lib/util.h"
 #include "test.h"
-#include <dcp/dcp.h>
 #include <dcp/cpl.h>
+#include <dcp/dcp.h>
+#include <dcp/mono_picture_asset.h>
+#include <dcp/mono_picture_frame.h>
+#include <dcp/openjpeg_image.h>
 #include <dcp/reel.h>
 #include <dcp/reel_picture_asset.h>
-#include <dcp/mono_picture_frame.h>
-#include <dcp/mono_picture_asset.h>
-#include <dcp/openjpeg_image.h>
 #include <asdcp/AS_DCP.h>
 #include <png.h>
 #include <sndfile.h>
@@ -57,18 +57,19 @@ extern "C" {
 #define BOOST_TEST_MODULE dcpomatic_test
 #include <boost/test/unit_test.hpp>
 #include <boost/algorithm/string.hpp>
+#include <iostream>
 #include <list>
 #include <vector>
-#include <iostream>
 
+using std::abs;
+using std::cerr;
+using std::cout;
+using std::list;
+using std::make_shared;
+using std::min;
+using std::shared_ptr;
 using std::string;
 using std::vector;
-using std::min;
-using std::cout;
-using std::cerr;
-using std::list;
-using std::abs;
-using std::shared_ptr;
 using boost::scoped_array;
 using std::dynamic_pointer_cast;
 #if BOOST_VERSION >= 106100
@@ -164,12 +165,12 @@ test_film_dir (string name)
 shared_ptr<Film>
 new_test_film (string name)
 {
-	boost::filesystem::path p = test_film_dir (name);
+	auto p = test_film_dir (name);
 	if (boost::filesystem::exists (p)) {
 		boost::filesystem::remove_all (p);
 	}
 
-	shared_ptr<Film> film = shared_ptr<Film> (new Film (p));
+	auto film = make_shared<Film>(p);
 	film->write_metadata ();
 	return film;
 }
@@ -177,12 +178,12 @@ new_test_film (string name)
 shared_ptr<Film>
 new_test_film2 (string name)
 {
-	boost::filesystem::path p = test_film_dir (name);
+	auto p = test_film_dir (name);
 	if (boost::filesystem::exists (p)) {
 		boost::filesystem::remove_all (p);
 	}
 
-	shared_ptr<Film> film = shared_ptr<Film> (new Film (p));
+	auto film = make_shared<Film>(p);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	film->set_container (Ratio::from_id ("185"));
 	film->write_metadata ();
@@ -194,12 +195,12 @@ check_wav_file (boost::filesystem::path ref, boost::filesystem::path check)
 {
 	SF_INFO ref_info;
 	ref_info.format = 0;
-	SNDFILE* ref_file = sf_open (ref.string().c_str(), SFM_READ, &ref_info);
+	auto ref_file = sf_open (ref.string().c_str(), SFM_READ, &ref_info);
 	BOOST_CHECK (ref_file);
 
 	SF_INFO check_info;
 	check_info.format = 0;
-	SNDFILE* check_file = sf_open (check.string().c_str(), SFM_READ, &check_info);
+	auto check_file = sf_open (check.string().c_str(), SFM_READ, &check_info);
 	BOOST_CHECK (check_file);
 
 	BOOST_CHECK_EQUAL (ref_info.frames, check_info.frames);
@@ -340,9 +341,9 @@ double
 rms_error (boost::filesystem::path ref, boost::filesystem::path check)
 {
 	FFmpegImageProxy ref_proxy (ref, VideoRange::FULL);
-	shared_ptr<Image> ref_image = ref_proxy.image().image;
+	auto ref_image = ref_proxy.image().image;
 	FFmpegImageProxy check_proxy (check, VideoRange::FULL);
-	shared_ptr<Image> check_image = check_proxy.image().image;
+	auto check_image = check_proxy.image().image;
 
 	BOOST_REQUIRE_EQUAL (ref_image->pixel_format(), check_image->pixel_format());
 	AVPixelFormat const format = ref_image->pixel_format();
@@ -420,11 +421,11 @@ check_image (boost::filesystem::path ref, boost::filesystem::path check, double 
 void
 check_file (boost::filesystem::path ref, boost::filesystem::path check)
 {
-	uintmax_t N = boost::filesystem::file_size (ref);
+	auto N = boost::filesystem::file_size (ref);
 	BOOST_CHECK_EQUAL (N, boost::filesystem::file_size (check));
-	FILE* ref_file = fopen_boost (ref, "rb");
+	auto ref_file = fopen_boost (ref, "rb");
 	BOOST_CHECK (ref_file);
-	FILE* check_file = fopen_boost (check, "rb");
+	auto check_file = fopen_boost (check, "rb");
 	BOOST_CHECK (check_file);
 
 	int const buffer_size = 65536;
@@ -501,28 +502,28 @@ check_xml (xmlpp::Element* ref, xmlpp::Element* test, list<string> ignore)
 		return;
 	}
 
-	xmlpp::Element::NodeList ref_children = ref->get_children ();
-	xmlpp::Element::NodeList test_children = test->get_children ();
+	auto ref_children = ref->get_children ();
+	auto test_children = test->get_children ();
 	BOOST_REQUIRE_MESSAGE (
 		ref_children.size() == test_children.size(),
 		ref->get_name() << " has " << ref_children.size() << " or " << test_children.size() << " children"
 		);
 
-	xmlpp::Element::NodeList::iterator k = ref_children.begin ();
-	xmlpp::Element::NodeList::iterator l = test_children.begin ();
+	auto k = ref_children.begin ();
+	auto l = test_children.begin ();
 	while (k != ref_children.end ()) {
 
 		/* XXX: should be doing xmlpp::EntityReference, xmlpp::XIncludeEnd, xmlpp::XIncludeStart */
 
-		xmlpp::Element* ref_el = dynamic_cast<xmlpp::Element*> (*k);
-		xmlpp::Element* test_el = dynamic_cast<xmlpp::Element*> (*l);
+		auto ref_el = dynamic_cast<xmlpp::Element*>(*k);
+		auto test_el = dynamic_cast<xmlpp::Element*>(*l);
 		BOOST_CHECK ((ref_el && test_el) || (!ref_el && !test_el));
 		if (ref_el && test_el) {
 			check_xml (ref_el, test_el, ignore);
 		}
 
-		xmlpp::ContentNode* ref_cn = dynamic_cast<xmlpp::ContentNode*> (*k);
-		xmlpp::ContentNode* test_cn = dynamic_cast<xmlpp::ContentNode*> (*l);
+		auto ref_cn = dynamic_cast<xmlpp::ContentNode*>(*k);
+		auto test_cn = dynamic_cast<xmlpp::ContentNode*>(*l);
 		BOOST_CHECK ((ref_cn && test_cn) || (!ref_cn && !test_cn));
 		if (ref_cn && test_cn) {
 			BOOST_CHECK_EQUAL (ref_cn->get_content(), test_cn->get_content ());
@@ -532,12 +533,12 @@ check_xml (xmlpp::Element* ref, xmlpp::Element* test, list<string> ignore)
 		++l;
 	}
 
-	xmlpp::Element::AttributeList ref_attributes = ref->get_attributes ();
-	xmlpp::Element::AttributeList test_attributes = test->get_attributes ();
+	auto ref_attributes = ref->get_attributes ();
+	auto test_attributes = test->get_attributes ();
 	BOOST_CHECK_EQUAL (ref_attributes.size(), test_attributes.size ());
 
-	xmlpp::Element::AttributeList::const_iterator m = ref_attributes.begin();
-	xmlpp::Element::AttributeList::const_iterator n = test_attributes.begin();
+	auto m = ref_attributes.begin();
+	auto n = test_attributes.begin();
 	while (m != ref_attributes.end ()) {
 		BOOST_CHECK_EQUAL ((*m)->get_name(), (*n)->get_name());
 		BOOST_CHECK_EQUAL ((*m)->get_value(), (*n)->get_value());
@@ -550,10 +551,10 @@ check_xml (xmlpp::Element* ref, xmlpp::Element* test, list<string> ignore)
 void
 check_xml (boost::filesystem::path ref, boost::filesystem::path test, list<string> ignore)
 {
-	xmlpp::DomParser* ref_parser = new xmlpp::DomParser (ref.string ());
-	xmlpp::Element* ref_root = ref_parser->get_document()->get_root_node ();
-	xmlpp::DomParser* test_parser = new xmlpp::DomParser (test.string ());
-	xmlpp::Element* test_root = test_parser->get_document()->get_root_node ();
+	auto ref_parser = new xmlpp::DomParser(ref.string());
+	auto ref_root = ref_parser->get_document()->get_root_node();
+	auto test_parser = new xmlpp::DomParser(test.string());
+	auto test_root = test_parser->get_document()->get_root_node();
 
 	check_xml (ref_root, test_root, ignore);
 }
@@ -561,26 +562,26 @@ check_xml (boost::filesystem::path ref, boost::filesystem::path test, list<strin
 bool
 wait_for_jobs ()
 {
-	JobManager* jm = JobManager::instance ();
-	while (jm->work_to_do ()) {
-		while (signal_manager->ui_idle ()) {}
+	auto jm = JobManager::instance ();
+	while (jm->work_to_do()) {
+		while (signal_manager->ui_idle()) {}
 		dcpomatic_sleep_seconds (1);
 	}
 
 	if (jm->errors ()) {
 		int N = 0;
-		for (list<shared_ptr<Job> >::iterator i = jm->_jobs.begin(); i != jm->_jobs.end(); ++i) {
-			if ((*i)->finished_in_error ()) {
+		for (auto i: jm->_jobs) {
+			if (i->finished_in_error()) {
 				++N;
 			}
 		}
 		cerr << N << " errors.\n";
 
-		for (list<shared_ptr<Job> >::iterator i = jm->_jobs.begin(); i != jm->_jobs.end(); ++i) {
-			if ((*i)->finished_in_error ()) {
-				cerr << (*i)->name() << ":\n"
-				     << "\tsummary: " << (*i)->error_summary () << "\n"
-				     << "\tdetails: " << (*i)->error_details () << "\n";
+		for (auto i: jm->_jobs) {
+			if (i->finished_in_error()) {
+				cerr << i->name() << ":\n"
+				     << "\tsummary: " << i->error_summary() << "\n"
+				     << "\tdetails: " << i->error_details() << "\n";
 			}
 		}
 	}
@@ -599,25 +600,25 @@ wait_for_jobs ()
 class Memory
 {
 public:
-	Memory ()
-		: data(0)
-		, size(0)
-	{}
+	Memory () {}
 
 	~Memory ()
 	{
 		free (data);
 	}
 
-	uint8_t* data;
-	size_t size;
+	Memory (Memory const&) = delete;
+	Memory& operator= (Memory const&) = delete;
+
+	uint8_t* data = nullptr;
+	size_t size = 0;
 };
 
 
 static void
 png_write_data (png_structp png_ptr, png_bytep data, png_size_t length)
 {
-	Memory* mem = reinterpret_cast<Memory*>(png_get_io_ptr(png_ptr));
+	auto mem = reinterpret_cast<Memory*>(png_get_io_ptr(png_ptr));
 	size_t size = mem->size + length;
 
 	if (mem->data) {
@@ -706,13 +707,13 @@ check_one_frame (boost::filesystem::path dcp_dir, int64_t index, boost::filesyst
 {
 	dcp::DCP dcp (dcp_dir);
 	dcp.read ();
-	shared_ptr<dcp::MonoPictureAsset> asset = dynamic_pointer_cast<dcp::MonoPictureAsset> (dcp.cpls().front()->reels().front()->main_picture()->asset());
+	auto asset = dynamic_pointer_cast<dcp::MonoPictureAsset> (dcp.cpls().front()->reels().front()->main_picture()->asset());
 	BOOST_REQUIRE (asset);
-	shared_ptr<const dcp::MonoPictureFrame> frame = asset->start_read()->get_frame(index);
-	shared_ptr<const dcp::MonoPictureFrame> ref_frame (new dcp::MonoPictureFrame (ref));
+	auto frame = asset->start_read()->get_frame(index);
+	auto ref_frame (new dcp::MonoPictureFrame (ref));
 
-	shared_ptr<dcp::OpenJPEGImage> image = frame->xyz_image ();
-	shared_ptr<dcp::OpenJPEGImage> ref_image = ref_frame->xyz_image ();
+	auto image = frame->xyz_image ();
+	auto ref_image = ref_frame->xyz_image ();
 
 	BOOST_REQUIRE (image->size() == ref_image->size());
 
@@ -730,7 +731,7 @@ check_one_frame (boost::filesystem::path dcp_dir, int64_t index, boost::filesyst
 boost::filesystem::path
 dcp_file (shared_ptr<const Film> film, string prefix)
 {
-	boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (film->dir(film->dcp_name()));
+	auto i = boost::filesystem::directory_iterator (film->dir(film->dcp_name()));
 	while (i != boost::filesystem::directory_iterator() && !boost::algorithm::starts_with (i->path().leaf().string(), prefix)) {
 		++i;
 	}
@@ -742,19 +743,11 @@ dcp_file (shared_ptr<const Film> film, string prefix)
 boost::filesystem::path
 subtitle_file (shared_ptr<Film> film)
 {
-	for (
-		boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (film->directory().get() / film->dcp_name (false));
-		i != boost::filesystem::directory_iterator ();
-		++i) {
-
-		if (boost::filesystem::is_directory (i->path ())) {
-			for (
-				boost::filesystem::directory_iterator j = boost::filesystem::directory_iterator (i->path ());
-				j != boost::filesystem::directory_iterator ();
-				++j) {
-
-				if (boost::algorithm::starts_with (j->path().leaf().string(), "sub_")) {
-					return j->path();
+	for (auto i: boost::filesystem::directory_iterator(film->directory().get() / film->dcp_name (false))) {
+		if (boost::filesystem::is_directory(i.path())) {
+			for (auto j: boost::filesystem::directory_iterator(i.path())) {
+				if (boost::algorithm::starts_with(j.path().leaf().string(), "sub_")) {
+					return j.path();
 				}
 			}
 		}
@@ -768,7 +761,7 @@ subtitle_file (shared_ptr<Film> film)
 void
 make_random_file (boost::filesystem::path path, size_t size)
 {
-	FILE* t = fopen_boost(path, "wb");
+	auto t = fopen_boost(path, "wb");
 	BOOST_REQUIRE (t);
 	for (size_t i = 0; i < size; ++i) {
 		uint8_t r = rand() & 0xff;
