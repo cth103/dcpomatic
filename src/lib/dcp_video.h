@@ -42,7 +42,7 @@ class PlayerVideo;
 class DCPVideo : public boost::noncopyable
 {
 public:
-	DCPVideo (std::shared_ptr<const PlayerVideo>, int, int, int, Resolution);
+	DCPVideo (std::shared_ptr<const PlayerVideo>, int index, int dcp_fps, int bandwidth, Resolution r);
 	DCPVideo (std::shared_ptr<const PlayerVideo>, cxml::ConstNodePtr);
 
 	dcp::ArrayData encode_locally ();

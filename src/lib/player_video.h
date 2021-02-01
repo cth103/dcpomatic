@@ -45,17 +45,17 @@ class PlayerVideo : public boost::noncopyable
 {
 public:
 	PlayerVideo (
-		std::shared_ptr<const ImageProxy>,
-		Crop,
-		boost::optional<double>,
-		dcp::Size,
-		dcp::Size,
-		Eyes,
-		Part,
-		boost::optional<ColourConversion>,
+		std::shared_ptr<const ImageProxy> image,
+		Crop crop,
+		boost::optional<double> fade,
+		dcp::Size inter_size,
+		dcp::Size out_size,
+		Eyes eyes,
+		Part part,
+		boost::optional<ColourConversion> colour_conversion,
 		VideoRange video_range,
-		std::weak_ptr<Content>,
-		boost::optional<Frame>,
+		std::weak_ptr<Content> content,
+		boost::optional<Frame> video_frame,
 		bool error
 		);
 
