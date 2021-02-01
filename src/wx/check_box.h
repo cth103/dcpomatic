@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,14 @@
 
 */
 
+
 #ifndef DCPOMATIC_CHECK_BOX_H
 #define DCPOMATIC_CHECK_BOX_H
 
+
 #include "i18n_hook.h"
 #include <wx/wx.h>
+
 
 class CheckBox : public wxCheckBox, public I18NHook
 {
@@ -32,5 +35,6 @@ public:
 	void set_text (wxString text);
 	wxString get_text () const;
 };
+
 
 #endif

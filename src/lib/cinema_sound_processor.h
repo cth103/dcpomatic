@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,16 +18,20 @@
 
 */
 
+
 /** @file src/cinema_sound_processor.h
  *  @brief CinemaSoundProcessor class
  */
 
+
 #ifndef DCPOMATIC_CINEMA_SOUND_PROCESSOR_H
 #define DCPOMATIC_CINEMA_SOUND_PROCESSOR_H
+
 
 #include <boost/utility.hpp>
 #include <string>
 #include <vector>
+
 
 /** @class CinemaSoundProcessor
  *  @brief Class to describe a cimema's sound processor.
@@ -35,11 +39,14 @@
  *  In other words, the box in the rack that handles sound decoding and processing
  *  in a cinema.
  */
-class CinemaSoundProcessor : public boost::noncopyable
+class CinemaSoundProcessor
 {
 public:
 	CinemaSoundProcessor (std::string i, std::string n, float knee, float below, float above);
 	virtual ~CinemaSoundProcessor () {}
+
+	CinemaSoundProcessor (CinemaSoundProcessor const&) = delete;
+	CinemaSoundProcessor& operator==(CinemaSoundProcessor const&) = delete;
 
 	float db_for_fader_change (float from, float to) const;
 
@@ -71,5 +78,6 @@ private:
 	/** sll available cinema sound processors */
 	static std::vector<CinemaSoundProcessor const *> _cinema_sound_processors;
 };
+
 
 #endif

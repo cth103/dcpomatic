@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,8 +18,10 @@
 
 */
 
+
 #ifndef DCPOMATIC_CONTROLS_H
 #define DCPOMATIC_CONTROLS_H
+
 
 #include "lib/dcpomatic_time.h"
 #include "lib/types.h"
@@ -30,6 +32,7 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
 
+
 class FilmViewer;
 class Film;
 class ClosedCaptionsDialog;
@@ -39,9 +42,11 @@ class wxToggleButton;
 class wxListCtrl;
 class ContentView;
 
+
 namespace dcp {
 	class CPL;
 }
+
 
 class Controls : public wxPanel
 {
@@ -64,6 +69,7 @@ public:
 	void forward_frame ();
 
 protected:
+
 	virtual void started ();
 	virtual void stopped ();
 	virtual void setup_sensitivity ();
@@ -116,5 +122,6 @@ private:
 	boost::signals2::scoped_connection _film_change_connection;
 	boost::signals2::scoped_connection _config_changed_connection;
 };
+
 
 #endif

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,11 @@
 
 */
 
+
 /** @file src/sound_processor.cc
  *  @brief CinemaSoundProcessor class.
  */
+
 
 #include "cinema_sound_processor.h"
 #include "dolby_cp750.h"
@@ -30,9 +32,12 @@
 #include <iostream>
 #include <cassert>
 
+
 using namespace std;
 
+
 vector<CinemaSoundProcessor const *> CinemaSoundProcessor::_cinema_sound_processors;
+
 
 /** @param i Our id.
  *  @param n User-visible name.
@@ -47,12 +52,14 @@ CinemaSoundProcessor::CinemaSoundProcessor (string i, string n, float knee, floa
 
 }
 
+
 /** @return All available sound processors */
 vector<CinemaSoundProcessor const *>
 CinemaSoundProcessor::all ()
 {
 	return _cinema_sound_processors;
 }
+
 
 /** Set up the static _sound_processors vector; must be called before from_*
  *  methods are used.
@@ -65,23 +72,25 @@ CinemaSoundProcessor::setup_cinema_sound_processors ()
 	_cinema_sound_processors.push_back (new DatasatAP2x);
 }
 
+
 /** @param id One of our ids.
  *  @return Corresponding sound processor, or 0.
  */
 CinemaSoundProcessor const *
 CinemaSoundProcessor::from_id (string id)
 {
-	vector<CinemaSoundProcessor const *>::iterator i = _cinema_sound_processors.begin ();
+	auto i = _cinema_sound_processors.begin ();
 	while (i != _cinema_sound_processors.end() && (*i)->id() != id) {
 		++i;
 	}
 
 	if (i == _cinema_sound_processors.end ()) {
-		return 0;
+		return nullptr;
 	}
 
 	return *i;
 }
+
 
 /** @param s A sound processor from our static list.
  *  @return Index of the sound processor with the list, or -1.
@@ -101,6 +110,7 @@ CinemaSoundProcessor::as_index (CinemaSoundProcessor const * s)
 	return i;
 }
 
+
 /** @param i An index returned from as_index().
  *  @return Corresponding sound processor.
  */
@@ -110,6 +120,7 @@ CinemaSoundProcessor::from_index (int i)
 	DCPOMATIC_ASSERT (i >= 0 && i < int(_cinema_sound_processors.size()));
 	return _cinema_sound_processors[i];
 }
+
 
 float
 CinemaSoundProcessor::db_for_fader_change (float from, float to) const

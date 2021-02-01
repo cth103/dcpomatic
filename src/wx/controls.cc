@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -17,6 +17,7 @@
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 
 #include "controls.h"
 #include "film_viewer.h"
@@ -43,6 +44,7 @@
 #include <wx/listctrl.h>
 #include <wx/progdlg.h>
 
+
 using std::string;
 using std::list;
 using std::cout;
@@ -60,23 +62,23 @@ using namespace dcpomatic;
 
 Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor_controls)
 	: wxPanel (parent)
-	, _slider (new wxSlider (this, wxID_ANY, 0, 0, 4096))
+	, _slider (new wxSlider(this, wxID_ANY, 0, 0, 4096))
 	, _viewer (viewer)
 	, _slider_being_moved (false)
 	, _outline_content (0)
 	, _eye (0)
 	, _jump_to_selected (0)
-	, _rewind_button (new Button (this, wxT("|<")))
-	, _back_button (new Button (this, wxT("<")))
-	, _forward_button (new Button (this, wxT(">")))
-	, _frame_number (new StaticText (this, wxT("")))
-	, _timecode (new StaticText (this, wxT("")))
+	, _rewind_button (new Button(this, wxT("|<")))
+	, _back_button (new Button(this, wxT("<")))
+	, _forward_button (new Button(this, wxT(">")))
+	, _frame_number (new StaticText(this, wxT("")))
+	, _timecode (new StaticText(this, wxT("")))
 	, _timer (this)
 {
 	_v_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (_v_sizer);
 
-	wxBoxSizer* view_options = new wxBoxSizer (wxHORIZONTAL);
+	auto view_options = new wxBoxSizer (wxHORIZONTAL);
 	if (editor_controls) {
 		_outline_content = new CheckBox (this, _("Outline content"));
 		view_options->Add (_outline_content, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
@@ -91,9 +93,9 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 
 	_v_sizer->Add (view_options, 0, wxALL, DCPOMATIC_SIZER_GAP);
 
-	wxBoxSizer* h_sizer = new wxBoxSizer (wxHORIZONTAL);
+	auto h_sizer = new wxBoxSizer (wxHORIZONTAL);
 
-	wxBoxSizer* time_sizer = new wxBoxSizer (wxVERTICAL);
+	auto time_sizer = new wxBoxSizer (wxVERTICAL);
 	time_sizer->Add (_frame_number, 0, wxEXPAND);
 	time_sizer->Add (_timecode, 0, wxEXPAND);
 
@@ -166,17 +168,20 @@ Controls::config_changed (int)
 	setup_sensitivity ();
 }
 
+
 void
 Controls::started ()
 {
 	setup_sensitivity ();
 }
 
+
 void
 Controls::stopped ()
 {
 	setup_sensitivity ();
 }
+
 
 void
 Controls::update_position ()
@@ -187,17 +192,20 @@ Controls::update_position ()
 	}
 }
 
+
 void
 Controls::eye_changed ()
 {
 	_viewer->set_eyes (_eye->GetSelection() == 0 ? Eyes::LEFT : Eyes::RIGHT);
 }
 
+
 void
 Controls::outline_content_changed ()
 {
 	_viewer->set_outline_content (_outline_content->GetValue());
 }
+
 
 /** @param page true if this was a PAGEUP/PAGEDOWN event for which we won't receive a THUMBRELEASE */
 void
@@ -233,6 +241,7 @@ Controls::slider_moved (bool page)
 		);
 }
 
+
 void
 Controls::slider_released ()
 {
@@ -240,6 +249,7 @@ Controls::slider_released ()
 	_viewer->resume ();
 	_slider_being_moved = false;
 }
+
 
 void
 Controls::update_position_slider ()
@@ -249,7 +259,7 @@ Controls::update_position_slider ()
 		return;
 	}
 
-	DCPTime const len = _film->length ();
+	auto const len = _film->length ();
 
 	if (len.get ()) {
 		int const new_slider_position = 4096 * _viewer->position().get() / len.get();
@@ -258,6 +268,7 @@ Controls::update_position_slider ()
 		}
 	}
 }
+
 
 void
 Controls::update_position_label ()
@@ -274,6 +285,7 @@ Controls::update_position_label ()
 	checked_set (_timecode, time_to_timecode (_viewer->position(), fps));
 }
 
+
 void
 Controls::active_jobs_changed (optional<string> j)
 {
@@ -281,10 +293,11 @@ Controls::active_jobs_changed (optional<string> j)
 	setup_sensitivity ();
 }
 
+
 DCPTime
 Controls::nudge_amount (wxKeyboardState& ev)
 {
-	DCPTime amount = _viewer->one_video_frame ();
+	auto amount = _viewer->one_video_frame ();
 
 	if (ev.ShiftDown() && !ev.ControlDown()) {
 		amount = DCPTime::from_seconds (1);
@@ -297,6 +310,7 @@ Controls::nudge_amount (wxKeyboardState& ev)
 	return amount;
 }
 
+
 void
 Controls::rewind_clicked (wxMouseEvent& ev)
 {
@@ -304,11 +318,13 @@ Controls::rewind_clicked (wxMouseEvent& ev)
 	ev.Skip();
 }
 
+
 void
 Controls::back_frame ()
 {
 	_viewer->seek_by (-_viewer->one_video_frame(), true);
 }
+
 
 void
 Controls::forward_frame ()
@@ -316,17 +332,20 @@ Controls::forward_frame ()
 	_viewer->seek_by (_viewer->one_video_frame(), true);
 }
 
+
 void
 Controls::back_clicked (wxKeyboardState& ev)
 {
 	_viewer->seek_by (-nudge_amount(ev), true);
 }
 
+
 void
 Controls::forward_clicked (wxKeyboardState& ev)
 {
 	_viewer->seek_by (nudge_amount(ev), true);
 }
+
 
 void
 Controls::setup_sensitivity ()
@@ -353,31 +372,35 @@ Controls::setup_sensitivity ()
 	}
 }
 
+
 void
 Controls::timecode_clicked ()
 {
-	PlayheadToTimecodeDialog* dialog = new PlayheadToTimecodeDialog (this, _viewer->position(), _film->video_frame_rate());
+	auto dialog = new PlayheadToTimecodeDialog (this, _viewer->position(), _film->video_frame_rate());
 	if (dialog->ShowModal() == wxID_OK) {
 		_viewer->seek (dialog->get(), true);
 	}
 	dialog->Destroy ();
 }
 
+
 void
 Controls::frame_number_clicked ()
 {
-	PlayheadToFrameDialog* dialog = new PlayheadToFrameDialog (this, _viewer->position(), _film->video_frame_rate());
+	auto dialog = new PlayheadToFrameDialog (this, _viewer->position(), _film->video_frame_rate());
 	if (dialog->ShowModal() == wxID_OK) {
 		_viewer->seek (dialog->get(), true);
 	}
 	dialog->Destroy ();
 }
+
 
 void
 Controls::jump_to_selected_clicked ()
 {
 	Config::instance()->set_jump_to_selected (_jump_to_selected->GetValue ());
 }
+
 
 void
 Controls::set_film (shared_ptr<Film> film)
@@ -398,11 +421,13 @@ Controls::set_film (shared_ptr<Film> film)
 	update_position_label ();
 }
 
+
 shared_ptr<Film>
 Controls::film () const
 {
 	return _film;
 }
+
 
 void
 Controls::film_change (ChangeType type, Film::Property p)
@@ -417,6 +442,7 @@ Controls::film_change (ChangeType type, Film::Property p)
 		}
 	}
 }
+
 
 void
 Controls::seek (int slider)
