@@ -124,14 +124,40 @@ DCPVideo::encode_locally ()
 {
 	auto const comment = Config::instance()->dcp_j2k_comment();
 
-	auto enc = dcp::compress_j2k (
-		convert_to_xyz (_frame, boost::bind(&Log::dcp_log, dcpomatic_log.get(), _1, _2)),
-		_j2k_bandwidth,
-		_frames_per_second,
-		_frame->eyes() == Eyes::LEFT || _frame->eyes() == Eyes::RIGHT,
-		_resolution == Resolution::FOUR_K,
-		comment.empty() ? "libdcp" : comment
+	ArrayData enc = {};
+	int constexpr minimum_size = 65536;
+
+	auto xyz = convert_to_xyz (_frame, boost::bind(&Log::dcp_log, dcpomatic_log.get(), _1, _2));
+	while (true) {
+		enc = dcp::compress_j2k (
+			xyz,
+			_j2k_bandwidth,
+			_frames_per_second,
+			_frame->eyes() == Eyes::LEFT || _frame->eyes() == Eyes::RIGHT,
+			_resolution == Resolution::FOUR_K,
+			comment.empty() ? "libdcp" : comment
 		);
+
+		if (enc.size() >= minimum_size) {
+			break;
+		}
+
+		/* The JPEG2000 is too low-bitrate for some decoders <cough>DSS200</cough> so add some noise
+		 * and try again.  This is slow but hopefully won't happen too often.  We have to do
+		 * convert_to_xyz() again because compress_j2k() corrupts its xyz parameter.
+		 */
+
+		xyz = convert_to_xyz (_frame, boost::bind(&Log::dcp_log, dcpomatic_log.get(), _1, _2));
+		auto size = xyz->size ();
+		auto pixels = size.width * size.height;
+		for (auto c = 0; c < 3; ++c) {
+			auto p = xyz->data(c);
+			for (auto i = 0; i < pixels; ++i) {
+				*p = std::min(4095, std::max(0, *p + rand() % 2));
+				++p;
+			}
+		}
+	}
 
 	switch (_frame->eyes()) {
 	case Eyes::BOTH:
