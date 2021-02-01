@@ -161,7 +161,7 @@ DCPVideo::encode_locally ()
 
 		++noise_amount;
 		/* Something's gone badly wrong if this much noise doesn't help */
-		DCP_ASSERT (noise_amount < 16);
+		DCPOMATIC_ASSERT (noise_amount < 16);
 	}
 
 	switch (_frame->eyes()) {
