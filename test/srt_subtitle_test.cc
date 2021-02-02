@@ -98,10 +98,11 @@ check_subtitle_file (shared_ptr<Film> film, boost::filesystem::path ref)
 /** Make another DCP with a longer .srt file */
 BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 {
-	shared_ptr<Film> film = new_test_film ("srt_subtitle_test3");
+	Cleanup cl;
+
+	shared_ptr<Film> film = new_test_film2 ("srt_subtitle_test3", &cl);
 
 	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	film->set_interop (true);
 	film->set_audio_channels (6);
@@ -116,6 +117,8 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	check_subtitle_file (film, TestPaths::private_data() / "Ankoemmling_short.xml");
+
+	cl.run ();
 }
 
 /** Build a small DCP with no picture and a single subtitle overlaid onto it */

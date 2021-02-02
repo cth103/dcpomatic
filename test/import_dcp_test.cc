@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/import_dcp_test.cc
  *  @brief Test import of encrypted DCPs.
  *  @ingroup feature
  */
+
 
 #include "test.h"
 #include "lib/film.h"
@@ -40,22 +42,25 @@
 #include <dcp/cpl.h>
 #include <boost/test/unit_test.hpp>
 
+
 using std::vector;
 using std::string;
 using std::map;
 using std::shared_ptr;
 using std::dynamic_pointer_cast;
+using std::make_shared;
+
 
 /** Make an encrypted DCP, import it and make a new unencrypted DCP */
 BOOST_AUTO_TEST_CASE (import_dcp_test)
 {
-	shared_ptr<Film> A = new_test_film ("import_dcp_test");
+	auto A = new_test_film ("import_dcp_test");
 	A->set_container (Ratio::from_id ("185"));
 	A->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	A->set_name ("frobozz");
 	A->set_interop (false);
 
-	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/test.mp4"));
+	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
 	A->examine_and_add_content (c);
 	A->set_encrypted (true);
 	BOOST_CHECK (!wait_for_jobs ());
@@ -66,10 +71,10 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 	dcp::DCP A_dcp ("build/test/import_dcp_test/" + A->dcp_name());
 	A_dcp.read ();
 
-	Config::instance()->set_decryption_chain (shared_ptr<dcp::CertificateChain> (new dcp::CertificateChain (openssl_path ())));
+	Config::instance()->set_decryption_chain (make_shared<dcp::CertificateChain>(openssl_path()));
 
 	/* Dear future-carl: I suck!  I thought you wouldn't still be running these tests in 2030!  Sorry! */
-	dcp::EncryptedKDM kdm = A->make_kdm (
+	auto kdm = A->make_kdm (
 		Config::instance()->decryption_chain()->leaf (),
 		vector<string>(),
 		A_dcp.cpls().front()->file().get(),
@@ -79,17 +84,17 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 		true, 0
 		);
 
-	shared_ptr<Film> B = new_test_film ("import_dcp_test2");
+	auto B = new_test_film ("import_dcp_test2");
 	B->set_container (Ratio::from_id ("185"));
 	B->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	B->set_name ("frobozz");
 	B->set_interop (false);
 
-	shared_ptr<DCPContent> d (new DCPContent("build/test/import_dcp_test/" + A->dcp_name()));
+	auto d = make_shared<DCPContent>("build/test/import_dcp_test/" + A->dcp_name());
 	B->examine_and_add_content (d);
 	BOOST_CHECK (!wait_for_jobs ());
 	d->add_kdm (kdm);
-	JobManager::instance()->add (shared_ptr<Job> (new ExamineContentJob (B, d)));
+	JobManager::instance()->add (make_shared<ExamineContentJob>(B, d));
 	BOOST_CHECK (!wait_for_jobs ());
 
 	B->make_dcp ();
@@ -103,9 +108,11 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 /** Check that DCP markers are imported correctly */
 BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
 {
+	Cleanup cl;
+
 	/* Make a DCP with some markers */
-	shared_ptr<Film> film = new_test_film2 ("import_dcp_markers_test");
-	shared_ptr<Content> content = content_factory("test/data/flat_red.png").front();
+	auto film = new_test_film2 ("import_dcp_markers_test", &cl);
+	auto content = content_factory("test/data/flat_red.png").front();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -119,8 +126,8 @@ BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Import the DCP to a new film and check the markers */
-	shared_ptr<Film> film2 = new_test_film2 ("import_dcp_markers_test2");
-	shared_ptr<DCPContent> imported (new DCPContent(film->dir(film->dcp_name())));
+	auto film2 = new_test_film2 ("import_dcp_markers_test2", &cl);
+	auto imported = make_shared<DCPContent>(film->dir(film->dcp_name()));
 	film2->examine_and_add_content (imported);
 	BOOST_REQUIRE (!wait_for_jobs());
 	film2->write_metadata ();
@@ -130,7 +137,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
 	 */
 	BOOST_CHECK_EQUAL (imported->markers().size(), 4U);
 
-	map<dcp::Marker, dcpomatic::ContentTime> markers = imported->markers();
+	auto markers = imported->markers();
 	BOOST_REQUIRE(markers.find(dcp::Marker::FFOC) != markers.end());
 	BOOST_CHECK(markers[dcp::Marker::FFOC] == dcpomatic::ContentTime(184000));
 	BOOST_REQUIRE(markers.find(dcp::Marker::FFMC) != markers.end());
@@ -139,7 +146,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
 	BOOST_CHECK(markers[dcp::Marker::LFMC] == dcpomatic::ContentTime(960000));
 
 	/* Load that film and check that the markers have been loaded */
-	shared_ptr<Film> film3(new Film(boost::filesystem::path("build/test/import_dcp_markers_test2")));
+	auto film3 = make_shared<Film>(boost::filesystem::path("build/test/import_dcp_markers_test2"));
 	film3->read_metadata ();
 	BOOST_REQUIRE_EQUAL (film3->content().size(), 1U);
 	shared_ptr<DCPContent> reloaded = dynamic_pointer_cast<DCPContent>(film3->content().front());
@@ -154,6 +161,8 @@ BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
 	BOOST_CHECK(markers[dcp::Marker::FFMC] == dcpomatic::ContentTime(904000));
 	BOOST_REQUIRE(markers.find(dcp::Marker::LFMC) != markers.end());
 	BOOST_CHECK(markers[dcp::Marker::LFMC] == dcpomatic::ContentTime(960000));
+
+	cl.run ();
 }
 
 
@@ -161,28 +170,25 @@ BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
 BOOST_AUTO_TEST_CASE (import_dcp_metadata_test)
 {
 	/* Make a DCP with some ratings and a content version */
-	shared_ptr<Film> film = new_test_film2 ("import_dcp_metadata_test");
-	shared_ptr<Content> content = content_factory("test/data/flat_red.png").front();
+	auto film = new_test_film2 ("import_dcp_metadata_test");
+	auto content = content_factory("test/data/flat_red.png").front();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	content->video->set_length (10);
 
-	std::vector<dcp::Rating> ratings;
-	ratings.push_back (dcp::Rating("BBFC", "15"));
-	ratings.push_back (dcp::Rating("MPAA", "NC-17"));
+	vector<dcp::Rating> ratings = { {"BBFC", "15"}, {"MPAA", "NC-17"} };
 	film->set_ratings (ratings);
 
-	vector<string> cv;
-	cv.push_back ("Fred");
+	vector<string> cv = { "Fred "};
 	film->set_content_versions (cv);
 
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Import the DCP to a new film and check the metadata */
-	shared_ptr<Film> film2 = new_test_film2 ("import_dcp_metadata_test2");
-	shared_ptr<DCPContent> imported (new DCPContent(film->dir(film->dcp_name())));
+	auto film2 = new_test_film2 ("import_dcp_metadata_test2");
+	auto imported = make_shared<DCPContent>(film->dir(film->dcp_name()));
 	film2->examine_and_add_content (imported);
 	BOOST_REQUIRE (!wait_for_jobs());
 	film2->write_metadata ();
@@ -191,10 +197,10 @@ BOOST_AUTO_TEST_CASE (import_dcp_metadata_test)
 	BOOST_CHECK (imported->content_versions() == cv);
 
 	/* Load that film and check that the metadata has been loaded */
-	shared_ptr<Film> film3(new Film(boost::filesystem::path("build/test/import_dcp_metadata_test2")));
+	auto film3 = make_shared<Film>(boost::filesystem::path("build/test/import_dcp_metadata_test2"));
 	film3->read_metadata ();
 	BOOST_REQUIRE_EQUAL (film3->content().size(), 1U);
-	shared_ptr<DCPContent> reloaded = dynamic_pointer_cast<DCPContent>(film3->content().front());
+	auto reloaded = dynamic_pointer_cast<DCPContent>(film3->content().front());
 	BOOST_REQUIRE (reloaded);
 
 	BOOST_CHECK (reloaded->ratings() == ratings);

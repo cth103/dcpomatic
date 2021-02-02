@@ -41,10 +41,11 @@ using std::shared_ptr;
 /** Make a DCP with subs from a .ssa file */
 BOOST_AUTO_TEST_CASE (ssa_subtitle_test1)
 {
-	shared_ptr<Film> film = new_test_film ("ssa_subtitle_test1");
+	Cleanup cl;
+
+	shared_ptr<Film> film = new_test_film2 ("ssa_subtitle_test1", &cl);
 
 	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	film->set_interop (true);
 	shared_ptr<StringTextFileContent> content (new StringTextFileContent(TestPaths::private_data() / "DKH_UT_EN20160601def.ssa"));
@@ -61,4 +62,6 @@ BOOST_AUTO_TEST_CASE (ssa_subtitle_test1)
 	list<string> ignore;
 	ignore.push_back ("SubtitleID");
 	check_xml (subtitle_file(film), TestPaths::private_data() / "DKH_UT_EN20160601def.xml", ignore);
+
+	cl.run ();
 }

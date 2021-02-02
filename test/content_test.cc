@@ -156,12 +156,16 @@ BOOST_AUTO_TEST_CASE (content_test5)
 /** Sync error #1833 */
 BOOST_AUTO_TEST_CASE (content_test6)
 {
-	shared_ptr<Film> film = new_test_film2 ("content_test6");
+	Cleanup cl;
+
+	auto film = new_test_film2 ("content_test6", &cl);
 	film->examine_and_add_content (content_factory(TestPaths::private_data() / "fha.mkv").front());
 	BOOST_REQUIRE (!wait_for_jobs());
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 	check_dcp (TestPaths::private_data() / "fha", film);
+
+	cl.run ();
 }
 
 

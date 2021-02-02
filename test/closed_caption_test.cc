@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -29,13 +29,16 @@
 #include <boost/test/unit_test.hpp>
 
 using std::list;
+using std::make_shared;
 using std::shared_ptr;
 
 /** Basic test that Interop closed captions are written */
 BOOST_AUTO_TEST_CASE (closed_caption_test1)
 {
-	shared_ptr<Film> film = new_test_film2 ("closed_caption_test1");
-	shared_ptr<StringTextFileContent> content (new StringTextFileContent("test/data/subrip.srt"));
+	Cleanup cl;
+
+	auto film = new_test_film2 ("closed_caption_test1", &cl);
+	auto content = make_shared<StringTextFileContent>("test/data/subrip.srt");
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
@@ -54,17 +57,21 @@ BOOST_AUTO_TEST_CASE (closed_caption_test1)
 	BOOST_REQUIRE_EQUAL (check.cpls().size(), 1U);
 	BOOST_REQUIRE_EQUAL (check.cpls().front()->reels().size(), 1U);
 	BOOST_REQUIRE (!check.cpls().front()->reels().front()->closed_captions().empty());
+
+	cl.run ();
 }
 
 /** Test multiple closed captions */
 BOOST_AUTO_TEST_CASE (closed_caption_test2)
 {
-	shared_ptr<Film> film = new_test_film2 ("closed_caption_test2");
-	shared_ptr<StringTextFileContent> content1 (new StringTextFileContent("test/data/subrip.srt"));
+	Cleanup cl;
+
+	auto film = new_test_film2 ("closed_caption_test2", &cl);
+	auto content1 = make_shared<StringTextFileContent>("test/data/subrip.srt");
 	film->examine_and_add_content (content1);
-	shared_ptr<StringTextFileContent> content2 (new StringTextFileContent("test/data/subrip2.srt"));
+	auto content2 = make_shared<StringTextFileContent>("test/data/subrip2.srt");
 	film->examine_and_add_content (content2);
-	shared_ptr<StringTextFileContent> content3 (new StringTextFileContent("test/data/subrip3.srt"));
+	auto content3 = make_shared<StringTextFileContent>("test/data/subrip3.srt");
 	film->examine_and_add_content (content3);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
@@ -98,4 +105,6 @@ BOOST_AUTO_TEST_CASE (closed_caption_test2)
 	BOOST_CHECK_EQUAL ((*i)->annotation_text(), "Third track");
 	BOOST_REQUIRE (static_cast<bool>((*i)->language()));
 	BOOST_CHECK_EQUAL ((*i)->language().get(), "it-IT");
+
+	cl.run ();
 }

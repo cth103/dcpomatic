@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -31,15 +31,18 @@
 
 using std::string;
 using std::vector;
+using std::make_shared;
 using boost::optional;
 using std::shared_ptr;
 
 
 BOOST_AUTO_TEST_CASE (atmos_passthrough_test)
 {
-	shared_ptr<Film> film = new_test_film2 ("atmos_passthrough_test");
-	boost::filesystem::path ref = TestPaths::private_data() / "atmos_asset.mxf";
-	shared_ptr<Content> content = content_factory (TestPaths::private_data() / "atmos_asset.mxf").front();
+	Cleanup cl;
+
+	auto film = new_test_film2 ("atmos_passthrough_test", &cl);
+	auto ref = TestPaths::private_data() / "atmos_asset.mxf";
+	auto content = content_factory (TestPaths::private_data() / "atmos_asset.mxf").front();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -47,14 +50,18 @@ BOOST_AUTO_TEST_CASE (atmos_passthrough_test)
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	BOOST_REQUIRE (mxf_atmos_files_same(ref, dcp_file(film, "atmos"), true));
+
+	cl.run ();
 }
 
 
 BOOST_AUTO_TEST_CASE (atmos_encrypted_passthrough_test)
 {
-	shared_ptr<Film> film = new_test_film2 ("atmos_encrypted_passthrough_test");
-	boost::filesystem::path ref = TestPaths::private_data() / "atmos_asset.mxf";
-	shared_ptr<Content> content = content_factory (TestPaths::private_data() / "atmos_asset.mxf").front();
+	Cleanup cl;
+
+	auto film = new_test_film2 ("atmos_encrypted_passthrough_test", &cl);
+	auto ref = TestPaths::private_data() / "atmos_asset.mxf";
+	auto content = content_factory (TestPaths::private_data() / "atmos_asset.mxf").front();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -65,7 +72,7 @@ BOOST_AUTO_TEST_CASE (atmos_encrypted_passthrough_test)
 
 	BOOST_REQUIRE (!mxf_atmos_files_same(ref, dcp_file(film, "atmos")));
 
-	dcp::EncryptedKDM kdm = film->make_kdm (
+	auto kdm = film->make_kdm (
 		Config::instance()->decryption_chain()->leaf(),
 		vector<string>(),
 		dcp_file(film, "cpl"),
@@ -76,8 +83,8 @@ BOOST_AUTO_TEST_CASE (atmos_encrypted_passthrough_test)
 		optional<int>()
 		);
 
-	shared_ptr<Film> film2 = new_test_film2 ("atmos_encrypted_passthrough_test2");
-	shared_ptr<DCPContent> content2 (new DCPContent(film->dir(film->dcp_name())));
+	auto film2 = new_test_film2 ("atmos_encrypted_passthrough_test2", &cl);
+	auto content2 = make_shared<DCPContent>(film->dir(film->dcp_name()));
 	content2->add_kdm (kdm);
 	film2->examine_and_add_content (content2);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -86,5 +93,7 @@ BOOST_AUTO_TEST_CASE (atmos_encrypted_passthrough_test)
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	BOOST_CHECK (mxf_atmos_files_same(ref, dcp_file(film2, "atmos"), true));
+
+	cl.run ();
 }
 

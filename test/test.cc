@@ -176,11 +176,14 @@ new_test_film (string name)
 }
 
 shared_ptr<Film>
-new_test_film2 (string name)
+new_test_film2 (string name, Cleanup* cleanup)
 {
 	auto p = test_film_dir (name);
 	if (boost::filesystem::exists (p)) {
 		boost::filesystem::remove_all (p);
+	}
+	if (cleanup) {
+		cleanup->add (p);
 	}
 
 	auto film = make_shared<Film>(p);
@@ -811,3 +814,19 @@ operator<< (std::ostream&s, VideoFrameType f)
 	return s;
 }
 
+
+void
+Cleanup::add (boost::filesystem::path path)
+{
+	_paths.push_back (path);
+}
+
+
+void
+Cleanup::run ()
+{
+	boost::system::error_code ec;
+	for (auto i: _paths) {
+		boost::filesystem::remove_all (i, ec);
+	}
+}

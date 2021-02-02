@@ -136,7 +136,9 @@ BOOST_AUTO_TEST_CASE (silence_padding_test)
 
 BOOST_AUTO_TEST_CASE (silence_padding_test2)
 {
-	auto film = new_test_film2 ("silence_padding_test2");
+	Cleanup cl;
+
+	auto film = new_test_film2 ("silence_padding_test2", &cl);
 	auto content = make_shared<FFmpegContent>(TestPaths::private_data() / "cars.mov");
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -146,4 +148,6 @@ BOOST_AUTO_TEST_CASE (silence_padding_test2)
 
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
+
+	cl.run ();
 }

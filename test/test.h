@@ -36,10 +36,27 @@ public:
 	static boost::filesystem::path xsd();
 };
 
+
+class Cleanup
+{
+public:
+	void add (boost::filesystem::path path);
+
+	/* Remove everything passed to add().  We don't do this
+	 * in a destructor so that results of failed tests aren't
+	 * deleted.
+	 */
+	void run ();
+
+private:
+	std::vector<boost::filesystem::path> _paths;
+};
+
+
 extern bool wait_for_jobs ();
 extern void setup_test_config ();
 extern std::shared_ptr<Film> new_test_film (std::string);
-extern std::shared_ptr<Film> new_test_film2 (std::string);
+extern std::shared_ptr<Film> new_test_film2 (std::string, Cleanup* cleanup = nullptr);
 extern void check_dcp (boost::filesystem::path, boost::filesystem::path);
 extern void check_dcp (boost::filesystem::path, std::shared_ptr<const Film>);
 extern void check_file (boost::filesystem::path ref, boost::filesystem::path check);
@@ -56,6 +73,7 @@ boost::filesystem::path dcp_file (std::shared_ptr<const Film> film, std::string 
 void check_one_frame (boost::filesystem::path dcp, int64_t index, boost::filesystem::path ref);
 extern boost::filesystem::path subtitle_file (std::shared_ptr<Film> film);
 extern void make_random_file (boost::filesystem::path path, size_t size);
+
 
 class LogSwitcher
 {

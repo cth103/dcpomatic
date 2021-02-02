@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -36,12 +36,15 @@
 
 using std::string;
 using std::shared_ptr;
+using std::make_shared;
 using boost::optional;
 using namespace dcpomatic;
 
 static void
 ffmpeg_content_test (int number, boost::filesystem::path content, ExportFormat format)
 {
+	Cleanup cl;
+
 	string name = "ffmpeg_encoder_";
 	string extension;
 	switch (format) {
@@ -60,19 +63,22 @@ ffmpeg_content_test (int number, boost::filesystem::path content, ExportFormat f
 
 	name = String::compose("%1_test%2", name, number);
 
-	shared_ptr<Film> film = new_test_film (name);
+	shared_ptr<Film> film = new_test_film2 (name, &cl);
 	film->set_name (name);
-	shared_ptr<FFmpegContent> c (new FFmpegContent(content));
-	film->set_container (Ratio::from_id ("185"));
+	auto c = make_shared<FFmpegContent>(content);
 	film->set_audio_channels (6);
 
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	film->write_metadata ();
-	shared_ptr<Job> job (new TranscodeJob (film));
-	FFmpegEncoder encoder (film, job, String::compose("build/test/%1.%2", name, extension), format, false, false, false, 23);
+	auto job = make_shared<TranscodeJob>(film);
+	auto file = boost::filesystem::path("build") / "test" / String::compose("%1.%2", name, extension);
+	cl.add (file);
+	FFmpegEncoder encoder (film, job, file, format, false, false, false, 23);
 	encoder.go ();
+
+	cl.run ();
 }
 
 /** Red / green / blue MP4 -> Prores */
@@ -102,7 +108,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test4)
 /** Still image -> Prores */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test5)
 {
-	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_prores_test5");
+	auto film = new_test_film ("ffmpeg_encoder_prores_test5");
 	film->set_name ("ffmpeg_encoder_prores_test5");
 	shared_ptr<ImageContent> c (new ImageContent(TestPaths::private_data() / "bbc405.png"));
 	film->set_container (Ratio::from_id ("185"));
