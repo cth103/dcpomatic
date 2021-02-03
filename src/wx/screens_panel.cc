@@ -61,7 +61,7 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 	sizer->Add (_search, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP);
 
 	auto targets = new wxBoxSizer (wxHORIZONTAL);
-	_targets = new wxTreeCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_MULTIPLE | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT);
+	_targets = new TreeCtrl (this);
 	targets->Add (_targets, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 
 	add_cinemas ();
@@ -455,3 +455,14 @@ ScreensPanel::search_changed ()
 
 	_ignore_selection_change = false;
 }
+
+
+wxIMPLEMENT_DYNAMIC_CLASS (TreeCtrl, wxTreeCtrl);
+
+
+int
+TreeCtrl::OnCompareItems (wxTreeItemId const& a, wxTreeItemId const& b)
+{
+	return strcoll (wx_to_std(GetItemText(a)).c_str(), wx_to_std(GetItemText(b)).c_str());
+}
+

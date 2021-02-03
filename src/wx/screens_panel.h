@@ -32,7 +32,28 @@ namespace dcpomatic {
 	class Screen;
 }
 
+
 class Cinema;
+
+
+/** Shim around wxTreeCtrl so we can use strcoll() to compare things */
+class TreeCtrl : public wxTreeCtrl
+{
+public:
+	wxDECLARE_DYNAMIC_CLASS (TreeCtrl);
+
+	TreeCtrl () {}
+
+	TreeCtrl (wxWindow* parent)
+		: wxTreeCtrl (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_MULTIPLE | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT)
+	{}
+
+	virtual ~TreeCtrl () {}
+
+private:
+	int OnCompareItems (wxTreeItemId const& a, wxTreeItemId const& b);
+};
+
 
 class ScreensPanel : public wxPanel
 {
@@ -60,7 +81,7 @@ private:
 	void search_changed ();
 
 	wxSearchCtrl* _search;
-	wxTreeCtrl* _targets;
+	TreeCtrl* _targets;
 	wxButton* _add_cinema;
 	wxButton* _edit_cinema;
 	wxButton* _remove_cinema;
