@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,7 +18,9 @@
 
 */
 
+
 #include "signal_manager.h"
 
+
 /** Global SignalManager instance */
-SignalManager* signal_manager = 0;
+SignalManager* signal_manager = nullptr;

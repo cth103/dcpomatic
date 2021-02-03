@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,8 +18,10 @@
 
 */
 
+
 #ifndef DCPOMATIC_PLAYER_VIDEO_H
 #define DCPOMATIC_PLAYER_VIDEO_H
+
 
 #include "types.h"
 #include "position.h"
@@ -30,18 +32,19 @@ extern "C" {
 #include <libavutil/pixfmt.h>
 }
 #include <boost/thread/mutex.hpp>
-#include <boost/noncopyable.hpp>
+
 
 class Image;
 class ImageProxy;
 class Film;
 class Socket;
 
+
 /** Everything needed to describe a video frame coming out of the player, but with the
  *  bits still their raw form.  We may want to combine the bits on a remote machine,
  *  or maybe not even bother to combine them at all.
  */
-class PlayerVideo : public boost::noncopyable
+class PlayerVideo
 {
 public:
 	PlayerVideo (
@@ -60,6 +63,9 @@ public:
 		);
 
 	PlayerVideo (std::shared_ptr<cxml::Node>, std::shared_ptr<Socket>);
+
+	PlayerVideo (PlayerVideo const&) = delete;
+	PlayerVideo& operator= (PlayerVideo const&) = delete;
 
 	std::shared_ptr<PlayerVideo> shallow_copy () const;
 
@@ -142,5 +148,6 @@ private:
 	/** true if there was an error when decoding our image */
 	mutable bool _error;
 };
+
 
 #endif

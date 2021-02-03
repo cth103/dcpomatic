@@ -32,12 +32,17 @@ class Job;
 class PlayerVideo;
 class AudioBuffers;
 
-/** @class Encoder */
-class Encoder : public boost::noncopyable
+/** @class Encoder
+ *  @brief Parent class for something that can encode a film into some format
+ */
+class Encoder
 {
 public:
 	Encoder (std::shared_ptr<const Film> film, std::weak_ptr<Job> job);
 	virtual ~Encoder () {}
+
+	Encoder (Encoder const&) = delete;
+	Encoder& operator= (Encoder const&) = delete;
 
 	virtual void go () = 0;
 

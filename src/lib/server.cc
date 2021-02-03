@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,17 @@
 
 */
 
+
 #include "server.h"
 #include "dcpomatic_socket.h"
 
+
 #include "i18n.h"
 
+
+using std::make_shared;
 using std::shared_ptr;
+
 
 Server::Server (int port, int timeout)
 	: _terminate (false)
@@ -32,6 +37,7 @@ Server::Server (int port, int timeout)
 {
 
 }
+
 
 Server::~Server ()
 {
@@ -44,12 +50,14 @@ Server::~Server ()
 	stop ();
 }
 
+
 void
 Server::run ()
 {
 	start_accept ();
 	_io_service.run ();
 }
+
 
 void
 Server::start_accept ()
@@ -61,9 +69,10 @@ Server::start_accept ()
 		}
 	}
 
-	shared_ptr<Socket> socket (new Socket(_timeout));
+	auto socket = make_shared<Socket>(_timeout);
 	_acceptor.async_accept (socket->socket (), boost::bind (&Server::handle_accept, this, socket, boost::asio::placeholders::error));
 }
+
 
 void
 Server::handle_accept (shared_ptr<Socket> socket, boost::system::error_code const & error)
@@ -75,6 +84,7 @@ Server::handle_accept (shared_ptr<Socket> socket, boost::system::error_code cons
 	handle (socket);
 	start_accept ();
 }
+
 
 void
 Server::stop ()

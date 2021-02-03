@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,20 +18,24 @@
 
 */
 
+
 #ifndef DCPOMATIC_SIGNAL_MANAGER_H
 #define DCPOMATIC_SIGNAL_MANAGER_H
+
 
 #include "exception_store.h"
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include <boost/noncopyable.hpp>
 
+
 class Signaller;
+
 
 /** A class to allow signals to be emitted from non-UI threads and handled
  *  by a UI thread.
  */
-class SignalManager : public boost::noncopyable, public ExceptionStore
+class SignalManager : public ExceptionStore
 {
 public:
 	/** Create a SignalManager.  Must be called from the UI thread */
@@ -42,6 +46,9 @@ public:
 	}
 
 	virtual ~SignalManager () {}
+
+	SignalManager (Signaller const&) = delete;
+	SignalManager& operator= (Signaller const&) = delete;
 
 	/* Do something next time the UI is idle */
 	template <typename T>
@@ -95,6 +102,8 @@ private:
 	boost::thread::id _ui_thread;
 };
 
+
 extern SignalManager* signal_manager;
+
 
 #endif

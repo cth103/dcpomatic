@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,22 +18,28 @@
 
 */
 
+
 #ifndef DCPOMATIC_SERVER_H
 #define DCPOMATIC_SERVER_H
+
 
 #include <boost/thread.hpp>
 #include <boost/asio.hpp>
 #include <boost/thread/condition.hpp>
-#include <boost/noncopyable.hpp>
 #include <string>
+
 
 class Socket;
 
-class Server : public boost::noncopyable
+
+class Server
 {
 public:
 	explicit Server (int port, int timeout = 30);
 	virtual ~Server ();
+
+	Server (Server const&) = delete;
+	Server& operator= (Server const&) = delete;
 
 	virtual void run ();
 	void stop ();
@@ -52,5 +58,6 @@ private:
 	boost::asio::ip::tcp::acceptor _acceptor;
 	int _timeout;
 };
+
 
 #endif
