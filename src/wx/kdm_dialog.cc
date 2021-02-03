@@ -18,6 +18,7 @@
 
 */
 
+
 #include "kdm_dialog.h"
 #include "wx_util.h"
 #include "screens_panel.h"
@@ -39,6 +40,7 @@
 #include <wx/listctrl.h>
 #include <iostream>
 
+
 using std::string;
 using std::exception;
 using std::map;
@@ -55,14 +57,15 @@ using boost::optional;
 using namespace boost::placeholders;
 #endif
 
+
 KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	: wxDialog (parent, wxID_ANY, _("Make KDMs"))
 	, _film (film)
 {
 	/* Main sizers */
-	wxBoxSizer* horizontal = new wxBoxSizer (wxHORIZONTAL);
-	wxBoxSizer* left = new wxBoxSizer (wxVERTICAL);
-	wxBoxSizer* right = new wxBoxSizer (wxVERTICAL);
+	auto horizontal = new wxBoxSizer (wxHORIZONTAL);
+	auto left = new wxBoxSizer (wxVERTICAL);
+	auto right = new wxBoxSizer (wxVERTICAL);
 
 	horizontal->Add (left, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_X_GAP * 4);
 	horizontal->Add (right, 1, wxEXPAND);
@@ -72,7 +75,7 @@ KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
 
 	/* Sub-heading: Screens */
-	wxStaticText* h = new StaticText (this, _("Screens"));
+	auto h = new StaticText (this, _("Screens"));
 	h->SetFont (subheading_font);
 	left->Add (h, 0, wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 	_screens = new ScreensPanel (this);
@@ -113,7 +116,7 @@ KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 
 	/* Make an overall sizer to get a nice border */
 
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
 	overall_sizer->Add (horizontal, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, DCPOMATIC_DIALOG_BORDER);
 
 	/* Bind */
@@ -129,6 +132,7 @@ KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	overall_sizer->SetSizeHints (this);
 }
 
+
 void
 KDMDialog::setup_sensitivity ()
 {
@@ -136,6 +140,7 @@ KDMDialog::setup_sensitivity ()
 	_output->setup_sensitivity ();
 	_make->Enable (!_screens->screens().empty() && _timing->valid() && _cpl->has_selected());
 }
+
 
 bool
 KDMDialog::confirm_overwrite (boost::filesystem::path path)
@@ -146,10 +151,11 @@ KDMDialog::confirm_overwrite (boost::filesystem::path path)
 		);
 }
 
+
 void
 KDMDialog::make_clicked ()
 {
-	shared_ptr<const Film> film = _film.lock ();
+	auto film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 
 	list<KDMWithMetadataPtr> kdms;
@@ -165,7 +171,7 @@ KDMDialog::make_clicked ()
 		}
 
 		for (auto i: _screens->screens()) {
-			KDMWithMetadataPtr p = kdm_for_screen (film, _cpl->cpl(), i, _timing->from(), _timing->until(), _output->formulation(), !_output->forensic_mark_video(), for_audio);
+			auto p = kdm_for_screen (film, _cpl->cpl(), i, _timing->from(), _timing->until(), _output->formulation(), !_output->forensic_mark_video(), for_audio);
 			if (p) {
 				kdms.push_back (p);
 			}
@@ -182,7 +188,7 @@ KDMDialog::make_clicked ()
 		return;
 	}
 
-	pair<shared_ptr<Job>, int> result = _output->make (kdms, film->name(), bind (&KDMDialog::confirm_overwrite, this, _1));
+	auto result = _output->make (kdms, film->name(), bind (&KDMDialog::confirm_overwrite, this, _1));
 	if (result.first) {
 		JobManager::instance()->add (result.first);
 	}

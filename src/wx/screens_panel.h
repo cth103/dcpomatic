@@ -40,7 +40,7 @@ public:
 	explicit ScreensPanel (wxWindow* parent);
 	~ScreensPanel ();
 
-	std::list<std::shared_ptr<dcpomatic::Screen> > screens () const;
+	std::list<std::shared_ptr<dcpomatic::Screen>> screens () const;
 	void setup_sensitivity ();
 
 	boost::signals2::signal<void ()> ScreensChanged;
@@ -69,8 +69,8 @@ private:
 	wxButton* _remove_screen;
 	wxTreeItemId _root;
 
-	typedef std::map<wxTreeItemId, std::shared_ptr<Cinema> > CinemaMap;
-	typedef std::map<wxTreeItemId, std::shared_ptr<dcpomatic::Screen> > ScreenMap;
+	typedef std::map<wxTreeItemId, std::shared_ptr<Cinema>> CinemaMap;
+	typedef std::map<wxTreeItemId, std::shared_ptr<dcpomatic::Screen>> ScreenMap;
 
 	CinemaMap _cinemas;
 	ScreenMap _screens;
