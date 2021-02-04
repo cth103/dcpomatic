@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -79,16 +79,17 @@
 
 #define MAX_CPLS 32
 
-using std::string;
 using std::cout;
-using std::list;
+using std::dynamic_pointer_cast;
 using std::exception;
-using std::vector;
+using std::list;
+using std::make_shared;
 using std::shared_ptr;
+using std::string;
+using std::vector;
 using std::weak_ptr;
 using boost::scoped_array;
 using boost::optional;
-using std::dynamic_pointer_cast;
 using boost::thread;
 using boost::bind;
 #if BOOST_VERSION >= 106100
@@ -150,15 +151,15 @@ public:
 		, _view_full_screen (0)
 		, _view_dual_screen (0)
 		, _main_sizer (new wxBoxSizer (wxVERTICAL))
-{
-		dcpomatic_log.reset (new NullLog());
+	{
+		dcpomatic_log = make_shared<NullLog>();
 
 #if defined(DCPOMATIC_WINDOWS)
 		maybe_open_console ();
 		cout << "DCP-o-matic Player is starting." << "\n";
 #endif
 
-		wxMenuBar* bar = new wxMenuBar;
+		auto bar = new wxMenuBar;
 		setup_menu (bar);
 		set_menu_sensitivity ();
 		SetMenuBar (bar);
@@ -198,7 +199,7 @@ public:
 
 		_viewer.reset (new FilmViewer (_overall_panel));
 		if (Config::instance()->player_mode() == Config::PLAYER_MODE_DUAL) {
-			PlaylistControls* pc = new PlaylistControls (_overall_panel, _viewer);
+			auto pc = new PlaylistControls (_overall_panel, _viewer);
 			_controls = pc;
 			pc->ResetFilm.connect (bind(&DOMFrame::reset_film_weak, this, _1));
 		} else {
@@ -279,7 +280,7 @@ public:
 
 		bool ok = true;
 		for (auto i: _film->content()) {
-			shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent>(i);
+			auto d = dynamic_pointer_cast<DCPContent>(i);
 			if (d && !d->kdm_timing_window_valid()) {
 				ok = false;
 			}
@@ -299,7 +300,7 @@ public:
 			return;
 		}
 
-		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent>(_film->content().front());
+		auto dcp = dynamic_pointer_cast<DCPContent>(_film->content().front());
 		if (dcp) {
 			DCPExaminer ex (dcp, true);
 			shared_ptr<dcp::CPL> playing_cpl;
@@ -320,7 +321,7 @@ public:
 				);
 		}
 
-		shared_ptr<FFmpegContent> ffmpeg = dynamic_pointer_cast<FFmpegContent>(_film->content().front());
+		auto ffmpeg = dynamic_pointer_cast<FFmpegContent>(_film->content().front());
 		if (ffmpeg) {
 			_controls->log (
 				wxString::Format(
@@ -351,8 +352,8 @@ public:
 		reset_film ();
 		try {
 			_stress.set_suspended (true);
-			shared_ptr<DCPContent> dcp (new DCPContent(dir));
-			shared_ptr<Job> job (new ExamineContentJob(_film, dcp));
+			auto dcp = make_shared<DCPContent>(dir);
+			auto job = make_shared<ExamineContentJob>(_film, dcp);
 			_examine_job_connection = job->Finished.connect(bind(&DOMFrame::add_dcp_to_film, this, weak_ptr<Job>(job), weak_ptr<Content>(dcp)));
 			JobManager::instance()->add (job);
 			bool const ok = display_progress (_("DCP-o-matic Player"), _("Loading content"));
@@ -369,12 +370,12 @@ public:
 
 	void add_dcp_to_film (weak_ptr<Job> weak_job, weak_ptr<Content> weak_content)
 	{
-		shared_ptr<Job> job = weak_job.lock ();
+		auto job = weak_job.lock ();
 		if (!job || !job->finished_ok()) {
 			return;
 		}
 
-		shared_ptr<Content> content = weak_content.lock ();
+		auto content = weak_content.lock ();
 		if (!content) {
 			return;
 		}
@@ -385,7 +386,7 @@ public:
 
 	void reset_film_weak (weak_ptr<Film> weak_film)
 	{
-		shared_ptr<Film> film = weak_film.lock ();
+		auto film = weak_film.lock ();
 		if (film) {
 			reset_film (film);
 		}
@@ -506,18 +507,18 @@ private:
 #endif
 
 #ifdef __WXOSX__
-		wxMenuItem* prefs = _file_menu->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
+		auto prefs = _file_menu->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
 #else
-		wxMenu* edit = new wxMenu;
-		wxMenuItem* prefs = edit->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
+		auto edit = new wxMenu;
+		auto prefs = edit->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
 #endif
 
 		prefs->Enable (Config::instance()->have_write_permission());
 
 		_cpl_menu = new wxMenu;
 
-		wxMenu* view = new wxMenu;
-		optional<int> c = Config::instance()->decode_reduction();
+		auto view = new wxMenu;
+		auto c = Config::instance()->decode_reduction();
 		_view_cpl = view->Append(ID_view_cpl, _("CPL"), _cpl_menu);
 		view->AppendSeparator();
 		_view_full_screen = view->AppendCheckItem(ID_view_full_screen, _("Full screen\tF11"));
@@ -531,14 +532,14 @@ private:
 		view->AppendRadioItem(ID_view_scale_half, _("Decode at half resolution"))->Check(c && c.get() == 1);
 		view->AppendRadioItem(ID_view_scale_quarter, _("Decode at quarter resolution"))->Check(c && c.get() == 2);
 
-		wxMenu* tools = new wxMenu;
+		auto tools = new wxMenu;
 		_tools_verify = tools->Append (ID_tools_verify, _("Verify DCP..."));
 		tools->AppendSeparator ();
 		tools->Append (ID_tools_check_for_updates, _("Check for updates"));
 		tools->Append (ID_tools_timing, _("Timing..."));
 		tools->Append (ID_tools_system_information, _("System information..."));
 
-		wxMenu* help = new wxMenu;
+		auto help = new wxMenu;
 #ifdef __WXOSX__
 		help->Append (wxID_ABOUT, _("About DCP-o-matic"));
 #else
@@ -557,12 +558,12 @@ private:
 
 	void file_open ()
 	{
-		wxString d = wxStandardPaths::Get().GetDocumentsDir();
+		auto d = wxStandardPaths::Get().GetDocumentsDir();
 		if (Config::instance()->last_player_load_directory()) {
 			d = std_to_wx (Config::instance()->last_player_load_directory()->string());
 		}
 
-		wxDirDialog* c = new wxDirDialog (this, _("Select DCP to open"), d, wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
+		auto c = new wxDirDialog (this, _("Select DCP to open"), d, wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
 
 		int r;
 		while (true) {
@@ -585,7 +586,7 @@ private:
 
 	void file_add_ov ()
 	{
-		wxDirDialog* c = new wxDirDialog (
+		auto c = new wxDirDialog (
 			this,
 			_("Select DCP to open as OV"),
 			wxStandardPaths::Get().GetDocumentsDir(),
@@ -604,10 +605,10 @@ private:
 
 		if (r == wxID_OK) {
 			DCPOMATIC_ASSERT (_film);
-			shared_ptr<DCPContent> dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
+			auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
 			DCPOMATIC_ASSERT (dcp);
 			dcp->add_ov (wx_to_std(c->GetPath()));
-			JobManager::instance()->add(shared_ptr<Job>(new ExamineContentJob (_film, dcp)));
+			JobManager::instance()->add(make_shared<ExamineContentJob>(_film, dcp));
 			bool const ok = display_progress (_("DCP-o-matic Player"), _("Loading content"));
 			if (!ok || !report_errors_from_last_job(this)) {
 				return;
@@ -616,7 +617,7 @@ private:
 				i->set_use (true);
 			}
 			if (dcp->video) {
-				Ratio const * r = Ratio::nearest_from_ratio(dcp->video->size().ratio());
+				auto const r = Ratio::nearest_from_ratio(dcp->video->size().ratio());
 				if (r) {
 					_film->set_container(r);
 				}
@@ -629,11 +630,11 @@ private:
 
 	void file_add_kdm ()
 	{
-		wxFileDialog* d = new wxFileDialog (this, _("Select KDM"));
+		auto d = new wxFileDialog (this, _("Select KDM"));
 
 		if (d->ShowModal() == wxID_OK) {
 			DCPOMATIC_ASSERT (_film);
-			shared_ptr<DCPContent> dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
+			auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
 			DCPOMATIC_ASSERT (dcp);
 			try {
 				if (dcp) {
@@ -653,7 +654,7 @@ private:
 
 	void file_history (wxCommandEvent& event)
 	{
-		vector<boost::filesystem::path> history = Config::instance()->player_history ();
+		auto history = Config::instance()->player_history ();
 		int n = event.GetId() - ID_file_history;
 		if (n >= 0 && n < static_cast<int> (history.size ())) {
 			try {
@@ -690,14 +691,14 @@ private:
 
 	void view_cpl (wxCommandEvent& ev)
 	{
-		shared_ptr<DCPContent> dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
+		auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
 		DCPOMATIC_ASSERT (dcp);
 		DCPExaminer ex (dcp, true);
 		int id = ev.GetId() - ID_view_cpl;
 		DCPOMATIC_ASSERT (id >= 0);
 		DCPOMATIC_ASSERT (id < int(ex.cpls().size()));
-		list<shared_ptr<dcp::CPL> > cpls = ex.cpls();
-		list<shared_ptr<dcp::CPL> >::iterator i = cpls.begin();
+		auto cpls = ex.cpls();
+		auto i = cpls.begin();
 		while (id > 0) {
 			++i;
 			--id;
@@ -785,18 +786,18 @@ private:
 
 	void tools_verify ()
 	{
-		shared_ptr<DCPContent> dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
+		auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
 		DCPOMATIC_ASSERT (dcp);
 
-		shared_ptr<VerifyDCPJob> job (new VerifyDCPJob(dcp->directories()));
-		VerifyDCPProgressDialog* progress = new VerifyDCPProgressDialog(this, _("DCP-o-matic Player"));
+		auto job = make_shared<VerifyDCPJob>(dcp->directories());
+		auto progress = new VerifyDCPProgressDialog(this, _("DCP-o-matic Player"));
 		bool const completed = progress->run (job);
 		progress->Destroy ();
 		if (!completed) {
 			return;
 		}
 
-		VerifyDCPDialog* d = new VerifyDCPDialog (this, job);
+		auto d = new VerifyDCPDialog (this, job);
 		d->ShowModal ();
 		d->Destroy ();
 	}
@@ -809,7 +810,7 @@ private:
 
 	void tools_timing ()
 	{
-		TimerDisplay* d = new TimerDisplay (this, _viewer->state_timer(), _viewer->gets());
+		auto d = new TimerDisplay (this, _viewer->state_timer(), _viewer->gets());
 		d->ShowModal ();
 		d->Destroy ();
 	}
@@ -825,14 +826,14 @@ private:
 
 	void help_about ()
 	{
-		AboutDialog* d = new AboutDialog (this);
+		auto d = new AboutDialog (this);
 		d->ShowModal ();
 		d->Destroy ();
 	}
 
 	void help_report_a_problem ()
 	{
-		ReportProblemDialog* d = new ReportProblemDialog (this);
+		auto d = new ReportProblemDialog (this);
 		if (d->ShowModal () == wxID_OK) {
 			d->report ();
 		}
@@ -841,7 +842,7 @@ private:
 
 	void update_checker_state_changed ()
 	{
-		UpdateChecker* uc = UpdateChecker::instance ();
+		auto uc = UpdateChecker::instance ();
 
 		bool const announce =
 			_update_news_requested ||
@@ -855,7 +856,7 @@ private:
 		}
 
 		if (uc->state() == UpdateChecker::YES) {
-			UpdateDialog* dialog = new UpdateDialog (this, uc->stable (), uc->test ());
+			auto dialog = new UpdateDialog (this, uc->stable (), uc->test ());
 			dialog->ShowModal ();
 			dialog->Destroy ();
 		} else if (uc->state() == UpdateChecker::FAILED) {
@@ -902,13 +903,13 @@ private:
 			_file_menu->Remove (_history_separator);
 		}
 		delete _history_separator;
-		_history_separator = 0;
+		_history_separator = nullptr;
 
 		int pos = _history_position;
 
 		/* Clear out non-existant history items before we re-build the menu */
 		Config::instance()->clean_player_history ();
-		vector<boost::filesystem::path> history = Config::instance()->player_history ();
+		auto history = Config::instance()->player_history ();
 
 		if (!history.empty ()) {
 			_history_separator = _file_menu->InsertSeparator (pos++);
@@ -927,11 +928,11 @@ private:
 		_history_items = history.size ();
 
 		if (prop == Config::PLAYER_DEBUG_LOG) {
-			optional<boost::filesystem::path> p = Config::instance()->player_debug_log_file();
+			auto p = Config::instance()->player_debug_log_file();
 			if (p) {
-				dcpomatic_log.reset (new FileLog(*p));
+				dcpomatic_log = make_shared<FileLog>(*p);
 			} else {
-				dcpomatic_log.reset (new NullLog());
+				dcpomatic_log = make_shared<NullLog>();
 			}
 			dcpomatic_log->set_types (LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR | LogEntry::TYPE_DEBUG_VIDEO_VIEW);
 		}
