@@ -201,7 +201,7 @@ ClosedCaptionsDialog::update ()
 		auto j = to_show.begin();
 		int k = 0;
 		while (j != to_show.end() && k < MAX_CLOSED_CAPTION_LINES) {
-			_lines[k] = j->text();
+			_lines[k] = std_to_wx (j->text());
 			++j;
 			++k;
 		}
