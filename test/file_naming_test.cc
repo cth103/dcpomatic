@@ -148,7 +148,7 @@ BOOST_AUTO_TEST_CASE (file_naming_test2)
 		boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (film->file(film->dcp_name()));
 		i != boost::filesystem::directory_iterator();
 		++i) {
-		if (boost::regex_match(i->path().string(), boost::regex(".*flt_red\\.png_.*\\.mxf"))) {
+		if (boost::regex_match(i->path().string(), boost::regex(".*flat_red\\.png_.*\\.mxf"))) {
 			++got[0];
 		} else if (boost::regex_match(i->path().string(), boost::regex(".*flat_green\\.png_.*\\.mxf"))) {
 			++got[1];
