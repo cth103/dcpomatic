@@ -149,7 +149,7 @@ private:
 void
 ClosedCaptionsDialog::update ()
 {
-	DCPTime const time = _viewer->time ();
+	auto const time = _viewer->time ();
 
 	if (_current_in_lines && _current && _current->period.to > time) {
 		/* Current one is fine */
@@ -167,10 +167,10 @@ ClosedCaptionsDialog::update ()
 
 	if (!_current && !_tracks.empty()) {
 		/* We have no current one: get another */
-		shared_ptr<Butler> butler = _butler.lock ();
+		auto butler = _butler.lock ();
 		DCPOMATIC_ASSERT (_track->GetSelection() >= 0);
 		DCPOMATIC_ASSERT (_track->GetSelection() < int(_tracks.size()));
-		DCPTextTrack track = _tracks[_track->GetSelection()];
+		auto track = _tracks[_track->GetSelection()];
 		if (butler) {
 			while (true) {
 				optional<TextRingBuffers::Data> d = butler->get_closed_caption ();
@@ -190,7 +190,7 @@ ClosedCaptionsDialog::update ()
 	if (_current && _current->period.contains(time)) {
 		/* We need to set this new one up */
 
-		list<StringText> to_show = _current->text.string;
+		auto to_show = _current->text.string;
 
 		for (int j = 0; j < MAX_CLOSED_CAPTION_LINES; ++j) {
 			_lines[j] = "";
@@ -198,7 +198,7 @@ ClosedCaptionsDialog::update ()
 
 		to_show.sort (ClosedCaptionSorter());
 
-		list<StringText>::const_iterator j = to_show.begin();
+		auto j = to_show.begin();
 		int k = 0;
 		while (j != to_show.end() && k < MAX_CLOSED_CAPTION_LINES) {
 			_lines[k] = j->text();
