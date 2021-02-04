@@ -472,6 +472,19 @@ public:
 
 private:
 
+	void examine_content ()
+	{
+		DCPOMATIC_ASSERT (_film);
+		auto dcp = dynamic_pointer_cast<DCPContent>(_film->content().front());
+		DCPOMATIC_ASSERT (dcp);
+		dcp->examine (_film, shared_ptr<Job>());
+
+		/* Examining content re-creates the TextContent objects, so we must re-enable them */
+		for (auto i: dcp->text) {
+			i->set_use (true);
+		}
+	}
+
 	bool report_errors_from_last_job (wxWindow* parent) const
 	{
 		auto jm = JobManager::instance ();
@@ -639,7 +652,7 @@ private:
 			try {
 				if (dcp) {
 					dcp->add_kdm (dcp::EncryptedKDM(dcp::file_to_string(wx_to_std(d->GetPath()), MAX_KDM_SIZE)));
-					dcp->examine (_film, shared_ptr<Job>());
+					examine_content();
 				}
 			} catch (exception& e) {
 				error_dialog (this, wxString::Format (_("Could not load KDM.")), std_to_wx(e.what()));
@@ -705,7 +718,7 @@ private:
 		}
 
 		dcp->set_cpl ((*i)->id());
-		dcp->examine (_film, shared_ptr<Job>());
+		examine_content ();
 		_info->triggered_update ();
 	}
 
