@@ -775,14 +775,14 @@ Player::open_subtitles_for_frame (DCPTime time) const
 		}
 
 		/* String subtitles (rendered to an image) */
-		if (!j.string.empty ()) {
-			list<PositionImage> s = render_text (j.string, j.fonts, _video_container_size, time, vfr);
+		if (!j.string.empty()) {
+			auto s = render_text (j.string, j.fonts, _video_container_size, time, vfr);
 			copy (s.begin(), s.end(), back_inserter (captions));
 		}
 	}
 
-	if (captions.empty ()) {
-		return optional<PositionImage> ();
+	if (captions.empty()) {
+		return {};
 	}
 
 	return merge (captions);

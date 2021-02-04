@@ -60,6 +60,7 @@ using std::string;
 using std::vector;
 using std::shared_ptr;
 using std::dynamic_pointer_cast;
+using std::make_shared;
 using boost::optional;
 using namespace dcpomatic;
 
@@ -70,17 +71,17 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 {
 	if (c->can_be_played()) {
 		if (c->video) {
-			video.reset (new VideoDecoder (this, c));
+			video = make_shared<VideoDecoder>(this, c);
 		}
 		if (c->audio) {
-			audio.reset (new AudioDecoder (this, c->audio, fast));
+			audio = make_shared<AudioDecoder>(this, c->audio, fast);
 		}
 		for (auto i: c->text) {
 			/* XXX: this time here should be the time of the first subtitle, not 0 */
-			text.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, i, ContentTime())));
+			text.push_back (make_shared<TextDecoder>(this, i, ContentTime()));
 		}
 		if (c->atmos) {
-			atmos.reset (new AtmosDecoder (this, c));
+			atmos = make_shared<AtmosDecoder>(this, c);
 		}
 	}
 
@@ -98,7 +99,7 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 		_reels = old->_reels;
 	} else {
 
-		list<shared_ptr<dcp::CPL> > cpl_list = cpls ();
+		auto cpl_list = cpls ();
 
 		if (cpl_list.empty()) {
 			throw DCPError (_("No CPLs found in DCP."));
@@ -242,7 +243,7 @@ DCPDecoder::pass ()
 void
 DCPDecoder::pass_texts (ContentTime next, dcp::Size size)
 {
-	list<shared_ptr<TextDecoder> >::const_iterator decoder = text.begin ();
+	auto decoder = text.begin ();
 	if (decoder == text.end()) {
 		/* It's possible that there is now a main subtitle but no TextDecoders, for example if
 		   the CPL has just changed but the TextContent's texts have not been recreated yet.
