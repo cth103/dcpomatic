@@ -1342,6 +1342,14 @@ private:
 		}
 
 		{
+			add_label_to_sizer (table, _panel, _("Minimum size of frame (KB)"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
+			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+			_minimum_frame_size = new wxSpinCtrl (_panel);
+			s->Add (_minimum_frame_size, 1);
+			table->Add (s, 1);
+		}
+
+		{
 			add_top_aligned_label_to_sizer (table, _panel, _("DCP metadata filename format"));
 			dcp::NameFormat::Map titles;
 			titles['t'] = wx_to_std (_("type (cpl/pkl)"));
@@ -1414,6 +1422,7 @@ private:
 		_show_experimental_audio_processors->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::show_experimental_audio_processors_changed, this));
 		_only_servers_encode->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::only_servers_encode_changed, this));
 		_frames_in_memory_multiplier->Bind (wxEVT_SPINCTRL, boost::bind(&AdvancedPage::frames_in_memory_multiplier_changed, this));
+		_minimum_frame_size->Bind (wxEVT_SPINCTRL, boost::bind(&AdvancedPage::minimum_frame_size_changed, this));
 		_dcp_metadata_filename_format->Changed.connect (boost::bind (&AdvancedPage::dcp_metadata_filename_format_changed, this));
 		_dcp_asset_filename_format->Changed.connect (boost::bind (&AdvancedPage::dcp_asset_filename_format_changed, this));
 		_log_general->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
@@ -1459,6 +1468,7 @@ private:
 		checked_set (_log_debug_player, config->log_types() & LogEntry::TYPE_DEBUG_PLAYER);
 		checked_set (_log_debug_audio_analysis, config->log_types() & LogEntry::TYPE_DEBUG_AUDIO_ANALYSIS);
 		checked_set (_frames_in_memory_multiplier, config->frames_in_memory_multiplier());
+		checked_set (_minimum_frame_size, config->minimum_frame_size() / 1024);
 #ifdef DCPOMATIC_WINDOWS
 		checked_set (_win32_console, config->win32_console());
 #endif
@@ -1481,6 +1491,11 @@ private:
 	void frames_in_memory_multiplier_changed ()
 	{
 		Config::instance()->set_frames_in_memory_multiplier (_frames_in_memory_multiplier->GetValue());
+	}
+
+	void minimum_frame_size_changed ()
+	{
+		Config::instance()->set_minimum_frame_size (_minimum_frame_size->GetValue() * 1024);
 	}
 
 	void allow_any_dcp_frame_rate_changed ()
@@ -1559,6 +1574,7 @@ private:
 	wxSpinCtrl* _maximum_j2k_bandwidth;
 	wxChoice* _video_display_mode;
 	wxSpinCtrl* _frames_in_memory_multiplier;
+	wxSpinCtrl* _minimum_frame_size;
 	wxCheckBox* _allow_any_dcp_frame_rate;
 	wxCheckBox* _allow_any_container;
 	wxCheckBox* _show_experimental_audio_processors;

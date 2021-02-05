@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -536,6 +536,10 @@ public:
 
 	AudioMapping audio_mapping (int output_channels);
 
+	int minimum_frame_size () const {
+		return _minimum_frame_size;
+	}
+
 	/* SET (mostly) */
 
 	void set_master_encoding_threads (int n) {
@@ -1047,6 +1051,10 @@ public:
 	void set_audio_mapping (AudioMapping m);
 	void set_audio_mapping_to_default ();
 
+	void set_minimum_frame_size (int size) {
+		maybe_set (_minimum_frame_size, size);
+	}
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -1260,6 +1268,7 @@ private:
 	boost::optional<boost::filesystem::path> _player_playlist_directory;
 	boost::optional<boost::filesystem::path> _player_kdm_directory;
 	boost::optional<AudioMapping> _audio_mapping;
+	int _minimum_frame_size;
 
 	static int const _current_version;
 

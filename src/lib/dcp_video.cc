@@ -128,7 +128,8 @@ DCPVideo::encode_locally ()
 	auto const comment = Config::instance()->dcp_j2k_comment();
 
 	ArrayData enc = {};
-	int constexpr minimum_size = 65536;
+	int const minimum_size = Config::instance()->minimum_frame_size();
+	LOG_GENERAL ("Using minimum frame size %1", minimum_size);
 
 	auto xyz = convert_to_xyz (_frame, boost::bind(&Log::dcp_log, dcpomatic_log.get(), _1, _2));
 	int noise_amount = 2;
