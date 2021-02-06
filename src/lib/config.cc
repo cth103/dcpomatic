@@ -665,7 +665,7 @@ Config::write_config () const
 	root->add_child("DefaultDCPAudioChannels")->add_child_text (raw_convert<string> (_default_dcp_audio_channels));
 	/* [XML] DCPIssuer Issuer text to write into CPL files. */
 	root->add_child("DCPIssuer")->add_child_text (_dcp_issuer);
-	/* [XML] DCPIssuer Creator text to write into CPL files. */
+	/* [XML] DCPCreator Creator text to write into CPL files. */
 	root->add_child("DCPCreator")->add_child_text (_dcp_creator);
 	/* [XML] Company name to write into MXF files. */
 	root->add_child("DCPCompanyName")->add_child_text (_dcp_company_name);
