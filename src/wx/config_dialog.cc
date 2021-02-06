@@ -838,8 +838,19 @@ KeysPage::nag_alter_decryption_chain ()
 void
 KeysPage::export_decryption_certificate ()
 {
-	wxFileDialog* d = new wxFileDialog (
-		_panel, _("Select Certificate File"), wxEmptyString, _("dcpomatic_kdm_decryption_cert.pem"), wxT ("PEM files (*.pem)|*.pem"),
+	auto config = Config::instance();
+	wxString default_name = "dcpomatic";
+	if (!config->dcp_creator().empty()) {
+		default_name += "_" + std_to_wx(careful_string_filter(config->dcp_creator()));
+	}
+	if (!config->dcp_issuer().empty()) {
+		default_name += "_" + std_to_wx(careful_string_filter(config->dcp_issuer()));
+	}
+	/// TRANSLATORS: this is the suffix of the defautl filename used when exporting KDM decryption leaf certificates
+	default_name += _("_kdm_decryption_cert.pem");
+
+	auto d = new wxFileDialog (
+		_panel, _("Select Certificate File"), wxEmptyString, default_name, wxT("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
