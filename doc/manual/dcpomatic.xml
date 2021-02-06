@@ -2714,7 +2714,9 @@ like to live on the bleeding edge!
 
 <para>
 With these controls you can set the issuer and creator strings that
-will be put into the DCPs which you create.
+will be put into the DCPs which you create.  The issuer is typically your name
+(or your organisation's name) and the creator is typically the name of the tool
+used to make the DCP (e.g. DCP-o-matic).
 </para>
 </section>
 
