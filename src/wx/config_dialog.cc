@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -32,6 +32,7 @@ using std::vector;
 using std::pair;
 using std::make_pair;
 using std::map;
+using std::make_shared;
 using boost::bind;
 using boost::optional;
 using std::shared_ptr;
@@ -68,7 +69,7 @@ wxWindow*
 Page::create_window (wxWindow* parent)
 {
 	_panel = new wxPanel (parent, wxID_ANY, wxDefaultPosition, _panel_size);
-	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
+	auto s = new wxBoxSizer (wxVERTICAL);
 	_panel->SetSizer (s);
 
 	setup ();
@@ -115,29 +116,29 @@ GeneralPage::add_language_controls (wxGridBagSizer* table, int& r)
 	_set_language = new CheckBox (_panel, _("Set language"));
 	table->Add (_set_language, wxGBPosition (r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	_language = new wxChoice (_panel, wxID_ANY);
-	vector<pair<string, string> > languages;
-	languages.push_back (make_pair ("Čeština", "cs_CZ"));
-	languages.push_back (make_pair ("汉语/漢語", "zh_CN"));
-	languages.push_back (make_pair ("Dansk", "da_DK"));
-	languages.push_back (make_pair ("Deutsch", "de_DE"));
-	languages.push_back (make_pair ("English", "en_GB"));
-	languages.push_back (make_pair ("Español", "es_ES"));
-	languages.push_back (make_pair ("Français", "fr_FR"));
-	languages.push_back (make_pair ("Italiano", "it_IT"));
-	languages.push_back (make_pair ("Nederlands", "nl_NL"));
-	languages.push_back (make_pair ("Русский", "ru_RU"));
-	languages.push_back (make_pair ("Polski", "pl_PL"));
-	languages.push_back (make_pair ("Português europeu", "pt_PT"));
-	languages.push_back (make_pair ("Português do Brasil", "pt_BR"));
-	languages.push_back (make_pair ("Svenska", "sv_SE"));
-	languages.push_back (make_pair ("Slovenský jazyk", "sk_SK"));
-	languages.push_back (make_pair ("Türkçe", "tr_TR"));
-	languages.push_back (make_pair ("українська мова", "uk_UA"));
+	vector<pair<string, string>> languages;
+	languages.push_back (make_pair("Čeština", "cs_CZ"));
+	languages.push_back (make_pair("汉语/漢語", "zh_CN"));
+	languages.push_back (make_pair("Dansk", "da_DK"));
+	languages.push_back (make_pair("Deutsch", "de_DE"));
+	languages.push_back (make_pair("English", "en_GB"));
+	languages.push_back (make_pair("Español", "es_ES"));
+	languages.push_back (make_pair("Français", "fr_FR"));
+	languages.push_back (make_pair("Italiano", "it_IT"));
+	languages.push_back (make_pair("Nederlands", "nl_NL"));
+	languages.push_back (make_pair("Русский", "ru_RU"));
+	languages.push_back (make_pair("Polski", "pl_PL"));
+	languages.push_back (make_pair("Português europeu", "pt_PT"));
+	languages.push_back (make_pair("Português do Brasil", "pt_BR"));
+	languages.push_back (make_pair("Svenska", "sv_SE"));
+	languages.push_back (make_pair("Slovenský jazyk", "sk_SK"));
+	languages.push_back (make_pair("Türkçe", "tr_TR"));
+	languages.push_back (make_pair("українська мова", "uk_UA"));
 	checked_set (_language, languages);
 	table->Add (_language, wxGBPosition (r, 1));
 	++r;
 
-	wxStaticText* restart = add_label_to_sizer (
+	auto restart = add_label_to_sizer (
 		table, _panel, _("(restart DCP-o-matic to see language changes)"), false, wxGBPosition (r, 0), wxGBSpan (1, 2)
 		);
 	wxFont font = restart->GetFont();
@@ -168,7 +169,7 @@ GeneralPage::add_update_controls (wxGridBagSizer* table, int& r)
 void
 GeneralPage::config_changed ()
 {
-	Config* config = Config::instance ();
+	auto config = Config::instance ();
 
 	checked_set (_set_language, static_cast<bool>(config->language()));
 
@@ -189,8 +190,8 @@ GeneralPage::config_changed ()
 	compat_map["cs"] = "cs_CZ";
 	compat_map["uk"] = "uk_UA";
 
-	string lang = config->language().get_value_or ("en_GB");
-	if (compat_map.find (lang) != compat_map.end ()) {
+	auto lang = config->language().get_value_or("en_GB");
+	if (compat_map.find(lang) != compat_map.end ()) {
 		lang = compat_map[lang];
 	}
 
@@ -258,7 +259,7 @@ CertificateChainEditor::CertificateChainEditor (
 {
 	_sizer = new wxBoxSizer (wxVERTICAL);
 
-	wxBoxSizer* certificates_sizer = new wxBoxSizer (wxHORIZONTAL);
+	auto certificates_sizer = new wxBoxSizer (wxHORIZONTAL);
 	_sizer->Add (certificates_sizer, 0, wxALL, border);
 
 	_certificates = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (440, 150), wxLC_REPORT | wxLC_SINGLE_SEL);
@@ -287,7 +288,7 @@ CertificateChainEditor::CertificateChainEditor (
 	certificates_sizer->Add (_certificates, 1, wxEXPAND);
 
 	{
-		wxSizer* s = new wxBoxSizer (wxVERTICAL);
+		auto s = new wxBoxSizer (wxVERTICAL);
 		_add_certificate = new Button (this, _("Add..."));
 		s->Add (_add_certificate, 1, wxTOP | wxBOTTOM | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
 		_remove_certificate = new Button (this, _("Remove"));
@@ -299,7 +300,7 @@ CertificateChainEditor::CertificateChainEditor (
 		certificates_sizer->Add (s, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
 	}
 
-	wxGridBagSizer* table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	auto table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	_sizer->Add (table, 1, wxALL | wxEXPAND, border);
 	int r = 0;
 
@@ -338,7 +339,7 @@ CertificateChainEditor::CertificateChainEditor (
 	_import_private_key->Bind  (wxEVT_BUTTON,       bind (&CertificateChainEditor::import_private_key, this));
 	_export_private_key->Bind  (wxEVT_BUTTON,       bind (&CertificateChainEditor::export_private_key, this));
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxCLOSE);
+	auto buttons = CreateSeparatedButtonSizer (wxCLOSE);
 	if (buttons) {
 		_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
@@ -360,7 +361,7 @@ CertificateChainEditor::add_button (wxWindow* button)
 void
 CertificateChainEditor::add_certificate ()
 {
-	wxFileDialog* d = new wxFileDialog (this, _("Select Certificate File"));
+	auto d = new wxFileDialog (this, _("Select Certificate File"));
 
 	if (d->ShowModal() == wxID_OK) {
 		try {
@@ -381,7 +382,7 @@ CertificateChainEditor::add_certificate ()
 					  "Only the first certificate will be used.")
 					);
 			}
-			shared_ptr<dcp::CertificateChain> chain(new dcp::CertificateChain(*_get().get()));
+			auto chain = make_shared<dcp::CertificateChain>(*_get().get());
 			chain->add (c);
 			if (!chain->chain_valid ()) {
 				error_dialog (
@@ -418,7 +419,7 @@ CertificateChainEditor::remove_certificate ()
 	}
 
 	_certificates->DeleteItem (i);
-	shared_ptr<dcp::CertificateChain> chain(new dcp::CertificateChain(*_get().get()));
+	auto chain = make_shared<dcp::CertificateChain>(*_get().get());
 	chain->remove (i);
 	_set (chain);
 
@@ -434,8 +435,6 @@ CertificateChainEditor::export_certificate ()
 		return;
 	}
 
-	wxFileDialog* d = new wxFileDialog (
-		this, _("Select Certificate File"), wxEmptyString, wxEmptyString, wxT ("PEM files (*.pem)|*.pem"),
 	auto all = _get()->root_to_leaf();
 
 	wxString default_name;
@@ -492,7 +491,7 @@ CertificateChainEditor::export_chain ()
 			throw OpenFileError (path, errno, OpenFileError::WRITE);
 		}
 
-		string const s = _get()->chain();
+		auto const s = _get()->chain();
 		checked_fwrite (s.c_str(), s.length(), f, path);
 		fclose (f);
 	}
@@ -505,7 +504,7 @@ CertificateChainEditor::update_certificate_list ()
 {
 	_certificates->DeleteAllItems ();
 	size_t n = 0;
-	dcp::CertificateChain::List certs = _get()->root_to_leaf ();
+	auto certs = _get()->root_to_leaf();
 	for (auto const& i: certs) {
 		wxListItem item;
 		item.SetId (n);
@@ -537,7 +536,7 @@ CertificateChainEditor::update_certificate_list ()
 void
 CertificateChainEditor::remake_certificates ()
 {
-	shared_ptr<const dcp::CertificateChain> chain = _get();
+	auto chain = _get();
 
 	string subject_organization_name;
 	string subject_organizational_unit_name;
@@ -545,7 +544,7 @@ CertificateChainEditor::remake_certificates ()
 	string intermediate_common_name;
 	string leaf_common_name;
 
-	dcp::CertificateChain::List all = chain->root_to_leaf ();
+	auto all = chain->root_to_leaf ();
 
 	if (all.size() >= 1) {
 		/* Have a root */
@@ -571,7 +570,7 @@ CertificateChainEditor::remake_certificates ()
 		return;
 	}
 
-	MakeChainDialog* d = new MakeChainDialog (
+	auto d = new MakeChainDialog (
 		this,
 		subject_organization_name,
 		subject_organizational_unit_name,
@@ -582,15 +581,13 @@ CertificateChainEditor::remake_certificates ()
 
 	if (d->ShowModal () == wxID_OK) {
 		_set (
-			shared_ptr<dcp::CertificateChain> (
-				new dcp::CertificateChain (
-					openssl_path (),
-					d->organisation (),
-					d->organisational_unit (),
-					d->root_common_name (),
-					d->intermediate_common_name (),
-					d->leaf_common_name ()
-					)
+			make_shared<dcp::CertificateChain> (
+				openssl_path (),
+				d->organisation (),
+				d->organisational_unit (),
+				d->root_common_name (),
+				d->intermediate_common_name (),
+				d->leaf_common_name ()
 				)
 			);
 
@@ -605,8 +602,8 @@ void
 CertificateChainEditor::update_sensitivity ()
 {
 	/* We can only remove the leaf certificate */
-	_remove_certificate->Enable (_certificates->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED) == (_certificates->GetItemCount() - 1));
-	_export_certificate->Enable (_certificates->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED) != -1);
+	_remove_certificate->Enable (_certificates->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED) == (_certificates->GetItemCount() - 1));
+	_export_certificate->Enable (_certificates->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED) != -1);
 }
 
 void
@@ -619,7 +616,7 @@ CertificateChainEditor::update_private_key ()
 void
 CertificateChainEditor::import_private_key ()
 {
-	wxFileDialog* d = new wxFileDialog (this, _("Select Key File"));
+	auto d = new wxFileDialog (this, _("Select Key File"));
 
 	if (d->ShowModal() == wxID_OK) {
 		try {
@@ -632,7 +629,7 @@ CertificateChainEditor::import_private_key ()
 				return;
 			}
 
-			shared_ptr<dcp::CertificateChain> chain(new dcp::CertificateChain(*_get().get()));
+			auto chain = make_shared<dcp::CertificateChain>(*_get().get());
 			chain->set_key (dcp::file_to_string (p));
 			_set (chain);
 			update_private_key ();
@@ -649,7 +646,7 @@ CertificateChainEditor::import_private_key ()
 void
 CertificateChainEditor::export_private_key ()
 {
-	optional<string> key = _get()->key();
+	auto key = _get()->key();
 	if (!key) {
 		return;
 	}
@@ -669,7 +666,7 @@ CertificateChainEditor::export_private_key ()
 			throw OpenFileError (path, errno, OpenFileError::WRITE);
 		}
 
-		string const s = _get()->key().get ();
+		auto const s = _get()->key().get ();
 		checked_fwrite (s.c_str(), s.length(), f, path);
 		fclose (f);
 	}
@@ -688,23 +685,23 @@ KeysPage::setup ()
 	wxFont subheading_font (*wxNORMAL_FONT);
 	subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
 
-	wxSizer* sizer = _panel->GetSizer();
+	auto sizer = _panel->GetSizer();
 
 	{
-		wxStaticText* m = new StaticText (_panel, _("Decrypting KDMs"));
+		auto m = new StaticText (_panel, _("Decrypting KDMs"));
 		m->SetFont (subheading_font);
 		sizer->Add (m, 0, wxALL, _border);
 	}
 
-	wxSizer* buttons = new wxBoxSizer (wxVERTICAL);
+	auto buttons = new wxBoxSizer (wxVERTICAL);
 
 	wxButton* export_decryption_certificate = new Button (_panel, _("Export KDM decryption certificate..."));
 	buttons->Add (export_decryption_certificate, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-	wxButton* export_settings = new Button (_panel, _("Export all KDM decryption settings..."));
+	auto export_settings = new Button (_panel, _("Export all KDM decryption settings..."));
 	buttons->Add (export_settings, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-	wxButton* import_settings = new Button (_panel, _("Import all KDM decryption settings..."));
+	auto import_settings = new Button (_panel, _("Import all KDM decryption settings..."));
 	buttons->Add (import_settings, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-	wxButton* decryption_advanced = new Button (_panel, _("Advanced..."));
+	auto decryption_advanced = new Button (_panel, _("Advanced..."));
 	buttons->Add (decryption_advanced, 0);
 
 	sizer->Add (buttons, 0, wxLEFT, _border);
@@ -715,12 +712,12 @@ KeysPage::setup ()
 	decryption_advanced->Bind (wxEVT_BUTTON, bind (&KeysPage::decryption_advanced, this));
 
 	{
-		wxStaticText* m = new StaticText (_panel, _("Signing DCPs and KDMs"));
+		auto m = new StaticText (_panel, _("Signing DCPs and KDMs"));
 		m->SetFont (subheading_font);
 		sizer->Add (m, 0, wxALL, _border);
 	}
 
-	wxButton* signing_advanced = new Button (_panel, _("Advanced..."));
+	auto signing_advanced = new Button (_panel, _("Advanced..."));
 	sizer->Add (signing_advanced, 0, wxLEFT | wxBOTTOM, _border);
 	signing_advanced->Bind (wxEVT_BUTTON, bind (&KeysPage::signing_advanced, this));
 }
@@ -728,11 +725,11 @@ KeysPage::setup ()
 void
 KeysPage::decryption_advanced ()
 {
-	CertificateChainEditor* c = new CertificateChainEditor (
+	auto c = new CertificateChainEditor (
 		_panel, _("Decrypting KDMs"), _border,
-		bind (&Config::set_decryption_chain, Config::instance (), _1),
-		bind (&Config::decryption_chain, Config::instance ()),
-		bind (&KeysPage::nag_alter_decryption_chain, this)
+		bind(&Config::set_decryption_chain, Config::instance(), _1),
+		bind(&Config::decryption_chain, Config::instance()),
+		bind(&KeysPage::nag_alter_decryption_chain, this)
 		);
 
 	c->ShowModal();
@@ -741,11 +738,11 @@ KeysPage::decryption_advanced ()
 void
 KeysPage::signing_advanced ()
 {
-	CertificateChainEditor* c = new CertificateChainEditor (
+	auto c = new CertificateChainEditor (
 		_panel, _("Signing DCPs and KDMs"), _border,
-		bind (&Config::set_signer_chain, Config::instance (), _1),
-		bind (&Config::signer_chain, Config::instance ()),
-		bind (&do_nothing)
+		bind(&Config::set_signer_chain, Config::instance(), _1),
+		bind(&Config::signer_chain, Config::instance()),
+		bind(&do_nothing)
 		);
 
 	c->ShowModal();
@@ -754,19 +751,19 @@ KeysPage::signing_advanced ()
 void
 KeysPage::export_decryption_chain_and_key ()
 {
-	wxFileDialog* d = new wxFileDialog (
+	auto d = new wxFileDialog (
 		_panel, _("Select Export File"), wxEmptyString, wxEmptyString, wxT ("DOM files (*.dom)|*.dom"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
 	if (d->ShowModal () == wxID_OK) {
 		boost::filesystem::path path (wx_to_std(d->GetPath()));
-		FILE* f = fopen_boost (path, "w");
+		auto f = fopen_boost (path, "w");
 		if (!f) {
 			throw OpenFileError (path, errno, OpenFileError::WRITE);
 		}
 
-		string const chain = Config::instance()->decryption_chain()->chain();
+		auto const chain = Config::instance()->decryption_chain()->chain();
 		checked_fwrite (chain.c_str(), chain.length(), f, path);
 		optional<string> const key = Config::instance()->decryption_chain()->key();
 		DCPOMATIC_ASSERT (key);
@@ -789,12 +786,12 @@ KeysPage::import_decryption_chain_and_key ()
 		return;
 	}
 
-	wxFileDialog* d = new wxFileDialog (
+	auto d = new wxFileDialog (
 		_panel, _("Select File To Import"), wxEmptyString, wxEmptyString, wxT ("DOM files (*.dom)|*.dom")
 		);
 
 	if (d->ShowModal () == wxID_OK) {
-		shared_ptr<dcp::CertificateChain> new_chain(new dcp::CertificateChain());
+		auto new_chain = make_shared<dcp::CertificateChain>();
 
 		FILE* f = fopen_boost (wx_to_std (d->GetPath ()), "r");
 		if (!f) {
@@ -856,7 +853,7 @@ KeysPage::export_decryption_certificate ()
 			throw OpenFileError (path, errno, OpenFileError::WRITE);
 		}
 
-		string const s = Config::instance()->decryption_chain()->leaf().certificate (true);
+		auto const s = Config::instance()->decryption_chain()->leaf().certificate (true);
 		checked_fwrite (s.c_str(), s.length(), f, path);
 		fclose (f);
 	}
@@ -873,7 +870,7 @@ SoundPage::GetName () const
 void
 SoundPage::setup ()
 {
-	wxGridBagSizer* table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	auto table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 
 	int r = 0;
@@ -906,7 +903,7 @@ SoundPage::setup ()
 	RtAudio audio (DCPOMATIC_RTAUDIO_API);
 	for (unsigned int i = 0; i < audio.getDeviceCount(); ++i) {
 		try {
-			RtAudio::DeviceInfo dev = audio.getDeviceInfo (i);
+			auto dev = audio.getDeviceInfo (i);
 			if (dev.probed && dev.outputChannels > 0) {
 				_sound_output->Append (std_to_wx (dev.name));
 			}
@@ -943,7 +940,7 @@ void
 SoundPage::sound_output_changed ()
 {
 	RtAudio audio (DCPOMATIC_RTAUDIO_API);
-	optional<string> const so = get_sound_output();
+	auto const so = get_sound_output();
 	string default_device;
 	try {
 		default_device = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
@@ -960,11 +957,11 @@ SoundPage::sound_output_changed ()
 void
 SoundPage::config_changed ()
 {
-	Config* config = Config::instance ();
+	auto config = Config::instance ();
 
 	checked_set (_sound, config->sound ());
 
-	optional<string> const current_so = get_sound_output ();
+	auto const current_so = get_sound_output ();
 	optional<string> configured_so;
 
 	if (config->sound_output()) {
@@ -1008,7 +1005,7 @@ SoundPage::config_changed ()
 	if (configured_so) {
 		for (unsigned int i = 0; i < audio.getDeviceCount(); ++i) {
 			try {
-				RtAudio::DeviceInfo info = audio.getDeviceInfo(i);
+				auto info = audio.getDeviceInfo(i);
 				if (info.name == *configured_so && info.outputChannels > 0) {
 					channels = info.outputChannels;
 				}
@@ -1083,7 +1080,7 @@ LocationsPage::setup ()
 {
 	int r = 0;
 
-	wxGridBagSizer* table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	auto table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 
 	add_label_to_sizer (table, _panel, _("Content directory"), true, wxGBPosition (r, 0));
@@ -1109,7 +1106,7 @@ LocationsPage::setup ()
 void
 LocationsPage::config_changed ()
 {
-	Config* config = Config::instance ();
+	auto config = Config::instance ();
 
 	if (config->player_content_directory()) {
 		checked_set (_content_directory, *config->player_content_directory());
