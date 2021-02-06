@@ -436,11 +436,23 @@ CertificateChainEditor::export_certificate ()
 
 	wxFileDialog* d = new wxFileDialog (
 		this, _("Select Certificate File"), wxEmptyString, wxEmptyString, wxT ("PEM files (*.pem)|*.pem"),
+	auto all = _get()->root_to_leaf();
+
+	wxString default_name;
+	if (i == 0) {
+		default_name = "root.pem";
+	} else if (i == static_cast<int>(all.size() - 1)) {
+		default_name = "leaf.pem";
+	} else {
+		default_name = "intermediate.pem";
+	}
+
+	auto d = new wxFileDialog(
+		this, _("Select Certificate File"), wxEmptyString, default_name, wxT ("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
-	dcp::CertificateChain::List all = _get()->root_to_leaf ();
-	dcp::CertificateChain::List::iterator j = all.begin ();
+	auto j = all.begin ();
 	for (int k = 0; k < i; ++k) {
 		++j;
 	}
@@ -462,8 +474,8 @@ CertificateChainEditor::export_certificate ()
 void
 CertificateChainEditor::export_chain ()
 {
-	wxFileDialog* d = new wxFileDialog (
-		this, _("Select Chain File"), wxEmptyString, wxEmptyString, wxT("PEM files (*.pem)|*.pem"),
+	auto d = new wxFileDialog (
+		this, _("Select Chain File"), wxEmptyString, _("certificate_chain.pem"), wxT("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
@@ -636,8 +648,8 @@ CertificateChainEditor::export_private_key ()
 		return;
 	}
 
-	wxFileDialog* d = new wxFileDialog (
-		this, _("Select Key File"), wxEmptyString, wxEmptyString, wxT ("PEM files (*.pem)|*.pem"),
+	auto d = new wxFileDialog (
+		this, _("Select Key File"), wxEmptyString, _("private_key.pem"), wxT ("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
