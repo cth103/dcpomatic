@@ -459,7 +459,10 @@ CertificateChainEditor::export_certificate ()
 
 	if (d->ShowModal () == wxID_OK) {
 		boost::filesystem::path path (wx_to_std(d->GetPath()));
-		FILE* f = fopen_boost (path, "w");
+		if (path.extension() != ".pem") {
+			path += ".pem";
+		}
+		auto f = fopen_boost (path, "w");
 		if (!f) {
 			throw OpenFileError (path, errno, OpenFileError::WRITE);
 		}
@@ -481,7 +484,10 @@ CertificateChainEditor::export_chain ()
 
 	if (d->ShowModal () == wxID_OK) {
 		boost::filesystem::path path (wx_to_std(d->GetPath()));
-		FILE* f = fopen_boost (path, "w");
+		if (path.extension() != ".pem") {
+			path += ".pem";
+		}
+		auto f = fopen_boost (path, "w");
 		if (!f) {
 			throw OpenFileError (path, errno, OpenFileError::WRITE);
 		}
@@ -655,7 +661,10 @@ CertificateChainEditor::export_private_key ()
 
 	if (d->ShowModal () == wxID_OK) {
 		boost::filesystem::path path (wx_to_std(d->GetPath()));
-		FILE* f = fopen_boost (path, "w");
+		if (path.extension() != ".pem") {
+			path += ".pem";
+		}
+		auto f = fopen_boost (path, "w");
 		if (!f) {
 			throw OpenFileError (path, errno, OpenFileError::WRITE);
 		}
@@ -839,7 +848,10 @@ KeysPage::export_decryption_certificate ()
 
 	if (d->ShowModal () == wxID_OK) {
 		boost::filesystem::path path (wx_to_std(d->GetPath()));
-		FILE* f = fopen_boost (path, "w");
+		if (path.extension() != ".pem") {
+			path += ".pem";
+		}
+		auto f = fopen_boost (path, "w");
 		if (!f) {
 			throw OpenFileError (path, errno, OpenFileError::WRITE);
 		}
