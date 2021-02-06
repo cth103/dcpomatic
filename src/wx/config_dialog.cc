@@ -695,7 +695,7 @@ KeysPage::setup ()
 
 	auto buttons = new wxBoxSizer (wxVERTICAL);
 
-	wxButton* export_decryption_certificate = new Button (_panel, _("Export KDM decryption certificate..."));
+	auto export_decryption_certificate = new Button (_panel, _("Export KDM decryption leaf certificate..."));
 	buttons->Add (export_decryption_certificate, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 	auto export_settings = new Button (_panel, _("Export all KDM decryption settings..."));
 	buttons->Add (export_settings, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
