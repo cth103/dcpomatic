@@ -37,7 +37,7 @@
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
-#include <dcp/j2k.h>
+#include <dcp/j2k_transcode.h>
 #include <dcp/mono_picture_asset.h>
 #include <dcp/mono_picture_asset_reader.h>
 #include <dcp/mono_picture_frame.h>

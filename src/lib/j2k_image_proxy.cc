@@ -29,7 +29,7 @@
 #include <dcp/stereo_picture_frame.h>
 #include <dcp/colour_conversion.h>
 #include <dcp/rgb_xyz.h>
-#include <dcp/j2k.h>
+#include <dcp/j2k_transcode.h>
 #include <libcxml/cxml.h>
 DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>

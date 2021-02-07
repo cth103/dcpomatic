@@ -30,7 +30,7 @@
 #include "image.h"
 #include <dcp/openjpeg_image.h>
 #include <dcp/exceptions.h>
-#include <dcp/j2k.h>
+#include <dcp/j2k_transcode.h>
 #include <iostream>
 
 #include "i18n.h"
