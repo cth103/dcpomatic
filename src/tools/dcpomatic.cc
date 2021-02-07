@@ -1710,17 +1710,27 @@ private:
 			throw;
 		} catch (FileError& e) {
 			error_dialog (
-				0,
-				wxString::Format (
+				nullptr,
+				wxString::Format(
 					_("An exception occurred: %s (%s)\n\n") + REPORT_PROBLEM,
 					std_to_wx (e.what()),
-					std_to_wx (e.file().string().c_str ())
+					std_to_wx (e.file().string().c_str())
+					)
+				);
+		} catch (boost::filesystem::filesystem_error& e) {
+			error_dialog (
+				nullptr,
+				wxString::Format(
+					_("An exception occurred: %s (%s) (%s)\n\n") + REPORT_PROBLEM,
+					std_to_wx (e.what()),
+					std_to_wx (e.path1().string()),
+					std_to_wx (e.path2().string())
 					)
 				);
 		} catch (exception& e) {
 			error_dialog (
 				nullptr,
-				wxString::Format (
+				wxString::Format(
 					_("An exception occurred: %s.\n\n") + REPORT_PROBLEM,
 					std_to_wx (e.what ())
 					)
