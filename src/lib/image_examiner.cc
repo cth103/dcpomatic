@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "image_content.h"
 #include "image_examiner.h"
 #include "film.h"
@@ -35,24 +36,26 @@
 
 #include "i18n.h"
 
+
 using std::cout;
 using std::list;
 using std::sort;
 using std::shared_ptr;
 using boost::optional;
 
+
 ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const ImageContent> content, shared_ptr<Job>)
 	: _film (film)
 	, _image_content (content)
 {
-	boost::filesystem::path path = content->path(0).string ();
+	auto path = content->path(0);
 	if (valid_j2k_file (path)) {
-		boost::uintmax_t size = boost::filesystem::file_size (path);
-		FILE* f = fopen_boost (path, "rb");
+		auto size = boost::filesystem::file_size (path);
+		auto f = fopen_boost (path, "rb");
 		if (!f) {
 			throw FileError ("Could not open file for reading", path);
 		}
-		uint8_t* buffer = new uint8_t[size];
+		auto buffer = new uint8_t[size];
 		checked_fread (buffer, size, f, path);
 		fclose (f);
 		try {
@@ -74,11 +77,13 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 	}
 }
 
+
 dcp::Size
 ImageExaminer::video_size () const
 {
 	return _video_size.get ();
 }
+
 
 optional<double>
 ImageExaminer::video_frame_rate () const
@@ -89,8 +94,9 @@ ImageExaminer::video_frame_rate () const
 	}
 
 	/* Don't know */
-	return optional<double> ();
+	return {};
 }
+
 
 bool
 ImageExaminer::yuv () const
