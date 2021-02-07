@@ -296,6 +296,45 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::Code::PARTIALLY_ENCRYPTED:
 			add(i, _("The DCP has encrypted content, but not all its assets are encrypted."));
 			break;
+		case dcp::VerificationNote::Code::INVALID_JPEG2000_CODESTREAM:
+			add(i, _("A picture frame has an invalid JPEG2000 codestream (%n)"));
+			break;
+		case dcp::VerificationNote::Code::INVALID_JPEG2000_GUARD_BITS_FOR_2K:
+			add(i, _("A 2K JPEG2000 frame has %n guard bits instead of 1."));
+			break;
+		case dcp::VerificationNote::Code::INVALID_JPEG2000_GUARD_BITS_FOR_4K:
+			add(i, _("A 4K JPEG2000 frame has %n guard bits instead of 2."));
+			break;
+		case dcp::VerificationNote::Code::INVALID_JPEG2000_TILE_SIZE:
+			add(i, _("A JPEG2000 tile size does not match the image size."));
+			break;
+		case dcp::VerificationNote::Code::INVALID_JPEG2000_CODE_BLOCK_WIDTH:
+			add(i, _("A JPEG2000 frame has a code-block width of %n instead of 32."));
+			break;
+		case dcp::VerificationNote::Code::INVALID_JPEG2000_CODE_BLOCK_HEIGHT:
+			add(i, _("A JPEG2000 frame has a code-block height of %n instead of 32."));
+			break;
+		case dcp::VerificationNote::Code::INCORRECT_JPEG2000_POC_MARKER_COUNT_FOR_2K:
+			add(i, _("A 2K JPEG2000 frame has %n POC marker(s) instead of 0."));
+			break;
+		case dcp::VerificationNote::Code::INCORRECT_JPEG2000_POC_MARKER_COUNT_FOR_4K:
+			add(i, _("A 4K JPEG2000 frame has %n POC marker(s) instead of 1."));
+			break;
+		case dcp::VerificationNote::Code::INCORRECT_JPEG2000_POC_MARKER:
+			add(i, _("A JPEG2000 frame contains an invalid POC marker (%n)."));
+			break;
+		case dcp::VerificationNote::Code::INVALID_JPEG2000_POC_MARKER_LOCATION:
+			add(i, _("A JPEG2000 frame contains POC marker in an invalid location."));
+			break;
+		case dcp::VerificationNote::Code::INVALID_JPEG2000_TILE_PARTS_FOR_2K:
+			add(i, _("A 2K JPEG2000 frame contains %n tile parts instead of 3."));
+			break;
+		case dcp::VerificationNote::Code::INVALID_JPEG2000_TILE_PARTS_FOR_4K:
+			add(i, _("A 2K JPEG2000 frame contains %n tile parts instead of 6."));
+			break;
+		case dcp::VerificationNote::Code::MISSING_JPEG200_TLM_MARKER:
+			add(i, _("A JPEG2000 frame has no TLM marker."));
+			break;
 		}
 	}
 
