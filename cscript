@@ -390,7 +390,7 @@ option_defaults = { "gui": True, "variant": None }
 def configure_options(target, options):
     opt = ' --warnings-are-errors'
 
-    if not ((target.platform == 'linux' and target.distro == 'ubuntu' and target.version in ('16,04', '18.04')) or
+    if not ((target.platform == 'linux' and target.distro == 'ubuntu' and target.version in ('16.04', '18.04')) or
             (target.platform == 'osx') or
             (target.platform == 'windows')):
         # Currently we only build tests on Ubuntu {16,18}.04, macOS and Windows
