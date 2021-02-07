@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -17,6 +17,7 @@
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 
 #include "content_menu.h"
 #include "repeat_dialog.h"
@@ -45,6 +46,7 @@
 #include <wx/dirdlg.h>
 #include <iostream>
 
+
 using std::cout;
 using std::vector;
 using std::exception;
@@ -52,6 +54,7 @@ using std::list;
 using std::shared_ptr;
 using std::weak_ptr;
 using std::dynamic_pointer_cast;
+using std::make_shared;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -72,6 +75,7 @@ enum {
 	ID_set_dcp_settings,
 	ID_remove
 };
+
 
 ContentMenu::ContentMenu (wxWindow* p)
 	: _menu (new wxMenu)
@@ -135,7 +139,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 	_re_examine->Enable (!_content.empty ());
 
 	if (_content.size() == 1) {
-		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (_content.front ());
+		auto dcp = dynamic_pointer_cast<DCPContent> (_content.front());
 		if (dcp) {
 			_kdm->Enable (dcp->encrypted ());
 			_ov->Enable (dcp->needs_assets ());
@@ -147,7 +151,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 				/* We can't have 0 as a menu item ID on OS X */
 				int id = 1;
 				for (auto i: cpls) {
-					wxMenuItem* item = _cpl_menu->AppendRadioItem (
+					auto item = _cpl_menu->AppendRadioItem (
 						id++,
 						wxString::Format (
 							"%s (%s)",
@@ -186,13 +190,13 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 void
 ContentMenu::set_dcp_settings ()
 {
-	shared_ptr<Film> film = _film.lock ();
+	auto film = _film.lock ();
 	if (!film) {
 		return;
 	}
 
 	DCPOMATIC_ASSERT (_content.size() == 1);
-	shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent>(_content.front());
+	auto dcp = dynamic_pointer_cast<DCPContent>(_content.front());
 	DCPOMATIC_ASSERT (dcp);
 	copy_dcp_details_to_film (dcp, film);
 }
@@ -205,13 +209,13 @@ ContentMenu::repeat ()
 		return;
 	}
 
-	RepeatDialog* d = new RepeatDialog (_parent);
+	auto d = new RepeatDialog (_parent);
 	if (d->ShowModal() != wxID_OK) {
 		d->Destroy ();
 		return;
 	}
 
-	shared_ptr<Film> film = _film.lock ();
+	auto film = _film.lock ();
 	if (!film) {
 		return;
 	}
@@ -223,12 +227,13 @@ ContentMenu::repeat ()
 	_views.clear ();
 }
 
+
 void
 ContentMenu::join ()
 {
-	vector<shared_ptr<Content> > fc;
+	vector<shared_ptr<Content>> fc;
 	for (auto i: _content) {
-		shared_ptr<FFmpegContent> f = dynamic_pointer_cast<FFmpegContent> (i);
+		auto f = dynamic_pointer_cast<FFmpegContent> (i);
 		if (f) {
 			fc.push_back (f);
 		}
@@ -236,19 +241,20 @@ ContentMenu::join ()
 
 	DCPOMATIC_ASSERT (fc.size() > 1);
 
-	shared_ptr<Film> film = _film.lock ();
+	auto film = _film.lock ();
 	if (!film) {
 		return;
 	}
 
 	try {
-		shared_ptr<FFmpegContent> joined (new FFmpegContent(fc));
+		auto joined = make_shared<FFmpegContent>(fc);
 		film->remove_content (_content);
 		film->examine_and_add_content (joined);
 	} catch (JoinError& e) {
 		error_dialog (_parent, std_to_wx (e.what ()));
 	}
 }
+
 
 void
 ContentMenu::remove ()
@@ -257,7 +263,7 @@ ContentMenu::remove ()
 		return;
 	}
 
-	shared_ptr<Film> film = _film.lock ();
+	auto film = _film.lock ();
 	if (!film) {
 		return;
 	}
@@ -269,7 +275,7 @@ ContentMenu::remove ()
 		   if not, and its audio view is selected, we unmap the audio.
 		*/
 		for (auto i: _content) {
-			shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (i);
+			auto fc = dynamic_pointer_cast<FFmpegContent> (i);
 			if (!fc) {
 				continue;
 			}
@@ -278,8 +284,8 @@ ContentMenu::remove ()
 			shared_ptr<TimelineAudioContentView> audio;
 
 			for (auto j: _views) {
-				shared_ptr<TimelineVideoContentView> v = dynamic_pointer_cast<TimelineVideoContentView> (j);
-				shared_ptr<TimelineAudioContentView> a = dynamic_pointer_cast<TimelineAudioContentView> (j);
+				auto v = dynamic_pointer_cast<TimelineVideoContentView>(j);
+				auto a = dynamic_pointer_cast<TimelineAudioContentView>(j);
 				if (v && v->content() == fc) {
 					video = v;
 				} else if (a && a->content() == fc) {
@@ -288,7 +294,7 @@ ContentMenu::remove ()
 			}
 
 			if (!video && audio) {
-				AudioMapping m = fc->audio->mapping ();
+				auto m = fc->audio->mapping ();
 				m.unmap_all ();
 				fc->audio->set_mapping (m);
 				handled = true;
@@ -304,6 +310,7 @@ ContentMenu::remove ()
 	_views.clear ();
 }
 
+
 void
 ContentMenu::find_missing ()
 {
@@ -311,35 +318,35 @@ ContentMenu::find_missing ()
 		return;
 	}
 
-	shared_ptr<const Film> film = _film.lock ();
+	auto film = _film.lock ();
 	if (!film) {
 		return;
 	}
 
 	/* XXX: a bit nasty */
-	shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (_content.front ());
-	shared_ptr<DCPContent> dc = dynamic_pointer_cast<DCPContent> (_content.front ());
+	auto ic = dynamic_pointer_cast<ImageContent> (_content.front());
+	auto dc = dynamic_pointer_cast<DCPContent> (_content.front());
 
 	int r = wxID_CANCEL;
 	boost::filesystem::path path;
 
 	if ((ic && !ic->still ()) || dc) {
-		wxDirDialog* d = new wxDirDialog (0, _("Choose a folder"), wxT (""), wxDD_DIR_MUST_EXIST);
+		auto d = new wxDirDialog (0, _("Choose a folder"), wxT (""), wxDD_DIR_MUST_EXIST);
 		r = d->ShowModal ();
 		path = wx_to_std (d->GetPath ());
 		d->Destroy ();
 	} else {
-		wxFileDialog* d = new wxFileDialog (0, _("Choose a file"), wxT (""), wxT (""), wxT ("*.*"), wxFD_MULTIPLE);
+		auto d = new wxFileDialog (0, _("Choose a file"), wxT (""), wxT (""), wxT ("*.*"), wxFD_MULTIPLE);
 		r = d->ShowModal ();
 		path = wx_to_std (d->GetPath ());
 		d->Destroy ();
 	}
 
-	list<shared_ptr<Content> > content;
+	list<shared_ptr<Content>> content;
 
 	if (r == wxID_OK) {
 		if (dc) {
-			content.push_back (shared_ptr<DCPContent>(new DCPContent(path)));
+			content.push_back (make_shared<DCPContent>(path));
 		} else {
 			content = content_factory (path);
 		}
@@ -350,7 +357,7 @@ ContentMenu::find_missing ()
 	}
 
 	for (auto i: content) {
-		shared_ptr<Job> j (new ExamineContentJob (film, i));
+		auto j = make_shared<ExamineContentJob>(film, i);
 
 		j->Finished.connect (
 			bind (
@@ -369,7 +376,7 @@ ContentMenu::find_missing ()
 void
 ContentMenu::re_examine ()
 {
-	shared_ptr<Film> film = _film.lock ();
+	auto film = _film.lock ();
 	if (!film) {
 		return;
 	}
@@ -382,13 +389,13 @@ ContentMenu::re_examine ()
 void
 ContentMenu::maybe_found_missing (weak_ptr<Job> j, weak_ptr<Content> oc, weak_ptr<Content> nc)
 {
-	shared_ptr<Job> job = j.lock ();
+	auto job = j.lock ();
 	if (!job || !job->finished_ok ()) {
 		return;
 	}
 
-	shared_ptr<Content> old_content = oc.lock ();
-	shared_ptr<Content> new_content = nc.lock ();
+	auto old_content = oc.lock ();
+	auto new_content = nc.lock ();
 	DCPOMATIC_ASSERT (old_content);
 	DCPOMATIC_ASSERT (new_content);
 
@@ -404,10 +411,10 @@ void
 ContentMenu::kdm ()
 {
 	DCPOMATIC_ASSERT (!_content.empty ());
-	shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (_content.front ());
+	auto dcp = dynamic_pointer_cast<DCPContent> (_content.front());
 	DCPOMATIC_ASSERT (dcp);
 
-	wxFileDialog* d = new wxFileDialog (_parent, _("Select KDM"));
+	auto d = new wxFileDialog (_parent, _("Select KDM"));
 
 	if (d->ShowModal() == wxID_OK) {
 		optional<dcp::EncryptedKDM> kdm;
@@ -452,9 +459,9 @@ ContentMenu::kdm ()
 
 		dcp->add_kdm (*kdm);
 
-		shared_ptr<Film> film = _film.lock ();
+		auto film = _film.lock ();
 		DCPOMATIC_ASSERT (film);
-		JobManager::instance()->add (shared_ptr<Job> (new ExamineContentJob (film, dcp)));
+		JobManager::instance()->add (make_shared<ExamineContentJob>(film, dcp));
 	}
 
 	d->Destroy ();
@@ -464,16 +471,16 @@ void
 ContentMenu::ov ()
 {
 	DCPOMATIC_ASSERT (!_content.empty ());
-	shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (_content.front ());
+	auto dcp = dynamic_pointer_cast<DCPContent> (_content.front());
 	DCPOMATIC_ASSERT (dcp);
 
-	wxDirDialog* d = new wxDirDialog (_parent, _("Select OV"));
+	auto d = new wxDirDialog (_parent, _("Select OV"));
 
 	if (d->ShowModal() == wxID_OK) {
-		dcp->add_ov (wx_to_std (d->GetPath ()));
+		dcp->add_ov (wx_to_std (d->GetPath()));
 		shared_ptr<Film> film = _film.lock ();
 		DCPOMATIC_ASSERT (film);
-		JobManager::instance()->add (shared_ptr<Job> (new ExamineContentJob (film, dcp)));
+		JobManager::instance()->add (make_shared<ExamineContentJob>(film, dcp));
 	}
 
 	d->Destroy ();
@@ -482,9 +489,9 @@ ContentMenu::ov ()
 void
 ContentMenu::properties ()
 {
-	shared_ptr<Film> film = _film.lock ();
+	auto film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	ContentPropertiesDialog* d = new ContentPropertiesDialog (_parent, film, _content.front());
+	auto d = new ContentPropertiesDialog (_parent, film, _content.front());
 	d->ShowModal ();
 	d->Destroy ();
 }
@@ -493,7 +500,7 @@ ContentMenu::properties ()
 void
 ContentMenu::advanced ()
 {
-	ContentAdvancedDialog* d = new ContentAdvancedDialog (_parent, _content.front());
+	auto d = new ContentAdvancedDialog (_parent, _content.front());
 	d->ShowModal ();
 	d->Destroy ();
 }
@@ -507,21 +514,21 @@ ContentMenu::cpl_selected (wxCommandEvent& ev)
 	}
 
 	DCPOMATIC_ASSERT (!_content.empty ());
-	shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (_content.front ());
+	auto dcp = dynamic_pointer_cast<DCPContent> (_content.front());
 	DCPOMATIC_ASSERT (dcp);
 
 	DCPExaminer ex (dcp, true);
-	list<shared_ptr<dcp::CPL> > cpls = ex.cpls ();
+	auto cpls = ex.cpls ();
 	DCPOMATIC_ASSERT (ev.GetId() > 0);
 	DCPOMATIC_ASSERT (ev.GetId() <= int (cpls.size()));
 
-	list<shared_ptr<dcp::CPL> >::const_iterator i = cpls.begin ();
+	auto i = cpls.begin ();
 	for (int j = 0; j < ev.GetId() - 1; ++j) {
 		++i;
 	}
 
 	dcp->set_cpl ((*i)->id ());
-	shared_ptr<Film> film = _film.lock ();
+	auto film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	JobManager::instance()->add (shared_ptr<Job> (new ExamineContentJob (film, dcp)));
+	JobManager::instance()->add (make_shared<ExamineContentJob>(film, dcp));
 }
