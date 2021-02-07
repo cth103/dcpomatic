@@ -336,7 +336,7 @@ ContentMenu::find_missing ()
 		path = wx_to_std (d->GetPath ());
 		d->Destroy ();
 	} else {
-		auto d = new wxFileDialog (0, _("Choose a file"), wxT (""), wxT (""), wxT ("*.*"), wxFD_MULTIPLE);
+		auto d = new wxFileDialog (0, _("Choose a file"), wxT (""), wxT (""), wxT ("*.*"));
 		r = d->ShowModal ();
 		path = wx_to_std (d->GetPath ());
 		d->Destroy ();
