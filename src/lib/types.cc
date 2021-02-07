@@ -220,7 +220,9 @@ CPLSummary::CPLSummary (boost::filesystem::path p)
 		}
 	}
 
-	last_write_time = boost::filesystem::last_write_time (p);
+	boost::system::error_code ec;
+	auto last_write = boost::filesystem::last_write_time (p, ec);
+	last_write_time = ec ? 0 : last_write;
 }
 
 

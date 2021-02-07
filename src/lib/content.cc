@@ -96,10 +96,10 @@ Content::Content (cxml::ConstNodePtr node)
 		auto const mod = i->optional_number_attribute<time_t>("mtime");
 		if (mod) {
 			_last_write_times.push_back (*mod);
-		} else if (boost::filesystem::exists(i->content())) {
-			_last_write_times.push_back (boost::filesystem::last_write_time(i->content()));
 		} else {
-			_last_write_times.push_back (0);
+			boost::system::error_code ec;
+			auto last_write = boost::filesystem::last_write_time(i->content(), ec);
+			_last_write_times.push_back (ec ? 0 : last_write);
 		}
 	}
 	_digest = node->optional_string_child ("Digest").get_value_or ("X");
@@ -192,7 +192,9 @@ Content::examine (shared_ptr<const Film>, shared_ptr<Job> job)
 
 	_last_write_times.clear ();
 	for (auto i: _paths) {
-		_last_write_times.push_back (boost::filesystem::last_write_time(i));
+		boost::system::error_code ec;
+		auto last_write = boost::filesystem::last_write_time(i, ec);
+		_last_write_times.push_back (ec ? 0 : last_write);
 	}
 }
 
@@ -345,7 +347,9 @@ Content::set_paths (vector<boost::filesystem::path> paths)
 		_paths = paths;
 		_last_write_times.clear ();
 		for (auto i: _paths) {
-			_last_write_times.push_back (boost::filesystem::last_write_time(i));
+			boost::system::error_code ec;
+			auto last_write = boost::filesystem::last_write_time(i, ec);
+			_last_write_times.push_back (ec ? 0 : last_write);
 		}
 	}
 }
@@ -508,5 +512,7 @@ Content::add_path (boost::filesystem::path p)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	_paths.push_back (p);
-	_last_write_times.push_back (boost::filesystem::last_write_time(p));
+	boost::system::error_code ec;
+	auto last_write = boost::filesystem::last_write_time(p, ec);
+	_last_write_times.push_back (ec ? 0 : last_write);
 }
