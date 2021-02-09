@@ -717,8 +717,11 @@ private:
 			--id;
 		}
 
+		_viewer->set_coalesce_player_changes (true);
 		dcp->set_cpl ((*i)->id());
 		examine_content ();
+		_viewer->set_coalesce_player_changes (false);
+
 		_info->triggered_update ();
 	}
 
