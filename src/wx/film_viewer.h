@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,11 @@
 
 */
 
+
 /** @file  src/film_viewer.h
  *  @brief FilmViewer class.
  */
+
 
 #include "video_view.h"
 #include "lib/film.h"
@@ -33,6 +35,8 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
+#include <vector>
+
 
 class wxToggleButton;
 class FFmpegPlayer;
@@ -42,6 +46,7 @@ class PlayerVideo;
 class Player;
 class Butler;
 class ClosedCaptionsDialog;
+
 
 /** @class FilmViewer
  *  @brief A wx widget to view a Film.
@@ -167,7 +172,7 @@ private:
 
 	VideoView* _video_view;
 	bool _coalesce_player_changes;
-	std::list<int> _pending_player_changes;
+	std::vector<int> _pending_player_changes;
 
 	/** Size of our output (including padding if we have any) */
 	dcp::Size _out_size;
