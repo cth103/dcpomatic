@@ -62,7 +62,7 @@ VideoView::get_next_frame (bool non_blocking)
 		return FAIL;
 	}
 
-	shared_ptr<Butler> butler = _viewer->butler ();
+	auto butler = _viewer->butler ();
 	if (!butler) {
 		return FAIL;
 	}
@@ -72,7 +72,7 @@ VideoView::get_next_frame (bool non_blocking)
 
 	do {
 		Butler::Error e;
-		pair<shared_ptr<PlayerVideo>, dcpomatic::DCPTime> pv = butler->get_video (!non_blocking, &e);
+		auto pv = butler->get_video (!non_blocking, &e);
 		if (e.code == Butler::Error::DIED) {
 			LOG_ERROR ("Butler died with %1", e.summary());
 		}
