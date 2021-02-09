@@ -153,6 +153,7 @@ private:
 	void video_view_sized ();
 	void calculate_sizes ();
 	void player_change (ChangeType type, int, bool);
+	void player_change (std::vector<int> properties);
 	void idle_handler ();
 	void request_idle_display_next_frame ();
 	void film_change (ChangeType, Film::Property);

@@ -67,6 +67,7 @@ using std::make_pair;
 using std::exception;
 using std::shared_ptr;
 using std::dynamic_pointer_cast;
+using std::vector;
 using std::weak_ptr;
 using boost::optional;
 #if BOOST_VERSION >= 106100
@@ -384,25 +385,40 @@ FilmViewer::player_change (ChangeType type, int property, bool frequent)
 		return;
 	}
 
+	player_change ({property});
+}
+
+void
+FilmViewer::player_change (vector<int> properties)
+{
 	calculate_sizes ();
-	bool refreshed = false;
-	if (
-		property == VideoContentProperty::CROP ||
-		property == VideoContentProperty::SCALE ||
-		property == VideoContentProperty::FADE_IN ||
-		property == VideoContentProperty::FADE_OUT ||
-		property == VideoContentProperty::COLOUR_CONVERSION ||
-		property == PlayerProperty::VIDEO_CONTAINER_SIZE ||
-		property == PlayerProperty::FILM_CONTAINER
-		) {
-		refreshed = quick_refresh ();
+
+	bool try_quick_refresh = false;
+	bool update_ccap_tracks = false;
+
+	for (auto i: properties) {
+		if (
+			i == VideoContentProperty::CROP ||
+			i == VideoContentProperty::SCALE ||
+			i == VideoContentProperty::FADE_IN ||
+			i == VideoContentProperty::FADE_OUT ||
+			i == VideoContentProperty::COLOUR_CONVERSION ||
+			i == PlayerProperty::VIDEO_CONTAINER_SIZE ||
+			i == PlayerProperty::FILM_CONTAINER
+		   ) {
+			try_quick_refresh = true;
+		}
+
+		if (i == TextContentProperty::USE || i == TextContentProperty::TYPE || i == TextContentProperty::DCP_TRACK) {
+			update_ccap_tracks = true;
+		}
 	}
 
-	if (!refreshed) {
+	if (!try_quick_refresh || !quick_refresh()) {
 		slow_refresh ();
 	}
 
-	if (property == TextContentProperty::USE || property == TextContentProperty::TYPE || property == TextContentProperty::DCP_TRACK) {
+	if (update_ccap_tracks) {
 		_closed_captions_dialog->update_tracks (_film);
 	}
 }
@@ -466,9 +482,7 @@ FilmViewer::set_coalesce_player_changes (bool c)
 	_coalesce_player_changes = c;
 
 	if (!c) {
-		for (auto i: _pending_player_changes) {
-			player_change (ChangeType::DONE, i, false);
-		}
+		player_change (_pending_player_changes);
 		_pending_player_changes.clear ();
 	}
 }
