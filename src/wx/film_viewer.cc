@@ -180,7 +180,6 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	_player->set_play_referenced ();
 
 	_film->Change.connect (boost::bind (&FilmViewer::film_change, this, _1, _2));
-	_film->ContentChange.connect (boost::bind(&FilmViewer::content_change, this, _1, _3));
 	_film->LengthChange.connect (boost::bind(&FilmViewer::film_length_change, this));
 	_player->Change.connect (boost::bind (&FilmViewer::player_change, this, _1, _2, _3));
 
@@ -401,6 +400,10 @@ FilmViewer::player_change (ChangeType type, int property, bool frequent)
 
 	if (!refreshed) {
 		slow_refresh ();
+	}
+
+	if (property == TextContentProperty::USE || property == TextContentProperty::TYPE || property == TextContentProperty::DCP_TRACK) {
+		_closed_captions_dialog->update_tracks (_film);
 	}
 }
 
@@ -704,19 +707,6 @@ int
 FilmViewer::gets () const
 {
 	return _video_view->gets ();
-}
-
-
-void
-FilmViewer::content_change (ChangeType type, int property)
-{
-	if (type != ChangeType::DONE) {
-		return;
-	}
-
-	if (property == TextContentProperty::USE || property == TextContentProperty::TYPE || property == TextContentProperty::DCP_TRACK) {
-		_closed_captions_dialog->update_tracks (_film);
-	}
 }
 
 
