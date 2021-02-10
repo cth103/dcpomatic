@@ -1,10 +1,41 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif+JP');
+@import url('https://fonts.googleapis.com/css?family=Bebas+Neue');
+
+h1, h2 {
+    font-family: 'Bebas Neue';
+}
+
+h1 {
+	color: #d04040;
+}
+
+h2 {
+	color: #1a9191;
+}
+ 
 body {
-    font-family: luxi sans, sans-serif;
+    font-family: 'Noto Serif JP';
     margin-left: 4em;
     margin-right: 4em;
     margin-top: 1em;
     margin-bottom: 1em;
-    background-color: #E2E8EE;
+    background-color: #fff7f5;
+}
+
+@media (min-width: 1024px) {
+    body {
+        font-size: 1.2vw;
+    }
+
+@media (max-width: 1024px) {
+    body {
+        font-size: 3vw;
+    }
+}
+
+a {
+	color: black;
+	text-underline-offset: 3px;
 }
 
 div.sidebar {
@@ -19,9 +50,9 @@ div.sidebar {
 }
 
 span.guilabel {
-    border-width: 1px;
-    border-style: solid;
-    background-color: #BED2E6;
+    border: 2px solid black;
+	color: white;
+    background-color: #1a9191;
     padding-top: 1px;
     padding-bottom: 1px;
     padding-left: 3px;
@@ -43,5 +74,5 @@ div.note {
 }
 
 code.code {
-    font-size: 125%;
+    font-size: 90%;
 }

@@ -9,6 +9,9 @@
 <!-- I can't fathom xmlto's logic with image scaling, so I've turned it off -->
 <xsl:param name="ignore.image.scaling" select="1"/>
 
+<xsl:param name="generate.toc">article</xsl:param>
+<xsl:param name="generate.toc">book</xsl:param>
+
 <!-- <note> in a div with no heading -->
 <xsl:template name="note.frobozz">
   <xsl:param name="content">

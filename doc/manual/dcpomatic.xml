@@ -112,15 +112,11 @@ version.
 <title>macOS</title>
 
 <para>
-DCP-o-matic will run on macOS version 10.6 (Snow Leopard) and
+DCP-o-matic will run on macOS version 10.10 (Yosemite) and
 higher.  DCP-o-matic is split into seven separate applications, each of
 which can be installed by downloading the <code>.dmg</code>,
 double-clicking to open and then dragging the icon to your
 <guilabel>Applications</guilabel> folder.
-</para>
-
-<para>
-Make sure you choose the correct download, depending on whether you are running macOS 10.9 (Mavericks) (or higher) or something older.
 </para>
 
 <para>
@@ -140,7 +136,7 @@ with the first (main) part.
 
 <itemizedlist>
   <listitem>Debian 9 (&lsquo;squeeze&rsquo;), 10 (&lsquo;buster&rsquo;) and unstable (&lsquo;sid&rsquo;)</listitem>
-  <listitem>Ubuntu 16.04 (&lsquo;Xenial Xerus&rsquo;), 18.04 (&lsquo;Bionic Beaver&rsquo;), 19.10 (&lsquo;Eoan Ermine&rsquo;) and 20.04 (&lsquo;Focal Fossa&rsquo;)</listitem>
+  <listitem>Ubuntu 16.04, 18.04, 20.04 and 20.10</listitem>
   <listitem>Mint 18 and 19</listitem>
 </itemizedlist>
 
@@ -158,7 +154,7 @@ pieces and set DCP-o-matic up for you.
 <section>
   <title>Fedora, Centos and Mageia Linux</title>
 
-  <para>There are <code>.rpm</code> packages for Fedora 30, 31 and 32, Centos 7 and 8 and Mageia 7 on
+  <para>There are <code>.rpm</code> packages for Fedora 31, 32 and 33, Centos 7 and 8 and Mageia 7 on
   <ulink url="https://dcpomatic.com/">https://dcpomatic.com/</ulink>
   </para>
 </section>
@@ -412,8 +408,7 @@ linkend="ch-files"/> for details about the files that DCP-o-matic creates.
 <para>
 Alternatively, DCP-o-matic can upload your DCP directly to a projector
 or Theatre Management System (TMS) that is accessible via SCP or FTP
-across your network.  See the <xref linkend="sec-prefs-tms"
-endterm="sec-prefs-tms-short"/> in <xref linkend="sec-prefs-tms"/>.
+across your network.  See <xref linkend="sec-prefs-tms"/>.
 </para>
 
 </section>
