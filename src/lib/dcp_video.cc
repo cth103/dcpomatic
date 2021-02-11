@@ -133,6 +133,7 @@ DCPVideo::encode_locally ()
 
 	auto xyz = convert_to_xyz (_frame, boost::bind(&Log::dcp_log, dcpomatic_log.get(), _1, _2));
 	int noise_amount = 2;
+	int pixel_skip = 16;
 	while (true) {
 		enc = dcp::compress_j2k (
 			xyz,
@@ -144,10 +145,11 @@ DCPVideo::encode_locally ()
 		);
 
 		if (enc.size() >= minimum_size) {
+			LOG_GENERAL (N_("Frame %1 encoded size was OK (%2)"), _index, enc.size());
 			break;
 		}
 
-		LOG_GENERAL (N_("Frame %1 encoded size was small (%2); adding noise at level %3"), _index, enc.size(), noise_amount);
+		LOG_GENERAL (N_("Frame %1 encoded size was small (%2); adding noise at level %3 with pixel skip %4"), _index, enc.size(), noise_amount, pixel_skip);
 
 		/* The JPEG2000 is too low-bitrate for some decoders <cough>DSS200</cough> so add some noise
 		 * and try again.  This is slow but hopefully won't happen too often.  We have to do
@@ -160,13 +162,18 @@ DCPVideo::encode_locally ()
 		dcpomatic::RNG rng(42);
 		for (auto c = 0; c < 3; ++c) {
 			auto p = xyz->data(c);
-			for (auto i = 0; i < pixels; ++i) {
+			auto e = xyz->data(c) + pixels;
+			while (p < e) {
 				*p = std::min(4095, std::max(0, *p + (rng.get() % noise_amount)));
-				++p;
+				p += pixel_skip;
 			}
 		}
 
-		++noise_amount;
+		if (pixel_skip > 1) {
+			--pixel_skip;
+		} else {
+			++noise_amount;
+		}
 		/* Something's gone badly wrong if this much noise doesn't help */
 		DCPOMATIC_ASSERT (noise_amount < 16);
 	}
