@@ -46,7 +46,7 @@ public:
 	virtual ~CinemaSoundProcessor () {}
 
 	CinemaSoundProcessor (CinemaSoundProcessor const&) = delete;
-	CinemaSoundProcessor& operator==(CinemaSoundProcessor const&) = delete;
+	CinemaSoundProcessor& operator=(CinemaSoundProcessor const&) = delete;
 
 	float db_for_fader_change (float from, float to) const;
 

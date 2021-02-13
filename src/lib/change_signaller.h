@@ -53,7 +53,7 @@ public:
 	}
 
 	ChangeSignaller (ChangeSignaller const&) = delete;
-	ChangeSignaller& operator== (ChangeSignaller const&) = delete;
+	ChangeSignaller& operator= (ChangeSignaller const&) = delete;
 
 	void abort ()
 	{
