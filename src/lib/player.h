@@ -67,13 +67,15 @@ public:
 /** @class Player
  *  @brief A class which can play a Playlist.
  */
-class Player : public std::enable_shared_from_this<Player>, public boost::noncopyable
+class Player : public std::enable_shared_from_this<Player>
 {
 public:
 	Player (std::shared_ptr<const Film>);
 	Player (std::shared_ptr<const Film>, std::shared_ptr<const Playlist> playlist);
 	~Player ();
 
+	Player (Player const& Player) = delete;
+	Player& operator= (Player const& Player) = delete;
 	bool pass ();
 	void seek (dcpomatic::DCPTime time, bool accurate);
 
