@@ -182,7 +182,7 @@ Timeline::paint_main ()
 		list<dcpomatic::Rect<int>> overlaps;
 		for (auto j: _views) {
 			auto jc = dynamic_pointer_cast<TimelineContentView> (j);
-			/* No overlap with non-content views, views no different tracks, audio views or non-active views */
+			/* No overlap with non-content views, views on different tracks, audio views or non-active views */
 			if (!ic || !jc || i == j || ic->track() != jc->track() || ic->track().get_value_or(2) >= 2 || !ic->active() || !jc->active()) {
 				continue;
 			}
