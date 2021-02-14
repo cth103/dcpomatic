@@ -29,6 +29,7 @@
 struct empty_test1;
 struct empty_test2;
 struct empty_test3;
+struct empty_test_with_overlapping_content;
 struct player_subframe_test;
 
 class Empty
@@ -51,6 +52,7 @@ private:
 	friend struct ::empty_test1;
 	friend struct ::empty_test2;
 	friend struct ::empty_test3;
+	friend struct ::empty_test_with_overlapping_content;
 	friend struct ::player_subframe_test;
 
 	std::list<dcpomatic::DCPTimePeriod> _periods;

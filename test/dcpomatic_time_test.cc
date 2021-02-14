@@ -302,6 +302,18 @@ BOOST_AUTO_TEST_CASE (dcpomatic_time_period_coalesce_test5)
 	BOOST_CHECK (q.back()  == DCPTimePeriod(DCPTime(100), DCPTime(106)));
 }
 
+BOOST_AUTO_TEST_CASE (test_coalesce_with_overlapping_periods)
+{
+	DCPTimePeriod A (DCPTime(0), DCPTime(10));
+	DCPTimePeriod B (DCPTime(2), DCPTime(8));
+	list<DCPTimePeriod> p;
+	p.push_back (A);
+	p.push_back (B);
+	auto q = coalesce(p);
+	BOOST_REQUIRE_EQUAL (q.size(), 1U);
+	BOOST_CHECK (q.front() == DCPTimePeriod(DCPTime(0), DCPTime(10)));
+}
+
 /* Straightforward test of DCPTime::ceil */
 BOOST_AUTO_TEST_CASE (dcpomatic_time_ceil_test)
 {

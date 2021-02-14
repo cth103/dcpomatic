@@ -35,6 +35,7 @@
 #include <boost/test/unit_test.hpp>
 
 using std::list;
+using std::make_shared;
 using std::shared_ptr;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -147,5 +148,28 @@ BOOST_AUTO_TEST_CASE (empty_test3)
 
 	/* position should initially be the start of the first empty period */
 	BOOST_CHECK (black.position() == DCPTime::from_frames(0, vfr));
+}
+
+BOOST_AUTO_TEST_CASE (empty_test_with_overlapping_content)
+{
+	auto film = new_test_film2 ("empty_test_with_overlapping_content");
+	film->set_sequence (false);
+	auto contentA = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
+	auto contentB = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
+
+	film->examine_and_add_content (contentA);
+	film->examine_and_add_content (contentB);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	int const vfr = film->video_frame_rate ();
+
+	contentA->video->set_length (vfr * 3);
+	contentA->set_position (film, DCPTime());
+	contentB->video->set_length (vfr * 1);
+	contentB->set_position (film, DCPTime::from_seconds(1));
+
+	Empty black(film, film->playlist(), bind(&has_video, _1), film->playlist()->length(film));
+
+	BOOST_REQUIRE (black._periods.empty());
 }
 

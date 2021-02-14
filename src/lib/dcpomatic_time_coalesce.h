@@ -32,11 +32,11 @@ std::list<TimePeriod<T> > coalesce (std::list<TimePeriod<T> > periods)
 	do {
 		coalesced.clear ();
 		did_something = false;
-		for (typename std::list<TimePeriod<T> >::const_iterator i = periods.begin(); i != periods.end(); ++i) {
-			typename std::list<TimePeriod<T> >::const_iterator j = i;
+		for (auto i = periods.begin(); i != periods.end(); ++i) {
+			auto j = i;
 			++j;
 			if (j != periods.end() && (i->overlap(*j) || i->to == j->from)) {
-				coalesced.push_back (TimePeriod<T> (i->from, j->to));
+				coalesced.push_back(TimePeriod<T>(std::min(i->from, j->from), std::max(i->to, j->to)));
 				did_something = true;
 				++i;
 			} else {
