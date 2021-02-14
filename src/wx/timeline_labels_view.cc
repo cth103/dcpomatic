@@ -30,10 +30,6 @@ using std::max;
 
 TimelineLabelsView::TimelineLabelsView (Timeline& tl)
 	: TimelineView (tl)
-	, _threed (true)
-	, _audio_tracks (0)
-	, _text_tracks (0)
-	, _atmos (true)
 {
 	wxString labels[] = {
 		_("Video"),
@@ -42,11 +38,9 @@ TimelineLabelsView::TimelineLabelsView (Timeline& tl)
 		_("Atmos")
 	};
 
-	_width = 0;
-
         wxClientDC dc (&_timeline);
 	for (int i = 0; i < 3; ++i) {
-		wxSize size = dc.GetTextExtent (labels[i]);
+		auto size = dc.GetTextExtent (labels[i]);
 		_width = max (_width, size.GetWidth());
 	}
 
@@ -66,32 +60,34 @@ TimelineLabelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> >
 	gc->SetFont (gc->CreateFont(wxNORMAL_FONT->Bold(), wxColour (0, 0, 0)));
 
 	int fy = 0;
-	int ty = _threed ? 2 * h : h;
-	gc->DrawText (_("Video"), 0, (ty + fy) / 2 - 8);
-	fy = ty;
+	if (_video_tracks) {
+		int ty = fy + _video_tracks * h;
+		gc->DrawText (_("Video"), 0, (ty + fy) / 2 - 8);
+		fy = ty;
+	}
 
 	if (_text_tracks) {
-		ty = fy + _text_tracks * h;
+		int ty = fy + _text_tracks * h;
 		gc->DrawText (_("Subtitles/captions"), 0, (ty + fy) / 2 - 8);
 		fy = ty;
 	}
 
 	if (_atmos) {
-		ty = fy + h;
+		int ty = fy + h;
 		gc->DrawText (_("Atmos"), 0, (ty + fy) / 2 - 8);
 		fy = ty;
 	}
 
 	if (_audio_tracks) {
-		ty = _timeline.tracks() * h;
+		int ty = _timeline.tracks() * h;
 		gc->DrawText (_("Audio"), 0, (ty + fy) / 2 - 8);
 	}
 }
 
 void
-TimelineLabelsView::set_3d (bool s)
+TimelineLabelsView::set_video_tracks (int n)
 {
-	_threed = s;
+	_video_tracks = n;
 }
 
 void

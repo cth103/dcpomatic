@@ -29,7 +29,7 @@ public:
 
 	dcpomatic::Rect<int> bbox () const;
 
-	void set_3d (bool s);
+	void set_video_tracks (int n);
 	void set_audio_tracks (int n);
 	void set_text_tracks (int n);
 	void set_atmos (bool s);
@@ -37,9 +37,9 @@ public:
 private:
 	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int> > overlaps);
 
-	int _width;
-	bool _threed;
-	int _audio_tracks;
-	int _text_tracks;
-	bool _atmos;
+	int _width = 0;
+	int _video_tracks = 0;
+	int _audio_tracks = 0;
+	int _text_tracks = 0;
+	bool _atmos = true;
 };

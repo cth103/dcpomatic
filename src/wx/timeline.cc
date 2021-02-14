@@ -370,8 +370,9 @@ void
 Timeline::assign_tracks ()
 {
 	/* Tracks are:
-	   Video (mono or left-eye)
-	   Video (right-eye)
+	   Video 1
+	   Video 2
+	   Video N
 	   Text 1
 	   Text 2
 	   Text N
@@ -393,29 +394,7 @@ Timeline::assign_tracks ()
 		}
 	}
 
-	/* Video */
-
-	bool have_3d = false;
-	for (auto i: _views) {
-		auto cv = dynamic_pointer_cast<TimelineVideoContentView>(i);
-		if (!cv) {
-			continue;
-		}
-
-		/* Video on tracks 0 and maybe 1 (left and right eye) */
-		if (cv->content()->video->frame_type() == VideoFrameType::THREE_D_RIGHT) {
-			cv->set_track (1);
-			_tracks = max (_tracks, 2);
-			have_3d = true;
-		} else {
-			cv->set_track (0);
-		}
-	}
-
-	_tracks = max (_tracks, 1);
-
-	/* Texts */
-
+	int const video_tracks = place<TimelineVideoContentView> (film, _views, _tracks);
 	int const text_tracks = place<TimelineTextContentView> (film, _views, _tracks);
 
 	/* Atmos */
@@ -441,7 +420,7 @@ Timeline::assign_tracks ()
 	sort(views.begin(), views.end(), AudioMappingComparator());
 	int const audio_tracks = place<TimelineAudioContentView> (film, views, _tracks);
 
-	_labels_view->set_3d (have_3d);
+	_labels_view->set_video_tracks (video_tracks);
 	_labels_view->set_audio_tracks (audio_tracks);
 	_labels_view->set_text_tracks (text_tracks);
 	_labels_view->set_atmos (have_atmos);
