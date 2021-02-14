@@ -625,6 +625,8 @@ Timeline::left_up_zoom (wxMouseEvent& ev)
 
 	if ((bottom_right.x - top_left.x) < 8 || (bottom_right.y - top_left.y) < 8) {
 		/* Very small zoom rectangle: we assume it wasn't intentional */
+		_zoom_point = optional<wxPoint> ();
+		Refresh ();
 		return;
 	}
 
