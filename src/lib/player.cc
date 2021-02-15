@@ -285,9 +285,9 @@ Player::setup_pieces_unlocked ()
 	_black = Empty (_film, playlist(), bind(&have_video, _1), _playback_length);
 	_silent = Empty (_film, playlist(), bind(&have_audio, _1), _playback_length);
 
-	_last_video_time = {};
+	_last_video_time = boost::optional<dcpomatic::DCPTime>();
 	_last_video_eyes = Eyes::BOTH;
-	_last_audio_time = {};
+	_last_audio_time = boost::optional<dcpomatic::DCPTime>();
 }
 
 
