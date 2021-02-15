@@ -212,12 +212,19 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	_encrypted = cpl->any_encrypted ();
 	_kdm_valid = true;
 
-	/* Check that we can read the first picture, sound and subtitle frames of each reel */
+	/* Check first that anything encrypted has a key.  We must do this, as if we try to
+	 * read encrypted data with asdcplib without even offering a key it will just return
+	 * the encrypted data.  Secondly, check that we can read the first thing from each
+	 * asset in each reel.  This checks that when we do have a key it's the right one.
+	 */
 	try {
 		for (auto i: cpl->reels()) {
-			auto pic = i->main_picture()->asset ();
-			auto mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (pic);
-			auto stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (pic);
+			auto pic = i->main_picture()->asset();
+			if (pic->encrypted() && !pic->key()) {
+				_kdm_valid = false;
+			}
+			auto mono = dynamic_pointer_cast<dcp::MonoPictureAsset>(pic);
+			auto stereo = dynamic_pointer_cast<dcp::StereoPictureAsset>(pic);
 
 			if (mono) {
 				mono->start_read()->get_frame(0)->xyz_image ();
@@ -226,16 +233,28 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			}
 
 			if (i->main_sound()) {
-				shared_ptr<dcp::SoundAsset> sound = i->main_sound()->asset ();
+				auto sound = i->main_sound()->asset ();
+				if (sound->encrypted() && !sound->key()) {
+					_kdm_valid = false;
+				}
 				i->main_sound()->asset()->start_read()->get_frame(0);
 			}
 
 			if (i->main_subtitle()) {
-				i->main_subtitle()->asset()->subtitles ();
+				auto sub = i->main_subtitle()->asset();
+				auto mxf_sub = dynamic_pointer_cast<dcp::MXF>(sub);
+				if (mxf_sub && mxf_sub->encrypted() && !mxf_sub->key()) {
+					_kdm_valid = false;
+				}
+				sub->subtitles ();
 			}
 
 			if (i->atmos()) {
-				i->atmos()->asset()->start_read()->get_frame(0);
+				auto atmos = i->atmos()->asset();
+				if (atmos->encrypted() && !atmos->key()) {
+					_kdm_valid = false;
+				}
+				atmos->start_read()->get_frame(0);
 			}
 		}
 	} catch (dcp::ReadError& e) {
