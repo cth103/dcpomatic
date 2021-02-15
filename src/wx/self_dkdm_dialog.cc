@@ -65,17 +65,17 @@ SelfDKDMDialog::SelfDKDMDialog (wxWindow* parent, std::shared_ptr<const Film> fi
 	/* Sub-heading: CPL */
 	wxStaticText* h = new StaticText (this, _("CPL"));
 	h->SetFont (subheading_font);
-	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP * 2);
+	vertical->Add (h);
 	_cpl = new KDMCPLPanel (this, film->cpls ());
 	vertical->Add (_cpl);
 
 	/* Sub-heading: output */
 	h = new StaticText (this, _("Output"));
 	h->SetFont (subheading_font);
-	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
+	vertical->Add (h, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
 
 	_internal = new wxRadioButton (this, wxID_ANY, _("Save to KDM Creator tool's list"));
-	vertical->Add (_internal, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP);
+	vertical->Add (_internal, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
 
 	wxBoxSizer* w = new wxBoxSizer (wxHORIZONTAL);
 
