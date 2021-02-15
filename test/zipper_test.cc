@@ -42,7 +42,15 @@ BOOST_AUTO_TEST_CASE (zipper_test1)
 	zipper.close ();
 
 	boost::filesystem::remove_all ("build/test/zipper_test1", ec);
+#ifdef DCPOMATIC_WINDOWS
+	/* unzip on windows crashes every so often (with a return code -1073740940, for some reason)
+	 * so try using the built-in tar which can unzip things.
+	 */
+	boost::filesystem::create_directories ("build/test/zipper_test1");
+	int const r = system ("tar -xf build\\test\\zipped.zip -C build\\test\\zipper_test1");
+#else
 	int const r = system ("unzip build/test/zipped.zip -d build/test/zipper_test1");
+#endif
 	BOOST_REQUIRE_EQUAL (r, 0);
 
 	BOOST_CHECK_EQUAL (dcp::file_to_string("build/test/zipper_test1/foo.txt"), "1234567890");
