@@ -237,10 +237,21 @@ Butler::get_video (bool blocking, Error* e)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	if (_suspended || (_video.empty() && !blocking)) {
+	auto setup_error = [this](Error* e, Error::Code fallback) {
 		if (e) {
-			e->code = Error::AGAIN;
+			if (_died) {
+				e->code = Error::DIED;
+				e->message = _died_message;
+			} else if (_finished) {
+				e->code = Error::FINISHED;
+			} else {
+				e->code = fallback;
+			}
 		}
+	};
+
+	if (_video.empty() && (_finished || _died || (_suspended && !blocking))) {
+		setup_error (e, Error::AGAIN);
 		return make_pair(shared_ptr<PlayerVideo>(), DCPTime());
 	}
 
@@ -250,20 +261,11 @@ Butler::get_video (bool blocking, Error* e)
 	}
 
 	if (_video.empty()) {
-		if (e) {
-			if (_died) {
-				e->code = Error::DIED;
-				e->message = _died_message;
-			} else if (_finished) {
-				e->code = Error::FINISHED;
-			} else {
-				e->code = Error::NONE;
-			}
-		}
+		setup_error (e, Error::NONE);
 		return make_pair(shared_ptr<PlayerVideo>(), DCPTime());
 	}
 
-	pair<shared_ptr<PlayerVideo>, DCPTime> const r = _video.get ();
+	auto const r = _video.get ();
 	_summon.notify_all ();
 	return r;
 }
