@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,11 @@
 
 */
 
+
 /** @file  src/job_manager.h
  *  @brief A simple scheduler for jobs.
  */
+
 
 #include "signaller.h"
 #include <boost/thread/mutex.hpp>
@@ -29,23 +31,29 @@
 #include <boost/thread/condition.hpp>
 #include <list>
 
+
 class Job;
 class Film;
 class Playlist;
 class Content;
 struct threed_test7;
 
+
 extern bool wait_for_jobs ();
+
 
 /** @class JobManager
  *  @brief A simple scheduler for jobs.
  */
-class JobManager : public Signaller, public boost::noncopyable
+class JobManager : public Signaller
 {
 public:
+	JobManager (JobManager const&) = delete;
+	JobManager& operator= (JobManager const&) = delete;
+
 	std::shared_ptr<Job> add (std::shared_ptr<Job>);
 	std::shared_ptr<Job> add_after (std::shared_ptr<Job> after, std::shared_ptr<Job> j);
-	std::list<std::shared_ptr<Job> > get () const;
+	std::list<std::shared_ptr<Job>> get () const;
 	bool work_to_do () const;
 	bool errors () const;
 	void increase_priority (std::shared_ptr<Job>);
@@ -94,10 +102,10 @@ private:
 	mutable boost::mutex _mutex;
 	boost::condition _empty_condition;
 	/** List of jobs in the order that they will be executed */
-	std::list<std::shared_ptr<Job> > _jobs;
+	std::list<std::shared_ptr<Job>> _jobs;
 	std::list<boost::signals2::connection> _connections;
-	bool _terminate;
-	bool _paused;
+	bool _terminate = false;
+	bool _paused = false;
 	std::shared_ptr<Job> _paused_job;
 
 	boost::optional<std::string> _last_active_job;

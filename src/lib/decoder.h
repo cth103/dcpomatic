@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,39 +18,47 @@
 
 */
 
+
 /** @file  src/decoder.h
  *  @brief Decoder class.
  */
 
+
 #ifndef DCPOMATIC_DECODER_H
 #define DCPOMATIC_DECODER_H
 
-#include "types.h"
+
+#include "dcpomatic_time.h"
 #include "film.h"
 #include "font_data.h"
-#include "dcpomatic_time.h"
+#include "types.h"
 #include "weak_film.h"
 #include <boost/utility.hpp>
 
-class Decoded;
-class VideoDecoder;
-class AudioDecoder;
-class TextDecoder;
+
 class AtmosDecoder;
+class AudioDecoder;
+class Decoded;
 class DecoderPart;
+class TextDecoder;
+class VideoDecoder;
+
 
 /** @class Decoder.
  *  @brief Parent class for decoders of content.
  */
-class Decoder : public boost::noncopyable, public WeakConstFilm
+class Decoder : public WeakConstFilm
 {
 public:
 	Decoder (std::weak_ptr<const Film> film);
 	virtual ~Decoder () {}
 
+	Decoder (Decoder const&) = delete;
+	Decoder& operator= (Decoder const&) = delete;
+
 	std::shared_ptr<VideoDecoder> video;
 	std::shared_ptr<AudioDecoder> audio;
-	std::list<std::shared_ptr<TextDecoder> > text;
+	std::list<std::shared_ptr<TextDecoder>> text;
 	std::shared_ptr<AtmosDecoder> atmos;
 
 	std::shared_ptr<TextDecoder> only_text () const;
@@ -64,8 +72,9 @@ public:
 	virtual dcpomatic::ContentTime position () const;
 
 	virtual std::vector<dcpomatic::FontData> fonts () const {
-		return std::vector<dcpomatic::FontData>();
+		return {};
 	}
 };
+
 
 #endif

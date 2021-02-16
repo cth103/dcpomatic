@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,16 +18,20 @@
 
 */
 
+
 #include <nettle/md5.h>
-#include <boost/noncopyable.hpp>
 #include <boost/optional.hpp>
 #include <string>
 
-class Digester : public boost::noncopyable
+
+class Digester
 {
 public:
 	Digester ();
 	~Digester ();
+
+	Digester (Digester const&) = delete;
+	Digester& operator= (Digester const&) = delete;
 
 	void add (void const * data, size_t size);
 

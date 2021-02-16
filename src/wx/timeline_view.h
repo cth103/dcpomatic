@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,24 +18,30 @@
 
 */
 
+
 #ifndef DCPOMATIC_TIMELINE_VIEW_H
 #define DCPOMATIC_TIMELINE_VIEW_H
 
+
 #include "lib/rect.h"
 #include "lib/dcpomatic_time.h"
-#include <boost/noncopyable.hpp>
+
 
 class wxGraphicsContext;
 class Timeline;
 
+
 /** @class TimelineView
  *  @brief Parent class for components of the timeline (e.g. a piece of content or an axis).
  */
-class TimelineView : public boost::noncopyable
+class TimelineView
 {
 public:
 	explicit TimelineView (Timeline& t);
 	virtual ~TimelineView () {}
+
+	TimelineView (TimelineView const&) = delete;
+	TimelineView& operator= (TimelineView const&) = delete;
 
 	void paint (wxGraphicsContext* g, std::list<dcpomatic::Rect<int> > overlaps);
 	void force_redraw ();
@@ -53,6 +59,8 @@ private:
 	dcpomatic::Rect<int> _last_paint_bbox;
 };
 
-typedef std::vector<std::shared_ptr<TimelineView> > TimelineViewList;
+
+typedef std::vector<std::shared_ptr<TimelineView>> TimelineViewList;
+
 
 #endif

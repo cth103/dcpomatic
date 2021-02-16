@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,38 +18,45 @@
 
 */
 
+
 #include "digester.h"
 #include "dcpomatic_assert.h"
 #include <nettle/md5.h>
 #include <iomanip>
 #include <cstdio>
 
+
 using std::string;
 using std::hex;
 using std::setfill;
 using std::setw;
+
 
 Digester::Digester ()
 {
 	md5_init (&_context);
 }
 
+
 Digester::~Digester ()
 {
 	get ();
 }
 
+
 void
 Digester::add (void const * data, size_t size)
 {
-	md5_update (&_context, size, reinterpret_cast<uint8_t const *> (data));
+	md5_update (&_context, size, reinterpret_cast<uint8_t const *>(data));
 }
+
 
 void
 Digester::add (string const & s)
 {
 	add (s.c_str(), s.length());
 }
+
 
 string
 Digester::get () const
@@ -68,6 +75,7 @@ Digester::get () const
 
 	return _digest.get ();
 }
+
 
 void
 Digester::get (uint8_t* buffer) const

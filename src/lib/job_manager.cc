@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,37 +18,40 @@
 
 */
 
+
 /** @file  src/job_manager.cc
  *  @brief A simple scheduler for jobs.
  */
 
-#include "job_manager.h"
-#include "job.h"
-#include "cross.h"
+
 #include "analyse_audio_job.h"
 #include "analyse_subtitles_job.h"
+#include "cross.h"
 #include "film.h"
+#include "job.h"
+#include "job_manager.h"
 #include <boost/thread.hpp>
-#include <iostream>
 
-using std::string;
-using std::list;
-using std::cout;
-using std::shared_ptr;
-using std::weak_ptr;
-using boost::function;
+
 using std::dynamic_pointer_cast;
-using boost::optional;
+using std::list;
+using std::make_shared;
+using std::shared_ptr;
+using std::string;
+using std::weak_ptr;
 using boost::bind;
+using boost::function;
+using boost::optional;
 
-JobManager* JobManager::_instance = 0;
+
+JobManager* JobManager::_instance = nullptr;
+
 
 JobManager::JobManager ()
-	: _terminate (false)
-	, _paused (false)
 {
 
 }
+
 
 void
 JobManager::start ()
@@ -58,6 +61,7 @@ JobManager::start ()
 	pthread_setname_np (_scheduler.native_handle(), "job-scheduler");
 #endif
 }
+
 
 JobManager::~JobManager ()
 {
@@ -78,6 +82,7 @@ JobManager::~JobManager ()
 	} catch (...) {}
 }
 
+
 shared_ptr<Job>
 JobManager::add (shared_ptr<Job> j)
 {
@@ -87,39 +92,42 @@ JobManager::add (shared_ptr<Job> j)
 		_empty_condition.notify_all ();
 	}
 
-	emit (boost::bind (boost::ref (JobAdded), weak_ptr<Job> (j)));
+	emit (boost::bind(boost::ref(JobAdded), weak_ptr<Job>(j)));
 
 	return j;
 }
+
 
 shared_ptr<Job>
 JobManager::add_after (shared_ptr<Job> after, shared_ptr<Job> j)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		list<shared_ptr<Job> >::iterator i = find (_jobs.begin(), _jobs.end(), after);
+		auto i = find (_jobs.begin(), _jobs.end(), after);
 		DCPOMATIC_ASSERT (i != _jobs.end());
 		_jobs.insert (i, j);
 		_empty_condition.notify_all ();
 	}
 
-	emit (boost::bind (boost::ref (JobAdded), weak_ptr<Job> (j)));
+	emit (boost::bind(boost::ref(JobAdded), weak_ptr<Job>(j)));
 
 	return j;
 }
 
-list<shared_ptr<Job> >
+
+list<shared_ptr<Job>>
 JobManager::get () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	return _jobs;
 }
 
+
 bool
 JobManager::work_to_do () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	list<shared_ptr<Job> >::const_iterator i = _jobs.begin();
+	auto i = _jobs.begin();
 	while (i != _jobs.end() && (*i)->finished()) {
 		++i;
 	}
@@ -127,18 +135,20 @@ JobManager::work_to_do () const
 	return i != _jobs.end ();
 }
 
+
 bool
 JobManager::errors () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	for (auto i: _jobs) {
-		if (i->finished_in_error ()) {
+		if (i->finished_in_error()) {
 			return true;
 		}
 	}
 
 	return false;
 }
+
 
 void
 JobManager::scheduler ()
@@ -183,22 +193,24 @@ JobManager::scheduler ()
 	}
 }
 
+
 void
 JobManager::job_finished ()
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		emit (boost::bind (boost::ref (ActiveJobsChanged), _last_active_job, optional<string>()));
+		emit (boost::bind(boost::ref (ActiveJobsChanged), _last_active_job, optional<string>()));
 		_last_active_job = optional<string>();
 	}
 
 	_empty_condition.notify_all ();
 }
 
+
 JobManager *
 JobManager::instance ()
 {
-	if (_instance == 0) {
+	if (!_instance) {
 		_instance = new JobManager ();
 		_instance->start ();
 	}
@@ -206,12 +218,14 @@ JobManager::instance ()
 	return _instance;
 }
 
+
 void
 JobManager::drop ()
 {
 	delete _instance;
-	_instance = 0;
+	_instance = nullptr;
 }
+
 
 void
 JobManager::analyse_audio (
@@ -226,7 +240,7 @@ JobManager::analyse_audio (
 		boost::mutex::scoped_lock lm (_mutex);
 
 		for (auto i: _jobs) {
-			shared_ptr<AnalyseAudioJob> a = dynamic_pointer_cast<AnalyseAudioJob> (i);
+			auto a = dynamic_pointer_cast<AnalyseAudioJob> (i);
 			if (a && a->path() == film->audio_analysis_path(playlist) && !i->finished_cancelled()) {
 				i->when_finished (connection, ready);
 				return;
@@ -239,7 +253,7 @@ JobManager::analyse_audio (
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 
-		job.reset (new AnalyseAudioJob (film, playlist, from_zero));
+		job = make_shared<AnalyseAudioJob> (film, playlist, from_zero);
 		connection = job->Finished.connect (ready);
 		_jobs.push_back (job);
 		_empty_condition.notify_all ();
@@ -261,7 +275,7 @@ JobManager::analyse_subtitles (
 		boost::mutex::scoped_lock lm (_mutex);
 
 		for (auto i: _jobs) {
-			shared_ptr<AnalyseSubtitlesJob> a = dynamic_pointer_cast<AnalyseSubtitlesJob> (i);
+			auto a = dynamic_pointer_cast<AnalyseSubtitlesJob> (i);
 			if (a && a->path() == film->subtitle_analysis_path(content)) {
 				i->when_finished (connection, ready);
 				return;
@@ -274,13 +288,13 @@ JobManager::analyse_subtitles (
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 
-		job.reset (new AnalyseSubtitlesJob(film, content));
+		job = make_shared<AnalyseSubtitlesJob>(film, content);
 		connection = job->Finished.connect (ready);
 		_jobs.push_back (job);
 		_empty_condition.notify_all ();
 	}
 
-	emit (boost::bind (boost::ref (JobAdded), weak_ptr<Job> (job)));
+	emit (boost::bind(boost::ref(JobAdded), weak_ptr<Job>(job)));
 }
 
 
@@ -291,8 +305,8 @@ JobManager::increase_priority (shared_ptr<Job> job)
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		list<shared_ptr<Job> >::iterator last = _jobs.end ();
-		for (list<shared_ptr<Job> >::iterator i = _jobs.begin(); i != _jobs.end(); ++i) {
+		auto last = _jobs.end ();
+		for (auto i = _jobs.begin(); i != _jobs.end(); ++i) {
 			if (*i == job && last != _jobs.end()) {
 				swap (*i, *last);
 				changed = true;
@@ -306,6 +320,7 @@ JobManager::increase_priority (shared_ptr<Job> job)
 		priority_changed ();
 	}
 }
+
 
 void
 JobManager::priority_changed ()
@@ -330,8 +345,9 @@ JobManager::priority_changed ()
 		}
 	}
 
-	emit (boost::bind (boost::ref (JobsReordered)));
+	emit (boost::bind(boost::ref(JobsReordered)));
 }
+
 
 void
 JobManager::decrease_priority (shared_ptr<Job> job)
@@ -340,8 +356,8 @@ JobManager::decrease_priority (shared_ptr<Job> job)
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		for (list<shared_ptr<Job> >::iterator i = _jobs.begin(); i != _jobs.end(); ++i) {
-			list<shared_ptr<Job> >::iterator next = i;
+		for (auto i = _jobs.begin(); i != _jobs.end(); ++i) {
+			auto next = i;
 			++next;
 			if (*i == job && next != _jobs.end()) {
 				swap (*i, *next);
@@ -355,6 +371,7 @@ JobManager::decrease_priority (shared_ptr<Job> job)
 		priority_changed ();
 	}
 }
+
 
 void
 JobManager::pause ()
@@ -373,6 +390,7 @@ JobManager::pause ()
 
 	_paused = true;
 }
+
 
 void
 JobManager::resume ()

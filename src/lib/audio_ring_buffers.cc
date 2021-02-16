@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 #include "audio_ring_buffers.h"
 #include "dcpomatic_assert.h"
 #include "exceptions.h"
 #include <iostream>
+
 
 using std::min;
 using std::cout;
@@ -32,11 +34,12 @@ using std::shared_ptr;
 using boost::optional;
 using namespace dcpomatic;
 
+
 AudioRingBuffers::AudioRingBuffers ()
-	: _used_in_head (0)
 {
 
 }
+
 
 /** @param frame_rate Frame rate in use; this is only used to check timing consistency of the incoming data */
 void
@@ -55,6 +58,7 @@ AudioRingBuffers::put (shared_ptr<const AudioBuffers> data, DCPTime time, int fr
 
 	_buffers.push_back(make_pair(data, time));
 }
+
 
 /** @return time of the returned data; if it's not set this indicates an underrun */
 optional<DCPTime>
@@ -75,7 +79,7 @@ AudioRingBuffers::get (float* out, int channels, int frames)
 			return time;
 		}
 
-		pair<shared_ptr<const AudioBuffers>, DCPTime> front = _buffers.front ();
+		auto front = _buffers.front ();
 		if (!time) {
 			time = front.second + DCPTime::from_frames(_used_in_head, 48000);
 		}
@@ -103,15 +107,17 @@ AudioRingBuffers::get (float* out, int channels, int frames)
 	return time;
 }
 
+
 optional<DCPTime>
 AudioRingBuffers::peek () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	if (_buffers.empty()) {
-		return optional<DCPTime>();
+		return {};
 	}
 	return _buffers.front().second;
 }
+
 
 void
 AudioRingBuffers::clear ()
@@ -121,13 +127,14 @@ AudioRingBuffers::clear ()
 	_used_in_head = 0;
 }
 
+
 Frame
 AudioRingBuffers::size () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	Frame s = 0;
-	for (list<pair<shared_ptr<const AudioBuffers>, DCPTime> >::const_iterator i = _buffers.begin(); i != _buffers.end(); ++i) {
-		s += i->first->frames();
+	for (auto const& i: _buffers) {
+		s += i.first->frames();
 	}
 	return s - _used_in_head;
 }

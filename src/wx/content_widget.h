@@ -43,7 +43,7 @@
  *  @param V Data type of state as used by the view.
  */
 template <class S, class T, typename U, typename V>
-class ContentWidget : public boost::noncopyable
+class ContentWidget
 {
 public:
 	/** @param parent Parent window.
@@ -83,6 +83,9 @@ public:
 		_button->Hide ();
 		_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentWidget::button_clicked, this));
 	}
+
+	ContentWidget (ContentWidget const&) = delete;
+	ContentWidget& operator= (ContentWidget const&) = delete;
 
 	/** @return the widget that we are wrapping */
 	T* wrapped () const

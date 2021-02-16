@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -17,6 +17,7 @@
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 
 #include "playlist.h"
 #include "video_content.h"
@@ -39,6 +40,7 @@
 
 #include "i18n.h"
 
+
 using std::list;
 using std::cout;
 using std::vector;
@@ -55,12 +57,12 @@ using namespace dcpomatic;
 using namespace boost::placeholders;
 #endif
 
+
 Playlist::Playlist ()
-	: _sequence (true)
-	, _sequencing (false)
 {
 
 }
+
 
 Playlist::~Playlist ()
 {
@@ -68,6 +70,7 @@ Playlist::~Playlist ()
 	_content.clear ();
 	disconnect ();
 }
+
 
 void
 Playlist::content_change (weak_ptr<const Film> weak_film, ChangeType type, weak_ptr<Content> content, int property, bool frequent)
@@ -117,6 +120,7 @@ Playlist::content_change (weak_ptr<const Film> weak_film, ChangeType type, weak_
 	ContentChange (type, content, property, frequent);
 }
 
+
 void
 Playlist::maybe_sequence (shared_ptr<const Film> film)
 {
@@ -126,7 +130,7 @@ Playlist::maybe_sequence (shared_ptr<const Film> film)
 
 	_sequencing = true;
 
-	ContentList cont = content ();
+	auto cont = content ();
 
 	/* Keep track of the content that we've set the position of so that we don't
 	   do it twice.
@@ -171,6 +175,7 @@ Playlist::maybe_sequence (shared_ptr<const Film> film)
 	_sequencing = false;
 }
 
+
 string
 Playlist::video_identifier () const
 {
@@ -192,6 +197,7 @@ Playlist::video_identifier () const
 	digester.add (t.c_str(), t.length());
 	return digester.get ();
 }
+
 
 /** @param film Film that this Playlist is for.
  *  @param node &lt;Playlist&gt; node.
@@ -227,7 +233,7 @@ Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 		}
 
 		/* ...or have a start trim which is an integer number of frames */
-		ContentTime const old_trim = content->trim_start();
+		auto const old_trim = content->trim_start();
 		content->set_trim_start(old_trim);
 		if (old_trim != content->trim_start()) {
 			string note = _("Your project contains video content whose trim was not aligned to a frame boundary.");
@@ -255,6 +261,7 @@ Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 	reconnect (film);
 }
 
+
 /** @param node &lt;Playlist&gt; node.
  *  @param with_content_paths true to include &lt;Path&gt; nodes in &lt;Content&gt; nodes, false to omit them.
  */
@@ -265,6 +272,7 @@ Playlist::as_xml (xmlpp::Node* node, bool with_content_paths)
 		i->as_xml (node->add_child ("Content"), with_content_paths);
 	}
 }
+
 
 void
 Playlist::add (shared_ptr<const Film> film, shared_ptr<Content> c)
@@ -282,6 +290,7 @@ Playlist::add (shared_ptr<const Film> film, shared_ptr<Content> c)
 
 	LengthChange ();
 }
+
 
 void
 Playlist::remove (shared_ptr<Content> c)
@@ -316,6 +325,7 @@ Playlist::remove (shared_ptr<Content> c)
 	LengthChange ();
 }
 
+
 void
 Playlist::remove (ContentList c)
 {
@@ -325,7 +335,7 @@ Playlist::remove (ContentList c)
 		boost::mutex::scoped_lock lm (_mutex);
 
 		for (auto i: c) {
-			ContentList::iterator j = _content.begin ();
+			auto j = _content.begin ();
 			while (j != _content.end() && *j != i) {
 				++j;
 			}
@@ -343,6 +353,7 @@ Playlist::remove (ContentList c)
 	LengthChange ();
 }
 
+
 class FrameRateCandidate
 {
 public:
@@ -354,6 +365,7 @@ public:
 	float source;
 	int dcp;
 };
+
 
 /** @return the best frame rate from Config::_allowed_dcp_frame_rates for the content in this list */
 int
@@ -412,6 +424,7 @@ Playlist::best_video_frame_rate () const
 	return best->dcp;
 }
 
+
 /** @return length of the playlist from time 0 to the last thing on the playlist */
 DCPTime
 Playlist::length (shared_ptr<const Film> film) const
@@ -423,6 +436,7 @@ Playlist::length (shared_ptr<const Film> film) const
 
 	return len;
 }
+
 
 /** @return position of the first thing on the playlist, if it's not empty */
 optional<DCPTime>
@@ -441,6 +455,7 @@ Playlist::start () const
 	return start;
 }
 
+
 /** Must be called with a lock held on _mutex */
 void
 Playlist::disconnect ()
@@ -452,6 +467,7 @@ Playlist::disconnect ()
 	_content_connections.clear ();
 }
 
+
 /** Must be called with a lock held on _mutex */
 void
 Playlist::reconnect (shared_ptr<const Film> film)
@@ -462,6 +478,7 @@ Playlist::reconnect (shared_ptr<const Film> film)
 		_content_connections.push_back (i->Change.connect(boost::bind(&Playlist::content_change, this, film, _1, _2, _3, _4)));
 	}
 }
+
 
 DCPTime
 Playlist::video_end (shared_ptr<const Film> film) const
@@ -476,6 +493,7 @@ Playlist::video_end (shared_ptr<const Film> film) const
 	return end;
 }
 
+
 DCPTime
 Playlist::text_end (shared_ptr<const Film> film) const
 {
@@ -489,10 +507,11 @@ Playlist::text_end (shared_ptr<const Film> film) const
 	return end;
 }
 
+
 FrameRateChange
 Playlist::active_frame_rate_change (DCPTime t, int dcp_video_frame_rate) const
 {
-	ContentList cont = content ();
+	auto cont = content ();
 	for (ContentList::const_reverse_iterator i = cont.rbegin(); i != cont.rend(); ++i) {
 		if (!(*i)->video) {
 			continue;
@@ -515,11 +534,13 @@ Playlist::active_frame_rate_change (DCPTime t, int dcp_video_frame_rate) const
 	return FrameRateChange (dcp_video_frame_rate, dcp_video_frame_rate);
 }
 
+
 void
 Playlist::set_sequence (bool s)
 {
 	_sequence = s;
 }
+
 
 bool
 ContentSorter::operator() (shared_ptr<Content> a, shared_ptr<Content> b)
@@ -539,6 +560,7 @@ ContentSorter::operator() (shared_ptr<Content> a, shared_ptr<Content> b)
 	return a->digest() < b->digest();
 }
 
+
 /** @return content in ascending order of position */
 ContentList
 Playlist::content () const
@@ -547,10 +569,11 @@ Playlist::content () const
 	return _content;
 }
 
+
 void
 Playlist::repeat (shared_ptr<const Film> film, ContentList c, int n)
 {
-	pair<DCPTime, DCPTime> range (DCPTime::max (), DCPTime ());
+	pair<DCPTime, DCPTime> range (DCPTime::max(), DCPTime());
 	for (auto i: c) {
 		range.first = min (range.first, i->position ());
 		range.second = max (range.second, i->position ());
@@ -580,6 +603,7 @@ Playlist::repeat (shared_ptr<const Film> film, ContentList c, int n)
 	Change (ChangeType::DONE);
 }
 
+
 void
 Playlist::move_earlier (shared_ptr<const Film> film, shared_ptr<Content> c)
 {
@@ -602,6 +626,7 @@ Playlist::move_earlier (shared_ptr<const Film> film, shared_ptr<Content> c)
 	previous_c->set_position (film, p + c->length_after_trim(film));
 	c->set_position (film, p);
 }
+
 
 void
 Playlist::move_later (shared_ptr<const Film> film, shared_ptr<Content> c)
@@ -627,6 +652,7 @@ Playlist::move_later (shared_ptr<const Film> film, shared_ptr<Content> c)
 	c->set_position (film, c->position() + next_c->length_after_trim(film));
 }
 
+
 int64_t
 Playlist::required_disk_space (shared_ptr<const Film> film, int j2k_bandwidth, int audio_channels, int audio_frame_rate) const
 {
@@ -648,6 +674,7 @@ Playlist::required_disk_space (shared_ptr<const Film> film, int j2k_bandwidth, i
 	/* Add on 64k for bits and pieces (metadata, subs etc) */
 	return video + audio + 65536;
 }
+
 
 string
 Playlist::content_summary (shared_ptr<const Film> film, DCPTimePeriod period) const
@@ -673,6 +700,7 @@ Playlist::content_summary (shared_ptr<const Film> film, DCPTimePeriod period) co
 
 	return best_summary;
 }
+
 
 pair<double, double>
 Playlist::speed_up_range (int dcp_video_frame_rate) const

@@ -102,7 +102,6 @@ DCPOMATIC_ENABLE_WARNINGS
 #include <shellapi.h>
 #endif
 #include <boost/filesystem.hpp>
-#include <boost/noncopyable.hpp>
 #include <boost/algorithm/string.hpp>
 #include <iostream>
 #include <fstream>
@@ -135,7 +134,7 @@ using namespace boost::placeholders;
 #endif
 using dcp::raw_convert;
 
-class FilmChangedClosingDialog : public boost::noncopyable
+class FilmChangedClosingDialog
 {
 public:
 	explicit FilmChangedClosingDialog (string name)
@@ -159,6 +158,9 @@ public:
 		_dialog->Destroy ();
 	}
 
+	FilmChangedClosingDialog (FilmChangedClosingDialog const&) = delete;
+	FilmChangedClosingDialog& operator= (FilmChangedClosingDialog const&) = delete;
+
 	int run ()
 	{
 		return _dialog->ShowModal ();
@@ -168,7 +170,8 @@ private:
 	wxMessageDialog* _dialog;
 };
 
-class FilmChangedDuplicatingDialog : public boost::noncopyable
+
+class FilmChangedDuplicatingDialog
 {
 public:
 	explicit FilmChangedDuplicatingDialog (string name)
@@ -191,6 +194,9 @@ public:
 	{
 		_dialog->Destroy ();
 	}
+
+	FilmChangedDuplicatingDialog (FilmChangedDuplicatingDialog const&) = delete;
+	FilmChangedDuplicatingDialog& operator= (FilmChangedDuplicatingDialog const&) = delete;
 
 	int run ()
 	{

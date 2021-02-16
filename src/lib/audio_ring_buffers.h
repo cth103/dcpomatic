@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,8 +18,10 @@
 
 */
 
+
 #ifndef DCPOMATIC_AUDIO_RING_BUFFERS_H
 #define DCPOMATIC_AUDIO_RING_BUFFERS_H
+
 
 #include "audio_buffers.h"
 #include "types.h"
@@ -27,10 +29,14 @@
 #include <boost/thread.hpp>
 #include <list>
 
-class AudioRingBuffers : public boost::noncopyable
+
+class AudioRingBuffers
 {
 public:
 	AudioRingBuffers ();
+
+	AudioRingBuffers (AudioBuffers const&) = delete;
+	AudioRingBuffers& operator= (AudioBuffers const&) = delete;
 
 	void put (std::shared_ptr<const AudioBuffers> data, dcpomatic::DCPTime time, int frame_rate);
 	boost::optional<dcpomatic::DCPTime> get (float* out, int channels, int frames);
@@ -42,7 +48,8 @@ public:
 private:
 	mutable boost::mutex _mutex;
 	std::list<std::pair<std::shared_ptr<const AudioBuffers>, dcpomatic::DCPTime> > _buffers;
-	int _used_in_head;
+	int _used_in_head = 0;
 };
+
 
 #endif

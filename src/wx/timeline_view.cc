@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,14 @@
 
 */
 
+
 #include "timeline_view.h"
 #include "timeline.h"
 
+
 using std::list;
 using namespace dcpomatic;
+
 
 /** @class TimelineView
  *  @brief Parent class for components of the timeline (e.g. a piece of content or an axis).
@@ -33,22 +36,25 @@ TimelineView::TimelineView (Timeline& t)
 
 }
 
+
 void
-TimelineView::paint (wxGraphicsContext* g, list<dcpomatic::Rect<int> > overlaps)
+TimelineView::paint (wxGraphicsContext* g, list<dcpomatic::Rect<int>> overlaps)
 {
 	_last_paint_bbox = bbox ();
 	do_paint (g, overlaps);
 }
 
+
 void
 TimelineView::force_redraw ()
 {
-	_timeline.force_redraw (_last_paint_bbox.extended (4));
-	_timeline.force_redraw (bbox().extended (4));
+	_timeline.force_redraw (_last_paint_bbox.extended(4));
+	_timeline.force_redraw (bbox().extended(4));
 }
+
 
 int
 TimelineView::time_x (DCPTime t) const
 {
-	return t.seconds() * _timeline.pixels_per_second().get_value_or (0);
+	return t.seconds() * _timeline.pixels_per_second().get_value_or(0);
 }

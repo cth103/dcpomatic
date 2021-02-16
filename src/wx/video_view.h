@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,8 +18,10 @@
 
 */
 
+
 #ifndef DCPOMATIC_VIDEO_VIEW_H
 #define DCPOMATIC_VIDEO_VIEW_H
+
 
 #include "lib/dcpomatic_time.h"
 #include "lib/timer.h"
@@ -27,7 +29,7 @@
 #include "lib/exception_store.h"
 #include <boost/signals2.hpp>
 #include <boost/thread.hpp>
-#include <boost/noncopyable.hpp>
+
 
 class Image;
 class wxWindow;
@@ -35,11 +37,15 @@ class FilmViewer;
 class Player;
 class PlayerVideo;
 
-class VideoView : public ExceptionStore, public boost::noncopyable
+
+class VideoView : public ExceptionStore
 {
 public:
 	VideoView (FilmViewer* viewer);
 	virtual ~VideoView () {}
+
+	VideoView (VideoView const&) = delete;
+	VideoView& operator= (VideoView const&) = delete;
 
 	/** @return the thing displaying the image */
 	virtual wxWindow* get () const = 0;
@@ -156,15 +162,16 @@ private:
 	mutable boost::mutex _mutex;
 
 	std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> _player_video;
-	int _video_frame_rate;
+	int _video_frame_rate = 0;
 	/** length of the film we are playing, or 0 if there is none */
 	dcpomatic::DCPTime _length;
-	Eyes _eyes;
-	bool _three_d;
+	Eyes _eyes = Eyes::LEFT;
+	bool _three_d = false;
 
-	int _dropped;
-	int _errored;
-	int _gets;
+	int _dropped = 0;
+	int _errored = 0;
+	int _gets = 0;
 };
+
 
 #endif

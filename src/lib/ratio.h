@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,17 +18,20 @@
 
 */
 
+
 #ifndef DCPOMATIC_RATIO_H
 #define DCPOMATIC_RATIO_H
+
 
 #include <dcp/util.h>
 #include <boost/utility.hpp>
 #include <vector>
 
+
 /** @class Ratio
  *  @brief Description of an image ratio.
  */
-class Ratio : public boost::noncopyable
+class Ratio
 {
 public:
 	Ratio (float ratio, std::string id, std::string in, boost::optional<std::string> cn, std::string d)
@@ -38,6 +41,9 @@ public:
 		, _container_nickname (cn)
 		, _isdcf_name (d)
 	{}
+
+	Ratio (Ratio const&) = delete;
+	Ratio& operator= (Ratio const&) = delete;
 
 	std::string id () const {
 		return _id;
@@ -50,7 +56,7 @@ public:
 	std::string container_nickname () const;
 
 	bool used_for_container () const {
-		return static_cast<bool> (_container_nickname);
+		return static_cast<bool>(_container_nickname);
 	}
 
 	std::string isdcf_name () const {
@@ -84,5 +90,6 @@ private:
 
 	static std::vector<Ratio const *> _ratios;
 };
+
 
 #endif

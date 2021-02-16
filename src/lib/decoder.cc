@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "decoder.h"
 #include "video_decoder.h"
 #include "audio_decoder.h"
@@ -25,11 +26,13 @@
 #include <boost/optional.hpp>
 #include <iostream>
 
+
 using std::cout;
 using boost::optional;
 using std::shared_ptr;
 using std::weak_ptr;
 using namespace dcpomatic;
+
 
 Decoder::Decoder (weak_ptr<const Film> film)
 	: WeakConstFilm (film)
@@ -37,12 +40,13 @@ Decoder::Decoder (weak_ptr<const Film> film)
 
 }
 
+
 /** @return Earliest time of content that the next pass() will emit */
 ContentTime
 Decoder::position () const
 {
 	optional<ContentTime> pos;
-	shared_ptr<const Film> f = film();
+	auto f = film();
 
 	if (video && !video->ignore() && (!pos || video->position(f).get_value_or(ContentTime()) < *pos)) {
 		pos = video->position(f);
@@ -70,6 +74,7 @@ Decoder::position () const
 	return pos.get_value_or(ContentTime());
 }
 
+
 void
 Decoder::seek (ContentTime, bool)
 {
@@ -84,12 +89,13 @@ Decoder::seek (ContentTime, bool)
 	}
 }
 
+
 shared_ptr<TextDecoder>
 Decoder::only_text () const
 {
 	DCPOMATIC_ASSERT (text.size() < 2);
-	if (text.empty ()) {
-		return shared_ptr<TextDecoder> ();
+	if (text.empty()) {
+		return {};
 	}
-	return text.front ();
+	return text.front();
 }

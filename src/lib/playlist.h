@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,8 +18,10 @@
 
 */
 
+
 #ifndef DCPOMATIC_PLAYLIST_H
 #define DCPOMATIC_PLAYLIST_H
+
 
 #include "change_signaller.h"
 #include "frame_rate_change.h"
@@ -29,22 +31,28 @@
 #include <boost/thread.hpp>
 #include <list>
 
+
 class Film;
+
 
 struct ContentSorter
 {
 	bool operator() (std::shared_ptr<Content> a, std::shared_ptr<Content> b);
 };
 
+
 /** @class Playlist
  *  @brief A set of Content objects with knowledge of how they should be arranged into
  *  a DCP.
  */
-class Playlist : public boost::noncopyable
+class Playlist
 {
 public:
 	Playlist ();
 	~Playlist ();
+
+	Playlist (Playlist const&) = delete;
+	Playlist& operator= (Playlist const&) = delete;
 
 	void as_xml (xmlpp::Node *, bool with_content_paths);
 	void set_from_xml (std::shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, std::list<std::string>& notes);
@@ -91,9 +99,10 @@ private:
 	mutable boost::mutex _mutex;
 	/** List of content.  Kept sorted in position order. */
 	ContentList _content;
-	bool _sequence;
-	bool _sequencing;
+	bool _sequence = true;
+	bool _sequencing = false;
 	std::list<boost::signals2::connection> _content_connections;
 };
+
 
 #endif

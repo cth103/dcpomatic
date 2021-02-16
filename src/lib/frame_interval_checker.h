@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,14 +18,19 @@
 
 */
 
+
 #include "dcpomatic_time.h"
 #include <boost/optional.hpp>
-#include <boost/noncopyable.hpp>
 #include <vector>
 
-class FrameIntervalChecker : public boost::noncopyable
+
+class FrameIntervalChecker
 {
 public:
+	FrameIntervalChecker () {}
+	FrameIntervalChecker (FrameIntervalChecker const &) = delete;
+	FrameIntervalChecker& operator= (FrameIntervalChecker const &) = delete;
+
 	void feed (dcpomatic::ContentTime time, double frame_rate);
 
 	enum Guess

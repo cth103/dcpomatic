@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "video_view.h"
 #include "wx_util.h"
 #include "film_viewer.h"
@@ -29,18 +30,14 @@ using std::pair;
 using std::shared_ptr;
 using boost::optional;
 
+
 VideoView::VideoView (FilmViewer* viewer)
 	: _viewer (viewer)
 	, _state_timer ("viewer")
-	, _video_frame_rate (0)
-	, _eyes (Eyes::LEFT)
-	, _three_d (false)
-	, _dropped (0)
-	, _errored (0)
-	, _gets (0)
 {
 
 }
+
 
 void
 VideoView::clear ()
@@ -49,6 +46,7 @@ VideoView::clear ()
 	_player_video.first.reset ();
 	_player_video.second = dcpomatic::DCPTime ();
 }
+
 
 /** Could be called from any thread.
  *  @param non_blocking true to return false quickly if no video is available quickly.
@@ -94,11 +92,13 @@ VideoView::get_next_frame (bool non_blocking)
 	return SUCCESS;
 }
 
+
 dcpomatic::DCPTime
 VideoView::one_video_frame () const
 {
 	return dcpomatic::DCPTime::from_frames (1, video_frame_rate());
 }
+
 
 /** @return Time in ms until the next frame is due, or empty if nothing is due */
 optional<int>
@@ -117,6 +117,7 @@ VideoView::time_until_next_frame () const
 	return (next.seconds() - time.seconds()) * 1000;
 }
 
+
 void
 VideoView::start ()
 {
@@ -124,6 +125,7 @@ VideoView::start ()
 	_dropped = 0;
 	_errored = 0;
 }
+
 
 bool
 VideoView::reset_metadata (shared_ptr<const Film> film, dcp::Size player_video_container_size)
