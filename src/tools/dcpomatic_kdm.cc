@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -17,6 +17,7 @@
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 
 #include "wx/full_config_dialog.h"
 #include "wx/about_dialog.h"
@@ -64,6 +65,7 @@ DCPOMATIC_ENABLE_WARNINGS
 #undef check
 #endif
 
+
 using std::exception;
 using std::list;
 using std::string;
@@ -80,17 +82,19 @@ using namespace boost::placeholders;
 #endif
 using namespace dcpomatic;
 
+
 enum {
 	ID_help_report_a_problem = 1,
 };
+
 
 class DOMFrame : public wxFrame
 {
 public:
 	explicit DOMFrame (wxString const & title)
 		: wxFrame (0, -1, title)
-		, _config_dialog (0)
-		, _job_view (0)
+		, _config_dialog (nullptr)
+		, _job_view (nullptr)
 	{
 #if defined(DCPOMATIC_WINDOWS)
 		if (Config::instance()->win32_console ()) {
@@ -112,7 +116,7 @@ public:
 		}
 #endif
 
-		wxMenuBar* bar = new wxMenuBar;
+		auto bar = new wxMenuBar;
 		setup_menu (bar);
 		SetMenuBar (bar);
 
@@ -124,12 +128,12 @@ public:
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
 		*/
-		wxPanel* overall_panel = new wxPanel (this, wxID_ANY);
-		wxBoxSizer* main_sizer = new wxBoxSizer (wxHORIZONTAL);
+		auto overall_panel = new wxPanel (this, wxID_ANY);
+		auto main_sizer = new wxBoxSizer (wxHORIZONTAL);
 
-		wxBoxSizer* horizontal = new wxBoxSizer (wxHORIZONTAL);
-		wxBoxSizer* left = new wxBoxSizer (wxVERTICAL);
-		wxBoxSizer* right = new wxBoxSizer (wxVERTICAL);
+		auto horizontal = new wxBoxSizer (wxHORIZONTAL);
+		auto left = new wxBoxSizer (wxVERTICAL);
+		auto right = new wxBoxSizer (wxVERTICAL);
 
 		horizontal->Add (left, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_X_GAP * 2);
 		horizontal->Add (right, 1, wxEXPAND);
@@ -137,23 +141,23 @@ public:
 		wxFont subheading_font (*wxNORMAL_FONT);
 		subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
 
-		wxStaticText* h = new StaticText (overall_panel, _("Screens"));
+		auto h = new StaticText (overall_panel, _("Screens"));
 		h->SetFont (subheading_font);
-		left->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
+		left->Add (h, 0, wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 		_screens = new ScreensPanel (overall_panel);
 		left->Add (_screens, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 
 		/// TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 		h = new StaticText (overall_panel, S_("KDM|Timing"));
 		h->SetFont (subheading_font);
-		right->Add (h, 0, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP * 2);
+		right->Add (h);
 		_timing = new KDMTimingPanel (overall_panel);
 		right->Add (_timing, 0, wxALL, DCPOMATIC_SIZER_Y_GAP);
 
 		h = new StaticText (overall_panel, _("DKDM"));
 		h->SetFont (subheading_font);
-		right->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
-		wxBoxSizer* dkdm_sizer = new wxBoxSizer (wxHORIZONTAL);
+		right->Add (h, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
+		auto dkdm_sizer = new wxBoxSizer (wxHORIZONTAL);
 		_dkdm = new wxTreeCtrl (
 			overall_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT
 		);
@@ -174,7 +178,7 @@ public:
 
 		h = new StaticText (overall_panel, _("Output"));
 		h->SetFont (subheading_font);
-		right->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
+		right->Add (h, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
 		/* XXX: hard-coded non-interop here */
 		_output = new KDMOutputPanel (overall_panel, false);
 		right->Add (_output, 0, wxALL, DCPOMATIC_SIZER_Y_GAP);
@@ -218,14 +222,14 @@ private:
 
 	void help_about ()
 	{
-		AboutDialog* d = new AboutDialog (this);
+		auto d = new AboutDialog (this);
 		d->ShowModal ();
 		d->Destroy ();
 	}
 
 	void help_report_a_problem ()
 	{
-		ReportProblemDialog* d = new ReportProblemDialog (this, shared_ptr<Film> ());
+		auto d = new ReportProblemDialog (this, shared_ptr<Film>());
 		if (d->ShowModal () == wxID_OK) {
 			d->report ();
 		}
@@ -234,7 +238,7 @@ private:
 
 	void setup_menu (wxMenuBar* m)
 	{
-		wxMenu* file = new wxMenu;
+		auto file = new wxMenu;
 
 #ifdef __WXOSX__
 		file->Append (wxID_EXIT, _("&Exit"));
@@ -288,7 +292,7 @@ private:
 			*id = selections[0];
 		}
 
-		DKDMMap::const_iterator i = _dkdm_id.find (selections[0]);
+		auto i = _dkdm_id.find (selections[0]);
 		if (i == _dkdm_id.end()) {
 			return shared_ptr<DKDMBase> ();
 		}
@@ -299,7 +303,7 @@ private:
 	void create_kdms ()
 	{
 		try {
-			shared_ptr<DKDMBase> dkdm_base = selected_dkdm ();
+			auto dkdm_base = selected_dkdm ();
 			if (!dkdm_base) {
 				return;
 			}
@@ -307,7 +311,7 @@ private:
 			list<KDMWithMetadataPtr> kdms;
 			string title;
 
-			shared_ptr<DKDM> dkdm = std::dynamic_pointer_cast<DKDM> (dkdm_base);
+			auto dkdm = std::dynamic_pointer_cast<DKDM>(dkdm_base);
 			if (dkdm) {
 
 				/* Decrypt the DKDM */
@@ -315,7 +319,7 @@ private:
 				title = decrypted.content_title_text ();
 
 				/* This is the signer for our new KDMs */
-				shared_ptr<const dcp::CertificateChain> signer = Config::instance()->signer_chain ();
+				auto signer = Config::instance()->signer_chain ();
 				if (!signer->valid ()) {
 					throw InvalidSignerError ();
 				}
@@ -343,7 +347,7 @@ private:
 						kdm.add_key (j);
 					}
 
-					dcp::EncryptedKDM const encrypted = kdm.encrypt(
+					auto const encrypted = kdm.encrypt(
 							signer, i->recipient.get(), i->trusted_device_thumbprints(), _output->formulation(),
 							!_output->forensic_mark_video(), _output->forensic_mark_audio() ? boost::optional<int>() : 0
 							);
@@ -369,7 +373,7 @@ private:
 				return;
 			}
 
-			pair<shared_ptr<Job>, int> result = _output->make (
+			auto result = _output->make (
 				kdms, title, bind (&DOMFrame::confirm_overwrite, this, _1)
 				);
 
@@ -420,13 +424,13 @@ private:
 
 	void dkdm_end_drag (wxTreeEvent& ev)
 	{
-		DKDMMap::iterator from = _dkdm_id.find (_dkdm->GetSelection ());
-		DKDMMap::iterator to = _dkdm_id.find (ev.GetItem ());
+		auto from = _dkdm_id.find (_dkdm->GetSelection ());
+		auto to = _dkdm_id.find (ev.GetItem ());
 		if (from == _dkdm_id.end() || to == _dkdm_id.end() || from->first == to->first) {
 			return;
 		}
 
-		shared_ptr<DKDMGroup> group = dynamic_pointer_cast<DKDMGroup> (to->second);
+		auto group = dynamic_pointer_cast<DKDMGroup> (to->second);
 		if (!group) {
 			group = to->second->parent();
 		}
@@ -444,9 +448,9 @@ private:
 
 	void add_dkdm_clicked ()
 	{
-		wxFileDialog* d = new wxFileDialog (this, _("Select DKDM file"));
+		auto d = new wxFileDialog (this, _("Select DKDM file"));
 		if (d->ShowModal() == wxID_OK) {
-			shared_ptr<const dcp::CertificateChain> chain = Config::instance()->decryption_chain();
+			auto chain = Config::instance()->decryption_chain();
 			DCPOMATIC_ASSERT (chain->key());
 
 			try {
@@ -455,7 +459,7 @@ private:
 				dcp::DecryptedKDM dkdm(ekdm, chain->key().get());
 
 				shared_ptr<DKDMBase> new_dkdm(new DKDM(ekdm));
-				shared_ptr<DKDMGroup> group = dynamic_pointer_cast<DKDMGroup> (selected_dkdm ());
+				auto group = dynamic_pointer_cast<DKDMGroup> (selected_dkdm ());
 				if (!group) {
 					group = Config::instance()->dkdms ();
 				}
@@ -486,10 +490,10 @@ private:
 
 	void add_dkdm_folder_clicked ()
 	{
-		NewDKDMFolderDialog* d = new NewDKDMFolderDialog (this);
+		auto d = new NewDKDMFolderDialog (this);
 		if (d->ShowModal() == wxID_OK) {
 			shared_ptr<DKDMBase> new_dkdm (new DKDMGroup (wx_to_std (d->get ())));
-			shared_ptr<DKDMGroup> parent = dynamic_pointer_cast<DKDMGroup> (selected_dkdm ());
+			auto parent = dynamic_pointer_cast<DKDMGroup> (selected_dkdm ());
 			if (!parent) {
 				parent = Config::instance()->dkdms ();
 			}
@@ -519,7 +523,7 @@ private:
 		}
 
 		/* Add children */
-		shared_ptr<DKDMGroup> g = dynamic_pointer_cast<DKDMGroup> (base);
+		auto g = dynamic_pointer_cast<DKDMGroup>(base);
 		if (g) {
 			for (auto i: g->children()) {
 				add_dkdm_view (i);
@@ -539,9 +543,9 @@ private:
 
 	wxTreeItemId dkdm_to_id (shared_ptr<DKDMBase> dkdm)
 	{
-		for (DKDMMap::iterator i = _dkdm_id.begin(); i != _dkdm_id.end(); ++i) {
-			if (i->second == dkdm) {
-				return i->first;
+		for (auto const& i: _dkdm_id) {
+			if (i.second == dkdm) {
+				return i.first;
 			}
 		}
 		DCPOMATIC_ASSERT (false);
@@ -549,7 +553,7 @@ private:
 
 	void remove_dkdm_clicked ()
 	{
-		shared_ptr<DKDMBase> removed = selected_dkdm ();
+		auto removed = selected_dkdm ();
 		if (!removed) {
 			return;
 		}
@@ -563,24 +567,24 @@ private:
 		}
 
 		_dkdm->Delete (dkdm_to_id (removed));
-		shared_ptr<DKDMGroup> dkdms = Config::instance()->dkdms ();
+		auto dkdms = Config::instance()->dkdms ();
 		dkdms->remove (removed);
 		Config::instance()->changed ();
 	}
 
 	void export_dkdm_clicked ()
 	{
-		shared_ptr<DKDMBase> removed = selected_dkdm ();
+		auto removed = selected_dkdm ();
 		if (!removed) {
 			return;
 		}
 
-		shared_ptr<DKDM> dkdm = dynamic_pointer_cast<DKDM>(removed);
+		auto dkdm = dynamic_pointer_cast<DKDM>(removed);
 		if (!dkdm) {
 			return;
 		}
 
-		wxFileDialog* d = new wxFileDialog (
+		auto d = new wxFileDialog (
 			this, _("Select DKDM File"), wxEmptyString, wxEmptyString, wxT("XML files (*.xml)|*.xml"),
 			wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 			);
@@ -595,7 +599,7 @@ private:
 	ScreensPanel* _screens;
 	KDMTimingPanel* _timing;
 	wxTreeCtrl* _dkdm;
-	typedef std::map<wxTreeItemId, std::shared_ptr<DKDMBase> > DKDMMap;
+	typedef std::map<wxTreeItemId, std::shared_ptr<DKDMBase>> DKDMMap;
 	DKDMMap _dkdm_id;
 	wxButton* _add_dkdm;
 	wxButton* _add_dkdm_folder;
@@ -621,7 +625,7 @@ private:
 
 	bool OnInit ()
 	{
-		wxSplashScreen* splash = 0;
+		wxSplashScreen* splash = nullptr;
 
 		try {
 			wxInitAllImageHandlers ();
