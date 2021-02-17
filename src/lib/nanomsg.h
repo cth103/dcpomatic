@@ -29,8 +29,8 @@ class Nanomsg
 public:
 	explicit Nanomsg (bool server);
 
-	NanoMsg (Nanomsg const&) = delete;
-	NanoMsg& operator= (Nanomsg const&) = delete;
+	Nanomsg (Nanomsg const&) = delete;
+	Nanomsg& operator= (Nanomsg const&) = delete;
 
 	/** Try to send a message, waiting for some timeout before giving up.
 	 *  @param timeout Timeout in milliseconds, or -1 for infinite timeout.
