@@ -18,9 +18,11 @@
 
 */
 
+
 /** @file  src/lib/content.cc
  *  @brief Content class.
  */
+
 
 #include "content.h"
 #include "change_signaller.h"
@@ -42,17 +44,20 @@
 
 #include "i18n.h"
 
-using std::string;
-using std::list;
+
 using std::cout;
-using std::vector;
+using std::list;
+using std::make_shared;
 using std::max;
 using std::pair;
 using std::shared_ptr;
+using std::string;
+using std::vector;
 using boost::optional;
-using dcp::raw_convert;
 using dcp::locale_convert;
+using dcp::raw_convert;
 using namespace dcpomatic;
+
 
 int const ContentProperty::PATH = 400;
 int const ContentProperty::POSITION = 401;
@@ -61,32 +66,28 @@ int const ContentProperty::TRIM_START = 403;
 int const ContentProperty::TRIM_END = 404;
 int const ContentProperty::VIDEO_FRAME_RATE = 405;
 
+
 Content::Content ()
-	: _position (0)
-	, _trim_start (0)
-	, _trim_end (0)
-	, _change_signals_frequent (false)
+	: _change_signals_frequent (false)
 {
 
 }
+
 
 Content::Content (DCPTime p)
 	: _position (p)
-	, _trim_start (0)
-	, _trim_end (0)
 	, _change_signals_frequent (false)
 {
 
 }
 
+
 Content::Content (boost::filesystem::path p)
-	: _position (0)
-	, _trim_start (0)
-	, _trim_end (0)
-	, _change_signals_frequent (false)
+	: _change_signals_frequent (false)
 {
 	add_path (p);
 }
+
 
 Content::Content (cxml::ConstNodePtr node)
 	: _change_signals_frequent (false)
@@ -109,10 +110,11 @@ Content::Content (cxml::ConstNodePtr node)
 	_video_frame_rate = node->optional_number_child<double> ("VideoFrameRate");
 }
 
-Content::Content (vector<shared_ptr<Content> > c)
-	: _position (c.front()->position ())
-	, _trim_start (c.front()->trim_start ())
-	, _trim_end (c.back()->trim_end ())
+
+Content::Content (vector<shared_ptr<Content>> c)
+	: _position (c.front()->position())
+	, _trim_start (c.front()->trim_start())
+	, _trim_end (c.back()->trim_end())
 	, _video_frame_rate (c.front()->video_frame_rate())
 	, _change_signals_frequent (false)
 {
@@ -143,6 +145,7 @@ Content::Content (vector<shared_ptr<Content> > c)
 	}
 }
 
+
 void
 Content::as_xml (xmlpp::Node* node, bool with_paths) const
 {
@@ -150,19 +153,20 @@ Content::as_xml (xmlpp::Node* node, bool with_paths) const
 
 	if (with_paths) {
 		for (size_t i = 0; i < _paths.size(); ++i) {
-			xmlpp::Element* p = node->add_child("Path");
+			auto p = node->add_child("Path");
 			p->add_child_text (_paths[i].string());
 			p->set_attribute ("mtime", raw_convert<string>(_last_write_times[i]));
 		}
 	}
-	node->add_child("Digest")->add_child_text (_digest);
-	node->add_child("Position")->add_child_text (raw_convert<string> (_position.get ()));
-	node->add_child("TrimStart")->add_child_text (raw_convert<string> (_trim_start.get ()));
-	node->add_child("TrimEnd")->add_child_text (raw_convert<string> (_trim_end.get ()));
+	node->add_child("Digest")->add_child_text(_digest);
+	node->add_child("Position")->add_child_text(raw_convert<string>(_position.get()));
+	node->add_child("TrimStart")->add_child_text(raw_convert<string>(_trim_start.get()));
+	node->add_child("TrimEnd")->add_child_text(raw_convert<string>(_trim_end.get()));
 	if (_video_frame_rate) {
-		node->add_child("VideoFrameRate")->add_child_text (raw_convert<string> (_video_frame_rate.get()));
+		node->add_child("VideoFrameRate")->add_child_text(raw_convert<string>(_video_frame_rate.get()));
 	}
 }
+
 
 string
 Content::calculate_digest () const
@@ -177,6 +181,7 @@ Content::calculate_digest () const
 	*/
 	return digest_head_tail(p, 1000000) + raw_convert<string>(boost::filesystem::file_size(p.front()));
 }
+
 
 void
 Content::examine (shared_ptr<const Film>, shared_ptr<Job> job)
@@ -198,6 +203,7 @@ Content::examine (shared_ptr<const Film>, shared_ptr<Job> job)
 	}
 }
 
+
 void
 Content::signal_change (ChangeType c, int p)
 {
@@ -211,6 +217,7 @@ Content::signal_change (ChangeType c, int p)
 		/* This must be during construction; never mind */
 	}
 }
+
 
 void
 Content::set_position (shared_ptr<const Film> film, DCPTime p, bool force_emit)
@@ -244,6 +251,7 @@ Content::set_position (shared_ptr<const Film> film, DCPTime p, bool force_emit)
 	}
 }
 
+
 void
 Content::set_trim_start (ContentTime t)
 {
@@ -265,6 +273,7 @@ Content::set_trim_start (ContentTime t)
 		_trim_start = t;
 	}
 }
+
 
 void
 Content::set_trim_end (ContentTime t)
@@ -288,8 +297,9 @@ Content::clone () const
 
 	/* notes is unused here (we assume) */
 	list<string> notes;
-	return content_factory (cxml::NodePtr(new cxml::Node(node)), Film::current_state_version, notes);
+	return content_factory (make_shared<cxml::Node>(node), Film::current_state_version, notes);
 }
+
 
 string
 Content::technical_summary () const
@@ -301,6 +311,7 @@ Content::technical_summary () const
 	return s;
 }
 
+
 DCPTime
 Content::length_after_trim (shared_ptr<const Film> film) const
 {
@@ -310,6 +321,7 @@ Content::length_after_trim (shared_ptr<const Film> film) const
 	}
 	return length;
 }
+
 
 /** @return string which changes when something about this content changes which affects
  *  the appearance of its video.
@@ -325,6 +337,7 @@ Content::identifier () const
 	return buffer;
 }
 
+
 bool
 Content::paths_valid () const
 {
@@ -336,6 +349,7 @@ Content::paths_valid () const
 
 	return true;
 }
+
 
 void
 Content::set_paths (vector<boost::filesystem::path> paths)
@@ -354,6 +368,7 @@ Content::set_paths (vector<boost::filesystem::path> paths)
 	}
 }
 
+
 string
 Content::path_summary () const
 {
@@ -369,6 +384,7 @@ Content::path_summary () const
 	return s;
 }
 
+
 /** @return a list of properties that might be interesting to the user */
 list<UserProperty>
 Content::user_properties (shared_ptr<const Film> film) const
@@ -377,6 +393,7 @@ Content::user_properties (shared_ptr<const Film> film) const
 	add_properties (film, p);
 	return p;
 }
+
 
 /** @return DCP times of points within this content where a reel split could occur */
 list<DCPTime>
@@ -389,6 +406,7 @@ Content::reel_split_points (shared_ptr<const Film>) const
 	t.push_back (position());
 	return t;
 }
+
 
 void
 Content::set_video_frame_rate (double r)
@@ -409,6 +427,7 @@ Content::set_video_frame_rate (double r)
 	}
 }
 
+
 void
 Content::unset_video_frame_rate ()
 {
@@ -419,6 +438,7 @@ Content::unset_video_frame_rate ()
 		_video_frame_rate = optional<double>();
 	}
 }
+
 
 double
 Content::active_video_frame_rate (shared_ptr<const Film> film) const
@@ -436,6 +456,7 @@ Content::active_video_frame_rate (shared_ptr<const Film> film) const
 	*/
 	return film->active_frame_rate_change(position()).source;
 }
+
 
 void
 Content::add_properties (shared_ptr<const Film>, list<UserProperty>& p) const
@@ -465,6 +486,7 @@ Content::add_properties (shared_ptr<const Film>, list<UserProperty>& p) const
 	}
 }
 
+
 /** Take settings from the given content if it is of the correct type */
 void
 Content::take_settings_from (shared_ptr<const Content> c)
@@ -485,15 +507,17 @@ Content::take_settings_from (shared_ptr<const Content> c)
  	}
 }
 
+
 shared_ptr<TextContent>
 Content::only_text () const
 {
 	DCPOMATIC_ASSERT (text.size() < 2);
-	if (text.empty ()) {
-		return shared_ptr<TextContent> ();
+	if (text.empty()) {
+		return {};
 	}
 	return text.front ();
 }
+
 
 shared_ptr<TextContent>
 Content::text_of_original_type (TextType type) const
@@ -504,8 +528,9 @@ Content::text_of_original_type (TextType type) const
 		}
 	}
 
-	return shared_ptr<TextContent> ();
+	return {};
 }
+
 
 void
 Content::add_path (boost::filesystem::path p)

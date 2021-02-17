@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,11 @@
 
 */
 
+
 /** @file  src/lib/content.h
  *  @brief Content class.
  */
+
 
 #ifndef DCPOMATIC_CONTENT_H
 #define DCPOMATIC_CONTENT_H
@@ -59,18 +61,22 @@ public:
 	static int const VIDEO_FRAME_RATE;
 };
 
+
 /** @class Content
  *  @brief A piece of content represented by one or more files on disk.
  */
-class Content : public std::enable_shared_from_this<Content>, public Signaller, public boost::noncopyable
+class Content : public std::enable_shared_from_this<Content>, public Signaller
 {
 public:
 	explicit Content ();
 	Content (dcpomatic::DCPTime);
 	Content (boost::filesystem::path);
 	Content (cxml::ConstNodePtr);
-	Content (std::vector<std::shared_ptr<Content> >);
+	Content (std::vector<std::shared_ptr<Content>>);
 	virtual ~Content () {}
+
+	Content (Content const&) = delete;
+	Content& operator= (Content const&) = delete;
 
 	/** Examine the content to establish digest, frame rates and any other
 	 *  useful metadata.

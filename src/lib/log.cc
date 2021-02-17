@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,11 @@
 
 */
 
+
 /** @file src/log.cc
  *  @brief A very simple logging class.
  */
+
 
 #include "log.h"
 #include "cross.h"
@@ -39,10 +41,10 @@ using std::make_shared;
 
 
 Log::Log ()
-	: _types (0)
 {
 
 }
+
 
 void
 Log::log (shared_ptr<const LogEntry> e)
@@ -55,6 +57,7 @@ Log::log (shared_ptr<const LogEntry> e)
 
 	do_log (e);
 }
+
 
 /** @param n String to log */
 void
@@ -71,6 +74,7 @@ Log::log (string message, int type)
 	do_log (e);
 }
 
+
 void
 Log::dcp_log (dcp::NoteType type, string m)
 {
@@ -86,6 +90,7 @@ Log::dcp_log (dcp::NoteType type, string m)
 		break;
 	}
 }
+
 
 void
 Log::set_types (int t)

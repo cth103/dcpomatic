@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,22 +18,26 @@
 
 */
 
+
 #include <string>
 #include <list>
 #include <boost/optional.hpp>
-#include <boost/noncopyable.hpp>
 
-class Nanomsg : public boost::noncopyable
+
+class Nanomsg
 {
 public:
 	explicit Nanomsg (bool server);
+
+	NanoMsg (Nanomsg const&) = delete;
+	NanoMsg& operator= (Nanomsg const&) = delete;
 
 	/** Try to send a message, waiting for some timeout before giving up.
 	 *  @param timeout Timeout in milliseconds, or -1 for infinite timeout.
 	 *  @return true if the send happened, false if there was a timeout.
 	 */
 	bool send (std::string s, int timeout);
-	
+
 	/** Try to receive a message, waiting for some timeout before giving up.
 	 *  @param timeout Timeout in milliseconds, or -1 for infinite timeout.
 	 *  @return Empty if the timeout was reached, otherwise the received string.

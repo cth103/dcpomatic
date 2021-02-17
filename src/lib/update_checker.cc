@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "update_checker.h"
 #include "version.h"
 #include "util.h"
@@ -28,7 +29,9 @@
 #include <string>
 #include <iostream>
 
+
 #define BUFFER_SIZE 1024
+
 
 using std::cout;
 using std::min;
@@ -38,8 +41,10 @@ using boost::is_any_of;
 using boost::ends_with;
 using dcp::raw_convert;
 
+
 /** Singleton instance */
-UpdateChecker* UpdateChecker::_instance = 0;
+UpdateChecker* UpdateChecker::_instance = nullptr;
+
 
 static size_t
 write_callback_wrapper (void* data, size_t size, size_t nmemb, void* user)
@@ -47,17 +52,13 @@ write_callback_wrapper (void* data, size_t size, size_t nmemb, void* user)
 	return reinterpret_cast<UpdateChecker*>(user)->write_callback (data, size, nmemb);
 }
 
+
 /** Construct an UpdateChecker.  This sets things up and starts a thread to
  *  do the work.
  */
 UpdateChecker::UpdateChecker ()
 	: _buffer (new char[BUFFER_SIZE])
-	, _offset (0)
-	, _curl (0)
-	, _state (NOT_RUN)
-	, _emits (0)
-	, _to_do (0)
-	, _terminate (false)
+	, _state (State::NOT_RUN)
 {
 	_curl = curl_easy_init ();
 
@@ -70,6 +71,7 @@ UpdateChecker::UpdateChecker ()
 	curl_easy_setopt (_curl, CURLOPT_USERAGENT, agent.c_str ());
 }
 
+
 void
 UpdateChecker::start ()
 {
@@ -78,6 +80,7 @@ UpdateChecker::start ()
 	pthread_setname_np (_thread.native_handle(), "update-checker");
 #endif
 }
+
 
 UpdateChecker::~UpdateChecker ()
 {
@@ -97,6 +100,7 @@ UpdateChecker::~UpdateChecker ()
 	delete[] _buffer;
 }
 
+
 /** Start running the update check */
 void
 UpdateChecker::run ()
@@ -105,6 +109,7 @@ UpdateChecker::run ()
 	_to_do++;
 	_condition.notify_one ();
 }
+
 
 void
 UpdateChecker::thread ()
@@ -130,7 +135,7 @@ UpdateChecker::thread ()
 
 			int r = curl_easy_perform (_curl);
 			if (r != CURLE_OK) {
-				set_state (FAILED);
+				set_state (State::FAILED);
 				return;
 			}
 
@@ -161,15 +166,16 @@ UpdateChecker::thread ()
 			}
 
 			if (_stable || _test) {
-				set_state (YES);
+				set_state (State::YES);
 			} else {
-				set_state (NO);
+				set_state (State::NO);
 			}
 		} catch (...) {
-			set_state (FAILED);
+			set_state (State::FAILED);
 		}
 	}
 }
+
 
 size_t
 UpdateChecker::write_callback (void* data, size_t size, size_t nmemb)
@@ -180,6 +186,7 @@ UpdateChecker::write_callback (void* data, size_t size, size_t nmemb)
 	return t;
 }
 
+
 void
 UpdateChecker::set_state (State s)
 {
@@ -189,8 +196,9 @@ UpdateChecker::set_state (State s)
 		_emits++;
 	}
 
-	emit (boost::bind (boost::ref (StateChanged)));
+	emit (boost::bind(boost::ref(StateChanged)));
 }
+
 
 UpdateChecker *
 UpdateChecker::instance ()
@@ -203,6 +211,7 @@ UpdateChecker::instance ()
 	return _instance;
 }
 
+
 bool
 UpdateChecker::version_less_than (string const & a, string const & b)
 {
@@ -214,24 +223,24 @@ UpdateChecker::version_less_than (string const & a, string const & b)
 	DCPOMATIC_ASSERT (ap.size() == 3 && bp.size() == 3);
 
 	if (ap[0] != bp[0]) {
-		return raw_convert<int> (ap[0]) < raw_convert<int> (bp[0]);
+		return raw_convert<int>(ap[0]) < raw_convert<int>(bp[0]);
 	}
 
 	if (ap[1] != bp[1]) {
-		return raw_convert<int> (ap[1]) < raw_convert<int> (bp[1]);
+		return raw_convert<int>(ap[1]) < raw_convert<int>(bp[1]);
 	}
 	float am;
 	if (ends_with (ap[2], "devel")) {
-		am = raw_convert<int> (ap[2].substr (0, ap[2].length() - 5)) + 0.5;
+		am = raw_convert<int>(ap[2].substr(0, ap[2].length() - 5)) + 0.5;
 	} else {
-		am = raw_convert<int> (ap[2]);
+		am = raw_convert<int>(ap[2]);
 	}
 
 	float bm;
 	if (ends_with (bp[2], "devel")) {
-		bm = raw_convert<int> (bp[2].substr (0, bp[2].length() - 5)) + 0.5;
+		bm = raw_convert<int>(bp[2].substr(0, bp[2].length() - 5)) + 0.5;
 	} else {
-		bm = raw_convert<int> (bp[2]);
+		bm = raw_convert<int>(bp[2]);
 	}
 
 	return am < bm;

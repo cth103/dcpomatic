@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "ffmpeg_encoder.h"
 #include "film.h"
 #include "job.h"
@@ -31,24 +32,27 @@
 
 #include "i18n.h"
 
-using std::string;
-using std::runtime_error;
+
 using std::cout;
+using std::make_shared;
 using std::pair;
+using std::runtime_error;
 using std::shared_ptr;
-using boost::bind;
+using std::string;
 using std::weak_ptr;
+using boost::bind;
 using boost::optional;
 using namespace dcpomatic;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
 
+
 int FFmpegFileEncoder::_video_stream_index = 0;
 int FFmpegFileEncoder::_audio_stream_index_base = 1;
 
 
-class ExportAudioStream : public boost::noncopyable
+class ExportAudioStream
 {
 public:
 	ExportAudioStream (string codec_name, int channels, int frame_rate, AVSampleFormat sample_format, AVFormatContext* format_context, int stream_index)
@@ -98,6 +102,9 @@ DCPOMATIC_ENABLE_WARNINGS
 		avcodec_close (_codec_context);
 	}
 
+	ExportAudioStream (ExportAudioStream const&) = delete;
+	ExportAudioStream& operator= (ExportAudioStream const&) = delete;
+
 	int frame_size () const {
 		return _codec_context->frame_size;
 	}
@@ -128,13 +135,13 @@ DCPOMATIC_ENABLE_WARNINGS
 	{
 		DCPOMATIC_ASSERT (size);
 
-		AVFrame* frame = av_frame_alloc ();
+		auto frame = av_frame_alloc ();
 		DCPOMATIC_ASSERT (frame);
 
 		int const buffer_size = av_samples_get_buffer_size (0, channels, size, _codec_context->sample_fmt, 0);
 		DCPOMATIC_ASSERT (buffer_size >= 0);
 
-		void* samples = av_malloc (buffer_size);
+		auto samples = av_malloc (buffer_size);
 		DCPOMATIC_ASSERT (samples);
 
 		frame->nb_samples = size;
@@ -220,13 +227,11 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 	boost::filesystem::path output
 	)
 	: _audio_stream_per_channel (audio_stream_per_channel)
-	, _video_options (0)
 	, _audio_channels (channels)
 	, _output (output)
 	, _video_frame_size (video_frame_size)
 	, _video_frame_rate (video_frame_rate)
 	, _audio_frame_rate (audio_frame_rate)
-	, _audio_frames (0)
 {
 	_pixel_format = pixel_format (format);
 
@@ -267,7 +272,7 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 		throw runtime_error (String::compose("could not open FFmpeg output file %1 (%2)", _output.string(), r));
 	}
 
-	AVDictionary* options = 0;
+	AVDictionary* options = nullptr;
 
 	if (avformat_write_header (_format_context, &options) < 0) {
 		throw runtime_error ("could not write header to FFmpeg output file");
@@ -300,6 +305,7 @@ FFmpegFileEncoder::pixel_format (ExportFormat format)
 
 	return AV_PIX_FMT_YUV422P10;
 }
+
 
 void
 FFmpegFileEncoder::setup_video ()
@@ -348,8 +354,8 @@ FFmpegFileEncoder::setup_audio ()
 
 	for (int i = 0; i < streams; ++i) {
 		_audio_streams.push_back(
-			shared_ptr<ExportAudioStream>(
-				new ExportAudioStream(_audio_codec_name, channels_per_stream, _audio_frame_rate, _sample_format, _format_context, _audio_stream_index_base + i)
+			make_shared<ExportAudioStream>(
+				_audio_codec_name, channels_per_stream, _audio_frame_rate, _sample_format, _format_context, _audio_stream_index_base + i
 				)
 			);
 	}
@@ -394,6 +400,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 	av_write_trailer (_format_context);
 }
+
 
 void
 FFmpegFileEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
@@ -450,6 +457,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 }
 
+
 /** Called when the player gives us some audio */
 void
 FFmpegFileEncoder::audio (shared_ptr<AudioBuffers> audio)
@@ -467,6 +475,7 @@ FFmpegFileEncoder::audio (shared_ptr<AudioBuffers> audio)
 		audio_frame (frame_size);
 	}
 }
+
 
 void
 FFmpegFileEncoder::audio_frame (int size)
@@ -487,17 +496,20 @@ FFmpegFileEncoder::audio_frame (int size)
 	_audio_frames += size;
 }
 
+
 void
 FFmpegFileEncoder::subtitle (PlayerText, DCPTimePeriod)
 {
 
 }
 
+
 void
 FFmpegFileEncoder::buffer_free (void* opaque, uint8_t* data)
 {
 	reinterpret_cast<FFmpegFileEncoder*>(opaque)->buffer_free2(data);
 }
+
 
 void
 FFmpegFileEncoder::buffer_free2 (uint8_t* data)

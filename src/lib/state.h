@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,23 +18,30 @@
 
 */
 
+
 #ifndef DCPOMATIC_STATE_H
 #define DCPOMATIC_STATE_H
 
-#include <boost/noncopyable.hpp>
+
 #include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
 
-class State : public boost::noncopyable
+
+class State
 {
 public:
+	State () {}
 	virtual ~State () {}
 	virtual void read () = 0;
 	virtual void write () const = 0;
+
+	State (State const&) = delete;
+	State& operator= (State const&) = delete;
 
 	/** If set, this overrides the standard path (in home, Library, AppData or wherever) for config.xml, cinemas.xml etc. */
 	static boost::optional<boost::filesystem::path> override_path;
 	static boost::filesystem::path path (std::string file, bool create_directories = true);
 };
+
 
 #endif

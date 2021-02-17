@@ -18,8 +18,10 @@
 
 */
 
+
 #ifndef DCPOMATIC_FFMPEG_FILE_ENCODER_H
 #define DCPOMATIC_FFMPEG_FILE_ENCODER_H
+
 
 #include "encoder.h"
 #include "event_history.h"
@@ -68,15 +70,15 @@ private:
 	static void buffer_free(void* opaque, uint8_t* data);
 	void buffer_free2(uint8_t* data);
 
-	AVCodec* _video_codec;
-	AVCodecContext* _video_codec_context;
-	std::vector<std::shared_ptr<ExportAudioStream> > _audio_streams;
+	AVCodec* _video_codec = nullptr;
+	AVCodecContext* _video_codec_context = nullptr;
+	std::vector<std::shared_ptr<ExportAudioStream>> _audio_streams;
 	bool _audio_stream_per_channel;
-	AVFormatContext* _format_context;
-	AVStream* _video_stream;
+	AVFormatContext* _format_context = nullptr;
+	AVStream* _video_stream = nullptr;
 	AVPixelFormat _pixel_format;
 	AVSampleFormat _sample_format;
-	AVDictionary* _video_options;
+	AVDictionary* _video_options = nullptr;
 	std::string _video_codec_name;
 	std::string _audio_codec_name;
 	int _audio_channels;
@@ -86,14 +88,14 @@ private:
 	int _video_frame_rate;
 	int _audio_frame_rate;
 
-	int64_t _audio_frames;
+	int64_t _audio_frames = 0;
 
 	std::shared_ptr<AudioBuffers> _pending_audio;
 
 	/** Store of shared_ptr<Image> to keep them alive whilst raw pointers into
 	    their data have been passed to FFmpeg.
 	*/
-	std::map<uint8_t*, std::shared_ptr<const Image> > _pending_images;
+	std::map<uint8_t*, std::shared_ptr<const Image>> _pending_images;
 	boost::mutex _pending_images_mutex;
 
 	static int _video_stream_index;

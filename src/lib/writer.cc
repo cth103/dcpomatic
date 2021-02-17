@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -17,6 +17,7 @@
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 
 #include "writer.h"
 #include "compose.hpp"
@@ -46,21 +47,24 @@
 
 #include "i18n.h"
 
+
 /* OS X strikes again */
 #undef set_key
 
-using std::make_pair;
-using std::pair;
-using std::string;
-using std::list;
+
 using std::cout;
-using std::map;
-using std::min;
-using std::max;
-using std::vector;
-using std::shared_ptr;
-using std::weak_ptr;
 using std::dynamic_pointer_cast;
+using std::list;
+using std::make_pair;
+using std::make_shared;
+using std::map;
+using std::max;
+using std::min;
+using std::pair;
+using std::shared_ptr;
+using std::string;
+using std::vector;
+using std::weak_ptr;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -84,19 +88,12 @@ ignore_progress (float)
 Writer::Writer (weak_ptr<const Film> weak_film, weak_ptr<Job> j, bool text_only)
 	: WeakConstFilm (weak_film)
 	, _job (j)
-	, _finish (false)
-	, _queued_full_in_memory (0)
 	/* These will be reset to sensible values when J2KEncoder is created */
 	, _maximum_frames_in_memory (8)
 	, _maximum_queue_size (8)
-	, _full_written (0)
-	, _fake_written (0)
-	, _repeat_written (0)
-	, _pushed_to_disk (0)
 	, _text_only (text_only)
-	, _have_subtitles (false)
 {
-	shared_ptr<Job> job = _job.lock ();
+	auto job = _job.lock ();
 
 	int reel_index = 0;
 	auto const reels = film()->reels();
@@ -123,6 +120,7 @@ Writer::Writer (weak_ptr<const Film> weak_film, weak_ptr<Job> j, bool text_only)
 	}
 }
 
+
 void
 Writer::start ()
 {
@@ -134,12 +132,14 @@ Writer::start ()
 	}
 }
 
+
 Writer::~Writer ()
 {
 	if (!_text_only) {
 		terminate_thread (false);
 	}
 }
+
 
 /** Pass a video frame to the writer for writing to disk at some point.
  *  This method can be called with frames out of order.
@@ -160,7 +160,7 @@ Writer::write (shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
 	}
 
 	QueueItem qi;
-	qi.type = QueueItem::FULL;
+	qi.type = QueueItem::Type::FULL;
 	qi.encoded = encoded;
 	qi.reel = video_reel (frame);
 	qi.frame = frame - _reels[qi.reel].start ();
@@ -183,11 +183,13 @@ Writer::write (shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
 	_empty_condition.notify_all ();
 }
 
+
 bool
 Writer::can_repeat (Frame frame) const
 {
 	return frame > _reels[video_reel(frame)].start();
 }
+
 
 /** Repeat the last frame that was written to a reel as a new frame.
  *  @param frame Frame index within the DCP of the new (repeated) frame.
@@ -207,7 +209,7 @@ Writer::repeat (Frame frame, Eyes eyes)
 	}
 
 	QueueItem qi;
-	qi.type = QueueItem::REPEAT;
+	qi.type = QueueItem::Type::REPEAT;
 	qi.reel = video_reel (frame);
 	qi.frame = frame - _reels[qi.reel].start ();
 	if (film()->three_d() && eyes == Eyes::BOTH) {
@@ -223,6 +225,7 @@ Writer::repeat (Frame frame, Eyes eyes)
 	/* Now there's something to do: wake anything wait()ing on _empty_condition */
 	_empty_condition.notify_all ();
 }
+
 
 void
 Writer::fake_write (Frame frame, Eyes eyes)
@@ -241,7 +244,7 @@ Writer::fake_write (Frame frame, Eyes eyes)
 	Frame const frame_in_reel = frame - _reels[reel].start ();
 
 	QueueItem qi;
-	qi.type = QueueItem::FAKE;
+	qi.type = QueueItem::Type::FAKE;
 
 	{
 		shared_ptr<InfoFileHandle> info_file = film()->info_file_handle(_reels[reel].period(), true);
@@ -263,6 +266,7 @@ Writer::fake_write (Frame frame, Eyes eyes)
 	/* Now there's something to do: wake anything wait()ing on _empty_condition */
 	_empty_condition.notify_all ();
 }
+
 
 /** Write some audio frames to the DCP.
  *  @param audio Audio data.
@@ -347,7 +351,7 @@ Writer::have_sequenced_image_at_queue_head ()
 	}
 
 	_queue.sort ();
-	QueueItem const & f = _queue.front();
+	auto const & f = _queue.front();
 	return _last_written[f.reel].next(f);
 }
 
@@ -413,7 +417,7 @@ try
 			if (!_queue.empty() && !have_sequenced_image_at_queue_head()) {
 				LOG_WARNING (N_("Finishing writer with a left-over queue of %1:"), _queue.size());
 				for (auto const& i: _queue) {
-					if (i.type == QueueItem::FULL) {
+					if (i.type == QueueItem::Type::FULL) {
 						LOG_WARNING (N_("- type FULL, frame %1, eyes %2"), i.frame, (int) i.eyes);
 					} else {
 						LOG_WARNING (N_("- type FAKE, size %1, frame %2, eyes %3"), i.size, i.frame, (int) i.eyes);
@@ -425,19 +429,19 @@ try
 
 		/* Write any frames that we can write; i.e. those that are in sequence. */
 		while (have_sequenced_image_at_queue_head ()) {
-			QueueItem qi = _queue.front ();
+			auto qi = _queue.front ();
 			_last_written[qi.reel].update (qi);
 			_queue.pop_front ();
-			if (qi.type == QueueItem::FULL && qi.encoded) {
+			if (qi.type == QueueItem::Type::FULL && qi.encoded) {
 				--_queued_full_in_memory;
 			}
 
 			lock.unlock ();
 
-			ReelWriter& reel = _reels[qi.reel];
+			auto& reel = _reels[qi.reel];
 
 			switch (qi.type) {
-			case QueueItem::FULL:
+			case QueueItem::Type::FULL:
 				LOG_DEBUG_ENCODE (N_("Writer FULL-writes %1 (%2)"), qi.frame, (int) qi.eyes);
 				if (!qi.encoded) {
 					qi.encoded.reset (new ArrayData(film()->j2c_path(qi.reel, qi.frame, qi.eyes, false)));
@@ -445,12 +449,12 @@ try
 				reel.write (qi.encoded, qi.frame, qi.eyes);
 				++_full_written;
 				break;
-			case QueueItem::FAKE:
+			case QueueItem::Type::FAKE:
 				LOG_DEBUG_ENCODE (N_("Writer FAKE-writes %1"), qi.frame);
 				reel.fake_write (qi.size);
 				++_fake_written;
 				break;
-			case QueueItem::REPEAT:
+			case QueueItem::Type::REPEAT:
 				LOG_DEBUG_ENCODE (N_("Writer REPEAT-writes %1"), qi.frame);
 				reel.repeat_write (qi.frame, qi.eyes);
 				++_repeat_written;
@@ -468,8 +472,8 @@ try
 
 			/* Find one from the back of the queue */
 			_queue.sort ();
-			list<QueueItem>::reverse_iterator i = _queue.rbegin ();
-			while (i != _queue.rend() && (i->type != QueueItem::FULL || !i->encoded)) {
+			auto i = _queue.rbegin ();
+			while (i != _queue.rend() && (i->type != QueueItem::Type::FULL || !i->encoded)) {
 				++i;
 			}
 
@@ -502,6 +506,7 @@ catch (...)
 {
 	store_current ();
 }
+
 
 void
 Writer::terminate_thread (bool can_throw)
@@ -544,18 +549,16 @@ Writer::finish (boost::filesystem::path output_dcp)
 
 	dcp::DCP dcp (output_dcp);
 
-	shared_ptr<dcp::CPL> cpl (
-		new dcp::CPL (
-			film()->dcp_name(),
-			film()->dcp_content_type()->libdcp_kind ()
-			)
+	auto cpl = make_shared<dcp::CPL>(
+		film()->dcp_name(),
+		film()->dcp_content_type()->libdcp_kind()
 		);
 
 	dcp.add (cpl);
 
 	/* Calculate digests for each reel in parallel */
 
-	shared_ptr<Job> job = _job.lock ();
+	auto job = _job.lock ();
 	if (job) {
 		job->sub (_("Computing digests"));
 	}
@@ -563,7 +566,7 @@ Writer::finish (boost::filesystem::path output_dcp)
 	boost::asio::io_service service;
 	boost::thread_group pool;
 
-	shared_ptr<boost::asio::io_service::work> work (new boost::asio::io_service::work (service));
+	auto work = make_shared<boost::asio::io_service::work>(service);
 
 	int const threads = max (1, Config::instance()->master_encoding_threads ());
 
@@ -595,12 +598,12 @@ Writer::finish (boost::filesystem::path output_dcp)
 
 	/* Add metadata */
 
-	string creator = Config::instance()->dcp_creator();
+	auto creator = Config::instance()->dcp_creator();
 	if (creator.empty()) {
 		creator = String::compose("DCP-o-matic %1 %2", dcpomatic_version, dcpomatic_git_commit);
 	}
 
-	string issuer = Config::instance()->dcp_issuer();
+	auto issuer = Config::instance()->dcp_issuer();
 	if (issuer.empty()) {
 		issuer = String::compose("DCP-o-matic %1 %2", dcpomatic_version, dcpomatic_git_commit);
 	}
@@ -646,8 +649,7 @@ Writer::finish (boost::filesystem::path output_dcp)
 		cpl->set_additional_subtitle_languages(std::vector<dcp::LanguageTag>(sl.begin() + 1, sl.end()));
 	}
 
-	shared_ptr<const dcp::CertificateChain> signer;
-	signer = Config::instance()->signer_chain ();
+	auto signer = Config::instance()->signer_chain();
 	/* We did check earlier, but check again here to be on the safe side */
 	string reason;
 	if (!signer->valid (&reason)) {
@@ -671,22 +673,23 @@ Writer::finish (boost::filesystem::path output_dcp)
 	write_cover_sheet (output_dcp);
 }
 
+
 void
 Writer::write_cover_sheet (boost::filesystem::path output_dcp)
 {
-	boost::filesystem::path const cover = film()->file("COVER_SHEET.txt");
-	FILE* f = fopen_boost (cover, "w");
+	auto const cover = film()->file("COVER_SHEET.txt");
+	auto f = fopen_boost (cover, "w");
 	if (!f) {
 		throw OpenFileError (cover, errno, OpenFileError::WRITE);
 	}
 
-	string text = Config::instance()->cover_sheet ();
+	auto text = Config::instance()->cover_sheet ();
 	boost::algorithm::replace_all (text, "$CPL_NAME", film()->name());
 	boost::algorithm::replace_all (text, "$TYPE", film()->dcp_content_type()->pretty_name());
 	boost::algorithm::replace_all (text, "$CONTAINER", film()->container()->container_nickname());
 	boost::algorithm::replace_all (text, "$AUDIO_LANGUAGE", film()->isdcf_metadata().audio_language);
 
-	vector<dcp::LanguageTag> subtitle_languages = film()->subtitle_languages();
+	auto subtitle_languages = film()->subtitle_languages();
 	if (subtitle_languages.empty()) {
 		boost::algorithm::replace_all (text, "$SUBTITLE_LANGUAGE", "None");
 	} else {
@@ -695,22 +698,22 @@ Writer::write_cover_sheet (boost::filesystem::path output_dcp)
 
 	boost::uintmax_t size = 0;
 	for (
-		boost::filesystem::recursive_directory_iterator i = boost::filesystem::recursive_directory_iterator(output_dcp);
+		auto i = boost::filesystem::recursive_directory_iterator(output_dcp);
 		i != boost::filesystem::recursive_directory_iterator();
 		++i) {
-		if (boost::filesystem::is_regular_file (i->path ())) {
-			size += boost::filesystem::file_size (i->path ());
+		if (boost::filesystem::is_regular_file (i->path())) {
+			size += boost::filesystem::file_size (i->path());
 		}
 	}
 
 	if (size > (1000000000L)) {
-		boost::algorithm::replace_all (text, "$SIZE", String::compose ("%1GB", dcp::locale_convert<string> (size / 1000000000.0, 1, true)));
+		boost::algorithm::replace_all (text, "$SIZE", String::compose("%1GB", dcp::locale_convert<string>(size / 1000000000.0, 1, true)));
 	} else {
-		boost::algorithm::replace_all (text, "$SIZE", String::compose ("%1MB", dcp::locale_convert<string> (size / 1000000.0, 1, true)));
+		boost::algorithm::replace_all (text, "$SIZE", String::compose("%1MB", dcp::locale_convert<string>(size / 1000000.0, 1, true)));
 	}
 
-	pair<int, int> ch = audio_channel_types (film()->mapped_audio_channels(), film()->audio_channels());
-	string description = String::compose("%1.%2", ch.first, ch.second);
+	auto ch = audio_channel_types (film()->mapped_audio_channels(), film()->audio_channels());
+	auto description = String::compose("%1.%2", ch.first, ch.second);
 
 	if (description == "0.0") {
 		description = _("None");
@@ -738,6 +741,7 @@ Writer::write_cover_sheet (boost::filesystem::path output_dcp)
 	fclose (f);
 }
 
+
 /** @param frame Frame index within the whole DCP.
  *  @return true if we can fake-write this frame.
  */
@@ -753,12 +757,13 @@ Writer::can_fake_write (Frame frame) const
 	   parameters in the asset writer.
 	*/
 
-	ReelWriter const & reel = _reels[video_reel(frame)];
+	auto const & reel = _reels[video_reel(frame)];
 
 	/* Make frame relative to the start of the reel */
 	frame -= reel.start ();
 	return (frame != 0 && frame < reel.first_nonexistant_frame());
 }
+
 
 /** @param track Closed caption track if type == TextType::CLOSED_CAPTION */
 void
@@ -790,6 +795,7 @@ Writer::write (PlayerText text, TextType type, optional<DCPTextTrack> track, DCP
 	(*reel)->write (text, type, track, period);
 }
 
+
 void
 Writer::write (vector<FontData> fonts)
 {
@@ -809,6 +815,7 @@ Writer::write (vector<FontData> fonts)
 	}
 }
 
+
 bool
 operator< (QueueItem const & a, QueueItem const & b)
 {
@@ -823,11 +830,13 @@ operator< (QueueItem const & a, QueueItem const & b)
 	return static_cast<int> (a.eyes) < static_cast<int> (b.eyes);
 }
 
+
 bool
 operator== (QueueItem const & a, QueueItem const & b)
 {
 	return a.reel == b.reel && a.frame == b.frame && a.eyes == b.eyes;
 }
+
 
 void
 Writer::set_encoder_threads (int threads)
@@ -837,11 +846,13 @@ Writer::set_encoder_threads (int threads)
 	_maximum_queue_size = threads * 16;
 }
 
+
 void
 Writer::write (ReferencedReelAsset asset)
 {
 	_reel_assets.push_back (asset);
 }
+
 
 size_t
 Writer::video_reel (int frame) const
@@ -855,6 +866,7 @@ Writer::video_reel (int frame) const
 	DCPOMATIC_ASSERT (i < _reels.size ());
 	return i;
 }
+
 
 void
 Writer::set_digest_progress (Job* job, float progress)

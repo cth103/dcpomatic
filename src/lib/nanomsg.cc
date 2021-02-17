@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "nanomsg.h"
 #include "dcpomatic_log.h"
 #include "exceptions.h"
@@ -26,11 +27,14 @@
 #include <stdexcept>
 #include <cerrno>
 
+
 using std::string;
 using std::runtime_error;
 using boost::optional;
 
+
 #define NANOMSG_URL "ipc:///tmp/dcpomatic.ipc"
+
 
 Nanomsg::Nanomsg (bool server)
 {
@@ -48,6 +52,7 @@ Nanomsg::Nanomsg (bool server)
 		}
 	}
 }
+
 
 bool
 Nanomsg::send (string s, int timeout)
@@ -69,17 +74,19 @@ Nanomsg::send (string s, int timeout)
 	return true;
 }
 
+
 optional<string>
 Nanomsg::get_from_pending ()
 {
 	if (_pending.empty()) {
-		return optional<string>();
+		return {};
 	}
 
-	string const l = _pending.back();
+	auto const l = _pending.back();
 	_pending.pop_back();
 	return l;
 }
+
 
 void
 Nanomsg::recv_and_parse (int flags)
@@ -108,6 +115,7 @@ Nanomsg::recv_and_parse (int flags)
 	nn_freemsg (buf);
 }
 
+
 optional<string>
 Nanomsg::receive (int timeout)
 {
@@ -115,7 +123,7 @@ Nanomsg::receive (int timeout)
 		nn_setsockopt (_socket, NN_SOL_SOCKET, NN_RCVTIMEO, &timeout, sizeof(int));
 	}
 
-	optional<string> l = get_from_pending ();
+	auto l = get_from_pending ();
 	if (l) {
 		return *l;
 	}

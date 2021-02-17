@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,16 +18,21 @@
 
 */
 
+
 #include "state.h"
 #include "cross.h"
 #include <glib.h>
 
+
 using std::string;
+
 
 boost::optional<boost::filesystem::path> State::override_path;
 
+
 /** @param file State filename
- *  @return Full path to write @file to */
+ *  @return Full path to write @file to.
+ */
 boost::filesystem::path
 State::path (string file, bool create_directories)
 {

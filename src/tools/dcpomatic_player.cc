@@ -873,11 +873,11 @@ private:
 			return;
 		}
 
-		if (uc->state() == UpdateChecker::YES) {
+		if (uc->state() == UpdateChecker::State::YES) {
 			auto dialog = new UpdateDialog (this, uc->stable (), uc->test ());
 			dialog->ShowModal ();
 			dialog->Destroy ();
-		} else if (uc->state() == UpdateChecker::FAILED) {
+		} else if (uc->state() == UpdateChecker::State::FAILED) {
 			error_dialog (this, _("The DCP-o-matic download server could not be contacted."));
 		} else {
 			error_dialog (this, _("There are no new versions of DCP-o-matic available."));

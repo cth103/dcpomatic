@@ -18,9 +18,11 @@
 
 */
 
+
 /** @file  src/lib/writer.h
  *  @brief Writer class.
  */
+
 
 #include "atmos_metadata.h"
 #include "types.h"
@@ -32,6 +34,7 @@
 #include <boost/thread.hpp>
 #include <boost/thread/condition.hpp>
 #include <list>
+
 
 namespace dcp {
 	class Data;
@@ -47,17 +50,13 @@ class Job;
 class ReferencedReelAsset;
 class ReelWriter;
 
+
 struct QueueItem
 {
 public:
-	QueueItem ()
-		: size (0)
-		, reel (0)
-		, frame (0)
-		, eyes (Eyes::BOTH)
-	{}
+	QueueItem () {}
 
-	enum Type {
+	enum class Type {
 		/** a normal frame with some JPEG200 data */
 		FULL,
 		/** a frame whose data already exists in the MXF,
@@ -71,17 +70,19 @@ public:
 	/** encoded data for FULL */
 	std::shared_ptr<const dcp::Data> encoded;
 	/** size of data for FAKE */
-	int size;
+	int size = 0;
 	/** reel index */
-	size_t reel;
+	size_t reel = 0;
 	/** frame index within the reel */
-	int frame;
+	int frame = 0;
 	/** eyes for FULL, FAKE and REPEAT */
-	Eyes eyes;
+	Eyes eyes = Eyes::BOTH;
 };
+
 
 bool operator< (QueueItem const & a, QueueItem const & b);
 bool operator== (QueueItem const & a, QueueItem const & b);
+
 
 /** @class Writer
  *  @brief Class to manage writing JPEG2000 and audio data to assets on disk.
@@ -94,11 +95,14 @@ bool operator== (QueueItem const & a, QueueItem const & b);
  *  will sort it out.  write() for AudioBuffers must be called in order.
  */
 
-class Writer : public ExceptionStore, public boost::noncopyable, public WeakConstFilm
+class Writer : public ExceptionStore, public WeakConstFilm
 {
 public:
 	Writer (std::weak_ptr<const Film>, std::weak_ptr<Job>, bool text_only = false);
 	~Writer ();
+
+	Writer (Writer const &) = delete;
+	Writer& operator= (Writer const &) = delete;
 
 	void start ();
 
@@ -136,11 +140,11 @@ private:
 	/** our thread */
 	boost::thread _thread;
 	/** true if our thread should finish */
-	bool _finish;
+	bool _finish = false;
 	/** queue of things to write to disk */
 	std::list<QueueItem> _queue;
 	/** number of FULL frames whose JPEG200 data is currently held in RAM */
-	int _queued_full_in_memory;
+	int _queued_full_in_memory = 0;
 	/** mutex for thread state */
 	mutable boost::mutex _state_mutex;
 	/** condition to manage thread wakeups when we have nothing to do  */
@@ -178,14 +182,14 @@ private:
 	std::vector<LastWritten> _last_written;
 
 	/** number of FULL written frames */
-	int _full_written;
+	int _full_written = 0;
 	/** number of FAKE written frames */
-	int _fake_written;
-	int _repeat_written;
+	int _fake_written = 0;
+	int _repeat_written = 0;
 	/** number of frames pushed to disk and then recovered
 	    due to the limit of frames to be held in memory.
 	*/
-	int _pushed_to_disk;
+	int _pushed_to_disk = 0;
 
 	bool _text_only;
 
@@ -197,7 +201,7 @@ private:
 	std::vector<dcpomatic::FontData> _fonts;
 
 	/** true if any reel has any subtitles */
-	bool _have_subtitles;
+	bool _have_subtitles = false;
 	/** all closed caption tracks that we have on any reel */
 	std::set<DCPTextTrack> _have_closed_captions;
 };

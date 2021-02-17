@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,15 @@
 
 */
 
+
 #ifndef DCPOMATIC_LOG_H
 #define DCPOMATIC_LOG_H
+
 
 /** @file src/log.h
  *  @brief A very simple logging class.
  */
+
 
 #include "log_entry.h"
 #include <dcp/types.h>
@@ -32,14 +35,18 @@
 #include <boost/signals2.hpp>
 #include <string>
 
+
 /** @class Log
  *  @brief A very simple logging class.
  */
-class Log : public boost::noncopyable
+class Log
 {
 public:
 	Log ();
 	virtual ~Log () {}
+
+	Log (Log const&) = delete;
+	Log& operator= (Log const&) = delete;
 
 	void log (std::shared_ptr<const LogEntry> entry);
 	void log (std::string message, int type);
@@ -67,7 +74,8 @@ private:
 	virtual void do_log (std::shared_ptr<const LogEntry> entry) = 0;
 
 	/** bit-field of log types which should be put into the log (others are ignored) */
-	int _types;
+	int _types = 0;
 };
+
 
 #endif

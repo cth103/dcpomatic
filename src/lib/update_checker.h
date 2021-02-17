@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,11 @@
 
 */
 
-/** @file  src/lib/update.h
+
+/** @file  src/lib/update_checker.h
  *  @brief UpdateChecker class.
  */
+
 
 #include "signaller.h"
 #include <curl/curl.h>
@@ -29,17 +31,22 @@
 #include <boost/thread/condition.hpp>
 #include <boost/thread.hpp>
 
+
 struct update_checker_test;
 
+
 /** Class to check for the existance of an update for DCP-o-matic on a remote server */
-class UpdateChecker : public Signaller, public boost::noncopyable
+class UpdateChecker : public Signaller
 {
 public:
 	~UpdateChecker ();
 
+	UpdateChecker (UpdateChecker const &);
+	UpdateChecker& operator= (UpdateChecker const &);
+
 	void run ();
 
-	enum State {
+	enum class State {
 		YES,    ///< there is an update
 		FAILED, ///< the check failed, so we don't know
 		NO,     ///< there is no update
@@ -83,19 +90,19 @@ private:
 	void thread ();
 
 	char* _buffer;
-	int _offset;
-	CURL* _curl;
+	int _offset = 0;
+	CURL* _curl = nullptr;
 
 	/** mutex to protect _state, _stable, _test and _emits */
 	mutable boost::mutex _data_mutex;
 	State _state;
 	boost::optional<std::string> _stable;
 	boost::optional<std::string> _test;
-	int _emits;
+	int _emits = 0;
 
 	boost::thread _thread;
 	boost::mutex _process_mutex;
 	boost::condition _condition;
-	int _to_do;
-	bool _terminate;
+	int _to_do = 0;
+	bool _terminate = false;
 };
