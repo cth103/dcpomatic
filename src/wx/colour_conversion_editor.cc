@@ -75,13 +75,13 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_input_power = new wxSpinCtrlDouble (this);
 		s->Add (_input_power, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
-		add_label_to_sizer (s, this, _("threshold"), true);
+		add_label_to_sizer (s, this, _("threshold"), true, 0, wxALIGN_CENTRE_VERTICAL | wxLEFT | wxRIGHT);
 		_input_threshold = new wxTextCtrl (this, wxID_ANY, wxT (""));
 		s->Add (_input_threshold, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
-		add_label_to_sizer (s, this, _("A"), true);
+		add_label_to_sizer (s, this, _("A"), true, 0, wxALIGN_CENTRE_VERTICAL | wxLEFT | wxRIGHT);
 		_input_A = new wxTextCtrl (this, wxID_ANY, wxT (""));
 		s->Add (_input_A, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
-		add_label_to_sizer (s, this, _("B"), true);
+		add_label_to_sizer (s, this, _("B"), true, 0, wxALIGN_CENTRE_VERTICAL | wxLEFT | wxRIGHT);
 		_input_B = new wxTextCtrl (this, wxID_ANY, wxT (""));
 		s->Add (_input_B, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 		table->Add (s, wxGBPosition (r, 1), wxGBSpan (1, 3));
@@ -177,7 +177,7 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 	subhead (table, this, _("White point adjustment"), r);
 
 	_adjust_white = new CheckBox (this, _("Adjust white point to"));
-	table->Add (_adjust_white, wxGBPosition (r, 0));
+	table->Add (_adjust_white, wxGBPosition (r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	_adjusted_white_x = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
 	table->Add (_adjusted_white_x, wxGBPosition (r, 1));
 	_adjusted_white_y = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
