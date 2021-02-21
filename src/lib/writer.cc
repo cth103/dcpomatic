@@ -642,7 +642,12 @@ Writer::finish (boost::filesystem::path output_dcp)
 	cpl->set_main_sound_configuration (msc.to_string());
 	cpl->set_main_sound_sample_rate (film()->audio_frame_rate());
 	cpl->set_main_picture_stored_area (film()->frame_size());
-	cpl->set_main_picture_active_area (film()->active_area());
+
+	auto active_area = film()->active_area();
+	if (active_area.width > 0 && active_area.height > 0) {
+		/* It's not allowed to have a zero active area width or height */
+		cpl->set_main_picture_active_area (active_area);
+	}
 
 	vector<dcp::LanguageTag> sl = film()->subtitle_languages();
 	if (sl.size() > 1) {
