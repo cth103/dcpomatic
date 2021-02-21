@@ -790,7 +790,7 @@ ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track) const
 		s->set_reel_number (raw_convert<string> (_reel_index + 1));
 		asset = s;
 	} else {
-		shared_ptr<dcp::SMPTESubtitleAsset> s (new dcp::SMPTESubtitleAsset ());
+		auto s = make_shared<dcp::SMPTESubtitleAsset>();
 		s->set_content_title_text (film()->name());
 		s->set_metadata (mxf_metadata());
 		if (type == TextType::OPEN_SUBTITLE && !lang.empty()) {
@@ -805,6 +805,29 @@ ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track) const
 		if (film()->encrypted()) {
 			s->set_key (film()->key());
 		}
+		s->add (
+			std::make_shared<dcp::SubtitleString>(
+				optional<std::string>(),
+				false,
+				false,
+				false,
+				dcp::Colour(),
+				42,
+				1.0,
+				dcp::Time(0, 0, 0, 0, 24),
+				dcp::Time(0, 0, 1, 0, 24),
+				0.5,
+				dcp::HAlign::CENTER,
+				0.5,
+				dcp::VAlign::CENTER,
+				dcp::Direction::LTR,
+				"",
+				dcp::Effect::NONE,
+				dcp::Colour(),
+				dcp::Time(),
+				dcp::Time()
+				)
+		       );
 		asset = s;
 	}
 
