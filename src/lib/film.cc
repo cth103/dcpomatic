@@ -1800,6 +1800,10 @@ Film::reels () const
 				last = t;
 			}
 		}
+
+		if (!p.empty()) {
+			p.back().to = split_points.back();
+		}
 		break;
 	}
 	case ReelType::BY_LENGTH:
