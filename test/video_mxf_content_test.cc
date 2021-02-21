@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,13 @@
 
 */
 
+
 /** @file  test/video_mxf_content_test.cc
  *  @brief Test use of Video MXF content.
  *  @ingroup feature
  */
+
+
 
 #include "lib/film.h"
 #include "lib/video_mxf_content.h"
@@ -32,35 +35,39 @@
 #include <dcp/mono_picture_asset.h>
 #include <boost/test/unit_test.hpp>
 
+
+using std::make_shared;
 using std::shared_ptr;
 using std::dynamic_pointer_cast;
 
+
 static boost::filesystem::path ref_mxf = "test/data/scaling_test_185_185/j2c_74b946f4-1c33-4209-b639-b834de675eac.mxf";
+
 
 static void note (dcp::NoteType, std::string)
 {
 
 }
 
+
 /** Basic test of using video MXF content */
 BOOST_AUTO_TEST_CASE (video_mxf_content_test)
 {
-	shared_ptr<Film> film = new_test_film ("video_mxf_content_test");
+	auto film = new_test_film ("video_mxf_content_test");
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name ("video_mxf_content_test");
 
-	shared_ptr<Content> content = content_factory(ref_mxf).front();
-	shared_ptr<VideoMXFContent> check = dynamic_pointer_cast<VideoMXFContent> (content);
+	auto content = content_factory(ref_mxf).front();
+	auto check = dynamic_pointer_cast<VideoMXFContent> (content);
 	BOOST_REQUIRE (check);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE, dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE });
 
-	shared_ptr<dcp::MonoPictureAsset> ref (new dcp::MonoPictureAsset (ref_mxf));
+	auto ref = make_shared<dcp::MonoPictureAsset>(ref_mxf);
 	boost::filesystem::directory_iterator i ("build/test/video_mxf_content_test/video");
-	shared_ptr<dcp::MonoPictureAsset> comp (new dcp::MonoPictureAsset (*i));
+	auto comp = make_shared<dcp::MonoPictureAsset>(*i);
 	dcp::EqualityOptions op;
 	BOOST_CHECK (ref->equals (comp, op, note));
 }

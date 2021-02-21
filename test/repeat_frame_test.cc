@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 /** @file  test/repeat_frame_test.cc
  *  @brief Test the repeat of frames by the player when putting a 24fps
  *  source into a 48fps DCP.
@@ -25,6 +26,7 @@
  *
  *  @see test/skip_frame_test.cc
  */
+
 
 #include <boost/test/unit_test.hpp>
 #include "test.h"
@@ -34,23 +36,20 @@
 #include "lib/dcp_content_type.h"
 #include "lib/video_content.h"
 
+
+using std::make_shared;
 using std::shared_ptr;
+
 
 BOOST_AUTO_TEST_CASE (repeat_frame_test)
 {
-	shared_ptr<Film> film = new_test_film ("repeat_frame_test");
-	film->set_name ("repeat_frame_test");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
+	auto c = make_shared<FFmpegContent>("test/data/red_24.mp4");
+	auto film = new_test_film2 ("repeat_frame_test", {c});
 	film->set_interop (false);
-	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/red_24.mp4"));
-	film->examine_and_add_content (c);
-	BOOST_REQUIRE (!wait_for_jobs());
 	c->video->set_custom_ratio (1.85);
 
 	film->set_video_frame_rate (48);
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
 	/* Should be 32 frames of red followed by 16 frames of black to fill the DCP up to 1 second */
 	check_dcp ("test/data/repeat_frame_test", film->dir (film->dcp_name ()));

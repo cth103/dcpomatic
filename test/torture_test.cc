@@ -50,18 +50,15 @@ using namespace dcpomatic;
 /** Test start/end trim and positioning of some audio content */
 BOOST_AUTO_TEST_CASE (torture_test1)
 {
-	shared_ptr<Film> film = new_test_film ("torture_test1");
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
-	film->set_name ("torture_test1");
-	film->set_container (Ratio::from_id ("185"));
+	auto film = new_test_film2 ("torture_test1");
 	film->set_sequence (false);
 
 	/* Staircase at an offset of 2000 samples, trimmed both start and end, with a gain of exactly 2 (linear) */
-	shared_ptr<Content> staircase = content_factory("test/data/staircase.wav").front ();
+	auto staircase = content_factory("test/data/staircase.wav").front();
 	film->examine_and_add_content (staircase);
 	BOOST_REQUIRE (!wait_for_jobs());
-	staircase->set_position (film, DCPTime::from_frames (2000, film->audio_frame_rate()));
-	staircase->set_trim_start (ContentTime::from_frames (12, 48000));
+	staircase->set_position (film, DCPTime::from_frames(2000, film->audio_frame_rate()));
+	staircase->set_trim_start (ContentTime::from_frames(12, 48000));
 	staircase->set_trim_end (ContentTime::from_frames (35, 48000));
 	staircase->audio->set_gain (20 * log10(2));
 
@@ -70,21 +67,19 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 	film->examine_and_add_content (staircase);
 	BOOST_REQUIRE (!wait_for_jobs());
 	staircase->set_position (film, DCPTime::from_frames(50000, film->audio_frame_rate()));
-	staircase->set_trim_start (ContentTime::from_frames (12, 48000));
-	staircase->set_trim_end (ContentTime::from_frames (35, 48000));
+	staircase->set_trim_start (ContentTime::from_frames(12, 48000));
+	staircase->set_trim_end (ContentTime::from_frames(35, 48000));
 	staircase->audio->set_gain (20 * log10(2));
 
 	/* 1s of red at 5s in */
-	shared_ptr<Content> red = content_factory("test/data/flat_red.png").front ();
+	auto red = content_factory("test/data/flat_red.png").front();
 	film->examine_and_add_content (red);
 	BOOST_REQUIRE (!wait_for_jobs());
 	red->set_position (film, DCPTime::from_seconds(5));
 	red->video->set_length (24);
 
 	film->set_video_frame_rate (24);
-	film->write_metadata ();
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
 	dcp::DCP dcp ("build/test/torture_test1/" + film->dcp_name(false));
 	dcp.read ();
@@ -102,7 +97,7 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 	BOOST_REQUIRE (sound);
 	BOOST_CHECK_EQUAL (sound->intrinsic_duration(), 144);
 
-	shared_ptr<dcp::SoundAssetReader> sound_reader = sound->start_read ();
+	auto sound_reader = sound->start_read ();
 
 	/* First frame silent */
 	auto fr = sound_reader->get_frame (0);
@@ -226,21 +221,21 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 
 	/* Check picture */
 
-	shared_ptr<dcp::ReelPictureAsset> reel_picture = reels.front()->main_picture();
+	auto reel_picture = reels.front()->main_picture();
 	BOOST_REQUIRE (reel_picture);
-	shared_ptr<dcp::MonoPictureAsset> picture = dynamic_pointer_cast<dcp::MonoPictureAsset> (reel_picture->asset());
+	auto picture = dynamic_pointer_cast<dcp::MonoPictureAsset> (reel_picture->asset());
 	BOOST_REQUIRE (picture);
 	BOOST_CHECK_EQUAL (picture->intrinsic_duration(), 144);
 
-	shared_ptr<dcp::MonoPictureAssetReader> picture_reader = picture->start_read ();
+	auto picture_reader = picture->start_read ();
 
 	/* First 5 * 24 = 120 frames should be black, possibly with a little noise to raise the bitrate */
 
 	shared_ptr<dcp::OpenJPEGImage> ref;
 	for (int i = 0; i < 120; ++i) {
-		shared_ptr<const dcp::MonoPictureFrame> fr = picture_reader->get_frame (i);
-		shared_ptr<dcp::OpenJPEGImage> image = fr->xyz_image ();
-		dcp::Size const size = image->size ();
+		auto fr = picture_reader->get_frame (i);
+		auto image = fr->xyz_image ();
+		auto const size = image->size ();
 		if (i == 0) {
 			/* Check the first frame pixel by pixel... */
 			for (int c = 0; c < 3; ++c) {
@@ -265,9 +260,9 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 	/* Then 24 red, perhaps also with some noise */
 
 	for (int i = 120; i < 144; ++i) {
-		shared_ptr<const dcp::MonoPictureFrame> fr = picture_reader->get_frame (i);
-		shared_ptr<dcp::OpenJPEGImage> image = fr->xyz_image ();
-		dcp::Size const size = image->size ();
+		auto fr = picture_reader->get_frame (i);
+		auto image = fr->xyz_image ();
+		auto const size = image->size ();
 		if (i == 120) {
 			for (int y = 0; y < size.height; ++y) {
 				for (int x = 0; x < size.width; ++x) {

@@ -63,13 +63,10 @@ ffmpeg_content_test (int number, boost::filesystem::path content, ExportFormat f
 
 	name = String::compose("%1_test%2", name, number);
 
-	shared_ptr<Film> film = new_test_film2 (name, &cl);
-	film->set_name (name);
 	auto c = make_shared<FFmpegContent>(content);
+	shared_ptr<Film> film = new_test_film2 (name, {c}, &cl);
+	film->set_name (name);
 	film->set_audio_channels (6);
-
-	film->examine_and_add_content (c);
-	BOOST_REQUIRE (!wait_for_jobs ());
 
 	film->write_metadata ();
 	auto job = make_shared<TranscodeJob>(film);

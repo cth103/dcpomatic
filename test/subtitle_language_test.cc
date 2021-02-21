@@ -39,18 +39,15 @@ using std::shared_ptr;
 BOOST_AUTO_TEST_CASE (subtitle_language_interop_test)
 {
 	string const name = "subtitle_language_interop_test";
-	shared_ptr<Film> film = new_test_film2 (name);
-	film->examine_and_add_content (content_factory("test/data/frames.srt").front());
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2 (name, { content_factory("test/data/frames.srt").front() });
 
-	vector<dcp::LanguageTag> langs;
-	langs.push_back(dcp::LanguageTag("fr-FR"));
-	langs.push_back(dcp::LanguageTag("de-DE"));
+	vector<dcp::LanguageTag> langs = {
+		dcp::LanguageTag("fr-FR"), dcp::LanguageTag("de-DE")
+	};
 	film->set_subtitle_languages(langs);
 	film->set_interop (true);
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film, {dcp::VerificationNote::Code::INVALID_STANDARD});
 
 	check_dcp (String::compose("test/data/%1", name), String::compose("build/test/%1/%2", name, film->dcp_name()));
 }
@@ -59,18 +56,23 @@ BOOST_AUTO_TEST_CASE (subtitle_language_interop_test)
 BOOST_AUTO_TEST_CASE (subtitle_language_smpte_test)
 {
 	string const name = "subtitle_language_smpte_test";
-	shared_ptr<Film> film = new_test_film2 (name);
-	film->examine_and_add_content (content_factory("test/data/frames.srt").front());
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2 (name, { content_factory("test/data/frames.srt").front() });
 
-	vector<dcp::LanguageTag> langs;
-	langs.push_back(dcp::LanguageTag("fr-FR"));
-	langs.push_back(dcp::LanguageTag("de-DE"));
-	film->set_subtitle_languages(langs);
+	vector<dcp::LanguageTag> langs = {
+		dcp::LanguageTag("fr-FR"), dcp::LanguageTag("de-DE")
+	};
+	film->set_subtitle_languages (langs);
 	film->set_interop (false);
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING,
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA
+		});
 
 	check_dcp (String::compose("test/data/%1", name), String::compose("build/test/%1/%2", name, film->dcp_name()));
 }

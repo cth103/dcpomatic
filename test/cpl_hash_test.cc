@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 /** @file  test/cpl_hash_test.cc
  *  @brief Make sure that <Hash> tags are always written to CPLs where required.
  *  @ingroup feature
@@ -33,8 +34,9 @@
 #include <boost/test/unit_test.hpp>
 
 
-using std::string;
+using std::make_shared;
 using std::shared_ptr;
+using std::string;
 
 
 BOOST_AUTO_TEST_CASE (hash_added_to_imported_dcp_test)
@@ -42,46 +44,45 @@ BOOST_AUTO_TEST_CASE (hash_added_to_imported_dcp_test)
 	using namespace boost::filesystem;
 
 	string const ov_name = "hash_added_to_imported_dcp_test_ov";
-	shared_ptr<Film> ov = new_test_film2 (ov_name);
-	ov->examine_and_add_content (content_factory("test/data/flat_red.png").front());
-	BOOST_REQUIRE (!wait_for_jobs());
-	ov->make_dcp();
-	BOOST_REQUIRE (!wait_for_jobs());
+	shared_ptr<Film> ov = new_test_film2 (
+		ov_name,
+		{ content_factory("test/data/flat_red.png").front() }
+		);
+	make_and_verify_dcp (ov);
 
 	/* Remove <Hash> tags from the CPL */
-	for (directory_iterator i = directory_iterator(String::compose("build/test/%1/%2", ov_name, ov->dcp_name())); i != directory_iterator(); ++i) {
-		if (boost::algorithm::starts_with(i->path().filename().string(), "cpl_")) {
-			FILE* in = fopen_boost(i->path(), "r");
+	for (auto i: directory_iterator(String::compose("build/test/%1/%2", ov_name, ov->dcp_name()))) {
+		if (boost::algorithm::starts_with(i.path().filename().string(), "cpl_")) {
+			auto in = fopen_boost(i.path(), "r");
 			BOOST_REQUIRE (in);
-			FILE* out = fopen_boost(i->path().string() + ".tmp", "w");
+			auto out = fopen_boost(i.path().string() + ".tmp", "w");
 			BOOST_REQUIRE (out);
 			char buffer[256];
-			while (fgets (buffer, sizeof(buffer), in)) {
+			while (fgets(buffer, sizeof(buffer), in)) {
 				if (string(buffer).find("Hash") == string::npos) {
 					fputs (buffer, out);
 				}
 			}
 			fclose (in);
 			fclose (out);
-			rename (i->path().string() + ".tmp", i->path());
+			rename (i.path().string() + ".tmp", i.path());
 		}
 	}
 
 	string const vf_name = "hash_added_to_imported_dcp_test_vf";
-	shared_ptr<Film> vf = new_test_film2 (vf_name);
-	shared_ptr<DCPContent> ov_content(new DCPContent(String::compose("build/test/%1/%2", ov_name, ov->dcp_name())));
-	vf->examine_and_add_content (ov_content);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto ov_content = make_shared<DCPContent>(String::compose("build/test/%1/%2", ov_name, ov->dcp_name()));
+	auto vf = new_test_film2 (
+		vf_name, { ov_content }
+		);
 
 	ov_content->set_reference_video (true);
-	vf->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET});
 
 	/* Check for Hash tags in the VF DCP */
 	int hashes = 0;
-	for (directory_iterator i = directory_iterator(String::compose("build/test/%1/%2", vf_name, vf->dcp_name())); i != directory_iterator(); ++i) {
-		if (boost::algorithm::starts_with(i->path().filename().string(), "cpl_")) {
-			FILE* in = fopen_boost(i->path(), "r");
+	for (auto i: directory_iterator(String::compose("build/test/%1/%2", vf_name, vf->dcp_name()))) {
+		if (boost::algorithm::starts_with(i.path().filename().string(), "cpl_")) {
+			auto in = fopen_boost(i.path(), "r");
 			BOOST_REQUIRE (in);
 			char buffer[256];
 			while (fgets (buffer, sizeof(buffer), in)) {

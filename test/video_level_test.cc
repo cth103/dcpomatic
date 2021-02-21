@@ -401,8 +401,7 @@ static
 pair<int, int>
 dcp_range (shared_ptr<Film> film)
 {
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 	return pixel_range (film->dir(film->dcp_name()));
 }
 

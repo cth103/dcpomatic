@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/recover_test.cc
  *  @brief Test recovery of a DCP transcode after a crash.
  *  @ingroup feature
  */
+
 
 #include "test.h"
 #include "lib/film.h"
@@ -35,6 +37,7 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
+
 using std::cout;
 using std::make_shared;
 using std::shared_ptr;
@@ -43,6 +46,7 @@ using std::string;
 using namespace boost::placeholders;
 #endif
 
+
 static void
 note (dcp::NoteType t, string n)
 {
@@ -50,6 +54,7 @@ note (dcp::NoteType t, string n)
 		cout << n << "\n";
 	}
 }
+
 
 BOOST_AUTO_TEST_CASE (recover_test_2d)
 {
@@ -74,8 +79,7 @@ BOOST_AUTO_TEST_CASE (recover_test_2d)
 
 	boost::filesystem::resize_file (video, 2 * 1024 * 1024);
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE, dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE });
 
 	shared_ptr<dcp::MonoPictureAsset> A (new dcp::MonoPictureAsset ("build/test/recover_test_2d/original.mxf"));
 	shared_ptr<dcp::MonoPictureAsset> B (new dcp::MonoPictureAsset (video));
@@ -83,6 +87,7 @@ BOOST_AUTO_TEST_CASE (recover_test_2d)
 	dcp::EqualityOptions eq;
 	BOOST_CHECK (A->equals (B, eq, boost::bind (&note, _1, _2)));
 }
+
 
 BOOST_AUTO_TEST_CASE (recover_test_3d, * boost::unit_test::depends_on("recover_test_2d"))
 {
@@ -98,8 +103,7 @@ BOOST_AUTO_TEST_CASE (recover_test_3d, * boost::unit_test::depends_on("recover_t
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE, dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE });
 
 	boost::filesystem::path const video = "build/test/recover_test_3d/video/185_2K_70e6661af92ae94458784c16a21a9748_24_100000000_P_S_3D_0_96000.mxf";
 
@@ -110,8 +114,7 @@ BOOST_AUTO_TEST_CASE (recover_test_3d, * boost::unit_test::depends_on("recover_t
 
 	boost::filesystem::resize_file (video, 2 * 1024 * 1024);
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE, dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE });
 
 	auto A = make_shared<dcp::StereoPictureAsset>("build/test/recover_test_3d/original.mxf");
 	auto B = make_shared<dcp::StereoPictureAsset>(video);
@@ -135,8 +138,7 @@ BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted, * boost::unit_test::depends_on(
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE, dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE });
 
 	boost::filesystem::path const video =
 		"build/test/recover_test_2d_encrypted/video/185_2K_02543352c540f4b083bff3f1e309d4a9_24_100000000_Eeafcb91c9f5472edf01f3a2404c57258_S_0_1200000.mxf";
@@ -148,8 +150,7 @@ BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted, * boost::unit_test::depends_on(
 
 	boost::filesystem::resize_file (video, 2 * 1024 * 1024);
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE, dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE });
 
 	auto A = make_shared<dcp::MonoPictureAsset>("build/test/recover_test_2d_encrypted/original.mxf");
 	A->set_key (film->key ());

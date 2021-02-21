@@ -83,8 +83,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_dcp)
 	content->subtitle->set_use (true);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
 	check_dcp ("test/data/burnt_subtitle_test_dcp", film->dir (film->dcp_name ()));
 }
@@ -98,8 +97,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_onto_dcp)
 	film->set_name ("frobozz");
 	film->examine_and_add_content (content_factory(film, "test/data/flat_black.png").front());
 	BOOST_REQUIRE (!wait_for_jobs());
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
 	Config::instance()->set_log_types (Config::instance()->log_types() | LogEntry::TYPE_DEBUG_ENCODE);
 	auto film2 = new_test_film ("burnt_subtitle_test_onto_dcp2");
@@ -115,8 +113,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_onto_dcp)
 	sub->subtitle->set_outline (true);
 	film2->examine_and_add_content (sub);
 	BOOST_REQUIRE (!wait_for_jobs());
-	film2->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film2);
 
 	BOOST_CHECK (background_dcp->position() == DCPTime());
 	BOOST_CHECK (sub->position() == DCPTime());

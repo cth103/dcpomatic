@@ -21,7 +21,9 @@
 
 #include "lib/warnings.h"
 #include "lib/types.h"
+#include <dcp/verify.h>
 #include <boost/filesystem.hpp>
+#include <vector>
 
 
 class Film;
@@ -56,7 +58,7 @@ private:
 extern bool wait_for_jobs ();
 extern void setup_test_config ();
 extern std::shared_ptr<Film> new_test_film (std::string);
-extern std::shared_ptr<Film> new_test_film2 (std::string, Cleanup* cleanup = nullptr);
+extern std::shared_ptr<Film> new_test_film2 (std::string, std::vector<std::shared_ptr<Content>> content = {}, Cleanup* cleanup = nullptr);
 extern void check_dcp (boost::filesystem::path, boost::filesystem::path);
 extern void check_dcp (boost::filesystem::path, std::shared_ptr<const Film>);
 extern void check_file (boost::filesystem::path ref, boost::filesystem::path check);
@@ -73,6 +75,7 @@ boost::filesystem::path dcp_file (std::shared_ptr<const Film> film, std::string 
 void check_one_frame (boost::filesystem::path dcp, int64_t index, boost::filesystem::path ref);
 extern boost::filesystem::path subtitle_file (std::shared_ptr<Film> film);
 extern void make_random_file (boost::filesystem::path path, size_t size);
+extern void make_and_verify_dcp (std::shared_ptr<Film> film, std::vector<dcp::VerificationNote::Code> ignore = {});
 
 
 class LogSwitcher

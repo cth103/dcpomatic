@@ -110,8 +110,7 @@ BOOST_AUTO_TEST_CASE (reel_reuse_video_test)
 	auto audio = content_factory("test/data/white.wav").front();
 	film->examine_and_add_content (audio);
 	BOOST_REQUIRE (!wait_for_jobs());
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
 	/* Find main picture and sound asset IDs */
 	dcp::DCP dcp1 (film->dir(film->dcp_name()));
@@ -125,8 +124,7 @@ BOOST_AUTO_TEST_CASE (reel_reuse_video_test)
 
 	/* Change the audio and re-make */
 	audio->audio->set_gain (-3);
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
 	/* Video ID should be the same, sound different */
 	dcp::DCP dcp2 (film->dir(film->dcp_name()));
@@ -140,8 +138,7 @@ BOOST_AUTO_TEST_CASE (reel_reuse_video_test)
 
 	/* Crop video and re-make */
 	video->video->set_left_crop (5);
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
 	/* Video and sound IDs should be different */
 	dcp::DCP dcp3 (film->dir(film->dcp_name()));

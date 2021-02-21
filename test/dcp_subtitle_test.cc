@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/dcp_subtitle_test.cc
  *  @brief Test DCP subtitle content in various ways.
  *  @ingroup feature
  */
+
 
 #include <boost/test/unit_test.hpp>
 #include "lib/film.h"
@@ -38,8 +40,10 @@
 #include "test.h"
 #include <iostream>
 
+
 using std::cout;
 using std::list;
+using std::make_shared;
 using std::shared_ptr;
 using std::vector;
 using boost::optional;
@@ -48,7 +52,9 @@ using namespace boost::placeholders;
 #endif
 using namespace dcpomatic;
 
+
 optional<ContentStringText> stored;
+
 
 static void
 store (ContentStringText sub)
@@ -62,15 +68,16 @@ store (ContentStringText sub)
 	}
 }
 
+
 /** Test pass-through of a very simple DCP subtitle file */
 BOOST_AUTO_TEST_CASE (dcp_subtitle_test)
 {
-	shared_ptr<Film> film = new_test_film ("dcp_subtitle_test");
+	auto film = new_test_film ("dcp_subtitle_test");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	film->set_interop (false);
-	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent ("test/data/dcp_sub.xml"));
+	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub.xml");
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
@@ -78,20 +85,26 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test)
 
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs ());
+	make_and_verify_dcp (
+		film,
+	        {
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA
+		});
 
-	check_dcp ("test/data/dcp_subtitle_test", film->dir (film->dcp_name ()));
+	check_dcp ("test/data/dcp_subtitle_test", film->dir(film->dcp_name()));
 }
+
 
 /** Test parsing of a subtitle within an existing DCP */
 BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 {
-	shared_ptr<Film> film = new_test_film ("dcp_subtitle_within_dcp_test");
+	auto film = new_test_film ("dcp_subtitle_within_dcp_test");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<DCPContent> content (new DCPContent(TestPaths::private_data() / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV"));
+	auto content = make_shared<DCPContent>(TestPaths::private_data() / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV");
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
@@ -110,15 +123,15 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 /** Test subtitles whose text includes things like &lt;b&gt; */
 BOOST_AUTO_TEST_CASE (dcp_subtitle_test2)
 {
-	shared_ptr<Film> film = new_test_film ("dcp_subtitle_test2");
+	auto film = new_test_film ("dcp_subtitle_test2");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent("test/data/dcp_sub2.xml"));
+	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub2.xml");
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder(film, content));
+	auto decoder = make_shared<DCPSubtitleDecoder>(film, content);
 	decoder->only_text()->PlainStart.connect (bind (store, _1));
 
 	stored = optional<ContentStringText> ();
@@ -129,28 +142,28 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test2)
 	}
 }
 
+
 /** Test a failure case */
 BOOST_AUTO_TEST_CASE (dcp_subtitle_test3)
 {
-	shared_ptr<Film> film = new_test_film ("dcp_subtitle_test3");
+	auto film = new_test_film ("dcp_subtitle_test3");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	film->set_interop (true);
-	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent ("test/data/dcp_sub3.xml"));
+	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub3.xml");
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs ());
+	make_and_verify_dcp (film, { dcp::VerificationNote::Code::INVALID_STANDARD });
 
-	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (film, content));
+	auto decoder = make_shared<DCPSubtitleDecoder>(film, content);
 	stored = optional<ContentStringText> ();
 	while (!decoder->pass ()) {
 		decoder->only_text()->PlainStart.connect (bind (store, _1));
 		if (stored && stored->from() == ContentTime::from_seconds(0.08)) {
-			list<dcp::SubtitleString> s = stored->subs;
-			list<dcp::SubtitleString>::const_iterator i = s.begin ();
+			auto s = stored->subs;
+			auto i = s.begin ();
 			BOOST_CHECK_EQUAL (i->text(), "This");
 			++i;
 			BOOST_REQUIRE (i != s.end ());
@@ -164,28 +177,25 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test3)
 	}
 }
 
+
 /** Check that Interop DCPs aren't made with more than one <LoadFont> (#1273) */
 BOOST_AUTO_TEST_CASE (dcp_subtitle_test4)
 {
-	shared_ptr<Film> film = new_test_film2 ("dcp_subtitle_test4");
+	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub3.xml");
+	auto content2 = make_shared<DCPSubtitleContent>("test/data/dcp_sub3.xml");
+	auto film = new_test_film2 ("dcp_subtitle_test4", {content, content2});
 	film->set_interop (true);
-
-	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent ("test/data/dcp_sub3.xml"));
-	film->examine_and_add_content (content);
-	shared_ptr<DCPSubtitleContent> content2 (new DCPSubtitleContent ("test/data/dcp_sub3.xml"));
-	film->examine_and_add_content (content2);
-	BOOST_REQUIRE (!wait_for_jobs ());
 
 	content->only_text()->add_font (shared_ptr<Font> (new Font ("font1")));
 	content2->only_text()->add_font (shared_ptr<Font> (new Font ("font2")));
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs ());
+	make_and_verify_dcp (film, { dcp::VerificationNote::Code::INVALID_STANDARD });
 
 	cxml::Document doc ("DCSubtitle");
 	doc.read_file (subtitle_file (film));
 	BOOST_REQUIRE_EQUAL (doc.node_children("LoadFont").size(), 1U);
 }
+
 
 static
 void
@@ -199,21 +209,17 @@ check_font_tags (vector<cxml::NodePtr> nodes)
 	}
 }
 
+
 /** Check that imported <LoadFont> tags with empty IDs (or corresponding Font tags with empty IDs)
  *  are not passed through into the DCP.
  */
 BOOST_AUTO_TEST_CASE (dcp_subtitle_test5)
 {
-	shared_ptr<Film> film = new_test_film2 ("dcp_subtitle_test5");
+	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub6.xml");
+	auto film = new_test_film2 ("dcp_subtitle_test5", {content});
 	film->set_interop (true);
 
-	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent("test/data/dcp_sub6.xml"));
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
-
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
-	film->write_metadata ();
+	make_and_verify_dcp (film, { dcp::VerificationNote::Code::INVALID_STANDARD });
 
 	cxml::Document doc ("DCSubtitle");
 	doc.read_file (subtitle_file(film));

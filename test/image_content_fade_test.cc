@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,27 +18,29 @@
 
 */
 
-#include "test.h"
-#include "lib/film.h"
-#include "lib/content_factory.h"
+
 #include "lib/content.h"
+#include "lib/content_factory.h"
+#include "lib/film.h"
 #include "lib/video_content.h"
+#include "test.h"
 #include <boost/test/unit_test.hpp>
+
 
 using std::string;
 using std::list;
 using std::shared_ptr;
 
+
 BOOST_AUTO_TEST_CASE (image_content_fade_test)
 {
-	shared_ptr<Film> film = new_test_film2 ("image_content_fade_test");
-	shared_ptr<Content> content = content_factory("test/data/flat_red.png").front();
+	auto film = new_test_film2 ("image_content_fade_test");
+	auto content = content_factory("test/data/flat_red.png").front();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	content->video->set_fade_in (1);
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
 	check_dcp ("test/data/image_content_fade_test", film->dir(film->dcp_name()));
 }

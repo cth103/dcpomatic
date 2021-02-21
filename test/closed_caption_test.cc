@@ -37,10 +37,8 @@ BOOST_AUTO_TEST_CASE (closed_caption_test1)
 {
 	Cleanup cl;
 
-	auto film = new_test_film2 ("closed_caption_test1", &cl);
 	auto content = make_shared<StringTextFileContent>("test/data/subrip.srt");
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs ());
+	auto film = new_test_film2 ("closed_caption_test1", { content }, &cl);
 
 	content->only_text()->set_type (TextType::CLOSED_CAPTION);
 
@@ -65,15 +63,10 @@ BOOST_AUTO_TEST_CASE (closed_caption_test1)
 BOOST_AUTO_TEST_CASE (closed_caption_test2)
 {
 	Cleanup cl;
-
-	auto film = new_test_film2 ("closed_caption_test2", &cl);
 	auto content1 = make_shared<StringTextFileContent>("test/data/subrip.srt");
-	film->examine_and_add_content (content1);
 	auto content2 = make_shared<StringTextFileContent>("test/data/subrip2.srt");
-	film->examine_and_add_content (content2);
 	auto content3 = make_shared<StringTextFileContent>("test/data/subrip3.srt");
-	film->examine_and_add_content (content3);
-	BOOST_REQUIRE (!wait_for_jobs ());
+	auto film = new_test_film2 ("closed_caption_test2", { content1, content2, content3 }, &cl);
 
 	content1->only_text()->set_type (TextType::CLOSED_CAPTION);
 	content1->only_text()->set_dcp_track (DCPTextTrack("First track", "fr-FR"));
@@ -82,8 +75,14 @@ BOOST_AUTO_TEST_CASE (closed_caption_test2)
 	content3->only_text()->set_type (TextType::CLOSED_CAPTION);
 	content3->only_text()->set_dcp_track (DCPTextTrack("Third track", "it-IT"));
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs ());
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION,
+			dcp::VerificationNote::Code::INVALID_CLOSED_CAPTION_LINE_LENGTH,
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA
+		}
+		);
 
 	dcp::DCP check (film->dir(film->dcp_name()));
 	check.read ();

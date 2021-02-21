@@ -62,8 +62,7 @@ BOOST_AUTO_TEST_CASE (no_use_video_test1)
 	B->set_position (film, dcpomatic::DCPTime());
 	A->video->set_use (false);
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
 	check_dcp ("test/data/no_use_video_test1", film);
 }
@@ -83,8 +82,7 @@ BOOST_AUTO_TEST_CASE (no_use_video_test2)
 	B->set_position (film, dcpomatic::DCPTime());
 	A->video->set_use (false);
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
 	check_dcp (TestPaths::private_data() / "no_use_video_test2", film);
 }
@@ -101,8 +99,7 @@ BOOST_AUTO_TEST_CASE (no_use_video_test3)
 	ov_a->examine_and_add_content (ov_a_pic);
 	ov_a->examine_and_add_content (ov_a_snd);
 	BOOST_REQUIRE (!wait_for_jobs());
-	ov_a->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (ov_a);
 
 	auto ov_b = new_test_film2("no_use_video_test3_ov_b");
 	auto ov_b_pic = content_factory("test/data/flat_green.png").front();
@@ -112,8 +109,7 @@ BOOST_AUTO_TEST_CASE (no_use_video_test3)
 	ov_b->examine_and_add_content (ov_b_pic);
 	ov_b->examine_and_add_content (ov_b_snd);
 	BOOST_REQUIRE (!wait_for_jobs());
-	ov_b->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (ov_b);
 
 	auto vf = new_test_film2 ("no_use_video_test3_vf");
 	auto A = make_shared<DCPContent>(ov_a->dir(ov_a->dcp_name()));
@@ -132,8 +128,7 @@ BOOST_AUTO_TEST_CASE (no_use_video_test3)
 	A->set_reference_audio (true);
 	B->set_reference_video (true);
 
-	vf->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET});
 
 	dcp::DCP ov_a_check (ov_a->dir(ov_a->dcp_name()));
 	ov_a_check.read ();

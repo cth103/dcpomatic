@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/reels_test.cc
  *  @brief Check manipulation of reels in various ways.
  *  @ingroup feature
  */
+
 
 #include "lib/film.h"
 #include "lib/ratio.h"
@@ -36,6 +38,7 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
+
 using std::list;
 using std::cout;
 using std::vector;
@@ -44,6 +47,7 @@ using std::shared_ptr;
 using std::make_shared;
 using boost::function;
 using namespace dcpomatic;
+
 
 /** Test Film::reels() */
 BOOST_AUTO_TEST_CASE (reels_test1)
@@ -88,6 +92,7 @@ BOOST_AUTO_TEST_CASE (reels_test1)
 	BOOST_CHECK_EQUAL (i->to.get(), DCPTime::from_frames(144, 24).get());
 }
 
+
 /** Make a short DCP with multi reels split by video content, then import
  *  this into a new project and make a new DCP referencing it.
  */
@@ -124,20 +129,13 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	BOOST_CHECK_EQUAL (film->reels().size(), 3U);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
 	check_dcp ("test/data/reels_test2", film->dir (film->dcp_name()));
 
-	shared_ptr<Film> film2 = new_test_film ("reels_test2b");
-	film2->set_name ("reels_test2b");
-	film2->set_container (Ratio::from_id ("185"));
-	film2->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
-	film2->set_reel_type (ReelType::BY_VIDEO_CONTENT);
-
 	auto c = make_shared<DCPContent>(film->dir(film->dcp_name()));
-	film2->examine_and_add_content (c);
-	BOOST_REQUIRE (!wait_for_jobs ());
+	auto film2 = new_test_film2 ("reels_test2b", {c});
+	film2->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 
 	auto r = film2->reels ();
 	BOOST_CHECK_EQUAL (r.size(), 3U);
@@ -154,26 +152,19 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	c->set_reference_video (true);
 	c->set_reference_audio (true);
 
-	film2->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film2, {dcp::VerificationNote::Code::EXTERNAL_ASSET});
 }
+
 
 /** Check that ReelType::BY_VIDEO_CONTENT adds an extra reel, if necessary, at the end
  *  of all the video content to mop up anything afterward.
  */
 BOOST_AUTO_TEST_CASE (reels_test3)
 {
-	auto film = new_test_film ("reels_test3");
-	film->set_name ("reels_test3");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
-	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
-
 	auto dcp = make_shared<DCPContent>("test/data/reels_test2");
-	film->examine_and_add_content (dcp);
 	auto sub = make_shared<StringTextFileContent>("test/data/subrip.srt");
-	film->examine_and_add_content (sub);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2 ("reels_test3", {dcp, sub});
+	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 
 	auto reels = film->reels();
 	BOOST_REQUIRE_EQUAL (reels.size(), 4U);
@@ -191,15 +182,13 @@ BOOST_AUTO_TEST_CASE (reels_test3)
 	BOOST_CHECK_EQUAL (i->to.get(), sub->full_length(film).ceil(film->video_frame_rate()).get());
 }
 
+
 /** Check creation of a multi-reel DCP with a single .srt subtitle file;
  *  make sure that the reel subtitle timing is done right.
  */
 BOOST_AUTO_TEST_CASE (reels_test4)
 {
-	auto film = new_test_film ("reels_test4");
-	film->set_name ("reels_test4");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
+	auto film = new_test_film2 ("reels_test4");
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	film->set_interop (false);
 
@@ -212,7 +201,7 @@ BOOST_AUTO_TEST_CASE (reels_test4)
 		content[i]->video->set_length (24);
 	}
 
-	shared_ptr<StringTextFileContent> subs (new StringTextFileContent("test/data/subrip3.srt"));
+	auto subs = make_shared<StringTextFileContent>("test/data/subrip3.srt");
 	film->examine_and_add_content (subs);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -231,19 +220,23 @@ BOOST_AUTO_TEST_CASE (reels_test4)
 	BOOST_CHECK_EQUAL (i->from.get(), 96000 * 3);
 	BOOST_CHECK_EQUAL (i->to.get(), 96000 * 4);
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION
+		});
 
 	check_dcp ("test/data/reels_test4", film->dir (film->dcp_name()));
 }
 
+
 BOOST_AUTO_TEST_CASE (reels_test5)
 {
-	auto film = new_test_film ("reels_test5");
+	auto dcp = make_shared<DCPContent>("test/data/reels_test4");
+	auto film = new_test_film2 ("reels_test5", {dcp});
 	film->set_sequence (false);
-	shared_ptr<DCPContent> dcp (new DCPContent("test/data/reels_test4"));
-	film->examine_and_add_content (dcp);
-	BOOST_REQUIRE (!wait_for_jobs ());
 
 	/* Set to 2123 but it will be rounded up to the next frame (4000) */
 	dcp->set_position(film, DCPTime(2123));
@@ -291,40 +284,34 @@ BOOST_AUTO_TEST_CASE (reels_test5)
 	}
 }
 
+
 /** Check reel split with a muxed video/audio source */
 BOOST_AUTO_TEST_CASE (reels_test6)
 {
-	auto film = new_test_film ("reels_test6");
-	film->set_name ("reels_test6");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
-	shared_ptr<FFmpegContent> A (new FFmpegContent("test/data/test2.mp4"));
-	film->examine_and_add_content (A);
-	BOOST_REQUIRE (!wait_for_jobs ());
+	auto A = make_shared<FFmpegContent>("test/data/test2.mp4");
+	auto film = new_test_film2 ("reels_test6", {A});
 
 	film->set_j2k_bandwidth (100000000);
 	film->set_reel_type (ReelType::BY_LENGTH);
 	/* This is just over 2.5s at 100Mbit/s; should correspond to 60 frames */
 	film->set_reel_length (31253154);
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs ());
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::INVALID_INTRINSIC_DURATION,
+			dcp::VerificationNote::Code::INVALID_DURATION,
+		});
 }
+
 
 /** Check the case where the last bit of audio hangs over the end of the video
  *  and we are using ReelType::BY_VIDEO_CONTENT.
  */
 BOOST_AUTO_TEST_CASE (reels_test7)
 {
-	auto film = new_test_film ("reels_test7");
-	film->set_name ("reels_test7");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	auto A = content_factory("test/data/flat_red.png").front();
-	film->examine_and_add_content (A);
-	BOOST_REQUIRE (!wait_for_jobs ());
 	auto B = content_factory("test/data/awkward_length.wav").front();
-	film->examine_and_add_content (B);
-	BOOST_REQUIRE (!wait_for_jobs ());
+	auto film = new_test_film2 ("reels_test7", { A, B });
 	film->set_video_frame_rate (24);
 	A->video->set_length (2 * 24);
 
@@ -333,50 +320,44 @@ BOOST_AUTO_TEST_CASE (reels_test7)
 	BOOST_CHECK (film->reels().front() == DCPTimePeriod(DCPTime(0), DCPTime::from_frames(2 * 24, 24)));
 	BOOST_CHECK (film->reels().back() == DCPTimePeriod(DCPTime::from_frames(2 * 24, 24), DCPTime::from_frames(3 * 24 + 1, 24)));
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs ());
+	make_and_verify_dcp (film);
 }
+
 
 /** Check a reels-related error; make_dcp() would raise a ProgrammingError */
 BOOST_AUTO_TEST_CASE (reels_test8)
 {
-	shared_ptr<Film> film = new_test_film ("reels_test8");
-	film->set_name ("reels_test8");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	auto A = make_shared<FFmpegContent>("test/data/test2.mp4");
-	film->examine_and_add_content (A);
-	BOOST_REQUIRE (!wait_for_jobs ());
+	auto film = new_test_film2 ("reels_test8", {A});
 
 	A->set_trim_end (ContentTime::from_seconds (1));
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs ());
+	make_and_verify_dcp (film);
 }
+
 
 /** Check another reels-related error; make_dcp() would raise a ProgrammingError */
 BOOST_AUTO_TEST_CASE (reels_test9)
 {
-	shared_ptr<Film> film = new_test_film2("reels_test9a");
-	shared_ptr<FFmpegContent> A(new FFmpegContent("test/data/flat_red.png"));
-	film->examine_and_add_content(A);
-	BOOST_REQUIRE(!wait_for_jobs());
+	auto A = make_shared<FFmpegContent>("test/data/flat_red.png");
+	auto film = new_test_film2("reels_test9a", {A});
 	A->video->set_length(5 * 24);
 	film->set_video_frame_rate(24);
-	film->make_dcp();
-	BOOST_REQUIRE(!wait_for_jobs());
+	make_and_verify_dcp (film);
 
-	shared_ptr<Film> film2 = new_test_film2("reels_test9b");
-	shared_ptr<DCPContent> B(new DCPContent(film->dir(film->dcp_name())));
-	film2->examine_and_add_content(B);
-	film2->examine_and_add_content(content_factory("test/data/dcp_sub4.xml").front());
+	auto B = make_shared<DCPContent>(film->dir(film->dcp_name()));
+	auto film2 = new_test_film2("reels_test9b", {B, content_factory("test/data/dcp_sub4.xml").front()});
 	B->set_reference_video(true);
 	B->set_reference_audio(true);
-	BOOST_REQUIRE(!wait_for_jobs());
 	film2->set_reel_type(ReelType::BY_VIDEO_CONTENT);
 	film2->write_metadata();
-	film2->make_dcp();
-	BOOST_REQUIRE(!wait_for_jobs());
+	make_and_verify_dcp (
+		film2,
+		{
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME
+		});
 }
+
 
 /** Another reels-related error; make_dcp() would raise a ProgrammingError
  *  in AudioBuffers::allocate due to an attempt to allocate a negatively-sized buffer.
@@ -387,58 +368,50 @@ BOOST_AUTO_TEST_CASE (reels_test9)
 BOOST_AUTO_TEST_CASE (reels_test10)
 {
 	/* Make the OV */
-	shared_ptr<Film> ov = new_test_film2("reels_test10_ov");
-	shared_ptr<FFmpegContent> A(new FFmpegContent("test/data/flat_red.png"));
-	ov->examine_and_add_content (A);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto A = make_shared<FFmpegContent>("test/data/flat_red.png");
+	auto B = make_shared<FFmpegContent>("test/data/flat_red.png");
+	auto ov = new_test_film2("reels_test10_ov", {A, B});
 	A->video->set_length (5 * 24);
-
-	shared_ptr<FFmpegContent> B(new FFmpegContent("test/data/flat_red.png"));
-	ov->examine_and_add_content (B);
-	BOOST_REQUIRE (!wait_for_jobs());
 	B->video->set_length (5 * 24);
 
 	ov->set_reel_type (ReelType::BY_VIDEO_CONTENT);
-	ov->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (ov);
 	ov->write_metadata ();
 
 	/* Now try to make the VF; this used to fail */
-	shared_ptr<Film> vf = new_test_film2("reels_test10_vf");
-	shared_ptr<DCPContent> ov_dcp(new DCPContent(ov->dir(ov->dcp_name())));
-	vf->examine_and_add_content (ov_dcp);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto ov_dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
+	auto vf = new_test_film2("reels_test10_vf", {ov_dcp, content_factory("test/data/15s.srt").front()});
 	vf->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	ov_dcp->set_reference_video (true);
 	ov_dcp->set_reference_audio (true);
-	vf->examine_and_add_content (content_factory("test/data/15s.srt").front());
-	BOOST_REQUIRE (!wait_for_jobs());
 
-	vf->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
-	vf->write_metadata ();
+	make_and_verify_dcp (
+		vf,
+		{
+			dcp::VerificationNote::Code::EXTERNAL_ASSET,
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME
+		});
 }
+
 
 /** Another reels error; ReelType::BY_VIDEO_CONTENT when the first content is not
  *  at time 0.
  */
 BOOST_AUTO_TEST_CASE (reels_test11)
 {
-	shared_ptr<Film> film = new_test_film2 ("reels_test11");
+	auto A = make_shared<FFmpegContent>("test/data/flat_red.png");
+	auto film = new_test_film2 ("reels_test11", {A});
 	film->set_video_frame_rate (24);
-	shared_ptr<FFmpegContent> A(new FFmpegContent("test/data/flat_red.png"));
-	film->examine_and_add_content (A);
-	BOOST_REQUIRE (!wait_for_jobs());
 	A->video->set_length (240);
 	A->set_video_frame_rate (24);
 	A->set_position (film, DCPTime::from_seconds(1));
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 	BOOST_CHECK_EQUAL (A->position().get(), DCPTime::from_seconds(1).get());
 	BOOST_CHECK_EQUAL (A->end(film).get(), DCPTime::from_seconds(1 + 10).get());
 
-	list<DCPTimePeriod> r = film->reels ();
+	auto r = film->reels ();
 	BOOST_CHECK_EQUAL (r.size(), 2U);
 	BOOST_CHECK_EQUAL (r.front().from.get(), 0);
 	BOOST_CHECK_EQUAL (r.front().to.get(), DCPTime::from_seconds(1).get());
@@ -446,33 +419,30 @@ BOOST_AUTO_TEST_CASE (reels_test11)
 	BOOST_CHECK_EQUAL (r.back().to.get(), DCPTime::from_seconds(1 + 10).get());
 }
 
+
 /** For VFs to work right we have to make separate reels for empty bits between
  *  video content.
  */
 BOOST_AUTO_TEST_CASE (reels_test12)
 {
-	shared_ptr<Film> film = new_test_film2 ("reels_test12");
+	auto A = make_shared<FFmpegContent>("test/data/flat_red.png");
+	auto B = make_shared<FFmpegContent>("test/data/flat_red.png");
+	auto film = new_test_film2 ("reels_test12", {A, B});
 	film->set_video_frame_rate (24);
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	film->set_sequence (false);
 
-	shared_ptr<FFmpegContent> A(new FFmpegContent("test/data/flat_red.png"));
-	film->examine_and_add_content (A);
-	BOOST_REQUIRE (!wait_for_jobs());
 	A->video->set_length (240);
 	A->set_video_frame_rate (24);
 	A->set_position (film, DCPTime::from_seconds(1));
 
-	shared_ptr<FFmpegContent> B(new FFmpegContent("test/data/flat_red.png"));
-	film->examine_and_add_content (B);
-	BOOST_REQUIRE (!wait_for_jobs());
 	B->video->set_length (120);
 	B->set_video_frame_rate (24);
 	B->set_position (film, DCPTime::from_seconds(14));
 
-	list<DCPTimePeriod> r = film->reels ();
+	auto r = film->reels ();
 	BOOST_REQUIRE_EQUAL (r.size(), 4U);
-	list<DCPTimePeriod>::const_iterator i = r.begin ();
+	auto i = r.begin ();
 
 	BOOST_CHECK_EQUAL (i->from.get(), 0);
 	BOOST_CHECK_EQUAL (i->to.get(),   DCPTime::from_seconds(1).get());
@@ -486,6 +456,7 @@ BOOST_AUTO_TEST_CASE (reels_test12)
 	BOOST_CHECK_EQUAL (i->from.get(), DCPTime::from_seconds(14).get());
 	BOOST_CHECK_EQUAL (i->to.get(),   DCPTime::from_seconds(19).get());
 }
+
 
 static void
 no_op ()
@@ -507,109 +478,95 @@ dump_notes (vector<dcp::VerificationNote> const & notes)
  */
 BOOST_AUTO_TEST_CASE (reels_should_not_be_short1)
 {
-	shared_ptr<Film> film = new_test_film2 ("reels_should_not_be_short1");
+	auto A = make_shared<FFmpegContent>("test/data/flat_red.png");
+	auto B = make_shared<FFmpegContent>("test/data/flat_red.png");
+	auto film = new_test_film2 ("reels_should_not_be_short1", {A, B});
 	film->set_video_frame_rate (24);
 
-	shared_ptr<FFmpegContent> A(new FFmpegContent("test/data/flat_red.png"));
-	film->examine_and_add_content (A);
-	BOOST_REQUIRE (!wait_for_jobs());
 	A->video->set_length (23);
 
-	shared_ptr<FFmpegContent> B(new FFmpegContent("test/data/flat_red.png"));
-	film->examine_and_add_content (B);
-	BOOST_REQUIRE (!wait_for_jobs());
 	B->video->set_length (23);
 	B->set_position (film, DCPTime::from_frames(23, 24));
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
-	vector<boost::filesystem::path> dirs;
-	dirs.push_back (film->dir(film->dcp_name(false)));
+	vector<boost::filesystem::path> dirs = { film->dir(film->dcp_name(false)) };
 	auto notes = dcp::verify(dirs, boost::bind(&no_op), boost::bind(&no_op), TestPaths::xsd());
 	dump_notes (notes);
 	BOOST_REQUIRE (notes.empty());
 }
+
 
 /** Leaving less than 1 second's gap between two pieces of content with
  *  ReelType::BY_VIDEO_CONTENT should not make a <1s reel.
  */
 BOOST_AUTO_TEST_CASE (reels_should_not_be_short2)
 {
-	shared_ptr<Film> film = new_test_film2 ("reels_should_not_be_short2");
+	auto A = make_shared<FFmpegContent>("test/data/flat_red.png");
+	auto B = make_shared<FFmpegContent>("test/data/flat_red.png");
+	auto film = new_test_film2 ("reels_should_not_be_short2", {A, B});
 	film->set_video_frame_rate (24);
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 
-	shared_ptr<FFmpegContent> A(new FFmpegContent("test/data/flat_red.png"));
-	film->examine_and_add_content (A);
-	BOOST_REQUIRE (!wait_for_jobs());
 	A->video->set_length (240);
 
-	shared_ptr<FFmpegContent> B(new FFmpegContent("test/data/flat_red.png"));
-	film->examine_and_add_content (B);
-	BOOST_REQUIRE (!wait_for_jobs());
 	B->video->set_length (240);
 	B->set_position (film, DCPTime::from_seconds(10.2));
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
-	vector<boost::filesystem::path> dirs;
-	dirs.push_back (film->dir(film->dcp_name(false)));
+	vector<boost::filesystem::path> dirs = { film->dir(film->dcp_name(false)) };
 	auto const notes = dcp::verify(dirs, boost::bind(&no_op), boost::bind(&no_op), TestPaths::xsd());
 	dump_notes (notes);
 	BOOST_REQUIRE (notes.empty());
 }
+
 
 /** Setting ReelType::BY_LENGTH and using a small length value should not make
  *  <1s reels.
  */
 BOOST_AUTO_TEST_CASE (reels_should_not_be_short3)
 {
-	shared_ptr<Film> film = new_test_film2 ("reels_should_not_be_short3");
+	auto A = make_shared<FFmpegContent>("test/data/flat_red.png");
+	auto film = new_test_film2 ("reels_should_not_be_short3", {A});
 	film->set_video_frame_rate (24);
 	film->set_reel_type (ReelType::BY_LENGTH);
 	film->set_reel_length (1024 * 1024 * 10);
 
-	shared_ptr<FFmpegContent> A(new FFmpegContent("test/data/flat_red.png"));
-	film->examine_and_add_content (A);
-	BOOST_REQUIRE (!wait_for_jobs());
 	A->video->set_length (240);
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
-	vector<boost::filesystem::path> dirs;
-	auto const notes = dcp::verify(dirs, boost::bind(&no_op), boost::bind(&no_op), TestPaths::xsd());
+	auto const notes = dcp::verify({}, boost::bind(&no_op), boost::bind(&no_op), TestPaths::xsd());
 	dump_notes (notes);
 	BOOST_REQUIRE (notes.empty());
 }
+
 
 /** Having one piece of content less than 1s long in ReelType::BY_VIDEO_CONTENT
  *  should not make a reel less than 1s long.
  */
 BOOST_AUTO_TEST_CASE (reels_should_not_be_short4)
 {
-	shared_ptr<Film> film = new_test_film2 ("reels_should_not_be_short4");
+	auto A = make_shared<FFmpegContent>("test/data/flat_red.png");
+	auto B = make_shared<FFmpegContent>("test/data/flat_red.png");
+	auto film = new_test_film2 ("reels_should_not_be_short4", {A, B});
 	film->set_video_frame_rate (24);
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 
-	shared_ptr<FFmpegContent> A(new FFmpegContent("test/data/flat_red.png"));
-	film->examine_and_add_content (A);
-	BOOST_REQUIRE (!wait_for_jobs());
 	A->video->set_length (240);
 
-	shared_ptr<FFmpegContent> B(new FFmpegContent("test/data/flat_red.png"));
-	film->examine_and_add_content (B);
-	BOOST_REQUIRE (!wait_for_jobs());
 	B->video->set_length (23);
 	B->set_position (film, DCPTime::from_frames(240, 24));
 
+	BOOST_CHECK_EQUAL (film->reels().size(), 1U);
+	BOOST_CHECK (film->reels().front() == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime(), dcpomatic::DCPTime::from_frames(263, 24)));
+
+	film->write_metadata ();
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	vector<boost::filesystem::path> dirs;
-	dirs.push_back (film->dir(film->dcp_name(false)));
+	vector<boost::filesystem::path> dirs = { film->dir(film->dcp_name(false)) };
 	auto const notes = dcp::verify(dirs, boost::bind(&no_op), boost::bind(&no_op), TestPaths::xsd());
 	dump_notes (notes);
 	BOOST_REQUIRE (notes.empty());

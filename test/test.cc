@@ -176,7 +176,7 @@ new_test_film (string name)
 }
 
 shared_ptr<Film>
-new_test_film2 (string name, Cleanup* cleanup)
+new_test_film2 (string name, vector<shared_ptr<Content>> content, Cleanup* cleanup)
 {
 	auto p = test_film_dir (name);
 	if (boost::filesystem::exists (p)) {
@@ -190,6 +190,12 @@ new_test_film2 (string name, Cleanup* cleanup)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	film->set_container (Ratio::from_id ("185"));
 	film->write_metadata ();
+
+	for (auto i: content) {
+		film->examine_and_add_content (i);
+		BOOST_REQUIRE (!wait_for_jobs());
+	}
+
 	return film;
 }
 
@@ -830,3 +836,26 @@ Cleanup::run ()
 		boost::filesystem::remove_all (i, ec);
 	}
 }
+
+
+void stage (string, boost::optional<boost::filesystem::path>) {}
+void progress (float) {}
+
+
+void
+make_and_verify_dcp (shared_ptr<Film> film, vector<dcp::VerificationNote::Code> ignore)
+{
+	film->write_metadata ();
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs());
+	auto notes = dcp::verify ({film->dir(film->dcp_name())}, &stage, &progress, TestPaths::xsd());
+	bool ok = true;
+	for (auto i: notes) {
+		if (find(ignore.begin(), ignore.end(), i.code()) == ignore.end()) {
+			std::cout << "\t" << dcp::note_to_string(i) << "\n";
+			ok = false;
+		}
+	}
+	BOOST_CHECK(ok);
+}
+

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 /** @defgroup feature Tests of features */
 
 /** @file  test/audio_delay_test.cc
@@ -27,25 +28,29 @@
  *  The output is checked algorithmically using knowledge of the input.
  */
 
-#include <boost/test/unit_test.hpp>
-#include <dcp/sound_frame.h>
+
+#include "lib/audio_content.h"
+#include "lib/dcp_content_type.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/film.h"
+#include "lib/ratio.h"
+#include "test.h"
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
+#include <dcp/reel_sound_asset.h>
 #include <dcp/sound_asset.h>
 #include <dcp/sound_asset_reader.h>
-#include <dcp/reel_sound_asset.h>
-#include "lib/ffmpeg_content.h"
-#include "lib/dcp_content_type.h"
-#include "lib/ratio.h"
-#include "lib/film.h"
-#include "lib/audio_content.h"
-#include "test.h"
+#include <dcp/sound_frame.h>
+#include <boost/test/unit_test.hpp>
 #include <iostream>
 
-using std::string;
+
 using std::cout;
-using boost::lexical_cast;
+using std::make_shared;
 using std::shared_ptr;
+using std::string;
+using boost::lexical_cast;
+
 
 static
 void test_audio_delay (int delay_in_ms)
@@ -53,18 +58,14 @@ void test_audio_delay (int delay_in_ms)
 	BOOST_TEST_MESSAGE ("Testing delay of " << delay_in_ms);
 
 	string const film_name = "audio_delay_test_" + lexical_cast<string> (delay_in_ms);
-	shared_ptr<Film> film = new_test_film (film_name);
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
-	film->set_container (Ratio::from_id ("185"));
-	film->set_name (film_name);
+	auto content = make_shared<FFmpegContent>("test/data/staircase.wav");
+	shared_ptr<Film> film = new_test_film2 (
+		film_name, { content }
+		);
 
-	shared_ptr<FFmpegContent> content (new FFmpegContent("test/data/staircase.wav"));
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
 	content->audio->set_delay (delay_in_ms);
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
 
 	boost::filesystem::path path = "build/test";
 	path /= film_name;
@@ -73,7 +74,7 @@ void test_audio_delay (int delay_in_ms)
 	dcp::DCP check (path.string ());
 	check.read ();
 
-	shared_ptr<const dcp::ReelSoundAsset> sound_asset = check.cpls().front()->reels().front()->main_sound ();
+	auto sound_asset = check.cpls().front()->reels().front()->main_sound ();
 	BOOST_CHECK (sound_asset);
 
 	/* Sample index in the DCP */
@@ -102,6 +103,7 @@ void test_audio_delay (int delay_in_ms)
 		}
 	}
 }
+
 
 /* Test audio delay when specified in a piece of audio content */
 BOOST_AUTO_TEST_CASE (audio_delay_test)

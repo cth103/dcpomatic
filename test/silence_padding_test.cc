@@ -46,18 +46,15 @@ static void
 test_silence_padding (int channels)
 {
 	string const film_name = "silence_padding_test_" + lexical_cast<string> (channels);
-	auto film = new_test_film (film_name);
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
-	film->set_container (Ratio::from_id ("185"));
-	film->set_name (film_name);
-
-	auto content = make_shared<FFmpegContent>("test/data/staircase.wav");
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2 (
+		film_name,
+		{
+			make_shared<FFmpegContent>("test/data/flat_red.png"),
+			make_shared<FFmpegContent>("test/data/staircase.wav")
+		});
 
 	film->set_audio_channels (channels);
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
 	boost::filesystem::path path = "build/test";
 	path /= film_name;
@@ -138,16 +135,13 @@ BOOST_AUTO_TEST_CASE (silence_padding_test2)
 {
 	Cleanup cl;
 
-	auto film = new_test_film2 ("silence_padding_test2", &cl);
 	auto content = make_shared<FFmpegContent>(TestPaths::private_data() / "cars.mov");
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2 ("silence_padding_test2", { content }, &cl);
 
 	film->set_video_frame_rate (24);
 	content->set_trim_start (dcpomatic::ContentTime(4003));
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
 	cl.run ();
 }

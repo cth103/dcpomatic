@@ -79,10 +79,8 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 	film->examine_and_add_content (content_factory("test/data/flat_black.png").front());
 	BOOST_REQUIRE (!wait_for_jobs());
 	film->set_encrypted (true);
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
-	film->write_metadata ();
-	vector<CPLSummary> cpls = film->cpls ();
+	make_and_verify_dcp (film);
+	auto cpls = film->cpls ();
 	BOOST_REQUIRE(cpls.size() == 1);
 
 	dcp::LocalTime from (cert.not_before());
@@ -93,8 +91,8 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 	string const from_string = from.date() + " " + from.time_of_day(true, false);
 	string const until_string = until.date() + " " + until.time_of_day(true, false);
 
-	boost::filesystem::path cpl = cpls.front().cpl_file;
-	KDMWithMetadataPtr kdm = kdm_for_screen (
+	auto cpl = cpls.front().cpl_file;
+	auto kdm = kdm_for_screen (
 			film,
 			cpls.front().cpl_file,
 			cinema_a_screen_1,
@@ -105,11 +103,8 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 			optional<int>()
 			);
 
-	list<KDMWithMetadataPtr> kdms;
-	kdms.push_back (kdm);
-
 	write_files (
-		kdms,
+		{ kdm },
 		boost::filesystem::path("build/test/single_kdm_naming_test"),
 		dcp::NameFormat("KDM %c - %s - %f - %b - %e"),
 		&confirm_overwrite
@@ -133,15 +128,15 @@ BOOST_AUTO_TEST_CASE (directory_kdm_naming_test, * boost::unit_test::depends_on(
 
 	/* Film */
 	boost::filesystem::remove_all ("build/test/directory_kdm_naming_test");
-	shared_ptr<Film> film = new_test_film2 ("directory_kdm_naming_test");
+	auto film = new_test_film2 (
+		"directory_kdm_naming_test",
+		{ content_factory("test/data/flat_black.png").front() }
+		);
+
 	film->set_name ("my_great_film");
-	film->examine_and_add_content (content_factory("test/data/flat_black.png").front());
-	BOOST_REQUIRE (!wait_for_jobs());
 	film->set_encrypted (true);
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
-	film->write_metadata ();
-	vector<CPLSummary> cpls = film->cpls ();
+	make_and_verify_dcp (film);
+	auto cpls = film->cpls ();
 	BOOST_REQUIRE(cpls.size() == 1);
 
 	dcp::LocalTime from (cert.not_before());
@@ -152,18 +147,16 @@ BOOST_AUTO_TEST_CASE (directory_kdm_naming_test, * boost::unit_test::depends_on(
 	string const from_string = from.date() + " " + from.time_of_day(true, false);
 	string const until_string = until.date() + " " + until.time_of_day(true, false);
 
-	list<shared_ptr<dcpomatic::Screen> > screens;
-	screens.push_back (cinema_a_screen_2);
-	screens.push_back (cinema_b_screen_x);
-	screens.push_back (cinema_a_screen_1);
-	screens.push_back (cinema_b_screen_z);
+	list<shared_ptr<dcpomatic::Screen>> screens = {
+		cinema_a_screen_2, cinema_b_screen_x, cinema_a_screen_1, (cinema_b_screen_z)
+	};
 
-	path const cpl = cpls.front().cpl_file;
-	string const cpl_id = cpls.front().cpl_id;
+	auto const cpl = cpls.front().cpl_file;
+	auto const cpl_id = cpls.front().cpl_id;
 
 	list<KDMWithMetadataPtr> kdms;
 	for (auto i: screens) {
-		KDMWithMetadataPtr kdm = kdm_for_screen (
+		auto kdm = kdm_for_screen (
 				film,
 				cpls.front().cpl_file,
 				i,
@@ -190,9 +183,9 @@ BOOST_AUTO_TEST_CASE (directory_kdm_naming_test, * boost::unit_test::depends_on(
 		&confirm_overwrite
 		);
 
-	string from_time = from.time_of_day (true, false);
+	auto from_time = from.time_of_day (true, false);
 	boost::algorithm::replace_all (from_time, ":", "-");
-	string until_time = until.time_of_day (true, false);
+	auto until_time = until.time_of_day (true, false);
 	boost::algorithm::replace_all (until_time, ":", "-");
 
 	path const base = "build/test/directory_kdm_naming_test";

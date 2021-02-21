@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/ssa_subtitle_test.cc
  *  @brief Test use of SSA subtitle files.
  *  @ingroup feature
  */
+
 
 #include "lib/film.h"
 #include "lib/string_text_file_content.h"
@@ -32,36 +34,35 @@
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/algorithm/string.hpp>
-#include <list>
+
 
 using std::string;
 using std::list;
 using std::shared_ptr;
+using std::make_shared;
+
 
 /** Make a DCP with subs from a .ssa file */
 BOOST_AUTO_TEST_CASE (ssa_subtitle_test1)
 {
 	Cleanup cl;
 
-	shared_ptr<Film> film = new_test_film2 ("ssa_subtitle_test1", &cl);
+	auto film = new_test_film2 ("ssa_subtitle_test1", {}, &cl);
 
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name ("frobozz");
 	film->set_interop (true);
-	shared_ptr<StringTextFileContent> content (new StringTextFileContent(TestPaths::private_data() / "DKH_UT_EN20160601def.ssa"));
+	auto content = make_shared<StringTextFileContent>(TestPaths::private_data() / "DKH_UT_EN20160601def.ssa");
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film, { dcp::VerificationNote::Code::INVALID_STANDARD });
 
 	/* Find the subtitle file and check it */
-	list<string> ignore;
-	ignore.push_back ("SubtitleID");
-	check_xml (subtitle_file(film), TestPaths::private_data() / "DKH_UT_EN20160601def.xml", ignore);
+	check_xml (subtitle_file(film), TestPaths::private_data() / "DKH_UT_EN20160601def.xml", {"SubtitleID"});
 
 	cl.run ();
 }

@@ -40,15 +40,16 @@ BOOST_AUTO_TEST_CASE (atmos_passthrough_test)
 {
 	Cleanup cl;
 
-	auto film = new_test_film2 ("atmos_passthrough_test", &cl);
-	auto ref = TestPaths::private_data() / "atmos_asset.mxf";
-	auto content = content_factory (TestPaths::private_data() / "atmos_asset.mxf").front();
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2 (
+		"atmos_passthrough_test",
+		{ content_factory(TestPaths::private_data() / "atmos_asset.mxf").front() },
+		&cl
+		);
 
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs());
 
+	auto ref = TestPaths::private_data() / "atmos_asset.mxf";
 	BOOST_REQUIRE (mxf_atmos_files_same(ref, dcp_file(film, "atmos"), true));
 
 	cl.run ();
@@ -59,16 +60,13 @@ BOOST_AUTO_TEST_CASE (atmos_encrypted_passthrough_test)
 {
 	Cleanup cl;
 
-	auto film = new_test_film2 ("atmos_encrypted_passthrough_test", &cl);
 	auto ref = TestPaths::private_data() / "atmos_asset.mxf";
 	auto content = content_factory (TestPaths::private_data() / "atmos_asset.mxf").front();
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2 ("atmos_encrypted_passthrough_test", {content}, &cl);
 
 	film->set_encrypted (true);
 	film->_key = dcp::Key ("4fac12927eb122af1c2781aa91f3a4cc");
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
 
 	BOOST_REQUIRE (!mxf_atmos_files_same(ref, dcp_file(film, "atmos")));
 
@@ -83,14 +81,10 @@ BOOST_AUTO_TEST_CASE (atmos_encrypted_passthrough_test)
 		optional<int>()
 		);
 
-	auto film2 = new_test_film2 ("atmos_encrypted_passthrough_test2", &cl);
 	auto content2 = make_shared<DCPContent>(film->dir(film->dcp_name()));
 	content2->add_kdm (kdm);
-	film2->examine_and_add_content (content2);
-	BOOST_REQUIRE (!wait_for_jobs());
-
-	film2->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film2 = new_test_film2 ("atmos_encrypted_passthrough_test2", {content2}, &cl);
+	make_and_verify_dcp (film2, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
 
 	BOOST_CHECK (mxf_atmos_files_same(ref, dcp_file(film2, "atmos"), true));
 

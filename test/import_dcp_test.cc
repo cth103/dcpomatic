@@ -111,10 +111,8 @@ BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
 	Cleanup cl;
 
 	/* Make a DCP with some markers */
-	auto film = new_test_film2 ("import_dcp_markers_test", &cl);
 	auto content = content_factory("test/data/flat_red.png").front();
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2 ("import_dcp_markers_test", {content}, &cl);
 
 	content->video->set_length (24 * 60 * 10);
 
@@ -126,10 +124,8 @@ BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Import the DCP to a new film and check the markers */
-	auto film2 = new_test_film2 ("import_dcp_markers_test2", &cl);
 	auto imported = make_shared<DCPContent>(film->dir(film->dcp_name()));
-	film2->examine_and_add_content (imported);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film2 = new_test_film2 ("import_dcp_markers_test2", {imported}, &cl);
 	film2->write_metadata ();
 
 	/* When import_dcp_markers_test was made a LFOC marker will automatically
@@ -149,7 +145,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
 	auto film3 = make_shared<Film>(boost::filesystem::path("build/test/import_dcp_markers_test2"));
 	film3->read_metadata ();
 	BOOST_REQUIRE_EQUAL (film3->content().size(), 1U);
-	shared_ptr<DCPContent> reloaded = dynamic_pointer_cast<DCPContent>(film3->content().front());
+	auto reloaded = dynamic_pointer_cast<DCPContent>(film3->content().front());
 	BOOST_REQUIRE (reloaded);
 
 	BOOST_CHECK_EQUAL (reloaded->markers().size(), 4U);

@@ -100,21 +100,17 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 {
 	Cleanup cl;
 
-	shared_ptr<Film> film = new_test_film2 ("srt_subtitle_test3", &cl);
+	shared_ptr<StringTextFileContent> content (new StringTextFileContent(TestPaths::private_data() / "Ankoemmling_short.srt"));
+	shared_ptr<Film> film = new_test_film2 ("srt_subtitle_test3", { content }, &cl);
 
-	film->set_container (Ratio::from_id ("185"));
 	film->set_name ("frobozz");
 	film->set_interop (true);
 	film->set_audio_channels (6);
-	shared_ptr<StringTextFileContent> content (new StringTextFileContent(TestPaths::private_data() / "Ankoemmling_short.srt"));
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
 
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film, {dcp::VerificationNote::Code::INVALID_STANDARD});
 
 	check_subtitle_file (film, TestPaths::private_data() / "Ankoemmling_short.xml");
 
