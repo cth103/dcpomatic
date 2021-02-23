@@ -123,12 +123,12 @@ private:
 		++r;
 
 		add_label_to_sizer (table, _panel, _("Activity log file"), true, wxGBPosition (r, 0));
-		_activity_log_file = new FilePickerCtrl (_panel, _("Select activity log file"), "*", true, true);
+		_activity_log_file = new FilePickerCtrl (_panel, _("Select activity log file"), "*", false, true);
 		table->Add (_activity_log_file, wxGBPosition(r, 1));
 		++r;
 
 		add_label_to_sizer (table, _panel, _("Debug log file"), true, wxGBPosition (r, 0));
-		_debug_log_file = new FilePickerCtrl (_panel, _("Select debug log file"), "*", true, true);
+		_debug_log_file = new FilePickerCtrl (_panel, _("Select debug log file"), "*", false, true);
 		table->Add (_debug_log_file, wxGBPosition(r, 1));
 		++r;
 
