@@ -306,10 +306,13 @@ Writer::write (shared_ptr<const AudioBuffers> audio, DCPTime const time)
 				end - _audio_reel->period().to
 			};
 
+			/* Be careful that part_lengths[0] + part_lengths[1] can't be bigger than audio->frames() */
 			Frame part_frames[2] = {
 				part_lengths[0].frames_ceil(afr),
-				part_lengths[1].frames_ceil(afr)
+				part_lengths[1].frames_floor(afr)
 			};
+
+			DCPOMATIC_ASSERT ((part_frames[0] + part_frames[1]) <= audio->frames());
 
 			if (part_frames[0]) {
 				shared_ptr<AudioBuffers> part (new AudioBuffers(audio, part_frames[0], 0));
