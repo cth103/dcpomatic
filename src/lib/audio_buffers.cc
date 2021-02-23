@@ -192,9 +192,8 @@ AudioBuffers::copy_from (AudioBuffers const * from, int32_t frames_to_copy, int3
 		return;
 	}
 
-	DCPOMATIC_ASSERT (from->channels() == channels());
-
 	DCPOMATIC_ASSERT (from);
+	DCPOMATIC_ASSERT (from->channels() == channels());
 	DCPOMATIC_ASSERT (read_offset >= 0 && (read_offset + frames_to_copy) <= from->_allocated_frames);
 	DCPOMATIC_ASSERT (write_offset >= 0 && (write_offset + frames_to_copy) <= _allocated_frames);
 
