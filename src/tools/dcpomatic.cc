@@ -1784,14 +1784,12 @@ private:
 
 	void config_failed_to_load ()
 	{
-		close_splash ();
 		message_dialog (_frame, _("The existing configuration failed to load.  Default values will be used instead.  These may take a short time to create."));
 	}
 
 	void config_warning (string m)
 	{
-		close_splash ();
-		message_dialog (_frame, std_to_wx (m));
+		message_dialog (_frame, std_to_wx(m));
 	}
 
 	bool config_bad (Config::BadReason reason)
