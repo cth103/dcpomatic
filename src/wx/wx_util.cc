@@ -469,6 +469,7 @@ setup_audio_channels_choice (wxChoice* choice, int minimum)
 	checked_set (choice, items);
 }
 
+
 wxSplashScreen *
 maybe_show_splash ()
 {
@@ -477,7 +478,12 @@ maybe_show_splash ()
 		wxBitmap bitmap;
 		boost::filesystem::path p = shared_path () / "splash.png";
 		if (bitmap.LoadFile (std_to_wx (p.string ()), wxBITMAP_TYPE_PNG)) {
+#ifdef DCPOMATIC_WINDOWS
+			/* Having wxSTAY_ON_TOP means error dialogues hide behind the splash screen on Windows, no matter what I try */
+			splash = new wxSplashScreen (bitmap, wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_NO_TIMEOUT, 0, 0, -1, wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE | wxFRAME_NO_TASKBAR);
+#else
 			splash = new wxSplashScreen (bitmap, wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_NO_TIMEOUT, 0, 0, -1);
+#endif
 			wxYield ();
 		}
 	} catch (boost::filesystem::filesystem_error& e) {
