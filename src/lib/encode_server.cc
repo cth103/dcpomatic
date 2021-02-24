@@ -295,8 +295,8 @@ EncodeServer::broadcast_received ()
 		try {
 			auto socket = make_shared<Socket>();
 			socket->connect (boost::asio::ip::tcp::endpoint (_broadcast.send_endpoint.address(), MAIN_SERVER_PRESENCE_PORT));
-			socket->write (xml.length() + 1);
-			socket->write ((uint8_t *) xml.c_str(), xml.length() + 1);
+			socket->write (xml.bytes() + 1);
+			socket->write ((uint8_t *) xml.c_str(), xml.bytes() + 1);
 		} catch (...) {
 
 		}
@@ -304,8 +304,8 @@ EncodeServer::broadcast_received ()
 		try {
 			auto socket = make_shared<Socket>();
 			socket->connect (boost::asio::ip::tcp::endpoint (_broadcast.send_endpoint.address(), BATCH_SERVER_PRESENCE_PORT));
-			socket->write (xml.length() + 1);
-			socket->write ((uint8_t *) xml.c_str(), xml.length() + 1);
+			socket->write (xml.bytes() + 1);
+			socket->write ((uint8_t *) xml.c_str(), xml.bytes() + 1);
 		} catch (...) {
 
 		}

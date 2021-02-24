@@ -984,7 +984,7 @@ Config::write_config () const
 		if (!f) {
 			throw FileError (_("Could not open file for writing"), tmp);
 		}
-		checked_fwrite (s.c_str(), s.length(), f, tmp);
+		checked_fwrite (s.c_str(), s.bytes(), f, tmp);
 		fclose (f);
 		boost::filesystem::remove (config_file());
 		boost::filesystem::rename (tmp, config_file());

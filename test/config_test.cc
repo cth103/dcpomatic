@@ -91,3 +91,16 @@ BOOST_AUTO_TEST_CASE (config_backup_test)
 	*/
 	setup_test_config ();
 }
+
+
+BOOST_AUTO_TEST_CASE (config_write_utf8_test)
+{
+	boost::filesystem::remove_all ("build/test/config.xml");
+	boost::filesystem::copy_file ("test/data/utf8_config.xml", "build/test/config.xml");
+	Config::override_path = "build/test";
+	Config::drop ();
+	Config::instance()->write();
+
+	check_file ("test/data/utf8_config.xml", "build/test/config.xml");
+}
+
