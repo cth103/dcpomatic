@@ -102,5 +102,10 @@ BOOST_AUTO_TEST_CASE (config_write_utf8_test)
 	Config::instance()->write();
 
 	check_file ("test/data/utf8_config.xml", "build/test/config.xml");
+
+	/* This test has called Config::set_defaults(), so take us back
+	   to the config that we want for our tests.
+	*/
+	setup_test_config ();
 }
 
