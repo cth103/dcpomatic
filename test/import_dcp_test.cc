@@ -100,6 +100,9 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 
 	/* Should be 1s red, 1s green, 1s blue */
 	check_dcp ("test/data/import_dcp_test2", "build/test/import_dcp_test2/" + B->dcp_name());
+
+	/* Restore the reference decryption chain */
+	setup_test_config ();
 }
 
 

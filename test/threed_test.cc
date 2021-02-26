@@ -23,16 +23,17 @@
  *  @ingroup completedcp
  */
 
-#include "test.h"
-#include "lib/film.h"
-#include "lib/ratio.h"
 #include "lib/config.h"
+#include "lib/content_factory.h"
+#include "lib/cross.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ffmpeg_content.h"
-#include "lib/video_content.h"
-#include "lib/job_manager.h"
-#include "lib/cross.h"
+#include "lib/film.h"
 #include "lib/job.h"
+#include "lib/job_manager.h"
+#include "lib/ratio.h"
+#include "lib/video_content.h"
+#include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
@@ -169,12 +170,13 @@ BOOST_AUTO_TEST_CASE (threed_test7)
 	using boost::filesystem::path;
 
 	auto film = new_test_film2 ("threed_test7");
-	path const content_path = "test/data/red_24.mp4";
-	auto c = make_shared<FFmpegContent>(content_path);
+	path const content_path = "test/data/flat_red.png";
+	auto c = content_factory(content_path).front();
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	c->video->set_frame_type (VideoFrameType::THREE_D);
+	c->video->set_length (24);
 
 	film->set_three_d (true);
 	film->make_dcp ();
