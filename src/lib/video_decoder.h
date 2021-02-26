@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,15 @@
 
 */
 
+
 /** @file  src/lib/video_decoder.h
  *  @brief VideoDecoder class.
  */
 
+
 #ifndef DCPOMATIC_VIDEO_DECODER_H
 #define DCPOMATIC_VIDEO_DECODER_H
+
 
 #include "decoder.h"
 #include "video_content.h"
@@ -32,11 +35,13 @@
 #include "decoder_part.h"
 #include <boost/signals2.hpp>
 
+
 class VideoContent;
 class ImageProxy;
 class Image;
 class Log;
 class FrameIntervalChecker;
+
 
 /** @class VideoDecoder
  *  @brief Parent for classes which decode video.
@@ -62,11 +67,11 @@ public:
 
 private:
 	std::shared_ptr<const Content> _content;
-	/** Frame of last thing to be emitted; only used for 3D */
-	boost::optional<Frame> _last_emitted_frame;
+	/** Eyes of last thing to be emitted; only used for THREE_D_ALTERNATE */
 	boost::optional<Eyes> _last_emitted_eyes;
 	boost::optional<dcpomatic::ContentTime> _position;
 	boost::scoped_ptr<FrameIntervalChecker> _frame_interval_checker;
 };
+
 
 #endif

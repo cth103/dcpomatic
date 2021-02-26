@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,24 +18,30 @@
 
 */
 
-#include "video_decoder.h"
-#include "image.h"
-#include "raw_image_proxy.h"
-#include "film.h"
-#include "log.h"
-#include "frame_interval_checker.h"
+
 #include "compose.hpp"
+#include "film.h"
+#include "frame_interval_checker.h"
+#include "image.h"
+#include "j2k_image_proxy.h"
+#include "log.h"
+#include "raw_image_proxy.h"
+#include "video_decoder.h"
 #include <iostream>
 
 #include "i18n.h"
 
-using std::cout;
-using std::list;
-using std::max;
+
 using std::back_inserter;
+using std::cout;
+using std::dynamic_pointer_cast;
+using std::list;
+using std::make_shared;
+using std::max;
 using std::shared_ptr;
 using boost::optional;
 using namespace dcpomatic;
+
 
 VideoDecoder::VideoDecoder (Decoder* parent, shared_ptr<const Content> c)
 	: DecoderPart (parent)
@@ -44,6 +50,7 @@ VideoDecoder::VideoDecoder (Decoder* parent, shared_ptr<const Content> c)
 {
 
 }
+
 
 /** Called by decoder classes when they have a video frame ready.
  *  @param frame Frame index within the content; this does not take into account 3D
@@ -61,10 +68,10 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 		return;
 	}
 
-	double const afr = _content->active_video_frame_rate(film);
-	VideoFrameType const vft = _content->video->frame_type();
+	auto const afr = _content->active_video_frame_rate(film);
+	auto const vft = _content->video->frame_type();
 
-	ContentTime frame_time = ContentTime::from_frames (decoder_frame, afr);
+	auto frame_time = ContentTime::from_frames (decoder_frame, afr);
 
 	/* Do some heuristics to try and spot the case where the user sets content to 3D
 	 * when it is not.  We try to tell this by looking at the differences in time between
@@ -100,15 +107,37 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 		   ffmpeg seems to carry on regardless, processing the video frame as normal.
 		   If we drop the frame with the duplicated timestamp we obviously lose sync.
 		*/
-		_position = ContentTime::from_frames (decoder_frame, afr);
+
 		if (vft == VideoFrameType::THREE_D_ALTERNATE) {
 			frame = decoder_frame / 2;
-			_last_emitted_eyes = Eyes::RIGHT;
+			eyes = (decoder_frame % 1) ? Eyes::RIGHT : Eyes::LEFT;
 		} else {
 			frame = decoder_frame;
+			if (vft == VideoFrameType::THREE_D) {
+				auto j2k = dynamic_pointer_cast<const J2KImageProxy>(image);
+				/* At the moment only DCP decoders producers VideoFrameType::THREE_D, so only the J2KImagProxy
+				 * knows which eye it is.
+				 */
+				if (j2k && j2k->eye()) {
+					eyes = j2k->eye().get() == dcp::Eye::LEFT ? Eyes::LEFT : Eyes::RIGHT;
+				}
+			}
 		}
+
+		_position = ContentTime::from_frames (frame, afr);
 	} else {
-		if (vft == VideoFrameType::THREE_D || vft == VideoFrameType::THREE_D_ALTERNATE) {
+		if (vft == VideoFrameType::THREE_D) {
+			auto j2k = dynamic_pointer_cast<const J2KImageProxy>(image);
+			if (j2k && j2k->eye()) {
+				if (j2k->eye() == dcp::Eye::LEFT) {
+					frame = _position->frames_round(afr) + 1;
+					eyes = Eyes::LEFT;
+				} else {
+					frame = _position->frames_round(afr);
+					eyes = Eyes::RIGHT;
+				}
+			}
+		} else if (vft == VideoFrameType::THREE_D_ALTERNATE) {
 			DCPOMATIC_ASSERT (_last_emitted_eyes);
 			if (_last_emitted_eyes.get() == Eyes::RIGHT) {
 				frame = _position->frames_round(afr) + 1;
@@ -124,15 +153,9 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 
 	switch (vft) {
 	case VideoFrameType::TWO_D:
-		Data (ContentVideo (image, frame, Eyes::BOTH, Part::WHOLE));
-		break;
 	case VideoFrameType::THREE_D:
-	{
 		Data (ContentVideo (image, frame, eyes, Part::WHOLE));
-		_last_emitted_frame = frame;
-		_last_emitted_eyes = eyes;
 		break;
-	}
 	case VideoFrameType::THREE_D_ALTERNATE:
 	{
 		Data (ContentVideo (image, frame, eyes, Part::WHOLE));
@@ -160,11 +183,11 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 	_position = ContentTime::from_frames (frame, afr);
 }
 
+
 void
 VideoDecoder::seek ()
 {
 	_position = boost::none;
-	_last_emitted_frame.reset ();
 	_last_emitted_eyes.reset ();
 	_frame_interval_checker.reset (new FrameIntervalChecker());
 }
