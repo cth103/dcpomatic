@@ -136,6 +136,9 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 					frame = _position->frames_round(afr);
 					eyes = Eyes::RIGHT;
 				}
+			} else {
+				/* This should not happen; see above */
+				frame = _position->frames_round(afr) + 1;
 			}
 		} else if (vft == VideoFrameType::THREE_D_ALTERNATE) {
 			DCPOMATIC_ASSERT (_last_emitted_eyes);
