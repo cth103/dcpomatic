@@ -115,7 +115,7 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 			frame = decoder_frame;
 			if (vft == VideoFrameType::THREE_D) {
 				auto j2k = dynamic_pointer_cast<const J2KImageProxy>(image);
-				/* At the moment only DCP decoders producers VideoFrameType::THREE_D, so only the J2KImagProxy
+				/* At the moment only DCP decoders producers VideoFrameType::THREE_D, so only the J2KImageProxy
 				 * knows which eye it is.
 				 */
 				if (j2k && j2k->eye()) {
