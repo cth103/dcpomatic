@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/ffmpeg_audio_test.cc
  *  @brief Test reading audio from an FFmpeg file.
  *  @ingroup feature
  */
+
 
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
@@ -41,14 +43,17 @@
 #include <dcp/reel.h>
 #include <boost/test/unit_test.hpp>
 
+
+using std::make_shared;
 using std::string;
 using std::shared_ptr;
 
+
 BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 {
-	shared_ptr<Film> film = new_test_film ("ffmpeg_audio_test");
+	auto film = new_test_film ("ffmpeg_audio_test");
 	film->set_name ("ffmpeg_audio_test");
-	shared_ptr<FFmpegContent> c (new FFmpegContent ("test/data/staircase.mov"));
+	auto c = make_shared<FFmpegContent> ("test/data/staircase.mov");
 	film->examine_and_add_content (c);
 
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -56,10 +61,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
-	film->make_dcp ();
-	film->write_metadata ();
-
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
 	boost::filesystem::path path = "build/test";
 	path /= "ffmpeg_audio_test";
@@ -67,7 +69,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 	dcp::DCP check (path.string ());
 	check.read ();
 
-	shared_ptr<const dcp::ReelSoundAsset> sound_asset = check.cpls().front()->reels().front()->main_sound ();
+	auto sound_asset = check.cpls().front()->reels().front()->main_sound ();
 	BOOST_CHECK (sound_asset);
 	BOOST_CHECK_EQUAL (sound_asset->asset()->channels (), 6);
 
@@ -77,7 +79,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 	int frame = 0;
 
 	while (n < sound_asset->asset()->intrinsic_duration()) {
-		shared_ptr<const dcp::SoundFrame> sound_frame = sound_asset->asset()->start_read()->get_frame (frame++);
+		auto sound_frame = sound_asset->asset()->start_read()->get_frame (frame++);
 		uint8_t const * d = sound_frame->data ();
 
 		for (int i = 0; i < sound_frame->size(); i += (3 * sound_asset->asset()->channels())) {
@@ -124,27 +126,29 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 	}
 }
 
+
 /** Decode a file containing truehd so we can profile it; this is with the player set to normal */
 BOOST_AUTO_TEST_CASE (ffmpeg_audio_test2)
 {
-	shared_ptr<Film> film = new_test_film2 ("ffmpeg_audio_test2");
-	shared_ptr<Content> content = content_factory(TestPaths::private_data() / "wayne.mkv").front();
+	auto film = new_test_film2 ("ffmpeg_audio_test2");
+	auto content = content_factory(TestPaths::private_data() / "wayne.mkv").front();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<Player> player (new Player(film));
+	auto player = make_shared<Player>(film);
 	while (!player->pass ()) {}
 }
+
 
 /** Decode a file containing truehd so we can profile it; this is with the player set to fast */
 BOOST_AUTO_TEST_CASE (ffmpeg_audio_test3)
 {
-	shared_ptr<Film> film = new_test_film2 ("ffmpeg_audio_test3");
-	shared_ptr<Content> content = content_factory(TestPaths::private_data() / "wayne.mkv").front();
+	auto film = new_test_film2 ("ffmpeg_audio_test3");
+	auto content = content_factory(TestPaths::private_data() / "wayne.mkv").front();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<Player> player (new Player(film));
+	auto player = make_shared<Player>(film);
 	player->set_fast ();
 	while (!player->pass ()) {}
 }
@@ -153,12 +157,12 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test3)
 /** Decode a file whose audio previously crashed DCP-o-matic (#1857) */
 BOOST_AUTO_TEST_CASE (ffmpeg_audio_test4)
 {
-	shared_ptr<Film> film = new_test_film2 ("ffmpeg_audio_test4");
-	shared_ptr<Content> content = content_factory(TestPaths::private_data() / "Actuellement aout 2020.wmv").front();
+	auto film = new_test_film2 ("ffmpeg_audio_test4");
+	auto content = content_factory(TestPaths::private_data() / "Actuellement aout 2020.wmv").front();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	shared_ptr<Player> player (new Player(film));
+	auto player = make_shared<Player>(film);
 	player->set_fast ();
 	BOOST_CHECK_NO_THROW (while (!player->pass()) {});
 }

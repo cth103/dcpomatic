@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "lib/string_text_file_content.h"
 #include "lib/film.h"
 #include "lib/ratio.h"
@@ -32,18 +33,21 @@
 #include <dcp/raw_convert.h>
 #include <boost/test/unit_test.hpp>
 
-using std::string;
-using std::shared_ptr;
+
 using std::dynamic_pointer_cast;
+using std::make_shared;
+using std::shared_ptr;
+using std::string;
+
 
 /* Check that ReelNumber is setup correctly when making multi-reel subtitled DCPs */
 BOOST_AUTO_TEST_CASE (subtitle_reel_number_test)
 {
-	shared_ptr<Film> film = new_test_film ("subtitle_reel_number_test");
+	auto film = new_test_film ("subtitle_reel_number_test");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<StringTextFileContent> content (new StringTextFileContent("test/data/subrip5.srt"));
+	auto content = make_shared<StringTextFileContent>("test/data/subrip5.srt");
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	content->only_text()->set_use (true);
@@ -51,8 +55,7 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_number_test)
 	film->set_reel_type (ReelType::BY_LENGTH);
 	film->set_interop (true);
 	film->set_reel_length (1024 * 1024 * 512);
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs ());
+	make_and_verify_dcp (film, {dcp::VerificationNote::Code::INVALID_STANDARD});
 
 	dcp::DCP dcp ("build/test/subtitle_reel_number_test/" + film->dcp_name());
 	dcp.read ();

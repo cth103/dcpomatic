@@ -68,8 +68,12 @@ BOOST_AUTO_TEST_CASE (recover_test_2d)
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE,
+			dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE
+		});
 
 	boost::filesystem::path const video = "build/test/recover_test_2d/video/185_2K_02543352c540f4b083bff3f1e309d4a9_24_100000000_P_S_0_1200000.mxf";
 	boost::filesystem::copy_file (

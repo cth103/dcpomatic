@@ -51,8 +51,12 @@ BOOST_AUTO_TEST_CASE (fourk_test)
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE,
+			dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE
+		});
 
 	boost::filesystem::path p (test_film_dir ("4k_test"));
 	p /= film->dcp_name ();

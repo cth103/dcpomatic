@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/bandwidth_test.cc
  *  @brief Test whether we output whatever J2K bandwidth is requested.
  *  @ingroup feature
  */
+
 
 #include "test.h"
 #include "lib/dcp_content_type.h"
@@ -32,8 +34,10 @@
 #include <boost/test/unit_test.hpp>
 
 
+using std::make_shared;
 using std::string;
 using std::shared_ptr;
+
 
 static void
 check (int target_bits_per_second)
@@ -41,20 +45,25 @@ check (int target_bits_per_second)
 	int const duration = 10;
 
 	string const name = "bandwidth_test_" + dcp::raw_convert<string> (target_bits_per_second);
-	shared_ptr<Film> film = new_test_film (name);
+	auto film = new_test_film (name);
 	film->set_name (name);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_j2k_bandwidth (target_bits_per_second);
-	shared_ptr<ImageContent> content (new ImageContent(TestPaths::private_data() / "prophet_frame.tiff"));
+	auto content = make_shared<ImageContent>(TestPaths::private_data() / "prophet_frame.tiff");
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 	content->video->set_length (24 * duration);
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE,
+			dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE,
+			dcp::VerificationNote::Code::NEARLY_INVALID_PICTURE_FRAME_SIZE_IN_BYTES
+		});
 
-	boost::filesystem::directory_iterator i (boost::filesystem::path ("build") / "test" / name / "video");
+	boost::filesystem::directory_iterator i (boost::filesystem::path("build") / "test" / name / "video");
 	boost::filesystem::path test = *i++;
-	BOOST_REQUIRE (i == boost::filesystem::directory_iterator ());
+	BOOST_REQUIRE (i == boost::filesystem::directory_iterator());
 
 	double actual_bits_per_second = boost::filesystem::file_size(test) * 8.0 / duration;
 
@@ -62,6 +71,7 @@ check (int target_bits_per_second)
 	BOOST_CHECK ((actual_bits_per_second / target_bits_per_second) > 0.85);
 	BOOST_CHECK ((actual_bits_per_second / target_bits_per_second) < 1.15);
 }
+
 
 BOOST_AUTO_TEST_CASE (bandwidth_test)
 {

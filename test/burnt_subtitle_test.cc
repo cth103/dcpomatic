@@ -66,8 +66,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_subrip)
 	content->subtitle->set_burn (true);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
 	check_dcp ("test/data/burnt_subtitle_test_subrip", film->dir (film->dcp_name ()));
 }

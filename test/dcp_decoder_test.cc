@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/dcp_decoder_test.cc
  *  @brief Test DCPDecoder class.
  *  @ingroup selfcontained
  */
+
 
 #include "lib/film.h"
 #include "lib/dcp_content.h"
@@ -36,38 +38,32 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
+
 using std::list;
 using std::string;
 using std::vector;
 using std::make_shared;
 using std::shared_ptr;
 
+
 /* Check that DCPDecoder reuses old data when it should */
 BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 {
 	/* Make some DCPs */
 
-	auto ov = new_test_film2 ("check_reuse_old_data_ov");
-	ov->examine_and_add_content (content_factory("test/data/flat_red.png").front());
-	BOOST_REQUIRE (!wait_for_jobs());
-	ov->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto ov = new_test_film2 ("check_reuse_old_data_ov", {content_factory("test/data/flat_red.png").front()});
+	make_and_verify_dcp (ov);
 
-	auto vf = new_test_film2 ("check_reuse_old_data_vf");
 	auto ov_content = make_shared<DCPContent>(ov->dir(ov->dcp_name(false)));
-	vf->examine_and_add_content (ov_content);
-	vf->examine_and_add_content (content_factory("test/data/L.wav").front());
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto vf = new_test_film2 ("check_reuse_old_data_vf", {ov_content, content_factory("test/data/L.wav").front()});
 	ov_content->set_reference_video (true);
-	vf->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET});
 
 	auto encrypted = new_test_film2 ("check_reuse_old_data_decrypted");
 	encrypted->examine_and_add_content (content_factory("test/data/flat_red.png").front());
 	BOOST_REQUIRE (!wait_for_jobs());
 	encrypted->set_encrypted (true);
-	encrypted->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (encrypted);
 
 	dcp::DCP encrypted_dcp (encrypted->dir(encrypted->dcp_name()));
 	encrypted_dcp.read ();

@@ -56,11 +56,9 @@ BOOST_AUTO_TEST_CASE (threed_test1)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	film->set_three_d (true);
-	film->make_dcp ();
-	film->write_metadata ();
-
-	BOOST_REQUIRE (!wait_for_jobs ());
+	make_and_verify_dcp (film);
 }
+
 
 /** Basic sanity check of THREE_D_ALTERNATE; at the moment this is just to make sure
  *  that such a transcode completes without error.
@@ -78,11 +76,9 @@ BOOST_AUTO_TEST_CASE (threed_test2)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	film->set_three_d (true);
-	film->make_dcp ();
-	film->write_metadata ();
-
-	BOOST_REQUIRE (!wait_for_jobs ());
+	make_and_verify_dcp (film);
 }
+
 
 /** Basic sanity check of THREE_D_LEFT and THREE_D_RIGHT; at the moment this is just to make sure
  *  that such a transcode completes without error.
@@ -100,11 +96,9 @@ BOOST_AUTO_TEST_CASE (threed_test3)
 	R->video->set_frame_type (VideoFrameType::THREE_D_RIGHT);
 
 	film->set_three_d (true);
-	film->make_dcp ();
-	film->write_metadata ();
-
-	BOOST_REQUIRE (!wait_for_jobs ());
+	make_and_verify_dcp (film);
 }
+
 
 BOOST_AUTO_TEST_CASE (threed_test4)
 {
@@ -125,11 +119,9 @@ BOOST_AUTO_TEST_CASE (threed_test4)
 	R->set_trim_end (dcpomatic::ContentTime::from_seconds(22));
 
 	film->set_three_d (true);
-	film->make_dcp ();
-	film->write_metadata ();
-
-	BOOST_REQUIRE (!wait_for_jobs ());
+	make_and_verify_dcp (film, {dcp::VerificationNote::Code::INVALID_PICTURE_ASSET_RESOLUTION_FOR_3D});
 }
+
 
 BOOST_AUTO_TEST_CASE (threed_test5)
 {
@@ -149,11 +141,9 @@ BOOST_AUTO_TEST_CASE (threed_test5)
 	R->set_trim_end (dcpomatic::ContentTime::from_seconds(3 * 60 + 20));
 
 	film->set_three_d (true);
-	film->make_dcp ();
-	film->write_metadata ();
-
-	BOOST_REQUIRE (!wait_for_jobs ());
+	make_and_verify_dcp (film, {dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE_FOR_2K});
 }
+
 
 BOOST_AUTO_TEST_CASE (threed_test6)
 {
@@ -168,12 +158,10 @@ BOOST_AUTO_TEST_CASE (threed_test6)
 	R->video->set_frame_type (VideoFrameType::THREE_D_RIGHT);
 
 	film->set_three_d (true);
-	film->make_dcp ();
-	film->write_metadata ();
-
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 	check_dcp ("test/data/threed_test6", film->dir(film->dcp_name()));
 }
+
 
 /** Check 2D content set as being 3D; this should give an informative error */
 BOOST_AUTO_TEST_CASE (threed_test7)

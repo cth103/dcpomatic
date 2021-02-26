@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/digest_test.cc
  *  @brief Check computed DCP digests against references calculated by the `openssl` binary.
  *  @ingroup feature
  */
+
 
 #include "lib/film.h"
 #include "lib/image_content.h"
@@ -34,14 +36,17 @@
 #include <dcp/reel_picture_asset.h>
 #include <boost/test/unit_test.hpp>
 
+
 using std::list;
 using std::string;
 using std::shared_ptr;
+using std::make_shared;
+
 
 static string
 openssl_hash (boost::filesystem::path file)
 {
-	FILE* pipe = popen (String::compose ("openssl sha1 -binary %1 | openssl base64 -e", file.string()).c_str (), "r");
+	auto pipe = popen (String::compose ("openssl sha1 -binary %1 | openssl base64 -e", file.string()).c_str (), "r");
 	BOOST_REQUIRE (pipe);
 	char buffer[128];
 	string output;
@@ -57,15 +62,16 @@ openssl_hash (boost::filesystem::path file)
 	return output;
 }
 
+
 /** Test the digests made by the DCP writing code on a multi-reel DCP */
 BOOST_AUTO_TEST_CASE (digest_test)
 {
-	shared_ptr<Film> film = new_test_film ("digest_test");
+	auto film = new_test_film ("digest_test");
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	film->set_name ("digest_test");
-	shared_ptr<ImageContent> r (new ImageContent("test/data/flat_red.png"));
-	shared_ptr<ImageContent> g (new ImageContent("test/data/flat_green.png"));
-	shared_ptr<ImageContent> b (new ImageContent("test/data/flat_blue.png"));
+	auto r = make_shared<ImageContent>("test/data/flat_red.png");
+	auto g = make_shared<ImageContent>("test/data/flat_green.png");
+	auto b = make_shared<ImageContent>("test/data/flat_blue.png");
 	film->examine_and_add_content (r);
 	film->examine_and_add_content (g);
 	film->examine_and_add_content (b);
@@ -73,8 +79,7 @@ BOOST_AUTO_TEST_CASE (digest_test)
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	BOOST_CHECK (Config::instance()->master_encoding_threads() > 1);
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
 	dcp::DCP dcp (film->dir (film->dcp_name ()));
 	dcp.read ();

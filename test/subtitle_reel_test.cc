@@ -67,8 +67,7 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_test)
 
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film, {dcp::VerificationNote::Code::INVALID_STANDARD});
 
 	dcp::DCP dcp ("build/test/subtitle_reel_test/" + film->dcp_name());
 	dcp.read ();
@@ -116,8 +115,13 @@ BOOST_AUTO_TEST_CASE (subtitle_in_all_reels_test)
 	auto subs = content_factory("test/data/15s.srt").front();
 	film->examine_and_add_content (subs);
 	BOOST_REQUIRE (!wait_for_jobs());
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING
+		});
 
 	dcp::DCP dcp ("build/test/subtitle_in_all_reels_test/" + film->dcp_name());
 	dcp.read ();
@@ -161,8 +165,12 @@ BOOST_AUTO_TEST_CASE (closed_captions_in_all_reels_test)
 	ccap2->text.front()->set_type (TextType::CLOSED_CAPTION);
 	ccap2->text.front()->set_dcp_track (DCPTextTrack("Other", "en-GB"));
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING
+		});
 
 	dcp::DCP dcp ("build/test/closed_captions_in_all_reels_test/" + film->dcp_name());
 	dcp.read ();

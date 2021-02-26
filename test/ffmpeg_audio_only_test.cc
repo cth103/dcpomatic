@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/ffmpeg_audio_only_test.cc
  *  @brief Test FFmpeg content with audio but no video.
  *  @ingroup feature
  */
+
 
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"
@@ -36,15 +38,19 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
+
 using std::min;
+using std::shared_ptr;
+using std::make_shared;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
-using std::shared_ptr;
 
-static SNDFILE* ref = 0;
+
+static SNDFILE* ref = nullptr;
 static int ref_buffer_size = 0;
-static float* ref_buffer = 0;
+static float* ref_buffer = nullptr;
+
 
 static void
 audio (std::shared_ptr<AudioBuffers> audio, int channels)
@@ -68,21 +74,21 @@ audio (std::shared_ptr<AudioBuffers> audio, int channels)
 	}
 }
 
+
 /** Test the FFmpeg code with audio-only content */
 static shared_ptr<Film>
 test (boost::filesystem::path file)
 {
-	shared_ptr<Film> film = new_test_film ("ffmpeg_audio_only_test");
+	auto film = new_test_film ("ffmpeg_audio_only_test");
 	film->set_name ("test_film");
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
-	shared_ptr<FFmpegContent> c (new FFmpegContent(file));
+	auto c = make_shared<FFmpegContent>(file);
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs());
 	film->write_metadata ();
 
 	/* See if can make a DCP without any errors */
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film, {dcp::VerificationNote::Code::MISSING_CPL_METADATA});
 	BOOST_CHECK (!JobManager::instance()->errors());
 
 	/* Compare the audio data player reads with what libsndfile reads */
@@ -95,7 +101,7 @@ test (boost::filesystem::path file)
 	ref_buffer_size = info.samplerate * info.channels;
 	ref_buffer = new float[ref_buffer_size];
 
-	shared_ptr<Player> player (new Player(film));
+	auto player = make_shared<Player>(film);
 
 	player->Audio.connect (bind (&audio, _1, info.channels));
 	while (!player->pass ()) {}
@@ -106,10 +112,11 @@ test (boost::filesystem::path file)
 	return film;
 }
 
+
 BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test1)
 {
 	/* S16 */
-	shared_ptr<Film> film = test ("test/data/staircase.wav");
+	auto film = test ("test/data/staircase.wav");
 
 	/* Compare the audio data in the DCP with what libsndfile reads */
 
@@ -119,12 +126,12 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test1)
 	/* We don't want to test anything that requires resampling */
 	BOOST_REQUIRE_EQUAL (info.samplerate, 48000);
 
-	int16_t* buffer = new int16_t[info.channels * 2000];
+	auto buffer = new int16_t[info.channels * 2000];
 
 	dcp::SoundAsset asset (dcp_file(film, "pcm"));
-	shared_ptr<dcp::SoundAssetReader> reader = asset.start_read ();
+	auto reader = asset.start_read ();
 	for (int i = 0; i < asset.intrinsic_duration(); ++i) {
-		shared_ptr<const dcp::SoundFrame> frame = reader->get_frame(i);
+		auto frame = reader->get_frame(i);
 		sf_count_t this_time = min (info.frames, sf_count_t(2000));
 		sf_readf_short (ref, buffer, this_time);
 		for (int j = 0; j < this_time; ++j) {
@@ -136,10 +143,11 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test1)
 	delete[] buffer;
 }
 
+
 BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test2)
 {
 	/* S32 1 channel */
-	shared_ptr<Film> film = test ("test/data/sine_440.wav");
+	auto film = test ("test/data/sine_440.wav");
 
 	/* Compare the audio data in the DCP with what libsndfile reads */
 
@@ -149,12 +157,12 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test2)
 	/* We don't want to test anything that requires resampling */
 	BOOST_REQUIRE_EQUAL (info.samplerate, 48000);
 
-	int32_t* buffer = new int32_t[info.channels * 2000];
+	auto buffer = new int32_t[info.channels * 2000];
 
 	dcp::SoundAsset asset (dcp_file(film, "pcm"));
-	shared_ptr<dcp::SoundAssetReader> reader = asset.start_read ();
+	auto reader = asset.start_read ();
 	for (int i = 0; i < asset.intrinsic_duration(); ++i) {
-		shared_ptr<const dcp::SoundFrame> frame = reader->get_frame(i);
+		auto frame = reader->get_frame(i);
 		sf_count_t this_time = min (info.frames, sf_count_t(2000));
 		sf_readf_int (ref, buffer, this_time);
 		for (int j = 0; j < this_time; ++j) {
@@ -170,10 +178,11 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test2)
 	delete[] buffer;
 }
 
+
 BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test3)
 {
 	/* S24 1 channel */
-	shared_ptr<Film> film = test ("test/data/sine_24_48_440.wav");
+	auto film = test ("test/data/sine_24_48_440.wav");
 
 	/* Compare the audio data in the DCP with what libsndfile reads */
 
@@ -183,12 +192,12 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test3)
 	/* We don't want to test anything that requires resampling */
 	BOOST_REQUIRE_EQUAL (info.samplerate, 48000);
 
-	int32_t* buffer = new int32_t[info.channels * 2000];
+	auto buffer = new int32_t[info.channels * 2000];
 
 	dcp::SoundAsset asset (dcp_file(film, "pcm"));
-	shared_ptr<dcp::SoundAssetReader> reader = asset.start_read ();
+	auto reader = asset.start_read ();
 	for (int i = 0; i < asset.intrinsic_duration(); ++i) {
-		shared_ptr<const dcp::SoundFrame> frame = reader->get_frame(i);
+		auto frame = reader->get_frame(i);
 		sf_count_t this_time = min (info.frames, sf_count_t(2000));
 		sf_readf_int (ref, buffer, this_time);
 		for (int j = 0; j < this_time; ++j) {

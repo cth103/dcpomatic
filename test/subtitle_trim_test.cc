@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,25 +18,31 @@
 
 */
 
+
 #include "lib/film.h"
 #include "lib/dcp_subtitle_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
+
+using std::make_shared;
 using std::shared_ptr;
-using namespace dcpomatic;
+
 
 /** Check for no crash when trimming DCP subtitles (#1275) */
 BOOST_AUTO_TEST_CASE (subtitle_trim_test1)
 {
-	shared_ptr<Film> film = new_test_film2 ("subtitle_trim_test1");
-	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent ("test/data/dcp_sub5.xml"));
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs ());
+	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub5.xml");
+	auto film = new_test_film2 ("subtitle_trim_test1", {content});
 
-	content->set_trim_end (ContentTime::from_seconds (2));
+	content->set_trim_end (dcpomatic::ContentTime::from_seconds(2));
 	film->write_metadata ();
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs ());
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA
+		});
 }

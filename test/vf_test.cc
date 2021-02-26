@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/vf_Test.cc
  *  @brief Various VF-related tests.
  *  @ingroup feature
  */
+
 
 #include "lib/film.h"
 #include "lib/dcp_content.h"
@@ -39,19 +41,22 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
+
 using std::list;
 using std::string;
 using std::cout;
 using std::shared_ptr;
+using std::make_shared;
 using std::dynamic_pointer_cast;
 using namespace dcpomatic;
+
 
 /** Test the logic which decides whether a DCP can be referenced or not */
 BOOST_AUTO_TEST_CASE (vf_test1)
 {
-	shared_ptr<Film> film = new_test_film ("vf_test1");
+	auto film = new_test_film ("vf_test1");
 	film->set_interop (false);
-	shared_ptr<DCPContent> dcp (new DCPContent ("test/data/reels_test2"));
+	auto dcp = make_shared<DCPContent>("test/data/reels_test2");
 	film->examine_and_add_content (dcp);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -71,7 +76,7 @@ BOOST_AUTO_TEST_CASE (vf_test1)
 	BOOST_CHECK (!dcp->can_reference_text(film, TextType::OPEN_SUBTITLE, why_not));
 	BOOST_CHECK (!dcp->can_reference_text(film, TextType::CLOSED_CAPTION, why_not));
 
-	shared_ptr<FFmpegContent> other (new FFmpegContent("test/data/test.mp4"));
+	auto other = make_shared<FFmpegContent>("test/data/test.mp4");
 	film->examine_and_add_content (other);
 	BOOST_REQUIRE (!wait_for_jobs());
 	BOOST_CHECK (!other->audio);
@@ -89,61 +94,66 @@ BOOST_AUTO_TEST_CASE (vf_test1)
 	BOOST_CHECK (!dcp->can_reference_text(film, TextType::CLOSED_CAPTION, why_not));
 }
 
+
 /** Make a OV with video and audio and a VF referencing the OV and adding subs */
 BOOST_AUTO_TEST_CASE (vf_test2)
 {
 	/* Make the OV */
-	shared_ptr<Film> ov = new_test_film ("vf_test2_ov");
-	ov->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
+	auto ov = new_test_film ("vf_test2_ov");
+	ov->set_dcp_content_type (DCPContentType::from_isdcf_name("TST"));
 	ov->set_name ("vf_test2_ov");
-	shared_ptr<Content> video = content_factory ("test/data/flat_red.png").front();
+	auto video = content_factory("test/data/flat_red.png").front();
 	ov->examine_and_add_content (video);
 	BOOST_REQUIRE (!wait_for_jobs());
 	video->video->set_length (24 * 5);
-	shared_ptr<Content> audio = content_factory ("test/data/white.wav").front();
+	auto audio = content_factory("test/data/white.wav").front();
 	ov->examine_and_add_content (audio);
 	BOOST_REQUIRE (!wait_for_jobs());
-	ov->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (ov);
 
 	/* Make the VF */
-	shared_ptr<Film> vf = new_test_film ("vf_test2_vf");
+	auto vf = new_test_film ("vf_test2_vf");
 	vf->set_name ("vf_test2_vf");
-	vf->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
+	vf->set_dcp_content_type (DCPContentType::from_isdcf_name("TST"));
 	vf->set_reel_type (ReelType::BY_VIDEO_CONTENT);
-	shared_ptr<DCPContent> dcp (new DCPContent(ov->dir (ov->dcp_name ())));
-	BOOST_REQUIRE (dcp);
+	auto dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
 	vf->examine_and_add_content (dcp);
 	BOOST_REQUIRE (!wait_for_jobs());
 	dcp->set_reference_video (true);
 	dcp->set_reference_audio (true);
-	shared_ptr<Content> sub = content_factory("test/data/subrip4.srt").front();
+	auto sub = content_factory("test/data/subrip4.srt").front();
 	vf->examine_and_add_content (sub);
 	BOOST_REQUIRE (!wait_for_jobs());
-	vf->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
-	vf->write_metadata ();
+	make_and_verify_dcp (
+		vf,
+		{
+			dcp::VerificationNote::Code::EXTERNAL_ASSET,
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION
+		});
 
-	dcp::DCP ov_c (ov->dir (ov->dcp_name ()));
+	dcp::DCP ov_c (ov->dir(ov->dcp_name()));
 	ov_c.read ();
 	BOOST_REQUIRE_EQUAL (ov_c.cpls().size(), 1U);
-	BOOST_REQUIRE_EQUAL (ov_c.cpls().front()->reels().size(), 1U);
-	BOOST_REQUIRE (ov_c.cpls().front()->reels().front()->main_picture());
-	string const pic_id = ov_c.cpls().front()->reels().front()->main_picture()->id();
-	BOOST_REQUIRE (ov_c.cpls().front()->reels().front()->main_sound());
-	string const sound_id = ov_c.cpls().front()->reels().front()->main_sound()->id();
-	BOOST_REQUIRE (!ov_c.cpls().front()->reels().front()->main_subtitle());
+	BOOST_REQUIRE_EQUAL (ov_c.cpls()[0]->reels().size(), 1U);
+	BOOST_REQUIRE (ov_c.cpls()[0]->reels()[0]->main_picture());
+	string const pic_id = ov_c.cpls()[0]->reels()[0]->main_picture()->id();
+	BOOST_REQUIRE (ov_c.cpls()[0]->reels()[0]->main_sound());
+	string const sound_id = ov_c.cpls()[0]->reels()[0]->main_sound()->id();
+	BOOST_REQUIRE (!ov_c.cpls()[0]->reels()[0]->main_subtitle());
 
-	dcp::DCP vf_c (vf->dir (vf->dcp_name ()));
+	dcp::DCP vf_c (vf->dir(vf->dcp_name()));
 	vf_c.read ();
 	BOOST_REQUIRE_EQUAL (vf_c.cpls().size(), 1U);
-	BOOST_REQUIRE_EQUAL (vf_c.cpls().front()->reels().size(), 1U);
-	BOOST_REQUIRE (vf_c.cpls().front()->reels().front()->main_picture());
-	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_picture()->id(), pic_id);
-	BOOST_REQUIRE (vf_c.cpls().front()->reels().front()->main_sound());
-	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_sound()->id(), sound_id);
-	BOOST_REQUIRE (vf_c.cpls().front()->reels().front()->main_subtitle());
+	BOOST_REQUIRE_EQUAL (vf_c.cpls()[0]->reels().size(), 1U);
+	BOOST_REQUIRE (vf_c.cpls()[0]->reels()[0]->main_picture());
+	BOOST_CHECK_EQUAL (vf_c.cpls()[0]->reels()[0]->main_picture()->id(), pic_id);
+	BOOST_REQUIRE (vf_c.cpls()[0]->reels()[0]->main_sound());
+	BOOST_CHECK_EQUAL (vf_c.cpls()[0]->reels()[0]->main_sound()->id(), sound_id);
+	BOOST_REQUIRE (vf_c.cpls()[0]->reels()[0]->main_subtitle());
 }
+
 
 /** Test creation of a VF using a trimmed OV; the output should have entry point /
  *  duration altered to effect the trimming.
@@ -151,25 +161,24 @@ BOOST_AUTO_TEST_CASE (vf_test2)
 BOOST_AUTO_TEST_CASE (vf_test3)
 {
 	/* Make the OV */
-	shared_ptr<Film> ov = new_test_film ("vf_test3_ov");
+	auto ov = new_test_film ("vf_test3_ov");
 	ov->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	ov->set_name ("vf_test3_ov");
-	shared_ptr<Content> video = content_factory("test/data/flat_red.png").front();
+	auto video = content_factory("test/data/flat_red.png").front();
 	ov->examine_and_add_content (video);
 	BOOST_REQUIRE (!wait_for_jobs());
 	video->video->set_length (24 * 5);
-	shared_ptr<Content> audio = content_factory("test/data/white.wav").front();
+	auto audio = content_factory("test/data/white.wav").front();
 	ov->examine_and_add_content (audio);
 	BOOST_REQUIRE (!wait_for_jobs());
-	ov->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (ov);
 
 	/* Make the VF */
-	shared_ptr<Film> vf = new_test_film ("vf_test3_vf");
+	auto vf = new_test_film ("vf_test3_vf");
 	vf->set_name ("vf_test3_vf");
-	vf->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
+	vf->set_dcp_content_type (DCPContentType::from_isdcf_name("TST"));
 	vf->set_reel_type (ReelType::BY_VIDEO_CONTENT);
-	shared_ptr<DCPContent> dcp (new DCPContent(ov->dir(ov->dcp_name())));
+	auto dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
 	BOOST_REQUIRE (dcp);
 	dcp->set_trim_start (ContentTime::from_seconds (1));
 	dcp->set_trim_end (ContentTime::from_seconds (1));
@@ -177,119 +186,115 @@ BOOST_AUTO_TEST_CASE (vf_test3)
 	BOOST_REQUIRE (!wait_for_jobs());
 	dcp->set_reference_video (true);
 	dcp->set_reference_audio (true);
-	vf->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
-	vf->write_metadata ();
+	make_and_verify_dcp (vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET});
 
-	dcp::DCP vf_c (vf->dir (vf->dcp_name ()));
+	dcp::DCP vf_c (vf->dir(vf->dcp_name()));
 	vf_c.read ();
 	BOOST_REQUIRE_EQUAL (vf_c.cpls().size(), 1U);
-	BOOST_REQUIRE_EQUAL (vf_c.cpls().front()->reels().size(), 1U);
-	BOOST_REQUIRE (vf_c.cpls().front()->reels().front()->main_picture());
-	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_picture()->entry_point().get_value_or(0), 24);
-	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_picture()->actual_duration(), 72);
-	BOOST_REQUIRE (vf_c.cpls().front()->reels().front()->main_sound());
-	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_sound()->entry_point().get_value_or(0), 24);
-	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_sound()->actual_duration(), 72);
+	BOOST_REQUIRE_EQUAL (vf_c.cpls()[0]->reels().size(), 1U);
+	BOOST_REQUIRE (vf_c.cpls()[0]->reels()[0]->main_picture());
+	BOOST_CHECK_EQUAL (vf_c.cpls()[0]->reels()[0]->main_picture()->entry_point().get_value_or(0), 24);
+	BOOST_CHECK_EQUAL (vf_c.cpls()[0]->reels()[0]->main_picture()->actual_duration(), 72);
+	BOOST_REQUIRE (vf_c.cpls()[0]->reels()[0]->main_sound());
+	BOOST_CHECK_EQUAL (vf_c.cpls()[0]->reels()[0]->main_sound()->entry_point().get_value_or(0), 24);
+	BOOST_CHECK_EQUAL (vf_c.cpls()[0]->reels()[0]->main_sound()->actual_duration(), 72);
 }
+
 
 /** Make a OV with video and audio and a VF referencing the OV and adding some more video */
 BOOST_AUTO_TEST_CASE (vf_test4)
 {
 	/* Make the OV */
-	shared_ptr<Film> ov = new_test_film ("vf_test4_ov");
+	auto ov = new_test_film ("vf_test4_ov");
 	ov->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	ov->set_name ("vf_test4_ov");
-	shared_ptr<Content> video = content_factory("test/data/flat_red.png").front();
+	auto video = content_factory("test/data/flat_red.png").front();
 	ov->examine_and_add_content (video);
 	BOOST_REQUIRE (!wait_for_jobs());
 	video->video->set_length (24 * 5);
-	shared_ptr<Content> audio = content_factory("test/data/white.wav").front();
+	auto audio = content_factory("test/data/white.wav").front();
 	ov->examine_and_add_content (audio);
 	BOOST_REQUIRE (!wait_for_jobs());
-	ov->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (ov);
 
 	/* Make the VF */
-	shared_ptr<Film> vf = new_test_film ("vf_test4_vf");
+	auto vf = new_test_film ("vf_test4_vf");
 	vf->set_name ("vf_test4_vf");
-	vf->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
+	vf->set_dcp_content_type (DCPContentType::from_isdcf_name("TST"));
 	vf->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	vf->set_sequence (false);
-	shared_ptr<DCPContent> dcp (new DCPContent(ov->dir(ov->dcp_name())));
+	auto dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
 	BOOST_REQUIRE (dcp);
 	vf->examine_and_add_content (dcp);
 	BOOST_REQUIRE (!wait_for_jobs());
 	dcp->set_position(vf, DCPTime::from_seconds(10));
 	dcp->set_reference_video (true);
 	dcp->set_reference_audio (true);
-	shared_ptr<Content> more_video = content_factory("test/data/flat_red.png").front();
+	auto more_video = content_factory("test/data/flat_red.png").front();
 	vf->examine_and_add_content (more_video);
 	BOOST_REQUIRE (!wait_for_jobs());
 	more_video->set_position (vf, DCPTime());
 	vf->write_metadata ();
-	vf->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET});
 
-	dcp::DCP ov_c (ov->dir (ov->dcp_name ()));
+	dcp::DCP ov_c (ov->dir(ov->dcp_name()));
 	ov_c.read ();
 	BOOST_REQUIRE_EQUAL (ov_c.cpls().size(), 1U);
-	BOOST_REQUIRE_EQUAL (ov_c.cpls().front()->reels().size(), 1U);
-	BOOST_REQUIRE (ov_c.cpls().front()->reels().front()->main_picture());
-	string const pic_id = ov_c.cpls().front()->reels().front()->main_picture()->id();
-	BOOST_REQUIRE (ov_c.cpls().front()->reels().front()->main_sound());
-	string const sound_id = ov_c.cpls().front()->reels().front()->main_sound()->id();
-	BOOST_REQUIRE (!ov_c.cpls().front()->reels().front()->main_subtitle());
+	BOOST_REQUIRE_EQUAL (ov_c.cpls()[0]->reels().size(), 1U);
+	BOOST_REQUIRE (ov_c.cpls()[0]->reels()[0]->main_picture());
+	string const pic_id = ov_c.cpls()[0]->reels()[0]->main_picture()->id();
+	BOOST_REQUIRE (ov_c.cpls()[0]->reels()[0]->main_sound());
+	string const sound_id = ov_c.cpls()[0]->reels()[0]->main_sound()->id();
+	BOOST_REQUIRE (!ov_c.cpls()[0]->reels()[0]->main_subtitle());
 
 	dcp::DCP vf_c (vf->dir (vf->dcp_name ()));
 	vf_c.read ();
 	BOOST_REQUIRE_EQUAL (vf_c.cpls().size(), 1U);
-	BOOST_REQUIRE_EQUAL (vf_c.cpls().front()->reels().size(), 2U);
-	BOOST_REQUIRE (vf_c.cpls().front()->reels().back()->main_picture());
-	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().back()->main_picture()->id(), pic_id);
-	BOOST_REQUIRE (vf_c.cpls().front()->reels().back()->main_sound());
-	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().back()->main_sound()->id(), sound_id);
+	BOOST_REQUIRE_EQUAL (vf_c.cpls()[0]->reels().size(), 2U);
+	BOOST_REQUIRE (vf_c.cpls()[0]->reels().back()->main_picture());
+	BOOST_CHECK_EQUAL (vf_c.cpls()[0]->reels().back()->main_picture()->id(), pic_id);
+	BOOST_REQUIRE (vf_c.cpls()[0]->reels().back()->main_sound());
+	BOOST_CHECK_EQUAL (vf_c.cpls()[0]->reels().back()->main_sound()->id(), sound_id);
 }
+
 
 /** Test bug #1495 */
 BOOST_AUTO_TEST_CASE (vf_test5)
 {
 	/* Make the OV */
-	shared_ptr<Film> ov = new_test_film ("vf_test5_ov");
+	auto ov = new_test_film ("vf_test5_ov");
 	ov->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	ov->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	for (int i = 0; i < 3; ++i) {
-		shared_ptr<Content> video = content_factory("test/data/flat_red.png").front();
+		auto video = content_factory("test/data/flat_red.png").front();
 		ov->examine_and_add_content (video);
 		BOOST_REQUIRE (!wait_for_jobs());
 		video->video->set_length (24 * 10);
 	}
 
 	BOOST_REQUIRE (!wait_for_jobs());
-	ov->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (ov);
 
 	/* Make the VF */
-	shared_ptr<Film> vf = new_test_film ("vf_test5_vf");
+	auto vf = new_test_film ("vf_test5_vf");
 	vf->set_name ("vf_test5_vf");
 	vf->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	vf->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	vf->set_sequence (false);
-	shared_ptr<DCPContent> dcp (new DCPContent(ov->dir(ov->dcp_name())));
+	auto dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
 	BOOST_REQUIRE (dcp);
 	vf->examine_and_add_content (dcp);
 	BOOST_REQUIRE (!wait_for_jobs());
 	dcp->set_reference_video (true);
 	dcp->set_reference_audio (true);
 	dcp->set_trim_end (ContentTime::from_seconds(15));
-	vf->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET});
 
 	/* Check that the selected reel assets are right */
-	shared_ptr<Player> player (new Player(vf));
-	list<ReferencedReelAsset> a = player->get_reel_assets();
+	auto player = make_shared<Player>(vf);
+	auto a = player->get_reel_assets();
 	BOOST_REQUIRE_EQUAL (a.size(), 4U);
-	list<ReferencedReelAsset>::const_iterator i = a.begin();
+	auto i = a.begin();
 	BOOST_CHECK (i->period == DCPTimePeriod(DCPTime(0), DCPTime(960000)));
 	++i;
 	BOOST_CHECK (i->period == DCPTimePeriod(DCPTime(0), DCPTime(960000)));
@@ -299,74 +304,69 @@ BOOST_AUTO_TEST_CASE (vf_test5)
 	BOOST_CHECK (i->period == DCPTimePeriod(DCPTime(960000), DCPTime(1440000)));
 	++i;
 }
+
 
 /** Test bug #1528 */
 BOOST_AUTO_TEST_CASE (vf_test6)
 {
 	/* Make the OV */
-	shared_ptr<Film> ov = new_test_film ("vf_test6_ov");
+	auto ov = new_test_film ("vf_test6_ov");
 	ov->set_dcp_content_type (DCPContentType::from_isdcf_name("TST"));
 	ov->set_reel_type (ReelType::BY_VIDEO_CONTENT);
-	shared_ptr<Content> video = content_factory("test/data/flat_red.png").front();
+	auto video = content_factory("test/data/flat_red.png").front();
 	ov->examine_and_add_content (video);
 	BOOST_REQUIRE (!wait_for_jobs());
 	video->video->set_length (24 * 10);
-	ov->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (ov);
 
 	/* Make the VF */
-	shared_ptr<Film> vf = new_test_film ("vf_test6_vf");
+	auto vf = new_test_film ("vf_test6_vf");
 	vf->set_name ("vf_test6_vf");
 	vf->set_dcp_content_type (DCPContentType::from_isdcf_name("TST"));
 	vf->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	vf->set_sequence (false);
-	shared_ptr<DCPContent> dcp (new DCPContent(ov->dir(ov->dcp_name())));
-	BOOST_REQUIRE (dcp);
+	auto dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
 	vf->examine_and_add_content (dcp);
 	BOOST_REQUIRE (!wait_for_jobs());
 	dcp->set_reference_video (true);
 	dcp->set_reference_audio (true);
 
-	shared_ptr<Content> sub = content_factory("test/data/15s.srt").front();
+	auto sub = content_factory("test/data/15s.srt").front();
 	vf->examine_and_add_content (sub);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	vf->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (
+		vf,
+		{
+			dcp::VerificationNote::Code::EXTERNAL_ASSET,
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME
+		});
 }
+
 
 /** Test bug #1643 (the second part; referring fails if there are gaps) */
 BOOST_AUTO_TEST_CASE (vf_test7)
 {
 	/* First OV */
-	shared_ptr<Film> ov1 = new_test_film2 ("vf_test7_ov1");
+	auto ov1 = new_test_film2 ("vf_test7_ov1", {content_factory("test/data/flat_red.png").front()});
 	ov1->set_video_frame_rate (24);
-	ov1->examine_and_add_content (content_factory("test/data/flat_red.png").front());
-	BOOST_REQUIRE (!wait_for_jobs());
-	ov1->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (ov1);
 
 	/* Second OV */
-	shared_ptr<Film> ov2 = new_test_film2 ("vf_test7_ov2");
+	auto ov2 = new_test_film2 ("vf_test7_ov2", {content_factory("test/data/flat_red.png").front()});
 	ov2->set_video_frame_rate (24);
-	ov2->examine_and_add_content (content_factory("test/data/flat_red.png").front());
-	BOOST_REQUIRE (!wait_for_jobs());
-	ov2->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (ov2);
 
 	/* VF */
-	shared_ptr<Film> vf = new_test_film2 ("vf_test7_vf");
-	shared_ptr<DCPContent> ov1_dcp (new DCPContent(ov1->dir(ov1->dcp_name())));
-	vf->examine_and_add_content (ov1_dcp);
-	shared_ptr<DCPContent> ov2_dcp (new DCPContent(ov1->dir(ov1->dcp_name())));
-	vf->examine_and_add_content (ov2_dcp);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto ov1_dcp = make_shared<DCPContent>(ov1->dir(ov1->dcp_name()));
+	auto ov2_dcp = make_shared<DCPContent>(ov2->dir(ov2->dcp_name()));
+	auto vf = new_test_film2 ("vf_test7_vf", {ov1_dcp, ov2_dcp});
 	vf->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	ov1_dcp->set_reference_video (true);
 	ov2_dcp->set_reference_video (true);
 	ov1_dcp->set_position (vf, DCPTime::from_seconds(1));
 	ov2_dcp->set_position (vf, DCPTime::from_seconds(20));
 	vf->write_metadata ();
-	vf->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (vf);
 }

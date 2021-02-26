@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/file_naming_test.cc
  *  @brief Test how files in DCPs are named.
  *  @ingroup feature
  */
+
 
 #include "test.h"
 #include "lib/config.h"
@@ -35,8 +37,11 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/regex.hpp>
 
+
 using std::string;
 using std::shared_ptr;
+using std::make_shared;
+
 
 class Keep
 {
@@ -55,20 +60,21 @@ private:
 	dcp::NameFormat _format;
 };
 
+
 BOOST_AUTO_TEST_CASE (file_naming_test)
 {
 	Keep k;
-	Config::instance()->set_dcp_asset_filename_format (dcp::NameFormat ("%c"));
+	Config::instance()->set_dcp_asset_filename_format (dcp::NameFormat("%c"));
 
-	shared_ptr<Film> film = new_test_film ("file_naming_test");
+	auto film = new_test_film ("file_naming_test");
 	film->set_name ("file_naming_test");
 	film->set_video_frame_rate (24);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
-	shared_ptr<FFmpegContent> r (new FFmpegContent("test/data/flat_red.png"));
+	auto r = make_shared<FFmpegContent>("test/data/flat_red.png");
 	film->examine_and_add_content (r);
-	shared_ptr<FFmpegContent> g (new FFmpegContent("test/data/flat_green.png"));
+	auto g = make_shared<FFmpegContent>("test/data/flat_green.png");
 	film->examine_and_add_content (g);
-	shared_ptr<FFmpegContent> b (new FFmpegContent("test/data/flat_blue.png"));
+	auto b = make_shared<FFmpegContent>("test/data/flat_blue.png");
 	film->examine_and_add_content (b);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -84,19 +90,20 @@ BOOST_AUTO_TEST_CASE (file_naming_test)
 
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	film->write_metadata ();
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE,
+			dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE
+		});
 
 	int got[3] = { 0, 0, 0 };
-	for (
-		boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (film->file(film->dcp_name()));
-		i != boost::filesystem::directory_iterator();
-		++i) {
-		if (boost::regex_match(i->path().string(), boost::regex(".*flat_red\\.png_.*\\.mxf"))) {
+	for (auto i: boost::filesystem::directory_iterator(film->file(film->dcp_name()))) {
+		if (boost::regex_match(i.path().string(), boost::regex(".*flat_red\\.png_.*\\.mxf"))) {
 			++got[0];
-		} else if (boost::regex_match(i->path().string(), boost::regex(".*flat_green\\.png_.*\\.mxf"))) {
+		} else if (boost::regex_match(i.path().string(), boost::regex(".*flat_green\\.png_.*\\.mxf"))) {
 			++got[1];
-		} else if (boost::regex_match(i->path().string(), boost::regex(".*flat_blue\\.png_.*\\.mxf"))) {
+		} else if (boost::regex_match(i.path().string(), boost::regex(".*flat_blue\\.png_.*\\.mxf"))) {
 			++got[2];
 		}
 	}
@@ -106,12 +113,13 @@ BOOST_AUTO_TEST_CASE (file_naming_test)
 	}
 }
 
+
 BOOST_AUTO_TEST_CASE (file_naming_test2)
 {
 	Keep k;
 	Config::instance()->set_dcp_asset_filename_format (dcp::NameFormat ("%c"));
 
-	shared_ptr<Film> film = new_test_film ("file_naming_test2");
+	auto film = new_test_film ("file_naming_test2");
 	film->set_name ("file_naming_test2");
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 
@@ -121,11 +129,11 @@ BOOST_AUTO_TEST_CASE (file_naming_test2)
 	boost::filesystem::path::imbue(std::locale());
 #endif
 
-	shared_ptr<FFmpegContent> r (new FFmpegContent("test/data/flät_red.png"));
+	auto r = make_shared<FFmpegContent>("test/data/flät_red.png");
 	film->examine_and_add_content (r);
-	shared_ptr<FFmpegContent> g (new FFmpegContent("test/data/flat_green.png"));
+	auto g = make_shared<FFmpegContent>("test/data/flat_green.png");
 	film->examine_and_add_content (g);
-	shared_ptr<FFmpegContent> b (new FFmpegContent("test/data/flat_blue.png"));
+	auto b = make_shared<FFmpegContent>("test/data/flat_blue.png");
 	film->examine_and_add_content (b);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -140,19 +148,20 @@ BOOST_AUTO_TEST_CASE (file_naming_test2)
 	b->video->set_length (24);
 
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE,
+			dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE
+		});
 
 	int got[3] = { 0, 0, 0 };
-	for (
-		boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (film->file(film->dcp_name()));
-		i != boost::filesystem::directory_iterator();
-		++i) {
-		if (boost::regex_match(i->path().string(), boost::regex(".*flat_red\\.png_.*\\.mxf"))) {
+	for (auto i: boost::filesystem::directory_iterator (film->file(film->dcp_name()))) {
+		if (boost::regex_match(i.path().string(), boost::regex(".*flat_red\\.png_.*\\.mxf"))) {
 			++got[0];
-		} else if (boost::regex_match(i->path().string(), boost::regex(".*flat_green\\.png_.*\\.mxf"))) {
+		} else if (boost::regex_match(i.path().string(), boost::regex(".*flat_green\\.png_.*\\.mxf"))) {
 			++got[1];
-		} else if (boost::regex_match(i->path().string(), boost::regex(".*flat_blue\\.png_.*\\.mxf"))) {
+		} else if (boost::regex_match(i.path().string(), boost::regex(".*flat_blue\\.png_.*\\.mxf"))) {
 			++got[2];
 		}
 	}

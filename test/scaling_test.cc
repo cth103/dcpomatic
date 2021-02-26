@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file test/scaling_test.cc
  *  @brief Test scaling and black-padding of images from a still-image source.
  *  @ingroup feature
  */
+
 
 #include <boost/test/unit_test.hpp>
 #include "lib/image_content.h"
@@ -31,17 +33,23 @@
 #include "lib/video_content.h"
 #include "test.h"
 
+
 using std::string;
 using std::shared_ptr;
+using std::make_shared;
+
 
 static void scaling_test_for (shared_ptr<Film> film, shared_ptr<Content> content, float ratio, std::string image, string container)
 {
 	content->video->set_custom_ratio (ratio);
 	film->set_container (Ratio::from_id (container));
 	film->set_interop (false);
-	film->make_dcp ();
-
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE,
+			dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE
+		});
 
 	boost::filesystem::path ref;
 	ref = "test";
@@ -57,12 +65,13 @@ static void scaling_test_for (shared_ptr<Film> film, shared_ptr<Content> content
 	check_dcp (ref.string(), check.string());
 }
 
+
 BOOST_AUTO_TEST_CASE (scaling_test)
 {
-	shared_ptr<Film> film = new_test_film ("scaling_test");
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
+	auto film = new_test_film ("scaling_test");
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name("FTR"));
 	film->set_name ("scaling_test");
-	shared_ptr<ImageContent> imc (new ImageContent("test/data/simple_testcard_640x480.png"));
+	auto imc = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
 
 	film->examine_and_add_content (imc);
 

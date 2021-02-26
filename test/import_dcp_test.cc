@@ -65,8 +65,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 	A->set_encrypted (true);
 	BOOST_CHECK (!wait_for_jobs ());
 
-	A->make_dcp ();
-	BOOST_CHECK (!wait_for_jobs ());
+	make_and_verify_dcp (A);
 
 	dcp::DCP A_dcp ("build/test/import_dcp_test/" + A->dcp_name());
 	A_dcp.read ();
@@ -97,8 +96,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 	JobManager::instance()->add (make_shared<ExamineContentJob>(B, d));
 	BOOST_CHECK (!wait_for_jobs ());
 
-	B->make_dcp ();
-	BOOST_CHECK (!wait_for_jobs ());
+	make_and_verify_dcp (B);
 
 	/* Should be 1s red, 1s green, 1s blue */
 	check_dcp ("test/data/import_dcp_test2", "build/test/import_dcp_test2/" + B->dcp_name());
@@ -116,12 +114,11 @@ BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
 
 	content->video->set_length (24 * 60 * 10);
 
-	film->set_marker(dcp::Marker::FFOC, dcpomatic::DCPTime::from_seconds(1.91));
+	film->set_marker(dcp::Marker::FFOC, dcpomatic::DCPTime::from_frames(1, 24));
 	film->set_marker(dcp::Marker::FFMC, dcpomatic::DCPTime::from_seconds(9.4));
 	film->set_marker(dcp::Marker::LFMC, dcpomatic::DCPTime::from_seconds(9.99));
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
 	/* Import the DCP to a new film and check the markers */
 	auto imported = make_shared<DCPContent>(film->dir(film->dcp_name()));
@@ -134,8 +131,6 @@ BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
 	BOOST_CHECK_EQUAL (imported->markers().size(), 4U);
 
 	auto markers = imported->markers();
-	BOOST_REQUIRE(markers.find(dcp::Marker::FFOC) != markers.end());
-	BOOST_CHECK(markers[dcp::Marker::FFOC] == dcpomatic::ContentTime(184000));
 	BOOST_REQUIRE(markers.find(dcp::Marker::FFMC) != markers.end());
 	BOOST_CHECK(markers[dcp::Marker::FFMC] == dcpomatic::ContentTime(904000));
 	BOOST_REQUIRE(markers.find(dcp::Marker::LFMC) != markers.end());
@@ -151,8 +146,6 @@ BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
 	BOOST_CHECK_EQUAL (reloaded->markers().size(), 4U);
 
 	markers = reloaded->markers();
-	BOOST_REQUIRE(markers.find(dcp::Marker::FFOC) != markers.end());
-	BOOST_CHECK(markers[dcp::Marker::FFOC] == dcpomatic::ContentTime(184000));
 	BOOST_REQUIRE(markers.find(dcp::Marker::FFMC) != markers.end());
 	BOOST_CHECK(markers[dcp::Marker::FFMC] == dcpomatic::ContentTime(904000));
 	BOOST_REQUIRE(markers.find(dcp::Marker::LFMC) != markers.end());
@@ -179,8 +172,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_metadata_test)
 	vector<string> cv = { "Fred "};
 	film->set_content_versions (cv);
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
 	/* Import the DCP to a new film and check the metadata */
 	auto film2 = new_test_film2 ("import_dcp_metadata_test2");

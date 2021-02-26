@@ -42,8 +42,14 @@ BOOST_AUTO_TEST_CASE (closed_caption_test1)
 
 	content->only_text()->set_type (TextType::CLOSED_CAPTION);
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs ());
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::INVALID_CLOSED_CAPTION_LINE_LENGTH,
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA
+		});
 
 	/* Just check to see that there's a CCAP in the CPL: this
 	   check could be better!

@@ -46,8 +46,7 @@ BOOST_AUTO_TEST_CASE (atmos_passthrough_test)
 		&cl
 		);
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film, {dcp::VerificationNote::Code::MISSING_CPL_METADATA});
 
 	auto ref = TestPaths::private_data() / "atmos_asset.mxf";
 	BOOST_REQUIRE (mxf_atmos_files_same(ref, dcp_file(film, "atmos"), true));

@@ -49,8 +49,7 @@ BOOST_AUTO_TEST_CASE (automatic_ffoc_lfoc_markers_test1)
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	film->set_interop (false);
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
 	dcp::DCP dcp (String::compose("build/test/%1/%2", name, film->dcp_name()));
 	dcp.read ();
@@ -81,8 +80,12 @@ BOOST_AUTO_TEST_CASE (automatic_ffoc_lfoc_markers_test2)
 	film->set_interop (false);
 	film->set_marker (dcp::Marker::FFOC, dcpomatic::DCPTime::from_seconds(1));
 	film->set_marker (dcp::Marker::LFOC, dcpomatic::DCPTime::from_seconds(9));
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::INCORRECT_FFOC,
+			dcp::VerificationNote::Code::INCORRECT_LFOC
+		});
 
 	dcp::DCP dcp (String::compose("build/test/%1/%2", name, film->dcp_name()));
 	dcp.read ();

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "lib/dcp_encoder.h"
 #include "lib/writer.h"
 #include "lib/transcode_job.h"
@@ -33,6 +34,7 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/algorithm/string.hpp>
 
+
 using std::getline;
 using std::ifstream;
 using std::string;
@@ -41,6 +43,7 @@ using boost::starts_with;
 using boost::split;
 using std::dynamic_pointer_cast;
 using std::shared_ptr;
+
 
 static
 void
@@ -69,38 +72,38 @@ check (string name, int check_full, int check_repeat)
 	BOOST_CHECK_EQUAL (repeat, check_repeat);
 }
 
+
 /** Make a 2D DCP out of a 2D still and check that the J2K encoding is only done once for each frame */
 BOOST_AUTO_TEST_CASE (optimise_stills_test1)
 {
-	shared_ptr<Film> film = new_test_film ("optimise_stills_test1");
+	auto film = new_test_film ("optimise_stills_test1");
 	LogSwitcher ls (film->log());
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<Content> content = content_factory("test/data/flat_red.png").front ();
+	auto content = content_factory("test/data/flat_red.png").front ();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs ());
+	make_and_verify_dcp (film);
 
 	check ("optimise_stills_test1", 1, 10 * 24 - 1);
 }
 
+
 /** Make a 3D DCP out of a 3D L/R still and check that the J2K encoding is only done once for L and R */
 BOOST_AUTO_TEST_CASE (optimise_stills_test2)
 {
-	shared_ptr<Film> film = new_test_film ("optimise_stills_test2");
+	auto film = new_test_film ("optimise_stills_test2");
 	LogSwitcher ls (film->log());
 	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<Content> content = content_factory("test/data/flat_red.png").front ();
+	auto content = content_factory("test/data/flat_red.png").front();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	content->video->set_frame_type (VideoFrameType::THREE_D_LEFT_RIGHT);
 	film->set_three_d (true);
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs ());
+	make_and_verify_dcp (film);
 
 	check ("optimise_stills_test2", 2, 10 * 48 - 2);
 }

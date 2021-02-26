@@ -67,8 +67,7 @@ BOOST_AUTO_TEST_CASE (overlap_video_test1)
 
 	BOOST_CHECK (player->_black.done());
 
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film);
 
 	dcp::DCP back (film->dir(film->dcp_name()));
 	back.read ();

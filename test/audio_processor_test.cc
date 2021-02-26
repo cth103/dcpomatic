@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/audio_processor_test.cc
  *  @brief Test audio processors.
  *  @ingroup feature
  */
+
 
 #include "lib/audio_processor.h"
 #include "lib/analyse_audio_job.h"
@@ -32,14 +34,17 @@
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
+
 using std::shared_ptr;
+using std::make_shared;
+
 
 /** Test the mid-side decoder for analysis and DCP-making */
 BOOST_AUTO_TEST_CASE (audio_processor_test)
 {
-	shared_ptr<Film> film = new_test_film ("audio_processor_test");
+	auto film = new_test_film ("audio_processor_test");
 	film->set_name ("audio_processor_test");
-	shared_ptr<FFmpegContent> c (new FFmpegContent("test/data/white.wav"));
+	auto c = make_shared<FFmpegContent>("test/data/white.wav");
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -48,12 +53,11 @@ BOOST_AUTO_TEST_CASE (audio_processor_test)
 	film->set_audio_processor (AudioProcessor::from_id ("mid-side-decoder"));
 
 	/* Analyse the audio and check it doesn't crash */
-	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist(), false));
+	auto job = make_shared<AnalyseAudioJob> (film, film->playlist(), false);
 	JobManager::instance()->add (job);
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Make a DCP and check it */
-	film->make_dcp ();
-	BOOST_REQUIRE (!wait_for_jobs());
+	make_and_verify_dcp (film, {dcp::VerificationNote::Code::MISSING_CPL_METADATA});
 	check_dcp ("test/data/audio_processor_test", film->dir (film->dcp_name ()));
 }
