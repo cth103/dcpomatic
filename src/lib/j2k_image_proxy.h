@@ -71,6 +71,10 @@ public:
 		return _size;
 	}
 
+	boost::optional<dcp::Eye> eye () const {
+		return _eye;
+	}
+
 	size_t memory_used () const;
 
 private:
