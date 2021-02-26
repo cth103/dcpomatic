@@ -115,6 +115,12 @@ setup_test_config ()
 		LogEntry::TYPE_DISK
 		);
 	Config::instance()->set_automatic_audio_analysis (false);
+	auto signer = make_shared<dcp::CertificateChain>(dcp::file_to_string("test/data/signer_chain"));
+	signer->set_key(dcp::file_to_string("test/data/signer_key"));
+	Config::instance()->set_signer_chain (signer);
+	auto decryption = make_shared<dcp::CertificateChain>(dcp::file_to_string("test/data/decryption_chain"));
+	decryption->set_key(dcp::file_to_string("test/data/decryption_key"));
+	Config::instance()->set_decryption_chain (decryption);
 }
 
 class TestSignalManager : public SignalManager
