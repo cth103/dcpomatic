@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,12 @@
 
 */
 
+
+
 /** @file  test/test.cc
  *  @brief Overall test stuff and useful methods for tests.
  */
+
 
 #include "lib/compose.hpp"
 #include "lib/config.h"
@@ -60,6 +63,7 @@ extern "C" {
 #include <iostream>
 #include <list>
 #include <vector>
+
 
 using std::abs;
 using std::cerr;
@@ -123,6 +127,7 @@ setup_test_config ()
 	Config::instance()->set_decryption_chain (decryption);
 }
 
+
 class TestSignalManager : public SignalManager
 {
 public:
@@ -156,7 +161,9 @@ struct TestConfig
 	}
 };
 
+
 BOOST_GLOBAL_FIXTURE (TestConfig);
+
 
 boost::filesystem::path
 test_film_dir (string name)
@@ -167,6 +174,7 @@ test_film_dir (string name)
 	p /= name;
 	return p;
 }
+
 
 shared_ptr<Film>
 new_test_film (string name)
@@ -180,6 +188,7 @@ new_test_film (string name)
 	film->write_metadata ();
 	return film;
 }
+
 
 shared_ptr<Film>
 new_test_film2 (string name, vector<shared_ptr<Content>> content, Cleanup* cleanup)
@@ -204,6 +213,7 @@ new_test_film2 (string name, vector<shared_ptr<Content>> content, Cleanup* clean
 
 	return film;
 }
+
 
 void
 check_wav_file (boost::filesystem::path ref, boost::filesystem::path check)
@@ -247,6 +257,7 @@ check_wav_file (boost::filesystem::path ref, boost::filesystem::path check)
 		N -= this_time;
 	}
 }
+
 
 void
 check_mxf_audio_file (boost::filesystem::path ref, boost::filesystem::path check)
@@ -434,13 +445,13 @@ check_image (boost::filesystem::path ref, boost::filesystem::path check, double 
 
 
 void
-check_file (boost::filesystem::path ref, boost::filesystem::path check)
+check_file (boost::filesystem::path ref, boost::filesystem::path check, bool binary_mode)
 {
 	auto N = boost::filesystem::file_size (ref);
 	BOOST_CHECK_EQUAL (N, boost::filesystem::file_size (check));
-	auto ref_file = fopen_boost (ref, "rb");
+	auto ref_file = fopen_boost (ref, binary_mode ? "rb" : "r");
 	BOOST_CHECK (ref_file);
-	auto check_file = fopen_boost (check, "rb");
+	auto check_file = fopen_boost (check, binary_mode ? "rb" : "r");
 	BOOST_CHECK (check_file);
 
 	int const buffer_size = 65536;
@@ -470,6 +481,7 @@ check_file (boost::filesystem::path ref, boost::filesystem::path check)
 	fclose (ref_file);
 	fclose (check_file);
 }
+
 
 static void
 note (dcp::NoteType t, string n)
