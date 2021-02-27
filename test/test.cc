@@ -445,13 +445,13 @@ check_image (boost::filesystem::path ref, boost::filesystem::path check, double 
 
 
 void
-check_file (boost::filesystem::path ref, boost::filesystem::path check, bool binary_mode)
+check_file (boost::filesystem::path ref, boost::filesystem::path check)
 {
 	auto N = boost::filesystem::file_size (ref);
 	BOOST_CHECK_EQUAL (N, boost::filesystem::file_size (check));
-	auto ref_file = fopen_boost (ref, binary_mode ? "rb" : "r");
+	auto ref_file = fopen_boost (ref, "rb");
 	BOOST_CHECK (ref_file);
-	auto check_file = fopen_boost (check, binary_mode ? "rb" : "r");
+	auto check_file = fopen_boost (check, "rb");
 	BOOST_CHECK (check_file);
 
 	int const buffer_size = 65536;
@@ -474,6 +474,38 @@ check_file (boost::filesystem::path ref, boost::filesystem::path check, bool bin
 
 		N -= this_time;
 	}
+
+	delete[] ref_buffer;
+	delete[] check_buffer;
+
+	fclose (ref_file);
+	fclose (check_file);
+}
+
+
+void
+check_text_file (boost::filesystem::path ref, boost::filesystem::path check)
+{
+	auto ref_file = fopen_boost (ref, "r");
+	BOOST_CHECK (ref_file);
+	auto check_file = fopen_boost (check, "r");
+	BOOST_CHECK (check_file);
+
+	int const buffer_size = std::max(
+		boost::filesystem::file_size(ref),
+		boost::filesystem::file_size(check)
+		);
+
+	DCPOMATIC_ASSERT (buffer_size < 1024 * 1024);
+
+	auto ref_buffer = new uint8_t[buffer_size];
+	auto ref_read = fread(ref_buffer, 1, buffer_size, ref_file);
+	auto check_buffer = new uint8_t[buffer_size];
+	auto check_read = fread(check_buffer, 1, buffer_size, check_file);
+	BOOST_CHECK_EQUAL (ref_read, check_read);
+
+	string const error = "File " + check.string() + " differs from reference " + ref.string();
+	BOOST_CHECK_MESSAGE(memcmp(ref_buffer, check_buffer, ref_read) == 0, error);
 
 	delete[] ref_buffer;
 	delete[] check_buffer;

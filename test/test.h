@@ -61,7 +61,7 @@ extern std::shared_ptr<Film> new_test_film (std::string);
 extern std::shared_ptr<Film> new_test_film2 (std::string, std::vector<std::shared_ptr<Content>> content = {}, Cleanup* cleanup = nullptr);
 extern void check_dcp (boost::filesystem::path, boost::filesystem::path);
 extern void check_dcp (boost::filesystem::path, std::shared_ptr<const Film>);
-extern void check_file (boost::filesystem::path ref, boost::filesystem::path check, bool binary_mode = true);
+extern void check_file (boost::filesystem::path ref, boost::filesystem::path check);
 extern void check_text_file (boost::filesystem::path ref, boost::filesystem::path check);
 extern void check_wav_file (boost::filesystem::path ref, boost::filesystem::path check);
 extern void check_mxf_audio_file (boost::filesystem::path ref, boost::filesystem::path check);
