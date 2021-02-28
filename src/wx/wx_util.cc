@@ -18,19 +18,22 @@
 
 */
 
+
 /** @file src/wx/wx_util.cc
  *  @brief Some utility functions and classes.
  */
 
-#include "wx_util.h"
+
 #include "file_picker_ctrl.h"
-#include "static_text.h"
 #include "password_entry.h"
+#include "static_text.h"
+#include "wx_util.h"
 #include "lib/config.h"
-#include "lib/job_manager.h"
-#include "lib/util.h"
 #include "lib/cross.h"
 #include "lib/job.h"
+#include "lib/job_manager.h"
+#include "lib/util.h"
+#include "lib/version.h"
 #include "lib/warnings.h"
 #include <dcp/locale_convert.h>
 DCPOMATIC_DISABLE_WARNINGS
@@ -42,6 +45,7 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 #include <boost/thread.hpp>
 
+
 using std::string;
 using std::vector;
 using std::pair;
@@ -49,6 +53,7 @@ using std::shared_ptr;
 using boost::optional;
 using dcp::locale_convert;
 using namespace dcpomatic;
+
 
 wxStaticText *
 #ifdef __WXOSX__
@@ -484,6 +489,11 @@ maybe_show_splash ()
 	try {
 		wxBitmap bitmap;
 		if (bitmap.LoadFile(bitmap_path("splash"), wxBITMAP_TYPE_PNG)) {
+			wxMemoryDC dc(bitmap);
+			auto const version = wxString::Format("%s (%s)", dcpomatic_version, dcpomatic_git_commit);
+			auto screen_size = dc.GetSize();
+			auto text_size = dc.GetTextExtent(version);
+			dc.DrawText(version, (screen_size.GetWidth() - text_size.GetWidth()) / 2, 236);
 #ifdef DCPOMATIC_WINDOWS
 			/* Having wxSTAY_ON_TOP means error dialogues hide behind the splash screen on Windows, no matter what I try */
 			splash = new wxSplashScreen (bitmap, wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_NO_TIMEOUT, 0, 0, -1, wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE | wxFRAME_NO_TASKBAR);
