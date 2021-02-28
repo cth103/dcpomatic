@@ -48,9 +48,6 @@ PeriodTimer::~PeriodTimer ()
 	cout << N_("T: ") << _name << N_(": ") << (seconds (stop) - seconds (_start)) << N_("\n");
 }
 
-/** @param n Name to use when giving output.
- *  @param s Initial state.
- */
 StateTimer::StateTimer (string n, string s)
 	: _name (n)
 {
@@ -72,7 +69,6 @@ StateTimer::set (string s)
 	set_internal (s);
 }
 
-/** @param s New state that the caller is in */
 void
 StateTimer::set_internal (optional<string> s)
 {

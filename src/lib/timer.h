@@ -49,6 +49,7 @@ private:
 	struct timeval _start;
 };
 
+
 /** @class StateTimer
  *  @brief A class to allow measurement of the amount of time a program
  *  spends in one of a set of states.
@@ -61,9 +62,13 @@ class StateTimer
 {
 public:
 	explicit StateTimer (std::string n);
+	/** @param n Name to use when giving output.
+	 *  @param s Initial state.
+	 */
 	StateTimer (std::string n, std::string s);
 	~StateTimer ();
 
+	/** @param s New state that the caller is in */
 	void set (std::string s);
 	void unset ();
 
@@ -94,5 +99,6 @@ private:
 	/** total time and number of entries for each state */
 	std::map<std::string, Counts> _counts;
 };
+
 
 #endif
