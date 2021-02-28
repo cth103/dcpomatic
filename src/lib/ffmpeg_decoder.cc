@@ -68,6 +68,7 @@ using std::pair;
 using std::max;
 using std::map;
 using std::shared_ptr;
+using std::make_shared;
 using boost::is_any_of;
 using boost::split;
 using boost::optional;
@@ -75,32 +76,34 @@ using std::dynamic_pointer_cast;
 using dcp::Size;
 using namespace dcpomatic;
 
+
 FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmpegContent> c, bool fast)
 	: FFmpeg (c)
 	, Decoder (film)
 	, _have_current_subtitle (false)
 {
 	if (c->video && c->video->use()) {
-		video.reset (new VideoDecoder (this, c));
+		video = make_shared<VideoDecoder>(this, c);
 		_pts_offset = pts_offset (c->ffmpeg_audio_streams(), c->first_video(), c->active_video_frame_rate(film));
 		/* It doesn't matter what size or pixel format this is, it just needs to be black */
 		_black_image.reset (new Image (AV_PIX_FMT_RGB24, dcp::Size (128, 128), true));
 		_black_image->make_black ();
 	} else {
-		_pts_offset = ContentTime ();
+		_pts_offset = {};
 	}
 
 	if (c->audio) {
-		audio.reset (new AudioDecoder (this, c->audio, fast));
+		audio = make_shared<AudioDecoder>(this, c->audio, fast);
 	}
 
 	if (c->only_text()) {
 		/* XXX: this time here should be the time of the first subtitle, not 0 */
-		text.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, c->only_text(), ContentTime())));
+		text.push_back (make_shared<TextDecoder>(this, c->only_text(), ContentTime()));
 	}
 
 	_next_time.resize (_format_context->nb_streams);
 }
+
 
 void
 FFmpegDecoder::flush ()
@@ -120,13 +123,13 @@ FFmpegDecoder::flush ()
 
 	/* Make sure all streams are the same length and round up to the next video frame */
 
-	FrameRateChange const frc = film()->active_frame_rate_change(_ffmpeg_content->position());
+	auto const frc = film()->active_frame_rate_change(_ffmpeg_content->position());
 	ContentTime full_length (_ffmpeg_content->full_length(film()), frc);
 	full_length = full_length.ceil (frc.source);
 	if (video) {
 		double const vfr = _ffmpeg_content->video_frame_rate().get();
-		Frame const f = full_length.frames_round (vfr);
-		Frame v = video->position(film()).get_value_or(ContentTime()).frames_round(vfr) + 1;
+		auto const f = full_length.frames_round (vfr);
+		auto v = video->position(film()).get_value_or(ContentTime()).frames_round(vfr) + 1;
 		while (v < f) {
 			video->emit (film(), shared_ptr<const ImageProxy> (new RawImageProxy (_black_image)), v);
 			++v;
@@ -134,15 +137,15 @@ FFmpegDecoder::flush ()
 	}
 
 	for (auto i: _ffmpeg_content->ffmpeg_audio_streams ()) {
-		ContentTime a = audio->stream_position(film(), i);
+		auto a = audio->stream_position(film(), i);
 		/* Unfortunately if a is 0 that really means that we don't know the stream position since
 		   there has been no data on it since the last seek.  In this case we'll just do nothing
 		   here.  I'm not sure if that's the right idea.
 		*/
 		if (a > ContentTime()) {
 			while (a < full_length) {
-				ContentTime to_do = min (full_length - a, ContentTime::from_seconds (0.1));
-				shared_ptr<AudioBuffers> silence (new AudioBuffers (i->channels(), to_do.frames_ceil (i->frame_rate())));
+				auto to_do = min (full_length - a, ContentTime::from_seconds (0.1));
+				auto silence = make_shared<AudioBuffers>(i->channels(), to_do.frames_ceil (i->frame_rate()));
 				silence->make_silent ();
 				audio->emit (film(), i, silence, a, true);
 				a += to_do;
@@ -154,6 +157,7 @@ FFmpegDecoder::flush ()
 		audio->flush ();
 	}
 }
+
 
 bool
 FFmpegDecoder::pass ()
@@ -177,7 +181,7 @@ FFmpegDecoder::pass ()
 	}
 
 	int const si = _packet.stream_index;
-	shared_ptr<const FFmpegContent> fc = _ffmpeg_content;
+	auto fc = _ffmpeg_content;
 
 	if (_video_stream && si == _video_stream.get() && video && !video->ignore()) {
 		decode_video_packet ();
@@ -190,6 +194,7 @@ FFmpegDecoder::pass ()
 	av_packet_unref (&_packet);
 	return false;
 }
+
 
 /** @param data pointer to array of pointers to buffers.
  *  Only the first buffer will be used for non-planar data, otherwise there will be one per channel.
@@ -216,8 +221,8 @@ DCPOMATIC_ENABLE_WARNINGS
 	int const total_samples = size / bytes_per_audio_sample (stream);
 	int const channels = stream->channels();
 	int const frames = total_samples / channels;
-	shared_ptr<AudioBuffers> audio (new AudioBuffers (channels, frames));
-	float** data = audio->data();
+	auto audio = make_shared<AudioBuffers>(channels, frames);
+	auto data = audio->data();
 
 	switch (audio_sample_format (stream)) {
 	case AV_SAMPLE_FMT_U8:
@@ -331,6 +336,7 @@ DCPOMATIC_ENABLE_WARNINGS
 	return audio;
 }
 
+
 AVSampleFormat
 FFmpegDecoder::audio_sample_format (shared_ptr<FFmpegAudioStream> stream) const
 {
@@ -339,11 +345,13 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 }
 
+
 int
 FFmpegDecoder::bytes_per_audio_sample (shared_ptr<FFmpegAudioStream> stream) const
 {
 	return av_get_bytes_per_sample (audio_sample_format (stream));
 }
+
 
 void
 FFmpegDecoder::seek (ContentTime time, bool accurate)
@@ -354,7 +362,7 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	   we don't really know what the seek will give us.
 	*/
 
-	ContentTime pre_roll = accurate ? ContentTime::from_seconds (2) : ContentTime (0);
+	auto pre_roll = accurate ? ContentTime::from_seconds (2) : ContentTime (0);
 	time -= pre_roll;
 
 	/* XXX: it seems debatable whether PTS should be used here...
@@ -367,7 +375,7 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 		stream = _video_stream;
 	} else {
 		DCPOMATIC_ASSERT (_ffmpeg_content->audio);
-		shared_ptr<FFmpegAudioStream> s = dynamic_pointer_cast<FFmpegAudioStream> (_ffmpeg_content->audio->stream ());
+		auto s = dynamic_pointer_cast<FFmpegAudioStream>(_ffmpeg_content->audio->stream());
 		if (s) {
 			stream = s->index (_format_context);
 		}
@@ -375,7 +383,7 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 
 	DCPOMATIC_ASSERT (stream);
 
-	ContentTime u = time - _pts_offset;
+	auto u = time - _pts_offset;
 	if (u < ContentTime ()) {
 		u = ContentTime ();
 	}
@@ -415,6 +423,7 @@ DCPOMATIC_ENABLE_WARNINGS
 	}
 }
 
+
 void
 FFmpegDecoder::decode_audio_packet ()
 {
@@ -426,8 +435,8 @@ FFmpegDecoder::decode_audio_packet ()
 	int const stream_index = copy_packet.stream_index;
 
 	/* XXX: inefficient */
-	vector<shared_ptr<FFmpegAudioStream> > streams = ffmpeg_content()->ffmpeg_audio_streams ();
-	vector<shared_ptr<FFmpegAudioStream> >::const_iterator stream = streams.begin ();
+	auto streams = ffmpeg_content()->ffmpeg_audio_streams();
+	auto stream = streams.begin ();
 	while (stream != streams.end () && !(*stream)->uses_index (_format_context, stream_index)) {
 		++stream;
 	}
@@ -479,9 +488,9 @@ DCPOMATIC_DISABLE_WARNINGS
 
 			_next_time[stream_index] = ct + ContentTime::from_frames(data->frames(), (*stream)->frame_rate());
 
-			if (ct < ContentTime ()) {
+			if (ct < ContentTime()) {
 				/* Discard audio data that comes before time 0 */
-				Frame const remove = min (int64_t (data->frames()), (-ct).frames_ceil(double((*stream)->frame_rate ())));
+				auto const remove = min (int64_t (data->frames()), (-ct).frames_ceil(double((*stream)->frame_rate ())));
 				data->move (data->frames() - remove, remove, 0);
 				data->set_frames (data->frames() - remove);
 				ct += ContentTime::from_frames (remove, (*stream)->frame_rate ());
@@ -512,6 +521,7 @@ DCPOMATIC_ENABLE_WARNINGS
 	}
 }
 
+
 bool
 FFmpegDecoder::decode_video_packet ()
 {
@@ -528,14 +538,14 @@ DCPOMATIC_ENABLE_WARNINGS
 
 	shared_ptr<VideoFilterGraph> graph;
 
-	list<shared_ptr<VideoFilterGraph> >::iterator i = _filter_graphs.begin();
+	auto i = _filter_graphs.begin();
 	while (i != _filter_graphs.end() && !(*i)->can_process (dcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format)) {
 		++i;
 	}
 
 	if (i == _filter_graphs.end ()) {
 		dcp::Fraction vfr (lrint(_ffmpeg_content->video_frame_rate().get() * 1000), 1000);
-		graph.reset (new VideoFilterGraph (dcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format, vfr));
+		graph = make_shared<VideoFilterGraph>(dcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format, vfr);
 		graph->setup (_ffmpeg_content->filters ());
 		_filter_graphs.push_back (graph);
 		LOG_GENERAL (N_("New graph for %1x%2, pixel format %3"), _frame->width, _frame->height, _frame->format);
@@ -543,18 +553,18 @@ DCPOMATIC_ENABLE_WARNINGS
 		graph = *i;
 	}
 
-	list<pair<shared_ptr<Image>, int64_t> > images = graph->process (_frame);
+	auto images = graph->process (_frame);
 
-	for (list<pair<shared_ptr<Image>, int64_t> >::iterator i = images.begin(); i != images.end(); ++i) {
+	for (auto const& i: images) {
 
-		shared_ptr<Image> image = i->first;
+		auto image = i.first;
 
-		if (i->second != AV_NOPTS_VALUE) {
-			double const pts = i->second * av_q2d (_format_context->streams[_video_stream.get()]->time_base) + _pts_offset.seconds ();
+		if (i.second != AV_NOPTS_VALUE) {
+			double const pts = i.second * av_q2d(_format_context->streams[_video_stream.get()]->time_base) + _pts_offset.seconds();
 
 			video->emit (
 				film(),
-				shared_ptr<ImageProxy> (new RawImageProxy (image)),
+				make_shared<RawImageProxy>(image),
 				llrint(pts * _ffmpeg_content->active_video_frame_rate(film()))
 				);
 		} else {
@@ -564,6 +574,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 	return true;
 }
+
 
 void
 FFmpegDecoder::decode_subtitle_packet ()
@@ -592,7 +603,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 	/* Subtitle PTS (within the source, not taking into account any of the
 	   source that we may have chopped off for the DCP).
 	*/
-	FFmpegSubtitlePeriod sub_period = subtitle_period (sub);
+	auto sub_period = subtitle_period (sub);
 	ContentTime from;
 	from = sub_period.from + _pts_offset;
 	if (sub_period.to) {
@@ -603,7 +614,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 	}
 
 	for (unsigned int i = 0; i < sub.num_rects; ++i) {
-		AVSubtitleRect const * rect = sub.rects[i];
+		auto const rect = sub.rects[i];
 
 		switch (rect->type) {
 		case SUBTITLE_NONE:
@@ -627,37 +638,38 @@ FFmpegDecoder::decode_subtitle_packet ()
 	avsubtitle_free (&sub);
 }
 
+
 void
 FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime from)
 {
 	/* Note BGRA is expressed little-endian, so the first byte in the word is B, second
 	   G, third R, fourth A.
 	*/
-	shared_ptr<Image> image (new Image (AV_PIX_FMT_BGRA, dcp::Size (rect->w, rect->h), true));
+	auto image = make_shared<Image>(AV_PIX_FMT_BGRA, dcp::Size (rect->w, rect->h), true);
 
 #ifdef DCPOMATIC_HAVE_AVSUBTITLERECT_PICT
 	/* Start of the first line in the subtitle */
-	uint8_t* sub_p = rect->pict.data[0];
+	auto sub_p = rect->pict.data[0];
 	/* sub_p looks up into a BGRA palette which is at rect->pict.data[1];
 	   (i.e. first byte B, second G, third R, fourth A)
 	*/
-	uint8_t const * palette = rect->pict.data[1];
+	auto const palette = rect->pict.data[1];
 #else
 	/* Start of the first line in the subtitle */
-	uint8_t* sub_p = rect->data[0];
+	auto sub_p = rect->data[0];
 	/* sub_p looks up into a BGRA palette which is at rect->data[1].
 	   (first byte B, second G, third R, fourth A)
 	*/
-	uint8_t const * palette = rect->data[1];
+	auto const* palette = rect->data[1];
 #endif
 	/* And the stream has a map of those palette colours to colours
 	   chosen by the user; created a `mapped' palette from those settings.
 	*/
-	map<RGBA, RGBA> colour_map = ffmpeg_content()->subtitle_stream()->colours ();
+	auto colour_map = ffmpeg_content()->subtitle_stream()->colours();
 	vector<RGBA> mapped_palette (rect->nb_colors);
 	for (int i = 0; i < rect->nb_colors; ++i) {
 		RGBA c (palette[2], palette[1], palette[0], palette[3]);
-		map<RGBA, RGBA>::const_iterator j = colour_map.find (c);
+		auto j = colour_map.find (c);
 		if (j != colour_map.end ()) {
 			mapped_palette[i] = j->second;
 		} else {
@@ -671,13 +683,13 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime 
 	}
 
 	/* Start of the output data */
-	uint8_t* out_p = image->data()[0];
+	auto out_p = image->data()[0];
 
 	for (int y = 0; y < rect->h; ++y) {
-		uint8_t* sub_line_p = sub_p;
-		uint8_t* out_line_p = out_p;
+		auto sub_line_p = sub_p;
+		auto out_line_p = out_p;
 		for (int x = 0; x < rect->w; ++x) {
-			RGBA const p = mapped_palette[*sub_line_p++];
+			auto const p = mapped_palette[*sub_line_p++];
 			*out_line_p++ = p.b;
 			*out_line_p++ = p.g;
 			*out_line_p++ = p.r;
@@ -705,14 +717,15 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime 
 	DCPOMATIC_ASSERT (target_width);
 	DCPOMATIC_ASSERT (target_height);
 	dcpomatic::Rect<double> const scaled_rect (
-		static_cast<double> (rect->x) / target_width,
-		static_cast<double> (rect->y) / target_height,
-		static_cast<double> (rect->w) / target_width,
-		static_cast<double> (rect->h) / target_height
+		static_cast<double>(rect->x) / target_width,
+		static_cast<double>(rect->y) / target_height,
+		static_cast<double>(rect->w) / target_width,
+		static_cast<double>(rect->h) / target_height
 		);
 
 	only_text()->emit_bitmap_start (from, image, scaled_rect);
 }
+
 
 void
 FFmpegDecoder::decode_ass_subtitle (string ass, ContentTime from)
@@ -743,7 +756,7 @@ FFmpegDecoder::decode_ass_subtitle (string ass, ContentTime from)
 		_ffmpeg_content->video->size().height
 		);
 
-	for (auto const& i: sub::collect<vector<sub::Subtitle>> (raw)) {
+	for (auto const& i: sub::collect<vector<sub::Subtitle>>(raw)) {
 		only_text()->emit_plain_start (from, i);
 	}
 }
