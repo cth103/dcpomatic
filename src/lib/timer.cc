@@ -113,24 +113,24 @@ StateTimer::~StateTimer ()
 	unset ();
 
 	int longest = 0;
-	for (map<string, Counts>::iterator i = _counts.begin(); i != _counts.end(); ++i) {
-		longest = max (longest, int(i->first.length()));
+	for (auto const& i: _counts) {
+		longest = max (longest, int(i.first.length()));
 	}
 
 	list<pair<double, string> > sorted;
 
-	for (map<string, Counts>::iterator i = _counts.begin(); i != _counts.end(); ++i) {
-		string name = i->first + string(longest + 1 - i->first.size(), ' ');
+	for (auto const& i: _counts) {
+		string name = i.first + string(longest + 1 - i.first.size(), ' ');
 		char buffer[64];
-		snprintf (buffer, 64, "%.4f", i->second.total_time);
+		snprintf (buffer, 64, "%.4f", i.second.total_time);
 		string total_time (buffer);
-		sorted.push_back (make_pair(i->second.total_time, String::compose("\t%1%2 %3 %4", name, total_time, i->second.number, (i->second.total_time / i->second.number))));
+		sorted.push_back (make_pair(i.second.total_time, String::compose("\t%1%2 %3 %4", name, total_time, i.second.number, (i.second.total_time / i.second.number))));
 	}
 
 	sorted.sort (compare);
 
 	cout << _name << N_(":\n");
-	for (list<pair<double, string> >::iterator i = sorted.begin(); i != sorted.end(); ++i) {
-		cout << N_("\t") << i->second << "\n";
+	for (auto const& i: sorted) {
+		cout << N_("\t") << i.second << "\n";
 	}
 }

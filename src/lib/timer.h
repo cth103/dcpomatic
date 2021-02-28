@@ -74,13 +74,8 @@ public:
 	class Counts
 	{
 	public:
-		Counts ()
-			: total_time (0)
-			, number (0)
-		{}
-
-		double total_time;
-		int number;
+		double total_time = 0;
+		int number = 0;
 	};
 
 	std::map<std::string, Counts> counts () const {

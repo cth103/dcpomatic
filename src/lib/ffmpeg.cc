@@ -125,7 +125,7 @@ FFmpeg::setup_general ()
 	}
 	_format_context->pb = _avio_context;
 
-	AVDictionary* options = 0;
+	AVDictionary* options = nullptr;
 	int e = avformat_open_input (&_format_context, 0, 0, &options);
 	if (e < 0) {
 		throw OpenFileError (_ffmpeg_content->path(0).string(), e, OpenFileError::READ);
@@ -141,7 +141,7 @@ FFmpeg::setup_general ()
 
 DCPOMATIC_DISABLE_WARNINGS
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
-		AVStream* s = _format_context->streams[i];
+		auto s = _format_context->streams[i];
 		if (s->codec->codec_type == AVMEDIA_TYPE_VIDEO && avcodec_find_decoder(s->codec->codec_id)) {
 			if (s->avg_frame_rate.num > 0 && s->avg_frame_rate.den > 0) {
 				/* This is definitely our video stream */
@@ -201,12 +201,12 @@ FFmpeg::setup_decoders ()
 
 DCPOMATIC_DISABLE_WARNINGS
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
-		AVCodecContext* context = _format_context->streams[i]->codec;
+		auto context = _format_context->streams[i]->codec;
 
 		AVCodec* codec = avcodec_find_decoder (context->codec_id);
 		if (codec) {
 
-			AVDictionary* options = 0;
+			AVDictionary* options = nullptr;
 			/* This option disables decoding of DCA frame footers in our patched version
 			   of FFmpeg.  I believe these footers are of no use to us, and they can cause
 			   problems when FFmpeg fails to decode them (mantis #352).
@@ -234,7 +234,7 @@ AVCodecContext *
 FFmpeg::video_codec_context () const
 {
 	if (!_video_stream) {
-		return 0;
+		return nullptr;
 	}
 
 	return _format_context->streams[_video_stream.get()]->codec;
@@ -244,7 +244,7 @@ AVCodecContext *
 FFmpeg::subtitle_codec_context () const
 {
 	if (!_ffmpeg_content->subtitle_stream ()) {
-		return 0;
+		return nullptr;
 	}
 
 	return _ffmpeg_content->subtitle_stream()->stream(_format_context)->codec;
@@ -270,7 +270,7 @@ FFmpeg::avio_seek (int64_t const pos, int whence)
 FFmpegSubtitlePeriod
 FFmpeg::subtitle_period (AVSubtitle const & sub)
 {
-	ContentTime const packet_time = ContentTime::from_seconds (static_cast<double> (sub.pts) / AV_TIME_BASE);
+	auto const packet_time = ContentTime::from_seconds (static_cast<double> (sub.pts) / AV_TIME_BASE);
 
 	if (sub.end_display_time == static_cast<uint32_t> (-1)) {
 		/* End time is not known */
@@ -289,7 +289,7 @@ FFmpeg::subtitle_period (AVSubtitle const & sub)
  *  in FFmpeg.
  */
 ContentTime
-FFmpeg::pts_offset (vector<shared_ptr<FFmpegAudioStream> > audio_streams, optional<ContentTime> first_video, double video_frame_rate) const
+FFmpeg::pts_offset (vector<shared_ptr<FFmpegAudioStream>> audio_streams, optional<ContentTime> first_video, double video_frame_rate) const
 {
 	/* Audio and video frame PTS values may not start with 0.  We want
 	   to fiddle them so that:
@@ -307,7 +307,7 @@ FFmpeg::pts_offset (vector<shared_ptr<FFmpegAudioStream> > audio_streams, option
 
 	/* First, make one of them start at 0 */
 
-	ContentTime po = ContentTime::min ();
+	auto po = ContentTime::min ();
 
 	if (first_video) {
 		po = - first_video.get ();
@@ -329,7 +329,7 @@ FFmpeg::pts_offset (vector<shared_ptr<FFmpegAudioStream> > audio_streams, option
 
 	/* Now adjust so that the video pts starts on a frame */
 	if (first_video) {
-		ContentTime const fvc = first_video.get() + po;
+		auto const fvc = first_video.get() + po;
 		po += fvc.ceil (video_frame_rate) - fvc;
 	}
 
