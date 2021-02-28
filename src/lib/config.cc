@@ -774,8 +774,13 @@ Config::write_config () const
 	/* [XML] AutomaticAudioAnalysis 1 to run audio analysis automatically when audio content is added to the film, otherwise 0. */
 	root->add_child("AutomaticAudioAnalysis")->add_child_text (_automatic_audio_analysis ? "1" : "0");
 #ifdef DCPOMATIC_WINDOWS
-	/* [XML] Win32Console 1 to open a console when running on Windows, otherwise 0. */
-	root->add_child("Win32Console")->add_child_text (_win32_console ? "1" : "0");
+	if (_win32_console) {
+		/* [XML] Win32Console 1 to open a console when running on Windows, otherwise 0.
+		 * We only write this if it's true, which is a bit of a hack to allow unit tests to work
+		 * more easily on Windows (without a platform-specific reference in config_write_utf8_test)
+		 */
+		root->add_child("Win32Console")->add_child_text ("1");
+	}
 #endif
 
 	/* [XML] Signer Certificate chain and private key to use when signing DCPs and KDMs.  Should contain <code>&lt;Certificate&gt;</code>
