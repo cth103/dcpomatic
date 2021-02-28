@@ -203,6 +203,9 @@ DCPOMATIC_DISABLE_WARNINGS
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 		auto context = _format_context->streams[i]->codec;
 
+		context->thread_count = 8;
+		context->thread_type = FF_THREAD_FRAME | FF_THREAD_SLICE;
+
 		AVCodec* codec = avcodec_find_decoder (context->codec_id);
 		if (codec) {
 
