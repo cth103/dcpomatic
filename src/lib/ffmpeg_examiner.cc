@@ -169,7 +169,7 @@ DCPOMATIC_ENABLE_WARNINGS
 DCPOMATIC_DISABLE_WARNINGS
 	auto context = _format_context->streams[_packet.stream_index]->codec;
 DCPOMATIC_ENABLE_WARNINGS
-	while (video_packet(context, temporal_reference)) {}
+	while (_video_stream && video_packet(context, temporal_reference)) {}
 	for (size_t i = 0; i < _audio_streams.size(); ++i) {
 		if (_audio_streams[i]->uses_index (_format_context, _packet.stream_index)) {
 			audio_packet (context, _audio_streams[i]);
