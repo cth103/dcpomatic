@@ -62,10 +62,10 @@ private:
 
 	bool decode_video_packet (AVPacket* packet);
 	void decode_audio_packet (AVPacket* packet);
-	void decode_subtitle_packet (AVPacket* packet);
+	void decode_and_process_subtitle_packet (AVPacket* packet);
 
-	void decode_bitmap_subtitle (AVSubtitleRect const * rect, dcpomatic::ContentTime from);
-	void decode_ass_subtitle (std::string ass, dcpomatic::ContentTime from);
+	void process_bitmap_subtitle (AVSubtitleRect const * rect, dcpomatic::ContentTime from);
+	void process_ass_subtitle (std::string ass, dcpomatic::ContentTime from);
 
 	void maybe_add_subtitle ();
 	std::shared_ptr<AudioBuffers> deinterleave_audio (std::shared_ptr<FFmpegAudioStream> stream) const;

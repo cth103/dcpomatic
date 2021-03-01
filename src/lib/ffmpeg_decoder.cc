@@ -192,7 +192,7 @@ FFmpegDecoder::pass ()
 	if (_video_stream && si == _video_stream.get() && video && !video->ignore()) {
 		decode_video_packet (packet);
 	} else if (fc->subtitle_stream() && fc->subtitle_stream()->uses_index(_format_context, si) && !only_text()->ignore()) {
-		decode_subtitle_packet (packet);
+		decode_and_process_subtitle_packet (packet);
 	} else {
 		decode_audio_packet (packet);
 	}
@@ -598,7 +598,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 
 void
-FFmpegDecoder::decode_subtitle_packet (AVPacket* packet)
+FFmpegDecoder::decode_and_process_subtitle_packet (AVPacket* packet)
 {
 	int got_subtitle;
 	AVSubtitle sub;
@@ -641,13 +641,13 @@ FFmpegDecoder::decode_subtitle_packet (AVPacket* packet)
 		case SUBTITLE_NONE:
 			break;
 		case SUBTITLE_BITMAP:
-			decode_bitmap_subtitle (rect, from);
+			process_bitmap_subtitle (rect, from);
 			break;
 		case SUBTITLE_TEXT:
 			cout << "XXX: SUBTITLE_TEXT " << rect->text << "\n";
 			break;
 		case SUBTITLE_ASS:
-			decode_ass_subtitle (rect->ass, from);
+			process_ass_subtitle (rect->ass, from);
 			break;
 		}
 	}
@@ -661,7 +661,7 @@ FFmpegDecoder::decode_subtitle_packet (AVPacket* packet)
 
 
 void
-FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime from)
+FFmpegDecoder::process_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime from)
 {
 	/* Note BGRA is expressed little-endian, so the first byte in the word is B, second
 	   G, third R, fourth A.
@@ -749,7 +749,7 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime 
 
 
 void
-FFmpegDecoder::decode_ass_subtitle (string ass, ContentTime from)
+FFmpegDecoder::process_ass_subtitle (string ass, ContentTime from)
 {
 	/* We have no styles and no Format: line, so I'm assuming that FFmpeg
 	   produces a single format of Dialogue: lines...
