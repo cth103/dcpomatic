@@ -424,6 +424,24 @@ DCPOMATIC_ENABLE_WARNINGS
 }
 
 
+shared_ptr<FFmpegAudioStream>
+FFmpegDecoder::audio_stream_from_index (int index) const
+{
+	/* XXX: inefficient */
+	auto streams = ffmpeg_content()->ffmpeg_audio_streams();
+	auto stream = streams.begin();
+	while (stream != streams.end() && !(*stream)->uses_index(_format_context, index)) {
+		++stream;
+	}
+
+	if (stream == streams.end ()) {
+		return {};
+	}
+
+	return *stream;
+}
+
+
 void
 FFmpegDecoder::decode_audio_packet ()
 {
@@ -434,14 +452,8 @@ FFmpegDecoder::decode_audio_packet ()
 	AVPacket copy_packet = _packet;
 	int const stream_index = copy_packet.stream_index;
 
-	/* XXX: inefficient */
-	auto streams = ffmpeg_content()->ffmpeg_audio_streams();
-	auto stream = streams.begin ();
-	while (stream != streams.end () && !(*stream)->uses_index (_format_context, stream_index)) {
-		++stream;
-	}
-
-	if (stream == streams.end ()) {
+	auto stream = audio_stream_from_index (stream_index);
+	if (!stream) {
 		/* The packet's stream may not be an audio one; just ignore it in this method if so */
 		return;
 	}
@@ -450,7 +462,7 @@ DCPOMATIC_DISABLE_WARNINGS
 	while (copy_packet.size > 0) {
 
 		int frame_finished;
-		int decode_result = avcodec_decode_audio4 ((*stream)->stream (_format_context)->codec, _frame, &frame_finished, &copy_packet);
+		int decode_result = avcodec_decode_audio4 (stream->stream(_format_context)->codec, _frame, &frame_finished, &copy_packet);
 		if (decode_result < 0) {
 			/* avcodec_decode_audio4 can sometimes return an error even though it has decoded
 			   some valid data; for example dca_subframe_footer can return AVERROR_INVALIDDATA
@@ -468,7 +480,7 @@ DCPOMATIC_DISABLE_WARNINGS
 		}
 
 		if (frame_finished) {
-			shared_ptr<AudioBuffers> data = deinterleave_audio (*stream);
+			auto data = deinterleave_audio (stream);
 
 			ContentTime ct;
 			if (_frame->pts == AV_NOPTS_VALUE) {
@@ -482,18 +494,18 @@ DCPOMATIC_DISABLE_WARNINGS
 			} else {
 				ct = ContentTime::from_seconds (
 					av_frame_get_best_effort_timestamp (_frame) *
-					av_q2d ((*stream)->stream (_format_context)->time_base))
+					av_q2d (stream->stream(_format_context)->time_base))
 					+ _pts_offset;
 			}
 
-			_next_time[stream_index] = ct + ContentTime::from_frames(data->frames(), (*stream)->frame_rate());
+			_next_time[stream_index] = ct + ContentTime::from_frames(data->frames(), stream->frame_rate());
 
 			if (ct < ContentTime()) {
 				/* Discard audio data that comes before time 0 */
-				auto const remove = min (int64_t (data->frames()), (-ct).frames_ceil(double((*stream)->frame_rate ())));
+				auto const remove = min (int64_t(data->frames()), (-ct).frames_ceil(double(stream->frame_rate())));
 				data->move (data->frames() - remove, remove, 0);
 				data->set_frames (data->frames() - remove);
-				ct += ContentTime::from_frames (remove, (*stream)->frame_rate ());
+				ct += ContentTime::from_frames (remove, stream->frame_rate());
 			}
 
 			if (ct < ContentTime()) {
@@ -504,7 +516,7 @@ DCPOMATIC_DISABLE_WARNINGS
 					copy_packet.stream_index,
 					copy_packet.pts,
 					av_frame_get_best_effort_timestamp(_frame),
-					av_q2d((*stream)->stream(_format_context)->time_base),
+					av_q2d(stream->stream(_format_context)->time_base),
 					to_string(_pts_offset)
 					);
 			}
@@ -512,7 +524,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 			/* Give this data provided there is some, and its time is sane */
 			if (ct >= ContentTime() && data->frames() > 0) {
-				audio->emit (film(), *stream, data, ct);
+				audio->emit (film(), stream, data, ct);
 			}
 		}
 

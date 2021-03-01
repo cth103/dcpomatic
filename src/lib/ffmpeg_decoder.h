@@ -57,6 +57,8 @@ private:
 	AVSampleFormat audio_sample_format (std::shared_ptr<FFmpegAudioStream> stream) const;
 	int bytes_per_audio_sample (std::shared_ptr<FFmpegAudioStream> stream) const;
 
+	std::shared_ptr<FFmpegAudioStream> audio_stream_from_index (int index) const;
+
 	bool decode_video_packet ();
 	void decode_audio_packet ();
 	void decode_subtitle_packet ();
