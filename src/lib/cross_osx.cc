@@ -272,7 +272,7 @@ get_vendor (CFDictionaryRef& description)
 {
 	void const* str = CFDictionaryGetValue (description, kDADiskDescriptionDeviceVendorKey);
 	if (!str) {
-		return optional<string>();
+		return {};
 	}
 
 	string s = CFStringGetCStringPtr ((CFStringRef) str, kCFStringEncodingUTF8);
@@ -285,7 +285,7 @@ get_model (CFDictionaryRef& description)
 {
 	void const* str = CFDictionaryGetValue (description, kDADiskDescriptionDeviceModelKey);
 	if (!str) {
-		return optional<string>();
+		return {};
 	}
 
 	string s = CFStringGetCStringPtr ((CFStringRef) str, kCFStringEncodingUTF8);
@@ -306,17 +306,23 @@ analyse_media_path (CFDictionaryRef& description)
 
 	void const* str = CFDictionaryGetValue (description, kDADiskDescriptionMediaPathKey);
 	if (!str) {
-		LOG_DISK_NC("There is no MediaPathKey");
-		return optional<MediaPath>();
+		LOG_DISK_NC("There is no MediaPathKey (no dictionary value)");
+		return {};
 	}
 
-	string path(CFStringGetCStringPtr((CFStringRef) str, kCFStringEncodingUTF8));
+	auto path_key_cstr = CFStringGetCStringPtr((CFStringRef) str, kCFStringEncodingUTF8);
+	if (!path_key_cstr) {
+		LOG_DISK_NC("There is no MediaPathKey (no cstring)");
+		return {};
+	}
+
+	string path(path_key_cstr);
 	LOG_DISK("MediaPathKey is %1", path);
 
 	if (path.find("/IOHDIXController") != string::npos) {
 		/* This is a disk image, so we completely ignore it */
 		LOG_DISK_NC("Ignoring this as it seems to be a disk image");
-		return optional<MediaPath>();
+		return {};
 	}
 
 	MediaPath mp;
@@ -325,7 +331,7 @@ analyse_media_path (CFDictionaryRef& description)
 	} else if (starts_with(path, "IOService:")) {
 		mp.real = false;
 	} else {
-		return optional<MediaPath>();
+		return {};
 	}
 
 	vector<string> bits;
@@ -356,10 +362,14 @@ is_whole_drive (DADiskRef& disk)
 static optional<boost::filesystem::path>
 mount_point (CFDictionaryRef& description)
 {
-	CFURLRef volume_path_key = (CFURLRef) CFDictionaryGetValue (description, kDADiskDescriptionVolumePathKey);
+	auto volume_path_key = (CFURLRef) CFDictionaryGetValue (description, kDADiskDescriptionVolumePathKey);
+	if (!volume_path_key) {
+		return {};
+	}
+
 	char mount_path_buffer[1024];
 	if (!CFURLGetFileSystemRepresentation(volume_path_key, false, (UInt8 *) mount_path_buffer, sizeof(mount_path_buffer))) {
-		return boost::optional<boost::filesystem::path>();
+		return {};
 	}
 	return boost::filesystem::path(mount_path_buffer);
 }
@@ -403,7 +413,7 @@ struct Disk
 static void
 disk_appeared (DADiskRef disk, void* context)
 {
-	const char* bsd_name = DADiskGetBSDName (disk);
+	auto bsd_name = DADiskGetBSDName (disk);
 	if (!bsd_name) {
 		return;
 	}
@@ -419,7 +429,7 @@ disk_appeared (DADiskRef disk, void* context)
 	this_disk.model = get_model (description);
 	LOG_DISK("Vendor/model: %1 %2", this_disk.vendor.get_value_or("[none]"), this_disk.model.get_value_or("[none]"));
 
-	optional<MediaPath> media_path = analyse_media_path (description);
+	auto media_path = analyse_media_path (description);
 	if (!media_path) {
 		LOG_DISK("Finding media path for %1 failed", bsd_name);
 		return;
@@ -428,7 +438,7 @@ disk_appeared (DADiskRef disk, void* context)
 	this_disk.real = media_path->real;
 	this_disk.prt = media_path->prt;
 	this_disk.whole = is_whole_drive (disk);
-	optional<boost::filesystem::path> mp = mount_point (description);
+	auto mp = mount_point (description);
 	if (mp) {
 		this_disk.mount_points.push_back (*mp);
 	}
@@ -441,7 +451,13 @@ disk_appeared (DADiskRef disk, void* context)
 		 mp ? ("mounted at " + mp->string()) : "unmounted"
 		);
 
-	CFNumberGetValue ((CFNumberRef) CFDictionaryGetValue (description, kDADiskDescriptionMediaSizeKey), kCFNumberLongType, &this_disk.size);
+	auto media_size_cstr = CFDictionaryGetValue (description, kDADiskDescriptionMediaSizeKey);
+	if (!media_size_cstr) {
+		LOG_DISK_NC("Could not read media size");
+		return;
+	}
+
+	CFNumberGetValue ((CFNumberRef) media_size_cstr, kCFNumberLongType, &this_disk.size);
 	CFRelease (description);
 
 	reinterpret_cast<vector<Disk>*>(context)->push_back(this_disk);
@@ -455,7 +471,7 @@ Drive::get ()
 
 	DASessionRef session = DASessionCreate(kCFAllocatorDefault);
 	if (!session) {
-		return vector<Drive>();
+		return {};
 	}
 
 	DARegisterDiskAppearedCallback (session, NULL, disk_appeared, &disks);
@@ -491,7 +507,7 @@ Drive::get ()
 	/* Mark containers of those mounted synths as themselves mounted */
 	for (auto& i: disks) {
 		if (i.real) {
-			map<string, vector<boost::filesystem::path> >::const_iterator j = mounted_synths.find(i.prt);
+			auto j = mounted_synths.find(i.prt);
 			if (j != mounted_synths.end()) {
 				LOG_DISK("Marking %1 (%2) as mounted because it contains a mounted synth", i.mount_point, i.prt);
 				std::copy(j->second.begin(), j->second.end(), back_inserter(i.mount_points));
