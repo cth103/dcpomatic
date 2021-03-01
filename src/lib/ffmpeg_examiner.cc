@@ -304,7 +304,7 @@ FFmpegExaminer::sample_aspect_ratio () const
 	AVRational sar = av_guess_sample_aspect_ratio (_format_context, _format_context->streams[_video_stream.get()], 0);
 	if (sar.num == 0) {
 		/* I assume this means that we don't know */
-		return optional<double> ();
+		return {};
 	}
 	return double (sar.num) / sar.den;
 }
@@ -312,7 +312,7 @@ FFmpegExaminer::sample_aspect_ratio () const
 string
 FFmpegExaminer::subtitle_stream_name (AVStream* s) const
 {
-	string n = stream_name (s);
+	auto n = stream_name (s);
 
 	if (n.empty()) {
 		n = _("unknown");
