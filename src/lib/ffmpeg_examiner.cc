@@ -118,6 +118,8 @@ DCPOMATIC_DISABLE_WARNINGS
 	 */
 
 	int64_t const len = _file_group.length ();
+	auto context = _format_context->streams[_packet.stream_index]->codec;
+DCPOMATIC_ENABLE_WARNINGS
 	/* A string which we build up to describe the top-field-first and repeat-first-frame values for the first few frames.
 	 * It would be nicer to use something like vector<bool> here but we want to search the array for a pattern later,
 	 * and a string seems a reasonably neat way to do that.
@@ -136,9 +138,6 @@ DCPOMATIC_DISABLE_WARNINGS
 				job->set_progress_unknown ();
 			}
 		}
-
-		AVCodecContext* context = _format_context->streams[_packet.stream_index]->codec;
-DCPOMATIC_ENABLE_WARNINGS
 
 		if (_video_stream && _packet.stream_index == _video_stream.get()) {
 			video_packet (context, temporal_reference);
@@ -160,6 +159,16 @@ DCPOMATIC_ENABLE_WARNINGS
 		if (_first_video && got_all_audio && temporal_reference.size() >= (PULLDOWN_CHECK_FRAMES * 2)) {
 			/* All done */
 			break;
+		}
+	}
+
+	_packet.data = nullptr;
+	_packet.size = 0;
+	while (video_packet(context, temporal_reference)) {}
+	/* XXX: I'm not sure this makes any sense: how does _packet.stream_index get the right value here? */
+	for (size_t i = 0; i < _audio_streams.size(); ++i) {
+		if (_audio_streams[i]->uses_index (_format_context, _packet.stream_index)) {
+			audio_packet (context, _audio_streams[i]);
 		}
 	}
 
@@ -196,34 +205,39 @@ DCPOMATIC_ENABLE_WARNINGS
 
 /** @param temporal_reference A string to which we should add two characters per frame;
  *  the first   is T or B depending on whether it's top- or bottom-field first,
- *  ths seconds is 3 or 2 depending on whether "repeat_pict" is true or not.
+ *  the second  is 3 or 2 depending on whether "repeat_pict" is true or not.
+ *  @return true if some video was decoded, otherwise false.
  */
-void
+bool
 FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_reference)
 {
 	DCPOMATIC_ASSERT (_video_stream);
 
 	if (_first_video && !_need_video_length && temporal_reference.size() >= (PULLDOWN_CHECK_FRAMES * 2)) {
-		return;
+		return false;
 	}
 
 	int frame_finished;
 DCPOMATIC_DISABLE_WARNINGS
-	if (avcodec_decode_video2 (context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-DCPOMATIC_ENABLE_WARNINGS
-		if (!_first_video) {
-			_first_video = frame_time (_format_context->streams[_video_stream.get()]);
-		}
-		if (_need_video_length) {
-			_video_length = frame_time (
-				_format_context->streams[_video_stream.get()]
-				).get_value_or (ContentTime ()).frames_round (video_frame_rate().get ());
-		}
-		if (temporal_reference.size() < (PULLDOWN_CHECK_FRAMES * 2)) {
-			temporal_reference += (_frame->top_field_first ? "T" : "B");
-			temporal_reference += (_frame->repeat_pict ? "3" : "2");
-		}
+	if (avcodec_decode_video2 (context, _frame, &frame_finished, &_packet) < 0 || !frame_finished) {
+		return false;
 	}
+DCPOMATIC_ENABLE_WARNINGS
+
+	if (!_first_video) {
+		_first_video = frame_time (_format_context->streams[_video_stream.get()]);
+	}
+	if (_need_video_length) {
+		_video_length = frame_time (
+			_format_context->streams[_video_stream.get()]
+			).get_value_or (ContentTime ()).frames_round (video_frame_rate().get ());
+	}
+	if (temporal_reference.size() < (PULLDOWN_CHECK_FRAMES * 2)) {
+		temporal_reference += (_frame->top_field_first ? "T" : "B");
+		temporal_reference += (_frame->repeat_pict ? "3" : "2");
+	}
+
+	return true;
 }
 
 
