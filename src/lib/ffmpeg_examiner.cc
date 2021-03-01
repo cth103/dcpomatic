@@ -166,7 +166,9 @@ DCPOMATIC_ENABLE_WARNINGS
 	_packet.data = nullptr;
 	_packet.size = 0;
 	/* XXX: I'm not sure this makes any sense: how does _packet.stream_index get the right value here? */
+DCPOMATIC_DISABLE_WARNINGS
 	auto context = _format_context->streams[_packet.stream_index]->codec;
+DCPOMATIC_ENABLE_WARNINGS
 	while (video_packet(context, temporal_reference)) {}
 	for (size_t i = 0; i < _audio_streams.size(); ++i) {
 		if (_audio_streams[i]->uses_index (_format_context, _packet.stream_index)) {
