@@ -65,8 +65,11 @@ ExamineFFmpegSubtitlesJob::run ()
 {
 	int64_t const len = _file_group.length ();
 	while (true) {
-		int r = av_read_frame (_format_context, &_packet);
+		auto packet = av_packet_alloc ();
+		DCPOMATIC_ASSERT (packet);
+		int r = av_read_frame (_format_context, packet);
 		if (r < 0) {
+			av_packet_free (&packet);
 			break;
 		}
 
@@ -76,10 +79,10 @@ ExamineFFmpegSubtitlesJob::run ()
 			set_progress_unknown ();
 		}
 
-		if (_content->subtitle_stream() && _content->subtitle_stream()->uses_index(_format_context, _packet.stream_index) && _content->only_text()->use()) {
+		if (_content->subtitle_stream() && _content->subtitle_stream()->uses_index(_format_context, packet->stream_index) && _content->only_text()->use()) {
 			int got_subtitle;
 			AVSubtitle sub;
-			if (avcodec_decode_subtitle2(subtitle_codec_context(), &sub, &got_subtitle, &_packet) >= 0 && got_subtitle) {
+			if (avcodec_decode_subtitle2(subtitle_codec_context(), &sub, &got_subtitle, packet) >= 0 && got_subtitle) {
 				for (unsigned int i = 0; i < sub.num_rects; ++i) {
 					AVSubtitleRect const * rect = sub.rects[i];
 					if (rect->type == SUBTITLE_BITMAP) {
@@ -104,7 +107,7 @@ ExamineFFmpegSubtitlesJob::run ()
 			}
 		}
 
-		av_packet_unref (&_packet);
+		av_packet_free (&packet);
 	}
 
 	set_progress (1);

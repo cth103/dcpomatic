@@ -69,7 +69,6 @@ protected:
 	FileGroup _file_group;
 
 	AVFormatContext* _format_context;
-	AVPacket _packet;
 	AVFrame* _frame;
 
 	/** Index of video stream within AVFormatContext */

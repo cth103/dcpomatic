@@ -60,9 +60,9 @@ private:
 	std::shared_ptr<FFmpegAudioStream> audio_stream_from_index (int index) const;
 	void process_audio_frame (std::shared_ptr<FFmpegAudioStream> stream, int stream_index, int64_t packet_pts);
 
-	bool decode_video_packet ();
-	void decode_audio_packet ();
-	void decode_subtitle_packet ();
+	bool decode_video_packet (AVPacket* packet);
+	void decode_audio_packet (AVPacket* packet);
+	void decode_subtitle_packet (AVPacket* packet);
 
 	void decode_bitmap_subtitle (AVSubtitleRect const * rect, dcpomatic::ContentTime from);
 	void decode_ass_subtitle (std::string ass, dcpomatic::ContentTime from);

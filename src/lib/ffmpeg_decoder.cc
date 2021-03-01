@@ -110,15 +110,15 @@ FFmpegDecoder::flush ()
 {
 	/* Get any remaining frames */
 
-	_packet.data = 0;
-	_packet.size = 0;
-
-	/* XXX: should we reset _packet.data and size after each *_decode_* call? */
-
-	while (video && decode_video_packet()) {}
+	AVPacket packet;
+	packet.data = nullptr;
+	packet.size = 0;
+	while (video && decode_video_packet(&packet)) {}
 
 	if (audio) {
-		decode_audio_packet ();
+		packet.data = nullptr;
+		packet.size = 0;
+		decode_audio_packet (&packet);
 	}
 
 	/* Make sure all streams are the same length and round up to the next video frame */
@@ -162,7 +162,10 @@ FFmpegDecoder::flush ()
 bool
 FFmpegDecoder::pass ()
 {
-	int r = av_read_frame (_format_context, &_packet);
+	auto packet = av_packet_alloc();
+	DCPOMATIC_ASSERT (packet);
+
+	int r = av_read_frame (_format_context, packet);
 
 	/* AVERROR_INVALIDDATA can apparently be returned sometimes even when av_read_frame
 	   has pretty-much succeeded (and hence generated data which should be processed).
@@ -176,22 +179,23 @@ FFmpegDecoder::pass ()
 			LOG_ERROR (N_("error on av_read_frame (%1) (%2)"), &buf[0], r);
 		}
 
+		av_packet_free (&packet);
 		flush ();
 		return true;
 	}
 
-	int const si = _packet.stream_index;
+	int const si = packet->stream_index;
 	auto fc = _ffmpeg_content;
 
 	if (_video_stream && si == _video_stream.get() && video && !video->ignore()) {
-		decode_video_packet ();
+		decode_video_packet (packet);
 	} else if (fc->subtitle_stream() && fc->subtitle_stream()->uses_index(_format_context, si) && !only_text()->ignore()) {
-		decode_subtitle_packet ();
+		decode_subtitle_packet (packet);
 	} else {
-		decode_audio_packet ();
+		decode_audio_packet (packet);
 	}
 
-	av_packet_unref (&_packet);
+	av_packet_free (&packet);
 	return false;
 }
 
@@ -494,19 +498,18 @@ FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream, int st
 
 
 void
-FFmpegDecoder::decode_audio_packet ()
+FFmpegDecoder::decode_audio_packet (AVPacket* packet)
 {
-	/* Audio packets can contain multiple frames, so we may have to call avcodec_decode_audio4
-	   several times.
-	*/
-
-	AVPacket copy_packet = _packet;
-	int const stream_index = copy_packet.stream_index;
-
+	int const stream_index = packet->stream_index;
 	auto stream = audio_stream_from_index (stream_index);
 	if (!stream) {
 		return;
 	}
+
+	/* Audio packets can contain multiple frames, so we may have to call avcodec_decode_audio4
+	   several times.  Make a simple copy so we can alter data and size.
+	*/
+	AVPacket copy_packet = *packet;
 
 	while (copy_packet.size > 0) {
 		int frame_finished;
@@ -540,13 +543,13 @@ FFmpegDecoder::decode_audio_packet ()
 
 
 bool
-FFmpegDecoder::decode_video_packet ()
+FFmpegDecoder::decode_video_packet (AVPacket* packet)
 {
 	DCPOMATIC_ASSERT (_video_stream);
 
 	int frame_finished;
 DCPOMATIC_DISABLE_WARNINGS
-	if (avcodec_decode_video2 (video_codec_context(), _frame, &frame_finished, &_packet) < 0 || !frame_finished) {
+	if (avcodec_decode_video2 (video_codec_context(), _frame, &frame_finished, packet) < 0 || !frame_finished) {
 		return false;
 	}
 DCPOMATIC_ENABLE_WARNINGS
@@ -594,11 +597,11 @@ DCPOMATIC_ENABLE_WARNINGS
 
 
 void
-FFmpegDecoder::decode_subtitle_packet ()
+FFmpegDecoder::decode_subtitle_packet (AVPacket* packet)
 {
 	int got_subtitle;
 	AVSubtitle sub;
-	if (avcodec_decode_subtitle2 (subtitle_codec_context(), &sub, &got_subtitle, &_packet) < 0 || !got_subtitle) {
+	if (avcodec_decode_subtitle2 (subtitle_codec_context(), &sub, &got_subtitle, packet) < 0 || !got_subtitle) {
 		return;
 	}
 

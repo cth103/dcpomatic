@@ -124,8 +124,11 @@ DCPOMATIC_DISABLE_WARNINGS
 	 */
 	string temporal_reference;
 	while (true) {
-		int r = av_read_frame (_format_context, &_packet);
+		auto packet = av_packet_alloc ();
+		DCPOMATIC_ASSERT (packet);
+		int r = av_read_frame (_format_context, packet);
 		if (r < 0) {
+			av_packet_free (&packet);
 			break;
 		}
 
@@ -137,25 +140,25 @@ DCPOMATIC_DISABLE_WARNINGS
 			}
 		}
 
-		auto context = _format_context->streams[_packet.stream_index]->codec;
+		auto context = _format_context->streams[packet->stream_index]->codec;
 DCPOMATIC_ENABLE_WARNINGS
 
-		if (_video_stream && _packet.stream_index == _video_stream.get()) {
-			video_packet (context, temporal_reference);
+		if (_video_stream && packet->stream_index == _video_stream.get()) {
+			video_packet (context, temporal_reference, packet);
 		}
 
 		bool got_all_audio = true;
 
 		for (size_t i = 0; i < _audio_streams.size(); ++i) {
-			if (_audio_streams[i]->uses_index (_format_context, _packet.stream_index)) {
-				audio_packet (context, _audio_streams[i]);
+			if (_audio_streams[i]->uses_index(_format_context, packet->stream_index)) {
+				audio_packet (context, _audio_streams[i], packet);
 			}
 			if (!_audio_streams[i]->first_audio) {
 				got_all_audio = false;
 			}
 		}
 
-		av_packet_unref (&_packet);
+		av_packet_free (&packet);
 
 		if (_first_video && got_all_audio && temporal_reference.size() >= (PULLDOWN_CHECK_FRAMES * 2)) {
 			/* All done */
@@ -163,23 +166,24 @@ DCPOMATIC_ENABLE_WARNINGS
 		}
 	}
 
-	_packet.data = nullptr;
-	_packet.size = 0;
+	AVPacket packet;
+	packet.data = nullptr;
+	packet.size = 0;
 	/* XXX: I'm not sure this makes any sense: how does _packet.stream_index get the right value here? */
 DCPOMATIC_DISABLE_WARNINGS
-	auto context = _format_context->streams[_packet.stream_index]->codec;
+	auto context = _format_context->streams[packet.stream_index]->codec;
 DCPOMATIC_ENABLE_WARNINGS
-	while (_video_stream && video_packet(context, temporal_reference)) {}
+	while (_video_stream && video_packet(context, temporal_reference, &packet)) {}
 	for (size_t i = 0; i < _audio_streams.size(); ++i) {
-		if (_audio_streams[i]->uses_index (_format_context, _packet.stream_index)) {
-			audio_packet (context, _audio_streams[i]);
+		if (_audio_streams[i]->uses_index(_format_context, packet.stream_index)) {
+			audio_packet (context, _audio_streams[i], &packet);
 		}
 	}
 
 	if (_video_stream) {
 		/* This code taken from get_rotation() in ffmpeg:cmdutils.c */
-		AVStream* stream = _format_context->streams[*_video_stream];
-		AVDictionaryEntry* rotate_tag = av_dict_get (stream->metadata, "rotate", 0, 0);
+		auto stream = _format_context->streams[*_video_stream];
+		auto rotate_tag = av_dict_get (stream->metadata, "rotate", 0, 0);
 		uint8_t* displaymatrix = av_stream_get_side_data (stream, AV_PKT_DATA_DISPLAYMATRIX, 0);
 		_rotation = 0;
 
@@ -213,7 +217,7 @@ DCPOMATIC_ENABLE_WARNINGS
  *  @return true if some video was decoded, otherwise false.
  */
 bool
-FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_reference)
+FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_reference, AVPacket* packet)
 {
 	DCPOMATIC_ASSERT (_video_stream);
 
@@ -223,7 +227,7 @@ FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_referenc
 
 	int frame_finished;
 DCPOMATIC_DISABLE_WARNINGS
-	if (avcodec_decode_video2 (context, _frame, &frame_finished, &_packet) < 0 || !frame_finished) {
+	if (avcodec_decode_video2 (context, _frame, &frame_finished, packet) < 0 || !frame_finished) {
 		return false;
 	}
 DCPOMATIC_ENABLE_WARNINGS
@@ -246,7 +250,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 
 void
-FFmpegExaminer::audio_packet (AVCodecContext* context, shared_ptr<FFmpegAudioStream> stream)
+FFmpegExaminer::audio_packet (AVCodecContext* context, shared_ptr<FFmpegAudioStream> stream, AVPacket* packet)
 {
 	if (stream->first_audio) {
 		return;
@@ -254,7 +258,7 @@ FFmpegExaminer::audio_packet (AVCodecContext* context, shared_ptr<FFmpegAudioStr
 
 	int frame_finished;
 DCPOMATIC_DISABLE_WARNINGS
-	if (avcodec_decode_audio4 (context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
+	if (avcodec_decode_audio4 (context, _frame, &frame_finished, packet) >= 0 && frame_finished) {
 DCPOMATIC_ENABLE_WARNINGS
 		stream->first_audio = frame_time (stream->stream (_format_context));
 	}
