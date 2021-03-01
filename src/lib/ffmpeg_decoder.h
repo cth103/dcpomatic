@@ -52,16 +52,17 @@ public:
 private:
 	friend struct ::ffmpeg_pts_offset_test;
 
-	void flush ();
+	bool flush ();
 
 	AVSampleFormat audio_sample_format (std::shared_ptr<FFmpegAudioStream> stream) const;
 	int bytes_per_audio_sample (std::shared_ptr<FFmpegAudioStream> stream) const;
 
 	std::shared_ptr<FFmpegAudioStream> audio_stream_from_index (int index) const;
-	void process_audio_frame (std::shared_ptr<FFmpegAudioStream> stream, int64_t packet_pts);
+	std::pair<int, bool> decode_audio_packet (std::shared_ptr<FFmpegAudioStream> stream, AVPacket* packet);
+	void process_audio_frame (std::shared_ptr<FFmpegAudioStream> stream);
 
-	bool decode_video_packet (AVPacket* packet);
-	void decode_audio_packet (AVPacket* packet);
+	bool decode_and_process_video_packet (AVPacket* packet);
+	void decode_and_process_audio_packet (AVPacket* packet);
 	void decode_and_process_subtitle_packet (AVPacket* packet);
 
 	void process_bitmap_subtitle (AVSubtitleRect const * rect, dcpomatic::ContentTime from);

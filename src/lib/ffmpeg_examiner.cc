@@ -166,18 +166,25 @@ DCPOMATIC_ENABLE_WARNINGS
 		}
 	}
 
-	AVPacket packet;
-	packet.data = nullptr;
-	packet.size = 0;
-	/* XXX: I'm not sure this makes any sense: how does _packet.stream_index get the right value here? */
+	if (_video_stream) {
+		AVPacket packet;
+		av_init_packet (&packet);
+		packet.data = nullptr;
+		packet.size = 0;
 DCPOMATIC_DISABLE_WARNINGS
-	auto context = _format_context->streams[packet.stream_index]->codec;
+		auto context = _format_context->streams[*_video_stream]->codec;
 DCPOMATIC_ENABLE_WARNINGS
-	while (_video_stream && video_packet(context, temporal_reference, &packet)) {}
-	for (size_t i = 0; i < _audio_streams.size(); ++i) {
-		if (_audio_streams[i]->uses_index(_format_context, packet.stream_index)) {
-			audio_packet (context, _audio_streams[i], &packet);
-		}
+		while (video_packet(context, temporal_reference, &packet)) {}
+	}
+
+	for (auto i: _audio_streams) {
+		AVPacket packet;
+		av_init_packet (&packet);
+		packet.data = nullptr;
+		packet.size = 0;
+DCPOMATIC_DISABLE_WARNINGS
+		audio_packet (i->stream(_format_context)->codec, i, &packet);
+DCPOMATIC_ENABLE_WARNINGS
 	}
 
 	if (_video_stream) {

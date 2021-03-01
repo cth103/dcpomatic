@@ -69,6 +69,7 @@ using std::max;
 using std::map;
 using std::shared_ptr;
 using std::make_shared;
+using std::make_pair;
 using boost::is_any_of;
 using boost::split;
 using boost::optional;
@@ -107,20 +108,37 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmp
 }
 
 
-void
+bool
 FFmpegDecoder::flush ()
 {
-	/* Get any remaining frames */
+	/* Flush video and audio once */
 
-	AVPacket packet;
-	packet.data = nullptr;
-	packet.size = 0;
-	while (video && decode_video_packet(&packet)) {}
-
-	if (audio) {
+	bool did_something = false;
+	if (video) {
+		AVPacket packet;
+		av_init_packet (&packet);
 		packet.data = nullptr;
 		packet.size = 0;
-		decode_audio_packet (&packet);
+		if (decode_and_process_video_packet(&packet)) {
+			did_something = true;
+		}
+	}
+
+	for (auto i: ffmpeg_content()->ffmpeg_audio_streams()) {
+		AVPacket packet;
+		av_init_packet (&packet);
+		packet.data = nullptr;
+		packet.size = 0;
+		auto result = decode_audio_packet (i, &packet);
+		if (result.second) {
+			process_audio_frame (i);
+			did_something = true;
+		}
+	}
+
+	if (did_something) {
+		/* We want to be called again */
+		return false;
 	}
 
 	/* Make sure all streams are the same length and round up to the next video frame */
@@ -158,6 +176,8 @@ FFmpegDecoder::flush ()
 	if (audio) {
 		audio->flush ();
 	}
+
+	return true;
 }
 
 
@@ -182,19 +202,18 @@ FFmpegDecoder::pass ()
 		}
 
 		av_packet_free (&packet);
-		flush ();
-		return true;
+		return flush ();
 	}
 
 	int const si = packet->stream_index;
 	auto fc = _ffmpeg_content;
 
 	if (_video_stream && si == _video_stream.get() && video && !video->ignore()) {
-		decode_video_packet (packet);
+		decode_and_process_video_packet (packet);
 	} else if (fc->subtitle_stream() && fc->subtitle_stream()->uses_index(_format_context, si) && !only_text()->ignore()) {
 		decode_and_process_subtitle_packet (packet);
 	} else {
-		decode_audio_packet (packet);
+		decode_and_process_audio_packet (packet);
 	}
 
 	av_packet_free (&packet);
@@ -449,7 +468,7 @@ FFmpegDecoder::audio_stream_from_index (int index) const
 
 
 void
-FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream, int64_t packet_pts)
+FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream)
 {
 	auto data = deinterleave_audio (stream);
 
@@ -481,11 +500,10 @@ FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream, int64_
 
 	if (ct < ContentTime()) {
 		LOG_WARNING (
-			"Crazy timestamp %1 for %2 samples in stream %3 packet pts %4 (ts=%5 tb=%6, off=%7)",
+			"Crazy timestamp %1 for %2 samples in stream %3 (ts=%4 tb=%5, off=%6)",
 			to_string(ct),
 			data->frames(),
 			stream->id(),
-			packet_pts,
 			_frame->best_effort_timestamp,
 			av_q2d(stream->stream(_format_context)->time_base),
 			to_string(_pts_offset)
@@ -499,8 +517,29 @@ FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream, int64_
 }
 
 
+pair<int, bool>
+FFmpegDecoder::decode_audio_packet (shared_ptr<FFmpegAudioStream> stream, AVPacket* packet)
+{
+	int frame_finished;
+	DCPOMATIC_DISABLE_WARNINGS
+	int decode_result = avcodec_decode_audio4 (stream->stream(_format_context)->codec, _frame, &frame_finished, packet);
+	DCPOMATIC_ENABLE_WARNINGS
+	if (decode_result < 0) {
+		/* avcodec_decode_audio4 can sometimes return an error even though it has decoded
+		   some valid data; for example dca_subframe_footer can return AVERROR_INVALIDDATA
+		   if it overreads the auxiliary data.	ffplay carries on if frame_finished is true,
+		   even in the face of such an error, so I think we should too.
+
+		   Returning from the method here caused mantis #352.
+		*/
+		LOG_WARNING ("avcodec_decode_audio4 failed (%1)", decode_result);
+	}
+	return make_pair(decode_result, frame_finished);
+}
+
+
 void
-FFmpegDecoder::decode_audio_packet (AVPacket* packet)
+FFmpegDecoder::decode_and_process_audio_packet (AVPacket* packet)
 {
 	auto stream = audio_stream_from_index (packet->stream_index);
 	if (!stream) {
@@ -513,11 +552,8 @@ FFmpegDecoder::decode_audio_packet (AVPacket* packet)
 	AVPacket copy_packet = *packet;
 
 	while (copy_packet.size > 0) {
-		int frame_finished;
-		DCPOMATIC_DISABLE_WARNINGS
-		int decode_result = avcodec_decode_audio4 (stream->stream(_format_context)->codec, _frame, &frame_finished, &copy_packet);
-		DCPOMATIC_ENABLE_WARNINGS
-		if (decode_result < 0) {
+		auto result = decode_audio_packet (stream, &copy_packet);
+		if (result.first < 0) {
 			/* avcodec_decode_audio4 can sometimes return an error even though it has decoded
 			   some valid data; for example dca_subframe_footer can return AVERROR_INVALIDDATA
 			   if it overreads the auxiliary data.	ffplay carries on if frame_finished is true,
@@ -525,26 +561,24 @@ FFmpegDecoder::decode_audio_packet (AVPacket* packet)
 
 			   Returning from the method here caused mantis #352.
 			*/
-			LOG_WARNING ("avcodec_decode_audio4 failed (%1)", decode_result);
-
-			/* Fudge decode_result so that we come out of the while loop when
-			   we've processed this data.
-			*/
-			decode_result = copy_packet.size;
 		}
 
-		if (frame_finished) {
-			process_audio_frame (stream, copy_packet.pts);
+		if (result.second) {
+			process_audio_frame (stream);
 		}
 
-		copy_packet.data += decode_result;
-		copy_packet.size -= decode_result;
+		if (result.first) {
+			break;
+		}
+
+		copy_packet.data += result.first;
+		copy_packet.size -= result.first;
 	}
 }
 
 
 bool
-FFmpegDecoder::decode_video_packet (AVPacket* packet)
+FFmpegDecoder::decode_and_process_video_packet (AVPacket* packet)
 {
 	DCPOMATIC_ASSERT (_video_stream);
 
