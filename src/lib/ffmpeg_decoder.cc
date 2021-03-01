@@ -443,6 +443,57 @@ FFmpegDecoder::audio_stream_from_index (int index) const
 
 
 void
+FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream, int stream_index, int64_t packet_pts)
+{
+	auto data = deinterleave_audio (stream);
+
+	ContentTime ct;
+	if (_frame->pts == AV_NOPTS_VALUE) {
+		/* In some streams we see not every frame coming through with a timestamp; for those
+		   that have AV_NOPTS_VALUE we need to work out the timestamp ourselves.  This is
+		   particularly noticeable with TrueHD streams (see #1111).
+		   */
+		if (_next_time[stream_index]) {
+			ct = *_next_time[stream_index];
+		}
+	} else {
+		ct = ContentTime::from_seconds (
+			_frame->best_effort_timestamp *
+			av_q2d (stream->stream(_format_context)->time_base))
+			+ _pts_offset;
+	}
+
+	_next_time[stream_index] = ct + ContentTime::from_frames(data->frames(), stream->frame_rate());
+
+	if (ct < ContentTime()) {
+		/* Discard audio data that comes before time 0 */
+		auto const remove = min (int64_t(data->frames()), (-ct).frames_ceil(double(stream->frame_rate())));
+		data->move (data->frames() - remove, remove, 0);
+		data->set_frames (data->frames() - remove);
+		ct += ContentTime::from_frames (remove, stream->frame_rate());
+	}
+
+	if (ct < ContentTime()) {
+		LOG_WARNING (
+			"Crazy timestamp %1 for %2 samples in stream %3 packet pts %4 (ts=%5 tb=%6, off=%7)",
+			to_string(ct),
+			data->frames(),
+			stream_index,
+			packet_pts,
+			_frame->best_effort_timestamp,
+			av_q2d(stream->stream(_format_context)->time_base),
+			to_string(_pts_offset)
+			);
+	}
+
+	/* Give this data provided there is some, and its time is sane */
+	if (ct >= ContentTime() && data->frames() > 0) {
+		audio->emit (film(), stream, data, ct);
+	}
+}
+
+
+void
 FFmpegDecoder::decode_audio_packet ()
 {
 	/* Audio packets can contain multiple frames, so we may have to call avcodec_decode_audio4
@@ -454,15 +505,14 @@ FFmpegDecoder::decode_audio_packet ()
 
 	auto stream = audio_stream_from_index (stream_index);
 	if (!stream) {
-		/* The packet's stream may not be an audio one; just ignore it in this method if so */
 		return;
 	}
 
-DCPOMATIC_DISABLE_WARNINGS
 	while (copy_packet.size > 0) {
-
 		int frame_finished;
+		DCPOMATIC_DISABLE_WARNINGS
 		int decode_result = avcodec_decode_audio4 (stream->stream(_format_context)->codec, _frame, &frame_finished, &copy_packet);
+		DCPOMATIC_ENABLE_WARNINGS
 		if (decode_result < 0) {
 			/* avcodec_decode_audio4 can sometimes return an error even though it has decoded
 			   some valid data; for example dca_subframe_footer can return AVERROR_INVALIDDATA
@@ -480,52 +530,7 @@ DCPOMATIC_DISABLE_WARNINGS
 		}
 
 		if (frame_finished) {
-			auto data = deinterleave_audio (stream);
-
-			ContentTime ct;
-			if (_frame->pts == AV_NOPTS_VALUE) {
-				/* In some streams we see not every frame coming through with a timestamp; for those
-				   that have AV_NOPTS_VALUE we need to work out the timestamp ourselves.  This is
-				   particularly noticeable with TrueHD streams (see #1111).
-				*/
-				if (_next_time[stream_index]) {
-					ct = *_next_time[stream_index];
-				}
-			} else {
-				ct = ContentTime::from_seconds (
-					av_frame_get_best_effort_timestamp (_frame) *
-					av_q2d (stream->stream(_format_context)->time_base))
-					+ _pts_offset;
-			}
-
-			_next_time[stream_index] = ct + ContentTime::from_frames(data->frames(), stream->frame_rate());
-
-			if (ct < ContentTime()) {
-				/* Discard audio data that comes before time 0 */
-				auto const remove = min (int64_t(data->frames()), (-ct).frames_ceil(double(stream->frame_rate())));
-				data->move (data->frames() - remove, remove, 0);
-				data->set_frames (data->frames() - remove);
-				ct += ContentTime::from_frames (remove, stream->frame_rate());
-			}
-
-			if (ct < ContentTime()) {
-				LOG_WARNING (
-					"Crazy timestamp %1 for %2 samples in stream %3 packet pts %4 (ts=%5 tb=%6, off=%7)",
-					to_string(ct),
-					data->frames(),
-					copy_packet.stream_index,
-					copy_packet.pts,
-					av_frame_get_best_effort_timestamp(_frame),
-					av_q2d(stream->stream(_format_context)->time_base),
-					to_string(_pts_offset)
-					);
-			}
-DCPOMATIC_ENABLE_WARNINGS
-
-			/* Give this data provided there is some, and its time is sane */
-			if (ct >= ContentTime() && data->frames() > 0) {
-				audio->emit (film(), stream, data, ct);
-			}
+			process_audio_frame (stream, stream_index, copy_packet.pts);
 		}
 
 		copy_packet.data += decode_result;
