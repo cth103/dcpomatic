@@ -118,8 +118,6 @@ DCPOMATIC_DISABLE_WARNINGS
 	 */
 
 	int64_t const len = _file_group.length ();
-	auto context = _format_context->streams[_packet.stream_index]->codec;
-DCPOMATIC_ENABLE_WARNINGS
 	/* A string which we build up to describe the top-field-first and repeat-first-frame values for the first few frames.
 	 * It would be nicer to use something like vector<bool> here but we want to search the array for a pattern later,
 	 * and a string seems a reasonably neat way to do that.
@@ -138,6 +136,9 @@ DCPOMATIC_ENABLE_WARNINGS
 				job->set_progress_unknown ();
 			}
 		}
+
+		auto context = _format_context->streams[_packet.stream_index]->codec;
+DCPOMATIC_ENABLE_WARNINGS
 
 		if (_video_stream && _packet.stream_index == _video_stream.get()) {
 			video_packet (context, temporal_reference);
@@ -164,8 +165,9 @@ DCPOMATIC_ENABLE_WARNINGS
 
 	_packet.data = nullptr;
 	_packet.size = 0;
-	while (video_packet(context, temporal_reference)) {}
 	/* XXX: I'm not sure this makes any sense: how does _packet.stream_index get the right value here? */
+	auto context = _format_context->streams[_packet.stream_index]->codec;
+	while (video_packet(context, temporal_reference)) {}
 	for (size_t i = 0; i < _audio_streams.size(); ++i) {
 		if (_audio_streams[i]->uses_index (_format_context, _packet.stream_index)) {
 			audio_packet (context, _audio_streams[i]);
