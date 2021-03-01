@@ -58,7 +58,7 @@ private:
 	int bytes_per_audio_sample (std::shared_ptr<FFmpegAudioStream> stream) const;
 
 	std::shared_ptr<FFmpegAudioStream> audio_stream_from_index (int index) const;
-	void process_audio_frame (std::shared_ptr<FFmpegAudioStream> stream, int stream_index, int64_t packet_pts);
+	void process_audio_frame (std::shared_ptr<FFmpegAudioStream> stream, int64_t packet_pts);
 
 	bool decode_video_packet (AVPacket* packet);
 	void decode_audio_packet (AVPacket* packet);
@@ -80,5 +80,5 @@ private:
 
 	std::shared_ptr<Image> _black_image;
 
-	std::vector<boost::optional<dcpomatic::ContentTime> > _next_time;
+	std::map<std::shared_ptr<FFmpegAudioStream>, boost::optional<dcpomatic::ContentTime>> _next_time;
 };

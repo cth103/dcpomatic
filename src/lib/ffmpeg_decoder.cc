@@ -101,7 +101,9 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmp
 		text.push_back (make_shared<TextDecoder>(this, c->only_text(), ContentTime()));
 	}
 
-	_next_time.resize (_format_context->nb_streams);
+	for (auto i: c->ffmpeg_audio_streams()) {
+		_next_time[i] = {};
+	}
 }
 
 
@@ -423,7 +425,7 @@ DCPOMATIC_ENABLE_WARNINGS
 	_have_current_subtitle = false;
 
 	for (auto& i: _next_time) {
-		i = optional<ContentTime>();
+		i.second = {};
 	}
 }
 
@@ -447,7 +449,7 @@ FFmpegDecoder::audio_stream_from_index (int index) const
 
 
 void
-FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream, int stream_index, int64_t packet_pts)
+FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream, int64_t packet_pts)
 {
 	auto data = deinterleave_audio (stream);
 
@@ -457,8 +459,8 @@ FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream, int st
 		   that have AV_NOPTS_VALUE we need to work out the timestamp ourselves.  This is
 		   particularly noticeable with TrueHD streams (see #1111).
 		   */
-		if (_next_time[stream_index]) {
-			ct = *_next_time[stream_index];
+		if (_next_time[stream]) {
+			ct = *_next_time[stream];
 		}
 	} else {
 		ct = ContentTime::from_seconds (
@@ -467,7 +469,7 @@ FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream, int st
 			+ _pts_offset;
 	}
 
-	_next_time[stream_index] = ct + ContentTime::from_frames(data->frames(), stream->frame_rate());
+	_next_time[stream] = ct + ContentTime::from_frames(data->frames(), stream->frame_rate());
 
 	if (ct < ContentTime()) {
 		/* Discard audio data that comes before time 0 */
@@ -482,7 +484,7 @@ FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream, int st
 			"Crazy timestamp %1 for %2 samples in stream %3 packet pts %4 (ts=%5 tb=%6, off=%7)",
 			to_string(ct),
 			data->frames(),
-			stream_index,
+			stream->id(),
 			packet_pts,
 			_frame->best_effort_timestamp,
 			av_q2d(stream->stream(_format_context)->time_base),
@@ -500,8 +502,7 @@ FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream, int st
 void
 FFmpegDecoder::decode_audio_packet (AVPacket* packet)
 {
-	int const stream_index = packet->stream_index;
-	auto stream = audio_stream_from_index (stream_index);
+	auto stream = audio_stream_from_index (packet->stream_index);
 	if (!stream) {
 		return;
 	}
@@ -533,7 +534,7 @@ FFmpegDecoder::decode_audio_packet (AVPacket* packet)
 		}
 
 		if (frame_finished) {
-			process_audio_frame (stream, stream_index, copy_packet.pts);
+			process_audio_frame (stream, copy_packet.pts);
 		}
 
 		copy_packet.data += decode_result;
