@@ -107,6 +107,9 @@ resources_path ()
 boost::filesystem::path
 xsd_path ()
 {
+	if (auto appdir = getenv("APPDIR")) {
+		return boost::filesystem::path(appdir) / "usr" / "share" / "libdcp" / "xsd";
+	}
 	return boost::filesystem::canonical(LINUX_SHARE_PREFIX) / "libdcp" / "xsd";
 }
 
@@ -114,6 +117,9 @@ xsd_path ()
 boost::filesystem::path
 tags_path ()
 {
+	if (auto appdir = getenv("APPDIR")) {
+		return boost::filesystem::path(appdir) / "usr" / "share" / "libdcp" / "tags";
+	}
 	return boost::filesystem::canonical(LINUX_SHARE_PREFIX) / "libdcp" / "tags";
 }
 
