@@ -1,9 +1,9 @@
 #!/bin/bash
 
 export LD_LIBRARY_PATH=build/src/lib:build/src/wx:build/src/asdcplib/src:$LD_LIBRARY_PATH
-export DYLD_LIBRARY_PATH=build/src/lib:build/src/wx:build/src/asdcplib/src:/Users/carl/Environments/dcpomatic/64/lib
+export DYLD_LIBRARY_PATH=build/src/lib:build/src/wx:build/src/asdcplib/src:$HOME/osx-environment/x86_64/lib
 exe=build/src/tools/dcpomatic2_disk_writer
-sudo chown root:root $exe
+sudo chown root $exe
 sudo chmod 4755 $exe
 if [ "$1" == "--debug" ]; then
     shift
