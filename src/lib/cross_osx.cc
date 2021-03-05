@@ -275,7 +275,12 @@ get_vendor (CFDictionaryRef& description)
 		return {};
 	}
 
-	string s = CFStringGetCStringPtr ((CFStringRef) str, kCFStringEncodingUTF8);
+	auto c_str = CFStringGetCStringPtr ((CFStringRef) str, kCFStringEncodingUTF8);
+	if (!c_str) {
+		return {};
+	}
+
+	string s (c_str);
 	boost::algorithm::trim (s);
 	return s;
 }
@@ -288,7 +293,12 @@ get_model (CFDictionaryRef& description)
 		return {};
 	}
 
-	string s = CFStringGetCStringPtr ((CFStringRef) str, kCFStringEncodingUTF8);
+	auto c_str = CFStringGetCStringPtr ((CFStringRef) str, kCFStringEncodingUTF8);
+	if (!c_str) {
+		return {};
+	}
+
+	string s (c_str);
 	boost::algorithm::trim (s);
 	return s;
 }
@@ -415,6 +425,7 @@ disk_appeared (DADiskRef disk, void* context)
 {
 	auto bsd_name = DADiskGetBSDName (disk);
 	if (!bsd_name) {
+		LOG_DISK_NC("Disk with no BSDName appeared");
 		return;
 	}
 	LOG_DISK("%1 appeared", bsd_name);
@@ -422,6 +433,7 @@ disk_appeared (DADiskRef disk, void* context)
 	Disk this_disk;
 
 	this_disk.mount_point = string("/dev/") + bsd_name;
+	LOG_DISK("Mount point is %1", this_disk.mount_point);
 
 	CFDictionaryRef description = DADiskCopyDescription (disk);
 
