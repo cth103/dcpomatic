@@ -384,6 +384,13 @@ function setup {
     copy_resources "$approot/Resources"
 }
 
+function copy_verify {
+	copy $ROOT src/libdcp/build/tools/dcpverify "$approot/MacOS"
+	mv "$approot/MacOS/dcpverify" "$approot/MacOS/dcpomatic2_verify"
+	rl=("$approot/MacOS/dcpomatic2_verify" "$approot/Frameworks/"*.dylib)
+	relink_relative "${rl[@]}"
+}
+
 prefix=$ROOT/arm64
 
 # DCP-o-matic main
@@ -393,6 +400,7 @@ copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_cli "$approot/MacOS"
 copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_create "$approot/MacOS"
 copy $ROOT bin/ffprobe "$approot/MacOS"
 copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
+copy_verify
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2" "$approot/MacOS/dcpomatic2_cli" "$approot/MacOS/dcpomatic2_create" "$approot/MacOS/ffprobe" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
@@ -403,6 +411,7 @@ setup "DCP-o-matic 2 KDM Creator.app"
 copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm "$approot/MacOS"
 copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm_cli "$approot/MacOS"
 copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
+copy_verify
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_kdm.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_kdm" "$approot/MacOS/dcpomatic2_kdm_cli" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
@@ -413,6 +422,7 @@ setup "DCP-o-matic 2 Encode Server.app"
 copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server "$approot/MacOS"
 copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server_cli "$approot/MacOS"
 copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
+copy_verify
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_server.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_server" "$approot/MacOS/dcpomatic2_server_cli" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
@@ -422,6 +432,7 @@ make_dmg "$appdir" "" "DCP-o-matic Encode Server"
 setup "DCP-o-matic 2 Batch converter.app"
 copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_batch "$approot/MacOS"
 copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
+copy_verify
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_batch.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_batch" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
@@ -431,6 +442,7 @@ make_dmg "$appdir" "" "DCP-o-matic Batch Converter"
 setup "DCP-o-matic 2 Player.app"
 copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_player "$approot/MacOS"
 copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
+copy_verify
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_player.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_player" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
@@ -440,6 +452,7 @@ make_dmg "$appdir" "" "DCP-o-matic Player"
 setup "DCP-o-matic 2 Playlist Editor.app"
 copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_playlist "$approot/MacOS"
 copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
+copy_verify
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_playlist.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_playlist" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
@@ -449,6 +462,7 @@ make_dmg "$appdir" "" "DCP-o-matic Playlist Editor"
 setup "DCP-o-matic 2 Combiner.app"
 copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_combiner "$approot/MacOS"
 copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
+copy_verify
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_combiner.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_combiner" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
@@ -458,6 +472,7 @@ make_dmg "$appdir" "" "DCP-o-matic Combiner"
 setup "DCP-o-matic 2 Disk Writer.app"
 copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_disk "$approot/MacOS"
 copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
+copy_verify
 cp $prefix/src/dcpomatic/platform/osx/uninstall_disk.applescript "$approot/Resources"
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_disk.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_disk" "$approot/Frameworks/"*.dylib)
