@@ -255,6 +255,16 @@ verify (vector<CopiedFile> const& copied_files, uint64_t total, Nanomsg* nanomsg
 }
 
 
+static
+void
+format_progress (void* context, float progress)
+{
+	if (context) {
+		reinterpret_cast<Nanomsg*>(context)->send(String::compose(DISK_WRITER_FORMAT_PROGRESS "\n%1\n", progress), SHORT_TIMEOUT);
+	}
+}
+
+
 void
 #ifdef DCPOMATIC_WINDOWS
 dcpomatic::write (boost::filesystem::path dcp_path, string device, string, Nanomsg* nanomsg)
@@ -329,11 +339,7 @@ try
 	}
 	LOG_DISK_NC ("Opened partition");
 
-	if (nanomsg) {
-		nanomsg->send(DISK_WRITER_FORMATTING "\n", SHORT_TIMEOUT);
-	}
-
-	r = ext4_mkfs(&fs, bd, &info, F_SET_EXT2);
+	r = ext4_mkfs(&fs, bd, &info, F_SET_EXT2, format_progress, nanomsg);
 	if (r != EOK) {
 		throw CopyError ("Failed to make filesystem", r);
 	}

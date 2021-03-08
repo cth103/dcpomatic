@@ -51,8 +51,9 @@
 // Error message
 // Error number
 
-// the drive is being formatted
-#define DISK_WRITER_FORMATTING "F"
+// the drive is being formatted, 40% done
+#define DISK_WRITER_FORMAT_PROGRESS "F"
+// 0.4\n
 
 // data is being copied, 30% done
 #define DISK_WRITER_COPY_PROGRESS "C"

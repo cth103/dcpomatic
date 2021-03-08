@@ -86,19 +86,24 @@ CopyToDriveJob::run ()
 			set_state (FINISHED_OK);
 			return;
 		} else if (*s == DISK_WRITER_ERROR) {
-			optional<string> const m = _nanomsg.receive (500);
-			optional<string> const n = _nanomsg.receive (500);
+			auto const m = _nanomsg.receive (500);
+			auto const n = _nanomsg.receive (500);
 			throw CopyError (m.get_value_or("Unknown"), raw_convert<int>(n.get_value_or("0")));
-		} else if (*s == DISK_WRITER_FORMATTING) {
-			sub (_("Formatting drive"));
-			set_progress_unknown ();
-			state = FORMAT;
+		} else if (*s == DISK_WRITER_FORMAT_PROGRESS) {
+			if (state == SETUP) {
+				sub (_("Formatting drive"));
+				state = FORMAT;
+			}
+			auto progress = _nanomsg.receive (500);
+			if (progress) {
+				set_progress (raw_convert<float>(*progress));
+			}
 		} else if (*s == DISK_WRITER_COPY_PROGRESS) {
 			if (state == FORMAT) {
 				sub (_("Copying DCP"));
 				state = COPY;
 			}
-			optional<string> progress = _nanomsg.receive (500);
+			auto progress = _nanomsg.receive (500);
 			if (progress) {
 				set_progress (raw_convert<float>(*progress));
 			}
@@ -107,7 +112,7 @@ CopyToDriveJob::run ()
 				sub (_("Verifying copied files"));
 				state = VERIFY;
 			}
-			optional<string> progress = _nanomsg.receive (500);
+			auto progress = _nanomsg.receive (500);
 			if (progress) {
 				set_progress (raw_convert<float>(*progress));
 			}
