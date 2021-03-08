@@ -193,7 +193,7 @@ try
 
 		LOG_DISK ("Here we go writing %1 to %2", *dcp_path, *device);
 
-#ifdef DCPOMATIC_LINUX
+#if defined(DCPOMATIC_LINUX)
 		polkit_authority = polkit_authority_get_sync (0, 0);
 		PolkitSubject* subject = polkit_unix_process_new_for_owner (getppid(), 0, -1);
 		Parameters* parameters = new Parameters;
@@ -209,12 +209,11 @@ try
 		polkit_authority_check_authorization (
 				polkit_authority, subject, "com.dcpomatic.write-drive", 0, POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION, 0, polkit_callback, parameters
 				);
-#else
-		string posix_partition = "";
-#ifdef DCPOMATIC_OSX
-		posix_partition = *device + "s1";
-#endif
-		dcpomatic::write (*dcp_path, *device, posix_partition, nanomsg);
+#elif defined(DCPOMATIC_OSX)
+		string fast_device = boost::algorithm::replace_first_copy (*device, "/dev/disk", "/dev/rdisk");
+		dcpomatic::write (*dcp_path, fast_device, fast_device + "s1", nanomsg);
+#elif defined(DCPOMATIC_WINDOWS)
+		dcpomatic::write (*dcp_path, *device, "", nanomsg);
 #endif
 	}
 
