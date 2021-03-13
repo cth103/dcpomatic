@@ -103,7 +103,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmp
 	}
 
 	for (auto i: c->ffmpeg_audio_streams()) {
-		_next_time[i] = {};
+		_next_time[i] = boost::optional<dcpomatic::ContentTime>();
 	}
 }
 
@@ -444,7 +444,7 @@ DCPOMATIC_ENABLE_WARNINGS
 	_have_current_subtitle = false;
 
 	for (auto& i: _next_time) {
-		i.second = {};
+		i.second = boost::optional<dcpomatic::ContentTime>();
 	}
 }
 
