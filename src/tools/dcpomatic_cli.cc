@@ -125,7 +125,7 @@ list_servers ()
 {
 	while (true) {
 		int N = 0;
-		list<EncodeServerDescription> servers = EncodeServerFinder::instance()->servers();
+		auto servers = EncodeServerFinder::instance()->servers();
 
 		/* This is a bit fiddly because we want to list configured servers that are down as well
 		   as all those (configured and found by broadcast) that are up.
@@ -146,11 +146,11 @@ list_servers ()
 				   the number of threads it is offering.
 				*/
 				optional<int> threads;
-				list<EncodeServerDescription>::iterator j = servers.begin ();
+				auto j = servers.begin ();
 				while (j != servers.end ()) {
 					if (i == j->host_name() && j->current_link_version()) {
 						threads = j->threads();
-						list<EncodeServerDescription>::iterator tmp = j;
+						auto tmp = j;
 						++tmp;
 						servers.erase (j);
 						j = tmp;
@@ -281,7 +281,7 @@ main (int argc, char* argv[])
 	}
 
 	if (servers) {
-		FILE* f = fopen_boost (*servers, "r");
+		auto f = fopen_boost (*servers, "r");
 		if (!f) {
 			cerr << "Could not open servers list file " << *servers << "\n";
 			exit (EXIT_FAILURE);
@@ -341,12 +341,11 @@ main (int argc, char* argv[])
 
 	dcpomatic_log = film->log ();
 
-	ContentList content = film->content ();
-	for (ContentList::const_iterator i = content.begin(); i != content.end(); ++i) {
-		vector<boost::filesystem::path> paths = (*i)->paths ();
-		for (vector<boost::filesystem::path>::const_iterator j = paths.begin(); j != paths.end(); ++j) {
-			if (!boost::filesystem::exists (*j)) {
-				cerr << argv[0] << ": content file " << *j << " not found.\n";
+	for (auto i: film->content()) {
+		auto paths = i->paths();
+		for (auto j: paths) {
+			if (!boost::filesystem::exists(j)) {
+				cerr << argv[0] << ": content file " << j << " not found.\n";
 				exit (EXIT_FAILURE);
 			}
 		}
