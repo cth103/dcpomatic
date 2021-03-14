@@ -127,8 +127,6 @@ function copy_libs {
     copy_lib_env libicui18n "$dest"
     copy_lib_env libicudata "$dest"
     copy_lib_env libicuio "$dest"
-    copy_lib_env libicule "$dest"
-    copy_lib_env libiculx "$dest"
     copy_lib_env libicutest "$dest"
     copy_lib_env libicutu "$dest"
     copy_lib_env libicuuc "$dest"
