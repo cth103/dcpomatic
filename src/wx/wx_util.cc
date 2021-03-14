@@ -489,11 +489,14 @@ maybe_show_splash ()
 	try {
 		wxBitmap bitmap;
 		if (bitmap.LoadFile(bitmap_path("splash"), wxBITMAP_TYPE_PNG)) {
-			wxMemoryDC dc(bitmap);
-			auto const version = wxString::Format("%s (%s)", dcpomatic_version, dcpomatic_git_commit);
-			auto screen_size = dc.GetSize();
-			auto text_size = dc.GetTextExtent(version);
-			dc.DrawText(version, (screen_size.GetWidth() - text_size.GetWidth()) / 2, 236);
+			{
+				/* This wxMemoryDC must be destroyed before bitmap can be used elsewhere */
+				wxMemoryDC dc(bitmap);
+				auto const version = wxString::Format("%s (%s)", dcpomatic_version, dcpomatic_git_commit);
+				auto screen_size = dc.GetSize();
+				auto text_size = dc.GetTextExtent(version);
+				dc.DrawText(version, (screen_size.GetWidth() - text_size.GetWidth()) / 2, 236);
+			}
 #ifdef DCPOMATIC_WINDOWS
 			/* Having wxSTAY_ON_TOP means error dialogues hide behind the splash screen on Windows, no matter what I try */
 			splash = new wxSplashScreen (bitmap, wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_NO_TIMEOUT, 0, 0, -1, wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE | wxFRAME_NO_TASKBAR);
