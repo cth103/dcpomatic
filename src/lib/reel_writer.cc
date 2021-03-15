@@ -868,19 +868,20 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 		DCPOMATIC_ASSERT (false);
 	}
 
+	auto const vfr = film()->video_frame_rate();
+
 	for (auto i: subs.string) {
-		/* XXX: couldn't / shouldn't we use period here rather than getting time from the subtitle? */
-		i.set_in  (i.in()  - dcp::Time (_period.from.seconds(), i.in().tcr));
-		i.set_out (i.out() - dcp::Time (_period.from.seconds(), i.out().tcr));
-		asset->add (shared_ptr<dcp::Subtitle>(new dcp::SubtitleString(i)));
+		i.set_in  (dcp::Time(period.from.seconds() - _period.from.seconds(), vfr));
+		i.set_out (dcp::Time(period.to.seconds() - _period.from.seconds(), vfr));
+		asset->add (make_shared<dcp::SubtitleString>(i));
 	}
 
 	for (auto i: subs.bitmap) {
 		asset->add (
 			make_shared<dcp::SubtitleImage>(
 				i.image->as_png(),
-				dcp::Time(period.from.seconds() - _period.from.seconds(), film()->video_frame_rate()),
-				dcp::Time(period.to.seconds() - _period.from.seconds(), film()->video_frame_rate()),
+				dcp::Time(period.from.seconds() - _period.from.seconds(), vfr),
+				dcp::Time(period.to.seconds() - _period.from.seconds(), vfr),
 				i.rectangle.x, dcp::HAlign::LEFT, i.rectangle.y, dcp::VAlign::TOP,
 				dcp::Time(), dcp::Time()
 				)
