@@ -868,11 +868,12 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 		DCPOMATIC_ASSERT (false);
 	}
 
-	auto const vfr = film()->video_frame_rate();
+	/* timecode rate for subtitles we emit; we might as well stick to ms accuracy here, I think */
+	auto const tcr = 1000;
 
 	for (auto i: subs.string) {
-		i.set_in  (dcp::Time(period.from.seconds() - _period.from.seconds(), vfr));
-		i.set_out (dcp::Time(period.to.seconds() - _period.from.seconds(), vfr));
+		i.set_in  (dcp::Time(period.from.seconds() - _period.from.seconds(), tcr));
+		i.set_out (dcp::Time(period.to.seconds() - _period.from.seconds(), tcr));
 		asset->add (make_shared<dcp::SubtitleString>(i));
 	}
 
@@ -880,8 +881,8 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 		asset->add (
 			make_shared<dcp::SubtitleImage>(
 				i.image->as_png(),
-				dcp::Time(period.from.seconds() - _period.from.seconds(), vfr),
-				dcp::Time(period.to.seconds() - _period.from.seconds(), vfr),
+				dcp::Time(period.from.seconds() - _period.from.seconds(), tcr),
+				dcp::Time(period.to.seconds() - _period.from.seconds(), tcr),
 				i.rectangle.x, dcp::HAlign::LEFT, i.rectangle.y, dcp::VAlign::TOP,
 				dcp::Time(), dcp::Time()
 				)

@@ -545,6 +545,7 @@ Writer::finish (boost::filesystem::path output_dcp)
 	LOG_GENERAL_NC ("Finishing ReelWriters");
 
 	for (auto& i: _reels) {
+		write_hanging_text (i);
 		i.finish (output_dcp);
 	}
 
@@ -798,6 +799,23 @@ Writer::write (PlayerText text, TextType type, optional<DCPTextTrack> track, DCP
 	while ((*reel)->period().to <= period.from) {
 		++(*reel);
 		DCPOMATIC_ASSERT (*reel != _reels.end());
+		write_hanging_text (**reel);
+	}
+
+	if (period.to > (*reel)->period().to) {
+		/* This text goes off the end of the reel.  Store parts of it that should go into
+		 * other reels.
+		 */
+		for (auto i = std::next(*reel); i != _reels.end(); ++i) {
+			auto overlap = i->period().overlap(period);
+			if (overlap) {
+				_hanging_texts.push_back (HangingText{text, type, track, *overlap});
+			}
+		}
+		/* Back off from the reel boundary by a couple of frames to avoid tripping checks
+		 * for subtitles being too close together.
+		 */
+		period.to = (*reel)->period().to - DCPTime::from_frames(2, film()->video_frame_rate());
 	}
 
 	(*reel)->write (text, type, track, period);
@@ -907,3 +925,17 @@ Writer::calculate_referenced_digests (boost::function<void (float)> set_progress
 	}
 }
 
+
+void
+Writer::write_hanging_text (ReelWriter& reel)
+{
+	vector<HangingText> new_hanging_texts;
+	for (auto i: _hanging_texts) {
+		if (i.period.from == reel.period().from) {
+			reel.write (i.text, i.type, i.track, i.period);
+		} else {
+			new_hanging_texts.push_back (i);
+		}
+	}
+	_hanging_texts = new_hanging_texts;
+}

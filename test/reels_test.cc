@@ -390,7 +390,8 @@ BOOST_AUTO_TEST_CASE (reels_test10)
 		{
 			dcp::VerificationNote::Code::EXTERNAL_ASSET,
 			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
-			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION,
 		});
 }
 

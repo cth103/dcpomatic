@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -129,6 +129,7 @@ private:
 	void set_digest_progress (Job* job, float progress);
 	void write_cover_sheet (boost::filesystem::path output_dcp);
 	void calculate_referenced_digests (boost::function<void (float)> set_progress);
+	void write_hanging_text (ReelWriter& reel);
 
 	std::weak_ptr<Job> _job;
 	std::vector<ReelWriter> _reels;
@@ -204,4 +205,13 @@ private:
 	bool _have_subtitles = false;
 	/** all closed caption tracks that we have on any reel */
 	std::set<DCPTextTrack> _have_closed_captions;
+
+	struct HangingText {
+		PlayerText text;
+		TextType type;
+		boost::optional<DCPTextTrack> track;
+		dcpomatic::DCPTimePeriod period;
+	};
+
+	std::vector<HangingText> _hanging_texts;
 };
