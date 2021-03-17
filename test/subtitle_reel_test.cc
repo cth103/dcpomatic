@@ -212,20 +212,20 @@ BOOST_AUTO_TEST_CASE (subtitles_split_at_reel_boundaries)
 	film->examine_and_add_content (subtitle);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	make_and_verify_dcp (film, {{ dcp::VerificationNote::Code::INVALID_STANDARD }});
+	make_and_verify_dcp (film, { dcp::VerificationNote::Code::INVALID_STANDARD });
 
 	dcp::DCP dcp (film->dir(film->dcp_name()));
 	dcp.read();
-	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1);
+	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1U);
 	auto cpl = dcp.cpls()[0];
-	BOOST_REQUIRE_EQUAL (cpl->reels().size(), 3);
+	BOOST_REQUIRE_EQUAL (cpl->reels().size(), 3U);
 
 	for (auto i: cpl->reels()) {
 		auto reel_sub = i->main_subtitle();
 		BOOST_REQUIRE (reel_sub);
 		auto sub = reel_sub->asset();
 		BOOST_REQUIRE (sub);
-		BOOST_CHECK_EQUAL (sub->subtitles().size(), 1);
+		BOOST_CHECK_EQUAL (sub->subtitles().size(), 1U);
 	}
 }
 
