@@ -54,10 +54,10 @@ public:
 		set_button = new Button (parent, _("Set from current position"));
 		grid->Add (set_button, wxGBPosition(row, 2));
 
-		shared_ptr<Film> f = film.lock ();
+		auto f = film.lock ();
 		DCPOMATIC_ASSERT (f);
 
-		optional<DCPTime> t = f->marker (type);
+		auto t = f->marker (type);
 		checkbox->SetValue (static_cast<bool>(t));
 		if (t) {
 			timecode->set (*t, f->video_frame_rate());
@@ -79,9 +79,9 @@ private:
 
 	void set ()
 	{
-		shared_ptr<Film> f = film.lock ();
+		auto f = film.lock ();
 		DCPOMATIC_ASSERT (f);
-		shared_ptr<FilmViewer> v = viewer.lock ();
+		auto v = viewer.lock ();
 		DCPOMATIC_ASSERT (v);
 		timecode->set (v->position(), f->video_frame_rate());
 		changed ();
@@ -89,10 +89,15 @@ private:
 
 	void changed ()
 	{
-		shared_ptr<Film> f = film.lock ();
+		auto f = film.lock ();
 		DCPOMATIC_ASSERT (f);
+		auto tc = timecode->get(f->video_frame_rate());
+		if (tc >= f->length()) {
+			tc = f->length();
+			timecode->set (tc, f->video_frame_rate());
+		}
 		if (checkbox->GetValue()) {
-			f->set_marker (type, timecode->get(f->video_frame_rate()));
+			f->set_marker (type, tc);
 		} else {
 			f->unset_marker (type);
 		}
@@ -110,8 +115,8 @@ MarkersDialog::MarkersDialog (wxWindow* parent, weak_ptr<Film> film, weak_ptr<Fi
 	: wxDialog (parent, wxID_ANY, _("Markers"))
 	, _film (film)
 {
-	wxSizer* sizer = new wxBoxSizer (wxVERTICAL);
-	wxGridBagSizer* grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	auto sizer = new wxBoxSizer (wxVERTICAL);
+	auto grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 
 	int r = 0;
 	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("First frame of composition"), dcp::Marker::FFOC));
