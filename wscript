@@ -1,5 +1,5 @@
 #
-#    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+#    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 #
 #    This file is part of DCP-o-matic.
 #
@@ -476,6 +476,10 @@ def configure(conf):
     if conf.env.TARGET_LINUX:
         conf.env.LIB_X11 = ['X11']
 
+    # We support older boosts on Linux so we can use the distribution-provided package
+    # on Centos 7, but it's good if we can use 1.61 for boost::dll::program_location()
+    boost_version = ('1.45', '104500') if conf.env.TARGET_LINUX else ('1.61', '106800')
+
     # Boost
     if conf.options.static_boost:
         conf.env.STLIB_BOOST_THREAD = ['boost_thread']
@@ -487,15 +491,15 @@ def configure(conf):
     else:
         conf.check_cxx(fragment="""
                             #include <boost/version.hpp>\n
-                            #if BOOST_VERSION < 104500\n
+                            #if BOOST_VERSION < %s\n
                             #error boost too old\n
                             #endif\n
                             int main(void) { return 0; }\n
-                            """,
+                            """ % boost_version[1],
                        mandatory=True,
-                       msg='Checking for boost library >= 1.45',
+                       msg='Checking for boost library >= %s' % boost_version[0],
                        okmsg='yes',
-                       errmsg='too old\nPlease install boost version 1.45 or higher.')
+                       errmsg='too old\nPlease install boost version %s or higher.' % boost_version[0])
 
         conf.check_cxx(fragment="""
     			    #include <boost/thread.hpp>\n

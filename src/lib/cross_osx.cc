@@ -99,19 +99,7 @@ cpu_info ()
 boost::filesystem::path
 directory_containing_executable ()
 {
-#if BOOST_VERSION >= 106100
 	return boost::dll::program_location().parent_path();
-#else
-	uint32_t size = 1024;
-	char buffer[size];
-	if (_NSGetExecutablePath (buffer, &size)) {
-		throw runtime_error ("_NSGetExecutablePath failed");
-	}
-
-	boost::filesystem::path path (buffer);
-	path = boost::filesystem::canonical (path);
-	return path.parent_path ();
-#endif
 }
 
 
