@@ -131,7 +131,7 @@ wxSize
 TimecodeBase::size (wxWindow* parent)
 {
 	wxClientDC dc (parent);
-	auto size = dc.GetTextExtent(wxT("9999"));
+	auto size = dc.GetTextExtent(wxT("99999"));
 	size.SetHeight (-1);
 	return size;
 }
