@@ -159,7 +159,7 @@ public:
 	optional<dcp::LanguageTag::RegionSubtag> get () const
 	{
 		if (!_list->selected_subtag()) {
-			return optional<dcp::LanguageTag::RegionSubtag>();
+			return {};
 		}
 
 		return dcp::LanguageTag::RegionSubtag(_list->selected_subtag()->subtag);
@@ -171,7 +171,11 @@ public:
 private:
 	void search_changed ()
 	{
-		_list->set_search (_search->GetValue().ToStdString());
+		auto search = _search->GetValue();
+		_list->set_search (search.ToStdString());
+		if (search.Length() > 0) {
+			_list->EnsureVisible (0);
+		}
 		SearchChanged (_search->GetValue().ToStdString());
 	}
 
