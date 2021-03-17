@@ -91,10 +91,11 @@ private:
 	{
 		auto f = film.lock ();
 		DCPOMATIC_ASSERT (f);
-		auto tc = timecode->get(f->video_frame_rate());
+		auto vfr = f->video_frame_rate();
+		auto tc = timecode->get(vfr);
 		if (tc >= f->length()) {
-			tc = f->length();
-			timecode->set (tc, f->video_frame_rate());
+			tc = f->length() - DCPTime::from_frames(1, vfr);
+			timecode->set (tc, vfr);
 		}
 		if (checkbox->GetValue()) {
 			f->set_marker (type, tc);
