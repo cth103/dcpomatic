@@ -57,7 +57,6 @@ def options(opt):
     opt.add_option('--enable-debug',      action='store_true', default=False, help='build with debugging information and without optimisation')
     opt.add_option('--disable-gui',       action='store_true', default=False, help='disable building of GUI tools')
     opt.add_option('--disable-tests',     action='store_true', default=False, help='disable building of tests')
-    opt.add_option('--install-prefix',                         default=None,  help='prefix of where DCP-o-matic will be installed')
     opt.add_option('--target-windows',    action='store_true', default=False, help='set up to do a cross-compile for Windows')
     opt.add_option('--target-macos-arm64', action='store_true', default=False, help='set up to do a cross-compile for macOS arm64')
     opt.add_option('--static-dcpomatic',  action='store_true', default=False, help='link to components of DCP-o-matic statically')
@@ -93,10 +92,10 @@ def configure(conf):
     conf.env.DEBUG = conf.options.enable_debug
     conf.env.STATIC_DCPOMATIC = conf.options.static_dcpomatic
     conf.env.ENABLE_DISK = conf.options.enable_disk
-    if conf.options.install_prefix is None:
+    if conf.options.destdir is None:
         conf.env.INSTALL_PREFIX = conf.env.PREFIX
     else:
-        conf.env.INSTALL_PREFIX = conf.options.install_prefix
+        conf.env.INSTALL_PREFIX = conf.options.destdir
 
     # Common CXXFLAGS
     conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS',
