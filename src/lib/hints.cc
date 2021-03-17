@@ -334,6 +334,18 @@ subtitle_mxf_too_big (shared_ptr<dcp::SubtitleAsset> asset)
 
 
 void
+Hints::check_out_of_range_markers ()
+{
+	auto const length = film()->length();
+	for (auto const& i: film()->markers()) {
+		if (i.second >= length) {
+			hint (_("At least one marker comes after the end of the project and will be ignored."));
+		}
+	}
+}
+
+
+void
 Hints::thread ()
 {
 	auto film = _film.lock ();
@@ -355,6 +367,7 @@ Hints::thread ()
 	check_3d_in_2d ();
 	check_loudness ();
 	check_ffec_and_ffmc_in_smpte_feature ();
+	check_out_of_range_markers ();
 
 	emit (bind(boost::ref(Progress), _("Examining closed captions")));
 

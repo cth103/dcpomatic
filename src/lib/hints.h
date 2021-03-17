@@ -71,6 +71,7 @@ private:
 	void check_3d_in_2d ();
 	void check_loudness ();
 	void check_ffec_and_ffmc_in_smpte_feature ();
+	void check_out_of_range_markers ();
 
 	boost::thread _thread;
 	/** This is used to make a partial DCP containing only the subtitles and closed captions that
