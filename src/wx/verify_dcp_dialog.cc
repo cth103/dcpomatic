@@ -335,6 +335,9 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::Code::MISSING_JPEG200_TLM_MARKER:
 			add(i, _("A JPEG2000 frame has no TLM marker."));
 			break;
+		case dcp::VerificationNote::Code::SUBTITLE_OVERLAPS_REEL_BOUNDARY:
+			add(i, _("A subtitle lasts longer than the reel it is in."));
+			break;
 		}
 	}
 
