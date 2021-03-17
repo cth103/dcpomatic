@@ -288,7 +288,7 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		_cpl = examiner->cpl ();
 		_reel_lengths = examiner->reel_lengths ();
 		for (auto const& i: examiner->markers()) {
-			_markers[i.first] = ContentTime(i.second.as_editable_units(DCPTime::HZ));
+			_markers[i.first] = ContentTime(i.second.as_editable_units_ceil(DCPTime::HZ));
 		}
 		_ratings = examiner->ratings ();
 		_content_versions = examiner->content_versions ();
