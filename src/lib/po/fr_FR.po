@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-26 12:00+0100\n"
+"POT-Creation-Date: 2021-03-18 15:09+0100\n"
 "PO-Revision-Date: 2019-05-07 14:28+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -100,7 +100,7 @@ msgstr "$JOB_NAME: $JOB_STATUS"
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
-#: src/lib/dcp_content.cc:272
+#: src/lib/dcp_content.cc:285
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -1344,7 +1344,7 @@ msgstr ""
 "votre DCP à une vitesse plus proche de la cadence de vos contenus, en "
 "espérant que serveurs et projecteurs cibles supportent cette cadence."
 
-#: src/lib/dcp_content.cc:592
+#: src/lib/dcp_content.cc:605
 msgid "There is no video in this DCP"
 msgstr "Il n'y a aucune vidéo dans ce DCP"
 
@@ -1714,62 +1714,62 @@ msgid "h"
 msgstr "h"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:683
+#: src/lib/dcp_content.cc:696
 msgid "it does not have closed captions in all its reels."
 msgstr "Pas de sous-titres dans toutes ses bobines"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:678
+#: src/lib/dcp_content.cc:691
 msgid "it does not have open subtitles in all its reels."
 msgstr "Pas de sous-titres ouverts dans toutes ses bobines"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:646
+#: src/lib/dcp_content.cc:659
 msgid "it does not have sound in all its reels."
 msgstr "Pas de son dans toutes ses bobines"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:545
+#: src/lib/dcp_content.cc:558
 msgid "it has a different frame rate to the film."
 msgstr "Vitesse de défilement différente du film"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:607
+#: src/lib/dcp_content.cc:620
 msgid "it is 2K and the film is 4K."
 msgstr "C'est du 2K mais le film est en 4K."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:604
+#: src/lib/dcp_content.cc:617
 msgid "it is 4K and the film is 2K."
 msgstr "C'est du 4K mais le film est en 2K."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:533
+#: src/lib/dcp_content.cc:546
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "Format Interop alors que le DCP est SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:537
+#: src/lib/dcp_content.cc:550
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "Format SMPTE alors que le DCP est interop."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:652
+#: src/lib/dcp_content.cc:665
 msgid "it overlaps other audio content; remove the other content."
 msgstr "Contenus audio superposés, enlevez les autres contenus."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:689
+#: src/lib/dcp_content.cc:702
 msgid "it overlaps other text content; remove the other content."
 msgstr "Contenus sous-titres superposés, enlevez les autres contenus."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:617
+#: src/lib/dcp_content.cc:630
 msgid "it overlaps other video content; remove the other content."
 msgstr "Contenus vidéo superposés, enlevez les autres contenus."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:568
+#: src/lib/dcp_content.cc:581
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
@@ -1778,7 +1778,7 @@ msgstr ""
 "le mode 'découper par contenu vidéo'. "
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:612
+#: src/lib/dcp_content.cc:625
 msgid "its video frame size differs from the film's."
 msgstr "La taille de l'image du film diffère de celle du DCP"
 
@@ -1812,7 +1812,7 @@ msgstr "Certains de vos contenus sont manquants"
 msgid "still"
 msgstr "fixe"
 
-#: src/lib/ffmpeg_examiner.cc:294
+#: src/lib/ffmpeg_examiner.cc:292
 msgid "unknown"
 msgstr "Inconnu"
 

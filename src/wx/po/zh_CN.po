@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-26 12:00+0100\n"
+"POT-Creation-Date: 2021-03-18 15:09+0100\n"
 "PO-Revision-Date: 2019-04-21 23:17+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -114,7 +114,7 @@ msgstr "2声道—立体声"
 msgid "255"
 msgstr "255"
 
-#: src/wx/video_panel.cc:203
+#: src/wx/video_panel.cc:206
 msgid "2D"
 msgstr "2D"
 
@@ -126,27 +126,27 @@ msgstr "伪3D"
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:762 src/wx/video_panel.cc:204
+#: src/wx/dcp_panel.cc:762 src/wx/video_panel.cc:207
 msgid "3D"
 msgstr "3D"
 
-#: src/wx/video_panel.cc:207
+#: src/wx/video_panel.cc:210
 msgid "3D alternate"
 msgstr "左右交叉(3D)"
 
-#: src/wx/video_panel.cc:208
+#: src/wx/video_panel.cc:211
 msgid "3D left only"
 msgstr "仅左眼(3D)"
 
-#: src/wx/video_panel.cc:205
+#: src/wx/video_panel.cc:208
 msgid "3D left/right"
 msgstr "左右眼(3D)"
 
-#: src/wx/video_panel.cc:209
+#: src/wx/video_panel.cc:212
 msgid "3D right only"
 msgstr "仅右眼(3D)"
 
-#: src/wx/video_panel.cc:206
+#: src/wx/video_panel.cc:209
 msgid "3D top/bottom"
 msgstr "上下眼(3D)"
 
@@ -389,13 +389,13 @@ msgstr "音频语言 (例如 CMN)"
 msgid "Audio channels: %d"
 msgstr "音频通道: %d"
 
-#: src/wx/audio_mapping_view.cc:560
+#: src/wx/audio_mapping_view.cc:544
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d unaltered."
 msgstr "音频将从 %d 传递到 DCP 通道 %d ，其值不变."
 
-#: src/wx/audio_mapping_view.cc:566
+#: src/wx/audio_mapping_view.cc:550
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d with gain "
@@ -434,7 +434,7 @@ msgstr "蓝色色度"
 msgid "Bottom"
 msgstr "底部"
 
-#: src/wx/dir_picker_ctrl.cc:40 src/wx/kdm_cpl_panel.cc:41
+#: src/wx/dir_picker_ctrl.cc:40 src/wx/kdm_cpl_panel.cc:42
 msgid "Browse..."
 msgstr "浏览..."
 
@@ -450,16 +450,16 @@ msgstr "使用推子"
 msgid "CC addresses"
 msgstr "抄送地址"
 
-#: src/wx/kdm_cpl_panel.cc:38 src/wx/kdm_dialog.cc:90
+#: src/wx/kdm_cpl_panel.cc:39 src/wx/kdm_dialog.cc:90
 #: src/wx/self_dkdm_dialog.cc:61
 msgid "CPL"
 msgstr "CPL"
 
-#: src/wx/kdm_cpl_panel.cc:50
+#: src/wx/kdm_cpl_panel.cc:51
 msgid "CPL ID"
 msgstr "CPL ID"
 
-#: src/wx/kdm_cpl_panel.cc:53
+#: src/wx/kdm_cpl_panel.cc:54
 msgid "CPL annotation text"
 msgstr "CPL注释文本"
 
@@ -577,12 +577,12 @@ msgstr "隐藏式字幕"
 msgid "Colour"
 msgstr "色彩空间"
 
-#: src/wx/content_colour_conversion_dialog.cc:38 src/wx/video_panel.cc:179
+#: src/wx/content_colour_conversion_dialog.cc:38 src/wx/video_panel.cc:182
 msgid "Colour conversion"
 msgstr "色彩转换"
 
 #. / TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
-#: src/wx/video_panel.cc:187
+#: src/wx/video_panel.cc:190
 msgid "Colour|Custom"
 msgstr "自定义"
 
@@ -607,7 +607,7 @@ msgstr "确认接收KDM的电子邮件地址"
 msgid "Container"
 msgstr "封装格式"
 
-#: src/wx/audio_mapping_view.cc:168 src/wx/audio_mapping_view.cc:170
+#: src/wx/audio_mapping_view.cc:167 src/wx/audio_mapping_view.cc:169
 #: src/wx/film_editor.cc:57
 msgid "Content"
 msgstr "内容"
@@ -714,7 +714,7 @@ msgstr ""
 msgid "Cursor: none"
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:163 src/wx/audio_mapping_view.cc:164
+#: src/wx/audio_mapping_view.cc:162 src/wx/audio_mapping_view.cc:163
 #: src/wx/film_editor.cc:59 src/wx/player_information.cc:55
 msgid "DCP"
 msgstr "DCP"
@@ -727,7 +727,7 @@ msgstr "DCP文字轨道"
 msgid "DCP asset filename format"
 msgstr "DCP内容的文件名格式"
 
-#: src/wx/kdm_cpl_panel.cc:47
+#: src/wx/kdm_cpl_panel.cc:48
 msgid "DCP directory"
 msgstr "DCP目录"
 
@@ -937,7 +937,7 @@ msgstr "编辑放映厅服务器（证书）"
 
 #: src/wx/audio_mapping_view.cc:75 src/wx/dcp_panel.cc:106
 #: src/wx/fonts_dialog.cc:63 src/wx/full_config_dialog.cc:340
-#: src/wx/video_panel.cc:177 src/wx/video_panel.cc:188
+#: src/wx/video_panel.cc:180 src/wx/video_panel.cc:191
 #: src/wx/editable_list.h:79
 msgid "Edit..."
 msgstr "编辑..."
@@ -1048,7 +1048,7 @@ msgstr "文件名格式"
 msgid "Film name"
 msgstr "工程名称"
 
-#: src/wx/filter_dialog.cc:33 src/wx/video_panel.cc:175
+#: src/wx/filter_dialog.cc:33 src/wx/video_panel.cc:178
 msgid "Filters"
 msgstr "过滤器"
 
@@ -1110,7 +1110,7 @@ msgstr "帧速率: %d"
 msgid "Free, open-source DCP creation from almost anything."
 msgstr "免费的DCP打包软件."
 
-#: src/wx/kdm_timing_panel.cc:37
+#: src/wx/kdm_timing_panel.cc:47
 msgid "From"
 msgstr "起始"
 
@@ -1496,7 +1496,7 @@ msgstr "制造商 ID"
 msgid "Manufacturer product code"
 msgstr "制造商的产品编码"
 
-#: src/wx/video_panel.cc:394
+#: src/wx/video_panel.cc:397
 msgid "Many"
 msgstr ""
 
@@ -1549,7 +1549,7 @@ msgstr "后移选择内容."
 msgid "Move to start of reel"
 msgstr "分卷设置"
 
-#: src/wx/video_panel.cc:475
+#: src/wx/video_panel.cc:478
 msgid "Multiple content selected"
 msgstr "选择多个文件"
 
@@ -1616,7 +1616,7 @@ msgid ""
 "Accounts page in Preferences."
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:555
+#: src/wx/audio_mapping_view.cc:539
 #, c-format
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "视频中没有音频，从 %d 到 %d 通道的DCP."
@@ -1627,8 +1627,8 @@ msgstr "文件夹中没有找到文件."
 
 #. /OUTLINE/SHADOW variables
 #: src/wx/dcp_panel.cc:878 src/wx/subtitle_appearance_dialog.cc:143
-#: src/wx/video_panel.cc:176 src/wx/video_panel.cc:181
-#: src/wx/video_panel.cc:404
+#: src/wx/video_panel.cc:179 src/wx/video_panel.cc:184
+#: src/wx/video_panel.cc:407
 msgid "None"
 msgstr "无"
 
@@ -1988,7 +1988,7 @@ msgstr "恢复"
 msgid "Right"
 msgstr "右边"
 
-#: src/wx/audio_mapping_view.cc:571
+#: src/wx/audio_mapping_view.cc:555
 msgid "Right click to change gain."
 msgstr "右键单击要更改增益。"
 
@@ -2053,7 +2053,7 @@ msgstr "搜索网络服务器（局域网）"
 msgid "Select"
 msgstr "选择"
 
-#: src/wx/kdm_cpl_panel.cc:98
+#: src/wx/kdm_cpl_panel.cc:99
 msgid "Select CPL XML file"
 msgstr "选择CPL文件"
 
@@ -2321,7 +2321,7 @@ msgstr "测试版 "
 msgid "Tested by"
 msgstr "测试"
 
-#: src/wx/kdm_timing_panel.cc:121
+#: src/wx/kdm_timing_panel.cc:143
 msgid "The 'until' time must be after the 'from' time."
 msgstr "结束时间必须大于开始时间."
 
@@ -2409,7 +2409,7 @@ msgstr "已存在同名模板，是否覆盖？"
 msgid "There is not enough free memory to do that."
 msgstr "内存不足."
 
-#: src/wx/kdm_cpl_panel.cc:127
+#: src/wx/kdm_cpl_panel.cc:129
 msgid "This CPL contains no encrypted assets."
 msgstr "该CPL没有包含加密内容."
 
@@ -2419,7 +2419,7 @@ msgid ""
 "certificate. Only the first certificate will be used."
 msgstr "该文件调用多个证书文件，但只使用第一个。"
 
-#: src/wx/kdm_cpl_panel.cc:147
+#: src/wx/kdm_cpl_panel.cc:148 src/wx/kdm_cpl_panel.cc:151
 msgid "This is not a valid CPL file"
 msgstr "CPL文件无效"
 
@@ -2953,7 +2953,7 @@ msgstr "类型（cpl/pkl）"
 msgid "type (j2c/pcm/sub)"
 msgstr "类型（j2c/pcm/sub）"
 
-#: src/wx/kdm_timing_panel.cc:50
+#: src/wx/kdm_timing_panel.cc:66
 msgid "until"
 msgstr "终止"
 

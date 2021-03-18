@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-26 12:00+0100\n"
+"POT-Creation-Date: 2021-03-18 15:09+0100\n"
 "PO-Revision-Date: 2019-03-27 00:34+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -98,7 +98,7 @@ msgstr "$JOB_NAME: $JOB_STATUS"
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
-#: src/lib/dcp_content.cc:272
+#: src/lib/dcp_content.cc:285
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -1335,7 +1335,7 @@ msgstr ""
 "вашему контенту, при условии, что ваши целевая проекционная система "
 "поддерживает выбранную вами скорость DCP."
 
-#: src/lib/dcp_content.cc:592
+#: src/lib/dcp_content.cc:605
 msgid "There is no video in this DCP"
 msgstr "В данном DCP нет видео"
 
@@ -1707,62 +1707,62 @@ msgid "h"
 msgstr "ч"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:683
+#: src/lib/dcp_content.cc:696
 msgid "it does not have closed captions in all its reels."
 msgstr "во всех бобинах нет скрытых титров."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:678
+#: src/lib/dcp_content.cc:691
 msgid "it does not have open subtitles in all its reels."
 msgstr "во всех бобинах нет субтитров."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:646
+#: src/lib/dcp_content.cc:659
 msgid "it does not have sound in all its reels."
 msgstr "во всех бобинах нет звука."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:545
+#: src/lib/dcp_content.cc:558
 msgid "it has a different frame rate to the film."
 msgstr "частота кадров проекта отличается от частоты кадров DCP."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:607
+#: src/lib/dcp_content.cc:620
 msgid "it is 2K and the film is 4K."
 msgstr "является 2K, а проект - 4K."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:604
+#: src/lib/dcp_content.cc:617
 msgid "it is 4K and the film is 2K."
 msgstr "является 4K, а проект - 2K."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:533
+#: src/lib/dcp_content.cc:546
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "является в Interop , а проект настроен как SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:537
+#: src/lib/dcp_content.cc:550
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "является SMPTE, а этот проект настроен как Interop."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:652
+#: src/lib/dcp_content.cc:665
 msgid "it overlaps other audio content; remove the other content."
 msgstr "перекрывает другой аудио-контент; уберите другой аудио-контент."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:689
+#: src/lib/dcp_content.cc:702
 msgid "it overlaps other text content; remove the other content."
 msgstr "перекрывает другой текстовый-контент; уберите другой контент."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:617
+#: src/lib/dcp_content.cc:630
 msgid "it overlaps other video content; remove the other content."
 msgstr "перекрывает другой видео-контент; уберите другой видео-контент."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:568
+#: src/lib/dcp_content.cc:581
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
@@ -1771,7 +1771,7 @@ msgstr ""
 "бобины \"Разделять по видео-контенту\"."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:612
+#: src/lib/dcp_content.cc:625
 msgid "its video frame size differs from the film's."
 msgstr "размер кадра видео в проекте отличается от размера видео DCP."
 
@@ -1805,7 +1805,7 @@ msgstr "часть вашего контента отсутствует"
 msgid "still"
 msgstr "статичный"
 
-#: src/lib/ffmpeg_examiner.cc:294
+#: src/lib/ffmpeg_examiner.cc:292
 msgid "unknown"
 msgstr "неизвестно"
 

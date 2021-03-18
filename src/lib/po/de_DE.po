@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-26 12:00+0100\n"
+"POT-Creation-Date: 2021-03-18 15:09+0100\n"
 "PO-Revision-Date: 2019-05-10 02:41+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -102,7 +102,7 @@ msgstr "$JOB_NAME: $JOB_STATUS"
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
-#: src/lib/dcp_content.cc:272
+#: src/lib/dcp_content.cc:285
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -1367,7 +1367,7 @@ msgstr ""
 "vorgesehene Projektionssystem diese Bildrate unterstützt, sollten Sie die "
 "DCP Bildrate auf den gleichen oder zumindest einen näheren Wert einstellen."
 
-#: src/lib/dcp_content.cc:592
+#: src/lib/dcp_content.cc:605
 msgid "There is no video in this DCP"
 msgstr "Dieses DCP enthält kein Bild"
 
@@ -1753,77 +1753,77 @@ msgid "h"
 msgstr "h"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:683
+#: src/lib/dcp_content.cc:696
 msgid "it does not have closed captions in all its reels."
 msgstr ""
 "Das DCP enthält in einigen Akten ('Reels') keine Closed Captions (CCAP)."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:678
+#: src/lib/dcp_content.cc:691
 msgid "it does not have open subtitles in all its reels."
 msgstr "Das DCP enthält in einigen Akten ('Reels') keine Untertitel."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:646
+#: src/lib/dcp_content.cc:659
 msgid "it does not have sound in all its reels."
 msgstr "Das DCP enthält in einigen Akten ('Reels') keinen Ton."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:545
+#: src/lib/dcp_content.cc:558
 msgid "it has a different frame rate to the film."
 msgstr "Dieses Projekt verwendet eine andere Bildrate als dieses DCP."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:607
+#: src/lib/dcp_content.cc:620
 msgid "it is 2K and the film is 4K."
 msgstr ""
 "es ist in 2k, das gegenwärtige Projekt jedoch 4k. Eine Mischung ist nicht "
 "möglich!"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:604
+#: src/lib/dcp_content.cc:617
 msgid "it is 4K and the film is 2K."
 msgstr ""
 "es ist in 4k, das gegenwärtige Projekt jedoch 2k. Eine Mischung ist nicht "
 "möglich!"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:533
+#: src/lib/dcp_content.cc:546
 msgid "it is Interop and the film is set to SMPTE."
 msgstr ""
 "Dieses Projekt ist auf ’SMPTE’ Standard konfiguriert, das referenzierte DCP "
 "ist jedoch in ‚INTEROP‘! Eine Mischung ist nicht möglich!"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:537
+#: src/lib/dcp_content.cc:550
 msgid "it is SMPTE and the film is set to Interop."
 msgstr ""
 "Dieses Projekt ist auf ‚INTEROP‘ Standard konfiguriert, das referenzierte "
 "DCP ist jedoch in ‚SMPTE‘. Eine Mischung ist nicht möglich!"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:652
+#: src/lib/dcp_content.cc:665
 msgid "it overlaps other audio content; remove the other content."
 msgstr ""
 "Einige Audioanteile überlappen mit diesem DCP, bitte entfernen Sie diese (-"
 ">Zeitleiste)!"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:689
+#: src/lib/dcp_content.cc:702
 msgid "it overlaps other text content; remove the other content."
 msgstr ""
 "Einige Textanteile überlappen in diesem DCP, bitte entfernen Sie diese (-"
 ">Zeitleiste)!"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:617
+#: src/lib/dcp_content.cc:630
 msgid "it overlaps other video content; remove the other content."
 msgstr ""
 "Einige Videoanteile überlappen mit diesem DCP, bitte entfernen Sie diese (-"
 ">Zeitleiste)!"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:568
+#: src/lib/dcp_content.cc:581
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
@@ -1832,7 +1832,7 @@ msgstr ""
 "unter 'DCP' muss auf 'An Inhaltsgrenzen aufteilen' gesetzt werden."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:612
+#: src/lib/dcp_content.cc:625
 msgid "its video frame size differs from the film's."
 msgstr "Dieses Projekt verwendet eine andere Bildauflösung als dieses DCP."
 
@@ -1866,7 +1866,7 @@ msgstr "Inhalte fehlen"
 msgid "still"
 msgstr "Standbild"
 
-#: src/lib/ffmpeg_examiner.cc:294
+#: src/lib/ffmpeg_examiner.cc:292
 msgid "unknown"
 msgstr "unbekannt"
 

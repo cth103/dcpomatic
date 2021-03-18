@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-26 12:00+0100\n"
+"POT-Creation-Date: 2021-03-18 15:09+0100\n"
 "PO-Revision-Date: 2016-03-19 18:19+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -96,7 +96,7 @@ msgstr ""
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
-#: src/lib/dcp_content.cc:272
+#: src/lib/dcp_content.cc:285
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -1329,7 +1329,7 @@ msgid ""
 "systems support your chosen DCP rate."
 msgstr ""
 
-#: src/lib/dcp_content.cc:592
+#: src/lib/dcp_content.cc:605
 msgid "There is no video in this DCP"
 msgstr ""
 
@@ -1668,68 +1668,68 @@ msgid "h"
 msgstr "h"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:683
+#: src/lib/dcp_content.cc:696
 #, fuzzy
 msgid "it does not have closed captions in all its reels."
 msgstr "Não há nenhuma bobina de audio no DCP"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:678
+#: src/lib/dcp_content.cc:691
 #, fuzzy
 msgid "it does not have open subtitles in all its reels."
 msgstr "Não há nenhuma bobina de legendas no DCP"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:646
+#: src/lib/dcp_content.cc:659
 #, fuzzy
 msgid "it does not have sound in all its reels."
 msgstr "Não há nenhuma bobina de audio no DCP"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:545
+#: src/lib/dcp_content.cc:558
 msgid "it has a different frame rate to the film."
 msgstr ""
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:607
+#: src/lib/dcp_content.cc:620
 msgid "it is 2K and the film is 4K."
 msgstr ""
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:604
+#: src/lib/dcp_content.cc:617
 msgid "it is 4K and the film is 2K."
 msgstr ""
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:533
+#: src/lib/dcp_content.cc:546
 msgid "it is Interop and the film is set to SMPTE."
 msgstr ""
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:537
+#: src/lib/dcp_content.cc:550
 msgid "it is SMPTE and the film is set to Interop."
 msgstr ""
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:652
+#: src/lib/dcp_content.cc:665
 #, fuzzy
 msgid "it overlaps other audio content; remove the other content."
 msgstr "Existe outro conteúdo áudio sobreposto a este DCP; remova-o."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:689
+#: src/lib/dcp_content.cc:702
 #, fuzzy
 msgid "it overlaps other text content; remove the other content."
 msgstr "Existe outro conteúdo video sobreposto a este DCP; remova-o."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:617
+#: src/lib/dcp_content.cc:630
 #, fuzzy
 msgid "it overlaps other video content; remove the other content."
 msgstr "Existe outro conteúdo video sobreposto a este DCP; remova-o."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:568
+#: src/lib/dcp_content.cc:581
 #, fuzzy
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
@@ -1739,7 +1739,7 @@ msgstr ""
 "'Bobinas' para 'Dividir por conteúdo de vídeo'."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:612
+#: src/lib/dcp_content.cc:625
 msgid "its video frame size differs from the film's."
 msgstr ""
 
@@ -1773,7 +1773,7 @@ msgstr ""
 msgid "still"
 msgstr "imagem estática"
 
-#: src/lib/ffmpeg_examiner.cc:294
+#: src/lib/ffmpeg_examiner.cc:292
 msgid "unknown"
 msgstr "desconhecido"
 
