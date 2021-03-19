@@ -802,6 +802,11 @@ Writer::write (PlayerText text, TextType type, optional<DCPTextTrack> track, DCP
 		write_hanging_text (**reel);
 	}
 
+	auto back_off = [this](DCPTimePeriod period) {
+		period.to -= DCPTime::from_frames(2, film()->video_frame_rate());
+		return period;
+	};
+
 	if (period.to > (*reel)->period().to) {
 		/* This text goes off the end of the reel.  Store parts of it that should go into
 		 * other reels.
@@ -809,13 +814,14 @@ Writer::write (PlayerText text, TextType type, optional<DCPTextTrack> track, DCP
 		for (auto i = std::next(*reel); i != _reels.end(); ++i) {
 			auto overlap = i->period().overlap(period);
 			if (overlap) {
-				_hanging_texts.push_back (HangingText{text, type, track, *overlap});
+				_hanging_texts.push_back (HangingText{text, type, track, back_off(*overlap)});
 			}
 		}
 		/* Back off from the reel boundary by a couple of frames to avoid tripping checks
 		 * for subtitles being too close together.
 		 */
-		period.to = (*reel)->period().to - DCPTime::from_frames(2, film()->video_frame_rate());
+		period.to = (*reel)->period().to;
+		period = back_off(period);
 	}
 
 	(*reel)->write (text, type, track, period);
