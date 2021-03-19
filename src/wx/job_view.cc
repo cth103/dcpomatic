@@ -18,6 +18,7 @@
 
 */
 
+
 #include "job_view.h"
 #include "wx_util.h"
 #include "message_dialog.h"
@@ -34,11 +35,13 @@
 #include <wx/wx.h>
 #include <boost/algorithm/string.hpp>
 
+
 using std::string;
 using std::min;
 using std::shared_ptr;
 using boost::bind;
 using std::dynamic_pointer_cast;
+
 
 JobView::JobView (shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table)
 	: _job (job)
@@ -49,6 +52,7 @@ JobView::JobView (shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wx
 {
 
 }
+
 
 void
 JobView::setup ()
@@ -95,6 +99,7 @@ JobView::setup ()
 	_table->Layout ();
 }
 
+
 void
 JobView::maybe_pulse ()
 {
@@ -103,6 +108,7 @@ JobView::maybe_pulse ()
 	}
 }
 
+
 void
 JobView::progress ()
 {
@@ -110,7 +116,7 @@ JobView::progress ()
 	if (!_job->sub_name().empty ()) {
 		whole += _job->sub_name() + " ";
 	}
-	string s = _job->status ();
+	auto s = _job->status ();
 	/* Watch out for < > in the error string */
 	boost::algorithm::replace_all (s, "<", "&lt;");
 	boost::algorithm::replace_all (s, ">", "&gt;");
@@ -127,6 +133,7 @@ JobView::progress ()
 		_gauge->SetValue (min (100.0f, _job->progress().get() * 100));
 	}
 }
+
 
 void
 JobView::finished ()
@@ -162,13 +169,15 @@ JobView::finished ()
 	}
 }
 
+
 void
 JobView::details_clicked (wxCommandEvent &)
 {
-	string s = _job->error_summary();
+	auto s = _job->error_summary();
 	s[0] = toupper (s[0]);
 	error_dialog (_parent, std_to_wx(s), std_to_wx(_job->error_details()));
 }
+
 
 void
 JobView::cancel_clicked (wxCommandEvent &)
@@ -178,6 +187,7 @@ JobView::cancel_clicked (wxCommandEvent &)
 	}
 }
 
+
 void
 JobView::insert (int pos)
 {
@@ -186,12 +196,14 @@ JobView::insert (int pos)
 	_table->Layout ();
 }
 
+
 void
 JobView::detach ()
 {
 	_table->Detach (_gauge_message);
 	_table->Detach (_controls);
 }
+
 
 void
 JobView::notify_clicked ()
