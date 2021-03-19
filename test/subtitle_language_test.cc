@@ -47,7 +47,13 @@ BOOST_AUTO_TEST_CASE (subtitle_language_interop_test)
 	film->set_subtitle_languages(langs);
 	film->set_interop (true);
 
-	make_and_verify_dcp (film, {dcp::VerificationNote::Code::INVALID_STANDARD});
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::INVALID_STANDARD,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION
+		});
 
 	check_dcp (String::compose("test/data/%1", name), String::compose("build/test/%1/%2", name, film->dcp_name()));
 }
