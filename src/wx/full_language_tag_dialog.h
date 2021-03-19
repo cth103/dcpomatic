@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,8 +19,8 @@
 */
 
 
-#ifndef DCPOMATIC_LANGUAGE_TAG_DIALOG_H
-#define DCPOMATIC_LANGUAGE_TAG_DIALOG_H
+#ifndef DCPOMATIC_FULL_LANGUAGE_TAG_DIALOG_H
+#define DCPOMATIC_FULL_LANGUAGE_TAG_DIALOG_H
 
 
 #include "lib/warnings.h"
@@ -34,7 +34,7 @@ class wxListCtrl;
 class LanguageSubtagPanel;
 
 
-class LanguageTagDialog : public wxDialog
+class FullLanguageTagDialog : public wxDialog
 {
 public:
 	class Subtag
@@ -50,7 +50,7 @@ public:
 		std::string last_search;
 	};
 
-	LanguageTagDialog (wxWindow* parent, dcp::LanguageTag tag = dcp::LanguageTag("en"));
+	FullLanguageTagDialog (wxWindow* parent, dcp::LanguageTag tag = dcp::LanguageTag("en"));
 
 	dcp::LanguageTag get () const;
 	void set (dcp::LanguageTag tag);

@@ -20,7 +20,7 @@
 
 #include "content_version_dialog.h"
 #include "editable_list.h"
-#include "language_tag_dialog.h"
+#include "full_language_tag_dialog.h"
 #include "language_tag_widget.h"
 #include "smpte_metadata_dialog.h"
 #include "rating_dialog.h"
@@ -111,7 +111,7 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 
 	vector<EditableListColumn> columns;
 	columns.push_back (EditableListColumn("Language", 250, true));
-	_additional_subtitle_languages = new EditableList<dcp::LanguageTag, LanguageTagDialog> (
+	_additional_subtitle_languages = new EditableList<dcp::LanguageTag, FullLanguageTagDialog> (
 		this,
 		columns,
 		boost::bind(&SMPTEMetadataDialog::additional_subtitle_languages, this),

@@ -19,7 +19,7 @@
 */
 
 #include "editable_list.h"
-#include "language_tag_dialog.h"
+#include "full_language_tag_dialog.h"
 #include "lib/film.h"
 #include "lib/weak_film.h"
 #include <dcp/language_tag.h>
@@ -64,7 +64,7 @@ private:
 	LanguageTagWidget* _audio_language;
 	wxCheckBox* _enable_main_subtitle_language;
 	LanguageTagWidget* _main_subtitle_language;
-	EditableList<dcp::LanguageTag, LanguageTagDialog>* _additional_subtitle_languages;
+	EditableList<dcp::LanguageTag, FullLanguageTagDialog>* _additional_subtitle_languages;
 	wxStaticText* _release_territory;
 	wxSpinCtrl* _version_number;
 	wxChoice* _status;

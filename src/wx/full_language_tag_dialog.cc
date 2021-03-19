@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,7 +20,7 @@
 
 
 #include "lib/dcpomatic_assert.h"
-#include "language_tag_dialog.h"
+#include "full_language_tag_dialog.h"
 #include <dcp/language_tag.h>
 #include <wx/listctrl.h>
 #include <wx/srchctrl.h>
@@ -62,9 +62,9 @@ public:
 		_all_subtags = dcp::LanguageTag::get_all(type);
 		set_search (search);
 		if (subtag) {
-			vector<dcp::LanguageTag::SubtagData>::iterator i = find(_matching_subtags.begin(), _matching_subtags.end(), *subtag);
+			auto i = find(_matching_subtags.begin(), _matching_subtags.end(), *subtag);
 			if (i != _matching_subtags.end()) {
-				long item = std::distance(_matching_subtags.begin(), i);
+				auto item = std::distance(_matching_subtags.begin(), i);
 				SetItemState (item, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 				EnsureVisible (item);
 			}
@@ -101,9 +101,9 @@ public:
 
 	optional<dcp::LanguageTag::SubtagData> selected_subtag () const
 	{
-		long int selected = GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		auto selected = GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 		if (selected == -1) {
-			return optional<dcp::LanguageTag::SubtagData>();
+			return {};
 		}
 
 		DCPOMATIC_ASSERT (static_cast<size_t>(selected) < _matching_subtags.size());
@@ -140,7 +140,7 @@ public:
 		_search = new wxSearchCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(200, height));
 		_list = new SubtagListCtrl (this);
 
-		wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+		auto sizer = new wxBoxSizer (wxVERTICAL);
 		sizer->Add (_search, 0, wxALL, 8);
 		sizer->Add (_list, 1, wxALL, 8);
 		SetSizer (sizer);
@@ -189,14 +189,14 @@ private:
 };
 
 
-LanguageTagDialog::LanguageTagDialog (wxWindow* parent, dcp::LanguageTag tag)
+FullLanguageTagDialog::FullLanguageTagDialog (wxWindow* parent, dcp::LanguageTag tag)
 	: wxDialog (parent, wxID_ANY, "Language Tag", wxDefaultPosition, wxSize(-1, 500))
 {
 	_current_tag_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL | wxLC_NO_HEADER);
 	_current_tag_list->AppendColumn ("", wxLIST_FORMAT_LEFT, 200);
 	_current_tag_list->AppendColumn ("", wxLIST_FORMAT_LEFT, 400);
 
-	wxBoxSizer* button_sizer = new wxBoxSizer (wxVERTICAL);
+	auto button_sizer = new wxBoxSizer (wxVERTICAL);
 	_add_script = new wxButton(this, wxID_ANY, "Add script");
 	button_sizer->Add (_add_script, 0, wxTOP | wxBOTTOM | wxEXPAND, 2);
 	_add_region = new wxButton(this, wxID_ANY, "Add region");
@@ -211,15 +211,15 @@ LanguageTagDialog::LanguageTagDialog (wxWindow* parent, dcp::LanguageTag tag)
 	_choose_subtag_panel = new LanguageSubtagPanel (this);
 	_choose_subtag_panel->set (dcp::LanguageTag::SubtagType::LANGUAGE, "");
 
-	wxBoxSizer* ltor_sizer = new wxBoxSizer (wxHORIZONTAL);
+	auto ltor_sizer = new wxBoxSizer (wxHORIZONTAL);
 	ltor_sizer->Add (_current_tag_list, 1, wxALL, 8);
 	ltor_sizer->Add (button_sizer, 0, wxALL, 8);
 	ltor_sizer->Add (_choose_subtag_panel, 1, wxALL, 8);
 
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
 	overall_sizer->Add (ltor_sizer, 0);
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
+	auto buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {
 		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
@@ -228,22 +228,22 @@ LanguageTagDialog::LanguageTagDialog (wxWindow* parent, dcp::LanguageTag tag)
 
 	set (tag);
 
-	_add_script->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::SubtagType::SCRIPT, boost::optional<dcp::LanguageTag::SubtagData>()));
-	_add_region->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::SubtagType::REGION, boost::optional<dcp::LanguageTag::SubtagData>()));
-	_add_variant->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::SubtagType::VARIANT, boost::optional<dcp::LanguageTag::SubtagData>()));
-	_add_external->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::SubtagType::EXTLANG, boost::optional<dcp::LanguageTag::SubtagData>()));
-	_remove->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagDialog::remove_from_current_tag, this));
-	_choose_subtag_panel->SelectionChanged.connect(bind(&LanguageTagDialog::chosen_subtag_changed, this, _1));
-	_choose_subtag_panel->SearchChanged.connect(bind(&LanguageTagDialog::search_changed, this, _1));
-	_current_tag_list->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind(&LanguageTagDialog::current_tag_selection_changed, this));
-	_current_tag_list->Bind (wxEVT_LIST_ITEM_DESELECTED, boost::bind(&LanguageTagDialog::current_tag_selection_changed, this));
+	_add_script->Bind (wxEVT_BUTTON, boost::bind(&FullLanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::SubtagType::SCRIPT, boost::optional<dcp::LanguageTag::SubtagData>()));
+	_add_region->Bind (wxEVT_BUTTON, boost::bind(&FullLanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::SubtagType::REGION, boost::optional<dcp::LanguageTag::SubtagData>()));
+	_add_variant->Bind (wxEVT_BUTTON, boost::bind(&FullLanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::SubtagType::VARIANT, boost::optional<dcp::LanguageTag::SubtagData>()));
+	_add_external->Bind (wxEVT_BUTTON, boost::bind(&FullLanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::SubtagType::EXTLANG, boost::optional<dcp::LanguageTag::SubtagData>()));
+	_remove->Bind (wxEVT_BUTTON, boost::bind(&FullLanguageTagDialog::remove_from_current_tag, this));
+	_choose_subtag_panel->SelectionChanged.connect(bind(&FullLanguageTagDialog::chosen_subtag_changed, this, _1));
+	_choose_subtag_panel->SearchChanged.connect(bind(&FullLanguageTagDialog::search_changed, this, _1));
+	_current_tag_list->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind(&FullLanguageTagDialog::current_tag_selection_changed, this));
+	_current_tag_list->Bind (wxEVT_LIST_ITEM_DESELECTED, boost::bind(&FullLanguageTagDialog::current_tag_selection_changed, this));
 }
 
 
 void
-LanguageTagDialog::remove_from_current_tag ()
+FullLanguageTagDialog::remove_from_current_tag ()
 {
-	long int selected = _current_tag_list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	auto selected = _current_tag_list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (selected <= 0) {
 		return;
 	}
@@ -258,7 +258,7 @@ LanguageTagDialog::remove_from_current_tag ()
 }
 
 
-dcp::LanguageTag LanguageTagDialog::get () const
+dcp::LanguageTag FullLanguageTagDialog::get () const
 {
 	dcp::LanguageTag tag;
 
@@ -295,7 +295,7 @@ dcp::LanguageTag LanguageTagDialog::get () const
 
 
 void
-LanguageTagDialog::set (dcp::LanguageTag tag)
+FullLanguageTagDialog::set (dcp::LanguageTag tag)
 {
 	_current_tag_subtags.clear ();
 	_current_tag_list->DeleteAllItems ();
@@ -314,7 +314,7 @@ LanguageTagDialog::set (dcp::LanguageTag tag)
 }
 
 
-string LanguageTagDialog::subtag_type_name (dcp::LanguageTag::SubtagType type)
+string FullLanguageTagDialog::subtag_type_name (dcp::LanguageTag::SubtagType type)
 {
 	switch (type) {
 		case dcp::LanguageTag::SubtagType::LANGUAGE:
@@ -329,12 +329,12 @@ string LanguageTagDialog::subtag_type_name (dcp::LanguageTag::SubtagType type)
 			return "External";
 	}
 
-	return "";
+	return {};
 }
 
 
 void
-LanguageTagDialog::search_changed (string search)
+FullLanguageTagDialog::search_changed (string search)
 {
 	long int selected = _current_tag_list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (selected >= 0) {
@@ -344,7 +344,7 @@ LanguageTagDialog::search_changed (string search)
 
 
 void
-LanguageTagDialog::add_to_current_tag (dcp::LanguageTag::SubtagType type, optional<dcp::LanguageTag::SubtagData> subtag)
+FullLanguageTagDialog::add_to_current_tag (dcp::LanguageTag::SubtagType type, optional<dcp::LanguageTag::SubtagData> subtag)
 {
 	_current_tag_subtags.push_back (Subtag(type, subtag));
 	wxListItem it;
@@ -367,9 +367,9 @@ LanguageTagDialog::add_to_current_tag (dcp::LanguageTag::SubtagType type, option
 
 
 void
-LanguageTagDialog::current_tag_selection_changed ()
+FullLanguageTagDialog::current_tag_selection_changed ()
 {
-	long int selected = _current_tag_list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	auto selected = _current_tag_list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (selected >= 0) {
 		_choose_subtag_panel->Enable (true);
 		_choose_subtag_panel->set (_current_tag_subtags[selected].type, _current_tag_subtags[selected].last_search, _current_tag_subtags[selected].subtag);
@@ -380,13 +380,13 @@ LanguageTagDialog::current_tag_selection_changed ()
 
 
 void
-LanguageTagDialog::chosen_subtag_changed (optional<dcp::LanguageTag::SubtagData> selection)
+FullLanguageTagDialog::chosen_subtag_changed (optional<dcp::LanguageTag::SubtagData> selection)
 {
 	if (!selection) {
 		return;
 	}
 
-	long int selected = _current_tag_list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	auto selected = _current_tag_list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (selected >= 0) {
 		_current_tag_subtags[selected].subtag = *selection;
 		_current_tag_list->SetItem (selected, 0, subtag_type_name(_current_tag_subtags[selected].type));
@@ -397,7 +397,7 @@ LanguageTagDialog::chosen_subtag_changed (optional<dcp::LanguageTag::SubtagData>
 }
 
 void
-LanguageTagDialog::setup_sensitivity ()
+FullLanguageTagDialog::setup_sensitivity ()
 {
 	_add_script->Enable ();
 	_add_region->Enable ();
@@ -421,7 +421,7 @@ LanguageTagDialog::setup_sensitivity ()
 				break;
 		}
 	}
-	long int selected = _current_tag_list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	auto selected = _current_tag_list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	_remove->Enable (selected > 0);
 }
 
@@ -430,10 +430,10 @@ RegionSubtagDialog::RegionSubtagDialog (wxWindow* parent, dcp::LanguageTag::Regi
 	: wxDialog (parent, wxID_ANY, _("Region"), wxDefaultPosition, wxSize(-1, 500))
 	, _panel (new LanguageSubtagPanel (this))
 {
-	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+	auto sizer = new wxBoxSizer (wxVERTICAL);
 	sizer->Add (_panel, 1);
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
+	auto buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {
 		sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}

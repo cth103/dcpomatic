@@ -58,6 +58,7 @@ sources = """
           dkdm_output_panel.cc
           drive_wipe_warning_dialog.cc
           email_dialog.cc
+          full_language_tag_dialog.cc
           image_sequence_dialog.cc
           isdcf_metadata_dialog.cc
           dcp_text_track_dialog.cc
@@ -92,7 +93,6 @@ sources = """
           kdm_dialog.cc
           kdm_output_panel.cc
           kdm_timing_panel.cc
-          language_tag_dialog.cc
           language_tag_widget.cc
           make_chain_dialog.cc
           markers_dialog.cc

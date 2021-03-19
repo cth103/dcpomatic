@@ -20,7 +20,7 @@
 
 
 #include "dcpomatic_button.h"
-#include "language_tag_dialog.h"
+#include "full_language_tag_dialog.h"
 #include "language_tag_widget.h"
 #include "wx_util.h"
 #include <wx/wx.h>
@@ -44,7 +44,7 @@ LanguageTagWidget::LanguageTagWidget (wxWindow* parent, wxString tooltip, dcp::L
 void
 LanguageTagWidget::edit ()
 {
-	LanguageTagDialog* d = new LanguageTagDialog(_parent, _tag);
+	auto d = new FullLanguageTagDialog(_parent, _tag);
 	d->ShowModal ();
 	set (d->get());
 	Changed (d->get());
