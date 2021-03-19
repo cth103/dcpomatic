@@ -190,7 +190,7 @@ private:
 
 
 FullLanguageTagDialog::FullLanguageTagDialog (wxWindow* parent, dcp::LanguageTag tag)
-	: wxDialog (parent, wxID_ANY, "Language Tag", wxDefaultPosition, wxSize(-1, 500))
+	: wxDialog (parent, wxID_ANY, _("Language Tag"), wxDefaultPosition, wxSize(-1, 500))
 {
 	_current_tag_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL | wxLC_NO_HEADER);
 	_current_tag_list->AppendColumn ("", wxLIST_FORMAT_LEFT, 200);
