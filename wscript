@@ -92,8 +92,8 @@ def configure(conf):
     conf.env.DEBUG = conf.options.enable_debug
     conf.env.STATIC_DCPOMATIC = conf.options.static_dcpomatic
     conf.env.ENABLE_DISK = conf.options.enable_disk
-    if conf.options.destdir is None:
-        conf.env.INSTALL_PREFIX = conf.env.PREFIX
+    if conf.options.destdir == '':
+        conf.env.INSTALL_PREFIX = conf.options.prefix
     else:
         conf.env.INSTALL_PREFIX = conf.options.destdir
 
