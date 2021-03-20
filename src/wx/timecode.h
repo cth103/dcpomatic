@@ -98,6 +98,15 @@ public:
 	T get (float fps) const
 	{
 		T t;
+
+		auto value_or_hint = [](wxTextCtrl const * t) {
+			if (!t->GetValue().IsEmpty()) {
+				return wx_to_std (t->GetValue());
+			} else {
+				return wx_to_std (t->GetHint());
+			}
+		};
+
 		std::string const h = value_or_hint (_hours);
 		t += T::from_seconds (dcp::raw_convert<int>(h.empty() ? "0" : h) * 3600);
 		std::string const m = value_or_hint (_minutes);
@@ -108,16 +117,6 @@ public:
 		t += T::from_seconds (dcp::raw_convert<double>(f.empty() ? "0" : f) / fps);
 
 		return t;
-	}
-
-private:
-	std::string value_or_hint (wxTextCtrl const * t) const
-	{
-		if (!t->GetValue().IsEmpty()) {
-			return wx_to_std (t->GetValue());
-		} else {
-			return wx_to_std (t->GetHint());
-		}
 	}
 };
 
