@@ -114,7 +114,7 @@ public:
 		std::string const s = value_or_hint (_seconds);
 		t += T::from_seconds (dcp::raw_convert<int>(s.empty() ? "0" : s));
 		std::string const f = value_or_hint (_frames);
-		t += T::from_seconds (dcp::raw_convert<double>(f.empty() ? "0" : f) / fps);
+		t += T::from_frames (dcp::raw_convert<int>(f.empty() ? "0" : f), fps);
 
 		return t;
 	}
