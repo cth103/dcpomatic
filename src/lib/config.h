@@ -33,6 +33,7 @@
 #include <dcp/name_format.h>
 #include <dcp/certificate_chain.h>
 #include <dcp/encrypted_kdm.h>
+#include <dcp/language_tag.h>
 #include <boost/signals2.hpp>
 #include <boost/filesystem.hpp>
 #include <vector>
@@ -538,6 +539,10 @@ public:
 
 	int minimum_frame_size () const {
 		return _minimum_frame_size;
+	}
+
+	std::vector<dcp::LanguageTag> custom_languages () const {
+		return _custom_languages;
 	}
 
 	/* SET (mostly) */
@@ -1055,6 +1060,8 @@ public:
 		maybe_set (_minimum_frame_size, size);
 	}
 
+	void add_custom_language (dcp::LanguageTag tag);
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -1269,6 +1276,7 @@ private:
 	boost::optional<boost::filesystem::path> _player_kdm_directory;
 	boost::optional<AudioMapping> _audio_mapping;
 	int _minimum_frame_size;
+	std::vector<dcp::LanguageTag> _custom_languages;
 
 	static int const _current_version;
 

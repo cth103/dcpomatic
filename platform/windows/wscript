@@ -336,6 +336,7 @@ File "%cdist_deps%/share/libdcp/tags/language"
 File "%cdist_deps%/share/libdcp/tags/region"
 File "%cdist_deps%/share/libdcp/tags/script"
 File "%cdist_deps%/share/libdcp/tags/variant"
+File "%cdist_deps%/share/libdcp/tags/dcnc"
 
 SectionEnd
     """, file=f)

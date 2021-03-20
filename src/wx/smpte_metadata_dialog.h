@@ -32,6 +32,7 @@ class Film;
 class RatingDialog;
 class ContentVersionDialog;
 class LanguageTagWidget;
+class LanguageTagDialog;
 
 
 class SMPTEMetadataDialog : public wxDialog, public WeakFilm
@@ -64,7 +65,7 @@ private:
 	LanguageTagWidget* _audio_language;
 	wxCheckBox* _enable_main_subtitle_language;
 	LanguageTagWidget* _main_subtitle_language;
-	EditableList<dcp::LanguageTag, FullLanguageTagDialog>* _additional_subtitle_languages;
+	EditableList<dcp::LanguageTag, LanguageTagDialog>* _additional_subtitle_languages;
 	wxStaticText* _release_territory;
 	wxSpinCtrl* _version_number;
 	wxChoice* _status;

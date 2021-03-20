@@ -176,6 +176,7 @@ Config::set_defaults ()
 	_player_kdm_directory = boost::none;
 	_audio_mapping = boost::none;
 	_minimum_frame_size = 65536;
+	_custom_languages.clear ();
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -551,6 +552,15 @@ try
 	}
 
 	_minimum_frame_size = f.optional_number_child<int>("MinimumFrameSize").get_value_or(65536);
+
+	for (auto i: f.node_children("CustomLanguage")) {
+		try {
+			/* This will fail if it's called before dcp::init() as it won't recognise the
+			 * tag.  That's OK because the Config will be reloaded again later.
+			 */
+			_custom_languages.push_back (dcp::LanguageTag(i->content()));
+		} catch (std::runtime_error& e) {}
+	}
 
 	if (boost::filesystem::exists (_cinemas_file)) {
 		cxml::Document f ("Cinemas");
@@ -981,6 +991,9 @@ Config::write_config () const
 		_audio_mapping->as_xml (root->add_child("AudioMapping"));
 	}
 	root->add_child("MinimumFrameSize")->add_child_text(raw_convert<string>(_minimum_frame_size));
+	for (auto const& i: _custom_languages) {
+		root->add_child("CustomLanguage")->add_child_text(i.to_string());
+	}
 
 	try {
 		auto const s = doc.write_to_string_formatted ();
@@ -1420,3 +1433,14 @@ Config::set_audio_mapping_to_default ()
 	_audio_mapping = audio_mapping (ch);
 	changed (AUDIO_MAPPING);
 }
+
+
+void
+Config::add_custom_language (dcp::LanguageTag tag)
+{
+	if (find(_custom_languages.begin(), _custom_languages.end(), tag) == _custom_languages.end()) {
+		_custom_languages.push_back (tag);
+		changed ();
+	}
+}
+

@@ -93,6 +93,7 @@ sources = """
           kdm_dialog.cc
           kdm_output_panel.cc
           kdm_timing_panel.cc
+          language_tag_dialog.cc
           language_tag_widget.cc
           make_chain_dialog.cc
           markers_dialog.cc
