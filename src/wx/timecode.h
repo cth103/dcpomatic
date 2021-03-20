@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -22,6 +22,7 @@
 #define DCPOMATIC_WX_TIMECODE_H
 
 #include "wx_util.h"
+#include "lib/dcpomatic_time.h"
 #include "lib/types.h"
 #include <dcp/raw_convert.h>
 #include <wx/wx.h>
@@ -87,7 +88,7 @@ public:
 		_frames->SetHint (std_to_wx(dcp::raw_convert<std::string>(hmsf.f)));
 	}
 
-	T get (float fps) const
+	dcpomatic::HMSF get () const
 	{
 		auto value_or_hint = [](wxTextCtrl const * t) {
 			auto s = wx_to_std (t->GetValue().IsEmpty() ? t->GetHint() : t->GetValue());
@@ -97,15 +98,15 @@ public:
 			return dcp::raw_convert<int>(s);
 		};
 
-		return T (
-			{
-				value_or_hint(_hours),
-				value_or_hint(_minutes),
-				value_or_hint(_seconds),
-				value_or_hint(_frames)
-			},
-			fps
-			);
+		return { value_or_hint(_hours),
+			value_or_hint(_minutes),
+			value_or_hint(_seconds),
+			value_or_hint(_frames) };
+	}
+
+	T get (float fps) const
+	{
+		return T(get(), fps);
 	}
 };
 

@@ -635,18 +635,20 @@ VideoPanel::setup_sensitivity ()
 void
 VideoPanel::fade_in_changed ()
 {
-	for (auto i: _parent->selected_video ()) {
+	auto const hmsf = _fade_in->get();
+	for (auto i: _parent->selected_video()) {
 		double const vfr = i->active_video_frame_rate (_parent->film());
-		i->video->set_fade_in (_fade_in->get(vfr).frames_round(vfr));
+		i->video->set_fade_in (dcpomatic::ContentTime(hmsf, vfr).frames_round(vfr));
 	}
 }
 
 void
 VideoPanel::fade_out_changed ()
 {
-	for (auto i: _parent->selected_video ()) {
+	auto const hmsf = _fade_out->get();
+	for (auto i: _parent->selected_video()) {
 		double const vfr = i->active_video_frame_rate (_parent->film());
-		i->video->set_fade_out (_fade_out->get(vfr).frames_round(vfr));
+		i->video->set_fade_out (dcpomatic::ContentTime(hmsf, vfr).frames_round(vfr));
 	}
 }
 
