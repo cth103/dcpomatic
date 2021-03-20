@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-18 15:09+0100\n"
-"PO-Revision-Date: 2019-05-10 02:56+0100\n"
+"PO-Revision-Date: 2021-03-19 13:26+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 2.4.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/wx/initial_setup_dialog.cc:62
@@ -64,12 +64,11 @@ msgid "%d channels on %s"
 msgstr "%d Kanäle über %s "
 
 #: src/wx/about_dialog.cc:84
-#, fuzzy
 msgid ""
 "(C) 2012-2020 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"(C) 2012-2019 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2020 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:44 src/wx/file_picker_ctrl.cc:59
@@ -684,9 +683,8 @@ msgstr "Konnte die Bilddatei nicht lesen."
 
 #: src/wx/download_certificate_panel.cc:64
 #: src/wx/download_certificate_panel.cc:76
-#, fuzzy
 msgid "Could not read certificate file (%1)"
-msgstr "Konnte die Zertifikatsdatei nicht lesen."
+msgstr "Konnte die Zertifikatsdatei nicht lesen (%1)."
 
 #: src/wx/config_dialog.cc:531 src/wx/config_dialog.cc:754
 #: src/wx/screen_dialog.cc:204 src/wx/screen_dialog.cc:209
@@ -809,7 +807,7 @@ msgstr "Standard Audiokanäle"
 
 #: src/wx/full_config_dialog.cc:339
 msgid "Default ISDCF name details"
-msgstr "Standard ISDCF Name Details"
+msgstr "Standard ISDCF/DCNC Name Details"
 
 #: src/wx/full_config_dialog.cc:360
 msgid "Default JPEG2000 bandwidth"
@@ -1530,7 +1528,7 @@ msgstr "Herstellungscode"
 
 #: src/wx/video_panel.cc:397
 msgid "Many"
-msgstr ""
+msgstr "Viele"
 
 #: src/wx/isdcf_metadata_dialog.cc:85
 msgid "Mastered luminance (e.g. 14fl)"
@@ -1542,7 +1540,7 @@ msgstr "Resultierende Matrix:"
 
 #: src/wx/full_config_dialog.cc:1402
 msgid "Maximum JPEG2000 bandwidth"
-msgstr "Maximale JPEG2000 Datenrate (>240MBit/s - Vorsicht!)"
+msgstr "Maximale JPEG2000 Datenrate (>220MBit/s - Vorsicht!)"
 
 #: src/wx/full_config_dialog.cc:1430
 msgid "Maximum number of frames to store per thread"
@@ -1793,7 +1791,7 @@ msgstr "Videoeinstellungen übernehmen"
 
 #: src/wx/about_dialog.cc:149
 msgid "Patrons"
-msgstr ""
+msgstr "Förderer"
 
 #: src/wx/normal_job_view.cc:38 src/wx/normal_job_view.cc:54
 msgid "Pause"

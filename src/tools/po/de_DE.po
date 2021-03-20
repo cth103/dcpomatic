@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-18 15:09+0100\n"
-"PO-Revision-Date: 2019-03-26 14:32+0100\n"
+"PO-Revision-Date: 2021-03-19 13:03+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic <carl@dcpomatic.com>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 2.4.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/tools/dcpomatic_kdm.cc:360
@@ -267,7 +267,7 @@ msgstr "Konnte Projektdatei %s nicht laden"
 
 #: src/tools/dcpomatic.cc:449
 msgid "Could not open this folder as a DCP-o-matic project."
-msgstr ""
+msgstr "Dieser Ordner konnte nicht als DCP-o-matic-Projekt geöffnet werden."
 
 #: src/tools/dcpomatic_kdm.cc:448
 msgid ""
@@ -476,6 +476,10 @@ msgid ""
 "o-matic projects, not DCPs.  To import a DCP, create a new project with File "
 "-> New and then click the \"Add DCP...\" button."
 msgstr ""
+"Es scheint, als ob Sie versuchen, ein DCP zu öffnen.  Datei -> Öffnen dient "
+"zum Laden von DCP-o-matic-Projektdateien, nicht DCPs.  Um ein DCP zu "
+"importieren, erstellen Sie ein neues Projekt mit Datei -> Neu, und klicken "
+"Sie dann auf die Schaltfläche “DCP hinzufügen…“!"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/tools/dcpomatic_kdm.cc:141
@@ -541,6 +545,8 @@ msgid ""
 "Please check that you do not have Windows controlled folder access enabled "
 "for DCP-o-matic."
 msgstr ""
+"Stellen Sie sicher, dass “Überwachter Ordnerzugriff“ in Windows10 für DCP-o-"
+"matic nicht aktiviert ist (->Windows Defender)!"
 
 #: src/tools/dcpomatic_playlist.cc:183
 msgid "Question|N"

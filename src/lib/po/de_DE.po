@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-18 15:09+0100\n"
-"PO-Revision-Date: 2019-05-10 02:41+0100\n"
+"PO-Revision-Date: 2021-03-19 13:28+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 2.4.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/video_content.cc:444
@@ -551,12 +551,11 @@ msgstr "DCP auf TMS übertragen"
 
 #: src/lib/reel_writer.cc:188
 msgid "Copying old video file"
-msgstr ""
+msgstr "Kopiere Videodatei"
 
 #: src/lib/reel_writer.cc:312
-#, fuzzy
 msgid "Copying video file into DCP"
-msgstr "Unterschiedliche Auflösungen im DCP"
+msgstr "Kopiere Videodatei in DCP"
 
 #: src/lib/scp_uploader.cc:51
 msgid "Could not connect to server %1 (%2)"
@@ -1033,7 +1032,7 @@ msgstr "Originalgröße"
 
 #: src/lib/video_content_scale.cc:102
 msgid "No stretch"
-msgstr "Proportional (unverzerrt)"
+msgstr "Proportional (empfohlen)"
 
 #: src/lib/image_content.cc:121
 msgid "No valid image files were found in the folder."
@@ -1247,8 +1246,8 @@ msgid ""
 "\n"
 "These files will now be re-examined, so you may need to check their settings."
 msgstr ""
-"Einige in diesem Projekt verwendete Dateien wurden geändert, nachdem sie zu "
-"diesem Projekt hinzugefügt wurden.\n"
+"Eine oder mehrere der in diesem Projekt verwendeten Dateien wurden geändert, "
+"nachdem sie zu diesem Projekt hinzugefügt wurden!\n"
 "\n"
 "Diese Inhalte werden nun neu untersucht, ggfs. müssen Sie bei Änderungen "
 "deren typspezifische Einstellungen überprüfen!"
@@ -1311,7 +1310,7 @@ msgstr "Untertitel (Text)"
 
 #: src/lib/film.cc:317
 msgid "The DCP is empty, perhaps because all the content has zero length."
-msgstr ""
+msgstr "Dieses DCP enthält keine Inhalte."
 
 #: src/lib/exceptions.cc:81
 msgid "The certificate chain for signing is invalid"
@@ -1327,6 +1326,10 @@ msgid ""
 "Please set it to 2D.  You can still make a 3D DCP from this content by "
 "ticking the 3D option in the DCP video tab."
 msgstr ""
+"Die Datei %1 ist als 3D markiert, scheint aber keine 3D Inhalte zu "
+"enthalten. Bitte markieren Sie sie als 2D. Sie kann dann als solches dennoch "
+"in ein formales 3D DCP konvertiert werden, wenn Sie unter dem Reiter ‚DCP‘ "
+"die Option “3D DCP“ wählen."
 
 #: src/lib/job.cc:119
 msgid ""
@@ -1388,7 +1391,7 @@ msgid ""
 msgstr ""
 "Diese Datei ist eine KDM und kann nicht direkt geladen werden. Weisen Sie "
 "eine KDM einem verschlüsselten DCP zu, indem sie im Inhaltsfenster ein dazu "
-"gehöriges geladenes DCP selektieren und mit <RechtsClick> \"KDM zuweisen\" "
+"gehöriges geladenes DCP selektieren und mit <Rechts-Click> \"KDM zuweisen\" "
 "ausführen!"
 
 #: src/lib/film.cc:466
@@ -1443,9 +1446,8 @@ msgid "Unexpected image type received by server"
 msgstr "Ungültiges Bildformat vom Server erhalten"
 
 #: src/lib/dcp_examiner.cc:184
-#, fuzzy
 msgid "Unknown"
-msgstr "unbekannt"
+msgstr "Unbekannt"
 
 #: src/lib/job.cc:222
 msgid "Unknown error"
@@ -1628,9 +1630,10 @@ msgstr ""
 "Ihr Audiopegel in Kanal %1 ist hoch. Sie sollten die Pegel und Verstärkung "
 "prüfen und ggfs. anpassen. Peak/True Peak Werte nahe 0dB sind jedoch "
 "technisch noch unbedenklich. Streben Sie als Orientierungswert für eine "
-"angemessene Lautheit im Kino etwa -20 LUFS an. Dialogpassagen liegen typisch "
-"um -20dBFS RMS. Diese Angaben dienen nur zur Groborientierung. Prüfen Sie "
-"ihre DCPs in einem eingemessenen Kinosaal!"
+"angemessene Lautheit im Kino etwa -20 LUFS oder 80dB LEQ(m) an. "
+"Dialogpassagen sollten typisch zwischen -30 und -20 dBFS RMS liegen. Diese "
+"Angaben dienen nur zur Groborientierung. Prüfen Sie ihre DCPs in einem "
+"eingemessenen Kinosaal!"
 
 #: src/lib/config.cc:313
 msgid ""
@@ -1701,19 +1704,16 @@ msgid "could not move audio asset into the DCP (%1)"
 msgstr "Audio konnte nicht in DCP (%1) kopiert werden"
 
 #: src/lib/exceptions.cc:34
-#, fuzzy
 msgid "could not open file %1 for read (%2)"
-msgstr "Datei %1 konnte nicht zum Lesen geöffnet werden. (%2)"
+msgstr "Datei %1 konnte nicht zum Lesen geöffnet werden (%2)"
 
 #: src/lib/exceptions.cc:33
-#, fuzzy
 msgid "could not open file %1 for read/write (%2)"
-msgstr "Datei %1 konnte nicht zum Lesen geöffnet werden. (%2)"
+msgstr "Datei %1 konnte nicht zum Lesen/Schreiben geöffnet werden (%2)"
 
 #: src/lib/exceptions.cc:34
-#, fuzzy
 msgid "could not open file %1 for write (%2)"
-msgstr "Datei %1 konnte nicht zum Schreiben geöffnet werden. (%2)"
+msgstr "Datei %1 konnte nicht zum Schreiben geöffnet werden (%2)"
 
 #: src/lib/exceptions.cc:51
 msgid "could not read from file %1 (%2)"
