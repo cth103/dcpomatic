@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-26 12:00+0100\n"
-"PO-Revision-Date: 2021-03-18 03:15+0100\n"
+"PO-Revision-Date: 2021-03-20 23:20+0100\n"
 "Last-Translator: Mattias Mattsson <vitplister@gmail.com>\n"
 "Language-Team: \n"
 "Language: sv_SE\n"
@@ -189,16 +189,16 @@ msgid ""
 "£20</a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to "
 "Paypal to donate £10</a></ul><p>Thank you!"
 msgstr ""
-"<h2>Du har gjort %1 DCP:er med DCP-o-matic!</h2><img width=“20%%” "
-"src=“memory:me.jpg” align=“center”><p>Hej. Jag heter Carl är utvecklaren som "
-"bakom DCP-o-matic. Jag gör programmet på min fritid (tillsammans med "
+"<h2>Du har gjort %1 DCP:er med DCP-o-matic!</h2><img width=\"20%%" "
+"src=\"memory:me.jpg\" align=\"center\"><p>Hej. Jag heter Carl och är utvecklaren "
+"som ligger bakom DCP-o-matic. Jag gör programmet på min fritid (tillsammans med "
 "frivilliga testare och översättare) och publicerar resultatet som fri "
-"mjukvara.<p>Ifall du har nytta av DCP-o-matic, överväg gärna en donation "
+"mjukvara.<p>Om du har nytta av DCP-o-matic, överväg gärna en donation "
 "till projektet. Ett ekonomiskt bidrag hjälper mig att kunna lägga mer tid på "
-"att utveckla DCP-o-matic och göra det bättre!<p><ul><li><a href=“https://"
-"dcpomatic.com/donate_amount?amount=40”>Ge 40 EUR via Paypal</a><li><a "
-"href=“https://dcpomatic.com/donate_amount?amount=20”>Ge 20 EUR via Paypal</"
-"a><li><a href=“https://dcpomatic.com/donate_amount?amount=10”>Ge 10 EUR via "
+"att utveckla DCP-o-matic och göra det bättre!<p><ul><li><a href=\"https://"
+"dcpomatic.com/donate_amount?amount=40\">Ge 40 EUR via Paypal</a><li><a "
+"href=\"https://dcpomatic.com/donate_amount?amount=20\">Ge 20 EUR via Paypal</"
+"a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Ge 10 EUR via "
 "Paypal</a></ul><p>Stort tack!"
 
 #: src/lib/hints.cc:158
@@ -226,7 +226,7 @@ msgid ""
 "DCP's container to have the same ratio as your content."
 msgstr ""
 "Allt källmaterial är 2,35:1 eller smalare, men vald DCP-behållare är Scope "
-"(2,39:1). Detta innebär att bilden kommer “pillar-boxas” med svarta kanter "
+"(2,39:1). Detta innebär att bilden kommer \"pillar-boxas\" med svarta kanter "
 "på sidorna inuti en 2,39:1-ruta . Rekommenderat är att istället välja en DCP-"
 "behållare med samma bildformat som källmaterialet."
 
@@ -238,9 +238,9 @@ msgid ""
 "tab."
 msgstr ""
 "Allt källmaterial är Scope (2,39:1), men vald DCP-behållare är Flat "
-"(1,85:1). Detta innebär att bilden kommer “letter-boxas” med svarta kanter "
+"(1,85:1). Detta innebär att bilden kommer \"letter-boxas\" med svarta kanter "
 "upp- och nertill inuti en 1,85:1-ruta. Rekommenderat är att istället välja "
-"DCP-behållare Scope (2.39:1) på “DCP”-fliken."
+"DCP-behållare Scope (2.39:1) på \"DCP\"-fliken."
 
 #: src/lib/job.cc:113
 msgid "An error occurred whilst handling the file %1."
@@ -357,7 +357,7 @@ msgstr "Kontrollerar befintlig bilddata"
 
 #: src/lib/check_content_change_job.cc:95
 msgid "Choose 'Make DCP' again when you have done this."
-msgstr "Välj ”Gör DCP” igen när detta är åtgärdat."
+msgstr "Välj \"Gör DCP\" igen när detta är åtgärdat."
 
 #: src/lib/ffmpeg_content.cc:647
 msgid "Chroma-derived constant luminance"
@@ -438,26 +438,26 @@ msgstr ""
 #: src/lib/text_content.cc:260
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr ""
-"Källmaterial som ska sammanfogas måste använda samma inställning för ‘bränn "
-"in undertexter’."
+"Källmaterial som ska sammanfogas måste använda samma inställning för 'bränn "
+"in undertexter'."
 
 #: src/lib/text_content.cc:256
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr ""
-"Källmaterial som ska sammanfogas måste använda samma inställning för ‘använd "
-"undertexter’."
+"Källmaterial som ska sammanfogas måste använda samma inställning för 'använd "
+"undertexter'."
 
 #: src/lib/audio_content.cc:106
 msgid "Content to be joined must have the same audio delay."
 msgstr ""
 "Källmaterial som ska sammanfogas måste använda samma inställning för "
-"‘fördröj ljudspår’."
+"'fördröj ljudspår'."
 
 #: src/lib/audio_content.cc:102
 msgid "Content to be joined must have the same audio gain."
 msgstr ""
 "Källmaterial som ska sammanfogas måste använda samma inställning för "
-"‘ljudförstärkning’."
+"'ljudförstärkning'."
 
 #: src/lib/video_content.cc:183
 msgid "Content to be joined must have the same colour conversion."
@@ -484,7 +484,7 @@ msgstr "Källmaterial som ska sammanfogas måste ha samma bildstorlek."
 #: src/lib/video_content.cc:179
 msgid "Content to be joined must have the same scale setting."
 msgstr ""
-"Källmaterial som ska sammanfogas måste ha samma inställning för ‘Skala till’."
+"Källmaterial som ska sammanfogas måste ha samma inställning för 'Skala till'."
 
 #: src/lib/text_content.cc:264
 msgid "Content to be joined must have the same subtitle X offset."
@@ -1071,8 +1071,8 @@ msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
 "carl@dcpomatic.com"
 msgstr ""
-"Vänligen rapportera detta problem genom att använda ‘Hjälp -> Rapportera "
-"problem’ eller via e-post till carl@dcpomatic.com"
+"Vänligen rapportera detta problem genom att använda 'Hjälp -> Rapportera "
+"problem' eller via e-post till carl@dcpomatic.com"
 
 #: src/lib/dcp_content_type.cc:53
 msgid "Policy"
@@ -1778,7 +1778,7 @@ msgid ""
 "by video content'."
 msgstr ""
 "dess aktlängder skiljer sig from de i filmen; ställ aktinställningen till "
-"‘dela upp enligt källmaterial’."
+"'dela upp enligt källmaterial'."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:612
