@@ -231,6 +231,7 @@ enum {
 	ID_file_close = 100,
 	ID_edit_copy,
 	ID_edit_paste,
+	ID_edit_select_all,
 	ID_jobs_make_dcp,
 	ID_jobs_make_dcp_batch,
 	ID_jobs_make_kdms,
@@ -324,6 +325,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_exit, this),               wxID_EXIT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_copy, this),               ID_edit_copy);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_paste, this),              ID_edit_paste);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_select_all, this),         ID_edit_select_all);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_preferences, this),        wxID_PREFERENCES);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_make_dcp, this),           ID_jobs_make_dcp);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_make_kdms, this),          ID_jobs_make_kdms);
@@ -715,6 +717,11 @@ private:
 			}
 		}
 		d->Destroy ();
+	}
+
+	void edit_select_all ()
+	{
+		_film_editor->content_panel()->select_all();
 	}
 
 	void edit_preferences ()
@@ -1326,17 +1333,20 @@ private:
 		add_item (_file_menu, _("&Quit"), wxID_EXIT, ALWAYS);
 #endif
 
-		wxMenu* edit = new wxMenu;
+		auto edit = new wxMenu;
 		add_item (edit, _("Copy settings\tCtrl-C"), ID_edit_copy, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_SINGLE_SELECTED_CONTENT);
 		add_item (edit, _("Paste settings...\tCtrl-V"), ID_edit_paste, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_SELECTED_CONTENT | NEEDS_CLIPBOARD);
+		edit->AppendSeparator ();
+		add_item (edit, _("Select all\tShift-Ctrl-A"), ID_edit_select_all, NEEDS_FILM);
 
 #ifdef __WXOSX__
 		add_item (_file_menu, _("&Preferences...\tCtrl-P"), wxID_PREFERENCES, ALWAYS);
 #else
+		edit->AppendSeparator ();
 		add_item (edit, _("&Preferences...\tCtrl-P"), wxID_PREFERENCES, ALWAYS);
 #endif
 
-		wxMenu* jobs_menu = new wxMenu;
+		auto jobs_menu = new wxMenu;
 		add_item (jobs_menu, _("&Make DCP\tCtrl-M"), ID_jobs_make_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION);
 		add_item (jobs_menu, _("Make DCP in &batch converter\tCtrl-B"), ID_jobs_make_dcp_batch, NEEDS_FILM | NOT_DURING_DCP_CREATION);
 		jobs_menu->AppendSeparator ();
@@ -1359,11 +1369,11 @@ private:
 
 		add_item (jobs_menu, _("Open DCP in &player"), ID_jobs_open_dcp_in_player, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
 
-		wxMenu* view = new wxMenu;
+		auto view = new wxMenu;
 		add_item (view, _("Closed captions..."), ID_view_closed_captions, NEEDS_FILM);
 		add_item (view, _("Video waveform..."), ID_view_video_waveform, NEEDS_FILM);
 
-		wxMenu* tools = new wxMenu;
+		auto tools = new wxMenu;
 		add_item (tools, _("Hints..."), ID_tools_hints, NEEDS_FILM);
 		add_item (tools, _("Encoding servers..."), ID_tools_encoding_servers, 0);
 		add_item (tools, _("Manage templates..."), ID_tools_manage_templates, 0);

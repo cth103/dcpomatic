@@ -655,6 +655,14 @@ ContentPanel::set_selection (ContentList cl)
 	check_selection ();
 }
 
+
+void
+ContentPanel::select_all ()
+{
+	set_selection (_film->content());
+}
+
+
 void
 ContentPanel::film_content_changed (int property)
 {

@@ -75,6 +75,7 @@ public:
 	void set_general_sensitivity (bool s);
 	void set_selection (std::weak_ptr<Content>);
 	void set_selection (ContentList cl);
+	void select_all ();
 
 	void film_changed (Film::Property p);
 	void film_content_changed (int p);
