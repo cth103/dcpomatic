@@ -67,56 +67,45 @@ public:
 
 	void set (T t, float fps)
 	{
-		int h;
-		int m;
-		int s;
-		int f;
-		t.split (fps, h, m, s, f);
+		auto const hmsf = t.split (fps);
 
-		checked_set (_hours, dcp::raw_convert<std::string>(h));
-		checked_set (_minutes, dcp::raw_convert<std::string>(m));
-		checked_set (_seconds, dcp::raw_convert<std::string>(s));
-		checked_set (_frames, dcp::raw_convert<std::string>(f));
+		checked_set (_hours, dcp::raw_convert<std::string>(hmsf.h));
+		checked_set (_minutes, dcp::raw_convert<std::string>(hmsf.m));
+		checked_set (_seconds, dcp::raw_convert<std::string>(hmsf.s));
+		checked_set (_frames, dcp::raw_convert<std::string>(hmsf.f));
 
 		checked_set (_fixed, t.timecode (fps));
 	}
 
 	void set_hint (T t, float fps)
 	{
-		int h;
-		int m;
-		int s;
-		int f;
-		t.split (fps, h, m, s, f);
+		auto hmsf = t.split (fps);
 
-		_hours->SetHint (std_to_wx(dcp::raw_convert<std::string>(h)));
-		_minutes->SetHint (std_to_wx(dcp::raw_convert<std::string>(m)));
-		_seconds->SetHint (std_to_wx(dcp::raw_convert<std::string>(s)));
-		_frames->SetHint (std_to_wx(dcp::raw_convert<std::string>(f)));
+		_hours->SetHint (std_to_wx(dcp::raw_convert<std::string>(hmsf.h)));
+		_minutes->SetHint (std_to_wx(dcp::raw_convert<std::string>(hmsf.m)));
+		_seconds->SetHint (std_to_wx(dcp::raw_convert<std::string>(hmsf.s)));
+		_frames->SetHint (std_to_wx(dcp::raw_convert<std::string>(hmsf.f)));
 	}
 
 	T get (float fps) const
 	{
-		T t;
-
 		auto value_or_hint = [](wxTextCtrl const * t) {
-			if (!t->GetValue().IsEmpty()) {
-				return wx_to_std (t->GetValue());
-			} else {
-				return wx_to_std (t->GetHint());
+			auto s = wx_to_std (t->GetValue().IsEmpty() ? t->GetHint() : t->GetValue());
+			if (s.empty()) {
+				return 0;
 			}
+			return dcp::raw_convert<int>(s);
 		};
 
-		std::string const h = value_or_hint (_hours);
-		t += T::from_seconds (dcp::raw_convert<int>(h.empty() ? "0" : h) * 3600);
-		std::string const m = value_or_hint (_minutes);
-		t += T::from_seconds (dcp::raw_convert<int>(m.empty() ? "0" : m) * 60);
-		std::string const s = value_or_hint (_seconds);
-		t += T::from_seconds (dcp::raw_convert<int>(s.empty() ? "0" : s));
-		std::string const f = value_or_hint (_frames);
-		t += T::from_frames (dcp::raw_convert<int>(f.empty() ? "0" : f), fps);
-
-		return t;
+		return T (
+			{
+				value_or_hint(_hours),
+				value_or_hint(_minutes),
+				value_or_hint(_seconds),
+				value_or_hint(_frames)
+			},
+			fps
+			);
 	}
 };
 

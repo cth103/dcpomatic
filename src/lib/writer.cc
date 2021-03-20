@@ -733,15 +733,14 @@ Writer::write_cover_sheet (boost::filesystem::path output_dcp)
 	}
 	boost::algorithm::replace_all (text, "$AUDIO", description);
 
-	int h, m, s, fr;
-	film()->length().split(film()->video_frame_rate(), h, m, s, fr);
+	auto const hmsf = film()->length().split(film()->video_frame_rate());
 	string length;
-	if (h == 0 && m == 0) {
-		length = String::compose("%1s", s);
-	} else if (h == 0 && m > 0) {
-		length = String::compose("%1m%2s", m, s);
-	} else if (h > 0 && m > 0) {
-		length = String::compose("%1h%2m%3s", h, m, s);
+	if (hmsf.h == 0 && hmsf.m == 0) {
+		length = String::compose("%1s", hmsf.s);
+	} else if (hmsf.h == 0 && hmsf.m > 0) {
+		length = String::compose("%1m%2s", hmsf.m, hmsf.s);
+	} else if (hmsf.h > 0 && hmsf.m > 0) {
+		length = String::compose("%1h%2m%3s", hmsf.h, hmsf.m, hmsf.s);
 	}
 
 	boost::algorithm::replace_all (text, "$LENGTH", length);

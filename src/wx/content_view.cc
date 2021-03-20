@@ -133,13 +133,12 @@ ContentView::add (shared_ptr<Content> content)
 	wxListItem it;
 	it.SetId(N);
 	it.SetColumn(0);
-	DCPTime length = content->approximate_length ();
-	int h, m, s, f;
-	length.split (24, h, m, s, f);
-	it.SetText(wxString::Format("%02d:%02d:%02d", h, m, s));
+	auto length = content->approximate_length ();
+	auto const hmsf = length.split (24);
+	it.SetText(wxString::Format("%02d:%02d:%02d", hmsf.h, hmsf.m, hmsf.s));
 	InsertItem(it);
 
-	shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent>(content);
+	auto dcp = dynamic_pointer_cast<DCPContent>(content);
 	if (dcp && dcp->content_kind()) {
 		it.SetId(N);
 		it.SetColumn(1);

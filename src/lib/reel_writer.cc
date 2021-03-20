@@ -691,10 +691,9 @@ ReelWriter::create_reel_markers (shared_ptr<dcp::Reel> reel) const
 	if (!reel_markers.empty ()) {
 		auto ma = make_shared<dcp::ReelMarkersAsset>(dcp::Fraction(film()->video_frame_rate(), 1), reel->duration(), 0);
 		for (auto const& i: reel_markers) {
-			int h, m, s, f;
 			DCPTime relative = i.second - _period.from;
-			relative.split (film()->video_frame_rate(), h, m, s, f);
-			ma->set (i.first, dcp::Time(h, m, s, f, film()->video_frame_rate()));
+			auto hmsf = relative.split (film()->video_frame_rate());
+			ma->set (i.first, dcp::Time(hmsf.h, hmsf.m, hmsf.s, hmsf.f, film()->video_frame_rate()));
 		}
 		reel->add (ma);
 	}

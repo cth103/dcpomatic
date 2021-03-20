@@ -39,6 +39,26 @@ struct dcpomatic_time_floor_test;
 
 namespace dcpomatic {
 
+
+class HMSF
+{
+public:
+	HMSF () {}
+
+	HMSF (int h_, int m_, int s_, int f_)
+		: h(h_)
+		, m(m_)
+		, s(s_)
+		, f(f_)
+	{}
+
+	int h = 0;
+	int m = 0;
+	int s = 0;
+	int f = 0;
+};
+
+
 /** A time in seconds, expressed as a number scaled up by Time::HZ.  We want two different
  *  versions of this class, dcpomatic::ContentTime and dcpomatic::DCPTime, and we want it to be impossible to
  *  convert implicitly between the two.  Hence there's this template hack.  I'm not
@@ -66,6 +86,16 @@ public:
 
 	/* Explicit conversion from type O */
 	Time (Time<O, S> d, FrameRateChange f);
+
+	/** @param hmsf Hours, minutes, seconds, frames.
+	 *  @param fps Frame rate
+	 */
+	Time (HMSF const& hmsf, float fps) {
+		*this = from_seconds (hmsf.h * 3600)
+			+ from_seconds (hmsf.m * 60)
+			+ from_seconds (hmsf.s)
+			+ from_frames (hmsf.f, fps);
+	}
 
 	Type get () const {
 		return _t;
@@ -170,39 +200,34 @@ public:
 
 	/** Split a time into hours, minutes, seconds and frames.
 	 *  @param r Frames per second.
-	 *  @param h Returned hours.
-	 *  @param m Returned minutes.
-	 *  @param s Returned seconds.
-	 *  @param f Returned frames.
+	 *  @return Split time.
 	 */
 	template <typename T>
-	void split (T r, int& h, int& m, int& s, int& f) const
+	HMSF split (T r) const
 	{
 		/* Do this calculation with frames so that we can round
 		   to a frame boundary at the start rather than the end.
 		*/
-		int64_t ff = frames_round (r);
+		auto ff = frames_round (r);
+		HMSF hmsf;
 
-		h = ff / (3600 * r);
-		ff -= h * 3600 * r;
-		m = ff / (60 * r);
-		ff -= m * 60 * r;
-		s = ff / r;
-		ff -= s * r;
+		hmsf.h = ff / (3600 * r);
+		ff -= hmsf.h * 3600 * r;
+		hmsf.m = ff / (60 * r);
+		ff -= hmsf.m * 60 * r;
+		hmsf.s = ff / r;
+		ff -= hmsf.s * r;
 
-		f = static_cast<int> (ff);
+		hmsf.f = static_cast<int> (ff);
+		return hmsf;
 	}
 
 	template <typename T>
 	std::string timecode (T r) const {
-		int h;
-		int m;
-		int s;
-		int f;
-		split (r, h, m, s, f);
+		auto hmsf = split (r);
 
 		char buffer[128];
-		snprintf (buffer, sizeof (buffer), "%02d:%02d:%02d:%02d", h, m, s, f);
+		snprintf (buffer, sizeof(buffer), "%02d:%02d:%02d:%02d", hmsf.h, hmsf.m, hmsf.s, hmsf.f);
 		return buffer;
 	}
 
