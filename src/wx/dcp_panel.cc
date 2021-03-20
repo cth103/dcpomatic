@@ -160,8 +160,10 @@ DCPPanel::add_to_grid ()
 {
 	int r = 0;
 
-	add_label_to_sizer (_grid, _name_label, true, wxGBPosition (r, 0));
-	_grid->Add (_name, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND | wxLEFT | wxRIGHT);
+	auto name_sizer = new wxBoxSizer (wxHORIZONTAL);
+	name_sizer->Add (_name_label, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
+	name_sizer->Add (_name, 1, wxALIGN_CENTER_VERTICAL);
+	_grid->Add (name_sizer, wxGBPosition(r, 0), wxGBSpan(1, 2), wxEXPAND);
 	++r;
 
 	int flags = wxALIGN_CENTER_VERTICAL;
