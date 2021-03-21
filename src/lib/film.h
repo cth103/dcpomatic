@@ -348,7 +348,7 @@ public:
 		return _audio_language;
 	}
 
-	dcp::LanguageTag::RegionSubtag release_territory () const {
+	boost::optional<dcp::LanguageTag::RegionSubtag> release_territory () const {
 		return _release_territory;
 	}
 
@@ -360,19 +360,19 @@ public:
 		return _status;
 	}
 
-	std::string chain () const {
+	boost::optional<std::string> chain () const {
 		return _chain;
 	}
 
-	std::string distributor () const {
+	boost::optional<std::string> distributor () const {
 		return _distributor;
 	}
 
-	std::string facility () const {
+	boost::optional<std::string> facility () const {
 		return _facility;
 	}
 
-	dcp::Luminance luminance () const {
+	boost::optional<dcp::Luminance> luminance () const {
 		return _luminance;
 	}
 
@@ -414,13 +414,13 @@ public:
 	void set_content_versions (std::vector<std::string> v);
 	void set_name_language (dcp::LanguageTag lang);
 	void set_audio_language (dcp::LanguageTag lang);
-	void set_release_territory (dcp::LanguageTag::RegionSubtag region);
+	void set_release_territory (boost::optional<dcp::LanguageTag::RegionSubtag> region = boost::none);
 	void set_version_number (int v);
 	void set_status (dcp::Status s);
-	void set_chain (std::string c);
-	void set_facility (std::string f);
-	void set_distributor (std::string d);
-	void set_luminance (dcp::Luminance l);
+	void set_chain (boost::optional<std::string> c = boost::none);
+	void set_facility (boost::optional<std::string> f = boost::none);
+	void set_distributor (boost::optional<std::string> d = boost::none);
+	void set_luminance (boost::optional<dcp::Luminance> l = boost::none);
 	void set_subtitle_language (dcp::LanguageTag language);
 	void unset_subtitle_language ();
 	void set_subtitle_languages (std::vector<dcp::LanguageTag> languages);
@@ -522,13 +522,13 @@ private:
 	std::vector<std::string> _content_versions;
 	dcp::LanguageTag _name_language;
 	dcp::LanguageTag _audio_language;
-	dcp::LanguageTag::RegionSubtag _release_territory;
+	boost::optional<dcp::LanguageTag::RegionSubtag> _release_territory;
 	int _version_number;
 	dcp::Status _status;
-	std::string _chain;
-	std::string _distributor;
-	std::string _facility;
-	dcp::Luminance _luminance;
+	boost::optional<std::string> _chain;
+	boost::optional<std::string> _distributor;
+	boost::optional<std::string> _facility;
+	boost::optional<dcp::Luminance> _luminance;
 	std::vector<dcp::LanguageTag> _subtitle_languages;
 
 	int _state_version;

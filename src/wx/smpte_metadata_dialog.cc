@@ -93,7 +93,7 @@ SMPTEMetadataDialog::main_panel (wxWindow* parent)
 
 	_enable_main_subtitle_language = new wxCheckBox (panel, wxID_ANY, _("Main subtitle language"));
 	sizer->Add (_enable_main_subtitle_language, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
-	vector<dcp::LanguageTag> subtitle_languages = film()->subtitle_languages();
+	auto subtitle_languages = film()->subtitle_languages();
 	_main_subtitle_language = new LanguageTagWidget(
 		panel,
 		_("The main language that is displayed in the film's subtitles"),
@@ -162,14 +162,14 @@ SMPTEMetadataDialog::advanced_panel (wxWindow* parent)
 	auto sizer = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	sizer->AddGrowableCol (1, 1);
 
-	Button* edit_release_territory = nullptr;
-	add_label_to_sizer (sizer, panel, _("Release territory"), true, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
+	_enable_release_territory = new wxCheckBox (panel, wxID_ANY, _("Release territory"));
+	sizer->Add (_enable_release_territory, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
 	{
-		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_release_territory = new wxStaticText (panel, wxID_ANY, wxT(""));
-		s->Add (_release_territory, 1, wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
-		edit_release_territory = new Button (panel, _("Edit..."));
-		s->Add (edit_release_territory, 0, wxLEFT, DCPOMATIC_SIZER_GAP);
+		auto s = new wxBoxSizer (wxHORIZONTAL);
+		_release_territory_text = new wxStaticText (panel, wxID_ANY, wxT(""));
+		s->Add (_release_territory_text, 1, wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
+		_edit_release_territory = new Button (panel, _("Edit..."));
+		s->Add (_edit_release_territory, 0, wxLEFT, DCPOMATIC_SIZER_GAP);
 		sizer->Add (s, 0, wxEXPAND);
 	}
 
@@ -181,15 +181,18 @@ SMPTEMetadataDialog::advanced_panel (wxWindow* parent)
 	_status = new wxChoice (panel, wxID_ANY);
 	sizer->Add (_status, 0);
 
-	add_label_to_sizer (sizer, panel, _("Chain"), true, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
+	_enable_chain = new wxCheckBox (panel, wxID_ANY, _("Chain"));
+	sizer->Add (_enable_chain, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_chain = new wxTextCtrl (panel, wxID_ANY);
 	sizer->Add (_chain, 1, wxEXPAND);
 
-	add_label_to_sizer (sizer, panel, _("Distributor"), true, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
+	_enable_distributor = new wxCheckBox (panel, wxID_ANY, _("Distributor"));
+	sizer->Add (_enable_distributor, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_distributor = new wxTextCtrl (panel, wxID_ANY);
 	sizer->Add (_distributor, 1, wxEXPAND);
 
-	add_label_to_sizer (sizer, panel, _("Facility"), true, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
+	_enable_facility = new wxCheckBox (panel, wxID_ANY, _("Facility"));
+	sizer->Add (_enable_facility, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_facility = new wxTextCtrl (panel, wxID_ANY);
 	sizer->Add (_facility, 1, wxEXPAND);
 
@@ -231,8 +234,6 @@ SMPTEMetadataDialog::advanced_panel (wxWindow* parent)
 	overall_sizer->Add (sizer, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 	panel->SetSizer (overall_sizer);
 
-	edit_release_territory->Bind (wxEVT_BUTTON, boost::bind(&SMPTEMetadataDialog::edit_release_territory, this));
-
 	return panel;
 }
 
@@ -261,20 +262,25 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 	_status->Append (_("Pre-release"));
 	_status->Append (_("Final"));
 
-	_luminance_unit->Append (_("candela per m²"));
+	_luminance_unit->Append (wxString::FromUTF8(_("candela per m²")));
 	_luminance_unit->Append (_("foot lambert"));
 
 	_name_language->Changed.connect (boost::bind(&SMPTEMetadataDialog::name_language_changed, this, _1));
 	_audio_language->Changed.connect (boost::bind(&SMPTEMetadataDialog::audio_language_changed, this, _1));
 	_enable_main_subtitle_language->Bind (wxEVT_CHECKBOX, boost::bind(&SMPTEMetadataDialog::enable_main_subtitle_changed, this));
+	_edit_release_territory->Bind (wxEVT_BUTTON, boost::bind(&SMPTEMetadataDialog::edit_release_territory, this));
 	_main_subtitle_language->Changed.connect (boost::bind(&SMPTEMetadataDialog::main_subtitle_language_changed, this, _1));
 	_version_number->Bind (wxEVT_SPINCTRL, boost::bind(&SMPTEMetadataDialog::version_number_changed, this));
 	_status->Bind (wxEVT_CHOICE, boost::bind(&SMPTEMetadataDialog::status_changed, this));
+	_enable_chain->Bind (wxEVT_CHECKBOX, boost::bind(&SMPTEMetadataDialog::enable_chain_changed, this));
 	_chain->Bind (wxEVT_TEXT, boost::bind(&SMPTEMetadataDialog::chain_changed, this));
+	_enable_distributor->Bind (wxEVT_CHECKBOX, boost::bind(&SMPTEMetadataDialog::enable_distributor_changed, this));
 	_distributor->Bind (wxEVT_TEXT, boost::bind(&SMPTEMetadataDialog::distributor_changed, this));
+	_enable_facility->Bind (wxEVT_CHECKBOX, boost::bind(&SMPTEMetadataDialog::enable_facility_changed, this));
 	_facility->Bind (wxEVT_TEXT, boost::bind(&SMPTEMetadataDialog::facility_changed, this));
 	_luminance_value->Bind (wxEVT_SPINCTRLDOUBLE, boost::bind(&SMPTEMetadataDialog::luminance_changed, this));
 	_luminance_unit->Bind (wxEVT_CHOICE, boost::bind(&SMPTEMetadataDialog::luminance_changed, this));
+	_enable_release_territory->Bind (wxEVT_CHECKBOX, boost::bind(&SMPTEMetadataDialog::enable_release_territory_changed, this));
 
 	_version_number->SetFocus ();
 
@@ -305,7 +311,12 @@ SMPTEMetadataDialog::film_changed (ChangeType type, Film::Property property)
 	if (property == Film::Property::NAME_LANGUAGE) {
 		_name_language->set (film()->name_language());
 	} else if (property == Film::Property::RELEASE_TERRITORY) {
-		checked_set (_release_territory, std_to_wx(*dcp::LanguageTag::get_subtag_description(dcp::LanguageTag::SubtagType::REGION, film()->release_territory().subtag())));
+		auto rt = film()->release_territory();
+		checked_set (_enable_release_territory, static_cast<bool>(rt));
+		if (rt) {
+			_release_territory = *rt;
+			checked_set (_release_territory_text, std_to_wx(*dcp::LanguageTag::get_subtag_description(*_release_territory)));
+		}
 	} else if (property == Film::Property::VERSION_NUMBER) {
 		checked_set (_version_number, film()->version_number());
 	} else if (property == Film::Property::STATUS) {
@@ -321,23 +332,38 @@ SMPTEMetadataDialog::film_changed (ChangeType type, Film::Property property)
 			break;
 		}
 	} else if (property == Film::Property::CHAIN) {
-		checked_set (_chain, film()->chain());
+		checked_set (_enable_chain, static_cast<bool>(film()->chain()));
+		if (film()->chain()) {
+			checked_set (_chain, *film()->chain());
+		}
 	} else if (property == Film::Property::DISTRIBUTOR) {
-		checked_set (_distributor, film()->distributor());
+		checked_set (_enable_distributor, static_cast<bool>(film()->distributor()));
+		if (film()->distributor()) {
+			checked_set (_distributor, *film()->distributor());
+		}
 	} else if (property == Film::Property::FACILITY) {
-		checked_set (_facility, film()->facility());
+		checked_set (_enable_facility, static_cast<bool>(film()->facility()));
+		if (film()->facility()) {
+			checked_set (_facility, *film()->facility());
+		}
 	} else if (property == Film::Property::LUMINANCE) {
-		checked_set (_luminance_value, film()->luminance().value());
-		switch (film()->luminance().unit()) {
-		case dcp::Luminance::Unit::CANDELA_PER_SQUARE_METRE:
-			checked_set (_luminance_unit, 0);
-			break;
-		case dcp::Luminance::Unit::FOOT_LAMBERT:
+		auto lum = film()->luminance();
+		if (lum) {
+			checked_set (_luminance_value, lum->value());
+			switch (lum->unit()) {
+			case dcp::Luminance::Unit::CANDELA_PER_SQUARE_METRE:
+				checked_set (_luminance_unit, 0);
+				break;
+			case dcp::Luminance::Unit::FOOT_LAMBERT:
+				checked_set (_luminance_unit, 1);
+				break;
+			}
+		} else {
+			checked_set (_luminance_value, 4.5);
 			checked_set (_luminance_unit, 1);
-			break;
 		}
 	} else if (property == Film::Property::SUBTITLE_LANGUAGES) {
-		vector<dcp::LanguageTag> languages = film()->subtitle_languages();
+		auto languages = film()->subtitle_languages();
 		checked_set (_enable_main_subtitle_language, !languages.empty());
 		if (!languages.empty()) {
 			_main_subtitle_language->set (languages.front());
@@ -393,10 +419,12 @@ SMPTEMetadataDialog::audio_language_changed (dcp::LanguageTag tag)
 void
 SMPTEMetadataDialog::edit_release_territory ()
 {
-	auto d = new RegionSubtagDialog(this, film()->release_territory());
+	DCPOMATIC_ASSERT (film()->release_territory());
+	auto d = new RegionSubtagDialog(this, *film()->release_territory());
 	d->ShowModal ();
 	auto tag = d->get();
 	if (tag) {
+		_release_territory = *tag;
 		film()->set_release_territory(*tag);
 	}
 	d->Destroy ();
@@ -471,8 +499,7 @@ void
 SMPTEMetadataDialog::enable_main_subtitle_changed ()
 {
 	setup_sensitivity ();
-	bool enabled = _enable_main_subtitle_language->GetValue ();
-	if (enabled) {
+	if (_enable_main_subtitle_language->GetValue()) {
 		film()->set_subtitle_language (_main_subtitle_language->get());
 	} else {
 		set_additional_subtitle_languages (vector<dcp::LanguageTag>());
@@ -485,9 +512,21 @@ SMPTEMetadataDialog::enable_main_subtitle_changed ()
 void
 SMPTEMetadataDialog::setup_sensitivity ()
 {
-	bool const enabled = _enable_main_subtitle_language->GetValue ();
-	_main_subtitle_language->enable (enabled);
-	_additional_subtitle_languages->Enable (enabled);
+	{
+		auto const enabled = _enable_release_territory->GetValue();
+		_release_territory_text->Enable (enabled);
+		_edit_release_territory->Enable (enabled);
+	}
+
+	_chain->Enable (_enable_chain->GetValue());
+	_distributor->Enable (_enable_distributor->GetValue());
+	_facility->Enable (_enable_facility->GetValue());
+
+	{
+		auto const enabled = _enable_main_subtitle_language->GetValue();
+		_main_subtitle_language->enable (enabled);
+		_additional_subtitle_languages->Enable (enabled);
+	}
 }
 
 
@@ -526,4 +565,53 @@ SMPTEMetadataDialog::set_additional_subtitle_languages (vector<dcp::LanguageTag>
 	copy (languages.begin(), languages.end(), back_inserter(all));
 	film()->set_subtitle_languages (all);
 }
+
+
+void
+SMPTEMetadataDialog::enable_release_territory_changed ()
+{
+	setup_sensitivity ();
+	if (_enable_release_territory->GetValue()) {
+		film()->set_release_territory (_release_territory.get_value_or(dcp::LanguageTag::RegionSubtag("US")));
+	} else {
+		film()->set_release_territory ();
+	}
+}
+
+
+void
+SMPTEMetadataDialog::enable_chain_changed ()
+{
+	setup_sensitivity ();
+	if (_enable_chain->GetValue()) {
+		film()->set_chain (wx_to_std(_chain->GetValue()));
+	} else {
+		film()->set_chain ();
+	}
+}
+
+
+void
+SMPTEMetadataDialog::enable_distributor_changed ()
+{
+	setup_sensitivity ();
+	if (_enable_distributor->GetValue()) {
+		film()->set_distributor (wx_to_std(_distributor->GetValue()));
+	} else {
+		film()->set_distributor ();
+	}
+}
+
+
+void
+SMPTEMetadataDialog::enable_facility_changed ()
+{
+	setup_sensitivity ();
+	if (_enable_facility->GetValue()) {
+		film()->set_facility (wx_to_std(_facility->GetValue()));
+	} else {
+		film()->set_facility ();
+	}
+}
+
 

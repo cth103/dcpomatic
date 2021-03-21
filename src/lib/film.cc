@@ -170,7 +170,6 @@ Film::Film (optional<boost::filesystem::path> dir)
 	, _user_explicit_resolution (false)
 	, _name_language (dcp::LanguageTag("en-US"))
 	, _audio_language (dcp::LanguageTag("en-US"))
-	, _release_territory (dcp::LanguageTag::RegionSubtag("US"))
 	, _version_number (1)
 	, _status (dcp::Status::FINAL)
 	, _luminance (dcp::Luminance(4.5, dcp::Luminance::Unit::FOOT_LAMBERT))
@@ -477,14 +476,24 @@ Film::metadata (bool with_content_paths) const
 	}
 	root->add_child("NameLanguage")->add_child_text(_name_language.to_string());
 	root->add_child("AudioLanguage")->add_child_text(_audio_language.to_string());
-	root->add_child("ReleaseTerritory")->add_child_text(_release_territory.subtag());
+	if (_release_territory) {
+		root->add_child("ReleaseTerritory")->add_child_text(_release_territory->subtag());
+	}
 	root->add_child("VersionNumber")->add_child_text(raw_convert<string>(_version_number));
 	root->add_child("Status")->add_child_text(dcp::status_to_string(_status));
-	root->add_child("Chain")->add_child_text(_chain);
-	root->add_child("Distributor")->add_child_text(_distributor);
-	root->add_child("Facility")->add_child_text(_facility);
-	root->add_child("LuminanceValue")->add_child_text(raw_convert<string>(_luminance.value()));
-	root->add_child("LuminanceUnit")->add_child_text(dcp::Luminance::unit_to_string(_luminance.unit()));
+	if (_chain) {
+		root->add_child("Chain")->add_child_text(*_chain);
+	}
+	if (_distributor) {
+		root->add_child("Distributor")->add_child_text(*_distributor);
+	}
+	if (_facility) {
+		root->add_child("Facility")->add_child_text(*_facility);
+	}
+	if (_luminance) {
+		root->add_child("LuminanceValue")->add_child_text(raw_convert<string>(_luminance->value()));
+		root->add_child("LuminanceUnit")->add_child_text(dcp::Luminance::unit_to_string(_luminance->unit()));
+	}
 	root->add_child("UserExplicitContainer")->add_child_text(_user_explicit_container ? "1" : "0");
 	root->add_child("UserExplicitResolution")->add_child_text(_user_explicit_resolution ? "1" : "0");
 	for (auto i: _subtitle_languages) {
@@ -657,14 +666,14 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 		_status = dcp::string_to_status (*status);
 	}
 
-	_chain = f.optional_string_child("Chain").get_value_or("");
-	_distributor = f.optional_string_child("Distributor").get_value_or("");
-	_facility = f.optional_string_child("Facility").get_value_or("");
+	_chain = f.optional_string_child("Chain");
+	_distributor = f.optional_string_child("Distributor");
+	_facility = f.optional_string_child("Facility");
 
-	auto value = f.optional_number_child<float>("LuminanceValue").get_value_or(4.5);
+	auto value = f.optional_number_child<float>("LuminanceValue");
 	auto unit = f.optional_string_child("LuminanceUnit");
-	if (unit) {
-		_luminance = dcp::Luminance (value, dcp::Luminance::string_to_unit(*unit));
+	if (value && unit) {
+		_luminance = dcp::Luminance (*value, dcp::Luminance::string_to_unit(*unit));
 	}
 
 	/* Disable guessing for files made in previous DCP-o-matic versions */
@@ -1932,6 +1941,7 @@ Film::set_marker (dcp::Marker type, DCPTime time)
 	_markers[type] = time;
 }
 
+
 void
 Film::unset_marker (dcp::Marker type)
 {
@@ -1980,7 +1990,7 @@ Film::set_audio_language (dcp::LanguageTag lang)
 
 
 void
-Film::set_release_territory (dcp::LanguageTag::RegionSubtag region)
+Film::set_release_territory (optional<dcp::LanguageTag::RegionSubtag> region)
 {
 	FilmChangeSignaller ch (this, Property::RELEASE_TERRITORY);
 	_release_territory = region;
@@ -2004,7 +2014,7 @@ Film::set_version_number (int v)
 
 
 void
-Film::set_chain (string c)
+Film::set_chain (optional<string> c)
 {
 	FilmChangeSignaller ch (this, Property::CHAIN);
 	_chain = c;
@@ -2012,7 +2022,7 @@ Film::set_chain (string c)
 
 
 void
-Film::set_distributor (string d)
+Film::set_distributor (optional<string> d)
 {
 	FilmChangeSignaller ch (this, Property::DISTRIBUTOR);
 	_distributor = d;
@@ -2020,7 +2030,7 @@ Film::set_distributor (string d)
 
 
 void
-Film::set_luminance (dcp::Luminance l)
+Film::set_luminance (optional<dcp::Luminance> l)
 {
 	FilmChangeSignaller ch (this, Property::LUMINANCE);
 	_luminance = l;
@@ -2051,7 +2061,7 @@ Film::set_subtitle_languages (vector<dcp::LanguageTag> languages)
 
 
 void
-Film::set_facility (string f)
+Film::set_facility (optional<string> f)
 {
 	FilmChangeSignaller ch (this, Property::FACILITY);
 	_facility = f;

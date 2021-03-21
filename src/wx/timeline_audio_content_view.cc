@@ -70,7 +70,7 @@ TimelineAudioContentView::label () const
 
 	list<int> mapped = ac->mapping().mapped_output_channels();
 	if (!mapped.empty ()) {
-		s += " → ";
+		s += wxString::FromUTF8(" → ");
 		for (auto i: mapped) {
 			s += std_to_wx(short_audio_channel_name(i)) + ", ";
 		}

@@ -62,17 +62,31 @@ private:
 	void luminance_changed ();
 	void film_changed (ChangeType type, Film::Property property);
 	void setup_sensitivity ();
+	void enable_release_territory_changed ();
+	void enable_chain_changed ();
+	void enable_distributor_changed ();
+	void enable_facility_changed ();
 
 	LanguageTagWidget* _name_language;
 	LanguageTagWidget* _audio_language;
 	wxCheckBox* _enable_main_subtitle_language;
 	LanguageTagWidget* _main_subtitle_language;
 	EditableList<dcp::LanguageTag, LanguageTagDialog>* _additional_subtitle_languages;
-	wxStaticText* _release_territory;
+	wxCheckBox* _enable_release_territory;
+	/** The current release territory displayed in the UI; since we can't easily convert
+	 *  the string in _release_territory_text to a RegionSubtag we just store the RegionSubtag
+	 *  alongside.
+	 */
+	boost::optional<dcp::LanguageTag::RegionSubtag> _release_territory;
+	wxStaticText* _release_territory_text;
+	Button* _edit_release_territory;
 	wxSpinCtrl* _version_number;
 	wxChoice* _status;
+	wxCheckBox* _enable_chain;
 	wxTextCtrl* _chain;
+	wxCheckBox* _enable_distributor;
 	wxTextCtrl* _distributor;
+	wxCheckBox* _enable_facility;
 	wxTextCtrl* _facility;
 	wxSpinCtrlDouble* _luminance_value;
 	wxChoice* _luminance_unit;

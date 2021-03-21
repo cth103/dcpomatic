@@ -622,13 +622,23 @@ Writer::finish (boost::filesystem::path output_dcp)
 
 	cpl->set_full_content_title_text (film()->name());
 	cpl->set_full_content_title_text_language (film()->name_language());
-	cpl->set_release_territory (film()->release_territory());
+	if (film()->release_territory()) {
+		cpl->set_release_territory (*film()->release_territory());
+	}
 	cpl->set_version_number (film()->version_number());
 	cpl->set_status (film()->status());
-	cpl->set_chain (film()->chain());
-	cpl->set_distributor (film()->distributor());
-	cpl->set_facility (film()->facility());
-	cpl->set_luminance (film()->luminance());
+	if (film()->chain()) {
+		cpl->set_chain (*film()->chain());
+	}
+	if (film()->distributor()) {
+		cpl->set_distributor (*film()->distributor());
+	}
+	if (film()->facility()) {
+		cpl->set_facility (*film()->facility());
+	}
+	if (film()->luminance()) {
+		cpl->set_luminance (*film()->luminance());
+	}
 
 	auto ac = film()->mapped_audio_channels();
 	dcp::MCASoundField field = (
