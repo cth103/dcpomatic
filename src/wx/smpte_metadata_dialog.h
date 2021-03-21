@@ -41,6 +41,8 @@ public:
 	SMPTEMetadataDialog (wxWindow* parent, std::weak_ptr<Film> film);
 
 private:
+	wxPanel* main_panel (wxWindow* parent);
+	wxPanel* advanced_panel (wxWindow* parent);
 	std::vector<dcp::Rating> ratings () const;
 	void set_ratings (std::vector<dcp::Rating> r);
 	std::vector<std::string> content_versions () const;
