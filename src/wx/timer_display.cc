@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,13 @@
 
 */
 
+
 #include "timer_display.h"
 #include "wx_util.h"
 #include "lib/timer.h"
 #include <dcp/locale_convert.h>
 #include <list>
+
 
 using std::map;
 using std::list;
@@ -30,34 +32,30 @@ using std::pair;
 using std::make_pair;
 using std::string;
 
-static
-bool
-comparator (pair<string, StateTimer::Counts> const & a, pair<string, StateTimer::Counts> const & b)
-{
-	return a.second.total_time > b.second.total_time;
-}
 
 TimerDisplay::TimerDisplay (wxWindow* parent, StateTimer const & timer, int gets)
 	: TableDialog (parent, std_to_wx(timer.name()), 4, 0, false)
 {
-	map<string, StateTimer::Counts> counts = timer.counts ();
-	list<pair<string, StateTimer::Counts> > sorted;
-	for (map<string, StateTimer::Counts>::const_iterator i = counts.begin(); i != counts.end(); ++i) {
-		sorted.push_back (make_pair(i->first, i->second));
+	auto counts = timer.counts ();
+	list<pair<string, StateTimer::Counts>> sorted;
+	for (auto const& i: counts) {
+		sorted.push_back (make_pair(i.first, i.second));
 	}
 
-	sorted.sort (comparator);
+	sorted.sort ([](pair<string, StateTimer::Counts> const& a, pair<string, StateTimer::Counts> const& b) {
+		return a.second.total_time > b.second.total_time;
+	});
 
 	add (wxString("get() calls"), true);
 	add (std_to_wx(dcp::locale_convert<string>(gets)), false);
 	add_spacer ();
 	add_spacer ();
 
-	for (list<pair<string, StateTimer::Counts> >::const_iterator i = sorted.begin(); i != sorted.end(); ++i) {
-		add (std_to_wx(i->first), true);
-		add (std_to_wx(dcp::locale_convert<string>(i->second.total_time)), false);
-		add (std_to_wx(dcp::locale_convert<string>(i->second.number)), false);
-		add (std_to_wx(dcp::locale_convert<string>(i->second.total_time / i->second.number)), false);
+	for (auto const& i: sorted) {
+		add (std_to_wx(i.first), true);
+		add (std_to_wx(dcp::locale_convert<string>(i.second.total_time)), false);
+		add (std_to_wx(dcp::locale_convert<string>(i.second.number)), false);
+		add (std_to_wx(dcp::locale_convert<string>(i.second.total_time / i.second.number)), false);
 	}
 
 	layout ();
