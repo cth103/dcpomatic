@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "content_version_dialog.h"
 #include "editable_list.h"
 #include "language_tag_dialog.h"
@@ -28,6 +29,7 @@
 #include <dcp/types.h>
 #include <wx/gbsizer.h>
 #include <wx/spinctrl.h>
+
 
 using std::string;
 using std::vector;
@@ -68,10 +70,10 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 	: wxDialog (parent, wxID_ANY, _("Metadata"))
 	, WeakFilm (weak_film)
 {
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (overall_sizer);
 
-	wxFlexGridSizer* sizer = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	auto sizer = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	sizer->AddGrowableCol (1, 1);
 
 	add_label_to_sizer (sizer, this, _("Title language"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
@@ -122,7 +124,7 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 		);
 	sizer->Add (_additional_subtitle_languages, 1, wxEXPAND);
 
-	Button* edit_release_territory = 0;
+	Button* edit_release_territory = nullptr;
 	add_label_to_sizer (sizer, this, _("Release territory"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	{
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -155,7 +157,7 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 
 	add_label_to_sizer (sizer, this, _("Luminance"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	{
-		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		auto s = new wxBoxSizer (wxHORIZONTAL);
 		_luminance_value = new wxSpinCtrlDouble (this, wxID_ANY);
 		_luminance_value->SetDigits (1);
 		_luminance_value->SetIncrement (0.1);
@@ -193,7 +195,7 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 #ifdef __WXOSX__
 		flags |= wxALIGN_RIGHT;
 #endif
-		wxStaticText* m = create_label (this, _("Content versions"), true);
+		auto m = create_label (this, _("Content versions"), true);
 		sizer->Add (m, 0, flags, DCPOMATIC_SIZER_GAP);
 	}
 
@@ -212,7 +214,7 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 
 	overall_sizer->Add (sizer, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxCLOSE);
+	auto buttons = CreateSeparatedButtonSizer (wxCLOSE);
 	if (buttons) {
 		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
@@ -458,7 +460,7 @@ SMPTEMetadataDialog::setup_sensitivity ()
 void
 SMPTEMetadataDialog::main_subtitle_language_changed (dcp::LanguageTag tag)
 {
-	vector<dcp::LanguageTag> existing = film()->subtitle_languages();
+	auto existing = film()->subtitle_languages();
 	if (existing.empty()) {
 		existing.push_back (tag);
 	} else {
@@ -472,7 +474,7 @@ SMPTEMetadataDialog::main_subtitle_language_changed (dcp::LanguageTag tag)
 vector<dcp::LanguageTag>
 SMPTEMetadataDialog::additional_subtitle_languages ()
 {
-	vector<dcp::LanguageTag> all = film()->subtitle_languages();
+	auto all = film()->subtitle_languages();
 	if (all.empty()) {
 		return all;
 	}
@@ -484,7 +486,7 @@ SMPTEMetadataDialog::additional_subtitle_languages ()
 void
 SMPTEMetadataDialog::set_additional_subtitle_languages (vector<dcp::LanguageTag> languages)
 {
-	vector<dcp::LanguageTag> all = film()->subtitle_languages();
+	auto all = film()->subtitle_languages();
 	DCPOMATIC_ASSERT (!all.empty());
 	all.resize (1);
 	copy (languages.begin(), languages.end(), back_inserter(all));
