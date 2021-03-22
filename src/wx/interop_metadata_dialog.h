@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,13 @@
 
 */
 
+
 #include "editable_list.h"
 #include <dcp/language_tag.h>
 #include <dcp/types.h>
 #include <wx/wx.h>
 #include <vector>
+
 
 class Film;
 class LanguageTagWidget;
@@ -38,12 +40,8 @@ private:
 	std::vector<dcp::Rating> ratings () const;
 	void set_ratings (std::vector<dcp::Rating> r);
 	void content_version_changed ();
-	void setup_sensitivity ();
-	void subtitle_language_changed (dcp::LanguageTag tag);
 
 	std::weak_ptr<Film> _film;
-	wxCheckBox* _enable_subtitle_language;
-	LanguageTagWidget* _subtitle_language;
 	EditableList<dcp::Rating, RatingDialog>* _ratings;
 	wxTextCtrl* _content_version;
 };

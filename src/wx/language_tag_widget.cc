@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -26,13 +26,24 @@
 #include <wx/wx.h>
 
 
-LanguageTagWidget::LanguageTagWidget (wxWindow* parent, wxString tooltip, dcp::LanguageTag tag)
+using boost::optional;
+
+
+LanguageTagWidget::LanguageTagWidget (wxWindow* parent, wxString tooltip, optional<dcp::LanguageTag> tag, optional<wxString> size_to_fit)
 	: _parent (parent)
 	, _sizer (new wxBoxSizer(wxHORIZONTAL))
 {
-	_language = new wxStaticText (parent, wxID_ANY, wxT(""));
+	_language = new wxStaticText (parent, wxID_ANY, wxT(""), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
 	_language->SetToolTip (tooltip);
 	set (tag);
+
+	if (size_to_fit) {
+		int w;
+		int h;
+		_language->GetTextExtent (*size_to_fit, &w, &h);
+		_language->SetMinSize (wxSize(w, -1));
+	}
+
 	_sizer->Add (_language, 1, wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
 	_edit = new Button (parent, _("Edit..."));
 	_sizer->Add (_edit, 0, wxLEFT, DCPOMATIC_SIZER_GAP);
@@ -41,10 +52,17 @@ LanguageTagWidget::LanguageTagWidget (wxWindow* parent, wxString tooltip, dcp::L
 }
 
 
+LanguageTagWidget::~LanguageTagWidget ()
+{
+	_language->Destroy ();
+	_edit->Destroy ();
+}
+
+
 void
 LanguageTagWidget::edit ()
 {
-	auto d = new LanguageTagDialog(_parent, _tag);
+	auto d = new LanguageTagDialog(_parent, _tag.get_value_or(dcp::LanguageTag("en")));
 	d->ShowModal ();
 	set (d->get());
 	Changed (d->get());
@@ -53,10 +71,14 @@ LanguageTagWidget::edit ()
 
 
 void
-LanguageTagWidget::set (dcp::LanguageTag tag)
+LanguageTagWidget::set (optional<dcp::LanguageTag> tag)
 {
 	_tag = tag;
-	checked_set (_language, std_to_wx(tag.to_string()));
+	if (tag) {
+		checked_set (_language, std_to_wx(tag->to_string()));
+	} else {
+		checked_set (_language, wxT(""));
+	}
 }
 
 

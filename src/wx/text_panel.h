@@ -23,6 +23,8 @@
 
 
 class wxCheckBox;
+class wxSpinCtrl;
+class LanguageTagWidget;
 class TextView;
 class FontsDialog;
 class SpinCtrl;
@@ -60,6 +62,8 @@ private:
 	void add_to_grid ();
 	void try_to_load_analysis ();
 	void analysis_finished ();
+	void language_changed ();
+	void language_is_additional_changed ();
 
 	void setup_sensitivity ();
 	void setup_visibility ();
@@ -100,9 +104,13 @@ private:
 	FontsDialog* _fonts_dialog;
 	wxButton* _appearance_dialog_button;
 	TextType _original_type;
+	wxStaticText* _language_label = nullptr;
+	LanguageTagWidget* _language = nullptr;
+	wxSizer* _language_sizer = nullptr;
+	wxChoice* _language_type = nullptr;
 
 	int _outline_subtitles_row;
-	int _ccap_track_row;
+	int _ccap_track_or_language_row;
 
 	std::weak_ptr<Content> _analysis_content;
 	boost::signals2::scoped_connection _analysis_finished_connection;

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,14 +18,18 @@
 
 */
 
+
 #ifndef DCPOMATIC_CAPTION_CONTENT_H
 #define DCPOMATIC_CAPTION_CONTENT_H
+
 
 #include "content_part.h"
 #include "dcp_text_track.h"
 #include <libcxml/cxml.h>
+#include <dcp/language_tag.h>
 #include <dcp/types.h>
 #include <boost/signals2.hpp>
+
 
 namespace dcpomatic {
 	class Font;
@@ -50,7 +54,10 @@ public:
 	static int const OUTLINE_WIDTH;
 	static int const TYPE;
 	static int const DCP_TRACK;
+	static int const LANGUAGE;
+	static int const LANGUAGE_IS_ADDITIONAL;
 };
+
 
 /** @class TextContent
  *  @brief Description of how some text content should be presented.
@@ -92,6 +99,8 @@ public:
 	void set_type (TextType type);
 	void set_dcp_track (DCPTextTrack track);
 	void unset_dcp_track ();
+	void set_language (boost::optional<dcp::LanguageTag> language = boost::none);
+	void set_language_is_additional (bool additional);
 
 	bool use () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -178,7 +187,17 @@ public:
 		return _dcp_track;
 	}
 
-	static std::list<std::shared_ptr<TextContent> > from_xml (Content* parent, cxml::ConstNodePtr, int version);
+	boost::optional<dcp::LanguageTag> language () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _language;
+	}
+
+	bool language_is_additional () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _language_is_additional;
+	}
+
+	static std::list<std::shared_ptr<TextContent>> from_xml (Content* parent, cxml::ConstNodePtr, int version);
 
 private:
 	friend struct ffmpeg_pts_offset_test;
@@ -219,6 +238,8 @@ private:
 	TextType _original_type;
 	/** the track of closed captions that this content should be put in, or empty to put in the default (only) track */
 	boost::optional<DCPTextTrack> _dcp_track;
+	boost::optional<dcp::LanguageTag> _language;
+	bool _language_is_additional = false;
 };
 
 #endif

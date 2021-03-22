@@ -18,7 +18,6 @@
 
 */
 
-
 #include "check_box.h"
 #include "content_panel.h"
 #include "dcp_text_track_dialog.h"
@@ -27,6 +26,7 @@
 #include "film_editor.h"
 #include "film_viewer.h"
 #include "fonts_dialog.h"
+#include "language_tag_widget.h"
 #include "static_text.h"
 #include "subtitle_appearance_dialog.h"
 #include "text_panel.h"
@@ -153,7 +153,7 @@ TextPanel::setup_visibility ()
 	case TextType::OPEN_SUBTITLE:
 		if (_dcp_track_label) {
 			_dcp_track_label->Destroy ();
-			_dcp_track_label = 0;
+			_dcp_track_label = nullptr;
 		}
 		if (_dcp_track) {
 			_dcp_track->Destroy ();
@@ -164,23 +164,51 @@ TextPanel::setup_visibility ()
 			_outline_subtitles->Bind (wxEVT_CHECKBOX, boost::bind (&TextPanel::outline_subtitles_changed, this));
 			_grid->Add (_outline_subtitles, wxGBPosition(_outline_subtitles_row, 0), wxGBSpan(1, 2));
 		}
-
+		if (!_language) {
+			_language_label = create_label (this, _("Language"), true);
+			add_label_to_sizer (_grid, _language_label, true, wxGBPosition(_ccap_track_or_language_row, 0));
+			_language_sizer = new wxBoxSizer (wxHORIZONTAL);
+			_language = new LanguageTagWidget (this, _("Language of these subtitles"), boost::none, wxString("en-US-"));
+			_language->Changed.connect (boost::bind(&TextPanel::language_changed, this));
+			_language_sizer->Add (_language->sizer(), 1, wxRIGHT, DCPOMATIC_SIZER_GAP);
+			_language_type = new wxChoice (this, wxID_ANY);
+			/// TRANSLATORS: Main and Additional here are a choice for whether a set of subtitles is in the "main" language of the
+			/// film or an "additional" language.
+			_language_type->Append (_("Main"));
+			_language_type->Append (_("Additional"));
+			_language_type->Bind (wxEVT_CHOICE, boost::bind(&TextPanel::language_is_additional_changed, this));
+			_language_sizer->Add (_language_type, 0);
+			_grid->Add (_language_sizer, wxGBPosition(_ccap_track_or_language_row, 1), wxGBSpan(1, 2));
+			film_content_changed (TextContentProperty::LANGUAGE);
+			film_content_changed (TextContentProperty::LANGUAGE_IS_ADDITIONAL);
+		}
 		break;
 	case TextType::CLOSED_CAPTION:
+		if (_language_label) {
+			_language_label->Destroy ();
+			_language_label = nullptr;
+			_grid->Remove (_language->sizer());
+			delete _language;
+			_grid->Remove (_language_sizer);
+			_language_sizer = nullptr;
+			_language = nullptr;
+			_language_type->Destroy ();
+			_language_type = nullptr;
+		}
 		if (!_dcp_track_label) {
 			_dcp_track_label = create_label (this, _("CCAP track"), true);
-			add_label_to_sizer (_grid, _dcp_track_label, true, wxGBPosition(_ccap_track_row, 0));
+			add_label_to_sizer (_grid, _dcp_track_label, true, wxGBPosition(_ccap_track_or_language_row, 0));
 		}
 		if (!_dcp_track) {
 			_dcp_track = new wxChoice (this, wxID_ANY);
 			_dcp_track->Bind (wxEVT_CHOICE, boost::bind(&TextPanel::dcp_track_changed, this));
-			_grid->Add (_dcp_track, wxGBPosition(_ccap_track_row, 1), wxDefaultSpan, wxEXPAND);
+			_grid->Add (_dcp_track, wxGBPosition(_ccap_track_or_language_row, 1), wxDefaultSpan, wxEXPAND);
 			update_dcp_tracks ();
 			film_content_changed (TextContentProperty::DCP_TRACK);
 		}
 		if (_outline_subtitles) {
 			_outline_subtitles->Destroy ();
-			_outline_subtitles = 0;
+			_outline_subtitles = nullptr;
 			clear_outline_subtitles ();
 		}
 		break;
@@ -249,14 +277,14 @@ TextPanel::add_to_grid ()
 
 	{
 		add_label_to_sizer (_grid, _line_spacing_label, true, wxGBPosition (r, 0));
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		auto s = new wxBoxSizer (wxHORIZONTAL);
 		s->Add (_line_spacing);
 		add_label_to_sizer (s, _line_spacing_pc_label, false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 		_grid->Add (s, wxGBPosition (r, 1));
 		++r;
 	}
 
-	_ccap_track_row = r;
+	_ccap_track_or_language_row = r;
 	++r;
 
 	add_label_to_sizer (_grid, _stream_label, true, wxGBPosition (r, 0));
@@ -454,6 +482,14 @@ TextPanel::film_content_changed (int property)
 		if (_dcp_track) {
 			update_dcp_track_selection ();
 		}
+	} else if (property == TextContentProperty::LANGUAGE) {
+		if (_language) {
+			_language->set (text ? text->language() : boost::none);
+		}
+	} else if (property == TextContentProperty::LANGUAGE_IS_ADDITIONAL) {
+		if (_language_type) {
+			_language_type->SetSelection (text ? (text->language_is_additional() ? 1 : 0) : 0);
+		}
 	} else if (property == DCPContentProperty::REFERENCE_TEXT) {
 		if (scs) {
 			auto dcp = dynamic_pointer_cast<DCPContent> (scs);
@@ -526,10 +562,10 @@ TextPanel::setup_sensitivity ()
 	auto sel = _parent->selected_text ();
 	for (auto i: sel) {
 		/* These are the content types that could include subtitles */
-		auto fc = std::dynamic_pointer_cast<const FFmpegContent> (i);
-		auto sc = std::dynamic_pointer_cast<const StringTextFileContent> (i);
-		auto dc = std::dynamic_pointer_cast<const DCPContent> (i);
-		auto dsc = std::dynamic_pointer_cast<const DCPSubtitleContent> (i);
+		auto fc = std::dynamic_pointer_cast<const FFmpegContent>(i);
+		auto sc = std::dynamic_pointer_cast<const StringTextFileContent>(i);
+		auto dc = std::dynamic_pointer_cast<const DCPContent>(i);
+		auto dsc = std::dynamic_pointer_cast<const DCPSubtitleContent>(i);
 		if (fc) {
 			if (!fc->text.empty()) {
 				++ffmpeg_subs;
@@ -548,7 +584,7 @@ TextPanel::setup_sensitivity ()
 
 	shared_ptr<DCPContent> dcp;
 	if (sel.size() == 1) {
-		dcp = dynamic_pointer_cast<DCPContent> (sel.front ());
+		dcp = dynamic_pointer_cast<DCPContent>(sel.front());
 	}
 
 	string why_not;
@@ -563,7 +599,7 @@ TextPanel::setup_sensitivity ()
 
 	bool const reference = _reference->GetValue ();
 
-	TextType const type = current_type ();
+	auto const type = current_type ();
 
 	/* Set up _type */
 	_type->Clear ();
@@ -618,7 +654,7 @@ TextPanel::stream_changed ()
 
 	auto a = fcs->subtitle_streams ();
 	auto i = a.begin ();
-	auto const s = string_client_data (_stream->GetClientObject (_stream->GetSelection ()));
+	auto const s = string_client_data (_stream->GetClientObject(_stream->GetSelection()));
 	while (i != a.end() && (*i)->identifier () != s) {
 		++i;
 	}
@@ -688,6 +724,8 @@ TextPanel::content_selection_changed ()
 	film_content_changed (TextContentProperty::FONTS);
 	film_content_changed (TextContentProperty::TYPE);
 	film_content_changed (TextContentProperty::DCP_TRACK);
+	film_content_changed (TextContentProperty::LANGUAGE);
+	film_content_changed (TextContentProperty::LANGUAGE_IS_ADDITIONAL);
 	film_content_changed (DCPContentProperty::REFERENCE_TEXT);
 }
 
@@ -697,7 +735,7 @@ TextPanel::text_view_clicked ()
 {
 	if (_text_view) {
 		_text_view->Destroy ();
-		_text_view = 0;
+		_text_view = nullptr;
 	}
 
 	auto c = _parent->selected_text ();
@@ -757,7 +795,6 @@ TextPanel::appearance_dialog_clicked ()
 	}
 	d->Destroy ();
 }
-
 
 
 /** The user has clicked on the outline subtitles check box */
@@ -880,5 +917,29 @@ TextPanel::analysis_finished ()
 
 	_loading_analysis = false;
 	try_to_load_analysis ();
+}
+
+
+void
+TextPanel::language_changed ()
+{
+	for (auto i: _parent->selected_text()) {
+		auto t = i->text_of_original_type(_original_type);
+		if (t) {
+			t->set_language (_language->get());
+		}
+	}
+}
+
+
+void
+TextPanel::language_is_additional_changed ()
+{
+	for (auto i: _parent->selected_text()) {
+		auto t = i->text_of_original_type(_original_type);
+		if (t) {
+			t->set_language_is_additional (_language_type->GetSelection() == 1);
+		}
+	}
 }
 

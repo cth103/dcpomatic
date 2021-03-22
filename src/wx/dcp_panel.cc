@@ -456,6 +456,8 @@ DCPPanel::film_content_changed (int property)
 	if (property == AudioContentProperty::STREAMS ||
 	    property == TextContentProperty::USE ||
 	    property == TextContentProperty::BURN ||
+	    property == TextContentProperty::LANGUAGE ||
+	    property == TextContentProperty::LANGUAGE_IS_ADDITIONAL ||
 	    property == VideoContentProperty::SCALE ||
 	    property == DCPContentProperty::REFERENCE_VIDEO ||
 	    property == DCPContentProperty::REFERENCE_AUDIO ||

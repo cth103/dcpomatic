@@ -663,9 +663,9 @@ Writer::finish (boost::filesystem::path output_dcp)
 		cpl->set_main_picture_active_area (active_area);
 	}
 
-	vector<dcp::LanguageTag> sl = film()->subtitle_languages();
-	if (sl.size() > 1) {
-		cpl->set_additional_subtitle_languages(std::vector<dcp::LanguageTag>(sl.begin() + 1, sl.end()));
+	auto sl = film()->subtitle_languages().second;
+	if (!sl.empty()) {
+		cpl->set_additional_subtitle_languages(sl);
 	}
 
 	auto signer = Config::instance()->signer_chain();
@@ -709,10 +709,10 @@ Writer::write_cover_sheet (boost::filesystem::path output_dcp)
 	boost::algorithm::replace_all (text, "$AUDIO_LANGUAGE", film()->isdcf_metadata().audio_language);
 
 	auto subtitle_languages = film()->subtitle_languages();
-	if (subtitle_languages.empty()) {
-		boost::algorithm::replace_all (text, "$SUBTITLE_LANGUAGE", "None");
+	if (subtitle_languages.first) {
+		boost::algorithm::replace_all (text, "$SUBTITLE_LANGUAGE", subtitle_languages.first->description());
 	} else {
-		boost::algorithm::replace_all (text, "$SUBTITLE_LANGUAGE", subtitle_languages.front().description());
+		boost::algorithm::replace_all (text, "$SUBTITLE_LANGUAGE", "None");
 	}
 
 	boost::uintmax_t size = 0;

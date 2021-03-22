@@ -18,6 +18,7 @@
 
 */
 
+
 #include "text_content.h"
 #include "util.h"
 #include "exceptions.h"
@@ -30,6 +31,7 @@
 
 #include "i18n.h"
 
+
 using std::string;
 using std::vector;
 using std::cout;
@@ -40,6 +42,7 @@ using std::dynamic_pointer_cast;
 using boost::optional;
 using dcp::raw_convert;
 using namespace dcpomatic;
+
 
 int const TextContentProperty::X_OFFSET = 500;
 int const TextContentProperty::Y_OFFSET = 501;
@@ -57,6 +60,9 @@ int const TextContentProperty::FADE_OUT = 512;
 int const TextContentProperty::OUTLINE_WIDTH = 513;
 int const TextContentProperty::TYPE = 514;
 int const TextContentProperty::DCP_TRACK = 515;
+int const TextContentProperty::LANGUAGE = 516;
+int const TextContentProperty::LANGUAGE_IS_ADDITIONAL = 517;
+
 
 TextContent::TextContent (Content* parent, TextType type, TextType original_type)
 	: ContentPart (parent)
@@ -95,9 +101,7 @@ TextContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 		if (!node->optional_number_child<double>("SubtitleXOffset") && !node->optional_number_child<double>("SubtitleOffset")) {
 			return {};
 		}
-		list<shared_ptr<TextContent>> c;
-		c.push_back (make_shared<TextContent>(parent, node, version));
-		return c;
+		return { make_shared<TextContent>(parent, node, version) };
 	}
 
 	if (!node->optional_node_child("Text")) {
@@ -124,6 +128,7 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 	, _outline_width (node->optional_number_child<int>("OutlineWidth").get_value_or(4))
 	, _type (TextType::OPEN_SUBTITLE)
 	, _original_type (TextType::OPEN_SUBTITLE)
+	, _language ("en-US")
 {
 	if (version >= 37) {
 		_use = node->bool_child ("Use");
@@ -231,6 +236,13 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 	if (dt) {
 		_dcp_track = DCPTextTrack (dt);
 	}
+
+	auto lang = node->optional_node_child("Language");
+	if (lang) {
+		_language = dcp::LanguageTag(lang->content());
+		auto add = lang->optional_bool_attribute("Additional");
+		_language_is_additional = add && *add;
+	}
 }
 
 TextContent::TextContent (Content* parent, vector<shared_ptr<Content>> c)
@@ -290,6 +302,14 @@ TextContent::TextContent (Content* parent, vector<shared_ptr<Content>> c)
 			throw JoinError (_("Content to be joined must use the same DCP track."));
 		}
 
+		if (c[i]->only_text()->language() != ref->language()) {
+			throw JoinError (_("Content to be joined must use the same text language."));
+		}
+
+		if (c[i]->only_text()->language_is_additional() != ref->language_is_additional()) {
+			throw JoinError (_("Content to be joined must both be main subtitle languages or both additional."));
+		}
+
 		auto j = ref_fonts.begin ();
 		auto k = fonts.begin ();
 
@@ -316,6 +336,8 @@ TextContent::TextContent (Content* parent, vector<shared_ptr<Content>> c)
 	_type = ref->type ();
 	_original_type = ref->original_type ();
 	_dcp_track = ref->dcp_track ();
+	_language = ref->language ();
+	_language_is_additional = ref->language_is_additional ();
 
 	connect_to_fonts ();
 }
@@ -375,6 +397,11 @@ TextContent::as_xml (xmlpp::Node* root) const
 	if (_dcp_track) {
 		_dcp_track->as_xml(text->add_child("DCPTrack"));
 	}
+	if (_language) {
+		auto lang = text->add_child("Language");
+		lang->add_child_text (_language->to_string());
+		lang->set_attribute ("Additional", _language_is_additional ? "1" : "0");
+	}
 }
 
 string
@@ -400,7 +427,7 @@ TextContent::identifier () const
 		s += "_" + f->file().get_value_or("Default").string();
 	}
 
-	/* The DCP track is for metadata only, and doesn't affect how this content looks */
+	/* The DCP track and language are for metadata only, and don't affect how this content looks */
 
 	return s;
 }
@@ -560,6 +587,18 @@ TextContent::unset_dcp_track ()
 }
 
 void
+TextContent::set_language (optional<dcp::LanguageTag> language)
+{
+	maybe_set (_language, language, TextContentProperty::LANGUAGE);
+}
+
+void
+TextContent::set_language_is_additional (bool additional)
+{
+	maybe_set (_language_is_additional, additional, TextContentProperty::LANGUAGE_IS_ADDITIONAL);
+}
+
+void
 TextContent::take_settings_from (shared_ptr<const TextContent> c)
 {
 	set_use (c->_use);
@@ -595,4 +634,6 @@ TextContent::take_settings_from (shared_ptr<const TextContent> c)
 	} else {
 		unset_dcp_track ();
 	}
+	set_language (c->_language);
+	set_language_is_additional (c->_language_is_additional);
 }

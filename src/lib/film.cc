@@ -496,9 +496,6 @@ Film::metadata (bool with_content_paths) const
 	}
 	root->add_child("UserExplicitContainer")->add_child_text(_user_explicit_container ? "1" : "0");
 	root->add_child("UserExplicitResolution")->add_child_text(_user_explicit_resolution ? "1" : "0");
-	for (auto i: _subtitle_languages) {
-		root->add_child("SubtitleLanguage")->add_child_text(i.to_string());
-	}
 	_playlist->as_xml (root->add_child ("Playlist"), with_content_paths);
 
 	return doc;
@@ -680,51 +677,12 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	_user_explicit_container = f.optional_bool_child("UserExplicitContainer").get_value_or(true);
 	_user_explicit_resolution = f.optional_bool_child("UserExplicitResolution").get_value_or(true);
 
-	for (auto i: f.node_children("SubtitleLanguage")) {
-		_subtitle_languages.push_back (dcp::LanguageTag(i->content()));
-	}
-
 	list<string> notes;
 	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"), _state_version, notes);
 
 	/* Write backtraces to this film's directory, until another film is loaded */
 	if (_directory) {
 		set_backtrace_file (file ("backtrace.txt"));
-	}
-
-	/* Around 2.15.108 we removed subtitle language state from the text content and the ISDCF
-	 * metadata and put it into the Film instead.  If we've loaded an old Film let's try and fish
-	 * out the settings from where they were so that they don't get lost.
-	 */
-
-	optional<dcp::LanguageTag> found_language;
-
-	for (auto i: f.node_child("Playlist")->node_children("Content")) {
-		auto text = i->optional_node_child("Text");
-		if (text && text->optional_string_child("Language") && !found_language) {
-			try {
-				found_language = dcp::LanguageTag(text->string_child("Language"));
-			} catch (...) {}
-		}
-	}
-
-	if (_state_version >= 9) {
-		auto isdcf_language = f.node_child("ISDCFMetadata")->optional_string_child("SubtitleLanguage");
-		if (isdcf_language && !found_language) {
-			try {
-				found_language = dcp::LanguageTag(*isdcf_language);
-			} catch (...) {
-				try {
-					found_language = dcp::LanguageTag(boost::algorithm::to_lower_copy(*isdcf_language));
-				} catch (...) {
-
-				}
-			}
-		}
-	}
-
-	if (found_language) {
-		_subtitle_languages.push_back (*found_language);
 	}
 
 	_dirty = false;
@@ -792,6 +750,30 @@ Film::mapped_audio_channels () const
 
 	return mapped;
 }
+
+
+pair<optional<dcp::LanguageTag>, vector<dcp::LanguageTag>>
+Film::subtitle_languages () const
+{
+	pair<optional<dcp::LanguageTag>, vector<dcp::LanguageTag>> result;
+	for (auto i: content()) {
+		for (auto j: i->text) {
+			if (j->use() && j->type() == TextType::OPEN_SUBTITLE && j->language()) {
+				if (j->language_is_additional()) {
+					result.second.push_back (j->language().get());
+				} else {
+					result.first = j->language().get();
+				}
+			}
+		}
+	}
+
+	std::sort (result.second.begin(), result.second.end());
+	auto last = std::unique (result.second.begin(), result.second.end());
+	result.second.erase (last, result.second.end());
+	return result;
+}
+
 
 /** @return a ISDCF-compliant name for a DCP of this film */
 string
@@ -924,8 +906,9 @@ Film::isdcf_name (bool if_created_now) const
 		}
 	}
 
-	if (!_subtitle_languages.empty()) {
-		auto lang = _subtitle_languages.front().language().get_value_or("en").subtag();
+	auto sublangs = subtitle_languages();
+	if (sublangs.first && sublangs.first->language()) {
+		auto lang = sublangs.first->language()->subtag();
 		if (burnt_in) {
 			transform (lang.begin(), lang.end(), lang.begin(), ::tolower);
 		} else {
@@ -2034,29 +2017,6 @@ Film::set_luminance (optional<dcp::Luminance> l)
 {
 	FilmChangeSignaller ch (this, Property::LUMINANCE);
 	_luminance = l;
-}
-
-
-void
-Film::set_subtitle_language (dcp::LanguageTag language)
-{
-	set_subtitle_languages ({language});
-}
-
-
-void
-Film::unset_subtitle_language ()
-{
-	FilmChangeSignaller ch (this, Property::SUBTITLE_LANGUAGES);
-	_subtitle_languages.clear();
-}
-
-
-void
-Film::set_subtitle_languages (vector<dcp::LanguageTag> languages)
-{
-	FilmChangeSignaller ch (this, Property::SUBTITLE_LANGUAGES);
-	_subtitle_languages = languages;
 }
 
 

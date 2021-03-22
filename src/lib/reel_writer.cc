@@ -623,8 +623,8 @@ ReelWriter::create_reel_text (
 
 	if (subtitle) {
 		/* We have a subtitle asset that we either made or are referencing */
-		if (!film()->subtitle_languages().empty()) {
-			subtitle->set_language (film()->subtitle_languages().front());
+		if (auto main_language = film()->subtitle_languages().first) {
+			subtitle->set_language (*main_language);
 		}
 	} else if (ensure_subtitles) {
 		/* We had no subtitle asset, but we've been asked to make sure there is one */
@@ -776,7 +776,7 @@ ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track) const
 		auto s = make_shared<dcp::InteropSubtitleAsset>();
 		s->set_movie_title (film()->name());
 		if (type == TextType::OPEN_SUBTITLE) {
-			s->set_language (lang.empty() ? "Unknown" : lang.front().to_string());
+			s->set_language (lang.first ? lang.first->to_string() : "Unknown");
 		} else if (!track->language.empty()) {
 			s->set_language (track->language);
 		}
@@ -786,8 +786,8 @@ ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track) const
 		auto s = make_shared<dcp::SMPTESubtitleAsset>();
 		s->set_content_title_text (film()->name());
 		s->set_metadata (mxf_metadata());
-		if (type == TextType::OPEN_SUBTITLE && !lang.empty()) {
-			s->set_language (lang.front());
+		if (type == TextType::OPEN_SUBTITLE && lang.first) {
+			s->set_language (*lang.first);
 		} else if (track && !track->language.empty()) {
 			s->set_language (dcp::LanguageTag(track->language));
 		}

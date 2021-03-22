@@ -18,13 +18,16 @@
 
 */
 
+
 /** @file  test/subtitle_language_test.cc
  *  @brief Test that subtitle language information is correctly written to DCPs.
  */
 
 
+#include "lib/content.h"
 #include "lib/content_factory.h"
 #include "lib/film.h"
+#include "lib/text_content.h"
 #include "test.h"
 #include <dcp/language_tag.h>
 #include <boost/test/unit_test.hpp>
@@ -39,12 +42,10 @@ using std::shared_ptr;
 BOOST_AUTO_TEST_CASE (subtitle_language_interop_test)
 {
 	string const name = "subtitle_language_interop_test";
-	auto film = new_test_film2 (name, { content_factory("test/data/frames.srt").front() });
+	auto fr = content_factory("test/data/frames.srt").front();
+	auto film = new_test_film2 (name, { fr });
 
-	vector<dcp::LanguageTag> langs = {
-		dcp::LanguageTag("fr-FR"), dcp::LanguageTag("de-DE")
-	};
-	film->set_subtitle_languages(langs);
+	fr->only_text()->set_language (dcp::LanguageTag("fr-FR"));
 	film->set_interop (true);
 
 	make_and_verify_dcp (
@@ -62,12 +63,10 @@ BOOST_AUTO_TEST_CASE (subtitle_language_interop_test)
 BOOST_AUTO_TEST_CASE (subtitle_language_smpte_test)
 {
 	string const name = "subtitle_language_smpte_test";
-	auto film = new_test_film2 (name, { content_factory("test/data/frames.srt").front() });
+	auto fr = content_factory("test/data/frames.srt").front();
+	auto film = new_test_film2 (name, { fr });
 
-	vector<dcp::LanguageTag> langs = {
-		dcp::LanguageTag("fr-FR"), dcp::LanguageTag("de-DE")
-	};
-	film->set_subtitle_languages (langs);
+	fr->only_text()->set_language (dcp::LanguageTag("fr-FR"));
 	film->set_interop (false);
 
 	make_and_verify_dcp (

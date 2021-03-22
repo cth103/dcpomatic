@@ -30,46 +30,27 @@
 #include <boost/test/unit_test.hpp>
 
 
-using std::vector;
+using std::make_shared;
 using std::shared_ptr;
+using std::vector;
 
 
 BOOST_AUTO_TEST_CASE (subtitle_metadata_test1)
 {
 	using namespace boost::filesystem;
 
-	path p = test_film_dir ("subtitle_metadata_test1");
+	auto p = test_film_dir ("subtitle_metadata_test1");
 	if (exists (p)) {
 		remove_all (p);
 	}
 	create_directory (p);
 
 	copy_file ("test/data/subtitle_metadata1.xml", p / "metadata.xml");
-	shared_ptr<Film> film(new Film(p));
+	auto film = make_shared<Film>(p);
 	film->read_metadata();
 
-	vector<dcp::LanguageTag> langs = film->subtitle_languages ();
-	BOOST_REQUIRE (!langs.empty());
-	BOOST_CHECK_EQUAL (langs.front().to_string(), "de-DE");
-}
-
-
-BOOST_AUTO_TEST_CASE (subtitle_metadata_test2)
-{
-	using namespace boost::filesystem;
-
-	path p = test_film_dir ("subtitle_metadata_test2");
-	if (exists (p)) {
-		remove_all (p);
-	}
-	create_directory (p);
-
-	copy_file ("test/data/subtitle_metadata2.xml", p / "metadata.xml");
-	shared_ptr<Film> film(new Film(p));
-	film->read_metadata();
-
-	vector<dcp::LanguageTag> langs = film->subtitle_languages ();
-	BOOST_REQUIRE (!langs.empty());
-	BOOST_CHECK_EQUAL (langs.front().to_string(), "FR");
+	auto langs = film->subtitle_languages ();
+	BOOST_REQUIRE (langs.first);
+	BOOST_CHECK_EQUAL (langs.first->to_string(), "de-DE");
 }
 

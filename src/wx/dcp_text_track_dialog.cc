@@ -43,5 +43,6 @@ DCPTextTrackDialog::DCPTextTrackDialog (wxWindow* parent)
 DCPTextTrack
 DCPTextTrackDialog::get () const
 {
-	return DCPTextTrack(wx_to_std(_name->GetValue()), _language->get().to_string());
+	DCPOMATIC_ASSERT (_language->get());
+	return DCPTextTrack(wx_to_std(_name->GetValue()), _language->get()->to_string());
 }

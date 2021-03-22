@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -17,6 +17,7 @@
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 
 #include "editable_list.h"
 #include "full_language_tag_dialog.h"
@@ -49,10 +50,6 @@ private:
 	void set_content_versions (std::vector<std::string> v);
 	void name_language_changed (dcp::LanguageTag tag);
 	void audio_language_changed (dcp::LanguageTag tag);
-	void enable_main_subtitle_changed ();
-	void main_subtitle_language_changed (dcp::LanguageTag tag);
-	std::vector<dcp::LanguageTag> additional_subtitle_languages ();
-	void set_additional_subtitle_languages (std::vector<dcp::LanguageTag> languages);
 	void edit_release_territory ();
 	void version_number_changed ();
 	void status_changed ();
@@ -69,9 +66,6 @@ private:
 
 	LanguageTagWidget* _name_language;
 	LanguageTagWidget* _audio_language;
-	wxCheckBox* _enable_main_subtitle_language;
-	LanguageTagWidget* _main_subtitle_language;
-	EditableList<dcp::LanguageTag, LanguageTagDialog>* _additional_subtitle_languages;
 	wxCheckBox* _enable_release_territory;
 	/** The current release territory displayed in the UI; since we can't easily convert
 	 *  the string in _release_territory_text to a RegionSubtag we just store the RegionSubtag

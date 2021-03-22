@@ -125,6 +125,7 @@ LanguageTagDialog::set (dcp::LanguageTag tag)
 	}
 
 	_list->SetItemState (selection, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+	_list->EnsureVisible (selection);
 }
 
 

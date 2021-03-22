@@ -34,16 +34,17 @@ class wxWindow;
 class LanguageTagWidget : public boost::noncopyable
 {
 public:
-	LanguageTagWidget (wxWindow* parent, wxString tooltip, dcp::LanguageTag tag);
+	LanguageTagWidget (wxWindow* parent, wxString tooltip, boost::optional<dcp::LanguageTag> tag, boost::optional<wxString> size_to_fit = boost::none);
+	~LanguageTagWidget ();
 
 	wxSizer* sizer () const {
 		return _sizer;
 	}
 
-	dcp::LanguageTag get () const {
+	boost::optional<dcp::LanguageTag> get () const {
 		return _tag;
 	}
-	void set (dcp::LanguageTag tag);
+	void set (boost::optional<dcp::LanguageTag> tag);
 	void enable (bool e);
 
 	boost::signals2::signal<void (dcp::LanguageTag)> Changed;
@@ -54,7 +55,7 @@ private:
 	wxStaticText* _language;
 	wxButton* _edit;
 	wxWindow* _parent;
-	dcp::LanguageTag _tag;
+	boost::optional<dcp::LanguageTag> _tag;
 	wxSizer* _sizer;
 };
 
