@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-23 02:02+0100\n"
-"PO-Revision-Date: 2021-03-20 23:20+0100\n"
+"PO-Revision-Date: 2021-03-22 02:21+0100\n"
 "Last-Translator: Mattias Mattsson <vitplister@gmail.com>\n"
 "Language-Team: \n"
 "Language: sv_SE\n"
@@ -40,9 +40,8 @@ msgid "&Close"
 msgstr "&Stäng"
 
 #: src/tools/dcpomatic.cc:1313
-#, fuzzy
 msgid "&Close\tCtrl-W"
-msgstr "&Spara\tCtrl-S"
+msgstr "&Stäng\tCtrl-W"
 
 #: src/tools/dcpomatic.cc:1381 src/tools/dcpomatic_batch.cc:94
 #: src/tools/dcpomatic_kdm.cc:263 src/tools/dcpomatic_player.cc:551
@@ -466,15 +465,15 @@ msgstr "Kodningsservrar..."
 
 #: src/tools/dcpomatic_playlist.cc:274
 msgid "Encrypted"
-msgstr "Krypterad"
+msgstr "Kryptera"
 
 #: src/tools/dcpomatic.cc:1344
 msgid "Export subtitles..."
-msgstr "Export undertexter…"
+msgstr "Exportera undertexter…"
 
 #: src/tools/dcpomatic.cc:1343
 msgid "Export video file...\tCtrl-E"
-msgstr "Export videofil…\tCtrl-E"
+msgstr "Exportera till videofil…\tCtrl-E"
 
 #: src/tools/dcpomatic_kdm.cc:169
 msgid "Export..."
@@ -511,8 +510,8 @@ msgid ""
 msgstr ""
 "Det verkar som du försöker öppna en DCP. Arkiv -> Öppna används för att "
 "öppna DCP-o-matic-projekt, inte DCP:er. För att importera en DCP, skapa "
-"först ett nytt projekt med Arkiv -> Nytt och klicka sedan på \"Lägg till "
-"DCP…\"-knappen."
+"först ett nytt projekt med Arkiv -> Nytt och klicka sedan på \"Lägg till DCP…"
+"\"-knappen."
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/tools/dcpomatic_kdm.cc:148
@@ -529,7 +528,7 @@ msgstr "Laddar källmaterial"
 
 #: src/tools/dcpomatic.cc:1340
 msgid "Make &DKDMs...\tCtrl-D"
-msgstr "Gör &KDM:er...\tCtrl-K"
+msgstr "Gör &DKDM:er...\tCtrl-D"
 
 #: src/tools/dcpomatic.cc:1339
 msgid "Make &KDMs...\tCtrl-K"
@@ -850,7 +849,7 @@ msgstr "Verifiera DCP"
 
 #: src/tools/dcpomatic.cc:1360
 msgid "Video waveform..."
-msgstr "Video waveform…"
+msgstr "Video-vågform…"
 
 #: src/tools/dcpomatic_kdm.cc:560
 msgid ""
