@@ -904,41 +904,41 @@ Film::isdcf_name (bool if_created_now) const
 		}
 	}
 
-	if (!dm.audio_language.empty ()) {
-		d += "_" + dm.audio_language;
+	auto const audio_language = dm.audio_language.empty() ? "XX" : dm.audio_language;
 
-		/* I'm not clear on the precise details of the convention for CCAP labelling;
-		   for now I'm just appending -CCAP if we have any closed captions.
-		*/
+	d += "_" + audio_language;
 
-		auto burnt_in = true;
-		auto ccap = false;
-		for (auto i: content()) {
-			for (auto j: i->text) {
-				if (j->type() == TextType::OPEN_SUBTITLE && j->use() && !j->burn()) {
-					burnt_in = false;
-				} else if (j->type() == TextType::CLOSED_CAPTION && j->use()) {
-					ccap = true;
-				}
+	/* I'm not clear on the precise details of the convention for CCAP labelling;
+	   for now I'm just appending -CCAP if we have any closed captions.
+	*/
+
+	auto burnt_in = true;
+	auto ccap = false;
+	for (auto i: content()) {
+		for (auto j: i->text) {
+			if (j->type() == TextType::OPEN_SUBTITLE && j->use() && !j->burn()) {
+				burnt_in = false;
+			} else if (j->type() == TextType::CLOSED_CAPTION && j->use()) {
+				ccap = true;
 			}
 		}
+	}
 
-		if (!_subtitle_languages.empty()) {
-			auto lang = _subtitle_languages.front().language().get_value_or("en").subtag();
-			if (burnt_in) {
-				transform (lang.begin(), lang.end(), lang.begin(), ::tolower);
-			} else {
-				transform (lang.begin(), lang.end(), lang.begin(), ::toupper);
-			}
-
-			d += "-" + lang;
-			if (ccap) {
-				d += "-CCAP";
-			}
+	if (!_subtitle_languages.empty()) {
+		auto lang = _subtitle_languages.front().language().get_value_or("en").subtag();
+		if (burnt_in) {
+			transform (lang.begin(), lang.end(), lang.begin(), ::tolower);
 		} else {
-			/* No subtitles */
-			d += "-XX";
+			transform (lang.begin(), lang.end(), lang.begin(), ::toupper);
 		}
+
+		d += "-" + lang;
+		if (ccap) {
+			d += "-CCAP";
+		}
+	} else {
+		/* No subtitles */
+		d += "-XX";
 	}
 
 	if (!dm.territory.empty ()) {

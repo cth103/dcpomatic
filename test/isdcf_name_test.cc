@@ -42,7 +42,7 @@ using std::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (isdcf_name_test)
 {
-	shared_ptr<Film> film = new_test_film ("isdcf_name_test");
+	auto film = new_test_film ("isdcf_name_test");
 
 	/* A basic test */
 
@@ -60,6 +60,11 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_isdcf_metadata (m);
 	film->set_interop (true);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilm_FTR-1_F_EN-XX_UK-PG_MOS_2K_ST_20140704_FA_IOP_OV");
+
+	/* Check that specifying no audio language writes XX */
+	m.audio_language = "";
+	film->set_isdcf_metadata (m);
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilm_FTR-1_F_XX-XX_UK-PG_MOS_2K_ST_20140704_FA_IOP_OV");
 
 	/* Test a long name and some different data */
 
@@ -215,3 +220,4 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_71-HI-VI_4K_DI_20140704_PP_SMPTE_OV");
 }
+
