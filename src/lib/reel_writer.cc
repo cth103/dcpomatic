@@ -178,17 +178,11 @@ ReelWriter::ReelWriter (
 
 		DCPOMATIC_ASSERT (film()->directory());
 
-		vector<dcp::Channel> active;
-		for (auto i: film()->mapped_audio_channels()) {
-			active.push_back (static_cast<dcp::Channel>(i));
-		}
-
 		/* Write the sound asset into the film directory so that we leave the creation
 		   of the DCP directory until the last minute.
 		*/
 		_sound_asset_writer = _sound_asset->start_write (
 			film()->directory().get() / audio_asset_filename (_sound_asset, _reel_index, _reel_count, _content_summary),
-			active,
 			film()->contains_atmos_content()
 			);
 	}
