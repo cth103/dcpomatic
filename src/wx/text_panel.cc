@@ -631,9 +631,8 @@ TextPanel::y_offset_changed ()
 void
 TextPanel::x_scale_changed ()
 {
-	auto c = _parent->selected_text ();
-	if (c.size() == 1) {
-		c.front()->text_of_original_type(_original_type)->set_x_scale (_x_scale->GetValue() / 100.0);
+	for (auto i: _parent->selected_text ()) {
+		i->text_of_original_type(_original_type)->set_x_scale (_x_scale->GetValue() / 100.0);
 	}
 }
 
