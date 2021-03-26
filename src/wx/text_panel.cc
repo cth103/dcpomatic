@@ -72,7 +72,7 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	_reference = new CheckBox (this, refer);
 	_reference_note = new StaticText (this, wxT(""));
 	_reference_note->Wrap (200);
-	wxFont font = _reference_note->GetFont();
+	auto font = _reference_note->GetFont();
 	font.SetStyle(wxFONTSTYLE_ITALIC);
 	font.SetPointSize(font.GetPointSize() - 1);
 	_reference_note->SetFont(font);
@@ -191,13 +191,13 @@ TextPanel::add_to_grid ()
 {
 	int r = 0;
 
-	wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
+	auto reference_sizer = new wxBoxSizer (wxVERTICAL);
 	reference_sizer->Add (_reference, 0);
 	reference_sizer->Add (_reference_note, 0);
 	_grid->Add (reference_sizer, wxGBPosition(r, 0), wxGBSpan(1, 4));
 	++r;
 
-	wxBoxSizer* use = new wxBoxSizer (wxHORIZONTAL);
+	auto use = new wxBoxSizer (wxHORIZONTAL);
 	use->Add (_use, 0, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 	use->Add (_type, 1, wxEXPAND, 0);
 	_grid->Add (use, wxGBPosition (r, 0), wxGBSpan (1, 2));
@@ -210,7 +210,7 @@ TextPanel::add_to_grid ()
 	++r;
 
 	add_label_to_sizer (_grid, _offset_label, true, wxGBPosition (r, 0));
-	wxBoxSizer* offset = new wxBoxSizer (wxHORIZONTAL);
+	auto offset = new wxBoxSizer (wxHORIZONTAL);
 	add_label_to_sizer (offset, _x_offset_label, true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	offset->Add (_x_offset, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
 	offset->Add (_x_offset_pc_label, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP * 2);
@@ -226,7 +226,7 @@ TextPanel::add_to_grid ()
 	++r;
 
 	add_label_to_sizer (_grid, _scale_label, true, wxGBPosition (r, 0));
-	wxBoxSizer* scale = new wxBoxSizer (wxHORIZONTAL);
+	auto scale = new wxBoxSizer (wxHORIZONTAL);
 	add_label_to_sizer (scale, _x_scale_label, true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	scale->Add (_x_scale, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
 	scale->Add (_x_scale_pc_label, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP * 2);
@@ -258,7 +258,7 @@ TextPanel::add_to_grid ()
 	++r;
 
 	{
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		auto s = new wxBoxSizer (wxHORIZONTAL);
 
 		s->Add (_text_view_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
 		s->Add (_fonts_dialog_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
@@ -279,9 +279,9 @@ TextPanel::update_dcp_track_selection ()
 	optional<DCPTextTrack> selected;
 	bool many = false;
 	for (auto i: _parent->selected_text()) {
-		shared_ptr<TextContent> t = i->text_of_original_type(_original_type);
+		auto t = i->text_of_original_type(_original_type);
 		if (t) {
-			optional<DCPTextTrack> dt = t->dcp_track();
+			auto dt = t->dcp_track();
 			if (dt && selected && *dt != *selected) {
 				many = true;
 			} else if (!selected) {
@@ -331,7 +331,7 @@ TextPanel::dcp_track_changed ()
 	optional<DCPTextTrack> track;
 
 	if (_dcp_track->GetSelection() == int(_dcp_track->GetCount()) - 1) {
-		DCPTextTrackDialog* d = new DCPTextTrackDialog (this);
+		auto d = new DCPTextTrackDialog (this);
 		if (d->ShowModal() == wxID_OK) {
 			track = d->get();
 		}
@@ -347,7 +347,7 @@ TextPanel::dcp_track_changed ()
 
 	if (track) {
 		for (auto i: _parent->selected_text()) {
-			shared_ptr<TextContent> t = i->text_of_original_type(_original_type);
+			auto t = i->text_of_original_type(_original_type);
 			if (t && t->type() == TextType::CLOSED_CAPTION) {
 				t->set_dcp_track(*track);
 			}
@@ -368,8 +368,8 @@ TextPanel::film_changed (Film::Property property)
 void
 TextPanel::film_content_changed (int property)
 {
-	FFmpegContentList fc = _parent->selected_ffmpeg ();
-	ContentList sc = _parent->selected_text ();
+	auto fc = _parent->selected_ffmpeg ();
+	auto sc = _parent->selected_text ();
 
 	shared_ptr<FFmpegContent> fcs;
 	if (fc.size() == 1) {
@@ -389,9 +389,8 @@ TextPanel::film_content_changed (int property)
 	if (property == FFmpegContentProperty::SUBTITLE_STREAMS) {
 		_stream->Clear ();
 		if (fcs) {
-			vector<shared_ptr<FFmpegSubtitleStream> > s = fcs->subtitle_streams ();
-			for (vector<shared_ptr<FFmpegSubtitleStream> >::iterator i = s.begin(); i != s.end(); ++i) {
-				_stream->Append (std_to_wx ((*i)->name), new wxStringClientData (std_to_wx ((*i)->identifier ())));
+			for (auto i: fcs->subtitle_streams()) {
+				_stream->Append (std_to_wx(i->name), new wxStringClientData(std_to_wx(i->identifier())));
 			}
 
 			if (fcs->subtitle_stream()) {
@@ -446,7 +445,7 @@ TextPanel::film_content_changed (int property)
 		}
 	} else if (property == DCPContentProperty::REFERENCE_TEXT) {
 		if (scs) {
-			shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (scs);
+			auto dcp = dynamic_pointer_cast<DCPContent> (scs);
 			checked_set (_reference, dcp ? dcp->reference_text(_original_type) : false);
 		} else {
 			checked_set (_reference, false);
@@ -508,13 +507,13 @@ TextPanel::setup_sensitivity ()
 	int ffmpeg_subs = 0;
 	/* DCP subs can't have their line spacing changed */
 	int dcp_subs = 0;
-	ContentList sel = _parent->selected_text ();
+	auto sel = _parent->selected_text ();
 	for (auto i: sel) {
 		/* These are the content types that could include subtitles */
-		shared_ptr<const FFmpegContent> fc = std::dynamic_pointer_cast<const FFmpegContent> (i);
-		shared_ptr<const StringTextFileContent> sc = std::dynamic_pointer_cast<const StringTextFileContent> (i);
-		shared_ptr<const DCPContent> dc = std::dynamic_pointer_cast<const DCPContent> (i);
-		shared_ptr<const DCPSubtitleContent> dsc = std::dynamic_pointer_cast<const DCPSubtitleContent> (i);
+		auto fc = std::dynamic_pointer_cast<const FFmpegContent> (i);
+		auto sc = std::dynamic_pointer_cast<const StringTextFileContent> (i);
+		auto dc = std::dynamic_pointer_cast<const DCPContent> (i);
+		auto dsc = std::dynamic_pointer_cast<const DCPSubtitleContent> (i);
 		if (fc) {
 			if (!fc->text.empty()) {
 				++ffmpeg_subs;
@@ -677,10 +676,10 @@ TextPanel::text_view_clicked ()
 		_text_view = 0;
 	}
 
-	ContentList c = _parent->selected_text ();
+	auto c = _parent->selected_text ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
-	shared_ptr<Decoder> decoder = decoder_factory (_parent->film(), c.front(), false, false, shared_ptr<Decoder>());
+	auto decoder = decoder_factory (_parent->film(), c.front(), false, false, shared_ptr<Decoder>());
 
 	if (decoder) {
 		_text_view = new TextView (this, _parent->film(), c.front(), c.front()->text_of_original_type(_original_type), decoder, _parent->film_viewer());
