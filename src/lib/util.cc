@@ -603,7 +603,7 @@ valid_image_file (boost::filesystem::path f)
 		ext == ".tif" || ext == ".tiff" || ext == ".jpg" || ext == ".jpeg" ||
 		ext == ".png" || ext == ".bmp" || ext == ".tga" || ext == ".dpx" ||
 		ext == ".j2c" || ext == ".j2k" || ext == ".jp2" || ext == ".exr" ||
-		ext == ".jpf"
+		ext == ".jpf" || ext == ".psd"
 		);
 }
 
