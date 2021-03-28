@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-23 09:51+0100\n"
-"PO-Revision-Date: 2020-12-25 02:27+0100\n"
+"PO-Revision-Date: 2021-03-24 03:20+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -76,12 +75,11 @@ msgid "%d channels on %s"
 msgstr "%d kanalen via %s"
 
 #: src/wx/about_dialog.cc:87
-#, fuzzy
 msgid ""
 "(C) 2012-2021 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"(C) 2012-2020 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2021 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:48 src/wx/file_picker_ctrl.cc:63
@@ -119,13 +117,12 @@ msgstr "0dB (ongewijzigd)"
 #. / TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_dialog.cc:356
 msgid "1 Bv2.1 error, "
-msgstr ""
+msgstr "1 Bv2.1 fout, "
 
 #. / TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_dialog.cc:348
-#, fuzzy
 msgid "1 error, "
-msgstr " (%d fout)"
+msgstr "1 fout, "
 
 #: src/wx/wx_util.cc:475
 msgid "12 - 7.1/HI/VI"
@@ -216,68 +213,70 @@ msgstr "A"
 #: src/wx/verify_dcp_dialog.cc:330
 #, c-format
 msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
-msgstr ""
+msgstr "Een 2K JPEG2000-frame bevat %n tile parts in plaats van 3."
 
 #: src/wx/verify_dcp_dialog.cc:333
 #, c-format
 msgid "A 2K JPEG2000 frame contains %n tile parts instead of 6."
-msgstr ""
+msgstr "Een 2K JPEG2000-frame bevat %n tile parts in plaats van 6."
 
 #: src/wx/verify_dcp_dialog.cc:318
 #, c-format
 msgid "A 2K JPEG2000 frame has %n POC marker(s) instead of 0."
-msgstr ""
+msgstr "Een 2K JPEG2000-frame heeft %n POC marker(s) in plaats van 0."
 
 #: src/wx/verify_dcp_dialog.cc:303
 #, c-format
 msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
-msgstr ""
+msgstr "Een 2K JPEG2000-frame heeft %n guard bits in plaats van 1."
 
 #: src/wx/verify_dcp_dialog.cc:321
 #, c-format
 msgid "A 4K JPEG2000 frame has %n POC marker(s) instead of 1."
-msgstr ""
+msgstr "Een 4K JPEG2000-frame heeft %n POC marker(s) in plaats van 1."
 
 #: src/wx/verify_dcp_dialog.cc:306
 #, c-format
 msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
-msgstr ""
+msgstr "Een 4K JPEG2000-frame heeft %n guard bits in plaats van 2."
 
 #: src/wx/verify_dcp_dialog.cc:327
 msgid "A JPEG2000 frame contains POC marker in an invalid location."
-msgstr ""
+msgstr "Een JPEG2000-frame bevat een POC marker op een ongeldige locatie."
 
 #: src/wx/verify_dcp_dialog.cc:324
 #, c-format
 msgid "A JPEG2000 frame contains an invalid POC marker (%n)."
-msgstr ""
+msgstr "Een JPEG2000-frame bevat een ongeldige POC marker (%n)."
 
 #: src/wx/verify_dcp_dialog.cc:315
 #, c-format
 msgid "A JPEG2000 frame has a code-block height of %n instead of 32."
 msgstr ""
+"Een JPEG2000-frame heeft een code-block hoogte van %n in plaats van 32."
 
 #: src/wx/verify_dcp_dialog.cc:312
 #, c-format
 msgid "A JPEG2000 frame has a code-block width of %n instead of 32."
 msgstr ""
+"Een JPEG2000-frame heeft een code-block breedte van %n in plaats van 32."
 
 #: src/wx/verify_dcp_dialog.cc:336
 msgid "A JPEG2000 frame has no TLM marker."
-msgstr ""
+msgstr "Een JPEG2000-frame heeft geen TLM marker."
 
 #: src/wx/verify_dcp_dialog.cc:309
 msgid "A JPEG2000 tile size does not match the image size."
-msgstr ""
+msgstr "Een JPEG2000 tile-grootte komt niet overeen met de beeldgrootte."
 
 #: src/wx/update_dialog.cc:40
 msgid "A new version of DCP-o-matic is available."
 msgstr "Er is een nieuwe versie van DCP-o-matic beschikbaar."
 
 #: src/wx/verify_dcp_dialog.cc:300
-#, fuzzy, c-format
+#, c-format
 msgid "A picture frame has an invalid JPEG2000 codestream (%n)"
-msgstr "Het beeld in een reel heeft een ongeldige frame rate"
+msgstr "Een picture frame heeft een ongeldige JPEG2000 codestream (%n)"
 
 #: src/wx/hints_dialog.cc:174
 #, c-format
@@ -286,7 +285,7 @@ msgstr "Er is een probleem opgetreden tijdens het zoeken naar hints (%s)"
 
 #: src/wx/verify_dcp_dialog.cc:339
 msgid "A subtitle lasts longer than the reel it is in."
-msgstr ""
+msgstr "Een ondertitel duurt langer dan de reel waarin hij zit."
 
 #: src/wx/config_dialog.cc:1010
 msgid "ALSA"
@@ -361,9 +360,8 @@ msgid "Add image sequence"
 msgstr "Voeg beeldsequentie toe"
 
 #: src/wx/language_tag_dialog.cc:40
-#, fuzzy
 msgid "Add language..."
-msgstr "Taal audio"
+msgstr "Voeg taal toe..."
 
 #: src/wx/text_panel.cc:322
 msgid "Add new..."
@@ -494,29 +492,32 @@ msgstr ""
 msgid ""
 "At least one asset in a reel does not have the same duration as the others."
 msgstr ""
+"Ten minste één asset in een reel heeft niet dezelfde duur als de andere."
 
 #: src/wx/verify_dcp_dialog.cc:156
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "At least one frame of the video asset %f is close to the limit of 250MBit/s."
 msgstr ""
-"Ten minste één frame van de video-data zit dicht bij de limiet van 250 Mbit/"
-"s."
+"Ten minste één frame van de video asset %f zit dicht bij de limiet van 250 "
+"Mbit/s."
 
 #: src/wx/verify_dcp_dialog.cc:153
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "At least one frame of the video asset %f is over the limit of 250Mbit/s."
 msgstr ""
-"Ten minste één frame van de video-data zit boven de limiet van 250 Mbit/s."
+"Ten minste één frame van de video asset %f overschrijdt de limiet van 250 "
+"Mbit/s."
 
 #: src/wx/verify_dcp_dialog.cc:207
 msgid "At least one pair of subtitles is separated by less than 2 frames."
 msgstr ""
+"Ten minste één paar ondertitels wordt gescheiden door minder dan 2 frames."
 
 #: src/wx/verify_dcp_dialog.cc:204
 msgid "At least one subtitle lasts less than 15 frames."
-msgstr ""
+msgstr "Ten minste één ondertitel duurt minder dan 15 frames."
 
 #: src/wx/timeline_labels_view.cc:38 src/wx/timeline_labels_view.cc:77
 msgid "Atmos"
@@ -740,7 +741,7 @@ msgstr ""
 #: src/wx/verify_dcp_dialog.cc:252
 #, c-format
 msgid "Closed caption asset %n has a non-zero <EntryPoint>."
-msgstr ""
+msgstr "Closed caption asset %n heeft een <EntryPoint> dat niet nul is."
 
 #: src/wx/closed_captions_dialog.cc:44
 msgid "Closed captions"
@@ -853,9 +854,9 @@ msgid "Could not load certficate (%s)"
 msgstr "Kan certificaat niet laden (%s)"
 
 #: src/wx/gl_video_view.cc:110
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read DCP: %s"
-msgstr "Kan KDM niet laden"
+msgstr "Kan DCP niet lezen: %s"
 
 #: src/wx/download_certificate_panel.cc:64
 #: src/wx/download_certificate_panel.cc:76
@@ -1194,9 +1195,8 @@ msgid "Errors"
 msgstr "Fouten"
 
 #: src/wx/config_dialog.cc:698
-#, fuzzy
 msgid "Export KDM decryption leaf certificate..."
-msgstr "Exporteer KDM-ontsleutelings-certificaat..."
+msgstr "Exporteer KDM-ontsleutelings-leaf-certificaat..."
 
 #: src/wx/config_dialog.cc:700
 msgid "Export all KDM decryption settings..."
@@ -1680,9 +1680,8 @@ msgid "Language"
 msgstr "Taal"
 
 #: src/wx/full_language_tag_dialog.cc:193 src/wx/language_tag_dialog.cc:35
-#, fuzzy
 msgid "Language Tag"
-msgstr "Taal"
+msgstr "Language Tag"
 
 #: src/wx/markers_dialog.cc:124
 msgid "Last frame of composition"
@@ -1872,7 +1871,7 @@ msgstr "Metadata..."
 
 #: src/wx/full_config_dialog.cc:1345
 msgid "Minimum size of frame (KB)"
-msgstr ""
+msgstr "Minimale frame-grootte (KB)"
 
 #: src/wx/export_video_file_dialog.cc:64
 msgid "Mix audio down to stereo"
@@ -1954,7 +1953,7 @@ msgstr "Geen DCP geladen."
 
 #: src/wx/verify_dcp_dialog.cc:377
 msgid "No SMPTE Bv2.1 errors found."
-msgstr ""
+msgstr "Geen SMPTE Bv2.1-fouten gevonden."
 
 #: src/wx/audio_mapping_view.cc:577
 #, c-format
@@ -1968,11 +1967,11 @@ msgstr "Geen content gevonden in deze map."
 
 #: src/wx/verify_dcp_dialog.cc:373
 msgid "No errors found."
-msgstr ""
+msgstr "Geen fouten gevonden."
 
 #: src/wx/verify_dcp_dialog.cc:381
 msgid "No warnings found."
-msgstr ""
+msgstr "Geen waarschuwingen gevonden."
 
 #. /OUTLINE/SHADOW variables
 #: src/wx/content_advanced_dialog.cc:71 src/wx/content_advanced_dialog.cc:139
@@ -1983,7 +1982,7 @@ msgstr "Geen"
 
 #: src/wx/verify_dcp_dialog.cc:192
 msgid "Not all subtitle assets specify the same <Language> tag."
-msgstr ""
+msgstr "Niet alle ondertitel-assets specificeren dezelfde <Language> tag."
 
 #: src/wx/cinema_dialog.cc:62 src/wx/recipient_dialog.cc:74
 #: src/wx/screen_dialog.cc:124
@@ -2414,7 +2413,7 @@ msgstr "SMPTE"
 
 #: src/wx/verify_dcp_dialog.cc:48
 msgid "SMPTE Bv2.1 errors"
-msgstr ""
+msgstr "SMPTE Bv2.1-fouten"
 
 #: src/wx/full_config_dialog.cc:681
 msgid "SSL"
@@ -2691,7 +2690,7 @@ msgstr "Abonnees"
 #: src/wx/verify_dcp_dialog.cc:246
 #, c-format
 msgid "Subtitle asset %n has a non-zero <EntryPoint>."
-msgstr ""
+msgstr "Ondertitel-asset %n heeft een <EntryPoint> dat niet nul is."
 
 #: src/wx/export_subtitles_dialog.cc:58
 msgid "Subtitle files (.mxf)|*.mxf"
@@ -2806,7 +2805,7 @@ msgstr ""
 #: src/wx/verify_dcp_dialog.cc:285
 #, c-format
 msgid "The CPL %f has an invalid CPL extension metadata tag (%n)"
-msgstr ""
+msgstr "De CPL %f heeft een ongeldige CPL extension metadata tag (%n)"
 
 #: src/wx/verify_dcp_dialog.cc:231
 #, c-format
@@ -2814,73 +2813,86 @@ msgid ""
 "The CPL %n has an <AnnotationText> which is not the same as its "
 "<ContentTitleText>."
 msgstr ""
+"De CPL %n heeft een <AnnotationText> die niet hetzelfde is als zijn "
+"<ContentTitleText>."
 
 #: src/wx/verify_dcp_dialog.cc:288
 #, c-format
 msgid "The CPL %n has encrypted content but is not signed."
-msgstr ""
+msgstr "De CPL %n heeft versleutelde content maar is niet ondertekend."
 
 #: src/wx/verify_dcp_dialog.cc:228
 #, c-format
 msgid "The CPL %n has no <AnnotationText> tag."
-msgstr ""
+msgstr "De CPL %n heeft geen <AnnotationText> tag."
 
 #: src/wx/verify_dcp_dialog.cc:282
 #, c-format
 msgid "The CPL %n has no CPL extension metadata tag."
-msgstr ""
+msgstr "De CPL %n heeft geen CPL extension metadata tag."
 
 #: src/wx/verify_dcp_dialog.cc:276
 #, c-format
 msgid "The CPL %n has no CPL metadata tag."
-msgstr ""
+msgstr "De CPL %n heeft geen CPL metadata tag."
 
 #: src/wx/verify_dcp_dialog.cc:279
 #, c-format
 msgid "The CPL %n has no CPL metadata version number tag."
-msgstr ""
+msgstr "De CPL %n heeft geen CPL metadata version number tag."
 
 #: src/wx/verify_dcp_dialog.cc:270
 #, c-format
 msgid "The DCP has a FFOC of %n instead of 1."
-msgstr ""
+msgstr "De DCP heeft een FFOC (first frame of content) van %n in plaats van 1."
 
 #: src/wx/verify_dcp_dialog.cc:273
 #, c-format
 msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
 msgstr ""
+"De DCP heeft een LFOC (last frame of content) van %n in plaats van de reel-"
+"duur min één."
 
 #: src/wx/verify_dcp_dialog.cc:240
 msgid ""
 "The DCP has closed captions but not every reel has the same number of closed "
 "caption assets."
 msgstr ""
+"De DCP heeft closed captions, maar niet elke reel heeft hetzelfde aantal "
+"closed caption assets."
 
 #: src/wx/verify_dcp_dialog.cc:297
 msgid "The DCP has encrypted content, but not all its assets are encrypted."
 msgstr ""
+"De DCP heeft versleutelde content, maar niet al zijn assets zijn versleuteld."
 
 #: src/wx/verify_dcp_dialog.cc:264
 msgid "The DCP has no FFOC (first frame of content) marker."
-msgstr ""
+msgstr "De DCP heeft geen FFOC (first frame of content) marker."
 
 #: src/wx/verify_dcp_dialog.cc:267
 msgid "The DCP has no LFOC (last frame of content) marker."
-msgstr ""
+msgstr "De DCP heeft geen LFOC (last frame of content) marker."
 
 #: src/wx/verify_dcp_dialog.cc:237
 msgid "The DCP has subtitles but at least one reel has no subtitle asset."
 msgstr ""
+"De DCP heeft ondertitels, maar ten minste één reel heeft geen ondertitel-"
+"asset."
 
 #: src/wx/verify_dcp_dialog.cc:258
 msgid ""
 "The DCP is a feature but has no FFEC (first frame of end credits) marker."
 msgstr ""
+"De DCP is een feature maar heeft geen FFEC (first frame of end credits) "
+"marker."
 
 #: src/wx/verify_dcp_dialog.cc:261
 msgid ""
 "The DCP is a feature but has no FFMC (first frame of moving credits) marker."
 msgstr ""
+"De DCP is een feature maar heeft geen FFMC (first frame of moving credits) "
+"marker."
 
 #: src/wx/dkdm_dialog.cc:166 src/wx/kdm_dialog.cc:183
 msgid ""
@@ -2907,31 +2919,32 @@ msgid ""
 "The PKL %n has an <AnnotationText> which does not match its CPL's "
 "<ContentTitleText>."
 msgstr ""
+"De PKL %n heeft een <AnnotationText> die niet overeenkomt met de "
+"<ContentTitleText> van zijn CPL."
 
 #: src/wx/verify_dcp_dialog.cc:291
 #, c-format
 msgid "The PKL %n has encrypted content but is not signed."
-msgstr ""
+msgstr "De PKL %n heeft versleutelde content, maar is niet ondertekend."
 
 #: src/wx/verify_dcp_dialog.cc:119
-#, fuzzy, c-format
+#, c-format
 msgid "The PKL and CPL hashes disagree for picture asset %f."
-msgstr "De PKL-hash en CPL-hash van een picture asset komen niet overeen."
+msgstr "De PKL-hash en CPL-hash van picture asset %f komen niet overeen."
 
 #: src/wx/verify_dcp_dialog.cc:125
-#, fuzzy, c-format
+#, c-format
 msgid "The PKL and CPL hashes disagree for sound asset %f."
-msgstr "De PKL-hash en CPL-hash van een sound asset komen niet overeen."
+msgstr "De PKL-hash en CPL-hash van sound asset %f komen niet overeen."
 
 #: src/wx/verify_dcp_dialog.cc:140
-#, fuzzy, c-format
+#, c-format
 msgid "The XML in %f is malformed (%n)."
-msgstr "De XML in %s is onjuist."
+msgstr "De XML in %f is onjuist (%n)."
 
 #: src/wx/verify_dcp_dialog.cc:138
-#, fuzzy
 msgid "The XML in %f is malformed on line %l (%n)."
-msgstr "De XML in %s is onjuist op regel %<PRIu64>."
+msgstr "De XML in %f is onjuist op regel %l (%n)."
 
 #: src/wx/verify_dcp_dialog.cc:180
 #, c-format
@@ -2939,35 +2952,37 @@ msgid ""
 "The XML in the closed caption asset %f takes up %n bytes which is over the "
 "256KB limit."
 msgstr ""
+"De XML in de closed caption asset %f neemt %n bytes in beslag, wat de limiet "
+"van 256 KB overschrijdt."
 
 #: src/wx/verify_dcp_dialog.cc:131
-#, fuzzy, c-format
+#, c-format
 msgid "The asset %f is missing."
-msgstr "Er ontbreekt een asset."
+msgstr "De asset %f ontbreekt."
 
 #: src/wx/verify_dcp_dialog.cc:150
-#, fuzzy, c-format
+#, c-format
 msgid "The asset %n has a duration of less than 1 second, which is invalid."
-msgstr "Een asset heeft een duur van minder dan 1 seconde, wat ongeldig is."
+msgstr "De asset %n heeft een duur van minder dan 1 seconde, wat ongeldig is."
 
 #: src/wx/verify_dcp_dialog.cc:147
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The asset %n has an instrinsic duration of less than 1 second, which is "
 "invalid."
 msgstr ""
-"Een asset heeft een intrinsieke duur van minder dan 1 seconde, wat ongeldig "
-"is."
+"De asset %n heeft een intrinsieke duur van minder dan 1 seconde, wat "
+"ongeldig is."
 
 #: src/wx/verify_dcp_dialog.cc:255
-#, fuzzy, c-format
+#, c-format
 msgid "The asset %n has no <Hash> in the CPL."
-msgstr "Een asset heeft een leeg pad in de ASSETMAP."
+msgstr "De asset %n heeft geen <Hash> in de CPL."
 
 #: src/wx/verify_dcp_dialog.cc:249
 #, c-format
 msgid "The closed caption asset %n has no <EntryPoint> tag."
-msgstr ""
+msgstr "De closed caption asset %n heeft geen <EntryPoint> tag."
 
 #: src/wx/content_menu.cc:403
 msgid ""
@@ -3013,6 +3028,8 @@ msgstr ""
 msgid ""
 "The first subtitle or closed caption happens before 4s into the first reel."
 msgstr ""
+"De eerste ondertitel of closed caption vindt plaats vóór 4 seconden in de "
+"eerste reel."
 
 #: src/wx/verify_dcp_dialog.cc:186
 #, c-format
@@ -3020,38 +3037,40 @@ msgid ""
 "The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
 "limit."
 msgstr ""
+"De lettertypen in de timed text asset %f nemen %n bytes in beslag, wat de "
+"limiet van 10 MB overschrijdt."
 
 #: src/wx/verify_dcp_dialog.cc:110
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The hash of the CPL %n in the PKL does not agree with the CPL file.  This "
 "probably means that the CPL file is corrupt."
 msgstr ""
-"De hash van de CPL in de PKL komt niet overeen met die van het CPL-bestand.  "
-"Dit betekent waarschijnlijk dat het CPL-bestand beschadigd is."
+"De hash van de CPL %n in de PKL komt niet overeen met die van het CPL-"
+"bestand.  Dit betekent waarschijnlijk dat het CPL-bestand beschadigd is."
 
 #: src/wx/verify_dcp_dialog.cc:116
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The hash of the picture asset %f does not agree with the PKL file.  This "
 "probably means that the asset file is corrupt."
 msgstr ""
-"De hash van de picture asset %s komt niet overeen met die in het PKL-"
+"De hash van de picture asset %f komt niet overeen met die in het PKL-"
 "bestand.  Dit betekent waarschijnlijk dat het asset-bestand beschadigd is."
 
 #: src/wx/verify_dcp_dialog.cc:122
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The hash of the sound asset %f does not agree with the PKL file.  This "
 "probably means that the asset file is corrupt."
 msgstr ""
-"De hash van de sound asset %s komt niet overeen met die in het PKL-bestand.  "
+"De hash van de sound asset %f komt niet overeen met die in het PKL-bestand.  "
 "Dit betekent waarschijnlijk dat het asset-bestand beschadigd is."
 
 #: src/wx/verify_dcp_dialog.cc:165
 #, c-format
 msgid "The invalid language tag %n is used."
-msgstr ""
+msgstr "De ongeldige language tag %n wordt gebruikt."
 
 #: src/wx/smpte_metadata_dialog.cc:81
 #, c-format
@@ -3067,82 +3086,86 @@ msgid "The main language that is spoken in the film's soundtrack"
 msgstr "De hoofdtaal die wordt gesproken in de soundtrack van de film"
 
 #: src/wx/verify_dcp_dialog.cc:113
-#, fuzzy, c-format
+#, c-format
 msgid "The picture in a reel has a frame rate of %n, which is not valid."
-msgstr "Het beeld in een reel heeft een ongeldige frame rate"
+msgstr "Het beeld in een reel heeft een frame rate van %n, wat niet geldig is."
 
 #: src/wx/verify_dcp_dialog.cc:225
-#, fuzzy, c-format
+#, c-format
 msgid "The sound asset %f has an invalid frame rate of %n."
-msgstr "Het beeld in een reel heeft een ongeldige frame rate"
+msgstr "De sound asset %f heeft een ongeldige frame rate van %n."
 
 #: src/wx/verify_dcp_dialog.cc:189
 #, c-format
 msgid "The subtitle asset %f contains no <Language> tag."
-msgstr ""
+msgstr "De ondertitel-asset %f bevat geen <Language> tag."
 
 #: src/wx/verify_dcp_dialog.cc:195
 #, c-format
 msgid "The subtitle asset %f contains no <StartTime> tag."
-msgstr ""
+msgstr "De ondertitel-asset %f bevat geen <StartTime> tag."
 
 #: src/wx/verify_dcp_dialog.cc:198
 #, c-format
 msgid "The subtitle asset %f has a <StartTime> which is not zero."
-msgstr ""
+msgstr "De ondertitel-asset %f heeft een <StartTime> die niet nul is."
 
 #: src/wx/verify_dcp_dialog.cc:243
 #, c-format
 msgid "The subtitle asset %n has no <EntryPoint> tag."
-msgstr ""
+msgstr "De ondertitel-asset %n heeft geen <EntryPoint> tag."
 
 #: src/wx/verify_dcp_dialog.cc:183
 #, c-format
 msgid ""
 "The timed text asset %f takes up %n bytes which is over the 115MB limit."
 msgstr ""
+"De timed text asset %f neemt %n bytes in beslag, wat de limiet van 115 MB "
+"overschrijdt."
 
 #: src/wx/verify_dcp_dialog.cc:177
 #, c-format
 msgid ""
 "The video asset %f uses the frame rate %n which is invalid for 3D video."
 msgstr ""
+"De video asset %f gebruikt de frame rate %n, wat ongeldig is voor 3D-video."
 
 #: src/wx/verify_dcp_dialog.cc:174
 #, c-format
 msgid ""
 "The video asset %f uses the frame rate %n which is invalid for 4K video."
 msgstr ""
+"De video asset %f gebruikt de frame rate %n, wat ongeldig is voor 4K video."
 
 #: src/wx/verify_dcp_dialog.cc:171
-#, fuzzy, c-format
+#, c-format
 msgid "The video asset %f uses the invalid frame rate %n."
-msgstr "Het beeld in een reel heeft een ongeldige frame rate"
+msgstr "De video asset %f heeft een ongeldige frame rate van %n."
 
 #: src/wx/verify_dcp_dialog.cc:168
 #, c-format
 msgid "The video asset %f uses the invalid image size %n."
-msgstr ""
+msgstr "De video asset %f gebruikt de ongeldige beeldgrootte %n."
 
 #: src/wx/verify_dcp_dialog.cc:219
 msgid "There are more than 3 closed caption lines in at least one place."
-msgstr ""
+msgstr "Er zijn meer dan drie closed caption regels op ten minste één plaats."
 
 #: src/wx/verify_dcp_dialog.cc:210
 msgid "There are more than 3 subtitle lines in at least one place."
-msgstr ""
+msgstr "Er zijn meer dan drie ondertitel-regels op ten minste één plaats."
 
 #: src/wx/verify_dcp_dialog.cc:222
 msgid "There are more than 32 characters in at least one closed caption line."
-msgstr ""
+msgstr "Er zitten meer dan 32 tekens in ten minste één closed caption regel."
 
 #: src/wx/verify_dcp_dialog.cc:213
 msgid "There are more than 52 characters in at least one subtitle line."
-msgstr ""
+msgstr "Er zitten meer dan 52 tekens in ten minste één ondertitel-regel."
 
 #: src/wx/verify_dcp_dialog.cc:216
 msgid "There are more than 79 characters in at least one subtitle line."
-msgstr ""
+msgstr "Er zitten meer dan 79 tekens in ten minste één ondertitel-regel."
 
 #: src/wx/hints_dialog.cc:137
 msgid "There are no hints yet: project check in progress."
@@ -3166,17 +3189,18 @@ msgid "This CPL contains no encrypted assets."
 msgstr "Deze CPL bevat geen versleutelde assets."
 
 #: src/wx/verify_dcp_dialog.cc:159
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This DCP refers to at the asset %n in another DCP (and perhaps others), so "
 "it is a \"version file\" (VF)"
 msgstr ""
-"Deze DCP verwijst naar ten minste één asset in een andere DCP, dus het is "
-"een \"version file\" (VF)"
+"Deze DCP verwijst naar de asset %n in een andere DCP (en misschien andere), "
+"dus het is een \"version file\" (VF)"
 
 #: src/wx/verify_dcp_dialog.cc:162
 msgid "This DCP uses the Interop standard, but it should be made with SMPTE."
 msgstr ""
+"Deze DCP gebruikt de Interop-standaard, maar moet met SMPTE worden gemaakt."
 
 #: src/wx/content_menu.cc:457
 msgid ""
@@ -3680,23 +3704,21 @@ msgstr "Zoom uit naar hele film"
 
 #. / TRANSLATORS: this is the suffix of the defautl filename used when exporting KDM decryption leaf certificates
 #: src/wx/config_dialog.cc:850
-#, fuzzy
 msgid "_kdm_decryption_cert.pem"
-msgstr "dcpomatic_kdm_decryption_cert.pem"
+msgstr "_kdm_decryption_cert.pem"
 
 #. / TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_dialog.cc:364
 msgid "and 1 warning."
-msgstr ""
+msgstr "en 1 waarschuwing."
 
 #: src/wx/smpte_metadata_dialog.cc:265
 msgid "candela per m²"
 msgstr "candela per m²"
 
 #: src/wx/config_dialog.cc:480
-#, fuzzy
 msgid "certificate_chain.pem"
-msgstr "Certificaat-keten"
+msgstr "certificate_chain.pem"
 
 #: src/wx/kdm_output_panel.cc:91
 msgid "cinema"
@@ -3796,9 +3818,8 @@ msgid "port"
 msgstr "poort"
 
 #: src/wx/config_dialog.cc:655
-#, fuzzy
 msgid "private_key.pem"
-msgstr "Leaf privé-sleutel"
+msgstr "private_key.pem"
 
 #: src/wx/full_config_dialog.cc:675
 msgid "protocol"
