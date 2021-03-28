@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-23 09:51+0100\n"
-"PO-Revision-Date: 2020-11-24 01:16+0100\n"
+"PO-Revision-Date: 2021-03-24 00:18+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -165,12 +165,12 @@ msgstr ""
 "\n"
 
 #: src/tools/dcpomatic.cc:1740
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An exception occurred: %s (%s) (%s)\n"
 "\n"
 msgstr ""
-"Er is een uitzondering opgetreden: %s (%s).\n"
+"Er is een uitzondering opgetreden: %s (%s) (%s)\n"
 "\n"
 
 #: src/tools/dcpomatic.cc:1750 src/tools/dcpomatic_kdm.cc:713
@@ -281,7 +281,7 @@ msgstr "Kan DCP niet laden van %s"
 
 #: src/tools/dcpomatic_batch.cc:449
 msgid "Could not load film %1"
-msgstr "Kan film %1 niet laden."
+msgstr "Kan film %1 niet laden"
 
 #: src/tools/dcpomatic.cc:1648
 msgid "Could not load film %1 (%2)"
@@ -295,7 +295,7 @@ msgstr "Kan DCP niet maken."
 #: src/tools/dcpomatic_batch.cc:213
 #, c-format
 msgid "Could not open film at %s"
-msgstr "Kan film niet openen op %s."
+msgstr "Kan film niet openen op %s"
 
 #: src/tools/dcpomatic.cc:468
 msgid "Could not open this folder as a DCP-o-matic project."
@@ -319,11 +319,11 @@ msgstr ""
 
 #: src/tools/dcpomatic.cc:1049
 msgid "Could not run konqueror"
-msgstr "Kan konqueror niet starten."
+msgstr "Kan konqueror niet starten"
 
 #: src/tools/dcpomatic.cc:1042
 msgid "Could not run nautilus"
-msgstr "Kan nautilus niet starten."
+msgstr "Kan nautilus niet starten"
 
 #: src/tools/dcpomatic.cc:1049 src/tools/dcpomatic.cc:1058
 msgid "Could not show DCP"
@@ -407,7 +407,7 @@ msgstr "DCP-o-matic Playlist Editor"
 
 #: src/tools/dcpomatic_kdm.cc:689 src/tools/dcpomatic_playlist.cc:639
 msgid "DCP-o-matic could not start"
-msgstr "Kan DCP-o-matic niet starten."
+msgstr "Kan DCP-o-matic niet starten"
 
 #: src/tools/dcpomatic_kdm.cc:157
 msgid "DKDM"
@@ -701,7 +701,7 @@ msgstr "Selecteer KDM"
 
 #: src/tools/dcpomatic.cc:1340
 msgid "Select all\tShift-Ctrl-A"
-msgstr ""
+msgstr "Selecteer alles\tShift-Ctrl-A"
 
 #: src/tools/dcpomatic.cc:577 src/tools/dcpomatic_batch.cc:290
 msgid "Select film to open"
@@ -862,9 +862,8 @@ msgid "Up"
 msgstr "Omhoog"
 
 #: src/tools/dcpomatic_player.cc:549
-#, fuzzy
 msgid "Verify DCP..."
-msgstr "Controleer DCP"
+msgstr "Controleer DCP..."
 
 #: src/tools/dcpomatic.cc:1374
 msgid "Video waveform..."
