@@ -106,6 +106,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	with_help_from.Add (wxT ("Carsten Kurz"));
 	with_help_from.Add (wxT ("Gérald Maruccia"));
 	with_help_from.Add (wxT ("Julian van Mil"));
+	with_help_from.Add (wxT ("Lilian Lefranc"));
 	add_section (_("With help from"), with_help_from);
 
 	wxArrayString translated_by;
