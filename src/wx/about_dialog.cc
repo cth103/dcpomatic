@@ -84,7 +84,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 
 	t = new StaticText (
 		this,
-		_("(C) 2012-2021 Carl Hetherington, Terrence Meiczinger\n Ole Laursen, Brecht Sanders"),
+		_("(C) 2012-2021 Carl Hetherington, Terrence Meiczinger\n Ole Laursen"),
 		wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER
 		);
 
@@ -97,7 +97,6 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	written_by.Add (wxT ("Terrence Meiczinger"));
 	written_by.Add (wxT ("Mart Jansink"));
 	written_by.Add (wxT ("Ole Laursen"));
-	written_by.Add (wxT ("Brecht Sanders"));
 	written_by.Add (wxT ("Jianguo Huang"));
 	add_section (_("Written by"), written_by);
 
