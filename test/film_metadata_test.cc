@@ -37,8 +37,8 @@ using std::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (film_metadata_test)
 {
-	shared_ptr<Film> film = new_test_film ("film_metadata_test");
-	boost::filesystem::path dir = test_film_dir ("film_metadata_test");
+	auto film = new_test_film ("film_metadata_test");
+	auto dir = test_film_dir ("film_metadata_test");
 
 	film->_isdcf_date = boost::gregorian::from_undelimited_string ("20130211");
 	BOOST_CHECK (film->container() == Ratio::from_id ("185"));
@@ -49,6 +49,10 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_j2k_bandwidth (200000000);
 	film->set_interop (false);
+	film->set_chain (string(""));
+	film->set_distributor (string(""));
+	film->set_facility (string(""));
+	film->set_release_territory (dcp::LanguageTag::RegionSubtag("US"));
 	film->write_metadata ();
 
 	list<string> ignore;
