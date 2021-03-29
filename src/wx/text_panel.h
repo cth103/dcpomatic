@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,13 +18,16 @@
 
 */
 
+
 #include "content_sub_panel.h"
 
+
 class wxCheckBox;
-class wxSpinCtrl;
 class TextView;
 class FontsDialog;
+class SpinCtrl;
 class SubtitleAnalysis;
+
 
 class TextPanel : public ContentSubPanel
 {
@@ -75,18 +78,18 @@ private:
 	wxStaticText* _x_offset_pc_label;
 	wxStaticText* _y_offset_label;
 	wxStaticText* _y_offset_pc_label;
-	wxSpinCtrl* _x_offset;
-	wxSpinCtrl* _y_offset;
+	SpinCtrl* _x_offset;
+	SpinCtrl* _y_offset;
 	wxStaticText* _scale_label;
 	wxStaticText* _x_scale_label;
 	wxStaticText* _x_scale_pc_label;
 	wxStaticText* _y_scale_label;
 	wxStaticText* _y_scale_pc_label;
-	wxSpinCtrl* _x_scale;
-	wxSpinCtrl* _y_scale;
+	SpinCtrl* _x_scale;
+	SpinCtrl* _y_scale;
 	wxStaticText* _line_spacing_label;
 	wxStaticText* _line_spacing_pc_label;
-	wxSpinCtrl* _line_spacing;
+	SpinCtrl* _line_spacing;
 	wxStaticText* _dcp_track_label;
 	wxChoice* _dcp_track;
 	wxStaticText* _stream_label;

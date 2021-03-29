@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,31 +18,34 @@
 
 */
 
-#include "text_panel.h"
-#include "film_editor.h"
-#include "wx_util.h"
-#include "text_view.h"
-#include "content_panel.h"
-#include "fonts_dialog.h"
-#include "dcp_text_track_dialog.h"
-#include "subtitle_appearance_dialog.h"
-#include "static_text.h"
+
 #include "check_box.h"
+#include "content_panel.h"
+#include "dcp_text_track_dialog.h"
 #include "dcpomatic_button.h"
+#include "dcpomatic_spin_ctrl.h"
+#include "film_editor.h"
 #include "film_viewer.h"
-#include "lib/job_manager.h"
-#include "lib/ffmpeg_content.h"
-#include "lib/string_text_file_content.h"
-#include "lib/ffmpeg_subtitle_stream.h"
-#include "lib/dcp_subtitle_content.h"
-#include "lib/string_text_file_decoder.h"
-#include "lib/dcp_subtitle_decoder.h"
-#include "lib/dcp_content.h"
-#include "lib/text_content.h"
-#include "lib/decoder_factory.h"
+#include "fonts_dialog.h"
+#include "static_text.h"
+#include "subtitle_appearance_dialog.h"
+#include "text_panel.h"
+#include "text_view.h"
+#include "wx_util.h"
 #include "lib/analyse_subtitles_job.h"
+#include "lib/dcp_content.h"
+#include "lib/dcp_subtitle_content.h"
+#include "lib/dcp_subtitle_decoder.h"
+#include "lib/decoder_factory.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/ffmpeg_subtitle_stream.h"
+#include "lib/job_manager.h"
+#include "lib/string_text_file_content.h"
+#include "lib/string_text_file_decoder.h"
 #include "lib/subtitle_analysis.h"
+#include "lib/text_content.h"
 #include <wx/spinctrl.h>
+
 
 using std::vector;
 using std::string;
@@ -52,6 +55,7 @@ using std::shared_ptr;
 using boost::optional;
 using std::dynamic_pointer_cast;
 using boost::bind;
+
 
 /** @param t Original text type of the content, if known */
 TextPanel::TextPanel (ContentPanel* p, TextType t)
@@ -92,22 +96,22 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 
 	_offset_label = create_label (this, _("Offset"), true);
 	_x_offset_label = create_label (this, _("X"), true);
-	_x_offset = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(spin_width, -1));
+	_x_offset = new SpinCtrl (this, spin_width);
 	_x_offset_pc_label = new StaticText (this, _("%"));
 	_y_offset_label = create_label (this, _("Y"), true);
-	_y_offset = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(spin_width, -1));
+	_y_offset = new SpinCtrl (this, spin_width);
 	_y_offset_pc_label = new StaticText (this, _("%"));
 
 	_scale_label = create_label (this, _("Scale"), true);
 	_x_scale_label = create_label (this, _("X"), true);
-	_x_scale = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(spin_width, -1));
+	_x_scale = new SpinCtrl (this, spin_width);
 	_x_scale_pc_label = new StaticText (this, _("%"));
 	_y_scale_label = create_label (this, S_("Coord|Y"), true);
-	_y_scale = new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(spin_width, -1));
+	_y_scale = new SpinCtrl (this, spin_width);
 	_y_scale_pc_label = new StaticText (this, _("%"));
 
 	_line_spacing_label = create_label (this, _("Line spacing"), true);
-	_line_spacing = new wxSpinCtrl (this);
+	_line_spacing = new SpinCtrl (this, spin_width);
 	_line_spacing_pc_label = new StaticText (this, _("%"));
 
 	_stream_label = create_label (this, _("Stream"), true);
@@ -119,9 +123,9 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 
 	_x_offset->SetRange (-100, 100);
 	_y_offset->SetRange (-100, 100);
-	_x_scale->SetRange (10, 1000);
-	_y_scale->SetRange (10, 1000);
-	_line_spacing->SetRange (10, 1000);
+	_x_scale->SetRange (0, 1000);
+	_y_scale->SetRange (0, 1000);
+	_line_spacing->SetRange (0, 1000);
 
 	_reference->Bind                (wxEVT_CHECKBOX, boost::bind (&TextPanel::reference_clicked, this));
 	_use->Bind                      (wxEVT_CHECKBOX, boost::bind (&TextPanel::use_toggled, this));
@@ -141,6 +145,7 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	content_selection_changed ();
 }
 
+
 void
 TextPanel::setup_visibility ()
 {
@@ -152,7 +157,7 @@ TextPanel::setup_visibility ()
 		}
 		if (_dcp_track) {
 			_dcp_track->Destroy ();
-			_dcp_track = 0;
+			_dcp_track = nullptr;
 		}
 		if (!_outline_subtitles) {
 			_outline_subtitles = new CheckBox (this, _("Show subtitle area"));
@@ -185,6 +190,7 @@ TextPanel::setup_visibility ()
 
 	_grid->Layout ();
 }
+
 
 void
 TextPanel::add_to_grid ()
@@ -271,6 +277,7 @@ TextPanel::add_to_grid ()
 	setup_visibility ();
 }
 
+
 void
 TextPanel::update_dcp_track_selection ()
 {
@@ -303,6 +310,7 @@ TextPanel::update_dcp_track_selection ()
 	}
 }
 
+
 void
 TextPanel::update_dcp_tracks ()
 {
@@ -324,6 +332,7 @@ TextPanel::update_dcp_tracks ()
 
 	update_dcp_track_selection ();
 }
+
 
 void
 TextPanel::dcp_track_changed ()
@@ -357,6 +366,7 @@ TextPanel::dcp_track_changed ()
 	update_dcp_tracks ();
 }
 
+
 void
 TextPanel::film_changed (Film::Property property)
 {
@@ -364,6 +374,7 @@ TextPanel::film_changed (Film::Property property)
 		setup_sensitivity ();
 	}
 }
+
 
 void
 TextPanel::film_content_changed (int property)
@@ -459,6 +470,7 @@ TextPanel::film_content_changed (int property)
 	}
 }
 
+
 void
 TextPanel::use_toggled ()
 {
@@ -466,6 +478,7 @@ TextPanel::use_toggled ()
 		i->text_of_original_type(_original_type)->set_use (_use->GetValue());
 	}
 }
+
 
 /** @return the text type that is currently selected in the drop-down */
 TextType
@@ -481,6 +494,7 @@ TextPanel::current_type () const
 	return TextType::UNKNOWN;
 }
 
+
 void
 TextPanel::type_changed ()
 {
@@ -491,6 +505,7 @@ TextPanel::type_changed ()
 	setup_visibility ();
 }
 
+
 void
 TextPanel::burn_toggled ()
 {
@@ -498,6 +513,7 @@ TextPanel::burn_toggled ()
 		i->text_of_original_type(_original_type)->set_burn (_burn->GetValue());
 	}
 }
+
 
 void
 TextPanel::setup_sensitivity ()
@@ -589,6 +605,7 @@ TextPanel::setup_sensitivity ()
 	_appearance_dialog_button->Enable (!reference && any_subs > 0 && use && type == TextType::OPEN_SUBTITLE);
 }
 
+
 void
 TextPanel::stream_changed ()
 {
@@ -611,6 +628,7 @@ TextPanel::stream_changed ()
 	}
 }
 
+
 void
 TextPanel::x_offset_changed ()
 {
@@ -618,6 +636,7 @@ TextPanel::x_offset_changed ()
 		i->text_of_original_type(_original_type)->set_x_offset (_x_offset->GetValue() / 100.0);
 	}
 }
+
 
 void
 TextPanel::y_offset_changed ()
@@ -627,6 +646,7 @@ TextPanel::y_offset_changed ()
 	}
 }
 
+
 void
 TextPanel::x_scale_changed ()
 {
@@ -634,6 +654,7 @@ TextPanel::x_scale_changed ()
 		i->text_of_original_type(_original_type)->set_x_scale (_x_scale->GetValue() / 100.0);
 	}
 }
+
 
 void
 TextPanel::y_scale_changed ()
@@ -643,6 +664,7 @@ TextPanel::y_scale_changed ()
 	}
 }
 
+
 void
 TextPanel::line_spacing_changed ()
 {
@@ -650,6 +672,7 @@ TextPanel::line_spacing_changed ()
 		i->text_of_original_type(_original_type)->set_line_spacing (_line_spacing->GetValue() / 100.0);
 	}
 }
+
 
 void
 TextPanel::content_selection_changed ()
@@ -667,6 +690,7 @@ TextPanel::content_selection_changed ()
 	film_content_changed (TextContentProperty::DCP_TRACK);
 	film_content_changed (DCPContentProperty::REFERENCE_TEXT);
 }
+
 
 void
 TextPanel::text_view_clicked ()
@@ -687,6 +711,7 @@ TextPanel::text_view_clicked ()
 	}
 }
 
+
 void
 TextPanel::fonts_dialog_clicked ()
 {
@@ -701,6 +726,7 @@ TextPanel::fonts_dialog_clicked ()
 	_fonts_dialog = new FontsDialog (this, c.front(), c.front()->text_of_original_type(_original_type));
 	_fonts_dialog->Show ();
 }
+
 
 void
 TextPanel::reference_clicked ()
@@ -717,6 +743,7 @@ TextPanel::reference_clicked ()
 
 	d->set_reference_text (_original_type, _reference->GetValue ());
 }
+
 
 void
 TextPanel::appearance_dialog_clicked ()

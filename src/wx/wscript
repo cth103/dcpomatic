@@ -36,6 +36,7 @@ sources = """
           check_box.cc
           christie_certificate_panel.cc
           cinema_dialog.cc
+          closed_captions_dialog.cc
           colour_conversion_editor.cc
           config_dialog.cc
           config_move_dialog.cc
@@ -49,24 +50,21 @@ sources = """
           content_version_dialog.cc
           content_view.cc
           controls.cc
-          closed_captions_dialog.cc
           credentials_download_certificate_panel.cc
           custom_scale_dialog.cc
           dcp_panel.cc
-          dcpomatic_button.cc
-          disk_warning_dialog.cc
-          dkdm_output_panel.cc
-          drive_wipe_warning_dialog.cc
-          email_dialog.cc
-          full_language_tag_dialog.cc
-          image_sequence_dialog.cc
-          isdcf_metadata_dialog.cc
           dcp_text_track_dialog.cc
+          dcpomatic_button.cc
+          dcpomatic_spin_ctrl.cc
           dir_picker_ctrl.cc
+          disk_warning_dialog.cc
           dkdm_dialog.cc
+          dkdm_output_panel.cc
           dolby_doremi_certificate_panel.cc
           download_certificate_dialog.cc
           download_certificate_panel.cc
+          drive_wipe_warning_dialog.cc
+          email_dialog.cc
           export_subtitles_dialog.cc
           export_video_file_dialog.cc
           file_picker_ctrl.cc
@@ -77,17 +75,20 @@ sources = """
           focus_manager.cc
           fonts_dialog.cc
           full_config_dialog.cc
+          full_language_tag_dialog.cc
           gain_calculator_dialog.cc
           gdc_certificate_panel.cc
           gl_video_view.cc
           hints_dialog.cc
           html_dialog.cc
+          i18n_hook.cc
+          image_sequence_dialog.cc
           instant_i18n_dialog.cc
           interop_metadata_dialog.cc
-          i18n_hook.cc
+          isdcf_metadata_dialog.cc
+          job_manager_view.cc
           job_view.cc
           job_view_dialog.cc
-          job_manager_view.cc
           kdm_advanced_dialog.cc
           kdm_cpl_panel.cc
           kdm_dialog.cc
