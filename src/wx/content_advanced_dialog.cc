@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -22,6 +22,7 @@
 #include "content_advanced_dialog.h"
 #include "dcpomatic_button.h"
 #include "filter_dialog.h"
+#include "language_tag_widget.h"
 #include "static_text.h"
 #include "wx_util.h"
 #include "lib/content.h"
@@ -56,12 +57,12 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 	: wxDialog (parent, wxID_ANY, _("Advanced content settings"))
 	, _content (content)
 {
-	wxGridBagSizer* sizer = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	auto sizer = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 
 	int r = 0;
 
 	wxClientDC dc (this);
-	wxSize size = dc.GetTextExtent (wxT ("A quite long name"));
+	auto size = dc.GetTextExtent (wxT ("A quite long name"));
 #ifdef __WXGTK3__
 	size.SetWidth (size.GetWidth() + 64);
 #endif
@@ -70,7 +71,7 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 	add_label_to_sizer (sizer, this, _("Video filters"), true, wxGBPosition(r, 0));
 	_filters = new StaticText (this, _("None"), wxDefaultPosition, size);
 	_filters_button = new Button (this, _("Edit..."));
-	wxBoxSizer* filters = new wxBoxSizer (wxHORIZONTAL);
+	auto filters = new wxBoxSizer (wxHORIZONTAL);
 	filters->Add (_filters, 1, wxALL | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
 	filters->Add (_filters_button, 0, wxALL, DCPOMATIC_SIZER_GAP);
 	sizer->Add (filters, wxGBPosition(r, 1), wxGBSpan(1, 2));
@@ -89,13 +90,21 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 	sizer->Add (_set_video_frame_rate, wxGBPosition(r, 2));
 	++r;
 
-	wxCheckBox* ignore_video = new wxCheckBox (this, wxID_ANY, _("Ignore this content's video and use only audio, subtitles and closed captions"));
+	/// TRANSLATORS: next to this control is a language selector, so together they will read, for example
+	/// "Video has burnt-in subtitles in the language fr-FR"
+	_burnt_subtitle = new wxCheckBox (this, wxID_ANY, _("Video has burnt-in subtitles in the language"));
+	sizer->Add (_burnt_subtitle, wxGBPosition(r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	_burnt_subtitle_language = new LanguageTagWidget (this, _("Language of burnt-in subtitles in this content"), content->video ? content->video->burnt_subtitle_language() : boost::none);
+	sizer->Add (_burnt_subtitle_language->sizer(), wxGBPosition(r, 1), wxGBSpan(1, 2), wxEXPAND);
+	++r;
+
+	auto ignore_video = new wxCheckBox (this, wxID_ANY, _("Ignore this content's video and use only audio, subtitles and closed captions"));
 	sizer->Add (ignore_video, wxGBPosition(r, 0), wxGBSpan(1, 3));
 	++r;
 
-	wxSizer* overall = new wxBoxSizer (wxVERTICAL);
+	auto overall = new wxBoxSizer (wxVERTICAL);
 	overall->Add (sizer, 1, wxALL, DCPOMATIC_DIALOG_BORDER);
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
+	auto buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
 	if (buttons) {
 		overall->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
@@ -110,15 +119,22 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 	video_frame_rate_label->Enable (!single_frame_image_content);
 	_video_frame_rate->Enable (!single_frame_image_content);
 
-	optional<double> vfr = _content->video_frame_rate ();
+	auto vfr = _content->video_frame_rate ();
 	if (vfr) {
 		_video_frame_rate->SetValue (std_to_wx(locale_convert<string>(*vfr)));
 	}
+
+	_burnt_subtitle->SetValue (_content->video && static_cast<bool>(_content->video->burnt_subtitle_language()));
+	_burnt_subtitle_language->set (_content->video ? _content->video->burnt_subtitle_language() : boost::none);
 
 	ignore_video->Bind (wxEVT_CHECKBOX, bind(&ContentAdvancedDialog::ignore_video_changed, this, _1));
 	_filters_button->Bind (wxEVT_BUTTON, bind(&ContentAdvancedDialog::edit_filters, this));
 	_set_video_frame_rate->Bind (wxEVT_BUTTON, bind(&ContentAdvancedDialog::set_video_frame_rate, this));
 	_video_frame_rate->Bind (wxEVT_TEXT, boost::bind(&ContentAdvancedDialog::video_frame_rate_changed, this));
+	_burnt_subtitle->Bind (wxEVT_CHECKBOX, boost::bind(&ContentAdvancedDialog::burnt_subtitle_changed, this));
+	_burnt_subtitle_language->Changed.connect (boost::bind(&ContentAdvancedDialog::burnt_subtitle_language_changed, this));
+
+	setup_sensitivity ();
 }
 
 
@@ -134,7 +150,7 @@ ContentAdvancedDialog::ignore_video_changed (wxCommandEvent& ev)
 void
 ContentAdvancedDialog::setup_filters ()
 {
-	shared_ptr<FFmpegContent> fcs = dynamic_pointer_cast<FFmpegContent>(_content);
+	auto fcs = dynamic_pointer_cast<FFmpegContent>(_content);
 	if (!fcs) {
 		checked_set (_filters, _("None"));
 		_filters->Enable (false);
@@ -142,7 +158,7 @@ ContentAdvancedDialog::setup_filters ()
 		return;
 	}
 
-	string p = Filter::ffmpeg_string (fcs->filters());
+	auto p = Filter::ffmpeg_string (fcs->filters());
 	if (p.empty()) {
 		checked_set (_filters, _("None"));
 	} else {
@@ -157,12 +173,12 @@ ContentAdvancedDialog::setup_filters ()
 void
 ContentAdvancedDialog::edit_filters ()
 {
-	shared_ptr<FFmpegContent> fcs = dynamic_pointer_cast<FFmpegContent>(_content);
+	auto fcs = dynamic_pointer_cast<FFmpegContent>(_content);
 	if (!fcs) {
 		return;
 	}
 
-	FilterDialog* d = new FilterDialog (this, fcs->filters());
+	auto d = new FilterDialog (this, fcs->filters());
 	d->ActiveChanged.connect (bind(&ContentAdvancedDialog::filters_changed, this, _1));
 	d->ShowModal ();
 	d->Destroy ();
@@ -172,7 +188,7 @@ ContentAdvancedDialog::edit_filters ()
 void
 ContentAdvancedDialog::filters_changed (vector<Filter const *> filters)
 {
-	shared_ptr<FFmpegContent> fcs = dynamic_pointer_cast<FFmpegContent>(_content);
+	auto fcs = dynamic_pointer_cast<FFmpegContent>(_content);
 	if (!fcs) {
 		return;
 	}
@@ -207,5 +223,28 @@ ContentAdvancedDialog::video_frame_rate_changed ()
        }
 
        _set_video_frame_rate->Enable (enable);
+}
+
+
+void
+ContentAdvancedDialog::setup_sensitivity ()
+{
+	_burnt_subtitle->Enable (static_cast<bool>(_content->video));
+	_burnt_subtitle_language->enable (_content->video && _burnt_subtitle->GetValue());
+}
+
+
+void
+ContentAdvancedDialog::burnt_subtitle_changed ()
+{
+	setup_sensitivity ();
+}
+
+
+void
+ContentAdvancedDialog::burnt_subtitle_language_changed ()
+{
+	DCPOMATIC_ASSERT (_content->video);
+	_content->video->set_burnt_subtitle_language (_burnt_subtitle_language->get());
 }
 

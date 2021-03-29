@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,20 +18,25 @@
 
 */
 
+
 #ifndef DCPOMATIC_VIDEO_CONTENT_H
 #define DCPOMATIC_VIDEO_CONTENT_H
 
+
 #include "colour_conversion.h"
-#include "dcpomatic_time.h"
-#include "user_property.h"
-#include "types.h"
 #include "content_part.h"
+#include "dcpomatic_time.h"
+#include "types.h"
+#include "user_property.h"
+#include <dcp/language_tag.h>
 #include <boost/thread/mutex.hpp>
+
 
 class VideoExaminer;
 class Ratio;
 class Film;
 class Content;
+
 
 class VideoContentProperty
 {
@@ -47,7 +52,9 @@ public:
 	static int const RANGE;
 	static int const CUSTOM_RATIO;
 	static int const CUSTOM_SIZE;
+	static int const BURNT_SUBTITLE_LANGUAGE;
 };
+
 
 class VideoContent : public ContentPart, public std::enable_shared_from_this<VideoContent>
 {
@@ -98,6 +105,8 @@ public:
 
 	void set_range (VideoRange);
 	void set_use (bool);
+
+	void set_burnt_subtitle_language (boost::optional<dcp::LanguageTag> language);
 
 	VideoFrameType frame_type () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -177,6 +186,12 @@ public:
 		return _use;
 	}
 
+	boost::optional<dcp::LanguageTag> burnt_subtitle_language () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _burnt_subtitle_language;
+	}
+
+
 	/* XXX: names for these? */
 	dcp::Size size_after_3d_split () const;
 	dcp::Size size_after_crop () const;
@@ -231,6 +246,7 @@ private:
 	/** fade out time in content frames */
 	Frame _fade_out;
 	VideoRange _range;
+	boost::optional<dcp::LanguageTag> _burnt_subtitle_language;
 };
 
 #endif

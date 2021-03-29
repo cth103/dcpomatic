@@ -29,6 +29,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 class Content;
 class Filter;
+class LanguageTagWidget;
 
 
 class ContentAdvancedDialog : public wxDialog
@@ -43,6 +44,9 @@ private:
 	void setup_filters ();
 	void set_video_frame_rate ();
 	void video_frame_rate_changed ();
+	void setup_sensitivity ();
+	void burnt_subtitle_changed ();
+	void burnt_subtitle_language_changed ();
 
 	std::shared_ptr<Content> _content;
 
@@ -50,5 +54,7 @@ private:
 	wxButton* _filters_button;
 	wxTextCtrl* _video_frame_rate;
 	wxButton* _set_video_frame_rate;
+	wxCheckBox* _burnt_subtitle;
+	LanguageTagWidget* _burnt_subtitle_language;
 };
 

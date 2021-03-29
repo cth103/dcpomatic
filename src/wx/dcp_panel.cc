@@ -459,6 +459,7 @@ DCPPanel::film_content_changed (int property)
 	    property == TextContentProperty::LANGUAGE ||
 	    property == TextContentProperty::LANGUAGE_IS_ADDITIONAL ||
 	    property == VideoContentProperty::SCALE ||
+	    property == VideoContentProperty::BURNT_SUBTITLE_LANGUAGE ||
 	    property == DCPContentProperty::REFERENCE_VIDEO ||
 	    property == DCPContentProperty::REFERENCE_AUDIO ||
 	    property == DCPContentProperty::REFERENCE_TEXT) {

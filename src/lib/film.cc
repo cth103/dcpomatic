@@ -766,6 +766,9 @@ Film::subtitle_languages () const
 				}
 			}
 		}
+		if (i->video && i->video->burnt_subtitle_language()) {
+			result.first = i->video->burnt_subtitle_language();
+		}
 	}
 
 	std::sort (result.second.begin(), result.second.end());

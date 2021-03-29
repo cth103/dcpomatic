@@ -50,6 +50,7 @@ int const VideoContentProperty::FADE_OUT          = 7;
 int const VideoContentProperty::RANGE             = 8;
 int const VideoContentProperty::CUSTOM_RATIO      = 9;
 int const VideoContentProperty::CUSTOM_SIZE       = 10;
+int const VideoContentProperty::BURNT_SUBTITLE_LANGUAGE = 11;
 
 using std::string;
 using std::setprecision;
@@ -183,7 +184,14 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 	if (node->optional_string_child("Range").get_value_or("full") == "video") {
 		_range = VideoRange::VIDEO;
 	}
+
+	auto burnt = node->optional_string_child("BurntSubtitleLanguage");
+	if (burnt) {
+		_burnt_subtitle_language = dcp::LanguageTag (*burnt);
+	}
+
 }
+
 
 VideoContent::VideoContent (Content* parent, vector<shared_ptr<Content> > c)
 	: ContentPart (parent)
@@ -227,6 +235,10 @@ VideoContent::VideoContent (Content* parent, vector<shared_ptr<Content> > c)
 			throw JoinError (_("Content to be joined must have the same fades."));
 		}
 
+		if (c[i]->video->burnt_subtitle_language() != ref->burnt_subtitle_language()) {
+			throw JoinError (_("Content to be joined must have the same burnt subtitle language."));
+		}
+
 		_length += c[i]->video->length ();
 
 		if (c[i]->video->yuv ()) {
@@ -243,7 +255,9 @@ VideoContent::VideoContent (Content* parent, vector<shared_ptr<Content> > c)
 	_fade_in = ref->fade_in ();
 	_fade_out = ref->fade_out ();
 	_range = ref->range ();
+	_burnt_subtitle_language = ref->burnt_subtitle_language ();
 }
+
 
 void
 VideoContent::as_xml (xmlpp::Node* node) const
@@ -272,6 +286,9 @@ VideoContent::as_xml (xmlpp::Node* node) const
 	node->add_child("FadeIn")->add_child_text (raw_convert<string> (_fade_in));
 	node->add_child("FadeOut")->add_child_text (raw_convert<string> (_fade_out));
 	node->add_child("Range")->add_child_text(_range == VideoRange::FULL ? "full" : "video");
+	if (_burnt_subtitle_language) {
+		node->add_child("BurntSubtitleLanguage")->add_child_text(_burnt_subtitle_language->to_string());
+	}
 }
 
 void
@@ -556,6 +573,14 @@ VideoContent::set_use (bool u)
 	maybe_set (_use, u, VideoContentProperty::USE);
 }
 
+
+void
+VideoContent::set_burnt_subtitle_language (boost::optional<dcp::LanguageTag> language)
+{
+	maybe_set (_burnt_subtitle_language, language, VideoContentProperty::BURNT_SUBTITLE_LANGUAGE);
+}
+
+
 void
 VideoContent::take_settings_from (shared_ptr<const VideoContent> c)
 {
@@ -574,7 +599,9 @@ VideoContent::take_settings_from (shared_ptr<const VideoContent> c)
 	set_custom_size (c->_custom_size);
 	set_fade_in (c->_fade_in);
 	set_fade_out (c->_fade_out);
+	set_burnt_subtitle_language (c->_burnt_subtitle_language);
 }
+
 
 void
 VideoContent::modify_position (shared_ptr<const Film> film, DCPTime& pos) const
